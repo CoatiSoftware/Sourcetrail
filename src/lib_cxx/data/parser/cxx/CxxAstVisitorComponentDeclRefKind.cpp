@@ -129,6 +129,8 @@ void CxxAstVisitorComponentDeclRefKind::visitCastExpr(clang::CastExpr* s)
 	case clang::CK_ToVoid:
 	case clang::CK_LValueToRValue:
 		m_childRefKind = REFERENCE_USAGE;
+	default:
+		break;
 	}
 }
 

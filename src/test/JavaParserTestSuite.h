@@ -1,6 +1,7 @@
 #include "cxxtest/TestSuite.h"
 
-
+#include "settings/ApplicationSettings.h"
+#include "utility/utilityPathDetection.h"
 #include "utility/file/FileRegister.h"
 #include "utility/text/TextAccess.h"
 #include "utility/utility.h"
@@ -21,6 +22,12 @@ public:
 
 	void test_java_parser_can_setup_environment_factory()
 	{
+		std::vector<FilePath> javaPaths = utility::getJavaRuntimePathDetector()->getPaths();
+		if (!javaPaths.empty())
+		{
+			ApplicationSettings::getInstance()->setJavaPath(javaPaths[0].str());
+		}
+
 		setupJavaEnvironmentFactory();
 
 		// if this one fails, maybe your java_path in the test settings is wrong.
@@ -501,7 +508,7 @@ public:
 		TS_ASSERT(utility::containsElement<std::string>(
 			client->calls, "void foo.X.B.bar() -> void foo.X.A.bar() <15:10 15:12>"
 		));
-	}										
+	}
 
 	void test_java_parser_finds_usage_of_field_with_same_name_as_method_parameter()
 	{

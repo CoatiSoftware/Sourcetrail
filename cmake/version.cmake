@@ -44,5 +44,5 @@ message(STATUS "Git version number: " ${GIT_VERSION_NUMBER} )
 
 configure_file(
   ${CMAKE_SOURCE_DIR}/cmake/version.h.in
-  ${CMAKE_SOURCE_DIR}/build/src/lib_gui/version.h
+  ${BINARY_DIR}/src/lib_gui/version.h
 )

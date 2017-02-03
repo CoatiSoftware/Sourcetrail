@@ -2,12 +2,14 @@ cmake_minimum_required(VERSION 3.1)
 
 #set (CMAKE_VERBOSE_MAKEFILE ON)
 
+set (BINARY_DIR ${CMAKE_BINARY_DIR})
+
 include(cmake/add_files.cmake)
 include(cmake/create_source_groups.cmake)
 include(cmake/version.cmake)
 include(cmake/version_setup.cmake)
 include(cmake/licenses.cmake)
-
+include(cmake/setWinXxBits.cmake)
 
 # Variables --------------------------------------------------------------------
 
@@ -24,7 +26,12 @@ set(TEST_PROJECT_NAME "${PROJECT_NAME}_test")
 
 if (WIN32)
 	set(PLATFORM_INCLUDE "includesWindows.h")
-	LINK_DIRECTORIES($ENV{VLD_DIR}/lib/Win32) # this adds the library path for VLD, must be done before the project target is created
+	# this adds the library path for VLD, must be done before the project target is created
+	if(${WINXXBITS} STREQUAL "Win32")
+		LINK_DIRECTORIES($ENV{VLD_DIR}/lib/Win32)
+	else()
+		LINK_DIRECTORIES($ENV{VLD_DIR}/lib/Win64)
+	endif()
 elseif (APPLE)
 	set(PLATFORM_INCLUDE "includesMac.h")
 else ()
@@ -64,14 +71,18 @@ endif()
 
 if (UNIX AND APPLE)
 	if ("${CMAKE_BUILD_TYPE}" STREQUAL "Release")
-		find_package(LLVM REQUIRED PATHS "$ENV{CLANG_DIR}/build_release/share/llvm/cmake" NO_DEFAULT_PATH)
+		find_package(LLVM REQUIRED PATHS "$ENV{CLANG_DIR}/build_release/lib/cmake/llvm" NO_DEFAULT_PATH)
 	else()
-		find_package(LLVM REQUIRED PATHS "$ENV{CLANG_DIR}/build_debug/share/llvm/cmake" NO_DEFAULT_PATH)
+		find_package(LLVM REQUIRED PATHS "$ENV{CLANG_DIR}/build_debug/lib/cmake/llvm" NO_DEFAULT_PATH)
 	endif()
 elseif(UNIX)
 	find_package(LLVM REQUIRED PATHS "$ENV{LLVM_DIR}/lib/cmake" )
 else()
-	find_package(LLVM REQUIRED PATHS "$ENV{CLANG_DIR}/build/share/llvm/cmake")
+	if(${WINXXBITS} STREQUAL "Win32")
+		find_package(LLVM REQUIRED PATHS "$ENV{CLANG_DIR}/build_win32/lib/cmake/llvm")
+	else()
+		find_package(LLVM REQUIRED PATHS "$ENV{CLANG_DIR}/build_win64/lib/cmake/llvm")
+	endif()
 endif()
 
 find_package(CLANG REQUIRED PATHS "${CMAKE_SOURCE_DIR}/cmake" NO_DEFAULT_PATH)
@@ -82,8 +93,15 @@ add_definitions(${CLANG_DEFINITIONS})
 
 if(UNIX AND NOT APPLE)
 	set(BOOST_ROOT $ENV{BOOST_DIR})
-else()
+elseif(UNIX AND APPLE)
 	set(BOOST_ROOT $ENV{BOOST_159_DIR})
+	set(Boost_NO_SYSTEM_PATHS ON)
+else()
+	if(${WINXXBITS} STREQUAL "Win32")
+		set(BOOST_ROOT "$ENV{BOOST_159_DIR}/win32")
+	else()
+		set(BOOST_ROOT "$ENV{BOOST_159_DIR}/win64")
+	endif()
 	set(Boost_NO_SYSTEM_PATHS ON)
 endif()
 set(Boost_USE_MULTITHREAD ON)
@@ -101,10 +119,15 @@ if(APPLE)
 	find_library(BOTAN ${BOTAN_VERSION} $ENV{BOTAN_DIR}/release NO_DEFAULT_PATH)
 	find_library(BOTAN_D ${BOTAN_VERSION} $ENV{BOTAN_DIR}/debug NO_DEFAULT_PATH)
 elseif(UNIX)
-	find_library(BOTAN ${BOTAN_VERSION} "${BOTAN_DIR}")
+	find_library(BOTAN ${BOTAN_VERSION} "$ENV{BOTAN_DIR}/lib")
 else()
-	find_library(BOTAN botan "$ENV{BOTAN_DIR}/release")
-	find_library(BOTAN_D botan "$ENV{BOTAN_DIR}/debug")
+	if(${WINXXBITS} STREQUAL "Win32")
+		find_library(BOTAN botan "$ENV{BOTAN_DIR}/win32/release")
+		find_library(BOTAN_D botan "$ENV{BOTAN_DIR}/win32/debug")
+	else()
+		find_library(BOTAN botan "$ENV{BOTAN_DIR}/win64/release")
+		find_library(BOTAN_D botan "$ENV{BOTAN_DIR}/win64/debug")
+	endif()
 endif()
 message(STATUS "botanversion: ${BOTAN}")
 
@@ -116,8 +139,15 @@ endif()
 
 if(UNIX AND NOT APPLE)
 	find_path(BOTAN_INCLUDE_DIR NAMES botan/botan.h
+		HINTS "$ENV{BOTAN_DIR}/include"
 		PATH_SUFFIXES ${BOTAN_VERSION}
 		DOC "The Botan include directory")
+elseif(WIN32)
+	if(${WINXXBITS} STREQUAL "Win32")
+		set(BOTAN_INCLUDE_DIR "$ENV{BOTAN_DIR}/win32//build/include")
+	else()
+		set(BOTAN_INCLUDE_DIR "$ENV{BOTAN_DIR}/win64/build/include")
+	endif()
 else()
 	set(BOTAN_INCLUDE_DIR "$ENV{BOTAN_DIR}/build/include")
 endif()
@@ -128,6 +158,15 @@ endif()
 
 
 # Lib License -------------------------------------------------------------------
+
+if (UNIX)
+	set(CMAKE_LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/${CMAKE_BUILD_TYPE}/lib/")
+else ()
+	foreach( OUTPUTCONFIG ${CMAKE_CONFIGURATION_TYPES} )
+		string( TOUPPER ${OUTPUTCONFIG} OUTPUTCONFIG )
+		set( CMAKE_LIBRARY_OUTPUT_DIRECTORY_${OUTPUTCONFIG} "${CMAKE_BINARY_DIR}/${OUTPUTCONFIG}/lib/")
+	endforeach( OUTPUTCONFIG CMAKE_CONFIGURATION_TYPES )
+endif ()
 
 add_subdirectory(src/lib_license)
 
@@ -180,7 +219,7 @@ set_property(
 		"${CMAKE_SOURCE_DIR}/src/lib_license"
 		"${CMAKE_SOURCE_DIR}/src/lib_cxx"
 		"${CMAKE_SOURCE_DIR}/src/lib_java"
-		"${CMAKE_SOURCE_DIR}/build/src/lib_license"
+		"${CMAKE_BINARY_DIR}/src/lib_license"
 )
 
 target_include_directories(${LIB_PROJECT_NAME} SYSTEM
@@ -216,10 +255,13 @@ target_include_directories(${LIB_CXX_PROJECT_NAME} SYSTEM
 )
 
 link_directories(${LLVM_LIBRARY_DIRS} ${CLANG_LIBRARY_DIRS} ${Boost_LIBRARY_DIRS})
-llvm_map_components_to_libnames(REQ_LLVM_LIBS support core libdriver)
+llvm_map_components_to_libnames(REQ_LLVM_LIBS support core libdriver passes)
 
 target_link_libraries(${LIB_CXX_PROJECT_NAME} ${CLANG_LIBRARIES} ${REQ_LLVM_LIBS})
 
+if (WIN32)
+	target_link_libraries(${LIB_CXX_PROJECT_NAME} version)
+endif()
 
 # Lib Java -------------------------------------------------------------------
 
@@ -263,11 +305,23 @@ set(CMAKE_INCLUDE_CURRENT_DIR ON)
 set(CMAKE_AUTOMOC ON)
 
 # Find the QtWidgets library
-set(CMAKE_PREFIX_PATH "$ENV{QT_DIR}/")
+if(UNIX)
+	set(CMAKE_PREFIX_PATH "$ENV{QT_DIR}/")
 
-if(UNIX AND APPLE)
-	set(Qt5Widgets_DIR "$ENV{QT_DIR}/cmake/Qt5Widgets/")
-	set(Qt5PrintSupport_DIR "$ENV{QT_DIR}/cmake/Qt5PrintSupport/")
+	if(APPLE)
+		set(Qt5Widgets_DIR "$ENV{QT_DIR}/cmake/Qt5Widgets/")
+		set(Qt5PrintSupport_DIR "$ENV{QT_DIR}/cmake/Qt5PrintSupport/")
+	endif()
+
+else()
+	if(${WINXXBITS} STREQUAL "Win32")
+		set(CMAKE_PREFIX_PATH "$ENV{QT_WIN32_DIR}/")
+	else()
+		set(CMAKE_PREFIX_PATH "$ENV{QT_WIN64_DIR}/")
+	endif()
+	set(Qt5Widgets_DIR "${CMAKE_PREFIX_PATH}/lib/cmake/Qt5Widgets")
+	set(Qt5PrintSupport_DIR "${CMAKE_PREFIX_PATH}/lib/cmake/Qt5PrintSupport")
+	set(Qt5Network_DIR "${CMAKE_PREFIX_PATH}/lib/cmake/Qt5Network")
 endif()
 
 find_package(Qt5Widgets)
@@ -288,14 +342,14 @@ add_custom_target(
 	versionnumber ALL
 )
 
-add_library(${LIB_GUI_PROJECT_NAME} ${LIB_GUI_FILES} ${CMAKE_SOURCE_DIR}/build/src/lib_gui/version.h)
+add_library(${LIB_GUI_PROJECT_NAME} ${LIB_GUI_FILES} ${CMAKE_BINARY_DIR}/src/lib_gui/version.h)
 
 # command for versioning script
 add_custom_command(
 	TARGET versionnumber
 	PRE_BUILD
-	COMMAND ${CMAKE_COMMAND} -P ${CMAKE_SOURCE_DIR}/cmake/version.cmake
-	BYPRODUCTS ${PROJECT_SOURCE_DIR}/build/src/lib_gui/version.h
+	COMMAND ${CMAKE_COMMAND} -DBINARY_DIR=${CMAKE_BINARY_DIR} -P ${CMAKE_SOURCE_DIR}/cmake/version.cmake
+	BYPRODUCTS ${CMAKE_BINARY_DIR}/src/lib_gui/version.h
 	DEPENDS ${LIB_GUI_PROJECT_NAME}
 	WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
 	COMMENT "check/update version number"
@@ -308,11 +362,11 @@ set_property(
 	TARGET ${LIB_GUI_PROJECT_NAME}
 	PROPERTY INCLUDE_DIRECTORIES
 		"${CMAKE_SOURCE_DIR}/src/lib_gui"
-		"${CMAKE_SOURCE_DIR}/build/src/lib_gui"
 		"${CMAKE_SOURCE_DIR}/src/lib"
 		"${CMAKE_SOURCE_DIR}/src/lib_cxx"
 		"${CMAKE_SOURCE_DIR}/src/lib_license"
-		"${CMAKE_SOURCE_DIR}/build/src/lib_license"
+		"${CMAKE_BINARY_DIR}/src/lib_gui"
+		"${CMAKE_BINARY_DIR}/src/lib_license"
 )
 
 # include external header without warnings
@@ -328,13 +382,13 @@ qt5_use_modules(${LIB_GUI_PROJECT_NAME} Network)
 # configure platform specific include file
 configure_file(
 	"${PROJECT_SOURCE_DIR}/src/lib_gui/platform_includes/includes.h.in"
-	"${PROJECT_SOURCE_DIR}/build/src/lib_gui/includes.h"
+	"${PROJECT_BINARY_DIR}/src/lib_gui/includes.h"
 )
 
 #configure the versioning file
 configure_file(
 	${CMAKE_SOURCE_DIR}/cmake/version.h.in
-	${CMAKE_SOURCE_DIR}/build/src/lib_gui/version.h
+	${CMAKE_BINARY_DIR}/src/lib_gui/version.h
 )
 
 # configure public key for the coati version
@@ -345,9 +399,12 @@ set(CMAKE_AUTOMOC OFF)
 # App --------------------------------------------------------------------------
 
 if (UNIX)
-	set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin/app/${CMAKE_BUILD_TYPE})
+	set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/app/")
 else ()
-	set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin/app/)
+	foreach( OUTPUTCONFIG ${CMAKE_CONFIGURATION_TYPES} )
+		string( TOUPPER ${OUTPUTCONFIG} OUTPUTCONFIG )
+		set( CMAKE_RUNTIME_OUTPUT_DIRECTORY_${OUTPUTCONFIG} "${CMAKE_BINARY_DIR}/${OUTPUTCONFIG}/app/")
+	endforeach( OUTPUTCONFIG CMAKE_CONFIGURATION_TYPES )
 endif ()
 
 add_subdirectory(src/app)
@@ -356,13 +413,13 @@ add_subdirectory(src/app)
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
 if (WIN32)
-	file(WRITE ${CMAKE_SOURCE_DIR}/build/Coati.rc
+	file(WRITE ${CMAKE_BINARY_DIR}/Coati.rc
 		"// Icon with lowest ID value placed first to ensure application icon\n"
 		"// remains consistent on all systems.\n"
-		"IDI_ICON1               ICON                    \"${CMAKE_SOURCE_DIR}/build/coati.ico\"\n"
+		"IDI_ICON1               ICON                    \"${CMAKE_BINARY_DIR}/coati.ico\"\n"
 	)
 
-	add_executable(${APP_PROJECT_NAME} ${APP_FILES} ${CMAKE_SOURCE_DIR}/build/Coati.rc)
+	add_executable(${APP_PROJECT_NAME} ${APP_FILES} ${CMAKE_BINARY_DIR}/Coati.rc)
 
 	# hide the console when running a release build.
 	set_target_properties(${APP_PROJECT_NAME} PROPERTIES LINK_FLAGS_DEBUG "/SUBSYSTEM:CONSOLE")
@@ -388,9 +445,8 @@ set_property(
 		"${CMAKE_SOURCE_DIR}/src/lib_license"
 		"${CMAKE_SOURCE_DIR}/src/lib_cxx"
 		"${CMAKE_SOURCE_DIR}/src/lib_java"
-		"${CMAKE_SOURCE_DIR}/build/src/lib_gui"
-		"${CMAKE_SOURCE_DIR}/build/src/lib_license"
-		#"${CMAKE_SOURCE_DIR}/build/src/app"
+		"${CMAKE_BINARY_DIR}/src/lib_gui"
+		"${CMAKE_BINARY_DIR}/src/lib_license"
 )
 
 target_include_directories(${APP_PROJECT_NAME} SYSTEM
@@ -458,9 +514,12 @@ endif ()
 add_subdirectory(src/license_generator)
 
 if (UNIX)
-	set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin/license_generator/${CMAKE_BUILD_TYPE})
+	set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/license_generator/")
 else ()
-	set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin/license_generator/)
+	foreach( OUTPUTCONFIG ${CMAKE_CONFIGURATION_TYPES} )
+		string( TOUPPER ${OUTPUTCONFIG} OUTPUTCONFIG )
+		set( CMAKE_RUNTIME_OUTPUT_DIRECTORY_${OUTPUTCONFIG} "${CMAKE_BINARY_DIR}/${OUTPUTCONFIG}/license_generator/")
+	endforeach( OUTPUTCONFIG CMAKE_CONFIGURATION_TYPES )
 endif ()
 
 add_executable(${LICENSE_GENERATOR_PROJECT_NAME} ${LICENSE_GENERATOR_FILES})
@@ -486,9 +545,12 @@ target_link_libraries(${LICENSE_GENERATOR_PROJECT_NAME} ${LIB_LICENSE_PROJECT_NA
 # CxxTest ----------------------------------------------------------------------
 
 if (UNIX)
-	set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin/test/${CMAKE_BUILD_TYPE})
+	set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/test/")
 else ()
-	set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin/test/)
+	foreach( OUTPUTCONFIG ${CMAKE_CONFIGURATION_TYPES} )
+		string( TOUPPER ${OUTPUTCONFIG} OUTPUTCONFIG )
+		set( CMAKE_RUNTIME_OUTPUT_DIRECTORY_${OUTPUTCONFIG} "${CMAKE_BINARY_DIR}/${OUTPUTCONFIG}/test/")
+	endforeach( OUTPUTCONFIG CMAKE_CONFIGURATION_TYPES )
 endif ()
 
 add_subdirectory(src/test)
@@ -503,7 +565,7 @@ add_executable (${TEST_PROJECT_NAME} ${TESTGEN_FILE} ${TEST_FILES} )
 
 create_source_groups(${TEST_FILES})
 
-target_link_libraries(${TEST_PROJECT_NAME} ${LIB_CXX_PROJECT_NAME} ${LIB_JAVA_PROJECT_NAME} ${LIB_PROJECT_NAME} ${LIB_LICENSE_PROJECT_NAME})
+target_link_libraries(${TEST_PROJECT_NAME} ${LIB_CXX_PROJECT_NAME} ${LIB_JAVA_PROJECT_NAME} ${LIB_PROJECT_NAME} ${LIB_LICENSE_PROJECT_NAME} ${LIB_GUI_PROJECT_NAME})
 
 find_package(CxxTest)
 if (CXXTEST_FOUND)
@@ -512,6 +574,7 @@ if (CXXTEST_FOUND)
 		PROPERTY INCLUDE_DIRECTORIES
 			"${CXXTEST_INCLUDE_DIR}"
 			"${CMAKE_SOURCE_DIR}/src/lib"
+			"${CMAKE_SOURCE_DIR}/src/lib_gui"
 			"${CMAKE_SOURCE_DIR}/src/lib_cxx"
 			"${CMAKE_SOURCE_DIR}/src/lib_java"
 			"${CMAKE_SOURCE_DIR}/src/external"
@@ -532,7 +595,7 @@ if (WIN32)
 	add_custom_command(
 		TARGET ${TEST_PROJECT_NAME}
 		POST_BUILD
-		COMMAND cd $(ProjectDir)../bin/test/\n$(OutDir)$(TargetName)$(TargetExt)
+		COMMAND cd $(ProjectDir)../../bin/test/\n$(OutDir)$(TargetName)$(TargetExt)
 		COMMENT "Running unittest code"
 	)
 

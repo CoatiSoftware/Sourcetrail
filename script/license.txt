@@ -1,0 +1,13 @@
+-----BEGIN LICENSE-----
+Malte Langkabel
+Private/Academic Single User License
+Coati 0
+$9$AQAKVgXEpRqHfGMwWj/TA5YWrVmWWJrk5PmADbFYkewV7Ddvq+JV
+nT+lDlImNpfRQDY4YTJDYc0B/IW5n8ccn21HqLkRvR5t8T5/GvUzRNZ
+PnZfA/sE0tVBpS1IMEhUd5JIztHKXHFDdwcvIS7Z+y6vxn0knD0/VF4
+RjvvgicxikAnfF9cNxTb3IYAaUSREFTPejX6JABSai0jJhZLR4P9upK
+rj6OYFerGI2/+6D2UyBJhaAc2P3zcd2ivd01IRjJNeXlGA3r5mCcl5y
+SuPtreW3Yyq/uafyP1rV6uASIb+3oV6Y+jTo1kFYqEh8tjmrxOHbJLu
+3+wHyJgMu5fLhJFWAKyxPjVbY5A0nvQAb0F+ROSZZ5IiKKCYIcofcxt
+HrBYDDdP0rJw==
+-----END LICENSE-----

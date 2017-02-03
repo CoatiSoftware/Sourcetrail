@@ -8,6 +8,7 @@
 
 #include "utility/file/FileSystem.h"
 #include "utility/UserPaths.h"
+#include "utility/utilityApp.h"
 
 #include "platform_includes/deploy.h"
 
@@ -19,7 +20,15 @@ void setupApp(int argc, char *argv[])
 {
 #ifdef DEPLOY
 	std::string path = std::getenv("APPDATA");
-	path += "/../local/Coati Software/Coati/";
+	path += "/../local/Coati Software/";
+	if (utility::getApplicationArchitectureType() == APPLICATION_ARCHITECTURE_X86_64)
+	{
+		path += "Coati 64-bit/";
+	}
+	else
+	{
+		path += "Coati/";
+	}
 	UserPaths::setUserDataPath(path);
 #else
 	std::string path = QDir::currentPath().toStdString();

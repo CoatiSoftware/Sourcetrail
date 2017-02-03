@@ -36,5 +36,5 @@ set(LICENSE_ARRAY "${LICENSE_ARRAY}\n")
 
 configure_file(
     ${CMAKE_SOURCE_DIR}/cmake/licenses.h.in
-    ${CMAKE_SOURCE_DIR}/build/src/lib_gui/licenses.h
+    ${CMAKE_BINARY_DIR}/src/lib_gui/licenses.h
 )

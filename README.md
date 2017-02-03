@@ -5,10 +5,10 @@
 #### External Software
 
 * JDK 1.8
-* QT 5.6
+* QT 5.8
 * CxxTest 4.3
 * Valgrind 3.9.0 (linux)
-* Clang & LLVM 3.8 (doesnt quite work for windows, use unix setup below and skip all the ninja stuff)(installation guide http://clang.llvm.org/docs/LibASTMatchersTutorial.html)
+* Clang & LLVM 3.9 (doesnt quite work for windows, use unix setup below and skip all the ninja stuff)(installation guide http://clang.llvm.org/docs/LibASTMatchersTutorial.html)
 * Boost 1.59
 * Botan 1.11.34
 
@@ -16,13 +16,17 @@ also something about java, but who knows...
 
 #### Environment Variables
 
-* QT_DIR - .../Qt/Qt5.6.0/5.6/<IDE>
 * CXX_TEST_DIR - .../cxxtest-4.3
 * CLANG_DIR - .../clang-llvm
 * BOOST_159_DIR - .../boost_1_59_0
 * BOTAN_DIR - .../Botan-1.11.34
 
-For Win32:
+For MacOS and Linux
+* QT_DIR - .../Qt/Qt5.8.0/5.8/<IDE>
+
+For Windows:
+* QT_WIN32_DIR - .../Qt/Qt5.8.0/win32/5.8/msvc2015<IDE>
+* QT_WIN64_DIR - .../Qt/Qt5.8.0/win64/5.8/msvc2015_64<IDE>
 * VLD_DIR - .../Visual Leak Detector
 * path
 	- apped path to git.exe
@@ -30,16 +34,41 @@ For Win32:
 	- append path to VisualStudio/Common7/Tools
 	- append path to VisualStudio/Common7/IDE
 
+##### Clang setup
+
+For Windows:
+Execute Cmake twice (once for each target compiler (32 and 64 bit)). Set the respective build path to ${CLANG_DIR}/build_win32 or ${CLANG_DIR}/build_win64
+
+##### Boost setup
+
+For Windows:
+Build the Boost libs for 32 and 64 bit. Create the subdirectories ${BOOST_159_DIR}/win32 and ${BOOST_159_DIR}/win64 and copy the ${BOOST_159_DIR}/boost folder into each of those platform specific directories. Also move the platform specific libs into the respective ( ${BOOST_159_DIR}/win32/lib and ${BOOST_159_DIR}/win64/lib) folder.
+
 ##### Botan setup
+
+For Windows
+
+Extract the contents of your Botan package into "${BOTAN_DIR}/win32". Duplicate that folder and rename it "win64".
+
+Build 32 bit debug lib in ${BOTAN_DIR}/win32/debug
+$ python configure.py --cc=msvc --cpu=x86_32 --disable-shared --no-optimizations --with-debug-info
+
+Build 32 bit release lib in ${BOTAN_DIR}/win32/release
+$ python configure.py --cc=msvc --cpu=x86_32 --disable-shared
+
+To build the 64 bit lib start the VS command prompt with the "amd64" argument as described here:https://msdn.microsoft.com/en-us/library/x4d2c09s.aspx
+
+Build 64 bit debug lib in ${BOTAN_DIR}/win64/debug
+$ python configure.py --cc=msvc --cpu=x86_64 --disable-shared --no-optimizations --with-debug-info
+
+Build 64 bit release lib in ${BOTAN_DIR}/win64/release
+$ python configure.py --cc=msvc --cpu=x86_64 --disable-shared
+
+
+For MacOS and Linux
 
 Build release lib in ${BOTAN_DIR}/release
 Build debug lib in ${BOTAN_DIR}/debug
-
-for Windows release build:
-$ python configure.py --cc=msvc --cpu=x86_32 --disable-shared
-
-for Windows debug build:
-python configure.py --cc=msvc --cpu=x86_32 --disable-shared --no-optimizations --with-debug-info
 
 for Mac:
 $ python configure.py --disable-shared --disable-modules=darwin_secrandom

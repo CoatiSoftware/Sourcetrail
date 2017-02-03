@@ -56,40 +56,66 @@ fi
 
 # Create Debug and Release folders
 echo -e $INFO "create build folders"
-
-mkdir -p build
-mkdir -p bin/app/Debug
-mkdir -p bin/app/Release
-mkdir -p bin/lib/Debug
-mkdir -p bin/lib/Release
-mkdir -p bin/test/Debug
-mkdir -p bin/test/Release
+if [ $PLATFORM == "Windows" ]; then
+	mkdir -p build/win32/Debug/app
+	mkdir -p build/win32/Debug/test
+	mkdir -p build/win32/Release/app
+	mkdir -p build/win32/Release/test
+	mkdir -p build/win64/Debug/app
+	mkdir -p build/win64/Debug/test
+	mkdir -p build/win64/Release/app
+	mkdir -p build/win64/Release/test
+else
+	mkdir -p build/Debug/app
+	mkdir -p build/Debug/test
+	mkdir -p build/Release/app
+	mkdir -p build/Release/test
+fi
 
 # Copy necessary dynamic libraries to bin folder
 if [ $PLATFORM == "Windows" ]; then
 	echo -e $INFO "copy dynamic libraries"
-	cp -u -r setup/dynamic_libraries/windows/app/Debug/* bin/app/Debug
-	cp -u -r setup/dynamic_libraries/windows/app/Release/* bin/app/Release
+	cp -u -r setup/dynamic_libraries/win32/app/Debug/* build/win32/Debug/app
+	cp -u -r setup/dynamic_libraries/win32/app/Release/* build/win32/Release/app
+	
+	cp -u -r setup/dynamic_libraries/win64/app/Debug/* build/win64/Debug/app
+	cp -u -r setup/dynamic_libraries/win64/app/Release/* build/win64/Release/app
+	
+	cp -u -r setup/dynamic_libraries/win32/app/Debug/Qt5* build/win32/Debug/test
+	cp -u -r setup/dynamic_libraries/win32/app/Debug/platforms* build/win32/Debug/test/platforms
+	cp -u -r setup/dynamic_libraries/win32/app/Release/Qt5* build/win32/Release/test
+	cp -u -r setup/dynamic_libraries/win32/app/Release/platforms* build/win32/Release/test/platforms
+	
+	cp -u -r setup/dynamic_libraries/win64/app/Debug/Qt5* build/win64/Debug/test
+	cp -u -r setup/dynamic_libraries/win64/app/Debug/platforms* build/win64/Debug/test/platforms
+	cp -u -r setup/dynamic_libraries/win64/app/Release/Qt5* build/win64/Release/test
+	cp -u -r setup/dynamic_libraries/win64/app/Release/platforms* build/win64/Release/test/platforms
 
 	echo -e $INFO "copy test_main file"
-	cp -u setup/cxx_test/windows/test_main.cpp build
+	cp -u setup/cxx_test/windows/test_main.cpp build/win32
+	cp -u setup/cxx_test/windows/test_main.cpp build/win64
 
 	echo -e $INFO "creating program icon"
 	sh script/create_windows_icon.sh
+fi
 
+echo -e $INFO "create symbolic links for data"
+if [ $PLATFORM == "Windows" ]; then
 	BACKSLASHED_ROOT_DIR="${ROOT_DIR//\//\\}"
-
-	echo -e $INFO "create symbolic links for data"
-	cmd //c 'mklink /d /j '$BACKSLASHED_ROOT_DIR'\bin\app\Debug\data '$BACKSLASHED_ROOT_DIR'\bin\app\data' &
-	cmd //c 'mklink /d /j '$BACKSLASHED_ROOT_DIR'\bin\app\Debug\user '$BACKSLASHED_ROOT_DIR'\bin\app\user' &
-	cmd //c 'mklink /d /j '$BACKSLASHED_ROOT_DIR'\bin\app\Release\data '$BACKSLASHED_ROOT_DIR'\bin\app\data' &
-	cmd //c 'mklink /d /j '$BACKSLASHED_ROOT_DIR'\bin\app\Release\user '$BACKSLASHED_ROOT_DIR'\bin\app\user' &
+	cmd //c 'mklink /d /j '$BACKSLASHED_ROOT_DIR'\build\win32\Debug\app\data '$BACKSLASHED_ROOT_DIR'\bin\app\data' &
+	cmd //c 'mklink /d /j '$BACKSLASHED_ROOT_DIR'\build\win32\Debug\app\user '$BACKSLASHED_ROOT_DIR'\bin\app\user' &
+	cmd //c 'mklink /d /j '$BACKSLASHED_ROOT_DIR'\build\win32\Release\app\data '$BACKSLASHED_ROOT_DIR'\bin\app\data' &
+	cmd //c 'mklink /d /j '$BACKSLASHED_ROOT_DIR'\build\win32\Release\app\user '$BACKSLASHED_ROOT_DIR'\bin\app\user' &
+	
+	cmd //c 'mklink /d /j '$BACKSLASHED_ROOT_DIR'\build\win64\Debug\app\data '$BACKSLASHED_ROOT_DIR'\bin\app\data' &
+	cmd //c 'mklink /d /j '$BACKSLASHED_ROOT_DIR'\build\win64\Debug\app\user '$BACKSLASHED_ROOT_DIR'\bin\app\user' &
+	cmd //c 'mklink /d /j '$BACKSLASHED_ROOT_DIR'\build\win64\Release\app\data '$BACKSLASHED_ROOT_DIR'\bin\app\data' &
+	cmd //c 'mklink /d /j '$BACKSLASHED_ROOT_DIR'\build\win64\Release\app\user '$BACKSLASHED_ROOT_DIR'\bin\app\user' &
 elif [ $PLATFORM == "Linux" ]; then
-	echo -e $INFO "create symbolic links for data"
-	cd $ROOT_DIR/bin/app/Release
-	ln -s -f ../data
-	cd $ROOT_DIR/bin/app/Debug
-	ln -s -f ../data
+	cd $ROOT_DIR/build/Release/app
+	ln -s -f $ROOT_DIR/bin/app/data
+	cd $ROOT_DIR/build/Debug/app
+	ln -s -f $ROOT_DIR/bin/app/data
 	cd $ROOT_DIR
 fi
 
@@ -103,6 +129,14 @@ if [ $PLATFORM == "Linux" ] || [ $PLATFORM == "MacOS" ]; then
 
 	echo -e $INFO "run cmake with Release configuration"
 	cd ../Release && cmake -G Ninja -DCMAKE_BUILD_TYPE="Release" ../..
+else
+	echo -e $INFO "run cmake with 32 bit configuration"
+	
+	cd build/win32
+	cmake -G "Visual Studio 14 2015" ../..
+	
+	cd ../win64
+	cmake -G "Visual Studio 14 2015 Win64" ../..
 fi
 
 echo -e $SUCCESS "setup complete"

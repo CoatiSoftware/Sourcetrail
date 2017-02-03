@@ -37,6 +37,7 @@
 
 *.coatidb
 *.suo
+*.vcxproj.user
 *.sqlite
 *.pch
 *.swp
@@ -51,7 +52,8 @@ Makefile
 
 /deployment/windows/wixSetup/bin
 /deployment/windows/wixSetup/build
-/deployment/windows/wixSetup/CustomActions/SetupAppSettings/obj/x86/Release
-/deployment/windows/wixSetup/CustomActions/UninstallRemoveLogFolder/obj/x86/Release
+/deployment/windows/wixSetup/CustomActions/UninstallRemoveLogFolder/bin
+/deployment/windows/wixSetup/CustomActions/UninstallRemoveLogFolder/obj
 /deployment/windows/wixSetup/Setup/build/Setup/Release
+/deployment/windows/wixSetup/Setup/build/Setup/x64
 /deployment/windows/wixSetup/Setup/build/Setup.VC.db

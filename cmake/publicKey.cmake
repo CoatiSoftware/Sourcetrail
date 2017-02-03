@@ -20,5 +20,5 @@ endif()
 
 configure_file(
   ${CMAKE_SOURCE_DIR}/cmake/PublicKey.h.in
-  ${CMAKE_SOURCE_DIR}/build/src/lib_license/PublicKey.h
+  ${CMAKE_BINARY_DIR}/src/lib_license/PublicKey.h
 )

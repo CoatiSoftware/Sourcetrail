@@ -3,6 +3,8 @@
 #include <QSettings>
 #include <QSysInfo>
 
+#include "utility/utilityApp.h"
+
 JavaPathDetectorWindows::JavaPathDetectorWindows(const std::string javaVersion)
 	: JavaPathDetector("Java " + javaVersion + " for Windows", javaVersion)
 {
@@ -16,7 +18,10 @@ std::vector<FilePath> JavaPathDetectorWindows::getPaths() const
 {
 	QString key = "HKEY_LOCAL_MACHINE\\SOFTWARE\\";
 
-	key += "Wow6432Node\\"; // we need java 32 bit
+	if (utility::getApplicationArchitectureType() == APPLICATION_ARCHITECTURE_X86_32)
+	{
+		key += "Wow6432Node\\";
+	}
 
 	key += ("JavaSoft\\Java Runtime Environment\\" + m_javaVersion).c_str();
 

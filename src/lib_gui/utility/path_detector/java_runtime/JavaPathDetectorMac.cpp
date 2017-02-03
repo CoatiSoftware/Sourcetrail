@@ -22,6 +22,16 @@ std::vector<FilePath> JavaPathDetectorMac::getPaths() const
 
 	if (output.size())
 	{
+		javaPath = FilePath(utility::trim(output) + "/jre/lib/jli/libjli.dylib");
+	}
+
+	if (!javaPath.exists())
+	{
+		javaPath = FilePath("/usr/lib/libjli.dylib");
+	}
+
+	if (!javaPath.exists() && output.size())
+	{
 		javaPath = FilePath(utility::trim(output) + "/jre/lib/server/libjvm.dylib");
 	}
 

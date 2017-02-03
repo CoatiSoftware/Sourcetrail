@@ -116,7 +116,7 @@ void QtProjectWizzardContentPreferences::populate(QGridLayout* layout, int& row)
 #ifdef _WIN32
 	QString filter = "JVM Library (jvm.dll)";
 #elif __APPLE__
-	QString filter = "JVM Library (libjvm.dylib)";
+	QString filter = "JLI or JVM Library (libjli.dylib libjvm.dylib)";
 #else
 	QString filter = "JVM Library (libjvm.so)";
 #endif
@@ -128,7 +128,7 @@ void QtProjectWizzardContentPreferences::populate(QGridLayout* layout, int& row)
 	}
 	else if (QSysInfo::macVersion() != QSysInfo::MV_None)
 	{
-		m_javaPath->setPlaceholderText("<jre_path>Contents/Home/jre/lib/server/libjvm.dylib");
+		m_javaPath->setPlaceholderText("<jre_path>/Contents/Home/jre/lib/jli/libjli.dylib");
 	}
 	else
 	{

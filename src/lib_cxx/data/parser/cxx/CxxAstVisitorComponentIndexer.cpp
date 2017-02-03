@@ -377,7 +377,7 @@ void CxxAstVisitorComponentIndexer::visitTypeLoc(clang::TypeLoc tl)
 	if ((shouldVisitReference(tl.getBeginLoc(), getAstVisitor()->getComponent<CxxAstVisitorComponentContext>()->getTopmostContextDecl())) &&
 		(!getAstVisitor()->checkIgnoresTypeLoc(tl)))
 	{
-		if (const clang::BuiltinType* builtinType = clang::dyn_cast_or_null<clang::BuiltinType>(tl.getTypePtr()))
+		if (clang::dyn_cast_or_null<clang::BuiltinType>(tl.getTypePtr()))
 		{
 			m_client->recordSymbol(getAstVisitor()->getTypeNameCache()->getValue(tl.getTypePtr()), SYMBOL_BUILTIN_TYPE, ACCESS_NONE, DEFINITION_EXPLICIT);
 		}

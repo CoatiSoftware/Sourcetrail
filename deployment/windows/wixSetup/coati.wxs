@@ -1,32 +1,56 @@
 <?xml version='1.0' encoding='windows-1252'?>
 <Wix xmlns='http://schemas.microsoft.com/wix/2006/wi'>
 
-    <Product Name='Coati' 
-			Manufacturer='Coati Software OG'
-			Id='$(var.projectGuid)'
-			UpgradeCode='6DAB9E05-6E5B-4D26-A2A0-8F1757F2A4EF'
-			Language='1033' 
-			Codepage='1252'
-			Version='$(var.projectVersion)'>
+<?define ProductName = "Coati" ?>
+<?define ProductAuthor = "Coati Software OG" ?>
+<?define ProductAppFolder = "InstallLocation" ?>
+	 
+<?if $(sys.BUILDARCH) = x64 ?>
+	<?define ProductDisplayName = "$(var.ProductName) 64-bit" ?>
+	<?define ProductUpgradeCode = "693A35C7-8D56-4930-8653-1DC880D78678" ?>
+	<?define Win64 = "yes" ?>
+	<?define PlatformProgramFilesFolder = "ProgramFiles64Folder" ?>
+<?else ?>
+	<?define ProductDisplayName = "$(var.ProductName)" ?>
+	<?define ProductUpgradeCode = "6DAB9E05-6E5B-4D26-A2A0-8F1757F2A4EF" ?>
+	<?define Win64 = "no" ?>
+	<?define PlatformProgramFilesFolder = "ProgramFilesFolder" ?>
+<?endif ?>
 
-		<Package Id='*' Keywords='Installer' Description="Coati Installer"
-			Comments='Coati is a registered trademark of Coati Software OG' Manufacturer='Coati Software OG'
-			InstallerVersion='100' Languages='1033' Compressed='yes' SummaryCodepage='1252' />
+    <Product 
+		Name='$(var.ProductDisplayName)' 
+		Manufacturer='$(var.ProductAuthor)'
+		Id='$(var.ProductGuid)'
+		UpgradeCode='$(var.ProductUpgradeCode)'
+		Language='1033' 
+		Codepage='1252'
+		Version='$(var.ProductVersion)'>
+
+		<Package 
+			Id='*' 
+			Keywords='Installer' 
+			Description="$(var.ProductDisplayName) Installer"
+			Comments='$(var.ProductName) is a registered trademark of $(var.ProductAuthor)' 
+			Manufacturer='$(var.ProductAuthor)'
+			InstallerVersion='100' 
+			Languages='1033' 
+			Compressed='yes' 
+			SummaryCodepage='1252' />
 
 		<Media Id='1' Cabinet='Sample.cab' EmbedCab='yes' DiskPrompt='CD-ROM #1' />
 
-		<Property Id='DiskPrompt' Value="Coati Installation [1]" />
+		<Property Id='DiskPrompt' Value="$(var.ProductDisplayName) Installation [1]" />
 		<Property Id="INSTALLDESKTOPSHORTCUT" />
 		<Property Id="INSTALLSTARTMENUSHORTCUT" Value="true" />
 
 		<!-- Shortcuts -->
-		<Upgrade Id='6DAB9E05-6E5B-4D26-A2A0-8F1757F2A4EF'>
+		<Upgrade Id='$(var.ProductUpgradeCode)'>
 			<UpgradeVersion Property="REMOVINGTHEOLDVERSION" Minimum="0.0.0"    RemoveFeatures="ALL" />
 			<UpgradeVersion OnlyDetect='yes' Property='SELFFOUND'
-				Minimum='$(var.projectVersion)' IncludeMinimum='yes'
-				Maximum='$(var.projectVersion)' IncludeMaximum='yes' />
+				Minimum='$(var.ProductVersion)' IncludeMinimum='yes'
+				Maximum='$(var.ProductVersion)' IncludeMaximum='yes' />
 			<UpgradeVersion OnlyDetect='yes' Property='NEWERFOUND'
-				Minimum='$(var.projectVersion)' IncludeMinimum='no' />
+				Minimum='$(var.ProductVersion)' IncludeMinimum='no' />
 		</Upgrade>
 
 		<Directory Id='TARGETDIR' Name='SourceDir'>
@@ -34,30 +58,31 @@
 			<!-- This would be an alternative to include C++ runtime stuff, currently the required DLLs are included directly instead -->
 			<!-- <Merge Id="VCRedist" SourceFile="C:\Program Files (x86)\Common Files\Merge Modules\Microsoft_VC140_CRT_x86.msm" DiskId="1" Language="0"/> -->
 
+			<!-- Start menu (shortcuts) -->
 			<Directory Id="ProgramMenuFolder" Name="Programs">
-				<Directory Id="ProgramMenuDir" Name="Coati">
-					<Component Id="UninstallShortcut" Guid="028B666E-FAE8-4F53-A0E6-C2E0396CB6F2">
+				<Directory Id="ProgramMenuDir" Name="$(var.ProductDisplayName)">
+					<Component Id="UninstallShortcut" Guid="028B666E-FAE8-4F53-A0E6-C2E0396CB6F2" Win64="$(var.Win64)">
 						<Condition>INSTALLSTARTMENUSHORTCUT</Condition>
 						<!-- <Shortcut Id="UninstallProduct"
-									Name="Coati Uninstall"
-									Description="Uninstall Coati"
+									Name="$(var.ProductDisplayName) Uninstall"
+									Description="Uninstall $(var.ProductDisplayName)"
 									Target="[System64Folder]msiexec.exe"
 									Arguments="/x [ProductCode]"/> -->
 
 						<Shortcut Id="UninstallProduct"
-								Name="Uninstall Coati"
-								Description="Remove Coati from your computer"
+								Name="Uninstall $(var.ProductDisplayName)"
+								Description="Remove $(var.ProductDisplayName) from your computer"
 								Target="[INSTALLDIR]uninstall.bat" />
 
 						<RegistryValue Root="HKCU" Key="Software\[Manufacturer]\[ProductName]\CoatiUninstall" Name="installed" Type="integer" Value="1" KeyPath="yes"/>
 						<RemoveFolder Id='ProgramMenuDir' On='uninstall' />
 					</Component>
 
-					<Component Id="ApplicationShortcut" Guid="5AD30B21-61BA-4002-AF2F-E9E69989E446">
+					<Component Id="ApplicationShortcut" Guid="5AD30B21-61BA-4002-AF2F-E9E69989E446" Win64="$(var.Win64)">
 						<Condition>INSTALLSTARTMENUSHORTCUT</Condition>
 						<Shortcut Id="ApplicationStartMenuShortcut"
 
-									Name="Coati"
+									Name="$(var.ProductDisplayName)"
 									Description="The Source Explorer"
 									Target="[INSTALLDIR]Coati.exe"
 									WorkingDirectory="INSTALLDIR"/>
@@ -66,12 +91,12 @@
 				</Directory>
 			</Directory>
 
-
+			<!-- Desktop menu (shortcuts) -->
 			<Directory Id="DesktopFolder" Name="Desktop">
-				<Component Id='DesktopShortcut' Guid='285FA7FC-F355-4892-AFA7-DD49B8D81563'>
+				<Component Id='DesktopShortcut' Guid='285FA7FC-F355-4892-AFA7-DD49B8D81563' Win64="$(var.Win64)">
 					<Condition>INSTALLDESKTOPSHORTCUT</Condition>
 					<Shortcut Id="ApplicationDesktopShortcut"
-								Name="Coati"
+								Name="$(var.ProductDisplayName)"
 								Description="Source Explorer"
 								Target="[INSTALLDIR]Coati.exe"
 								WorkingDirectory="INSTALLDIR"/>
@@ -81,7 +106,7 @@
 			</Directory>
 
 			<!-- Application Folder -->
-			<Directory Id='ProgramFilesFolder' Name='PFiles'>
+			<Directory Id='$(var.PlatformProgramFilesFolder)' Name='PFiles'>
 				<Directory Id='COMPANYDIR' Name='Coati Software'>
 					<Directory Id='INSTALLDIR' Name='Coati' />
 				</Directory>
@@ -92,7 +117,7 @@
 			<Directory Id="LocalAppDataFolder">
 				<Directory Id="CoatiSoftwareAppData" Name="Coati Software">
 
-					<Component Id="CoatiSoftwareAppDataDummy" Guid="E57CFAEC-B3E7-45EB-8B94-F50EBDA1355C">
+					<Component Id="CoatiSoftwareAppDataDummy" Guid="E57CFAEC-B3E7-45EB-8B94-F50EBDA1355C" Win64="$(var.Win64)">
 						<CreateFolder />
 						<RemoveFolder Id='CoatiSoftwareAppData' On='uninstall' />
 						<RegistryKey Action="none" Key="Software\[Manufacturer]\[ProductName]\coatiSoftwareAppData" Root="HKCU" >
@@ -100,8 +125,8 @@
 						</RegistryKey>
 					</Component>
 
-					<Directory Id="CoatiAppData" Name="Coati">
-						<Component Id="CoatiAppDataDummy" Guid="93024EB9-ED47-4D0D-B790-1028E10F8015">
+					<Directory Id="CoatiAppData" Name="$(var.ProductDisplayName)">
+						<Component Id="CoatiAppDataDummy" Guid="93024EB9-ED47-4D0D-B790-1028E10F8015" Win64="$(var.Win64)">
 						<CreateFolder />
 						<RemoveFolder Id='CoatiAppData' On='uninstall' />
 						<RegistryKey Action="none" Key="Software\[Manufacturer]\[ProductName]\coatiAppData" Root="HKCU" >
@@ -115,7 +140,7 @@
 
 
 
-		<Feature Id='Complete' Title='Coati' Description='Source Explorer' Display='expand' Level='1' ConfigurableDirectory='INSTALLDIR'>
+		<Feature Id='Complete' Title='$(var.ProductDisplayName)' Description='Source Explorer' Display='expand' Level='1' ConfigurableDirectory='INSTALLDIR'>
 			<Feature Id='Program' Title='Program' Description='The main installation' Level='1'>
 				<!-- Prerequisites -->
 				<!-- <MergeRef Id='VCRedist'/> --> <!-- see comment at declaration -->
@@ -190,14 +215,18 @@
 				<ComponentRef Id='LogoFhsPng'/>
 
 				<ComponentRef Id='CodeViewCss'/>
-				<ComponentRef Id='EditPng'/>
-				<ComponentRef Id='MaximizeActivePng'/>
-				<ComponentRef Id='MaximizeInactivePng'/>
-				<ComponentRef Id='MinimizeActivePng'/>
-				<ComponentRef Id='MinimizeInactivePng'/>
-				<ComponentRef Id='PatternPng'/>
-				<ComponentRef Id='SnippetActivePng'/>
-				<ComponentRef Id='SnippetInactivePng'/>
+				<ComponentRef Id='CodeViewArrowLeftPng'/>
+				<ComponentRef Id='CodeViewArrowRightPng'/>
+				<ComponentRef Id='CodeViewEditPng'/>
+				<ComponentRef Id='CodeViewFilePng'/>
+				<ComponentRef Id='CodeViewListPng'/>
+				<ComponentRef Id='CodeViewMaximizeActivePng'/>
+				<ComponentRef Id='CodeViewMaximizeInactivePng'/>
+				<ComponentRef Id='CodeViewMinimizeActivePng'/>
+				<ComponentRef Id='CodeViewMinimizeInactivePng'/>
+				<ComponentRef Id='CodeViewPatternPng'/>
+				<ComponentRef Id='CodeViewSnippetActivePng'/>
+				<ComponentRef Id='CodeViewSnippetInactivePng'/>
 				
 				<ComponentRef Id='ErrorViewCss'/>
 
@@ -214,6 +243,8 @@
 				<ComponentRef Id='PublicPng'/>
 				<ComponentRef Id='TemplatePng'/>
 				<ComponentRef Id='TypedefPng'/>
+				<ComponentRef Id='ZoomInPng'/>
+				<ComponentRef Id='ZoomOutPng'/>
 
 				<ComponentRef Id='C_icon_Png'/>
 				<ComponentRef Id='Cdb_icon_Png'/>
@@ -357,7 +388,5 @@
 
 		<WixVariable Id="WixUIBannerBmp" Value="Images/banner.bmp" />
 		<WixVariable Id="WixUIDialogBmp" Value="Images/w_installer.bmp" />
-
-		<!-- <WixVariable Id="var.Coati.projectVersion" Value="0.7.0" /> -->
 	</Product>
 </Wix>

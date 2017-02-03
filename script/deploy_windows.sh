@@ -1,4 +1,5 @@
 # FLAGS
+CLEAN_AND_SETUP=true
 REBUILD=true
 OBFUSCATE=true
 UPDATE_DATABASES=true
@@ -16,6 +17,10 @@ BASE_DIR=`dirname "$CLEANED_PATH_TO_SCRIPT"`
 
 cd $BASE_DIR/..
 
+if [ $CLEAN_AND_SETUP = false ]; then
+	echo -e "$INFO CLEAN_AND_SETUP flag is set to false. Do you want to proceed?"
+	read -p "Press [Enter] key to continue"
+fi
 
 if [ $REBUILD = false ]; then
 	echo -e "$INFO REBUILD flag is set to false. Do you want to proceed?"
@@ -44,21 +49,30 @@ rm -rf src/lib_gui/platform_includes/deploy.h
 echo "#define DEPLOY" >src/lib_gui/platform_includes/deploy.h
 
 
-### TODO: RUN CMAKE!
-
 ### TODO: add HKEY_CURRENT_USER\Software\Microsoft\VisualStudio\12.0_Config\MSBuild\EnableOutOfProcBuild
 
 
-# CLEANING THE PROJECT
-if [ $REBUILD = true ]; then
+if [ $CLEAN_AND_SETUP = true ]; then
 	echo -e "$INFO cleaning the project"
-	"devenv.com" build/Coati.sln //clean Release
+	script/clean.sh
+	echo -e "$INFO setting the project up"
+	script/setup.sh
 fi
 
 
-# BUILDING THE EXECUTABLE
-echo -e "$INFO building the executable (app)"
-"devenv.com" build/Coati.sln //build Release //project build/Coati.vcxproj
+# CLEANING THE SOLUTIONS
+if [ $REBUILD = true ]; then
+	echo -e "$INFO cleaning the solution"
+	"devenv.com" build/win32/Coati.sln //clean Release
+	"devenv.com" build/win64/Coati.sln //clean Release
+fi
+
+
+# BUILDING THE EXECUTABLES
+echo -e "$INFO building the app (32 bit)"
+"devenv.com" build/win32/Coati.sln //build Release //project build/win32/Coati.vcxproj
+echo -e "$INFO building the app (64 bit)"
+"devenv.com" build/win64/Coati.sln //build Release //project build/win64/Coati.vcxproj
 
 
 # CREATING DATABASES
@@ -74,35 +88,41 @@ if [ $UPDATE_DATABASES = true ]; then
 	cd temp
 
 	echo -e "$INFO saving license key"
-	../bin/app/Release/Coati.exe -z ../script/license.txt
+	../build/win32/Release/app/Coati.exe -z ../script/license.txt
 
 	echo -e "$INFO creating database for tictactie"
-	../bin/app/Release/Coati.exe -p ../bin/app/user/projects/tictactoe/tictactoe.coatiproject -d
+	../build/win32/Release/app/Coati.exe -p ../bin/app/user/projects/tictactoe/tictactoe.coatiproject -d
 
 	echo -e "$INFO creating database for tutorial"
-	../bin/app/Release/Coati.exe -p ../bin/app/user/projects/tutorial/tutorial.coatiproject -d
+	../build/win32/Release/app/Coati.exe -p ../bin/app/user/projects/tutorial/tutorial.coatiproject -d
 
 	echo -e "$INFO creating database for javaparser"
-	../bin/app/Release/Coati.exe -p ../bin/app/user/projects/javaparser/javaparser.coatiproject -d
+	../build/win32/Release/app/Coati.exe -p ../bin/app/user/projects/javaparser/javaparser.coatiproject -d
 
 	cd ..
 	rm -rf temp
 fi
 
 
-# OBFUSCATING THE EXECUTABLE
+# OBFUSCATING THE EXECUTABLES
 if [ $OBFUSCATE = true ]; then
-	echo -e "$INFO obfuscating the executables"
-	rm bin/app/Release/Coati_obfuscated.exe
-	upx --brute -o bin/app/Release/Coati_obfuscated.exe bin/app/Release/Coati.exe
+	echo -e "$INFO obfuscating the executable (32 bit)"
+	rm build/win32/Release/app/Coati_obfuscated.exe
+	upx --brute -o build/win32/Release/app/Coati_obfuscated.exe build/win32/Release/app/Coati.exe
+	
+	echo -e "$INFO obfuscating the executable (64 bit)"
+	rm build/win64/Release/app/Coati_obfuscated.exe
+	upx --brute -o build/win64/Release/app/Coati_obfuscated.exe build/win64/Release/app/Coati.exe
 else
-	cp bin/app/Release/Coati.exe bin/app/Release/Coati_obfuscated.exe
+	cp build/win32/Release/app/Coati.exe build/win32/Release/app/Coati_obfuscated.exe
+	cp build/win64/Release/app/Coati.exe build/win64/Release/app/Coati_obfuscated.exe
 fi
 
 
 # BUILDING THE INSTALLER
 cd deployment/windows/wixSetup
-build.bat
+build_win32.sh
+build_win64.sh
 cd ../../..
 
 
@@ -112,42 +132,68 @@ VERSION_STRING="${VERSION_STRING//-/_}"
 VERSION_STRING="${VERSION_STRING//./_}"
 VERSION_STRING="${VERSION_STRING%_*}"
 
-APP_PACKAGE_NAME=Coati_${VERSION_STRING}
+echo -e "$INFO creating package folder for win32"
+APP_PACKAGE_NAME_WIN32=Coati_${VERSION_STRING}_32bit
+APP_PACKAGE_DIR_WIN32=release/$APP_PACKAGE_NAME_WIN32
 
-APP_PACKAGE_DIR=release/$APP_PACKAGE_NAME
+rm -rf $APP_PACKAGE_DIR_WIN32
+mkdir -p $APP_PACKAGE_DIR_WIN32
 
-echo -e "$INFO creating package folder"
-rm -rf $APP_PACKAGE_DIR
-mkdir -p $APP_PACKAGE_DIR
+cp -u -r deployment/windows/wixSetup/bin/win32/* $APP_PACKAGE_DIR_WIN32/
 
-cp -u -r deployment/windows/wixSetup/bin/* $APP_PACKAGE_DIR/
+mkdir -p $APP_PACKAGE_DIR_WIN32/plugins/atom/
+cp -u -r ide_plugins/atom/* $APP_PACKAGE_DIR_WIN32/plugins/atom/
+mkdir -p $APP_PACKAGE_DIR_WIN32/plugins/eclipse/
+cp -u -r ide_plugins/eclipse/* $APP_PACKAGE_DIR_WIN32/plugins/eclipse/
+mkdir -p $APP_PACKAGE_DIR_WIN32/plugins/emacs/
+cp -u -r ide_plugins/emacs/* $APP_PACKAGE_DIR_WIN32/plugins/emacs/
+mkdir -p $APP_PACKAGE_DIR_WIN32/plugins/idea/
+cp -u -r ide_plugins/idea/* $APP_PACKAGE_DIR_WIN32/plugins/idea/
+mkdir -p $APP_PACKAGE_DIR_WIN32/plugins/sublime_text/
+cp -u -r ide_plugins/sublime_text/* $APP_PACKAGE_DIR_WIN32/plugins/sublime_text/
+mkdir -p $APP_PACKAGE_DIR_WIN32/plugins/vim/
+cp -u -r ide_plugins/vim/* $APP_PACKAGE_DIR_WIN32/plugins/vim/
+mkdir -p $APP_PACKAGE_DIR_WIN32/plugins/visual_studio/
+cp -u -r ide_plugins/vs/coati_plugin_vs.vsix $APP_PACKAGE_DIR_WIN32/plugins/visual_studio/
 
-mkdir -p $APP_PACKAGE_DIR/plugins/atom/
-cp -u -r ide_plugins/atom/* $APP_PACKAGE_DIR/plugins/atom/
-mkdir -p $APP_PACKAGE_DIR/plugins/eclipse/
-cp -u -r ide_plugins/eclipse/* $APP_PACKAGE_DIR/plugins/eclipse/
-mkdir -p $APP_PACKAGE_DIR/plugins/emacs/
-cp -u -r ide_plugins/emacs/* $APP_PACKAGE_DIR/plugins/emacs/
-mkdir -p $APP_PACKAGE_DIR/plugins/idea/
-cp -u -r ide_plugins/idea/* $APP_PACKAGE_DIR/plugins/idea/
-mkdir -p $APP_PACKAGE_DIR/plugins/sublime_text/
-cp -u -r ide_plugins/sublime_text/* $APP_PACKAGE_DIR/plugins/sublime_text/
-mkdir -p $APP_PACKAGE_DIR/plugins/vim/
-cp -u -r ide_plugins/vim/* $APP_PACKAGE_DIR/plugins/vim/
-mkdir -p $APP_PACKAGE_DIR/plugins/visual_studio/
-cp -u -r ide_plugins/vs/coati_plugin_vs.vsix $APP_PACKAGE_DIR/plugins/visual_studio/
+
+echo -e "$INFO creating package folder for win64"
+APP_PACKAGE_NAME_WIN64=Coati_${VERSION_STRING}_64bit
+APP_PACKAGE_DIR_WIN64=release/$APP_PACKAGE_NAME_WIN64
+
+rm -rf $APP_PACKAGE_DIR_WIN64
+mkdir -p $APP_PACKAGE_DIR_WIN64
+
+cp -u -r deployment/windows/wixSetup/bin/win64/* $APP_PACKAGE_DIR_WIN64/
+
+mkdir -p $APP_PACKAGE_DIR_WIN64/plugins/atom/
+cp -u -r ide_plugins/atom/* $APP_PACKAGE_DIR_WIN64/plugins/atom/
+mkdir -p $APP_PACKAGE_DIR_WIN64/plugins/eclipse/
+cp -u -r ide_plugins/eclipse/* $APP_PACKAGE_DIR_WIN64/plugins/eclipse/
+mkdir -p $APP_PACKAGE_DIR_WIN64/plugins/emacs/
+cp -u -r ide_plugins/emacs/* $APP_PACKAGE_DIR_WIN64/plugins/emacs/
+mkdir -p $APP_PACKAGE_DIR_WIN64/plugins/idea/
+cp -u -r ide_plugins/idea/* $APP_PACKAGE_DIR_WIN64/plugins/idea/
+mkdir -p $APP_PACKAGE_DIR_WIN64/plugins/sublime_text/
+cp -u -r ide_plugins/sublime_text/* $APP_PACKAGE_DIR_WIN64/plugins/sublime_text/
+mkdir -p $APP_PACKAGE_DIR_WIN64/plugins/vim/
+cp -u -r ide_plugins/vim/* $APP_PACKAGE_DIR_WIN64/plugins/vim/
+mkdir -p $APP_PACKAGE_DIR_WIN64/plugins/visual_studio/
+cp -u -r ide_plugins/vs/coati_plugin_vs.vsix $APP_PACKAGE_DIR_WIN64/plugins/visual_studio/
 
 
 # PACKAGING COATI
 echo -e "$INFO packaging coati"
 cd ./release/
-winrar a -afzip ${APP_PACKAGE_NAME}_Windows.zip $APP_PACKAGE_NAME
+winrar a -afzip Coati_${VERSION_STRING}_Windows_32bit.zip $APP_PACKAGE_NAME_WIN32
+winrar a -afzip Coati_${VERSION_STRING}_Windows_64bit.zip $APP_PACKAGE_NAME_WIN64
 cd ../
 
 
 # CLEANING UP
-echo -e "$INFO Cleaning"
-rm -rf $APP_PACKAGE_DIR
+echo -e "$INFO Cleaning package folders"
+rm -rf $APP_PACKAGE_DIR_WIN32
+rm -rf $APP_PACKAGE_DIR_WIN64
 
 
 # UNSETTING THE DEPLOY FLAG

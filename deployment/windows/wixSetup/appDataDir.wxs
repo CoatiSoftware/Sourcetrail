@@ -1,447 +1,454 @@
 <?xml version='1.0'?>
 <Wix xmlns='http://schemas.microsoft.com/wix/2006/wi'>
+
+<?if $(sys.BUILDARCH) = x64 ?>
+	<?define Win64 = "yes" ?>
+<?else ?>
+	<?define Win64 = "no" ?>
+<?endif ?>
+	
 	<Fragment>
 		<DirectoryRef Id='CoatiAppData'>			
-						<Directory Id="SampleProjects" Name="projects">
+			<Directory Id="SampleProjects" Name="projects">
+			
+				<Component Id="SampleProjects" Guid="12F6C3BE-CE83-441A-8A5D-E49EA1483F24" Win64="$(var.Win64)">
+					<RemoveFolder Id='SampleProjects' On='uninstall' />
+					<RegistryValue Root='HKCU' Key='SampleProjectDir' Type='string' Value='' KeyPath='yes' />
+				</Component>
+			
+				<Directory Id="SampleProjectTictactoe" Name="tictactoe">
+					<Component Id="TictactoeCoatiproject" Guid="E353FD02-79FD-4409-9874-3282B038DD12" Win64="$(var.Win64)">
+						<CreateFolder />
+						<RemoveFolder Id='SampleProjectTictactoe' On='uninstall' />
+						<RegistryKey Action="none" Key="Software\[Manufacturer]\[ProductName]\tictactoeProjectKey" Root="HKCU" >
+							<RegistryValue Type="integer" Value="1" KeyPath="yes" />
+						</RegistryKey>
+						<File Id='TictactoeDb' Name='tictactoe.coatidb' DiskId='1' Source='./../../../bin/app/user/projects/tictactoe/tictactoe.coatidb' KeyPath='no' />
+						<File Id='TictactoeProject' Name='tictactoe.coatiproject' DiskId='1' Source='./../../../bin/app/user/projects/tictactoe/tictactoe.coatiproject' KeyPath='no' />
+					</Component>
+					
+					<Directory Id="TictactoeSrc" Name="src">
+						<Component Id="TictactoeCode" Guid="393ED988-A69D-4B10-974A-401EBB56C6A3" Win64="$(var.Win64)">
+							<CreateFolder />
+							<RemoveFolder Id='TictactoeSrc' On='uninstall' />
+							<RegistryKey Action="none" Key="Software\[Manufacturer]\[ProductName]\tictactoeCodeKey" Root="HKCU" >
+								<RegistryValue Type="integer" Value="1" KeyPath="yes" />
+							</RegistryKey>
+							<File Id='ArtificialPlayer' Name='artificial_player.cpp' DiskId='1' Source='./../../../bin/app/user/projects/tictactoe/src/artificial_player.cpp' KeyPath='no' />
+							<File Id='ArtificialPlayerHeader' Name='artificial_player.h' DiskId='1' Source='./../../../bin/app/user/projects/tictactoe/src/artificial_player.h' KeyPath='no' />
+							<File Id='Field' Name='field.cpp' DiskId='1' Source='./../../../bin/app/user/projects/tictactoe/src/field.cpp' KeyPath='no' />
+							<File Id='FieldHeader' Name='field.h' DiskId='1' Source='./../../../bin/app/user/projects/tictactoe/src/field.h' KeyPath='no' />
+							
+							<File Id='HumanPlayer' Name='human_player.cpp' DiskId='1' Source='./../../../bin/app/user/projects/tictactoe/src/human_player.cpp' KeyPath='no' />
+							<File Id='HumanPlayerHeader' Name='human_player.h' DiskId='1' Source='./../../../bin/app/user/projects/tictactoe/src/human_player.h' KeyPath='no' />
+							
+							<File Id='IO' Name='io.cpp' DiskId='1' Source='./../../../bin/app/user/projects/tictactoe/src/io.cpp' KeyPath='no' />
+							<File Id='IOHeader' Name='io.h' DiskId='1' Source='./../../../bin/app/user/projects/tictactoe/src/io.h' KeyPath='no' />
+							
+							<File Id='tictactoeMain' Name='main.cpp' DiskId='1' Source='./../../../bin/app/user/projects/tictactoe/src/main.cpp' KeyPath='no' />
+							
+							<File Id='Player' Name='player.cpp' DiskId='1' Source='./../../../bin/app/user/projects/tictactoe/src/player.cpp' KeyPath='no' />
+							<File Id='PlayerHeader' Name='player.h' DiskId='1' Source='./../../../bin/app/user/projects/tictactoe/src/player.h' KeyPath='no' />
+							
+							<File Id='tictactoeFile' Name='tictactoe.cpp' DiskId='1' Source='./../../../bin/app/user/projects/tictactoe/src/tictactoe.cpp' KeyPath='no' />
+							<File Id='tictactoeHeader' Name='tictactoe.h' DiskId='1' Source='./../../../bin/app/user/projects/tictactoe/src/tictactoe.h' KeyPath='no' />
+						</Component>
 						
-							<Component Id="SampleProjects" Guid="12F6C3BE-CE83-441A-8A5D-E49EA1483F24">
-								<RemoveFolder Id='SampleProjects' On='uninstall' />
-								<RegistryValue Root='HKCU' Key='SampleProjectDir' Type='string' Value='' KeyPath='yes' />
+					</Directory>
+					
+				</Directory>
+				
+				<Directory Id="SampleProjectTutorial" Name="tutorial">
+					<Component Id="TutorialCoatiproject" Guid="D7976D20-0447-4628-942B-0C8BE49E190E" Win64="$(var.Win64)">
+						<CreateFolder />
+						<RemoveFolder Id='SampleProjectTutorial' On='uninstall' />
+						<RegistryKey Action="none" Key="Software\[Manufacturer]\[ProductName]\tutorialProjectKey" Root="HKCU" >
+							<RegistryValue Type="integer" Value="1" KeyPath="yes" />
+						</RegistryKey>
+						<File Id='TutorialDb' Name='tutorial.coatidb' DiskId='1' Source='./../../../bin/app/user/projects/tutorial/tutorial.coatidb' KeyPath='no' />
+						<File Id='TutorialProject' Name='tutorial.coatiproject' DiskId='1' Source='./../../../bin/app/user/projects/tutorial/tutorial.coatiproject' KeyPath='no' />
+					</Component>
+					
+					<Directory Id="TutorialSrc" Name="src">
+						<Component Id="TutorialCode" Guid="DA247C7A-16F4-4297-928D-02C713B9967A" Win64="$(var.Win64)">
+							<CreateFolder />
+							<RemoveFolder Id='TutorialSrc' On='uninstall' />
+							<RegistryKey Action="none" Key="Software\[Manufacturer]\[ProductName]\tutorialCodeKey" Root="HKCU" >
+								<RegistryValue Type="integer" Value="1" KeyPath="yes" />
+							</RegistryKey>
+							
+							<File Id='CodeTutorial1Header' Name='code_tutorial_1.h' DiskId='1' Source='./../../../bin/app/user/projects/tutorial/src/code_tutorial_1.h' KeyPath='no' />
+							<File Id='CodeTutorial2Header' Name='code_tutorial_2.h' DiskId='1' Source='./../../../bin/app/user/projects/tutorial/src/code_tutorial_2.h' KeyPath='no' />
+							<File Id='CodeTutorial3Header' Name='code_tutorial_3.h' DiskId='1' Source='./../../../bin/app/user/projects/tutorial/src/code_tutorial_3.h' KeyPath='no' />
+							<File Id='GraphTutorial1Header' Name='graph_tutorial_1.h' DiskId='1' Source='./../../../bin/app/user/projects/tutorial/src/graph_tutorial_1.h' KeyPath='no' />
+							<File Id='GraphTutorial2Header' Name='graph_tutorial_2.h' DiskId='1' Source='./../../../bin/app/user/projects/tutorial/src/graph_tutorial_2.h' KeyPath='no' />
+							<File Id='GraphTutorial3Header' Name='graph_tutorial_3.h' DiskId='1' Source='./../../../bin/app/user/projects/tutorial/src/graph_tutorial_3.h' KeyPath='no' />
+							<File Id='GraphTutorial4Header' Name='graph_tutorial_4.h' DiskId='1' Source='./../../../bin/app/user/projects/tutorial/src/graph_tutorial_4.h' KeyPath='no' />
+							<File Id='MainCpp' Name='main.cpp' DiskId='1' Source='./../../../bin/app/user/projects/tutorial/src/main.cpp' KeyPath='no' />
+							<File Id='MyFirstStepHeader' Name='my_first_step.h' DiskId='1' Source='./../../../bin/app/user/projects/tutorial/src/my_first_step.h' KeyPath='no' />
+							<File Id='MyNextStepHeader' Name='my_next_step.h' DiskId='1' Source='./../../../bin/app/user/projects/tutorial/src/my_next_step.h' KeyPath='no' />
+							<File Id='SearchTutorial1Header' Name='search_tutorial_1.h' DiskId='1' Source='./../../../bin/app/user/projects/tutorial/src/search_tutorial_1.h' KeyPath='no' />
+							<File Id='SearchTutorial2Header' Name='search_tutorial_2.h' DiskId='1' Source='./../../../bin/app/user/projects/tutorial/src/search_tutorial_2.h' KeyPath='no' />
+							<File Id='SearchTutorial3Header' Name='search_tutorial_3.h' DiskId='1' Source='./../../../bin/app/user/projects/tutorial/src/search_tutorial_3.h' KeyPath='no' />
+							<File Id='SearchTutorial4Header' Name='search_tutorial_4.h' DiskId='1' Source='./../../../bin/app/user/projects/tutorial/src/search_tutorial_4.h' KeyPath='no' />
+							<File Id='SearchTutorial5Header' Name='search_tutorial_5.h' DiskId='1' Source='./../../../bin/app/user/projects/tutorial/src/search_tutorial_5.h' KeyPath='no' />
+							<File Id='StartExploringHeader' Name='start_exploring.h' DiskId='1' Source='./../../../bin/app/user/projects/tutorial/src/start_exploring.h' KeyPath='no' />
+							<File Id='TheCentralHubHeader' Name='the_central_hub.h' DiskId='1' Source='./../../../bin/app/user/projects/tutorial/src/the_central_hub.h' KeyPath='no' />
+							<File Id='UtilityHeader' Name='utility.h' DiskId='1' Source='./../../../bin/app/user/projects/tutorial/src/utility.h' KeyPath='no' />
+						</Component>
+					</Directory>
+					
+				</Directory>
+				
+				<Directory Id="SampleProjectJavaparser" Name="javaparser">
+					<Component Id="JavaparserCoatiproject" Guid="39B413EF-C9F4-4B06-BF91-028C7D931303" Win64="$(var.Win64)">
+						<CreateFolder />
+						<RemoveFolder Id='SampleProjectJavaparser' On='uninstall' />
+						<RegistryKey Action="none" Key="Software\[Manufacturer]\[ProductName]\JavaparserCoatiprojectKey" Root="HKCU" >
+							<RegistryValue Type="integer" Value="1" KeyPath="yes" />
+						</RegistryKey>
+						<File Id='JavaparserDb' Name='javaparser.coatidb' DiskId='1' Source='./../../../bin/app/user/projects/javaparser/javaparser.coatidb' KeyPath='no' />
+						<File Id='JavaparserProject' Name='javaparser.coatiproject' DiskId='1' Source='./../../../bin/app/user/projects/javaparser/javaparser.coatiproject' KeyPath='no' />
+					</Component>
+					<Directory Id="SampleProjectJavaparserSrc" Name="src">
+						<Component Id="SampleProjectJavaparserSrcFolder" Guid="560AEF91-AE8A-485B-BC69-928D3584EE05" Win64="$(var.Win64)">
+							<CreateFolder />
+							<RemoveFolder Id='SampleProjectJavaparserSrc' On='uninstall' />
+							<RegistryKey Action="none" Key="Software\[Manufacturer]\[ProductName]\SampleProjectJavaparserSrcFolderKey" Root="HKCU" >
+								<RegistryValue Type="integer" Value="1" KeyPath="yes" />
+							</RegistryKey>
+						</Component>
+						<Directory Id="SampleProjectJavaparserSrcMain" Name="main">
+							<Component Id="SampleProjectJavaparserSrcMainFolder" Guid="5FE4394F-7240-40F8-90E9-B1622AB2584F" Win64="$(var.Win64)">
+								<CreateFolder />
+								<RemoveFolder Id='SampleProjectJavaparserSrcMain' On='uninstall' />
+								<RegistryKey Action="none" Key="Software\[Manufacturer]\[ProductName]\SampleProjectJavaparserSrcMainFolderKey" Root="HKCU" >
+									<RegistryValue Type="integer" Value="1" KeyPath="yes" />
+								</RegistryKey>
 							</Component>
-						
-							<Directory Id="SampleProjectTictactoe" Name="tictactoe">
-								<Component Id="TictactoeCoatiproject" Guid="E353FD02-79FD-4409-9874-3282B038DD12">
+							<Directory Id="SampleProjectJavaparserSrcMainJava" Name="java">
+								<Component Id="SampleProjectJavaparserSrcMainJavaFolder" Guid="188F7773-E4F4-41A7-8644-0ED2F7945294" Win64="$(var.Win64)">
 									<CreateFolder />
-									<RemoveFolder Id='SampleProjectTictactoe' On='uninstall' />
-									<RegistryKey Action="none" Key="Software\[Manufacturer]\[ProductName]\tictactoeProjectKey" Root="HKCU" >
+									<RemoveFolder Id='SampleProjectJavaparserSrcMainJava' On='uninstall' />
+									<RegistryKey Action="none" Key="Software\[Manufacturer]\[ProductName]\SampleProjectJavaparserSrcMainJavaFolderKey" Root="HKCU" >
 										<RegistryValue Type="integer" Value="1" KeyPath="yes" />
 									</RegistryKey>
-									<File Id='TictactoeDb' Name='tictactoe.coatidb' DiskId='1' Source='./../../../bin/app/user/projects/tictactoe/tictactoe.coatidb' KeyPath='no' />
-									<File Id='TictactoeProject' Name='tictactoe.coatiproject' DiskId='1' Source='./../../../bin/app/user/projects/tictactoe/tictactoe.coatiproject' KeyPath='no' />
 								</Component>
-								
-								<Directory Id="TictactoeSrc" Name="src">
-									<Component Id="TictactoeCode" Guid="393ED988-A69D-4B10-974A-401EBB56C6A3">
+								<Directory Id="SampleProjectJavaparserSrcMainJavaCom" Name="com">
+									<Component Id="SampleProjectJavaparserSrcMainJavaComFolder" Guid="D658E654-6E34-4616-BBA8-56585AEA1610" Win64="$(var.Win64)">
 										<CreateFolder />
-										<RemoveFolder Id='TictactoeSrc' On='uninstall' />
-										<RegistryKey Action="none" Key="Software\[Manufacturer]\[ProductName]\tictactoeCodeKey" Root="HKCU" >
-											<RegistryValue Type="integer" Value="1" KeyPath="yes" />
-										</RegistryKey>
-										<File Id='ArtificialPlayer' Name='artificial_player.cpp' DiskId='1' Source='./../../../bin/app/user/projects/tictactoe/src/artificial_player.cpp' KeyPath='no' />
-										<File Id='ArtificialPlayerHeader' Name='artificial_player.h' DiskId='1' Source='./../../../bin/app/user/projects/tictactoe/src/artificial_player.h' KeyPath='no' />
-										<File Id='Field' Name='field.cpp' DiskId='1' Source='./../../../bin/app/user/projects/tictactoe/src/field.cpp' KeyPath='no' />
-										<File Id='FieldHeader' Name='field.h' DiskId='1' Source='./../../../bin/app/user/projects/tictactoe/src/field.h' KeyPath='no' />
-										
-										<File Id='HumanPlayer' Name='human_player.cpp' DiskId='1' Source='./../../../bin/app/user/projects/tictactoe/src/human_player.cpp' KeyPath='no' />
-										<File Id='HumanPlayerHeader' Name='human_player.h' DiskId='1' Source='./../../../bin/app/user/projects/tictactoe/src/human_player.h' KeyPath='no' />
-										
-										<File Id='IO' Name='io.cpp' DiskId='1' Source='./../../../bin/app/user/projects/tictactoe/src/io.cpp' KeyPath='no' />
-										<File Id='IOHeader' Name='io.h' DiskId='1' Source='./../../../bin/app/user/projects/tictactoe/src/io.h' KeyPath='no' />
-										
-										<File Id='tictactoeMain' Name='main.cpp' DiskId='1' Source='./../../../bin/app/user/projects/tictactoe/src/main.cpp' KeyPath='no' />
-										
-										<File Id='Player' Name='player.cpp' DiskId='1' Source='./../../../bin/app/user/projects/tictactoe/src/player.cpp' KeyPath='no' />
-										<File Id='PlayerHeader' Name='player.h' DiskId='1' Source='./../../../bin/app/user/projects/tictactoe/src/player.h' KeyPath='no' />
-										
-										<File Id='tictactoeFile' Name='tictactoe.cpp' DiskId='1' Source='./../../../bin/app/user/projects/tictactoe/src/tictactoe.cpp' KeyPath='no' />
-										<File Id='tictactoeHeader' Name='tictactoe.h' DiskId='1' Source='./../../../bin/app/user/projects/tictactoe/src/tictactoe.h' KeyPath='no' />
-									</Component>
-									
-								</Directory>
-								
-							</Directory>
-							
-							<Directory Id="SampleProjectTutorial" Name="tutorial">
-								<Component Id="TutorialCoatiproject" Guid="D7976D20-0447-4628-942B-0C8BE49E190E">
-									<CreateFolder />
-									<RemoveFolder Id='SampleProjectTutorial' On='uninstall' />
-									<RegistryKey Action="none" Key="Software\[Manufacturer]\[ProductName]\tutorialProjectKey" Root="HKCU" >
-										<RegistryValue Type="integer" Value="1" KeyPath="yes" />
-									</RegistryKey>
-									<File Id='TutorialDb' Name='tutorial.coatidb' DiskId='1' Source='./../../../bin/app/user/projects/tutorial/tutorial.coatidb' KeyPath='no' />
-									<File Id='TutorialProject' Name='tutorial.coatiproject' DiskId='1' Source='./../../../bin/app/user/projects/tutorial/tutorial.coatiproject' KeyPath='no' />
-								</Component>
-								
-								<Directory Id="TutorialSrc" Name="src">
-									<Component Id="TutorialCode" Guid="DA247C7A-16F4-4297-928D-02C713B9967A">
-										<CreateFolder />
-										<RemoveFolder Id='TutorialSrc' On='uninstall' />
-										<RegistryKey Action="none" Key="Software\[Manufacturer]\[ProductName]\tutorialCodeKey" Root="HKCU" >
-											<RegistryValue Type="integer" Value="1" KeyPath="yes" />
-										</RegistryKey>
-										
-										<File Id='CodeTutorial1Header' Name='code_tutorial_1.h' DiskId='1' Source='./../../../bin/app/user/projects/tutorial/src/code_tutorial_1.h' KeyPath='no' />
-										<File Id='CodeTutorial2Header' Name='code_tutorial_2.h' DiskId='1' Source='./../../../bin/app/user/projects/tutorial/src/code_tutorial_2.h' KeyPath='no' />
-										<File Id='CodeTutorial3Header' Name='code_tutorial_3.h' DiskId='1' Source='./../../../bin/app/user/projects/tutorial/src/code_tutorial_3.h' KeyPath='no' />
-										<File Id='GraphTutorial1Header' Name='graph_tutorial_1.h' DiskId='1' Source='./../../../bin/app/user/projects/tutorial/src/graph_tutorial_1.h' KeyPath='no' />
-										<File Id='GraphTutorial2Header' Name='graph_tutorial_2.h' DiskId='1' Source='./../../../bin/app/user/projects/tutorial/src/graph_tutorial_2.h' KeyPath='no' />
-										<File Id='GraphTutorial3Header' Name='graph_tutorial_3.h' DiskId='1' Source='./../../../bin/app/user/projects/tutorial/src/graph_tutorial_3.h' KeyPath='no' />
-										<File Id='GraphTutorial4Header' Name='graph_tutorial_4.h' DiskId='1' Source='./../../../bin/app/user/projects/tutorial/src/graph_tutorial_4.h' KeyPath='no' />
-										<File Id='MainCpp' Name='main.cpp' DiskId='1' Source='./../../../bin/app/user/projects/tutorial/src/main.cpp' KeyPath='no' />
-										<File Id='MyFirstStepHeader' Name='my_first_step.h' DiskId='1' Source='./../../../bin/app/user/projects/tutorial/src/my_first_step.h' KeyPath='no' />
-										<File Id='MyNextStepHeader' Name='my_next_step.h' DiskId='1' Source='./../../../bin/app/user/projects/tutorial/src/my_next_step.h' KeyPath='no' />
-										<File Id='SearchTutorial1Header' Name='search_tutorial_1.h' DiskId='1' Source='./../../../bin/app/user/projects/tutorial/src/search_tutorial_1.h' KeyPath='no' />
-										<File Id='SearchTutorial2Header' Name='search_tutorial_2.h' DiskId='1' Source='./../../../bin/app/user/projects/tutorial/src/search_tutorial_2.h' KeyPath='no' />
-										<File Id='SearchTutorial3Header' Name='search_tutorial_3.h' DiskId='1' Source='./../../../bin/app/user/projects/tutorial/src/search_tutorial_3.h' KeyPath='no' />
-										<File Id='SearchTutorial4Header' Name='search_tutorial_4.h' DiskId='1' Source='./../../../bin/app/user/projects/tutorial/src/search_tutorial_4.h' KeyPath='no' />
-										<File Id='SearchTutorial5Header' Name='search_tutorial_5.h' DiskId='1' Source='./../../../bin/app/user/projects/tutorial/src/search_tutorial_5.h' KeyPath='no' />
-										<File Id='StartExploringHeader' Name='start_exploring.h' DiskId='1' Source='./../../../bin/app/user/projects/tutorial/src/start_exploring.h' KeyPath='no' />
-										<File Id='TheCentralHubHeader' Name='the_central_hub.h' DiskId='1' Source='./../../../bin/app/user/projects/tutorial/src/the_central_hub.h' KeyPath='no' />
-										<File Id='UtilityHeader' Name='utility.h' DiskId='1' Source='./../../../bin/app/user/projects/tutorial/src/utility.h' KeyPath='no' />
-									</Component>
-								</Directory>
-								
-							</Directory>
-							
-							<Directory Id="SampleProjectJavaparser" Name="javaparser">
-								<Component Id="JavaparserCoatiproject" Guid="39B413EF-C9F4-4B06-BF91-028C7D931303">
-									<CreateFolder />
-									<RemoveFolder Id='SampleProjectJavaparser' On='uninstall' />
-									<RegistryKey Action="none" Key="Software\[Manufacturer]\[ProductName]\JavaparserCoatiprojectKey" Root="HKCU" >
-										<RegistryValue Type="integer" Value="1" KeyPath="yes" />
-									</RegistryKey>
-									<File Id='JavaparserDb' Name='javaparser.coatidb' DiskId='1' Source='./../../../bin/app/user/projects/javaparser/javaparser.coatidb' KeyPath='no' />
-									<File Id='JavaparserProject' Name='javaparser.coatiproject' DiskId='1' Source='./../../../bin/app/user/projects/javaparser/javaparser.coatiproject' KeyPath='no' />
-								</Component>
-								<Directory Id="SampleProjectJavaparserSrc" Name="src">
-									<Component Id="SampleProjectJavaparserSrcFolder" Guid="560AEF91-AE8A-485B-BC69-928D3584EE05">
-										<CreateFolder />
-										<RemoveFolder Id='SampleProjectJavaparserSrc' On='uninstall' />
-										<RegistryKey Action="none" Key="Software\[Manufacturer]\[ProductName]\SampleProjectJavaparserSrcFolderKey" Root="HKCU" >
+										<RemoveFolder Id='SampleProjectJavaparserSrcMainJavaCom' On='uninstall' />
+										<RegistryKey Action="none" Key="Software\[Manufacturer]\[ProductName]\SampleProjectJavaparserSrcMainJavaComFolderKey" Root="HKCU" >
 											<RegistryValue Type="integer" Value="1" KeyPath="yes" />
 										</RegistryKey>
 									</Component>
-									<Directory Id="SampleProjectJavaparserSrcMain" Name="main">
-										<Component Id="SampleProjectJavaparserSrcMainFolder" Guid="5FE4394F-7240-40F8-90E9-B1622AB2584F">
+									<Directory Id="SampleProjectJavaparserSrcMainJavaComGithub" Name="github">
+										<Component Id="SampleProjectJavaparserSrcMainJavaComGithubFolder" Guid="455B534F-AD59-46DD-A11D-1C4E97887614" Win64="$(var.Win64)">
 											<CreateFolder />
-											<RemoveFolder Id='SampleProjectJavaparserSrcMain' On='uninstall' />
-											<RegistryKey Action="none" Key="Software\[Manufacturer]\[ProductName]\SampleProjectJavaparserSrcMainFolderKey" Root="HKCU" >
+											<RemoveFolder Id='SampleProjectJavaparserSrcMainJavaComGithub' On='uninstall' />
+											<RegistryKey Action="none" Key="Software\[Manufacturer]\[ProductName]\SampleProjectJavaparserSrcMainJavaComGithubFolderKey" Root="HKCU" >
 												<RegistryValue Type="integer" Value="1" KeyPath="yes" />
 											</RegistryKey>
 										</Component>
-										<Directory Id="SampleProjectJavaparserSrcMainJava" Name="java">
-											<Component Id="SampleProjectJavaparserSrcMainJavaFolder" Guid="188F7773-E4F4-41A7-8644-0ED2F7945294">
+										<Directory Id="SampleProjectJavaparserSrcMainJavaComGithubJavaparser" Name="javaparser">
+											<Component Id="SampleProjectJavaparserSrcMainJavaComGithubJavaparserCode" Guid="80C369E9-CC0D-4C3D-A916-DC7BB42E6414" Win64="$(var.Win64)">
 												<CreateFolder />
-												<RemoveFolder Id='SampleProjectJavaparserSrcMainJava' On='uninstall' />
-												<RegistryKey Action="none" Key="Software\[Manufacturer]\[ProductName]\SampleProjectJavaparserSrcMainJavaFolderKey" Root="HKCU" >
+												<RemoveFolder Id='SampleProjectJavaparserSrcMainJavaComGithubJavaparser' On='uninstall' />
+												<RegistryKey Action="none" Key="Software\[Manufacturer]\[ProductName]\SampleProjectJavaparserSrcMainJavaComGithubJavaparserCodeKey" Root="HKCU" >
 													<RegistryValue Type="integer" Value="1" KeyPath="yes" />
 												</RegistryKey>
+												<File Id='CommentsInserterJava' Name='CommentsInserter.java' DiskId='1' Source='./../../../bin/app/user/projects/javaparser/src/main/java/com/github/javaparser/CommentsInserter.java' KeyPath='no' />
+												<File Id='JavaParserJava' Name='JavaParser.java' DiskId='1' Source='./../../../bin/app/user/projects/javaparser/src/main/java/com/github/javaparser/JavaParser.java' KeyPath='no' />
+												<File Id='PositionJava' Name='Position.java' DiskId='1' Source='./../../../bin/app/user/projects/javaparser/src/main/java/com/github/javaparser/Position.java' KeyPath='no' />
+												<File Id='RangeJava' Name='Range.java' DiskId='1' Source='./../../../bin/app/user/projects/javaparser/src/main/java/com/github/javaparser/Range.java' KeyPath='no' />
 											</Component>
-											<Directory Id="SampleProjectJavaparserSrcMainJavaCom" Name="com">
-												<Component Id="SampleProjectJavaparserSrcMainJavaComFolder" Guid="D658E654-6E34-4616-BBA8-56585AEA1610">
+											<Directory Id="SampleProjectJavaparserSrcMainJavaComGithubJavaparserAst" Name="ast">
+												<Component Id="SampleProjectJavaparserSrcMainJavaComGithubJavaparserAstCode" Guid="5DEA3889-E49D-450A-A6E8-E1A3C122D403" Win64="$(var.Win64)">
 													<CreateFolder />
-													<RemoveFolder Id='SampleProjectJavaparserSrcMainJavaCom' On='uninstall' />
-													<RegistryKey Action="none" Key="Software\[Manufacturer]\[ProductName]\SampleProjectJavaparserSrcMainJavaComFolderKey" Root="HKCU" >
+													<RemoveFolder Id='SampleProjectJavaparserSrcMainJavaComGithubJavaparserAst' On='uninstall' />
+													<RegistryKey Action="none" Key="Software\[Manufacturer]\[ProductName]\SampleProjectJavaparserSrcMainJavaComGithubJavaparserAstCodeKey" Root="HKCU" >
 														<RegistryValue Type="integer" Value="1" KeyPath="yes" />
 													</RegistryKey>
+													<File Id='AccessSpecifierJava' Name='AccessSpecifier.java' DiskId='1' Source='./../../../bin/app/user/projects/javaparser/src/main/java/com/github/javaparser/ast/AccessSpecifier.java' KeyPath='no' />
+													<File Id='CompilationUnitJava' Name='CompilationUnit.java' DiskId='1' Source='./../../../bin/app/user/projects/javaparser/src/main/java/com/github/javaparser/ast/CompilationUnit.java' KeyPath='no' />
+													<File Id='ImportDeclarationJava' Name='ImportDeclaration.java' DiskId='1' Source='./../../../bin/app/user/projects/javaparser/src/main/java/com/github/javaparser/ast/ImportDeclaration.java' KeyPath='no' />
+													<File Id='ModifierJava' Name='Modifier.java' DiskId='1' Source='./../../../bin/app/user/projects/javaparser/src/main/java/com/github/javaparser/ast/Modifier.java' KeyPath='no' />
+													<File Id='NodeJava' Name='Node.java' DiskId='1' Source='./../../../bin/app/user/projects/javaparser/src/main/java/com/github/javaparser/ast/Node.java' KeyPath='no' />
+													<File Id='PackageDeclarationJava' Name='PackageDeclaration.java' DiskId='1' Source='./../../../bin/app/user/projects/javaparser/src/main/java/com/github/javaparser/ast/PackageDeclaration.java' KeyPath='no' />
+													<File Id='TypeArgumentsJava' Name='TypeArguments.java' DiskId='1' Source='./../../../bin/app/user/projects/javaparser/src/main/java/com/github/javaparser/ast/TypeArguments.java' KeyPath='no' />
+													<File Id='TypeParameterJava' Name='TypeParameter.java' DiskId='1' Source='./../../../bin/app/user/projects/javaparser/src/main/java/com/github/javaparser/ast/TypeParameter.java' KeyPath='no' />
 												</Component>
-												<Directory Id="SampleProjectJavaparserSrcMainJavaComGithub" Name="github">
-													<Component Id="SampleProjectJavaparserSrcMainJavaComGithubFolder" Guid="455B534F-AD59-46DD-A11D-1C4E97887614">
+												<Directory Id="SampleProjectJavaparserSrcMainJavaComGithubJavaparserAstBody" Name="body">
+													<Component Id="SampleProjectJavaparserSrcMainJavaComGithubJavaparserAstBodyCode" Guid="A6D857E0-F9D2-45FE-884A-D647B2C966C8" Win64="$(var.Win64)">
 														<CreateFolder />
-														<RemoveFolder Id='SampleProjectJavaparserSrcMainJavaComGithub' On='uninstall' />
-														<RegistryKey Action="none" Key="Software\[Manufacturer]\[ProductName]\SampleProjectJavaparserSrcMainJavaComGithubFolderKey" Root="HKCU" >
+														<RemoveFolder Id='SampleProjectJavaparserSrcMainJavaComGithubJavaparserAstBody' On='uninstall' />
+														<RegistryKey Action="none" Key="Software\[Manufacturer]\[ProductName]\SampleProjectJavaparserSrcMainJavaComGithubJavaparserAstBodyCodeKey" Root="HKCU" >
 															<RegistryValue Type="integer" Value="1" KeyPath="yes" />
 														</RegistryKey>
+														<File Id='AnnotationDeclarationJava' Name='AnnotationDeclaration.java' DiskId='1' Source='./../../../bin/app/user/projects/javaparser/src/main/java/com/github/javaparser/ast/body/AnnotationDeclaration.java' KeyPath='no' />
+														<File Id='AnnotationMemberDeclarationJava' Name='AnnotationMemberDeclaration.java' DiskId='1' Source='./../../../bin/app/user/projects/javaparser/src/main/java/com/github/javaparser/ast/body/AnnotationMemberDeclaration.java' KeyPath='no' />
+														<File Id='BaseParameterJava' Name='BaseParameter.java' DiskId='1' Source='./../../../bin/app/user/projects/javaparser/src/main/java/com/github/javaparser/ast/body/BaseParameter.java' KeyPath='no' />
+														<File Id='BodyDeclarationJava' Name='BodyDeclaration.java' DiskId='1' Source='./../../../bin/app/user/projects/javaparser/src/main/java/com/github/javaparser/ast/body/BodyDeclaration.java' KeyPath='no' />
+														<File Id='ClassOrInterfaceDeclarationJava' Name='ClassOrInterfaceDeclaration.java' DiskId='1' Source='./../../../bin/app/user/projects/javaparser/src/main/java/com/github/javaparser/ast/body/ClassOrInterfaceDeclaration.java' KeyPath='no' />
+														<File Id='ConstructorDeclarationJava' Name='ConstructorDeclaration.java' DiskId='1' Source='./../../../bin/app/user/projects/javaparser/src/main/java/com/github/javaparser/ast/body/ConstructorDeclaration.java' KeyPath='no' />
+														<File Id='EmptyMemberDeclarationJava' Name='EmptyMemberDeclaration.java' DiskId='1' Source='./../../../bin/app/user/projects/javaparser/src/main/java/com/github/javaparser/ast/body/EmptyMemberDeclaration.java' KeyPath='no' />
+														<File Id='EmptyTypeDeclarationJava' Name='EmptyTypeDeclaration.java' DiskId='1' Source='./../../../bin/app/user/projects/javaparser/src/main/java/com/github/javaparser/ast/body/EmptyTypeDeclaration.java' KeyPath='no' />
+														<File Id='EnumConstantDeclarationJava' Name='EnumConstantDeclaration.java' DiskId='1' Source='./../../../bin/app/user/projects/javaparser/src/main/java/com/github/javaparser/ast/body/EnumConstantDeclaration.java' KeyPath='no' />
+														<File Id='EnumDeclarationJava' Name='EnumDeclaration.java' DiskId='1' Source='./../../../bin/app/user/projects/javaparser/src/main/java/com/github/javaparser/ast/body/EnumDeclaration.java' KeyPath='no' />
+														<File Id='FieldDeclarationJava' Name='FieldDeclaration.java' DiskId='1' Source='./../../../bin/app/user/projects/javaparser/src/main/java/com/github/javaparser/ast/body/FieldDeclaration.java' KeyPath='no' />
+														<File Id='InitializerDeclarationJava' Name='InitializerDeclaration.java' DiskId='1' Source='./../../../bin/app/user/projects/javaparser/src/main/java/com/github/javaparser/ast/body/InitializerDeclaration.java' KeyPath='no' />
+														<File Id='MethodDeclarationJava' Name='MethodDeclaration.java' DiskId='1' Source='./../../../bin/app/user/projects/javaparser/src/main/java/com/github/javaparser/ast/body/MethodDeclaration.java' KeyPath='no' />
+														<File Id='MultiTypeParameterJava' Name='MultiTypeParameter.java' DiskId='1' Source='./../../../bin/app/user/projects/javaparser/src/main/java/com/github/javaparser/ast/body/MultiTypeParameter.java' KeyPath='no' />
+														<File Id='ParameterJava' Name='Parameter.java' DiskId='1' Source='./../../../bin/app/user/projects/javaparser/src/main/java/com/github/javaparser/ast/body/Parameter.java' KeyPath='no' />
+														<File Id='TypeDeclarationJava' Name='TypeDeclaration.java' DiskId='1' Source='./../../../bin/app/user/projects/javaparser/src/main/java/com/github/javaparser/ast/body/TypeDeclaration.java' KeyPath='no' />
+														<File Id='VariableDeclaratorJava' Name='VariableDeclarator.java' DiskId='1' Source='./../../../bin/app/user/projects/javaparser/src/main/java/com/github/javaparser/ast/body/VariableDeclarator.java' KeyPath='no' />
+														<File Id='VariableDeclaratorIdJava' Name='VariableDeclaratorId.java' DiskId='1' Source='./../../../bin/app/user/projects/javaparser/src/main/java/com/github/javaparser/ast/body/VariableDeclaratorId.java' KeyPath='no' />
 													</Component>
-													<Directory Id="SampleProjectJavaparserSrcMainJavaComGithubJavaparser" Name="javaparser">
-														<Component Id="SampleProjectJavaparserSrcMainJavaComGithubJavaparserCode" Guid="80C369E9-CC0D-4C3D-A916-DC7BB42E6414">
-															<CreateFolder />
-															<RemoveFolder Id='SampleProjectJavaparserSrcMainJavaComGithubJavaparser' On='uninstall' />
-															<RegistryKey Action="none" Key="Software\[Manufacturer]\[ProductName]\SampleProjectJavaparserSrcMainJavaComGithubJavaparserCodeKey" Root="HKCU" >
-																<RegistryValue Type="integer" Value="1" KeyPath="yes" />
-															</RegistryKey>
-															<File Id='CommentsInserterJava' Name='CommentsInserter.java' DiskId='1' Source='./../../../bin/app/user/projects/javaparser/src/main/java/com/github/javaparser/CommentsInserter.java' KeyPath='no' />
-															<File Id='JavaParserJava' Name='JavaParser.java' DiskId='1' Source='./../../../bin/app/user/projects/javaparser/src/main/java/com/github/javaparser/JavaParser.java' KeyPath='no' />
-															<File Id='PositionJava' Name='Position.java' DiskId='1' Source='./../../../bin/app/user/projects/javaparser/src/main/java/com/github/javaparser/Position.java' KeyPath='no' />
-															<File Id='RangeJava' Name='Range.java' DiskId='1' Source='./../../../bin/app/user/projects/javaparser/src/main/java/com/github/javaparser/Range.java' KeyPath='no' />
-														</Component>
-														<Directory Id="SampleProjectJavaparserSrcMainJavaComGithubJavaparserAst" Name="ast">
-															<Component Id="SampleProjectJavaparserSrcMainJavaComGithubJavaparserAstCode" Guid="5DEA3889-E49D-450A-A6E8-E1A3C122D403">
-																<CreateFolder />
-																<RemoveFolder Id='SampleProjectJavaparserSrcMainJavaComGithubJavaparserAst' On='uninstall' />
-																<RegistryKey Action="none" Key="Software\[Manufacturer]\[ProductName]\SampleProjectJavaparserSrcMainJavaComGithubJavaparserAstCodeKey" Root="HKCU" >
-																	<RegistryValue Type="integer" Value="1" KeyPath="yes" />
-																</RegistryKey>
-																<File Id='AccessSpecifierJava' Name='AccessSpecifier.java' DiskId='1' Source='./../../../bin/app/user/projects/javaparser/src/main/java/com/github/javaparser/ast/AccessSpecifier.java' KeyPath='no' />
-																<File Id='CompilationUnitJava' Name='CompilationUnit.java' DiskId='1' Source='./../../../bin/app/user/projects/javaparser/src/main/java/com/github/javaparser/ast/CompilationUnit.java' KeyPath='no' />
-																<File Id='ImportDeclarationJava' Name='ImportDeclaration.java' DiskId='1' Source='./../../../bin/app/user/projects/javaparser/src/main/java/com/github/javaparser/ast/ImportDeclaration.java' KeyPath='no' />
-																<File Id='ModifierJava' Name='Modifier.java' DiskId='1' Source='./../../../bin/app/user/projects/javaparser/src/main/java/com/github/javaparser/ast/Modifier.java' KeyPath='no' />
-																<File Id='NodeJava' Name='Node.java' DiskId='1' Source='./../../../bin/app/user/projects/javaparser/src/main/java/com/github/javaparser/ast/Node.java' KeyPath='no' />
-																<File Id='PackageDeclarationJava' Name='PackageDeclaration.java' DiskId='1' Source='./../../../bin/app/user/projects/javaparser/src/main/java/com/github/javaparser/ast/PackageDeclaration.java' KeyPath='no' />
-																<File Id='TypeArgumentsJava' Name='TypeArguments.java' DiskId='1' Source='./../../../bin/app/user/projects/javaparser/src/main/java/com/github/javaparser/ast/TypeArguments.java' KeyPath='no' />
-																<File Id='TypeParameterJava' Name='TypeParameter.java' DiskId='1' Source='./../../../bin/app/user/projects/javaparser/src/main/java/com/github/javaparser/ast/TypeParameter.java' KeyPath='no' />
-															</Component>
-															<Directory Id="SampleProjectJavaparserSrcMainJavaComGithubJavaparserAstBody" Name="body">
-																<Component Id="SampleProjectJavaparserSrcMainJavaComGithubJavaparserAstBodyCode" Guid="A6D857E0-F9D2-45FE-884A-D647B2C966C8">
-																	<CreateFolder />
-																	<RemoveFolder Id='SampleProjectJavaparserSrcMainJavaComGithubJavaparserAstBody' On='uninstall' />
-																	<RegistryKey Action="none" Key="Software\[Manufacturer]\[ProductName]\SampleProjectJavaparserSrcMainJavaComGithubJavaparserAstBodyCodeKey" Root="HKCU" >
-																		<RegistryValue Type="integer" Value="1" KeyPath="yes" />
-																	</RegistryKey>
-																	<File Id='AnnotationDeclarationJava' Name='AnnotationDeclaration.java' DiskId='1' Source='./../../../bin/app/user/projects/javaparser/src/main/java/com/github/javaparser/ast/body/AnnotationDeclaration.java' KeyPath='no' />
-																	<File Id='AnnotationMemberDeclarationJava' Name='AnnotationMemberDeclaration.java' DiskId='1' Source='./../../../bin/app/user/projects/javaparser/src/main/java/com/github/javaparser/ast/body/AnnotationMemberDeclaration.java' KeyPath='no' />
-																	<File Id='BaseParameterJava' Name='BaseParameter.java' DiskId='1' Source='./../../../bin/app/user/projects/javaparser/src/main/java/com/github/javaparser/ast/body/BaseParameter.java' KeyPath='no' />
-																	<File Id='BodyDeclarationJava' Name='BodyDeclaration.java' DiskId='1' Source='./../../../bin/app/user/projects/javaparser/src/main/java/com/github/javaparser/ast/body/BodyDeclaration.java' KeyPath='no' />
-																	<File Id='ClassOrInterfaceDeclarationJava' Name='ClassOrInterfaceDeclaration.java' DiskId='1' Source='./../../../bin/app/user/projects/javaparser/src/main/java/com/github/javaparser/ast/body/ClassOrInterfaceDeclaration.java' KeyPath='no' />
-																	<File Id='ConstructorDeclarationJava' Name='ConstructorDeclaration.java' DiskId='1' Source='./../../../bin/app/user/projects/javaparser/src/main/java/com/github/javaparser/ast/body/ConstructorDeclaration.java' KeyPath='no' />
-																	<File Id='EmptyMemberDeclarationJava' Name='EmptyMemberDeclaration.java' DiskId='1' Source='./../../../bin/app/user/projects/javaparser/src/main/java/com/github/javaparser/ast/body/EmptyMemberDeclaration.java' KeyPath='no' />
-																	<File Id='EmptyTypeDeclarationJava' Name='EmptyTypeDeclaration.java' DiskId='1' Source='./../../../bin/app/user/projects/javaparser/src/main/java/com/github/javaparser/ast/body/EmptyTypeDeclaration.java' KeyPath='no' />
-																	<File Id='EnumConstantDeclarationJava' Name='EnumConstantDeclaration.java' DiskId='1' Source='./../../../bin/app/user/projects/javaparser/src/main/java/com/github/javaparser/ast/body/EnumConstantDeclaration.java' KeyPath='no' />
-																	<File Id='EnumDeclarationJava' Name='EnumDeclaration.java' DiskId='1' Source='./../../../bin/app/user/projects/javaparser/src/main/java/com/github/javaparser/ast/body/EnumDeclaration.java' KeyPath='no' />
-																	<File Id='FieldDeclarationJava' Name='FieldDeclaration.java' DiskId='1' Source='./../../../bin/app/user/projects/javaparser/src/main/java/com/github/javaparser/ast/body/FieldDeclaration.java' KeyPath='no' />
-																	<File Id='InitializerDeclarationJava' Name='InitializerDeclaration.java' DiskId='1' Source='./../../../bin/app/user/projects/javaparser/src/main/java/com/github/javaparser/ast/body/InitializerDeclaration.java' KeyPath='no' />
-																	<File Id='MethodDeclarationJava' Name='MethodDeclaration.java' DiskId='1' Source='./../../../bin/app/user/projects/javaparser/src/main/java/com/github/javaparser/ast/body/MethodDeclaration.java' KeyPath='no' />
-																	<File Id='MultiTypeParameterJava' Name='MultiTypeParameter.java' DiskId='1' Source='./../../../bin/app/user/projects/javaparser/src/main/java/com/github/javaparser/ast/body/MultiTypeParameter.java' KeyPath='no' />
-																	<File Id='ParameterJava' Name='Parameter.java' DiskId='1' Source='./../../../bin/app/user/projects/javaparser/src/main/java/com/github/javaparser/ast/body/Parameter.java' KeyPath='no' />
-																	<File Id='TypeDeclarationJava' Name='TypeDeclaration.java' DiskId='1' Source='./../../../bin/app/user/projects/javaparser/src/main/java/com/github/javaparser/ast/body/TypeDeclaration.java' KeyPath='no' />
-																	<File Id='VariableDeclaratorJava' Name='VariableDeclarator.java' DiskId='1' Source='./../../../bin/app/user/projects/javaparser/src/main/java/com/github/javaparser/ast/body/VariableDeclarator.java' KeyPath='no' />
-																	<File Id='VariableDeclaratorIdJava' Name='VariableDeclaratorId.java' DiskId='1' Source='./../../../bin/app/user/projects/javaparser/src/main/java/com/github/javaparser/ast/body/VariableDeclaratorId.java' KeyPath='no' />
-																</Component>
-															</Directory>
-															<Directory Id="SampleProjectJavaparserSrcMainJavaComGithubJavaparserAstComments" Name="comments">
-																<Component Id="SampleProjectJavaparserSrcMainJavaComGithubJavaparserAstCommentsCode" Guid="6CFE2814-2D70-4235-AC29-FCF6CA5A3D03">
-																	<CreateFolder />
-																	<RemoveFolder Id='SampleProjectJavaparserSrcMainJavaComGithubJavaparserAstComments' On='uninstall' />
-																	<RegistryKey Action="none" Key="Software\[Manufacturer]\[ProductName]\SampleProjectJavaparserSrcMainJavaComGithubJavaparserAstCommentsCodeKey" Root="HKCU" >
-																		<RegistryValue Type="integer" Value="1" KeyPath="yes" />
-																	</RegistryKey>
-																	<File Id='BlockCommentJava' Name='BlockComment.java' DiskId='1' Source='./../../../bin/app/user/projects/javaparser/src/main/java/com/github/javaparser/ast/comments/BlockComment.java' KeyPath='no' />
-																	<File Id='CommentJava' Name='Comment.java' DiskId='1' Source='./../../../bin/app/user/projects/javaparser/src/main/java/com/github/javaparser/ast/comments/Comment.java' KeyPath='no' />
-																	<File Id='CommentsCollectionJava' Name='CommentsCollection.java' DiskId='1' Source='./../../../bin/app/user/projects/javaparser/src/main/java/com/github/javaparser/ast/comments/CommentsCollection.java' KeyPath='no' />
-																	<File Id='CommentsParserJava' Name='CommentsParser.java' DiskId='1' Source='./../../../bin/app/user/projects/javaparser/src/main/java/com/github/javaparser/ast/comments/CommentsParser.java' KeyPath='no' />
-																	<File Id='JavadocCommentJava' Name='JavadocComment.java' DiskId='1' Source='./../../../bin/app/user/projects/javaparser/src/main/java/com/github/javaparser/ast/comments/JavadocComment.java' KeyPath='no' />
-																	<File Id='LineCommentJava' Name='LineComment.java' DiskId='1' Source='./../../../bin/app/user/projects/javaparser/src/main/java/com/github/javaparser/ast/comments/LineComment.java' KeyPath='no' />
-																</Component>
-															</Directory>
-															<Directory Id="SampleProjectJavaparserSrcMainJavaComGithubJavaparserAstExpr" Name="expr">
-																<Component Id="SampleProjectJavaparserSrcMainJavaComGithubJavaparserAstExprCode" Guid="BAB7B080-9D4E-439A-946D-BF8B1A640170">
-																	<CreateFolder />
-																	<RemoveFolder Id='SampleProjectJavaparserSrcMainJavaComGithubJavaparserAstExpr' On='uninstall' />
-																	<RegistryKey Action="none" Key="Software\[Manufacturer]\[ProductName]\SampleProjectJavaparserSrcMainJavaComGithubJavaparserAstExprCodeKey" Root="HKCU" >
-																		<RegistryValue Type="integer" Value="1" KeyPath="yes" />
-																	</RegistryKey>
-																	<File Id='AnnotationExprJava' Name='AnnotationExpr.java' DiskId='1' Source='./../../../bin/app/user/projects/javaparser/src/main/java/com/github/javaparser/ast/expr/AnnotationExpr.java' KeyPath='no' />
-																	<File Id='ArrayAccessExprJava' Name='ArrayAccessExpr.java' DiskId='1' Source='./../../../bin/app/user/projects/javaparser/src/main/java/com/github/javaparser/ast/expr/ArrayAccessExpr.java' KeyPath='no' />
-																	<File Id='ArrayCreationExprJava' Name='ArrayCreationExpr.java' DiskId='1' Source='./../../../bin/app/user/projects/javaparser/src/main/java/com/github/javaparser/ast/expr/ArrayCreationExpr.java' KeyPath='no' />
-																	<File Id='ArrayInitializerExprJava' Name='ArrayInitializerExpr.java' DiskId='1' Source='./../../../bin/app/user/projects/javaparser/src/main/java/com/github/javaparser/ast/expr/ArrayInitializerExpr.java' KeyPath='no' />
-																	<File Id='AssignExprJava' Name='AssignExpr.java' DiskId='1' Source='./../../../bin/app/user/projects/javaparser/src/main/java/com/github/javaparser/ast/expr/AssignExpr.java' KeyPath='no' />
-																	<File Id='BinaryExprJava' Name='BinaryExpr.java' DiskId='1' Source='./../../../bin/app/user/projects/javaparser/src/main/java/com/github/javaparser/ast/expr/BinaryExpr.java' KeyPath='no' />
-																	<File Id='BooleanLiteralExprJava' Name='BooleanLiteralExpr.java' DiskId='1' Source='./../../../bin/app/user/projects/javaparser/src/main/java/com/github/javaparser/ast/expr/BooleanLiteralExpr.java' KeyPath='no' />
-																	<File Id='CastExprJava' Name='CastExpr.java' DiskId='1' Source='./../../../bin/app/user/projects/javaparser/src/main/java/com/github/javaparser/ast/expr/CastExpr.java' KeyPath='no' />
-																	<File Id='CharLiteralExprJava' Name='CharLiteralExpr.java' DiskId='1' Source='./../../../bin/app/user/projects/javaparser/src/main/java/com/github/javaparser/ast/expr/CharLiteralExpr.java' KeyPath='no' />
-																	<File Id='ClassExprJava' Name='ClassExpr.java' DiskId='1' Source='./../../../bin/app/user/projects/javaparser/src/main/java/com/github/javaparser/ast/expr/ClassExpr.java' KeyPath='no' />
-																	<File Id='ConditionalExprJava' Name='ConditionalExpr.java' DiskId='1' Source='./../../../bin/app/user/projects/javaparser/src/main/java/com/github/javaparser/ast/expr/ConditionalExpr.java' KeyPath='no' />
-																	<File Id='DoubleLiteralExprJava' Name='DoubleLiteralExpr.java' DiskId='1' Source='./../../../bin/app/user/projects/javaparser/src/main/java/com/github/javaparser/ast/expr/DoubleLiteralExpr.java' KeyPath='no' />
-																	<File Id='EnclosedExprJava' Name='EnclosedExpr.java' DiskId='1' Source='./../../../bin/app/user/projects/javaparser/src/main/java/com/github/javaparser/ast/expr/EnclosedExpr.java' KeyPath='no' />
-																	<File Id='ExpressionJava' Name='Expression.java' DiskId='1' Source='./../../../bin/app/user/projects/javaparser/src/main/java/com/github/javaparser/ast/expr/Expression.java' KeyPath='no' />
-																	<File Id='FieldAccessExprJava' Name='FieldAccessExpr.java' DiskId='1' Source='./../../../bin/app/user/projects/javaparser/src/main/java/com/github/javaparser/ast/expr/FieldAccessExpr.java' KeyPath='no' />
-																	<File Id='InstanceOfExprJava' Name='InstanceOfExpr.java' DiskId='1' Source='./../../../bin/app/user/projects/javaparser/src/main/java/com/github/javaparser/ast/expr/InstanceOfExpr.java' KeyPath='no' />
-																	<File Id='IntegerLiteralExprJava' Name='IntegerLiteralExpr.java' DiskId='1' Source='./../../../bin/app/user/projects/javaparser/src/main/java/com/github/javaparser/ast/expr/IntegerLiteralExpr.java' KeyPath='no' />
-																	<File Id='IntegerLiteralMinValueExprJava' Name='IntegerLiteralMinValueExpr.java' DiskId='1' Source='./../../../bin/app/user/projects/javaparser/src/main/java/com/github/javaparser/ast/expr/IntegerLiteralMinValueExpr.java' KeyPath='no' />
-																	<File Id='LambdaExprJava' Name='LambdaExpr.java' DiskId='1' Source='./../../../bin/app/user/projects/javaparser/src/main/java/com/github/javaparser/ast/expr/LambdaExpr.java' KeyPath='no' />
-																	<File Id='LiteralExprJava' Name='LiteralExpr.java' DiskId='1' Source='./../../../bin/app/user/projects/javaparser/src/main/java/com/github/javaparser/ast/expr/LiteralExpr.java' KeyPath='no' />
-																	<File Id='LongLiteralExprJava' Name='LongLiteralExpr.java' DiskId='1' Source='./../../../bin/app/user/projects/javaparser/src/main/java/com/github/javaparser/ast/expr/LongLiteralExpr.java' KeyPath='no' />
-																	<File Id='LongLiteralMinValueExprJava' Name='LongLiteralMinValueExpr.java' DiskId='1' Source='./../../../bin/app/user/projects/javaparser/src/main/java/com/github/javaparser/ast/expr/LongLiteralMinValueExpr.java' KeyPath='no' />
-																	<File Id='MarkerAnnotationExprJava' Name='MarkerAnnotationExpr.java' DiskId='1' Source='./../../../bin/app/user/projects/javaparser/src/main/java/com/github/javaparser/ast/expr/MarkerAnnotationExpr.java' KeyPath='no' />
-																	<File Id='MemberValuePairJava' Name='MemberValuePair.java' DiskId='1' Source='./../../../bin/app/user/projects/javaparser/src/main/java/com/github/javaparser/ast/expr/MemberValuePair.java' KeyPath='no' />
-																	<File Id='MethodCallExprJava' Name='MethodCallExpr.java' DiskId='1' Source='./../../../bin/app/user/projects/javaparser/src/main/java/com/github/javaparser/ast/expr/MethodCallExpr.java' KeyPath='no' />
-																	<File Id='MethodReferenceExprJava' Name='MethodReferenceExpr.java' DiskId='1' Source='./../../../bin/app/user/projects/javaparser/src/main/java/com/github/javaparser/ast/expr/MethodReferenceExpr.java' KeyPath='no' />
-																	<File Id='NameExprJava' Name='NameExpr.java' DiskId='1' Source='./../../../bin/app/user/projects/javaparser/src/main/java/com/github/javaparser/ast/expr/NameExpr.java' KeyPath='no' />
-																	<File Id='NormalAnnotationExprJava' Name='NormalAnnotationExpr.java' DiskId='1' Source='./../../../bin/app/user/projects/javaparser/src/main/java/com/github/javaparser/ast/expr/NormalAnnotationExpr.java' KeyPath='no' />
-																	<File Id='NullLiteralExprJava' Name='NullLiteralExpr.java' DiskId='1' Source='./../../../bin/app/user/projects/javaparser/src/main/java/com/github/javaparser/ast/expr/NullLiteralExpr.java' KeyPath='no' />
-																	<File Id='ObjectCreationExprJava' Name='ObjectCreationExpr.java' DiskId='1' Source='./../../../bin/app/user/projects/javaparser/src/main/java/com/github/javaparser/ast/expr/ObjectCreationExpr.java' KeyPath='no' />
-																	<File Id='QualifiedNameExprJava' Name='QualifiedNameExpr.java' DiskId='1' Source='./../../../bin/app/user/projects/javaparser/src/main/java/com/github/javaparser/ast/expr/QualifiedNameExpr.java' KeyPath='no' />
-																	<File Id='SingleMemberAnnotationExprJava' Name='SingleMemberAnnotationExpr.java' DiskId='1' Source='./../../../bin/app/user/projects/javaparser/src/main/java/com/github/javaparser/ast/expr/SingleMemberAnnotationExpr.java' KeyPath='no' />
-																	<File Id='StringLiteralExprJava' Name='StringLiteralExpr.java' DiskId='1' Source='./../../../bin/app/user/projects/javaparser/src/main/java/com/github/javaparser/ast/expr/StringLiteralExpr.java' KeyPath='no' />
-																	<File Id='SuperExprJava' Name='SuperExpr.java' DiskId='1' Source='./../../../bin/app/user/projects/javaparser/src/main/java/com/github/javaparser/ast/expr/SuperExpr.java' KeyPath='no' />
-																	<File Id='ThisExprJava' Name='ThisExpr.java' DiskId='1' Source='./../../../bin/app/user/projects/javaparser/src/main/java/com/github/javaparser/ast/expr/ThisExpr.java' KeyPath='no' />
-																	<File Id='TypeExprJava' Name='TypeExpr.java' DiskId='1' Source='./../../../bin/app/user/projects/javaparser/src/main/java/com/github/javaparser/ast/expr/TypeExpr.java' KeyPath='no' />
-																	<File Id='UnaryExprJava' Name='UnaryExpr.java' DiskId='1' Source='./../../../bin/app/user/projects/javaparser/src/main/java/com/github/javaparser/ast/expr/UnaryExpr.java' KeyPath='no' />
-																	<File Id='VariableDeclarationExprJava' Name='VariableDeclarationExpr.java' DiskId='1' Source='./../../../bin/app/user/projects/javaparser/src/main/java/com/github/javaparser/ast/expr/VariableDeclarationExpr.java' KeyPath='no' />
-																</Component>
-															</Directory>
-															<Directory Id="SampleProjectJavaparserSrcMainJavaComGithubJavaparserAstNodeTypes" Name="nodeTypes">
-																<Component Id="SampleProjectJavaparserSrcMainJavaComGithubJavaparserAstNodeTypesCode" Guid="F2A26343-C9CE-441A-A80A-93F3703C4ACA">
-																	<CreateFolder />
-																	<RemoveFolder Id='SampleProjectJavaparserSrcMainJavaComGithubJavaparserAstNodeTypes' On='uninstall' />
-																	<RegistryKey Action="none" Key="Software\[Manufacturer]\[ProductName]\SampleProjectJavaparserSrcMainJavaComGithubJavaparserAstNodeTypesCodeKey" Root="HKCU" >
-																		<RegistryValue Type="integer" Value="1" KeyPath="yes" />
-																	</RegistryKey>
-																	<File Id='NodeWithAnnotationsJava' Name='NodeWithAnnotations.java' DiskId='1' Source='./../../../bin/app/user/projects/javaparser/src/main/java/com/github/javaparser/ast/nodeTypes/NodeWithAnnotations.java' KeyPath='no' />
-																	<File Id='NodeWithArraysJava' Name='NodeWithArrays.java' DiskId='1' Source='./../../../bin/app/user/projects/javaparser/src/main/java/com/github/javaparser/ast/nodeTypes/NodeWithArrays.java' KeyPath='no' />
-																	<File Id='NodeWithBlockStmtJava' Name='NodeWithBlockStmt.java' DiskId='1' Source='./../../../bin/app/user/projects/javaparser/src/main/java/com/github/javaparser/ast/nodeTypes/NodeWithBlockStmt.java' KeyPath='no' />
-																	<File Id='NodeWithDeclarationJava' Name='NodeWithDeclaration.java' DiskId='1' Source='./../../../bin/app/user/projects/javaparser/src/main/java/com/github/javaparser/ast/nodeTypes/NodeWithDeclaration.java' KeyPath='no' />
-																	<File Id='NodeWithJavaDocJava' Name='NodeWithJavaDoc.java' DiskId='1' Source='./../../../bin/app/user/projects/javaparser/src/main/java/com/github/javaparser/ast/nodeTypes/NodeWithJavaDoc.java' KeyPath='no' />
-																	<File Id='NodeWithMembersJava' Name='NodeWithMembers.java' DiskId='1' Source='./../../../bin/app/user/projects/javaparser/src/main/java/com/github/javaparser/ast/nodeTypes/NodeWithMembers.java' KeyPath='no' />
-																	<File Id='NodeWithModifiersJava' Name='NodeWithModifiers.java' DiskId='1' Source='./../../../bin/app/user/projects/javaparser/src/main/java/com/github/javaparser/ast/nodeTypes/NodeWithModifiers.java' KeyPath='no' />
-																	<File Id='NodeWithNameJava' Name='NodeWithName.java' DiskId='1' Source='./../../../bin/app/user/projects/javaparser/src/main/java/com/github/javaparser/ast/nodeTypes/NodeWithName.java' KeyPath='no' />
-																	<File Id='NodeWithParametersJava' Name='NodeWithParameters.java' DiskId='1' Source='./../../../bin/app/user/projects/javaparser/src/main/java/com/github/javaparser/ast/nodeTypes/NodeWithParameters.java' KeyPath='no' />
-																	<File Id='NodeWithThrowableJava' Name='NodeWithThrowable.java' DiskId='1' Source='./../../../bin/app/user/projects/javaparser/src/main/java/com/github/javaparser/ast/nodeTypes/NodeWithThrowable.java' KeyPath='no' />
-																	<File Id='NodeWithTypeJava' Name='NodeWithType.java' DiskId='1' Source='./../../../bin/app/user/projects/javaparser/src/main/java/com/github/javaparser/ast/nodeTypes/NodeWithType.java' KeyPath='no' />
-																</Component>
-															</Directory>
-															<Directory Id="SampleProjectJavaparserSrcMainJavaComGithubJavaparserAstStmt" Name="stmt">
-																<Component Id="SampleProjectJavaparserSrcMainJavaComGithubJavaparserAstStmtCode" Guid="CA642E8B-B001-4ECC-8781-53FFA6EF442E">
-																	<CreateFolder />
-																	<RemoveFolder Id='SampleProjectJavaparserSrcMainJavaComGithubJavaparserAstStmt' On='uninstall' />
-																	<RegistryKey Action="none" Key="Software\[Manufacturer]\[ProductName]\SampleProjectJavaparserSrcMainJavaComGithubJavaparserAstStmtCodeKey" Root="HKCU" >
-																		<RegistryValue Type="integer" Value="1" KeyPath="yes" />
-																	</RegistryKey>
-																	<File Id='AssertStmtJava' Name='AssertStmt.java' DiskId='1' Source='./../../../bin/app/user/projects/javaparser/src/main/java/com/github/javaparser/ast/stmt/AssertStmt.java' KeyPath='no' />
-																	<File Id='BlockStmtJava' Name='BlockStmt.java' DiskId='1' Source='./../../../bin/app/user/projects/javaparser/src/main/java/com/github/javaparser/ast/stmt/BlockStmt.java' KeyPath='no' />
-																	<File Id='BreakStmtJava' Name='BreakStmt.java' DiskId='1' Source='./../../../bin/app/user/projects/javaparser/src/main/java/com/github/javaparser/ast/stmt/BreakStmt.java' KeyPath='no' />
-																	<File Id='CatchClauseJava' Name='CatchClause.java' DiskId='1' Source='./../../../bin/app/user/projects/javaparser/src/main/java/com/github/javaparser/ast/stmt/CatchClause.java' KeyPath='no' />
-																	<File Id='ContinueStmtJava' Name='ContinueStmt.java' DiskId='1' Source='./../../../bin/app/user/projects/javaparser/src/main/java/com/github/javaparser/ast/stmt/ContinueStmt.java' KeyPath='no' />
-																	<File Id='DoStmtJava' Name='DoStmt.java' DiskId='1' Source='./../../../bin/app/user/projects/javaparser/src/main/java/com/github/javaparser/ast/stmt/DoStmt.java' KeyPath='no' />
-																	<File Id='EmptyStmtJava' Name='EmptyStmt.java' DiskId='1' Source='./../../../bin/app/user/projects/javaparser/src/main/java/com/github/javaparser/ast/stmt/EmptyStmt.java' KeyPath='no' />
-																	<File Id='ExplicitConstructorInvocationStmtJava' Name='ExplicitConstructorInvocationStmt.java' DiskId='1' Source='./../../../bin/app/user/projects/javaparser/src/main/java/com/github/javaparser/ast/stmt/ExplicitConstructorInvocationStmt.java' KeyPath='no' />
-																	<File Id='ExpressionStmtJava' Name='ExpressionStmt.java' DiskId='1' Source='./../../../bin/app/user/projects/javaparser/src/main/java/com/github/javaparser/ast/stmt/ExpressionStmt.java' KeyPath='no' />
-																	<File Id='ForeachStmtJava' Name='ForeachStmt.java' DiskId='1' Source='./../../../bin/app/user/projects/javaparser/src/main/java/com/github/javaparser/ast/stmt/ForeachStmt.java' KeyPath='no' />
-																	<File Id='ForStmtJava' Name='ForStmt.java' DiskId='1' Source='./../../../bin/app/user/projects/javaparser/src/main/java/com/github/javaparser/ast/stmt/ForStmt.java' KeyPath='no' />
-																	<File Id='IfStmtJava' Name='IfStmt.java' DiskId='1' Source='./../../../bin/app/user/projects/javaparser/src/main/java/com/github/javaparser/ast/stmt/IfStmt.java' KeyPath='no' />
-																	<File Id='LabeledStmtJava' Name='LabeledStmt.java' DiskId='1' Source='./../../../bin/app/user/projects/javaparser/src/main/java/com/github/javaparser/ast/stmt/LabeledStmt.java' KeyPath='no' />
-																	<File Id='ReturnStmtJava' Name='ReturnStmt.java' DiskId='1' Source='./../../../bin/app/user/projects/javaparser/src/main/java/com/github/javaparser/ast/stmt/ReturnStmt.java' KeyPath='no' />
-																	<File Id='StatementJava' Name='Statement.java' DiskId='1' Source='./../../../bin/app/user/projects/javaparser/src/main/java/com/github/javaparser/ast/stmt/Statement.java' KeyPath='no' />
-																	<File Id='SwitchEntryStmtJava' Name='SwitchEntryStmt.java' DiskId='1' Source='./../../../bin/app/user/projects/javaparser/src/main/java/com/github/javaparser/ast/stmt/SwitchEntryStmt.java' KeyPath='no' />
-																	<File Id='SwitchStmtJava' Name='SwitchStmt.java' DiskId='1' Source='./../../../bin/app/user/projects/javaparser/src/main/java/com/github/javaparser/ast/stmt/SwitchStmt.java' KeyPath='no' />
-																	<File Id='SynchronizedStmtJava' Name='SynchronizedStmt.java' DiskId='1' Source='./../../../bin/app/user/projects/javaparser/src/main/java/com/github/javaparser/ast/stmt/SynchronizedStmt.java' KeyPath='no' />
-																	<File Id='ThrowStmtJava' Name='ThrowStmt.java' DiskId='1' Source='./../../../bin/app/user/projects/javaparser/src/main/java/com/github/javaparser/ast/stmt/ThrowStmt.java' KeyPath='no' />
-																	<File Id='TryStmtJava' Name='TryStmt.java' DiskId='1' Source='./../../../bin/app/user/projects/javaparser/src/main/java/com/github/javaparser/ast/stmt/TryStmt.java' KeyPath='no' />
-																	<File Id='TypeDeclarationStmtJava' Name='TypeDeclarationStmt.java' DiskId='1' Source='./../../../bin/app/user/projects/javaparser/src/main/java/com/github/javaparser/ast/stmt/TypeDeclarationStmt.java' KeyPath='no' />
-																	<File Id='WhileStmtJava' Name='WhileStmt.java' DiskId='1' Source='./../../../bin/app/user/projects/javaparser/src/main/java/com/github/javaparser/ast/stmt/WhileStmt.java' KeyPath='no' />
-																</Component>
-															</Directory>
-															<Directory Id="SampleProjectJavaparserSrcMainJavaComGithubJavaparserAstType" Name="type">
-																<Component Id="SampleProjectJavaparserSrcMainJavaComGithubJavaparserAstTypeCode" Guid="BFBCF1A5-5440-40BC-BFB2-8958E1618C04">
-																	<CreateFolder />
-																	<RemoveFolder Id='SampleProjectJavaparserSrcMainJavaComGithubJavaparserAstType' On='uninstall' />
-																	<RegistryKey Action="none" Key="Software\[Manufacturer]\[ProductName]\SampleProjectJavaparserSrcMainJavaComGithubJavaparserAstTypeCodeKey" Root="HKCU" >
-																		<RegistryValue Type="integer" Value="1" KeyPath="yes" />
-																	</RegistryKey>
-																	<File Id='ClassOrInterfaceTypeJava' Name='ClassOrInterfaceType.java' DiskId='1' Source='./../../../bin/app/user/projects/javaparser/src/main/java/com/github/javaparser/ast/type/ClassOrInterfaceType.java' KeyPath='no' />
-																	<File Id='IntersectionTypeJava' Name='IntersectionType.java' DiskId='1' Source='./../../../bin/app/user/projects/javaparser/src/main/java/com/github/javaparser/ast/type/IntersectionType.java' KeyPath='no' />
-																	<File Id='PrimitiveTypeJava' Name='PrimitiveType.java' DiskId='1' Source='./../../../bin/app/user/projects/javaparser/src/main/java/com/github/javaparser/ast/type/PrimitiveType.java' KeyPath='no' />
-																	<File Id='ReferenceTypeJava' Name='ReferenceType.java' DiskId='1' Source='./../../../bin/app/user/projects/javaparser/src/main/java/com/github/javaparser/ast/type/ReferenceType.java' KeyPath='no' />
-																	<File Id='TypeJava' Name='Type.java' DiskId='1' Source='./../../../bin/app/user/projects/javaparser/src/main/java/com/github/javaparser/ast/type/Type.java' KeyPath='no' />
-																	<File Id='UnionTypeJava' Name='UnionType.java' DiskId='1' Source='./../../../bin/app/user/projects/javaparser/src/main/java/com/github/javaparser/ast/type/UnionType.java' KeyPath='no' />
-																	<File Id='UnknownTypeJava' Name='UnknownType.java' DiskId='1' Source='./../../../bin/app/user/projects/javaparser/src/main/java/com/github/javaparser/ast/type/UnknownType.java' KeyPath='no' />
-																	<File Id='VoidTypeJava' Name='VoidType.java' DiskId='1' Source='./../../../bin/app/user/projects/javaparser/src/main/java/com/github/javaparser/ast/type/VoidType.java' KeyPath='no' />
-																	<File Id='WildcardTypeJava' Name='WildcardType.java' DiskId='1' Source='./../../../bin/app/user/projects/javaparser/src/main/java/com/github/javaparser/ast/type/WildcardType.java' KeyPath='no' />
-																</Component>
-															</Directory>
-															<Directory Id="SampleProjectJavaparserSrcMainJavaComGithubJavaparserAstVisitor" Name="visitor">
-																<Component Id="SampleProjectJavaparserSrcMainJavaComGithubJavaparserAstVisitorCode" Guid="77F4C3B8-411B-4889-A900-98C43FD5F545">
-																	<CreateFolder />
-																	<RemoveFolder Id='SampleProjectJavaparserSrcMainJavaComGithubJavaparserAstVisitor' On='uninstall' />
-																	<RegistryKey Action="none" Key="Software\[Manufacturer]\[ProductName]\SampleProjectJavaparserSrcMainJavaComGithubJavaparserAstVisitorCodeKey" Root="HKCU" >
-																		<RegistryValue Type="integer" Value="1" KeyPath="yes" />
-																	</RegistryKey>
-																	<File Id='CloneVisitorJava' Name='CloneVisitor.java' DiskId='1' Source='./../../../bin/app/user/projects/javaparser/src/main/java/com/github/javaparser/ast/visitor/CloneVisitor.java' KeyPath='no' />
-																	<File Id='DumpVisitorJava' Name='DumpVisitor.java' DiskId='1' Source='./../../../bin/app/user/projects/javaparser/src/main/java/com/github/javaparser/ast/visitor/DumpVisitor.java' KeyPath='no' />
-																	<File Id='EqualsVisitorJava' Name='EqualsVisitor.java' DiskId='1' Source='./../../../bin/app/user/projects/javaparser/src/main/java/com/github/javaparser/ast/visitor/EqualsVisitor.java' KeyPath='no' />
-																	<File Id='GenericVisitorJava' Name='GenericVisitor.java' DiskId='1' Source='./../../../bin/app/user/projects/javaparser/src/main/java/com/github/javaparser/ast/visitor/GenericVisitor.java' KeyPath='no' />
-																	<File Id='GenericVisitorAdapterJava' Name='GenericVisitorAdapter.java' DiskId='1' Source='./../../../bin/app/user/projects/javaparser/src/main/java/com/github/javaparser/ast/visitor/GenericVisitorAdapter.java' KeyPath='no' />
-																	<File Id='ModifierVisitorAdapterJava' Name='ModifierVisitorAdapter.java' DiskId='1' Source='./../../../bin/app/user/projects/javaparser/src/main/java/com/github/javaparser/ast/visitor/ModifierVisitorAdapter.java' KeyPath='no' />
-																	<File Id='TreeVisitorJava' Name='TreeVisitor.java' DiskId='1' Source='./../../../bin/app/user/projects/javaparser/src/main/java/com/github/javaparser/ast/visitor/TreeVisitor.java' KeyPath='no' />
-																	<File Id='VoidVisitorJava' Name='VoidVisitor.java' DiskId='1' Source='./../../../bin/app/user/projects/javaparser/src/main/java/com/github/javaparser/ast/visitor/VoidVisitor.java' KeyPath='no' />
-																	<File Id='VoidVisitorAdapterJava' Name='VoidVisitorAdapter.java' DiskId='1' Source='./../../../bin/app/user/projects/javaparser/src/main/java/com/github/javaparser/ast/visitor/VoidVisitorAdapter.java' KeyPath='no' />
-																</Component>
-															</Directory>
-														</Directory>
-														<Directory Id="SampleProjectJavaparserSrcMainJavaComGithubJavaparserUtils" Name="utils">
-															<Component Id="SampleProjectJavaparserSrcMainJavaComGithubJavaparserUtilsCode" Guid="964479AD-47EF-4CC3-AE21-8287AE5E5CEC">
-																<CreateFolder />
-																<RemoveFolder Id='SampleProjectJavaparserSrcMainJavaComGithubJavaparserUtils' On='uninstall' />
-																<RegistryKey Action="none" Key="Software\[Manufacturer]\[ProductName]\SampleProjectJavaparserSrcMainJavaComGithubJavaparserUtilsCodeKey" Root="HKCU" >
-																	<RegistryValue Type="integer" Value="1" KeyPath="yes" />
-																</RegistryKey>
-																<File Id='ClassUtilsJava' Name='ClassUtils.java' DiskId='1' Source='./../../../bin/app/user/projects/javaparser/src/main/java/com/github/javaparser/utils/ClassUtils.java' KeyPath='no' />
-																<File Id='PositionUtilsJava' Name='PositionUtils.java' DiskId='1' Source='./../../../bin/app/user/projects/javaparser/src/main/java/com/github/javaparser/utils/PositionUtils.java' KeyPath='no' />
-																<File Id='UtilsJava' Name='Utils.java' DiskId='1' Source='./../../../bin/app/user/projects/javaparser/src/main/java/com/github/javaparser/utils/Utils.java' KeyPath='no' />
-															</Component>
-														</Directory>
-													</Directory>
+												</Directory>
+												<Directory Id="SampleProjectJavaparserSrcMainJavaComGithubJavaparserAstComments" Name="comments">
+													<Component Id="SampleProjectJavaparserSrcMainJavaComGithubJavaparserAstCommentsCode" Guid="6CFE2814-2D70-4235-AC29-FCF6CA5A3D03" Win64="$(var.Win64)">
+														<CreateFolder />
+														<RemoveFolder Id='SampleProjectJavaparserSrcMainJavaComGithubJavaparserAstComments' On='uninstall' />
+														<RegistryKey Action="none" Key="Software\[Manufacturer]\[ProductName]\SampleProjectJavaparserSrcMainJavaComGithubJavaparserAstCommentsCodeKey" Root="HKCU" >
+															<RegistryValue Type="integer" Value="1" KeyPath="yes" />
+														</RegistryKey>
+														<File Id='BlockCommentJava' Name='BlockComment.java' DiskId='1' Source='./../../../bin/app/user/projects/javaparser/src/main/java/com/github/javaparser/ast/comments/BlockComment.java' KeyPath='no' />
+														<File Id='CommentJava' Name='Comment.java' DiskId='1' Source='./../../../bin/app/user/projects/javaparser/src/main/java/com/github/javaparser/ast/comments/Comment.java' KeyPath='no' />
+														<File Id='CommentsCollectionJava' Name='CommentsCollection.java' DiskId='1' Source='./../../../bin/app/user/projects/javaparser/src/main/java/com/github/javaparser/ast/comments/CommentsCollection.java' KeyPath='no' />
+														<File Id='CommentsParserJava' Name='CommentsParser.java' DiskId='1' Source='./../../../bin/app/user/projects/javaparser/src/main/java/com/github/javaparser/ast/comments/CommentsParser.java' KeyPath='no' />
+														<File Id='JavadocCommentJava' Name='JavadocComment.java' DiskId='1' Source='./../../../bin/app/user/projects/javaparser/src/main/java/com/github/javaparser/ast/comments/JavadocComment.java' KeyPath='no' />
+														<File Id='LineCommentJava' Name='LineComment.java' DiskId='1' Source='./../../../bin/app/user/projects/javaparser/src/main/java/com/github/javaparser/ast/comments/LineComment.java' KeyPath='no' />
+													</Component>
+												</Directory>
+												<Directory Id="SampleProjectJavaparserSrcMainJavaComGithubJavaparserAstExpr" Name="expr">
+													<Component Id="SampleProjectJavaparserSrcMainJavaComGithubJavaparserAstExprCode" Guid="BAB7B080-9D4E-439A-946D-BF8B1A640170" Win64="$(var.Win64)">
+														<CreateFolder />
+														<RemoveFolder Id='SampleProjectJavaparserSrcMainJavaComGithubJavaparserAstExpr' On='uninstall' />
+														<RegistryKey Action="none" Key="Software\[Manufacturer]\[ProductName]\SampleProjectJavaparserSrcMainJavaComGithubJavaparserAstExprCodeKey" Root="HKCU" >
+															<RegistryValue Type="integer" Value="1" KeyPath="yes" />
+														</RegistryKey>
+														<File Id='AnnotationExprJava' Name='AnnotationExpr.java' DiskId='1' Source='./../../../bin/app/user/projects/javaparser/src/main/java/com/github/javaparser/ast/expr/AnnotationExpr.java' KeyPath='no' />
+														<File Id='ArrayAccessExprJava' Name='ArrayAccessExpr.java' DiskId='1' Source='./../../../bin/app/user/projects/javaparser/src/main/java/com/github/javaparser/ast/expr/ArrayAccessExpr.java' KeyPath='no' />
+														<File Id='ArrayCreationExprJava' Name='ArrayCreationExpr.java' DiskId='1' Source='./../../../bin/app/user/projects/javaparser/src/main/java/com/github/javaparser/ast/expr/ArrayCreationExpr.java' KeyPath='no' />
+														<File Id='ArrayInitializerExprJava' Name='ArrayInitializerExpr.java' DiskId='1' Source='./../../../bin/app/user/projects/javaparser/src/main/java/com/github/javaparser/ast/expr/ArrayInitializerExpr.java' KeyPath='no' />
+														<File Id='AssignExprJava' Name='AssignExpr.java' DiskId='1' Source='./../../../bin/app/user/projects/javaparser/src/main/java/com/github/javaparser/ast/expr/AssignExpr.java' KeyPath='no' />
+														<File Id='BinaryExprJava' Name='BinaryExpr.java' DiskId='1' Source='./../../../bin/app/user/projects/javaparser/src/main/java/com/github/javaparser/ast/expr/BinaryExpr.java' KeyPath='no' />
+														<File Id='BooleanLiteralExprJava' Name='BooleanLiteralExpr.java' DiskId='1' Source='./../../../bin/app/user/projects/javaparser/src/main/java/com/github/javaparser/ast/expr/BooleanLiteralExpr.java' KeyPath='no' />
+														<File Id='CastExprJava' Name='CastExpr.java' DiskId='1' Source='./../../../bin/app/user/projects/javaparser/src/main/java/com/github/javaparser/ast/expr/CastExpr.java' KeyPath='no' />
+														<File Id='CharLiteralExprJava' Name='CharLiteralExpr.java' DiskId='1' Source='./../../../bin/app/user/projects/javaparser/src/main/java/com/github/javaparser/ast/expr/CharLiteralExpr.java' KeyPath='no' />
+														<File Id='ClassExprJava' Name='ClassExpr.java' DiskId='1' Source='./../../../bin/app/user/projects/javaparser/src/main/java/com/github/javaparser/ast/expr/ClassExpr.java' KeyPath='no' />
+														<File Id='ConditionalExprJava' Name='ConditionalExpr.java' DiskId='1' Source='./../../../bin/app/user/projects/javaparser/src/main/java/com/github/javaparser/ast/expr/ConditionalExpr.java' KeyPath='no' />
+														<File Id='DoubleLiteralExprJava' Name='DoubleLiteralExpr.java' DiskId='1' Source='./../../../bin/app/user/projects/javaparser/src/main/java/com/github/javaparser/ast/expr/DoubleLiteralExpr.java' KeyPath='no' />
+														<File Id='EnclosedExprJava' Name='EnclosedExpr.java' DiskId='1' Source='./../../../bin/app/user/projects/javaparser/src/main/java/com/github/javaparser/ast/expr/EnclosedExpr.java' KeyPath='no' />
+														<File Id='ExpressionJava' Name='Expression.java' DiskId='1' Source='./../../../bin/app/user/projects/javaparser/src/main/java/com/github/javaparser/ast/expr/Expression.java' KeyPath='no' />
+														<File Id='FieldAccessExprJava' Name='FieldAccessExpr.java' DiskId='1' Source='./../../../bin/app/user/projects/javaparser/src/main/java/com/github/javaparser/ast/expr/FieldAccessExpr.java' KeyPath='no' />
+														<File Id='InstanceOfExprJava' Name='InstanceOfExpr.java' DiskId='1' Source='./../../../bin/app/user/projects/javaparser/src/main/java/com/github/javaparser/ast/expr/InstanceOfExpr.java' KeyPath='no' />
+														<File Id='IntegerLiteralExprJava' Name='IntegerLiteralExpr.java' DiskId='1' Source='./../../../bin/app/user/projects/javaparser/src/main/java/com/github/javaparser/ast/expr/IntegerLiteralExpr.java' KeyPath='no' />
+														<File Id='IntegerLiteralMinValueExprJava' Name='IntegerLiteralMinValueExpr.java' DiskId='1' Source='./../../../bin/app/user/projects/javaparser/src/main/java/com/github/javaparser/ast/expr/IntegerLiteralMinValueExpr.java' KeyPath='no' />
+														<File Id='LambdaExprJava' Name='LambdaExpr.java' DiskId='1' Source='./../../../bin/app/user/projects/javaparser/src/main/java/com/github/javaparser/ast/expr/LambdaExpr.java' KeyPath='no' />
+														<File Id='LiteralExprJava' Name='LiteralExpr.java' DiskId='1' Source='./../../../bin/app/user/projects/javaparser/src/main/java/com/github/javaparser/ast/expr/LiteralExpr.java' KeyPath='no' />
+														<File Id='LongLiteralExprJava' Name='LongLiteralExpr.java' DiskId='1' Source='./../../../bin/app/user/projects/javaparser/src/main/java/com/github/javaparser/ast/expr/LongLiteralExpr.java' KeyPath='no' />
+														<File Id='LongLiteralMinValueExprJava' Name='LongLiteralMinValueExpr.java' DiskId='1' Source='./../../../bin/app/user/projects/javaparser/src/main/java/com/github/javaparser/ast/expr/LongLiteralMinValueExpr.java' KeyPath='no' />
+														<File Id='MarkerAnnotationExprJava' Name='MarkerAnnotationExpr.java' DiskId='1' Source='./../../../bin/app/user/projects/javaparser/src/main/java/com/github/javaparser/ast/expr/MarkerAnnotationExpr.java' KeyPath='no' />
+														<File Id='MemberValuePairJava' Name='MemberValuePair.java' DiskId='1' Source='./../../../bin/app/user/projects/javaparser/src/main/java/com/github/javaparser/ast/expr/MemberValuePair.java' KeyPath='no' />
+														<File Id='MethodCallExprJava' Name='MethodCallExpr.java' DiskId='1' Source='./../../../bin/app/user/projects/javaparser/src/main/java/com/github/javaparser/ast/expr/MethodCallExpr.java' KeyPath='no' />
+														<File Id='MethodReferenceExprJava' Name='MethodReferenceExpr.java' DiskId='1' Source='./../../../bin/app/user/projects/javaparser/src/main/java/com/github/javaparser/ast/expr/MethodReferenceExpr.java' KeyPath='no' />
+														<File Id='NameExprJava' Name='NameExpr.java' DiskId='1' Source='./../../../bin/app/user/projects/javaparser/src/main/java/com/github/javaparser/ast/expr/NameExpr.java' KeyPath='no' />
+														<File Id='NormalAnnotationExprJava' Name='NormalAnnotationExpr.java' DiskId='1' Source='./../../../bin/app/user/projects/javaparser/src/main/java/com/github/javaparser/ast/expr/NormalAnnotationExpr.java' KeyPath='no' />
+														<File Id='NullLiteralExprJava' Name='NullLiteralExpr.java' DiskId='1' Source='./../../../bin/app/user/projects/javaparser/src/main/java/com/github/javaparser/ast/expr/NullLiteralExpr.java' KeyPath='no' />
+														<File Id='ObjectCreationExprJava' Name='ObjectCreationExpr.java' DiskId='1' Source='./../../../bin/app/user/projects/javaparser/src/main/java/com/github/javaparser/ast/expr/ObjectCreationExpr.java' KeyPath='no' />
+														<File Id='QualifiedNameExprJava' Name='QualifiedNameExpr.java' DiskId='1' Source='./../../../bin/app/user/projects/javaparser/src/main/java/com/github/javaparser/ast/expr/QualifiedNameExpr.java' KeyPath='no' />
+														<File Id='SingleMemberAnnotationExprJava' Name='SingleMemberAnnotationExpr.java' DiskId='1' Source='./../../../bin/app/user/projects/javaparser/src/main/java/com/github/javaparser/ast/expr/SingleMemberAnnotationExpr.java' KeyPath='no' />
+														<File Id='StringLiteralExprJava' Name='StringLiteralExpr.java' DiskId='1' Source='./../../../bin/app/user/projects/javaparser/src/main/java/com/github/javaparser/ast/expr/StringLiteralExpr.java' KeyPath='no' />
+														<File Id='SuperExprJava' Name='SuperExpr.java' DiskId='1' Source='./../../../bin/app/user/projects/javaparser/src/main/java/com/github/javaparser/ast/expr/SuperExpr.java' KeyPath='no' />
+														<File Id='ThisExprJava' Name='ThisExpr.java' DiskId='1' Source='./../../../bin/app/user/projects/javaparser/src/main/java/com/github/javaparser/ast/expr/ThisExpr.java' KeyPath='no' />
+														<File Id='TypeExprJava' Name='TypeExpr.java' DiskId='1' Source='./../../../bin/app/user/projects/javaparser/src/main/java/com/github/javaparser/ast/expr/TypeExpr.java' KeyPath='no' />
+														<File Id='UnaryExprJava' Name='UnaryExpr.java' DiskId='1' Source='./../../../bin/app/user/projects/javaparser/src/main/java/com/github/javaparser/ast/expr/UnaryExpr.java' KeyPath='no' />
+														<File Id='VariableDeclarationExprJava' Name='VariableDeclarationExpr.java' DiskId='1' Source='./../../../bin/app/user/projects/javaparser/src/main/java/com/github/javaparser/ast/expr/VariableDeclarationExpr.java' KeyPath='no' />
+													</Component>
+												</Directory>
+												<Directory Id="SampleProjectJavaparserSrcMainJavaComGithubJavaparserAstNodeTypes" Name="nodeTypes">
+													<Component Id="SampleProjectJavaparserSrcMainJavaComGithubJavaparserAstNodeTypesCode" Guid="F2A26343-C9CE-441A-A80A-93F3703C4ACA" Win64="$(var.Win64)">
+														<CreateFolder />
+														<RemoveFolder Id='SampleProjectJavaparserSrcMainJavaComGithubJavaparserAstNodeTypes' On='uninstall' />
+														<RegistryKey Action="none" Key="Software\[Manufacturer]\[ProductName]\SampleProjectJavaparserSrcMainJavaComGithubJavaparserAstNodeTypesCodeKey" Root="HKCU" >
+															<RegistryValue Type="integer" Value="1" KeyPath="yes" />
+														</RegistryKey>
+														<File Id='NodeWithAnnotationsJava' Name='NodeWithAnnotations.java' DiskId='1' Source='./../../../bin/app/user/projects/javaparser/src/main/java/com/github/javaparser/ast/nodeTypes/NodeWithAnnotations.java' KeyPath='no' />
+														<File Id='NodeWithArraysJava' Name='NodeWithArrays.java' DiskId='1' Source='./../../../bin/app/user/projects/javaparser/src/main/java/com/github/javaparser/ast/nodeTypes/NodeWithArrays.java' KeyPath='no' />
+														<File Id='NodeWithBlockStmtJava' Name='NodeWithBlockStmt.java' DiskId='1' Source='./../../../bin/app/user/projects/javaparser/src/main/java/com/github/javaparser/ast/nodeTypes/NodeWithBlockStmt.java' KeyPath='no' />
+														<File Id='NodeWithDeclarationJava' Name='NodeWithDeclaration.java' DiskId='1' Source='./../../../bin/app/user/projects/javaparser/src/main/java/com/github/javaparser/ast/nodeTypes/NodeWithDeclaration.java' KeyPath='no' />
+														<File Id='NodeWithJavaDocJava' Name='NodeWithJavaDoc.java' DiskId='1' Source='./../../../bin/app/user/projects/javaparser/src/main/java/com/github/javaparser/ast/nodeTypes/NodeWithJavaDoc.java' KeyPath='no' />
+														<File Id='NodeWithMembersJava' Name='NodeWithMembers.java' DiskId='1' Source='./../../../bin/app/user/projects/javaparser/src/main/java/com/github/javaparser/ast/nodeTypes/NodeWithMembers.java' KeyPath='no' />
+														<File Id='NodeWithModifiersJava' Name='NodeWithModifiers.java' DiskId='1' Source='./../../../bin/app/user/projects/javaparser/src/main/java/com/github/javaparser/ast/nodeTypes/NodeWithModifiers.java' KeyPath='no' />
+														<File Id='NodeWithNameJava' Name='NodeWithName.java' DiskId='1' Source='./../../../bin/app/user/projects/javaparser/src/main/java/com/github/javaparser/ast/nodeTypes/NodeWithName.java' KeyPath='no' />
+														<File Id='NodeWithParametersJava' Name='NodeWithParameters.java' DiskId='1' Source='./../../../bin/app/user/projects/javaparser/src/main/java/com/github/javaparser/ast/nodeTypes/NodeWithParameters.java' KeyPath='no' />
+														<File Id='NodeWithThrowableJava' Name='NodeWithThrowable.java' DiskId='1' Source='./../../../bin/app/user/projects/javaparser/src/main/java/com/github/javaparser/ast/nodeTypes/NodeWithThrowable.java' KeyPath='no' />
+														<File Id='NodeWithTypeJava' Name='NodeWithType.java' DiskId='1' Source='./../../../bin/app/user/projects/javaparser/src/main/java/com/github/javaparser/ast/nodeTypes/NodeWithType.java' KeyPath='no' />
+													</Component>
+												</Directory>
+												<Directory Id="SampleProjectJavaparserSrcMainJavaComGithubJavaparserAstStmt" Name="stmt">
+													<Component Id="SampleProjectJavaparserSrcMainJavaComGithubJavaparserAstStmtCode" Guid="CA642E8B-B001-4ECC-8781-53FFA6EF442E" Win64="$(var.Win64)">
+														<CreateFolder />
+														<RemoveFolder Id='SampleProjectJavaparserSrcMainJavaComGithubJavaparserAstStmt' On='uninstall' />
+														<RegistryKey Action="none" Key="Software\[Manufacturer]\[ProductName]\SampleProjectJavaparserSrcMainJavaComGithubJavaparserAstStmtCodeKey" Root="HKCU" >
+															<RegistryValue Type="integer" Value="1" KeyPath="yes" />
+														</RegistryKey>
+														<File Id='AssertStmtJava' Name='AssertStmt.java' DiskId='1' Source='./../../../bin/app/user/projects/javaparser/src/main/java/com/github/javaparser/ast/stmt/AssertStmt.java' KeyPath='no' />
+														<File Id='BlockStmtJava' Name='BlockStmt.java' DiskId='1' Source='./../../../bin/app/user/projects/javaparser/src/main/java/com/github/javaparser/ast/stmt/BlockStmt.java' KeyPath='no' />
+														<File Id='BreakStmtJava' Name='BreakStmt.java' DiskId='1' Source='./../../../bin/app/user/projects/javaparser/src/main/java/com/github/javaparser/ast/stmt/BreakStmt.java' KeyPath='no' />
+														<File Id='CatchClauseJava' Name='CatchClause.java' DiskId='1' Source='./../../../bin/app/user/projects/javaparser/src/main/java/com/github/javaparser/ast/stmt/CatchClause.java' KeyPath='no' />
+														<File Id='ContinueStmtJava' Name='ContinueStmt.java' DiskId='1' Source='./../../../bin/app/user/projects/javaparser/src/main/java/com/github/javaparser/ast/stmt/ContinueStmt.java' KeyPath='no' />
+														<File Id='DoStmtJava' Name='DoStmt.java' DiskId='1' Source='./../../../bin/app/user/projects/javaparser/src/main/java/com/github/javaparser/ast/stmt/DoStmt.java' KeyPath='no' />
+														<File Id='EmptyStmtJava' Name='EmptyStmt.java' DiskId='1' Source='./../../../bin/app/user/projects/javaparser/src/main/java/com/github/javaparser/ast/stmt/EmptyStmt.java' KeyPath='no' />
+														<File Id='ExplicitConstructorInvocationStmtJava' Name='ExplicitConstructorInvocationStmt.java' DiskId='1' Source='./../../../bin/app/user/projects/javaparser/src/main/java/com/github/javaparser/ast/stmt/ExplicitConstructorInvocationStmt.java' KeyPath='no' />
+														<File Id='ExpressionStmtJava' Name='ExpressionStmt.java' DiskId='1' Source='./../../../bin/app/user/projects/javaparser/src/main/java/com/github/javaparser/ast/stmt/ExpressionStmt.java' KeyPath='no' />
+														<File Id='ForeachStmtJava' Name='ForeachStmt.java' DiskId='1' Source='./../../../bin/app/user/projects/javaparser/src/main/java/com/github/javaparser/ast/stmt/ForeachStmt.java' KeyPath='no' />
+														<File Id='ForStmtJava' Name='ForStmt.java' DiskId='1' Source='./../../../bin/app/user/projects/javaparser/src/main/java/com/github/javaparser/ast/stmt/ForStmt.java' KeyPath='no' />
+														<File Id='IfStmtJava' Name='IfStmt.java' DiskId='1' Source='./../../../bin/app/user/projects/javaparser/src/main/java/com/github/javaparser/ast/stmt/IfStmt.java' KeyPath='no' />
+														<File Id='LabeledStmtJava' Name='LabeledStmt.java' DiskId='1' Source='./../../../bin/app/user/projects/javaparser/src/main/java/com/github/javaparser/ast/stmt/LabeledStmt.java' KeyPath='no' />
+														<File Id='ReturnStmtJava' Name='ReturnStmt.java' DiskId='1' Source='./../../../bin/app/user/projects/javaparser/src/main/java/com/github/javaparser/ast/stmt/ReturnStmt.java' KeyPath='no' />
+														<File Id='StatementJava' Name='Statement.java' DiskId='1' Source='./../../../bin/app/user/projects/javaparser/src/main/java/com/github/javaparser/ast/stmt/Statement.java' KeyPath='no' />
+														<File Id='SwitchEntryStmtJava' Name='SwitchEntryStmt.java' DiskId='1' Source='./../../../bin/app/user/projects/javaparser/src/main/java/com/github/javaparser/ast/stmt/SwitchEntryStmt.java' KeyPath='no' />
+														<File Id='SwitchStmtJava' Name='SwitchStmt.java' DiskId='1' Source='./../../../bin/app/user/projects/javaparser/src/main/java/com/github/javaparser/ast/stmt/SwitchStmt.java' KeyPath='no' />
+														<File Id='SynchronizedStmtJava' Name='SynchronizedStmt.java' DiskId='1' Source='./../../../bin/app/user/projects/javaparser/src/main/java/com/github/javaparser/ast/stmt/SynchronizedStmt.java' KeyPath='no' />
+														<File Id='ThrowStmtJava' Name='ThrowStmt.java' DiskId='1' Source='./../../../bin/app/user/projects/javaparser/src/main/java/com/github/javaparser/ast/stmt/ThrowStmt.java' KeyPath='no' />
+														<File Id='TryStmtJava' Name='TryStmt.java' DiskId='1' Source='./../../../bin/app/user/projects/javaparser/src/main/java/com/github/javaparser/ast/stmt/TryStmt.java' KeyPath='no' />
+														<File Id='TypeDeclarationStmtJava' Name='TypeDeclarationStmt.java' DiskId='1' Source='./../../../bin/app/user/projects/javaparser/src/main/java/com/github/javaparser/ast/stmt/TypeDeclarationStmt.java' KeyPath='no' />
+														<File Id='WhileStmtJava' Name='WhileStmt.java' DiskId='1' Source='./../../../bin/app/user/projects/javaparser/src/main/java/com/github/javaparser/ast/stmt/WhileStmt.java' KeyPath='no' />
+													</Component>
+												</Directory>
+												<Directory Id="SampleProjectJavaparserSrcMainJavaComGithubJavaparserAstType" Name="type">
+													<Component Id="SampleProjectJavaparserSrcMainJavaComGithubJavaparserAstTypeCode" Guid="BFBCF1A5-5440-40BC-BFB2-8958E1618C04" Win64="$(var.Win64)">
+														<CreateFolder />
+														<RemoveFolder Id='SampleProjectJavaparserSrcMainJavaComGithubJavaparserAstType' On='uninstall' />
+														<RegistryKey Action="none" Key="Software\[Manufacturer]\[ProductName]\SampleProjectJavaparserSrcMainJavaComGithubJavaparserAstTypeCodeKey" Root="HKCU" >
+															<RegistryValue Type="integer" Value="1" KeyPath="yes" />
+														</RegistryKey>
+														<File Id='ClassOrInterfaceTypeJava' Name='ClassOrInterfaceType.java' DiskId='1' Source='./../../../bin/app/user/projects/javaparser/src/main/java/com/github/javaparser/ast/type/ClassOrInterfaceType.java' KeyPath='no' />
+														<File Id='IntersectionTypeJava' Name='IntersectionType.java' DiskId='1' Source='./../../../bin/app/user/projects/javaparser/src/main/java/com/github/javaparser/ast/type/IntersectionType.java' KeyPath='no' />
+														<File Id='PrimitiveTypeJava' Name='PrimitiveType.java' DiskId='1' Source='./../../../bin/app/user/projects/javaparser/src/main/java/com/github/javaparser/ast/type/PrimitiveType.java' KeyPath='no' />
+														<File Id='ReferenceTypeJava' Name='ReferenceType.java' DiskId='1' Source='./../../../bin/app/user/projects/javaparser/src/main/java/com/github/javaparser/ast/type/ReferenceType.java' KeyPath='no' />
+														<File Id='TypeJava' Name='Type.java' DiskId='1' Source='./../../../bin/app/user/projects/javaparser/src/main/java/com/github/javaparser/ast/type/Type.java' KeyPath='no' />
+														<File Id='UnionTypeJava' Name='UnionType.java' DiskId='1' Source='./../../../bin/app/user/projects/javaparser/src/main/java/com/github/javaparser/ast/type/UnionType.java' KeyPath='no' />
+														<File Id='UnknownTypeJava' Name='UnknownType.java' DiskId='1' Source='./../../../bin/app/user/projects/javaparser/src/main/java/com/github/javaparser/ast/type/UnknownType.java' KeyPath='no' />
+														<File Id='VoidTypeJava' Name='VoidType.java' DiskId='1' Source='./../../../bin/app/user/projects/javaparser/src/main/java/com/github/javaparser/ast/type/VoidType.java' KeyPath='no' />
+														<File Id='WildcardTypeJava' Name='WildcardType.java' DiskId='1' Source='./../../../bin/app/user/projects/javaparser/src/main/java/com/github/javaparser/ast/type/WildcardType.java' KeyPath='no' />
+													</Component>
+												</Directory>
+												<Directory Id="SampleProjectJavaparserSrcMainJavaComGithubJavaparserAstVisitor" Name="visitor">
+													<Component Id="SampleProjectJavaparserSrcMainJavaComGithubJavaparserAstVisitorCode" Guid="77F4C3B8-411B-4889-A900-98C43FD5F545" Win64="$(var.Win64)">
+														<CreateFolder />
+														<RemoveFolder Id='SampleProjectJavaparserSrcMainJavaComGithubJavaparserAstVisitor' On='uninstall' />
+														<RegistryKey Action="none" Key="Software\[Manufacturer]\[ProductName]\SampleProjectJavaparserSrcMainJavaComGithubJavaparserAstVisitorCodeKey" Root="HKCU" >
+															<RegistryValue Type="integer" Value="1" KeyPath="yes" />
+														</RegistryKey>
+														<File Id='CloneVisitorJava' Name='CloneVisitor.java' DiskId='1' Source='./../../../bin/app/user/projects/javaparser/src/main/java/com/github/javaparser/ast/visitor/CloneVisitor.java' KeyPath='no' />
+														<File Id='DumpVisitorJava' Name='DumpVisitor.java' DiskId='1' Source='./../../../bin/app/user/projects/javaparser/src/main/java/com/github/javaparser/ast/visitor/DumpVisitor.java' KeyPath='no' />
+														<File Id='EqualsVisitorJava' Name='EqualsVisitor.java' DiskId='1' Source='./../../../bin/app/user/projects/javaparser/src/main/java/com/github/javaparser/ast/visitor/EqualsVisitor.java' KeyPath='no' />
+														<File Id='GenericVisitorJava' Name='GenericVisitor.java' DiskId='1' Source='./../../../bin/app/user/projects/javaparser/src/main/java/com/github/javaparser/ast/visitor/GenericVisitor.java' KeyPath='no' />
+														<File Id='GenericVisitorAdapterJava' Name='GenericVisitorAdapter.java' DiskId='1' Source='./../../../bin/app/user/projects/javaparser/src/main/java/com/github/javaparser/ast/visitor/GenericVisitorAdapter.java' KeyPath='no' />
+														<File Id='ModifierVisitorAdapterJava' Name='ModifierVisitorAdapter.java' DiskId='1' Source='./../../../bin/app/user/projects/javaparser/src/main/java/com/github/javaparser/ast/visitor/ModifierVisitorAdapter.java' KeyPath='no' />
+														<File Id='TreeVisitorJava' Name='TreeVisitor.java' DiskId='1' Source='./../../../bin/app/user/projects/javaparser/src/main/java/com/github/javaparser/ast/visitor/TreeVisitor.java' KeyPath='no' />
+														<File Id='VoidVisitorJava' Name='VoidVisitor.java' DiskId='1' Source='./../../../bin/app/user/projects/javaparser/src/main/java/com/github/javaparser/ast/visitor/VoidVisitor.java' KeyPath='no' />
+														<File Id='VoidVisitorAdapterJava' Name='VoidVisitorAdapter.java' DiskId='1' Source='./../../../bin/app/user/projects/javaparser/src/main/java/com/github/javaparser/ast/visitor/VoidVisitorAdapter.java' KeyPath='no' />
+													</Component>
 												</Directory>
 											</Directory>
-										</Directory>
-										<Directory Id="SampleProjectJavaparserSrcMainJavacc" Name="javacc">
-											<Component Id="SampleProjectJavaparserSrcMainJavaccCode" Guid="F31AA381-2F1C-465A-81E1-0A7BD35314EE">
-												<CreateFolder />
-												<RemoveFolder Id='SampleProjectJavaparserSrcMainJavacc' On='uninstall' />
-												<RegistryKey Action="none" Key="Software\[Manufacturer]\[ProductName]\SampleProjectJavaparserSrcMainJavaccCodeKey" Root="HKCU" >
-													<RegistryValue Type="integer" Value="1" KeyPath="yes" />
-												</RegistryKey>
-												<File Id='Java_1_8Jj' Name='java_1_8.jj' DiskId='1' Source='./../../../bin/app/user/projects/javaparser/src/main/javacc/java_1_8.jj' KeyPath='no' />
-											</Component>
+											<Directory Id="SampleProjectJavaparserSrcMainJavaComGithubJavaparserUtils" Name="utils">
+												<Component Id="SampleProjectJavaparserSrcMainJavaComGithubJavaparserUtilsCode" Guid="964479AD-47EF-4CC3-AE21-8287AE5E5CEC" Win64="$(var.Win64)">
+													<CreateFolder />
+													<RemoveFolder Id='SampleProjectJavaparserSrcMainJavaComGithubJavaparserUtils' On='uninstall' />
+													<RegistryKey Action="none" Key="Software\[Manufacturer]\[ProductName]\SampleProjectJavaparserSrcMainJavaComGithubJavaparserUtilsCodeKey" Root="HKCU" >
+														<RegistryValue Type="integer" Value="1" KeyPath="yes" />
+													</RegistryKey>
+													<File Id='ClassUtilsJava' Name='ClassUtils.java' DiskId='1' Source='./../../../bin/app/user/projects/javaparser/src/main/java/com/github/javaparser/utils/ClassUtils.java' KeyPath='no' />
+													<File Id='PositionUtilsJava' Name='PositionUtils.java' DiskId='1' Source='./../../../bin/app/user/projects/javaparser/src/main/java/com/github/javaparser/utils/PositionUtils.java' KeyPath='no' />
+													<File Id='UtilsJava' Name='Utils.java' DiskId='1' Source='./../../../bin/app/user/projects/javaparser/src/main/java/com/github/javaparser/utils/Utils.java' KeyPath='no' />
+												</Component>
+											</Directory>
 										</Directory>
 									</Directory>
 								</Directory>
-								<Directory Id="SampleProjectJavaparserTarget" Name="target">
-									<Component Id="SampleProjectJavaparserTargetFolder" Guid="EEC88E2D-ACA7-4BBA-B3D2-E8157E8C90D1">
+							</Directory>
+							<Directory Id="SampleProjectJavaparserSrcMainJavacc" Name="javacc">
+								<Component Id="SampleProjectJavaparserSrcMainJavaccCode" Guid="F31AA381-2F1C-465A-81E1-0A7BD35314EE" Win64="$(var.Win64)">
+									<CreateFolder />
+									<RemoveFolder Id='SampleProjectJavaparserSrcMainJavacc' On='uninstall' />
+									<RegistryKey Action="none" Key="Software\[Manufacturer]\[ProductName]\SampleProjectJavaparserSrcMainJavaccCodeKey" Root="HKCU" >
+										<RegistryValue Type="integer" Value="1" KeyPath="yes" />
+									</RegistryKey>
+									<File Id='Java_1_8Jj' Name='java_1_8.jj' DiskId='1' Source='./../../../bin/app/user/projects/javaparser/src/main/javacc/java_1_8.jj' KeyPath='no' />
+								</Component>
+							</Directory>
+						</Directory>
+					</Directory>
+					<Directory Id="SampleProjectJavaparserTarget" Name="target">
+						<Component Id="SampleProjectJavaparserTargetFolder" Guid="EEC88E2D-ACA7-4BBA-B3D2-E8157E8C90D1" Win64="$(var.Win64)">
+							<CreateFolder />
+							<RemoveFolder Id='SampleProjectJavaparserTarget' On='uninstall' />
+							<RegistryKey Action="none" Key="Software\[Manufacturer]\[ProductName]\SampleProjectJavaparserTargetFolderKey" Root="HKCU" >
+								<RegistryValue Type="integer" Value="1" KeyPath="yes" />
+							</RegistryKey>
+						</Component>
+						<Directory Id="SampleProjectJavaparserTargetGeneratedSources" Name="generated-sources">
+							<Component Id="SampleProjectJavaparserTargetGeneratedSourcesFolder" Guid="51670973-3944-4CB5-BE82-94BD2133FAF4" Win64="$(var.Win64)">
+								<CreateFolder />
+								<RemoveFolder Id='SampleProjectJavaparserTargetGeneratedSources' On='uninstall' />
+								<RegistryKey Action="none" Key="Software\[Manufacturer]\[ProductName]\SampleProjectJavaparserTargetGeneratedSourcesFolderKey" Root="HKCU" >
+									<RegistryValue Type="integer" Value="1" KeyPath="yes" />
+								</RegistryKey>
+							</Component>
+							<Directory Id="SampleProjectJavaparserTargetGeneratedSourcesJavacc" Name="javacc">
+								<Component Id="SampleProjectJavaparserTargetGeneratedSourcesJavaccFolder" Guid="1DA62621-434C-4A5F-BA39-BE308EC15E34" Win64="$(var.Win64)">
+									<CreateFolder />
+									<RemoveFolder Id='SampleProjectJavaparserTargetGeneratedSourcesJavacc' On='uninstall' />
+									<RegistryKey Action="none" Key="Software\[Manufacturer]\[ProductName]\SampleProjectJavaparserTargetGeneratedSourcesJavaccFolderKey" Root="HKCU" >
+										<RegistryValue Type="integer" Value="1" KeyPath="yes" />
+									</RegistryKey>
+								</Component>
+								<Directory Id="SampleProjectJavaparserTargetGeneratedSourcesJavaccCom" Name="com">
+									<Component Id="SampleProjectJavaparserTargetGeneratedSourcesJavaccComFolder" Guid="1887A161-87EF-4016-8D58-5DF5A4D0F6D7" Win64="$(var.Win64)">
 										<CreateFolder />
-										<RemoveFolder Id='SampleProjectJavaparserTarget' On='uninstall' />
-										<RegistryKey Action="none" Key="Software\[Manufacturer]\[ProductName]\SampleProjectJavaparserTargetFolderKey" Root="HKCU" >
+										<RemoveFolder Id='SampleProjectJavaparserTargetGeneratedSourcesJavaccCom' On='uninstall' />
+										<RegistryKey Action="none" Key="Software\[Manufacturer]\[ProductName]\SampleProjectJavaparserTargetGeneratedSourcesJavaccComFolderKey" Root="HKCU" >
 											<RegistryValue Type="integer" Value="1" KeyPath="yes" />
 										</RegistryKey>
 									</Component>
-									<Directory Id="SampleProjectJavaparserTargetGeneratedSources" Name="generated-sources">
-										<Component Id="SampleProjectJavaparserTargetGeneratedSourcesFolder" Guid="51670973-3944-4CB5-BE82-94BD2133FAF4">
+									<Directory Id="SampleProjectJavaparserTargetGeneratedSourcesJavaccComGithub" Name="github">
+										<Component Id="SampleProjectJavaparserTargetGeneratedSourcesJavaccComGithubFolder" Guid="132C1BBA-D68C-4285-AEE1-86EEDFDD4389" Win64="$(var.Win64)">
 											<CreateFolder />
-											<RemoveFolder Id='SampleProjectJavaparserTargetGeneratedSources' On='uninstall' />
-											<RegistryKey Action="none" Key="Software\[Manufacturer]\[ProductName]\SampleProjectJavaparserTargetGeneratedSourcesFolderKey" Root="HKCU" >
+											<RemoveFolder Id='SampleProjectJavaparserTargetGeneratedSourcesJavaccComGithub' On='uninstall' />
+											<RegistryKey Action="none" Key="Software\[Manufacturer]\[ProductName]\SampleProjectJavaparserTargetGeneratedSourcesJavaccComGithubFolderKey" Root="HKCU" >
 												<RegistryValue Type="integer" Value="1" KeyPath="yes" />
 											</RegistryKey>
 										</Component>
-										<Directory Id="SampleProjectJavaparserTargetGeneratedSourcesJavacc" Name="javacc">
-											<Component Id="SampleProjectJavaparserTargetGeneratedSourcesJavaccFolder" Guid="1DA62621-434C-4A5F-BA39-BE308EC15E34">
+										<Directory Id="SampleProjectJavaparserTargetGeneratedSourcesJavaccComGithubJavaparser" Name="javaparser">
+											<Component Id="SampleProjectJavaparserTargetGeneratedSourcesCode" Guid="2E9AEE68-666F-486B-86A9-F72860550A8F" Win64="$(var.Win64)">
 												<CreateFolder />
-												<RemoveFolder Id='SampleProjectJavaparserTargetGeneratedSourcesJavacc' On='uninstall' />
-												<RegistryKey Action="none" Key="Software\[Manufacturer]\[ProductName]\SampleProjectJavaparserTargetGeneratedSourcesJavaccFolderKey" Root="HKCU" >
+												<RemoveFolder Id='SampleProjectJavaparserTargetGeneratedSourcesJavaccComGithubJavaparser' On='uninstall' />
+												<RegistryKey Action="none" Key="Software\[Manufacturer]\[ProductName]\SampleProjectJavaparserTargetGenerated-sourcesJavaccComGithubJavaparserCodeKey" Root="HKCU" >
 													<RegistryValue Type="integer" Value="1" KeyPath="yes" />
 												</RegistryKey>
+												<File Id='ASTParserJava' Name='ASTParser.java' DiskId='1' Source='./../../../bin/app/user/projects/javaparser/target/generated-sources/javacc/com/github/javaparser/ASTParser.java' KeyPath='no' />
+												<File Id='ASTParserConstantsJava' Name='ASTParserConstants.java' DiskId='1' Source='./../../../bin/app/user/projects/javaparser/target/generated-sources/javacc/com/github/javaparser/ASTParserConstants.java' KeyPath='no' />
+												<File Id='ASTParserTokenManagerJava' Name='ASTParserTokenManager.java' DiskId='1' Source='./../../../bin/app/user/projects/javaparser/target/generated-sources/javacc/com/github/javaparser/ASTParserTokenManager.java' KeyPath='no' />
+												<File Id='JavaCharStreamJava' Name='JavaCharStream.java' DiskId='1' Source='./../../../bin/app/user/projects/javaparser/target/generated-sources/javacc/com/github/javaparser/JavaCharStream.java' KeyPath='no' />
+												<File Id='ParseExceptionJava' Name='ParseException.java' DiskId='1' Source='./../../../bin/app/user/projects/javaparser/target/generated-sources/javacc/com/github/javaparser/ParseException.java' KeyPath='no' />
+												<File Id='ProviderJava' Name='Provider.java' DiskId='1' Source='./../../../bin/app/user/projects/javaparser/target/generated-sources/javacc/com/github/javaparser/Provider.java' KeyPath='no' />
+												<File Id='StreamProviderJava' Name='StreamProvider.java' DiskId='1' Source='./../../../bin/app/user/projects/javaparser/target/generated-sources/javacc/com/github/javaparser/StreamProvider.java' KeyPath='no' />
+												<File Id='StringProviderJava' Name='StringProvider.java' DiskId='1' Source='./../../../bin/app/user/projects/javaparser/target/generated-sources/javacc/com/github/javaparser/StringProvider.java' KeyPath='no' />
+												<File Id='TokenJava' Name='Token.java' DiskId='1' Source='./../../../bin/app/user/projects/javaparser/target/generated-sources/javacc/com/github/javaparser/Token.java' KeyPath='no' />
+												<File Id='TokenMgrExceptionJava' Name='TokenMgrException.java' DiskId='1' Source='./../../../bin/app/user/projects/javaparser/target/generated-sources/javacc/com/github/javaparser/TokenMgrException.java' KeyPath='no' />
 											</Component>
-											<Directory Id="SampleProjectJavaparserTargetGeneratedSourcesJavaccCom" Name="com">
-												<Component Id="SampleProjectJavaparserTargetGeneratedSourcesJavaccComFolder" Guid="1887A161-87EF-4016-8D58-5DF5A4D0F6D7">
-													<CreateFolder />
-													<RemoveFolder Id='SampleProjectJavaparserTargetGeneratedSourcesJavaccCom' On='uninstall' />
-													<RegistryKey Action="none" Key="Software\[Manufacturer]\[ProductName]\SampleProjectJavaparserTargetGeneratedSourcesJavaccComFolderKey" Root="HKCU" >
-														<RegistryValue Type="integer" Value="1" KeyPath="yes" />
-													</RegistryKey>
-												</Component>
-												<Directory Id="SampleProjectJavaparserTargetGeneratedSourcesJavaccComGithub" Name="github">
-													<Component Id="SampleProjectJavaparserTargetGeneratedSourcesJavaccComGithubFolder" Guid="132C1BBA-D68C-4285-AEE1-86EEDFDD4389">
-														<CreateFolder />
-														<RemoveFolder Id='SampleProjectJavaparserTargetGeneratedSourcesJavaccComGithub' On='uninstall' />
-														<RegistryKey Action="none" Key="Software\[Manufacturer]\[ProductName]\SampleProjectJavaparserTargetGeneratedSourcesJavaccComGithubFolderKey" Root="HKCU" >
-															<RegistryValue Type="integer" Value="1" KeyPath="yes" />
-														</RegistryKey>
-													</Component>
-													<Directory Id="SampleProjectJavaparserTargetGeneratedSourcesJavaccComGithubJavaparser" Name="javaparser">
-														<Component Id="SampleProjectJavaparserTargetGeneratedSourcesCode" Guid="2E9AEE68-666F-486B-86A9-F72860550A8F">
-															<CreateFolder />
-															<RemoveFolder Id='SampleProjectJavaparserTargetGeneratedSourcesJavaccComGithubJavaparser' On='uninstall' />
-															<RegistryKey Action="none" Key="Software\[Manufacturer]\[ProductName]\SampleProjectJavaparserTargetGenerated-sourcesJavaccComGithubJavaparserCodeKey" Root="HKCU" >
-																<RegistryValue Type="integer" Value="1" KeyPath="yes" />
-															</RegistryKey>
-															<File Id='ASTParserJava' Name='ASTParser.java' DiskId='1' Source='./../../../bin/app/user/projects/javaparser/target/generated-sources/javacc/com/github/javaparser/ASTParser.java' KeyPath='no' />
-															<File Id='ASTParserConstantsJava' Name='ASTParserConstants.java' DiskId='1' Source='./../../../bin/app/user/projects/javaparser/target/generated-sources/javacc/com/github/javaparser/ASTParserConstants.java' KeyPath='no' />
-															<File Id='ASTParserTokenManagerJava' Name='ASTParserTokenManager.java' DiskId='1' Source='./../../../bin/app/user/projects/javaparser/target/generated-sources/javacc/com/github/javaparser/ASTParserTokenManager.java' KeyPath='no' />
-															<File Id='JavaCharStreamJava' Name='JavaCharStream.java' DiskId='1' Source='./../../../bin/app/user/projects/javaparser/target/generated-sources/javacc/com/github/javaparser/JavaCharStream.java' KeyPath='no' />
-															<File Id='ParseExceptionJava' Name='ParseException.java' DiskId='1' Source='./../../../bin/app/user/projects/javaparser/target/generated-sources/javacc/com/github/javaparser/ParseException.java' KeyPath='no' />
-															<File Id='ProviderJava' Name='Provider.java' DiskId='1' Source='./../../../bin/app/user/projects/javaparser/target/generated-sources/javacc/com/github/javaparser/Provider.java' KeyPath='no' />
-															<File Id='StreamProviderJava' Name='StreamProvider.java' DiskId='1' Source='./../../../bin/app/user/projects/javaparser/target/generated-sources/javacc/com/github/javaparser/StreamProvider.java' KeyPath='no' />
-															<File Id='StringProviderJava' Name='StringProvider.java' DiskId='1' Source='./../../../bin/app/user/projects/javaparser/target/generated-sources/javacc/com/github/javaparser/StringProvider.java' KeyPath='no' />
-															<File Id='TokenJava' Name='Token.java' DiskId='1' Source='./../../../bin/app/user/projects/javaparser/target/generated-sources/javacc/com/github/javaparser/Token.java' KeyPath='no' />
-															<File Id='TokenMgrExceptionJava' Name='TokenMgrException.java' DiskId='1' Source='./../../../bin/app/user/projects/javaparser/target/generated-sources/javacc/com/github/javaparser/TokenMgrException.java' KeyPath='no' />
-														</Component>
-													</Directory>
-												</Directory>
-											</Directory>
 										</Directory>
 									</Directory>
 								</Directory>
 							</Directory>
 						</Directory>
+					</Directory>
+				</Directory>
+			</Directory>
 		</DirectoryRef>
 	</Fragment>
 </Wix>

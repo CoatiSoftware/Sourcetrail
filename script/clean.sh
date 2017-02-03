@@ -30,27 +30,20 @@ cd $ROOT_DIR/
 if [ $PLATFORM == "Windows" ]; then
 	BACKSLASHED_ROOT_DIR="${ROOT_DIR//\//\\}"
     # Remove symbolic links
-    cmd //c 'rmdir '$BACKSLASHED_ROOT_DIR'\bin\app\Debug\data' &
-    cmd //c 'rmdir '$BACKSLASHED_ROOT_DIR'\bin\app\Debug\user' &
-    cmd //c 'rmdir '$BACKSLASHED_ROOT_DIR'\bin\app\Release\data' &
-    cmd //c 'rmdir '$BACKSLASHED_ROOT_DIR'\bin\app\Release\user' &
+    cmd //c 'rmdir '$BACKSLASHED_ROOT_DIR'\build\win32\Debug\app\data' &
+    cmd //c 'rmdir '$BACKSLASHED_ROOT_DIR'\build\win32\Debug\app\user' &
+    cmd //c 'rmdir '$BACKSLASHED_ROOT_DIR'\build\win32\Release\app\data' &
+    cmd //c 'rmdir '$BACKSLASHED_ROOT_DIR'\build\win32\Release\app\user' &
+    cmd //c 'rmdir '$BACKSLASHED_ROOT_DIR'\build\win64\Debug\app\data' &
+    cmd //c 'rmdir '$BACKSLASHED_ROOT_DIR'\build\win64\Debug\app\user' &
+    cmd //c 'rmdir '$BACKSLASHED_ROOT_DIR'\build\win64\Release\app\data' &
+    cmd //c 'rmdir '$BACKSLASHED_ROOT_DIR'\build\win64\Release\app\user' &
 fi
 
 # Remove folders and contents
+rm -rf java_indexer/bin
 rm -rf java_indexer/lib
 rm -rf build
-rm -rf bin/app/Debug
-rm -rf bin/app/Release
-rm -rf bin/lib/Debug
-rm -rf bin/lib/Release
-rm -rf bin/test/Debug
-rm -rf bin/test/Release
-rm -rf bin/gen
-rm -rf bin/lib
-rm -rf bin/lib_gui
-rm -rf bin/lib_license
-rm -rf bin/lib_parser
-rm -rf bin/license_generator
 
 # Remove log files
 find bin/test/data/log -type f -name 'log*' -delete
