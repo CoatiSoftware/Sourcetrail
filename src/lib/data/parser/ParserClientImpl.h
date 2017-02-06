@@ -23,16 +23,16 @@ public:
 	virtual void finishParsingFile();
 
 	virtual Id recordSymbol(
-		const NameHierarchy& symbolName, SymbolKind symbolType,
+		const NameHierarchy& symbolName, SymbolKind symbolKind,
 		AccessKind access, DefinitionKind definitionKind);
 
 	virtual Id recordSymbol(
-		const NameHierarchy& symbolName, SymbolKind symbolType,
+		const NameHierarchy& symbolName, SymbolKind symbolKind,
 		const ParseLocation& location,
 		AccessKind access, DefinitionKind definitionKind);
 
 	virtual Id recordSymbol(
-		const NameHierarchy& symbolName, SymbolKind symbolType,
+		const NameHierarchy& symbolName, SymbolKind symbolKind,
 		const ParseLocation& location, const ParseLocation& scopeLocation,
 		AccessKind access, DefinitionKind definitionKind);
 
@@ -49,7 +49,7 @@ private:
 	Node::NodeType symbolKindToNodeType(SymbolKind symbolType) const;
 	Edge::EdgeType referenceKindToEdgeType(ReferenceKind referenceKind) const;
 	void addAccess(Id nodeId, AccessKind access);
-	Id addNodeHierarchy(NameHierarchy nameHierarchy, Node::NodeType nodeType = Node::NODE_UNDEFINED);
+	Id addNodeHierarchy(NameHierarchy nameHierarchy, Node::NodeType nodeType = Node::NODE_NON_INDEXED);
 
 	Id addNode(Node::NodeType nodeType, NameHierarchy nameHierarchy);
 	void addFile(Id id, const FilePath& filePath, const std::string& modificationTime);

@@ -180,7 +180,7 @@ size_t GraphViewStyle::getFontSizeForNodeType(Node::NodeType type)
 	case Node::NODE_PACKAGE:
 		return s_fontSize - 3;
 
-	case Node::NODE_UNDEFINED:
+	case Node::NODE_NON_INDEXED:
 	case Node::NODE_TYPE:
 	case Node::NODE_BUILTIN_TYPE:
 	case Node::NODE_STRUCT:
@@ -268,7 +268,7 @@ GraphViewStyle::NodeMargins GraphViewStyle::getMarginsForNodeType(Node::NodeType
 	case Node::NODE_FILE:
 	case Node::NODE_MACRO:
 		margins.iconWidth = s_fontSize + 11;
-	case Node::NODE_UNDEFINED:
+	case Node::NODE_NON_INDEXED:
 	case Node::NODE_TYPE:
 	case Node::NODE_BUILTIN_TYPE:
 	case Node::NODE_STRUCT:
@@ -381,7 +381,7 @@ GraphViewStyle::NodeStyle GraphViewStyle::getStyleForNodeType(
 ){
 	NodeStyle style;
 
-	style.color = getNodeColor(Node::getTypeString(type), isActive || isFocused);
+	style.color = getNodeColor(Node::getUnderscoredTypeString(type), isActive || isFocused);
 
 	style.fontName = getFontNameForNodeType(type);
 	style.fontSize = getFontSizeForNodeType(type);
@@ -409,7 +409,7 @@ GraphViewStyle::NodeStyle GraphViewStyle::getStyleForNodeType(
 		style.textOffset.y = 3;
 		break;
 
-	case Node::NODE_UNDEFINED:
+	case Node::NODE_NON_INDEXED:
 	case Node::NODE_TYPE:
 	case Node::NODE_BUILTIN_TYPE:
 	case Node::NODE_STRUCT:
@@ -565,7 +565,7 @@ GraphViewStyle::EdgeStyle GraphViewStyle::getStyleForEdgeType(Edge::EdgeType typ
 	style.originOffset.y = -1;
 	style.targetOffset.y = 1;
 
-	style.color = getEdgeColor(Edge::getTypeString(type), isActive || isFocused);
+	style.color = getEdgeColor(Edge::getUnderscoredTypeString(type), isActive || isFocused);
 
 	switch (type)
 	{

@@ -34,34 +34,34 @@ void ParserClientImpl::finishParsingFile()
 }
 
 Id ParserClientImpl::recordSymbol(
-	const NameHierarchy& symbolName, SymbolKind symbolType,
+	const NameHierarchy& symbolName, SymbolKind symbolKind,
 	AccessKind access, DefinitionKind definitionKind
 )
 {
-	Id nodeId = addNodeHierarchy(symbolName, symbolKindToNodeType(symbolType));
+	Id nodeId = addNodeHierarchy(symbolName, symbolKindToNodeType(symbolKind));
 	addSymbol(nodeId, definitionKind);
 	addAccess(nodeId, access);
 	return nodeId;
 }
 
 Id ParserClientImpl::recordSymbol(
-	const NameHierarchy& symbolName, SymbolKind symbolType,
+	const NameHierarchy& symbolName, SymbolKind symbolKind,
 	const ParseLocation& location,
 	AccessKind access, DefinitionKind definitionKind
 )
 {
-	Id nodeId = recordSymbol(symbolName, symbolType, access, definitionKind);
+	Id nodeId = recordSymbol(symbolName, symbolKind, access, definitionKind);
 	addSourceLocation(nodeId, location, locationTypeToInt(LOCATION_TOKEN));
 	return nodeId;
 }
 
 Id ParserClientImpl::recordSymbol(
-	const NameHierarchy& symbolName, SymbolKind symbolType,
+	const NameHierarchy& symbolName, SymbolKind symbolKind,
 	const ParseLocation& location, const ParseLocation& scopeLocation,
 	AccessKind access, DefinitionKind definitionKind
 )
 {
-	Id nodeId = recordSymbol(symbolName, symbolType, location, access, definitionKind);
+	Id nodeId = recordSymbol(symbolName, symbolKind, location, access, definitionKind);
 	addSourceLocation(nodeId, scopeLocation, locationTypeToInt(LOCATION_SCOPE));
 	return nodeId;
 }
@@ -102,9 +102,9 @@ void ParserClientImpl::onCommentParsed(const ParseLocation& location)
 	addCommentLocation(location);
 }
 
-Node::NodeType ParserClientImpl::symbolKindToNodeType(SymbolKind symbolType) const
+Node::NodeType ParserClientImpl::symbolKindToNodeType(SymbolKind symbolKind) const
 {
-	switch (symbolType)
+	switch (symbolKind)
 	{
 	case SYMBOL_BUILTIN_TYPE:
 		return Node::NODE_BUILTIN_TYPE;
@@ -143,7 +143,7 @@ Node::NodeType ParserClientImpl::symbolKindToNodeType(SymbolKind symbolType) con
 	default:
 		break;
 	}
-	return Node::NODE_UNDEFINED;
+	return Node::NODE_NON_INDEXED;
 }
 
 Edge::EdgeType ParserClientImpl::referenceKindToEdgeType(ReferenceKind referenceKind) const
@@ -204,7 +204,7 @@ Id ParserClientImpl::addNodeHierarchy(NameHierarchy nameHierarchy, Node::NodeTyp
 	{
 		currentNameHierarchy.push(nameHierarchy[i]);
 		const bool currentIsLastElement = (i == nameHierarchy.size() - 1);
-		const Node::NodeType currentType = (currentIsLastElement ? nodeType : Node::NODE_UNDEFINED); // TODO: rename to unknown!
+		const Node::NodeType currentType = (currentIsLastElement ? nodeType : Node::NODE_NON_INDEXED); // TODO: rename to unknown!
 
 		Id nodeId = addNode(currentType, currentNameHierarchy);
 

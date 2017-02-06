@@ -35,7 +35,7 @@ public:
 
 	std::string getFullName() const
 	{
-		std::string name = Edge::getTypeString(type) + ":";
+		std::string name = Edge::getReadableTypeString(type) + ":";
 		name += fromNameHierarchy.getQualifiedNameWithSignature() + "->";
 		name += toNameHierarchy.getQualifiedNameWithSignature();
 		return name;

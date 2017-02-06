@@ -605,13 +605,13 @@ std::set<SearchMatch> PersistentStorage::getAutocompletionSymbolMatches(const st
 		match.indices = result.indices;
 		match.score = result.score;
 		match.nodeType = Node::intToType(firstNode->type);
-		match.typeName = Node::getTypeString(match.nodeType);
+		match.typeName = Node::getReadableTypeString(match.nodeType);
 		match.searchType = SearchMatch::SEARCH_TOKEN;
 
 		if (storageSymbolMap.find(firstNode->id) == storageSymbolMap.end() &&
-			match.nodeType != Node::NODE_UNDEFINED)
+			match.nodeType != Node::NODE_NON_INDEXED)
 		{
-			match.typeName = "undefined " + match.typeName;
+			match.typeName = "non-indexed " + match.typeName;
 		}
 
 		matches.insert(match);
@@ -642,7 +642,7 @@ std::set<SearchMatch> PersistentStorage::getAutocompletionFileMatches(const std:
 		match.score = result.score;
 
 		match.nodeType = Node::NODE_FILE;
-		match.typeName = Node::getTypeString(match.nodeType);
+		match.typeName = Node::getReadableTypeString(match.nodeType);
 
 		match.searchType = SearchMatch::SEARCH_TOKEN;
 

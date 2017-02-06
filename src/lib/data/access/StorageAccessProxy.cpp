@@ -63,7 +63,7 @@ Node::NodeType StorageAccessProxy::getNodeTypeForNodeWithId(Id id) const
 	{
 		return m_subject->getNodeTypeForNodeWithId(id);
 	}
-	return Node::NODE_UNDEFINED;
+	return Node::NODE_NON_INDEXED;
 }
 
 NameHierarchy StorageAccessProxy::getNameHierarchyForNodeWithId(Id id) const

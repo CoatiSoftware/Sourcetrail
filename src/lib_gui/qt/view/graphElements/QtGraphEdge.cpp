@@ -147,7 +147,7 @@ void QtGraphEdge::updateLine()
 			style, m_weight, showArrow);
 	}
 
-	QString toolTip = utility::replace(Edge::getTypeString(type), "_", " ").c_str();
+	QString toolTip = Edge::getReadableTypeString(type).c_str();
 	if (type == Edge::EDGE_AGGREGATION)
 	{
 		toolTip += ": " + QString::number(m_weight) + " edge";

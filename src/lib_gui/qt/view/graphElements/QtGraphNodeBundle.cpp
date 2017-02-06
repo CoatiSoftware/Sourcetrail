@@ -41,15 +41,15 @@ void QtGraphNodeBundle::onClick()
 {
 	MessageGraphNodeBundleSplit(
 		m_tokenId,
-		m_type != Node::NODE_UNDEFINED && getName() != "Anonymous Namespaces",
-		m_type != Node::NODE_UNDEFINED
+		m_type != Node::NODE_NON_INDEXED && getName() != "Anonymous Namespaces",
+		m_type != Node::NODE_NON_INDEXED
 	).dispatch();
 }
 
 void QtGraphNodeBundle::updateStyle()
 {
 	GraphViewStyle::NodeStyle style;
-	if (m_type != Node::NODE_UNDEFINED)
+	if (m_type != Node::NODE_NON_INDEXED)
 	{
 		style = GraphViewStyle::getStyleForNodeType(m_type, true, false, m_isHovering, false, false);
 	}

@@ -150,7 +150,7 @@ void QtAutocompletionDelegate::paint(QPainter* painter, const QStyleOptionViewIt
 
 	if (type.size() && type != "command")
 	{
-		const GraphViewStyle::NodeColor& nodeColor = GraphViewStyle::getNodeColor(Node::getTypeString(nodeType), false);
+		const GraphViewStyle::NodeColor& nodeColor = GraphViewStyle::getNodeColor(Node::getUnderscoredTypeString(nodeType), false);
 		fillColor = QColor(nodeColor.fill.c_str());
 		textColor = QColor(nodeColor.text.c_str());
 	}

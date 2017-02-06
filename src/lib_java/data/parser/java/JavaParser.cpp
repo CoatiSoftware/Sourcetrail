@@ -132,7 +132,7 @@ void JavaParser::doLogError(jstring jError)
 }
 
 void JavaParser::doRecordSymbol(
-	jstring jSymbolName, jint jSymbolType,
+	jstring jSymbolName, jint jSymbolKind,
 	jint jAccess, jint jDefinitionKind
 )
 {
@@ -141,14 +141,14 @@ void JavaParser::doRecordSymbol(
 
 	m_client->recordSymbol(
 		NameHierarchy::deserialize(m_javaEnvironment->toStdString(jSymbolName)),
-		intToSymbolKind(jSymbolType),
+		intToSymbolKind(jSymbolKind),
 		access,
 		definitionKind
 	);
 }
 
 void JavaParser::doRecordSymbolWithLocation(
-	jstring jSymbolName, jint jSymbolType,
+	jstring jSymbolName, jint jSymbolKind,
 	jint beginLine, jint beginColumn, jint endLine, jint endColumn,
 	jint jAccess, jint jDefinitionKind
 )
@@ -158,7 +158,7 @@ void JavaParser::doRecordSymbolWithLocation(
 
 	m_client->recordSymbol(
 		NameHierarchy::deserialize(m_javaEnvironment->toStdString(jSymbolName)),
-		intToSymbolKind(jSymbolType),
+		intToSymbolKind(jSymbolKind),
 		ParseLocation(m_currentFilePath, beginLine, beginColumn, endLine, endColumn),
 		access,
 		definitionKind
@@ -166,7 +166,7 @@ void JavaParser::doRecordSymbolWithLocation(
 }
 
 void JavaParser::doRecordSymbolWithLocationAndScope(
-	jstring jSymbolName, jint jSymbolType,
+	jstring jSymbolName, jint jSymbolKind,
 	jint beginLine, jint beginColumn, jint endLine, jint endColumn,
 	jint scopeBeginLine, jint scopeBeginColumn, jint scopeEndLine, jint scopeEndColumn,
 	jint jAccess, jint jDefinitionKind
@@ -177,7 +177,7 @@ void JavaParser::doRecordSymbolWithLocationAndScope(
 
 	m_client->recordSymbol(
 		NameHierarchy::deserialize(m_javaEnvironment->toStdString(jSymbolName)),
-		intToSymbolKind(jSymbolType),
+		intToSymbolKind(jSymbolKind),
 		ParseLocation(m_currentFilePath, beginLine, beginColumn, endLine, endColumn),
 		ParseLocation(m_currentFilePath, scopeBeginLine, scopeBeginColumn, scopeEndLine, scopeEndColumn),
 		access,

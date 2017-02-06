@@ -28,7 +28,7 @@ std::string ColorScheme::getColor(const std::string& key, const std::string& def
 
 std::string ColorScheme::getNodeTypeColor(Node::NodeType type, const std::string& key, ColorState state) const
 {
-	return getNodeTypeColor(Node::getTypeString(type), key, state);
+	return getNodeTypeColor(Node::getUnderscoredTypeString(type), key, state);
 }
 
 std::string ColorScheme::getNodeTypeColor(const std::string& typeStr, const std::string& key, ColorState state) const
@@ -60,7 +60,7 @@ std::string ColorScheme::getNodeTypeColor(const std::string& typeStr, const std:
 
 std::string ColorScheme::getEdgeTypeColor(Edge::EdgeType type, ColorState state) const
 {
-	return getEdgeTypeColor(Edge::getTypeString(type), state);
+	return getEdgeTypeColor(Edge::getUnderscoredTypeString(type), state);
 }
 
 std::string ColorScheme::getEdgeTypeColor(const std::string& typeStr, ColorState state) const

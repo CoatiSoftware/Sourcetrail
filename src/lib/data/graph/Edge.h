@@ -58,9 +58,10 @@ public:
 	// Component setters
 	void addComponentAggregation(std::shared_ptr<TokenComponentAggregation> component);
 
+	static std::string getUnderscoredTypeString(EdgeType type);
+	static std::string getReadableTypeString(EdgeType type);
 	// Logging.
-	static std::string getTypeString(EdgeType type);
-	virtual std::string getTypeString() const;
+	virtual std::string getReadableTypeString() const;
 	std::string getAsString() const;
 
 private:

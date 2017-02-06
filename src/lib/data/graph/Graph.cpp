@@ -311,7 +311,7 @@ void Graph::printBasic(std::ostream& ostream) const
 	forEachNode(
 		[&ostream](Node* n)
 		{
-			ostream << ' ' << n->getTypeString() << ':' << n->getFullName();
+			ostream << ' ' << n->getReadableTypeString() << ':' << n->getFullName();
 		}
 	);
 	ostream << '\n';

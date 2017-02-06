@@ -146,18 +146,18 @@ private:
 	void doLogError(jstring jError);
 
 	void doRecordSymbol(
-		jstring jSymbolName, jint jSymbolType,
+		jstring jSymbolName, jint jSymbolKind,
 		jint jAccess, jint jDefinitionKind
 	);
 
 	void doRecordSymbolWithLocation(
-		jstring jSymbolName, jint jSymbolType,
+		jstring jSymbolName, jint jSymbolKind,
 		jint beginLine, jint beginColumn, jint endLine, jint endColumn,
 		jint jAccess, jint jDefinitionKind
 	);
 
 	void doRecordSymbolWithLocationAndScope(
-		jstring jSymbolName, jint jSymbolType,
+		jstring jSymbolName, jint jSymbolKind,
 		jint beginLine, jint beginColumn, jint endLine, jint endColumn,
 		jint scopeBeginLine, jint scopeBeginColumn, jint scopeEndLine, jint scopeEndColumn,
 		jint jAccess, jint jDefinitionKind

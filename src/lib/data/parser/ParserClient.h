@@ -32,16 +32,16 @@ public:
 	virtual void finishParsingFile() = 0;
 
 	virtual Id recordSymbol(
-		const NameHierarchy& symbolName, SymbolKind symbolType,
+		const NameHierarchy& symbolName, SymbolKind symbolKind,
 		AccessKind access, DefinitionKind definitionKind) = 0;
 
 	virtual Id recordSymbol(
-		const NameHierarchy& symbolName, SymbolKind symbolType,
+		const NameHierarchy& symbolName, SymbolKind symbolKind,
 		const ParseLocation& location,
 		AccessKind access, DefinitionKind definitionKind) = 0;
 
 	virtual Id recordSymbol(
-		const NameHierarchy& symbolName, SymbolKind symbolType,
+		const NameHierarchy& symbolName, SymbolKind symbolKind,
 		const ParseLocation& location, const ParseLocation& scopeLocation,
 		AccessKind access, DefinitionKind definitionKind) = 0;
 

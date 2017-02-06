@@ -3,6 +3,7 @@
 #include <sstream>
 
 #include "utility/logging/logging.h"
+#include "utility/utilityString.h"
 
 #include "data/graph/token_component/TokenComponentAbstraction.h"
 #include "data/graph/token_component/TokenComponentAccess.h"
@@ -11,18 +12,23 @@
 #include "data/graph/token_component/TokenComponentFilePath.h"
 #include "data/graph/token_component/TokenComponentSignature.h"
 
-const Node::NodeTypeMask Node::NODE_NOT_VISIBLE = Node::NODE_UNDEFINED | Node::NODE_NAMESPACE | Node::NODE_PACKAGE;
-const Node::NodeTypeMask Node::NODE_USEABLE_TYPE = Node::NODE_UNDEFINED | Node::NODE_BUILTIN_TYPE |
+const Node::NodeTypeMask Node::NODE_NOT_VISIBLE = Node::NODE_NON_INDEXED | Node::NODE_NAMESPACE | Node::NODE_PACKAGE;
+const Node::NodeTypeMask Node::NODE_USEABLE_TYPE = Node::NODE_NON_INDEXED | Node::NODE_BUILTIN_TYPE |
 	Node::NODE_BUILTIN_TYPE | Node::NODE_STRUCT | Node::NODE_CLASS | Node::NODE_INTERFACE | Node::NODE_TYPEDEF;
 
-std::string Node::getTypeString(NodeType type)
+std::string Node::getUnderscoredTypeString(NodeType type)
+{
+	return utility::replace(utility::replace(getReadableTypeString(type), "-", "_"), " ", "_");
+}
+
+std::string Node::getReadableTypeString(NodeType type)
 {
 	switch (type)
 	{
-	case NODE_UNDEFINED:
-		return "undefined";
+	case NODE_NON_INDEXED:
+		return "non-indexed";
 	case NODE_BUILTIN_TYPE:
-		return "builtin_type";
+		return "built-in type";
 	case NODE_TYPE:
 		return "type";
 	case NODE_NAMESPACE:
@@ -36,7 +42,7 @@ std::string Node::getTypeString(NodeType type)
 	case NODE_INTERFACE:
 		return "interface";
 	case NODE_GLOBAL_VARIABLE:
-		return "global_variable";
+		return "global variable";
 	case NODE_FIELD:
 		return "field";
 	case NODE_FUNCTION:
@@ -46,13 +52,13 @@ std::string Node::getTypeString(NodeType type)
 	case NODE_ENUM:
 		return "enum";
 	case NODE_ENUM_CONSTANT:
-		return "enum_constant";
+		return "enum constant";
 	case NODE_TYPEDEF:
 		return "typedef";
 	case NODE_TEMPLATE_PARAMETER_TYPE:
-		return "template_parameter_type";
+		return "template parameter type";
 	case NODE_TYPE_PARAMETER:
-		return "type_parameter";
+		return "type parameter";
 	case NODE_FILE:
 		return "file";
 	case NODE_MACRO:
@@ -109,7 +115,7 @@ Node::NodeType Node::intToType(int value)
 		return NODE_MACRO;
 	}
 
-	return NODE_UNDEFINED;
+	return NODE_NON_INDEXED;
 }
 
 Node::Node(Id id, NodeType type, NameHierarchy nameHierarchy, bool defined)
@@ -133,10 +139,10 @@ Node::NodeType Node::getType() const
 
 void Node::setType(NodeType type)
 {
-	if (!isType(type | NODE_UNDEFINED))
+	if (!isType(type | NODE_NON_INDEXED))
 	{
 		LOG_WARNING(
-			"Cannot change NodeType after it was already set from " + getTypeString() + " to " + getTypeString(type)
+			"Cannot change NodeType after it was already set from " + getReadableTypeString() + " to " + getReadableTypeString(type)
 		);
 		return;
 	}
@@ -362,7 +368,7 @@ void Node::addComponentAbstraction(std::shared_ptr<TokenComponentAbstraction> co
 	}
 	else if (!isType(NODE_METHOD))
 	{
-		LOG_ERROR("TokenComponentAbstraction can't be set on node of type: " + getTypeString());
+		LOG_ERROR("TokenComponentAbstraction can't be set on node of type: " + getReadableTypeString());
 	}
 	else
 	{
@@ -379,7 +385,7 @@ void Node::addComponentConst(std::shared_ptr<TokenComponentConst> component)
 	}
 	else if (!isType(NODE_METHOD))
 	{
-		LOG_ERROR("TokenComponentConst can't be set on node of type: " + getTypeString());
+		LOG_ERROR("TokenComponentConst can't be set on node of type: " + getReadableTypeString());
 	}
 	else
 	{
@@ -396,7 +402,7 @@ void Node::addComponentStatic(std::shared_ptr<TokenComponentStatic> component)
 	}
 	else if (!isType(NODE_GLOBAL_VARIABLE | NODE_FIELD | NODE_FUNCTION | NODE_METHOD))
 	{
-		LOG_ERROR("TokenComponentStatic can't be set on node of type: " + getTypeString());
+		LOG_ERROR("TokenComponentStatic can't be set on node of type: " + getReadableTypeString());
 	}
 	else
 	{
@@ -413,7 +419,7 @@ void Node::addComponentFilePath(std::shared_ptr<TokenComponentFilePath> componen
 	}
 	else if (!isType(NODE_FILE))
 	{
-		LOG_ERROR("TokenComponentFilePath can't be set on node of type: " + getTypeString());
+		LOG_ERROR("TokenComponentFilePath can't be set on node of type: " + getReadableTypeString());
 	}
 	else
 	{
@@ -430,7 +436,7 @@ void Node::addComponentSignature(std::shared_ptr<TokenComponentSignature> compon
 	}
 	else if (!isType(NODE_FUNCTION | NODE_METHOD))
 	{
-		LOG_ERROR("TokenComponentFilePath can't be set on node of type: " + getTypeString());
+		LOG_ERROR("TokenComponentFilePath can't be set on node of type: " + getReadableTypeString());
 	}
 	else
 	{
@@ -451,15 +457,15 @@ void Node::addComponentAccess(std::shared_ptr<TokenComponentAccess> component)
 	}
 }
 
-std::string Node::getTypeString() const
+std::string Node::getReadableTypeString() const
 {
-	return getTypeString(m_type);
+	return getReadableTypeString(m_type);
 }
 
 std::string Node::getAsString() const
 {
 	std::stringstream str;
-	str << "[" << getId() << "] " << getTypeString() << ": " << "\"" << getName() << "\"";
+	str << "[" << getId() << "] " << getReadableTypeString() << ": " << "\"" << getName() << "\"";
 
 	TokenComponentAccess* access = getComponent<TokenComponentAccess>();
 	if (access)

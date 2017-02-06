@@ -24,7 +24,7 @@ public:
 	typedef int NodeTypeMask;
 	enum NodeType : NodeTypeMask
 	{ // make sure that the value of 0x0 is not used here because it doesn't work for bitmasking.
-		NODE_UNDEFINED					= 0x1,
+		NODE_NON_INDEXED				= 0x1,
 		NODE_TYPE						= 0x2,
 		NODE_BUILTIN_TYPE				= 0x4,
 
@@ -48,7 +48,9 @@ public:
 		NODE_MACRO						= 0x40000
 	};
 
-	static std::string getTypeString(NodeType type);
+	static std::string getUnderscoredTypeString(NodeType type);
+	static std::string getReadableTypeString(NodeType type);
+
 	static int typeToInt(NodeType type);
 	static NodeType intToType(int value);
 
@@ -107,7 +109,7 @@ public:
 	void addComponentAccess(std::shared_ptr<TokenComponentAccess> component);
 
 	// Logging.
-	virtual std::string getTypeString() const;
+	virtual std::string getReadableTypeString() const;
 	std::string getAsString() const;
 
 private:

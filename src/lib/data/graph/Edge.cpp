@@ -106,7 +106,7 @@ Node* Edge::getTo() const
 
 std::string Edge::getName() const
 {
-	return getTypeString() + ":" + getFrom()->getFullName() + "->" + getTo()->getFullName();
+	return getReadableTypeString() + ":" + getFrom()->getFullName() + "->" + getTo()->getFullName();
 }
 
 bool Edge::isNode() const
@@ -127,7 +127,7 @@ void Edge::addComponentAggregation(std::shared_ptr<TokenComponentAggregation> co
 	}
 	else if (m_type != EDGE_AGGREGATION)
 	{
-		LOG_ERROR("TokenComponentAggregation can't be set on edge of type: " + getTypeString());
+		LOG_ERROR("TokenComponentAggregation can't be set on edge of type: " + getReadableTypeString());
 	}
 	else
 	{
@@ -135,7 +135,12 @@ void Edge::addComponentAggregation(std::shared_ptr<TokenComponentAggregation> co
 	}
 }
 
-std::string Edge::getTypeString(EdgeType type)
+std::string Edge::getUnderscoredTypeString(EdgeType type)
+{
+	return utility::replace(utility::replace(getReadableTypeString(type), "-", "_"), " ", "_");
+}
+
+std::string Edge::getReadableTypeString(EdgeType type)
 {
 	switch (type)
 	{
@@ -144,7 +149,7 @@ std::string Edge::getTypeString(EdgeType type)
 	case EDGE_MEMBER:
 		return "child";
 	case EDGE_TYPE_USAGE:
-		return "type_use";
+		return "type use";
 	case EDGE_USAGE:
 		return "use";
 	case EDGE_CALL:
@@ -154,15 +159,15 @@ std::string Edge::getTypeString(EdgeType type)
 	case EDGE_OVERRIDE:
 		return "override";
 	case EDGE_TEMPLATE_ARGUMENT:
-		return "template_argument";
+		return "template argument";
 	case EDGE_TYPE_ARGUMENT:
-		return "type_argument";
+		return "type argument";
 	case EDGE_TEMPLATE_DEFAULT_ARGUMENT:
-		return "template_default_argument";
+		return "template default argument";
 	case EDGE_TEMPLATE_SPECIALIZATION:
-		return "template_specialization";
+		return "template specialization";
 	case EDGE_TEMPLATE_MEMBER_SPECIALIZATION:
-		return "template_member_specialization";
+		return "template member specialization";
 	case EDGE_INCLUDE:
 		return "include";
 	case EDGE_IMPORT:
@@ -170,21 +175,21 @@ std::string Edge::getTypeString(EdgeType type)
 	case EDGE_AGGREGATION:
 		return "aggregation";
 	case EDGE_MACRO_USAGE:
-		return "macro_use";
+		return "macro use";
 	}
 
 	return "";
 }
 
-std::string Edge::getTypeString() const
+std::string Edge::getReadableTypeString() const
 {
-	return getTypeString(m_type);
+	return getReadableTypeString(m_type);
 }
 
 std::string Edge::getAsString() const
 {
 	std::stringstream str;
-	str << "[" << getId() << "] " << getTypeString() << ": \"" << m_from->getName() << "\" -> \"" + m_to->getName() << "\"";
+	str << "[" << getId() << "] " << getReadableTypeString() << ": \"" << m_from->getName() << "\" -> \"" + m_to->getName() << "\"";
 
 	TokenComponentAggregation* aggregation = getComponent<TokenComponentAggregation>();
 	if (aggregation)

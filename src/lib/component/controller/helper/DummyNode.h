@@ -67,7 +67,7 @@ public:
 		, bundleId(0)
 		, layoutBucket(0, 0)
 		, bundledNodeCount(0)
-		, bundledNodeType(Node::NODE_UNDEFINED)
+		, bundledNodeType(Node::NODE_NON_INDEXED)
 		, textNode(false)
 	{
 	}

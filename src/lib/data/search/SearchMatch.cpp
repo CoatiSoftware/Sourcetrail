@@ -191,9 +191,9 @@ std::string SearchMatch::getFullName() const
 	return name;
 }
 
-std::string SearchMatch::getNodeTypeAsString() const
+std::string SearchMatch::getNodeTypeAsUnderscoredString() const
 {
-	return Node::getTypeString(nodeType);
+	return Node::getUnderscoredTypeString(nodeType);
 }
 
 std::string SearchMatch::getSearchTypeName() const

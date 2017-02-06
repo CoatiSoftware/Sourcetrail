@@ -35,7 +35,7 @@ public:
 	{
 		ActiveNode node;
 		node.nodeId = 0;
-		node.type = Node::NODE_UNDEFINED;
+		node.type = Node::NODE_NON_INDEXED;
 		node.nameHierarchy = nameHierarchy;
 
 		nodes.push_back(node);

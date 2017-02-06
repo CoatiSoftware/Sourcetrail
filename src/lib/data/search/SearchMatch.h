@@ -48,7 +48,7 @@ struct SearchMatch
 	void print(std::ostream& ostream) const;
 
 	std::string getFullName() const;
-	std::string getNodeTypeAsString() const;
+	std::string getNodeTypeAsUnderscoredString() const;
 	std::string getSearchTypeName() const;
 
 	std::string name;
