@@ -1,5 +1,5 @@
-#ifndef TASK_SHOW_DIALOG_VIEW_H
-#define TASK_SHOW_DIALOG_VIEW_H
+#ifndef TASK_SHOW_STATUS_DIALOG_H
+#define TASK_SHOW_STATUS_DIALOG_H
 
 #include <string>
 
@@ -7,17 +7,17 @@
 
 class DialogView;
 
-class TaskShowDialogView
+class TaskShowStatusDialog
 	: public Task
 {
 public:
-	TaskShowDialogView(
+	TaskShowStatusDialog(
 		const std::string& title,
 		const std::string& message,
 		DialogView* dialogView
 	);
 
-	virtual ~TaskShowDialogView();
+	virtual ~TaskShowStatusDialog();
 
 private:
 	virtual void doEnter(std::shared_ptr<Blackboard> blackboard);
@@ -30,4 +30,4 @@ private:
 	DialogView* m_dialogView;
 };
 
-#endif // TASK_SHOW_DIALOG_VIEW_H
+#endif // TASK_SHOW_STATUS_DIALOG_H

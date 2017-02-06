@@ -25,9 +25,51 @@ QtDialogView::~QtDialogView()
 	m_resultReady = true;
 }
 
-void QtDialogView::showProgressDialog(const std::string& title, const std::string& message)
+void QtDialogView::showStatusDialog(const std::string& title, const std::string& message)
 {
 	MessageStatus(title + ": " + message, false, true).dispatch();
+
+	m_onQtThread(
+		[=]()
+		{
+			QtIndexingDialog* window = dynamic_cast<QtIndexingDialog*>(m_windowStack.getTopWindow());
+			if (!window || window->getType() != QtIndexingDialog::DIALOG_STATUS)
+			{
+				m_windowStack.clearWindows();
+
+				window = createWindow<QtIndexingDialog>();
+				window->setupStatus();
+			}
+
+			window->updateTitle(title.c_str());
+			window->updateMessage(message.c_str());
+
+			setUIBlocked(true);
+		}
+	);
+}
+
+void QtDialogView::hideStatusDialog()
+{
+	MessageStatus("", false, false).dispatch();
+
+	m_onQtThread(
+		[=]()
+		{
+			QtIndexingDialog* window = dynamic_cast<QtIndexingDialog*>(m_windowStack.getTopWindow());
+			if (window && window->getType() == QtIndexingDialog::DIALOG_STATUS)
+			{
+				m_windowStack.popWindow();
+			}
+
+			setUIBlocked(false);
+		}
+	);
+}
+
+void QtDialogView::showProgressDialog(const std::string& title, const std::string& message, int progress)
+{
+	MessageStatus(title + ": " + message + " [" + std::to_string(progress) + "%]", false, true).dispatch();
 
 	m_onQtThread(
 		[=]()
@@ -43,6 +85,7 @@ void QtDialogView::showProgressDialog(const std::string& title, const std::strin
 
 			window->updateTitle(title.c_str());
 			window->updateMessage(message.c_str());
+			window->updateProgress(progress);
 
 			setUIBlocked(true);
 		}
@@ -66,6 +109,7 @@ void QtDialogView::hideProgressDialog()
 		}
 	);
 }
+
 
 DialogView::IndexMode QtDialogView::startIndexingDialog(
 	size_t cleanFileCount, size_t indexFileCount, size_t totalFileCount, bool forceRefresh, bool needsFullRefresh)
@@ -211,7 +255,7 @@ void QtDialogView::handleMessage(MessageInterruptTasks* message)
 			QtIndexingDialog* window = dynamic_cast<QtIndexingDialog*>(m_windowStack.getTopWindow());
 			if (window && window->getType() == QtIndexingDialog::DIALOG_INDEXING)
 			{
-				showProgressDialog("Interrupting Indexing", "Waiting for indexer\nthreads to finish");
+				showStatusDialog("Interrupting Indexing", "Waiting for indexer\nthreads to finish");
 			}
 		}
 	);

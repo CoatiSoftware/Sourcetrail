@@ -69,7 +69,7 @@ public:
 
 	void removeElement(Id id);
 	void removeElements(const std::vector<Id>& ids);
-	void removeElementsWithLocationInFiles(const std::vector<Id>& fileIds);
+	void removeElementsWithLocationInFiles(const std::vector<Id>& fileIds, std::function<void(int)> updateStatusCallback);
 
 	void removeErrorsInFiles(const std::vector<FilePath>& filePaths);
 

@@ -323,7 +323,7 @@ std::set<FilePath> PersistentStorage::getReferencing(const std::set<FilePath>& f
 	return referencing;
 }
 
-void PersistentStorage::clearFileElements(const std::vector<FilePath>& filePaths)
+void PersistentStorage::clearFileElements(const std::vector<FilePath>& filePaths, std::function<void(int)> updateStatusCallback)
 {
 	TRACE();
 
@@ -331,7 +331,7 @@ void PersistentStorage::clearFileElements(const std::vector<FilePath>& filePaths
 
 	if (!fileNodeIds.empty())
 	{
-		m_sqliteStorage.removeElementsWithLocationInFiles(fileNodeIds);
+		m_sqliteStorage.removeElementsWithLocationInFiles(fileNodeIds, updateStatusCallback);
 		m_sqliteStorage.removeElements(fileNodeIds);
 
 		m_sqliteStorage.removeErrorsInFiles(filePaths);

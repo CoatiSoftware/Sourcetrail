@@ -7,7 +7,7 @@
 #include "data/StorageProvider.h"
 #include "data/PersistentStorage.h"
 #include "data/TaskCleanStorage.h"
-#include "data/TaskShowDialogView.h"
+#include "data/TaskShowStatusDialog.h"
 #include "data/TaskFinishParsing.h"
 #include "data/TaskInjectStorage.h"
 #include "settings/ApplicationSettings.h"
@@ -407,7 +407,7 @@ void Project::buildIndex(const std::set<FilePath>& filesToClean, const std::set<
 		);
 
 		taskSequential->addTask( // we don't need to hide this dialog again, because it's overridden by other dialogs later on.
-			std::make_shared<TaskShowDialogView>("Finish Indexing", "Saving\nRemaining Data", m_dialogView)
+			std::make_shared<TaskShowStatusDialog>("Finish Indexing", "Saving\nRemaining Data", m_dialogView)
 		);
 
 		taskSequential->addTask(

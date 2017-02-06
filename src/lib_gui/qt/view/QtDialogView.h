@@ -28,13 +28,16 @@ public:
 	QtDialogView(QtMainWindow* mainWindow, StorageAccess* storageAccess);
 	virtual ~QtDialogView();
 
-	void showProgressDialog(const std::string& title, const std::string& message) override;
-	void hideProgressDialog() override;
+	virtual void showStatusDialog(const std::string& title, const std::string& message) override;
+	virtual void hideStatusDialog() override;
 
-	DialogView::IndexMode startIndexingDialog(size_t cleanFileCount, size_t indexFileCount, size_t totalFileCount,
+	virtual void showProgressDialog(const std::string& title, const std::string& message, int progress) override;
+	virtual void hideProgressDialog() override;
+
+	virtual DialogView::IndexMode startIndexingDialog(size_t cleanFileCount, size_t indexFileCount, size_t totalFileCount,
 		bool forceRefresh, bool needsFullRefresh) override;
-	void updateIndexingDialog(size_t fileCount, size_t totalFileCount, std::string sourcePath) override;
-	void finishedIndexingDialog(size_t fileCount, size_t totalFileCount, float time, ErrorCountInfo errorInfo) override;
+	virtual void updateIndexingDialog(size_t fileCount, size_t totalFileCount, std::string sourcePath) override;
+	virtual void finishedIndexingDialog(size_t fileCount, size_t totalFileCount, float time, ErrorCountInfo errorInfo) override;
 
 	int confirm(const std::string& message, const std::vector<std::string>& options) override;
 

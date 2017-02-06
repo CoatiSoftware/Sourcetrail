@@ -342,16 +342,31 @@ void SqliteStorage::removeElements(const std::vector<Id>& ids)
 	);
 }
 
-void SqliteStorage::removeElementsWithLocationInFiles(const std::vector<Id>& fileIds)
+void SqliteStorage::removeElementsWithLocationInFiles(const std::vector<Id>& fileIds, std::function<void(int)> updateStatusCallback)
 {
+	if (updateStatusCallback != nullptr)
+	{
+		updateStatusCallback(1);
+	}
+
 	// preparing
 	executeStatement("DROP TABLE IF EXISTS main.element_id_to_clear;");
+
+	if (updateStatusCallback != nullptr)
+	{
+		updateStatusCallback(2);
+	}
 
 	executeStatement(
 		"CREATE TABLE IF NOT EXISTS element_id_to_clear("
 		"id INTEGER NOT NULL, "
 		"PRIMARY KEY(id));"
 	);
+
+	if (updateStatusCallback != nullptr)
+	{
+		updateStatusCallback(3);
+	}
 
 	// store ids of all elements located in fileIds into element_id_to_clear
 	executeStatement(
@@ -365,15 +380,30 @@ void SqliteStorage::removeElementsWithLocationInFiles(const std::vector<Id>& fil
 		"	GROUP BY (occurrence.element_id)"
 	);
 
+	if (updateStatusCallback != nullptr)
+	{
+		updateStatusCallback(4);
+	}
+
 	// delete all edges in element_id_to_clear
 	executeStatement(
 		"DELETE FROM element WHERE element.id IN (SELECT element_id_to_clear.id FROM element_id_to_clear INNER JOIN edge ON (element_id_to_clear.id = edge.id))"
 	);
 
+	if (updateStatusCallback != nullptr)
+	{
+		updateStatusCallback(22);
+	}
+
 	// delete all edges originating from element_id_to_clear
 	executeStatement(
 		"DELETE FROM element WHERE element.id IN (SELECT id FROM edge WHERE source_node_id IN (SELECT id FROM element_id_to_clear))"
 	);
+
+	if (updateStatusCallback != nullptr)
+	{
+		updateStatusCallback(23);
+	}
 
 	// remove all edges from element_id_to_clear (they have been cleared by now and we can disregard them)
 	executeStatement(
@@ -382,6 +412,11 @@ void SqliteStorage::removeElementsWithLocationInFiles(const std::vector<Id>& fil
 		")"
 	);
 
+	if (updateStatusCallback != nullptr)
+	{
+		updateStatusCallback(24);
+	}
+
 	// remove all files from element_id_to_clear (they will be cleared later)
 	executeStatement(
 		"DELETE FROM element_id_to_clear WHERE id IN ("
@@ -389,10 +424,20 @@ void SqliteStorage::removeElementsWithLocationInFiles(const std::vector<Id>& fil
 		")"
 	);
 
+	if (updateStatusCallback != nullptr)
+	{
+		updateStatusCallback(25);
+	}
+
 	// delete source locations from fileIds (this also deletes the respective occurrences)
 	executeStatement(
 		"DELETE FROM source_location WHERE file_node_id IN (" + utility::join(utility::toStrings(fileIds), ',') + ");"
 	);
+
+	if (updateStatusCallback != nullptr)
+	{
+		updateStatusCallback(34);
+	}
 
 	// remove all ids from element_id_to_clear that still have occurrences
 	executeStatement(
@@ -401,12 +446,22 @@ void SqliteStorage::removeElementsWithLocationInFiles(const std::vector<Id>& fil
 		")"
 	);
 
+	if (updateStatusCallback != nullptr)
+	{
+		updateStatusCallback(35);
+	}
+
 	// remove all ids from element_id_to_clear that still have an edge pointing to them
 	executeStatement(
 		"DELETE FROM element_id_to_clear WHERE id IN ("
 		"	SELECT target_node_id FROM edge"
 		")"
 	);
+
+	if (updateStatusCallback != nullptr)
+	{
+		updateStatusCallback(44);
+	}
 
 	// delete all elements that are still listed in element_id_to_clear
 	executeStatement(
@@ -415,8 +470,18 @@ void SqliteStorage::removeElementsWithLocationInFiles(const std::vector<Id>& fil
 		")"
 	);
 
+	if (updateStatusCallback != nullptr)
+	{
+		updateStatusCallback(80);
+	}
+
 	// cleaning up
 	executeStatement("DROP TABLE IF EXISTS main.element_id_to_clear;");
+
+	if (updateStatusCallback != nullptr)
+	{
+		updateStatusCallback(89);
+	}
 }
 
 void SqliteStorage::removeErrorsInFiles(const std::vector<FilePath>& filePaths)

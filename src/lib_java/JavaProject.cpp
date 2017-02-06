@@ -97,9 +97,9 @@ std::shared_ptr<Task> JavaProject::createIndexerTask(
 
 	if (!m_rootDirectories)
 	{
-		getDialogView()->showProgressDialog("Preparing Project", "Gathering Root\nDirectories");
+		getDialogView()->showStatusDialog("Preparing Project", "Gathering Root\nDirectories");
 		fetchRootDirectories();
-		getDialogView()->hideProgressDialog();
+		getDialogView()->hideStatusDialog();
 	}
 
 	for (FilePath rootDirectory: *(m_rootDirectories.get()))

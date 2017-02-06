@@ -33,13 +33,13 @@ Task::TaskState TaskFinishParsing::doUpdate(std::shared_ptr<Blackboard> blackboa
 {
 	TimePoint start = utility::durationStart();
 
-	m_dialogView->showProgressDialog("Finish Indexing", "Optimizing database");
+	m_dialogView->showStatusDialog("Finish Indexing", "Optimizing database");
 	m_storage->optimizeMemory();
 
-	m_dialogView->showProgressDialog("Finish Indexing", "Building caches");
+	m_dialogView->showStatusDialog("Finish Indexing", "Building caches");
 	m_storage->buildCaches();
 
-	m_dialogView->hideProgressDialog();
+	m_dialogView->hideStatusDialog();
 	MessageFinishedParsing().dispatch();
 
 	float time = utility::duration(start);

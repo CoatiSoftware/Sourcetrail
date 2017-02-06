@@ -9,7 +9,15 @@ DialogView::~DialogView()
 {
 }
 
-void DialogView::showProgressDialog(const std::string& title, const std::string& message)
+void DialogView::showStatusDialog(const std::string& title, const std::string& message)
+{
+}
+
+void DialogView::hideStatusDialog()
+{
+}
+
+void DialogView::showProgressDialog(const std::string& title, const std::string& message, int progress)
 {
 }
 

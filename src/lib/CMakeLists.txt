@@ -192,8 +192,8 @@ add_files(
 	data/TaskFinishParsing.h
 	data/TaskInjectStorage.cpp
 	data/TaskInjectStorage.h
-	data/TaskShowDialogView.cpp
-	data/TaskShowDialogView.h
+	data/TaskShowStatusDialog.cpp
+	data/TaskShowStatusDialog.h
 
 	settings/ApplicationSettings.cpp
 	settings/ApplicationSettings.h

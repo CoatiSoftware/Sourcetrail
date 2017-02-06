@@ -104,27 +104,6 @@ void QtIndexingDialog::setupStart(
 	finishSetup();
 }
 
-void QtIndexingDialog::setupProgress()
-{
-	setType(DIALOG_PROGRESS);
-
-	QBoxLayout* layout = createLayout();
-
-	addTopAndProgressBar(0.5);
-	addTitle("Clearing", layout);
-	addMessageLabel(layout);
-
-	layout->addStretch();
-
-	m_sizeHint = QSize(350, 280);
-
-	m_progressBar->showUnknownProgressAnimated();
-
-	setCancelAble(false);
-
-	finishSetup();
-}
-
 void QtIndexingDialog::setupIndexing()
 {
 	setType(DIALOG_INDEXING);
@@ -192,6 +171,47 @@ void QtIndexingDialog::setupReport(size_t fileCount, size_t totalFileCount, floa
 	finishSetup();
 }
 
+void QtIndexingDialog::setupStatus()
+{
+	setType(DIALOG_STATUS);
+
+	QBoxLayout* layout = createLayout();
+
+	addTopAndProgressBar(0.5);
+	addTitle("Status", layout);
+	addMessageLabel(layout);
+
+	layout->addStretch();
+
+	m_sizeHint = QSize(350, 280);
+
+	m_progressBar->showUnknownProgressAnimated();
+
+	setCancelAble(false);
+
+	finishSetup();
+}
+
+void QtIndexingDialog::setupProgress()
+{
+	setType(DIALOG_PROGRESS);
+
+	QBoxLayout* layout = createLayout();
+
+	addTopAndProgressBar(0.5);
+	addTitle("Progress", layout);
+	addPercentLabel(layout);
+	addMessageLabel(layout);
+
+	layout->addStretch();
+
+	m_sizeHint = QSize(350, 280);
+
+	setCancelAble(false);
+
+	finishSetup();
+}
+
 void QtIndexingDialog::updateMessage(QString message)
 {
 	if (m_messageLabel)
@@ -200,20 +220,27 @@ void QtIndexingDialog::updateMessage(QString message)
 	}
 }
 
+void QtIndexingDialog::updateProgress(int progress)
+{
+	int percent = std::min(std::max(progress, 0), 100);
+
+	m_progressBar->showProgress(percent);
+	m_percentLabel->setText(QString::number(percent) + "% Progress");
+	setGeometries();
+}
+
 void QtIndexingDialog::updateIndexingProgress(size_t fileCount, size_t totalFileCount, std::string sourcePath)
 {
 	updateMessage(QString::number(fileCount) + "/" + QString::number(totalFileCount) + " File" + (totalFileCount > 1 ? "s" : ""));
 
-	size_t percent = 0;
+	int progress = 0;
 	if (totalFileCount > 0)
 	{
-		percent = fileCount * 100 / totalFileCount;
+		progress = fileCount * 100 / totalFileCount;
 	}
 
-	m_progressBar->showProgress(percent);
-	m_percentLabel->setText(QString::number(percent) + "% Progress");
 	m_sourcePath = QString::fromStdString(sourcePath);
-	setGeometries();
+	updateProgress(progress);
 }
 
 void QtIndexingDialog::updateErrorCount(size_t errorCount, size_t fatalCount)

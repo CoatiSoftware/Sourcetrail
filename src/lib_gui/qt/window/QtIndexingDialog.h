@@ -18,6 +18,7 @@ public:
 	enum DialogType
 	{
 		DIALOG_MESSAGE,
+		DIALOG_STATUS,
 		DIALOG_PROGRESS,
 		DIALOG_INDEXING
 	};
@@ -29,11 +30,14 @@ public:
 
 	void setupStart(size_t cleanFileCount, size_t indexFileCount, size_t totalFileCount,
 		bool forceRefresh, bool needsFullRefresh, std::function<void(bool, bool)> callback);
-	void setupProgress();
 	void setupIndexing();
 	void setupReport(size_t fileCount, size_t totalFileCount, float time);
 
+	void setupStatus();
+	void setupProgress();
+
 	void updateMessage(QString message);
+	void updateProgress(int progress);
 	void updateIndexingProgress(size_t fileCount, size_t totalFileCount, std::string sourcePath);
 	void updateErrorCount(size_t errorCount, size_t fatalCount);
 
