@@ -4,6 +4,7 @@
 #include <QTextDocument>
 
 #include "settings/ColorScheme.h"
+#include "Application.h"
 
 QVector<QtHighlighter::HighlightingRule> QtHighlighter::s_highlightingRules;
 QtHighlighter::HighlightingRule QtHighlighter::s_quotationRule;
@@ -12,27 +13,59 @@ QTextCharFormat QtHighlighter::s_textFormat;
 
 void QtHighlighter::createHighlightingRules()
 {
+	Project* project = Application::getInstance()->getCurrentProject().get();
+	LanguageType language = LANGUAGE_UNKNOWN;
+	if (project)
+	{
+		language = project->getLanguage();
+	}
+
 	QStringList keywordPatterns;
-	keywordPatterns
-		<< "break" << "case" << "const" << "continue" << "default"
-		<< "delete" << "do" << "else" << "explicit" << "false" << "for"
-		<< "friend" << "if" << "inline" << "new" << "NULL" << "nullptr" << "operator"
-		<< "private" << "protected" << "public" << "return" << "signals"
-		<< "slots" << "static" << "switch" << "template" << "true" << "typedef"
-		<< "typename" << "virtual" << "volatile" << "while";
+	if (language == LANGUAGE_JAVA)
+	{
+		keywordPatterns
+			<< "abstract" << "assert" << "break" << "case" << "catch" << "const" << "continue" << "default"
+			<< "do" << "else" << "extends" << "false" << "final" << "finally" << "for"
+			<< "friend" << "goto" << "if" << "implements" << "import" << "instanceof" << "interface" << "native"
+			<< "new" << "package" << "private" << "protected" << "public" << "return" << "static" << "strictfp"
+			<< "super" << "switch" << "synchronized" << "this" << "true" << "throw" << "throws" << "transient"
+			<< "try" << "volatile" << "while";
+	}
+	else
+	{
+		keywordPatterns
+			<< "alignas" << "alignof" << "and" << "and_eq" << "asm" << "assert" << "auto" << "bitand" << "bitor"
+			<< "break" << "case" << "catch" << "compl" << "complex" << "const" << "constexpr" << "const_cast"
+			<< "continue" << "decltype" << "default" << "delete" << "do" << "dynamic_cast" << "else" << "explicit"
+			<< "export" << "extern" << "false" << "final" << "for" << "friend" << "goto" << "if" << "imaginary"
+			<< "inline" << "mutable" << "new" << "noexcept" << "not" << "not_eq" << "noreturn" << "NULL" << "nullptr"
+			<< "operator" << "or" << "or_eq" << "override" << "private" << "protected" << "public" << "register"
+			<< "reinterpret_cast" << "requires" << "return" << "signals" << "sizeof" << "slots" << "static"
+			<< "static_assert" << "static_cast" << "switch" << "template" << "this" << "thread_local" << "throw"
+			<< "throws" << "true" << "try" << "typedef" << "typeid" << "typename" << "using" << "virtual" << "volatile"
+			<< "while" << "xor" << "xor_eq";
+	}
 
 	QStringList typePatterns;
-	typePatterns
-		<< "bool" << "char" << "class" << "double"
-		<< "enum" << "float" << "int" << "long"
-		<< "namespace" << "short" << "signed" << "size_t"
-		<< "struct" << "union" << "unsigned" << "void";
+	if (language == LANGUAGE_JAVA)
+	{
+		typePatterns
+			<< "boolean" << "byte" << "char" << "class" << "double" << "enum" << "float" << "int" << "long" << "package"
+			<< "short" << "void";
+	}
+	else
+	{
+		typePatterns
+			<< "bool" << "char" << "char16_t" << "char32_t" << "class" << "double" << "enum" << "float" << "int"
+			<< "long" << "namespace" << "short" << "signed" << "size_t" << "struct" << "union" << "unsigned" << "void"
+			<< "wchar_t";
+	}
 
 	QRegExp directiveRegExp = QRegExp("#[a-z]+\\b");
 	QRegExp numberRegExp = QRegExp("\\b[0-9]+\\b");
 	QRegExp functionRegExp = QRegExp("\\b[A-Za-z0-9_]+(?=\\()");
 	QRegExp quotationRegExp = QRegExp("\"([^\"]|\\\\.)*\"");
-	QRegExp quotation2RegExp = QRegExp(" <[^<>\\s]*>");
+	QRegExp quotation2RegExp = QRegExp(" <[^<>\\s]*>$");
 	QRegExp commentRegExp = QRegExp("//[^\n]*");
 
 	ColorScheme* scheme = ColorScheme::getInstance().get();
