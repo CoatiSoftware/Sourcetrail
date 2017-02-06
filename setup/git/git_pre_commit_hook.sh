@@ -58,7 +58,7 @@ function run_tests {
 
 	cd bin/test
 	echo $1/Coati_test
-	$1/Coati_test
+	../../build/$1/test/Coati_test
 	if [ $? -eq 0 ]
 	then
 		echo -e $PASS $1 Tests passed
