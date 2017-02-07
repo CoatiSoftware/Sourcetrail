@@ -42,6 +42,8 @@ public slots:
 	void showPreferences();
 
 private:
+	static bool applicationSettingsContainVisualStudioHeaderSearchPaths();
+
 	template<typename T>
 		QtProjectWizzardWindow* createWindowWithContent();
 

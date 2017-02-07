@@ -25,6 +25,7 @@
 #include "utility/messaging/type/MessageRefresh.h"
 #include "utility/messaging/type/MessageScrollSpeedChange.h"
 #include "utility/messaging/type/MessageStatus.h"
+#include "utility/utilityPathDetection.h"
 #include "utility/utilityString.h"
 
 #include "Application.h"
@@ -246,6 +247,29 @@ void QtProjectWizzard::showPreferences()
 	connect(window, SIGNAL(next()), this, SLOT(savePreferences()));
 }
 
+bool QtProjectWizzard::applicationSettingsContainVisualStudioHeaderSearchPaths()
+{
+	std::vector<FilePath> usedExpandedGlobalHeaderSearchPaths = ApplicationSettings::getInstance()->getHeaderSearchPathsExpanded();
+
+	const std::shared_ptr<CombinedPathDetector> headerPathDetector = utility::getCxxVsHeaderPathDetector();
+	for (const std::string& detectorName: headerPathDetector->getWorkingDetectorNames())
+	{
+		for (const FilePath& path: headerPathDetector->getPaths(detectorName))
+		{
+			const FilePath expandedPath = path.expandEnvironmentVariables();
+			for (const FilePath& usedExpandedPath: usedExpandedGlobalHeaderSearchPaths)
+			{
+				if (expandedPath == usedExpandedPath)
+				{
+					return true;
+				}
+			}
+		}
+	}
+
+	return false;
+}
+
 template<typename T>
 QtProjectWizzardWindow* QtProjectWizzard::createWindowWithContent()
 {
@@ -335,6 +359,15 @@ void QtProjectWizzard::selectedProjectType(LanguageType languageType, QtProjectW
 		else
 		{
 			m_settings = std::make_shared<CxxProjectSettings>();
+
+			if (applicationSettingsContainVisualStudioHeaderSearchPaths())
+			{
+				std::vector<std::string> flags;
+				flags.push_back("-fms-extensions");
+				flags.push_back("-fms-compatibility");
+				flags.push_back("-fms-compatibility-version=19");
+				std::dynamic_pointer_cast<CxxProjectSettings>(m_settings)->setCompilerFlags(flags);
+			}
 		}
 		m_settings->setLanguage(languageType);
 		emptyProject();

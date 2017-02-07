@@ -29,19 +29,49 @@ std::shared_ptr<CombinedPathDetector> utility::getJavaRuntimePathDetector()
 	return combinedDetector;
 }
 
+std::shared_ptr<CombinedPathDetector> utility::getCxxVsHeaderPathDetector()
+{
+	std::shared_ptr<CombinedPathDetector> combinedDetector = std::make_shared<CombinedPathDetector>();
+	combinedDetector->addDetector(std::make_shared<CxxVsHeaderPathDetector>(14, false, APPLICATION_ARCHITECTURE_X86_32));
+	combinedDetector->addDetector(std::make_shared<CxxVsHeaderPathDetector>(14, false, APPLICATION_ARCHITECTURE_X86_64));
+	combinedDetector->addDetector(std::make_shared<CxxVsHeaderPathDetector>(14, true, APPLICATION_ARCHITECTURE_X86_32));
+	combinedDetector->addDetector(std::make_shared<CxxVsHeaderPathDetector>(14, true, APPLICATION_ARCHITECTURE_X86_64));
+	combinedDetector->addDetector(std::make_shared<CxxVsHeaderPathDetector>(12, false, APPLICATION_ARCHITECTURE_X86_32));
+	combinedDetector->addDetector(std::make_shared<CxxVsHeaderPathDetector>(12, false, APPLICATION_ARCHITECTURE_X86_64));
+	combinedDetector->addDetector(std::make_shared<CxxVsHeaderPathDetector>(12, true, APPLICATION_ARCHITECTURE_X86_32));
+	combinedDetector->addDetector(std::make_shared<CxxVsHeaderPathDetector>(12, true, APPLICATION_ARCHITECTURE_X86_64));
+	combinedDetector->addDetector(std::make_shared<CxxVsHeaderPathDetector>(11, false, APPLICATION_ARCHITECTURE_X86_32));
+	combinedDetector->addDetector(std::make_shared<CxxVsHeaderPathDetector>(11, false, APPLICATION_ARCHITECTURE_X86_64));
+	combinedDetector->addDetector(std::make_shared<CxxVsHeaderPathDetector>(11, true, APPLICATION_ARCHITECTURE_X86_32));
+	combinedDetector->addDetector(std::make_shared<CxxVsHeaderPathDetector>(11, true, APPLICATION_ARCHITECTURE_X86_64));
+	combinedDetector->addDetector(std::make_shared<CxxVsHeaderPathDetector>(9, false, APPLICATION_ARCHITECTURE_X86_32));
+	combinedDetector->addDetector(std::make_shared<CxxVsHeaderPathDetector>(9, false, APPLICATION_ARCHITECTURE_X86_64));
+	combinedDetector->addDetector(std::make_shared<CxxVsHeaderPathDetector>(9, true, APPLICATION_ARCHITECTURE_X86_32));
+	combinedDetector->addDetector(std::make_shared<CxxVsHeaderPathDetector>(9, true, APPLICATION_ARCHITECTURE_X86_64));
+	return combinedDetector;
+}
+
 std::shared_ptr<CombinedPathDetector> utility::getCxxHeaderPathDetector()
 {
 	std::shared_ptr<CombinedPathDetector> combinedDetector = std::make_shared<CombinedPathDetector>();
 	combinedDetector->addDetector(std::make_shared<CxxHeaderPathDetector>("gcc"));
 	combinedDetector->addDetector(std::make_shared<CxxHeaderPathDetector>("clang"));
-	combinedDetector->addDetector(std::make_shared<CxxVsHeaderPathDetector>(14, false));
-	combinedDetector->addDetector(std::make_shared<CxxVsHeaderPathDetector>(14, true));
-	combinedDetector->addDetector(std::make_shared<CxxVsHeaderPathDetector>(12, false));
-	combinedDetector->addDetector(std::make_shared<CxxVsHeaderPathDetector>(12, true));
-	combinedDetector->addDetector(std::make_shared<CxxVsHeaderPathDetector>(11, false));
-	combinedDetector->addDetector(std::make_shared<CxxVsHeaderPathDetector>(11, true));
-	combinedDetector->addDetector(std::make_shared<CxxVsHeaderPathDetector>(9, false));
-	combinedDetector->addDetector(std::make_shared<CxxVsHeaderPathDetector>(9, true));
+	combinedDetector->addDetector(std::make_shared<CxxVsHeaderPathDetector>(14, false, APPLICATION_ARCHITECTURE_X86_32));
+	combinedDetector->addDetector(std::make_shared<CxxVsHeaderPathDetector>(14, false, APPLICATION_ARCHITECTURE_X86_64));
+	combinedDetector->addDetector(std::make_shared<CxxVsHeaderPathDetector>(14, true, APPLICATION_ARCHITECTURE_X86_32));
+	combinedDetector->addDetector(std::make_shared<CxxVsHeaderPathDetector>(14, true, APPLICATION_ARCHITECTURE_X86_64));
+	combinedDetector->addDetector(std::make_shared<CxxVsHeaderPathDetector>(12, false, APPLICATION_ARCHITECTURE_X86_32));
+	combinedDetector->addDetector(std::make_shared<CxxVsHeaderPathDetector>(12, false, APPLICATION_ARCHITECTURE_X86_64));
+	combinedDetector->addDetector(std::make_shared<CxxVsHeaderPathDetector>(12, true, APPLICATION_ARCHITECTURE_X86_32));
+	combinedDetector->addDetector(std::make_shared<CxxVsHeaderPathDetector>(12, true, APPLICATION_ARCHITECTURE_X86_64));
+	combinedDetector->addDetector(std::make_shared<CxxVsHeaderPathDetector>(11, false, APPLICATION_ARCHITECTURE_X86_32));
+	combinedDetector->addDetector(std::make_shared<CxxVsHeaderPathDetector>(11, false, APPLICATION_ARCHITECTURE_X86_64));
+	combinedDetector->addDetector(std::make_shared<CxxVsHeaderPathDetector>(11, true, APPLICATION_ARCHITECTURE_X86_32));
+	combinedDetector->addDetector(std::make_shared<CxxVsHeaderPathDetector>(11, true, APPLICATION_ARCHITECTURE_X86_64));
+	combinedDetector->addDetector(std::make_shared<CxxVsHeaderPathDetector>(9, false, APPLICATION_ARCHITECTURE_X86_32));
+	combinedDetector->addDetector(std::make_shared<CxxVsHeaderPathDetector>(9, false, APPLICATION_ARCHITECTURE_X86_64));
+	combinedDetector->addDetector(std::make_shared<CxxVsHeaderPathDetector>(9, true, APPLICATION_ARCHITECTURE_X86_32));
+	combinedDetector->addDetector(std::make_shared<CxxVsHeaderPathDetector>(9, true, APPLICATION_ARCHITECTURE_X86_64));
 	return combinedDetector;
 }
 
