@@ -7,9 +7,12 @@ Linux64:
         - ./script/setup.sh
         - ./script/buildonly.sh all
         - ./script/buildonly.sh package
+        - ./build/Release/app/Coati --licenseFile ./setup/license.txt
+        - cd ./bin/test
+        - ../../Release/build/Coati_test
     artifacts:
         paths:
-            - distr
+            - distr/Coati*.tar.gz
         expire_in: 3 days
 
 Linux32:
@@ -20,11 +23,10 @@ Linux32:
     script:
         - ./script/setup.sh
         - ./script/buildonly.sh all
-        - ./bin/app/Release/Coati --licenseFile ./setup/license.txt
-        - cd ./bin/test
-        - ./Release/Coati_test
-        - cd ../..
         - ./script/buildonly.sh package
+        - ./build/Release/app/Coati --licenseFile ./setup/license.txt
+        - cd ./bin/test
+        - ../../Release/build/Coati_test
     artifacts:
         paths:
             - distr/Coati*.tar.gz
