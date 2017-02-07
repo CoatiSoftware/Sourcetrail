@@ -16,12 +16,11 @@ add_files(
 	FileSystemTestSuite.h
 	GeneratorTestSuite.h
 	GraphTestSuite.h
-	JavaParserTestSuite.h
 	LogManagerTestSuite.h
 	MatrixBaseTestSuite.h
 	MessageQueueTestSuite.h
 	NetworkProtocolHelperTestSuite.h
-	SettingsTestSuite.h
+    SettingsTestSuite.h
 	SettingsMigratorTestSuite.h
 	SearchIndexTestSuite.h
 	SqliteStorageTestSuite.h
@@ -31,4 +30,5 @@ add_files(
 	TokenLocationCollectionTestSuite.h
 	UtilityStringTestSuite.h
 	Vector2TestSuite.h
+    JavaParserTestSuite.h
 )

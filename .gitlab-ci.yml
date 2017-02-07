@@ -9,7 +9,7 @@ Linux64:
         - ./script/buildonly.sh package
         - ./build/Release/app/Coati --licenseFile ./setup/license.txt
         - cd ./bin/test
-        - ../../Release/build/Coati_test
+        - ../../build/Release/test/Coati_test
     artifacts:
         paths:
             - distr/Coati*.tar.gz
@@ -26,7 +26,7 @@ Linux32:
         - ./script/buildonly.sh package
         - ./build/Release/app/Coati --licenseFile ./setup/license.txt
         - cd ./bin/test
-        - ../../Release/build/Coati_test
+        - ../../build/Release/test/Coati_test
     artifacts:
         paths:
             - distr/Coati*.tar.gz
