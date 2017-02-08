@@ -21,7 +21,7 @@ VERSION_STRING="${VERSION_STRING%_*}"
 PACKAGE_DIR=${BUNDLE_NAME}_${VERSION_STRING}
 
 QT_DIR="@MACOSX_QT_DIR@"
-QT_FRAMEWORK_PATHS=(/Users/ebsi/Documents/Qt/5.6/clang_64/lib/QtDBus.framework/Versions/5/QtDBus @MACOSX_QT_FRAMEWORKS@)
+QT_FRAMEWORK_PATHS=(/Users/ebsi/Documents/Qt/5.8/clang_64/lib/QtDBus.framework/Versions/5/QtDBus @MACOSX_QT_FRAMEWORKS@)
 
 if [ ! -x "$APP_NAME" ]
 then
@@ -64,10 +64,10 @@ cp -R ../../../ide_plugins/sublime_text $PACKAGE_DIR/plugins/sublime_text/
 cp -R ../../../ide_plugins/vim $PACKAGE_DIR/plugins/vim/
 cp -R ../../../ide_plugins/atom $PACKAGE_DIR/plugins/atom/
 cp -R ../../../ide_plugins/emacs $PACKAGE_DIR/plugins/emacs/
-cp -R ../../../ide_plugins/vim $PACKAGE_DIR/plugins/eclipse/
-cp -R ../../../ide_plugins/vim $PACKAGE_DIR/plugins/idea/
+cp -R ../../../ide_plugins/eclipse $PACKAGE_DIR/plugins/eclipse/
+cp -R ../../../ide_plugins/idea $PACKAGE_DIR/plugins/idea/
 
-cp ../data/gui/installer/EULA.rtf $PACKAGE_DIR/EULA.rtf
+cp ../../../bin/app/data/gui/installer/EULA.rtf $PACKAGE_DIR/EULA.rtf
 
 ln -s /Applications $PACKAGE_DIR/Applications
 
@@ -78,17 +78,17 @@ cp bundle_info.plist $BUNDLE_PATH/Contents/Info.plist
 
 mkdir -p $RES_DIR/data
 
-cp -R ../data/color_schemes $RES_DIR/data/color_schemes
-cp -R ../data/fonts $RES_DIR/data/fonts
-cp -R ../data/gui $RES_DIR/data/gui
-cp -R ../data/java $RES_DIR/data/java
-cp -R ../user/projects $RES_DIR/data/projects
+cp -R ../../../bin/app/data/color_schemes $RES_DIR/data/color_schemes
+cp -R ../../../bin/app/data/fonts $RES_DIR/data/fonts
+cp -R ../../../bin/app/data/gui $RES_DIR/data/gui
+cp -R ../../../bin/app/data/java $RES_DIR/data/java
+cp -R ../../../bin/app/user/projects $RES_DIR/data/projects
 
 mkdir -p $RES_DIR/user
 mkdir -p $RES_DIR/user/log
 
-cp ../user/window_settings.ini $RES_DIR/user/window_settings.ini
-cp ../data/fallback/ApplicationSettings.xml $RES_DIR/user/ApplicationSettings.xml
+cp ../../../bin/app/user/window_settings.ini $RES_DIR/user/window_settings.ini
+cp ../../../bin/app/data/fallback/ApplicationSettings.xml $RES_DIR/user/ApplicationSettings.xml
 
 echo -e $INFO "Copying dynamic libraries."
 for LIB_PATH in ${DYNLIB_PATHS[@]}
@@ -168,7 +168,7 @@ echo -e $INFO "App dependencies"
 otool -L $APP_PATH
 
 echo -e $INFO "Create icon"
-ICON=../data/gui/icon/logo_1024_1024.png
+ICON=../../../bin/app/data/gui/icon/logo_1024_1024.png
 ICON_SET=$RES_DIR/icon.iconset
 
 mkdir -p $ICON_SET
@@ -186,7 +186,7 @@ convert $ICON -resize 1024x1024 $ICON_SET/icon_512x512@2x.png
 iconutil -c icns -o $RES_DIR/icon.icns $ICON_SET
 
 echo -e $INFO "Create project icon"
-ICON=../data/gui/icon/project_256_256.png
+ICON=../../../bin/app/data/gui/icon/project_256_256.png
 ICON_SET=$RES_DIR/project.iconset
 
 mkdir -p $ICON_SET

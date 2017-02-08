@@ -1,49 +1,6 @@
 Token.cpp ERROR: Location Id was not referenced by this Token.
 Node.cpp WARNING: Cannot change NodeType after it was already set from namespace to class
 Edge.cpp ERROR: Nodes are not plain copies.
- INFO: Indexer - indexing source file: input.cc
- INFO: Indexer - indexing source file: input.cc
- INFO: Indexer - indexing source file: input.cc
- INFO: Indexer - indexing source file: input.cc
- INFO: Indexer - indexing source file: input.cc
- INFO: Indexer - indexing source file: input.cc
- INFO: Indexer - indexing source file: input.cc
- INFO: Indexer - indexing source file: input.cc
- INFO: Indexer - indexing source file: input.cc
- INFO: Indexer - indexing source file: input.cc
- INFO: Indexer - indexing source file: input.cc
- INFO: Indexer - indexing source file: input.cc
- INFO: Indexer - indexing source file: input.cc
- INFO: Indexer - indexing source file: input.cc
- INFO: Indexer - indexing source file: input.cc
- INFO: Indexer - indexing source file: input.cc
- INFO: Indexer - indexing source file: input.cc
- INFO: Indexer - indexing source file: input.cc
- INFO: Indexer - indexing source file: input.cc
- INFO: Indexer - indexing source file: input.cc
- INFO: Indexer - indexing source file: input.cc
- INFO: Indexer - indexing source file: input.cc
- INFO: Indexer - indexing source file: input.cc
- INFO: Indexer - indexing source file: input.cc
- INFO: Indexer - indexing source file: input.cc
- INFO: Indexer - indexing source file: input.cc
- INFO: Indexer - indexing source file: input.cc
- INFO: Indexer - indexing source file: input.cc
- INFO: Indexer - indexing source file: input.cc
- INFO: Indexer - indexing source file: input.cc
- INFO: Indexer - indexing source file: input.cc
- INFO: Indexer - indexing source file: input.cc
- INFO: Indexer - indexing source file: input.cc
- INFO: Indexer - indexing source file: input.cc
- INFO: Indexer - indexing source file: input.cc
- INFO: Indexer - indexing source file: input.cc
- INFO: Indexer - indexing source file: input.cc
- INFO: Indexer - indexing source file: input.cc
- INFO: Indexer - indexing source file: input.cc
- INFO: Indexer - indexing source file: input.cc
- INFO: Indexer - indexing source file: input.cc
- INFO: Indexer - indexing source file: input.cc
- INFO: Indexer - indexing source file: input.cc
  INFO: send MessageStatus Enabled console and file logging.
  INFO: send TestMessage 
  INFO: send TestMessage 
@@ -72,3 +29,46 @@ TextAccess.cpp WARNING: Line numbers start with one, is 0
 TextAccess.cpp WARNING: Line numbers start with one, is 0
 TokenLocationCollection.cpp ERROR: TokenLocation has wrong boundaries: file.c 2:3 2:1
 TokenLocationCollection.cpp ERROR: TokenLocation has wrong boundaries: file.c 4:1 1:10
+ INFO: Indexer - indexing source file: input.cc
+ INFO: Indexer - indexing source file: input.cc
+ INFO: Indexer - indexing source file: input.cc
+ INFO: Indexer - indexing source file: input.cc
+ INFO: Indexer - indexing source file: input.cc
+ INFO: Indexer - indexing source file: input.cc
+ INFO: Indexer - indexing source file: input.cc
+ INFO: Indexer - indexing source file: input.cc
+ INFO: Indexer - indexing source file: input.cc
+ INFO: Indexer - indexing source file: input.cc
+ INFO: Indexer - indexing source file: input.cc
+ INFO: Indexer - indexing source file: input.cc
+ INFO: Indexer - indexing source file: input.cc
+ INFO: Indexer - indexing source file: input.cc
+ INFO: Indexer - indexing source file: input.cc
+ INFO: Indexer - indexing source file: input.cc
+ INFO: Indexer - indexing source file: input.cc
+ INFO: Indexer - indexing source file: input.cc
+ INFO: Indexer - indexing source file: input.cc
+ INFO: Indexer - indexing source file: input.cc
+ INFO: Indexer - indexing source file: input.cc
+ INFO: Indexer - indexing source file: input.cc
+ INFO: Indexer - indexing source file: input.cc
+ INFO: Indexer - indexing source file: input.cc
+ INFO: Indexer - indexing source file: input.cc
+ INFO: Indexer - indexing source file: input.cc
+ INFO: Indexer - indexing source file: input.cc
+ INFO: Indexer - indexing source file: input.cc
+ INFO: Indexer - indexing source file: input.cc
+ INFO: Indexer - indexing source file: input.cc
+ INFO: Indexer - indexing source file: input.cc
+ INFO: Indexer - indexing source file: input.cc
+ INFO: Indexer - indexing source file: input.cc
+ INFO: Indexer - indexing source file: input.cc
+ INFO: Indexer - indexing source file: input.cc
+ INFO: Indexer - indexing source file: input.cc
+ INFO: Indexer - indexing source file: input.cc
+ INFO: Indexer - indexing source file: input.cc
+ INFO: Indexer - indexing source file: input.cc
+ INFO: Indexer - indexing source file: input.cc
+ INFO: Indexer - indexing source file: input.cc
+ INFO: Indexer - indexing source file: input.cc
+ INFO: Indexer - indexing source file: input.cc
