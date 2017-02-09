@@ -1346,7 +1346,11 @@ void GraphController::layoutToGrid(DummyNode* node) const
 	if (lastAccessNode)
 	{
 		lastAccessNode->size.y = lastAccessNode->size.y + incY;
-		expandToggleNode->position.x = expandToggleNode->position.x + incX;
+
+		if (expandToggleNode)
+		{
+			expandToggleNode->position.x = expandToggleNode->position.x + incX;
+		}
 
 		node->size.x = width;
 		node->size.y = height;

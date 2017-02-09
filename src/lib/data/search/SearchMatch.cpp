@@ -125,8 +125,19 @@ bool SearchMatch::operator<(const SearchMatch& other) const
 		otherStr = &other.name;
 	}
 
+	size_t size = getTextSizeForSorting(str);
+	size_t otherSize = other.getTextSizeForSorting(otherStr);
+
 	// text size
-	if (str->size() < otherStr->size())
+	if (size < otherSize)
+	{
+		return true;
+	}
+	else if (size > otherSize)
+	{
+		return false;
+	}
+	else if (str->size() < otherStr->size())
 	{
 		return true;
 	}
@@ -157,6 +168,18 @@ bool SearchMatch::operator<(const SearchMatch& other) const
 	}
 
 	return false;
+}
+
+size_t SearchMatch::getTextSizeForSorting(const std::string* str) const
+{
+	// check if templated symbol and only use size up to template stuff
+	size_t pos = str->find('<');
+	if (pos != std::string::npos)
+	{
+		return pos;
+	}
+
+	return str->size();
 }
 
 bool SearchMatch::isValid() const

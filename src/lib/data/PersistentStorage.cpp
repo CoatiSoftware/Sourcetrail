@@ -512,16 +512,14 @@ std::vector<SearchMatch> PersistentStorage::getAutocompletionMatches(const std::
 	size_t maxBestScoredResultsLength = 100;
 
 	// create SearchMatches
+	std::vector<SearchMatch> matches;
+	utility::append(matches, getAutocompletionSymbolMatches(query, maxResultsCount));
+	utility::append(matches, getAutocompletionFileMatches(query, 20));
+	utility::append(matches, getAutocompletionCommandMatches(query));
+
 	std::set<SearchMatch> matchesSet;
-	utility::append(matchesSet, getAutocompletionSymbolMatches(query, maxResultsCount));
-	utility::append(matchesSet, getAutocompletionFileMatches(query, 20));
-	utility::append(matchesSet, getAutocompletionCommandMatches(query));
-
-	std::vector<SearchMatch> matches = utility::toVector(matchesSet);
-
-	for (auto it = matches.begin(); it != matches.end(); it++)
+	for (SearchMatch& match : matches)
 	{
-		SearchMatch& match = *it;
 		// rescore match
 		if (!match.subtext.empty() && match.indices.size())
 		{
@@ -531,7 +529,11 @@ std::vector<SearchMatch> PersistentStorage::getAutocompletionMatches(const std::
 			match.score = newResult.score;
 			match.indices = newResult.indices;
 		}
+
+		matchesSet.insert(match);
 	}
+
+	matches = utility::toVector(matchesSet);
 
 	if (matches.size() > maxResultsCount)
 	{
@@ -541,7 +543,7 @@ std::vector<SearchMatch> PersistentStorage::getAutocompletionMatches(const std::
 	return matches;
 }
 
-std::set<SearchMatch> PersistentStorage::getAutocompletionSymbolMatches(const std::string& query, size_t maxResultsCount) const
+std::vector<SearchMatch> PersistentStorage::getAutocompletionSymbolMatches(const std::string& query, size_t maxResultsCount) const
 {
 	// search in indices
 	std::vector<SearchResult> results = m_symbolIndex.search(query, maxResultsCount, maxResultsCount);
@@ -569,7 +571,7 @@ std::set<SearchMatch> PersistentStorage::getAutocompletionSymbolMatches(const st
 	}
 
 	// create SearchMatches
-	std::set<SearchMatch> matches;
+	std::vector<SearchMatch> matches;
 	for (const SearchResult& result : results)
 	{
 		SearchMatch match;
@@ -614,18 +616,18 @@ std::set<SearchMatch> PersistentStorage::getAutocompletionSymbolMatches(const st
 			match.typeName = "non-indexed " + match.typeName;
 		}
 
-		matches.insert(match);
+		matches.push_back(match);
 	}
 
 	return matches;
 }
 
-std::set<SearchMatch> PersistentStorage::getAutocompletionFileMatches(const std::string& query, size_t maxResultsCount) const
+std::vector<SearchMatch> PersistentStorage::getAutocompletionFileMatches(const std::string& query, size_t maxResultsCount) const
 {
 	std::vector<SearchResult> results = m_fileIndex.search(query, maxResultsCount);
 
 	// create SearchMatches
-	std::set<SearchMatch> matches;
+	std::vector<SearchMatch> matches;
 	for (const SearchResult& result : results)
 	{
 		SearchMatch match;
@@ -646,19 +648,19 @@ std::set<SearchMatch> PersistentStorage::getAutocompletionFileMatches(const std:
 
 		match.searchType = SearchMatch::SEARCH_TOKEN;
 
-		matches.insert(match);
+		matches.push_back(match);
 	}
 
 	return matches;
 }
 
-std::set<SearchMatch> PersistentStorage::getAutocompletionCommandMatches(const std::string& query) const
+std::vector<SearchMatch> PersistentStorage::getAutocompletionCommandMatches(const std::string& query) const
 {
 	// search in indices
 	std::vector<SearchResult> results = m_commandIndex.search(query, 0);
 
 	// create SearchMatches
-	std::set<SearchMatch> matches;
+	std::vector<SearchMatch> matches;
 	for (const SearchResult& result : results)
 	{
 		SearchMatch match;
@@ -671,7 +673,7 @@ std::set<SearchMatch> PersistentStorage::getAutocompletionCommandMatches(const s
 		match.searchType = SearchMatch::SEARCH_COMMAND;
 		match.typeName = "command";
 
-		matches.insert(match);
+		matches.push_back(match);
 	}
 
 	return matches;

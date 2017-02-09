@@ -87,9 +87,9 @@ public:
 	virtual std::shared_ptr<TokenLocationCollection> getFullTextSearchLocations(
 			const std::string& searchTerm, bool caseSensitive) const;
 	virtual std::vector<SearchMatch> getAutocompletionMatches(const std::string& query) const;
-	std::set<SearchMatch> getAutocompletionSymbolMatches(const std::string& query, size_t maxResultsCount) const;
-	std::set<SearchMatch> getAutocompletionFileMatches(const std::string& query, size_t maxResultsCount) const;
-	std::set<SearchMatch> getAutocompletionCommandMatches(const std::string& query) const;
+	std::vector<SearchMatch> getAutocompletionSymbolMatches(const std::string& query, size_t maxResultsCount) const;
+	std::vector<SearchMatch> getAutocompletionFileMatches(const std::string& query, size_t maxResultsCount) const;
+	std::vector<SearchMatch> getAutocompletionCommandMatches(const std::string& query) const;
 	virtual std::vector<SearchMatch> getSearchMatchesForTokenIds(const std::vector<Id>& elementIds) const;
 
 	virtual std::shared_ptr<Graph> getGraphForAll() const;

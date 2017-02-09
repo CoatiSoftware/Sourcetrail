@@ -43,6 +43,8 @@ struct SearchMatch
 
 	bool operator<(const SearchMatch& other) const;
 
+	size_t getTextSizeForSorting(const std::string* str) const;
+
 	bool isValid() const;
 
 	void print(std::ostream& ostream) const;
