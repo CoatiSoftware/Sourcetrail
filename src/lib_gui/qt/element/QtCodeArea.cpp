@@ -30,8 +30,7 @@
 
 std::vector<QtCodeArea::AnnotationColor> QtCodeArea::s_annotationColors;
 
-MouseWheelOverScrollbarFilter::MouseWheelOverScrollbarFilter(QObject* parent)
-	: QObject(parent)
+MouseWheelOverScrollbarFilter::MouseWheelOverScrollbarFilter()
 {
 }
 
@@ -146,7 +145,7 @@ QtCodeArea::QtCodeArea(
 	this->setMouseTracking(true);
 
 	// MouseWheelOverScrollbarFilter is deleted by parent.
-	horizontalScrollBar()->installEventFilter(new MouseWheelOverScrollbarFilter(this));
+	horizontalScrollBar()->installEventFilter(new MouseWheelOverScrollbarFilter());
 	m_scrollSpeedChangeListener.setScrollBar(horizontalScrollBar());
 
 	createActions();
@@ -583,6 +582,19 @@ void QtCodeArea::mouseMoveEvent(QMouseEvent* event)
 			std::string errorMessage = m_navigator->getErrorMessageForId(annotations[0]->tokenId);
 			QToolTip::showText(event->globalPos(), QString::fromStdString(errorMessage));
 		}
+	}
+}
+
+void QtCodeArea::wheelEvent(QWheelEvent *event)
+{
+	if ((event->angleDelta().x() != 0 && horizontalScrollBar()->minimum() != horizontalScrollBar()->maximum()) ||
+		(event->angleDelta().y() != 0 && verticalScrollBar()->minimum() != verticalScrollBar()->maximum()))
+	{
+		QPlainTextEdit::wheelEvent(event);
+	}
+	else
+	{
+		event->ignore();
 	}
 }
 

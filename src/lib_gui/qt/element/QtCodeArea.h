@@ -21,17 +21,19 @@ class QWidget;
 class TokenLocation;
 class TokenLocationFile;
 
+
 class MouseWheelOverScrollbarFilter
 	: public QObject
 {
 	Q_OBJECT
 
 public:
-	MouseWheelOverScrollbarFilter(QObject* parent);
+	MouseWheelOverScrollbarFilter();
 
 protected:
 	bool eventFilter(QObject* obj, QEvent* event);
 };
+
 
 class QtCodeArea
 	: public QPlainTextEdit
@@ -102,6 +104,7 @@ protected:
 	virtual void mouseReleaseEvent(QMouseEvent* event) Q_DECL_OVERRIDE;
 	virtual void mousePressEvent(QMouseEvent* event) Q_DECL_OVERRIDE;
 	virtual void mouseMoveEvent(QMouseEvent* event) Q_DECL_OVERRIDE;
+	virtual void wheelEvent(QWheelEvent *event) Q_DECL_OVERRIDE;
 
 	virtual void contextMenuEvent(QContextMenuEvent* event) Q_DECL_OVERRIDE;
 
