@@ -47,7 +47,7 @@ void Bucket::addNode(std::shared_ptr<DummyNode> node)
 	m_nodes.insert(node);
 
 	m_width = (node->size.x > m_width ? node->size.x : m_width);
-	m_height += node->size.y + GraphViewStyle::toGridGap(10);
+	m_height += GraphViewStyle::toGridSize(node->size.y) + GraphViewStyle::s_gridCellPadding;
 }
 
 const DummyNode::BundledNodesSet& Bucket::getNodes() const
@@ -71,7 +71,7 @@ void Bucket::preLayout(Vec2i viewSize)
 		node->position.x = x;
 		node->position.y = y;
 
-		y += node->size.y + GraphViewStyle::toGridGap(10);
+		y += GraphViewStyle::toGridSize(node->size.y) + GraphViewStyle::s_gridCellPadding;
 
 		width = (node->size.x > width ? node->size.x : width);
 		m_height = (y > m_height ? y : m_height);
@@ -80,7 +80,7 @@ void Bucket::preLayout(Vec2i viewSize)
 		{
 			y = 0;
 
-			x += width + GraphViewStyle::toGridGap(30);
+			x += GraphViewStyle::toGridOffset(width + 30);
 			width = 0;
 		}
 	}

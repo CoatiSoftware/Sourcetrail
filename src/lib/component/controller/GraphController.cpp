@@ -1308,10 +1308,12 @@ void GraphController::addExpandToggleNode(DummyNode* node) const
 
 void GraphController::layoutToGrid(DummyNode* node) const
 {
-	if (!node->visible)
+	if (!node->visible || !node->isGraphNode() || !node->hasVisibleSubNode())
 	{
 		return;
 	}
+
+	// Increase size of nodes with visible chilren to cover full grid cells
 
 	size_t width = GraphViewStyle::toGridSize(node->size.x);
 	size_t height = GraphViewStyle::toGridSize(node->size.y);
@@ -1319,15 +1321,9 @@ void GraphController::layoutToGrid(DummyNode* node) const
 	size_t incX = width - node->size.x;
 	size_t incY = height - node->size.y;
 
-	node->size.x = width;
-	node->size.y = height;
-
-	if (!node->isGraphNode())
-	{
-		return;
-	}
-
 	DummyNode* lastAccessNode = nullptr;
+	DummyNode* expandToggleNode = nullptr;
+
 	for (std::shared_ptr<DummyNode> subNode : node->subNodes)
 	{
 		if (!subNode->visible)
@@ -1342,13 +1338,18 @@ void GraphController::layoutToGrid(DummyNode* node) const
 		}
 		else if (subNode->isExpandToggleNode())
 		{
-			subNode->position.x = subNode->position.x + incX;
+			expandToggleNode = subNode.get();
+
 		}
 	}
 
 	if (lastAccessNode)
 	{
 		lastAccessNode->size.y = lastAccessNode->size.y + incY;
+		expandToggleNode->position.x = expandToggleNode->position.x + incX;
+
+		node->size.x = width;
+		node->size.y = height;
 	}
 }
 

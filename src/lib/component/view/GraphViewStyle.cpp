@@ -142,6 +142,9 @@ void GraphViewStyle::loadStyleSettings()
 
 	s_nodeColors.clear();
 	s_edgeColors.clear();
+
+	s_gridCellPadding = getImpl()->getCharHeightForNodeType(Node::NODE_TYPE) - 8;
+	s_gridCellSize = s_gridCellPadding / 2;
 }
 
 float GraphViewStyle::getCharWidthForNodeType(Node::NodeType type)
