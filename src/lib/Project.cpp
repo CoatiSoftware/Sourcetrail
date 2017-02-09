@@ -209,7 +209,8 @@ void Project::load()
 	{
 		m_state = PROJECT_STATE_OUTVERSIONED;
 	}
-	else if (TextAccess::createFromFile(projectSettingsPath.str())->getText() != m_storage->getProjectSettingsText())
+	else if (utility::replace(TextAccess::createFromFile(projectSettingsPath.str())->getText(), "\r", "") !=
+		utility::replace(TextAccess::createFromString(m_storage->getProjectSettingsText())->getText(), "\r", ""))
 	{
 		m_state = PROJECT_STATE_OUTDATED;
 		canLoad = true;
