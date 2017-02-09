@@ -111,8 +111,22 @@ QtCodeArea::QtCodeArea(
 
 	viewport()->setCursor(Qt::ArrowCursor);
 
+	FilePath path = m_locationFile->getFilePath();
+	LanguageType language = LANGUAGE_UNKNOWN;
+	if (!path.empty())
+	{
+		if (path.extension() == ".java")
+		{
+			language = LANGUAGE_JAVA;
+		}
+		else
+		{
+			language = LANGUAGE_CPP;
+		}
+	}
+
 	m_lineNumberArea = new LineNumberArea(this);
-	m_highlighter = new QtHighlighter(document());
+	m_highlighter = new QtHighlighter(document(), language);
 
 	std::string displayCode = m_code;
 	if (!displayCode.empty() && *displayCode.rbegin() == '\n')

@@ -4,6 +4,8 @@
 #include <QSyntaxHighlighter>
 #include <QTextCharFormat>
 
+#include "settings/LanguageType.h"
+
 class QTextDocument;
 
 class QtHighlighter
@@ -15,7 +17,7 @@ public:
 	static void createHighlightingRules();
 	static void clearHighlightingRules();
 
-	QtHighlighter(QTextDocument *parent = 0);
+	QtHighlighter(QTextDocument *parent, LanguageType language);
 	void highlightDocument();
 
 	void applyFormat(int startPosition, int endPosition, const QTextCharFormat& format);
@@ -40,9 +42,13 @@ private:
 	void formatBlock(const QTextBlock& block, const HighlightingRule& rule, std::vector<std::pair<int, int>>* ranges, bool saveRange);
 
 	static QVector<HighlightingRule> s_highlightingRules;
+	static QVector<HighlightingRule> s_highlightingRulesCpp;
+	static QVector<HighlightingRule> s_highlightingRulesJava;
 	static HighlightingRule s_quotationRule;
 	static HighlightingRule s_commentRule;
 	static QTextCharFormat s_textFormat;
+
+	LanguageType m_language;
 };
 
 #endif // QT_HIGHLIGHTER_H

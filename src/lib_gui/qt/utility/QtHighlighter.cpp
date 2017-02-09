@@ -4,62 +4,48 @@
 #include <QTextDocument>
 
 #include "settings/ColorScheme.h"
-#include "Application.h"
 
 QVector<QtHighlighter::HighlightingRule> QtHighlighter::s_highlightingRules;
+QVector<QtHighlighter::HighlightingRule> QtHighlighter::s_highlightingRulesCpp;
+QVector<QtHighlighter::HighlightingRule> QtHighlighter::s_highlightingRulesJava;
 QtHighlighter::HighlightingRule QtHighlighter::s_quotationRule;
 QtHighlighter::HighlightingRule QtHighlighter::s_commentRule;
 QTextCharFormat QtHighlighter::s_textFormat;
 
 void QtHighlighter::createHighlightingRules()
 {
-	Project* project = Application::getInstance()->getCurrentProject().get();
-	LanguageType language = LANGUAGE_UNKNOWN;
-	if (project)
-	{
-		language = project->getLanguage();
-	}
+	QStringList keywordPatternsCpp;
+	keywordPatternsCpp
+		<< "alignas" << "alignof" << "and" << "and_eq" << "asm" << "assert" << "auto" << "bitand" << "bitor"
+		<< "break" << "case" << "catch" << "compl" << "complex" << "const" << "constexpr" << "const_cast"
+		<< "continue" << "decltype" << "default" << "delete" << "do" << "dynamic_cast" << "else" << "explicit"
+		<< "export" << "extern" << "false" << "final" << "for" << "friend" << "goto" << "if" << "imaginary"
+		<< "inline" << "mutable" << "new" << "noexcept" << "not" << "not_eq" << "noreturn" << "NULL" << "nullptr"
+		<< "operator" << "or" << "or_eq" << "override" << "private" << "protected" << "public" << "register"
+		<< "reinterpret_cast" << "requires" << "return" << "signals" << "sizeof" << "slots" << "static"
+		<< "static_assert" << "static_cast" << "switch" << "template" << "this" << "thread_local" << "throw"
+		<< "throws" << "true" << "try" << "typedef" << "typeid" << "typename" << "using" << "virtual" << "volatile"
+		<< "while" << "xor" << "xor_eq";
 
-	QStringList keywordPatterns;
-	if (language == LANGUAGE_JAVA)
-	{
-		keywordPatterns
-			<< "abstract" << "assert" << "break" << "case" << "catch" << "const" << "continue" << "default"
-			<< "do" << "else" << "extends" << "false" << "final" << "finally" << "for"
-			<< "friend" << "goto" << "if" << "implements" << "import" << "instanceof" << "interface" << "native"
-			<< "new" << "package" << "private" << "protected" << "public" << "return" << "static" << "strictfp"
-			<< "super" << "switch" << "synchronized" << "this" << "true" << "throw" << "throws" << "transient"
-			<< "try" << "volatile" << "while";
-	}
-	else
-	{
-		keywordPatterns
-			<< "alignas" << "alignof" << "and" << "and_eq" << "asm" << "assert" << "auto" << "bitand" << "bitor"
-			<< "break" << "case" << "catch" << "compl" << "complex" << "const" << "constexpr" << "const_cast"
-			<< "continue" << "decltype" << "default" << "delete" << "do" << "dynamic_cast" << "else" << "explicit"
-			<< "export" << "extern" << "false" << "final" << "for" << "friend" << "goto" << "if" << "imaginary"
-			<< "inline" << "mutable" << "new" << "noexcept" << "not" << "not_eq" << "noreturn" << "NULL" << "nullptr"
-			<< "operator" << "or" << "or_eq" << "override" << "private" << "protected" << "public" << "register"
-			<< "reinterpret_cast" << "requires" << "return" << "signals" << "sizeof" << "slots" << "static"
-			<< "static_assert" << "static_cast" << "switch" << "template" << "this" << "thread_local" << "throw"
-			<< "throws" << "true" << "try" << "typedef" << "typeid" << "typename" << "using" << "virtual" << "volatile"
-			<< "while" << "xor" << "xor_eq";
-	}
+	QStringList keywordPatternsJava;
+	keywordPatternsJava
+		<< "abstract" << "assert" << "break" << "case" << "catch" << "const" << "continue" << "default"
+		<< "do" << "else" << "extends" << "false" << "final" << "finally" << "for"
+		<< "friend" << "goto" << "if" << "implements" << "import" << "instanceof" << "interface" << "native"
+		<< "new" << "package" << "private" << "protected" << "public" << "return" << "static" << "strictfp"
+		<< "super" << "switch" << "synchronized" << "this" << "true" << "throw" << "throws" << "transient"
+		<< "try" << "volatile" << "while";
 
-	QStringList typePatterns;
-	if (language == LANGUAGE_JAVA)
-	{
-		typePatterns
-			<< "boolean" << "byte" << "char" << "class" << "double" << "enum" << "float" << "int" << "long" << "package"
-			<< "short" << "void";
-	}
-	else
-	{
-		typePatterns
-			<< "bool" << "char" << "char16_t" << "char32_t" << "class" << "double" << "enum" << "float" << "int"
-			<< "long" << "namespace" << "short" << "signed" << "size_t" << "struct" << "union" << "unsigned" << "void"
-			<< "wchar_t";
-	}
+	QStringList typePatternsCpp;
+	typePatternsCpp
+		<< "bool" << "char" << "char16_t" << "char32_t" << "class" << "double" << "enum" << "float" << "int"
+		<< "long" << "namespace" << "short" << "signed" << "size_t" << "struct" << "union" << "unsigned" << "void"
+		<< "wchar_t";
+
+	QStringList typePatternsJava;
+	typePatternsJava
+		<< "boolean" << "byte" << "char" << "class" << "double" << "enum" << "float" << "int" << "long" << "package"
+		<< "short" << "void";
 
 	QRegExp directiveRegExp = QRegExp("#[a-z]+\\b");
 	QRegExp numberRegExp = QRegExp("\\b[0-9]+\\b");
@@ -81,21 +67,34 @@ void QtHighlighter::createHighlightingRules()
 	QColor commentColor = scheme->getSyntaxColor("comment").c_str();
 
 	s_highlightingRules.clear();
-
-	foreach (const QString &pattern, keywordPatterns)
-	{
-		s_highlightingRules.append(HighlightingRule(keywordColor, QRegExp("\\b" + pattern + "\\b")));
-	}
-
-	foreach (const QString &pattern, typePatterns)
-	{
-		s_highlightingRules.append(HighlightingRule(typeColor, QRegExp("\\b" + pattern + "\\b")));
-	}
-
 	s_highlightingRules.append(HighlightingRule(directiveColor, directiveRegExp));
 	s_highlightingRules.append(HighlightingRule(numberColor, numberRegExp));
 	s_highlightingRules.append(HighlightingRule(functionColor, functionRegExp));
 	s_highlightingRules.append(HighlightingRule(quotationColor, quotation2RegExp));
+
+	s_highlightingRulesCpp.clear();
+
+	foreach (const QString &pattern, keywordPatternsCpp)
+	{
+		s_highlightingRulesCpp.append(HighlightingRule(keywordColor, QRegExp("\\b" + pattern + "\\b")));
+	}
+
+	foreach (const QString &pattern, typePatternsCpp)
+	{
+		s_highlightingRulesCpp.append(HighlightingRule(typeColor, QRegExp("\\b" + pattern + "\\b")));
+	}
+
+	s_highlightingRulesJava.clear();
+
+	foreach (const QString &pattern, keywordPatternsJava)
+	{
+		s_highlightingRulesJava.append(HighlightingRule(keywordColor, QRegExp("\\b" + pattern + "\\b")));
+	}
+
+	foreach (const QString &pattern, typePatternsJava)
+	{
+		s_highlightingRulesJava.append(HighlightingRule(typeColor, QRegExp("\\b" + pattern + "\\b")));
+	}
 
 	s_quotationRule = HighlightingRule(quotationColor, quotationRegExp);
 	s_commentRule = HighlightingRule(commentColor, commentRegExp);
@@ -106,8 +105,9 @@ void QtHighlighter::clearHighlightingRules()
 	s_highlightingRules.clear();
 }
 
-QtHighlighter::QtHighlighter(QTextDocument *parent)
+QtHighlighter::QtHighlighter(QTextDocument *parent, LanguageType language)
 	: QSyntaxHighlighter(parent)
+	, m_language(language)
 {
 }
 
@@ -117,6 +117,11 @@ void QtHighlighter::highlightBlock(const QString& text)
 
 void QtHighlighter::highlightDocument()
 {
+	if (m_language == LANGUAGE_UNKNOWN)
+	{
+		return;
+	}
+
 	if (!s_highlightingRules.size())
 	{
 		createHighlightingRules();
@@ -140,9 +145,19 @@ void QtHighlighter::highlightDocument()
 		formatBlock(it, s_quotationRule, &ranges, true);
 	}
 
+	QVector<HighlightingRule> highlightingRules = s_highlightingRules;
+	if (m_language == LANGUAGE_JAVA)
+	{
+		highlightingRules.append(s_highlightingRulesJava);
+	}
+	else
+	{
+		highlightingRules.append(s_highlightingRulesCpp);
+	}
+
 	for (QTextBlock it = doc->begin(); it != doc->end(); it = it.next())
 	{
-		foreach (const HighlightingRule &rule, s_highlightingRules)
+		foreach (const HighlightingRule &rule, highlightingRules)
 		{
 			formatBlock(it, rule, &ranges, false);
 		}
