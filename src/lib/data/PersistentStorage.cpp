@@ -831,6 +831,10 @@ std::shared_ptr<Graph> PersistentStorage::getGraphForActiveTokenIds(const std::v
 				nodeIds.push_back(symbol.id);
 			}
 		}
+		for (const StorageNode& node : m_sqliteStorage.getAllByIds<StorageNode>(ids))
+		{
+			nodeIds.push_back(node.id);
+		}
 		for (const StorageFile& file : m_sqliteStorage.getAllByIds<StorageFile>(ids))
 		{
 			nodeIds.push_back(file.id);
