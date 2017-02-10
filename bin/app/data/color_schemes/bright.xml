@@ -224,9 +224,9 @@
 					<focus>#3C3C3C</focus>
 				</border>
 			</type>
-			<builtin_type>
+			<built_in_type>
 				<like>type</like>
-			</builtin_type>
+			</built_in_type>
 			<class>
 				<like>type</like>
 			</class>
@@ -280,9 +280,9 @@
 				<like>global_variable</like>
 			</enum_constant>
 
-			<undefined>
+			<non_indexed>
 				<like>type</like>
-			</undefined>
+			</non_indexed>
 			<namespace>
 				<fill>
 					<normal>#EFC5C5</normal>

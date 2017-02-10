@@ -232,9 +232,9 @@
 					<normal>#FFFFFF</normal>
 				</icon>
 			</type>
-			<builtin_type>
+			<built_in_type>
 				<like>type</like>
-			</builtin_type>
+			</built_in_type>
 			<class>
 				<like>type</like>
 			</class>
@@ -294,9 +294,9 @@
 				<like>global_variable</like>
 			</enum_constant>
 
-			<undefined>
+			<non-indexed>
 				<like>type</like>
-			</undefined>
+			</non-indexed>
 			<namespace>
 				<fill>
 					<normal>#873E3E</normal>
