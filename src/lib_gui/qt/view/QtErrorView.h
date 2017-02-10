@@ -54,6 +54,8 @@ private:
 	QCheckBox* createFilterCheckbox(const QString& name, bool checked, QBoxLayout* layout);
 	bool isShownError(const ErrorInfo& error);
 
+	static QIcon s_errorIcon;
+
 	QtThreadedFunctor<void> m_clearFunctor;
 	QtThreadedFunctor<void> m_refreshFunctor;
 	QtThreadedFunctor<const std::vector<ErrorInfo>&, bool> m_addErrorsFunctor;
@@ -69,8 +71,6 @@ private:
 
 	std::vector<ErrorInfo> m_errors;
 	QPalette* m_palette;
-
-	bool m_ignoreNextSelection;
 };
 
 #endif // QT_ERROR_VIEW_H

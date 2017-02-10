@@ -21,6 +21,8 @@
 
 #include "qt/view/QtViewWidgetWrapper.h"
 
+QIcon QtErrorView::s_errorIcon;
+
 class SelectableDelegate : public QStyledItemDelegate
 {
 	QWidget* createEditor(QWidget* parent, const QStyleOptionViewItem &option, const QModelIndex &index) const;
@@ -46,8 +48,8 @@ QtErrorView::QtErrorView(ViewLayout* viewLayout)
 	, m_refreshFunctor(std::bind(&QtErrorView::doRefreshView, this))
 	, m_addErrorsFunctor(std::bind(&QtErrorView::doAddErrors, this, std::placeholders::_1, std::placeholders::_2))
 	, m_setErrorIdFunctor(std::bind(&QtErrorView::doSetErrorId, this, std::placeholders::_1))
-	, m_ignoreNextSelection(false)
 {
+	s_errorIcon = QIcon(QString((ResourcePaths::getGuiPath() + "/indexing_dialog/error.png").c_str()));
 }
 
 QtErrorView::~QtErrorView()
@@ -88,7 +90,7 @@ void QtErrorView::initView()
 	connect(m_table->selectionModel(), &QItemSelectionModel::currentRowChanged,
 		[=](const QModelIndex& index, const QModelIndex& previousIndex)
 	{
-		if (index.isValid() && !m_ignoreNextSelection)
+		if (index.isValid())
 		{
 			if (m_model->item(index.row(), COLUMN::FILE) == nullptr)
 			{
@@ -97,8 +99,6 @@ void QtErrorView::initView()
 
 			MessageShowErrors(m_model->item(index.row(), COLUMN::ID)->text().toUInt()).dispatch();
 		}
-
-		m_ignoreNextSelection = false;
 	});
 
 	layout->addWidget(m_table);
@@ -174,7 +174,6 @@ void QtErrorView::doSetErrorId(Id errorId)
 
 	if (items.size() == 1)
 	{
-		m_ignoreNextSelection = true;
 		m_table->selectRow(items.at(0)->row());
 	}
 }
@@ -218,14 +217,19 @@ void QtErrorView::addErrorToTable(const ErrorInfo& error)
 	m_model->setItem(rowNumber, COLUMN::TYPE, new QStandardItem(error.fatal ? "FATAL" : "ERROR"));
 	m_model->item(rowNumber, COLUMN::TYPE)->setForeground(QBrush(Qt::red));
 	m_model->item(rowNumber, COLUMN::TYPE)->setTextAlignment(Qt::AlignCenter);
+
 	m_model->setItem(rowNumber, COLUMN::MESSAGE, new QStandardItem(error.message.c_str()));
-	std::string errorPngPath = ResourcePaths::getGuiPath() + "/indexing_dialog/error.png";
-	m_model->item(rowNumber, COLUMN::MESSAGE)->setIcon(QIcon(QString(errorPngPath.c_str())));
+	m_model->item(rowNumber, COLUMN::MESSAGE)->setIcon(s_errorIcon);
+
 	m_model->setItem(rowNumber, COLUMN::FILE, new QStandardItem(error.filePath.str().c_str()));
 	m_model->item(rowNumber, COLUMN::FILE)->setToolTip(error.filePath.str().c_str());
+
 	m_model->setItem(rowNumber, COLUMN::LINE, new QStandardItem(QString::number(error.lineNumber)));
+
 	m_model->setItem(rowNumber, COLUMN::INDEXED, new QStandardItem(error.indexed ? "yes" : "no"));
+
 	m_model->setItem(rowNumber, COLUMN::ID, new QStandardItem(QString::number(error.id)));
+
 	m_table->updateRows();
 }
 
