@@ -209,10 +209,6 @@ void HierarchyCache::addFirstChildIdsForNodeId(Id nodeId, std::vector<Id>* nodeI
 	{
 		node->addChildIds(nodeIds);
 	}
-	else
-	{
-		nodeIds->push_back(nodeId);
-	}
 }
 
 void HierarchyCache::addFirstVisibleChildIdsForNodeId(Id nodeId, std::vector<Id>* nodeIds) const

@@ -26,6 +26,68 @@ CxxAstVisitorComponentIndexer::~CxxAstVisitorComponentIndexer()
 {
 }
 
+void CxxAstVisitorComponentIndexer::beginTraverseNestedNameSpecifierLoc(const clang::NestedNameSpecifierLoc loc)
+{
+	switch (loc.getNestedNameSpecifier()->getKind())
+	{
+	case clang::NestedNameSpecifier::Identifier:
+		break;
+	case clang::NestedNameSpecifier::Namespace:
+		m_client->recordSymbol(
+			getAstVisitor()->getDeclNameCache()->getValue(loc.getNestedNameSpecifier()->getAsNamespace()),
+			SYMBOL_NAMESPACE,
+			ACCESS_NONE,
+			DEFINITION_NONE
+		);
+		break;
+	case clang::NestedNameSpecifier::NamespaceAlias:
+		m_client->recordSymbol(
+			getAstVisitor()->getDeclNameCache()->getValue(loc.getNestedNameSpecifier()->getAsNamespaceAlias()),
+			SYMBOL_NAMESPACE,
+			ACCESS_NONE,
+			DEFINITION_NONE
+		);
+		m_client->recordSymbol(
+			getAstVisitor()->getDeclNameCache()->getValue(loc.getNestedNameSpecifier()->getAsNamespaceAlias()->getAliasedNamespace()),
+			SYMBOL_NAMESPACE,
+			ACCESS_NONE,
+			DEFINITION_NONE
+		);
+		break;
+	case clang::NestedNameSpecifier::Global:
+	case clang::NestedNameSpecifier::Super:
+		break;
+	case clang::NestedNameSpecifier::TypeSpec:
+	case clang::NestedNameSpecifier::TypeSpecWithTemplate:
+		if (const clang::CXXRecordDecl* recordDecl = loc.getNestedNameSpecifier()->getAsRecordDecl())
+		{
+			SymbolKind symbolKind = SYMBOL_KIND_MAX;
+			if (recordDecl->isClass())
+			{
+				symbolKind = SYMBOL_CLASS;
+			}
+			else if (recordDecl->isStruct())
+			{
+				symbolKind = SYMBOL_STRUCT;
+			}
+			else if (recordDecl->isUnion())
+			{
+				symbolKind = SYMBOL_UNION;
+			}
+
+			if (symbolKind != SYMBOL_KIND_MAX)
+			{
+				m_client->recordSymbol(
+					getAstVisitor()->getDeclNameCache()->getValue(recordDecl),
+					symbolKind,
+					ACCESS_NONE,
+					DEFINITION_NONE
+				);
+			}
+		}
+	}
+}
+
 void CxxAstVisitorComponentIndexer::beginTraverseTemplateArgumentLoc(const clang::TemplateArgumentLoc& loc)
 {
 	if (

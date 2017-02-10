@@ -281,8 +281,26 @@ bool CxxAstVisitor::TraverseTemplateTemplateParmDecl(clang::TemplateTemplateParm
 
 bool CxxAstVisitor::TraverseNestedNameSpecifierLoc(clang::NestedNameSpecifierLoc loc)
 {
-	// just skip all qualifiers (for now)
-	return true;
+	bool ret = true;
+	if (loc)
+	{
+		for (auto it = m_components.begin(); it != m_components.end(); it++)
+		{
+			(*it)->beginTraverseNestedNameSpecifierLoc(loc);
+		}
+
+		//todo: call method of base class...
+		if (clang::NestedNameSpecifierLoc prefix = loc.getPrefix())
+		{
+			ret = TraverseNestedNameSpecifierLoc(prefix);
+		}
+
+		for (auto it = m_components.rbegin(); it != m_components.rend(); it++)
+		{
+			(*it)->endTraverseNestedNameSpecifierLoc(loc);
+		}
+	}
+	return ret;
 }
 
 bool CxxAstVisitor::TraverseConstructorInitializer(clang::CXXCtorInitializer* init)

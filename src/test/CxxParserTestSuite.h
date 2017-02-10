@@ -3322,7 +3322,7 @@ public:
 		TS_ASSERT_EQUALS(client.errors.size(), 0);
 
 		TS_ASSERT_EQUALS(client.typedefs.size(), 1);
-		TS_ASSERT_EQUALS(client.classes.size(), 4);
+		TS_ASSERT_EQUALS(client.classes.size(), 5);
 		TS_ASSERT_EQUALS(client.enums.size(), 1);
 		TS_ASSERT_EQUALS(client.enumConstants.size(), 2);
 		TS_ASSERT_EQUALS(client.functions.size(), 5); // used methods are also recorded as functions (these get overridden in the intermediate storage)

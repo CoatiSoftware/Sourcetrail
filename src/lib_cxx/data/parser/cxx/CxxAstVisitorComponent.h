@@ -72,6 +72,8 @@ DEF_TRAVERSE_TYPE_PTR(UnresolvedLookupExpr)
 	virtual void beginTraverseTemplateDefaultArgumentLoc() {}
 	virtual void endTraverseTemplateDefaultArgumentLoc() {}
 
+DEF_TRAVERSE_TYPE(NestedNameSpecifierLoc)
+
 DEF_TRAVERSE_CUSTOM_TYPE_PTR(ConstructorInitializer, CXXCtorInitializer)
 
 DEF_TRAVERSE_TYPE_PTR(CXXTemporaryObjectExpr)
