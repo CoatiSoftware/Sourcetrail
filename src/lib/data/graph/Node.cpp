@@ -12,7 +12,7 @@
 #include "data/graph/token_component/TokenComponentFilePath.h"
 #include "data/graph/token_component/TokenComponentSignature.h"
 
-const Node::NodeTypeMask Node::NODE_NOT_VISIBLE = Node::NODE_NON_INDEXED | Node::NODE_NAMESPACE | Node::NODE_PACKAGE;
+const Node::NodeTypeMask Node::NODE_NOT_VISIBLE = Node::NODE_NAMESPACE | Node::NODE_PACKAGE;
 const Node::NodeTypeMask Node::NODE_USEABLE_TYPE = Node::NODE_NON_INDEXED | Node::NODE_BUILTIN_TYPE |
 	Node::NODE_BUILTIN_TYPE | Node::NODE_STRUCT | Node::NODE_CLASS | Node::NODE_INTERFACE | Node::NODE_TYPEDEF;
 

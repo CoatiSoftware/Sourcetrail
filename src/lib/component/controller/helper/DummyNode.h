@@ -63,6 +63,7 @@ public:
 		, hasParent(true)
 		, hasQualifier(false)
 		, accessKind(ACCESS_NONE)
+		, isAccess(false)
 		, invisibleSubNodeCount(0)
 		, bundleId(0)
 		, layoutBucket(0, 0)
@@ -79,7 +80,7 @@ public:
 
 	bool isAccessNode() const
 	{
-		return accessKind != ACCESS_NONE;
+		return isAccess;
 	}
 
 	bool isExpandToggleNode() const
@@ -261,6 +262,7 @@ public:
 
 	// AccessNode
 	AccessKind accessKind;
+	bool isAccess;
 
 	// ExpandToggleNode
 	size_t invisibleSubNodeCount;

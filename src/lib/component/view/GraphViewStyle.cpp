@@ -330,6 +330,7 @@ GraphViewStyle::NodeMargins GraphViewStyle::getMarginsOfAccessNode(AccessKind ac
 	switch (access)
 	{
 	case ACCESS_NONE:
+		margins.top = 10;
 		margins.minWidth = 30;
 		break;
 	case ACCESS_PUBLIC:

@@ -325,7 +325,7 @@ void GraphController::createDummyGraphForTokenIds(const std::vector<Id>& tokenId
 	{
 		node->hasParent = false;
 
-		if (node->data->isType(Node::NODE_NON_INDEXED | Node::NODE_NAMESPACE | Node::NODE_PACKAGE))
+		if (node->data->isType(Node::NODE_NAMESPACE | Node::NODE_PACKAGE))
 		{
 			node->name = node->data->getFullName();
 		}
@@ -380,33 +380,32 @@ std::shared_ptr<DummyNode> GraphController::createDummyNodeTopDown(Node* node, I
 		[node, &parentId, &result, this](Node* child)
 		{
 			DummyNode* parent = nullptr;
+			AccessKind accessKind = ACCESS_NONE;
 
 			TokenComponentAccess* access = child->getComponent<TokenComponentAccess>();
-
-			if (access && access->getAccess() != ACCESS_NONE)
+			if (access)
 			{
-				AccessKind accessKind = access->getAccess();
-				for (std::shared_ptr<DummyNode> dummy : result->subNodes)
-				{
-					if (dummy->accessKind == accessKind)
-					{
-						parent = dummy.get();
-						break;
-					}
-				}
+				accessKind = access->getAccess();
+			}
 
-				if (!parent)
+			for (std::shared_ptr<DummyNode> dummy : result->subNodes)
+			{
+				if (dummy->accessKind == accessKind)
 				{
-					std::shared_ptr<DummyNode> accessNode = std::make_shared<DummyNode>();
-					accessNode->accessKind = accessKind;
-					result->subNodes.push_back(accessNode);
-					parent = accessNode.get();
+					parent = dummy.get();
+					break;
 				}
 			}
-			else
+
+			if (!parent)
 			{
-				parent = result.get();
+				std::shared_ptr<DummyNode> accessNode = std::make_shared<DummyNode>();
+				accessNode->accessKind = accessKind;
+				accessNode->isAccess = true;
+				result->subNodes.push_back(accessNode);
+				parent = accessNode.get();
 			}
+
 			parent->subNodes.push_back(createDummyNodeTopDown(child, parentId));
 		}
 	);
@@ -604,7 +603,11 @@ bool GraphController::setNodeVisibilityRecursiveBottomUp(DummyNode* node, bool n
 		}
 	}
 
-	if (noActive || node->active || node->connected || node->childVisible)
+	if (node->isAccessNode() && node->accessKind == ACCESS_NONE && node->childVisible)
+	{
+		node->visible = true;
+	}
+	else if (noActive || node->active || node->connected || node->childVisible)
 	{
 		setNodeVisibilityRecursiveTopDown(node, false);
 	}
@@ -616,9 +619,13 @@ void GraphController::setNodeVisibilityRecursiveTopDown(DummyNode* node, bool pa
 {
 	node->visible = true;
 
+	if (node->isGraphNode() && node->data->getType() == Node::NODE_ENUM && !node->isExpanded())
+	{
+		return;
+	}
+
 	if ((node->isGraphNode() && node->isExpanded()) ||
-		(node->isAccessNode() && parentExpanded) ||
-		(node->isGraphNode() && parentExpanded && node->data->isType(Node::NODE_ENUM_CONSTANT)))
+		(node->isAccessNode() && (node->accessKind == ACCESS_NONE || parentExpanded)))
 	{
 		for (std::shared_ptr<DummyNode> subNode : node->subNodes)
 		{
@@ -1283,11 +1290,6 @@ void GraphController::addExpandToggleNode(DummyNode* node) const
 		{
 			node->subNodes.erase(node->subNodes.begin() + i);
 			i--;
-			continue;
-		}
-		else if (subNode->isGraphNode() && subNode->data->isType(Node::NODE_ENUM_CONSTANT) && !subNode->visible)
-		{
-			expandNode->invisibleSubNodeCount++;
 			continue;
 		}
 
