@@ -824,16 +824,21 @@ std::shared_ptr<Graph> PersistentStorage::getGraphForActiveTokenIds(const std::v
 
 	if (ids.size() >= 1 || isNamespace)
 	{
+		std::set<Id> symbolIds;
 		for (const StorageSymbol& symbol : m_sqliteStorage.getAllByIds<StorageSymbol>(ids))
 		{
 			if (symbol.id > 0 && (!isNamespace || intToDefinitionKind(symbol.definitionKind) != DEFINITION_IMPLICIT))
 			{
 				nodeIds.push_back(symbol.id);
 			}
+			symbolIds.insert(symbol.id);
 		}
 		for (const StorageNode& node : m_sqliteStorage.getAllByIds<StorageNode>(ids))
 		{
-			nodeIds.push_back(node.id);
+			if (symbolIds.find(node.id) == symbolIds.end())
+			{
+				nodeIds.push_back(node.id);
+			}
 		}
 
 		if (!isNamespace)
