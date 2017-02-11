@@ -20,8 +20,8 @@ public:
 	virtual void beginTraverseDecl(clang::Decl* d);
 	virtual void endTraverseDecl(clang::Decl* d);
 
-	virtual void beginTraverseTypeLoc(clang::TypeLoc tl);
-	virtual void endTraverseTypeLoc(clang::TypeLoc tl);
+	virtual void beginTraverseTypeLoc(const clang::TypeLoc& tl);
+	virtual void endTraverseTypeLoc(const clang::TypeLoc& tl);
 
 	virtual void beginTraverseLambdaExpr(clang::LambdaExpr* s);
 	virtual void endTraverseLambdaExpr(clang::LambdaExpr* s);
@@ -38,8 +38,8 @@ public:
 	virtual void beginTraverseDeclRefExpr(clang::DeclRefExpr* s);
 	virtual void endTraverseDeclRefExpr(clang::DeclRefExpr* s);
 
-	virtual void beginTraverseTemplateSpecializationTypeLoc(clang::TemplateSpecializationTypeLoc loc);
-	virtual void endTraverseTemplateSpecializationTypeLoc(clang::TemplateSpecializationTypeLoc loc);
+	virtual void beginTraverseTemplateSpecializationTypeLoc(const clang::TemplateSpecializationTypeLoc& loc);
+	virtual void endTraverseTemplateSpecializationTypeLoc(const clang::TemplateSpecializationTypeLoc& loc);
 
 	virtual void beginTraverseUnresolvedLookupExpr(clang::UnresolvedLookupExpr* e);
 	virtual void endTraverseUnresolvedLookupExpr(clang::UnresolvedLookupExpr* e);

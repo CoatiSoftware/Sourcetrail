@@ -93,7 +93,7 @@ void CxxAstVisitorComponentContext::endTraverseDecl(clang::Decl* d)
 	m_contextStack.pop_back();
 }
 
-void CxxAstVisitorComponentContext::beginTraverseTypeLoc(clang::TypeLoc tl)
+void CxxAstVisitorComponentContext::beginTraverseTypeLoc(const clang::TypeLoc& tl)
 {
 	std::shared_ptr<CxxContextType> context;
 
@@ -105,7 +105,7 @@ void CxxAstVisitorComponentContext::beginTraverseTypeLoc(clang::TypeLoc tl)
 	m_contextStack.push_back(context);
 }
 
-void CxxAstVisitorComponentContext::endTraverseTypeLoc(clang::TypeLoc tl)
+void CxxAstVisitorComponentContext::endTraverseTypeLoc(const clang::TypeLoc& tl)
 {
 	m_contextStack.pop_back();
 }
@@ -161,12 +161,12 @@ void CxxAstVisitorComponentContext::endTraverseDeclRefExpr(clang::DeclRefExpr* s
 	m_templateArgumentContext.pop_back();
 }
 
-void CxxAstVisitorComponentContext::beginTraverseTemplateSpecializationTypeLoc(clang::TemplateSpecializationTypeLoc loc)
+void CxxAstVisitorComponentContext::beginTraverseTemplateSpecializationTypeLoc(const clang::TemplateSpecializationTypeLoc& loc)
 {
 	m_templateArgumentContext.push_back(std::make_shared<CxxContextType>(loc.getTypePtr(), getAstVisitor()->getTypeNameCache()));
 }
 
-void CxxAstVisitorComponentContext::endTraverseTemplateSpecializationTypeLoc(clang::TemplateSpecializationTypeLoc loc)
+void CxxAstVisitorComponentContext::endTraverseTemplateSpecializationTypeLoc(const clang::TemplateSpecializationTypeLoc& loc)
 {
 	m_templateArgumentContext.pop_back();
 }

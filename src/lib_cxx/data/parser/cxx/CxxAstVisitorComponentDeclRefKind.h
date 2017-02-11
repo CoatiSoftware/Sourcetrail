@@ -25,11 +25,11 @@ public:
 	virtual void beginTraverseStmt(clang::Stmt* s);
 	virtual void endTraverseStmt(clang::Stmt* s);
 
-	virtual void beginTraverseType(clang::QualType t);
-	virtual void endTraverseType(clang::QualType t);
+	virtual void beginTraverseType(const clang::QualType& t);
+	virtual void endTraverseType(const clang::QualType& t);
 
-	virtual void beginTraverseTypeLoc(clang::TypeLoc tl);
-	virtual void endTraverseTypeLoc(clang::TypeLoc tl);
+	virtual void beginTraverseTypeLoc(const clang::TypeLoc& tl);
+	virtual void endTraverseTypeLoc(const clang::TypeLoc& tl);
 
 	virtual void beginTraverseCallCommonCallee();
 

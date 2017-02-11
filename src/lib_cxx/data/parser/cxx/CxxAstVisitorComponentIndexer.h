@@ -15,7 +15,7 @@ public:
 	CxxAstVisitorComponentIndexer(CxxAstVisitor* astVisitor, clang::ASTContext* astContext, ParserClient* client, FileRegister* fileRegister);
 	virtual ~CxxAstVisitorComponentIndexer();
 
-	virtual void beginTraverseNestedNameSpecifierLoc(const clang::NestedNameSpecifierLoc loc);
+	virtual void beginTraverseNestedNameSpecifierLoc(const clang::NestedNameSpecifierLoc& loc);
 	virtual void beginTraverseTemplateArgumentLoc(const clang::TemplateArgumentLoc& loc);
 	virtual void beginTraverseLambdaCapture(clang::LambdaExpr *lambdaExpr, const clang::LambdaCapture *capture);
 

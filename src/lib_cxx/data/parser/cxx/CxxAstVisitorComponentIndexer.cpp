@@ -26,8 +26,13 @@ CxxAstVisitorComponentIndexer::~CxxAstVisitorComponentIndexer()
 {
 }
 
-void CxxAstVisitorComponentIndexer::beginTraverseNestedNameSpecifierLoc(const clang::NestedNameSpecifierLoc loc)
+void CxxAstVisitorComponentIndexer::beginTraverseNestedNameSpecifierLoc(const clang::NestedNameSpecifierLoc& loc)
 {
+	if (!shouldVisitReference(loc.getBeginLoc(), getAstVisitor()->getComponent<CxxAstVisitorComponentContext>()->getTopmostContextDecl()))
+	{
+		return;
+	}
+
 	switch (loc.getNestedNameSpecifier()->getKind())
 	{
 	case clang::NestedNameSpecifier::Identifier:
@@ -721,8 +726,14 @@ bool CxxAstVisitorComponentIndexer::isLocatedInUnparsedProjectFile(clang::Source
 
 	if (spellingLoc.isValid())
 	{
+		if (sourceManager.isWrittenInMainFile(spellingLoc))
+		{
+			return true;
+		}
+
 		fileId = sourceManager.getFileID(spellingLoc);
 	}
+
 	if (fileId.isValid())
 	{
 		auto it = m_inUnparsedProjectFileMap.find(fileId);
@@ -732,27 +743,22 @@ bool CxxAstVisitorComponentIndexer::isLocatedInUnparsedProjectFile(clang::Source
 		}
 
 		bool ret = false;
-		if (sourceManager.isWrittenInMainFile(spellingLoc))
+		const clang::FileEntry* fileEntry = sourceManager.getFileEntryForID(fileId);
+		if (fileEntry != NULL)
 		{
-			ret = true;
-		}
-		else
-		{
-			const clang::FileEntry* fileEntry = sourceManager.getFileEntryForID(fileId);
-			if (fileEntry != NULL)
-			{
-				std::string fileName = fileEntry->getName();
-				FilePath filePath = FilePath(fileName).canonical();
+			std::string fileName = fileEntry->getName();
+			FilePath filePath = FilePath(fileName).canonical();
 
-				if (m_fileRegister->hasIncludeFile(filePath))
-				{
-					ret = !(m_fileRegister->includeFileIsParsed(filePath));
-				}
+			if (m_fileRegister->hasIncludeFile(filePath))
+			{
+				ret = !(m_fileRegister->includeFileIsParsed(filePath));
 			}
 		}
+
 		m_inUnparsedProjectFileMap[fileId] = ret;
 		return ret;
 	}
+
 	return false;
 }
 

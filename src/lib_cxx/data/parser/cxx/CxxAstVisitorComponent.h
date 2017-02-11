@@ -17,8 +17,8 @@ public:
 	virtual void endTraverse##__NAME_TYPE__(clang::__PARAM_TYPE__ *v) {}
 
 #define DEF_TRAVERSE_CUSTOM_TYPE(__NAME_TYPE__, __PARAM_TYPE__)					\
-	virtual void beginTraverse##__NAME_TYPE__(clang::__PARAM_TYPE__ v) {}		\
-	virtual void endTraverse##__NAME_TYPE__(clang::__PARAM_TYPE__ v) {}
+	virtual void beginTraverse##__NAME_TYPE__(const clang::__PARAM_TYPE__ &v) {}\
+	virtual void endTraverse##__NAME_TYPE__(const clang::__PARAM_TYPE__ &v) {}
 
 #define DEF_TRAVERSE_TYPE_PTR(__TYPE__)											\
 	DEF_TRAVERSE_CUSTOM_TYPE_PTR(__TYPE__, __TYPE__)

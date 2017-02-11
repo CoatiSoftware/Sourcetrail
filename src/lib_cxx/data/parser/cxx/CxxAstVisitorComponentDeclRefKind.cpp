@@ -51,26 +51,26 @@ void CxxAstVisitorComponentDeclRefKind::endTraverseStmt(clang::Stmt* s)
 	restoreAll();
 }
 
-void CxxAstVisitorComponentDeclRefKind::beginTraverseType(clang::QualType t)
+void CxxAstVisitorComponentDeclRefKind::beginTraverseType(const clang::QualType& t)
 {
 	saveAll();
 	m_thisRefKind = REFERENCE_USAGE;
 	m_childRefKind = REFERENCE_USAGE;
 }
 
-void CxxAstVisitorComponentDeclRefKind::endTraverseType(clang::QualType t)
+void CxxAstVisitorComponentDeclRefKind::endTraverseType(const clang::QualType& t)
 {
 	restoreAll();
 }
 
-void CxxAstVisitorComponentDeclRefKind::beginTraverseTypeLoc(clang::TypeLoc tl)
+void CxxAstVisitorComponentDeclRefKind::beginTraverseTypeLoc(const clang::TypeLoc& tl)
 {
 	saveAll();
 	m_thisRefKind = REFERENCE_USAGE;
 	m_childRefKind = REFERENCE_USAGE;
 }
 
-void CxxAstVisitorComponentDeclRefKind::endTraverseTypeLoc(clang::TypeLoc tl)
+void CxxAstVisitorComponentDeclRefKind::endTraverseTypeLoc(const clang::TypeLoc& tl)
 {
 	restoreAll();
 }
