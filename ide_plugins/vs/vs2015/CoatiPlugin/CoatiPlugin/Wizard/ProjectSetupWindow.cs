@@ -110,10 +110,11 @@ namespace CoatiSoftware.CoatiPlugin.Wizard
 
         private void InitProjectCheckList()
         {
-            if(_cdb != null)
-            {
-                _cdb.TryLoadData();
-            }
+            // way to slow for large projects
+            //if(_cdb != null)
+            //{
+            //    _cdb.TryLoadData();
+            //}
 
             foreach(Utility.SolutionUtility.SolutionStructure.Node node in _projectStructure.Nodes)
             {

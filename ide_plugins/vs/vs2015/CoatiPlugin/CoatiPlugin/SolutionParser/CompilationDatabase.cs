@@ -64,10 +64,12 @@ namespace CoatiSoftware.CoatiPlugin.SolutionParser
 
         public void AddOrUpdateCommandObject(CommandObject commandObject)
         {
-            if (TryUpdateCommandObject(commandObject) == false)
-            {
-                _commandObjects.Add(commandObject);
-            }
+            _commandObjects.Add(commandObject); // updating is not efficient as it is
+
+            //if (TryUpdateCommandObject(commandObject) == false)
+            //{
+            //    _commandObjects.Add(commandObject);
+            //}
         }
 
         // remove commandObjects for removed files

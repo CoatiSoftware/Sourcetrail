@@ -181,7 +181,6 @@ namespace CoatiSoftware.CoatiPlugin.Wizard
             {
                 // parallel with tasks
                 Multitasking.LimitedThreadsTaskScheduler scheduler = new Multitasking.LimitedThreadsTaskScheduler(_threadCount);
-
                 TaskFactory factory = new TaskFactory(scheduler);
 
                 List<Task> tasks = new List<Task>();
@@ -219,9 +218,9 @@ namespace CoatiSoftware.CoatiPlugin.Wizard
 
                 int threadCount = System.Diagnostics.Process.GetCurrentProcess().Threads.Count;
 
-                Logging.Logging.LogInfo("thread count: " + threadCount.ToString());
-
                 Task.WaitAll(tasks.ToArray());
+
+                backgroundWorker1.ReportProgress(100, "Writing data to file. This might take several minutes...");
             }
             catch(Exception e)
             {
