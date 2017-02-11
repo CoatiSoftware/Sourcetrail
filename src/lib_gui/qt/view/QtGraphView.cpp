@@ -173,7 +173,7 @@ void QtGraphView::pressedCharacterKey(QChar c)
 		{
 			hasTextNodes = true;
 			QChar start(n->getName()[0]);
-			if (start >= c)
+			if (start.toLower() >= c.toLower())
 			{
 				node = n.get();
 				break;
