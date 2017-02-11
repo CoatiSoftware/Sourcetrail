@@ -150,7 +150,7 @@ void QtStartScreen::setupStartScreen(bool unlocked)
 
 		if (!unlocked)
 		{
-			col->addSpacing(50);
+			col->addSpacing(4);
 
 			QLabel* welcomeLabel = new QLabel(
 				"Welcome to the <b>Coati trial</b>!<br /><br />"
@@ -166,12 +166,20 @@ void QtStartScreen::setupStartScreen(bool unlocked)
 			col->addWidget(welcomeLabel, 0, Qt::AlignHCenter | Qt::AlignTop);
 			col->addStretch();
 
+			QPushButton* openProjectButton = new QPushButton("Open Project", this);
+			openProjectButton->setAttribute(Qt::WA_LayoutUsesWidgetRect); // fixes layouting on Mac
+			openProjectButton->setObjectName("projectButton");
+			openProjectButton->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
+			connect(openProjectButton, SIGNAL(clicked()), this, SLOT(handleOpenProjectButton()));
+			col->addWidget(openProjectButton);
+
+			col->addSpacing(8);
+
 			QPushButton* unlockButton = new QPushButton("Unlock", this);
 			unlockButton->setAttribute(Qt::WA_LayoutUsesWidgetRect); // fixes layouting on Mac
 			unlockButton->setObjectName("projectButton");
 			unlockButton->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
 			connect(unlockButton, SIGNAL(clicked()), this, SLOT(handleUnlockButton()));
-			col->addWidget(unlockButton);
 
 			QHBoxLayout* row = new QHBoxLayout();
 			row->addWidget(unlockButton);

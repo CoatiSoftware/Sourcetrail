@@ -105,9 +105,7 @@ void IDECommunicationController::handleSetActiveTokenMessage(
 				MessageStatus("Activating source location from plug-in succeeded: " + message.fileLocation + ", row: " +
 					std::to_string(message.row) + ", col: " + std::to_string(message.column)).dispatch();
 
-				MessageDispatchWhenLicenseValid(
-					std::make_shared<MessageActivateTokenLocations>(selectedLocationIds)
-				).dispatch();
+				MessageActivateTokenLocations(selectedLocationIds).dispatch();
 				MessageActivateWindow().dispatch();
 				return;
 			}
@@ -116,9 +114,7 @@ void IDECommunicationController::handleSetActiveTokenMessage(
 		Id fileId = m_storageAccess->getTokenIdForFileNode(message.fileLocation);
 		if (fileId > 0)
 		{
-			MessageDispatchWhenLicenseValid(
-				std::make_shared<MessageActivateFile>(message.fileLocation, message.row)
-			).dispatchImmediately();
+			MessageActivateFile(message.fileLocation, message.row).dispatchImmediately();
 			MessageActivateWindow().dispatch();
 		}
 		else
@@ -171,21 +167,21 @@ void IDECommunicationController::handlePing(const NetworkProtocolHelper::PingMes
 {
 	if (message.valid)
 	{
-		std::shared_ptr<MessagePingReceived> msg = std::make_shared<MessagePingReceived>();
-		msg->ideId = message.ideId;
+		MessagePingReceived msg;
+		msg.ideId = message.ideId;
 
 		std::string ideName = "unknown";
 
-		if (msg->ideId == "vs")
+		if (msg.ideId == "vs")
 		{
 			ideName = "Visual Studio";
 		}
 		// TODO: add the other ides
 
-		std::string message = ideName + " instance detected via plugin port";
+		std::string statusMessage = ideName + " instance detected via plugin port";
 
-		MessageStatus(message, false, false).dispatch();
-		MessageDispatchWhenLicenseValid(msg).dispatch();
+		MessageStatus(statusMessage, false, false).dispatch();
+		msg.dispatch();
 	}
 	else
 	{

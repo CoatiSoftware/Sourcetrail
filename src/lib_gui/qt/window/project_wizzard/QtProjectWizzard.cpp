@@ -19,7 +19,6 @@
 #include "settings/JavaProjectSettings.h"
 #include "utility/file/FileSystem.h"
 #include "utility/logging/logging.h"
-#include "utility/messaging/type/MessageDispatchWhenLicenseValid.h"
 #include "utility/messaging/type/MessageLoadProject.h"
 #include "utility/messaging/type/MessagePluginPortChange.h"
 #include "utility/messaging/type/MessageRefresh.h"
@@ -681,9 +680,7 @@ void QtProjectWizzard::createProject()
 		MessageStatus("Created project: " + path.str()).dispatch();
 	}
 
-	MessageDispatchWhenLicenseValid(
-		std::make_shared<MessageLoadProject>(path, forceRefreshProject)
-	).dispatch();
+	MessageLoadProject(path, forceRefreshProject).dispatch();
 
 	finishWizzard();
 }
@@ -710,11 +707,7 @@ void QtProjectWizzard::savePreferences()
 		Project* currentProject = Application::getInstance()->getCurrentProject().get();
 		if (currentProject)
 		{
-			MessageDispatchWhenLicenseValid(
-				std::make_shared<MessageLoadProject>(
-					currentProject->getProjectSettingsFilePath(), true
-				)
-			).dispatch();
+			MessageLoadProject(currentProject->getProjectSettingsFilePath(), true).dispatch();
 		}
 	}
 	else

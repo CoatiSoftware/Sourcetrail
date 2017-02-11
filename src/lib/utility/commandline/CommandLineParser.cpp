@@ -4,7 +4,6 @@
 
 #include "utility/ConfigManager.h"
 #include "utility/file/FileSystem.h"
-#include "utility/messaging/type/MessageDispatchWhenLicenseValid.h"
 #include "utility/messaging/type/MessageLoadProject.h"
 #include "utility/messaging/type/MessageStatus.h"
 #include "utility/text/TextAccess.h"
@@ -180,9 +179,7 @@ void CommandLineParser::projectLoad()
 {
 	if (m_projectFile.exists() && m_projectFile.extension() == ".coatiproject")
 	{
-		MessageDispatchWhenLicenseValid(
-			std::make_shared<MessageLoadProject>(m_projectFile.str(), m_force)
-		).dispatch();
+		MessageLoadProject(m_projectFile.str(), m_force).dispatch();
 	}
 }
 

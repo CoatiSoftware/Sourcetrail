@@ -29,7 +29,6 @@
 #include "utility/file/FileSystem.h"
 #include "utility/logging/logging.h"
 #include "utility/messaging/type/MessageCodeReference.h"
-#include "utility/messaging/type/MessageDispatchWhenLicenseValid.h"
 #include "utility/messaging/type/MessageEnteredLicense.h"
 #include "utility/messaging/type/MessageFind.h"
 #include "utility/messaging/type/MessageInterruptTasks.h"
@@ -420,9 +419,7 @@ void QtMainWindow::openProject()
 
 	if (!fileName.isEmpty())
 	{
-		MessageDispatchWhenLicenseValid(
-			std::make_shared<MessageLoadProject>(fileName.toStdString(), false)
-		).dispatch();
+		MessageLoadProject(fileName.toStdString(), false).dispatch();
 		m_windowStack.clearWindows();
 	}
 }
@@ -563,7 +560,7 @@ void QtMainWindow::setupProjectMenu()
 	menuBar()->addMenu(menu);
 
 	m_trialDisabledActions.push_back(menu->addAction(tr("&New Project..."), this, SLOT(newProject()), QKeySequence::New));
-	m_trialDisabledActions.push_back(menu->addAction(tr("&Open Project..."), this, SLOT(openProject()), QKeySequence::Open));
+	menu->addAction(tr("&Open Project..."), this, SLOT(openProject()), QKeySequence::Open);
 
 	QMenu *recentProjectMenu = new QMenu(tr("Recent Projects"));
 	menu->addMenu(recentProjectMenu);

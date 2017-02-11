@@ -3,7 +3,6 @@
 #include <QFileOpenEvent>
 
 #include "utility/file/FilePath.h"
-#include "utility/messaging/type/MessageDispatchWhenLicenseValid.h"
 #include "utility/messaging/type/MessageLoadProject.h"
 #include "utility/logging/LogManager.h"
 #include "component/controller/LogController.h"
@@ -36,9 +35,7 @@ bool QtApplication::event(QEvent *event)
 
 		if (path.exists() && path.extension() == ".coatiproject")
 		{
-			MessageDispatchWhenLicenseValid(
-				std::make_shared<MessageLoadProject>(path.str(), false)
-			).dispatch();
+			MessageLoadProject(path.str(), false).dispatch();
 			return true;
 		}
 	}
