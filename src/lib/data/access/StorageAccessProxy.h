@@ -86,7 +86,7 @@ public:
 	virtual void removeEdgeBookmark(Id id);
 	virtual void editEdgeBookmark(const EdgeBookmark& bookmark);
 
-	virtual virtual std::vector<BookmarkCategory> getAllBookmarkCategories() const;
+	virtual std::vector<BookmarkCategory> getAllBookmarkCategories() const;
 	virtual bool checkBookmarkCategoryExists(const std::string& name) const;
 	virtual void removeBookmarkCategory(Id id);
 

@@ -150,8 +150,6 @@ public:
 	bool checkBookmarkCategoryExists(const std::string& name) const;
 	void removeBookmarkCategory(Id id);
 
-	Id getTokenIdByName(const std::string& name) const;
-
 	template <typename ResultType>
 	ResultType getFirstById(const Id id) const
 	{

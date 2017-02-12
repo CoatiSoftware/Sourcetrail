@@ -63,6 +63,8 @@ StorageEdge StorageAccessProxy::getEdgeById(Id edgeId) const
 	{
 		return m_subject->getEdgeById(edgeId);
 	}
+
+	return StorageEdge();
 }
 
 bool StorageAccessProxy::checkEdgeExists(Id edgeId) const

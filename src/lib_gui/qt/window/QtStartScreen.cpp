@@ -51,20 +51,17 @@ void QtRecentProjectButton::handleButtonClick()
 	}
 	else
 	{
-		std::string text = "Couldn't find " + m_projectFilePath.str()
-			+ " in your filesystem. Delete it from this recent Proejct list?";
-		// int ret = QMessageBox::question(this, "Missing Project File", text.c_str(), QMessageBox::Yes | QMessageBox::No);
-
-
 		QMessageBox msgBox;
 		msgBox.setText("Missing Project File");
-		msgBox.setInformativeText(text.c_str());
-		QAbstractButton* yesButton = msgBox.addButton("Delete", QMessageBox::ButtonRole::YesRole);
-		QAbstractButton* noButton = msgBox.addButton("Keep", QMessageBox::ButtonRole::NoRole);
+		msgBox.setInformativeText((
+			"Couldn't find " + m_projectFilePath.str() + " in your filesystem. Delete it from this recent Proejct list?"
+		).c_str());
+		msgBox.addButton("Delete", QMessageBox::ButtonRole::YesRole);
+		msgBox.addButton("Keep", QMessageBox::ButtonRole::NoRole);
 		msgBox.setIcon(QMessageBox::Icon::Question);
 		int ret = msgBox.exec();
 
-		if (ret == 0) // QMessageBox::Yes)
+		if (ret == 0) // QMessageBox::Yes
 		{
 			std::vector<FilePath> recentProjects = ApplicationSettings::getInstance()->getRecentProjects();
 			const int maxRecentProjectsCount = ApplicationSettings::getInstance()->getMaxRecentProjectsCount();

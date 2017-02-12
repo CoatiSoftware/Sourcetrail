@@ -137,13 +137,13 @@ void QtBookmarkBar::createBookmarkClicked()
 		QMessageBox msgBox;
 		msgBox.setText("Edit Bookmark");
 		msgBox.setInformativeText("Do you want to update or delete the Bookmark for the active Token?");
-		QAbstractButton* editButton = msgBox.addButton("Edit", QMessageBox::ButtonRole::YesRole);
-		QAbstractButton* deleteButton = msgBox.addButton("Delete", QMessageBox::ButtonRole::DestructiveRole);
-		QAbstractButton* cancelButton = msgBox.addButton("Cancel", QMessageBox::ButtonRole::NoRole);
+		msgBox.addButton("Edit", QMessageBox::ButtonRole::YesRole);
+		msgBox.addButton("Delete", QMessageBox::ButtonRole::DestructiveRole);
+		msgBox.addButton("Cancel", QMessageBox::ButtonRole::NoRole);
 		msgBox.setIcon(QMessageBox::Icon::Question);
 		int ret = msgBox.exec();
 
-		if (ret == 0) // QMessageBox::Yes)
+		if (ret == 0) // QMessageBox::Yes
 		{
 			MessageDisplayBookmarkCreator().dispatch();
 		}
@@ -214,7 +214,7 @@ void QtBookmarkBar::doDisplayBookmarks(const std::vector<std::shared_ptr<Bookmar
 		m_bookmarkBrowser = new QtBookmarkBrowser();
 		m_bookmarkBrowser->setupBookmarkBrowser();
 	}
-	
+
 	m_bookmarkBrowser->setBookmarks(bookmarks);
 	m_bookmarkBrowser->show();
 }

@@ -100,8 +100,6 @@ void QtBookmark::setBookmark(const std::shared_ptr<Bookmark> bookmark)
 
 	m_activateButton->setText(bookmark->getDisplayName().c_str());
 
-	bool isValid = m_bookmark->isValid();
-
 	if (m_bookmark->isValid() == false)
 	{
 		m_activateButton->setEnabled(false);
@@ -173,8 +171,8 @@ void QtBookmark::deleteClicked()
 	QMessageBox msgBox;
 	msgBox.setText("Delete Bookmark");
 	msgBox.setInformativeText("Do you really want to delete this bookmark?");
-	QAbstractButton* yesButton = msgBox.addButton("Delete", QMessageBox::ButtonRole::YesRole);
-	QAbstractButton* noButton = msgBox.addButton("Keep", QMessageBox::ButtonRole::NoRole);
+	msgBox.addButton("Delete", QMessageBox::ButtonRole::YesRole);
+	msgBox.addButton("Keep", QMessageBox::ButtonRole::NoRole);
 	msgBox.setIcon(QMessageBox::Icon::Question);
 	int ret = msgBox.exec();
 
@@ -235,7 +233,7 @@ std::string QtBookmark::getDateString() const
 	std::string result = "n/a";
 
 	TimePoint creationDate = m_bookmark->getTimeStamp();
-	
+
 	float delta = TimePoint::now() - creationDate;
 
 	if (delta < 3600.0f) // less than an hour ago

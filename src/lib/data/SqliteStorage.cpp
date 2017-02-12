@@ -9,7 +9,7 @@
 #include "utility/text/TextAccess.h"
 #include "utility/Version.h"
 
-const size_t SqliteStorage::STORAGE_VERSION = 8;
+const size_t SqliteStorage::STORAGE_VERSION = 9;
 
 SqliteStorage::SqliteStorage(const FilePath& dbFilePath)
 	: m_dbFilePath(dbFilePath.canonical())
@@ -340,35 +340,6 @@ Id SqliteStorage::addNodeBookmark(const NodeBookmark& bookmark)
 	/*tokenName = utility::replace(tokenName, "\\", "/");
 	comment = utility::replace(comment, "\\", "/");*/
 
-	// for backwards compatibility
-	m_database.execDML(
-		"CREATE TABLE IF NOT EXISTS nodeBookmark("
-		"id INTEGER NOT NULL, "
-		"name TEXT, "
-		"comment TEXT, "
-		"timestamp TEXT, "
-		"category INTEGER, "
-		"PRIMARY KEY(id), "
-		"FOREIGN KEY(category) REFERENCES bookmarkCategory(id));"
-	);
-
-	m_database.execDML(
-		"CREATE TABLE IF NOT EXISTS nodeBookmarkToken("
-		"id INTEGER NOT NULL, "
-		"bookmarkId INTEGER NOT NULL, "
-		"name TEXT, "
-		"type INTEGER, "
-		"PRIMARY KEY(id), "
-		"FOREIGN KEY(bookmarkId) REFERENCES nodeBookmark(id) ON DELETE CASCADE);"
-	);
-
-	m_database.execDML(
-		"CREATE TABLE IF NOT EXISTS bookmarkCategory("
-		"id INTEGER NOT NULL, "
-		"name TEXT, "
-		"PRIMARY KEY(id));"
-	);
-
 	std::string statement = "INSERT INTO nodeBookmark(name, comment, timestamp, category) "
 		"VALUES (?, ?, ?, ?);";
 
@@ -397,7 +368,7 @@ Id SqliteStorage::addNodeBookmark(const NodeBookmark& bookmark)
 
 		stmt.execDML();
 	}
-	
+
 	return id;
 }
 
@@ -409,46 +380,6 @@ Id SqliteStorage::addEdgeBookmark(const EdgeBookmark& bookmark)
 
 	tokenName = utility::replace(tokenName, "'", "''");
 	comment = utility::replace(comment, "'", "''");
-
-	// for backwards compatibility
-	m_database.execDML(
-		"CREATE TABLE IF NOT EXISTS edgeBookmark("
-		"id INTEGER NOT NULL, "
-		"name TEXT, "
-		"comment TEXT, "
-		"timestamp TEXT, "
-		"category INTEGER, "
-		"PRIMARY KEY(id), "
-		"FOREIGN KEY(category) REFERENCES bookmarkCategory(id));"
-	);
-
-	m_database.execDML(
-		"CREATE TABLE IF NOT EXISTS edgeBookmarkToken("
-		"id INTEGER NOT NULL, "
-		"bookmarkId INTEGER NOT NULL, "
-		"name TEXT, "
-		"type INTEGER, "
-		"PRIMARY KEY(id), "
-		"FOREIGN KEY(bookmarkId) REFERENCES edgeBookmark(id) ON DELETE CASCADE);"
-	);
-
-	m_database.execDML(
-		"CREATE TABLE IF NOT EXISTS edgeBaseBookmark("
-		"id INTEGER NOT NULL, "
-		"edgeId INTEGER, "
-		"PRIMARY KEY(id), "
-		"FOREIGN KEY(edgeId) REFERENCES edgeBookmark(id) ON DELETE CASCADE);"
-	);
-
-	m_database.execDML(
-		"CREATE TABLE IF NOT EXISTS edgeBaseBookmarkToken("
-		"id INTEGER NOT NULL, "
-		"bookmarkId INTEGER NOT NULL, "
-		"name TEXT, "
-		"type INTEGER, "
-		"PRIMARY KEY(id), "
-		"FOREIGN KEY(bookmarkId) REFERENCES edgeBaseBookmark(id) ON DELETE CASCADE);"
-	);
 
 	std::string statement = "INSERT INTO edgeBookmark(name, comment, timestamp, category) "
 		"VALUES (?, ?, ?, ?);";
@@ -487,9 +418,6 @@ Id SqliteStorage::addEdgeBookmark(const EdgeBookmark& bookmark)
 
 	for (unsigned int i = 0; i < bookmark.getTokenNames().size(); i++)
 	{
-		std::string name = bookmark.getTokenNames()[i];
-		int type = bookmark.getTokenTypes()[i];
-
 		statement = "INSERT INTO edgeBaseBookmarkToken(bookmarkId, name, type) "
 			"VALUES (" + std::to_string(baseId) + ", ?, " + std::to_string(bookmark.getTokenTypes()[i]) + ");";
 
@@ -504,14 +432,6 @@ Id SqliteStorage::addEdgeBookmark(const EdgeBookmark& bookmark)
 
 Id SqliteStorage::addBookmarkCategory(const std::string& name)
 {
-	// for backwards compatibility
-	m_database.execDML(
-		"CREATE TABLE IF NOT EXISTS bookmarkCategory("
-		"id INTEGER NOT NULL, "
-		"name TEXT, "
-		"PRIMARY KEY(id));"
-	);
-
 	std::string statement = "INSERT INTO bookmarkCategory(name) "
 		"VALUES (?);";
 
@@ -1064,7 +984,7 @@ bool SqliteStorage::checkNodeBookmarkExistsByNames(const std::vector<std::string
 
 		insert = false;
 	}
-	
+
 	return true;
 }
 
@@ -1260,15 +1180,6 @@ void SqliteStorage::removeBookmarkCategory(Id id)
 	executeStatement(
 		"DELETE FROM bookmarkCategory WHERE id = (" + std::to_string(id) + ");"
 	);
-}
-
-Id SqliteStorage::getTokenIdByName(const std::string& name) const
-{
-	/*CppSQLite3Query q = m_database.execQuery((
-		"SELECT id FROM bookmark WHERE " + " foo " + ";"
-		).c_str());*/
-
-	return -1;
 }
 
 int SqliteStorage::getNodeCount() const
@@ -1521,7 +1432,7 @@ void SqliteStorage::setupTables()
 	{
 		LOG_ERROR(std::to_string(e.errorCode()) + ": " + e.errorMessage());
 
-		throw(std::exception("fail"));
+		throw(std::exception());
 
 		// todo: cancel project creation and destroy created files, display message
 	}

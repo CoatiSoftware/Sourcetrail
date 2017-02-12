@@ -9,11 +9,11 @@
 #include "qt/utility/utilityQt.h"
 
 QtBookmarkCategory::QtBookmarkCategory()
-	: m_name(NULL)
-	, m_layout(NULL)
+	: m_layout(NULL)
+	, m_name(NULL)
 	, m_deleteButton(NULL)
-	, m_id(-1)
 	, m_treeItem(NULL)
+	, m_id(-1)
 {
 	setObjectName("bookmark_category");
 
@@ -133,12 +133,12 @@ void QtBookmarkCategory::deleteClicked()
 	QMessageBox msgBox;
 	msgBox.setText("Delete Category");
 	msgBox.setInformativeText("Do you really want to delete this category AND all containing bookmarks?");
-	QAbstractButton* yesButton = msgBox.addButton("Delete", QMessageBox::ButtonRole::YesRole);
-	QAbstractButton* noButton = msgBox.addButton("Keep", QMessageBox::ButtonRole::NoRole);
+	msgBox.addButton("Delete", QMessageBox::ButtonRole::YesRole);
+	msgBox.addButton("Keep", QMessageBox::ButtonRole::NoRole);
 	msgBox.setIcon(QMessageBox::Icon::Question);
 	int ret = msgBox.exec();
 
-	if (ret == 0)
+	if (ret == 0) // QMessageBox::Yes
 	{
 		MessageDeleteBookmarkCategoryWithBookmarks(m_id).dispatch();
 	}
