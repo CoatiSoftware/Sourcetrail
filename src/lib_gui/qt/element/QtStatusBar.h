@@ -21,6 +21,8 @@ public:
 	void setText(const std::string& text, bool isError, bool showLoader);
 	void setErrorCount(ErrorCountInfo errorCount);
 
+	void setIdeStatus(const std::string& text);
+
 private slots:
 	void showStatus();
 	void showErrors();
@@ -29,6 +31,8 @@ private:
 	QPushButton m_text;
 	QLabel m_loader;
 	QPushButton m_errorButton;
+
+	QLabel m_ideStatusText;
 };
 
 #endif // QT_STATUS_BAR_H

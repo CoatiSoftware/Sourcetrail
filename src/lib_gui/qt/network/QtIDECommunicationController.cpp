@@ -23,6 +23,8 @@ void QtIDECommunicationController::startListening()
 			m_tcpWrapper.startListening();
 		}
 	);
+
+	sendInitialPing();
 }
 
 void QtIDECommunicationController::stopListening()

@@ -9,6 +9,7 @@
 
 QtStatusBar::QtStatusBar()
     : m_text(this)
+	, m_ideStatusText(this)
 {
 	addWidget(new QWidget()); // add some space
 
@@ -42,6 +43,9 @@ QtStatusBar::QtStatusBar()
 	addPermanentWidget(&m_errorButton);
 
 	connect(&m_errorButton, SIGNAL(clicked()), this, SLOT(showErrors()));
+
+	m_ideStatusText.setText("No IDE connected");
+	addWidget(&m_ideStatusText);
 }
 
 QtStatusBar::~QtStatusBar()
@@ -84,6 +88,11 @@ void QtStatusBar::setErrorCount(ErrorCountInfo errorCount)
 	{
 		m_errorButton.hide();
 	}
+}
+
+void QtStatusBar::setIdeStatus(const std::string& text)
+{
+	m_ideStatusText.setText(text.c_str());
 }
 
 void QtStatusBar::showStatus()

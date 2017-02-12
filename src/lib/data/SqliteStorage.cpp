@@ -328,6 +328,203 @@ Id SqliteStorage::addError(const std::string& message, const FilePath& filePath,
 	return m_database.lastRowId();
 }
 
+Id SqliteStorage::addNodeBookmark(const NodeBookmark& bookmark)
+{
+	std::string tokenName = bookmark.getDisplayName();
+	std::string comment = bookmark.getComment();
+	std::string timeStamp = bookmark.getTimeStamp().toString();
+
+	tokenName = utility::replace(tokenName, "'", "''");
+	comment = utility::replace(comment, "'", "''");
+
+	/*tokenName = utility::replace(tokenName, "\\", "/");
+	comment = utility::replace(comment, "\\", "/");*/
+
+	// for backwards compatibility
+	m_database.execDML(
+		"CREATE TABLE IF NOT EXISTS nodeBookmark("
+		"id INTEGER NOT NULL, "
+		"name TEXT, "
+		"comment TEXT, "
+		"timestamp TEXT, "
+		"category INTEGER, "
+		"PRIMARY KEY(id), "
+		"FOREIGN KEY(category) REFERENCES bookmarkCategory(id));"
+	);
+
+	m_database.execDML(
+		"CREATE TABLE IF NOT EXISTS nodeBookmarkToken("
+		"id INTEGER NOT NULL, "
+		"bookmarkId INTEGER NOT NULL, "
+		"name TEXT, "
+		"type INTEGER, "
+		"PRIMARY KEY(id), "
+		"FOREIGN KEY(bookmarkId) REFERENCES nodeBookmark(id) ON DELETE CASCADE);"
+	);
+
+	m_database.execDML(
+		"CREATE TABLE IF NOT EXISTS bookmarkCategory("
+		"id INTEGER NOT NULL, "
+		"name TEXT, "
+		"PRIMARY KEY(id));"
+	);
+
+	std::string statement = "INSERT INTO nodeBookmark(name, comment, timestamp, category) "
+		"VALUES (?, ?, ?, ?);";
+
+	int categoryId = getOrCreateBookmarkCategoryByName(bookmark.getCategory().getName()).getId();
+
+	CppSQLite3Statement stmt = m_database.compileStatement(statement.c_str());
+	stmt.bind(1, tokenName.c_str());
+	stmt.bind(2, comment.c_str());
+	stmt.bind(3, timeStamp.c_str());
+	stmt.bind(4, categoryId);
+
+	stmt.execDML();
+
+	Id id = m_database.lastRowId();
+
+	for (unsigned int i = 0; i < bookmark.getTokenNames().size(); i++)
+	{
+		std::string name = bookmark.getTokenNames()[i];
+		int type = bookmark.getTokenTypes()[i];
+
+		statement = "INSERT INTO nodeBookmarkToken(bookmarkId, name, type) "
+			"VALUES (" + std::to_string(id) + ", ?, " + std::to_string(type) + ");";
+
+		stmt = m_database.compileStatement(statement.c_str());
+		stmt.bind(1, name.c_str());
+
+		stmt.execDML();
+	}
+	
+	return id;
+}
+
+Id SqliteStorage::addEdgeBookmark(const EdgeBookmark& bookmark)
+{
+	std::string tokenName = bookmark.getDisplayName();
+	std::string comment = bookmark.getComment();
+	std::string timeStamp = bookmark.getTimeStamp().toString();
+
+	tokenName = utility::replace(tokenName, "'", "''");
+	comment = utility::replace(comment, "'", "''");
+
+	// for backwards compatibility
+	m_database.execDML(
+		"CREATE TABLE IF NOT EXISTS edgeBookmark("
+		"id INTEGER NOT NULL, "
+		"name TEXT, "
+		"comment TEXT, "
+		"timestamp TEXT, "
+		"category INTEGER, "
+		"PRIMARY KEY(id), "
+		"FOREIGN KEY(category) REFERENCES bookmarkCategory(id));"
+	);
+
+	m_database.execDML(
+		"CREATE TABLE IF NOT EXISTS edgeBookmarkToken("
+		"id INTEGER NOT NULL, "
+		"bookmarkId INTEGER NOT NULL, "
+		"name TEXT, "
+		"type INTEGER, "
+		"PRIMARY KEY(id), "
+		"FOREIGN KEY(bookmarkId) REFERENCES edgeBookmark(id) ON DELETE CASCADE);"
+	);
+
+	m_database.execDML(
+		"CREATE TABLE IF NOT EXISTS edgeBaseBookmark("
+		"id INTEGER NOT NULL, "
+		"edgeId INTEGER, "
+		"PRIMARY KEY(id), "
+		"FOREIGN KEY(edgeId) REFERENCES edgeBookmark(id) ON DELETE CASCADE);"
+	);
+
+	m_database.execDML(
+		"CREATE TABLE IF NOT EXISTS edgeBaseBookmarkToken("
+		"id INTEGER NOT NULL, "
+		"bookmarkId INTEGER NOT NULL, "
+		"name TEXT, "
+		"type INTEGER, "
+		"PRIMARY KEY(id), "
+		"FOREIGN KEY(bookmarkId) REFERENCES edgeBaseBookmark(id) ON DELETE CASCADE);"
+	);
+
+	std::string statement = "INSERT INTO edgeBookmark(name, comment, timestamp, category) "
+		"VALUES (?, ?, ?, ?);";
+
+	int categoryId = getOrCreateBookmarkCategoryByName(bookmark.getCategory().getName()).getId();
+
+	CppSQLite3Statement stmt = m_database.compileStatement(statement.c_str());
+	stmt.bind(1, tokenName.c_str());
+	stmt.bind(2, comment.c_str());
+	stmt.bind(3, timeStamp.c_str());
+	stmt.bind(4, categoryId);
+
+	stmt.execDML();
+
+	Id id = m_database.lastRowId();
+
+	for (unsigned int i = 0; i < bookmark.getEdgeTokenNames().size(); i++)
+	{
+		std::string name = bookmark.getEdgeTokenNames()[i];
+		int type = bookmark.getEdgeTokenTypes()[i];
+
+		statement = "INSERT INTO edgeBookmarkToken(bookmarkId, name, type) "
+			"VALUES (" + std::to_string(id) + ", ?, " + std::to_string(type) + ");";
+
+		stmt = m_database.compileStatement(statement.c_str());
+		stmt.bind(1, name.c_str());
+
+		stmt.execDML();
+	}
+
+	statement = "INSERT INTO edgeBaseBookmark(edgeId) "
+		"VALUES (" + std::to_string(id) + ");";
+	stmt = m_database.compileStatement(statement.c_str());
+	stmt.execDML();
+	Id baseId = m_database.lastRowId();
+
+	for (unsigned int i = 0; i < bookmark.getTokenNames().size(); i++)
+	{
+		std::string name = bookmark.getTokenNames()[i];
+		int type = bookmark.getTokenTypes()[i];
+
+		statement = "INSERT INTO edgeBaseBookmarkToken(bookmarkId, name, type) "
+			"VALUES (" + std::to_string(baseId) + ", ?, " + std::to_string(bookmark.getTokenTypes()[i]) + ");";
+
+		stmt = m_database.compileStatement(statement.c_str());
+		stmt.bind(1, bookmark.getTokenNames()[i].c_str());
+
+		stmt.execDML();
+	}
+
+	return id;
+}
+
+Id SqliteStorage::addBookmarkCategory(const std::string& name)
+{
+	// for backwards compatibility
+	m_database.execDML(
+		"CREATE TABLE IF NOT EXISTS bookmarkCategory("
+		"id INTEGER NOT NULL, "
+		"name TEXT, "
+		"PRIMARY KEY(id));"
+	);
+
+	std::string statement = "INSERT INTO bookmarkCategory(name) "
+		"VALUES (?);";
+
+	CppSQLite3Statement stmt = m_database.compileStatement(statement.c_str());
+	stmt.bind(1, name.c_str());
+
+	stmt.execDML();
+
+	Id id = m_database.lastRowId();
+
+	return id;
+}
+
 void SqliteStorage::removeElement(Id id)
 {
 	std::vector<Id> ids;
@@ -509,6 +706,18 @@ bool SqliteStorage::isFile(Id elementId) const
 	return (count > 0);
 }
 
+StorageEdge SqliteStorage::getEdgeById(Id edgeId) const
+{
+	std::vector<StorageEdge> candidates = doGetAll<StorageEdge>("WHERE id = " + std::to_string(edgeId));
+
+	if (candidates.size() > 0)
+	{
+		return candidates[0];
+	}
+
+	return StorageEdge();
+}
+
 StorageEdge SqliteStorage::getEdgeBySourceTargetType(Id sourceId, Id targetId, int type) const
 {
 	return doGetFirst<StorageEdge>("WHERE "
@@ -568,6 +777,39 @@ std::vector<StorageEdge> SqliteStorage::getEdgesByTargetsType(const std::vector<
 	return doGetAll<StorageEdge>("WHERE target_node_id IN (" + utility::join(utility::toStrings(targetIds), ',') + ") AND type == " + std::to_string(type));
 }
 
+bool SqliteStorage::checkEdgeExists(Id edgeId) const
+{
+	CppSQLite3Statement stmt = m_database.compileStatement(
+		("SELECT type FROM edge WHERE id == " + std::to_string(edgeId) + ";").c_str()
+	);
+
+	CppSQLite3Query q = executeQuery(stmt);
+
+	if (!q.eof())
+	{
+		const int type = q.getIntField(0, -1);
+
+		if (type != -1)
+		{
+			return true;
+		}
+	}
+
+	return false;
+}
+
+StorageNode SqliteStorage::getNodeById(Id id) const
+{
+	std::vector<StorageNode> candidates = doGetAll<StorageNode>("WHERE id = " + std::to_string(id));
+
+	if (candidates.size() > 0)
+	{
+		return candidates[0];
+	}
+
+	return StorageNode();
+}
+
 StorageNode SqliteStorage::getNodeBySerializedName(const std::string& serializedName) const
 {
 	CppSQLite3Statement stmt = m_database.compileStatement(
@@ -590,6 +832,28 @@ StorageNode SqliteStorage::getNodeBySerializedName(const std::string& serialized
 	}
 
 	return StorageNode();
+}
+
+bool SqliteStorage::checkNodeExistsByName(const std::string& serializedName) const
+{
+	CppSQLite3Statement stmt = m_database.compileStatement(
+		"SELECT id FROM node WHERE serialized_name == ? LIMIT 1;"
+	);
+
+	stmt.bind(1, serializedName.c_str());
+	CppSQLite3Query q = executeQuery(stmt);
+
+	if (!q.eof())
+	{
+		const Id id = q.getIntField(0, 0);
+
+		if (id != -1)
+		{
+			return true;
+		}
+	}
+
+	return false;
 }
 
 StorageLocalSymbol SqliteStorage::getLocalSymbolByName(const std::string& name) const
@@ -733,6 +997,278 @@ std::vector<StorageCommentLocation> SqliteStorage::getCommentLocationsInFile(con
 {
 	Id fileNodeId = getFileByPath(filePath.str()).id;
 	return doGetAll<StorageCommentLocation>("WHERE file_node_id == " + std::to_string(fileNodeId));
+}
+
+std::vector<NodeBookmark> SqliteStorage::getAllNodeBookmarks() const
+{
+	return doGetAll<NodeBookmark>("");
+}
+
+NodeBookmark SqliteStorage::getNodeBookmarkById(const Id bookmarkId) const
+{
+	std::vector<NodeBookmark> candidates = doGetAll<NodeBookmark>("WHERE id = " + std::to_string(bookmarkId));
+
+	if (candidates.size() > 0)
+	{
+		return candidates[0];
+	}
+
+	return NodeBookmark();
+}
+
+bool SqliteStorage::checkNodeBookmarkExistsByNames(const std::vector<std::string>& names) const
+{
+	// bookmarks can only be uniquly identified by their token names.
+	// therefore, a bookmark exists if there is an exactly matching set of 'bookmarkToken's with a common foreign key
+
+	if (names.size() <= 0)
+	{
+		return false;
+	}
+
+	std::set<int> bookmarkIds;
+	bool insert = true;
+
+	for (unsigned int i = 0; i < names.size(); i++)
+	{
+		CppSQLite3Query q = m_database.execQuery((
+			"SELECT bookmarkId FROM nodeBookmarkToken WHERE name = '" + names[i] +"';"
+			).c_str());
+
+		bool contains = false;
+
+		while (!q.eof())
+		{
+			int id = q.getIntField(0, -1);
+
+			if (insert)
+			{
+				bookmarkIds.insert(id);
+			}
+			else
+			{
+				if (bookmarkIds.find(id) != bookmarkIds.end())
+				{
+					contains = true;
+				}
+			}
+
+			q.nextRow();
+		}
+
+		if ((contains == false && insert == false)
+			|| bookmarkIds.size() <= 0)
+		{
+			return false;
+		}
+
+		insert = false;
+	}
+	
+	return true;
+}
+
+void SqliteStorage::removeNodeBookmark(Id id)
+{
+	executeStatement(
+		"DELETE FROM nodeBookmark WHERE id = (" + std::to_string(id) + ");"
+	);
+}
+
+void SqliteStorage::editNodeBookmark(const NodeBookmark& bookmark)
+{
+	std::string statement = "UPDATE nodeBookmark SET name=?, comment=?, category=? WHERE id=" + std::to_string(bookmark.getId()) + ";";
+
+	BookmarkCategory category = getBookmarkCategoryByName(bookmark.getCategory().getName());
+	if (category.getId() == -1)
+	{
+		category.setId(addBookmarkCategory(bookmark.getCategory().getName()));
+		category.setName(bookmark.getCategory().getName());
+	}
+
+	CppSQLite3Statement stmt = m_database.compileStatement(statement.c_str());
+	stmt.bind(1, bookmark.getDisplayName().c_str());
+	stmt.bind(2, bookmark.getComment().c_str());
+	stmt.bind(3, (int)category.getId());
+
+	stmt.execDML();
+}
+
+std::vector<EdgeBookmark> SqliteStorage::getAllEdgeBookmarks() const
+{
+	return doGetAll<EdgeBookmark>("");
+}
+
+EdgeBookmark SqliteStorage::getEdgeBookmarkById(const Id bookmarkId) const
+{
+	std::vector<EdgeBookmark> candidates = doGetAll<EdgeBookmark>("WHERE id = " + std::to_string(bookmarkId));
+
+	if (candidates.size() > 0)
+	{
+		return candidates[0];
+	}
+
+	return EdgeBookmark();
+}
+
+bool SqliteStorage::checkEdgeBookmarkExistsByNames(const std::vector<std::string>& names) const
+{
+	if (names.size() <= 0)
+	{
+		return false;
+	}
+
+	std::set<int> bookmarkIds;
+	bool insert = true;
+
+	for (unsigned int i = 0; i < names.size(); i++)
+	{
+		CppSQLite3Query q = m_database.execQuery((
+			"SELECT bookmarkId FROM edgeBookmarkToken WHERE name = '" + names[i] + "';"
+			).c_str());
+
+		bool contains = false;
+
+		while (!q.eof())
+		{
+			int id = q.getIntField(0, -1);
+
+			if (insert)
+			{
+				bookmarkIds.insert(id);
+			}
+			else
+			{
+				if (bookmarkIds.find(id) != bookmarkIds.end())
+				{
+					contains = true;
+				}
+			}
+
+			q.nextRow();
+		}
+
+		if ((contains == false && insert == false)
+			|| bookmarkIds.size() <= 0)
+		{
+			return false;
+		}
+
+		insert = false;
+	}
+
+	return true;
+}
+
+void SqliteStorage::removeEdgeBookmark(Id id)
+{
+	executeStatement(
+		"DELETE FROM edgeBookmark WHERE id = (" + std::to_string(id) + ");"
+	);
+}
+
+void SqliteStorage::editEdgeBookmark(const EdgeBookmark& bookmark)
+{
+	std::string statement = "UPDATE edgeBookmark SET name=?, comment=?, category=? WHERE id=" + std::to_string(bookmark.getId()) + ";";
+
+	BookmarkCategory category = getBookmarkCategoryByName(bookmark.getCategory().getName());
+	if (category.getId() == -1)
+	{
+		category.setId(addBookmarkCategory(bookmark.getCategory().getName()));
+		category.setName(bookmark.getCategory().getName());
+	}
+
+	CppSQLite3Statement stmt = m_database.compileStatement(statement.c_str());
+	stmt.bind(1, bookmark.getDisplayName().c_str());
+	stmt.bind(2, bookmark.getComment().c_str());
+	stmt.bind(3, (int)category.getId());
+
+	stmt.execDML();
+}
+
+std::vector<BookmarkCategory> SqliteStorage::getAllBookmarkCategories() const
+{
+	return doGetAll<BookmarkCategory>("");
+}
+
+BookmarkCategory SqliteStorage::getBookmarkCategoryByName(const std::string& name) const
+{
+	BookmarkCategory category;
+	category.setName("");
+	category.setId(-1);
+
+	CppSQLite3Query q = m_database.execQuery((
+		"SELECT id FROM bookmarkCategory WHERE name = '" + name + "';"
+		).c_str());
+
+	while (!q.eof())
+	{
+		int id = q.getIntField(0, -1);
+
+		if (id > -1)
+		{
+			category.setName(name);
+			category.setId(id);
+		}
+
+		q.nextRow();
+	}
+
+	return category;
+}
+
+BookmarkCategory SqliteStorage::getOrCreateBookmarkCategoryByName(const std::string& name)
+{
+	if (checkBookmarkCategoryExists(name))
+	{
+		return getBookmarkCategoryByName(name);
+	}
+	else
+	{
+		Id id = addBookmarkCategory(name);
+		BookmarkCategory result;
+		result.setName(name);
+		result.setId(id);
+
+		return result;
+	}
+}
+
+bool SqliteStorage::checkBookmarkCategoryExists(const std::string& name) const
+{
+	CppSQLite3Query q = m_database.execQuery((
+		"SELECT id FROM bookmarkCategory WHERE name = '" + name + "';"
+		).c_str());
+
+	while (!q.eof())
+	{
+		int id = q.getIntField(0, -1);
+
+		if (id > -1)
+		{
+			return true;
+		}
+
+		q.nextRow();
+	}
+
+	return false;
+}
+
+void SqliteStorage::removeBookmarkCategory(Id id)
+{
+	executeStatement(
+		"DELETE FROM bookmarkCategory WHERE id = (" + std::to_string(id) + ");"
+	);
+}
+
+Id SqliteStorage::getTokenIdByName(const std::string& name) const
+{
+	/*CppSQLite3Query q = m_database.execQuery((
+		"SELECT id FROM bookmark WHERE " + " foo " + ";"
+		).c_str());*/
+
+	return -1;
 }
 
 int SqliteStorage::getNodeCount() const
@@ -913,10 +1449,81 @@ void SqliteStorage::setupTables()
 				"column_number INTEGER, "
 				"PRIMARY KEY(id));"
 		);
+
+		m_database.execDML(
+			"CREATE TABLE IF NOT EXISTS bookmarkCategory("
+			"id INTEGER NOT NULL, "
+			"name TEXT, "
+			"PRIMARY KEY(id));"
+		);
+
+		m_database.execDML(
+			"CREATE TABLE IF NOT EXISTS nodeBookmark("
+			"id INTEGER NOT NULL, "
+			"name TEXT, "
+			"comment TEXT, "
+			"timestamp TEXT, "
+			"category INTEGER, "
+			"PRIMARY KEY(id), "
+			"FOREIGN KEY(category) REFERENCES bookmarkCategory(id));"
+		);
+
+		m_database.execDML(
+			"CREATE TABLE IF NOT EXISTS edgeBookmark("
+			"id INTEGER NOT NULL, "
+			"name TEXT, "
+			"comment TEXT, "
+			"timestamp TEXT, "
+			"category INTEGER, "
+			"PRIMARY KEY(id), "
+			"FOREIGN KEY(category) REFERENCES bookmarkCategory(id));"
+		);
+
+		m_database.execDML(
+			"CREATE TABLE IF NOT EXISTS nodeBookmarkToken("
+			"id INTEGER NOT NULL, "
+			"bookmarkId INTEGER NOT NULL, "
+			"name TEXT, "
+			"type INTEGER, "
+			"PRIMARY KEY(id), "
+			"FOREIGN KEY(bookmarkId) REFERENCES nodeBookmark(id) ON DELETE CASCADE);"
+		);
+
+		m_database.execDML(
+			"CREATE TABLE IF NOT EXISTS edgeBookmarkToken("
+			"id INTEGER NOT NULL, "
+			"bookmarkId INTEGER NOT NULL, "
+			"name TEXT, "
+			"type INTEGER, "
+			"PRIMARY KEY(id), "
+			"FOREIGN KEY(bookmarkId) REFERENCES edgeBookmark(id) ON DELETE CASCADE);"
+		);
+
+		m_database.execDML(
+			"CREATE TABLE IF NOT EXISTS edgeBaseBookmark("
+			"id INTEGER NOT NULL, "
+			"edgeId INTEGER, "
+			"PRIMARY KEY(id), "
+			"FOREIGN KEY(edgeId) REFERENCES edgeBookmark(id) ON DELETE CASCADE);"
+		);
+
+		m_database.execDML(
+			"CREATE TABLE IF NOT EXISTS edgeBaseBookmarkToken("
+			"id INTEGER NOT NULL, "
+			"bookmarkId INTEGER NOT NULL, "
+			"name TEXT, "
+			"type INTEGER, "
+			"PRIMARY KEY(id), "
+			"FOREIGN KEY(bookmarkId) REFERENCES edgeBaseBookmark(id) ON DELETE CASCADE);"
+		);
 	}
 	catch (CppSQLite3Exception& e)
 	{
 		LOG_ERROR(std::to_string(e.errorCode()) + ": " + e.errorMessage());
+
+		throw(std::exception("fail"));
+
+		// todo: cancel project creation and destroy created files, display message
 	}
 }
 
@@ -1317,4 +1924,187 @@ std::vector<StorageError> SqliteStorage::doGetAll<StorageError>(const std::strin
 	}
 
 	return errors;
+}
+
+template <>
+std::vector<NodeBookmark> SqliteStorage::doGetAll<NodeBookmark>(const std::string& query) const
+{
+	CppSQLite3Query q = m_database.execQuery((
+		"SELECT id, name, comment, timestamp, category FROM nodeBookmark " + query + ";"
+		).c_str());
+
+	std::vector<NodeBookmark> bookmarks;
+	bookmarks.clear();
+
+	while (!q.eof())
+	{
+		const int id = q.getIntField(0, -1);
+		const std::string name = q.getStringField(1, "");
+		const std::string comment = q.getStringField(2, "");
+		const std::string timeStamp = q.getStringField(3, "");
+		const int categoryId = q.getIntField(4, -1);
+
+		CppSQLite3Query qSub = m_database.execQuery((
+			"SELECT name, type FROM nodeBookmarkToken WHERE bookmarkId = " + std::to_string(id)  + ";"
+			).c_str());
+
+		std::vector<std::string> tokenNames;
+		std::vector<int> tokenTypes;
+
+		while (!qSub.eof())
+		{
+			const std::string tokenName = qSub.getStringField(0, "");
+			const int tokenType = qSub.getIntField(1, -1);
+			tokenNames.push_back(tokenName);
+			tokenTypes.push_back(tokenType);
+			qSub.nextRow();
+		}
+
+		NodeBookmark bookmark(name, std::vector<Id>(), tokenNames, comment, TimePoint(timeStamp));
+		bookmark.setId(id);
+		bookmark.setTokenTypes(tokenTypes);
+
+		qSub = m_database.execQuery((
+			"SELECT id, name FROM bookmarkCategory WHERE id = " + std::to_string(categoryId) + ";"
+			).c_str());
+
+		while (!qSub.eof())
+		{
+			const int categoryId = qSub.getIntField(0, -1);
+			const std::string name = qSub.getStringField(1, "");
+			BookmarkCategory category;
+			category.setId(categoryId);
+			category.setName(name);
+			bookmark.setCategory(category);
+
+			qSub.nextRow();
+		}
+
+		bookmarks.push_back(bookmark);
+
+		q.nextRow();
+	}
+
+	return bookmarks;
+}
+
+template <>
+std::vector<EdgeBookmark> SqliteStorage::doGetAll<EdgeBookmark>(const std::string& query) const
+{
+	CppSQLite3Query q = m_database.execQuery((
+		"SELECT id, name, comment, timestamp, category FROM edgeBookmark " + query + ";"
+		).c_str());
+
+	std::vector<EdgeBookmark> bookmarks;
+	bookmarks.clear();
+
+	while (!q.eof())
+	{
+		const int id = q.getIntField(0, -1);
+		const std::string name = q.getStringField(1, "");
+		const std::string comment = q.getStringField(2, "");
+		const std::string timeStamp = q.getStringField(3, "");
+		const int categoryId = q.getIntField(4, -1);
+
+		CppSQLite3Query qSub = m_database.execQuery((
+			"SELECT name, type FROM edgeBookmarkToken WHERE bookmarkId = " + std::to_string(id) + ";"
+			).c_str());
+
+
+		std::vector<std::string> tokenNames;
+		std::vector<int> tokenTypes;
+		while (!qSub.eof())
+		{
+			const std::string tokenName = qSub.getStringField(0, "");
+			const int tokenType = qSub.getIntField(1, -1);
+			tokenNames.push_back(tokenName);
+			tokenTypes.push_back(tokenType);
+			qSub.nextRow();
+		}
+
+		qSub = m_database.execQuery((
+			"SELECT id FROM edgeBaseBookmark WHERE edgeId = " + std::to_string(id) + ";"
+			).c_str());
+
+		NodeBookmark baseBookmark; // there should only be one base bookmark, if there are more use the last one
+		while (!qSub.eof())
+		{
+			const int baseId = qSub.getIntField(0, -1);
+
+			baseBookmark.setId(baseId);
+
+			CppSQLite3Query qSubSub = m_database.execQuery((
+				"SELECT id, name, type FROM edgeBaseBookmarkToken WHERE bookmarkId = " + std::to_string(baseId) + ";"
+				).c_str());
+
+			std::vector<std::string> baseTokenNames;
+			std::vector<int> baseTokenTypes;
+			while (!qSubSub.eof())
+			{
+				const std::string baseTokenName = qSubSub.getStringField(1, "");
+				const int baseTokenType = qSubSub.getIntField(2, -1);
+				baseTokenNames.push_back(baseTokenName);
+				baseTokenTypes.push_back(baseTokenType);
+				qSubSub.nextRow();
+			}
+
+			baseBookmark.setTokenNames(baseTokenNames);
+			baseBookmark.setTokenTypes(baseTokenTypes);
+
+			qSub.nextRow();
+		}
+
+		EdgeBookmark bookmark(name, std::vector<Id>(), tokenNames, comment, TimePoint(timeStamp));
+		bookmark.setTokenTypes(tokenTypes);
+		bookmark.setBaseBookmark(baseBookmark);
+		bookmark.setId(id);
+
+		qSub = m_database.execQuery((
+			"SELECT id, name FROM bookmarkCategory WHERE id = " + std::to_string(categoryId) + ";"
+			).c_str());
+
+		while (!qSub.eof())
+		{
+			const int categoryId = qSub.getIntField(0, -1);
+			const std::string name = qSub.getStringField(1, "");
+			BookmarkCategory category;
+			category.setId(categoryId);
+			category.setName(name);
+			bookmark.setCategory(category);
+
+			qSub.nextRow();
+		}
+
+		bookmarks.push_back(bookmark);
+
+		q.nextRow();
+	}
+
+	return bookmarks;
+}
+
+template <>
+std::vector<BookmarkCategory> SqliteStorage::doGetAll<BookmarkCategory>(const std::string& query) const
+{
+	std::vector<BookmarkCategory> categories;
+
+	CppSQLite3Query q = m_database.execQuery((
+		"SELECT id, name FROM bookmarkCategory " + query + ";"
+		).c_str());
+
+	while (!q.eof())
+	{
+		const int id = q.getIntField(0, -1);
+		const std::string name = q.getStringField(1, "");
+
+		BookmarkCategory category;
+		category.setId(id);
+		category.setName(name);
+
+		categories.push_back(category);
+
+		q.nextRow();
+	}
+
+	return categories;
 }

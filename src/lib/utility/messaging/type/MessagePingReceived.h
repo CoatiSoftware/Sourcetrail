@@ -9,6 +9,7 @@ class MessagePingReceived
 public:
 	MessagePingReceived()
 		: ideId("")
+		, ideName("")
 	{
 	}
 
@@ -18,6 +19,7 @@ public:
 	}
 
 	std::string ideId;
+	std::string ideName;
 };
 
 #endif // MESSAGE_PING_RECEIVED_H

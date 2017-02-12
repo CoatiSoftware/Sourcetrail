@@ -34,6 +34,9 @@ public:
 	bool getEnabled() const;
 	void setEnabled(const bool enabled);
 
+protected:
+	void sendInitialPing();
+
 private:
 	void handleSetActiveTokenMessage(const NetworkProtocolHelper::SetActiveTokenMessage& message);
 	void handleCreateProjectMessage(const NetworkProtocolHelper::CreateProjectMessage& message);

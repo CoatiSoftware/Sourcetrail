@@ -7,6 +7,9 @@
 
 #include "sqlite/CppSQLite3.h"
 
+#include "data/bookmark/BookmarkCategory.h"
+#include "data/bookmark/EdgeBookmark.h"
+#include "data/bookmark/NodeBookmark.h"
 #include "data/location/TokenLocationFile.h"
 #include "data/location/TokenLocationCollection.h"
 #include "data/name/NameHierarchy.h"
@@ -66,6 +69,9 @@ public:
 	Id addComponentAccess(Id nodeId, int type);
 	Id addCommentLocation(Id fileNodeId, uint startLine, uint startCol, uint endLine, uint endCol);
 	Id addError(const std::string& message, const FilePath& filePath, uint lineNumber, uint columnNumber, bool fatal, bool indexed);
+	Id addNodeBookmark(const NodeBookmark& bookmark);
+	Id addEdgeBookmark(const EdgeBookmark& bookmark);
+	Id addBookmarkCategory(const std::string& name);
 
 	void removeElement(Id id);
 	void removeElements(const std::vector<Id>& ids);
@@ -77,6 +83,7 @@ public:
 	bool isNode(Id elementId) const;
 	bool isFile(Id elementId) const;
 
+	StorageEdge getEdgeById(Id edgeId) const;
 	StorageEdge getEdgeBySourceTargetType(Id sourceId, Id targetId, int type) const;
 
 	std::vector<StorageEdge> getEdgesBySourceId(Id sourceId) const;
@@ -91,7 +98,11 @@ public:
 	std::vector<StorageEdge> getEdgesByTargetType(Id targetId, int type) const;
 	std::vector<StorageEdge> getEdgesByTargetsType(const std::vector<Id>& targetIds, int type) const;
 
+	bool checkEdgeExists(Id edgeId) const;
+
+	StorageNode getNodeById(Id id) const;
 	StorageNode getNodeBySerializedName(const std::string& serializedName) const;
+	bool checkNodeExistsByName(const std::string& serializedName) const;
 
 	StorageLocalSymbol getLocalSymbolByName(const std::string& name) const;
 
@@ -120,6 +131,26 @@ public:
 	{
 		return doGetAll<ResultType>("");
 	}
+
+	std::vector<NodeBookmark> getAllNodeBookmarks() const;
+	NodeBookmark getNodeBookmarkById(const Id bookmarkId) const;
+	bool checkNodeBookmarkExistsByNames(const std::vector<std::string>& names) const;
+	void removeNodeBookmark(Id id);
+	void editNodeBookmark(const NodeBookmark& bookmark);
+
+	std::vector<EdgeBookmark> getAllEdgeBookmarks() const;
+	EdgeBookmark getEdgeBookmarkById(const Id bookmarkId) const;
+	bool checkEdgeBookmarkExistsByNames(const std::vector<std::string>& names) const;
+	void removeEdgeBookmark(Id id);
+	void editEdgeBookmark(const EdgeBookmark& bookmark);
+
+	std::vector<BookmarkCategory> getAllBookmarkCategories() const;
+	BookmarkCategory getBookmarkCategoryByName(const std::string& name) const;
+	BookmarkCategory getOrCreateBookmarkCategoryByName(const std::string& name);
+	bool checkBookmarkCategoryExists(const std::string& name) const;
+	void removeBookmarkCategory(Id id);
+
+	Id getTokenIdByName(const std::string& name) const;
 
 	template <typename ResultType>
 	ResultType getFirstById(const Id id) const
@@ -200,6 +231,8 @@ std::vector<StorageLocalSymbol> SqliteStorage::doGetAll<StorageLocalSymbol>(cons
 template <>
 std::vector<StorageSourceLocation> SqliteStorage::doGetAll<StorageSourceLocation>(const std::string& query) const;
 template <>
+std::vector<NodeBookmark> SqliteStorage::doGetAll<NodeBookmark>(const std::string& query) const;
+template <>
 std::vector<StorageOccurrence> SqliteStorage::doGetAll<StorageOccurrence>(const std::string& query) const;
 template <>
 std::vector<StorageComponentAccess> SqliteStorage::doGetAll<StorageComponentAccess>(const std::string& query) const;
@@ -207,6 +240,11 @@ template <>
 std::vector<StorageCommentLocation> SqliteStorage::doGetAll<StorageCommentLocation>(const std::string& query) const;
 template <>
 std::vector<StorageError> SqliteStorage::doGetAll<StorageError>(const std::string& query) const;
-
+template <>
+std::vector<Bookmark> SqliteStorage::doGetAll<Bookmark>(const std::string& query) const;
+template <>
+std::vector<EdgeBookmark> SqliteStorage::doGetAll<EdgeBookmark>(const std::string& query) const;
+template <>
+std::vector<BookmarkCategory> SqliteStorage::doGetAll<BookmarkCategory>(const std::string& query) const;
 
 #endif // SQLITE_STORAGE_H

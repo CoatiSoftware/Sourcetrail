@@ -1,6 +1,7 @@
 #include "qt/view/QtViewFactory.h"
 
 #include "component/view/GraphViewStyle.h"
+#include "qt/view/QtBookmarkView.h"
 #include "qt/view/QtCodeView.h"
 #include "qt/view/QtCompositeView.h"
 #include "qt/view/QtDialogView.h"
@@ -44,6 +45,11 @@ std::shared_ptr<TabbedView> QtViewFactory::createTabbedView(ViewLayout* viewLayo
 	ptr->init();
 	ptr->addToLayout();
 	return ptr;
+}
+
+std::shared_ptr<BookmarkView> QtViewFactory::createBookmarkView(ViewLayout* viewLayout) const
+{
+	return View::createInitAndAddToLayout<QtBookmarkView>(viewLayout);
 }
 
 std::shared_ptr<CodeView> QtViewFactory::createCodeView(ViewLayout* viewLayout) const

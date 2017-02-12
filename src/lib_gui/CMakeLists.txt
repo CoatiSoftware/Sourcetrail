@@ -8,6 +8,12 @@ add_files(
 
 	qt/element/QtAutocompletionList.cpp
 	qt/element/QtAutocompletionList.h
+	qt/element/QtBookmark.cpp
+	qt/element/QtBookmark.h
+	qt/element/QtBookmarkBar.cpp
+	qt/element/QtBookmarkBar.h
+	qt/element/QtBookmarkCategory.cpp
+	qt/element/QtBookmarkCategory.h
 	qt/element/QtCodeArea.cpp
 	qt/element/QtCodeArea.h
 	qt/element/QtCodeFile.cpp
@@ -101,6 +107,8 @@ add_files(
 	qt/view/graphElements/QtGraphNodeText.cpp
 	qt/view/graphElements/QtGraphNodeText.h
 
+	qt/view/QtBookmarkView.cpp
+	qt/view/QtBookmarkView.h
 	qt/view/QtCodeView.cpp
 	qt/view/QtCodeView.h
 	qt/view/QtCompositeView.cpp
@@ -165,6 +173,10 @@ add_files(
 	qt/window/QtAbout.h
 	qt/window/QtAboutLicense.cpp
 	qt/window/QtAboutLicense.h
+	qt/window/QtBookmarkBrowser.cpp
+	qt/window/QtBookmarkBrowser.h
+	qt/window/QtBookmarkCreator.cpp
+	qt/window/QtBookmarkCreator.h
 	qt/window/QtIndexingDialog.cpp
 	qt/window/QtIndexingDialog.h
 	qt/window/QtKeyboardShortcuts.cpp

@@ -57,6 +57,24 @@ Id StorageAccessProxy::getIdForEdge(
 	return 0;
 }
 
+StorageEdge StorageAccessProxy::getEdgeById(Id edgeId) const
+{
+	if (hasSubject())
+	{
+		return m_subject->getEdgeById(edgeId);
+	}
+}
+
+bool StorageAccessProxy::checkEdgeExists(Id edgeId) const
+{
+	if (hasSubject())
+	{
+		return m_subject->checkEdgeExists(edgeId);
+	}
+
+	return false;
+}
+
 Node::NodeType StorageAccessProxy::getNodeTypeForNodeWithId(Id id) const
 {
 	if (hasSubject())
@@ -64,6 +82,15 @@ Node::NodeType StorageAccessProxy::getNodeTypeForNodeWithId(Id id) const
 		return m_subject->getNodeTypeForNodeWithId(id);
 	}
 	return Node::NODE_NON_INDEXED;
+}
+
+bool StorageAccessProxy::checkNodeExistsByName(const std::string& serializedName) const
+{
+	if (hasSubject())
+	{
+		return m_subject->checkNodeExistsByName(serializedName);
+	}
+	return false;
 }
 
 NameHierarchy StorageAccessProxy::getNameHierarchyForNodeWithId(Id id) const
@@ -300,6 +327,156 @@ std::shared_ptr<TokenLocationCollection> StorageAccessProxy::getErrorTokenLocati
 	}
 
 	return std::make_shared<TokenLocationCollection>();
+}
+
+Id StorageAccessProxy::addNodeBookmark(const NodeBookmark& bookmark)
+{
+	if (hasSubject())
+	{
+		return m_subject->addNodeBookmark(bookmark);
+	}
+
+	return -1;
+}
+
+Id StorageAccessProxy::addEdgeBookmark(const EdgeBookmark& bookmark)
+{
+	if (hasSubject())
+	{
+		return m_subject->addEdgeBookmark(bookmark);
+	}
+
+	return -1;
+}
+
+Id StorageAccessProxy::addBookmarkCategory(const BookmarkCategory& category)
+{
+	if (hasSubject())
+	{
+		return m_subject->addBookmarkCategory(category);
+	}
+
+	return -1;
+}
+
+std::vector<NodeBookmark> StorageAccessProxy::getAllNodeBookmarks() const
+{
+	if (hasSubject())
+	{
+		return m_subject->getAllNodeBookmarks();
+	}
+
+	return std::vector<NodeBookmark>();
+}
+
+NodeBookmark StorageAccessProxy::getNodeBookmarkById(const Id bookmarkId) const
+{
+	if (hasSubject())
+	{
+		return m_subject->getNodeBookmarkById(bookmarkId);
+	}
+
+	return NodeBookmark();
+}
+
+bool StorageAccessProxy::checkNodeBookmarkExistsByTokens(const std::vector<std::string>& tokenNames) const
+{
+	if (hasSubject())
+	{
+		return m_subject->checkNodeBookmarkExistsByTokens(tokenNames);
+	}
+
+	return false;
+}
+
+void StorageAccessProxy::removeNodeBookmark(Id id)
+{
+	if (hasSubject())
+	{
+		m_subject->removeNodeBookmark(id);
+	}
+}
+
+void StorageAccessProxy::editNodeBookmark(const NodeBookmark& bookmark)
+{
+	if (hasSubject())
+	{
+		m_subject->editNodeBookmark(bookmark);
+	}
+}
+
+std::vector<EdgeBookmark> StorageAccessProxy::getAllEdgeBookmarks() const
+{
+	if (hasSubject())
+	{
+		return m_subject->getAllEdgeBookmarks();
+	}
+
+	return std::vector<EdgeBookmark>();
+}
+
+EdgeBookmark StorageAccessProxy::getEdgeBookmarkById(const Id bookmarkId) const
+{
+	if (hasSubject())
+	{
+		return m_subject->getEdgeBookmarkById(bookmarkId);
+	}
+
+	return EdgeBookmark();
+}
+
+bool StorageAccessProxy::checkEdgeBookmarkExistsByTokens(const std::vector<std::string>& tokenNames) const
+{
+	if (hasSubject())
+	{
+		return m_subject->checkEdgeBookmarkExistsByTokens(tokenNames);
+	}
+
+	return false;
+}
+
+void StorageAccessProxy::removeEdgeBookmark(Id id)
+{
+	if (hasSubject())
+	{
+		m_subject->removeEdgeBookmark(id);
+	}
+}
+
+void StorageAccessProxy::editEdgeBookmark(const EdgeBookmark& bookmark)
+{
+	if (hasSubject())
+	{
+		m_subject->editEdgeBookmark(bookmark);
+	}
+}
+
+std::vector<BookmarkCategory> StorageAccessProxy::getAllBookmarkCategories() const
+{
+	if (hasSubject())
+	{
+		return m_subject->getAllBookmarkCategories();
+	}
+
+	return std::vector<BookmarkCategory>();
+}
+
+bool StorageAccessProxy::checkBookmarkCategoryExists(const std::string& name) const
+{
+	if (hasSubject())
+	{
+		return m_subject->checkBookmarkCategoryExists(name);
+	}
+
+	return false;
+}
+
+void StorageAccessProxy::removeBookmarkCategory(Id id)
+{
+	if (hasSubject())
+	{
+		m_subject->removeBookmarkCategory(id);
+	}
 }
 
 void StorageAccessProxy::setErrorFilter(const ErrorFilter& filter)

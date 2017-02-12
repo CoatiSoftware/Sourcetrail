@@ -3,7 +3,7 @@
 
 #include "boost/date_time/posix_time/posix_time.hpp"
 
-class TimePoint
+class TimePoint // that name sounds pretty silly, was time stamp not ok?
 {
 public:
 	static TimePoint now();
@@ -16,6 +16,7 @@ public:
 	bool isValid() const;
 
 	std::string toString() const;
+	std::string getDDMMYYYYString() const;
 
 	inline bool operator==(const TimePoint& rhs){ return m_time == rhs.m_time; }
 	inline bool operator!=(const TimePoint& rhs){ return m_time != rhs.m_time; }
@@ -27,6 +28,9 @@ public:
 	inline float operator-(const TimePoint& rhs){ return deltaMS(rhs) / 1000.0f; }
 
 	size_t deltaMS(const TimePoint& other) const;
+
+	bool isSameDay(const TimePoint& other) const;
+	size_t deltaDays(const TimePoint& other) const; // days are counted beginning at 00:00, so a tp of 1.1.2017 23:59 is 1 day ago if it's the 2.1.2017 00:01
 
 private:
 	boost::posix_time::ptime m_time;

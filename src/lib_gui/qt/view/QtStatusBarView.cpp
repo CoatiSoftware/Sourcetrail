@@ -45,6 +45,11 @@ void QtStatusBarView::setErrorCount(ErrorCountInfo errorCount)
 	m_setErrorCountFunctor(errorCount);
 }
 
+void QtStatusBarView::showIdeStatus(const std::string& message)
+{
+	m_widget->setIdeStatus(message);
+}
+
 void QtStatusBarView::doShowMessage(const std::string& message, bool isError, bool showLoader)
 {
 	m_widget->setText(message, isError, showLoader);

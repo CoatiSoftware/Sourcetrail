@@ -69,6 +69,11 @@ void IDECommunicationController::setEnabled(const bool enabled)
 	m_enabled = enabled;
 }
 
+void IDECommunicationController::sendInitialPing()
+{
+	sendMessage(NetworkProtocolHelper::buildPingMessage());
+}
+
 void IDECommunicationController::handleSetActiveTokenMessage(
 	const NetworkProtocolHelper::SetActiveTokenMessage& message
 )
@@ -175,6 +180,7 @@ void IDECommunicationController::handlePing(const NetworkProtocolHelper::PingMes
 		if (msg.ideId == "vs")
 		{
 			ideName = "Visual Studio";
+			msg.ideName = ideName;
 		}
 		// TODO: add the other ides
 

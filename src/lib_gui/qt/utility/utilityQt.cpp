@@ -86,21 +86,49 @@ namespace utility
 
 			if (key == "setting")
 			{
-				if (val == "font_size")
+				if (val.find("font_size") != std::string::npos)
 				{
-					val = std::to_string(ApplicationSettings::getInstance()->getFontSize());
-				}
-				else if (val == "font_size+2")
-				{
-					val = std::to_string(ApplicationSettings::getInstance()->getFontSize() + 2);
-				}
-				else if (val == "font_size+5")
-				{
-					val = std::to_string(ApplicationSettings::getInstance()->getFontSize() + 5);
-				}
-				else if (val == "font_size-2")
-				{
-					val = std::to_string(ApplicationSettings::getInstance()->getFontSize() - 2);
+					// check for modifier
+					if (val.find("+") != std::string::npos)
+					{
+						int pos = val.find("+");
+						std::string sub = val.substr(pos + 1);
+
+						int mod = std::stoi(sub);
+
+						val = std::to_string(ApplicationSettings::getInstance()->getFontSize() + mod);
+					}
+					else if (val.find("-") != std::string::npos)
+					{
+						int pos = val.find("-");
+						std::string sub = val.substr(pos + 1);
+
+						int mod = std::stoi(sub);
+
+						val = std::to_string(ApplicationSettings::getInstance()->getFontSize() - mod);
+					}
+					else if (val.find("*") != std::string::npos)
+					{
+						int pos = val.find("*");
+						std::string sub = val.substr(pos + 1);
+
+						int mod = std::stoi(sub);
+
+						val = std::to_string(ApplicationSettings::getInstance()->getFontSize() * mod);
+					}
+					else if (val.find("/") != std::string::npos)
+					{
+						int pos = val.find("/");
+						std::string sub = val.substr(pos + 1);
+
+						int mod = std::stoi(sub);
+
+						val = std::to_string(ApplicationSettings::getInstance()->getFontSize() / mod);
+					}
+					else
+					{
+						val = std::to_string(ApplicationSettings::getInstance()->getFontSize());
+					}
 				}
 				else if (val == "font_name")
 				{

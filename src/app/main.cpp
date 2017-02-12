@@ -102,6 +102,8 @@ int main(int argc, char *argv[])
 {
 	QApplication::setApplicationName("Coati");
 
+	setupLogging();
+
 	if (QSysInfo::windowsVersion() != QSysInfo::WV_None)
 	{
 		QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling, true);
@@ -127,7 +129,7 @@ int main(int argc, char *argv[])
 
 		setupApp(argc, argv);
 
-		setupLogging();
+		// setupLogging(); // why would you setup logging that late? the logger is possibly already in use before this line!!
 
 		Application::createInstance(version, nullptr, nullptr);
 		ScopedFunctor f([](){
@@ -179,7 +181,7 @@ int main(int argc, char *argv[])
 
 		setupApp(argc, argv);
 
-		setupLogging();
+		// setupLogging(); // why would you setup logging that late? the logger is possibly already in use before this line!!
 
 		qtApp.setAttribute(Qt::AA_UseHighDpiPixmaps);
 

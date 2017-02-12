@@ -37,6 +37,25 @@ public:
 	virtual void addComponentAccess(Id nodeId , int type);
 	virtual void addCommentLocation(Id fileNodeId, uint startLine, uint startCol, uint endLine, uint endCol);
 	virtual void addError(const std::string& message, const FilePath& filePath, uint startLine, uint startCol, bool fatal, bool indexed);
+	virtual Id addNodeBookmark(const NodeBookmark& bookmark);
+	virtual Id addEdgeBookmark(const EdgeBookmark& bookmark);
+	virtual Id addBookmarkCategory(const BookmarkCategory& category);
+
+	virtual std::vector<NodeBookmark> getAllNodeBookmarks() const;
+	virtual NodeBookmark getNodeBookmarkById(const Id bookmarkId) const;
+	virtual bool checkNodeBookmarkExistsByTokens(const std::vector<std::string>& tokenNames) const;
+	virtual void removeNodeBookmark(Id id);
+	virtual void editNodeBookmark(const NodeBookmark& bookmark);
+
+	virtual std::vector<EdgeBookmark> getAllEdgeBookmarks() const;
+	virtual EdgeBookmark getEdgeBookmarkById(const Id bookmarkId) const;
+	virtual bool checkEdgeBookmarkExistsByTokens(const std::vector<std::string>& tokenNames) const;
+	virtual void removeEdgeBookmark(Id id);
+	virtual void editEdgeBookmark(const EdgeBookmark& bookmark);
+
+	virtual bool checkBookmarkCategoryExists(const std::string& name) const;
+	virtual std::vector<BookmarkCategory> getAllBookmarkCategories() const;
+	virtual void removeBookmarkCategory(Id id);
 
 	virtual void forEachNode(std::function<void(const Id /*id*/, const StorageNode& /*data*/)> callback) const;
 	virtual void forEachFile(std::function<void(const StorageFile& /*data*/)> callback) const;
@@ -80,6 +99,7 @@ public:
 	virtual Id getIdForNodeWithNameHierarchy(const NameHierarchy& nameHierarchy) const;
 	virtual Id getIdForEdge(
 		Edge::EdgeType type, const NameHierarchy& fromNameHierarchy, const NameHierarchy& toNameHierarchy) const;
+	virtual StorageEdge getEdgeById(Id edgeId) const;
 
 	virtual NameHierarchy getNameHierarchyForNodeWithId(Id nodeId) const;
 	virtual Node::NodeType getNodeTypeForNodeWithId(Id nodeId) const;
@@ -97,8 +117,11 @@ public:
 
 	virtual std::vector<Id> getActiveTokenIdsForId(Id tokenId, Id* declarationId) const;
 
+	virtual bool checkEdgeExists(Id edgeId) const;
+
 	virtual std::vector<Id> getNodeIdsForLocationIds(const std::vector<Id>& locationIds) const;
 	virtual std::vector<Id> getLocalSymbolIdsForLocationIds(const std::vector<Id>& locationIds) const;
+	virtual bool checkNodeExistsByName(const std::string& serializedName) const;
 
 	virtual std::vector<Id> getTokenIdsForMatches(const std::vector<SearchMatch>& matches) const;
 	virtual Id getTokenIdForFileNode(const FilePath& filePath) const;

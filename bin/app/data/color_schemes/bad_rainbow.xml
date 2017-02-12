@@ -455,4 +455,13 @@
 		<hover>#878787</hover>
 		<text>#878787</text>
 	</tab>
+	
+	<bookmark>
+		<button>
+			<icon>black</icon>
+			<icon_disabled>#FDFDFD</icon_disabled>
+			<icon_hover>white</icon_hover>
+		</button>
+	</bookmark>
+	
 </config>

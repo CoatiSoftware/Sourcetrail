@@ -5,6 +5,7 @@
 
 #include "component/view/CompositeView.h"
 
+class BookmarkView;
 class CodeView;
 class DialogView;
 class ErrorView;
@@ -31,6 +32,7 @@ public:
 			ViewLayout* viewLayout, CompositeView::CompositeDirection direction, const std::string& name) const = 0;
 	virtual std::shared_ptr<TabbedView> createTabbedView(ViewLayout* viewLayout, const std::string& name) const = 0;
 
+	virtual std::shared_ptr<BookmarkView> createBookmarkView(ViewLayout* viewLayout) const = 0;
 	virtual std::shared_ptr<CodeView> createCodeView(ViewLayout* viewLayout) const = 0;
 	virtual std::shared_ptr<ErrorView> createErrorView(ViewLayout* viewLayout) const = 0;
 	virtual std::shared_ptr<GraphView> createGraphView(ViewLayout* viewLayout) const = 0;

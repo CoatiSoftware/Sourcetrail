@@ -5,6 +5,7 @@
 #include <mutex>
 #include <string>
 
+#include "data/bookmark/Bookmark.h"
 #include "data/name/NameHierarchy.h"
 #include "data/StorageTypes.h"
 #include "utility/types.h"

@@ -149,6 +149,86 @@ void PersistentStorage::addError(
 	);
 }
 
+Id PersistentStorage::addNodeBookmark(const NodeBookmark& bookmark)
+{
+	return m_sqliteStorage.addNodeBookmark(bookmark);
+}
+
+Id PersistentStorage::addEdgeBookmark(const EdgeBookmark& bookmark)
+{
+	return m_sqliteStorage.addEdgeBookmark(bookmark);
+}
+
+Id PersistentStorage::addBookmarkCategory(const BookmarkCategory& category)
+{
+	return m_sqliteStorage.addBookmarkCategory(category.getName());
+}
+
+std::vector<NodeBookmark> PersistentStorage::getAllNodeBookmarks() const
+{
+	return m_sqliteStorage.getAllNodeBookmarks();
+}
+
+NodeBookmark PersistentStorage::getNodeBookmarkById(const Id bookmarkId) const
+{
+	return m_sqliteStorage.getNodeBookmarkById(bookmarkId);
+}
+
+bool PersistentStorage::checkNodeBookmarkExistsByTokens(const std::vector<std::string>& tokenNames) const
+{
+	return m_sqliteStorage.checkNodeBookmarkExistsByNames(tokenNames);
+}
+
+void PersistentStorage::removeNodeBookmark(Id id)
+{
+	m_sqliteStorage.removeNodeBookmark(id);
+}
+
+void PersistentStorage::editNodeBookmark(const NodeBookmark& bookmark)
+{
+	m_sqliteStorage.editNodeBookmark(bookmark);
+}
+
+std::vector<EdgeBookmark> PersistentStorage::getAllEdgeBookmarks() const
+{
+	return m_sqliteStorage.getAllEdgeBookmarks();
+}
+
+EdgeBookmark PersistentStorage::getEdgeBookmarkById(const Id bookmarkId) const
+{
+	return m_sqliteStorage.getEdgeBookmarkById(bookmarkId);
+}
+
+bool PersistentStorage::checkEdgeBookmarkExistsByTokens(const std::vector<std::string>& tokenNames) const
+{
+	return m_sqliteStorage.checkEdgeBookmarkExistsByNames(tokenNames);
+}
+
+void PersistentStorage::removeEdgeBookmark(Id id)
+{
+	m_sqliteStorage.removeEdgeBookmark(id);
+}
+
+void PersistentStorage::editEdgeBookmark(const EdgeBookmark& bookmark)
+{
+	m_sqliteStorage.editEdgeBookmark(bookmark);
+}
+
+bool PersistentStorage::checkBookmarkCategoryExists(const std::string& name) const
+{
+	return m_sqliteStorage.checkBookmarkCategoryExists(name);
+}
+
+std::vector<BookmarkCategory> PersistentStorage::getAllBookmarkCategories() const
+{
+	return m_sqliteStorage.getAllBookmarkCategories();
+}
+
+void PersistentStorage::removeBookmarkCategory(Id id)
+{
+	m_sqliteStorage.removeBookmarkCategory(id);
+}
+
 void PersistentStorage::forEachNode(std::function<void(const Id /*id*/, const StorageNode& /*data*/)> callback) const
 {
 	for (StorageNode& node: m_sqliteStorage.getAll<StorageNode>())
@@ -392,6 +472,11 @@ Id PersistentStorage::getIdForEdge(
 	Id sourceId = getIdForNodeWithNameHierarchy(fromNameHierarchy);
 	Id targetId = getIdForNodeWithNameHierarchy(toNameHierarchy);
 	return m_sqliteStorage.getEdgeBySourceTargetType(sourceId, targetId, type).id;
+}
+
+StorageEdge PersistentStorage::getEdgeById(Id edgeId) const
+{
+	return m_sqliteStorage.getEdgeById(edgeId);
 }
 
 NameHierarchy PersistentStorage::getNameHierarchyForNodeWithId(Id nodeId) const
@@ -907,6 +992,11 @@ std::vector<Id> PersistentStorage::getActiveTokenIdsForId(Id tokenId, Id* declar
 	return activeTokenIds;
 }
 
+bool PersistentStorage::checkEdgeExists(Id edgeId) const
+{
+	return m_sqliteStorage.checkEdgeExists(edgeId);
+}
+
 std::vector<Id> PersistentStorage::getNodeIdsForLocationIds(const std::vector<Id>& locationIds) const
 {
 	TRACE();
@@ -973,6 +1063,11 @@ std::vector<Id> PersistentStorage::getLocalSymbolIdsForLocationIds(const std::ve
 	}
 
 	return utility::toVector(localSymbolIds);
+}
+
+bool PersistentStorage::checkNodeExistsByName(const std::string& serializedName) const
+{
+	return m_sqliteStorage.checkNodeExistsByName(serializedName);
 }
 
 std::vector<Id> PersistentStorage::getTokenIdsForMatches(const std::vector<SearchMatch>& matches) const

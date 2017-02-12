@@ -9,6 +9,10 @@
 #include "utility/file/FileInfo.h"
 #include "utility/file/FilePath.h"
 
+#include "data/bookmark/Bookmark.h"
+#include "data/bookmark/BookmarkCategory.h"
+#include "data/bookmark/EdgeBookmark.h"
+#include "data/bookmark/NodeBookmark.h"
 #include "data/parser/ParseLocation.h"
 #include "data/graph/Node.h"
 #include "data/search/SearchMatch.h"
@@ -32,9 +36,13 @@ public:
 	virtual Id getIdForNodeWithNameHierarchy(const NameHierarchy& nameHierarchy) const = 0;
 	virtual Id getIdForEdge(
 		Edge::EdgeType type, const NameHierarchy& fromNameHierarchy, const NameHierarchy& toNameHierarchy) const = 0;
+	virtual StorageEdge getEdgeById(Id edgeId) const = 0;
+
+	virtual bool checkEdgeExists(Id edgeId) const = 0;
 
 	virtual NameHierarchy getNameHierarchyForNodeWithId(Id id) const = 0;
 	virtual Node::NodeType getNodeTypeForNodeWithId(Id id) const = 0;
+	virtual bool checkNodeExistsByName(const std::string& serializedName) const = 0;
 
 	virtual std::shared_ptr<TokenLocationCollection> getFullTextSearchLocations(
 			const std::string& searchTerm, bool caseSensitive) const = 0;
@@ -75,6 +83,26 @@ public:
 	virtual std::shared_ptr<TokenLocationCollection> getErrorTokenLocations(std::vector<ErrorInfo>* errors) const = 0;
 
 	virtual void setErrorFilter(const ErrorFilter& filter);
+
+	virtual Id addNodeBookmark(const NodeBookmark& bookmark) = 0;
+	virtual Id addEdgeBookmark(const EdgeBookmark& bookmark) = 0;
+	virtual Id addBookmarkCategory(const BookmarkCategory& category) = 0;
+
+	virtual std::vector<NodeBookmark> getAllNodeBookmarks() const = 0;
+	virtual NodeBookmark getNodeBookmarkById(const Id bookmarkId) const = 0;
+	virtual bool checkNodeBookmarkExistsByTokens(const std::vector<std::string>& tokenNames) const = 0;
+	virtual void removeNodeBookmark(Id id) = 0;
+	virtual void editNodeBookmark(const NodeBookmark& bookmark) = 0;
+
+	virtual std::vector<EdgeBookmark> getAllEdgeBookmarks() const = 0;
+	virtual EdgeBookmark getEdgeBookmarkById(const Id bookmarkId) const = 0;
+	virtual bool checkEdgeBookmarkExistsByTokens(const std::vector<std::string>& tokenNames) const = 0;
+	virtual void removeEdgeBookmark(Id id) = 0;
+	virtual void editEdgeBookmark(const EdgeBookmark& bookmark) = 0;
+
+	virtual std::vector<BookmarkCategory> getAllBookmarkCategories() const = 0;
+	virtual bool checkBookmarkCategoryExists(const std::string& name) const = 0;
+	virtual void removeBookmarkCategory(Id id) = 0;
 
 protected:
 	ErrorFilter m_errorFilter;

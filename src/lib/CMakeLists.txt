@@ -13,6 +13,8 @@ add_files(
 	component/controller/helper/SnippetMerger.cpp
 	component/controller/helper/SnippetMerger.h
 
+	component/controller/BookmarkController.cpp
+	component/controller/BookmarkController.h
 	component/controller/CodeController.cpp
 	component/controller/CodeController.h
 	component/controller/Controller.cpp
@@ -42,6 +44,8 @@ add_files(
 
 	component/view/helper/CodeSnippetParams.cpp
 	component/view/helper/CodeSnippetParams.h
+	component/view/BookmarkView.cpp
+	component/view/BookmarkView.h
 	component/view/CodeView.cpp
 	component/view/CodeView.h
 	component/view/CompositeView.cpp
@@ -92,6 +96,15 @@ add_files(
 	data/access/StorageAccessProxy.cpp
 	data/access/StorageAccessProxy.h
 
+	data/bookmark/Bookmark.cpp
+	data/bookmark/Bookmark.h
+	data/bookmark/BookmarkCategory.cpp
+	data/bookmark/BookmarkCategory.h
+	data/bookmark/EdgeBookmark.cpp
+	data/bookmark/EdgeBookmark.h
+	data/bookmark/NodeBookmark.cpp
+	data/bookmark/NodeBookmark.h
+	
 	data/fulltextsearch/FullTextSearchIndex.cpp
 	data/fulltextsearch/FullTextSearchIndex.h
 	data/fulltextsearch/SuffixArray.cpp
@@ -249,6 +262,7 @@ add_files(
 	utility/math/VectorBase.h
 
 	utility/messaging/type/MessageActivateAll.h
+	utility/messaging/type/MessageActivateBookmark.h
 	utility/messaging/type/MessageActivateEdge.h
 	utility/messaging/type/MessageActivateFile.h
 	utility/messaging/type/MessageActivateLocalSymbols.h
@@ -264,8 +278,17 @@ add_files(
 	utility/messaging/type/MessageCodeReference.h
 	utility/messaging/type/MessageCodeViewExpandedInitialFiles.h
 	utility/messaging/type/MessageColorSchemeTest.h
+	utility/messaging/type/MessageCreateBookmark.h
+	utility/messaging/type/MessageCreateBookmarkCategory.h
 	utility/messaging/type/MessageDeactivateEdge.h
+	utility/messaging/type/MessageDeleteBookmark.h
+	utility/messaging/type/MessageDeleteBookmarkCategoryWithBookmarks.h
+	utility/messaging/type/MessageDeleteBookmarkForActiveTokens.h
 	utility/messaging/type/MessageDispatchWhenLicenseValid.h
+	utility/messaging/type/MessageDisplayBookmarkCreator.h
+	utility/messaging/type/MessageDisplayBookmarkEditor.h
+	utility/messaging/type/MessageDisplayBookmarks.h
+	utility/messaging/type/MessageEditBookmark.h
 	utility/messaging/type/MessageEnteredLicense.h
 	utility/messaging/type/MessageErrorFilterChanged.h
 	utility/messaging/type/MessageFind.h

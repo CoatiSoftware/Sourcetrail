@@ -1,0 +1,310 @@
+/* General settings */
+* {
+	font-size: <setting:font_size+4>px;
+	/* font-family: "<setting:font_name>"; */
+}
+
+QPushButton {
+	border: 2px;
+	border-style: solid;
+	border-color: #dadada;
+	background: #f6f6f6;
+	background-position: 15px 5px;
+	border-radius: 12px;
+	margin: 2px;
+	width: 30px;
+	height: 25px;
+}
+
+QPushButton:hover {
+	background: #dadada;
+	/* color: white; */
+}
+
+#header {
+	background-color: #2d3e88;
+	/* background-color: transparent; */
+}
+
+#body {
+	background-color: white;
+}
+
+/* window */
+
+
+/* header */
+
+#header_background {
+	background-color: #2e3f83;
+	border-top-left-radius: 15px;
+	border-bottom-left-radius: 15px;
+}
+
+#filter_box, #order_box {
+	/* background-color: #227abf;
+	color: white; */
+	max-width: 100px;
+	min-width: 100px;
+	margin-left: 50px;
+	margin-right: 100px;
+}
+
+#title {
+	color: white;
+	font-size: <setting:font_size+8>px;
+	font-weight: bold;
+	margin-top: 40px;
+	margin-left: 30px;
+	margin-right: 20px;
+}
+
+#filter_label, #order_label {
+	color: white;
+	font-size: <setting:font_size+6>px;
+	font-weight: bold;
+	margin-top: 65px;
+	margin-left: 40px;
+	margin-right: 20px;
+}
+
+/* body */
+
+#bookmark_tree {
+	border: none;
+	margin: 0px;
+	margin-top: 50px;
+	margin-bottom: 25px;
+	max-width: 532px;
+	max-height: 460px;
+	background-color: white;
+	alternate-background-color: #dadada; /* color every single line alternating, however I want to color complete categories alternating */
+}
+
+#category_name {
+	font-size: <setting:font_size+6>px;
+}
+
+#bookmark_category {
+	margin-top: 14px;
+}
+
+#bookmark {
+	margin-top: 0px;
+}
+
+#close_button {
+	min-width: 150px;
+	max-width: 150px;
+}
+
+#close_button {
+	margin-right: 20px;
+	background-color: white;
+	color: black;
+	border-color: black;
+}
+
+#close_button:hover {
+	background: #2e3f83;
+	color: white;
+}
+
+/* bookmark category */
+
+#bookmark_category {
+	margin-left: 15px;
+	margin-right: 50px;
+}
+
+#category_expand_button {
+	border: none;
+	background: transparent;
+	min-width: 30px;
+	max-width: 30px;
+}
+
+#category_delete_button {
+	min-width: 30px;
+	max-width: 30px;
+	border: none;
+	background: transparent;
+}
+
+/* bookmark */
+
+#bookmark {
+	margin-left: 15px;
+	margin-right: 50px;
+}
+
+#comment_button {
+	background: transparent;
+	border: none;
+	min-width: 30px;
+	max-width: 30px;
+}
+
+#comment_button:hover {
+	color: #2D3C86;
+}
+
+#edit_button {
+	min-width: 30px;
+	max-width: 30px;
+	border: none;
+	background: transparent;
+}
+
+#delete_button {
+	min-width: 30px;
+	max-width: 30px;
+	border: none;
+	background: transparent;
+}
+
+#date_label {
+	font-size: <setting:font_size>px;
+	min-width: 100px;
+	max-width: 100px;
+}
+
+/* Search bar buttons */
+
+#bookmark_button, #show_bookmark_button {
+	background: <color:search/button/normal>;
+	border: none;
+	border-radius: 12px;
+}
+
+#bookmark_button:disabled, #show_bookmark_button:disabled {
+	background: <color:search/button/disabled>;
+}
+
+#bookmark_button:hover, #show_bookmark_button:hover {
+	background: <color:search/button/hover>;
+}
+
+#bookmark_button:pressed, #show_bookmark_button:pressed {
+	background: <color:search/button/press>;
+}
+
+#bookmark_button {
+	border-bottom-right-radius: 0px;
+	border-top-right-radius: 0px;
+	margin: 0px;
+	margin-right: 2px;
+}
+
+#show_bookmark_button {
+	border-bottom-left-radius: 0px;
+	border-top-left-radius: 0px;
+	margin: 0px;
+}
+
+/* Bookmark creator */
+
+#creator_header_background {
+	background-color: #2e3f83;
+	border-top-left-radius: 15px;
+	border-top-right-radius: 15px;
+}
+
+#display_name_edit {
+	border: 2px;
+	border-style: solid;
+	border-color: #dadada;
+	background: white;
+	border-radius: 12px;
+	margin-left: 30px;
+	margin-right: 30px;
+	min-height: 30px;
+	max-height: 30px;
+}
+
+#comment_box {
+	border: 2px;
+	border-style: solid;
+	border-color: #dadada;
+	background: white;
+	border-radius: 12px;
+	margin-left: 30px;
+	margin-right: 30px;
+	max-height: 160px;
+	min-height: 160px;
+}
+
+/*
+#category_box {
+	border: 2px;
+	border-style: solid;
+	border-color: #dadada;
+	background: white;
+	border-radius: 8px;
+	margin-left: 30px;
+	margin-right: 30px;
+	margin-bottom: 50px;
+	min-height: 30px;
+	max-height: 30px;
+}
+
+#category_box::down-arrow {
+	image: url(<setting:gui_path>bookmark_view/images/arrow_down.png);
+}
+/**/
+
+#category_box {
+	margin-left: 30px;
+	margin-right: 30px;
+	margin-bottom: 50px;
+	min-height: 30px;
+	max-height: 30px;
+	border-color: #dadada;
+}
+
+#creator_title_label, #creator_name_label, #creator_comment_label, #category_label {
+	font-size: <setting:font_size+4>px;
+	font-weight: bold;
+	margin-left: 30px;
+	margin-right: 30px;
+}
+
+#creator_title_label {
+	font-size: <setting:font_size+6>px;
+	color: white;
+	margin-top: 25px;
+	margin-bottom: 0px;
+}
+
+#creator_name_label {
+	margin-top: 40px;
+}
+
+#creator_comment_label {
+	margin-top: 30px;
+}
+
+#category_label {
+	margin-top: 35px;
+}
+
+#creator_cancel_button, #creator_create_button {
+	min-width: 130px;
+	max-width: 130px;
+	margin-left: 30px;
+	margin-right: 30px;
+	margin-bottom: 20px;
+	background-color: white;
+	border-color: black;
+}
+
+
+#creator_cancel_button:hover {
+	background: #2e3f83;
+	color: white;
+}
+
+#creator_create_button:hover {
+	background: #2e3f83;
+	color: white;
+}

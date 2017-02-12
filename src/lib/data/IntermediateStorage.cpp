@@ -167,6 +167,13 @@ void IntermediateStorage::addError(const std::string& message, const FilePath& f
 	));
 }
 
+Id IntermediateStorage::addBookmark(const Bookmark& bookmark)
+{
+	m_bookmarks.push_back(bookmark);
+
+	return -1;
+}
+
 void IntermediateStorage::forEachNode(std::function<void(const Id /*id*/, const StorageNode& /*data*/)> callback) const
 {
 	for (std::map<Id, std::shared_ptr<StorageNode>>::const_iterator it = m_nodeIdsToData.begin(); it != m_nodeIdsToData.end(); it++)

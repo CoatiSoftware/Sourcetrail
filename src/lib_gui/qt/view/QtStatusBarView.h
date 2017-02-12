@@ -25,6 +25,8 @@ public:
 	virtual void showMessage(const std::string& message, bool isError, bool showLoader);
 	virtual void setErrorCount(ErrorCountInfo errorCount);
 
+	virtual void showIdeStatus(const std::string& message);
+
 private:
 	void doShowMessage(const std::string& message, bool isError, bool showLoader);
 	void doSetErrorCount(ErrorCountInfo errorCount);

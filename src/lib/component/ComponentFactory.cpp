@@ -1,6 +1,7 @@
 #include "component/ComponentFactory.h"
 
 #include "component/Component.h"
+#include "component/controller/BookmarkController.h"
 #include "component/controller/CodeController.h"
 #include "component/controller/ErrorController.h"
 #include "component/controller/FeatureController.h"
@@ -11,6 +12,7 @@
 #include "component/controller/StatusBarController.h"
 #include "component/controller/StatusController.h"
 #include "component/controller/UndoRedoController.h"
+#include "component/view/BookmarkView.h"
 #include "component/view/CodeView.h"
 #include "component/view/ErrorView.h"
 #include "component/view/GraphView.h"
@@ -46,6 +48,14 @@ ViewFactory* ComponentFactory::getViewFactory() const
 StorageAccess* ComponentFactory::getStorageAccess() const
 {
 	return m_storageAccess;
+}
+
+std::shared_ptr<Component> ComponentFactory::createBookmarkComponent(ViewLayout* viewLayout)
+{
+	std::shared_ptr<BookmarkView> view = m_viewFactory->createBookmarkView(viewLayout);
+	std::shared_ptr<BookmarkController> controller = std::make_shared<BookmarkController>(m_storageAccess);
+
+	return std::make_shared<Component>(view, controller);
 }
 
 std::shared_ptr<Component> ComponentFactory::createCodeComponent(ViewLayout* viewLayout)

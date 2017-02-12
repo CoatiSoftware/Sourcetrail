@@ -14,6 +14,7 @@ public:
 		ViewLayout* viewLayout, CompositeView::CompositeDirection direction, const std::string& name) const;
 	virtual std::shared_ptr<TabbedView> createTabbedView(ViewLayout* viewLayout, const std::string& name) const;
 
+	virtual std::shared_ptr<BookmarkView> createBookmarkView(ViewLayout* viewLayout) const;
 	virtual std::shared_ptr<CodeView> createCodeView(ViewLayout* viewLayout) const;
 	virtual std::shared_ptr<ErrorView> createErrorView(ViewLayout* viewLayout) const;
 	virtual std::shared_ptr<GraphView> createGraphView(ViewLayout* viewLayout) const;

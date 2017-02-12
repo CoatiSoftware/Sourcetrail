@@ -16,8 +16,15 @@ std::shared_ptr<LogManager> LogManager::createInstance()
 	return s_instance;
 }
 
+// what is this method for? why would you want to risk returning s_instance without checking whether it is initialized???
 std::shared_ptr<LogManager> LogManager::getInstance()
 {
+	// return s_instance; // original implementation
+
+	if (s_instance.use_count() == 0)
+	{
+		s_instance = std::shared_ptr<LogManager>(new LogManager());
+	}
 	return s_instance;
 }
 

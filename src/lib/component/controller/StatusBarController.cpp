@@ -35,6 +35,14 @@ void StatusBarController::handleMessage(MessageFinishedParsing* message)
 	getView()->setErrorCount(errorCount);
 }
 
+void StatusBarController::handleMessage(MessagePingReceived* message)
+{
+	std::string status = "Connected to ";
+	status += message->ideName;
+
+	getView()->showIdeStatus(status);
+}
+
 void StatusBarController::handleMessage(MessageRefresh* message)
 {
 	getView()->setErrorCount(m_storageAccess->getErrorCount());
