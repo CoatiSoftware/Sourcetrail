@@ -27,7 +27,6 @@ public:
 	virtual void addComponentAccess(Id nodeId , int type);
 	virtual void addCommentLocation(Id fileNodeId, uint startLine, uint startCol, uint endLine, uint endCol);
 	virtual void addError(const std::string& message, const FilePath& filePath, uint startLine, uint startCol, bool fatal, bool indexed);
-	virtual Id addBookmark(const Bookmark& bookmark);
 
 	virtual void forEachNode(std::function<void(const Id /*id*/, const StorageNode& /*data*/)> callback) const;
 	virtual void forEachFile(std::function<void(const StorageFile& /*data*/)> callback) const;
@@ -66,7 +65,6 @@ private:
 	std::vector<StorageComponentAccess> m_componentAccesses;
 	std::vector<StorageCommentLocation> m_commentLocations;
 	std::vector<StorageError> m_errors;
-	std::vector<Bookmark> m_bookmarks;
 
 	Id m_nextId;
 };

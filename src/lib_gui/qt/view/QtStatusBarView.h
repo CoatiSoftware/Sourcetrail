@@ -28,11 +28,7 @@ public:
 	virtual void showIdeStatus(const std::string& message);
 
 private:
-	void doShowMessage(const std::string& message, bool isError, bool showLoader);
-	void doSetErrorCount(ErrorCountInfo errorCount);
-
-	QtThreadedFunctor<const std::string&, bool, bool> m_showMessageFunctor;
-	QtThreadedFunctor<ErrorCountInfo> m_setErrorCountFunctor;
+	QtThreadedLambdaFunctor m_onQtThread;
 
 	std::shared_ptr<QtStatusBar> m_widget;
 };

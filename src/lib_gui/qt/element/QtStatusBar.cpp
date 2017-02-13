@@ -44,7 +44,7 @@ QtStatusBar::QtStatusBar()
 
 	connect(&m_errorButton, SIGNAL(clicked()), this, SLOT(showErrors()));
 
-	m_ideStatusText.setText("No IDE connected");
+	// m_ideStatusText.setText("No IDE connected"); // don't display this until all plugins support ping
 	addWidget(&m_ideStatusText);
 }
 

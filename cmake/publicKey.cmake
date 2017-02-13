@@ -4,9 +4,12 @@
 string(REGEX REPLACE "^([0-9]+)\\..*" "\\1" VERSION_MAJOR "${GIT_VERSION_NUMBER}")
 message(STATUS "Get Public Key for Coati version: ${VERSION_MAJOR}")
 
+# message(STATUS "${CMAKE_SOURCE_DIR}/setup/RSA_keys/public-${VERSION_MAJOR}.pem")
 message(STATUS "${CMAKE_SOURCE_DIR}/setup/RSA_keys/public-0.pem") # explain in Readme.md how to get this to work first
 
+# set(pubKeyFile "${CMAKE_SOURCE_DIR}/setup/RSA_keys/public-${VERSION_MAJOR}.pem")
 set(pubKeyFile "${CMAKE_SOURCE_DIR}/setup/RSA_keys/public-0.pem") # explain in Readme.md how to get this to work first
+
 # message(STATUS "file: ${pubKeyFile}")
 
 if(EXISTS ${pubKeyFile})
