@@ -27,6 +27,7 @@ public:
 
 	// CodeView implementation
 	virtual void clear();
+	virtual void clearCodeSnippets();
 
 	virtual void setErrorInfos(const std::vector<ErrorInfo>& errorInfos);
 	virtual bool showsErrors() const;

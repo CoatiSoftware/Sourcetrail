@@ -192,6 +192,12 @@ void QtCodeNavigator::addedFiles()
 	}
 }
 
+void QtCodeNavigator::clear()
+{
+	clearCodeSnippets();
+	clearCaches();
+}
+
 void QtCodeNavigator::clearCodeSnippets()
 {
 	m_list->clear();

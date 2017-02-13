@@ -29,6 +29,7 @@ public:
 	virtual std::string getName() const;
 
 	virtual void clear() = 0;
+	virtual void clearCodeSnippets() = 0;
 
 	virtual void setErrorInfos(const std::vector<ErrorInfo>& errorInfos) = 0;
 	virtual bool showsErrors() const = 0;

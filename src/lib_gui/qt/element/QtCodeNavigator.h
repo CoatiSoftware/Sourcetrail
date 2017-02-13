@@ -37,6 +37,7 @@ public:
 
 	void addedFiles();
 
+	void clear();
 	void clearCodeSnippets();
 	void clearCaches();
 

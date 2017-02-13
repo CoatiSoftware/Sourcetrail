@@ -59,6 +59,18 @@ void QtCodeView::clear()
 	m_onQtThread(
 		[=]()
 		{
+			m_widget->clear();
+		}
+	);
+
+	m_errorInfos.clear();
+}
+
+void QtCodeView::clearCodeSnippets()
+{
+	m_onQtThread(
+		[=]()
+		{
 			m_widget->clearCodeSnippets();
 		}
 	);

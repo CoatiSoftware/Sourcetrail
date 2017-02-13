@@ -107,7 +107,7 @@ void CodeController::handleMessage(MessageActivateTokens* message)
 
 	if (!message->keepContent())
 	{
-		view->clear();
+		view->clearCodeSnippets();
 	}
 
 	std::vector<Id> activeTokenIds = message->tokenIds;
