@@ -59,13 +59,19 @@ bool QtProjectWizzardContentPaths::check()
 {
 	QString missingPaths;
 
-	for (FilePath f : m_list->getList())
+	for (const FilePath& path : m_list->getList())
 	{
-		for (FilePath fex : m_settings->makePathsAbsolute(f.expandEnvironmentVariables()))
+		std::vector<FilePath> expandedPaths = path.expandEnvironmentVariables();
+		for (FilePath expandedPath: path.expandEnvironmentVariables())
 		{
-			if (!fex.exists())
+			if (m_settings)
 			{
-				missingPaths.append(f.str().c_str());
+				expandedPath = m_settings->makePathAbsolute(expandedPath);
+			}
+
+			if (!expandedPath.exists())
+			{
+				missingPaths.append(expandedPath.str().c_str());
 				missingPaths.append("\n");
 				break;
 			}
