@@ -9,7 +9,6 @@
 class LogManager
 {
 public:
-	static std::shared_ptr<LogManager> createInstance();
 	static std::shared_ptr<LogManager> getInstance();
 	static void destroyInstance();
 
