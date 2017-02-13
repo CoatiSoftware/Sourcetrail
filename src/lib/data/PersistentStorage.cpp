@@ -1078,7 +1078,7 @@ std::vector<Id> PersistentStorage::getTokenIdsForMatches(const std::vector<Searc
 	{
 		if (match.nodeType == Node::NODE_FILE)
 		{
-			idSet.insert(m_sqliteStorage.getFileByPath(rootPath.concat(match.subtext).str()).id);
+			idSet.insert(m_sqliteStorage.getFileByPath(rootPath.concat(match.subtext).canonical().str()).id);
 		}
 		else
 		{

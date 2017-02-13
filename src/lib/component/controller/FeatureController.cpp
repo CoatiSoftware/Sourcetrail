@@ -91,7 +91,7 @@ void FeatureController::handleMessage(MessageActivateNodes* message)
 
 	for (const MessageActivateNodes::ActiveNode& node : message->nodes)
 	{
-		if (!message->isReplayed() && node.nodeId)
+		if (node.nodeId)
 		{
 			nodeIds.push_back(node.nodeId);
 		}
