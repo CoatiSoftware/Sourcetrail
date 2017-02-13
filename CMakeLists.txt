@@ -588,7 +588,7 @@ if (WIN32)
 	add_custom_command(
 		TARGET ${TEST_PROJECT_NAME}
 		PRE_BUILD
-		COMMAND ${PYTHON_EXECUTABLE} ${CXXTEST_PYTHON_TESTGEN_EXECUTABLE} --runner=ParenPrinter -o ${TESTGEN_FILE} ${PROJECT_SOURCE_DIR}/src/test/*.h
+		COMMAND cd ${PROJECT_SOURCE_DIR} && ${PYTHON_EXECUTABLE} ${CXXTEST_PYTHON_TESTGEN_EXECUTABLE} --runner=ParenPrinter -o ${TESTGEN_FILE} ${TEST_FILES}
 		COMMENT "Generating unittest code with cxxtestgen"
 	)
 

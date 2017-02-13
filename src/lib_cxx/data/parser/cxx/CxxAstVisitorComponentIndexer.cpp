@@ -373,10 +373,14 @@ void CxxAstVisitorComponentIndexer::visitUsingDirectiveDecl(clang::UsingDirectiv
 {
 	if (shouldVisitDecl(d))
 	{
+		const NameHierarchy nameHierarchy = getAstVisitor()->getDeclNameCache()->getValue(d->getNominatedNamespaceAsWritten());
+
+		m_client->recordSymbol(nameHierarchy, SYMBOL_NAMESPACE, ACCESS_NONE, DEFINITION_NONE);
+
 		ParseLocation loc = getParseLocation(d->getLocation());
 		m_client->recordReference(
 			REFERENCE_USAGE,
-			getAstVisitor()->getDeclNameCache()->getValue(d->getNominatedNamespaceAsWritten()),
+			nameHierarchy,
 			getAstVisitor()->getComponent<CxxAstVisitorComponentContext>()->getContextName(NameHierarchy(loc.filePath.fileName())),
 			loc
 		);
