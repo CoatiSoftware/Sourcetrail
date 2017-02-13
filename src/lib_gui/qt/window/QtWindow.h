@@ -32,6 +32,8 @@ public:
 	bool isScrollAble() const;
 
 	void updateTitle(QString title);
+	void updateSubTitle(QString subTitle);
+
 	void updateNextButton(QString text);
 	void updateCloseButton(QString text);
 
@@ -80,6 +82,7 @@ protected:
 	QWidget* m_content;
 
 	QLabel* m_title;
+	QLabel* m_subTitle;
 
 	QPushButton* m_nextButton;
 	QPushButton* m_previousButton;

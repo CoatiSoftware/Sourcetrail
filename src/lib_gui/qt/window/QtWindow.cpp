@@ -15,6 +15,7 @@ QtWindow::QtWindow(QWidget* parent)
 	: QtWindowStackElement(parent)
 	, m_window(nullptr)
 	, m_title(nullptr)
+	, m_subTitle(nullptr)
 	, m_nextButton(nullptr)
 	, m_previousButton(nullptr)
 	, m_closeButton(nullptr)
@@ -81,9 +82,23 @@ void QtWindow::setup()
 	QVBoxLayout* layout = new QVBoxLayout();
 	layout->setContentsMargins(25, 30, 25, 0);
 
-	m_title = new QLabel();
-	m_title->setObjectName("title");
-	layout->addWidget(m_title);
+	{
+		QHBoxLayout* hlayout = new QHBoxLayout();
+		hlayout->setContentsMargins(0, 0, 0, 0);
+
+		m_title = new QLabel();
+		m_title->setObjectName("title");
+		hlayout->addWidget(m_title);
+
+		hlayout->addStretch();
+
+		m_subTitle = new QLabel();
+		m_subTitle->setObjectName("subTitle");
+		hlayout->addWidget(m_subTitle);
+
+		layout->addLayout(hlayout);
+	}
+
 	layout->addSpacing(10);
 
 	QWidget* contentWidget = new QWidget();
@@ -172,6 +187,14 @@ void QtWindow::updateTitle(QString title)
 	if (m_title)
 	{
 		m_title->setText(title);
+	}
+}
+
+void QtWindow::updateSubTitle(QString subTitle)
+{
+	if (m_subTitle)
+	{
+		m_subTitle->setText(subTitle);
 	}
 }
 

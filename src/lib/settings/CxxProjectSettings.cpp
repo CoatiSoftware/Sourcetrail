@@ -105,10 +105,7 @@ std::vector<FilePath> CxxProjectSettings::getHeaderSearchPaths() const
 
 std::vector<FilePath> CxxProjectSettings::getAbsoluteHeaderSearchPaths() const
 {
-	std::vector<FilePath> paths = getHeaderSearchPaths();
-	expandPaths(paths);
-	makePathsAbsolute(paths);
-	return paths;
+	return makePathsAbsolute(expandPaths(getHeaderSearchPaths()));
 }
 
 bool CxxProjectSettings::setHeaderSearchPaths(const std::vector<FilePath>& headerSearchPaths)
@@ -123,10 +120,7 @@ std::vector<FilePath> CxxProjectSettings::getFrameworkSearchPaths() const
 
 std::vector<FilePath> CxxProjectSettings::getAbsoluteFrameworkSearchPaths() const
 {
-	std::vector<FilePath> paths = getFrameworkSearchPaths();
-	expandPaths(paths);
-	makePathsAbsolute(paths);
-	return paths;
+	return makePathsAbsolute(expandPaths(getFrameworkSearchPaths()));
 }
 
 bool CxxProjectSettings::setFrameworkSearchPaths(const std::vector<FilePath>& frameworkSearchPaths)
@@ -155,6 +149,11 @@ bool CxxProjectSettings::setUseSourcePathsForHeaderSearch(bool useSourcePathsFor
 	return setValue<bool>("source/use_source_paths_for_header_search", useSourcePathsForHeaderSearch);
 }
 
+bool CxxProjectSettings::getHasDefinedUseSourcePathsForHeaderSearch() const
+{
+	return isValueDefined("source/use_source_paths_for_header_search");
+}
+
 FilePath CxxProjectSettings::getVisualStudioSolutionPath() const
 {
 	return FilePath(getValue<std::string>("source/build_file_path/vs_solution_path", ""));
@@ -170,6 +169,11 @@ FilePath CxxProjectSettings::getCompilationDatabasePath() const
 	return FilePath(getValue<std::string>("source/build_file_path/compilation_db_path", ""));
 }
 
+FilePath CxxProjectSettings::getAbsoluteCompilationDatabasePath() const
+{
+	return makePathAbsolute(expandPath(getCompilationDatabasePath()));
+}
+
 bool CxxProjectSettings::setCompilationDatabasePath(const FilePath& compilationDatabasePath)
 {
 	return setValue<std::string>("source/build_file_path/compilation_db_path", compilationDatabasePath.str());
@@ -178,14 +182,39 @@ bool CxxProjectSettings::setCompilationDatabasePath(const FilePath& compilationD
 std::vector<std::string> CxxProjectSettings::getDefaultSourceExtensions() const
 {
 	std::vector<std::string> defaultValues;
-	defaultValues.push_back(".c");
-	defaultValues.push_back(".cpp");
-	defaultValues.push_back(".cxx");
-	defaultValues.push_back(".cc");
+
+	switch (getLanguage())
+	{
+		case LANGUAGE_CPP:
+			defaultValues.push_back(".cpp");
+			defaultValues.push_back(".cxx");
+			defaultValues.push_back(".cc");
+			break;
+
+		case LANGUAGE_C:
+			defaultValues.push_back(".c");
+			break;
+
+		default:
+			break;
+	}
+
 	return defaultValues;
 }
 
 std::string CxxProjectSettings::getDefaultStandard() const
 {
-	return "1z";
+	switch (getLanguage())
+	{
+		case LANGUAGE_CPP:
+			return "c++1z";
+
+		case LANGUAGE_C:
+			return "c1x";
+
+		default:
+			break;
+	}
+
+	return "";
 }

@@ -35,6 +35,8 @@ protected:
 	QString m_showFilesString;
 	std::shared_ptr<CombinedPathDetector> m_pathDetector;
 
+	bool m_makePathsRelativeToProjectFileLocation;
+
 private slots:
 	void detectionClicked();
 
@@ -61,13 +63,6 @@ public:
 	virtual QString getFileNamesDescription() const override;
 };
 
-class QtProjectWizzardContentPathsSourceJava
-	: public QtProjectWizzardContentPathsSource
-{
-public:
-	QtProjectWizzardContentPathsSourceJava(std::shared_ptr<ProjectSettings> settings, QtProjectWizzardWindow* window);
-};
-
 class QtProjectWizzardContentPathsCDBHeader
 	: public QtProjectWizzardContentPathsSource
 {
@@ -77,6 +72,8 @@ public:
 	QtProjectWizzardContentPathsCDBHeader(std::shared_ptr<ProjectSettings> settings, QtProjectWizzardWindow* window);
 
 	virtual void populate(QGridLayout* layout, int& row) override;
+
+	virtual bool check() override;
 
 private slots:
 	void buttonClicked();

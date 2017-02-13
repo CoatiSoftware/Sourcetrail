@@ -11,6 +11,12 @@ QLabel, QCheckBox {
 	font-weight: bold;
 }
 
+#subTitle {
+	font-size: 13px;
+	font-weight: bold;
+	color: gray;
+}
+
 #projectTitle {
 	font-size: 14px;
 	font-weight: bold;
@@ -89,20 +95,28 @@ QLabel, QCheckBox {
 }
 
 #name, #picker {
-	background: white;
+	background: transparent;
 	border-radius: 10px;
 	border: 1px solid lightgrey;
-	color: black;
+	color: gray;
 	padding: 2px 5px 0px;
 }
 
+#name:enabled, #picker:enabled {
+	color: black;
+}
+
 #locationField {
-	background: white;
+	background: transparent;
 	border: none;
 	border-radius: 5px;
-	color: black;
+	color: gray;
 	margin-left: 5px;
 	margin-top: 2px;
+}
+
+#locationField:enabled {
+	color: black;
 }
 
 #dotsButton, #refreshButton {

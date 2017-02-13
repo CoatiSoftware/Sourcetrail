@@ -27,7 +27,7 @@ public:
 	FilePath canonical() const;
 	FilePath relativeTo(const FilePath& other) const;
 	FilePath concat(const FilePath& other) const;
-	FilePath expandEnvironmentVariables() const;
+	std::vector<FilePath> expandEnvironmentVariables() const;
 
 	bool contains(const FilePath& other) const;
 

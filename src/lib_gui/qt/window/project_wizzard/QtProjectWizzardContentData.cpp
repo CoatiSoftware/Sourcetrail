@@ -8,8 +8,11 @@
 #include "utility/messaging/type/MessageIDECreateCDB.h"
 #include "utility/logging/logging.h"
 
-QtProjectWizzardContentData::QtProjectWizzardContentData(std::shared_ptr<ProjectSettings> settings, QtProjectWizzardWindow* window)
+QtProjectWizzardContentData::QtProjectWizzardContentData(
+	std::shared_ptr<ProjectSettings> settings, QtProjectWizzardWindow* window, bool disableNameEditing
+)
 	: QtProjectWizzardContent(settings, window)
+	, m_disableNameEditing(disableNameEditing)
 	, m_projectName(nullptr)
 	, m_projectFileLocation(nullptr)
 	, m_language(nullptr)
@@ -105,12 +108,13 @@ bool QtProjectWizzardContentData::check()
 	if (m_projectFileLocation->getText().isEmpty())
 	{
 		QMessageBox msgBox;
-		msgBox.setText("Please define the location of the project file.");
+		msgBox.setText("Please define the location for the Coati project file.");
 		msgBox.exec();
 		return false;
 	}
 
-	if (!FilePath(m_projectFileLocation->getText().toStdString()).expandEnvironmentVariables().exists())
+	std::vector<FilePath> paths = FilePath(m_projectFileLocation->getText().toStdString()).expandEnvironmentVariables();
+	if (paths.size() != 1 || !paths[0].exists())
 	{
 		QMessageBox msgBox;
 		msgBox.setText("The specified location does not exist.");
@@ -123,22 +127,24 @@ bool QtProjectWizzardContentData::check()
 
 void QtProjectWizzardContentData::addNameAndLocation(QGridLayout* layout, int& row)
 {
-	QLabel* nameLabel = createFormLabel("Project Name");
+	QLabel* nameLabel = createFormLabel("Coati Project Name");
 	m_projectName = new QLineEdit();
 	m_projectName->setObjectName("name");
 	m_projectName->setAttribute(Qt::WA_MacShowFocusRect, 0);
+	m_projectName->setEnabled(!m_disableNameEditing);
 
 	layout->addWidget(nameLabel, row, QtProjectWizzardWindow::FRONT_COL, Qt::AlignRight);
 	layout->addWidget(m_projectName, row, QtProjectWizzardWindow::BACK_COL);
 	row++;
 
-
-	QLabel* locationLabel = createFormLabel("Project File Location");
+	QLabel* locationLabel = createFormLabel("Coati Project Location");
 	m_projectFileLocation = new QtLocationPicker(this);
 	m_projectFileLocation->setPickDirectory(true);
+	m_projectFileLocation->setEnabled(!m_disableNameEditing);
 
 	layout->addWidget(locationLabel, row, QtProjectWizzardWindow::FRONT_COL, Qt::AlignRight);
 	layout->addWidget(m_projectFileLocation, row, QtProjectWizzardWindow::BACK_COL, Qt::AlignTop);
+	addHelpButton("The directory where Coati project files will be saved to.", layout, row);
 	layout->setRowMinimumHeight(row, 30);
 	row++;
 }
@@ -164,6 +170,7 @@ void QtProjectWizzardContentData::addBuildFilePicker(
 
 	m_buildFilePicker = new QtLocationPicker(this);
 	m_buildFilePicker->setFileFilter(filter);
+	connect(m_buildFilePicker, SIGNAL(locationPicked()), this, SLOT(pickedCDBPath()));
 
 	layout->addWidget(m_buildFilePicker, row, QtProjectWizzardWindow::BACK_COL);
 
@@ -181,8 +188,8 @@ void QtProjectWizzardContentData::addBuildFilePicker(
 
 
 QtProjectWizzardContentDataCDB::QtProjectWizzardContentDataCDB(
-	std::shared_ptr<ProjectSettings> settings, QtProjectWizzardWindow* window)
-	: QtProjectWizzardContentData(settings, window)
+	std::shared_ptr<ProjectSettings> settings, QtProjectWizzardWindow* window, bool disableNameEditing)
+	: QtProjectWizzardContentData(settings, window, disableNameEditing)
 {
 }
 
@@ -224,7 +231,8 @@ void QtProjectWizzardContentDataCDB::save()
 	QtProjectWizzardContentData::save();
 
 	FilePath path = m_buildFilePicker->getText().toStdString();
-	if (!path.exists() || path.extension() != ".json")
+	FilePath absPath = m_settings->makePathAbsolute(m_settings->expandPath(path));
+	if (!absPath.exists() || absPath.extension() != ".json")
 	{
 		return;
 	}
@@ -244,7 +252,8 @@ bool QtProjectWizzardContentDataCDB::check()
 	}
 
 	FilePath path = m_buildFilePicker->getText().toStdString();
-	if (!path.exists() || path.extension() != ".json")
+	FilePath absPath = m_settings->makePathAbsolute(m_settings->expandPath(path));
+	if (!absPath.exists() || absPath.extension() != ".json")
 	{
 		QMessageBox msgBox;
 		msgBox.setText("Please enter a valid compilation database file (*.json).");
@@ -255,15 +264,29 @@ bool QtProjectWizzardContentDataCDB::check()
 	return true;
 }
 
-void QtProjectWizzardContentDataCDB::refreshClicked()
+void QtProjectWizzardContentDataCDB::pickedCDBPath()
 {
+	FilePath projectPath = m_settings->getProjectFileLocation();
+	if (m_projectFileLocation)
+	{
+		projectPath = FilePath(m_projectFileLocation->getText().toStdString());
+	}
+
+	FilePath cdbPath(m_buildFilePicker->getText().toStdString());
+
+	if (!projectPath.empty() && !cdbPath.empty())
+	{
+		FilePath relPath(cdbPath.relativeTo(projectPath));
+		if (relPath.str().size() < cdbPath.str().size())
+		{
+			m_buildFilePicker->setText(relPath.str().c_str());
+		}
+	}
 }
 
 
-
-
 QtProjectWizzardContentDataCDBVS::QtProjectWizzardContentDataCDBVS(std::shared_ptr<ProjectSettings> settings, QtProjectWizzardWindow* window)
-	: QtProjectWizzardContentDataCDB(settings, window)
+	: QtProjectWizzardContentDataCDB(settings, window, false)
 {
 }
 
@@ -299,7 +322,7 @@ Note: Coati's Visual Studio plugin has to be installed. Visual Studio has to be 
 	skipLabel->setAlignment(Qt::AlignmentFlag::AlignLeft);
 	layout->addWidget(skipLabel, row, QtProjectWizzardWindow::BACK_COL);
 	row++;
-	
+
 
 	QFrame* separator = new QFrame();
 	separator->setFrameShape(QFrame::HLine);
@@ -326,10 +349,6 @@ Note: Coati's Visual Studio plugin has to be installed. Visual Studio has to be 
 		layout->setRowMinimumHeight(row, 15);
 		layout->setRowStretch(row, 1);
 	}
-}
-
-void QtProjectWizzardContentDataCDBVS::refreshClicked()
-{
 }
 
 void QtProjectWizzardContentDataCDBVS::handleVSCDBClicked()

@@ -4,6 +4,7 @@
 #include "utility/logging/logging.h"
 #include "utility/text/TextAccess.h"
 #include "utility/utilityString.h"
+#include "utility/utility.h"
 
 Settings::Settings(const Settings& other)
 	: m_config(other.m_config->createCopy())
@@ -83,6 +84,26 @@ void Settings::setVersion(size_t version)
 	setValue<int>("version", version);
 }
 
+FilePath Settings::expandPath(const FilePath& path)
+{
+	std::vector<FilePath> paths = path.expandEnvironmentVariables();
+	if (paths.size() >= 1)
+	{
+		return paths[0];
+	}
+	return FilePath();
+}
+
+std::vector<FilePath> Settings::expandPaths(const std::vector<FilePath>& paths)
+{
+	std::vector<FilePath> expanedPaths;
+	for (const FilePath& path : paths)
+	{
+		utility::append(expanedPaths, path.expandEnvironmentVariables());
+	}
+	return expanedPaths;
+}
+
 Settings::Settings()
 {
 	clear();
@@ -104,14 +125,6 @@ std::vector<FilePath> Settings::getPathValues(const std::string& key) const
 		paths.push_back(FilePath(path));
 	}
 	return paths;
-}
-
-void Settings::expandPaths(std::vector<FilePath>& paths) const
-{
-	for (FilePath& path : paths)
-	{
-		path = path.expandEnvironmentVariables();
-	}
 }
 
 bool Settings::setPathValues(const std::string& key, const std::vector<FilePath>& paths)

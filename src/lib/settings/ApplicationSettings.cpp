@@ -254,9 +254,7 @@ std::vector<FilePath> ApplicationSettings::getHeaderSearchPaths() const
 
 std::vector<FilePath> ApplicationSettings::getHeaderSearchPathsExpanded() const
 {
-	std::vector<FilePath> paths = getHeaderSearchPaths();
-	expandPaths(paths);
-	return paths;
+	return expandPaths(getHeaderSearchPaths());
 }
 
 bool ApplicationSettings::setHeaderSearchPaths(const std::vector<FilePath>& headerSearchPaths)
@@ -271,9 +269,7 @@ std::vector<FilePath> ApplicationSettings::getFrameworkSearchPaths() const
 
 std::vector<FilePath> ApplicationSettings::getFrameworkSearchPathsExpanded() const
 {
-	std::vector<FilePath> paths = getFrameworkSearchPaths();
-	expandPaths(paths);
-	return paths;
+	return expandPaths(getFrameworkSearchPaths());
 }
 
 bool ApplicationSettings::setFrameworkSearchPaths(const std::vector<FilePath>& frameworkSearchPaths)

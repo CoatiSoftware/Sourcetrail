@@ -18,6 +18,7 @@
 
 QtProjectWizzardContentPaths::QtProjectWizzardContentPaths(std::shared_ptr<ProjectSettings> settings, QtProjectWizzardWindow* window)
 	: QtProjectWizzardContent(settings, window)
+	, m_makePathsRelativeToProjectFileLocation(true)
 {
 }
 
@@ -32,6 +33,12 @@ void QtProjectWizzardContentPaths::populate(QGridLayout* layout, int& row)
 	}
 
 	m_list = new QtDirectoryListBox(this, m_titleString);
+
+	if (m_makePathsRelativeToProjectFileLocation)
+	{
+		m_list->setRelativeRootDirectory(m_settings->getProjectFileLocation());
+	}
+
 	layout->addWidget(m_list, row, QtProjectWizzardWindow::BACK_COL);
 	row++;
 
@@ -51,25 +58,24 @@ void QtProjectWizzardContentPaths::populate(QGridLayout* layout, int& row)
 bool QtProjectWizzardContentPaths::check()
 {
 	QString missingPaths;
+
 	for (FilePath f : m_list->getList())
 	{
-		FilePath fi = f.expandEnvironmentVariables();
-		if (!fi.isAbsolute())
+		for (FilePath fex : m_settings->makePathsAbsolute(f.expandEnvironmentVariables()))
 		{
-			fi = FilePath(m_settings->getProjectFileLocation()).concat(fi);
-		}
-
-		if (!fi.exists())
-		{
-			missingPaths.append(f.str().c_str());
-			missingPaths.append("\n");
+			if (!fex.exists())
+			{
+				missingPaths.append(f.str().c_str());
+				missingPaths.append("\n");
+				break;
+			}
 		}
 	}
 
 	if (!missingPaths.isEmpty())
 	{
 		QMessageBox msgBox;
-		msgBox.setText("Some project paths do not exist.");
+		msgBox.setText("Some provided paths do not exist.");
 		msgBox.setDetailedText(missingPaths);
 		msgBox.exec();
 		return false;
@@ -136,10 +142,15 @@ QtProjectWizzardContentPathsSource::QtProjectWizzardContentPathsSource(
 {
 	m_showFilesString = "show files";
 
-	setTitleString("Project Paths");
+	setTitleString("Indexed Paths");
 	setHelpString(
-		"Project Paths define the files and directories that will be indexed by Coati. Provide a directory to recursively "
-		"add all contained source and header files."
+		"Indexed Paths define the files and directories that will be indexed by Coati. Provide a directory to recursively "
+		"add all contained files.<br />"
+		"<br />"
+		"If your project's source code resides in one location, but generated source files are kept at a different location, "
+		"you will also need to add that directory.<br />"
+		"<br />"
+		"You can make use of environment variables with ${ENV_VAR}."
 	);
 }
 
@@ -203,20 +214,6 @@ QString QtProjectWizzardContentPathsSource::getFileNamesDescription() const
 	return " files will be indexed.";
 }
 
-QtProjectWizzardContentPathsSourceJava::QtProjectWizzardContentPathsSourceJava(
-	std::shared_ptr<ProjectSettings> settings, QtProjectWizzardWindow* window
-)
-	: QtProjectWizzardContentPathsSource(settings, window)
-{
-	setHelpString(
-		"Project Paths define the files and directories that will be indexed by Coati. Provide a directory to recursively "
-		"add all contained files.<br />"
-		"<br />"
-		"If your project's source code resides in one location, but generated source files are kept at a different location, "
-		"you will also need to add that directory."
-	);
-}
-
 QtProjectWizzardContentPathsCDBHeader::QtProjectWizzardContentPathsCDBHeader(
 	std::shared_ptr<ProjectSettings> settings, QtProjectWizzardWindow* window
 )
@@ -230,8 +227,9 @@ QtProjectWizzardContentPathsCDBHeader::QtProjectWizzardContentPathsCDBHeader(
 		"Every time an included header is encountered, Coati will check if the file is part of the indexed headers to "
 		"decide whether or not to index it.<br />"
 		"<br />"
-		"So just enter the root path of your project if you want Coati to index all contained headers it encounters. "
-		"This way you prevent Coati from indexing files you may not be interested in."
+		"Just enter the root path of your project if you want Coati to index all contained headers it encounters.<br />"
+		"<br />"
+		"You can make use of environment variables with ${ENV_VAR}."
 	);
 }
 
@@ -245,6 +243,27 @@ void QtProjectWizzardContentPathsCDBHeader::populate( QGridLayout* layout, int& 
 
 	layout->addWidget(button, row, QtProjectWizzardWindow::BACK_COL, Qt::AlignRight | Qt::AlignTop);
 	row++;
+}
+
+bool QtProjectWizzardContentPathsCDBHeader::check()
+{
+	if (!m_list->getList().size())
+	{
+		QMessageBox msgBox;
+		msgBox.setText("You didn't specify any Indexed Header Paths.");
+		msgBox.setInformativeText(
+			"Coati will only index the source files listed in the compilation database file and none of the included "
+			"header files.");
+		msgBox.setStandardButtons(QMessageBox::Ok | QMessageBox::Cancel);
+		msgBox.setDefaultButton(QMessageBox::Ok);
+		int ret = msgBox.exec();
+
+		return ret == QMessageBox::Ok;
+	}
+	else
+	{
+		return QtProjectWizzardContentPaths::check();
+	}
 }
 
 void QtProjectWizzardContentPathsCDBHeader::buttonClicked()
@@ -262,7 +281,9 @@ void QtProjectWizzardContentPathsCDBHeader::buttonClicked()
 		m_filesDialog->setup();
 
 
-		utility::CompilationDatabase cdb(dynamic_cast<CxxProjectSettings*>(m_settings.get())->getCompilationDatabasePath().str());
+		utility::CompilationDatabase cdb(
+			dynamic_cast<CxxProjectSettings*>(m_settings.get())->getAbsoluteCompilationDatabasePath().str());
+
 		std::vector<FilePath> cdbHeaderPaths = cdb.getAllHeaderPaths();
 		std::vector<FilePath> sourcePaths = m_settings->getSourcePaths();
 
@@ -292,7 +313,10 @@ QtProjectWizzardContentPathsExclude::QtProjectWizzardContentPathsExclude(
 	: QtProjectWizzardContentPaths(settings, window)
 {
 	setTitleString("Exclude Paths");
-	setHelpString("Exclude Paths define the files and directories that will be left out from indexing.");
+	setHelpString(
+		"Exclude Paths define the files and directories that will be left out from indexing.<br />"
+		"<br />"
+		"You can make use of environment variables with ${ENV_VAR}.");
 }
 
 void QtProjectWizzardContentPathsExclude::load()
@@ -317,11 +341,13 @@ QtProjectWizzardContentPathsHeaderSearch::QtProjectWizzardContentPathsHeaderSear
 		"Include Paths are used for resolving #include directives in the indexed source and header files. These paths are "
 		"usually passed to the compiler with the '-I' or '-iquote' flags.<br />"
 		"<br />"
-		"Add all the paths the #include directives throughout your project are relative to. So if all #include directives are "
+		"Add all paths #include directives throughout your project are relative to. If all #include directives are "
 		"specified relative to the project's root directory, please add that one.<br />"
 		"<br />"
 		"If your project also includes files from external libraries (e.g. boost), please add these directories as well "
-		"(e.g. add '&lt;boost_home&gt;/include').")).c_str()
+		"(e.g. add '&lt;boost_home&gt;/include').<br />"
+		"<br />"
+		"You can make use of environment variables with ${ENV_VAR}.")).c_str()
 	);
 }
 
@@ -363,6 +389,7 @@ QtProjectWizzardContentPathsHeaderSearchGlobal::QtProjectWizzardContentPathsHead
 	);
 
 	m_pathDetector = utility::getCxxHeaderPathDetector();
+	m_makePathsRelativeToProjectFileLocation = false;
 }
 
 void QtProjectWizzardContentPathsHeaderSearchGlobal::load()
@@ -385,7 +412,9 @@ QtProjectWizzardContentPathsFrameworkSearch::QtProjectWizzardContentPathsFramewo
 	setTitleString(isCDB ? "Additional Framework Search Paths" : "Framework Search Paths");
 	setHelpString(
 		"Framework Search Paths define where MacOS framework containers (.framework), that your project depends on, are "
-		"found. These paths are usually passed to the compiler with the '-iframework' flag."
+		"found. These paths are usually passed to the compiler with the '-iframework' flag.<br />"
+		"<br />"
+		"You can make use of environment variables with ${ENV_VAR}."
 	);
 }
 
@@ -428,6 +457,7 @@ QtProjectWizzardContentPathsFrameworkSearchGlobal::QtProjectWizzardContentPathsF
 	);
 
 	m_pathDetector = utility::getCxxFrameworkPathDetector();
+	m_makePathsRelativeToProjectFileLocation = false;
 }
 
 void QtProjectWizzardContentPathsFrameworkSearchGlobal::load()
@@ -450,7 +480,9 @@ QtProjectWizzardContentPathsClassJava::QtProjectWizzardContentPathsClassJava(
 	setTitleString("Class Path");
 	setHelpString(
 		"Enter all the .jar files your project depends on. If your project depends on uncompiled java code that should "
-		"not be indexed, please add the root directory of those .java files here (the one where all the package names are relative to)."
+		"not be indexed, please add the root directory of those .java files here (the one where all the package names are relative to).<br />"
+		"<br />"
+		"You can make use of environment variables with ${ENV_VAR}."
 	);
 }
 

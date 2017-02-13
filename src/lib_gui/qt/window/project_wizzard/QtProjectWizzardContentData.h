@@ -13,7 +13,8 @@ class QtProjectWizzardContentData
 	Q_OBJECT
 
 public:
-	QtProjectWizzardContentData(std::shared_ptr<ProjectSettings> settings, QtProjectWizzardWindow* window);
+	QtProjectWizzardContentData(
+		std::shared_ptr<ProjectSettings> settings, QtProjectWizzardWindow* window, bool disableNameEditing = false);
 
 	// QtProjectWizzardContent implementation
 	virtual void populate(QGridLayout* layout, int& row) override;
@@ -27,6 +28,7 @@ protected:
 	virtual void addLanguageAndStandard(QGridLayout* layout, int& row);
 	virtual void addBuildFilePicker(QGridLayout* layout, int& row, const QString& name, const QString& filter);
 
+	bool m_disableNameEditing;
 	QLineEdit* m_projectName;
 	QtLocationPicker* m_projectFileLocation;
 
@@ -43,7 +45,8 @@ class QtProjectWizzardContentDataCDB
 	Q_OBJECT
 
 public:
-	QtProjectWizzardContentDataCDB(std::shared_ptr<ProjectSettings> settings, QtProjectWizzardWindow* window);
+	QtProjectWizzardContentDataCDB(
+		std::shared_ptr<ProjectSettings> settings, QtProjectWizzardWindow* window, bool disableNameEditing = false);
 
 	virtual void populate(QGridLayout* layout, int& row) override;
 
@@ -52,8 +55,9 @@ public:
 	virtual bool check() override;
 
 private slots:
-	void refreshClicked();
+	void pickedCDBPath();
 };
+
 
 class QtProjectWizzardContentDataCDBVS
 	: public QtProjectWizzardContentDataCDB
@@ -66,7 +70,6 @@ public:
 	virtual void populate(QGridLayout* layout, int& row) override;
 
 private slots:
-	void refreshClicked();
 	void handleVSCDBClicked();
 };
 

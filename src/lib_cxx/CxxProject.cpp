@@ -34,7 +34,7 @@ const std::shared_ptr<ProjectSettings> CxxProject::getProjectSettings() const
 
 bool CxxProject::prepareRefresh()
 {
-	FilePath cdbPath = m_projectSettings->getCompilationDatabasePath();
+	FilePath cdbPath = m_projectSettings->getAbsoluteCompilationDatabasePath();
 	if (!cdbPath.empty() && !cdbPath.exists())
 	{
 		MessageStatus("Can't refresh project").dispatch();
@@ -72,9 +72,10 @@ void CxxProject::updateFileManager(FileManager& fileManager)
 
 	std::vector<std::string> sourceExtensions;
 
-	if (m_projectSettings->getCompilationDatabasePath().exists())
+	FilePath cdbPath = m_projectSettings->getAbsoluteCompilationDatabasePath();
+	if (cdbPath.exists())
 	{
-		sourcePaths = TaskParseCxx::getSourceFilesFromCDB(m_projectSettings->getCompilationDatabasePath());
+		sourcePaths = TaskParseCxx::getSourceFilesFromCDB(cdbPath);
 	}
 	else
 	{
@@ -124,7 +125,7 @@ Parser::Arguments CxxProject::getParserArguments() const
 
 	args.language = languageTypeToString(m_projectSettings->getLanguage());
 	args.languageStandard = m_projectSettings->getStandard();
-	args.compilationDatabasePath = m_projectSettings->getCompilationDatabasePath();
+	args.compilationDatabasePath = m_projectSettings->getAbsoluteCompilationDatabasePath();
 
 	return args;
 }

@@ -362,22 +362,15 @@ void QtMainWindow::showLogFolder()
 
 void QtMainWindow::showStartScreen()
 {
-	QtStartScreen* startScreen = createWindow<QtStartScreen>();
-
 	LicenseChecker::LicenseState state = LicenseChecker::getInstance()->checkCurrentLicense();
 	bool licenseValid = (state == LicenseChecker::LICENSE_VALID);
-
-	startScreen->setupStartScreen(licenseValid);
-	setTrialActionsEnabled(licenseValid);
 
 	if (licenseValid)
 	{
 		MessageEnteredLicense().dispatch();
 	}
 
-	connect(startScreen, SIGNAL(openOpenProjectDialog()), this, SLOT(openProject()));
-	connect(startScreen, SIGNAL(openNewProjectDialog()), this, SLOT(newProject()));
-	connect(startScreen, SIGNAL(openEnterLicenseDialog()), this, SLOT(enterLicense()));
+	setTrialActionsEnabled(licenseValid);
 
 	if (state == LicenseChecker::LICENSE_MOVED)
 	{
@@ -388,6 +381,14 @@ void QtMainWindow::showStartScreen()
 	{
 		forceEnterLicense(state == LicenseChecker::LICENSE_EXPIRED);
 	}
+
+
+	QtStartScreen* startScreen = createWindow<QtStartScreen>();
+	startScreen->setupStartScreen(licenseValid);
+
+	connect(startScreen, SIGNAL(openOpenProjectDialog()), this, SLOT(openProject()));
+	connect(startScreen, SIGNAL(openNewProjectDialog()), this, SLOT(newProject()));
+	connect(startScreen, SIGNAL(openEnterLicenseDialog()), this, SLOT(enterLicense()));
 }
 
 void QtMainWindow::hideStartScreen()

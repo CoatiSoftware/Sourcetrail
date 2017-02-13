@@ -10,18 +10,12 @@ class QtProjectWizzardContentSummary
 {
 	Q_OBJECT
 
-private:
-	struct Element
-	{
-		QtProjectWizzardContent* content;
-		bool advanced;
-		bool gapBefore;
-	};
-
 public:
 	QtProjectWizzardContentSummary(std::shared_ptr<ProjectSettings> settings, QtProjectWizzardWindow* window);
 
-	void addContent(QtProjectWizzardContent* content, bool advanced, bool gapBefore);
+	void addContent(QtProjectWizzardContent* content);
+	void addSpace();
+
 	void setIsForm(bool isForm);
 
 protected:
@@ -35,16 +29,8 @@ protected:
 
 	virtual bool isScrollAble() const override;
 
-private slots:
-	void advancedToggled(bool checked);
-
 private:
-	std::vector<Element> m_elements;
-
-	QGridLayout* m_layout;
-	QCheckBox* m_checkBox;
-	int m_checkBoxRow;
-
+	std::vector<QtProjectWizzardContent*> m_contents;
 	bool m_isForm;
 };
 

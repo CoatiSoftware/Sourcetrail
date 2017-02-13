@@ -13,7 +13,7 @@ QtProjectWizzardContentSimple::QtProjectWizzardContentSimple(std::shared_ptr<Pro
 
 void QtProjectWizzardContentSimple::populate(QGridLayout* layout, int& row)
 {
-	m_title = createFormLabel("Lazy Include Search");
+	m_title = createFormLabel("Lazy Include Search (deprecated)");
 	layout->addWidget(m_title, row, QtProjectWizzardWindow::FRONT_COL);
 
 	m_checkBox = new QCheckBox("Search included files within the project paths");
@@ -25,7 +25,9 @@ void QtProjectWizzardContentSimple::populate(QGridLayout* layout, int& row)
 		"Use this option when you know that the project is self contained but don't know which paths to "
 		"specify as include paths.<br />"
 		"<br />"
-		"<b>Warning</b>: This slows down indexing speed.", layout, row);
+		"<b>Warning</b>: This slows down indexing speed.<br />"
+		"<br />"
+		"<b>Deprecated</b>: This option will be removed in future versions.", layout, row);
 
 	row++;
 }

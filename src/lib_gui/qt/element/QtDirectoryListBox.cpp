@@ -54,6 +54,17 @@ QString QtListItemWidget::getText()
 
 void QtListItemWidget::setText(QString text)
 {
+	FilePath relativeRoot = m_list->getRelativeRootDirectory();
+	if (!relativeRoot.empty())
+	{
+		FilePath path(text.toStdString());
+		FilePath relPath(path.relativeTo(relativeRoot));
+		if (relPath.str().size() < path.str().size())
+		{
+			text = QString::fromStdString(relPath.str());
+		}
+	}
+
 	m_data->setText(text);
 }
 
@@ -281,6 +292,16 @@ void QtDirectoryListBox::selectItem(QListWidgetItem* item)
 bool QtDirectoryListBox::isForStrings() const
 {
 	return m_forStrings;
+}
+
+const FilePath& QtDirectoryListBox::getRelativeRootDirectory() const
+{
+	return m_relativeRootDirectory;
+}
+
+void QtDirectoryListBox::setRelativeRootDirectory(const FilePath& dir)
+{
+	m_relativeRootDirectory = dir;
 }
 
 void QtDirectoryListBox::resize()

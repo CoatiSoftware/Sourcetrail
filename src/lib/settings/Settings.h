@@ -28,6 +28,9 @@ public:
 	size_t getVersion() const;
 	void setVersion(size_t version);
 
+	static FilePath expandPath(const FilePath& path);
+	static std::vector<FilePath> expandPaths(const std::vector<FilePath>& paths);
+
 protected:
 	Settings();
 
@@ -40,7 +43,6 @@ protected:
 	std::vector<T> getValues(const std::string& key, std::vector<T> defaultValues) const;
 
 	std::vector<FilePath> getPathValues(const std::string& key) const;
-	void expandPaths(std::vector<FilePath>& paths) const;
 
 	template<typename T>
 	bool setValue(const std::string& key, T value);

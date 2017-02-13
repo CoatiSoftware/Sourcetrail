@@ -57,6 +57,7 @@ void QtProjectWizzardContentBuildFile::populate(QGridLayout* layout, int& row)
 
 	m_picker = new QtLocationPicker(this);
 	m_picker->setFileFilter(filter);
+	m_picker->setRelativeRootDirectory(m_settings->getProjectFileLocation());
 
 	QPushButton* button = new QPushButton("", this);
 	button->setObjectName("refreshButton");
@@ -108,11 +109,12 @@ void QtProjectWizzardContentBuildFile::save()
 			case QtProjectWizzardContentSelect::PROJECT_CDB:
 			{
 				FilePath path = m_picker->getText().toStdString();
-				if (!path.exists() || path.extension() != ".json")
+				FilePath absPath = m_settings->makePathAbsolute(m_settings->expandPath(path));
+				if (!absPath.exists() || absPath.extension() != ".json")
 				{
 					return;
 				}
-				cxxSettings->setCompilationDatabasePath(m_picker->getText().toStdString());
+				cxxSettings->setCompilationDatabasePath(path);
 				break;
 			}
 		}
@@ -129,7 +131,8 @@ bool QtProjectWizzardContentBuildFile::check()
 		case QtProjectWizzardContentSelect::PROJECT_CDB:
 		{
 			FilePath path = m_picker->getText().toStdString();
-			if (!path.exists() || path.extension() != ".json")
+			FilePath absPath = m_settings->makePathAbsolute(m_settings->expandPath(path));
+			if (!absPath.exists() || absPath.extension() != ".json")
 			{
 				QMessageBox msgBox;
 				msgBox.setText("Please enter a valid compilation database file (*.json).");
@@ -144,8 +147,9 @@ bool QtProjectWizzardContentBuildFile::check()
 
 void QtProjectWizzardContentBuildFile::refreshClicked()
 {
-	FilePath path = FilePath(m_picker->getText().toStdString());
-	if (!path.exists())
+	FilePath path = m_picker->getText().toStdString();
+	FilePath absPath = m_settings->makePathAbsolute(m_settings->expandPath(path));
+	if (!absPath.exists())
 	{
 		QMessageBox msgBox;
 		msgBox.setText("Please enter a valid file path.");

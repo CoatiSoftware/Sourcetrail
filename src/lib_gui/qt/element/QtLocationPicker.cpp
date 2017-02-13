@@ -1,5 +1,6 @@
 #include "qt/element/QtLocationPicker.h"
 
+#include <QEvent>
 #include <QFileDialog>
 #include <QHBoxLayout>
 #include <QLabel>
@@ -72,6 +73,19 @@ void QtLocationPicker::setFileFilter(const QString& fileFilter)
 	m_fileFilter = fileFilter;
 }
 
+void QtLocationPicker::setRelativeRootDirectory(const FilePath& dir)
+{
+	m_relativeRootDirectory = dir;
+}
+
+void QtLocationPicker::changeEvent(QEvent *event)
+{
+	if (event->type() == QEvent::EnabledChange)
+	{
+		m_button->setVisible(isEnabled());
+	}
+}
+
 void QtLocationPicker::handleButtonPress()
 {
 	QString fileName;
@@ -86,6 +100,16 @@ void QtLocationPicker::handleButtonPress()
 
 	if (!fileName.isEmpty())
 	{
+		if (!m_relativeRootDirectory.empty())
+		{
+			FilePath path(fileName.toStdString());
+			FilePath relPath(path.relativeTo(m_relativeRootDirectory));
+			if (relPath.str().size() < path.str().size())
+			{
+				fileName = QString::fromStdString(relPath.str());
+			}
+		}
+
 		m_data->setText(fileName);
 		emit locationPicked();
 	}

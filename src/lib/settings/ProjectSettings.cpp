@@ -121,10 +121,7 @@ std::vector<FilePath> ProjectSettings::getSourcePaths() const
 
 std::vector<FilePath> ProjectSettings::getAbsoluteSourcePaths() const
 {
-	std::vector<FilePath> paths = getSourcePaths();
-	expandPaths(paths);
-	makePathsAbsolute(paths);
-	return paths;
+	return makePathsAbsolute(expandPaths(getSourcePaths()));
 }
 
 bool ProjectSettings::setSourcePaths(const std::vector<FilePath>& sourcePaths)
@@ -139,10 +136,7 @@ std::vector<FilePath> ProjectSettings::getExcludePaths() const
 
 std::vector<FilePath> ProjectSettings::getAbsoluteExcludePaths() const
 {
-	std::vector<FilePath> paths = getExcludePaths();
-	expandPaths(paths);
-	makePathsAbsolute(paths);
-	return paths;
+	return makePathsAbsolute(expandPaths(getExcludePaths()));
 }
 
 bool ProjectSettings::setExcludePaths(const std::vector<FilePath>& excludePaths)
@@ -160,16 +154,36 @@ bool ProjectSettings::setSourceExtensions(const std::vector<std::string> &source
 	return setValues("source/extensions/source_extensions", sourceExtensions);
 }
 
-void ProjectSettings::makePathsAbsolute(std::vector<FilePath>& paths) const
+std::vector<FilePath> ProjectSettings::makePathsAbsolute(const std::vector<FilePath>& paths) const
 {
+	std::vector<FilePath> absPaths;
+
 	FilePath basePath = getProjectFileLocation();
-	for (size_t i = 0; i < paths.size(); i++)
+	for (const FilePath& path : paths)
 	{
-		if (!paths[i].isAbsolute())
+		if (path.isAbsolute())
 		{
-			paths[i] = basePath.concat(paths[i]).canonical();
+			absPaths.push_back(path);
+		}
+		else
+		{
+			absPaths.push_back(basePath.concat(path).canonical());
 		}
 	}
+
+	return absPaths;
+}
+
+FilePath ProjectSettings::makePathAbsolute(const FilePath& path) const
+{
+	FilePath basePath = getProjectFileLocation();
+
+	if (!path.isAbsolute())
+	{
+		return basePath.concat(path).canonical();
+	}
+
+	return path;
 }
 
 std::vector<std::string> ProjectSettings::getDefaultSourceExtensions() const

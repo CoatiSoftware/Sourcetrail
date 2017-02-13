@@ -26,13 +26,16 @@ public:
 	std::vector<std::string> getCompilerFlags() const;
 	bool setCompilerFlags(const std::vector<std::string>& compilerFlags);
 
+	// deprecated
 	bool getUseSourcePathsForHeaderSearch() const;
 	bool setUseSourcePathsForHeaderSearch(bool useSourcePathsForHeaderSearch);
+	bool getHasDefinedUseSourcePathsForHeaderSearch() const;
 
 	FilePath getVisualStudioSolutionPath() const;
 	bool setVisualStudioSolutionPath(const FilePath& visualStudioSolutionPath);
 
 	FilePath getCompilationDatabasePath() const;
+	FilePath getAbsoluteCompilationDatabasePath() const;
 	bool setCompilationDatabasePath(const FilePath& compilationDatabasePath);
 
 private:

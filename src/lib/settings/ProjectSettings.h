@@ -54,8 +54,8 @@ public:
 	std::vector<std::string> getSourceExtensions() const;
 	bool setSourceExtensions(const std::vector<std::string>& sourceExtensions);
 
-protected:
-	void makePathsAbsolute(std::vector<FilePath>& paths) const;
+	std::vector<FilePath> makePathsAbsolute(const std::vector<FilePath>& paths) const;
+	FilePath makePathAbsolute(const FilePath& path) const;
 
 private:
 	virtual std::vector<std::string> getDefaultSourceExtensions() const;

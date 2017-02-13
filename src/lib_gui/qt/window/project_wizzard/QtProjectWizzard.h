@@ -76,11 +76,13 @@ private slots:
 	void frameworkSearchPaths();
 
 	void emptyProjectCDBVS();
-
 	void emptyProjectCDB();
 	void headerPathsCDB();
 
 	void sourcePathsJava();
+
+	void advancedSettingsCxx();
+	void advancedSettingsJava();
 
 	void showSummary();
 	void showSummaryJava();

@@ -63,6 +63,9 @@ public:
 
 	bool isForStrings() const;
 
+	const FilePath& getRelativeRootDirectory() const;
+	void setRelativeRootDirectory(const FilePath& dir);
+
 protected:
 	bool event(QEvent* event) override;
 
@@ -88,6 +91,8 @@ private:
 	bool m_forStrings;
 
 	std::shared_ptr<QtTextEditDialog> m_editDialog;
+
+	FilePath m_relativeRootDirectory;
 };
 
 #endif // QT_DIRECTORY_LIST_BOX_H

@@ -117,8 +117,9 @@ FilePath FilePath::canonical() const
 	return result;
 }
 
-FilePath FilePath::expandEnvironmentVariables() const
+std::vector<FilePath> FilePath::expandEnvironmentVariables() const
 {
+	std::vector<FilePath> paths;
 	std::string text = str();
 
 	static std::regex env("\\$\\{([^}]+)\\}|%([^%]+)%"); // ${VARIABLE_NAME} or %VARIABLE_NAME%
@@ -128,18 +129,31 @@ FilePath FilePath::expandEnvironmentVariables() const
 		const char * s = match[1].matched ? getenv(match[1].str().c_str()) : getenv(match[2].str().c_str());
 		if (s == nullptr)
 		{
-			LOG_ERROR(match[1].str() + " is no a environment variable");
-			return FilePath();
+			LOG_ERROR(match[1].str() + " is not an environment variable");
+			return paths;
 		}
 		text.replace( match.position(0), match.length(0), s);
 	}
 
-	return FilePath(text);
+	char environmentVariablePathSeparator = ':';
+
+#if defined(_WIN32) || defined(_WIN64)
+	environmentVariablePathSeparator = ';';
+#endif
+
+	for (const std::string& str : utility::splitToVector(text, environmentVariablePathSeparator))
+	{
+		if (str.size())
+		{
+			paths.push_back(str);
+		}
+	}
+
+	return paths;
 }
 
 FilePath FilePath::relativeTo(const FilePath& other) const
 {
-
 	boost::filesystem::path a = this->canonical().m_path;
 	boost::filesystem::path b = other.canonical().m_path;
 
@@ -161,7 +175,10 @@ FilePath FilePath::relativeTo(const FilePath& other) const
 
 	if (itB != b.end())
 	{
-		itB++;
+		if (!boost::filesystem::is_directory(b))
+		{
+			itB++;
+		}
 
 		for (; itB != b.end(); itB++)
 		{

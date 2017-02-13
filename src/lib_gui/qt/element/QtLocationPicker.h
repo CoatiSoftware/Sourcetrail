@@ -4,6 +4,7 @@
 #include <QPushButton>
 
 #include "qt/element/QtLineEdit.h"
+#include "utility/file/FilePath.h"
 
 class QtLocationPicker
 	: public QWidget
@@ -23,8 +24,13 @@ public:
 	void setPickDirectory(bool pickDirectory);
 	void setFileFilter(const QString& fileFilter);
 
+	void setRelativeRootDirectory(const FilePath& dir);
+
 signals:
 	void locationPicked();
+
+protected:
+	void changeEvent(QEvent *event) override;
 
 private slots:
 	void handleButtonPress();
@@ -35,6 +41,7 @@ private:
 
 	bool m_pickDirectory;
 	QString m_fileFilter;
+	FilePath m_relativeRootDirectory;
 };
 
 #endif // QT_LOCATION_PICKER_H

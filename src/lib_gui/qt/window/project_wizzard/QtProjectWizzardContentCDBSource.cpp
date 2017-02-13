@@ -35,7 +35,9 @@ void QtProjectWizzardContentCDBSource::load()
 	std::shared_ptr<CxxProjectSettings> cxxSettings = std::dynamic_pointer_cast<CxxProjectSettings>(m_settings);
 	if (cxxSettings)
 	{
-		std::vector<FilePath> filePaths = TaskParseCxx::getSourceFilesFromCDB(cxxSettings->getCompilationDatabasePath());
+		std::vector<FilePath> filePaths =
+			TaskParseCxx::getSourceFilesFromCDB(cxxSettings->getAbsoluteCompilationDatabasePath());
+
 		for (FilePath path : filePaths)
 		{
 			bool excluded = false;

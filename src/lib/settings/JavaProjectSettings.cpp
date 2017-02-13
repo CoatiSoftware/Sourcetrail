@@ -48,10 +48,7 @@ std::vector<FilePath> JavaProjectSettings::getClasspaths() const
 
 std::vector<FilePath> JavaProjectSettings::getAbsoluteClasspaths() const
 {
-	std::vector<FilePath> paths = getClasspaths();
-	expandPaths(paths);
-	makePathsAbsolute(paths);
-	return paths;
+	return makePathsAbsolute(expandPaths(getClasspaths()));
 }
 
 bool JavaProjectSettings::setClasspaths(const std::vector<FilePath>& paths)

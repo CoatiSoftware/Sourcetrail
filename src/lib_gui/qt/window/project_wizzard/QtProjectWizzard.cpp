@@ -24,6 +24,7 @@
 #include "utility/messaging/type/MessageRefresh.h"
 #include "utility/messaging/type/MessageScrollSpeedChange.h"
 #include "utility/messaging/type/MessageStatus.h"
+#include "utility/utility.h"
 #include "utility/utilityPathDetection.h"
 #include "utility/utilityString.h"
 
@@ -81,6 +82,7 @@ void QtProjectWizzard::newProject()
 
 	window->setNextEnabled(false);
 	window->setPreviousEnabled(false);
+	window->updateSubTitle("Type Selection");
 }
 
 void QtProjectWizzard::newProjectFromSolution(const std::string& ideId, const std::string& visualStudioSolutionPath)
@@ -208,16 +210,6 @@ void QtProjectWizzard::editProject(std::shared_ptr<ProjectSettings> settings)
 		default:
 			break;
 	}
-
-	QtProjectWizzardWindow* window = dynamic_cast<QtProjectWizzardWindow*>(m_windowStack.getTopWindow());
-	if (!window)
-	{
-		return;
-	}
-
-	window->updateTitle("EDIT PROJECT");
-	window->updateNextButton("Save");
-	window->setPreviousVisible(false);
 }
 
 void QtProjectWizzard::showPreferences()
@@ -227,12 +219,12 @@ void QtProjectWizzard::showPreferences()
 		{
 			summary->setIsForm(true);
 
-			summary->addContent(new QtProjectWizzardContentPreferences(m_settings, window), false, false);
+			summary->addContent(new QtProjectWizzardContentPreferences(m_settings, window));
 
-			summary->addContent(new QtProjectWizzardContentPathsHeaderSearchGlobal(m_settings, window), false, false);
+			summary->addContent(new QtProjectWizzardContentPathsHeaderSearchGlobal(m_settings, window));
 			if (QSysInfo::macVersion() != QSysInfo::MV_None)
 			{
-				summary->addContent(new QtProjectWizzardContentPathsFrameworkSearchGlobal(m_settings, window), false, false);
+				summary->addContent(new QtProjectWizzardContentPathsFrameworkSearchGlobal(m_settings, window));
 			}
 
 			window->setup();
@@ -248,20 +240,24 @@ void QtProjectWizzard::showPreferences()
 
 bool QtProjectWizzard::applicationSettingsContainVisualStudioHeaderSearchPaths()
 {
-	std::vector<FilePath> usedExpandedGlobalHeaderSearchPaths = ApplicationSettings::getInstance()->getHeaderSearchPathsExpanded();
-
+	std::vector<FilePath> expandedPaths;
 	const std::shared_ptr<CombinedPathDetector> headerPathDetector = utility::getCxxVsHeaderPathDetector();
 	for (const std::string& detectorName: headerPathDetector->getWorkingDetectorNames())
 	{
 		for (const FilePath& path: headerPathDetector->getPaths(detectorName))
 		{
-			const FilePath expandedPath = path.expandEnvironmentVariables();
-			for (const FilePath& usedExpandedPath: usedExpandedGlobalHeaderSearchPaths)
+			utility::append(expandedPaths, path.expandEnvironmentVariables());
+		}
+	}
+
+	std::vector<FilePath> usedExpandedGlobalHeaderSearchPaths = ApplicationSettings::getInstance()->getHeaderSearchPathsExpanded();
+	for (const FilePath& usedExpandedPath: usedExpandedGlobalHeaderSearchPaths)
+	{
+		for (const FilePath& expandedPath: expandedPaths)
+		{
+			if (expandedPath == usedExpandedPath)
 			{
-				if (expandedPath == usedExpandedPath)
-				{
-					return true;
-				}
+				return true;
 			}
 		}
 	}
@@ -414,6 +410,7 @@ void QtProjectWizzard::selectedProjectType(LanguageType languageType, QtProjectW
 void QtProjectWizzard::emptyProject()
 {
 	QtProjectWizzardWindow* window = createWindowWithContent<QtProjectWizzardContentData>();
+	window->updateSubTitle("Project Data");
 
 	if (m_settings->getLanguage() == LANGUAGE_JAVA)
 	{
@@ -430,14 +427,16 @@ void QtProjectWizzard::sourcePaths()
 	QtProjectWizzardWindow* window = createWindowWithSummary(
 		[this](QtProjectWizzardWindow* window, QtProjectWizzardContentSummary* summary)
 		{
-			summary->addContent(new QtProjectWizzardContentPathsSource(m_settings, window), false, false);
-			summary->addContent(new QtProjectWizzardContentExtensions(m_settings, window), false, true);
+			summary->addContent(new QtProjectWizzardContentPathsSource(m_settings, window));
+			summary->addSpace();
+			summary->addContent(new QtProjectWizzardContentExtensions(m_settings, window));
 
 			window->setup();
 		}
 	);
 
 	connect(window, SIGNAL(next()), this, SLOT(headerSearchPaths()));
+	window->updateSubTitle("Indexed Paths");
 }
 
 void QtProjectWizzard::headerSearchPaths()
@@ -445,15 +444,16 @@ void QtProjectWizzard::headerSearchPaths()
 	QtProjectWizzardWindow* window = createWindowWithSummary(
 		[this](QtProjectWizzardWindow* window, QtProjectWizzardContentSummary* summary)
 		{
-			summary->addContent(new QtProjectWizzardContentPathsHeaderSearch(m_settings, window), false, false);
-			summary->addContent(new QtProjectWizzardContentSimple(m_settings, window), false, true);
-			summary->addContent(new QtProjectWizzardContentPathsHeaderSearchGlobal(m_settings, window), false, true);
+			summary->addContent(new QtProjectWizzardContentPathsHeaderSearch(m_settings, window));
+			summary->addSpace();
+			summary->addContent(new QtProjectWizzardContentPathsHeaderSearchGlobal(m_settings, window));
 
 			window->setup();
 		}
 	);
 
 	connect(window, SIGNAL(next()), this, SLOT(headerSearchPathsDone()));
+	window->updateSubTitle("Include Paths");
 }
 
 void QtProjectWizzard::headerSearchPathsDone()
@@ -464,7 +464,7 @@ void QtProjectWizzard::headerSearchPathsDone()
 	}
 	else
 	{
-		showSummary();
+		advancedSettingsCxx();
 	}
 }
 
@@ -473,14 +473,16 @@ void QtProjectWizzard::frameworkSearchPaths()
 	QtProjectWizzardWindow* window = createWindowWithSummary(
 		[this](QtProjectWizzardWindow* window, QtProjectWizzardContentSummary* summary)
 		{
-			summary->addContent(new QtProjectWizzardContentPathsFrameworkSearch(m_settings, window), false, false);
-			summary->addContent(new QtProjectWizzardContentPathsFrameworkSearchGlobal(m_settings, window), false, true);
+			summary->addContent(new QtProjectWizzardContentPathsFrameworkSearch(m_settings, window));
+			summary->addSpace();
+			summary->addContent(new QtProjectWizzardContentPathsFrameworkSearchGlobal(m_settings, window));
 
 			window->setup();
 		}
 	);
 
-	connect(window, SIGNAL(next()), this, SLOT(showSummary()));
+	connect(window, SIGNAL(next()), this, SLOT(advancedSettingsCxx()));
+	window->updateSubTitle("Framework Search Paths");
 }
 
 void QtProjectWizzard::emptyProjectCDBVS()
@@ -488,6 +490,7 @@ void QtProjectWizzard::emptyProjectCDBVS()
 	QtProjectWizzardWindow* window = createWindowWithContent<QtProjectWizzardContentDataCDBVS>();
 
 	connect(window, SIGNAL(next()), this, SLOT(headerPathsCDB()));
+	window->updateSubTitle("Project Data");
 }
 
 void QtProjectWizzard::emptyProjectCDB()
@@ -495,6 +498,7 @@ void QtProjectWizzard::emptyProjectCDB()
 	QtProjectWizzardWindow* window = createWindowWithContent<QtProjectWizzardContentDataCDB>();
 
 	connect(window, SIGNAL(next()), this, SLOT(headerPathsCDB()));
+	window->updateSubTitle("Project Data");
 }
 
 void QtProjectWizzard::headerPathsCDB()
@@ -502,14 +506,16 @@ void QtProjectWizzard::headerPathsCDB()
 	QtProjectWizzardWindow* window = createWindowWithSummary(
 		[this](QtProjectWizzardWindow* window, QtProjectWizzardContentSummary* summary)
 		{
-			summary->addContent(new QtProjectWizzardContentCDBSource(m_settings, window), false, false);
-			summary->addContent(new QtProjectWizzardContentPathsCDBHeader(m_settings, window), false, true);
+			summary->addContent(new QtProjectWizzardContentCDBSource(m_settings, window));
+			summary->addSpace();
+			summary->addContent(new QtProjectWizzardContentPathsCDBHeader(m_settings, window));
 
 			window->setup();
 		}
 	);
 
-	connect(window, SIGNAL(next()), this, SLOT(showSummary()));
+	connect(window, SIGNAL(next()), this, SLOT(advancedSettingsCxx()));
+	window->updateSubTitle("Indexed Header Paths");
 }
 
 void QtProjectWizzard::sourcePathsJava()
@@ -517,14 +523,50 @@ void QtProjectWizzard::sourcePathsJava()
 	QtProjectWizzardWindow* window = createWindowWithSummary(
 		[this](QtProjectWizzardWindow* window, QtProjectWizzardContentSummary* summary)
 		{
-			summary->addContent(new QtProjectWizzardContentPathsSourceJava(m_settings, window), false, false);
-			summary->addContent(new QtProjectWizzardContentPathsClassJava(m_settings, window), false, true);
+			summary->addContent(new QtProjectWizzardContentPathsSource(m_settings, window));
+			summary->addSpace();
+			summary->addContent(new QtProjectWizzardContentPathsClassJava(m_settings, window));
+
+			window->setup();
+		}
+	);
+
+	connect(window, SIGNAL(next()), this, SLOT(advancedSettingsJava()));
+	window->updateSubTitle("Indexed Paths");
+}
+
+void QtProjectWizzard::advancedSettingsCxx()
+{
+	QtProjectWizzardWindow* window = createWindowWithSummary(
+		[this](QtProjectWizzardWindow* window, QtProjectWizzardContentSummary* summary)
+		{
+			summary->addContent(new QtProjectWizzardContentFlags(m_settings, window));
+			summary->addSpace();
+			summary->addContent(new QtProjectWizzardContentPathsExclude(m_settings, window));
+
+			window->setup();
+		}
+	);
+
+	connect(window, SIGNAL(next()), this, SLOT(showSummary()));
+	window->updateSubTitle("Advanced (optional)");
+}
+
+void QtProjectWizzard::advancedSettingsJava()
+{
+	QtProjectWizzardWindow* window = createWindowWithSummary(
+		[this](QtProjectWizzardWindow* window, QtProjectWizzardContentSummary* summary)
+		{
+			summary->addContent(new QtProjectWizzardContentExtensions(m_settings, window));
+			summary->addSpace();
+			summary->addContent(new QtProjectWizzardContentPathsExclude(m_settings, window));
 
 			window->setup();
 		}
 	);
 
 	connect(window, SIGNAL(next()), this, SLOT(showSummaryJava()));
+	window->updateSubTitle("Advanced (optional)");
 }
 
 void QtProjectWizzard::showSummary()
@@ -535,57 +577,72 @@ void QtProjectWizzard::showSummary()
 			summary->setIsForm(true);
 
 			QtProjectWizzardContentBuildFile* buildFile = new QtProjectWizzardContentBuildFile(m_settings, window);
+			bool isCDB = buildFile->getType() == QtProjectWizzardContentSelect::PROJECT_CDB;
 
-			if (buildFile->getType() != QtProjectWizzardContentSelect::PROJECT_CDB)
+			if (!isCDB)
 			{
-				summary->addContent(new QtProjectWizzardContentData(m_settings, window), false, false);
+				summary->addContent(new QtProjectWizzardContentData(m_settings, window, m_editing));
+				summary->addSpace();
 
 				if (buildFile->getType() == QtProjectWizzardContentSelect::PROJECT_MANAGED)
 				{
-					summary->addContent(buildFile, false, true);
+					summary->addContent(buildFile);
+					summary->addSpace();
 
 					connect(dynamic_cast<QtProjectWizzardContentBuildFile*>(buildFile),
 						SIGNAL(refreshVisualStudioSolution(const std::string&, const std::string&)),
 						this, SLOT(refreshProjectFromSolution(const std::string&, const std::string&)));
 				}
 
-				summary->addContent(new QtProjectWizzardContentPathsSource(m_settings, window), false, true);
-				summary->addContent(new QtProjectWizzardContentPathsHeaderSearch(m_settings, window), false, true);
-				summary->addContent(new QtProjectWizzardContentSimple(m_settings, window), false, false);
-				summary->addContent(new QtProjectWizzardContentPathsHeaderSearchGlobal(m_settings, window), false, false);
-
-				if (QSysInfo::macVersion() != QSysInfo::MV_None)
-				{
-					summary->addContent(new QtProjectWizzardContentPathsFrameworkSearch(m_settings, window), false, true);
-					summary->addContent(new QtProjectWizzardContentPathsFrameworkSearchGlobal(m_settings, window), false, false);
-				}
-
-				summary->addContent(new QtProjectWizzardContentExtensions(m_settings, window), true, false);
-				summary->addContent(new QtProjectWizzardContentFlags(m_settings, window), true, true);
-				summary->addContent(new QtProjectWizzardContentPathsExclude(m_settings, window), true, true);
+				summary->addContent(new QtProjectWizzardContentPathsSource(m_settings, window));
+				summary->addContent(new QtProjectWizzardContentExtensions(m_settings, window));
+				summary->addSpace();
 			}
 			else
 			{
-				summary->addContent(new QtProjectWizzardContentDataCDB(m_settings, window), false, false);
-				summary->addContent(new QtProjectWizzardContentPathsCDBHeader(m_settings, window), false, true);
+				summary->addContent(new QtProjectWizzardContentDataCDB(m_settings, window, m_editing));
+				summary->addSpace();
 
-				summary->addContent(new QtProjectWizzardContentPathsHeaderSearch(m_settings, window, true), false, true);
-				summary->addContent(new QtProjectWizzardContentPathsHeaderSearchGlobal(m_settings, window), false, false);
-
-				if (QSysInfo::macVersion() != QSysInfo::MV_None)
-				{
-					summary->addContent(new QtProjectWizzardContentPathsFrameworkSearch(m_settings, window, true), false, true);
-					summary->addContent(new QtProjectWizzardContentPathsFrameworkSearchGlobal(m_settings, window), false, false);
-				}
-
-				summary->addContent(new QtProjectWizzardContentFlags(m_settings, window), true, false);
-				summary->addContent(new QtProjectWizzardContentPathsExclude(m_settings, window), true, true);
+				summary->addContent(new QtProjectWizzardContentPathsCDBHeader(m_settings, window));
+				summary->addSpace();
 			}
+
+			summary->addContent(new QtProjectWizzardContentPathsHeaderSearch(m_settings, window, isCDB));
+
+			std::shared_ptr<CxxProjectSettings> cxxSettings = std::dynamic_pointer_cast<CxxProjectSettings>(m_settings);
+			if (!isCDB && cxxSettings && cxxSettings->getHasDefinedUseSourcePathsForHeaderSearch())
+			{
+				summary->addSpace();
+				summary->addContent(new QtProjectWizzardContentSimple(m_settings, window));
+			}
+
+			summary->addContent(new QtProjectWizzardContentPathsHeaderSearchGlobal(m_settings, window));
+			summary->addSpace();
+
+			if (QSysInfo::macVersion() != QSysInfo::MV_None)
+			{
+				summary->addContent(new QtProjectWizzardContentPathsFrameworkSearch(m_settings, window, isCDB));
+				summary->addContent(new QtProjectWizzardContentPathsFrameworkSearchGlobal(m_settings, window));
+				summary->addSpace();
+			}
+
+			summary->addContent(new QtProjectWizzardContentFlags(m_settings, window));
+			summary->addSpace();
+			summary->addContent(new QtProjectWizzardContentPathsExclude(m_settings, window));
 
 			window->setup();
 
-			window->updateTitle("NEW PROJECT - SUMMARY");
-			window->updateNextButton("Create");
+			if (m_editing)
+			{
+				window->updateTitle("EDIT PROJECT");
+				window->updateNextButton("Save");
+				window->setPreviousVisible(false);
+			}
+			else
+			{
+				window->updateSubTitle("Summary");
+				window->updateNextButton("Create");
+			}
 		}
 	);
 
@@ -599,18 +656,32 @@ void QtProjectWizzard::showSummaryJava()
 		{
 			summary->setIsForm(true);
 
-			summary->addContent(new QtProjectWizzardContentData(m_settings, window), false, false);
+			summary->addContent(new QtProjectWizzardContentData(m_settings, window, m_editing));
+			summary->addSpace();
 
-			summary->addContent(new QtProjectWizzardContentPathsSourceJava(m_settings, window), false, true);
-			summary->addContent(new QtProjectWizzardContentPathsClassJava(m_settings, window), false, true);
+			summary->addContent(new QtProjectWizzardContentPathsSource(m_settings, window));
+			summary->addSpace();
 
-			summary->addContent(new QtProjectWizzardContentExtensions(m_settings, window), true, false);
-			summary->addContent(new QtProjectWizzardContentPathsExclude(m_settings, window), true, true);
+			summary->addContent(new QtProjectWizzardContentPathsClassJava(m_settings, window));
+			summary->addSpace();
+
+			summary->addContent(new QtProjectWizzardContentExtensions(m_settings, window));
+			summary->addSpace();
+			summary->addContent(new QtProjectWizzardContentPathsExclude(m_settings, window));
 
 			window->setup();
 
-			window->updateTitle("NEW PROJECT - SUMMARY");
-			window->updateNextButton("Create");
+			if (m_editing)
+			{
+				window->updateTitle("EDIT PROJECT");
+				window->updateNextButton("Save");
+				window->setPreviousVisible(false);
+			}
+			else
+			{
+				window->updateSubTitle("Summary");
+				window->updateNextButton("Create");
+			}
 		}
 	);
 
@@ -627,42 +698,9 @@ void QtProjectWizzard::createProject()
 	bool forceRefreshProject = false;
 	if (m_editing)
 	{
-		std::shared_ptr<Application> application = Application::getInstance();
-		FilePath oldPath;
-
-		Project* currentProject = application->getCurrentProject().get();
-		if (currentProject)
-		{
-			oldPath = currentProject->getProjectSettingsFilePath();
-		}
-
-		if (oldPath.exists() && oldPath != path)
-		{
-			std::vector<std::string> options;
-			options.push_back("Yes");
-			options.push_back("No");
-			int result = application->handleDialog(
-				"You changed the project location. The project file (.coatiproject) and the database file (.coatidb) will "
-				"be moved to the new location. Do you want to keep a copy of the files in the previous location?"
-				, options
-			);
-
-			FilePath dbPath = FilePath(path).replaceExtension("coatidb");
-			FilePath oldDbPath = FilePath(oldPath).replaceExtension("coatidb");
-
-			if (result == 0)
-			{
-				FileSystem::copyFile(oldDbPath, dbPath);
-			}
-			else
-			{
-				FileSystem::remove(oldPath);
-				FileSystem::rename(oldDbPath, dbPath);
-			}
-		}
-
 		bool settingsChanged = false;
 
+		Application* application = Application::getInstance().get();
 		if (application->getCurrentProject() != NULL)
 		{
 			settingsChanged = !(application->getCurrentProject()->settingsEqualExceptNameAndLocation(*(m_settings.get())));
