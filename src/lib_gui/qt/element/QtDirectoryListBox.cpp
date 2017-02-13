@@ -270,11 +270,16 @@ void QtDirectoryListBox::setStringList(const std::vector<std::string>& list)
 {
 	clear();
 
+	FilePath root = m_relativeRootDirectory;
+	m_relativeRootDirectory = FilePath();
+
 	for (const std::string& str : list)
 	{
 		QtListItemWidget* widget = addListBoxItem();
 		widget->setText(QString::fromStdString(str));
 	}
+
+	m_relativeRootDirectory = root;
 
 	QTimer::singleShot(1, this, SLOT(resize()));
 }

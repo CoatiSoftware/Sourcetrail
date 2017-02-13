@@ -191,6 +191,11 @@ FilePath FilePath::relativeTo(const FilePath& other) const
 		r /= *itA;
 	}
 
+	if (r.empty())
+	{
+		r = "./";
+	}
+
 	return r;
 }
 

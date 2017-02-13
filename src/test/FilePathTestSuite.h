@@ -99,6 +99,13 @@ public:
 		TS_ASSERT_EQUALS(pathA.relativeTo(pathB).str(), "../a.cpp");
 	}
 
+	void test_file_path_relative_to_same_directory()
+	{
+		FilePath pathA("data/FilePathTestSuite/test");
+
+		TS_ASSERT_EQUALS(pathA.relativeTo(pathA).str(), "./");
+	}
+
 	void test_file_path_file_name()
 	{
 		FilePath path("data/FilePathTestSuite/abc.h");
