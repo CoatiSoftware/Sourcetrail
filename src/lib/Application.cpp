@@ -21,7 +21,6 @@
 #include "settings/ApplicationSettings.h"
 #include "settings/ColorScheme.h"
 
-// useless comment
 void Application::createInstance(
 	const Version& version, ViewFactory* viewFactory, NetworkFactory* networkFactory
 ){
@@ -177,7 +176,7 @@ void Application::createAndLoadProject(const FilePath& projectSettingsFilePath)
 
 void Application::refreshProject(bool force)
 {
-	if (m_project && !m_isInTrial)
+	if (m_project)
 	{
 		bool indexing = m_project->refresh(force);
 		if (indexing)

@@ -15,6 +15,7 @@
 
 #include "utility/file/FileRegister.h"
 #include "utility/messaging/type/MessageClearErrorCount.h"
+#include "utility/messaging/type/MessageDispatchWhenLicenseValid.h"
 #include "utility/messaging/type/MessageFinishedParsing.h"
 #include "utility/messaging/type/MessageRefresh.h"
 #include "utility/messaging/type/MessageStatus.h"
@@ -97,6 +98,17 @@ bool Project::refresh(bool forceRefresh)
 		{
 			return false;
 		}
+	}
+
+	if (Application::getInstance()->isInTrial())
+	{
+		std::vector<std::string> options;
+		options.push_back("Ok");
+		m_dialogView->confirm("You can't refresh the project in trial mode, please unlock with a license key.", options);
+
+		MessageDispatchWhenLicenseValid(std::make_shared<MessageRefresh>()).dispatch();
+
+		return false;
 	}
 
 	if (!prepareRefresh())

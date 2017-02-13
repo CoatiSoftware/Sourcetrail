@@ -176,14 +176,12 @@ std::vector<FilePath> ProjectSettings::makePathsAbsolute(const std::vector<FileP
 
 FilePath ProjectSettings::makePathAbsolute(const FilePath& path) const
 {
-	FilePath basePath = getProjectFileLocation();
-
-	if (!path.isAbsolute())
+	if (path.empty() || path.isAbsolute())
 	{
-		return basePath.concat(path).canonical();
+		return path;
 	}
 
-	return path;
+	return getProjectFileLocation().concat(path).canonical();
 }
 
 std::vector<std::string> ProjectSettings::getDefaultSourceExtensions() const
