@@ -1361,72 +1361,72 @@ void SqliteStorage::setupTables()
 				"PRIMARY KEY(id));"
 		);
 
-		m_database.execDML(
-			"CREATE TABLE IF NOT EXISTS bookmarkCategory("
-			"id INTEGER NOT NULL, "
-			"name TEXT, "
-			"PRIMARY KEY(id));"
-		);
+		// m_database.execDML(
+		// 	"CREATE TABLE IF NOT EXISTS bookmarkCategory("
+		// 	"id INTEGER NOT NULL, "
+		// 	"name TEXT, "
+		// 	"PRIMARY KEY(id));"
+		// );
 
-		m_database.execDML(
-			"CREATE TABLE IF NOT EXISTS nodeBookmark("
-			"id INTEGER NOT NULL, "
-			"name TEXT, "
-			"comment TEXT, "
-			"timestamp TEXT, "
-			"category INTEGER, "
-			"PRIMARY KEY(id), "
-			"FOREIGN KEY(category) REFERENCES bookmarkCategory(id));"
-		);
+		// m_database.execDML(
+		// 	"CREATE TABLE IF NOT EXISTS nodeBookmark("
+		// 	"id INTEGER NOT NULL, "
+		// 	"name TEXT, "
+		// 	"comment TEXT, "
+		// 	"timestamp TEXT, "
+		// 	"category INTEGER, "
+		// 	"PRIMARY KEY(id), "
+		// 	"FOREIGN KEY(category) REFERENCES bookmarkCategory(id));"
+		// );
 
-		m_database.execDML(
-			"CREATE TABLE IF NOT EXISTS edgeBookmark("
-			"id INTEGER NOT NULL, "
-			"name TEXT, "
-			"comment TEXT, "
-			"timestamp TEXT, "
-			"category INTEGER, "
-			"PRIMARY KEY(id), "
-			"FOREIGN KEY(category) REFERENCES bookmarkCategory(id));"
-		);
+		// m_database.execDML(
+		// 	"CREATE TABLE IF NOT EXISTS edgeBookmark("
+		// 	"id INTEGER NOT NULL, "
+		// 	"name TEXT, "
+		// 	"comment TEXT, "
+		// 	"timestamp TEXT, "
+		// 	"category INTEGER, "
+		// 	"PRIMARY KEY(id), "
+		// 	"FOREIGN KEY(category) REFERENCES bookmarkCategory(id));"
+		// );
 
-		m_database.execDML(
-			"CREATE TABLE IF NOT EXISTS nodeBookmarkToken("
-			"id INTEGER NOT NULL, "
-			"bookmarkId INTEGER NOT NULL, "
-			"name TEXT, "
-			"type INTEGER, "
-			"PRIMARY KEY(id), "
-			"FOREIGN KEY(bookmarkId) REFERENCES nodeBookmark(id) ON DELETE CASCADE);"
-		);
+		// m_database.execDML(
+		// 	"CREATE TABLE IF NOT EXISTS nodeBookmarkToken("
+		// 	"id INTEGER NOT NULL, "
+		// 	"bookmarkId INTEGER NOT NULL, "
+		// 	"name TEXT, "
+		// 	"type INTEGER, "
+		// 	"PRIMARY KEY(id), "
+		// 	"FOREIGN KEY(bookmarkId) REFERENCES nodeBookmark(id) ON DELETE CASCADE);"
+		// );
 
-		m_database.execDML(
-			"CREATE TABLE IF NOT EXISTS edgeBookmarkToken("
-			"id INTEGER NOT NULL, "
-			"bookmarkId INTEGER NOT NULL, "
-			"name TEXT, "
-			"type INTEGER, "
-			"PRIMARY KEY(id), "
-			"FOREIGN KEY(bookmarkId) REFERENCES edgeBookmark(id) ON DELETE CASCADE);"
-		);
+		// m_database.execDML(
+		// 	"CREATE TABLE IF NOT EXISTS edgeBookmarkToken("
+		// 	"id INTEGER NOT NULL, "
+		// 	"bookmarkId INTEGER NOT NULL, "
+		// 	"name TEXT, "
+		// 	"type INTEGER, "
+		// 	"PRIMARY KEY(id), "
+		// 	"FOREIGN KEY(bookmarkId) REFERENCES edgeBookmark(id) ON DELETE CASCADE);"
+		// );
 
-		m_database.execDML(
-			"CREATE TABLE IF NOT EXISTS edgeBaseBookmark("
-			"id INTEGER NOT NULL, "
-			"edgeId INTEGER, "
-			"PRIMARY KEY(id), "
-			"FOREIGN KEY(edgeId) REFERENCES edgeBookmark(id) ON DELETE CASCADE);"
-		);
+		// m_database.execDML(
+		// 	"CREATE TABLE IF NOT EXISTS edgeBaseBookmark("
+		// 	"id INTEGER NOT NULL, "
+		// 	"edgeId INTEGER, "
+		// 	"PRIMARY KEY(id), "
+		// 	"FOREIGN KEY(edgeId) REFERENCES edgeBookmark(id) ON DELETE CASCADE);"
+		// );
 
-		m_database.execDML(
-			"CREATE TABLE IF NOT EXISTS edgeBaseBookmarkToken("
-			"id INTEGER NOT NULL, "
-			"bookmarkId INTEGER NOT NULL, "
-			"name TEXT, "
-			"type INTEGER, "
-			"PRIMARY KEY(id), "
-			"FOREIGN KEY(bookmarkId) REFERENCES edgeBaseBookmark(id) ON DELETE CASCADE);"
-		);
+		// m_database.execDML(
+		// 	"CREATE TABLE IF NOT EXISTS edgeBaseBookmarkToken("
+		// 	"id INTEGER NOT NULL, "
+		// 	"bookmarkId INTEGER NOT NULL, "
+		// 	"name TEXT, "
+		// 	"type INTEGER, "
+		// 	"PRIMARY KEY(id), "
+		// 	"FOREIGN KEY(bookmarkId) REFERENCES edgeBaseBookmark(id) ON DELETE CASCADE);"
+		// );
 	}
 	catch (CppSQLite3Exception& e)
 	{
