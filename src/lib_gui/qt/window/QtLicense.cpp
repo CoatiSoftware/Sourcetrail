@@ -75,6 +75,7 @@ void QtLicense::populateWindow(QWidget* widget)
 
 	m_licenseText = new QTextEdit();
 	m_licenseText->setObjectName("licenseField");
+	m_licenseText->setAcceptRichText(false);
 	m_licenseText->setPlaceholderText(
 		"-----BEGIN LICENSE-----\n"
 		"Jane Doe\n"
