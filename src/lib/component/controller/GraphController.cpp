@@ -761,6 +761,7 @@ void GraphController::bundleNodes()
 				return data->isType(Node::NODE_FILE);
 			},
 			1,
+			false,
 			"Importing Files"
 		);
 	}
@@ -771,6 +772,7 @@ void GraphController::bundleNodes()
 			return !info.isDefined && info.isReferencing && !info.layoutVertical;
 		},
 		2,
+		true,
 		"Non-indexed Symbols"
 	);
 
@@ -780,6 +782,7 @@ void GraphController::bundleNodes()
 			return !info.isDefined && info.isReferenced && !info.layoutVertical;
 		},
 		2,
+		true,
 		"Non-indexed Symbols"
 	);
 
@@ -789,6 +792,7 @@ void GraphController::bundleNodes()
 			return info.isDefined && info.isReferenced && data->isType(Node::NODE_BUILTIN_TYPE);
 		},
 		3,
+		false,
 		"Built-in Types"
 	);
 
@@ -800,6 +804,7 @@ void GraphController::bundleNodes()
 				return info.isDefined && info.isReferencing && !info.layoutVertical;
 			},
 			10,
+			false,
 			"Referencing Symbols"
 		);
 
@@ -809,6 +814,7 @@ void GraphController::bundleNodes()
 				return info.isDefined && info.isReferenced && !info.layoutVertical;
 			},
 			10,
+			false,
 			"Referenced Symbols"
 		);
 	}
@@ -819,6 +825,7 @@ void GraphController::bundleNodes()
 			return info.isReferencing && info.layoutVertical;
 		},
 		5,
+		false,
 		"Derived Symbols"
 	);
 
@@ -828,14 +835,20 @@ void GraphController::bundleNodes()
 			return info.isReferenced && info.layoutVertical;
 		},
 		5,
+		false,
 		"Base Symbols"
 	);
 }
 
 void GraphController::bundleNodesAndEdgesMatching(
-	std::function<bool(const DummyNode::BundleInfo&, const Node* data)> matcher, size_t count, const std::string& name
+	std::function<bool(const DummyNode::BundleInfo&,
+	const Node* data)> matcher,
+	size_t count,
+	bool countConnectedNodes,
+	const std::string& name
 ){
 	std::vector<size_t> matchedNodeIndices;
+	size_t connectedNodeCount = 0;
 	for (size_t i = 0; i < m_dummyNodes.size(); i++)
 	{
 		const DummyNode* node = m_dummyNodes[i].get();
@@ -847,10 +860,16 @@ void GraphController::bundleNodesAndEdgesMatching(
 		if (matcher(node->bundleInfo, node->data))
 		{
 			matchedNodeIndices.push_back(i);
+
+			if (countConnectedNodes)
+			{
+				connectedNodeCount += node->getConnectedSubNodes().size();
+			}
 		}
 	}
 
-	if (!matchedNodeIndices.size() || matchedNodeIndices.size() < count || matchedNodeIndices.size() == m_dummyNodes.size())
+	size_t matchedNodeCount = countConnectedNodes ? connectedNodeCount : matchedNodeIndices.size();
+	if (!matchedNodeIndices.size() || matchedNodeCount < count || matchedNodeIndices.size() == m_dummyNodes.size())
 	{
 		return;
 	}
@@ -868,6 +887,11 @@ void GraphController::bundleNodesAndEdgesMatching(
 		bundleNode->bundledNodeCount += node->getBundledNodeCount();
 
 		m_dummyNodes.erase(m_dummyNodes.begin() + matchedNodeIndices[i]);
+	}
+
+	if (countConnectedNodes)
+	{
+		bundleNode->bundledNodeCount = connectedNodeCount;
 	}
 
 	DummyNode* firstNode = bundleNode->bundledNodes.begin()->get();

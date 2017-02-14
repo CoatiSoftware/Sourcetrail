@@ -84,7 +84,8 @@ private:
 
 	void bundleNodes();
 	void bundleNodesAndEdgesMatching(
-		std::function<bool(const DummyNode::BundleInfo&, const Node*)> matcher, size_t count, const std::string& name);
+		std::function<bool(const DummyNode::BundleInfo&, const Node*)> matcher, size_t count, bool countConnectedNodes,
+		const std::string& name);
 	std::shared_ptr<DummyNode> bundleNodesMatching(
 		std::list<std::shared_ptr<DummyNode>>& nodes, std::function<bool(const DummyNode*)> matcher, const std::string& name);
 	void bundleByType(std::list<std::shared_ptr<DummyNode>>& nodes, Node::NodeType type, const std::string& name);
