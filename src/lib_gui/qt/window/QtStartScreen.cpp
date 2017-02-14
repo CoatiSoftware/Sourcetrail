@@ -159,8 +159,9 @@ void QtStartScreen::setupStartScreen(bool unlocked)
 			col->addSpacing(4);
 
 			QLabel* welcomeLabel = new QLabel(
-				"Welcome to the <b>Coati trial</b>!<br /><br />"
-				"Explore our preindexed projects to experience Coati's unique user interface.<br /><br />"
+				"Welcome to the <b>Coati Trial</b>!<br /><br />"
+				"Explore our preindexed projects to experience Coati's unique user interface. "
+				"More projects are available for download <a href=\"http://coati.io/downloads#extra\" style=\"color: #007AC2;\">here</a>.<br /><br />"
 				"If you want to use Coati on your own source code please "
 				"<a href=\"http://coati.io/buy-license\" style=\"color: #007AC2;\">purchase a license</a>, "
 				"or ask us for a temporary test license by writing to <b>support@coati.io</b>.", this);
