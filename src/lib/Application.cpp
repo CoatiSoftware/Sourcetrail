@@ -40,7 +40,7 @@ void Application::createInstance(
 		s_instance->m_componentManager = ComponentManager::create(viewFactory, s_instance->m_storageCache.get());
 
 		s_instance->m_mainView = viewFactory->createMainView();
-		s_instance->m_mainView->setTitle("Coati");
+		s_instance->updateTitle();
 
 		s_instance->m_componentManager->setup(s_instance->m_mainView.get());
 		s_instance->m_mainView->loadLayout();
@@ -130,11 +130,6 @@ int Application::handleDialog(const std::string& message, const std::vector<std:
 	return getDialogView()->confirm(message, options);
 }
 
-void Application::setTitle(const std::string& title)
-{
-	m_mainView->setTitle(title);
-}
-
 bool Application::isInTrial() const
 {
 	return m_isInTrial;
@@ -156,7 +151,7 @@ void Application::createAndLoadProject(const FilePath& projectSettingsFilePath)
 		{
 			if (m_hasGUI)
 			{
-				setTitle("Coati - " + projectSettingsFilePath.fileName());
+				updateTitle();
 				m_mainView->hideStartScreen();
 			}
 		}
@@ -204,6 +199,8 @@ void Application::handleMessage(MessageEnteredLicense* message)
 	MessageStatus("Found valid license key, unlocked application.").dispatch();
 
 	m_isInTrial = false;
+
+	updateTitle();
 }
 
 void Application::handleMessage(MessageFinishedParsing* message)
@@ -340,4 +337,21 @@ void Application::logStorageStats() const
 	ss << "\t" << errorCount.fatal << " Fatal Errors\n";
 
 	LOG_INFO(ss.str());
+}
+
+void Application::updateTitle()
+{
+	std::string title = m_isInTrial ? "Coati Trial" : "Coati";
+
+	if (m_project)
+	{
+		FilePath projectPath = m_project->getProjectSettingsFilePath();
+
+		if (!projectPath.empty())
+		{
+			title += " - " + projectPath.fileName();
+		}
+	}
+
+	m_mainView->setTitle(title);
 }

@@ -52,8 +52,6 @@ public:
 	int handleDialog(const std::string& message);
 	int handleDialog(const std::string& message, const std::vector<std::string>& options);
 
-	void setTitle(const std::string& title);
-
 	bool isInTrial() const;
 
 private:
@@ -74,6 +72,8 @@ private:
 
 	DialogView* getDialogView() const;
 	void logStorageStats() const;
+
+	void updateTitle();
 
 	const bool m_hasGUI;
 	ProjectFactory m_projectFactory;
