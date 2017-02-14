@@ -168,7 +168,7 @@ bool CxxAstVisitor::checkIgnoresTypeLoc(const clang::TypeLoc& tl) const
 #define DEF_TRAVERSE_TYPE(__TYPE__, CODE_BEFORE, CODE_AFTER)									\
 	DEF_TRAVERSE_CUSTOM_TYPE(__TYPE__, __TYPE__, CODE_BEFORE, CODE_AFTER)
 
-DEF_TRAVERSE_TYPE_PTR(Decl, {}, {})
+DEF_TRAVERSE_TYPE_PTR(Decl, { ret = m_interruptCounter.getCount() == 0; }, {})
 
 DEF_TRAVERSE_TYPE_PTR(Stmt, {}, {})
 
