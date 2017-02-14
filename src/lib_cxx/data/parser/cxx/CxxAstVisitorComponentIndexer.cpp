@@ -531,6 +531,21 @@ void CxxAstVisitorComponentIndexer::visitMemberExpr(clang::MemberExpr* s)
 
 void CxxAstVisitorComponentIndexer::visitCXXConstructExpr(clang::CXXConstructExpr* s)
 {
+	const clang::CXXConstructorDecl* constructorDecl = s->getConstructor();
+
+	if (!constructorDecl)
+	{
+		return;
+	}
+	else
+	{
+		const clang::CXXRecordDecl* parentDecl = constructorDecl->getParent();
+		if (!parentDecl || parentDecl->isLambda())
+		{
+			return;
+		}
+	}
+
 	if (shouldVisitReference(s->getLocation(), getAstVisitor()->getComponent<CxxAstVisitorComponentContext>()->getTopmostContextDecl()))
 	{
 		//if (e->getParenOrBraceRange().isValid()) {
