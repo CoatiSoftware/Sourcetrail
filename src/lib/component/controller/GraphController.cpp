@@ -746,7 +746,9 @@ void GraphController::bundleNodes()
 	bool fileOrMacroActive = false;
 	for (std::shared_ptr<DummyNode> node : m_dummyNodes)
 	{
-		if (node->bundleInfo.isActive && node->data->isType(Node::NODE_FILE | Node::NODE_MACRO))
+		if (node->bundleInfo.isActive && (
+			node->data->isType(Node::NODE_FILE | Node::NODE_MACRO) ||
+			node->data->findEdgeOfType(Edge::EDGE_INCLUDE | Edge::EDGE_MACRO_USAGE) != nullptr))
 		{
 			fileOrMacroActive = true;
 			break;

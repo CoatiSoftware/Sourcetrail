@@ -357,7 +357,7 @@
 					<normal>transparent</normal>
 				</fill>
 				<text>
-					<normal>white</normal>
+					<normal>#777777</normal>
 				</text>
 			</text>
 		</node>
@@ -429,7 +429,7 @@
 		<hover>#878787</hover>
 		<text>#878787</text>
 	</tab>
-	
+
 	<bookmark>
 		<button>
 			<icon>black</icon>
@@ -437,5 +437,5 @@
 			<icon_hover>white</icon_hover>
 		</button>
 	</bookmark>
-	
+
 </config>
