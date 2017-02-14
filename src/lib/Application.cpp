@@ -167,7 +167,10 @@ void Application::createAndLoadProject(const FilePath& projectSettingsFilePath)
 		MessageStatus("Failed to load project, exception was thrown: " + projectSettingsFilePath.str(), true).dispatch();
 	}
 
-	m_componentManager->clearComponents();
+	if (m_hasGUI)
+	{
+		m_componentManager->clearComponents();
+	}
 }
 
 void Application::refreshProject(bool force)
@@ -341,17 +344,20 @@ void Application::logStorageStats() const
 
 void Application::updateTitle()
 {
-	std::string title = m_isInTrial ? "Coati Trial" : "Coati";
-
-	if (m_project)
+	if (m_hasGUI)
 	{
-		FilePath projectPath = m_project->getProjectSettingsFilePath();
+		std::string title = m_isInTrial ? "Coati Trial" : "Coati";
 
-		if (!projectPath.empty())
+		if (m_project)
 		{
-			title += " - " + projectPath.fileName();
-		}
-	}
+			FilePath projectPath = m_project->getProjectSettingsFilePath();
 
-	m_mainView->setTitle(title);
+			if (!projectPath.empty())
+			{
+				title += " - " + projectPath.fileName();
+			}
+		}
+
+		m_mainView->setTitle(title);
+	}
 }

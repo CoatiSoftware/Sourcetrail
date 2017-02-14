@@ -4,7 +4,7 @@
 
 set(LICENSES "")
 set(LICENSE_ARRAY "")
-set(LICENSEFOLDER "setup/3rdPartyLicenses")
+set(LICENSEFOLDER "${CMAKE_SOURCE_DIR}/bin/app/data/3rd_party_licenses")
 
 function(ReadLicense licenseFile licenseVariable)
     file(READ ${licenseFile} tempVariable)
@@ -20,17 +20,18 @@ function(AddLicense licenseName licenseURL licenseFile)
         set(LICENSE_ARRAY "${LICENSE_ARRAY}\n\tThirdPartyLicense(\"${licenseName}\", \"${licenseURL}\", ${licenseName}_license)," PARENT_SCOPE)
 endfunction(AddLicense)
 
-AddLicense("Qt" "http://qt.io" "${LICENSEFOLDER}/qt_LICENSE.TXT")
-AddLicense("Clang" "http://clang.llvm.org/" "${LICENSEFOLDER}/clang_LICENSE.TXT")
-AddLicense("Boost" "http://www.boost.org" "${LICENSEFOLDER}/boost_LICENSE.TXT")
-AddLicense("TinyXMl" "http://www.grinninglizard.com/tinyxml2/" "${LICENSEFOLDER}/tinyxml_LICENSE.TXT")
-AddLicense("CppSQLite" "http://www.codeproject.com/Articles/6343/CppSQLite-C-Wrapper-for-SQLite" "${LICENSEFOLDER}/CppSQLite_LICENSE.TXT")
-AddLicense("Botan" "http://botan.randombit.net/" "${LICENSEFOLDER}/botan_LICENSE.TXT")
-AddLicense("Guava" "https://github.com/google/guava" "${LICENSEFOLDER}/guava_LICENSE.TXT")
-AddLicense("Javaparser" "http://javaparser.org/" "${LICENSEFOLDER}/javaparser_LICENSE.TXT")
-AddLicense("Javaslang" "http://www.javaslang.io/" "${LICENSEFOLDER}/javaslang_LICENSE.TXT")
-AddLicense("Javassist" "http://www.javassist.org/" "${LICENSEFOLDER}/javassist_LICENSE.TXT")
-AddLicense("JavaSymbolSolver" "https://github.com/ftomassetti/java-symbol-solver" "${LICENSEFOLDER}/JavaSymbolSolver_LICENSE.TXT")
+
+AddLicense("Boost" "http://www.boost.org" "${LICENSEFOLDER}/license_boost.txt")
+AddLicense("Botan" "http://botan.randombit.net/" "${LICENSEFOLDER}/license_botan.txt")
+AddLicense("Clang" "http://clang.llvm.org/" "${LICENSEFOLDER}/license_clang.txt")
+AddLicense("CppSQLite" "http://www.codeproject.com/Articles/6343/CppSQLite-C-Wrapper-for-SQLite" "${LICENSEFOLDER}/license_cpp_sqlite.txt")
+AddLicense("Guava" "https://github.com/google/guava" "${LICENSEFOLDER}/license_guava.txt")
+AddLicense("JavaSymbolSolver" "https://github.com/ftomassetti/java-symbol-solver" "${LICENSEFOLDER}/license_java_symbol_solver.txt")
+AddLicense("Javaparser" "http://javaparser.org/" "${LICENSEFOLDER}/license_javaparser.txt")
+AddLicense("Javaslang" "http://www.javaslang.io/" "${LICENSEFOLDER}/license_javaslang.txt")
+AddLicense("Javassist" "http://www.javassist.org/" "${LICENSEFOLDER}/license_javassist.txt")
+AddLicense("Qt" "http://qt.io" "${LICENSEFOLDER}/license_qt.txt")
+AddLicense("TinyXMl" "http://www.grinninglizard.com/tinyxml2/" "${LICENSEFOLDER}/license_tinyxml.txt")
 
 set(LICENSE_ARRAY "${LICENSE_ARRAY}\n")
 

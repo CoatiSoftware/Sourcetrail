@@ -1,72 +1,97 @@
 ﻿Coati
-Software License Agreement
-Effective 1.1.2016
+Software License Agreement (“Agreement”)
+Effective 15.2.2017
 
 BY INSTALLING OR USING THIS SOFTWARE, YOU ARE BECOMING A PARTY TO, AND ARE CONSENTING TO BE BOUND BY, THIS AGREEMENT. IF YOU DO NOT AGREE TO ALL OF THE TERMS OF THIS AGREEMENT, DO NOT INSTALL OR USE THIS SOFTWARE.
 
+
 DEFINITIONS
+
 "Software" means:
-·0 A major version of Coati in executable form. The major version is defined by the leading number of the version string (e.g. the major version of Coati 1.x.x.x is version 1);
-·1 documentation for that major version of Coati;
-·2 minor updates included in software maintenance which are indicated by an increase in the numbers that follow the major version number (e.g. the update from Coati 1.0.0.0 to Coati 1.0.1.4).
+•	A major version of Coati in executable form. The major version is defined by the leading number of the version string (e.g. the major version of Coati 1.x.x is version 1);
+•	documentation for that major version of Coati;
+•	minor updates included in software maintenance which are indicated by an increase in the numbers that follow the major version number (e.g. the update from Coati 1.0.0 to Coati 1.1.0).
 "Licensor" means:
-·3 Coati Software OG, having a place of business at Schlossallee 7/1, 5412 Puch/Hallein, Austria.
+•	Coati Software OG, having a place of business at Jakob-Haringer-Straße 1/127, 5020 Salzburg, Austria.
 "Licensee" means:
-·4 the individual evaluating the trial version of the Software;
-·5 the company, corporation, or organization that purchased a License(s) for the Software;
-·6 the individual who purchased a License for the Software.
-"Activation Key" means:
-·7 the name of the Licensee, the kind of license, the major version of the software that is licensed, and a hashcode; the combination of these values allows the Licensee to activate a genuine copy of the Software.
+•	the individual who purchased a License(s) for the Software; 
+•	the individual who was granted a Test License(s) for the Software;
+•	the individual evaluating the Software in trial mode; 
+•	the company, corporation, or organization that purchased a License(s) for the Software;
+•	the company, corporation, or organization that was granted a Test License(s) for the Software.
+"Activation Key" means: 
+•	the name of the Licensee, the kind of license, the major version of the Software that is licensed, and a hash-code; the combination of these values allows the Licensee to activate the full functionality of a genuine copy of the Software.
 "Authorized User" means:
-·8 the individual evaluating the Software during a trial;
-·9 an employee or independent contractor who might at any time use the Software, of the company, corporation, or organization that purchased a License(s) for the Software; an entity has one Authorized User for each License purchased;
-·10 the individual who purchased a License for the Software; the individual is the only Authorized User.
+•	the individual who purchased a License(s) for the Software; the individual is the only Authorized User;
+•	the individual who was granted a Test License(s) for the Software;  the individual is the only Authorized User;
+•	the individual evaluating the Software in trial mode; 
+•	an employee or independent contractor who might at any time use the Software, of the company, corporation, or organization that purchased a License(s) for the Software; an entity has one Authorized User for each License purchased; 
+•	an employee or independent contractor who might at any time use the Software, of the company, corporation, or organization was granted a Test License(s) for the Software; an entity has one Authorized User for each License purchased.
+
 
 GRANT
-·11 Subject to the terms of this Agreement, the Licensor hereby grants the Licensee a non-transferable, non-exclusive, non-sub-licensable, limited license that allows:
-·12 the Licensee to distribute (an) Activation Key(s) to Authorized User(s);
-·13 Authorized User(s) to install the licensed version of the Software on computer PCs where potential use of the Software is restricted exclusively to Authorized User(s);
-·14 Authorized User(s) to use the Software on computer PCs, in virtual machines, in combination with multiple IDEs, and in combination with multiple instances of an IDE;
-·15 Authorized User(s) to use the trial version of the software in order to examine the provided example projects;
-·16 Licensee to make a copy of the Software for archival purposes provided the copy contains all of the proprietary notices of the Software.
-·17 In case the Licensee of the software is a company, corporation, or organization the Licensor has the right to mention this usage of the Software on its own website.
+
+Subject to the terms of this Agreement, the Licensor hereby grants the Licensee a non-transferable, non-exclusive, non-sub-licensable, limited license that allows:
+•	the Licensee to distribute (an) Activation Key(s) to Authorized User(s);
+•	Authorized User(s) to install the licensed version of the Software on computer PCs where potential use of the Software is restricted exclusively to Authorized User(s);
+•	Authorized User(s) to use the Software on computer PCs and in virtual machines.
+•	Licensee to make a copy of the Software for archival purposes provided the copy contains all of the proprietary notices of the Software.
+•	In case the Licensee of the software is a company, corporation, or organization the Licensor has the right to mention this usage of the Software on its own website.
+
 
 RESTRICTIONS
+
 Licensee will not, and will have no right to:
-·18 use the trial version of the software in order to examine project other than the provided examples;
-·19 use a private/academic license of the software for any commercial purposes;
-·20 distribute, use, or transfer an Activation Key(s) that has been superseded by an Activation Key(s) provided with software maintenance;
-·21 modify, translate, reverse engineer, decompile, disassemble (except to the extent applicable laws specifically prohibit such restriction), create derivative works based on, or otherwise attempt to discover the source code or underlying ideas or algorithms of the Software;
-·22 sell, rent, lease, distribute, or otherwise transfer rights to the Software without prior written consent from Licensor;
-·23 remove any proprietary notices or labels from the Software.
+•	distribute, use, or transfer an Activation Key(s) that has been superseded by an Activation Key(s) provided with software maintenance;
+•	modify, translate, reverse engineer, decompile, disassemble (except to the extent applicable laws specifically prohibit such restriction), create derivative works based on, or otherwise attempt to discover the source code or underlying ideas or algorithms of the Software;
+•	sell, rent, lease, distribute, or otherwise transfer rights to the Software without prior written consent from Licensor;
+•	remove any proprietary notices or labels from the Software.
+Authorized User(s) will not, and will have no right to:
+•	use the trial mode of the Software for any commercial purposes; 
+•	use a Private/Academic License of the software for any commercial purposes.
+
 
 TITLE AND COPYRIGHT
+
 Title, ownership rights, intellectual property rights, and copyright to the Software, and any copies or portions thereof, shall remain in Licensor. The Software is protected by European copyright directives, Austrian copyright laws as well as United States copyright laws and international treaty provisions.
 
+
 DISCLAIMER OF WARRANTY
+
 THE SOFTWARE IS PROVIDED AS IS, WITHOUT WARRANTY OF ANY KIND. LICENSOR HEREBY DISCLAIMS ALL EXPRESS OR IMPLIED WARRANTIES, INCLUDING WITHOUT LIMITATION WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, AND NON-INFRINGEMENT. THIS DISCLAIMER OF WARRANTY CONSTITUTES AN ESSENTIAL PART OF THIS AGREEMENT. SOME U.S. STATES DO NOT ALLOW EXCLUSIONS OF AN IMPLIED WARRANTY, SO THIS DISCLAIMER MAY NOT APPLY TO LICENSEE. LICENSEE MAY HAVE OTHER LEGAL RIGHTS THAT VARY FROM STATE TO STATE OR BY JURISDICTION.
 
+
 LIMITATION OF LIABILITY
+
 LICENSEE ASSUMES THE ENTIRE RISK AS TO THE QUALITY AND PERFORMANCE OF THE SOFTWARE. LICENSOR ASSUMES NO LIABILITY FOR THE COST OF ANY SERVICE OR REPAIR IF THE SOFTWARE IS DEFECTIVE. UNDER NO CIRCUMSTANCES AND UNDER NO LEGAL THEORY, TORT, CONTRACT, STRICT LIABILITY, OR OTHERWISE, SHALL LICENSOR, OR ITS LICENSORS, SUPPLIERS OR RESELLERS, BE LIABLE TO LICENSEE OR ANY OTHER PERSON FOR ANY INDIRECT, SPECIAL, INCIDENTAL, OR CONSEQUENTIAL DAMAGES OF ANY CHARACTER INCLUDING, WITHOUT LIMITATION, DAMAGES FOR LOST PROFITS, LOSS OF GOODWILL, WORK STOPPAGE, COMPUTER FAILURE OR MALFUNCTION, OR ANY AND ALL OTHER COMMERCIAL DAMAGES OR LOSSES. IN NO EVENT WILL LICENSOR BE LIABLE FOR ANY DAMAGES IN EXCESS OF THE MONEY PAID FOR THE SOFTWARE, EVEN IF LICENSOR SHALL HAVE BEEN INFORMED OF THE POSSIBILITY OF SUCH DAMAGES, OR FOR ANY CLAIM BY ANY OTHER PARTY. THIS LIMITATION OF LIABILITY SHALL NOT APPLY TO LIABILITY FOR DEATH OR PERSONAL INJURY TO THE EXTENT APPLICABLE LAW PROHIBITS SUCH LIMITATION. FURTHERMORE, SOME U.S. STATES DO NOT ALLOW THE EXCLUSION OR LIMITATION OF INCIDENTAL OR CONSEQUENTIAL DAMAGES, SO THIS LIMITATION AND EXCLUSION MAY NOT APPLY TO LICENSEE.
 
+
 TERMINATION
+
 The license granted herein shall be perpetual. If Licensee fails to comply with any of the terms of this Agreement, this Agreement and the rights granted herein will terminate immediately. Licensor may, at its sole discretion and at any time, terminate this Agreement. On termination, Licensee must cease using and destroy all copies of the Software.
 
+
 EXPORT CONTROLS
+
 Licensee shall comply with all export laws, restrictions and regulations of the United States, the Directive 2009/428/EC of the European Parliament and of the Council and the Austrian Außenwirtschaftsgesetz 2011, BGBl I No. 26/2011. Licensee shall not export, re-export or otherwise transfer the Software to any country for which the United States or the European Union or Austria maintains an embargo, or to any person or entity on the U.S. Department of Treasury List of Specially Designated Nationals or the U.S. Department of Commerce Denied Persons List or Entity List. Licensee represents and warrants that licensee is not located in, under the control of, or a national or resident of any restricted country or on any such list.
 
+
 THIRD PARTY CREDITS
-Portions of the Software utilize or include third party software and other copyrighted materials. Credits, licensing terms, and disclaimers for such materials are contained in the installation directory for the Software, and are accessible via the “Licenses” dialog for the Software. Licensee agrees that use of such copyrighted materials is governed by their respective terms.
+
+Portions of the Software utilize or include third party software and other copyrighted materials. Credits, licensing terms, and disclaimers for such materials are contained in the installation directory for the Software, and are accessible via the “3rd Party Licenses” dialog for the Software. Licensee agrees that use of such copyrighted materials is governed by their respective terms.
+
 
 ENTIRE AGREEMENT
-This Agreement represents the complete agreement concerning this license between the parties and supersedes all prior agreements and representations between them. It may be amended only in writing executed by both parties. Coati Software OG reserves the exclusive right to periodically update this EULA at its discretion at any time, with reasonable notice to you by posting the new EULA at the following URL: http://www.coati.io/. Any action arising out of or relating to this Agreement may be brought exclusively in Salzburg, Austria, and Coati Software OG and you irrevocably consent to the jurisdiction of such courts and venue in Salzburg, Austria.
+
+This Agreement represents the complete agreement concerning this Software between the parties and supersedes all prior agreements and representations between them. It may be amended only in writing executed by both parties. Coati Software OG reserves the exclusive right to periodically update this Agreement at its discretion at any time, with reasonable notice to you by posting the new Agreement at the following URL: <http://www.coati.io/>. Any action arising out of or relating to this Agreement may be brought exclusively in Salzburg, Austria, and Coati Software OG and you irrevocably consent to the jurisdiction of such courts and venue in Salzburg, Austria.
+
 
 CONTACT
+
 If you have questions regarding this agreement, contact:
 Coati Software OG
-Schlossallee 7/1
-5412 Puch/Hallein
+Jakob-Haringer-Straße 1/127
+5020 Salzburg
 Austria
+
 support@coati.io
-
-
