@@ -3,6 +3,9 @@
 #include <QMessageBox>
 #include <QPushButton>
 
+#include "utility/ResourcePaths.h"
+
+#include "qt/element/QtIconButton.h"
 #include "qt/element/QtLocationPicker.h"
 #include "settings/CxxProjectSettings.h"
 
@@ -59,9 +62,9 @@ void QtProjectWizzardContentBuildFile::populate(QGridLayout* layout, int& row)
 	m_picker->setFileFilter(filter);
 	m_picker->setRelativeRootDirectory(m_settings->getProjectFileLocation());
 
-	QPushButton* button = new QPushButton("", this);
-	button->setObjectName("refreshButton");
-	button->setAttribute(Qt::WA_LayoutUsesWidgetRect); // fixes layouting on Mac
+	QPushButton* button = new QtIconButton(
+		(ResourcePaths::getGuiPath() + "window/refresh.png").c_str(),
+		(ResourcePaths::getGuiPath() + "window/refresh_hover.png").c_str());
 	button->setToolTip("refresh paths");
 	connect(button, SIGNAL(clicked()), this, SLOT(refreshClicked()));
 

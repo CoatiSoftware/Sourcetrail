@@ -7,6 +7,10 @@
 #include <QPainter>
 #include <QStyleOption>
 
+#include "utility/ResourcePaths.h"
+
+#include "qt/element/QtIconButton.h"
+
 QtLocationPicker::QtLocationPicker(QWidget *parent)
 	: QWidget(parent)
 	, m_pickDirectory(false)
@@ -23,10 +27,11 @@ QtLocationPicker::QtLocationPicker(QWidget *parent)
 	m_data->setObjectName("locationField");
 	layout->addWidget(m_data);
 
-	m_button = new QPushButton("");
+	m_button = new QtIconButton(
+		(ResourcePaths::getGuiPath() + "window/dots.png").c_str(),
+		(ResourcePaths::getGuiPath() + "window/dots_hover.png").c_str());
 	m_button->setObjectName("dotsButton");
 	m_button->setToolTip("pick file");
-	m_button->setAttribute(Qt::WA_LayoutUsesWidgetRect); // fixes layouting on Mac
 	connect(m_button, SIGNAL(clicked()), this, SLOT(handleButtonPress()));
 	layout->addWidget(m_button);
 

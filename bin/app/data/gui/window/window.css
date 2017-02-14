@@ -63,35 +63,16 @@ QLabel, QCheckBox {
 	background: transparent;
 }
 
-#helpButton, #dotsButton, #refreshButton {
+#iconButton, #dotsButton {
 	border: none;
 	color: white;
 	height: 1em;
 	width: 1em;
-}
-
-#helpButton {
-	border-image: url(<setting:gui_path>window/help.png);
-}
-
-#helpButton:hover {
-	border-image: url(<setting:gui_path>window/help_hover.png);
+	padding: 1px;
 }
 
 #dotsButton {
-	border-image: url(<setting:gui_path>window/dots.png);
-}
-
-#dotsButton:hover {
-	border-image: url(<setting:gui_path>window/dots_hover.png);
-}
-
-#refreshButton {
-	border-image: url(<setting:gui_path>window/refresh.png);
-}
-
-#refreshButton:hover {
-	border-image: url(<setting:gui_path>window/refresh_hover.png);
+	margin-right: 2px;
 }
 
 #name, #picker {
@@ -117,10 +98,6 @@ QLabel, QCheckBox {
 
 #locationField:enabled {
 	color: black;
-}
-
-#dotsButton, #refreshButton {
-	margin-right: 2px;
 }
 
 #windowButton {

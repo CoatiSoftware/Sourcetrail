@@ -3,17 +3,17 @@
 
 #include <QGridLayout>
 #include <QLabel>
-#include <QPushButton>
 #include <QToolButton>
 #include <QWidget>
 
+#include "qt/element/QtIconButton.h"
 #include "qt/window/project_wizzard/QtProjectWizzardWindow.h"
 #include "settings/ProjectSettings.h"
 
 class QtTextEditDialog;
 
 class QtHelpButton
-	: public QPushButton
+	: public QtIconButton
 {
 	Q_OBJECT
 

@@ -3,16 +3,23 @@
 #include <QMessageBox>
 
 #include "qt/window/QtTextEditDialog.h"
+#include "utility/ResourcePaths.h"
 #include "utility/utilityString.h"
 
 QtHelpButton::QtHelpButton(const QString& helpText, QWidget* parent)
-	: QPushButton("", parent)
+	: QtIconButton(
+		(ResourcePaths::getGuiPath() + "window/help.png").c_str(),
+		(ResourcePaths::getGuiPath() + "window/help_hover.png").c_str(),
+		parent)
 	, m_helpText(helpText)
 {
 	setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
 	setAttribute(Qt::WA_LayoutUsesWidgetRect); // fixes layouting on Mac
-	setObjectName("helpButton");
+	setMouseTracking(true);
+
 	setToolTip("help");
+
+	leaveEvent(nullptr);
 
 	connect(this, SIGNAL(clicked()), this, SLOT(handleHelpPress()));
 }

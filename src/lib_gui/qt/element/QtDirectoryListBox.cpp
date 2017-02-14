@@ -11,6 +11,7 @@
 #include "utility/ResourcePaths.h"
 #include "utility/utilityString.h"
 
+#include "qt/element/QtIconButton.h"
 #include "qt/utility/utilityQt.h"
 #include "qt/window/QtTextEditDialog.h"
 
@@ -29,8 +30,9 @@ QtListItemWidget::QtListItemWidget(QtDirectoryListBox* list, QListWidgetItem* it
 	m_data->setAttribute(Qt::WA_LayoutUsesWidgetRect); // fixes layouting on Mac
 	m_data->setObjectName("field");
 
-	m_button = new QPushButton("");
-	m_button->setAttribute(Qt::WA_LayoutUsesWidgetRect); // fixes layouting on Mac
+	m_button = new QtIconButton(
+		(ResourcePaths::getGuiPath() + "window/dots.png").c_str(),
+		(ResourcePaths::getGuiPath() + "window/dots_hover.png").c_str());
 	m_button->setObjectName("dotsButton");
 
 	layout->addWidget(m_data);
@@ -138,19 +140,19 @@ QtDirectoryListBox::QtDirectoryListBox(QWidget *parent, const QString& listName,
 	buttonContainer->setObjectName("bar");
 
 	QHBoxLayout* innerLayout = new QHBoxLayout();
-	innerLayout->setContentsMargins(8, 4, 8, 3);
+	innerLayout->setContentsMargins(8, 4, 8, 2);
 	innerLayout->setSpacing(0);
 
-	m_addButton = new QPushButton("", this);
-	m_addButton->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
-	m_addButton->setAttribute(Qt::WA_LayoutUsesWidgetRect); // fixes layouting on Mac
+	m_addButton = new QtIconButton(
+		(ResourcePaths::getGuiPath() + "window/plus.png").c_str(),
+		(ResourcePaths::getGuiPath() + "window/plus_hover.png").c_str());
 	m_addButton->setObjectName("plusButton");
 	m_addButton->setToolTip("add line");
 	innerLayout->addWidget(m_addButton);
 
-	m_removeButton = new QPushButton("", this);
-	m_removeButton->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
-	m_removeButton->setAttribute(Qt::WA_LayoutUsesWidgetRect); // fixes layouting on Mac
+	m_removeButton = new QtIconButton(
+		(ResourcePaths::getGuiPath() + "window/minus.png").c_str(),
+		(ResourcePaths::getGuiPath() + "window/minus_hover.png").c_str());
 	m_removeButton->setObjectName("minusButton");
 	m_removeButton->setToolTip("remove line");
 	innerLayout->addWidget(m_removeButton);
@@ -163,9 +165,9 @@ QtDirectoryListBox::QtDirectoryListBox(QWidget *parent, const QString& listName,
 	dropInfoText->setAlignment(Qt::AlignRight);
 	innerLayout->addWidget(dropInfoText);
 
-	QPushButton* editButton = new QPushButton("", this);
-	editButton->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
-	editButton->setAttribute(Qt::WA_LayoutUsesWidgetRect); // fixes layouting on Mac
+	QPushButton* editButton = new QtIconButton(
+		(ResourcePaths::getGuiPath() + "code_view/images/edit.png").c_str(),
+		QString());
 	editButton->setObjectName("editButton");
 	editButton->setToolTip("edit plain text");
 	innerLayout->addWidget(editButton);
