@@ -1,0 +1,36 @@
+Coati
+=====
+
+Usage
+-----
+
+run coati.sh script to start the application.
+
+Install
+-------
+
+in the setup folder is a install script that will coati install to /opt/coati
+root permission are required to run this script
+
+
+Configfiles
+-----------
+
+Coati places configfiles at ~/.config/coati
+
+Documentation
+-------------
+
+documentation is available at http://coati.io/documentation/
+
+Website
+-------
+
+http://www.coati.io/
+
+Reporting a bug
+---------------
+
+To report a bug go to https://github.com/CoatiSoftware/CoatiBugTracker/issues
+or write a email to support@coati.io
+

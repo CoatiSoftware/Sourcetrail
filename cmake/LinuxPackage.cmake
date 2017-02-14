@@ -138,6 +138,12 @@ INSTALL(DIRECTORY
 )
 
 INSTALL(FILES
+	${CMAKE_SOURCE_DIR}/setup/Linux/README
+	DESTINATION Coati
+	COMPONENT FULL
+)
+
+INSTALL(FILES
 	${CMAKE_SOURCE_DIR}/setup/Linux/coati.desktop
 	${CMAKE_SOURCE_DIR}/setup/Linux/coati-mime.xml
 	DESTINATION Coati/setup
