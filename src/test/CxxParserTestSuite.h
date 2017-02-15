@@ -1274,7 +1274,6 @@ public:
 ///////////////////////////////////////////////////////////////////////////////
 // test finding usages of symbols
 
-
 	void test_cxx_parser_finds_enum_usage_in_template_class()
 	{
 		std::shared_ptr<TestParserClient> client = parseCode(
@@ -1598,9 +1597,6 @@ public:
 	{
 		std::shared_ptr<TestParserClient> client = parseCode(
 			"using namespace std;\n"
-			"void foo()\n"
-			"{\n"
-			"}\n"
 		);
 
 		TS_ASSERT(utility::containsElement<std::string>(
