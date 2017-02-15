@@ -305,7 +305,7 @@ void GraphController::createDummyGraphForTokenIds(const std::vector<Id>& tokenId
 			}
 			addedNodes.insert(id);
 
-			dummyNodes.push_back(createDummyNodeTopDown(parent, parent->getId()));
+			utility::append(dummyNodes, createDummyNodeTopDown(parent));
 		}
 	);
 
@@ -368,16 +368,32 @@ void GraphController::createDummyGraphForTokenIdsAndSetActiveAndVisibility(
 	setVisibility(noActive);
 }
 
-std::shared_ptr<DummyNode> GraphController::createDummyNodeTopDown(Node* node, Id parentId)
+std::vector<std::shared_ptr<DummyNode>> GraphController::createDummyNodeTopDown(Node* node)
 {
+	std::vector<std::shared_ptr<DummyNode>> nodes;
+
 	std::shared_ptr<DummyNode> result = std::make_shared<DummyNode>();
 	result->data = node;
 	result->tokenId = node->getId();
 	result->name = node->getName();
-	result->topLevelAncestorId = parentId;
+
+	m_dummyGraphNodes.emplace(result->data->getId(), result);
+	nodes.push_back(result);
+
+	if (node->isType(Node::NODE_NAMESPACE))
+	{
+		node->forEachChildNode(
+			[&nodes, this](Node* child)
+			{
+				utility::append(nodes, createDummyNodeTopDown(child));
+			}
+		);
+
+		return nodes;
+	}
 
 	node->forEachChildNode(
-		[node, &parentId, &result, this](Node* child)
+		[node, &result, this](Node* child)
 		{
 			DummyNode* parent = nullptr;
 			AccessKind accessKind = ACCESS_NONE;
@@ -406,13 +422,11 @@ std::shared_ptr<DummyNode> GraphController::createDummyNodeTopDown(Node* node, I
 				parent = accessNode.get();
 			}
 
-			parent->subNodes.push_back(createDummyNodeTopDown(child, parentId));
+			utility::append(parent->subNodes, createDummyNodeTopDown(child));
 		}
 	);
 
-	m_dummyGraphNodes.emplace(result->data->getId(), result);
-
-	return result;
+	return nodes;
 }
 
 std::vector<Id> GraphController::getExpandedNodeIds() const

@@ -68,7 +68,7 @@ private:
 	void createDummyGraphForTokenIds(const std::vector<Id>& tokenIds, const std::shared_ptr<Graph> graph);
 	void createDummyGraphForTokenIdsAndSetActiveAndVisibility(
 		const std::vector<Id>& tokenIds, const std::shared_ptr<Graph> graph);
-	std::shared_ptr<DummyNode> createDummyNodeTopDown(Node* node, Id parentId);
+	std::vector<std::shared_ptr<DummyNode>> createDummyNodeTopDown(Node* node);
 
 	std::vector<Id> getExpandedNodeIds() const;
 	void setExpandedNodeIds(const std::vector<Id>& nodeIds);

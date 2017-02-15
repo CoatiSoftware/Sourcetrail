@@ -11,7 +11,6 @@
 #include "qt/window/QtWindowStack.h"
 
 class QDockWidget;
-class QtSettingsWindow;
 class View;
 
 class QtViewToggle

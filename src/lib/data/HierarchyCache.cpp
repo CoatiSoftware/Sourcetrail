@@ -173,7 +173,7 @@ size_t HierarchyCache::getIndexOfLastVisibleParentNode(Id nodeId) const
 void HierarchyCache::addAllChildIdsForNodeId(Id nodeId, std::set<Id>* nodeIds, std::set<Id>* edgeIds) const
 {
 	HierarchyNode* node = getNode(nodeId);
-	if (node)
+	if (node && node->isVisible())
 	{
 		node->addChildIdsRecursive(nodeIds, edgeIds);
 	}
@@ -182,7 +182,7 @@ void HierarchyCache::addAllChildIdsForNodeId(Id nodeId, std::set<Id>* nodeIds, s
 void HierarchyCache::addAllVisibleParentsAndChildIdsForNodeId(Id nodeId, std::set<Id>* nodeIds, std::set<Id>* edgeIds) const
 {
 	HierarchyNode* node = getNode(nodeId);
-	if (node)
+	if (node && node->isVisible())
 	{
 		node->addChildIds(nodeIds, edgeIds);
 	}
