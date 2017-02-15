@@ -258,7 +258,7 @@ public:
 		);
 
 		TS_ASSERT(utility::containsElement<std::string>(
-			client->namespaces, "anonymous namespace (input.cc<1:1>) <1:1 3:1>"
+			client->namespaces, "anonymous namespace (input.cc<1:1>) <1:1 <2:1 2:1> 3:1>"
 		));
 	}
 

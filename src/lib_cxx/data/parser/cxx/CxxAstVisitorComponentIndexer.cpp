@@ -312,7 +312,7 @@ void CxxAstVisitorComponentIndexer::visitNamespaceDecl(clang::NamespaceDecl* d)
 		m_client->recordSymbol(
 			getAstVisitor()->getDeclNameCache()->getValue(d),
 			SYMBOL_NAMESPACE,
-			d->isAnonymousNamespace() ? ParseLocation() : getParseLocation(d->getLocation()),
+			getParseLocation(d->getLocation()),
 			getParseLocation(d->getSourceRange()),
 			utility::convertAccessSpecifier(d->getAccess()),
 			utility::isImplicit(d) ? DEFINITION_IMPLICIT : DEFINITION_EXPLICIT
