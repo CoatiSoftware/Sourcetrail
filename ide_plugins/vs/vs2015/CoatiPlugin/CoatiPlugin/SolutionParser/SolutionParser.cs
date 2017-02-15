@@ -85,59 +85,73 @@ namespace CoatiSoftware.CoatiPlugin.SolutionParser
             List<string> includeDirectories = new List<string>();
             List<string> preprocessorDefinitions = new List<string>();
 
-            IEnumerable configurations = project.Configurations as IEnumerable;
-
-            VCConfiguration vcProjectConfig = GetProjectConfiguration(project, configurationName, platformName);
+            VCConfiguration vcProjectConfig = null;
+            try
+            {
+                vcProjectConfig = GetProjectConfiguration(project, configurationName, platformName);
+            }
+            catch(Exception e)
+            {
+                Logging.Logging.LogError("Failed to retreive project configuration: " + e.Message);
+            }
 
             if (vcProjectConfig != null)
             {
-                // get additional include directories
-                // source: http://www.mztools.com/articles/2014/MZ2014005.aspx
-                IEnumerable projectTools = vcProjectConfig.Tools as IEnumerable;
-                foreach (Object tool in projectTools)
+                try
                 {
-                    VCCLCompilerTool compilerTool = tool as VCCLCompilerTool;
-
-                    if (compilerTool != null)
+                    // get additional include directories
+                    // source: http://www.mztools.com/articles/2014/MZ2014005.aspx
+                    IEnumerable projectTools = vcProjectConfig.Tools as IEnumerable;
+                    foreach (Object tool in projectTools)
                     {
-                        string additionalIncludeDirs = compilerTool.FullIncludePath;
-                        string preprocessorDefinition = compilerTool.PreprocessorDefinitions;
+                        VCCLCompilerTool compilerTool = tool as VCCLCompilerTool;
 
-                        string[] prepDefs = preprocessorDefinition.Split(';');
-
-                        foreach (string prepDef in prepDefs)
+                        if (compilerTool != null)
                         {
-                            preprocessorDefinitions.Add(prepDef);
-                        }
+                            string additionalIncludeDirs = compilerTool.FullIncludePath;
+                            string preprocessorDefinition = compilerTool.PreprocessorDefinitions;
 
-                        string[] directories = additionalIncludeDirs.Split(';');
+                            string[] prepDefs = preprocessorDefinition.Split(';');
 
-                        foreach (string directory in directories)
-                        {
-                            if (directory.Length <= 0)
+                            foreach (string prepDef in prepDefs)
                             {
-                                continue;
+                                preprocessorDefinitions.Add(prepDef);
                             }
 
-                            string dir = directory;
+                            string[] directories = additionalIncludeDirs.Split(';');
 
-                            // In case of a project-relative path
-                            if(directory.Length > 0 && directory.Substring(0, 1) == ".")
+                            foreach (string directory in directories)
                             {
-                                dir = project.ProjectDirectory + directory;
+                                if (directory.Length <= 0)
+                                {
+                                    continue;
+                                }
+
+                                string dir = directory;
+
+                                // In case of a project-relative path
+                                if (directory.Length > 0 && directory.Substring(0, 1) == ".")
+                                {
+                                    dir = project.ProjectDirectory + directory;
+                                }
+
+                                // make it canonical
+                                dir = new Uri(dir).LocalPath;
+
+                                includeDirectories.Add(dir);
                             }
 
-                            // make it canonical
-                            dir = new Uri(dir).LocalPath;
-
-                            includeDirectories.Add(directory);
+                            break; // TODO: find some documentation on why the break is needed
+                                   // Apparently only the first 'tool' is needed, but why?
                         }
-
-                        break; // TODO: find some documentation on why the break is needed
-                               // Apparently only the first 'tool' is needed, but why?
                     }
                 }
-
+                catch(Exception e)
+                {
+                    Logging.Logging.LogError("Failed to retreive include directories: " + e.Message);
+                    return new Tuple<List<string>, List<string>>(new List<string>(), new List<string>());
+                }
+                
                 try
                 {
                     VCPlatform platform = vcProjectConfig.Platform as VCPlatform;
@@ -217,6 +231,8 @@ namespace CoatiSoftware.CoatiPlugin.SolutionParser
 
         static private VCConfiguration GetProjectConfiguration(VCProject project, string configurationName, string platformName)
         {
+            Logging.Logging.LogInfo("Attempting to retreive project configuration");
+
             if (project == null)
             {
                 return null;

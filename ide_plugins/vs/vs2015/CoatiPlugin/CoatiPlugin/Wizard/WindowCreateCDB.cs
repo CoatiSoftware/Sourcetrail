@@ -192,7 +192,7 @@ namespace CoatiSoftware.CoatiPlugin.Wizard
                 {
                     string projectName = project.Name;
 
-                    Logging.Logging.LogInfo("Scheduling " + projectName + " for parsing.");
+                    Logging.Logging.LogInfo("Scheduling " + Logging.Obfuscation.NameObfuscator.GetObfuscatedName(projectName) + " for parsing.");
 
                     Task t = factory.StartNew(() =>
                     {

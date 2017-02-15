@@ -20,11 +20,16 @@ namespace CoatiSoftware.CoatiPlugin.Utility
             Refresh();
         }
 
-        public void Append(SolutionParser.CompilationDatabase cdb)
+        public void AppendOrUpdate(SolutionParser.CompilationDatabase cdb)
         {
             if(_cdbs.Exists(item => item.Name == cdb.Name && item.Directory == cdb.Directory) == false)
             {
                 _cdbs.Add(cdb);
+            }
+            else
+            {
+                int idx = _cdbs.FindIndex(item => item.Name == cdb.Name && item.Directory == cdb.Directory);
+                _cdbs[idx] = cdb;
             }
         }
 
@@ -71,7 +76,7 @@ namespace CoatiSoftware.CoatiPlugin.Utility
                 System.DateTime youngest = System.DateTime.MinValue;
                 foreach (SolutionParser.CompilationDatabase cdb in candidates)
                 {
-                    if (cdb.LastUpdated > youngest)
+                    if (cdb.LastUpdated >= youngest)
                     {
                         youngest = cdb.LastUpdated;
                         result = cdb;

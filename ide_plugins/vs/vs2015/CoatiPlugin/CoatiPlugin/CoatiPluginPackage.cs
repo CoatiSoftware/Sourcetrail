@@ -363,7 +363,7 @@ namespace CoatiSoftware.CoatiPlugin
         {
             if(creationResult._cdb != null && creationResult._cdbDirectory.Length > 0 && creationResult._cdbName.Length > 0)
             {
-                _cdbList.Append(creationResult._cdb);
+                _cdbList.AppendOrUpdate(creationResult._cdb);
                 _cdbList.SaveMetaData();
 
                 // string metaData = creationResult._cdb.SerializeMetaDataXML();
