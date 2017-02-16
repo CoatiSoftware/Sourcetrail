@@ -7,6 +7,7 @@
 #include "component/controller/helper/NetworkProtocolHelper.h"
 
 #include "utility/messaging/MessageListener.h"
+#include "utility/messaging/type/MessageActivateTokens.h"
 #include "utility/messaging/type/MessageIDECreateCDB.h"
 #include "utility/messaging/type/MessageMoveIDECursor.h"
 #include "utility/messaging/type/MessagePluginPortChange.h"
@@ -15,6 +16,7 @@ class StorageAccess;
 
 class IDECommunicationController
 	: public Controller
+	, public MessageListener<MessageActivateTokens>
 	, public MessageListener<MessageIDECreateCDB>
 	, public MessageListener<MessageMoveIDECursor>
 	, public MessageListener<MessagePluginPortChange>
@@ -43,10 +45,13 @@ private:
 	void handleCreateCDBProjectMessage(const NetworkProtocolHelper::CreateCDBProjectMessage& message);
 	void handlePing(const NetworkProtocolHelper::PingMessage& message);
 
+	virtual void handleMessage(MessageActivateTokens* message); // use this to send update pings
 	virtual void handleMessage(MessageIDECreateCDB* message);
 	virtual void handleMessage(MessageMoveIDECursor* message);
 	virtual void handleMessage(MessagePluginPortChange* message);
 	virtual void sendMessage(const std::string& message) const = 0;
+
+	void sendUpdatePing();
 
 	StorageAccess* m_storageAccess;
 

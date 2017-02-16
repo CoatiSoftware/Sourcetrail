@@ -71,7 +71,7 @@ void IDECommunicationController::setEnabled(const bool enabled)
 
 void IDECommunicationController::sendInitialPing()
 {
-	sendMessage(NetworkProtocolHelper::buildPingMessage());
+	sendUpdatePing();
 }
 
 void IDECommunicationController::handleSetActiveTokenMessage(
@@ -179,10 +179,11 @@ void IDECommunicationController::handlePing(const NetworkProtocolHelper::PingMes
 
 		if (msg.ideId == "vs")
 		{
-			ideName = "Visual Studio";
-			msg.ideName = ideName;
+			ideName = "Visual Studio";	
 		}
 		// TODO: add the other ides
+
+		msg.ideName = ideName;
 
 		std::string statusMessage = ideName + " instance detected via plugin port";
 
@@ -193,6 +194,11 @@ void IDECommunicationController::handlePing(const NetworkProtocolHelper::PingMes
 	{
 		LOG_ERROR_STREAM(<< "Can't handle ping, message is invalid");
 	}
+}
+
+void IDECommunicationController::handleMessage(MessageActivateTokens* message)
+{
+	sendUpdatePing();
 }
 
 void IDECommunicationController::handleMessage(MessageIDECreateCDB* message)
@@ -222,4 +228,16 @@ void IDECommunicationController::handleMessage(MessagePluginPortChange* message)
 {
 	stopListening();
 	startListening();
+}
+
+void IDECommunicationController::sendUpdatePing()
+{
+	// first reset connection status
+	MessagePingReceived msg;
+	msg.ideId = "";
+	msg.ideName = "";
+	msg.dispatch();
+
+	// send ping to update connection status
+	sendMessage(NetworkProtocolHelper::buildPingMessage());
 }

@@ -37,8 +37,13 @@ void StatusBarController::handleMessage(MessageFinishedParsing* message)
 
 void StatusBarController::handleMessage(MessagePingReceived* message)
 {
-	std::string status = "Connected to ";
-	status += message->ideName;
+	std::string status = "No IDE connected";
+
+	if (message->ideName.length() > 0)
+	{
+		status = "Connected to ";
+		status += message->ideName;
+	}
 
 	getView()->showIdeStatus(status);
 }
