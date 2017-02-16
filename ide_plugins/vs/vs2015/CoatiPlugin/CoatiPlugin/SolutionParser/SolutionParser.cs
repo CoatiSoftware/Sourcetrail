@@ -21,7 +21,7 @@ namespace CoatiSoftware.CoatiPlugin.SolutionParser
 
         static public List<string> _headerDirectories = new List<string>();
 
-        static private List<string> _extensionWhiteList = new List<string>() { "c", "cc", "cpp", "cxx", "C" };
+        static private List<string> _extensionWhiteList = new List<string>() { "c", "cc", "cpp", "cxx", "C", "h", "hpp" };
 
         public static List<CommandObject> CreateCommandObjects(Project project, string configurationName, string platformName, string cStandard)
         {
@@ -300,6 +300,7 @@ namespace CoatiSoftware.CoatiPlugin.SolutionParser
                     commandObject.File = item.Name;
 
                     // only write source files to cdb, headers are implicit
+                    // however, retreive header directory
                     if (CheckIsHeader(item))
                     {
                         Properties props = item.Properties;
