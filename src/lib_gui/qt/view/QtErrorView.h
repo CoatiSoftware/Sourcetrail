@@ -71,6 +71,8 @@ private:
 
 	std::vector<ErrorInfo> m_errors;
 	QPalette* m_palette;
+
+	bool m_ignoreRowSelection;
 };
 
 #endif // QT_ERROR_VIEW_H

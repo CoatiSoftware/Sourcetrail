@@ -48,6 +48,7 @@ QtErrorView::QtErrorView(ViewLayout* viewLayout)
 	, m_refreshFunctor(std::bind(&QtErrorView::doRefreshView, this))
 	, m_addErrorsFunctor(std::bind(&QtErrorView::doAddErrors, this, std::placeholders::_1, std::placeholders::_2))
 	, m_setErrorIdFunctor(std::bind(&QtErrorView::doSetErrorId, this, std::placeholders::_1))
+	, m_ignoreRowSelection(false)
 {
 	s_errorIcon = QIcon(QString((ResourcePaths::getGuiPath() + "/indexing_dialog/error.png").c_str()));
 }
@@ -90,7 +91,7 @@ void QtErrorView::initView()
 	connect(m_table->selectionModel(), &QItemSelectionModel::currentRowChanged,
 		[=](const QModelIndex& index, const QModelIndex& previousIndex)
 	{
-		if (index.isValid())
+		if (index.isValid() && !m_ignoreRowSelection)
 		{
 			if (m_model->item(index.row(), COLUMN::FILE) == nullptr)
 			{
@@ -174,7 +175,9 @@ void QtErrorView::doSetErrorId(Id errorId)
 
 	if (items.size() == 1)
 	{
+		m_ignoreRowSelection = true;
 		m_table->selectRow(items.at(0)->row());
+		m_ignoreRowSelection = false;
 	}
 }
 
