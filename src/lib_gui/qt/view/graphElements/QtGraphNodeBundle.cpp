@@ -4,6 +4,7 @@
 #include <QPen>
 
 #include "utility/messaging/type/MessageGraphNodeBundleSplit.h"
+#include "utility/messaging/type/MessageGraphNodeMove.h"
 
 #include "component/view/GraphViewStyle.h"
 #include "qt/graphics/QtCountCircleItem.h"
@@ -44,6 +45,13 @@ void QtGraphNodeBundle::onClick()
 		m_type != Node::NODE_NON_INDEXED && getName() != "Anonymous Namespaces",
 		m_type != Node::NODE_NON_INDEXED
 	).dispatch();
+}
+
+void QtGraphNodeBundle::moved(const Vec2i& oldPosition)
+{
+	QtGraphNode::moved(oldPosition);
+
+	MessageGraphNodeMove(m_tokenId, getPosition() - oldPosition).dispatch();
 }
 
 void QtGraphNodeBundle::updateStyle()

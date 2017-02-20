@@ -1438,6 +1438,14 @@ DummyNode* GraphController::getDummyGraphNodeById(Id tokenId) const
 		return it->second.get();
 	}
 
+	for (std::shared_ptr<DummyNode> node : m_dummyNodes)
+	{
+		if (node->tokenId == tokenId)
+		{
+			return node.get();
+		}
+	}
+
 	return nullptr;
 }
 
