@@ -258,6 +258,14 @@ void CodeController::handleMessage(MessageClearErrorCount* message)
 	}
 }
 
+void CodeController::handleMessage(MessageDeactivateEdge* message)
+{
+	if (message->scrollToDefinition)
+	{
+		getView()->scrollToDefinition(true);
+	}
+}
+
 void CodeController::handleMessage(MessageFlushUpdates* message)
 {
 	MessageCodeViewExpandedInitialFiles* msgPtr = nullptr;
@@ -280,7 +288,7 @@ void CodeController::handleMessage(MessageCodeViewExpandedInitialFiles* message)
 {
 	if (m_scrollToDefinition || (message && message->scrollToDefinition))
 	{
-		getView()->scrollToDefinition();
+		getView()->scrollToDefinition(false);
 		m_scrollToDefinition = false;
 	}
 

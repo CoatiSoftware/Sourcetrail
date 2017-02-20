@@ -532,8 +532,15 @@ void QtCodeNavigator::scrollToLine(const FilePath& filePath, unsigned int line)
 	requestScroll(filePath, line, 0, false, false);
 }
 
-void QtCodeNavigator::scrollToDefinition()
+void QtCodeNavigator::scrollToDefinition(bool ignoreActiveReference)
 {
+	if (ignoreActiveReference)
+	{
+		m_activeReference = Reference();
+		m_refIndex = 0;
+		updateRefLabel();
+	}
+
 	if (m_activeReference.tokenId)
 	{
 		if (m_mode == MODE_LIST)

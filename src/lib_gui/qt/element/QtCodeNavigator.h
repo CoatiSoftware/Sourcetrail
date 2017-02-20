@@ -80,7 +80,7 @@ public:
 
 	void scrollToValue(int value, bool inListMode);
 	void scrollToLine(const FilePath& filePath, unsigned int line);
-	void scrollToDefinition();
+	void scrollToDefinition(bool ignoreActiveReference);
 
 	void scrollToSnippetIfRequested();
 

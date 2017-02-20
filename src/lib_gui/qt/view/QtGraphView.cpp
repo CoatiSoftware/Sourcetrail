@@ -153,7 +153,7 @@ void QtGraphView::clickedInEmptySpace()
 
 	if (activeEdgeCount == 1)
 	{
-		MessageDeactivateEdge().dispatch();
+		MessageDeactivateEdge(false).dispatch();
 	}
 }
 

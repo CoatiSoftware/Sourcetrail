@@ -165,12 +165,12 @@ void QtCodeView::scrollToLine(const FilePath filePath, unsigned int line)
 	);
 }
 
-void QtCodeView::scrollToDefinition()
+void QtCodeView::scrollToDefinition(bool ignoreActiveReference)
 {
 	m_onQtThread(
 		[=]()
 		{
-			m_widget->scrollToDefinition();
+			m_widget->scrollToDefinition(ignoreActiveReference);
 		}
 	);
 }

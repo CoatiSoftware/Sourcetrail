@@ -7,7 +7,8 @@ class MessageDeactivateEdge
 	: public Message<MessageDeactivateEdge>
 {
 public:
-	MessageDeactivateEdge()
+	MessageDeactivateEdge(bool scrollToDefinition)
+		: scrollToDefinition(scrollToDefinition)
 	{
 	}
 
@@ -15,6 +16,8 @@ public:
 	{
 		return "MessageDeactivateEdge";
 	}
+
+	bool scrollToDefinition;
 };
 
 #endif // MESSAGE_DEACTIVATE_EDGE_H

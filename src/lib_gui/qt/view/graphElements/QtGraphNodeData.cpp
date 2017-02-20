@@ -81,7 +81,7 @@ void QtGraphNodeData::onClick()
 {
 	if (m_isActive && !m_multipleActive)
 	{
-		MessageDeactivateEdge().dispatch();
+		MessageDeactivateEdge(true).dispatch();
 		return;
 	}
 

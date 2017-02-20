@@ -11,6 +11,7 @@
 #include "utility/messaging/type/MessageChangeFileView.h"
 #include "utility/messaging/type/MessageClearErrorCount.h"
 #include "utility/messaging/type/MessageCodeViewExpandedInitialFiles.h"
+#include "utility/messaging/type/MessageDeactivateEdge.h"
 #include "utility/messaging/type/MessageFlushUpdates.h"
 #include "utility/messaging/type/MessageFocusIn.h"
 #include "utility/messaging/type/MessageFocusOut.h"
@@ -38,6 +39,7 @@ class CodeController
 	, public MessageListener<MessageChangeFileView>
 	, public MessageListener<MessageClearErrorCount>
 	, public MessageListener<MessageCodeViewExpandedInitialFiles>
+	, public MessageListener<MessageDeactivateEdge>
 	, public MessageListener<MessageFlushUpdates>
 	, public MessageListener<MessageFocusIn>
 	, public MessageListener<MessageFocusOut>
@@ -60,6 +62,7 @@ private:
 	virtual void handleMessage(MessageChangeFileView* message);
 	virtual void handleMessage(MessageClearErrorCount* message);
 	virtual void handleMessage(MessageCodeViewExpandedInitialFiles* message);
+	virtual void handleMessage(MessageDeactivateEdge* message);
 	virtual void handleMessage(MessageFlushUpdates* message);
 	virtual void handleMessage(MessageFocusIn* message);
 	virtual void handleMessage(MessageFocusOut* message);

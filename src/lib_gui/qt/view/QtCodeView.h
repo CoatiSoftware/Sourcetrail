@@ -50,7 +50,7 @@ public:
 
 	virtual void scrollToValue(int value, bool inListMode);
 	virtual void scrollToLine(const FilePath filePath, unsigned int line);
-	virtual void scrollToDefinition();
+	virtual void scrollToDefinition(bool ignoreActiveReference);
 
 private:
 	void doShowCodeSnippets(
