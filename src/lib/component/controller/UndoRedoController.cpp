@@ -225,8 +225,9 @@ void UndoRedoController::handleMessage(MessageSearch* message)
 
 void UndoRedoController::handleMessage(MessageSearchFullText* message)
 {
-	if (sameMessageTypeAsLast(message))// &&
-		//static_cast<MessageSearchFullText*>(lastMessage())->getMatchesAsString() == message->getMatchesAsString())
+	if (sameMessageTypeAsLast(message) &&
+		static_cast<MessageSearchFullText*>(lastMessage())->searchTerm == message->searchTerm &&
+		static_cast<MessageSearchFullText*>(lastMessage())->caseSensitive == message->caseSensitive)
 	{
 		return;
 	}
