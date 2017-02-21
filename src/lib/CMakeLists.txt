@@ -249,8 +249,8 @@ add_files(
 	utility/interprocess/SharedParserArguments.cpp
 	utility/interprocess/SharedParserArguments.h
 	utility/interprocess/SharedQueue.h
-	utility/interprocess/SharedUUIDMANAGER.cpp
-	utility/interprocess/SharedUUIDMANAGER.h
+	utility/interprocess/SharedUUIDManager.cpp
+	utility/interprocess/SharedUUIDManager.h
 	
 	utility/logging/ConsoleLogger.cpp
 	utility/logging/ConsoleLogger.h

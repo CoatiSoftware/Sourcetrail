@@ -103,7 +103,7 @@ T SharedQueue<T>::popValue()
 	}
 	else
 	{
-		throw(std::exception("Deque was not initialized"));
+		throw(std::runtime_error("Deque was not initialized"));
 	}
 }
 
