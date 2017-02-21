@@ -62,6 +62,11 @@ namespace CoatiSoftware.CoatiPlugin.SolutionParser
             set { _platformName = value; }
         }
 
+        public int CommandObjectCount
+        {
+            get { return _commandObjects.Count; }
+        }
+
         public void AddOrUpdateCommandObject(CommandObject commandObject)
         {
             _commandObjects.Add(commandObject); // updating is not efficient as it is

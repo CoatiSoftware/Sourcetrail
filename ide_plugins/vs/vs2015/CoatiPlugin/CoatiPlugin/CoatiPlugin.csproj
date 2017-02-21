@@ -165,6 +165,12 @@
     <Compile Include="Utility\SolutionUtility.cs" />
     <Compile Include="Utility\SystemUtility.cs" />
     <Compile Include="Utility\StringUtility.cs" />
+    <Compile Include="Wizard\WindowCDBReady.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Wizard\WindowCDBReady.Designer.cs">
+      <DependentUpon>WindowCDBReady.cs</DependentUpon>
+    </Compile>
     <Compile Include="Wizard\WindowCreateCDB.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -194,6 +200,9 @@
       <MergeWithCTO>true</MergeWithCTO>
       <ManifestResourceName>VSPackage</ManifestResourceName>
       <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Wizard\WindowCDBReady.resx">
+      <DependentUpon>WindowCDBReady.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Wizard\WindowCreateCDB.resx">
       <DependentUpon>WindowCreateCDB.cs</DependentUpon>

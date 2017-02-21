@@ -373,18 +373,9 @@ namespace CoatiSoftware.CoatiPlugin
 
                 if (WriteCDBToFile(creationResult._cdb, creationResult._cdbDirectory, creationResult._cdbName))
                 {
-                    string title = "CDB finished";
-                    string text = "The CDB '" + creationResult._cdbName + "' was created at directory \"" + creationResult._cdbDirectory + "\"\n";
-                    text += "Do you want to auto-import it in Coati now?";
-
-                    DialogResult result = MessageBox.Show(text, title, MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
-
-                    if (result == DialogResult.Yes)
-                    {
-                        string message = Utility.NetworkProtocolUtility.CreateCreateProjectMessage(creationResult._cdbDirectory + "\\" + creationResult._cdbName + ".json", creationResult._headerDirectories);
-
-                        Utility.AsynchronousClient.Send(message);
-                    }
+                    Wizard.WindowCDBReady dialog = new Wizard.WindowCDBReady();
+                    dialog.setData(creationResult);
+                    dialog.ShowDialog();
 
                     _cdbList.Refresh();
                 }
@@ -415,7 +406,14 @@ namespace CoatiSoftware.CoatiPlugin
         {
             try
             {
+                Logging.Logging.LogInfo("Serializing " + cdb.CommandObjectCount + " command objects.");
+
+                System.Diagnostics.Stopwatch watch = new System.Diagnostics.Stopwatch();
+                watch.Start();
                 string content = cdb.SerializeJSON();
+                watch.Stop();
+                Logging.Logging.LogInfo("Done serializing: " + watch.ElapsedMilliseconds + " ms");
+
                 File.WriteAllText(directory + "\\" + fileName + ".json", content);
             }
             catch(Exception e)
