@@ -99,6 +99,13 @@ fi
 echo -e $INFO "Rebasing on $PUBLISH_TO_BRANCH"
 git checkout -q $PUBLISH_TO_BRANCH
 git rebase -q $PUBLISH_BRANCH_NAME
+if [ $? != 0 ]
+then
+	git checkout -q $BRANCH_NAME
+	echo -e $ABORT "Rebasing on $PUBLISH_TO_BRANCH failed because of unstaged changes."
+	exit 1
+fi
+
 git branch -q -d $PUBLISH_BRANCH_NAME
 
 echo -e $INFO "Uploading to origin $PUBLISH_TO_BRANCH"
