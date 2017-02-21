@@ -239,6 +239,19 @@ add_files(
 	utility/file/FileSystem.cpp
 	utility/file/FileSystem.h
 
+	utility/interprocess/InterprocessDataManager.cpp
+	utility/interprocess/InterprocessDataManager.h
+	utility/interprocess/InterprocessProcessManager.cpp
+	utility/interprocess/InterprocessProcessManager.h
+	utility/interprocess/InterprocessUtility.h
+	utility/interprocess/SharedContainer.h
+	utility/interprocess/SharedMap.h
+	utility/interprocess/SharedParserArguments.cpp
+	utility/interprocess/SharedParserArguments.h
+	utility/interprocess/SharedQueue.h
+	utility/interprocess/SharedUUIDMANAGER.cpp
+	utility/interprocess/SharedUUIDMANAGER.h
+	
 	utility/logging/ConsoleLogger.cpp
 	utility/logging/ConsoleLogger.h
 	utility/logging/FileLogger.cpp
@@ -410,6 +423,8 @@ add_files(
 	utility/utilityLibrary.h
 	utility/utilityString.cpp
 	utility/utilityString.h
+	utility/UUIDUtility.cpp
+	utility/UUIDUtility.h
 	utility/Version.cpp
 	utility/Version.h
 
