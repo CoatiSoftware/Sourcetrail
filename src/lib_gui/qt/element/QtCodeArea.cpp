@@ -855,16 +855,30 @@ void QtCodeArea::annotateText()
 		}
 
 		const AnnotationColor& newColor = getAnnotationColorForAnnotation(annotation);
-		if ((newColor.text != oldColor.text || !m_wasAnnotated))
+		if (newColor.text != oldColor.text || (!m_wasAnnotated && newColor.text != "transparent"))
 		{
 			if (newColor.text.size() > 0 && newColor.text != "transparent")
 			{
-				if (!annotation.oldTextColor.isValid())
+				bool isDuplicateAnnotation = false;
+				for (Annotation* a : m_colorChangedAnnotations)
 				{
-					annotation.oldTextColor = m_highlighter->getFormat(annotation.start, annotation.end).foreground().color();
+					if (a->start == annotation.start && a->end == annotation.end && a->tokenId != annotation.tokenId)
+					{
+						isDuplicateAnnotation = true;
+						break;
+					}
 				}
 
-				setTextColorForAnnotation(annotation, QColor(newColor.text.c_str()));
+				if (!isDuplicateAnnotation)
+				{
+					if (!annotation.oldTextColor.isValid())
+					{
+						annotation.oldTextColor = m_highlighter->getFormat(annotation.start, annotation.end).foreground().color();
+					}
+
+					setTextColorForAnnotation(annotation, QColor(newColor.text.c_str()));
+					m_colorChangedAnnotations.push_back(&annotation);
+				}
 			}
 			else if (annotation.oldTextColor.isValid())
 			{

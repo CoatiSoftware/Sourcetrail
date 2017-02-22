@@ -185,6 +185,9 @@ private:
 	std::vector<Annotation> m_annotations;
 	std::vector<const Annotation*> m_hoveredAnnotations;
 
+	// Remove when annotations become unique regarding start and end, and store multiple tokenIds
+	std::vector<Annotation*> m_colorChangedAnnotations;
+
 	int m_digits;
 
 	bool m_isSelecting;
