@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.IO;
 using System.Threading.Tasks;
+using System.Threading;
 using System.Windows.Forms;
 
 namespace CoatiSoftware.CoatiPlugin.Wizard
@@ -34,6 +36,9 @@ namespace CoatiSoftware.CoatiPlugin.Wizard
         CreationResult _result = new CreationResult();
 
         private int _threadCount = 1;
+
+        private static object _lockObject = new object();
+        private static ReaderWriterLockSlim _readWriteLock = new ReaderWriterLockSlim();
 
         public OnFinishedCreatingCDB CallbackOnFinishedCreatingCDB
         {
@@ -176,6 +181,21 @@ namespace CoatiSoftware.CoatiPlugin.Wizard
         private SolutionParser.CompilationDatabase CreateCommandObjects()
         {
             SolutionParser.CompilationDatabase cdb = new SolutionParser.CompilationDatabase();
+            cdb.Directory = _targetDir;
+            cdb.Name = _fileName;
+
+            File.WriteAllText(_targetDir + "\\" + _fileName + ".json", "");
+            File.AppendAllText(_targetDir + "\\" + _fileName + ".json", "[\n");
+
+            // Mutex commandObjectMutex = new Mutex();
+
+            object lockObject = new object();
+            object lockObject2 = new object();
+
+            Utility.QueuedFileWriter fileWriter = new Utility.QueuedFileWriter();
+            fileWriter.FileName = _fileName + ".json";
+            fileWriter.TargetDirectory = _targetDir;
+            fileWriter.startWorking();
 
             try
             {
@@ -184,8 +204,6 @@ namespace CoatiSoftware.CoatiPlugin.Wizard
                 TaskFactory factory = new TaskFactory(scheduler);
 
                 List<Task> tasks = new List<Task>();
-
-                Object lockObject = new Object();
 
                 int projectsProcessed = 0;
                 foreach (EnvDTE.Project project in _projects)
@@ -198,33 +216,44 @@ namespace CoatiSoftware.CoatiPlugin.Wizard
                     {
                         List<SolutionParser.CommandObject> commandObjects = SolutionParser.SolutionParser.CreateCommandObjects(project, _configurationName, _platformName, _cStandard);
 
-                        lock(lockObject)
+                        lock (_lockObject)
                         {
                             projectsProcessed++;
                         }
-                        
+
                         float relativProgress = (float)projectsProcessed / (float)_projects.Count;
                         Logging.Logging.LogInfo("Processing project \"" + Logging.Obfuscation.NameObfuscator.GetObfuscatedName(project.Name) + "\"");
                         backgroundWorker1.ReportProgress((int)(relativProgress * 100), "Processing project \"" + project.Name + "\"");
 
                         foreach (SolutionParser.CommandObject obj in commandObjects)
                         {
-                            cdb.AddOrUpdateCommandObject(obj);
+                            // cdb.AddOrUpdateCommandObject(obj, false); // since the data is written to file right away now, no need to store it
+                                                                        // the cdb is however still needed to store some meta data later
+
+                            fileWriter.pushMessage(obj.SerializeJSON() + ",");
                         }
                     });
 
                     tasks.Add(t);
                 }
 
+                
+
                 int threadCount = System.Diagnostics.Process.GetCurrentProcess().Threads.Count;
 
                 Task.WaitAll(tasks.ToArray());
+
+                fileWriter.stopWorking();
 
                 backgroundWorker1.ReportProgress(100, "Writing data to file. This might take several minutes...");
             }
             catch(Exception e)
             {
                 Logging.Logging.LogError("Failed to create CDB: " + e.Message);
+            }
+            finally
+            {
+                File.AppendAllText(_targetDir + "\\" + _fileName + ".json", "\n]");
             }
 
             return cdb;

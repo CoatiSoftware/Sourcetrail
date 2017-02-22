@@ -2,6 +2,9 @@
 using System.Xml.Serialization;
 using System.Xml;
 using Newtonsoft.Json.Linq;
+using System.IO;
+using System.Threading;
+using System;
 
 namespace CoatiSoftware.CoatiPlugin.SolutionParser
 {
@@ -67,14 +70,9 @@ namespace CoatiSoftware.CoatiPlugin.SolutionParser
             get { return _commandObjects.Count; }
         }
 
-        public void AddOrUpdateCommandObject(CommandObject commandObject)
+        public void AddOrUpdateCommandObject(CommandObject commandObject, bool saveImmediatly = false)
         {
             _commandObjects.Add(commandObject); // updating is not efficient as it is
-
-            //if (TryUpdateCommandObject(commandObject) == false)
-            //{
-            //    _commandObjects.Add(commandObject);
-            //}
         }
 
         // remove commandObjects for removed files

@@ -162,6 +162,7 @@
     <Compile Include="SolutionParser\CompilationDatabase.cs" />
     <Compile Include="SolutionParser\SolutionParser.cs" />
     <Compile Include="Utility\ProjectUtility.cs" />
+    <Compile Include="Utility\QueuedFileWriter.cs" />
     <Compile Include="Utility\SolutionUtility.cs" />
     <Compile Include="Utility\SystemUtility.cs" />
     <Compile Include="Utility\StringUtility.cs" />

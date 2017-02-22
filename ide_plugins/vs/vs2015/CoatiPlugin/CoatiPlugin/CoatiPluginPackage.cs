@@ -366,73 +366,16 @@ namespace CoatiSoftware.CoatiPlugin
                 _cdbList.AppendOrUpdate(creationResult._cdb);
                 _cdbList.SaveMetaData();
 
-                // string metaData = creationResult._cdb.SerializeMetaDataXML();
+                Wizard.WindowCDBReady dialog = new Wizard.WindowCDBReady();
+                dialog.setData(creationResult);
+                dialog.ShowDialog();
 
-
-                // Utility.DataUtility.GetInstance().AppendData(metaData);
-
-                if (WriteCDBToFile(creationResult._cdb, creationResult._cdbDirectory, creationResult._cdbName))
-                {
-                    Wizard.WindowCDBReady dialog = new Wizard.WindowCDBReady();
-                    dialog.setData(creationResult);
-                    dialog.ShowDialog();
-
-                    _cdbList.Refresh();
-                }
-                else
-                {
-                    string title = "Error";
-                    string text = "Failed to write CDB '" + creationResult._cdbName + "' to directory \"" + creationResult._cdbDirectory + "\"\n";
-
-                    if (LoggingEnabled)
-                    {
-                        text += "See log for details.";
-                    }
-                    else
-                    {
-                        text += "Consider enabling logging to provide additional information (Tools->Options->Coati).";
-                    }
-
-                    DialogResult result = MessageBox.Show(text, title, MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                }
+                _cdbList.Refresh();
             }
             else
             {
                 Logging.Logging.LogError("Invalid data received");
             }
-        }
-
-        private bool WriteCDBToFile(SolutionParser.CompilationDatabase cdb, string directory, string fileName)
-        {
-            try
-            {
-                Logging.Logging.LogInfo("Serializing " + cdb.CommandObjectCount + " command objects.");
-
-                System.Diagnostics.Stopwatch watch = new System.Diagnostics.Stopwatch();
-                watch.Start();
-                string content = cdb.SerializeJSON();
-                watch.Stop();
-                Logging.Logging.LogInfo("Done serializing: " + watch.ElapsedMilliseconds + " ms");
-
-                File.WriteAllText(directory + "\\" + fileName + ".json", content);
-            }
-            catch(Exception e)
-            {
-                string text = "Failed to write CDB '" + Logging.Obfuscation.NameObfuscator.GetObfuscatedName(fileName) + "' to directory \"" + Logging.Obfuscation.NameObfuscator.GetObfuscatedName(directory) + "\"\n";
-                Logging.Logging.LogError(text);
-                Logging.Logging.LogError("Exception: " + e.Message);
-
-                _cdbList.UnloadCDBs();
-
-                return false;
-            }
-
-            string message = "The CDB '" + Logging.Obfuscation.NameObfuscator.GetObfuscatedName(fileName) + "' was created at directory \"" + Logging.Obfuscation.NameObfuscator.GetObfuscatedName(directory) + "\"\n";
-            Logging.Logging.LogInfo(message);
-
-            _cdbList.UnloadCDBs();
-
-            return true;
         }
 
         private void MenuItemCallback(object sender, EventArgs e)
