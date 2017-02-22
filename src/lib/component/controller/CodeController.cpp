@@ -130,6 +130,11 @@ void CodeController::handleMessage(MessageActivateTokens* message)
 	else if (message->keepContent())
 	{
 		view->showActiveTokenIds(activeTokenIds);
+		if (m_scrollToDefinition)
+		{
+			getView()->scrollToDefinition(true);
+			m_scrollToDefinition = false;
+		}
 	}
 	else
 	{
@@ -262,7 +267,7 @@ void CodeController::handleMessage(MessageDeactivateEdge* message)
 {
 	if (message->scrollToDefinition)
 	{
-		getView()->scrollToDefinition(true);
+		m_scrollToDefinition = true;
 	}
 }
 
