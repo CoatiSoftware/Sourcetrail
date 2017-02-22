@@ -306,7 +306,7 @@ void QtMainWindow::showDocumentation()
 void QtMainWindow::showKeyboardShortcuts()
 {
 	QtKeyboardShortcuts* keyboardShortcutWindow = createWindow<QtKeyboardShortcuts>();
-	keyboardShortcutWindow->setupKeyboardShortcuts();
+	keyboardShortcutWindow->setup();
 }
 
 void QtMainWindow::showBugtracker()

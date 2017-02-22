@@ -6,6 +6,17 @@
 
 #include "qt/window/QtWindow.h"
 
+class QtShortcutTable
+	: public QTableWidget
+{
+public:
+	QtShortcutTable(QWidget* parent = nullptr);
+	void updateSize();
+
+protected:
+	virtual void wheelEvent(QWheelEvent *event) Q_DECL_OVERRIDE;
+};
+
 class QtKeyboardShortcuts
 	: public QtWindow
 {
@@ -16,13 +27,11 @@ public:
 
 	QSize sizeHint() const override;
 
-	void setupKeyboardShortcuts();
-
-private slots:
-	void handleCloseButtonClicked();
+	virtual void populateWindow(QWidget* widget) override;
+	virtual void windowReady() override;
 
 private:
-	QTableWidget* createTableWidget(const std::string& objectName);
+	QtShortcutTable* createTableWidget(const std::string& objectName);
 
 	QTableWidget* createGenerelShortcutsTable();
 	QTableWidget* createCodeViewShortcutsTable();

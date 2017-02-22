@@ -2,17 +2,34 @@
 
 #include <QHeaderView>
 #include <QLabel>
-#include <QPushButton>
-#include <QScrollBar>
-#include <QTableView>
-#include <QtGlobal>
 
-#include "qt/utility/QtDeviceScaledPixmap.h"
 #include "qt/utility/utilityQt.h"
 #include "utility/ResourcePaths.h"
 
-QtKeyboardShortcuts::QtKeyboardShortcuts(QWidget* parent)
+QtShortcutTable::QtShortcutTable(QWidget* parent)
+	: QTableWidget(parent)
 {
+}
+
+void QtShortcutTable::updateSize()
+{
+	int height = rowCount() * rowHeight(0) + horizontalHeader()->height() + 2 * frameWidth() + 8;
+	setMinimumHeight(height);
+	setMaximumHeight(height);
+}
+
+void QtShortcutTable::wheelEvent(QWheelEvent *event)
+{
+	event->ignore();
+}
+
+
+QtKeyboardShortcuts::QtKeyboardShortcuts(QWidget* parent)
+	: QtWindow(parent)
+{
+	setScrollAble(true);
+
+	raise();
 }
 
 QtKeyboardShortcuts::~QtKeyboardShortcuts()
@@ -24,95 +41,78 @@ QSize QtKeyboardShortcuts::sizeHint() const
 	return QSize(666, 666);
 }
 
-void QtKeyboardShortcuts::setupKeyboardShortcuts()
+void QtKeyboardShortcuts::populateWindow(QWidget* widget)
 {
-	QVBoxLayout* layout = new QVBoxLayout();
-
-	QLabel* title = new QLabel(this);
-	title->setObjectName("title");
-	title->setText("Keyboard Shortcuts");
-	layout->addWidget(title);
-
-	QWidget* container = new QWidget();
-	container->setObjectName("container");
-	QVBoxLayout* scrollLayout = new QVBoxLayout(container);
-
-	QScrollArea* scrollArea = new QScrollArea(this);
-	scrollArea->setObjectName("scroll_area");
-	scrollArea->setWidgetResizable(true);
-	scrollArea->setWidget(container);
-	scrollArea->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-	layout->addWidget(scrollArea);
+	QVBoxLayout* layout = new QVBoxLayout(widget);
 
 	QLabel* generelLabel = new QLabel(this);
 	generelLabel->setObjectName("general_label");
 	generelLabel->setText("General Shortcuts");
-	scrollLayout->addWidget(generelLabel);
+	layout->addWidget(generelLabel);
 
-	scrollLayout->addWidget(createGenerelShortcutsTable());
+	layout->addWidget(createGenerelShortcutsTable());
+
+	layout->addSpacing(20);
 
 	QLabel* codeLabel = new QLabel(this);
 	codeLabel->setObjectName("code_label");
 	codeLabel->setText("Code View Shortcuts");
-	scrollLayout->addWidget(codeLabel);
+	layout->addWidget(codeLabel);
 
-	scrollLayout->addWidget(createCodeViewShortcutsTable());
+	layout->addWidget(createCodeViewShortcutsTable());
+
+	layout->addSpacing(20);
 
 	QLabel* graphLabel = new QLabel(this);
 	graphLabel->setObjectName("graph_label");
 	graphLabel->setText("Graph View Shortcuts");
-	scrollLayout->addWidget(graphLabel);
+	layout->addWidget(graphLabel);
 
-	scrollLayout->addWidget(createGraphViewShortcutsTable());
+	layout->addWidget(createGraphViewShortcutsTable());
 
-	QPushButton* closeButton = new QPushButton(this);
-	closeButton->setObjectName("close_button");
-	closeButton->setText("Close");
-	closeButton->show();
-	layout->addWidget(closeButton);
-	connect(closeButton, SIGNAL(clicked()), this, SLOT(handleCloseButtonClicked()));
+	widget->setLayout(layout);
 
-	setLayout(layout);
-
-	setFixedSize(QSize(682, 700));
-
-	// setFixedSize(table->horizontalHeader()->length(), table->verticalHeader()->length());
-
-	setStyleSheet(utility::getStyleSheet(ResourcePaths::getGuiPath() + "keyboard_shortcuts/keyboard_shortcuts.css").c_str());
+	widget->setStyleSheet(utility::getStyleSheet(ResourcePaths::getGuiPath() + "keyboard_shortcuts/keyboard_shortcuts.css").c_str());
 }
 
-void QtKeyboardShortcuts::handleCloseButtonClicked()
+void QtKeyboardShortcuts::windowReady()
 {
-	emit canceled();
+	updateTitle("Keyboard Shortcuts");
+	updateCloseButton("Close");
+
+	setNextVisible(false);
+	setPreviousVisible(false);
 }
 
-QTableWidget* QtKeyboardShortcuts::createTableWidget(const std::string& objectName)
+QtShortcutTable* QtKeyboardShortcuts::createTableWidget(const std::string& objectName)
 {
-	QTableWidget* table = new QTableWidget(this);
+	QtShortcutTable* table = new QtShortcutTable(this);
 	table->setObjectName(objectName.c_str());
+
 	table->setSelectionMode(QAbstractItemView::SelectionMode::SingleSelection);
 	table->setSelectionBehavior(QAbstractItemView::SelectionBehavior::SelectRows);
 	table->setEditTriggers(QAbstractItemView::EditTrigger::NoEditTriggers);
+
 	table->setShowGrid(true);
+	table->setAlternatingRowColors(true);
 	table->horizontalHeader()->setSectionResizeMode(QHeaderView::ResizeMode::Stretch);
 	table->verticalHeader()->hide();
-	table->setAlternatingRowColors(true);
-	table->horizontalScrollBar()->setDisabled(true);
-	table->horizontalScrollBar()->hide();
-	table->setAutoScroll(false);
+
+	table->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Fixed);
+
+	table->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+	table->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 
 	table->setColumnCount(2);
 	table->setHorizontalHeaderItem(0, new QTableWidgetItem("Command"));
 	table->setHorizontalHeaderItem(1, new QTableWidgetItem("Shortcut"));
-
-	table->setFixedWidth(610);
 
 	return table;
 }
 
 QTableWidget* QtKeyboardShortcuts::createGenerelShortcutsTable()
 {
-	QTableWidget* table = createTableWidget("table_general");
+	QtShortcutTable* table = createTableWidget("table_general");
 
 	table->setRowCount(15);
 
@@ -198,14 +198,14 @@ QTableWidget* QtKeyboardShortcuts::createGenerelShortcutsTable()
 	table->setItem(14, 1, new QTableWidgetItem("Ctrl + ,"));
 #endif
 
-	table->setFixedHeight(480); // there doesn't seem to be an automatic method, so fuck you basically...
+	table->updateSize();
 
 	return table;
 }
 
 QTableWidget* QtKeyboardShortcuts::createCodeViewShortcutsTable()
 {
-	QTableWidget* table = createTableWidget("table_code");
+	QtShortcutTable* table = createTableWidget("table_code");
 
 	table->setRowCount(2);
 	table->setItem(0, 0, new QTableWidgetItem("Code Reference Next"));
@@ -225,14 +225,14 @@ QTableWidget* QtKeyboardShortcuts::createCodeViewShortcutsTable()
 	table->setItem(1, 1, new QTableWidgetItem("Ctrl + Shift + G"));
 #endif
 
-	table->setFixedHeight(90); // there doesn't seem to be an automatic method, so fuck you basically...
+	table->updateSize();
 
 	return table;
 }
 
 QTableWidget* QtKeyboardShortcuts::createGraphViewShortcutsTable()
 {
-	QTableWidget* table = createTableWidget("table_graph");
+	QtShortcutTable* table = createTableWidget("table_graph");
 
 	table->setRowCount(7);
 	table->setItem(0, 0, new QTableWidgetItem("Pan left"));
@@ -277,7 +277,7 @@ QTableWidget* QtKeyboardShortcuts::createGraphViewShortcutsTable()
 	table->setItem(6, 1, new QTableWidgetItem("0"));
 #endif
 
-	table->setFixedHeight(240); // there doesn't seem to be an automatic method, so fuck you basically...
+	table->updateSize();
 
 	return table;
 }

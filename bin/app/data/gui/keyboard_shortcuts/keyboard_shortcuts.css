@@ -1,65 +1,21 @@
-/* General settings */
-* {
-	font-size: <setting:font_size>px;
-	font-family: "<setting:font_name>";
-}
-
-QScrollArea {
-	padding: 0px;
-	border: none;
-	background: transparent;
-	background-color: white;
-	margin: 12px;
-}
-
-#container {
-	background: transparent;
-	margin: 16px;
-}
-
-QPushButton {
-	border: 2px;
-	border-style: solid;
-	border-color: #dadada;
-	background: #f6f6f6;
-	background-position: 15px 5px;
-	height: 30px;
-	width: 30px;
-	border-radius: 12px;
-	margin: 2px;
-}
-
-QPushButton:hover {
-	background: #2D3C86;
-	color: white;
-}
-
 QTableWidget {
-	margin-top: 4px;
-	alternate-background-color: #dadada;
-	background-color: #f6f6f6;
-	selection-background-color: 227abf;
+	font-family: "<setting:font_name>";
+	color: black;
+	margin-top: 6px;
+	background-color: #dadada;
+	alternate-background-color: #f6f6f6;
+	selection-background-color: #227abf;
 	selection-color: white;
 	border-color: #666666;
 	gridline-color: #666666;
 }
 
-#title {
-	font-size: <setting:font_size+2>px;
-	font-weight: bold;
-	margin: 16px;
-	margin-top: 30px;
-}
-
-#close_button {
-	margin: 16px;
+QHeaderView {
+	font-family: "<setting:font_name>";
 }
 
 #general_label, #code_label, #graph_label {
-	margin-top: 0px;
-	margin-bottom: 0px;
-}
-
-#code_label, #graph_label {
-	margin-top: 10px;
+	font-size: 14px;
+	font-weight: bold;
+	color: black;
 }
