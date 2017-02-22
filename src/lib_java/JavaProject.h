@@ -25,12 +25,10 @@ private:
 
 	virtual bool prepareIndexing();
 
-	virtual std::shared_ptr<Task> createIndexerTask(
-		std::shared_ptr<StorageProvider> storageProvider,
-		std::shared_ptr<FileRegister> fileRegister);
+	virtual std::vector<std::shared_ptr<IndexerCommand>> getIndexerCommands();
 
 	virtual void updateFileManager(FileManager& fileManager);
-	
+
 	void fetchRootDirectories();
 
 	std::shared_ptr<JavaProjectSettings> m_projectSettings;

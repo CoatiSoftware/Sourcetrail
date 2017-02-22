@@ -1,7 +1,20 @@
 
 add_files(
-	CLANG_FILES
-
+	LIB_CXX_FILES
+	
+	data/indexer/IndexerCommandCxxCdb.cpp
+	data/indexer/IndexerCommandCxxCdb.h
+	data/indexer/IndexerCommandCxxManual.cpp
+	data/indexer/IndexerCommandCxxManual.h
+	data/indexer/IndexerCxxCdb.cpp
+	data/indexer/IndexerCxxCdb.h
+	data/indexer/IndexerCxxManual.cpp
+	data/indexer/IndexerCxxManual.h
+	data/indexer/IndexerFactoryModuleCxxCdb.cpp
+	data/indexer/IndexerFactoryModuleCxxCdb.h
+	data/indexer/IndexerFactoryModuleCxxManual.cpp
+	data/indexer/IndexerFactoryModuleCxxManual.h
+	
 	data/parser/cxx/name/CxxDeclName.cpp
 	data/parser/cxx/name/CxxDeclName.h
 	data/parser/cxx/name/CxxFunctionDeclName.cpp
@@ -61,17 +74,9 @@ add_files(
 
 	utility/CompilationDatabase.cpp
 	utility/CompilationDatabase.h
-)
-
-add_files(
-	LIB_CXX_FILES
-
-	data/parser/cxx/TaskParseCxx.cpp
-	data/parser/cxx/TaskParseCxx.h
-
+	
 	CxxProject.cpp
 	CxxProject.h
-	
 	ProjectFactoryModuleCpp.cpp
 	ProjectFactoryModuleCpp.h
 	ProjectFactoryModuleC.cpp

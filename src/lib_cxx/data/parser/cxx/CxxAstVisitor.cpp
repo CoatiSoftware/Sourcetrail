@@ -15,7 +15,7 @@
 
 #include "data/parser/ParseLocation.h"
 
-CxxAstVisitor::CxxAstVisitor(clang::ASTContext* astContext, clang::Preprocessor* preprocessor, ParserClient* client, FileRegister* fileRegister)
+CxxAstVisitor::CxxAstVisitor(clang::ASTContext* astContext, clang::Preprocessor* preprocessor, std::shared_ptr<ParserClient> client, std::shared_ptr<FileRegister> fileRegister)
 	: m_astContext(astContext)
 	, m_preprocessor(preprocessor)
 	, m_client(client)

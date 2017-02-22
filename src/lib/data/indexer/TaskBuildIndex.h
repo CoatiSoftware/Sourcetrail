@@ -1,5 +1,5 @@
-#ifndef TASK_PARSE_H
-#define TASK_PARSE_H
+#ifndef TASK_BUILD_INDEX_H
+#define TASK_BUILD_INDEX_H
 
 #include "data/parser/Parser.h"
 #include "utility/scheduling/Task.h"
@@ -8,18 +8,20 @@
 
 class CxxParser;
 class DialogView;
-class FileRegister;
+class FileRegisterStateData;
 class StorageProvider;
+class IndexerCommandList;
+class IndexerBase;
 
-class TaskParse
+class TaskBuildIndex
 	: public Task
 	, public MessageListener<MessageInterruptTasks>
 {
 public:
-	TaskParse(
+	TaskBuildIndex(
+		std::shared_ptr<IndexerCommandList> indexerCommandList,
 		std::shared_ptr<StorageProvider> storageProvider,
-		std::shared_ptr<FileRegister> fileRegister,
-		const Parser::Arguments& arguments,
+		std::shared_ptr<FileRegisterStateData> fileRegisterStateData,
 		DialogView* dialogView
 	);
 
@@ -30,15 +32,13 @@ protected:
 	virtual void doReset(std::shared_ptr<Blackboard> blackboard);
 
 	virtual void handleMessage(MessageInterruptTasks* message);
-	virtual void indexFile(FilePath sourcePath) = 0;
 
+	std::shared_ptr<IndexerCommandList> m_indexerCommandList;
 	std::shared_ptr<StorageProvider> m_storageProvider;
-	std::shared_ptr<FileRegister> m_fileRegister;
-
-	const Parser::Arguments m_arguments;
+	std::shared_ptr<FileRegisterStateData> m_fileRegisterStateData;
 	DialogView* m_dialogView;
 
-	bool m_interrupted;
+	std::shared_ptr<IndexerBase> m_indexer;
 };
 
 #endif // TASK_PARSE_H

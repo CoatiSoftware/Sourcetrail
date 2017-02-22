@@ -11,7 +11,7 @@
 #include "utility/text/TextAccess.h"
 #include "utility/utilityString.h"
 
-JavaParser::JavaParser(ParserClient* client)
+JavaParser::JavaParser(std::shared_ptr<ParserClient> client)
 	: Parser(client)
 	, m_id(s_nextParserId++)
 	, m_currentFilePath("")
@@ -47,32 +47,30 @@ JavaParser::~JavaParser()
 	s_parsers.erase(m_id);
 }
 
-void JavaParser::parseFiles(const std::vector<FilePath>& filePaths, const Arguments& arguments)
+void JavaParser::buildIndex(std::shared_ptr<IndexerCommandJava> indexerCommand)
 {
-	//m_fileRegister->setFilePaths(filePaths);
-	//setupParsing(arguments);
+	std::string classPath = "";
+	for (const FilePath& path: indexerCommand->getClassPath())
+	{
+		// the separator used here should be the same as the one used in JavaIndexer.java
+		classPath += path.str() + ";";
+	}
 
-	//std::vector<std::string> sourcePaths;
-	//for (const FilePath& path : m_fileRegister->getUnparsedSourceFilePaths()) // filter headers
-	//{
-	//	sourcePaths.push_back(path.absolute().str());
-	//}
-
-	//runTool(sourcePaths);
+	buildIndex(indexerCommand->getSourceFilePath(), classPath, TextAccess::createFromFile(indexerCommand->getSourceFilePath().str()));
 }
 
-void JavaParser::parseFile(const FilePath& filePath, std::shared_ptr<TextAccess> textAccess, const Arguments& arguments)
+void JavaParser::buildIndex(const FilePath& filePath, std::shared_ptr<TextAccess> textAccess)
+{
+	buildIndex(filePath, "", textAccess);
+}
+
+void JavaParser::buildIndex(const FilePath& sourceFilePath, const std::string& classPath, std::shared_ptr<TextAccess> textAccess)
 {
 	if (m_javaEnvironment)
 	{
-		m_currentFilePath = filePath.str();
-		m_client->onFileParsed(FileSystem::getFileInfoForPath(filePath));
-		std::string classPath = "";
-		for (const FilePath& path: arguments.javaClassPaths)
-		{
-			// the separator used here should be the same as the one used in JavaIndexer.java
-			classPath += path.str() + ";";
-		}
+		m_currentFilePath = sourceFilePath.str();
+
+		m_client->onFileParsed(FileSystem::getFileInfoForPath(sourceFilePath));
 
 		// remove tabs because they screw with javaparser's location resolver
 		std::string fileContent = utility::replace(textAccess->getText(), "\t", " ");
@@ -84,20 +82,13 @@ void JavaParser::parseFile(const FilePath& filePath, std::shared_ptr<TextAccess>
 			"io/coati/JavaIndexer",
 			"processFile",
 			m_id,
-			filePath.str(),
+			m_currentFilePath,
 			fileContent,
 			classPath,
 			verbose
 		);
 	}
 }
-
-
-
-
-
-
-
 
 int JavaParser::s_nextParserId = 0;
 

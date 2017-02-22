@@ -3,7 +3,7 @@
 #include "data/parser/cxx/CxxVerboseAstVisitor.h"
 #include "settings/ApplicationSettings.h"
 
-ASTConsumer::ASTConsumer(clang::ASTContext* context, clang::Preprocessor* preprocessor, ParserClient* client, FileRegister* fileRegister)
+ASTConsumer::ASTConsumer(clang::ASTContext* context, clang::Preprocessor* preprocessor, std::shared_ptr<ParserClient> client, std::shared_ptr<FileRegister> fileRegister)
 {
 	if (ApplicationSettings::getInstance()->getLoggingEnabled() && ApplicationSettings::getInstance()->getVerboseIndexerLoggingEnabled())
 	{

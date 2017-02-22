@@ -2,17 +2,14 @@
 
 #include "component/view/DialogView.h"
 #include "data/PersistentStorage.h"
-#include "utility/file/FileRegister.h"
 #include "utility/scheduling/Blackboard.h"
 #include "utility/utility.h"
 
 TaskParseWrapper::TaskParseWrapper(
 	PersistentStorage* storage,
-	std::shared_ptr<FileRegister> fileRegister,
 	DialogView* dialogView
 )
 	: m_storage(storage)
-	, m_fileRegister(fileRegister)
 	, m_dialogView(dialogView)
 {
 }
@@ -31,9 +28,8 @@ void TaskParseWrapper::setTask(std::shared_ptr<Task> task)
 
 void TaskParseWrapper::doEnter(std::shared_ptr<Blackboard> blackboard)
 {
-	blackboard->set("indexer_count", 0);
-
-	const size_t sourceFileCount = m_fileRegister->getSourceFilesCount();
+	int sourceFileCount = 0;
+	blackboard->get("source_file_count", sourceFileCount);
 	m_dialogView->updateIndexingDialog(0, sourceFileCount, "");
 
 	m_start = utility::durationStart();
@@ -51,7 +47,6 @@ Task::TaskState TaskParseWrapper::doUpdate(std::shared_ptr<Blackboard> blackboar
 
 void TaskParseWrapper::doExit(std::shared_ptr<Blackboard> blackboard)
 {
-	blackboard->clear("indexer_count");
 	blackboard->set("index_time", utility::duration(m_start));
 }
 

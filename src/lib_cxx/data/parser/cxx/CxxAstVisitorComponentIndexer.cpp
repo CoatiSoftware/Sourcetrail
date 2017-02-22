@@ -14,7 +14,9 @@
 #include "data/parser/ParserClient.h"
 #include "utility/file/FileRegister.h"
 
-CxxAstVisitorComponentIndexer::CxxAstVisitorComponentIndexer(CxxAstVisitor* astVisitor, clang::ASTContext* astContext, ParserClient* client, FileRegister* fileRegister)
+CxxAstVisitorComponentIndexer::CxxAstVisitorComponentIndexer(
+	CxxAstVisitor* astVisitor, clang::ASTContext* astContext, std::shared_ptr<ParserClient> client, std::shared_ptr<FileRegister> fileRegister
+)
 	: CxxAstVisitorComponent(astVisitor)
 	, m_astContext(astContext)
 	, m_client(client)
@@ -768,9 +770,9 @@ bool CxxAstVisitorComponentIndexer::isLocatedInUnparsedProjectFile(clang::Source
 			std::string fileName = fileEntry->getName();
 			FilePath filePath = FilePath(fileName).canonical();
 
-			if (m_fileRegister->hasIncludeFile(filePath))
+			if (m_fileRegister->hasFilePath(filePath))
 			{
-				ret = !(m_fileRegister->includeFileIsParsed(filePath));
+				ret = !(m_fileRegister->fileIsIndexed(filePath));
 			}
 		}
 

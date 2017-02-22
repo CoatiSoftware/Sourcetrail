@@ -11,7 +11,7 @@ class FileRegister;
 class CxxVerboseAstVisitor: public CxxAstVisitor
 {
 public:
-	CxxVerboseAstVisitor(clang::ASTContext* context, clang::Preprocessor* preprocessor, ParserClient* client, FileRegister* fileRegister);
+	CxxVerboseAstVisitor(clang::ASTContext* context, clang::Preprocessor* preprocessor, std::shared_ptr<ParserClient> client, std::shared_ptr<FileRegister> fileRegister);
 	virtual ~CxxVerboseAstVisitor();
 
 private:

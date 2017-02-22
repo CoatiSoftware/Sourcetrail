@@ -10,12 +10,10 @@
 TaskFinishParsing::TaskFinishParsing(
 	PersistentStorage* storage,
 	StorageAccess* storageAccess,
-	std::shared_ptr<FileRegister> fileRegister,
 	DialogView* dialogView
 )
 	: m_storage(storage)
 	, m_storageAccess(storageAccess)
-	, m_fileRegister(fileRegister)
 	, m_dialogView(dialogView)
 {
 }
@@ -58,9 +56,15 @@ Task::TaskState TaskFinishParsing::doUpdate(std::shared_ptr<Blackboard> blackboa
 		time += indexTime;
 	}
 
+	int indexedSourceFileCount = 0;
+	blackboard->get("indexed_source_file_count", indexedSourceFileCount);
+
+	int sourceFileCount = 0;
+	blackboard->get("source_file_count", sourceFileCount);
+
 	m_dialogView->finishedIndexingDialog(
-		m_fileRegister->getParsedSourceFilesCount(),
-		m_fileRegister->getSourceFilesCount(),
+		indexedSourceFileCount,
+		sourceFileCount,
 		time,
 		m_storageAccess->getErrorCount()
 	);

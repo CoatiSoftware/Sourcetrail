@@ -7,6 +7,8 @@
 #include "utility/text/TextAccess.h"
 #include "utility/tracing.h"
 
+#include "data/indexer/IndexerCommandCxxCdb.h"
+#include "data/indexer/IndexerCommandCxxManual.h"
 #include "data/parser/cxx/ASTActionFactory.h"
 #include "data/parser/cxx/CxxCompilationDatabaseSingle.h"
 #include "data/parser/cxx/CxxDiagnosticConsumer.h"
@@ -52,8 +54,7 @@ namespace
 	}
 }
 
-
-CxxParser::CxxParser(ParserClient* client, std::shared_ptr<FileRegister> fileRegister)
+CxxParser::CxxParser(std::shared_ptr<ParserClient> client, std::shared_ptr<FileRegister> fileRegister)
 	: Parser(client)
 	, m_fileRegister(fileRegister)
 {
@@ -63,34 +64,62 @@ CxxParser::~CxxParser()
 {
 }
 
-void CxxParser::parseFiles(const std::vector<FilePath>& filePaths, const Arguments& arguments)
+void CxxParser::buildIndex(std::shared_ptr<IndexerCommandCxxCdb> indexerCommand)
 {
-	m_fileRegister->setFilePaths(filePaths);
-	setupParsing(arguments);
+	clang::tooling::CompileCommand compileCommand;
+	compileCommand.Filename = indexerCommand->getSourceFilePath().str();
+	compileCommand.Directory = indexerCommand->getWorkingDirectory().str();
+	compileCommand.CommandLine = indexerCommand->getCompilerFlags();
 
-	std::vector<std::string> sourcePaths;
-	for (const FilePath& path : m_fileRegister->getUnparsedSourceFilePaths()) // filter headers
 	{
-		sourcePaths.push_back(path.absolute().str());
+		std::vector<std::string> args = getCommandlineArgumentsEssential(
+			std::vector<std::string>(), indexerCommand->getSystemHeaderSearchPaths(), indexerCommand->getFrameworkSearchPaths()
+		);
+		compileCommand.CommandLine.insert(compileCommand.CommandLine.end(), args.begin(), args.end());
 	}
 
-	runTool(sourcePaths);
+	CxxCompilationDatabaseSingle compilationDatabase(compileCommand);
+	clang::tooling::ClangTool tool(compilationDatabase, std::vector<std::string>(1, indexerCommand->getSourceFilePath().str()));
+
+	std::shared_ptr<CxxDiagnosticConsumer> diagnostics = getDiagnostics(true);
+	tool.setDiagnosticConsumer(diagnostics.get());
+
+	ASTActionFactory actionFactory(m_client, m_fileRegister);
+	tool.run(&actionFactory);
 }
 
-void CxxParser::parseFile(const FilePath& filePath, std::shared_ptr<TextAccess> textAccess, const Arguments& arguments)
+void CxxParser::buildIndex(std::shared_ptr<IndexerCommandCxxManual> indexerCommand)
 {
-	m_fileRegister->setFilePaths(std::vector<FilePath>(1, filePath));
-	setupParsing(arguments);
+	std::shared_ptr<clang::tooling::CompilationDatabase> compilationDatabase = getCompilationDatabase(indexerCommand);
 
-	std::vector<std::string> args = getCommandlineArguments(arguments);
-	std::shared_ptr<CxxDiagnosticConsumer> diagnostics = getDiagnostics(arguments);
+	clang::tooling::ClangTool tool(*compilationDatabase, std::vector<std::string>(1, indexerCommand->getSourceFilePath().str()));
 
-	ASTActionFactory actionFactory(m_client, m_fileRegister.get());
-	runToolOnCodeWithArgs(diagnostics.get(), actionFactory.create(), textAccess->getText(), args);
+	std::shared_ptr<CxxDiagnosticConsumer> diagnostics = getDiagnostics(true);
+	tool.setDiagnosticConsumer(diagnostics.get());
+
+	ASTActionFactory actionFactory(m_client, m_fileRegister);
+	tool.run(&actionFactory);
 }
 
-std::vector<std::string> CxxParser::getCommandlineArgumentsEssential(const Arguments& arguments) const
+void CxxParser::buildIndex(const std::string& fileName, std::shared_ptr<TextAccess> fileContent)
 {
+	std::shared_ptr<CxxDiagnosticConsumer> diagnostics = getDiagnostics(false);
+	ASTActionFactory actionFactory(m_client, m_fileRegister);
+
+	std::vector<std::string> args = getCommandlineArgumentsEssential(std::vector<std::string>(1, "-std=c++1z"), std::vector<FilePath>(), std::vector<FilePath>());
+
+	runToolOnCodeWithArgs(
+		diagnostics.get(),
+		actionFactory.create(),
+		fileContent->getText(),
+		args,
+		fileName
+	);
+}
+
+std::vector<std::string> CxxParser::getCommandlineArgumentsEssential(
+	const std::vector<std::string>& compilerFlags, const std::vector<FilePath>& systemHeaderSearchPaths, const std::vector<FilePath>& frameworkSearchPaths
+) const {
 	std::vector<std::string> args;
 
 	// verbose
@@ -108,24 +137,19 @@ std::vector<std::string> CxxParser::getCommandlineArgumentsEssential(const Argum
 
 	// The option -w disables all warnings.
 	args.push_back("-w");
-	
+
 	// This option tells clang just to continue parsing no matter how manny errors have been thrown.
 	args.push_back("-ferror-limit=0");
 
-	args.insert(args.end(), arguments.compilerFlags.begin(), arguments.compilerFlags.end());
+	args.insert(args.end(), compilerFlags.begin(), compilerFlags.end());
 
-	for (const FilePath& path : arguments.headerSearchPaths)
-	{
-		args.push_back("-I" + path.str());
-	}
-
-	for (const FilePath& path : arguments.systemHeaderSearchPaths)
+	for (const FilePath& path: systemHeaderSearchPaths)
 	{
 		args.push_back("-isystem");
 		args.push_back(path.str());
 	}
 
-	for (const FilePath& path : arguments.frameworkSearchPaths)
+	for (const FilePath& path: frameworkSearchPaths)
 	{
 		args.push_back("-iframework");
 		args.push_back(path.str());
@@ -134,22 +158,24 @@ std::vector<std::string> CxxParser::getCommandlineArgumentsEssential(const Argum
 	return args;
 }
 
-std::vector<std::string> CxxParser::getCommandlineArguments(const Arguments& arguments) const
+std::vector<std::string> CxxParser::getCommandlineArguments(std::shared_ptr<IndexerCommandCxxManual> indexerCommand) const
 {
-	std::vector<std::string> args = getCommandlineArgumentsEssential(arguments);
+	std::vector<std::string> args = getCommandlineArgumentsEssential(
+		indexerCommand->getCompilerFlags(), indexerCommand->getSystemHeaderSearchPaths(), indexerCommand->getFrameworkSearchPaths()
+	);
 
 	// Set language standard
-	std::string standard = "-std=" + arguments.languageStandard;
+	std::string standard = "-std=" + indexerCommand->getLanguageStandard();
 	args.push_back(standard);
 
 	return args;
 }
 
 std::shared_ptr<clang::tooling::FixedCompilationDatabase> CxxParser::getCompilationDatabase(
-	const Arguments& arguments
+	std::shared_ptr<IndexerCommandCxxManual> indexerCommand
 ) const {
 	// Commandline flags passed to the programm. Everything after '--' will be interpreted by the ClangTool.
-	std::vector<std::string> args = getCommandlineArguments(arguments);
+	std::vector<std::string> args = getCommandlineArguments(indexerCommand);
 	args.insert(args.begin(), "app");
 	args.insert(args.begin() + 1, "--");
 
@@ -175,56 +201,9 @@ std::shared_ptr<clang::tooling::FixedCompilationDatabase> CxxParser::getCompilat
 	return compilationDatabase;
 }
 
-std::shared_ptr<CxxDiagnosticConsumer> CxxParser::getDiagnostics(const Arguments& arguments) const
+std::shared_ptr<CxxDiagnosticConsumer> CxxParser::getDiagnostics(bool logErrors) const
 {
 	llvm::IntrusiveRefCntPtr<clang::DiagnosticOptions> options = new clang::DiagnosticOptions();
 	return std::make_shared<CxxDiagnosticConsumer>(
-		llvm::errs(), &*options, m_client, m_fileRegister.get(), arguments.logErrors);
-}
-
-void CxxParser::setupParsing(const Arguments& arguments)
-{
-	m_compilationDatabase = getCompilationDatabase(arguments);
-	m_diagnostics = getDiagnostics(arguments);
-}
-
-void CxxParser::setupParsingCDB(const Arguments& arguments)
-{
-	m_diagnostics = getDiagnostics(arguments);
-}
-
-void CxxParser::runTool(const std::vector<std::string>& files)
-{
-	TRACE();
-
-	clang::tooling::ClangTool tool(*m_compilationDatabase, files);
-	tool.setDiagnosticConsumer(m_diagnostics.get());
-
-	ASTActionFactory actionFactory(m_client, m_fileRegister.get());
-	tool.run(&actionFactory);
-}
-
-void CxxParser::runTool(clang::tooling::CompileCommand command, const Arguments& arguments)
-{
-	TRACE();
-
-	std::vector<std::string> args = getCommandlineArgumentsEssential(arguments);
-	command.CommandLine.insert(command.CommandLine.end(), args.begin(), args.end());
-
-	CxxCompilationDatabaseSingle compilationDatabase(command);
-	clang::tooling::ClangTool tool(compilationDatabase, std::vector<std::string>(1, command.Filename));
-	tool.setDiagnosticConsumer(m_diagnostics.get());
-
-	ASTActionFactory actionFactory(m_client, m_fileRegister.get());
-	tool.run(&actionFactory);
-}
-
-FileRegister* CxxParser::getFileRegister()
-{
-	return m_fileRegister.get();
-}
-
-ParserClient* CxxParser::getParserClient()
-{
-	return m_client;
+		llvm::errs(), &*options, m_client, m_fileRegister, logErrors);
 }

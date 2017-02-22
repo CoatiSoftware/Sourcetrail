@@ -10,14 +10,14 @@ class CommentHandler
 	: public clang::CommentHandler
 {
 public:
-	CommentHandler(ParserClient* client, FileRegister* fileRegister);
+	CommentHandler(std::shared_ptr<ParserClient> client, std::shared_ptr<FileRegister> fileRegister);
 	virtual ~CommentHandler();
 
 	virtual bool HandleComment(clang::Preprocessor& preprocessor, clang::SourceRange sourceRange);
 
 private:
-	ParserClient* m_client;
-	FileRegister* m_fileRegister;
+	std::shared_ptr<ParserClient> m_client;
+	std::shared_ptr<FileRegister> m_fileRegister;
 };
 
 #endif // COMMENT_HANDLER_H

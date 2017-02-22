@@ -6,42 +6,35 @@
 
 class CxxDiagnosticConsumer;
 class FileRegister;
-class FileRegister;
+class IndexerCommandCxxCdb;
+class IndexerCommandCxxManual;
 class TaskParseCxx;
 
 class CxxParser: public Parser
 {
 public:
-	CxxParser(ParserClient* client, std::shared_ptr<FileRegister> fileRegister);
+	CxxParser(std::shared_ptr<ParserClient> client, std::shared_ptr<FileRegister> fileRegister);
 	~CxxParser();
 
-	// ParserClient implementation
-	virtual void parseFiles(const std::vector<FilePath>& filePaths, const Arguments& arguments);
-	virtual void parseFile(const FilePath& filePath, std::shared_ptr<TextAccess> textAccess, const Arguments& arguments);
+	void buildIndex(std::shared_ptr<IndexerCommandCxxCdb> indexerCommand);
+	void buildIndex(std::shared_ptr<IndexerCommandCxxManual> indexerCommand);
+	void buildIndex(const std::string& fileName, std::shared_ptr<TextAccess> fileContent);
+
 
 private:
-	std::vector<std::string> getCommandlineArgumentsEssential(const Arguments& arguments) const;
-	std::vector<std::string> getCommandlineArguments(const Arguments& arguments) const;
-	std::shared_ptr<clang::tooling::FixedCompilationDatabase> getCompilationDatabase(const Arguments& arguments) const;
+	std::vector<std::string> getCommandlineArgumentsEssential(
+		const std::vector<std::string>& compilerFlags,
+		const std::vector<FilePath>& systemHeaderSearchPaths,
+		const std::vector<FilePath>& frameworkSearchPaths) const;
+	std::vector<std::string> getCommandlineArguments(std::shared_ptr<IndexerCommandCxxManual> indexerCommand) const;
+	std::shared_ptr<clang::tooling::FixedCompilationDatabase> getCompilationDatabase(std::shared_ptr<IndexerCommandCxxManual> indexerCommand) const;
 
-	std::shared_ptr<CxxDiagnosticConsumer> getDiagnostics(const Arguments& arguments) const;
-
-	// Accessed by TaskParseCxx
-	void setupParsing(const Arguments& arguments);
-	void setupParsingCDB(const Arguments& arguments);
-
-	void runTool(const std::vector<std::string>& files);
-	void runTool(clang::tooling::CompileCommand command, const Arguments& arguments);
-
-	FileRegister* getFileRegister();
-	ParserClient* getParserClient();
+	std::shared_ptr<CxxDiagnosticConsumer> getDiagnostics(bool logErrors) const;
 
 	friend class TaskParseCxx;
 
 	std::shared_ptr<FileRegister> m_fileRegister;
 
-	std::shared_ptr<clang::tooling::CompilationDatabase> m_compilationDatabase;
-	std::shared_ptr<CxxDiagnosticConsumer> m_diagnostics;
 };
 
 #endif // CXX_PARSER_H

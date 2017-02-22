@@ -13,8 +13,8 @@ public:
 	CxxDiagnosticConsumer(
 		clang::raw_ostream &os,
 		clang::DiagnosticOptions *diags,
-		ParserClient* client,
-		FileRegister* fileRegister,
+		std::shared_ptr<ParserClient> client,
+		std::shared_ptr<FileRegister> fileRegister,
 		bool useLogging = true
 	);
 
@@ -24,8 +24,8 @@ public:
 	void HandleDiagnostic(clang::DiagnosticsEngine::Level level, const clang::Diagnostic& info);
 
 private:
-	ParserClient* m_client;
-	FileRegister* m_register;
+	std::shared_ptr<ParserClient> m_client;
+	std::shared_ptr<FileRegister> m_register;
 
 	bool m_isParsingFile;
 	bool m_useLogging;

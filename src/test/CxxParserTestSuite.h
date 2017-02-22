@@ -5,11 +5,12 @@
 #include "utility/utility.h"
 #include "utility/utilityString.h"
 
+#include "data/indexer/IndexerCommandCxxManual.h"
 #include "data/parser/cxx/CxxParser.h"
 #include "data/parser/ParseLocation.h"
 #include "data/parser/ParserClient.h"
 
-#include "helper/TestFileManager.h"
+#include "helper/TestFileRegister.h"
 #include "helper/TestParserClient.h"
 
 class CxxParserTestSuite: public CxxTest::TestSuite
@@ -3301,40 +3302,44 @@ public:
 
 	void test_cxx_parser_parses_multiple_files()
 	{
-		TestFileManager fm;
-		std::shared_ptr<FileRegister> fr = std::make_shared<FileRegister>(&fm, false);
-		TestParserClient client;
-		CxxParser parser(&client, fr);
+		std::set<FilePath> indexedPaths;
+		indexedPaths.insert("data/CxxParserTestSuite/");
 
-		std::vector<FilePath> filePaths;
-		filePaths.push_back(FilePath("data/CxxParserTestSuite/code.cpp"));
+		std::shared_ptr<IndexerCommandCxxManual> indexerCommand = std::make_shared<IndexerCommandCxxManual>(
+			FilePath("data/CxxParserTestSuite/code.cpp"),
+			indexedPaths,
+			std::set<FilePath>(),
+			"c++1z",
+			std::vector<FilePath>(),
+			std::vector<FilePath>(),
+			std::vector<std::string>()
+		);
 
-		Parser::Arguments args;
-		args.language = "c++";
-		args.languageStandard = "c++1z";
+		std::shared_ptr<TestParserClient> client = std::make_shared<TestParserClient>();
+		CxxParser parser(client, std::make_shared<TestFileRegister>());
 
-		parser.parseFiles(filePaths, args);
+		parser.buildIndex(indexerCommand);
 
-		TS_ASSERT_EQUALS(client.errors.size(), 0);
+		TS_ASSERT_EQUALS(client->errors.size(), 0);
 
-		TS_ASSERT_EQUALS(client.typedefs.size(), 1);
-		TS_ASSERT_EQUALS(client.classes.size(), 5);
-		TS_ASSERT_EQUALS(client.enums.size(), 1);
-		TS_ASSERT_EQUALS(client.enumConstants.size(), 2);
-		TS_ASSERT_EQUALS(client.functions.size(), 5); // used methods are also recorded as functions (these get overridden in the intermediate storage)
-		TS_ASSERT_EQUALS(client.fields.size(), 4);
-		TS_ASSERT_EQUALS(client.globalVariables.size(), 2);
-		TS_ASSERT_EQUALS(client.methods.size(), 15);
-		TS_ASSERT_EQUALS(client.namespaces.size(), 2);
-		TS_ASSERT_EQUALS(client.structs.size(), 1);
+		TS_ASSERT_EQUALS(client->typedefs.size(), 1);
+		TS_ASSERT_EQUALS(client->classes.size(), 5);
+		TS_ASSERT_EQUALS(client->enums.size(), 1);
+		TS_ASSERT_EQUALS(client->enumConstants.size(), 2);
+		TS_ASSERT_EQUALS(client->functions.size(), 5); // used methods are also recorded as functions (these get overridden in the intermediate storage)
+		TS_ASSERT_EQUALS(client->fields.size(), 4);
+		TS_ASSERT_EQUALS(client->globalVariables.size(), 2);
+		TS_ASSERT_EQUALS(client->methods.size(), 15);
+		TS_ASSERT_EQUALS(client->namespaces.size(), 2);
+		TS_ASSERT_EQUALS(client->structs.size(), 1);
 
-		TS_ASSERT_EQUALS(client.inheritances.size(), 1);
-		TS_ASSERT_EQUALS(client.calls.size(), 3);
-		TS_ASSERT_EQUALS(client.usages.size(), 3);
-		TS_ASSERT_EQUALS(client.typeUses.size(), 17);
+		TS_ASSERT_EQUALS(client->inheritances.size(), 1);
+		TS_ASSERT_EQUALS(client->calls.size(), 3);
+		TS_ASSERT_EQUALS(client->usages.size(), 3);
+		TS_ASSERT_EQUALS(client->typeUses.size(), 17);
 
-		TS_ASSERT_EQUALS(client.files.size(), 2);
-		TS_ASSERT_EQUALS(client.includes.size(), 1);
+		TS_ASSERT_EQUALS(client->files.size(), 2);
+		TS_ASSERT_EQUALS(client->includes.size(), 1);
 	}
 
 	void test_cxx_parser_catches_error()
@@ -3393,17 +3398,10 @@ private:
 	{
 		NameHierarchy::setDelimiter("::");
 
-		m_args.logErrors = logErrors;
-		m_args.language = "c++";
-		m_args.languageStandard = "c++1z";
-
-		TestFileManager fm;
-		std::shared_ptr<FileRegister> fr = std::make_shared<FileRegister>(&fm, false);
-		std::shared_ptr<TestParserClient> client = std::make_shared<TestParserClient>();
-		CxxParser parser(client.get(), fr);
-		parser.parseFile("input.cc", TextAccess::createFromString(code), m_args);
-		return client;
+		std::shared_ptr<TestFileRegister> fileRegister = std::make_shared<TestFileRegister>();
+		std::shared_ptr<TestParserClient> parserClient = std::make_shared<TestParserClient>();
+		CxxParser parser(parserClient, fileRegister);
+		parser.buildIndex("input.cc", TextAccess::createFromString(code));
+		return parserClient;
 	}
-
-	Parser::Arguments m_args;
 };

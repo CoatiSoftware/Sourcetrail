@@ -4,7 +4,7 @@
 #include "data/parser/ParserClient.h"
 #include "utility/file/FileRegister.h"
 
-CommentHandler::CommentHandler(ParserClient* client, FileRegister* fileRegister)
+CommentHandler::CommentHandler(std::shared_ptr<ParserClient> client, std::shared_ptr<FileRegister> fileRegister)
 	: m_client(client)
 	, m_fileRegister(fileRegister)
 {
@@ -21,7 +21,7 @@ bool CommentHandler::HandleComment(clang::Preprocessor& preprocessor, clang::Sou
 	const clang::PresumedLoc& presumedEnd = sourceManager.getPresumedLoc(sourceRange.getEnd(), false);
 
 	FilePath filePath = FilePath(presumedBegin.getFilename());
-	if (m_fileRegister->hasFilePath(filePath) && !m_fileRegister->fileIsParsed(filePath))
+	if (m_fileRegister->hasFilePath(filePath) && !m_fileRegister->fileIsIndexed(filePath))
 	{
 		m_client->onCommentParsed(ParseLocation(
 			presumedBegin.getFilename(),

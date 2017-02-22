@@ -1,9 +1,9 @@
 #include "JavaProject.h"
 
 #include "component/view/DialogView.h"
+#include "data/indexer/IndexerCommandJava.h"
 #include "data/parser/java/JavaEnvironmentFactory.h"
 #include "data/parser/java/JavaEnvironment.h"
-#include "data/parser/java/TaskParseJava.h"
 #include "utility/file/FileRegister.h"
 #include "utility/text/TextAccess.h"
 #include "utility/messaging/type/MessageStatus.h"
@@ -81,17 +81,15 @@ bool JavaProject::prepareIndexing()
 	return true;
 }
 
-std::shared_ptr<Task> JavaProject::createIndexerTask(
-	std::shared_ptr<StorageProvider> storageProvider,
-	std::shared_ptr<FileRegister> fileRegister)
+std::vector<std::shared_ptr<IndexerCommand>> JavaProject::getIndexerCommands()
 {
-	Parser::Arguments arguments;
+	std::vector<FilePath> classPath;
 
-	for (FilePath classpath: m_projectSettings->getAbsoluteClasspaths())
+	for (FilePath p: m_projectSettings->getAbsoluteClasspaths())
 	{
-		if (classpath.exists())
+		if (p.exists())
 		{
-			arguments.javaClassPaths.push_back(classpath.str());
+			classPath.push_back(p);
 		}
 	}
 
@@ -106,17 +104,37 @@ std::shared_ptr<Task> JavaProject::createIndexerTask(
 	{
 		if (rootDirectory.exists())
 		{
-			arguments.javaClassPaths.push_back(rootDirectory.str());
+			classPath.push_back(rootDirectory.str());
 		}
 	}
 
-	return std::make_shared<TaskParseJava>(
-		storageProvider,
-		fileRegister,
-		arguments,
-		getDialogView()
-	);
+	std::set<FilePath> indexedPaths;
+	for (FilePath p: m_projectSettings->getAbsoluteSourcePaths())
+	{
+		if (p.exists())
+		{
+			indexedPaths.insert(p);
+		}
+	}
+
+	std::set<FilePath> excludedPaths;
+	for (FilePath p: m_projectSettings->getAbsoluteExcludePaths())
+	{
+		if (p.exists())
+		{
+			excludedPaths.insert(p);
+		}
+	}
+
+	std::vector<std::shared_ptr<IndexerCommand>> indexerCommands;
+	for (const FilePath& sourcePath: getSourceFilePaths())
+	{
+		indexerCommands.push_back(std::make_shared<IndexerCommandJava>(sourcePath, indexedPaths, excludedPaths, classPath));
+	}
+
+	return indexerCommands;
 }
+
 
 void JavaProject::updateFileManager(FileManager& fileManager)
 {

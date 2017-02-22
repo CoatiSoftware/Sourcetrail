@@ -1,8 +1,6 @@
 #ifndef TASK_RETURN_SUCCESS_WHILE_H
 #define TASK_RETURN_SUCCESS_WHILE_H
 
-#include <vector>
-
 #include "utility/scheduling/Task.h"
 #include "utility/scheduling/Blackboard.h"
 

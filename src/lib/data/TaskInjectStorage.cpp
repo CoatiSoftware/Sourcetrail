@@ -23,7 +23,7 @@ Task::TaskState TaskInjectStorage::doUpdate(std::shared_ptr<Blackboard> blackboa
 {
 	if (m_storageProvider->getStorageCount() > 0)
 	{
-		std::shared_ptr<IntermediateStorage> source = m_storageProvider->popInjectionSource();
+		std::shared_ptr<IntermediateStorage> source = m_storageProvider->consumeLargestStorage();
 		if (source)
 		{
 			m_target->inject(source.get());

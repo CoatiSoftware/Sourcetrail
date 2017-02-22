@@ -2,18 +2,21 @@
 
 #include "component/view/DialogView.h"
 #include "data/access/StorageAccessProxy.h"
+#include "data/indexer/IndexerCommand.h"
+#include "data/indexer/IndexerCommandList.h"
+#include "data/indexer/TaskBuildIndex.h"
 #include "data/parser/TaskParseWrapper.h"
-#include "data/parser/java/TaskParseJava.h"
 #include "data/StorageProvider.h"
 #include "data/PersistentStorage.h"
 #include "data/TaskCleanStorage.h"
+#include "data/TaskMergeStorages.h"
 #include "data/TaskShowStatusDialog.h"
 #include "data/TaskFinishParsing.h"
 #include "data/TaskInjectStorage.h"
 #include "settings/ApplicationSettings.h"
 #include "settings/ProjectSettings.h"
 
-#include "utility/file/FileRegister.h"
+#include "utility/file/FileRegisterStateData.h"
 #include "utility/messaging/type/MessageClearErrorCount.h"
 #include "utility/messaging/type/MessageDispatchWhenLicenseValid.h"
 #include "utility/messaging/type/MessageFinishedParsing.h"
@@ -24,6 +27,7 @@
 #include "utility/scheduling/TaskGroupSequence.h"
 #include "utility/scheduling/TaskGroupParallel.h"
 #include "utility/scheduling/TaskReturnSuccessWhile.h"
+#include "utility/scheduling/TaskSetValue.h"
 #include "utility/text/TextAccess.h"
 #include "utility/utility.h"
 #include "utility/utilityString.h"
@@ -152,6 +156,13 @@ std::string Project::getDescription() const
 	return getProjectSettings()->getDescription();
 }
 
+#include "utility/file/FileSystem.h"
+
+std::set<FilePath> Project::getSourceFilePaths() const
+{
+	return m_fileManager.getSourceFilePaths();
+}
+
 bool Project::settingsEqualExceptNameAndLocation(const ProjectSettings& otherSettings) const
 {
 	return getProjectSettings()->equalsExceptNameAndLocation(otherSettings);
@@ -177,7 +188,7 @@ DialogView* Project::getDialogView() const
 	return m_dialogView;
 }
 
-const std::vector<FilePath>& Project::getSourcePaths() const
+std::vector<FilePath> Project::getSourcePaths() const
 {
 	return m_fileManager.getSourcePaths();
 }
@@ -287,7 +298,7 @@ bool Project::requestIndex(bool forceRefresh, bool needsFullRefresh)
 		}
 
 		// handle referenced paths
-		std::set<FilePath> staticSourceFiles = fileSets.allFiles;
+		std::set<FilePath> staticSourceFiles = fileSets.allSourceFilePaths;
 		for (const FilePath& path : fileSets.updatedFiles)
 		{
 			staticSourceFiles.erase(path);
@@ -313,7 +324,7 @@ bool Project::requestIndex(bool forceRefresh, bool needsFullRefresh)
 	if (Application::getInstance()->hasGUI())
 	{
 		DialogView::IndexMode mode = m_dialogView->startIndexingDialog(
-			filesToClean.size(), filesToIndex.size(), fileSets.allFiles.size(),
+			filesToClean.size(), filesToIndex.size(), fileSets.allSourceFilePaths.size(),
 			forceRefresh, needsFullRefresh
 		);
 
@@ -333,7 +344,7 @@ bool Project::requestIndex(bool forceRefresh, bool needsFullRefresh)
 	if (fullRefresh)
 	{
 		filesToClean.clear();
-		filesToIndex = fileSets.allFiles;
+		filesToIndex = fileSets.allSourceFilePaths;
 	}
 
 	if (!filesToClean.size() && !filesToIndex.size())
@@ -362,6 +373,7 @@ void Project::buildIndex(const std::set<FilePath>& filesToClean, const std::set<
 
 	std::shared_ptr<TaskGroupSequence> taskSequential = std::make_shared<TaskGroupSequence>();
 
+	// add task for cleaning the database
 	if (!filesToClean.empty())
 	{
 		taskSequential->addTask(std::make_shared<TaskCleanStorage>(
@@ -371,17 +383,31 @@ void Project::buildIndex(const std::set<FilePath>& filesToClean, const std::set<
 		);
 	}
 
-	const size_t indexerThreadCount = ApplicationSettings::getInstance()->getIndexerThreadCount();
-
-	std::shared_ptr<FileRegister> fileRegister = std::make_shared<FileRegister>(&m_fileManager, indexerThreadCount > 1);
-
 	if (!filesToIndex.empty())
 	{
-		fileRegister->setFilePaths(utility::toVector(filesToIndex));
+		const size_t indexerThreadCount = ApplicationSettings::getInstance()->getIndexerThreadCount();
+
+		std::shared_ptr<IndexerCommandList> indexerCommandList = std::make_shared<IndexerCommandList>();
+		for (std::shared_ptr<IndexerCommand> indexerCommand: getIndexerCommands(filesToIndex))
+		{
+			indexerCommandList->addCommand(indexerCommand);
+		}
+		if (indexerThreadCount > 1)
+		{
+			indexerCommandList->shuffle();
+		}
+
+		std::shared_ptr<FileRegisterStateData> fileRegisterStateData = std::make_shared<FileRegisterStateData>();
+
+		std::shared_ptr<StorageProvider> storageProvider = std::make_shared<StorageProvider>();
+
+		// add tasks for setting some variables on the blackboard that are used during indexing
+		taskSequential->addTask(std::make_shared<TaskSetValue<int>>("source_file_count", indexerCommandList->size()));
+		taskSequential->addTask(std::make_shared<TaskSetValue<int>>("indexed_source_file_count", 0));
+		taskSequential->addTask(std::make_shared<TaskSetValue<int>>("indexer_count", 0));
 
 		std::shared_ptr<TaskParseWrapper> taskParserWrapper = std::make_shared<TaskParseWrapper>(
 			m_storage.get(),
-			fileRegister,
 			m_dialogView
 		);
 		taskSequential->addTask(taskParserWrapper);
@@ -389,17 +415,32 @@ void Project::buildIndex(const std::set<FilePath>& filesToClean, const std::set<
 		std::shared_ptr<TaskGroupParallel> taskParallelIndexing = std::make_shared<TaskGroupParallel>();
 		taskParserWrapper->setTask(taskParallelIndexing);
 
-		std::shared_ptr<StorageProvider> storageProvider = std::make_shared<StorageProvider>();
-
+		// add tasks for indexing and merging
 		for (size_t i = 0; i < indexerThreadCount && i < filesToIndex.size(); i++)
 		{
 			taskParallelIndexing->addChildTasks(
 				std::make_shared<TaskDecoratorRepeat>(TaskDecoratorRepeat::CONDITION_WHILE_SUCCESS, Task::STATE_SUCCESS)->addChildTask(
-					createIndexerTask(storageProvider, fileRegister)
+					std::make_shared<TaskBuildIndex>(indexerCommandList, storageProvider, fileRegisterStateData, getDialogView())
 				)
 			);
 		}
 
+		// add task for merging the intermediate storages
+		taskParallelIndexing->addTask(
+			std::make_shared<TaskGroupSequence>()->addChildTasks(
+				std::make_shared<TaskDecoratorRepeat>(TaskDecoratorRepeat::CONDITION_WHILE_SUCCESS, Task::STATE_SUCCESS)->addChildTask(
+					std::make_shared<TaskReturnSuccessWhile<int>>("indexer_count", TaskReturnSuccessWhile<int>::CONDITION_EQUALS, 0)
+				),
+				std::make_shared<TaskDecoratorRepeat>(TaskDecoratorRepeat::CONDITION_WHILE_SUCCESS, Task::STATE_SUCCESS)->addChildTask(
+					std::make_shared<TaskGroupSelector>()->addChildTasks(
+						std::make_shared<TaskMergeStorages>(storageProvider),
+						std::make_shared<TaskReturnSuccessWhile<int>>("indexer_count", TaskReturnSuccessWhile<int>::CONDITION_GREATER_THAN, 0)
+					)
+				)
+			)
+		);
+
+		// add task for injecting the intermediate storages into the persistent storage
 		taskParallelIndexing->addTask(
 			std::make_shared<TaskGroupSequence>()->addChildTasks(
 				std::make_shared<TaskDecoratorRepeat>(TaskDecoratorRepeat::CONDITION_WHILE_SUCCESS, Task::STATE_SUCCESS)->addChildTask(
@@ -419,10 +460,12 @@ void Project::buildIndex(const std::set<FilePath>& filesToClean, const std::set<
 			)
 		);
 
+		// add task that notifies the user of what's going on
 		taskSequential->addTask( // we don't need to hide this dialog again, because it's overridden by other dialogs later on.
 			std::make_shared<TaskShowStatusDialog>("Finish Indexing", "Saving\nRemaining Data", m_dialogView)
 		);
 
+		// add task that injects the remaining intermediate storages into the persistent storage
 		taskSequential->addTask(
 			std::make_shared<TaskDecoratorRepeat>(TaskDecoratorRepeat::CONDITION_WHILE_SUCCESS, Task::STATE_SUCCESS)->addChildTask(
 				std::make_shared<TaskInjectStorage>(storageProvider, m_storage)
@@ -430,7 +473,7 @@ void Project::buildIndex(const std::set<FilePath>& filesToClean, const std::set<
 		);
 	}
 
-	taskSequential->addTask(std::make_shared<TaskFinishParsing>(m_storage.get(), m_storageAccessProxy, fileRegister, m_dialogView));
+	taskSequential->addTask(std::make_shared<TaskFinishParsing>(m_storage.get(), m_storageAccessProxy, m_dialogView));
 
 	Task::dispatch(taskSequential);
 }
@@ -444,3 +487,28 @@ bool Project::prepareRefresh()
 {
 	return true;
 }
+
+std::vector<std::shared_ptr<IndexerCommand>> Project::getIndexerCommands(const std::set<FilePath>& sourceFiles)
+{
+	struct special_compare : public std::unary_function<FilePath, bool>
+	{
+		explicit special_compare(const FilePath& baseline) : m_baseline(baseline) {}
+		bool operator() (const FilePath& arg)
+		{
+			return arg.str() == m_baseline.str();
+		}
+		const FilePath m_baseline;
+	};
+
+	std::vector<std::shared_ptr<IndexerCommand>> indexerCommands;
+	for (std::shared_ptr<IndexerCommand> indexerCommand: getIndexerCommands())
+	{
+		if (std::find_if(sourceFiles.begin(), sourceFiles.end(), special_compare(indexerCommand->getSourceFilePath())) != sourceFiles.end())
+		{
+			indexerCommands.push_back(indexerCommand);
+		}
+	}
+
+	return indexerCommands;
+}
+

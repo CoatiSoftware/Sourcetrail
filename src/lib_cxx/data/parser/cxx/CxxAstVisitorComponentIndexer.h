@@ -12,7 +12,7 @@
 class CxxAstVisitorComponentIndexer: public CxxAstVisitorComponent
 {
 public:
-	CxxAstVisitorComponentIndexer(CxxAstVisitor* astVisitor, clang::ASTContext* astContext, ParserClient* client, FileRegister* fileRegister);
+	CxxAstVisitorComponentIndexer(CxxAstVisitor* astVisitor, clang::ASTContext* astContext, std::shared_ptr<ParserClient> client, std::shared_ptr<FileRegister> fileRegister);
 	virtual ~CxxAstVisitorComponentIndexer();
 
 	virtual void beginTraverseNestedNameSpecifierLoc(const clang::NestedNameSpecifierLoc& loc);
@@ -68,8 +68,8 @@ private:
 	bool isLocatedInProjectFile(clang::SourceLocation loc);
 
 	clang::ASTContext* m_astContext;
-	ParserClient* m_client;
-	FileRegister* m_fileRegister;
+	std::shared_ptr<ParserClient> m_client;
+	std::shared_ptr<FileRegister> m_fileRegister;
 
 	std::unordered_map<const clang::FileID, bool, FileIdHash> m_inUnparsedProjectFileMap;
 	std::unordered_map<const clang::FileID, bool, FileIdHash> m_inProjectFileMap;

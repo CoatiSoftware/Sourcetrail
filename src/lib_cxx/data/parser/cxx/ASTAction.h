@@ -1,6 +1,8 @@
 #ifndef AST_ACTION_H
 #define AST_ACTION_H
 
+#include <memory>
+
 #include "clang/Frontend/CompilerInstance.h"
 #include "clang/Frontend/FrontendAction.h"
 
@@ -11,7 +13,7 @@
 class ASTAction : public clang::ASTFrontendAction
 {
 public:
-	explicit ASTAction(ParserClient* client, FileRegister* fileRegister);
+	explicit ASTAction(std::shared_ptr<ParserClient> client, std::shared_ptr<FileRegister> fileRegister);
 	virtual ~ASTAction();
 
 protected:
@@ -20,8 +22,8 @@ protected:
 	virtual bool BeginSourceFileAction(clang::CompilerInstance& compiler, llvm::StringRef filePath);
 
 private:
-	ParserClient* m_client;
-	FileRegister* m_fileRegister;
+	std::shared_ptr<ParserClient> m_client;
+	std::shared_ptr<FileRegister> m_fileRegister;
 	CommentHandler m_commentHandler;
 
 };

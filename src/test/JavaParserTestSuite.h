@@ -10,7 +10,7 @@
 #include "data/parser/java/JavaEnvironmentFactory.h"
 #include "data/parser/java/JavaParser.h"
 
-#include "helper/TestFileManager.h"
+#include "helper/TestFileRegister.h"
 #include "helper/TestParserClient.h"
 
 
@@ -835,23 +835,15 @@ private:
 	{
 		NameHierarchy::setDelimiter(".");
 
-		m_args.logErrors = logErrors;
-		m_args.language = "Java";
-		m_args.languageStandard = "1.8";
-
-		TestFileManager fm;
-		std::shared_ptr<FileRegister> fr = std::make_shared<FileRegister>(&fm, false);
-		std::shared_ptr<TestParserClient> client = std::make_shared<TestParserClient>();
+		std::shared_ptr<TestParserClient> parserClient = std::make_shared<TestParserClient>();
 
 		std::shared_ptr<TextAccess> textAccess = TextAccess::createFromString(code);
 
 		setupJavaEnvironmentFactory();
 
-		JavaParser parser(client.get());
-		parser.parseFile("input.cc", textAccess, m_args);
+		JavaParser parser(parserClient);
+		parser.buildIndex("input.cc", textAccess);
 
-		return client;
+		return parserClient;
 	}
-
-	Parser::Arguments m_args;
 };

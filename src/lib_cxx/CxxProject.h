@@ -25,13 +25,9 @@ private:
 
 	virtual bool prepareRefresh();
 
-	virtual std::shared_ptr<Task> createIndexerTask(
-		std::shared_ptr<StorageProvider> storageProvider,
-		std::shared_ptr<FileRegister> fileRegister);
+	virtual std::vector<std::shared_ptr<IndexerCommand>> getIndexerCommands();
 
 	virtual void updateFileManager(FileManager& fileManager);
-
-	Parser::Arguments getParserArguments() const;
 
 	std::shared_ptr<CxxProjectSettings> m_projectSettings;
 

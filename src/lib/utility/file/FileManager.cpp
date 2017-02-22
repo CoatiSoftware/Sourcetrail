@@ -15,11 +15,6 @@ FileManager::~FileManager()
 {
 }
 
-const std::vector<FilePath>& FileManager::getSourcePaths() const
-{
-	return m_sourcePaths;
-}
-
 void FileManager::setPaths(
 	std::vector<FilePath> sourcePaths,
 	std::vector<FilePath> headerPaths,
@@ -34,24 +29,26 @@ void FileManager::setPaths(
 
 FileManager::FileSets FileManager::fetchFilePaths(const std::vector<FileInfo>& oldFileInfos)
 {
-	m_files.clear();
+	m_filesInfos.clear();
 	for (FileInfo oldFileInfo: oldFileInfos)
 	{
-		m_files.emplace(oldFileInfo.path, oldFileInfo);
+		m_filesInfos.emplace(oldFileInfo.path, oldFileInfo);
 	}
 
 	FileSets fileSets;
 
-	for (std::map<FilePath, FileInfo>::iterator it = m_files.begin(); it != m_files.end(); it++)
+	// update old files that have been modified
+	// remove old files that don't exist anymore
+	for (std::map<FilePath, FileInfo>::iterator it = m_filesInfos.begin(); it != m_filesInfos.end(); it++)
 	{
 		const FilePath& filePath = it->first;
 		if (filePath.exists() && !hasSourceFilePath(filePath))
 		{
-			FileInfo fileInfo = FileSystem::getFileInfoForPath(filePath);
+			FileInfo newFileInfo = FileSystem::getFileInfoForPath(filePath);
 
-			if (fileInfo.lastWriteTime > it->second.lastWriteTime)
+			if (newFileInfo.lastWriteTime > it->second.lastWriteTime)
 			{
-				it->second.lastWriteTime = fileInfo.lastWriteTime;
+				it->second.lastWriteTime = newFileInfo.lastWriteTime;
 				fileSets.updatedFiles.insert(filePath);
 			}
 		}
@@ -70,10 +67,10 @@ FileManager::FileSets FileManager::fetchFilePaths(const std::vector<FileInfo>& o
 			continue;
 		}
 
-		fileSets.allFiles.insert(filePath);
+		fileSets.allSourceFilePaths.insert(filePath);
 
-		std::map<FilePath, FileInfo>::iterator it = m_files.find(filePath);
-		if (it != m_files.end())
+		std::map<FilePath, FileInfo>::iterator it = m_filesInfos.find(filePath);
+		if (it != m_filesInfos.end())
 		{
 			fileSets.removedFiles.erase(filePath);
 			if (fileInfo.lastWriteTime > it->second.lastWriteTime)
@@ -84,64 +81,44 @@ FileManager::FileSets FileManager::fetchFilePaths(const std::vector<FileInfo>& o
 		}
 		else
 		{
-			m_files.insert(std::pair<FilePath, FileInfo>(filePath, fileInfo));
+			m_filesInfos.insert(std::pair<FilePath, FileInfo>(filePath, fileInfo));
 			fileSets.addedFiles.insert(filePath);
 		}
 	}
 
 	for (const FilePath& filePath : fileSets.removedFiles)
 	{
-		m_files.erase(filePath);
+		m_filesInfos.erase(filePath);
 	}
 
-	m_sourceFiles = fileSets.allFiles;
+	m_sourceFilePaths = fileSets.allSourceFilePaths;
 
 	return fileSets;
 }
 
-bool FileManager::hasFilePath(const FilePath& filePath) const
+std::vector<FilePath> FileManager::getSourcePaths() const
 {
-	if (hasSourceFilePath(filePath))
-	{
-		return true;
-	}
+	return m_sourcePaths;
+}
 
-	if (isExcluded(filePath))
+std::set<FilePath> FileManager::getSourceFilePaths() const
+{
+	std::set<FilePath> sourceFilePaths;
+	for (const FileInfo& fileInfo: FileSystem::getFileInfosFromPaths(m_sourcePaths, m_sourceExtensions))
 	{
-		return false;
+		sourceFilePaths.emplace(fileInfo.path);
 	}
-
-	for (FilePath path : m_headerPaths)
-	{
-		if (path == filePath || path.contains(filePath))
-		{
-			return true;
-		}
-	}
-
-	return false;
+	return sourceFilePaths;
 }
 
 bool FileManager::hasSourceFilePath(const FilePath& filePath) const
 {
-	if (m_sourceFiles.find(filePath) != m_sourceFiles.end())
+	if (m_sourceFilePaths.find(filePath) != m_sourceFilePaths.end())
 	{
 		return true;
 	}
 
 	return false;
-}
-
-const FileInfo FileManager::getFileInfo(const FilePath& filePath) const
-{
-	std::map<FilePath, FileInfo>::const_iterator it = m_files.find(filePath);
-
-	if (it == m_files.end())
-	{
-		return FileSystem::getFileInfoForPath(filePath);
-	}
-
-	return it->second;
 }
 
 std::vector<FilePath> FileManager::makeCanonical(const std::vector<FilePath>& filePaths)

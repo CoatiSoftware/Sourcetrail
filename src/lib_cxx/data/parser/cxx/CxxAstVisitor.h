@@ -33,7 +33,7 @@ class CxxAstVisitorComponentIndexer;
 class CxxAstVisitor: public clang::RecursiveASTVisitor<CxxAstVisitor>
 {
 public:
-	CxxAstVisitor(clang::ASTContext* astContext, clang::Preprocessor* preprocessor, ParserClient* client, FileRegister* fileRegister);
+	CxxAstVisitor(clang::ASTContext* astContext, clang::Preprocessor* preprocessor, std::shared_ptr<ParserClient> client, std::shared_ptr<FileRegister> fileRegister);
 	virtual ~CxxAstVisitor();
 
 	template <typename T>
@@ -134,8 +134,8 @@ private:
 
 	clang::ASTContext* m_astContext;
 	clang::Preprocessor* m_preprocessor;
-	ParserClient* m_client;
-	FileRegister* m_fileRegister;
+	std::shared_ptr<ParserClient> m_client;
+	std::shared_ptr<FileRegister> m_fileRegister;
 
 	MessageInterruptTasksCounter m_interruptCounter;
 

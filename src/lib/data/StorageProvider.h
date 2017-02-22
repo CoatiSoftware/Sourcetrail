@@ -10,13 +10,14 @@ class StorageProvider
 {
 public:
 	int getStorageCount() const;
-	void pushIndexerTarget(std::shared_ptr<IntermediateStorage> storage);
 
-	// always returns a usable storage
-	std::shared_ptr<IntermediateStorage> popIndexerTarget();
+	void insert(std::shared_ptr<IntermediateStorage> storage);
 
 	// returns empty shared_ptr if no storages available
-	std::shared_ptr<IntermediateStorage> popInjectionSource();
+	std::shared_ptr<IntermediateStorage> consumeSecondLargestStorage();
+
+	// returns empty shared_ptr if no storages available
+	std::shared_ptr<IntermediateStorage> consumeLargestStorage();
 
 	void logCurrentState() const;
 

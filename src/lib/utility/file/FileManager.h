@@ -12,16 +12,14 @@ class FileManager
 public:
 	struct FileSets
 	{
-		std::set<FilePath> allFiles;
 		std::set<FilePath> addedFiles;
 		std::set<FilePath> updatedFiles;
 		std::set<FilePath> removedFiles;
+		std::set<FilePath> allSourceFilePaths;
 	};
 
 	FileManager();
 	virtual ~FileManager();
-
-	const std::vector<FilePath>& getSourcePaths() const;
 
 	void setPaths(
 		std::vector<FilePath> sourcePaths,
@@ -32,24 +30,27 @@ public:
 
 	FileSets fetchFilePaths(const std::vector<FileInfo>& oldFileInfos);
 
-	virtual bool hasFilePath(const FilePath& filePath) const;
-	virtual bool hasSourceFilePath(const FilePath& filePath) const;
+	// returns a list of source paths (can be directories) specified in the project settings
+	std::vector<FilePath> getSourcePaths() const;
 
-	virtual const FileInfo getFileInfo(const FilePath& filePath) const;
+	// returns a list of paths to all files that reside in the non-excluded source paths
+	std::set<FilePath> getSourceFilePaths() const;
+
+	// checks if file is in non-excluded source directory
+	virtual bool hasSourceFilePath(const FilePath& filePath) const;
 
 private:
 	std::vector<FilePath> makeCanonical(const std::vector<FilePath>& filePaths);
 	bool isExcluded(const FilePath& filePath) const;
 
-	std::map<FilePath, FileInfo> m_files;
-
 	std::vector<FilePath> m_sourcePaths;
 	std::vector<FilePath> m_headerPaths;
 	std::vector<FilePath> m_excludePaths;
-
 	std::vector<std::string> m_sourceExtensions;
 
-	std::set<FilePath> m_sourceFiles;
+	std::map<FilePath, FileInfo> m_filesInfos;
+
+	std::set<FilePath> m_sourceFilePaths;
 };
 
 #endif // FILE_MANAGER_H

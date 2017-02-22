@@ -3,6 +3,14 @@
 #include "ProjectFactoryModuleC.h"
 #include "ProjectFactoryModuleCpp.h"
 #include "ProjectFactoryModuleJava.h"
+
+#include "data/indexer/IndexerFactory.h"
+#include "data/indexer/IndexerFactoryModuleJava.h"
+#include "data/indexer/IndexerFactoryModuleCxxCdb.h"
+#include "data/indexer/IndexerFactoryModuleCxxManual.h"
+
+
+
 #include "includes.h" // defines 'void setup(int argc, char *argv[])'
 #include "LicenseChecker.h"
 #include "qt/network/QtNetworkFactory.h"
@@ -141,6 +149,10 @@ int main(int argc, char *argv[])
 		Application::getInstance()->addProjectFactoryModule(std::make_shared<ProjectFactoryModuleCpp>());
 		Application::getInstance()->addProjectFactoryModule(std::make_shared<ProjectFactoryModuleJava>());
 
+		IndexerFactory::getInstance()->addModule(std::make_shared<IndexerFactoryModuleJava>());
+		IndexerFactory::getInstance()->addModule(std::make_shared<IndexerFactoryModuleCxxCdb>());
+		IndexerFactory::getInstance()->addModule(std::make_shared<IndexerFactoryModuleCxxManual>());
+
 		std::shared_ptr<LicenseChecker> checker = LicenseChecker::getInstance();
 
 		if (commandLineParser.startedWithLicense())
@@ -197,6 +209,10 @@ int main(int argc, char *argv[])
 		Application::getInstance()->addProjectFactoryModule(std::make_shared<ProjectFactoryModuleC>());
 		Application::getInstance()->addProjectFactoryModule(std::make_shared<ProjectFactoryModuleCpp>());
 		Application::getInstance()->addProjectFactoryModule(std::make_shared<ProjectFactoryModuleJava>());
+
+		IndexerFactory::getInstance()->addModule(std::make_shared<IndexerFactoryModuleJava>());
+		IndexerFactory::getInstance()->addModule(std::make_shared<IndexerFactoryModuleCxxCdb>());
+		IndexerFactory::getInstance()->addModule(std::make_shared<IndexerFactoryModuleCxxManual>());
 
 		if (commandLineParser.hasError())
 		{

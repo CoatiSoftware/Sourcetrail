@@ -4,6 +4,7 @@
 #include <map>
 #include <mutex>
 
+#include "data/indexer/IndexerCommandJava.h"
 #include "data/parser/Parser.h"
 #include "data/parser/java/JavaEnvironment.h"
 #include "utility/logging/logging.h"
@@ -28,15 +29,14 @@ class FileRegister;
 class JavaParser: public Parser
 {
 public:
-	JavaParser(ParserClient* client);
+	JavaParser(std::shared_ptr<ParserClient> client);
 	~JavaParser();
 
-	// ParserClient implementation
-	virtual void parseFiles(const std::vector<FilePath>& filePaths, const Arguments& arguments);
-	virtual void parseFile(const FilePath& filePath, std::shared_ptr<TextAccess> textAccess, const Arguments& arguments);
-
+	void buildIndex(std::shared_ptr<IndexerCommandJava> indexerCommand);
+	void buildIndex(const FilePath& filePath, std::shared_ptr<TextAccess> textAccess);
 
 private:
+	void buildIndex(const FilePath& sourceFilePath, const std::string& classPath, std::shared_ptr<TextAccess> textAccess);
 
 // This macro makes available a variable T, the passed-in t. blablabla TODO: write somethign real here
 #define MAKE_PARAMS_0()

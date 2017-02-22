@@ -12,7 +12,7 @@
 #include "utility/logging/logging.h"
 #include "utility/ScopedSwitcher.h"
 
-CxxVerboseAstVisitor::CxxVerboseAstVisitor(clang::ASTContext* context, clang::Preprocessor* preprocessor, ParserClient* client, FileRegister* fileRegister)
+CxxVerboseAstVisitor::CxxVerboseAstVisitor(clang::ASTContext* context, clang::Preprocessor* preprocessor, std::shared_ptr<ParserClient> client, std::shared_ptr<FileRegister> fileRegister)
 	: base(context, preprocessor, client, fileRegister)
 	, m_currentFilePath("")
 	, m_indentation(0)

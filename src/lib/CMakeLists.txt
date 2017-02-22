@@ -135,6 +135,22 @@ add_files(
 	data/graph/Node.h
 	data/graph/Token.cpp
 	data/graph/Token.h
+	
+	data/indexer/Indexer.h
+	data/indexer/IndexerBase.cpp
+	data/indexer/IndexerBase.h
+	data/indexer/IndexerCommand.cpp
+	data/indexer/IndexerCommand.h
+	data/indexer/IndexerCommandList.cpp
+	data/indexer/IndexerCommandList.h
+	data/indexer/IndexerComposite.cpp
+	data/indexer/IndexerComposite.h
+	data/indexer/IndexerFactory.cpp
+	data/indexer/IndexerFactory.h
+	data/indexer/IndexerFactoryModule.cpp
+	data/indexer/IndexerFactoryModule.h
+	data/indexer/TaskBuildIndex.cpp
+	data/indexer/TaskBuildIndex.h
 
 	data/location/LocationType.cpp
 	data/location/LocationType.h
@@ -166,8 +182,6 @@ add_files(
 	data/parser/ReferenceKind.h
 	data/parser/SymbolKind.cpp
 	data/parser/SymbolKind.h
-	data/parser/TaskParse.cpp
-	data/parser/TaskParse.h
 	data/parser/TaskParseWrapper.cpp
 	data/parser/TaskParseWrapper.h
 
@@ -205,6 +219,8 @@ add_files(
 	data/TaskFinishParsing.h
 	data/TaskInjectStorage.cpp
 	data/TaskInjectStorage.h
+	data/TaskMergeStorages.cpp
+	data/TaskMergeStorages.h
 	data/TaskShowStatusDialog.cpp
 	data/TaskShowStatusDialog.h
 
@@ -236,6 +252,8 @@ add_files(
 	utility/file/FilePath.h
 	utility/file/FileRegister.cpp
 	utility/file/FileRegister.h
+	utility/file/FileRegisterStateData.cpp
+	utility/file/FileRegisterStateData.h
 	utility/file/FileSystem.cpp
 	utility/file/FileSystem.h
 
@@ -377,6 +395,7 @@ add_files(
 	utility/scheduling/TaskRunner.h
 	utility/scheduling/TaskScheduler.cpp
 	utility/scheduling/TaskScheduler.h
+	utility/scheduling/TaskSetValue.h
 
 	utility/solution/ISolutionParser.cpp
 	utility/solution/ISolutionParser.h

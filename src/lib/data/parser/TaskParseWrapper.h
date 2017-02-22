@@ -20,7 +20,6 @@ class TaskParseWrapper
 public:
 	TaskParseWrapper(
 		PersistentStorage* storage,
-		std::shared_ptr<FileRegister> fileRegister,
 		DialogView* dialogView
 	);
 	virtual ~TaskParseWrapper();
@@ -34,7 +33,6 @@ private:
 	virtual void doReset(std::shared_ptr<Blackboard> blackboard);
 
 	PersistentStorage* m_storage;
-	std::shared_ptr<FileRegister> m_fileRegister;
 	DialogView* m_dialogView;
 
 	TimePoint m_start;

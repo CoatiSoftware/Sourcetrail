@@ -1,8 +1,13 @@
 #include "CxxProject.h"
 
-#include "data/parser/cxx/TaskParseCxx.h"
+#include "clang/Tooling/Tooling.h"
+#include "clang/Tooling/CompilationDatabase.h"
+#include "clang/Tooling/JSONCompilationDatabase.h"
+
 #include "settings/ApplicationSettings.h"
 
+#include "data/indexer/IndexerCommandCxxManual.h"
+#include "data/indexer/IndexerCxxCdb.h"
 #include "utility/file/FileRegister.h"
 #include "utility/file/FileSystem.h"
 #include "utility/messaging/type/MessageStatus.h"
@@ -53,16 +58,102 @@ bool CxxProject::prepareRefresh()
 	return true;
 }
 
-std::shared_ptr<Task> CxxProject::createIndexerTask(
-	std::shared_ptr<StorageProvider> storageProvider,
-	std::shared_ptr<FileRegister> fileRegister)
+std::vector<std::shared_ptr<IndexerCommand>> CxxProject::getIndexerCommands()
 {
-	return std::make_shared<TaskParseCxx>(
-		storageProvider,
-		fileRegister,
-		getParserArguments(),
-		getDialogView()
-	);
+	std::shared_ptr<ApplicationSettings> appSettings = ApplicationSettings::getInstance();
+
+	std::string languageStandard = m_projectSettings->getStandard();
+
+	std::vector<FilePath> systemHeaderSearchPaths;
+	utility::append(systemHeaderSearchPaths, m_projectSettings->getAbsoluteHeaderSearchPaths());
+	utility::append(systemHeaderSearchPaths, appSettings->getHeaderSearchPathsExpanded());
+
+	// Add the source paths as HeaderSearchPaths as well, so clang will also look here when searching include files.
+	for (const FilePath& sourcePath : getSourcePaths())
+	{
+		if (sourcePath.isDirectory())
+		{
+			systemHeaderSearchPaths.push_back(sourcePath);
+		}
+	}
+
+	// Add all subdirectories of the header search paths
+	if (m_projectSettings->getUseSourcePathsForHeaderSearch())
+	{
+		std::vector<FilePath> headerSearchSubPaths;
+		for (const FilePath& sourcePath : getSourcePaths())
+		{
+			utility::append(headerSearchSubPaths, FileSystem::getSubDirectories(sourcePath));
+		}
+
+		utility::append(systemHeaderSearchPaths, utility::unique(headerSearchSubPaths));
+	}
+
+	std::vector<FilePath> frameworkSearchPaths;
+	utility::append(frameworkSearchPaths, m_projectSettings->getAbsoluteFrameworkSearchPaths());
+	utility::append(frameworkSearchPaths, appSettings->getFrameworkSearchPathsExpanded());
+
+	std::vector<std::string> compilerFlags = m_projectSettings->getCompilerFlags();
+
+	std::set<FilePath> indexedPaths;
+	for (FilePath p: m_projectSettings->getAbsoluteSourcePaths())
+	{
+		if (p.exists())
+		{
+			indexedPaths.insert(p);
+		}
+	}
+
+	std::set<FilePath> excludedPaths;
+	for (FilePath p: m_projectSettings->getAbsoluteExcludePaths())
+	{
+		if (p.exists())
+		{
+			excludedPaths.insert(p);
+		}
+	}
+
+	std::vector<std::shared_ptr<IndexerCommand>> indexerCommands;
+
+	FilePath cdbPath = m_projectSettings->getAbsoluteCompilationDatabasePath();
+	if (cdbPath.exists())
+	{
+		std::string error;
+		std::shared_ptr<clang::tooling::JSONCompilationDatabase> cdb = std::shared_ptr<clang::tooling::JSONCompilationDatabase>
+			(clang::tooling::JSONCompilationDatabase::loadFromFile(cdbPath.str(), error));
+		for (clang::tooling::CompileCommand command: cdb->getAllCompileCommands())
+		{
+			std::vector<std::string> currentCompilerFlags = compilerFlags;
+			currentCompilerFlags.insert(currentCompilerFlags.end(), command.CommandLine.begin(), command.CommandLine.end());
+
+			indexerCommands.push_back(std::make_shared<IndexerCommandCxxCdb>(
+				FilePath(command.Filename),
+				indexedPaths,
+				excludedPaths,
+				FilePath(command.Directory),
+				currentCompilerFlags,
+				systemHeaderSearchPaths,
+				frameworkSearchPaths
+			));
+		}
+	}
+	else
+	{
+		for (const FilePath& sourcePath: getSourceFilePaths())
+		{
+			indexerCommands.push_back(std::make_shared<IndexerCommandCxxManual>(
+				sourcePath,
+				indexedPaths,
+				excludedPaths,
+				languageStandard,
+				systemHeaderSearchPaths,
+				frameworkSearchPaths,
+				compilerFlags
+			));
+		}
+	}
+
+	return indexerCommands;
 }
 
 void CxxProject::updateFileManager(FileManager& fileManager)
@@ -75,7 +166,7 @@ void CxxProject::updateFileManager(FileManager& fileManager)
 	FilePath cdbPath = m_projectSettings->getAbsoluteCompilationDatabasePath();
 	if (cdbPath.exists())
 	{
-		sourcePaths = TaskParseCxx::getSourceFilesFromCDB(cdbPath);
+		sourcePaths = IndexerCxxCdb::getSourceFilesFromCDB(cdbPath);
 	}
 	else
 	{
@@ -85,47 +176,4 @@ void CxxProject::updateFileManager(FileManager& fileManager)
 	std::vector<FilePath> excludePaths = m_projectSettings->getAbsoluteExcludePaths();
 
 	fileManager.setPaths(sourcePaths, headerPaths, excludePaths, sourceExtensions);
-}
-
-Parser::Arguments CxxProject::getParserArguments() const
-{
-	std::shared_ptr<ApplicationSettings> appSettings = ApplicationSettings::getInstance();
-
-	Parser::Arguments args;
-
-	utility::append(args.compilerFlags, m_projectSettings->getCompilerFlags());
-
-	// Add the source paths as HeaderSearchPaths as well, so clang will also look here when searching include files.
-	for (const FilePath& sourcePath : getSourcePaths())
-	{
-		if (sourcePath.isDirectory())
-		{
-			args.systemHeaderSearchPaths.push_back(sourcePath);
-		}
-	}
-
-	utility::append(args.systemHeaderSearchPaths, m_projectSettings->getAbsoluteHeaderSearchPaths());
-
-	utility::append(args.systemHeaderSearchPaths, appSettings->getHeaderSearchPathsExpanded());
-
-	// Add all subdirectories of the header search paths
-	if (m_projectSettings->getUseSourcePathsForHeaderSearch())
-	{
-		std::vector<FilePath> headerSearchSubPaths;
-		for (const FilePath& sourcePath : getSourcePaths())
-		{
-			utility::append(headerSearchSubPaths, FileSystem::getSubDirectories(sourcePath));
-		}
-
-		utility::append(args.systemHeaderSearchPaths, utility::unique(headerSearchSubPaths));
-	}
-
-	utility::append(args.frameworkSearchPaths, m_projectSettings->getAbsoluteFrameworkSearchPaths());
-	utility::append(args.frameworkSearchPaths, appSettings->getFrameworkSearchPathsExpanded());
-
-	args.language = languageTypeToString(m_projectSettings->getLanguage());
-	args.languageStandard = m_projectSettings->getStandard();
-	args.compilationDatabasePath = m_projectSettings->getAbsoluteCompilationDatabasePath();
-
-	return args;
 }

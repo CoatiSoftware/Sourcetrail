@@ -4,13 +4,14 @@
 #include "clang/Basic/IdentifierTable.h"
 #include "clang/Lex/MacroArgs.h"
 
+#include "utility/file/FileSystem.h"
 #include "utility/file/FileRegister.h"
 
 #include "data/parser/ParserClient.h"
 #include "data/parser/ParseLocation.h"
 
 PreprocessorCallbacks::PreprocessorCallbacks(
-	clang::SourceManager& sourceManager, ParserClient* client, FileRegister* fileRegister
+	clang::SourceManager& sourceManager, std::shared_ptr<ParserClient> client, std::shared_ptr<FileRegister> fileRegister
 )
 	: m_sourceManager(sourceManager)
 	, m_client(client)
@@ -32,14 +33,14 @@ void PreprocessorCallbacks::FileChanged(
 	const bool fileIsInProject = m_fileRegister->hasFilePath(filePath);
 	if (!filePath.empty() && fileIsInProject)
 	{
-		m_client->onFileParsed(m_fileRegister->getFileInfo(filePath));
-		if (reason == EnterFile && !m_fileRegister->includeFileIsParsed(filePath))
+		m_client->onFileParsed(FileSystem::getFileInfoForPath(filePath)); // todo: fix for tests
+		if (reason == EnterFile && !m_fileRegister->fileIsIndexed(filePath))
 		{
-			m_fileRegister->markIncludeFileParsing(filePath);
+			m_fileRegister->markFileIndexing(filePath);
 		}
 	}
 
-	if (!filePath.empty() && fileIsInProject && !m_fileRegister->fileIsParsed(filePath))
+	if (!filePath.empty() && fileIsInProject && !m_fileRegister->fileIsIndexed(filePath))
 	{
 		m_currentPath = filePath;
 	}

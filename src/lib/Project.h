@@ -16,7 +16,7 @@ class PersistentStorage;
 class StorageProvider;
 class ProjectSettings;
 class StorageAccessProxy;
-class Task;
+class IndexerCommand;
 
 class Project
 {
@@ -29,13 +29,15 @@ public:
 	LanguageType getLanguage() const;
 	std::string getDescription() const;
 
+	std::set<FilePath> getSourceFilePaths() const;
+
 	bool settingsEqualExceptNameAndLocation(const ProjectSettings& otherSettings) const;
 	void setStateSettingsUpdated();
 
 protected:
 	Project(StorageAccessProxy* storageAccessProxy, DialogView* dialogView);
 	DialogView* getDialogView() const;
-	const std::vector<FilePath>& getSourcePaths() const;
+	std::vector<FilePath> getSourcePaths() const;
 
 	virtual std::shared_ptr<ProjectSettings> getProjectSettings() = 0;
 	virtual const std::shared_ptr<ProjectSettings> getProjectSettings() const = 0;
@@ -63,9 +65,8 @@ private:
 
 	virtual bool prepareIndexing();
 	virtual bool prepareRefresh();
-	virtual std::shared_ptr<Task> createIndexerTask(
-		std::shared_ptr<StorageProvider> storageProvider,
-		std::shared_ptr<FileRegister> fileRegister) = 0;
+	virtual std::vector<std::shared_ptr<IndexerCommand>> getIndexerCommands() = 0;
+	std::vector<std::shared_ptr<IndexerCommand>> getIndexerCommands(const std::set<FilePath>& sourceFiles);
 	virtual void updateFileManager(FileManager& fileManager) = 0;
 
 	StorageAccessProxy* const m_storageAccessProxy;

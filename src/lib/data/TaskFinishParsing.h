@@ -18,7 +18,6 @@ public:
 	TaskFinishParsing(
 		PersistentStorage* storage,
 		StorageAccess* storageAccess,
-		std::shared_ptr<FileRegister> fileRegister,
 		DialogView* dialogView
 	);
 
@@ -32,7 +31,6 @@ private:
 
 	PersistentStorage* m_storage;
 	StorageAccess* m_storageAccess;
-	std::shared_ptr<FileRegister> m_fileRegister;
 	DialogView* m_dialogView;
 };
 

@@ -1,8 +1,8 @@
 add_files(
 	TEST_FILES
 
-	helper/TestFileManager.cpp
-	helper/TestFileManager.h
+	helper/TestFileRegister.cpp
+	helper/TestFileRegister.h
 	helper/TestParserClient.h
 
 	TestSuiteFixture.cpp

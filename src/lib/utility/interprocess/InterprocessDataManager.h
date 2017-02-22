@@ -15,8 +15,13 @@ public:
 
 	void initialize();
 
-	void pushParserArguments(const Parser::Arguments& arguments);
-	Parser::Arguments popParserArguments();
+	// TODO: use IndexerCommands here and rename SharedParserArguments to SharedIndexerCommand
+	// TODO: either make one SharedIndexerCommand that stores everything or make
+	//       SharedIndexerCommandJava, SharedIndexerCommandCxxManual, ..., each having a separate datastructure here
+
+	//void pushParserArguments(const Parser::Arguments& arguments);
+	//Parser::Arguments popParserArguments();
+
 	unsigned int parserArgumentCount() const;
 
 private:

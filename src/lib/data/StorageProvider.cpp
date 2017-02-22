@@ -8,7 +8,7 @@ int StorageProvider::getStorageCount() const
 	return m_storages.size();
 }
 
-void StorageProvider::pushIndexerTarget(std::shared_ptr<IntermediateStorage> storage)
+void StorageProvider::insert(std::shared_ptr<IntermediateStorage> storage)
 {
 	const std::size_t storageSize = storage->getSourceLocationCount();
 	std::list<std::shared_ptr<IntermediateStorage>>::iterator it;
@@ -24,7 +24,7 @@ void StorageProvider::pushIndexerTarget(std::shared_ptr<IntermediateStorage> sto
 	m_storages.insert(it, storage);
 }
 
-std::shared_ptr<IntermediateStorage> StorageProvider::popIndexerTarget()
+std::shared_ptr<IntermediateStorage> StorageProvider::consumeSecondLargestStorage()
 {
 	std::shared_ptr<IntermediateStorage> ret;
 	{
@@ -36,15 +36,11 @@ std::shared_ptr<IntermediateStorage> StorageProvider::popIndexerTarget()
 			ret = *it;
 			m_storages.erase(it);
 		}
-		else
-		{
-			ret = std::make_shared<IntermediateStorage>();
-		}
 	}
 	return ret;
 }
 
-std::shared_ptr<IntermediateStorage> StorageProvider::popInjectionSource()
+std::shared_ptr<IntermediateStorage> StorageProvider::consumeLargestStorage()
 {
 	std::shared_ptr<IntermediateStorage> ret;
 	{

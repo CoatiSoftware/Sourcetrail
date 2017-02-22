@@ -234,11 +234,8 @@ target_link_libraries(${LIB_PROJECT_NAME} ${Boost_LIBRARIES} ${LIB_LICENSE_PROJE
 
 add_subdirectory(src/lib_cxx)
 
-set_source_files_properties(${CLANG_FILES} PROPERTIES COMPILE_FLAGS "-fno-rtti")
+add_library(${LIB_CXX_PROJECT_NAME} ${LIB_CXX_FILES})
 
-add_library(${LIB_CXX_PROJECT_NAME} ${CLANG_FILES} ${LIB_CXX_FILES})
-
-create_source_groups(${CLANG_FILES})
 create_source_groups(${LIB_CXX_FILES})
 
 set_property(

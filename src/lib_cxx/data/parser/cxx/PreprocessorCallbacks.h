@@ -1,6 +1,8 @@
 #ifndef PREPROCESSOR_CALLBACKS_H
 #define PREPROCESSOR_CALLBACKS_H
 
+#include <memory>
+
 #include "clang/Basic/SourceManager.h"
 #include "clang/Lex/MacroInfo.h"
 #include "clang/Lex/PPCallbacks.h"
@@ -17,7 +19,7 @@ class PreprocessorCallbacks
 	: public clang::PPCallbacks
 {
 public:
-	explicit PreprocessorCallbacks(clang::SourceManager& sourceManager, ParserClient* client, FileRegister* fileRegister);
+	explicit PreprocessorCallbacks(clang::SourceManager& sourceManager, std::shared_ptr<ParserClient> client, std::shared_ptr<FileRegister> fileRegister);
 
 	virtual void FileChanged(
 		clang::SourceLocation location, FileChangeReason reason, clang::SrcMgr::CharacteristicKind, clang::FileID);
@@ -50,8 +52,8 @@ private:
 	ParseLocation getParseLocation(const clang::SourceRange& sourceRange) const;
 
 	const clang::SourceManager& m_sourceManager;
-	ParserClient* m_client;
-	FileRegister* m_fileRegister;
+	std::shared_ptr<ParserClient> m_client;
+	std::shared_ptr<FileRegister> m_fileRegister;
 
 	FilePath m_currentPath;
 };

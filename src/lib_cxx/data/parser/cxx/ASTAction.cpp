@@ -5,7 +5,7 @@
 #include "data/parser/cxx/CommentHandler.h"
 #include "data/parser/cxx/PreprocessorCallbacks.h"
 
-ASTAction::ASTAction(ParserClient* client, FileRegister* fileRegister)
+ASTAction::ASTAction(std::shared_ptr<ParserClient> client, std::shared_ptr<FileRegister> fileRegister)
 	: m_client(client)
 	, m_fileRegister(fileRegister)
 	, m_commentHandler(client, fileRegister)

@@ -114,7 +114,7 @@ bool ProjectSettings::setStandard(const std::string& standard)
 	return setValue<std::string>("language_settings/standard", standard);
 }
 
-std::vector<FilePath> ProjectSettings::getSourcePaths() const
+std::vector<FilePath> ProjectSettings::getSourcePaths() const // TODO: rename to getIndexedPaths
 {
 	return getPathValues("source/source_paths/source_path");
 }

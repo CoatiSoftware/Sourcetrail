@@ -10,8 +10,8 @@
 CxxDiagnosticConsumer::CxxDiagnosticConsumer(
 	clang::raw_ostream &os,
 	clang::DiagnosticOptions *diags,
-	ParserClient* client,
-	FileRegister* fileRegister,
+	std::shared_ptr<ParserClient> client,
+	std::shared_ptr<FileRegister> fileRegister,
 	bool useLogging
 )
 	: clang::TextDiagnosticPrinter(os, diags)

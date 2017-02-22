@@ -39,51 +39,51 @@ void InterprocessDataManager::initialize()
 	}
 }
 
-void InterprocessDataManager::pushParserArguments(const Parser::Arguments& arguments)
-{
-	IF_INITIALIZED()
-	{
-		SharedParserArguments::VoidAllocator allocator(m_parserArguments.getSegmentManager());
-		SharedParserArguments args(allocator);
-
-		args.setCompilationDatabasePath(arguments.compilationDatabasePath.str());
-		args.setCompilerFlags(arguments.compilerFlags);
-		args.setFrameworkSearchPaths(arguments.frameworkSearchPaths);
-		args.setHeaderSearchPaths(arguments.headerSearchPaths);
-		args.setJavaClassPaths(arguments.javaClassPaths);
-		args.setLanguage(arguments.language);
-		args.setLanguageStandard(arguments.languageStandard);
-		args.setLogErrors(arguments.logErrors);
-		args.setSystemHeaderSearchPaths(arguments.systemHeaderSearchPaths);
-
-		m_parserArguments.pushValue(args);
-	}
-}
-
-Parser::Arguments InterprocessDataManager::popParserArguments()
-{
-	IF_INITIALIZED(Parser::Arguments())
-	{
-		if (m_parserArguments.size() > 0)
-		{
-			SharedParserArguments args = m_parserArguments.popValue();
-
-			Parser::Arguments result;
-
-			result.compilationDatabasePath = FilePath(args.getCompilationDatabasePath());
-			result.compilerFlags = args.getCompilerFlags();
-			result.frameworkSearchPaths = args.getFrameworkSearchPaths();
-			result.headerSearchPaths = args.getHeaderSearchPaths();
-			result.javaClassPaths = args.getJavaClassPaths();
-			result.language = args.getLanguage();
-			result.languageStandard = args.getLanguageStandard();
-			result.logErrors = args.getLogErrors();
-			result.systemHeaderSearchPaths = args.getSystemHeaderSearchPaths();
-
-			return result;
-		}
-	}
-}
+//void InterprocessDataManager::pushParserArguments(const Parser::Arguments& arguments)
+//{
+//	IF_INITIALIZED()
+//	{
+//		SharedParserArguments::VoidAllocator allocator(m_parserArguments.getSegmentManager());
+//		SharedParserArguments args(allocator);
+//
+//		args.setCompilationDatabasePath(arguments.compilationDatabasePath.str());
+//		args.setCompilerFlags(arguments.compilerFlags);
+//		args.setFrameworkSearchPaths(arguments.frameworkSearchPaths);
+//		args.setHeaderSearchPaths(arguments.headerSearchPaths);
+//		args.setJavaClassPaths(arguments.javaClassPaths);
+//		args.setLanguage(arguments.language);
+//		args.setLanguageStandard(arguments.languageStandard);
+//		args.setLogErrors(arguments.logErrors);
+//		args.setSystemHeaderSearchPaths(arguments.systemHeaderSearchPaths);
+//
+//		m_parserArguments.pushValue(args);
+//	}
+//}
+//
+//Parser::Arguments InterprocessDataManager::popParserArguments()
+//{
+//	IF_INITIALIZED(Parser::Arguments())
+//	{
+//		if (m_parserArguments.size() > 0)
+//		{
+//			SharedParserArguments args = m_parserArguments.popValue();
+//
+//			Parser::Arguments result;
+//
+//			result.compilationDatabasePath = FilePath(args.getCompilationDatabasePath());
+//			result.compilerFlags = args.getCompilerFlags();
+//			result.frameworkSearchPaths = args.getFrameworkSearchPaths();
+//			result.headerSearchPaths = args.getHeaderSearchPaths();
+//			result.javaClassPaths = args.getJavaClassPaths();
+//			result.language = args.getLanguage();
+//			result.languageStandard = args.getLanguageStandard();
+//			result.logErrors = args.getLogErrors();
+//			result.systemHeaderSearchPaths = args.getSystemHeaderSearchPaths();
+//
+//			return result;
+//		}
+//	}
+//}
 
 unsigned int InterprocessDataManager::parserArgumentCount() const
 {
