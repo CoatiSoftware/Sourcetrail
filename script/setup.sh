@@ -57,14 +57,14 @@ fi
 # Create Debug and Release folders
 echo -e $INFO "create build folders"
 if [ $PLATFORM == "Windows" ]; then
-	mkdir -p build/win32/Debug/app
-	mkdir -p build/win32/Debug/test
-	mkdir -p build/win32/Release/app
-	mkdir -p build/win32/Release/test
-	mkdir -p build/win64/Debug/app
-	mkdir -p build/win64/Debug/test
-	mkdir -p build/win64/Release/app
-	mkdir -p build/win64/Release/test
+	mkdir -p build/win32/Debug/app/platforms
+	mkdir -p build/win32/Debug/test/platforms
+	mkdir -p build/win32/Release/app/platforms
+	mkdir -p build/win32/Release/test/platforms
+	mkdir -p build/win64/Debug/app/platforms
+	mkdir -p build/win64/Debug/test/platforms
+	mkdir -p build/win64/Release/app/platforms
+	mkdir -p build/win64/Release/test/platforms
 else
 	mkdir -p build/Debug/app
 	mkdir -p build/Debug/test
@@ -74,22 +74,60 @@ fi
 
 # Copy necessary dynamic libraries to bin folder
 if [ $PLATFORM == "Windows" ]; then
-	echo -e $INFO "copy dynamic libraries"
+	echo -e $INFO "copy dynamic libraries for app"
 	cp -u -r setup/dynamic_libraries/win32/app/Debug/* build/win32/Debug/app
+	cp -u -r ${QT_WIN32_DIR}/bin/Qt5Cored.dll build/win32/Debug/app
+	cp -u -r ${QT_WIN32_DIR}/bin/Qt5Guid.dll build/win32/Debug/app
+	cp -u -r ${QT_WIN32_DIR}/bin/Qt5Networkd.dll build/win32/Debug/app
+	cp -u -r ${QT_WIN32_DIR}/bin/Qt5Widgetsd.dll build/win32/Debug/app
+	cp -u -r ${QT_WIN32_DIR}/plugins/platforms/qwindowsd.dll build/win32/Debug/app/platforms
+	
 	cp -u -r setup/dynamic_libraries/win32/app/Release/* build/win32/Release/app
+	cp -u -r ${QT_WIN32_DIR}/bin/Qt5Core.dll build/win32/Release/app
+	cp -u -r ${QT_WIN32_DIR}/bin/Qt5Gui.dll build/win32/Release/app
+	cp -u -r ${QT_WIN32_DIR}/bin/Qt5Network.dll build/win32/Release/app
+	cp -u -r ${QT_WIN32_DIR}/bin/Qt5Widgets.dll build/win32/Release/app
+	cp -u -r ${QT_WIN32_DIR}/plugins/platforms/qwindows.dll build/win32/Release/app/platforms
 	
 	cp -u -r setup/dynamic_libraries/win64/app/Debug/* build/win64/Debug/app
+	cp -u -r ${QT_WIN64_DIR}/bin/Qt5Cored.dll build/win64/Debug/app
+	cp -u -r ${QT_WIN64_DIR}/bin/Qt5Guid.dll build/win64/Debug/app
+	cp -u -r ${QT_WIN64_DIR}/bin/Qt5Networkd.dll build/win64/Debug/app
+	cp -u -r ${QT_WIN64_DIR}/bin/Qt5Widgetsd.dll build/win64/Debug/app
+	cp -u -r ${QT_WIN64_DIR}/plugins/platforms/qwindowsd.dll build/win64/Debug/app/platforms
+	
 	cp -u -r setup/dynamic_libraries/win64/app/Release/* build/win64/Release/app
+	cp -u -r ${QT_WIN64_DIR}/bin/Qt5Core.dll build/win64/Release/app
+	cp -u -r ${QT_WIN64_DIR}/bin/Qt5Gui.dll build/win64/Release/app
+	cp -u -r ${QT_WIN64_DIR}/bin/Qt5Network.dll build/win64/Release/app
+	cp -u -r ${QT_WIN64_DIR}/bin/Qt5Widgets.dll build/win64/Release/app
+	cp -u -r ${QT_WIN64_DIR}/plugins/platforms/qwindows.dll build/win64/Release/app/platforms
 	
-	cp -u -r setup/dynamic_libraries/win32/app/Debug/Qt5* build/win32/Debug/test
-	cp -u -r setup/dynamic_libraries/win32/app/Debug/platforms* build/win32/Debug/test/platforms
-	cp -u -r setup/dynamic_libraries/win32/app/Release/Qt5* build/win32/Release/test
-	cp -u -r setup/dynamic_libraries/win32/app/Release/platforms* build/win32/Release/test/platforms
 	
-	cp -u -r setup/dynamic_libraries/win64/app/Debug/Qt5* build/win64/Debug/test
-	cp -u -r setup/dynamic_libraries/win64/app/Debug/platforms* build/win64/Debug/test/platforms
-	cp -u -r setup/dynamic_libraries/win64/app/Release/Qt5* build/win64/Release/test
-	cp -u -r setup/dynamic_libraries/win64/app/Release/platforms* build/win64/Release/test/platforms
+	echo -e $INFO "copy dynamic libraries for tests"
+	cp -u -r ${QT_WIN32_DIR}/bin/Qt5Cored.dll build/win32/Debug/test
+	cp -u -r ${QT_WIN32_DIR}/bin/Qt5Guid.dll build/win32/Debug/test
+	cp -u -r ${QT_WIN32_DIR}/bin/Qt5Networkd.dll build/win32/Debug/test
+	cp -u -r ${QT_WIN32_DIR}/bin/Qt5Widgetsd.dll build/win32/Debug/test
+	cp -u -r ${QT_WIN32_DIR}/plugins/platforms/qwindowsd.dll build/win32/Debug/test/platforms
+	
+	cp -u -r ${QT_WIN32_DIR}/bin/Qt5Core.dll build/win32/Release/test
+	cp -u -r ${QT_WIN32_DIR}/bin/Qt5Gui.dll build/win32/Release/test
+	cp -u -r ${QT_WIN32_DIR}/bin/Qt5Network.dll build/win32/Release/test
+	cp -u -r ${QT_WIN32_DIR}/bin/Qt5Widgets.dll build/win32/Release/test
+	cp -u -r ${QT_WIN32_DIR}/plugins/platforms/qwindows.dll build/win32/Release/test/platforms
+	
+	cp -u -r ${QT_WIN64_DIR}/bin/Qt5Cored.dll build/win64/Debug/test
+	cp -u -r ${QT_WIN64_DIR}/bin/Qt5Guid.dll build/win64/Debug/test
+	cp -u -r ${QT_WIN64_DIR}/bin/Qt5Networkd.dll build/win64/Debug/test
+	cp -u -r ${QT_WIN64_DIR}/bin/Qt5Widgetsd.dll build/win64/Debug/test
+	cp -u -r ${QT_WIN64_DIR}/plugins/platforms/qwindowsd.dll build/win64/Debug/test/platforms
+	
+	cp -u -r ${QT_WIN64_DIR}/bin/Qt5Core.dll build/win64/Release/test
+	cp -u -r ${QT_WIN64_DIR}/bin/Qt5Gui.dll build/win64/Release/test
+	cp -u -r ${QT_WIN64_DIR}/bin/Qt5Network.dll build/win64/Release/test
+	cp -u -r ${QT_WIN64_DIR}/bin/Qt5Widgets.dll build/win64/Release/test
+	cp -u -r ${QT_WIN64_DIR}/plugins/platforms/qwindows.dll build/win64/Release/test/platforms
 
 	echo -e $INFO "copy test_main file"
 	cp -u setup/cxx_test/windows/test_main.cpp build/win32
