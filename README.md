@@ -113,11 +113,11 @@ $ cd tools/extra/
 $ git pull origin master
 
 $ cd ../../../../../build_debug
-$ cmake -G Ninja ../llvm
+$ cmake -G Ninja -DLLVM_ENABLE_RTTI=ON ../llvm
 $ ninja -j4 check-all
 
 $ cd ../release_build
-$ cmake -G Ninja -DCMAKE_BUILD_TYPE=Release ../llvm
+$ cmake -G Ninja -DCMAKE_BUILD_TYPE=Release -DLLVM_ENABLE_RTTI=ON ../llvm
 $ ninja -j4 check-all
 
 #### Remarks
