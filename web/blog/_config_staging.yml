@@ -2,7 +2,7 @@ staging: true
 
 disqus_shortname: staging-coati
 
-url: https://staging.coati.io/blog
+url: http://staging.coati.io/blog
 
 owner:
-  url: https://staging.coati.io
+  url: http://staging.coati.io
