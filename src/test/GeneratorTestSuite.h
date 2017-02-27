@@ -38,6 +38,19 @@ public:
         TS_ASSERT(ok);
     }
 
+	void test_create_volume_license_and_validate()
+	{
+		Generator generator("v2");
+		generator.generateKeys();
+		generator.loadPrivateKeyFromString(generator.getPrivateKeyPEMFileAsString());
+
+		License license;
+		license.create("TestUser", "v2", generator.getPrivateKey(), "Volume License", 20);
+        license.loadPublicKeyFromString(generator.getPublicKeyPEMFileAsString());
+
+		TS_ASSERT_EQUALS(license.getSeats(), 20);
+    }
+
     void test_create_license_and_validate()
     {
         Generator generator("v2");

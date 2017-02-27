@@ -62,7 +62,7 @@ std::string Generator::encodeLicense(const std::string& user, const int days)
 	return encodeLicense(user, testLicenseTypeString);
 }
 
-std::string Generator::encodeLicense(const std::string& user, const std::string& licenseType)
+std::string Generator::encodeLicense(const std::string& user, const std::string& licenseType, const int seats)
 {
 	if (user.size() <= 0)
 	{
@@ -91,7 +91,7 @@ std::string Generator::encodeLicense(const std::string& user, const std::string&
         std::cout << "The key is not a RSA key" << std::endl;
     }
 
-    license.create(user, m_version, rsaKey, licenseType);
+    license.create(user, m_version, rsaKey, licenseType, seats);
     license.writeToFile("license.txt");
     license.print();
 

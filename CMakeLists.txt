@@ -534,7 +534,7 @@ target_include_directories(${LICENSE_GENERATOR_PROJECT_NAME} SYSTEM
 )
 
 if(UNIX AND NOT APPLE)
-	target_link_libraries(${LICENSE_GENERATOR_PROJECT_NAME} pthread dl rt)
+	target_link_libraries(${LICENSE_GENERATOR_PROJECT_NAME} pthread rt)
 endif()
 
 target_link_libraries(${LICENSE_GENERATOR_PROJECT_NAME} ${LIB_LICENSE_PROJECT_NAME} ${Boost_LIBRARIES} )

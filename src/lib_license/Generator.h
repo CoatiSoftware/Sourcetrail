@@ -17,7 +17,7 @@ public:
     Generator(const std::string& version = "x");
     ~Generator();
 
-    std::string encodeLicense(const std::string& message, const std::string& licenseType);
+    std::string encodeLicense(const std::string& message, const std::string& licenseType, const int seats = 0);
 	std::string encodeLicense(const std::string& message, const int days);
     bool verifyLicense(const std::string& filename = "license.txt");
     void generateKeys();

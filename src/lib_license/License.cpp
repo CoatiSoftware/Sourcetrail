@@ -124,6 +124,21 @@ std::string License::getLicenseTypeLine() const
 	}
 }
 
+uint License::getSeats() const
+{
+    std::string licenseTypeLine = getLicenseTypeLine();
+    std::size_t found = licenseTypeLine.find(":");
+    if (found != std::string::npos)
+    {
+        // +2 (": ")
+        std::stringstream seatsStream(licenseTypeLine.substr(found+2));
+        int seats;
+        seatsStream>>seats;
+        return seats;
+    }
+    return 0;
+}
+
 int License::getTimeLeft() const
 {
 	const std::string testText = "Test License - valid till ";
@@ -156,10 +171,17 @@ int License::getTimeLeft() const
 
 void License::create(
 		const std::string& user, const std::string& version,
-		Botan::RSA_PrivateKey* privateKey, const std::string& type)
+        Botan::RSA_PrivateKey* privateKey, const std::string& type, const uint seats)
 {
 	m_version = version;
-	createMessage(user, version, type);
+    if (seats > 0)
+    {
+        createMessage(user, version, type + ": " + std::to_string(seats) + " seats");
+    }
+    else
+    {
+        createMessage(user, version, type);
+    }
 
 	//encode message
 	Botan::PK_Signer signer(*privateKey, *(m_rng.get()), "EMSA4(SHA-256)");
@@ -520,6 +542,11 @@ bool License::loadFromEncodedString(const std::string& encodedLicense, const std
 	}
 
 	return true;
+}
+
+std::string License::getHashedLicense() const
+{
+    return getEncodeKey("fakeKey");
 }
 
 std::string License::getEncodeKey(const std::string applicationLocation) const
