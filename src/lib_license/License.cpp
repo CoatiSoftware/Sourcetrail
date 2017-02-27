@@ -124,7 +124,7 @@ std::string License::getLicenseTypeLine() const
 	}
 }
 
-uint License::getSeats() const
+unsigned int License::getSeats() const
 {
     std::string licenseTypeLine = getLicenseTypeLine();
     std::size_t found = licenseTypeLine.find(":");
@@ -171,7 +171,7 @@ int License::getTimeLeft() const
 
 void License::create(
 		const std::string& user, const std::string& version,
-        Botan::RSA_PrivateKey* privateKey, const std::string& type, const uint seats)
+        Botan::RSA_PrivateKey* privateKey, const std::string& type, const unsigned int seats)
 {
 	m_version = version;
     if (seats > 0)
@@ -392,7 +392,7 @@ bool License::loadPublicKeyFromFile(const std::string& filename)
 	if(boost::filesystem::exists(getPublicKeyFilename()))
 	{
 		Botan::RSA_PublicKey *rsaPublicKey = dynamic_cast<Botan::RSA_PublicKey *>(Botan::X509::load_key(getPublicKeyFilename()));
-		
+
 		if (!rsaPublicKey)
 		{
 			std::cout << "The loaded key is not a RSA key" << std::endl;
@@ -416,8 +416,8 @@ bool License::loadPublicKeyFromString(const std::string& publicKey)
 
 	Botan::DataSource_Memory in(publicKey);
 	Botan::RSA_PublicKey *rsaPublicKey = dynamic_cast<Botan::RSA_PublicKey *>(Botan::X509::load_key(in));
-	
-	if (!rsaPublicKey) 
+
+	if (!rsaPublicKey)
 	{
 		std::cout << "The loaded key is not a RSA key" << std::endl;
 		return false;
@@ -486,7 +486,7 @@ std::string License::getLicenseEncodedString(const std::string& applicationLocat
 
 		fileContents.insert(fileContents.end(), filebuffer, filebuffer + got);
 	}
-	
+
 	if(fileContents.size() <= 0)
 	{
 		std::cout << "Failed to read licence string" << std::endl;

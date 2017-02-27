@@ -27,7 +27,7 @@ public:
 
     std::string getPublicKeyFilename() const;
     std::string getVersion() const;
-    uint getSeats() const;
+    unsigned int getSeats() const;
 
 	/// if Test License return >=0 or -1 if expired
 	/// for non Test License -2
@@ -36,7 +36,7 @@ public:
     void create(
 			const std::string& user, const std::string& version,
             Botan::RSA_PrivateKey* privateKey, const std::string& type="Private License",
-            const uint seats = 0
+            const unsigned int seats = 0
 	);
 
     std::string getLicenseString() const;

@@ -9,7 +9,7 @@
 #include "utility/logging/logging.h"
 
 CxxVsHeaderPathDetector::CxxVsHeaderPathDetector(int version, bool isExpress, ApplicationArchitectureType architecture)
-	: PathDetector("Visual Studio " + std::to_string(version) + (isExpress ? " Express" : "") + (architecture == APPLICATION_ARCHITECTURE_X86_64 ? "64 Bit" : ""))
+	: PathDetector("Visual Studio " + std::to_string(version) + (isExpress ? " Express" : "") + (architecture == APPLICATION_ARCHITECTURE_X86_64 ? " 64 Bit" : ""))
 	, m_version(version)
 	, m_isExpress(isExpress)
 	, m_architecture(architecture)
