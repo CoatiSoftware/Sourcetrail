@@ -1,7 +1,6 @@
 # FLAGS
 CLEAN_AND_SETUP=true
 REBUILD=true
-OBFUSCATE=true
 UPDATE_DATABASES=true
 
 
@@ -24,11 +23,6 @@ fi
 
 if [ $REBUILD = false ]; then
 	echo -e "$INFO REBUILD flag is set to false. Do you want to proceed?"
-	read -p "Press [Enter] key to continue"
-fi
-
-if [ $OBFUSCATE = false ]; then
-	echo -e "$INFO OBFUSCATE flag is set to false. Do you want to proceed?"
 	read -p "Press [Enter] key to continue"
 fi
 
@@ -90,7 +84,7 @@ if [ $UPDATE_DATABASES = true ]; then
 	echo -e "$INFO saving license key"
 	../build/win32/Release/app/Coati.exe -z ../script/license.txt
 
-	echo -e "$INFO creating database for tictactie"
+	echo -e "$INFO creating database for tictactoe"
 	../build/win32/Release/app/Coati.exe -p ../bin/app/user/projects/tictactoe/tictactoe.coatiproject -d
 
 	echo -e "$INFO creating database for tutorial"
@@ -101,21 +95,6 @@ if [ $UPDATE_DATABASES = true ]; then
 
 	cd ..
 	rm -rf temp
-fi
-
-
-# OBFUSCATING THE EXECUTABLES
-if [ $OBFUSCATE = true ]; then
-	echo -e "$INFO obfuscating the executable (32 bit)"
-	rm build/win32/Release/app/Coati_obfuscated.exe
-	upx --brute -o build/win32/Release/app/Coati_obfuscated.exe build/win32/Release/app/Coati.exe
-	
-	echo -e "$INFO obfuscating the executable (64 bit)"
-	rm build/win64/Release/app/Coati_obfuscated.exe
-	upx --brute -o build/win64/Release/app/Coati_obfuscated.exe build/win64/Release/app/Coati.exe
-else
-	cp build/win32/Release/app/Coati.exe build/win32/Release/app/Coati_obfuscated.exe
-	cp build/win64/Release/app/Coati.exe build/win64/Release/app/Coati_obfuscated.exe
 fi
 
 
@@ -185,8 +164,17 @@ cp -u -r ide_plugins/vs/coati_plugin_vs.vsix $APP_PACKAGE_DIR_WIN64/plugins/visu
 # PACKAGING COATI
 echo -e "$INFO packaging coati"
 cd ./release/
+
 winrar a -afzip Coati_${VERSION_STRING}_Windows_32bit.zip $APP_PACKAGE_NAME_WIN32
 winrar a -afzip Coati_${VERSION_STRING}_Windows_64bit.zip $APP_PACKAGE_NAME_WIN64
+
+
+# STORING PDB FILES
+mkdir PDB_${APP_PACKAGE_NAME_WIN32}
+cp -u -r ../build/win32/Release/app/Coati.pdb PDB_${APP_PACKAGE_NAME_WIN32}/
+mkdir PDB_${APP_PACKAGE_NAME_WIN64}
+cp -u -r ../build/win64/Release/app/Coati.pdb PDB_${APP_PACKAGE_NAME_WIN64}/
+
 cd ../
 
 

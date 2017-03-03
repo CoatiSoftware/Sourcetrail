@@ -13,7 +13,7 @@
 		<DirectoryRef Id='INSTALLDIR'>
 
 			<Component Id='MainExecutable' Guid='A6136907-B3C5-4393-88D7-2ACF63E138A8' Win64="$(var.Win64)">
-				<File Id='CoatiEXE' Name='Coati.exe' DiskId='1' Source='$(var.PlatformSourceFolder)/Coati_obfuscated.exe' KeyPath='yes' />
+				<File Id='CoatiEXE' Name='Coati.exe' DiskId='1' Source='$(var.PlatformSourceFolder)/Coati.exe' KeyPath='yes' />
 
 				<!-- File association -->
 				<RegistryValue Root="HKLM" Key="SOFTWARE\Classes\[ProductName].Document" Name="projectfile" Value="Coati project file" Type="string" />
