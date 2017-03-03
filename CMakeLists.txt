@@ -558,6 +558,7 @@ set(TESTGEN_FILE ${CMAKE_CURRENT_BINARY_DIR}/test_main.cpp)
 
 find_package(PythonInterp REQUIRED)
 
+
 add_executable (${TEST_PROJECT_NAME} ${TESTGEN_FILE} ${TEST_FILES} )
 
 create_source_groups(${TEST_FILES})
@@ -599,13 +600,15 @@ if (WIN32)
 elseif (UNIX)
 
 	add_custom_command(
-		TARGET ${TEST_PROJECT_NAME}
-		PRE_BUILD
-		#COMMAND rm -f ${TESTGEN_FILE}
+		OUTPUT ${TESTGEN_FILE}
 		COMMAND cd ${PROJECT_SOURCE_DIR} && ${PYTHON_EXECUTABLE} ${CXXTEST_PYTHON_TESTGEN_EXECUTABLE} --runner=ParenPrinter -o ${TESTGEN_FILE} ${TEST_FILES}
+		#BYPRODUCTS ${TESTGEN_FILE}
+		DEPENDS ${TEST_FILES}
 		COMMENT "Generating unittest code with cxxtestgen"
 	)
 
+	add_custom_target(gen DEPENDS ${TESTGEN_FILE})
+	add_dependencies(${TEST_PROJECT_NAME} gen)
 endif ()
 
 # Visual Leak Detector ---------------------------------------------------------
