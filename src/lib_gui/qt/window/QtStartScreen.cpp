@@ -16,6 +16,8 @@
 #include "qt/utility/utilityQt.h"
 #include "utility/logging/logging.h"
 #include "utility/Version.h"
+#include "License.h"
+#include "utility/AppPath.h"
 
 QtRecentProjectButton::QtRecentProjectButton(QWidget* parent)
 	: QPushButton(parent)
@@ -95,7 +97,7 @@ QSize QtStartScreen::sizeHint() const
 void QtStartScreen::updateButtons()
 {
 	std::vector<FilePath> recentProjects = ApplicationSettings::getInstance()->getRecentProjects();
-	size_t i = 0;
+size_t i = 0;
 	for (QtRecentProjectButton* button : m_recentProjectsButtons)
 	{
 		button->disconnect();
@@ -206,6 +208,22 @@ void QtStartScreen::setupStartScreen(bool unlocked)
 			updateLabel->setOpenExternalLinks(true);
 			updateLabel->setObjectName("updateLabel");
 			col->addWidget(updateLabel);
+
+			col->addSpacing(20);
+
+			License license;
+            license.loadFromEncodedString(
+				ApplicationSettings::getInstance()->getLicenseString(), AppPath::getAppPath());
+
+            std::string licenseString = license.getLicenseInfo();
+
+            QLabel* licenseHeader = new QLabel("Licensed to:");
+            licenseHeader->setObjectName("licenseHeaderLabel");
+            col->addWidget(licenseHeader);
+            col->addSpacing(2);
+			QLabel* licenseLabel = new QLabel(licenseString.c_str());
+            licenseLabel->setObjectName("licenseLabel");
+            col->addWidget(licenseLabel);
 
 			col->addStretch();
 

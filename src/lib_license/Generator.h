@@ -10,6 +10,7 @@ namespace Botan
 {
 	class RSA_PrivateKey;
 }
+class License;
 
 class Generator
 {
@@ -17,8 +18,9 @@ public:
     Generator(const std::string& version = "x");
     ~Generator();
 
-    std::string encodeLicense(const std::string& message, const std::string& licenseType, const int seats = 0);
-	std::string encodeLicense(const std::string& message, const int days);
+    std::string encodeLicense(const std::string& user, const std::string& licenseType, const int seats = 0);
+    std::string encodeLicense(const std::string& user, const int days);
+    void printLicenseAndWriteItToFile();
     bool verifyLicense(const std::string& filename = "license.txt");
     void generateKeys();
     void writeKeysToFiles();
@@ -45,7 +47,7 @@ private:
     std::string m_version;
     std::string m_privateKeyFile;
     std::string m_publicKeyFile;
-    std::string m_license;
+    std::shared_ptr<License> m_license;
     std::shared_ptr<Botan::RSA_PrivateKey> m_privateKey;
 
     const std::string PRIVATE_KEY_PASSWORD = "BA#jk5vbklAiKL9K3k$";

@@ -599,16 +599,12 @@ if (WIN32)
 elseif (UNIX)
 
 	add_custom_command(
-		OUTPUT ${TESTGEN_FILE}
+		TARGET ${TEST_PROJECT_NAME}
 		PRE_BUILD
-		COMMAND rm -f ${TESTGEN_FILE}
+		#COMMAND rm -f ${TESTGEN_FILE}
 		COMMAND cd ${PROJECT_SOURCE_DIR} && ${PYTHON_EXECUTABLE} ${CXXTEST_PYTHON_TESTGEN_EXECUTABLE} --runner=ParenPrinter -o ${TESTGEN_FILE} ${TEST_FILES}
 		COMMENT "Generating unittest code with cxxtestgen"
 	)
-
-	add_custom_target(gen DEPENDS ${TESTGEN_FILE})
-
-	add_dependencies(${TEST_PROJECT_NAME} gen)
 
 endif ()
 

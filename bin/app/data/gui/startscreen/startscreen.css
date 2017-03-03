@@ -47,6 +47,17 @@
 	font-size: 12px;
 }
 
+#licenseHeaderLabel {
+	color: black;
+	font-size: 12px;
+	font-weight: bold;
+}
+
+#licenseLabel {
+	color: black;
+	font-size: 12px;
+}
+
 #welcomeLabel {
 	color: black;
 	font-size: 12px;

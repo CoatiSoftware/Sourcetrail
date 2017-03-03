@@ -51,6 +51,49 @@ public:
 		TS_ASSERT_EQUALS(license.getSeats(), 20);
     }
 
+    void test_create_test_license_and_validate()
+    {
+        Generator generator("v2");
+        generator.generateKeys();
+        generator.loadPrivateKeyFromString(generator.getPrivateKeyPEMFileAsString());
+
+        License license;
+        license.loadPublicKeyFromString(generator.getPublicKeyPEMFileAsString());
+        license.loadFromString(generator.encodeLicense("User", 10));
+
+        TS_ASSERT(license.isValid());
+        TS_ASSERT_EQUALS(license.getTimeLeft(), 10);
+
+        license.loadPublicKeyFromString(generator.getPublicKeyPEMFileAsString());
+        license.loadFromString(generator.encodeLicense("User", -10));
+
+        TS_ASSERT(!license.isValid());
+        // -1 and not -10 since it means it is expired
+        TS_ASSERT_EQUALS(license.getTimeLeft(), -1);
+    }
+
+    void test_create_licenses_and_check_the_license_info()
+    {
+        Generator generator("v2");
+        generator.generateKeys();
+
+        generator.loadPrivateKeyFromString(generator.getPrivateKeyPEMFileAsString());
+        License license;
+        license.loadPublicKeyFromString(generator.getPublicKeyPEMFileAsString());
+
+        license.create("TestUser", "v2", generator.getPrivateKey());
+        std::string testInfo = "TestUser\nPrivate License\n1 Seat";
+        TS_ASSERT_EQUALS(license.getLicenseInfo(), testInfo);
+
+        license.create("TestUser", "v2", generator.getPrivateKey(), "Volume License", 20);
+        testInfo = "TestUser\nVolume License\n20 Seats";
+        TS_ASSERT_EQUALS(license.getLicenseInfo(), testInfo);
+
+        license.create("TestUser", "v2", generator.getPrivateKey(), "Private/Academic Single User License", 20);
+        testInfo = "TestUser\nPrivate/Academic Single User License\nnot registered for commercial development";
+        TS_ASSERT_EQUALS(license.getLicenseInfo(), testInfo);
+    }
+
     void test_create_license_and_validate()
     {
         Generator generator("v2");

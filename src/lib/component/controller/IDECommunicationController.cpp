@@ -173,19 +173,14 @@ void IDECommunicationController::handlePing(const NetworkProtocolHelper::PingMes
 	if (message.valid)
 	{
 		MessagePingReceived msg;
-		msg.ideId = message.ideId;
+		msg.ideName = message.ideId;
 
-		std::string ideName = "unknown";
-
-		if (msg.ideId == "vs")
+		if (msg.ideName.empty())
 		{
-			ideName = "Visual Studio";	
+			msg.ideName = "unknown";
 		}
-		// TODO: add the other ides
 
-		msg.ideName = ideName;
-
-		std::string statusMessage = ideName + " instance detected via plugin port";
+		std::string statusMessage = msg.ideName + " instance detected via plugin port";
 
 		MessageStatus(statusMessage, false, false).dispatch();
 		msg.dispatch();

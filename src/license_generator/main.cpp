@@ -35,7 +35,6 @@ bool process_command_line(int argc, char** argv)
         po::options_description keygen_description("Options Keygeneration");
         keygen_description.add_options()
             ("seats,s", po::value<int>(&seats), "Generate a License, USERNAME as value")
-            ("version,v", po::value<std::string>(&version), "Versionnumber of Coati")
             ("licenseType,t", po::value<std::string>(&type), "License Type of ")
             ("testLicense,e", po::value<int>(&days), "Generates a test license for <value> days");
 
@@ -61,11 +60,21 @@ bool process_command_line(int argc, char** argv)
         po::notify(vm);
 
         // display help if no argument or the help argument is given
-        if (vm.count("help") || vm.size() == 0)
+        if (vm.count("help"))
         {
             std::cout << desc << std::endl;
             return 1;
         }
+
+        // no mode chosen -> display help
+        if ( vm.size() == 0 || !(vm.count("hidden") || vm.count("key") || vm.count("check") || vm.count("generate")))
+        {
+            std::cout << "*****************************\nNo mode chosen, display help: "
+                      << "\n*****************************\n\n" << desc << std::endl;
+
+            return 1;
+        }
+
 
         if (vm.count("hidden"))
         {
@@ -114,10 +123,12 @@ bool process_command_line(int argc, char** argv)
 			if(vm.count("testLicense"))
 			{
 				keygen.encodeLicense(user,days);
+                keygen.printLicenseAndWriteItToFile();
 			}
 			else
 			{
                 keygen.encodeLicense(user,type,seats);
+                keygen.printLicenseAndWriteItToFile();
 			}
         }
 

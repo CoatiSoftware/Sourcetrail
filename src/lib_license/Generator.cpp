@@ -59,7 +59,7 @@ std::string Generator::encodeLicense(const std::string& user, const int days)
 	boost::gregorian::date expireDate = today + daysToTry;
 
 	std::string testLicenseTypeString = "Test License - valid till " + boost::gregorian::to_simple_string(expireDate);
-	return encodeLicense(user, testLicenseTypeString);
+    return encodeLicense(user, testLicenseTypeString);
 }
 
 std::string Generator::encodeLicense(const std::string& user, const std::string& licenseType, const int seats)
@@ -67,35 +67,46 @@ std::string Generator::encodeLicense(const std::string& user, const std::string&
 	if (user.size() <= 0)
 	{
 		std::cout << "No user given" << std::endl;
-		return "";
+        return "";
 	}
 
 	if (licenseType.size() <= 0)
 	{
 		std::cout << "No licence type given" << std::endl;
-		return "";
+        return "";
 	}
 
-    License license;
-
     //load private key
-    std::string filename = getPrivateKeyFilename();
-
-    std::shared_ptr<Botan::Private_Key> privateKey(
-            Botan::PKCS8::load_key(filename, m_rng, PRIVATE_KEY_PASSWORD));
-
-    Botan::RSA_PrivateKey *rsaKey = dynamic_cast<Botan::RSA_PrivateKey *>(privateKey.get());
-    
-	if (!rsaKey)
-	{
-        std::cout << "The key is not a RSA key" << std::endl;
+    if (!m_privateKey)
+    {
+        std::cout << "No private key. Trying to load from file." << std::endl;
+        loadPrivateKeyFromFile();
     }
 
-    license.create(user, m_version, rsaKey, licenseType, seats);
-    license.writeToFile("license.txt");
-    license.print();
+    if (!m_privateKey)
+    {
+        std::cout << "No private key. Load from file or string." << std::endl;
+        return "";
+    }
 
-    return license.getLicenseString();
+
+    m_license = std::make_shared<License>();
+    m_license->create(user, m_version, m_privateKey.get(), licenseType, seats);
+
+    return m_license->getLicenseString();
+}
+
+void Generator::printLicenseAndWriteItToFile()
+{
+    if (m_license)
+    {
+        m_license->print();
+        m_license->writeToFile("license.txt");
+    }
+    else
+    {
+        std::cout << "nothing to print" << std::endl;
+    }
 }
 
 bool Generator::verifyLicense(const std::string& filename)

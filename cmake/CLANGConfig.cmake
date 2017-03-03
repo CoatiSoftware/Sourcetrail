@@ -21,6 +21,7 @@ if (UNIX AND NOT APPLE)
 		LLVMCONFIG
 		llvm-config
 		PATHS "${CLANG_BUILD_PATH}/bin"
+		HINTS "${CLANG_BUILD_PATH}/bin"
 	)
 	execute_process(
 		COMMAND ${LLVMCONFIG} --cxxflags

@@ -139,21 +139,69 @@ unsigned int License::getSeats() const
     return 0;
 }
 
+std::string License::getLicenseType() const
+{
+	std::string licenseTypeLine = getLicenseTypeLine();
+    std::size_t found = licenseTypeLine.find(":");
+    if (found != licenseTypeLine.npos)
+    {
+        return licenseTypeLine.substr(0,found);
+    }
+
+    const std::string testLicenseString = "Test License";
+    found = licenseTypeLine.find(testLicenseString);
+    if (found != licenseTypeLine.npos)
+    {
+        return "Test License";
+    }
+
+    return licenseTypeLine;
+}
+
+std::string License::getLicenseInfo() const
+{
+    std::string info = getOwnerLine() + "\n";
+
+    const std::string typeString = getLicenseType();
+    info += getLicenseType() + "\n";
+
+    // get info depending on license type
+    if (typeString == "Private/Academic Single User License")
+    {
+        info += "not registered for commercial development";
+    }
+    else if (typeString == "Test License")
+    {
+        const std::string t = "Test License - ";
+        info += getLicenseTypeLine().substr(t.length()) + "\nunlimited Seats";
+    }
+    else if (getSeats() > 1)
+    {
+        info += std::to_string(getSeats()) + " Seats";
+    }
+    else
+    {
+        info += "1 Seat";
+    }
+
+    return info;
+}
+
 int License::getTimeLeft() const
 {
 	const std::string testText = "Test License - valid till ";
-	const int leMagicNumber = 11;
+    const std::string dateText = "YYYY-MMM-DD";
 
 	std::string licenceType = getLicenseTypeLine();
 
-	if (licenceType.size() <= (testText.length() + leMagicNumber))
+    if (licenceType.length() != (testText.length() + dateText.length()))
 	{
-		return -2; // well, since it's unclear what type of licence...??
+        return -2; // well, since it's unclear what type of licence...??
 	}
 
 	if(licenceType.substr(0, testText.length()) == testText)
 	{
-		std::string dateString = licenceType.substr(testText.length(), leMagicNumber);
+        std::string dateString = licenceType.substr(testText.length(), dateText.length());
 
 		boost::gregorian::date expireDate(
 				boost::gregorian::from_simple_string(dateString));
@@ -291,10 +339,10 @@ void License::addSignature(const std::string& signature)
 	}
 	std::stringstream ss;
 
-	const int leMagicNumber = 55; // what does this number mean? signature length?
+    const int lineLength = 55;
 	for (size_t i = 0; i < signature.size(); i++)
 	{
-		if(i % leMagicNumber == 0 && i != 0)
+        if(i % lineLength == 0 && i != 0)
 		{
 			m_lines.push_back(ss.str());
 			ss.str("");

@@ -24,7 +24,9 @@ public:
     std::string getVersionLine() const;
     std::string getOwnerLine() const;
     std::string getLicenseTypeLine() const;
+	std::string getLicenseType() const;
 
+    std::string getLicenseInfo() const;
     std::string getPublicKeyFilename() const;
     std::string getVersion() const;
     unsigned int getSeats() const;
