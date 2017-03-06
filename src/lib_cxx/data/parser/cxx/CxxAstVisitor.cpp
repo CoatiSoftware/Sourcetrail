@@ -10,6 +10,7 @@
 #include "data/parser/cxx/CxxAstVisitorComponentContext.h"
 #include "data/parser/cxx/CxxAstVisitorComponentDeclRefKind.h"
 #include "data/parser/cxx/CxxAstVisitorComponentTypeRefKind.h"
+#include "data/parser/cxx/CxxAstVisitorComponentImplicitCode.h"
 #include "data/parser/cxx/CxxAstVisitorComponentIndexer.h"
 #include "data/parser/cxx/utilityCxxAstVisitor.h"
 
@@ -52,6 +53,8 @@ CxxAstVisitor::CxxAstVisitor(clang::ASTContext* astContext, clang::Preprocessor*
 	m_components.push_back(m_typeRefKindComponent);
 	m_declRefKindComponent = std::make_shared<CxxAstVisitorComponentDeclRefKind>(this);
 	m_components.push_back(m_declRefKindComponent);
+	m_implicitCodeComponent = std::make_shared<CxxAstVisitorComponentImplicitCode>(this);
+	m_components.push_back(m_implicitCodeComponent);
 	m_indexerComponent = std::make_shared<CxxAstVisitorComponentIndexer>(this, astContext, client, fileRegister);
 	m_components.push_back(m_indexerComponent);
 }
@@ -106,7 +109,7 @@ bool CxxAstVisitor::shouldVisitTemplateInstantiations() const
 
 bool CxxAstVisitor::shouldVisitImplicitCode() const
 {
-	return true;
+	return m_implicitCodeComponent->shouldVisitImplicitCode();
 }
 
 bool CxxAstVisitor::checkIgnoresTypeLoc(const clang::TypeLoc& tl) const
@@ -119,8 +122,8 @@ bool CxxAstVisitor::checkIgnoresTypeLoc(const clang::TypeLoc& tl) const
 		(!tl.getAs<clang::DependentNameTypeLoc>().isNull()) ||
 		(!tl.getAs<clang::DependentTemplateSpecializationTypeLoc>().isNull()) ||
 		(!tl.getAs<clang::BuiltinTypeLoc>().isNull()) ||
-		(!tl.getAs<clang::AutoTypeLoc>().isNull())
-		){
+		(!tl.getAs<clang::AutoTypeLoc>().isNull()))
+	{
 		return false;
 	}
 	return true;
@@ -373,6 +376,7 @@ DEF_TRAVERSE_TYPE_PTR(FunctionDecl, {}, {})
 DEF_TRAVERSE_TYPE_PTR(ClassTemplateSpecializationDecl, {}, {})
 DEF_TRAVERSE_TYPE_PTR(ClassTemplatePartialSpecializationDecl, {}, {})
 DEF_TRAVERSE_TYPE_PTR(DeclRefExpr, {}, {})
+DEF_TRAVERSE_TYPE_PTR(CXXForRangeStmt, {}, {})
 DEF_TRAVERSE_TYPE(TemplateSpecializationTypeLoc, {}, {})
 DEF_TRAVERSE_TYPE_PTR(UnresolvedLookupExpr, {}, {})
 

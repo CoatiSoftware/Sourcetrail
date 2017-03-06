@@ -1272,6 +1272,22 @@ public:
 		TS_ASSERT(utility::containsElement<std::string>(client->builtinTypes, "bool"));
 	}
 
+	void test_cxx_parser_finds_implicit_copy_constructor()
+	{
+		std::shared_ptr<TestParserClient> client = parseCode(
+			"class TestClass {}\n"
+			"void foo()\n"
+			"{\n"
+			"	TestClass a;\n"
+			"	TestClass b(a);\n"
+			"}\n"
+		);
+
+		TS_ASSERT(utility::containsElement<std::string>(client->methods, "public void TestClass::TestClass() <1:7 <1:7 1:15> 1:7>"));
+		TS_ASSERT(utility::containsElement<std::string>(client->methods, "public void TestClass::TestClass(const TestClass &) <1:7 <1:7 1:15> 1:7>"));
+		TS_ASSERT(utility::containsElement<std::string>(client->methods, "public void TestClass::TestClass(TestClass &) <1:7 1:15>"));
+	}
+
 ///////////////////////////////////////////////////////////////////////////////
 // test finding usages of symbols
 

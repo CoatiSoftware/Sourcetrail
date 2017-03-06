@@ -53,6 +53,8 @@ add_files(
 	data/parser/cxx/CxxAstVisitorComponentContext.h
 	data/parser/cxx/CxxAstVisitorComponentDeclRefKind.cpp
 	data/parser/cxx/CxxAstVisitorComponentDeclRefKind.h
+	data/parser/cxx/CxxAstVisitorComponentImplicitCode.cpp
+	data/parser/cxx/CxxAstVisitorComponentImplicitCode.h
 	data/parser/cxx/CxxAstVisitorComponentIndexer.cpp
 	data/parser/cxx/CxxAstVisitorComponentIndexer.h
 	data/parser/cxx/CxxAstVisitorComponentTypeRefKind.cpp

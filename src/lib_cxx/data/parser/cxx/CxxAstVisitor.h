@@ -17,6 +17,7 @@ class CxxAstVisitorComponent;
 class CxxAstVisitorComponentContext;
 class CxxAstVisitorComponentDeclRefKind;
 class CxxAstVisitorComponentTypeRefKind;
+class CxxAstVisitorComponentImplicitCode;
 class CxxAstVisitorComponentIndexer;
 
 // methods are called in this order:
@@ -74,6 +75,7 @@ public:
 	virtual bool TraverseClassTemplateSpecializationDecl(clang::ClassTemplateSpecializationDecl *d);
 	virtual bool TraverseClassTemplatePartialSpecializationDecl(clang::ClassTemplatePartialSpecializationDecl* d);
 	virtual bool TraverseDeclRefExpr(clang::DeclRefExpr* s);
+	virtual bool TraverseCXXForRangeStmt(clang::CXXForRangeStmt* s);
 	virtual bool TraverseTemplateSpecializationTypeLoc(clang::TemplateSpecializationTypeLoc loc);
 	virtual bool TraverseUnresolvedLookupExpr(clang::UnresolvedLookupExpr* s);
 	virtual bool TraverseTemplateArgumentLoc(const clang::TemplateArgumentLoc& loc);
@@ -143,6 +145,7 @@ private:
 	std::shared_ptr<CxxAstVisitorComponentContext> m_contextComponent;
 	std::shared_ptr<CxxAstVisitorComponentDeclRefKind> m_declRefKindComponent;
 	std::shared_ptr<CxxAstVisitorComponentTypeRefKind> m_typeRefKindComponent;
+	std::shared_ptr<CxxAstVisitorComponentImplicitCode> m_implicitCodeComponent;
 	std::shared_ptr<CxxAstVisitorComponentIndexer> m_indexerComponent;
 
 	std::shared_ptr<DeclNameCache> m_declNameCache;

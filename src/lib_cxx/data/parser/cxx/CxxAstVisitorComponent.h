@@ -46,6 +46,8 @@ DEF_TRAVERSE_TYPE_PTR(LambdaExpr)
 
 DEF_TRAVERSE_TYPE_PTR(DeclRefExpr)
 
+DEF_TRAVERSE_TYPE_PTR(CXXForRangeStmt)
+
 DEF_TRAVERSE_TYPE_PTR(UnresolvedLookupExpr)
 
 	virtual void beginTraverseCallCommonCallee() {}
