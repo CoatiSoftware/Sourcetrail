@@ -9,8 +9,6 @@
 #include "data/indexer/IndexerFactoryModuleCxxCdb.h"
 #include "data/indexer/IndexerFactoryModuleCxxManual.h"
 
-
-
 #include "includes.h" // defines 'void setup(int argc, char *argv[])'
 #include "LicenseChecker.h"
 #include "qt/network/QtNetworkFactory.h"
@@ -66,7 +64,27 @@ void prefillJavaRuntimePath()
 		else
 		{
 			MessageStatus("Run Java runtime path detection, no path found.");
-			std::cout << "no javapath" << std::endl;
+		}
+	}
+}
+
+void prefillMavenExecutablePath()
+{
+	std::shared_ptr<ApplicationSettings> settings = ApplicationSettings::getInstance();
+	if (settings->getMavenPath().empty())
+	{
+		std::shared_ptr<CombinedPathDetector> mavenPathDetector = utility::getMavenExecutablePathDetector();
+		std::vector<FilePath> paths = mavenPathDetector->getPaths();
+		if (!paths.empty())
+		{
+			MessageStatus("Run Maven executable path detection, found: " + paths.front().str());
+
+			settings->setMavenPath(paths.front().str());
+			settings->save();
+		}
+		else
+		{
+			MessageStatus("Run Maven executable path detection, no path found.");
 		}
 	}
 }
@@ -142,6 +160,7 @@ int main(int argc, char *argv[])
 		});
 
 		prefillJavaRuntimePath();
+		prefillMavenExecutablePath();
 		prefillCxxHeaderPaths();
 		prefillCxxFrameworkPaths();
 
@@ -203,6 +222,7 @@ int main(int argc, char *argv[])
 		});
 
 		prefillJavaRuntimePath();
+		prefillMavenExecutablePath();
 		prefillCxxHeaderPaths();
 		prefillCxxFrameworkPaths();
 

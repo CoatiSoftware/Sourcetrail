@@ -12,13 +12,26 @@ public:
 	JavaProjectSettings(std::string projectName, const FilePath& projectFileLocation);
 	virtual ~JavaProjectSettings();
 
+	virtual ProjectType getProjectType() const;
+
 	virtual bool equalsExceptNameAndLocation(const ProjectSettings& other) const;
 
 	virtual std::vector<std::string> getLanguageStandards() const;
 
 	std::vector<FilePath> getClasspaths() const;
 	std::vector<FilePath> getAbsoluteClasspaths() const;
-	bool setClasspaths(const std::vector<FilePath>& headerSearchPaths);
+	bool setClasspaths(const std::vector<FilePath>& classpaths);
+
+	FilePath getMavenProjectFilePath() const;
+	FilePath getAbsoluteMavenProjectFilePath() const;
+	bool setMavenProjectFilePath(const FilePath& path);
+
+	FilePath getMavenDependenciesDirectory() const;
+	FilePath getAbsoluteMavenDependenciesDirectory() const;
+	bool setMavenDependenciesDirectory(const FilePath& path);
+
+	bool getShouldIndexMavenTests() const;
+	void setShouldIndexMavenTests(bool value);
 
 private:
 	virtual std::vector<std::string> getDefaultSourceExtensions() const;

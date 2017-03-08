@@ -113,25 +113,20 @@ void QtProjectWizzardContentPreferences::populate(QGridLayout* layout, int& row)
 
 	// jvm library path
 	m_javaPath = new QtLocationPicker(this);
-#ifdef _WIN32
-	QString filter = "JVM Library (jvm.dll)";
-#elif __APPLE__
-	QString filter = "JLI or JVM Library (libjli.dylib libjvm.dylib)";
-#else
-	QString filter = "JVM Library (libjvm.so)";
-#endif
-	m_javaPath->setFileFilter(filter);
 
 	if (QSysInfo::windowsVersion() != QSysInfo::WV_None)
 	{
+		m_javaPath->setFileFilter("JVM Library (jvm.dll)");
 		m_javaPath->setPlaceholderText("<jre_path>/bin/client/jvm.dll");
 	}
 	else if (QSysInfo::macVersion() != QSysInfo::MV_None)
 	{
+		m_javaPath->setFileFilter("JLI or JVM Library (libjli.dylib libjvm.dylib)");
 		m_javaPath->setPlaceholderText("<jre_path>/Contents/Home/jre/lib/jli/libjli.dylib");
 	}
 	else
 	{
+		m_javaPath->setFileFilter("JVM Library (libjvm.so)");
 		m_javaPath->setPlaceholderText("<jre_path>/bin/<arch>/server/libjvm.so");
 	}
 
@@ -152,6 +147,7 @@ void QtProjectWizzardContentPreferences::populate(QGridLayout* layout, int& row)
 	javaVersionString += "Java 8";
 
 	addHelpButton((
+		"Only required for indexing Java projects.\n"
 		"Provide the location of the jvm library inside the installation of your " + javaVersionString +
 		" runtime environment (for information on how to set these take a look at "
 		"<a href=\"https://coati.io/documentation/#FindingJavaRuntimeLibraryLocation\">"
@@ -167,6 +163,37 @@ void QtProjectWizzardContentPreferences::populate(QGridLayout* layout, int& row)
 	m_jvmMaximumMemory = addLineEdit("JVM Maximum Memory", "Specify the maximum amount of memory that should be "
 		"allocated by the indexer's JVM. A value of -1 ignores this setting.", layout, row);
 	layout->setRowMinimumHeight(row - 1, 30);
+
+	// maven path
+	m_mavenPath = new QtLocationPicker(this);
+
+	if (QSysInfo::windowsVersion() != QSysInfo::WV_None)
+	{
+		m_mavenPath->setFileFilter("Maven command (mvn.cmd)");
+		m_mavenPath->setPlaceholderText("<maven_path>/bin/mvn.cmd");
+	}
+	else if (QSysInfo::macVersion() != QSysInfo::MV_None)
+	{
+		// todo: add filter here
+		// todo: add placeholder here
+	}
+	else
+	{
+		// todo: add filter here
+		// todo: add placeholder here
+	}
+
+	addLabelAndWidget("Maven Path", m_mavenPath, layout, row);
+
+	addHelpButton(
+		"Only required for indexing projects using Maven.\n"
+		"Provide the location of the Maven executable. You can also use the auto detection below."
+		, layout, row
+	);
+	row++;
+
+	m_mavenPathDetector = utility::getMavenExecutablePathDetector();
+	addMavenPathDetection(layout, row);
 
 	addGap(layout, row);
 
@@ -214,6 +241,11 @@ void QtProjectWizzardContentPreferences::load()
 	}
 
 	m_jvmMaximumMemory->setText(QString::number(appSettings->getJavaMaximumMemory()));
+
+	if (m_mavenPath)
+	{
+		m_mavenPath->setText(QString::fromStdString(appSettings->getMavenPath()));
+	}
 }
 
 void QtProjectWizzardContentPreferences::save()
@@ -253,6 +285,11 @@ void QtProjectWizzardContentPreferences::save()
 
 	int jvmMaximumMemory = m_jvmMaximumMemory->text().toInt();
 	if (jvmMaximumMemory) appSettings->setJavaMaximumMemory(jvmMaximumMemory);
+
+	if (m_mavenPath)
+	{
+		appSettings->setMavenPath(m_mavenPath->getText().toStdString());
+	}
 }
 
 bool QtProjectWizzardContentPreferences::check()
@@ -265,13 +302,21 @@ void QtProjectWizzardContentPreferences::colorSchemeChanged(int index)
 	MessageSwitchColorScheme(m_colorSchemePaths[index]).dispatch();
 }
 
-
 void QtProjectWizzardContentPreferences::javaPathDetectionClicked()
 {
 	std::vector<FilePath> paths = m_javaPathDetector->getPaths(m_javaPathDetectorBox->currentText().toStdString());
 	if (!paths.empty())
 	{
 		m_javaPath->setText(paths.front().str().c_str());
+	}
+}
+
+void QtProjectWizzardContentPreferences::mavenPathDetectionClicked()
+{
+	std::vector<FilePath> paths = m_mavenPathDetector->getPaths(m_mavenPathDetectorBox->currentText().toStdString());
+	if (!paths.empty())
+	{
+		m_mavenPath->setText(paths.front().str().c_str());
 	}
 }
 
@@ -305,6 +350,40 @@ void QtProjectWizzardContentPreferences::addJavaPathDetection(QGridLayout* layou
 	hlayout->setContentsMargins(0, 0, 0, 0);
 	hlayout->addWidget(label);
 	hlayout->addWidget(m_javaPathDetectorBox);
+	hlayout->addWidget(button);
+
+	QWidget* detectionWidget = new QWidget();
+	detectionWidget->setLayout(hlayout);
+
+	layout->addWidget(detectionWidget, row, QtProjectWizzardWindow::BACK_COL, Qt::AlignLeft | Qt::AlignTop);
+	row++;
+}
+
+void QtProjectWizzardContentPreferences::addMavenPathDetection(QGridLayout* layout, int& row)
+{
+	std::vector<std::string> detectorNames = m_mavenPathDetector->getWorkingDetectorNames();
+	if (detectorNames.empty())
+	{
+		return;
+	}
+
+	QLabel* label = new QLabel("Auto detection from:");
+
+	m_mavenPathDetectorBox = new QComboBox();
+
+	for (const std::string& detectorName: detectorNames)
+	{
+		m_mavenPathDetectorBox->addItem(detectorName.c_str());
+	}
+
+	QPushButton* button = new QPushButton("detect");
+	button->setObjectName("windowButton");
+	connect(button, SIGNAL(clicked()), this, SLOT(mavenPathDetectionClicked()));
+
+	QHBoxLayout* hlayout = new QHBoxLayout();
+	hlayout->setContentsMargins(0, 0, 0, 0);
+	hlayout->addWidget(label);
+	hlayout->addWidget(m_mavenPathDetectorBox);
 	hlayout->addWidget(button);
 
 	QWidget* detectionWidget = new QWidget();

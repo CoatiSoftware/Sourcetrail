@@ -247,6 +247,16 @@ void ApplicationSettings::setJavaMaximumMemory(int size)
 	setValue<int>("indexing/java/java_maximum_memory", size);
 }
 
+std::string ApplicationSettings::getMavenPath() const
+{
+	return getValue<std::string>("indexing/java/maven_path", "");
+}
+
+void ApplicationSettings::setMavenPath(const std::string path)
+{
+	setValue<std::string>("indexing/java/maven_path", path);
+}
+
 std::vector<FilePath> ApplicationSettings::getHeaderSearchPaths() const
 {
 	return getPathValues("indexing/cxx/header_search_paths/header_search_path");

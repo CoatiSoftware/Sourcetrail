@@ -47,3 +47,25 @@ std::string getSymbolNameDelimiterForLanguage(LanguageType t)
 	}
 	return "@";
 }
+
+LanguageType getLanguageTypeForProjectType(ProjectType t)
+{
+	switch (t)
+	{
+	case PROJECT_C_EMPTY:
+		return LANGUAGE_C;
+	case PROJECT_CPP_EMPTY:
+		return LANGUAGE_CPP;
+	case PROJECT_CXX_CDB:
+		return LANGUAGE_CPP;
+	case PROJECT_CXX_VS:
+		return LANGUAGE_CPP;
+	case PROJECT_JAVA_EMPTY:
+		return LANGUAGE_JAVA;
+	case PROJECT_JAVA_MAVEN:
+		return LANGUAGE_JAVA;
+	default:
+		break;
+	}
+}
+

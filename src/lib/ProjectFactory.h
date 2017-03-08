@@ -18,7 +18,7 @@ public:
 	void addModule(std::shared_ptr<ProjectFactoryModule> module);
 
 	std::shared_ptr<Project> createProject(
-		const FilePath& projectSettingsFile, StorageAccessProxy* storageAccessProxy, DialogView* dialogView);
+		const FilePath& projectSettingsFile, StorageAccessProxy* storageAccessProxy, std::shared_ptr<DialogView> dialogView);
 
 private:
 	std::map<LanguageType, std::shared_ptr<ProjectFactoryModule>> m_modules;

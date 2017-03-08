@@ -13,7 +13,7 @@ LanguageType ProjectFactoryModuleJava::getLanguage() const
 }
 
 std::shared_ptr<Project> ProjectFactoryModuleJava::createProject(
-	const FilePath& projectSettingsFile, StorageAccessProxy* storageAccessProxy, DialogView* dialogView
+	const FilePath& projectSettingsFile, StorageAccessProxy* storageAccessProxy, std::shared_ptr<DialogView> dialogView
 )
 {
 	return std::shared_ptr<JavaProject>(new JavaProject(

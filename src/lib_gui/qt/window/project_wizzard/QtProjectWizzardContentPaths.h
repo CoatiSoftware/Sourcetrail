@@ -143,7 +143,6 @@ public:
 	virtual void save() override;
 };
 
-
 class QtProjectWizzardContentPathsClassJava
 	: public QtProjectWizzardContentPaths
 {

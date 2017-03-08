@@ -37,7 +37,7 @@ public:
 	std::set<FilePath> getSourceFilePaths() const;
 
 	// checks if file is in non-excluded source directory
-	virtual bool hasSourceFilePath(const FilePath& filePath) const;
+	bool hasSourceFilePath(const FilePath& filePath) const;
 
 private:
 	std::vector<FilePath> makeCanonical(const std::vector<FilePath>& filePaths);

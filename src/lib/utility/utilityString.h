@@ -45,6 +45,8 @@ namespace utility
 
 	std::string replace(std::string str, const std::string& from, const std::string& to);
 
+	std::string insertLineBreaksAtBlankSpaces(const std::string& s, int maxLineLength);
+
 	std::string trim(const std::string &str);
 
 	template <typename ContainerType>

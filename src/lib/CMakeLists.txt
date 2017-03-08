@@ -236,6 +236,8 @@ add_files(
 	settings/LanguageType.h
 	settings/ProjectSettings.cpp
 	settings/ProjectSettings.h
+	settings/ProjectType.cpp
+	settings/ProjectType.h
 	settings/Settings.cpp
 	settings/Settings.h
 	settings/SettingsMigrator.cpp
@@ -442,6 +444,8 @@ add_files(
 	utility/utilityLibrary.h
 	utility/utilityString.cpp
 	utility/utilityString.h
+	utility/utilityXml.cpp
+	utility/utilityXml.h
 	utility/UUIDUtility.cpp
 	utility/UUIDUtility.h
 	utility/Version.cpp

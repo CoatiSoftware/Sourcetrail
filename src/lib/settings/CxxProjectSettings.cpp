@@ -23,6 +23,31 @@ CxxProjectSettings::~CxxProjectSettings()
 {
 }
 
+ProjectType CxxProjectSettings::getProjectType() const
+{
+	if (!getVisualStudioSolutionPath().empty()) // I think this is crap. VS solution path is not used anymore.. so vs projects are handled like cdb projects
+	{
+		return PROJECT_CXX_VS;
+	}
+	else if (!getCompilationDatabasePath().empty())
+	{
+		return PROJECT_CXX_CDB;
+	}
+	else
+	{
+		switch (getLanguage())
+		{
+		case LANGUAGE_C:
+			return PROJECT_C_EMPTY;
+		case LANGUAGE_CPP:
+			return PROJECT_CPP_EMPTY;
+		default:
+			return PROJECT_UNKNOWN;
+		}
+	}
+	return PROJECT_UNKNOWN;
+}
+
 bool CxxProjectSettings::equalsExceptNameAndLocation(const ProjectSettings& other) const
 {
 	if (other.getLanguage() == getLanguage())

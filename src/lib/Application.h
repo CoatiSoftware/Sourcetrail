@@ -51,6 +51,7 @@ public:
 
 	int handleDialog(const std::string& message);
 	int handleDialog(const std::string& message, const std::vector<std::string>& options);
+	std::shared_ptr<DialogView> getDialogView();
 
 	bool isInTrial() const;
 
@@ -70,7 +71,6 @@ private:
 
 	void updateRecentProjects(const FilePath& projectSettingsFilePath);
 
-	DialogView* getDialogView() const;
 	void logStorageStats() const;
 
 	void updateTitle();

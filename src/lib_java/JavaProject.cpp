@@ -5,14 +5,20 @@
 #include "data/parser/java/JavaEnvironmentFactory.h"
 #include "data/parser/java/JavaEnvironment.h"
 #include "utility/file/FileRegister.h"
-#include "utility/text/TextAccess.h"
+#include "utility/file/FileSystem.h"
 #include "utility/messaging/type/MessageStatus.h"
+#include "utility/text/TextAccess.h"
 #include "utility/ResourcePaths.h"
+#include "utility/utilityMaven.h"
 #include "utility/utilityString.h"
 #include "Application.h"
+#include "settings/ApplicationSettings.h"
+
+#include "utility/tracing.h"
+#include "utility/ScopedFunctor.h"
 
 JavaProject::JavaProject(
-	std::shared_ptr<JavaProjectSettings> projectSettings, StorageAccessProxy* storageAccessProxy, DialogView* dialogView
+	std::shared_ptr<JavaProjectSettings> projectSettings, StorageAccessProxy* storageAccessProxy, std::shared_ptr<DialogView> dialogView
 )
 	: Project(storageAccessProxy, dialogView)
 	, m_projectSettings(projectSettings)
@@ -67,15 +73,50 @@ bool JavaProject::prepareIndexing()
 	if (!JavaEnvironmentFactory::getInstance())
 	{
 		std::string dialogMessage =
-			"Coati was unable to locate Java on this machine.\nPlease make sure to provide the correct Java Path in the preferences.";
+			"Coati was unable to locate Java on this machine.\n"
+			"Please make sure to provide the correct Java Path in the preferences.";
 
 		if (errorString.size() > 0)
 		{
 			dialogMessage += "\n\nError: " + errorString;
 		}
 
+		MessageStatus(dialogMessage, true, false).dispatch();
+
 		Application::getInstance()->handleDialog(dialogMessage);
 		return false;
+	}
+
+	if (m_projectSettings->getAbsoluteMavenProjectFilePath().exists())
+	{
+		const FilePath mavenPath = ApplicationSettings::getInstance()->getMavenPath();
+		const FilePath projectRootPath = m_projectSettings->getAbsoluteMavenProjectFilePath().parentDirectory();
+
+		ScopedFunctor dialogHider([this](){
+			getDialogView()->hideStatusDialog();
+		});
+
+		getDialogView()->showStatusDialog("Preparing Project", "Maven\nGenerating Source Files");
+		bool success = utility::mavenGenerateSources(
+			mavenPath, projectRootPath
+		);
+
+		if (!success)
+		{
+			const std::string dialogMessage =
+				"Coati was unable to locate Maven on this machine.\n"
+				"Please make sure to provide the correct Maven Path in the preferences.";
+
+			MessageStatus(dialogMessage, true, false).dispatch();
+
+			Application::getInstance()->handleDialog(dialogMessage);
+			return false;
+		}
+
+		getDialogView()->showStatusDialog("Preparing Project", "Maven\nExporting Dependencies");
+		utility::mavenCopyDependencies(
+			mavenPath, projectRootPath, m_projectSettings->getAbsoluteMavenDependenciesDirectory()
+		);
 	}
 
 	return true;
@@ -85,11 +126,23 @@ std::vector<std::shared_ptr<IndexerCommand>> JavaProject::getIndexerCommands()
 {
 	std::vector<FilePath> classPath;
 
-	for (FilePath p: m_projectSettings->getAbsoluteClasspaths())
+	for (const FilePath& p: m_projectSettings->getAbsoluteClasspaths())
 	{
 		if (p.exists())
 		{
 			classPath.push_back(p);
+		}
+	}
+
+	if (m_projectSettings->getAbsoluteMavenDependenciesDirectory().exists())
+	{
+		const std::vector<std::string> dependencies = FileSystem::getFileNamesFromDirectory(
+			m_projectSettings->getAbsoluteMavenDependenciesDirectory().str(),
+			std::vector<std::string>(1, ".jar")
+		);
+		for (const std::string& dependency: dependencies)
+		{
+			classPath.push_back(dependency);
 		}
 	}
 
@@ -135,10 +188,23 @@ std::vector<std::shared_ptr<IndexerCommand>> JavaProject::getIndexerCommands()
 	return indexerCommands;
 }
 
-
 void JavaProject::updateFileManager(FileManager& fileManager)
 {
-	std::vector<FilePath> sourcePaths = m_projectSettings->getAbsoluteSourcePaths();
+	std::vector<FilePath> sourcePaths;
+	if (m_projectSettings->getAbsoluteMavenProjectFilePath().exists())
+	{
+		getDialogView()->showStatusDialog("Preparing Project", "Maven\nFetching Source Directories");
+
+		const FilePath mavenPath(ApplicationSettings::getInstance()->getMavenPath());
+		const FilePath projectRootPath = m_projectSettings->getAbsoluteMavenProjectFilePath().parentDirectory();
+		sourcePaths = utility::mavenGetAllDirectoriesFromEffectivePom(mavenPath, projectRootPath, m_projectSettings->getShouldIndexMavenTests());
+
+		getDialogView()->hideStatusDialog();
+	}
+	else
+	{
+		sourcePaths = m_projectSettings->getAbsoluteSourcePaths();
+	}
 	std::vector<FilePath> headerPaths = sourcePaths;
 	std::vector<std::string> sourceExtensions = m_projectSettings->getSourceExtensions();
 	std::vector<FilePath> excludePaths = m_projectSettings->getAbsoluteExcludePaths();
@@ -151,12 +217,7 @@ void JavaProject::fetchRootDirectories()
 	m_rootDirectories = std::make_shared<std::set<FilePath>>();
 
 	FileManager fileManager;
-	fileManager.setPaths(
-		m_projectSettings->getAbsoluteSourcePaths(),
-		std::vector<FilePath>(),
-		m_projectSettings->getAbsoluteExcludePaths(),
-		m_projectSettings->getSourceExtensions()
-	);
+	updateFileManager(fileManager);
 
 	FileManager::FileSets fileSets = fileManager.fetchFilePaths(std::vector<FileInfo>());
 	std::shared_ptr<JavaEnvironment> javaEnvironment = JavaEnvironmentFactory::getInstance()->createEnvironment();

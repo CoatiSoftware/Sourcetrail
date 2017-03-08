@@ -34,8 +34,6 @@
 #include "utility/Version.h"
 
 #include "Application.h"
-#include "CxxProject.h"
-#include "JavaProject.h"
 
 Project::~Project()
 {
@@ -156,8 +154,6 @@ std::string Project::getDescription() const
 	return getProjectSettings()->getDescription();
 }
 
-#include "utility/file/FileSystem.h"
-
 std::set<FilePath> Project::getSourceFilePaths() const
 {
 	return m_fileManager.getSourceFilePaths();
@@ -176,14 +172,14 @@ void Project::setStateSettingsUpdated()
 	}
 }
 
-Project::Project(StorageAccessProxy* storageAccessProxy, DialogView* dialogView)
+Project::Project(StorageAccessProxy* storageAccessProxy, std::shared_ptr<DialogView> dialogView)
 	: m_storageAccessProxy(storageAccessProxy)
 	, m_dialogView(dialogView)
 	, m_state(PROJECT_STATE_NOT_LOADED)
 {
 }
 
-DialogView* Project::getDialogView() const
+std::shared_ptr<DialogView> Project::getDialogView() const
 {
 	return m_dialogView;
 }

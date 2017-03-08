@@ -16,6 +16,9 @@ add_files(
 	data/parser/java/JavaEnvironmentFactory.cpp
 	data/parser/java/JavaEnvironmentFactory.h
 	
+	utility/utilityMaven.cpp
+	utility/utilityMaven.h
+	
 	JavaProject.cpp
 	JavaProject.h
 	ProjectFactoryModuleJava.cpp

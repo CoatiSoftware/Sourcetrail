@@ -22,7 +22,7 @@ public:
 		std::shared_ptr<IndexerCommandList> indexerCommandList,
 		std::shared_ptr<StorageProvider> storageProvider,
 		std::shared_ptr<FileRegisterStateData> fileRegisterStateData,
-		DialogView* dialogView
+		std::shared_ptr<DialogView> dialogView
 	);
 
 protected:
@@ -36,7 +36,7 @@ protected:
 	std::shared_ptr<IndexerCommandList> m_indexerCommandList;
 	std::shared_ptr<StorageProvider> m_storageProvider;
 	std::shared_ptr<FileRegisterStateData> m_fileRegisterStateData;
-	DialogView* m_dialogView;
+	std::shared_ptr<DialogView> m_dialogView;
 
 	std::shared_ptr<IndexerBase> m_indexer;
 };

@@ -12,13 +12,6 @@ class QtProjectWizzardContentSelect
 	Q_OBJECT
 
 public:
-	enum ProjectType : int
-	{
-		PROJECT_EMPTY = 0,
-		PROJECT_CDB = 1,
-		PROJECT_MANAGED = 2 // use this type for all standard parser (parsers that are handled by the parser manager)
-	};
-
 	QtProjectWizzardContentSelect(
 		std::shared_ptr<ProjectSettings> settings,
 		QtProjectWizzardWindow* window,
@@ -31,18 +24,17 @@ public:
 	virtual bool check() override;
 
 signals:
-	void selected(LanguageType, QtProjectWizzardContentSelect::ProjectType);
+	void selected(ProjectType);
 
 private:
 	QButtonGroup* m_languages;
-	QButtonGroup* m_buttons;
+	std::map<LanguageType, QButtonGroup*> m_buttons;
 
 	QLabel* m_title;
 	QLabel* m_description;
 
-	std::vector<std::string> m_projectTypeNames;
-	std::vector<std::string> m_projectTypeDescriptions;
-	std::vector<std::string> m_projectTypeIconPaths;
+	std::map<ProjectType, std::string> m_projectTypeIconName;
+	std::map<ProjectType, std::string> m_projectTypeDescriptions;
 
 	std::weak_ptr<SolutionParserManager> m_solutionParserManager;
 	std::vector<std::string> m_solutionDescription;

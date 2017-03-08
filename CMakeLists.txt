@@ -217,8 +217,6 @@ set_property(
 		"${CMAKE_SOURCE_DIR}/src/lib"
 		"${CMAKE_SOURCE_DIR}/src/external"
 		"${CMAKE_SOURCE_DIR}/src/lib_license"
-		"${CMAKE_SOURCE_DIR}/src/lib_cxx"
-		"${CMAKE_SOURCE_DIR}/src/lib_java"
 		"${CMAKE_BINARY_DIR}/src/lib_license"
 )
 
@@ -275,6 +273,7 @@ set_property(
 	PROPERTY INCLUDE_DIRECTORIES
 		"${CMAKE_SOURCE_DIR}/src/lib_java"
 		"${CMAKE_SOURCE_DIR}/src/lib"
+		"${CMAKE_SOURCE_DIR}/src/lib_gui"
 )
 
 target_include_directories(${LIB_JAVA_PROJECT_NAME} SYSTEM
@@ -283,6 +282,8 @@ target_include_directories(${LIB_JAVA_PROJECT_NAME} SYSTEM
 )
 
 link_directories(${Boost_LIBRARY_DIRS})
+
+target_link_libraries(${LIB_JAVA_PROJECT_NAME} ${LIB_PROJECT_NAME})
 
 add_custom_command(
 	TARGET ${LIB_JAVA_PROJECT_NAME}
@@ -361,6 +362,7 @@ set_property(
 		"${CMAKE_SOURCE_DIR}/src/lib_gui"
 		"${CMAKE_SOURCE_DIR}/src/lib"
 		"${CMAKE_SOURCE_DIR}/src/lib_cxx"
+		"${CMAKE_SOURCE_DIR}/src/lib_java"
 		"${CMAKE_SOURCE_DIR}/src/lib_license"
 		"${CMAKE_BINARY_DIR}/src/lib_gui"
 		"${CMAKE_BINARY_DIR}/src/lib_license"

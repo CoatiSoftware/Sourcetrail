@@ -40,6 +40,11 @@ void QtProjectWizzardWindow::setPreferredSize(QSize size)
 	m_preferredSize = size;
 }
 
+void QtProjectWizzardWindow::saveContent()
+{
+	m_content->save();
+}
+
 void QtProjectWizzardWindow::populateWindow(QWidget* widget)
 {
 	QGridLayout* layout = new QGridLayout();
@@ -80,7 +85,7 @@ void QtProjectWizzardWindow::windowReady()
 
 void QtProjectWizzardWindow::handleNext()
 {
-	m_content->save();
+	saveContent();
 
 	if (m_content->check())
 	{

@@ -29,10 +29,12 @@ public:
 private slots:
 	void colorSchemeChanged(int index);
 	void javaPathDetectionClicked();
+	void mavenPathDetectionClicked();
 	void loggingEnabledChanged();
 
 private:
 	void addJavaPathDetection(QGridLayout* layout, int& row);
+	void addMavenPathDetection(QGridLayout* layout, int& row);
 
 	void addTitle(QString title, QGridLayout* layout, int& row);
 	void addLabelAndWidget(
@@ -63,8 +65,12 @@ private:
 	QComboBox* m_threads;
 
 	std::shared_ptr<CombinedPathDetector> m_javaPathDetector;
+	std::shared_ptr<CombinedPathDetector> m_mavenPathDetector;
+
 	QComboBox* m_javaPathDetectorBox;
+	QComboBox* m_mavenPathDetectorBox;
 	QtLocationPicker* m_javaPath;
+	QtLocationPicker* m_mavenPath;
 	QLineEdit* m_jvmMaximumMemory;
 };
 

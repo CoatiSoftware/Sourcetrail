@@ -172,33 +172,19 @@ void QtProjectWizzardContentPathsSource::save()
 
 std::vector<std::string> QtProjectWizzardContentPathsSource::getFileNames() const
 {
-	std::vector<FilePath> sourcePaths = m_settings->getAbsoluteSourcePaths();
-	std::vector<FilePath> excludePaths = m_settings->getAbsoluteExcludePaths();
-	std::vector<std::string> extensions = m_settings->getSourceExtensions();
+	FileManager fileManager;
+	fileManager.setPaths(
+		m_settings->getAbsoluteSourcePaths(), 
+		std::vector<FilePath>(), // we don't need to specify header paths here
+		m_settings->getAbsoluteExcludePaths(),
+		m_settings->getSourceExtensions()
+	);
 
-	std::vector<FileInfo> fileInfos = FileSystem::getFileInfosFromPaths(sourcePaths, extensions);
-	FilePath projectPath = m_settings->getProjectFileLocation();
+	const FilePath projectPath = m_settings->getProjectFileLocation();
 
 	std::vector<std::string> list;
-	for (const FileInfo& info : fileInfos)
+	for (FilePath path: fileManager.getSourceFilePaths())
 	{
-		FilePath path = info.path;
-
-		bool excluded = false;
-		for (FilePath p : excludePaths)
-		{
-			if (p == path || p.contains(path))
-			{
-				excluded = true;
-				break;
-			}
-		}
-
-		if (excluded)
-		{
-			continue;
-		}
-
 		if (projectPath.exists())
 		{
 			path = path.relativeTo(projectPath);

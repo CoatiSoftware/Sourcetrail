@@ -106,7 +106,21 @@ std::set<FilePath> FileManager::getSourceFilePaths() const
 	std::set<FilePath> sourceFilePaths;
 	for (const FileInfo& fileInfo: FileSystem::getFileInfosFromPaths(m_sourcePaths, m_sourceExtensions))
 	{
-		sourceFilePaths.emplace(fileInfo.path);
+		const FilePath& path = fileInfo.path;
+		bool excluded = false;
+		for (FilePath p: m_excludePaths)
+		{
+			if (p == path || p.contains(path))
+			{
+				excluded = true;
+				break;
+			}
+		}
+
+		if (!excluded)
+		{
+			sourceFilePaths.emplace(path);
+		}
 	}
 	return sourceFilePaths;
 }
@@ -115,6 +129,14 @@ bool FileManager::hasSourceFilePath(const FilePath& filePath) const
 {
 	if (m_sourceFilePaths.find(filePath) != m_sourceFilePaths.end())
 	{
+		for (FilePath p: m_excludePaths)
+		{
+			if (p == filePath || p.contains(filePath))
+			{
+				return false;
+			}
+		}
+
 		return true;
 	}
 

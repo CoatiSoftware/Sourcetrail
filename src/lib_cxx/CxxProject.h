@@ -12,7 +12,7 @@ public:
 	CxxProject(
 		std::shared_ptr<CxxProjectSettings> projectSettings,
 		StorageAccessProxy* storageAccessProxy,
-		DialogView* dialogView
+		std::shared_ptr<DialogView> dialogView
 	);
 	virtual ~CxxProject();
 

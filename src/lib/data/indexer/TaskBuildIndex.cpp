@@ -14,7 +14,7 @@ TaskBuildIndex::TaskBuildIndex(
 	std::shared_ptr<IndexerCommandList> indexerCommandList,
 	std::shared_ptr<StorageProvider> storageProvider,
 	std::shared_ptr<FileRegisterStateData> fileRegisterStateData,
-	DialogView* dialogView
+	std::shared_ptr<DialogView> dialogView
 )
 	: m_indexerCommandList(indexerCommandList)
 	, m_storageProvider(storageProvider)

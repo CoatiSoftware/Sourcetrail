@@ -158,6 +158,8 @@ add_files(
 	qt/window/project_wizzard/QtProjectWizzardContentExtensions.h
 	qt/window/project_wizzard/QtProjectWizzardContentFlags.cpp
 	qt/window/project_wizzard/QtProjectWizzardContentFlags.h
+	qt/window/project_wizzard/QtProjectWizzardContentPath.cpp
+	qt/window/project_wizzard/QtProjectWizzardContentPath.h
 	qt/window/project_wizzard/QtProjectWizzardContentPaths.cpp
 	qt/window/project_wizzard/QtProjectWizzardContentPaths.h
 	qt/window/project_wizzard/QtProjectWizzardContentPreferences.cpp
@@ -222,6 +224,11 @@ add_files(
 	utility/path_detector/java_runtime/JavaPathDetectorMac.h
 	utility/path_detector/java_runtime/JavaPathDetectorWindows.cpp
 	utility/path_detector/java_runtime/JavaPathDetectorWindows.h
+
+	utility/path_detector/maven_executable/MavenPathDetectorUnix.cpp
+	utility/path_detector/maven_executable/MavenPathDetectorUnix.h
+	utility/path_detector/maven_executable/MavenPathDetectorWindows.cpp
+	utility/path_detector/maven_executable/MavenPathDetectorWindows.h
 
 	utility/path_detector/CombinedPathDetector.cpp
 	utility/path_detector/CombinedPathDetector.h

@@ -5,7 +5,7 @@
 TaskShowStatusDialog::TaskShowStatusDialog(
 	const std::string& title,
 	const std::string& message,
-	DialogView* dialogView
+	std::shared_ptr<DialogView> dialogView
 )
 	: m_title(title)
 	, m_message(message)

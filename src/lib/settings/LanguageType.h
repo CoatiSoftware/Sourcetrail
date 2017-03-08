@@ -3,6 +3,8 @@
 
 #include <string>
 
+#include "settings/ProjectType.h"
+
 enum LanguageType
 {
 	LANGUAGE_C,
@@ -15,5 +17,6 @@ std::string languageTypeToString(LanguageType t);
 LanguageType stringToLanguageType(std::string s);
 
 std::string getSymbolNameDelimiterForLanguage(LanguageType t);
+LanguageType getLanguageTypeForProjectType(ProjectType t);
 
 #endif // LANGUAGE_TYPE_H

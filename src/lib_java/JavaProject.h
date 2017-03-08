@@ -12,7 +12,7 @@ public:
 	JavaProject(
 		std::shared_ptr<JavaProjectSettings> projectSettings,
 		StorageAccessProxy* storageAccessProxy,
-		DialogView* dialogView
+		std::shared_ptr<DialogView> dialogView
 	);
 	virtual ~JavaProject();
 

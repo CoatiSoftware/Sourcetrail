@@ -2,6 +2,7 @@
 #define UTILITY_H
 
 #include <algorithm>
+#include <cstdarg>
 #include <deque>
 #include <set>
 #include <time.h>
@@ -46,6 +47,15 @@ namespace utility
 
 	template<typename T>
 	std::vector<T> toVector(const std::set<T>& d);
+
+	template<typename T>
+	void fillVectorWithElements(std::vector<T>& v, const T& arg);
+
+	template<typename T, typename... Args>
+	void fillVectorWithElements(std::vector<T>& v, const T& arg, const Args&... args);
+
+	template<typename T, typename... Args>
+	std::vector<T> createVectorFromElements(const Args&... args);
 
 	template<typename T>
 	std::vector<std::string> toStrings(const std::vector<T>& d);
@@ -153,6 +163,27 @@ std::vector<T> utility::toVector(const std::set<T>& d)
 {
 	std::vector<T> v;
 	v.insert(v.begin(), d.begin(), d.end());
+	return v;
+}
+
+template<typename T>
+void utility::fillVectorWithElements(std::vector<T>& v, const T& arg)
+{
+	v.push_back(arg);
+}
+
+template<typename T, typename... Args>
+void utility::fillVectorWithElements(std::vector<T>& v, const T& arg, const Args&... args)
+{
+	fillVectorWithElements<T>(v, arg);
+	fillVectorWithElements<T>(v, args...);
+}
+
+template<typename T, typename... Args>
+std::vector<T> utility::createVectorFromElements(const Args&... args)
+{
+	std::vector<T> v;
+	fillVectorWithElements<T>(v, args...);
 	return v;
 }
 

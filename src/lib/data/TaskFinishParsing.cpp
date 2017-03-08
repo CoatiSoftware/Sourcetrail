@@ -10,7 +10,7 @@
 TaskFinishParsing::TaskFinishParsing(
 	PersistentStorage* storage,
 	StorageAccess* storageAccess,
-	DialogView* dialogView
+	std::shared_ptr<DialogView> dialogView
 )
 	: m_storage(storage)
 	, m_storageAccess(storageAccess)

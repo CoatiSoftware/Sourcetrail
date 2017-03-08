@@ -20,6 +20,8 @@ public:
 
 	void setPreferredSize(QSize size);
 
+	void saveContent();
+
 	static const int FRONT_COL = 0;
 	static const int HELP_COL = 1;
 	static const int LINE_COL = 2;

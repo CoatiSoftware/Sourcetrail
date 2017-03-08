@@ -16,7 +16,7 @@
 #include "Application.h"
 
 CxxProject::CxxProject(
-	std::shared_ptr<CxxProjectSettings> projectSettings, StorageAccessProxy* storageAccessProxy, DialogView* dialogView
+	std::shared_ptr<CxxProjectSettings> projectSettings, StorageAccessProxy* storageAccessProxy, std::shared_ptr<DialogView> dialogView
 )
 	: Project(storageAccessProxy, dialogView)
 	, m_projectSettings(projectSettings)

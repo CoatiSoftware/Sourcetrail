@@ -11,7 +11,6 @@ class SolutionParserUtility
 {
 public:
 	static TiXmlElement* getFirstTagByName(TiXmlElement* root, const std::string& tag);
-	static std::vector<TiXmlElement*> getAllTagsByName(TiXmlElement* root, const std::string& tag);
 
 	static TiXmlElement* getFirstTagByNameWithAttribute(TiXmlElement* root, const std::string& tag, const std::string& attribute);
 	static std::vector<TiXmlElement*> getAllTagsByNameWithAttribute(TiXmlElement* root, const std::string& tag, const std::string& attribute);
@@ -24,7 +23,7 @@ public:
 	static std::string makePathCanonical(const std::string& path);
 
 	static std::string checkIsIdeMacro(const std::string& text); // returns matching macro or empty string if no match was found
-	
+
 	static std::vector<std::string> m_ideMacros;
 	static std::map<std::string, std::string> m_ideMacroValues; // to replace macros with known values
 };

@@ -134,7 +134,10 @@ QPushButton* QtProjectWizzardContent::addFilesButton(QString name, QGridLayout* 
 {
 	QPushButton* button = new QPushButton(name);
 	button->setObjectName("windowButton");
-	layout->addWidget(button, row, QtProjectWizzardWindow::BACK_COL, Qt::AlignRight | Qt::AlignTop);
+	if (layout)
+	{
+		layout->addWidget(button, row, QtProjectWizzardWindow::BACK_COL, Qt::AlignRight | Qt::AlignTop);
+	}
 	connect(button, SIGNAL(clicked()), this, SLOT(filesButtonClicked()));
 
 	return button;
@@ -142,7 +145,7 @@ QPushButton* QtProjectWizzardContent::addFilesButton(QString name, QGridLayout* 
 
 void QtProjectWizzardContent::filesButtonClicked()
 {
-	save();
+	m_window->saveContent();
 
 	if (!m_filesDialog)
 	{

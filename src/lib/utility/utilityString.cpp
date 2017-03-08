@@ -211,6 +211,47 @@ namespace utility
 		return str;
 	}
 
+	std::string insertLineBreaksAtBlankSpaces(const std::string& s, int maxLineLength)
+	{
+		const std::vector<std::string> atoms = splitToVector(s, " ");
+
+		std::string ret = "";
+		std::string currentLine = "";
+		for (const std::string& atom: atoms)
+		{
+			if (currentLine.size() + 1 + atom.size() <= maxLineLength)
+			{
+				currentLine += " " + atom;
+			}
+			else
+			{
+				if (!ret.empty())
+				{
+					ret += "\n";
+				}
+
+				if (currentLine.empty())
+				{
+					ret += atom;
+				}
+				else
+				{
+					ret += currentLine;
+					currentLine = atom;
+				}
+			}
+		}
+		if (!currentLine.empty())
+		{
+			if (!ret.empty())
+			{
+				ret += "\n";
+			}
+			ret += currentLine;
+		}
+		return ret;
+	}
+
 	std::string trim(const std::string &str)
 	{
 		auto wsfront = std::find_if_not(str.begin(), str.end(), [](int c){ return std::isspace(c); });

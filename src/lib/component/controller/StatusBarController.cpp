@@ -73,7 +73,8 @@ void StatusBarController::setStatus(const std::string& status, bool isError, boo
 	if (!status.empty())
 	{
 		LOG_INFO_STREAM(<< "STATUS " << status);
-
-		getView()->showMessage(status, isError, showLoader);
 	}
+
+	getView()->showMessage(status, isError, showLoader);
+
 }

@@ -130,6 +130,16 @@ int Application::handleDialog(const std::string& message, const std::vector<std:
 	return getDialogView()->confirm(message, options);
 }
 
+std::shared_ptr<DialogView> Application::getDialogView()
+{
+	if (m_componentManager)
+	{
+		return m_componentManager->getDialogView();
+	}
+
+	return std::shared_ptr<DialogView>();
+}
+
 bool Application::isInTrial() const
 {
 	return m_isInTrial;
@@ -301,17 +311,6 @@ void Application::updateRecentProjects(const FilePath& projectSettingsFilePath)
 
 		m_mainView->updateRecentProjectMenu();
 	}
-}
-
-DialogView* Application::getDialogView() const
-{
-	if (m_componentManager)
-	{
-		return m_componentManager->getDialogView();
-	}
-
-	static DialogView dialogView(nullptr);
-	return &dialogView;
 }
 
 void Application::logStorageStats() const

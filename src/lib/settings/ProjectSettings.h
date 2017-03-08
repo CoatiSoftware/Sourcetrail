@@ -20,6 +20,8 @@ public:
 	ProjectSettings(std::string projectName, const FilePath& projectFileLocation);
 	virtual ~ProjectSettings();
 
+	virtual ProjectType getProjectType() const;
+
 	virtual bool equalsExceptNameAndLocation(const ProjectSettings& other) const;
 
 	virtual std::vector<std::string> getLanguageStandards() const;
@@ -36,7 +38,7 @@ public:
 	void setProjectFileLocation(const FilePath& location);
 
 	std::string getDescription() const;
-
+	
 	LanguageType getLanguage() const;
 	bool setLanguage(LanguageType language);
 

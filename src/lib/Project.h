@@ -35,8 +35,8 @@ public:
 	void setStateSettingsUpdated();
 
 protected:
-	Project(StorageAccessProxy* storageAccessProxy, DialogView* dialogView);
-	DialogView* getDialogView() const;
+	Project(StorageAccessProxy* storageAccessProxy, std::shared_ptr<DialogView> dialogView);
+	std::shared_ptr<DialogView> getDialogView() const;
 	std::vector<FilePath> getSourcePaths() const;
 
 	virtual std::shared_ptr<ProjectSettings> getProjectSettings() = 0;
@@ -70,7 +70,7 @@ private:
 	virtual void updateFileManager(FileManager& fileManager) = 0;
 
 	StorageAccessProxy* const m_storageAccessProxy;
-	DialogView* m_dialogView;
+	std::shared_ptr<DialogView> m_dialogView;
 
 	ProjectStateType m_state;
 	FileManager m_fileManager;

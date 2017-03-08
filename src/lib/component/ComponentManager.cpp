@@ -110,9 +110,9 @@ void ComponentManager::refreshViews()
 	}
 }
 
-DialogView* ComponentManager::getDialogView() const
+std::shared_ptr<DialogView> ComponentManager::getDialogView() const
 {
-	return m_dialogView.get();
+	return m_dialogView;
 }
 
 ComponentManager::ComponentManager()

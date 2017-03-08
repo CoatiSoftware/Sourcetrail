@@ -32,6 +32,11 @@ ProjectSettings::~ProjectSettings()
 {
 }
 
+ProjectType ProjectSettings::getProjectType() const
+{
+	return PROJECT_UNKNOWN;
+}
+
 bool ProjectSettings::equalsExceptNameAndLocation(const ProjectSettings& other) const
 {
 	return (

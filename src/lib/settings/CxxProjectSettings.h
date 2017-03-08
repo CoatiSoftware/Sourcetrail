@@ -11,6 +11,8 @@ public:
 	CxxProjectSettings(std::string projectName, const FilePath& projectFileLocation);
 	virtual ~CxxProjectSettings();
 
+	virtual ProjectType getProjectType() const;
+
 	virtual bool equalsExceptNameAndLocation(const ProjectSettings& other) const;
 
 	virtual std::vector<std::string> getLanguageStandards() const;

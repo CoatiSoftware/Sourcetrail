@@ -5,11 +5,17 @@
 
 #include "utility/utilityString.h"
 
-std::string utility::executeProcess(const char *cmd)
+std::string utility::executeProcess(const std::string& command, const std::string& workingDirectory)
 {
 	QProcess process;
 	process.setProcessChannelMode(QProcess::MergedChannels);
-	process.start(cmd);
+
+	if (!workingDirectory.empty())
+	{
+		process.setWorkingDirectory(workingDirectory.c_str());
+	}
+
+	process.start(command.c_str());
 	process.waitForFinished();
 	std::string processoutput = process.readAll().toStdString();
 	process.close();

@@ -7,7 +7,7 @@
 
 TaskParseWrapper::TaskParseWrapper(
 	PersistentStorage* storage,
-	DialogView* dialogView
+	std::shared_ptr<DialogView> dialogView
 )
 	: m_storage(storage)
 	, m_dialogView(dialogView)

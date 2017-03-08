@@ -6,6 +6,9 @@
 #include "utility/path_detector/java_runtime/JavaPathDetectorMac.h"
 #include "utility/path_detector/java_runtime/JavaPathDetectorWindows.h"
 
+#include "utility/path_detector/maven_executable/MavenPathDetectorUnix.h"
+#include "utility/path_detector/maven_executable/MavenPathDetectorWindows.h"
+
 #include "utility/path_detector/cxx_header/CxxFrameworkPathDetector.h"
 #include "utility/path_detector/cxx_header/CxxHeaderPathDetector.h"
 #include "utility/path_detector/cxx_header/CxxVsHeaderPathDetector.h"
@@ -24,6 +27,21 @@ std::shared_ptr<CombinedPathDetector> utility::getJavaRuntimePathDetector()
 	else
 	{
 		combinedDetector->addDetector(std::make_shared<JavaPathDetectorLinux>("1.8"));
+	}
+
+	return combinedDetector;
+}
+
+std::shared_ptr<CombinedPathDetector> utility::getMavenExecutablePathDetector()
+{
+	std::shared_ptr<CombinedPathDetector> combinedDetector = std::make_shared<CombinedPathDetector>();
+	if (QSysInfo::windowsVersion() != QSysInfo::WV_None)
+	{
+		combinedDetector->addDetector(std::make_shared<MavenPathDetectorWindows>());
+	}
+	else
+	{
+		combinedDetector->addDetector(std::make_shared<MavenPathDetectorUnix>());
 	}
 
 	return combinedDetector;

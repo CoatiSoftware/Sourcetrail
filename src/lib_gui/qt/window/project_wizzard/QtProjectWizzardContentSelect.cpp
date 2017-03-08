@@ -7,6 +7,7 @@
 
 #include "qt/window/project_wizzard/QtProjectWizzardWindow.h"
 #include "utility/ResourcePaths.h"
+#include "utility/utilityString.h"
 
 #include "utility/solution/SolutionParserManager.h"
 
@@ -22,45 +23,82 @@ QtProjectWizzardContentSelect::QtProjectWizzardContentSelect(
 
 void QtProjectWizzardContentSelect::populate(QGridLayout* layout, int& row)
 {
-	QPushButton* d = new QPushButton(languageTypeToString(LANGUAGE_CPP).c_str(), this);
-	QPushButton* e = new QPushButton(languageTypeToString(LANGUAGE_C).c_str(), this);
-	QPushButton* f = new QPushButton(languageTypeToString(LANGUAGE_JAVA).c_str(), this);
+	struct ProjectInfo
+	{
+		ProjectInfo(ProjectType type) :type(type) {}
+		const ProjectType type;
+	};
 
-	d->setObjectName("menuButton");
-	e->setObjectName("menuButton");
-	f->setObjectName("menuButton");
+	// define which kind of projects are available for each language
+	std::map<LanguageType, std::vector<ProjectInfo>> projectInfos;
+	projectInfos[LANGUAGE_C].push_back(ProjectInfo(PROJECT_C_EMPTY));
+	projectInfos[LANGUAGE_C].push_back(ProjectInfo(PROJECT_CXX_CDB));
+	projectInfos[LANGUAGE_C].push_back(ProjectInfo(PROJECT_CXX_VS));
+	projectInfos[LANGUAGE_CPP].push_back(ProjectInfo(PROJECT_CPP_EMPTY));
+	projectInfos[LANGUAGE_CPP].push_back(ProjectInfo(PROJECT_CXX_CDB));
+	projectInfos[LANGUAGE_CPP].push_back(ProjectInfo(PROJECT_CXX_VS));
+	projectInfos[LANGUAGE_JAVA].push_back(ProjectInfo(PROJECT_JAVA_EMPTY));
+	projectInfos[LANGUAGE_JAVA].push_back(ProjectInfo(PROJECT_JAVA_MAVEN));
 
-	d->setCheckable(true);
-	e->setCheckable(true);
-	f->setCheckable(true);
+	// define which icons should be used for which kind of project
+	m_projectTypeIconName[PROJECT_C_EMPTY] = "empty_icon";
+	m_projectTypeIconName[PROJECT_CPP_EMPTY] = "empty_icon";
+	m_projectTypeIconName[PROJECT_CXX_CDB] = "cdb_icon";
+	m_projectTypeIconName[PROJECT_CXX_VS] = "vs_icon";
+	m_projectTypeIconName[PROJECT_JAVA_EMPTY] = "empty_icon";
+	m_projectTypeIconName[PROJECT_JAVA_MAVEN] = "empty_icon";
 
-	d->setChecked(true);
+	// define descriptions for each kind of project
+	m_projectTypeDescriptions[PROJECT_C_EMPTY] = "Create a new Coati project by defining which C files will be indexed.";
+	m_projectTypeDescriptions[PROJECT_CPP_EMPTY] = "Create a new Coati project by defining which C++ files will be indexed.";
+	m_projectTypeDescriptions[PROJECT_CXX_CDB] = "Create a project from an existing Compilation Database (compile_commands.json). They can be created from Make and "
+		"CMake projects. Have a look at the <a href=\"https://coati.io/documentation/#CreateAProjectFromCompilationDatabase\">"
+		"documentation</a> to find out more.";
+	m_projectTypeDescriptions[PROJECT_CXX_VS] = "Create a new project from an existing Visual Studio Solution file. "
+		"<b>Note: Requires a running Visual Studio instance with the "
+		"<a href=\"https://coati.io/documentation/index.html#VisualStudio\">Visual Studio plugin</a> installed.";
+	m_projectTypeDescriptions[PROJECT_JAVA_EMPTY] = "Create a new Coati project by defining which Java files will be indexed.";
+	m_projectTypeDescriptions[PROJECT_JAVA_MAVEN] = "Create a new project from an existing Maven project.";
+
+	QVBoxLayout* vlayout = new QVBoxLayout();
+	vlayout->setContentsMargins(0, 30, 0, 0);
+	vlayout->setSpacing(10);
 
 	m_languages = new QButtonGroup();
-	m_languages->addButton(d);
-	m_languages->addButton(e);
-	m_languages->addButton(f);
+	for (auto it: projectInfos)
+	{
+		QPushButton* b = new QPushButton(languageTypeToString(it.first).c_str(), this);
+		b->setObjectName("menuButton");
+		b->setCheckable(true);
+		b->setProperty("language_type", it.first);
+		m_languages->addButton(b);
+		vlayout->addWidget(b);
+	}
 
-	m_languages->setId(d, 0);
-	m_languages->setId(e, 1);
-	m_languages->setId(f, 2);
+	vlayout->addStretch();
+	layout->addLayout(vlayout, 0, QtProjectWizzardWindow::FRONT_COL, Qt::AlignRight);
 
-	connect(m_languages, static_cast<void(QButtonGroup::*)(int)>(&QButtonGroup::buttonClicked),
-		[this](int id)
+	connect(m_languages, static_cast<void(QButtonGroup::*)(QAbstractButton*)>(&QButtonGroup::buttonClicked),
+		[this](QAbstractButton* button)
 		{
-			bool isJava = stringToLanguageType(m_languages->checkedButton()->text().toStdString()) == LANGUAGE_JAVA;
-
-			m_buttons->setExclusive(false);
-			for (int i = 0; i < m_buttons->buttons().size(); i++)
+			LanguageType selectedLanguage = LANGUAGE_UNKNOWN;
+			bool ok = false;
+			int languageTypeInt = button->property("language_type").toInt(&ok);
+			if (ok)
 			{
-				m_buttons->button(i)->setChecked(false);
-
-				if (i != 0)
-				{
-					m_buttons->button(i)->setVisible(!isJava);
-				}
+				selectedLanguage = LanguageType(languageTypeInt);
 			}
-			m_buttons->setExclusive(true);
+
+			for (auto it: m_buttons)
+			{
+				it.second->setExclusive(false);
+				for (QAbstractButton* button: it.second->buttons())
+				{
+					button->setChecked(false);
+					button->setVisible(it.first == selectedLanguage);
+				}
+				it.second->setExclusive(true);
+			}
 
 			m_window->setNextEnabled(false);
 			m_title->setText("Project Types - " + m_languages->checkedButton()->text());
@@ -68,93 +106,45 @@ void QtProjectWizzardContentSelect::populate(QGridLayout* layout, int& row)
 		}
 	);
 
-	QVBoxLayout* vlayout = new QVBoxLayout();
-	vlayout->setContentsMargins(0, 30, 0, 0);
-	vlayout->setSpacing(10);
-
-	vlayout->addWidget(d);
-	vlayout->addWidget(e);
-	vlayout->addWidget(f);
-
-	vlayout->addStretch();
-
-	layout->addLayout(vlayout, 0, QtProjectWizzardWindow::FRONT_COL, Qt::AlignRight);
-
-
-	QToolButton* a = createProjectButton(
-		"Empty Project", (ResourcePaths::getGuiPath() + "icon/empty_icon.png").c_str());
-	QToolButton* c = createProjectButton(
-		"from Compilation\nDatabase", (ResourcePaths::getGuiPath() + "icon/cdb_icon.png").c_str());
-
-	m_solutionDescription.push_back("Create a new Coati project by defining what files will be indexed.");
-	m_solutionDescription.push_back(
-		"Create a project from an existing Compilation Database (compile_commands.json). They can be created from Make and "
-		"CMake projects. Have a look at the <a href=\"https://coati.io/documentation/#CreateAProjectFromCompilationDatabase\">"
-		"documentation</a> to find out more.");
-
-	m_buttons = new QButtonGroup(this);
-	m_buttons->addButton(a);
-	m_buttons->addButton(c);
-
-	m_buttons->setId(a, PROJECT_EMPTY);
-	m_buttons->setId(c, PROJECT_CDB);
-
 	QHBoxLayout* hlayout = new QHBoxLayout();
 
-	hlayout->addWidget(a);
-	hlayout->addWidget(c);
-
-	unsigned int runningId = 2;
-	std::shared_ptr<SolutionParserManager> manager = m_solutionParserManager.lock();
-	if (manager != NULL)
+	for (auto languageIt: projectInfos)
 	{
-		for (unsigned int i = 0; i < manager->getParserCount(); i++)
+		QButtonGroup* projectButtons = new QButtonGroup(this);
+
+		for (auto projectIt: languageIt.second)
 		{
-			std::string name = manager->getParserButtonText(i);
-
-			QToolButton* button = createProjectButton(name.c_str(),
-				(ResourcePaths::getGuiPath() + manager->getIconPath(i)).c_str());
-
-			m_buttons->addButton(button);
-
-			m_solutionDescription.push_back(manager->getParserDescription(i));
-
-			hlayout->addWidget(button);
-
-			m_buttons->setId(button, runningId);
-
-			runningId++;
+			QToolButton* b = createProjectButton(
+				utility::insertLineBreaksAtBlankSpaces(projectTypeToString(projectIt.type), 15).c_str(),
+				(ResourcePaths::getGuiPath() + "icon/" + m_projectTypeIconName[projectIt.type] + ".png").c_str()
+			);
+			b->setProperty("project_type", int(projectIt.type));
+			projectButtons->addButton(b);
+			hlayout->addWidget(b);
 		}
+
+		m_buttons[languageIt.first] = projectButtons;
 	}
 
-	// Add vs solution button
+	for (auto it: m_buttons)
 	{
-		std::string name = "Visual Studio";
+		connect(it.second, static_cast<void(QButtonGroup::*)(QAbstractButton*)>(&QButtonGroup::buttonClicked),
+			[this](QAbstractButton* button)
+			{
+				ProjectType selectedProject = PROJECT_UNKNOWN;
+				bool ok = false;
+				int projectTypeInt = button->property("project_type").toInt(&ok);
+				if (ok)
+				{
+					selectedProject = ProjectType(projectTypeInt);
+				}
 
-		QToolButton* button = createProjectButton(name.c_str(),
-			(ResourcePaths::getGuiPath() + "icon/vs_icon.png").c_str());
+				m_description->setText(m_projectTypeDescriptions[selectedProject].c_str());
 
-		m_buttons->addButton(button);
-
-		m_solutionDescription.push_back("Create a new project from an existing Visual Studio Solution file. "
-			"<b>Note: Requires a running Visual Studio instance with the "
-			"<a href=\"https://coati.io/documentation/index.html#VisualStudio\">Visual Studio plugin</a> installed.");
-
-		hlayout->addWidget(button);
-
-		m_buttons->setId(button, runningId);
-
-		runningId++;
+				m_window->setNextEnabled(true);
+			}
+		);
 	}
-
-	connect(m_buttons, static_cast<void(QButtonGroup::*)(int)>(&QButtonGroup::buttonClicked),
-		[this](int id)
-		{
-			m_description->setText(m_solutionDescription[id].c_str());
-
-			m_window->setNextEnabled(true);
-		}
-	);
 
 	QFrame* container = new QFrame();
 	container->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding);
@@ -169,7 +159,7 @@ void QtProjectWizzardContentSelect::populate(QGridLayout* layout, int& row)
 	m_description->setObjectName("projectDescription");
 	layout->addWidget(m_description, 1, QtProjectWizzardWindow::BACK_COL);
 
-	m_title = new QLabel("Project Types - " + m_languages->checkedButton()->text());
+	m_title = new QLabel("Project Types");
 	m_title->setObjectName("projectTitle");
 
 	layout->addWidget(m_title, 0, QtProjectWizzardWindow::BACK_COL, Qt::AlignLeft | Qt::AlignTop);
@@ -179,26 +169,44 @@ void QtProjectWizzardContentSelect::populate(QGridLayout* layout, int& row)
 	layout->setColumnStretch(QtProjectWizzardWindow::FRONT_COL, 0);
 	layout->setColumnStretch(QtProjectWizzardWindow::BACK_COL, 1);
 	layout->setHorizontalSpacing(0);
+
+	m_languages->buttons().first()->click();
 }
 
 void QtProjectWizzardContentSelect::save()
 {
 	ProjectType type;
 
-	switch (m_buttons->checkedId())
+	for (auto it: m_buttons)
 	{
-	case 0: type = PROJECT_EMPTY; break;
-	case 1: type = PROJECT_CDB; break;
-	case 2: type = PROJECT_MANAGED; break;
-	default: type = PROJECT_MANAGED; break;
+		if (QAbstractButton* b = it.second->checkedButton())
+		{
+			bool ok = false;
+			int projectType = b->property("project_type").toInt(&ok);
+			if (ok)
+			{
+				type = ProjectType(projectType);
+				break;
+			}
+		}
 	}
-
-	emit selected(stringToLanguageType(m_languages->checkedButton()->text().toStdString()), type);
+	emit selected(type);
 }
 
 bool QtProjectWizzardContentSelect::check()
 {
-	if (m_buttons->checkedId() == -1)
+	bool projectChosen = false;
+
+	for (auto it: m_buttons)
+	{
+		if (it.second->checkedId() != -1)
+		{
+			projectChosen = true;
+			break;
+		}
+	}
+
+	if (!projectChosen)
 	{
 		QMessageBox msgBox;
 		msgBox.setText("Please choose a method of creating a new project.");

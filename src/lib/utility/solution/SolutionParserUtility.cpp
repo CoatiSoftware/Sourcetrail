@@ -68,59 +68,6 @@ TiXmlElement* SolutionParserUtility::getFirstTagByName(TiXmlElement* root, const
 	return NULL;
 }
 
-std::vector<TiXmlElement*> SolutionParserUtility::getAllTagsByName(TiXmlElement* root, const std::string& tag)
-{
-	std::vector<TiXmlElement*> nodes;
-
-	TiXmlElement* element = root;
-
-	while (element)
-	{
-		std::string value = element->Value();
-
-		if (value == tag)
-		{
-			nodes.push_back(element);
-		}
-
-		if (element->FirstChildElement() != NULL)
-		{
-			element = element->FirstChildElement();
-		}
-		else if (element->NextSiblingElement() != NULL)
-		{
-			element = element->NextSiblingElement();
-		}
-		else
-		{
-			if (element == NULL)
-			{
-			}
-
-			while (element->Parent()->ToElement() != NULL && element->Parent()->NextSiblingElement() == NULL)
-			{
-				TiXmlElement* newElement = element->Parent()->ToElement();
-
-				if (newElement == NULL)
-				{
-				}
-
-				element = newElement;
-			}
-			if (element->Parent() != NULL && element->Parent()->NextSiblingElement() != NULL)
-			{
-				element = element->Parent()->NextSiblingElement();
-			}
-			else
-			{
-				break;
-			}
-		}
-	}
-
-	return nodes;
-}
-
 TiXmlElement* SolutionParserUtility::getFirstTagByNameWithAttribute(TiXmlElement* root, const std::string& tag, const std::string& attribute)
 {
 	TiXmlElement* element = root;
@@ -284,7 +231,7 @@ std::string SolutionParserUtility::findAndResolveEnvironmentVariable(const std::
 		if (macro != "")
 		{
 			LOG_WARNING_STREAM(<< "Encountered IDE macro \"" << macro << "\"");
-			
+
 			if (m_ideMacroValues.find(macro) == m_ideMacroValues.end())
 			{
 				LOG_WARNING_STREAM(<< "Could not resolve IDE macro \"" << macro << "\"");
@@ -358,7 +305,7 @@ std::string SolutionParserUtility::makePathCanonical(const std::string& path)
 	{
 		std::string what = e.what();
 		LOG_WARNING_STREAM(<< e.what());
-		
+
 		std::stringstream errorMessage;
 		errorMessage << "Could not make path \"" << path << "\" canonical. Check if it really exists.";
 		MessageStatus(errorMessage.str(), true).dispatch();

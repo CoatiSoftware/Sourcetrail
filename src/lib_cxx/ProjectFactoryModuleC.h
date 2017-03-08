@@ -10,7 +10,7 @@ public:
 	virtual LanguageType getLanguage() const;
 
 	virtual std::shared_ptr<Project> createProject(
-		const FilePath& projectSettingsFile, StorageAccessProxy* storageAccessProxy, DialogView* dialogView
+		const FilePath& projectSettingsFile, StorageAccessProxy* storageAccessProxy, std::shared_ptr<DialogView> dialogView
 	);
 };
 

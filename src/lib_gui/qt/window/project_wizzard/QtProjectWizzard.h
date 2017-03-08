@@ -33,9 +33,9 @@ public:
 public slots:
 	void newProject();
 
-	void newProjectFromSolution(const std::string& ideId, const std::string& visualStudioSolutionPath);
+	void newProjectFromSolution(const std::string& ideId, const std::string& solutionPath);
 	void newProjectFromCDB(const std::string& filePath, const std::vector<std::string>& headerPaths);
-	void refreshProjectFromSolution(const std::string& ideId, const std::string& visualStudioSolutionPath);
+	void refreshProjectFromSolution(const std::string& ideId, const std::string& solutionPath);
 
 	void editProject(const FilePath& settingsPath);
 	void editProject(std::shared_ptr<ProjectSettings> settings);
@@ -65,7 +65,7 @@ private slots:
 
 	void windowStackChanged();
 
-	void selectedProjectType(LanguageType languageType, QtProjectWizzardContentSelect::ProjectType type);
+	void selectedProjectType(ProjectType type);
 
 	void emptyProject();
 
@@ -77,9 +77,12 @@ private slots:
 
 	void emptyProjectCDBVS();
 	void emptyProjectCDB();
+	void emptyProjectJavaMaven();
+
 	void headerPathsCDB();
 
 	void sourcePathsJava();
+	void sourcePathsJavaMaven();
 
 	void advancedSettingsCxx();
 	void advancedSettingsJava();

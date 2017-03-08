@@ -6,7 +6,7 @@
 #include "utility/utility.h"
 
 TaskCleanStorage::TaskCleanStorage(
-	PersistentStorage* storage, const std::vector<FilePath>& filePaths, DialogView* dialogView
+	PersistentStorage* storage, const std::vector<FilePath>& filePaths, std::shared_ptr<DialogView> dialogView
 )
 	: m_storage(storage)
 	, m_filePaths(filePaths)
@@ -28,7 +28,7 @@ void TaskCleanStorage::doEnter(std::shared_ptr<Blackboard> blackboard)
 
 Task::TaskState TaskCleanStorage::doUpdate(std::shared_ptr<Blackboard> blackboard)
 {
-	DialogView* dialogView = m_dialogView;
+	std::shared_ptr<DialogView> dialogView = m_dialogView;
 	m_storage->clearFileElements(m_filePaths, [=](int progress)
 		{
 			if (dialogView != nullptr)

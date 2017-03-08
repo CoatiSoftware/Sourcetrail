@@ -18,7 +18,7 @@ signals:
 public:
 	QtProjectWizzardContentBuildFile(std::shared_ptr<ProjectSettings> settings, QtProjectWizzardWindow* window);
 
-	QtProjectWizzardContentSelect::ProjectType getType() const;
+	ProjectType getType() const;
 
 	// QtProjectWizzardContent implementation
 	virtual void populate(QGridLayout* layout, int& row) override;
@@ -27,13 +27,10 @@ public:
 	virtual void save() override;
 	virtual bool check() override;
 
-private slots:
-	void refreshClicked();
-
 private:
 	QtLocationPicker* m_picker;
 
-	QtProjectWizzardContentSelect::ProjectType m_type;
+	ProjectType m_type;
 };
 
 #endif // QT_PROJECT_WIZZARD_CONTENT_BUILD_FILE_H

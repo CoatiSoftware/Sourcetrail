@@ -28,7 +28,7 @@ public:
 	void clearComponents();
 	void refreshViews();
 
-	DialogView* getDialogView() const;
+	std::shared_ptr<DialogView> getDialogView() const;
 
 private:
 	ComponentManager();
