@@ -25,6 +25,10 @@ JavaProjectSettings::~JavaProjectSettings()
 
 ProjectType JavaProjectSettings::getProjectType() const
 {
+	if (!getMavenProjectFilePath().empty())
+	{
+		return PROJECT_JAVA_MAVEN;
+	}
 	return PROJECT_JAVA_EMPTY;
 }
 
@@ -63,7 +67,7 @@ bool JavaProjectSettings::setClasspaths(const std::vector<FilePath>& classpaths)
 
 FilePath JavaProjectSettings::getMavenProjectFilePath() const
 {
-	return FilePath(getValue<std::string>("source/maven/project_root", ""));
+	return FilePath(getValue<std::string>("source/maven/project_file_path", ""));
 }
 
 FilePath JavaProjectSettings::getAbsoluteMavenProjectFilePath() const
@@ -73,7 +77,7 @@ FilePath JavaProjectSettings::getAbsoluteMavenProjectFilePath() const
 
 bool JavaProjectSettings::setMavenProjectFilePath(const FilePath& path)
 {
-	return setValue("source/maven/project_root", path.str());
+	return setValue("source/maven/project_file_path", path.str());
 }
 
 FilePath JavaProjectSettings::getMavenDependenciesDirectory() const

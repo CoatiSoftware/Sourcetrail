@@ -1,0 +1,74 @@
+Token.cpp ERROR: Location Id was not referenced by this Token.
+Node.cpp WARNING: Cannot change NodeType after it was already set from namespace to class
+Edge.cpp ERROR: Nodes are not plain copies.
+ INFO: send MessageStatus Enabled console and file logging.
+ INFO: send TestMessage 
+ INFO: send TestMessage 
+ INFO: send TestMessage 
+ INFO: send TestMessage2 
+ INFO: send TestMessage 
+ INFO: send TestMessage2 
+ INFO: send TestMessage 
+ INFO: send TestMessage 
+ INFO: send TestMessage2 
+ INFO: send TestMessage 
+ INFO: send TestMessage 
+ INFO: send TestMessage 
+ INFO: send TestMessage 
+ INFO: send TestMessage 
+ INFO: send TestMessage 
+NetworkProtocolHelper.cpp ERROR: Failed to parse message, invalid type token: foo. Expected setActiveToken
+NetworkProtocolHelper.cpp ERROR: Failed to parse setActiveToken message, invalid token count
+Settings.cpp WARNING: File for Settings not found: data/SettingsTestSuite/wrong_settings.xml
+Settings.cpp WARNING: File for Settings not found: data/SettingsTestSuite/wrong_settings.xml
+TextAccess.cpp ERROR: Could not open file path/to/test.h
+TextAccess.cpp WARNING: Index 'firstLine' has to be lower or equal index 'lastLine', is 3 > 2
+TextAccess.cpp WARNING: Tried to access index 10. Maximum index is 8
+TextAccess.cpp WARNING: Tried to access index 10. Maximum index is 8
+TextAccess.cpp WARNING: Line numbers start with one, is 0
+TextAccess.cpp WARNING: Line numbers start with one, is 0
+TokenLocationCollection.cpp ERROR: TokenLocation has wrong boundaries: file.c 2:3 2:1
+TokenLocationCollection.cpp ERROR: TokenLocation has wrong boundaries: file.c 4:1 1:10
+ INFO: Indexer - indexing source file: input.cc
+ INFO: Indexer - indexing source file: input.cc
+ INFO: Indexer - indexing source file: input.cc
+ INFO: Indexer - indexing source file: input.cc
+ INFO: Indexer - indexing source file: input.cc
+ INFO: Indexer - indexing source file: input.cc
+ INFO: Indexer - indexing source file: input.cc
+ INFO: Indexer - indexing source file: input.cc
+ INFO: Indexer - indexing source file: input.cc
+ INFO: Indexer - indexing source file: input.cc
+ INFO: Indexer - indexing source file: input.cc
+ INFO: Indexer - indexing source file: input.cc
+ INFO: Indexer - indexing source file: input.cc
+ INFO: Indexer - indexing source file: input.cc
+ INFO: Indexer - indexing source file: input.cc
+ INFO: Indexer - indexing source file: input.cc
+ INFO: Indexer - indexing source file: input.cc
+ INFO: Indexer - indexing source file: input.cc
+ INFO: Indexer - indexing source file: input.cc
+ INFO: Indexer - indexing source file: input.cc
+ INFO: Indexer - indexing source file: input.cc
+ INFO: Indexer - indexing source file: input.cc
+ INFO: Indexer - indexing source file: input.cc
+ INFO: Indexer - indexing source file: input.cc
+ INFO: Indexer - indexing source file: input.cc
+ INFO: Indexer - indexing source file: input.cc
+ INFO: Indexer - indexing source file: input.cc
+ INFO: Indexer - indexing source file: input.cc
+ INFO: Indexer - indexing source file: input.cc
+ INFO: Indexer - indexing source file: input.cc
+ INFO: Indexer - indexing source file: input.cc
+ INFO: Indexer - indexing source file: input.cc
+ INFO: Indexer - indexing source file: input.cc
+ INFO: Indexer - indexing source file: input.cc
+ INFO: Indexer - indexing source file: input.cc
+ INFO: Indexer - indexing source file: input.cc
+ INFO: Indexer - indexing source file: input.cc
+ INFO: Indexer - indexing source file: input.cc
+ INFO: Indexer - indexing source file: input.cc
+ INFO: Indexer - indexing source file: input.cc
+ INFO: Indexer - indexing source file: input.cc
+ INFO: Indexer - indexing source file: input.cc
+ INFO: Indexer - indexing source file: input.cc
