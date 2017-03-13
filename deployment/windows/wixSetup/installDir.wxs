@@ -417,6 +417,9 @@
 						<Component Id='Logo_1024_1024_Png' Guid='4A25272C-380F-4414-BFBA-06C92D19B116' Win64="$(var.Win64)">
 							<File Id='Logo_1024_1024' Name='logo_1024_1024.png' DiskId='1' Source='./../../../bin/app/data/gui/icon/logo_1024_1024.png' KeyPath='yes' />
 						</Component>
+						<Component Id='Mvn_icon_Png' Guid='62D8031C-3236-4FBE-950E-47E1CF1DA5B6' Win64="$(var.Win64)">
+							<File Id='Mvn_icon' Name='mvn_icon.png' DiskId='1' Source='./../../../bin/app/data/gui/icon/mvn_icon.png' KeyPath='yes' />
+						</Component>
 						<Component Id='ProjectIco' Guid='CDAC3217-C104-4D88-98F9-C138825721D4' Win64="$(var.Win64)">
 							<File Id='Project' Name='project.ico' DiskId='1' Source='./../../../bin/app/data/gui/icon/project.ico' KeyPath='yes' />
 						</Component>

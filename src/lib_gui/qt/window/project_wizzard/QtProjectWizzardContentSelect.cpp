@@ -46,7 +46,7 @@ void QtProjectWizzardContentSelect::populate(QGridLayout* layout, int& row)
 	m_projectTypeIconName[PROJECT_CXX_CDB] = "cdb_icon";
 	m_projectTypeIconName[PROJECT_CXX_VS] = "vs_icon";
 	m_projectTypeIconName[PROJECT_JAVA_EMPTY] = "empty_icon";
-	m_projectTypeIconName[PROJECT_JAVA_MAVEN] = "empty_icon";
+	m_projectTypeIconName[PROJECT_JAVA_MAVEN] = "mvn_icon";
 
 	// define descriptions for each kind of project
 	m_projectTypeDescriptions[PROJECT_C_EMPTY] = "Create a new Coati project by defining which C files will be indexed.";
