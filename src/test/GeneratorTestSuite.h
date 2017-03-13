@@ -63,6 +63,7 @@ public:
 
         TS_ASSERT(license.isValid());
         TS_ASSERT_EQUALS(license.getTimeLeft(), 10);
+        TS_ASSERT_EQUALS(license.getVersion(), "v2");
 
         license.loadPublicKeyFromString(generator.getPublicKeyPEMFileAsString());
         license.loadFromString(generator.encodeLicense("User", -10));

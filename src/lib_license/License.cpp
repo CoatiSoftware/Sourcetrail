@@ -1,11 +1,12 @@
 #include "License.h"
 
 #include <algorithm>
+#include <array>
 #include <cctype>
-#include <iostream>
 #include <fstream>
-#include <sstream>
+#include <iostream>
 #include <istream>
+#include <sstream>
 
 //#include "botan_all.h"
 #include "boost/date_time.hpp"
@@ -187,6 +188,16 @@ std::string License::getLicenseInfo() const
     return info;
 }
 
+bool License::isNonCommercialLicenseType(const std::string type) const
+{
+    for ( const std::string nonCommercialLicenseType : NON_COMMERCIAL_LICENSE_TYPES)
+    { if (type == nonCommercialLicenseType) {
+            return true;
+        }
+    }
+    return false;
+}
+
 int License::getTimeLeft() const
 {
 	const std::string testText = "Test License - valid till ";
@@ -251,7 +262,7 @@ void License::createMessage(const std::string& user, const std::string& version,
 	m_lines.push_back(BEGIN_LICENSE);
 	m_lines.push_back(user);
 	m_lines.push_back(type);
-	std::string versionstring = "Coati " + getVersion();
+    std::string versionstring = "Sourcetrail " + getVersion();
 	m_lines.push_back(versionstring);
 	std::string pass9 = Botan::generate_passhash9(versionstring, *(m_rng.get()));
 	m_lines.push_back(pass9);
@@ -363,10 +374,11 @@ bool License::isValid() const
 	}
 	try // lol, now we try to handle errors?
 	{
-		// why is this still here?
-		if(Botan::check_passhash9("Coati "+ getVersion(), getHashLine()))
+        // remove coati in version 1
+        if(!(Botan::check_passhash9("Coati "+ getVersion(), getHashLine())
+             || Botan::check_passhash9("Sourcetrail " + getVersion(), getHashLine())))
 		{
-	//        std::cout << "Hash from Coati "+ getVersion() + " confirmed" << std::endl;
+            return false;
 		}
 
 		std::string signatureString = getSignature();
@@ -425,10 +437,25 @@ std::string License::getVersion() const
 {
 	if(m_version.empty())
 	{
+
+        std::string line = getVersionLine();
+
+        //TODO: remove coati in version 1
+        const std::array<std::string, 2> appNames = {{ "Coati ", "Sourcetrail " }};
+
+        for ( std::string appName : appNames)
+        {
+            if (line.substr(0,appName.length()) == appName)
+            {
+                return line.substr(appName.length());
+            }
+        }
+
 		return "x";
 	}
 	return m_version;
 }
+
 
 bool License::loadPublicKeyFromFile(const std::string& filename)
 {

@@ -69,6 +69,8 @@ private:
 	void addSignature(const std::string&);
 	std::string getEncodeKey(const std::string applicationLocation) const;
 
+    bool isNonCommercialLicenseType(const std::string type) const;
+
 	std::string m_version;
 	std::string m_publicKeyFilename;
 	std::shared_ptr<Botan::RSA_PublicKey> m_publicKey;
@@ -78,6 +80,8 @@ private:
     const std::string KEY_FILEENDING = ".pem";
     const std::string BEGIN_LICENSE = "-----BEGIN LICENSE-----";
     const std::string END_LICENSE = "-----END LICENSE-----";
+
+    const std::vector<std::string> NON_COMMERCIAL_LICENSE_TYPES = { { "Private/Academic Single User License" } };
 };
 
 #endif // COATI_LICENSE_H
