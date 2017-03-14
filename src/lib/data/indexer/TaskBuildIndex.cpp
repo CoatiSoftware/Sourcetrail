@@ -57,9 +57,12 @@ Task::TaskState TaskBuildIndex::doUpdate(std::shared_ptr<Blackboard> blackboard)
 			int indexedSourceFileCount = 0;
 			blackboard->get("indexed_source_file_count", indexedSourceFileCount);
 
-			m_dialogView->updateIndexingDialog(
-				indexedSourceFileCount, sourceFileCount, indexerCommand->getSourceFilePath().str()
-			);
+			if (m_dialogView)
+			{
+				m_dialogView->updateIndexingDialog(
+					indexedSourceFileCount, sourceFileCount, indexerCommand->getSourceFilePath().str()
+				);
+			}
 		}
 
 		// file register only copies the DileRegisterStateData

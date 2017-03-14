@@ -31,13 +31,22 @@ Task::TaskState TaskFinishParsing::doUpdate(std::shared_ptr<Blackboard> blackboa
 {
 	TimePoint start = utility::durationStart();
 
-	m_dialogView->showStatusDialog("Finish Indexing", "Optimizing database");
+    if (m_dialogView)
+    {
+        m_dialogView->showStatusDialog("Finish Indexing", "Optimizing database");
+    }
 	m_storage->optimizeMemory();
 
-	m_dialogView->showStatusDialog("Finish Indexing", "Building caches");
+    if (m_dialogView)
+    {
+        m_dialogView->showStatusDialog("Finish Indexing", "Building caches");
+    }
 	m_storage->buildCaches();
 
-	m_dialogView->hideStatusDialog();
+    if (m_dialogView)
+    {
+        m_dialogView->hideStatusDialog();
+    }
 	MessageFinishedParsing().dispatch();
 
 	float time = utility::duration(start);
@@ -62,12 +71,15 @@ Task::TaskState TaskFinishParsing::doUpdate(std::shared_ptr<Blackboard> blackboa
 	int sourceFileCount = 0;
 	blackboard->get("source_file_count", sourceFileCount);
 
-	m_dialogView->finishedIndexingDialog(
-		indexedSourceFileCount,
-		sourceFileCount,
-		time,
-		m_storageAccess->getErrorCount()
-	);
+    if (m_dialogView)
+    {
+        m_dialogView->finishedIndexingDialog(
+            indexedSourceFileCount,
+            sourceFileCount,
+            time,
+            m_storageAccess->getErrorCount()
+        );
+    }
 
 	return STATE_SUCCESS;
 }

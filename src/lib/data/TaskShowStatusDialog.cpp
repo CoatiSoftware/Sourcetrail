@@ -23,7 +23,10 @@ void TaskShowStatusDialog::doEnter(std::shared_ptr<Blackboard> blackboard)
 
 Task::TaskState TaskShowStatusDialog::doUpdate(std::shared_ptr<Blackboard> blackboard)
 {
-	m_dialogView->showStatusDialog(m_title, m_message);
+    if (m_dialogView)
+    {
+        m_dialogView->showStatusDialog(m_title, m_message);
+    }
 	return STATE_SUCCESS;
 }
 

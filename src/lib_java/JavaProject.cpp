@@ -92,28 +92,31 @@ bool JavaProject::prepareIndexing()
 		const FilePath mavenPath = ApplicationSettings::getInstance()->getMavenPath();
 		const FilePath projectRootPath = m_projectSettings->getAbsoluteMavenProjectFilePath().parentDirectory();
 
-		ScopedFunctor dialogHider([this](){
-			getDialogView()->hideStatusDialog();
-		});
-
-		getDialogView()->showStatusDialog("Preparing Project", "Maven\nGenerating Source Files");
-		bool success = utility::mavenGenerateSources(
-			mavenPath, projectRootPath
-		);
-
-		if (!success)
+		if (Application::getInstance()->hasGUI())
 		{
-			const std::string dialogMessage =
-				"Coati was unable to locate Maven on this machine.\n"
-				"Please make sure to provide the correct Maven Path in the preferences.";
+			ScopedFunctor dialogHider([this](){
+				getDialogView()->hideStatusDialog();
+			});
 
-			MessageStatus(dialogMessage, true, false).dispatch();
+			getDialogView()->showStatusDialog("Preparing Project", "Maven\nGenerating Source Files");
+			bool success = utility::mavenGenerateSources(
+				mavenPath, projectRootPath
+			);
 
-			Application::getInstance()->handleDialog(dialogMessage);
-			return false;
+			if (!success)
+			{
+				const std::string dialogMessage =
+					"Coati was unable to locate Maven on this machine.\n"
+					"Please make sure to provide the correct Maven Path in the preferences.";
+
+				MessageStatus(dialogMessage, true, false).dispatch();
+
+				Application::getInstance()->handleDialog(dialogMessage);
+				return false;
+			}
+
+			getDialogView()->showStatusDialog("Preparing Project", "Maven\nExporting Dependencies");
 		}
-
-		getDialogView()->showStatusDialog("Preparing Project", "Maven\nExporting Dependencies");
 		utility::mavenCopyDependencies(
 			mavenPath, projectRootPath, m_projectSettings->getAbsoluteMavenDependenciesDirectory()
 		);
@@ -148,9 +151,15 @@ std::vector<std::shared_ptr<IndexerCommand>> JavaProject::getIndexerCommands()
 
 	if (!m_rootDirectories)
 	{
-		getDialogView()->showStatusDialog("Preparing Project", "Gathering Root\nDirectories");
+		if (Application::getInstance()->hasGUI())
+		{
+			getDialogView()->showStatusDialog("Preparing Project", "Gathering Root\nDirectories");
+		}
 		fetchRootDirectories();
-		getDialogView()->hideStatusDialog();
+		if (Application::getInstance()->hasGUI())
+		{
+			getDialogView()->hideStatusDialog();
+		}
 	}
 
 	for (FilePath rootDirectory: *(m_rootDirectories.get()))
@@ -193,13 +202,21 @@ void JavaProject::updateFileManager(FileManager& fileManager)
 	std::vector<FilePath> sourcePaths;
 	if (m_projectSettings->getAbsoluteMavenProjectFilePath().exists())
 	{
-		getDialogView()->showStatusDialog("Preparing Project", "Maven\nFetching Source Directories");
+
+		if (Application::getInstance()->hasGUI())
+		{
+			getDialogView()->showStatusDialog("Preparing Project", "Maven\nFetching Source Directories");
+		}
 
 		const FilePath mavenPath(ApplicationSettings::getInstance()->getMavenPath());
 		const FilePath projectRootPath = m_projectSettings->getAbsoluteMavenProjectFilePath().parentDirectory();
 		sourcePaths = utility::mavenGetAllDirectoriesFromEffectivePom(mavenPath, projectRootPath, m_projectSettings->getShouldIndexMavenTests());
 
-		getDialogView()->hideStatusDialog();
+
+		if (Application::getInstance()->hasGUI())
+		{
+			getDialogView()->hideStatusDialog();
+		}
 	}
 	else
 	{
