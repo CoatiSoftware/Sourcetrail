@@ -40,6 +40,8 @@ void QtProjectWizzardContentBuildFile::populate(QGridLayout* layout, int& row)
 		name = "Compilation Database";
 		filter = "JSON Compilation Database (*.json)";
 		break;
+	default:
+		return;
 	}
 
 	QLabel* label = createFormLabel(name);
@@ -68,6 +70,8 @@ void QtProjectWizzardContentBuildFile::load()
 		case PROJECT_CXX_CDB:
 			m_picker->setText(QString::fromStdString(cxxSettings->getCompilationDatabasePath().str()));
 			break;
+		default:
+			return;
 		}
 	}
 }
@@ -94,6 +98,8 @@ void QtProjectWizzardContentBuildFile::save()
 				cxxSettings->setCompilationDatabasePath(path);
 				break;
 			}
+		default:
+			return;
 		}
 	}
 }
@@ -118,6 +124,8 @@ bool QtProjectWizzardContentBuildFile::check()
 				return false;
 			}
 		}
+	default:
+		break;
 	}
 
 	return true;

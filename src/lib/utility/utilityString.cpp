@@ -211,7 +211,7 @@ namespace utility
 		return str;
 	}
 
-	std::string insertLineBreaksAtBlankSpaces(const std::string& s, int maxLineLength)
+	std::string insertLineBreaksAtBlankSpaces(const std::string& s, size_t maxLineLength)
 	{
 		const std::vector<std::string> atoms = splitToVector(s, " ");
 

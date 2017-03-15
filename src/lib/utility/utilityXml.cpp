@@ -1,6 +1,6 @@
-#include "utility/utilityXml.h";
+#include "utility/utilityXml.h"
 
-#include "tinyxml/tinyxml.h";
+#include "tinyxml/tinyxml.h"
 
 namespace utility
 {

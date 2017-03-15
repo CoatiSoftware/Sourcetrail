@@ -67,5 +67,7 @@ LanguageType getLanguageTypeForProjectType(ProjectType t)
 	default:
 		break;
 	}
+
+	return LANGUAGE_UNKNOWN;
 }
 

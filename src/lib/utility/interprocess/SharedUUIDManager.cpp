@@ -88,9 +88,7 @@ void SharedUUIDManager::removeInstanceUUID(const std::string& instanceUUID)
 	m_uuids->getValues(m_instanceUUIDsKey, instanceUUIDs);
 
 	// instanceUUIDs
-
-	std::vector<std::string>::iterator it = instanceUUIDs.begin();
-	for (it; it != instanceUUIDs.end(); it++)
+	for (std::vector<std::string>::iterator it = instanceUUIDs.begin(); it != instanceUUIDs.end(); it++)
 	{
 		if (*it == instanceUUID)
 		{
