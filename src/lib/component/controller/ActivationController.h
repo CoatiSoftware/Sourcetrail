@@ -1,5 +1,5 @@
-#ifndef FEATURE_CONTROLLER_H
-#define FEATURE_CONTROLLER_H
+#ifndef ACTIVATION_CONTROLLER_H
+#define ACTIVATION_CONTROLLER_H
 
 #include <memory>
 
@@ -17,7 +17,7 @@
 
 class StorageAccess;
 
-class FeatureController
+class ActivationController
 	: public Controller
 	, public MessageListener<MessageActivateEdge>
 	, public MessageListener<MessageActivateFile>
@@ -29,8 +29,8 @@ class FeatureController
 	, public MessageListener<MessageZoom>
 {
 public:
-	FeatureController(StorageAccess* storageAccess);
-	~FeatureController();
+	ActivationController(StorageAccess* storageAccess);
+	~ActivationController();
 
 	virtual void clear();
 
@@ -47,4 +47,4 @@ private:
 	StorageAccess* m_storageAccess;
 };
 
-#endif // FEATURE_CONTROLLER_H
+#endif // ACTIVATION_CONTROLLER_H

@@ -175,6 +175,11 @@ void QtCodeView::scrollToDefinition(bool ignoreActiveReference)
 	);
 }
 
+bool QtCodeView::isInListMode() const
+{
+	return m_widget->isInListMode();
+}
+
 void QtCodeView::doShowCodeSnippets(
 	const std::vector<CodeSnippetParams>& snippets, const std::vector<Id>& activeTokenIds, bool setupFiles)
 {

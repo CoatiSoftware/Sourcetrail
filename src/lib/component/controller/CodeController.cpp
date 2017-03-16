@@ -105,15 +105,16 @@ void CodeController::handleMessage(MessageActivateTokens* message)
 
 	CodeView* view = getView();
 
-	if (!message->keepContent())
-	{
-		view->clearCodeSnippets();
-	}
-
 	std::vector<Id> activeTokenIds = message->tokenIds;
 	if (!activeTokenIds.size())
 	{
+		view->clear();
 		return;
+	}
+
+	if (!message->keepContent())
+	{
+		view->clearCodeSnippets();
 	}
 
 	Id declarationId = 0; // 0 means that no token is found.
@@ -139,17 +140,21 @@ void CodeController::handleMessage(MessageActivateTokens* message)
 	else
 	{
 		m_collection = m_storageAccess->getTokenLocationsForTokenIds(activeTokenIds);
-		view->showCodeSnippets(getSnippetsForActiveTokenLocations(m_collection.get(), declarationId), activeTokenIds, true);
-		m_scrollToDefinition = !message->isReplayed() || message->isLast();
+		view->showCodeSnippets(
+			getSnippetsForActiveTokenLocations(m_collection.get(), declarationId),
+			activeTokenIds,
+			!message->isReplayed() || message->isReplayCleared()
+		);
+		m_scrollToDefinition = !message->isReplayed() || message->isReplayCleared();
 
 		size_t fileCount = m_collection->getTokenLocationFileCount();
 		size_t referenceCount = m_collection->getTokenLocationCount();
 
 		std::stringstream ss;
 
-		if (message->unknownNames.size())
+		if (message->tokenNames.size())
 		{
-			ss << "Activate \"" << message->unknownNames[0] << "\": ";
+			ss << "Activate \"" << message->tokenNames[0].getQualifiedName() << "\": ";
 		}
 
 		ss << message->tokenIds.size() << ' ';
@@ -179,15 +184,22 @@ void CodeController::handleMessage(MessageChangeFileView* message)
 	}
 
 	CodeView* view = getView();
+	bool inListMode = view->isInListMode();
 
-	switch (message->state)
+	MessageChangeFileView::FileState state = message->state;
+	if (state == MessageChangeFileView::FILE_DEFAULT_FOR_MODE)
+	{
+		state = inListMode ? MessageChangeFileView::FILE_SNIPPETS : MessageChangeFileView::FILE_MAXIMIZED;
+	}
+
+	switch (state)
 	{
 	case MessageChangeFileView::FILE_MINIMIZED:
 		view->setFileState(message->filePath, CodeView::FILE_MINIMIZED);
 		break;
 
 	case MessageChangeFileView::FILE_SNIPPETS:
-		if (message->needsData)
+		if (message->needsData && inListMode)
 		{
 			std::shared_ptr<TokenLocationFile> file = m_collection->getTokenLocationFileByPath(message->filePath);
 			if (!file)
@@ -249,6 +261,8 @@ void CodeController::handleMessage(MessageChangeFileView* message)
 		}
 
 		view->setFileState(message->filePath, CodeView::FILE_MAXIMIZED);
+		break;
+	default:
 		break;
 	}
 

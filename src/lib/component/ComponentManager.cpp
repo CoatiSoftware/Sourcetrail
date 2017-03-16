@@ -54,8 +54,8 @@ void ComponentManager::setup(ViewLayout* viewLayout)
 	std::shared_ptr<Component> statusBarComponent = m_componentFactory->createStatusBarComponent(viewLayout);
 	m_components.push_back(statusBarComponent);
 
-	std::shared_ptr<Component> featureComponent = m_componentFactory->createFeatureComponent();
-	m_components.push_back(featureComponent);
+	std::shared_ptr<Component> activationComponent = m_componentFactory->createActivationComponent();
+	m_components.push_back(activationComponent);
 
 	m_dialogView = m_componentFactory->getViewFactory()->createDialogView(viewLayout, m_componentFactory->getStorageAccess());
 

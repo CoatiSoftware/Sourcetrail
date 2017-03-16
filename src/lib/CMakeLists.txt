@@ -13,6 +13,8 @@ add_files(
 	component/controller/helper/SnippetMerger.cpp
 	component/controller/helper/SnippetMerger.h
 
+	component/controller/ActivationController.cpp
+	component/controller/ActivationController.h
 	component/controller/BookmarkController.cpp
 	component/controller/BookmarkController.h
 	component/controller/CodeController.cpp
@@ -21,8 +23,6 @@ add_files(
 	component/controller/Controller.h
 	component/controller/ErrorController.cpp
 	component/controller/ErrorController.h
-	component/controller/FeatureController.cpp
-	component/controller/FeatureController.h
 	component/controller/GraphController.cpp
 	component/controller/GraphController.h
 	component/controller/IDECommunicationController.cpp
@@ -104,7 +104,7 @@ add_files(
 	data/bookmark/EdgeBookmark.h
 	data/bookmark/NodeBookmark.cpp
 	data/bookmark/NodeBookmark.h
-	
+
 	data/fulltextsearch/FullTextSearchIndex.cpp
 	data/fulltextsearch/FullTextSearchIndex.h
 	data/fulltextsearch/SuffixArray.cpp
@@ -135,7 +135,7 @@ add_files(
 	data/graph/Node.h
 	data/graph/Token.cpp
 	data/graph/Token.h
-	
+
 	data/indexer/Indexer.h
 	data/indexer/IndexerBase.cpp
 	data/indexer/IndexerBase.h
@@ -271,7 +271,7 @@ add_files(
 	utility/interprocess/SharedQueue.h
 	utility/interprocess/SharedUUIDManager.cpp
 	utility/interprocess/SharedUUIDManager.h
-	
+
 	utility/logging/ConsoleLogger.cpp
 	utility/logging/ConsoleLogger.h
 	utility/logging/FileLogger.cpp
@@ -347,6 +347,7 @@ add_files(
 	utility/messaging/type/MessageRefresh.h
 	utility/messaging/type/MessageResetZoom.h
 	utility/messaging/type/MessageScrollCode.h
+	utility/messaging/type/MessageScrollGraph.h
 	utility/messaging/type/MessageScrollToLine.h
 	utility/messaging/type/MessageSearch.h
 	utility/messaging/type/MessageSearchAutocomplete.h

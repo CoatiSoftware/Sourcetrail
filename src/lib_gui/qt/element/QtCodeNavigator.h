@@ -11,6 +11,7 @@
 #include "utility/messaging/MessageListener.h"
 #include "utility/messaging/type/MessageCodeReference.h"
 #include "utility/messaging/type/MessageFinishedParsing.h"
+#include "utility/messaging/type/MessageShowReference.h"
 #include "utility/messaging/type/MessageSwitchColorScheme.h"
 #include "utility/messaging/type/MessageWindowFocus.h"
 
@@ -23,6 +24,7 @@ class QtCodeNavigator
 	: public QWidget
 	, public MessageListener<MessageCodeReference>
 	, public MessageListener<MessageFinishedParsing>
+	, public MessageListener<MessageShowReference>
 	, public MessageListener<MessageSwitchColorScheme>
 	, public MessageListener<MessageWindowFocus>
 {
@@ -61,6 +63,8 @@ public:
 
 	bool hasErrors() const;
 	size_t getFatalErrorCountForFile(const FilePath& filePath) const;
+
+	bool isInListMode() const;
 
 	void showActiveSnippet(
 		const std::vector<Id>& activeTokenIds, std::shared_ptr<TokenLocationCollection> collection, bool scrollTo);
@@ -147,6 +151,7 @@ private:
 
 	void handleMessage(MessageCodeReference* message);
 	void handleMessage(MessageFinishedParsing* message);
+	void handleMessage(MessageShowReference* message);
 	void handleMessage(MessageSwitchColorScheme* message);
 	void handleMessage(MessageWindowFocus* message);
 

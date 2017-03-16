@@ -1,10 +1,10 @@
 #include "component/ComponentFactory.h"
 
 #include "component/Component.h"
+#include "component/controller/ActivationController.h"
 #include "component/controller/BookmarkController.h"
 #include "component/controller/CodeController.h"
 #include "component/controller/ErrorController.h"
-#include "component/controller/FeatureController.h"
 #include "component/controller/GraphController.h"
 #include "component/controller/LogController.h"
 #include "component/controller/RefreshController.h"
@@ -50,6 +50,13 @@ StorageAccess* ComponentFactory::getStorageAccess() const
 	return m_storageAccess;
 }
 
+std::shared_ptr<Component> ComponentFactory::createActivationComponent()
+{
+	std::shared_ptr<Controller> controller = std::make_shared<ActivationController>(m_storageAccess);
+
+	return std::make_shared<Component>(nullptr, controller);
+}
+
 std::shared_ptr<Component> ComponentFactory::createBookmarkComponent(ViewLayout* viewLayout)
 {
 	std::shared_ptr<BookmarkView> view = m_viewFactory->createBookmarkView(viewLayout);
@@ -82,13 +89,6 @@ std::shared_ptr<Component> ComponentFactory::createLogComponent(ViewLayout* view
 	LogManager::getInstance()->addLogger(controller);
 
 	return std::make_shared<Component>(view, controller);
-}
-
-std::shared_ptr<Component> ComponentFactory::createFeatureComponent()
-{
-	std::shared_ptr<Controller> controller = std::make_shared<FeatureController>(m_storageAccess);
-
-	return std::make_shared<Component>(nullptr, controller);
 }
 
 std::shared_ptr<Component> ComponentFactory::createGraphComponent(ViewLayout* viewLayout)

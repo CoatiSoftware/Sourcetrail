@@ -13,11 +13,12 @@ public:
 	{
 		FILE_MINIMIZED,
 		FILE_SNIPPETS,
-		FILE_MAXIMIZED
+		FILE_MAXIMIZED,
+		FILE_DEFAULT_FOR_MODE
 	};
 
 	MessageChangeFileView(
-		const FilePath filePath,
+		const FilePath& filePath,
 		FileState state,
 		bool needsData,
 		bool showErrors
@@ -41,6 +42,7 @@ public:
 		case FILE_MINIMIZED: os << "minimize"; break;
 		case FILE_SNIPPETS: os << "snippets"; break;
 		case FILE_MAXIMIZED: os << "maximize"; break;
+		case FILE_DEFAULT_FOR_MODE: os << "default"; break;
 		}
 
 		if (needsData)

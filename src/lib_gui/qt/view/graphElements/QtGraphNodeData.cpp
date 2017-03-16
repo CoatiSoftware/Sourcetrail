@@ -85,8 +85,10 @@ void QtGraphNodeData::onClick()
 		return;
 	}
 
+	FilePath path = getFilePath();
+
 	MessageActivateNodes message;
-	message.addNode(m_data->getId(), m_data->getType(), m_data->getNameHierarchy());
+	message.addNode(m_data->getId(), path.empty() ? m_data->getNameHierarchy() : path.str());
 	message.dispatch();
 }
 

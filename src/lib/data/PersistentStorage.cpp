@@ -491,6 +491,30 @@ Node::NodeType PersistentStorage::getNodeTypeForNodeWithId(Id nodeId) const
 	return Node::intToType(m_sqliteStorage.getFirstById<StorageNode>(nodeId).type);
 }
 
+std::vector<NameHierarchy> PersistentStorage::getNameHierarchiesForNodeIds(const std::vector<Id> nodeIds) const
+{
+	std::vector<NameHierarchy> nameHierarchies;
+	for (const StorageNode& storageNode : m_sqliteStorage.getAllByIds<StorageNode>(nodeIds))
+	{
+		nameHierarchies.push_back(NameHierarchy::deserialize(storageNode.serializedName));
+	}
+	return nameHierarchies;
+}
+
+std::vector<Id> PersistentStorage::getNodeIdsForNameHierarchies(const std::vector<NameHierarchy> nameHierarchies) const
+{
+	std::vector<Id> nodeIds;
+	for (const NameHierarchy& name : nameHierarchies)
+	{
+		Id nodeId = getIdForNodeWithNameHierarchy(name);
+		if (nodeId)
+		{
+			nodeIds.push_back(nodeId);
+		}
+	}
+	return nodeIds;
+}
+
 std::shared_ptr<TokenLocationCollection> PersistentStorage::getFullTextSearchLocations(
 		const std::string& searchTerm, bool caseSensitive
 ) const
@@ -660,32 +684,31 @@ std::vector<SearchMatch> PersistentStorage::getAutocompletionSymbolMatches(const
 	for (const SearchResult& result : results)
 	{
 		SearchMatch match;
-
 		const StorageNode* firstNode = nullptr;
+
 		for (const Id& elementId : result.elementIds)
 		{
 			if (elementId != 0)
 			{
-				const StorageNode& node = storageNodeMap[elementId];
-				match.nameHierarchies.push_back(NameHierarchy::deserialize(node.serializedName));
+				match.tokenIds.push_back(elementId);
 
 				if (!match.hasChildren)
 				{
-					match.hasChildren = m_hierarchyCache.nodeHasChildren(node.id);
+					match.hasChildren = m_hierarchyCache.nodeHasChildren(elementId);
 				}
 
 				if (!firstNode)
 				{
-					firstNode = &node;
+					firstNode = &storageNodeMap[elementId];
 				}
 			}
 		}
 
 		match.name = result.text;
-
 		match.text = result.text;
+
 		const size_t idx = m_hierarchyCache.getIndexOfLastVisibleParentNode(firstNode->id);
-		const NameHierarchy& name = match.nameHierarchies[0];
+		const NameHierarchy& name = NameHierarchy::deserialize(firstNode->serializedName);
 		match.text = name.getRange(idx, name.size()).getQualifiedName();
 		match.subtext = name.getRange(0, idx).getQualifiedName();
 
@@ -717,9 +740,8 @@ std::vector<SearchMatch> PersistentStorage::getAutocompletionFileMatches(const s
 	{
 		SearchMatch match;
 
-		match.nameHierarchies.push_back(NameHierarchy(result.text));
-
 		match.name = result.text;
+		match.tokenIds = utility::toVector(result.elementIds);
 
 		FilePath path(match.name);
 		match.text = path.fileName();
@@ -770,29 +792,34 @@ std::vector<SearchMatch> PersistentStorage::getSearchMatchesForTokenIds(const st
 	// In that case there should be only one search match.
 	std::vector<SearchMatch> matches;
 
+	// fetch StorageNodes for node ids
+	std::map<Id, StorageNode> storageNodeMap;
+	for (StorageNode& node : m_sqliteStorage.getAllByIds<StorageNode>(elementIds))
+	{
+		storageNodeMap.emplace(node.id, node);
+	}
+
 	for (Id elementId : elementIds)
 	{
-		SearchMatch match;
-
-		NameHierarchy nameHierarchy = NameHierarchy::deserialize(m_sqliteStorage.getFirstById<StorageNode>(elementId).serializedName);
-		match.name = nameHierarchy.getQualifiedName();
-		match.text = nameHierarchy.getRawName();
-		match.nameHierarchies.push_back(nameHierarchy.getQualifiedName());
-		match.searchType = SearchMatch::SEARCH_TOKEN;
-
-		if (m_sqliteStorage.isFile(elementId))
-		{
-			match.text = FilePath(match.text).fileName();
-			match.nodeType = Node::NODE_FILE;
-		}
-		else if (m_sqliteStorage.isNode(elementId))
-		{
-			StorageNode node = m_sqliteStorage.getFirstById<StorageNode>(elementId);
-			match.nodeType = Node::intToType(node.type);
-		}
-		else
+		if (storageNodeMap.find(elementId) == storageNodeMap.end())
 		{
 			continue;
+		}
+
+		StorageNode node = storageNodeMap[elementId];
+
+		SearchMatch match;
+		NameHierarchy nameHierarchy = NameHierarchy::deserialize(node.serializedName);
+		match.name = nameHierarchy.getQualifiedName();
+		match.text = nameHierarchy.getRawName();
+
+		match.tokenIds.push_back(elementId);
+		match.nodeType = Node::intToType(node.type);
+		match.searchType = SearchMatch::SEARCH_TOKEN;
+
+		if (match.nodeType == Node::NODE_FILE)
+		{
+			match.text = FilePath(match.text).fileName();
 		}
 
 		matches.push_back(match);
@@ -1068,45 +1095,6 @@ std::vector<Id> PersistentStorage::getLocalSymbolIdsForLocationIds(const std::ve
 bool PersistentStorage::checkNodeExistsByName(const std::string& serializedName) const
 {
 	return m_sqliteStorage.checkNodeExistsByName(serializedName);
-}
-
-std::vector<Id> PersistentStorage::getTokenIdsForMatches(const std::vector<SearchMatch>& matches) const
-{
-	FilePath rootPath = getDbFilePath().parentDirectory();
-	std::set<Id> idSet;
-	for (const SearchMatch& match : matches)
-	{
-		if (match.nodeType == Node::NODE_FILE)
-		{
-			FilePath path(match.subtext);
-			if (!path.isAbsolute())
-			{
-				path = rootPath.concat(path).canonical();
-			}
-
-			idSet.insert(m_sqliteStorage.getFileByPath(path.str()).id);
-		}
-		else
-		{
-			for (size_t i = 0; i < match.nameHierarchies.size(); i++)
-			{
-				idSet.insert(
-					m_sqliteStorage.getNodeBySerializedName(NameHierarchy::serialize(match.nameHierarchies[i])).id
-				);
-			}
-		}
-	}
-
-	std::vector<Id> ids;
-	for (std::set<Id>::const_iterator it = idSet.begin(); it != idSet.end(); it++)
-	{
-		if (*it != 0)
-		{
-			ids.push_back(*it);
-		}
-	}
-
-	return ids;
 }
 
 Id PersistentStorage::getTokenIdForFileNode(const FilePath& filePath) const

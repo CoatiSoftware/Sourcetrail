@@ -54,6 +54,8 @@ public:
 	virtual void scrollToLine(const FilePath filePath, unsigned int line) = 0;
 	virtual void scrollToDefinition(bool ignoreActiveReference) = 0;
 
+	virtual bool isInListMode() const = 0;
+
 private:
 	CodeController* getController();
 };

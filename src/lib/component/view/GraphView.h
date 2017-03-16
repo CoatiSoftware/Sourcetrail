@@ -42,6 +42,8 @@ public:
 	virtual void resizeView() = 0;
 
 	virtual Vec2i getViewSize() const = 0;
+
+	virtual void scrollToValues(int xValue, int yValue) = 0;
 };
 
 #endif // GRAPH_VIEW_H

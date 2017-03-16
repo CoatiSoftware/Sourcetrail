@@ -52,6 +52,8 @@ public:
 	virtual void scrollToLine(const FilePath filePath, unsigned int line);
 	virtual void scrollToDefinition(bool ignoreActiveReference);
 
+	virtual bool isInListMode() const;
+
 private:
 	void doShowCodeSnippets(
 		const std::vector<CodeSnippetParams>& snippets, const std::vector<Id>& activeTokenIds, bool setupFiles);

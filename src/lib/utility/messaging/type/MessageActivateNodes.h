@@ -4,8 +4,6 @@
 #include "utility/messaging/Message.h"
 #include "utility/types.h"
 
-#include "data/graph/Node.h"
-
 class MessageActivateNodes
 	: public Message<MessageActivateNodes>
 {
@@ -13,7 +11,6 @@ public:
 	struct ActiveNode
 	{
 		Id nodeId;
-		Node::NodeType type;
 		NameHierarchy nameHierarchy;
 	};
 
@@ -21,21 +18,10 @@ public:
 	{
 	}
 
-	void addNode(Id tokenId, Node::NodeType type, const NameHierarchy& nameHierarchy)
+	void addNode(Id tokenId, const NameHierarchy& nameHierarchy)
 	{
 		ActiveNode node;
 		node.nodeId = tokenId;
-		node.type = type;
-		node.nameHierarchy = nameHierarchy;
-
-		nodes.push_back(node);
-	}
-
-	void addNode(const NameHierarchy& nameHierarchy)
-	{
-		ActiveNode node;
-		node.nodeId = 0;
-		node.type = Node::NODE_NON_INDEXED;
 		node.nameHierarchy = nameHierarchy;
 
 		nodes.push_back(node);

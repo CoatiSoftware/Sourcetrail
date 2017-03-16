@@ -104,6 +104,9 @@ public:
 	virtual NameHierarchy getNameHierarchyForNodeWithId(Id nodeId) const;
 	virtual Node::NodeType getNodeTypeForNodeWithId(Id nodeId) const;
 
+	virtual std::vector<NameHierarchy> getNameHierarchiesForNodeIds(const std::vector<Id> nodeIds) const;
+	virtual std::vector<Id> getNodeIdsForNameHierarchies(const std::vector<NameHierarchy> nameHierarchies) const;
+
 	virtual std::shared_ptr<TokenLocationCollection> getFullTextSearchLocations(
 			const std::string& searchTerm, bool caseSensitive) const;
 	virtual std::vector<SearchMatch> getAutocompletionMatches(const std::string& query) const;
@@ -123,7 +126,6 @@ public:
 	virtual std::vector<Id> getLocalSymbolIdsForLocationIds(const std::vector<Id>& locationIds) const;
 	virtual bool checkNodeExistsByName(const std::string& serializedName) const;
 
-	virtual std::vector<Id> getTokenIdsForMatches(const std::vector<SearchMatch>& matches) const;
 	virtual Id getTokenIdForFileNode(const FilePath& filePath) const;
 
 	virtual std::shared_ptr<TokenLocationCollection> getTokenLocationsForTokenIds(

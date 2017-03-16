@@ -14,6 +14,7 @@
 #include "component/view/GraphViewStyle.h"
 #include "settings/ApplicationSettings.h"
 #include "utility/messaging/type/MessageDeactivateEdge.h"
+#include "utility/messaging/type/MessageScrollGraph.h"
 #include "utility/ResourcePaths.h"
 
 #include "qt/graphics/QtGraphicsView.h"
@@ -40,6 +41,7 @@ QtGraphView::QtGraphView(ViewLayout* viewLayout)
 	, m_focusInFunctor(std::bind(&QtGraphView::doFocusIn, this, std::placeholders::_1))
 	, m_focusOutFunctor(std::bind(&QtGraphView::doFocusOut, this, std::placeholders::_1))
 	, m_scrollToTop(false)
+	, m_restoreScroll(false)
 	, m_isIndexedList(false)
 {
 }
@@ -76,6 +78,9 @@ void QtGraphView::initView()
 
 	m_scrollSpeedChangeListenerHorizontal.setScrollBar(view->horizontalScrollBar());
 	m_scrollSpeedChangeListenerVertical.setScrollBar(view->verticalScrollBar());
+
+	connect(view->horizontalScrollBar(), SIGNAL(valueChanged(int)), this, SLOT(scrolled(int)));
+	connect(view->verticalScrollBar(), SIGNAL(valueChanged(int)), this, SLOT(scrolled(int)));
 
 	doRefreshView();
 }
@@ -114,6 +119,12 @@ Vec2i QtGraphView::getViewSize() const
 	return Vec2i(view->width() / zoomFactor - 60, view->height() / zoomFactor - 60);
 }
 
+void QtGraphView::scrollToValues(int xValue, int yValue)
+{
+	m_restoreScroll = true;
+	m_scrollValues = Vec2i(xValue, yValue);
+}
+
 void QtGraphView::updateScrollBars()
 {
 	QGraphicsView* view = getView();
@@ -121,7 +132,12 @@ void QtGraphView::updateScrollBars()
 	QScrollBar* hb = view->horizontalScrollBar();
 	QScrollBar* vb = view->verticalScrollBar();
 
-	if (m_scrollToTop)
+	if (m_restoreScroll)
+	{
+		hb->setValue(m_scrollValues.x());
+		vb->setValue(m_scrollValues.y());
+	}
+	else if (m_scrollToTop)
 	{
 		vb->setValue(vb->minimum());
 	}
@@ -201,6 +217,13 @@ void QtGraphView::pressedCharacterKey(QChar c)
 	}
 }
 
+void QtGraphView::scrolled(int)
+{
+	QGraphicsView* view = getView();
+
+	MessageScrollGraph(view->horizontalScrollBar()->value(), view->verticalScrollBar()->value()).dispatch();
+}
+
 void QtGraphView::switchToNewGraphData()
 {
 	m_oldGraph = m_graph;
@@ -223,9 +246,12 @@ void QtGraphView::switchToNewGraphData()
 
 	doResize();
 
-	if (m_scrollToTop)
+	if (m_scrollToTop || m_restoreScroll)
 	{
 		updateScrollBars();
+
+		m_scrollToTop = false;
+		m_restoreScroll = false;
 	}
 
 	// Manually hover the item below the mouse cursor.
@@ -568,7 +594,8 @@ void QtGraphView::compareNodesRecursive(
 					dynamic_cast<QtGraphNodeAccess*>((*it).get())->getAccessKind() ==
 						dynamic_cast<QtGraphNodeAccess*>((*it2).get())->getAccessKind()) ||
 				((*it)->isExpandToggleNode() && (*it2)->isExpandToggleNode()) ||
-				((*it)->isBundleNode() && (*it2)->isBundleNode() && (*it)->getTokenId() == (*it2)->getTokenId()))
+				((*it)->isBundleNode() && (*it2)->isBundleNode() && (*it)->getTokenId() == (*it2)->getTokenId()) ||
+				((*it)->isQualifierNode() && (*it2)->isQualifierNode() && (*it)->getTokenId() == (*it2)->getTokenId()))
 			{
 				remainingNodes->push_back(std::pair<QtGraphNode*, QtGraphNode*>((*it).get(), (*it2).get()));
 				compareNodesRecursive(

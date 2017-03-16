@@ -54,6 +54,7 @@ struct SearchMatch
 	std::string getSearchTypeName() const;
 
 	std::string name;
+	std::vector<Id> tokenIds;
 
 	std::string text;
 	std::string subtext;
@@ -65,8 +66,6 @@ struct SearchMatch
 	std::vector<size_t> indices;
 
 	int score;
-
-	std::vector<NameHierarchy> nameHierarchies;
 
 	bool hasChildren;
 };

@@ -35,7 +35,7 @@ public:
 
 	virtual void addCodeSnippet(const CodeSnippetParams& params, bool insert = false);
 
-	virtual void requestFileContent(const FilePath& filePath);
+	void requestFileContent(const FilePath& filePath, bool isFirstInList = false);
 	virtual bool requestScroll(const FilePath& filePath, uint lineNumber, Id locationId, bool animated, bool onTop);
 
 	virtual void updateFiles();

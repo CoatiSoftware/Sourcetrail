@@ -250,7 +250,7 @@ bool QtCodeFile::isCollapsed() const
 	return m_isCollapsed;
 }
 
-void QtCodeFile::requestContent()
+void QtCodeFile::requestContent(bool isFirstInList)
 {
 	if (!isCollapsed() || m_contentRequested)
 	{
@@ -260,15 +260,15 @@ void QtCodeFile::requestContent()
 
 	m_contentRequested = true;
 
-	MessageChangeFileView msg(
-		m_filePath,
-		m_isWholeFile ? MessageChangeFileView::FILE_MAXIMIZED : MessageChangeFileView::FILE_SNIPPETS,
-		isCollapsed(),
-		m_navigator->hasErrors()
-	);
+	MessageChangeFileView::FileState state =
+		isFirstInList ? MessageChangeFileView::FILE_DEFAULT_FOR_MODE : MessageChangeFileView::FILE_SNIPPETS;
 
-	msg.setIsReplayed(true);
-	msg.dispatch();
+	if (m_isWholeFile)
+	{
+		state = MessageChangeFileView::FILE_MAXIMIZED;
+	}
+
+	MessageChangeFileView(m_filePath, state, isCollapsed(), m_navigator->hasErrors()).dispatch();
 }
 
 void QtCodeFile::updateContent()

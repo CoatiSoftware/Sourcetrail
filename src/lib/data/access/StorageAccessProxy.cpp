@@ -77,6 +77,16 @@ bool StorageAccessProxy::checkEdgeExists(Id edgeId) const
 	return false;
 }
 
+NameHierarchy StorageAccessProxy::getNameHierarchyForNodeWithId(Id id) const
+{
+	if (hasSubject())
+	{
+		return m_subject->getNameHierarchyForNodeWithId(id);
+	}
+
+	return NameHierarchy();
+}
+
 Node::NodeType StorageAccessProxy::getNodeTypeForNodeWithId(Id id) const
 {
 	if (hasSubject())
@@ -95,24 +105,22 @@ bool StorageAccessProxy::checkNodeExistsByName(const std::string& serializedName
 	return false;
 }
 
-NameHierarchy StorageAccessProxy::getNameHierarchyForNodeWithId(Id id) const
+std::vector<NameHierarchy> StorageAccessProxy::getNameHierarchiesForNodeIds(const std::vector<Id> nodeIds) const
 {
 	if (hasSubject())
 	{
-		return m_subject->getNameHierarchyForNodeWithId(id);
+		return m_subject->getNameHierarchiesForNodeIds(nodeIds);
 	}
-
-	return NameHierarchy();
+	return std::vector<NameHierarchy>();
 }
 
-std::vector<SearchMatch> StorageAccessProxy::getAutocompletionMatches(const std::string& query) const
+std::vector<Id> StorageAccessProxy::getNodeIdsForNameHierarchies(const std::vector<NameHierarchy> nameHierarchies) const
 {
 	if (hasSubject())
 	{
-		return m_subject->getAutocompletionMatches(query);
+		return m_subject->getNodeIdsForNameHierarchies(nameHierarchies);
 	}
-
-	return std::vector<SearchMatch>();
+	return std::vector<Id>();
 }
 
 std::shared_ptr<TokenLocationCollection> StorageAccessProxy::getFullTextSearchLocations(
@@ -124,6 +132,16 @@ std::shared_ptr<TokenLocationCollection> StorageAccessProxy::getFullTextSearchLo
 	}
 
 	return std::make_shared<TokenLocationCollection>();
+}
+
+std::vector<SearchMatch> StorageAccessProxy::getAutocompletionMatches(const std::string& query) const
+{
+	if (hasSubject())
+	{
+		return m_subject->getAutocompletionMatches(query);
+	}
+
+	return std::vector<SearchMatch>();
 }
 
 std::vector<SearchMatch> StorageAccessProxy::getSearchMatchesForTokenIds(const std::vector<Id>& tokenIds) const
@@ -181,16 +199,6 @@ std::vector<Id> StorageAccessProxy::getLocalSymbolIdsForLocationIds(const std::v
 	if (hasSubject())
 	{
 		return m_subject->getLocalSymbolIdsForLocationIds(locationIds);
-	}
-
-	return std::vector<Id>();
-}
-
-std::vector<Id> StorageAccessProxy::getTokenIdsForMatches(const std::vector<SearchMatch>& matches) const
-{
-	if (hasSubject())
-	{
-		return m_subject->getTokenIdsForMatches(matches);
 	}
 
 	return std::vector<Id>();

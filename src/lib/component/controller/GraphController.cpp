@@ -32,6 +32,8 @@ void GraphController::handleMessage(MessageActivateAll* message)
 	m_activeNodeIds.clear();
 	m_activeEdgeIds.clear();
 
+	m_dummyGraphNodes.clear();
+
 	createDummyGraphForTokenIdsAndSetActiveAndVisibility(std::vector<Id>(), m_storageAccess->getGraphForAll());
 
 	bundleNodesByType();
@@ -102,6 +104,14 @@ void GraphController::handleMessage(MessageActivateTokens* message)
 void GraphController::handleMessage(MessageFlushUpdates* message)
 {
 	buildGraph(message, true, !message->keepContent());
+}
+
+void GraphController::handleMessage(MessageScrollGraph* message)
+{
+	if (message->isReplayed())
+	{
+		getView()->scrollToValues(message->xValue, message->yValue);
+	}
 }
 
 void GraphController::handleMessage(MessageSearchFullText* message)
@@ -247,7 +257,7 @@ void GraphController::handleMessage(MessageShowErrors* message)
 
 void GraphController::handleMessage(MessageShowReference* message)
 {
-	if (!message->tokenId)
+	if (!message->tokenId || !message->animated)
 	{
 		return;
 	}

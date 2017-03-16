@@ -13,30 +13,42 @@ SearchController::~SearchController()
 {
 }
 
+void SearchController::handleMessage(MessageActivateAll* message)
+{
+	getView()->setMatches(std::vector<SearchMatch>(1, SearchMatch::createCommand(SearchMatch::COMMAND_ALL)));
+}
+
 void SearchController::handleMessage(MessageActivateTokens* message)
 {
-	if (!message->isFromSearch)
+	if ((message->isFromSearch && !message->isReplayed()) || message->keepContent())
 	{
-		if (!message->keepContent() && message->tokenIds.size())
+		return;
+	}
+
+	if (message->searchMatches.size())
+	{
+		getView()->setMatches(message->searchMatches);
+	}
+	else if (message->tokenIds.size())
+	{
+		getView()->setMatches(m_storageAccess->getSearchMatchesForTokenIds(message->tokenIds));
+	}
+	else if (message->tokenNames.size())
+	{
+		std::vector<SearchMatch> matches;
+		getView()->setMatches(matches);
+
+		for (const NameHierarchy& name : message->tokenNames)
 		{
-			getView()->setMatches(m_storageAccess->getSearchMatchesForTokenIds(message->tokenIds));
+			matches.push_back(SearchMatch(name.getQualifiedName()));
 		}
-		else if ((message->isReplayed() || message->unknownNames.size()) && !message->tokenIds.size())
+
+		if (!matches.size())
 		{
-			std::vector<SearchMatch> matches;
-
-			for (const std::string& name : message->unknownNames)
-			{
-				matches.push_back(SearchMatch(name));
-			}
-
-			if (!matches.size())
-			{
-				matches.push_back(SearchMatch("<invalid>"));
-			}
-
-			getView()->setMatches(matches);
+			matches.push_back(SearchMatch("<invalid>"));
 		}
+
+		getView()->setMatches(matches);
 	}
 }
 
@@ -49,21 +61,6 @@ void SearchController::handleMessage(MessageFind* message)
 	else
 	{
 		getView()->setFocus();
-	}
-}
-
-void SearchController::handleMessage(MessageSearch* message)
-{
-	const std::vector<SearchMatch>& matches = message->getMatches();
-
-	for (const SearchMatch& match : matches)
-	{
-		if (match.searchType == SearchMatch::SEARCH_COMMAND)
-		{
-			SearchMatch m = SearchMatch::createCommand(SearchMatch::getCommandType(match.getFullName()));
-			getView()->setMatches(std::vector<SearchMatch>(1, m));
-			return;
-		}
 	}
 }
 

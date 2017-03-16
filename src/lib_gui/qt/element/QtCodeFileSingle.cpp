@@ -142,15 +142,12 @@ void QtCodeFileSingle::requestFileContent(const FilePath& filePath)
 
 	m_contentRequested = true;
 
-	MessageChangeFileView msg(
+	MessageChangeFileView(
 		filePath,
-		MessageChangeFileView::FILE_MAXIMIZED,
+		MessageChangeFileView::FILE_DEFAULT_FOR_MODE,
 		true,
 		m_navigator->hasErrors()
-	);
-
-	msg.setIsReplayed(true);
-	msg.dispatch();
+	).dispatch();
 }
 
 bool QtCodeFileSingle::requestScroll(const FilePath& filePath, uint lineNumber, Id locationId, bool animated, bool onTop)

@@ -49,6 +49,22 @@ public:
 		return m_matches;
 	}
 
+	std::vector<Id> getTokenIdsOfMatches() const
+	{
+		std::vector<Id> tokenIds;
+		for (const SearchMatch& match : m_matches)
+		{
+			for (const Id tokenId : match.tokenIds)
+			{
+				if (tokenId)
+				{
+					tokenIds.push_back(tokenId);
+				}
+			}
+		}
+		return tokenIds;
+	}
+
 	virtual void print(std::ostream& os) const
 	{
 		os << getMatchesAsString();

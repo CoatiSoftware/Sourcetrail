@@ -10,7 +10,6 @@
 #include "utility/logging/logging.h"
 #include "utility/messaging/type/MessageCodeViewExpandedInitialFiles.h"
 #include "utility/messaging/type/MessageScrollCode.h"
-#include "utility/messaging/type/MessageShowReference.h"
 #include "utility/ResourcePaths.h"
 
 #include "data/location/TokenLocation.h"
@@ -321,6 +320,11 @@ size_t QtCodeNavigator::getFatalErrorCountForFile(const FilePath& filePath) cons
 	return fatalErrorCount;
 }
 
+bool QtCodeNavigator::isInListMode() const
+{
+	return m_mode == MODE_LIST;
+}
+
 void QtCodeNavigator::showActiveSnippet(
 	const std::vector<Id>& activeTokenIds, std::shared_ptr<TokenLocationCollection> collection, bool scrollTo)
 {
@@ -442,7 +446,7 @@ void QtCodeNavigator::setupFiles()
 		{
 			if (filePathsToExpand.find(ref.filePath) == filePathsToExpand.end())
 			{
-				m_list->requestFileContent(ref.filePath);
+				m_list->requestFileContent(ref.filePath, filePathsToExpand.size() == 0);
 				filePathsToExpand.insert(ref.filePath);
 
 				if (filePathsToExpand.size() >= 3)
@@ -626,10 +630,7 @@ void QtCodeNavigator::requestScroll(const FilePath& filePath, uint lineNumber, I
 		}
 	}
 
-	if (m_scrollRequest.filePath.empty())
-	{
-		m_scrollRequest = req;
-	}
+	m_scrollRequest = req;
 
 	m_singleHasNewFile = false;
 }
@@ -755,19 +756,7 @@ void QtCodeNavigator::setMode(Mode mode)
 void QtCodeNavigator::showCurrentReference(bool fromUI)
 {
 	const Reference& ref = m_references[m_refIndex - 1];
-
-	setCurrentActiveLocationIds(std::vector<Id>(1, ref.locationId));
-	updateFiles();
-
-	requestScroll(ref.filePath, 0, ref.locationId, fromUI, false);
-	emit scrollRequest();
-
-	updateRefLabel();
-
-	if (fromUI)
-	{
-		MessageShowReference(m_refIndex - 1, ref.tokenId, ref.locationId).dispatch();
-	}
+	MessageShowReference(m_refIndex, ref.tokenId, ref.locationId, fromUI).dispatch();
 }
 
 void QtCodeNavigator::updateRefLabel()
@@ -813,6 +802,28 @@ void QtCodeNavigator::handleMessage(MessageFinishedParsing* message)
 		[=]()
 		{
 			clearCaches();
+		}
+	);
+}
+
+void QtCodeNavigator::handleMessage(MessageShowReference* message)
+{
+	m_refIndex = message->refIndex;
+
+	m_onQtThread(
+		[=]()
+		{
+			if (m_refIndex > 0)
+			{
+				const Reference& ref = m_references[m_refIndex - 1];
+				setCurrentActiveLocationIds(std::vector<Id>(1, ref.locationId));
+				updateFiles();
+
+				requestScroll(ref.filePath, 0, ref.locationId, message->animated, false);
+				emit scrollRequest();
+			}
+
+			updateRefLabel();
 		}
 	);
 }

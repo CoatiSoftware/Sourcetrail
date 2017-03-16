@@ -9,6 +9,7 @@ class MessageBase
 public:
 	MessageBase()
 		: m_isReplayed(false)
+		, m_isReplayCleared(false)
 		, m_sendAsTask(true)
 		, m_keepContent(false)
 		, m_isLast(true)
@@ -41,6 +42,16 @@ public:
 	void setIsReplayed(bool isReplayed)
 	{
 		m_isReplayed = isReplayed;
+	}
+
+	bool isReplayCleared() const
+	{
+		return m_isReplayCleared;
+	}
+
+	void setIsReplayCleared(bool isReplayCleared)
+	{
+		m_isReplayCleared = isReplayCleared;
 	}
 
 	bool isLast() const
@@ -85,8 +96,11 @@ public:
 
 private:
 	bool m_isReplayed;
+	bool m_isReplayCleared;
+
 	bool m_sendAsTask;
 	bool m_keepContent;
+
 	bool m_isLast;
 	bool m_isLogged;
 };

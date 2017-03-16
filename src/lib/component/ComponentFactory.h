@@ -19,10 +19,10 @@ public:
 	ViewFactory* getViewFactory() const;
 	StorageAccess* getStorageAccess() const;
 
+	std::shared_ptr<Component> createActivationComponent();
 	std::shared_ptr<Component> createBookmarkComponent(ViewLayout* viewLayout);
 	std::shared_ptr<Component> createCodeComponent(ViewLayout* viewLayout);
 	std::shared_ptr<Component> createErrorComponent(ViewLayout* viewLayout);
-	std::shared_ptr<Component> createFeatureComponent();
 	std::shared_ptr<Component> createGraphComponent(ViewLayout* viewLayout);
 	std::shared_ptr<Component> createLogComponent(ViewLayout* viewLayout);
 	std::shared_ptr<Component> createRefreshComponent(ViewLayout* viewLayout);

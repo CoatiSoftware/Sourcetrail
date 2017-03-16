@@ -33,7 +33,7 @@ public:
 
 	virtual void addCodeSnippet(const CodeSnippetParams& params, bool insert = false) override;
 
-	virtual void requestFileContent(const FilePath& filePath) override;
+	void requestFileContent(const FilePath& filePath);
 	virtual bool requestScroll(const FilePath& filePath, uint lineNumber, Id locationId, bool animated, bool onTop) override;
 
 	virtual void updateFiles() override;

@@ -1,4 +1,4 @@
-#include "component/controller/FeatureController.h"
+#include "component/controller/ActivationController.h"
 
 #include "data/access/StorageAccess.h"
 #include "settings/ApplicationSettings.h"
@@ -13,58 +13,50 @@
 #include "utility/messaging/type/MessageStatus.h"
 #include "utility/messaging/type/MessageScrollToLine.h"
 
-FeatureController::FeatureController(StorageAccess* storageAccess)
+ActivationController::ActivationController(StorageAccess* storageAccess)
 	: m_storageAccess(storageAccess)
 {
 }
 
-FeatureController::~FeatureController()
+ActivationController::~ActivationController()
 {
 }
 
-void FeatureController::clear()
+void ActivationController::clear()
 {
 }
 
-void FeatureController::handleMessage(MessageActivateEdge* message)
+void ActivationController::handleMessage(MessageActivateEdge* message)
 {
 	if (message->isAggregation())
 	{
-		// TODO: validate aggregationIds
-		MessageActivateTokens m(message, message->aggregationIds);
+		MessageActivateTokens m(message);
+		m.tokenIds = message->aggregationIds;
 		m.setKeepContent(false);
 		m.isAggregation = true;
+		m.tokenNames.push_back(NameHierarchy(message->getFullName()));
 		m.dispatchImmediately();
 	}
 	else
 	{
-		Id edgeId = message->tokenId;
-
-		if (message->isReplayed())
-		{
-			edgeId = m_storageAccess->getIdForEdge(message->type, message->fromNameHierarchy, message->toNameHierarchy);
-		}
-
-		std::vector<Id> ids;
-		if (edgeId)
-		{
-			ids.push_back(edgeId);
-		}
-
-		MessageActivateTokens m(message, ids);
+		MessageActivateTokens m(message);
+		m.tokenIds.push_back(message->tokenId);
 		m.isEdge = true;
-		m.unknownNames = std::vector<std::string>(1, message->getFullName());
+		m.tokenNames.push_back(NameHierarchy(message->getFullName()));
 		m.dispatchImmediately();
 	}
 }
 
-void FeatureController::handleMessage(MessageActivateFile* message)
+void ActivationController::handleMessage(MessageActivateFile* message)
 {
 	Id fileId = m_storageAccess->getTokenIdForFileNode(message->filePath);
 
 	if (fileId)
 	{
-		MessageActivateTokens(message, std::vector<Id>(1, fileId)).dispatchImmediately();
+		MessageActivateTokens m(message);
+		m.tokenIds.push_back(fileId);
+		m.tokenNames.push_back(message->filePath.str());
+		m.dispatchImmediately();
 	}
 	else
 	{
@@ -74,8 +66,6 @@ void FeatureController::handleMessage(MessageActivateFile* message)
 			true,
 			true
 		);
-		msg.setIsReplayed(message->isReplayed());
-		msg.setKeepContent(message->keepContent());
 		msg.dispatchImmediately();
 	}
 
@@ -85,35 +75,22 @@ void FeatureController::handleMessage(MessageActivateFile* message)
 	}
 }
 
-void FeatureController::handleMessage(MessageActivateNodes* message)
+void ActivationController::handleMessage(MessageActivateNodes* message)
 {
-	std::vector<Id> nodeIds;
-
+	MessageActivateTokens m(message);
 	for (const MessageActivateNodes::ActiveNode& node : message->nodes)
 	{
-		if (node.nodeId)
+		Id nodeId = node.nodeId ? node.nodeId : m_storageAccess->getIdForNodeWithNameHierarchy(node.nameHierarchy);
+		if (nodeId > 0)
 		{
-			nodeIds.push_back(node.nodeId);
+			m.tokenIds.push_back(nodeId);
 		}
-		else
-		{
-			Id nodeId = m_storageAccess->getIdForNodeWithNameHierarchy(node.nameHierarchy);
-			if (nodeId > 0)
-			{
-				nodeIds.push_back(nodeId);
-			}
-		}
-	}
-
-	MessageActivateTokens m(message, nodeIds);
-	for (const MessageActivateNodes::ActiveNode& node : message->nodes)
-	{
-		m.unknownNames.push_back(node.nameHierarchy.getQualifiedName());
+		m.tokenNames.push_back(node.nameHierarchy);
 	}
 	m.dispatchImmediately();
 }
 
-void FeatureController::handleMessage(MessageSearch* message)
+void ActivationController::handleMessage(MessageSearch* message)
 {
 	const std::vector<SearchMatch>& matches = message->getMatches();
 
@@ -127,17 +104,13 @@ void FeatureController::handleMessage(MessageSearch* message)
 			{
 				case SearchMatch::COMMAND_ALL:
 				{
-					MessageActivateAll msg;
-					msg.setIsReplayed(message->isReplayed());
-					msg.dispatchImmediately();
+					MessageActivateAll().dispatchImmediately();
 					return;
 				}
 
 				case SearchMatch::COMMAND_ERROR:
 				{
-					MessageShowErrors msg(m_storageAccess->getErrorCount());
-					msg.setIsReplayed(true);
-					msg.dispatch();
+					MessageShowErrors(m_storageAccess->getErrorCount()).dispatch();
 					MessageFlushUpdates().dispatch();
 					return;
 				}
@@ -151,41 +124,34 @@ void FeatureController::handleMessage(MessageSearch* message)
 		}
 	}
 
-	std::vector<Id> tokenIds = m_storageAccess->getTokenIdsForMatches(matches);
-
-	MessageActivateTokens m(message, tokenIds);
-	for (const SearchMatch& match : matches)
-	{
-		m.unknownNames.push_back(match.name);
-	}
-	if (!message->isReplayed())
-	{
-		m.isFromSearch = true;
-	}
+	MessageActivateTokens m(message);
+	m.tokenIds = message->getTokenIdsOfMatches();
+	m.searchMatches = matches;
+	m.tokenNames = m_storageAccess->getNameHierarchiesForNodeIds(m.tokenIds);
+	m.isFromSearch = true;
 	m.dispatchImmediately();
 }
 
-void FeatureController::handleMessage(MessageActivateTokenIds* message)
+void ActivationController::handleMessage(MessageActivateTokenIds* message)
 {
-	MessageActivateTokens(message, message->tokenIds).dispatchImmediately();
+	MessageActivateTokens m(message);
+	m.tokenIds = message->tokenIds;
+	m.searchMatches = m_storageAccess->getSearchMatchesForTokenIds(message->tokenIds);
+	m.tokenNames = m_storageAccess->getNameHierarchiesForNodeIds(m.tokenIds);
+	m.dispatchImmediately();
 }
 
-void FeatureController::handleMessage(MessageActivateTokenLocations* message)
+void ActivationController::handleMessage(MessageActivateTokenLocations* message)
 {
-	std::vector<Id> nodeIds = m_storageAccess->getNodeIdsForLocationIds(message->locationIds);
 	MessageActivateNodes m;
-	for (Id nodeId : nodeIds)
+	for (Id nodeId : m_storageAccess->getNodeIdsForLocationIds(message->locationIds))
 	{
-		m.addNode(
-			nodeId,
-			m_storageAccess->getNodeTypeForNodeWithId(nodeId),
-			m_storageAccess->getNameHierarchyForNodeWithId(nodeId)
-		);
+		m.addNode(nodeId, m_storageAccess->getNameHierarchyForNodeWithId(nodeId));
 	}
 	m.dispatchImmediately();
 }
 
-void FeatureController::handleMessage(MessageResetZoom* message)
+void ActivationController::handleMessage(MessageResetZoom* message)
 {
 	ApplicationSettings* settings = ApplicationSettings::getInstance().get();
 	int fontSizeStd = settings->getFontSizeStd();
@@ -201,7 +167,7 @@ void FeatureController::handleMessage(MessageResetZoom* message)
 	MessageStatus("Zoom: 100%").dispatch();
 }
 
-void FeatureController::handleMessage(MessageZoom* message)
+void ActivationController::handleMessage(MessageZoom* message)
 {
 	bool zoomIn = message->zoomIn;
 

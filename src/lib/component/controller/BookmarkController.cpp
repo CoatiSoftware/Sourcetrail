@@ -47,7 +47,7 @@ std::vector<std::shared_ptr<Bookmark>> BookmarkController::getAllBookmarks() con
 	LOG_INFO_STREAM(<< "Retrieving all bookmarks");
 
 	std::vector<std::shared_ptr<Bookmark>> bookmarks;
-	
+
 	std::vector<NodeBookmark> nodeBookmarks = m_storageAccess->getAllNodeBookmarks();
 
 	for (unsigned int i = 0; i < nodeBookmarks.size(); i++)
@@ -91,7 +91,7 @@ std::vector<std::shared_ptr<Bookmark>> BookmarkController::getAllBookmarks() con
 		}
 	}
 
-	
+
 
 	return bookmarks;
 }
@@ -183,7 +183,7 @@ void BookmarkController::handleMessage(MessageActivateBookmark* message)
 		for (unsigned int i = 0; i < baseBookmark.getTokenNames().size(); i++)
 		{
 			NameHierarchy nh = NameHierarchy::deserialize(baseBookmark.getTokenNames()[i]);
-			activateNodes.addNode(nh);
+			activateNodes.addNode(0, nh);
 		}
 
 		activateNodes.dispatch();
@@ -208,7 +208,7 @@ void BookmarkController::handleMessage(MessageActivateBookmark* message)
 		for (unsigned int i = 0; i < bookmark->getTokenNames().size(); i++)
 		{
 			NameHierarchy nh = NameHierarchy::deserialize(bookmark->getTokenNames()[i]);
-			activateNodes.addNode(nh);
+			activateNodes.addNode(0, nh);
 		}
 
 		activateNodes.dispatch();
@@ -234,7 +234,7 @@ void BookmarkController::handleMessage(MessageActivateTokens* message)
 			int typeId = edge.type;
 
 			tokenTypes.push_back(typeId);
-			
+
 			NameHierarchy sourceHierarchy = m_storageAccess->getNameHierarchyForNodeWithId(edge.sourceNodeId);
 			NameHierarchy targetHierarchy = m_storageAccess->getNameHierarchyForNodeWithId(edge.targetNodeId);
 
@@ -527,7 +527,7 @@ std::vector<int> BookmarkController::getTokenTypes(const std::vector<Id>& ids) c
 		int type = m_storageAccess->getNodeTypeForNodeWithId(ids[i]);
 		types.push_back(type);
 	}
-	
+
 	return types;
 }
 

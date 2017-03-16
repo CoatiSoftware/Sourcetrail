@@ -101,9 +101,9 @@ void QtCodeFileList::addCodeSnippet(
 	file->setModificationTime(params.modificationTime);
 }
 
-void QtCodeFileList::requestFileContent(const FilePath& filePath)
+void QtCodeFileList::requestFileContent(const FilePath& filePath, bool isFirstInList)
 {
-	getFile(filePath)->requestContent();
+	getFile(filePath)->requestContent(isFirstInList);
 }
 
 bool QtCodeFileList::requestScroll(const FilePath& filePath, uint lineNumber, Id locationId, bool animated, bool onTop)
