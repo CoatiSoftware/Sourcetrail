@@ -36,14 +36,70 @@ void StorageAccessProxy::setSubject(StorageAccess* subject)
 	setErrorFilter(m_errorFilter);
 }
 
-Id StorageAccessProxy::getIdForNodeWithNameHierarchy(const NameHierarchy& nameHierarchy) const
+Id StorageAccessProxy::getNodeIdForFileNode(const FilePath& filePath) const
 {
 	if (hasSubject())
 	{
-		return m_subject->getIdForNodeWithNameHierarchy(nameHierarchy);
+		return m_subject->getNodeIdForFileNode(filePath);
 	}
 
 	return 0;
+}
+
+Id StorageAccessProxy::getNodeIdForNameHierarchy(const NameHierarchy& nameHierarchy) const
+{
+	if (hasSubject())
+	{
+		return m_subject->getNodeIdForNameHierarchy(nameHierarchy);
+	}
+
+	return 0;
+}
+
+std::vector<Id> StorageAccessProxy::getNodeIdsForNameHierarchies(const std::vector<NameHierarchy> nameHierarchies) const
+{
+	if (hasSubject())
+	{
+		return m_subject->getNodeIdsForNameHierarchies(nameHierarchies);
+	}
+	return std::vector<Id>();
+}
+
+NameHierarchy StorageAccessProxy::getNameHierarchyForNodeId(Id id) const
+{
+	if (hasSubject())
+	{
+		return m_subject->getNameHierarchyForNodeId(id);
+	}
+
+	return NameHierarchy();
+}
+
+std::vector<NameHierarchy> StorageAccessProxy::getNameHierarchiesForNodeIds(const std::vector<Id> nodeIds) const
+{
+	if (hasSubject())
+	{
+		return m_subject->getNameHierarchiesForNodeIds(nodeIds);
+	}
+	return std::vector<NameHierarchy>();
+}
+
+Node::NodeType StorageAccessProxy::getNodeTypeForNodeWithId(Id id) const
+{
+	if (hasSubject())
+	{
+		return m_subject->getNodeTypeForNodeWithId(id);
+	}
+	return Node::NODE_NON_INDEXED;
+}
+
+bool StorageAccessProxy::checkNodeExistsByName(const std::string& serializedName) const
+{
+	if (hasSubject())
+	{
+		return m_subject->checkNodeExistsByName(serializedName);
+	}
+	return false;
 }
 
 Id StorageAccessProxy::getIdForEdge(
@@ -75,52 +131,6 @@ bool StorageAccessProxy::checkEdgeExists(Id edgeId) const
 	}
 
 	return false;
-}
-
-NameHierarchy StorageAccessProxy::getNameHierarchyForNodeWithId(Id id) const
-{
-	if (hasSubject())
-	{
-		return m_subject->getNameHierarchyForNodeWithId(id);
-	}
-
-	return NameHierarchy();
-}
-
-Node::NodeType StorageAccessProxy::getNodeTypeForNodeWithId(Id id) const
-{
-	if (hasSubject())
-	{
-		return m_subject->getNodeTypeForNodeWithId(id);
-	}
-	return Node::NODE_NON_INDEXED;
-}
-
-bool StorageAccessProxy::checkNodeExistsByName(const std::string& serializedName) const
-{
-	if (hasSubject())
-	{
-		return m_subject->checkNodeExistsByName(serializedName);
-	}
-	return false;
-}
-
-std::vector<NameHierarchy> StorageAccessProxy::getNameHierarchiesForNodeIds(const std::vector<Id> nodeIds) const
-{
-	if (hasSubject())
-	{
-		return m_subject->getNameHierarchiesForNodeIds(nodeIds);
-	}
-	return std::vector<NameHierarchy>();
-}
-
-std::vector<Id> StorageAccessProxy::getNodeIdsForNameHierarchies(const std::vector<NameHierarchy> nameHierarchies) const
-{
-	if (hasSubject())
-	{
-		return m_subject->getNodeIdsForNameHierarchies(nameHierarchies);
-	}
-	return std::vector<Id>();
 }
 
 std::shared_ptr<TokenLocationCollection> StorageAccessProxy::getFullTextSearchLocations(
@@ -192,26 +202,6 @@ std::vector<Id> StorageAccessProxy::getNodeIdsForLocationIds(const std::vector<I
 	}
 
 	return std::vector<Id>();
-}
-
-std::vector<Id> StorageAccessProxy::getLocalSymbolIdsForLocationIds(const std::vector<Id>& locationIds) const
-{
-	if (hasSubject())
-	{
-		return m_subject->getLocalSymbolIdsForLocationIds(locationIds);
-	}
-
-	return std::vector<Id>();
-}
-
-Id StorageAccessProxy::getTokenIdForFileNode(const FilePath& filePath) const
-{
-	if (hasSubject())
-	{
-		return m_subject->getTokenIdForFileNode(filePath);
-	}
-
-	return 0;
 }
 
 std::shared_ptr<TokenLocationCollection> StorageAccessProxy::getTokenLocationsForTokenIds(

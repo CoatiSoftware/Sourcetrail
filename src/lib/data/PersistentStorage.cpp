@@ -460,35 +460,35 @@ void PersistentStorage::optimizeMemory()
 	m_sqliteStorage.setVersion();
 }
 
-Id PersistentStorage::getIdForNodeWithNameHierarchy(const NameHierarchy& nameHierarchy) const
+Id PersistentStorage::getNodeIdForFileNode(const FilePath& filePath) const
+{
+	return m_sqliteStorage.getFileByPath(filePath.str()).id;
+}
+
+Id PersistentStorage::getNodeIdForNameHierarchy(const NameHierarchy& nameHierarchy) const
 {
 	return m_sqliteStorage.getNodeBySerializedName(NameHierarchy::serialize(nameHierarchy)).id;
 }
 
-Id PersistentStorage::getIdForEdge(
-	Edge::EdgeType type, const NameHierarchy& fromNameHierarchy, const NameHierarchy& toNameHierarchy
-) const
+std::vector<Id> PersistentStorage::getNodeIdsForNameHierarchies(const std::vector<NameHierarchy> nameHierarchies) const
 {
-	Id sourceId = getIdForNodeWithNameHierarchy(fromNameHierarchy);
-	Id targetId = getIdForNodeWithNameHierarchy(toNameHierarchy);
-	return m_sqliteStorage.getEdgeBySourceTargetType(sourceId, targetId, type).id;
+	std::vector<Id> nodeIds;
+	for (const NameHierarchy& name : nameHierarchies)
+	{
+		Id nodeId = getNodeIdForNameHierarchy(name);
+		if (nodeId)
+		{
+			nodeIds.push_back(nodeId);
+		}
+	}
+	return nodeIds;
 }
 
-StorageEdge PersistentStorage::getEdgeById(Id edgeId) const
-{
-	return m_sqliteStorage.getEdgeById(edgeId);
-}
-
-NameHierarchy PersistentStorage::getNameHierarchyForNodeWithId(Id nodeId) const
+NameHierarchy PersistentStorage::getNameHierarchyForNodeId(Id nodeId) const
 {
 	TRACE();
 
 	return NameHierarchy::deserialize(m_sqliteStorage.getFirstById<StorageNode>(nodeId).serializedName);
-}
-
-Node::NodeType PersistentStorage::getNodeTypeForNodeWithId(Id nodeId) const
-{
-	return Node::intToType(m_sqliteStorage.getFirstById<StorageNode>(nodeId).type);
 }
 
 std::vector<NameHierarchy> PersistentStorage::getNameHierarchiesForNodeIds(const std::vector<Id> nodeIds) const
@@ -501,18 +501,33 @@ std::vector<NameHierarchy> PersistentStorage::getNameHierarchiesForNodeIds(const
 	return nameHierarchies;
 }
 
-std::vector<Id> PersistentStorage::getNodeIdsForNameHierarchies(const std::vector<NameHierarchy> nameHierarchies) const
+Node::NodeType PersistentStorage::getNodeTypeForNodeWithId(Id nodeId) const
 {
-	std::vector<Id> nodeIds;
-	for (const NameHierarchy& name : nameHierarchies)
-	{
-		Id nodeId = getIdForNodeWithNameHierarchy(name);
-		if (nodeId)
-		{
-			nodeIds.push_back(nodeId);
-		}
-	}
-	return nodeIds;
+	return Node::intToType(m_sqliteStorage.getFirstById<StorageNode>(nodeId).type);
+}
+
+bool PersistentStorage::checkNodeExistsByName(const std::string& serializedName) const
+{
+	return m_sqliteStorage.checkNodeExistsByName(serializedName);
+}
+
+Id PersistentStorage::getIdForEdge(
+	Edge::EdgeType type, const NameHierarchy& fromNameHierarchy, const NameHierarchy& toNameHierarchy
+) const
+{
+	Id sourceId = getNodeIdForNameHierarchy(fromNameHierarchy);
+	Id targetId = getNodeIdForNameHierarchy(toNameHierarchy);
+	return m_sqliteStorage.getEdgeBySourceTargetType(sourceId, targetId, type).id;
+}
+
+StorageEdge PersistentStorage::getEdgeById(Id edgeId) const
+{
+	return m_sqliteStorage.getEdgeById(edgeId);
+}
+
+bool PersistentStorage::checkEdgeExists(Id edgeId) const
+{
+	return m_sqliteStorage.checkEdgeExists(edgeId);
 }
 
 std::shared_ptr<TokenLocationCollection> PersistentStorage::getFullTextSearchLocations(
@@ -1019,11 +1034,6 @@ std::vector<Id> PersistentStorage::getActiveTokenIdsForId(Id tokenId, Id* declar
 	return activeTokenIds;
 }
 
-bool PersistentStorage::checkEdgeExists(Id edgeId) const
-{
-	return m_sqliteStorage.checkEdgeExists(edgeId);
-}
-
 std::vector<Id> PersistentStorage::getNodeIdsForLocationIds(const std::vector<Id>& locationIds) const
 {
 	TRACE();
@@ -1073,33 +1083,6 @@ std::vector<Id> PersistentStorage::getNodeIdsForLocationIds(const std::vector<Id
 	}
 
 	return utility::toVector(edgeIds);
-}
-
-std::vector<Id> PersistentStorage::getLocalSymbolIdsForLocationIds(const std::vector<Id>& locationIds) const
-{
-	std::set<Id> localSymbolIds;
-
-	for (const StorageOccurrence& occurrence: m_sqliteStorage.getOccurrencesForLocationIds(locationIds))
-	{
-		Id elementId = occurrence.elementId;
-
-		if (m_sqliteStorage.getFirstById<StorageNode>(elementId).id == 0 && m_sqliteStorage.getFirstById<StorageEdge>(elementId).id == 0)
-		{
-			localSymbolIds.insert(elementId);
-		}
-	}
-
-	return utility::toVector(localSymbolIds);
-}
-
-bool PersistentStorage::checkNodeExistsByName(const std::string& serializedName) const
-{
-	return m_sqliteStorage.checkNodeExistsByName(serializedName);
-}
-
-Id PersistentStorage::getTokenIdForFileNode(const FilePath& filePath) const
-{
-	return m_sqliteStorage.getFileByPath(filePath.str()).id;
 }
 
 std::shared_ptr<TokenLocationCollection> PersistentStorage::getTokenLocationsForTokenIds(

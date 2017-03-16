@@ -96,16 +96,20 @@ public:
 	void optimizeMemory();
 
 	// StorageAccess implementation
-	virtual Id getIdForNodeWithNameHierarchy(const NameHierarchy& nameHierarchy) const;
+	virtual Id getNodeIdForFileNode(const FilePath& filePath) const;
+	virtual Id getNodeIdForNameHierarchy(const NameHierarchy& nameHierarchy) const;
+	virtual std::vector<Id> getNodeIdsForNameHierarchies(const std::vector<NameHierarchy> nameHierarchies) const;
+
+	virtual NameHierarchy getNameHierarchyForNodeId(Id nodeId) const;
+	virtual std::vector<NameHierarchy> getNameHierarchiesForNodeIds(const std::vector<Id> nodeIds) const;
+
+	virtual Node::NodeType getNodeTypeForNodeWithId(Id nodeId) const;
+	virtual bool checkNodeExistsByName(const std::string& serializedName) const;
+
 	virtual Id getIdForEdge(
 		Edge::EdgeType type, const NameHierarchy& fromNameHierarchy, const NameHierarchy& toNameHierarchy) const;
 	virtual StorageEdge getEdgeById(Id edgeId) const;
-
-	virtual NameHierarchy getNameHierarchyForNodeWithId(Id nodeId) const;
-	virtual Node::NodeType getNodeTypeForNodeWithId(Id nodeId) const;
-
-	virtual std::vector<NameHierarchy> getNameHierarchiesForNodeIds(const std::vector<Id> nodeIds) const;
-	virtual std::vector<Id> getNodeIdsForNameHierarchies(const std::vector<NameHierarchy> nameHierarchies) const;
+	virtual bool checkEdgeExists(Id edgeId) const;
 
 	virtual std::shared_ptr<TokenLocationCollection> getFullTextSearchLocations(
 			const std::string& searchTerm, bool caseSensitive) const;
@@ -119,14 +123,7 @@ public:
 	virtual std::shared_ptr<Graph> getGraphForActiveTokenIds(const std::vector<Id>& tokenIds, bool* isActiveNamespace = nullptr) const;
 
 	virtual std::vector<Id> getActiveTokenIdsForId(Id tokenId, Id* declarationId) const;
-
-	virtual bool checkEdgeExists(Id edgeId) const;
-
 	virtual std::vector<Id> getNodeIdsForLocationIds(const std::vector<Id>& locationIds) const;
-	virtual std::vector<Id> getLocalSymbolIdsForLocationIds(const std::vector<Id>& locationIds) const;
-	virtual bool checkNodeExistsByName(const std::string& serializedName) const;
-
-	virtual Id getTokenIdForFileNode(const FilePath& filePath) const;
 
 	virtual std::shared_ptr<TokenLocationCollection> getTokenLocationsForTokenIds(
 			const std::vector<Id>& tokenIds
@@ -176,9 +173,7 @@ private:
 	void addNodesToGraph(const std::vector<Id>& nodeIds, Graph* graph) const;
 	void addEdgesToGraph(const std::vector<Id>& edgeIds, Graph* graph) const;
 	void addNodesWithChildrenAndEdgesToGraph(
-			const std::vector<Id>& nodeIds,
-			const std::vector<Id>& edgeIds, Graph* graph
-	) const;
+		const std::vector<Id>& nodeIds, const std::vector<Id>& edgeIds, Graph* graph) const;
 
 	void addAggregationEdgesToGraph(const Id nodeId, const std::vector<StorageEdge>& edgesToAggregate, Graph* graph) const;
 	void addComponentAccessToGraph(Graph* graph) const;

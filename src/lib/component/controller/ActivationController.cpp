@@ -49,7 +49,7 @@ void ActivationController::handleMessage(MessageActivateEdge* message)
 
 void ActivationController::handleMessage(MessageActivateFile* message)
 {
-	Id fileId = m_storageAccess->getTokenIdForFileNode(message->filePath);
+	Id fileId = m_storageAccess->getNodeIdForFileNode(message->filePath);
 
 	if (fileId)
 	{
@@ -80,7 +80,7 @@ void ActivationController::handleMessage(MessageActivateNodes* message)
 	MessageActivateTokens m(message);
 	for (const MessageActivateNodes::ActiveNode& node : message->nodes)
 	{
-		Id nodeId = node.nodeId ? node.nodeId : m_storageAccess->getIdForNodeWithNameHierarchy(node.nameHierarchy);
+		Id nodeId = node.nodeId ? node.nodeId : m_storageAccess->getNodeIdForNameHierarchy(node.nameHierarchy);
 		if (nodeId > 0)
 		{
 			m.tokenIds.push_back(nodeId);
@@ -146,7 +146,7 @@ void ActivationController::handleMessage(MessageActivateTokenLocations* message)
 	MessageActivateNodes m;
 	for (Id nodeId : m_storageAccess->getNodeIdsForLocationIds(message->locationIds))
 	{
-		m.addNode(nodeId, m_storageAccess->getNameHierarchyForNodeWithId(nodeId));
+		m.addNode(nodeId, m_storageAccess->getNameHierarchyForNodeId(nodeId));
 	}
 	m.dispatchImmediately();
 }

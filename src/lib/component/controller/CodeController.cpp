@@ -614,7 +614,7 @@ std::vector<CodeSnippetParams> CodeController::getSnippetsForFile(
 			)->forEachStartTokenLocation( // this TokenLocationFile only contains a single StartTokenLocation.
 				[&](TokenLocation* location)
 				{
-					params.title = m_storageAccess->getNameHierarchyForNodeWithId(location->getTokenId()).getQualifiedName();
+					params.title = m_storageAccess->getNameHierarchyForNodeId(location->getTokenId()).getQualifiedName();
 					params.titleId = location->getId();
 				}
 			);
@@ -640,7 +640,7 @@ std::vector<CodeSnippetParams> CodeController::getSnippetsForFile(
 			)->forEachStartTokenLocation( // this TokenLocationFile only contains a single StartTokenLocation.
 				[&](TokenLocation* location)
 				{
-					params.footer = m_storageAccess->getNameHierarchyForNodeWithId(location->getTokenId()).getQualifiedName();
+					params.footer = m_storageAccess->getNameHierarchyForNodeId(location->getTokenId()).getQualifiedName();
 					params.footerId = location->getId();
 				}
 			);
@@ -791,7 +791,7 @@ std::vector<std::string> CodeController::getProjectDescription(TokenLocationFile
 			std::string serializedName = line.substr(posA + 1, posB - posA - 1);
 
 			NameHierarchy nameHierarchy = NameHierarchy::deserialize(serializedName);
-			Id tokenId = m_storageAccess->getIdForNodeWithNameHierarchy(nameHierarchy);
+			Id tokenId = m_storageAccess->getNodeIdForNameHierarchy(nameHierarchy);
 
 			std::string nameString = nameHierarchy.getQualifiedName();
 			if (tokenId > 0)

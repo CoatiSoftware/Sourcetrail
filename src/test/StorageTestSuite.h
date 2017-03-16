@@ -29,7 +29,7 @@ public:
 
 		storage.inject(intermetiateStorage.get());
 
-		TS_ASSERT_EQUALS(storage.getNameHierarchyForNodeWithId(id).getQualifiedName(), filePath);
+		TS_ASSERT_EQUALS(storage.getNameHierarchyForNodeId(id).getQualifiedName(), filePath);
 		TS_ASSERT_EQUALS(storage.getNodeTypeForNodeWithId(id), Node::NODE_FILE);
 
 	}
@@ -44,7 +44,7 @@ public:
 
 		storage.inject(intermetiateStorage.get());
 
-		Id storedId = storage.getIdForNodeWithNameHierarchy(a);
+		Id storedId = storage.getNodeIdForNameHierarchy(a);
 
 		TS_ASSERT(storedId != 0);
 		TS_ASSERT_EQUALS(storage.getNodeTypeForNodeWithId(storedId), Node::NODE_TYPEDEF);

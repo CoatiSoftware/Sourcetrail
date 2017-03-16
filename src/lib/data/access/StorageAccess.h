@@ -13,7 +13,6 @@
 #include "data/bookmark/BookmarkCategory.h"
 #include "data/bookmark/EdgeBookmark.h"
 #include "data/bookmark/NodeBookmark.h"
-#include "data/parser/ParseLocation.h"
 #include "data/graph/Node.h"
 #include "data/search/SearchMatch.h"
 #include "data/ErrorCountInfo.h"
@@ -26,26 +25,26 @@ class TextAccess;
 class TokenLocation;
 class TokenLocationCollection;
 class TokenLocationFile;
-class TimePoint;
 
 class StorageAccess
 {
 public:
 	virtual ~StorageAccess();
 
-	virtual Id getIdForNodeWithNameHierarchy(const NameHierarchy& nameHierarchy) const = 0;
-	virtual Id getIdForEdge(
-		Edge::EdgeType type, const NameHierarchy& fromNameHierarchy, const NameHierarchy& toNameHierarchy) const = 0;
-	virtual StorageEdge getEdgeById(Id edgeId) const = 0;
+	virtual Id getNodeIdForFileNode(const FilePath& filePath) const = 0;
+	virtual Id getNodeIdForNameHierarchy(const NameHierarchy& nameHierarchy) const = 0;
+	virtual std::vector<Id> getNodeIdsForNameHierarchies(const std::vector<NameHierarchy> nameHierarchies) const = 0;
 
-	virtual bool checkEdgeExists(Id edgeId) const = 0;
+	virtual NameHierarchy getNameHierarchyForNodeId(Id id) const = 0;
+	virtual std::vector<NameHierarchy> getNameHierarchiesForNodeIds(const std::vector<Id> nodeIds) const = 0;
 
-	virtual NameHierarchy getNameHierarchyForNodeWithId(Id id) const = 0;
 	virtual Node::NodeType getNodeTypeForNodeWithId(Id id) const = 0;
 	virtual bool checkNodeExistsByName(const std::string& serializedName) const = 0;
 
-	virtual std::vector<NameHierarchy> getNameHierarchiesForNodeIds(const std::vector<Id> nodeIds) const = 0;
-	virtual std::vector<Id> getNodeIdsForNameHierarchies(const std::vector<NameHierarchy> nameHierarchies) const = 0;
+	virtual Id getIdForEdge(
+		Edge::EdgeType type, const NameHierarchy& fromNameHierarchy, const NameHierarchy& toNameHierarchy) const = 0;
+	virtual StorageEdge getEdgeById(Id edgeId) const = 0;
+	virtual bool checkEdgeExists(Id edgeId) const = 0;
 
 	virtual std::shared_ptr<TokenLocationCollection> getFullTextSearchLocations(
 			const std::string& searchTerm, bool caseSensitive) const = 0;
@@ -56,11 +55,7 @@ public:
 	virtual std::shared_ptr<Graph> getGraphForActiveTokenIds(const std::vector<Id>& tokenIds, bool* isActiveNamespace = nullptr) const = 0;
 
 	virtual std::vector<Id> getActiveTokenIdsForId(Id tokenId, Id* declarationId) const = 0;
-
 	virtual std::vector<Id> getNodeIdsForLocationIds(const std::vector<Id>& locationIds) const = 0;
-	virtual std::vector<Id> getLocalSymbolIdsForLocationIds(const std::vector<Id>& locationIds) const = 0;
-
-	virtual Id getTokenIdForFileNode(const FilePath& filePath) const = 0;
 
 	virtual std::shared_ptr<TokenLocationCollection> getTokenLocationsForTokenIds(
 			const std::vector<Id>& tokenIds) const = 0;

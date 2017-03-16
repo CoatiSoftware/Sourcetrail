@@ -116,7 +116,7 @@ void IDECommunicationController::handleSetActiveTokenMessage(
 			}
 		}
 
-		Id fileId = m_storageAccess->getTokenIdForFileNode(message.fileLocation);
+		Id fileId = m_storageAccess->getNodeIdForFileNode(message.fileLocation);
 		if (fileId > 0)
 		{
 			MessageActivateFile(message.fileLocation, message.row).dispatchImmediately();

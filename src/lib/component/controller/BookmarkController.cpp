@@ -235,8 +235,8 @@ void BookmarkController::handleMessage(MessageActivateTokens* message)
 
 			tokenTypes.push_back(typeId);
 
-			NameHierarchy sourceHierarchy = m_storageAccess->getNameHierarchyForNodeWithId(edge.sourceNodeId);
-			NameHierarchy targetHierarchy = m_storageAccess->getNameHierarchyForNodeWithId(edge.targetNodeId);
+			NameHierarchy sourceHierarchy = m_storageAccess->getNameHierarchyForNodeId(edge.sourceNodeId);
+			NameHierarchy targetHierarchy = m_storageAccess->getNameHierarchyForNodeId(edge.targetNodeId);
 
 			std::string sourceNode = NameHierarchy::serialize(sourceHierarchy);
 			std::string targetNode = NameHierarchy::serialize(targetHierarchy);
@@ -498,7 +498,7 @@ std::vector<std::string> BookmarkController::getTokenNames(const std::vector<Id>
 
 	for (unsigned int i = 0; i < ids.size(); i++)
 	{
-		NameHierarchy nameHierarchy = m_storageAccess->getNameHierarchyForNodeWithId(ids[i]);
+		NameHierarchy nameHierarchy = m_storageAccess->getNameHierarchyForNodeId(ids[i]);
 		names.push_back(NameHierarchy::serialize(nameHierarchy));
 	}
 
@@ -511,7 +511,7 @@ std::vector<std::string> BookmarkController::getTokenDisplayNames(const std::vec
 
 	for (unsigned int i = 0; i < ids.size(); i++)
 	{
-		NameHierarchy nameHierarchy = m_storageAccess->getNameHierarchyForNodeWithId(ids[i]);
+		NameHierarchy nameHierarchy = m_storageAccess->getNameHierarchyForNodeId(ids[i]);
 		names.push_back(nameHierarchy.getRawName());
 	}
 
@@ -533,7 +533,7 @@ std::vector<int> BookmarkController::getTokenTypes(const std::vector<Id>& ids) c
 
 std::string BookmarkController::getDisplayName(Id id) const
 {
-	NameHierarchy nameHierarchy = m_storageAccess->getNameHierarchyForNodeWithId(id);
+	NameHierarchy nameHierarchy = m_storageAccess->getNameHierarchyForNodeId(id);
 	return nameHierarchy.getRawName();
 }
 
