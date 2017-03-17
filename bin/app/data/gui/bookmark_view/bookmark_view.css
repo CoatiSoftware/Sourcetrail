@@ -1,29 +1,11 @@
 /* General settings */
 * {
-	font-size: <setting:font_size+4>px;
+	font-size: 16px;
 	/* font-family: "<setting:font_name>"; */
 }
 
-QPushButton {
-	border: 2px;
-	border-style: solid;
-	border-color: #dadada;
-	background: #f6f6f6;
-	background-position: 15px 5px;
-	border-radius: 12px;
-	margin: 2px;
-	width: 30px;
-	height: 25px;
-}
-
-QPushButton:hover {
-	background: #dadada;
-	/* color: white; */
-}
-
 #header {
-	background-color: #2d3e88;
-	/* background-color: transparent; */
+	background-color: #2E3C86;
 }
 
 #body {
@@ -36,7 +18,7 @@ QPushButton:hover {
 /* header */
 
 #header_background {
-	background-color: #2e3f83;
+	background-color: #2E3C86;
 	border-top-left-radius: 15px;
 	border-bottom-left-radius: 15px;
 }
@@ -106,7 +88,7 @@ QPushButton:hover {
 }
 
 #close_button:hover {
-	background: #2e3f83;
+	background: #2E3C86;
 	color: white;
 }
 
@@ -174,7 +156,8 @@ QPushButton:hover {
 #bookmark_button, #show_bookmark_button {
 	background: <color:search/button/normal>;
 	border: none;
-	border-radius: 12px;
+	height: 30px;
+	width: 30px;
 }
 
 #bookmark_button:disabled, #show_bookmark_button:disabled {
@@ -190,121 +173,48 @@ QPushButton:hover {
 }
 
 #bookmark_button {
-	border-bottom-right-radius: 0px;
-	border-top-right-radius: 0px;
+	border-bottom-left-radius: 12px;
+	border-top-left-radius: 12px;
 	margin: 0px;
 	margin-right: 2px;
 }
 
 #show_bookmark_button {
-	border-bottom-left-radius: 0px;
-	border-top-left-radius: 0px;
+	border-bottom-right-radius: 12px;
+	border-top-right-radius: 12px;
 	margin: 0px;
 }
 
 /* Bookmark creator */
 
 #creator_header_background {
-	background-color: #2e3f83;
+	background-color: #2E3C86;
 	border-top-left-radius: 15px;
 	border-top-right-radius: 15px;
 }
 
-#display_name_edit {
-	border: 2px;
-	border-style: solid;
-	border-color: #dadada;
-	background: white;
-	border-radius: 12px;
-	margin-left: 30px;
-	margin-right: 30px;
-	min-height: 30px;
-	max-height: 30px;
-}
-
-#comment_box {
-	border: 2px;
-	border-style: solid;
-	border-color: #dadada;
-	background: white;
-	border-radius: 12px;
-	margin-left: 30px;
-	margin-right: 30px;
-	max-height: 160px;
-	min-height: 160px;
-}
-
-/*
-#category_box {
-	border: 2px;
-	border-style: solid;
-	border-color: #dadada;
-	background: white;
-	border-radius: 8px;
-	margin-left: 30px;
-	margin-right: 30px;
-	margin-bottom: 50px;
-	min-height: 30px;
-	max-height: 30px;
-}
-
-#category_box::down-arrow {
-	image: url(<setting:gui_path>bookmark_view/images/arrow_down.png);
-}
-/**/
-
-#category_box {
-	margin-left: 30px;
-	margin-right: 30px;
-	margin-bottom: 50px;
-	min-height: 30px;
-	max-height: 30px;
-	border-color: #dadada;
-}
-
-#creator_title_label, #creator_name_label, #creator_comment_label, #category_label {
-	font-size: <setting:font_size+4>px;
-	font-weight: bold;
-	margin-left: 30px;
-	margin-right: 30px;
-}
-
 #creator_title_label {
-	font-size: <setting:font_size+6>px;
-	color: white;
-	margin-top: 25px;
-	margin-bottom: 0px;
-}
-
-#creator_name_label {
-	margin-top: 40px;
-}
-
-#creator_comment_label {
-	margin-top: 30px;
-}
-
-#category_label {
-	margin-top: 35px;
-}
-
-#creator_cancel_button, #creator_create_button {
-	min-width: 130px;
-	max-width: 130px;
-	margin-left: 30px;
-	margin-right: 30px;
-	margin-bottom: 20px;
-	background-color: white;
-	border-color: black;
-}
-
-
-#creator_cancel_button:hover {
-	background: #2e3f83;
+	font-size: 18px;
+	font-weight: bold;
 	color: white;
 }
 
-#creator_create_button:hover {
-	background: #2e3f83;
-	color: white;
+#creator_label {
+	font-size: 14px;
+	font-weight: bold;
+}
+
+#creator_name_edit, #creator_comment_box {
+	border: 1px;
+	border-style: solid;
+	border-color: #dadada;
+	background: white;
+	border-radius: 12px;
+	min-height: 30px;
+	padding: 3px;
+	padding-left: 5px;
+}
+
+#creator_comment_box {
+	min-height: 160px;
 }

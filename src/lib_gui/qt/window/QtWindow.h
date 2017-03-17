@@ -77,6 +77,7 @@ protected:
 
 	void setupDone();
 	void addLogo();
+	QHBoxLayout* createButtons();
 
 	QWidget* m_window;
 	QWidget* m_content;

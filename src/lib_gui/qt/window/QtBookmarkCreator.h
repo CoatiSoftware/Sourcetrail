@@ -3,12 +3,8 @@
 
 #include <QComboBox>
 #include <QLineEdit>
-#include <QLabel>
-#include <QPushButton>
 #include <QTextEdit>
 #include <QWidget>
-
-#include <QVBoxLayout>
 
 #include "qt/window/QtWindow.h"
 
@@ -22,7 +18,7 @@ class QtBookmarkCreator
 	Q_OBJECT
 
 public:
-	QtBookmarkCreator(QWidget* parent = nullptr, bool edit = false, Id id = -1);
+	QtBookmarkCreator(QWidget* parent = nullptr, bool edit = false, Id id = 0);
 	~QtBookmarkCreator();
 
 	void setupBookmarkCreator();
@@ -31,45 +27,32 @@ public:
 
 	void setDisplayName(const std::string& name);
 	void setComment(const std::string& comment);
-	
+
 	void setBookmarkCategories(const std::vector<BookmarkCategory>& categories);
 	void setCurrentBookmarkCategory(const BookmarkCategory& category);
 
 	bool getIsEdge() const;
 	void setIsEdge(const bool isEdge);
 
+protected:
+	void resizeEvent(QResizeEvent* event) Q_DECL_OVERRIDE;
+
+	virtual void handleNext() override;
+	virtual void handleClose() override;
+
 private slots:
 	void onNameChanged(const QString& text);
-	void onCommentChanged();
-	void onCategoryChanged(const QString& text);
 	void onComboBoxIndexChanged(int index);
-
-	void cancel();
-	void create();
 
 private:
 	bool m_edit;
 	Id m_bookmarkId; // important for editing
 
-	QLabel* m_title;
-	QLabel* m_nameLabel;
-	QLabel* m_commentLabel;
-	QLabel* m_categoryLabel;
-
 	QLineEdit* m_displayName;
 	QTextEdit* m_commentBox;
 	QComboBox* m_categoryBox;
 
-	QPushButton* m_cancelButton;
-	QPushButton* m_createButton;
-
-	QVBoxLayout* m_layout;
-
 	int m_categoryCount;
-
-	static QString m_namePlaceholder;
-	static QString m_commentPlaceholder;
-	static QString m_categoryPlaceholder;
 
 	bool m_isEdge;
 

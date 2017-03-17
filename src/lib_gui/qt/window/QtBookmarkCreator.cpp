@@ -1,6 +1,8 @@
 #include "QtBookmarkCreator.h"
 
 #include <QHBoxLayout>
+#include <QLabel>
+#include <QVBoxLayout>
 
 #include "data/bookmark/BookmarkCategory.h"
 
@@ -11,12 +13,6 @@
 #include "utility/ResourcePaths.h"
 
 #include "qt/utility/utilityQt.h"
-#include "settings/ApplicationSettings.h"
-#include "settings/ColorScheme.h"
-
-QString QtBookmarkCreator::m_namePlaceholder = "Name";
-QString QtBookmarkCreator::m_commentPlaceholder = "Comment";
-QString QtBookmarkCreator::m_categoryPlaceholder = "Category";
 
 QtBookmarkCreator::QtBookmarkCreator(QWidget* parent, bool edit, Id id)
 	: QtWindow(parent)
@@ -32,99 +28,94 @@ QtBookmarkCreator::~QtBookmarkCreator()
 
 void QtBookmarkCreator::setupBookmarkCreator()
 {
-	m_displayName = new QLineEdit(this);
-	m_displayName->setObjectName("display_name_edit");
-	m_commentBox = new QTextEdit(this);
-	m_commentBox->setObjectName("comment_box");
-	m_categoryBox = new QComboBox(this);
-	m_categoryBox->setObjectName("category_box");
+	QVBoxLayout* layout = new QVBoxLayout(this);
+	layout->setContentsMargins(30, 33, 30, 40);
 
-	m_title = new QLabel();
-	if (m_edit == true)
 	{
-		m_title->setText("Edit Bookmark");
-	}
-	else
-	{
-		m_title->setText("Create Bookmark");
-	}
-	m_title->setObjectName("creator_title_label");
-	m_nameLabel = new QLabel();
-	m_nameLabel->setText("Bookmark:");
-	m_nameLabel->setObjectName("creator_name_label");
-	m_commentLabel = new QLabel();
-	m_commentLabel->setText("Comment:");
-	m_commentLabel->setObjectName("creator_comment_label");
-	m_categoryLabel = new QLabel();
-	m_categoryLabel->setText("Choose or Create Bookmark:");
-	m_categoryLabel->setObjectName("category_label");
+		// title
+		QLabel* title = new QLabel(m_edit ? "Edit Bookmark" : "Create Bookmark");
+		title->setObjectName("creator_title_label");
+		layout->addWidget(title);
 
-	m_categoryBox->addItem("");
-	m_categoryBox->setEditable(true);
-	m_categoryBox->setInsertPolicy(QComboBox::InsertPolicy::InsertAtTop);
-
-	m_categoryCount = m_categoryBox->count();
-
-	m_cancelButton = new QPushButton(this);
-	m_cancelButton->setObjectName("creator_cancel_button");
-	m_cancelButton->setText("Cancel");
-	m_createButton = new QPushButton(this);
-	m_createButton->setObjectName("creator_create_button");
-	if (m_edit)
-	{
-		m_createButton->setText("Save");
-	}
-	else
-	{
-		m_createButton->setText("Create");
+		layout->addSpacing(30);
 	}
 
-	m_commentBox->setPlaceholderText(m_commentPlaceholder);
-	m_displayName->setPlaceholderText(m_namePlaceholder);
-	m_categoryBox->lineEdit()->setPlaceholderText(m_categoryPlaceholder);
+	{
+		// name
+		QLabel* nameLabel = new QLabel("Bookmark:");
+		nameLabel->setObjectName("creator_label");
+		layout->addWidget(nameLabel);
 
-	m_createButton->setEnabled(false);
+		m_displayName = new QLineEdit();
+		m_displayName->setObjectName("creator_name_edit");
+		m_displayName->setPlaceholderText("Name");
+		m_displayName->setAttribute(Qt::WA_MacShowFocusRect, 0);
+		layout->addWidget(m_displayName);
 
-	connect(m_displayName, SIGNAL(textChanged(const QString&)), this, SLOT(onNameChanged(const QString&)));
-	connect(m_commentBox, SIGNAL(textChanged()), this, SLOT(onCommentChanged()));
-	connect(m_categoryBox, SIGNAL(currentTextChanged(const QString&)), this, SLOT(onCategoryChanged(const QString&)));
-	connect(m_categoryBox, SIGNAL(currentIndexChanged(int)), this, SLOT(onComboBoxIndexChanged(int)));
-	connect(m_cancelButton, SIGNAL(clicked()), this, SLOT(cancel()));
-	connect(m_createButton, SIGNAL(clicked()), this, SLOT(create()));
+		connect(m_displayName, SIGNAL(textChanged(const QString&)), this, SLOT(onNameChanged(const QString&)));
 
-	m_layout = new QVBoxLayout(this);
-	m_layout->addWidget(m_title);
-	m_layout->addWidget(m_nameLabel);
-	m_layout->addWidget(m_displayName);
-	m_layout->addWidget(m_commentLabel);
-	m_layout->addWidget(m_commentBox);
-	m_layout->addWidget(m_categoryLabel);
-	m_layout->addWidget(m_categoryBox);
+		layout->addSpacing(15);
+	}
 
-	QHBoxLayout* buttonLayout = new QHBoxLayout(this);
+	{
+		// comment
+		QLabel* commentLabel = new QLabel("Comment:");
+		commentLabel->setObjectName("creator_label");
+		layout->addWidget(commentLabel);
 
-	buttonLayout->addWidget(m_cancelButton);
-	buttonLayout->setAlignment(m_cancelButton, Qt::AlignLeft);
-	buttonLayout->addWidget(m_createButton);
-	buttonLayout->setAlignment(m_createButton, Qt::AlignRight);
+		m_commentBox = new QTextEdit();
+		m_commentBox->setObjectName("creator_comment_box");
+		m_commentBox->setPlaceholderText("Comment");
+		layout->addWidget(m_commentBox);
 
-	m_layout->addLayout(buttonLayout);
+		layout->addSpacing(15);
+	}
 
-	m_headerBackground = new QWidget(m_window);
-	m_headerBackground->setObjectName("creator_header_background");
-	m_headerBackground->setGeometry(0, 0, 0, 0);
-	m_headerBackground->show();
-	m_headerBackground->lower();
+	{
+		// category
+		QLabel* categoryLabel = new QLabel("Choose or Create Category:");
+		categoryLabel->setObjectName("creator_label");
+		layout->addWidget(categoryLabel);
 
-	setFixedSize(QSize(500, 580));
+		m_categoryBox = new QComboBox();
+		m_categoryBox->setObjectName("creator_category_box");
+		m_categoryBox->addItem("");
+		m_categoryBox->setEditable(true);
+		m_categoryBox->lineEdit()->setPlaceholderText("Category");
+		m_categoryBox->setInsertPolicy(QComboBox::InsertPolicy::InsertAtTop);
+		layout->addWidget(m_categoryBox);
+
+		connect(m_categoryBox, SIGNAL(currentIndexChanged(int)), this, SLOT(onComboBoxIndexChanged(int)));
+
+		m_categoryCount = m_categoryBox->count();
+
+		layout->addSpacing(20);
+	}
+
+	{
+		layout->addLayout(createButtons());
+		setPreviousVisible(false);
+		updateNextButton(m_edit ? "Save" : "Create");
+	}
+
+	{
+		// header
+		m_headerBackground = new QWidget(m_window);
+		m_headerBackground->setObjectName("creator_header_background");
+		m_headerBackground->setGeometry(0, 0, 0, 0);
+		m_headerBackground->show();
+		m_headerBackground->lower();
+	}
+
 	refreshStyle();
-
-	m_headerBackground->setGeometry(0, 0, size().width() - 10, 70);
 }
 
 void QtBookmarkCreator::refreshStyle()
 {
-	setStyleSheet(utility::getStyleSheet(ResourcePaths::getGuiPath() + "bookmark_view/bookmark_view.css").c_str());
+	setStyleSheet((
+		utility::getStyleSheet(ResourcePaths::getGuiPath() + "window/window.css") +
+		utility::getStyleSheet(ResourcePaths::getGuiPath() + "bookmark_view/bookmark_view.css")
+	).c_str());
 }
 
 void QtBookmarkCreator::setDisplayName(const std::string& name)
@@ -170,29 +161,42 @@ void QtBookmarkCreator::setIsEdge(const bool isEdge)
 	m_isEdge = isEdge;
 }
 
-void QtBookmarkCreator::onNameChanged(const QString& text)
+void QtBookmarkCreator::resizeEvent(QResizeEvent* event)
 {
-	if (text.length() > 0)
+	QtWindow::resizeEvent(event);
+
+	m_headerBackground->setGeometry(0, 0, m_window->size().width(), 60);
+}
+
+void QtBookmarkCreator::handleNext()
+{
+	QString qComment = m_commentBox->toPlainText();
+	QString qDisplayName = m_displayName->text();
+	QString qCategory = m_categoryBox->currentText();
+
+	if (m_edit)
 	{
-		m_createButton->setEnabled(true);
+		MessageEditBookmark(
+			m_bookmarkId, qComment.toStdString(), qDisplayName.toStdString(), qCategory.toStdString(), m_isEdge).dispatch();
 	}
 	else
 	{
-		m_createButton->setEnabled(false);
+		MessageCreateBookmark(qComment.toStdString(), qDisplayName.toStdString(), qCategory.toStdString()).dispatch();
 	}
+
+	MessageStatus("Creating Bookmark for active Token").dispatch();
+
+	close();
 }
 
-void QtBookmarkCreator::onCommentChanged()
+void QtBookmarkCreator::handleClose()
 {
-	/*if (m_commentBox->toPlainText().size() <= 0)
-	{
-		m_commentBox->
-	}*/
+	close();
 }
 
-void QtBookmarkCreator::onCategoryChanged(const QString& text)
+void QtBookmarkCreator::onNameChanged(const QString& text)
 {
-
+	setNextEnabled(text.length() > 0);
 }
 
 void QtBookmarkCreator::onComboBoxIndexChanged(int index)
@@ -205,29 +209,4 @@ void QtBookmarkCreator::onComboBoxIndexChanged(int index)
 
 		m_categoryCount = m_categoryBox->count();
 	}
-}
-
-void QtBookmarkCreator::cancel()
-{
-	close();
-}
-
-void QtBookmarkCreator::create()
-{
-	QString qComment = m_commentBox->toPlainText();
-	QString qDisplayName = m_displayName->text();
-	QString qCategory = m_categoryBox->currentText();
-
-	if (m_edit)
-	{
-		MessageEditBookmark(m_bookmarkId, qComment.toStdString(), qDisplayName.toStdString(), qCategory.toStdString(), m_isEdge).dispatch();
-	}
-	else
-	{
-		MessageCreateBookmark(qComment.toStdString(), qDisplayName.toStdString(), qCategory.toStdString()).dispatch();
-	}
-
-	MessageStatus("Creating Bookmark for active Token").dispatch();
-
-	close();
 }

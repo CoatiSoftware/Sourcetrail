@@ -107,7 +107,7 @@ void QtBookmarkBrowser::setupBookmarkBrowser()
 	m_bodyLayout->addWidget(m_bookmarkTree);
 
 	m_closeButton = new QPushButton(this);
-	m_closeButton->setObjectName("close_button");
+	m_closeButton->setObjectName("windowButton");
 	m_closeButton->setToolTip("Close Window");
 	m_closeButton->setText("Close");
 	m_closeButton->setAttribute(Qt::WA_LayoutUsesWidgetRect); // fixes layouting on Mac
@@ -117,7 +117,11 @@ void QtBookmarkBrowser::setupBookmarkBrowser()
 	connect(m_closeButton, SIGNAL(clicked()), this, SLOT(closeButtonClicked()));
 
 	setFixedSize(QSize(790, 600));
-	setStyleSheet(utility::getStyleSheet(ResourcePaths::getGuiPath() + "bookmark_view/bookmark_view.css").c_str());
+
+	setStyleSheet((
+		utility::getStyleSheet(ResourcePaths::getGuiPath() + "window/window.css") +
+		utility::getStyleSheet(ResourcePaths::getGuiPath() + "bookmark_view/bookmark_view.css")
+	).c_str());
 
 	m_headerBackground->setGeometry(0, 0, 247, size().height()-20);
 }

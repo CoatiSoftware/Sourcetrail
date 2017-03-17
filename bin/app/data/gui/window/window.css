@@ -110,6 +110,19 @@ QLabel, QCheckBox {
 	min-width: 5em;
 }
 
+#windowButton:hover {
+	color: white;
+	background: #2D3C86;
+}
+
+#windowButton:default {
+	border: 2px solid lightgray;
+}
+
+#windowButton:disabled {
+	color: lightgray;
+}
+
 #menuButton {
 	background: white;
 	border: none;
@@ -123,21 +136,8 @@ QLabel, QCheckBox {
 	width: 90px;
 }
 
-#windowButton:hover {
-	color: white;
-	background: #2D3C86;
-}
-
-#windowButton:default {
-	border: 2px solid lightgray;
-}
-
 #menuButton:hover, #menuButton:checked {
 	background: #CFD2E0;
-}
-
-#windowButton:disabled {
-	color: lightgray;
 }
 
 #projectContainer {

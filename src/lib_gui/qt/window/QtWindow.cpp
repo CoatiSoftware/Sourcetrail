@@ -124,28 +124,8 @@ void QtWindow::setup()
 		scrollArea->setObjectName("scrollArea");
 	}
 
-	{
-		m_nextButton = new QPushButton("Next");
-		m_nextButton->setObjectName("windowButton");
-		connect(m_nextButton, SIGNAL(clicked()), this, SLOT(handleNextPress()));
-
-		m_previousButton = new QPushButton("Previous");
-		m_previousButton->setObjectName("windowButton");
-		connect(m_previousButton, SIGNAL(clicked()), this, SLOT(handlePreviousPress()));
-
-		m_closeButton = new QPushButton("Cancel");
-		m_closeButton->setObjectName("windowButton");
-		connect(m_closeButton, SIGNAL(clicked()), this, SLOT(handleClosePress()));
-
-		QHBoxLayout* buttons = new QHBoxLayout();
-		buttons->addWidget(m_closeButton);
-		buttons->addStretch();
-		buttons->addWidget(m_previousButton);
-		buttons->addSpacing(3);
-		buttons->addWidget(m_nextButton);
-
-		layout->addLayout(buttons);
-	}
+	QHBoxLayout* buttonLayout = createButtons();
+	layout->addLayout(buttonLayout);
 
 	m_content->setLayout(layout);
 
@@ -457,6 +437,29 @@ void QtWindow::addLogo()
 
 	m_hasLogo = true;
 	resize(sizeHint());
+}
+
+QHBoxLayout* QtWindow::createButtons()
+{
+	m_nextButton = new QPushButton("Next");
+	m_nextButton->setObjectName("windowButton");
+	connect(m_nextButton, SIGNAL(clicked()), this, SLOT(handleNextPress()));
+
+	m_previousButton = new QPushButton("Previous");
+	m_previousButton->setObjectName("windowButton");
+	connect(m_previousButton, SIGNAL(clicked()), this, SLOT(handlePreviousPress()));
+
+	m_closeButton = new QPushButton("Cancel");
+	m_closeButton->setObjectName("windowButton");
+	connect(m_closeButton, SIGNAL(clicked()), this, SLOT(handleClosePress()));
+
+	QHBoxLayout* buttons = new QHBoxLayout();
+	buttons->addWidget(m_closeButton);
+	buttons->addStretch();
+	buttons->addWidget(m_previousButton);
+	buttons->addSpacing(3);
+	buttons->addWidget(m_nextButton);
+	return buttons;
 }
 
 void QtWindow::handleNextPress()

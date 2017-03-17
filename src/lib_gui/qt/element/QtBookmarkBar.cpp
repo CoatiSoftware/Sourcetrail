@@ -63,29 +63,23 @@ QtBookmarkBar::QtBookmarkBar()
 
 QtBookmarkBar::~QtBookmarkBar()
 {
-
 }
 
 void QtBookmarkBar::refreshStyle()
 {
-	setStyleSheet(utility::getStyleSheet(ResourcePaths::getGuiPath() + "bookmark_view/bookmark_view.css").c_str());
-
 	float height = std::max(ApplicationSettings::getInstance()->getFontSize() + 16, 30);
 
 	m_createBookmarkButton->setFixedHeight(height);
 	m_showBookmarksButton->setFixedHeight(height);
 
-	std::string createImage = ResourcePaths::getGuiPath() + "bookmark_view/images/edit_bookmark_icon.png";
-	std::string listImage = ResourcePaths::getGuiPath() + "bookmark_view/images/bookmark_list_icon.png";
-
-	m_createBookmarkButton->setIcon(utility::colorizePixmap(
-		QPixmap(createImage.c_str()),
-		ColorScheme::getInstance()->getColor("search/button/icon").c_str()
+	m_createBookmarkButton->setIcon(utility::createButtonIcon(
+		ResourcePaths::getGuiPath() + "bookmark_view/images/edit_bookmark_icon.png",
+		"search/button"
 	));
 
-	m_showBookmarksButton->setIcon(utility::colorizePixmap(
-		QPixmap(listImage.c_str()),
-		ColorScheme::getInstance()->getColor("search/button/icon").c_str()
+	m_showBookmarksButton->setIcon(utility::createButtonIcon(
+		ResourcePaths::getGuiPath() + "bookmark_view/images/bookmark_list_icon.png",
+		"search/button"
 	));
 }
 
@@ -223,11 +217,9 @@ void QtBookmarkBar::doSetCreateButtonState(const BookmarkView::CreateButtonState
 {
 	m_createButtonState = state;
 
-	std::string createImage = ResourcePaths::getGuiPath() + "bookmark_view/images/edit_bookmark_icon.png";
-
-	m_createBookmarkButton->setIcon(utility::colorizePixmap(
-		QPixmap(createImage.c_str()),
-		ColorScheme::getInstance()->getColor("search/button/icon").c_str()
+	m_createBookmarkButton->setIcon(utility::createButtonIcon(
+		ResourcePaths::getGuiPath() + "bookmark_view/images/edit_bookmark_icon.png",
+		"search/button"
 	));
 
 	if (state == BookmarkView::CreateButtonState::CAN_CREATE)
@@ -242,11 +234,9 @@ void QtBookmarkBar::doSetCreateButtonState(const BookmarkView::CreateButtonState
 	{
 		m_createBookmarkButton->setEnabled(true);
 
-		std::string createImage = ResourcePaths::getGuiPath() + "bookmark_view/images/bookmark_active.png";
-
-		m_createBookmarkButton->setIcon(utility::colorizePixmap(
-			QPixmap(createImage.c_str()),
-			ColorScheme::getInstance()->getColor("search/button/icon").c_str()
+		m_createBookmarkButton->setIcon(utility::createButtonIcon(
+			ResourcePaths::getGuiPath() + "bookmark_view/images/bookmark_active.png",
+			"search/button"
 		));
 	}
 	else
