@@ -1,5 +1,7 @@
 #include "qt/window/project_wizzard/QtProjectWizzardContent.h"
 
+#include <thread>
+
 #include <QMessageBox>
 
 #include "qt/window/QtTextEditDialog.h"
@@ -40,6 +42,7 @@ QtProjectWizzardContent::QtProjectWizzardContent(std::shared_ptr<ProjectSettings
 	, m_settings(settings)
 	, m_window(window)
 	, m_isInForm(false)
+	, m_showFilesFunctor(std::bind(&QtProjectWizzardContent::showFilesDialog, this, std::placeholders::_1))
 {
 }
 
@@ -147,10 +150,17 @@ void QtProjectWizzardContent::filesButtonClicked()
 {
 	m_window->saveContent();
 
+	std::thread([&](){
+		std::vector<std::string> fileNames = getFileNames();
+		m_showFilesFunctor(fileNames);
+
+	}).detach();
+}
+
+void QtProjectWizzardContent::showFilesDialog(const std::vector<std::string>& fileNames)
+{
 	if (!m_filesDialog)
 	{
-		std::vector<std::string> fileNames = getFileNames();
-
 		m_filesDialog = std::make_shared<QtTextEditDialog>(
 			getFileNamesTitle(), QString::number(fileNames.size()) + " " + getFileNamesDescription());
 		m_filesDialog->setup();

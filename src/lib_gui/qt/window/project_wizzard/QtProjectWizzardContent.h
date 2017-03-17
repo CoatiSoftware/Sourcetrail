@@ -7,6 +7,7 @@
 #include <QWidget>
 
 #include "qt/element/QtIconButton.h"
+#include "qt/utility/QtThreadedFunctor.h"
 #include "qt/window/project_wizzard/QtProjectWizzardWindow.h"
 #include "settings/ProjectSettings.h"
 
@@ -70,7 +71,10 @@ protected slots:
 	void closedFilesDialog();
 
 private:
+	void showFilesDialog(const std::vector<std::string>& fileNames);
+
 	bool m_isInForm;
+	QtThreadedFunctor<std::vector<std::string>> m_showFilesFunctor;
 };
 
 #endif // QT_PROJECT_WIZZARD_CONTENT_H

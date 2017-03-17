@@ -72,9 +72,9 @@ QtProjectWizzardContentPathSourceMaven::QtProjectWizzardContentPathSourceMaven(
 )
 	: QtProjectWizzardContentPath(settings, window)
 {
-	setTitleString("Maven Project Root");
+	setTitleString("Maven Project File");
 	setHelpString(
-		"Enter the root folder of your Maven project (where the main .pom file resides).<br />"
+		"Enter the path to the main .pom file of your Maven project.<br />"
 		"<br />"
 		"You can make use of environment variables with ${ENV_VAR}."
 	);
@@ -128,6 +128,7 @@ std::vector<std::string> QtProjectWizzardContentPathSourceMaven::getFileNames() 
 
 	std::vector<std::string> list;
 
+	Application::getInstance()->getDialogView()->showStatusDialog("Preparing Project", "Maven\nGenerating Source Files");
 	const bool success = utility::mavenGenerateSources(mavenPath, mavenProjectRoot);
 	if (!success)
 	{
@@ -141,6 +142,7 @@ std::vector<std::string> QtProjectWizzardContentPathSourceMaven::getFileNames() 
 	}
 	else
 	{
+		Application::getInstance()->getDialogView()->showStatusDialog("Preparing Project", "Maven\nFetching Source Directories");
 		const std::vector<FilePath> sourceDirectories = utility::mavenGetAllDirectoriesFromEffectivePom(
 			mavenPath,
 			mavenProjectRoot,
@@ -167,6 +169,7 @@ std::vector<std::string> QtProjectWizzardContentPathSourceMaven::getFileNames() 
 			list.push_back(path.str());
 		}
 	}
+	Application::getInstance()->getDialogView()->hideStatusDialog();
 
 	return list;
 }
