@@ -1,6 +1,7 @@
 package io.coati;
 
 import java.util.ArrayList;
+import java.util.Optional;
 
 import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.body.BodyDeclaration;
@@ -38,7 +39,7 @@ public class JavaSymbolSolverTypeNameResolver extends JavaNameResolver
 	}
 	
 	public JavaTypeName getQualifiedTypeName(Type type)
-	{ // , inferencevariabletype, , , , , typevar,
+	{
 		if (type instanceof ArrayType)
 		{
 			return getQualifiedTypeName(((ArrayType)type).getComponentType());
@@ -89,13 +90,13 @@ public class JavaSymbolSolverTypeNameResolver extends JavaNameResolver
 			if (typeParam instanceof JavaParserTypeParameter)
 			{
 				com.github.javaparser.ast.type.TypeParameter jpTypeParameter = ((JavaParserTypeParameter)typeParam).getWrappedNode();
-				BodyDeclaration<?> genericDecl = jpTypeParameter.getAncestorOfType(BodyDeclaration.class);
-				if (genericDecl instanceof BodyDeclaration)
+				Optional<BodyDeclaration> genericDecl = jpTypeParameter.getAncestorOfType(BodyDeclaration.class);
+				if (genericDecl.isPresent())
 				{ 
 					JavaDeclName genericName = null;
-					if (!ignoresContext((BodyDeclaration)genericDecl))
+					if (!ignoresContext(genericDecl.get()))
 					{
-						genericName = JavaparserDeclNameResolver.getQualifiedDeclName((BodyDeclaration)genericDecl, m_typeSolver, m_ignoredContexts);
+						genericName = JavaparserDeclNameResolver.getQualifiedDeclName(genericDecl.get(), m_typeSolver, m_ignoredContexts);
 					}
 					return new JavaTypeName(jpTypeParameter.getName().getId(), genericName);
 				}

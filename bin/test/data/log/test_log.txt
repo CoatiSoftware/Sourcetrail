@@ -72,3 +72,4 @@ TokenLocationCollection.cpp ERROR: TokenLocation has wrong boundaries: file.c 4:
  INFO: Indexer - indexing source file: input.cc
  INFO: Indexer - indexing source file: input.cc
  INFO: Indexer - indexing source file: input.cc
+ INFO: Indexer - indexing source file: input.cc

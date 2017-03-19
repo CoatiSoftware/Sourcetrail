@@ -44,7 +44,7 @@ public class JavaIndexer
 						System.out.println("unable to add jar file: " + path);
 					}
 				}
-				else
+				else if (!path.isEmpty())
 				{
 					JavaParserTypeSolver solver = new JavaParserTypeSolver(new File(path));
 					typeSolver.add(solver);
@@ -64,8 +64,8 @@ public class JavaIndexer
 		{
 			for (Problem problem: e.getProblems())
 			{
-				String message = problem.getMessage();
-				if (message.startsWith("Encountered unexpected token"))
+				String message = problem.toString();
+				if (message.startsWith("(line "))
 				{
 					int startLine = Integer.parseInt(message.substring(
 						message.indexOf("line ") + ("line ").length(), 
@@ -73,8 +73,8 @@ public class JavaIndexer
 					));
 					
 					int startColumn = Integer.parseInt(message.substring(
-						message.indexOf("column ") + ("column ").length(), 
-						message.indexOf(".")
+						message.indexOf("col ") + ("col ").length(), 
+						message.indexOf(")")
 					));
 					
 					recordError(

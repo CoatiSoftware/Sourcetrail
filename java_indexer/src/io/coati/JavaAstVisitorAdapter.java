@@ -6,11 +6,11 @@ import com.github.javaparser.ast.*;
 import com.github.javaparser.ast.body.*;
 import com.github.javaparser.ast.comments.Comment;
 import com.github.javaparser.ast.expr.*;
-import com.github.javaparser.ast.imports.*;
 import com.github.javaparser.ast.nodeTypes.NodeWithAnnotations;
 import com.github.javaparser.ast.stmt.*;
 import com.github.javaparser.ast.type.*;
 
+import java.util.Optional;
 import java.util.Stack;
 
 public abstract class JavaAstVisitorAdapter extends VoidVisitorAdapter<Void>
@@ -51,27 +51,6 @@ public abstract class JavaAstVisitorAdapter extends VoidVisitorAdapter<Void>
 			}
 		}
 		m_typeRefKind.pop();
-	}
-
-	@Override
-	public void visit(SingleStaticImportDeclaration n, Void arg) 
-	{
-		visitComment(n.getComment(), arg);
-//		n.getType().accept(this, arg);
-	}
-
-	@Override
-	public void visit(SingleTypeImportDeclaration n, Void arg) 
-	{
-		visitComment(n.getComment(), arg);
-//		n.getType().accept(this, arg);
-	}
-
-	@Override
-	public void visit(StaticImportOnDemandDeclaration n, Void arg)
-	{
-		visitComment(n.getComment(), arg);
-//		n.getType().accept(this, arg);
 	}
 
 	//- Body ----------------------------------------------
@@ -162,9 +141,9 @@ public abstract class JavaAstVisitorAdapter extends VoidVisitorAdapter<Void>
 	@Override public void visit(MethodCallExpr n, Void arg)
 	{
 		visitComment(n.getComment(), arg);
-		if (n.getScope() != null) 
+		if (n.getScope().isPresent()) 
 		{
-			n.getScope().accept(this, arg);
+			n.getScope().get().accept(this, arg);
 		}
 		
 		m_typeRefKind.push(ReferenceKind.TYPE_ARGUMENT);
@@ -205,7 +184,7 @@ public abstract class JavaAstVisitorAdapter extends VoidVisitorAdapter<Void>
 		}
 		m_typeRefKind.pop();
 		
-		n.getType().accept(this, arg);
+//		n.getType().accept(this, arg);
 		if (n.getArguments() != null) 
 		{
 			for (final Expression e : n.getArguments()) 
@@ -251,11 +230,11 @@ public abstract class JavaAstVisitorAdapter extends VoidVisitorAdapter<Void>
 		}
 	}
 
-	private void visitComment(final Comment n, final Void arg) 
+	private void visitComment(final Optional<Comment> n, final Void arg) 
 	{
-		if (n != null)
+		if (n.isPresent())
 		{
-			n.accept(this, arg);
+			n.get().accept(this, arg);
 		}
 	}
 	

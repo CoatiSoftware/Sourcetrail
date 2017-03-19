@@ -4,7 +4,6 @@ import com.github.javaparser.ast.*;
 import com.github.javaparser.ast.body.*;
 import com.github.javaparser.ast.comments.*;
 import com.github.javaparser.ast.expr.*;
-import com.github.javaparser.ast.imports.*;
 import com.github.javaparser.ast.nodeTypes.NodeWithName;
 import com.github.javaparser.ast.stmt.*;
 import com.github.javaparser.ast.type.*;
@@ -61,15 +60,7 @@ public class JavaVerboseAstVisitor extends JavaAstVisitor{
 
 	public void visit(PackageDeclaration n, Void v) { dump(n); indent++; super.visit(n, v); indent--; }
 
-	public void visit(BadImportDeclaration n, Void v) { dump(n); indent++; super.visit(n, v); indent--; }
-	
-	public void visit(SingleStaticImportDeclaration n, Void v) { dump(n); indent++; super.visit(n, v); indent--; }
-
-	public void visit(SingleTypeImportDeclaration n, Void v) { dump(n); indent++; super.visit(n, v); indent--; }
-
-	public void visit(StaticImportOnDemandDeclaration n, Void v) { dump(n); indent++; super.visit(n, v); indent--; }
-
-	public void visit(TypeImportOnDemandDeclaration n, Void v) { dump(n); indent++; super.visit(n, v); indent--; }
+	public void visit(ImportDeclaration n, Void v) { dump(n); indent++; super.visit(n, v); indent--; }
 	
 	public void visit(TypeParameter n, Void v) { dump(n); indent++; super.visit(n, v); indent--; }
 
@@ -188,8 +179,6 @@ public class JavaVerboseAstVisitor extends JavaAstVisitor{
 	//- Statements ----------------------------------------
 
 	public void visit(ExplicitConstructorInvocationStmt n, Void v) { dump(n); indent++; super.visit(n, v); indent--; }
-
-	public void visit(TypeDeclarationStmt n, Void v) { dump(n); indent++; super.visit(n, v); indent--; }
 
 	public void visit(AssertStmt n, Void v) { dump(n); indent++; super.visit(n, v); indent--; }
 

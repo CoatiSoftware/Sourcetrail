@@ -60,11 +60,11 @@ public class JavaparserDeclNameResolver extends JavaNameResolver
 			}
 			else
 			{
-				CompilationUnit compilationUnit = decl.getAncestorOfType(CompilationUnit.class);
+				Optional<CompilationUnit> compilationUnit = decl.getAncestorOfType(CompilationUnit.class);
 			
-				if (compilationUnit != null)
+				if (compilationUnit.isPresent())
 				{
-					Optional<PackageDeclaration> packageDecl = compilationUnit.getPackageDeclaration();
+					Optional<PackageDeclaration> packageDecl = compilationUnit.get().getPackageDeclaration();
 					if (packageDecl.isPresent())
 					{
 						declName.setParent(getQualifiedName(packageDecl.get().getName()));
@@ -108,11 +108,11 @@ public class JavaparserDeclNameResolver extends JavaNameResolver
 			}
 			else
 			{
-				CompilationUnit compilationUnit = decl.getAncestorOfType(CompilationUnit.class);
+				Optional<CompilationUnit> compilationUnit = decl.getAncestorOfType(CompilationUnit.class);
 			
-				if (compilationUnit != null)
+				if (compilationUnit.isPresent())
 				{
-					Optional<PackageDeclaration> packageDecl = compilationUnit.getPackageDeclaration();
+					Optional<PackageDeclaration> packageDecl = compilationUnit.get().getPackageDeclaration();
 					if (packageDecl.isPresent())
 					{
 						declName.setParent(getQualifiedName(packageDecl.get().getName()));

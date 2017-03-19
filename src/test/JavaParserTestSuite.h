@@ -317,7 +317,7 @@ public:
 		);
 
 		TS_ASSERT(utility::containsElement<std::string>(
-			client->errors, "Encountered unexpected token. <1:1 1:1>"
+			client->errors, "Encountered unexpected token. <0:0 0:0>"
 		));
 	}
 
@@ -444,7 +444,7 @@ public:
 		));
 	}
 
-	void _JSS_ISSUE_test_javyxcyxca_parser_finds_correct_location_of_qualified_type_usage()
+	void test_parser_finds_usage_of_type_defined_in_base_class()
 	{
 		std::shared_ptr<TestParserClient> client = parseCode(
 			"public class Foo {\n"
@@ -458,8 +458,9 @@ public:
 			"}\n"
 		);
 
-		TS_ASSERT_EQUALS(client->typeUses.size(), 3);
-		TS_ASSERT_EQUALS(client->typeUses[0], "Derived.x -> Base.X ###");
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->typeUses, "Foo.Derived.x -> Foo.Base.X <7:10 7:10>"
+		));
 	}
 
 	void test_java_parser_finds_correct_location_of_qualified_type_usage()
@@ -472,13 +473,13 @@ public:
 			"	}\n"
 			"	void bar()\n"
 			"	{\n"
-			"		B b = new A.B();\n"
+			"		A.B b = new A.B();\n"
 			"	}\n"
 			"}\n"
 		);
 
 		TS_ASSERT(utility::containsElement<std::string>(
-			client->typeUses, "void A.bar() -> A.B <8:13 8:15>"
+			client->typeUses, "void A.bar() -> A.B <8:3 8:5>"
 		));
 	}
 

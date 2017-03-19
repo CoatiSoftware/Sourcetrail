@@ -20,6 +20,7 @@ import com.github.javaparser.ast.expr.FieldAccessExpr;
 import com.github.javaparser.ast.expr.MethodCallExpr;
 import com.github.javaparser.ast.expr.Name;
 import com.github.javaparser.ast.expr.NameExpr;
+import com.github.javaparser.ast.expr.ObjectCreationExpr;
 import com.github.javaparser.ast.expr.SimpleName;
 import com.github.javaparser.ast.expr.VariableDeclarationExpr;
 import com.github.javaparser.ast.stmt.BlockStmt;
@@ -29,13 +30,14 @@ import com.github.javaparser.ast.type.PrimitiveType;
 import com.github.javaparser.ast.type.Type;
 import com.github.javaparser.ast.type.TypeParameter;
 import com.github.javaparser.ast.type.VoidType;
-import com.github.javaparser.ast.imports.*;
 import com.github.javaparser.Position;
 import com.github.javaparser.Range;
+import com.github.javaparser.ast.ImportDeclaration;
 import com.github.javaparser.ast.Modifier;
 import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.PackageDeclaration;
 import com.github.javaparser.symbolsolver.javaparsermodel.JavaParserFacade;
+import com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserConstructorDeclaration;
 import com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserFieldDeclaration;
 import com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserMethodDeclaration;
 import com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserParameterDeclaration;
@@ -270,7 +272,7 @@ public class JavaAstVisitor extends JavaAstVisitorAdapter
 	
 	private com.github.javaparser.symbolsolver.model.declarations.MethodDeclaration getOverridden(MethodDeclaration overrider)
 	{
-		com.github.javaparser.ast.body.TypeDeclaration<?> scopeNode = overrider.getAncestorOfType(com.github.javaparser.ast.body.TypeDeclaration.class);
+		com.github.javaparser.ast.body.TypeDeclaration<?> scopeNode = overrider.getAncestorOfType(com.github.javaparser.ast.body.TypeDeclaration.class).get();
 		if (scopeNode instanceof ClassOrInterfaceDeclaration)
 		{
 			List<com.github.javaparser.symbolsolver.model.typesystem.Type> parameterTypes = new ArrayList<>();
@@ -392,120 +394,12 @@ public class JavaAstVisitor extends JavaAstVisitorAdapter
 	
 	// --- record references ---
 
-	
-	@Override
-	public void visit(SingleStaticImportDeclaration n, Void arg) 
+	@Override 
+	public void visit(final ImportDeclaration n, final Void v)
 	{
-		try
+		Name name = n.getName();
+		if (n.isAsterisk() || !n.isStatic())
 		{
-			ClassOrInterfaceType type = n.getType();
-			List<JavaDeclName> importedDeclNames = new ArrayList<>();
-		
-			com.github.javaparser.symbolsolver.model.typesystem.Type solvedType = JavaParserFacade.get(m_typeSolver).convert(type, type);
-			
-			if (solvedType instanceof ReferenceType)
-			{
-				ReferenceTypeDeclaration solvedDecl = ((ReferenceType)solvedType).getTypeDeclaration();
-				for (com.github.javaparser.symbolsolver.model.declarations.MethodDeclaration methodDecl: solvedDecl.getDeclaredMethods()) // look for method
-				{
-					if (methodDecl.getName().equals(n.getStaticMember()))
-					{
-						importedDeclNames.add(
-							JavaSymbolSolverDeclNameResolver.getQualifiedDeclName(methodDecl, m_typeSolver
-						));
-					}
-				}
-				if (importedDeclNames.isEmpty() && solvedDecl.hasField(n.getStaticMember())) // look for field
-				{
-					JavaDeclName importedTypeDeclName = JavaSymbolSolverDeclNameResolver.getQualifiedDeclName(solvedDecl, m_typeSolver);
-					if (importedTypeDeclName != null)
-					{
-						JavaDeclName importedDeclName = new JavaDeclName(n.getStaticMember());
-						importedDeclName.setParent(importedTypeDeclName);
-						importedDeclNames.add(importedDeclName);
-					}
-				}
-			}
-			
-			if (!importedDeclNames.isEmpty())
-			{
-				for (JavaDeclName importedDeclName: importedDeclNames)
-				{
-					String nameHierarchy = importedDeclName.toSerializedNameHierarchy();
-					for (DeclContext context: m_context)
-					{
-						JavaIndexer.recordReference(
-							m_callbackId, ReferenceKind.IMPORT, 
-							nameHierarchy, context.getName(), 
-							n.getRange()
-						);
-					}
-				}
-			}
-			else
-			{
-				JavaIndexer.recordError(
-					m_callbackId, "Import not found.", true, true, 
-					n.getRange()
-				);
-			}
-		}
-		catch (Exception e)
-		{
-			recordException(e, n);
-		}
-	}
-
-	@Override
-	public void visit(SingleTypeImportDeclaration n, Void arg) 
-	{
-		try
-		{
-			ClassOrInterfaceType type = n.getType();
-			String importedName = JavaparserTypeNameResolver.getQualifiedTypeName(type, m_typeSolver).toSerializedNameHierarchy();
-			for (DeclContext context: m_context)
-			{
-				JavaIndexer.recordReference(
-					m_callbackId, ReferenceKind.IMPORT, 
-					importedName, context.getName(), 
-					type.getRange()
-				);
-			}
-		}
-		catch (Exception e)
-		{
-			recordException(e, n);
-		}
-	}
-
-	@Override
-	public void visit(StaticImportOnDemandDeclaration n, Void arg)
-	{
-		try
-		{
-			ClassOrInterfaceType type = n.getType();
-			String importedName = JavaparserTypeNameResolver.getQualifiedTypeName(type, m_typeSolver).toSerializedNameHierarchy();
-			for (DeclContext context: m_context)
-			{
-				JavaIndexer.recordReference(
-					m_callbackId, ReferenceKind.IMPORT, 
-					importedName, context.getName(), 
-					type.getRange()
-				);
-			}
-		}
-		catch (Exception e)
-		{
-			recordException(e, n);
-		}
-	}
-
-	@Override
-	public void visit(TypeImportOnDemandDeclaration n, Void arg) 
-	{
-		try
-		{
-			Name name = n.getName();
 			String importedName = JavaparserDeclNameResolver.getQualifiedName(name).toSerializedNameHierarchy();
 			for (DeclContext context: m_context)
 			{
@@ -516,12 +410,69 @@ public class JavaAstVisitor extends JavaAstVisitorAdapter
 				);
 			}
 		}
-		catch (Exception e)
+		else
 		{
-			recordException(e, n);
-		}
-	}
+			try
+			{
+				String typeName = name.getQualifier().get().asString();
+				String memberName = name.getIdentifier();
+				
+				List<JavaDeclName> importedDeclNames = new ArrayList<>();
 
+				ReferenceTypeDeclaration solvedDecl = m_typeSolver.solveType(typeName);
+				
+				for (com.github.javaparser.symbolsolver.model.declarations.MethodDeclaration methodDecl: solvedDecl.getDeclaredMethods()) // look for method
+				{
+					if (methodDecl.getName().equals(memberName))
+					{
+						importedDeclNames.add(
+							JavaSymbolSolverDeclNameResolver.getQualifiedDeclName(methodDecl, m_typeSolver
+						));
+					}
+				}
+				if (importedDeclNames.isEmpty() && solvedDecl.hasField(memberName)) // look for field
+				{
+					JavaDeclName importedTypeDeclName = JavaSymbolSolverDeclNameResolver.getQualifiedDeclName(solvedDecl, m_typeSolver);
+					if (importedTypeDeclName != null)
+					{
+						JavaDeclName importedDeclName = new JavaDeclName(memberName);
+						importedDeclName.setParent(importedTypeDeclName);
+						importedDeclNames.add(importedDeclName);
+					}
+				}
+				
+				
+				if (!importedDeclNames.isEmpty())
+				{
+					for (JavaDeclName importedDeclName: importedDeclNames)
+					{
+						String nameHierarchy = importedDeclName.toSerializedNameHierarchy();
+						for (DeclContext context: m_context)
+						{
+							JavaIndexer.recordReference(
+								m_callbackId, ReferenceKind.IMPORT, 
+								nameHierarchy, context.getName(), 
+								n.getRange()
+							);
+						}
+					}
+				}
+				else
+				{
+					JavaIndexer.recordError(
+						m_callbackId, "Import not found.", true, true, 
+						n.getRange()
+					);
+				}
+			}
+			catch (Exception e)
+			{
+				recordException(e, n);
+			}
+		}
+		super.visit(n, v);
+	}
+	
 	@Override public void visit(final ClassOrInterfaceType n, final Void v)
 	{
 		try
@@ -543,12 +494,17 @@ public class JavaAstVisitor extends JavaAstVisitorAdapter
 				}
 				
 				Optional<ClassOrInterfaceType> scope = n.getScope();
-				if (scope.isPresent() && scope.get().getEnd().isPresent())
+				if (scope.isPresent())
 				{
-					range = range.withEnd(
-						Position.pos(scope.get().getEnd().get().line, 
-						scope.get().getEnd().get().column + n.getNameAsString().length() + 1 // +1 for separator
-					));
+					Optional<Position> position = scope.get().getEnd();
+
+					if (position.isPresent())
+					{
+						range = range.withEnd(
+							Position.pos(position.get().line, 
+							position.get().column + n.getNameAsString().length() + 1 // +1 for separator
+						));
+					}
 				}
 				
 				JavaIndexer.recordReference(
@@ -694,10 +650,32 @@ public class JavaAstVisitor extends JavaAstVisitorAdapter
 			{
 				wrappedNode = ((JavaParserParameterDeclaration)valueDecl).getWrappedNode();
 			}
+			else if (valueDecl instanceof JavaParserFieldDeclaration)
+			{
+				wrappedNode = ((JavaParserFieldDeclaration)valueDecl).getWrappedNode();
+			}
 			
 			if (wrappedNode != null)
 			{
-				if (wrappedNode instanceof Parameter)
+				if (wrappedNode instanceof FieldDeclaration)
+				{
+					
+					for (VariableDeclarator var: ((FieldDeclaration)wrappedNode).getVariables())
+					{
+						if (var.getName().getIdentifier().equals(e.getName().getIdentifier()))
+						{
+							String qualifiedName = JavaparserDeclNameResolver.getQualifiedDeclName(var, m_typeSolver).toSerializedNameHierarchy();
+							for (DeclContext context: m_context)
+							{
+								JavaIndexer.recordReference(
+									m_callbackId, ReferenceKind.USAGE, qualifiedName, context.getName(),
+									e.getName().getRange()
+								);
+							}
+						}
+					}
+				}
+				else if (wrappedNode instanceof Parameter)
 				{
 					SimpleName name = ((Parameter)wrappedNode).getName();
 					if (name.getBegin().isPresent())
@@ -712,7 +690,7 @@ public class JavaAstVisitor extends JavaAstVisitorAdapter
 				}
 				else if (wrappedNode instanceof VariableDeclarator)
 				{
-					if (wrappedNode.getAncestorOfType(FieldDeclaration.class) != null)
+					if (wrappedNode.getAncestorOfType(FieldDeclaration.class).isPresent())
 					{
 						String qualifiedName = JavaparserDeclNameResolver.getQualifiedDeclName((VariableDeclarator)wrappedNode, m_typeSolver).toSerializedNameHierarchy();
 						
@@ -749,10 +727,10 @@ public class JavaAstVisitor extends JavaAstVisitorAdapter
 		{
 			try
 			{
-				SymbolReference<com.github.javaparser.symbolsolver.model.declarations.MethodDeclaration> solvedMethod = JavaParserFacade.get(m_typeSolver).solve(n);
-				if (solvedMethod.isSolved())
+				SymbolReference<com.github.javaparser.symbolsolver.model.declarations.MethodDeclaration> solvedSymbol = JavaParserFacade.get(m_typeSolver).solve(n);
+				if (solvedSymbol.isSolved())
 				{
-					qualifiedName = getQualifiedName(solvedMethod.getCorrespondingDeclaration());
+					qualifiedName = getQualifiedName(solvedSymbol.getCorrespondingDeclaration());
 				}
 				else
 				{
@@ -823,8 +801,6 @@ public class JavaAstVisitor extends JavaAstVisitorAdapter
 		);
 	}
 
-
-	/*
 	@Override public void visit(final ObjectCreationExpr n, final Void v)
 	{
 		String qualifiedName = "";
@@ -832,57 +808,31 @@ public class JavaAstVisitor extends JavaAstVisitorAdapter
 		{
 			try
 			{
-				ClassOrInterfaceDeclaration decl = Utility.getJavaparserDeclForType(n.getType(), m_typeSolver);
-				if (decl != null)
+				SymbolReference<com.github.javaparser.symbolsolver.model.declarations.ConstructorDeclaration> solvedSymbol = JavaParserFacade.get(m_typeSolver).solve(n);
+				if (solvedSymbol.isSolved())
 				{
-					TODO: implement when there is a method to get the constructor decl for a constructor expression.
-					
-					for (BodyDeclaration member: decl.getMembers())
-					{
-						if (member instanceof ConstructorDeclaration)
-						{
-							ConstructorDeclaration constructorDecl = (ConstructorDeclaration)member;
-							
-							for (Expression arg: n.getArgs())
-							{
-								JavaParserFacade.get(m_typeSolver).getType(arg).asReferenceTypeUsage().getQualifiedName();
-							}
-							
-							constructorDecl.getParameters().get(0).getType().;
-						}
-					}
+					qualifiedName = getQualifiedName(solvedSymbol.getCorrespondingDeclaration());
 				}
-				
-			    
-				qualifiedName = getQualifiedName(methodUsage.get());
+				else
+				{
+					throw new UnsolvedSymbolException("constructor for " + n.getType().getNameAsString());
+				}
 			}
 			catch (UnsupportedOperationException e)
 			{
-				if (m_verbose)
-				{
-					System.out.println(e + " at location " + n.getBegin().line + ", " + n.getBegin().column);
-				}
+				recordException(e, n);
 			}
 			catch (MethodAmbiguityException e)
 			{
-				if (m_verbose)
-				{
-					System.out.println(e + " at location " + n.getBegin().line + ", " + n.getBegin().column);
-				}
+				recordException(e, n);
 			}
 			catch(StackOverflowError e)
 			{
-				if (m_verbose)
-				{
-					System.out.println(e + " at location " + n.getBegin().line + ", " + n.getBegin().column);
-				}
+				recordError(e, n);
 	        }
 			catch (Exception e)
 			{
-				if (m_verbose)
-				{
-					System.out.println(e + " at location " + n.getBegin().line + ", " + n.getBegin().column);
-				}
+				recordException(e, n);
 			}
 		}
 		
@@ -891,43 +841,72 @@ public class JavaAstVisitor extends JavaAstVisitorAdapter
 			ClassOrInterfaceType type = n.getType();
 			for (DeclContext context: m_context)
 			{
-				JavaIndexer.recordRef(
-					m_callbackId, ReferenceType.CALL.getValue(), qualifiedName, context.getName(),
-					type.getBegin().line, type.getBegin().column, type.getEnd().line, type.getEnd().column
+				JavaIndexer.recordReference(
+					m_callbackId, ReferenceKind.CALL, qualifiedName, context.getName(),
+					type.getRange()
 				);
 			}
 		}
 		
 		super.visit(n, v);
 	}
-	*/
-	private String getQualifiedName(com.github.javaparser.symbolsolver.model.declarations.MethodDeclaration solvedMethod)
+	
+	private String getQualifiedName(com.github.javaparser.symbolsolver.model.declarations.MethodDeclaration method)
 	{
 		String qualifiedName = "";
-		if (solvedMethod instanceof JavaParserMethodDeclaration)
+		if (method instanceof JavaParserMethodDeclaration)
 		{
-			MethodDeclaration wrappedNode = ((JavaParserMethodDeclaration)solvedMethod).getWrappedNode();
+			MethodDeclaration wrappedNode = ((JavaParserMethodDeclaration)method).getWrappedNode();
 			qualifiedName = JavaparserDeclNameResolver.getQualifiedDeclName(wrappedNode, m_typeSolver).toSerializedNameHierarchy();
 		}
 		else // todo: move this implementation somewhere else
 		{
-			qualifiedName = solvedMethod.declaringType().getQualifiedName();
+			qualifiedName = method.declaringType().getQualifiedName();
 			qualifiedName = qualifiedName.replace(".", "\ts\tp\tn");
 			
-			qualifiedName += "\ts\tp\tn" + solvedMethod.getName() + "\ts";
+			qualifiedName += "\ts\tp\tn" + method.getName() + "\ts";
 			
-			String returnType = solvedMethod.getReturnType().describe();
+			String returnType = method.getReturnType().describe();
 			qualifiedName += returnType;
 		//	qualifiedName += returnType.substring(returnType.lastIndexOf(".") + 1);
 			
 			qualifiedName += "\tp(";
-			for (int i = 0; i < solvedMethod.getNumberOfParams(); i++)
+			for (int i = 0; i < method.getNumberOfParams(); i++)
 			{
 				if(i != 0)
 				{
 					qualifiedName += (", ");
 				}
-				String paramType = solvedMethod.getParam(i).describeType();
+				String paramType = method.getParam(i).describeType();
+				qualifiedName += paramType;
+			//	qualifiedName += paramType.substring(paramType.lastIndexOf(".") + 1);
+			}
+			qualifiedName = qualifiedName.concat(")");
+		}
+		return qualifiedName;
+	}
+	
+	private String getQualifiedName(com.github.javaparser.symbolsolver.model.declarations.ConstructorDeclaration constructor)
+	{
+		String qualifiedName = "";
+		if (constructor instanceof JavaParserConstructorDeclaration)
+		{
+			ConstructorDeclaration wrappedNode = ((JavaParserConstructorDeclaration)constructor).getWrappedNode();
+			qualifiedName = JavaparserDeclNameResolver.getQualifiedDeclName(wrappedNode, m_typeSolver).toSerializedNameHierarchy();
+		}
+		else // todo: move this implementation somewhere else
+		{
+			qualifiedName = constructor.declaringType().getQualifiedName();
+			qualifiedName = qualifiedName.replace(".", "\ts\tp\tn");
+			
+			qualifiedName += "\ts\tp\tn" + constructor.getName() + "\ts\tp(";
+			for (int i = 0; i < constructor.getNumberOfParams(); i++)
+			{
+				if(i != 0)
+				{
+					qualifiedName += (", ");
+				}
+				String paramType = constructor.getParam(i).describeType();
 				qualifiedName += paramType;
 			//	qualifiedName += paramType.substring(paramType.lastIndexOf(".") + 1);
 			}
