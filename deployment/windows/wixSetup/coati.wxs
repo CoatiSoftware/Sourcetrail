@@ -253,6 +253,7 @@
 				<ComponentRef Id='Empty_icon_Png'/>
 				<ComponentRef Id='Java_icon_Png'/>
 				<ComponentRef Id='Logo_1024_1024_Png'/>
+				<ComponentRef Id='Mvn_icon_Png'/>
 				<ComponentRef Id='ProjectIco'/>
 				<ComponentRef Id='Project_256_256_Png'/>
 				<ComponentRef Id='Vs_icon_Png'/>
