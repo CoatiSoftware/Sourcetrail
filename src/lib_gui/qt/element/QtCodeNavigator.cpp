@@ -601,7 +601,7 @@ void QtCodeNavigator::scrollToDefinition(bool ignoreActiveReference)
 		}
 	}
 
-	m_singleHasNewFile = false;
+	//m_singleHasNewFile = false;
 }
 
 void QtCodeNavigator::scrollToSnippetIfRequested()
