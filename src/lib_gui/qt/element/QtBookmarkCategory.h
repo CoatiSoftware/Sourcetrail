@@ -2,9 +2,7 @@
 #define QT_BOOKMARK_CATEGORY_H
 
 #include <QFrame>
-
 #include <QLabel>
-#include <QHBoxLayout>
 #include <QPushButton>
 #include <QTreeWidget>
 
@@ -29,20 +27,24 @@ public:
 
 	void updateArrow();
 
-private slots:
+public slots:
 	void expandClicked();
+
+protected:
+	virtual void enterEvent(QEvent *event);
+	virtual void leaveEvent(QEvent *event);
+
+private slots:
 	void deleteClicked();
 
 private:
-	QHBoxLayout* m_layout;
 	QLabel* m_name;
+	Id m_id;
 
 	QPushButton* m_expandButton;
 	QPushButton* m_deleteButton;
 
 	QTreeWidgetItem* m_treeItem; // store a pointer to the 'parent' tree item to enable the custom expand button
-
-	Id m_id;
 };
 
 #endif // QT_BOOKMARK_CATEGORY_H

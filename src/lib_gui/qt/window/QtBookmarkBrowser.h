@@ -1,15 +1,7 @@
 #ifndef QT_BOOKMARK_BROWSER_H
 #define QT_BOOKMARK_BROWSER_H
 
-#include <QWidget>
-
 #include <QComboBox>
-#include <QVBoxLayout>
-#include <QHBoxLayout>
-#include <QLabel>
-#include <QPushButton>
-#include <QWidget>
-
 #include <QListWidget>
 #include <QTreeWidget>
 
@@ -21,6 +13,7 @@
 #include "utility/messaging/type/MessageEditBookmark.h"
 
 class Bookmark;
+class BookmarkCategory;
 class QtBookmark;
 
 class QtBookmarkBrowser
@@ -37,36 +30,31 @@ public:
 	void setupBookmarkBrowser();
 	void setBookmarks(const std::vector<std::shared_ptr<Bookmark>>& bookmarks);
 
+protected:
+	virtual void resizeEvent(QResizeEvent* event) Q_DECL_OVERRIDE;
+
+	virtual void handleClose() override;
+	virtual void handleNext() override;
+
 private slots:
-	void closeButtonClicked();
-	void filterBoxChanged(const QString& text);
-	void orderBoxChanged(const QString& text);
-	void itemExpanded(QTreeWidgetItem* item);
-	void itemCollapsed(QTreeWidgetItem* item);
+	void filterOrOrderChanged(const QString& text);
+	void categoryExpansionChanged(QTreeWidgetItem* item);
+	void treeItemClicked(QTreeWidgetItem* item, int column);
 
 private:
-	virtual void handleMessage(MessageDeleteBookmark* message);
-	virtual void handleMessage(MessageEditBookmark* message);
+	virtual void handleMessage(MessageDeleteBookmark* message) override;
+	virtual void handleMessage(MessageEditBookmark* message) override;
 
 	MessageDisplayBookmarks::BookmarkFilter getSelectedFilter();
 	MessageDisplayBookmarks::BookmarkOrder getSelectedOrder();
 
-	QTreeWidgetItem* findOrCreateTreeCategory(const std::string& name, const Id id);
-
-	QHBoxLayout* m_layout;
-	QVBoxLayout* m_headerLayout;
-	QVBoxLayout* m_bodyLayout;
+	QTreeWidgetItem* findOrCreateTreeCategory(const BookmarkCategory& category);
 
 	QTreeWidget* m_bookmarkTree;
-	QPushButton* m_closeButton;
 
-	QLabel* m_title;
-	QLabel* m_filterLabel;
-	QLabel* m_orderLabel;
 	QComboBox* m_filterComboBox;
 	QComboBox* m_orderComboBox;
 	std::vector<std::string> m_orderNames;
-	int m_currentOrderIndex;
 
 	QWidget* m_headerBackground;
 };

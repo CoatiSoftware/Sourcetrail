@@ -35,7 +35,7 @@ public:
 	void setIsEdge(const bool isEdge);
 
 protected:
-	void resizeEvent(QResizeEvent* event) Q_DECL_OVERRIDE;
+	virtual void resizeEvent(QResizeEvent* event) Q_DECL_OVERRIDE;
 
 	virtual void handleNext() override;
 	virtual void handleClose() override;

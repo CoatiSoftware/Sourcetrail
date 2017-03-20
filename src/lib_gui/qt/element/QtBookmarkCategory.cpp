@@ -1,52 +1,48 @@
 #include "QtBookmarkCategory.h"
 
+#include <QHBoxLayout>
 #include <QMessageBox>
 
 #include "utility/messaging/type/MessageDeleteBookmarkCategoryWithBookmarks.h"
-
 #include "utility/ResourcePaths.h"
 
 #include "qt/utility/utilityQt.h"
 
 QtBookmarkCategory::QtBookmarkCategory()
-	: m_layout(NULL)
-	, m_name(NULL)
-	, m_deleteButton(NULL)
-	, m_treeItem(NULL)
-	, m_id(-1)
+	: m_id(0)
 {
 	setObjectName("bookmark_category");
 
-	m_layout = new QHBoxLayout();
-	m_layout->setSpacing(0);
-	m_layout->setContentsMargins(0, 0, 0, 0);
-	m_layout->setAlignment(Qt::AlignTop);
-	setLayout(m_layout);
+	QHBoxLayout* layout = new QHBoxLayout();
+	layout->setSpacing(0);
+	layout->setContentsMargins(0, 0, 0, 0);
+	layout->setAlignment(Qt::AlignTop);
+	setLayout(layout);
 
 	m_expandButton = new QPushButton();
 	m_expandButton->setObjectName("category_expand_button");
 	m_expandButton->setToolTip("Show/Hide bookmarks in this category");
-	m_expandButton->setIcon(utility::createButtonIcon(
-		ResourcePaths::getGuiPath() + "bookmark_view/images/arrow_down.png",
-		"bookmark/button"
-	));
 	m_expandButton->setAttribute(Qt::WA_LayoutUsesWidgetRect);
-	m_layout->addWidget(m_expandButton);
+	m_expandButton->setIcon(QPixmap((ResourcePaths::getGuiPath() + "bookmark_view/images/arrow_down.png").c_str()));
+	m_expandButton->setIconSize(QSize(8, 8));
+	layout->addWidget(m_expandButton);
 
 	connect(m_expandButton, SIGNAL(clicked()), this, SLOT(expandClicked()));
 
 	m_name = new QLabel();
 	m_name->setObjectName("category_name");
-	m_name->setText("");
-	m_layout->addWidget(m_name);
+	layout->addWidget(m_name);
+
+	layout->addStretch();
 
 	m_deleteButton = new QPushButton();
 	m_deleteButton->setObjectName("category_delete_button");
 	m_deleteButton->setToolTip("Delete this Bookmark Category and the containing Bookmarks");
-	// m_deleteButton->setText("Delete");
 	m_deleteButton->setAttribute(Qt::WA_LayoutUsesWidgetRect);
 	m_deleteButton->setIcon(QPixmap((ResourcePaths::getGuiPath() + "bookmark_view/images/bookmark_delete_icon.png").c_str()));
-	m_layout->addWidget(m_deleteButton);
+	utility::setWidgetRetainsSpaceWhenHidden(m_deleteButton);
+	m_deleteButton->hide();
+	layout->addWidget(m_deleteButton);
 
 	connect(m_deleteButton, SIGNAL(clicked()), this, SLOT(deleteClicked()));
 }
@@ -96,17 +92,13 @@ void QtBookmarkCategory::updateArrow()
 	{
 		if (m_treeItem->isExpanded())
 		{
-			m_expandButton->setIcon(utility::createButtonIcon(
-				ResourcePaths::getGuiPath() + "bookmark_view/images/arrow_down.png",
-				"bookmark/button"
-			));
+			QPixmap pixmap((ResourcePaths::getGuiPath() + "bookmark_view/images/arrow_down.png").c_str());
+			m_expandButton->setIcon(QIcon(utility::colorizePixmap(pixmap, "white")));
 		}
 		else
 		{
-			m_expandButton->setIcon(utility::createButtonIcon(
-				ResourcePaths::getGuiPath() + "bookmark_view/images/arrow_right.png",
-				"bookmark/button"
-			));
+			QPixmap pixmap((ResourcePaths::getGuiPath() + "bookmark_view/images/arrow_right.png").c_str());
+			m_expandButton->setIcon(QIcon(utility::colorizePixmap(pixmap, "white")));
 		}
 	}
 }
@@ -126,6 +118,16 @@ void QtBookmarkCategory::expandClicked()
 
 		updateArrow();
 	}
+}
+
+void QtBookmarkCategory::enterEvent(QEvent *event)
+{
+	m_deleteButton->show();
+}
+
+void QtBookmarkCategory::leaveEvent(QEvent *event)
+{
+	m_deleteButton->hide();
 }
 
 void QtBookmarkCategory::deleteClicked()

@@ -422,13 +422,4 @@
 			<active>grey</active>
 		</table_line_2>
 	</table>
-
-	<bookmark>
-		<button>
-			<icon>black</icon>
-			<icon_disabled>#FDFDFD</icon_disabled>
-			<icon_hover>white</icon_hover>
-		</button>
-	</bookmark>
-
 </config>

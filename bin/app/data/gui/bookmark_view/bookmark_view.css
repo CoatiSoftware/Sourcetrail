@@ -1,21 +1,9 @@
 /* General settings */
 * {
 	font-size: 16px;
-	/* font-family: "<setting:font_name>"; */
 }
 
-#header {
-	background-color: #2E3C86;
-}
-
-#body {
-	background-color: white;
-}
-
-/* window */
-
-
-/* header */
+/* Bookmark browser header */
 
 #header_background {
 	background-color: #2E3C86;
@@ -23,132 +11,92 @@
 	border-bottom-left-radius: 15px;
 }
 
-#filter_box, #order_box {
-	/* background-color: #227abf;
-	color: white; */
-	max-width: 100px;
-	min-width: 100px;
-	margin-left: 50px;
-	margin-right: 100px;
-}
-
 #title {
 	color: white;
-	font-size: <setting:font_size+8>px;
+	font-size: 18px;
 	font-weight: bold;
-	margin-top: 40px;
-	margin-left: 30px;
-	margin-right: 20px;
 }
 
 #filter_label, #order_label {
 	color: white;
-	font-size: <setting:font_size+6>px;
+	font-size: 16px;
 	font-weight: bold;
-	margin-top: 65px;
-	margin-left: 40px;
-	margin-right: 20px;
+	margin-bottom: 5px;
 }
 
-/* body */
+#filter_box, #order_box {
+	/*margin-left: 20px;*/
+}
+
+/* Bookmark browser body */
 
 #bookmark_tree {
 	border: none;
+	border-top: 1px solid #DFDFDF;
+	border-bottom: 1px solid #DFDFDF;
 	margin: 0px;
-	margin-top: 50px;
-	margin-bottom: 25px;
-	max-width: 532px;
-	max-height: 460px;
+	min-width: 500px;
+	min-height: 200px;
 	background-color: white;
-	alternate-background-color: #dadada; /* color every single line alternating, however I want to color complete categories alternating */
+}
+
+/* Bookmark category */
+
+#bookmark_category {
+	background: #297BBD;
+	border-bottom: 1px solid white;
+	padding: 1px 10px 0px 5px;
+}
+
+#bookmark_category:hover {
+	background: #2C85CC;
 }
 
 #category_name {
-	font-size: <setting:font_size+6>px;
-}
-
-#bookmark_category {
-	margin-top: 14px;
-}
-
-#bookmark {
-	margin-top: 0px;
-}
-
-#close_button {
-	min-width: 150px;
-	max-width: 150px;
-}
-
-#close_button {
-	margin-right: 20px;
-	background-color: white;
-	color: black;
-	border-color: black;
-}
-
-#close_button:hover {
-	background: #2E3C86;
 	color: white;
+	font-size: 12px;
+	margin-left: 1px;
 }
 
-/* bookmark category */
-
-#bookmark_category {
-	margin-left: 15px;
-	margin-right: 50px;
-}
-
-#category_expand_button {
+#category_expand_button, #category_delete_button, #comment_button, #edit_button, #delete_button {
 	border: none;
 	background: transparent;
-	min-width: 30px;
-	max-width: 30px;
+	width: 20px;
+	height: 20px;
 }
 
-#category_delete_button {
-	min-width: 30px;
-	max-width: 30px;
-	border: none;
-	background: transparent;
-}
-
-/* bookmark */
+/* Bookmark */
 
 #bookmark {
-	margin-left: 15px;
-	margin-right: 50px;
+	padding: 3px 10px 3px 23px;
+	background: white;
+	border-bottom: 1px solid #DFDFDF;
 }
 
-#comment_button {
-	background: transparent;
+#bookmark_comment {
+	font-size: 12px;
+	margin: 3px 0px 3px 26px;
+}
+
+#activate_button {
+	background: white;
 	border: none;
-	min-width: 30px;
-	max-width: 30px;
+	border-radius: 8px;
+	color: black;
+	font-size: 16px;
+	padding: 3px 8px 2px;
+	text-align: right;
 }
 
-#comment_button:hover {
-	color: #2D3C86;
-}
-
-#edit_button {
-	min-width: 30px;
-	max-width: 30px;
-	border: none;
-	background: transparent;
-}
-
-#delete_button {
-	min-width: 30px;
-	max-width: 30px;
-	border: none;
-	background: transparent;
+#activate_button:hover {
+	color: white;
+	background: #2D3C86;
 }
 
 #date_label {
-	font-size: <setting:font_size>px;
-	min-width: 100px;
-	max-width: 100px;
+	margin: 3px 5px 0px;
+	font-size: 12px;
+	color: gray;
 }
 
 /* Search bar buttons */

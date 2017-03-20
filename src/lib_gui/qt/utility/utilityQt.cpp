@@ -28,6 +28,13 @@ namespace utility
 		widget->setAutoFillBackground(true);
 	}
 
+	void setWidgetRetainsSpaceWhenHidden(QWidget* widget)
+	{
+		QSizePolicy pol = widget->sizePolicy();
+		pol.setRetainSizeWhenHidden(true);
+		widget->setSizePolicy(pol);
+	}
+
 	void loadFontsFromDirectory(const std::string& path, const std::string& extension)
 	{
 		std::vector<std::string> extensions;

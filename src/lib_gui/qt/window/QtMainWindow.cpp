@@ -29,6 +29,7 @@
 #include "utility/file/FileSystem.h"
 #include "utility/logging/logging.h"
 #include "utility/messaging/type/MessageCodeReference.h"
+#include "utility/messaging/type/MessageDisplayBookmarks.h"
 #include "utility/messaging/type/MessageEnteredLicense.h"
 #include "utility/messaging/type/MessageFind.h"
 #include "utility/messaging/type/MessageInterruptTasks.h"
@@ -382,6 +383,9 @@ void QtMainWindow::showStartScreen()
 		forceEnterLicense(state == LicenseChecker::LICENSE_EXPIRED);
 	}
 
+
+	// MessageDisplayBookmarks(MessageDisplayBookmarks::BookmarkFilter::ALL, MessageDisplayBookmarks::BookmarkOrder::NONE).dispatch();
+	// return;
 
 	QtStartScreen* startScreen = createWindow<QtStartScreen>();
 	startScreen->setupStartScreen(licenseValid);
