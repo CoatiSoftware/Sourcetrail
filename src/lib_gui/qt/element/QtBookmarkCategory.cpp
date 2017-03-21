@@ -24,7 +24,7 @@ QtBookmarkCategory::QtBookmarkCategory()
 	m_expandButton->setToolTip("Show/Hide bookmarks in this category");
 	m_expandButton->setAttribute(Qt::WA_LayoutUsesWidgetRect);
 	m_expandButton->setIcon(QPixmap((ResourcePaths::getGuiPath() + "bookmark_view/images/arrow_down.png").c_str()));
-	m_expandButton->setIconSize(QSize(8, 8));
+	m_expandButton->setIconSize(QSize(10, 10));
 	layout->addWidget(m_expandButton);
 
 	connect(m_expandButton, SIGNAL(clicked()), this, SLOT(expandClicked()));
@@ -93,12 +93,12 @@ void QtBookmarkCategory::updateArrow()
 		if (m_treeItem->isExpanded())
 		{
 			QPixmap pixmap((ResourcePaths::getGuiPath() + "bookmark_view/images/arrow_down.png").c_str());
-			m_expandButton->setIcon(QIcon(utility::colorizePixmap(pixmap, "white")));
+			m_expandButton->setIcon(QIcon(utility::colorizePixmap(pixmap, "black")));
 		}
 		else
 		{
 			QPixmap pixmap((ResourcePaths::getGuiPath() + "bookmark_view/images/arrow_right.png").c_str());
-			m_expandButton->setIcon(QIcon(utility::colorizePixmap(pixmap, "white")));
+			m_expandButton->setIcon(QIcon(utility::colorizePixmap(pixmap, "black")));
 		}
 	}
 }

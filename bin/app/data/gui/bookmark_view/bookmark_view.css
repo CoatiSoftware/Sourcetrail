@@ -43,18 +43,18 @@
 /* Bookmark category */
 
 #bookmark_category {
-	background: #297BBD;
+	background: #DADADA;
 	border-bottom: 1px solid white;
-	padding: 1px 10px 0px 5px;
+	padding: 4px 10px 3px 5px;
 }
 
 #bookmark_category:hover {
-	background: #2C85CC;
+	background: #DEDEDE;
 }
 
 #category_name {
-	color: white;
-	font-size: 12px;
+	color: black;
+	font-size: 14px;
 	margin-left: 1px;
 }
 
@@ -80,17 +80,16 @@
 
 #activate_button {
 	background: white;
-	border: none;
+	border: 2px solid white;
 	border-radius: 8px;
 	color: black;
-	font-size: 16px;
-	padding: 3px 8px 2px;
+	font-size: 14px;
+	padding: 4px 8px 3px;
 	text-align: right;
 }
 
 #activate_button:hover {
-	color: white;
-	background: #2D3C86;
+	border-color: #2D3C86;
 }
 
 #date_label {

@@ -48,11 +48,11 @@ QtBookmark::QtBookmark()
 	m_activateButton->setAttribute(Qt::WA_LayoutUsesWidgetRect);
 	buttonsLayout->addWidget(m_activateButton);
 
+	buttonsLayout->addStretch();
+
 	m_dateLabel = new QLabel();
 	m_dateLabel->setObjectName("date_label");
 	buttonsLayout->addWidget(m_dateLabel);
-
-	buttonsLayout->addStretch();
 
 	m_editButton = new QPushButton();
 	m_editButton->setObjectName("edit_button");
