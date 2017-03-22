@@ -622,7 +622,17 @@ if (WIN32)
 	include_directories($ENV{VLD_DIR}/include)
 endif ()
 
-# Linux package
 if(UNIX AND NOT APPLE)
+	# symlinks for data
+	message(STATUS "create symlink: "
+		"${CMAKE_SOURCE_DIR}/bin/app/data ->"
+		"${CMAKE_BINARY_DIR}/app/data")
+	execute_process(
+		COMMAND "${CMAKE_COMMAND}"
+		"-E" "create_symlink"
+		"${CMAKE_SOURCE_DIR}/bin/app/data"
+		"${CMAKE_BINARY_DIR}/app/data"
+	)
+	# Linux package
 	include(cmake/LinuxPackage.cmake)
 endif  ()

@@ -149,12 +149,6 @@ if [ $PLATFORM == "Windows" ]; then
 	cmd //c 'mklink /d /j '$BACKSLASHED_ROOT_DIR'\build\win64\Debug\app\user '$BACKSLASHED_ROOT_DIR'\bin\app\user' &
 	cmd //c 'mklink /d /j '$BACKSLASHED_ROOT_DIR'\build\win64\Release\app\data '$BACKSLASHED_ROOT_DIR'\bin\app\data' &
 	cmd //c 'mklink /d /j '$BACKSLASHED_ROOT_DIR'\build\win64\Release\app\user '$BACKSLASHED_ROOT_DIR'\bin\app\user' &
-elif [ $PLATFORM == "Linux" ]; then
-	cd $ROOT_DIR/build/Release/app
-	ln -s -f $ROOT_DIR/bin/app/data
-	cd $ROOT_DIR/build/Debug/app
-	ln -s -f $ROOT_DIR/bin/app/data
-	cd $ROOT_DIR
 fi
 
 # Setup both Debug and Release configuration
