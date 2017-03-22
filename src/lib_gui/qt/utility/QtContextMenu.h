@@ -25,6 +25,9 @@ public:
 
 	void show();
 
+	static void enableUndo(bool enabled);
+	static void enableRedo(bool enabled);
+
 private slots:
 	void undoActionTriggered();
 	void redoActionTriggered();

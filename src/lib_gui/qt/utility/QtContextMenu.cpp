@@ -56,6 +56,16 @@ void QtContextMenu::addAction(QAction* action)
 	m_menu.addAction(action);
 }
 
+void QtContextMenu::enableUndo(bool enabled)
+{
+	s_undoAction->setEnabled(enabled);
+}
+
+void QtContextMenu::enableRedo(bool enabled)
+{
+	s_redoAction->setEnabled(enabled);
+}
+
 void QtContextMenu::addUndoActions()
 {
 	addAction(s_undoAction);

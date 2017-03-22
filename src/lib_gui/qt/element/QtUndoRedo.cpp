@@ -8,6 +8,7 @@
 #include "utility/ResourcePaths.h"
 
 #include "qt/utility/utilityQt.h"
+#include "qt/utility/QtContextMenu.h"
 #include "settings/ApplicationSettings.h"
 
 QtUndoRedo::QtUndoRedo()
@@ -57,11 +58,14 @@ void QtUndoRedo::redo()
 void QtUndoRedo::setUndoButtonEnabled(bool enabled)
 {
     m_undoButton->setEnabled(enabled);
+	QtContextMenu::enableUndo(enabled);
+
 }
 
 void QtUndoRedo::setRedoButtonEnabled(bool enabled)
 {
     m_redoButton->setEnabled(enabled);
+	QtContextMenu::enableRedo(enabled);
 }
 
 void QtUndoRedo::refreshStyle()
