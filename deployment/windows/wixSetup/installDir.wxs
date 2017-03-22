@@ -291,6 +291,42 @@
 						</Component>
 					</Directory>
 
+					<Directory Id='DataBookmarkView' Name='bookmark_view'>
+						<Component Id='BookmarkViewCss' Guid='2DF8BC1D-1481-48CD-8E60-59EFCCDB93C5' Win64="$(var.Win64)">
+							<File Id='BookmarkView' Name='bookmark_view.css' DiskId='1' Source='./../../../bin/app/data/gui/bookmark_view/bookmark_view.css' KeyPath='yes' />
+						</Component>
+						
+						<Directory Id='DataBookmarkViewImages' Name='images'>
+							<Component Id='BookmarkViewArrowDownPng' Guid='BC63D8EB-504C-4AB1-A34E-FDD94F7A19C9' Win64="$(var.Win64)">
+								<File Id='BookmarkViewArrowDown' Name='arrow_down.png' DiskId='1' Source='./../../../bin/app/data/gui/bookmark_view/images/arrow_down.png' KeyPath='yes' />
+							</Component>
+							<Component Id='BookmarkViewArrowRightPng' Guid='8245C9CC-3E66-4D84-8DE1-92C2F6110F32' Win64="$(var.Win64)">
+								<File Id='BookmarkViewArrowRight' Name='arrow_right.png' DiskId='1' Source='./../../../bin/app/data/gui/bookmark_view/images/arrow_right.png' KeyPath='yes' />
+							</Component>
+							<Component Id='BookmarkViewBookmarkActivePng' Guid='FCDE3747-E959-4C9D-A084-D717B18BA214' Win64="$(var.Win64)">
+								<File Id='BookmarkViewBookmarkActive' Name='bookmark_active.png' DiskId='1' Source='./../../../bin/app/data/gui/bookmark_view/images/bookmark_active.png' KeyPath='yes' />
+							</Component>
+							<Component Id='BookmarkViewBookmarkDeleteIconPng' Guid='A25FEABC-108B-4172-850E-9362C506FBFB' Win64="$(var.Win64)">
+								<File Id='BookmarkViewBookmarkDeleteIcon' Name='bookmark_delete_icon.png' DiskId='1' Source='./../../../bin/app/data/gui/bookmark_view/images/bookmark_delete_icon.png' KeyPath='yes' />
+							</Component>
+							<Component Id='BookmarkViewBookmarkEditIconPng' Guid='F147EA19-52EF-4AD5-AAC3-9113B256195E' Win64="$(var.Win64)">
+								<File Id='BookmarkViewBookmarkEditIcon' Name='bookmark_edit_icon.png' DiskId='1' Source='./../../../bin/app/data/gui/bookmark_view/images/bookmark_edit_icon.png' KeyPath='yes' />
+							</Component>
+							<Component Id='BookmarkViewBookmarkIconPng' Guid='034AF4AF-32D1-4FCC-9EC8-23955BAD85C5' Win64="$(var.Win64)">
+								<File Id='BookmarkViewBookmarkIcon' Name='bookmark_icon.png' DiskId='1' Source='./../../../bin/app/data/gui/bookmark_view/images/bookmark_icon.png' KeyPath='yes' />
+							</Component>
+							<Component Id='BookmarkViewBookmarkIcon2Png' Guid='725A45DE-6EEC-4F64-AAF4-4D6D642B7C41' Win64="$(var.Win64)">
+								<File Id='BookmarkViewBookmarkIcon2' Name='bookmark_icon_2.png' DiskId='1' Source='./../../../bin/app/data/gui/bookmark_view/images/bookmark_icon_2.png' KeyPath='yes' />
+							</Component>
+							<Component Id='BookmarkViewBookmarkListIconPng' Guid='2FD82AC2-A8D7-408B-9913-D9FF6D7F3B66' Win64="$(var.Win64)">
+								<File Id='BookmarkViewBookmarkListIcon' Name='bookmark_list_icon.png' DiskId='1' Source='./../../../bin/app/data/gui/bookmark_view/images/bookmark_list_icon.png' KeyPath='yes' />
+							</Component>
+							<Component Id='BookmarkViewEditBookmarkIconPng' Guid='EDCDE734-878A-4CFF-8BB8-BBB89F70D3E1' Win64="$(var.Win64)">
+								<File Id='BookmarkViewEditBookmarkIcon' Name='edit_bookmark_icon.png' DiskId='1' Source='./../../../bin/app/data/gui/bookmark_view/images/edit_bookmark_icon.png' KeyPath='yes' />
+							</Component>
+						</Directory>
+					</Directory>
+					
 					<Directory Id='DataCodeView' Name='code_view'>
 						<Component Id='CodeViewCss' Guid='D880FDCE-037E-4401-95D5-38D4472C9A47' Win64="$(var.Win64)">
 							<File Id='CodeView' Name='code_view.css' DiskId='1' Source='./../../../bin/app/data/gui/code_view/code_view.css' KeyPath='yes' />

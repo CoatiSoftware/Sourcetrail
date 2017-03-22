@@ -213,7 +213,18 @@
 				<ComponentRef Id='LogoAwsPng'/>
 				<ComponentRef Id='LogoCoatiPng'/>
 				<ComponentRef Id='LogoFhsPng'/>
-
+				
+				<ComponentRef Id='BookmarkViewCss'/>
+				<ComponentRef Id='BookmarkViewArrowDownPng'/>
+				<ComponentRef Id='BookmarkViewArrowRightPng'/>
+				<ComponentRef Id='BookmarkViewBookmarkActivePng'/>
+				<ComponentRef Id='BookmarkViewBookmarkDeleteIconPng'/>
+				<ComponentRef Id='BookmarkViewBookmarkEditIconPng'/>
+				<ComponentRef Id='BookmarkViewBookmarkIconPng'/>
+				<ComponentRef Id='BookmarkViewBookmarkIcon2Png'/>
+				<ComponentRef Id='BookmarkViewBookmarkListIconPng'/>
+				<ComponentRef Id='BookmarkViewEditBookmarkIconPng'/>
+				
 				<ComponentRef Id='CodeViewCss'/>
 				<ComponentRef Id='CodeViewArrowLeftPng'/>
 				<ComponentRef Id='CodeViewArrowRightPng'/>
