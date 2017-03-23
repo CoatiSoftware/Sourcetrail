@@ -21,12 +21,14 @@ public:
 	void addUndoActions();
 	void addFileActions(FilePath filePath);
 
+	static QtContextMenu* getInstance();
+
 	void addSeparator();
 
 	void show();
 
-	static void enableUndo(bool enabled);
-	static void enableRedo(bool enabled);
+	void enableUndo(bool enabled);
+	void enableRedo(bool enabled);
 
 private slots:
 	void undoActionTriggered();

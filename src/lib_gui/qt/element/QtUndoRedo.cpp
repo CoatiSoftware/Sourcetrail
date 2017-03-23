@@ -58,14 +58,14 @@ void QtUndoRedo::redo()
 void QtUndoRedo::setUndoButtonEnabled(bool enabled)
 {
     m_undoButton->setEnabled(enabled);
-	QtContextMenu::enableUndo(enabled);
+	QtContextMenu::getInstance()->enableUndo(enabled);
 
 }
 
 void QtUndoRedo::setRedoButtonEnabled(bool enabled)
 {
     m_redoButton->setEnabled(enabled);
-	QtContextMenu::enableRedo(enabled);
+	QtContextMenu::getInstance()->enableRedo(enabled);
 }
 
 void QtUndoRedo::refreshStyle()
