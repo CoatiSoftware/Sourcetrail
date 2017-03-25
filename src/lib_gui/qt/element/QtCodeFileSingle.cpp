@@ -10,7 +10,7 @@
 #include "utility/messaging/type/MessageChangeFileView.h"
 #include "utility/ResourcePaths.h"
 
-#include "data/location/TokenLocationFile.h"
+#include "data/location/SourceLocationFile.h"
 #include "qt/element/QtCodeArea.h"
 #include "qt/element/QtCodeFileTitleButton.h"
 #include "qt/element/QtCodeNavigator.h"
@@ -86,7 +86,7 @@ void QtCodeFileSingle::clearCache()
 
 void QtCodeFileSingle::addCodeSnippet(const CodeSnippetParams& params, bool insert)
 {
-	if (!params.locationFile->isWholeCopy)
+	if (!params.locationFile->isWhole())
 	{
 		LOG_ERROR("Snippet params passed are not for whole file.");
 		return;

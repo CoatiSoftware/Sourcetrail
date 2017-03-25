@@ -5,7 +5,6 @@
 #include "data/graph/token_component/TokenComponentAbstraction.h"
 #include "data/graph/token_component/TokenComponentAccess.h"
 #include "data/graph/token_component/TokenComponentStatic.h"
-#include "data/location/TokenLocation.h"
 #include "data/parser/ParseLocation.h"
 #include "data/PersistentStorage.h"
 
@@ -238,13 +237,6 @@ private:
 			clear();
 		}
 
-		std::shared_ptr<TokenLocationCollection> getLocationCollectionForTokenId(Id id) const
-		{
-			std::vector<Id> tokenIds;
-			tokenIds.push_back(id);
-			return getTokenLocationsForTokenIds(tokenIds);
-		}
-
 		//const size_t getNodeCount() const
 		//{
 		//	return getGraph().getNodeCount();
@@ -266,14 +258,6 @@ private:
 	ParseLocation validLocation(Id locationId = 0) const
 	{
 		return ParseLocation(m_filePath, 1, locationId, 1, locationId);
-	}
-
-	bool isValidLocation(TokenLocation* location, Id locationId) const
-	{
-		return
-			location->getFilePath() == m_filePath &&
-			location->getLineNumber() == 1 &&
-			location->getColumnNumber() == locationId;
 	}
 
 	NameHierarchy createFunctionNameHierarchy(std::string ret, std::string name, std::string parameters) const

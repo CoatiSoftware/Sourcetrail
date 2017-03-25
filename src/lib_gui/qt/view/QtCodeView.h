@@ -39,7 +39,7 @@ public:
 	virtual void setFileState(const FilePath filePath, FileState state);
 
 	virtual void showActiveSnippet(
-		const std::vector<Id>& activeTokenIds, std::shared_ptr<TokenLocationCollection> collection, bool scrollTo);
+		const std::vector<Id>& activeTokenIds, std::shared_ptr<SourceLocationCollection> collection, bool scrollTo);
 	virtual void showActiveTokenIds(const std::vector<Id>& activeTokenIds);
 	virtual void showActiveLocalSymbolIds(const std::vector<Id>& activeLocalSymbolIds);
 
@@ -62,7 +62,7 @@ private:
 	void doSetFileState(const FilePath filePath, FileState state);
 
 	void doShowActiveSnippet(
-		const std::vector<Id>& activeTokenIds, std::shared_ptr<TokenLocationCollection> collection, bool scrollTo);
+		const std::vector<Id>& activeTokenIds, std::shared_ptr<SourceLocationCollection> collection, bool scrollTo);
 	void doShowActiveTokenIds(const std::vector<Id>& activeTokenIds);
 	void doShowActiveLocalSymbolIds(const std::vector<Id>& localSymbolIds);
 
@@ -73,7 +73,7 @@ private:
 	QtThreadedFunctor<const std::vector<CodeSnippetParams>&, const std::vector<Id>&, bool> m_showCodeSnippetsFunctor;
 	QtThreadedFunctor<const std::vector<CodeSnippetParams>&, bool> m_addCodeSnippetsFunctor;
 	QtThreadedFunctor<const FilePath, FileState> m_setFileStateFunctor;
-	QtThreadedFunctor<const std::vector<Id>&, std::shared_ptr<TokenLocationCollection>, bool> m_doShowActiveSnippetFunctor;
+	QtThreadedFunctor<const std::vector<Id>&, std::shared_ptr<SourceLocationCollection>, bool> m_doShowActiveSnippetFunctor;
 	QtThreadedFunctor<const std::vector<Id>&> m_doShowActiveTokenIdsFunctor;
 	QtThreadedFunctor<const std::vector<Id>&> m_doShowActiveLocalSymbolIdsFunctor;
 	QtThreadedFunctor<const std::vector<Id>&> m_focusTokenIdsFunctor;

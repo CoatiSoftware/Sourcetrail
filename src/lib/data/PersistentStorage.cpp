@@ -20,9 +20,8 @@
 #include "data/graph/token_component/TokenComponentFilePath.h"
 #include "data/graph/token_component/TokenComponentSignature.h"
 #include "data/graph/Graph.h"
-#include "data/location/TokenLocation.h"
-#include "data/location/TokenLocationFile.h"
-#include "data/location/TokenLocationLine.h"
+#include "data/location/SourceLocationCollection.h"
+#include "data/location/SourceLocationFile.h"
 #include "data/parser/ParseLocation.h"
 
 PersistentStorage::PersistentStorage(const FilePath& dbPath)
@@ -530,13 +529,13 @@ bool PersistentStorage::checkEdgeExists(Id edgeId) const
 	return m_sqliteStorage.checkEdgeExists(edgeId);
 }
 
-std::shared_ptr<TokenLocationCollection> PersistentStorage::getFullTextSearchLocations(
+std::shared_ptr<SourceLocationCollection> PersistentStorage::getFullTextSearchLocations(
 		const std::string& searchTerm, bool caseSensitive
 ) const
 {
 	TRACE();
 
-	std::shared_ptr<TokenLocationCollection> collection = std::make_shared<TokenLocationCollection>();
+	std::shared_ptr<SourceLocationCollection> collection = std::make_shared<SourceLocationCollection>();
 	if (!searchTerm.size())
 	{
 		return collection;
@@ -554,20 +553,17 @@ std::shared_ptr<TokenLocationCollection> PersistentStorage::getFullTextSearchLoc
 	).dispatch();
 
 	std::vector<FullTextSearchResult> hits = m_fullTextSearchIndex.searchForTerm(searchTerm);
-
 	int termLength = searchTerm.length();
-	FilePath filepath;
-	std::shared_ptr<TextAccess> file;
-	ParseLocation location;
+
 	for (size_t i = 0; i < hits.size(); i++)
 	{
-		filepath = getFileNodePath(hits[i].fileId);
-		file = getFileContent(filepath);
+		FilePath filePath = getFileNodePath(hits[i].fileId);
+		std::shared_ptr<TextAccess> fileContent = getFileContent(filePath);
 
 		int charsInPreviousLines = 0;
 		int lineNumber = 1;
 		std::string line;
-		line = file->getLine(lineNumber);
+		line = fileContent->getLine(lineNumber);
 
 		for (int pos : hits[i].positions)
 		{
@@ -576,8 +572,10 @@ std::shared_ptr<TokenLocationCollection> PersistentStorage::getFullTextSearchLoc
 			{
 				lineNumber++;
 				charsInPreviousLines += line.length();
-				line = file->getLine(lineNumber);
+				line = fileContent->getLine(lineNumber);
 			}
+
+			ParseLocation location;
 			location.startLineNumber = lineNumber;
 			location.startColumnNumber = pos - charsInPreviousLines + 1;
 
@@ -593,7 +591,7 @@ std::shared_ptr<TokenLocationCollection> PersistentStorage::getFullTextSearchLoc
 			{
 				lineNumber++;
 				charsInPreviousLines += line.length();
-				line = file->getLine(lineNumber);
+				line = fileContent->getLine(lineNumber);
 			}
 
 			location.endLineNumber = lineNumber;
@@ -602,24 +600,25 @@ std::shared_ptr<TokenLocationCollection> PersistentStorage::getFullTextSearchLoc
 			if ( addHit )
 			{
 				// Set first bit to 1 to avoid collisions
-				Id locationId = ~(~size_t(0) >> 1) + collection->getTokenLocationCount();
+				Id locationId = ~(~size_t(0) >> 1) + collection->getSourceLocationCount();
 
-				collection->addTokenLocation(
+				collection->addSourceLocation(
+					LOCATION_FULLTEXT,
 					locationId,
-					0,
-					filepath,
+					std::vector<Id>(),
+					filePath,
 					location.startLineNumber,
 					location.startColumnNumber,
 					location.endLineNumber,
 					location.endColumnNumber
-				)->setType(LOCATION_FULLTEXT);
+				);
 			}
 		}
 	}
 
 	MessageStatus(
-		std::to_string(collection->getTokenLocationCount()) + " results in " +
-			std::to_string(collection->getTokenLocationFileCount()) + " files for fulltext search (case-" +
+		std::to_string(collection->getSourceLocationCount()) + " results in " +
+			std::to_string(collection->getSourceLocationFileCount()) + " files for fulltext search (case-" +
 			(caseSensitive ? "sensitive" : "insensitive") + "): " + searchTerm,
 		false, false
 	).dispatch();
@@ -1085,33 +1084,34 @@ std::vector<Id> PersistentStorage::getNodeIdsForLocationIds(const std::vector<Id
 	return utility::toVector(edgeIds);
 }
 
-std::shared_ptr<TokenLocationCollection> PersistentStorage::getTokenLocationsForTokenIds(
+std::shared_ptr<SourceLocationCollection> PersistentStorage::getSourceLocationsForTokenIds(
 	const std::vector<Id>& tokenIds) const
 {
 	TRACE();
-
-	std::shared_ptr<TokenLocationCollection> collection = std::make_shared<TokenLocationCollection>();
 
 	std::vector<Id> fileIds;
 	std::vector<Id> nonFileIds;
 
 	for (const Id tokenId : tokenIds)
 	{
-		if (!getFileNodePath(tokenId).empty())
-		{
-			fileIds.push_back(tokenId);
-		}
-		else
+		if (getFileNodePath(tokenId).empty())
 		{
 			nonFileIds.push_back(tokenId);
 		}
+		else
+		{
+			fileIds.push_back(tokenId);
+		}
 	}
 
-	for (StorageFile file: m_sqliteStorage.getAllByIds<StorageFile>(fileIds))
+	std::shared_ptr<SourceLocationCollection> collection = std::make_shared<SourceLocationCollection>();
+
+	for (const StorageFile& file : m_sqliteStorage.getAllByIds<StorageFile>(fileIds))
 	{
-		collection->addTokenLocationFile(m_sqliteStorage.getTokenLocationsForFile(file.filePath));
+		collection->addSourceLocationFile(m_sqliteStorage.getSourceLocationsForFile(file.filePath));
 	}
 
+	if (nonFileIds.size())
 	{
 		std::vector<Id> locationIds;
 		std::unordered_map<Id, Id> locationIdToElementIdMap;
@@ -1126,81 +1126,83 @@ std::shared_ptr<TokenLocationCollection> PersistentStorage::getTokenLocationsFor
 			auto it = locationIdToElementIdMap.find(sourceLocation.id);
 			if (it != locationIdToElementIdMap.end())
 			{
-				TokenLocation* tokenLocation = collection->addTokenLocation(
+				collection->addSourceLocation(
+					intToLocationType(sourceLocation.type),
 					sourceLocation.id,
-					it->second,
+					std::vector<Id>(1, it->second),
 					getFileNodePath(sourceLocation.fileNodeId),
 					sourceLocation.startLine,
 					sourceLocation.startCol,
 					sourceLocation.endLine,
 					sourceLocation.endCol
 				);
-
-				if (tokenLocation)
-				{
-					tokenLocation->setType(intToLocationType(sourceLocation.type));
-				}
 			}
 		}
 	}
+
 	return collection;
 }
 
-std::shared_ptr<TokenLocationCollection> PersistentStorage::getTokenLocationsForLocationIds(
+std::shared_ptr<SourceLocationCollection> PersistentStorage::getSourceLocationsForLocationIds(
 		const std::vector<Id>& locationIds
 ) const
 {
 	TRACE();
 
-	std::shared_ptr<TokenLocationCollection> collection = std::make_shared<TokenLocationCollection>();
+	std::shared_ptr<SourceLocationCollection> collection = std::make_shared<SourceLocationCollection>();
 
 	for (StorageSourceLocation location: m_sqliteStorage.getAllByIds<StorageSourceLocation>(locationIds))
 	{
-		for (const StorageOccurrence& occurrences: m_sqliteStorage.getOccurrencesForLocationId(location.id))
+		std::vector<Id> elementIds;
+		for (const StorageOccurrence& occurrence: m_sqliteStorage.getOccurrencesForLocationId(location.id))
 		{
-			collection->addTokenLocation(
-				location.id,
-				occurrences.elementId,
-				getFileNodePath(location.fileNodeId),
-				location.startLine,
-				location.startCol,
-				location.endLine,
-				location.endCol
-			)->setType(intToLocationType(location.type));
+			elementIds.push_back(occurrence.elementId);
 		}
+
+		collection->addSourceLocation(
+			intToLocationType(location.type),
+			location.id,
+			elementIds,
+			getFileNodePath(location.fileNodeId),
+			location.startLine,
+			location.startCol,
+			location.endLine,
+			location.endCol
+		);
 	}
 
 	return collection;
 }
 
-std::shared_ptr<TokenLocationFile> PersistentStorage::getTokenLocationsForFile(const std::string& filePath) const
+std::shared_ptr<SourceLocationFile> PersistentStorage::getSourceLocationsForFile(const FilePath& filePath) const
 {
 	TRACE();
 
-	return m_sqliteStorage.getTokenLocationsForFile(filePath);
+	return m_sqliteStorage.getSourceLocationsForFile(filePath);
 }
 
-std::shared_ptr<TokenLocationFile> PersistentStorage::getTokenLocationsForLinesInFile(
+std::shared_ptr<SourceLocationFile> PersistentStorage::getSourceLocationsForLinesInFile(
 		const std::string& filePath, uint firstLineNumber, uint lastLineNumber
 ) const
 {
 	TRACE();
 
-	return getTokenLocationsForFile(filePath)->getFilteredByLines(firstLineNumber, lastLineNumber);
+	return getSourceLocationsForFile(filePath)->getFilteredByLines(firstLineNumber, lastLineNumber);
 }
 
-std::shared_ptr<TokenLocationFile> PersistentStorage::getCommentLocationsInFile(const FilePath& filePath) const
+std::shared_ptr<SourceLocationFile> PersistentStorage::getCommentLocationsInFile(const FilePath& filePath) const
 {
 	TRACE();
 
-	std::shared_ptr<TokenLocationFile> file = std::make_shared<TokenLocationFile>(filePath);
+	std::shared_ptr<SourceLocationFile> file = std::make_shared<SourceLocationFile>(filePath, false);
 
 	std::vector<StorageCommentLocation> storageLocations = m_sqliteStorage.getCommentLocationsInFile(filePath);
 	for (size_t i = 0; i < storageLocations.size(); i++)
 	{
-		file->addTokenLocation(
+		file->addSourceLocation(
+			LOCATION_TOKEN,
 			storageLocations[i].id,
-			0, // comment token location has no element.
+			std::vector<Id>(), // comment token location has no element.
 			storageLocations[i].startLine,
 			storageLocations[i].startCol,
 			storageLocations[i].endLine,
@@ -1283,11 +1285,11 @@ std::vector<ErrorInfo> PersistentStorage::getErrors() const
 	return filteredErrors;
 }
 
-std::shared_ptr<TokenLocationCollection> PersistentStorage::getErrorTokenLocations(std::vector<ErrorInfo>* errors) const
+std::shared_ptr<SourceLocationCollection> PersistentStorage::getErrorSourceLocations(std::vector<ErrorInfo>* errors) const
 {
 	TRACE();
 
-	std::shared_ptr<TokenLocationCollection> errorCollection = std::make_shared<TokenLocationCollection>();
+	std::shared_ptr<SourceLocationCollection> errorCollection = std::make_shared<SourceLocationCollection>();
 	for (const ErrorInfo& error : m_sqliteStorage.getAll<StorageError>())
 	{
 		if (m_errorFilter.filter(error))
@@ -1297,9 +1299,16 @@ std::shared_ptr<TokenLocationCollection> PersistentStorage::getErrorTokenLocatio
 			// Set first bit to 1 to avoid collisions
 			Id locationId = ~(~size_t(0) >> 1) + error.id;
 
-			errorCollection->addTokenLocation(
-				locationId, error.id, error.filePath, error.lineNumber, error.columnNumber, error.lineNumber, error.columnNumber
-			)->setType(LOCATION_ERROR);
+			errorCollection->addSourceLocation(
+				LOCATION_ERROR,
+				locationId,
+				std::vector<Id>(1, error.id),
+				error.filePath,
+				error.lineNumber,
+				error.columnNumber,
+				error.lineNumber,
+				error.columnNumber
+			);
 		}
 	}
 

@@ -17,8 +17,8 @@
 
 class QLabel;
 class QPushButton;
-class TokenLocationCollection;
-class TokenLocationFile;
+class SourceLocationCollection;
+class SourceLocationFile;
 
 class QtCodeNavigator
 	: public QWidget
@@ -35,7 +35,7 @@ public:
 	virtual ~QtCodeNavigator();
 
 	void addCodeSnippet(const CodeSnippetParams& params, bool insert = false);
-	void addFile(std::shared_ptr<TokenLocationFile> locationFile, int refCount, TimePoint modificationTime);
+	void addFile(std::shared_ptr<SourceLocationFile> locationFile, int refCount, TimePoint modificationTime);
 
 	void addedFiles();
 
@@ -43,19 +43,19 @@ public:
 	void clearCodeSnippets();
 	void clearCaches();
 
-	const std::vector<Id>& getCurrentActiveTokenIds() const;
+	const std::set<Id>& getCurrentActiveTokenIds() const;
 	void setCurrentActiveTokenIds(const std::vector<Id>& currentActiveTokenIds);
 
-	const std::vector<Id>& getCurrentActiveLocationIds() const;
+	const std::set<Id>& getCurrentActiveLocationIds() const;
 	void setCurrentActiveLocationIds(const std::vector<Id>& currentActiveLocationIds);
 
-	const std::vector<Id>& getActiveTokenIds() const;
+	const std::set<Id>& getActiveTokenIds() const;
 	void setActiveTokenIds(const std::vector<Id>& activeTokenIds);
 
-	const std::vector<Id>& getActiveLocalSymbolIds() const;
+	const std::set<Id>& getActiveLocalSymbolIds() const;
 	void setActiveLocalSymbolIds(const std::vector<Id>& activeLocalSymbolIds);
 
-	const std::vector<Id>& getFocusedTokenIds() const;
+	const std::set<Id>& getFocusedTokenIds() const;
 	void setFocusedTokenIds(const std::vector<Id>& focusedTokenIds);
 
 	std::string getErrorMessageForId(Id errorId) const;
@@ -67,7 +67,7 @@ public:
 	bool isInListMode() const;
 
 	void showActiveSnippet(
-		const std::vector<Id>& activeTokenIds, std::shared_ptr<TokenLocationCollection> collection, bool scrollTo);
+		const std::vector<Id>& activeTokenIds, std::shared_ptr<SourceLocationCollection> collection, bool scrollTo);
 
 	void focusTokenIds(const std::vector<Id>& focusedTokenIds);
 	void defocusTokenIds();
@@ -119,6 +119,7 @@ private:
 		Reference()
 			: tokenId(0)
 			, locationId(0)
+			, locationType(LOCATION_TOKEN)
 		{
 		}
 
@@ -163,13 +164,15 @@ private:
 
 	Mode m_mode;
 
-	std::vector<Id> m_currentActiveTokenIds;
-	std::vector<Id> m_currentActiveLocationIds;
+	std::set<Id> m_currentActiveTokenIds;
+	std::set<Id> m_currentActiveLocationIds;
 
-	std::vector<Id> m_activeTokenIds;
-	std::vector<Id> m_activeLocalSymbolIds;
-	std::vector<Id> m_focusedTokenIds;
+	std::set<Id> m_activeTokenIds;
+	std::set<Id> m_activeLocalSymbolIds;
+	std::set<Id> m_focusedTokenIds;
 	std::map<Id, ErrorInfo> m_errorInfos;
+
+	Id m_activeTokenId;
 
 	int m_value;
 

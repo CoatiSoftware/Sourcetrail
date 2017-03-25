@@ -27,9 +27,9 @@
 #include "component/view/CodeView.h"
 
 class StorageAccess;
-class TokenLocation;
-class TokenLocationCollection;
-class TokenLocationFile;
+class SourceLocation;
+class SourceLocationCollection;
+class SourceLocationFile;
 
 class CodeController
 	: public Controller
@@ -78,29 +78,31 @@ private:
 
 	void showContents(MessageBase* message);
 
-	std::vector<CodeSnippetParams> getSnippetsForActiveTokenLocations(
-		const TokenLocationCollection* collection, Id declarationId) const;
+	std::vector<CodeSnippetParams> getSnippetsForActiveSourceLocations(
+		const SourceLocationCollection* collection, Id declarationId) const;
 	std::vector<CodeSnippetParams> getSnippetsForCollection(
-		std::shared_ptr<TokenLocationCollection> collection, bool addTokenLocations = false) const;
+		std::shared_ptr<SourceLocationCollection> collection, bool addSourceLocations = false) const;
 	std::vector<CodeSnippetParams> getSnippetsForFile(
-		std::shared_ptr<TokenLocationFile> file, bool addTokenLocations = false) const;
+		std::shared_ptr<SourceLocationFile> file, bool addSourceLocations = false) const;
 
 	std::shared_ptr<SnippetMerger> buildMergerHierarchy(
-		TokenLocation* location, std::shared_ptr<TokenLocationFile> context, SnippetMerger& fileScopedMerger,
+		SourceLocation* location, std::shared_ptr<SourceLocationFile> context, SnippetMerger& fileScopedMerger,
 		std::map<int, std::shared_ptr<SnippetMerger>>& mergers) const;
-	std::shared_ptr<TokenLocationFile> getTokenLocationOfParentScope(
-		const TokenLocation* location, std::shared_ptr<TokenLocationFile> context) const;
+	std::shared_ptr<SourceLocationFile> getSourceLocationOfParentScope(
+		const SourceLocation* location, std::shared_ptr<SourceLocationFile> context) const;
 
-	std::vector<std::string> getProjectDescription(TokenLocationFile* locationFile) const;
+	std::vector<std::string> getProjectDescription(SourceLocationFile* locationFile) const;
 
 	void addModificationTimes(std::vector<CodeSnippetParams>& snippets) const;
 
 	StorageAccess* m_storageAccess;
-	mutable std::shared_ptr<TokenLocationCollection> m_collection;
+	mutable std::shared_ptr<SourceLocationCollection> m_collection;
 
 	bool m_scrollToDefinition;
 	int m_scrollToValue;
 	bool m_scrollInListMode;
+	FilePath m_scrollToFilePath;
+	size_t m_scrollToLine;
 };
 
 #endif // CODE_CONTROLLER_H

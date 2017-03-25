@@ -16,7 +16,7 @@ class QBoxLayout;
 class QPushButton;
 class QtCodeFile;
 class QtCodeNavigator;
-class TokenLocationFile;
+class SourceLocationFile;
 
 class QtCodeSnippet
 	: public QFrame

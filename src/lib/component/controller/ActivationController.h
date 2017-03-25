@@ -10,7 +10,7 @@
 #include "utility/messaging/type/MessageActivateFile.h"
 #include "utility/messaging/type/MessageActivateNodes.h"
 #include "utility/messaging/type/MessageActivateTokenIds.h"
-#include "utility/messaging/type/MessageActivateTokenLocations.h"
+#include "utility/messaging/type/MessageActivateSourceLocations.h"
 #include "utility/messaging/type/MessageResetZoom.h"
 #include "utility/messaging/type/MessageSearch.h"
 #include "utility/messaging/type/MessageZoom.h"
@@ -23,7 +23,7 @@ class ActivationController
 	, public MessageListener<MessageActivateFile>
 	, public MessageListener<MessageActivateNodes>
 	, public MessageListener<MessageActivateTokenIds>
-	, public MessageListener<MessageActivateTokenLocations>
+	, public MessageListener<MessageActivateSourceLocations>
 	, public MessageListener<MessageResetZoom>
 	, public MessageListener<MessageSearch>
 	, public MessageListener<MessageZoom>
@@ -40,7 +40,7 @@ private:
 	virtual void handleMessage(MessageActivateNodes* message);
 	virtual void handleMessage(MessageSearch* message);
 	virtual void handleMessage(MessageActivateTokenIds* message);
-	virtual void handleMessage(MessageActivateTokenLocations* message);
+	virtual void handleMessage(MessageActivateSourceLocations* message);
 	virtual void handleMessage(MessageResetZoom* message);
 	virtual void handleMessage(MessageZoom* message);
 

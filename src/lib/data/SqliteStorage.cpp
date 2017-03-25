@@ -3,7 +3,6 @@
 #include <unordered_map>
 
 #include "data/graph/Node.h"
-#include "data/location/TokenLocation.h"
 #include "data/parser/ParseLocation.h"
 #include "utility/logging/logging.h"
 #include "utility/text/TextAccess.h"
@@ -847,9 +846,9 @@ StorageSourceLocation SqliteStorage::getSourceLocationByAll(const Id fileNodeId,
 	);
 }
 
-std::shared_ptr<TokenLocationFile> SqliteStorage::getTokenLocationsForFile(const FilePath& filePath) const
+std::shared_ptr<SourceLocationFile> SqliteStorage::getSourceLocationsForFile(const FilePath& filePath) const
 {
-	std::shared_ptr<TokenLocationFile> ret = std::make_shared<TokenLocationFile>(filePath);
+	std::shared_ptr<SourceLocationFile> ret = std::make_shared<SourceLocationFile>(filePath, true);
 
 	const Id fileNodeId = getFileByPath(filePath.str()).id;
 	if (fileNodeId == 0) // early out
@@ -865,24 +864,28 @@ std::shared_ptr<TokenLocationFile> SqliteStorage::getTokenLocationsForFile(const
 		sourceLocationIdToData[storageLocation.id] = storageLocation;
 	}
 
+	std::map<Id, std::vector<Id>> sourceLocationIdToElementIds;
 	for (const StorageOccurrence& occurrence: getOccurrencesForLocationIds(sourceLocationIds))
 	{
-		auto it = sourceLocationIdToData.find(occurrence.sourceLocationId);
+		sourceLocationIdToElementIds[occurrence.sourceLocationId].push_back(occurrence.elementId);
+	}
+
+	for (const std::pair<Id, std::vector<Id>>& p : sourceLocationIdToElementIds)
+	{
+		auto it = sourceLocationIdToData.find(p.first);
 		if (it != sourceLocationIdToData.end())
 		{
-			TokenLocation* loc = ret->addTokenLocation(
-				it->second.id, //e.first.id,
-				occurrence.elementId,
+			ret->addSourceLocation(
+				intToLocationType(it->second.type),
+				it->second.id,
+				p.second,
 				it->second.startLine,
 				it->second.startCol,
 				it->second.endLine,
 				it->second.endCol
 			);
-			loc->setType(intToLocationType(it->second.type));
 		}
 	}
-
-	ret->isWholeCopy = true;
 
 	return ret;
 }

@@ -6,7 +6,7 @@
 #include "utility/TimePoint.h"
 #include "utility/types.h"
 
-class TokenLocationFile;
+class SourceLocationFile;
 
 struct CodeSnippetParams
 {
@@ -26,7 +26,7 @@ struct CodeSnippetParams
 	Id footerId;
 	TimePoint modificationTime;
 
-	std::shared_ptr<TokenLocationFile> locationFile;
+	std::shared_ptr<SourceLocationFile> locationFile;
 
 	int refCount;
 

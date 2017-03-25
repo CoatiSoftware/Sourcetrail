@@ -10,7 +10,7 @@
 #include "component/view/View.h"
 
 class CodeController;
-class TokenLocationCollection;
+class SourceLocationCollection;
 
 class CodeView
 	: public View
@@ -41,7 +41,7 @@ public:
 	virtual void setFileState(const FilePath filePath, FileState state) = 0;
 
 	virtual void showActiveSnippet(
-		const std::vector<Id>& activeTokenIds, std::shared_ptr<TokenLocationCollection> collection, bool scrollTo) = 0;
+		const std::vector<Id>& activeTokenIds, std::shared_ptr<SourceLocationCollection> collection, bool scrollTo) = 0;
 	virtual void showActiveTokenIds(const std::vector<Id>& activeTokenIds) = 0;
 	virtual void showActiveLocalSymbolIds(const std::vector<Id>& activeLocalSymbolIds) = 0;
 

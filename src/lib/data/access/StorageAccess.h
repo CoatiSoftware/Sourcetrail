@@ -21,10 +21,9 @@
 #include "data/StorageStats.h"
 
 class Graph;
+class SourceLocationCollection;
+class SourceLocationFile;
 class TextAccess;
-class TokenLocation;
-class TokenLocationCollection;
-class TokenLocationFile;
 
 class StorageAccess
 {
@@ -46,7 +45,7 @@ public:
 	virtual StorageEdge getEdgeById(Id edgeId) const = 0;
 	virtual bool checkEdgeExists(Id edgeId) const = 0;
 
-	virtual std::shared_ptr<TokenLocationCollection> getFullTextSearchLocations(
+	virtual std::shared_ptr<SourceLocationCollection> getFullTextSearchLocations(
 			const std::string& searchTerm, bool caseSensitive) const = 0;
 	virtual std::vector<SearchMatch> getAutocompletionMatches(const std::string& query) const = 0;
 	virtual std::vector<SearchMatch> getSearchMatchesForTokenIds(const std::vector<Id>& tokenIds) const = 0;
@@ -57,15 +56,15 @@ public:
 	virtual std::vector<Id> getActiveTokenIdsForId(Id tokenId, Id* declarationId) const = 0;
 	virtual std::vector<Id> getNodeIdsForLocationIds(const std::vector<Id>& locationIds) const = 0;
 
-	virtual std::shared_ptr<TokenLocationCollection> getTokenLocationsForTokenIds(
-			const std::vector<Id>& tokenIds) const = 0;
-	virtual std::shared_ptr<TokenLocationCollection> getTokenLocationsForLocationIds(
-			const std::vector<Id>& locationIds) const = 0;
-	virtual std::shared_ptr<TokenLocationFile> getTokenLocationsForFile(const std::string& filePath) const = 0;
-	virtual std::shared_ptr<TokenLocationFile> getTokenLocationsForLinesInFile(
+	virtual std::shared_ptr<SourceLocationCollection> getSourceLocationsForTokenIds(
+		const std::vector<Id>& tokenIds) const = 0;
+	virtual std::shared_ptr<SourceLocationCollection> getSourceLocationsForLocationIds(
+		const std::vector<Id>& locationIds) const = 0;
+	virtual std::shared_ptr<SourceLocationFile> getSourceLocationsForFile(const FilePath& filePath) const = 0;
+	virtual std::shared_ptr<SourceLocationFile> getSourceLocationsForLinesInFile(
 		const std::string& filePath, uint firstLineNumber, uint lastLineNumber) const = 0;
 
-	virtual std::shared_ptr<TokenLocationFile> getCommentLocationsInFile(const FilePath& filePath) const = 0;
+	virtual std::shared_ptr<SourceLocationFile> getCommentLocationsInFile(const FilePath& filePath) const = 0;
 
 	virtual std::shared_ptr<TextAccess> getFileContent(const FilePath& filePath) const = 0;
 
@@ -77,7 +76,7 @@ public:
 	virtual ErrorCountInfo getErrorCount() const = 0;
 	virtual std::vector<ErrorInfo> getErrors() const = 0;
 
-	virtual std::shared_ptr<TokenLocationCollection> getErrorTokenLocations(std::vector<ErrorInfo>* errors) const = 0;
+	virtual std::shared_ptr<SourceLocationCollection> getErrorSourceLocations(std::vector<ErrorInfo>* errors) const = 0;
 
 	virtual void setErrorFilter(const ErrorFilter& filter);
 

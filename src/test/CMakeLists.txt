@@ -23,11 +23,11 @@ add_files(
     SettingsTestSuite.h
 	SettingsMigratorTestSuite.h
 	SearchIndexTestSuite.h
+	SourceLocationCollectionTestSuite.h
 	SqliteStorageTestSuite.h
 	StorageTestSuite.h
 	TaskSchedulerTestSuite.h
 	TextAccessTestSuite.h
-	TokenLocationCollectionTestSuite.h
 	UtilityStringTestSuite.h
 	Vector2TestSuite.h
     JavaParserTestSuite.h

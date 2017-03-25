@@ -5,10 +5,6 @@
 #include "data/access/StorageAccess.h"
 #include "data/bookmark/Bookmark.h"
 
-#include "data/location/TokenLocation.h"
-#include "data/location/TokenLocationCollection.h"
-#include "data/location/TokenLocationFile.h"
-
 #include "utility/messaging/type/MessageActivateEdge.h"
 #include "utility/messaging/type/MessageActivateNodes.h"
 

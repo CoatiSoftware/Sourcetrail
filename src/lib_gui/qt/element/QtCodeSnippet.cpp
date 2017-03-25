@@ -7,7 +7,7 @@
 #include "utility/messaging/type/MessageShowScope.h"
 #include "utility/text/TextAccess.h"
 
-#include "data/location/TokenLocationFile.h"
+#include "data/location/SourceLocationFile.h"
 #include "qt/element/QtCodeNavigator.h"
 #include "qt/element/QtCodeFile.h"
 
@@ -17,22 +17,22 @@ std::shared_ptr<QtCodeSnippet> QtCodeSnippet::merged(
 	QtCodeSnippet* first = a->getStartLineNumber() < b->getStartLineNumber() ? a : b;
 	QtCodeSnippet* second = a->getStartLineNumber() > b->getStartLineNumber() ? a : b;
 
-	TokenLocationFile* aFile = a->m_codeArea->getTokenLocationFile().get();
-	TokenLocationFile* bFile = b->m_codeArea->getTokenLocationFile().get();
+	SourceLocationFile* aFile = a->m_codeArea->getSourceLocationFile().get();
+	SourceLocationFile* bFile = b->m_codeArea->getSourceLocationFile().get();
 
-	std::shared_ptr<TokenLocationFile> locationFile = std::make_shared<TokenLocationFile>(aFile->getFilePath());
+	std::shared_ptr<SourceLocationFile> locationFile = std::make_shared<SourceLocationFile>(aFile->getFilePath(), aFile->isWhole());
 
-	aFile->forEachTokenLocation(
-		[&locationFile](TokenLocation* loc)
+	aFile->forEachSourceLocation(
+		[&locationFile](SourceLocation* loc)
 		{
-			locationFile->addTokenLocationAsPlainCopy(loc);
+			locationFile->addSourceLocationCopy(loc);
 		}
 	);
 
-	bFile->forEachTokenLocation(
-		[&locationFile](TokenLocation* loc)
+	bFile->forEachSourceLocation(
+		[&locationFile](SourceLocation* loc)
 		{
-			locationFile->addTokenLocationAsPlainCopy(loc);
+			locationFile->addSourceLocationCopy(loc);
 		}
 	);
 

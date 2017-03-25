@@ -1,6 +1,5 @@
 #include "data/graph/Token.h"
 
-#include "data/location/TokenLocation.h"
 #include "utility/logging/logging.h"
 
 Token::Token(Id id)

@@ -84,6 +84,14 @@ namespace utility
 		return false;
 	}
 
+	template<typename T>
+	bool shareElement(const std::set<T>& a, const std::set<T>& b)
+	{
+		std::set<T> c(a.begin(), a.end());
+		c.insert(b.begin(), b.end());
+		return a.size() + b.size() != c.size();
+	}
+
 	bool intersectionPoint(Vec2f a1, Vec2f b1, Vec2f a2, Vec2f b2, Vec2f* i);
 
 	size_t digits(size_t n);

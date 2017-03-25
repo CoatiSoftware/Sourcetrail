@@ -6,7 +6,7 @@
 
 #include "utility/messaging/type/MessageChangeFileView.h"
 
-#include "data/location/TokenLocationFile.h"
+#include "data/location/SourceLocationFile.h"
 #include "qt/element/QtCodeFileTitleButton.h"
 #include "qt/element/QtCodeNavigator.h"
 #include "qt/element/QtCodeSnippet.h"
@@ -120,7 +120,7 @@ QtCodeSnippet* QtCodeFile::addCodeSnippet(const CodeSnippetParams& params)
 
 	m_snippetLayout->addWidget(snippet.get());
 
-	if (params.locationFile->isWholeCopy)
+	if (params.locationFile->isWhole())
 	{
 		snippet->setProperty("isFirst", true);
 		snippet->setProperty("isLast", true);
@@ -186,7 +186,6 @@ QtCodeSnippet* QtCodeFile::insertCodeSnippet(const CodeSnippetParams& params)
 	m_snippets.insert(m_snippets.begin() + i, snippet);
 
 	setSnippets();
-	updateRefCount(params.refCount);
 
 	return snippet.get();
 }

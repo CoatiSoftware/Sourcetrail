@@ -1,11 +1,11 @@
 #include "data/parser/ParserClientImpl.h"
 
-#include "data/parser/ParseLocation.h"
-#include "data/graph/Node.h"
 #include "data/graph/Edge.h"
+#include "data/graph/Node.h"
+#include "data/location/LocationType.h"
+#include "data/parser/ParseLocation.h"
 #include "utility/logging/logging.h"
 #include "utility/utility.h"
-#include "data/location/TokenLocation.h"
 
 ParserClientImpl::ParserClientImpl()
 {

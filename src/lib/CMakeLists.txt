@@ -154,14 +154,12 @@ add_files(
 
 	data/location/LocationType.cpp
 	data/location/LocationType.h
-	data/location/TokenLocation.cpp
-	data/location/TokenLocation.h
-	data/location/TokenLocationCollection.cpp
-	data/location/TokenLocationCollection.h
-	data/location/TokenLocationFile.cpp
-	data/location/TokenLocationFile.h
-	data/location/TokenLocationLine.cpp
-	data/location/TokenLocationLine.h
+	data/location/SourceLocation.cpp
+	data/location/SourceLocation.h
+	data/location/SourceLocationCollection.cpp
+	data/location/SourceLocationCollection.h
+	data/location/SourceLocationFile.cpp
+	data/location/SourceLocationFile.h
 
 	data/name/NameElement.cpp
 	data/name/NameElement.h
@@ -300,7 +298,7 @@ add_files(
 	utility/messaging/type/MessageActivateFile.h
 	utility/messaging/type/MessageActivateLocalSymbols.h
 	utility/messaging/type/MessageActivateNodes.h
-	utility/messaging/type/MessageActivateTokenLocations.h
+	utility/messaging/type/MessageActivateSourceLocations.h
 	utility/messaging/type/MessageActivateTokenIds.h
 	utility/messaging/type/MessageActivateTokens.h
 	utility/messaging/type/MessageActivateWindow.h

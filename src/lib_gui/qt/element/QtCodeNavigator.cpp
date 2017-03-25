@@ -12,9 +12,9 @@
 #include "utility/messaging/type/MessageScrollCode.h"
 #include "utility/ResourcePaths.h"
 
-#include "data/location/TokenLocation.h"
-#include "data/location/TokenLocationCollection.h"
-#include "data/location/TokenLocationFile.h"
+#include "data/location/SourceLocation.h"
+#include "data/location/SourceLocationCollection.h"
+#include "data/location/SourceLocationFile.h"
 #include "qt/element/QtCodeFile.h"
 #include "qt/element/QtCodeSnippet.h"
 #include "qt/utility/QtDeviceScaledPixmap.h"
@@ -25,6 +25,7 @@
 QtCodeNavigator::QtCodeNavigator(QWidget* parent)
 	: QWidget(parent)
 	, m_mode(MODE_NONE)
+	, m_activeTokenId(0)
 	, m_value(0)
 	, m_refIndex(0)
 	, m_singleHasNewFile(false)
@@ -149,34 +150,33 @@ void QtCodeNavigator::addCodeSnippet(const CodeSnippetParams& params, bool inser
 	}
 }
 
-void QtCodeNavigator::addFile(std::shared_ptr<TokenLocationFile> locationFile, int refCount, TimePoint modificationTime)
+void QtCodeNavigator::addFile(std::shared_ptr<SourceLocationFile> locationFile, int refCount, TimePoint modificationTime)
 {
-	m_list->addFile(locationFile->getFilePath(), locationFile->isWholeCopy, refCount, modificationTime);
+	m_list->addFile(locationFile->getFilePath(), locationFile->isWhole(), refCount, modificationTime);
 
-	if (locationFile->isWholeCopy)
+	if (locationFile->isWhole())
 	{
 		Reference ref;
 		ref.filePath = locationFile->getFilePath();
-		ref.tokenId = 0;
-		ref.locationId = 0;
-		ref.locationType = LOCATION_TOKEN;
-
 		m_references.push_back(ref);
 	}
 	else
 	{
-		locationFile->forEachStartTokenLocation(
-			[&](TokenLocation* location)
+		locationFile->forEachStartSourceLocation(
+			[&](SourceLocation* location)
 			{
-				if (!location->isScopeTokenLocation())
+				if (!location->isScopeLocation())
 				{
-					Reference ref;
-					ref.filePath = location->getFilePath();
-					ref.tokenId = location->getTokenId();
-					ref.locationId = location->getId();
-					ref.locationType = location->getType();
+					for (Id i : location->getTokenIds())
+					{
+						Reference ref;
+						ref.filePath = location->getFilePath();
+						ref.tokenId = i;
+						ref.locationId = location->getLocationId();
+						ref.locationType = location->getType();
 
-					m_references.push_back(ref);
+						m_references.push_back(ref);
+					}
 				}
 			}
 		);
@@ -207,6 +207,8 @@ void QtCodeNavigator::clearCodeSnippets()
 	m_focusedTokenIds.clear();
 	m_errorInfos.clear();
 
+	m_activeTokenId = 0;
+
 	if (m_references.size() && m_references[0].locationType != LOCATION_TOKEN)
 	{
 		clearCaches();
@@ -224,29 +226,29 @@ void QtCodeNavigator::clearCaches()
 	m_single->clearCache();
 }
 
-const std::vector<Id>& QtCodeNavigator::getCurrentActiveTokenIds() const
+const std::set<Id>& QtCodeNavigator::getCurrentActiveTokenIds() const
 {
 	return m_currentActiveTokenIds;
 }
 
 void QtCodeNavigator::setCurrentActiveTokenIds(const std::vector<Id>& currentActiveTokenIds)
 {
-	m_currentActiveTokenIds = currentActiveTokenIds;
+	m_currentActiveTokenIds = std::set<Id>(currentActiveTokenIds.begin(), currentActiveTokenIds.end());
 	m_currentActiveLocationIds.clear();
 }
 
-const std::vector<Id>& QtCodeNavigator::getCurrentActiveLocationIds() const
+const std::set<Id>& QtCodeNavigator::getCurrentActiveLocationIds() const
 {
 	return m_currentActiveLocationIds;
 }
 
 void QtCodeNavigator::setCurrentActiveLocationIds(const std::vector<Id>& currentActiveLocationIds)
 {
-	m_currentActiveLocationIds = currentActiveLocationIds;
+	m_currentActiveLocationIds = std::set<Id>(currentActiveLocationIds.begin(), currentActiveLocationIds.end());
 	m_currentActiveTokenIds.clear();
 }
 
-const std::vector<Id>& QtCodeNavigator::getActiveTokenIds() const
+const std::set<Id>& QtCodeNavigator::getActiveTokenIds() const
 {
 	return m_activeTokenIds;
 }
@@ -255,28 +257,30 @@ void QtCodeNavigator::setActiveTokenIds(const std::vector<Id>& activeTokenIds)
 {
 	setCurrentActiveTokenIds(activeTokenIds);
 
-	m_activeTokenIds = activeTokenIds;
+	m_activeTokenIds = std::set<Id>(activeTokenIds.begin(), activeTokenIds.end());
+	m_activeTokenId = activeTokenIds.size() ? activeTokenIds[0] : 0;
+
 	m_activeLocalSymbolIds.clear();
 }
 
-const std::vector<Id>& QtCodeNavigator::getActiveLocalSymbolIds() const
+const std::set<Id>& QtCodeNavigator::getActiveLocalSymbolIds() const
 {
 	return m_activeLocalSymbolIds;
 }
 
 void QtCodeNavigator::setActiveLocalSymbolIds(const std::vector<Id>& activeLocalSymbolIds)
 {
-	m_activeLocalSymbolIds = activeLocalSymbolIds;
+	m_activeLocalSymbolIds = std::set<Id>(activeLocalSymbolIds.begin(), activeLocalSymbolIds.end());
 }
 
-const std::vector<Id>& QtCodeNavigator::getFocusedTokenIds() const
+const std::set<Id>& QtCodeNavigator::getFocusedTokenIds() const
 {
 	return m_focusedTokenIds;
 }
 
 void QtCodeNavigator::setFocusedTokenIds(const std::vector<Id>& focusedTokenIds)
 {
-	m_focusedTokenIds = focusedTokenIds;
+	m_focusedTokenIds = std::set<Id>(focusedTokenIds.begin(), focusedTokenIds.end());
 }
 
 std::string QtCodeNavigator::getErrorMessageForId(Id errorId) const
@@ -326,7 +330,7 @@ bool QtCodeNavigator::isInListMode() const
 }
 
 void QtCodeNavigator::showActiveSnippet(
-	const std::vector<Id>& activeTokenIds, std::shared_ptr<TokenLocationCollection> collection, bool scrollTo)
+	const std::vector<Id>& activeTokenIds, std::shared_ptr<SourceLocationCollection> collection, bool scrollTo)
 {
 	if (activeTokenIds.size() != 1)
 	{
@@ -363,21 +367,31 @@ void QtCodeNavigator::showActiveSnippet(
 	std::set<FilePath> filePathsToExpand;
 	if (!locationIds.size())
 	{
-		collection->forEachTokenLocation(
-			[&](TokenLocation* location)
+		collection->forEachSourceLocation(
+			[&](SourceLocation* location)
 			{
-				if (location->getTokenId() != tokenId)
+				bool foundId = false;
+				for (Id i : location->getTokenIds())
+				{
+					if (i == tokenId)
+					{
+						foundId = true;
+						break;
+					}
+				}
+
+				if (!foundId)
 				{
 					return;
 				}
 
-				locationIds.push_back(location->getId());
+				locationIds.push_back(location->getLocationId());
 				filePathsToExpand.insert(location->getFilePath());
 
 				if (!firstReference.tokenId || filePathOrder[location->getFilePath()] < filePathOrder[firstReference.filePath])
 				{
-					firstReference.tokenId = location->getTokenId();
-					firstReference.locationId = location->getId();
+					firstReference.tokenId = tokenId;
+					firstReference.locationId = location->getLocationId();
 					firstReference.filePath = location->getFilePath();
 				}
 			}
@@ -534,6 +548,7 @@ void QtCodeNavigator::scrollToValue(int value, bool inListMode)
 void QtCodeNavigator::scrollToLine(const FilePath& filePath, unsigned int line)
 {
 	requestScroll(filePath, line, 0, false, false);
+	emit scrollRequest();
 }
 
 void QtCodeNavigator::scrollToDefinition(bool ignoreActiveReference)
@@ -565,16 +580,14 @@ void QtCodeNavigator::scrollToDefinition(bool ignoreActiveReference)
 		return;
 	}
 
-	if (!m_activeTokenIds.size())
+	if (!m_activeTokenId)
 	{
 		return;
 	}
 
-	Id tokenId = m_activeTokenIds[0]; // The first active tokenId is the one of the active symbol itself.
-
 	if (m_mode == MODE_LIST)
 	{
-		std::pair<QtCodeSnippet*, uint> result = m_list->getFirstSnippetWithActiveLocation(tokenId);
+		std::pair<QtCodeSnippet*, uint> result = m_list->getFirstSnippetWithActiveLocation(m_activeTokenId);
 		if (result.first != nullptr)
 		{
 			requestScroll(result.first->getFile()->getFilePath(), result.second, 0, false, true);
@@ -583,7 +596,7 @@ void QtCodeNavigator::scrollToDefinition(bool ignoreActiveReference)
 	}
 	else
 	{
-		Id locationId = m_single->getLocationIdOfFirstActiveLocationOfTokenId(tokenId);
+		Id locationId = m_single->getLocationIdOfFirstActiveLocationOfTokenId(m_activeTokenId);
 		if (locationId)
 		{
 			for (size_t i = 0; i < m_references.size(); i++)
@@ -629,6 +642,9 @@ void QtCodeNavigator::requestScroll(const FilePath& filePath, uint lineNumber, I
 			req.animated = (m_single->getCurrentFilePath() == filePath);
 		}
 	}
+
+	// std::cout << "scroll request: " << req.filePath.str() << " " << req.lineNumber << " " << req.locationId;
+	// std::cout << " " << req.animated << " " << req.onTop << std::endl;
 
 	m_scrollRequest = req;
 

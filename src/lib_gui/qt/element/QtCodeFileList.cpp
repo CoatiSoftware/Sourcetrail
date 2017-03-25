@@ -5,7 +5,7 @@
 
 #include "utility/file/FileSystem.h"
 
-#include "data/location/TokenLocationFile.h"
+#include "data/location/SourceLocationFile.h"
 #include "qt/element/QtCodeFile.h"
 #include "qt/element/QtCodeNavigator.h"
 #include "qt/element/QtCodeSnippet.h"

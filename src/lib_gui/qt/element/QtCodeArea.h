@@ -18,8 +18,8 @@ class QSize;
 class QtCodeNavigator;
 class QtHighlighter;
 class QWidget;
-class TokenLocation;
-class TokenLocationFile;
+class SourceLocation;
+class SourceLocationFile;
 
 
 class MouseWheelOverScrollbarFilter
@@ -62,7 +62,7 @@ public:
 	QtCodeArea(
 		uint startLineNumber,
 		const std::string& code,
-		std::shared_ptr<TokenLocationFile> locationFile,
+		std::shared_ptr<SourceLocationFile> locationFile,
 		QtCodeNavigator* navigator,
 		QWidget* parent = nullptr
 	);
@@ -73,7 +73,7 @@ public:
 	uint getStartLineNumber() const;
 	uint getEndLineNumber() const;
 
-	std::shared_ptr<TokenLocationFile> getTokenLocationFile() const;
+	std::shared_ptr<SourceLocationFile> getSourceLocationFile() const;
 
 	void lineNumberAreaPaintEvent(QPaintEvent* event);
 	int lineNumberDigits() const;
@@ -127,7 +127,7 @@ private:
 		int start;
 		int end;
 
-		Id tokenId;
+		std::set<Id> tokenIds;
 		Id locationId;
 
 		LocationType locationType;
@@ -146,11 +146,11 @@ private:
 	};
 
 	std::vector<const Annotation*> getInteractiveAnnotationsForPosition(int pos) const;
-	void activateTokenLocations(const std::vector<const Annotation*>& annotations);
+	void activateSourceLocations(const std::vector<const Annotation*>& annotations);
 	void activateLocalSymbols(const std::vector<const Annotation*>& annotations);
 	void activateErrors(const std::vector<const Annotation*>& annotations);
 
-	void createAnnotations(std::shared_ptr<TokenLocationFile> locationFile);
+	void createAnnotations(std::shared_ptr<SourceLocationFile> locationFile);
 	void annotateText();
 
 	void setHoveredAnnotations(const std::vector<const Annotation*>& annotations);
@@ -180,7 +180,7 @@ private:
 	const uint m_startLineNumber;
 	const std::string m_code;
 
-	std::shared_ptr<TokenLocationFile> m_locationFile;
+	std::shared_ptr<SourceLocationFile> m_locationFile;
 
 	std::vector<Annotation> m_annotations;
 	std::vector<const Annotation*> m_hoveredAnnotations;

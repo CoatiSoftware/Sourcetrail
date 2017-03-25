@@ -12,7 +12,7 @@
 #include <QToolTip>
 
 #include "utility/messaging/type/MessageActivateLocalSymbols.h"
-#include "utility/messaging/type/MessageActivateTokenLocations.h"
+#include "utility/messaging/type/MessageActivateSourceLocations.h"
 #include "utility/messaging/type/MessageActivateTokenIds.h"
 #include "utility/messaging/type/MessageFocusIn.h"
 #include "utility/messaging/type/MessageFocusOut.h"
@@ -20,8 +20,8 @@
 #include "utility/messaging/type/MessageShowErrors.h"
 #include "utility/utility.h"
 
-#include "data/location/TokenLocation.h"
-#include "data/location/TokenLocationFile.h"
+#include "data/location/SourceLocation.h"
+#include "data/location/SourceLocationFile.h"
 #include "qt/element/QtCodeNavigator.h"
 #include "qt/utility/QtContextMenu.h"
 #include "qt/utility/QtHighlighter.h"
@@ -83,7 +83,7 @@ void QtCodeArea::clearAnnotationColors()
 QtCodeArea::QtCodeArea(
 	uint startLineNumber,
 	const std::string& code,
-	std::shared_ptr<TokenLocationFile> locationFile,
+	std::shared_ptr<SourceLocationFile> locationFile,
 	QtCodeNavigator* navigator,
 	QWidget* parent
 )
@@ -197,7 +197,7 @@ uint QtCodeArea::getEndLineNumber() const
 	return m_startLineNumber + blockCount() - 1;
 }
 
-std::shared_ptr<TokenLocationFile> QtCodeArea::getTokenLocationFile() const
+std::shared_ptr<SourceLocationFile> QtCodeArea::getSourceLocationFile() const
 {
 	return m_locationFile;
 }
@@ -301,7 +301,7 @@ uint QtCodeArea::getStartLineNumberOfFirstActiveLocationOfTokenId(Id tokenId) co
 	{
 		if (annotation.locationType == LocationType::LOCATION_TOKEN && annotation.isActive)
 		{
-			if (annotation.tokenId == tokenId)
+			if (annotation.tokenIds.find(tokenId) != annotation.tokenIds.end())
 			{
 				if (!firstActiveLine || firstActiveLine == annotation.startLine)
 				{
@@ -326,12 +326,10 @@ Id QtCodeArea::getLocationIdOfFirstActiveLocationOfTokenId(Id tokenId) const
 {
 	for (const Annotation& annotation : m_annotations)
 	{
-		if (annotation.locationType == LocationType::LOCATION_TOKEN && annotation.isActive)
+		if (annotation.locationType == LocationType::LOCATION_TOKEN && annotation.isActive &&
+			annotation.tokenIds.find(tokenId) != annotation.tokenIds.end())
 		{
-			if (annotation.tokenId == tokenId)
-			{
-				return annotation.locationId;
-			}
+			return annotation.locationId;
 		}
 	}
 
@@ -525,7 +523,7 @@ void QtCodeArea::mouseReleaseEvent(QMouseEvent* event)
 				}
 				else
 				{
-					activateTokenLocations(annotations);
+					activateSourceLocations(annotations);
 					activateLocalSymbols(annotations);
 				}
 			}
@@ -577,9 +575,9 @@ void QtCodeArea::mouseMoveEvent(QMouseEvent* event)
 
 		setHoveredAnnotations(annotations);
 
-		if (m_navigator->hasErrors() && annotations.size() == 1)
+		if (m_navigator->hasErrors() && annotations.size() == 1 && annotations[0]->tokenIds.size())
 		{
-			std::string errorMessage = m_navigator->getErrorMessageForId(annotations[0]->tokenId);
+			std::string errorMessage = m_navigator->getErrorMessageForId(*annotations[0]->tokenIds.begin());
 			QToolTip::showText(event->globalPos(), QString::fromStdString(errorMessage));
 		}
 	}
@@ -681,9 +679,9 @@ std::vector<const QtCodeArea::Annotation*> QtCodeArea::getInteractiveAnnotations
 	return annotations;
 }
 
-void QtCodeArea::activateTokenLocations(const std::vector<const Annotation*>& annotations)
+void QtCodeArea::activateSourceLocations(const std::vector<const Annotation*>& annotations)
 {
-	std::vector<Id> tokenLocationIds;
+	std::vector<Id> locationIds;
 	std::set<Id> tokenIds;
 
 	bool allActive = true;
@@ -698,20 +696,21 @@ void QtCodeArea::activateTokenLocations(const std::vector<const Annotation*>& an
 
 			if (annotation->locationId > 0)
 			{
-				tokenLocationIds.push_back(annotation->locationId);
+				locationIds.push_back(annotation->locationId);
 			}
-			if (annotation->tokenId > 0)
+
+			if (annotation->tokenIds.size())
 			{
-				tokenIds.insert(annotation->tokenId);
+				tokenIds.insert(annotation->tokenIds.begin(), annotation->tokenIds.end());
 			}
 		}
 	}
 
 	if (!allActive)
 	{
-		if (tokenLocationIds.size())
+		if (locationIds.size())
 		{
-			MessageActivateTokenLocations(tokenLocationIds).dispatch();
+			MessageActivateSourceLocations(locationIds).dispatch();
 		}
 		else if (tokenIds.size()) // fallback for links in project description
 		{
@@ -734,9 +733,9 @@ void QtCodeArea::activateLocalSymbols(const std::vector<const Annotation*>& anno
 				allActive = false;
 			}
 
-			if (annotation->tokenId > 0)
+			if (annotation->tokenIds.size())
 			{
-				localSymbolIds.push_back(annotation->tokenId);
+				localSymbolIds.insert(localSymbolIds.end(), annotation->tokenIds.begin(), annotation->tokenIds.end());
 			}
 		}
 	}
@@ -752,9 +751,9 @@ void QtCodeArea::activateErrors(const std::vector<const Annotation*>& annotation
 	std::vector<Id> errorIds;
 	for (const Annotation* annotation : annotations)
 	{
-		if (annotation->locationType == LOCATION_ERROR && annotation->tokenId > 0)
+		if (annotation->locationType == LOCATION_ERROR && annotation->tokenIds.size())
 		{
-			errorIds.push_back(annotation->tokenId);
+			errorIds.insert(errorIds.end(), annotation->tokenIds.begin(), annotation->tokenIds.end());
 		}
 	}
 
@@ -764,58 +763,61 @@ void QtCodeArea::activateErrors(const std::vector<const Annotation*>& annotation
 	}
 }
 
-void QtCodeArea::createAnnotations(std::shared_ptr<TokenLocationFile> locationFile)
+void QtCodeArea::createAnnotations(std::shared_ptr<SourceLocationFile> locationFile)
 {
-	locationFile->forEachStartTokenLocation(
-		[&](TokenLocation* startLocation)
+	uint endLineNumber = getEndLineNumber();
+	std::set<Id> locationIds;
+
+	locationFile->forEachSourceLocation(
+		[&](const SourceLocation* location)
 		{
+			if (locationIds.find(location->getLocationId()) != locationIds.end())
+			{
+				return;
+			}
+			locationIds.insert(location->getLocationId());
+
 			Annotation annotation;
-			uint endLineNumber = getEndLineNumber();
-			if (startLocation->getLineNumber() <= endLineNumber)
+
+			const SourceLocation* startLocation = location->getStartLocation();
+			if (!startLocation || startLocation->getLineNumber() < m_startLineNumber)
 			{
-				if (startLocation->getLineNumber() < m_startLineNumber)
-				{
-					annotation.start = startTextEditPosition();
-					annotation.startLine = m_startLineNumber;
-					annotation.startCol = 0;
-				}
-				else
-				{
-					annotation.start = toTextEditPosition(startLocation->getLineNumber(), startLocation->getColumnNumber() - 1);
-					annotation.startLine = startLocation->getLineNumber();
-					annotation.startCol = startLocation->getColumnNumber() - 1;
-				}
+				annotation.start = startTextEditPosition();
+				annotation.startLine = m_startLineNumber;
+				annotation.startCol = 0;
+			}
+			else if (startLocation->getLineNumber() <= endLineNumber)
+			{
+				annotation.start = toTextEditPosition(startLocation->getLineNumber(), startLocation->getColumnNumber() - 1);
+				annotation.startLine = startLocation->getLineNumber();
+				annotation.startCol = startLocation->getColumnNumber() - 1;
 			}
 			else
 			{
 				return;
 			}
 
-			TokenLocation* endLocation = startLocation->getEndTokenLocation();
-			if (endLocation->getLineNumber() >= m_startLineNumber)
+			const SourceLocation* endLocation = location->getEndLocation();
+			if (!endLocation || endLocation->getLineNumber() > endLineNumber)
 			{
-				if (endLocation->getLineNumber() > endLineNumber)
-				{
-					annotation.end = endTextEditPosition();
-					annotation.endLine = endLineNumber;
-					annotation.endCol = m_lineLengths[document()->blockCount() - 1];
-				}
-				else
-				{
-					annotation.end = toTextEditPosition(endLocation->getLineNumber(), endLocation->getColumnNumber());
-					annotation.endLine = endLocation->getLineNumber();
-					annotation.endCol = endLocation->getColumnNumber();
-				}
+				annotation.end = endTextEditPosition();
+				annotation.endLine = endLineNumber;
+				annotation.endCol = m_lineLengths[document()->blockCount() - 1];
+			}
+			else if (endLocation->getLineNumber() >= m_startLineNumber)
+			{
+				annotation.end = toTextEditPosition(endLocation->getLineNumber(), endLocation->getColumnNumber());
+				annotation.endLine = endLocation->getLineNumber();
+				annotation.endCol = endLocation->getColumnNumber();
 			}
 			else
 			{
 				return;
 			}
 
-			annotation.tokenId = startLocation->getTokenId();
-			annotation.locationId = startLocation->getId();
-
-			annotation.locationType = startLocation->getType();
+			annotation.tokenIds.insert(location->getTokenIds().begin(), location->getTokenIds().end());
+			annotation.locationId = location->getLocationId();
+			annotation.locationType = location->getType();
 
 			annotation.isActive = false;
 			annotation.isFocused = false;
@@ -827,12 +829,12 @@ void QtCodeArea::createAnnotations(std::shared_ptr<TokenLocationFile> locationFi
 
 void QtCodeArea::annotateText()
 {
-	const std::vector<Id>& currentActiveTokenIds = m_navigator->getCurrentActiveTokenIds();
-	const std::vector<Id>& currentActiveLocationIds = m_navigator->getCurrentActiveLocationIds();
+	const std::set<Id>& currentActiveTokenIds = m_navigator->getCurrentActiveTokenIds();
+	const std::set<Id>& currentActiveLocationIds = m_navigator->getCurrentActiveLocationIds();
 
-	const std::vector<Id>& activeTokenIds = m_navigator->getActiveTokenIds();
-	const std::vector<Id>& activeLocalSymbolIds = m_navigator->getActiveLocalSymbolIds();
-	const std::vector<Id>& focusIds = m_navigator->getFocusedTokenIds();
+	const std::set<Id>& activeTokenIds = m_navigator->getActiveTokenIds();
+	const std::set<Id>& activeLocalSymbolIds = m_navigator->getActiveLocalSymbolIds();
+	const std::set<Id>& focusIds = m_navigator->getFocusedTokenIds();
 
 	bool needsUpdate = false;
 	for (Annotation& annotation: m_annotations)
@@ -842,15 +844,16 @@ void QtCodeArea::annotateText()
 		const AnnotationColor& oldColor = getAnnotationColorForAnnotation(annotation);
 
 		annotation.isActive = (
-			std::find(currentActiveTokenIds.begin(), currentActiveTokenIds.end(), annotation.tokenId) != currentActiveTokenIds.end() ||
-			std::find(currentActiveLocationIds.begin(), currentActiveLocationIds.end(), annotation.locationId) != currentActiveLocationIds.end() ||
-			std::find(activeLocalSymbolIds.begin(), activeLocalSymbolIds.end(), annotation.tokenId) != activeLocalSymbolIds.end()
+			utility::shareElement(currentActiveTokenIds, annotation.tokenIds) ||
+			utility::shareElement(activeLocalSymbolIds, annotation.tokenIds) ||
+			currentActiveLocationIds.find(annotation.locationId) != currentActiveLocationIds.end()
 		);
+
 		if (!annotation.isActive)
 		{
 			annotation.isFocused = (
-				std::find(focusIds.begin(), focusIds.end(), annotation.tokenId) != focusIds.end() ||
-				std::find(activeTokenIds.begin(), activeTokenIds.end(), annotation.tokenId) != activeTokenIds.end()
+				utility::shareElement(focusIds, annotation.tokenIds) ||
+				utility::shareElement(activeTokenIds, annotation.tokenIds)
 			);
 		}
 
@@ -862,7 +865,7 @@ void QtCodeArea::annotateText()
 				bool isDuplicateAnnotation = false;
 				for (Annotation* a : m_colorChangedAnnotations)
 				{
-					if (a->start == annotation.start && a->end == annotation.end && a->tokenId != annotation.tokenId)
+					if (a->start == annotation.start && a->end == annotation.end && a->locationId != annotation.locationId)
 					{
 						isDuplicateAnnotation = true;
 						break;
@@ -909,7 +912,7 @@ void QtCodeArea::setHoveredAnnotations(const std::vector<const Annotation*>& ann
 		std::vector<Id> tokenIds;
 		for (const Annotation* annotation : m_hoveredAnnotations)
 		{
-			tokenIds.push_back(annotation->tokenId);
+			tokenIds.insert(tokenIds.end(), annotation->tokenIds.begin(), annotation->tokenIds.end());
 		}
 
 		MessageFocusOut(tokenIds).dispatch();
@@ -922,7 +925,7 @@ void QtCodeArea::setHoveredAnnotations(const std::vector<const Annotation*>& ann
 		std::vector<Id> tokenIds;
 		for (const Annotation* annotation : annotations)
 		{
-			tokenIds.push_back(annotation->tokenId);
+			tokenIds.insert(tokenIds.end(), annotation->tokenIds.begin(), annotation->tokenIds.end());
 		}
 
 		MessageFocusIn(tokenIds).dispatch();

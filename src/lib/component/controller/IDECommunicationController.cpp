@@ -1,18 +1,17 @@
 #include "IDECommunicationController.h"
 
-#include "data/access/StorageAccess.h"
-#include "data/location/TokenLocationFile.h"
-#include "data/location/TokenLocation.h"
-#include "settings/ApplicationSettings.h"
-
 #include "utility/file/FileSystem.h"
-#include "utility/messaging/type/MessageActivateTokenLocations.h"
+#include "utility/messaging/type/MessageActivateSourceLocations.h"
 #include "utility/messaging/type/MessageActivateWindow.h"
 #include "utility/messaging/type/MessageDispatchWhenLicenseValid.h"
 #include "utility/messaging/type/MessageProjectNew.h"
 #include "utility/messaging/type/MessageStatus.h"
 #include "utility/messaging/type/MessageActivateFile.h"
 #include "utility/messaging/type/MessagePingReceived.h"
+
+#include "data/access/StorageAccess.h"
+#include "data/location/SourceLocationFile.h"
+#include "settings/ApplicationSettings.h"
 
 IDECommunicationController::IDECommunicationController(StorageAccess* storageAccess)
 	: m_storageAccess(storageAccess)
@@ -86,21 +85,22 @@ void IDECommunicationController::handleSetActiveTokenMessage(
 			== m_storageAccess->getFileInfoForFilePath(message.fileLocation).lastWriteTime)
 		{
 			// file was not modified
-			std::shared_ptr<TokenLocationFile> tokenLocationFile = m_storageAccess->getTokenLocationsForLinesInFile(
+			std::shared_ptr<SourceLocationFile> sourceLocationFile = m_storageAccess->getSourceLocationsForLinesInFile(
 				message.fileLocation, message.row, message.row
 			);
 
 			std::vector<Id> selectedLocationIds;
-			tokenLocationFile->forEachStartTokenLocation(
-				[&](TokenLocation* startLocation)
+			sourceLocationFile->forEachStartSourceLocation(
+				[&selectedLocationIds, &cursorColumn](SourceLocation* startLocation)
 				{
-					TokenLocation* endLocation = startLocation->getEndTokenLocation();
+					const SourceLocation* endLocation = startLocation->getEndLocation();
 
-					if (!startLocation->isScopeTokenLocation()
+					if (!startLocation->isScopeLocation()
+						&& startLocation->getLineNumber() == endLocation->getLineNumber()
 						&& startLocation->getColumnNumber() <= cursorColumn
 						&& endLocation->getColumnNumber() + 1 >= cursorColumn)
 					{
-						selectedLocationIds.push_back(startLocation->getId());
+						selectedLocationIds.push_back(startLocation->getLocationId());
 					}
 				}
 			);
@@ -110,7 +110,7 @@ void IDECommunicationController::handleSetActiveTokenMessage(
 				MessageStatus("Activating source location from plug-in succeeded: " + message.fileLocation + ", row: " +
 					std::to_string(message.row) + ", col: " + std::to_string(message.column)).dispatch();
 
-				MessageActivateTokenLocations(selectedLocationIds).dispatch();
+				MessageActivateSourceLocations(selectedLocationIds).dispatch();
 				MessageActivateWindow().dispatch();
 				return;
 			}

@@ -105,7 +105,7 @@ void QtCodeView::setFileState(const FilePath filePath, FileState state)
 }
 
 void QtCodeView::showActiveSnippet(
-	const std::vector<Id>& activeTokenIds, std::shared_ptr<TokenLocationCollection> collection, bool scrollTo)
+	const std::vector<Id>& activeTokenIds, std::shared_ptr<SourceLocationCollection> collection, bool scrollTo)
 {
 	m_doShowActiveSnippetFunctor(activeTokenIds, collection, scrollTo);
 }
@@ -241,7 +241,7 @@ void QtCodeView::doSetFileState(const FilePath filePath, FileState state)
 }
 
 void QtCodeView::doShowActiveSnippet(
-	const std::vector<Id>& activeTokenIds, std::shared_ptr<TokenLocationCollection> collection, bool scrollTo)
+	const std::vector<Id>& activeTokenIds, std::shared_ptr<SourceLocationCollection> collection, bool scrollTo)
 {
 	m_widget->showActiveSnippet(activeTokenIds, collection, scrollTo);
 }

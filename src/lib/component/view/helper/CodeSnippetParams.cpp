@@ -1,6 +1,6 @@
 #include "component/view/helper/CodeSnippetParams.h"
 
-#include "data/location/TokenLocationFile.h"
+#include "data/location/SourceLocationFile.h"
 
 CodeSnippetParams::CodeSnippetParams()
 	: startLineNumber(0)
@@ -39,11 +39,11 @@ bool CodeSnippetParams::sort(const CodeSnippetParams& a, const CodeSnippetParams
 	}
 
 	// sort whole files
-	if (a.locationFile->isWholeCopy && !b.locationFile->isWholeCopy)
+	if (a.locationFile->isWhole() && !b.locationFile->isWhole())
 	{
 		return true;
 	}
-	else if (!a.locationFile->isWholeCopy && b.locationFile->isWholeCopy)
+	else if (!a.locationFile->isWhole() && b.locationFile->isWhole())
 	{
 		return false;
 	}

@@ -10,8 +10,7 @@
 #include "data/bookmark/BookmarkCategory.h"
 #include "data/bookmark/EdgeBookmark.h"
 #include "data/bookmark/NodeBookmark.h"
-#include "data/location/TokenLocationFile.h"
-#include "data/location/TokenLocationCollection.h"
+#include "data/location/SourceLocationFile.h"
 #include "data/name/NameHierarchy.h"
 #include "data/StorageTypes.h"
 #include "data/SqliteIndex.h"
@@ -115,7 +114,7 @@ public:
 	void setNodeType(int type, Id nodeId);
 
 	StorageSourceLocation getSourceLocationByAll(const Id fileNodeId, const uint startLine, const uint startCol, const uint endLine, const uint endCol, const int type) const;
-	std::shared_ptr<TokenLocationFile> getTokenLocationsForFile(const FilePath& filePath) const;
+	std::shared_ptr<SourceLocationFile> getSourceLocationsForFile(const FilePath& filePath) const;
 
 	std::vector<StorageOccurrence> getOccurrencesForLocationId(Id locationId) const;
 	std::vector<StorageOccurrence> getOccurrencesForLocationIds(const std::vector<Id>& locationIds) const;

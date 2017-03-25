@@ -3,14 +3,14 @@
 
 #include <set>
 
-#include "data/graph/Node.h"
-#include "data/parser/ParserClient.h"
-#include "data/IntermediateStorage.h"
-#include "data/graph/token_component/TokenComponentAccess.h"
-
 #include "data/DefinitionKind.h"
+#include "data/graph/Node.h"
+#include "data/graph/token_component/TokenComponentAccess.h"
+#include "data/IntermediateStorage.h"
+#include "data/parser/ParserClient.h"
 
-class ParserClientImpl: public ParserClient
+class ParserClientImpl
+	: public ParserClient
 {
 public:
 	ParserClientImpl();

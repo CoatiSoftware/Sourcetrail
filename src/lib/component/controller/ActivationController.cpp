@@ -141,7 +141,7 @@ void ActivationController::handleMessage(MessageActivateTokenIds* message)
 	m.dispatchImmediately();
 }
 
-void ActivationController::handleMessage(MessageActivateTokenLocations* message)
+void ActivationController::handleMessage(MessageActivateSourceLocations* message)
 {
 	MessageActivateNodes m;
 	for (Id nodeId : m_storageAccess->getNodeIdsForLocationIds(message->locationIds))

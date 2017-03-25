@@ -1,8 +1,8 @@
 #include "data/access/StorageAccessProxy.h"
 
 #include "data/graph/Graph.h"
-#include "data/location/TokenLocationCollection.h"
-#include "data/location/TokenLocationFile.h"
+#include "data/location/SourceLocationCollection.h"
+#include "data/location/SourceLocationFile.h"
 
 #include "utility/logging/logging.h"
 #include "utility/file/FileInfo.h"
@@ -133,7 +133,7 @@ bool StorageAccessProxy::checkEdgeExists(Id edgeId) const
 	return false;
 }
 
-std::shared_ptr<TokenLocationCollection> StorageAccessProxy::getFullTextSearchLocations(
+std::shared_ptr<SourceLocationCollection> StorageAccessProxy::getFullTextSearchLocations(
 		const std::string &searchTerm, bool caseSensitive) const
 {
 	if (hasSubject())
@@ -141,7 +141,7 @@ std::shared_ptr<TokenLocationCollection> StorageAccessProxy::getFullTextSearchLo
 		return m_subject->getFullTextSearchLocations(searchTerm, caseSensitive);
 	}
 
-	return std::make_shared<TokenLocationCollection>();
+	return std::make_shared<SourceLocationCollection>();
 }
 
 std::vector<SearchMatch> StorageAccessProxy::getAutocompletionMatches(const std::string& query) const
@@ -204,58 +204,58 @@ std::vector<Id> StorageAccessProxy::getNodeIdsForLocationIds(const std::vector<I
 	return std::vector<Id>();
 }
 
-std::shared_ptr<TokenLocationCollection> StorageAccessProxy::getTokenLocationsForTokenIds(
+std::shared_ptr<SourceLocationCollection> StorageAccessProxy::getSourceLocationsForTokenIds(
 		const std::vector<Id>& tokenIds) const
 {
 	if (hasSubject())
 	{
-		return m_subject->getTokenLocationsForTokenIds(tokenIds);
+		return m_subject->getSourceLocationsForTokenIds(tokenIds);
 	}
 
-	return std::make_shared<TokenLocationCollection>();
+	return std::make_shared<SourceLocationCollection>();
 }
 
-std::shared_ptr<TokenLocationCollection> StorageAccessProxy::getTokenLocationsForLocationIds(
+std::shared_ptr<SourceLocationCollection> StorageAccessProxy::getSourceLocationsForLocationIds(
 		const std::vector<Id>& locationIds) const
 {
 	if (hasSubject())
 	{
-		return m_subject->getTokenLocationsForLocationIds(locationIds);
+		return m_subject->getSourceLocationsForLocationIds(locationIds);
 	}
 
-	return std::make_shared<TokenLocationCollection>();
+	return std::make_shared<SourceLocationCollection>();
 }
 
-std::shared_ptr<TokenLocationFile> StorageAccessProxy::getTokenLocationsForFile(const std::string& filePath) const
+std::shared_ptr<SourceLocationFile> StorageAccessProxy::getSourceLocationsForFile(const FilePath& filePath) const
 {
 	if (hasSubject())
 	{
-		return m_subject->getTokenLocationsForFile(filePath);
+		return m_subject->getSourceLocationsForFile(filePath);
 	}
 
-	return std::make_shared<TokenLocationFile>("");
+	return std::make_shared<SourceLocationFile>("", false);
 }
 
-std::shared_ptr<TokenLocationFile> StorageAccessProxy::getTokenLocationsForLinesInFile(
+std::shared_ptr<SourceLocationFile> StorageAccessProxy::getSourceLocationsForLinesInFile(
 	const std::string& filePath, uint firstLineNumber, uint lastLineNumber
 ) const
 {
 	if (hasSubject())
 	{
-		return m_subject->getTokenLocationsForLinesInFile(filePath, firstLineNumber, lastLineNumber);
+		return m_subject->getSourceLocationsForLinesInFile(filePath, firstLineNumber, lastLineNumber);
 	}
 
-	return std::make_shared<TokenLocationFile>("");
+	return std::make_shared<SourceLocationFile>("", false);
 }
 
-std::shared_ptr<TokenLocationFile> StorageAccessProxy::getCommentLocationsInFile(const FilePath& filePath) const
+std::shared_ptr<SourceLocationFile> StorageAccessProxy::getCommentLocationsInFile(const FilePath& filePath) const
 {
 	if (hasSubject())
 	{
 		return m_subject->getCommentLocationsInFile(filePath);
 	}
 
-	return std::make_shared<TokenLocationFile>("");
+	return std::make_shared<SourceLocationFile>("", false);
 }
 
 std::shared_ptr<TextAccess> StorageAccessProxy::getFileContent(const FilePath& filePath) const
@@ -319,14 +319,14 @@ std::vector<ErrorInfo> StorageAccessProxy::getErrors() const
 	return std::vector<ErrorInfo>();
 }
 
-std::shared_ptr<TokenLocationCollection> StorageAccessProxy::getErrorTokenLocations(std::vector<ErrorInfo>* errors) const
+std::shared_ptr<SourceLocationCollection> StorageAccessProxy::getErrorSourceLocations(std::vector<ErrorInfo>* errors) const
 {
 	if (hasSubject())
 	{
-		return m_subject->getErrorTokenLocations(errors);
+		return m_subject->getErrorSourceLocations(errors);
 	}
 
-	return std::make_shared<TokenLocationCollection>();
+	return std::make_shared<SourceLocationCollection>();
 }
 
 Id StorageAccessProxy::addNodeBookmark(const NodeBookmark& bookmark)
