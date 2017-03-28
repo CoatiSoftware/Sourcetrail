@@ -1,6 +1,7 @@
 #ifndef SOURCE_LOCATION_COLLECTION_H
 #define SOURCE_LOCATION_COLLECTION_H
 
+#include <functional>
 #include <map>
 #include <memory>
 #include <ostream>
