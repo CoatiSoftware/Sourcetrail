@@ -8,7 +8,7 @@
 
 FileLogger::FileLogger()
 	: Logger("FileLogger")
-	, m_logFileName(getFileName())
+	, m_logFileName()
 	, m_logDirectory("user/log/")
 	, m_maxLogLineCount(0)
 	, m_maxLogFileCount(0)
@@ -28,6 +28,11 @@ void FileLogger::setLogDirectory(const std::string& filePath)
 	FileSystem::createDirectory(m_logDirectory);
 }
 
+void FileLogger::setFileName(const std::string& fileName)
+{
+	m_logFileName = fileName;
+}
+
 void FileLogger::logInfo(const LogMessage& message)
 {
 	logMessage("INFO", message);
@@ -41,24 +46,6 @@ void FileLogger::logWarning(const LogMessage& message)
 void FileLogger::logError(const LogMessage& message)
 {
 	logMessage("ERROR", message);
-}
-
-std::string FileLogger::getFileName()
-{
-	time_t time;
-	std::time(&time);
-	tm t = *std::localtime(&time);
-
-	std::stringstream filename;
-	filename << "log_";
-	filename << t.tm_year + 1900 << "-";
-	filename << (t.tm_mon < 9 ? "0" : "") << t.tm_mon + 1 << "-";
-	filename << (t.tm_mday < 10 ? "0" : "") << t.tm_mday << "_";
-	filename << (t.tm_hour < 10 ? "0" : "") << t.tm_hour << "-";
-	filename << (t.tm_min < 10 ? "0" : "") << t.tm_min << "-";
-	filename << (t.tm_sec < 10 ? "0" : "") << t.tm_sec;
-
-	return filename.str();
 }
 
 void FileLogger::setMaxLogLineCount(unsigned int lineCount)

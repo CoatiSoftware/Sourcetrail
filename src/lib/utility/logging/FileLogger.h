@@ -13,6 +13,7 @@ public:
 	virtual ~FileLogger();
 
 	void setLogDirectory(const std::string& filePath);
+	void setFileName(const std::string& fileName);
 	void setMaxLogLineCount(unsigned int logCount);
 
 	// setting the max log file count to 0 will disable ringlogging
@@ -23,11 +24,10 @@ private:
 	virtual void logWarning(const LogMessage& message);
 	virtual void logError(const LogMessage& message);
 
-	static std::string getFileName();
 	void logMessage(const std::string& type, const LogMessage& message);
 	void updateLogFileName();
 
-	const std::string m_logFileName;
+	std::string m_logFileName;
 	std::string m_logDirectory;
 	unsigned int m_maxLogLineCount;
 	unsigned int m_maxLogFileCount;

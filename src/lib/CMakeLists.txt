@@ -276,6 +276,8 @@ add_files(
 	utility/logging/FileLogger.h
 	utility/logging/Logger.cpp
 	utility/logging/Logger.h
+	utility/logging/LoggerUtility.cpp
+	utility/logging/LoggerUtility.h
 	utility/logging/logging.h
 	utility/logging/LogManager.cpp
 	utility/logging/LogManager.h
