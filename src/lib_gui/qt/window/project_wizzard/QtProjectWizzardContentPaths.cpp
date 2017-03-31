@@ -8,16 +8,17 @@
 #include "qt/element/QtDirectoryListBox.h"
 #include "qt/window/QtSelectPathsDialog.h"
 #include "settings/ApplicationSettings.h"
-#include "settings/CxxProjectSettings.h"
-#include "settings/JavaProjectSettings.h"
+#include "settings/SourceGroupSettingsCxx.h"
+#include "settings/SourceGroupSettingsJava.h"
 #include "utility/CompilationDatabase.h"
 #include "utility/file/FileManager.h"
 #include "utility/file/FileSystem.h"
 #include "utility/utility.h"
 #include "utility/utilityPathDetection.h"
 
-QtProjectWizzardContentPaths::QtProjectWizzardContentPaths(std::shared_ptr<ProjectSettings> settings, QtProjectWizzardWindow* window)
-	: QtProjectWizzardContent(settings, window)
+QtProjectWizzardContentPaths::QtProjectWizzardContentPaths(std::shared_ptr<SourceGroupSettings> settings, QtProjectWizzardWindow* window)
+	: QtProjectWizzardContent(window)
+	, m_settings(settings)
 	, m_makePathsRelativeToProjectFileLocation(true)
 {
 }
@@ -142,7 +143,7 @@ void QtProjectWizzardContentPaths::detectionClicked()
 
 
 QtProjectWizzardContentPathsSource::QtProjectWizzardContentPathsSource(
-	std::shared_ptr<ProjectSettings> settings, QtProjectWizzardWindow* window
+	std::shared_ptr<SourceGroupSettings> settings, QtProjectWizzardWindow* window
 )
 	: QtProjectWizzardContentPaths(settings, window)
 {
@@ -173,9 +174,8 @@ void QtProjectWizzardContentPathsSource::save()
 std::vector<std::string> QtProjectWizzardContentPathsSource::getFileNames() const
 {
 	FileManager fileManager;
-	fileManager.setPaths(
-		m_settings->getAbsoluteSourcePaths(), 
-		std::vector<FilePath>(), // we don't need to specify header paths here
+	fileManager.update(
+		m_settings->getAbsoluteSourcePaths(),
 		m_settings->getAbsoluteExcludePaths(),
 		m_settings->getSourceExtensions()
 	);
@@ -183,7 +183,7 @@ std::vector<std::string> QtProjectWizzardContentPathsSource::getFileNames() cons
 	const FilePath projectPath = m_settings->getProjectFileLocation();
 
 	std::vector<std::string> list;
-	for (FilePath path: fileManager.getSourceFilePaths())
+	for (FilePath path: fileManager.getAllSourceFilePaths())
 	{
 		if (projectPath.exists())
 		{
@@ -207,7 +207,7 @@ QString QtProjectWizzardContentPathsSource::getFileNamesDescription() const
 }
 
 QtProjectWizzardContentPathsCDBHeader::QtProjectWizzardContentPathsCDBHeader(
-	std::shared_ptr<ProjectSettings> settings, QtProjectWizzardWindow* window
+	std::shared_ptr<SourceGroupSettings> settings, QtProjectWizzardWindow* window
 )
 	: QtProjectWizzardContentPathsSource(settings, window)
 {
@@ -274,7 +274,7 @@ void QtProjectWizzardContentPathsCDBHeader::buttonClicked()
 
 
 		utility::CompilationDatabase cdb(
-			dynamic_cast<CxxProjectSettings*>(m_settings.get())->getAbsoluteCompilationDatabasePath().str());
+			dynamic_cast<SourceGroupSettingsCxx*>(m_settings.get())->getAbsoluteCompilationDatabasePath().str());
 
 		std::vector<FilePath> cdbHeaderPaths = cdb.getAllHeaderPaths();
 		std::vector<FilePath> sourcePaths = m_settings->getSourcePaths();
@@ -300,7 +300,7 @@ void QtProjectWizzardContentPathsCDBHeader::savedFilesDialog()
 }
 
 QtProjectWizzardContentPathsExclude::QtProjectWizzardContentPathsExclude(
-	std::shared_ptr<ProjectSettings> settings, QtProjectWizzardWindow* window
+	std::shared_ptr<SourceGroupSettings> settings, QtProjectWizzardWindow* window
 )
 	: QtProjectWizzardContentPaths(settings, window)
 {
@@ -323,7 +323,7 @@ void QtProjectWizzardContentPathsExclude::save()
 
 
 QtProjectWizzardContentPathsHeaderSearch::QtProjectWizzardContentPathsHeaderSearch(
-	std::shared_ptr<ProjectSettings> settings, QtProjectWizzardWindow* window, bool isCDB
+	std::shared_ptr<SourceGroupSettings> settings, QtProjectWizzardWindow* window, bool isCDB
 )
 	: QtProjectWizzardContentPaths(settings, window)
 {
@@ -345,7 +345,7 @@ QtProjectWizzardContentPathsHeaderSearch::QtProjectWizzardContentPathsHeaderSear
 
 void QtProjectWizzardContentPathsHeaderSearch::load()
 {
-	std::shared_ptr<CxxProjectSettings> cxxSettings = std::dynamic_pointer_cast<CxxProjectSettings>(m_settings);
+	std::shared_ptr<SourceGroupSettingsCxx> cxxSettings = std::dynamic_pointer_cast<SourceGroupSettingsCxx>(m_settings);
 	if (cxxSettings)
 	{
 		m_list->setList(cxxSettings->getHeaderSearchPaths());
@@ -354,7 +354,7 @@ void QtProjectWizzardContentPathsHeaderSearch::load()
 
 void QtProjectWizzardContentPathsHeaderSearch::save()
 {
-	std::shared_ptr<CxxProjectSettings> cxxSettings = std::dynamic_pointer_cast<CxxProjectSettings>(m_settings);
+	std::shared_ptr<SourceGroupSettingsCxx> cxxSettings = std::dynamic_pointer_cast<SourceGroupSettingsCxx>(m_settings);
 	if (cxxSettings)
 	{
 		cxxSettings->setHeaderSearchPaths(m_list->getList());
@@ -367,9 +367,9 @@ bool QtProjectWizzardContentPathsHeaderSearch::isScrollAble() const
 }
 
 QtProjectWizzardContentPathsHeaderSearchGlobal::QtProjectWizzardContentPathsHeaderSearchGlobal(
-	std::shared_ptr<ProjectSettings> settings, QtProjectWizzardWindow* window
+	QtProjectWizzardWindow* window
 )
-	: QtProjectWizzardContentPaths(settings, window)
+	: QtProjectWizzardContentPaths(std::shared_ptr<SourceGroupSettings>(), window)
 {
 	setTitleString("Global Include Paths");
 	setHelpString(
@@ -397,7 +397,7 @@ void QtProjectWizzardContentPathsHeaderSearchGlobal::save()
 
 
 QtProjectWizzardContentPathsFrameworkSearch::QtProjectWizzardContentPathsFrameworkSearch(
-	std::shared_ptr<ProjectSettings> settings, QtProjectWizzardWindow* window, bool isCDB
+	std::shared_ptr<SourceGroupSettings> settings, QtProjectWizzardWindow* window, bool isCDB
 )
 	: QtProjectWizzardContentPaths(settings, window)
 {
@@ -412,7 +412,7 @@ QtProjectWizzardContentPathsFrameworkSearch::QtProjectWizzardContentPathsFramewo
 
 void QtProjectWizzardContentPathsFrameworkSearch::load()
 {
-	std::shared_ptr<CxxProjectSettings> cxxSettings = std::dynamic_pointer_cast<CxxProjectSettings>(m_settings);
+	std::shared_ptr<SourceGroupSettingsCxx> cxxSettings = std::dynamic_pointer_cast<SourceGroupSettingsCxx>(m_settings);
 	if (cxxSettings)
 	{
 		m_list->setList(cxxSettings->getFrameworkSearchPaths());
@@ -421,7 +421,7 @@ void QtProjectWizzardContentPathsFrameworkSearch::load()
 
 void QtProjectWizzardContentPathsFrameworkSearch::save()
 {
-	std::shared_ptr<CxxProjectSettings> cxxSettings = std::dynamic_pointer_cast<CxxProjectSettings>(m_settings);
+	std::shared_ptr<SourceGroupSettingsCxx> cxxSettings = std::dynamic_pointer_cast<SourceGroupSettingsCxx>(m_settings);
 	if (cxxSettings)
 	{
 		cxxSettings->setFrameworkSearchPaths(m_list->getList());
@@ -434,9 +434,9 @@ bool QtProjectWizzardContentPathsFrameworkSearch::isScrollAble() const
 }
 
 QtProjectWizzardContentPathsFrameworkSearchGlobal::QtProjectWizzardContentPathsFrameworkSearchGlobal(
-	std::shared_ptr<ProjectSettings> settings, QtProjectWizzardWindow* window
+	QtProjectWizzardWindow* window
 )
-	: QtProjectWizzardContentPaths(settings, window)
+	: QtProjectWizzardContentPaths(std::shared_ptr<SourceGroupSettings>(), window)
 {
 	setTitleString("Global Framework Search Paths");
 	setHelpString(
@@ -465,7 +465,7 @@ void QtProjectWizzardContentPathsFrameworkSearchGlobal::save()
 
 
 QtProjectWizzardContentPathsClassJava::QtProjectWizzardContentPathsClassJava(
-	std::shared_ptr<ProjectSettings> settings, QtProjectWizzardWindow* window
+	std::shared_ptr<SourceGroupSettings> settings, QtProjectWizzardWindow* window
 )
 	: QtProjectWizzardContentPaths(settings, window)
 {
@@ -480,7 +480,7 @@ QtProjectWizzardContentPathsClassJava::QtProjectWizzardContentPathsClassJava(
 
 void QtProjectWizzardContentPathsClassJava::load()
 {
-	std::shared_ptr<JavaProjectSettings> javaSettings = std::dynamic_pointer_cast<JavaProjectSettings>(m_settings);
+	std::shared_ptr<SourceGroupSettingsJava> javaSettings = std::dynamic_pointer_cast<SourceGroupSettingsJava>(m_settings);
 	if (javaSettings)
 	{
 		m_list->setList(javaSettings->getClasspaths());
@@ -489,7 +489,7 @@ void QtProjectWizzardContentPathsClassJava::load()
 
 void QtProjectWizzardContentPathsClassJava::save()
 {
-	std::shared_ptr<JavaProjectSettings> javaSettings = std::dynamic_pointer_cast<JavaProjectSettings>(m_settings);
+	std::shared_ptr<SourceGroupSettingsJava> javaSettings = std::dynamic_pointer_cast<SourceGroupSettingsJava>(m_settings);
 	if (javaSettings)
 	{
 		javaSettings->setClasspaths(m_list->getList());

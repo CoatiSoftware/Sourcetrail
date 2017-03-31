@@ -415,7 +415,14 @@ void QtMainWindow::newProjectFromSolution(const std::string& ideId, const std::s
 void QtMainWindow::newProjectFromCDB(const std::string& filePath, const std::vector<std::string>& headerPaths)
 {
 	QtProjectWizzard* wizzard = createWindow<QtProjectWizzard>();
-	wizzard->newProjectFromCDB(filePath, headerPaths);
+
+	std::vector<FilePath> headerFilePaths(headerPaths.size());
+	for (const std::string& s: headerPaths)
+	{
+		headerFilePaths.push_back(FilePath(s));
+	}
+
+	wizzard->newProjectFromCDB(FilePath(filePath), headerFilePaths);
 }
 
 void QtMainWindow::openProject()

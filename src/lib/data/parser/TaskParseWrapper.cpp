@@ -4,13 +4,10 @@
 #include "data/PersistentStorage.h"
 #include "utility/scheduling/Blackboard.h"
 #include "utility/utility.h"
+#include "Application.h"
 
-TaskParseWrapper::TaskParseWrapper(
-	PersistentStorage* storage,
-	std::shared_ptr<DialogView> dialogView
-)
+TaskParseWrapper::TaskParseWrapper(PersistentStorage* storage)
 	: m_storage(storage)
-	, m_dialogView(dialogView)
 {
 }
 
@@ -30,9 +27,9 @@ void TaskParseWrapper::doEnter(std::shared_ptr<Blackboard> blackboard)
 {
 	int sourceFileCount = 0;
 	blackboard->get("source_file_count", sourceFileCount);
-    if (m_dialogView)
-    {
-        m_dialogView->updateIndexingDialog(0, sourceFileCount, "");
+	if (std::shared_ptr<DialogView> dialogView = Application::getInstance()->getDialogView())
+	{
+		dialogView->updateIndexingDialog(0, sourceFileCount, "");
     }
 
 	m_start = utility::durationStart();

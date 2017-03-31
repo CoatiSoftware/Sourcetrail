@@ -11,7 +11,7 @@ class QtProjectWizzardContentSummary
 	Q_OBJECT
 
 public:
-	QtProjectWizzardContentSummary(std::shared_ptr<ProjectSettings> settings, QtProjectWizzardWindow* window);
+	QtProjectWizzardContentSummary(QtProjectWizzardWindow* window);
 
 	void addContent(QtProjectWizzardContent* content);
 	void addSpace();

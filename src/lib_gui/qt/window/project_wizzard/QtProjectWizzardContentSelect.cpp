@@ -9,15 +9,10 @@
 #include "utility/ResourcePaths.h"
 #include "utility/utilityString.h"
 
-#include "utility/solution/SolutionParserManager.h"
-
 QtProjectWizzardContentSelect::QtProjectWizzardContentSelect(
-	std::shared_ptr<ProjectSettings> settings,
-	QtProjectWizzardWindow* window,
-	std::weak_ptr<SolutionParserManager> solutionParserManager
+	QtProjectWizzardWindow* window
 )
-	: QtProjectWizzardContent(settings, window)
-	, m_solutionParserManager(solutionParserManager)
+	: QtProjectWizzardContent(window)
 {
 }
 
@@ -25,40 +20,40 @@ void QtProjectWizzardContentSelect::populate(QGridLayout* layout, int& row)
 {
 	struct ProjectInfo
 	{
-		ProjectInfo(ProjectType type) :type(type) {}
-		const ProjectType type;
+		ProjectInfo(SourceGroupType type) :type(type) {}
+		const SourceGroupType type;
 	};
 
 	// define which kind of projects are available for each language
 	std::map<LanguageType, std::vector<ProjectInfo>> projectInfos;
-	projectInfos[LANGUAGE_C].push_back(ProjectInfo(PROJECT_C_EMPTY));
-	projectInfos[LANGUAGE_C].push_back(ProjectInfo(PROJECT_CXX_CDB));
-	projectInfos[LANGUAGE_C].push_back(ProjectInfo(PROJECT_CXX_VS));
-	projectInfos[LANGUAGE_CPP].push_back(ProjectInfo(PROJECT_CPP_EMPTY));
-	projectInfos[LANGUAGE_CPP].push_back(ProjectInfo(PROJECT_CXX_CDB));
-	projectInfos[LANGUAGE_CPP].push_back(ProjectInfo(PROJECT_CXX_VS));
-	projectInfos[LANGUAGE_JAVA].push_back(ProjectInfo(PROJECT_JAVA_EMPTY));
-	projectInfos[LANGUAGE_JAVA].push_back(ProjectInfo(PROJECT_JAVA_MAVEN));
+	projectInfos[LANGUAGE_C].push_back(ProjectInfo(SOURCE_GROUP_C_EMPTY));
+	projectInfos[LANGUAGE_C].push_back(ProjectInfo(SOURCE_GROUP_CXX_CDB));
+	projectInfos[LANGUAGE_C].push_back(ProjectInfo(SOURCE_GROUP_CXX_VS));
+	projectInfos[LANGUAGE_CPP].push_back(ProjectInfo(SOURCE_GROUP_CPP_EMPTY));
+	projectInfos[LANGUAGE_CPP].push_back(ProjectInfo(SOURCE_GROUP_CXX_CDB));
+	projectInfos[LANGUAGE_CPP].push_back(ProjectInfo(SOURCE_GROUP_CXX_VS));
+	projectInfos[LANGUAGE_JAVA].push_back(ProjectInfo(SOURCE_GROUP_JAVA_EMPTY));
+	projectInfos[LANGUAGE_JAVA].push_back(ProjectInfo(SOURCE_GROUP_JAVA_MAVEN));
 
 	// define which icons should be used for which kind of project
-	m_projectTypeIconName[PROJECT_C_EMPTY] = "empty_icon";
-	m_projectTypeIconName[PROJECT_CPP_EMPTY] = "empty_icon";
-	m_projectTypeIconName[PROJECT_CXX_CDB] = "cdb_icon";
-	m_projectTypeIconName[PROJECT_CXX_VS] = "vs_icon";
-	m_projectTypeIconName[PROJECT_JAVA_EMPTY] = "empty_icon";
-	m_projectTypeIconName[PROJECT_JAVA_MAVEN] = "mvn_icon";
+	m_projectTypeIconName[SOURCE_GROUP_C_EMPTY] = "empty_icon";
+	m_projectTypeIconName[SOURCE_GROUP_CPP_EMPTY] = "empty_icon";
+	m_projectTypeIconName[SOURCE_GROUP_CXX_CDB] = "cdb_icon";
+	m_projectTypeIconName[SOURCE_GROUP_CXX_VS] = "vs_icon";
+	m_projectTypeIconName[SOURCE_GROUP_JAVA_EMPTY] = "empty_icon";
+	m_projectTypeIconName[SOURCE_GROUP_JAVA_MAVEN] = "mvn_icon";
 
 	// define descriptions for each kind of project
-	m_projectTypeDescriptions[PROJECT_C_EMPTY] = "Create a new Coati project by defining which C files will be indexed.";
-	m_projectTypeDescriptions[PROJECT_CPP_EMPTY] = "Create a new Coati project by defining which C++ files will be indexed.";
-	m_projectTypeDescriptions[PROJECT_CXX_CDB] = "Create a project from an existing Compilation Database (compile_commands.json). They can be created from Make and "
+	m_projectTypeDescriptions[SOURCE_GROUP_C_EMPTY] = "Create a new Coati project by defining which C files will be indexed.";
+	m_projectTypeDescriptions[SOURCE_GROUP_CPP_EMPTY] = "Create a new Coati project by defining which C++ files will be indexed.";
+	m_projectTypeDescriptions[SOURCE_GROUP_CXX_CDB] = "Create a project from an existing Compilation Database (compile_commands.json). They can be created from Make and "
 		"CMake projects. Have a look at the <a href=\"https://coati.io/documentation/#CreateAProjectFromCompilationDatabase\">"
 		"documentation</a> to find out more.";
-	m_projectTypeDescriptions[PROJECT_CXX_VS] = "Create a new project from an existing Visual Studio Solution file. "
+	m_projectTypeDescriptions[SOURCE_GROUP_CXX_VS] = "Create a new project from an existing Visual Studio Solution file. "
 		"<b>Note: Requires a running Visual Studio instance with the "
 		"<a href=\"https://coati.io/documentation/index.html#VisualStudio\">Visual Studio plugin</a> installed.";
-	m_projectTypeDescriptions[PROJECT_JAVA_EMPTY] = "Create a new Coati project by defining which Java files will be indexed.";
-	m_projectTypeDescriptions[PROJECT_JAVA_MAVEN] = "Create a new project from an existing Maven project.";
+	m_projectTypeDescriptions[SOURCE_GROUP_JAVA_EMPTY] = "Create a new Coati project by defining which Java files will be indexed.";
+	m_projectTypeDescriptions[SOURCE_GROUP_JAVA_MAVEN] = "Create a new project from an existing Maven project.";
 
 	QVBoxLayout* vlayout = new QVBoxLayout();
 	vlayout->setContentsMargins(0, 30, 0, 0);
@@ -115,10 +110,10 @@ void QtProjectWizzardContentSelect::populate(QGridLayout* layout, int& row)
 		for (auto projectIt: languageIt.second)
 		{
 			QToolButton* b = createProjectButton(
-				utility::insertLineBreaksAtBlankSpaces(projectTypeToString(projectIt.type), 15).c_str(),
+				utility::insertLineBreaksAtBlankSpaces(sourceGroupTypeToString(projectIt.type), 15).c_str(),
 				(ResourcePaths::getGuiPath() + "icon/" + m_projectTypeIconName[projectIt.type] + ".png").c_str()
 			);
-			b->setProperty("project_type", int(projectIt.type));
+			b->setProperty("source_group_type", int(projectIt.type));
 			projectButtons->addButton(b);
 			hlayout->addWidget(b);
 		}
@@ -131,15 +126,15 @@ void QtProjectWizzardContentSelect::populate(QGridLayout* layout, int& row)
 		connect(it.second, static_cast<void(QButtonGroup::*)(QAbstractButton*)>(&QButtonGroup::buttonClicked),
 			[this](QAbstractButton* button)
 			{
-				ProjectType selectedProject = PROJECT_UNKNOWN;
+				SourceGroupType selectedType = SOURCE_GROUP_UNKNOWN;
 				bool ok = false;
-				int projectTypeInt = button->property("project_type").toInt(&ok);
+				int selectedTypeInt = button->property("source_group_type").toInt(&ok);
 				if (ok)
 				{
-					selectedProject = ProjectType(projectTypeInt);
+					selectedType = SourceGroupType(selectedTypeInt);
 				}
 
-				m_description->setText(m_projectTypeDescriptions[selectedProject].c_str());
+				m_description->setText(m_projectTypeDescriptions[selectedType].c_str());
 
 				m_window->setNextEnabled(true);
 			}
@@ -175,22 +170,22 @@ void QtProjectWizzardContentSelect::populate(QGridLayout* layout, int& row)
 
 void QtProjectWizzardContentSelect::save()
 {
-	ProjectType type;
+	SourceGroupType selectedType;
 
 	for (auto it: m_buttons)
 	{
 		if (QAbstractButton* b = it.second->checkedButton())
 		{
 			bool ok = false;
-			int projectType = b->property("project_type").toInt(&ok);
+			int selectedTypeInt = b->property("source_group_type").toInt(&ok);
 			if (ok)
 			{
-				type = ProjectType(projectType);
+				selectedType = SourceGroupType(selectedTypeInt);
 				break;
 			}
 		}
 	}
-	emit selected(type);
+	emit selected(selectedType);
 }
 
 bool QtProjectWizzardContentSelect::check()

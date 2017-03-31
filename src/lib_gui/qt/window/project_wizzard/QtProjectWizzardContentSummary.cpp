@@ -1,9 +1,9 @@
 #include "qt/window/project_wizzard/QtProjectWizzardContentSummary.h"
 
 QtProjectWizzardContentSummary::QtProjectWizzardContentSummary(
-	std::shared_ptr<ProjectSettings> settings, QtProjectWizzardWindow* window
+	QtProjectWizzardWindow* window
 )
-	: QtProjectWizzardContent(settings, window)
+	: QtProjectWizzardContent(window)
 	, m_isForm(false)
 {
 }

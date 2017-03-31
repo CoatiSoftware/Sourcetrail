@@ -9,15 +9,16 @@
 #include "component/view/DialogView.h"
 #include "qt/element/QtLocationPicker.h"
 #include "settings/ApplicationSettings.h"
-#include "settings/JavaProjectSettings.h"
+#include "settings/SourceGroupSettingsJava.h"
 #include "utility/file/FileManager.h"
 #include "utility/messaging/type/MessageStatus.h"
 #include "utility/utilityMaven.h"
 #include "utility/ScopedFunctor.h"
 #include "Application.h"
 
-QtProjectWizzardContentPath::QtProjectWizzardContentPath(std::shared_ptr<ProjectSettings> settings, QtProjectWizzardWindow* window)
-	: QtProjectWizzardContent(settings, window)
+QtProjectWizzardContentPath::QtProjectWizzardContentPath(std::shared_ptr<SourceGroupSettings> settings, QtProjectWizzardWindow* window)
+	: QtProjectWizzardContent(window)
+	, m_settings(settings)
 	, m_makePathRelativeToProjectFileLocation(true)
 {
 }
@@ -68,7 +69,7 @@ void QtProjectWizzardContentPath::setHelpString(const QString& help)
 }
 
 QtProjectWizzardContentPathSourceMaven::QtProjectWizzardContentPathSourceMaven(
-	std::shared_ptr<ProjectSettings> settings, QtProjectWizzardWindow* window
+	std::shared_ptr<SourceGroupSettings> settings, QtProjectWizzardWindow* window
 )
 	: QtProjectWizzardContentPath(settings, window)
 {
@@ -101,7 +102,7 @@ void QtProjectWizzardContentPathSourceMaven::populate(QGridLayout* layout, int& 
 
 void QtProjectWizzardContentPathSourceMaven::load()
 {
-	std::shared_ptr<JavaProjectSettings> javaSettings = std::dynamic_pointer_cast<JavaProjectSettings>(m_settings);
+	std::shared_ptr<SourceGroupSettingsJava> javaSettings = std::dynamic_pointer_cast<SourceGroupSettingsJava>(m_settings);
 	if (javaSettings)
 	{
 		m_picker->setText(QString::fromStdString(javaSettings->getMavenProjectFilePath().str()));
@@ -111,7 +112,7 @@ void QtProjectWizzardContentPathSourceMaven::load()
 
 void QtProjectWizzardContentPathSourceMaven::save()
 {
-	std::shared_ptr<JavaProjectSettings> javaSettings = std::dynamic_pointer_cast<JavaProjectSettings>(m_settings);
+	std::shared_ptr<SourceGroupSettingsJava> javaSettings = std::dynamic_pointer_cast<SourceGroupSettingsJava>(m_settings);
 	if (javaSettings)
 	{
 		javaSettings->setMavenProjectFilePath(m_picker->getText().toStdString());
@@ -121,7 +122,7 @@ void QtProjectWizzardContentPathSourceMaven::save()
 
 std::vector<std::string> QtProjectWizzardContentPathSourceMaven::getFileNames() const
 {
-	std::shared_ptr<JavaProjectSettings> javaSettings = std::dynamic_pointer_cast<JavaProjectSettings>(m_settings);
+	std::shared_ptr<SourceGroupSettingsJava> javaSettings = std::dynamic_pointer_cast<SourceGroupSettingsJava>(m_settings);
 
 	const FilePath mavenPath = ApplicationSettings::getInstance()->getMavenPath();
 	const FilePath mavenProjectRoot = javaSettings->getAbsoluteMavenProjectFilePath().parentDirectory();
@@ -150,16 +151,15 @@ std::vector<std::string> QtProjectWizzardContentPathSourceMaven::getFileNames() 
 		);
 
 		FileManager fileManager;
-		fileManager.setPaths(
+		fileManager.update(
 			sourceDirectories,
-			std::vector<FilePath>(), // we don't need to specify header paths here
 			m_settings->getAbsoluteExcludePaths(),
 			m_settings->getSourceExtensions()
 		);
 
 		const FilePath projectPath = m_settings->getProjectFileLocation();
 
-		for (FilePath path: fileManager.getSourceFilePaths())
+		for (FilePath path: fileManager.getAllSourceFilePaths())
 		{
 			if (projectPath.exists())
 			{
@@ -175,7 +175,7 @@ std::vector<std::string> QtProjectWizzardContentPathSourceMaven::getFileNames() 
 }
 
 QtProjectWizzardContentPathDependenciesMaven::QtProjectWizzardContentPathDependenciesMaven(
-	std::shared_ptr<ProjectSettings> settings, QtProjectWizzardWindow* window
+	std::shared_ptr<SourceGroupSettings> settings, QtProjectWizzardWindow* window
 )
 	: QtProjectWizzardContentPath(settings, window)
 {
@@ -189,7 +189,7 @@ QtProjectWizzardContentPathDependenciesMaven::QtProjectWizzardContentPathDepende
 
 void QtProjectWizzardContentPathDependenciesMaven::load()
 {
-	std::shared_ptr<JavaProjectSettings> javaSettings = std::dynamic_pointer_cast<JavaProjectSettings>(m_settings);
+	std::shared_ptr<SourceGroupSettingsJava> javaSettings = std::dynamic_pointer_cast<SourceGroupSettingsJava>(m_settings);
 	if (javaSettings)
 	{
 		m_picker->setText(QString::fromStdString(javaSettings->getMavenDependenciesDirectory().str()));
@@ -198,7 +198,7 @@ void QtProjectWizzardContentPathDependenciesMaven::load()
 
 void QtProjectWizzardContentPathDependenciesMaven::save()
 {
-	std::shared_ptr<JavaProjectSettings> javaSettings = std::dynamic_pointer_cast<JavaProjectSettings>(m_settings);
+	std::shared_ptr<SourceGroupSettingsJava> javaSettings = std::dynamic_pointer_cast<SourceGroupSettingsJava>(m_settings);
 	if (javaSettings)
 	{
 		javaSettings->setMavenDependenciesDirectory(m_picker->getText().toStdString());

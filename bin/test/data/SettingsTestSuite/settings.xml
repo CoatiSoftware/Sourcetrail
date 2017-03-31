@@ -5,15 +5,17 @@
 	<Float>3.1416</Float>
 	<String>Hello World!</String>
 
-	<source>
-		<source_paths>
-			<source_path>data</source_path>
-		</source_paths>
-		<header_search_paths>
-			<header_search_path>data/</header_search_path>
-			<header_search_path>src/</header_search_path>
-		</header_search_paths>
-
-	</source>
+	<source_groups>
+        <source_group_77438437-02db-4207-8bbf-75c627d53b89>
+            <type>C++ Source Group</type>
+			<source_paths>
+				<source_path>data</source_path>
+			</source_paths>
+			<header_search_paths>
+				<header_search_path>data/</header_search_path>
+				<header_search_path>src/</header_search_path>
+			</header_search_paths>
+        </source_group_77438437-02db-4207-8bbf-75c627d53b89>
+	</source_groups>
 </config>
 

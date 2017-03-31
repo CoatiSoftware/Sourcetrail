@@ -48,21 +48,21 @@ std::string getSymbolNameDelimiterForLanguage(LanguageType t)
 	return "@";
 }
 
-LanguageType getLanguageTypeForProjectType(ProjectType t)
+LanguageType getLanguageTypeForSourceGroupType(SourceGroupType t)
 {
 	switch (t)
 	{
-	case PROJECT_C_EMPTY:
+	case SOURCE_GROUP_C_EMPTY:
 		return LANGUAGE_C;
-	case PROJECT_CPP_EMPTY:
+	case SOURCE_GROUP_CPP_EMPTY:
 		return LANGUAGE_CPP;
-	case PROJECT_CXX_CDB:
+	case SOURCE_GROUP_CXX_CDB:
 		return LANGUAGE_CPP;
-	case PROJECT_CXX_VS:
+	case SOURCE_GROUP_CXX_VS:
 		return LANGUAGE_CPP;
-	case PROJECT_JAVA_EMPTY:
+	case SOURCE_GROUP_JAVA_EMPTY:
 		return LANGUAGE_JAVA;
-	case PROJECT_JAVA_MAVEN:
+	case SOURCE_GROUP_JAVA_MAVEN:
 		return LANGUAGE_JAVA;
 	default:
 		break;

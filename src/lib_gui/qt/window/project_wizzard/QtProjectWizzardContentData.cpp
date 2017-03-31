@@ -3,15 +3,19 @@
 #include <QFormLayout>
 #include <QMessageBox>
 
-#include "settings/CxxProjectSettings.h"
-
+#include "settings/SourceGroupSettingsCxx.h"
 #include "utility/messaging/type/MessageIDECreateCDB.h"
 #include "utility/logging/logging.h"
 
 QtProjectWizzardContentData::QtProjectWizzardContentData(
-	std::shared_ptr<ProjectSettings> settings, QtProjectWizzardWindow* window, bool disableNameEditing
+	std::shared_ptr<ProjectSettings> projectSettings,
+	std::shared_ptr<SourceGroupSettings> sourceGroupSettings,
+	QtProjectWizzardWindow* window,
+	bool disableNameEditing
 )
-	: QtProjectWizzardContent(settings, window)
+	: QtProjectWizzardContent(window)
+	, m_projectSettings(projectSettings)
+	, m_sourceGroupSettings(sourceGroupSettings)
 	, m_disableNameEditing(disableNameEditing)
 	, m_projectName(nullptr)
 	, m_projectFileLocation(nullptr)
@@ -49,13 +53,13 @@ void QtProjectWizzardContentData::load()
 {
 	if (m_projectName)
 	{
-		m_projectName->setText(QString::fromStdString(m_settings->getProjectName()));
-		m_projectFileLocation->setText(QString::fromStdString(m_settings->getProjectFileLocation().str()));
+		m_projectName->setText(QString::fromStdString(m_projectSettings->getProjectName()));
+		m_projectFileLocation->setText(QString::fromStdString(m_projectSettings->getProjectFileLocation().str()));
 	}
 
 	if (m_language)
 	{
-		LanguageType type = m_settings->getLanguage();
+		LanguageType type = getLanguageTypeForSourceGroupType(m_sourceGroupSettings->getType());
 
 		if (type == LANGUAGE_UNKNOWN)
 		{
@@ -66,13 +70,13 @@ void QtProjectWizzardContentData::load()
 		m_language->setText(languageTypeToString(type).c_str());
 
 		m_standard->clear();
-		std::vector<std::string> standards = m_settings->getLanguageStandards();
+		std::vector<std::string> standards = m_sourceGroupSettings->getAvailableLanguageStandards();
 		for (size_t i = 0; i < standards.size(); i++)
 		{
 			m_standard->insertItem(i, standards[i].c_str());
 		}
 
-		m_standard->setCurrentText(QString::fromStdString(m_settings->getStandard()));
+		m_standard->setCurrentText(QString::fromStdString(m_sourceGroupSettings->getStandard()));
 	}
 }
 
@@ -80,13 +84,13 @@ void QtProjectWizzardContentData::save()
 {
 	if (m_projectName)
 	{
-		m_settings->setProjectName(m_projectName->text().toStdString());
-		m_settings->setProjectFileLocation(m_projectFileLocation->getText().toStdString());
+		m_projectSettings->setProjectName(m_projectName->text().toStdString());
+		m_projectSettings->setProjectFileLocation(m_projectFileLocation->getText().toStdString());
 	}
 
 	if (m_standard)
 	{
-		m_settings->setStandard(m_standard->currentText().toStdString());
+		m_sourceGroupSettings->setStandard(m_standard->currentText().toStdString());
 	}
 }
 
@@ -188,8 +192,12 @@ void QtProjectWizzardContentData::addBuildFilePicker(
 
 
 QtProjectWizzardContentDataCDB::QtProjectWizzardContentDataCDB(
-	std::shared_ptr<ProjectSettings> settings, QtProjectWizzardWindow* window, bool disableNameEditing)
-	: QtProjectWizzardContentData(settings, window, disableNameEditing)
+	std::shared_ptr<ProjectSettings> projectSettings,
+	std::shared_ptr<SourceGroupSettings> sourceGroupSettings,
+	QtProjectWizzardWindow* window,
+	bool disableNameEditing
+)
+	: QtProjectWizzardContentData(projectSettings, sourceGroupSettings, window, disableNameEditing)
 {
 }
 
@@ -219,7 +227,7 @@ void QtProjectWizzardContentDataCDB::populate(QGridLayout* layout, int& row)
 void QtProjectWizzardContentDataCDB::load()
 {
 	QtProjectWizzardContentData::load();
-	std::shared_ptr<CxxProjectSettings> cxxSettings = std::dynamic_pointer_cast<CxxProjectSettings>(m_settings);
+	std::shared_ptr<SourceGroupSettingsCxx> cxxSettings = std::dynamic_pointer_cast<SourceGroupSettingsCxx>(m_sourceGroupSettings);
 	if (cxxSettings)
 	{
 		m_buildFilePicker->setText(QString::fromStdString(cxxSettings->getCompilationDatabasePath().str()));
@@ -231,13 +239,13 @@ void QtProjectWizzardContentDataCDB::save()
 	QtProjectWizzardContentData::save();
 
 	FilePath path = m_buildFilePicker->getText().toStdString();
-	FilePath absPath = m_settings->makePathAbsolute(m_settings->expandPath(path));
+	FilePath absPath = m_projectSettings->makePathAbsolute(m_projectSettings->expandPath(path)); // maybe we can use SourceGroupSettings for this... that's where the the cdb path is stored.
 	if (!absPath.exists() || absPath.extension() != ".json")
 	{
 		return;
 	}
 
-	std::shared_ptr<CxxProjectSettings> cxxSettings = std::dynamic_pointer_cast<CxxProjectSettings>(m_settings);
+	std::shared_ptr<SourceGroupSettingsCxx> cxxSettings = std::dynamic_pointer_cast<SourceGroupSettingsCxx>(m_sourceGroupSettings);
 	if (cxxSettings)
 	{
 		cxxSettings->setCompilationDatabasePath(path);
@@ -252,7 +260,7 @@ bool QtProjectWizzardContentDataCDB::check()
 	}
 
 	FilePath path = m_buildFilePicker->getText().toStdString();
-	FilePath absPath = m_settings->makePathAbsolute(m_settings->expandPath(path));
+	FilePath absPath = m_projectSettings->makePathAbsolute(m_projectSettings->expandPath(path));
 	if (!absPath.exists() || absPath.extension() != ".json")
 	{
 		QMessageBox msgBox;
@@ -266,7 +274,7 @@ bool QtProjectWizzardContentDataCDB::check()
 
 void QtProjectWizzardContentDataCDB::pickedCDBPath()
 {
-	FilePath projectPath = m_settings->getProjectFileLocation();
+	FilePath projectPath = m_projectSettings->getProjectFileLocation();
 	if (m_projectFileLocation)
 	{
 		projectPath = FilePath(m_projectFileLocation->getText().toStdString());
@@ -285,8 +293,12 @@ void QtProjectWizzardContentDataCDB::pickedCDBPath()
 }
 
 
-QtProjectWizzardContentDataCDBVS::QtProjectWizzardContentDataCDBVS(std::shared_ptr<ProjectSettings> settings, QtProjectWizzardWindow* window)
-	: QtProjectWizzardContentDataCDB(settings, window, false)
+QtProjectWizzardContentDataCDBVS::QtProjectWizzardContentDataCDBVS(
+	std::shared_ptr<ProjectSettings> projectSettings,
+	std::shared_ptr<SourceGroupSettings> sourceGroupSettings,
+	QtProjectWizzardWindow* window
+)
+	: QtProjectWizzardContentDataCDB(projectSettings, sourceGroupSettings, window, false)
 {
 }
 

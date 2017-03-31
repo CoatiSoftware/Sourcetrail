@@ -1,8 +1,5 @@
 #include "Application.h"
 #include "ApplicationStateMonitor.h"
-#include "ProjectFactoryModuleC.h"
-#include "ProjectFactoryModuleCpp.h"
-#include "ProjectFactoryModuleJava.h"
 
 #include "data/indexer/IndexerFactory.h"
 #include "data/indexer/IndexerFactoryModuleJava.h"
@@ -11,6 +8,11 @@
 
 #include "includes.h" // defines 'void setup(int argc, char *argv[])'
 #include "LicenseChecker.h"
+
+#include "project/SourceGroupFactory.h"
+#include "project/SourceGroupFactoryModuleC.h"
+#include "project/SourceGroupFactoryModuleCpp.h"
+#include "project/SourceGroupFactoryModuleJava.h"
 #include "qt/network/QtNetworkFactory.h"
 #include "qt/QtApplication.h"
 #include "qt/QtCoreApplication.h"
@@ -166,9 +168,9 @@ int main(int argc, char *argv[])
 		prefillCxxHeaderPaths();
 		prefillCxxFrameworkPaths();
 
-		Application::getInstance()->addProjectFactoryModule(std::make_shared<ProjectFactoryModuleC>());
-		Application::getInstance()->addProjectFactoryModule(std::make_shared<ProjectFactoryModuleCpp>());
-		Application::getInstance()->addProjectFactoryModule(std::make_shared<ProjectFactoryModuleJava>());
+		SourceGroupFactory::getInstance()->addModule(std::make_shared<SourceGroupFactoryModuleC>());
+		SourceGroupFactory::getInstance()->addModule(std::make_shared<SourceGroupFactoryModuleCpp>());
+		SourceGroupFactory::getInstance()->addModule(std::make_shared<SourceGroupFactoryModuleJava>());
 
 		IndexerFactory::getInstance()->addModule(std::make_shared<IndexerFactoryModuleJava>());
 		IndexerFactory::getInstance()->addModule(std::make_shared<IndexerFactoryModuleCxxCdb>());
@@ -228,9 +230,9 @@ int main(int argc, char *argv[])
 		prefillCxxHeaderPaths();
 		prefillCxxFrameworkPaths();
 
-		Application::getInstance()->addProjectFactoryModule(std::make_shared<ProjectFactoryModuleC>());
-		Application::getInstance()->addProjectFactoryModule(std::make_shared<ProjectFactoryModuleCpp>());
-		Application::getInstance()->addProjectFactoryModule(std::make_shared<ProjectFactoryModuleJava>());
+		SourceGroupFactory::getInstance()->addModule(std::make_shared<SourceGroupFactoryModuleC>());
+		SourceGroupFactory::getInstance()->addModule(std::make_shared<SourceGroupFactoryModuleCpp>());
+		SourceGroupFactory::getInstance()->addModule(std::make_shared<SourceGroupFactoryModuleJava>());
 
 		IndexerFactory::getInstance()->addModule(std::make_shared<IndexerFactoryModuleJava>());
 		IndexerFactory::getInstance()->addModule(std::make_shared<IndexerFactoryModuleCxxCdb>());

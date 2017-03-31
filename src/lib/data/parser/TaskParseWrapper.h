@@ -18,10 +18,7 @@ class TaskParseWrapper
 	: public TaskDecorator
 {
 public:
-	TaskParseWrapper(
-		PersistentStorage* storage,
-		std::shared_ptr<DialogView> dialogView
-	);
+	TaskParseWrapper(PersistentStorage* storage);
 	virtual ~TaskParseWrapper();
 
 	virtual void setTask(std::shared_ptr<Task> task);
@@ -33,7 +30,6 @@ private:
 	virtual void doReset(std::shared_ptr<Blackboard> blackboard);
 
 	PersistentStorage* m_storage;
-	std::shared_ptr<DialogView> m_dialogView;
 
 	TimePoint m_start;
 	std::shared_ptr<TaskRunner> m_taskRunner;

@@ -5,7 +5,6 @@
 #include <QSysInfo>
 
 #include "qt/window/project_wizzard/QtProjectWizzardContent.h"
-#include "qt/window/project_wizzard/QtProjectWizzardContentBuildFile.h"
 #include "qt/window/project_wizzard/QtProjectWizzardContentCDBSource.h"
 #include "qt/window/project_wizzard/QtProjectWizzardContentData.h"
 #include "qt/window/project_wizzard/QtProjectWizzardContentExtensions.h"
@@ -16,8 +15,8 @@
 #include "qt/window/project_wizzard/QtProjectWizzardContentSimple.h"
 #include "qt/window/project_wizzard/QtProjectWizzardContentSummary.h"
 #include "qt/window/project_wizzard/QtProjectWizzardWindow.h"
-#include "settings/CxxProjectSettings.h"
-#include "settings/JavaProjectSettings.h"
+#include "settings/SourceGroupSettingsCxx.h"
+#include "settings/SourceGroupSettingsJava.h"
 #include "utility/file/FileSystem.h"
 #include "utility/logging/logging.h"
 #include "utility/messaging/type/MessageLoadProject.h"
@@ -28,6 +27,7 @@
 #include "utility/utility.h"
 #include "utility/utilityPathDetection.h"
 #include "utility/utilityString.h"
+#include "utility/UUIDUtility.h"
 
 #include "Application.h"
 
@@ -46,9 +46,6 @@ QtProjectWizzard::QtProjectWizzard(QWidget* parent)
 	m_appSettings.setScrollSpeed(appSettings->getScrollSpeed());
 	m_appSettings.setCoatiPort(appSettings->getCoatiPort());
 	m_appSettings.setPluginPort(appSettings->getPluginPort());
-
-	m_parserManager = std::make_shared<SolutionParserManager>();
-
 }
 
 void QtProjectWizzard::showWindow()
@@ -73,129 +70,69 @@ void QtProjectWizzard::hideWindow()
 
 void QtProjectWizzard::newProject()
 {
-	QtProjectWizzardWindow* window = createWindowWithContent<QtProjectWizzardContentSelect>();
+	QtProjectWizzardWindow* window = createWindowWithContent(
+		[this](QtProjectWizzardWindow* window)
+		{
+			return new QtProjectWizzardContentSelect(window);
+		}
+	);
+	window->setPreferredSize(QSize(570, 380));
 
 	connect(dynamic_cast<QtProjectWizzardContentSelect*>(window->content()),
-		SIGNAL(selected(ProjectType)),
-		this, SLOT(selectedProjectType(ProjectType)));
+		SIGNAL(selected(SourceGroupType)),
+		this, SLOT(selectedProjectType(SourceGroupType)));
 
 	window->setNextEnabled(false);
 	window->setPreviousEnabled(false);
 	window->updateSubTitle("Type Selection");
 }
 
-void QtProjectWizzard::newProjectFromSolution(const std::string& ideId, const std::string& solutionPath)
+void QtProjectWizzard::newProjectFromSolution(const std::string& ideId, const FilePath& solutionPath)
 {
-	if (m_parserManager->canParseSolution(ideId))
-	{
-		std::shared_ptr<ProjectSettings> settings = m_parserManager->getProjectSettings(ideId, solutionPath);
-
-		// this looks rather hacky.. calling the edit project and then setting the title.
-		editProject(settings);
-
-		QWidget* widget = m_windowStack.getTopWindow();
-
-		if (widget)
-		{
-			QtProjectWizzardWindow* window = dynamic_cast<QtProjectWizzardWindow*>(widget);
-
-			std::string title = "NEW PROJECT FROM ";
-			title += utility::toUpperCase(ideId);
-			title += " SOLUTION";
-
-			window->updateTitle(QString(title.c_str()));
-			window->updateNextButton("Create");
-			window->setPreviousVisible(m_windowStack.getWindowCount() > 0);
-		}
-	}
-	else
-	{
-		LOG_ERROR_STREAM(<< "Unknown solution type");
-		MessageStatus("Unable to parse given solution", true).dispatch();
-	}
+	int i = 0;
 }
 
-void QtProjectWizzard::newProjectFromCDB(const std::string& filePath, const std::vector<std::string>& headerPaths)
+void QtProjectWizzard::newProjectFromCDB(const FilePath& filePath, const std::vector<FilePath>& headerPaths)
 {
-	FilePath fp(filePath);
+	m_projectSettings = std::make_shared<ProjectSettings>();
 
-	std::vector<FilePath> hp;
-	for (size_t i = 0; i < headerPaths.size(); i++)
-	{
-		hp.push_back(FilePath(headerPaths[i]));
-	}
+	std::shared_ptr<SourceGroupSettingsCxx> sourceGroupSettings = std::make_shared<SourceGroupSettingsCxx>(UUIDUtility::getUUIDString(), SOURCE_GROUP_CXX_VS, m_projectSettings.get());
+	m_projectSettings->setProjectName(filePath.withoutExtension().fileName());
+	m_projectSettings->setProjectFileLocation(filePath.parentDirectory());
+	sourceGroupSettings->setCompilationDatabasePath(filePath);
+	sourceGroupSettings->setSourcePaths(headerPaths);
+	m_sourceGroupSettings = sourceGroupSettings;
 
-	std::shared_ptr<CxxProjectSettings> settings = std::make_shared<CxxProjectSettings>();
-	settings->setLanguage(LanguageType::LANGUAGE_CPP);
-	settings->setProjectName(fp.withoutExtension().fileName());
-	settings->setProjectFileLocation(fp.parentDirectory());
-	settings->setCompilationDatabasePath(fp);
-	settings->setSourcePaths(hp);
-	m_settings = settings;
 	emptyProjectCDBVS();
 }
 
 void QtProjectWizzard::refreshProjectFromSolution(const std::string& ideId, const std::string& solutionPath)
 {
-	if (m_parserManager->canParseSolution(ideId))
-	{
-		QtProjectWizzardWindow* window = dynamic_cast<QtProjectWizzardWindow*>(m_windowStack.getTopWindow());
-		if (window)
-		{
-			window->content()->save();
-		}
-
-		std::shared_ptr<ProjectSettings> settings = m_parserManager->getProjectSettings(ideId, solutionPath);
-
-		std::shared_ptr<CxxProjectSettings> otherCxxSettings = std::dynamic_pointer_cast<CxxProjectSettings>(settings);
-		std::shared_ptr<CxxProjectSettings> ownCxxSettings = std::dynamic_pointer_cast<CxxProjectSettings>(m_settings);
-		if (otherCxxSettings && ownCxxSettings)
-		{
-			ownCxxSettings->setSourcePaths(otherCxxSettings->getSourcePaths());
-			ownCxxSettings->setHeaderSearchPaths(otherCxxSettings->getHeaderSearchPaths());
-			ownCxxSettings->setVisualStudioSolutionPath(FilePath(solutionPath));
-		}
-		if (window)
-		{
-			window->content()->load();
-		}
-	}
-	else
-	{
-		LOG_ERROR_STREAM(<< "Unknown solution type");
-		MessageStatus("Unable to parse given solution", true).dispatch();
-	}
+	int i = 0;
 }
 
 void QtProjectWizzard::editProject(const FilePath& settingsPath)
 {
-	std::shared_ptr<ProjectSettings> settings;
-	switch (ProjectSettings::getLanguageOfProject(settingsPath))
-	{
-	case LANGUAGE_C:
-	case LANGUAGE_CPP:
-		settings = std::make_shared<CxxProjectSettings>(settingsPath);
-		break;
-	case LANGUAGE_JAVA:
-		settings = std::make_shared<JavaProjectSettings>(settingsPath);
-		break;
-	default:
-		return;
-	}
-
-	if (settings)
-	{
-		settings->reload();
-		editProject(settings);
-	}
+	std::shared_ptr<ProjectSettings> settings = std::make_shared<ProjectSettings>(settingsPath);
+	settings->reload();
+	editProject(settings);
 }
 
 void QtProjectWizzard::editProject(std::shared_ptr<ProjectSettings> settings)
 {
-	m_settings = settings;
+	m_projectSettings = settings;
+
+	{
+		const std::vector<std::shared_ptr<SourceGroupSettings>> allSourceGroupSettings = m_projectSettings->getAllSourceGroupSettings();
+		if (!allSourceGroupSettings.empty())
+		{
+			// Todo: regard the rest of the source groups once we can have more than one in a project.
+			m_sourceGroupSettings = allSourceGroupSettings.front();
+		}
+	}
 	m_editing = true;
 
-	switch (m_settings->getLanguage())
+	switch (getLanguageTypeForSourceGroupType(m_sourceGroupSettings->getType()))
 	{
 		case LANGUAGE_JAVA:
 			showSummaryJava();
@@ -218,12 +155,12 @@ void QtProjectWizzard::showPreferences()
 		{
 			summary->setIsForm(true);
 
-			summary->addContent(new QtProjectWizzardContentPreferences(m_settings, window));
+			summary->addContent(new QtProjectWizzardContentPreferences(window));
 
-			summary->addContent(new QtProjectWizzardContentPathsHeaderSearchGlobal(m_settings, window));
+			summary->addContent(new QtProjectWizzardContentPathsHeaderSearchGlobal(window));
 			if (QSysInfo::macVersion() != QSysInfo::MV_None)
 			{
-				summary->addContent(new QtProjectWizzardContentPathsFrameworkSearchGlobal(m_settings, window));
+				summary->addContent(new QtProjectWizzardContentPathsFrameworkSearchGlobal(window));
 			}
 
 			window->setup();
@@ -264,35 +201,16 @@ bool QtProjectWizzard::applicationSettingsContainVisualStudioHeaderSearchPaths()
 	return false;
 }
 
-template<typename T>
-QtProjectWizzardWindow* QtProjectWizzard::createWindowWithContent()
-{
+QtProjectWizzardWindow* QtProjectWizzard::createWindowWithContent(
+	std::function<QtProjectWizzardContent*(QtProjectWizzardWindow*)> func
+){
 	QtProjectWizzardWindow* window = new QtProjectWizzardWindow(parentWidget());
 
 	connect(window, SIGNAL(previous()), &m_windowStack, SLOT(popWindow()));
 	connect(window, SIGNAL(canceled()), this, SLOT(cancelWizzard()));
 
-	window->setContent(new T(m_settings, window));
+	window->setContent(func(window));
 	window->setPreferredSize(QSize(580, 340));
-	window->setup();
-
-	m_windowStack.pushWindow(window);
-
-	return window;
-}
-
-template<>
-QtProjectWizzardWindow* QtProjectWizzard::createWindowWithContent<QtProjectWizzardContentSelect>()
-{
-	QtProjectWizzardWindow* window = new QtProjectWizzardWindow(parentWidget());
-
-	connect(window, SIGNAL(previous()), &m_windowStack, SLOT(popWindow()));
-	connect(window, SIGNAL(canceled()), this, SLOT(cancelWizzard()));
-
-	QtProjectWizzardContentSelect* content = new QtProjectWizzardContentSelect(m_settings, window, m_parserManager);
-
-	window->setContent(content);
-	window->setPreferredSize(QSize(570, 380));
 	window->setup();
 
 	m_windowStack.pushWindow(window);
@@ -308,7 +226,7 @@ QtProjectWizzardWindow* QtProjectWizzard::createWindowWithSummary(
 	connect(window, SIGNAL(previous()), &m_windowStack, SLOT(popWindow()));
 	connect(window, SIGNAL(canceled()), this, SLOT(cancelWizzard()));
 
-	QtProjectWizzardContentSummary* summary = new QtProjectWizzardContentSummary(m_settings, window);
+	QtProjectWizzardContentSummary* summary = new QtProjectWizzardContentSummary(window);
 
 	window->setContent(summary);
 	window->setPreferredSize(QSize(750, 500));
@@ -341,43 +259,41 @@ void QtProjectWizzard::windowStackChanged()
 	}
 }
 
-void QtProjectWizzard::selectedProjectType(ProjectType projectType)
+void QtProjectWizzard::selectedProjectType(SourceGroupType sourceGroupType)
 {
-	LanguageType languageType = getLanguageTypeForProjectType(projectType);
-	switch (projectType)
+	m_projectSettings = std::make_shared<ProjectSettings>();
+
+	const std::string sourceGroupId = UUIDUtility::getUUIDString();
+
+	switch (sourceGroupType)
 	{
-	case PROJECT_C_EMPTY:
-	case PROJECT_CPP_EMPTY:
-		m_settings = std::make_shared<CxxProjectSettings>();
+	case SOURCE_GROUP_C_EMPTY:
+	case SOURCE_GROUP_CPP_EMPTY:
+		m_sourceGroupSettings = std::make_shared<SourceGroupSettingsCxx>(sourceGroupId, sourceGroupType, m_projectSettings.get());
 		if (applicationSettingsContainVisualStudioHeaderSearchPaths())
 		{
 			std::vector<std::string> flags;
 			flags.push_back("-fms-extensions");
 			flags.push_back("-fms-compatibility");
 			flags.push_back("-fms-compatibility-version=19");
-			std::dynamic_pointer_cast<CxxProjectSettings>(m_settings)->setCompilerFlags(flags);
+			std::dynamic_pointer_cast<SourceGroupSettingsCxx>(m_sourceGroupSettings)->setCompilerFlags(flags);
 		}
-		m_settings->setLanguage(languageType);
 		emptyProject();
 		break;
-	case PROJECT_CXX_CDB:
-		m_settings = std::make_shared<CxxProjectSettings>();
-		m_settings->setLanguage(languageType);
+	case SOURCE_GROUP_CXX_CDB:
+		m_sourceGroupSettings = std::make_shared<SourceGroupSettingsCxx>(sourceGroupId, sourceGroupType, m_projectSettings.get());
 		emptyProjectCDB();
 		break;
-	case PROJECT_CXX_VS:
-		m_settings = std::make_shared<CxxProjectSettings>();
-		m_settings->setLanguage(languageType);
+	case SOURCE_GROUP_CXX_VS:
+		m_sourceGroupSettings = std::make_shared<SourceGroupSettingsCxx>(sourceGroupId, sourceGroupType, m_projectSettings.get()); // maybe use a different type here
 		emptyProjectCDBVS();
 		break;
-	case PROJECT_JAVA_EMPTY:
-		m_settings = std::make_shared<JavaProjectSettings>();
-		m_settings->setLanguage(languageType);
+	case SOURCE_GROUP_JAVA_EMPTY:
+		m_sourceGroupSettings = std::make_shared<SourceGroupSettingsJava>(sourceGroupId, sourceGroupType, m_projectSettings.get());
 		emptyProject();
 		break;
-	case PROJECT_JAVA_MAVEN:
-		m_settings = std::make_shared<JavaProjectSettings>();
-		m_settings->setLanguage(languageType);
+	case SOURCE_GROUP_JAVA_MAVEN:
+		m_sourceGroupSettings = std::make_shared<SourceGroupSettingsJava>(sourceGroupId, sourceGroupType, m_projectSettings.get());
 		emptyProjectJavaMaven();
 		break;
 	}
@@ -385,17 +301,67 @@ void QtProjectWizzard::selectedProjectType(ProjectType projectType)
 
 void QtProjectWizzard::emptyProject()
 {
-	QtProjectWizzardWindow* window = createWindowWithContent<QtProjectWizzardContentData>();
-	window->updateSubTitle("Project Data");
+	QtProjectWizzardWindow* window;
 
-	if (m_settings->getLanguage() == LANGUAGE_JAVA)
+	switch (m_sourceGroupSettings->getType())
 	{
-		connect(window, SIGNAL(next()), this, SLOT(sourcePathsJava()));
-	}
-	else
-	{
+	case SOURCE_GROUP_C_EMPTY:
+	case SOURCE_GROUP_CPP_EMPTY:
+		window = createWindowWithContent(
+			[this](QtProjectWizzardWindow* window)
+			{
+				return new QtProjectWizzardContentData(m_projectSettings, m_sourceGroupSettings, window);
+			}
+		);
 		connect(window, SIGNAL(next()), this, SLOT(sourcePaths()));
+		break;
+	case SOURCE_GROUP_JAVA_EMPTY:
+		window = createWindowWithContent(
+			[this](QtProjectWizzardWindow* window)
+			{
+				return new QtProjectWizzardContentData(m_projectSettings, m_sourceGroupSettings, window);
+			}
+		);
+		connect(window, SIGNAL(next()), this, SLOT(sourcePathsJava()));
+		break;
 	}
+	window->updateSubTitle("Project Data");
+}
+
+void QtProjectWizzard::emptyProjectCDBVS()
+{
+	QtProjectWizzardWindow* window = window = createWindowWithContent(
+		[this](QtProjectWizzardWindow* window)
+		{
+			return new QtProjectWizzardContentDataCDBVS(m_projectSettings, m_sourceGroupSettings, window);
+		}
+	);
+	connect(window, SIGNAL(next()), this, SLOT(headerPathsCDB()));
+	window->updateSubTitle("Project Data");
+}
+
+void QtProjectWizzard::emptyProjectCDB()
+{
+	QtProjectWizzardWindow* window = createWindowWithContent(
+		[this](QtProjectWizzardWindow* window)
+		{
+			return new QtProjectWizzardContentDataCDB(m_projectSettings, m_sourceGroupSettings, window);
+		}
+	);
+	connect(window, SIGNAL(next()), this, SLOT(headerPathsCDB()));
+	window->updateSubTitle("Project Data");
+}
+
+void QtProjectWizzard::emptyProjectJavaMaven()
+{
+	QtProjectWizzardWindow* window = window = createWindowWithContent(
+		[this](QtProjectWizzardWindow* window)
+		{
+			return new QtProjectWizzardContentData(m_projectSettings, m_sourceGroupSettings, window);
+		}
+	);
+	connect(window, SIGNAL(next()), this, SLOT(sourcePathsJavaMaven()));
+	window->updateSubTitle("Project Data");
 }
 
 void QtProjectWizzard::sourcePaths()
@@ -403,9 +369,9 @@ void QtProjectWizzard::sourcePaths()
 	QtProjectWizzardWindow* window = createWindowWithSummary(
 		[this](QtProjectWizzardWindow* window, QtProjectWizzardContentSummary* summary)
 		{
-			summary->addContent(new QtProjectWizzardContentPathsSource(m_settings, window));
+			summary->addContent(new QtProjectWizzardContentPathsSource(m_sourceGroupSettings, window));
 			summary->addSpace();
-			summary->addContent(new QtProjectWizzardContentExtensions(m_settings, window));
+			summary->addContent(new QtProjectWizzardContentExtensions(m_sourceGroupSettings, window));
 
 			window->setup();
 		}
@@ -420,9 +386,9 @@ void QtProjectWizzard::headerSearchPaths()
 	QtProjectWizzardWindow* window = createWindowWithSummary(
 		[this](QtProjectWizzardWindow* window, QtProjectWizzardContentSummary* summary)
 		{
-			summary->addContent(new QtProjectWizzardContentPathsHeaderSearch(m_settings, window));
+			summary->addContent(new QtProjectWizzardContentPathsHeaderSearch(m_sourceGroupSettings, window));
 			summary->addSpace();
-			summary->addContent(new QtProjectWizzardContentPathsHeaderSearchGlobal(m_settings, window));
+			summary->addContent(new QtProjectWizzardContentPathsHeaderSearchGlobal(window));
 
 			window->setup();
 		}
@@ -449,9 +415,9 @@ void QtProjectWizzard::frameworkSearchPaths()
 	QtProjectWizzardWindow* window = createWindowWithSummary(
 		[this](QtProjectWizzardWindow* window, QtProjectWizzardContentSummary* summary)
 		{
-			summary->addContent(new QtProjectWizzardContentPathsFrameworkSearch(m_settings, window));
+			summary->addContent(new QtProjectWizzardContentPathsFrameworkSearch(m_sourceGroupSettings, window));
 			summary->addSpace();
-			summary->addContent(new QtProjectWizzardContentPathsFrameworkSearchGlobal(m_settings, window));
+			summary->addContent(new QtProjectWizzardContentPathsFrameworkSearchGlobal(window));
 
 			window->setup();
 		}
@@ -461,38 +427,14 @@ void QtProjectWizzard::frameworkSearchPaths()
 	window->updateSubTitle("Framework Search Paths");
 }
 
-void QtProjectWizzard::emptyProjectCDBVS()
-{
-	QtProjectWizzardWindow* window = createWindowWithContent<QtProjectWizzardContentDataCDBVS>();
-
-	connect(window, SIGNAL(next()), this, SLOT(headerPathsCDB()));
-	window->updateSubTitle("Project Data");
-}
-
-void QtProjectWizzard::emptyProjectCDB()
-{
-	QtProjectWizzardWindow* window = createWindowWithContent<QtProjectWizzardContentDataCDB>();
-
-	connect(window, SIGNAL(next()), this, SLOT(headerPathsCDB()));
-	window->updateSubTitle("Project Data");
-}
-
-void QtProjectWizzard::emptyProjectJavaMaven()
-{
-	QtProjectWizzardWindow* window = createWindowWithContent<QtProjectWizzardContentData>();
-
-	connect(window, SIGNAL(next()), this, SLOT(sourcePathsJavaMaven()));
-	window->updateSubTitle("Project Data");
-}
-
 void QtProjectWizzard::headerPathsCDB()
 {
 	QtProjectWizzardWindow* window = createWindowWithSummary(
 		[this](QtProjectWizzardWindow* window, QtProjectWizzardContentSummary* summary)
 		{
-			summary->addContent(new QtProjectWizzardContentCDBSource(m_settings, window));
+			summary->addContent(new QtProjectWizzardContentCDBSource(m_sourceGroupSettings, window));
 			summary->addSpace();
-			summary->addContent(new QtProjectWizzardContentPathsCDBHeader(m_settings, window));
+			summary->addContent(new QtProjectWizzardContentPathsCDBHeader(m_sourceGroupSettings, window));
 
 			window->setup();
 		}
@@ -507,9 +449,9 @@ void QtProjectWizzard::sourcePathsJava()
 	QtProjectWizzardWindow* window = createWindowWithSummary(
 		[this](QtProjectWizzardWindow* window, QtProjectWizzardContentSummary* summary)
 		{
-			summary->addContent(new QtProjectWizzardContentPathsSource(m_settings, window));
+			summary->addContent(new QtProjectWizzardContentPathsSource(m_sourceGroupSettings, window));
 			summary->addSpace();
-			summary->addContent(new QtProjectWizzardContentPathsClassJava(m_settings, window));
+			summary->addContent(new QtProjectWizzardContentPathsClassJava(m_sourceGroupSettings, window));
 
 			window->setup();
 		}
@@ -521,16 +463,16 @@ void QtProjectWizzard::sourcePathsJava()
 
 void QtProjectWizzard::sourcePathsJavaMaven()
 {
-	std::dynamic_pointer_cast<JavaProjectSettings>(m_settings)->setMavenDependenciesDirectory(
-		"./coati_dependencies/" + utility::replace(m_settings->getProjectName(), " ", "_") + "/maven"
+	std::dynamic_pointer_cast<SourceGroupSettingsJava>(m_sourceGroupSettings)->setMavenDependenciesDirectory(
+		"./coati_dependencies/" + utility::replace(m_projectSettings->getProjectName(), " ", "_") + "/maven"
 	);
 
 	QtProjectWizzardWindow* window = createWindowWithSummary(
 		[this](QtProjectWizzardWindow* window, QtProjectWizzardContentSummary* summary)
 		{
-			summary->addContent(new QtProjectWizzardContentPathSourceMaven(m_settings, window));
+			summary->addContent(new QtProjectWizzardContentPathSourceMaven(m_sourceGroupSettings, window));
 			summary->addSpace();
-			summary->addContent(new QtProjectWizzardContentPathDependenciesMaven(m_settings, window));
+			summary->addContent(new QtProjectWizzardContentPathDependenciesMaven(m_sourceGroupSettings, window));
 
 			window->setup();
 		}
@@ -545,9 +487,9 @@ void QtProjectWizzard::advancedSettingsCxx()
 	QtProjectWizzardWindow* window = createWindowWithSummary(
 		[this](QtProjectWizzardWindow* window, QtProjectWizzardContentSummary* summary)
 		{
-			summary->addContent(new QtProjectWizzardContentFlags(m_settings, window));
+			summary->addContent(new QtProjectWizzardContentFlags(m_sourceGroupSettings, window));
 			summary->addSpace();
-			summary->addContent(new QtProjectWizzardContentPathsExclude(m_settings, window));
+			summary->addContent(new QtProjectWizzardContentPathsExclude(m_sourceGroupSettings, window));
 
 			window->setup();
 		}
@@ -562,9 +504,9 @@ void QtProjectWizzard::advancedSettingsJava()
 	QtProjectWizzardWindow* window = createWindowWithSummary(
 		[this](QtProjectWizzardWindow* window, QtProjectWizzardContentSummary* summary)
 		{
-			summary->addContent(new QtProjectWizzardContentExtensions(m_settings, window));
+			summary->addContent(new QtProjectWizzardContentExtensions(m_sourceGroupSettings, window));
 			summary->addSpace();
-			summary->addContent(new QtProjectWizzardContentPathsExclude(m_settings, window));
+			summary->addContent(new QtProjectWizzardContentPathsExclude(m_sourceGroupSettings, window));
 
 			window->setup();
 		}
@@ -581,49 +523,48 @@ void QtProjectWizzard::showSummary()
 		{
 			summary->setIsForm(true);
 
-			QtProjectWizzardContentBuildFile* buildFile = new QtProjectWizzardContentBuildFile(m_settings, window);
-			const bool isCDB = buildFile->getType() == PROJECT_CXX_CDB || buildFile->getType() == PROJECT_CXX_VS;
+			const bool isCDB = m_sourceGroupSettings->getType() == SOURCE_GROUP_CXX_CDB || m_sourceGroupSettings->getType() == SOURCE_GROUP_CXX_CDB;
 
 			if (!isCDB)
 			{
-				summary->addContent(new QtProjectWizzardContentData(m_settings, window, m_editing));
+				summary->addContent(new QtProjectWizzardContentData(m_projectSettings, m_sourceGroupSettings, window, m_editing));
 				summary->addSpace();
 
-				summary->addContent(new QtProjectWizzardContentPathsSource(m_settings, window));
-				summary->addContent(new QtProjectWizzardContentExtensions(m_settings, window));
+				summary->addContent(new QtProjectWizzardContentPathsSource(m_sourceGroupSettings, window));
+				summary->addContent(new QtProjectWizzardContentExtensions(m_sourceGroupSettings, window));
 				summary->addSpace();
 			}
 			else
 			{
-				summary->addContent(new QtProjectWizzardContentDataCDB(m_settings, window, m_editing));
+				summary->addContent(new QtProjectWizzardContentDataCDB(m_projectSettings, m_sourceGroupSettings, window, m_editing));
 				summary->addSpace();
 
-				summary->addContent(new QtProjectWizzardContentPathsCDBHeader(m_settings, window));
+				summary->addContent(new QtProjectWizzardContentPathsCDBHeader(m_sourceGroupSettings, window));
 				summary->addSpace();
 			}
 
-			summary->addContent(new QtProjectWizzardContentPathsHeaderSearch(m_settings, window, isCDB));
+			summary->addContent(new QtProjectWizzardContentPathsHeaderSearch(m_sourceGroupSettings, window, isCDB));
 
-			std::shared_ptr<CxxProjectSettings> cxxSettings = std::dynamic_pointer_cast<CxxProjectSettings>(m_settings);
+			std::shared_ptr<SourceGroupSettingsCxx> cxxSettings = std::dynamic_pointer_cast<SourceGroupSettingsCxx>(m_sourceGroupSettings);
 			if (!isCDB && cxxSettings && cxxSettings->getHasDefinedUseSourcePathsForHeaderSearch())
 			{
 				summary->addSpace();
-				summary->addContent(new QtProjectWizzardContentSimple(m_settings, window));
+				summary->addContent(new QtProjectWizzardContentSimple(m_sourceGroupSettings, window));
 			}
 
-			summary->addContent(new QtProjectWizzardContentPathsHeaderSearchGlobal(m_settings, window));
+			summary->addContent(new QtProjectWizzardContentPathsHeaderSearchGlobal(window));
 			summary->addSpace();
 
 			if (QSysInfo::macVersion() != QSysInfo::MV_None)
 			{
-				summary->addContent(new QtProjectWizzardContentPathsFrameworkSearch(m_settings, window, isCDB));
-				summary->addContent(new QtProjectWizzardContentPathsFrameworkSearchGlobal(m_settings, window));
+				summary->addContent(new QtProjectWizzardContentPathsFrameworkSearch(m_sourceGroupSettings, window, isCDB));
+				summary->addContent(new QtProjectWizzardContentPathsFrameworkSearchGlobal(window));
 				summary->addSpace();
 			}
 
-			summary->addContent(new QtProjectWizzardContentFlags(m_settings, window));
+			summary->addContent(new QtProjectWizzardContentFlags(m_sourceGroupSettings, window));
 			summary->addSpace();
-			summary->addContent(new QtProjectWizzardContentPathsExclude(m_settings, window));
+			summary->addContent(new QtProjectWizzardContentPathsExclude(m_sourceGroupSettings, window));
 
 			window->setup();
 
@@ -652,33 +593,33 @@ void QtProjectWizzard::showSummaryJava()
 			summary->setIsForm(true);
 
 			bool isMaven = false;
-			std::shared_ptr<JavaProjectSettings> javaSettings = std::dynamic_pointer_cast<JavaProjectSettings>(m_settings);
+			std::shared_ptr<SourceGroupSettingsJava> javaSettings = std::dynamic_pointer_cast<SourceGroupSettingsJava>(m_sourceGroupSettings);
 			if (javaSettings)
 			{
 				isMaven = javaSettings->getAbsoluteMavenProjectFilePath().exists();
 			}
 
 
-			summary->addContent(new QtProjectWizzardContentData(m_settings, window, m_editing));
+			summary->addContent(new QtProjectWizzardContentData(m_projectSettings, m_sourceGroupSettings, window, m_editing));
 			summary->addSpace();
 
 			if (isMaven)
 			{
-				summary->addContent(new QtProjectWizzardContentPathSourceMaven(m_settings, window));
+				summary->addContent(new QtProjectWizzardContentPathSourceMaven(m_sourceGroupSettings, window));
 				summary->addSpace();
-				summary->addContent(new QtProjectWizzardContentPathDependenciesMaven(m_settings, window));
+				summary->addContent(new QtProjectWizzardContentPathDependenciesMaven(m_sourceGroupSettings, window));
 			}
 			else
 			{
-				summary->addContent(new QtProjectWizzardContentPathsSource(m_settings, window));
+				summary->addContent(new QtProjectWizzardContentPathsSource(m_sourceGroupSettings, window));
 				summary->addSpace();
-				summary->addContent(new QtProjectWizzardContentPathsClassJava(m_settings, window));
+				summary->addContent(new QtProjectWizzardContentPathsClassJava(m_sourceGroupSettings, window));
 			}
 
 			summary->addSpace();
-			summary->addContent(new QtProjectWizzardContentExtensions(m_settings, window));
+			summary->addContent(new QtProjectWizzardContentExtensions(m_sourceGroupSettings, window));
 			summary->addSpace();
-			summary->addContent(new QtProjectWizzardContentPathsExclude(m_settings, window));
+			summary->addContent(new QtProjectWizzardContentPathsExclude(m_sourceGroupSettings, window));
 
 			window->setup();
 
@@ -701,10 +642,11 @@ void QtProjectWizzard::showSummaryJava()
 
 void QtProjectWizzard::createProject()
 {
-	FilePath path = m_settings->getFilePath();
+	FilePath path = m_projectSettings->getFilePath();
 
-	m_settings->setVersion(ProjectSettings::VERSION);
-	m_settings->save(path);
+	m_projectSettings->setVersion(ProjectSettings::VERSION);
+	m_projectSettings->setAllSourceGroupSettings({m_sourceGroupSettings});
+	m_projectSettings->save(path);
 
 	bool forceRefreshProject = false;
 	if (m_editing)
@@ -714,7 +656,7 @@ void QtProjectWizzard::createProject()
 		Application* application = Application::getInstance().get();
 		if (application->getCurrentProject() != NULL)
 		{
-			settingsChanged = !(application->getCurrentProject()->settingsEqualExceptNameAndLocation(*(m_settings.get())));
+			settingsChanged = !(application->getCurrentProject()->settingsEqualExceptNameAndLocation(*(m_projectSettings.get())));
 		}
 
 		bool appSettingsChanged = !(m_appSettings == *ApplicationSettings::getInstance().get());

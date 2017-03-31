@@ -16,8 +16,7 @@ class TaskCleanStorage
 public:
 	TaskCleanStorage(
 		PersistentStorage* storage,
-		const std::vector<FilePath>& filePaths,
-		std::shared_ptr<DialogView> dialogView
+		const std::vector<FilePath>& filePaths
 	);
 
 private:
@@ -28,7 +27,6 @@ private:
 
 	PersistentStorage* m_storage;
 	std::vector<FilePath> m_filePaths;
-	std::shared_ptr<DialogView> m_dialogView;
 
 	TimePoint m_start;
 };

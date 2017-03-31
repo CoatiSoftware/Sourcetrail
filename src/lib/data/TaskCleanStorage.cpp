@@ -4,19 +4,22 @@
 #include "data/PersistentStorage.h"
 #include "utility/scheduling/Blackboard.h"
 #include "utility/utility.h"
+#include "Application.h"
 
 TaskCleanStorage::TaskCleanStorage(
-	PersistentStorage* storage, const std::vector<FilePath>& filePaths, std::shared_ptr<DialogView> dialogView
+	PersistentStorage* storage, const std::vector<FilePath>& filePaths
 )
 	: m_storage(storage)
 	, m_filePaths(filePaths)
-	, m_dialogView(dialogView)
 {
 }
 
 void TaskCleanStorage::doEnter(std::shared_ptr<Blackboard> blackboard)
 {
-	m_dialogView->showStatusDialog("Clearing Files", std::to_string(m_filePaths.size()) + " Files");
+	if (std::shared_ptr<DialogView> dialogView = Application::getInstance()->getDialogView())
+	{
+		dialogView->showStatusDialog("Clearing Files", std::to_string(m_filePaths.size()) + " Files");
+	}
 
 	m_start = utility::durationStart();
 
@@ -28,10 +31,9 @@ void TaskCleanStorage::doEnter(std::shared_ptr<Blackboard> blackboard)
 
 Task::TaskState TaskCleanStorage::doUpdate(std::shared_ptr<Blackboard> blackboard)
 {
-	std::shared_ptr<DialogView> dialogView = m_dialogView;
 	m_storage->clearFileElements(m_filePaths, [=](int progress)
 		{
-			if (dialogView != nullptr)
+			if (std::shared_ptr<DialogView> dialogView = Application::getInstance()->getDialogView())
 			{
 				dialogView->showProgressDialog("Clearing", std::to_string(m_filePaths.size()) + " Files", progress);
 			}
@@ -46,8 +48,10 @@ Task::TaskState TaskCleanStorage::doUpdate(std::shared_ptr<Blackboard> blackboar
 void TaskCleanStorage::doExit(std::shared_ptr<Blackboard> blackboard)
 {
 	blackboard->set("clear_time", utility::duration(m_start));
-
-	m_dialogView->hideProgressDialog();
+	if (std::shared_ptr<DialogView> dialogView = Application::getInstance()->getDialogView())
+	{
+		dialogView->hideProgressDialog();
+	}
 }
 
 void TaskCleanStorage::doReset(std::shared_ptr<Blackboard> blackboard)

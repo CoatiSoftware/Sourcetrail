@@ -37,9 +37,8 @@ void QtHelpButton::handleHelpPress()
 }
 
 
-QtProjectWizzardContent::QtProjectWizzardContent(std::shared_ptr<ProjectSettings> settings, QtProjectWizzardWindow* window)
+QtProjectWizzardContent::QtProjectWizzardContent(QtProjectWizzardWindow* window)
 	: QWidget(window)
-	, m_settings(settings)
 	, m_window(window)
 	, m_isInForm(false)
 	, m_showFilesFunctor(std::bind(&QtProjectWizzardContent::showFilesDialog, this, std::placeholders::_1))

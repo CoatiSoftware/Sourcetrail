@@ -13,8 +13,7 @@ class TaskShowStatusDialog
 public:
 	TaskShowStatusDialog(
 		const std::string& title,
-		const std::string& message,
-		std::shared_ptr<DialogView> dialogView
+		const std::string& message
 	);
 
 	virtual ~TaskShowStatusDialog();
@@ -27,7 +26,6 @@ private:
 
 	const std::string m_title;
 	const std::string m_message;
-	std::shared_ptr<DialogView> m_dialogView;
 };
 
 #endif // TASK_SHOW_STATUS_DIALOG_H

@@ -1476,7 +1476,7 @@ std::set<FilePath> PersistentStorage::getReferencedByIncludes(const std::set<Fil
 
 	std::set<FilePath> paths;
 	for (Id id: ids)
-	{
+	{ // TODO: performance optimize: use just one request for all ids!
 		paths.insert(getFileNodePath(id));
 	}
 

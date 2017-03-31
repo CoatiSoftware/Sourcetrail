@@ -9,46 +9,46 @@
 <config>
 	<version><!-- INTEGER: Version number --></version>
 
-	<info>
-		<description><!-- STRING: optional description shown in overview. Symbols can be linked with syntax [main] --></description>
-	</info>
+	<description><!-- STRING: optional description shown in overview. Symbols can be linked with syntax [main] --></description>
 
-	<language_settings>
-		<language><!-- STRING: name of the language, e.g. c, c++, spanish, greek, greek++,... --></language>
-		<standard><!-- STRING: language version, e.g. c++ '11' --></standard>
-	</language_settings>
-
-	<source>
-		<source_paths>
-			<source_path><!-- STRING: path to source file or directory, also used as header search path --></source_path>
-		</source_paths>
-
-		<compiler_flags>
-			<compiler_flag><!-- STRING: compiler flag, including the dash e.g. -v --></compiler_flag>
-		</compiler_flags>
-
-		<header_search_paths>
-			<header_search_path><!-- STRING: header search path for each path a header_search_path element --></header_search_path>
-		</header_search_paths>
-
-		<!-- MAC ONLY -->
-		<framework_search_paths>
-			<framework_search_path><!-- STRING: framework search path --></framework_search_path>
-		</framework_search_paths>
-
-		<extensions>
-			<source_extensions><!-- STRING: extension for source e.g. .cpp --></source_extensions>
-		</extensions>
-
-		<use_source_paths_for_header_search><!-- BOOL: If enabled all subfolder of the source paths will be used for header search --></use_source_paths_for_header_search>
-
-		<exclude_paths>
-			<exclude_path><!-- STRING: path to file or directory to exclude from analysis --></source_path>
-		</exclude_paths>
-
-		<build_file_path>
-			<vs_solution_path><!-- STRING: path to Visual Studio solution *.sln --></vs_solution_path>
-			<compilation_db_path><!-- STRING: path to Compilation Database --></compilation_db_path>
-		</build_file_path>
-	</source>
+	<source_groups>
+		<source_group_xyz>
+			<type><!-- STRING: describes what kind of project this is, e.g. "C Source Group", "Java Source Group from Maven" --></type>
+			<standard><!-- STRING: language version, e.g. c++ '11' --></standard>
+			
+			<source_paths>
+				<source_path><!-- STRING: path to source file or directory, also used as header search path --></source_path>
+			</source_paths>
+			
+			<exclude_paths>
+				<exclude_path><!-- STRING: path to file or directory to exclude from analysis --></source_path>
+			</exclude_paths>
+			
+			<source_extensions>
+				<source_extension><!-- STRING: extension for source e.g. .cpp --></source_extension>
+			</source_extensions>
+				
+			<header_search_paths>
+				<header_search_path><!-- STRING: header search path for each path a header_search_path element --></header_search_path>
+			</header_search_paths>
+			
+			<use_source_paths_for_header_search><!-- BOOL: If enabled all subfolder of the source paths will be used for header search --></use_source_paths_for_header_search>
+			
+			<!-- begin MAC ONLY -->
+			<framework_search_paths>
+				<framework_search_path><!-- STRING: framework search path --></framework_search_path>
+			</framework_search_paths>
+			<!-- end MAC ONLY -->
+			
+			<compiler_flags>
+				<compiler_flag><!-- STRING: compiler flag, including the dash e.g. -v --></compiler_flag>
+			</compiler_flags>
+				
+			<build_file_path>
+				<vs_solution_path><!-- STRING: path to Visual Studio solution *.sln --></vs_solution_path>
+				<compilation_db_path><!-- STRING: path to Compilation Database --></compilation_db_path>
+			</build_file_path>
+		
+		</source_group_xyz>
+	</source_groups>
 </config>

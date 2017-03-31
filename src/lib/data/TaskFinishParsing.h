@@ -17,8 +17,7 @@ class TaskFinishParsing
 public:
 	TaskFinishParsing(
 		PersistentStorage* storage,
-		StorageAccess* storageAccess,
-		std::shared_ptr<DialogView> dialogView
+		StorageAccess* storageAccess
 	);
 
 	virtual ~TaskFinishParsing();
@@ -31,7 +30,6 @@ private:
 
 	PersistentStorage* m_storage;
 	StorageAccess* m_storageAccess;
-	std::shared_ptr<DialogView> m_dialogView;
 };
 
 #endif // TASK_FINISH_PARSING_H

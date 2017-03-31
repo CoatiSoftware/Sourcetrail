@@ -1,8 +1,8 @@
 #include <cxxtest/TestSuite.h>
 
 #include "settings/ProjectSettings.h"
-#include "settings/CxxProjectSettings.h"
 #include "settings/Settings.h"
+#include "settings/SourceGroupSettingsCxx.h"
 
 class SettingsTestSuite : public CxxTest::TestSuite
 {
@@ -115,9 +115,10 @@ public:
 
 	void test_load_source_path_from_file()
 	{
-		ProjectSettings settings;
-		settings.load(FilePath("data/SettingsTestSuite/settings.xml"));
-		std::vector<FilePath> paths = settings.getSourcePaths();
+		ProjectSettings projectSettings;
+		projectSettings.load(FilePath("data/SettingsTestSuite/settings.xml"));
+		std::shared_ptr<SourceGroupSettingsCxx> sourceGroupSettings = std::dynamic_pointer_cast<SourceGroupSettingsCxx>(projectSettings.getAllSourceGroupSettings().front());
+		std::vector<FilePath> paths = sourceGroupSettings->getSourcePaths();
 
 		TS_ASSERT_EQUALS(paths.size(), 1);
 		TS_ASSERT_EQUALS(paths[0].str(), "data");
@@ -125,9 +126,10 @@ public:
 
 	void test_load_header_search_paths_from_file()
 	{
-		CxxProjectSettings settings;
-		settings.load(FilePath("data/SettingsTestSuite/settings.xml"));
-		std::vector<FilePath> paths = settings.getHeaderSearchPaths();
+		ProjectSettings projectSettings;
+		projectSettings.load(FilePath("data/SettingsTestSuite/settings.xml"));
+		std::shared_ptr<SourceGroupSettingsCxx> sourceGroupSettings = std::dynamic_pointer_cast<SourceGroupSettingsCxx>(projectSettings.getAllSourceGroupSettings().front());
+		std::vector<FilePath> paths = sourceGroupSettings->getHeaderSearchPaths();
 
 		TS_ASSERT_EQUALS(paths.size(), 2);
 		TS_ASSERT_EQUALS(paths[0].str(), "data/");

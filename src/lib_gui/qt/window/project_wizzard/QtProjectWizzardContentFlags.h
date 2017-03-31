@@ -11,7 +11,7 @@ class QtProjectWizzardContentFlags
 	Q_OBJECT
 
 public:
-	QtProjectWizzardContentFlags(std::shared_ptr<ProjectSettings> settings, QtProjectWizzardWindow* window);
+	QtProjectWizzardContentFlags(std::shared_ptr<SourceGroupSettings> settings, QtProjectWizzardWindow* window);
 
 	// QtProjectWizzardContent implementation
 	virtual void populate(QGridLayout* layout, int& row) override;
@@ -20,6 +20,8 @@ public:
 	virtual void save() override;
 
 private:
+	std::shared_ptr<SourceGroupSettings> m_settings;
+
 	QtDirectoryListBox* m_list;
 };
 

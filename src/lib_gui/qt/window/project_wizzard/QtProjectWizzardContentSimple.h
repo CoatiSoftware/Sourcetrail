@@ -12,7 +12,7 @@ class QtProjectWizzardContentSimple
 	Q_OBJECT
 
 public:
-	QtProjectWizzardContentSimple(std::shared_ptr<ProjectSettings> settings, QtProjectWizzardWindow* window);
+	QtProjectWizzardContentSimple(std::shared_ptr<SourceGroupSettings> settings, QtProjectWizzardWindow* window);
 
 	// QtProjectWizzardContent implementation
 	virtual void populate(QGridLayout* layout, int& row) override;
@@ -21,6 +21,8 @@ public:
 	virtual void save() override;
 
 private:
+	std::shared_ptr<SourceGroupSettings> m_settings;
+
 	QCheckBox* m_checkBox;
 	QLabel* m_title;
 };

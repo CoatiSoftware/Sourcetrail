@@ -6,15 +6,14 @@
 #include "utility/messaging/type/MessageFinishedParsing.h"
 #include "utility/scheduling/Blackboard.h"
 #include "utility/utility.h"
+#include "Application.h"
 
 TaskFinishParsing::TaskFinishParsing(
 	PersistentStorage* storage,
-	StorageAccess* storageAccess,
-	std::shared_ptr<DialogView> dialogView
+	StorageAccess* storageAccess
 )
 	: m_storage(storage)
 	, m_storageAccess(storageAccess)
-	, m_dialogView(dialogView)
 {
 }
 
@@ -31,21 +30,23 @@ Task::TaskState TaskFinishParsing::doUpdate(std::shared_ptr<Blackboard> blackboa
 {
 	TimePoint start = utility::durationStart();
 
-    if (m_dialogView)
+	std::shared_ptr<DialogView> dialogView = Application::getInstance()->getDialogView();
+
+    if (dialogView)
     {
-        m_dialogView->showStatusDialog("Finish Indexing", "Optimizing database");
+		dialogView->showStatusDialog("Finish Indexing", "Optimizing database");
     }
 	m_storage->optimizeMemory();
 
-    if (m_dialogView)
+    if (dialogView)
     {
-        m_dialogView->showStatusDialog("Finish Indexing", "Building caches");
+		dialogView->showStatusDialog("Finish Indexing", "Building caches");
     }
 	m_storage->buildCaches();
 
-    if (m_dialogView)
+    if (dialogView)
     {
-        m_dialogView->hideStatusDialog();
+		dialogView->hideStatusDialog();
     }
 	MessageFinishedParsing().dispatch();
 
@@ -71,9 +72,9 @@ Task::TaskState TaskFinishParsing::doUpdate(std::shared_ptr<Blackboard> blackboa
 	int sourceFileCount = 0;
 	blackboard->get("source_file_count", sourceFileCount);
 
-    if (m_dialogView)
+    if (dialogView)
     {
-        m_dialogView->finishedIndexingDialog(
+		dialogView->finishedIndexingDialog(
             indexedSourceFileCount,
             sourceFileCount,
             time,

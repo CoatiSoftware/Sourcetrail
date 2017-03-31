@@ -16,7 +16,7 @@ class QtProjectWizzardContentPath
 	Q_OBJECT
 
 public:
-	QtProjectWizzardContentPath(std::shared_ptr<ProjectSettings> settings, QtProjectWizzardWindow* window);
+	QtProjectWizzardContentPath(std::shared_ptr<SourceGroupSettings> settings, QtProjectWizzardWindow* window);
 
 	// QtSettingsWindow implementation
 	virtual void populate(QGridLayout* layout, int& row) override;
@@ -26,6 +26,8 @@ public:
 protected:
 	void setTitleString(const QString& title);
 	void setHelpString(const QString& help);
+
+	std::shared_ptr<SourceGroupSettings> m_settings;
 
 	QtLocationPicker* m_picker;
 
@@ -40,7 +42,7 @@ class QtProjectWizzardContentPathSourceMaven
 	: public QtProjectWizzardContentPath
 {
 public:
-	QtProjectWizzardContentPathSourceMaven(std::shared_ptr<ProjectSettings> settings, QtProjectWizzardWindow* window);
+	QtProjectWizzardContentPathSourceMaven(std::shared_ptr<SourceGroupSettings> settings, QtProjectWizzardWindow* window);
 
 	// QtSettingsWindow implementation
 	virtual void populate(QGridLayout* layout, int& row) override;
@@ -59,7 +61,7 @@ class QtProjectWizzardContentPathDependenciesMaven
 	: public QtProjectWizzardContentPath
 {
 public:
-	QtProjectWizzardContentPathDependenciesMaven(std::shared_ptr<ProjectSettings> settings, QtProjectWizzardWindow* window);
+	QtProjectWizzardContentPathDependenciesMaven(std::shared_ptr<SourceGroupSettings> settings, QtProjectWizzardWindow* window);
 
 	// QtProjectWizzardContent implementation
 	virtual void load() override;

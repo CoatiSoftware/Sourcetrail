@@ -9,7 +9,7 @@ class QtProjectWizzardContentCDBSource
 	Q_OBJECT
 
 public:
-	QtProjectWizzardContentCDBSource(std::shared_ptr<ProjectSettings> settings, QtProjectWizzardWindow* window);
+	QtProjectWizzardContentCDBSource(std::shared_ptr<SourceGroupSettings> settings, QtProjectWizzardWindow* window);
 
 	// QtProjectWizzardContent implementation
 	virtual void populate(QGridLayout* layout, int& row) override;
@@ -21,6 +21,7 @@ public:
 	virtual QString getFileNamesDescription() const override;
 
 private:
+	std::shared_ptr<SourceGroupSettings> m_settings;
 	QLabel* m_text;
 	std::vector<std::string> m_fileNames;
 };

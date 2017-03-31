@@ -9,17 +9,16 @@
 #include "utility/file/FileRegisterStateData.h"
 #include "utility/scheduling/Blackboard.h"
 #include "ApplicationStateMonitor.h"
+#include "Application.h"
 
 TaskBuildIndex::TaskBuildIndex(
 	std::shared_ptr<IndexerCommandList> indexerCommandList,
 	std::shared_ptr<StorageProvider> storageProvider,
-	std::shared_ptr<FileRegisterStateData> fileRegisterStateData,
-	std::shared_ptr<DialogView> dialogView
+	std::shared_ptr<FileRegisterStateData> fileRegisterStateData
 )
 	: m_indexerCommandList(indexerCommandList)
 	, m_storageProvider(storageProvider)
 	, m_fileRegisterStateData(fileRegisterStateData)
-	, m_dialogView(dialogView)
 {
 	m_indexer = IndexerFactory::getInstance()->createCompositeIndexerForAllRegisteredModules();
 }
@@ -57,9 +56,9 @@ Task::TaskState TaskBuildIndex::doUpdate(std::shared_ptr<Blackboard> blackboard)
 			int indexedSourceFileCount = 0;
 			blackboard->get("indexed_source_file_count", indexedSourceFileCount);
 
-			if (m_dialogView)
+			if (std::shared_ptr<DialogView> dialogView = Application::getInstance()->getDialogView())
 			{
-				m_dialogView->updateIndexingDialog(
+				dialogView->updateIndexingDialog(
 					indexedSourceFileCount, sourceFileCount, indexerCommand->getSourceFilePath().str()
 				);
 			}

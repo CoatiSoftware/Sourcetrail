@@ -1,17 +1,38 @@
 #include "settings/ProjectSettings.h"
 
-#include "settings/CxxProjectSettings.h"
-#include "settings/JavaProjectSettings.h"
+#include "settings/migration/MigrationDeleteKey.h"
+#include "settings/migration/MigrationLambda.h"
+#include "settings/migration/MigrationMoveKey.h"
+#include "settings/SourceGroupSettingsCxx.h"
+#include "settings/SourceGroupSettingsJava.h"
 #include "utility/utility.h"
 #include "utility/utilityString.h"
+#include "utility/UUIDUtility.h"
 
-const size_t ProjectSettings::VERSION = 1;
+const size_t ProjectSettings::VERSION = 4;
 
-LanguageType ProjectSettings::getLanguageOfProject(FilePath projectFilePath)
+LanguageType ProjectSettings::getLanguageOfProject(const FilePath& filePath)
 {
-	ProjectSettings tempSettings;
-	tempSettings.load(projectFilePath);
-	return tempSettings.getLanguage();
+	LanguageType languageType = LANGUAGE_UNKNOWN;
+
+	ProjectSettings projectSettings;
+	projectSettings.load(filePath);
+	for (std::shared_ptr<SourceGroupSettings> sourceGroupSettings: projectSettings.getAllSourceGroupSettings())
+	{
+		const LanguageType currentLanguageType = getLanguageTypeForSourceGroupType(sourceGroupSettings->getType());
+		if (languageType == LANGUAGE_UNKNOWN)
+		{
+			languageType = currentLanguageType;
+		}
+		else if (languageType != currentLanguageType)
+		{
+			// language is unknown if source groups have different languages.
+			languageType = LANGUAGE_UNKNOWN;
+			break;
+		}
+	}
+
+	return languageType;
 }
 
 ProjectSettings::ProjectSettings()
@@ -32,25 +53,35 @@ ProjectSettings::~ProjectSettings()
 {
 }
 
-ProjectType ProjectSettings::getProjectType() const
-{
-	return PROJECT_UNKNOWN;
-}
-
 bool ProjectSettings::equalsExceptNameAndLocation(const ProjectSettings& other) const
 {
-	return (
-		getLanguage() == other.getLanguage() &&
-		getStandard() == other.getStandard() &&
-		utility::isPermutation<FilePath>(getSourcePaths(), other.getSourcePaths()) &&
-		utility::isPermutation<FilePath>(getExcludePaths(), other.getExcludePaths()) &&
-		utility::isPermutation<std::string>(getSourceExtensions(), other.getSourceExtensions())
-	);
-}
+	const std::vector<std::shared_ptr<SourceGroupSettings>> allMySettings = getAllSourceGroupSettings();
+	const std::vector<std::shared_ptr<SourceGroupSettings>> allOtherSettings = other.getAllSourceGroupSettings();
 
-std::vector<std::string> ProjectSettings::getLanguageStandards() const
-{
-	return std::vector<std::string>();
+	if (allMySettings.size() != allOtherSettings.size())
+	{
+		return false;
+	}
+
+	for (std::shared_ptr<SourceGroupSettings> mySourceGroup: allMySettings)
+	{
+		bool matched = false;
+		for (std::shared_ptr<SourceGroupSettings> otherSourceGroup: allOtherSettings)
+		{
+			if (mySourceGroup->equals(otherSourceGroup))
+			{
+				matched = true;
+				break;
+			}
+		}
+
+		if (!matched)
+		{
+			return false;
+		}
+	}
+
+	return true;
 }
 
 bool ProjectSettings::needMigration() const
@@ -96,67 +127,123 @@ void ProjectSettings::setProjectFileLocation(const FilePath& location)
 
 std::string ProjectSettings::getDescription() const
 {
-	return getValue<std::string>("info/description", "");
+	return getValue<std::string>("description", "");
 }
 
-LanguageType ProjectSettings::getLanguage() const
+std::vector<std::shared_ptr<SourceGroupSettings>> ProjectSettings::getAllSourceGroupSettings() const
 {
-	return stringToLanguageType(getValue<std::string>("language_settings/language", languageTypeToString(LANGUAGE_UNKNOWN)));
+	std::vector<std::shared_ptr<SourceGroupSettings>> allSettings;
+	for (const std::string& key: m_config->getSublevelKeys("source_groups"))
+	{
+		const std::string id = key.substr(std::string("source_groups/source_group_").length());
+		const SourceGroupType type = stringToSourceGroupType(getValue<std::string>(key + "/type", ""));
+
+		std::shared_ptr<SourceGroupSettings> settings;
+
+		switch (type)
+		{
+		case SOURCE_GROUP_C_EMPTY:
+		case SOURCE_GROUP_CPP_EMPTY:
+		case SOURCE_GROUP_CXX_CDB:
+			{
+				std::shared_ptr<SourceGroupSettingsCxx> cxxSettings = std::make_shared<SourceGroupSettingsCxx>(id, type, this);
+				cxxSettings->setHeaderSearchPaths(getPathValues(key + "/header_search_paths/header_search_path"));
+				cxxSettings->setFrameworkSearchPaths(getPathValues(key + "/framework_search_paths/framework_search_path"));
+				cxxSettings->setCompilerFlags(getValues<std::string>(key + "/compiler_flags/compiler_flag", std::vector<std::string>()));
+				cxxSettings->setUseSourcePathsForHeaderSearch(getValue<bool>(key + "/use_source_paths_for_header_search", false));
+				cxxSettings->setHasDefinedUseSourcePathsForHeaderSearch(isValueDefined(key + "/use_source_paths_for_header_search"));
+				if (type == SOURCE_GROUP_CXX_CDB)
+				{
+					cxxSettings->setCompilationDatabasePath(FilePath(getValue<std::string>(key + "/build_file_path/compilation_db_path", "")));
+				}
+				settings = cxxSettings;
+			}
+		break;
+		case SOURCE_GROUP_JAVA_EMPTY:
+		case SOURCE_GROUP_JAVA_MAVEN:
+			{
+				std::shared_ptr<SourceGroupSettingsJava> javaSettings = std::make_shared<SourceGroupSettingsJava>(id, type, this);
+				javaSettings->setClasspaths(getPathValues(key + "/class_paths/class_path"));
+				if (type == SOURCE_GROUP_JAVA_MAVEN)
+				{
+					javaSettings->setMavenProjectFilePath(FilePath(getValue<std::string>(key + "/maven/project_file_path", "")));
+					javaSettings->setMavenDependenciesDirectory(FilePath(getValue<std::string>(key + "/maven/dependencies_directory", "")));
+					javaSettings->setShouldIndexMavenTests(getValue<bool>(key + "/maven/should_index_tests", false));
+				}
+				settings = javaSettings;
+			}
+			break;
+		default:
+			continue;
+		}
+
+		settings->setStandard(getValue<std::string>(key + "/standard", ""));
+		settings->setSourcePaths(getPathValues(key + "/source_paths/source_path"));
+		settings->setExcludePaths(getPathValues(key + "/exclude_paths/exclude_path"));
+		settings->setSourceExtensions(getValues(key + "/source_extensions/source_extension", std::vector<std::string>()));
+
+		allSettings.push_back(settings);
+	}
+
+	return allSettings;
 }
 
-bool ProjectSettings::setLanguage(LanguageType language)
+void ProjectSettings::setAllSourceGroupSettings(std::vector<std::shared_ptr<SourceGroupSettings>> allSettings)
 {
-	return setValue<std::string>("language_settings/language", languageTypeToString(language));
-}
+	for (const std::string& key: m_config->getSublevelKeys("source_groups"))
+	{
+		m_config->removeValues(key);
+	}
 
-std::string ProjectSettings::getStandard() const
-{
-	return getValue<std::string>("language_settings/standard", getDefaultStandard());
-}
+	for (std::shared_ptr<SourceGroupSettings> settings: allSettings)
+	{
+		const std::string key = "source_groups/source_group_" + settings->getId();
+		const SourceGroupType type = settings->getType();
 
-bool ProjectSettings::setStandard(const std::string& standard)
-{
-	return setValue<std::string>("language_settings/standard", standard);
-}
+		setValue(key + "/type", sourceGroupTypeToString(type));
+		setValue(key + "/standard", settings->getStandard());
+		setPathValues(key + "/source_paths/source_path", settings->getSourcePaths());
+		setPathValues(key + "/exclude_paths/exclude_path", settings->getExcludePaths());
+		setValues(key + "/source_extensions/source_extension", settings->getSourceExtensions());
 
-std::vector<FilePath> ProjectSettings::getSourcePaths() const // TODO: rename to getIndexedPaths
-{
-	return getPathValues("source/source_paths/source_path");
-}
+		switch (type)
+		{
+		case SOURCE_GROUP_C_EMPTY:
+		case SOURCE_GROUP_CPP_EMPTY:
+		case SOURCE_GROUP_CXX_CDB:
+			if (std::shared_ptr<SourceGroupSettingsCxx> cxxSettings = std::dynamic_pointer_cast<SourceGroupSettingsCxx>(settings))
+			{
+				setPathValues(key + "/header_search_paths/header_search_path", cxxSettings->getHeaderSearchPaths());
+				setPathValues(key + "/framework_search_paths/framework_search_path", cxxSettings->getFrameworkSearchPaths());
+				setValues(key + "/compiler_flags/compiler_flag", cxxSettings->getCompilerFlags());
+				if (cxxSettings->getHasDefinedUseSourcePathsForHeaderSearch())
+				{
+					setValue(key + "/use_source_paths_for_header_search", cxxSettings->getUseSourcePathsForHeaderSearch());
+				}
+				if (type == SOURCE_GROUP_CXX_CDB)
+				{
+					setValue(key + "/build_file_path/compilation_db_path", cxxSettings->getCompilationDatabasePath().str());
+				}
+			}
+		break;
+		case SOURCE_GROUP_JAVA_EMPTY:
+		case SOURCE_GROUP_JAVA_MAVEN:
+			if (std::shared_ptr<SourceGroupSettingsJava> javaSettings = std::dynamic_pointer_cast<SourceGroupSettingsJava>(settings))
+			{
+				setPathValues(key + "/class_paths/class_path", javaSettings->getClasspaths());
 
-std::vector<FilePath> ProjectSettings::getAbsoluteSourcePaths() const
-{
-	return makePathsAbsolute(expandPaths(getSourcePaths()));
-}
-
-bool ProjectSettings::setSourcePaths(const std::vector<FilePath>& sourcePaths)
-{
-	return setPathValues("source/source_paths/source_path", sourcePaths);
-}
-
-std::vector<FilePath> ProjectSettings::getExcludePaths() const
-{
-	return getPathValues("source/exclude_paths/exclude_path");
-}
-
-std::vector<FilePath> ProjectSettings::getAbsoluteExcludePaths() const
-{
-	return makePathsAbsolute(expandPaths(getExcludePaths()));
-}
-
-bool ProjectSettings::setExcludePaths(const std::vector<FilePath>& excludePaths)
-{
-	return setPathValues("source/exclude_paths/exclude_path", excludePaths);
-}
-
-std::vector<std::string> ProjectSettings::getSourceExtensions() const
-{
-	return getValues("source/extensions/source_extensions", getDefaultSourceExtensions());
-}
-
-bool ProjectSettings::setSourceExtensions(const std::vector<std::string> &sourceExtensions)
-{
-	return setValues("source/extensions/source_extensions", sourceExtensions);
+				if (type == SOURCE_GROUP_JAVA_MAVEN)
+				{
+					setValue(key + "/maven/project_file_path", javaSettings->getMavenProjectFilePath().str());
+					setValue(key + "/maven/dependencies_directory", javaSettings->getMavenDependenciesDirectory().str());
+					setValue(key + "/maven/should_index_tests", javaSettings->getShouldIndexMavenTests());
+				}
+			}
+		break;
+		default:
+			continue;
+		}
+	}
 }
 
 std::vector<FilePath> ProjectSettings::makePathsAbsolute(const std::vector<FilePath>& paths) const
@@ -189,39 +276,86 @@ FilePath ProjectSettings::makePathAbsolute(const FilePath& path) const
 	return getProjectFileLocation().concat(path).canonical();
 }
 
-std::vector<std::string> ProjectSettings::getDefaultSourceExtensions() const
-{
-	return std::vector<std::string>();
-}
-
-std::string ProjectSettings::getDefaultStandard() const
-{
-	return "";
-}
-
 SettingsMigrator ProjectSettings::getMigrations() const
 {
 	SettingsMigrator migrator;
+	migrator.addMigration(1, std::make_shared<MigrationLambda>(
+		[](const Migration* migration, Settings* settings)
+		{
+			const std::string language = migration->getValueFromSettings<std::string>(settings, "language_settings/language", "");
+			const std::string standard = migration->getValueFromSettings<std::string>(settings, "language_settings/standard", "");
 
-	if (getLanguage() == LANGUAGE_C || getLanguage() == LANGUAGE_CPP)
-	{
-		migrator.addLambdaMigration(1,
-			[](Settings* settings)
+			if (language == "C" && !utility::isPrefix("c", standard))
 			{
-				ProjectSettings* s = dynamic_cast<ProjectSettings*>(settings);
+				migration->setValueInSettings(settings, "language_settings/standard", "c" + standard);
+			}
 
-				if (s->getLanguage() == LANGUAGE_C && !utility::isPrefix("c", s->getStandard()))
+			if (language == "C++" && !utility::isPrefix("c++", standard))
+			{
+				migration->setValueInSettings(settings, "language_settings/standard", "c++" + standard);
+			}
+		}
+	));
+
+	const std::string sourceGroupKey = "source_groups/source_group_" + UUIDUtility::getUUIDString();
+
+	migrator.addMigration(2, std::make_shared<MigrationMoveKey>("info/description", "description"));
+	migrator.addMigration(2, std::make_shared<MigrationMoveKey>("language_settings/standard", sourceGroupKey + "/standard"));
+	migrator.addMigration(2, std::make_shared<MigrationMoveKey>("source/source_paths/source_path", sourceGroupKey + "/source_paths/source_path"));
+	migrator.addMigration(2, std::make_shared<MigrationMoveKey>("source/exclude_paths/exclude_path", sourceGroupKey + "/exclude_paths/exclude_path"));
+	migrator.addMigration(2, std::make_shared<MigrationMoveKey>("source/extensions/source_extensions", sourceGroupKey + "/source_extensions/source_extension"));
+	migrator.addMigration(2, std::make_shared<MigrationMoveKey>("source/header_search_paths/header_search_path", sourceGroupKey + "/header_search_paths/header_search_path"));
+	migrator.addMigration(2, std::make_shared<MigrationMoveKey>("source/use_source_paths_for_header_search", sourceGroupKey + "/use_source_paths_for_header_search"));
+	migrator.addMigration(2, std::make_shared<MigrationMoveKey>("source/framework_search_paths/framework_search_path", sourceGroupKey + "/framework_search_paths/framework_search_path"));
+	migrator.addMigration(2, std::make_shared<MigrationMoveKey>("source/compiler_flags/compiler_flag", sourceGroupKey + "/compiler_flags/compiler_flag"));
+	migrator.addMigration(2, std::make_shared<MigrationMoveKey>("source/build_file_path/compilation_db_path", sourceGroupKey + "/build_file_path/compilation_db_path"));
+	migrator.addMigration(2, std::make_shared<MigrationMoveKey>("source/class_paths/class_path", sourceGroupKey + "/class_paths/class_path"));
+	migrator.addMigration(2, std::make_shared<MigrationMoveKey>("source/maven/project_file_path", sourceGroupKey + "/maven/project_file_path"));
+	migrator.addMigration(2, std::make_shared<MigrationMoveKey>("source/maven/dependencies_directory", sourceGroupKey + "/maven/dependencies_directory"));
+	migrator.addMigration(2, std::make_shared<MigrationMoveKey>("source/maven/should_index_tests", sourceGroupKey + "/maven/should_index_tests"));
+
+	migrator.addMigration(3, std::make_shared<MigrationLambda>(
+		[=](const Migration* migration, Settings* settings)
+		{
+			const std::string language = migration->getValueFromSettings<std::string>(settings, "language_settings/language", "");
+
+			SourceGroupType type = SOURCE_GROUP_UNKNOWN;
+			if (language == "C" || language == "C++")
+			{
+				const std::string cdbPath = migration->getValueFromSettings<std::string>(settings, sourceGroupKey + "/build_file_path/compilation_db_path", "");
+				if (!cdbPath.empty())
 				{
-					s->setStandard("c" + s->getStandard());
+					type = SOURCE_GROUP_CXX_CDB;
 				}
-
-				if (s->getLanguage() == LANGUAGE_CPP && !utility::isPrefix("c++", s->getStandard()))
+				else if (language == "C")
 				{
-					s->setStandard("c++" + s->getStandard());
+					type = SOURCE_GROUP_C_EMPTY;
+				}
+				else
+				{
+					type = SOURCE_GROUP_CPP_EMPTY;
 				}
 			}
-		);
-	}
+			else if (language == "Java")
+			{
+				const std::string mavenProjectFilePath = migration->getValueFromSettings<std::string>(settings, sourceGroupKey + "/maven/project_file_path", "");
+				if (!mavenProjectFilePath.empty())
+				{
+					type = SOURCE_GROUP_JAVA_MAVEN;
+				}
+				else
+				{
+					type = SOURCE_GROUP_JAVA_EMPTY;
+				}
+			}
+
+			migration->setValueInSettings(settings, sourceGroupKey + "/type", sourceGroupTypeToString(type));
+		}
+	));
+
+	migrator.addMigration(4, std::make_shared<MigrationDeleteKey>("language_settings/language"));
+	migrator.addMigration(4, std::make_shared<MigrationDeleteKey>("source/build_file_path/vs_solution_path"));
+	migrator.addMigration(4, std::make_shared<MigrationDeleteKey>("source/extensions/header_extensions"));
 
 	return migrator;
 }

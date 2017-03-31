@@ -1,9 +1,12 @@
 #include "utility/ConfigManager.h"
 
+#include <set>
+
 #include "tinyxml/tinyxml.h"
 
 #include "utility/logging/logging.h"
 #include "utility/text/TextAccess.h"
+#include "utility/utility.h"
 #include "utility/utilityString.h"
 
 std::shared_ptr<ConfigManager> ConfigManager::createEmpty()
@@ -222,6 +225,10 @@ void ConfigManager::setValues(const std::string& key, const std::vector<bool>& v
 
 void ConfigManager::removeValues(const std::string& key)
 {
+	for (const std::string& sublevelKey: getSublevelKeys(key))
+	{
+		removeValues(sublevelKey);
+	}
 	m_values.erase(key);
 }
 
@@ -230,6 +237,24 @@ bool ConfigManager::isValueDefined(const std::string& key) const
 	std::multimap<std::string, std::string>::const_iterator it = m_values.find(key);
 
 	return (it != m_values.end());
+}
+
+std::vector<std::string> ConfigManager::getSublevelKeys(const std::string& key) const
+{
+	std::set<std::string> keys;
+	for (std::multimap<std::string, std::string>::const_iterator it = m_values.begin(); it != m_values.end(); it++)
+	{
+		if (utility::isPrefix(key, it->first))
+		{
+			size_t startPos = it->first.find("/", key.size());
+			if (startPos == key.size())
+			{
+				std::string sublevelKey = it->first.substr(0, it->first.find("/", startPos + 1));
+				keys.insert(sublevelKey);
+			}
+		}
+	}
+	return utility::toVector(keys);
 }
 
 bool ConfigManager::load(const std::shared_ptr<TextAccess> textAccess)

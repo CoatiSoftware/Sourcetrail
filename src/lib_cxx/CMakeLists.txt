@@ -73,14 +73,14 @@ add_files(
 	data/parser/cxx/PreprocessorCallbacks.h
 	data/parser/cxx/utilityCxxAstVisitor.cpp
 	data/parser/cxx/utilityCxxAstVisitor.h
+	
+	project/SourceGroupCxx.cpp
+	project/SourceGroupCxx.h
+	project/SourceGroupFactoryModuleCpp.cpp
+	project/SourceGroupFactoryModuleCpp.h
+	project/SourceGroupFactoryModuleC.cpp
+	project/SourceGroupFactoryModuleC.h
 
 	utility/CompilationDatabase.cpp
 	utility/CompilationDatabase.h
-	
-	CxxProject.cpp
-	CxxProject.h
-	ProjectFactoryModuleCpp.cpp
-	ProjectFactoryModuleCpp.h
-	ProjectFactoryModuleC.cpp
-	ProjectFactoryModuleC.h
 )

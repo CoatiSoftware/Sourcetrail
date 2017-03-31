@@ -2,12 +2,14 @@
 
 #include <QFormLayout>
 
+#include "settings/SourceGroupSettings.h"
 #include "qt/element/QtDirectoryListBox.h"
 
 QtProjectWizzardContentExtensions::QtProjectWizzardContentExtensions(
-	std::shared_ptr<ProjectSettings> settings, QtProjectWizzardWindow* window
+	std::shared_ptr<SourceGroupSettings> settings, QtProjectWizzardWindow* window
 )
-	: QtProjectWizzardContent(settings, window)
+	: QtProjectWizzardContent(window)
+	, m_settings(settings)
 {
 }
 

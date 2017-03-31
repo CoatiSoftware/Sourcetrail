@@ -1,7 +1,9 @@
 #include <cxxtest/TestSuite.h>
 
 #include "settings/Settings.h"
-#include "settings/SettingsMigrator.h"
+#include "settings/migration/SettingsMigrator.h"
+#include "settings/migration/MigrationLambda.h"
+#include "settings/migration/MigrationMoveKey.h"
 
 class SettingsMigratorTestSuite : public CxxTest::TestSuite
 {
@@ -47,7 +49,7 @@ public:
 		);
 
 		SettingsMigrator migrator;
-		migrator.addMigration(1, "value", "int");
+		migrator.addMigration(1, std::make_shared<MigrationMoveKey>("value", "int"));
 		migrator.migrate(&settingsBefore, 1);
 
 		TS_ASSERT_EQUALS(settingsBefore.getAsText(), settingsAfter.getAsText());
@@ -73,7 +75,7 @@ public:
 		);
 
 		SettingsMigrator migrator;
-		migrator.addMigration(1, "value", "sub/int");
+		migrator.addMigration(1, std::make_shared<MigrationMoveKey>("value", "sub/int"));
 		migrator.migrate(&settingsBefore, 1);
 
 		TS_ASSERT_EQUALS(settingsBefore.getAsText(), settingsAfter.getAsText());
@@ -105,7 +107,7 @@ public:
 		);
 
 		SettingsMigrator migrator;
-		migrator.addMigration(1, "values/value", "vals/value");
+		migrator.addMigration(1, std::make_shared<MigrationMoveKey>("values/value", "vals/value"));
 		migrator.migrate(&settingsBefore, 1);
 
 		TS_ASSERT_EQUALS(settingsBefore.getAsText(), settingsAfter.getAsText());
@@ -137,7 +139,7 @@ public:
 		);
 
 		SettingsMigrator migrator;
-		migrator.addMigration(1, "values/value", "values/val");
+		migrator.addMigration(1, std::make_shared<MigrationMoveKey>("values/value", "values/val"));
 		migrator.migrate(&settingsBefore, 1);
 
 		TS_ASSERT_EQUALS(settingsBefore.getAsText(), settingsAfter.getAsText());
@@ -161,8 +163,8 @@ public:
 		);
 
 		SettingsMigrator migrator;
-		migrator.addMigration(1, "value", "int");
-		migrator.addMigration(2, "int", "val");
+		migrator.addMigration(1, std::make_shared<MigrationMoveKey>("value", "int"));
+		migrator.addMigration(2, std::make_shared<MigrationMoveKey>("int", "val"));
 		migrator.migrate(&settingsBefore, 1);
 
 		TS_ASSERT_EQUALS(settingsBefore.getAsText(), settingsAfter.getAsText());
@@ -187,8 +189,8 @@ public:
 		);
 
 		SettingsMigrator migrator;
-		migrator.addMigration(1, "value", "int");
-		migrator.addMigration(2, "int", "val");
+		migrator.addMigration(1, std::make_shared<MigrationMoveKey>("value", "int"));
+		migrator.addMigration(2, std::make_shared<MigrationMoveKey>("int", "val"));
 		migrator.migrate(&settingsBefore, 2);
 
 		TS_ASSERT_EQUALS(settingsBefore.getAsText(), settingsAfter.getAsText());
@@ -212,8 +214,8 @@ public:
 		);
 
 		SettingsMigrator migrator;
-		migrator.addMigration(1, "value", "int");
-		migrator.addMigration(2, "int", "val");
+		migrator.addMigration(1, std::make_shared<MigrationMoveKey>("value", "int"));
+		migrator.addMigration(2, std::make_shared<MigrationMoveKey>("int", "val"));
 		migrator.migrate(&settingsBefore, 2);
 
 		TS_ASSERT_EQUALS(settingsBefore.getAsText(), settingsAfter.getAsText());
@@ -239,8 +241,8 @@ public:
 		);
 
 		SettingsMigrator migrator;
-		migrator.addMigration(1, "value", "val");
-		migrator.addMigration(1, "element", "ele");
+		migrator.addMigration(1, std::make_shared<MigrationMoveKey>("value", "val"));
+		migrator.addMigration(1, std::make_shared<MigrationMoveKey>("element", "ele"));
 		migrator.migrate(&settingsBefore, 2);
 
 		TS_ASSERT_EQUALS(settingsBefore.getAsText(), settingsAfter.getAsText());
@@ -272,10 +274,10 @@ public:
 		);
 
 		SettingsMigrator migrator;
-		migrator.addMigration(1, "value", "int/val");
-		migrator.addMigration(1, "element", "ele");
-		migrator.addMigration(2, "int/val", "int");
-		migrator.addMigration(3, "ele", "elements/element");
+		migrator.addMigration(1, std::make_shared<MigrationMoveKey>("value", "int/val"));
+		migrator.addMigration(1, std::make_shared<MigrationMoveKey>("element", "ele"));
+		migrator.addMigration(2, std::make_shared<MigrationMoveKey>("int/val", "int"));
+		migrator.addMigration(3, std::make_shared<MigrationMoveKey>("ele", "elements/element"));
 		migrator.migrate(&settingsBefore, 3);
 
 		TS_ASSERT_EQUALS(settingsBefore.getAsText(), settingsAfter.getAsText());
@@ -299,14 +301,13 @@ public:
 		);
 
 		SettingsMigrator migrator;
-		migrator.addLambdaMigration(
-			1,
-			[](Settings* settings)
+		migrator.addMigration(
+			1, std::make_shared<MigrationLambda>(
+			[](const Migration* migration, Settings* settings)
 			{
-				TestSettings* test = dynamic_cast<TestSettings*>(settings);
-				test->set("value", test->get("value") * 2);
+				migration->setValueInSettings<int>(settings, "value", migration->getValueFromSettings<int>(settings, "value", 0) * 2);
 			}
-		);
+		));
 		migrator.migrate(&settingsBefore, 1);
 
 		TS_ASSERT_EQUALS(settingsBefore.getAsText(), settingsAfter.getAsText());
@@ -330,22 +331,20 @@ public:
 		);
 
 		SettingsMigrator migrator;
-		migrator.addLambdaMigration(
-			1,
-			[](Settings* settings)
+		migrator.addMigration(
+			1, std::make_shared<MigrationLambda>(
+			[](const Migration* migration, Settings* settings)
 			{
-				TestSettings* test = dynamic_cast<TestSettings*>(settings);
-				test->set("value", test->get("value") * 2);
+				migration->setValueInSettings<int>(settings, "value", migration->getValueFromSettings<int>(settings, "value", 0) * 2);
 			}
-		);
-		migrator.addLambdaMigration(
-			2,
-			[](Settings* settings)
+		));
+		migrator.addMigration(
+			2, std::make_shared<MigrationLambda>(
+			[](const Migration* migration, Settings* settings)
 			{
-				TestSettings* test = dynamic_cast<TestSettings*>(settings);
-				test->set("value", test->get("value") - 1);
+				migration->setValueInSettings<int>(settings, "value", migration->getValueFromSettings<int>(settings, "value", 0) - 1);
 			}
-		);
+		));
 		migrator.migrate(&settingsBefore, 2);
 
 		TS_ASSERT_EQUALS(settingsBefore.getAsText(), settingsAfter.getAsText());
@@ -371,16 +370,6 @@ private:
 			}
 
 			return "";
-		}
-
-		int get(const std::string& key)
-		{
-			return getValue<int>(key, 0);
-		}
-
-		void set(const std::string& key, int value)
-		{
-			setValue<int>(key, value);
 		}
 	};
 

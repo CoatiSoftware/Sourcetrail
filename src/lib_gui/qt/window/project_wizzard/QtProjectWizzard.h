@@ -9,8 +9,6 @@
 #include "settings/ApplicationSettings.h"
 #include "settings/ProjectSettings.h"
 
-#include "utility/solution/SolutionParserManager.h"
-
 class QtProjectWizzardContentSummary;
 class QtProjectWizzardWindow;
 
@@ -33,8 +31,8 @@ public:
 public slots:
 	void newProject();
 
-	void newProjectFromSolution(const std::string& ideId, const std::string& solutionPath);
-	void newProjectFromCDB(const std::string& filePath, const std::vector<std::string>& headerPaths);
+	void newProjectFromSolution(const std::string& ideId, const FilePath& solutionPath);
+	void newProjectFromCDB(const FilePath& filePath, const std::vector<FilePath>& headerPaths);
 	void refreshProjectFromSolution(const std::string& ideId, const std::string& solutionPath);
 
 	void editProject(const FilePath& settingsPath);
@@ -44,20 +42,19 @@ public slots:
 private:
 	static bool applicationSettingsContainVisualStudioHeaderSearchPaths();
 
-	template<typename T>
-		QtProjectWizzardWindow* createWindowWithContent();
+	QtProjectWizzardWindow* createWindowWithContent(
+		std::function<QtProjectWizzardContent*(QtProjectWizzardWindow*)> func);
 
 	QtProjectWizzardWindow* createWindowWithSummary(
 		std::function<void(QtProjectWizzardWindow*, QtProjectWizzardContentSummary*)> func);
 
 	QtWindowStack m_windowStack;
 
-	std::shared_ptr<ProjectSettings> m_settings;
+	std::shared_ptr<ProjectSettings> m_projectSettings;
+	std::shared_ptr<SourceGroupSettings> m_sourceGroupSettings;
 	ApplicationSettings m_appSettings;
 
 	bool m_editing;
-
-	std::shared_ptr<SolutionParserManager> m_parserManager;
 
 private slots:
 	void cancelWizzard();
@@ -65,19 +62,18 @@ private slots:
 
 	void windowStackChanged();
 
-	void selectedProjectType(ProjectType type);
+	void selectedProjectType(SourceGroupType sourceGroupType);
 
 	void emptyProject();
+	void emptyProjectCDBVS();
+	void emptyProjectCDB();
+	void emptyProjectJavaMaven();
 
 	void sourcePaths();
 	void headerSearchPaths();
 
 	void headerSearchPathsDone();
 	void frameworkSearchPaths();
-
-	void emptyProjectCDBVS();
-	void emptyProjectCDB();
-	void emptyProjectJavaMaven();
 
 	void headerPathsCDB();
 
@@ -93,8 +89,5 @@ private slots:
 	void createProject();
 	void savePreferences();
 };
-
-template<>
-QtProjectWizzardWindow* QtProjectWizzard::createWindowWithContent<QtProjectWizzardContentSelect>();
 
 #endif // QT_PROJECT_WIZZARD_H

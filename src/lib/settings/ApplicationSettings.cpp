@@ -1,5 +1,6 @@
 #include "settings/ApplicationSettings.h"
 
+#include "settings/migration/MigrationMoveKey.h"
 #include "utility/ResourcePaths.h"
 #include "utility/Status.h"
 #include "utility/utility.h"
@@ -37,15 +38,18 @@ bool ApplicationSettings::load(const FilePath& filePath)
 
 	SettingsMigrator migrator;
 
-	migrator.addMigration(1,
+	migrator.addMigration(1, std::make_shared<MigrationMoveKey>(
 		"source/header_search_paths/header_search_path",
-		"indexing/cxx/header_search_paths/header_search_path");
-	migrator.addMigration(1,
+		"indexing/cxx/header_search_paths/header_search_path"
+	));
+	migrator.addMigration(1, std::make_shared<MigrationMoveKey>(
 		"source/framework_search_paths/framework_search_path",
-		"indexing/cxx/framework_search_paths/framework_search_path");
-	migrator.addMigration(1,
+		"indexing/cxx/framework_search_paths/framework_search_path"
+	));
+	migrator.addMigration(1, std::make_shared<MigrationMoveKey>(
 		"application/indexer_thread_count",
-		"indexing/indexer_thread_count");
+		"indexing/indexer_thread_count"
+	));
 
 	bool migrated = migrator.migrate(this, ApplicationSettings::VERSION);
 

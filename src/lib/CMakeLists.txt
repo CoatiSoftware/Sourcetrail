@@ -221,25 +221,45 @@ add_files(
 	data/TaskMergeStorages.h
 	data/TaskShowStatusDialog.cpp
 	data/TaskShowStatusDialog.h
-
+	
+	project/Project.cpp
+	project/Project.h
+	project/SourceGroupFactory.cpp
+	project/SourceGroupFactory.h
+	project/SourceGroupFactoryModule.cpp
+	project/SourceGroupFactoryModule.h
+	project/SourceGroup.cpp
+	project/SourceGroup.h
+	
+	settings/migration/Migration.cpp
+	settings/migration/Migration.h
+	settings/migration/MigrationDeleteKey.cpp
+	settings/migration/MigrationDeleteKey.h
+	settings/migration/MigrationLambda.cpp
+	settings/migration/MigrationLambda.h
+	settings/migration/MigrationMoveKey.cpp
+	settings/migration/MigrationMoveKey.h
+	settings/migration/SettingsMigrator.cpp
+	settings/migration/SettingsMigrator.h
+	
 	settings/ApplicationSettings.cpp
 	settings/ApplicationSettings.h
 	settings/ColorScheme.cpp
 	settings/ColorScheme.h
-	settings/CxxProjectSettings.cpp
-	settings/CxxProjectSettings.h
-	settings/JavaProjectSettings.cpp
-	settings/JavaProjectSettings.h
 	settings/LanguageType.cpp
 	settings/LanguageType.h
 	settings/ProjectSettings.cpp
 	settings/ProjectSettings.h
-	settings/ProjectType.cpp
-	settings/ProjectType.h
 	settings/Settings.cpp
 	settings/Settings.h
-	settings/SettingsMigrator.cpp
-	settings/SettingsMigrator.h
+	settings/SourceGroupSettings.cpp
+	settings/SourceGroupSettings.h
+	settings/SourceGroupSettingsCxx.cpp
+	settings/SourceGroupSettingsCxx.h
+	settings/SourceGroupSettingsJava.cpp
+	settings/SourceGroupSettingsJava.h
+	settings/SourceGroupType.cpp
+	settings/SourceGroupType.h
 
 	utility/commandline/CommandLineParser.cpp
 	utility/commandline/CommandLineParser.h
@@ -400,15 +420,6 @@ add_files(
 	utility/scheduling/TaskScheduler.h
 	utility/scheduling/TaskSetValue.h
 
-	utility/solution/ISolutionParser.cpp
-	utility/solution/ISolutionParser.h
-	utility/solution/SolutionParserCodeBlocks.cpp
-	utility/solution/SolutionParserCodeBlocks.h
-	utility/solution/SolutionParserManager.cpp
-	utility/solution/SolutionParserManager.h
-	utility/solution/SolutionParserUtility.cpp
-	utility/solution/SolutionParserUtility.h
-
 	utility/synchronization/ReaderWriterLock.cpp
 	utility/synchronization/ReaderWriterLock.h
 	utility/synchronization/ScopedReaderLock.cpp
@@ -458,10 +469,4 @@ add_files(
 	ApplicationStateMonitor.h
 	LicenseChecker.cpp
 	LicenseChecker.h
-	Project.cpp
-	Project.h
-	ProjectFactory.cpp
-	ProjectFactory.h
-	ProjectFactoryModule.cpp
-	ProjectFactoryModule.h
 )

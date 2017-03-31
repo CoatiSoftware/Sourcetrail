@@ -1,12 +1,13 @@
 #include "qt/window/project_wizzard/QtProjectWizzardContentCDBSource.h"
 
-#include "settings/CxxProjectSettings.h"
+#include "settings/SourceGroupSettingsCxx.h"
 #include "data/indexer/IndexerCxxCdb.h"
 
 QtProjectWizzardContentCDBSource::QtProjectWizzardContentCDBSource(
-	std::shared_ptr<ProjectSettings> settings, QtProjectWizzardWindow* window
+	std::shared_ptr<SourceGroupSettings> settings, QtProjectWizzardWindow* window
 )
-	: QtProjectWizzardContent(settings, window)
+	: QtProjectWizzardContent(window)
+	, m_settings(settings)
 	, m_text(nullptr)
 {
 }
@@ -29,10 +30,10 @@ void QtProjectWizzardContentCDBSource::load()
 {
 	m_fileNames.clear();
 
-	FilePath projectPath = m_settings->getProjectFileLocation();
+	const FilePath projectPath = m_settings->getProjectFileLocation();
 	std::vector<FilePath> excludePaths = m_settings->getAbsoluteExcludePaths();
 
-	std::shared_ptr<CxxProjectSettings> cxxSettings = std::dynamic_pointer_cast<CxxProjectSettings>(m_settings);
+	std::shared_ptr<SourceGroupSettingsCxx> cxxSettings = std::dynamic_pointer_cast<SourceGroupSettingsCxx>(m_settings);
 	if (cxxSettings)
 	{
 		std::vector<FilePath> filePaths = IndexerCxxCdb::getSourceFilesFromCDB(cxxSettings->getAbsoluteCompilationDatabasePath());

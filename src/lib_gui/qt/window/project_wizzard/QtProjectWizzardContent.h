@@ -35,7 +35,7 @@ class QtProjectWizzardContent
 	Q_OBJECT
 
 public:
-	QtProjectWizzardContent(std::shared_ptr<ProjectSettings> settings, QtProjectWizzardWindow* window);
+	QtProjectWizzardContent(QtProjectWizzardWindow* window);
 
 	virtual void populate(QGridLayout* layout, int& row);
 	virtual void windowReady();
@@ -61,7 +61,6 @@ protected:
 	QtHelpButton* addHelpButton(QString helpString, QGridLayout* layout, int row) const;
 	QPushButton* addFilesButton(QString name, QGridLayout* layout, int row) const;
 
-	std::shared_ptr<ProjectSettings> m_settings;
 	QtProjectWizzardWindow* m_window;
 
 	std::shared_ptr<QtTextEditDialog> m_filesDialog;

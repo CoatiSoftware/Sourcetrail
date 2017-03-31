@@ -3,10 +3,11 @@
 #include <QCheckBox>
 #include <QLabel>
 
-#include "settings/CxxProjectSettings.h"
+#include "settings/SourceGroupSettingsCxx.h"
 
-QtProjectWizzardContentSimple::QtProjectWizzardContentSimple(std::shared_ptr<ProjectSettings> settings, QtProjectWizzardWindow* window)
-	: QtProjectWizzardContent(settings, window)
+QtProjectWizzardContentSimple::QtProjectWizzardContentSimple(std::shared_ptr<SourceGroupSettings> settings, QtProjectWizzardWindow* window)
+	: QtProjectWizzardContent(window)
+	, m_settings(settings)
 	, m_checkBox(nullptr)
 {
 }
@@ -34,7 +35,7 @@ void QtProjectWizzardContentSimple::populate(QGridLayout* layout, int& row)
 
 void QtProjectWizzardContentSimple::load()
 {
-	std::shared_ptr<CxxProjectSettings> cxxSettings = std::dynamic_pointer_cast<CxxProjectSettings>(m_settings);
+	std::shared_ptr<SourceGroupSettingsCxx> cxxSettings = std::dynamic_pointer_cast<SourceGroupSettingsCxx>(m_settings);
 	if (cxxSettings)
 	{
 		m_checkBox->setChecked(cxxSettings->getUseSourcePathsForHeaderSearch());
@@ -43,7 +44,7 @@ void QtProjectWizzardContentSimple::load()
 
 void QtProjectWizzardContentSimple::save()
 {
-	std::shared_ptr<CxxProjectSettings> cxxSettings = std::dynamic_pointer_cast<CxxProjectSettings>(m_settings);
+	std::shared_ptr<SourceGroupSettingsCxx> cxxSettings = std::dynamic_pointer_cast<SourceGroupSettingsCxx>(m_settings);
 	if (cxxSettings)
 	{
 		cxxSettings->setUseSourcePathsForHeaderSearch(m_checkBox->isChecked());

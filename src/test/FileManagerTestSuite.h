@@ -17,9 +17,9 @@ public:
 		sourceExtensions.push_back(".c");
 
 		FileManager fm;
-		fm.setPaths(sourcePaths, headerPaths, excludePaths, sourceExtensions);
-		FileManager::FileSets fileSets = fm.fetchFilePaths(std::vector<FileInfo>());
+		fm.update(sourcePaths, excludePaths, sourceExtensions);
+		std::set<FilePath> filePaths = fm.getAllSourceFilePaths();
 
-		TS_ASSERT_EQUALS(fileSets.addedFiles.size(), 2);
+		TS_ASSERT_EQUALS(filePaths.size(), 2);
 	}
 };

@@ -4,12 +4,12 @@
 #include "utility/messaging/type/MessageActivateFile.h"
 #include "utility/messaging/type/MessageProjectEdit.h"
 
-#include "Application.h"
-#include "Project.h"
+#include "project/Project.h"
 #include "qt/utility/QtContextMenu.h"
 #include "qt/utility/utilityQt.h"
 #include "settings/ColorScheme.h"
 #include "utility/ResourcePaths.h"
+#include "Application.h"
 
 QtCodeFileTitleButton::QtCodeFileTitleButton(QWidget* parent)
 	: QPushButton(parent)

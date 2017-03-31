@@ -41,6 +41,7 @@ public:
 	void removeValues(const std::string& key);
 
 	bool isValueDefined(const std::string& key) const;
+	std::vector<std::string> getSublevelKeys(const std::string& key) const;
 
 	bool load(const std::shared_ptr<TextAccess> textAccess);
 	void save(const std::string filepath);

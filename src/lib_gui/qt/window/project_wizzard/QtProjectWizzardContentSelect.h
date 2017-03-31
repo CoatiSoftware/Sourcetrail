@@ -2,6 +2,7 @@
 #define QT_PROJECT_WIZZARD_CONTENT_SELECT_H
 
 #include "qt/window/project_wizzard/QtProjectWizzardContent.h"
+#include "settings/SourceGroupType.h"
 
 class QButtonGroup;
 class SolutionParserManager;
@@ -12,10 +13,7 @@ class QtProjectWizzardContentSelect
 	Q_OBJECT
 
 public:
-	QtProjectWizzardContentSelect(
-		std::shared_ptr<ProjectSettings> settings,
-		QtProjectWizzardWindow* window,
-		std::weak_ptr<SolutionParserManager> solutionParserManager);
+	QtProjectWizzardContentSelect(QtProjectWizzardWindow* window);
 
 	// QtProjectWizzardContent implementation
 	virtual void populate(QGridLayout* layout, int& row) override;
@@ -24,7 +22,7 @@ public:
 	virtual bool check() override;
 
 signals:
-	void selected(ProjectType);
+	void selected(SourceGroupType);
 
 private:
 	QButtonGroup* m_languages;
@@ -33,10 +31,9 @@ private:
 	QLabel* m_title;
 	QLabel* m_description;
 
-	std::map<ProjectType, std::string> m_projectTypeIconName;
-	std::map<ProjectType, std::string> m_projectTypeDescriptions;
+	std::map<SourceGroupType, std::string> m_projectTypeIconName;
+	std::map<SourceGroupType, std::string> m_projectTypeDescriptions;
 
-	std::weak_ptr<SolutionParserManager> m_solutionParserManager;
 	std::vector<std::string> m_solutionDescription;
 };
 

@@ -19,6 +19,7 @@
 #include "data/StorageCache.h"
 #include "LicenseChecker.h"
 #include "settings/ApplicationSettings.h"
+#include "settings/ProjectSettings.h"
 #include "settings/ColorScheme.h"
 
 void Application::createInstance(
@@ -105,11 +106,6 @@ Application::~Application()
 	}
 }
 
-void Application::addProjectFactoryModule(std::shared_ptr<ProjectFactoryModule> module)
-{
-	m_projectFactory.addModule(module);
-}
-
 const std::shared_ptr<Project> Application::getCurrentProject()
 {
 	return m_project;
@@ -155,10 +151,12 @@ void Application::createAndLoadProject(const FilePath& projectSettingsFilePath)
 		m_storageCache->clear();
 		m_storageCache->setSubject(nullptr);
 
-		m_project = m_projectFactory.createProject(projectSettingsFilePath, m_storageCache.get(), getDialogView());
+		m_project = std::make_shared<Project>(std::make_shared<ProjectSettings>(projectSettingsFilePath), m_storageCache.get());
 
 		if (m_project)
 		{
+			m_project->load();
+
 			if (m_hasGUI)
 			{
 				updateTitle();

@@ -1,15 +1,14 @@
 #include "data/TaskShowStatusDialog.h"
 
 #include "component/view/DialogView.h"
+#include "Application.h"
 
 TaskShowStatusDialog::TaskShowStatusDialog(
 	const std::string& title,
-	const std::string& message,
-	std::shared_ptr<DialogView> dialogView
+	const std::string& message
 )
 	: m_title(title)
 	, m_message(message)
-	, m_dialogView(dialogView)
 {
 }
 
@@ -23,9 +22,9 @@ void TaskShowStatusDialog::doEnter(std::shared_ptr<Blackboard> blackboard)
 
 Task::TaskState TaskShowStatusDialog::doUpdate(std::shared_ptr<Blackboard> blackboard)
 {
-    if (m_dialogView)
-    {
-        m_dialogView->showStatusDialog(m_title, m_message);
+	if (std::shared_ptr<DialogView> dialogView = Application::getInstance()->getDialogView())
+	{
+		dialogView->showStatusDialog(m_title, m_message);
     }
 	return STATE_SUCCESS;
 }

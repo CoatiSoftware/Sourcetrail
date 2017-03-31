@@ -14,7 +14,10 @@ class QtProjectWizzardContentData
 
 public:
 	QtProjectWizzardContentData(
-		std::shared_ptr<ProjectSettings> settings, QtProjectWizzardWindow* window, bool disableNameEditing = false);
+		std::shared_ptr<ProjectSettings> projectSettings,
+		std::shared_ptr<SourceGroupSettings> sourceGroupSettings,
+		QtProjectWizzardWindow* window,
+		bool disableNameEditing = false);
 
 	// QtProjectWizzardContent implementation
 	virtual void populate(QGridLayout* layout, int& row) override;
@@ -27,6 +30,9 @@ protected:
 	virtual void addNameAndLocation(QGridLayout* layout, int& row);
 	virtual void addLanguageAndStandard(QGridLayout* layout, int& row);
 	virtual void addBuildFilePicker(QGridLayout* layout, int& row, const QString& name, const QString& filter);
+
+	std::shared_ptr<ProjectSettings> m_projectSettings;
+	std::shared_ptr<SourceGroupSettings> m_sourceGroupSettings;
 
 	bool m_disableNameEditing;
 	QLineEdit* m_projectName;
@@ -46,7 +52,10 @@ class QtProjectWizzardContentDataCDB
 
 public:
 	QtProjectWizzardContentDataCDB(
-		std::shared_ptr<ProjectSettings> settings, QtProjectWizzardWindow* window, bool disableNameEditing = false);
+		std::shared_ptr<ProjectSettings> projectSettings,
+		std::shared_ptr<SourceGroupSettings> sourceGroupSettings,
+		QtProjectWizzardWindow* window,
+		bool disableNameEditing = false);
 
 	virtual void populate(QGridLayout* layout, int& row) override;
 
@@ -65,7 +74,10 @@ class QtProjectWizzardContentDataCDBVS
 	Q_OBJECT
 
 public:
-	QtProjectWizzardContentDataCDBVS(std::shared_ptr<ProjectSettings> settings, QtProjectWizzardWindow* window);
+	QtProjectWizzardContentDataCDBVS(
+		std::shared_ptr<ProjectSettings> projectSettings,
+		std::shared_ptr<SourceGroupSettings> sourceGroupSettings,
+		QtProjectWizzardWindow* window);
 
 	virtual void populate(QGridLayout* layout, int& row) override;
 

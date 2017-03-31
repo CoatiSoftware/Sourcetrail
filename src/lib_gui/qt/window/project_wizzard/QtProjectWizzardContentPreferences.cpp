@@ -8,9 +8,9 @@
 #include "utility/utilityApp.h"
 
 QtProjectWizzardContentPreferences::QtProjectWizzardContentPreferences(
-	std::shared_ptr<ProjectSettings> settings, QtProjectWizzardWindow* window
+	QtProjectWizzardWindow* window
 )
-	: QtProjectWizzardContent(settings, window)
+	: QtProjectWizzardContent(window)
 	, m_oldColorSchemeIndex(-1)
 {
 	std::vector<std::string> colorSchemePaths =
