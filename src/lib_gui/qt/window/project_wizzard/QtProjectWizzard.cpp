@@ -96,7 +96,7 @@ void QtProjectWizzard::newProjectFromCDB(const FilePath& filePath, const std::ve
 {
 	m_projectSettings = std::make_shared<ProjectSettings>();
 
-	std::shared_ptr<SourceGroupSettingsCxx> sourceGroupSettings = std::make_shared<SourceGroupSettingsCxx>(UUIDUtility::getUUIDString(), SOURCE_GROUP_CXX_VS, m_projectSettings.get());
+	std::shared_ptr<SourceGroupSettingsCxx> sourceGroupSettings = std::make_shared<SourceGroupSettingsCxx>(UUIDUtility::getUUIDString(), SOURCE_GROUP_CXX_CDB, m_projectSettings.get());
 	m_projectSettings->setProjectName(filePath.withoutExtension().fileName());
 	m_projectSettings->setProjectFileLocation(filePath.parentDirectory());
 	sourceGroupSettings->setCompilationDatabasePath(filePath);
@@ -285,7 +285,7 @@ void QtProjectWizzard::selectedProjectType(SourceGroupType sourceGroupType)
 		emptyProjectCDB();
 		break;
 	case SOURCE_GROUP_CXX_VS:
-		m_sourceGroupSettings = std::make_shared<SourceGroupSettingsCxx>(sourceGroupId, sourceGroupType, m_projectSettings.get()); // maybe use a different type here
+		m_sourceGroupSettings = std::make_shared<SourceGroupSettingsCxx>(sourceGroupId, SOURCE_GROUP_CXX_CDB, m_projectSettings.get());
 		emptyProjectCDBVS();
 		break;
 	case SOURCE_GROUP_JAVA_EMPTY:
