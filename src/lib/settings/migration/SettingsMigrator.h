@@ -11,8 +11,6 @@ class Settings;
 class SettingsMigrator
 {
 public:
-	static SettingsMigrator createApplicationSettingsMigrator();
-
 	SettingsMigrator();
 	virtual ~SettingsMigrator();
 

@@ -8,8 +8,7 @@
 #include "utility/ConfigManager.h"
 #include "utility/file/FilePath.h"
 
-#include "settings/migration/SettingsMigrator.h"
-#include "settings/migration/Migration.h"
+class Migration;
 
 class Settings
 {
@@ -60,14 +59,11 @@ protected:
 	void enableWarnings() const;
 	void disableWarnings() const;
 
-	friend bool SettingsMigrator::migrate(Settings* settings, size_t targetVersion) const;
-
 	std::shared_ptr<ConfigManager> m_config;
 
 private:
 	FilePath m_filePath;
 
-	friend SettingsMigrator;
 	friend Migration;
 };
 

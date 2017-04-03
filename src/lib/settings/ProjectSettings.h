@@ -4,6 +4,7 @@
 #include <memory>
 #include <vector>
 
+#include "settings/migration/SettingsMigrator.h"
 #include "settings/LanguageType.h"
 #include "settings/Settings.h"
 

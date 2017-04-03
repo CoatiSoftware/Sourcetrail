@@ -1,5 +1,6 @@
 #include "settings/migration/SettingsMigrator.h"
 
+#include "settings/migration/Migration.h"
 #include "settings/Settings.h"
 
 SettingsMigrator::SettingsMigrator()

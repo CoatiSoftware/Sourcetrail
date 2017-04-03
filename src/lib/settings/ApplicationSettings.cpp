@@ -1,5 +1,6 @@
 #include "settings/ApplicationSettings.h"
 
+#include "settings/migration/SettingsMigrator.h"
 #include "settings/migration/MigrationMoveKey.h"
 #include "utility/ResourcePaths.h"
 #include "utility/Status.h"
