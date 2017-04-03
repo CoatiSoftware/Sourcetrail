@@ -179,8 +179,8 @@ void QtProjectWizzardContentPreferences::populate(QGridLayout* layout, int& row)
 	}
 	else
 	{
-		// todo: add filter here
-		// todo: add placeholder here
+		m_mavenPath->setFileFilter("Maven command (mvn)");
+		m_mavenPath->setPlaceholderText("<binarypath>/mvn");
 	}
 
 	addLabelAndWidget("Maven Path", m_mavenPath, layout, row);
