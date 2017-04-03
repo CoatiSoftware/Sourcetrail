@@ -11,7 +11,7 @@ namespace utility
 	bool mavenGenerateSources(const FilePath& mavenPath, const FilePath& projectDirectoryPath)
 	{
 		const std::string output = utility::executeProcess(
-			mavenPath.str() + " generate-sources",
+			"\"" + mavenPath.str() + "\" generate-sources",
 			projectDirectoryPath.str()
 		);
 		return !output.empty();
@@ -20,7 +20,7 @@ namespace utility
 	bool mavenCopyDependencies(const FilePath& mavenPath, const FilePath& projectDirectoryPath, const FilePath& outputDirectoryPath)
 	{
 		const std::string output = utility::executeProcess(
-			mavenPath.str() + " dependency:copy-dependencies -DoutputDirectory=" + outputDirectoryPath.str(),
+			"\"" + mavenPath.str() + "\" dependency:copy-dependencies -DoutputDirectory=" + outputDirectoryPath.str(),
 			projectDirectoryPath.str()
 		);
 		return !output.empty();
@@ -30,7 +30,7 @@ namespace utility
 	{
 
 		std::shared_ptr<TextAccess> outputAccess = TextAccess::createFromString(utility::executeProcess(
-			mavenPath.str() + " help:effective-pom",
+			"\"" + mavenPath.str() + "\" help:effective-pom",
 			projectDirectoryPath.str()
 		));
 
