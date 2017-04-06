@@ -9,37 +9,28 @@
 class ConsumerOfTheLastMember
 {
 public:
-	void in()
+	void go()
+	{
+		ClassWithHiddenMembers::this_last_member = 42;
+	}
+
+	void on()
 	{
 		ClassWithHiddenMembers::this_last_member--;
 	}
-
 //------------------------------------------------------------------------------
 //
-// 7 - THAT'S IT
-//  You completed the tutorial on the graph view. There is still more to learn
-//  but I guess you will figure it out on your own. One last thing: If you see
-//  an element with a hatched background please call us. It's a runaway!
-//  Just kidding. Those are elements that are used within your code, but have no
-//  definition anywhere in your source folder (like the "int" symbol on the 
-//  right hand side of the graph). So if you click them, Coati will display
-//  all the relations for the element, but the code view won't show a 
-//	definition. If you want to learn more about Coati, go back to the central
-//  hub. It is called in the function below but you can also try to get there
-//  using only the graph.
+// 6 - FOCUSING EDGES
+//  Even though Coati doesn't allow to activate an edge, you can still focus on
+//  edges. This doesn't change the currently active symbol (which would cause
+//  Coati to hide everything but the edge). Instead Coati just highlights the
+//  relation's location in the code and scrolls you there, so you don't lose
+//  context.
+//  Try to activate an edge that comes from the "ProducerOfTheLastMember" class.
+//  Which one you pick doesn't really matter for this tutorial.
 //
 //------------------------------------------------------------------------------
-
-private:
-	void the()
-	{
-		if (ClassWithHiddenMembers::this_last_member <= 0);
-		{
-			the_central_hub();
-		}
-	}
-
-	void codeview()
+	void reading()
 	{
 		ClassWithHiddenMembers::this_last_member /= 2;
 	}

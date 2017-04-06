@@ -225,15 +225,15 @@ void Project::load()
 
 	if (canLoad)
 	{
-		m_storage->setMode(SqliteStorage::STORAGE_MODE_READ);
-		m_storage->buildCaches();
-		m_storageAccessProxy->setSubject(m_storage.get());
-
 		m_sourceGroups = SourceGroupFactory::getInstance()->createSourceGroups(m_settings->getAllSourceGroupSettings());
 		if (!m_sourceGroups.empty())
 		{
 			NameHierarchy::setDelimiter(getSymbolNameDelimiterForLanguage(m_sourceGroups.front()->getLanguage()));
 		}
+
+		m_storage->setMode(SqliteStorage::STORAGE_MODE_READ);
+		m_storage->buildCaches();
+		m_storageAccessProxy->setSubject(m_storage.get());
 
 		MessageFinishedParsing().dispatch();
 		MessageStatus("Finished Loading", false, false).dispatch();

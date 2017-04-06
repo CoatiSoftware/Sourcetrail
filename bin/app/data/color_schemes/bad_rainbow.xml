@@ -294,9 +294,9 @@
 				<like>global_variable</like>
 			</enum_constant>
 
-			<non-indexed>
+			<non_indexed>
 				<like>type</like>
-			</non-indexed>
+			</non_indexed>
 			<namespace>
 				<fill>
 					<normal>#873E3E</normal>

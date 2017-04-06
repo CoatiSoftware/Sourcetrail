@@ -172,11 +172,6 @@ void QtProjectWizzardContentPreferences::populate(QGridLayout* layout, int& row)
 		m_mavenPath->setFileFilter("Maven command (mvn.cmd)");
 		m_mavenPath->setPlaceholderText("<maven_path>/bin/mvn.cmd");
 	}
-	else if (QSysInfo::macVersion() != QSysInfo::MV_None)
-	{
-		// todo: add filter here
-		// todo: add placeholder here
-	}
 	else
 	{
 		m_mavenPath->setFileFilter("Maven command (mvn)");

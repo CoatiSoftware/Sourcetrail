@@ -1332,6 +1332,7 @@ void GraphController::addExpandToggleNode(DummyNode* node) const
 	expandNode->visible = true;
 	expandNode->expanded = node->expanded;
 
+	bool hasVisibleSubNode = false;
 	for (size_t i = 0; i < node->subNodes.size(); i++)
 	{
 		DummyNode* subNode = node->subNodes[i].get();
@@ -1343,16 +1344,25 @@ void GraphController::addExpandToggleNode(DummyNode* node) const
 			continue;
 		}
 
+		if (subNode->isQualifierNode())
+		{
+			continue;
+		}
+
 		for (std::shared_ptr<DummyNode> subSubNode : subNode->subNodes)
 		{
 			if (!subSubNode->visible)
 			{
 				expandNode->invisibleSubNodeCount++;
 			}
+			else
+			{
+				hasVisibleSubNode = true;
+			}
 		}
 	}
 
-	if (expandNode->isExpanded() || expandNode->invisibleSubNodeCount)
+	if ((expandNode->isExpanded() && hasVisibleSubNode) || expandNode->invisibleSubNodeCount)
 	{
 		node->subNodes.push_back(expandNode);
 	}
