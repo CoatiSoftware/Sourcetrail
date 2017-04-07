@@ -151,11 +151,6 @@ std::shared_ptr<SourceLocationFile> SourceLocationFile::getFilteredByLines(size_
 		}
 	}
 
-	if (isWhole() && ret->getSourceLocationCount() == getSourceLocationCount())
-	{
-		ret->setIsWhole(true);
-	}
-
 	return ret;
 }
 
@@ -169,11 +164,6 @@ std::shared_ptr<SourceLocationFile> SourceLocationFile::getFilteredByType(Locati
 		{
 			ret->addSourceLocationCopy(location.get());
 		}
-	}
-
-	if (isWhole() && ret->getSourceLocationCount() == getSourceLocationCount())
-	{
-		ret->setIsWhole(true);
 	}
 
 	return ret;

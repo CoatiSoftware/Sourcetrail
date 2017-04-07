@@ -40,12 +40,11 @@ void ErrorController::handleMessage(MessageShowErrors* message)
 	clear();
 
 	std::vector<ErrorInfo> errors = m_storageAccess->getErrors();
-	getView()->addErrors(errors, false);
-
 	if (errors.size())
 	{
 		getView()->showDockWidget();
 	}
+	getView()->addErrors(errors, false);
 }
 
 ErrorView* ErrorController::getView() const

@@ -15,6 +15,7 @@ enum SourceGroupType
 };
 
 std::string sourceGroupTypeToString(SourceGroupType v);
+std::string sourceGroupTypeToProjectSetupString(SourceGroupType v);
 SourceGroupType stringToSourceGroupType(std::string v);
 
 #endif // SOURCE_GROUP_TYPE_H

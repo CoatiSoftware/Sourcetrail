@@ -7,8 +7,8 @@
 
 enum LanguageType
 {
-	LANGUAGE_C,
 	LANGUAGE_CPP,
+	LANGUAGE_C,
 	LANGUAGE_JAVA,
 	LANGUAGE_UNKNOWN
 };

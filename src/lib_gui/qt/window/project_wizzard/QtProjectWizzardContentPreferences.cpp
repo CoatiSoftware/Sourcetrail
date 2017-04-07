@@ -12,6 +12,7 @@ QtProjectWizzardContentPreferences::QtProjectWizzardContentPreferences(
 )
 	: QtProjectWizzardContent(window)
 	, m_oldColorSchemeIndex(-1)
+	, m_newColorSchemeIndex(-1)
 {
 	std::vector<std::string> colorSchemePaths =
 		FileSystem::getFileNamesFromDirectory(ResourcePaths::getColorSchemesPath(), std::vector<std::string>(1, ".xml"));
@@ -23,7 +24,7 @@ QtProjectWizzardContentPreferences::QtProjectWizzardContentPreferences(
 
 QtProjectWizzardContentPreferences::~QtProjectWizzardContentPreferences()
 {
-	if (m_oldColorSchemeIndex != -1)
+	if (m_oldColorSchemeIndex != -1 && m_oldColorSchemeIndex != m_newColorSchemeIndex)
 	{
 		colorSchemeChanged(m_oldColorSchemeIndex);
 	}
@@ -212,6 +213,7 @@ void QtProjectWizzardContentPreferences::load()
 		{
 			m_colorSchemes->setCurrentIndex(i);
 			m_oldColorSchemeIndex = i;
+			m_newColorSchemeIndex = i;
 			break;
 		}
 	}
@@ -294,6 +296,7 @@ bool QtProjectWizzardContentPreferences::check()
 
 void QtProjectWizzardContentPreferences::colorSchemeChanged(int index)
 {
+	m_newColorSchemeIndex = index;
 	MessageSwitchColorScheme(m_colorSchemePaths[index]).dispatch();
 }
 

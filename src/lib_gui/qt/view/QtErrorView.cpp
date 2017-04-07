@@ -167,6 +167,10 @@ void QtErrorView::doAddErrors(const std::vector<ErrorInfo>& errors, bool scrollT
 	{
 		m_table->showLastRow();
 	}
+	else
+	{
+		m_table->showFirstRow();
+	}
 }
 
 void QtErrorView::doSetErrorId(Id errorId)

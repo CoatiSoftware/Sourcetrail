@@ -165,18 +165,32 @@ void QtCodeNavigator::addFile(std::shared_ptr<SourceLocationFile> locationFile, 
 		locationFile->forEachStartSourceLocation(
 			[&](SourceLocation* location)
 			{
-				if (!location->isScopeLocation())
+				if (location->isScopeLocation())
 				{
-					for (Id i : location->getTokenIds())
-					{
-						Reference ref;
-						ref.filePath = location->getFilePath();
-						ref.tokenId = i;
-						ref.locationId = location->getLocationId();
-						ref.locationType = location->getType();
+					return;
+				}
 
-						m_references.push_back(ref);
-					}
+				if (!location->getTokenIds().size())
+				{
+					Reference ref;
+					ref.filePath = location->getFilePath();
+					ref.tokenId = 0;
+					ref.locationId = location->getLocationId();
+					ref.locationType = location->getType();
+
+					m_references.push_back(ref);
+					return;
+				}
+
+				for (Id i : location->getTokenIds())
+				{
+					Reference ref;
+					ref.filePath = location->getFilePath();
+					ref.tokenId = i;
+					ref.locationId = location->getLocationId();
+					ref.locationType = location->getType();
+
+					m_references.push_back(ref);
 				}
 			}
 		);

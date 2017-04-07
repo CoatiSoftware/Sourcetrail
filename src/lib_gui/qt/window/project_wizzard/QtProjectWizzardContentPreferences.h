@@ -52,6 +52,8 @@ private:
 	QComboBox* m_colorSchemes;
 	std::vector<FilePath> m_colorSchemePaths;
 	int m_oldColorSchemeIndex;
+	int m_newColorSchemeIndex;
+
 	QCheckBox* m_useAnimations;
 	QCheckBox* m_loggingEnabled;
 	QCheckBox* m_verboseIndexerLoggingEnabled;

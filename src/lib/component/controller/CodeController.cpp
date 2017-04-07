@@ -366,7 +366,8 @@ void CodeController::handleMessage(MessageShowErrors* message)
 
 		view->clear();
 		view->setErrorInfos(errors);
-		view->showCodeSnippets(snippets, std::vector<Id>(), !message->errorId);
+		view->showCodeSnippets(
+			snippets, std::vector<Id>(), !message->errorId && (!message->isReplayed() || message->isReplayCleared()));
 
 		showContents(message);
 	}
@@ -385,7 +386,8 @@ void CodeController::handleMessage(MessageSearchFullText* message)
 	view->clear();
 
 	m_collection = m_storageAccess->getFullTextSearchLocations(message->searchTerm, message->caseSensitive);
-	view->showCodeSnippets(getSnippetsForCollection(m_collection, true), std::vector<Id>(), true);
+	view->showCodeSnippets(
+		getSnippetsForCollection(m_collection, true), std::vector<Id>(), !message->isReplayed() || message->isReplayCleared());
 
 	showContents(message);
 }
