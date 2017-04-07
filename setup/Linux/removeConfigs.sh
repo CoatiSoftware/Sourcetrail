@@ -6,5 +6,5 @@ printf 'enter [y/n] '
 read ans
 case ${ans:=y} in [yY]*) ;; *) exit ;; esac
 
-rm -rf ~/.config/coati
+rm -rf ~/.config/sourcetrail
 

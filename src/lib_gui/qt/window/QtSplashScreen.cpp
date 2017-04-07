@@ -90,7 +90,7 @@ void QtSplashScreen::drawContents(QPainter *painter)
 	QRect r = rect();
 	r.setRect(r.x() + 5, r.height() - 20, r.width() - 10, 20);
 
-	painter->drawText(r, Qt::AlignRight, QString("Coati v").append(m_version));
+	painter->drawText(r, Qt::AlignRight, QString("Sourcetrail v").append(m_version));
 
 	// Draw message at given position, limited to 43 chars
 	// If message is too long, string is truncated

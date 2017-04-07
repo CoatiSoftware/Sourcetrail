@@ -1,4 +1,4 @@
-﻿Coati
+﻿Sourcetrail
 Software License Agreement (“Agreement”)
 Effective 15.2.2017
 
@@ -8,9 +8,9 @@ BY INSTALLING OR USING THIS SOFTWARE, YOU ARE BECOMING A PARTY TO, AND ARE CONSE
 DEFINITIONS
 
 "Software" means:
-•	A major version of Coati in executable form. The major version is defined by the leading number of the version string (e.g. the major version of Coati 1.x.x is version 1);
-•	documentation for that major version of Coati;
-•	minor updates included in software maintenance which are indicated by an increase in the numbers that follow the major version number (e.g. the update from Coati 1.0.0 to Coati 1.1.0).
+•	A major version of Sourcetrail in executable form. The major version is defined by the leading number of the version string (e.g. the major version of Sourcetrail 1.x.x is version 1);
+•	documentation for that major version of Sourcetrail;
+•	minor updates included in software maintenance which are indicated by an increase in the numbers that follow the major version number (e.g. the update from Sourcetrail 1.0.0 to Sourcetrail 1.1.0).
 "Licensor" means:
 •	Coati Software OG, having a place of business at Jakob-Haringer-Straße 1/127, 5020 Salzburg, Austria.
 "Licensee" means:
@@ -83,7 +83,7 @@ Portions of the Software utilize or include third party software and other copyr
 
 ENTIRE AGREEMENT
 
-This Agreement represents the complete agreement concerning this Software between the parties and supersedes all prior agreements and representations between them. It may be amended only in writing executed by both parties. Coati Software OG reserves the exclusive right to periodically update this Agreement at its discretion at any time, with reasonable notice to you by posting the new Agreement at the following URL: <http://www.coati.io/>. Any action arising out of or relating to this Agreement may be brought exclusively in Salzburg, Austria, and Coati Software OG and you irrevocably consent to the jurisdiction of such courts and venue in Salzburg, Austria.
+This Agreement represents the complete agreement concerning this Software between the parties and supersedes all prior agreements and representations between them. It may be amended only in writing executed by both parties. Coati Software OG reserves the exclusive right to periodically update this Agreement at its discretion at any time, with reasonable notice to you by posting the new Agreement at the following URL: <http://www.sourcetrail.com/>. Any action arising out of or relating to this Agreement may be brought exclusively in Salzburg, Austria, and Coati Software OG and you irrevocably consent to the jurisdiction of such courts and venue in Salzburg, Austria.
 
 
 CONTACT
@@ -94,4 +94,4 @@ Jakob-Haringer-Straße 1/127
 5020 Salzburg
 Austria
 
-support@coati.io
+support@sourcetrail.com

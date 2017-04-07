@@ -43,7 +43,7 @@ void deep_thought()
 //------------------------------------------------------------------------------
 //
 // 2 - CONTEXT
-//  We just talked about Coati providing context to the important lines of code.
+//  We just talked about Sourcetrail providing context to the important lines of code.
 //  But it feels like something is missing here. What is "the_question"? And
 //  where does it come from?
 //
@@ -51,7 +51,7 @@ void deep_thought()
 //  Do you see the first line of this snippet? I mean the one that has just two
 //  dots as line number and reads "deep_thought". Actually that's the name of
 //  the function's scope that encapsulates the snippet. By clicking that line
-//  you can tell Coati to expand the view to show the entire scope.
+//  you can tell Sourcetrail to expand the view to show the entire scope.
 //  Give it a try!
 //
 //------------------------------------------------------------------------------

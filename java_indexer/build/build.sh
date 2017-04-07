@@ -44,13 +44,13 @@ else
 	CLASSPATH+=$ROOT_DIR"/lib/javaparser-core.jar"
 fi
 
-javac -d ./classes -classpath $CLASSPATH src/io/coati/*.java
+javac -d ./classes -classpath $CLASSPATH src/com/sourcetrail/*.java
 
 mkdir -p bin
 
 cd classes
 
-jar cvf ../bin/java-indexer.jar io/coati/*.class
+jar cvf ../bin/java-indexer.jar com/sourcetrail/*.class
 
 cd ..
 

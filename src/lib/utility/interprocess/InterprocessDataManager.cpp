@@ -8,7 +8,7 @@
 #include "InterprocessUtility.h"
 #include "SharedQueue.h"
 
-std::string InterprocessDataManager::m_sharedArgumentQueueName = "coati_parser_arguments";
+std::string InterprocessDataManager::m_sharedArgumentQueueName = "sourcetrail_parser_arguments";
 
 InterprocessDataManager::InterprocessDataManager(const bool isOwner)
 	: m_isOwner(isOwner)

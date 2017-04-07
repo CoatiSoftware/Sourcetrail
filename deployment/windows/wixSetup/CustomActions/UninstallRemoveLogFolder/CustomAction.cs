@@ -35,34 +35,34 @@ namespace SetupAppSettings
         private static void RemoveLogFolder()
         {
             // remove logs
-            string path = Environment.GetEnvironmentVariable("APPDATA") + "\\..\\local\\Coati Software\\Coati\\log";
+            string path = Environment.GetEnvironmentVariable("APPDATA") + "\\..\\local\\Coati Software\\Sourcetrail\\log";
             if (Directory.Exists(path))
             {
                 Directory.Delete(path, true);
             }
 
             // remove sample projects
-            path = Environment.GetEnvironmentVariable("APPDATA") + "\\..\\local\\Coati Software\\Coati\\projects\\tutorial";
+            path = Environment.GetEnvironmentVariable("APPDATA") + "\\..\\local\\Coati Software\\Sourcetrail\\projects\\tutorial";
             if(Directory.Exists(path))
             {
                 Directory.Delete(path, true);
             }
 
-            path = Environment.GetEnvironmentVariable("APPDATA") + "\\..\\local\\Coati Software\\Coati\\projects\\tictactoe";
+            path = Environment.GetEnvironmentVariable("APPDATA") + "\\..\\local\\Coati Software\\Sourcetrail\\projects\\tictactoe";
             if (Directory.Exists(path))
             {
                 Directory.Delete(path, true);
             }
 
             // remove projects folder if empty (avoid deleting user generated files)
-            path = Environment.GetEnvironmentVariable("APPDATA") + "\\..\\local\\Coati Software\\Coati\\projects";
+            path = Environment.GetEnvironmentVariable("APPDATA") + "\\..\\local\\Coati Software\\Sourcetrail\\projects";
             if (Directory.Exists(path) && !Directory.EnumerateFileSystemEntries(path).Any())
             {
                 Directory.Delete(path, true);
             }
 
-            // remove coati folder if empty (may not be empty if user stored stuff in here)
-            path = Environment.GetEnvironmentVariable("APPDATA") + "\\..\\local\\Coati Software\\Coati";
+            // remove sourcetrail folder if empty (may not be empty if user stored stuff in here)
+            path = Environment.GetEnvironmentVariable("APPDATA") + "\\..\\local\\Coati Software\\Sourcetrail";
             if (Directory.Exists(path) && !Directory.EnumerateFileSystemEntries(path).Any())
             {
                 Directory.Delete(path, true);
@@ -74,9 +74,9 @@ namespace SetupAppSettings
                 Directory.Delete(path, true);
             }
 
-            //string coatiPath = Environment.GetEnvironmentVariable("APPDATA") + "\\..\\local\\Coati Software";
+            //string sourcetrailPath = Environment.GetEnvironmentVariable("APPDATA") + "\\..\\local\\Coati Software";
 
-            //Directory.Delete(coatiPath, true);
+            //Directory.Delete(sourcetrailPath, true);
         }
     }
 }

@@ -275,7 +275,7 @@ std::string NetworkProtocolHelper::buildPingMessage()
 
 	messageStream << m_pingPrefix;
 	messageStream << m_divider;
-	messageStream << "coati";
+	messageStream << "sourcetrail";
 	messageStream << m_endOfMessageToken;
 
 	return messageStream.str();

@@ -99,12 +99,12 @@ void QtProjectWizzardContentPreferences::populate(QGridLayout* layout, int& row)
 	// Plugins
 	addTitle("PLUGIN", layout, row);
 
-	// Coati port
-	m_coatiPort = addLineEdit("Coati Port",
-		"Port number that Coati uses to listen for incoming messages from plugins.", layout, row);
+	// Sourcetrail port
+	m_sourcetrailPort = addLineEdit("Sourcetrail Port",
+		"Port number that Sourcetrail uses to listen for incoming messages from plugins.", layout, row);
 
-	// Coati port
-	m_pluginPort = addLineEdit("Plugin Port", "Port number that Coati sends outgoing messages to.", layout, row);
+	// Sourcetrail port
+	m_pluginPort = addLineEdit("Plugin Port", "Port number that Sourcetrail sends outgoing messages to.", layout, row);
 
 	addGap(layout, row);
 
@@ -150,7 +150,7 @@ void QtProjectWizzardContentPreferences::populate(QGridLayout* layout, int& row)
 		"Only required for indexing Java projects.\n"
 		"Provide the location of the jvm library inside the installation of your " + javaVersionString +
 		" runtime environment (for information on how to set these take a look at "
-		"<a href=\"https://coati.io/documentation/#FindingJavaRuntimeLibraryLocation\">"
+		"<a href=\"https://sourcetrail.com/documentation/#FindingJavaRuntimeLibraryLocation\">"
 		"Finding Java Runtime Library Location</a> or use the auto detection below)").c_str()
 		, layout, row
 	);
@@ -225,7 +225,7 @@ void QtProjectWizzardContentPreferences::load()
 	m_scrollSpeed->setText(QString::number(appSettings->getScrollSpeed(), 'f', 1));
 	m_graphZooming->setChecked(appSettings->getControlsGraphZoomOnMouseWheel());
 
-	m_coatiPort->setText(QString::number(appSettings->getCoatiPort()));
+	m_sourcetrailPort->setText(QString::number(appSettings->getSourcetrailPort()));
 	m_pluginPort->setText(QString::number(appSettings->getPluginPort()));
 
 	m_threads->setCurrentIndex(appSettings->getIndexerThreadCount() - 1);
@@ -265,8 +265,8 @@ void QtProjectWizzardContentPreferences::save()
 
 	appSettings->setControlsGraphZoomOnMouseWheel(m_graphZooming->isChecked());
 
-	int coatiPort = m_coatiPort->text().toInt();
-	if (coatiPort) appSettings->setCoatiPort(coatiPort);
+	int sourcetrailPort = m_sourcetrailPort->text().toInt();
+	if (sourcetrailPort) appSettings->setSourcetrailPort(sourcetrailPort);
 
 	int pluginPort = m_pluginPort->text().toInt();
 	if (pluginPort) appSettings->setPluginPort(pluginPort);

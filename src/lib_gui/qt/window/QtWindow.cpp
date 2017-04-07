@@ -426,14 +426,15 @@ void QtWindow::setupDone()
 
 void QtWindow::addLogo()
 {
-	QtDeviceScaledPixmap coatiLogo((ResourcePaths::getGuiPath() + "window/logo.png").c_str());
-	coatiLogo.scaleToWidth(150);
+	QtDeviceScaledPixmap sourcetrailLogo((ResourcePaths::getGuiPath() + "window/logo.png").c_str());
+	sourcetrailLogo.scaleToWidth(240);
 
-	QLabel* coatiLogoLabel = new QLabel(this);
-	coatiLogoLabel->setPixmap(coatiLogo.pixmap());
-	coatiLogoLabel->resize(coatiLogo.width(), coatiLogo.height());
-	coatiLogoLabel->move(30, 25);
-	coatiLogoLabel->show();
+
+	QLabel* sourcetrailLogoLabel = new QLabel(this);
+	sourcetrailLogoLabel->setPixmap(sourcetrailLogo.pixmap());
+	sourcetrailLogoLabel->resize(sourcetrailLogo.width(), sourcetrailLogo.height());
+	sourcetrailLogoLabel->move(30, 25);
+	sourcetrailLogoLabel->show();
 
 	m_hasLogo = true;
 	resize(sizeHint());

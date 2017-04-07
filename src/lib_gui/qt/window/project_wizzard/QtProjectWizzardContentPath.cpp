@@ -134,7 +134,7 @@ std::vector<std::string> QtProjectWizzardContentPathSourceMaven::getFileNames() 
 	if (!success)
 	{
 		const std::string dialogMessage =
-			"Coati was unable to locate Maven on this machine.\n"
+			"Sourcetrail was unable to locate Maven on this machine.\n"
 			"Please make sure to provide the correct Maven Path in the preferences.";
 
 		MessageStatus(dialogMessage, true, false).dispatch();

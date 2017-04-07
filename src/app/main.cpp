@@ -129,7 +129,7 @@ void prefillCxxFrameworkPaths()
 
 int main(int argc, char *argv[])
 {
-	QApplication::setApplicationName("Coati");
+	QApplication::setApplicationName("Sourcetrail");
 
 	if (QSysInfo::windowsVersion() != QSysInfo::WV_None)
 	{
@@ -139,7 +139,7 @@ int main(int argc, char *argv[])
 	Version version = Version::fromString(GIT_VERSION_NUMBER);
 	QApplication::setApplicationVersion(version.toDisplayString().c_str());
 
-	MessageStatus("Starting Coati " + version.toDisplayString()).dispatch();
+	MessageStatus("Starting Sourcetrail " + version.toDisplayString()).dispatch();
 
 	CommandLineParser commandLineParser(argc, argv, version.toString());
 	if (commandLineParser.exitApplication())
@@ -151,7 +151,7 @@ int main(int argc, char *argv[])
 	{
 		setupPlatform(argc, argv);
 
-		// headless Coati
+		// headless Sourcetrail
 		QtCoreApplication qtApp(argc, argv);
 
 		setupApp(argc, argv);
@@ -187,7 +187,7 @@ int main(int argc, char *argv[])
 		if (!checker->isCurrentLicenseValid()) // this works because the user cannot enter a license string while running the app in headless more.
 		{
 			std::cout << "No or invalide License" << std::endl;
-			LOG_WARNING("Your current Coati license seems to be invalid. Please update your license info.");
+			LOG_WARNING("Your current Sourcetrail license seems to be invalid. Please update your license info.");
 			return 0;
 		}
 		else
@@ -264,7 +264,7 @@ int main(int argc, char *argv[])
 					fileStrings += "<li>" + filePath.str() + "</li>";
 				}
 				Application::getInstance()->handleDialog(
-					"<p>It seems that Coati shut down unexpectedly while indexing your project. We are sorry about that. "
+					"<p>It seems that Sourcetrail shut down unexpectedly while indexing your project. We are sorry about that. "
 					"But let's go on and find out what exactly went wrong. The crash occurred while indexing one of these files:</p>"
 					"<ul>" +
 					fileStrings +
@@ -277,14 +277,14 @@ int main(int argc, char *argv[])
 			else
 			{
 				Application::getInstance()->handleDialog(
-					"<p>It seems that Coati shut down unexpectedly while indexing your project. We are really sorry about that. "
+					"<p>It seems that Sourcetrail shut down unexpectedly while indexing your project. We are really sorry about that. "
 					"At least we know which of your source files caused the crash:</p>"
 					"<ul>"
 					"<li>" + storedIndexingFiles.front().str() + "</li>" +
 					"</ul>"
 					"<p>To find out which part of the file caused the crash, please make sure to remove everything except this source file from your Project Paths. "
 					"Enable the option \"Indexer Logging\" in your preferences (this really slows down indexing performance) and force-refresh the project.</p>"
-					"<p>After the expected crash reoccurred please open the respective log file which now contains the portion of the abstract syntax tree that Coati managed to index, "
+					"<p>After the expected crash reoccurred please open the respective log file which now contains the portion of the abstract syntax tree that Sourcetrail managed to index, "
 					"including the node where the crash occurred. We hope that this information helps you figure out what caused the crash and tell us what we can do to reproduce it.</p>"
 				);
 			}

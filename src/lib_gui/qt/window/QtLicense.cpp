@@ -59,7 +59,7 @@ void QtLicense::setErrorMessage(const QString& errorMessage)
 void QtLicense::populateWindow(QWidget* widget)
 {
 	QVBoxLayout* subLayout = new QVBoxLayout();
-	subLayout->setContentsMargins(200, 0, 0, 0);
+	subLayout->setContentsMargins(270, 0, 0, 0);
 
 	QLabel* licenseName = new QLabel();
 	licenseName->setText(QString::fromLatin1("Enter Licence"));
@@ -69,7 +69,7 @@ void QtLicense::populateWindow(QWidget* widget)
 	subLayout->addSpacing(10);
 
 	QLabel* licenseIntro = new QLabel();
-	licenseIntro->setText(QString::fromLatin1("Please enter a licence key to activate Coati:"));
+	licenseIntro->setText(QString::fromLatin1("Please enter a licence key to activate Sourcetrail:"));
 	licenseIntro->setObjectName("licenseIntro");
 	subLayout->addWidget(licenseIntro);
 
@@ -80,7 +80,7 @@ void QtLicense::populateWindow(QWidget* widget)
 		"-----BEGIN LICENSE-----\n"
 		"Jane Doe\n"
 		"Single User License\n"
-		"Coati 0\n"
+		"Sourcetrail 0\n"
 		"xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx\n"
 		"xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx\n"
 		"xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx\n"
@@ -102,8 +102,12 @@ void QtLicense::populateWindow(QWidget* widget)
 
 	QLabel* linkLabel = new QLabel(this);
 	linkLabel->setObjectName("linkLabel");
-	linkLabel->setText("<a href=\"https://coati.io/buy-license\" style=\"color: #007AC2;\">Don't have a license key yet?</a>");
+	linkLabel->setText(
+		"Don't have a license key yet? "
+		"Please <a href=\"http://sourcetrail.com/buy-license\" style=\"color: #007AC2;\">purchase a license</a>, "
+		"or get a temporary <a href=\"http://sourcetrail.com/test-license\" style=\"color: #007AC2;\">test license</a>.");
 	linkLabel->setOpenExternalLinks(true);
+	linkLabel->setWordWrap(true);
 	linkLabel->setGeometry(275, 300, 300, 50);
 	subLayout->addWidget(linkLabel);
 

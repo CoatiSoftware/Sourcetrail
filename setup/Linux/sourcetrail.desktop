@@ -1,0 +1,11 @@
+[Desktop Entry]
+Name=Sourcetrail
+GenericName=Sourcetrail
+X-GNOME-FullName=Sourcetrail
+Comment=Code Explorer
+Exec=/usr/bin/sourcetrail
+Icon=sourcetrail
+Terminal=true
+Type=Application
+MimeType=application/x-sourcetrail;
+StartupNotify=true

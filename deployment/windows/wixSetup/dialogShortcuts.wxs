@@ -11,7 +11,7 @@
 					<Text>{\DlgTitleFont}Create shortcuts</Text>
 				</Control>
 				<Control Id="Description" Type="Text" X="25" Y="23" Width="280" Height="15" Transparent="yes" NoPrefix="yes">
-					<Text>Do you want to create shortcuts for Coati?</Text>
+					<Text>Do you want to create shortcuts for Sourcetrail?</Text>
 				</Control>
 				
 				<Control Id="DesktopShortcutCheckBox" Type="CheckBox" X="25" Y="50" Width="290" Height="17"

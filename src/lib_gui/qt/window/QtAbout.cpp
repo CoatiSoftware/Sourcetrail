@@ -45,13 +45,16 @@ void QtAbout::setupAbout()
 			QVBoxLayout* column = new QVBoxLayout();
 			row->addLayout(column);
 
-			QtDeviceScaledPixmap coatiLogo((ResourcePaths::getGuiPath() + "about/logo_coati.png").c_str());
-			coatiLogo.scaleToHeight(180);
-			QLabel* coatiLogoLabel = new QLabel(this);
-			coatiLogoLabel->setPixmap(coatiLogo.pixmap());
-			coatiLogoLabel->resize(coatiLogo.width(), coatiLogo.height());
-			column->addWidget(coatiLogoLabel);
+			QtDeviceScaledPixmap sourcetrailLogo((ResourcePaths::getGuiPath() + "about/logo_sourcetrail.png").c_str());
+			sourcetrailLogo.scaleToHeight(150);
+			QLabel* sourcetrailLogoLabel = new QLabel(this);
+			sourcetrailLogoLabel->setPixmap(sourcetrailLogo.pixmap());
+			sourcetrailLogoLabel->resize(sourcetrailLogo.width(), sourcetrailLogo.height());
+			column->addWidget(sourcetrailLogoLabel);
 		}
+
+		row->addSpacing(20);
+
 		{
 			QVBoxLayout* column = new QVBoxLayout();
 			row->addLayout(column);
@@ -83,6 +86,9 @@ void QtAbout::setupAbout()
 			column->addSpacing(-10);
 		}
 	}
+
+	windowLayout->addSpacing(10);
+
 	{
 		QHBoxLayout* row = new QHBoxLayout();
 		windowLayout->addLayout(row);
@@ -97,10 +103,10 @@ void QtAbout::setupAbout()
 	windowLayout->addWidget(acknowledgementsTitle);
 
 	QLabel* acknowledgementsLabel = new QLabel(
-		"Coati 0.1 was created in the context of education at<br />"
+		"Sourcetrail (aka Coati) 0.1 was created in the context of education at<br />"
 		"<a href=\"http://www.fh-salzburg.ac.at/en/\" style=\"color: white;\">Salzburg University of Applied Sciences</a>.<br />"
 		"Coati Software OG takes part in the <a href=\"http://www.startup-salzburg.at/\" style=\"color: white;\">Startup Salzburg</a> initiative.<br />"
-		"The development of Coati is funded by <a href=\"http://awsg.at\" style=\"color: white;\">aws</a>.",
+		"The development of Sourcetrail was funded by <a href=\"http://awsg.at\" style=\"color: white;\">aws</a>.",
 		this
 	);
 	acknowledgementsLabel->setOpenExternalLinks(true);
@@ -117,8 +123,8 @@ void QtAbout::setupAbout()
 			"Jakob-Haringer-Straße 1/127<br />"
 			"5020 Salzburg<br />"
 			"Austria<br />"
-			"<b>support@coati.io</b><br />"
-			"<b><a href=\"https://coati.io\" style=\"color: white;\">coati.io</a></b>",
+			"<b>support@sourcetrail.com</b><br />"
+			"<b><a href=\"https://sourcetrail.com\" style=\"color: white;\">sourcetrail.com</a></b>",
 			this);
 		companyLabel->setOpenExternalLinks(true);
 		row->addWidget(companyLabel);

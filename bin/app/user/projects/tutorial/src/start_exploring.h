@@ -13,10 +13,10 @@
 //  Here comes the bad news: Even though this tutorial contains some code that 
 //  would compile, the code doesn't make much sense. So trying to explore this 
 //  project any further would be rather unproductive.
-//  The good news is: In addition to this tutorial Coati also ships with a real
+//  The good news is: In addition to this tutorial Sourcetrail also ships with a real
 //  example project that implements the game Tic-Tac-Toe! You can open the 
 //  project via the "Project -> Recent Projects" menu.
-//  You can also start exploring your own projects by creating a new Coati 
+//  You can also start exploring your own projects by creating a new Sourcetrail 
 //  project where you can add all your source and include paths.
 //
 //------------------------------------------------------------------------------

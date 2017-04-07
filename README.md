@@ -1,4 +1,4 @@
-## Coati
+## Sourcetrail
 
 ### Setup
 
@@ -85,7 +85,7 @@ $ ./script/setup.sh
 
 #### App
 * create release build
-* make sure it uses the Coati icon
+* make sure it uses the Sourcetrail icon
 * obfuscate the executable using upx
 
 #### Data folder
@@ -93,11 +93,10 @@ $ ./script/setup.sh
 * add empty log folder
 * add working tictactoe.xml project to /projects/tictactoe with sources in /projects/tictactoe/src
 * add empty app settings with one recent project tictactoe.xml
-* leave window_settings.ini with correct Coati start layout
+* leave window_settings.ini with correct Sourcetrail start layout
 
 #### Package
 * add app
-* add web/coati_manual.pdf to package
 
 #### Updating Clang on UNIX
 
@@ -132,10 +131,10 @@ $ git push --tags
 ### Loader gif creation from png sequence
 
 // from png sequence
-convert -delay 3 -loop 0 coati_*.png coati.gif
+convert -delay 3 -loop 0 souretrail_*.png souretrail.gif
 
 // less colors
-gifsicle --colors 255 coati.gif > color.gif
+gifsicle --colors 255 souretrail.gif > color.gif
 
 // crop size
 gifsicle --crop 0,5+0x-5 color.gif > crop.gif

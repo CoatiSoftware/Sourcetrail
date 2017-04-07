@@ -2,7 +2,7 @@
 -Start VS and load a C/C++ solution (best mixed with multiple projects)
 	-Check all projects are loaded in Solution Explorer
 -Check Plugin Logging and Obfuscation is off
-	-VS Menu Bar -> Tools -> Options -> Coati -> Logging & Obfuscation is off
+	-VS Menu Bar -> Tools -> Options -> Sourcetrail -> Logging & Obfuscation is off
 -Delete log file and dictionary for current VS session if present
 	-delete log file for current session at ..AppData/Local/Coati Software/Plugin/VS if present
 	-delete dictionary file for current session at ..AppData/Local/Coati Software/Plugin/VS if present
@@ -38,10 +38,10 @@
 	-Check ..AppData/Local/Coati Software/Plugin/VS for no new log created
 	-Check ..AppData/Local/Coati Software/Plugin/VS for no new dictionary created
 -Turn on Logging
-	-VS Menu Bar -> Tools -> Options -> Coati -> Logging ON & Obfuscation OFF
+	-VS Menu Bar -> Tools -> Options -> Sourcetrail -> Logging ON & Obfuscation OFF
 -Enable VS Output Window
 	-VS Menu Bar -> View -> Output
-	-In Output Window, show Coati log (Show Output from: Coati Log)
+	-In Output Window, show Sourcetrail log (Show Output from: Sourcetrail Log)
 -Create CDB from solution again
 	-Check location and name is the same as last time
 	-Check dialogue asking whether to overwrite old file or not
@@ -58,7 +58,7 @@
 	-Check ..AppData/Local/Coati Software/Plugin/VS for new log created
 	-Check ..AppData/Local/Coati Software/Plugin/VS for no new dictionary created
 -Turn on Obfuscation
-	-VS Menu Bar -> Tools -> Options -> Coati -> Logging ON & Obfuscation ON
+	-VS Menu Bar -> Tools -> Options -> Sourcetrail -> Logging ON & Obfuscation ON
 -Create CDB from solution again
 	-Check unloaded project is not in the listed projects in the dialogue
 	-Check location and name is the same as first time
@@ -84,7 +84,7 @@
 	-Click Create
 	-Close Progress Bar before CDB is finished
 		-Check no new CDB was created
--Switch to Coati
+-Switch to Sourcetrail
 	-Keep Visual Studio running
 	-Open the 'New Project From Visual Studio Solution'
 	-Click 'Create CDB' button
@@ -92,5 +92,5 @@
 	-Create a new CDB with Settings of your choice
 	-Wait for CDB to be finished
 		-Click 'Yes' in the 'CDB finished' dialog
-	-Switch back to Coati
+	-Switch back to Sourcetrail
 	-Check prefilled data is correct

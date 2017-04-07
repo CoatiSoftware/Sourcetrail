@@ -151,7 +151,7 @@ QtProjectWizzardContentPathsSource::QtProjectWizzardContentPathsSource(
 
 	setTitleString("Indexed Paths");
 	setHelpString(
-		"Indexed Paths define the files and directories that will be indexed by Coati. Provide a directory to recursively "
+		"Indexed Paths define the files and directories that will be indexed by Sourcetrail. Provide a directory to recursively "
 		"add all contained files.<br />"
 		"<br />"
 		"If your project's source code resides in one location, but generated source files are kept at a different location, "
@@ -215,11 +215,11 @@ QtProjectWizzardContentPathsCDBHeader::QtProjectWizzardContentPathsCDBHeader(
 
 	setTitleString("Indexed Header Paths");
 	setHelpString(
-		"Define which header files should be indexed by Coati. Provide a directory to recursively add all contained files. "
-		"Every time an included header is encountered, Coati will check if the file is part of the indexed headers to "
+		"Define which header files should be indexed by Sourcetrail. Provide a directory to recursively add all contained files. "
+		"Every time an included header is encountered, Sourcetrail will check if the file is part of the indexed headers to "
 		"decide whether or not to index it.<br />"
 		"<br />"
-		"Just enter the root path of your project if you want Coati to index all contained headers it encounters.<br />"
+		"Just enter the root path of your project if you want Sourcetrail to index all contained headers it encounters.<br />"
 		"<br />"
 		"You can make use of environment variables with ${ENV_VAR}."
 	);
@@ -244,7 +244,7 @@ bool QtProjectWizzardContentPathsCDBHeader::check()
 		QMessageBox msgBox;
 		msgBox.setText("You didn't specify any Indexed Header Paths.");
 		msgBox.setInformativeText(
-			"Coati will only index the source files listed in the compilation database file and none of the included "
+			"Sourcetrail will only index the source files listed in the compilation database file and none of the included "
 			"header files.");
 		msgBox.setStandardButtons(QMessageBox::Ok | QMessageBox::Cancel);
 		msgBox.setDefaultButton(QMessageBox::Ok);
@@ -269,7 +269,7 @@ void QtProjectWizzardContentPathsCDBHeader::buttonClicked()
 		m_filesDialog = std::make_shared<QtSelectPathsDialog>(
 			"Select from Include Paths",
 			"The list contains all Include Paths found in the Compilation Database. Red paths do not exist. Select the "
-			"paths containing the header files you want to index with Coati.");
+			"paths containing the header files you want to index with Sourcetrail.");
 		m_filesDialog->setup();
 
 
@@ -376,7 +376,7 @@ QtProjectWizzardContentPathsHeaderSearchGlobal::QtProjectWizzardContentPathsHead
 		"The Global Include Paths will be used in all your projects - in addition to the project specific Include Paths. "
 		"These paths are usually passed to the compiler with the '-isystem' flag.<br />"
 		"<br />"
-		"Use them to add system header paths (See <a href=\"https://coati.io/documentation/#FindingSystemHeaderLocations\">"
+		"Use them to add system header paths (See <a href=\"https://sourcetrail.com/documentation/#FindingSystemHeaderLocations\">"
 		"Finding System Header Locations</a> or use the auto detection below)."
 	);
 
@@ -444,7 +444,7 @@ QtProjectWizzardContentPathsFrameworkSearchGlobal::QtProjectWizzardContentPathsF
 		"Framework Search Paths.<br />"
 		"<br />"
 		"They define where MacOS framework containers (.framework) are found "
-		"(See <a href=\"https://coati.io/documentation/#FindingSystemHeaderLocations\">"
+		"(See <a href=\"https://sourcetrail.com/documentation/#FindingSystemHeaderLocations\">"
 		"Finding System Header Locations</a> or use the auto detection below)."
 	);
 

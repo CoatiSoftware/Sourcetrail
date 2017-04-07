@@ -3,7 +3,7 @@ function(InstallQtModule module qtversion componentName)
 	get_filename_component(realpath $ENV{QT_DIR}/lib/libQt5${module}.so.${qtversion} REALPATH)
 	INSTALL(FILES
 		${realpath}
-		DESTINATION Coati/lib
+		DESTINATION Sourcetrail/lib
 		COMPONENT ${componentName}
 		RENAME libQt5${module}.so.${qtversion}
 	)
@@ -26,7 +26,7 @@ function(GetAndInstallLibrary libraryName componentName)
 	else()
 		INSTALL(FILES
 			${realPath}
-			DESTINATION Coati/lib
+			DESTINATION Sourcetrail/lib
 			COMPONENT ${componentName}
 			RENAME ${SHORTER}
 		)
@@ -45,7 +45,7 @@ endfunction(InstallQt)
 function(AddSharedToComponent componentName)
 	INSTALL(DIRECTORY
 		${CMAKE_SOURCE_DIR}/bin/app/data
-		DESTINATION Coati
+		DESTINATION Sourcetrail
 		COMPONENT ${componentName}
 		PATTERN "log/*" EXCLUDE
 		PATTERN "data/src" EXCLUDE
@@ -59,7 +59,7 @@ function(AddSharedToComponent componentName)
 	INSTALL(FILES
 		${CMAKE_SOURCE_DIR}/bin/app/data/gui/installer/EULA.txt
 		COMPONENT ${componentName}
-		DESTINATION Coati
+		DESTINATION Sourcetrail
 	)
 
 	InstallQt(5 ${componentName})
@@ -99,24 +99,24 @@ function(AddSharedToComponent componentName)
 
 	INSTALL(DIRECTORY
 		$ENV{QT_DIR}/plugins/platforms
-		DESTINATION Coati/lib
+		DESTINATION Sourcetrail/lib
 		COMPONENT ${componentName}
 	)
 
 	INSTALL(FILES
 		${CMAKE_SOURCE_DIR}/bin/app/data/fallback/ApplicationSettings.xml
 		COMPONENT ${componentName}
-		DESTINATION Coati/user
+		DESTINATION Sourcetrail/user
 	)
 
 	INSTALL(FILES
 		${CMAKE_SOURCE_DIR}/bin/app/data/fallback/window_settings.ini
 		COMPONENT ${componentName}
-		DESTINATION Coati/user
+		DESTINATION Sourcetrail/user
 	)
 
 	INSTALL(DIRECTORY ${CMAKE_SOURCE_DIR}/bin/app/user
-		DESTINATION Coati
+		DESTINATION Sourcetrail
 		COMPONENT ${componentName}
 		PATTERN "ApplicationSettings.xml" EXCLUDE
 		PATTERN "ApplicationSettings_for_package.xml" EXCLUDE
@@ -132,21 +132,21 @@ AddSharedToComponent(FULL)
 
 INSTALL(DIRECTORY
 	${CMAKE_SOURCE_DIR}/ide_plugins/
-	DESTINATION Coati/plugin
+	DESTINATION Sourcetrail/plugin
 	COMPONENT FULL
 	PATTERN "vs" EXCLUDE
 )
 
 INSTALL(FILES
 	${CMAKE_SOURCE_DIR}/setup/Linux/README
-	DESTINATION Coati
+	DESTINATION Sourcetrail
 	COMPONENT FULL
 )
 
 INSTALL(FILES
-	${CMAKE_SOURCE_DIR}/setup/Linux/coati.desktop
-	${CMAKE_SOURCE_DIR}/setup/Linux/coati-mime.xml
-	DESTINATION Coati/setup
+	${CMAKE_SOURCE_DIR}/setup/Linux/sourcetrail.desktop
+	${CMAKE_SOURCE_DIR}/setup/Linux/sourcetrail-mime.xml
+	DESTINATION Sourcetrail/setup
 	COMPONENT FULL
 	)
 
@@ -154,19 +154,19 @@ INSTALL(PROGRAMS
 	${CMAKE_SOURCE_DIR}/setup/Linux/install.sh
 	${CMAKE_SOURCE_DIR}/setup/Linux/deinstall.sh
 	${CMAKE_SOURCE_DIR}/setup/Linux/removeConfigs.sh
-	DESTINATION Coati/setup
+	DESTINATION Sourcetrail/setup
 	COMPONENT FULL
 	)
 
 INSTALL(PROGRAMS
-	${CMAKE_SOURCE_DIR}/setup/Linux/Coati.sh
-	DESTINATION Coati
+	${CMAKE_SOURCE_DIR}/setup/Linux/Sourcetrail.sh
+	DESTINATION Sourcetrail
 	COMPONENT FULL
 )
 
 INSTALL(TARGETS
 	${APP_PROJECT_NAME}
-	DESTINATION Coati
+	DESTINATION Sourcetrail
 	COMPONENT FULL
 )
 
@@ -188,11 +188,11 @@ else()
 	set(VERSION_NUMBER "${VERSION_MAJOR}_${VERSION_MINOR}_${VERSION_COMMIT}")
 endif()
 
-SET(CPACK_PACKAGE_NAME "Coati")
+SET(CPACK_PACKAGE_NAME "Sourcetrail")
 SET(CPACK_PACKAGING_INSTALL_PREFIX "")
 SET(CPACK_INCLUDE_TOPLEVEL_DIRECTORY 0)
-#SET(CPACK_TOPLEVEL_TAG "Coati")
-SET(CPACK_PACKAGING_INSTALL_DIRECTORY "Coati")
+#SET(CPACK_TOPLEVEL_TAG "Sourcetrail")
+SET(CPACK_PACKAGING_INSTALL_DIRECTORY "Sourcetrail")
 SET(CPACK_PACKAGE_VERSION ${VERSION_NUMBER})
 SET(CPACK_PACKAGE_VENDOR "Coati Software")
 SET(CPACK_INSTALL_SCRIPT "${CMAKE_SOURCE_DIR}/cmake/pre_install_linux.cmake")
@@ -201,8 +201,8 @@ if(${CMAKE_SYSTEM_PROCESSOR} STREQUAL "x86_64")
 else()
 	SET(CPACK_SYSTEM_NAME "${CMAKE_SYSTEM_NAME}_32bit")
 endif()
-SET(CPACK_PACKAGE_FILE_NAME "Coati_${VERSION_NUMBER}_${CPACK_SYSTEM_NAME}")
-SET(CPACK_STRIP_FILES "Coati/coati")
+SET(CPACK_PACKAGE_FILE_NAME "Sourcetrail_${VERSION_NUMBER}_${CPACK_SYSTEM_NAME}")
+SET(CPACK_STRIP_FILES "Sourcetrail/sourcetrail")
 SET(CPACK_PACKAGE_CONTACT "astallinger@coati.io")
 
 INCLUDE(CPack)

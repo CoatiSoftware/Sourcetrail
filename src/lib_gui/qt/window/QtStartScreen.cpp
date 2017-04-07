@@ -161,12 +161,12 @@ void QtStartScreen::setupStartScreen(bool unlocked)
 			col->addSpacing(4);
 
 			QLabel* welcomeLabel = new QLabel(
-				"Welcome to the <b>Coati Trial</b>!<br /><br />"
-				"Explore our preindexed projects to experience Coati's unique user interface. "
-				"More projects are available for download <a href=\"http://coati.io/downloads#extra\" style=\"color: #007AC2;\">here</a>.<br /><br />"
-				"If you want to use Coati on your own source code please "
-				"<a href=\"http://coati.io/buy-license\" style=\"color: #007AC2;\">purchase a license</a>, "
-				"or ask us for a temporary test license by writing to <b>support@coati.io</b>.", this);
+				"Welcome to the trial version of <b>Sourcetrail</b>!<br /><br />"
+				"Explore our preindexed projects to experience Sourcetrail's unique user interface. "
+				"More projects are available for download <a href=\"http://sourcetrail.com/downloads#extra\" style=\"color: #007AC2;\">here</a>.<br /><br />"
+				"If you want to use Sourcetrail on your own source code please "
+				"<a href=\"http://sourcetrail.com/buy-license\" style=\"color: #007AC2;\">purchase a license</a>, "
+				"or get a temporary <a href=\"http://sourcetrail.com/test-license\" style=\"color: #007AC2;\">test license</a>.", this);
 			welcomeLabel->setOpenExternalLinks(true);
 			welcomeLabel->setObjectName("welcomeLabel");
 			welcomeLabel->setWordWrap(true);
@@ -204,7 +204,7 @@ void QtStartScreen::setupStartScreen(bool unlocked)
 			col->addWidget(versionLabel);
 
 			QLabel* updateLabel = new QLabel(
-				"<a href=\"https://coati.io/downloads\" style=\"color: #007AC2;\">check for new version</a>", this);
+				"<a href=\"https://sourcetrail.com/downloads\" style=\"color: #007AC2;\">check for new version</a>", this);
 			updateLabel->setOpenExternalLinks(true);
 			updateLabel->setObjectName("updateLabel");
 			col->addWidget(updateLabel);

@@ -35,9 +35,9 @@ protected:
 	std::string m_containerName;
 };
 
-const std::string SharedContainer::m_memoryNamePrefix("coati_memory_");
+const std::string SharedContainer::m_memoryNamePrefix("sourcetrail_memory_");
 
-const std::string SharedContainer::m_containerNamePrefix("coati_container_");
+const std::string SharedContainer::m_containerNamePrefix("sourcetrail_container_");
 
 std::string SharedContainer::getMemoryNamePrefix()
 {

@@ -59,7 +59,7 @@ private:
 	QLineEdit* m_scrollSpeed;
 	QCheckBox* m_graphZooming;
 
-	QLineEdit* m_coatiPort;
+	QLineEdit* m_sourcetrailPort;
 	QLineEdit* m_pluginPort;
 
 	QComboBox* m_threads;

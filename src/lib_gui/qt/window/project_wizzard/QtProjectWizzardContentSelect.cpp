@@ -44,15 +44,15 @@ void QtProjectWizzardContentSelect::populate(QGridLayout* layout, int& row)
 	m_projectTypeIconName[SOURCE_GROUP_JAVA_MAVEN] = "mvn_icon";
 
 	// define descriptions for each kind of project
-	m_projectTypeDescriptions[SOURCE_GROUP_C_EMPTY] = "Create a new Coati project by defining which C files will be indexed.";
-	m_projectTypeDescriptions[SOURCE_GROUP_CPP_EMPTY] = "Create a new Coati project by defining which C++ files will be indexed.";
+	m_projectTypeDescriptions[SOURCE_GROUP_C_EMPTY] = "Create a new Sourcetrail project by defining which C files will be indexed.";
+	m_projectTypeDescriptions[SOURCE_GROUP_CPP_EMPTY] = "Create a new Sourcetrail project by defining which C++ files will be indexed.";
 	m_projectTypeDescriptions[SOURCE_GROUP_CXX_CDB] = "Create a project from an existing Compilation Database (compile_commands.json). They can be created from Make and "
-		"CMake projects. Have a look at the <a href=\"https://coati.io/documentation/#CreateAProjectFromCompilationDatabase\">"
+		"CMake projects. Have a look at the <a href=\"https://sourcetrail.com/documentation/#CreateAProjectFromCompilationDatabase\">"
 		"documentation</a> to find out more.";
 	m_projectTypeDescriptions[SOURCE_GROUP_CXX_VS] = "Create a new project from an existing Visual Studio Solution file. "
 		"<b>Note: Requires a running Visual Studio instance with the "
-		"<a href=\"https://coati.io/documentation/index.html#VisualStudio\">Visual Studio plugin</a> installed.";
-	m_projectTypeDescriptions[SOURCE_GROUP_JAVA_EMPTY] = "Create a new Coati project by defining which Java files will be indexed.";
+		"<a href=\"https://sourcetrail.com/documentation/index.html#VisualStudio\">Visual Studio plugin</a> installed.";
+	m_projectTypeDescriptions[SOURCE_GROUP_JAVA_EMPTY] = "Create a new Sourcetrail project by defining which Java files will be indexed.";
 	m_projectTypeDescriptions[SOURCE_GROUP_JAVA_MAVEN] = "Create a new project from an existing Maven project.";
 
 	QVBoxLayout* vlayout = new QVBoxLayout();

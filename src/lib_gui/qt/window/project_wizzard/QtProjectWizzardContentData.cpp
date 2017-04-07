@@ -112,7 +112,7 @@ bool QtProjectWizzardContentData::check()
 	if (m_projectFileLocation->getText().isEmpty())
 	{
 		QMessageBox msgBox;
-		msgBox.setText("Please define the location for the Coati project file.");
+		msgBox.setText("Please define the location for the Sourcetrail project file.");
 		msgBox.exec();
 		return false;
 	}
@@ -131,7 +131,7 @@ bool QtProjectWizzardContentData::check()
 
 void QtProjectWizzardContentData::addNameAndLocation(QGridLayout* layout, int& row)
 {
-	QLabel* nameLabel = createFormLabel("Coati Project Name");
+	QLabel* nameLabel = createFormLabel("Sourcetrail Project Name");
 	m_projectName = new QLineEdit();
 	m_projectName->setObjectName("name");
 	m_projectName->setAttribute(Qt::WA_MacShowFocusRect, 0);
@@ -139,16 +139,17 @@ void QtProjectWizzardContentData::addNameAndLocation(QGridLayout* layout, int& r
 
 	layout->addWidget(nameLabel, row, QtProjectWizzardWindow::FRONT_COL, Qt::AlignRight);
 	layout->addWidget(m_projectName, row, QtProjectWizzardWindow::BACK_COL);
+	layout->setRowMinimumHeight(row, 30);
 	row++;
 
-	QLabel* locationLabel = createFormLabel("Coati Project Location");
+	QLabel* locationLabel = createFormLabel("Sourcetrail Project Location");
 	m_projectFileLocation = new QtLocationPicker(this);
 	m_projectFileLocation->setPickDirectory(true);
 	m_projectFileLocation->setEnabled(!m_disableNameEditing);
 
 	layout->addWidget(locationLabel, row, QtProjectWizzardWindow::FRONT_COL, Qt::AlignRight);
 	layout->addWidget(m_projectFileLocation, row, QtProjectWizzardWindow::BACK_COL, Qt::AlignTop);
-	addHelpButton("The directory where Coati project files will be saved to.", layout, row);
+	addHelpButton("The directory where Sourcetrail project files will be saved to.", layout, row);
 	layout->setRowMinimumHeight(row, 30);
 	row++;
 }
@@ -181,7 +182,7 @@ void QtProjectWizzardContentData::addBuildFilePicker(
 	row++;
 
 	QLabel* description = new QLabel(
-		"Coati will use all include paths and compiler flags from the compilation database and stay up-to-date "
+		"Sourcetrail will use all include paths and compiler flags from the compilation database and stay up-to-date "
 		"with changes on refresh.", this);
 	description->setObjectName("description");
 	description->setWordWrap(true);
@@ -314,9 +315,9 @@ void QtProjectWizzardContentDataCDBVS::populate(QGridLayout* layout, int& row)
 	layout->addWidget(nameLabel, row, QtProjectWizzardWindow::FRONT_COL);
 
 	addHelpButton("To create a new Compilation Database from a Visual Studio Solution, this Solution has to be open in Visual Studio.\n\
-Coati will call Visual Studio to open the 'Create Compilation Database' dialog.\
+Sourcetrail will call Visual Studio to open the 'Create Compilation Database' dialog.\
  Please follow the instructions in Visual Studio to complete the process.\n\
-Note: Coati's Visual Studio plugin has to be installed. Visual Studio has to be running with an eligible Solution, containing C/C++ projects, loaded.", layout, row);
+Note: Sourcetrail's Visual Studio plugin has to be installed. Visual Studio has to be running with an eligible Solution, containing C/C++ projects, loaded.", layout, row);
 
 	QLabel* descriptionLabel = createFormLabel("Call Visual Studio to create a Compilation Database from the loaded Solution.");
 	descriptionLabel->setObjectName("description");

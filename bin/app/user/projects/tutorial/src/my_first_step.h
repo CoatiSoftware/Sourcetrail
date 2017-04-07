@@ -8,19 +8,19 @@
 //------------------------------------------------------------------------------
 //
 // WHAT JUST HAPPENED?
-//  Coati uses the concept of an "active" symbol. You just changed the active
+//  Sourcetrail uses the concept of an "active" symbol. You just changed the active
 //	symbol by clicking on the name of a function. 
 //
 // OK, BUT WHAT IS AN ACTIVE SYMBOL?
-//  Coati doesn't show your entire code base on a single screen. Even for 
+//  Sourcetrail doesn't show your entire code base on a single screen. Even for 
 //  relatively small projects that would be pointless - trust me on that. So 
-//  instead of showing everything at once, Coati keeps a strongly focused view 
+//  instead of showing everything at once, Sourcetrail keeps a strongly focused view 
 //  on your code. This focus only includes the currently active symbol and its 
 //  direct relations. Nothing more. By changing the active symbol as you just 
-//  did, Coati allows you to jump through the code base on your own.
+//  did, Sourcetrail allows you to jump through the code base on your own.
 //
 // I THINK I GOT IT!
-//  Now that you understand Coati's central concept you are ready to activate 
+//  Now that you understand Sourcetrail's central concept you are ready to activate 
 //  the "my_next_step()" symbol below.
 //
 //------------------------------------------------------------------------------

@@ -13,17 +13,20 @@
 		<DirectoryRef Id='INSTALLDIR'>
 
 			<Component Id='MainExecutable' Guid='A6136907-B3C5-4393-88D7-2ACF63E138A8' Win64="$(var.Win64)">
-				<File Id='CoatiEXE' Name='Coati.exe' DiskId='1' Source='$(var.PlatformSourceFolder)/Coati.exe' KeyPath='yes' />
+				<File Id='SourcetrailEXE' Name='Sourcetrail.exe' DiskId='1' Source='$(var.PlatformSourceFolder)/Sourcetrail.exe' KeyPath='yes' />
 
 				<!-- File association -->
-				<RegistryValue Root="HKLM" Key="SOFTWARE\Classes\[ProductName].Document" Name="projectfile" Value="Coati project file" Type="string" />
-				<ProgId Id='Coati.coatiprojectfile' Description='Coati project file' Advertise='yes' Icon='Project.ico'>
+				<RegistryValue Root="HKLM" Key="SOFTWARE\Classes\[ProductName].Document" Name="projectfile" Value="Sourcetrail project file" Type="string" />
+				<ProgId Id='Sourcetrail.sourcetrailprojectfile' Description='Sourcetrail project file' Advertise='yes' Icon='Project.ico'>
+					<Extension Id='srctrlprj'>  <!-- ContentType='application/sourcetrailproject' Advertise='no' -->
+						<Verb Id='open' Command='Open' Argument='"%1"' />
+						<MIME Advertise='yes' ContentType='application/sourcetrailproject' Default='yes' />
+					</Extension>
 					<Extension Id='coatiproject'>  <!-- ContentType='application/coatiproject' Advertise='no' -->
 						<Verb Id='open' Command='Open' Argument='"%1"' />
 						<MIME Advertise='yes' ContentType='application/coatiproject' Default='yes' />
 					</Extension>
 				</ProgId>
-
 			</Component>
 
 			<Component Id='Qt5CoreDll' Guid='0C899A49-DE40-4D35-A0E9-9B64E330BCFA' Win64="$(var.Win64)">
@@ -283,8 +286,8 @@
 						<Component Id='LogoAwsPng' Guid='B20C4EB0-1782-4575-A653-F48DE9D9C4B8' Win64="$(var.Win64)">
 							<File Id='LogoAws' Name='logo_aws.png' DiskId='1' Source='./../../../bin/app/data/gui/about/logo_aws.png' KeyPath='yes' />
 						</Component>
-						<Component Id='LogoCoatiPng' Guid='3ACD90D9-6099-4E95-AD99-AF7CD695BEB9' Win64="$(var.Win64)">
-							<File Id='LogoCoati' Name='logo_coati.png' DiskId='1' Source='./../../../bin/app/data/gui/about/logo_coati.png' KeyPath='yes' />
+						<Component Id='LogoSourcetrailPng' Guid='3ACD90D9-6099-4E95-AD99-AF7CD695BEB9' Win64="$(var.Win64)">
+							<File Id='LogoSourcetrail' Name='logo_sourcetrail.png' DiskId='1' Source='./../../../bin/app/data/gui/about/logo_sourcetrail.png' KeyPath='yes' />
 						</Component>
 						<Component Id='LogoFhsPng' Guid='1CEBF789-6E41-4E33-A04B-5B809343C665' Win64="$(var.Win64)">
 							<File Id='LogoFhs' Name='logo_fhs.png' DiskId='1' Source='./../../../bin/app/data/gui/about/logo_fhs.png' KeyPath='yes' />
@@ -438,8 +441,8 @@
 						<Component Id='Cdb_icon_Png' Guid='BFEF4175-69DA-49E3-A650-9C5995A3E8E7' Win64="$(var.Win64)">
 							<File Id='Cdb_icon' Name='cdb_icon.png' DiskId='1' Source='./../../../bin/app/data/gui/icon/cdb_icon.png' KeyPath='yes' />
 						</Component>
-						<Component Id='CoatiIco' Guid='9D65B057-EA87-4251-8898-9FAD23AD3371' Win64="$(var.Win64)">
-							<File Id='Coati' Name='coati.ico' DiskId='1' Source='./../../../bin/app/data/gui/icon/coati.ico' KeyPath='yes' />
+						<Component Id='SourcetrailIco' Guid='9D65B057-EA87-4251-8898-9FAD23AD3371' Win64="$(var.Win64)">
+							<File Id='Sourcetrail' Name='sourcetrail.ico' DiskId='1' Source='./../../../bin/app/data/gui/icon/sourcetrail.ico' KeyPath='yes' />
 						</Component>
 						<Component Id='Cpp_icon_Png' Guid='B9EB2C3F-6256-4F54-9F8C-7DC338424839' Win64="$(var.Win64)">
 							<File Id='Cpp_icon' Name='cpp_icon.png' DiskId='1' Source='./../../../bin/app/data/gui/icon/cpp_icon.png' KeyPath='yes' />

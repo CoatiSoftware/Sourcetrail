@@ -32,7 +32,7 @@ bool TestSuiteFixture::setUpWorld()
 	if (!homedir.empty())
 	{
 		if(!ApplicationSettings::getInstance()->load(
-			FilePath(homedir + "/.config/coati/ApplicationSettings.xml")
+			FilePath(homedir + "/.config/sourcetrail/ApplicationSettings.xml")
 		))
 		{
 			std::cout << "no settings" << std::endl;

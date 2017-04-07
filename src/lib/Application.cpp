@@ -343,7 +343,7 @@ void Application::updateTitle()
 {
 	if (m_hasGUI)
 	{
-		std::string title = m_isInTrial ? "Coati Trial" : "Coati";
+		std::string title = m_isInTrial ? "Sourcetrail Trial" : "Sourcetrail";
 
 		if (m_project)
 		{

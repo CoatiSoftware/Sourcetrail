@@ -1,5 +1,5 @@
-#ifndef COATI_LICENSE_H
-#define COATI_LICENSE_H
+#ifndef SOURCETRAIL_LICENSE_H
+#define SOURCETRAIL_LICENSE_H
 
 #include <memory>
 #include <string>
@@ -84,4 +84,4 @@ private:
     const std::vector<std::string> NON_COMMERCIAL_LICENSE_TYPES = { { "Private/Academic Single User License" } };
 };
 
-#endif // COATI_LICENSE_H
+#endif // SOURCETRAIL_LICENSE_H

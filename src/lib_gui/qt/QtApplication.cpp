@@ -33,7 +33,7 @@ bool QtApplication::event(QEvent *event)
 
 		FilePath path(fileEvent->file().toStdString());
 
-		if (path.exists() && path.extension() == ".coatiproject")
+		if (path.exists() && (path.extension() == ".srctrlprj" || path.extension() == ".coatiproject"))
 		{
 			MessageLoadProject(path.str(), false).dispatch();
 			return true;

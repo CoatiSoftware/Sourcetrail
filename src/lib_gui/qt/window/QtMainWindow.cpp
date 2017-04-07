@@ -240,6 +240,7 @@ void QtMainWindow::forceEnterLicense(bool expired)
 	else
 	{
 		enterLicenseWindow->clear();
+		enterLicenseWindow->setErrorMessage("Please re-enter your license key.");
 	}
 }
 
@@ -301,7 +302,7 @@ void QtMainWindow::openSettings()
 
 void QtMainWindow::showDocumentation()
 {
-	QDesktopServices::openUrl(QUrl("https://coati.io/documentation/"));
+	QDesktopServices::openUrl(QUrl("https://sourcetrail.com/documentation/"));
 }
 
 void QtMainWindow::showKeyboardShortcuts()
@@ -312,7 +313,7 @@ void QtMainWindow::showKeyboardShortcuts()
 
 void QtMainWindow::showBugtracker()
 {
-	QDesktopServices::openUrl(QUrl("https://github.com/CoatiSoftware/CoatiBugTracker/issues"));
+	QDesktopServices::openUrl(QUrl("https://github.com/CoatiSoftware/SourcetrailBugTracker/issues"));
 }
 
 void QtMainWindow::showLicenses()
@@ -378,14 +379,6 @@ void QtMainWindow::showStartScreen()
 		ApplicationSettings::getInstance()->setLicenseString("");
 	}
 
-	if (state != LicenseChecker::LICENSE_VALID && state != LicenseChecker::LICENSE_EMPTY)
-	{
-		forceEnterLicense(state == LicenseChecker::LICENSE_EXPIRED);
-	}
-
-
-	// MessageDisplayBookmarks(MessageDisplayBookmarks::BookmarkFilter::ALL, MessageDisplayBookmarks::BookmarkOrder::NONE).dispatch();
-	// return;
 
 	QtStartScreen* startScreen = createWindow<QtStartScreen>();
 	startScreen->setupStartScreen(licenseValid);
@@ -393,6 +386,12 @@ void QtMainWindow::showStartScreen()
 	connect(startScreen, SIGNAL(openOpenProjectDialog()), this, SLOT(openProject()));
 	connect(startScreen, SIGNAL(openNewProjectDialog()), this, SLOT(newProject()));
 	connect(startScreen, SIGNAL(openEnterLicenseDialog()), this, SLOT(enterLicense()));
+
+
+	if (state != LicenseChecker::LICENSE_VALID && state != LicenseChecker::LICENSE_EMPTY)
+	{
+		forceEnterLicense(state == LicenseChecker::LICENSE_EXPIRED);
+	}
 }
 
 void QtMainWindow::hideStartScreen()
@@ -427,7 +426,7 @@ void QtMainWindow::newProjectFromCDB(const std::string& filePath, const std::vec
 
 void QtMainWindow::openProject()
 {
-	QString fileName = QFileDialog::getOpenFileName(this, tr("Open File"), "", "Coati Project Files (*.coatiproject)");
+	QString fileName = QFileDialog::getOpenFileName(this, tr("Open File"), "", "Sourcetrail Project Files (*.srctrlprj *.coatiproject)");
 
 	if (!fileName.isEmpty())
 	{
@@ -677,7 +676,7 @@ void QtMainWindow::setupHelpMenu()
 	menu->addSeparator();
 
 	menu->addAction(tr("3rd Party Licences"), this, SLOT(showLicenses()));
-	menu->addAction(tr("&About Coati"), this, SLOT(about()));
+	menu->addAction(tr("&About Sourcetrail"), this, SLOT(about()));
 
 	menu->addSeparator();
 

@@ -23,23 +23,23 @@ CommandLineParser::CommandLineParser(int argc, char** argv, const std::string& v
 	std::string projectfile_db;
 	std::string licensefile;
 	std::string licensetext;
-	po::options_description desc("Coati");
+	po::options_description desc("Sourcetrail");
 	desc.add_options()
 		("help,h", "Print this help message")
-		("version,v", "Version of Coati")
-		("project,p", "Load Coati with a Coatiprojectfile")
+		("version,v", "Version of Sourcetrail")
+		("project,p", "Load Sourcetrail with a Sourcetrailprojectfile")
 		;
 	po::positional_options_description positionalOption;
 	positionalOption.add("project-file", 1);
 
 	po::options_description hidden_desc("hidden commandlineflags");
 	hidden_desc.add_options()
-		("force,f", "Force coati to parse if database exists")
+		("force,f", "Force sourcetrail to parse if database exists")
 		("licenseFile,z", po::value<std::string>(&licensefile), "Enter license via Licensefile")
 		("license,l", po::value<std::string>(&licensetext), "Enter licenes via commandline")
 		("hidden", "Print this help message with hidden arguments")
-		("database,d", "Start coati to parse a Coati projectfile to get a coatidatabase")
-		("project-file", po::value<std::string>(&projectfile), "Coati project file");
+		("database,d", "Start sourcetrail to parse a Sourcetrail projectfile to get a sourcetraildatabase")
+		("project-file", po::value<std::string>(&projectfile), "Sourcetrail project file");
 		;
 	po::options_description all("Allowed options");
 	all.add(desc).add(hidden_desc);
@@ -87,7 +87,7 @@ CommandLineParser::CommandLineParser(int argc, char** argv, const std::string& v
 
 	if (vm.count("version"))
 	{
-		std::cout << "Coati Version " << version << std::endl;
+		std::cout << "Sourcetrail Version " << version << std::endl;
 		m_quit = true;
 	}
 
@@ -159,7 +159,7 @@ void CommandLineParser::processProjectfile(const std::string& file)
 		return;
 	}
 
-	if (projectfile.extension() != ".coatiproject")
+	if (projectfile.extension() != ".srctrlprj" && projectfile.extension() != ".coatiproject")
 	{
 		m_errorString = errorstring + " has a wrong fileending";
 		return;
@@ -177,7 +177,8 @@ void CommandLineParser::processProjectfile(const std::string& file)
 
 void CommandLineParser::projectLoad()
 {
-	if (m_projectFile.exists() && m_projectFile.extension() == ".coatiproject")
+	if (m_projectFile.exists() &&
+		(m_projectFile.extension() == ".srctrlprj" || m_projectFile.extension() == ".coatiproject"))
 	{
 		MessageLoadProject(m_projectFile.str(), m_force).dispatch();
 	}

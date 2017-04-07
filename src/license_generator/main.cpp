@@ -22,7 +22,7 @@ bool process_command_line(int argc, char** argv)
 		int days = 0;
         int seats = 0;
 
-        po::options_description modes_description("Coati Generator Modes");
+        po::options_description modes_description("Sourcetrail Generator Modes");
         modes_description.add_options()
             ("key,k", "Generate the private and public key")
             ("generate,g", po::value<std::string>(&user), "Generate a License, USERNAME as value")
@@ -30,7 +30,7 @@ bool process_command_line(int argc, char** argv)
 
         po::options_description required("Required Options");
         required.add_options()
-            ("version,v", po::value<std::string>(&version), "Versionnumber of Coati");
+            ("version,v", po::value<std::string>(&version), "Versionnumber of Sourcetrail");
 
         po::options_description keygen_description("Options Keygeneration");
         keygen_description.add_options()
@@ -45,12 +45,12 @@ bool process_command_line(int argc, char** argv)
             ("license-file", po::value<std::string>(&licenseFile), "Custom license")
             ("hidden", "Print this help message");
 
-        po::options_description desc("Coati Generator");
+        po::options_description desc("Sourcetrail Generator");
         desc.add_options()
             ("help,h", "Print this help message");
         desc.add(modes_description).add(required).add(keygen_description);
 
-        po::options_description allDescriptions("Coati Generator");
+        po::options_description allDescriptions("Sourcetrail Generator");
         allDescriptions.add_options();
         allDescriptions.add(modes_description).add(required).add(keygen_description).add(hidden_description);
 

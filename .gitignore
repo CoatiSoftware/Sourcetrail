@@ -2,24 +2,13 @@
 /distr/
 /deps/
 
-/bin/app/Debug/
-/bin/app/Release/
 /bin/app/data/projects/ignored/
 /bin/app/data/java/
 /bin/app/user/log/
 /bin/app/user/ApplicationSettings.xml
 /bin/app/user/window_settings.ini
+/bin/app/*.log
 
-/bin/lib/
-/bin/lib_gui/
-/bin/lib_parser/
-/bin/lib_license/
-
-/bin/license_generator/Debug/
-/bin/license_generator/Release/
-
-/bin/test/Debug/
-/bin/test/Release/
 /bin/test/data/log/
 /bin/test/data/temp.xml
 /bin/test/data/TestSettings.xml
@@ -32,21 +21,25 @@
 .DS_Store
 .idea
 
-/ide_plugins/vs/vs2015/CoatiPlugin/CoatiPlugin/bin
-/ide_plugins/vs/vs2015/CoatiPlugin/CoatiPlugin/obj
+/ide_plugins/vs/vs2015/SourcetrailPlugin/SourcetrailPlugin/bin
+/ide_plugins/vs/vs2015/SourcetrailPlugin/SourcetrailPlugin/obj
 
 *.coatidb
+*.srctrldb
 *.suo
 *.vcxproj.user
 *.sqlite
 *.pch
 *.swp
 *.swo
+
 .clang_complete
 .ycm_extra_conf.py
 .ycm_extra_conf.pyc
-coati.coatiproject
+
+sourcetrail.srctrlprj
 compile_commands.json
+
 Makefile
 /__pycache__/
 

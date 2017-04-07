@@ -55,14 +55,27 @@ void setupPlatform(int argc, char *argv[])
 	// ----------------------------------------------------------------------------
 	// Makes the mac bundle copy the user files to the Application Support folder
 	QString dataPath = QStandardPaths::writableLocation(QStandardPaths::DataLocation);
+	QString oldDataPath = QString::fromStdString(UserPaths::getUserDataPath() + "user/");
 
 	QDir dataDir(dataPath);
 	if (!dataDir.exists())
 	{
 		dataDir.mkpath(dataPath);
+
+		if (dataPath.endsWith("Sourcetrail"))
+		{
+			QString coatiDataPath = dataPath;
+			coatiDataPath.append("/../Coati");
+
+			QDir coatiDataDir(coatiDataPath);
+			if (coatiDataDir.exists())
+			{
+				oldDataPath = coatiDataPath;
+			}
+		}
 	}
 
-	utility::copyNewFilesFromDirectory(QString::fromStdString(UserPaths::getUserDataPath() + "user/"), dataPath);
+	utility::copyNewFilesFromDirectory(oldDataPath, dataPath);
 
 	UserPaths::setUserDataPath(dataPath.toStdString() + "/");
 	// ----------------------------------------------------------------------------

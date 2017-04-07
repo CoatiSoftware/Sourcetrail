@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
 	<key>CFBundleDisplayName</key>
-	<string>Coati</string>
+	<string>Sourcetrail</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>English</string>
 	<key>CFBundleExecutable</key>
@@ -13,7 +13,7 @@
 	<key>CFBundleIconFile</key>
 	<string></string>
 	<key>CFBundleIdentifier</key>
-	<string>io.coati</string>
+	<string>com.sourcetrail</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleLongVersionString</key>
@@ -46,9 +46,10 @@
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
 			<key>CFBundleTypeName</key>
-			<string>Coati Project</string>
+			<string>Sourcetrail Project</string>
 			<key>CFBundleTypeExtensions</key>
 			<array>
+				<string>srctrlprj</string>
 				<string>coatiproject</string>
 			</array>
 			<key>CFBundleTypeIconFile</key>

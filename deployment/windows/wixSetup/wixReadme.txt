@@ -9,13 +9,13 @@ Build the installer
 		- http://wixtoolset.org/releases/
 		-I used stable version 3.10.3 for development
 		-make sure the WiX directory is in you OS path variable ('..\WiX Toolset v3.10\bin')
-	-Coati has to be built with the 'deploy' flag
-		-installer would still build if the deploy flag wasnt set, but the Coati wont run properly on a user machine
+	-Sourcetrail has to be built with the 'deploy' flag
+		-installer would still build if the deploy flag wasnt set, but the Sourcetrail wont run properly on a user machine
 
 -Execute build.bat
-	-This will build coati.msi file, all needed custom action dlls and the setup.exe file
-	-setup.exe and coati.msi are needed to install
-		-setup.exe checks whether coati is installed and will either start the initial installation or the upgrade installation
+	-This will build sourcetrail.msi file, all needed custom action dlls and the setup.exe file
+	-setup.exe and sourcetrail.msi are needed to install
+		-setup.exe checks whether sourcetrail is installed and will either start the initial installation or the upgrade installation
 
 
 ---------------------
@@ -65,16 +65,16 @@ Add new file to the installation directory (installDir.wxs)
 	
 
 Add new file to the user folder (appDataDir.wxs)
-	-files that will be changed by coati or the user should be put here
+	-files that will be changed by sourcetrail or the user should be put here
 	-needs a RegistryKey element within the component element to provide the KeyPath
 		- <RegistryKey Action="none" Key="Software\[Manufacturer]\[ProductName]\>yourKeyNameHere<" Root="HKCU" >
 				<RegistryValue Type="integer" Value="1" KeyPath="yes" />
 			</RegistryKey>
 	
 
-Not quite done yet! (coati.wxs)
+Not quite done yet! (sourcetrail.wxs)
 	-components need to be added to a feature (a feature is part of a software, consisting of components, that may or may not be installed during setup)
-		-right now we only have the Complete/Program feature, so no part of coati is optional right now
+		-right now we only have the Complete/Program feature, so no part of sourcetrail is optional right now
 	-to add a component to a feature use the <ComponentRef> tag
 		-Id: id of the component you want to refere to
 	
@@ -89,14 +89,14 @@ Version Number
 		-candle.exe -dprojectVersion="0.7.0" ...
 		-replace 0.7.0 with the desired version number
 
-Minor upgrage (coati.wxs)
+Minor upgrage (sourcetrail.wxs)
 	-for when only a few files are to be updated
 	-update the version number in build.bat script
 	-do NOT change the product GUID
 	-the package GUID has to change, that happens automatically though so don't worry 'bout it
 	
 
-Major upgrade (coati.wxs)
+Major upgrade (sourcetrail.wxs)
 	-for big changes, like a new major version
 	-update the version number in build.bat script
 	-DO change the product GUID

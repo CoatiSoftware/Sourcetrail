@@ -32,10 +32,10 @@ OUTPUT_DIR=bin/$WIN_ARCH
 rm -rf $OUTPUT_DIR
 mkdir $OUTPUT_DIR
 
-candle.exe -dProductVersion="$VERSION_STRING" -dProductGuid="$PRODUCT_GUID" -arch $X_ARCH coati.wxs customActions.wxs dialogShortcuts.wxs installDir.wxs appDataDir.wxs -out build/ > build/compileLog.txt
-light.exe -ext WixUIExtension build/coati.wixobj build/customActions.wixobj build/dialogShortcuts.wixobj build/installDir.wixobj build/appDataDir.wixobj -out build/coati.msi > build/linkLog.txt
+candle.exe -dProductVersion="$VERSION_STRING" -dProductGuid="$PRODUCT_GUID" -arch $X_ARCH sourcetrail.wxs customActions.wxs dialogShortcuts.wxs installDir.wxs appDataDir.wxs -out build/ > build/compileLog.txt
+light.exe -ext WixUIExtension build/sourcetrail.wixobj build/customActions.wixobj build/dialogShortcuts.wixobj build/installDir.wixobj build/appDataDir.wixobj -out build/sourcetrail.msi > build/linkLog.txt
 
-cp -u -r build/coati.msi $OUTPUT_DIR
+cp -u -r build/sourcetrail.msi $OUTPUT_DIR
 cp -u -r build/Setup.exe $OUTPUT_DIR
 cp -u -r lib/$WIN_ARCH/* $OUTPUT_DIR
 cp -u -r readme.txt $OUTPUT_DIR

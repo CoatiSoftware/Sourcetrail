@@ -21,7 +21,8 @@ void setupApp(int argc, char *argv[])
 	}
 
 	std::string userdir(std::getenv("HOME"));
-	userdir.append("/.config/coati/");
+	QDir coatiDir((userdir + "/.config/coati").c_str());
+	userdir.append("/.config/sourcetrail/");
 
 	UserPaths::setUserDataPath(userdir);
 
@@ -29,7 +30,14 @@ void setupApp(int argc, char *argv[])
 	QDir dataDir(userdir.c_str());
 	if (!dataDir.exists())
 	{
-		dataDir.mkpath(userDataPath);
+		if (coatiDir.exists())
+		{
+			utility::copyNewFilesFromDirectory(coatiDir.absolutePath(), userDataPath);
+		}
+		else
+		{
+			dataDir.mkpath(userDataPath);
+		}
 	}
 
 	utility::copyNewFilesFromDirectory(QString::fromStdString(AppPath::getAppPath() + "/user/" ), userDataPath);

@@ -32,16 +32,16 @@ void function_with_snippets()
 //------------------------------------------------------------------------------
 //
 // 8 - YOU FOUND THE HIDDEN COMMENT
-//  Well done! As you see Coati merged the two snippets from before because
+//  Well done! As you see Sourcetrail merged the two snippets from before because
 //  expanding a scope would have caused them to overlap. That's all for the code
 //  view tutorial.
 //
 // 9 - EDIT YOUR CODE
-//  In case you wondered if you can edit your code using Coati: You can't. Coati
+//  In case you wondered if you can edit your code using Sourcetrail: You can't. Sourcetrail
 //  is designed for code exploration, not as a text editor or an IDE. But there
-//  is a chance that Coati can talk to your favorite editor (that you already
+//  is a chance that Sourcetrail can talk to your favorite editor (that you already
 //  know how to operate) via plugin. For more information about available
-//  plugins please take a look at Coati's documentation.
+//  plugins please take a look at Sourcetrail's documentation.
 //
 //  We hope you enjoyed this tutorial. You can follow the call below to get back
 //  to the central hub.

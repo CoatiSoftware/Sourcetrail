@@ -2,13 +2,13 @@
 <html lang="en">
 	<head>
 		<meta charset="utf-8">
-		<title>Coati - Documentation</title>
+		<title>Sourcetrail - Documentation</title>
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<meta name="description" content="">
 		<meta name="author" content="">
 
 		<!-- styles -->
-		<link type="text/css" rel="stylesheet" href="css/coati.css" />
+		<link type="text/css" rel="stylesheet" href="css/sourcetrail.css" />
 		<link type="text/css" rel="stylesheet" href="css/bootstrap.css" />
 		<link type="text/css" rel="stylesheet" href="css/jquery.tocify.css" />
 		<link type="text/css" rel="stylesheet" href="css/jquery-ui.min.css" />
@@ -19,14 +19,14 @@
 		  _paq.push(['trackPageView']);
 		  _paq.push(['enableLinkTracking']);
 		  (function() {
-		    var u="//piwik.coati.io/";
+		    var u="//piwik.sourcetrail.com/";
 		    _paq.push(['setTrackerUrl', u+'piwik.php']);
 		    _paq.push(['setSiteId', 1]);
 		    var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
 		    g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'piwik.js'; s.parentNode.insertBefore(g,s);
 		  })();
 		</script>
-		<noscript><p><img src="//piwik.coati.io/piwik.php?idsite=1" style="border:0;" alt="" /></p></noscript> -->
+		<noscript><p><img src="//piwik.sourcetrail.com/piwik.php?idsite=1" style="border:0;" alt="" /></p></noscript> -->
 		<!-- End Piwik Code -->
 
 
@@ -71,7 +71,7 @@
 					<div id="nav">
 						<div class="row">
 							<div class="col-xs-12">
-								<p><span class="glyphicon glyphicon-arrow-left"></span> <a href="http://www.coati.io/">back to coati.io</a></p>
+								<p><span class="glyphicon glyphicon-arrow-left"></span> <a href="http://www.sourcetrail.com/">back to sourcetrail.com</a></p>
 							</div>
 						</div>
 						<div class="row" style="height:10px;"></div>
@@ -85,32 +85,18 @@
 				</div>
 				<div class="col-xs-12 col-sm-9 col-md-6">
 					<div class="row">
-						<div class="col-xs-4 col-xs-offset-4">
+						<div class="col-xs-6 col-xs-offset-3">
 							<img src="img/logo.png" style="width:100%;">
 						</div>
 					</div>
-					<div class="row" style="text-align:center;">
+					<div class="row" style="text-align:center; margin-top: 10px;">
 						<p>Documentation for version 0.11</p>
 					</div>
-
-					<div class="row" style="height:40px;"></div>
-					<address>
-						<strong>Coati Software OG</strong><br>
-						Jakob-Haringer-Straße 1/127<br>
-						5020 Salzburg<br>
-						Austria<br>
-					</address>
-
-					<address>
-						<strong>Contact</strong><br>
-						<a href="http://coati.io">coati.io</a><br>
-						<a href="mailto:mail@coati.io" target="_top">mail@coati.io</a><br>
-					</address>
 
 					<div class="row" style="height:20px;"></div>
 
 					<h1>QUICK START GUIDE</h1>
-					<p>This short introduction will briefly guide you through the project setup and the user interface of Coati. The bullet point lists will tell you what to do:</p>
+					<p>This short introduction will briefly guide you through the project setup and the user interface of Sourcetrail. The bullet point lists will tell you what to do:</p>
 					<div class="callout callout-info">
 						<strong>Tasks:</strong>
 						<ul>
@@ -120,7 +106,7 @@
 
 
 					<h2>Short description</h2>
-					<p>Coati is an interactive source explorer that simplifies navigation in existing source code. Coati's aim is to give answers to all your questions about your source code. Coati first indexes your code and gathers data about its structure and then provides you a simple interface consisting of three interactive views, each playing a key role in getting information:</p>
+					<p>Sourcetrail is an interactive source explorer that simplifies navigation in existing source code. Sourcetrail's aim is to give answers to all your questions about your source code. Sourcetrail first indexes your code and gathers data about its structure and then provides you a simple interface consisting of three interactive views, each playing a key role in getting information:</p>
 					<div class="row">
 						<div class="col-sm-8 col-sm-offset-2">
 							<img src="img/concept.png" style="width:100%;">
@@ -131,21 +117,21 @@
 						<li><strong>Graph:</strong> The graph displays the structure of your source code. It focuses on the currently selected symbol and directly shows all incoming and outgoing dependencies to other symbols.</li>
 						<li><strong>Code:</strong> The Code view displays all source locations of the currently selected symbol in a list of code snippets. Clicking on a different source location allows you to change the selection and dig deeper.</li>
 					</ul>
-					<p>Coati currently supports the languages C/C++ and Java. Much of the UI design is therefore based on these languages and might change as soon as other languages are supported. For more information have a look at <a href="#SupportedLanguages">supported languages</a>.</p>
+					<p>Sourcetrail currently supports the languages C/C++ and Java. Much of the UI design is therefore based on these languages and might change as soon as other languages are supported. For more information have a look at <a href="#SupportedLanguages">supported languages</a>.</p>
 
 
-					<h2>Starting up Coati</h2>
-					<p>Once you <a href="#INSTALLATION">installed</a> Coati successfully you are ready to run the application.</p>
+					<h2>Starting up Sourcetrail</h2>
+					<p>Once you <a href="#INSTALLATION">installed</a> Sourcetrail successfully you are ready to run the application.</p>
 					<div class="callout callout-info">
 						<strong>Tasks:</strong>
 						<ul>
-							<li>Run Coati</li>
+							<li>Run Sourcetrail</li>
 						</ul>
 					</div>
 
 
 					<h4>Start Window</h4>
-					<p>On every start of Coati you are shown the <a href="#StartWindow">Start Window</a>. It allows for creating new projects or opening existing ones. As long as you haven't unlocked Coati with a valid license key it is running in Trial mode.</p>
+					<p>On every start of Sourcetrail you are shown the <a href="#StartWindow">Start Window</a>. It allows for creating new projects or opening existing ones. As long as you haven't unlocked Sourcetrail with a valid license key it is running in Trial mode.</p>
 					<div class="row">
 						<div class="col-sm-8 col-sm-offset-2">
 							<img src="img/start_window_trial.png" style="width:100%;">
@@ -160,7 +146,7 @@
 					</div>
 
 					<h4>License Key Window</h4>
-					<p>The <a href="#EnterLicenseWindow">Enter License Window</a> allows you to enter enter the license key you received via e-mail after purchasing your Coati license.</p>
+					<p>The <a href="#EnterLicenseWindow">Enter License Window</a> allows you to enter enter the license key you received via e-mail after purchasing your Sourcetrail license.</p>
 					<div class="row">
 						<div class="col-sm-8 col-sm-offset-2">
 							<img src="img/license_key_window.png" style="width:100%;">
@@ -169,7 +155,7 @@
 					<div class="callout callout-info">
 						<strong>Tasks:</strong>
 						<ul>
-							<li>Open up the e-mail you received when purchasing your Coati license.</li>
+							<li>Open up the e-mail you received when purchasing your Sourcetrail license.</li>
 							<li>Copy & paste your license key into the text box and click <var>Activate</var>. The license key should follow the format shown by the placeholder text.</li>
 						</ul>
 					</div>
@@ -191,7 +177,7 @@
 
 
 					<h2>Creating a Project</h2>
-					<p>When creating a new Coati project you will use the <a href="#ProjectSetupWizard">project setup wizard</a>. This wizard splits the setup process into several subsequent steps. Depending on your projects structure and the used build system there are different types for project setup. Choosing the right setup method is important and can make the setup process a lot easier.</p>
+					<p>When creating a new Sourcetrail project you will use the <a href="#ProjectSetupWizard">project setup wizard</a>. This wizard splits the setup process into several subsequent steps. Depending on your projects structure and the used build system there are different types for project setup. Choosing the right setup method is important and can make the setup process a lot easier.</p>
 
 					<div class="row">
 						<div class="col-sm-8 col-sm-offset-2">
@@ -208,7 +194,7 @@
 					<p>The project setup types for C & C++ are the same.</p>
 
 					<strong>Are you using CMake or Make?</strong>
-					<p>If you are using <a href="https://cmake.org/">CMake</a> or <a href="https://www.gnu.org/software/make/">Make</a> as build environment you can export a <a href="https://clang.llvm.org/docs/JSONCompilationDatabase.html">clang JSON Compilaton Database</a> as <code>compile_commands.json</code> file. A Compilation Database holds all information necessary for building the project, such as source files, include paths and compiler flags. Having a Compilation Database makes project setup within Coati a lot easier. We recommend using this approach if possible.</p>
+					<p>If you are using <a href="https://cmake.org/">CMake</a> or <a href="https://www.gnu.org/software/make/">Make</a> as build environment you can export a <a href="https://clang.llvm.org/docs/JSONCompilationDatabase.html">clang JSON Compilaton Database</a> as <code>compile_commands.json</code> file. A Compilation Database holds all information necessary for building the project, such as source files, include paths and compiler flags. Having a Compilation Database makes project setup within Sourcetrail a lot easier. We recommend using this approach if possible.</p>
 
 					<p>Exporting a Compilation Database:</p>
 					<ul>
@@ -263,7 +249,7 @@
 					</div>
 
 					<h2>Source Indexing</h2>
-					<p>After the project is created, Coati will ask you whether you want to start indexing. Click <var>Start</var> and wait for the indexing to finish, which might take a little while. The <a href="#IndexingDialogs">Indexing Dialog</a> and the <a href="#Statusbar">status bar</a> will give you information about the progress. Otherwise the UI will be empty. Coati indexes all named symbols and their relationships throughout the provided source files.</p>
+					<p>After the project is created, Sourcetrail will ask you whether you want to start indexing. Click <var>Start</var> and wait for the indexing to finish, which might take a little while. The <a href="#IndexingDialogs">Indexing Dialog</a> and the <a href="#Statusbar">status bar</a> will give you information about the progress. Otherwise the UI will be empty. Sourcetrail indexes all named symbols and their relationships throughout the provided source files.</p>
 					<div class="row">
 						<div class="col-sm-10 col-sm-offset-1">
 							<img src="img/indexing.png" style="width:100%;">
@@ -274,10 +260,10 @@
 						<ul>
 							<li>Click <var>Start</var> when asked whether to start indexing.</li>
 							<li>Wait until the indexing of your source files has finished.</li>
-							<li>or Click <var>Stop</var> or press ESC to stop indexing (Coati will provide all information gathered so far and the indexing can be continued later by <a href="#Refresh">refreshing</a>).</li>
+							<li>or Click <var>Stop</var> or press ESC to stop indexing (Sourcetrail will provide all information gathered so far and the indexing can be continued later by <a href="#Refresh">refreshing</a>).</li>
 						</ul>
 					</div>
-					<p>After indexing has finished, Coati will show an overview of all indexed symbols in the <a href="#GraphView">graph view</a> and some statistics in the <a href="#CodeView">code view</a>.</p>
+					<p>After indexing has finished, Sourcetrail will show an overview of all indexed symbols in the <a href="#GraphView">graph view</a> and some statistics in the <a href="#CodeView">code view</a>.</p>
 
 					<p>If the indexing yielded errors, the status view will be shown with a list of errors. You can click on the errors label on the right side of the status bar or on one of the errors in the table to see their location.</p>
 					<div class="row">
@@ -288,14 +274,14 @@
 					<div class="callout callout-info">
 						<strong>Tasks:</strong>
 						<ul>
-							<li>Fix your errors and <a href="#Refresh">refresh</a> to reindex the files with errors (Open Issue: As long as there was no change in the specific file, Coati won't reindex it, use the <strong>Force Refresh</strong> option from the <a href="#Edit">Edit Menu</a>).</li>
+							<li>Fix your errors and <a href="#Refresh">refresh</a> to reindex the files with errors (Open Issue: As long as there was no change in the specific file, Sourcetrail won't reindex it, use the <strong>Force Refresh</strong> option from the <a href="#Edit">Edit Menu</a>).</li>
 							<li>or ignore them and continue with an incomplete index.</li>
 						</ul>
 					</div>
 
 
 					<h2>UI Intro</h2>
-					<p>As already mentioned Coati's user interface is split into three main views. Their arrangement can be changed however you wish, you can even detach them from the main window and put them on different screens (see <a href="#WidgetWindows">Window Widgets</a>).</p>
+					<p>As already mentioned Sourcetrail's user interface is split into three main views. Their arrangement can be changed however you wish, you can even detach them from the main window and put them on different screens (see <a href="#WidgetWindows">Window Widgets</a>).</p>
 					<div class="row">
 						<div class="col-sm-10 col-sm-offset-1">
 							<img src="img/main_screen.png" style="width:100%;">
@@ -310,7 +296,7 @@
 							<img src="img/search_view.png" style="width:100%;">
 						</div>
 					</div>
-					<p>When entering a search query the <a href="#AutocompletionPopup">autocompletion popup</a> will provide you with a concise list of all matching symbols. Note that Coati uses a fuzzy matching algorithm, that allows you to skip characters while entering a query.</p>
+					<p>When entering a search query the <a href="#AutocompletionPopup">autocompletion popup</a> will provide you with a concise list of all matching symbols. Note that Sourcetrail uses a fuzzy matching algorithm, that allows you to skip characters while entering a query.</p>
 					<div class="row">
 						<div class="col-sm-8 col-sm-offset-2">
 							<img src="img/search_view_completion.png" style="width:100%;">
@@ -390,10 +376,10 @@
 
 
 					<h2>Start exploring!</h2>
-					<p>After reading this quick guide, you know the basics of Coati's user interface and you are able to start exploring your codebase. Coati will allow you to see your source code from a whole new perspective, by giving you a concise overview of its parts and a faster way of drilling down to its internals, while always maintaining the connection to the implementation details of the actual source code.</p>
+					<p>After reading this quick guide, you know the basics of Sourcetrail's user interface and you are able to start exploring your codebase. Sourcetrail will allow you to see your source code from a whole new perspective, by giving you a concise overview of its parts and a faster way of drilling down to its internals, while always maintaining the connection to the implementation details of the actual source code.</p>
 					<p>For more detailed information please have a look at the much more extensive instruction manual below.</p>
-					<p>If you have feedback for us, please don't hesitate and let us know by writing to <a href="mailto:support@coati.io" target="_top">support@coati.io</a>, we'd be glad to hear from you.</p>
-					<p>The Coati team wishes you a good start with our product, lots of saved time, increased productivity and much cleaner code.</p>
+					<p>If you have feedback for us, please don't hesitate and let us know by writing to <a href="mailto:support@sourcetrail.com" target="_top">support@sourcetrail.com</a>, we'd be glad to hear from you.</p>
+					<p>The Sourcetrail team wishes you a good start with our product, lots of saved time, increased productivity and much cleaner code.</p>
 					<div class="callout callout-info">
 						<strong>Tasks:</strong>
 						<ul>
@@ -407,28 +393,28 @@
 					<h1>INTRODUCTION</h1>
 
 					<h2>About this document</h2>
-					<p>This document is the official documentation of Coati and explains everything you need to know about working with it.</p>
-					<p>If you have questions not answered by this document, please write us an e-mail to <a href="mailto:support@coati.io" target="_top">support@coati.io</a>.</p>
+					<p>This document is the official documentation of Sourcetrail and explains everything you need to know about working with it.</p>
+					<p>If you have questions not answered by this document, please write us an e-mail to <a href="mailto:support@sourcetrail.com" target="_top">support@sourcetrail.com</a>.</p>
 
 
 					<h2>Supported Languages</h2>
 					<h3>C</h3>
-					<p>C support is powered by <a href="http://clang.llvm.org/" target="_blank">Clang 3.9</a>. If you have a problem loading C code, please have a look at <a href="http://clang.llvm.org/compatibility.html" target="_blank">Clang language compatibility</a> or report a bug at our <a href="https://github.com/CoatiSoftware/CoatiBugTracker">bug tracker</a>.</p>
+					<p>C support is powered by <a href="http://clang.llvm.org/" target="_blank">Clang 3.9</a>. If you have a problem loading C code, please have a look at <a href="http://clang.llvm.org/compatibility.html" target="_blank">Clang language compatibility</a> or report a bug at our <a href="https://github.com/CoatiSoftware/SourcetrailBugTracker">bug tracker</a>.</p>
 
 					<h3>C++</h3>
-					<p>C++ support is powered by <a href="http://clang.llvm.org/" target="_blank">Clang 3.9</a>. For more Information please visit <a href="http://clang.llvm.org/cxx_status.html" target="_blank">Clang C++ Status</a>. If you have a problem loading C++ code, please have a look at <a href="http://clang.llvm.org/compatibility.html" target="_blank">Clang language compatibility</a> or report a bug at our <a href="https://github.com/CoatiSoftware/CoatiBugTracker">bug tracker</a>.</p>
+					<p>C++ support is powered by <a href="http://clang.llvm.org/" target="_blank">Clang 3.9</a>. For more Information please visit <a href="http://clang.llvm.org/cxx_status.html" target="_blank">Clang C++ Status</a>. If you have a problem loading C++ code, please have a look at <a href="http://clang.llvm.org/compatibility.html" target="_blank">Clang language compatibility</a> or report a bug at our <a href="https://github.com/CoatiSoftware/SourcetrailBugTracker">bug tracker</a>.</p>
 
 					<h3>Java</h3>
-					<p>Coati includes Java 8 support which is powered by <a href="http://javaparser.org/" target="_blank">JavaParser</a> and <a href="https://github.com/ftomassetti/java-symbol-solver" target="_blank">JavaSymbolSolver</a>. Java support still has some minor issues. If you encounter any of these issues, please let us know by providing a minimal example at our <a href="https://github.com/CoatiSoftware/CoatiBugTracker">bug tracker</a>.</p>
+					<p>Sourcetrail includes Java 8 support which is powered by <a href="http://javaparser.org/" target="_blank">JavaParser</a> and <a href="https://github.com/ftomassetti/java-symbol-solver" target="_blank">JavaSymbolSolver</a>. Java support still has some minor issues. If you encounter any of these issues, please let us know by providing a minimal example at our <a href="https://github.com/CoatiSoftware/SourcetrailBugTracker">bug tracker</a>.</p>
 
 					<h2>FAQ</h2>
 
 					<div class="panel panel-default">
 						<div class="panel-heading">
-							<h3 class="panel-title">Can I use Coati on confidental source code?</h3>
+							<h3 class="panel-title">Can I use Sourcetrail on confidental source code?</h3>
 						</div>
 						<div class="panel-body">
-							Yes. Coati works completely offline and establishes no connection to the internet whatsoever. All data stays on your computer.
+							Yes. Sourcetrail works completely offline and establishes no connection to the internet whatsoever. All data stays on your computer.
 						</div>
 					</div>
 
@@ -437,9 +423,9 @@
 							<h3 class="panel-title">What happens to the indexed data?</h3>
 						</div>
 						<div class="panel-body">
-							<p>Coati does two things with the data collected during indexing:</p>
+							<p>Sourcetrail does two things with the data collected during indexing:</p>
 							<ol>
-								<li>The data is stored in the <code>.coatidb</code> file in the same directory as the <code>.coatiproject</code> file. This database file is used by Coati to serve its purpose of letting you navigate your source code. And it allows Coati to reopen the project without reindexing the source code every time.</li>
+								<li>The data is stored in the <code>.sourcetraildb</code> file in the same directory as the <code>.sourcetrailproject</code> file. This database file is used by Sourcetrail to serve its purpose of letting you navigate your source code. And it allows Sourcetrail to reopen the project without reindexing the source code every time.</li>
 								<li>If logging is enabled, some of the data gets logged into a log file saved in <a href="#Datafolder">data</a>/logs. These logs can be useful to us for fixing bugs. We might ask for log information on bug reports, but you should only provide it, if your source code is not confidental.</li>
 							</ol>
 						</div>
@@ -451,10 +437,10 @@
 					<h1>INSTALLATION</h1>
 
 					<h2>On Windows</h2>
-					<p>Download and open the zip file and extract its contents into a temporary folder of your choice. Run the <var><code>setup.exe</code></var> and go through the wizard. You can now launch Coati from your start menu.</p>
+					<p>Download and open the zip file and extract its contents into a temporary folder of your choice. Run the <var><code>setup.exe</code></var> and go through the wizard. You can now launch Sourcetrail from your start menu.</p>
 
 					<h2>On Mac</h2>
-					<p>Download and open the Coati.dmg file and drag Coati.app into the applications folder. You can now launch Coati from your Applications.</p>
+					<p>Download and open the Sourcetrail.dmg file and drag Sourcetrail.app into the applications folder. You can now launch Sourcetrail from your Applications.</p>
 					<div class="row">
 						<div class="col-sm-8 col-sm-offset-2">
 							<img src="img/installation_mac.png" style="width:100%;">
@@ -462,20 +448,20 @@
 					</div>
 
 					<h2>On Linux</h2>
-					<p>Download Coati.tar.gz file and extract it. To start Coati run the <code>Coati.sh</code> script. Coati creates a folder <code>~/.config/coati</code> at the first run, this is the folder for Coati settings.
-					To Install Coati run the <code>setup/install.sh</code> Script with sudo, it will install Coati to <code>/opt/coati</code> and
-					create <code>/usr/bin/coati</code> symlink.</p>
+					<p>Download Sourcetrail.tar.gz file and extract it. To start Sourcetrail run the <code>Sourcetrail.sh</code> script. Sourcetrail creates a folder <code>~/.config/sourcetrail</code> at the first run, this is the folder for Sourcetrail settings.
+					To Install Sourcetrail run the <code>setup/install.sh</code> Script with sudo, it will install Sourcetrail to <code>/opt/sourcetrail</code> and
+					create <code>/usr/bin/sourcetrail</code> symlink.</p>
 
 					<h2>Data folder</h2>
-					<p>The data folder holds certain files that are used by Coati to run the program. After following the <a href="#INSTALLATION">installation instructions</a> the data folder should be located in the following locations on your platform.</p>
+					<p>The data folder holds certain files that are used by Sourcetrail to run the program. After following the <a href="#INSTALLATION">installation instructions</a> the data folder should be located in the following locations on your platform.</p>
 					<table class="table table-hover">
 						<thead>
 							<tr> <th>Platform</th> <th>Location</th> </tr>
 						</thead>
 						<tbody>
-							<tr> <th scope="row">Windows</th> <td>C:/Users/You/AppData/Local/Coati Software/Coati <small>(used for dynamic data and settings)</small><br />install_directory/Coati Software/Coati/data <small>(used for static app data)</small></td> </tr>
-							<tr> <th scope="row">Mac</th> <td>~/Library/Application Support/Coati</td> </tr>
-							<tr> <th scope="row">Linux</th> <td>~/.config/coati</td> </tr>
+							<tr> <th scope="row">Windows</th> <td>C:/Users/You/AppData/Local/Coati Software/Sourcetrail <small>(used for dynamic data and settings)</small><br />install_directory/Coati Software/Sourcetrail/data <small>(used for static app data)</small></td> </tr>
+							<tr> <th scope="row">Mac</th> <td>~/Library/Application Support/Sourcetrail</td> </tr>
+							<tr> <th scope="row">Linux</th> <td>~/.config/sourcetrail</td> </tr>
 						</tbody>
 					</table>
 
@@ -503,7 +489,7 @@
 
 					<h2>Finding Java Runtime Library Location</h2>
 
-					<p>The current version of Coati requires an installation of the Java 8 runtime environment to index any Java project. Make sure that Coati and your JRE share the same kind or architecture (a 32 bit Coati requires a 32 bit JRE). To locate the required library file, please refer to the applicable description below.</p>
+					<p>The current version of Sourcetrail requires an installation of the Java 8 runtime environment to index any Java project. Make sure that Sourcetrail and your JRE share the same kind or architecture (a 32 bit Sourcetrail requires a 32 bit JRE). To locate the required library file, please refer to the applicable description below.</p>
 
 					<h3>On Windows</h3>
 					<p>The Java Runtime Library (called <code>jvm.dll</code>) can be found inside of your JRE install folder and looks like this:</p>
@@ -532,7 +518,7 @@
 					<h2>Main Window</h2>
 
 					<h3>Widget Windows</h3>
-					<p>Coati's three views are organized into Widgets Windows, which can be freely arranged within the Main Window or detached from it. Each Widget Window has a title bar displaying its name and 2 buttons for closing the Widget Window and for detaching it from the Main Window.</p>
+					<p>Sourcetrail's three views are organized into Widgets Windows, which can be freely arranged within the Main Window or detached from it. Each Widget Window has a title bar displaying its name and 2 buttons for closing the Widget Window and for detaching it from the Main Window.</p>
 					<div class="row">
 						<div class="col-sm-10 col-sm-offset-1">
 							<img src="img/main_window.png" style="width:100%;">
@@ -546,7 +532,7 @@
 					</ul>
 
 					<h3>Statusbar</h3>
-					<p>The Statusbar is located on the bottom of the <a href="#MainWindow">Main Window</a> and is used to convey information about Coati's status and currently running processes to the user.</p>
+					<p>The Statusbar is located on the bottom of the <a href="#MainWindow">Main Window</a> and is used to convey information about Sourcetrail's status and currently running processes to the user.</p>
 					<p>If indexing yielded errors the status bar will display their count on the right side.
 					<div class="row">
 						<div class="col-sm-10 col-sm-offset-1">
@@ -562,7 +548,7 @@
 
 					<h2>Windows</h2>
 					<h3>Start Window</h3>
-					<p>On every start of Coati you are shown the start window. It allows for creating new projects or opening existing ones.</p>
+					<p>On every start of Sourcetrail you are shown the start window. It allows for creating new projects or opening existing ones.</p>
 					<div class="row">
 						<div class="col-sm-8 col-sm-offset-2">
 							<img src="img/start_window.png" style="width:100%;">
@@ -571,7 +557,7 @@
 					<strong>Interactions:</strong>
 					<ul>
 						<li>Clicking <var>New Project</var> will lead you to <a href="#ProjectSetupWizard">Project Setup</a>.</li>
-						<li>Clicking <var>Open Project</var> will let you open an existing Coati project by choosing from a file dialog.</li>
+						<li>Clicking <var>Open Project</var> will let you open an existing Sourcetrail project by choosing from a file dialog.</li>
 						<li>Clicking on one of the <var>Recent Projects</var> will open this project. The list shows a maximum of 7 items ordered by recent first.</li>
 						<li>Pressing <var>ESC</var> will close the window.</li>
 					</ul>
@@ -640,7 +626,7 @@
 							</tr>
 							<tr>
 								<th scope="row">Color scheme</th>
-								<td>Choose which color scheme Coati should display. The color schemes are located in <a href="#Datafolder">data</a>/color_schemes/</td>
+								<td>Choose which color scheme Sourcetrail should display. The color schemes are located in <a href="#Datafolder">data</a>/color_schemes/</td>
 							</tr>
 							<tr>
 								<th scope="row">Animations</th>
@@ -648,11 +634,11 @@
 							</tr>
 							<tr>
 								<th scope="row">Logging</th>
-								<td>Ticking this box enables logging to console and to a log file. This option is disabled by default to speed up Coati. If you encounter problems while running Coati, we recommend to enable this option so you have somewhere to start looking for a cause.</td>
+								<td>Ticking this box enables logging to console and to a log file. This option is disabled by default to speed up Sourcetrail. If you encounter problems while running Sourcetrail, we recommend to enable this option so you have somewhere to start looking for a cause.</td>
 							</tr>
 							<tr>
 								<th scope="row">Indexer Logging</th>
-								<td>When enabled Coati will log detailed information during indexing. This log data can help us fix issues.</td>
+								<td>When enabled Sourcetrail will log detailed information during indexing. This log data can help us fix issues.</td>
 							</tr>
 							<tr>
 								<th scope="row">Scroll Speed</th>
@@ -667,16 +653,16 @@
 								<td>Define how many parallel threads are used during indexing.</td>
 							</tr>
 							<tr>
-								<th scope="row">Coati Port</th>
-								<td>Port number that Coati uses to listen for incoming messages from plugins.</td>
+								<th scope="row">Sourcetrail Port</th>
+								<td>Port number that Sourcetrail uses to listen for incoming messages from plugins.</td>
 							</tr>
 							<tr>
 								<th scope="row">Plugin Port</th>
-								<td>Port number that Coati sends outgoing messages to.</td>
+								<td>Port number that Sourcetrail sends outgoing messages to.</td>
 							</tr>
 							<tr>
 								<th scope="row">Java Path</th>
-								<td>If you want to use Coati on Java source code, please specify a path to your Java 8 runtime library. Please keep in mind that a 32 bit Coati requires a 32 bit version of Java while a 64 bit Coati requires a 64 bit Java to be working correctly. You can either use the button below for automatic detection or add the path manually. For instructions on how to find your Java runtime path see <a href="#FindingJavaRuntimeLibraryLocation">Finding Java Runtime Library Location</a>.</td>
+								<td>If you want to use Sourcetrail on Java source code, please specify a path to your Java 8 runtime library. Please keep in mind that a 32 bit Sourcetrail requires a 32 bit version of Java while a 64 bit Sourcetrail requires a 64 bit Java to be working correctly. You can either use the button below for automatic detection or add the path manually. For instructions on how to find your Java runtime path see <a href="#FindingJavaRuntimeLibraryLocation">Finding Java Runtime Library Location</a>.</td>
 							</tr>
 							<tr>
 								<th scope="row">JVM Maximum Memory</th>
@@ -695,7 +681,7 @@
 
 
 					<h3>Project Setup Wizard</h3>
-					<p>The Project Setup Wizard consists of a sequence of windows that let you create a new Coati project. After selecting the programming language for your project Coati offers several ways for you to provide all the required information.</p>
+					<p>The Project Setup Wizard consists of a sequence of windows that let you create a new Sourcetrail project. After selecting the programming language for your project Sourcetrail offers several ways for you to provide all the required information.</p>
 					<div class="row">
 						<div class="col-sm-8 col-sm-offset-2">
 							<img src="img/project_setup_wizard_start.png" style="width:100%;">
@@ -726,8 +712,8 @@
 							<tr> <th>Setting</th> <th>Description</th> </tr>
 						</thead>
 						<tbody>
-							<tr> <th scope="row">Coati Project Name</th> <td>The name of the project. This will also be the name of the <code>.coatiproject</code> file generated by Coati.</td> </tr>
-							<tr> <th scope="row">Coati Project Location</th> <td>Choose the location of the project file from the dialog.</td> </tr>
+							<tr> <th scope="row">Sourcetrail Project Name</th> <td>The name of the project. This will also be the name of the <code>.sourcetrailproject</code> file generated by Sourcetrail.</td> </tr>
+							<tr> <th scope="row">Sourcetrail Project Location</th> <td>Choose the location of the project file from the dialog.</td> </tr>
 							<tr> <th scope="row">Standard</th> <td>Select the language standard that should be used for indexing your project. Usually the most recent language standard is preselected here. (See <a href="#SupportedLanguages">Language Support</a>)</td> </tr>
 						</tbody>
 					</table>
@@ -741,7 +727,7 @@
 					<div class="row" style="height:20px;"></div>
 
 					<strong>Indexed Paths</strong>
-					<p>Provide the paths that contain your project's files. Coati will index all the source and header files in the specified paths, including subdirectories.</p>
+					<p>Provide the paths that contain your project's files. Sourcetrail will index all the source and header files in the specified paths, including subdirectories.</p>
 					<div class="row">
 						<div class="col-sm-10 col-sm-offset-1">
 							<img src="img/project_setup_wizard_empty_project_paths.png" style="width:100%;">
@@ -752,7 +738,7 @@
 							<tr> <th>Setting</th> <th>Description</th> </tr>
 						</thead>
 						<tbody>
-							<tr> <th scope="row">Indexed Paths</th> <td>Specify one or multiple locations that contain all the source and header files that you want to index with Coati. (For instructions on how to add paths see <a href="#PathListBox">Path List Box</a>.)</td> </tr>
+							<tr> <th scope="row">Indexed Paths</th> <td>Specify one or multiple locations that contain all the source and header files that you want to index with Sourcetrail. (For instructions on how to add paths see <a href="#PathListBox">Path List Box</a>.)</td> </tr>
 						</tbody>
 						<tbody>
 							<tr> <th scope="row">Source File Extensions</th> <td>Define the valid extensions for source files including the dot e.g. <code>.cpp</code></td> </tr>
@@ -760,7 +746,7 @@
 					</table>
 					<strong>Interactions:</strong>
 					<ul>
-						<li>Clicking <var>show files</var> will display a list of all the files Coati will index with the current settings.</li>
+						<li>Clicking <var>show files</var> will display a list of all the files Sourcetrail will index with the current settings.</li>
 						<li>Clicking <var>Cancel</var> or pressing <var>ESC</var> will close the window and abort the setup process.</li>
 						<li>Clicking <var>Next</var> will take you to the next step of the setup process.</li>
 						<li>Clicking <var>Previous</var> will take you to the previous step of the setup process. All the information you entered will be saved.</li>
@@ -769,7 +755,7 @@
 					<div class="row" style="height:20px;"></div>
 
 					<strong>Include Paths</strong>
-					<p>Coati needs you to specify all the include paths the indexed source and header files rely on. The include paths are those paths your project's <code>#include</code> directives are relative to. If your project requires additional includes to compile (e.g. Boost for C++, etc.), please specify their location here.</p>
+					<p>Sourcetrail needs you to specify all the include paths the indexed source and header files rely on. The include paths are those paths your project's <code>#include</code> directives are relative to. If your project requires additional includes to compile (e.g. Boost for C++, etc.), please specify their location here.</p>
 					<p>Additionally you can also specify Global Include Paths, which will be used by all your projects. These are usually the paths to system headers, which can also be auto detected by choosing a compiler below and pressing <var>detect</var>.</p>
 					<div class="row">
 						<div class="col-sm-10 col-sm-offset-1">
@@ -782,7 +768,7 @@
 						</thead>
 						<tbody>
 							<tr> <th scope="row">Include Paths</th> <td>These paths are used to find the files specified by <code>#include</code> directives. (For instructions on how to add paths see <a href="#PathListBox">Path List Box</a>.)</td> </tr>
-							<tr> <th scope="row">Lazy Include Search (deprecated)</th> <td>(Only visible in projects created before Coati 0.11) When checked Coati also looks for included files within the project paths and all their subdirectories. Use this option if you are not familiar with the project to save yourself from figuring the projects include paths. <strong>Warning:</strong> When activated indexing speed is slower.</td> </tr>
+							<tr> <th scope="row">Lazy Include Search (deprecated)</th> <td>(Only visible in projects created before Sourcetrail 0.11) When checked Sourcetrail also looks for included files within the project paths and all their subdirectories. Use this option if you are not familiar with the project to save yourself from figuring the projects include paths. <strong>Warning:</strong> When activated indexing speed is slower.</td> </tr>
 							<tr> <th scope="row">Global Include Paths</th> <td>These Header Search Paths will be used in all your projects. (For instructions on how to add paths see <a href="#PathListBox">Path List Box</a>. For instructions on how to find the system header paths see <a href="#FindingSystemHeaderLocations">Finding System Header Locations</a>)</td> </tr>
 						</tbody>
 					</table>
@@ -797,7 +783,7 @@
 					<div class="row" style="height:20px;"></div>
 
 					<strong>Framework Search Paths (Mac only)</strong>
-					<p>Coati needs you to specify the locations of <code>.framework</code> files, your indexed source and header files rely on.</p>
+					<p>Sourcetrail needs you to specify the locations of <code>.framework</code> files, your indexed source and header files rely on.</p>
 					<p>Additionally you can also specify Global Framework Search Paths, which will be used by all your projects. They can also be auto detected by choosing a compiler below and pressing <var>detect</var>.</p>
 					<div class="row">
 						<div class="col-sm-10 col-sm-offset-1">
@@ -853,7 +839,7 @@
 					<div class="row" style="height:20px;"></div>
 
 					<h4 id="CreateAProjectFromCompilationDatabase">Create a C/C++ Project from Compilation Database</h4>
-					<p>If you are using <a href="https://cmake.org/">CMake</a> you can export compile commands by defining the <code>CMAKE_EXPORT_COMPILE_COMMANDS</code> flag and then use the exportet <code>.json</code> file for Coati project setup.</p>
+					<p>If you are using <a href="https://cmake.org/">CMake</a> you can export compile commands by defining the <code>CMAKE_EXPORT_COMPILE_COMMANDS</code> flag and then use the exportet <code>.json</code> file for Sourcetrail project setup.</p>
 					<p>For non-CMake projects you can use <a href="https://github.com/rizsotto/Bear">Bear</a>. Bear generates a <code>.json</code> file during the simulated build process. Bear has been tested on FreeBSD, GNU/Linux and OS X.</p>
 
 					<div class="row" style="height:20px;"></div>
@@ -870,9 +856,9 @@
 							<tr> <th>Setting</th> <th>Description</th> </tr>
 						</thead>
 						<tbody>
-							<tr> <th scope="row">Coati Project Name</th> <td>The name of the project. This will also be the name of the <code>.coatiproject</code> file generated by Coati.</td> </tr>
-							<tr> <th scope="row">Coati Project Location</th> <td>Choose the location of the project file from the dialog.</td> </tr>
-							<tr> <th scope="row">Compilation Database</th> <td>Select the compilation database <code>.json</code> for the project. Coati will index the project based on the compile commands in this file. If the compilation database changes you can <a href="#Refresh">Refresh</a> Coati to the new files.</td> </tr>
+							<tr> <th scope="row">Sourcetrail Project Name</th> <td>The name of the project. This will also be the name of the <code>.sourcetrailproject</code> file generated by Sourcetrail.</td> </tr>
+							<tr> <th scope="row">Sourcetrail Project Location</th> <td>Choose the location of the project file from the dialog.</td> </tr>
+							<tr> <th scope="row">Compilation Database</th> <td>Select the compilation database <code>.json</code> for the project. Sourcetrail will index the project based on the compile commands in this file. If the compilation database changes you can <a href="#Refresh">Refresh</a> Sourcetrail to the new files.</td> </tr>
 						</tbody>
 					</table>
 					<strong>Interactions:</strong>
@@ -916,7 +902,7 @@
 					<div class="row" style="height:20px;"></div>
 
 					<h4 id="CreateAProjectFromVisualStudio">Create a C/C++ Project from Visual Studio Solution</h4>
-					<p>If you are using Visual Studio you can export a Compilation Database with out <a href="#VisualStudio">Visual Studio Plugin</a> and use it to create a project with Coati.</p>
+					<p>If you are using Visual Studio you can export a Compilation Database with out <a href="#VisualStudio">Visual Studio Plugin</a> and use it to create a project with Sourcetrail.</p>
 					<div class="row">
 						<div class="col-sm-10 col-sm-offset-1">
 							<img src="img/project_setup_wizard_visual_studio.png" style="width:100%;">
@@ -934,7 +920,7 @@
 					<div class="row" style="height:20px;"></div>
 
 					<h4 id="CreateAnEmptyJavaProject">Create an Empty Java Project</h4>
-					<p>Choose this option if you want to use Coati on a Java code base.</p>
+					<p>Choose this option if you want to use Sourcetrail on a Java code base.</p>
 
 					<strong>Project Meta Data</strong>
 					<p>In the first step you need to enter meta information about the project.</p>
@@ -948,8 +934,8 @@
 							<tr> <th>Setting</th> <th>Description</th> </tr>
 						</thead>
 						<tbody>
-							<tr> <th scope="row">Coati Project Name</th> <td>The name of the project. This will also be the name of the <code>.coatiproject</code> file generated by Coati.</td> </tr>
-							<tr> <th scope="row">Coati Project Location</th> <td>Choose the location of the project file from the dialog.</td> </tr>
+							<tr> <th scope="row">Sourcetrail Project Name</th> <td>The name of the project. This will also be the name of the <code>.sourcetrailproject</code> file generated by Sourcetrail.</td> </tr>
+							<tr> <th scope="row">Sourcetrail Project Location</th> <td>Choose the location of the project file from the dialog.</td> </tr>
 							<tr> <th scope="row">Standard</th> <td>Select the language standard that should be used for indexing your project. We currently only support Java 8</td> </tr>
 						</tbody>
 					</table>
@@ -963,7 +949,7 @@
 					<div class="row" style="height:20px;"></div>
 
 					<strong>Indexed Paths</strong>
-					<p>In this step you provide all the information Coati needs to know about your code base.</p>
+					<p>In this step you provide all the information Sourcetrail needs to know about your code base.</p>
 
 					<div class="row">
 						<div class="col-sm-10 col-sm-offset-1">
@@ -1034,7 +1020,7 @@
 					<div class="row" style="height:20px;"></div>
 
 					<h3>Edit Project Window</h3>
-					<p>This window displays all the information relevant for your Coati project. Please have a look at the <a href = "ProjectSetupWizard">Project Setup Wizard</a> for descriptions on each setting.</p>
+					<p>This window displays all the information relevant for your Sourcetrail project. Please have a look at the <a href = "ProjectSetupWizard">Project Setup Wizard</a> for descriptions on each setting.</p>
 					<div class="row">
 						<div class="col-sm-10 col-sm-offset-1">
 							<img src="img/edit_project_summary.png" style="width:100%;">
@@ -1049,7 +1035,7 @@
 					<div class="row" style="height:20px;"></div>
 
 					<h3>Enter License Window</h3>
-					<p>The Enter License Window appears on your first start of Coati and is used to enter and check your Coati license key.</p>
+					<p>The Enter License Window appears on your first start of Sourcetrail and is used to enter and check your Sourcetrail license key.</p>
 					<div class="row">
 						<div class="col-sm-8 col-sm-offset-2">
 							<img src="img/license_key_window.png" style="width:100%;">
@@ -1057,14 +1043,14 @@
 					</div>
 					<strong>Interactions:</strong>
 					<ul>
-						<li>Copy and Paste your license key from your "Coati 0 License Key" e-mail into the textfield. The key should be formated as shown by the placeholder text.</li>
+						<li>Copy and Paste your license key from your "Sourcetrail 0 License Key" e-mail into the textfield. The key should be formated as shown by the placeholder text.</li>
 						<li>Clicking <var>Activate</var> will check if your license key is valid and close the window. Otherwise an error message will be displayed.</li>
 					</ul>
 
 					<div class="row" style="height:20px;"></div>
 
 					<h3>Indexing Dialogs</h3>
-					<p>These dialogs will be used while Coati indexes your project. The whole user interface will be frozen as long as these dialogs are visible.</p>
+					<p>These dialogs will be used while Sourcetrail indexes your project. The whole user interface will be frozen as long as these dialogs are visible.</p>
 
 					<div class="row" style="height:20px;"></div>
 
@@ -1087,7 +1073,7 @@
 					<div class="row" style="height:20px;"></div>
 
 					<h4>Progress Dialog</h4>
-					<p>This dialog shows that Coati is currently doing processing that can't be interrupted.</p>
+					<p>This dialog shows that Sourcetrail is currently doing processing that can't be interrupted.</p>
 
 					<div class="row">
 						<div class="col-sm-6 col-sm-offset-3">
@@ -1108,7 +1094,7 @@
 
 					<strong>Interactions:</strong>
 					<ul>
-						<li>Clicking <var>Stop</var> or pressing ESC will interrupt indexing. Coati will still wait for the already running indexer threads to finish. You can continue indexing later by <a href="#Refresh">refreshing</a>.</li>
+						<li>Clicking <var>Stop</var> or pressing ESC will interrupt indexing. Sourcetrail will still wait for the already running indexer threads to finish. You can continue indexing later by <a href="#Refresh">refreshing</a>.</li>
 					</ul>
 
 					<div class="row" style="height:20px;"></div>
@@ -1143,13 +1129,13 @@
 							<strong>Open Project</strong>
 							<ul>
 								<li>Shortcut: <a href="#Shortcuts">Open Project</a></li>
-								<li>Opens a file dialog to choose an existing Coati project file from your system's hard drive.</li>
+								<li>Opens a file dialog to choose an existing Sourcetrail project file from your system's hard drive.</li>
 							</ul>
 						</li>
 						<li>
 							<strong>Recent Projects</strong>
 							<ul>
-								<li>Opens a submenu to choose recent opened Coati projects.</li>
+								<li>Opens a submenu to choose recent opened Sourcetrail projects.</li>
 							</ul>
 						</li>
 						<li>
@@ -1161,7 +1147,7 @@
 						<li>
 							<strong>Exit</strong>
 							<ul>
-								<li>Quits Coati.</li>
+								<li>Quits Sourcetrail.</li>
 							</ul>
 						</li>
 					</ul>
@@ -1300,31 +1286,31 @@
 						<li>
 							<strong>About</strong>
 							<ul>
-								<li>Shows copyright information about Coati.</li>
+								<li>Shows copyright information about Sourcetrail.</li>
 							</ul>
 						</li>
 						<li>
 							<strong>Keyboard Shortcuts</strong>
 							<ul>
-								<li>Shows table of keyboard shortcuts for Coati.</li>
+								<li>Shows table of keyboard shortcuts for Sourcetrail.</li>
 							</ul>
 						</li>
 						<li>
 							<strong>Documentation</strong>
 							<ul>
-								<li>Opens the documentation of Coati in your web browser by URL.</li>
+								<li>Opens the documentation of Sourcetrail in your web browser by URL.</li>
 							</ul>
 						</li>
 						<li>
 							<strong>Bug Tracker</strong>
 							<ul>
-								<li>Opens Coati's bug tracker in your web browser by URL.</li>
+								<li>Opens Sourcetrail's bug tracker in your web browser by URL.</li>
 							</ul>
 						</li>
 						<li>
 							<strong>3rd Party Licences</strong>
 							<ul>
-								<li>Documents which third party licences Coati is using.</li>
+								<li>Documents which third party licences Sourcetrail is using.</li>
 							</ul>
 						</li>
 						<li>
@@ -1589,7 +1575,7 @@
 					</ul>
 
 					<h4>Snippets</h4>
-					<p>A code snippet contains the lines of interest for the currently active symbol surrounded by some more lines to provide some context. Other symbols that were indexed by Coati are framed by a box when hovered. Here Coati distinguishes between local symbols and symbols that can be related to any other part of the code base. In case the snippet is part of a class, function or namespace, an additional line at the top of the snippet provides information about the snippet’s context (e.g. the surrounding scope).</p>
+					<p>A code snippet contains the lines of interest for the currently active symbol surrounded by some more lines to provide some context. Other symbols that were indexed by Sourcetrail are framed by a box when hovered. Here Sourcetrail distinguishes between local symbols and symbols that can be related to any other part of the code base. In case the snippet is part of a class, function or namespace, an additional line at the top of the snippet provides information about the snippet’s context (e.g. the surrounding scope).</p>
 					<div class="row">
 						<div class="col-sm-8 col-sm-offset-2">
 							<img src="img/code_view_snippet.png" style="width:100%;">
@@ -1659,7 +1645,7 @@
 					</ul>
 
 					<h3>Search Bar</h3>
-					<p>The search bar allows you to enter search requests to find one of Coati's indexed symbols. It doesn't allow for full text searching across all files so far. The search field allows for most text editing interactions common to text fields. When typing your request the <a href="#AutocompletionPopup">Autocompletion Popup</a> will show you search results matching to your entered string.</p>
+					<p>The search bar allows you to enter search requests to find one of Sourcetrail's indexed symbols. It doesn't allow for full text searching across all files so far. The search field allows for most text editing interactions common to text fields. When typing your request the <a href="#AutocompletionPopup">Autocompletion Popup</a> will show you search results matching to your entered string.</p>
 					<div class="row">
 						<div class="col-sm-6 col-sm-offset-3">
 							<img src="img/search_bar.png" style="width:100%;">
@@ -1726,7 +1712,7 @@
 					<div class="row" style="height:10px;"></div>
 
 					<h3>Status Tab</h3>
-					<p>This table gives some information about status updates while running Coati. It can be helpful to figure out why something does not the way it's expected to.</p>
+					<p>This table gives some information about status updates while running Sourcetrail. It can be helpful to figure out why something does not the way it's expected to.</p>
 					<div class="row">
 						<div class="col-sm-10 col-sm-offset-1">
 							<img src="img/status_view_status.png" style="width:100%;">
@@ -1767,8 +1753,8 @@
 					<div class="row" style="height:40px;"></div>
 
 					<h1>CODE EDITOR PLUGINS</h1>
-					<p>In order to make Coati the perfect partner for your development workflow you can connect Coati with different code editors. You can find the plugins in Coati's download package located in the folder <code>/ide_plugins</code>. Have a look at the following list of supported code editors to find out what editors are currently supported.</p>
-					<p>We are eager to expand the range of supported editors, so if you can't find a plugin for the code editor you are using, please let us know by writing to <a href="mailto:support@coati.io" target="_top">support@coati.io</a>.</p>
+					<p>In order to make Sourcetrail the perfect partner for your development workflow you can connect Sourcetrail with different code editors. You can find the plugins in Sourcetrail's download package located in the folder <code>/ide_plugins</code>. Have a look at the following list of supported code editors to find out what editors are currently supported.</p>
+					<p>We are eager to expand the range of supported editors, so if you can't find a plugin for the code editor you are using, please let us know by writing to <a href="mailto:support@sourcetrail.com" target="_top">support@sourcetrail.com</a>.</p>
 					<p>The plugins are Opensource and available on <a href="https://github.com/CoatiSoftware/">github</a>.</p>
 					<strong>Supported Editors:</strong>
 					<ul>
@@ -1783,7 +1769,7 @@
 						<li>Visual Studio 2013</li>
 						<li>Visual Studio 2015</li>
 					</ul>
-					<p>The communication between Coati and the code editor is achieved using a local TCP connection. Coati uses the port 6667 to listen for incoming messages. Outgoing messages will be sent to the port 6666. The port numbers can be edited in the <a href="#PreferencesWindow">Preferences Window</a>.</p>
+					<p>The communication between Sourcetrail and the code editor is achieved using a local TCP connection. Sourcetrail uses the port 6667 to listen for incoming messages. Outgoing messages will be sent to the port 6666. The port numbers can be edited in the <a href="#PreferencesWindow">Preferences Window</a>.</p>
 					<p>Outgoing messages are in the form:</p>
 					<pre>moveCursor&gt;&gt;absolute/file_path&gt;&gt;line_number&gt;&gt;column_number&lt;EOM&gt;</pre>
 					<p>Incoming messages are in the form:</p>
@@ -1791,49 +1777,49 @@
 
 					<div class="row" style="height:40px;"></div>
 
-					<h2>From Coati</h2>
-					<p>If you want your editor to open a file at a specific location from within Coati, you can achieve this by either selecting the option <var>Set IDE Cursor</var> from the right-click menu in the <a href="#CodeView">Code View</a> or by simply clicking into a line in the <a href="#CodeView">Code View</a> while holding down the <kbd>Ctrl</kbd> or <kbd>Cmd</kbd> key.</p>
+					<h2>From Sourcetrail</h2>
+					<p>If you want your editor to open a file at a specific location from within Sourcetrail, you can achieve this by either selecting the option <var>Set IDE Cursor</var> from the right-click menu in the <a href="#CodeView">Code View</a> or by simply clicking into a line in the <a href="#CodeView">Code View</a> while holding down the <kbd>Ctrl</kbd> or <kbd>Cmd</kbd> key.</p>
 					<div class="row">
 						<div class="col-sm-6 col-sm-offset-3">
-							<img src="img/plugin_use_in_coati.png" style="width:100%;">
+							<img src="img/plugin_use_in_sourcetrail.png" style="width:100%;">
 						</div>
 					</div>
 
 					<div class="row" style="height:40px;"></div>
 
-					<h2>To Coati</h2>
-					<p>By using a Coati plugin for your code editor, you can select a location within a source file and Coati will show you all symbols found at this location. Please have look at the list below to see which plugins are currently available and how they are used.</p>
+					<h2>To Sourcetrail</h2>
+					<p>By using a Sourcetrail plugin for your code editor, you can select a location within a source file and Sourcetrail will show you all symbols found at this location. Please have look at the list below to see which plugins are currently available and how they are used.</p>
 
 					<h3>Atom</h3>
 					<strong>Repo</strong>
-					<p><a href="https://github.com/CoatiSoftware/atom-coati">https://github.com/CoatiSoftware/atom-coati</a></p>
+					<p><a href="https://github.com/CoatiSoftware/atom-sourcetrail">https://github.com/CoatiSoftware/atom-sourcetrail</a></p>
 
 					<strong>Installation</strong>
 					<p>
 					<ol>
 						<li>In Atom go to Settings with <code>Edit -&gt; Preferences</code> or <kbd>Ctrl</kbd> + <kbd>,</kbd></li>
-						<li>Go to Install and search for coati</li>
-						<li>Install atom-coati</li>
+						<li>Go to Install and search for sourcetrail</li>
+						<li>Install atom-sourcetrail</li>
 					</ol>
 					</p>
 					<strong>Use</strong>
-					<p>To start the Tcp Server got <code>Packages -&gt; Coati -&gt; Start Server</code></p>
-					<p>To send a location to Coati, place the cursor and right-click and select <code>Send location to Coati</code>
-					or <code>Packages -&gt; Coati -&gt; Send location to Coati</code></p>
+					<p>To start the Tcp Server got <code>Packages -&gt; Sourcetrail -&gt; Start Server</code></p>
+					<p>To send a location to Sourcetrail, place the cursor and right-click and select <code>Send location to Sourcetrail</code>
+					or <code>Packages -&gt; Sourcetrail -&gt; Send location to Sourcetrail</code></p>
 
 					<h3>Clion/IntelliJ</h3>
 					<strong>Repo</strong>
-					<p><a href="https://github.com/CoatiSoftware/idea-coati">https://github.com/CoatiSoftware/idea-coati</a></p>
+					<p><a href="https://github.com/CoatiSoftware/idea-sourcetrail">https://github.com/CoatiSoftware/idea-sourcetrail</a></p>
 					<strong>Installation</strong>
 					<p>
 					<ol>
 						<li>Go to File -&gt; Settings</li>
 						<li>Plugins -&gt; Browser Repositories</li>
-						<li>Search for coati</li>
-						<li>Install idea-coati</li>
+						<li>Search for sourcetrail</li>
+						<li>Install idea-sourcetrail</li>
 					</p>
 					<strong>Use</strong>
-					<p>If you want IntelliJ/CLion to activate a certain element in Coati, right-click that element to
+					<p>If you want IntelliJ/CLion to activate a certain element in Sourcetrail, right-click that element to
 					bring up the context menu and choose the “Sent Location” option.</p>
 					<div class="row">
 						<div class="col-sm-8 col-sm-offset-2">
@@ -1843,7 +1829,7 @@
 
 					<h3>Eclipse</h3>
 					<strong>Repo</strong>
-					<p><a href="https://github.com/CoatiSoftware/eCoati">https://github.com/CoatiSoftware/eCoati</a></p>
+					<p><a href="https://github.com/CoatiSoftware/eSourcetrail">https://github.com/CoatiSoftware/eSourcetrail</a></p>
 
 					<strong>Installation</strong>
 					<p>
@@ -1851,10 +1837,10 @@
 						<li>Updatesite:
 							<ol>
 								<li>In Eclipse go in the menu to <code>Help -&gt; Install new Software...</code></li>
-								<li>Add the Coati Updatesite</li>
+								<li>Add the Sourcetrail Updatesite</li>
 								<ul>
 									<li>type <a
-											href="https://CoatiSoftware.github.io/eCoati/updatesite">https://CoatiSoftware.github.io/eCoati/updatesite</a>
+											href="https://CoatiSoftware.github.io/eSourcetrail/updatesite">https://CoatiSoftware.github.io/eSourcetrail/updatesite</a>
 										into the <code>Work with:</code> field</li>
 									<li>or press <code>Add...</code> and add the address above</li>
 								</ul>
@@ -1865,7 +1851,7 @@
 						<li>Manually:
 							<ol>
 								<li>Download this <a
-										href="https://github.com/CoatiSoftware/eCoati/archive/gh-pages.zip">eCoati-gh-pages.zip</a>
+										href="https://github.com/CoatiSoftware/eSourcetrail/archive/gh-pages.zip">eSourcetrail-gh-pages.zip</a>
 								and unzip it.</li>
 								<li>In Eclipse go in the menu to <code>Help -&gt; Install new Software...</code></li>
 								<li>Click the <code>Add...</code> Button</li>
@@ -1877,7 +1863,7 @@
 
 					</p>
 					<strong>Use</strong>
-					<p>If you want Eclipse to activate a certain element in Coati, right-click that element to bring up the context menu and choose the “Set active Token” option.</p>
+					<p>If you want Eclipse to activate a certain element in Sourcetrail, right-click that element to bring up the context menu and choose the “Set active Token” option.</p>
 					<div class="row">
 						<div class="col-sm-8 col-sm-offset-2">
 							<img src="img/plugin_use_in_eclipse.png" style="width:100%;">
@@ -1886,38 +1872,38 @@
 
 					<h3>Emacs</h3>
 					<strong>Repo</strong>
-					<p><a href="https://github.com/CoatiSoftware/emacs-coati">https://github.com/CoatiSoftware/emacs-coati</a></p>
+					<p><a href="https://github.com/CoatiSoftware/emacs-sourcetrail">https://github.com/CoatiSoftware/emacs-sourcetrail</a></p>
 
 					<strong>Installation</strong>
 					<p><ul>
 						<li>Manuelly</li>
 						<ol>
-							<li>Download the coati.el from <a href="https://github.com/CoatiSoftware/emacs-coati">https://github.com/CoatiSoftware/emacs-coati</a></li>
+							<li>Download the sourcetrail.el from <a href="https://github.com/CoatiSoftware/emacs-sourcetrail">https://github.com/CoatiSoftware/emacs-sourcetrail</a></li>
 							<li>In Emacs press <kbd>M</kbd> + <kbd>x</kbd> and type in <code>package-install-file</code></li>
-							<li>Type in the path to the downloaded coati.el file</li>
+							<li>Type in the path to the downloaded sourcetrail.el file</li>
 						</ol>
 						<li>Melpa</li>
 						<ol>
 							<li>Add Melpa to your package-archives</li>
 							<li>Press <kbd>M</kbd> + <kbd>x</kbd> and type <code>list-packages</code></li>
-							<li>Search for coati and mark coati with <kbd>i</kbd> then press <kbd>x</kbd> and the confirm with yes</li>
+							<li>Search for sourcetrail and mark sourcetrail with <kbd>i</kbd> then press <kbd>x</kbd> and the confirm with yes</li>
 						</ol>
 					</ul></p>
 					<strong>Use</strong>
-					<p>If you want Emacs to activate a certain element in Coati, set your cursor to that element and
-					<kbd>M</kbd> + <kbd>x</kbd> and type in <code>coati-send-location</code>.</p>
-					<p>To get Location from Coati the coati-mode need to be active. To active the coati-mode
-					press <kbd>M</kbd> + <kbd>x</kbd> and type in <code>coati-mode</code></p>
+					<p>If you want Emacs to activate a certain element in Sourcetrail, set your cursor to that element and
+					<kbd>M</kbd> + <kbd>x</kbd> and type in <code>sourcetrail-send-location</code>.</p>
+					<p>To get Location from Sourcetrail the sourcetrail-mode need to be active. To active the sourcetrail-mode
+					press <kbd>M</kbd> + <kbd>x</kbd> and type in <code>sourcetrail-mode</code></p>
 
 					<h3>Sublime Text</h3>
 					<strong>Repo</strong>
-					<p><a href="https://github.com/CoatiSoftware/sublime-coati">https://github.com/CoatiSoftware/sublime-coati</a></p>
+					<p><a href="https://github.com/CoatiSoftware/sublime-sourcetrail">https://github.com/CoatiSoftware/sublime-sourcetrail</a></p>
 
 					<strong>Installation</strong>
 					<p><ul>
 						<li>Manually</li>
 						<ol>
-							<li>To install the Coati plugin for Sublime Text copy the CoatiPlugin folder located in your
+							<li>To install the Sourcetrail plugin for Sublime Text copy the SourcetrailPlugin folder located in your
 								<code>ide_plugins/sublime_text</code> to your <code>SublimeText/Packages</code> folder
 							</li>
 							<li>restart Sublime</li>
@@ -1928,11 +1914,11 @@
 								install it</li>
 							<li>Open Command Pallete  with <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>P</kbd></li>
 							<li>Select <code>Package Controll: Install Package</code></li>
-							<li>Install <code>coati</code></li>
+							<li>Install <code>sourcetrail</code></li>
 						</ol>
 					</ul></p>
 					<strong>Use</strong>
-					<p>If you want Sublime to activate a certain element in Coati, click a location to place the cursor, right-click to bring up the context menu and choose the “Coati - Set active Token” option. Please note that the position of the cursor will be sent to Coati and not the position you opened the context menu at.</p>
+					<p>If you want Sublime to activate a certain element in Sourcetrail, click a location to place the cursor, right-click to bring up the context menu and choose the “Sourcetrail - Set active Token” option. Please note that the position of the cursor will be sent to Sourcetrail and not the position you opened the context menu at.</p>
 					<div class="row">
 						<div class="col-sm-8 col-sm-offset-2">
 							<img src="img/plugin_use_in_sublime_text.png" style="width:100%;">
@@ -1941,22 +1927,22 @@
 
 					<h3>Vim</h3>
 					<strong>Repo</strong>
-					<p><a href="https://github.com/CoatiSoftware/vim-coati">https://github.com/CoatiSoftware/vim-coati</a></p>
+					<p><a href="https://github.com/CoatiSoftware/vim-sourcetrail">https://github.com/CoatiSoftware/vim-sourcetrail</a></p>
 
 					<strong>Installation</strong>
 					<p>
-						<p>Please visit the <a href="https://github.com/CoatiSoftware/vim-coati">vim-coati</a> repository on Github for details.</p>
+						<p>Please visit the <a href="https://github.com/CoatiSoftware/vim-sourcetrail">vim-sourcetrail</a> repository on Github for details.</p>
 					</p>
 					<strong>Use</strong>
-					<p>If you want Vim to activate a certain element in Coati, go to the code location and use
-					<code>:CoatiActivateToken</code>, now Coati should display your the chosen location.</p>
-					<p>Use<code>:help coati.txt</code> get get more information about the plugin</p>
+					<p>If you want Vim to activate a certain element in Sourcetrail, go to the code location and use
+					<code>:SourcetrailActivateToken</code>, now Sourcetrail should display your the chosen location.</p>
+					<p>Use<code>:help sourcetrail.txt</code> get get more information about the plugin</p>
 
 					<h3>Visual Studio</h3>
 					<strong>Installation</strong>
-					<p>To install the Coati plugin for any version of Visual Studio, just execute the corresponding vsix file located in your <code>ide_plugins/visual_studio</code>.</p>
+					<p>To install the Sourcetrail plugin for any version of Visual Studio, just execute the corresponding vsix file located in your <code>ide_plugins/visual_studio</code>.</p>
 					<strong>Use</strong>
-					<p>If you want Visual Studio to activate a certain element in Coati, right-click that element to bring up the context menu and choose the “Set active Token” option.</p>
+					<p>If you want Visual Studio to activate a certain element in Sourcetrail, right-click that element to bring up the context menu and choose the “Set active Token” option.</p>
 					<div class="row">
 						<div class="col-sm-8 col-sm-offset-2">
 							<img src="img/plugin_use_in_visual_studio.png" style="width:100%;">
@@ -1964,8 +1950,8 @@
 					</div>
 
 					<strong>Create Compilation Database (Beta)</strong>
-					<p>You can create a compilation database (CDB) from your VS solution. Coati projects can be created from CDBs. This feature will replace solution parsing as implemented in current Coati versions. The workflow from VS to Coati will be automated in the future. As of now CDBs have to be <a href="#CreateAProjectFromCompilationDatabase">loaded manually</a> in Coati.</p>
-					<p>The CDB wizard is located in the Coati section in the VS menu bar. Note that the option is only useable if a solution containing at least one C/C++ project is loaded.</p>
+					<p>You can create a compilation database (CDB) from your VS solution. Sourcetrail projects can be created from CDBs. This feature will replace solution parsing as implemented in current Sourcetrail versions. The workflow from VS to Sourcetrail will be automated in the future. As of now CDBs have to be <a href="#CreateAProjectFromCompilationDatabase">loaded manually</a> in Sourcetrail.</p>
+					<p>The CDB wizard is located in the Sourcetrail section in the VS menu bar. Note that the option is only useable if a solution containing at least one C/C++ project is loaded.</p>
 
 					<div class="row">
 						<div class="col-sm-12">
@@ -1992,13 +1978,13 @@
 							<tr> <th scope="row">Platform</th> <td>A dropdown list of the available target platforms. The selected platform determines include paths and compile flags for the CDB.</td> </tr>
 							<tr> <th scope="row">Browse</th> <td>Opens a folder browser to select the directory where the CDB will be created in. By default it is the directory of your solution. Instead of using the folder browser you can also paste a path into the adjacent text field.</td> </tr>
 							<tr> <th scope="row">CDB Name</th> <td>This is the name for the CDB file. By default it is the same name as your solution.</td> </tr>
-							<tr> <th scope="row">C Standard</th> <td>A dropdown list of all C standards supported by Coati. If your projects contain C files select the appropriate standard. Note that we aim to automate this selection in the future.</td> </tr>
+							<tr> <th scope="row">C Standard</th> <td>A dropdown list of all C standards supported by Sourcetrail. If your projects contain C files select the appropriate standard. Note that we aim to automate this selection in the future.</td> </tr>
 							<tr> <th scope="row">Cancel</th> <td>Aborts the process and closes the wizard.</td> </tr>
 							<tr> <th scope="row">Create</th> <td>Creates the CDB using the specified options. Note that at least one project has to be selected to start creating.</td> </tr>
 						</tbody>
 					</table>
 
-					<p>Once the CDB was successfully created it can be found in the specified target directory. From this CDB you can create a Coati project as <a href="#CreateAProjectFromCompilationDatabase">described above</a>.</p>
+					<p>Once the CDB was successfully created it can be found in the specified target directory. From this CDB you can create a Sourcetrail project as <a href="#CreateAProjectFromCompilationDatabase">described above</a>.</p>
 
 					<strong>Settings</strong>
 					<p>Network settings and logging options can be changed in the plugin's Tools/Options entry.</p>
@@ -2024,8 +2010,8 @@
 							<tr> <th>Option</th> <th>Description</th> </tr>
 						</thead>
 						<tbody>
-							<tr> <th scope="row">Coati Port</th> <td>The port on which Coati will receive messages. Note that this must match the port setting in Coati itself.</td> </tr>
-							<tr> <th scope="row">VS Port</th> <td>The port on which Visual Studio will receive messages. Note that this must match the port setting in Coati itself.</td> </tr>
+							<tr> <th scope="row">Sourcetrail Port</th> <td>The port on which Sourcetrail will receive messages. Note that this must match the port setting in Sourcetrail itself.</td> </tr>
+							<tr> <th scope="row">VS Port</th> <td>The port on which Visual Studio will receive messages. Note that this must match the port setting in Sourcetrail itself.</td> </tr>
 							<tr> <th scope="row">File Logging</th> <td>Enable log output for the plugin. Additionaly to the output file, log messages will also be displayed in VS' </td> </tr>
 							<tr> <th Id="vsPluginOptionObfuscation" scope="row">Log Obfuscation</th> <td>Obfuscate project- and file names as well as directories in the log output. Note that already logged data <b>will not be obfuscated retroactively</b>. A dictionary, mapping obfuscated names to original names, will be created in a seperate file.</td> </tr>
 							<tr> <th scope="row">Thread Count</th> <td>The number of threads used during CDB creation</td> </tr>
@@ -2058,19 +2044,19 @@
 					<div class="row" style="height:40px;"></div>
 
 					<h2>IDE Communication Protocol</h2>
-					<p>Coati's IDE plugins communicate with Coati via sockets, using TCP. Coati implements a number of messages to provide an interface for the plugins.</p>
+					<p>Sourcetrail's IDE plugins communicate with Sourcetrail via sockets, using TCP. Sourcetrail implements a number of messages to provide an interface for the plugins.</p>
 					<p>This chapter explains the general structure of those messages, followed by a list of possible message types.</p>
 
 					<h3>Message Structure</h3>
 
-					<p>The basic structure of the messages used by Coati plugins consists of a prefix to identify the message type, followed by no, one, or multiple parameters and ends with an 'end-of-message' token. Parameters and tokens are seperated by a 'divider' token.</p>
+					<p>The basic structure of the messages used by Sourcetrail plugins consists of a prefix to identify the message type, followed by no, one, or multiple parameters and ends with an 'end-of-message' token. Parameters and tokens are seperated by a 'divider' token.</p>
 
 					<table class="table table-hover">
 						<thead>
 							<tr> <th>Name</th> <th>Token</th> <th>Description</th> </tr>
 						</thead>
 						<tbody>
-							<tr> <th scope="row">messageType</th> <th><a href="#MessageTypes">see below</a></th> <td>A string that determines how the message will be interpreted by Coati or the plugin</td> </tr>
+							<tr> <th scope="row">messageType</th> <th><a href="#MessageTypes">see below</a></th> <td>A string that determines how the message will be interpreted by Sourcetrail or the plugin</td> </tr>
 							<tr> <th scope="row">divider</th> <th><code>>></code></th> <td>Seperates the tokens of the message</td> </tr>
 							<tr> <th scope="row">parameter</th> <th><a href="#MessageTypes">see below</a></th> <td>Typically an integer or string</td> </tr>
 							<tr> <th scope="row">endOfMessage</th> <th><code>&lt;EOM&gt;</code></th> <td>Helps to determine the end of a message</td> </tr>
@@ -2083,9 +2069,9 @@
 
 					<h3>Message Types</h3>
 
-					<p>Coati does implement a number of message types that can be used by Coati plugins. In the following is a list of the messages that Coati may send to plugins and messages that may be sent by a plugin to Coati.</p>
+					<p>Sourcetrail does implement a number of message types that can be used by Sourcetrail plugins. In the following is a list of the messages that Sourcetrail may send to plugins and messages that may be sent by a plugin to Sourcetrail.</p>
 
-					<p>Note that you can chose which messages you want to implement. Coati will not make problems if you chose to ignore certain messages.</p>
+					<p>Note that you can chose which messages you want to implement. Sourcetrail will not make problems if you chose to ignore certain messages.</p>
 
 					<strong>Incoming messages</strong>
 					<p>These messages may be received by a plugin.</p>
@@ -2096,24 +2082,38 @@
 						</thead>
 						<tbody>
 							<tr> <th scope="row"><code>moveCursor</code></th> <th>fileLocation: string<br>row: integer<br>column: integer</th> <td>Set the cursor of your editor or IDE to the given file location.<br>Note that fileLocation is the absolute path and name of the target file.</td> </tr>
-							<tr> <th scope="row"><code>createCDB</code></th> <th></th> <td>Coati may send this message to prompt your plugin to create a Compilation Database (CDB). Once the CDB is ready you may want to respond with a <code>createCDBProject</code> message.</td> </tr>
-							<tr> <th scope="row"><code>ping</code></th> <th></th> <td>Coati may send a ping to determine if anybody is listening. Respond with a ping message yourself. Coati will not respond to this message.</td> </tr>
+							<tr> <th scope="row"><code>createCDB</code></th> <th></th> <td>Sourcetrail may send this message to prompt your plugin to create a Compilation Database (CDB). Once the CDB is ready you may want to respond with a <code>createCDBProject</code> message.</td> </tr>
+							<tr> <th scope="row"><code>ping</code></th> <th></th> <td>Sourcetrail may send a ping to determine if anybody is listening. Respond with a ping message yourself. Sourcetrail will not respond to this message.</td> </tr>
 						</tbody>
 					</table>
 
 					<strong>Outgoing messages</strong>
-					<p>Your plugin may send these messages to Coati.</p>
+					<p>Your plugin may send these messages to Sourcetrail.</p>
 
 					<table class="table table-hover">
 						<thead>
 							<tr> <th>Message</th> <th>Parameters</th> <th>Description</th> </tr>
 						</thead>
 						<tbody>
-							<tr> <th scope="row"><code>setActiveToken</code></th> <th>fileLocation: string<br>row: integer<br>column: integer</th> <td>Tells Coati to shift focus to the token located at the given position. Note that fileLocation is the absolute path and name of the target file.</td> </tr>
-							<tr> <th scope="row"><code>createCDBProject</code></th> <th>cdbPath: string<br>headerPaths: string</th> <td>If your plugin can provide a Compilation Database this message can prompt Coati to import it and display an appropriate dialog for the user. headerPaths is a list of the base project's header include paths. Seperate the single paths using the divider token. You can add as many paths as you need.</td> </tr>
-							<tr> <th scope="row"><code>ping</code></th> <th></th> <td>Your plugin may send this message to Coati to tell it it's listening.</td> </tr>
+							<tr> <th scope="row"><code>setActiveToken</code></th> <th>fileLocation: string<br>row: integer<br>column: integer</th> <td>Tells Sourcetrail to shift focus to the token located at the given position. Note that fileLocation is the absolute path and name of the target file.</td> </tr>
+							<tr> <th scope="row"><code>createCDBProject</code></th> <th>cdbPath: string<br>headerPaths: string</th> <td>If your plugin can provide a Compilation Database this message can prompt Sourcetrail to import it and display an appropriate dialog for the user. headerPaths is a list of the base project's header include paths. Seperate the single paths using the divider token. You can add as many paths as you need.</td> </tr>
+							<tr> <th scope="row"><code>ping</code></th> <th></th> <td>Your plugin may send this message to Sourcetrail to tell it it's listening.</td> </tr>
 						</tbody>
 					</table>
+
+					<div class="row" style="height:40px;"></div>
+					<address>
+						<strong>Coati Software OG</strong><br>
+						Jakob-Haringer-Straße 1/127<br>
+						5020 Salzburg<br>
+						Austria<br>
+					</address>
+
+					<address>
+						<strong>Contact</strong><br>
+						<a href="http://coati.io">coati.io</a><br>
+						<a href="mailto:mail@coati.io" target="_top">mail@coati.io</a><br>
+					</address>
 
 				</div> <!-- .span9 !-->
 			</div> <!-- .row !-->

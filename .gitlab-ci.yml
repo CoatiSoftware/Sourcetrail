@@ -1,5 +1,5 @@
 Linux64:
-    image: st4ll1/coati_linux_64
+    image: st4ll1/sourcetrail_linux_64
     stage: deploy
     only:
         - master
@@ -8,16 +8,16 @@ Linux64:
         - ./script/setup.sh
         - ./script/buildonly.sh all
         - ./script/buildonly.sh package
-        - ./build/Release/app/Coati --licenseFile ./setup/license.txt
+        - ./build/Release/app/Sourcetrail --licenseFile ./setup/license.txt
         - cd ./bin/test
-        - ../../build/Release/test/Coati_test
+        - ../../build/Release/test/Sourcetrail_test
     artifacts:
         paths:
-            - distr/Coati*.tar.gz
+            - distr/Sourcetrail*.tar.gz
         expire_in: 3 days
 
 Linux64_tagged:
-    image: st4ll1/coati_linux_64
+    image: st4ll1/sourcetrail_linux_64
     stage: deploy
     only:
         - tags
@@ -25,15 +25,15 @@ Linux64_tagged:
         - ./script/setup.sh
         - ./script/buildonly.sh all
         - ./script/buildonly.sh package
-        - ./build/Release/app/Coati --licenseFile ./setup/license.txt
+        - ./build/Release/app/Sourcetrail --licenseFile ./setup/license.txt
         - cd ./bin/test
-        - ../../build/Release/test/Coati_test
+        - ../../build/Release/test/Sourcetrail_test
     artifacts:
         paths:
-            - distr/Coati*.tar.gz
+            - distr/Sourcetrail*.tar.gz
 
 Linux32:
-    image: st4ll1/coati_linux_32
+    image: st4ll1/sourcetrail_linux_32
     stage: deploy
     only:
         - master
@@ -42,16 +42,16 @@ Linux32:
         - ./script/setup.sh
         - ./script/buildonly.sh all
         - ./script/buildonly.sh package
-        - ./build/Release/app/Coati --licenseFile ./setup/license.txt
+        - ./build/Release/app/Sourcetrail --licenseFile ./setup/license.txt
         - cd ./bin/test
-        - ../../build/Release/test/Coati_test
+        - ../../build/Release/test/Sourcetrail_test
     artifacts:
         paths:
-            - distr/Coati*.tar.gz
+            - distr/Sourcetrail*.tar.gz
         expire_in: 3 days
 
 Linux32_tag:
-    image: st4ll1/coati_linux_32
+    image: st4ll1/sourcetrail_linux_32
     stage: deploy
     only:
         - tags
@@ -59,9 +59,9 @@ Linux32_tag:
         - ./script/setup.sh
         - ./script/buildonly.sh all
         - ./script/buildonly.sh package
-        - ./build/Release/app/Coati --licenseFile ./setup/license.txt
+        - ./build/Release/app/Sourcetrail --licenseFile ./setup/license.txt
         - cd ./bin/test
-        - ../../build/Release/test/Coati_test
+        - ../../build/Release/test/Sourcetrail_test
     artifacts:
         paths:
-            - distr/Coati*.tar.gz
+            - distr/Sourcetrail*.tar.gz

@@ -76,7 +76,7 @@
 
 	<network>
 		<plugin_port><!-- INTEGER: port the plugin listens to, standard is 6666 --></plugin_port>
-		<coati_port><!-- INTEGER: port coati is listening to, standard is 6667 --></coati_port>
+		<sourcetrail_port><!-- INTEGER: port sourcetrail is listening to, standard is 6667 --></sourcetrail_port>
 	</network>
 
 	<controls>

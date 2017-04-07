@@ -38,7 +38,7 @@ function build_type {
 	echo -e $INFO Starting with buildtype: $1
 	if [ "$PLATFORM" == "Windows" ]
 	then
-		echo -e $INFO Builing the Coati VS Solution
+		echo -e $INFO Builing the Sourcetrail VS Solution
 		cmake --build build/win32 --config $1
 		if [ $? -ne 0 ]
 		then
@@ -46,9 +46,9 @@ function build_type {
 			exit 1
 		fi
 	else
-		build Coati $1
-		build Coati_test $1
-		build Coati_license_generator $1
+		build Sourcetrail $1
+		build Sourcetrail_test $1
+		build Sourcetrail_license_generator $1
 		run_tests $1
 	fi
 }
@@ -57,8 +57,8 @@ function run_tests {
 	echo -e $INFO Run $1 Tests
 
 	cd bin/test
-	echo $1/Coati_test
-	../../build/$1/test/Coati_test
+	echo $1/Sourcetrail_test
+	../../build/$1/test/Sourcetrail_test
 	if [ $? -eq 0 ]
 	then
 		echo -e $PASS $1 Tests passed

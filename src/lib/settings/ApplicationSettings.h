@@ -108,8 +108,8 @@ public:
 	int getPluginPort() const;
 	void setPluginPort(const int pluginPort);
 
-	int getCoatiPort() const;
-	void setCoatiPort(const int coatiPort);
+	int getSourcetrailPort() const;
+	void setSourcetrailPort(const int sourcetrailPort);
 
 	// controls
 	int getControlsMouseBackButton() const;

@@ -31,7 +31,7 @@ void LogManager::setLoggingEnabled(bool enabled)
 	{
 		if (enabled)
 		{
-			LOG_INFO("Enabled logging for Coati " + Version::getApplicationVersion().toDisplayString());
+			LOG_INFO("Enabled logging for Sourcetrail " + Version::getApplicationVersion().toDisplayString());
 			MessageStatus("Enabled console and file logging.").dispatch();
 		}
 		else

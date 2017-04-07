@@ -44,7 +44,7 @@ QtProjectWizzard::QtProjectWizzard(QWidget* parent)
 	m_appSettings.setHeaderSearchPaths(appSettings->getHeaderSearchPaths());
 	m_appSettings.setFrameworkSearchPaths(appSettings->getFrameworkSearchPaths());
 	m_appSettings.setScrollSpeed(appSettings->getScrollSpeed());
-	m_appSettings.setCoatiPort(appSettings->getCoatiPort());
+	m_appSettings.setSourcetrailPort(appSettings->getSourcetrailPort());
 	m_appSettings.setPluginPort(appSettings->getPluginPort());
 }
 
@@ -73,10 +73,10 @@ void QtProjectWizzard::newProject()
 	QtProjectWizzardWindow* window = createWindowWithContent(
 		[this](QtProjectWizzardWindow* window)
 		{
+			window->setPreferredSize(QSize(570, 420));
 			return new QtProjectWizzardContentSelect(window);
 		}
 	);
-	window->setPreferredSize(QSize(570, 380));
 
 	connect(dynamic_cast<QtProjectWizzardContentSelect*>(window->content()),
 		SIGNAL(selected(SourceGroupType)),
@@ -209,8 +209,8 @@ QtProjectWizzardWindow* QtProjectWizzard::createWindowWithContent(
 	connect(window, SIGNAL(previous()), &m_windowStack, SLOT(popWindow()));
 	connect(window, SIGNAL(canceled()), this, SLOT(cancelWizzard()));
 
-	window->setContent(func(window));
 	window->setPreferredSize(QSize(580, 340));
+	window->setContent(func(window));
 	window->setup();
 
 	m_windowStack.pushWindow(window);
@@ -228,8 +228,8 @@ QtProjectWizzardWindow* QtProjectWizzard::createWindowWithSummary(
 
 	QtProjectWizzardContentSummary* summary = new QtProjectWizzardContentSummary(window);
 
-	window->setContent(summary);
 	window->setPreferredSize(QSize(750, 500));
+	window->setContent(summary);
 	func(window, summary);
 
 	m_windowStack.pushWindow(window);
@@ -464,7 +464,7 @@ void QtProjectWizzard::sourcePathsJava()
 void QtProjectWizzard::sourcePathsJavaMaven()
 {
 	std::dynamic_pointer_cast<SourceGroupSettingsJava>(m_sourceGroupSettings)->setMavenDependenciesDirectory(
-		"./coati_dependencies/" + utility::replace(m_projectSettings->getProjectName(), " ", "_") + "/maven"
+		"./sourcetrail_dependencies/" + utility::replace(m_projectSettings->getProjectName(), " ", "_") + "/maven"
 	);
 
 	QtProjectWizzardWindow* window = createWindowWithSummary(
@@ -685,7 +685,7 @@ void QtProjectWizzard::savePreferences()
 		MessageScrollSpeedChange(ApplicationSettings::getInstance()->getScrollSpeed()).dispatch();
 	}
 
-	if (m_appSettings.getCoatiPort() != ApplicationSettings::getInstance()->getCoatiPort() ||
+	if (m_appSettings.getSourcetrailPort() != ApplicationSettings::getInstance()->getSourcetrailPort() ||
 		m_appSettings.getPluginPort() != ApplicationSettings::getInstance()->getPluginPort())
 	{
 		MessagePluginPortChange().dispatch();

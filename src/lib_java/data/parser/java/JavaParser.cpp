@@ -34,7 +34,7 @@ JavaParser::JavaParser(std::shared_ptr<ParserClient> client)
 		methods.push_back({"recordComment", "(IIIII)V", (void*)&JavaParser::RecordComment});
 		methods.push_back({"recordError", "(ILjava/lang/String;IIIIII)V", (void*)&JavaParser::RecordError});
 
-		m_javaEnvironment->registerNativeMethods("io/coati/JavaIndexer", methods);
+		m_javaEnvironment->registerNativeMethods("com/sourcetrail/JavaIndexer", methods);
 	}
 	{
 		std::lock_guard<std::mutex> lock(s_parsersMutex);
@@ -79,7 +79,7 @@ void JavaParser::buildIndex(const FilePath& sourceFilePath, const std::string& c
 			ApplicationSettings::getInstance()->getVerboseIndexerLoggingEnabled() ? 1 : 0;
 
 		m_javaEnvironment->callStaticVoidMethod(
-			"io/coati/JavaIndexer",
+			"com/sourcetrail/JavaIndexer",
 			"processFile",
 			m_id,
 			m_currentFilePath,

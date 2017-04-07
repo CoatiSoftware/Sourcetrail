@@ -78,8 +78,8 @@ bool Project::refresh(bool forceRefresh)
 
 		case PROJECT_STATE_OUTVERSIONED:
 			question =
-				"This project was indexed with a different version of Coati. It needs to be fully reindexed to be used "
-				"with this version of Coati. Do you want to reindex the project?";
+				"This project was indexed with a different version of Sourcetrail. It needs to be fully reindexed to be used "
+				"with this version of Sourcetrail. Do you want to reindex the project?";
 			needsFullRefresh = true;
 			break;
 
@@ -92,7 +92,7 @@ bool Project::refresh(bool forceRefresh)
 
 		case PROJECT_STATE_NEEDS_MIGRATION:
 			question =
-				"This project was created with a different version of Coati. The project file needs to get updated and "
+				"This project was created with a different version of Sourcetrail. The project file needs to get updated and "
 				"the project fully reindexed. Do you want to update the project file and reindex the project?";
 			needsFullRefresh = true;
 
@@ -187,7 +187,8 @@ void Project::load()
 	}
 
 	const FilePath projectSettingsPath = m_settings->getFilePath();
-	const FilePath dbPath = FilePath(projectSettingsPath).replaceExtension("coatidb");
+	const std::string dbExtension = (projectSettingsPath.extension() == ".coatiproject" ? "coatidb" : "srctrldb");
+	const FilePath dbPath = FilePath(projectSettingsPath).replaceExtension(dbExtension);
 
 	m_storage = std::make_shared<PersistentStorage>(dbPath);
 

@@ -1,1 +1,1 @@
-msiexec /i coati.msi REINSTALL=ALL REINSTALLMODE=vomus /l*v installLog.txt
+msiexec /i sourcetrail.msi REINSTALL=ALL REINSTALLMODE=vomus /l*v installLog.txt

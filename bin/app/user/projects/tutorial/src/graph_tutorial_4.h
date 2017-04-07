@@ -21,9 +21,9 @@ public:
 //------------------------------------------------------------------------------
 //
 // 6 - FOCUSING EDGES
-//  Even though Coati doesn't allow to activate an edge, you can still focus on
+//  Even though Sourcetrail doesn't allow to activate an edge, you can still focus on
 //  edges. This doesn't change the currently active symbol (which would cause
-//  Coati to hide everything but the edge). Instead Coati just highlights the
+//  Sourcetrail to hide everything but the edge). Instead Sourcetrail just highlights the
 //  relation's location in the code and scrolls you there, so you don't lose
 //  context.
 //  Try to activate an edge that comes from the "ProducerOfTheLastMember" class.

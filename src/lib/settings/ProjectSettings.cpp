@@ -10,6 +10,7 @@
 #include "utility/UUIDUtility.h"
 
 const size_t ProjectSettings::VERSION = 4;
+const std::string PROJECT_FILE_EXTENSION = ".srctrlprj";
 
 LanguageType ProjectSettings::getLanguageOfProject(const FilePath& filePath)
 {
@@ -46,7 +47,7 @@ ProjectSettings::ProjectSettings(const FilePath& projectFilePath)
 
 ProjectSettings::ProjectSettings(std::string projectName, const FilePath& projectFileLocation)
 {
-	setFilePath(FilePath(projectFileLocation.str() + "/" + projectName + ".coatiproject"));
+	setFilePath(FilePath(projectFileLocation.str() + "/" + projectName + PROJECT_FILE_EXTENSION));
 }
 
 ProjectSettings::~ProjectSettings()
@@ -112,7 +113,7 @@ std::string ProjectSettings::getProjectName() const
 
 void ProjectSettings::setProjectName(const std::string& name)
 {
-	setFilePath(FilePath(getProjectFileLocation().str() + "/" + name + ".coatiproject"));
+	setFilePath(FilePath(getProjectFileLocation().str() + "/" + name + PROJECT_FILE_EXTENSION));
 }
 
 FilePath ProjectSettings::getProjectFileLocation() const
@@ -122,7 +123,7 @@ FilePath ProjectSettings::getProjectFileLocation() const
 
 void ProjectSettings::setProjectFileLocation(const FilePath& location)
 {
-	setFilePath(FilePath(location.str() + "/" + getProjectName() + ".coatiproject"));
+	setFilePath(FilePath(location.str() + "/" + getProjectName() + PROJECT_FILE_EXTENSION));
 }
 
 std::string ProjectSettings::getDescription() const

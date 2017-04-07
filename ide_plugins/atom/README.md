@@ -1,5 +1,5 @@
-#atom-coati
+#atom-sourcetrail
 
 The Atom plugin is hosted at Github.
 
-Link to the repository: [atom-coati](https://github.com/CoatiSoftware/atom-coati).
+Link to the repository: [atom-sourcetrail](https://github.com/CoatiSoftware/atom-sourcetrail).

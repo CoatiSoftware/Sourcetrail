@@ -7,7 +7,7 @@
 #include "utility/utility.h"
 #include "utility/UserPaths.h"
 
-const size_t ApplicationSettings::VERSION = 1;
+const size_t ApplicationSettings::VERSION = 2;
 
 std::shared_ptr<ApplicationSettings> ApplicationSettings::s_instance;
 
@@ -50,6 +50,10 @@ bool ApplicationSettings::load(const FilePath& filePath)
 	migrator.addMigration(1, std::make_shared<MigrationMoveKey>(
 		"application/indexer_thread_count",
 		"indexing/indexer_thread_count"
+	));
+	migrator.addMigration(2, std::make_shared<MigrationMoveKey>(
+		"network/coati_port",
+		"network/sourcetrail_port"
 	));
 
 	bool migrated = migrator.migrate(this, ApplicationSettings::VERSION);
@@ -366,14 +370,14 @@ void ApplicationSettings::setPluginPort(const int pluginPort)
 	setValue<int>("network/plugin_port", pluginPort);
 }
 
-int ApplicationSettings::getCoatiPort() const
+int ApplicationSettings::getSourcetrailPort() const
 {
-	return getValue<int>("network/coati_port", 6667);
+	return getValue<int>("network/sourcetrail_port", 6667);
 }
 
-void ApplicationSettings::setCoatiPort(const int coatiPort)
+void ApplicationSettings::setSourcetrailPort(const int sourcetrailPort)
 {
-	setValue<int>("network/coati_port", coatiPort);
+	setValue<int>("network/sourcetrail_port", sourcetrailPort);
 }
 
 int ApplicationSettings::getControlsMouseBackButton() const

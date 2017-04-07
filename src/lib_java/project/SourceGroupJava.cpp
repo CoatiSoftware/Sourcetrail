@@ -141,7 +141,7 @@ bool SourceGroupJava::prepareJavaEnvironment()
 	if (!JavaEnvironmentFactory::getInstance())
 	{
 		std::string dialogMessage =
-			"Coati was unable to locate Java on this machine.\n"
+			"Sourcetrail was unable to locate Java on this machine.\n"
 			"Please make sure to provide the correct Java Path in the preferences.";
 
 		if (errorString.size() > 0)
@@ -178,7 +178,7 @@ bool SourceGroupJava::prepareMavenData()
 			if (!success)
 			{
 				const std::string dialogMessage =
-					"Coati was unable to locate Maven on this machine.\n"
+					"Sourcetrail was unable to locate Maven on this machine.\n"
 					"Please make sure to provide the correct Maven Path in the preferences.";
 
 				MessageStatus(dialogMessage, true, false).dispatch();
@@ -248,7 +248,7 @@ std::set<FilePath> SourceGroupJava::fetchRootDirectories()
 		std::shared_ptr<TextAccess> textAccess = TextAccess::createFromFile(filePath.str());
 
 		std::string packageName = "";
-		javaEnvironment->callStaticMethod("io/coati/JavaIndexer", "getPackageName", packageName, textAccess->getText());
+		javaEnvironment->callStaticMethod("com/sourcetrail/JavaIndexer", "getPackageName", packageName, textAccess->getText());
 
 		if (packageName.empty())
 		{

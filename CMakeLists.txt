@@ -13,7 +13,7 @@ include(cmake/setWinXxBits.cmake)
 
 # Variables --------------------------------------------------------------------
 
-set(PROJECT_NAME Coati)
+set(PROJECT_NAME Sourcetrail)
 
 set(APP_PROJECT_NAME "${PROJECT_NAME}")
 set(LIB_LICENSE_PROJECT_NAME "${PROJECT_NAME}_lib_license")
@@ -113,13 +113,15 @@ find_package(Boost 1.59 COMPONENTS system program_options filesystem date_time R
 
 # Botan -------------------------------------------------------------------------
 
-set(BOTAN_VERSION "botan-1.11")
+set(BOTAN_VERSION "botan-1.11" "botan-2")
 
 if(APPLE)
 	find_library(BOTAN ${BOTAN_VERSION} $ENV{BOTAN_DIR}/release NO_DEFAULT_PATH)
 	find_library(BOTAN_D ${BOTAN_VERSION} $ENV{BOTAN_DIR}/debug NO_DEFAULT_PATH)
 elseif(UNIX)
-	find_library(BOTAN ${BOTAN_VERSION} "$ENV{BOTAN_DIR}/lib")
+	find_library(BOTAN
+		NAMES ${BOTAN_VERSION}
+		HINTS "$ENV{BOTAN_DIR}/lib")
 else()
 	if(${WINXXBITS} STREQUAL "Win32")
 		find_library(BOTAN botan "$ENV{BOTAN_DIR}/win32/release")
@@ -390,7 +392,7 @@ configure_file(
 	${CMAKE_BINARY_DIR}/src/lib_gui/version.h
 )
 
-# configure public key for the coati version
+# configure public key for the sourcetrail version
 include(cmake/publicKey.cmake)
 
 set(CMAKE_AUTOMOC OFF)
@@ -412,13 +414,13 @@ add_subdirectory(src/app)
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
 if (WIN32)
-	file(WRITE ${CMAKE_BINARY_DIR}/Coati.rc
+	file(WRITE ${CMAKE_BINARY_DIR}/Sourcetrail.rc
 		"// Icon with lowest ID value placed first to ensure application icon\n"
 		"// remains consistent on all systems.\n"
-		"IDI_ICON1               ICON                    \"${CMAKE_BINARY_DIR}/coati.ico\"\n"
+		"IDI_ICON1               ICON                    \"${CMAKE_BINARY_DIR}/sourcetrail.ico\"\n"
 	)
 
-	add_executable(${APP_PROJECT_NAME} ${APP_FILES} ${CMAKE_BINARY_DIR}/Coati.rc)
+	add_executable(${APP_PROJECT_NAME} ${APP_FILES} ${CMAKE_BINARY_DIR}/Sourcetrail.rc)
 
 	# hide the console when running a release build.
 	set_target_properties(${APP_PROJECT_NAME} PROPERTIES LINK_FLAGS_DEBUG "/SUBSYSTEM:CONSOLE /DEBUG:FASTLINK")
@@ -427,7 +429,7 @@ if (WIN32)
 	set_target_properties(${APP_PROJECT_NAME} PROPERTIES COMPILE_DEFINITIONS_RELWITHDEBINFO "_CONSOLE")
 	set_target_properties(${APP_PROJECT_NAME} PROPERTIES LINK_FLAGS_RELEASE "/ENTRY:\"mainCRTStartup\" /SUBSYSTEM:WINDOWS /DEBUG")
 	set_target_properties(${APP_PROJECT_NAME} PROPERTIES LINK_FLAGS_MINSIZEREL "/SUBSYSTEM:WINDOWS")
-	
+
 	# generate pdb for release build
 	set (CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} /Zi")
 else ()
@@ -628,6 +630,7 @@ if(UNIX AND NOT APPLE)
 		"${CMAKE_SOURCE_DIR}/bin/app/data ->"
 		"${CMAKE_BINARY_DIR}/app/data")
 	execute_process(
+		COMMAND "${CMAKE_COMMAND}" "-E" "make_directory" "${CMAKE_BINARY_DIR}/app"
 		COMMAND "${CMAKE_COMMAND}"
 		"-E" "create_symlink"
 		"${CMAKE_SOURCE_DIR}/bin/app/data"

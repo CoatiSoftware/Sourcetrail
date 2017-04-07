@@ -1,0 +1,158 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<CommandTable xmlns="http://schemas.microsoft.com/VisualStudio/2005-10-18/CommandTable" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+  <!--  This is the file that defines the actual layout and type of the commands.
+        It is divided in different sections (e.g. command definition, command
+        placement, ...), with each defining a specific set of properties.
+        See the comment before each section for more details about how to
+        use it. -->
+
+  <!--  The VSCT compiler (the tool that translates this file into the binary 
+        format that VisualStudio will consume) has the ability to run a preprocessor 
+        on the vsct file; this preprocessor is (usually) the C++ preprocessor, so 
+        it is possible to define includes and macros with the same syntax used 
+        in C++ files. Using this ability of the compiler here, we include some files 
+        defining some of the constants that we will use inside the file. -->
+
+  <!--This is the file that defines the IDs for all the commands exposed by VisualStudio. -->
+  <Extern href="stdidcmd.h"/>
+
+  <!--This header contains the command ids for the menus provided by the shell. -->
+  <Extern href="vsshlids.h"/>
+
+
+
+
+  <!--The Commands section is where we the commands, menus and menu groups are defined.
+      This section uses a Guid to identify the package that provides the command defined inside it. -->
+  <Commands package="guidSourcetrailPluginPkg">
+    <Bitmaps>
+      <Bitmap guid="icon" href="Resources\favicon_16x16.png" usedList="icon0"/>
+    </Bitmaps>
+    
+    <Groups>
+
+      <Group guid="guidSourcetrailPluginCmdSet" id="ContextMenuGroup" priority="0x0600">
+        <Parent guid="guidSHLMainMenu" id="IDM_VS_CTXT_CODEWIN"/>
+      </Group>
+
+      <Group guid="guidSourcetrailPluginCmdSet" id="TopLevelMenu" priority="0x0600">
+        <Parent guid="guidSHLMainMenu" id="IDM_VS_TOOL_MAINMENU"/>
+      </Group>
+
+      <Group guid="guidSourcetrailPluginCmdSet" id="SubMenu" priority="0x0600">
+        <Parent guid="guidSourcetrailPluginCmdSet" id="TopLevelMenu"/>
+      </Group>
+
+      <!--
+      <Group guid="guidSourcetrailPluginCmdSet" id="HelpMenu" priority="0x0600">
+        <Parent guid="guidSourcetrailPluginCmdSet" id="TopLevelMenu"/>
+      </Group>
+      -->
+
+    </Groups>
+    
+    <Buttons>
+      
+      <Button guid="guidSourcetrailPluginCmdSet" id="cmdidSourcetrailSetActiveToken" priority="0x0100" type="Button">
+        <Parent guid="guidSourcetrailPluginCmdSet" id="ContextMenuGroup" />
+        <Icon guid="icon" id="icon0" />
+        <Strings>
+          <ButtonText>Set active Token</ButtonText>
+        </Strings>
+      </Button>
+        
+      <Button guid="guidSourcetrailPluginCmdSet" id="cmdidSourcetrailCreateCDB" priority="0x0100" type="Button">
+        <Parent guid="guidSourcetrailPluginCmdSet" id="SubMenu" />
+        <Icon guid="icon" id="icon0" />
+        <Strings>
+          <ButtonText>Create CDB</ButtonText>
+        </Strings>
+      </Button>
+
+      <Button guid="guidSourcetrailPluginCmdSet" id="cmdidSourcetrailOpenLogFolder" priority="0x0100" type="Button">
+        <Parent guid="guidSourcetrailPluginCmdSet" id="SubMenu" />
+        <Strings>
+          <ButtonText>Open Log Directory</ButtonText>
+        </Strings>
+      </Button>
+
+      <!--
+      <Button guid="guidSourcetrailPluginCmdSet" id="cmdidSourcetrailHelp" priority="0x0100" type="Button">
+        <Parent guid="guidSourcetrailPluginCmdSet" id="HelpMenu" />
+        <Strings>
+          <ButtonText>Online Help</ButtonText>
+        </Strings>
+      </Button>
+      -->
+
+    </Buttons>
+
+    <Menus>
+      
+      <Menu guid="guidSourcetrailPluginCmdSet" id="TopLevelMenu" priority="0x700" type="Menu">
+        <Parent guid="guidSHLMainMenu" id="IDG_VS_MM_TOOLSADDINS"/>
+        <Strings>
+          <ButtonText>Sourcetrail</ButtonText>
+          <CommandName>Sourcetrail</CommandName>
+        </Strings>
+      </Menu>
+
+      <!--
+      <Menu guid="guidSourcetrailPluginCmdSet" id="HelpMenu" priority="0x700" type="Menu">
+        <Parent guid="guidSourcetrailPluginCmdSet" id="TopLevelMenu"/>
+        <Strings>
+          <ButtonText>Sourcetrail Help</ButtonText>
+          <CommandName>Sourcetrail Help</CommandName>
+        </Strings>
+      </Menu>
+      -->
+      
+    </Menus>
+ 
+  </Commands>
+
+
+
+
+
+  <Symbols>
+    <!-- This is the package guid. -->
+    <GuidSymbol name="guidSourcetrailPluginPkg" value="{acf15780-03b5-440e-a41e-db79b7043fc2}" />
+    
+    <!-- This is the guid used to group the menu commands together -->
+    <GuidSymbol name="guidSourcetrailPluginCmdSet" value="{0efb005b-715c-4a62-8a9b-1e5a870e6c34}">
+
+      <IDSymbol name="ContextMenuGroup" value="0x1020" />
+      <IDSymbol name="cmdidSourcetrailPing" value="0x0100" />
+      <IDSymbol name="cmdidSourcetrailFile" value="0x0101"/>
+      <IDSymbol name="cmdidSourcetrailGetActiveFileName" value="0x0102"/>
+      <IDSymbol name="cmdidSourcetrailGetActiveLineNumber" value="0x0103"/>
+      <IDSymbol name="cmdidSourcetrailSetActiveToken" value="0x0104"/>
+      <IDSymbol name="cmdidSourcetrailCreateProject" value="0x0105"/>
+      <IDSymbol name="cmdidSourcetrailCreateCDB" value="0x0106"/>
+      <IDSymbol name="cmdidSourcetrailOpenLogFolder" value="0x0107"/>
+      <IDSymbol name="TopLevelMenu" value="0x1021"/>
+      <IDSymbol name="SubMenu" value="0x1022"/>
+      <IDSymbol name="HelpMenu" value="0x1023"/>
+      <IDSymbol name="cmdidSourcetrailHelp" value="0x1024"/>
+    </GuidSymbol>
+    
+    
+    
+    <GuidSymbol name="guidImages" value="{e447cfde-511d-4f75-80c1-a40b8a03152a}" >
+      <IDSymbol name="bmpPic1" value="1" />
+      <IDSymbol name="bmpPic2" value="2" />
+      <IDSymbol name="bmpPicSearch" value="3" />
+      <IDSymbol name="bmpPicX" value="4" />
+      <IDSymbol name="bmpPicArrows" value="5" />
+      <IDSymbol name="bmpPicStrikethrough" value="6" />
+    </GuidSymbol>
+
+    <GuidSymbol name="icon" value="{403BFDD2-B84C-4BCE-A1D1-B16F9F2B8230}" >
+      <IDSymbol name="icon0" value="1" />
+    </GuidSymbol>
+    
+  </Symbols>
+
+</CommandTable>

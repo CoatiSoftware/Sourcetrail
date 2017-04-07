@@ -11,22 +11,22 @@ function(Run)
 	)
 endfunction()
 
-# upx
-	set(upxPath ${CMAKE_CURRENT_LIST_DIR}/../build/Release/app)
+set(binPath ${CMAKE_CURRENT_LIST_DIR}/../build/Release/app/Sourcetrail)
+set(projPath ${CMAKE_CURRENT_LIST_DIR}/../bin/app/user/projects)
 
-	execute_process(
-		COMMAND ${upxPath}/Coati -z ${CMAKE_CURRENT_LIST_DIR}/../setup/license.txt
-	)
+execute_process(
+	COMMAND ${binPath} -z ${CMAKE_CURRENT_LIST_DIR}/../setup/license.txt
+)
 
-	execute_process(
-		COMMAND ${upxPath}/Coati -f -d ${CMAKE_CURRENT_LIST_DIR}/../bin/app/user/projects/tictactoe/tictactoe.coatiproject
-	)
+execute_process(
+	COMMAND ${binPath} -f -d ${projPath}/tictactoe/tictactoe.srctrlprj
+)
 
-	execute_process(
-		COMMAND ${upxPath}/Coati -f -d ${CMAKE_CURRENT_LIST_DIR}/../bin/app/user/projects/tutorial/tutorial.coatiproject
-	)
+execute_process(
+	COMMAND ${binPath} -f -d ${projPath}/tutorial/tutorial.srctrlprj
+)
 
-	execute_process(
-		COMMAND ${upxPath}/Coati -f -d ${CMAKE_CURRENT_LIST_DIR}/../bin/app/user/projects/javaparser/javaparser.coatiproject
-	)
+execute_process(
+	COMMAND ${binPath} -f -d ${projPath}/javaparser/javaparser.srctrlprj
+)
 

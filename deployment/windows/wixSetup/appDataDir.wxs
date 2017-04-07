@@ -8,7 +8,7 @@
 <?endif ?>
 	
 	<Fragment>
-		<DirectoryRef Id='CoatiAppData'>			
+		<DirectoryRef Id='SourcetrailAppData'>			
 			<Directory Id="SampleProjects" Name="projects">
 			
 				<Component Id="SampleProjects" Guid="12F6C3BE-CE83-441A-8A5D-E49EA1483F24" Win64="$(var.Win64)">
@@ -17,14 +17,14 @@
 				</Component>
 			
 				<Directory Id="SampleProjectTictactoe" Name="tictactoe">
-					<Component Id="TictactoeCoatiproject" Guid="E353FD02-79FD-4409-9874-3282B038DD12" Win64="$(var.Win64)">
+					<Component Id="TictactoeSourcetrailproject" Guid="E353FD02-79FD-4409-9874-3282B038DD12" Win64="$(var.Win64)">
 						<CreateFolder />
 						<RemoveFolder Id='SampleProjectTictactoe' On='uninstall' />
 						<RegistryKey Action="none" Key="Software\[Manufacturer]\[ProductName]\tictactoeProjectKey" Root="HKCU" >
 							<RegistryValue Type="integer" Value="1" KeyPath="yes" />
 						</RegistryKey>
-						<File Id='TictactoeDb' Name='tictactoe.coatidb' DiskId='1' Source='./../../../bin/app/user/projects/tictactoe/tictactoe.coatidb' KeyPath='no' />
-						<File Id='TictactoeProject' Name='tictactoe.coatiproject' DiskId='1' Source='./../../../bin/app/user/projects/tictactoe/tictactoe.coatiproject' KeyPath='no' />
+						<File Id='TictactoeDb' Name='tictactoe.srctrldb' DiskId='1' Source='./../../../bin/app/user/projects/tictactoe/tictactoe.srctrldb' KeyPath='no' />
+						<File Id='TictactoeProject' Name='tictactoe.srctrlprj' DiskId='1' Source='./../../../bin/app/user/projects/tictactoe/tictactoe.srctrlprj' KeyPath='no' />
 					</Component>
 					
 					<Directory Id="TictactoeSrc" Name="src">
@@ -59,14 +59,14 @@
 				</Directory>
 				
 				<Directory Id="SampleProjectTutorial" Name="tutorial">
-					<Component Id="TutorialCoatiproject" Guid="D7976D20-0447-4628-942B-0C8BE49E190E" Win64="$(var.Win64)">
+					<Component Id="TutorialSourcetrailproject" Guid="D7976D20-0447-4628-942B-0C8BE49E190E" Win64="$(var.Win64)">
 						<CreateFolder />
 						<RemoveFolder Id='SampleProjectTutorial' On='uninstall' />
 						<RegistryKey Action="none" Key="Software\[Manufacturer]\[ProductName]\tutorialProjectKey" Root="HKCU" >
 							<RegistryValue Type="integer" Value="1" KeyPath="yes" />
 						</RegistryKey>
-						<File Id='TutorialDb' Name='tutorial.coatidb' DiskId='1' Source='./../../../bin/app/user/projects/tutorial/tutorial.coatidb' KeyPath='no' />
-						<File Id='TutorialProject' Name='tutorial.coatiproject' DiskId='1' Source='./../../../bin/app/user/projects/tutorial/tutorial.coatiproject' KeyPath='no' />
+						<File Id='TutorialDb' Name='tutorial.srctrldb' DiskId='1' Source='./../../../bin/app/user/projects/tutorial/tutorial.srctrldb' KeyPath='no' />
+						<File Id='TutorialProject' Name='tutorial.srctrlprj' DiskId='1' Source='./../../../bin/app/user/projects/tutorial/tutorial.srctrlprj' KeyPath='no' />
 					</Component>
 					
 					<Directory Id="TutorialSrc" Name="src">
@@ -101,14 +101,14 @@
 				</Directory>
 				
 				<Directory Id="SampleProjectJavaparser" Name="javaparser">
-					<Component Id="JavaparserCoatiproject" Guid="39B413EF-C9F4-4B06-BF91-028C7D931303" Win64="$(var.Win64)">
+					<Component Id="JavaparserSourcetrailproject" Guid="39B413EF-C9F4-4B06-BF91-028C7D931303" Win64="$(var.Win64)">
 						<CreateFolder />
 						<RemoveFolder Id='SampleProjectJavaparser' On='uninstall' />
-						<RegistryKey Action="none" Key="Software\[Manufacturer]\[ProductName]\JavaparserCoatiprojectKey" Root="HKCU" >
+						<RegistryKey Action="none" Key="Software\[Manufacturer]\[ProductName]\JavaparserSourcetrailprojectKey" Root="HKCU" >
 							<RegistryValue Type="integer" Value="1" KeyPath="yes" />
 						</RegistryKey>
-						<File Id='JavaparserDb' Name='javaparser.coatidb' DiskId='1' Source='./../../../bin/app/user/projects/javaparser/javaparser.coatidb' KeyPath='no' />
-						<File Id='JavaparserProject' Name='javaparser.coatiproject' DiskId='1' Source='./../../../bin/app/user/projects/javaparser/javaparser.coatiproject' KeyPath='no' />
+						<File Id='JavaparserDb' Name='javaparser.srctrldb' DiskId='1' Source='./../../../bin/app/user/projects/javaparser/javaparser.srctrldb' KeyPath='no' />
+						<File Id='JavaparserProject' Name='javaparser.srctrlprj' DiskId='1' Source='./../../../bin/app/user/projects/javaparser/javaparser.srctrlprj' KeyPath='no' />
 					</Component>
 					<Directory Id="SampleProjectJavaparserSrc" Name="src">
 						<Component Id="SampleProjectJavaparserSrcFolder" Guid="560AEF91-AE8A-485B-BC69-928D3584EE05" Win64="$(var.Win64)">

@@ -374,10 +374,11 @@ bool License::isValid() const
 	}
 	try // lol, now we try to handle errors?
 	{
-        // remove coati in version 1
+        // remove "Coati " in version 1
         if(!(Botan::check_passhash9("Coati "+ getVersion(), getHashLine())
              || Botan::check_passhash9("Sourcetrail " + getVersion(), getHashLine())))
 		{
+			std::cout << "Wrong license version" << std::endl;
             return false;
 		}
 
@@ -440,7 +441,7 @@ std::string License::getVersion() const
 
         std::string line = getVersionLine();
 
-        //TODO: remove coati in version 1
+        //TODO: remove "Coati " in version 1
         const std::array<std::string, 2> appNames = {{ "Coati ", "Sourcetrail " }};
 
         for ( std::string appName : appNames)
