@@ -177,21 +177,19 @@ void IDECommunicationController::handlePing(const NetworkProtocolHelper::PingMes
 
 		if (msg.ideName.empty())
 		{
-			msg.ideName = "unknown";
+			msg.ideName = "unknown IDE";
 		}
 
-		std::string statusMessage = msg.ideName + " instance detected via plugin port";
-
-		MessageStatus(statusMessage, false, false).dispatch();
+		LOG_INFO(msg.ideName + " instance detected via plugin port");
 		msg.dispatch();
 	}
 	else
 	{
-		LOG_ERROR_STREAM(<< "Can't handle ping, message is invalid");
+		LOG_ERROR("Can't handle ping, message is invalid");
 	}
 }
 
-void IDECommunicationController::handleMessage(MessageActivateTokens* message)
+void IDECommunicationController::handleMessage(MessageWindowFocus* message)
 {
 	sendUpdatePing();
 }
