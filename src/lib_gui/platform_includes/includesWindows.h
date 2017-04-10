@@ -43,7 +43,7 @@ void setupApp(int argc, char *argv[])
 	FilePath coatiUserDataPath = UserPaths::getUserDataPath() + "../";
 	if (utility::getApplicationArchitectureType() == APPLICATION_ARCHITECTURE_X86_64)
 	{
-		coatiUserDataPath.concat("Coati 64-bit");
+		coatiUserDataPath = coatiUserDataPath.concat("Coati 64-bit");
 	}
 	else
 	{
