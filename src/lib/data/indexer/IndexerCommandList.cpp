@@ -9,7 +9,7 @@ void IndexerCommandList::addCommand(std::shared_ptr<IndexerCommand> command)
 	m_commands.push_back(command);
 }
 
-int IndexerCommandList::size() const
+size_t IndexerCommandList::size() const
 {
 	return m_commands.size();
 }

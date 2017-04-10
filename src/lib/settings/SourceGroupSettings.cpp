@@ -3,9 +3,9 @@
 #include "utility/utility.h"
 
 SourceGroupSettings::SourceGroupSettings(const std::string& id, SourceGroupType type, const ProjectSettings* projectSettings)
-	: m_id(id)
+	: m_projectSettings(projectSettings)
+	, m_id(id)
 	, m_type(type)
-	, m_projectSettings(projectSettings)
 {
 }
 

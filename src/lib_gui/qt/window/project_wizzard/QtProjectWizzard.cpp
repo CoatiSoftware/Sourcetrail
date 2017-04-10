@@ -89,7 +89,6 @@ void QtProjectWizzard::newProject()
 
 void QtProjectWizzard::newProjectFromSolution(const std::string& ideId, const FilePath& solutionPath)
 {
-	int i = 0;
 }
 
 void QtProjectWizzard::newProjectFromCDB(const FilePath& filePath, const std::vector<FilePath>& headerPaths)
@@ -108,7 +107,6 @@ void QtProjectWizzard::newProjectFromCDB(const FilePath& filePath, const std::ve
 
 void QtProjectWizzard::refreshProjectFromSolution(const std::string& ideId, const std::string& solutionPath)
 {
-	int i = 0;
 }
 
 void QtProjectWizzard::editProject(const FilePath& settingsPath)
@@ -330,7 +328,7 @@ void QtProjectWizzard::emptyProject()
 
 void QtProjectWizzard::emptyProjectCDBVS()
 {
-	QtProjectWizzardWindow* window = window = createWindowWithContent(
+	QtProjectWizzardWindow* window = createWindowWithContent(
 		[this](QtProjectWizzardWindow* window)
 		{
 			return new QtProjectWizzardContentDataCDBVS(m_projectSettings, m_sourceGroupSettings, window);
@@ -354,7 +352,7 @@ void QtProjectWizzard::emptyProjectCDB()
 
 void QtProjectWizzard::emptyProjectJavaMaven()
 {
-	QtProjectWizzardWindow* window = window = createWindowWithContent(
+	QtProjectWizzardWindow* window = createWindowWithContent(
 		[this](QtProjectWizzardWindow* window)
 		{
 			return new QtProjectWizzardContentData(m_projectSettings, m_sourceGroupSettings, window);

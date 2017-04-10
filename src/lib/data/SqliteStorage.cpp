@@ -766,7 +766,7 @@ bool SqliteStorage::checkNodeExistsByName(const std::string& serializedName) con
 	{
 		const Id id = q.getIntField(0, 0);
 
-		if (id != -1)
+		if (id != (Id)-1)
 		{
 			return true;
 		}
@@ -1003,7 +1003,7 @@ void SqliteStorage::editNodeBookmark(const NodeBookmark& bookmark)
 	std::string statement = "UPDATE nodeBookmark SET name=?, comment=?, category=? WHERE id=" + std::to_string(bookmark.getId()) + ";";
 
 	BookmarkCategory category = getBookmarkCategoryByName(bookmark.getCategory().getName());
-	if (category.getId() == -1)
+	if (category.getId() == (Id)-1)
 	{
 		category.setId(addBookmarkCategory(bookmark.getCategory().getName()));
 		category.setName(bookmark.getCategory().getName());
@@ -1095,7 +1095,7 @@ void SqliteStorage::editEdgeBookmark(const EdgeBookmark& bookmark)
 	std::string statement = "UPDATE edgeBookmark SET name=?, comment=?, category=? WHERE id=" + std::to_string(bookmark.getId()) + ";";
 
 	BookmarkCategory category = getBookmarkCategoryByName(bookmark.getCategory().getName());
-	if (category.getId() == -1)
+	if (category.getId() == (Id)-1)
 	{
 		category.setId(addBookmarkCategory(bookmark.getCategory().getName()));
 		category.setName(bookmark.getCategory().getName());

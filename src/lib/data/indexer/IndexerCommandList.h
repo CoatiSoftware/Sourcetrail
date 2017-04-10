@@ -12,7 +12,7 @@ class IndexerCommandList
 public:
 	void addCommand(std::shared_ptr<IndexerCommand> command);
 
-	int size() const;
+	size_t size() const;
 
 	void shuffle();
 
