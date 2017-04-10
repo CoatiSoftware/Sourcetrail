@@ -30,7 +30,13 @@ void FileLogger::setLogDirectory(const std::string& filePath)
 
 void FileLogger::setFileName(const std::string& fileName)
 {
-	m_logFileName = fileName;
+	if (fileName != m_logFileName)
+	{
+		m_logFileName = fileName;
+		m_currentLogLineCount = 0;
+		m_currentLogFileCount = 0;
+		updateLogFileName();
+	}
 }
 
 void FileLogger::logInfo(const LogMessage& message)

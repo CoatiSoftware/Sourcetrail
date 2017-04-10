@@ -21,12 +21,12 @@ std::string LoggerUtility::generateDatedFileName(const std::string& prefix, cons
 	filename << (t.tm_hour < 10 ? "0" : "") << t.tm_hour << "-";
 	filename << (t.tm_min < 10 ? "0" : "") << t.tm_min << "-";
 	filename << (t.tm_sec < 10 ? "0" : "") << t.tm_sec;
-	if (prefix.length() > 0)
+
+	if (suffix.length() > 0)
 	{
 		filename << "_";
 		filename << suffix;
 	}
-
 
 	return filename.str();
 }
