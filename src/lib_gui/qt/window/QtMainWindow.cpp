@@ -196,13 +196,19 @@ void QtMainWindow::loadLayout()
 	}
 	setShowDockWidgetTitleBars(settings.value("showTitleBars", true).toBool());
 	settings.endGroup();
+	loadDockWidgetLayout();
+}
 
+void QtMainWindow::loadDockWidgetLayout()
+{
+	QSettings settings(UserPaths::getWindowSettingsPath().c_str(), QSettings::IniFormat);
 	this->restoreState(settings.value("DOCK_LOCATIONS").toByteArray());
 
 	for (DockWidget dock : m_dockWidgets)
 	{
 		dock.action->setChecked(!dock.widget->isHidden());
 	}
+
 }
 
 void QtMainWindow::saveLayout()
@@ -517,6 +523,13 @@ void QtMainWindow::resetZoom()
 	MessageResetZoom().dispatch();
 }
 
+void QtMainWindow::resetWindowLayout()
+{
+	FileSystem::remove(UserPaths::getWindowSettingsPath());
+	FileSystem::copyFile(ResourcePaths::getFallbackPath() + "window_settings.ini", UserPaths::getWindowSettingsPath());
+	loadDockWidgetLayout();
+}
+
 void QtMainWindow::openRecentProject()
 {
 	QAction *action = qobject_cast<QAction *>(sender());
@@ -659,6 +672,7 @@ void QtMainWindow::setupViewMenu()
 	menu->addAction(tr("Larger font"), this, SLOT(zoomIn()), QKeySequence::ZoomIn);
 	menu->addAction(tr("Smaller font"), this, SLOT(zoomOut()), QKeySequence::ZoomOut);
 	menu->addAction(tr("Reset font size"), this, SLOT(resetZoom()), QKeySequence(Qt::CTRL + Qt::Key_0));
+	menu->addAction(tr("Reset window layout"), this, SLOT(resetWindowLayout()));
 
 	m_viewMenu = menu;
 }

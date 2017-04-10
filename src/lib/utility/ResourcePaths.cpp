@@ -7,6 +7,11 @@ std::string ResourcePaths::getColorSchemesPath()
 	return AppPath::getAppPath() + "data/color_schemes/";
 }
 
+std::string ResourcePaths::getFallbackPath()
+{
+	return AppPath::getAppPath() + "data/fallback/";
+}
+
 std::string ResourcePaths::getFontsPath()
 {
 	return AppPath::getAppPath() + "data/fonts/";

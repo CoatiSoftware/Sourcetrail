@@ -103,18 +103,6 @@ function(AddSharedToComponent componentName)
 		COMPONENT ${componentName}
 	)
 
-	INSTALL(FILES
-		${CMAKE_SOURCE_DIR}/bin/app/data/fallback/ApplicationSettings.xml
-		COMPONENT ${componentName}
-		DESTINATION Sourcetrail/user
-	)
-
-	INSTALL(FILES
-		${CMAKE_SOURCE_DIR}/bin/app/data/fallback/window_settings.ini
-		COMPONENT ${componentName}
-		DESTINATION Sourcetrail/user
-	)
-
 	INSTALL(DIRECTORY ${CMAKE_SOURCE_DIR}/bin/app/user
 		DESTINATION Sourcetrail
 		COMPONENT ${componentName}

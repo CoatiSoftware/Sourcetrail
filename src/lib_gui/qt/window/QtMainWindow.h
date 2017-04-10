@@ -65,6 +65,8 @@ public:
 	void loadLayout();
 	void saveLayout();
 
+	void loadDockWidgetLayout();
+
 	void forceEnterLicense(bool expired);
 
 protected:
@@ -110,6 +112,8 @@ public slots:
 	void zoomIn();
 	void zoomOut();
 	void resetZoom();
+
+	void resetWindowLayout();
 
 	void openRecentProject();
 	void updateRecentProjectMenu();

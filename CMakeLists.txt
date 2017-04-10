@@ -635,6 +635,10 @@ if(UNIX AND NOT APPLE)
 		"-E" "create_symlink"
 		"${CMAKE_SOURCE_DIR}/bin/app/data"
 		"${CMAKE_BINARY_DIR}/app/data"
+		COMMAND "${CMAKE_COMMAND}"
+		"-E" "create_symlink"
+		"${CMAKE_SOURCE_DIR}/bin/app/user"
+		"${CMAKE_BINARY_DIR}/app/user"
 	)
 	# Linux package
 	include(cmake/LinuxPackage.cmake)

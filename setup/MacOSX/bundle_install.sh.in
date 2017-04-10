@@ -82,13 +82,8 @@ cp -R ../../../bin/app/data/color_schemes $RES_DIR/data/color_schemes
 cp -R ../../../bin/app/data/fonts $RES_DIR/data/fonts
 cp -R ../../../bin/app/data/gui $RES_DIR/data/gui
 cp -R ../../../bin/app/data/java $RES_DIR/data/java
+cp -R ../../../bin/app/data/fallback $RES_DIR/data/fallback
 cp -R ../../../bin/app/user/projects $RES_DIR/data/projects
-
-mkdir -p $RES_DIR/user
-mkdir -p $RES_DIR/user/log
-
-cp ../../../bin/app/user/window_settings.ini $RES_DIR/user/window_settings.ini
-cp ../../../bin/app/data/fallback/ApplicationSettings.xml $RES_DIR/user/ApplicationSettings.xml
 
 cp -R ../../../bin/app/data/3rd_party_licenses $BIN_DIR/3rd_party_licenses
 

@@ -7,6 +7,7 @@
 #include "vld.h"
 
 #include "utility/file/FileSystem.h"
+#include "utility/ResourcePaths.h"
 #include "utility/UserPaths.h"
 #include "utility/utilityApp.h"
 
@@ -58,8 +59,8 @@ void setupApp(int argc, char *argv[])
 #endif
 
 	// use files in fallback folder if Coati has not been installed and used before
-	FileSystem::copyFile("data/fallback/ApplicationSettings.xml", UserPaths::getAppSettingsPath());
-	FileSystem::copyFile("data/fallback/window_settings.ini", UserPaths::getWindowSettingsPath());
+	FileSystem::copyFile(ResourcePaths::getFallbackPath() + "ApplicationSettings.xml", UserPaths::getAppSettingsPath());
+	FileSystem::copyFile(ResourcePaths::getFallbackPath() + "window_settings.ini", UserPaths::getWindowSettingsPath());
 }
 
 #endif // INCLUDES_WINDOWS_H

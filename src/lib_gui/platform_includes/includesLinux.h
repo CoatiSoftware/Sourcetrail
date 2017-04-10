@@ -5,6 +5,7 @@
 #include <QDir>
 #include "utility/AppPath.h"
 #include "utility/UserPaths.h"
+#include "utility/ResourcePaths.h"
 #include "utility/file/FilePath.h"
 #include "utility/file/FileSystem.h"
 #include "qt/utility/utilityQt.h"
@@ -40,6 +41,7 @@ void setupApp(int argc, char *argv[])
 		}
 	}
 
+	utility::copyNewFilesFromDirectory(QString::fromStdString(ResourcePaths::getFallbackPath()), userDataPath);
 	utility::copyNewFilesFromDirectory(QString::fromStdString(AppPath::getAppPath() + "/user/" ), userDataPath);
 }
 

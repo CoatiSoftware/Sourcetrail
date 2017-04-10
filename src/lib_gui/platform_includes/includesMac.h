@@ -8,6 +8,7 @@
 
 #include "qt/utility/utilityQt.h"
 #include "utility/AppPath.h"
+#include "utility/ResourcePaths.h"
 #include "utility/UserPaths.h"
 
 bool appIsMacBundle = false;
@@ -55,7 +56,7 @@ void setupPlatform(int argc, char *argv[])
 	// ----------------------------------------------------------------------------
 	// Makes the mac bundle copy the user files to the Application Support folder
 	QString dataPath = QStandardPaths::writableLocation(QStandardPaths::DataLocation);
-	QString oldDataPath = QString::fromStdString(UserPaths::getUserDataPath() + "user/");
+	QString oldDataPath = QString::fromStdString(ResourcePaths::getFallbackPath());
 
 	QDir dataDir(dataPath);
 	if (!dataDir.exists())
