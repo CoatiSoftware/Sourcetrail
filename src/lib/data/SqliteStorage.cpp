@@ -8,7 +8,7 @@
 #include "utility/text/TextAccess.h"
 #include "utility/Version.h"
 
-const size_t SqliteStorage::STORAGE_VERSION = 9;
+const size_t SqliteStorage::STORAGE_VERSION = 10;
 
 SqliteStorage::SqliteStorage(const FilePath& dbFilePath)
 	: m_dbFilePath(dbFilePath.canonical())
@@ -1287,6 +1287,7 @@ void SqliteStorage::setupTables()
 				"path TEXT, "
 				"modification_time TEXT, "
 				"line_count INTEGER, "
+				"UNIQUE(path) ON CONFLICT REPLACE,"
 				"PRIMARY KEY(id), "
 				"FOREIGN KEY(id) REFERENCES node(id) ON DELETE CASCADE);"
 		);
@@ -1323,7 +1324,7 @@ void SqliteStorage::setupTables()
 		);
 
 		m_database.execDML(
-			"CREATE TABLE IF NOT EXISTS occurrence(" // TODO: properly delete this on refresh
+			"CREATE TABLE IF NOT EXISTS occurrence("
 				"element_id INTEGER NOT NULL, "
 				"source_location_id INTEGER NOT NULL, "
 				"PRIMARY KEY(element_id, source_location_id), "
@@ -1336,6 +1337,7 @@ void SqliteStorage::setupTables()
 				"id INTEGER NOT NULL, "
 				"node_id INTEGER, "
 				"type INTEGER NOT NULL, "
+				"UNIQUE(node_id) ON CONFLICT REPLACE,"
 				"PRIMARY KEY(id), "
 				"FOREIGN KEY(node_id) REFERENCES node(id) ON DELETE CASCADE);"
 		);
@@ -1348,6 +1350,7 @@ void SqliteStorage::setupTables()
 				"start_column INTEGER, "
 				"end_line INTEGER, "
 				"end_column INTEGER, "
+				"UNIQUE(file_node_id, start_line, start_column, end_line, end_column) ON CONFLICT REPLACE,"
 				"PRIMARY KEY(id), "
 				"FOREIGN KEY(file_node_id) REFERENCES node(id) ON DELETE CASCADE);"
 		);
@@ -1361,6 +1364,7 @@ void SqliteStorage::setupTables()
 				"file_path TEXT, "
 				"line_number INTEGER, "
 				"column_number INTEGER, "
+				"UNIQUE(message, fatal, file_path, line_number, column_number) ON CONFLICT REPLACE,"
 				"PRIMARY KEY(id));"
 		);
 

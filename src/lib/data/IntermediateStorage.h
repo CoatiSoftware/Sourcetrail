@@ -4,6 +4,7 @@
 #include <memory>
 #include <map>
 #include <unordered_map>
+#include <unordered_set>
 
 #include "data/StorageTypes.h"
 #include "data/Storage.h"
@@ -40,20 +41,26 @@ public:
 	virtual void forEachError(std::function<void(const StorageError& /*data*/)> callback) const;
 
 private:
-	std::string serialize(const StorageEdge& edge) const;
 	std::string serialize(const StorageNode& node) const;
+	std::string serialize(const StorageFile& file) const;
+	std::string serialize(const StorageEdge& edge) const;
 	std::string serialize(const StorageLocalSymbol& localSymbol) const;
 	std::string serialize(const StorageSourceLocation& sourceLocation) const;
+	std::string serialize(const StorageOccurrence& occurrence) const;
+	std::string serialize(const StorageComponentAccess& componentAccess) const;
+	std::string serialize(const StorageCommentLocation& commentLocation) const;
+	std::string serialize(const StorageError& error) const;
 
 	std::unordered_map<std::string, Id> m_nodeNamesToIds; // this is used to prevent duplicates (unique)
 	std::map<Id, std::shared_ptr<StorageNode>> m_nodeIdsToData;
 
+	std::unordered_set<std::string> m_serializedFiles; // this is used to prevent duplicates (unique)
 	std::vector<StorageFile> m_files;
+
 	std::vector<StorageSymbol> m_symbols;
 
 	std::unordered_map<std::string, Id> m_edgeNamesToIds; // this is used to prevent duplicates (unique)
 	std::map<Id, std::shared_ptr<StorageEdge>> m_edgeIdsToData;
-
 
 	std::unordered_map<std::string, Id> m_localSymbolNamesToIds; // this is used to prevent duplicates (unique)
 	std::map<Id, std::shared_ptr<StorageLocalSymbol>> m_localSymbolIdsToData;
@@ -61,9 +68,16 @@ private:
 	std::unordered_map<std::string, Id> m_sourceLocationNamesToIds; // this is used to prevent duplicates (unique)
 	std::map<Id, std::shared_ptr<StorageSourceLocation>> m_sourceLocationIdsToData;
 
+	std::unordered_set<std::string> m_serializedOccurrences; // this is used to prevent duplicates (unique)
 	std::vector<StorageOccurrence> m_occurrences;
+
+	std::unordered_set<std::string> m_serializedComponentAccesses; // this is used to prevent duplicates (unique)
 	std::vector<StorageComponentAccess> m_componentAccesses;
+
+	std::unordered_set<std::string> m_serializedCommentLocations; // this is used to prevent duplicates (unique)
 	std::vector<StorageCommentLocation> m_commentLocations;
+
+	std::unordered_set<std::string> m_serializedErrors; // this is used to prevent duplicates (unique)
 	std::vector<StorageError> m_errors;
 
 	Id m_nextId;
