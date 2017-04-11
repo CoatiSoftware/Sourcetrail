@@ -29,347 +29,367 @@
 				</ProgId>
 			</Component>
 
-			<Component Id='Qt5CoreDll' Guid='0C899A49-DE40-4D35-A0E9-9B64E330BCFA' Win64="$(var.Win64)">
+			<Component Id='Qt5CoreDll' Guid='*' Win64="$(var.Win64)">
 				<File Id='qt5coreDLL' Name='Qt5Core.dll' DiskId='1' Source='$(var.PlatformSourceFolder)/Qt5Core.dll' KeyPath='yes' />
 			</Component>
 
-			<Component Id='Qt5GuiDll' Guid='F57A8F21-7420-49BC-98B9-2ECD3C5B9674' Win64="$(var.Win64)">
+			<Component Id='Qt5GuiDll' Guid='*' Win64="$(var.Win64)">
 				<File Id='qt5guiDLL' Name='Qt5Gui.dll' DiskId='1' Source='$(var.PlatformSourceFolder)/Qt5Gui.dll' KeyPath='yes' />
 			</Component>
 
-			<Component Id='Qt5NetworkDll' Guid='78E8699E-42EA-48BD-B844-DD0F9C0ED432' Win64="$(var.Win64)">
+			<Component Id='Qt5NetworkDll' Guid='*' Win64="$(var.Win64)">
 				<File Id='qt5networkDLL' Name='Qt5Network.dll' DiskId='1' Source='$(var.PlatformSourceFolder)/Qt5Network.dll' KeyPath='yes' />
 			</Component>
 
-			<Component Id='Qt5WidgetsDll' Guid='462F10F3-6AC7-473C-95EA-C5616E2822A3' Win64="$(var.Win64)">
+			<Component Id='Qt5WidgetsDll' Guid='*' Win64="$(var.Win64)">
 				<File Id='qt5widgetsDLL' Name='Qt5Widgets.dll' DiskId='1' Source='$(var.PlatformSourceFolder)/Qt5Widgets.dll' KeyPath='yes' />
 			</Component>
 			
-			<Component Id='apiMsWinCoreConsole_l1_1_0Dll' Guid='D35F6AA1-972E-4DFE-9899-F0202B193F15' Win64="$(var.Win64)">
+			<Component Id='apiMsWinCoreConsole_l1_1_0Dll' Guid='*' Win64="$(var.Win64)">
 				<File Id='apiMsWinCoreConsole_l1_1_0' Name='api-ms-win-core-console-l1-1-0.dll' DiskId='1' Source='$(var.PlatformSourceFolder)/api-ms-win-core-console-l1-1-0.dll' KeyPath='yes' />
 			</Component>
 			
-			<Component Id='apiMsWinCoreDatetime_l1_1_0Dll' Guid='2A3EE573-DD09-4A0A-B1F1-F0B0B97CF602' Win64="$(var.Win64)">
+			<Component Id='apiMsWinCoreDatetime_l1_1_0Dll' Guid='*' Win64="$(var.Win64)">
 				<File Id='apiMsWinCoreDatetime_l1_1_0' Name='api-ms-win-core-datetime-l1-1-0.dll' DiskId='1' Source='$(var.PlatformSourceFolder)/api-ms-win-core-datetime-l1-1-0.dll' KeyPath='yes' />
 			</Component>
 			
-			<Component Id='apiMsWinCoreDebug_l1_1_0Dll' Guid='DCCF0C00-0FC0-4106-BCF8-58ED2853DA6A' Win64="$(var.Win64)">
+			<Component Id='apiMsWinCoreDebug_l1_1_0Dll' Guid='*' Win64="$(var.Win64)">
 				<File Id='apiMsWinCoreDebug_l1_1_0' Name='api-ms-win-core-debug-l1-1-0.dll' DiskId='1' Source='$(var.PlatformSourceFolder)/api-ms-win-core-debug-l1-1-0.dll' KeyPath='yes' />
 			</Component>
 			
-			<Component Id='apiMsWinCoreErrorhandling_l1_1_0Dll' Guid='0B7D5180-15DA-4183-B0CF-CFE150AC8DE7' Win64="$(var.Win64)">
+			<Component Id='apiMsWinCoreErrorhandling_l1_1_0Dll' Guid='*' Win64="$(var.Win64)">
 				<File Id='apiMsWinCoreErrorhandling_l1_1_0' Name='api-ms-win-core-errorhandling-l1-1-0.dll' DiskId='1' Source='$(var.PlatformSourceFolder)/api-ms-win-core-errorhandling-l1-1-0.dll' KeyPath='yes' />
 			</Component>
 			
-			<Component Id='apiMsWinCoreFile_l1_1_0Dll' Guid='00BF3FDD-3407-4CEA-B0A9-930C44867156' Win64="$(var.Win64)">
+			<Component Id='apiMsWinCoreFile_l1_1_0Dll' Guid='*' Win64="$(var.Win64)">
 				<File Id='apiMsWinCoreFile_l1_1_0' Name='api-ms-win-core-file-l1-1-0.dll' DiskId='1' Source='$(var.PlatformSourceFolder)/api-ms-win-core-file-l1-1-0.dll' KeyPath='yes' />
 			</Component>
 			
-			<Component Id='apiMsWinCoreFile_l1_2_0Dll' Guid='9BE43140-A1E2-433C-A996-8CDCE5AF796F' Win64="$(var.Win64)">
+			<Component Id='apiMsWinCoreFile_l1_2_0Dll' Guid='*' Win64="$(var.Win64)">
 				<File Id='apiMsWinCoreFile_l1_2_0' Name='api-ms-win-core-file-l1-2-0.dll' DiskId='1' Source='$(var.PlatformSourceFolder)/api-ms-win-core-file-l1-2-0.dll' KeyPath='yes' />
 			</Component>
 			
-			<Component Id='apiMsWinCoreFile_l2_1_0Dll' Guid='8852AA5A-DB7B-424B-9664-D67E427954A7' Win64="$(var.Win64)">
+			<Component Id='apiMsWinCoreFile_l2_1_0Dll' Guid='*' Win64="$(var.Win64)">
 				<File Id='apiMsWinCoreFile_l2_1_0' Name='api-ms-win-core-file-l2-1-0.dll' DiskId='1' Source='$(var.PlatformSourceFolder)/api-ms-win-core-file-l2-1-0.dll' KeyPath='yes' />
 			</Component>
 			
-			<Component Id='apiMsWinCoreHandle_l1_1_0Dll' Guid='F497FCD9-D69C-474D-B615-073843230620' Win64="$(var.Win64)">
+			<Component Id='apiMsWinCoreHandle_l1_1_0Dll' Guid='*' Win64="$(var.Win64)">
 				<File Id='apiMsWinCoreHandle_l1_1_0' Name='api-ms-win-core-handle-l1-1-0.dll' DiskId='1' Source='$(var.PlatformSourceFolder)/api-ms-win-core-handle-l1-1-0.dll' KeyPath='yes' />
 			</Component>
 			
-			<Component Id='apiMsWinCoreHeap_l1_1_0Dll' Guid='AF6A4D45-F28B-43B6-B679-860FA43D9062' Win64="$(var.Win64)">
+			<Component Id='apiMsWinCoreHeap_l1_1_0Dll' Guid='*' Win64="$(var.Win64)">
 				<File Id='apiMsWinCoreHeap_l1_1_0' Name='api-ms-win-core-heap-l1-1-0.dll' DiskId='1' Source='$(var.PlatformSourceFolder)/api-ms-win-core-heap-l1-1-0.dll' KeyPath='yes' />
 			</Component>
 			
-			<Component Id='apiMsWinCoreInterlocked_l1_1_0Dll' Guid='9C25B5AC-7010-47DA-A478-FDBC5806BB61' Win64="$(var.Win64)">
+			<Component Id='apiMsWinCoreInterlocked_l1_1_0Dll' Guid='*' Win64="$(var.Win64)">
 				<File Id='apiMsWinCoreInterlocked_l1_1_0' Name='api-ms-win-core-interlocked-l1-1-0.dll' DiskId='1' Source='$(var.PlatformSourceFolder)/api-ms-win-core-interlocked-l1-1-0.dll' KeyPath='yes' />
 			</Component>
 			
-			<Component Id='apiMsWinCoreLibraryloader_l1_1_0Dll' Guid='FBA31F5E-7376-4BA9-A4AB-BF6B3CE3F813' Win64="$(var.Win64)">
+			<Component Id='apiMsWinCoreLibraryloader_l1_1_0Dll' Guid='*' Win64="$(var.Win64)">
 				<File Id='apiMsWinCoreLibraryloader_l1_1_0' Name='api-ms-win-core-libraryloader-l1-1-0.dll' DiskId='1' Source='$(var.PlatformSourceFolder)/api-ms-win-core-libraryloader-l1-1-0.dll' KeyPath='yes' />
 			</Component>
 			
-			<Component Id='apiMsWinCoreLocalization_l1_2_0Dll' Guid='C8B8637B-1740-472D-87C6-597200241142' Win64="$(var.Win64)">
+			<Component Id='apiMsWinCoreLocalization_l1_2_0Dll' Guid='*' Win64="$(var.Win64)">
 				<File Id='apiMsWinCoreLocalization_l1_2_0' Name='api-ms-win-core-localization-l1-2-0.dll' DiskId='1' Source='$(var.PlatformSourceFolder)/api-ms-win-core-localization-l1-2-0.dll' KeyPath='yes' />
 			</Component>
 			
-			<Component Id='apiMsWinCoreMemory_l1_1_0Dll' Guid='6A18F471-DD94-41C7-912D-3BFDB73DC4CF' Win64="$(var.Win64)">
+			<Component Id='apiMsWinCoreMemory_l1_1_0Dll' Guid='*' Win64="$(var.Win64)">
 				<File Id='apiMsWinCoreMemory_l1_1_0' Name='api-ms-win-core-memory-l1-1-0.dll' DiskId='1' Source='$(var.PlatformSourceFolder)/api-ms-win-core-memory-l1-1-0.dll' KeyPath='yes' />
 			</Component>
 			
-			<Component Id='apiMsWinCoreNamedpipe_l1_1_0Dll' Guid='4BF8D691-7A6D-41BD-ACAA-04C4B991A54F' Win64="$(var.Win64)">
+			<Component Id='apiMsWinCoreNamedpipe_l1_1_0Dll' Guid='*' Win64="$(var.Win64)">
 				<File Id='apiMsWinCoreNamedpipe_l1_1_0' Name='api-ms-win-core-namedpipe-l1-1-0.dll' DiskId='1' Source='$(var.PlatformSourceFolder)/api-ms-win-core-namedpipe-l1-1-0.dll' KeyPath='yes' />
 			</Component>
 			
-			<Component Id='apiMsWinCoreProcessEnvironment_l1_1_0Dll' Guid='B20746F9-0249-4A09-ACD1-BAE0B9B88B66' Win64="$(var.Win64)">
+			<Component Id='apiMsWinCoreProcessEnvironment_l1_1_0Dll' Guid='*' Win64="$(var.Win64)">
 				<File Id='apiMsWinCoreProcessEnvironment_l1_1_0' Name='api-ms-win-core-processenvironment-l1-1-0.dll' DiskId='1' Source='$(var.PlatformSourceFolder)/api-ms-win-core-processenvironment-l1-1-0.dll' KeyPath='yes' />
 			</Component>
 			
-			<Component Id='apiMsWinCoreProcessThreads_l1_1_0Dll' Guid='E5AC282B-1450-4153-B87A-66D2D18AE559' Win64="$(var.Win64)">
+			<Component Id='apiMsWinCoreProcessThreads_l1_1_0Dll' Guid='*' Win64="$(var.Win64)">
 				<File Id='apiMsWinCoreProcessThreads_l1_1_0' Name='api-ms-win-core-processthreads-l1-1-0.dll' DiskId='1' Source='$(var.PlatformSourceFolder)/api-ms-win-core-processthreads-l1-1-0.dll' KeyPath='yes' />
 			</Component>
 			
-			<Component Id='apiMsWinCoreProcessThreads_l1_1_1Dll' Guid='F52291C2-A879-48DA-8792-6412A40095C4' Win64="$(var.Win64)">
+			<Component Id='apiMsWinCoreProcessThreads_l1_1_1Dll' Guid='*' Win64="$(var.Win64)">
 				<File Id='apiMsWinCoreProcessThreads_l1_1_1' Name='api-ms-win-core-processthreads-l1-1-1.dll' DiskId='1' Source='$(var.PlatformSourceFolder)/api-ms-win-core-processthreads-l1-1-1.dll' KeyPath='yes' />
 			</Component>
 			
-			<Component Id='apiMsWinCoreProfile_l1_1_0Dll' Guid='9B8ABBC6-AEC8-4BD9-96E9-F3E88EDF089E' Win64="$(var.Win64)">
+			<Component Id='apiMsWinCoreProfile_l1_1_0Dll' Guid='*' Win64="$(var.Win64)">
 				<File Id='apiMsWinCoreProfile_l1_1_0' Name='api-ms-win-core-profile-l1-1-0.dll' DiskId='1' Source='$(var.PlatformSourceFolder)/api-ms-win-core-profile-l1-1-0.dll' KeyPath='yes' />
 			</Component>
 			
-			<Component Id='apiMsWinCoreRtlSupport_l1_1_0Dll' Guid='81B8E33F-B8D4-4AFC-9171-1D16F3FA9855' Win64="$(var.Win64)">
+			<Component Id='apiMsWinCoreRtlSupport_l1_1_0Dll' Guid='*' Win64="$(var.Win64)">
 				<File Id='apiMsWinCoreRtlSupport_l1_1_0' Name='api-ms-win-core-rtlsupport-l1-1-0.dll' DiskId='1' Source='$(var.PlatformSourceFolder)/api-ms-win-core-rtlsupport-l1-1-0.dll' KeyPath='yes' />
 			</Component>
 			
-			<Component Id='apiMsWinCoreString_l1_1_0Dll' Guid='773CA407-1BB6-49D2-8369-39A231A0D815' Win64="$(var.Win64)">
+			<Component Id='apiMsWinCoreString_l1_1_0Dll' Guid='*' Win64="$(var.Win64)">
 				<File Id='apiMsWinCoreString_l1_1_0' Name='api-ms-win-core-string-l1-1-0.dll' DiskId='1' Source='$(var.PlatformSourceFolder)/api-ms-win-core-string-l1-1-0.dll' KeyPath='yes' />
 			</Component>
 			
-			<Component Id='apiMsWinCoreSynch_l1_1_0Dll' Guid='1FACD574-AC3B-41FC-8689-536B6F96FDBE' Win64="$(var.Win64)">
+			<Component Id='apiMsWinCoreSynch_l1_1_0Dll' Guid='*' Win64="$(var.Win64)">
 				<File Id='apiMsWinCoreSynch_l1_1_0' Name='api-ms-win-core-synch-l1-1-0.dll' DiskId='1' Source='$(var.PlatformSourceFolder)/api-ms-win-core-synch-l1-1-0.dll' KeyPath='yes' />
 			</Component>
 			
-			<Component Id='apiMsWinCoreSynch_l1_2_0Dll' Guid='43160A12-6CF8-48F9-AB96-3BB305321BE9' Win64="$(var.Win64)">
+			<Component Id='apiMsWinCoreSynch_l1_2_0Dll' Guid='*' Win64="$(var.Win64)">
 				<File Id='apiMsWinCoreSynch_l1_2_0' Name='api-ms-win-core-synch-l1-2-0.dll' DiskId='1' Source='$(var.PlatformSourceFolder)/api-ms-win-core-synch-l1-2-0.dll' KeyPath='yes' />
 			</Component>
 			
-			<Component Id='apiMsWinCoreSysInfo_l1_1_0Dll' Guid='272EB183-CA7F-4BC0-BA86-1497AD55F085' Win64="$(var.Win64)">
+			<Component Id='apiMsWinCoreSysInfo_l1_1_0Dll' Guid='*' Win64="$(var.Win64)">
 				<File Id='apiMsWinCoreSysInfo_l1_1_0' Name='api-ms-win-core-sysinfo-l1-1-0.dll' DiskId='1' Source='$(var.PlatformSourceFolder)/api-ms-win-core-sysinfo-l1-1-0.dll' KeyPath='yes' />
 			</Component>
 			
-			<Component Id='apiMsWinCoreTimezone_l1_1_0Dll' Guid='E9DF7695-E203-4CD3-AB80-DD2264C66A9C' Win64="$(var.Win64)">
+			<Component Id='apiMsWinCoreTimezone_l1_1_0Dll' Guid='*' Win64="$(var.Win64)">
 				<File Id='apiMsWinCoreTimezone_l1_1_0' Name='api-ms-win-core-timezone-l1-1-0.dll' DiskId='1' Source='$(var.PlatformSourceFolder)/api-ms-win-core-timezone-l1-1-0.dll' KeyPath='yes' />
 			</Component>
 			
-			<Component Id='apiMsWinCoreUtil_l1_1_0Dll' Guid='B428A873-4334-4139-81F7-3F8EF93DC2EB' Win64="$(var.Win64)">
+			<Component Id='apiMsWinCoreUtil_l1_1_0Dll' Guid='*' Win64="$(var.Win64)">
 				<File Id='apiMsWinCoreUtil_l1_1_0' Name='api-ms-win-core-util-l1-1-0.dll' DiskId='1' Source='$(var.PlatformSourceFolder)/api-ms-win-core-util-l1-1-0.dll' KeyPath='yes' />
 			</Component>
 			
-			<Component Id='apiMsWinCrtConio_l1_1_0Dll' Guid='3B293AB9-6832-4269-B3C9-3B9D1A0FDAEB' Win64="$(var.Win64)">
+			<Component Id='apiMsWinCrtConio_l1_1_0Dll' Guid='*' Win64="$(var.Win64)">
 				<File Id='apiMsWinCrtConio_l1_1_0' Name='api-ms-win-crt-conio-l1-1-0.dll' DiskId='1' Source='$(var.PlatformSourceFolder)/api-ms-win-crt-conio-l1-1-0.dll' KeyPath='yes' />
 			</Component>
 			
-			<Component Id='apiMsWinCrtConvert_l1_1_0Dll' Guid='312F3060-33EB-47C7-8BAD-ED9C25DCC522' Win64="$(var.Win64)">
+			<Component Id='apiMsWinCrtConvert_l1_1_0Dll' Guid='*' Win64="$(var.Win64)">
 				<File Id='apiMsWinCrtConvert_l1_1_0' Name='api-ms-win-crt-convert-l1-1-0.dll' DiskId='1' Source='$(var.PlatformSourceFolder)/api-ms-win-crt-convert-l1-1-0.dll' KeyPath='yes' />
 			</Component>
 			
-			<Component Id='apiMsWinCrtEnvironment_l1_1_0Dll' Guid='C495A75E-6273-4733-AB72-C8D1AE2FDBF6' Win64="$(var.Win64)">
+			<Component Id='apiMsWinCrtEnvironment_l1_1_0Dll' Guid='*' Win64="$(var.Win64)">
 				<File Id='apiMsWinCrtEnvironment_l1_1_0' Name='api-ms-win-crt-environment-l1-1-0.dll' DiskId='1' Source='$(var.PlatformSourceFolder)/api-ms-win-crt-environment-l1-1-0.dll' KeyPath='yes' />
 			</Component>
 			
-			<Component Id='apiMsWinCrtFilesystem_l1_1_0Dll' Guid='29214B8C-B655-486E-804C-E8018C073B2A' Win64="$(var.Win64)">
+			<Component Id='apiMsWinCrtFilesystem_l1_1_0Dll' Guid='*' Win64="$(var.Win64)">
 				<File Id='apiMsWinCrtFilesystem_l1_1_0' Name='api-ms-win-crt-filesystem-l1-1-0.dll' DiskId='1' Source='$(var.PlatformSourceFolder)/api-ms-win-crt-filesystem-l1-1-0.dll' KeyPath='yes' />
 			</Component>
 			
-			<Component Id='apiMsWinCrtHeap_l1_1_0Dll' Guid='EA2516C4-5E0B-41EA-A95E-14874166EE7E' Win64="$(var.Win64)">
+			<Component Id='apiMsWinCrtHeap_l1_1_0Dll' Guid='*' Win64="$(var.Win64)">
 				<File Id='apiMsWinCrtHeap_l1_1_0' Name='api-ms-win-crt-heap-l1-1-0.dll' DiskId='1' Source='$(var.PlatformSourceFolder)/api-ms-win-crt-heap-l1-1-0.dll' KeyPath='yes' />
 			</Component>
 			
-			<Component Id='apiMsWinCrtLocale_l1_1_0Dll' Guid='D3215D0B-B9DB-48A1-B93D-558ADBF9CEFD' Win64="$(var.Win64)">
+			<Component Id='apiMsWinCrtLocale_l1_1_0Dll' Guid='*' Win64="$(var.Win64)">
 				<File Id='apiMsWinCrtLocale_l1_1_0' Name='api-ms-win-crt-locale-l1-1-0.dll' DiskId='1' Source='$(var.PlatformSourceFolder)/api-ms-win-crt-locale-l1-1-0.dll' KeyPath='yes' />
 			</Component>
 			
-			<Component Id='apiMsWinCrtMath_l1_1_0Dll' Guid='115C6C2B-54DA-4F2A-986F-4E58043DE1F8' Win64="$(var.Win64)">
+			<Component Id='apiMsWinCrtMath_l1_1_0Dll' Guid='*' Win64="$(var.Win64)">
 				<File Id='apiMsWinCrtMath_l1_1_0' Name='api-ms-win-crt-math-l1-1-0.dll' DiskId='1' Source='$(var.PlatformSourceFolder)/api-ms-win-crt-math-l1-1-0.dll' KeyPath='yes' />
 			</Component>
 			
-			<Component Id='apiMsWinCrtMultibyte_l1_1_0Dll' Guid='95BD7652-C8C1-4C6F-8F58-AF4F16B8A7B9' Win64="$(var.Win64)">
+			<Component Id='apiMsWinCrtMultibyte_l1_1_0Dll' Guid='*' Win64="$(var.Win64)">
 				<File Id='apiMsWinCrtMultibyte_l1_1_0' Name='api-ms-win-crt-multibyte-l1-1-0.dll' DiskId='1' Source='$(var.PlatformSourceFolder)/api-ms-win-crt-multibyte-l1-1-0.dll' KeyPath='yes' />
 			</Component>
 			
-			<Component Id='apiMsWinCrtPrivate_l1_1_0Dll' Guid='194FDBBA-C1CC-492B-88D6-D9B962FF9BB3' Win64="$(var.Win64)">
+			<Component Id='apiMsWinCrtPrivate_l1_1_0Dll' Guid='*' Win64="$(var.Win64)">
 				<File Id='apiMsWinCrtPrivate_l1_1_0' Name='api-ms-win-crt-private-l1-1-0.dll' DiskId='1' Source='$(var.PlatformSourceFolder)/api-ms-win-crt-private-l1-1-0.dll' KeyPath='yes' />
 			</Component>
 			
-			<Component Id='apiMsWinCrtProcess_l1_1_0Dll' Guid='C2E2912D-96FB-42B7-9156-685079F95A8E' Win64="$(var.Win64)">
+			<Component Id='apiMsWinCrtProcess_l1_1_0Dll' Guid='*' Win64="$(var.Win64)">
 				<File Id='apiMsWinCrtProcess_l1_1_0' Name='api-ms-win-crt-process-l1-1-0.dll' DiskId='1' Source='$(var.PlatformSourceFolder)/api-ms-win-crt-process-l1-1-0.dll' KeyPath='yes' />
 			</Component>
 			
-			<Component Id='apiMsWinCrtRuntime_l1_1_0Dll' Guid='2298D4BF-C6E3-453B-A756-3056AE13DCE0' Win64="$(var.Win64)">
+			<Component Id='apiMsWinCrtRuntime_l1_1_0Dll' Guid='*' Win64="$(var.Win64)">
 				<File Id='apiMsWinCrtRuntime_l1_1_0' Name='api-ms-win-crt-runtime-l1-1-0.dll' DiskId='1' Source='$(var.PlatformSourceFolder)/api-ms-win-crt-runtime-l1-1-0.dll' KeyPath='yes' />
 			</Component>
 			
-			<Component Id='apiMsWinCrtStdio_l1_1_0Dll' Guid='CD274BB1-ECC5-4AED-83C9-D9DA8F3FFCF4' Win64="$(var.Win64)">
+			<Component Id='apiMsWinCrtStdio_l1_1_0Dll' Guid='*' Win64="$(var.Win64)">
 				<File Id='apiMsWinCrtStdio_l1_1_0' Name='api-ms-win-crt-stdio-l1-1-0.dll' DiskId='1' Source='$(var.PlatformSourceFolder)/api-ms-win-crt-stdio-l1-1-0.dll' KeyPath='yes' />
 			</Component>
 			
-			<Component Id='apiMsWinCrtString_l1_1_0Dll' Guid='C555A09F-DCBF-401E-8420-0AAE88C4C96F' Win64="$(var.Win64)">
+			<Component Id='apiMsWinCrtString_l1_1_0Dll' Guid='*' Win64="$(var.Win64)">
 				<File Id='apiMsWinCrtString_l1_1_0' Name='api-ms-win-crt-string-l1-1-0.dll' DiskId='1' Source='$(var.PlatformSourceFolder)/api-ms-win-crt-string-l1-1-0.dll' KeyPath='yes' />
 			</Component>
 			
-			<Component Id='apiMsWinCrtTime_l1_1_0Dll' Guid='8002F662-4214-453D-907F-113909019557' Win64="$(var.Win64)">
+			<Component Id='apiMsWinCrtTime_l1_1_0Dll' Guid='*' Win64="$(var.Win64)">
 				<File Id='apiMsWinCrtTime_l1_1_0' Name='api-ms-win-crt-time-l1-1-0.dll' DiskId='1' Source='$(var.PlatformSourceFolder)/api-ms-win-crt-time-l1-1-0.dll' KeyPath='yes' />
 			</Component>
 			
-			<Component Id='apiMsWinCrtUtility_l1_1_0Dll' Guid='56BCC0B1-2664-414A-AC29-DEE39CEAA845' Win64="$(var.Win64)">
+			<Component Id='apiMsWinCrtUtility_l1_1_0Dll' Guid='*' Win64="$(var.Win64)">
 				<File Id='apiMsWinCrtUtility_l1_1_0' Name='api-ms-win-crt-utility-l1-1-0.dll' DiskId='1' Source='$(var.PlatformSourceFolder)/api-ms-win-crt-utility-l1-1-0.dll' KeyPath='yes' />
 			</Component>
 			
-			<Component Id='ucrtbaseDll' Guid='83DABDC8-59D6-4D59-9FC1-F0C093BF5908' Win64="$(var.Win64)">
+			<Component Id='ucrtbaseDll' Guid='*' Win64="$(var.Win64)">
 				<File Id='ucrtbase' Name='ucrtbase.dll' DiskId='1' Source='$(var.PlatformSourceFolder)/ucrtbase.dll' KeyPath='yes' />
 			</Component>
 			
-			<Component Id='qtConf' Guid='58C34A47-0F21-4C41-9CCC-08141D84FF2A' Win64="$(var.Win64)">
+			<Component Id='qtConf' Guid='*' Win64="$(var.Win64)">
 				<File Id='qt' Name='qt.conf' DiskId='1' Source='$(var.PlatformSourceFolder)/qt.conf' KeyPath='yes' />
 			</Component>
 			
-			<Component Id='msvcp140_dll' Guid='C15EC0AA-0BD3-4AF2-83D2-890815B6D473' Win64="$(var.Win64)">
+			<Component Id='msvcp140_dll' Guid='*' Win64="$(var.Win64)">
 				<File Id='msvcp140' Name='msvcp140.dll' DiskId='1' Source='$(var.PlatformSourceFolder)/msvcp140.dll' KeyPath='yes' />
 			</Component>
 
-			<Component Id='vcruntime140_dll' Guid='6487E9EE-A0D5-4BDC-89B5-767EAACDD10E' Win64="$(var.Win64)">
+			<Component Id='vcruntime140_dll' Guid='*' Win64="$(var.Win64)">
 				<File Id='vcruntime140' Name='vcruntime140.dll' DiskId='1' Source='$(var.PlatformSourceFolder)/vcruntime140.dll' KeyPath='yes' />
 			</Component>
 			
 			<Directory Id='Platforms' Name='platforms'>
-
-				<Component Id='QWindowsDll' Guid='0B57B111-1068-42D1-891B-A21C6C0CC63E' Win64="$(var.Win64)">
+				<Component Id='QWindowsDll' Guid='*' Win64="$(var.Win64)">
 					<File Id='qwindowsDLL' Name='qwindows.dll' DiskId='1' Source='$(var.PlatformSourceFolder)/platforms/qwindows.dll' KeyPath='yes' />
 				</Component>
-
 			</Directory>
 
 			<Directory Id='LieutenantCommanderData' Name='data'>
 
 				<Directory Id='DataFonts' Name='fonts'>
-
-					<Component Id='FontSet' Guid='F5330EDB-A1E2-4B1D-BBA3-A65DAFE34814' Win64="$(var.Win64)">
+					<Component Id='FiraSansLicensetxt' Guid='*' Win64="$(var.Win64)">
 						<File Id='FiraSansLicensetxt' Name='FiraSans_License.txt' DiskId='1' Source='./../../../bin/app/data/fonts/FiraSans_License.txt' KeyPath='yes' />
-						<File Id='FiraSansRegularotf' Name='FiraSans-Regular.otf' DiskId='1' Source='./../../../bin/app/data/fonts/FiraSans-Regular.otf' KeyPath='no' />
-						<File Id='FiraSansSemiBoldotf' Name='FiraSans-SemiBold.otf' DiskId='1' Source='./../../../bin/app/data/fonts/FiraSans-SemiBold.otf' KeyPath='no' />
-
-						<File Id='RobotoLicensetxt' Name='Roboto_License.txt' DiskId='1' Source='./../../../bin/app/data/fonts/Roboto_License.txt' KeyPath='no' />
-						<File Id='RobotoBoldttf' Name='Roboto-Bold.ttf' DiskId='1' Source='./../../../bin/app/data/fonts/Roboto-Bold.ttf' KeyPath='no' />
-						<File Id='RobotoRegularttf' Name='Roboto-Regular.ttf' DiskId='1' Source='./../../../bin/app/data/fonts/Roboto-Regular.ttf' KeyPath='no' />
-
-						<File Id='SourceCodeProLicensetxt' Name='SourceCodePro_License.txt' DiskId='1' Source='./../../../bin/app/data/fonts/SourceCodePro_License.txt' KeyPath='no' />
-						<File Id='SourceCodeProBoldotf' Name='SourceCodePro-Bold.otf' DiskId='1' Source='./../../../bin/app/data/fonts/SourceCodePro-Bold.otf' KeyPath='no' />
-						<File Id='SourceCodeProMediumotf' Name='SourceCodePro-Medium.otf' DiskId='1' Source='./../../../bin/app/data/fonts/SourceCodePro-Medium.otf' KeyPath='no' />
-						<File Id='SourceCodeProRegularotf' Name='SourceCodePro-Regular.otf' DiskId='1' Source='./../../../bin/app/data/fonts/SourceCodePro-Regular.otf' KeyPath='no' />
 					</Component>
-
+					<Component Id='FiraSansRegularotf' Guid='*' Win64="$(var.Win64)">
+						<File Id='FiraSansRegularotf' Name='FiraSans-Regular.otf' DiskId='1' Source='./../../../bin/app/data/fonts/FiraSans-Regular.otf' KeyPath='yes' />
+					</Component>
+					<Component Id='FiraSansSemiBoldotf' Guid='*' Win64="$(var.Win64)">
+						<File Id='FiraSansSemiBoldotf' Name='FiraSans-SemiBold.otf' DiskId='1' Source='./../../../bin/app/data/fonts/FiraSans-SemiBold.otf' KeyPath='yes' />
+					</Component>
+					
+					<Component Id='RobotoLicensetxt' Guid='*' Win64="$(var.Win64)">
+						<File Id='RobotoLicensetxt' Name='Roboto_License.txt' DiskId='1' Source='./../../../bin/app/data/fonts/Roboto_License.txt' KeyPath='yes' />
+					</Component>
+					<Component Id='RobotoBoldttf' Guid='*' Win64="$(var.Win64)">
+						<File Id='RobotoBoldttf' Name='Roboto-Bold.ttf' DiskId='1' Source='./../../../bin/app/data/fonts/Roboto-Bold.ttf' KeyPath='yes' />
+					</Component>
+					<Component Id='RobotoRegularttf' Guid='*' Win64="$(var.Win64)">
+						<File Id='RobotoRegularttf' Name='Roboto-Regular.ttf' DiskId='1' Source='./../../../bin/app/data/fonts/Roboto-Regular.ttf' KeyPath='yes' />
+					</Component>
+					
+					<Component Id='SourceCodeProLicensetxt' Guid='*' Win64="$(var.Win64)">
+						<File Id='SourceCodeProLicensetxt' Name='SourceCodePro_License.txt' DiskId='1' Source='./../../../bin/app/data/fonts/SourceCodePro_License.txt' KeyPath='yes' />
+					</Component>
+					<Component Id='SourceCodeProBoldotf' Guid='*' Win64="$(var.Win64)">
+						<File Id='SourceCodeProBoldotf' Name='SourceCodePro-Bold.otf' DiskId='1' Source='./../../../bin/app/data/fonts/SourceCodePro-Bold.otf' KeyPath='yes' />
+					</Component>
+					<Component Id='SourceCodeProMediumotf' Guid='*' Win64="$(var.Win64)">
+						<File Id='SourceCodeProMediumotf' Name='SourceCodePro-Medium.otf' DiskId='1' Source='./../../../bin/app/data/fonts/SourceCodePro-Medium.otf' KeyPath='yes' />
+					</Component>
+					<Component Id='SourceCodeProRegularotf' Guid='*' Win64="$(var.Win64)">
+						<File Id='SourceCodeProRegularotf' Name='SourceCodePro-Regular.otf' DiskId='1' Source='./../../../bin/app/data/fonts/SourceCodePro-Regular.otf' KeyPath='yes' />
+					</Component>
 				</Directory>
 
 				<Directory Id='DataColorSchemes' Name='color_schemes'>
-					<Component Id='ColorSchemes' Guid='D6F2E227-6442-4415-B2F6-050E2A142D09' Win64="$(var.Win64)">
+					<Component Id='badRainbowXml' Guid='*' Win64="$(var.Win64)">
 						<File Id='badRainbowXml' Name='bad_rainbow.xml' DiskId='1' Source='./../../../bin/app/data/color_schemes/bad_rainbow.xml' KeyPath='yes' />
-						<File Id='brightXml' Name='bright.xml' DiskId='1' Source='./../../../bin/app/data/color_schemes/bright.xml' KeyPath='no' />
-						<File Id='darkXml' Name='dark.xml' DiskId='1' Source='./../../../bin/app/data/color_schemes/dark.xml' KeyPath='no' />
+					</Component>
+					<Component Id='brightXml' Guid='*' Win64="$(var.Win64)">
+						<File Id='brightXml' Name='bright.xml' DiskId='1' Source='./../../../bin/app/data/color_schemes/bright.xml' KeyPath='yes' />
+					</Component>
+					<Component Id='darkXml' Guid='*' Win64="$(var.Win64)">
+						<File Id='darkXml' Name='dark.xml' DiskId='1' Source='./../../../bin/app/data/color_schemes/dark.xml' KeyPath='yes' />
 					</Component>
 				</Directory>
 
 				<Directory Id='DataFallback' Name='fallback'>
-					<Component Id='FallbackData' Guid='C65B7880-BDD8-4A5F-98C4-9E53A3441BBC' Win64="$(var.Win64)">
+					<Component Id='applicationSettingsXml' Guid='*' Win64="$(var.Win64)">
 						<File Id='applicationSettingsXml' Name='ApplicationSettings.xml' DiskId='1' Source='./../../../bin/app/data/fallback/ApplicationSettings.xml' KeyPath='yes' />
-						<File Id='window_settingsIni' Name='window_settings.ini' DiskId='1' Source='./../../../bin/app/data/fallback/window_settings.ini' KeyPath='no' />
+					</Component>
+					<Component Id='window_settingsIni' Guid='*' Win64="$(var.Win64)">
+						<File Id='window_settingsIni' Name='window_settings.ini' DiskId='1' Source='./../../../bin/app/data/fallback/window_settings.ini' KeyPath='yes' />
 					</Component>
 				</Directory>
 
 				<Directory Id='DataGui' Name='gui'>
-					<Component Id='MainCss' Guid='70C63F6F-C13B-4EDA-94D4-7884A8BEFA55' Win64="$(var.Win64)">
+					<Component Id='MainCss' Guid='*' Win64="$(var.Win64)">
 						<File Id='Main' Name='main.css' DiskId='1' Source='./../../../bin/app/data/gui/main.css' KeyPath='yes' />
 					</Component>
-					<Component Id='SplashBluePng' Guid='914A5336-8D25-4748-8874-AF78A7A2669E' Win64="$(var.Win64)">
+					<Component Id='SplashBluePng' Guid='*' Win64="$(var.Win64)">
 						<File Id='SplashBlue' Name='splash_blue.png' DiskId='1' Source='./../../../bin/app/data/gui/splash_blue.png' KeyPath='yes' />
 					</Component>
-					<Component Id='SplashWhitePng' Guid='0567B438-1770-4201-B040-E63480544315' Win64="$(var.Win64)">
+					<Component Id='SplashWhitePng' Guid='*' Win64="$(var.Win64)">
 						<File Id='SplashWhite' Name='splash_white.png' DiskId='1' Source='./../../../bin/app/data/gui/splash_white.png' KeyPath='yes' />
 					</Component>
 
 					<Directory Id='DataAbout' Name='about'>
-						<Component Id='AboutCss' Guid='137816FE-E17E-47FF-8826-FBD74E4E5BB7' Win64="$(var.Win64)">
+						<Component Id='AboutCss' Guid='*' Win64="$(var.Win64)">
 							<File Id='About' Name='about.css' DiskId='1' Source='./../../../bin/app/data/gui/about/about.css' KeyPath='yes' />
 						</Component>
-						<Component Id='IconClosePng' Guid='42FE1C4F-B78E-49C5-91F2-FBCA584B802E' Win64="$(var.Win64)">
+						<Component Id='IconClosePng' Guid='*' Win64="$(var.Win64)">
 							<File Id='IconClose' Name='icon_close.png' DiskId='1' Source='./../../../bin/app/data/gui/about/icon_close.png' KeyPath='yes' />
 						</Component>
-						<Component Id='LogoAwsPng' Guid='B20C4EB0-1782-4575-A653-F48DE9D9C4B8' Win64="$(var.Win64)">
+						<Component Id='LogoAwsPng' Guid='*' Win64="$(var.Win64)">
 							<File Id='LogoAws' Name='logo_aws.png' DiskId='1' Source='./../../../bin/app/data/gui/about/logo_aws.png' KeyPath='yes' />
 						</Component>
-						<Component Id='LogoSourcetrailPng' Guid='3ACD90D9-6099-4E95-AD99-AF7CD695BEB9' Win64="$(var.Win64)">
+						<Component Id='LogoSourcetrailPng' Guid='*' Win64="$(var.Win64)">
 							<File Id='LogoSourcetrail' Name='logo_sourcetrail.png' DiskId='1' Source='./../../../bin/app/data/gui/about/logo_sourcetrail.png' KeyPath='yes' />
 						</Component>
-						<Component Id='LogoFhsPng' Guid='1CEBF789-6E41-4E33-A04B-5B809343C665' Win64="$(var.Win64)">
+						<Component Id='LogoFhsPng' Guid='*' Win64="$(var.Win64)">
 							<File Id='LogoFhs' Name='logo_fhs.png' DiskId='1' Source='./../../../bin/app/data/gui/about/logo_fhs.png' KeyPath='yes' />
 						</Component>
 					</Directory>
 
 					<Directory Id='DataBookmarkView' Name='bookmark_view'>
-						<Component Id='BookmarkViewCss' Guid='2DF8BC1D-1481-48CD-8E60-59EFCCDB93C5' Win64="$(var.Win64)">
+						<Component Id='BookmarkViewCss' Guid='*' Win64="$(var.Win64)">
 							<File Id='BookmarkView' Name='bookmark_view.css' DiskId='1' Source='./../../../bin/app/data/gui/bookmark_view/bookmark_view.css' KeyPath='yes' />
 						</Component>
 						
 						<Directory Id='DataBookmarkViewImages' Name='images'>
-							<Component Id='BookmarkViewArrowDownPng' Guid='BC63D8EB-504C-4AB1-A34E-FDD94F7A19C9' Win64="$(var.Win64)">
+							<Component Id='BookmarkViewArrowDownPng' Guid='*' Win64="$(var.Win64)">
 								<File Id='BookmarkViewArrowDown' Name='arrow_down.png' DiskId='1' Source='./../../../bin/app/data/gui/bookmark_view/images/arrow_down.png' KeyPath='yes' />
 							</Component>
-							<Component Id='BookmarkViewArrowRightPng' Guid='8245C9CC-3E66-4D84-8DE1-92C2F6110F32' Win64="$(var.Win64)">
+							<Component Id='BookmarkViewArrowRightPng' Guid='*' Win64="$(var.Win64)">
 								<File Id='BookmarkViewArrowRight' Name='arrow_right.png' DiskId='1' Source='./../../../bin/app/data/gui/bookmark_view/images/arrow_right.png' KeyPath='yes' />
 							</Component>
-							<Component Id='BookmarkViewBookmarkActivePng' Guid='FCDE3747-E959-4C9D-A084-D717B18BA214' Win64="$(var.Win64)">
+							<Component Id='BookmarkViewBookmarkActivePng' Guid='*' Win64="$(var.Win64)">
 								<File Id='BookmarkViewBookmarkActive' Name='bookmark_active.png' DiskId='1' Source='./../../../bin/app/data/gui/bookmark_view/images/bookmark_active.png' KeyPath='yes' />
 							</Component>
-							<Component Id='BookmarkViewBookmarkDeleteIconPng' Guid='A25FEABC-108B-4172-850E-9362C506FBFB' Win64="$(var.Win64)">
+							<Component Id='BookmarkViewBookmarkDeleteIconPng' Guid='*' Win64="$(var.Win64)">
 								<File Id='BookmarkViewBookmarkDeleteIcon' Name='bookmark_delete_icon.png' DiskId='1' Source='./../../../bin/app/data/gui/bookmark_view/images/bookmark_delete_icon.png' KeyPath='yes' />
 							</Component>
-							<Component Id='BookmarkViewBookmarkEditIconPng' Guid='F147EA19-52EF-4AD5-AAC3-9113B256195E' Win64="$(var.Win64)">
+							<Component Id='BookmarkViewBookmarkEditIconPng' Guid='*' Win64="$(var.Win64)">
 								<File Id='BookmarkViewBookmarkEditIcon' Name='bookmark_edit_icon.png' DiskId='1' Source='./../../../bin/app/data/gui/bookmark_view/images/bookmark_edit_icon.png' KeyPath='yes' />
 							</Component>
-							<Component Id='BookmarkViewBookmarkIconPng' Guid='034AF4AF-32D1-4FCC-9EC8-23955BAD85C5' Win64="$(var.Win64)">
+							<Component Id='BookmarkViewBookmarkIconPng' Guid='*' Win64="$(var.Win64)">
 								<File Id='BookmarkViewBookmarkIcon' Name='bookmark_icon.png' DiskId='1' Source='./../../../bin/app/data/gui/bookmark_view/images/bookmark_icon.png' KeyPath='yes' />
 							</Component>
-							<Component Id='BookmarkViewBookmarkIcon2Png' Guid='725A45DE-6EEC-4F64-AAF4-4D6D642B7C41' Win64="$(var.Win64)">
+							<Component Id='BookmarkViewBookmarkIcon2Png' Guid='*' Win64="$(var.Win64)">
 								<File Id='BookmarkViewBookmarkIcon2' Name='bookmark_icon_2.png' DiskId='1' Source='./../../../bin/app/data/gui/bookmark_view/images/bookmark_icon_2.png' KeyPath='yes' />
 							</Component>
-							<Component Id='BookmarkViewBookmarkListIconPng' Guid='2FD82AC2-A8D7-408B-9913-D9FF6D7F3B66' Win64="$(var.Win64)">
+							<Component Id='BookmarkViewBookmarkListIconPng' Guid='*' Win64="$(var.Win64)">
 								<File Id='BookmarkViewBookmarkListIcon' Name='bookmark_list_icon.png' DiskId='1' Source='./../../../bin/app/data/gui/bookmark_view/images/bookmark_list_icon.png' KeyPath='yes' />
 							</Component>
-							<Component Id='BookmarkViewEditBookmarkIconPng' Guid='EDCDE734-878A-4CFF-8BB8-BBB89F70D3E1' Win64="$(var.Win64)">
+							<Component Id='BookmarkViewEditBookmarkIconPng' Guid='*' Win64="$(var.Win64)">
 								<File Id='BookmarkViewEditBookmarkIcon' Name='edit_bookmark_icon.png' DiskId='1' Source='./../../../bin/app/data/gui/bookmark_view/images/edit_bookmark_icon.png' KeyPath='yes' />
 							</Component>
 						</Directory>
 					</Directory>
 					
 					<Directory Id='DataCodeView' Name='code_view'>
-						<Component Id='CodeViewCss' Guid='D880FDCE-037E-4401-95D5-38D4472C9A47' Win64="$(var.Win64)">
+						<Component Id='CodeViewCss' Guid='*' Win64="$(var.Win64)">
 							<File Id='CodeView' Name='code_view.css' DiskId='1' Source='./../../../bin/app/data/gui/code_view/code_view.css' KeyPath='yes' />
 						</Component>
 
 						<Directory Id='DataCodeViewImages' Name='images'>
-							<Component Id='CodeViewArrowLeftPng' Guid='1681081F-E3E9-4C4E-9B37-E2BB8C86C31D' Win64="$(var.Win64)">
+							<Component Id='CodeViewArrowLeftPng' Guid='*' Win64="$(var.Win64)">
 								<File Id='CodeViewArrowLeft' Name='arrow_left.png' DiskId='1' Source='./../../../bin/app/data/gui/code_view/images/arrow_left.png' KeyPath='yes' />
 							</Component>
-							<Component Id='CodeViewArrowRightPng' Guid='C6F66D82-A160-4B6F-925C-B5CD67FD7D3E' Win64="$(var.Win64)">
+							<Component Id='CodeViewArrowRightPng' Guid='*' Win64="$(var.Win64)">
 								<File Id='CodeViewArrowRight' Name='arrow_right.png' DiskId='1' Source='./../../../bin/app/data/gui/code_view/images/arrow_right.png' KeyPath='yes' />
 							</Component>
-							<Component Id='CodeViewEditPng' Guid='09F23361-CE52-4D04-8E3D-34821EBF57B3' Win64="$(var.Win64)">
+							<Component Id='CodeViewEditPng' Guid='*' Win64="$(var.Win64)">
 								<File Id='CodeViewEdit' Name='edit.png' DiskId='1' Source='./../../../bin/app/data/gui/code_view/images/edit.png' KeyPath='yes' />
 							</Component>
-							<Component Id='CodeViewFilePng' Guid='EE69B9C0-2AB0-41F3-83AB-C0318801A22E' Win64="$(var.Win64)">
+							<Component Id='CodeViewFilePng' Guid='*' Win64="$(var.Win64)">
 								<File Id='CodeViewFile' Name='file.png' DiskId='1' Source='./../../../bin/app/data/gui/code_view/images/file.png' KeyPath='yes' />
 							</Component>
-							<Component Id='CodeViewListPng' Guid='DD4BD02F-2998-4C74-ADFD-1FE94A0DF24D' Win64="$(var.Win64)">
+							<Component Id='CodeViewListPng' Guid='*' Win64="$(var.Win64)">
 								<File Id='CodeViewList' Name='list.png' DiskId='1' Source='./../../../bin/app/data/gui/code_view/images/list.png' KeyPath='yes' />
 							</Component>
-							<Component Id='CodeViewMaximizeActivePng' Guid='9B88537F-5FB8-4066-AD68-BE7DA72B935D' Win64="$(var.Win64)">
+							<Component Id='CodeViewMaximizeActivePng' Guid='*' Win64="$(var.Win64)">
 								<File Id='CodeViewMaximizeActive' Name='maximize_active.png' DiskId='1' Source='./../../../bin/app/data/gui/code_view/images/maximize_active.png' KeyPath='yes' />
 							</Component>
-							<Component Id='CodeViewMaximizeInactivePng' Guid='77B2BF1E-3692-458E-8320-05865EE810F7' Win64="$(var.Win64)">
+							<Component Id='CodeViewMaximizeInactivePng' Guid='*' Win64="$(var.Win64)">
 								<File Id='CodeViewMaximizeInactive' Name='maximize_inactive.png' DiskId='1' Source='./../../../bin/app/data/gui/code_view/images/maximize_inactive.png' KeyPath='yes' />
 							</Component>
-							<Component Id='CodeViewMinimizeActivePng' Guid='572C5209-BF5C-470B-9586-35895D273B71' Win64="$(var.Win64)">
+							<Component Id='CodeViewMinimizeActivePng' Guid='*' Win64="$(var.Win64)">
 								<File Id='CodeViewMinimizeActive' Name='minimize_active.png' DiskId='1' Source='./../../../bin/app/data/gui/code_view/images/minimize_active.png' KeyPath='yes' />
 							</Component>
-							<Component Id='CodeViewMinimizeInactivePng' Guid='0C8E74E5-7BF3-4AC7-BE87-EBD3C43491ED' Win64="$(var.Win64)">
+							<Component Id='CodeViewMinimizeInactivePng' Guid='*' Win64="$(var.Win64)">
 								<File Id='CodeViewMinimizeInactive' Name='minimize_inactive.png' DiskId='1' Source='./../../../bin/app/data/gui/code_view/images/minimize_inactive.png' KeyPath='yes' />
 							</Component>
-							<Component Id='CodeViewPatternPng' Guid='400BD0CD-3309-497E-9135-7E34C45B4A8E' Win64="$(var.Win64)">
+							<Component Id='CodeViewPatternPng' Guid='*' Win64="$(var.Win64)">
 								<File Id='CodeViewPattern' Name='pattern.png' DiskId='1' Source='./../../../bin/app/data/gui/code_view/images/pattern.png' KeyPath='yes' />
 							</Component>
-							<Component Id='CodeViewSnippetActivePng' Guid='59121177-A2D9-4A9E-BF92-EFA3CA0955D2' Win64="$(var.Win64)">
+							<Component Id='CodeViewSnippetActivePng' Guid='*' Win64="$(var.Win64)">
 								<File Id='CodeViewSnippetActive' Name='snippet_active.png' DiskId='1' Source='./../../../bin/app/data/gui/code_view/images/snippet_active.png' KeyPath='yes' />
 							</Component>
-							<Component Id='CodeViewSnippetInactivePng' Guid='EA3522FC-EF33-4732-8F93-586985EB0549' Win64="$(var.Win64)">
+							<Component Id='CodeViewSnippetInactivePng' Guid='*' Win64="$(var.Win64)">
 								<File Id='CodeViewSnippetInactive' Name='snippet_inactive.png' DiskId='1' Source='./../../../bin/app/data/gui/code_view/images/snippet_inactive.png' KeyPath='yes' />
 							</Component>
 
@@ -377,57 +397,57 @@
 					</Directory>
 					
 					<Directory Id='DataErrorView' Name='error_view'>
-						<Component Id='ErrorViewCss' Guid='9B8639F7-1123-49A2-9A15-E3372AE6ECFD' Win64="$(var.Win64)">
+						<Component Id='ErrorViewCss' Guid='*' Win64="$(var.Win64)">
 							<File Id='ErrorView' Name='error_view.css' DiskId='1' Source='./../../../bin/app/data/gui/error_view/error_view.css' KeyPath='yes' />
 						</Component>
 					</Directory>
 
 					<Directory Id='DataGraphView' Name='graph_view'>
-						<Component Id='GraphViewCss' Guid='BC8CDF1A-5831-4686-927C-C9E26ED85A3B' Win64="$(var.Win64)">
+						<Component Id='GraphViewCss' Guid='*' Win64="$(var.Win64)">
 							<File Id='GraphView' Name='graph_view.css' DiskId='1' Source='./../../../bin/app/data/gui/graph_view/graph_view.css' KeyPath='yes' />
 						</Component>
 
 						<Directory Id='DataGraphViewImages' Name='images'>
-							<Component Id='ArrowGraphPng' Guid='EEC8C2CE-A647-4640-81DB-8297C46355E8' Win64="$(var.Win64)">
+							<Component Id='ArrowGraphPng' Guid='*' Win64="$(var.Win64)">
 								<File Id='ArrowGraph' Name='arrow.png' DiskId='1' Source='./../../../bin/app/data/gui/graph_view/images/arrow.png' KeyPath='yes' />
 							</Component>
-							<Component Id='BundlePng' Guid='67CA6A53-7DEA-48F1-9BD3-2CFA65AB554E' Win64="$(var.Win64)">
+							<Component Id='BundlePng' Guid='*' Win64="$(var.Win64)">
 								<File Id='Bundle' Name='bundle.png' DiskId='1' Source='./../../../bin/app/data/gui/graph_view/images/bundle.png' KeyPath='yes' />
 							</Component>
-							<Component Id='EnumPng' Guid='47724B89-D417-465C-B96E-1D60A6E7A99E' Win64="$(var.Win64)">
+							<Component Id='EnumPng' Guid='*' Win64="$(var.Win64)">
 								<File Id='Enum' Name='enum.png' DiskId='1' Source='./../../../bin/app/data/gui/graph_view/images/enum.png' KeyPath='yes' />
 							</Component>
-							<Component Id='FilePng' Guid='72DA9267-AFB9-46B3-996E-67116FB6852E' Win64="$(var.Win64)">
+							<Component Id='FilePng' Guid='*' Win64="$(var.Win64)">
 								<File Id='File' Name='file.png' DiskId='1' Source='./../../../bin/app/data/gui/graph_view/images/file.png' KeyPath='yes' />
 							</Component>
-							<Component Id='MacroPng' Guid='7F9F1D3D-645A-4AEA-871A-4FA9229EA663' Win64="$(var.Win64)">
+							<Component Id='MacroPng' Guid='*' Win64="$(var.Win64)">
 								<File Id='Macro' Name='macro.png' DiskId='1' Source='./../../../bin/app/data/gui/graph_view/images/macro.png' KeyPath='yes' />
 							</Component>
-							<Component Id='NamespacePng' Guid='E3E7F161-3DD9-443B-A0AC-192C37DAE4CB' Win64="$(var.Win64)">
+							<Component Id='NamespacePng' Guid='*' Win64="$(var.Win64)">
 								<File Id='Namespace' Name='namespace.png' DiskId='1' Source='./../../../bin/app/data/gui/graph_view/images/namespace.png' KeyPath='yes' />
 							</Component>
-							<Component Id='GraphPatternPng' Guid='80B2562B-3DB0-42DA-B68A-B43120646EBA' Win64="$(var.Win64)">
+							<Component Id='GraphPatternPng' Guid='*' Win64="$(var.Win64)">
 								<File Id='GraphPattern' Name='pattern.png' DiskId='1' Source='./../../../bin/app/data/gui/graph_view/images/pattern.png' KeyPath='yes' />
 							</Component>
-							<Component Id='PrivatePng' Guid='E7FC3AAE-634F-4012-9AE4-41598C303183' Win64="$(var.Win64)">
+							<Component Id='PrivatePng' Guid='*' Win64="$(var.Win64)">
 								<File Id='Private' Name='private.png' DiskId='1' Source='./../../../bin/app/data/gui/graph_view/images/private.png' KeyPath='yes' />
 							</Component>
-							<Component Id='ProtectedPng' Guid='D7EE1C80-C68E-42BB-B16F-F114DA635BB9' Win64="$(var.Win64)">
+							<Component Id='ProtectedPng' Guid='*' Win64="$(var.Win64)">
 								<File Id='Protected' Name='protected.png' DiskId='1' Source='./../../../bin/app/data/gui/graph_view/images/protected.png' KeyPath='yes' />
 							</Component>
-							<Component Id='PublicPng' Guid='66E2CB4C-A9D8-4450-B630-393009D021A1' Win64="$(var.Win64)">
+							<Component Id='PublicPng' Guid='*' Win64="$(var.Win64)">
 								<File Id='Public' Name='public.png' DiskId='1' Source='./../../../bin/app/data/gui/graph_view/images/public.png' KeyPath='yes' />
 							</Component>
-							<Component Id='TemplatePng' Guid='0CEF2BCE-C9C8-417A-89E9-8CB6478C4E89' Win64="$(var.Win64)">
+							<Component Id='TemplatePng' Guid='*' Win64="$(var.Win64)">
 								<File Id='Template' Name='template.png' DiskId='1' Source='./../../../bin/app/data/gui/graph_view/images/template.png' KeyPath='yes' />
 							</Component>
-							<Component Id='TypedefPng' Guid='6B171ABD-0222-4477-A17E-C745C37D8B45' Win64="$(var.Win64)">
+							<Component Id='TypedefPng' Guid='*' Win64="$(var.Win64)">
 								<File Id='Typedef' Name='typedef.png' DiskId='1' Source='./../../../bin/app/data/gui/graph_view/images/typedef.png' KeyPath='yes' />
 							</Component>
-							<Component Id='ZoomInPng' Guid='1917AF50-2729-4EE8-BFB0-CCD201CDD92C' Win64="$(var.Win64)">
+							<Component Id='ZoomInPng' Guid='*' Win64="$(var.Win64)">
 								<File Id='ZoomIn' Name='zoom_in.png' DiskId='1' Source='./../../../bin/app/data/gui/graph_view/images/zoom_in.png' KeyPath='yes' />
 							</Component>
-							<Component Id='ZoomOutPng' Guid='CD3041E9-8867-43AF-B85C-F023C39B0C1D' Win64="$(var.Win64)">
+							<Component Id='ZoomOutPng' Guid='*' Win64="$(var.Win64)">
 								<File Id='ZoomOut' Name='zoom_out.png' DiskId='1' Source='./../../../bin/app/data/gui/graph_view/images/zoom_out.png' KeyPath='yes' />
 							</Component>
 
@@ -435,71 +455,71 @@
 					</Directory>
 
 					<Directory Id='DataIcon' Name='icon'>
-						<Component Id='C_icon_Png' Guid='5455ADA0-2477-4F46-9BEE-62DCB71D639F' Win64="$(var.Win64)">
+						<Component Id='C_icon_Png' Guid='*' Win64="$(var.Win64)">
 							<File Id='C_icon' Name='c_icon.png' DiskId='1' Source='./../../../bin/app/data/gui/icon/c_icon.png' KeyPath='yes' />
 						</Component>
-						<Component Id='Cdb_icon_Png' Guid='BFEF4175-69DA-49E3-A650-9C5995A3E8E7' Win64="$(var.Win64)">
+						<Component Id='Cdb_icon_Png' Guid='*' Win64="$(var.Win64)">
 							<File Id='Cdb_icon' Name='cdb_icon.png' DiskId='1' Source='./../../../bin/app/data/gui/icon/cdb_icon.png' KeyPath='yes' />
 						</Component>
-						<Component Id='SourcetrailIco' Guid='9D65B057-EA87-4251-8898-9FAD23AD3371' Win64="$(var.Win64)">
+						<Component Id='SourcetrailIco' Guid='*' Win64="$(var.Win64)">
 							<File Id='Sourcetrail' Name='sourcetrail.ico' DiskId='1' Source='./../../../bin/app/data/gui/icon/sourcetrail.ico' KeyPath='yes' />
 						</Component>
-						<Component Id='Cpp_icon_Png' Guid='B9EB2C3F-6256-4F54-9F8C-7DC338424839' Win64="$(var.Win64)">
+						<Component Id='Cpp_icon_Png' Guid='*' Win64="$(var.Win64)">
 							<File Id='Cpp_icon' Name='cpp_icon.png' DiskId='1' Source='./../../../bin/app/data/gui/icon/cpp_icon.png' KeyPath='yes' />
 						</Component>
-						<Component Id='Empty_icon_Png' Guid='47F0E4A4-F74A-4D43-AB9E-75D3B1AB46C7' Win64="$(var.Win64)">
+						<Component Id='Empty_icon_Png' Guid='*' Win64="$(var.Win64)">
 							<File Id='Empty_icon' Name='empty_icon.png' DiskId='1' Source='./../../../bin/app/data/gui/icon/empty_icon.png' KeyPath='yes' />
 						</Component>
-						<Component Id='Java_icon_Png' Guid='66920390-A101-45B7-8C61-EA9EDF0876D3' Win64="$(var.Win64)">
+						<Component Id='Java_icon_Png' Guid='*' Win64="$(var.Win64)">
 							<File Id='Java_icon' Name='java_icon.png' DiskId='1' Source='./../../../bin/app/data/gui/icon/java_icon.png' KeyPath='yes' />
 						</Component>
-						<Component Id='Logo_1024_1024_Png' Guid='4A25272C-380F-4414-BFBA-06C92D19B116' Win64="$(var.Win64)">
+						<Component Id='Logo_1024_1024_Png' Guid='*' Win64="$(var.Win64)">
 							<File Id='Logo_1024_1024' Name='logo_1024_1024.png' DiskId='1' Source='./../../../bin/app/data/gui/icon/logo_1024_1024.png' KeyPath='yes' />
 						</Component>
-						<Component Id='Mvn_icon_Png' Guid='62D8031C-3236-4FBE-950E-47E1CF1DA5B6' Win64="$(var.Win64)">
+						<Component Id='Mvn_icon_Png' Guid='*' Win64="$(var.Win64)">
 							<File Id='Mvn_icon' Name='mvn_icon.png' DiskId='1' Source='./../../../bin/app/data/gui/icon/mvn_icon.png' KeyPath='yes' />
 						</Component>
-						<Component Id='ProjectIco' Guid='CDAC3217-C104-4D88-98F9-C138825721D4' Win64="$(var.Win64)">
+						<Component Id='ProjectIco' Guid='*' Win64="$(var.Win64)">
 							<File Id='Project' Name='project.ico' DiskId='1' Source='./../../../bin/app/data/gui/icon/project.ico' KeyPath='yes' />
 						</Component>
-						<Component Id='Project_256_256_Png' Guid='AD536928-0DE5-49BC-B33C-D1A9E9DDB74D' Win64="$(var.Win64)">
+						<Component Id='Project_256_256_Png' Guid='*' Win64="$(var.Win64)">
 							<File Id='Project_256_256' Name='project_256_256.png' DiskId='1' Source='./../../../bin/app/data/gui/icon/project_256_256.png' KeyPath='yes' />
 						</Component>
-						<Component Id='Vs_icon_Png' Guid='BBEDB96F-B0D5-4FA6-B808-E15A51921D69' Win64="$(var.Win64)">
+						<Component Id='Vs_icon_Png' Guid='*' Win64="$(var.Win64)">
 							<File Id='Vs_icon' Name='vs_icon.png' DiskId='1' Source='./../../../bin/app/data/gui/icon/vs_icon.png' KeyPath='yes' />
 						</Component>
 
 					</Directory>
 
 					<Directory Id='DataIndexingDialog' Name='indexing_dialog'>
-						<Component Id='ErrorPng' Guid='90C8F0E3-C532-4088-A3CB-66CB1DEE0CCD' Win64="$(var.Win64)">
+						<Component Id='ErrorPng' Guid='*' Win64="$(var.Win64)">
 							<File Id='Error' Name='error.png' DiskId='1' Source='./../../../bin/app/data/gui/indexing_dialog/error.png' KeyPath='yes' />
 						</Component>
-						<Component Id='FlagPng' Guid='35ED2A65-FC94-444B-83E3-57E202226F96' Win64="$(var.Win64)">
+						<Component Id='FlagPng' Guid='*' Win64="$(var.Win64)">
 							<File Id='Flag' Name='flag.png' DiskId='1' Source='./../../../bin/app/data/gui/indexing_dialog/flag.png' KeyPath='yes' />
 						</Component>
-						<Component Id='IndexingDialogCss' Guid='97CA1B7B-8825-4E2D-BFD1-A9467239D1C1' Win64="$(var.Win64)">
+						<Component Id='IndexingDialogCss' Guid='*' Win64="$(var.Win64)">
 							<File Id='IndexingDialog' Name='indexing_dialog.css' DiskId='1' Source='./../../../bin/app/data/gui/indexing_dialog/indexing_dialog.css' KeyPath='yes' />
 						</Component>
-						<Component Id='ProgressBarElementPng' Guid='85B80506-6F42-457F-8B6D-148F20340545' Win64="$(var.Win64)">
+						<Component Id='ProgressBarElementPng' Guid='*' Win64="$(var.Win64)">
 							<File Id='ProgressBarElement' Name='progress_bar_element.png' DiskId='1' Source='./../../../bin/app/data/gui/indexing_dialog/progress_bar_element.png' KeyPath='yes' />
 						</Component>
 
 					</Directory>
 
 					<Directory Id='DataLicense' Name='license'>
-						<Component Id='LicenseCss' Guid='3A9B9310-10B0-477E-A1D8-027666F22476' Win64="$(var.Win64)">
+						<Component Id='LicenseCss' Guid='*' Win64="$(var.Win64)">
 							<File Id='License' Name='license.css' DiskId='1' Source='./../../../bin/app/data/gui/license/license.css' KeyPath='yes' />
 						</Component>
 					</Directory>
 
 					<Directory Id='DataRefreshView' Name='refresh_view'>
-						<Component Id='RefreshViewCss' Guid='8AF888D9-BC4B-4AC3-8E2C-20B74F82A888' Win64="$(var.Win64)">
+						<Component Id='RefreshViewCss' Guid='*' Win64="$(var.Win64)">
 							<File Id='RefreshView' Name='refresh_view.css' DiskId='1' Source='./../../../bin/app/data/gui/refresh_view/refresh_view.css' KeyPath='yes' />
 						</Component>
 
 						<Directory Id='DataRefreshViewImages' Name='images'>
-							<Component Id='RefreshPng' Guid='AD5F7B6B-0373-4207-B053-16293FC4C631' Win64="$(var.Win64)">
+							<Component Id='RefreshPng' Guid='*' Win64="$(var.Win64)">
 								<File Id='Refresh' Name='refresh.png' DiskId='1' Source='./../../../bin/app/data/gui/refresh_view/images/refresh.png' KeyPath='yes' />
 							</Component>
 						</Directory>
@@ -508,18 +528,18 @@
 
 					<Directory Id='DataSearchView' Name='search_view'>
 
-						<Component Id='SearchViewCss' Guid='77634E10-B955-48E1-BA12-12C1FA131C00' Win64="$(var.Win64)">
+						<Component Id='SearchViewCss' Guid='*' Win64="$(var.Win64)">
 							<File Id='SearchView' Name='search_view.css' DiskId='1' Source='./../../../bin/app/data/gui/search_view/search_view.css' KeyPath='yes' />
 						</Component>
 
 						<Directory Id='DataSearchViewImages' Name='images'>
-							<Component Id='ArrowSearchPng' Guid='43858971-6577-49F8-8787-BEAC7B88CED1' Win64="$(var.Win64)">
+							<Component Id='ArrowSearchPng' Guid='*' Win64="$(var.Win64)">
 								<File Id='ArrowSearch' Name='arrow.png' DiskId='1' Source='./../../../bin/app/data/gui/search_view/images/arrow.png' KeyPath='yes' />
 							</Component>
-							<Component Id='HomePng' Guid='1D00476F-52C2-47F9-8A27-B583D9499311' Win64="$(var.Win64)">
+							<Component Id='HomePng' Guid='*' Win64="$(var.Win64)">
 								<File Id='Home' Name='home.png' DiskId='1' Source='./../../../bin/app/data/gui/search_view/images/home.png' KeyPath='yes' />
 							</Component>
-							<Component Id='SearchPng' Guid='A7B6B305-1B68-4085-9ED9-EF0DCD810116' Win64="$(var.Win64)">
+							<Component Id='SearchPng' Guid='*' Win64="$(var.Win64)">
 								<File Id='Search' Name='search.png' DiskId='1' Source='./../../../bin/app/data/gui/search_view/images/search.png' KeyPath='yes' />
 							</Component>
 						</Directory>
@@ -528,39 +548,39 @@
 
 					<Directory Id='DataStartScreen' Name='startscreen'>
 
-						<Component Id='StartscreenCss' Guid='9D3496D5-735A-4686-ADE9-DEB19DF69045' Win64="$(var.Win64)">
+						<Component Id='StartscreenCss' Guid='*' Win64="$(var.Win64)">
 							<File Id='Startscreen' Name='startscreen.css' DiskId='1' Source='./../../../bin/app/data/gui/startscreen/startscreen.css' KeyPath='yes' />
 						</Component>
 
 					</Directory>
 
 					<Directory Id='DataStatusbarView' Name='statusbar_view'>
-						<Component Id='DotPng' Guid='7F7173DC-E888-4F03-82CC-3DD86BF402C4' Win64="$(var.Win64)">
+						<Component Id='DotPng' Guid='*' Win64="$(var.Win64)">
 							<File Id='Dot' Name='dot.png' DiskId='1' Source='./../../../bin/app/data/gui/statusbar_view/dot.png' KeyPath='yes' />
 						</Component>
-						<Component Id='LoaderGif' Guid='E0F92524-DDE8-442E-9AD6-A1B2123A979F' Win64="$(var.Win64)">
+						<Component Id='LoaderGif' Guid='*' Win64="$(var.Win64)">
 							<File Id='Loader' Name='loader.gif' DiskId='1' Source='./../../../bin/app/data/gui/statusbar_view/loader.gif' KeyPath='yes' />
 						</Component>
 					</Directory>
 					
 					<Directory Id='DataTabbedView' Name='tabbed_view'>
-						<Component Id='TabbedViewCss' Guid='190A03B1-405B-433A-A7CC-3DB9CB389B8B' Win64="$(var.Win64)">
+						<Component Id='TabbedViewCss' Guid='*' Win64="$(var.Win64)">
 							<File Id='TabbedView' Name='tabbed_view.css' DiskId='1' Source='./../../../bin/app/data/gui/tabbed_view/tabbed_view.css' KeyPath='yes' />
 						</Component>
 					</Directory>
 
 					<Directory Id='DataUndoRedoView' Name='undoredo_view'>
 
-						<Component Id='UndoRedoViewCss' Guid='4B2A3FB0-C8F4-4FFE-AE49-93204C35506C' Win64="$(var.Win64)">
+						<Component Id='UndoRedoViewCss' Guid='*' Win64="$(var.Win64)">
 							<File Id='UndoRedoView' Name='undoredo_view.css' DiskId='1' Source='./../../../bin/app/data/gui/undoredo_view/undoredo_view.css' KeyPath='yes' />
 						</Component>
 
 						<Directory Id='DataUndoRedoViewImages' Name='images'>
 
-							<Component Id='ArrowLeftPng' Guid='71CD283C-88A6-4E3A-B3BD-D9F94B835875' Win64="$(var.Win64)">
+							<Component Id='ArrowLeftPng' Guid='*' Win64="$(var.Win64)">
 								<File Id='ArrowLeft' Name='arrow_left.png' DiskId='1' Source='./../../../bin/app/data/gui/undoredo_view/images/arrow_left.png' KeyPath='yes' />
 							</Component>
-							<Component Id='ArrowRightPng' Guid='95C3B2B2-4411-4086-A75B-2E03B7A3119F' Win64="$(var.Win64)">
+							<Component Id='ArrowRightPng' Guid='*' Win64="$(var.Win64)">
 								<File Id='ArrowRight' Name='arrow_right.png' DiskId='1' Source='./../../../bin/app/data/gui/undoredo_view/images/arrow_right.png' KeyPath='yes' />
 							</Component>
 
@@ -569,49 +589,49 @@
 
 					<Directory Id='DataWindow' Name='window'>
 
-						<Component Id='WindowDotsPng' Guid='CA2C89C9-91E3-4755-B7BB-DA2253807784' Win64="$(var.Win64)">
+						<Component Id='WindowDotsPng' Guid='*' Win64="$(var.Win64)">
 							<File Id='WindowDots' Name='dots.png' DiskId='1' Source='./../../../bin/app/data/gui/window/dots.png' KeyPath='yes' />
 						</Component>
-						<Component Id='WindowDotsHoverPng' Guid='794B67FC-4E6D-4C26-B823-90981BA377BC' Win64="$(var.Win64)">
+						<Component Id='WindowDotsHoverPng' Guid='*' Win64="$(var.Win64)">
 							<File Id='WindowDotsHover' Name='dots_hover.png' DiskId='1' Source='./../../../bin/app/data/gui/window/dots_hover.png' KeyPath='yes' />
 						</Component>
-						<Component Id='HelpPng' Guid='0C8176BC-3976-4DF4-815E-B8D149856DD5' Win64="$(var.Win64)">
+						<Component Id='HelpPng' Guid='*' Win64="$(var.Win64)">
 							<File Id='Help' Name='help.png' DiskId='1' Source='./../../../bin/app/data/gui/window/help.png' KeyPath='yes' />
 						</Component>
-						<Component Id='HelpHoverPng' Guid='9DB32AA5-AE80-43AC-B2AE-6043BF5E41BB' Win64="$(var.Win64)">
+						<Component Id='HelpHoverPng' Guid='*' Win64="$(var.Win64)">
 							<File Id='HelpHover' Name='help_hover.png' DiskId='1' Source='./../../../bin/app/data/gui/window/help_hover.png' KeyPath='yes' />
 						</Component>
-						<Component Id='ListboxCss' Guid='ABA6E005-3E7D-4C08-8008-2F08F92C6196' Win64="$(var.Win64)">
+						<Component Id='ListboxCss' Guid='*' Win64="$(var.Win64)">
 							<File Id='Listbox' Name='listbox.css' DiskId='1' Source='./../../../bin/app/data/gui/window/listbox.css' KeyPath='yes' />
 						</Component>
-						<Component Id='LogoPng' Guid='F136A7ED-FC0D-40AB-8BC0-B95CA9C3C0F1' Win64="$(var.Win64)">
+						<Component Id='LogoPng' Guid='*' Win64="$(var.Win64)">
 							<File Id='Logo' Name='logo.png' DiskId='1' Source='./../../../bin/app/data/gui/window/logo.png' KeyPath='yes' />
 						</Component>
-						<Component Id='MinusPng' Guid='4D8D904E-60C2-499F-865F-56B1A88AE13C' Win64="$(var.Win64)">
+						<Component Id='MinusPng' Guid='*' Win64="$(var.Win64)">
 							<File Id='Minus' Name='minus.png' DiskId='1' Source='./../../../bin/app/data/gui/window/minus.png' KeyPath='yes' />
 						</Component>
-						<Component Id='MinusHoverPng' Guid='DC6A016A-4FB3-48A3-ABB1-33534D2188D0' Win64="$(var.Win64)">
+						<Component Id='MinusHoverPng' Guid='*' Win64="$(var.Win64)">
 							<File Id='MinusHover' Name='minus_hover.png' DiskId='1' Source='./../../../bin/app/data/gui/window/minus_hover.png' KeyPath='yes' />
 						</Component>
-						<Component Id='PlusPng' Guid='4A6C90C5-929B-4759-BCF1-7EA36F588BA3' Win64="$(var.Win64)">
+						<Component Id='PlusPng' Guid='*' Win64="$(var.Win64)">
 							<File Id='Plus' Name='plus.png' DiskId='1' Source='./../../../bin/app/data/gui/window/plus.png' KeyPath='yes' />
 						</Component>
-						<Component Id='PlusHoverPng' Guid='BF773D9C-1C21-4949-8D9C-0A35F7ADBAC3' Win64="$(var.Win64)">
+						<Component Id='PlusHoverPng' Guid='*' Win64="$(var.Win64)">
 							<File Id='PlusHover' Name='plus_hover.png' DiskId='1' Source='./../../../bin/app/data/gui/window/plus_hover.png' KeyPath='yes' />
 						</Component>
-						<Component Id='WindowRefreshPng' Guid='B562009C-EDFA-4CD9-AD70-906A3CE60FC0' Win64="$(var.Win64)">
+						<Component Id='WindowRefreshPng' Guid='*' Win64="$(var.Win64)">
 							<File Id='WindowRefresh' Name='refresh.png' DiskId='1' Source='./../../../bin/app/data/gui/window/refresh.png' KeyPath='yes' />
 						</Component>
-						<Component Id='RefreshHoverPng' Guid='5F2FFEC8-149F-4AA4-8935-6EED3093DE23' Win64="$(var.Win64)">
+						<Component Id='RefreshHoverPng' Guid='*' Win64="$(var.Win64)">
 							<File Id='RefreshHover' Name='refresh_hover.png' DiskId='1' Source='./../../../bin/app/data/gui/window/refresh_hover.png' KeyPath='yes' />
 						</Component>
-						<Component Id='SizeGripBlackPng' Guid='ADC8042C-3CDA-47C5-8FA7-5741394BE1D3' Win64="$(var.Win64)">
+						<Component Id='SizeGripBlackPng' Guid='*' Win64="$(var.Win64)">
 							<File Id='SizeGripBlack' Name='size_grip_black.png' DiskId='1' Source='./../../../bin/app/data/gui/window/size_grip_black.png' KeyPath='yes' />
 						</Component>
-						<Component Id='SizeGripWhitePng' Guid='223B9301-8CDB-4C41-A67E-03CE0558E48E' Win64="$(var.Win64)">
+						<Component Id='SizeGripWhitePng' Guid='*' Win64="$(var.Win64)">
 							<File Id='SizeGripWhite' Name='size_grip_white.png' DiskId='1' Source='./../../../bin/app/data/gui/window/size_grip_white.png' KeyPath='yes' />
 						</Component>
-						<Component Id='WindowCss' Guid='C9BDB09F-7278-41BA-BF3B-AD335B7FB129' Win64="$(var.Win64)">
+						<Component Id='WindowCss' Guid='*' Win64="$(var.Win64)">
 							<File Id='Window' Name='window.css' DiskId='1' Source='./../../../bin/app/data/gui/window/window.css' KeyPath='yes' />
 						</Component>
 
@@ -621,28 +641,28 @@
 
 				<Directory Id='DataJava' Name='java'>
 
-					<Component Id='JavaGuavaJar' Guid='BAA854D3-5669-4E1E-94DF-33B3C84DDD23' Win64="$(var.Win64)">
+					<Component Id='JavaGuavaJar' Guid='*' Win64="$(var.Win64)">
 						<File Id='JavaGuava' Name='guava-18.0.jar' DiskId='1' Source='./../../../bin/app/data/java/guava-18.0.jar' KeyPath='yes' />
 					</Component>
-					<Component Id='JavaJavaIndexerJar' Guid='C1195927-A4ED-4296-936D-3BC059FCF8D2' Win64="$(var.Win64)">
+					<Component Id='JavaJavaIndexerJar' Guid='*' Win64="$(var.Win64)">
 						<File Id='JavaJavaIndexer' Name='java-indexer.jar' DiskId='1' Source='./../../../bin/app/data/java/java-indexer.jar' KeyPath='yes' />
 					</Component>
-					<Component Id='JavaJavaparserJar' Guid='25232CF0-2629-4988-AF7C-B142D5B0753E' Win64="$(var.Win64)">
+					<Component Id='JavaJavaparserJar' Guid='*' Win64="$(var.Win64)">
 						<File Id='JavaJavaparser' Name='javaparser-core.jar' DiskId='1' Source='./../../../bin/app/data/java/javaparser-core.jar' KeyPath='yes' />
 					</Component>
-					<Component Id='JavaJavaslangJar' Guid='2F43B4B1-DE99-40BC-9908-5C179CF7F734' Win64="$(var.Win64)">
+					<Component Id='JavaJavaslangJar' Guid='*' Win64="$(var.Win64)">
 						<File Id='JavaJavaslang' Name='javaslang-2.0.3.jar' DiskId='1' Source='./../../../bin/app/data/java/javaslang-2.0.3.jar' KeyPath='yes' />
 					</Component>
-					<Component Id='JavaJavassistJar' Guid='D4F80CFF-5DCD-4AEF-A334-001774CAE605' Win64="$(var.Win64)">
+					<Component Id='JavaJavassistJar' Guid='*' Win64="$(var.Win64)">
 						<File Id='JavaJavassist' Name='javassist-3.19.0-GA.jar' DiskId='1' Source='./../../../bin/app/data/java/javassist-3.19.0-GA.jar' KeyPath='yes' />
 					</Component>
-					<Component Id='JavaJavaSymbolSolverCoreJar' Guid='54EE8AA0-3C50-4189-9159-ED6132127EDC' Win64="$(var.Win64)">
+					<Component Id='JavaJavaSymbolSolverCoreJar' Guid='*' Win64="$(var.Win64)">
 						<File Id='JavaJavaSymbolSolverCore' Name='java-symbol-solver-core.jar' DiskId='1' Source='./../../../bin/app/data/java/java-symbol-solver-core.jar' KeyPath='yes' />
 					</Component>
-					<Component Id='JavaJavaSymbolSolverLogicJar' Guid='EA03C7C3-31A9-47EF-A565-70E0D4F1A4F9' Win64="$(var.Win64)">
+					<Component Id='JavaJavaSymbolSolverLogicJar' Guid='*' Win64="$(var.Win64)">
 						<File Id='JavaJavaSymbolSolverLogic' Name='java-symbol-solver-logic.jar' DiskId='1' Source='./../../../bin/app/data/java/java-symbol-solver-logic.jar' KeyPath='yes' />
 					</Component>
-					<Component Id='JavaJavaSymbolSolverModelJar' Guid='1BE000DF-98A9-44FA-8EE6-DC25C239B051' Win64="$(var.Win64)">
+					<Component Id='JavaJavaSymbolSolverModelJar' Guid='*' Win64="$(var.Win64)">
 						<File Id='JavaJavaSymbolSolverModel' Name='java-symbol-solver-model.jar' DiskId='1' Source='./../../../bin/app/data/java/java-symbol-solver-model.jar' KeyPath='yes' />
 					</Component>
 
@@ -652,11 +672,11 @@
 			</Directory>
 
 <?if $(sys.BUILDARCH) = x64 ?>
-			<Component Id='UninstallBat' Guid='75D67FBD-06C8-4D3C-AE1D-4802456F4466' Win64="$(var.Win64)">
+			<Component Id='UninstallBat' Guid='*' Win64="$(var.Win64)">
 				<File Id='Uninstall' Name='uninstall.bat' DiskId='1' Source='./../../../bin/app/data/install/uninstall_wix_win64.bat' KeyPath='yes' />
 			</Component>
 <?else ?>
-			<Component Id='UninstallBat' Guid='75D67FBD-06C8-4D3C-AE1D-4802456F4466' Win64="$(var.Win64)">
+			<Component Id='UninstallBat' Guid='*' Win64="$(var.Win64)">
 				<File Id='Uninstall' Name='uninstall.bat' DiskId='1' Source='./../../../bin/app/data/install/uninstall_wix_win32.bat' KeyPath='yes' />
 			</Component>
 <?endif ?>

@@ -61,14 +61,13 @@
 			<!-- Start menu (shortcuts) -->
 			<Directory Id="ProgramMenuFolder" Name="Programs">
 				<Directory Id="ProgramMenuDir" Name="$(var.ProductDisplayName)">
-					<Component Id="UninstallShortcut" Guid="028B666E-FAE8-4F53-A0E6-C2E0396CB6F2" Win64="$(var.Win64)">
+					<?if $(var.Win64)="yes" ?> 
+					<?define UninstallShortcut.Guid="95CDC4A0-98DC-42F9-BE37-574BAD663E5E" ?> 
+					<?else ?> 
+					<?define UninstallShortcut.Guid="CE39F8BF-83A6-4E73-A320-2930315909CA" ?> 
+					<?endif ?>
+					<Component Id="UninstallShortcut" Guid="$(var.UninstallShortcut.Guid)" Win64="$(var.Win64)"> 
 						<Condition>INSTALLSTARTMENUSHORTCUT</Condition>
-						<!-- <Shortcut Id="UninstallProduct"
-									Name="$(var.ProductDisplayName) Uninstall"
-									Description="Uninstall $(var.ProductDisplayName)"
-									Target="[System64Folder]msiexec.exe"
-									Arguments="/x [ProductCode]"/> -->
-
 						<Shortcut Id="UninstallProduct"
 								Name="Uninstall $(var.ProductDisplayName)"
 								Description="Remove $(var.ProductDisplayName) from your computer"
@@ -78,7 +77,12 @@
 						<RemoveFolder Id='ProgramMenuDir' On='uninstall' />
 					</Component>
 
-					<Component Id="ApplicationShortcut" Guid="5AD30B21-61BA-4002-AF2F-E9E69989E446" Win64="$(var.Win64)">
+					<?if $(var.Win64)="yes" ?> 
+					<?define ApplicationShortcut.Guid="3D1E8D2E-CFD8-4267-82E4-D86C718046B0" ?> 
+					<?else ?> 
+					<?define ApplicationShortcut.Guid="29ED82EB-77D2-4721-BEE2-01250591FCC8" ?> 
+					<?endif ?>
+					<Component Id="ApplicationShortcut" Guid="$(var.ApplicationShortcut.Guid)" Win64="$(var.Win64)"> 
 						<Condition>INSTALLSTARTMENUSHORTCUT</Condition>
 						<Shortcut Id="ApplicationStartMenuShortcut"
 
@@ -93,7 +97,12 @@
 
 			<!-- Desktop menu (shortcuts) -->
 			<Directory Id="DesktopFolder" Name="Desktop">
-				<Component Id='DesktopShortcut' Guid='285FA7FC-F355-4892-AFA7-DD49B8D81563' Win64="$(var.Win64)">
+				<?if $(var.Win64)="yes" ?> 
+				<?define DesktopShortcut.Guid="2C7844DC-1B4C-4042-B215-D5C4A8F80D50" ?> 
+				<?else ?> 
+				<?define DesktopShortcut.Guid="86426318-27EC-431D-9BED-6C6CA4010F8E" ?> 
+				<?endif ?>
+				<Component Id="DesktopShortcut" Guid="$(var.DesktopShortcut.Guid)" Win64="$(var.Win64)"> 
 					<Condition>INSTALLDESKTOPSHORTCUT</Condition>
 					<Shortcut Id="ApplicationDesktopShortcut"
 								Name="$(var.ProductDisplayName)"
@@ -117,7 +126,12 @@
 			<Directory Id="LocalAppDataFolder">
 				<Directory Id="CoatiSoftwareAppData" Name="Coati Software">
 
-					<Component Id="CoatiSoftwareAppDataDummy" Guid="E57CFAEC-B3E7-45EB-8B94-F50EBDA1355C" Win64="$(var.Win64)">
+					<?if $(var.Win64)="yes" ?> 
+					<?define CoatiSoftwareAppDataDummy.Guid="8FA6F7E4-BDFB-406F-93CC-DA2AAD731BB1" ?> 
+					<?else ?> 
+					<?define CoatiSoftwareAppDataDummy.Guid="2A942F15-2FEB-494D-A3CA-A9ED9F43C200" ?> 
+					<?endif ?>
+					<Component Id="CoatiSoftwareAppDataDummy" Guid="$(var.CoatiSoftwareAppDataDummy.Guid)" Win64="$(var.Win64)"> 
 						<CreateFolder />
 						<RemoveFolder Id='CoatiSoftwareAppData' On='uninstall' />
 						<RegistryKey Action="none" Key="Software\[Manufacturer]\[ProductName]\sourcetrailSoftwareAppData" Root="HKCU" >
@@ -126,13 +140,18 @@
 					</Component>
 
 					<Directory Id="SourcetrailAppData" Name="$(var.ProductDisplayName)">
-						<Component Id="SourcetrailAppDataDummy" Guid="93024EB9-ED47-4D0D-B790-1028E10F8015" Win64="$(var.Win64)">
-						<CreateFolder />
-						<RemoveFolder Id='SourcetrailAppData' On='uninstall' />
-						<RegistryKey Action="none" Key="Software\[Manufacturer]\[ProductName]\sourcetrailAppData" Root="HKCU" >
-							<RegistryValue Type="integer" Value="1" KeyPath="yes" />
-						</RegistryKey>
-					</Component>
+						<?if $(var.Win64)="yes" ?> 
+						<?define SourcetrailAppDataDummy.Guid="2318C48D-EFF4-4A6E-95F6-7E94EC14702C" ?> 
+						<?else ?> 
+						<?define SourcetrailAppDataDummy.Guid="340FED40-E14A-4DB3-ADE1-D39BAABB13F8" ?> 
+						<?endif ?>
+						<Component Id="SourcetrailAppDataDummy" Guid="$(var.SourcetrailAppDataDummy.Guid)" Win64="$(var.Win64)"> 
+							<CreateFolder />
+							<RemoveFolder Id='SourcetrailAppData' On='uninstall' />
+							<RegistryKey Action="none" Key="Software\[Manufacturer]\[ProductName]\sourcetrailAppData" Root="HKCU" >
+								<RegistryValue Type="integer" Value="1" KeyPath="yes" />
+							</RegistryKey>
+						</Component>
 					</Directory>
 				</Directory>
 			</Directory>
@@ -204,6 +223,24 @@
 
 				<ComponentRef Id='QWindowsDll'/>
 
+				<ComponentRef Id='FiraSansLicensetxt'/>
+				<ComponentRef Id='FiraSansRegularotf'/>
+				<ComponentRef Id='FiraSansSemiBoldotf'/>
+				<ComponentRef Id='RobotoLicensetxt'/>
+				<ComponentRef Id='RobotoBoldttf'/>
+				<ComponentRef Id='RobotoRegularttf'/>
+				<ComponentRef Id='SourceCodeProLicensetxt'/>
+				<ComponentRef Id='SourceCodeProBoldotf'/>
+				<ComponentRef Id='SourceCodeProMediumotf'/>
+				<ComponentRef Id='SourceCodeProRegularotf'/>
+				
+				<ComponentRef Id='badRainbowXml'/>
+				<ComponentRef Id='brightXml'/>
+				<ComponentRef Id='darkXml'/>
+				
+				<ComponentRef Id='applicationSettingsXml'/>
+				<ComponentRef Id='window_settingsIni'/>
+				
 				<ComponentRef Id='MainCss'/>
 				<ComponentRef Id='SplashBluePng'/>
 				<ComponentRef Id='SplashWhitePng'/>
@@ -311,10 +348,6 @@
 				<ComponentRef Id='SizeGripWhitePng'/>
 				<ComponentRef Id='WindowCss'/>
 
-				<ComponentRef Id='ColorSchemes'/>
-				<ComponentRef Id='FallbackData'/>
-				<ComponentRef Id='FontSet'/>
-
 				<ComponentRef Id='JavaGuavaJar'/>
 				<ComponentRef Id='JavaJavaIndexerJar'/>
 				<ComponentRef Id='JavaJavaparserJar'/>
@@ -337,6 +370,7 @@
 				<ComponentRef Id='SampleProjects'/>
 
 				<ComponentRef Id='TictactoeSourcetrailproject'/>
+				
 				<ComponentRef Id='TictactoeCode'/>
 
 				<ComponentRef Id='TutorialSourcetrailproject'/>

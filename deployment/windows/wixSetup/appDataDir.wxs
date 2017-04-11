@@ -17,7 +17,12 @@
 				</Component>
 			
 				<Directory Id="SampleProjectTictactoe" Name="tictactoe">
-					<Component Id="TictactoeSourcetrailproject" Guid="E353FD02-79FD-4409-9874-3282B038DD12" Win64="$(var.Win64)">
+					<?if $(var.Win64)="yes" ?> 
+					<?define TictactoeSourcetrailproject.Guid="E353FD02-79FD-4409-9874-3282B038DD10" ?> 
+					<?else ?> 
+					<?define TictactoeSourcetrailproject.Guid="E353FD02-79FD-4409-9874-3282B038DD13" ?> 
+					<?endif ?> 
+					<Component Id="TictactoeSourcetrailproject" Guid="$(var.TictactoeSourcetrailproject.Guid)" Win64="$(var.Win64)">
 						<CreateFolder />
 						<RemoveFolder Id='SampleProjectTictactoe' On='uninstall' />
 						<RegistryKey Action="none" Key="Software\[Manufacturer]\[ProductName]\tictactoeProjectKey" Root="HKCU" >
@@ -28,7 +33,12 @@
 					</Component>
 					
 					<Directory Id="TictactoeSrc" Name="src">
-						<Component Id="TictactoeCode" Guid="393ED988-A69D-4B10-974A-401EBB56C6A3" Win64="$(var.Win64)">
+						<?if $(var.Win64)="yes" ?> 
+						<?define TictactoeCode.Guid="82854BB7-76B8-4310-B89E-E4BA1F83A212" ?> 
+						<?else ?> 
+						<?define TictactoeCode.Guid="778C6A37-309A-4230-9940-F1D5773CD257" ?> 
+						<?endif ?> 
+						<Component Id="TictactoeCode" Guid="$(var.TictactoeCode.Guid)" Win64="$(var.Win64)">
 							<CreateFolder />
 							<RemoveFolder Id='TictactoeSrc' On='uninstall' />
 							<RegistryKey Action="none" Key="Software\[Manufacturer]\[ProductName]\tictactoeCodeKey" Root="HKCU" >
@@ -59,7 +69,12 @@
 				</Directory>
 				
 				<Directory Id="SampleProjectTutorial" Name="tutorial">
-					<Component Id="TutorialSourcetrailproject" Guid="D7976D20-0447-4628-942B-0C8BE49E190E" Win64="$(var.Win64)">
+					<?if $(var.Win64)="yes" ?> 
+					<?define TutorialSourcetrailproject.Guid="F1C54131-5B28-4E20-8E81-C67747A195B3" ?> 
+					<?else ?> 
+					<?define TutorialSourcetrailproject.Guid="A2D48B1D-474F-42D7-9020-BC7FFAB48311" ?> 
+					<?endif ?> 
+					<Component Id="TutorialSourcetrailproject" Guid="$(var.TutorialSourcetrailproject.Guid)" Win64="$(var.Win64)">
 						<CreateFolder />
 						<RemoveFolder Id='SampleProjectTutorial' On='uninstall' />
 						<RegistryKey Action="none" Key="Software\[Manufacturer]\[ProductName]\tutorialProjectKey" Root="HKCU" >
@@ -70,7 +85,12 @@
 					</Component>
 					
 					<Directory Id="TutorialSrc" Name="src">
-						<Component Id="TutorialCode" Guid="DA247C7A-16F4-4297-928D-02C713B9967A" Win64="$(var.Win64)">
+						<?if $(var.Win64)="yes" ?> 
+						<?define TutorialCode.Guid="59506B3E-F0CE-4798-98BD-7BE4947D089C" ?> 
+						<?else ?> 
+						<?define TutorialCode.Guid="984A03F7-53C0-4636-B8A1-A54238E05351" ?> 
+						<?endif ?> 
+						<Component Id="TutorialCode" Guid="$(var.TutorialCode.Guid)" Win64="$(var.Win64)">
 							<CreateFolder />
 							<RemoveFolder Id='TutorialSrc' On='uninstall' />
 							<RegistryKey Action="none" Key="Software\[Manufacturer]\[ProductName]\tutorialCodeKey" Root="HKCU" >
@@ -101,7 +121,12 @@
 				</Directory>
 				
 				<Directory Id="SampleProjectJavaparser" Name="javaparser">
-					<Component Id="JavaparserSourcetrailproject" Guid="39B413EF-C9F4-4B06-BF91-028C7D931303" Win64="$(var.Win64)">
+					<?if $(var.Win64)="yes" ?> 
+					<?define JavaparserSourcetrailproject.Guid="42C55AAF-7F69-424D-8F69-0FBDCF22DA51" ?> 
+					<?else ?> 
+					<?define JavaparserSourcetrailproject.Guid="D21D5599-8F4F-4D26-B8F4-B34D505BE2DE" ?> 
+					<?endif ?>
+					<Component Id="JavaparserSourcetrailproject" Guid="$(var.JavaparserSourcetrailproject.Guid)" Win64="$(var.Win64)"> 
 						<CreateFolder />
 						<RemoveFolder Id='SampleProjectJavaparser' On='uninstall' />
 						<RegistryKey Action="none" Key="Software\[Manufacturer]\[ProductName]\JavaparserSourcetrailprojectKey" Root="HKCU" >
@@ -111,7 +136,12 @@
 						<File Id='JavaparserProject' Name='javaparser.srctrlprj' DiskId='1' Source='./../../../bin/app/user/projects/javaparser/javaparser.srctrlprj' KeyPath='no' />
 					</Component>
 					<Directory Id="SampleProjectJavaparserSrc" Name="src">
-						<Component Id="SampleProjectJavaparserSrcFolder" Guid="560AEF91-AE8A-485B-BC69-928D3584EE05" Win64="$(var.Win64)">
+						<?if $(var.Win64)="yes" ?> 
+						<?define SampleProjectJavaparserSrcFolder.Guid="54BBF6BA-A773-4F94-BABA-7ACD19D7D979" ?> 
+						<?else ?> 
+						<?define SampleProjectJavaparserSrcFolder.Guid="F4B57B24-02F5-4890-8A7E-77DE1B06310F" ?> 
+						<?endif ?>
+						<Component Id="SampleProjectJavaparserSrcFolder" Guid="$(var.SampleProjectJavaparserSrcFolder.Guid)" Win64="$(var.Win64)"> 
 							<CreateFolder />
 							<RemoveFolder Id='SampleProjectJavaparserSrc' On='uninstall' />
 							<RegistryKey Action="none" Key="Software\[Manufacturer]\[ProductName]\SampleProjectJavaparserSrcFolderKey" Root="HKCU" >
@@ -119,7 +149,12 @@
 							</RegistryKey>
 						</Component>
 						<Directory Id="SampleProjectJavaparserSrcMain" Name="main">
-							<Component Id="SampleProjectJavaparserSrcMainFolder" Guid="5FE4394F-7240-40F8-90E9-B1622AB2584F" Win64="$(var.Win64)">
+							<?if $(var.Win64)="yes" ?> 
+							<?define SampleProjectJavaparserSrcMainFolder.Guid="5E72343A-6592-4B4B-80D2-7EC7F35966FE" ?> 
+							<?else ?> 
+							<?define SampleProjectJavaparserSrcMainFolder.Guid="EC271FA9-866E-4B9D-9B0D-4BEAC4B32094" ?> 
+							<?endif ?>
+							<Component Id="SampleProjectJavaparserSrcMainFolder" Guid="$(var.SampleProjectJavaparserSrcMainFolder.Guid)" Win64="$(var.Win64)"> 
 								<CreateFolder />
 								<RemoveFolder Id='SampleProjectJavaparserSrcMain' On='uninstall' />
 								<RegistryKey Action="none" Key="Software\[Manufacturer]\[ProductName]\SampleProjectJavaparserSrcMainFolderKey" Root="HKCU" >
@@ -127,7 +162,12 @@
 								</RegistryKey>
 							</Component>
 							<Directory Id="SampleProjectJavaparserSrcMainJava" Name="java">
-								<Component Id="SampleProjectJavaparserSrcMainJavaFolder" Guid="188F7773-E4F4-41A7-8644-0ED2F7945294" Win64="$(var.Win64)">
+								<?if $(var.Win64)="yes" ?> 
+								<?define SampleProjectJavaparserSrcMainJavaFolder.Guid="3026D534-2635-44DD-95A6-15AA25090FA8" ?> 
+								<?else ?> 
+								<?define SampleProjectJavaparserSrcMainJavaFolder.Guid="A13E0FA3-1BC5-4DF2-9A8B-3D8E785F8C9F" ?> 
+								<?endif ?>
+								<Component Id="SampleProjectJavaparserSrcMainJavaFolder" Guid="$(var.SampleProjectJavaparserSrcMainJavaFolder.Guid)" Win64="$(var.Win64)"> 
 									<CreateFolder />
 									<RemoveFolder Id='SampleProjectJavaparserSrcMainJava' On='uninstall' />
 									<RegistryKey Action="none" Key="Software\[Manufacturer]\[ProductName]\SampleProjectJavaparserSrcMainJavaFolderKey" Root="HKCU" >
@@ -135,7 +175,12 @@
 									</RegistryKey>
 								</Component>
 								<Directory Id="SampleProjectJavaparserSrcMainJavaCom" Name="com">
-									<Component Id="SampleProjectJavaparserSrcMainJavaComFolder" Guid="D658E654-6E34-4616-BBA8-56585AEA1610" Win64="$(var.Win64)">
+									<?if $(var.Win64)="yes" ?> 
+									<?define SampleProjectJavaparserSrcMainJavaComFolder.Guid="C11F229C-0FDC-49C9-9F47-38565E1F3AFB" ?> 
+									<?else ?> 
+									<?define SampleProjectJavaparserSrcMainJavaComFolder.Guid="5B53E259-AB89-4ACD-9E75-B73AB614E9C3" ?> 
+									<?endif ?>
+									<Component Id="SampleProjectJavaparserSrcMainJavaComFolder" Guid="$(var.SampleProjectJavaparserSrcMainJavaComFolder.Guid)" Win64="$(var.Win64)"> 
 										<CreateFolder />
 										<RemoveFolder Id='SampleProjectJavaparserSrcMainJavaCom' On='uninstall' />
 										<RegistryKey Action="none" Key="Software\[Manufacturer]\[ProductName]\SampleProjectJavaparserSrcMainJavaComFolderKey" Root="HKCU" >
@@ -143,7 +188,12 @@
 										</RegistryKey>
 									</Component>
 									<Directory Id="SampleProjectJavaparserSrcMainJavaComGithub" Name="github">
-										<Component Id="SampleProjectJavaparserSrcMainJavaComGithubFolder" Guid="455B534F-AD59-46DD-A11D-1C4E97887614" Win64="$(var.Win64)">
+										<?if $(var.Win64)="yes" ?> 
+										<?define SampleProjectJavaparserSrcMainJavaComGithubFolder.Guid="286F8E8E-C0DF-4869-A4C3-CCCF8DD69A1D" ?> 
+										<?else ?> 
+										<?define SampleProjectJavaparserSrcMainJavaComGithubFolder.Guid="AFE95279-66CE-49F4-B19A-FE1526A59E9E" ?> 
+										<?endif ?>
+										<Component Id="SampleProjectJavaparserSrcMainJavaComGithubFolder" Guid="$(var.SampleProjectJavaparserSrcMainJavaComGithubFolder.Guid)" Win64="$(var.Win64)"> 
 											<CreateFolder />
 											<RemoveFolder Id='SampleProjectJavaparserSrcMainJavaComGithub' On='uninstall' />
 											<RegistryKey Action="none" Key="Software\[Manufacturer]\[ProductName]\SampleProjectJavaparserSrcMainJavaComGithubFolderKey" Root="HKCU" >
@@ -151,7 +201,12 @@
 											</RegistryKey>
 										</Component>
 										<Directory Id="SampleProjectJavaparserSrcMainJavaComGithubJavaparser" Name="javaparser">
-											<Component Id="SampleProjectJavaparserSrcMainJavaComGithubJavaparserCode" Guid="80C369E9-CC0D-4C3D-A916-DC7BB42E6414" Win64="$(var.Win64)">
+											<?if $(var.Win64)="yes" ?> 
+											<?define SampleProjectJavaparserSrcMainJavaComGithubJavaparserCode.Guid="25C71AB8-9E55-46FA-B566-A2CB7996C8FD" ?> 
+											<?else ?> 
+											<?define SampleProjectJavaparserSrcMainJavaComGithubJavaparserCode.Guid="55F3C7F4-565E-4D4B-8C66-9C8555956893" ?> 
+											<?endif ?>
+											<Component Id="SampleProjectJavaparserSrcMainJavaComGithubJavaparserCode" Guid="$(var.SampleProjectJavaparserSrcMainJavaComGithubJavaparserCode.Guid)" Win64="$(var.Win64)"> 
 												<CreateFolder />
 												<RemoveFolder Id='SampleProjectJavaparserSrcMainJavaComGithubJavaparser' On='uninstall' />
 												<RegistryKey Action="none" Key="Software\[Manufacturer]\[ProductName]\SampleProjectJavaparserSrcMainJavaComGithubJavaparserCodeKey" Root="HKCU" >
@@ -163,7 +218,12 @@
 												<File Id='RangeJava' Name='Range.java' DiskId='1' Source='./../../../bin/app/user/projects/javaparser/src/main/java/com/github/javaparser/Range.java' KeyPath='no' />
 											</Component>
 											<Directory Id="SampleProjectJavaparserSrcMainJavaComGithubJavaparserAst" Name="ast">
-												<Component Id="SampleProjectJavaparserSrcMainJavaComGithubJavaparserAstCode" Guid="5DEA3889-E49D-450A-A6E8-E1A3C122D403" Win64="$(var.Win64)">
+												<?if $(var.Win64)="yes" ?> 
+												<?define SampleProjectJavaparserSrcMainJavaComGithubJavaparserAstCode.Guid="ED323360-F1F1-4AF7-952C-333E489F6B64" ?> 
+												<?else ?> 
+												<?define SampleProjectJavaparserSrcMainJavaComGithubJavaparserAstCode.Guid="CBF7594F-0408-4BB0-BA23-54D49FB1DF62" ?> 
+												<?endif ?>
+												<Component Id="SampleProjectJavaparserSrcMainJavaComGithubJavaparserAstCode" Guid="$(var.SampleProjectJavaparserSrcMainJavaComGithubJavaparserAstCode.Guid)" Win64="$(var.Win64)"> 
 													<CreateFolder />
 													<RemoveFolder Id='SampleProjectJavaparserSrcMainJavaComGithubJavaparserAst' On='uninstall' />
 													<RegistryKey Action="none" Key="Software\[Manufacturer]\[ProductName]\SampleProjectJavaparserSrcMainJavaComGithubJavaparserAstCodeKey" Root="HKCU" >
@@ -179,7 +239,12 @@
 													<File Id='TypeParameterJava' Name='TypeParameter.java' DiskId='1' Source='./../../../bin/app/user/projects/javaparser/src/main/java/com/github/javaparser/ast/TypeParameter.java' KeyPath='no' />
 												</Component>
 												<Directory Id="SampleProjectJavaparserSrcMainJavaComGithubJavaparserAstBody" Name="body">
-													<Component Id="SampleProjectJavaparserSrcMainJavaComGithubJavaparserAstBodyCode" Guid="A6D857E0-F9D2-45FE-884A-D647B2C966C8" Win64="$(var.Win64)">
+													<?if $(var.Win64)="yes" ?> 
+													<?define SampleProjectJavaparserSrcMainJavaComGithubJavaparserAstBodyCode.Guid="BB7C6FC5-2581-482A-91BA-F5EDC97198CD" ?> 
+													<?else ?> 
+													<?define SampleProjectJavaparserSrcMainJavaComGithubJavaparserAstBodyCode.Guid="45147534-4EAF-44F7-942D-FE36D80A1505" ?> 
+													<?endif ?>
+													<Component Id="SampleProjectJavaparserSrcMainJavaComGithubJavaparserAstBodyCode" Guid="$(var.SampleProjectJavaparserSrcMainJavaComGithubJavaparserAstBodyCode.Guid)" Win64="$(var.Win64)"> 
 														<CreateFolder />
 														<RemoveFolder Id='SampleProjectJavaparserSrcMainJavaComGithubJavaparserAstBody' On='uninstall' />
 														<RegistryKey Action="none" Key="Software\[Manufacturer]\[ProductName]\SampleProjectJavaparserSrcMainJavaComGithubJavaparserAstBodyCodeKey" Root="HKCU" >
@@ -206,7 +271,12 @@
 													</Component>
 												</Directory>
 												<Directory Id="SampleProjectJavaparserSrcMainJavaComGithubJavaparserAstComments" Name="comments">
-													<Component Id="SampleProjectJavaparserSrcMainJavaComGithubJavaparserAstCommentsCode" Guid="6CFE2814-2D70-4235-AC29-FCF6CA5A3D03" Win64="$(var.Win64)">
+													<?if $(var.Win64)="yes" ?> 
+													<?define SampleProjectJavaparserSrcMainJavaComGithubJavaparserAstCommentsCode.Guid="F0654528-E971-4567-AEDF-EAA62D2FA714" ?> 
+													<?else ?> 
+													<?define SampleProjectJavaparserSrcMainJavaComGithubJavaparserAstCommentsCode.Guid="18FA13DA-C7ED-4398-BD13-1980E09EC3FF" ?> 
+													<?endif ?>
+													<Component Id="SampleProjectJavaparserSrcMainJavaComGithubJavaparserAstCommentsCode" Guid="$(var.SampleProjectJavaparserSrcMainJavaComGithubJavaparserAstCommentsCode.Guid)" Win64="$(var.Win64)"> 
 														<CreateFolder />
 														<RemoveFolder Id='SampleProjectJavaparserSrcMainJavaComGithubJavaparserAstComments' On='uninstall' />
 														<RegistryKey Action="none" Key="Software\[Manufacturer]\[ProductName]\SampleProjectJavaparserSrcMainJavaComGithubJavaparserAstCommentsCodeKey" Root="HKCU" >
@@ -221,7 +291,12 @@
 													</Component>
 												</Directory>
 												<Directory Id="SampleProjectJavaparserSrcMainJavaComGithubJavaparserAstExpr" Name="expr">
-													<Component Id="SampleProjectJavaparserSrcMainJavaComGithubJavaparserAstExprCode" Guid="BAB7B080-9D4E-439A-946D-BF8B1A640170" Win64="$(var.Win64)">
+													<?if $(var.Win64)="yes" ?> 
+													<?define SampleProjectJavaparserSrcMainJavaComGithubJavaparserAstExprCode.Guid="A37B4D5D-D9E9-4D63-BECD-A7F993CD9F8F" ?> 
+													<?else ?> 
+													<?define SampleProjectJavaparserSrcMainJavaComGithubJavaparserAstExprCode.Guid="08D50DE8-92BD-41A3-9ACE-E259B9ECFF14" ?> 
+													<?endif ?>
+													<Component Id="SampleProjectJavaparserSrcMainJavaComGithubJavaparserAstExprCode" Guid="$(var.SampleProjectJavaparserSrcMainJavaComGithubJavaparserAstExprCode.Guid)" Win64="$(var.Win64)"> 
 														<CreateFolder />
 														<RemoveFolder Id='SampleProjectJavaparserSrcMainJavaComGithubJavaparserAstExpr' On='uninstall' />
 														<RegistryKey Action="none" Key="Software\[Manufacturer]\[ProductName]\SampleProjectJavaparserSrcMainJavaComGithubJavaparserAstExprCodeKey" Root="HKCU" >
@@ -268,7 +343,12 @@
 													</Component>
 												</Directory>
 												<Directory Id="SampleProjectJavaparserSrcMainJavaComGithubJavaparserAstNodeTypes" Name="nodeTypes">
-													<Component Id="SampleProjectJavaparserSrcMainJavaComGithubJavaparserAstNodeTypesCode" Guid="F2A26343-C9CE-441A-A80A-93F3703C4ACA" Win64="$(var.Win64)">
+													<?if $(var.Win64)="yes" ?> 
+													<?define SampleProjectJavaparserSrcMainJavaComGithubJavaparserAstNodeTypesCode.Guid="2EB57D66-35C4-4419-83FF-E4816E5CC372" ?> 
+													<?else ?> 
+													<?define SampleProjectJavaparserSrcMainJavaComGithubJavaparserAstNodeTypesCode.Guid="71DA387D-DFC5-4B63-8B4A-88D3DF114B3D" ?> 
+													<?endif ?>
+													<Component Id="SampleProjectJavaparserSrcMainJavaComGithubJavaparserAstNodeTypesCode" Guid="$(var.SampleProjectJavaparserSrcMainJavaComGithubJavaparserAstNodeTypesCode.Guid)" Win64="$(var.Win64)"> 
 														<CreateFolder />
 														<RemoveFolder Id='SampleProjectJavaparserSrcMainJavaComGithubJavaparserAstNodeTypes' On='uninstall' />
 														<RegistryKey Action="none" Key="Software\[Manufacturer]\[ProductName]\SampleProjectJavaparserSrcMainJavaComGithubJavaparserAstNodeTypesCodeKey" Root="HKCU" >
@@ -288,7 +368,12 @@
 													</Component>
 												</Directory>
 												<Directory Id="SampleProjectJavaparserSrcMainJavaComGithubJavaparserAstStmt" Name="stmt">
-													<Component Id="SampleProjectJavaparserSrcMainJavaComGithubJavaparserAstStmtCode" Guid="CA642E8B-B001-4ECC-8781-53FFA6EF442E" Win64="$(var.Win64)">
+													<?if $(var.Win64)="yes" ?> 
+													<?define SampleProjectJavaparserSrcMainJavaComGithubJavaparserAstStmtCode.Guid="A5693B9C-2952-497F-B0F2-CBB5696ACAAD" ?> 
+													<?else ?> 
+													<?define SampleProjectJavaparserSrcMainJavaComGithubJavaparserAstStmtCode.Guid="2A60C83F-F61B-4E5E-9EB9-309654F4D07B" ?> 
+													<?endif ?>
+													<Component Id="SampleProjectJavaparserSrcMainJavaComGithubJavaparserAstStmtCode" Guid="$(var.SampleProjectJavaparserSrcMainJavaComGithubJavaparserAstStmtCode.Guid)" Win64="$(var.Win64)"> 
 														<CreateFolder />
 														<RemoveFolder Id='SampleProjectJavaparserSrcMainJavaComGithubJavaparserAstStmt' On='uninstall' />
 														<RegistryKey Action="none" Key="Software\[Manufacturer]\[ProductName]\SampleProjectJavaparserSrcMainJavaComGithubJavaparserAstStmtCodeKey" Root="HKCU" >
@@ -319,7 +404,12 @@
 													</Component>
 												</Directory>
 												<Directory Id="SampleProjectJavaparserSrcMainJavaComGithubJavaparserAstType" Name="type">
-													<Component Id="SampleProjectJavaparserSrcMainJavaComGithubJavaparserAstTypeCode" Guid="BFBCF1A5-5440-40BC-BFB2-8958E1618C04" Win64="$(var.Win64)">
+													<?if $(var.Win64)="yes" ?> 
+													<?define SampleProjectJavaparserSrcMainJavaComGithubJavaparserAstTypeCode.Guid="5E5D91B3-DFBE-438D-9210-66F153D15531" ?> 
+													<?else ?> 
+													<?define SampleProjectJavaparserSrcMainJavaComGithubJavaparserAstTypeCode.Guid="E5B93C32-3EF8-4C46-902A-B75BC6D157FC" ?> 
+													<?endif ?>
+													<Component Id="SampleProjectJavaparserSrcMainJavaComGithubJavaparserAstTypeCode" Guid="$(var.SampleProjectJavaparserSrcMainJavaComGithubJavaparserAstTypeCode.Guid)" Win64="$(var.Win64)"> 
 														<CreateFolder />
 														<RemoveFolder Id='SampleProjectJavaparserSrcMainJavaComGithubJavaparserAstType' On='uninstall' />
 														<RegistryKey Action="none" Key="Software\[Manufacturer]\[ProductName]\SampleProjectJavaparserSrcMainJavaComGithubJavaparserAstTypeCodeKey" Root="HKCU" >
@@ -337,7 +427,12 @@
 													</Component>
 												</Directory>
 												<Directory Id="SampleProjectJavaparserSrcMainJavaComGithubJavaparserAstVisitor" Name="visitor">
-													<Component Id="SampleProjectJavaparserSrcMainJavaComGithubJavaparserAstVisitorCode" Guid="77F4C3B8-411B-4889-A900-98C43FD5F545" Win64="$(var.Win64)">
+													<?if $(var.Win64)="yes" ?> 
+													<?define SampleProjectJavaparserSrcMainJavaComGithubJavaparserAstVisitorCode.Guid="01FF3612-411C-4ECF-A540-B8CC7644E95F" ?> 
+													<?else ?> 
+													<?define SampleProjectJavaparserSrcMainJavaComGithubJavaparserAstVisitorCode.Guid="6B1CF4C3-64AB-4F49-AE27-1BF94AE3E7C5" ?> 
+													<?endif ?>
+													<Component Id="SampleProjectJavaparserSrcMainJavaComGithubJavaparserAstVisitorCode" Guid="$(var.SampleProjectJavaparserSrcMainJavaComGithubJavaparserAstVisitorCode.Guid)" Win64="$(var.Win64)"> 
 														<CreateFolder />
 														<RemoveFolder Id='SampleProjectJavaparserSrcMainJavaComGithubJavaparserAstVisitor' On='uninstall' />
 														<RegistryKey Action="none" Key="Software\[Manufacturer]\[ProductName]\SampleProjectJavaparserSrcMainJavaComGithubJavaparserAstVisitorCodeKey" Root="HKCU" >
@@ -356,7 +451,12 @@
 												</Directory>
 											</Directory>
 											<Directory Id="SampleProjectJavaparserSrcMainJavaComGithubJavaparserUtils" Name="utils">
-												<Component Id="SampleProjectJavaparserSrcMainJavaComGithubJavaparserUtilsCode" Guid="964479AD-47EF-4CC3-AE21-8287AE5E5CEC" Win64="$(var.Win64)">
+												<?if $(var.Win64)="yes" ?> 
+												<?define SampleProjectJavaparserSrcMainJavaComGithubJavaparserUtilsCode.Guid="08FFB90D-8F4C-4FF2-B4C0-425ED5411721" ?> 
+												<?else ?> 
+												<?define SampleProjectJavaparserSrcMainJavaComGithubJavaparserUtilsCode.Guid="DA62C2EF-4A95-4418-A4A2-522A1D941811" ?> 
+												<?endif ?>
+												<Component Id="SampleProjectJavaparserSrcMainJavaComGithubJavaparserUtilsCode" Guid="$(var.SampleProjectJavaparserSrcMainJavaComGithubJavaparserUtilsCode.Guid)" Win64="$(var.Win64)"> 
 													<CreateFolder />
 													<RemoveFolder Id='SampleProjectJavaparserSrcMainJavaComGithubJavaparserUtils' On='uninstall' />
 													<RegistryKey Action="none" Key="Software\[Manufacturer]\[ProductName]\SampleProjectJavaparserSrcMainJavaComGithubJavaparserUtilsCodeKey" Root="HKCU" >
@@ -372,7 +472,12 @@
 								</Directory>
 							</Directory>
 							<Directory Id="SampleProjectJavaparserSrcMainJavacc" Name="javacc">
-								<Component Id="SampleProjectJavaparserSrcMainJavaccCode" Guid="F31AA381-2F1C-465A-81E1-0A7BD35314EE" Win64="$(var.Win64)">
+								<?if $(var.Win64)="yes" ?> 
+								<?define SampleProjectJavaparserSrcMainJavaccCode.Guid="F8524079-E942-45AD-B44F-3B51F7A493F5" ?> 
+								<?else ?> 
+								<?define SampleProjectJavaparserSrcMainJavaccCode.Guid="C80408CB-8A66-4D6F-91EA-E293054FF504" ?> 
+								<?endif ?>
+								<Component Id="SampleProjectJavaparserSrcMainJavaccCode" Guid="$(var.SampleProjectJavaparserSrcMainJavaccCode.Guid)" Win64="$(var.Win64)"> 
 									<CreateFolder />
 									<RemoveFolder Id='SampleProjectJavaparserSrcMainJavacc' On='uninstall' />
 									<RegistryKey Action="none" Key="Software\[Manufacturer]\[ProductName]\SampleProjectJavaparserSrcMainJavaccCodeKey" Root="HKCU" >
@@ -384,7 +489,12 @@
 						</Directory>
 					</Directory>
 					<Directory Id="SampleProjectJavaparserTarget" Name="target">
-						<Component Id="SampleProjectJavaparserTargetFolder" Guid="EEC88E2D-ACA7-4BBA-B3D2-E8157E8C90D1" Win64="$(var.Win64)">
+						<?if $(var.Win64)="yes" ?> 
+						<?define SampleProjectJavaparserTargetFolder.Guid="EC25AED0-E605-4DED-8449-BFDD8A687145" ?> 
+						<?else ?> 
+						<?define SampleProjectJavaparserTargetFolder.Guid="136FE9E5-1C88-4067-8ED9-231471BB5655" ?> 
+						<?endif ?>
+						<Component Id="SampleProjectJavaparserTargetFolder" Guid="$(var.SampleProjectJavaparserTargetFolder.Guid)" Win64="$(var.Win64)"> 
 							<CreateFolder />
 							<RemoveFolder Id='SampleProjectJavaparserTarget' On='uninstall' />
 							<RegistryKey Action="none" Key="Software\[Manufacturer]\[ProductName]\SampleProjectJavaparserTargetFolderKey" Root="HKCU" >
@@ -392,7 +502,12 @@
 							</RegistryKey>
 						</Component>
 						<Directory Id="SampleProjectJavaparserTargetGeneratedSources" Name="generated-sources">
-							<Component Id="SampleProjectJavaparserTargetGeneratedSourcesFolder" Guid="51670973-3944-4CB5-BE82-94BD2133FAF4" Win64="$(var.Win64)">
+							<?if $(var.Win64)="yes" ?> 
+							<?define SampleProjectJavaparserTargetGeneratedSourcesFolder.Guid="F2333296-5084-45D5-A600-0E17380670D6" ?> 
+							<?else ?> 
+							<?define SampleProjectJavaparserTargetGeneratedSourcesFolder.Guid="6984769A-AB93-4F62-A2BB-38464B6619C2" ?> 
+							<?endif ?>
+							<Component Id="SampleProjectJavaparserTargetGeneratedSourcesFolder" Guid="$(var.SampleProjectJavaparserTargetGeneratedSourcesFolder.Guid)" Win64="$(var.Win64)"> 
 								<CreateFolder />
 								<RemoveFolder Id='SampleProjectJavaparserTargetGeneratedSources' On='uninstall' />
 								<RegistryKey Action="none" Key="Software\[Manufacturer]\[ProductName]\SampleProjectJavaparserTargetGeneratedSourcesFolderKey" Root="HKCU" >
@@ -400,7 +515,12 @@
 								</RegistryKey>
 							</Component>
 							<Directory Id="SampleProjectJavaparserTargetGeneratedSourcesJavacc" Name="javacc">
-								<Component Id="SampleProjectJavaparserTargetGeneratedSourcesJavaccFolder" Guid="1DA62621-434C-4A5F-BA39-BE308EC15E34" Win64="$(var.Win64)">
+								<?if $(var.Win64)="yes" ?> 
+								<?define SampleProjectJavaparserTargetGeneratedSourcesJavaccFolder.Guid="449BCF2E-E59C-4C9A-BFED-461E6E4D543C" ?> 
+								<?else ?> 
+								<?define SampleProjectJavaparserTargetGeneratedSourcesJavaccFolder.Guid="25D4F6F3-CE4F-48A0-8F53-1BE859EC3DE7" ?> 
+								<?endif ?>
+								<Component Id="SampleProjectJavaparserTargetGeneratedSourcesJavaccFolder" Guid="$(var.SampleProjectJavaparserTargetGeneratedSourcesJavaccFolder.Guid)" Win64="$(var.Win64)"> 
 									<CreateFolder />
 									<RemoveFolder Id='SampleProjectJavaparserTargetGeneratedSourcesJavacc' On='uninstall' />
 									<RegistryKey Action="none" Key="Software\[Manufacturer]\[ProductName]\SampleProjectJavaparserTargetGeneratedSourcesJavaccFolderKey" Root="HKCU" >
@@ -408,7 +528,12 @@
 									</RegistryKey>
 								</Component>
 								<Directory Id="SampleProjectJavaparserTargetGeneratedSourcesJavaccCom" Name="com">
-									<Component Id="SampleProjectJavaparserTargetGeneratedSourcesJavaccComFolder" Guid="1887A161-87EF-4016-8D58-5DF5A4D0F6D7" Win64="$(var.Win64)">
+									<?if $(var.Win64)="yes" ?> 
+									<?define SampleProjectJavaparserTargetGeneratedSourcesJavaccComFolder.Guid="8FC76429-F35B-4B0F-B7F4-F9E325393E9C" ?> 
+									<?else ?> 
+									<?define SampleProjectJavaparserTargetGeneratedSourcesJavaccComFolder.Guid="7BAFC930-EA2B-4012-8142-34C182B3F7A2" ?> 
+									<?endif ?>
+									<Component Id="SampleProjectJavaparserTargetGeneratedSourcesJavaccComFolder" Guid="$(var.SampleProjectJavaparserTargetGeneratedSourcesJavaccComFolder.Guid)" Win64="$(var.Win64)"> 
 										<CreateFolder />
 										<RemoveFolder Id='SampleProjectJavaparserTargetGeneratedSourcesJavaccCom' On='uninstall' />
 										<RegistryKey Action="none" Key="Software\[Manufacturer]\[ProductName]\SampleProjectJavaparserTargetGeneratedSourcesJavaccComFolderKey" Root="HKCU" >
@@ -416,7 +541,12 @@
 										</RegistryKey>
 									</Component>
 									<Directory Id="SampleProjectJavaparserTargetGeneratedSourcesJavaccComGithub" Name="github">
-										<Component Id="SampleProjectJavaparserTargetGeneratedSourcesJavaccComGithubFolder" Guid="132C1BBA-D68C-4285-AEE1-86EEDFDD4389" Win64="$(var.Win64)">
+										<?if $(var.Win64)="yes" ?> 
+										<?define SampleProjectJavaparserTargetGeneratedSourcesJavaccComGithubFolder.Guid="9103731D-C7B2-4076-9917-E6929ED294F3" ?> 
+										<?else ?> 
+										<?define SampleProjectJavaparserTargetGeneratedSourcesJavaccComGithubFolder.Guid="86C63EBD-A3E5-4012-A325-8EAC27A351C3" ?> 
+										<?endif ?>
+										<Component Id="SampleProjectJavaparserTargetGeneratedSourcesJavaccComGithubFolder" Guid="$(var.SampleProjectJavaparserTargetGeneratedSourcesJavaccComGithubFolder.Guid)" Win64="$(var.Win64)"> 
 											<CreateFolder />
 											<RemoveFolder Id='SampleProjectJavaparserTargetGeneratedSourcesJavaccComGithub' On='uninstall' />
 											<RegistryKey Action="none" Key="Software\[Manufacturer]\[ProductName]\SampleProjectJavaparserTargetGeneratedSourcesJavaccComGithubFolderKey" Root="HKCU" >
@@ -424,7 +554,12 @@
 											</RegistryKey>
 										</Component>
 										<Directory Id="SampleProjectJavaparserTargetGeneratedSourcesJavaccComGithubJavaparser" Name="javaparser">
-											<Component Id="SampleProjectJavaparserTargetGeneratedSourcesCode" Guid="2E9AEE68-666F-486B-86A9-F72860550A8F" Win64="$(var.Win64)">
+											<?if $(var.Win64)="yes" ?> 
+											<?define SampleProjectJavaparserTargetGeneratedSourcesCode.Guid="D50D050F-9A5D-42EE-8EF9-7D8389D055C0" ?> 
+											<?else ?> 
+											<?define SampleProjectJavaparserTargetGeneratedSourcesCode.Guid="D6DEA249-6A6A-4189-B166-A15C7F2F92E0" ?> 
+											<?endif ?>
+											<Component Id="SampleProjectJavaparserTargetGeneratedSourcesCode" Guid="$(var.SampleProjectJavaparserTargetGeneratedSourcesCode.Guid)" Win64="$(var.Win64)"> 
 												<CreateFolder />
 												<RemoveFolder Id='SampleProjectJavaparserTargetGeneratedSourcesJavaccComGithubJavaparser' On='uninstall' />
 												<RegistryKey Action="none" Key="Software\[Manufacturer]\[ProductName]\SampleProjectJavaparserTargetGenerated-sourcesJavaccComGithubJavaparserCodeKey" Root="HKCU" >
