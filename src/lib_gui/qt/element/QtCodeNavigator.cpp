@@ -660,7 +660,10 @@ void QtCodeNavigator::requestScroll(const FilePath& filePath, uint lineNumber, I
 	// std::cout << "scroll request: " << req.filePath.str() << " " << req.lineNumber << " " << req.locationId;
 	// std::cout << " " << req.animated << " " << req.onTop << std::endl;
 
-	m_scrollRequest = req;
+	if ((!m_scrollRequest.lineNumber || !m_scrollRequest.locationId) && (req.lineNumber || req.locationId))
+	{
+		m_scrollRequest = req;
+	}
 
 	m_singleHasNewFile = false;
 }

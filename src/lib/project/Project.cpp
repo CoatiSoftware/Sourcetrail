@@ -140,6 +140,11 @@ bool Project::refresh(bool forceRefresh)
 		}
 	}
 
+	if (!m_sourceGroups.empty())
+	{
+		NameHierarchy::setDelimiter(getSymbolNameDelimiterForLanguage(m_sourceGroups.front()->getLanguage()));
+	}
+
 	if (requestIndex(forceRefresh, needsFullRefresh))
 	{
 		m_storageAccessProxy->setSubject(m_storage.get());
