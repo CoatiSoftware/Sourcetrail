@@ -25,21 +25,13 @@ void FileRegisterStateData::inject(const FileRegisterStateData& o)
 void FileRegisterStateData::markFileIndexing(const FilePath& filePath)
 {
 	std::lock_guard<std::mutex> lock(m_filePathsMutex);
-	auto it = m_filePaths.find(filePath);
-	if (it != m_filePaths.end())
-	{
-		it->second = STATE_INDEXING;
-	}
-	else
-	{
-		m_filePaths.insert(std::make_pair(filePath, STATE_INDEXING));
-	}
+	m_filePaths[filePath] = STATE_INDEXING;
 }
 
 void FileRegisterStateData::markIndexingFilesIndexed()
 {
 	std::lock_guard<std::mutex> lock(m_filePathsMutex);
-	for (auto it: m_filePaths)
+	for (auto& it: m_filePaths)
 	{
 		if (it.second == STATE_INDEXING)
 		{

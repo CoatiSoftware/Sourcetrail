@@ -12,7 +12,7 @@ public:
 	FileRegister(const FileRegisterStateData& stateData, const std::set<FilePath>& indexedPaths, const std::set<FilePath>& excludedPaths);
 	virtual ~FileRegister();
 
-	FileRegisterStateData getStateData() const;
+	const FileRegisterStateData& getStateData() const;
 
 	void markFileIndexing(const FilePath& filePath);
 	void markIndexingFilesIndexed();

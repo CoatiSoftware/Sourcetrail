@@ -22,6 +22,8 @@ PreprocessorCallbacks::PreprocessorCallbacks(
 void PreprocessorCallbacks::FileChanged(
 	clang::SourceLocation location, FileChangeReason reason, clang::SrcMgr::CharacteristicKind, clang::FileID prevID)
 {
+	m_currentPath = FilePath();
+
 	FilePath filePath;
 
 	const clang::FileEntry *fileEntry = m_sourceManager.getFileEntryForID(m_sourceManager.getFileID(location));
@@ -30,23 +32,19 @@ void PreprocessorCallbacks::FileChanged(
 		filePath = FilePath(fileEntry->getName()).canonical();
 	}
 
-	const bool fileIsInProject = m_fileRegister->hasFilePath(filePath);
-	if (!filePath.empty() && fileIsInProject)
+	if (!filePath.empty() && m_fileRegister->hasFilePath(filePath))
 	{
 		m_client->onFileParsed(FileSystem::getFileInfoForPath(filePath)); // todo: fix for tests
-		if (reason == EnterFile && !m_fileRegister->fileIsIndexed(filePath))
-		{
-			m_fileRegister->markFileIndexing(filePath);
-		}
-	}
 
-	if (!filePath.empty() && fileIsInProject && !m_fileRegister->fileIsIndexed(filePath))
-	{
-		m_currentPath = filePath;
-	}
-	else
-	{
-		m_currentPath = FilePath();
+		if (!m_fileRegister->fileIsIndexed(filePath))
+		{
+			m_currentPath = filePath;
+
+			if (reason == EnterFile)
+			{
+				m_fileRegister->markFileIndexing(filePath);
+			}
+		}
 	}
 }
 

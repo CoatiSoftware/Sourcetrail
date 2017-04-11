@@ -49,7 +49,7 @@ FileRegister::~FileRegister()
 {
 }
 
-FileRegisterStateData FileRegister::getStateData() const
+const FileRegisterStateData& FileRegister::getStateData() const
 {
 	return m_stateData;
 }
