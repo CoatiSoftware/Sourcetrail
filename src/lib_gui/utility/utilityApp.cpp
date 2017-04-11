@@ -1,6 +1,7 @@
 #include "utility/utilityApp.h"
 
 #include <QProcess>
+#include <QThread>
 #include <qprocessordetection.h>
 
 #include "utility/utilityString.h"
@@ -34,4 +35,9 @@ ApplicationArchitectureType utility::getApplicationArchitectureType()
 	return APPLICATION_ARCHITECTURE_X86_32;
 #endif
 	return APPLICATION_ARCHITECTURE_UNKNOWN;
+}
+
+int utility::getIdealThreadCount()
+{
+	return QThread::idealThreadCount();
 }

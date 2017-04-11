@@ -228,7 +228,7 @@ bool ApplicationSettings::setIndexingFilePaths(const std::vector<FilePath>& inde
 
 int ApplicationSettings::getIndexerThreadCount() const
 {
-	return getValue<int>("indexing/indexer_thread_count", 4);
+	return getValue<int>("indexing/indexer_thread_count", 0);
 }
 
 void ApplicationSettings::setIndexerThreadCount(const int count)

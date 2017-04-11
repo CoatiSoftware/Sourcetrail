@@ -10,6 +10,8 @@ namespace utility
 	std::string executeProcess(const std::string& command, const std::string& workingDirectory = "");
 
 	ApplicationArchitectureType getApplicationArchitectureType();
+
+	int getIdealThreadCount();
 }
 
 #endif // UTILITY_APP_H

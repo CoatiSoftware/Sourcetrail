@@ -219,6 +219,7 @@ set_property(
 		"${CMAKE_SOURCE_DIR}/src/lib"
 		"${CMAKE_SOURCE_DIR}/src/external"
 		"${CMAKE_SOURCE_DIR}/src/lib_license"
+		"${CMAKE_SOURCE_DIR}/src/lib_gui"
 		"${CMAKE_BINARY_DIR}/src/lib_license"
 )
 

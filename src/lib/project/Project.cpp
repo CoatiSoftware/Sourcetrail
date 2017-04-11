@@ -34,6 +34,7 @@
 #include "utility/scheduling/TaskSetValue.h"
 #include "utility/text/TextAccess.h"
 #include "utility/utility.h"
+#include "utility/utilityApp.h"
 #include "utility/utilityString.h"
 #include "utility/Version.h"
 
@@ -412,7 +413,15 @@ void Project::buildIndex(const std::set<FilePath>& filesToClean, bool fullRefres
 
 	if (indexerCommandList->size() > 0)
 	{
-		const size_t indexerThreadCount = ApplicationSettings::getInstance()->getIndexerThreadCount();
+		int indexerThreadCount = ApplicationSettings::getInstance()->getIndexerThreadCount();
+		if (indexerThreadCount <= 0)
+		{
+			indexerThreadCount = utility::getIdealThreadCount();
+			if (indexerThreadCount <= 0)
+			{
+				indexerThreadCount = 4; // setting to some fallback value
+			}
+		}
 
 		if (indexerThreadCount > 1)
 		{

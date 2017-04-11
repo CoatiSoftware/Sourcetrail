@@ -1,5 +1,6 @@
 #include "qt/window/project_wizzard/QtProjectWizzardContentPreferences.h"
 
+#include "qt/utility/utilityQt.h"
 #include "settings/ApplicationSettings.h"
 #include "utility/file/FileSystem.h"
 #include "utility/messaging/type/MessageSwitchColorScheme.h"
@@ -92,7 +93,30 @@ void QtProjectWizzardContentPreferences::populate(QGridLayout* layout, int& row)
 	addTitle("INDEXING", layout, row);
 
 	// indexer threads
-	m_threads = addComboBox("Indexer threads", 1, 24, "Number of parallel threads used to index your projects.", layout, row);
+	const int minThreadCount = 0;
+	const int maxThreadCount = 24;
+
+	m_threads = new QComboBox(this);
+	connect(m_threads, SIGNAL(activated(int)), this, SLOT(indexerThreadsChanges(int)));
+	for (int i = minThreadCount; i <= maxThreadCount; i++)
+	{
+		m_threads->insertItem(i, QString::number(i));
+	}
+
+	m_threadsInfoLabel = new QLabel("");
+	utility::setWidgetRetainsSpaceWhenHidden(m_threadsInfoLabel);
+
+	QHBoxLayout* hlayout = new QHBoxLayout();
+	hlayout->setContentsMargins(0, 0, 0, 0);
+	hlayout->addWidget(m_threads);
+	hlayout->addWidget(m_threadsInfoLabel);
+
+	QWidget* threadsWidget = new QWidget();
+	threadsWidget->setLayout(hlayout);
+
+	addLabelAndWidget("Indexer threads", threadsWidget, layout, row, Qt::AlignLeft);
+	addHelpButton("Number of parallel threads used to index your projects.\nWhen setting this to 0 Sourcetrail tries to use the ideal thread count for your computer.", layout, row);
+	row++;
 
 	addGap(layout, row);
 
@@ -230,7 +254,8 @@ void QtProjectWizzardContentPreferences::load()
 	m_sourcetrailPort->setText(QString::number(appSettings->getSourcetrailPort()));
 	m_pluginPort->setText(QString::number(appSettings->getPluginPort()));
 
-	m_threads->setCurrentIndex(appSettings->getIndexerThreadCount() - 1);
+	m_threads->setCurrentIndex(appSettings->getIndexerThreadCount()); // index and value are the same
+	indexerThreadsChanges(m_threads->currentIndex());
 
 	if (m_javaPath)
 	{
@@ -273,7 +298,7 @@ void QtProjectWizzardContentPreferences::save()
 	int pluginPort = m_pluginPort->text().toInt();
 	if (pluginPort) appSettings->setPluginPort(pluginPort);
 
-	appSettings->setIndexerThreadCount(m_threads->currentIndex() + 1);
+	appSettings->setIndexerThreadCount(m_threads->currentIndex()); // index and value are the same
 
 	if (m_javaPath)
 	{
@@ -321,6 +346,19 @@ void QtProjectWizzardContentPreferences::mavenPathDetectionClicked()
 void QtProjectWizzardContentPreferences::loggingEnabledChanged()
 {
 	m_verboseIndexerLoggingEnabled->setEnabled(m_loggingEnabled->isChecked());
+}
+
+void QtProjectWizzardContentPreferences::indexerThreadsChanges(int index)
+{
+	if (index == 0)
+	{
+		m_threadsInfoLabel->setText(("detected " + std::to_string(utility::getIdealThreadCount()) + " threads to be ideal.").c_str());
+		m_threadsInfoLabel->show();
+	}
+	else
+	{
+		m_threadsInfoLabel->hide();
+	}
 }
 
 void QtProjectWizzardContentPreferences::addJavaPathDetection(QGridLayout* layout, int& row)

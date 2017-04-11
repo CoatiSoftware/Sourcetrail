@@ -3,6 +3,7 @@
 
 #include <QCheckBox>
 #include <QComboBox>
+#include <QLabel>
 #include <QLineEdit>
 
 #include "qt/element/QtFontPicker.h"
@@ -31,6 +32,7 @@ private slots:
 	void javaPathDetectionClicked();
 	void mavenPathDetectionClicked();
 	void loggingEnabledChanged();
+	void indexerThreadsChanges(int index);
 
 private:
 	void addJavaPathDetection(QGridLayout* layout, int& row);
@@ -65,6 +67,7 @@ private:
 	QLineEdit* m_pluginPort;
 
 	QComboBox* m_threads;
+	QLabel* m_threadsInfoLabel;
 
 	std::shared_ptr<CombinedPathDetector> m_javaPathDetector;
 	std::shared_ptr<CombinedPathDetector> m_mavenPathDetector;
