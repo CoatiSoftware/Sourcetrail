@@ -15,6 +15,10 @@ public:
 	std::shared_ptr<TaskDecorator> addChildTask(std::shared_ptr<Task> child);
 
 	virtual void setTask(std::shared_ptr<Task> task) = 0;
+	virtual void terminate();
+
+private:
+	virtual void doTerminate() = 0;
 };
 
 #endif // TASK_DECORATOR_H

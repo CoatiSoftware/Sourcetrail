@@ -24,6 +24,7 @@ private:
 	virtual TaskState doUpdate(std::shared_ptr<Blackboard> blackboard);
 	virtual void doExit(std::shared_ptr<Blackboard> blackboard);
 	virtual void doReset(std::shared_ptr<Blackboard> blackboard);
+	virtual void doTerminate();
 
 	std::shared_ptr<TaskRunner> m_taskRunner;
 	const ConditionType m_condition;

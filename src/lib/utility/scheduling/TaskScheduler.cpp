@@ -161,6 +161,7 @@ void TaskScheduler::processTasks()
 
 					if (!m_loopIsRunning)
 					{
+						runner->terminate();
 						break;
 					}
 				}

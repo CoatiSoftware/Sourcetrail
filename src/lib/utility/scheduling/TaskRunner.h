@@ -13,10 +13,11 @@ public:
 
 	Task::TaskState update(std::shared_ptr<Blackboard> blackboard);
 	void reset();
+	void terminate(); // caution: this should only be called just before quitting the app.
 
 private:
 	std::shared_ptr<Task> m_task;
 	bool m_reset;
 };
 
-#endif // TASK_H
+#endif // TASK_RUNNER_H

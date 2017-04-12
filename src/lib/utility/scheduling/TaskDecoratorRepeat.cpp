@@ -48,3 +48,8 @@ void TaskDecoratorRepeat::doReset(std::shared_ptr<Blackboard> blackboard)
 {
 	m_taskRunner->reset();
 }
+
+void TaskDecoratorRepeat::doTerminate()
+{
+	m_taskRunner->terminate();
+}

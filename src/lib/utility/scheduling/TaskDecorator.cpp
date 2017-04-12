@@ -13,3 +13,8 @@ std::shared_ptr<TaskDecorator> TaskDecorator::addChildTask(std::shared_ptr<Task>
 	setTask(child);
 	return shared_from_this();
 }
+
+void TaskDecorator::terminate()
+{
+	doTerminate();
+}

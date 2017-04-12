@@ -51,18 +51,20 @@ void SourceGroupJava::fetchAllSourceFilePaths()
 	std::vector<FilePath> sourcePaths;
 	if (m_settings->getAbsoluteMavenProjectFilePath().exists())
 	{
-		if (Application::getInstance()->hasGUI())
+		std::shared_ptr<Application> application = Application::getInstance();
+
+		if (application && application->hasGUI())
 		{
-			Application::getInstance()->getDialogView()->showStatusDialog("Preparing Project", "Maven\nFetching Source Directories");
+			application->getDialogView()->showStatusDialog("Preparing Project", "Maven\nFetching Source Directories");
 		}
 
 		const FilePath mavenPath(ApplicationSettings::getInstance()->getMavenPath());
 		const FilePath projectRootPath = m_settings->getAbsoluteMavenProjectFilePath().parentDirectory();
 		sourcePaths = utility::mavenGetAllDirectoriesFromEffectivePom(mavenPath, projectRootPath, m_settings->getShouldIndexMavenTests());
 
-		if (Application::getInstance()->hasGUI())
+		if (application && application->hasGUI())
 		{
-			Application::getInstance()->getDialogView()->hideStatusDialog();
+			application->getDialogView()->hideStatusDialog();
 		}
 	}
 	else
@@ -159,23 +161,29 @@ bool SourceGroupJava::prepareJavaEnvironment()
 
 bool SourceGroupJava::prepareMavenData()
 {
-	if (m_settings->getAbsoluteMavenProjectFilePath().exists())
+	if (m_settings && m_settings->getAbsoluteMavenProjectFilePath().exists())
 	{
 		const FilePath mavenPath = ApplicationSettings::getInstance()->getMavenPath();
 		const FilePath projectRootPath = m_settings->getAbsoluteMavenProjectFilePath().parentDirectory();
 
-		if (Application::getInstance()->hasGUI())
+		ScopedFunctor dialogHider;
+
+		std::shared_ptr<Application> application = Application::getInstance();
+
+		if (application && application->hasGUI())
 		{
-			ScopedFunctor dialogHider([](){
+			// this makes sure to hide the dialog when leaving this method.
+			dialogHider = ScopedFunctor([](){
 				Application::getInstance()->getDialogView()->hideStatusDialog();
 			});
-
 			Application::getInstance()->getDialogView()->showStatusDialog("Preparing Project", "Maven\nGenerating Source Files");
-			bool success = utility::mavenGenerateSources(
-				mavenPath, projectRootPath
-			);
+		}
 
-			if (!success)
+		bool success = utility::mavenGenerateSources(mavenPath, projectRootPath);
+
+		if (!success)
+		{
+			if (application && application->hasGUI())
 			{
 				const std::string dialogMessage =
 					"Sourcetrail was unable to locate Maven on this machine.\n"
@@ -184,11 +192,15 @@ bool SourceGroupJava::prepareMavenData()
 				MessageStatus(dialogMessage, true, false).dispatch();
 
 				Application::getInstance()->handleDialog(dialogMessage);
-				return false;
 			}
+			return false;
+		}
 
+		if (application && application->hasGUI())
+		{
 			Application::getInstance()->getDialogView()->showStatusDialog("Preparing Project", "Maven\nExporting Dependencies");
 		}
+
 		utility::mavenCopyDependencies(
 			mavenPath, projectRootPath, m_settings->getAbsoluteMavenDependenciesDirectory()
 		);
@@ -235,11 +247,13 @@ std::vector<FilePath> SourceGroupJava::getClassPath()
 
 std::set<FilePath> SourceGroupJava::fetchRootDirectories()
 {
-	if (Application::getInstance()->hasGUI())
+	if (std::shared_ptr<Application> application = Application::getInstance())
 	{
-		Application::getInstance()->getDialogView()->showStatusDialog("Preparing Project", "Gathering Root\nDirectories");
+		if (application->hasGUI())
+		{
+			application->getDialogView()->showStatusDialog("Preparing Project", "Gathering Root\nDirectories");
+		}
 	}
-
 	std::set<FilePath> rootDirectories;
 
 	std::shared_ptr<JavaEnvironment> javaEnvironment = JavaEnvironmentFactory::getInstance()->createEnvironment();

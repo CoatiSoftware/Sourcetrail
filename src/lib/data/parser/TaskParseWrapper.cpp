@@ -54,3 +54,8 @@ void TaskParseWrapper::doReset(std::shared_ptr<Blackboard> blackboard)
 {
 	m_taskRunner->reset();
 }
+
+void TaskParseWrapper::doTerminate()
+{
+	m_taskRunner->terminate();
+}

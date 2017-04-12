@@ -35,14 +35,17 @@ bool SourceGroupCxx::prepareRefresh()
 	{
 		MessageStatus("Can't refresh project").dispatch();
 
-		if (Application::getInstance()->hasGUI())
+		if (std::shared_ptr<Application> application = Application::getInstance())
 		{
-			std::vector<std::string> options;
-			options.push_back("Ok");
-			Application::getInstance()->handleDialog(
-				"Can't refresh. The compilation database of the project does not exist anymore: " + cdbPath.str(),
-				options
-			);
+			if (application->hasGUI())
+			{
+				std::vector<std::string> options;
+				options.push_back("Ok");
+				application->handleDialog(
+					"Can't refresh. The compilation database of the project does not exist anymore: " + cdbPath.str(),
+					options
+				);
+			}
 		}
 		return false;
 	}

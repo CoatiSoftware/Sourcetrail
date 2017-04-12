@@ -54,3 +54,11 @@ void TaskGroupSelector::doReset(std::shared_ptr<Blackboard> blackboard)
 		m_taskRunners[i]->reset();
 	}
 }
+
+void TaskGroupSelector::doTerminate()
+{
+	for (size_t i = 0; i < m_taskRunners.size(); i++)
+	{
+		m_taskRunners[i]->terminate();
+	}
+}

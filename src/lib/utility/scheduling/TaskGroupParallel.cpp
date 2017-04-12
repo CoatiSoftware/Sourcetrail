@@ -73,6 +73,19 @@ void TaskGroupParallel::doReset(std::shared_ptr<Blackboard> blackboard)
 	}
 }
 
+void TaskGroupParallel::doTerminate()
+{
+	for (size_t i = 0; i < m_tasks.size(); i++)
+	{
+		m_tasks[i]->taskRunner->terminate();
+		if (m_tasks[i]->thread)
+		{
+			m_tasks[i]->thread->detach();
+			m_tasks[i]->thread.reset();
+		}
+	}
+}
+
 void TaskGroupParallel::processTaskThreaded(std::shared_ptr<TaskInfo> taskInfo, std::shared_ptr<Blackboard> blackboard)
 {
 	ScopedFunctor functor([&](){

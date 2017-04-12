@@ -33,6 +33,7 @@ private:
 	virtual TaskState doUpdate(std::shared_ptr<Blackboard> blackboard);
 	virtual void doExit(std::shared_ptr<Blackboard> blackboard);
 	virtual void doReset(std::shared_ptr<Blackboard> blackboard);
+	virtual void doTerminate();
 
 	void processTaskThreaded(std::shared_ptr<TaskInfo> taskInfo, std::shared_ptr<Blackboard> blackboard);
 	int getActveTaskCount() const;

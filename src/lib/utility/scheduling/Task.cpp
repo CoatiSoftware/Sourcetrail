@@ -48,3 +48,8 @@ void Task::reset(std::shared_ptr<Blackboard> blackboard)
 	m_enterCalled = false;
 	m_exitCalled = false;
 }
+
+void Task::terminate()
+{
+}
+

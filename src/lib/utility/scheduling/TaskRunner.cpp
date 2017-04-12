@@ -26,4 +26,13 @@ void TaskRunner::reset()
 	m_reset = true;
 }
 
+void TaskRunner::terminate()
+{
+	if (m_task)
+	{
+		m_task->terminate();
+	}
+}
+
+
 
