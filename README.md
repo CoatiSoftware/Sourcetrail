@@ -147,6 +147,27 @@ gifsicle --resize-height 18 trans.gif > loader.gif
 
 ### Changelog
 
+#### 0.11.86
+released 2017-04-12
+
+* Terminating all running tasks before closing the application (issue #343)
+* Use all available cores when setting indexer threads to 0 (issue #342)
+* Added reset window layout option to view menu (issue #289)
+* Fixed colorscheme gets refreshed when cancelling preferences dialog
+* Log: Scroll to first line in errors table after indexing and after display
+* Copy old ApplicationSettings.xml and window_settings.ini files from previous Coati install if available.
+* New projects are created with .srctrlprj and .srctrldb endings, but still support old file extensions.
+* Renamed application from Coati to Sourcetrail
+* Fixed issues in tutorial project
+* Graph: Fixed node with no children but qualifier shows expand button
+* Enable undo/redo actions in context menu only when available
+* Java: Updated to JavaParser 3.1.2 and JavaSymbolSolver 0.5.2.x
+* Revised undo/redo stack to handle messages differently
+* Java: Added support for project setup from Maven
+* Windows: Hide console when running release builds
+* Show license information on start screen
+* Added ping support to plugins and display current connected editor/IDE in status bar.
+
 #### 0.11.0 (beta)
 released 2017-02-15
 
