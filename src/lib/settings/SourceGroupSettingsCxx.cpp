@@ -172,7 +172,6 @@ std::vector<std::string> SourceGroupSettingsCxx::getDefaultSourceExtensions() co
 	switch (getType())
 	{
 	case SOURCE_GROUP_CPP_EMPTY:
-	case SOURCE_GROUP_CXX_CDB:
 		defaultValues.push_back(".cpp");
 		defaultValues.push_back(".cxx");
 		defaultValues.push_back(".cc");
@@ -180,6 +179,7 @@ std::vector<std::string> SourceGroupSettingsCxx::getDefaultSourceExtensions() co
 	case SOURCE_GROUP_C_EMPTY:
 		defaultValues.push_back(".c");
 		break;
+	case SOURCE_GROUP_CXX_CDB:
 	default:
 		break;
 	}
@@ -192,10 +192,10 @@ std::string SourceGroupSettingsCxx::getDefaultStandard() const
 	switch (getType())
 	{
 	case SOURCE_GROUP_CPP_EMPTY:
-	case SOURCE_GROUP_CXX_CDB:
 		return "c++1z";
 	case SOURCE_GROUP_C_EMPTY:
 		return "c1x";
+	case SOURCE_GROUP_CXX_CDB:
 	default:
 		break;
 	}
