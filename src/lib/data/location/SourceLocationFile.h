@@ -21,13 +21,16 @@ public:
 		}
 	};
 
-	SourceLocationFile(const FilePath& filePath, bool isWhole);
+	SourceLocationFile(const FilePath& filePath, bool isWhole, bool isComplete);
 	virtual ~SourceLocationFile();
 
 	const FilePath& getFilePath() const;
 
 	void setIsWhole(bool isWhole);
 	bool isWhole() const;
+
+	void setIsComplete(bool isComplete);
+	bool isComplete() const;
 
 	const std::multiset<std::shared_ptr<SourceLocation>, LocationComp>& getSourceLocations() const;
 
@@ -52,6 +55,7 @@ public:
 private:
 	const FilePath m_filePath;
 	bool m_isWhole;
+	bool m_isComplete;
 
 	std::multiset<std::shared_ptr<SourceLocation>, LocationComp> m_locations;
 	std::map<Id, SourceLocation*> m_locationIndex;

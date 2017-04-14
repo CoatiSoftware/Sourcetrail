@@ -10,7 +10,6 @@
 #include "data/parser/java/JavaEnvironmentFactory.h"
 #include "data/parser/java/JavaParser.h"
 
-#include "helper/TestFileRegister.h"
 #include "helper/TestParserClient.h"
 
 
@@ -842,7 +841,7 @@ private:
 
 		setupJavaEnvironmentFactory();
 
-		JavaParser parser(parserClient);
+		JavaParser parser(parserClient, nullptr);
 		parser.buildIndex("input.cc", textAccess);
 
 		return parserClient;

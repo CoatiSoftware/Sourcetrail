@@ -70,11 +70,12 @@ QtCodeFile* QtCodeFileList::getFile(const FilePath filePath)
 	return file;
 }
 
-void QtCodeFileList::addFile(const FilePath& filePath, bool isWholeFile, int refCount, TimePoint modificationTime)
+void QtCodeFileList::addFile(const FilePath& filePath, bool isWholeFile, int refCount, TimePoint modificationTime, bool isComplete)
 {
 	QtCodeFile* file = getFile(filePath);
 	file->setWholeFile(isWholeFile, refCount);
 	file->setModificationTime(modificationTime);
+	file->setIsComplete(isComplete);
 }
 
 QScrollArea* QtCodeFileList::getScrollArea()
@@ -99,6 +100,7 @@ void QtCodeFileList::addCodeSnippet(
 	}
 
 	file->setModificationTime(params.modificationTime);
+	file->setIsComplete(params.locationFile->isComplete());
 }
 
 void QtCodeFileList::requestFileContent(const FilePath& filePath, bool isFirstInList)

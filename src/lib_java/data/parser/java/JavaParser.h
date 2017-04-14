@@ -29,7 +29,7 @@ class FileRegister;
 class JavaParser: public Parser
 {
 public:
-	JavaParser(std::shared_ptr<ParserClient> client);
+	JavaParser(std::shared_ptr<ParserClient> client, std::shared_ptr<FileRegister> fileRegister);
 	~JavaParser();
 
 	void buildIndex(std::shared_ptr<IndexerCommandJava> indexerCommand);
@@ -168,7 +168,6 @@ private:
 	void doRecordComment(jint beginLine, jint beginColumn, jint endLine, jint endColumn);
 	void doRecordError(jstring jMessage, jint jFatal, jint jIndexed, jint beginLine, jint beginColumn, jint endLine, jint endColumn);
 
-	std::shared_ptr<FileRegister> m_fileRegister;
 	std::shared_ptr<JavaEnvironment> m_javaEnvironment;
 
 	const int m_id;

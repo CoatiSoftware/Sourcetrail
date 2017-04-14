@@ -270,6 +270,7 @@ bool Project::requestIndex(bool forceRefresh, bool needsFullRefresh)
 	}
 
 	std::set<FilePath> filesToClean;
+	if (!needsFullRefresh)
 	{
 		std::set<FilePath> unchangedFilePaths;
 		std::set<FilePath> changedFilePaths;

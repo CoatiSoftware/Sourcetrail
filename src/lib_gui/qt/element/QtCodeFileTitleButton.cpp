@@ -13,6 +13,7 @@
 
 QtCodeFileTitleButton::QtCodeFileTitleButton(QWidget* parent)
 	: QPushButton(parent)
+	, m_isComplete(true)
 {
 	setObjectName("title_label");
 	minimumSizeHint(); // force font loading
@@ -49,7 +50,25 @@ void QtCodeFileTitleButton::setModificationTime(const TimePoint modificationTime
 	if (modificationTime.isValid())
 	{
 		m_modificationTime = modificationTime;
-		checkModification();
+		updateTexts();
+	}
+}
+
+void QtCodeFileTitleButton::setIsComplete(bool isComplete)
+{
+	m_isComplete = isComplete;
+	setProperty("complete", isComplete);
+
+	if (!isComplete)
+	{
+		setStyleSheet((
+			"background-image: url(" + ResourcePaths::getGuiPath() + "code_view/images/pattern_" +
+			ColorScheme::getInstance()->getColor("code/file/title/hatching") + ".png);"
+		).c_str());
+	}
+	else
+	{
+		setStyleSheet("");
 	}
 }
 
@@ -74,25 +93,31 @@ void QtCodeFileTitleButton::setProject(const std::string& name)
 	}
 }
 
-void QtCodeFileTitleButton::checkModification()
+void QtCodeFileTitleButton::updateTexts()
 {
 	if (Application::getInstance()->isInTrial() || m_filePath.empty())
 	{
 		return;
 	}
 
+	std::string title = m_filePath.fileName();
+	std::string toolTip = "file: " + m_filePath.str();
+
 	// cannot use m_filePath.exists() here since it is only checked when FilePath is constructed.
 	if ((!FileSystem::exists(m_filePath.str())) ||
 		(FileSystem::getLastWriteTime(m_filePath) > m_modificationTime))
 	{
-		setText(QString(m_filePath.fileName().c_str()) + "*");
-		setToolTip(QString::fromStdString("out of date: " + m_filePath.str()));
+		title += "*";
+		toolTip = "out of date " + toolTip;
 	}
-	else
+
+	if (!m_isComplete)
 	{
-		setText(m_filePath.fileName().c_str());
-		setToolTip(QString::fromStdString(m_filePath.str()));
+		toolTip = "incomplete " + toolTip;
 	}
+
+	setText(title.c_str());
+	setToolTip(toolTip.c_str());
 }
 
 void QtCodeFileTitleButton::contextMenuEvent(QContextMenuEvent* event)

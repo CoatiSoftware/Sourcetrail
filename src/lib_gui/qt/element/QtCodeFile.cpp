@@ -293,6 +293,11 @@ void QtCodeFile::setWholeFile(bool isWholeFile, int refCount)
 	updateRefCount(isWholeFile ? 0 : refCount);
 }
 
+void QtCodeFile::setIsComplete(bool isComplete)
+{
+	m_title->setIsComplete(isComplete);
+}
+
 void QtCodeFile::setMinimized()
 {
 	for (std::shared_ptr<QtCodeSnippet> snippet : m_snippets)
@@ -376,7 +381,7 @@ void QtCodeFile::updateSnippets()
 
 void QtCodeFile::updateTitleBar()
 {
-	m_title->checkModification();
+	m_title->updateTexts();
 }
 
 void QtCodeFile::clickedMinimizeButton() const

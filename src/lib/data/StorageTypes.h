@@ -71,17 +71,20 @@ struct StorageFile
 		: id(0)
 		, filePath("")
 		, modificationTime("")
+		, complete(true)
 	{}
 
-	StorageFile(Id id, const std::string& filePath, const std::string& modificationTime)
+	StorageFile(Id id, const std::string& filePath, const std::string& modificationTime, bool complete)
 		: id(id)
 		, filePath(filePath)
 		, modificationTime(modificationTime)
+		, complete(complete)
 	{}
 
 	Id id;
 	std::string filePath;
 	std::string modificationTime;
+	bool complete;
 };
 
 struct StorageLocalSymbol

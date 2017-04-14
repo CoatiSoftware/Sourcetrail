@@ -49,7 +49,7 @@ void CodeController::handleMessage(MessageActivateAll* message)
 
 	statsSnippet.reduced = true;
 
-	statsSnippet.locationFile = std::make_shared<SourceLocationFile>(FilePath(), true);
+	statsSnippet.locationFile = std::make_shared<SourceLocationFile>(FilePath(), true, true);
 
 	std::vector<std::string> description = getProjectDescription(statsSnippet.locationFile.get());
 
@@ -68,7 +68,8 @@ void CodeController::handleMessage(MessageActivateAll* message)
 	ErrorCountInfo errorCount = m_storageAccess->getErrorCount();
 
 	ss << "\n";
-	ss << "\t" + std::to_string(stats.fileCount) + " files\n";
+	ss << "\t" + std::to_string(stats.fileCount) + " files";
+	ss << (stats.completedFileCount != stats.fileCount ? " (" + std::to_string(stats.completedFileCount) + " complete)" : "") + "\n";
 	ss << "\t" + std::to_string(stats.fileLOCCount) + " lines of code\n";
 	ss << "\n";
 	ss << "\t" + std::to_string(stats.nodeCount) + " symbols\n";
@@ -77,9 +78,9 @@ void CodeController::handleMessage(MessageActivateAll* message)
 	ss << "\t" + std::to_string(errorCount.total) + " errors (" + std::to_string(errorCount.fatal) + " fatal)\n";
 	ss << "\n";
 
-	if (errorCount.total > 0)
+	if (stats.completedFileCount != stats.fileCount)
 	{
-		ss << "\tWarning: Indexing may be incomplete as long as it yields fatal errors.\n";
+		ss << "\tWarning: Indexing is incomplete as long as it yields fatal errors.\n";
 		ss << "\tTry resolving them and refresh the project.\n";
 		ss << "\n";
 	}
@@ -732,7 +733,7 @@ std::shared_ptr<SourceLocationFile> CodeController::getSourceLocationOfParentSco
 		}
 	);
 
-	std::shared_ptr<SourceLocationFile> file = std::make_shared<SourceLocationFile>(location->getFilePath(), false);
+	std::shared_ptr<SourceLocationFile> file = std::make_shared<SourceLocationFile>(location->getFilePath(), false, false);
 	if (parent)
 	{
 		file->addSourceLocationCopy(parent);

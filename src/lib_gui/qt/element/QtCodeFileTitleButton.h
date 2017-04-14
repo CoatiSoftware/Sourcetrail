@@ -17,9 +17,10 @@ public:
 
 	void setFilePath(const FilePath& filePath);
 	void setModificationTime(const TimePoint modificationTime);
+	void setIsComplete(bool isComplete);
 	void setProject(const std::string& name);
 
-	void checkModification();
+	void updateTexts();
 
 protected:
 	void contextMenuEvent(QContextMenuEvent* event);
@@ -30,6 +31,7 @@ private slots:
 private:
 	FilePath m_filePath;
 	TimePoint m_modificationTime;
+	bool m_isComplete;
 };
 
 #endif // QT_CODE_FILE_TITLE_BUTTON_H

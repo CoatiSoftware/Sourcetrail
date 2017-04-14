@@ -113,7 +113,7 @@ SourceLocationFile* SourceLocationCollection::createSourceLocationFile(const Fil
 		return file;
 	}
 
-	std::shared_ptr<SourceLocationFile> filePtr = std::make_shared<SourceLocationFile>(filePath, false);
+	std::shared_ptr<SourceLocationFile> filePtr = std::make_shared<SourceLocationFile>(filePath, false, false);
 	m_files.emplace(filePath, filePtr);
 	return filePtr.get();
 }

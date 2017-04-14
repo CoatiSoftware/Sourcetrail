@@ -779,18 +779,20 @@ void GraphController::bundleNodes()
 		}
 	}
 
-	if (!fileOrMacroActive)
+	if (fileOrMacroActive)
 	{
-		bundleNodesAndEdgesMatching(
-			[](const DummyNode::BundleInfo& info, const Node* data)
-			{
-				return data->isType(Node::NODE_FILE);
-			},
-			1,
-			false,
-			"Importing Files"
-		);
+		return;
 	}
+
+	bundleNodesAndEdgesMatching(
+		[](const DummyNode::BundleInfo& info, const Node* data)
+		{
+			return data->isType(Node::NODE_FILE);
+		},
+		1,
+		false,
+		"Importing Files"
+	);
 
 	bundleNodesAndEdgesMatching(
 		[](const DummyNode::BundleInfo& info, const Node* data)
@@ -822,28 +824,25 @@ void GraphController::bundleNodes()
 		"Built-in Types"
 	);
 
-	if (!fileOrMacroActive)
-	{
-		bundleNodesAndEdgesMatching(
-			[](const DummyNode::BundleInfo& info, const Node* data)
-			{
-				return info.isDefined && info.isReferencing && !info.layoutVertical;
-			},
-			10,
-			false,
-			"Referencing Symbols"
-		);
+	bundleNodesAndEdgesMatching(
+		[](const DummyNode::BundleInfo& info, const Node* data)
+		{
+			return info.isDefined && info.isReferencing && !info.layoutVertical;
+		},
+		10,
+		false,
+		"Referencing Symbols"
+	);
 
-		bundleNodesAndEdgesMatching(
-			[](const DummyNode::BundleInfo& info, const Node* data)
-			{
-				return info.isDefined && info.isReferenced && !info.layoutVertical;
-			},
-			10,
-			false,
-			"Referenced Symbols"
-		);
-	}
+	bundleNodesAndEdgesMatching(
+		[](const DummyNode::BundleInfo& info, const Node* data)
+		{
+			return info.isDefined && info.isReferenced && !info.layoutVertical;
+		},
+		10,
+		false,
+		"Referenced Symbols"
+	);
 
 	bundleNodesAndEdgesMatching(
 		[](const DummyNode::BundleInfo& info, const Node* data)

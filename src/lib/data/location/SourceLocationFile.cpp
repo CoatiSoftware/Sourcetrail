@@ -1,8 +1,9 @@
 #include "data/location/SourceLocationFile.h"
 
-SourceLocationFile::SourceLocationFile(const FilePath& filePath, bool isWhole)
+SourceLocationFile::SourceLocationFile(const FilePath& filePath, bool isWhole, bool isComplete)
 	: m_filePath(filePath)
 	, m_isWhole(isWhole)
+	, m_isComplete(isComplete)
 {
 }
 
@@ -23,6 +24,16 @@ void SourceLocationFile::setIsWhole(bool isWhole)
 bool SourceLocationFile::isWhole() const
 {
 	return m_isWhole;
+}
+
+void SourceLocationFile::setIsComplete(bool isComplete)
+{
+	m_isComplete = isComplete;
+}
+
+bool SourceLocationFile::isComplete() const
+{
+	return m_isComplete;
 }
 
 const std::multiset<std::shared_ptr<SourceLocation>, SourceLocationFile::LocationComp>& SourceLocationFile::getSourceLocations() const
@@ -141,7 +152,7 @@ void SourceLocationFile::forEachEndSourceLocation(std::function<void(SourceLocat
 
 std::shared_ptr<SourceLocationFile> SourceLocationFile::getFilteredByLines(size_t firstLineNumber, size_t lastLineNumber) const
 {
-	std::shared_ptr<SourceLocationFile> ret = std::make_shared<SourceLocationFile>(getFilePath(), false);
+	std::shared_ptr<SourceLocationFile> ret = std::make_shared<SourceLocationFile>(getFilePath(), false, isComplete());
 
 	for (std::shared_ptr<SourceLocation> location : m_locations)
 	{
@@ -156,7 +167,7 @@ std::shared_ptr<SourceLocationFile> SourceLocationFile::getFilteredByLines(size_
 
 std::shared_ptr<SourceLocationFile> SourceLocationFile::getFilteredByType(LocationType type) const
 {
-	std::shared_ptr<SourceLocationFile> ret = std::make_shared<SourceLocationFile>(getFilePath(), false);
+	std::shared_ptr<SourceLocationFile> ret = std::make_shared<SourceLocationFile>(getFilePath(), false, isComplete());
 
 	for (std::shared_ptr<SourceLocation> location : m_locations)
 	{

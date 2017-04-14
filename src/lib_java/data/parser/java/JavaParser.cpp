@@ -11,7 +11,7 @@
 #include "utility/text/TextAccess.h"
 #include "utility/utilityString.h"
 
-JavaParser::JavaParser(std::shared_ptr<ParserClient> client)
+JavaParser::JavaParser(std::shared_ptr<ParserClient> client, std::shared_ptr<FileRegister> fileRegister)
 	: Parser(client)
 	, m_id(s_nextParserId++)
 	, m_currentFilePath("")

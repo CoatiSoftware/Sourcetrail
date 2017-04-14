@@ -97,6 +97,8 @@
 				<hover>#B2B2B2</hover>
 				<press>#626262</press>
 				<icon>black</icon>
+				<border>white</border>
+				<hatching>bright</hatching>
 			</title>
 
 			<ref_count>

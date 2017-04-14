@@ -61,7 +61,7 @@ public:
 
 	Id addNode(const int type, const std::string& serializedName);
 	void addSymbol(const int id, int definitionKind);
-	void addFile(const int id, const std::string& filePath, const std::string& modificationTime);
+	void addFile(const int id, const std::string& filePath, const std::string& modificationTime, bool complete);
 	Id addLocalSymbol(const std::string& name);
 	Id addSourceLocation(Id fileNodeId, uint startLine, uint startCol, uint endLine, uint endCol, int type);
 	bool addOccurrence(Id elementId, Id sourceLocationId);
@@ -111,6 +111,7 @@ public:
 	std::shared_ptr<TextAccess> getFileContentByPath(const std::string& filePath) const;
 	std::shared_ptr<TextAccess> getFileContentById(Id fileId) const;
 
+	void setFileComplete(bool complete, Id fileId);
 	void setNodeType(int type, Id nodeId);
 
 	StorageSourceLocation getSourceLocationByAll(const Id fileNodeId, const uint startLine, const uint startCol, const uint endLine, const uint endCol, const int type) const;
@@ -162,12 +163,17 @@ public:
 	template <typename ResultType>
 	std::vector<ResultType> getAllByIds(const std::vector<Id>& ids) const
 	{
-		return doGetAll<ResultType>("WHERE id IN (" + utility::join(utility::toStrings(ids), ',') + ")");
+		if (ids.size())
+		{
+			return doGetAll<ResultType>("WHERE id IN (" + utility::join(utility::toStrings(ids), ',') + ")");
+		}
+		return std::vector<ResultType>();
 	}
 
 	int getNodeCount() const;
 	int getEdgeCount() const;
 	int getFileCount() const;
+	int getCompletedFileCount() const;
 	int getFileLineSum() const;
 	int getSourceLocationCount() const;
 

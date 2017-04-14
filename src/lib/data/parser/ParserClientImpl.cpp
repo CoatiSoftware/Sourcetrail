@@ -18,19 +18,15 @@ ParserClientImpl::~ParserClientImpl()
 void ParserClientImpl::setStorage(std::shared_ptr<IntermediateStorage> storage)
 {
 	m_storage = storage;
+
+	m_hasFatalErrors = 0;
 }
 
 void ParserClientImpl::resetStorage()
 {
 	m_storage.reset();
-}
 
-void ParserClientImpl::startParsingFile()
-{
-}
-
-void ParserClientImpl::finishParsingFile()
-{
+	m_hasFatalErrors = 0;
 }
 
 Id ParserClientImpl::recordSymbol(
@@ -236,7 +232,7 @@ void ParserClientImpl::addFile(Id id, const FilePath& filePath, const std::strin
 		return;
 	}
 
-	m_storage->addFile(id, filePath.str(), modificationTime);
+	m_storage->addFile(id, filePath.str(), modificationTime, true);
 }
 
 void ParserClientImpl::addSymbol(Id id, DefinitionKind definitionKind)

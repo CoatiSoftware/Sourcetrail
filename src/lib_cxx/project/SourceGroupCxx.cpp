@@ -5,7 +5,7 @@
 #include "clang/Tooling/JSONCompilationDatabase.h"
 
 #include "data/indexer/IndexerCommandCxxManual.h"
-#include "data/indexer/IndexerCxxCdb.h"
+#include "data/indexer/IndexerCommandCxxCdb.h"
 #include "settings/ApplicationSettings.h"
 #include "utility/file/FileRegister.h"
 #include "utility/file/FileSystem.h"
@@ -59,7 +59,7 @@ void SourceGroupCxx::fetchAllSourceFilePaths()
 	FilePath cdbPath = m_settings->getAbsoluteCompilationDatabasePath();
 	if (cdbPath.exists())
 	{
-		sourcePaths = IndexerCxxCdb::getSourceFilesFromCDB(cdbPath);
+		sourcePaths = IndexerCommandCxxCdb::getSourceFilesFromCDB(cdbPath);
 	}
 	else
 	{

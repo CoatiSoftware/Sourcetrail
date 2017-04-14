@@ -1,6 +1,25 @@
 #include "data/indexer/IndexerCommandCxxCdb.h"
 
 #include "clang/Tooling/CompilationDatabase.h"
+#include "clang/Tooling/JSONCompilationDatabase.h"
+
+std::vector<FilePath> IndexerCommandCxxCdb::getSourceFilesFromCDB(const FilePath& compilationDatabasePath)
+{
+	std::string error;
+	std::shared_ptr<clang::tooling::JSONCompilationDatabase> cdb = std::shared_ptr<clang::tooling::JSONCompilationDatabase>
+		(clang::tooling::JSONCompilationDatabase::loadFromFile(compilationDatabasePath.str(), error));
+
+	std::vector<FilePath> filePaths;
+	if (cdb)
+	{
+		std::vector<std::string> files = cdb->getAllFiles();
+		for (const std::string& file : files)
+		{
+			filePaths.push_back(FilePath(file));
+		}
+	}
+	return filePaths;
+}
 
 std::string IndexerCommandCxxCdb::getIndexerKindString()
 {

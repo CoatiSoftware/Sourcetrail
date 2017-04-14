@@ -97,6 +97,8 @@
 				<hover>#BBBBBB</hover>
 				<press>#AAAAAA</press>
 				<icon>black</icon>
+				<border>#B1B1B1</border>
+				<hatching>grey</hatching>
 			</title>
 
 			<ref_count>
@@ -331,6 +333,9 @@
 				<icon>
 					<normal>#FFFFFF</normal>
 				</icon>
+				<hatching>
+					<normal>#999999</normal>
+				</hatching>
 			</file>
 			<macro>
 				<like>file</like>

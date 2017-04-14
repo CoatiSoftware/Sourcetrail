@@ -19,9 +19,6 @@ public:
 	void setStorage(std::shared_ptr<IntermediateStorage> storage);
 	void resetStorage();
 
-	virtual void startParsingFile();
-	virtual void finishParsingFile();
-
 	virtual Id recordSymbol(
 		const NameHierarchy& symbolName, SymbolKind symbolKind,
 		AccessKind access, DefinitionKind definitionKind);

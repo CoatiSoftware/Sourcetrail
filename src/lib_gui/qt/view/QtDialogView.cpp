@@ -180,11 +180,13 @@ void QtDialogView::updateIndexingDialog(size_t fileCount, size_t totalFileCount,
 	);
 }
 
-void QtDialogView::finishedIndexingDialog(size_t fileCount, size_t totalFileCount, float time, ErrorCountInfo errorInfo)
+void QtDialogView::finishedIndexingDialog(
+	size_t indexedFileCount, size_t totalIndexedFileCount, size_t completedFileCount, size_t totalFileCount,
+	float time, ErrorCountInfo errorInfo)
 {
 	std::stringstream ss;
 	ss << "Finished indexing: ";
-	ss << fileCount << "/" << totalFileCount << " files; ";
+	ss << indexedFileCount << "/" << totalIndexedFileCount << " source files indexed; ";
 	ss << utility::timeToString(time);
 	ss << "; " << errorInfo.total << " error" << (errorInfo.total != 1 ? "s" : "");
 	if (errorInfo.fatal > 0)
@@ -199,7 +201,7 @@ void QtDialogView::finishedIndexingDialog(size_t fileCount, size_t totalFileCoun
 			m_windowStack.clearWindows();
 
 			QtIndexingDialog* window = createWindow<QtIndexingDialog>();
-			window->setupReport(fileCount, totalFileCount, time);
+			window->setupReport(indexedFileCount, totalIndexedFileCount, completedFileCount, totalFileCount, time);
 			window->updateErrorCount(errorInfo.total, errorInfo.fatal);
 
 			setUIBlocked(false);

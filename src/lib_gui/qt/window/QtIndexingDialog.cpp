@@ -131,22 +131,25 @@ void QtIndexingDialog::setupIndexing()
 	finishSetup();
 }
 
-void QtIndexingDialog::setupReport(size_t fileCount, size_t totalFileCount, float time)
+void QtIndexingDialog::setupReport(
+	size_t indexedFileCount, size_t totalIndexedFileCount, size_t completedFileCount, size_t totalFileCount,
+	float time)
 {
 	QBoxLayout* layout = createLayout();
 
 	addTitle("Finished Indexing", layout);
 	layout->addSpacing(5);
 
-	addMessageLabel(layout);
-	updateMessage(
-		QString::number(fileCount) + "/" + QString::number(totalFileCount) + " File" + (totalFileCount > 1 ? "s" : "")
+	createMessageLabel(layout)->setText(
+		"Source Files indexed:   " + QString::number(indexedFileCount) + "/" + QString::number(totalIndexedFileCount)
 	);
 
-	QLabel* timeLabel = new QLabel("Total Time: " + QString::fromStdString(utility::timeToString(time)));
-	timeLabel->setObjectName("message");
-	timeLabel->setAlignment(Qt::AlignRight);
-	layout->addWidget(timeLabel, 0, Qt::AlignRight);
+	createMessageLabel(layout)->setText(
+		"Files completed:   " + QString::number(completedFileCount) + "/" + QString::number(totalFileCount)
+	);
+
+	layout->addSpacing(12);
+	createMessageLabel(layout)->setText("Total Time:   " + QString::fromStdString(utility::timeToString(time)));
 
 	layout->addSpacing(12);
 	addErrorLabel(layout);
@@ -157,9 +160,9 @@ void QtIndexingDialog::setupReport(size_t fileCount, size_t totalFileCount, floa
 	updateNextButton("OK");
 	setCloseVisible(false);
 
-	m_sizeHint = QSize(400, 260);
+	m_sizeHint = QSize(400, 280);
 
-	if (fileCount != totalFileCount)
+	if (indexedFileCount != totalIndexedFileCount)
 	{
 		updateTitle("Interrupted Indexing");
 	}
@@ -364,11 +367,7 @@ void QtIndexingDialog::addPercentLabel(QBoxLayout* layout)
 
 void QtIndexingDialog::addMessageLabel(QBoxLayout* layout)
 {
-	m_messageLabel = new QLabel();
-	m_messageLabel->setObjectName("message");
-	m_messageLabel->setAlignment(Qt::AlignRight);
-	m_messageLabel->setWordWrap(true);
-	layout->addWidget(m_messageLabel, 0, Qt::AlignRight);
+	m_messageLabel = createMessageLabel(layout);
 }
 
 QLabel* QtIndexingDialog::createMessageLabel(QBoxLayout* layout)
@@ -377,7 +376,7 @@ QLabel* QtIndexingDialog::createMessageLabel(QBoxLayout* layout)
 	label->setObjectName("message");
 	label->setAlignment(Qt::AlignRight);
 	label->setWordWrap(true);
-	layout->addWidget(label, 0, Qt::AlignRight);
+	layout->addWidget(label);
 	return label;
 }
 

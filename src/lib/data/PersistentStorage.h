@@ -27,7 +27,7 @@ public:
 	virtual ~PersistentStorage();
 
 	virtual Id addNode(int type, const std::string& serializedName);
-	virtual void addFile(const Id id, const std::string& filePath, const std::string& modificationTime);
+	virtual void addFile(const Id id, const std::string& filePath, const std::string& modificationTime, bool complete);
 	virtual void addSymbol(const Id id, int definitionKind);
 	virtual Id addEdge(int type, Id sourceId, Id targetId);
 	virtual Id addLocalSymbol(const std::string& name);

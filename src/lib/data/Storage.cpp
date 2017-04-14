@@ -46,7 +46,7 @@ void Storage::inject(Storage* injected)
 			}
 			const Id ownId = it->second;
 
-			addFile(ownId, injectedData.filePath, injectedData.modificationTime);
+			addFile(ownId, injectedData.filePath, injectedData.modificationTime, injectedData.complete);
 		}
 	);
 

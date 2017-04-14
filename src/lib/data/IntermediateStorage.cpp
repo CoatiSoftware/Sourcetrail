@@ -31,6 +31,14 @@ void IntermediateStorage::clear()
 	m_nextId = 1;
 }
 
+void IntermediateStorage::setFilesIncomplete()
+{
+	for (StorageFile& file : m_files)
+	{
+		file.complete = false;
+	}
+}
+
 size_t IntermediateStorage::getSourceLocationCount() const
 {
 	return m_sourceLocationNamesToIds.size();
@@ -60,9 +68,9 @@ Id IntermediateStorage::addNode(int type, const std::string& serializedName)
 	return id;
 }
 
-void IntermediateStorage::addFile(const Id id, const std::string& filePath, const std::string& modificationTime)
+void IntermediateStorage::addFile(const Id id, const std::string& filePath, const std::string& modificationTime, bool complete)
 {
-	const StorageFile file(id, filePath, modificationTime);
+	const StorageFile file(id, filePath, modificationTime, complete);
 	const std::string serialized = serialize(file);
 
 	if (m_serializedFiles.find(serialized) == m_serializedFiles.end())

@@ -117,6 +117,7 @@ public:
 	virtual bool VisitNonTypeTemplateParmDecl(clang::NonTypeTemplateParmDecl* d);
 	virtual bool VisitTemplateTypeParmDecl(clang::TemplateTypeParmDecl* d);
 	virtual bool VisitTemplateTemplateParmDecl(clang::TemplateTemplateParmDecl* d);
+	virtual bool VisitTranslationUnitDecl(clang::TranslationUnitDecl *d);
 
 	virtual bool VisitTypeLoc(clang::TypeLoc tl);
 

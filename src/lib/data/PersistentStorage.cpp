@@ -57,11 +57,16 @@ Id PersistentStorage::addNode(int type, const std::string& serializedName)
 	return id;
 }
 
-void PersistentStorage::addFile(const Id id, const std::string& filePath, const std::string& modificationTime)
+void PersistentStorage::addFile(const Id id, const std::string& filePath, const std::string& modificationTime, bool complete)
 {
-	if (m_sqliteStorage.getFirstById<StorageFile>(id).id == 0)
+	StorageFile file = m_sqliteStorage.getFirstById<StorageFile>(id);
+	if (file.id == 0)
 	{
-		m_sqliteStorage.addFile(id, filePath, modificationTime);
+		m_sqliteStorage.addFile(id, filePath, modificationTime, complete);
+	}
+	else if (!file.complete && complete)
+	{
+		m_sqliteStorage.setFileComplete(complete, id);
 	}
 }
 
@@ -1194,7 +1199,7 @@ std::shared_ptr<SourceLocationFile> PersistentStorage::getCommentLocationsInFile
 {
 	TRACE();
 
-	std::shared_ptr<SourceLocationFile> file = std::make_shared<SourceLocationFile>(filePath, false);
+	std::shared_ptr<SourceLocationFile> file = std::make_shared<SourceLocationFile>(filePath, false, false);
 
 	std::vector<StorageCommentLocation> storageLocations = m_sqliteStorage.getCommentLocationsInFile(filePath);
 	for (size_t i = 0; i < storageLocations.size(); i++)
@@ -1246,6 +1251,7 @@ StorageStats PersistentStorage::getStorageStats() const
 	stats.edgeCount = m_sqliteStorage.getEdgeCount();
 
 	stats.fileCount = m_sqliteStorage.getFileCount();
+	stats.completedFileCount = m_sqliteStorage.getCompletedFileCount();
 	stats.fileLOCCount = m_sqliteStorage.getFileLineSum();
 
 	return stats;
@@ -1552,20 +1558,34 @@ void PersistentStorage::addNodesToGraph(const std::vector<Id>& nodeIds, Graph* g
 		symbolMap[symbol.id] = symbol;
 	}
 
+	std::unordered_map<Id, StorageFile> fileMap;
+	for (const StorageFile& file : m_sqliteStorage.getAllByIds<StorageFile>(nodeIds))
+	{
+		fileMap[file.id] = file;
+	}
+
 	for (const StorageNode& storageNode : m_sqliteStorage.getAllByIds<StorageNode>(nodeIds))
 	{
 		const Node::NodeType type = Node::intToType(storageNode.type);
 		if (type == Node::NODE_FILE)
 		{
 			const FilePath filePath(NameHierarchy::deserialize(storageNode.serializedName).getRawName());
+
+			bool defined = true;
+			auto it = fileMap.find(storageNode.id);
+			if (it != fileMap.end())
+			{
+				defined = it->second.complete;
+			}
+
 			Node* node = graph->createNode(
 				storageNode.id,
 				Node::NODE_FILE,
 				NameHierarchy(filePath.fileName()),
-				true
+				defined
 			);
 			node->addComponentFilePath(std::make_shared<TokenComponentFilePath>(filePath));
-			node->setExplicit(true);
+			node->setExplicit(defined);
 		}
 		else
 		{

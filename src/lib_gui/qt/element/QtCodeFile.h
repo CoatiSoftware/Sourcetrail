@@ -47,6 +47,7 @@ public:
 	void updateContent();
 
 	void setWholeFile(bool isWholeFile, int refCount);
+	void setIsComplete(bool isComplete);
 
 	void setMinimized();
 	void setSnippets();

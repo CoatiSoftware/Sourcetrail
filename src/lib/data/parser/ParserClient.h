@@ -28,9 +28,6 @@ public:
 	ParserClient();
 	virtual ~ParserClient();
 
-	virtual void startParsingFile() = 0;
-	virtual void finishParsingFile() = 0;
-
 	virtual Id recordSymbol(
 		const NameHierarchy& symbolName, SymbolKind symbolKind,
 		AccessKind access, DefinitionKind definitionKind) = 0;
@@ -53,6 +50,13 @@ public:
 	virtual void onLocalSymbolParsed(const std::string& name, const ParseLocation& location) = 0;
 	virtual void onFileParsed(const FileInfo& fileInfo) = 0;
 	virtual void onCommentParsed(const ParseLocation& location) = 0;
+
+	void onErrorParsed(const ParseLocation& location, const std::string& message, bool fatal, bool indexed);
+
+	bool hasFatalErrors() const;
+
+protected:
+	bool m_hasFatalErrors;
 };
 
 #endif // PARSER_CLIENT_H

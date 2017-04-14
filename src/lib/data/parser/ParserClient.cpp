@@ -72,9 +72,25 @@ std::string ParserClient::addLocationSuffix(
 }
 
 ParserClient::ParserClient()
+	: m_hasFatalErrors(false)
 {
 }
 
 ParserClient::~ParserClient()
 {
+}
+
+void ParserClient::onErrorParsed(const ParseLocation& location, const std::string& message, bool fatal, bool indexed)
+{
+	this->onError(location, message, fatal, indexed);
+
+	if (fatal)
+	{
+		m_hasFatalErrors = true;
+	}
+}
+
+bool ParserClient::hasFatalErrors() const
+{
+	return m_hasFatalErrors;
 }

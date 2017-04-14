@@ -7,6 +7,7 @@ struct StorageStats
 		: nodeCount(0)
 		, edgeCount(0)
 		, fileCount(0)
+		, completedFileCount(0)
 		, fileLOCCount(0)
 	{}
 
@@ -14,6 +15,7 @@ struct StorageStats
 	size_t edgeCount;
 
 	size_t fileCount;
+	size_t completedFileCount;
 	size_t fileLOCCount;
 };
 

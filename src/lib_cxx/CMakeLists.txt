@@ -1,20 +1,16 @@
 
 add_files(
 	LIB_CXX_FILES
-	
+
 	data/indexer/IndexerCommandCxxCdb.cpp
 	data/indexer/IndexerCommandCxxCdb.h
 	data/indexer/IndexerCommandCxxManual.cpp
 	data/indexer/IndexerCommandCxxManual.h
-	data/indexer/IndexerCxxCdb.cpp
-	data/indexer/IndexerCxxCdb.h
-	data/indexer/IndexerCxxManual.cpp
-	data/indexer/IndexerCxxManual.h
 	data/indexer/IndexerFactoryModuleCxxCdb.cpp
 	data/indexer/IndexerFactoryModuleCxxCdb.h
 	data/indexer/IndexerFactoryModuleCxxManual.cpp
 	data/indexer/IndexerFactoryModuleCxxManual.h
-	
+
 	data/parser/cxx/name/CxxDeclName.cpp
 	data/parser/cxx/name/CxxDeclName.h
 	data/parser/cxx/name/CxxFunctionDeclName.cpp
@@ -25,7 +21,7 @@ add_files(
 	data/parser/cxx/name/CxxQualifierFlags.h
 	data/parser/cxx/name/CxxTypeName.cpp
 	data/parser/cxx/name/CxxTypeName.h
-	
+
 	data/parser/cxx/name_resolver/CxxDeclNameResolver.cpp
 	data/parser/cxx/name_resolver/CxxDeclNameResolver.h
 	data/parser/cxx/name_resolver/CxxNameResolver.cpp
@@ -73,7 +69,7 @@ add_files(
 	data/parser/cxx/PreprocessorCallbacks.h
 	data/parser/cxx/utilityCxxAstVisitor.cpp
 	data/parser/cxx/utilityCxxAstVisitor.h
-	
+
 	project/SourceGroupCxx.cpp
 	project/SourceGroupCxx.h
 	project/SourceGroupFactoryModuleCpp.cpp

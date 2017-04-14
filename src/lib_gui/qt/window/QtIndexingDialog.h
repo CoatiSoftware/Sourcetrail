@@ -31,7 +31,8 @@ public:
 	void setupStart(size_t cleanFileCount, size_t indexFileCount, size_t totalFileCount,
 		bool forceRefresh, bool needsFullRefresh, std::function<void(bool, bool)> callback);
 	void setupIndexing();
-	void setupReport(size_t fileCount, size_t totalFileCount, float time);
+	void setupReport(
+		size_t indexedFileCount, size_t totalIndexedFileCount, size_t completedFileCount, size_t totalFileCount, float time);
 
 	void setupStatus();
 	void setupProgress();

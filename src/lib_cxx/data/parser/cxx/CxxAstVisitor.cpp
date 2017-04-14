@@ -13,6 +13,7 @@
 #include "data/parser/cxx/CxxAstVisitorComponentImplicitCode.h"
 #include "data/parser/cxx/CxxAstVisitorComponentIndexer.h"
 #include "data/parser/cxx/utilityCxxAstVisitor.h"
+#include "data/parser/ParserClient.h"
 
 #include "data/parser/ParseLocation.h"
 
@@ -280,6 +281,11 @@ bool CxxAstVisitor::TraverseTemplateTemplateParmDecl(clang::TemplateTemplateParm
 
 	traverseDeclContextHelper(clang::dyn_cast<clang::DeclContext>(d));
 	return true;
+}
+
+bool CxxAstVisitor::VisitTranslationUnitDecl(clang::TranslationUnitDecl *d)
+{
+	return !m_client->hasFatalErrors();
 }
 
 bool CxxAstVisitor::TraverseNestedNameSpecifierLoc(clang::NestedNameSpecifierLoc loc)

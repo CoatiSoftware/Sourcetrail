@@ -30,7 +30,9 @@ public:
 	virtual IndexMode startIndexingDialog(
 		size_t cleanFileCount, size_t indexFileCount, size_t totalFileCount, bool forceRefresh, bool needsFullRefresh);
 	virtual void updateIndexingDialog(size_t fileCount, size_t totalFileCount, std::string sourcePath);
-	virtual void finishedIndexingDialog(size_t fileCount, size_t totalFileCount, float time, ErrorCountInfo errorInfo);
+	virtual void finishedIndexingDialog(
+		size_t indexedFileCount, size_t totalIndexedFileCount, size_t completedFileCount, size_t totalFileCount,
+		float time, ErrorCountInfo errorInfo);
 
 	int confirm(const std::string& message);
 	virtual int confirm(const std::string& message, const std::vector<std::string>& options);

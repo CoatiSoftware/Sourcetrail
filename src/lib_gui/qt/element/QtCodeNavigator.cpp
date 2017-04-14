@@ -152,7 +152,7 @@ void QtCodeNavigator::addCodeSnippet(const CodeSnippetParams& params, bool inser
 
 void QtCodeNavigator::addFile(std::shared_ptr<SourceLocationFile> locationFile, int refCount, TimePoint modificationTime)
 {
-	m_list->addFile(locationFile->getFilePath(), locationFile->isWhole(), refCount, modificationTime);
+	m_list->addFile(locationFile->getFilePath(), locationFile->isWhole(), refCount, modificationTime, locationFile->isComplete());
 
 	if (locationFile->isWhole())
 	{

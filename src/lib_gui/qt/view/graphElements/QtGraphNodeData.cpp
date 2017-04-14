@@ -19,7 +19,11 @@ QtGraphNodeData::QtGraphNodeData(const Node* data, const std::string& name, bool
 	this->setName(name);
 
 	std::string toolTip = data->getReadableTypeString();
-	if (!data->isDefined() && !data->isType(Node::NODE_NON_INDEXED))
+	if (!data->isDefined() && data->isType(Node::NODE_FILE))
+	{
+		toolTip = "incomplete " + toolTip;
+	}
+	else if (!data->isDefined() && !data->isType(Node::NODE_NON_INDEXED))
 	{
 		toolTip = "non-indexed " + toolTip;
 	}

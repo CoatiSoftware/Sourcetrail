@@ -8,7 +8,7 @@
 #include "utility/text/TextAccess.h"
 #include "utility/Version.h"
 
-const size_t SqliteStorage::STORAGE_VERSION = 10;
+const size_t SqliteStorage::STORAGE_VERSION = 11;
 
 SqliteStorage::SqliteStorage(const FilePath& dbFilePath)
 	: m_dbFilePath(dbFilePath.canonical())
@@ -204,14 +204,14 @@ void SqliteStorage::addSymbol(const int id, const int definitionKind)
 	);
 }
 
-void SqliteStorage::addFile(const int id, const std::string& filePath, const std::string& modificationTime)
+void SqliteStorage::addFile(const int id, const std::string& filePath, const std::string& modificationTime, bool complete)
 {
 	std::shared_ptr<TextAccess> content = TextAccess::createFromFile(filePath);
 	unsigned int lineCount = content->getLineCount();
 
 	executeStatement(
-		"INSERT INTO file(id, path, modification_time, line_count) VALUES("
-		+ std::to_string(id) + ", '" + filePath + "', '" + modificationTime + "', " + std::to_string(lineCount) + ");"
+		"INSERT INTO file(id, path, modification_time, complete, line_count) VALUES("
+		+ std::to_string(id) + ", '" + filePath + "', '" + modificationTime + "', '" + std::to_string(complete) + "', " + std::to_string(lineCount) + ");"
 	);
 
 	CppSQLite3Statement stmt = m_database.compileStatement((
@@ -827,6 +827,13 @@ std::shared_ptr<TextAccess> SqliteStorage::getFileContentByPath(const std::strin
 	return TextAccess::createFromFile(filePath);
 }
 
+void SqliteStorage::setFileComplete(bool complete, Id fileId)
+{
+	executeStatement(
+		"UPDATE file SET complete = " + std::to_string(complete) + " WHERE id == " + std::to_string(fileId) + ";"
+	);
+}
+
 void SqliteStorage::setNodeType(int type, Id nodeId)
 {
 	executeStatement(
@@ -848,17 +855,20 @@ StorageSourceLocation SqliteStorage::getSourceLocationByAll(const Id fileNodeId,
 
 std::shared_ptr<SourceLocationFile> SqliteStorage::getSourceLocationsForFile(const FilePath& filePath) const
 {
-	std::shared_ptr<SourceLocationFile> ret = std::make_shared<SourceLocationFile>(filePath, true);
+	std::shared_ptr<SourceLocationFile> ret = std::make_shared<SourceLocationFile>(filePath, true, false);
 
-	const Id fileNodeId = getFileByPath(filePath.str()).id;
-	if (fileNodeId == 0) // early out
+	const StorageFile file = getFileByPath(filePath.str());
+	if (file.id == 0) // early out
 	{
 		return ret;
 	}
 
+	ret->setIsComplete(file.complete);
+
 	std::vector<Id> sourceLocationIds;
 	std::unordered_map<Id, StorageSourceLocation> sourceLocationIdToData;
-	for (const StorageSourceLocation& storageLocation: doGetAll<StorageSourceLocation>("WHERE file_node_id == " + std::to_string(fileNodeId)))
+	for (const StorageSourceLocation& storageLocation:
+		doGetAll<StorageSourceLocation>("WHERE file_node_id == " + std::to_string(file.id)))
 	{
 		sourceLocationIds.push_back(storageLocation.id);
 		sourceLocationIdToData[storageLocation.id] = storageLocation;
@@ -1200,6 +1210,11 @@ int SqliteStorage::getFileCount() const
 	return executeScalar("SELECT COUNT(*) FROM file;");
 }
 
+int SqliteStorage::getCompletedFileCount() const
+{
+	return executeScalar("SELECT COUNT(*) FROM file WHERE complete = 1;");
+}
+
 int SqliteStorage::getFileLineSum() const
 {
 	return executeScalar("SELECT SUM(line_count) FROM file;");
@@ -1286,6 +1301,7 @@ void SqliteStorage::setupTables()
 				"id INTEGER NOT NULL, "
 				"path TEXT, "
 				"modification_time TEXT, "
+				"complete INTEGER, "
 				"line_count INTEGER, "
 				"UNIQUE(path) ON CONFLICT REPLACE,"
 				"PRIMARY KEY(id), "
@@ -1662,7 +1678,7 @@ template <>
 std::vector<StorageFile> SqliteStorage::doGetAll<StorageFile>(const std::string& query) const
 {
 	CppSQLite3Query q = executeQuery(
-		"SELECT id, path, modification_time FROM file " + query + ";"
+		"SELECT id, path, modification_time, complete FROM file " + query + ";"
 	);
 
 	std::vector<StorageFile> files;
@@ -1671,10 +1687,11 @@ std::vector<StorageFile> SqliteStorage::doGetAll<StorageFile>(const std::string&
 		const Id id							= q.getIntField(0, 0);
 		const std::string filePath			= q.getStringField(1, "");
 		const std::string modificationTime	= q.getStringField(2, "");
+		const bool complete					= q.getIntField(3, 0);
 
 		if (id != 0)
 		{
-			files.push_back(StorageFile(id, filePath, modificationTime));
+			files.push_back(StorageFile(id, filePath, modificationTime, complete));
 		}
 		q.nextRow();
 	}

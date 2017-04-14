@@ -28,7 +28,7 @@ public:
 	void clear();
 
 	QtCodeFile* getFile(const FilePath filePath);
-	void addFile(const FilePath& filePath, bool isWholeFile, int refCount, TimePoint modificationTime);
+	void addFile(const FilePath& filePath, bool isWholeFile, int refCount, TimePoint modificationTime, bool isComplete);
 
 	// QtCodeNaviatebale implementation
 	virtual QScrollArea* getScrollArea();

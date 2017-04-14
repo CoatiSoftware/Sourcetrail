@@ -81,7 +81,7 @@ void CxxDiagnosticConsumer::HandleDiagnostic(clang::DiagnosticsEngine::Level lev
 
 		ParseLocation location(filePath, line, column);
 
-		m_client->onError(
+		m_client->onErrorParsed(
 			location,
 			message,
 			level == clang::DiagnosticsEngine::Fatal,

@@ -1,7 +1,7 @@
 #include "qt/window/project_wizzard/QtProjectWizzardContentCDBSource.h"
 
 #include "settings/SourceGroupSettingsCxx.h"
-#include "data/indexer/IndexerCxxCdb.h"
+#include "data/indexer/IndexerCommandCxxCdb.h"
 
 QtProjectWizzardContentCDBSource::QtProjectWizzardContentCDBSource(
 	std::shared_ptr<SourceGroupSettings> settings, QtProjectWizzardWindow* window
@@ -36,7 +36,7 @@ void QtProjectWizzardContentCDBSource::load()
 	std::shared_ptr<SourceGroupSettingsCxx> cxxSettings = std::dynamic_pointer_cast<SourceGroupSettingsCxx>(m_settings);
 	if (cxxSettings)
 	{
-		std::vector<FilePath> filePaths = IndexerCxxCdb::getSourceFilesFromCDB(cxxSettings->getAbsoluteCompilationDatabasePath());
+		std::vector<FilePath> filePaths = IndexerCommandCxxCdb::getSourceFilesFromCDB(cxxSettings->getAbsoluteCompilationDatabasePath());
 
 		for (FilePath path : filePaths)
 		{

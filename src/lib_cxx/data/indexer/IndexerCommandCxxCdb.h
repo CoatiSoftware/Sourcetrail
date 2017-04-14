@@ -17,6 +17,8 @@ namespace clang
 class IndexerCommandCxxCdb: public IndexerCommand
 {
 public:
+	static std::vector<FilePath> getSourceFilesFromCDB(const FilePath& compilationDatabasePath);
+
 	static std::string getIndexerKindString();
 
 	IndexerCommandCxxCdb(

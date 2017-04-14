@@ -7,14 +7,6 @@
 class TestParserClient: public ParserClient
 {
 public:
-	virtual void startParsingFile()
-	{
-	}
-
-	virtual void finishParsingFile()
-	{
-	}
-
 	virtual Id recordSymbol(
 		const NameHierarchy& symbolName, SymbolKind symbolKind,
 		AccessKind access, DefinitionKind definitionKind)

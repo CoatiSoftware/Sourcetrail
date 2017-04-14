@@ -101,6 +101,7 @@ void QtCodeFileSingle::addCodeSnippet(const CodeSnippetParams& params, bool inse
 
 	file.filePath = params.locationFile->getFilePath();
 	file.modificationTime = params.modificationTime;
+	file.isComplete = params.locationFile->isComplete();
 
 	if (params.reduced)
 	{
@@ -198,7 +199,7 @@ void QtCodeFileSingle::showContents()
 
 void QtCodeFileSingle::onWindowFocus()
 {
-	m_title->checkModification();
+	m_title->updateTexts();
 }
 
 const FilePath& QtCodeFileSingle::getCurrentFilePath() const
@@ -260,11 +261,13 @@ void QtCodeFileSingle::setFileData(const FileData& file)
 		if (file.title.size())
 		{
 			m_title->setProject(file.title);
+			m_title->setIsComplete(true);
 		}
 		else
 		{
 			m_title->setFilePath(file.filePath);
 			m_title->setModificationTime(file.modificationTime);
+			m_title->setIsComplete(file.isComplete);
 		}
 
 		updateRefCount(m_area->getActiveLocationCount());

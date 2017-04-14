@@ -50,6 +50,7 @@ private:
 	{
 		FilePath filePath;
 		TimePoint modificationTime;
+		bool isComplete;
 		std::string title;
 
 		std::shared_ptr<QtCodeArea> area;
