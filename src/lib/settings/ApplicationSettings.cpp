@@ -236,6 +236,16 @@ void ApplicationSettings::setIndexerThreadCount(const int count)
 	setValue<int>("indexing/indexer_thread_count", count);
 }
 
+bool ApplicationSettings::getCancelIndexingOnFatalErrors() const
+{
+	return getValue<bool>("indexing/cancel_on_fatal_errors", true);
+}
+
+void ApplicationSettings::setCancelIndexingOnFatalErrors(bool enabled)
+{
+	setValue<bool>("indexing/cancel_on_fatal_errors", enabled);
+}
+
 std::string ApplicationSettings::getJavaPath() const
 {
 	return getValue<std::string>("indexing/java/java_path", "");

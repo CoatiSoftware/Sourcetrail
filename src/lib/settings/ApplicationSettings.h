@@ -70,6 +70,9 @@ public:
 	int getIndexerThreadCount() const;
 	void setIndexerThreadCount(const int count);
 
+	bool getCancelIndexingOnFatalErrors() const;
+	void setCancelIndexingOnFatalErrors(bool enabled);
+
 	std::string getJavaPath() const;
 	void setJavaPath(const std::string path);
 

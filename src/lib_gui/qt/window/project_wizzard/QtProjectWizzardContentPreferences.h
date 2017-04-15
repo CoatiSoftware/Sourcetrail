@@ -69,6 +69,8 @@ private:
 	QComboBox* m_threads;
 	QLabel* m_threadsInfoLabel;
 
+	QCheckBox* m_cancelIndexingOnFatalErrors;
+
 	std::shared_ptr<CombinedPathDetector> m_javaPathDetector;
 	std::shared_ptr<CombinedPathDetector> m_mavenPathDetector;
 

@@ -56,6 +56,11 @@ void QtCodeFileTitleButton::setModificationTime(const TimePoint modificationTime
 
 void QtCodeFileTitleButton::setIsComplete(bool isComplete)
 {
+	if (m_isComplete == isComplete)
+	{
+		return;
+	}
+
 	m_isComplete = isComplete;
 	setProperty("complete", isComplete);
 
@@ -70,6 +75,8 @@ void QtCodeFileTitleButton::setIsComplete(bool isComplete)
 	{
 		setStyleSheet("");
 	}
+
+	updateTexts();
 }
 
 void QtCodeFileTitleButton::setProject(const std::string& name)

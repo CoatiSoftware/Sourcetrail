@@ -285,7 +285,7 @@ bool CxxAstVisitor::TraverseTemplateTemplateParmDecl(clang::TemplateTemplateParm
 
 bool CxxAstVisitor::VisitTranslationUnitDecl(clang::TranslationUnitDecl *d)
 {
-	return !m_client->hasFatalErrors();
+	return !m_client->cancelOnFatalErrors() || !m_client->hasFatalErrors();
 }
 
 bool CxxAstVisitor::TraverseNestedNameSpecifierLoc(clang::NestedNameSpecifierLoc loc)

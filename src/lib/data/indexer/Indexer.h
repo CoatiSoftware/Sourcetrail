@@ -17,7 +17,8 @@ public:
 
 	virtual std::string getKindString() const;
 
-	virtual std::shared_ptr<IntermediateStorage> index(std::shared_ptr<IndexerCommand> indexerCommand, std::shared_ptr<FileRegister> fileRegister);
+	virtual std::shared_ptr<IntermediateStorage> index(
+		std::shared_ptr<IndexerCommand> indexerCommand, std::shared_ptr<FileRegister> fileRegister);
 };
 
 template <typename IndexerCommandType, typename ParserType>
@@ -32,16 +33,21 @@ std::string Indexer<IndexerCommandType, ParserType>::getKindString() const
 }
 
 template <typename IndexerCommandType, typename ParserType>
-std::shared_ptr<IntermediateStorage> Indexer<IndexerCommandType, ParserType>::index(std::shared_ptr<IndexerCommand> indexerCommand, std::shared_ptr<FileRegister> fileRegister)
+std::shared_ptr<IntermediateStorage> Indexer<IndexerCommandType, ParserType>::index(
+	std::shared_ptr<IndexerCommand> indexerCommand, std::shared_ptr<FileRegister> fileRegister)
 {
 	std::shared_ptr<IndexerCommandType> castedCommand = std::dynamic_pointer_cast<IndexerCommandType>(indexerCommand);
 	if (!castedCommand)
 	{
-		LOG_ERROR("Trying to process " + indexerCommand->getKindString() + " indexer command with " + getKindString() + " indexer.");
+		LOG_ERROR("Trying to process " + indexerCommand->getKindString() +
+			" indexer command with " + getKindString() + " indexer.");
+
 		return std::shared_ptr<IntermediateStorage>();
 	}
 
 	std::shared_ptr<ParserClientImpl> parserClient = std::make_shared<ParserClientImpl>();
+	parserClient->setCancelOnFatalErrors(indexerCommand->cancelOnFatalErrors());
+
 	std::shared_ptr<ParserType> parser = std::make_shared<ParserType>(parserClient, fileRegister);
 
 	std::shared_ptr<IntermediateStorage> storage = std::make_shared<IntermediateStorage>();
@@ -53,10 +59,11 @@ std::shared_ptr<IntermediateStorage> Indexer<IndexerCommandType, ParserType>::in
 
 	if (parserClient->hasFatalErrors())
 	{
-		storage->setFilesIncomplete();
+		storage->setAllFilesIncomplete();
 	}
 	else
 	{
+		storage->setFilesWithErrorsIncomplete();
 		fileRegister->markIndexingFilesIndexed();
 	}
 

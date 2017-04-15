@@ -16,8 +16,10 @@ public:
 	virtual ~IntermediateStorage();
 
 	void clear();
-	void setFilesIncomplete();
 	size_t getSourceLocationCount() const;
+
+	void setAllFilesIncomplete();
+	void setFilesWithErrorsIncomplete();
 
 	virtual Id addNode(int type, const std::string& serializedName);
 	virtual void addFile(const Id id, const std::string& filePath, const std::string& modificationTime, bool complete);

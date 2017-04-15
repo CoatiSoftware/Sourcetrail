@@ -404,10 +404,13 @@ void Project::buildIndex(const std::set<FilePath>& filesToClean, bool fullRefres
 	}
 
 	std::shared_ptr<IndexerCommandList> indexerCommandList = std::make_shared<IndexerCommandList>();
+	bool cancelIndexingOnFatalErrors = ApplicationSettings::getInstance()->getCancelIndexingOnFatalErrors();
+
 	for (std::shared_ptr<SourceGroup> sourceGroup: m_sourceGroups)
 	{
 		for (std::shared_ptr<IndexerCommand> command: sourceGroup->getIndexerCommands(fullRefresh))
 		{
+			command->setCancelOnFatalErrors(cancelIndexingOnFatalErrors);
 			indexerCommandList->addCommand(command);
 		}
 	}

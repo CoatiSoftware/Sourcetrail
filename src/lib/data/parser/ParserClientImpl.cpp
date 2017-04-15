@@ -18,15 +18,11 @@ ParserClientImpl::~ParserClientImpl()
 void ParserClientImpl::setStorage(std::shared_ptr<IntermediateStorage> storage)
 {
 	m_storage = storage;
-
-	m_hasFatalErrors = 0;
 }
 
 void ParserClientImpl::resetStorage()
 {
 	m_storage.reset();
-
-	m_hasFatalErrors = 0;
 }
 
 Id ParserClientImpl::recordSymbol(

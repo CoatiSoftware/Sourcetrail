@@ -1,5 +1,7 @@
 #include "data/IntermediateStorage.h"
 
+#include <set>
+
 #include "data/graph/Edge.h"
 #include "utility/logging/logging.h"
 
@@ -31,7 +33,12 @@ void IntermediateStorage::clear()
 	m_nextId = 1;
 }
 
-void IntermediateStorage::setFilesIncomplete()
+size_t IntermediateStorage::getSourceLocationCount() const
+{
+	return m_sourceLocationNamesToIds.size();
+}
+
+void IntermediateStorage::setAllFilesIncomplete()
 {
 	for (StorageFile& file : m_files)
 	{
@@ -39,9 +46,21 @@ void IntermediateStorage::setFilesIncomplete()
 	}
 }
 
-size_t IntermediateStorage::getSourceLocationCount() const
+void IntermediateStorage::setFilesWithErrorsIncomplete()
 {
-	return m_sourceLocationNamesToIds.size();
+	std::set<FilePath> errorFiles;
+	for (StorageError& error : m_errors)
+	{
+		errorFiles.insert(error.filePath);
+	}
+
+	for (StorageFile& file : m_files)
+	{
+		if (errorFiles.find(file.filePath) != errorFiles.end())
+		{
+			file.complete = false;
+		}
+	}
 }
 
 Id IntermediateStorage::addNode(int type, const std::string& serializedName)

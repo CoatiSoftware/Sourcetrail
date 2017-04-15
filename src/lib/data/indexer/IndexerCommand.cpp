@@ -4,9 +4,9 @@ IndexerCommand::IndexerCommand(const FilePath& sourceFilePath, const std::set<Fi
 	: m_sourceFilePath(sourceFilePath)
 	, m_indexedPaths(indexedPaths)
 	, m_excludedPaths(excludedPaths)
+	, m_cancelOnFatalErrors(false)
 {
 }
-
 
 IndexerCommand::~IndexerCommand()
 {
@@ -25,4 +25,14 @@ std::set<FilePath> IndexerCommand::getIndexedPaths() const
 std::set<FilePath> IndexerCommand::getExcludedPath() const
 {
 	return m_excludedPaths;
+}
+
+bool IndexerCommand::cancelOnFatalErrors() const
+{
+	return m_cancelOnFatalErrors;
+}
+
+void IndexerCommand::setCancelOnFatalErrors(bool cancelOnFatalErrors)
+{
+	m_cancelOnFatalErrors = cancelOnFatalErrors;
 }
