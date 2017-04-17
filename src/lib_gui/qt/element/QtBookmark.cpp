@@ -92,27 +92,30 @@ QtBookmark::~QtBookmark()
 
 void QtBookmark::setBookmark(const std::shared_ptr<Bookmark> bookmark)
 {
-	m_bookmark = bookmark;
-
-	m_activateButton->setText(bookmark->getDisplayName().c_str());
-
-	if (m_bookmark->isValid() == false)
+	if (bookmark)
 	{
-		m_activateButton->setEnabled(false);
-		m_editButton->setEnabled(false);
-	}
+		m_bookmark = bookmark;
 
-	if (m_bookmark->getComment().length() > 0)
-	{
-		m_comment->setText(m_bookmark->getComment().c_str());
-		m_toggleCommentButton->show();
-	}
-	else
-	{
-		m_toggleCommentButton->hide();
-	}
+		m_activateButton->setText(m_bookmark->getName().c_str());
 
-	m_dateLabel->setText(getDateString().c_str());
+		if (m_bookmark->isValid() == false)
+		{
+			m_activateButton->setEnabled(false);
+			m_editButton->setEnabled(false);
+		}
+
+		if (m_bookmark->getComment().length() > 0)
+		{
+			m_comment->setText(m_bookmark->getComment().c_str());
+			m_toggleCommentButton->show();
+		}
+		else
+		{
+			m_toggleCommentButton->hide();
+		}
+
+		m_dateLabel->setText(getDateString().c_str());
+	}
 }
 
 Id QtBookmark::getBookmarkId() const
@@ -169,7 +172,7 @@ void QtBookmark::resizeEvent(QResizeEvent* event)
 		return;
 	}
 
-	m_activateButton->setText(m_bookmark->getDisplayName().c_str());
+	m_activateButton->setText(m_bookmark->getName().c_str());
 	QTimer::singleShot(10, this, SLOT(elideButtonText()));
 }
 
@@ -218,21 +221,21 @@ void QtBookmark::deleteClicked()
 
 	if (ret == 0) // QMessageBox::Yes)
 	{
-		MessageDeleteBookmark(m_bookmark->getId(), (dynamic_cast<EdgeBookmark*>(m_bookmark.get()) != NULL)).dispatch();
+		MessageDeleteBookmark(m_bookmark->getId()).dispatch();
 	}
 }
 
 void QtBookmark::elideButtonText()
 {
 	m_activateButton->setText(m_activateButton->fontMetrics().elidedText(
-		m_bookmark->getDisplayName().c_str(), Qt::ElideMiddle, m_activateButton->width() - 16));
+		m_bookmark->getName().c_str(), Qt::ElideMiddle, m_activateButton->width() - 16));
 }
 
 void QtBookmark::handleMessage(MessageEditBookmark* message)
 {
 	if (m_bookmark->getId() == message->bookmarkId)
 	{
-		m_bookmark->setDisplayName(message->displayName);
+		m_bookmark->setName(message->displayName);
 		m_bookmark->setComment(message->comment);
 
 		m_activateButton->setText(message->displayName.c_str());

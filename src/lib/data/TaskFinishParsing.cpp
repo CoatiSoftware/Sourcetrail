@@ -23,7 +23,7 @@ TaskFinishParsing::~TaskFinishParsing()
 
 void TaskFinishParsing::doEnter(std::shared_ptr<Blackboard> blackboard)
 {
-	m_storage->setMode(SqliteStorage::STORAGE_MODE_READ);
+	m_storage->setMode(SqliteIndexStorage::STORAGE_MODE_READ);
 }
 
 Task::TaskState TaskFinishParsing::doUpdate(std::shared_ptr<Blackboard> blackboard)

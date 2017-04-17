@@ -2,34 +2,25 @@
 #define EDGE_BOOKMARK_H
 
 #include "Bookmark.h"
-#include "NodeBookmark.h"
+#include "data/graph/Edge.h"
 
 class EdgeBookmark
 	: public Bookmark
 {
 public:
-	EdgeBookmark();
-	EdgeBookmark(const std::string& displayName, const std::vector<Id>& tokens, const std::vector<std::string>& tokenNames, const std::string& comment, const TimePoint& timeStamp);
+	EdgeBookmark(const Id id, const std::string& name, const std::string& comment, const TimePoint& timeStamp, const BookmarkCategory& category);
 	virtual ~EdgeBookmark();
 
-	std::vector<int> getEdgeTokenTypes() const;
-	void setEdgeTokenTypes(const std::vector<int>& tokenTypes);
+	void addEdgeId(const Id edgeId);
+	void setEdgeIds(const std::vector<Id>& edgesIds);
+	std::vector<Id> getEdgeIds() const;
 
-	std::vector<Id> getEdgeTokenIds() const;
-	void setEdgeTokenIds(const std::vector<Id>& tokenIds);
-
-	std::vector<std::string> getEdgeTokenNames() const;
-	void setEdgeTokenNames(const std::vector<std::string>& tokenNames);
-
-	NodeBookmark getBaseBookmark() const;
-	void setBaseBookmark(const NodeBookmark& baseBookmark);
+	void setActiveNodeId(const Id activeNodeId);
+	Id getActiveNodeId() const;
 
 private:
-	std::vector<int> m_edgeTokenTypes;
-	std::vector<Id> m_edgeTokenIds;
-	std::vector<std::string> m_edgeTokenNames;
-
-	NodeBookmark m_baseBookmark;
+	std::vector<Id> m_edgeIds;
+	Id m_activeNodeId;
 };
 
 #endif // EDGE_BOOKMARK_H

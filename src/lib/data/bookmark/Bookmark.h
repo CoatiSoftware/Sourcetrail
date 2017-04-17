@@ -12,49 +12,34 @@
 class Bookmark
 {
 public:
-	Bookmark();
-	Bookmark(const std::string& displayName, const std::vector<Id>& tokens, const std::vector<std::string>& tokenNames, const std::string& comment, const TimePoint& timeStamp);
+	Bookmark(const Id id, const std::string& name, const std::string& comment, const TimePoint& timeStamp, const BookmarkCategory& category);
 	virtual ~Bookmark();
 
 	Id getId() const;
 	void setId(const Id id);
 
-	std::vector<int> getTokenTypes() const;
-	void setTokenTypes(const std::vector<int>& types);
-
-	std::vector<Id> getTokenIds() const;
-	void setTokenIds(const std::vector<Id>& ids);
-
-	std::vector<std::string> getTokenNames() const;
-	void setTokenNames(const std::vector<std::string>& names);
+	std::string getName() const;
+	void setName(const std::string& name);
 
 	std::string getComment() const;
 	void setComment(const std::string& comment);
 
-	std::string getDisplayName() const;
-	void setDisplayName(const std::string& name);
-
-	bool isValid() const;
-	void setValid(const bool valid);
-
 	TimePoint getTimeStamp() const;
+	void setTimeStamp(const TimePoint& timeStamp);
 
 	BookmarkCategory getCategory() const;
 	void setCategory(const BookmarkCategory& category);
 
+	bool isValid() const;
+	void setIsValid(const bool isValid = true);
+
 private:
 	Id m_id;
-	std::vector<int> m_tokenTypes;
-	std::vector<Id> m_tokenIds;
-	std::vector<std::string> m_tokenNames;
+	std::string m_name;
 	std::string m_comment;
-	std::string m_displayName;
-
-	bool m_valid;
-
 	TimePoint m_timeStamp;
-
 	BookmarkCategory m_category;
+	bool m_isValid;
 };
 
 #endif // BOOKMARK_H

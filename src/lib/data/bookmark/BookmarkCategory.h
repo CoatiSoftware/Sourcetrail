@@ -9,6 +9,7 @@ class BookmarkCategory
 {
 public:
 	BookmarkCategory();
+	BookmarkCategory(const Id id, const std::string& name);
 	~BookmarkCategory();
 
 	Id getId() const;

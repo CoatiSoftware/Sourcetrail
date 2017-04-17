@@ -13,7 +13,8 @@
 #include "data/parser/ParseLocation.h"
 #include "data/search/SearchIndex.h"
 #include "data/HierarchyCache.h"
-#include "data/SqliteStorage.h"
+#include "data/SqliteIndexStorage.h"
+#include "data/SqliteBookmarkStorage.h"
 #include "data/Storage.h"
 
 #include "data/parser/ParserClientImpl.h"
@@ -23,7 +24,7 @@ class PersistentStorage
 	, public StorageAccess
 {
 public:
-	PersistentStorage(const FilePath& dbPath);
+	PersistentStorage(const FilePath& dbPath, const FilePath& bookmarkPath);
 	virtual ~PersistentStorage();
 
 	virtual Id addNode(int type, const std::string& serializedName);
@@ -38,23 +39,18 @@ public:
 	virtual void addError(const std::string& message, const FilePath& filePath, uint startLine, uint startCol, bool fatal, bool indexed);
 	virtual Id addNodeBookmark(const NodeBookmark& bookmark);
 	virtual Id addEdgeBookmark(const EdgeBookmark& bookmark);
-	virtual Id addBookmarkCategory(const BookmarkCategory& category);
+	virtual Id addBookmarkCategory(const std::string& categoryName);
 
-	virtual std::vector<NodeBookmark> getAllNodeBookmarks() const;
-	virtual NodeBookmark getNodeBookmarkById(const Id bookmarkId) const;
-	virtual bool checkNodeBookmarkExistsByTokens(const std::vector<std::string>& tokenNames) const;
-	virtual void removeNodeBookmark(Id id);
-	virtual void editNodeBookmark(const NodeBookmark& bookmark);
+	void updateBookmark(const Id bookmarkId, const std::string& name, const std::string& comment, const std::string& categoryName);
 
-	virtual std::vector<EdgeBookmark> getAllEdgeBookmarks() const;
-	virtual EdgeBookmark getEdgeBookmarkById(const Id bookmarkId) const;
-	virtual bool checkEdgeBookmarkExistsByTokens(const std::vector<std::string>& tokenNames) const;
-	virtual void removeEdgeBookmark(Id id);
-	virtual void editEdgeBookmark(const EdgeBookmark& bookmark);
+	virtual void removeBookmark(const Id id);
+	virtual void removeBookmarkCategory(const Id id);
 
-	virtual bool checkBookmarkCategoryExists(const std::string& name) const;
+	std::vector<NodeBookmark> getAllNodeBookmarks() const;
+	std::vector<EdgeBookmark> getAllEdgeBookmarks() const;
+
+
 	virtual std::vector<BookmarkCategory> getAllBookmarkCategories() const;
-	virtual void removeBookmarkCategory(Id id);
 
 	virtual void forEachNode(std::function<void(const Id /*id*/, const StorageNode& /*data*/)> callback) const;
 	virtual void forEachFile(std::function<void(const StorageFile& /*data*/)> callback) const;
@@ -70,7 +66,7 @@ public:
 	virtual void startInjection();
 	virtual void finishInjection();
 
-	void setMode(const SqliteStorage::StorageModeType mode);
+	void setMode(const SqliteIndexStorage::StorageModeType mode);
 
 	FilePath getDbFilePath() const;
 
@@ -188,7 +184,8 @@ private:
 
 	mutable FullTextSearchIndex m_fullTextSearchIndex;
 
-	SqliteStorage m_sqliteStorage;
+	SqliteIndexStorage m_sqliteIndexStorage;
+	SqliteBookmarkStorage m_sqliteBookmarkStorage;
 
 	mutable std::map <FilePath, Id> m_fileNodeIds;
 	mutable std::map <Id, FilePath> m_fileNodePaths;

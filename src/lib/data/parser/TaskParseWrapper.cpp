@@ -36,7 +36,7 @@ void TaskParseWrapper::doEnter(std::shared_ptr<Blackboard> blackboard)
 
 	if (sourceFileCount > 0)
 	{
-		m_storage->setMode(SqliteStorage::STORAGE_MODE_WRITE);
+		m_storage->setMode(SqliteIndexStorage::STORAGE_MODE_WRITE);
 	}
 }
 

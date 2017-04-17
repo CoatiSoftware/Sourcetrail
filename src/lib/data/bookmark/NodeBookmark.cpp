@@ -1,15 +1,25 @@
 #include "NodeBookmark.h"
 
-NodeBookmark::NodeBookmark()
-	: Bookmark()
-{
-}
-
-NodeBookmark::NodeBookmark(const std::string& displayName, const std::vector<Id>& tokens, const std::vector<std::string>& tokenNames, const std::string& comment, const TimePoint& timeStamp)
-	: Bookmark(displayName, tokens, tokenNames, comment, timeStamp)
+NodeBookmark::NodeBookmark(const Id id, const std::string& name, const std::string& comment, const TimePoint& timeStamp, const BookmarkCategory& category)
+	: Bookmark(id, name, comment, timeStamp, category)
 {
 }
 
 NodeBookmark::~NodeBookmark()
 {
+}
+
+void NodeBookmark::addNodeId(const Id nodeId)
+{
+	m_nodeIds.push_back(nodeId);
+}
+
+void NodeBookmark::setNodeIds(const std::vector<Id>& nodeIds)
+{
+	m_nodeIds = nodeIds;
+}
+
+std::vector<Id> NodeBookmark::getNodeIds() const
+{
+	return m_nodeIds;
 }

@@ -80,25 +80,19 @@ public:
 
 	virtual void setErrorFilter(const ErrorFilter& filter);
 
-	virtual Id addNodeBookmark(const NodeBookmark& bookmark) = 0;
-	virtual Id addEdgeBookmark(const EdgeBookmark& bookmark) = 0;
-	virtual Id addBookmarkCategory(const BookmarkCategory& category) = 0;
+	virtual Id addNodeBookmark(const NodeBookmark& bookmark) = 0; // todo: remove these from storage access
+	virtual Id addEdgeBookmark(const EdgeBookmark& bookmark) = 0; // todo: remove these from storage access
+	virtual Id addBookmarkCategory(const std::string& categoryName) = 0; // todo: remove these from storage access
+
+	virtual void updateBookmark(const Id bookmarkId, const std::string& name, const std::string& comment, const std::string& categoryName) = 0; // todo: remove these from storage access
+
+	virtual void removeBookmark(const Id id) = 0; // todo: remove these from storage access
+	virtual void removeBookmarkCategory(const Id id) = 0; // todo: remove these from storage access
 
 	virtual std::vector<NodeBookmark> getAllNodeBookmarks() const = 0;
-	virtual NodeBookmark getNodeBookmarkById(const Id bookmarkId) const = 0;
-	virtual bool checkNodeBookmarkExistsByTokens(const std::vector<std::string>& tokenNames) const = 0;
-	virtual void removeNodeBookmark(Id id) = 0;
-	virtual void editNodeBookmark(const NodeBookmark& bookmark) = 0;
-
 	virtual std::vector<EdgeBookmark> getAllEdgeBookmarks() const = 0;
-	virtual EdgeBookmark getEdgeBookmarkById(const Id bookmarkId) const = 0;
-	virtual bool checkEdgeBookmarkExistsByTokens(const std::vector<std::string>& tokenNames) const = 0;
-	virtual void removeEdgeBookmark(Id id) = 0;
-	virtual void editEdgeBookmark(const EdgeBookmark& bookmark) = 0;
 
 	virtual std::vector<BookmarkCategory> getAllBookmarkCategories() const = 0;
-	virtual bool checkBookmarkCategoryExists(const std::string& name) const = 0;
-	virtual void removeBookmarkCategory(Id id) = 0;
 
 protected:
 	ErrorFilter m_errorFilter;

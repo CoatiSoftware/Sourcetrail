@@ -48,7 +48,7 @@ void BookmarkView::handleMessage(MessageDisplayBookmarkCreator* message)
 {
 	std::vector<std::string> names = getController()->getActiveTokenDisplayNames();
 
-	if (getController()->activeTokenExists())
+	if (getController()->hasBookmarkForActiveToken())
 	{
 		std::vector<BookmarkCategory> categories = getController()->getAllBookmarkCategories();
 
@@ -80,6 +80,6 @@ void BookmarkView::handleMessage(MessageDisplayBookmarkCreator* message)
 void BookmarkView::handleMessage(MessageDisplayBookmarkEditor* message)
 {
 	std::vector<BookmarkCategory> categories = getController()->getAllBookmarkCategories();
-	
+
 	displayBookmarkEditor(message->bookmark, categories);
 }

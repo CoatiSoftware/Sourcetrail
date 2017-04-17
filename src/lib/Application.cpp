@@ -169,10 +169,15 @@ void Application::createAndLoadProject(const FilePath& projectSettingsFilePath)
 			MessageStatus("Failed to load project: " + projectSettingsFilePath.str(), true).dispatch();
 		}
 	}
+	catch (std::exception& e)
+	{
+		LOG_ERROR_STREAM(<< "Failed to load project, exception thrown: " << e.what());
+		MessageStatus("Failed to load project, exception was thrown: " + projectSettingsFilePath.str(), true).dispatch();
+	}
 	catch (...)
 	{
-		LOG_ERROR_STREAM(<< "Failed to load project, exception thrown.");
-		MessageStatus("Failed to load project, exception was thrown: " + projectSettingsFilePath.str(), true).dispatch();
+		LOG_ERROR_STREAM(<< "Failed to load project, unknown exception thrown.");
+		MessageStatus("Failed to load project, unknown exception was thrown: " + projectSettingsFilePath.str(), true).dispatch();
 	}
 
 	if (m_hasGUI)

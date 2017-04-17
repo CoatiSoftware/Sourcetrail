@@ -25,7 +25,7 @@ void TaskCleanStorage::doEnter(std::shared_ptr<Blackboard> blackboard)
 
 	if (!m_filePaths.empty())
 	{
-		m_storage->setMode(SqliteStorage::STORAGE_MODE_CLEAR);
+		m_storage->setMode(SqliteIndexStorage::STORAGE_MODE_CLEAR);
 	}
 }
 

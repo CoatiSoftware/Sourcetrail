@@ -234,4 +234,116 @@ struct StorageError
 	bool indexed;
 };
 
+
+
+
+
+struct StorageBookmarkCategory
+{
+	StorageBookmarkCategory()
+		: id(0)
+		, name("")
+	{}
+
+	StorageBookmarkCategory(
+		Id id,
+		const std::string& name
+	)
+		: id(id)
+		, name(name)
+	{}
+
+	Id id;
+	std::string name;
+};
+
+struct StorageBookmark
+{
+	StorageBookmark()
+		: id(0)
+		, name("")
+		, comment("")
+		, timestamp("")
+		, categoryId(0)
+	{}
+
+	StorageBookmark(
+		Id id,
+		const std::string& name,
+		const std::string& comment,
+		const std::string& timestamp,
+		const Id categoryId
+	)
+		: id(id)
+		, name(name)
+		, comment(comment)
+		, timestamp(timestamp)
+		, categoryId(categoryId)
+	{}
+
+	Id id;
+	std::string name;
+	std::string comment;
+	std::string timestamp;
+	Id categoryId;
+};
+
+struct StorageBookmarkedNode
+{
+	StorageBookmarkedNode()
+		: id(0)
+		, bookmarkId(0)
+		, serializedNodeName("")
+	{}
+
+	StorageBookmarkedNode(
+		Id id,
+		Id bookmarkId,
+		const std::string& serializedNodeName
+	)
+		: id(id)
+		, bookmarkId(bookmarkId)
+		, serializedNodeName(serializedNodeName)
+	{}
+
+	Id id;
+	Id bookmarkId;
+	std::string serializedNodeName;
+};
+
+struct StorageBookmarkedEdge
+{
+	StorageBookmarkedEdge()
+		: id(0)
+		, bookmarkId(0)
+		, serializedSourceNodeName("")
+		, serializedTargetNodeName("")
+		, edgeType(0)
+		, sourceNodeActive(false)
+	{}
+
+	StorageBookmarkedEdge(
+		Id id,
+		Id bookmarkId,
+		const std::string& serializedSourceNodeName,
+		const std::string& serializedTargetNodeName,
+		int edgeType,
+		bool sourceNodeActive
+	)
+		: id(id)
+		, bookmarkId(bookmarkId)
+		, serializedSourceNodeName(serializedSourceNodeName)
+		, serializedTargetNodeName(serializedTargetNodeName)
+		, edgeType(edgeType)
+		, sourceNodeActive(sourceNodeActive)
+	{}
+
+	Id id;
+	Id bookmarkId;
+	std::string serializedSourceNodeName;
+	std::string serializedTargetNodeName;
+	int edgeType;
+	bool sourceNodeActive;
+};
+
 #endif // STORAGE_TYPES_H

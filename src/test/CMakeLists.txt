@@ -24,7 +24,8 @@ add_files(
 	SettingsMigratorTestSuite.h
 	SearchIndexTestSuite.h
 	SourceLocationCollectionTestSuite.h
-	SqliteStorageTestSuite.h
+	SqliteBookmarkStorageTestSuite.h
+	SqliteIndexStorageTestSuite.h
 	StorageTestSuite.h
 	TaskSchedulerTestSuite.h
 	TextAccessTestSuite.h

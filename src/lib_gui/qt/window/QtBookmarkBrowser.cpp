@@ -126,17 +126,17 @@ void QtBookmarkBrowser::setBookmarks(const std::vector<std::shared_ptr<Bookmark>
 {
 	m_bookmarkTree->clear();
 
-	for (unsigned int i = 0; i < bookmarks.size(); i++)
+	for (std::shared_ptr<Bookmark> bookmark: bookmarks)
 	{
-		QtBookmark* bookmark = new QtBookmark();
-		bookmark->setBookmark(bookmarks[i]);
+		QtBookmark* qtBookmark = new QtBookmark();
+		qtBookmark->setBookmark(bookmark);
 
-		QTreeWidgetItem* top = findOrCreateTreeCategory(bookmarks[i]->getCategory());
+		QTreeWidgetItem* top = findOrCreateTreeCategory(bookmark->getCategory());
 		QTreeWidgetItem* treeWidgetItem = new QTreeWidgetItem(top);
-		m_bookmarkTree->setItemWidget(treeWidgetItem, 0, bookmark);
+		m_bookmarkTree->setItemWidget(treeWidgetItem, 0, qtBookmark);
 		top->addChild(treeWidgetItem);
 
-		bookmark->setTreeWidgetItem(top);
+		qtBookmark->setTreeWidgetItem(top);
 
 		top->setExpanded(true);
 	}

@@ -71,23 +71,17 @@ public:
 
 	virtual Id addNodeBookmark(const NodeBookmark& bookmark);
 	virtual Id addEdgeBookmark(const EdgeBookmark& bookmark);
-	virtual Id addBookmarkCategory(const BookmarkCategory& category);
+	virtual Id addBookmarkCategory(const std::string& categoryName);
+
+	virtual void updateBookmark(const Id bookmarkId, const std::string& name, const std::string& comment, const std::string& categoryName);
+
+	virtual void removeBookmark(const Id id);
+	virtual void removeBookmarkCategory(const Id id);
 
 	virtual std::vector<NodeBookmark> getAllNodeBookmarks() const;
-	virtual NodeBookmark getNodeBookmarkById(const Id bookmarkId) const;
-	virtual bool checkNodeBookmarkExistsByTokens(const std::vector<std::string>& tokenNames) const;
-	virtual void removeNodeBookmark(Id id);
-	virtual void editNodeBookmark(const NodeBookmark& bookmark);
-
 	virtual std::vector<EdgeBookmark> getAllEdgeBookmarks() const;
-	virtual EdgeBookmark getEdgeBookmarkById(const Id bookmarkId) const;
-	virtual bool checkEdgeBookmarkExistsByTokens(const std::vector<std::string>& tokenNames) const;
-	virtual void removeEdgeBookmark(Id id);
-	virtual void editEdgeBookmark(const EdgeBookmark& bookmark);
 
 	virtual std::vector<BookmarkCategory> getAllBookmarkCategories() const;
-	virtual bool checkBookmarkCategoryExists(const std::string& name) const;
-	virtual void removeBookmarkCategory(Id id);
 
 protected:
 	virtual void setErrorFilter(const ErrorFilter& filter);

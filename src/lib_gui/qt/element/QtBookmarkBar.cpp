@@ -186,19 +186,21 @@ void QtBookmarkBar::doDisplayBookmarkCreator(const std::vector<std::string>& nam
 	bookmarkCreator->setDisplayName(displayName);
 	bookmarkCreator->setBookmarkCategories(categories);
 	bookmarkCreator->show();
+	bookmarkCreator->raise();
 }
 
 void QtBookmarkBar::doDisplayBookmarkEditor(std::shared_ptr<Bookmark> bookmark, const std::vector<BookmarkCategory>& categories)
 {
 	QtBookmarkCreator* bookmarkCreator = new QtBookmarkCreator(NULL, true, bookmark->getId());
 	bookmarkCreator->setupBookmarkCreator();
-	bookmarkCreator->setDisplayName(bookmark->getDisplayName());
+	bookmarkCreator->setDisplayName(bookmark->getName());
 	bookmarkCreator->setComment(bookmark->getComment());
 	bookmarkCreator->setBookmarkCategories(categories);
 	bookmarkCreator->setCurrentBookmarkCategory(bookmark->getCategory());
 	bookmarkCreator->setIsEdge((dynamic_cast<EdgeBookmark*>(bookmark.get()) != NULL));
 
 	bookmarkCreator->show();
+	bookmarkCreator->raise();
 }
 
 void QtBookmarkBar::doDisplayBookmarks(const std::vector<std::shared_ptr<Bookmark>>& bookmarks)
@@ -211,6 +213,7 @@ void QtBookmarkBar::doDisplayBookmarks(const std::vector<std::shared_ptr<Bookmar
 
 	m_bookmarkBrowser->setBookmarks(bookmarks);
 	m_bookmarkBrowser->show();
+	m_bookmarkBrowser->raise();
 }
 
 void QtBookmarkBar::doSetCreateButtonState(const BookmarkView::CreateButtonState& state)

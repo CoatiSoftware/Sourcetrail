@@ -193,10 +193,12 @@ void Project::load()
 	}
 
 	const FilePath projectSettingsPath = m_settings->getFilePath();
+
 	const std::string dbExtension = (projectSettingsPath.extension() == ".coatiproject" ? "coatidb" : "srctrldb");
 	const FilePath dbPath = FilePath(projectSettingsPath).replaceExtension(dbExtension);
+	const FilePath bookmarkPath = FilePath(projectSettingsPath).replaceExtension("srctrlbm");
 
-	m_storage = std::make_shared<PersistentStorage>(dbPath);
+	m_storage = std::make_shared<PersistentStorage>(dbPath, bookmarkPath);
 
 	bool canLoad = false;
 
@@ -212,7 +214,6 @@ void Project::load()
 	else if (m_storage->isEmpty())
 	{
 		m_state = PROJECT_STATE_EMPTY;
-		m_storage->setup();
 	}
 	else if (m_storage->isIncompatible())
 	{
@@ -229,6 +230,8 @@ void Project::load()
 		m_state = PROJECT_STATE_LOADED;
 		canLoad = true;
 	}
+
+	m_storage->setup();
 
 	m_sourceGroups = SourceGroupFactory::getInstance()->createSourceGroups(m_settings->getAllSourceGroupSettings());
 	if (!m_sourceGroups.empty())

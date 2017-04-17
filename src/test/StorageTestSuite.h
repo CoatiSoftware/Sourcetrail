@@ -232,7 +232,7 @@ private:
 	{
 	public:
 		TestStorage()
-			: PersistentStorage("data/test.sqlite")
+			: PersistentStorage("data/test.sqlite", "data/testBookmarks.sqlite")
 		{
 			clear();
 		}

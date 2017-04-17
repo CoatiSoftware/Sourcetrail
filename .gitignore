@@ -26,6 +26,7 @@
 
 *.coatidb
 *.srctrldb
+*.srctrlbm
 *.suo
 *.vcxproj.user
 *.sqlite

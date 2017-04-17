@@ -3,9 +3,9 @@
 #include "boost/filesystem.hpp"
 
 #include "sqlite/CppSQLite3.h"
-#include "data/SqliteStorage.h"
+#include "data/SqliteIndexStorage.h"
 
-class SqliteStorageTestSuite: public CxxTest::TestSuite
+class SqliteIndexStorageTestSuite: public CxxTest::TestSuite
 {
 public:
 	void test_storage_adds_node_successfully()
@@ -13,7 +13,7 @@ public:
 		std::string databasePath = "data/SQLiteTestSuite/test.sqlite";
 		int nodeCount = -1;
 		{
-			SqliteStorage storage(databasePath);
+			SqliteIndexStorage storage(databasePath);
 			storage.setup();
 			storage.beginTransaction();
 			storage.addNode(0, "a");
@@ -30,7 +30,7 @@ public:
 		std::string databasePath = "data/SQLiteTestSuite/test.sqlite";
 		int nodeCount = -1;
 		{
-			SqliteStorage storage(databasePath);
+			SqliteIndexStorage storage(databasePath);
 			storage.setup();
 			storage.beginTransaction();
 			int nodeId = storage.addNode(0, "a");
@@ -48,7 +48,7 @@ public:
 		std::string databasePath = "data/SQLiteTestSuite/test.sqlite";
 		int edgeCount = -1;
 		{
-			SqliteStorage storage(databasePath);
+			SqliteIndexStorage storage(databasePath);
 			storage.setup();
 			storage.beginTransaction();
 			int sourceNodeId = storage.addNode(0, "a");
@@ -67,7 +67,7 @@ public:
 		std::string databasePath = "data/SQLiteTestSuite/test.sqlite";
 		int edgeCount = -1;
 		{
-			SqliteStorage storage(databasePath);
+			SqliteIndexStorage storage(databasePath);
 			storage.setup();
 			storage.beginTransaction();
 			int sourceNodeId = storage.addNode(0, "a");

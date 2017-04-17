@@ -199,8 +199,12 @@ add_files(
 	data/IntermediateStorage.h
 	data/PersistentStorage.cpp
 	data/PersistentStorage.h
-	data/SqliteIndex.cpp
-	data/SqliteIndex.h
+	data/SqliteBookmarkStorage.cpp
+	data/SqliteBookmarkStorage.h
+	data/SqliteDatabaseIndex.cpp
+	data/SqliteDatabaseIndex.h
+	data/SqliteIndexStorage.cpp
+	data/SqliteIndexStorage.h
 	data/SqliteStorage.cpp
 	data/SqliteStorage.h
 	data/Storage.cpp
@@ -335,7 +339,7 @@ add_files(
 	utility/messaging/type/MessageCreateBookmarkCategory.h
 	utility/messaging/type/MessageDeactivateEdge.h
 	utility/messaging/type/MessageDeleteBookmark.h
-	utility/messaging/type/MessageDeleteBookmarkCategoryWithBookmarks.h
+	utility/messaging/type/MessageDeleteBookmarkCategory.h
 	utility/messaging/type/MessageDeleteBookmarkForActiveTokens.h
 	utility/messaging/type/MessageDispatchWhenLicenseValid.h
 	utility/messaging/type/MessageDisplayBookmarkCreator.h

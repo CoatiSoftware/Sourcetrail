@@ -3,7 +3,7 @@
 #include <QHBoxLayout>
 #include <QMessageBox>
 
-#include "utility/messaging/type/MessageDeleteBookmarkCategoryWithBookmarks.h"
+#include "utility/messaging/type/MessageDeleteBookmarkCategory.h"
 #include "utility/ResourcePaths.h"
 
 #include "qt/utility/utilityQt.h"
@@ -142,6 +142,6 @@ void QtBookmarkCategory::deleteClicked()
 
 	if (ret == 0) // QMessageBox::Yes
 	{
-		MessageDeleteBookmarkCategoryWithBookmarks(m_id).dispatch();
+		MessageDeleteBookmarkCategory(m_id).dispatch();
 	}
 }

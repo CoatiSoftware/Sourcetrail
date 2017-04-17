@@ -2,15 +2,19 @@
 #define BOOKMARK_CONTROLLER_H
 
 #include "data/bookmark/Bookmark.h"
+#include "data/bookmark/NodeBookmark.h"
+#include "data/bookmark/EdgeBookmark.h"
 #include "data/name/NameHierarchy.h"
+#include "data/StorageTypes.h"
 
 #include "utility/messaging/MessageListener.h"
 #include "utility/messaging/type/MessageActivateBookmark.h"
+#include "utility/messaging/type/MessageActivateEdge.h"
 #include "utility/messaging/type/MessageActivateTokens.h"
 #include "utility/messaging/type/MessageCreateBookmark.h"
 #include "utility/messaging/type/MessageCreateBookmarkCategory.h"
 #include "utility/messaging/type/MessageDeleteBookmark.h"
-#include "utility/messaging/type/MessageDeleteBookmarkCategoryWithBookmarks.h"
+#include "utility/messaging/type/MessageDeleteBookmarkCategory.h"
 #include "utility/messaging/type/MessageDeleteBookmarkForActiveTokens.h"
 #include "utility/messaging/type/MessageDisplayBookmarks.h"
 #include "utility/messaging/type/MessageEditBookmark.h"
@@ -27,7 +31,7 @@ class BookmarkController
 	, public MessageListener<MessageCreateBookmark>
 	, public MessageListener<MessageCreateBookmarkCategory>
 	, public MessageListener<MessageDeleteBookmark>
-	, public MessageListener<MessageDeleteBookmarkCategoryWithBookmarks>
+	, public MessageListener<MessageDeleteBookmarkCategory>
 	, public MessageListener<MessageDeleteBookmarkForActiveTokens>
 	, public MessageListener<MessageEditBookmark>
 	, public MessageListener<MessageFinishedParsing>
@@ -38,23 +42,30 @@ public:
 
 	virtual void clear();
 
-	std::vector<std::shared_ptr<Bookmark>> getAllBookmarks() const;
 	std::vector<std::shared_ptr<Bookmark>> getBookmarks(const MessageDisplayBookmarks::BookmarkFilter& filter, const MessageDisplayBookmarks::BookmarkOrder& order) const;
 
-	std::vector<std::string> getActiveTokenNames() const;
 	std::vector<std::string> getActiveTokenDisplayNames() const;
 	std::vector<BookmarkCategory> getAllBookmarkCategories() const;
-	bool activeTokenExists() const;
-	std::shared_ptr<Bookmark> getBookmarkForActiveToken() const; // or null if no bookmark for that token exists
+	bool hasBookmarkForActiveToken() const;
+	std::shared_ptr<Bookmark> getBookmarkForActiveToken() const;
 
 private:
-	struct TempEdge
+	class BookmarkCache
 	{
 	public:
-		Id edgeId;
-		NameHierarchy source;
-		NameHierarchy target;
-		int type;
+		BookmarkCache(StorageAccess* storageAccess);
+
+		void clear();
+
+		std::vector<NodeBookmark> getAllNodeBookmarks();
+		std::vector<EdgeBookmark> getAllEdgeBookmarks();
+
+	private:
+		StorageAccess* m_storageAccess;
+		std::vector<NodeBookmark> m_nodeBookmarks;
+		std::vector<EdgeBookmark> m_edgeBookmarks;
+		bool m_nodeBookmarksValid;
+		bool m_edgeBookmarksValid;
 	};
 
 	virtual void handleMessage(MessageActivateBookmark* message);
@@ -62,18 +73,18 @@ private:
 	virtual void handleMessage(MessageCreateBookmark* message);
 	virtual void handleMessage(MessageCreateBookmarkCategory* message);
 	virtual void handleMessage(MessageDeleteBookmark* message);
-	virtual void handleMessage(MessageDeleteBookmarkCategoryWithBookmarks* message);
+	virtual void handleMessage(MessageDeleteBookmarkCategory* message);
 	virtual void handleMessage(MessageDeleteBookmarkForActiveTokens* message);
 	virtual void handleMessage(MessageEditBookmark* message);
 	virtual void handleMessage(MessageFinishedParsing* message);
 
-	std::vector<std::string> getTokenNames(const std::vector<Id>& ids) const;
-	std::vector<std::string> getTokenDisplayNames(const std::vector<Id>& ids) const;
-	std::vector<int> getTokenTypes(const std::vector<Id>& ids) const;
-	std::string getDisplayName(Id id) const;
-	TempEdge getEdge(const std::string& tokenName, const int tokenType) const;
+	std::vector<std::shared_ptr<Bookmark>> getAllBookmarks() const;
+	std::vector<std::shared_ptr<NodeBookmark>> getAllNodeBookmarks() const;
+	std::vector<std::shared_ptr<EdgeBookmark>> getAllEdgeBookmarks() const;
 
-	std::pair<std::string, std::string> seperateEdgeToken(const std::string& token) const;
+	std::vector<std::string> getActiveNodeDisplayNames() const;
+	std::vector<std::string> getActiveEdgeDisplayNames() const;
+	std::string getNodeDisplayName(const Id id) const;
 
 	std::vector<std::shared_ptr<Bookmark>> getFilteredBookmarks(const std::vector<std::shared_ptr<Bookmark>>& bookmarks, const MessageDisplayBookmarks::BookmarkFilter& filter) const;
 	std::vector<std::shared_ptr<Bookmark>> getOrderedBookmarks(const std::vector<std::shared_ptr<Bookmark>>& bookmarks, const MessageDisplayBookmarks::BookmarkOrder& order) const;
@@ -85,20 +96,15 @@ private:
 	static bool bookmarkDateCompare(const std::shared_ptr<Bookmark> a, const std::shared_ptr<Bookmark> b);
 	static bool bookmarkNameCompare(const std::shared_ptr<Bookmark> a, const std::shared_ptr<Bookmark> b);
 
-	static const std::string m_edgeSeperatorToken;
+	static const std::string s_edgeSeperatorToken;
+	static const std::string s_defaultCategoryName;
 
 	StorageAccess* m_storageAccess;
-	std::vector<Id> m_activeTokens;
-	std::vector<std::string> m_activeTokenNames;
-	std::vector<std::string> m_activeTokenDisplayNames;
-	std::vector<int> m_activeTokenTypes;
+	mutable BookmarkCache m_bookmarkCache;
 
-	std::vector<Id> m_activeEdges;
-	std::vector<std::string> m_activeEdgeNames;
-	std::vector<std::string> m_activeEdgeDisplayNames;
-	std::vector<int> m_activeEdgeTypes;
-
-	bool m_activeTokenExists;
+	std::vector<Id> m_activeNodeIds;
+	std::vector<Id> m_activeEdgeIds;
+	bool m_hasBookmarkForActiveToken;
 };
 
 #endif // BOOKMARK_CONTROLLER_H
