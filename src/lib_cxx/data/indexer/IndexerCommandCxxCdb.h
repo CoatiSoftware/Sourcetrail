@@ -1,9 +1,7 @@
 #ifndef INDEXER_COMMAND_CXX_CDB_H
 #define INDEXER_COMMAND_CXX_CDB_H
 
-#include <vector>
-
-#include "data/indexer/IndexerCommand.h"
+#include "data/indexer/IndexerCommandCxx.h"
 #include "utility/file/FilePath.h"
 
 namespace clang
@@ -14,7 +12,8 @@ namespace clang
 	}
 }
 
-class IndexerCommandCxxCdb: public IndexerCommand
+class IndexerCommandCxxCdb
+	: public IndexerCommandCxx
 {
 public:
 	static std::vector<FilePath> getSourceFilesFromCDB(const FilePath& compilationDatabasePath);
@@ -34,15 +33,9 @@ public:
 	virtual std::string getKindString() const;
 
 	FilePath getWorkingDirectory() const;
-	std::vector<std::string> getCompilerFlags() const;
-	std::vector<FilePath> getSystemHeaderSearchPaths() const;
-	std::vector<FilePath> getFrameworkSearchPaths() const;
 
 private:
 	FilePath m_workingDirectory;
-	std::vector<std::string> m_compilerFlags;
-	std::vector<FilePath> m_systemHeaderSearchPaths;
-	std::vector<FilePath> m_frameworkSearchPaths;
 };
 
 #endif // INDEXER_COMMAND_CXX_CDB_H

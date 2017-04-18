@@ -6,7 +6,8 @@
 #include "data/indexer/IndexerCommand.h"
 #include "utility/file/FilePath.h"
 
-class IndexerCommandJava: public IndexerCommand
+class IndexerCommandJava
+	: public IndexerCommand
 {
 public:
 	static std::string getIndexerKindString();
@@ -18,9 +19,12 @@ public:
 		const std::vector<FilePath>& classPath);
 	virtual ~IndexerCommandJava();
 
-	virtual std::string getKindString() const;
+	std::string getKindString() const override;
 
 	std::vector<FilePath> getClassPath() const;
+
+	bool preprocessorOnly() const override;
+	void setPreprocessorOnly(bool preprocessorOnly) override;
 
 private:
 	std::vector<FilePath> m_classPath;

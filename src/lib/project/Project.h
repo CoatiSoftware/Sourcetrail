@@ -47,7 +47,7 @@ public: // todo: make private again
 private:
 	bool requestIndex(bool forceRefresh, bool needsFullRefresh);
 
-	void buildIndex(const std::set<FilePath>& filesToClean, bool fullRefresh);
+	void buildIndex(const std::set<FilePath>& filesToClean, bool fullRefresh, bool preprocessorOnly);
 
 	std::shared_ptr<ProjectSettings> m_settings;
 	StorageAccessProxy* const m_storageAccessProxy;

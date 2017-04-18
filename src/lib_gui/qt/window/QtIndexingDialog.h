@@ -3,6 +3,7 @@
 
 #include <functional>
 
+#include "component/view/DialogView.h"
 #include "qt/window/QtWindow.h"
 
 class QCheckBox;
@@ -29,7 +30,7 @@ public:
 	DialogType getType() const;
 
 	void setupStart(size_t cleanFileCount, size_t indexFileCount, size_t totalFileCount,
-		bool forceRefresh, bool needsFullRefresh, std::function<void(bool, bool)> callback);
+		DialogView::IndexingOptions options, std::function<void(DialogView::IndexingOptions)> callback);
 	void setupIndexing();
 	void setupReport(
 		size_t indexedFileCount, size_t totalIndexedFileCount, size_t completedFileCount, size_t totalFileCount, float time);
@@ -77,11 +78,14 @@ private:
 	QLabel* m_messageLabel;
 	QLabel* m_filePathLabel;
 	QPushButton* m_errorLabel;
-	QCheckBox* m_checkBox;
+
+	// start indexing
+	QCheckBox* m_fullRefreshCheckBox;
+	QCheckBox* m_preprocessorOnlyCheckBox;
 
 	QSize m_sizeHint;
 
-	std::function<void(bool, bool)> m_callback;
+	std::function<void(DialogView::IndexingOptions)> m_callback;
 	QString m_sourcePath;
 };
 

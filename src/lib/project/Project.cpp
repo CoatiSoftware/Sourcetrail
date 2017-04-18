@@ -336,33 +336,45 @@ bool Project::requestIndex(bool forceRefresh, bool needsFullRefresh)
 	}
 
 	std::set<FilePath> filesToIndex;
-
 	for (std::shared_ptr<SourceGroup> sourceGroup: m_sourceGroups)
 	{
 		sourceGroup->fetchSourceFilePathsToIndex(staticSourceFilePaths);
 		utility::append(filesToIndex, sourceGroup->getSourceFilePathsToIndex());
 	}
 
+
+	bool hasCXXSourceGroup = false;
+	for (std::shared_ptr<SourceGroup> sourceGroup: m_sourceGroups)
+	{
+		if (sourceGroup->getLanguage() == LANGUAGE_C || sourceGroup->getLanguage() == LANGUAGE_CPP)
+		{
+			hasCXXSourceGroup = true;
+			break;
+		}
+	}
+
 	bool fullRefresh = forceRefresh | needsFullRefresh;
+	bool preprocessorOnly = false;
 
 	if (Application::getInstance()->hasGUI())
 	{
-		DialogView::IndexMode mode = Application::getInstance()->getDialogView()->startIndexingDialog(
-			filesToClean.size(), filesToIndex.size(), allSourceFilePaths.size(),
-			forceRefresh, needsFullRefresh
-		);
+		DialogView::IndexingOptions options;
+		options.fullRefreshVisible = !needsFullRefresh;
+		options.fullRefresh = forceRefresh;
 
-		switch (mode)
+		options.preprocessorOnlyVisible = hasCXXSourceGroup;
+		options.preprocessorOnly = false;
+
+		options = Application::getInstance()->getDialogView()->startIndexingDialog(
+			filesToClean.size(), filesToIndex.size(), allSourceFilePaths.size(), options);
+
+		if (!options.startIndexing)
 		{
-			case DialogView::INDEX_ABORT:
-				return false;
-			case DialogView::INDEX_REFRESH:
-				fullRefresh = false;
-				break;
-			case DialogView::INDEX_FULL:
-				fullRefresh = true;
-				break;
+			return false;
 		}
+
+		fullRefresh = options.fullRefresh | needsFullRefresh;
+		preprocessorOnly = options.preprocessorOnly;
 	}
 
 	if (fullRefresh)
@@ -379,12 +391,12 @@ bool Project::requestIndex(bool forceRefresh, bool needsFullRefresh)
 
 	MessageStatus((fullRefresh ? "Reindexing Project" : "Refreshing Project"), false, true).dispatch();
 
-	buildIndex(filesToClean, fullRefresh);
+	buildIndex(filesToClean, fullRefresh, preprocessorOnly);
 
 	return true;
 }
 
-void Project::buildIndex(const std::set<FilePath>& filesToClean, bool fullRefresh)
+void Project::buildIndex(const std::set<FilePath>& filesToClean, bool fullRefresh, bool preprocessorOnly)
 {
 	MessageClearErrorCount().dispatch();
 
@@ -414,6 +426,8 @@ void Project::buildIndex(const std::set<FilePath>& filesToClean, bool fullRefres
 		for (std::shared_ptr<IndexerCommand> command: sourceGroup->getIndexerCommands(fullRefresh))
 		{
 			command->setCancelOnFatalErrors(cancelIndexingOnFatalErrors);
+			command->setPreprocessorOnly(preprocessorOnly);
+
 			indexerCommandList->addCommand(command);
 		}
 	}

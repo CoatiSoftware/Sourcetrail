@@ -15,11 +15,8 @@ IndexerCommandCxxManual::IndexerCommandCxxManual(
 	const std::vector<FilePath>& frameworkSearchPaths,
 	const std::vector<std::string>& compilerFlags
 )
-	: IndexerCommand(sourceFilePath, indexedPaths, excludedPaths)
+	: IndexerCommandCxx(sourceFilePath, indexedPaths, excludedPaths, systemHeaderSearchPaths, frameworkSearchPaths, compilerFlags)
 	, m_languageStandard(languageStandard)
-	, m_systemHeaderSearchPaths(systemHeaderSearchPaths)
-	, m_frameworkSearchPaths(frameworkSearchPaths)
-	, m_compilerFlags(compilerFlags)
 {
 }
 
@@ -35,19 +32,4 @@ std::string IndexerCommandCxxManual::getKindString() const
 std::string IndexerCommandCxxManual::getLanguageStandard() const
 {
 	return m_languageStandard;
-}
-
-std::vector<FilePath> IndexerCommandCxxManual::getSystemHeaderSearchPaths() const
-{
-	return m_systemHeaderSearchPaths;
-}
-
-std::vector<FilePath> IndexerCommandCxxManual::getFrameworkSearchPaths() const
-{
-	return m_frameworkSearchPaths;
-}
-
-std::vector<std::string> IndexerCommandCxxManual::getCompilerFlags() const
-{
-	return m_compilerFlags;
 }

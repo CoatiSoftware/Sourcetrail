@@ -34,6 +34,8 @@ add_files(
 	qt/element/QtDirectoryListBox.h
 	qt/element/QtFontPicker.cpp
 	qt/element/QtFontPicker.h
+	qt/element/QtHelpButton.cpp
+	qt/element/QtHelpButton.h
 	qt/element/QtIconButton.cpp
 	qt/element/QtIconButton.h
 	qt/element/QtLineEdit.cpp

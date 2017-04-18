@@ -84,7 +84,7 @@ void CxxParser::buildIndex(std::shared_ptr<IndexerCommandCxxCdb> indexerCommand)
 	std::shared_ptr<CxxDiagnosticConsumer> diagnostics = getDiagnostics(true);
 	tool.setDiagnosticConsumer(diagnostics.get());
 
-	ASTActionFactory actionFactory(m_client, m_fileRegister);
+	ASTActionFactory actionFactory(m_client, m_fileRegister, indexerCommand->preprocessorOnly());
 	tool.run(&actionFactory);
 }
 
@@ -97,14 +97,14 @@ void CxxParser::buildIndex(std::shared_ptr<IndexerCommandCxxManual> indexerComma
 	std::shared_ptr<CxxDiagnosticConsumer> diagnostics = getDiagnostics(true);
 	tool.setDiagnosticConsumer(diagnostics.get());
 
-	ASTActionFactory actionFactory(m_client, m_fileRegister);
+	ASTActionFactory actionFactory(m_client, m_fileRegister, indexerCommand->preprocessorOnly());
 	tool.run(&actionFactory);
 }
 
 void CxxParser::buildIndex(const std::string& fileName, std::shared_ptr<TextAccess> fileContent)
 {
 	std::shared_ptr<CxxDiagnosticConsumer> diagnostics = getDiagnostics(false);
-	ASTActionFactory actionFactory(m_client, m_fileRegister);
+	ASTActionFactory actionFactory(m_client, m_fileRegister, false);
 
 	std::vector<std::string> args = getCommandlineArgumentsEssential(std::vector<std::string>(1, "-std=c++1z"), std::vector<FilePath>(), std::vector<FilePath>());
 

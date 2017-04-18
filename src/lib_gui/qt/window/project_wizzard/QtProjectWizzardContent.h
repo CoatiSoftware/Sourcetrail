@@ -6,28 +6,12 @@
 #include <QToolButton>
 #include <QWidget>
 
-#include "qt/element/QtIconButton.h"
+#include "qt/element/QtHelpButton.h"
 #include "qt/utility/QtThreadedFunctor.h"
 #include "qt/window/project_wizzard/QtProjectWizzardWindow.h"
 #include "settings/ProjectSettings.h"
 
 class QtTextEditDialog;
-
-class QtHelpButton
-	: public QtIconButton
-{
-	Q_OBJECT
-
-public:
-	QtHelpButton(const QString& helpText, QWidget* parent = nullptr);
-
-private slots:
-	void handleHelpPress();
-
-private:
-	QString m_helpText;
-};
-
 
 class QtProjectWizzardContent
 	: public QWidget

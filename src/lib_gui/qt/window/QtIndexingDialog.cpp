@@ -7,6 +7,7 @@
 #include <QPushButton>
 
 #include "qt/utility/utilityQt.h"
+#include "qt/element/QtHelpButton.h"
 #include "qt/element/QtProgressBar.h"
 #include "utility/messaging/type/MessageInterruptTasks.h"
 #include "utility/ResourcePaths.h"
@@ -22,11 +23,11 @@ QtIndexingDialog::QtIndexingDialog(QWidget* parent)
 	, m_messageLabel(nullptr)
 	, m_filePathLabel(nullptr)
 	, m_errorLabel(nullptr)
-	, m_checkBox(nullptr)
+	, m_fullRefreshCheckBox(nullptr)
+	, m_preprocessorOnlyCheckBox(nullptr)
 	, m_sizeHint(QSize(450, 450))
-	, m_callback([](bool, bool){})
+	, m_callback([](DialogView::IndexingOptions){})
 {
-	// setWindowFlags(Qt::WindowStaysOnTopHint);
 	setSizeGripStyle(false);
 }
 
@@ -42,7 +43,7 @@ QtIndexingDialog::DialogType QtIndexingDialog::getType() const
 
 void QtIndexingDialog::setupStart(
 	size_t cleanFileCount, size_t indexFileCount, size_t totalFileCount,
-	bool forceRefresh, bool needsFullRefresh, std::function<void(bool, bool)> callback)
+	DialogView::IndexingOptions options, std::function<void(DialogView::IndexingOptions)> callback)
 {
 	QBoxLayout* layout = createLayout();
 
@@ -59,46 +60,65 @@ void QtIndexingDialog::setupStart(
 
 	layout->addStretch();
 
-	if (needsFullRefresh)
+	if (options.fullRefreshVisible)
+	{
+		m_fullRefreshCheckBox = new QCheckBox("full refresh", this);
+		m_fullRefreshCheckBox->setObjectName("message");
+
+		connect(m_fullRefreshCheckBox, static_cast<void(QCheckBox::*)(bool)>(&QCheckBox::toggled),
+			[=](bool checked = false)
+			{
+				clearLabel->setVisible(!checked);
+				indexLabel->setVisible(!checked);
+				fullLabel->setVisible(checked);
+			}
+		);
+
+		m_fullRefreshCheckBox->setChecked(!options.fullRefresh);
+		m_fullRefreshCheckBox->setChecked(options.fullRefresh);
+
+		QHBoxLayout* subLayout = new QHBoxLayout();
+		subLayout->addStretch();
+		subLayout->addWidget(m_fullRefreshCheckBox);
+
+		layout->addLayout(subLayout);
+	}
+	else
 	{
 		clearLabel->hide();
 		indexLabel->hide();
 	}
-	else
+
+	if (options.preprocessorOnlyVisible)
 	{
-		m_checkBox = new QCheckBox("full refresh", this);
-		m_checkBox->setObjectName("message");
+		m_preprocessorOnlyCheckBox = new QCheckBox("C/C++ preprocessor only", this);
+		m_preprocessorOnlyCheckBox->setObjectName("message");
+		m_preprocessorOnlyCheckBox->setChecked(options.preprocessorOnly);
 
-		connect(m_checkBox, static_cast<void(QCheckBox::*)(bool)>(&QCheckBox::toggled),
-			[=](bool checked = false)
-			{
-				if (checked)
-				{
-					clearLabel->hide();
-					indexLabel->hide();
-					fullLabel->show();
-				}
-				else
-				{
-					clearLabel->show();
-					indexLabel->show();
-					fullLabel->hide();
-				}
-			}
-		);
+		QtHelpButton* button = new QtHelpButton(
+			"Run only the C/C++ preprocessor on the files. This will quickly show include errors and help fix problems "
+			"in the project setup faster.\n\nThe files will not be indexed and show up as incomplete.");
+		button->setColor(Qt::white);
 
-		m_checkBox->setChecked(!forceRefresh);
-		m_checkBox->setChecked(forceRefresh);
+		QHBoxLayout* subLayout = new QHBoxLayout();
+		subLayout->addStretch();
+		subLayout->addWidget(m_preprocessorOnlyCheckBox);
+		subLayout->addSpacing(10);
+		subLayout->addWidget(button);
 
-		layout->addWidget(m_checkBox, 0, Qt::AlignRight);
-		layout->addSpacing(30);
+		layout->addLayout(subLayout);
+	}
+
+	if (m_fullRefreshCheckBox || m_preprocessorOnlyCheckBox)
+	{
+		layout->addSpacing(20);
 	}
 
 	addButtons(layout);
 	updateNextButton("Start");
 	updateCloseButton("Cancel");
 
-	m_sizeHint = QSize(350, 250);
+	m_sizeHint = QSize(350, 270);
 	m_callback = callback;
 
 	finishSetup();
@@ -277,7 +297,11 @@ void QtIndexingDialog::handleNext()
 {
 	if (m_type == DIALOG_MESSAGE)
 	{
-		m_callback(true, !m_checkBox || m_checkBox->isChecked());
+		DialogView::IndexingOptions options;
+		options.startIndexing = true;
+		options.fullRefresh = m_fullRefreshCheckBox && m_fullRefreshCheckBox->isChecked();
+		options.preprocessorOnly = m_preprocessorOnlyCheckBox && m_preprocessorOnlyCheckBox->isChecked();
+		m_callback(options);
 	}
 
 	QtWindow::handleNext();
@@ -287,7 +311,8 @@ void QtIndexingDialog::handleClose()
 {
 	if (m_type == DIALOG_MESSAGE)
 	{
-		m_callback(false, false);
+		DialogView::IndexingOptions options;
+		m_callback(options);
 	}
 
 	if (m_type == DIALOG_INDEXING)

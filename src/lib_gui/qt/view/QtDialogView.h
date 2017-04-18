@@ -34,8 +34,8 @@ public:
 	virtual void showProgressDialog(const std::string& title, const std::string& message, int progress) override;
 	virtual void hideProgressDialog() override;
 
-	virtual DialogView::IndexMode startIndexingDialog(size_t cleanFileCount, size_t indexFileCount, size_t totalFileCount,
-		bool forceRefresh, bool needsFullRefresh) override;
+	virtual DialogView::IndexingOptions startIndexingDialog(
+		size_t cleanFileCount, size_t indexFileCount, size_t totalFileCount, DialogView::IndexingOptions options) override;
 	virtual void updateIndexingDialog(size_t fileCount, size_t totalFileCount, std::string sourcePath) override;
 	virtual void finishedIndexingDialog(
 		size_t indexedFileCount, size_t totalIndexedFileCount, size_t completedFileCount, size_t totalFileCount,

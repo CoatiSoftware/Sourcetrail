@@ -21,6 +21,9 @@ public:
 	bool cancelOnFatalErrors() const;
 	void setCancelOnFatalErrors(bool cancelOnFatalErrors);
 
+	virtual bool preprocessorOnly() const = 0;
+	virtual void setPreprocessorOnly(bool preprocessorOnly) = 0;
+
 private:
 	FilePath m_sourceFilePath;
 	std::set<FilePath> m_indexedPaths;

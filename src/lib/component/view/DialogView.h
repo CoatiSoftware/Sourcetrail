@@ -11,11 +11,23 @@ class StorageAccess;
 class DialogView
 {
 public:
-	enum IndexMode
+	struct IndexingOptions
 	{
-		INDEX_ABORT,
-		INDEX_REFRESH,
-		INDEX_FULL
+		IndexingOptions()
+			: startIndexing(false)
+			, fullRefreshVisible(false)
+			, fullRefresh(false)
+			, preprocessorOnlyVisible(false)
+			, preprocessorOnly(false)
+		{}
+
+		bool startIndexing;
+
+		bool fullRefreshVisible;
+		bool fullRefresh;
+
+		bool preprocessorOnlyVisible;
+		bool preprocessorOnly;
 	};
 
 	DialogView(StorageAccess* storageAccess);
@@ -27,8 +39,8 @@ public:
 	virtual void showProgressDialog(const std::string& title, const std::string& message, int progress);
 	virtual void hideProgressDialog();
 
-	virtual IndexMode startIndexingDialog(
-		size_t cleanFileCount, size_t indexFileCount, size_t totalFileCount, bool forceRefresh, bool needsFullRefresh);
+	virtual IndexingOptions startIndexingDialog(
+		size_t cleanFileCount, size_t indexFileCount, size_t totalFileCount, IndexingOptions options);
 	virtual void updateIndexingDialog(size_t fileCount, size_t totalFileCount, std::string sourcePath);
 	virtual void finishedIndexingDialog(
 		size_t indexedFileCount, size_t totalIndexedFileCount, size_t completedFileCount, size_t totalFileCount,

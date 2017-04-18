@@ -1,13 +1,11 @@
 #ifndef INDEXER_COMMAND_CXX_MANUAL_H
 #define INDEXER_COMMAND_CXX_MANUAL_H
 
-#include <vector>
-#include <string>
-
-#include "data/indexer/IndexerCommand.h"
+#include "data/indexer/IndexerCommandCxx.h"
 #include "utility/file/FilePath.h"
 
-class IndexerCommandCxxManual: public IndexerCommand
+class IndexerCommandCxxManual
+	: public IndexerCommandCxx
 {
 public:
 	static std::string getIndexerKindString();
@@ -25,15 +23,9 @@ public:
 	virtual std::string getKindString() const;
 
 	std::string getLanguageStandard() const;
-	std::vector<FilePath> getSystemHeaderSearchPaths() const;
-	std::vector<FilePath> getFrameworkSearchPaths() const;
-	std::vector<std::string> getCompilerFlags() const;
 
 private:
 	std::string m_languageStandard;
-	std::vector<FilePath> m_systemHeaderSearchPaths;
-	std::vector<FilePath> m_frameworkSearchPaths;
-	std::vector<std::string> m_compilerFlags;
 };
 
 #endif // INDEXER_COMMAND_CXX_MANUAL_H

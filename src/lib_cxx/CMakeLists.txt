@@ -2,6 +2,8 @@
 add_files(
 	LIB_CXX_FILES
 
+	data/indexer/IndexerCommandCxx.cpp
+	data/indexer/IndexerCommandCxx.h
 	data/indexer/IndexerCommandCxxCdb.cpp
 	data/indexer/IndexerCommandCxxCdb.h
 	data/indexer/IndexerCommandCxxManual.cpp
@@ -33,7 +35,6 @@ add_files(
 	data/parser/cxx/name_resolver/CxxTypeNameResolver.cpp
 	data/parser/cxx/name_resolver/CxxTypeNameResolver.h
 
-	data/parser/cxx/ASTAction.cpp
 	data/parser/cxx/ASTAction.h
 	data/parser/cxx/ASTActionFactory.cpp
 	data/parser/cxx/ASTActionFactory.h

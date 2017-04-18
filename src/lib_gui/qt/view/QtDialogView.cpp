@@ -111,23 +111,20 @@ void QtDialogView::hideProgressDialog()
 }
 
 
-DialogView::IndexMode QtDialogView::startIndexingDialog(
-	size_t cleanFileCount, size_t indexFileCount, size_t totalFileCount, bool forceRefresh, bool needsFullRefresh)
+DialogView::IndexingOptions QtDialogView::startIndexingDialog(
+	size_t cleanFileCount, size_t indexFileCount, size_t totalFileCount, DialogView::IndexingOptions options)
 {
-	IndexMode result = INDEX_ABORT;
+	DialogView::IndexingOptions result;
 	m_resultReady = false;
 
 	m_onQtThread(
 		[=, &result]()
 		{
 			QtIndexingDialog* window = createWindow<QtIndexingDialog>();
-			window->setupStart(cleanFileCount, indexFileCount, totalFileCount, forceRefresh, needsFullRefresh,
-				[&](bool start, bool fullRefresh)
+			window->setupStart(cleanFileCount, indexFileCount, totalFileCount, options,
+				[&](DialogView::IndexingOptions o)
 				{
-					if (start)
-					{
-						result = (!fullRefresh && !needsFullRefresh ? INDEX_REFRESH : INDEX_FULL);
-					}
+					result = o;
 					m_resultReady = true;
 
 					setUIBlocked(false);
