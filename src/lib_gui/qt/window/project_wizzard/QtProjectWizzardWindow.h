@@ -21,6 +21,7 @@ public:
 	void setPreferredSize(QSize size);
 
 	void saveContent();
+	void loadContent();
 
 	static const int FRONT_COL = 0;
 	static const int HELP_COL = 1;

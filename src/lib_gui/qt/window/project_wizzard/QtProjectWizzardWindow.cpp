@@ -45,6 +45,11 @@ void QtProjectWizzardWindow::saveContent()
 	m_content->save();
 }
 
+void QtProjectWizzardWindow::loadContent()
+{
+	m_content->load();
+}
+
 void QtProjectWizzardWindow::populateWindow(QWidget* widget)
 {
 	QGridLayout* layout = new QGridLayout();

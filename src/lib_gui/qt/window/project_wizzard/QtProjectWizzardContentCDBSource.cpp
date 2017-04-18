@@ -36,7 +36,8 @@ void QtProjectWizzardContentCDBSource::load()
 	std::shared_ptr<SourceGroupSettingsCxx> cxxSettings = std::dynamic_pointer_cast<SourceGroupSettingsCxx>(m_settings);
 	if (cxxSettings)
 	{
-		std::vector<FilePath> filePaths = IndexerCommandCxxCdb::getSourceFilesFromCDB(cxxSettings->getAbsoluteCompilationDatabasePath());
+		std::vector<FilePath> filePaths =
+			IndexerCommandCxxCdb::getSourceFilesFromCDB(cxxSettings->getAbsoluteCompilationDatabasePath());
 
 		for (FilePath path : filePaths)
 		{

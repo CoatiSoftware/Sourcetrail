@@ -291,6 +291,9 @@ void QtProjectWizzardContentDataCDB::pickedCDBPath()
 			m_buildFilePicker->setText(relPath.str().c_str());
 		}
 	}
+
+	m_window->saveContent();
+	m_window->loadContent();
 }
 
 

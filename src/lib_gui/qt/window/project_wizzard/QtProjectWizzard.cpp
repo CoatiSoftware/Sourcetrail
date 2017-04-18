@@ -294,6 +294,8 @@ void QtProjectWizzard::selectedProjectType(SourceGroupType sourceGroupType)
 		m_sourceGroupSettings = std::make_shared<SourceGroupSettingsJava>(sourceGroupId, sourceGroupType, m_projectSettings.get());
 		emptyProjectJavaMaven();
 		break;
+	case SOURCE_GROUP_UNKNOWN:
+		break;
 	}
 }
 
@@ -322,7 +324,10 @@ void QtProjectWizzard::emptyProject()
 		);
 		connect(window, SIGNAL(next()), this, SLOT(sourcePathsJava()));
 		break;
+	default:
+		return;
 	}
+
 	window->updateSubTitle("Project Data");
 }
 
@@ -535,6 +540,7 @@ void QtProjectWizzard::showSummary()
 			else
 			{
 				summary->addContent(new QtProjectWizzardContentDataCDB(m_projectSettings, m_sourceGroupSettings, window, m_editing));
+				summary->addContent(new QtProjectWizzardContentCDBSource(m_sourceGroupSettings, window));
 				summary->addSpace();
 
 				summary->addContent(new QtProjectWizzardContentPathsCDBHeader(m_sourceGroupSettings, window));
