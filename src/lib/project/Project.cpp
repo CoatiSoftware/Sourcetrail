@@ -283,6 +283,7 @@ bool Project::requestIndex(bool forceRefresh, bool needsFullRefresh)
 	}
 
 	std::set<FilePath> filesToClean;
+	std::set<FilePath> filesToAdd;
 	if (!needsFullRefresh)
 	{
 		std::set<FilePath> unchangedFilePaths;
@@ -315,13 +316,13 @@ bool Project::requestIndex(bool forceRefresh, bool needsFullRefresh)
 		// handle referencing paths
 		utility::append(filesToClean, m_storage->getReferencing(changedFilePaths));
 
-
 		// handle referenced paths
 		std::set<FilePath> staticSourceFiles = allSourceFilePaths;
 		for (const FilePath& path: changedFilePaths)
 		{
 			staticSourceFiles.erase(path);
 		}
+
 		const std::set<FilePath> staticReferencedFilePaths = m_storage->getReferenced(staticSourceFiles);
 		const std::set<FilePath> dynamicReferencedFilePaths = m_storage->getReferenced(changedFilePaths);
 
@@ -334,12 +335,18 @@ bool Project::requestIndex(bool forceRefresh, bool needsFullRefresh)
 				filesToClean.insert(path);
 			}
 		}
+
+		for (const FilePath& path: unchangedFilePaths)
+		{
+			staticSourceFiles.erase(path);
+		}
+		filesToAdd = staticSourceFiles;
 	}
 
 	std::set<FilePath> staticSourceFilePaths;
 	for (const FilePath& path: allSourceFilePaths)
 	{
-		if (filesToClean.find(path) == filesToClean.end())
+		if (filesToClean.find(path) == filesToClean.end() && filesToAdd.find(path) == filesToAdd.end())
 		{
 			staticSourceFilePaths.insert(path);
 		}
