@@ -36,7 +36,7 @@ private:
 	virtual void doTerminate();
 
 	void processTaskThreaded(std::shared_ptr<TaskInfo> taskInfo, std::shared_ptr<Blackboard> blackboard);
-	int getActveTaskCount() const;
+	int getActiveTaskCount() const;
 
 	std::vector<std::shared_ptr<TaskInfo>> m_tasks;
 	bool m_needsToStartThreads;

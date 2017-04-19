@@ -41,7 +41,7 @@ Task::TaskState TaskGroupParallel::doUpdate(std::shared_ptr<Blackboard> blackboa
 	const int SLEEP_TIME_MS = 25;
 	std::this_thread::sleep_for(std::chrono::milliseconds(SLEEP_TIME_MS));
 
-	if (m_tasks.size() != 0 && getActveTaskCount() > 0)
+	if (m_tasks.size() != 0 && getActiveTaskCount() > 0)
 	{
 		return STATE_RUNNING;
 	}
@@ -109,7 +109,7 @@ void TaskGroupParallel::processTaskThreaded(std::shared_ptr<TaskInfo> taskInfo, 
 	}
 }
 
-int TaskGroupParallel::getActveTaskCount() const
+int TaskGroupParallel::getActiveTaskCount() const
 {
 	std::lock_guard<std::mutex> lock(m_activeTaskCountMutex);
 	return m_activeTaskCount;

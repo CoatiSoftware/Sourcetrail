@@ -187,8 +187,8 @@ private:
 	SqliteIndexStorage m_sqliteIndexStorage;
 	SqliteBookmarkStorage m_sqliteBookmarkStorage;
 
-	mutable std::map <FilePath, Id> m_fileNodeIds;
-	mutable std::map <Id, FilePath> m_fileNodePaths;
+	std::map <FilePath, Id> m_fileNodeIds;
+	std::map <Id, FilePath> m_fileNodePaths;
 
 	HierarchyCache m_hierarchyCache;
 };
