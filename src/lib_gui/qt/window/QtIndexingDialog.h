@@ -19,7 +19,7 @@ public:
 	enum DialogType
 	{
 		DIALOG_MESSAGE,
-		DIALOG_STATUS,
+		DIALOG_UNKNOWN_PROGRESS,
 		DIALOG_PROGRESS,
 		DIALOG_INDEXING
 	};
@@ -35,7 +35,7 @@ public:
 	void setupReport(
 		size_t indexedFileCount, size_t totalIndexedFileCount, size_t completedFileCount, size_t totalFileCount, float time);
 
-	void setupStatus();
+	void setupUnknownProgress();
 	void setupProgress();
 
 	void updateMessage(QString message);

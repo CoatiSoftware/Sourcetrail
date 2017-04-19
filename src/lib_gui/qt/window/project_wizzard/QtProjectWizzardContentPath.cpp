@@ -128,8 +128,9 @@ std::vector<std::string> QtProjectWizzardContentPathSourceMaven::getFileNames() 
 	const FilePath mavenProjectRoot = javaSettings->getAbsoluteMavenProjectFilePath().parentDirectory();
 
 	std::vector<std::string> list;
+	std::shared_ptr<DialogView> dialogView = Application::getInstance()->getDialogView();
 
-	Application::getInstance()->getDialogView()->showStatusDialog("Preparing Project", "Maven\nGenerating Source Files");
+	dialogView->showUnknownProgressDialog("Preparing Project", "Maven\nGenerating Source Files");
 	const bool success = utility::mavenGenerateSources(mavenPath, mavenProjectRoot);
 	if (!success)
 	{
@@ -143,7 +144,7 @@ std::vector<std::string> QtProjectWizzardContentPathSourceMaven::getFileNames() 
 	}
 	else
 	{
-		Application::getInstance()->getDialogView()->showStatusDialog("Preparing Project", "Maven\nFetching Source Directories");
+		dialogView->showUnknownProgressDialog("Preparing Project", "Maven\nFetching Source Directories");
 		const std::vector<FilePath> sourceDirectories = utility::mavenGetAllDirectoriesFromEffectivePom(
 			mavenPath,
 			mavenProjectRoot,
@@ -169,7 +170,7 @@ std::vector<std::string> QtProjectWizzardContentPathSourceMaven::getFileNames() 
 			list.push_back(path.str());
 		}
 	}
-	Application::getInstance()->getDialogView()->hideStatusDialog();
+	dialogView->hideUnknownProgressDialog();
 
 	return list;
 }

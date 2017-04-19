@@ -25,7 +25,7 @@ QtDialogView::~QtDialogView()
 	m_resultReady = true;
 }
 
-void QtDialogView::showStatusDialog(const std::string& title, const std::string& message)
+void QtDialogView::showUnknownProgressDialog(const std::string& title, const std::string& message)
 {
 	MessageStatus(title + ": " + message, false, true).dispatch();
 
@@ -33,12 +33,12 @@ void QtDialogView::showStatusDialog(const std::string& title, const std::string&
 		[=]()
 		{
 			QtIndexingDialog* window = dynamic_cast<QtIndexingDialog*>(m_windowStack.getTopWindow());
-			if (!window || window->getType() != QtIndexingDialog::DIALOG_STATUS)
+			if (!window || window->getType() != QtIndexingDialog::DIALOG_UNKNOWN_PROGRESS)
 			{
 				m_windowStack.clearWindows();
 
 				window = createWindow<QtIndexingDialog>();
-				window->setupStatus();
+				window->setupUnknownProgress();
 			}
 
 			window->updateTitle(title.c_str());
@@ -49,7 +49,7 @@ void QtDialogView::showStatusDialog(const std::string& title, const std::string&
 	);
 }
 
-void QtDialogView::hideStatusDialog()
+void QtDialogView::hideUnknownProgressDialog()
 {
 	MessageStatus("", false, false).dispatch();
 
@@ -57,7 +57,7 @@ void QtDialogView::hideStatusDialog()
 		[=]()
 		{
 			QtIndexingDialog* window = dynamic_cast<QtIndexingDialog*>(m_windowStack.getTopWindow());
-			if (window && window->getType() == QtIndexingDialog::DIALOG_STATUS)
+			if (window && window->getType() == QtIndexingDialog::DIALOG_UNKNOWN_PROGRESS)
 			{
 				m_windowStack.popWindow();
 			}
@@ -127,7 +127,7 @@ DialogView::IndexingOptions QtDialogView::startIndexingDialog(
 					result = o;
 					m_resultReady = true;
 
-					setUIBlocked(false);
+					setUIBlocked(o.startIndexing);
 				}
 			);
 
@@ -254,7 +254,7 @@ void QtDialogView::handleMessage(MessageInterruptTasks* message)
 			QtIndexingDialog* window = dynamic_cast<QtIndexingDialog*>(m_windowStack.getTopWindow());
 			if (window && window->getType() == QtIndexingDialog::DIALOG_INDEXING)
 			{
-				showStatusDialog("Interrupting Indexing", "Waiting for indexer\nthreads to finish");
+				showUnknownProgressDialog("Interrupting Indexing", "Waiting for indexer\nthreads to finish");
 			}
 		}
 	);

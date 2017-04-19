@@ -28,8 +28,8 @@ public:
 	QtDialogView(QtMainWindow* mainWindow, StorageAccess* storageAccess);
 	virtual ~QtDialogView();
 
-	virtual void showStatusDialog(const std::string& title, const std::string& message) override;
-	virtual void hideStatusDialog() override;
+	virtual void showUnknownProgressDialog(const std::string& title, const std::string& message) override;
+	virtual void hideUnknownProgressDialog() override;
 
 	virtual void showProgressDialog(const std::string& title, const std::string& message, int progress) override;
 	virtual void hideProgressDialog() override;

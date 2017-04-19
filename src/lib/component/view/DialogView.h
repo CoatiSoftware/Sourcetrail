@@ -33,8 +33,8 @@ public:
 	DialogView(StorageAccess* storageAccess);
 	virtual ~DialogView();
 
-	virtual void showStatusDialog(const std::string& title, const std::string& message);
-	virtual void hideStatusDialog();
+	virtual void showUnknownProgressDialog(const std::string& title, const std::string& message);
+	virtual void hideUnknownProgressDialog();
 
 	virtual void showProgressDialog(const std::string& title, const std::string& message, int progress);
 	virtual void hideProgressDialog();

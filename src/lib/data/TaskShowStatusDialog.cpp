@@ -22,10 +22,8 @@ void TaskShowStatusDialog::doEnter(std::shared_ptr<Blackboard> blackboard)
 
 Task::TaskState TaskShowStatusDialog::doUpdate(std::shared_ptr<Blackboard> blackboard)
 {
-	if (std::shared_ptr<DialogView> dialogView = Application::getInstance()->getDialogView())
-	{
-		dialogView->showStatusDialog(m_title, m_message);
-    }
+	Application::getInstance()->getDialogView()->showUnknownProgressDialog(m_title, m_message);
+
 	return STATE_SUCCESS;
 }
 

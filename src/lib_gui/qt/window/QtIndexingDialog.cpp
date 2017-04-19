@@ -194,9 +194,9 @@ void QtIndexingDialog::setupReport(
 	finishSetup();
 }
 
-void QtIndexingDialog::setupStatus()
+void QtIndexingDialog::setupUnknownProgress()
 {
-	setType(DIALOG_STATUS);
+	setType(DIALOG_UNKNOWN_PROGRESS);
 
 	QBoxLayout* layout = createLayout();
 

@@ -9,11 +9,11 @@ DialogView::~DialogView()
 {
 }
 
-void DialogView::showStatusDialog(const std::string& title, const std::string& message)
+void DialogView::showUnknownProgressDialog(const std::string& title, const std::string& message)
 {
 }
 
-void DialogView::hideStatusDialog()
+void DialogView::hideUnknownProgressDialog()
 {
 }
 

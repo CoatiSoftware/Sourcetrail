@@ -1,5 +1,6 @@
 #include "project/Project.h"
 
+#include "Application.h"
 #include "component/view/DialogView.h"
 #include "data/access/StorageAccessProxy.h"
 #include "data/indexer/IndexerCommand.h"
@@ -32,13 +33,12 @@
 #include "utility/scheduling/TaskGroupParallel.h"
 #include "utility/scheduling/TaskReturnSuccessWhile.h"
 #include "utility/scheduling/TaskSetValue.h"
+#include "utility/ScopedFunctor.h"
 #include "utility/text/TextAccess.h"
 #include "utility/utility.h"
 #include "utility/utilityApp.h"
 #include "utility/utilityString.h"
 #include "utility/Version.h"
-
-#include "Application.h"
 
 Project::Project(std::shared_ptr<ProjectSettings> settings, StorageAccessProxy* storageAccessProxy)
 	: m_settings(settings)
@@ -101,12 +101,14 @@ bool Project::refresh(bool forceRefresh)
 			break;
 	}
 
+	std::shared_ptr<DialogView> dialogView = Application::getInstance()->getDialogView();
+
 	if (!forceRefresh && needsFullRefresh && question.size() && Application::getInstance()->hasGUI())
 	{
 		std::vector<std::string> options;
 		options.push_back("Yes");
 		options.push_back("No");
-		int result = Application::getInstance()->getDialogView()->confirm(question, options);
+		int result = dialogView->confirm(question, options);
 
 		if (result == 1)
 		{
@@ -118,12 +120,20 @@ bool Project::refresh(bool forceRefresh)
 	{
 		std::vector<std::string> options;
 		options.push_back("Ok");
-		Application::getInstance()->getDialogView()->confirm("You can't refresh the project in trial mode, please unlock with a license key.", options);
+		dialogView->confirm("You can't refresh the project in trial mode, please unlock with a license key.", options);
 
 		MessageDispatchWhenLicenseValid(std::make_shared<MessageRefresh>()).dispatch();
 
 		return false;
 	}
+
+
+	dialogView->showUnknownProgressDialog("Preparing Project", "Processing Files");
+
+	ScopedFunctor dialogHider([&dialogView](){
+		dialogView->hideUnknownProgressDialog();
+	});
+
 
 	if (m_state == PROJECT_STATE_NEEDS_MIGRATION)
 	{
@@ -365,6 +375,8 @@ bool Project::requestIndex(bool forceRefresh, bool needsFullRefresh)
 		options.preprocessorOnlyVisible = hasCXXSourceGroup;
 		options.preprocessorOnly = false;
 
+		Application::getInstance()->getDialogView()->hideUnknownProgressDialog();
+
 		options = Application::getInstance()->getDialogView()->startIndexingDialog(
 			filesToClean.size(), filesToIndex.size(), allSourceFilePaths.size(), options);
 
@@ -465,7 +477,7 @@ void Project::buildIndex(const std::set<FilePath>& filesToClean, bool fullRefres
 		taskParserWrapper->setTask(taskParallelIndexing);
 
 		// add tasks for indexing and merging
-		for (size_t i = 0; i < indexerThreadCount && i < indexerCommandList->size(); i++)
+		for (int i = 0; i < indexerThreadCount && size_t(i) < indexerCommandList->size(); i++)
 		{
 			taskParallelIndexing->addChildTasks(
 				std::make_shared<TaskDecoratorRepeat>(TaskDecoratorRepeat::CONDITION_WHILE_SUCCESS, Task::STATE_SUCCESS)->addChildTask(

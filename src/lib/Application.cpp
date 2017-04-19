@@ -133,7 +133,7 @@ std::shared_ptr<DialogView> Application::getDialogView()
 		return m_componentManager->getDialogView();
 	}
 
-	return std::shared_ptr<DialogView>();
+	return std::make_shared<DialogView>(nullptr);
 }
 
 bool Application::isInTrial() const

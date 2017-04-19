@@ -1,5 +1,6 @@
 #include "project/SourceGroupJava.h"
 
+#include "Application.h"
 #include "component/view/DialogView.h"
 #include "data/indexer/IndexerCommandJava.h"
 #include "data/parser/java/JavaEnvironmentFactory.h"
@@ -14,8 +15,6 @@
 #include "utility/utilityMaven.h"
 #include "utility/utilityString.h"
 #include "utility/utility.h"
-#include "Application.h"
-
 
 SourceGroupJava::SourceGroupJava(std::shared_ptr<SourceGroupSettingsJava> settings)
 	: m_settings(settings)
@@ -51,21 +50,14 @@ void SourceGroupJava::fetchAllSourceFilePaths()
 	std::vector<FilePath> sourcePaths;
 	if (m_settings->getAbsoluteMavenProjectFilePath().exists())
 	{
-		std::shared_ptr<Application> application = Application::getInstance();
-
-		if (application && application->hasGUI())
-		{
-			application->getDialogView()->showStatusDialog("Preparing Project", "Maven\nFetching Source Directories");
-		}
+		std::shared_ptr<DialogView> dialogView = Application::getInstance()->getDialogView();
+		dialogView->showUnknownProgressDialog("Preparing Project", "Maven\nFetching Source Directories");
 
 		const FilePath mavenPath(ApplicationSettings::getInstance()->getMavenPath());
 		const FilePath projectRootPath = m_settings->getAbsoluteMavenProjectFilePath().parentDirectory();
 		sourcePaths = utility::mavenGetAllDirectoriesFromEffectivePom(mavenPath, projectRootPath, m_settings->getShouldIndexMavenTests());
 
-		if (application && application->hasGUI())
-		{
-			application->getDialogView()->hideStatusDialog();
-		}
+		dialogView->hideUnknownProgressDialog();
 	}
 	else
 	{
@@ -166,40 +158,28 @@ bool SourceGroupJava::prepareMavenData()
 		const FilePath mavenPath = ApplicationSettings::getInstance()->getMavenPath();
 		const FilePath projectRootPath = m_settings->getAbsoluteMavenProjectFilePath().parentDirectory();
 
-		ScopedFunctor dialogHider;
+		std::shared_ptr<DialogView> dialogView = Application::getInstance()->getDialogView();
+		dialogView->showUnknownProgressDialog("Preparing Project", "Maven\nGenerating Source Files");
 
-		std::shared_ptr<Application> application = Application::getInstance();
-
-		if (application && application->hasGUI())
-		{
-			// this makes sure to hide the dialog when leaving this method.
-			dialogHider = ScopedFunctor([](){
-				Application::getInstance()->getDialogView()->hideStatusDialog();
-			});
-			Application::getInstance()->getDialogView()->showStatusDialog("Preparing Project", "Maven\nGenerating Source Files");
-		}
+		ScopedFunctor dialogHider([&dialogView](){
+			dialogView->hideUnknownProgressDialog();
+		});
 
 		bool success = utility::mavenGenerateSources(mavenPath, projectRootPath);
 
 		if (!success)
 		{
-			if (application && application->hasGUI())
-			{
-				const std::string dialogMessage =
-					"Sourcetrail was unable to locate Maven on this machine.\n"
-					"Please make sure to provide the correct Maven Path in the preferences.";
+			const std::string dialogMessage =
+				"Sourcetrail was unable to locate Maven on this machine.\n"
+				"Please make sure to provide the correct Maven Path in the preferences.";
 
-				MessageStatus(dialogMessage, true, false).dispatch();
+			MessageStatus(dialogMessage, true, false).dispatch();
 
-				Application::getInstance()->handleDialog(dialogMessage);
-			}
+			Application::getInstance()->handleDialog(dialogMessage);
 			return false;
 		}
 
-		if (application && application->hasGUI())
-		{
-			Application::getInstance()->getDialogView()->showStatusDialog("Preparing Project", "Maven\nExporting Dependencies");
-		}
+		dialogView->showUnknownProgressDialog("Preparing Project", "Maven\nExporting Dependencies");
 
 		utility::mavenCopyDependencies(
 			mavenPath, projectRootPath, m_settings->getAbsoluteMavenDependenciesDirectory()
@@ -247,13 +227,13 @@ std::vector<FilePath> SourceGroupJava::getClassPath()
 
 std::set<FilePath> SourceGroupJava::fetchRootDirectories()
 {
-	if (std::shared_ptr<Application> application = Application::getInstance())
-	{
-		if (application->hasGUI())
-		{
-			application->getDialogView()->showStatusDialog("Preparing Project", "Gathering Root\nDirectories");
-		}
-	}
+	std::shared_ptr<DialogView> dialogView = Application::getInstance()->getDialogView();
+	dialogView->showUnknownProgressDialog("Preparing Project", "Gathering Root\nDirectories");
+
+	ScopedFunctor dialogHider([&dialogView](){
+		dialogView->hideUnknownProgressDialog();
+	});
+
 	std::set<FilePath> rootDirectories;
 
 	std::shared_ptr<JavaEnvironment> javaEnvironment = JavaEnvironmentFactory::getInstance()->createEnvironment();
@@ -287,11 +267,6 @@ std::set<FilePath> SourceGroupJava::fetchRootDirectories()
 		{
 			rootDirectories.insert(rootPath);
 		}
-	}
-
-	if (Application::getInstance()->hasGUI())
-	{
-		Application::getInstance()->getDialogView()->hideStatusDialog();
 	}
 
 	return rootDirectories;
