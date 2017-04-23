@@ -486,6 +486,7 @@ void PersistentStorage::clearCaches()
 	m_fileIndex.clear();
 	m_fileNodeIds.clear();
 	m_fileNodePaths.clear();
+	m_fileNodeComplete.clear();
 	m_hierarchyCache.clear();
 	m_fullTextSearchIndex.clear();
 }
@@ -728,6 +729,8 @@ std::shared_ptr<SourceLocationCollection> PersistentStorage::getFullTextSearchLo
 			}
 		}
 	}
+
+	addCompleteFlagsToSourceLocationCollection(collection.get());
 
 	MessageStatus(
 		std::to_string(collection->getSourceLocationCount()) + " results in " +
@@ -1320,6 +1323,8 @@ std::shared_ptr<SourceLocationCollection> PersistentStorage::getSourceLocationsF
 		}
 	}
 
+	addCompleteFlagsToSourceLocationCollection(collection.get());
+
 	return collection;
 }
 
@@ -1350,6 +1355,8 @@ std::shared_ptr<SourceLocationCollection> PersistentStorage::getSourceLocationsF
 			location.endCol
 		);
 	}
+
+	addCompleteFlagsToSourceLocationCollection(collection.get());
 
 	return collection;
 }
@@ -1470,7 +1477,7 @@ std::shared_ptr<SourceLocationCollection> PersistentStorage::getErrorSourceLocat
 {
 	TRACE();
 
-	std::shared_ptr<SourceLocationCollection> errorCollection = std::make_shared<SourceLocationCollection>();
+	std::shared_ptr<SourceLocationCollection> collection = std::make_shared<SourceLocationCollection>();
 	for (const ErrorInfo& error : m_sqliteIndexStorage.getAll<StorageError>())
 	{
 		if (m_errorFilter.filter(error))
@@ -1480,7 +1487,7 @@ std::shared_ptr<SourceLocationCollection> PersistentStorage::getErrorSourceLocat
 			// Set first bit to 1 to avoid collisions
 			Id locationId = ~(~size_t(0) >> 1) + error.id;
 
-			errorCollection->addSourceLocation(
+			collection->addSourceLocation(
 				LOCATION_ERROR,
 				locationId,
 				std::vector<Id>(1, error.id),
@@ -1493,7 +1500,9 @@ std::shared_ptr<SourceLocationCollection> PersistentStorage::getErrorSourceLocat
 		}
 	}
 
-	return errorCollection;
+	addCompleteFlagsToSourceLocationCollection(collection.get());
+
+	return collection;
 }
 
 Id PersistentStorage::getFileNodeId(const FilePath& filePath) const
@@ -1550,6 +1559,18 @@ FilePath PersistentStorage::getFileNodePath(Id fileId) const
 	}
 
 	return FilePath();
+}
+
+bool PersistentStorage::getFileNodeComplete(const FilePath& filePath) const
+{
+	std::map<FilePath, bool>::const_iterator it = m_fileNodeComplete.find(filePath);
+
+	if (it != m_fileNodeComplete.end())
+	{
+		return it->second;
+	}
+
+	return false;
 }
 
 std::unordered_map<Id, std::set<Id>> PersistentStorage::getFileIdToIncludingFileIdMap() const
@@ -2003,6 +2024,16 @@ void PersistentStorage::addComponentAccessToGraph(Graph* graph) const
 	}
 }
 
+void PersistentStorage::addCompleteFlagsToSourceLocationCollection(SourceLocationCollection* collection) const
+{
+	collection->forEachSourceLocationFile(
+		[this](std::shared_ptr<SourceLocationFile> file)
+		{
+			file->setIsComplete(getFileNodeComplete(file->getFilePath()));
+		}
+	);
+}
+
 void PersistentStorage::buildSearchIndex()
 {
 	TRACE();
@@ -2061,6 +2092,7 @@ void PersistentStorage::buildFilePathMaps()
 	{
 		m_fileNodeIds.emplace(file.filePath, file.id);
 		m_fileNodePaths.emplace(file.id, file.filePath);
+		m_fileNodeComplete.emplace(file.filePath, file.complete);
 	}
 }
 

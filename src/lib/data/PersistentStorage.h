@@ -149,6 +149,7 @@ private:
 	std::vector<Id> getFileNodeIds(const std::vector<FilePath>& filePaths) const;
 	std::set<Id> getFileNodeIds(const std::set<FilePath>& filePaths) const;
 	FilePath getFileNodePath(Id fileId) const;
+	bool getFileNodeComplete(const FilePath& filePath) const;
 
 	std::unordered_map<Id, std::set<Id>> getFileIdToIncludingFileIdMap() const;
 	std::unordered_map<Id, std::set<Id>> getFileIdToImportingFileIdMap() const;
@@ -172,6 +173,8 @@ private:
 	void addAggregationEdgesToGraph(const Id nodeId, const std::vector<StorageEdge>& edgesToAggregate, Graph* graph) const;
 	void addComponentAccessToGraph(Graph* graph) const;
 
+	void addCompleteFlagsToSourceLocationCollection(SourceLocationCollection* collection) const;
+
 	void buildSearchIndex();
 	void buildFilePathMaps();
 	void buildFullTextSearchIndex() const;
@@ -190,6 +193,7 @@ private:
 
 	std::map <FilePath, Id> m_fileNodeIds;
 	std::map <Id, FilePath> m_fileNodePaths;
+	std::map <FilePath, bool> m_fileNodeComplete;
 
 	HierarchyCache m_hierarchyCache;
 };
