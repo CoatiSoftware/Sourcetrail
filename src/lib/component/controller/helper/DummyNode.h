@@ -53,7 +53,6 @@ public:
 	DummyNode()
 		: visible(false)
 		, childVisible(false)
-		, topLevelAncestorId(0)
 		, tokenId(0)
 		, data(nullptr)
 		, active(false)
@@ -244,7 +243,6 @@ public:
 	bool visible;
 	bool childVisible;
 
-	Id topLevelAncestorId;
 	Id tokenId;
 
 	std::vector<std::shared_ptr<DummyNode>> subNodes;

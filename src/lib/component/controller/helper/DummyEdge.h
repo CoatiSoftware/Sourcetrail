@@ -2,6 +2,7 @@
 #define DUMMY_EDGE_H
 
 #include "utility/types.h"
+#include "utility/math/Vector4.h"
 
 #include "data/graph/Edge.h"
 #include "data/graph/token_component/TokenComponentAggregation.h"
@@ -85,6 +86,8 @@ struct DummyEdge
 
 	bool visible;
 	bool active;
+
+	std::vector<Vec4i> path;
 
 	// BundleEdge
 	int weight;

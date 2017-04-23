@@ -7,6 +7,7 @@
 #include "utility/messaging/MessageListener.h"
 #include "utility/messaging/type/MessageActivateAll.h"
 #include "utility/messaging/type/MessageActivateTokens.h"
+#include "utility/messaging/type/MessageActivateTrail.h"
 #include "utility/messaging/type/MessageColorSchemeTest.h"
 #include "utility/messaging/type/MessageFlushUpdates.h"
 #include "utility/messaging/type/MessageFocusIn.h"
@@ -34,6 +35,7 @@ class GraphController
 	: public Controller
 	, public MessageListener<MessageActivateAll>
 	, public MessageListener<MessageActivateTokens>
+	, public MessageListener<MessageActivateTrail>
 	, public MessageListener<MessageColorSchemeTest>
 	, public MessageListener<MessageFlushUpdates>
 	, public MessageListener<MessageFocusIn>
@@ -53,6 +55,7 @@ public:
 private:
 	virtual void handleMessage(MessageActivateAll* message);
 	virtual void handleMessage(MessageActivateTokens* message);
+	virtual void handleMessage(MessageActivateTrail* message);
 	virtual void handleMessage(MessageFlushUpdates* message);
 	virtual void handleMessage(MessageFocusIn* message);
 	virtual void handleMessage(MessageFocusOut* message);
@@ -71,13 +74,13 @@ private:
 	void createDummyGraphForTokenIds(const std::vector<Id>& tokenIds, const std::shared_ptr<Graph> graph);
 	void createDummyGraphForTokenIdsAndSetActiveAndVisibility(
 		const std::vector<Id>& tokenIds, const std::shared_ptr<Graph> graph);
-	std::vector<std::shared_ptr<DummyNode>> createDummyNodeTopDown(Node* node);
+	std::vector<std::shared_ptr<DummyNode>> createDummyNodeTopDown(Node* node, Id ancestorId);
 
 	std::vector<Id> getExpandedNodeIds() const;
 	void setExpandedNodeIds(const std::vector<Id>& nodeIds);
 	void autoExpandActiveNode(const std::vector<Id>& activeTokenIds);
 
-	bool setActive(const std::vector<Id>& activeTokenIds);
+	bool setActive(const std::vector<Id>& activeTokenIds, bool showAllEdges);
 	void setVisibility(bool noActive);
 	void setActiveAndVisibility(const std::vector<Id>& activeTokenIds);
 	void setNodeActiveRecursive(DummyNode* node, const std::vector<Id>& activeTokenIds, bool* noActive) const;
@@ -108,7 +111,7 @@ private:
 
 	DummyNode* getDummyGraphNodeById(Id tokenId) const;
 
-	void buildGraph(MessageBase* message, bool centerActiveNode, bool animatedTransition = true, bool scrollToTop = false);
+	void buildGraph(MessageBase* message, bool centerActiveNode, bool animatedTransition, bool scrollToTop);
 
 	void forEachDummyNodeRecursive(std::function<void(DummyNode*)> func);
 	void forEachDummyEdge(std::function<void(DummyEdge*)> func);
@@ -126,6 +129,8 @@ private:
 	std::vector<Id> m_activeEdgeIds;
 
 	std::shared_ptr<Graph> m_graph;
+
+	std::map<Id, Id> m_topLevelAncestorIds;
 };
 
 #endif // GRAPH_CONTROLLER_H

@@ -12,6 +12,8 @@ add_files(
 	component/controller/helper/NetworkProtocolHelper.h
 	component/controller/helper/SnippetMerger.cpp
 	component/controller/helper/SnippetMerger.h
+	component/controller/helper/TrailLayouter.cpp
+	component/controller/helper/TrailLayouter.h
 
 	component/controller/ActivationController.cpp
 	component/controller/ActivationController.h
@@ -225,7 +227,7 @@ add_files(
 	data/TaskMergeStorages.h
 	data/TaskShowStatusDialog.cpp
 	data/TaskShowStatusDialog.h
-	
+
 	project/Project.cpp
 	project/Project.h
 	project/SourceGroupFactory.cpp
@@ -234,7 +236,7 @@ add_files(
 	project/SourceGroupFactoryModule.h
 	project/SourceGroup.cpp
 	project/SourceGroup.h
-	
+
 	settings/migration/Migration.cpp
 	settings/migration/Migration.h
 	settings/migration/MigrationDeleteKey.cpp
@@ -245,7 +247,7 @@ add_files(
 	settings/migration/MigrationMoveKey.h
 	settings/migration/SettingsMigrator.cpp
 	settings/migration/SettingsMigrator.h
-	
+
 	settings/ApplicationSettings.cpp
 	settings/ApplicationSettings.h
 	settings/ColorScheme.cpp
@@ -327,6 +329,7 @@ add_files(
 	utility/messaging/type/MessageActivateSourceLocations.h
 	utility/messaging/type/MessageActivateTokenIds.h
 	utility/messaging/type/MessageActivateTokens.h
+	utility/messaging/type/MessageActivateTrail.h
 	utility/messaging/type/MessageActivateWindow.h
 	utility/messaging/type/MessageChangeFileView.h
 	utility/messaging/type/MessageClearErrorCount.h

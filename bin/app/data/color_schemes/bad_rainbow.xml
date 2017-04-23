@@ -403,6 +403,7 @@
 
 			<call>
 				<normal>#FBBA00</normal>
+				<trail_focus>#FFFFFF</trail_focus>
 			</call>
 
 			<use>

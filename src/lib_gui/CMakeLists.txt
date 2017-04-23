@@ -57,16 +57,20 @@ add_files(
 	qt/element/QtUndoRedo.cpp
 	qt/element/QtUndoRedo.h
 
-	qt/graphics/QtAngledLineItem.cpp
-	qt/graphics/QtAngledLineItem.h
 	qt/graphics/QtCountCircleItem.cpp
 	qt/graphics/QtCountCircleItem.h
 	qt/graphics/QtGraphicsView.cpp
 	qt/graphics/QtGraphicsView.h
+	qt/graphics/QtLineItemAngled.cpp
+	qt/graphics/QtLineItemAngled.h
+	qt/graphics/QtLineItemBase.cpp
+	qt/graphics/QtLineItemBase.h
+	qt/graphics/QtLineItemBezier.cpp
+	qt/graphics/QtLineItemBezier.h
+	qt/graphics/QtLineItemStraight.cpp
+	qt/graphics/QtLineItemStraight.h
 	qt/graphics/QtRoundedRectItem.cpp
 	qt/graphics/QtRoundedRectItem.h
-	qt/graphics/QtStraightLineItem.cpp
-	qt/graphics/QtStraightLineItem.h
 
 	qt/network/QtIDECommunicationController.cpp
 	qt/network/QtIDECommunicationController.h

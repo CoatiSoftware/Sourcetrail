@@ -154,7 +154,7 @@ void BucketLayouter::createBuckets(
 		std::shared_ptr<DummyNode> target = findTopMostDummyNodeRecursive(nodes, edge->targetId, nullptr);
 
 		bool removeEdge = false;
-		if (!owner || !target)
+		if (!owner || !target || owner == target)
 		{
 			removeEdge = true;
 		}

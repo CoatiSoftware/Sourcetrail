@@ -213,12 +213,34 @@ void QtGraphNode::hoverEnter()
 void QtGraphNode::focusIn()
 {
 	m_isHovering = true;
+
+	forEachEdge(
+		[](QtGraphEdge* edge)
+		{
+			if (edge->isTrailEdge())
+			{
+				edge->focusIn();
+			}
+		}
+	);
+
 	updateStyle();
 }
 
 void QtGraphNode::focusOut()
 {
 	m_isHovering = false;
+
+	forEachEdge(
+		[](QtGraphEdge* edge)
+		{
+			if (edge->isTrailEdge())
+			{
+				edge->focusOut();
+			}
+		}
+	);
+
 	updateStyle();
 }
 
@@ -353,11 +375,11 @@ void QtGraphNode::mouseReleaseEvent(QGraphicsSceneMouseEvent* event)
 	}
 }
 
-void QtGraphNode::notifyEdgesAfterMove()
+void QtGraphNode::forEachEdge(std::function<void(QtGraphEdge*)> func)
 {
 	for (const std::shared_ptr<QtGraphEdge>& edge : m_outEdges)
 	{
-		edge->updateLine();
+		func(edge.get());
 	}
 
 	for (const std::weak_ptr<QtGraphEdge>& e : m_inEdges)
@@ -365,9 +387,19 @@ void QtGraphNode::notifyEdgesAfterMove()
 		std::shared_ptr<QtGraphEdge> edge = e.lock();
 		if (edge)
 		{
-			edge->updateLine();
+			func(edge.get());
 		}
 	}
+}
+
+void QtGraphNode::notifyEdgesAfterMove()
+{
+	forEachEdge(
+		[](QtGraphEdge* edge)
+		{
+			edge->updateLine();
+		}
+	);
 
 	for (const std::shared_ptr<QtGraphNode>& node : m_subNodes)
 	{

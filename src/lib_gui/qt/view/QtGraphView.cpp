@@ -3,16 +3,20 @@
 #include <QBoxLayout>
 #include <QFrame>
 #include <QGraphicsScene>
+#include <QLabel>
 #include <QMouseEvent>
-#include <QPropertyAnimation>
 #include <QParallelAnimationGroup>
+#include <QPropertyAnimation>
+#include <QPushButton>
 #include <QScrollBar>
 #include <QSequentialAnimationGroup>
+#include <QSlider>
 
 #include "component/controller/helper/DummyEdge.h"
 #include "component/controller/helper/DummyNode.h"
 #include "component/view/GraphViewStyle.h"
 #include "settings/ApplicationSettings.h"
+#include "utility/messaging/type/MessageActivateTrail.h"
 #include "utility/messaging/type/MessageDeactivateEdge.h"
 #include "utility/messaging/type/MessageScrollGraph.h"
 #include "utility/ResourcePaths.h"
@@ -40,6 +44,7 @@ QtGraphView::QtGraphView(ViewLayout* viewLayout)
 	, m_refreshFunctor(std::bind(&QtGraphView::doRefreshView, this))
 	, m_focusInFunctor(std::bind(&QtGraphView::doFocusIn, this, std::placeholders::_1))
 	, m_focusOutFunctor(std::bind(&QtGraphView::doFocusOut, this, std::placeholders::_1))
+	, m_centerActiveNode(false)
 	, m_scrollToTop(false)
 	, m_restoreScroll(false)
 	, m_isIndexedList(false)
@@ -82,6 +87,40 @@ void QtGraphView::initView()
 	connect(view->horizontalScrollBar(), SIGNAL(valueChanged(int)), this, SLOT(scrolled(int)));
 	connect(view->verticalScrollBar(), SIGNAL(valueChanged(int)), this, SLOT(scrolled(int)));
 
+	// trail controls
+	{
+		m_forwardTrailButton = new QPushButton("<");
+		m_backwardTrailButton = new QPushButton(">");
+
+		connect(m_forwardTrailButton, SIGNAL(clicked()), this, SLOT(clickedForwardTrail()));
+		connect(m_backwardTrailButton, SIGNAL(clicked()), this, SLOT(clickedBackwardTrail()));
+
+		m_trailDepthSlider = new QSlider(Qt::Horizontal);
+		m_trailDepthSlider->setMinimum(1);
+		m_trailDepthSlider->setMaximum(51);
+		m_trailDepthSlider->setValue(10);
+		m_trailDepthSlider->setFixedWidth(150);
+		connect(m_trailDepthSlider, SIGNAL(valueChanged(int)), this, SLOT(trailDepthChanged(int)));
+
+		m_trailDepthLabel = new QLabel("10");
+		m_trailDepthLabel->setFixedWidth(30);
+
+		QHBoxLayout* trailLayout = new QHBoxLayout();
+		trailLayout->addWidget(m_backwardTrailButton);
+		trailLayout->addWidget(m_forwardTrailButton);
+		trailLayout->addStretch();
+		trailLayout->addWidget(new QLabel("depth:"));
+		trailLayout->addWidget(m_trailDepthSlider);
+		trailLayout->addWidget(m_trailDepthLabel);
+
+		QWidget* trailWidget = new QWidget(widget);
+		trailWidget->setMinimumWidth(380);
+		trailWidget->setMinimumHeight(50);
+		trailWidget->setLayout(trailLayout);
+
+		updateTrailButtons();
+	}
+
 	doRefreshView();
 }
 
@@ -116,7 +155,7 @@ Vec2i QtGraphView::getViewSize() const
 	QtGraphicsView* view = getView();
 
 	float zoomFactor = view->getZoomFactor();
-	return Vec2i(view->width() / zoomFactor - 60, view->height() / zoomFactor - 60);
+	return Vec2i((view->width() - 50) / zoomFactor, (view->height() - 100) / zoomFactor);
 }
 
 void QtGraphView::scrollToValues(int xValue, int yValue)
@@ -224,6 +263,129 @@ void QtGraphView::scrolled(int)
 	MessageScrollGraph(view->horizontalScrollBar()->value(), view->verticalScrollBar()->value()).dispatch();
 }
 
+void QtGraphView::trailDepthChanged(int)
+{
+	if (m_trailDepthSlider->value() == m_trailDepthSlider->maximum())
+	{
+		m_trailDepthLabel->setText("inf");
+	}
+	else
+	{
+		m_trailDepthLabel->setText(QString::number(m_trailDepthSlider->value()));
+	}
+}
+
+void QtGraphView::clickedBackwardTrail()
+{
+	activateTrail(false);
+}
+
+void QtGraphView::clickedForwardTrail()
+{
+	activateTrail(true);
+}
+
+MessageActivateTrail QtGraphView::getMessageActivateTrail(bool forward)
+{
+	MessageActivateTrail message(0, 0, 0, 0, false);
+
+	QtGraphNodeData* node = nullptr;
+	if (m_oldActiveNode && (node = dynamic_cast<QtGraphNodeData*>(m_oldActiveNode.get())))
+	{
+		Edge::EdgeTypeMask trailType;
+		bool horizontalLayout = true;
+
+		switch (node->getData()->getType())
+		{
+			case Node::NODE_CLASS:
+			case Node::NODE_STRUCT:
+			case Node::NODE_INTERFACE:
+				trailType = Edge::EDGE_INHERITANCE;
+				horizontalLayout = false;
+				break;
+
+			case Node::NODE_FUNCTION:
+			case Node::NODE_METHOD:
+				trailType = Edge::EDGE_CALL | Edge::EDGE_OVERRIDE;
+				horizontalLayout = true;
+				break;
+
+			case Node::NODE_FILE:
+				trailType = Edge::EDGE_INCLUDE;
+				horizontalLayout = true;
+				break;
+
+			default:
+				return message;
+		}
+
+		Id tokenId = node->getData()->getId();
+		Id originId = forward ? tokenId : 0;
+		Id targetId = forward ? 0 : tokenId;
+
+		int depth = m_trailDepthSlider->value();
+		if (depth == m_trailDepthSlider->maximum())
+		{
+			depth = 0;
+		}
+
+		return MessageActivateTrail(originId, targetId, trailType, depth, horizontalLayout);
+	}
+
+	return message;
+}
+
+void QtGraphView::activateTrail(bool forward)
+{
+	MessageActivateTrail message = getMessageActivateTrail(forward);
+	if (message.trailType)
+	{
+		message.dispatch();
+	}
+}
+
+void QtGraphView::updateTrailButtons()
+{
+	MessageActivateTrail message = getMessageActivateTrail(false);
+
+	m_backwardTrailButton->setEnabled(message.trailType);
+	m_forwardTrailButton->setEnabled(message.trailType);
+	m_trailDepthSlider->setEnabled(message.trailType);
+
+	if (message.trailType & Edge::EDGE_CALL)
+	{
+		m_backwardTrailButton->setToolTip("caller graph");
+		m_forwardTrailButton->setToolTip("callee graph");
+
+		m_backwardTrailButton->setText(">");
+		m_forwardTrailButton->setText("<");
+	}
+	else if (message.trailType & Edge::EDGE_INHERITANCE)
+	{
+		m_backwardTrailButton->setToolTip("base hierarchy");
+		m_forwardTrailButton->setToolTip("derived hierarchy");
+
+		m_backwardTrailButton->setText("b");
+		m_forwardTrailButton->setText("d");
+	}
+	else if (message.trailType & Edge::EDGE_INCLUDE)
+	{
+		m_backwardTrailButton->setToolTip("including files hierarchy");
+		m_forwardTrailButton->setToolTip("included files hierarchy");
+
+		m_backwardTrailButton->setText(">");
+		m_forwardTrailButton->setText("<");
+	}
+	else
+	{
+		m_backwardTrailButton->setToolTip("no hierarchy available for active symbol");
+		m_forwardTrailButton->setToolTip("no hierarchy available for active symbol");
+
+		m_backwardTrailButton->setText(">");
+		m_forwardTrailButton->setText("<");
+	}
+}
+
 void QtGraphView::switchToNewGraphData()
 {
 	m_oldGraph = m_graph;
@@ -231,11 +393,13 @@ void QtGraphView::switchToNewGraphData()
 	for (const std::shared_ptr<QtGraphNode>& node : m_oldNodes)
 	{
 		node->hide();
+		node->setParentItem(nullptr);
 	}
 
 	for (const std::shared_ptr<QtGraphEdge>& edge : m_oldEdges)
 	{
 		edge->hide();
+		edge->setParentItem(nullptr);
 	}
 
 	m_oldNodes = m_nodes;
@@ -262,24 +426,34 @@ void QtGraphView::switchToNewGraphData()
 		node->hoverEnter();
 	}
 
-	if (m_activeNode)
+	if (m_activeNodes.size())
 	{
-		Vec2i pos = m_activeNode->getPosition();
-		Vec2i size = m_activeNode->getSize();
-
-		QRectF rect(pos.x, pos.y, size.x, size.y);
-
-		if (rect.height() > view->height() - 200)
+		if (m_centerActiveNode)
 		{
-			rect.setHeight(view->height() - 200);
+			Vec2i pos = m_activeNodes.front()->getPosition();
+			Vec2i size = m_activeNodes.front()->getSize();
+
+			QRectF rect(pos.x, pos.y, size.x, size.y);
+
+			if (rect.height() > view->height() - 200)
+			{
+				rect.setHeight(view->height() - 200);
+			}
+
+			view->ensureVisibleAnimated(rect, 100, 100);
 		}
 
-		view->ensureVisibleAnimated(rect, 100, 100);
-		m_activeNode.reset();
+		if (m_activeNodes.size() == 1)
+		{
+			m_oldActiveNode = m_activeNodes.front();
+		}
+		m_activeNodes.clear();
 	}
 
 	// Repaint to make sure all artifacts are removed
 	view->update();
+
+	updateTrailButtons();
 }
 
 QtGraphicsView* QtGraphView::getView() const
@@ -317,7 +491,10 @@ void QtGraphView::doRebuildGraph(
 	}
 
 	m_nodes.clear();
-	m_activeNode.reset();
+	m_activeNodes.clear();
+	m_oldActiveNode.reset();
+	m_virtualNodeRects.clear();
+
 	for (unsigned int i = 0; i < nodes.size(); i++)
 	{
 		std::shared_ptr<QtGraphNode> node = createNodeRecursive(view, NULL, nodes[i].get(), activeNodeCount > 1);
@@ -327,14 +504,17 @@ void QtGraphView::doRebuildGraph(
 		}
 	}
 
-	QPointF center = itemsBoundingRect(m_nodes).center();
-	Vec2i o = GraphViewStyle::alignOnRaster(Vec2i(center.x(), center.y()));
-	QPointF offset = QPointF(o.x, o.y);
-	m_sceneRectOffset = offset - center;
-
-	for (const std::shared_ptr<QtGraphNode>& node : m_nodes)
+	if (graph->getTrailMode() == Graph::TRAIL_NONE)
 	{
-		node->setPos(node->pos() - offset);
+		QPointF center = itemsBoundingRect(m_nodes).center();
+		Vec2i o = GraphViewStyle::alignOnRaster(Vec2i(center.x(), center.y()));
+		QPointF offset = QPointF(o.x, o.y);
+		m_sceneRectOffset = offset - center;
+
+		for (const std::shared_ptr<QtGraphNode>& node : m_nodes)
+		{
+			node->setPos(node->pos() - offset);
+		}
 	}
 
 	m_edges.clear();
@@ -344,7 +524,7 @@ void QtGraphView::doRebuildGraph(
 	{
 		if (!edge->data || !edge->data->isType(Edge::EDGE_AGGREGATION))
 		{
-			createEdge(view, edge.get(), &visibleEdgeIds);
+			createEdge(view, edge.get(), &visibleEdgeIds, graph->getTrailMode());
 		}
 	}
 	for (std::shared_ptr<DummyEdge> edge : edges)
@@ -361,11 +541,7 @@ void QtGraphView::doRebuildGraph(
 		m_graph = graph;
 	}
 
-	if (!params.centerActiveNode)
-	{
-		m_activeNode.reset();
-	}
-
+	m_centerActiveNode = params.centerActiveNode;
 	m_scrollToTop = params.scrollToTop;
 	m_isIndexedList = params.isIndexedList;
 
@@ -381,6 +557,9 @@ void QtGraphView::doRebuildGraph(
 
 void QtGraphView::doClear()
 {
+	m_oldActiveNode.reset();
+	m_activeNodes.clear();
+
 	m_nodes.clear();
 	m_edges.clear();
 
@@ -481,9 +660,9 @@ std::shared_ptr<QtGraphNode> QtGraphView::createNodeRecursive(
 		newNode->addComponent(std::make_shared<QtGraphNodeComponentMoveable>(newNode));
 	}
 
-	if (node->active && !m_activeNode)
+	if (node->active)
 	{
-		m_activeNode = newNode;
+		m_activeNodes.push_back(newNode);
 	}
 
 	for (unsigned int i = 0; i < node->subNodes.size(); i++)
@@ -501,7 +680,7 @@ std::shared_ptr<QtGraphNode> QtGraphView::createNodeRecursive(
 }
 
 std::shared_ptr<QtGraphEdge> QtGraphView::createEdge(
-	QGraphicsView* view, const DummyEdge* edge, std::set<Id>* visibleEdgeIds)
+	QGraphicsView* view, const DummyEdge* edge, std::set<Id>* visibleEdgeIds, Graph::TrailMode trailMode)
 {
 	if (!edge->visible)
 	{
@@ -515,6 +694,19 @@ std::shared_ptr<QtGraphEdge> QtGraphView::createEdge(
 	{
 		std::shared_ptr<QtGraphEdge> qtEdge =
 			std::make_shared<QtGraphEdge>(owner, target, edge->data, edge->getWeight(), edge->active, edge->getDirection());
+
+		if (trailMode != Graph::TRAIL_NONE)
+		{
+			for (const Vec4i& rect : edge->path)
+			{
+				m_virtualNodeRects.push_back(QRectF(QPointF(rect.x(), rect.y()), QPointF(rect.z(), rect.w())));
+			}
+
+			qtEdge->setIsTrailEdge(edge->path, trailMode == Graph::TRAIL_HORIZONTAL);
+		}
+
+		qtEdge->updateLine();
+
 
 		owner->addOutEdge(qtEdge);
 		target->addInEdge(qtEdge);
@@ -558,7 +750,7 @@ std::shared_ptr<QtGraphEdge> QtGraphView::createAggregationEdge(
 		return NULL;
 	}
 
-	return createEdge(view, edge, visibleEdgeIds);
+	return createEdge(view, edge, visibleEdgeIds, Graph::TRAIL_NONE);
 }
 
 QRectF QtGraphView::itemsBoundingRect(const std::list<std::shared_ptr<QtGraphNode>>& items) const
@@ -573,7 +765,14 @@ QRectF QtGraphView::itemsBoundingRect(const std::list<std::shared_ptr<QtGraphNod
 
 QRectF QtGraphView::getSceneRect(const std::list<std::shared_ptr<QtGraphNode>>& items) const
 {
-	return itemsBoundingRect(items).adjusted(-25, -25, 25, 25).translated(m_sceneRectOffset);
+	QRectF sceneRect = itemsBoundingRect(items);
+
+	for (const QRectF& rect : m_virtualNodeRects)
+	{
+		sceneRect |= rect;
+	}
+
+	return sceneRect.adjusted(-25, -75, 25, 25).translated(m_sceneRectOffset);
 }
 
 void QtGraphView::compareNodesRecursive(
@@ -804,16 +1003,11 @@ void QtGraphView::doFocusOut(const std::vector<Id>& tokenIds)
 		if (node && node->isDataNode())
 		{
 			node->focusOut();
-			continue;
 		}
+	}
 
-		for (std::shared_ptr<QtGraphEdge> edge : m_oldEdges)
-		{
-			if (edge->getData() && edge->getData()->getId() == tokenId)
-			{
-				edge->focusOut();
-				break;
-			}
-		}
+	for (std::shared_ptr<QtGraphEdge> edge : m_oldEdges)
+	{
+		edge->focusOut();
 	}
 }

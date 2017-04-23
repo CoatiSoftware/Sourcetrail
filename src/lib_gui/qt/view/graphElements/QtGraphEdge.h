@@ -6,6 +6,7 @@
 #include <QGraphicsItem>
 
 #include "utility/math/Vector2.h"
+#include "utility/math/Vector4.h"
 
 #include "data/graph/token_component/TokenComponentAggregation.h"
 
@@ -47,6 +48,9 @@ public:
 
 	void setDirection(TokenComponentAggregation::Direction direction);
 
+	bool isTrailEdge() const;
+	void setIsTrailEdge(std::vector<Vec4i> path, bool horizontal);
+
 protected:
 	virtual void mousePressEvent(QGraphicsSceneMouseEvent* event);
 	virtual void mouseMoveEvent(QGraphicsSceneMouseEvent* event);
@@ -54,6 +58,9 @@ protected:
 
 	virtual void hoverEnterEvent(QGraphicsSceneHoverEvent* event);
 	virtual void hoverLeaveEvent(QGraphicsSceneHoverEvent* event);
+
+private slots:
+	void dispatchMessageFocusIn();
 
 private:
 	const Edge* m_data;
@@ -66,12 +73,21 @@ private:
 	bool m_isActive;
 	bool m_fromActive;
 	bool m_toActive;
+
+	bool m_isFocused;
+
 	size_t m_weight;
 
 	TokenComponentAggregation::Direction m_direction;
 
+	bool m_isTrailEdge;
+	bool m_isHorizontalTrail;
+	std::vector<Vec4i> m_path;
+
 	Vec2i m_mousePos;
 	bool m_mouseMoved;
+
+	bool m_willDispatchMessageFocusIn;
 };
 
 #endif // QT_GRAPH_EDGE_H

@@ -7,14 +7,19 @@
 #include <QPointF>
 
 #include "component/view/GraphView.h"
+#include "data/graph/Graph.h"
 #include "qt/utility/QtScrollSpeedChangeListener.h"
 #include "qt/utility/QtThreadedFunctor.h"
 #include "utility/types.h"
 
 struct DummyEdge;
 struct DummyNode;
+class MessageActivateTrail;
+class QLabel;
 class QMouseEvent;
+class QPushButton;
 class QSequentialAnimationGroup;
+class QSlider;
 class QtGraphEdge;
 class QtGraphicsView;
 class QtGraphNode;
@@ -57,7 +62,15 @@ private slots:
 	void pressedCharacterKey(QChar c);
 	void scrolled(int);
 
+	void trailDepthChanged(int);
+	void clickedBackwardTrail();
+	void clickedForwardTrail();
+
 private:
+	MessageActivateTrail getMessageActivateTrail(bool forward);
+	void activateTrail(bool forward);
+	void updateTrailButtons();
+
 	void switchToNewGraphData();
 
 	QtGraphicsView* getView() const;
@@ -78,7 +91,8 @@ private:
 
 	std::shared_ptr<QtGraphNode> createNodeRecursive(
 		QGraphicsView* view, std::shared_ptr<QtGraphNode> parentNode, const DummyNode* node, bool multipleActive);
-	std::shared_ptr<QtGraphEdge> createEdge(QGraphicsView* view, const DummyEdge* edge, std::set<Id>* visibleEdgeIds);
+	std::shared_ptr<QtGraphEdge> createEdge(
+		QGraphicsView* view, const DummyEdge* edge, std::set<Id>* visibleEdgeIds, Graph::TrailMode trailMode);
 	std::shared_ptr<QtGraphEdge> createAggregationEdge(
 		QGraphicsView* view, const DummyEdge* edge, std::set<Id>* visibleEdgeIds);
 
@@ -115,7 +129,10 @@ private:
 	std::list<std::shared_ptr<QtGraphNode>> m_nodes;
 	std::list<std::shared_ptr<QtGraphNode>> m_oldNodes;
 
-	std::shared_ptr<QtGraphNode> m_activeNode;
+	std::vector<std::shared_ptr<QtGraphNode>> m_activeNodes;
+	std::shared_ptr<QtGraphNode> m_oldActiveNode;
+
+	bool m_centerActiveNode;
 	bool m_scrollToTop;
 	bool m_restoreScroll;
 	Vec2i m_scrollValues;
@@ -126,6 +143,13 @@ private:
 
 	QtScrollSpeedChangeListener m_scrollSpeedChangeListenerHorizontal;
 	QtScrollSpeedChangeListener m_scrollSpeedChangeListenerVertical;
+
+	QPushButton* m_forwardTrailButton;
+	QPushButton* m_backwardTrailButton;
+	QSlider* m_trailDepthSlider;
+	QLabel* m_trailDepthLabel;
+
+	std::vector<QRectF> m_virtualNodeRects;
 };
 
 #endif // QT_GRAPH_VIEW_H

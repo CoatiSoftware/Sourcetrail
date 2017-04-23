@@ -77,6 +77,19 @@ void UndoRedoController::handleMessage(MessageActivateTokens* message)
 	processCommand(command);
 }
 
+void UndoRedoController::handleMessage(MessageActivateTrail* message)
+{
+	if (sameMessageTypeAsLast(message) &&
+		static_cast<MessageActivateTrail*>(lastMessage())->originId == message->originId &&
+		static_cast<MessageActivateTrail*>(lastMessage())->targetId == message->targetId)
+	{
+		return;
+	}
+
+	Command command(std::make_shared<MessageActivateTrail>(*message), Command::ORDER_ADAPT, true);
+	processCommand(command);
+}
+
 void UndoRedoController::handleMessage(MessageChangeFileView* message)
 {
 	Command command(std::make_shared<MessageChangeFileView>(*message), Command::ORDER_VIEW);
@@ -320,9 +333,21 @@ void UndoRedoController::replayCommands(std::list<Command>::iterator it)
 	std::vector<std::list<Command>::iterator> viewCommands;
 	bool keepsContent = true;
 
+	std::map<std::string, std::list<Command>::iterator> lastOfType;
+	std::list<Command>::iterator at = it;
+	while (at != m_iterator)
+	{
+		if (at->replayLastOnly)
+		{
+			lastOfType[at->message->getType()] = at;
+		}
+
+		std::advance(at, 1);
+	}
+
 	while (it != m_iterator)
 	{
-		if (it->order != Command::ORDER_VIEW || it->replayLastOnly == false)
+		if (!it->replayLastOnly || lastOfType[it->message->getType()] == it)
 		{
 			replayCommand(it);
 
@@ -330,13 +355,8 @@ void UndoRedoController::replayCommands(std::list<Command>::iterator it)
 			{
 				keepsContent = false;
 			}
-
-			if (it->order != Command::ORDER_VIEW)
-			{
-				viewCommands.clear();
-			}
 		}
-		else
+		else if (it->order == Command::ORDER_VIEW)
 		{
 			viewCommands.push_back(it);
 		}

@@ -11,6 +11,13 @@
 class Graph
 {
 public:
+	enum TrailMode
+	{
+		TRAIL_NONE,
+		TRAIL_HORIZONTAL,
+		TRAIL_VERTICAL
+	};
+
 	Graph();
 	virtual ~Graph();
 
@@ -49,6 +56,9 @@ public:
 
 	Token* getTokenById(Id id) const;
 
+	TrailMode getTrailMode() const;
+	void setTrailMode(TrailMode trailMode);
+
 	void print(std::ostream& ostream) const;
 	void printBasic(std::ostream& ostream) const;
 
@@ -60,6 +70,8 @@ private:
 
 	std::map<Id, std::shared_ptr<Node>> m_nodes;
 	std::map<Id, std::shared_ptr<Edge>> m_edges;
+
+	TrailMode m_trailMode;
 };
 
 std::ostream& operator<<(std::ostream& ostream, const Graph& graph);

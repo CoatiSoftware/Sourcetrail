@@ -9,6 +9,7 @@
 
 #include "component/controller/helper/BucketLayouter.h"
 #include "component/controller/helper/ListLayouter.h"
+#include "component/controller/helper/TrailLayouter.h"
 #include "component/view/GraphView.h"
 #include "component/view/GraphViewStyle.h"
 #include "data/access/StorageAccess.h"
@@ -42,7 +43,7 @@ void GraphController::handleMessage(MessageActivateAll* message)
 	assignBundleIds();
 	layoutGraph();
 
-	buildGraph(message, false);
+	buildGraph(message, false, true, false);
 }
 
 void GraphController::handleMessage(MessageActivateTokens* message)
@@ -53,7 +54,7 @@ void GraphController::handleMessage(MessageActivateTokens* message)
 	{
 		m_activeEdgeIds = message->tokenIds;
 		setActiveAndVisibility(utility::concat(m_activeNodeIds, m_activeEdgeIds));
-		buildGraph(message, false, false);
+		buildGraph(message, false, false, false);
 		return;
 	}
 	else if (message->isAggregation)
@@ -101,9 +102,55 @@ void GraphController::handleMessage(MessageActivateTokens* message)
 	buildGraph(message, !isNamespace, true, isNamespace);
 }
 
+void GraphController::handleMessage(MessageActivateTrail* message)
+{
+	TRACE("trail activate");
+
+	m_activeEdgeIds.clear();
+
+	std::shared_ptr<Graph> graph = m_storageAccess->getGraphForTrail(
+		message->originId, message->targetId, message->trailType, message->depth);
+
+	createDummyGraphForTokenIds(m_activeNodeIds, graph);
+	m_graph->setTrailMode(message->horizontalLayout ? Graph::TRAIL_HORIZONTAL : Graph::TRAIL_VERTICAL);
+
+	setVisibility(setActive(m_activeNodeIds, true));
+
+	layoutNesting();
+
+	TrailLayouter::LayoutDirection direction;
+	if (message->horizontalLayout)
+	{
+		if (message->originId)
+		{
+			direction = TrailLayouter::LAYOUT_LEFT_RIGHT;
+		}
+		else
+		{
+			direction = TrailLayouter::LAYOUT_RIGHT_LEFT;
+		}
+	}
+	else
+	{
+		if (message->originId)
+		{
+			direction = TrailLayouter::LAYOUT_TOP_BOTTOM;
+		}
+		else
+		{
+			direction = TrailLayouter::LAYOUT_BOTTOM_TOP;
+		}
+	}
+
+	TrailLayouter layout(direction);
+	layout.layoutGraph(m_dummyNodes, m_dummyEdges, m_topLevelAncestorIds);
+
+	buildGraph(message, true, true, false);
+}
+
 void GraphController::handleMessage(MessageFlushUpdates* message)
 {
-	buildGraph(message, true, !message->keepContent());
+	buildGraph(message, true, !message->keepContent(), false);
 }
 
 void GraphController::handleMessage(MessageScrollGraph* message)
@@ -228,7 +275,7 @@ void GraphController::handleMessage(MessageGraphNodeExpand* message)
 		layoutNesting();
 		layoutGraph();
 
-		buildGraph(message, false);
+		buildGraph(message, false, true, false);
 	}
 }
 
@@ -241,7 +288,7 @@ void GraphController::handleMessage(MessageGraphNodeMove* message)
 
 		if (message->isReplayed())
 		{
-			buildGraph(message, false);
+			buildGraph(message, false, true, false);
 		}
 		else
 		{
@@ -264,7 +311,7 @@ void GraphController::handleMessage(MessageShowReference* message)
 
 	m_activeEdgeIds = std::vector<Id>(1, message->tokenId);
 	setActiveAndVisibility(utility::concat(m_activeNodeIds, m_activeEdgeIds));
-	buildGraph(message, false, false);
+	buildGraph(message, false, false, false);
 }
 
 GraphView* GraphController::getView() const
@@ -300,6 +347,7 @@ void GraphController::createDummyGraphForTokenIds(const std::vector<Id>& tokenId
 
 	m_dummyEdges.clear();
 	m_dummyGraphNodes.clear();
+	m_topLevelAncestorIds.clear();
 
 	std::set<Id> addedNodes;
 	std::vector<std::shared_ptr<DummyNode>> dummyNodes;
@@ -308,14 +356,14 @@ void GraphController::createDummyGraphForTokenIds(const std::vector<Id>& tokenId
 		[&addedNodes, &dummyNodes, this](Node* node)
 		{
 			Node* parent = node->getLastParentNode();
-			Id id = parent->getId();
-			if (addedNodes.find(id) != addedNodes.end())
+			Id parentId = parent->getId();
+			if (addedNodes.find(parentId) != addedNodes.end())
 			{
 				return;
 			}
-			addedNodes.insert(id);
+			addedNodes.insert(parentId);
 
-			utility::append(dummyNodes, createDummyNodeTopDown(parent));
+			utility::append(dummyNodes, createDummyNodeTopDown(parent, parentId));
 		}
 	);
 
@@ -370,7 +418,7 @@ void GraphController::createDummyGraphForTokenIdsAndSetActiveAndVisibility(
 
 	createDummyGraphForTokenIds(tokenIds, graph);
 
-	bool noActive = setActive(tokenIds);
+	bool noActive = setActive(tokenIds, false);
 
 	autoExpandActiveNode(tokenIds);
 	setExpandedNodeIds(expandedNodeIds);
@@ -378,14 +426,16 @@ void GraphController::createDummyGraphForTokenIdsAndSetActiveAndVisibility(
 	setVisibility(noActive);
 }
 
-std::vector<std::shared_ptr<DummyNode>> GraphController::createDummyNodeTopDown(Node* node)
+std::vector<std::shared_ptr<DummyNode>> GraphController::createDummyNodeTopDown(Node* node, Id ancestorId)
 {
 	std::vector<std::shared_ptr<DummyNode>> nodes;
 
 	std::shared_ptr<DummyNode> result = std::make_shared<DummyNode>();
 	result->data = node;
-	result->tokenId = node->getId();
 	result->name = node->getName();
+
+	result->tokenId = node->getId();
+	m_topLevelAncestorIds.emplace(node->getId(), ancestorId);
 
 	m_dummyGraphNodes.emplace(result->data->getId(), result);
 	nodes.push_back(result);
@@ -393,9 +443,9 @@ std::vector<std::shared_ptr<DummyNode>> GraphController::createDummyNodeTopDown(
 	if (node->isType(Node::NODE_NAMESPACE))
 	{
 		node->forEachChildNode(
-			[&nodes, this](Node* child)
+			[&nodes, &ancestorId, this](Node* child)
 			{
-				utility::append(nodes, createDummyNodeTopDown(child));
+				utility::append(nodes, createDummyNodeTopDown(child, ancestorId));
 			}
 		);
 
@@ -403,7 +453,7 @@ std::vector<std::shared_ptr<DummyNode>> GraphController::createDummyNodeTopDown(
 	}
 
 	node->forEachChildNode(
-		[node, &result, this](Node* child)
+		[node, &result, &ancestorId, this](Node* child)
 		{
 			DummyNode* parent = nullptr;
 			AccessKind accessKind = ACCESS_NONE;
@@ -432,7 +482,7 @@ std::vector<std::shared_ptr<DummyNode>> GraphController::createDummyNodeTopDown(
 				parent = accessNode.get();
 			}
 
-			utility::append(parent->subNodes, createDummyNodeTopDown(child));
+			utility::append(parent->subNodes, createDummyNodeTopDown(child, ancestorId));
 		}
 	);
 
@@ -482,7 +532,7 @@ void GraphController::autoExpandActiveNode(const std::vector<Id>& activeTokenIds
 	}
 }
 
-bool GraphController::setActive(const std::vector<Id>& activeTokenIds)
+bool GraphController::setActive(const std::vector<Id>& activeTokenIds, bool showAllEdges)
 {
 	TRACE();
 
@@ -513,7 +563,7 @@ bool GraphController::setActive(const std::vector<Id>& activeTokenIds)
 		DummyNode* from = getDummyGraphNodeById(edge->ownerId);
 		DummyNode* to = getDummyGraphNodeById(edge->targetId);
 
-		if (from && to && (noActive || from->active || to->active || edge->active))
+		if (from && to && (showAllEdges || noActive || from->active || to->active || edge->active))
 		{
 			edge->visible = true;
 			from->connected = true;
@@ -540,7 +590,7 @@ void GraphController::setActiveAndVisibility(const std::vector<Id>& activeTokenI
 {
 	TRACE();
 
-	setVisibility(setActive(activeTokenIds));
+	setVisibility(setActive(activeTokenIds, false));
 }
 
 void GraphController::setNodeActiveRecursive(DummyNode* node, const std::vector<Id>& activeTokenIds, bool* noActive) const
@@ -1468,7 +1518,8 @@ DummyNode* GraphController::getDummyGraphNodeById(Id tokenId) const
 	return nullptr;
 }
 
-void GraphController::buildGraph(MessageBase* message, bool centerActiveNode, bool animatedTransition, bool scrollToTop)
+void GraphController::buildGraph(
+	MessageBase* message, bool centerActiveNode, bool animatedTransition, bool scrollToTop)
 {
 	if (!message->isReplayed())
 	{
@@ -1742,7 +1793,7 @@ void GraphController::handleMessage(MessageColorSchemeTest* message)
 		}
 	);
 
-	setActive(activeTokenIds);
+	setActive(activeTokenIds, true);
 
 	layoutNesting();
 
@@ -1758,7 +1809,7 @@ void GraphController::handleMessage(MessageColorSchemeTest* message)
 	grid.createBuckets(m_dummyNodes, std::vector<std::shared_ptr<DummyEdge>>());
 	grid.layoutBuckets();
 
-	buildGraph(message, false);
+	buildGraph(message, false, true, false);
 
 	getView()->focusTokenIds(focusedTokenIds);
 }

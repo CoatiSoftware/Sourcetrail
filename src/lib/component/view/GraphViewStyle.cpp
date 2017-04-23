@@ -99,7 +99,6 @@ GraphViewStyle::NodeStyle::NodeStyle()
 GraphViewStyle::EdgeStyle::EdgeStyle()
 	: width(0)
 	, zValue(0)
-	, isStraight(false)
 	, arrowLength(0)
 	, arrowWidth(0)
 	, arrowClosed(false)
@@ -550,7 +549,8 @@ GraphViewStyle::NodeStyle GraphViewStyle::getStyleOfTextNode()
 	return style;
 }
 
-GraphViewStyle::EdgeStyle GraphViewStyle::getStyleForEdgeType(Edge::EdgeType type, bool isActive, bool isFocused)
+GraphViewStyle::EdgeStyle GraphViewStyle::getStyleForEdgeType(
+	Edge::EdgeType type, bool isActive, bool isFocused, bool isTrailEdge)
 {
 	EdgeStyle style;
 
@@ -588,6 +588,13 @@ GraphViewStyle::EdgeStyle GraphViewStyle::getStyleForEdgeType(Edge::EdgeType typ
 		style.originOffset.y = 1;
 		style.targetOffset.y = -1;
 		style.verticalOffset = 4;
+
+		if (isTrailEdge && isActive)
+		{
+			style.width = 3;
+			style.color = ColorScheme::getInstance()->getColor(
+				"graph/edge/" + Edge::getUnderscoredTypeString(type) + "/trail_focus", style.color);
+		}
 		break;
 	case Edge::EDGE_USAGE:
 		style.originOffset.y = 3;
@@ -603,6 +610,11 @@ GraphViewStyle::EdgeStyle GraphViewStyle::getStyleForEdgeType(Edge::EdgeType typ
 		break;
 	default:
 		break;
+	}
+
+	if (isTrailEdge)
+	{
+		style.zValue = isActive ? 5 : 2;
 	}
 
 	return style;

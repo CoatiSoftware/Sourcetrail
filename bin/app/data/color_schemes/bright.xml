@@ -371,6 +371,7 @@
 
 			<call>
 				<normal>#F4BC3D</normal>
+				<trail_focus>#878787</trail_focus>
 			</call>
 
 			<use>

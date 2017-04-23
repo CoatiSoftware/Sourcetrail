@@ -374,6 +374,7 @@
 
 			<call>
 				<normal>#9C8528</normal>
+				<trail_focus>#F7F7F7</trail_focus>
 			</call>
 
 			<use>

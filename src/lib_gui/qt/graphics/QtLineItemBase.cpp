@@ -1,30 +1,25 @@
-#include "qt/graphics/QtAngledLineItem.h"
+#include "qt/graphics/QtLineItemBase.h"
 
-#include <cmath>
+#include <QBrush>
+#include <QPen>
 
-#include <QPainter>
-#include <QStyleOptionGraphicsItem>
-
-#include "utility/math/Vector2.h"
-
-QtAngledLineItem::QtAngledLineItem(QGraphicsItem* parent)
+QtLineItemBase::QtLineItemBase(QGraphicsItem* parent)
 	: QGraphicsLineItem(parent)
-	, m_route(ROUTE_ANY)
-	, m_pivot(PIVOT_THIRD)
+	, m_showArrow(true)
 	, m_onFront(false)
 	, m_onBack(false)
 	, m_horizontalIn(false)
-	, m_showArrow(true)
+	, m_route(ROUTE_ANY)
+	, m_pivot(PIVOT_THIRD)
 {
 	this->setAcceptHoverEvents(true);
-	this->setFlag(QGraphicsItem::ItemUsesExtendedStyleOption, true);
 }
 
-QtAngledLineItem::~QtAngledLineItem()
+QtLineItemBase::~QtLineItemBase()
 {
 }
 
-void QtAngledLineItem::updateLine(
+void QtLineItemBase::updateLine(
 	Vec4i ownerRect, Vec4i targetRect,
 	Vec4i ownerParentRect, Vec4i targetParentRect,
 	GraphViewStyle::EdgeStyle style,
@@ -49,197 +44,32 @@ void QtAngledLineItem::updateLine(
 	this->setPen(QPen(QBrush(style.color.c_str()), style.width + int(log10(weight)), Qt::SolidLine, Qt::RoundCap));
 }
 
-void QtAngledLineItem::setRoute(Route route)
+void QtLineItemBase::setRoute(Route route)
 {
 	m_route = route;
 }
 
-void QtAngledLineItem::setPivot(Pivot pivot)
+void QtLineItemBase::setPivot(Pivot pivot)
 {
 	m_pivot = pivot;
 }
 
-void QtAngledLineItem::setOnFront(bool front)
+void QtLineItemBase::setOnFront(bool front)
 {
 	m_onFront = front;
 }
 
-void QtAngledLineItem::setOnBack(bool back)
+void QtLineItemBase::setOnBack(bool back)
 {
 	m_onBack = back;
 }
 
-void QtAngledLineItem::setHorizontalIn(bool horizontal)
+void QtLineItemBase::setHorizontalIn(bool horizontal)
 {
 	m_horizontalIn = horizontal;
 }
 
-QPainterPath QtAngledLineItem::shape() const
-{
-	QPainterPath path;
-	QPolygon poly = getPath();
-
-	for (int i = 0; i < poly.size() - 1; i++)
-	{
-		path.addRect(QRectF(poly.at(i), poly.at(i + 1)).normalized().adjusted(-3, -3, 3, 3));
-	}
-
-	path.addRect(getArrowBoundingRect(poly).adjusted(-3, -3, 3, 3));
-
-	return path;
-}
-
-void QtAngledLineItem::paint(QPainter* painter, const QStyleOptionGraphicsItem* options, QWidget* widget)
-{
-	painter->setPen(pen());
-
-	QPainterPath path;
-
-	QPolygon poly = getPath();
-	int i = poly.length() - 1;
-
-	path.moveTo(poly.at(i));
-
-
-	// while (i > 0)
-	// {
-	// 	i--;
-
-	// 	path.lineTo(poly.at(i));
-	// }
-	// painter->drawPath(path);
-	// return;
-
-
-	QRectF drawRect = options->exposedRect;
-	QRectF partRect;
-
-	int radius = m_style.cornerRadius;
-	int dir = getDirection(poly.at(i), poly.at(i - 1));
-	while (i > 1)
-	{
-		i--;
-
-		QPointF a = poly.at(i);
-		QPointF b = poly.at(i - 1);
-
-		int newDir = getDirection(a, b);
-		int ar = radius;
-		int br = m_style.cornerRadius;
-
-		if (i != 1)
-		{
-			if (dir % 2 == 1 && std::abs(a.y() - b.y()) < 2 * br)
-			{
-				br = std::abs(a.y() - b.y()) / 2;
-			}
-			else if (dir % 2 == 0 && std::abs(a.x() - b.x()) < 2 * br)
-			{
-				br = std::abs(a.x() - b.x()) / 2;
-			}
-		}
-
-		switch (dir)
-		{
-		case 0: a.setY(a.y() + ar); break;
-		case 1: a.setX(a.x() - ar); break;
-		case 2: a.setY(a.y() - ar); break;
-		case 3: a.setX(a.x() + ar); break;
-		}
-
-		b = poly.at(i);
-		switch (newDir)
-		{
-		case 0: b.setY(b.y() - br); break;
-		case 1: b.setX(b.x() + br); break;
-		case 2: b.setY(b.y() + br); break;
-		case 3: b.setX(b.x() - br); break;
-		}
-
-		partRect = QRectF(poly.at(i + 1), poly.at(i)).adjusted(-1, -1, 1, 1);
-		if (drawRect.intersects(partRect))
-		{
-			path.lineTo(a);
-		}
-		else
-		{
-			path.moveTo(a);
-		}
-
-		partRect = QRectF(a, b).normalized().adjusted(-1, -1, 1, 1);
-		if (drawRect.intersects(partRect))
-		{
-			switch (dir)
-			{
-			case 0:
-				if (newDir == 1)
-				{
-					path.arcTo(a.x(), b.y(), 2 * br, 2 * ar, 180, -90);
-				}
-				else if (newDir == 3)
-				{
-					path.arcTo(b.x() - br, a.y() - ar, 2 * br, 2 * ar, 0, 90);
-				}
-				break;
-			case 1:
-				if (newDir == 0)
-				{
-					path.arcTo(a.x() - ar, b.y() - br, 2 * ar, 2 * br, -90, 90);
-				}
-				else if (newDir == 2)
-				{
-					path.arcTo(a.x() - ar, a.y(), 2 * ar, 2 * br, 90, -90);
-				}
-				break;
-			case 2:
-				if (newDir == 1)
-				{
-					path.arcTo(a.x(), a.y() - ar, 2 * br, 2 * ar, 180, 90);
-				}
-				else if (newDir == 3)
-				{
-					path.arcTo(b.x() - br, a.y() - ar, 2 * br, 2 * ar, 0, -90);
-				}
-				break;
-			case 3:
-				if (newDir == 0)
-				{
-					path.arcTo(b.x(), b.y() - br, 2 * ar, 2 * br, -90, -90);
-				}
-				else if (newDir == 2)
-				{
-					path.arcTo(b.x(), a.y(), 2 * ar, 2 * br, 90, 90);
-				}
-				break;
-			}
-		}
-		else
-		{
-			path.moveTo(b);
-		}
-
-		dir = newDir;
-		radius = br;
-	}
-
-	partRect = QRectF(poly.at(0), poly.at(1)).adjusted(-1, -1, 1, 1);
-	if (drawRect.intersects(partRect))
-	{
-		partRect = getArrowBoundingRect(poly);
-		if (drawRect.intersects(partRect) && m_showArrow)
-		{
-			drawArrow(poly, &path);
-		}
-		else
-		{
-			path.lineTo(poly.at(0));
-		}
-	}
-
-	painter->drawPath(path);
-}
-
-QPolygon QtAngledLineItem::getPath() const
+QPolygon QtLineItemBase::getPath() const
 {
 	if (m_polygon.size() > 0)
 	{
@@ -448,7 +278,7 @@ QPolygon QtAngledLineItem::getPath() const
 	return poly;
 }
 
-int QtAngledLineItem::getDirection(const QPointF& a, const QPointF& b) const
+int QtLineItemBase::getDirection(const QPointF& a, const QPointF& b) const
 {
 	if (a.x() != b.x())
 	{
@@ -474,7 +304,7 @@ int QtAngledLineItem::getDirection(const QPointF& a, const QPointF& b) const
 	}
 }
 
-QRectF QtAngledLineItem::getArrowBoundingRect(const QPolygon& poly) const
+QRectF QtLineItemBase::getArrowBoundingRect(const QPolygon& poly) const
 {
 	int dir = getDirection(poly.at(1), poly.at(0));
 
@@ -506,7 +336,7 @@ QRectF QtAngledLineItem::getArrowBoundingRect(const QPolygon& poly) const
 	return rect;
 }
 
-void QtAngledLineItem::drawArrow(const QPolygon& poly, QPainterPath* path) const
+void QtLineItemBase::drawArrow(const QPolygon& poly, QPainterPath* path) const
 {
 	int dir = getDirection(poly.at(1), poly.at(0));
 
@@ -559,7 +389,7 @@ void QtAngledLineItem::drawArrow(const QPolygon& poly, QPainterPath* path) const
 	path->lineTo(tip);
 }
 
-void QtAngledLineItem::getPivotPoints(Vec2f* p, const Vec4i& in, const Vec4i& out, int offset, bool target) const
+void QtLineItemBase::getPivotPoints(Vec2f* p, const Vec4i& in, const Vec4i& out, int offset, bool target) const
 {
 	float f = m_pivot == PIVOT_THIRD ? (target ? 2 / 3.f : 1 / 3.f) : 1 / 2.f;
 

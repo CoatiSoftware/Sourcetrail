@@ -1,6 +1,8 @@
 #ifndef QT_GRAPH_NODE_H
 #define QT_GRAPH_NODE_H
 
+#include <functional>
+
 #include <QGraphicsItem>
 
 #include "utility/math/Vector4.h"
@@ -92,6 +94,8 @@ protected:
 	virtual void mousePressEvent(QGraphicsSceneMouseEvent* event);
 	virtual void mouseMoveEvent(QGraphicsSceneMouseEvent* event);
 	virtual void mouseReleaseEvent(QGraphicsSceneMouseEvent* event);
+
+	void forEachEdge(std::function<void(QtGraphEdge*)> func);
 
 	void notifyEdgesAfterMove();
 

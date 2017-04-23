@@ -1,12 +1,14 @@
 #include "qt/view/graphElements/QtGraphEdge.h"
 
 #include <QGraphicsSceneEvent>
+#include <QTimer>
 
 #include "component/view/GraphViewStyle.h"
 #include "data/graph/Edge.h"
 #include "data/graph/token_component/TokenComponentAggregation.h"
-#include "qt/graphics/QtAngledLineItem.h"
-#include "qt/graphics/QtStraightLineItem.h"
+#include "qt/graphics/QtLineItemAngled.h"
+#include "qt/graphics/QtLineItemBezier.h"
+#include "qt/graphics/QtLineItemStraight.h"
 #include "qt/view/graphElements/QtGraphNode.h"
 #include "utility/messaging/type/MessageActivateEdge.h"
 #include "utility/messaging/type/MessageFocusIn.h"
@@ -30,10 +32,14 @@ QtGraphEdge::QtGraphEdge(
 	, m_isActive(isActive)
 	, m_fromActive(false)
 	, m_toActive(false)
+	, m_isFocused(false)
 	, m_weight(weight)
 	, m_direction(direction)
+	, m_isTrailEdge(false)
+	, m_isHorizontalTrail(false)
 	, m_mousePos(0.0f, 0.0f)
 	, m_mouseMoved(false)
+	, m_willDispatchMessageFocusIn(false)
 {
 	if (m_direction == TokenComponentAggregation::DIRECTION_BACKWARD)
 	{
@@ -42,8 +48,6 @@ QtGraphEdge::QtGraphEdge(
 
 	m_fromActive = m_owner.lock()->getIsActive();
 	m_toActive = m_target.lock()->getIsActive();
-
-	this->updateLine();
 }
 
 QtGraphEdge::~QtGraphEdge()
@@ -86,30 +90,95 @@ void QtGraphEdge::updateLine()
 		type = Edge::EDGE_AGGREGATION;
 	}
 
-	GraphViewStyle::EdgeStyle style = GraphViewStyle::getStyleForEdgeType(type, m_isActive, false);
+	QString toolTip = Edge::getReadableTypeString(type).c_str();
+	if (type == Edge::EDGE_AGGREGATION)
+	{
+		toolTip += ": " + QString::number(m_weight) + " edge";
+		if (m_weight != 1)
+		{
+			toolTip += "s";
+		}
+	}
 
-	if (style.isStraight)
+	GraphViewStyle::EdgeStyle style = GraphViewStyle::getStyleForEdgeType(type, m_isActive | m_isFocused, false, m_isTrailEdge);
+
+	if (m_isTrailEdge)
 	{
 		if (!m_child)
 		{
-			m_child = new QtStraightLineItem(this);
+			m_child = new QGraphicsLineItem(this);
+		}
+		else
+		{
+			for (QGraphicsItem* item : m_child->childItems())
+			{
+				item->hide();
+				item->setParentItem(nullptr);
+			}
+		}
+
+		style.originOffset.y() = 0;
+		style.targetOffset.y() = 0;
+
+		Vec4i ownerRect = owner->getBoundingRect();
+		Vec4i ownerParentRect = owner->getParentBoundingRect();
+
+		QtLineItemBase::Route route =
+			m_isHorizontalTrail ? QtLineItemBase::ROUTE_HORIZONTAL : QtLineItemBase::ROUTE_VERTICAL;
+
+		for (const Vec4i& rect : m_path)
+		{
+			QtLineItemBezier* bezier = new QtLineItemBezier(m_child);
+			bezier->updateLine(ownerRect, rect, ownerParentRect, rect, style, m_weight, false);
+			bezier->setRoute(route);
+			bezier->setPivot(QtLineItemBase::PIVOT_MIDDLE);
+			bezier->setToolTip(toolTip);
+
+			QtLineItemStraight* line = new QtLineItemStraight(m_child);
+			line->setToolTip(toolTip);
+			if (route == QtLineItemBase::ROUTE_HORIZONTAL)
+			{
+				line->updateLine(Vec2i(rect.x(), (rect.y() + rect.w()) / 2), Vec2i(rect.z(), (rect.y() + rect.w()) / 2), style);
+			}
+			else
+			{
+				line->updateLine(Vec2i((rect.x() + rect.z()) / 2, rect.y()), Vec2i((rect.x() + rect.z()) / 2, rect.w()), style);
+			}
+
+			ownerRect = rect;
+			ownerParentRect = rect;
 		}
 
 		bool showArrow = m_direction != TokenComponentAggregation::DIRECTION_NONE;
 
-		GraphViewStyle::NodeStyle countStyle = GraphViewStyle::getStyleOfCountCircle();
+		QtLineItemBezier* bezier = new QtLineItemBezier(m_child);
+		bezier->updateLine(
+			ownerRect, target->getBoundingRect(), ownerParentRect, target->getParentBoundingRect(),
+			style, m_weight, showArrow);
+		bezier->setRoute(route);
+		bezier->setPivot(QtLineItemBase::PIVOT_MIDDLE);
+		bezier->setToolTip(toolTip);
 
-		dynamic_cast<QtStraightLineItem*>(m_child)->updateLine(
-			owner->getBoundingRect(), target->getBoundingRect(), m_weight, style, countStyle, showArrow);
+		if (owner->getLastParent() == target->getLastParent())
+		{
+			if (ownerRect.y() < target->getBoundingRect().y())
+			{
+				bezier->setOnBack(true);
+			}
+			else
+			{
+				bezier->setOnFront(true);
+			}
+		}
 	}
 	else
 	{
 		if (!m_child)
 		{
-			m_child = new QtAngledLineItem(this);
+			m_child = new QtLineItemAngled(this);
 		}
 
-		QtAngledLineItem* child = dynamic_cast<QtAngledLineItem*>(m_child);
+		QtLineItemAngled* child = dynamic_cast<QtLineItemAngled*>(m_child);
 
 		if (m_fromActive && owner->getLastParent() == target->getLastParent())
 		{
@@ -130,13 +199,13 @@ void QtGraphEdge::updateLine()
 			(type != Edge::EDGE_AGGREGATION ||
 				owner.get() != owner->getLastParent() || target.get() != target->getLastParent()))
 		{
-			child->setRoute(QtAngledLineItem::ROUTE_HORIZONTAL);
+			child->setRoute(QtLineItemBase::ROUTE_HORIZONTAL);
 		}
 
 		bool showArrow = true;
 		if (type == Edge::EDGE_AGGREGATION)
 		{
-			child->setPivot(QtAngledLineItem::PIVOT_MIDDLE);
+			child->setPivot(QtLineItemBase::PIVOT_MIDDLE);
 
 			showArrow = m_direction != TokenComponentAggregation::DIRECTION_NONE;
 		}
@@ -145,20 +214,11 @@ void QtGraphEdge::updateLine()
 			owner->getBoundingRect(), target->getBoundingRect(),
 			owner->getParentBoundingRect(), target->getParentBoundingRect(),
 			style, m_weight, showArrow);
+
+		child->setToolTip(toolTip);
 	}
 
-	QString toolTip = Edge::getReadableTypeString(type).c_str();
-	if (type == Edge::EDGE_AGGREGATION)
-	{
-		toolTip += ": " + QString::number(m_weight) + " edge";
-		if (m_weight != 1)
-		{
-			toolTip += "s";
-		}
-	}
-	m_child->setToolTip(toolTip);
-
-	this->setZValue(style.zValue); // Used to draw edges always on top of nodes.
+	this->setZValue(style.zValue);
 }
 
 bool QtGraphEdge::getIsActive() const
@@ -177,6 +237,12 @@ void QtGraphEdge::setIsActive(bool isActive)
 
 void QtGraphEdge::onClick()
 {
+	if (isTrailEdge())
+	{
+		setIsActive(!getIsActive());
+		return;
+	}
+
 	if (!getData())
 	{
 		std::weak_ptr<QtGraphNode> node =
@@ -204,14 +270,20 @@ void QtGraphEdge::onClick()
 
 void QtGraphEdge::focusIn()
 {
-	bool isActive = m_isActive;
-	this->setIsActive(true);
-	m_isActive = isActive;
+	if (!m_isFocused)
+	{
+		m_isFocused = true;
+		updateLine();
+	}
 }
 
 void QtGraphEdge::focusOut()
 {
-	updateLine();
+	if (m_isFocused)
+	{
+		m_isFocused = false;
+		updateLine();
+	}
 }
 
 void QtGraphEdge::mousePressEvent(QGraphicsSceneMouseEvent* event)
@@ -246,7 +318,11 @@ void QtGraphEdge::hoverEnterEvent(QGraphicsSceneHoverEvent* event)
 		return;
 	}
 
-	MessageFocusIn(std::vector<Id>(1, getData()->getId())).dispatch();
+	if (!m_willDispatchMessageFocusIn)
+	{
+		QTimer::singleShot(50, this, SLOT(dispatchMessageFocusIn()));
+		m_willDispatchMessageFocusIn = true;
+	}
 }
 
 void QtGraphEdge::hoverLeaveEvent(QGraphicsSceneHoverEvent* event)
@@ -257,7 +333,22 @@ void QtGraphEdge::hoverLeaveEvent(QGraphicsSceneHoverEvent* event)
 		return;
 	}
 
+	if (m_willDispatchMessageFocusIn)
+	{
+		m_willDispatchMessageFocusIn = false;
+		return;
+	}
+
 	MessageFocusOut(std::vector<Id>(1, getData()->getId())).dispatch();
+}
+
+void QtGraphEdge::dispatchMessageFocusIn()
+{
+	if (m_willDispatchMessageFocusIn)
+	{
+		m_willDispatchMessageFocusIn = false;
+		MessageFocusIn(std::vector<Id>(1, getData()->getId())).dispatch();
+	}
 }
 
 void QtGraphEdge::setDirection(TokenComponentAggregation::Direction direction)
@@ -267,4 +358,16 @@ void QtGraphEdge::setDirection(TokenComponentAggregation::Direction direction)
 		m_direction = direction;
 		updateLine();
 	}
+}
+
+bool QtGraphEdge::isTrailEdge() const
+{
+	return m_isTrailEdge;
+}
+
+void QtGraphEdge::setIsTrailEdge(std::vector<Vec4i> path, bool horizontal)
+{
+	m_path = path;
+	m_isTrailEdge = true;
+	m_isHorizontalTrail = horizontal;
 }

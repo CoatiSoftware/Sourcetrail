@@ -1,5 +1,5 @@
-#ifndef QT_ANGLED_LINE_ITEM_H
-#define QT_ANGLED_LINE_ITEM_H
+#ifndef QT_LINE_ITEM_BASE_H
+#define QT_LINE_ITEM_BASE_H
 
 #include <QGraphicsItem>
 
@@ -7,7 +7,7 @@
 
 #include "component/view/GraphViewStyle.h"
 
-class QtAngledLineItem
+class QtLineItemBase
 	: public QGraphicsLineItem
 {
 public:
@@ -24,8 +24,8 @@ public:
 		PIVOT_MIDDLE
 	};
 
-	QtAngledLineItem(QGraphicsItem* parent);
-	virtual ~QtAngledLineItem();
+	QtLineItemBase(QGraphicsItem* parent);
+	virtual ~QtLineItemBase();
 
 	void updateLine(
 		Vec4i ownerRect, Vec4i targetRect,
@@ -40,10 +40,7 @@ public:
 	void setOnBack(bool back);
 	void setHorizontalIn(bool horizontal);
 
-	virtual QPainterPath shape() const;
-	virtual void paint(QPainter* painter, const QStyleOptionGraphicsItem* options, QWidget* widget);
-
-private:
+protected:
 	QPolygon getPath() const;
 	int getDirection(const QPointF& a, const QPointF& b) const;
 
@@ -52,23 +49,24 @@ private:
 
 	void getPivotPoints(Vec2f* p, const Vec4i& in, const Vec4i& out, int offset, bool target) const;
 
+	GraphViewStyle::EdgeStyle m_style;
+	bool m_showArrow;
+
+	bool m_onFront;
+	bool m_onBack;
+	bool m_horizontalIn;
+
+	Route m_route;
+	Pivot m_pivot;
+
+private:
 	Vec4i m_ownerRect;
 	Vec4i m_targetRect;
 
 	Vec4i m_ownerParentRect;
 	Vec4i m_targetParentRect;
 
-	GraphViewStyle::EdgeStyle m_style;
-
-	Route m_route;
-	Pivot m_pivot;
-
-	bool m_onFront;
-	bool m_onBack;
-	bool m_horizontalIn;
-	bool m_showArrow;
-
 	mutable QPolygon m_polygon;
 };
 
-#endif // QT_ANGLED_LINE_ITEM_H
+#endif // QT_LINE_ITEM_BASE_H

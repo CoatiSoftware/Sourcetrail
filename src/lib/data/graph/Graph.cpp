@@ -3,6 +3,7 @@
 #include "utility/logging/logging.h"
 
 Graph::Graph()
+	: m_trailMode(TRAIL_NONE)
 {
 }
 
@@ -283,6 +284,16 @@ Token* Graph::getTokenById(Id id) const
 		token = getEdgeById(id);
 	}
 	return token;
+}
+
+Graph::TrailMode Graph::getTrailMode() const
+{
+	return m_trailMode;
+}
+
+void Graph::setTrailMode(TrailMode trailMode)
+{
+	m_trailMode = trailMode;
 }
 
 void Graph::print(std::ostream& ostream) const

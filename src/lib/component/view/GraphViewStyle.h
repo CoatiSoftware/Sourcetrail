@@ -80,8 +80,6 @@ public:
 		float width;
 		int zValue;
 
-		bool isStraight;
-
 		int arrowLength;
 		int arrowWidth;
 		bool arrowClosed;
@@ -128,7 +126,7 @@ public:
 	static NodeStyle getStyleOfQualifier();
 	static NodeStyle getStyleOfTextNode();
 
-	static EdgeStyle getStyleForEdgeType(Edge::EdgeType type, bool isActive, bool isFocused);
+	static EdgeStyle getStyleForEdgeType(Edge::EdgeType type, bool isActive, bool isFocused, bool isTrailEdge);
 
 	static int toGridOffset(int x);
 	static int toGridSize(int x);
