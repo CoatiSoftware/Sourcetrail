@@ -93,15 +93,6 @@ Node::NodeType StorageAccessProxy::getNodeTypeForNodeWithId(Id id) const
 	return Node::NODE_NON_INDEXED;
 }
 
-bool StorageAccessProxy::checkNodeExistsByName(const std::string& serializedName) const
-{
-	if (hasSubject())
-	{
-		return m_subject->checkNodeExistsByName(serializedName);
-	}
-	return false;
-}
-
 Id StorageAccessProxy::getIdForEdge(
 	Edge::EdgeType type, const NameHierarchy& fromNameHierarchy, const NameHierarchy& toNameHierarchy
 ) const {

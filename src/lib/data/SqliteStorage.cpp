@@ -152,7 +152,7 @@ void SqliteStorage::clearMetaTable()
 	}
 }
 
-void SqliteStorage::executeStatement(const std::string& statement) const
+bool SqliteStorage::executeStatement(const std::string& statement) const
 {
 	try
 	{
@@ -161,10 +161,12 @@ void SqliteStorage::executeStatement(const std::string& statement) const
 	catch (CppSQLite3Exception e)
 	{
 		LOG_ERROR(std::to_string(e.errorCode()) + ": " + e.errorMessage());
+		return false;
 	}
+	return true;
 }
 
-void SqliteStorage::executeStatement(CppSQLite3Statement& statement) const
+bool SqliteStorage::executeStatement(CppSQLite3Statement& statement) const
 {
 	try
 	{
@@ -173,7 +175,9 @@ void SqliteStorage::executeStatement(CppSQLite3Statement& statement) const
 	catch (CppSQLite3Exception e)
 	{
 		LOG_ERROR(std::to_string(e.errorCode()) + ": " + e.errorMessage());
+		return false;
 	}
+	return true;
 }
 
 int SqliteStorage::executeStatementScalar(const std::string& statement) const

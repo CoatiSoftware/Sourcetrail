@@ -26,7 +26,6 @@ public:
 	virtual std::vector<NameHierarchy> getNameHierarchiesForNodeIds(const std::vector<Id> nodeIds) const;
 
 	virtual Node::NodeType getNodeTypeForNodeWithId(Id id) const;
-	virtual bool checkNodeExistsByName(const std::string& serializedName) const;
 
 	virtual Id getIdForEdge(
 		Edge::EdgeType type, const NameHierarchy& fromNameHierarchy, const NameHierarchy& toNameHierarchy) const;

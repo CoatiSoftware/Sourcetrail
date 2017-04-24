@@ -43,8 +43,8 @@ protected:
 	void setupMetaTable();
 	void clearMetaTable();
 
-	void executeStatement(const std::string& statement) const;
-	void executeStatement(CppSQLite3Statement& statement) const;
+	bool executeStatement(const std::string& statement) const;
+	bool executeStatement(CppSQLite3Statement& statement) const;
 	int executeStatementScalar(const std::string& statement) const;
 	CppSQLite3Query executeQuery(const std::string& statement) const;
 	CppSQLite3Query executeQuery(CppSQLite3Statement& statement) const;

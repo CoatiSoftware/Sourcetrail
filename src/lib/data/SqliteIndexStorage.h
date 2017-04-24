@@ -71,7 +71,6 @@ public:
 
 	StorageNode getNodeById(Id id) const;
 	StorageNode getNodeBySerializedName(const std::string& serializedName) const;
-	bool checkNodeExistsByName(const std::string& serializedName) const;
 
 	StorageLocalSymbol getLocalSymbolByName(const std::string& name) const;
 

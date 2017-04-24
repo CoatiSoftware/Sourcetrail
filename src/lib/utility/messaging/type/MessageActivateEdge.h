@@ -11,11 +11,11 @@ class MessageActivateEdge
 	: public Message<MessageActivateEdge>
 {
 public:
-	MessageActivateEdge(Id tokenId, Edge::EdgeType type, const NameHierarchy& fromName, const NameHierarchy& toName)
+	MessageActivateEdge(Id tokenId, Edge::EdgeType type, const NameHierarchy& sourceNameHierarchy, const NameHierarchy& targetNameHierarchy)
 		: tokenId(tokenId)
 		, type(type)
-		, fromNameHierarchy(fromName)
-		, toNameHierarchy(toName)
+		, sourceNameHierarchy(sourceNameHierarchy)
+		, targetNameHierarchy(targetNameHierarchy)
 	{
 		if (!isAggregation())
 		{
@@ -36,8 +36,8 @@ public:
 	std::string getFullName() const
 	{
 		std::string name = Edge::getReadableTypeString(type) + ":";
-		name += fromNameHierarchy.getQualifiedNameWithSignature() + "->";
-		name += toNameHierarchy.getQualifiedNameWithSignature();
+		name += sourceNameHierarchy.getQualifiedNameWithSignature() + "->";
+		name += targetNameHierarchy.getQualifiedNameWithSignature();
 		return name;
 	}
 
@@ -48,8 +48,8 @@ public:
 
 	const Id tokenId;
 	const Edge::EdgeType type;
-	const NameHierarchy fromNameHierarchy;
-	const NameHierarchy toNameHierarchy;
+	const NameHierarchy sourceNameHierarchy;
+	const NameHierarchy targetNameHierarchy;
 
 	std::vector<Id> aggregationIds;
 };

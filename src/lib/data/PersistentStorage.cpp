@@ -619,11 +619,6 @@ Node::NodeType PersistentStorage::getNodeTypeForNodeWithId(Id nodeId) const
 	return Node::intToType(m_sqliteIndexStorage.getFirstById<StorageNode>(nodeId).type);
 }
 
-bool PersistentStorage::checkNodeExistsByName(const std::string& serializedName) const
-{
-	return m_sqliteIndexStorage.checkNodeExistsByName(serializedName);
-}
-
 Id PersistentStorage::getIdForEdge(
 	Edge::EdgeType type, const NameHierarchy& fromNameHierarchy, const NameHierarchy& toNameHierarchy
 ) const
