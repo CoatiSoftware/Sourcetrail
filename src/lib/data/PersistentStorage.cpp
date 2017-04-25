@@ -625,11 +625,6 @@ StorageEdge PersistentStorage::getEdgeById(Id edgeId) const
 	return m_sqliteIndexStorage.getEdgeById(edgeId);
 }
 
-bool PersistentStorage::checkEdgeExists(Id edgeId) const
-{
-	return m_sqliteIndexStorage.checkEdgeExists(edgeId);
-}
-
 std::shared_ptr<SourceLocationCollection> PersistentStorage::getFullTextSearchLocations(
 		const std::string& searchTerm, bool caseSensitive
 ) const

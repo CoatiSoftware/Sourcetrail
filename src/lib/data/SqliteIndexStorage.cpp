@@ -504,27 +504,6 @@ std::vector<StorageEdge> SqliteIndexStorage::getEdgesByTargetsType(const std::ve
 	return doGetAll<StorageEdge>("WHERE target_node_id IN (" + utility::join(utility::toStrings(targetIds), ',') + ") AND type == " + std::to_string(type));
 }
 
-bool SqliteIndexStorage::checkEdgeExists(Id edgeId) const
-{
-	CppSQLite3Statement stmt = m_database.compileStatement(
-		("SELECT type FROM edge WHERE id == " + std::to_string(edgeId) + ";").c_str()
-	);
-
-	CppSQLite3Query q = executeQuery(stmt);
-
-	if (!q.eof())
-	{
-		const int type = q.getIntField(0, -1);
-
-		if (type != -1)
-		{
-			return true;
-		}
-	}
-
-	return false;
-}
-
 StorageNode SqliteIndexStorage::getNodeById(Id id) const
 {
 	std::vector<StorageNode> candidates = doGetAll<StorageNode>("WHERE id = " + std::to_string(id));

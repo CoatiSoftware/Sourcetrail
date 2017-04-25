@@ -3,12 +3,18 @@
 
 #include "component/view/BookmarkView.h"
 
-#include "qt/element/QtBookmarkBar.h"
 #include "qt/utility/QtThreadedFunctor.h"
 
+class QFrame;
+class QPushButton;
+class QtBookmarkBrowser;
+
 class QtBookmarkView
-	: public BookmarkView
+	: public QObject
+	, public BookmarkView
 {
+	Q_OBJECT
+
 public:
 	QtBookmarkView(ViewLayout* viewLayout);
 	virtual ~QtBookmarkView();
@@ -22,19 +28,29 @@ public:
 	virtual void enableDisplayBookmarks(bool enable);
 
 	virtual bool bookmarkBrowserIsVisible() const;
-	
+
+private slots:
+	void createBookmarkClicked();
+	void showBookmarksClicked();
+
 private:
-	void doRefreshView();
-
-	void setStyleSheet();
-
 	virtual void displayBookmarks(const std::vector<std::shared_ptr<Bookmark>>& bookmarks);
 	virtual void displayBookmarkCreator(const std::vector<std::string>& names, const std::vector<BookmarkCategory>& categories);
 	virtual void displayBookmarkEditor(std::shared_ptr<Bookmark> bookmark, const std::vector<BookmarkCategory>& categories);
 
-	QtThreadedFunctor<> m_refreshViewFunctor;
+	void setStyleSheet();
+	void refreshStyle();
 
-	QtBookmarkBar* m_widget;
+	QtThreadedLambdaFunctor m_onQtThread;
+
+	QFrame* m_widget;
+
+	QPushButton* m_createBookmarkButton;
+	QPushButton* m_showBookmarksButton;
+
+	QtBookmarkBrowser* m_bookmarkBrowser;
+
+	BookmarkView::CreateButtonState m_createButtonState;
 };
 
 #endif // QT_BOOKMARK_VIEW_H

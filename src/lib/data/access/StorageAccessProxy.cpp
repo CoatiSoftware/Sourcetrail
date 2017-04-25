@@ -114,16 +114,6 @@ StorageEdge StorageAccessProxy::getEdgeById(Id edgeId) const
 	return StorageEdge();
 }
 
-bool StorageAccessProxy::checkEdgeExists(Id edgeId) const
-{
-	if (hasSubject())
-	{
-		return m_subject->checkEdgeExists(edgeId);
-	}
-
-	return false;
-}
-
 std::shared_ptr<SourceLocationCollection> StorageAccessProxy::getFullTextSearchLocations(
 		const std::string &searchTerm, bool caseSensitive) const
 {

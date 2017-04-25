@@ -42,7 +42,6 @@ public:
 	virtual Id getIdForEdge(
 		Edge::EdgeType type, const NameHierarchy& fromNameHierarchy, const NameHierarchy& toNameHierarchy) const = 0;
 	virtual StorageEdge getEdgeById(Id edgeId) const = 0;
-	virtual bool checkEdgeExists(Id edgeId) const = 0;
 
 	virtual std::shared_ptr<SourceLocationCollection> getFullTextSearchLocations(
 			const std::string& searchTerm, bool caseSensitive) const = 0;

@@ -24,7 +24,7 @@ QtBookmarkCategory::QtBookmarkCategory()
 	m_expandButton->setToolTip("Show/Hide bookmarks in this category");
 	m_expandButton->setAttribute(Qt::WA_LayoutUsesWidgetRect);
 	m_expandButton->setIcon(QPixmap((ResourcePaths::getGuiPath() + "bookmark_view/images/arrow_down.png").c_str()));
-	m_expandButton->setIconSize(QSize(10, 10));
+	m_expandButton->setIconSize(QSize(8, 8));
 	layout->addWidget(m_expandButton);
 
 	connect(m_expandButton, SIGNAL(clicked()), this, SLOT(expandClicked()));
@@ -39,6 +39,7 @@ QtBookmarkCategory::QtBookmarkCategory()
 	m_deleteButton->setObjectName("category_delete_button");
 	m_deleteButton->setToolTip("Delete this Bookmark Category and the containing Bookmarks");
 	m_deleteButton->setAttribute(Qt::WA_LayoutUsesWidgetRect);
+	m_deleteButton->setIconSize(QSize(20, 20));
 	m_deleteButton->setIcon(QPixmap((ResourcePaths::getGuiPath() + "bookmark_view/images/bookmark_delete_icon.png").c_str()));
 	utility::setWidgetRetainsSpaceWhenHidden(m_deleteButton);
 	m_deleteButton->hide();
@@ -53,22 +54,12 @@ QtBookmarkCategory::~QtBookmarkCategory()
 
 void QtBookmarkCategory::setName(const std::string& name)
 {
-	if (m_name != NULL)
-	{
-		m_name->setText(name.c_str());
-	}
+	m_name->setText(name.c_str());
 }
 
 std::string QtBookmarkCategory::getName() const
 {
-	std::string result = "";
-
-	if (m_name != NULL)
-	{
-		result = m_name->text().toStdString();
-	}
-
-	return result;
+	return m_name->text().toStdString();
 }
 
 void QtBookmarkCategory::setId(const Id id)
@@ -107,15 +98,7 @@ void QtBookmarkCategory::expandClicked()
 {
 	if (m_treeItem != NULL)
 	{
-		if (m_treeItem->isExpanded())
-		{
-			m_treeItem->setExpanded(false);
-		}
-		else
-		{
-			m_treeItem->setExpanded(true);
-		}
-
+		m_treeItem->setExpanded(!m_treeItem->isExpanded());
 		updateArrow();
 	}
 }

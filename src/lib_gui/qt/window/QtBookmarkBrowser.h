@@ -7,10 +7,7 @@
 
 #include "qt/window/QtWindow.h"
 
-#include "utility/messaging/MessageListener.h"
-#include "utility/messaging/type/MessageDeleteBookmark.h"
 #include "utility/messaging/type/MessageDisplayBookmarks.h"
-#include "utility/messaging/type/MessageEditBookmark.h"
 
 class Bookmark;
 class BookmarkCategory;
@@ -18,8 +15,6 @@ class QtBookmark;
 
 class QtBookmarkBrowser
 	: public QtWindow
-	, public MessageListener<MessageDeleteBookmark>
-	, public MessageListener<MessageEditBookmark>
 {
 	Q_OBJECT
 
@@ -38,13 +33,9 @@ protected:
 
 private slots:
 	void filterOrOrderChanged(const QString& text);
-	void categoryExpansionChanged(QTreeWidgetItem* item);
 	void treeItemClicked(QTreeWidgetItem* item, int column);
 
 private:
-	virtual void handleMessage(MessageDeleteBookmark* message) override;
-	virtual void handleMessage(MessageEditBookmark* message) override;
-
 	MessageDisplayBookmarks::BookmarkFilter getSelectedFilter();
 	MessageDisplayBookmarks::BookmarkOrder getSelectedOrder();
 

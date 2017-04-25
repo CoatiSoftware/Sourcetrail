@@ -123,6 +123,9 @@ public slots:
 private slots:
 	void toggleShowDockWidgetTitleBars();
 
+	void showBookmarkCreator();
+	void showBookmarkBrowser();
+
 private:
 	struct DockWidget
 	{
@@ -135,6 +138,7 @@ private:
     void setupEditMenu();
 	void setupProjectMenu();
 	void setupViewMenu();
+	void setupBookmarksMenu();
 	void setupHelpMenu();
 
 	void setTrialActionsEnabled(bool enabled);

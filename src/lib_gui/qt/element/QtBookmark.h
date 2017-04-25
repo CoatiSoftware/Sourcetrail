@@ -4,18 +4,14 @@
 #include <QFrame>
 #include <QLabel>
 #include <QPushButton>
-
-#include "utility/messaging/MessageListener.h"
-#include "utility/messaging/type/MessageDeleteBookmark.h"
-#include "utility/messaging/type/MessageEditBookmark.h"
+#include <QTreeWidget>
 
 #include "data/bookmark/Bookmark.h"
 
-#include <QTreeWidget>
+class Bookmark;
 
 class QtBookmark
 	: public QFrame
-	, public MessageListener<MessageEditBookmark>
 {
 	Q_OBJECT
 
@@ -46,8 +42,6 @@ private slots:
 	void elideButtonText();
 
 private:
-	void handleMessage(MessageEditBookmark* message) override;
-
 	void updateArrow();
 
 	std::string getDateString() const;

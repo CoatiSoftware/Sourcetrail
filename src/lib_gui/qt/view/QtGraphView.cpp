@@ -482,6 +482,11 @@ void QtGraphView::doRebuildGraph(
 		finishedTransition();
 	}
 
+	if (graph)
+	{
+		m_graph = graph;
+	}
+
 	QGraphicsView* view = getView();
 
 	size_t activeNodeCount = 0;
@@ -504,7 +509,8 @@ void QtGraphView::doRebuildGraph(
 		}
 	}
 
-	if (graph->getTrailMode() == Graph::TRAIL_NONE)
+	Graph::TrailMode trailMode = m_graph ? m_graph->getTrailMode() : Graph::TRAIL_NONE;
+	if (trailMode == Graph::TRAIL_NONE)
 	{
 		QPointF center = itemsBoundingRect(m_nodes).center();
 		Vec2i o = GraphViewStyle::alignOnRaster(Vec2i(center.x(), center.y()));
@@ -524,7 +530,7 @@ void QtGraphView::doRebuildGraph(
 	{
 		if (!edge->data || !edge->data->isType(Edge::EDGE_AGGREGATION))
 		{
-			createEdge(view, edge.get(), &visibleEdgeIds, graph->getTrailMode());
+			createEdge(view, edge.get(), &visibleEdgeIds, trailMode);
 		}
 	}
 	for (std::shared_ptr<DummyEdge> edge : edges)
@@ -533,12 +539,6 @@ void QtGraphView::doRebuildGraph(
 		{
 			createAggregationEdge(view, edge.get(), &visibleEdgeIds);
 		}
-	}
-
-
-	if (graph)
-	{
-		m_graph = graph;
 	}
 
 	m_centerActiveNode = params.centerActiveNode;

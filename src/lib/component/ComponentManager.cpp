@@ -33,9 +33,6 @@ void ComponentManager::setup(ViewLayout* viewLayout)
 		m_componentFactory->getViewFactory()->createCompositeView(viewLayout, CompositeView::DIRECTION_HORIZONTAL, "Search");
 	m_compositeViews.push_back(compositeView);
 
-	std::shared_ptr<Component> bookmarkComponent = m_componentFactory->createBookmarkComponent(compositeView.get());
-	m_components.push_back(bookmarkComponent);
-
 	std::shared_ptr<Component> undoRedoComponent = m_componentFactory->createUndoRedoComponent(compositeView.get());
 	m_components.push_back(undoRedoComponent);
 
@@ -44,6 +41,9 @@ void ComponentManager::setup(ViewLayout* viewLayout)
 
 	std::shared_ptr<Component> searchComponent = m_componentFactory->createSearchComponent(compositeView.get());
 	m_components.push_back(searchComponent);
+
+	std::shared_ptr<Component> bookmarkComponent = m_componentFactory->createBookmarkComponent(compositeView.get());
+	m_components.push_back(bookmarkComponent);
 
 	std::shared_ptr<Component> graphComponent = m_componentFactory->createGraphComponent(viewLayout);
 	m_components.push_back(graphComponent);

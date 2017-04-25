@@ -7,16 +7,16 @@
 #include <QVBoxLayout>
 
 #include "utility/messaging/type/MessageActivateBookmark.h"
+#include "utility/messaging/type/MessageDeleteBookmark.h"
 #include "utility/messaging/type/MessageDisplayBookmarkEditor.h"
 #include "utility/ResourcePaths.h"
 
-#include "data/bookmark/EdgeBookmark.h"
 #include "qt/window/QtBookmarkCreator.h"
 #include "qt/utility/utilityQt.h"
 
 QtBookmark::QtBookmark()
 	: m_treeWidgetItem(NULL)
-	, m_arrowImageName("arrow_right.png")
+	, m_arrowImageName("arrow_line_down.png")
 	, m_hovered(false)
 	, m_ignoreNextResize(false)
 {
@@ -33,20 +33,20 @@ QtBookmark::QtBookmark()
 	buttonsLayout->setContentsMargins(0, 0, 0, 0);
 	buttonsLayout->setAlignment(Qt::AlignTop);
 
-	m_toggleCommentButton = new QPushButton();
-	m_toggleCommentButton->setObjectName("comment_button");
-	m_toggleCommentButton->setToolTip("Show Comment");
-	m_toggleCommentButton->setAttribute(Qt::WA_LayoutUsesWidgetRect);
-	m_toggleCommentButton->setIconSize(QSize(10, 10));
-	utility::setWidgetRetainsSpaceWhenHidden(m_toggleCommentButton);
-	buttonsLayout->addWidget(m_toggleCommentButton);
-	updateArrow();
-
 	m_activateButton = new QPushButton();
 	m_activateButton->setObjectName("activate_button");
 	m_activateButton->setToolTip("Activate bookmark");
 	m_activateButton->setAttribute(Qt::WA_LayoutUsesWidgetRect);
 	buttonsLayout->addWidget(m_activateButton);
+
+	m_toggleCommentButton = new QPushButton();
+	m_toggleCommentButton->setObjectName("comment_button");
+	m_toggleCommentButton->setToolTip("Show Comment");
+	m_toggleCommentButton->setAttribute(Qt::WA_LayoutUsesWidgetRect);
+	m_toggleCommentButton->setIconSize(QSize(20, 20));
+	utility::setWidgetRetainsSpaceWhenHidden(m_toggleCommentButton);
+	buttonsLayout->addWidget(m_toggleCommentButton);
+	updateArrow();
 
 	buttonsLayout->addStretch();
 
@@ -58,6 +58,7 @@ QtBookmark::QtBookmark()
 	m_editButton->setObjectName("edit_button");
 	m_editButton->setToolTip("Edit bookmark");
 	m_editButton->setAttribute(Qt::WA_LayoutUsesWidgetRect);
+	m_editButton->setIconSize(QSize(20, 20));
 	m_editButton->setIcon(QPixmap((ResourcePaths::getGuiPath() + "bookmark_view/images/bookmark_edit_icon.png").c_str()));
 	utility::setWidgetRetainsSpaceWhenHidden(m_editButton);
 	m_editButton->hide();
@@ -67,6 +68,7 @@ QtBookmark::QtBookmark()
 	m_deleteButton->setObjectName("delete_button");
 	m_deleteButton->setToolTip("Delete bookmark");
 	m_deleteButton->setAttribute(Qt::WA_LayoutUsesWidgetRect);
+	m_deleteButton->setIconSize(QSize(20, 20));
 	m_deleteButton->setIcon(QPixmap((ResourcePaths::getGuiPath() + "bookmark_view/images/bookmark_delete_icon.png").c_str()));
 	utility::setWidgetRetainsSpaceWhenHidden(m_deleteButton);
 	m_deleteButton->hide();
@@ -144,13 +146,13 @@ void QtBookmark::commentToggled()
 
 	if (m_comment->isVisible() == false)
 	{
-		m_arrowImageName = "arrow_down.png";
+		m_arrowImageName = "arrow_line_up.png";
 		m_comment->show();
 		m_comment->setMinimumHeight(m_comment->heightForWidth(m_comment->width()));
 	}
 	else
 	{
-		m_arrowImageName = "arrow_right.png";
+		m_arrowImageName = "arrow_line_down.png";
 		m_comment->hide();
 	}
 
@@ -231,21 +233,10 @@ void QtBookmark::elideButtonText()
 		m_bookmark->getName().c_str(), Qt::ElideMiddle, m_activateButton->width() - 16));
 }
 
-void QtBookmark::handleMessage(MessageEditBookmark* message)
-{
-	if (m_bookmark->getId() == message->bookmarkId)
-	{
-		m_bookmark->setName(message->displayName);
-		m_bookmark->setComment(message->comment);
-
-		m_activateButton->setText(message->displayName.c_str());
-	}
-}
-
 void QtBookmark::updateArrow()
 {
 	QPixmap pixmap((ResourcePaths::getGuiPath() + "bookmark_view/images/" + m_arrowImageName).c_str());
-	m_toggleCommentButton->setIcon(QIcon(utility::colorizePixmap(pixmap, m_hovered ? "black" : "#707070")));
+	m_toggleCommentButton->setIcon(QIcon(utility::colorizePixmap(pixmap, m_hovered ? "#707070" : "black")));
 }
 
 std::string QtBookmark::getDateString() const

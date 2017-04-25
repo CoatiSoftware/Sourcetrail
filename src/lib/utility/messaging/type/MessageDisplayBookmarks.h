@@ -14,7 +14,7 @@ public:
 		NODES,
 		EDGES
 	};
-	
+
 	enum BookmarkOrder
 	{
 		NONE = 0,
@@ -27,6 +27,12 @@ public:
 	MessageDisplayBookmarks(const BookmarkFilter& filter, const BookmarkOrder& order)
 		: filter(filter)
 		, order(order)
+	{
+	}
+
+	MessageDisplayBookmarks()
+		: filter(MessageDisplayBookmarks::BookmarkFilter::ALL)
+		, order(MessageDisplayBookmarks::BookmarkOrder::NONE)
 	{
 	}
 

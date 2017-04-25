@@ -10,8 +10,6 @@ add_files(
 	qt/element/QtAutocompletionList.h
 	qt/element/QtBookmark.cpp
 	qt/element/QtBookmark.h
-	qt/element/QtBookmarkBar.cpp
-	qt/element/QtBookmarkBar.h
 	qt/element/QtBookmarkCategory.cpp
 	qt/element/QtBookmarkCategory.h
 	qt/element/QtCodeArea.cpp

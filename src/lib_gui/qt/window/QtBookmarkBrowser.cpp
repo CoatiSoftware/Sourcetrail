@@ -73,10 +73,10 @@ void QtBookmarkBrowser::setupBookmarkBrowser()
 		orderLabel->setObjectName("order_label");
 		headerLayout->addWidget(orderLabel);
 
-		m_orderNames.push_back("Date des.");
-		m_orderNames.push_back("Date asc.");
-		m_orderNames.push_back("Name des.");
 		m_orderNames.push_back("Name asc.");
+		m_orderNames.push_back("Name des.");
+		m_orderNames.push_back("Date asc.");
+		m_orderNames.push_back("Date des.");
 
 		m_orderComboBox = new QComboBox(this);
 		// m_orderComboBox->setToolTip("Select Bookmark Order");
@@ -105,8 +105,6 @@ void QtBookmarkBrowser::setupBookmarkBrowser()
 		m_bookmarkTree->setIndentation(0);
 		m_bookmarkTree->setHeaderLabel("Bookmarks");
 
-		connect(m_bookmarkTree, SIGNAL(itemExpanded(QTreeWidgetItem*)), this, SLOT(categoryExpansionChanged(QTreeWidgetItem*)));
-		connect(m_bookmarkTree, SIGNAL(itemCollapsed(QTreeWidgetItem*)), this, SLOT(categoryExpansionChanged(QTreeWidgetItem*)));
 		connect(m_bookmarkTree, SIGNAL(itemClicked(QTreeWidgetItem*, int)), this, SLOT(treeItemClicked(QTreeWidgetItem*, int)));
 
 		bodyLayout->addWidget(m_bookmarkTree);
@@ -124,21 +122,46 @@ void QtBookmarkBrowser::setupBookmarkBrowser()
 
 void QtBookmarkBrowser::setBookmarks(const std::vector<std::shared_ptr<Bookmark>>& bookmarks)
 {
+	std::map<QString, bool> wasCategoryExpanded;
+	for (int i = 0; i < m_bookmarkTree->topLevelItemCount(); i++)
+	{
+		QTreeWidgetItem* item = m_bookmarkTree->topLevelItem(i);
+		wasCategoryExpanded.emplace(item->whatsThis(0), item->isExpanded());
+	}
+
 	m_bookmarkTree->clear();
+
+	std::map<std::string, BookmarkCategory> categoryNamesOrdered;
+	for (std::shared_ptr<Bookmark> bookmark: bookmarks)
+	{
+		categoryNamesOrdered.emplace(bookmark->getCategory().getName(), bookmark->getCategory());
+	}
+
+	for (auto p : categoryNamesOrdered)
+	{
+		findOrCreateTreeCategory(p.second);
+	}
 
 	for (std::shared_ptr<Bookmark> bookmark: bookmarks)
 	{
 		QtBookmark* qtBookmark = new QtBookmark();
 		qtBookmark->setBookmark(bookmark);
 
-		QTreeWidgetItem* top = findOrCreateTreeCategory(bookmark->getCategory());
-		QTreeWidgetItem* treeWidgetItem = new QTreeWidgetItem(top);
+		QTreeWidgetItem* categoryItem = findOrCreateTreeCategory(bookmark->getCategory());
+		QTreeWidgetItem* treeWidgetItem = new QTreeWidgetItem(categoryItem);
 		m_bookmarkTree->setItemWidget(treeWidgetItem, 0, qtBookmark);
-		top->addChild(treeWidgetItem);
+		categoryItem->addChild(treeWidgetItem);
+		qtBookmark->setTreeWidgetItem(categoryItem);
 
-		qtBookmark->setTreeWidgetItem(top);
+		bool wasExpanded = true;
+		auto it = wasCategoryExpanded.find(categoryItem->whatsThis(0));
+		if (it != wasCategoryExpanded.end())
+		{
+			wasExpanded = it->second;
+		}
 
-		top->setExpanded(true);
+		categoryItem->setExpanded(!wasExpanded);
+		categoryItem->setExpanded(wasExpanded);
 	}
 }
 
@@ -164,15 +187,6 @@ void QtBookmarkBrowser::filterOrOrderChanged(const QString& text)
 	MessageDisplayBookmarks(getSelectedFilter(), getSelectedOrder()).dispatch();
 }
 
-void QtBookmarkBrowser::categoryExpansionChanged(QTreeWidgetItem* item)
-{
-	QtBookmarkCategory* category = dynamic_cast<QtBookmarkCategory*>(m_bookmarkTree->itemWidget(item, 0));
-	if (category != NULL)
-	{
-		category->updateArrow();
-	}
-}
-
 void  QtBookmarkBrowser::treeItemClicked(QTreeWidgetItem* item, int column)
 {
 	QtBookmarkCategory* category = dynamic_cast<QtBookmarkCategory*>(m_bookmarkTree->itemWidget(item, 0));
@@ -188,16 +202,6 @@ void  QtBookmarkBrowser::treeItemClicked(QTreeWidgetItem* item, int column)
 		bookmark->commentToggled();
 		return;
 	}
-}
-
-void QtBookmarkBrowser::handleMessage(MessageDeleteBookmark* message)
-{
-	MessageDisplayBookmarks(getSelectedFilter(), getSelectedOrder()).dispatch();
-}
-
-void QtBookmarkBrowser::handleMessage(MessageEditBookmark* message)
-{
-	MessageDisplayBookmarks(getSelectedFilter(), getSelectedOrder()).dispatch();
 }
 
 MessageDisplayBookmarks::BookmarkFilter QtBookmarkBrowser::getSelectedFilter()

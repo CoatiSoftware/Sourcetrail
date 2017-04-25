@@ -29,6 +29,7 @@
 #include "utility/file/FileSystem.h"
 #include "utility/logging/logging.h"
 #include "utility/messaging/type/MessageCodeReference.h"
+#include "utility/messaging/type/MessageDisplayBookmarkCreator.h"
 #include "utility/messaging/type/MessageDisplayBookmarks.h"
 #include "utility/messaging/type/MessageEnteredLicense.h"
 #include "utility/messaging/type/MessageFind.h"
@@ -114,6 +115,7 @@ QtMainWindow::QtMainWindow()
 	setupProjectMenu();
 	setupEditMenu();
 	setupViewMenu();
+	setupBookmarksMenu();
 	setupHelpMenu();
 
 	// Need to call loadLayout here for right DockWidget size on Linux
@@ -578,6 +580,16 @@ void QtMainWindow::toggleShowDockWidgetTitleBars()
 	setShowDockWidgetTitleBars(!m_showDockWidgetTitleBars);
 }
 
+void QtMainWindow::showBookmarkCreator()
+{
+	MessageDisplayBookmarkCreator().dispatch();
+}
+
+void QtMainWindow::showBookmarkBrowser()
+{
+	MessageDisplayBookmarks().dispatch();
+}
+
 void QtMainWindow::setupProjectMenu()
 {
 	QMenu *menu = new QMenu(tr("&Project"), this);
@@ -675,6 +687,15 @@ void QtMainWindow::setupViewMenu()
 	menu->addAction(tr("Reset window layout"), this, SLOT(resetWindowLayout()));
 
 	m_viewMenu = menu;
+}
+
+void QtMainWindow::setupBookmarksMenu()
+{
+	QMenu *menu = new QMenu(tr("&Bookmarks"), this);
+	menuBar()->addMenu(menu);
+
+	menu->addAction(tr("Bookmark Active Symbols..."), this, SLOT(showBookmarkCreator()), QKeySequence(Qt::CTRL + Qt::Key_D));
+	menu->addAction(tr("Bookmark Manager"), this, SLOT(showBookmarkBrowser()), QKeySequence(Qt::CTRL + Qt::Key_B));
 }
 
 void QtMainWindow::setupHelpMenu()

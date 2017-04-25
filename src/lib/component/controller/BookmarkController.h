@@ -42,7 +42,8 @@ public:
 
 	virtual void clear();
 
-	std::vector<std::shared_ptr<Bookmark>> getBookmarks(const MessageDisplayBookmarks::BookmarkFilter& filter, const MessageDisplayBookmarks::BookmarkOrder& order) const;
+	std::vector<std::shared_ptr<Bookmark>> getBookmarks(
+		const MessageDisplayBookmarks::BookmarkFilter& filter, const MessageDisplayBookmarks::BookmarkOrder& order) const;
 
 	std::vector<std::string> getActiveTokenDisplayNames() const;
 	std::vector<BookmarkCategory> getAllBookmarkCategories() const;
@@ -86,10 +87,14 @@ private:
 	std::vector<std::string> getActiveEdgeDisplayNames() const;
 	std::string getNodeDisplayName(const Id id) const;
 
-	std::vector<std::shared_ptr<Bookmark>> getFilteredBookmarks(const std::vector<std::shared_ptr<Bookmark>>& bookmarks, const MessageDisplayBookmarks::BookmarkFilter& filter) const;
-	std::vector<std::shared_ptr<Bookmark>> getOrderedBookmarks(const std::vector<std::shared_ptr<Bookmark>>& bookmarks, const MessageDisplayBookmarks::BookmarkOrder& order) const;
-	std::vector<std::shared_ptr<Bookmark>> getDateOrderedBookmarks(const std::vector<std::shared_ptr<Bookmark>>& bookmarks, const bool ascending) const;
-	std::vector<std::shared_ptr<Bookmark>> getNameOrderedBookmarks(const std::vector<std::shared_ptr<Bookmark>>& bookmarks, const bool ascending) const;
+	std::vector<std::shared_ptr<Bookmark>> getFilteredBookmarks(
+		const std::vector<std::shared_ptr<Bookmark>>& bookmarks, const MessageDisplayBookmarks::BookmarkFilter& filter) const;
+	std::vector<std::shared_ptr<Bookmark>> getOrderedBookmarks(
+		const std::vector<std::shared_ptr<Bookmark>>& bookmarks, const MessageDisplayBookmarks::BookmarkOrder& order) const;
+	std::vector<std::shared_ptr<Bookmark>> getDateOrderedBookmarks(
+		const std::vector<std::shared_ptr<Bookmark>>& bookmarks, const bool ascending) const;
+	std::vector<std::shared_ptr<Bookmark>> getNameOrderedBookmarks(
+		const std::vector<std::shared_ptr<Bookmark>>& bookmarks, const bool ascending) const;
 
 	void cleanBookmarkCategories();
 
