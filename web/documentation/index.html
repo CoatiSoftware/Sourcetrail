@@ -194,7 +194,7 @@
 
 					<p>Exporting a Compilation Database:</p>
 					<ul>
-						<li>From <strong>CMake</strong> by defining the <code>CMAKE_EXPORT_COMPILE_COMMANDS</code> flag. (not supported on Windows yet)</li>
+						<li>From <strong>CMake</strong> by defining the <code>CMAKE_EXPORT_COMPILE_COMMANDS</code> flag. (not supported on for Visual Studio CMake generators)</li>
 						<li>For <strong>Make</strong> projects use <a href="https://github.com/rizsotto/Bear">Bear</a>. Bear generates a <code>compile_commands.json</code> file during a simulated build process. Bear has been tested on FreeBSD, GNU/Linux and OS X.</li>
 					</ul>
 
@@ -1936,7 +1936,7 @@
 
 					<h3>Visual Studio</h3>
 					<strong>Installation</strong>
-					<p>To install the Sourcetrail plugin for any version of Visual Studio, just execute the corresponding vsix file located in your <code>ide_plugins/visual_studio</code>.</p>
+					<p>To install the Sourcetrail plugin for Visual Studio 2012, 2013 or 2015, just execute the corresponding vsix file located in your <code>ide_plugins/visual_studio</code>.</p>
 					<strong>Use</strong>
 					<p>If you want Visual Studio to activate a certain element in Sourcetrail, right-click that element to bring up the context menu and choose the “Set active Token” option.</p>
 					<div class="row">
