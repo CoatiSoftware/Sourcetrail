@@ -67,10 +67,15 @@ void SqliteIndexStorage::addSymbol(const int id, const int definitionKind)
 	);
 }
 
-void SqliteIndexStorage::addFile(const int id, const std::string& filePath, const std::string& modificationTime, bool complete)
+bool SqliteIndexStorage::addFile(const int id, const std::string& filePath, const std::string& modificationTime, bool complete)
 {
+	if (getFileByPath(filePath).id != 0)
+	{
+		return false;
+	}
+
 	std::shared_ptr<TextAccess> content = TextAccess::createFromFile(filePath);
-	unsigned int lineCount = content->getLineCount();
+	const size_t lineCount = content->getLineCount();
 
 	const bool success = executeStatement(
 		"INSERT INTO file(id, path, modification_time, complete, line_count) VALUES("
@@ -108,48 +113,69 @@ Id SqliteIndexStorage::addLocalSymbol(const std::string& name)
 Id SqliteIndexStorage::addSourceLocation(
 	Id fileNodeId, uint startLine, uint startCol, uint endLine, uint endCol, int type)
 {
-	executeStatement(
-		"INSERT INTO source_location(id, file_node_id, start_line, start_column, end_line, end_column, type) "
-		"VALUES(NULL, " + std::to_string(fileNodeId) + ", "
-		+ std::to_string(startLine) + ", " + std::to_string(startCol) + ", "
-		+ std::to_string(endLine) + ", " + std::to_string(endCol) + ", " + std::to_string(type) + ");"
-	);
+	Id id = doGetFirst<StorageSourceLocation>(
+		"WHERE "
+			"file_node_id == " + std::to_string(fileNodeId) + " AND "
+			"start_line == " + std::to_string(startLine) + " AND "
+			"start_column == " + std::to_string(startCol) + " AND "
+			"end_line == " + std::to_string(endLine) + " AND "
+			"end_column == " + std::to_string(endCol) + " AND "
+			"type == " + std::to_string(type)
+	).id;
 
-	return m_database.lastRowId();
+	if (id == 0)
+	{
+		const bool success = executeStatement(
+			"INSERT INTO source_location(id, file_node_id, start_line, start_column, end_line, end_column, type) "
+			"VALUES(NULL, " + std::to_string(fileNodeId) + ", "
+			+ std::to_string(startLine) + ", " + std::to_string(startCol) + ", "
+			+ std::to_string(endLine) + ", " + std::to_string(endCol) + ", " + std::to_string(type) + ");"
+		);
+
+		if (success)
+		{
+			id = m_database.lastRowId();
+		}
+	}
+
+	return id;
 }
 
 bool SqliteIndexStorage::addOccurrence(Id elementId, Id sourceLocationId)
 {
-	try
-	{
-		m_database.execDML((
-			"INSERT INTO occurrence(element_id, source_location_id) "
-			"VALUES(" + std::to_string(elementId) + ", "
-			+ std::to_string(sourceLocationId) + ");"
-		).c_str());
-	}
-	catch (CppSQLite3Exception& e)
+	if (doGetFirst<StorageOccurrence>(
+			"WHERE "
+			"element_id == " + std::to_string(elementId) + " AND "
+			"source_location_id == " + std::to_string(sourceLocationId)
+		).elementId != 0)
 	{
 		return false;
 	}
-	return true;
+
+	const bool success = executeStatement(
+		"INSERT INTO occurrence(element_id, source_location_id) "
+			"VALUES(" + std::to_string(elementId) + ", "
+			+ std::to_string(sourceLocationId) + ");"
+	);
+
+	return success;
 }
 
 Id SqliteIndexStorage::addComponentAccess(Id nodeId, int type)
 {
-	const bool success = executeStatement(
-		"INSERT INTO component_access(id, node_id, type) "
-		"VALUES (NULL, " + std::to_string(nodeId) + ", " + std::to_string(type) + ");"
-	);
+	Id id = getComponentAccessByNodeId(nodeId).id;
 
-	Id id = 0;
-	if (success)
+	if (id == 0)
 	{
-		id = m_database.lastRowId();
-	}
-	else
-	{
-		id = executeStatementScalar("SELECT id FROM component_access WHERE node_id == " + std::to_string(nodeId) + ";");
+		const bool success = executeStatement(
+			"INSERT INTO component_access(id, node_id, type) "
+			"VALUES (NULL, " + std::to_string(nodeId) + ", " + std::to_string(type) + ");"
+		);
+
+		if (success)
+		{
+			id = m_database.lastRowId();
+		}
 	}
 
 	return id;
@@ -157,28 +183,28 @@ Id SqliteIndexStorage::addComponentAccess(Id nodeId, int type)
 
 Id SqliteIndexStorage::addCommentLocation(Id fileNodeId, uint startLine, uint startCol, uint endLine, uint endCol)
 {
-	const bool success = executeStatement(
-		"INSERT INTO comment_location(id, file_node_id, start_line, start_column, end_line, end_column) "
-		"VALUES(NULL, "  + std::to_string(fileNodeId) + ", "
-		+ std::to_string(startLine) + ", " + std::to_string(startCol) + ", "
-		+ std::to_string(endLine) + ", " + std::to_string(endCol) + ");"
-	);
-
-	Id id = 0;
-	if (success)
-	{
-		id = m_database.lastRowId();
-	}
-	else
-	{
-		id = executeStatementScalar(
-			"SELECT id FROM comment_location WHERE "
+	Id id = doGetFirst<StorageCommentLocation>(
+		"WHERE "
 			"file_node_id == " + std::to_string(fileNodeId) + " AND "
 			"start_line == " + std::to_string(startLine) + " AND "
 			"start_column == " + std::to_string(startCol) + " AND "
 			"end_line == " + std::to_string(endLine) + " AND "
-			"end_column == " + std::to_string(endCol) + ";"
+			"end_column == " + std::to_string(endCol)
+	).id;
+
+	if (id == 0)
+	{
+		const bool success = executeStatement(
+			"INSERT INTO comment_location(id, file_node_id, start_line, start_column, end_line, end_column) "
+			"VALUES(NULL, "  + std::to_string(fileNodeId) + ", "
+			+ std::to_string(startLine) + ", " + std::to_string(startCol) + ", "
+			+ std::to_string(endLine) + ", " + std::to_string(endCol) + ");"
 		);
+
+		if (success)
+		{
+			id = m_database.lastRowId();
+		}
 	}
 
 	return id;
@@ -186,39 +212,40 @@ Id SqliteIndexStorage::addCommentLocation(Id fileNodeId, uint startLine, uint st
 
 Id SqliteIndexStorage::addError(const std::string& message, const FilePath& filePath, uint lineNumber, uint columnNumber, bool fatal, bool indexed)
 {
-	std::string sanitizedMessage = utility::replace(message, "'", "''");
+	const std::string sanitizedMessage = utility::replace(message, "'", "''");
 
-	CppSQLite3Statement stmt = m_database.compileStatement((
-		"INSERT INTO error(message, fatal, indexed, file_path, line_number, column_number) "
-		"VALUES (?, " + std::to_string(fatal) + ", " + std::to_string(indexed) + ", '" + filePath.str() +
-		"', " + std::to_string(lineNumber) + ", " + std::to_string(columnNumber) + ");"
-	).c_str());
-
-	stmt.bind(1, sanitizedMessage.c_str());
-	const bool success = executeStatement(stmt);
-
-	Id id = 0;
-	if (success)
-	{
-		id = m_database.lastRowId();
-	}
-	else
-	{
-		CppSQLite3Statement selectStmt = m_database.compileStatement((
-			"SELECT * FROM error WHERE "
+	CppSQLite3Statement selectStmt = m_database.compileStatement((
+		"SELECT id FROM error WHERE "
 			"message == ? AND "
 			"fatal == " + std::to_string(fatal) + " AND "
 			"file_path == '" + filePath.str() + "' AND "
 			"line_number == " + std::to_string(lineNumber) + " AND "
 			"column_number == " + std::to_string(columnNumber) + ";"
-			).c_str());
+	).c_str());
 
-		selectStmt.bind(1, sanitizedMessage.c_str());
-		CppSQLite3Query q = executeQuery(selectStmt);
+	selectStmt.bind(1, sanitizedMessage.c_str());
+	CppSQLite3Query q = executeQuery(selectStmt);
 
-		if (!q.eof())
+	Id id = 0;
+	if (!q.eof())
+	{
+		id = q.getIntField(0, -1);
+	}
+
+	if (id == 0)
+	{
+		CppSQLite3Statement stmt = m_database.compileStatement((
+			"INSERT INTO error(message, fatal, indexed, file_path, line_number, column_number) "
+			"VALUES (?, " + std::to_string(fatal) + ", " + std::to_string(indexed) + ", '" + filePath.str() +
+			"', " + std::to_string(lineNumber) + ", " + std::to_string(columnNumber) + ");"
+		).c_str());
+
+		stmt.bind(1, sanitizedMessage.c_str());
+		const bool success = executeStatement(stmt);
+
+		if (success)
 		{
-			id = q.getIntField(0, -1);
+			id = m_database.lastRowId();
 		}
 	}
 
@@ -600,18 +627,6 @@ void SqliteIndexStorage::setNodeType(int type, Id nodeId)
 	);
 }
 
-StorageSourceLocation SqliteIndexStorage::getSourceLocationByAll(const Id fileNodeId, const uint startLine, const uint startCol, const uint endLine, const uint endCol, const int type) const
-{
-	return doGetFirst<StorageSourceLocation>(
-		"WHERE file_node_id == " + std::to_string(fileNodeId) +
-		" AND start_line == " + std::to_string(startLine) +
-		" AND start_column == " + std::to_string(startCol) +
-		" AND end_line == " + std::to_string(endLine) +
-		" AND end_column == " + std::to_string(endCol) +
-		" AND type == " + std::to_string(type) + ";"
-	);
-}
-
 std::shared_ptr<SourceLocationFile> SqliteIndexStorage::getSourceLocationsForFile(const FilePath& filePath) const
 {
 	std::shared_ptr<SourceLocationFile> ret = std::make_shared<SourceLocationFile>(filePath, true, false);
@@ -745,6 +760,18 @@ std::vector<std::pair<int, SqliteDatabaseIndex>> SqliteIndexStorage::getIndices(
 		SqliteDatabaseIndex("source_location_all_data_index", "source_location(file_node_id, start_line, start_column, end_line, end_column, type)")
 	));
 	indices.push_back(std::make_pair(
+		STORAGE_MODE_WRITE,
+		SqliteDatabaseIndex("comment_location_all_data_index", "comment_location(file_node_id, start_line, start_column, end_line, end_column)")
+	));
+	indices.push_back(std::make_pair(
+		STORAGE_MODE_WRITE,
+		SqliteDatabaseIndex("error_all_data_index", "error(message, fatal, file_path, line_number, column_number)")
+	));
+	indices.push_back(std::make_pair(
+		STORAGE_MODE_WRITE,
+		SqliteDatabaseIndex("file_path_index", "file(path)")
+	));
+	indices.push_back(std::make_pair(
 		STORAGE_MODE_READ | STORAGE_MODE_CLEAR,
 		SqliteDatabaseIndex("occurrence_element_id_index", "occurrence(element_id)")
 	));
@@ -829,7 +856,6 @@ void SqliteIndexStorage::setupTables()
 				"modification_time TEXT, "
 				"complete INTEGER, "
 				"line_count INTEGER, "
-				"UNIQUE(path) ON CONFLICT FAIL,"
 				"PRIMARY KEY(id), "
 				"FOREIGN KEY(id) REFERENCES node(id) ON DELETE CASCADE);"
 		);
@@ -879,7 +905,6 @@ void SqliteIndexStorage::setupTables()
 				"id INTEGER NOT NULL, "
 				"node_id INTEGER, "
 				"type INTEGER NOT NULL, "
-				"UNIQUE(node_id) ON CONFLICT FAIL,"
 				"PRIMARY KEY(id), "
 				"FOREIGN KEY(node_id) REFERENCES node(id) ON DELETE CASCADE);"
 		);
@@ -892,7 +917,6 @@ void SqliteIndexStorage::setupTables()
 				"start_column INTEGER, "
 				"end_line INTEGER, "
 				"end_column INTEGER, "
-				"UNIQUE(file_node_id, start_line, start_column, end_line, end_column) ON CONFLICT FAIL,"
 				"PRIMARY KEY(id), "
 				"FOREIGN KEY(file_node_id) REFERENCES node(id) ON DELETE CASCADE);"
 		);
@@ -906,7 +930,6 @@ void SqliteIndexStorage::setupTables()
 				"file_path TEXT, "
 				"line_number INTEGER, "
 				"column_number INTEGER, "
-				"UNIQUE(message, fatal, file_path, line_number, column_number) ON CONFLICT FAIL,"
 				"PRIMARY KEY(id));"
 		);
 	}
@@ -1116,7 +1139,7 @@ std::vector<StorageComponentAccess> SqliteIndexStorage::doGetAll<StorageComponen
 
 		if (id != 0 && nodeId != 0 && type != -1)
 		{
-			componentAccesses.push_back(StorageComponentAccess(nodeId, type));
+			componentAccesses.push_back(StorageComponentAccess(id, nodeId, type));
 		}
 
 		q.nextRow();

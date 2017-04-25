@@ -153,15 +153,18 @@ struct StorageOccurrence
 struct StorageComponentAccess
 {
 	StorageComponentAccess()
-		: nodeId(0)
+		: id(0)
+		, nodeId(0)
 		, type(0)
 	{}
 
-	StorageComponentAccess(Id nodeId, int type)
-		: nodeId(nodeId)
+	StorageComponentAccess(Id id, Id nodeId, int type)
+		: id(id)
+		, nodeId(nodeId)
 		, type(type)
 	{}
 
+	Id id;
 	Id nodeId;
 	int type;
 };

@@ -102,19 +102,14 @@ Id PersistentStorage::addLocalSymbol(const std::string& name)
 Id PersistentStorage::addSourceLocation(
 	Id fileNodeId, uint startLine, uint startCol, uint endLine, uint endCol, int type)
 {
-	Id sourceLocationId = m_sqliteIndexStorage.getSourceLocationByAll(fileNodeId, startLine, startCol, endLine, endCol, type).id;
-	if (sourceLocationId == 0)
-	{
-		sourceLocationId = m_sqliteIndexStorage.addSourceLocation(
-			fileNodeId,
-			startLine,
-			startCol,
-			endLine,
-			endCol,
-			type
-		);
-	}
-	return sourceLocationId;
+	return m_sqliteIndexStorage.addSourceLocation(
+		fileNodeId,
+		startLine,
+		startCol,
+		endLine,
+		endCol,
+		type
+	);
 }
 
 void PersistentStorage::addOccurrence(Id elementId, Id sourceLocationId)
@@ -124,10 +119,7 @@ void PersistentStorage::addOccurrence(Id elementId, Id sourceLocationId)
 
 void PersistentStorage::addComponentAccess(Id nodeId , int type)
 {
-	if (m_sqliteIndexStorage.getComponentAccessByNodeId(nodeId).nodeId == 0)
-	{
-		m_sqliteIndexStorage.addComponentAccess(nodeId, type);
-	}
+	m_sqliteIndexStorage.addComponentAccess(nodeId, type);
 }
 
 void PersistentStorage::addCommentLocation(Id fileNodeId, uint startLine, uint startCol, uint endLine, uint endCol)

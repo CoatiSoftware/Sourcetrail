@@ -34,7 +34,7 @@ public:
 
 	Id addNode(const int type, const std::string& serializedName);
 	void addSymbol(const int id, int definitionKind);
-	void addFile(const int id, const std::string& filePath, const std::string& modificationTime, bool complete);
+	bool addFile(const int id, const std::string& filePath, const std::string& modificationTime, bool complete);
 	Id addLocalSymbol(const std::string& name);
 	Id addSourceLocation(Id fileNodeId, uint startLine, uint startCol, uint endLine, uint endCol, int type);
 	bool addOccurrence(Id elementId, Id sourceLocationId);
@@ -83,7 +83,6 @@ public:
 	void setFileComplete(bool complete, Id fileId);
 	void setNodeType(int type, Id nodeId);
 
-	StorageSourceLocation getSourceLocationByAll(const Id fileNodeId, const uint startLine, const uint startCol, const uint endLine, const uint endCol, const int type) const;
 	std::shared_ptr<SourceLocationFile> getSourceLocationsForFile(const FilePath& filePath) const;
 
 	std::vector<StorageOccurrence> getOccurrencesForLocationId(Id locationId) const;

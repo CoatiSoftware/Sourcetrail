@@ -181,7 +181,7 @@ void IntermediateStorage::addOccurrence(Id elementId, Id sourceLocationId)
 
 void IntermediateStorage::addComponentAccess(Id nodeId, int type)
 {
-	const StorageComponentAccess componentAccess(nodeId, type);
+	const StorageComponentAccess componentAccess(0, nodeId, type);
 	const std::string serialized = serialize(componentAccess);
 
 	if (m_serializedComponentAccesses.find(serialized) == m_serializedComponentAccesses.end())
