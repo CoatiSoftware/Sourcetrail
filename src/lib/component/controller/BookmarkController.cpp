@@ -32,6 +32,12 @@ BookmarkController::~BookmarkController()
 
 void BookmarkController::clear()
 {
+	m_activeNodeIds.clear();
+	m_activeEdgeIds.clear();
+
+	m_hasBookmarkForActiveToken = false;
+
+	getView<BookmarkView>()->setCreateButtonState(BookmarkView::CreateButtonState::CANNOT_CREATE);
 }
 
 std::vector<std::shared_ptr<Bookmark>> BookmarkController::getBookmarks(
@@ -97,6 +103,11 @@ std::shared_ptr<Bookmark> BookmarkController::getBookmarkForActiveToken() const
 	return std::shared_ptr<Bookmark>();
 }
 
+bool BookmarkController::canCreateBookmark() const
+{
+	return m_activeNodeIds.size() || m_activeEdgeIds.size();
+}
+
 BookmarkController::BookmarkCache::BookmarkCache(StorageAccess* storageAccess)
 	: m_storageAccess(storageAccess)
 {
@@ -126,6 +137,11 @@ std::vector<EdgeBookmark> BookmarkController::BookmarkCache::getAllEdgeBookmarks
 		m_edgeBookmarksValid = true;
 	}
 	return m_edgeBookmarks;
+}
+
+void BookmarkController::handleMessage(MessageActivateAll* message)
+{
+	clear();
 }
 
 void BookmarkController::handleMessage(MessageActivateBookmark* message)
@@ -203,7 +219,7 @@ void BookmarkController::handleMessage(MessageActivateTokens* message)
 			getView<BookmarkView>()->setCreateButtonState(BookmarkView::CreateButtonState::CAN_CREATE);
 		}
 	}
-	else if(!message->isEdge)
+	else if (!message->isEdge)
 	{
 		LOG_INFO_STREAM(<< "Registering new Node");
 
@@ -254,8 +270,7 @@ void BookmarkController::handleMessage(MessageCreateBookmark* message)
 			LOG_ERROR("Cannot create bookmark for edge if no active node exists");
 		}
 
-		const Id id = m_storageAccess->addEdgeBookmark(bookmark);
-		bookmark.setId(id);
+		m_storageAccess->addEdgeBookmark(bookmark);
 	}
 	else
 	{
@@ -273,8 +288,7 @@ void BookmarkController::handleMessage(MessageCreateBookmark* message)
 
 		NodeBookmark bookmark(0, displayName, message->comment, TimePoint::now(), category);
 		bookmark.setNodeIds(m_activeNodeIds);
-		const Id id = m_storageAccess->addNodeBookmark(bookmark);
-		bookmark.setId(id);
+		m_storageAccess->addNodeBookmark(bookmark);
 	}
 
 	m_bookmarkCache.clear();
@@ -359,6 +373,11 @@ void BookmarkController::handleMessage(MessageFinishedParsing* message)
 {
 	m_bookmarkCache.clear();
 	getView<BookmarkView>()->enableDisplayBookmarks(true);
+}
+
+void BookmarkController::handleMessage(MessageShowErrors* message)
+{
+	clear();
 }
 
 std::vector<std::shared_ptr<Bookmark>> BookmarkController::getAllBookmarks() const

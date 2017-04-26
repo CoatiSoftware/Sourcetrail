@@ -46,6 +46,11 @@ void BookmarkView::handleMessage(MessageDisplayBookmarks* message)
 
 void BookmarkView::handleMessage(MessageDisplayBookmarkCreator* message)
 {
+	if (!getController()->canCreateBookmark())
+	{
+		return;
+	}
+
 	if (getController()->hasBookmarkForActiveToken())
 	{
 		displayBookmarkEditor(getController()->getBookmarkForActiveToken(), getController()->getAllBookmarkCategories());

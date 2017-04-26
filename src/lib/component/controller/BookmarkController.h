@@ -8,6 +8,7 @@
 #include "data/StorageTypes.h"
 
 #include "utility/messaging/MessageListener.h"
+#include "utility/messaging/type/MessageActivateAll.h"
 #include "utility/messaging/type/MessageActivateBookmark.h"
 #include "utility/messaging/type/MessageActivateEdge.h"
 #include "utility/messaging/type/MessageActivateTokens.h"
@@ -19,6 +20,7 @@
 #include "utility/messaging/type/MessageDisplayBookmarks.h"
 #include "utility/messaging/type/MessageEditBookmark.h"
 #include "utility/messaging/type/MessageFinishedParsing.h"
+#include "utility/messaging/type/MessageShowErrors.h"
 
 #include "component/controller/Controller.h"
 
@@ -26,6 +28,7 @@ class StorageAccess;
 
 class BookmarkController
 	: public Controller
+	, public MessageListener<MessageActivateAll>
 	, public MessageListener<MessageActivateBookmark>
 	, public MessageListener<MessageActivateTokens>
 	, public MessageListener<MessageCreateBookmark>
@@ -35,6 +38,7 @@ class BookmarkController
 	, public MessageListener<MessageDeleteBookmarkForActiveTokens>
 	, public MessageListener<MessageEditBookmark>
 	, public MessageListener<MessageFinishedParsing>
+	, public MessageListener<MessageShowErrors>
 {
 public:
 	BookmarkController(StorageAccess* storageAccess);
@@ -47,8 +51,11 @@ public:
 
 	std::vector<std::string> getActiveTokenDisplayNames() const;
 	std::vector<BookmarkCategory> getAllBookmarkCategories() const;
+
 	bool hasBookmarkForActiveToken() const;
 	std::shared_ptr<Bookmark> getBookmarkForActiveToken() const;
+
+	bool canCreateBookmark() const;
 
 private:
 	class BookmarkCache
@@ -69,6 +76,7 @@ private:
 		bool m_edgeBookmarksValid;
 	};
 
+	virtual void handleMessage(MessageActivateAll* message);
 	virtual void handleMessage(MessageActivateBookmark* message);
 	virtual void handleMessage(MessageActivateTokens* message);
 	virtual void handleMessage(MessageCreateBookmark* message);
@@ -78,6 +86,7 @@ private:
 	virtual void handleMessage(MessageDeleteBookmarkForActiveTokens* message);
 	virtual void handleMessage(MessageEditBookmark* message);
 	virtual void handleMessage(MessageFinishedParsing* message);
+	virtual void handleMessage(MessageShowErrors* message);
 
 	std::vector<std::shared_ptr<Bookmark>> getAllBookmarks() const;
 	std::vector<std::shared_ptr<NodeBookmark>> getAllNodeBookmarks() const;
