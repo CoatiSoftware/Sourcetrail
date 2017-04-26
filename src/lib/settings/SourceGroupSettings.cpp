@@ -6,6 +6,10 @@ SourceGroupSettings::SourceGroupSettings(const std::string& id, SourceGroupType 
 	: m_projectSettings(projectSettings)
 	, m_id(id)
 	, m_type(type)
+	, m_standard("")
+	, m_sourcePaths(std::vector<FilePath>())
+	, m_excludePaths(std::vector<FilePath>())
+	, m_sourceExtensions(std::vector<std::string>())
 {
 }
 

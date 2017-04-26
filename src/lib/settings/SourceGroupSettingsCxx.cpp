@@ -4,6 +4,12 @@
 
 SourceGroupSettingsCxx::SourceGroupSettingsCxx(const std::string& id, SourceGroupType type, const ProjectSettings* projectSettings)
 	: SourceGroupSettings(id, type, projectSettings)
+	, m_headerSearchPaths(std::vector<FilePath>())
+	, m_frameworkSearchPaths(std::vector<FilePath>())
+	, m_compilerFlags(std::vector<std::string>())
+	, m_useSourcePathsForHeaderSearch(false)
+	, m_hasDefinedUseSourcePathsForHeaderSearch(false)
+	, m_compilationDatabasePath(FilePath())
 {
 }
 

@@ -4,6 +4,10 @@
 
 SourceGroupSettingsJava::SourceGroupSettingsJava(const std::string& id, SourceGroupType type, const ProjectSettings* projectSettings)
 	: SourceGroupSettings(id, type, projectSettings)
+	, m_classpaths(std::vector<FilePath>())
+	, m_mavenProjectFilePath(FilePath())
+	, m_mavenDependenciesDirectory(FilePath())
+	, m_shouldIndexMavenTests(false)
 {
 }
 
