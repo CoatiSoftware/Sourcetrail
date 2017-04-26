@@ -63,6 +63,10 @@ private slots:
 	void scrolled(int);
 
 	void trailDepthChanged(int);
+
+	void clickedCollapse();
+	void clickedExpand();
+
 	void clickedBackwardTrail();
 	void clickedForwardTrail();
 
@@ -144,6 +148,9 @@ private:
 	QtScrollSpeedChangeListener m_scrollSpeedChangeListenerHorizontal;
 	QtScrollSpeedChangeListener m_scrollSpeedChangeListenerVertical;
 
+	QWidget* m_trailWidget;
+	QPushButton* m_expandButton;
+	QPushButton* m_collapseButton;
 	QPushButton* m_forwardTrailButton;
 	QPushButton* m_backwardTrailButton;
 	QSlider* m_trailDepthSlider;

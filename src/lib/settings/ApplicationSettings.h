@@ -50,6 +50,9 @@ public:
 	float getScrollSpeed() const;
 	void setScrollSpeed(float scrollSpeed);
 
+	bool getGraphControlsVisible() const;
+	void setGraphControlsVisible(bool visible);
+
 	// logging
 	bool getLoggingEnabled() const;
 	void setLoggingEnabled(bool loggingEnabled);

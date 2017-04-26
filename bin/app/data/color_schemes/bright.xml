@@ -10,7 +10,7 @@
 			<press>#626262</press>
 			<disabled>#F2F2F2</disabled>
 			<icon>white</icon>
-			<icon_disabled>#FDFDFD</icon_disabled>
+			<icon_disabled>#DEDEDE</icon_disabled>
 		</button>
 
 		<field>
@@ -75,17 +75,8 @@
 		<background>white</background>
 
 		<navigation>
-			<text>#BCBCBC</text>
+			<text>#B2B2B2</text>
 			<line>#B2B2B2</line>
-
-			<button>
-				<normal>#E0E0E0</normal>
-				<hover>#B2B2B2</hover>
-				<press>#626262</press>
-				<disabled>#F2F2F2</disabled>
-				<icon>white</icon>
-				<icon_disabled>#FDFDFD</icon_disabled>
-			</button>
 		</navigation>
 
 		<file>

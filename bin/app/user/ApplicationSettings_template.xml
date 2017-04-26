@@ -26,6 +26,8 @@
 		<scroll_speed><!-- DECIMAL: multiplier for default scroll speed in views --></scroll_speed>
 
 		<logging_enabled><!-- BOOL: define if console and file logging is enabled --></logging_enabled>
+
+		<graph_controls_visible><!-- BOOL: define if the graph controls are visible or collapsed --></graph_controls_visible>
 	</application>
 
 	<indexing>

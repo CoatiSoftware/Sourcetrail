@@ -176,6 +176,16 @@ void ApplicationSettings::setScrollSpeed(float scrollSpeed)
 	setValue<float>("application/scroll_speed", scrollSpeed);
 }
 
+bool ApplicationSettings::getGraphControlsVisible() const
+{
+	return getValue<bool>("application/graph_controls_visible", true);
+}
+
+void ApplicationSettings::setGraphControlsVisible(bool visible)
+{
+	setValue<bool>("application/graph_controls_visible", visible);
+}
+
 bool ApplicationSettings::getLoggingEnabled() const
 {
 	return getValue<bool>("application/logging_enabled", false);

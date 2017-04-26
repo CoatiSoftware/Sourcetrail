@@ -10,6 +10,7 @@
 #include <QPushButton>
 #include <QScrollBar>
 #include <QSequentialAnimationGroup>
+#include <QStackedLayout>
 #include <QSlider>
 
 #include "component/controller/helper/DummyEdge.h"
@@ -89,36 +90,70 @@ void QtGraphView::initView()
 
 	// trail controls
 	{
-		m_forwardTrailButton = new QPushButton("<");
-		m_backwardTrailButton = new QPushButton(">");
+		QStackedLayout* stack = new QStackedLayout();
 
-		connect(m_forwardTrailButton, SIGNAL(clicked()), this, SLOT(clickedForwardTrail()));
-		connect(m_backwardTrailButton, SIGNAL(clicked()), this, SLOT(clickedBackwardTrail()));
+		{
+			m_expandButton = new QPushButton();
+			m_expandButton->setObjectName("expand_button");
+			m_expandButton->setToolTip("show depth graph controls");
+			m_expandButton->setGeometry(0, 0, 26, 26);
+			connect(m_expandButton, SIGNAL(clicked()), this, SLOT(clickedExpand()));
+			stack->addWidget(m_expandButton);
+		}
 
-		m_trailDepthSlider = new QSlider(Qt::Horizontal);
-		m_trailDepthSlider->setMinimum(1);
-		m_trailDepthSlider->setMaximum(51);
-		m_trailDepthSlider->setValue(10);
-		m_trailDepthSlider->setFixedWidth(150);
-		connect(m_trailDepthSlider, SIGNAL(valueChanged(int)), this, SLOT(trailDepthChanged(int)));
+		{
+			QWidget* ui = new QWidget();
+			ui->setGeometry(0, 0, 26, 210);
+			stack->addWidget(ui);
 
-		m_trailDepthLabel = new QLabel("10");
-		m_trailDepthLabel->setFixedWidth(30);
+			m_collapseButton = new QPushButton(ui);
+			m_collapseButton->setObjectName("collapse_button");
+			m_collapseButton->setToolTip("hide depth graph controls");
+			connect(m_collapseButton, SIGNAL(clicked()), this, SLOT(clickedCollapse()));
 
-		QHBoxLayout* trailLayout = new QHBoxLayout();
-		trailLayout->addWidget(m_backwardTrailButton);
-		trailLayout->addWidget(m_forwardTrailButton);
-		trailLayout->addStretch();
-		trailLayout->addWidget(new QLabel("depth:"));
-		trailLayout->addWidget(m_trailDepthSlider);
-		trailLayout->addWidget(m_trailDepthLabel);
+			m_forwardTrailButton = new QPushButton(ui);
+			m_forwardTrailButton->setObjectName("trail_button");
+			connect(m_forwardTrailButton, SIGNAL(clicked()), this, SLOT(clickedForwardTrail()));
 
-		QWidget* trailWidget = new QWidget(widget);
-		trailWidget->setMinimumWidth(380);
-		trailWidget->setMinimumHeight(50);
-		trailWidget->setLayout(trailLayout);
+			m_backwardTrailButton = new QPushButton(ui);
+			m_backwardTrailButton->setObjectName("trail_button");
+			connect(m_backwardTrailButton, SIGNAL(clicked()), this, SLOT(clickedBackwardTrail()));
+
+			m_trailDepthLabel = new QLabel(ui);
+			m_trailDepthLabel->setObjectName("depth_label");
+			m_trailDepthLabel->setToolTip("adjust graph depth");
+			m_trailDepthLabel->setAlignment(Qt::AlignCenter);
+
+			m_trailDepthSlider = new QSlider(Qt::Vertical, ui);
+			m_trailDepthSlider->setObjectName("depth_slider");
+			m_trailDepthSlider->setToolTip("adjust graph depth");
+			m_trailDepthSlider->setMinimum(1);
+			m_trailDepthSlider->setMaximum(26);
+			m_trailDepthSlider->setValue(5);
+			connect(m_trailDepthSlider, SIGNAL(valueChanged(int)), this, SLOT(trailDepthChanged(int)));
+
+			m_collapseButton->setGeometry(0, 0, 26, 20);
+			m_backwardTrailButton->setGeometry(0, 22, 26, 26);
+			m_forwardTrailButton->setGeometry(0, 50, 26, 26);
+			m_trailDepthLabel->setGeometry(0, 78, 26, 26);
+			m_trailDepthSlider->setGeometry(0, 104, 26, 100);
+		}
+
+		m_trailWidget = new QWidget(widget);
+		m_trailWidget->setGeometry(8, 8, 26, 210);
+		m_trailWidget->setLayout(stack);
+
+		if (ApplicationSettings::getInstance()->getGraphControlsVisible())
+		{
+			clickedExpand();
+		}
+		else
+		{
+			clickedCollapse();
+		}
 
 		updateTrailButtons();
+		trailDepthChanged(0);
 	}
 
 	doRefreshView();
@@ -275,6 +310,22 @@ void QtGraphView::trailDepthChanged(int)
 	}
 }
 
+void QtGraphView::clickedCollapse()
+{
+	dynamic_cast<QStackedLayout*>(m_trailWidget->layout())->setCurrentIndex(0);
+
+	ApplicationSettings::getInstance()->setGraphControlsVisible(false);
+	ApplicationSettings::getInstance()->save();
+}
+
+void QtGraphView::clickedExpand()
+{
+	dynamic_cast<QStackedLayout*>(m_trailWidget->layout())->setCurrentIndex(1);
+
+	ApplicationSettings::getInstance()->setGraphControlsVisible(true);
+	ApplicationSettings::getInstance()->save();
+}
+
 void QtGraphView::clickedBackwardTrail()
 {
 	activateTrail(false);
@@ -350,40 +401,54 @@ void QtGraphView::updateTrailButtons()
 
 	m_backwardTrailButton->setEnabled(message.trailType);
 	m_forwardTrailButton->setEnabled(message.trailType);
+	m_trailDepthLabel->setEnabled(message.trailType);
 	m_trailDepthSlider->setEnabled(message.trailType);
+
+	std::string backwardImagePath;
+	std::string forwardImagePath;
 
 	if (message.trailType & Edge::EDGE_CALL)
 	{
-		m_backwardTrailButton->setToolTip("caller graph");
-		m_forwardTrailButton->setToolTip("callee graph");
+		m_backwardTrailButton->setToolTip("show caller graph");
+		m_forwardTrailButton->setToolTip("show callee graph");
 
-		m_backwardTrailButton->setText(">");
-		m_forwardTrailButton->setText("<");
+		backwardImagePath = "graph_left.png";
+		forwardImagePath = "graph_right.png";
 	}
 	else if (message.trailType & Edge::EDGE_INHERITANCE)
 	{
-		m_backwardTrailButton->setToolTip("base hierarchy");
-		m_forwardTrailButton->setToolTip("derived hierarchy");
+		m_backwardTrailButton->setToolTip("show base hierarchy");
+		m_forwardTrailButton->setToolTip("show derived hierarchy");
 
-		m_backwardTrailButton->setText("b");
-		m_forwardTrailButton->setText("d");
+		backwardImagePath = "graph_up.png";
+		forwardImagePath = "graph_down.png";
 	}
 	else if (message.trailType & Edge::EDGE_INCLUDE)
 	{
-		m_backwardTrailButton->setToolTip("including files hierarchy");
-		m_forwardTrailButton->setToolTip("included files hierarchy");
+		m_backwardTrailButton->setToolTip("show including files hierarchy");
+		m_forwardTrailButton->setToolTip("show included files hierarchy");
 
-		m_backwardTrailButton->setText(">");
-		m_forwardTrailButton->setText("<");
+		backwardImagePath = "graph_left.png";
+		forwardImagePath = "graph_right.png";
 	}
 	else
 	{
-		m_backwardTrailButton->setToolTip("no hierarchy available for active symbol");
-		m_forwardTrailButton->setToolTip("no hierarchy available for active symbol");
+		m_backwardTrailButton->setToolTip("no depth graph available for active symbol");
+		m_forwardTrailButton->setToolTip("no depth graph available for active symbol");
 
-		m_backwardTrailButton->setText(">");
-		m_forwardTrailButton->setText("<");
+		backwardImagePath = "graph_left.png";
+		forwardImagePath = "graph_right.png";
 	}
+
+	m_backwardTrailButton->setIcon(utility::createButtonIcon(
+		ResourcePaths::getGuiPath() + "graph_view/images/" + backwardImagePath,
+		"search/button"
+	));
+
+	m_forwardTrailButton->setIcon(utility::createButtonIcon(
+		ResourcePaths::getGuiPath() + "graph_view/images/" + forwardImagePath,
+		"search/button"
+	));
 }
 
 void QtGraphView::switchToNewGraphData()
@@ -583,8 +648,21 @@ void QtGraphView::doRefreshView()
 
 	std::string css = utility::getStyleSheet(ResourcePaths::getGuiPath() + "graph_view/graph_view.css");
 	view->setStyleSheet(css.c_str());
-
 	view->setAppZoomFactor(GraphViewStyle::getZoomFactor());
+
+	m_trailWidget->setStyleSheet(css.c_str());
+
+	m_expandButton->setIcon(utility::createButtonIcon(
+		ResourcePaths::getGuiPath() + "graph_view/images/graph.png",
+		"search/button"
+	));
+
+	m_collapseButton->setIcon(utility::createButtonIcon(
+		ResourcePaths::getGuiPath() + "graph_view/images/graph_arrow.png",
+		"search/button"
+	));
+
+	updateTrailButtons();
 }
 
 std::shared_ptr<QtGraphNode> QtGraphView::findNodeRecursive(const std::list<std::shared_ptr<QtGraphNode>>& nodes, Id tokenId)
@@ -772,7 +850,7 @@ QRectF QtGraphView::getSceneRect(const std::list<std::shared_ptr<QtGraphNode>>& 
 		sceneRect |= rect;
 	}
 
-	return sceneRect.adjusted(-25, -75, 25, 25).translated(m_sceneRectOffset);
+	return sceneRect.adjusted(-25, -25, 25, 25).translated(m_sceneRectOffset);
 }
 
 void QtGraphView::compareNodesRecursive(

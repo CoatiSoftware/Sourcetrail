@@ -22,23 +22,23 @@
 }
 
 #code_navigation QPushButton {
-	background: <color:code/navigation/button/normal>;
+	background: <color:search/button/normal>;
 	border: none;
-	color: <color:code/navigation/button/icon>;
+	color: <color:search/button/icon>;
 	height: 24px;
 	width: 24px;
 }
 
 #code_navigation QPushButton:hover, #code_navigation QPushButton:checked {
-	background: <color:code/navigation/button/hover>;
+	background: <color:search/button/hover>;
 }
 
 #code_navigation QPushButton:disabled {
-	background: <color:code/navigation/button/disabled>;
+	background: <color:search/button/disabled>;
 }
 
 #code_navigation QPushButton:pressed {
-	background: <color:code/navigation/button/press>;
+	background: <color:search/button/press>;
 }
 
 #code_navigation #reference_button_previous {
