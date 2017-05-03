@@ -67,11 +67,11 @@ void SqliteIndexStorage::addSymbol(const int id, const int definitionKind)
 	);
 }
 
-bool SqliteIndexStorage::addFile(const int id, const std::string& filePath, const std::string& modificationTime, bool complete)
+void SqliteIndexStorage::addFile(const int id, const std::string& filePath, const std::string& modificationTime, bool complete)
 {
 	if (getFileByPath(filePath).id != 0)
 	{
-		return false;
+		return;
 	}
 
 	std::shared_ptr<TextAccess> content = TextAccess::createFromFile(filePath);

@@ -34,7 +34,7 @@ public:
 
 	Id addNode(const int type, const std::string& serializedName);
 	void addSymbol(const int id, int definitionKind);
-	bool addFile(const int id, const std::string& filePath, const std::string& modificationTime, bool complete);
+	void addFile(const int id, const std::string& filePath, const std::string& modificationTime, bool complete);
 	Id addLocalSymbol(const std::string& name);
 	Id addSourceLocation(Id fileNodeId, uint startLine, uint startCol, uint endLine, uint endCol, int type);
 	bool addOccurrence(Id elementId, Id sourceLocationId);
