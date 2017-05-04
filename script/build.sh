@@ -19,28 +19,28 @@ then
 	if [ "$2" = "test" ]
 	then
 		#echo "release test"
-		cd bin/test && ../../build/Release/test/Sourcetrail_test
+		cd build/Release/test/ && ./Sourcetrail_test
 	elif [ "$2" = "keygen" ]
 	then
 		#echo "release keygen"
-		cd bin/license_generator && ../../build/Release/license_generator/Sourcetrail_license_generator
+		cd build/Release/license_generator && ./Sourcetrail_license_generator
 	else
 		#echo "release app"
-		cd bin/app && ../../build/Release/app/Sourcetrail
+		cd build/Release/app && ./Sourcetrail
 	fi
 elif [ "$1" = "debug" ] || [ "$1" = "d" ]
 then
 	if [ "$2" = "test" ]
 	then
 		#echo "debug test"
-		cd bin/test && ../../build/Debug/test/Sourcetrail_test
+		cd build/Debug/test && ./Sourcetrail_test
 	elif [ "$2" = "keygen" ]
 	then
 		#echo "debug keygen"
-		cd bin/license_generator && ../../build/Debug/license_generator/Sourcetrail_license_generator
+		cd build/Debug/license_generator && ./Sourcetrail_license_generator
 	else
 		#echo "debug app"
-		cd bin/app && ../../build/Debug/app/Sourcetrail
+		cd build/Debug/app && ./Sourcetrail
 	fi
 else
 	echo "no arguments: first argument 'release' or 'debug', second argument 'test' for tests"

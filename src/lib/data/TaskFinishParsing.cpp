@@ -4,6 +4,7 @@
 #include "data/PersistentStorage.h"
 #include "utility/file/FileRegister.h"
 #include "utility/messaging/type/MessageFinishedParsing.h"
+#include "utility/messaging/type/MessageStatus.h"
 #include "utility/scheduling/Blackboard.h"
 #include "utility/utility.h"
 #include "Application.h"
@@ -63,6 +64,9 @@ Task::TaskState TaskFinishParsing::doUpdate(std::shared_ptr<Blackboard> blackboa
 	int sourceFileCount = 0;
 	blackboard->get("source_file_count", sourceFileCount);
 
+	bool interruptedIndexing = false;
+	blackboard->get("interrupted_indexing", interruptedIndexing);
+
 	StorageStats stats = m_storageAccess->getStorageStats();
 	dialogView->finishedIndexingDialog(
 		indexedSourceFileCount,
@@ -70,7 +74,8 @@ Task::TaskState TaskFinishParsing::doUpdate(std::shared_ptr<Blackboard> blackboa
 		stats.completedFileCount,
 		stats.fileCount,
 		time,
-		m_storageAccess->getErrorCount()
+		m_storageAccess->getErrorCount(),
+		interruptedIndexing
 	);
 
 	return STATE_SUCCESS;
@@ -82,4 +87,16 @@ void TaskFinishParsing::doExit(std::shared_ptr<Blackboard> blackboard)
 
 void TaskFinishParsing::doReset(std::shared_ptr<Blackboard> blackboard)
 {
+}
+
+void TaskFinishParsing::terminate()
+{
+	Application* app = Application::getInstance().get();
+	if (app)
+	{
+		app->getDialogView()->hideDialogs();
+	}
+
+	MessageStatus("An unknown exception was thrown during indexing.", true, false).dispatch();
+	MessageFinishedParsing().dispatch();
 }

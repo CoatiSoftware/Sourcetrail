@@ -25,12 +25,12 @@ void Storage::inject(Storage* injected)
 	std::unordered_map<Id, Id> injectedIdToOwnId;
 
 	injected->forEachNode(
-		[&](Id injectedId, const StorageNode& injectedData)
+		[&](const StorageNode& injectedData)
 		{
 			const Id ownId = addNode(injectedData.type, injectedData.serializedName);
 			if (ownId != 0)
 			{
-				injectedIdToOwnId[injectedId] = ownId;
+				injectedIdToOwnId[injectedData.id] = ownId;
 			}
 		}
 	);
@@ -66,7 +66,7 @@ void Storage::inject(Storage* injected)
 	);
 
 	injected->forEachEdge(
-		[&](Id injectedId, const StorageEdge& injectedData)
+		[&](const StorageEdge& injectedData)
 		{
 			std::unordered_map<Id, Id>::const_iterator it;
 			it = injectedIdToOwnId.find(injectedData.sourceNodeId);
@@ -87,24 +87,24 @@ void Storage::inject(Storage* injected)
 
 			if (ownId != 0)
 			{
-				injectedIdToOwnId[injectedId] = ownId;
+				injectedIdToOwnId[injectedData.id] = ownId;
 			}
 		}
 	);
 
 	injected->forEachLocalSymbol(
-		[&](const Id injectedId, const StorageLocalSymbol& injectedData)
+		[&](const StorageLocalSymbol& injectedData)
 		{
 			const Id ownId = addLocalSymbol(injectedData.name);
 			if (ownId != 0)
 			{
-				injectedIdToOwnId[injectedId] = ownId;
+				injectedIdToOwnId[injectedData.id] = ownId;
 			}
 		}
 	);
 
 	injected->forEachSourceLocation(
-		[&](const Id injectedId, const StorageSourceLocation& injectedData)
+		[&](const StorageSourceLocation& injectedData)
 		{
 			std::unordered_map<Id, Id>::const_iterator it;
 			it = injectedIdToOwnId.find(injectedData.fileNodeId);
@@ -124,7 +124,7 @@ void Storage::inject(Storage* injected)
 			);
 			if (ownId != 0)
 			{
-				injectedIdToOwnId[injectedId] = ownId;
+				injectedIdToOwnId[injectedData.id] = ownId;
 			}
 		}
 	);

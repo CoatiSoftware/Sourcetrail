@@ -25,6 +25,18 @@ std::string IndexerCommandJava::getKindString() const
 	return getIndexerKindString();
 }
 
+size_t IndexerCommandJava::getByteSize() const
+{
+	size_t size = IndexerCommand::getByteSize() + sizeof(*this);
+
+	for (auto i : m_classPath)
+	{
+		size += i.str().size();
+	}
+
+	return size;
+}
+
 std::vector<FilePath> IndexerCommandJava::getClassPath() const
 {
 	return m_classPath;

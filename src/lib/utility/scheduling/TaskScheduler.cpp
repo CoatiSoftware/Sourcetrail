@@ -126,11 +126,17 @@ bool TaskScheduler::hasTasksQueued() const
 	return m_taskRunners.size();
 }
 
+void TaskScheduler::terminateRunningTasks()
+{
+	m_terminateRunningTasks = true;
+}
+
 std::shared_ptr<TaskScheduler> TaskScheduler::s_instance;
 
 TaskScheduler::TaskScheduler()
 	: m_loopIsRunning(false)
 	, m_threadIsRunning(false)
+	, m_terminateRunningTasks(false)
 {
 }
 
@@ -151,23 +157,25 @@ void TaskScheduler::processTasks()
 			std::shared_ptr<Blackboard> blackboard = std::make_shared<Blackboard>();
 			while (true)
 			{
-				if (runner->update(blackboard) != Task::STATE_RUNNING)
-				{
-					break;
-				}
-
 				{
 					std::lock_guard<std::mutex> lock(m_loopMutex);
 
-					if (!m_loopIsRunning)
+					if (!m_loopIsRunning || m_terminateRunningTasks)
 					{
 						runner->terminate();
 						break;
 					}
+				}
+
+				if (runner->update(blackboard) != Task::STATE_RUNNING)
+				{
+					break;
 				}
 			}
 		}
 
 		m_taskRunners.pop_front();
 	}
+
+	m_terminateRunningTasks = false;
 }

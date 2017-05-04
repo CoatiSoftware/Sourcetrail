@@ -153,7 +153,7 @@ void QtIndexingDialog::setupIndexing()
 
 void QtIndexingDialog::setupReport(
 	size_t indexedFileCount, size_t totalIndexedFileCount, size_t completedFileCount, size_t totalFileCount,
-	float time)
+	float time, bool interrupted)
 {
 	QBoxLayout* layout = createLayout();
 
@@ -182,7 +182,7 @@ void QtIndexingDialog::setupReport(
 
 	m_sizeHint = QSize(400, 280);
 
-	if (indexedFileCount != totalIndexedFileCount)
+	if (interrupted)
 	{
 		updateTitle("Interrupted Indexing");
 	}

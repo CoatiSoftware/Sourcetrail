@@ -37,7 +37,11 @@ void DialogView::updateIndexingDialog(size_t fileCount, size_t totalFileCount, s
 
 void DialogView::finishedIndexingDialog(
 	size_t indexedFileCount, size_t totalIndexedFileCount, size_t completedFileCount, size_t totalFileCount,
-	float time, ErrorCountInfo errorInfo)
+	float time, ErrorCountInfo errorInfo, bool interrupted)
+{
+}
+
+void DialogView::hideDialogs()
 {
 }
 

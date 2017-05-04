@@ -9,12 +9,46 @@
 #include "settings/ApplicationSettings.h"
 #include "utility/file/FileSystem.h"
 #include "utility/text/TextAccess.h"
+#include "utility/ResourcePaths.h"
 #include "utility/utilityString.h"
+
+std::string JavaParser::prepareJavaEnvironment()
+{
+	std::string errorString;
+
+	if (!JavaEnvironmentFactory::getInstance())
+	{
+#ifdef _WIN32
+		const std::string separator = ";";
+#else
+		const std::string separator = ":";
+#endif
+		JavaEnvironmentFactory::createInstance(
+			ResourcePaths::getJavaPath().str() + "guava-18.0.jar" + separator +
+			ResourcePaths::getJavaPath().str() + "java-indexer.jar" + separator +
+			ResourcePaths::getJavaPath().str() + "javaparser-core.jar" + separator +
+			ResourcePaths::getJavaPath().str() + "javaslang-2.0.3.jar" + separator +
+			ResourcePaths::getJavaPath().str() + "javassist-3.19.0-GA.jar" + separator +
+			ResourcePaths::getJavaPath().str() + "java-symbol-solver-core.jar" + separator +
+			ResourcePaths::getJavaPath().str() + "java-symbol-solver-logic.jar" + separator +
+			ResourcePaths::getJavaPath().str() + "java-symbol-solver-model.jar",
+			errorString
+		);
+	}
+
+	return errorString;
+}
 
 JavaParser::JavaParser(std::shared_ptr<ParserClient> client, std::shared_ptr<FileRegister> fileRegister)
 	: Parser(client)
 	, m_id(s_nextParserId++)
 {
+	const std::string errorString = prepareJavaEnvironment();
+	if (errorString.size() > 0)
+	{
+		LOG_ERROR(errorString);
+	}
+
 	std::shared_ptr<JavaEnvironmentFactory> factory = JavaEnvironmentFactory::getInstance();
 	if (factory)
 	{
@@ -63,7 +97,10 @@ void JavaParser::buildIndex(const FilePath& filePath, std::shared_ptr<TextAccess
 	buildIndex(filePath, "", textAccess);
 }
 
-void JavaParser::buildIndex(const FilePath& sourceFilePath, const std::string& classPath, std::shared_ptr<TextAccess> textAccess)
+void JavaParser::buildIndex(
+	const FilePath& sourceFilePath,
+	const std::string& classPath,
+	std::shared_ptr<TextAccess> textAccess)
 {
 	if (m_javaEnvironment)
 	{

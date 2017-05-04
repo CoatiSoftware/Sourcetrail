@@ -25,6 +25,8 @@ public:
 	bool loopIsRunning() const;
 	bool hasTasksQueued() const;
 
+	void terminateRunningTasks();
+
 private:
 	static std::shared_ptr<TaskScheduler> s_instance;
 
@@ -37,6 +39,7 @@ private:
 
 	bool m_loopIsRunning;
 	bool m_threadIsRunning;
+	bool m_terminateRunningTasks;
 
 	std::deque<std::shared_ptr<TaskRunner>> m_taskRunners;
 

@@ -73,7 +73,6 @@ std::string ParserClient::addLocationSuffix(
 
 ParserClient::ParserClient()
 	: m_hasFatalErrors(false)
-	, m_cancelOnFatalErrors(false)
 {
 }
 
@@ -94,14 +93,4 @@ void ParserClient::onErrorParsed(const ParseLocation& location, const std::strin
 bool ParserClient::hasFatalErrors() const
 {
 	return m_hasFatalErrors;
-}
-
-bool ParserClient::cancelOnFatalErrors() const
-{
-	return m_cancelOnFatalErrors;
-}
-
-void ParserClient::setCancelOnFatalErrors(bool cancelOnFatalErrors)
-{
-	m_cancelOnFatalErrors = cancelOnFatalErrors;
 }

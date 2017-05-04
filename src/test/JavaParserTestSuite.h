@@ -12,7 +12,6 @@
 
 #include "helper/TestParserClient.h"
 
-
 class JavaParserTestSuite: public CxxTest::TestSuite
 {
 public:

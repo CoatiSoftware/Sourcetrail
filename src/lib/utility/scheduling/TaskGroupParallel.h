@@ -35,7 +35,10 @@ private:
 	virtual void doReset(std::shared_ptr<Blackboard> blackboard);
 	virtual void doTerminate();
 
-	void processTaskThreaded(std::shared_ptr<TaskInfo> taskInfo, std::shared_ptr<Blackboard> blackboard);
+	void processTaskThreaded(
+		std::shared_ptr<TaskInfo> taskInfo,
+		std::shared_ptr<Blackboard> blackboard,
+		std::shared_ptr<std::mutex> activeTaskCountMutex);
 	int getActiveTaskCount() const;
 
 	std::vector<std::shared_ptr<TaskInfo>> m_tasks;
@@ -43,7 +46,7 @@ private:
 
 	volatile bool m_taskFailed;
 	volatile int m_activeTaskCount;
-	mutable std::mutex m_activeTaskCountMutex;
+	mutable std::shared_ptr<std::mutex> m_activeTaskCountMutex;
 };
 
 #endif // TASK_GROUP_PARALLEL_H

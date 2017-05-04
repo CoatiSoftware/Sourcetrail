@@ -50,12 +50,12 @@ public:
 
 	virtual std::vector<BookmarkCategory> getAllBookmarkCategories() const;
 
-	virtual void forEachNode(std::function<void(const Id /*id*/, const StorageNode& /*data*/)> callback) const;
+	virtual void forEachNode(std::function<void(const StorageNode& /*data*/)> callback) const;
 	virtual void forEachFile(std::function<void(const StorageFile& /*data*/)> callback) const;
 	virtual void forEachSymbol(std::function<void(const StorageSymbol& /*data*/)> callback) const;
-	virtual void forEachEdge(std::function<void(const Id /*id*/, const StorageEdge& /*data*/)> callback) const;
-	virtual void forEachLocalSymbol(std::function<void(const Id /*id*/, const StorageLocalSymbol& /*data*/)> callback) const;
-	virtual void forEachSourceLocation(std::function<void(const Id /*id*/, const StorageSourceLocation& /*data*/)> callback) const;
+	virtual void forEachEdge(std::function<void(const StorageEdge& /*data*/)> callback) const;
+	virtual void forEachLocalSymbol(std::function<void(const StorageLocalSymbol& /*data*/)> callback) const;
+	virtual void forEachSourceLocation(std::function<void(const StorageSourceLocation& /*data*/)> callback) const;
 	virtual void forEachOccurrence(std::function<void(const StorageOccurrence& /*data*/)> callback) const;
 	virtual void forEachComponentAccess(std::function<void(const StorageComponentAccess& /*data*/)> callback) const;
 	virtual void forEachCommentLocation(std::function<void(const StorageCommentLocation& /*data*/)> callback) const;

@@ -8,6 +8,7 @@
 
 #include "qt/utility/utilityQt.h"
 #include "utility/AppPath.h"
+#include "utility/file/FilePath.h"
 #include "utility/ResourcePaths.h"
 #include "utility/UserPaths.h"
 
@@ -91,7 +92,7 @@ void setupApp(int argc, char *argv[])
 
 	if (!appIsMacBundle)
 	{
-		UserPaths::setUserDataPath(FilePath(path.absolute().str() + "/user/"));
+		UserPaths::setUserDataPath(FilePath("./user/"));
 	}
 	else
 	{

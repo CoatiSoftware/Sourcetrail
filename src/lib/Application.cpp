@@ -1,5 +1,6 @@
 #include "Application.h"
 
+#include "utility/interprocess/SharedMemoryGarbageCollector.h"
 #include "utility/logging/logging.h"
 #include "utility/logging/LogManager.h"
 #include "utility/messaging/MessageQueue.h"
@@ -8,6 +9,7 @@
 #include "utility/scheduling/TaskScheduler.h"
 #include "utility/tracing.h"
 #include "utility/UserPaths.h"
+#include "utility/UUIDUtility.h"
 #include "utility/Version.h"
 
 #include "component/view/DialogView.h"
@@ -22,10 +24,14 @@
 #include "settings/ProjectSettings.h"
 #include "settings/ColorScheme.h"
 
+std::shared_ptr<Application> Application::s_instance;
+std::string Application::s_uuid;
+
 void Application::createInstance(
 	const Version& version, ViewFactory* viewFactory, NetworkFactory* networkFactory
 ){
 	Version::setApplicationVersion(version);
+	SharedMemoryGarbageCollector::createInstance()->run(Application::getUUID());
 	loadSettings();
 
 	TaskScheduler::getInstance();
@@ -69,6 +75,16 @@ void Application::destroyInstance()
 	s_instance.reset();
 }
 
+std::string Application::getUUID()
+{
+	if (!s_uuid.size())
+	{
+		s_uuid = UUIDUtility::UUIDtoString(UUIDUtility::getUUID());
+	}
+
+	return s_uuid;
+}
+
 void Application::loadSettings()
 {
 	MessageStatus("Load settings: " + UserPaths::getAppSettingsPath().str()).dispatch();
@@ -87,8 +103,6 @@ void Application::loadStyle(const FilePath& colorSchemePath)
 	GraphViewStyle::loadStyleSettings();
 }
 
-std::shared_ptr<Application> Application::s_instance;
-
 Application::Application(bool withGUI)
 	: m_hasGUI(withGUI)
 	, m_isInTrial(true)
@@ -100,10 +114,13 @@ Application::~Application()
 {
 	MessageQueue::getInstance()->stopMessageLoop();
 	TaskScheduler::getInstance()->stopSchedulerLoop();
+
 	if (m_hasGUI)
 	{
 		m_mainView->saveLayout();
 	}
+
+	SharedMemoryGarbageCollector::getInstance()->stop();
 }
 
 const std::shared_ptr<Project> Application::getCurrentProject()

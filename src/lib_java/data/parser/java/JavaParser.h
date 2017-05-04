@@ -31,6 +31,9 @@ class FileRegister;
 class JavaParser: public Parser
 {
 public:
+	// returns: error message
+	static std::string prepareJavaEnvironment();
+
 	JavaParser(std::shared_ptr<ParserClient> client, std::shared_ptr<FileRegister> fileRegister);
 	~JavaParser();
 
@@ -38,7 +41,8 @@ public:
 	void buildIndex(const FilePath& filePath, std::shared_ptr<TextAccess> textAccess);
 
 private:
-	void buildIndex(const FilePath& sourceFilePath, const std::string& classPath, std::shared_ptr<TextAccess> textAccess);
+	void buildIndex(
+		const FilePath& sourceFilePath, const std::string& classPath, std::shared_ptr<TextAccess> textAccess);
 
 // This macro makes available a variable T, the passed-in t. blablabla TODO: write somethign real here
 #define MAKE_PARAMS_0()

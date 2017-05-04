@@ -1,4 +1,5 @@
 #include "data/parser/cxx/ASTConsumer.h"
+
 #include "data/parser/cxx/CxxAstVisitor.h"
 #include "data/parser/cxx/CxxVerboseAstVisitor.h"
 #include "settings/ApplicationSettings.h"
@@ -11,7 +12,9 @@ ASTConsumer::ASTConsumer(
 	std::shared_ptr<FilePathCache> canonicalFilePathCache
 )
 {
-	if (ApplicationSettings::getInstance()->getLoggingEnabled() && ApplicationSettings::getInstance()->getVerboseIndexerLoggingEnabled())
+	ApplicationSettings* appSettings = ApplicationSettings::getInstance().get();
+
+	if (appSettings->getLoggingEnabled() && appSettings->getVerboseIndexerLoggingEnabled())
 	{
 		m_visitor = std::make_shared<CxxVerboseAstVisitor>(context, preprocessor, client, fileRegister, canonicalFilePathCache);
 	}

@@ -11,6 +11,7 @@ echo -e $INFO "Creating app bundle for MacOSX."
 
 BUNDLE_NAME="@MACOSX_BUNDLE_NAME@"
 APP_NAME="@MACOSX_BINARY_NAME@"
+INDEXER_NAME="@MACOSX_INDEXER_BINARY_NAME@"
 DYNLIB_PATHS=(@MACOSX_DYNAMIC_LIBRARIES@)
 
 VERSION_STRING=$(git describe --long)
@@ -49,6 +50,7 @@ PLUGIN_DIR=$BUNDLE_PATH/Contents/PlugIns
 FRAMEWORK_DIR=$BUNDLE_PATH/Contents/Frameworks
 RES_DIR=$BUNDLE_PATH/Contents/Resources
 APP_PATH=$BIN_DIR/$APP_NAME
+INDEXER_PATH=$RES_DIR/$INDEXER_NAME
 
 echo -e $INFO "Creating bundle folders."
 mkdir -p $BIN_DIR
@@ -76,6 +78,8 @@ cp $APP_NAME $APP_PATH
 
 cp bundle_info.plist $BUNDLE_PATH/Contents/Info.plist
 
+cp $INDEXER_NAME $INDEXER_PATH
+
 mkdir -p $RES_DIR/data
 
 cp -R ../../../bin/app/data/color_schemes $RES_DIR/data/color_schemes
@@ -95,6 +99,7 @@ do
 
 	install_name_tool -change $LIB_NAME @executable_path/../lib/$LIB_NAME $APP_PATH
 	install_name_tool -change @rpath/$LIB_NAME @executable_path/../lib/$LIB_NAME $APP_PATH
+	install_name_tool -change @rpath/$LIB_NAME @executable_path/../lib/$LIB_NAME $INDEXER_PATH
 
 	echo "lib" $LIB_PATH $LIB_NAME
 done
@@ -122,6 +127,7 @@ do
 	FRAMEWORK_SUB_PATH=$(echo $FRAMEWORK_BIN_PATH | grep -o "\w*.framework\S*")
 	install_name_tool -id @executable_path/../Frameworks/$FRAMEWORK_SUB_PATH $FRAMEWORK_DIR/$FRAMEWORK_SUB_PATH
 	install_name_tool -change @rpath/$FRAMEWORK_SUB_PATH @executable_path/../Frameworks/$FRAMEWORK_SUB_PATH $APP_PATH
+	install_name_tool -change @rpath/$FRAMEWORK_SUB_PATH @executable_path/../Frameworks/$FRAMEWORK_SUB_PATH $INDEXER_PATH
 
 	echo "framework" $FRAMEWORK_BIN_PATH $FRAMEWORK_PATH
 done
@@ -160,9 +166,11 @@ otool -L $FRAMEWORK_DIR/QtNetwork.framework/Versions/5/QtNetwork
 otool -L $PLUGIN_DIR/platforms/libqcocoa.dylib
 otool -L $PLUGIN_DIR/imageformats/libqgif.dylib
 
-
 echo -e $INFO "App dependencies"
 otool -L $APP_PATH
+
+echo -e $INFO "Indexer dependencies"
+otool -L $INDEXER_PATH
 
 echo -e $INFO "Create icon"
 ICON=../../../bin/app/data/gui/icon/logo_1024_1024.png
@@ -207,6 +215,6 @@ iconutil -c icns -o $RES_DIR/project.icns $ICON_SET
 # upx --best $APP_PATH
 
 echo -e $INFO "create DMG"
-hdiutil create ${PACKAGE_DIR}.dmg -volname ${PACKAGE_DIR} -srcfolder ${PACKAGE_DIR}
+# hdiutil create ${PACKAGE_DIR}.dmg -volname ${PACKAGE_DIR} -srcfolder ${PACKAGE_DIR}
 
 echo -e $SUCCESS "Installed bundle successfully!"

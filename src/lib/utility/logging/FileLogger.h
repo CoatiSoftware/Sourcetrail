@@ -13,6 +13,9 @@ public:
 	FileLogger();
 	virtual ~FileLogger();
 
+	FilePath getLogFilePath() const;
+	void setLogFilePath(const FilePath& filePath);
+
 	void setLogDirectory(const FilePath& filePath);
 	void setFileName(const std::string& fileName);
 	void setMaxLogLineCount(unsigned int logCount);
@@ -30,12 +33,12 @@ private:
 
 	std::string m_logFileName;
 	FilePath m_logDirectory;
+	FilePath m_currentLogFilePath;
+
 	unsigned int m_maxLogLineCount;
 	unsigned int m_maxLogFileCount;
 	unsigned int m_currentLogLineCount;
 	unsigned int m_currentLogFileCount;
-
-	std::string m_currentLogFileName;
 };
 
 #endif // FILE_LOGGER_H

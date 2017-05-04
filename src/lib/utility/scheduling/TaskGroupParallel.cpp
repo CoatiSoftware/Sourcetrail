@@ -7,6 +7,7 @@
 
 TaskGroupParallel::TaskGroupParallel()
 	: m_needsToStartThreads(true)
+	, m_activeTaskCountMutex(std::make_shared<std::mutex>())
 {
 }
 
@@ -30,7 +31,8 @@ void TaskGroupParallel::doEnter(std::shared_ptr<Blackboard> blackboard)
 		for (size_t i = 0; i < m_tasks.size(); i++)
 		{
 			m_tasks[i]->active = true;
-			m_tasks[i]->thread = std::make_shared<std::thread>(&TaskGroupParallel::processTaskThreaded, this, m_tasks[i], blackboard);
+			m_tasks[i]->thread = std::make_shared<std::thread>(
+				&TaskGroupParallel::processTaskThreaded, this, m_tasks[i], blackboard, m_activeTaskCountMutex);
 		}
 	}
 }
@@ -65,12 +67,13 @@ void TaskGroupParallel::doReset(std::shared_ptr<Blackboard> blackboard)
 		if (!m_tasks[i]->active)
 		{
 			{
-				std::lock_guard<std::mutex> lock(m_activeTaskCountMutex);
+				std::lock_guard<std::mutex> lock(*m_activeTaskCountMutex.get());
 				m_activeTaskCount++;
 			}
 			m_tasks[i]->thread->join();
 			m_tasks[i]->active = true;
-			m_tasks[i]->thread = std::make_shared<std::thread>(&TaskGroupParallel::processTaskThreaded, this, m_tasks[i], blackboard);
+			m_tasks[i]->thread = std::make_shared<std::thread>(
+				&TaskGroupParallel::processTaskThreaded, this, m_tasks[i], blackboard, m_activeTaskCountMutex);
 		}
 	}
 }
@@ -88,10 +91,13 @@ void TaskGroupParallel::doTerminate()
 	}
 }
 
-void TaskGroupParallel::processTaskThreaded(std::shared_ptr<TaskInfo> taskInfo, std::shared_ptr<Blackboard> blackboard)
+void TaskGroupParallel::processTaskThreaded(
+	std::shared_ptr<TaskInfo> taskInfo,
+	std::shared_ptr<Blackboard> blackboard,
+	std::shared_ptr<std::mutex> activeTaskCountMutex)
 {
 	ScopedFunctor functor([&](){
-		std::lock_guard<std::mutex> lock(m_activeTaskCountMutex);
+		std::lock_guard<std::mutex> lock(*activeTaskCountMutex.get());
 		m_activeTaskCount--;
 	});
 
@@ -113,6 +119,6 @@ void TaskGroupParallel::processTaskThreaded(std::shared_ptr<TaskInfo> taskInfo, 
 
 int TaskGroupParallel::getActiveTaskCount() const
 {
-	std::lock_guard<std::mutex> lock(m_activeTaskCountMutex);
+	std::lock_guard<std::mutex> lock(*m_activeTaskCountMutex.get());
 	return m_activeTaskCount;
 }

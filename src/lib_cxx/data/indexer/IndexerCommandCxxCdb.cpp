@@ -49,6 +49,11 @@ std::string IndexerCommandCxxCdb::getKindString() const
 	return getIndexerKindString();
 }
 
+size_t IndexerCommandCxxCdb::getByteSize() const
+{
+	return IndexerCommandCxx::getByteSize() + sizeof(*this) + m_workingDirectory.str().size();
+}
+
 FilePath IndexerCommandCxxCdb::getWorkingDirectory() const
 {
 	return m_workingDirectory;

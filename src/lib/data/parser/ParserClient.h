@@ -55,12 +55,8 @@ public:
 
 	bool hasFatalErrors() const;
 
-	bool cancelOnFatalErrors() const;
-	void setCancelOnFatalErrors(bool cancelOnFatalErrors);
-
 protected:
 	bool m_hasFatalErrors;
-	bool m_cancelOnFatalErrors;
 };
 
 #endif // PARSER_CLIENT_H

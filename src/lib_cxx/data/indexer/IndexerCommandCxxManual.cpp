@@ -28,6 +28,11 @@ std::string IndexerCommandCxxManual::getKindString() const
 	return getIndexerKindString();
 }
 
+size_t IndexerCommandCxxManual::getByteSize() const
+{
+	return IndexerCommandCxx::getByteSize() + sizeof(*this);
+}
+
 std::string IndexerCommandCxxManual::getLanguageStandard() const
 {
 	return m_languageStandard;

@@ -33,7 +33,8 @@ public:
 		DialogView::IndexingOptions options, std::function<void(DialogView::IndexingOptions)> callback);
 	void setupIndexing();
 	void setupReport(
-		size_t indexedFileCount, size_t totalIndexedFileCount, size_t completedFileCount, size_t totalFileCount, float time);
+		size_t indexedFileCount, size_t totalIndexedFileCount, size_t completedFileCount, size_t totalFileCount,
+		float time, bool interrupted);
 
 	void setupUnknownProgress();
 	void setupProgress();

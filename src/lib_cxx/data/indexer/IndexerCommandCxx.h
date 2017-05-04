@@ -21,6 +21,7 @@ public:
 		const std::vector<std::string>& compilerFlags);
 
 	virtual ~IndexerCommandCxx();
+	virtual size_t getByteSize() const override;
 
 	std::vector<FilePath> getSystemHeaderSearchPaths() const;
 	std::vector<FilePath> getFrameworkSearchPaths() const;

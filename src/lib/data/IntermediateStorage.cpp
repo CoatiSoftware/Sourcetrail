@@ -16,16 +16,12 @@ IntermediateStorage::~IntermediateStorage()
 
 void IntermediateStorage::clear()
 {
-	m_nodeNamesToIds.clear();
-	m_nodeIdsToData.clear();
+	m_nodes.clear();
 	m_files.clear();
 	m_symbols.clear();
-	m_edgeNamesToIds.clear();
-	m_edgeIdsToData.clear();
-	m_localSymbolNamesToIds.clear();
-	m_localSymbolIdsToData.clear();
-	m_sourceLocationNamesToIds.clear();
-	m_sourceLocationIdsToData.clear();
+	m_edges.clear();
+	m_localSymbols.clear();
+	m_sourceLocations.clear();
 	m_occurrences.clear();
 	m_componentAccesses.clear();
 	m_commentLocations.clear();
@@ -33,9 +29,49 @@ void IntermediateStorage::clear()
 	m_nextId = 1;
 }
 
+size_t IntermediateStorage::getByteSize() const
+{
+	unsigned int byteSize = 0;
+
+	for (const StorageFile& storageFile: getStorageFiles())
+	{
+		byteSize += sizeof(StorageFile);
+		byteSize += storageFile.filePath.size();
+		byteSize += storageFile.modificationTime.size();
+	}
+
+	for (const StorageError& storageError: getErrors())
+	{
+		byteSize += sizeof(StorageError);
+		byteSize += storageError.filePath.str().size();
+		byteSize += storageError.message.size();
+	}
+
+	for (const StorageNode& storageNode: getStorageNodes())
+	{
+		byteSize += sizeof(StorageNode);
+		byteSize += storageNode.serializedName.size();
+	}
+
+	for (const StorageLocalSymbol& storageLocalSymbol: getStorageLocalSymbols())
+	{
+		byteSize += sizeof(StorageLocalSymbol);
+		byteSize += storageLocalSymbol.name.size();
+	}
+
+	byteSize += sizeof(StorageEdge) * getStorageEdges().size();
+	byteSize += sizeof(StorageCommentLocation) * getCommentLocations().size();
+	byteSize += sizeof(StorageComponentAccess) * getComponentAccesses().size();
+	byteSize += sizeof(StorageOccurrence) * getStorageOccurrences().size();
+	byteSize += sizeof(StorageSymbol) * getStorageSymbols().size();
+	byteSize += sizeof(StorageSourceLocation) * getStorageSourceLocations().size();
+
+	return byteSize;
+}
+
 size_t IntermediateStorage::getSourceLocationCount() const
 {
-	return m_sourceLocationNamesToIds.size();
+	return m_sourceLocations.size();
 }
 
 void IntermediateStorage::setAllFilesIncomplete()
@@ -65,25 +101,23 @@ void IntermediateStorage::setFilesWithErrorsIncomplete()
 
 Id IntermediateStorage::addNode(int type, const std::string& serializedName)
 {
-	std::shared_ptr<StorageNode> node = std::make_shared<StorageNode>(0, type, serializedName);
+	StorageNode node(0, type, serializedName);
 
-	const std::string serialized = serialize(*(node.get()));
-	std::unordered_map<std::string, Id>::const_iterator it = m_nodeNamesToIds.find(serialized);
-	if (it != m_nodeNamesToIds.end())
+	const std::string serialized = serialize(node);
+	std::unordered_map<std::string, StorageNode>::iterator it = m_nodes.find(serialized);
+	if (it != m_nodes.end())
 	{
-		std::map<Id, std::shared_ptr<StorageNode>>::const_iterator it2 = m_nodeIdsToData.find(it->second);
-		std::shared_ptr<StorageNode> storedNode = it2->second;
-		if (storedNode->type < type)
+		StorageNode& storedNode = it->second;
+		if (storedNode.type < type)
 		{
-			storedNode->type = type;
+			storedNode.type = type;
 		}
-		return it->second;
+		return storedNode.id;
 	}
 
 	const Id id = m_nextId++;
-	m_nodeNamesToIds[serialized] = id;
-	m_nodeIdsToData[id] = node;
-
+	node.id = id;
+	m_nodes[serialized] = node;
 	return id;
 }
 
@@ -107,43 +141,41 @@ void IntermediateStorage::addSymbol(const Id id, int definitionKind)
 
 Id IntermediateStorage::addEdge(int type, Id sourceId, Id targetId)
 {
-	std::shared_ptr<StorageEdge> edge = std::make_shared<StorageEdge>(0, type, sourceId, targetId);
+	StorageEdge edge = StorageEdge(0, type, sourceId, targetId);
 
-	const std::string serialized = serialize(*(edge.get()));
-	std::unordered_map<std::string, Id>::const_iterator it = m_edgeNamesToIds.find(serialized);
-	if (it != m_edgeNamesToIds.end())
+	const std::string serialized = serialize(edge);
+	std::unordered_map<std::string, StorageEdge>::const_iterator it = m_edges.find(serialized);
+	if (it != m_edges.end())
 	{
-		return it->second;
+		return it->second.id;
 	}
 
 	const Id id = m_nextId++;
-	m_edgeNamesToIds[serialized] = id;
-	m_edgeIdsToData[id] = edge;
-
+	edge.id = id;
+	m_edges[serialized] = edge;
 	return id;
 }
 
 Id IntermediateStorage::addLocalSymbol(const std::string& name)
 {
-	std::shared_ptr<StorageLocalSymbol> localSymbol = std::make_shared<StorageLocalSymbol>(0, name);
+	StorageLocalSymbol localSymbol = StorageLocalSymbol(0, name);
 
-	const std::string serialized = serialize(*(localSymbol.get()));
-	std::unordered_map<std::string, Id>::const_iterator it = m_localSymbolNamesToIds.find(serialized);
-	if (it != m_localSymbolNamesToIds.end())
+	const std::string serialized = serialize(localSymbol);
+	std::unordered_map<std::string, StorageLocalSymbol>::const_iterator it = m_localSymbols.find(serialized);
+	if (it != m_localSymbols.end())
 	{
-		return it->second;
+		return it->second.id;
 	}
 
 	const Id id = m_nextId++;
-	m_localSymbolNamesToIds[serialized] = id;
-	m_localSymbolIdsToData[id] = localSymbol;
-
+	localSymbol.id = id;
+	m_localSymbols[serialized] = localSymbol;
 	return id;
 }
 
 Id IntermediateStorage::addSourceLocation(Id fileNodeId, uint startLine, uint startCol, uint endLine, uint endCol, int type)
 {
-	std::shared_ptr<StorageSourceLocation> sourceLocation = std::make_shared<StorageSourceLocation>(
+	StorageSourceLocation sourceLocation = StorageSourceLocation(
 		0,
 		fileNodeId,
 		startLine,
@@ -153,17 +185,16 @@ Id IntermediateStorage::addSourceLocation(Id fileNodeId, uint startLine, uint st
 		type
 	);
 
-	const std::string serialized = serialize(*(sourceLocation.get()));
-	std::unordered_map<std::string, Id>::const_iterator it = m_sourceLocationNamesToIds.find(serialized);
-	if (it != m_sourceLocationNamesToIds.end())
+	const std::string serialized = serialize(sourceLocation);
+	std::unordered_map<std::string, StorageSourceLocation>::const_iterator it = m_sourceLocations.find(serialized);
+	if (it != m_sourceLocations.end())
 	{
-		return it->second;
+		return it->second.id;
 	}
 
 	const Id id = m_nextId++;
-	m_sourceLocationNamesToIds[serialized] = id;
-	m_sourceLocationIdsToData[id] = sourceLocation;
-
+	sourceLocation.id = id;
+	m_sourceLocations[serialized] = sourceLocation;
 	return id;
 }
 
@@ -211,7 +242,8 @@ void IntermediateStorage::addCommentLocation(Id fileNodeId, uint startLine, uint
 	}
 }
 
-void IntermediateStorage::addError(const std::string& message, const FilePath& filePath, uint startLine, uint startCol, bool fatal, bool indexed)
+void IntermediateStorage::addError(
+	const std::string& message, const FilePath& filePath, uint startLine, uint startCol, bool fatal, bool indexed)
 {
 	const StorageError error(
 		0,
@@ -231,11 +263,11 @@ void IntermediateStorage::addError(const std::string& message, const FilePath& f
 	}
 }
 
-void IntermediateStorage::forEachNode(std::function<void(const Id /*id*/, const StorageNode& /*data*/)> callback) const
+void IntermediateStorage::forEachNode(std::function<void(const StorageNode& /*data*/)> callback) const
 {
-	for (std::map<Id, std::shared_ptr<StorageNode>>::const_iterator it = m_nodeIdsToData.begin(); it != m_nodeIdsToData.end(); it++)
+	for (std::unordered_map<std::string, StorageNode>::const_iterator it = m_nodes.begin(); it != m_nodes.end(); it++)
 	{
-		callback(it->first, *(it->second.get()));
+		callback(it->second);
 	}
 }
 
@@ -255,27 +287,29 @@ void IntermediateStorage::forEachSymbol(std::function<void(const StorageSymbol& 
 	}
 }
 
-void IntermediateStorage::forEachEdge(std::function<void(const Id /*id*/, const StorageEdge& /*data*/)> callback) const
+void IntermediateStorage::forEachEdge(std::function<void(const StorageEdge& /*data*/)> callback) const
 {
-	for (std::map<Id, std::shared_ptr<StorageEdge>>::const_iterator it = m_edgeIdsToData.begin(); it != m_edgeIdsToData.end(); it++)
+	for (std::unordered_map<std::string, StorageEdge>::const_iterator it = m_edges.begin(); it != m_edges.end(); it++)
 	{
-		callback(it->first, *(it->second.get()));
+		callback(it->second);
 	}
 }
 
-void IntermediateStorage::forEachLocalSymbol(std::function<void(const Id /*id*/, const StorageLocalSymbol& /*data*/)> callback) const
+void IntermediateStorage::forEachLocalSymbol(std::function<void(const StorageLocalSymbol& /*data*/)> callback) const
 {
-	for (std::map<Id, std::shared_ptr<StorageLocalSymbol>>::const_iterator it = m_localSymbolIdsToData.begin(); it != m_localSymbolIdsToData.end(); it++)
+	for (std::unordered_map<std::string, StorageLocalSymbol>::const_iterator it = m_localSymbols.begin();
+		it != m_localSymbols.end(); it++)
 	{
-		callback(it->first, *(it->second.get()));
+		callback(it->second);
 	}
 }
 
-void IntermediateStorage::forEachSourceLocation(std::function<void(const Id /*id*/, const StorageSourceLocation& /*data*/)> callback) const
+void IntermediateStorage::forEachSourceLocation(std::function<void(const StorageSourceLocation& /*data*/)> callback) const
 {
-	for (std::map<Id, std::shared_ptr<StorageSourceLocation>>::const_iterator it = m_sourceLocationIdsToData.begin(); it != m_sourceLocationIdsToData.end(); it++)
+	for (std::unordered_map<std::string, StorageSourceLocation>::const_iterator it = m_sourceLocations.begin();
+		it != m_sourceLocations.end(); it++)
 	{
-		callback(it->first, *(it->second.get()));
+		callback(it->second);
 	}
 }
 
@@ -311,6 +345,156 @@ void IntermediateStorage::forEachError(std::function<void(const StorageError& /*
 	}
 }
 
+std::vector<StorageNode> IntermediateStorage::getStorageNodes() const
+{
+	std::vector<StorageNode> nodes;
+	nodes.reserve(m_nodes.size());
+	for (auto it: m_nodes)
+	{
+		nodes.push_back(it.second);
+	}
+	return nodes;
+}
+
+std::vector<StorageFile> IntermediateStorage::getStorageFiles() const
+{
+	return m_files;
+}
+
+std::vector<StorageSymbol> IntermediateStorage::getStorageSymbols() const
+{
+	return m_symbols;
+}
+
+std::vector<StorageEdge> IntermediateStorage::getStorageEdges() const
+{
+	std::vector<StorageEdge> edges;
+	edges.reserve(m_edges.size());
+	for (auto it: m_edges)
+	{
+		edges.push_back(it.second);
+	}
+	return edges;
+}
+
+std::vector<StorageLocalSymbol> IntermediateStorage::getStorageLocalSymbols() const
+{
+	std::vector<StorageLocalSymbol> localSymbol;
+	localSymbol.reserve(m_localSymbols.size());
+	for (auto it: m_localSymbols)
+	{
+		localSymbol.push_back(it.second);
+	}
+	return localSymbol;
+}
+
+std::vector<StorageSourceLocation> IntermediateStorage::getStorageSourceLocations() const
+{
+	std::vector<StorageSourceLocation> sourceLocations;
+	sourceLocations.reserve(m_sourceLocations.size());
+	for (auto it: m_sourceLocations)
+	{
+		sourceLocations.push_back(it.second);
+	}
+	return sourceLocations;
+}
+
+std::vector<StorageOccurrence> IntermediateStorage::getStorageOccurrences() const
+{
+	return m_occurrences;
+}
+
+std::vector<StorageComponentAccess> IntermediateStorage::getComponentAccesses() const
+{
+	return m_componentAccesses;
+}
+
+std::vector<StorageCommentLocation> IntermediateStorage::getCommentLocations() const
+{
+	return m_commentLocations;
+}
+
+std::vector<StorageError> IntermediateStorage::getErrors() const
+{
+	return m_errors;
+}
+
+void IntermediateStorage::setStorageNodes(const std::vector<StorageNode>& storageNodes)
+{
+	m_nodes.clear();
+	for (const StorageNode& storageNode: storageNodes)
+	{
+		m_nodes[serialize(storageNode)] = storageNode;
+	}
+}
+
+void IntermediateStorage::setStorageFiles(const std::vector<StorageFile>& storageFiles)
+{
+	m_files = storageFiles;
+}
+
+void IntermediateStorage::setStorageSymbols(const std::vector<StorageSymbol>& storageSymbols)
+{
+	m_symbols = storageSymbols;
+}
+
+void IntermediateStorage::setStorageEdges(const std::vector<StorageEdge>& storageEdges)
+{
+	m_edges.clear();
+	for (const StorageEdge& storageEdge: storageEdges)
+	{
+		m_edges[serialize(storageEdge)] = storageEdge;
+	}
+}
+
+void IntermediateStorage::setStorageLocalSymbols(const std::vector<StorageLocalSymbol>& storageLocalSymbols)
+{
+	m_localSymbols.clear();
+	for (const StorageLocalSymbol& storageLocalSymbol: storageLocalSymbols)
+	{
+		m_localSymbols[serialize(storageLocalSymbol)] = storageLocalSymbol;
+	}
+}
+
+void IntermediateStorage::setStorageSourceLocations(const std::vector<StorageSourceLocation>& storageSourceLocations)
+{
+	m_sourceLocations.clear();
+	for (const StorageSourceLocation& storageSourceLocation: storageSourceLocations)
+	{
+		m_sourceLocations[serialize(storageSourceLocation)] = storageSourceLocation;
+	}
+}
+
+void IntermediateStorage::setStorageOccurrences(const std::vector<StorageOccurrence>& storageOccurrences)
+{
+	m_occurrences = storageOccurrences;
+}
+
+void IntermediateStorage::setComponentAccesses(const std::vector<StorageComponentAccess>& componentAccesses)
+{
+	m_componentAccesses = componentAccesses;
+}
+
+void IntermediateStorage::setCommentLocations(const std::vector<StorageCommentLocation>& commentLocations)
+{
+	m_commentLocations = commentLocations;
+}
+
+void IntermediateStorage::setErrors(const std::vector<StorageError>& errors)
+{
+	m_errors = errors;
+}
+
+Id IntermediateStorage::getNextId() const
+{
+	return m_nextId;
+}
+
+void IntermediateStorage::setNextId(const Id nextId)
+{
+	m_nextId = nextId;
+}
+
 std::string IntermediateStorage::serialize(const StorageNode& node) const
 {
 	return node.serializedName;
@@ -327,7 +511,7 @@ std::string IntermediateStorage::serialize(const StorageEdge& edge) const
 		std::to_string(edge.type) + ";" +
 		std::to_string(edge.sourceNodeId) + ";" +
 		std::to_string(edge.targetNodeId)
-		);
+	);
 }
 
 std::string IntermediateStorage::serialize(const StorageLocalSymbol& localSymbol) const

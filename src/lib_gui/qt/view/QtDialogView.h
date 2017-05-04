@@ -39,7 +39,9 @@ public:
 	virtual void updateIndexingDialog(size_t fileCount, size_t totalFileCount, std::string sourcePath) override;
 	virtual void finishedIndexingDialog(
 		size_t indexedFileCount, size_t totalIndexedFileCount, size_t completedFileCount, size_t totalFileCount,
-		float time, ErrorCountInfo errorInfo) override;
+		float time, ErrorCountInfo errorInfo, bool interrupted) override;
+
+	virtual void hideDialogs() override;
 
 	int confirm(const std::string& message, const std::vector<std::string>& options) override;
 

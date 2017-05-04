@@ -66,9 +66,12 @@ void QtCodeFileTitleButton::setIsComplete(bool isComplete)
 
 	if (!isComplete)
 	{
+		FilePath hatchingFilePath(ResourcePaths::getGuiPath().str() + "code_view/images/pattern_" +
+			ColorScheme::getInstance()->getColor("code/file/title/hatching") + ".png"
+		);
+
 		setStyleSheet((
-			"background-image: url(" + ResourcePaths::getGuiPath().str() + "code_view/images/pattern_" +
-			ColorScheme::getInstance()->getColor("code/file/title/hatching") + ".png);"
+			"background-image: url(" + hatchingFilePath.str() + ");"
 		).c_str());
 	}
 	else

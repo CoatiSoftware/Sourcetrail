@@ -34,6 +34,8 @@ public:
 	static std::shared_ptr<Application> getInstance();
 	static void destroyInstance();
 
+	static std::string getUUID();
+
 	static void loadSettings();
 	static void loadStyle(const FilePath& colorSchemePath);
 
@@ -53,6 +55,7 @@ public:
 
 private:
 	static std::shared_ptr<Application> s_instance;
+	static std::string s_uuid;
 
 	Application(bool withGUI=true);
 

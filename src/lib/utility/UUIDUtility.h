@@ -1,16 +1,14 @@
 #ifndef UUID_UTILITY_H
 #define UUID_UTILITY_H
 
-#include <string>
 #include <boost/uuid/uuid.hpp>
-
-typedef boost::uuids::uuid UUID;
+#include <string>
 
 class UUIDUtility
 {
 public:
-	static UUID getUUID();
-	static std::string UUIDtoString(const UUID& uuid);
+	static boost::uuids::uuid getUUID();
+	static std::string UUIDtoString(const boost::uuids::uuid& uuid);
 	static std::string getUUIDString();
 };
 

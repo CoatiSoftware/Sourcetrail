@@ -324,11 +324,11 @@ std::vector<BookmarkCategory> PersistentStorage::getAllBookmarkCategories() cons
 	return categories;
 }
 
-void PersistentStorage::forEachNode(std::function<void(const Id /*id*/, const StorageNode& /*data*/)> callback) const
+void PersistentStorage::forEachNode(std::function<void(const StorageNode& /*data*/)> callback) const
 {
 	for (StorageNode& node: m_sqliteIndexStorage.getAll<StorageNode>())
 	{
-		callback(node.id, node);
+		callback(node);
 	}
 }
 
@@ -348,29 +348,27 @@ void PersistentStorage::forEachSymbol(std::function<void(const StorageSymbol& /*
 	}
 }
 
-void PersistentStorage::forEachEdge(std::function<void(const Id /*id*/, const StorageEdge& /*data*/)> callback) const
+void PersistentStorage::forEachEdge(std::function<void(const StorageEdge& /*data*/)> callback) const
 {
 	for (StorageEdge& edge: m_sqliteIndexStorage.getAll<StorageEdge>())
 	{
-		callback(edge.id, edge);
+		callback(edge);
 	}
 }
 
-void PersistentStorage::forEachLocalSymbol(std::function<void(
-	const Id /*id*/, const StorageLocalSymbol& /*data*/)> callback) const
+void PersistentStorage::forEachLocalSymbol(std::function<void(const StorageLocalSymbol& /*data*/)> callback) const
 {
 	for (StorageLocalSymbol& localSymbol: m_sqliteIndexStorage.getAll<StorageLocalSymbol>())
 	{
-		callback(localSymbol.id, localSymbol);
+		callback(localSymbol);
 	}
 }
 
-void PersistentStorage::forEachSourceLocation(
-	std::function<void(const Id /*id*/, const StorageSourceLocation& /*data*/)> callback) const
+void PersistentStorage::forEachSourceLocation(std::function<void(const StorageSourceLocation& /*data*/)> callback) const
 {
 	for (StorageSourceLocation& sourceLocation: m_sqliteIndexStorage.getAll<StorageSourceLocation>())
 	{
-		callback(sourceLocation.id, sourceLocation);
+		callback(sourceLocation);
 	}
 }
 

@@ -31,6 +31,7 @@ public:
 	virtual ~IndexerCommandCxxCdb();
 
 	virtual std::string getKindString() const;
+	virtual size_t getByteSize() const;
 
 	FilePath getWorkingDirectory() const;
 

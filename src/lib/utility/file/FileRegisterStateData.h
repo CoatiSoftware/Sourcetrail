@@ -1,8 +1,9 @@
 #ifndef FILE_REGISTER_STATE_DATA_H
 #define FILE_REGISTER_STATE_DATA_H
 
-#include <mutex>
 #include <map>
+#include <mutex>
+#include <set>
 
 #include "utility/file/FilePath.h"
 
@@ -18,6 +19,9 @@ public:
 	void markIndexingFilesIndexed();
 	bool fileIsIndexed(const FilePath& filePath) const;
 
+	void setIndexedFiles(const std::set<FilePath>& filePaths);
+	std::set<FilePath> getIndexedFiles() const;
+
 private:
 	enum IndexingState
 	{
@@ -27,7 +31,6 @@ private:
 	};
 
 	std::map<FilePath, IndexingState> m_filePaths;
-	mutable std::mutex m_filePathsMutex;
 };
 
 #endif // FILE_REGISTER_STATE_DATA_H

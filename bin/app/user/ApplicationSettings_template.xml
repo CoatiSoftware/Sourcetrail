@@ -32,7 +32,7 @@
 
 	<indexing>
 		<indexer_thread_count><!-- INTEGER: number of threads indexing the source code --></indexer_thread_count>
-		<cancel_on_fatal_errors><!-- BOOL: cancel indexing in translation units with fatal errors --></cancel_on_fatal_errors>
+		<multi_process_indexing><!-- BOOL: use different processes instead of threads during indexing --></multi_process_indexing>
 
 		<cxx>
 			<compiler_flags>

@@ -22,7 +22,6 @@ public:
 	void buildIndex(std::shared_ptr<IndexerCommandCxxManual> indexerCommand);
 	void buildIndex(const std::string& fileName, std::shared_ptr<TextAccess> fileContent);
 
-
 private:
 	std::vector<std::string> getCommandlineArgumentsEssential(
 		const std::vector<std::string>& compilerFlags,

@@ -15,7 +15,8 @@ void IndexerComposite::addIndexer(std::shared_ptr<IndexerBase> indexer)
 	m_indexers.emplace(indexer->getKindString(), indexer);
 }
 
-std::shared_ptr<IntermediateStorage> IndexerComposite::index(std::shared_ptr<IndexerCommand> indexerCommand, std::shared_ptr<FileRegister> fileRegister)
+std::shared_ptr<IntermediateStorage> IndexerComposite::index(
+	std::shared_ptr<IndexerCommand> indexerCommand, std::shared_ptr<FileRegister> fileRegister)
 {
 	auto it = m_indexers.find(indexerCommand->getKindString());
 	if (it != m_indexers.end())

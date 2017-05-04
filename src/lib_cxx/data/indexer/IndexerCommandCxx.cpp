@@ -20,6 +20,28 @@ IndexerCommandCxx::~IndexerCommandCxx()
 {
 }
 
+size_t IndexerCommandCxx::getByteSize() const
+{
+	size_t size = IndexerCommand::getByteSize();
+
+	for (auto i : m_systemHeaderSearchPaths)
+	{
+		size += i.str().size();
+	}
+
+	for (auto i : m_frameworkSearchPaths)
+	{
+		size += i.str().size();
+	}
+
+	for (auto i : m_compilerFlags)
+	{
+		size += i.size();
+	}
+
+	return size;
+}
+
 std::vector<FilePath> IndexerCommandCxx::getSystemHeaderSearchPaths() const
 {
 	return m_systemHeaderSearchPaths;

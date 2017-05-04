@@ -15,7 +15,10 @@ public:
 
 	void addIndexer(std::shared_ptr<IndexerBase> indexer);
 
-	virtual std::shared_ptr<IntermediateStorage> index(std::shared_ptr<IndexerCommand> indexerCommand, std::shared_ptr<FileRegister> fileRegister);
+	virtual std::shared_ptr<IntermediateStorage> index(
+		std::shared_ptr<IndexerCommand> indexerCommand,
+		std::shared_ptr<FileRegister> fileRegister
+	);
 
 	virtual void interrupt();
 

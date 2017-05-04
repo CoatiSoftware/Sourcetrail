@@ -166,11 +166,13 @@
 
 				<!-- Application Folder Stuff -->
 				<ComponentRef Id='MainExecutable'/>
-
+				
 				<ComponentRef Id='ApplicationShortcut'/>
 				<ComponentRef Id='DesktopShortcut'/>
 				<ComponentRef Id='UninstallShortcut'/>
 
+				<ComponentRef Id='SourcetrailIndexerExe'/>
+				
 				<ComponentRef Id='Qt5CoreDll'/>
 				<ComponentRef Id='Qt5GuiDll'/>
 				<ComponentRef Id='Qt5NetworkDll'/>
@@ -253,12 +255,12 @@
 				
 				<ComponentRef Id='BookmarkViewCss'/>
 				<ComponentRef Id='BookmarkViewArrowDownPng'/>
+				<ComponentRef Id='BookmarkViewArrowLineDownPng'/>
+				<ComponentRef Id='BookmarkViewArrowLineUpPng'/>
 				<ComponentRef Id='BookmarkViewArrowRightPng'/>
 				<ComponentRef Id='BookmarkViewBookmarkActivePng'/>
 				<ComponentRef Id='BookmarkViewBookmarkDeleteIconPng'/>
 				<ComponentRef Id='BookmarkViewBookmarkEditIconPng'/>
-				<ComponentRef Id='BookmarkViewBookmarkIconPng'/>
-				<ComponentRef Id='BookmarkViewBookmarkIcon2Png'/>
 				<ComponentRef Id='BookmarkViewBookmarkListIconPng'/>
 				<ComponentRef Id='BookmarkViewEditBookmarkIconPng'/>
 				
@@ -272,7 +274,9 @@
 				<ComponentRef Id='CodeViewMaximizeInactivePng'/>
 				<ComponentRef Id='CodeViewMinimizeActivePng'/>
 				<ComponentRef Id='CodeViewMinimizeInactivePng'/>
-				<ComponentRef Id='CodeViewPatternPng'/>
+				<ComponentRef Id='CodeViewPatternBrightPng'/>
+				<ComponentRef Id='CodeViewPatternDarkPng'/>
+				<ComponentRef Id='CodeViewPatternGreyPng'/>
 				<ComponentRef Id='CodeViewSnippetActivePng'/>
 				<ComponentRef Id='CodeViewSnippetInactivePng'/>
 				
@@ -281,8 +285,15 @@
 				<ComponentRef Id='GraphViewCss'/>
 				<ComponentRef Id='ArrowGraphPng'/>
 				<ComponentRef Id='BundlePng'/>
+				<ComponentRef Id='DefaultPng'/>
 				<ComponentRef Id='EnumPng'/>
 				<ComponentRef Id='FilePng'/>
+				<ComponentRef Id='GraphPng'/>
+				<ComponentRef Id='GraphArrowPng'/>
+				<ComponentRef Id='GraphDownPng'/>
+				<ComponentRef Id='GraphLeftPng'/>
+				<ComponentRef Id='GraphRightPng'/>
+				<ComponentRef Id='GraphUpPng'/>
 				<ComponentRef Id='MacroPng'/>
 				<ComponentRef Id='NamespacePng'/>
 				<ComponentRef Id='GraphPatternPng'/>

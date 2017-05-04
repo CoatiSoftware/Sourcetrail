@@ -18,7 +18,8 @@ public:
 	virtual std::string getKindString() const;
 
 	virtual std::shared_ptr<IntermediateStorage> index(
-		std::shared_ptr<IndexerCommand> indexerCommand, std::shared_ptr<FileRegister> fileRegister);
+		std::shared_ptr<IndexerCommand> indexerCommand,
+		std::shared_ptr<FileRegister> fileRegister);
 };
 
 template <typename IndexerCommandType, typename ParserType>
@@ -46,7 +47,6 @@ std::shared_ptr<IntermediateStorage> Indexer<IndexerCommandType, ParserType>::in
 	}
 
 	std::shared_ptr<ParserClientImpl> parserClient = std::make_shared<ParserClientImpl>();
-	parserClient->setCancelOnFatalErrors(indexerCommand->cancelOnFatalErrors());
 
 	std::shared_ptr<ParserType> parser = std::make_shared<ParserType>(parserClient, fileRegister);
 

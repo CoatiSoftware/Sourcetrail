@@ -26,6 +26,7 @@ private:
 	virtual TaskState doUpdate(std::shared_ptr<Blackboard> blackboard);
 	virtual void doExit(std::shared_ptr<Blackboard> blackboard);
 	virtual void doReset(std::shared_ptr<Blackboard> blackboard);
+	virtual void terminate();
 
 	PersistentStorage* m_storage;
 	StorageAccess* m_storageAccess;

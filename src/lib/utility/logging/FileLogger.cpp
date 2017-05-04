@@ -8,7 +8,7 @@
 
 FileLogger::FileLogger()
 	: Logger("FileLogger")
-	, m_logFileName()
+	, m_logFileName("log")
 	, m_logDirectory("user/log/")
 	, m_maxLogLineCount(0)
 	, m_maxLogFileCount(0)
@@ -20,6 +20,17 @@ FileLogger::FileLogger()
 
 FileLogger::~FileLogger()
 {
+}
+
+FilePath FileLogger::getLogFilePath() const
+{
+	return m_currentLogFilePath;
+}
+
+void FileLogger::setLogFilePath(const FilePath& filePath)
+{
+	m_currentLogFilePath = filePath;
+	m_logFileName = "";
 }
 
 void FileLogger::setLogDirectory(const FilePath& filePath)
@@ -66,12 +77,17 @@ void FileLogger::setMaxLogFileCount(unsigned int fileCount)
 
 void FileLogger::updateLogFileName()
 {
+	if (!m_logFileName.size())
+	{
+		return;
+	}
+
 	bool fileChanged = false;
 
-	m_currentLogFileName = m_logFileName;
+	std::string currentLogFilePath = m_logDirectory.str() + m_logFileName;
 	if (m_maxLogFileCount > 0)
 	{
-		m_currentLogFileName += "_";
+		currentLogFilePath += "_";
 		if (m_currentLogLineCount >= m_maxLogLineCount)
 		{
 			m_currentLogLineCount = 0;
@@ -83,21 +99,23 @@ void FileLogger::updateLogFileName()
 			}
 			fileChanged = true;
 		}
-		m_currentLogFileName += std::to_string(m_currentLogFileCount);
+		currentLogFilePath += std::to_string(m_currentLogFileCount);
 
 	}
-	m_currentLogFileName += ".txt";
+	currentLogFilePath += ".txt";
+
+	m_currentLogFilePath = FilePath(currentLogFilePath);
 
 	if (fileChanged)
 	{
-		FileSystem::remove(m_logDirectory.concat(FilePath(m_currentLogFileName)));
+		FileSystem::remove(m_currentLogFilePath);
 	}
 }
 
 void FileLogger::logMessage(const std::string& type, const LogMessage& message)
 {
 	std::ofstream fileStream;
-	fileStream.open(m_logDirectory.concat(FilePath(m_currentLogFileName)).str(), std::ios::app);
+	fileStream.open(m_currentLogFilePath.str(), std::ios::app);
 	fileStream << message.getTimeString("%H:%M:%S") << " | ";
 	fileStream << message.threadId << " | ";
 

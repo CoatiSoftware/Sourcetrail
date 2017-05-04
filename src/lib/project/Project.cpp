@@ -47,6 +47,7 @@ Project::Project(std::shared_ptr<ProjectSettings> settings, StorageAccessProxy* 
 {
 }
 
+
 Project::~Project()
 {
 }
@@ -418,7 +419,6 @@ bool Project::requestIndex(bool forceRefresh, bool needsFullRefresh)
 void Project::buildIndex(const std::set<FilePath>& filesToClean, bool fullRefresh, bool preprocessorOnly)
 {
 	MessageClearErrorCount().dispatch();
-
 	if (fullRefresh)
 	{
 		m_storage->clear();
@@ -433,20 +433,16 @@ void Project::buildIndex(const std::set<FilePath>& filesToClean, bool fullRefres
 	{
 		taskSequential->addTask(std::make_shared<TaskCleanStorage>(
 			m_storage.get(),
-			utility::toVector(filesToClean))
-		);
+			utility::toVector(filesToClean)
+		));
 	}
 
 	std::shared_ptr<IndexerCommandList> indexerCommandList = std::make_shared<IndexerCommandList>();
-	bool cancelIndexingOnFatalErrors = ApplicationSettings::getInstance()->getCancelIndexingOnFatalErrors();
-
 	for (std::shared_ptr<SourceGroup> sourceGroup: m_sourceGroups)
 	{
 		for (std::shared_ptr<IndexerCommand> command: sourceGroup->getIndexerCommands(fullRefresh))
 		{
-			command->setCancelOnFatalErrors(cancelIndexingOnFatalErrors);
 			command->setPreprocessorOnly(preprocessorOnly);
-
 			indexerCommandList->addCommand(command);
 		}
 	}
@@ -463,36 +459,33 @@ void Project::buildIndex(const std::set<FilePath>& filesToClean, bool fullRefres
 			}
 		}
 
+		indexerThreadCount = std::min<int>(indexerThreadCount, indexerCommandList->size());
 		if (indexerThreadCount > 1)
 		{
 			indexerCommandList->shuffle();
 		}
 
 		std::shared_ptr<FileRegisterStateData> fileRegisterStateData = std::make_shared<FileRegisterStateData>();
-
 		std::shared_ptr<StorageProvider> storageProvider = std::make_shared<StorageProvider>();
-
 		// add tasks for setting some variables on the blackboard that are used during indexing
 		taskSequential->addTask(std::make_shared<TaskSetValue<int>>("source_file_count", indexerCommandList->size()));
 		taskSequential->addTask(std::make_shared<TaskSetValue<int>>("indexed_source_file_count", 0));
 		taskSequential->addTask(std::make_shared<TaskSetValue<int>>("indexer_count", 0));
 
 		std::shared_ptr<TaskParseWrapper> taskParserWrapper = std::make_shared<TaskParseWrapper>(m_storage.get());
-		taskSequential->addTask(taskParserWrapper);
 
+		taskSequential->addTask(taskParserWrapper);
 		std::shared_ptr<TaskGroupParallel> taskParallelIndexing = std::make_shared<TaskGroupParallel>();
 		taskParserWrapper->setTask(taskParallelIndexing);
-
-		// add tasks for indexing and merging
-		for (int i = 0; i < indexerThreadCount && size_t(i) < indexerCommandList->size(); i++)
+		// add task for indexing
+		if (indexerThreadCount > 0)
 		{
 			taskParallelIndexing->addChildTasks(
 				std::make_shared<TaskDecoratorRepeat>(TaskDecoratorRepeat::CONDITION_WHILE_SUCCESS, Task::STATE_SUCCESS)->addChildTask(
-					std::make_shared<TaskBuildIndex>(indexerCommandList, storageProvider, fileRegisterStateData)
+					std::make_shared<TaskBuildIndex>(indexerThreadCount, indexerCommandList, storageProvider, fileRegisterStateData)
 				)
 			);
 		}
-
 		// add task for merging the intermediate storages
 		taskParallelIndexing->addTask(
 			std::make_shared<TaskGroupSequence>()->addChildTasks(
@@ -507,13 +500,12 @@ void Project::buildIndex(const std::set<FilePath>& filesToClean, bool fullRefres
 				)
 			)
 		);
-
 		// add task for injecting the intermediate storages into the persistent storage
 		taskParallelIndexing->addTask(
 			std::make_shared<TaskGroupSequence>()->addChildTasks(
 				std::make_shared<TaskDecoratorRepeat>(TaskDecoratorRepeat::CONDITION_WHILE_SUCCESS, Task::STATE_SUCCESS)->addChildTask(
 					std::make_shared<TaskReturnSuccessWhile<int>>("indexer_count", TaskReturnSuccessWhile<int>::CONDITION_EQUALS, 0)
-				),
+					),
 				std::make_shared<TaskDecoratorRepeat>(TaskDecoratorRepeat::CONDITION_WHILE_SUCCESS, Task::STATE_SUCCESS)->addChildTask(
 					std::make_shared<TaskGroupSequence>()->addChildTasks(
 						// stopping when indexer count is zero, regardless wether there are still storages left to insert.
@@ -527,7 +519,6 @@ void Project::buildIndex(const std::set<FilePath>& filesToClean, bool fullRefres
 				)
 			)
 		);
-
 		// add task that notifies the user of what's going on
 		taskSequential->addTask( // we don't need to hide this dialog again, because it's overridden by other dialogs later on.
 			std::make_shared<TaskShowStatusDialog>("Finish Indexing", "Saving\nRemaining Data")

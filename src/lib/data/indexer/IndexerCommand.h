@@ -13,13 +13,11 @@ public:
 	virtual ~IndexerCommand();
 
 	virtual std::string getKindString() const = 0;
+	virtual size_t getByteSize() const;
 
 	FilePath getSourceFilePath() const;
 	std::set<FilePath> getIndexedPaths() const;
 	std::set<FilePath> getExcludedPath() const;
-
-	bool cancelOnFatalErrors() const;
-	void setCancelOnFatalErrors(bool cancelOnFatalErrors);
 
 	virtual bool preprocessorOnly() const = 0;
 	virtual void setPreprocessorOnly(bool preprocessorOnly) = 0;
@@ -28,8 +26,6 @@ private:
 	FilePath m_sourceFilePath;
 	std::set<FilePath> m_indexedPaths;
 	std::set<FilePath> m_excludedPaths;
-
-	bool m_cancelOnFatalErrors;
 };
 
 #endif // INDEXER_COMMAND_H

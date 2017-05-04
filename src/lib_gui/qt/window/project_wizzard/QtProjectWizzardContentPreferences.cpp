@@ -118,9 +118,10 @@ void QtProjectWizzardContentPreferences::populate(QGridLayout* layout, int& row)
 	addHelpButton("Number of parallel threads used to index your projects.\nWhen setting this to 0 Sourcetrail tries to use the ideal thread count for your computer.", layout, row);
 	row++;
 
-	// cancel indexing on fatal errors
-	m_cancelIndexingOnFatalErrors = addCheckBox("Cancel on Fatals", "Cancel indexing on Fatal errors.",
-		"Cancel indexing of translation units with fatal errors, which result in partly indexed files.", layout, row);
+	// multi process indexing
+	m_multiProcessIndexing = addCheckBox("Multi process indexing", "Use processes instead of threads for indexing.",
+		"Using processes instead of threads prevents the application from crashing on unforseen exceptions during indexing.",
+		layout, row);
 
 	addGap(layout, row);
 
@@ -260,7 +261,7 @@ void QtProjectWizzardContentPreferences::load()
 
 	m_threads->setCurrentIndex(appSettings->getIndexerThreadCount()); // index and value are the same
 	indexerThreadsChanges(m_threads->currentIndex());
-	m_cancelIndexingOnFatalErrors->setChecked(appSettings->getCancelIndexingOnFatalErrors());
+	m_multiProcessIndexing->setChecked(appSettings->getMultiProcessIndexingEnabled());
 
 	if (m_javaPath)
 	{
@@ -304,7 +305,7 @@ void QtProjectWizzardContentPreferences::save()
 	if (pluginPort) appSettings->setPluginPort(pluginPort);
 
 	appSettings->setIndexerThreadCount(m_threads->currentIndex()); // index and value are the same
-	appSettings->setCancelIndexingOnFatalErrors(m_cancelIndexingOnFatalErrors->isChecked());
+	appSettings->setMultiProcessIndexingEnabled(m_multiProcessIndexing->isChecked());
 
 	if (m_javaPath)
 	{

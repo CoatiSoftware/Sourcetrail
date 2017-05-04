@@ -6,7 +6,15 @@
 
 #include "utility/utilityString.h"
 
-std::string utility::executeProcess(const std::string& command, const std::string& workingDirectory)
+#include <iostream>
+
+namespace utility
+{
+	std::mutex s_runningProcessesMutex;
+	std::set<QProcess*> s_runningProcesses;
+}
+
+std::string utility::executeProcess(const std::string& command, const std::string& workingDirectory, int timeout)
 {
 	QProcess process;
 	process.setProcessChannelMode(QProcess::MergedChannels);
@@ -16,13 +24,58 @@ std::string utility::executeProcess(const std::string& command, const std::strin
 		process.setWorkingDirectory(workingDirectory.c_str());
 	}
 
-	process.start(command.c_str());
-	process.waitForFinished();
+	{
+		std::lock_guard<std::mutex> lock(s_runningProcessesMutex);
+		process.start(command.c_str());
+		s_runningProcesses.insert(&process);
+	}
+
+	process.waitForFinished(timeout);
+	{
+		std::lock_guard<std::mutex> lock(s_runningProcessesMutex);
+		s_runningProcesses.erase(&process);
+	}
+
 	std::string processoutput = process.readAll().toStdString();
 	process.close();
 	processoutput = utility::trim(processoutput);
 
 	return processoutput;
+}
+
+int utility::executeProcessAndGetExitCode(const std::string& command, const std::string& workingDirectory, int timeout)
+{
+	QProcess process;
+
+	if (!workingDirectory.empty())
+	{
+		process.setWorkingDirectory(workingDirectory.c_str());
+	}
+
+	{
+		std::lock_guard<std::mutex> lock(s_runningProcessesMutex);
+		process.start(command.c_str());
+		s_runningProcesses.insert(&process);
+	}
+
+	process.waitForFinished(timeout);
+	{
+		std::lock_guard<std::mutex> lock(s_runningProcessesMutex);
+		s_runningProcesses.erase(&process);
+	}
+
+	int exitCode = process.exitCode();
+	process.close();
+	return exitCode;
+}
+
+void utility::killRunningProcesses()
+{
+	std::lock_guard<std::mutex> lock(s_runningProcessesMutex);
+	for (QProcess* process : s_runningProcesses)
+	{
+		process->kill();
+	}
 }
 
 ApplicationArchitectureType utility::getApplicationArchitectureType()

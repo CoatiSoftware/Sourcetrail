@@ -138,6 +138,23 @@ add_files(
 	data/graph/Token.cpp
 	data/graph/Token.h
 
+	data/indexer/interprocess/shared_types/SharedIndexerCommand.cpp
+	data/indexer/interprocess/shared_types/SharedIndexerCommand.h
+	data/indexer/interprocess/shared_types/SharedIntermediateStorage.cpp
+	data/indexer/interprocess/shared_types/SharedIntermediateStorage.h
+	data/indexer/interprocess/shared_types/SharedStorageTypes.h
+
+	data/indexer/interprocess/BaseInterprocessDataManager.cpp
+	data/indexer/interprocess/BaseInterprocessDataManager.h
+	data/indexer/interprocess/InterprocessIndexer.cpp
+	data/indexer/interprocess/InterprocessIndexer.h
+	data/indexer/interprocess/InterprocessIndexerCommandManager.cpp
+	data/indexer/interprocess/InterprocessIndexerCommandManager.h
+	data/indexer/interprocess/InterprocessIndexingStatusManager.cpp
+	data/indexer/interprocess/InterprocessIndexingStatusManager.h
+	data/indexer/interprocess/InterprocessIntermediateStorageManager.cpp
+	data/indexer/interprocess/InterprocessIntermediateStorageManager.h
+
 	data/indexer/Indexer.h
 	data/indexer/IndexerBase.cpp
 	data/indexer/IndexerBase.h
@@ -283,18 +300,10 @@ add_files(
 	utility/file/FileSystem.cpp
 	utility/file/FileSystem.h
 
-	utility/interprocess/InterprocessDataManager.cpp
-	utility/interprocess/InterprocessDataManager.h
-	utility/interprocess/InterprocessProcessManager.cpp
-	utility/interprocess/InterprocessProcessManager.h
-	utility/interprocess/InterprocessUtility.h
-	utility/interprocess/SharedContainer.h
-	utility/interprocess/SharedMap.h
-	utility/interprocess/SharedParserArguments.cpp
-	utility/interprocess/SharedParserArguments.h
-	utility/interprocess/SharedQueue.h
-	utility/interprocess/SharedUUIDManager.cpp
-	utility/interprocess/SharedUUIDManager.h
+	utility/interprocess/SharedMemory.cpp
+	utility/interprocess/SharedMemory.h
+	utility/interprocess/SharedMemoryGarbageCollector.cpp
+	utility/interprocess/SharedMemoryGarbageCollector.h
 
 	utility/logging/ConsoleLogger.cpp
 	utility/logging/ConsoleLogger.h

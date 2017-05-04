@@ -59,6 +59,11 @@ size_t TimePoint::deltaMS(const TimePoint& other) const
 	return (m_time - other.m_time).total_milliseconds();
 }
 
+size_t TimePoint::deltaS(const TimePoint& other) const
+{
+	return (m_time - other.m_time).total_seconds();
+}
+
 bool TimePoint::isSameDay(const TimePoint& other) const
 {
 	if (m_time.date().day() == other.m_time.date().day() &&

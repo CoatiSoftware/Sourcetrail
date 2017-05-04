@@ -1,13 +1,11 @@
-#include "Application.h"
+#include "includes.h" // defines 'void setup(int argc, char *argv[])'
 
+#include "Application.h"
 #include "data/indexer/IndexerFactory.h"
 #include "data/indexer/IndexerFactoryModuleJava.h"
 #include "data/indexer/IndexerFactoryModuleCxxCdb.h"
 #include "data/indexer/IndexerFactoryModuleCxxManual.h"
-
-#include "includes.h" // defines 'void setup(int argc, char *argv[])'
 #include "LicenseChecker.h"
-
 #include "project/SourceGroupFactory.h"
 #include "project/SourceGroupFactoryModuleC.h"
 #include "project/SourceGroupFactoryModuleCpp.h"
@@ -31,6 +29,7 @@
 #include "utility/ResourcePaths.h"
 #include "utility/ScopedFunctor.h"
 #include "utility/UserPaths.h"
+#include "utility/utilityApp.h"
 #include "utility/utilityPathDetection.h"
 #include "utility/Version.h"
 #include "version.h"
@@ -40,12 +39,13 @@ void setupLogging()
 	LogManager* logManager = LogManager::getInstance().get();
 
 	std::shared_ptr<ConsoleLogger> consoleLogger = std::make_shared<ConsoleLogger>();
-	consoleLogger->setLogLevel(Logger::LOG_WARNINGS | Logger::LOG_ERRORS);
+	// consoleLogger->setLogLevel(Logger::LOG_WARNINGS | Logger::LOG_ERRORS);
+	consoleLogger->setLogLevel(Logger::LOG_ALL);
 	logManager->addLogger(consoleLogger);
 
 	std::shared_ptr<FileLogger> fileLogger = std::make_shared<FileLogger>();
-	fileLogger->setFileName(LoggerUtility::generateDatedFileName("log"));
 	fileLogger->setLogDirectory(UserPaths::getLogPath());
+	fileLogger->setFileName(LoggerUtility::generateDatedFileName("log"));
 	fileLogger->setLogLevel(Logger::LOG_ALL);
 	logManager->addLogger(fileLogger);
 }

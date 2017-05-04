@@ -238,9 +238,6 @@ struct StorageError
 };
 
 
-
-
-
 struct StorageBookmarkCategory
 {
 	StorageBookmarkCategory()

@@ -29,6 +29,10 @@
 				</ProgId>
 			</Component>
 
+			<Component Id='SourcetrailIndexerExe' Guid='*' Win64="$(var.Win64)">
+				<File Id='SourcetrailIndexer' Name='sourcetrail_indexer.exe' DiskId='1' Source='$(var.PlatformSourceFolder)/sourcetrail_indexer.exe' KeyPath='yes' />
+			</Component>
+			
 			<Component Id='Qt5CoreDll' Guid='*' Win64="$(var.Win64)">
 				<File Id='qt5coreDLL' Name='Qt5Core.dll' DiskId='1' Source='$(var.PlatformSourceFolder)/Qt5Core.dll' KeyPath='yes' />
 			</Component>
@@ -323,6 +327,12 @@
 							<Component Id='BookmarkViewArrowDownPng' Guid='*' Win64="$(var.Win64)">
 								<File Id='BookmarkViewArrowDown' Name='arrow_down.png' DiskId='1' Source='./../../../bin/app/data/gui/bookmark_view/images/arrow_down.png' KeyPath='yes' />
 							</Component>
+							<Component Id='BookmarkViewArrowLineDownPng' Guid='*' Win64="$(var.Win64)">
+								<File Id='BookmarkViewArrowLineDown' Name='arrow_line_down.png' DiskId='1' Source='./../../../bin/app/data/gui/bookmark_view/images/arrow_line_down.png' KeyPath='yes' />
+							</Component>
+							<Component Id='BookmarkViewArrowLineUpPng' Guid='*' Win64="$(var.Win64)">
+								<File Id='BookmarkViewArrowLineUp' Name='arrow_line_up.png' DiskId='1' Source='./../../../bin/app/data/gui/bookmark_view/images/arrow_line_up.png' KeyPath='yes' />
+							</Component>
 							<Component Id='BookmarkViewArrowRightPng' Guid='*' Win64="$(var.Win64)">
 								<File Id='BookmarkViewArrowRight' Name='arrow_right.png' DiskId='1' Source='./../../../bin/app/data/gui/bookmark_view/images/arrow_right.png' KeyPath='yes' />
 							</Component>
@@ -334,12 +344,6 @@
 							</Component>
 							<Component Id='BookmarkViewBookmarkEditIconPng' Guid='*' Win64="$(var.Win64)">
 								<File Id='BookmarkViewBookmarkEditIcon' Name='bookmark_edit_icon.png' DiskId='1' Source='./../../../bin/app/data/gui/bookmark_view/images/bookmark_edit_icon.png' KeyPath='yes' />
-							</Component>
-							<Component Id='BookmarkViewBookmarkIconPng' Guid='*' Win64="$(var.Win64)">
-								<File Id='BookmarkViewBookmarkIcon' Name='bookmark_icon.png' DiskId='1' Source='./../../../bin/app/data/gui/bookmark_view/images/bookmark_icon.png' KeyPath='yes' />
-							</Component>
-							<Component Id='BookmarkViewBookmarkIcon2Png' Guid='*' Win64="$(var.Win64)">
-								<File Id='BookmarkViewBookmarkIcon2' Name='bookmark_icon_2.png' DiskId='1' Source='./../../../bin/app/data/gui/bookmark_view/images/bookmark_icon_2.png' KeyPath='yes' />
 							</Component>
 							<Component Id='BookmarkViewBookmarkListIconPng' Guid='*' Win64="$(var.Win64)">
 								<File Id='BookmarkViewBookmarkListIcon' Name='bookmark_list_icon.png' DiskId='1' Source='./../../../bin/app/data/gui/bookmark_view/images/bookmark_list_icon.png' KeyPath='yes' />
@@ -383,8 +387,14 @@
 							<Component Id='CodeViewMinimizeInactivePng' Guid='*' Win64="$(var.Win64)">
 								<File Id='CodeViewMinimizeInactive' Name='minimize_inactive.png' DiskId='1' Source='./../../../bin/app/data/gui/code_view/images/minimize_inactive.png' KeyPath='yes' />
 							</Component>
-							<Component Id='CodeViewPatternPng' Guid='*' Win64="$(var.Win64)">
-								<File Id='CodeViewPattern' Name='pattern.png' DiskId='1' Source='./../../../bin/app/data/gui/code_view/images/pattern.png' KeyPath='yes' />
+							<Component Id='CodeViewPatternBrightPng' Guid='*' Win64="$(var.Win64)">
+								<File Id='CodeViewPatternBright' Name='pattern_bright.png' DiskId='1' Source='./../../../bin/app/data/gui/code_view/images/pattern_bright.png' KeyPath='yes' />
+							</Component>
+							<Component Id='CodeViewPatternDarkPng' Guid='*' Win64="$(var.Win64)">
+								<File Id='CodeViewPatternDark' Name='pattern_dark.png' DiskId='1' Source='./../../../bin/app/data/gui/code_view/images/pattern_dark.png' KeyPath='yes' />
+							</Component>
+							<Component Id='CodeViewPatternGreyPng' Guid='*' Win64="$(var.Win64)">
+								<File Id='CodeViewPatternGrey' Name='pattern_grey.png' DiskId='1' Source='./../../../bin/app/data/gui/code_view/images/pattern_grey.png' KeyPath='yes' />
 							</Component>
 							<Component Id='CodeViewSnippetActivePng' Guid='*' Win64="$(var.Win64)">
 								<File Id='CodeViewSnippetActive' Name='snippet_active.png' DiskId='1' Source='./../../../bin/app/data/gui/code_view/images/snippet_active.png' KeyPath='yes' />
@@ -414,11 +424,32 @@
 							<Component Id='BundlePng' Guid='*' Win64="$(var.Win64)">
 								<File Id='Bundle' Name='bundle.png' DiskId='1' Source='./../../../bin/app/data/gui/graph_view/images/bundle.png' KeyPath='yes' />
 							</Component>
+							<Component Id='DefaultPng' Guid='*' Win64="$(var.Win64)">
+								<File Id='Default' Name='default.png' DiskId='1' Source='./../../../bin/app/data/gui/graph_view/images/default.png' KeyPath='yes' />
+							</Component>
 							<Component Id='EnumPng' Guid='*' Win64="$(var.Win64)">
 								<File Id='Enum' Name='enum.png' DiskId='1' Source='./../../../bin/app/data/gui/graph_view/images/enum.png' KeyPath='yes' />
 							</Component>
 							<Component Id='FilePng' Guid='*' Win64="$(var.Win64)">
 								<File Id='File' Name='file.png' DiskId='1' Source='./../../../bin/app/data/gui/graph_view/images/file.png' KeyPath='yes' />
+							</Component>
+							<Component Id='GraphPng' Guid='*' Win64="$(var.Win64)">
+								<File Id='Graph' Name='graph.png' DiskId='1' Source='./../../../bin/app/data/gui/graph_view/images/graph.png' KeyPath='yes' />
+							</Component>
+							<Component Id='GraphArrowPng' Guid='*' Win64="$(var.Win64)">
+								<File Id='GraphArrow' Name='graph_arrow.png' DiskId='1' Source='./../../../bin/app/data/gui/graph_view/images/graph_arrow.png' KeyPath='yes' />
+							</Component>
+							<Component Id='GraphDownPng' Guid='*' Win64="$(var.Win64)">
+								<File Id='GraphDown' Name='graph_down.png' DiskId='1' Source='./../../../bin/app/data/gui/graph_view/images/graph_down.png' KeyPath='yes' />
+							</Component>
+							<Component Id='GraphLeftPng' Guid='*' Win64="$(var.Win64)">
+								<File Id='GraphLeft' Name='graph_left.png' DiskId='1' Source='./../../../bin/app/data/gui/graph_view/images/graph_left.png' KeyPath='yes' />
+							</Component>
+							<Component Id='GraphRightPng' Guid='*' Win64="$(var.Win64)">
+								<File Id='GraphRight' Name='graph_right.png' DiskId='1' Source='./../../../bin/app/data/gui/graph_view/images/graph_right.png' KeyPath='yes' />
+							</Component>
+							<Component Id='GraphUpPng' Guid='*' Win64="$(var.Win64)">
+								<File Id='GraphUp' Name='graph_up.png' DiskId='1' Source='./../../../bin/app/data/gui/graph_view/images/graph_up.png' KeyPath='yes' />
 							</Component>
 							<Component Id='MacroPng' Guid='*' Win64="$(var.Win64)">
 								<File Id='Macro' Name='macro.png' DiskId='1' Source='./../../../bin/app/data/gui/graph_view/images/macro.png' KeyPath='yes' />

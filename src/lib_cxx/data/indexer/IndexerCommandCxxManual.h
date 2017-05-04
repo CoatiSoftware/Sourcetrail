@@ -19,9 +19,11 @@ public:
 		const std::vector<FilePath>& systemHeaderSearchPaths,
 		const std::vector<FilePath>& frameworkSearchPaths,
 		const std::vector<std::string>& compilerFlags);
+
 	virtual ~IndexerCommandCxxManual();
 
 	virtual std::string getKindString() const;
+	virtual size_t getByteSize() const;
 
 	std::string getLanguageStandard() const;
 

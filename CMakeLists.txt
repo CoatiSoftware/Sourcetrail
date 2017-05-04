@@ -14,6 +14,7 @@ include(cmake/setWinXxBits.cmake)
 # Variables --------------------------------------------------------------------
 
 set(PROJECT_NAME Sourcetrail)
+set(PROJECT_NAME_LOWER_CASE sourcetrail)
 
 set(APP_PROJECT_NAME "${PROJECT_NAME}")
 set(LIB_LICENSE_PROJECT_NAME "${PROJECT_NAME}_lib_license")
@@ -23,6 +24,8 @@ set(LIB_JAVA_PROJECT_NAME "${PROJECT_NAME}_lib_java")
 set(LIB_PROJECT_NAME "${PROJECT_NAME}_lib")
 set(LICENSE_GENERATOR_PROJECT_NAME "${PROJECT_NAME}_license_generator")
 set(TEST_PROJECT_NAME "${PROJECT_NAME}_test")
+
+set (APP_INDEXER_NAME "${PROJECT_NAME_LOWER_CASE}_indexer")
 
 if (WIN32)
 	set(PLATFORM_INCLUDE "includesWindows.h")
@@ -221,6 +224,8 @@ set_property(
 		"${CMAKE_SOURCE_DIR}/src/lib_license"
 		"${CMAKE_SOURCE_DIR}/src/lib_gui"
 		"${CMAKE_BINARY_DIR}/src/lib_license"
+		"${CMAKE_SOURCE_DIR}/src/lib_cxx"
+		"${CMAKE_SOURCE_DIR}/src/lib_java"
 )
 
 target_include_directories(${LIB_PROJECT_NAME} SYSTEM
@@ -398,6 +403,60 @@ include(cmake/publicKey.cmake)
 
 set(CMAKE_AUTOMOC OFF)
 
+
+# Indexer App ------------------------------------------------------------------
+
+if (UNIX)
+	set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/app/")
+else ()
+	foreach( OUTPUTCONFIG ${CMAKE_CONFIGURATION_TYPES} )
+		string( TOUPPER ${OUTPUTCONFIG} OUTPUTCONFIG )
+		set( CMAKE_RUNTIME_OUTPUT_DIRECTORY_${OUTPUTCONFIG} "${CMAKE_BINARY_DIR}/${OUTPUTCONFIG}/app/")
+	endforeach( OUTPUTCONFIG CMAKE_CONFIGURATION_TYPES )
+endif ()
+
+add_subdirectory(src/indexer)
+
+# Find includes in corresponding build directories
+set(CMAKE_INCLUDE_CURRENT_DIR ON)
+
+add_executable(${APP_INDEXER_NAME} ${INDEXER_FILES})
+
+if (WIN32)
+	# hide the console when running a release build.
+	set_target_properties(${APP_INDEXER_NAME} PROPERTIES LINK_FLAGS_DEBUG "/SUBSYSTEM:CONSOLE /DEBUG:FASTLINK")
+	set_target_properties(${APP_INDEXER_NAME} PROPERTIES COMPILE_DEFINITIONS_DEBUG "_CONSOLE")
+	set_target_properties(${APP_INDEXER_NAME} PROPERTIES LINK_FLAGS_RELWITHDEBINFO "/SUBSYSTEM:CONSOLE")
+	set_target_properties(${APP_INDEXER_NAME} PROPERTIES COMPILE_DEFINITIONS_RELWITHDEBINFO "_CONSOLE")
+	set_target_properties(${APP_INDEXER_NAME} PROPERTIES LINK_FLAGS_RELEASE "/ENTRY:\"mainCRTStartup\" /SUBSYSTEM:WINDOWS /DEBUG")
+	set_target_properties(${APP_INDEXER_NAME} PROPERTIES LINK_FLAGS_MINSIZEREL "/SUBSYSTEM:WINDOWS")
+
+	# generate pdb for release build
+	set (CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} /Zi")
+endif ()
+
+create_source_groups(${INDEXER_FILES})
+
+target_link_libraries(${APP_INDEXER_NAME} ${LIB_GUI_PROJECT_NAME} ${LIB_CXX_PROJECT_NAME} ${LIB_JAVA_PROJECT_NAME} ${LIB_PROJECT_NAME})
+
+if (APPLE)
+	find_library(CORE_FOUNDATION CoreFoundation)
+	target_link_libraries(${APP_INDEXER_NAME} ${CORE_FOUNDATION})
+endif ()
+
+set_property(
+	TARGET ${APP_INDEXER_NAME}
+	PROPERTY INCLUDE_DIRECTORIES
+		"${CMAKE_SOURCE_DIR}/src/app"
+		"${CMAKE_SOURCE_DIR}/src/lib"
+		"${CMAKE_SOURCE_DIR}/src/lib_gui"
+		"${CMAKE_SOURCE_DIR}/src/lib_license"
+		"${CMAKE_SOURCE_DIR}/src/lib_cxx"
+		"${CMAKE_SOURCE_DIR}/src/lib_java"
+		"${CMAKE_BINARY_DIR}/src/lib_gui"
+		"${CMAKE_BINARY_DIR}/src/lib_license"
+)
+
 # App --------------------------------------------------------------------------
 
 if (UNIX)
@@ -418,7 +477,7 @@ if (WIN32)
 	file(WRITE ${CMAKE_BINARY_DIR}/Sourcetrail.rc
 		"// Icon with lowest ID value placed first to ensure application icon\n"
 		"// remains consistent on all systems.\n"
-		"IDI_ICON1               ICON                    \"${CMAKE_BINARY_DIR}/sourcetrail.ico\"\n"
+		"IDI_ICON1               ICON                    \"${CMAKE_BINARY_DIR}/Sourcetrail.ico\"\n"
 	)
 
 	add_executable(${APP_PROJECT_NAME} ${APP_FILES} ${CMAKE_BINARY_DIR}/Sourcetrail.rc)
@@ -469,6 +528,8 @@ if (APPLE)
 	target_link_libraries(${APP_PROJECT_NAME} ${CORE_FOUNDATION})
 endif ()
 
+add_dependencies(${APP_PROJECT_NAME} ${APP_INDEXER_NAME})
+
 
 # MacOSX Bundle ----------------------------------------------------------------
 
@@ -476,6 +537,7 @@ if (APPLE)
 
 	set(MACOSX_BUNDLE_NAME ${PROJECT_NAME})
 	set(MACOSX_BINARY_NAME ${APP_PROJECT_NAME})
+	set(MACOSX_INDEXER_BINARY_NAME ${APP_INDEXER_NAME})
 
 	set(MACOSX_DYNAMIC_LIBRARIES "")
 	string(REPLACE ";" " " MACOSX_DYNAMIC_LIBRARIES "${MACOSX_DYNAMIC_LIBRARIES}")
@@ -625,7 +687,7 @@ if (WIN32)
 	include_directories($ENV{VLD_DIR}/include)
 endif ()
 
-if(UNIX AND NOT APPLE)
+if (UNIX)
 	# symlinks for data
 	message(STATUS "create symlink: "
 		"${CMAKE_SOURCE_DIR}/bin/app/data ->"
@@ -641,6 +703,9 @@ if(UNIX AND NOT APPLE)
 		"${CMAKE_SOURCE_DIR}/bin/app/user"
 		"${CMAKE_BINARY_DIR}/app/user"
 	)
-	# Linux package
-	include(cmake/LinuxPackage.cmake)
-endif  ()
+
+	if (UNIX AND NOT APPLE)
+		# Linux package
+		include(cmake/LinuxPackage.cmake)
+	endif ()
+endif ()

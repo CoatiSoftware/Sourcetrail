@@ -20,7 +20,8 @@ public:
 		const std::vector<FilePath>& classPath);
 	virtual ~IndexerCommandJava();
 
-	std::string getKindString() const override;
+	virtual std::string getKindString() const override;
+	virtual size_t getByteSize() const override;
 
 	std::vector<FilePath> getClassPath() const;
 

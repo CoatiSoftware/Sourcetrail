@@ -32,3 +32,9 @@ std::shared_ptr<IndexerCommand> IndexerCommandList::consumeCommand()
 	}
 	return ret;
 }
+
+std::vector<std::shared_ptr<IndexerCommand>> IndexerCommandList::getAllCommands()
+{
+	std::lock_guard<std::mutex> lock(m_commandsMutex);
+	return std::vector<std::shared_ptr<IndexerCommand>>(m_commands.begin(), m_commands.end());
+}

@@ -246,14 +246,14 @@ void ApplicationSettings::setIndexerThreadCount(const int count)
 	setValue<int>("indexing/indexer_thread_count", count);
 }
 
-bool ApplicationSettings::getCancelIndexingOnFatalErrors() const
+bool ApplicationSettings::getMultiProcessIndexingEnabled() const
 {
-	return getValue<bool>("indexing/cancel_on_fatal_errors", true);
+	return getValue<bool>("indexing/multi_process_indexing", true);
 }
 
-void ApplicationSettings::setCancelIndexingOnFatalErrors(bool enabled)
+void ApplicationSettings::setMultiProcessIndexingEnabled(bool enabled)
 {
-	setValue<bool>("indexing/cancel_on_fatal_errors", enabled);
+	setValue<bool>("indexing/multi_process_indexing", enabled);
 }
 
 std::string ApplicationSettings::getJavaPath() const

@@ -18,6 +18,8 @@ public:
 
 	std::shared_ptr<IndexerCommand> consumeCommand();
 
+	std::vector<std::shared_ptr<IndexerCommand>> getAllCommands();
+
 private:
 	std::deque<std::shared_ptr<IndexerCommand>> m_commands;
 	std::mutex m_commandsMutex;
