@@ -8,7 +8,6 @@
 #include "utility/file/FileRegister.h"
 #include "utility/file/FileRegisterStateData.h"
 #include "utility/scheduling/Blackboard.h"
-#include "ApplicationStateMonitor.h"
 #include "Application.h"
 
 TaskBuildIndex::TaskBuildIndex(
@@ -45,8 +44,6 @@ Task::TaskState TaskBuildIndex::doUpdate(std::shared_ptr<Blackboard> blackboard)
 	}
 	else
 	{
-		ApplicationStateMonitor::getInstance()->addIndexingFile(indexerCommand->getSourceFilePath());
-
 		{
 			std::lock_guard<std::mutex> lock(blackboard->getMutex());
 
@@ -82,8 +79,6 @@ Task::TaskState TaskBuildIndex::doUpdate(std::shared_ptr<Blackboard> blackboard)
 			blackboard->get("indexed_source_file_count", indexedSourceFileCount);
 			blackboard->set("indexed_source_file_count", indexedSourceFileCount + 1);
 		}
-
-		ApplicationStateMonitor::getInstance()->removeIndexingFile(indexerCommand->getSourceFilePath());
 	}
 
 	return (m_indexer->interrupted() ? STATE_FAILURE : STATE_SUCCESS);
