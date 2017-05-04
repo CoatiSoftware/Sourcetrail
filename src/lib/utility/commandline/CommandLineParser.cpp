@@ -74,7 +74,7 @@ CommandLineParser::CommandLineParser(int argc, char** argv, const std::string& v
 	if (vm.count("licenseFile"))
 	{
 		std::cout << "licensefile flag" << std::endl;
-		if (FileSystem::exists(licensefile))
+		if (FilePath(licensefile).exists())
 		{
 			std::cout << "licensefile exists" << std::endl;
 			processLicense(m_license.loadFromFile(licensefile));
@@ -166,7 +166,7 @@ void CommandLineParser::processProjectfile(const std::string& file)
 	}
 
 	std::shared_ptr<ConfigManager> configManager = ConfigManager::createEmpty();
-	if (!configManager->load(TextAccess::createFromFile(projectfile.str())))
+	if (!configManager->load(TextAccess::createFromFile(projectfile)))
 	{
 		m_errorString = errorstring + " could not be loaded(invalid)";
 		return;
@@ -180,7 +180,7 @@ void CommandLineParser::projectLoad()
 	if (m_projectFile.exists() &&
 		(m_projectFile.extension() == ".srctrlprj" || m_projectFile.extension() == ".coatiproject"))
 	{
-		MessageLoadProject(m_projectFile.str(), m_force).dispatch();
+		MessageLoadProject(m_projectFile, m_force).dispatch();
 	}
 }
 

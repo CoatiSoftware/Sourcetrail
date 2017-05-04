@@ -1,5 +1,7 @@
 #include "utility/file/FileRegisterStateData.h"
 
+#include "utility/file/FilePath.h"
+
 FileRegisterStateData::FileRegisterStateData()
 {
 }

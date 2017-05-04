@@ -71,10 +71,10 @@ void Application::destroyInstance()
 
 void Application::loadSettings()
 {
-	MessageStatus("Load settings: " + UserPaths::getAppSettingsPath()).dispatch();
+	MessageStatus("Load settings: " + UserPaths::getAppSettingsPath().str()).dispatch();
 
 	std::shared_ptr<ApplicationSettings> settings = ApplicationSettings::getInstance();
-	settings->load(FilePath(UserPaths::getAppSettingsPath()));
+	settings->load(UserPaths::getAppSettingsPath());
 
 	LogManager::getInstance()->setLoggingEnabled(settings->getLoggingEnabled());
 

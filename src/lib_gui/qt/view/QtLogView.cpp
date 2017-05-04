@@ -216,7 +216,7 @@ void QtLogView::setStyleSheet() const
 	//m_showNonIndexedFatals->setPalette(palette);
 
 	widget->setStyleSheet(
-		utility::getStyleSheet(ResourcePaths::getGuiPath() + "error_view/error_view.css").c_str()
+		utility::getStyleSheet(ResourcePaths::getGuiPath().concat(FilePath("error_view/error_view.css"))).c_str()
 	);
 
 	m_table->updateRows();

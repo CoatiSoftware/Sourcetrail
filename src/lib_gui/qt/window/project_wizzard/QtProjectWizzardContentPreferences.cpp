@@ -271,7 +271,7 @@ void QtProjectWizzardContentPreferences::load()
 
 	if (m_mavenPath)
 	{
-		m_mavenPath->setText(QString::fromStdString(appSettings->getMavenPath()));
+		m_mavenPath->setText(QString::fromStdString(appSettings->getMavenPath().str()));
 	}
 }
 
@@ -316,7 +316,7 @@ void QtProjectWizzardContentPreferences::save()
 
 	if (m_mavenPath)
 	{
-		appSettings->setMavenPath(m_mavenPath->getText().toStdString());
+		appSettings->setMavenPath(FilePath(m_mavenPath->getText().toStdString()));
 	}
 }
 

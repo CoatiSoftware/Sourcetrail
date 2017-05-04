@@ -842,7 +842,7 @@ private:
 		setupJavaEnvironmentFactory();
 
 		JavaParser parser(parserClient, nullptr);
-		parser.buildIndex("input.cc", textAccess);
+		parser.buildIndex(FilePath("input.cc"), textAccess);
 
 		return parserClient;
 	}

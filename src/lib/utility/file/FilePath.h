@@ -2,6 +2,7 @@
 #define FILE_PATH_H
 
 #include <string>
+#include <vector>
 
 #include "boost/filesystem.hpp"
 
@@ -9,15 +10,16 @@ class FilePath
 {
 public:
 	FilePath();
-	FilePath(const char* filePath);
-	FilePath(const std::string& filePath);
-	FilePath(const boost::filesystem::path& filePath);
+	explicit FilePath(const char* filePath);
+	explicit FilePath(const std::string& filePath);
+	explicit FilePath(const boost::filesystem::path& filePath);
 	FilePath(const std::string& filePath, const std::string& base);
 
 	boost::filesystem::path path() const;
 
 	bool empty() const;
 	bool exists() const;
+	bool recheckExists() const;
 	bool isDirectory() const;
 	bool isAbsolute() const;
 
@@ -49,6 +51,9 @@ private:
 
 	mutable bool m_exists;
 	mutable bool m_checkedExists;
+	mutable bool m_isDirectory;
+	mutable bool m_checkedIsDirectory;
+	mutable bool m_canonicalized;
 };
 
 #endif // FILE_PATH_H

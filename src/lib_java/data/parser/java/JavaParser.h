@@ -7,6 +7,7 @@
 #include "data/indexer/IndexerCommandJava.h"
 #include "data/parser/Parser.h"
 #include "data/parser/java/JavaEnvironment.h"
+#include "utility/file/FilePath.h"
 #include "utility/logging/logging.h"
 
 struct JNIEnv_;
@@ -24,6 +25,7 @@ typedef int jint;
 class _jstring;
 typedef _jstring *jstring;
 
+class FilePath;
 class FileRegister;
 
 class JavaParser: public Parser
@@ -171,7 +173,7 @@ private:
 	std::shared_ptr<JavaEnvironment> m_javaEnvironment;
 
 	const int m_id;
-	std::string m_currentFilePath;
+	FilePath m_currentFilePath;
 };
 
 #endif // JAVA_PARSER_H

@@ -5,8 +5,6 @@
 #include <string>
 #include <vector>
 
-#include "utility/file/FilePath.h"
-
 class ParserClient;
 class TextAccess;
 

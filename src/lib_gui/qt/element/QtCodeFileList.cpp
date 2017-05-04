@@ -3,6 +3,7 @@
 #include <QScrollBar>
 #include <QVBoxLayout>
 
+#include "utility/file/FilePath.h"
 #include "utility/file/FileSystem.h"
 
 #include "data/location/SourceLocationFile.h"

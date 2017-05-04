@@ -4,6 +4,8 @@
 #include <queue>
 
 #include "utility/Cache.h"
+#include "utility/file/FileInfo.h"
+#include "utility/file/FilePath.h"
 #include "utility/file/FileSystem.h"
 #include "utility/logging/logging.h"
 #include "utility/messaging/type/MessageNewErrors.h"
@@ -1273,7 +1275,7 @@ std::shared_ptr<SourceLocationCollection> PersistentStorage::getSourceLocationsF
 
 	for (const StorageFile& file : m_sqliteIndexStorage.getAllByIds<StorageFile>(fileIds))
 	{
-		collection->addSourceLocationFile(m_sqliteIndexStorage.getSourceLocationsForFile(file.filePath));
+		collection->addSourceLocationFile(m_sqliteIndexStorage.getSourceLocationsForFile(FilePath(file.filePath)));
 	}
 
 	if (nonFileIds.size())
@@ -1351,7 +1353,7 @@ std::shared_ptr<SourceLocationFile> PersistentStorage::getSourceLocationsForFile
 }
 
 std::shared_ptr<SourceLocationFile> PersistentStorage::getSourceLocationsForLinesInFile(
-		const std::string& filePath, uint firstLineNumber, uint lastLineNumber
+		const FilePath& filePath, uint firstLineNumber, uint lastLineNumber
 ) const
 {
 	TRACE();
@@ -2041,7 +2043,7 @@ void PersistentStorage::buildSearchIndex()
 			auto it = fileMap.find(node.id);
 			if (it != fileMap.end())
 			{
-				FilePath filePath = it->second.filePath;
+				FilePath filePath(it->second.filePath);
 
 				if (filePath.exists())
 				{

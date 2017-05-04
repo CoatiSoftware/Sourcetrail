@@ -2,8 +2,8 @@
 #define QT_SELECT_PATHS_DIALOG_H
 
 #include "qt/window/QtTextEditDialog.h"
-#include "utility/file/FilePath.h"
 
+class FilePath;
 class QListWidget;
 
 class QtSelectPathsDialog

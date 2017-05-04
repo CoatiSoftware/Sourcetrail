@@ -1,11 +1,14 @@
 #include "utility/file/FileRegister.h"
 
+#include "utility/file/FilePath.h"
+
 FileRegister::FileRegister(const FileRegisterStateData& stateData, const std::set<FilePath>& indexedPaths, const std::set<FilePath>& excludedPaths)
 	: m_stateData(stateData)
 	, m_indexedPaths(indexedPaths)
 	, m_excludedPaths(excludedPaths)
 	, m_hasFilePathCache(
-		[&](std::string filePath){
+		[&](std::string f){
+			const FilePath filePath(f);
 			bool ret = false;
 			for (const FilePath& indexedPath: m_indexedPaths)
 			{

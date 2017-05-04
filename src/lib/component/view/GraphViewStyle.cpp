@@ -519,7 +519,7 @@ GraphViewStyle::NodeStyle GraphViewStyle::getStyleOfBundleNode(bool isFocused)
 	style.color = getNodeColor("bundle", isFocused);
 
 	addIcon(Node::NODE_ENUM, false, &style);
-	style.iconPath = ResourcePaths::getGuiPath() + "graph_view/images/bundle.png";
+	style.iconPath = ResourcePaths::getGuiPath().str() + "graph_view/images/bundle.png";
 
 	return style;
 }
@@ -712,23 +712,23 @@ void GraphViewStyle::addIcon(Node::NodeType type, bool hasChildren, NodeStyle* s
 	{
 	case Node::NODE_NAMESPACE:
 	case Node::NODE_PACKAGE:
-		style->iconPath = ResourcePaths::getGuiPath() + "graph_view/images/namespace.png";
+		style->iconPath = ResourcePaths::getGuiPath().str() + "graph_view/images/namespace.png";
 		style->iconSize = s_fontSize - 4;
 		style->iconOffset.x = -1;
 		style->iconOffset.y = 5;
 		return;
 
 	case Node::NODE_ENUM:
-		style->iconPath = ResourcePaths::getGuiPath() + "graph_view/images/enum.png";
+		style->iconPath = ResourcePaths::getGuiPath().str() + "graph_view/images/enum.png";
 		break;
 	case Node::NODE_TYPEDEF:
-		style->iconPath = ResourcePaths::getGuiPath() + "graph_view/images/typedef.png";
+		style->iconPath = ResourcePaths::getGuiPath().str() + "graph_view/images/typedef.png";
 		break;
 	case Node::NODE_MACRO:
-		style->iconPath = ResourcePaths::getGuiPath() + "graph_view/images/macro.png";
+		style->iconPath = ResourcePaths::getGuiPath().str() + "graph_view/images/macro.png";
 		break;
 	case Node::NODE_FILE:
-		style->iconPath = ResourcePaths::getGuiPath() + "graph_view/images/file.png";
+		style->iconPath = ResourcePaths::getGuiPath().str() + "graph_view/images/file.png";
 		break;
 	default:
 		return;

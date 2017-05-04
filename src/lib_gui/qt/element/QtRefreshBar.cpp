@@ -49,7 +49,7 @@ void QtRefreshBar::refreshStyle()
 	m_refreshButton->setFixedHeight(height);
 
 	m_refreshButton->setIcon(utility::createButtonIcon(
-		ResourcePaths::getGuiPath() + "refresh_view/images/refresh.png",
+		ResourcePaths::getGuiPath().str() + "refresh_view/images/refresh.png",
 		"search/button"
 	));
 }

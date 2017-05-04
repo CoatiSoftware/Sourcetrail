@@ -1,5 +1,6 @@
 #include "utility/utilityMaven.h"
 
+#include "utility/file/FilePath.h"
 #include "utility/text/TextAccess.h"
 #include "utility/utilityApp.h"
 #include "utility/utilityString.h"
@@ -61,12 +62,12 @@ namespace utility
 
 		for (std::string value: utility::getValuesOfAllXmlElementsOnPath(xmlAccess, utility::createVectorFromElements<std::string>("project", "build", "directory")))
 		{
-			uncheckedDirectories.push_back(FilePath(value).concat("generated-sources"));
+			uncheckedDirectories.push_back(FilePath(value).concat(FilePath("generated-sources")));
 		}
 
 		for (std::string value: utility::getValuesOfAllXmlElementsOnPath(xmlAccess, utility::createVectorFromElements<std::string>("projects", "project", "build", "directory")))
 		{
-			uncheckedDirectories.push_back(FilePath(value).concat("generated-sources"));
+			uncheckedDirectories.push_back(FilePath(value).concat(FilePath("generated-sources")));
 		}
 
 		if (addTestDirectories)
@@ -82,12 +83,12 @@ namespace utility
 
 			for (std::string value: utility::getValuesOfAllXmlElementsOnPath(xmlAccess, utility::createVectorFromElements<std::string>("project", "build", "directory")))
 			{
-				uncheckedDirectories.push_back(FilePath(value).concat("generated-test-sources"));
+				uncheckedDirectories.push_back(FilePath(value).concat(FilePath("generated-test-sources")));
 			}
 
 			for (std::string value: utility::getValuesOfAllXmlElementsOnPath(xmlAccess, utility::createVectorFromElements<std::string>("projects", "project", "build", "directory")))
 			{
-				uncheckedDirectories.push_back(FilePath(value).concat("generated-test-sources"));
+				uncheckedDirectories.push_back(FilePath(value).concat(FilePath("generated-test-sources")));
 			}
 		}
 

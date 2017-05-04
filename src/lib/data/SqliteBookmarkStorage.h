@@ -8,7 +8,6 @@
 #include "data/bookmark/NodeBookmark.h"
 #include "data/SqliteStorage.h"
 #include "data/StorageTypes.h"
-#include "utility/file/FilePath.h"
 #include "utility/types.h"
 
 class SqliteBookmarkStorage

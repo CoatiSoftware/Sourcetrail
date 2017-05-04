@@ -49,7 +49,7 @@ void QtRecentProjectButton::handleButtonClick()
 {
 	if (m_projectExists)
 	{
-		MessageLoadProject(m_projectFilePath.str(), false).dispatch();
+		MessageLoadProject(m_projectFilePath, false).dispatch();
 	}
 	else
 	{
@@ -139,12 +139,12 @@ size_t i = 0;
 		}
 		i++;
 	}
-	setStyleSheet(utility::getStyleSheet(ResourcePaths::getGuiPath() + "startscreen/startscreen.css").c_str());
+	setStyleSheet(utility::getStyleSheet(ResourcePaths::getGuiPath().concat(FilePath("startscreen/startscreen.css"))).c_str());
 }
 
 void QtStartScreen::setupStartScreen(bool unlocked)
 {
-	setStyleSheet(utility::getStyleSheet(ResourcePaths::getGuiPath() + "startscreen/startscreen.css").c_str());
+	setStyleSheet(utility::getStyleSheet(ResourcePaths::getGuiPath().concat(FilePath("startscreen/startscreen.css"))).c_str());
 	addLogo();
 
 	QHBoxLayout* layout = new QHBoxLayout();
@@ -261,10 +261,10 @@ void QtStartScreen::setupStartScreen(bool unlocked)
 
 		col->addSpacing(20);
 
-		m_cppIcon = new QIcon((ResourcePaths::getGuiPath() + "icon/cpp_icon.png").c_str());
-		m_cIcon = new QIcon((ResourcePaths::getGuiPath() + "icon/c_icon.png").c_str());
-		m_javaIcon = new QIcon((ResourcePaths::getGuiPath() + "icon/java_icon.png").c_str());
-		m_projectIcon = new QIcon((ResourcePaths::getGuiPath() + "icon/empty_icon.png").c_str());
+		m_cppIcon = new QIcon((ResourcePaths::getGuiPath().str() + "icon/cpp_icon.png").c_str());
+		m_cIcon = new QIcon((ResourcePaths::getGuiPath().str() + "icon/c_icon.png").c_str());
+		m_javaIcon = new QIcon((ResourcePaths::getGuiPath().str() + "icon/java_icon.png").c_str());
+		m_projectIcon = new QIcon((ResourcePaths::getGuiPath().str() + "icon/empty_icon.png").c_str());
 		for (int i = 0
 			; i < ApplicationSettings::getInstance()->getMaxRecentProjectsCount()
 			; i++)

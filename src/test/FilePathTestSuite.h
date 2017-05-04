@@ -124,7 +124,7 @@ public:
 	{
 		FilePath path("data/FilePathTestSuite/a.h");
 
-		TS_ASSERT_EQUALS(path.withoutExtension(), "data/FilePathTestSuite/a");
+		TS_ASSERT_EQUALS(path.withoutExtension(), FilePath("data/FilePathTestSuite/a"));
 	}
 
 	void test_file_path_has_extension()

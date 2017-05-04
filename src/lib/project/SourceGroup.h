@@ -5,10 +5,10 @@
 #include <set>
 #include <vector>
 
-#include "utility/file/FilePath.h"
 #include "settings/LanguageType.h"
 #include "settings/SourceGroupType.h"
 
+class FilePath;
 class IndexerCommand;
 
 class SourceGroup

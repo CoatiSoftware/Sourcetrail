@@ -14,7 +14,6 @@
 JavaParser::JavaParser(std::shared_ptr<ParserClient> client, std::shared_ptr<FileRegister> fileRegister)
 	: Parser(client)
 	, m_id(s_nextParserId++)
-	, m_currentFilePath("")
 {
 	std::shared_ptr<JavaEnvironmentFactory> factory = JavaEnvironmentFactory::getInstance();
 	if (factory)
@@ -56,7 +55,7 @@ void JavaParser::buildIndex(std::shared_ptr<IndexerCommandJava> indexerCommand)
 		classPath += path.str() + ";";
 	}
 
-	buildIndex(indexerCommand->getSourceFilePath(), classPath, TextAccess::createFromFile(indexerCommand->getSourceFilePath().str()));
+	buildIndex(indexerCommand->getSourceFilePath(), classPath, TextAccess::createFromFile(indexerCommand->getSourceFilePath()));
 }
 
 void JavaParser::buildIndex(const FilePath& filePath, std::shared_ptr<TextAccess> textAccess)
@@ -68,7 +67,7 @@ void JavaParser::buildIndex(const FilePath& sourceFilePath, const std::string& c
 {
 	if (m_javaEnvironment)
 	{
-		m_currentFilePath = sourceFilePath.str();
+		m_currentFilePath = sourceFilePath;
 
 		m_client->onFileParsed(FileSystem::getFileInfoForPath(sourceFilePath));
 
@@ -82,7 +81,7 @@ void JavaParser::buildIndex(const FilePath& sourceFilePath, const std::string& c
 			"com/sourcetrail/JavaIndexer",
 			"processFile",
 			m_id,
-			m_currentFilePath,
+			m_currentFilePath.str(),
 			fileContent,
 			classPath,
 			verbose

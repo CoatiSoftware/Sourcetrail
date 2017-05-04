@@ -11,9 +11,9 @@ class FileSystem
 {
 public:
 	static std::vector<std::string> getFileNamesFromDirectory(
-		const std::string& path, const std::vector<std::string>& extensions);
+		const FilePath& path, const std::vector<std::string>& extensions);
 
-	static FileInfo getFileInfoForPath(FilePath filePath);
+	static FileInfo getFileInfoForPath(const FilePath& filePath);
 
 	static std::vector<FileInfo> getFileInfosFromPaths(
 		const std::vector<FilePath>& paths, const std::vector<std::string>& fileExtensions, bool followSymLinks = true);
@@ -36,8 +36,6 @@ public:
 
 	static std::string extension(const std::string& path);
 	static std::string filePathWithoutExtension(const std::string& path);
-
-	static bool equivalent(const std::string& pathA, const std::string& pathB);
 };
 
 #endif // FILE_SYSTEM_H

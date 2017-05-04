@@ -3319,7 +3319,7 @@ public:
 	void test_cxx_parser_parses_multiple_files()
 	{
 		std::set<FilePath> indexedPaths;
-		indexedPaths.insert("data/CxxParserTestSuite/");
+		indexedPaths.insert(FilePath("data/CxxParserTestSuite/"));
 
 		std::shared_ptr<IndexerCommandCxxManual> indexerCommand = std::make_shared<IndexerCommandCxxManual>(
 			FilePath("data/CxxParserTestSuite/code.cpp"),

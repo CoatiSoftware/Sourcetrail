@@ -19,7 +19,7 @@ std::shared_ptr<SharedUUIDManager> SharedUUIDManager::getInstance()
 		// m_instance = std::make_shared<SharedUUIDManager>();
 		SharedUUIDManager* sharedUUIDManager = new SharedUUIDManager();
 		m_instance = std::shared_ptr<SharedUUIDManager>(sharedUUIDManager);
-		m_instance->setFilePath(UserPaths::getUserDataPath());
+		m_instance->setFilePath(UserPaths::getUserDataPath().str());
 		m_instance->saveInstanceUUID();
 	}
 
@@ -33,7 +33,7 @@ SharedUUIDManager::~SharedUUIDManager()
 void SharedUUIDManager::setFilePath(const std::string& filePath)
 {
 	m_filePath = filePath;
-	FileSystem::createDirectory(m_filePath);
+	FileSystem::createDirectory(FilePath(m_filePath));
 
 	refreshUUIDs();
 }
@@ -121,6 +121,6 @@ void SharedUUIDManager::refreshUUIDs()
 {
 	if (FilePath(m_filePath + m_fileName).exists())
 	{
-		m_uuids = ConfigManager::createAndLoad(TextAccess::createFromFile(m_filePath + m_fileName));
+		m_uuids = ConfigManager::createAndLoad(TextAccess::createFromFile(FilePath(m_filePath + m_fileName)));
 	}
 }

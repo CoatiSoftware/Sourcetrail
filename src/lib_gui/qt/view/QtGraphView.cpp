@@ -441,12 +441,12 @@ void QtGraphView::updateTrailButtons()
 	}
 
 	m_backwardTrailButton->setIcon(utility::createButtonIcon(
-		ResourcePaths::getGuiPath() + "graph_view/images/" + backwardImagePath,
+		ResourcePaths::getGuiPath().str() + "graph_view/images/" + backwardImagePath,
 		"search/button"
 	));
 
 	m_forwardTrailButton->setIcon(utility::createButtonIcon(
-		ResourcePaths::getGuiPath() + "graph_view/images/" + forwardImagePath,
+		ResourcePaths::getGuiPath().str() + "graph_view/images/" + forwardImagePath,
 		"search/button"
 	));
 }
@@ -646,19 +646,19 @@ void QtGraphView::doRefreshView()
 
 	QtGraphicsView* view = getView();
 
-	std::string css = utility::getStyleSheet(ResourcePaths::getGuiPath() + "graph_view/graph_view.css");
+	std::string css = utility::getStyleSheet(ResourcePaths::getGuiPath().concat(FilePath("graph_view/graph_view.css")));
 	view->setStyleSheet(css.c_str());
 	view->setAppZoomFactor(GraphViewStyle::getZoomFactor());
 
 	m_trailWidget->setStyleSheet(css.c_str());
 
 	m_expandButton->setIcon(utility::createButtonIcon(
-		ResourcePaths::getGuiPath() + "graph_view/images/graph.png",
+		ResourcePaths::getGuiPath().str() + "graph_view/images/graph.png",
 		"search/button"
 	));
 
 	m_collapseButton->setIcon(utility::createButtonIcon(
-		ResourcePaths::getGuiPath() + "graph_view/images/graph_arrow.png",
+		ResourcePaths::getGuiPath().str() + "graph_view/images/graph_arrow.png",
 		"search/button"
 	));
 

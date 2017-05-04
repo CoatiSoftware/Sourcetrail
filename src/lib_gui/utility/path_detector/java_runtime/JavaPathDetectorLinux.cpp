@@ -1,5 +1,6 @@
 #include "utility/path_detector/java_runtime/JavaPathDetectorLinux.h"
 
+#include "utility/file/FilePath.h"
 #include "utility/utilityApp.h"
 #include "utility/utilityString.h"
 
@@ -43,7 +44,7 @@ FilePath JavaPathDetectorLinux::readLink(const FilePath& path) const
 {
 	std::string command = "readlink -f " + path.str();
 	FilePath javaPath( utility::executeProcess(command.c_str()));
-	if ( !javaPath.empty() )
+	if (!javaPath.empty())
 	{
 		return javaPath;
 	}

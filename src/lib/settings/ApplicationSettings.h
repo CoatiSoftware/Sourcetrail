@@ -82,8 +82,8 @@ public:
 	int getJavaMaximumMemory() const;
 	void setJavaMaximumMemory(int size);
 
-	std::string getMavenPath() const;
-	void setMavenPath(const std::string path);
+	FilePath getMavenPath() const;
+	void setMavenPath(const FilePath& path);
 
 	std::vector<FilePath> getHeaderSearchPaths() const;
 	std::vector<FilePath> getHeaderSearchPathsExpanded() const;

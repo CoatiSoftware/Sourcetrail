@@ -7,7 +7,6 @@
 
 #include "LicenseChecker.h"
 #include "qt/utility/utilityQt.h"
-#include "utility/file/FilePath.h"
 #include "utility/ResourcePaths.h"
 
 QtLicense::QtLicense(QWidget *parent)
@@ -121,7 +120,7 @@ void QtLicense::populateWindow(QWidget* widget)
 
 void QtLicense::windowReady()
 {
-	m_content->setStyleSheet(m_content->styleSheet() + utility::getStyleSheet(ResourcePaths::getGuiPath() + "license/license.css").c_str());
+	m_content->setStyleSheet(m_content->styleSheet() + utility::getStyleSheet(ResourcePaths::getGuiPath().concat(FilePath("license/license.css"))).c_str());
 
 	addLogo();
 

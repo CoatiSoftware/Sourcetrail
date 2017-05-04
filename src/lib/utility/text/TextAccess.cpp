@@ -4,7 +4,7 @@
 
 #include "utility/logging/logging.h"
 
-std::shared_ptr<TextAccess> TextAccess::createFromFile(const std::string& filePath)
+std::shared_ptr<TextAccess> TextAccess::createFromFile(const FilePath& filePath)
 {
 	std::shared_ptr<TextAccess> result(new TextAccess());
 
@@ -32,7 +32,7 @@ unsigned int TextAccess::getLineCount() const
 	return m_lines.size();
 }
 
-std::string TextAccess::getFilePath() const
+FilePath TextAccess::getFilePath() const
 {
 	return m_filePath;
 }
@@ -76,16 +76,16 @@ std::string TextAccess::getText() const
 	return result;
 }
 
-std::vector<std::string> TextAccess::readFile(const std::string& filePath)
+std::vector<std::string> TextAccess::readFile(const FilePath& filePath)
 {
 	std::vector<std::string> result;
 
 	std::ifstream srcFile;
-	srcFile.open(filePath);
+	srcFile.open(filePath.str());
 
 	if (srcFile.fail())
 	{
-		LOG_ERROR("Could not open file " + filePath);
+		LOG_ERROR("Could not open file " + filePath.str());
 		return result;
 	}
 

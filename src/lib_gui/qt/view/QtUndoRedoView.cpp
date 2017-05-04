@@ -37,7 +37,7 @@ void QtUndoRedoView::refreshView()
 
 void QtUndoRedoView::setStyleSheet()
 {
-	m_widget->setStyleSheet(utility::getStyleSheet(ResourcePaths::getGuiPath() + "undoredo_view/undoredo_view.css").c_str());
+	m_widget->setStyleSheet(utility::getStyleSheet(ResourcePaths::getGuiPath().concat(FilePath("undoredo_view/undoredo_view.css"))).c_str());
 }
 
 void QtUndoRedoView::doRefreshView()

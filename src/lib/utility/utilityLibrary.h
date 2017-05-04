@@ -15,7 +15,6 @@
 
 #include "utility/file/FilePath.h"
 
-
 namespace utility
 {
 	template <typename Ret, typename... Args>

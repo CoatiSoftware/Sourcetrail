@@ -74,7 +74,7 @@ void SqliteIndexStorage::addFile(const int id, const std::string& filePath, cons
 		return;
 	}
 
-	std::shared_ptr<TextAccess> content = TextAccess::createFromFile(filePath);
+	std::shared_ptr<TextAccess> content = TextAccess::createFromFile(FilePath(filePath));
 	const size_t lineCount = content->getLineCount();
 
 	const bool success = executeStatement(
@@ -589,7 +589,7 @@ std::shared_ptr<TextAccess> SqliteIndexStorage::getFileContentByPath(const std::
 		LOG_ERROR(std::to_string(e.errorCode()) + ": " + e.errorMessage());
 	}
 
-	return TextAccess::createFromFile(filePath);
+	return TextAccess::createFromFile(FilePath(filePath));
 }
 
 void SqliteIndexStorage::setFileComplete(bool complete, Id fileId)
@@ -1176,7 +1176,7 @@ std::vector<StorageError> SqliteIndexStorage::doGetAll<StorageError>(const std::
 
 		if (lineNumber != -1 && columnNumber != -1)
 		{
-			errors.push_back(StorageError(id, message, filePath, lineNumber, columnNumber, fatal, indexed));
+			errors.push_back(StorageError(id, message, FilePath(filePath), lineNumber, columnNumber, fatal, indexed));
 			id++;
 		}
 

@@ -3,7 +3,7 @@
 
 #include <vector>
 
-#include "utility/file/FilePath.h"
+class FilePath;
 
 namespace utility
 {

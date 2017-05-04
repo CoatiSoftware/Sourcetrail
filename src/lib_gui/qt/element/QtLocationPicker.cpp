@@ -28,8 +28,8 @@ QtLocationPicker::QtLocationPicker(QWidget *parent)
 	layout->addWidget(m_data);
 
 	m_button = new QtIconButton(
-		(ResourcePaths::getGuiPath() + "window/dots.png").c_str(),
-		(ResourcePaths::getGuiPath() + "window/dots_hover.png").c_str());
+		(ResourcePaths::getGuiPath().str() + "window/dots.png").c_str(),
+		(ResourcePaths::getGuiPath().str() + "window/dots_hover.png").c_str());
 	m_button->setObjectName("dotsButton");
 	m_button->setToolTip("pick file");
 	connect(m_button, SIGNAL(clicked()), this, SLOT(handleButtonPress()));

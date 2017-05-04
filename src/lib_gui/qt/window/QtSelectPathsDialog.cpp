@@ -4,6 +4,8 @@
 #include <QListWidget>
 #include <QPushButton>
 
+#include "utility/file/FilePath.h"
+
 QtSelectPathsDialog::QtSelectPathsDialog(const QString& title, const QString& description, QWidget* parent)
 	: QtTextEditDialog(title, description, parent)
 {
@@ -17,7 +19,7 @@ std::vector<FilePath> QtSelectPathsDialog::getPathsList() const
 	{
 		if (m_list->item(i)->checkState() ==  Qt::Checked)
 		{
-			checkedPaths.push_back(m_list->item(i)->text().toStdString());
+			checkedPaths.push_back(FilePath(m_list->item(i)->text().toStdString()));
 		}
 	}
 

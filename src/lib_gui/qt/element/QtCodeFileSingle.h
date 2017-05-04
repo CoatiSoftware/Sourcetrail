@@ -6,6 +6,7 @@
 
 #include <QFrame>
 
+#include "utility/file/FilePath.h"
 #include "utility/TimePoint.h"
 
 #include "qt/element/QtCodeNavigateable.h"

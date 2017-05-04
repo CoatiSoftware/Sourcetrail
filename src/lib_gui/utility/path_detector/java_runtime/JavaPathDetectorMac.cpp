@@ -1,5 +1,6 @@
 #include "utility/path_detector/java_runtime/JavaPathDetectorMac.h"
 
+#include "utility/file/FilePath.h"
 #include "utility/utilityApp.h"
 #include "utility/utilityString.h"
 

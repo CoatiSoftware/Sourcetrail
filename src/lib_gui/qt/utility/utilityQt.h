@@ -8,15 +8,16 @@ class QIcon;
 class QPixmap;
 class QString;
 class QWidget;
+class FilePath;
 
 namespace utility
 {
 	void setWidgetBackgroundColor(QWidget* widget, const std::string& color);
 	void setWidgetRetainsSpaceWhenHidden(QWidget* widget);
 
-	void loadFontsFromDirectory(const std::string& path, const std::string& extension = ".otf");
+	void loadFontsFromDirectory(const FilePath& path, const std::string& extension = ".otf");
 
-	std::string getStyleSheet(const std::string& path);
+	std::string getStyleSheet(const FilePath& path);
 
 	QPixmap colorizePixmap(const QPixmap& pixmap, QColor color);
 	QIcon createButtonIcon(const std::string& iconPath, const std::string& colorId);

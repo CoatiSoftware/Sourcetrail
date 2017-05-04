@@ -1,6 +1,8 @@
 #ifndef ERROR_VIEW_H
 #define ERROR_VIEW_H
 
+#include <vector>
+
 #include "component/view/View.h"
 #include "data/ErrorInfo.h"
 

@@ -12,11 +12,13 @@ CxxDiagnosticConsumer::CxxDiagnosticConsumer(
 	clang::DiagnosticOptions *diags,
 	std::shared_ptr<ParserClient> client,
 	std::shared_ptr<FileRegister> fileRegister,
+	std::shared_ptr<FilePathCache> canonicalFilePathCache,
 	bool useLogging
 )
 	: clang::TextDiagnosticPrinter(os, diags)
 	, m_client(client)
 	, m_register(fileRegister)
+	, m_canonicalFilePathCache(canonicalFilePathCache)
 	, m_isParsingFile(false)
 	, m_useLogging(useLogging)
 {
@@ -79,7 +81,7 @@ void CxxDiagnosticConsumer::HandleDiagnostic(clang::DiagnosticsEngine::Level lev
 			column = presumedLocation.getColumn();
 		}
 
-		ParseLocation location(filePath, line, column);
+		ParseLocation location(m_canonicalFilePathCache->getValue(filePath), line, column);
 
 		m_client->onErrorParsed(
 			location,

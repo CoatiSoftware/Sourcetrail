@@ -1,6 +1,5 @@
 #include "data/indexer/IndexerCommandCxxManual.h"
 
-
 std::string IndexerCommandCxxManual::getIndexerKindString()
 {
 	return "CxxManual";

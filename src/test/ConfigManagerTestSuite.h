@@ -116,7 +116,7 @@ public:
 	{
 		std::shared_ptr<ConfigManager> config = ConfigManager::createAndLoad(getConfigTextAccess());
 		config->save("data/temp.xml");
-		std::shared_ptr<ConfigManager> config2 = ConfigManager::createAndLoad(TextAccess::createFromFile("data/temp.xml"));
+		std::shared_ptr<ConfigManager> config2 = ConfigManager::createAndLoad(TextAccess::createFromFile(FilePath("data/temp.xml")));
 		TS_ASSERT_EQUALS(config->toString(), config2->toString());
 	}
 

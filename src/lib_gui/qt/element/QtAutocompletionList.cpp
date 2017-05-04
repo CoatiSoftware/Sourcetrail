@@ -330,7 +330,7 @@ void QtAutocompletionDelegate::calculateCharSizes(QFont font)
 		) / 500.0f;
 	m_charHeight2 = metrics2.height();
 
-	m_arrow = QtDeviceScaledPixmap(QString::fromStdString(ResourcePaths::getGuiPath() + "search_view/images/arrow.png"));
+	m_arrow = QtDeviceScaledPixmap(QString::fromStdString(ResourcePaths::getGuiPath().str() + "search_view/images/arrow.png"));
 	m_arrow.scaleToWidth(m_charWidth2);
 	m_arrow.colorize(ColorScheme::getInstance()->getColor("search/popup/by_text").c_str());
 }

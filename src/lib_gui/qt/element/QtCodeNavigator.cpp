@@ -525,22 +525,22 @@ void QtCodeNavigator::refreshStyle()
 	m_fileButton->setFixedHeight(height);
 
 	m_prevButton->setIcon(utility::createButtonIcon(
-		ResourcePaths::getGuiPath() + "code_view/images/arrow_left.png",
+		ResourcePaths::getGuiPath().str() + "code_view/images/arrow_left.png",
 		"search/button"
 	));
 
 	m_nextButton->setIcon(utility::createButtonIcon(
-		ResourcePaths::getGuiPath() + "code_view/images/arrow_right.png",
+		ResourcePaths::getGuiPath().str() + "code_view/images/arrow_right.png",
 		"search/button"
 	));
 
 	m_listButton->setIcon(utility::createButtonIcon(
-		ResourcePaths::getGuiPath() + "code_view/images/list.png",
+		ResourcePaths::getGuiPath().str() + "code_view/images/list.png",
 		"search/button"
 	));
 
 	m_fileButton->setIcon(utility::createButtonIcon(
-		ResourcePaths::getGuiPath() + "code_view/images/file.png",
+		ResourcePaths::getGuiPath().str() + "code_view/images/file.png",
 		"search/button"
 	));
 

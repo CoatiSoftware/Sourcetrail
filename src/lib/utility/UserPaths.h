@@ -3,22 +3,24 @@
 
 #include <string>
 
+#include "utility/file/FilePath.h"
+
 class UserPaths
 {
 public:
-	static std::string getUserDataPath();
-	static void setUserDataPath(const std::string& path);
+	static FilePath getUserDataPath();
+	static void setUserDataPath(const FilePath& path);
 
-	static std::string getSampleProjectsPath();
-	static void setSampleProjectsPath(const std::string& path);
+	static FilePath getSampleProjectsPath();
+	static void setSampleProjectsPath(const FilePath& path);
 
-	static std::string getAppSettingsPath();
-	static std::string getWindowSettingsPath();
-	static std::string getLogPath();
+	static FilePath getAppSettingsPath();
+	static FilePath getWindowSettingsPath();
+	static FilePath getLogPath();
 
 private:
-	static std::string s_userDataPath;
-	static std::string s_sampleProjectsPath;
+	static FilePath s_userDataPath;
+	static FilePath s_sampleProjectsPath;
 };
 
 #endif // USER_PATHS_H

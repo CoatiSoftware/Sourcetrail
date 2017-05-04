@@ -1,5 +1,7 @@
 #include "utility/path_detector/PathDetector.h"
 
+#include "utility/file/FilePath.h"
+
 PathDetector::PathDetector(const std::string& name)
 	: m_name(name)
 {

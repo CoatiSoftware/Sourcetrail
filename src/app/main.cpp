@@ -83,7 +83,7 @@ void prefillMavenExecutablePath()
 		{
 			MessageStatus("Run Maven executable path detection, found: " + paths.front().str());
 
-			settings->setMavenPath(paths.front().str());
+			settings->setMavenPath(paths.front());
 			settings->save();
 		}
 		else

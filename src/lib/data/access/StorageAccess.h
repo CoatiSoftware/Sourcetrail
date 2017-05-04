@@ -6,8 +6,6 @@
 #include <vector>
 
 #include "utility/types.h"
-#include "utility/file/FileInfo.h"
-#include "utility/file/FilePath.h"
 
 #include "data/bookmark/Bookmark.h"
 #include "data/bookmark/BookmarkCategory.h"
@@ -20,6 +18,8 @@
 #include "data/ErrorInfo.h"
 #include "data/StorageStats.h"
 
+class FilePath;
+struct FileInfo;
 class Graph;
 class SourceLocationCollection;
 class SourceLocationFile;
@@ -61,7 +61,7 @@ public:
 		const std::vector<Id>& locationIds) const = 0;
 	virtual std::shared_ptr<SourceLocationFile> getSourceLocationsForFile(const FilePath& filePath) const = 0;
 	virtual std::shared_ptr<SourceLocationFile> getSourceLocationsForLinesInFile(
-		const std::string& filePath, uint firstLineNumber, uint lastLineNumber) const = 0;
+		const FilePath& filePath, uint firstLineNumber, uint lastLineNumber) const = 0;
 
 	virtual std::shared_ptr<SourceLocationFile> getCommentLocationsInFile(const FilePath& filePath) const = 0;
 

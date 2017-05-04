@@ -6,6 +6,7 @@
 #include <QScrollBar>
 #include <QVBoxLayout>
 
+#include "utility/file/FilePath.h"
 #include "utility/logging/logging.h"
 #include "utility/messaging/type/MessageChangeFileView.h"
 #include "utility/ResourcePaths.h"

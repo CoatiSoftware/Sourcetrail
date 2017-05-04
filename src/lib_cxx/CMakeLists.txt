@@ -56,6 +56,7 @@ add_files(
 	data/parser/cxx/CxxAstVisitorComponentIndexer.h
 	data/parser/cxx/CxxAstVisitorComponentTypeRefKind.cpp
 	data/parser/cxx/CxxAstVisitorComponentTypeRefKind.h
+	data/parser/cxx/cxxCacheTypes.h
 	data/parser/cxx/CxxCompilationDatabaseSingle.cpp
 	data/parser/cxx/CxxCompilationDatabaseSingle.h
 	data/parser/cxx/CxxContext.cpp

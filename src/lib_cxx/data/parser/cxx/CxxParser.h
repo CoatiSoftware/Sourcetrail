@@ -1,10 +1,12 @@
 #ifndef CXX_PARSER_H
 #define CXX_PARSER_H
 
+#include "data/parser/cxx/cxxCacheTypes.h"
 #include "data/parser/cxx/CxxCompilationDatabaseSingle.h"
 #include "data/parser/Parser.h"
 
 class CxxDiagnosticConsumer;
+class FilePath;
 class FileRegister;
 class IndexerCommandCxxCdb;
 class IndexerCommandCxxManual;
@@ -29,7 +31,7 @@ private:
 	std::vector<std::string> getCommandlineArguments(std::shared_ptr<IndexerCommandCxxManual> indexerCommand) const;
 	std::shared_ptr<clang::tooling::FixedCompilationDatabase> getCompilationDatabase(std::shared_ptr<IndexerCommandCxxManual> indexerCommand) const;
 
-	std::shared_ptr<CxxDiagnosticConsumer> getDiagnostics(bool logErrors) const;
+	std::shared_ptr<CxxDiagnosticConsumer> getDiagnostics(std::shared_ptr<FilePathCache> canonicalFilePathCache, bool logErrors) const;
 
 	friend class TaskParseCxx;
 

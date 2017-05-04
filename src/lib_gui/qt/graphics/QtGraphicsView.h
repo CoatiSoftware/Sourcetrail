@@ -6,8 +6,6 @@
 #include <QGraphicsView>
 #include <QPushButton>
 
-#include "utility/file/FilePath.h"
-
 class QTimer;
 class QtGraphNode;
 

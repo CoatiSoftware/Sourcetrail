@@ -5,13 +5,14 @@
 
 #include <clang/AST/RecursiveASTVisitor.h>
 
+#include "data/parser/cxx/cxxCacheTypes.h"
 #include "data/parser/cxx/CxxContext.h"
 #include "utility/messaging/MessageInterruptTasksCounter.h"
-#include "utility/Cache.h"
 
 class ParserClient;
 struct ParseLocation;
 class FileRegister;
+class FilePath;
 
 class CxxAstVisitorComponent;
 class CxxAstVisitorComponentContext;
@@ -19,6 +20,7 @@ class CxxAstVisitorComponentDeclRefKind;
 class CxxAstVisitorComponentTypeRefKind;
 class CxxAstVisitorComponentImplicitCode;
 class CxxAstVisitorComponentIndexer;
+
 
 // methods are called in this order:
 //	TraverseDecl()
@@ -34,7 +36,13 @@ class CxxAstVisitorComponentIndexer;
 class CxxAstVisitor: public clang::RecursiveASTVisitor<CxxAstVisitor>
 {
 public:
-	CxxAstVisitor(clang::ASTContext* astContext, clang::Preprocessor* preprocessor, std::shared_ptr<ParserClient> client, std::shared_ptr<FileRegister> fileRegister);
+	CxxAstVisitor(
+		clang::ASTContext* astContext,
+		clang::Preprocessor* preprocessor,
+		std::shared_ptr<ParserClient> client,
+		std::shared_ptr<FileRegister> fileRegister,
+		std::shared_ptr<FilePathCache> canonicalFilePathCache
+	);
 	virtual ~CxxAstVisitor();
 
 	template <typename T>
@@ -42,6 +50,7 @@ public:
 
 	std::shared_ptr<DeclNameCache> getDeclNameCache();
 	std::shared_ptr<TypeNameCache> getTypeNameCache();
+	std::shared_ptr<FilePathCache> getCanonicalFilePathCache();
 
 	// Indexing entry point
     void indexDecl(clang::Decl *d);
@@ -139,6 +148,7 @@ private:
 	clang::Preprocessor* m_preprocessor;
 	std::shared_ptr<ParserClient> m_client;
 	std::shared_ptr<FileRegister> m_fileRegister;
+	std::shared_ptr<FilePathCache> m_canonicalFilePathCache;
 
 	MessageInterruptTasksCounter m_interruptCounter;
 

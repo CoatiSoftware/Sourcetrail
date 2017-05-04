@@ -3,11 +3,11 @@
 
 #include <vector>
 
-#include "utility/file/FilePath.h"
 #include "utility/scheduling/Task.h"
 #include "utility/TimePoint.h"
 
 class DialogView;
+class FilePath;
 class PersistentStorage;
 
 class TaskCleanStorage

@@ -4,12 +4,12 @@
 #include <memory>
 
 #include "data/ErrorInfo.h"
-#include "utility/file/FilePath.h"
 
 #include "component/view/helper/CodeSnippetParams.h"
 #include "component/view/View.h"
 
 class CodeController;
+class FilePath;
 class SourceLocationCollection;
 
 class CodeView

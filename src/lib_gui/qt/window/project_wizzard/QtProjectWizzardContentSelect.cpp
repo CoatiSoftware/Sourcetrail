@@ -111,7 +111,7 @@ void QtProjectWizzardContentSelect::populate(QGridLayout* layout, int& row)
 		{
 			QToolButton* b = createProjectButton(
 				utility::insertLineBreaksAtBlankSpaces(sourceGroupTypeToProjectSetupString(projectIt.type), 15).c_str(),
-				(ResourcePaths::getGuiPath() + "icon/" + m_projectTypeIconName[projectIt.type] + ".png").c_str()
+				(ResourcePaths::getGuiPath().str() + "icon/" + m_projectTypeIconName[projectIt.type] + ".png").c_str()
 			);
 			b->setProperty("source_group_type", int(projectIt.type));
 			projectButtons->addButton(b);

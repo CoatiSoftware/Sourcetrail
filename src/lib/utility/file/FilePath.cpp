@@ -8,6 +8,9 @@
 FilePath::FilePath()
 	: m_exists(false)
 	, m_checkedExists(false)
+	, m_isDirectory(false)
+	, m_checkedIsDirectory(false)
+	, m_canonicalized(false)
 {
 }
 
@@ -15,6 +18,9 @@ FilePath::FilePath(const char* filePath)
 	: m_path(filePath)
 	, m_exists(false)
 	, m_checkedExists(false)
+	, m_isDirectory(false)
+	, m_checkedIsDirectory(false)
+	, m_canonicalized(false)
 {
 }
 
@@ -22,6 +28,9 @@ FilePath::FilePath(const std::string& filePath)
 	: m_path(filePath)
 	, m_exists(false)
 	, m_checkedExists(false)
+	, m_isDirectory(false)
+	, m_checkedIsDirectory(false)
+	, m_canonicalized(false)
 {
 }
 
@@ -29,6 +38,9 @@ FilePath::FilePath(const boost::filesystem::path& filePath)
 	: m_path(filePath)
 	, m_exists(false)
 	, m_checkedExists(false)
+	, m_isDirectory(false)
+	, m_checkedIsDirectory(false)
+	, m_canonicalized(false)
 {
 }
 
@@ -36,6 +48,9 @@ FilePath::FilePath(const std::string& filePath, const std::string& base)
 	: m_path(boost::filesystem::absolute(filePath, base))
 	, m_exists(false)
 	, m_checkedExists(false)
+	, m_isDirectory(false)
+	, m_checkedIsDirectory(false)
+	, m_canonicalized(false)
 {
 }
 
@@ -60,9 +75,21 @@ bool FilePath::exists() const
 	return m_exists;
 }
 
+bool FilePath::recheckExists() const
+{
+	m_checkedExists = false;
+	return exists();
+}
+
 bool FilePath::isDirectory() const
 {
-	return boost::filesystem::is_directory(m_path);
+	if (!m_checkedIsDirectory)
+	{
+		m_isDirectory = boost::filesystem::is_directory(m_path);
+		m_checkedIsDirectory = true;
+	}
+
+	return m_isDirectory;
 }
 
 bool FilePath::isAbsolute() const
@@ -72,37 +99,50 @@ bool FilePath::isAbsolute() const
 
 FilePath FilePath::parentDirectory() const
 {
-	return m_path.parent_path();
+	FilePath parentDirectory(m_path.parent_path());
+	parentDirectory.m_checkedIsDirectory = true;
+	parentDirectory.m_isDirectory = true;
+
+	if (m_checkedExists && m_exists)
+	{
+		parentDirectory.m_checkedExists = true;
+		parentDirectory.m_exists = true;
+	}
+	return parentDirectory;
 }
 
 FilePath FilePath::absolute() const
 {
-	return boost::filesystem::absolute(m_path);
+	return FilePath(boost::filesystem::absolute(m_path));
 }
 
 FilePath FilePath::canonical() const
 {
+	if (m_canonicalized)
+	{
+		return FilePath(*this);
+	}
 	if (!exists())
 	{
-		return FilePath(m_path);
+		return FilePath(*this);
 	}
 
 	boost::filesystem::path abs_p = boost::filesystem::absolute(m_path);
-	boost::filesystem::path result;
+	boost::filesystem::path canonicalPath;
 	for (boost::filesystem::path::iterator it = abs_p.begin(); it != abs_p.end(); ++it)
 	{
 		if (*it == "..")
 		{
 			// /a/b/.. is not necessarily /a if b is a symbolic link
-			if (boost::filesystem::is_symlink(result))
-				result /= *it;
+			if (boost::filesystem::is_symlink(canonicalPath))
+				canonicalPath /= *it;
 			// /a/b/../.. is not /a/b/.. under most circumstances
 			// We can end up with ..s in our result because of symbolic links
-			else if (result.filename() == "..")
-				result /= *it;
+			else if (canonicalPath.filename() == "..")
+				canonicalPath /= *it;
 			// Otherwise it should be safe to resolve the parent
 			else
-				result = result.parent_path();
+				canonicalPath = canonicalPath.parent_path();
 		}
 		else if (*it == ".")
 		{
@@ -111,10 +151,12 @@ FilePath FilePath::canonical() const
 		else
 		{
 			// Just cat other path entries
-			result /= *it;
+			canonicalPath /= *it;
 		}
 	}
-	return result;
+	FilePath ret(canonicalPath);
+	ret.m_canonicalized = true;
+	return ret;
 }
 
 std::vector<FilePath> FilePath::expandEnvironmentVariables() const
@@ -132,7 +174,7 @@ std::vector<FilePath> FilePath::expandEnvironmentVariables() const
 			LOG_ERROR(match[1].str() + " is not an environment variable");
 			return paths;
 		}
-		text.replace( match.position(0), match.length(0), s);
+		text.replace(match.position(0), match.length(0), s);
 	}
 
 	char environmentVariablePathSeparator = ':';
@@ -145,7 +187,7 @@ std::vector<FilePath> FilePath::expandEnvironmentVariables() const
 	{
 		if (str.size())
 		{
-			paths.push_back(str);
+			paths.push_back(FilePath(str));
 		}
 	}
 
@@ -159,7 +201,7 @@ FilePath FilePath::relativeTo(const FilePath& other) const
 
 	if (a.root_path() != b.root_path())
 	{
-		return str();
+		return *this;
 	}
 
 	boost::filesystem::path::const_iterator itA = a.begin();
@@ -196,12 +238,12 @@ FilePath FilePath::relativeTo(const FilePath& other) const
 		r = "./";
 	}
 
-	return r;
+	return FilePath(r);
 }
 
 FilePath FilePath::concat(const FilePath& other) const
 {
-	return boost::filesystem::path(m_path) / other.m_path;
+	return FilePath(boost::filesystem::path(m_path) / other.m_path);
 }
 
 bool FilePath::contains(const FilePath& other) const

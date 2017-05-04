@@ -11,11 +11,11 @@ class SqliteBookmarkStorageTestSuite: public CxxTest::TestSuite
 public:
 	void test_add_bookmarks()
 	{
-		std::string databasePath = "data/SQLiteTestSuite/bookmarkTest.sqlite";
+		FilePath databasePath("data/SQLiteTestSuite/bookmarkTest.sqlite");
 		int bookmarkCount = 4;
 		int result = -1;
 		{
-			boost::filesystem::remove(databasePath);
+			boost::filesystem::remove(databasePath.path());
 			SqliteBookmarkStorage storage(databasePath);
 			storage.setup();
 
@@ -28,18 +28,18 @@ public:
 			result = storage.getAllBookmarks().size();
 		}
 
-		boost::filesystem::remove(databasePath);
+		boost::filesystem::remove(databasePath.path());
 
 		TS_ASSERT_EQUALS(result, bookmarkCount);
 	}
 
 	void test_add_bookmarked_node()
 	{
-		std::string databasePath = "data/SQLiteTestSuite/bookmarkTest.sqlite";
+		FilePath databasePath("data/SQLiteTestSuite/bookmarkTest.sqlite");
 		int bookmarkCount = 4;
 		int result = -1;
 		{
-			boost::filesystem::remove(databasePath);
+			boost::filesystem::remove(databasePath.path());
 			SqliteBookmarkStorage storage(databasePath);
 			storage.setup();
 
@@ -54,18 +54,18 @@ public:
 			result = storage.getAllBookmarkedNodes().size();
 		}
 
-		boost::filesystem::remove(databasePath);
+		boost::filesystem::remove(databasePath.path());
 
 		TS_ASSERT_EQUALS(result, bookmarkCount);
 	}
 
 	void test_remove_bookmark_also_removes_bookmarked_node()
 	{
-		std::string databasePath = "data/SQLiteTestSuite/bookmarkTest.sqlite";
+		FilePath databasePath("data/SQLiteTestSuite/bookmarkTest.sqlite");
 		int bookmarkCount = 4;
 		int result = -1;
 		{
-			boost::filesystem::remove(databasePath);
+			boost::filesystem::remove(databasePath.path());
 			SqliteBookmarkStorage storage(databasePath);
 			storage.setup();
 
@@ -78,21 +78,21 @@ public:
 			result = storage.getAllBookmarkedNodes().size();
 		}
 
-		boost::filesystem::remove(databasePath);
+		boost::filesystem::remove(databasePath.path());
 
 		TS_ASSERT_EQUALS(result, 0);
 	}
 
 	void test_edit_nodeBookmark()
 	{
-		std::string databasePath = "data/SQLiteTestSuite/bookmarkTest.sqlite";
+		FilePath databasePath("data/SQLiteTestSuite/bookmarkTest.sqlite");
 
 		const std::string updatedName = "updated name";
 		const std::string updatedComment = "updated comment";
 
 		StorageBookmark storageBookmark;
 		{
-			boost::filesystem::remove(databasePath);
+			boost::filesystem::remove(databasePath.path());
 			SqliteBookmarkStorage storage(databasePath);
 			storage.setup();
 
@@ -104,6 +104,8 @@ public:
 
 			storageBookmark = storage.getAllBookmarks().front();
 		}
+
+		boost::filesystem::remove(databasePath.path());
 
 		TS_ASSERT_EQUALS(updatedName, storageBookmark.name);
 		TS_ASSERT_EQUALS(updatedComment, storageBookmark.comment);

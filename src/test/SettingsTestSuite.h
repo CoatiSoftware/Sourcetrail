@@ -10,19 +10,19 @@ public:
 	void test_settings_get_loaded_from_file()
 	{
 		TestSettings settings;
-		TS_ASSERT(settings.load("data/SettingsTestSuite/settings.xml"));
+		TS_ASSERT(settings.load(FilePath("data/SettingsTestSuite/settings.xml")));
 	}
 
 	void test_settings_get_not_loaded_from_file()
 	{
 		TestSettings settings;
-		TS_ASSERT(!settings.load("data/SettingsTestSuite/wrong_settings.xml"));
+		TS_ASSERT(!settings.load(FilePath("data/SettingsTestSuite/wrong_settings.xml")));
 	}
 
 	void test_settings_get_loaded_value()
 	{
 		TestSettings settings;
-		TS_ASSERT(settings.load("data/SettingsTestSuite/settings.xml"));
+		TS_ASSERT(settings.load(FilePath("data/SettingsTestSuite/settings.xml")));
 
 		TS_ASSERT_EQUALS(settings.getBool(), true);
 		TS_ASSERT_EQUALS(settings.getInt(), 42);
@@ -42,7 +42,7 @@ public:
 	void test_settings_get_default_value_when_wrongly_loaded()
 	{
 		TestSettings settings;
-		TS_ASSERT(!settings.load("data/SettingsTestSuite/wrong_settings.xml"));
+		TS_ASSERT(!settings.load(FilePath("data/SettingsTestSuite/wrong_settings.xml")));
 
 		TS_ASSERT_EQUALS(settings.getBool(), false);
 		TS_ASSERT_EQUALS(settings.getInt(), -1);
@@ -53,7 +53,7 @@ public:
 	void test_settings_get_default_value_after_clearing()
 	{
 		TestSettings settings;
-		TS_ASSERT(settings.load("data/SettingsTestSuite/settings.xml"));
+		TS_ASSERT(settings.load(FilePath("data/SettingsTestSuite/settings.xml")));
 
 		settings.clear();
 		TS_ASSERT_EQUALS(settings.getBool(), false);
@@ -82,7 +82,7 @@ public:
 	void test_settings_can_be_replaced_when_loaded()
 	{
 		TestSettings settings;
-		TS_ASSERT(settings.load("data/SettingsTestSuite/settings.xml"));
+		TS_ASSERT(settings.load(FilePath("data/SettingsTestSuite/settings.xml")));
 
 		TS_ASSERT(settings.setBool(false));
 		TS_ASSERT_EQUALS(settings.getBool(), false);
@@ -100,7 +100,7 @@ public:
 	void test_settings_can_be_added_when_loaded()
 	{
 		TestSettings settings;
-		TS_ASSERT(settings.load("data/SettingsTestSuite/settings.xml"));
+		TS_ASSERT(settings.load(FilePath("data/SettingsTestSuite/settings.xml")));
 
 		TS_ASSERT_EQUALS(settings.getNewBool(), false);
 		TS_ASSERT(settings.setNewBool(true));

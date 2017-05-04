@@ -1,7 +1,9 @@
 #ifndef UTILITY_MAVEN_H
 #define UTILITY_MAVEN_H
 
-#include "utility/file/FilePath.h"
+#include <vector>
+
+class FilePath;
 
 namespace utility
 {

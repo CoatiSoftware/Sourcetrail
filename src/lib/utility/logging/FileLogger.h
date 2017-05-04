@@ -3,6 +3,7 @@
 
 #include <string>
 
+#include "utility/file/FilePath.h"
 #include "utility/logging/Logger.h"
 #include "utility/logging/LogMessage.h"
 
@@ -12,7 +13,7 @@ public:
 	FileLogger();
 	virtual ~FileLogger();
 
-	void setLogDirectory(const std::string& filePath);
+	void setLogDirectory(const FilePath& filePath);
 	void setFileName(const std::string& fileName);
 	void setMaxLogLineCount(unsigned int logCount);
 
@@ -28,7 +29,7 @@ private:
 	void updateLogFileName();
 
 	std::string m_logFileName;
-	std::string m_logDirectory;
+	FilePath m_logDirectory;
 	unsigned int m_maxLogLineCount;
 	unsigned int m_maxLogFileCount;
 	unsigned int m_currentLogLineCount;

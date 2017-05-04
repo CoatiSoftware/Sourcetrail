@@ -3,12 +3,12 @@
 
 #include <set>
 
-#include "utility/file/FilePath.h"
 #include "utility/TimePoint.h"
 #include "utility/types.h"
 
 #include "component/view/helper/CodeSnippetParams.h"
 
+class FilePath;
 class QRectF;
 class QAbstractScrollArea;
 class QWidget;

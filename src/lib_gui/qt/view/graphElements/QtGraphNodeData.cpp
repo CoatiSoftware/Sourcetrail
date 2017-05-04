@@ -1,5 +1,6 @@
 #include "qt/view/graphElements/QtGraphNodeData.h"
 
+#include "utility/file/FilePath.h"
 #include "utility/messaging/type/MessageActivateNodes.h"
 #include "utility/messaging/type/MessageDeactivateEdge.h"
 #include "utility/messaging/type/MessageFocusIn.h"

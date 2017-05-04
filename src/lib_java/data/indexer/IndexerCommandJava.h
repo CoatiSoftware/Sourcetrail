@@ -4,7 +4,8 @@
 #include <vector>
 
 #include "data/indexer/IndexerCommand.h"
-#include "utility/file/FilePath.h"
+
+class FilePath;
 
 class IndexerCommandJava
 	: public IndexerCommand

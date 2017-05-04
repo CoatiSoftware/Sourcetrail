@@ -4,7 +4,7 @@
 #include <string>
 #include <vector>
 
-#include "utility/file/FilePath.h"
+class FilePath;
 
 class PathDetector
 {

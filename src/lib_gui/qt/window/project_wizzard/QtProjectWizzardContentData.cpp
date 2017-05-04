@@ -85,7 +85,7 @@ void QtProjectWizzardContentData::save()
 	if (m_projectName)
 	{
 		m_projectSettings->setProjectName(m_projectName->text().toStdString());
-		m_projectSettings->setProjectFileLocation(m_projectFileLocation->getText().toStdString());
+		m_projectSettings->setProjectFileLocation(FilePath(m_projectFileLocation->getText().toStdString()));
 	}
 
 	if (m_standard)
@@ -239,7 +239,7 @@ void QtProjectWizzardContentDataCDB::save()
 {
 	QtProjectWizzardContentData::save();
 
-	FilePath path = m_buildFilePicker->getText().toStdString();
+	FilePath path(m_buildFilePicker->getText().toStdString());
 	FilePath absPath = m_projectSettings->makePathAbsolute(m_projectSettings->expandPath(path)); // maybe we can use SourceGroupSettings for this... that's where the the cdb path is stored.
 	if (!absPath.exists() || absPath.extension() != ".json")
 	{
@@ -260,7 +260,7 @@ bool QtProjectWizzardContentDataCDB::check()
 		return false;
 	}
 
-	FilePath path = m_buildFilePicker->getText().toStdString();
+	FilePath path(m_buildFilePicker->getText().toStdString());
 	FilePath absPath = m_projectSettings->makePathAbsolute(m_projectSettings->expandPath(path));
 	if (!absPath.exists() || absPath.extension() != ".json")
 	{

@@ -5,17 +5,19 @@
 #include <string>
 #include <vector>
 
+#include "utility/file/FilePath.h"
+
 class TextAccess
 {
 public:
-	static std::shared_ptr<TextAccess> createFromFile(const std::string& filePath);
+	static std::shared_ptr<TextAccess> createFromFile(const FilePath& filePath);
 	static std::shared_ptr<TextAccess> createFromString(const std::string& text);
 
 	virtual ~TextAccess();
 
 	unsigned int getLineCount() const;
 
-	std::string getFilePath() const;
+	FilePath getFilePath() const;
 
 	/**
 	 * @param lineNumber: starts with 1
@@ -30,7 +32,7 @@ public:
 	std::string getText() const;
 
 private:
-	static std::vector<std::string> readFile(const std::string& filePath);
+	static std::vector<std::string> readFile(const FilePath& filePath);
 	static std::vector<std::string> splitStringByLines(const std::string& text);
 
 	TextAccess();
@@ -40,7 +42,7 @@ private:
 	bool checkIndexInRange(const unsigned int index) const;
 	bool checkIndexIntervalInRange(const unsigned int firstIndex, const unsigned int lastIndex) const;
 
-	std::string m_filePath;
+	FilePath m_filePath;
 	std::vector<std::string> m_lines;
 };
 

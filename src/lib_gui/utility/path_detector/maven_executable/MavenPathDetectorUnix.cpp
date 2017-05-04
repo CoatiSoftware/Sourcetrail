@@ -1,5 +1,6 @@
 #include "utility/path_detector/maven_executable/MavenPathDetectorUnix.h"
 
+#include "utility/file/FilePath.h"
 #include "utility/utilityApp.h"
 
 MavenPathDetectorUnix::MavenPathDetectorUnix()

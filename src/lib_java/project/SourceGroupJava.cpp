@@ -114,14 +114,14 @@ bool SourceGroupJava::prepareJavaEnvironment()
 		const std::string separator = ":";
 #endif
 		JavaEnvironmentFactory::createInstance(
-			ResourcePaths::getJavaPath() + "guava-18.0.jar" + separator +
-			ResourcePaths::getJavaPath() + "java-indexer.jar" + separator +
-			ResourcePaths::getJavaPath() + "javaparser-core.jar" + separator +
-			ResourcePaths::getJavaPath() + "javaslang-2.0.3.jar" + separator +
-			ResourcePaths::getJavaPath() + "javassist-3.19.0-GA.jar" + separator +
-			ResourcePaths::getJavaPath() + "java-symbol-solver-core.jar" + separator +
-			ResourcePaths::getJavaPath() + "java-symbol-solver-logic.jar" + separator +
-			ResourcePaths::getJavaPath() + "java-symbol-solver-model.jar",
+			ResourcePaths::getJavaPath().str() + "guava-18.0.jar" + separator +
+			ResourcePaths::getJavaPath().str() + "java-indexer.jar" + separator +
+			ResourcePaths::getJavaPath().str() + "javaparser-core.jar" + separator +
+			ResourcePaths::getJavaPath().str() + "javaslang-2.0.3.jar" + separator +
+			ResourcePaths::getJavaPath().str() + "javassist-3.19.0-GA.jar" + separator +
+			ResourcePaths::getJavaPath().str() + "java-symbol-solver-core.jar" + separator +
+			ResourcePaths::getJavaPath().str() + "java-symbol-solver-logic.jar" + separator +
+			ResourcePaths::getJavaPath().str() + "java-symbol-solver-model.jar",
 			errorString
 		);
 	}
@@ -205,12 +205,12 @@ std::vector<FilePath> SourceGroupJava::getClassPath()
 	if (m_settings->getAbsoluteMavenDependenciesDirectory().exists())
 	{
 		const std::vector<std::string> dependencies = FileSystem::getFileNamesFromDirectory(
-			m_settings->getAbsoluteMavenDependenciesDirectory().str(),
+			m_settings->getAbsoluteMavenDependenciesDirectory(),
 			utility::createVectorFromElements<std::string>(".jar")
 		);
 		for (const std::string& dependency: dependencies)
 		{
-			classPath.push_back(dependency);
+			classPath.push_back(FilePath(dependency));
 		}
 	}
 
@@ -218,7 +218,7 @@ std::vector<FilePath> SourceGroupJava::getClassPath()
 	{
 		if (rootDirectory.exists())
 		{
-			classPath.push_back(rootDirectory.str());
+			classPath.push_back(rootDirectory);
 		}
 	}
 
@@ -239,7 +239,7 @@ std::set<FilePath> SourceGroupJava::fetchRootDirectories()
 	std::shared_ptr<JavaEnvironment> javaEnvironment = JavaEnvironmentFactory::getInstance()->createEnvironment();
 	for (FilePath filePath: m_allSourceFilePaths)
 	{
-		std::shared_ptr<TextAccess> textAccess = TextAccess::createFromFile(filePath.str());
+		std::shared_ptr<TextAccess> textAccess = TextAccess::createFromFile(filePath);
 
 		std::string packageName = "";
 		javaEnvironment->callStaticMethod("com/sourcetrail/JavaIndexer", "getPackageName", packageName, textAccess->getText());

@@ -1,5 +1,7 @@
 #include "project/SourceGroup.h"
 
+#include "utility/file/FilePath.h"
+
 SourceGroup::~SourceGroup()
 {
 }

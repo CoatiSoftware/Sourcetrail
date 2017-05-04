@@ -4,6 +4,7 @@
 #include <map>
 #include <string>
 
+#include "utility/file/FilePath.h"
 #include "utility/messaging/MessageListener.h"
 #include "utility/messaging/type/MessageActivateAll.h"
 #include "utility/messaging/type/MessageActivateLocalSymbols.h"

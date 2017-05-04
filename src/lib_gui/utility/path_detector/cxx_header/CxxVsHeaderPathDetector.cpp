@@ -34,10 +34,10 @@ std::vector<FilePath> CxxVsHeaderPathDetector::getPaths() const
 
 		for (size_t i = 0; i < subdirectories.size(); i++)
 		{
-			FilePath headerSearchPath = vsInstallPath.concat(subdirectories[i]);
+			FilePath headerSearchPath = vsInstallPath.concat(FilePath(subdirectories[i]));
 			if (headerSearchPath.exists())
 			{
-				headerPaths.push_back(headerSearchPath.canonical().str());
+				headerPaths.push_back(headerSearchPath.canonical());
 			}
 		}
 	}
@@ -56,7 +56,7 @@ std::vector<FilePath> CxxVsHeaderPathDetector::getPaths() const
 			FilePath sdkPath = getWindowsSdkPathUsingRegistry(windowsSdkVersions[i]);
 			if (sdkPath.exists())
 			{
-				FilePath sdkIncludePath = sdkPath.concat("include/");
+				FilePath sdkIncludePath = sdkPath.concat(FilePath("include/"));
 				if (sdkIncludePath.exists())
 				{
 					std::vector<std::string> subdirectories;
@@ -67,7 +67,7 @@ std::vector<FilePath> CxxVsHeaderPathDetector::getPaths() const
 					bool usingSubdirectories = false;
 					for (size_t j = 0; j < subdirectories.size(); j++)
 					{
-						FilePath sdkSubdirectory = sdkPath.concat(subdirectories[j]);
+						FilePath sdkSubdirectory = sdkPath.concat(FilePath(subdirectories[j]));
 						if (sdkSubdirectory.exists())
 						{
 							headerPaths.push_back(sdkSubdirectory);

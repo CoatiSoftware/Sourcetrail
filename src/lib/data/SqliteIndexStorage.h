@@ -7,14 +7,13 @@
 
 #include "data/location/SourceLocationFile.h"
 #include "data/name/NameHierarchy.h"
-#include "data/StorageTypes.h"
 #include "data/SqliteDatabaseIndex.h"
-#include "utility/file/FilePath.h"
+#include "data/SqliteStorage.h"
+#include "data/StorageTypes.h"
 #include "utility/types.h"
 #include "utility/utility.h"
 #include "utility/utilityString.h"
 
-#include "data/SqliteStorage.h"
 
 class TextAccess;
 class Version;

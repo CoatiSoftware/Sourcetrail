@@ -50,7 +50,7 @@ QtErrorView::QtErrorView(ViewLayout* viewLayout)
 	, m_setErrorIdFunctor(std::bind(&QtErrorView::doSetErrorId, this, std::placeholders::_1))
 	, m_ignoreRowSelection(false)
 {
-	s_errorIcon = QIcon(QString((ResourcePaths::getGuiPath() + "/indexing_dialog/error.png").c_str()));
+	s_errorIcon = QIcon(QString((ResourcePaths::getGuiPath().str() + "/indexing_dialog/error.png").c_str()));
 }
 
 QtErrorView::~QtErrorView()

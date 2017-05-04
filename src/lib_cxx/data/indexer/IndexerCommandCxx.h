@@ -5,7 +5,8 @@
 #include <string>
 
 #include "data/indexer/IndexerCommand.h"
-#include "utility/file/FilePath.h"
+
+class FilePath;
 
 class IndexerCommandCxx
 	: public IndexerCommand

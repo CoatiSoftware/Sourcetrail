@@ -110,7 +110,7 @@ void ApplicationSettings::setUseAnimations(bool useAnimations)
 
 FilePath ApplicationSettings::getColorSchemePath() const
 {
-	FilePath defaultPath(ResourcePaths::getColorSchemesPath() + "bright.xml");
+	FilePath defaultPath(ResourcePaths::getColorSchemesPath().concat(FilePath("bright.xml")));
 	FilePath path(getValue<std::string>("application/color_scheme", defaultPath.str()));
 
 	if (path != defaultPath && !path.exists())
@@ -276,14 +276,14 @@ void ApplicationSettings::setJavaMaximumMemory(int size)
 	setValue<int>("indexing/java/java_maximum_memory", size);
 }
 
-std::string ApplicationSettings::getMavenPath() const
+FilePath ApplicationSettings::getMavenPath() const
 {
-	return getValue<std::string>("indexing/java/maven_path", "");
+	return FilePath(getValue<std::string>("indexing/java/maven_path", ""));
 }
 
-void ApplicationSettings::setMavenPath(const std::string path)
+void ApplicationSettings::setMavenPath(const FilePath& path)
 {
-	setValue<std::string>("indexing/java/maven_path", path);
+	setValue<std::string>("indexing/java/maven_path", path.str());
 }
 
 std::vector<FilePath> ApplicationSettings::getHeaderSearchPaths() const
@@ -369,7 +369,7 @@ std::vector<FilePath> ApplicationSettings::getRecentProjects() const
 		}
 		else
 		{
-			recentProjects.push_back(UserPaths::getSampleProjectsPath() + project.str());
+			recentProjects.push_back(UserPaths::getSampleProjectsPath().concat(project));
 		}
 	}
 	return recentProjects;

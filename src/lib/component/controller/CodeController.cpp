@@ -2,6 +2,7 @@
 
 #include <memory>
 
+#include "utility/file/FileInfo.h"
 #include "utility/messaging/type/MessageStatus.h"
 #include "utility/text/TextAccess.h"
 #include "utility/tracing.h"
@@ -241,7 +242,7 @@ void CodeController::handleMessage(MessageChangeFileView* message)
 			else
 			{
 				std::shared_ptr<SourceLocationFile> file =
-					m_storageAccess->getSourceLocationsForFile(message->filePath.str());
+					m_storageAccess->getSourceLocationsForFile(message->filePath);
 
 				SourceLocationFile* activeLocations = m_collection->getSourceLocationFileByPath(message->filePath).get();
 				if (activeLocations)

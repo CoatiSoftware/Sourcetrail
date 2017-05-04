@@ -81,12 +81,12 @@ void IDECommunicationController::handleSetActiveTokenMessage(
 	{
 		const unsigned int cursorColumn = message.column;
 
-		if (FileSystem::getFileInfoForPath(message.fileLocation).lastWriteTime
-			== m_storageAccess->getFileInfoForFilePath(message.fileLocation).lastWriteTime)
+		if (FileSystem::getFileInfoForPath(FilePath(message.fileLocation)).lastWriteTime
+			== m_storageAccess->getFileInfoForFilePath(FilePath(message.fileLocation)).lastWriteTime)
 		{
 			// file was not modified
 			std::shared_ptr<SourceLocationFile> sourceLocationFile = m_storageAccess->getSourceLocationsForLinesInFile(
-				message.fileLocation, message.row, message.row
+				FilePath(message.fileLocation), message.row, message.row
 			);
 
 			std::vector<Id> selectedLocationIds;
@@ -116,10 +116,10 @@ void IDECommunicationController::handleSetActiveTokenMessage(
 			}
 		}
 
-		Id fileId = m_storageAccess->getNodeIdForFileNode(message.fileLocation);
+		Id fileId = m_storageAccess->getNodeIdForFileNode(FilePath(message.fileLocation));
 		if (fileId > 0)
 		{
-			MessageActivateFile(message.fileLocation, message.row).dispatchImmediately();
+			MessageActivateFile(FilePath(message.fileLocation), message.row).dispatchImmediately();
 			MessageActivateWindow().dispatch();
 		}
 		else

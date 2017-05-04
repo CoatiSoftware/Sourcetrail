@@ -76,12 +76,12 @@ void QtUndoRedo::refreshStyle()
 	m_redoButton->setFixedHeight(height);
 
 	m_undoButton->setIcon(utility::createButtonIcon(
-		ResourcePaths::getGuiPath() + "undoredo_view/images/arrow_left.png",
+		ResourcePaths::getGuiPath().str() + "undoredo_view/images/arrow_left.png",
 		"search/button"
 	));
 
 	m_redoButton->setIcon(utility::createButtonIcon(
-		ResourcePaths::getGuiPath() + "undoredo_view/images/arrow_right.png",
+		ResourcePaths::getGuiPath().str() + "undoredo_view/images/arrow_right.png",
 		"search/button"
 	));
 }

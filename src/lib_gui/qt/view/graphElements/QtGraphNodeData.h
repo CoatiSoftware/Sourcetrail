@@ -1,9 +1,9 @@
 #ifndef QT_GRAPH_NODE_DATA_H
 #define QT_GRAPH_NODE_DATA_H
 
-#include "utility/file/FilePath.h"
-
 #include "qt/view/graphElements/QtGraphNode.h"
+
+class FilePath;
 
 class QtGraphNodeData
 	: public QtGraphNode

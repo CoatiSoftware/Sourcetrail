@@ -31,8 +31,8 @@ QtListItemWidget::QtListItemWidget(QtDirectoryListBox* list, QListWidgetItem* it
 	m_data->setObjectName("field");
 
 	m_button = new QtIconButton(
-		(ResourcePaths::getGuiPath() + "window/dots.png").c_str(),
-		(ResourcePaths::getGuiPath() + "window/dots_hover.png").c_str());
+		(ResourcePaths::getGuiPath().str() + "window/dots.png").c_str(),
+		(ResourcePaths::getGuiPath().str() + "window/dots_hover.png").c_str());
 	m_button->setObjectName("dotsButton");
 
 	layout->addWidget(m_data);
@@ -132,7 +132,7 @@ QtDirectoryListBox::QtDirectoryListBox(QWidget *parent, const QString& listName,
 	m_list->setAttribute(Qt::WA_MacShowFocusRect, 0);
 	m_list->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding);
 
-	setStyleSheet(utility::getStyleSheet(ResourcePaths::getGuiPath() + "window/listbox.css").c_str());
+	setStyleSheet(utility::getStyleSheet(ResourcePaths::getGuiPath().concat(FilePath("window/listbox.css"))).c_str());
 	layout->addWidget(m_list);
 
 	QWidget* buttonContainer = new QWidget(this);
@@ -144,15 +144,15 @@ QtDirectoryListBox::QtDirectoryListBox(QWidget *parent, const QString& listName,
 	innerLayout->setSpacing(0);
 
 	m_addButton = new QtIconButton(
-		(ResourcePaths::getGuiPath() + "window/plus.png").c_str(),
-		(ResourcePaths::getGuiPath() + "window/plus_hover.png").c_str());
+		(ResourcePaths::getGuiPath().str() + "window/plus.png").c_str(),
+		(ResourcePaths::getGuiPath().str() + "window/plus_hover.png").c_str());
 	m_addButton->setObjectName("plusButton");
 	m_addButton->setToolTip("add line");
 	innerLayout->addWidget(m_addButton);
 
 	m_removeButton = new QtIconButton(
-		(ResourcePaths::getGuiPath() + "window/minus.png").c_str(),
-		(ResourcePaths::getGuiPath() + "window/minus_hover.png").c_str());
+		(ResourcePaths::getGuiPath().str() + "window/minus.png").c_str(),
+		(ResourcePaths::getGuiPath().str() + "window/minus_hover.png").c_str());
 	m_removeButton->setObjectName("minusButton");
 	m_removeButton->setToolTip("remove line");
 	innerLayout->addWidget(m_removeButton);
@@ -166,7 +166,7 @@ QtDirectoryListBox::QtDirectoryListBox(QWidget *parent, const QString& listName,
 	innerLayout->addWidget(dropInfoText);
 
 	QPushButton* editButton = new QtIconButton(
-		(ResourcePaths::getGuiPath() + "code_view/images/edit.png").c_str(),
+		(ResourcePaths::getGuiPath().str() + "code_view/images/edit.png").c_str(),
 		QString());
 	editButton->setObjectName("editButton");
 	editButton->setToolTip("edit plain text");
@@ -242,7 +242,7 @@ std::vector<FilePath> QtDirectoryListBox::getList()
 	std::vector<FilePath> list;
 	for (const std::string& str : strList)
 	{
-		list.push_back(str);
+		list.push_back(FilePath(str));
 	}
 	return list;
 }

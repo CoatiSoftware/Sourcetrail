@@ -2,27 +2,27 @@
 
 #include "AppPath.h"
 
-std::string ResourcePaths::getColorSchemesPath()
+FilePath ResourcePaths::getColorSchemesPath()
 {
-	return AppPath::getAppPath() + "data/color_schemes/";
+	return FilePath(AppPath::getAppPath() + "data/color_schemes/");
 }
 
-std::string ResourcePaths::getFallbackPath()
+FilePath ResourcePaths::getFallbackPath()
 {
-	return AppPath::getAppPath() + "data/fallback/";
+	return FilePath(AppPath::getAppPath() + "data/fallback/");
 }
 
-std::string ResourcePaths::getFontsPath()
+FilePath ResourcePaths::getFontsPath()
 {
-	return AppPath::getAppPath() + "data/fonts/";
+	return FilePath(AppPath::getAppPath() + "data/fonts/");
 }
 
-std::string ResourcePaths::getGuiPath()
+FilePath ResourcePaths::getGuiPath()
 {
-	return AppPath::getAppPath() + "data/gui/";
+	return FilePath(AppPath::getAppPath() + "data/gui/");
 }
 
-std::string ResourcePaths::getJavaPath()
+FilePath ResourcePaths::getJavaPath()
 {
-	return AppPath::getAppPath() + "data/java/";
+	return FilePath(AppPath::getAppPath() + "data/java/");
 }

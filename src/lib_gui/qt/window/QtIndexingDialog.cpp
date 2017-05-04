@@ -340,8 +340,8 @@ QBoxLayout* QtIndexingDialog::createLayout()
 	);
 
 	setStyleSheet((
-		utility::getStyleSheet(ResourcePaths::getGuiPath() + "window/window.css") +
-		utility::getStyleSheet(ResourcePaths::getGuiPath() + "indexing_dialog/indexing_dialog.css")
+		utility::getStyleSheet(ResourcePaths::getGuiPath().concat(FilePath("window/window.css"))) +
+		utility::getStyleSheet(ResourcePaths::getGuiPath().concat(FilePath("indexing_dialog/indexing_dialog.css")))
 	).c_str());
 
 	QVBoxLayout* layout = new QVBoxLayout(this);
@@ -419,7 +419,7 @@ void QtIndexingDialog::addErrorLabel(QBoxLayout* layout)
 	m_errorLabel->setObjectName("errorCount");
 	m_errorLabel->setAttribute(Qt::WA_LayoutUsesWidgetRect); // fixes layouting on Mac
 
-	std::string text = ResourcePaths::getGuiPath() + "indexing_dialog/error.png";
+	std::string text = ResourcePaths::getGuiPath().str() + "indexing_dialog/error.png";
 	m_errorLabel->setIcon(QPixmap(text.c_str()));
 
 	layout->addWidget(m_errorLabel, 0, Qt::AlignRight);
@@ -448,7 +448,7 @@ void QtIndexingDialog::addButtons(QBoxLayout* layout)
 
 void QtIndexingDialog::addFlag()
 {
-	QtDeviceScaledPixmap flag((ResourcePaths::getGuiPath() + "indexing_dialog/flag.png").c_str());
+	QtDeviceScaledPixmap flag((ResourcePaths::getGuiPath().str() + "indexing_dialog/flag.png").c_str());
 	flag.scaleToWidth(120);
 
 	QLabel* flagLabel = new QLabel(this);

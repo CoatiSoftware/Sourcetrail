@@ -11,11 +11,15 @@
 #include "data/parser/ParseLocation.h"
 
 PreprocessorCallbacks::PreprocessorCallbacks(
-	clang::SourceManager& sourceManager, std::shared_ptr<ParserClient> client, std::shared_ptr<FileRegister> fileRegister
+	clang::SourceManager& sourceManager,
+	std::shared_ptr<ParserClient> client,
+	std::shared_ptr<FileRegister> fileRegister,
+	std::shared_ptr<FilePathCache> canonicalFilePathCache
 )
 	: m_sourceManager(sourceManager)
 	, m_client(client)
 	, m_fileRegister(fileRegister)
+	, m_canonicalFilePathCache(canonicalFilePathCache)
 {
 }
 
@@ -29,7 +33,7 @@ void PreprocessorCallbacks::FileChanged(
 	const clang::FileEntry *fileEntry = m_sourceManager.getFileEntryForID(m_sourceManager.getFileID(location));
 	if (fileEntry)
 	{
-		filePath = FilePath(fileEntry->getName()).canonical();
+		filePath = m_canonicalFilePathCache->getValue(fileEntry->getName());
 	}
 
 	if (!filePath.empty() && m_fileRegister->hasFilePath(filePath))
@@ -55,7 +59,7 @@ void PreprocessorCallbacks::InclusionDirective(
 ){
 	if (!m_currentPath.empty() && fileEntry)
 	{
-		FilePath includedFilePath = FilePath(fileEntry->getName()).canonical();
+		FilePath includedFilePath = m_canonicalFilePathCache->getValue(fileEntry->getName());
 		if (m_fileRegister->hasFilePath(includedFilePath))
 		{
 			const NameHierarchy referencedNameHierarchy(includedFilePath.str());
@@ -148,7 +152,7 @@ ParseLocation PreprocessorCallbacks::getParseLocation(const clang::Token& macroN
 	const clang::SourceLocation& endLocation = m_sourceManager.getSpellingLoc(macroNameTok.getEndLoc());
 
 	return ParseLocation(
-		m_sourceManager.getFilename(location).str(),
+		m_canonicalFilePathCache->getValue(m_sourceManager.getFilename(location).str()),
 		m_sourceManager.getSpellingLineNumber(location),
 		m_sourceManager.getSpellingColumnNumber(location),
 		m_sourceManager.getSpellingLineNumber(endLocation),
@@ -162,7 +166,7 @@ ParseLocation PreprocessorCallbacks::getParseLocation(const clang::MacroInfo* ma
 	clang::SourceLocation endLocation = macroInfo->getDefinitionEndLoc();
 
 	return ParseLocation(
-		m_sourceManager.getFilename(location).str(),
+		m_canonicalFilePathCache->getValue(m_sourceManager.getFilename(location).str()),
 		m_sourceManager.getSpellingLineNumber(location),
 		m_sourceManager.getSpellingColumnNumber(location),
 		m_sourceManager.getSpellingLineNumber(endLocation),
@@ -181,7 +185,7 @@ ParseLocation PreprocessorCallbacks::getParseLocation(const clang::SourceRange& 
 	const clang::PresumedLoc& presumedEnd = m_sourceManager.getPresumedLoc(sourceRange.getEnd(), false);
 
 	return ParseLocation(
-		presumedBegin.getFilename(),
+		m_canonicalFilePathCache->getValue(presumedBegin.getFilename()),
 		presumedBegin.getLine(),
 		presumedBegin.getColumn(),
 		presumedEnd.getLine(),

@@ -10,7 +10,7 @@ public:
 	void test_source_locations_get_created_with_other_end()
 	{
 		SourceLocationCollection collection;
-		const SourceLocation* a = collection.addSourceLocation(LOCATION_TOKEN, 1, {1}, "file.c", 2, 3, 4, 5);
+		const SourceLocation* a = collection.addSourceLocation(LOCATION_TOKEN, 1, {1}, FilePath("file.c"), 2, 3, 4, 5);
 
 		TS_ASSERT(a);
 		TS_ASSERT(a->isStartLocation());
@@ -32,8 +32,8 @@ public:
 	void test_source_locations_do_not_get_created_with_wrong_input()
 	{
 		SourceLocationCollection collection;
-		SourceLocation* a = collection.addSourceLocation(LOCATION_TOKEN, 1, {1}, "file.c", 2, 3, 2, 1);
-		SourceLocation* b = collection.addSourceLocation(LOCATION_TOKEN, 2, {1}, "file.c", 4, 1, 1, 10);
+		SourceLocation* a = collection.addSourceLocation(LOCATION_TOKEN, 1, {1}, FilePath("file.c"), 2, 3, 2, 1);
+		SourceLocation* b = collection.addSourceLocation(LOCATION_TOKEN, 2, {1}, FilePath("file.c"), 4, 1, 1, 10);
 
 		TS_ASSERT(!a);
 		TS_ASSERT(!b);
@@ -42,9 +42,9 @@ public:
 	void test_source_locations_get_unique_id_but_both_ends_have_the_same()
 	{
 		SourceLocationCollection collection;
-		SourceLocation* a = collection.addSourceLocation(LOCATION_TOKEN, 1, {1}, "file.c", 1, 1, 1, 1);
-		SourceLocation* b = collection.addSourceLocation(LOCATION_TOKEN, 2, {2}, "file.c", 1, 1, 1, 1);
-		SourceLocation* c = collection.addSourceLocation(LOCATION_TOKEN, 3, {3}, "file.c", 1, 1, 1, 1);
+		SourceLocation* a = collection.addSourceLocation(LOCATION_TOKEN, 1, {1}, FilePath("file.c"), 1, 1, 1, 1);
+		SourceLocation* b = collection.addSourceLocation(LOCATION_TOKEN, 2, {2}, FilePath("file.c"), 1, 1, 1, 1);
+		SourceLocation* c = collection.addSourceLocation(LOCATION_TOKEN, 3, {3}, FilePath("file.c"), 1, 1, 1, 1);
 
 		TS_ASSERT_EQUALS(1, collection.getSourceLocationFileCount());
 		TS_ASSERT_EQUALS(3, collection.getSourceLocationCount());
@@ -65,7 +65,7 @@ public:
 	void test_source_locations_have_right_file_path_line_column_and_token_id()
 	{
 		SourceLocationCollection collection;
-		SourceLocation* a = collection.addSourceLocation(LOCATION_TOKEN, 1, {1}, "file.c", 2, 3, 4, 5);
+		SourceLocation* a = collection.addSourceLocation(LOCATION_TOKEN, 1, {1}, FilePath("file.c"), 2, 3, 4, 5);
 
 		TS_ASSERT_EQUALS(1, a->getTokenIds()[0]);
 		TS_ASSERT_EQUALS(2, a->getLineNumber());
@@ -78,8 +78,8 @@ public:
 	void test_finding_source_locations_by_id()
 	{
 		SourceLocationCollection collection;
-		SourceLocation* a = collection.addSourceLocation(LOCATION_TOKEN, 1, {1}, "file.c", 2, 3, 4, 5);
-		SourceLocation* b = collection.addSourceLocation(LOCATION_TOKEN, 2, {6}, "file.c", 7, 8, 9, 10);
+		SourceLocation* a = collection.addSourceLocation(LOCATION_TOKEN, 1, {1}, FilePath("file.c"), 2, 3, 4, 5);
+		SourceLocation* b = collection.addSourceLocation(LOCATION_TOKEN, 2, {6}, FilePath("file.c"), 7, 8, 9, 10);
 
 		TS_ASSERT_EQUALS(a, collection.getSourceLocationById(a->getLocationId()));
 		TS_ASSERT_EQUALS(b, collection.getSourceLocationById(b->getLocationId()));
@@ -88,10 +88,10 @@ public:
 	void test_creating_plain_copy_of_all_locations_in_line_range()
 	{
 		SourceLocationCollection collection;
-		SourceLocation* a = collection.addSourceLocation(LOCATION_TOKEN, 1, {1}, "file.c", 2, 3, 4, 5);
-		SourceLocation* b = collection.addSourceLocation(LOCATION_TOKEN, 2, {1}, "file.c", 3, 3, 4, 5);
-		SourceLocation* c = collection.addSourceLocation(LOCATION_TOKEN, 3, {1}, "file.c", 1, 3, 5, 5);
-		SourceLocation* d = collection.addSourceLocation(LOCATION_TOKEN, 4, {1}, "file.c", 1, 5, 4, 5);
+		SourceLocation* a = collection.addSourceLocation(LOCATION_TOKEN, 1, {1}, FilePath("file.c"), 2, 3, 4, 5);
+		SourceLocation* b = collection.addSourceLocation(LOCATION_TOKEN, 2, {1}, FilePath("file.c"), 3, 3, 4, 5);
+		SourceLocation* c = collection.addSourceLocation(LOCATION_TOKEN, 3, {1}, FilePath("file.c"), 1, 3, 5, 5);
+		SourceLocation* d = collection.addSourceLocation(LOCATION_TOKEN, 4, {1}, FilePath("file.c"), 1, 5, 4, 5);
 
 		Id ida = a->getLocationId();
 		Id idb = b->getLocationId();
@@ -135,13 +135,13 @@ public:
 	void test_get_source_locations_filtered_by_lines()
 	{
 		SourceLocationCollection collection;
-		SourceLocation* a = collection.addSourceLocation(LOCATION_TOKEN, 1, {1}, "file.c", 1, 3, 1, 5);
-		SourceLocation* b = collection.addSourceLocation(LOCATION_TOKEN, 2, {1}, "file.c", 1, 3, 2, 5);
-		SourceLocation* c = collection.addSourceLocation(LOCATION_TOKEN, 3, {1}, "file.c", 2, 3, 2, 5);
-		SourceLocation* d = collection.addSourceLocation(LOCATION_TOKEN, 4, {1}, "file.c", 3, 3, 4, 5);
-		SourceLocation* e = collection.addSourceLocation(LOCATION_TOKEN, 5, {1}, "file.c", 3, 5, 5, 5);
-		SourceLocation* f = collection.addSourceLocation(LOCATION_TOKEN, 6, {1}, "file.c", 1, 5, 5, 5);
-		SourceLocation* g = collection.addSourceLocation(LOCATION_TOKEN, 7, {1}, "file.c", 5, 5, 5, 5);
+		SourceLocation* a = collection.addSourceLocation(LOCATION_TOKEN, 1, {1}, FilePath("file.c"), 1, 3, 1, 5);
+		SourceLocation* b = collection.addSourceLocation(LOCATION_TOKEN, 2, {1}, FilePath("file.c"), 1, 3, 2, 5);
+		SourceLocation* c = collection.addSourceLocation(LOCATION_TOKEN, 3, {1}, FilePath("file.c"), 2, 3, 2, 5);
+		SourceLocation* d = collection.addSourceLocation(LOCATION_TOKEN, 4, {1}, FilePath("file.c"), 3, 3, 4, 5);
+		SourceLocation* e = collection.addSourceLocation(LOCATION_TOKEN, 5, {1}, FilePath("file.c"), 3, 5, 5, 5);
+		SourceLocation* f = collection.addSourceLocation(LOCATION_TOKEN, 6, {1}, FilePath("file.c"), 1, 5, 5, 5);
+		SourceLocation* g = collection.addSourceLocation(LOCATION_TOKEN, 7, {1}, FilePath("file.c"), 5, 5, 5, 5);
 
 		SourceLocationCollection copy;
 		copy.addSourceLocationFile(

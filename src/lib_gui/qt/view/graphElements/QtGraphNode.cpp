@@ -428,7 +428,7 @@ void QtGraphNode::setStyle(const GraphViewStyle::NodeStyle& style)
 
 	if (style.hasHatching)
 	{
-		QtDeviceScaledPixmap pattern((ResourcePaths::getGuiPath() + "graph_view/images/pattern.png").c_str());
+		QtDeviceScaledPixmap pattern((ResourcePaths::getGuiPath().str() + "graph_view/images/pattern.png").c_str());
 		pattern.scaleToHeight(12);
 		QPixmap pixmap = utility::colorizePixmap(pattern.pixmap(), style.color.hatching.c_str());
 

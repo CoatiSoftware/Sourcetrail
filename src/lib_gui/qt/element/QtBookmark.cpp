@@ -59,7 +59,7 @@ QtBookmark::QtBookmark()
 	m_editButton->setToolTip("Edit bookmark");
 	m_editButton->setAttribute(Qt::WA_LayoutUsesWidgetRect);
 	m_editButton->setIconSize(QSize(20, 20));
-	m_editButton->setIcon(QPixmap((ResourcePaths::getGuiPath() + "bookmark_view/images/bookmark_edit_icon.png").c_str()));
+	m_editButton->setIcon(QPixmap((ResourcePaths::getGuiPath().str() + "bookmark_view/images/bookmark_edit_icon.png").c_str()));
 	utility::setWidgetRetainsSpaceWhenHidden(m_editButton);
 	m_editButton->hide();
 	buttonsLayout->addWidget(m_editButton);
@@ -69,7 +69,7 @@ QtBookmark::QtBookmark()
 	m_deleteButton->setToolTip("Delete bookmark");
 	m_deleteButton->setAttribute(Qt::WA_LayoutUsesWidgetRect);
 	m_deleteButton->setIconSize(QSize(20, 20));
-	m_deleteButton->setIcon(QPixmap((ResourcePaths::getGuiPath() + "bookmark_view/images/bookmark_delete_icon.png").c_str()));
+	m_deleteButton->setIcon(QPixmap((ResourcePaths::getGuiPath().str() + "bookmark_view/images/bookmark_delete_icon.png").c_str()));
 	utility::setWidgetRetainsSpaceWhenHidden(m_deleteButton);
 	m_deleteButton->hide();
 	buttonsLayout->addWidget(m_deleteButton);
@@ -235,7 +235,7 @@ void QtBookmark::elideButtonText()
 
 void QtBookmark::updateArrow()
 {
-	QPixmap pixmap((ResourcePaths::getGuiPath() + "bookmark_view/images/" + m_arrowImageName).c_str());
+	QPixmap pixmap((ResourcePaths::getGuiPath().str() + "bookmark_view/images/" + m_arrowImageName).c_str());
 	m_toggleCommentButton->setIcon(QIcon(utility::colorizePixmap(pixmap, m_hovered ? "#707070" : "black")));
 }
 

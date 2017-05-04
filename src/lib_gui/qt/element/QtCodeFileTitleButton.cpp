@@ -37,7 +37,7 @@ void QtCodeFileTitleButton::setFilePath(const FilePath& filePath)
 	setText(filePath.fileName().c_str());
 	setToolTip(filePath.str().c_str());
 
-	std::string text = ResourcePaths::getGuiPath() + "code_view/images/file.png";
+	std::string text = ResourcePaths::getGuiPath().str() + "code_view/images/file.png";
 
 	setIcon(utility::colorizePixmap(
 		QPixmap(text.c_str()),
@@ -67,7 +67,7 @@ void QtCodeFileTitleButton::setIsComplete(bool isComplete)
 	if (!isComplete)
 	{
 		setStyleSheet((
-			"background-image: url(" + ResourcePaths::getGuiPath() + "code_view/images/pattern_" +
+			"background-image: url(" + ResourcePaths::getGuiPath().str() + "code_view/images/pattern_" +
 			ColorScheme::getInstance()->getColor("code/file/title/hatching") + ".png);"
 		).c_str());
 	}
@@ -90,7 +90,7 @@ void QtCodeFileTitleButton::setProject(const std::string& name)
 	}
 	else
 	{
-		std::string text = ResourcePaths::getGuiPath() + "code_view/images/edit.png";
+		std::string text = ResourcePaths::getGuiPath().str() + "code_view/images/edit.png";
 		setToolTip("edit project");
 
 		setIcon(utility::colorizePixmap(
@@ -110,8 +110,7 @@ void QtCodeFileTitleButton::updateTexts()
 	std::string title = m_filePath.fileName();
 	std::string toolTip = "file: " + m_filePath.str();
 
-	// cannot use m_filePath.exists() here since it is only checked when FilePath is constructed.
-	if ((!FileSystem::exists(m_filePath.str())) ||
+	if ((!m_filePath.recheckExists()) ||
 		(FileSystem::getLastWriteTime(m_filePath) > m_modificationTime))
 	{
 		title += "*";

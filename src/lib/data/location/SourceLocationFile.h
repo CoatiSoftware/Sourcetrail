@@ -2,6 +2,7 @@
 #define SOURCE_LOCATION_FILE_H
 
 #include <map>
+#include <memory>
 #include <ostream>
 #include <set>
 

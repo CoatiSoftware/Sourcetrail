@@ -16,7 +16,7 @@ public:
 		extensions.push_back(".cpp");
 
 		std::vector<std::string> cppFiles =
-			FileSystem::getFileNamesFromDirectory("data/FileSystemTestSuite", extensions);
+			FileSystem::getFileNamesFromDirectory(FilePath("data/FileSystemTestSuite"), extensions);
 
 		TS_ASSERT_EQUALS(cppFiles.size(), 4);
 		TS_ASSERT(isInVector(cppFiles, "data/FileSystemTestSuite/main.cpp"));
@@ -31,7 +31,7 @@ public:
 		extensions.push_back(".h");
 
 		std::vector<std::string> headerFiles =
-			FileSystem::getFileNamesFromDirectory("data/FileSystemTestSuite", extensions);
+			FileSystem::getFileNamesFromDirectory(FilePath("data/FileSystemTestSuite"), extensions);
 
 		TS_ASSERT_EQUALS(headerFiles.size(), 3);
 		TS_ASSERT(isInVector(headerFiles, "data/FileSystemTestSuite/tictactoe.h"));
@@ -47,7 +47,7 @@ public:
 		extensions.push_back(".cpp");
 
 		std::vector<std::string> sourceFiles =
-			FileSystem::getFileNamesFromDirectory("data/FileSystemTestSuite", extensions);
+			FileSystem::getFileNamesFromDirectory(FilePath("data/FileSystemTestSuite"), extensions);
 
 		TS_ASSERT_EQUALS(sourceFiles.size(), 8);
 	}
@@ -105,14 +105,14 @@ public:
 
 	void test_filesystem_finds_existing_files()
 	{
-		TS_ASSERT(FileSystem::exists("data/FileSystemTestSuite"));
-		TS_ASSERT(FileSystem::exists("data/FileSystemTestSuite/tictactoe.h"));
+		TS_ASSERT(FileSystem::exists(FilePath("data/FileSystemTestSuite")));
+		TS_ASSERT(FileSystem::exists(FilePath("data/FileSystemTestSuite/tictactoe.h")));
 	}
 
 	void test_filesystem_does_not_find_non_existing_files()
 	{
-		TS_ASSERT(!FileSystem::exists("data/FileSystemTestSuite/foo"));
-		TS_ASSERT(!FileSystem::exists("data/FileSystemTestSuite/blabla.h"));
+		TS_ASSERT(!FileSystem::exists(FilePath("data/FileSystemTestSuite/foo")));
+		TS_ASSERT(!FileSystem::exists(FilePath("data/FileSystemTestSuite/blabla.h")));
 	}
 
 	void test_filesystem_extracts_filename()

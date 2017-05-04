@@ -1,8 +1,10 @@
 #include "utility/CompilationDatabase.h"
 
 #include <set>
-#include "utility/utility.h"
+
 #include "clang/Tooling/JSONCompilationDatabase.h"
+#include "utility/file/FilePath.h"
+#include "utility/utility.h"
 
 utility::CompilationDatabase::CompilationDatabase(std::string filename)
 	: m_filename(filename)

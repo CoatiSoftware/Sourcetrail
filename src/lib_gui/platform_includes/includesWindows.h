@@ -34,7 +34,7 @@ void setupApp(int argc, char *argv[])
 #else
 	std::string path = QDir::currentPath().toStdString();
 	path += "/user/";
-	UserPaths::setUserDataPath(path);
+	UserPaths::setUserDataPath(FilePath(path));
 #endif
 
 	// This "copyFile" method does nothing if the copy destination already exist
@@ -59,8 +59,8 @@ void setupApp(int argc, char *argv[])
 #endif
 
 	// use files in fallback folder if Coati has not been installed and used before
-	FileSystem::copyFile(ResourcePaths::getFallbackPath() + "ApplicationSettings.xml", UserPaths::getAppSettingsPath());
-	FileSystem::copyFile(ResourcePaths::getFallbackPath() + "window_settings.ini", UserPaths::getWindowSettingsPath());
+	FileSystem::copyFile(ResourcePaths::getFallbackPath().concat(FilePath("ApplicationSettings.xml")), UserPaths::getAppSettingsPath());
+	FileSystem::copyFile(ResourcePaths::getFallbackPath().concat(FilePath("window_settings.ini")), UserPaths::getWindowSettingsPath());
 }
 
 #endif // INCLUDES_WINDOWS_H

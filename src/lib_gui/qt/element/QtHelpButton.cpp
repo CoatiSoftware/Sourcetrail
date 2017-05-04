@@ -6,8 +6,8 @@
 
 QtHelpButton::QtHelpButton(const QString& helpText, QWidget* parent)
 	: QtIconButton(
-		(ResourcePaths::getGuiPath() + "window/help.png").c_str(),
-		(ResourcePaths::getGuiPath() + "window/help_hover.png").c_str(),
+		(ResourcePaths::getGuiPath().str() + "window/help.png").c_str(),
+		(ResourcePaths::getGuiPath().str() + "window/help_hover.png").c_str(),
 		parent)
 	, m_helpText(helpText)
 {

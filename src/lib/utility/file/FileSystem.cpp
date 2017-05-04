@@ -6,14 +6,14 @@
 #include "boost/filesystem.hpp"
 
 std::vector<std::string> FileSystem::getFileNamesFromDirectory(
-	const std::string& path, const std::vector<std::string>& extensions
+	const FilePath& path, const std::vector<std::string>& extensions
 ){
 	std::set<std::string> ext(extensions.begin(), extensions.end());
 	std::vector<std::string> files;
 
-	if (boost::filesystem::is_directory(path))
+	if (boost::filesystem::is_directory(path.path()))
 	{
-		boost::filesystem::recursive_directory_iterator it(path);
+		boost::filesystem::recursive_directory_iterator it(path.path());
 		boost::filesystem::recursive_directory_iterator endit;
 		while (it != endit)
 		{
@@ -38,7 +38,7 @@ std::vector<std::string> FileSystem::getFileNamesFromDirectory(
 	return files;
 }
 
-FileInfo FileSystem::getFileInfoForPath(FilePath filePath)
+FileInfo FileSystem::getFileInfoForPath(const FilePath& filePath)
 {
 	if (filePath.exists())
 	{
@@ -110,7 +110,7 @@ std::vector<FileInfo> FileSystem::getFileInfosFromPaths(
 
 					std::time_t t = boost::filesystem::last_write_time(*it);
 					boost::posix_time::ptime lastWriteTime = boost::posix_time::from_time_t(t);
-					files.push_back(FileInfo(it->path(), lastWriteTime));
+					files.push_back(FileInfo(FilePath(it->path()), lastWriteTime));
 				}
 			}
 		}
@@ -135,7 +135,7 @@ std::vector<FileInfo> FileSystem::getFileInfosFromPaths(
 TimePoint FileSystem::getLastWriteTime(const FilePath& filePath)
 {
 	boost::posix_time::ptime lastWriteTime;
-	if (FileSystem::exists(filePath.str()))
+	if (filePath.exists())
 	{
 		std::time_t t = boost::filesystem::last_write_time(filePath.path());
 		lastWriteTime = boost::posix_time::from_time_t(t);
@@ -234,14 +234,4 @@ std::string FileSystem::extension(const std::string& path)
 std::string FileSystem::filePathWithoutExtension(const std::string& path)
 {
 	return boost::filesystem::path(path).replace_extension().generic_string();
-}
-
-bool FileSystem::equivalent(const std::string& pathA, const std::string& pathB)
-{
-	if (exists(pathA) && exists(pathB))
-	{
-		return boost::filesystem::equivalent(boost::filesystem::path(pathA), boost::filesystem::path(pathB));
-	}
-
-	return boost::filesystem::path(pathA).compare(boost::filesystem::path(pathB)) == 0;
 }

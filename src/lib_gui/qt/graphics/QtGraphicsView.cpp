@@ -139,12 +139,12 @@ void QtGraphicsView::updateZoom(float delta)
 void QtGraphicsView::refreshStyle()
 {
 	m_zoomInButton->setIcon(utility::createButtonIcon(
-		ResourcePaths::getGuiPath() + "graph_view/images/zoom_in.png",
+		ResourcePaths::getGuiPath().str() + "graph_view/images/zoom_in.png",
 		"search/button"
 	));
 
 	m_zoomOutButton->setIcon(utility::createButtonIcon(
-		ResourcePaths::getGuiPath() + "graph_view/images/zoom_out.png",
+		ResourcePaths::getGuiPath().str() + "graph_view/images/zoom_out.png",
 		"search/button"
 	));
 }

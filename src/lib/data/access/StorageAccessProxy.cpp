@@ -4,8 +4,9 @@
 #include "data/location/SourceLocationCollection.h"
 #include "data/location/SourceLocationFile.h"
 
-#include "utility/logging/logging.h"
 #include "utility/file/FileInfo.h"
+#include "utility/file/FilePath.h"
+#include "utility/logging/logging.h"
 #include "utility/messaging/type/MessageShowErrors.h"
 #include "utility/TimePoint.h"
 
@@ -224,11 +225,11 @@ std::shared_ptr<SourceLocationFile> StorageAccessProxy::getSourceLocationsForFil
 		return m_subject->getSourceLocationsForFile(filePath);
 	}
 
-	return std::make_shared<SourceLocationFile>("", false, false);
+	return std::make_shared<SourceLocationFile>(FilePath(), false, false);
 }
 
 std::shared_ptr<SourceLocationFile> StorageAccessProxy::getSourceLocationsForLinesInFile(
-	const std::string& filePath, uint firstLineNumber, uint lastLineNumber
+	const FilePath& filePath, uint firstLineNumber, uint lastLineNumber
 ) const
 {
 	if (hasSubject())
@@ -236,7 +237,7 @@ std::shared_ptr<SourceLocationFile> StorageAccessProxy::getSourceLocationsForLin
 		return m_subject->getSourceLocationsForLinesInFile(filePath, firstLineNumber, lastLineNumber);
 	}
 
-	return std::make_shared<SourceLocationFile>("", false, false);
+	return std::make_shared<SourceLocationFile>(FilePath(), false, false);
 }
 
 std::shared_ptr<SourceLocationFile> StorageAccessProxy::getCommentLocationsInFile(const FilePath& filePath) const
@@ -246,7 +247,7 @@ std::shared_ptr<SourceLocationFile> StorageAccessProxy::getCommentLocationsInFil
 		return m_subject->getCommentLocationsInFile(filePath);
 	}
 
-	return std::make_shared<SourceLocationFile>("", false, false);
+	return std::make_shared<SourceLocationFile>(FilePath(), false, false);
 }
 
 std::shared_ptr<TextAccess> StorageAccessProxy::getFileContent(const FilePath& filePath) const

@@ -48,15 +48,15 @@ void IntermediateStorage::setAllFilesIncomplete()
 
 void IntermediateStorage::setFilesWithErrorsIncomplete()
 {
-	std::set<FilePath> errorFiles;
+	std::set<std::string> errorFileNames;
 	for (StorageError& error : m_errors)
 	{
-		errorFiles.insert(error.filePath);
+		errorFileNames.insert(error.filePath.str());
 	}
 
 	for (StorageFile& file : m_files)
 	{
-		if (errorFiles.find(file.filePath) != errorFiles.end())
+		if (errorFileNames.find(file.filePath) != errorFileNames.end())
 		{
 			file.complete = false;
 		}

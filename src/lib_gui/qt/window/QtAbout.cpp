@@ -31,7 +31,7 @@ void QtAbout::setupAbout()
 		"}"
 	);
 
-	setStyleSheet(utility::getStyleSheet(ResourcePaths::getGuiPath() + "about/about.css").c_str());
+	setStyleSheet(utility::getStyleSheet(ResourcePaths::getGuiPath().concat(FilePath("about/about.css"))).c_str());
 
 	QVBoxLayout* windowLayout = new QVBoxLayout();
 	windowLayout->setContentsMargins(10, 10, 10, 0);
@@ -45,7 +45,7 @@ void QtAbout::setupAbout()
 			QVBoxLayout* column = new QVBoxLayout();
 			row->addLayout(column);
 
-			QtDeviceScaledPixmap sourcetrailLogo((ResourcePaths::getGuiPath() + "about/logo_sourcetrail.png").c_str());
+			QtDeviceScaledPixmap sourcetrailLogo((ResourcePaths::getGuiPath().str() + "about/logo_sourcetrail.png").c_str());
 			sourcetrailLogo.scaleToHeight(150);
 			QLabel* sourcetrailLogoLabel = new QLabel(this);
 			sourcetrailLogoLabel->setPixmap(sourcetrailLogo.pixmap());
@@ -59,7 +59,7 @@ void QtAbout::setupAbout()
 			QVBoxLayout* column = new QVBoxLayout();
 			row->addLayout(column);
 
-			QtDeviceScaledPixmap closePixmap((ResourcePaths::getGuiPath() + "about/icon_close.png").c_str());
+			QtDeviceScaledPixmap closePixmap((ResourcePaths::getGuiPath().str() + "about/icon_close.png").c_str());
 			closePixmap.scaleToHeight(20);
 			QPushButton* closeButton = new QPushButton(this);
 			closeButton->setIcon(QIcon(closePixmap.pixmap()));
@@ -139,14 +139,14 @@ void QtAbout::setupAbout()
 				QHBoxLayout* rowAcknowledgementsLogos = new QHBoxLayout();
 				column->addLayout(rowAcknowledgementsLogos);
 
-				QtDeviceScaledPixmap fhsLogo((ResourcePaths::getGuiPath() + "about/logo_fhs.png").c_str());
+				QtDeviceScaledPixmap fhsLogo((ResourcePaths::getGuiPath().str() + "about/logo_fhs.png").c_str());
 				fhsLogo.scaleToHeight(30);
 				QLabel* fhsLabel = new QLabel(this);
 				fhsLabel->setPixmap(fhsLogo.pixmap());
 				fhsLabel->resize(fhsLogo.width(), fhsLogo.height());
 				rowAcknowledgementsLogos->addWidget(fhsLabel);
 
-				QtDeviceScaledPixmap awsLogo((ResourcePaths::getGuiPath() + "about/logo_aws.png").c_str());
+				QtDeviceScaledPixmap awsLogo((ResourcePaths::getGuiPath().str() + "about/logo_aws.png").c_str());
 				awsLogo.scaleToHeight(30);
 				QLabel* awsLabel = new QLabel(this);
 				awsLabel->setPixmap(awsLogo.pixmap());

@@ -3,8 +3,9 @@
 
 #include <mutex>
 #include <set>
+#include <vector>
 
-#include "utility/file/FilePath.h"
+class FilePath;
 
 class ApplicationStateMonitor
 {

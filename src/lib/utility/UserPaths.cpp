@@ -1,21 +1,21 @@
 #include "utility/UserPaths.h"
 
-std::string UserPaths::s_userDataPath = "";
-std::string UserPaths::s_sampleProjectsPath = "";
+FilePath UserPaths::s_userDataPath;
+FilePath UserPaths::s_sampleProjectsPath;
 
-std::string UserPaths::getUserDataPath()
+FilePath UserPaths::getUserDataPath()
 {
 	return s_userDataPath;
 }
 
-void UserPaths::setUserDataPath(const std::string& path)
+void UserPaths::setUserDataPath(const FilePath& path)
 {
 	s_userDataPath = path;
 }
 
-std::string UserPaths::getSampleProjectsPath()
+FilePath UserPaths::getSampleProjectsPath()
 {
-	if (s_sampleProjectsPath.size())
+	if (s_sampleProjectsPath.str().size())
 	{
 		return s_sampleProjectsPath;
 	}
@@ -23,22 +23,22 @@ std::string UserPaths::getSampleProjectsPath()
 	return s_userDataPath;
 }
 
-void UserPaths::setSampleProjectsPath(const std::string& path)
+void UserPaths::setSampleProjectsPath(const FilePath& path)
 {
 	s_sampleProjectsPath = path;
 }
 
-std::string UserPaths::getAppSettingsPath()
+FilePath UserPaths::getAppSettingsPath()
 {
-	return getUserDataPath() + "ApplicationSettings.xml";
+	return getUserDataPath().concat(FilePath("ApplicationSettings.xml"));
 }
 
-std::string UserPaths::getWindowSettingsPath()
+FilePath UserPaths::getWindowSettingsPath()
 {
-	return getUserDataPath() + "window_settings.ini";
+	return getUserDataPath().concat(FilePath("window_settings.ini"));
 }
 
-std::string UserPaths::getLogPath()
+FilePath UserPaths::getLogPath()
 {
-	return getUserDataPath() + "log/";
+	return getUserDataPath().concat(FilePath("log/"));
 }

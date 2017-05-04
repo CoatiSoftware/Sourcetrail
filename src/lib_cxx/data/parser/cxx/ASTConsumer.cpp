@@ -3,15 +3,21 @@
 #include "data/parser/cxx/CxxVerboseAstVisitor.h"
 #include "settings/ApplicationSettings.h"
 
-ASTConsumer::ASTConsumer(clang::ASTContext* context, clang::Preprocessor* preprocessor, std::shared_ptr<ParserClient> client, std::shared_ptr<FileRegister> fileRegister)
+ASTConsumer::ASTConsumer(
+	clang::ASTContext* context,
+	clang::Preprocessor* preprocessor,
+	std::shared_ptr<ParserClient> client,
+	std::shared_ptr<FileRegister> fileRegister,
+	std::shared_ptr<FilePathCache> canonicalFilePathCache
+)
 {
 	if (ApplicationSettings::getInstance()->getLoggingEnabled() && ApplicationSettings::getInstance()->getVerboseIndexerLoggingEnabled())
 	{
-		m_visitor = std::make_shared<CxxVerboseAstVisitor>(context, preprocessor, client, fileRegister);
+		m_visitor = std::make_shared<CxxVerboseAstVisitor>(context, preprocessor, client, fileRegister, canonicalFilePathCache);
 	}
 	else
 	{
-		m_visitor = std::make_shared<CxxAstVisitor>(context, preprocessor, client, fileRegister);
+		m_visitor = std::make_shared<CxxAstVisitor>(context, preprocessor, client, fileRegister, canonicalFilePathCache);
 	}
 }
 

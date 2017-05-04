@@ -4,6 +4,7 @@
 #include "clang/AST/ASTConsumer.h"
 #include "clang/AST/ASTContext.h"
 
+#include "data/parser/cxx/cxxCacheTypes.h"
 
 class CxxAstVisitor;
 class FileRegister;
@@ -13,7 +14,14 @@ class ASTConsumer
 	: public clang::ASTConsumer
 {
 public:
-	explicit ASTConsumer(clang::ASTContext* context, clang::Preprocessor* preprocessor, std::shared_ptr<ParserClient> client, std::shared_ptr<FileRegister> fileRegister);
+	explicit ASTConsumer(
+		clang::ASTContext* context,
+		clang::Preprocessor* preprocessor,
+		std::shared_ptr<ParserClient> client,
+		std::shared_ptr<FileRegister> fileRegister,
+		std::shared_ptr<FilePathCache> canonicalFilePathCache
+	);
+
 	virtual ~ASTConsumer();
 
 	virtual void HandleTranslationUnit(clang::ASTContext& context);

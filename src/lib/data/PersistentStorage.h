@@ -4,8 +4,6 @@
 #include <memory>
 #include <vector>
 
-#include "utility/file/FilePath.h"
-
 #include "data/access/StorageAccess.h"
 #include "data/fulltextsearch/FullTextSearchIndex.h"
 #include "data/graph/token_component/TokenComponentAccess.h"
@@ -125,7 +123,7 @@ public:
 
 	virtual std::shared_ptr<SourceLocationFile> getSourceLocationsForFile(const FilePath& filePath) const;
 	virtual std::shared_ptr<SourceLocationFile> getSourceLocationsForLinesInFile(
-		const std::string& filePath, uint firstLineNumber, uint lastLineNumber
+		const FilePath& filePath, uint firstLineNumber, uint lastLineNumber
 	) const;
 
 	virtual std::shared_ptr<SourceLocationFile> getCommentLocationsInFile(const FilePath& filePath) const;

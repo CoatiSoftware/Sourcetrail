@@ -9,6 +9,7 @@
 #include <QPainter>
 #include <QWidget>
 
+#include "utility/file/FilePath.h"
 #include "utility/file/FileSystem.h"
 #include "utility/logging/logging.h"
 #include "utility/ResourcePaths.h"
@@ -35,7 +36,7 @@ namespace utility
 		widget->setSizePolicy(pol);
 	}
 
-	void loadFontsFromDirectory(const std::string& path, const std::string& extension)
+	void loadFontsFromDirectory(const FilePath& path, const std::string& extension)
 	{
 		std::vector<std::string> extensions;
 		extensions.push_back(extension);
@@ -65,7 +66,7 @@ namespace utility
 		}
 	}
 
-	std::string getStyleSheet(const std::string& path)
+	std::string getStyleSheet(const FilePath& path)
 	{
 		std::string css = TextAccess::createFromFile(path)->getText();
 
@@ -84,7 +85,7 @@ namespace utility
 			std::deque<std::string> seq = utility::split(css.substr(posA + 1, posB - posA - 1), ':');
 			if (seq.size() != 2)
 			{
-				LOG_ERROR("Syntax error in file: " + path);
+				LOG_ERROR("Syntax error in file: " + path.str());
 				return "";
 			}
 
@@ -143,7 +144,7 @@ namespace utility
 				}
 				else if (val == "gui_path")
 				{
-					val = ResourcePaths::getGuiPath();
+					val = ResourcePaths::getGuiPath().str();
 
 					size_t index = 0;
 					while (true)
@@ -159,7 +160,7 @@ namespace utility
 				}
 				else
 				{
-					LOG_ERROR("Syntax error in file: " + path);
+					LOG_ERROR("Syntax error in file: " + path.str());
 					return "";
 				}
 			}
@@ -169,7 +170,7 @@ namespace utility
 			}
 			else
 			{
-				LOG_ERROR("Syntax error in file: " + path);
+				LOG_ERROR("Syntax error in file: " + path.str());
 				return "";
 			}
 

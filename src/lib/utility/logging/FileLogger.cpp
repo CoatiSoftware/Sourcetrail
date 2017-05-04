@@ -22,7 +22,7 @@ FileLogger::~FileLogger()
 {
 }
 
-void FileLogger::setLogDirectory(const std::string& filePath)
+void FileLogger::setLogDirectory(const FilePath& filePath)
 {
 	m_logDirectory = filePath;
 	FileSystem::createDirectory(m_logDirectory);
@@ -90,14 +90,14 @@ void FileLogger::updateLogFileName()
 
 	if (fileChanged)
 	{
-		FileSystem::remove(m_logDirectory + m_currentLogFileName);
+		FileSystem::remove(m_logDirectory.concat(FilePath(m_currentLogFileName)));
 	}
 }
 
 void FileLogger::logMessage(const std::string& type, const LogMessage& message)
 {
 	std::ofstream fileStream;
-	fileStream.open(m_logDirectory + m_currentLogFileName, std::ios::app);
+	fileStream.open(m_logDirectory.concat(FilePath(m_currentLogFileName)).str(), std::ios::app);
 	fileStream << message.getTimeString("%H:%M:%S") << " | ";
 	fileStream << message.threadId << " | ";
 

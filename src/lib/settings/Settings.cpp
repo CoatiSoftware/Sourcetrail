@@ -31,7 +31,7 @@ bool Settings::load(const FilePath& filePath)
 {
 	if (filePath.exists())
 	{
-		m_config = ConfigManager::createAndLoad(TextAccess::createFromFile(filePath.str()));
+		m_config = ConfigManager::createAndLoad(TextAccess::createFromFile(filePath));
 		m_filePath = filePath;
 		return true;
 	}

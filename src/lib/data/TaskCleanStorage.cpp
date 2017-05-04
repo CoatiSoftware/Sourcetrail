@@ -2,6 +2,7 @@
 
 #include "component/view/DialogView.h"
 #include "data/PersistentStorage.h"
+#include "utility/file/FilePath.h"
 #include "utility/scheduling/Blackboard.h"
 #include "utility/utility.h"
 #include "Application.h"

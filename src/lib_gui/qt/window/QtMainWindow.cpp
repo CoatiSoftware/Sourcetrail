@@ -102,13 +102,13 @@ QtMainWindow::QtMainWindow()
 	setCentralWidget(nullptr);
 	setDockNestingEnabled(true);
 
-	setWindowIcon(QIcon((ResourcePaths::getGuiPath() + "icon/logo_1024_1024.png").c_str()));
+	setWindowIcon(QIcon((ResourcePaths::getGuiPath().str() + "icon/logo_1024_1024.png").c_str()));
 	setWindowFlags(Qt::Widget);
 
 	QApplication* app = dynamic_cast<QApplication*>(QCoreApplication::instance());
 	app->installEventFilter(new MouseReleaseFilter(this));
 
-	app->setStyleSheet(utility::getStyleSheet(ResourcePaths::getGuiPath() + "main.css").c_str());
+	app->setStyleSheet(utility::getStyleSheet(ResourcePaths::getGuiPath().concat(FilePath("main.css"))).c_str());
 
 	m_recentProjectAction = new QAction*[ApplicationSettings::getInstance()->getMaxRecentProjectsCount()];
 
@@ -187,7 +187,7 @@ void QtMainWindow::hideView(View* view)
 
 void QtMainWindow::loadLayout()
 {
-	QSettings settings(UserPaths::getWindowSettingsPath().c_str(), QSettings::IniFormat);
+	QSettings settings(UserPaths::getWindowSettingsPath().str().c_str(), QSettings::IniFormat);
 
 	settings.beginGroup("MainWindow");
 	resize(settings.value("size", QSize(600, 400)).toSize());
@@ -203,7 +203,7 @@ void QtMainWindow::loadLayout()
 
 void QtMainWindow::loadDockWidgetLayout()
 {
-	QSettings settings(UserPaths::getWindowSettingsPath().c_str(), QSettings::IniFormat);
+	QSettings settings(UserPaths::getWindowSettingsPath().str().c_str(), QSettings::IniFormat);
 	this->restoreState(settings.value("DOCK_LOCATIONS").toByteArray());
 
 	for (DockWidget dock : m_dockWidgets)
@@ -215,7 +215,7 @@ void QtMainWindow::loadDockWidgetLayout()
 
 void QtMainWindow::saveLayout()
 {
-	QSettings settings(UserPaths::getWindowSettingsPath().c_str(), QSettings::IniFormat);
+	QSettings settings(UserPaths::getWindowSettingsPath().str().c_str(), QSettings::IniFormat);
 
 	settings.beginGroup("MainWindow");
 	settings.setValue("maximized", isMaximized());
@@ -362,12 +362,12 @@ void QtMainWindow::enteredLicense()
 
 void QtMainWindow::showDataFolder()
 {
-	QDesktopServices::openUrl(QUrl(("file:///" + UserPaths::getUserDataPath()).c_str(), QUrl::TolerantMode));
+	QDesktopServices::openUrl(QUrl(("file:///" + UserPaths::getUserDataPath().str()).c_str(), QUrl::TolerantMode));
 }
 
 void QtMainWindow::showLogFolder()
 {
-	QDesktopServices::openUrl(QUrl(("file:///" + UserPaths::getLogPath()).c_str(), QUrl::TolerantMode));
+	QDesktopServices::openUrl(QUrl(("file:///" + UserPaths::getLogPath().str()).c_str(), QUrl::TolerantMode));
 }
 
 void QtMainWindow::showStartScreen()
@@ -416,7 +416,7 @@ void QtMainWindow::newProject()
 void QtMainWindow::newProjectFromSolution(const std::string& ideId, const std::string& solutionPath)
 {
 	QtProjectWizzard* wizzard = createWindow<QtProjectWizzard>();
-	wizzard->newProjectFromSolution(ideId, solutionPath);
+	wizzard->newProjectFromSolution(ideId, FilePath(solutionPath));
 }
 
 void QtMainWindow::newProjectFromCDB(const std::string& filePath, const std::vector<std::string>& headerPaths)
@@ -438,7 +438,7 @@ void QtMainWindow::openProject()
 
 	if (!fileName.isEmpty())
 	{
-		MessageLoadProject(fileName.toStdString(), false).dispatch();
+		MessageLoadProject(FilePath(fileName.toStdString()), false).dispatch();
 		m_windowStack.clearWindows();
 	}
 }
@@ -528,7 +528,7 @@ void QtMainWindow::resetZoom()
 void QtMainWindow::resetWindowLayout()
 {
 	FileSystem::remove(UserPaths::getWindowSettingsPath());
-	FileSystem::copyFile(ResourcePaths::getFallbackPath() + "window_settings.ini", UserPaths::getWindowSettingsPath());
+	FileSystem::copyFile(ResourcePaths::getFallbackPath().concat(FilePath("window_settings.ini")), UserPaths::getWindowSettingsPath());
 	loadDockWidgetLayout();
 }
 
@@ -537,7 +537,7 @@ void QtMainWindow::openRecentProject()
 	QAction *action = qobject_cast<QAction *>(sender());
 	if (action)
 	{
-		MessageLoadProject(action->data().toString().toStdString(), false).dispatch();
+		MessageLoadProject(FilePath(action->data().toString().toStdString()), false).dispatch();
 		m_windowStack.clearWindows();
 	}
 }

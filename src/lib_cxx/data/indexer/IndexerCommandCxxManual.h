@@ -2,7 +2,8 @@
 #define INDEXER_COMMAND_CXX_MANUAL_H
 
 #include "data/indexer/IndexerCommandCxx.h"
-#include "utility/file/FilePath.h"
+
+class FilePath;
 
 class IndexerCommandCxxManual
 	: public IndexerCommandCxx

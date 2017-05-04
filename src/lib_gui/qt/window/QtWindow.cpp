@@ -77,7 +77,7 @@ QSize QtWindow::sizeHint() const
 
 void QtWindow::setup()
 {
-	m_content->setStyleSheet(utility::getStyleSheet(ResourcePaths::getGuiPath() + "window/window.css").c_str());
+	m_content->setStyleSheet(utility::getStyleSheet(ResourcePaths::getGuiPath().concat(FilePath("window/window.css"))).c_str());
 
 	QVBoxLayout* layout = new QVBoxLayout();
 	layout->setContentsMargins(25, 30, 25, 0);
@@ -140,7 +140,7 @@ void QtWindow::setSizeGripStyle(bool isBlack)
 		"QSizeGrip {"
 		"	max-height: 16px;"
 		"	max-width: 16px;"
-		"	border-image: url(" + ResourcePaths::getGuiPath() + "window/" + path + ");"
+		"	border-image: url(" + ResourcePaths::getGuiPath().str() + "window/" + path + ");"
 		"}"
 	));
 }
@@ -426,7 +426,7 @@ void QtWindow::setupDone()
 
 void QtWindow::addLogo()
 {
-	QtDeviceScaledPixmap sourcetrailLogo((ResourcePaths::getGuiPath() + "window/logo.png").c_str());
+	QtDeviceScaledPixmap sourcetrailLogo((ResourcePaths::getGuiPath().str() + "window/logo.png").c_str());
 	sourcetrailLogo.scaleToWidth(240);
 
 

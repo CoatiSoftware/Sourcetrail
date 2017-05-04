@@ -13,7 +13,7 @@ class StorageTestSuite: public CxxTest::TestSuite
 public:
 	void setUp()
 	{
-		m_filePath = "file.cpp";
+		m_filePath = FilePath("file.cpp");
 	}
 
 	void test_storage_saves_file()
@@ -232,7 +232,7 @@ private:
 	{
 	public:
 		TestStorage()
-			: PersistentStorage("data/test.sqlite", "data/testBookmarks.sqlite")
+			: PersistentStorage(FilePath("data/test.sqlite"), FilePath("data/testBookmarks.sqlite"))
 		{
 			clear();
 		}
@@ -279,5 +279,5 @@ private:
 		return nameHierarchy;
 	}
 
-	std::string m_filePath;
+	FilePath m_filePath;
 };

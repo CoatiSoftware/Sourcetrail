@@ -8,6 +8,7 @@
 #include "clang/Lex/PPCallbacks.h"
 #include "clang/Lex/Token.h"
 
+#include "data/parser/cxx/cxxCacheTypes.h"
 #include "utility/file/FilePath.h"
 
 class FileRegister;
@@ -19,7 +20,11 @@ class PreprocessorCallbacks
 	: public clang::PPCallbacks
 {
 public:
-	explicit PreprocessorCallbacks(clang::SourceManager& sourceManager, std::shared_ptr<ParserClient> client, std::shared_ptr<FileRegister> fileRegister);
+	explicit PreprocessorCallbacks(
+		clang::SourceManager& sourceManager,
+		std::shared_ptr<ParserClient> client,
+		std::shared_ptr<FileRegister> fileRegister,
+		std::shared_ptr<FilePathCache> canonicalFilePathCache);
 
 	virtual void FileChanged(
 		clang::SourceLocation location, FileChangeReason reason, clang::SrcMgr::CharacteristicKind, clang::FileID);
@@ -54,6 +59,7 @@ private:
 	const clang::SourceManager& m_sourceManager;
 	std::shared_ptr<ParserClient> m_client;
 	std::shared_ptr<FileRegister> m_fileRegister;
+	std::shared_ptr<FilePathCache> m_canonicalFilePathCache;
 
 	FilePath m_currentPath;
 };
