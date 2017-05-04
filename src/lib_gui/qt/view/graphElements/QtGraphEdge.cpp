@@ -1,6 +1,7 @@
 #include "qt/view/graphElements/QtGraphEdge.h"
 
 #include <QGraphicsSceneEvent>
+#include <QGraphicsItemGroup>
 #include <QTimer>
 
 #include "component/view/GraphViewStyle.h"
@@ -39,7 +40,8 @@ QtGraphEdge::QtGraphEdge(
 	, m_isHorizontalTrail(false)
 	, m_mousePos(0.0f, 0.0f)
 	, m_mouseMoved(false)
-	, m_willDispatchMessageFocusIn(false)
+	, m_willFocusIn(false)
+	, m_ignoreFocusIn(false)
 {
 	if (m_direction == TokenComponentAggregation::DIRECTION_BACKWARD)
 	{
@@ -104,17 +106,10 @@ void QtGraphEdge::updateLine()
 
 	if (m_isTrailEdge)
 	{
-		if (!m_child)
+		for (QGraphicsItem* item : childItems())
 		{
-			m_child = new QGraphicsLineItem(this);
-		}
-		else
-		{
-			for (QGraphicsItem* item : m_child->childItems())
-			{
-				item->hide();
-				item->setParentItem(nullptr);
-			}
+			item->hide();
+			item->setParentItem(nullptr);
 		}
 
 		style.originOffset.y() = 0;
@@ -128,13 +123,13 @@ void QtGraphEdge::updateLine()
 
 		for (const Vec4i& rect : m_path)
 		{
-			QtLineItemBezier* bezier = new QtLineItemBezier(m_child);
+			QtLineItemBezier* bezier = new QtLineItemBezier(this);
 			bezier->updateLine(ownerRect, rect, ownerParentRect, rect, style, m_weight, false);
 			bezier->setRoute(route);
 			bezier->setPivot(QtLineItemBase::PIVOT_MIDDLE);
 			bezier->setToolTip(toolTip);
 
-			QtLineItemStraight* line = new QtLineItemStraight(m_child);
+			QtLineItemStraight* line = new QtLineItemStraight(this);
 			line->setToolTip(toolTip);
 			if (route == QtLineItemBase::ROUTE_HORIZONTAL)
 			{
@@ -151,7 +146,7 @@ void QtGraphEdge::updateLine()
 
 		bool showArrow = m_direction != TokenComponentAggregation::DIRECTION_NONE;
 
-		QtLineItemBezier* bezier = new QtLineItemBezier(m_child);
+		QtLineItemBezier* bezier = new QtLineItemBezier(this);
 		bezier->updateLine(
 			ownerRect, target->getBoundingRect(), ownerParentRect, target->getParentBoundingRect(),
 			style, m_weight, showArrow);
@@ -312,43 +307,47 @@ void QtGraphEdge::mouseReleaseEvent(QGraphicsSceneMouseEvent* event)
 
 void QtGraphEdge::hoverEnterEvent(QGraphicsSceneHoverEvent* event)
 {
-	if (!getData())
+	if (!m_ignoreFocusIn)
 	{
-		focusIn();
-		return;
-	}
-
-	if (!m_willDispatchMessageFocusIn)
-	{
-		QTimer::singleShot(50, this, SLOT(dispatchMessageFocusIn()));
-		m_willDispatchMessageFocusIn = true;
+		QTimer::singleShot(50, this, SLOT(doFocusIn()));
+		m_ignoreFocusIn = true;
+		m_willFocusIn = true;
 	}
 }
 
 void QtGraphEdge::hoverLeaveEvent(QGraphicsSceneHoverEvent* event)
 {
+	m_willFocusIn = false;
+	QTimer::singleShot(100, this, SLOT(doFocusOut()));
+
 	if (!getData())
 	{
 		focusOut();
 		return;
 	}
 
-	if (m_willDispatchMessageFocusIn)
-	{
-		m_willDispatchMessageFocusIn = false;
-		return;
-	}
-
 	MessageFocusOut(std::vector<Id>(1, getData()->getId())).dispatch();
 }
 
-void QtGraphEdge::dispatchMessageFocusIn()
+void QtGraphEdge::doFocusIn()
 {
-	if (m_willDispatchMessageFocusIn)
+	if (!m_willFocusIn)
 	{
-		m_willDispatchMessageFocusIn = false;
-		MessageFocusIn(std::vector<Id>(1, getData()->getId())).dispatch();
+		return;
 	}
+
+	if (!getData() || isTrailEdge())
+	{
+		focusIn();
+		return;
+	}
+
+	MessageFocusIn(std::vector<Id>(1, getData()->getId())).dispatch();
+}
+
+void QtGraphEdge::doFocusOut()
+{
+	m_ignoreFocusIn = false;
 }
 
 void QtGraphEdge::setDirection(TokenComponentAggregation::Direction direction)

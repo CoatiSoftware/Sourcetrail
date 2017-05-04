@@ -62,7 +62,7 @@ private:
 		const std::vector<std::shared_ptr<DummyEdge>>& dummyEdges,
 		const std::map<Id, Id>& topLevelAncestorIds);
 
-	void makeAcyclic();
+	void removeDeadEnds();
 	void makeAcyclicRecursive(TrailNode* node, std::set<TrailNode*> predecessors);
 
 	void assignLongestPathLevels();
@@ -73,7 +73,7 @@ private:
 	void reduceEdgeCrossings();
 
 	void layout();
-	void moveNodesToAveragePosition(std::vector<TrailNode*> nodes);
+	void moveNodesToAveragePosition(std::vector<TrailNode*> nodes, bool forward);
 	void retrievePositions(const std::map<Id, Id>& topLevelAncestorIds);
 
 	void print();
@@ -91,7 +91,7 @@ private:
 	std::vector<std::shared_ptr<TrailEdge>> m_allEdges;
 
 	std::map<Id, TrailNode*> m_nodesById;
-	std::vector<TrailNode*> m_rootNodes;
+	TrailNode* m_rootNode;
 
 	std::vector<std::vector<TrailNode*>> m_nodesPerCol;
 };

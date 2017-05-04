@@ -60,7 +60,8 @@ protected:
 	virtual void hoverLeaveEvent(QGraphicsSceneHoverEvent* event);
 
 private slots:
-	void dispatchMessageFocusIn();
+	void doFocusIn();
+	void doFocusOut();
 
 private:
 	const Edge* m_data;
@@ -68,7 +69,7 @@ private:
 	std::weak_ptr<QtGraphNode> m_owner;
 	std::weak_ptr<QtGraphNode> m_target;
 
-	QGraphicsLineItem* m_child;
+	QGraphicsItem* m_child;
 
 	bool m_isActive;
 	bool m_fromActive;
@@ -87,7 +88,8 @@ private:
 	Vec2i m_mousePos;
 	bool m_mouseMoved;
 
-	bool m_willDispatchMessageFocusIn;
+	bool m_willFocusIn;
+	bool m_ignoreFocusIn;
 };
 
 #endif // QT_GRAPH_EDGE_H

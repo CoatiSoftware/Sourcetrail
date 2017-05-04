@@ -3,6 +3,7 @@
 #include <set>
 
 #include "utility/logging/logging.h"
+#include "utility/messaging/type/MessageStatus.h"
 #include "utility/tracing.h"
 #include "utility/utility.h"
 #include "utility/utilityString.h"
@@ -106,6 +107,8 @@ void GraphController::handleMessage(MessageActivateTrail* message)
 {
 	TRACE("trail activate");
 
+	MessageStatus("Retrieving graph data", false, true).dispatch();
+
 	m_activeEdgeIds.clear();
 
 	std::shared_ptr<Graph> graph = m_storageAccess->getGraphForTrail(
@@ -142,8 +145,12 @@ void GraphController::handleMessage(MessageActivateTrail* message)
 		}
 	}
 
+	MessageStatus("Layouting graph", false, true).dispatch();
+
 	TrailLayouter layout(direction);
 	layout.layoutGraph(m_dummyNodes, m_dummyEdges, m_topLevelAncestorIds);
+
+	MessageStatus("Displaying graph", false, true).dispatch();
 
 	buildGraph(message, true, true, false);
 }

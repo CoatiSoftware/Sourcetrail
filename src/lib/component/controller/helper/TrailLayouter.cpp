@@ -4,6 +4,7 @@
 
 TrailLayouter::TrailLayouter(LayoutDirection dir)
 	: m_direction(dir)
+	, m_rootNode(nullptr)
 {
 }
 
@@ -14,7 +15,13 @@ void TrailLayouter::layoutGraph(
 {
 	buildGraph(dummyNodes, dummyEdges, topLevelAncestorIds);
 
-	makeAcyclic();
+	if (!m_rootNode)
+	{
+		return;
+	}
+
+	removeDeadEnds();
+	makeAcyclicRecursive(m_rootNode, std::set<TrailNode*>());
 
 	assignLongestPathLevels();
 	assignRemainingLevels();
@@ -44,46 +51,87 @@ void TrailLayouter::buildGraph(
 	{
 		dummyEdge->path.clear();
 
-		if (dummyEdge->data && !dummyEdge->data->isType(Edge::EDGE_OVERRIDE | Edge::EDGE_INHERITANCE))
-		{
-			addEdge(dummyEdge, topLevelAncestorIds);
-		}
-	}
-
-	for (const std::shared_ptr<DummyEdge> dummyEdge : dummyEdges)
-	{
-		if (dummyEdge->data && dummyEdge->data->isType(Edge::EDGE_OVERRIDE | Edge::EDGE_INHERITANCE))
-		{
-			addEdge(dummyEdge, topLevelAncestorIds);
-		}
+		addEdge(dummyEdge, topLevelAncestorIds);
 	}
 }
 
-void TrailLayouter::makeAcyclic()
+void TrailLayouter::removeDeadEnds()
 {
-	std::set<TrailEdge*> edgesToSwitch;
-	for (std::shared_ptr<TrailNode> node : m_allNodes)
+	std::set<TrailNode*> predecessors;
+
+	std::set<TrailNode*> deadEnds;
+	std::set<TrailNode*> loseEnds;
+
+	std::deque<TrailNode*> nodes;
+	nodes.push_back(m_rootNode);
+
+	while (nodes.size())
 	{
-		if (!node->incomingEdges.size())
+		TrailNode* node = nodes.front();
+		nodes.pop_front();
+
+		if (predecessors.find(node) == predecessors.end())
 		{
-			utility::append(edgesToSwitch, node->outgoingEdges);
+			predecessors.insert(node);
+
+			for (TrailEdge* edge : node->outgoingEdges)
+			{
+				if (predecessors.find(edge->target) == predecessors.end())
+				{
+					nodes.push_back(edge->target);
+				}
+			}
+
+			for (TrailEdge* edge : node->incomingEdges)
+			{
+				if (predecessors.find(edge->origin) == predecessors.end())
+				{
+					loseEnds.insert(edge->origin);
+				}
+			}
+
+			if (!node->outgoingEdges.size())
+			{
+				deadEnds.insert(node);
+			}
 		}
-	}
 
-	for (TrailEdge* edge : edgesToSwitch)
-	{
-		switchEdge(edge);
-	}
-
-	for (TrailNode* node : m_rootNodes)
-	{
-		std::set<TrailEdge*> edgesToSwitch = node->incomingEdges;
-		for (TrailEdge* edge : edgesToSwitch)
+		while (!nodes.size() && (deadEnds.size() || loseEnds.size()) && predecessors.size() < m_allNodes.size())
 		{
-			switchEdge(edge);
-		}
+			if (deadEnds.size())
+			{
+				TrailNode* deadEnd = *deadEnds.begin();
+				deadEnds.erase(deadEnds.begin());
 
-		makeAcyclicRecursive(node, std::set<TrailNode*>());
+				for (TrailEdge* edge : deadEnd->incomingEdges)
+				{
+					if (predecessors.find(edge->origin) == predecessors.end())
+					{
+						nodes.push_back(edge->origin);
+						switchEdge(edge);
+						break;
+					}
+				}
+			}
+			else
+			{
+				TrailNode* loseEnd = *loseEnds.begin();
+				loseEnds.erase(loseEnds.begin());
+
+				if (predecessors.find(loseEnd) == predecessors.end())
+				{
+					for (TrailEdge* edge : loseEnd->outgoingEdges)
+					{
+						if (predecessors.find(edge->target) != predecessors.end())
+						{
+							nodes.push_back(loseEnd);
+							switchEdge(edge);
+							break;
+						}
+					}
+				}
+			}
+		}
 	}
 }
 
@@ -112,7 +160,9 @@ void TrailLayouter::makeAcyclicRecursive(TrailNode* node, std::set<TrailNode*> p
 
 void TrailLayouter::assignLongestPathLevels()
 {
-	std::set<TrailNode*> nodes(m_rootNodes.begin(), m_rootNodes.end());
+	std::set<TrailNode*> nodes;
+	nodes.insert(m_rootNode);
+
 	std::map<TrailNode*, TrailNode*> predecessorNodes;
 
 	int level = 0;
@@ -160,16 +210,26 @@ void TrailLayouter::assignLongestPathLevels()
 
 void TrailLayouter::assignRemainingLevels()
 {
-	std::set<TrailNode*> nodes(m_rootNodes.begin(), m_rootNodes.end());
+	std::multimap<int, TrailNode*> nodes;
+	nodes.emplace(m_rootNode->level, m_rootNode);
+
+	std::set<TrailNode*> allNodes;
+	allNodes.insert(m_rootNode);
+
 	while (nodes.size())
 	{
-		std::set<TrailNode*> newNodes;
+		std::multimap<int, TrailNode*> newNodes;
 
-		for (TrailNode* node : nodes)
+		for (std::pair<int, TrailNode*> p : nodes)
 		{
+			TrailNode* node = p.second;
+
 			for (TrailEdge* edge : node->outgoingEdges)
 			{
-				newNodes.insert(edge->target);
+				if (allNodes.insert(edge->target).second)
+				{
+					newNodes.emplace(edge->target->level, edge->target);
+				}
 			}
 
 			if (node->level < 0)
@@ -178,7 +238,21 @@ void TrailLayouter::assignRemainingLevels()
 
 				for (TrailEdge* edge : node->incomingEdges)
 				{
-					level = std::max(level, edge->origin->level + 1);
+					if (edge->origin->level == -1)
+					{
+						if (allNodes.insert(edge->origin).second)
+						{
+							newNodes.emplace(edge->origin->level, edge->origin);
+						}
+
+						level = node->level;
+						newNodes.emplace(level, node);
+						break;
+					}
+					else
+					{
+						level = std::max(level, edge->origin->level + 1);
+					}
 				}
 
 				node->level = level;
@@ -376,61 +450,134 @@ void TrailLayouter::layout()
 	// process layout before highest column
 	for (size_t i = maxHeightIndex; i > 0; i--)
 	{
-		moveNodesToAveragePosition(m_nodesPerCol[i - 1]);
+		moveNodesToAveragePosition(m_nodesPerCol[i - 1], false);
 	}
 
 	// process layout after highest column
 	for (size_t i = maxHeightIndex + 1; i < m_nodesPerCol.size(); i++)
 	{
-		moveNodesToAveragePosition(m_nodesPerCol[i]);
+		moveNodesToAveragePosition(m_nodesPerCol[i], true);
 	}
 
 	// put into grid
 }
 
-void TrailLayouter::moveNodesToAveragePosition(std::vector<TrailNode*> nodes)
+void TrailLayouter::moveNodesToAveragePosition(std::vector<TrailNode*> nodes, bool forward)
 {
 	unsigned int yIdx = horizontalLayout() ? 1 : 0;
 
-	for (size_t k = 0; k < 2; k++)
+	std::map<int, std::vector<TrailNode*>> averagePositions;
+	for (TrailNode* node : nodes)
 	{
-		for (size_t j = 0; j < nodes.size(); j++)
+		int sum = 0;
+		int count = 0;
+
+		if ((forward && node->incomingEdges.size()) || (!forward && !node->outgoingEdges.size()))
 		{
-			size_t l = k ? nodes.size() - 1 - j : j;
-			size_t i = l % 2 ? nodes.size() - (l + 1) / 2 : l / 2;
-			TrailNode* node = nodes[i];
-
-			int sum = 0;
-			int count = 0;
-
-			for (TrailEdge* edge : node->outgoingEdges)
-			{
-				sum += edge->target->pos.getValue(yIdx) + edge->target->size.getValue(yIdx) / 2;
-				count++;
-			}
-
 			for (TrailEdge* edge : node->incomingEdges)
 			{
 				sum += edge->origin->pos.getValue(yIdx) + edge->origin->size.getValue(yIdx) / 2;
 				count++;
 			}
-
-			if (count)
+		}
+		else
+		{
+			for (TrailEdge* edge : node->outgoingEdges)
 			{
-				node->pos.setValue(yIdx, sum / count - node->size.getValue(yIdx) / 2);
+				sum += edge->target->pos.getValue(yIdx) + edge->target->size.getValue(yIdx) / 2;
+				count++;
+			}
+		}
 
-				TrailNode* above = i > 0 ? nodes[i - 1] : nullptr;
-				if (above && above->pos.getValue(yIdx) + above->size.getValue(yIdx) + 30 > node->pos.getValue(yIdx))
-				{
-					node->pos.setValue(yIdx, above->pos.getValue(yIdx) + above->size.getValue(yIdx) + 30);
-				}
+		if (count)
+		{
+			averagePositions[sum / count].push_back(node);
+		}
+	}
 
-				TrailNode* below = i + 1 < nodes.size() ? nodes[i + 1] : nullptr;
-				if (below && below->pos.getValue(yIdx) - 30 < node->pos.getValue(yIdx) + node->size.getValue(yIdx))
+	if (!averagePositions.size())
+	{
+		return;
+	}
+
+	int averagePosition = 0;
+	for (std::pair<int, std::vector<TrailNode*>> p : averagePositions)
+	{
+		averagePosition += p.first;
+	}
+	averagePosition /= averagePositions.size();
+
+
+	std::multimap<int, int> distanceFromAveragePosition;
+	for (std::pair<int, std::vector<TrailNode*>> p : averagePositions)
+	{
+		distanceFromAveragePosition.emplace(std::abs(averagePosition - p.first), p.first);
+	}
+
+	int currentTop = averagePosition;
+	int currentBottom = averagePosition;
+
+	for (std::pair<int, int> p : distanceFromAveragePosition)
+	{
+		int groupAveragePosition = p.second;
+		std::vector<TrailNode*> nodeGroup = averagePositions.find(groupAveragePosition)->second;
+
+		int size = -30;
+		for (TrailNode* node : nodeGroup)
+		{
+			size += node->size.getValue(yIdx) + 30;
+		}
+
+		int top = groupAveragePosition - size / 2;
+		if (currentTop != currentBottom)
+		{
+			if (top < currentTop)
+			{
+				if (top + size + 30 > currentTop)
 				{
-					node->pos.setValue(yIdx, below->pos.getValue(yIdx) - 30 - node->size.getValue(yIdx));
+					top = currentTop - 30 - size;
 				}
 			}
+			else if (top > currentBottom)
+			{
+				if (top - 30 < currentBottom)
+				{
+					top = currentBottom + 30;
+				}
+			}
+			else
+			{
+				if ((currentTop + currentBottom) / 2 > top + size / 2)
+				{
+					top = currentTop - 30 - size;
+				}
+				else
+				{
+					top = currentBottom + 30;
+				}
+			}
+		}
+
+		int y = top;
+
+		for (TrailNode* node : nodeGroup)
+		{
+			node->pos.setValue(yIdx, y);
+			y += node->size.getValue(yIdx) + 30;
+		}
+
+		if (currentTop == currentBottom)
+		{
+			currentTop = top;
+			currentBottom = top + size;
+		}
+		else if (top < currentTop)
+		{
+			currentTop = top;
+		}
+		else if (top + size > currentBottom)
+		{
+			currentBottom = top + size;
 		}
 	}
 }
@@ -468,15 +615,21 @@ void TrailLayouter::print()
 	std::cout << "graph: " << std::endl;
 	for (std::shared_ptr<TrailNode> node : m_allNodes)
 	{
-		std::cout << node->id << "\t" << node->level << "\t";
-		std::cout << node->incomingEdges.size() << "\t" << node->outgoingEdges.size() << "\t";
-		std::cout << node->name << std::endl;
+		if (node->id)
+		{
+			std::cout << node->id << "\t" << node->level << "\t";
+			std::cout << node->incomingEdges.size() << "\t" << node->outgoingEdges.size() << "\t";
+			std::cout << node->name << std::endl;
+		}
 	}
 	std::cout << std::endl;
 
 	for (std::shared_ptr<TrailEdge> edge : m_allEdges)
 	{
-		std::cout << edge->id << "\t" << edge->origin->name << "\t" << edge->target->name << std::endl;
+		if (edge->origin->id || edge->target->id)
+		{
+			std::cout << edge->id << "\t" << edge->origin->name << "\t" << edge->target->name << std::endl;
+		}
 	}
 	std::cout << std::endl;
 }
@@ -498,9 +651,9 @@ void TrailLayouter::addNode(const std::shared_ptr<DummyNode>& dummyNode)
 		m_nodesById.emplace(node->id, node.get());
 	}
 
-	if (dummyNode->hasActiveSubNode())
+	if (!m_rootNode && dummyNode->hasActiveSubNode())
 	{
-		m_rootNodes.push_back(node.get());
+		m_rootNode = node.get();
 	}
 }
 

@@ -20,6 +20,7 @@
 #include "utility/messaging/type/MessageActivateTrail.h"
 #include "utility/messaging/type/MessageDeactivateEdge.h"
 #include "utility/messaging/type/MessageScrollGraph.h"
+#include "utility/messaging/type/MessageStatus.h"
 #include "utility/ResourcePaths.h"
 
 #include "qt/graphics/QtGraphicsView.h"
@@ -232,16 +233,23 @@ void QtGraphView::finishedTransition()
 
 void QtGraphView::clickedInEmptySpace()
 {
-	size_t activeEdgeCount = 0;
+	std::vector<std::shared_ptr<QtGraphEdge>> activeEdges;
 	for (std::shared_ptr<QtGraphEdge> edge : m_oldEdges)
 	{
 		if (edge->getIsActive())
 		{
-			activeEdgeCount++;
+			activeEdges.push_back(edge);
 		}
 	}
 
-	if (activeEdgeCount == 1)
+	if (m_graph && m_graph->getTrailMode() != Graph::TRAIL_NONE)
+	{
+		for (std::shared_ptr<QtGraphEdge> edge : activeEdges)
+		{
+			edge->setIsActive(false);
+		}
+	}
+	else if (activeEdges.size() == 1)
 	{
 		MessageDeactivateEdge(false).dispatch();
 	}
@@ -519,6 +527,11 @@ void QtGraphView::switchToNewGraphData()
 	view->update();
 
 	updateTrailButtons();
+
+	if (m_oldGraph && m_oldGraph->getTrailMode() != Graph::TRAIL_NONE)
+	{
+		MessageStatus("Finished graph display").dispatch();
+	}
 }
 
 QtGraphicsView* QtGraphView::getView() const
@@ -554,6 +567,8 @@ void QtGraphView::doRebuildGraph(
 
 	QGraphicsView* view = getView();
 
+
+	// create nodes
 	size_t activeNodeCount = 0;
 	for (unsigned int i = 0; i < nodes.size(); i++)
 	{
@@ -574,31 +589,42 @@ void QtGraphView::doRebuildGraph(
 		}
 	}
 
-	Graph::TrailMode trailMode = m_graph ? m_graph->getTrailMode() : Graph::TRAIL_NONE;
-	if (trailMode == Graph::TRAIL_NONE)
-	{
-		QPointF center = itemsBoundingRect(m_nodes).center();
-		Vec2i o = GraphViewStyle::alignOnRaster(Vec2i(center.x(), center.y()));
-		QPointF offset = QPointF(o.x, o.y);
-		m_sceneRectOffset = offset - center;
 
-		for (const std::shared_ptr<QtGraphNode>& node : m_nodes)
-		{
-			node->setPos(node->pos() - offset);
-		}
+	// move graph to center
+	QPointF center = itemsBoundingRect(m_nodes).center();
+	Vec2i o = GraphViewStyle::alignOnRaster(Vec2i(center.x(), center.y()));
+	QPointF offset = QPointF(o.x, o.y);
+	m_sceneRectOffset = offset - center;
+
+	for (const std::shared_ptr<QtGraphNode>& node : m_nodes)
+	{
+		node->setPos(node->pos() - offset);
 	}
 
 	m_edges.clear();
 
-	std::set<Id> visibleEdgeIds;
 	for (std::shared_ptr<DummyEdge> edge : edges)
+	{
+		for (size_t i = 0; i < edge->path.size(); i++)
+		{
+			edge->path[i].x = edge->path[i].x - offset.x();
+			edge->path[i].z = edge->path[i].z - offset.x();
+			edge->path[i].y = edge->path[i].y - offset.y();
+			edge->path[i].w = edge->path[i].w - offset.y();
+		}
+	}
+
+	// create edges
+	Graph::TrailMode trailMode = m_graph ? m_graph->getTrailMode() : Graph::TRAIL_NONE;
+	std::set<Id> visibleEdgeIds;
+	for (const std::shared_ptr<DummyEdge> edge : edges)
 	{
 		if (!edge->data || !edge->data->isType(Edge::EDGE_AGGREGATION))
 		{
 			createEdge(view, edge.get(), &visibleEdgeIds, trailMode);
 		}
 	}
-	for (std::shared_ptr<DummyEdge> edge : edges)
+	for (const std::shared_ptr<DummyEdge> edge : edges)
 	{
 		if (edge->data && edge->data->isType(Edge::EDGE_AGGREGATION))
 		{
@@ -850,7 +876,7 @@ QRectF QtGraphView::getSceneRect(const std::list<std::shared_ptr<QtGraphNode>>& 
 		sceneRect |= rect;
 	}
 
-	return sceneRect.adjusted(-25, -25, 25, 25).translated(m_sceneRectOffset);
+	return sceneRect.adjusted(-75, -75, 75, 75).translated(m_sceneRectOffset);
 }
 
 void QtGraphView::compareNodesRecursive(
@@ -1081,11 +1107,16 @@ void QtGraphView::doFocusOut(const std::vector<Id>& tokenIds)
 		if (node && node->isDataNode())
 		{
 			node->focusOut();
+			continue;
 		}
-	}
 
-	for (std::shared_ptr<QtGraphEdge> edge : m_oldEdges)
-	{
-		edge->focusOut();
+		for (std::shared_ptr<QtGraphEdge> edge : m_oldEdges)
+		{
+			if (edge->getData() && edge->getData()->getId() == tokenId)
+			{
+				edge->focusOut();
+				break;
+			}
+		}
 	}
 }
