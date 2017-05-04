@@ -1,6 +1,7 @@
 #ifndef APPLICATION_STATE_MONITOR_H
 #define APPLICATION_STATE_MONITOR_H
 
+#include <memory>
 #include <mutex>
 #include <set>
 #include <vector>

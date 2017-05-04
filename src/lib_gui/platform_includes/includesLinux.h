@@ -25,7 +25,7 @@ void setupApp(int argc, char *argv[])
 	QDir coatiDir((userdir + "/.config/coati").c_str());
 	userdir.append("/.config/sourcetrail/");
 
-	UserPaths::setUserDataPath(userdir);
+	UserPaths::setUserDataPath(FilePath(userdir));
 
 	QString userDataPath(userdir.c_str());
 	QDir dataDir(userdir.c_str());
@@ -41,7 +41,7 @@ void setupApp(int argc, char *argv[])
 		}
 	}
 
-	utility::copyNewFilesFromDirectory(QString::fromStdString(ResourcePaths::getFallbackPath()), userDataPath);
+	utility::copyNewFilesFromDirectory(QString::fromStdString(ResourcePaths::getFallbackPath().str()), userDataPath);
 	utility::copyNewFilesFromDirectory(QString::fromStdString(AppPath::getAppPath() + "/user/" ), userDataPath);
 }
 
