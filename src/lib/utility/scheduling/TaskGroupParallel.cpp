@@ -26,12 +26,11 @@ void TaskGroupParallel::doEnter(std::shared_ptr<Blackboard> blackboard)
 	if (m_needsToStartThreads)
 	{
 		m_needsToStartThreads = false;
-		m_activeTaskCount = 0;
+		m_activeTaskCount = m_tasks.size();
 		for (size_t i = 0; i < m_tasks.size(); i++)
 		{
-			m_tasks[i]->thread = std::make_shared<std::thread>(&TaskGroupParallel::processTaskThreaded, this, m_tasks[i], blackboard);
 			m_tasks[i]->active = true;
-			m_activeTaskCount++;
+			m_tasks[i]->thread = std::make_shared<std::thread>(&TaskGroupParallel::processTaskThreaded, this, m_tasks[i], blackboard);
 		}
 	}
 }
@@ -65,10 +64,13 @@ void TaskGroupParallel::doReset(std::shared_ptr<Blackboard> blackboard)
 		m_tasks[i]->taskRunner->reset();
 		if (!m_tasks[i]->active)
 		{
+			{
+				std::lock_guard<std::mutex> lock(m_activeTaskCountMutex);
+				m_activeTaskCount++;
+			}
 			m_tasks[i]->thread->join();
-			m_tasks[i]->thread = std::make_shared<std::thread>(&TaskGroupParallel::processTaskThreaded, this, m_tasks[i], blackboard);
 			m_tasks[i]->active = true;
-			m_activeTaskCount++;
+			m_tasks[i]->thread = std::make_shared<std::thread>(&TaskGroupParallel::processTaskThreaded, this, m_tasks[i], blackboard);
 		}
 	}
 }
