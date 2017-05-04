@@ -28,9 +28,9 @@ void JavaEnvironmentFactory::createInstance(std::string classPath, std::string& 
 	}
 
 	std::function<jint (JavaVM**, void**, void*)> createInstanceFunction;
-
+	const FilePath javaPath(ApplicationSettings::getInstance()->getJavaPath());
 	createInstanceFunction = utility::loadFunctionFromLibrary<jint, JavaVM**, void**, void*>(
-		FilePath(ApplicationSettings::getInstance()->getJavaPath()),
+		javaPath,
 		"JNI_CreateJavaVM",
 		errorString
 	);

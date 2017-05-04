@@ -817,7 +817,7 @@ private:
 			const std::string separator = ":";
 #endif
 			JavaEnvironmentFactory::createInstance(
-				"../app/data/java/guava-18.0.jar" + separator +
+				"../app/data/java/guava-21.0.jar" + separator +
 				"../app/data/java/java-indexer.jar" + separator +
 				"../app/data/java/javaparser-core.jar" + separator +
 				"../app/data/java/javaslang-2.0.3.jar" + separator +

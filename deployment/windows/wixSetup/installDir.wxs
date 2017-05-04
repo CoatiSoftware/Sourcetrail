@@ -673,7 +673,7 @@
 				<Directory Id='DataJava' Name='java'>
 
 					<Component Id='JavaGuavaJar' Guid='*' Win64="$(var.Win64)">
-						<File Id='JavaGuava' Name='guava-18.0.jar' DiskId='1' Source='./../../../bin/app/data/java/guava-18.0.jar' KeyPath='yes' />
+						<File Id='JavaGuava' Name='guava-21.0.jar' DiskId='1' Source='./../../../bin/app/data/java/guava-21.0.jar' KeyPath='yes' />
 					</Component>
 					<Component Id='JavaJavaIndexerJar' Guid='*' Win64="$(var.Win64)">
 						<File Id='JavaJavaIndexer' Name='java-indexer.jar' DiskId='1' Source='./../../../bin/app/data/java/java-indexer.jar' KeyPath='yes' />
