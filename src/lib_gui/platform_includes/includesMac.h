@@ -56,7 +56,7 @@ void setupPlatform(int argc, char *argv[])
 	// ----------------------------------------------------------------------------
 	// Makes the mac bundle copy the user files to the Application Support folder
 	QString dataPath = QStandardPaths::writableLocation(QStandardPaths::DataLocation);
-	QString oldDataPath = QString::fromStdString(ResourcePaths::getFallbackPath());
+	QString oldDataPath = QString::fromStdString(ResourcePaths::getFallbackPath().str());
 
 	QDir dataDir(dataPath);
 	if (!dataDir.exists())
@@ -78,7 +78,7 @@ void setupPlatform(int argc, char *argv[])
 
 	utility::copyNewFilesFromDirectory(oldDataPath, dataPath);
 
-	UserPaths::setUserDataPath(dataPath.toStdString() + "/");
+	UserPaths::setUserDataPath(FilePath(dataPath.toStdString() + "/"));
 	// ----------------------------------------------------------------------------
 
 	appIsMacBundle = true;
@@ -91,11 +91,11 @@ void setupApp(int argc, char *argv[])
 
 	if (!appIsMacBundle)
 	{
-		UserPaths::setUserDataPath(path.absolute().str() + "/user/");
+		UserPaths::setUserDataPath(FilePath(path.absolute().str() + "/user/"));
 	}
 	else
 	{
-		UserPaths::setSampleProjectsPath(path.absolute().str() + "/data/");
+		UserPaths::setSampleProjectsPath(FilePath(path.absolute().str() + "/data/"));
 	}
 }
 

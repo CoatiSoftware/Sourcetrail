@@ -12,14 +12,14 @@ public:
 	void test_add_bookmarks()
 	{
 		FilePath databasePath("data/SQLiteTestSuite/bookmarkTest.sqlite");
-		int bookmarkCount = 4;
+		size_t bookmarkCount = 4;
 		int result = -1;
 		{
 			boost::filesystem::remove(databasePath.path());
 			SqliteBookmarkStorage storage(databasePath);
 			storage.setup();
 
-			for (unsigned int i = 0; i < bookmarkCount; i++)
+			for (size_t i = 0; i < bookmarkCount; i++)
 			{
 				const Id categoryId = storage.addBookmarkCategory("test category");
 				storage.addBookmark("test bookmark", "test comment", TimePoint::now().toString(), categoryId);
@@ -36,7 +36,7 @@ public:
 	void test_add_bookmarked_node()
 	{
 		FilePath databasePath("data/SQLiteTestSuite/bookmarkTest.sqlite");
-		int bookmarkCount = 4;
+		size_t bookmarkCount = 4;
 		int result = -1;
 		{
 			boost::filesystem::remove(databasePath.path());
@@ -46,7 +46,7 @@ public:
 			const Id categoryId = storage.addBookmarkCategory("test category");
 			const Id bookmarkId = storage.addBookmark("test bookmark", "test comment", TimePoint::now().toString(), categoryId);
 
-			for (unsigned int i = 0; i < bookmarkCount; i++)
+			for (size_t i = 0; i < bookmarkCount; i++)
 			{
 				storage.addBookmarkedNode(bookmarkId, "test name");
 			}
@@ -62,7 +62,6 @@ public:
 	void test_remove_bookmark_also_removes_bookmarked_node()
 	{
 		FilePath databasePath("data/SQLiteTestSuite/bookmarkTest.sqlite");
-		int bookmarkCount = 4;
 		int result = -1;
 		{
 			boost::filesystem::remove(databasePath.path());
@@ -71,7 +70,7 @@ public:
 
 			const Id categoryId = storage.addBookmarkCategory("test category");
 			const Id bookmarkId = storage.addBookmark("test bookmark", "test comment", TimePoint::now().toString(), categoryId);
-			const Id bookmarkedNodeId = storage.addBookmarkedNode(bookmarkId, "test name");
+			storage.addBookmarkedNode(bookmarkId, "test name");
 
 			storage.removeBookmark(bookmarkId);
 
@@ -98,7 +97,7 @@ public:
 
 			const Id categoryId = storage.addBookmarkCategory("test category");
 			const Id bookmarkId = storage.addBookmark("test bookmark", "test comment", TimePoint::now().toString(), categoryId);
-			const Id bookmarkedNodeId = storage.addBookmarkedNode(bookmarkId, "test name");
+			storage.addBookmarkedNode(bookmarkId, "test name");
 
 			storage.updateBookmark(bookmarkId, updatedName, updatedComment, categoryId);
 

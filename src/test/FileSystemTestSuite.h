@@ -61,7 +61,7 @@ public:
 		extensions.push_back(".cpp");
 
 		std::vector<FilePath> directoryPaths;
-		directoryPaths.push_back("./data/FileSystemTestSuite/src");
+		directoryPaths.push_back(FilePath("./data/FileSystemTestSuite/src"));
 
 		std::vector<FileInfo> files = FileSystem::getFileInfosFromPaths(directoryPaths, extensions, false);
 
@@ -80,7 +80,7 @@ public:
 		extensions.push_back(".cpp");
 
 		std::vector<FilePath> directoryPaths;
-		directoryPaths.push_back("./data/FileSystemTestSuite/src");
+		directoryPaths.push_back(FilePath("./data/FileSystemTestSuite/src"));
 
 		std::vector<FileInfo> files = FileSystem::getFileInfosFromPaths(directoryPaths, extensions, true);
 

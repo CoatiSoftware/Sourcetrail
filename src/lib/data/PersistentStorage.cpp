@@ -2074,9 +2074,9 @@ void PersistentStorage::buildFilePathMaps()
 
 	for (StorageFile file: m_sqliteIndexStorage.getAll<StorageFile>())
 	{
-		m_fileNodeIds.emplace(file.filePath, file.id);
-		m_fileNodePaths.emplace(file.id, file.filePath);
-		m_fileNodeComplete.emplace(file.filePath, file.complete);
+		m_fileNodeIds.emplace(FilePath(file.filePath), file.id);
+		m_fileNodePaths.emplace(file.id, FilePath(file.filePath));
+		m_fileNodeComplete.emplace(FilePath(file.filePath), file.complete);
 	}
 }
 
