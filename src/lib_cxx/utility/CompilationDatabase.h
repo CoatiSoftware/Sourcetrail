@@ -1,6 +1,7 @@
 #ifndef UTILITY_COMPLIATION_DATABASE_H
 #define UTILITY_COMPLIATION_DATABASE_H
 
+#include <string>
 #include <vector>
 
 class FilePath;
