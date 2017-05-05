@@ -104,6 +104,28 @@ bool Project::refresh(bool forceRefresh)
 
 	std::shared_ptr<DialogView> dialogView = Application::getInstance()->getDialogView();
 
+	if (
+		ApplicationSettings::getInstance()->getLoggingEnabled() &&
+		ApplicationSettings::getInstance()->getVerboseIndexerLoggingEnabled() &&
+		Application::getInstance()->hasGUI()
+		)
+	{
+		std::vector<std::string> options;
+		options.push_back("Yes");
+		options.push_back("No");
+		int result = dialogView->confirm(
+			"Warning: You are about to index your project with the \"verbose indexer logging\" setting "
+			"enabled. This will cause a significant slowdown in indexing performance. Do you want to proceed?",
+			options
+		);
+
+		if (result == 1)
+		{
+			return false;
+		}
+	}
+
+
 	if (!forceRefresh && needsFullRefresh && question.size() && Application::getInstance()->hasGUI())
 	{
 		std::vector<std::string> options;

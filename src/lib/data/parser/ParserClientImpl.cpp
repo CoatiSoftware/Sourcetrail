@@ -90,7 +90,6 @@ void ParserClientImpl::onFileParsed(const FileInfo& fileInfo)
 
 void ParserClientImpl::onCommentParsed(const ParseLocation& location)
 {
-	addNodeHierarchy(NameHierarchy(location.filePath.str()), Node::NODE_FILE);
 	addCommentLocation(location);
 }
 
