@@ -1,6 +1,7 @@
 #ifndef SHARED_MEMORY_GARBAGE_COLLECTOR_H
 #define SHARED_MEMORY_GARBAGE_COLLECTOR_H
 
+#include <memory>
 #include <mutex>
 #include <string>
 #include <set>
@@ -38,6 +39,7 @@ private:
 
 	SharedMemory m_memory;
 	volatile bool m_loopIsRunning;
+	std::shared_ptr<std::thread> m_thread;
 
 	std::string m_uuid;
 

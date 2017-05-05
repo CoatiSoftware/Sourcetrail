@@ -29,6 +29,13 @@ void setupLogging(const std::string logFilePath)
 	logManager->addLogger(fileLogger);
 }
 
+void suppressCrashMessage()
+{
+#ifdef _WIN32
+	SetErrorMode(SEM_FAILCRITICALERRORS | SEM_NOGPFAULTERRORBOX);
+#endif // _WIN32
+}
+
 int main(int argc, char *argv[])
 {
 	QCoreApplication qtApp(argc, argv);
@@ -68,6 +75,7 @@ int main(int argc, char *argv[])
 	UserPaths::setUserDataPath(FilePath(userDataPath));
 
 	setupLogging(logFilePath);
+	suppressCrashMessage();
 
 	ApplicationSettings* appSettings = ApplicationSettings::getInstance().get();
 	appSettings->load(FilePath(UserPaths::getAppSettingsPath()));

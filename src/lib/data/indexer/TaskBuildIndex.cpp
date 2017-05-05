@@ -43,6 +43,8 @@ TaskBuildIndex::TaskBuildIndex(
 
 void TaskBuildIndex::doEnter(std::shared_ptr<Blackboard> blackboard)
 {
+	updateIndexingDialog(blackboard, FilePath());
+
 	{
 		std::lock_guard<std::mutex> lock(blackboard->getMutex());
 		blackboard->set("indexer_count", (int)m_processCount);
@@ -177,7 +179,7 @@ void TaskBuildIndex::runIndexerProcess(int processId, const std::string& logFile
 		return;
 	}
 
-	std::string command = indexerProcessPath.str();
+	std::string command = "\"" + indexerProcessPath.str() + "\"";
 	command += " " + std::to_string(processId);
 	command += " " + Application::getUUID();
 	command += " \"" + AppPath::getAppPath() + "\"";

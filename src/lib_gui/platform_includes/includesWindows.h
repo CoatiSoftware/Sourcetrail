@@ -30,7 +30,7 @@ void setupApp(int argc, char *argv[])
 	{
 		path += "Sourcetrail/";
 	}
-	UserPaths::setUserDataPath(path);
+	UserPaths::setUserDataPath(FilePath(path));
 #else
 	std::string path = QDir::currentPath().toStdString();
 	path += "/user/";
@@ -41,20 +41,20 @@ void setupApp(int argc, char *argv[])
 
 #ifdef DEPLOY
 	// try to find files in Coati installation to migrate to Sourcetrail
-	FilePath coatiUserDataPath = UserPaths::getUserDataPath() + "../";
+	FilePath coatiUserDataPath = UserPaths::getUserDataPath().concat(FilePath("../"));
 	if (utility::getApplicationArchitectureType() == APPLICATION_ARCHITECTURE_X86_64)
 	{
-		coatiUserDataPath = coatiUserDataPath.concat("Coati 64-bit");
+		coatiUserDataPath = coatiUserDataPath.concat(FilePath("Coati 64-bit"));
 	}
 	else
 	{
-		coatiUserDataPath = coatiUserDataPath.concat("Coati");
+		coatiUserDataPath = coatiUserDataPath.concat(FilePath("Coati"));
 	}
 
 	if (coatiUserDataPath.exists())
 	{
-		FileSystem::copyFile(coatiUserDataPath.concat("ApplicationSettings.xml"), UserPaths::getAppSettingsPath());
-		FileSystem::copyFile(coatiUserDataPath.concat("window_settings.ini"), UserPaths::getWindowSettingsPath());
+		FileSystem::copyFile(coatiUserDataPath.concat(FilePath("ApplicationSettings.xml")), UserPaths::getAppSettingsPath());
+		FileSystem::copyFile(coatiUserDataPath.concat(FilePath("window_settings.ini")), UserPaths::getWindowSettingsPath());
 	}
 #endif
 

@@ -45,7 +45,7 @@ void SharedMemoryGarbageCollector::run(const std::string& uuid)
 
 	m_uuid = uuid;
 
-	std::thread(
+	m_thread = std::make_shared<std::thread>(
 		[this]()
 		{
 			m_loopIsRunning = true;
@@ -57,7 +57,7 @@ void SharedMemoryGarbageCollector::run(const std::string& uuid)
 				std::this_thread::sleep_for(std::chrono::seconds(s_updateIntervalSeconds));
 			}
 		}
-	).detach();
+	);
 }
 
 void SharedMemoryGarbageCollector::stop()
@@ -65,6 +65,9 @@ void SharedMemoryGarbageCollector::stop()
 	LOG_INFO_STREAM(<< "stop shared memory garbage collection");
 
 	m_loopIsRunning = false;
+
+	m_thread->join();
+	m_thread.reset();
 
 	{
 		std::lock_guard<std::mutex> lock(m_sharedMemoryNamesMutex);
