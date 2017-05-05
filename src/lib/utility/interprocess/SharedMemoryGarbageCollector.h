@@ -9,6 +9,7 @@
 #include "utility/interprocess/SharedMemory.h"
 
 #include <mutex>
+#include <thread>
 
 class SharedMemoryGarbageCollector
 {
