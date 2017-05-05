@@ -608,6 +608,9 @@ GraphViewStyle::EdgeStyle GraphViewStyle::getStyleForEdgeType(
 		style.targetOffset.x = 34;
 		style.zValue = isActive ? 2 : -3;
 		break;
+	case Edge::EDGE_INCLUDE:
+	case Edge::EDGE_MACRO_USAGE:
+		style.zValue = isActive ? 2 : -3;
 	default:
 		break;
 	}

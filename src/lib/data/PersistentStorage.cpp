@@ -735,7 +735,7 @@ std::vector<SearchMatch> PersistentStorage::getAutocompletionMatches(const std::
 	// create SearchMatches
 	std::vector<SearchMatch> matches;
 	utility::append(matches, getAutocompletionSymbolMatches(query, maxResultsCount));
-	utility::append(matches, getAutocompletionFileMatches(query, 20));
+	utility::append(matches, getAutocompletionFileMatches(query, maxResultsCount));
 	utility::append(matches, getAutocompletionCommandMatches(query));
 
 	std::set<SearchMatch> matchesSet;
@@ -754,14 +754,7 @@ std::vector<SearchMatch> PersistentStorage::getAutocompletionMatches(const std::
 		matchesSet.insert(match);
 	}
 
-	matches = utility::toVector(matchesSet);
-
-	if (matches.size() > maxResultsCount)
-	{
-		matches.resize(maxResultsCount);
-	}
-
-	return matches;
+	return utility::toVector(matchesSet);
 }
 
 std::vector<SearchMatch> PersistentStorage::getAutocompletionSymbolMatches(

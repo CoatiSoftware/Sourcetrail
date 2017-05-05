@@ -3,6 +3,7 @@
 #include <QFileDialog>
 #include <QMouseEvent>
 #include <QScrollBar>
+#include <QSysInfo>
 #include <QTimer>
 
 #include <QApplication>
@@ -30,6 +31,8 @@ QtGraphicsView::QtGraphicsView(QWidget* parent)
 	, m_zoomInButtonSpeed(20.0f)
 	, m_zoomOutButtonSpeed(-20.0f)
 {
+	QString modifierName = QSysInfo::macVersion() == QSysInfo::MV_None ? "Ctrl" : "Cmd";
+
 	setTransformationAnchor(QGraphicsView::AnchorUnderMouse);
 
 	m_timer = std::make_shared<QTimer>(this);
@@ -52,13 +55,13 @@ QtGraphicsView::QtGraphicsView(QWidget* parent)
 	m_zoomInButton = new QPushButton(this);
 	m_zoomInButton->setObjectName("zoom_in_button");
 	m_zoomInButton->setAutoRepeat(true);
-	m_zoomInButton->setToolTip("Zoom in (Shift + Mousewheel forward)");
+	m_zoomInButton->setToolTip("Zoom in (" + modifierName + " + Mousewheel forward)");
 	connect(m_zoomInButton, SIGNAL(pressed()), this, SLOT(zoomInPressed()));
 
 	m_zoomOutButton = new QPushButton(this);
 	m_zoomOutButton->setObjectName("zoom_out_button");
 	m_zoomOutButton->setAutoRepeat(true);
-	m_zoomOutButton->setToolTip("Zoom out (Shift + Mousewheel back)");
+	m_zoomOutButton->setToolTip("Zoom out (" + modifierName + " + Mousewheel back)");
 	connect(m_zoomOutButton, SIGNAL(pressed()), this, SLOT(zoomOutPressed()));
 
 	refreshStyle();
@@ -256,8 +259,9 @@ void QtGraphicsView::wheelEvent(QWheelEvent* event)
 {
 	bool zoomDefault = ApplicationSettings::getInstance()->getControlsGraphZoomOnMouseWheel();
 	bool shiftPressed = event->modifiers() == Qt::ShiftModifier;
+	bool ctrlPressed = event->modifiers() == Qt::ControlModifier;
 
-	if (zoomDefault != shiftPressed)
+	if (zoomDefault != (shiftPressed | ctrlPressed))
 	{
 		if (event->delta() != 0.0f)
 		{

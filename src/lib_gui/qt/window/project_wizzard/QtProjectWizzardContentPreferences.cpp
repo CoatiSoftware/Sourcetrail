@@ -83,11 +83,11 @@ void QtProjectWizzardContentPreferences::populate(QGridLayout* layout, int& row)
 		"slower, or set to larger than 1 to scroll faster.", layout, row);
 
 	// graph zooming
+	QString modifierName = QSysInfo::macVersion() == QSysInfo::MV_None ? "Ctrl" : "Cmd";
 	m_graphZooming = addCheckBox("Graph Zoom", "Zoom on mouse wheel",
-		"Switch graph zooming to mouse wheel only, instead of SHIFT + mouse wheel.", layout, row);
+		"Switch graph zooming to mouse wheel only, instead of " + modifierName + " + Mouse Wheel.", layout, row);
 
 	addGap(layout, row);
-
 
 	// indexing
 	addTitle("INDEXING", layout, row);
