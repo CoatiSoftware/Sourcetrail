@@ -58,6 +58,9 @@ protected:
 	// store as plain pointers to avoid deallocation issues when closing app during indexing
 	std::vector<std::thread*> m_processThreads;
 	std::vector<std::shared_ptr<InterprocessIntermediateStorageManager>> m_interprocessIntermediateStorageManagers;
+
+	size_t m_runningThreadCount;
+	std::mutex m_runningThreadCountMutex;
 };
 
 #endif // TASK_PARSE_H

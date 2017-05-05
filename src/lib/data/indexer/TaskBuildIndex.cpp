@@ -37,6 +37,7 @@ TaskBuildIndex::TaskBuildIndex(
 	, m_processCount(processCount)
 	, m_interrupted(false)
 	, m_lastCommandCount(0)
+	, m_runningThreadCount(0)
 {
 }
 
@@ -82,6 +83,12 @@ void TaskBuildIndex::doEnter(std::shared_ptr<Blackboard> blackboard)
 
 Task::TaskState TaskBuildIndex::doUpdate(std::shared_ptr<Blackboard> blackboard)
 {
+	size_t runningThreadCount = 0;
+	{
+		std::lock_guard<std::mutex> lock(m_runningThreadCountMutex);
+		runningThreadCount = m_runningThreadCount;
+	}
+
 	size_t commandCount = m_interprocessIndexerCommandManager.indexerCommandCount();
 	if (commandCount != m_lastCommandCount)
 	{
@@ -89,7 +96,7 @@ Task::TaskState TaskBuildIndex::doUpdate(std::shared_ptr<Blackboard> blackboard)
 		m_lastCommandCount = commandCount;
 	}
 
-	if (commandCount == 0)
+	if (commandCount == 0 && runningThreadCount == 0)
 	{
 		return STATE_FAILURE;
 	}
@@ -157,6 +164,11 @@ void TaskBuildIndex::handleMessage(MessageInterruptTasks* message)
 
 void TaskBuildIndex::runIndexerProcess(int processId, const std::string& logFilePath)
 {
+	{
+		std::lock_guard<std::mutex> lock(m_runningThreadCountMutex);
+		m_runningThreadCount++;
+	}
+
 	FilePath indexerProcessPath(AppPath::getAppPath() + s_processName);
 	if (!indexerProcessPath.exists())
 	{
@@ -183,12 +195,27 @@ void TaskBuildIndex::runIndexerProcess(int processId, const std::string& logFile
 
 		LOG_INFO_STREAM(<< "Indexer process " << processId << " returned with " + std::to_string(result));
 	}
+
+	{
+		std::lock_guard<std::mutex> lock(m_runningThreadCountMutex);
+		m_runningThreadCount--;
+	}
 }
 
 void TaskBuildIndex::runIndexerThread(int processId)
 {
+	{
+		std::lock_guard<std::mutex> lock(m_runningThreadCountMutex);
+		m_runningThreadCount++;
+	}
+
 	InterprocessIndexer indexer(Application::getUUID(), processId);
 	indexer.work();
+
+	{
+		std::lock_guard<std::mutex> lock(m_runningThreadCountMutex);
+		m_runningThreadCount--;
+	}
 }
 
 void TaskBuildIndex::fetchIntermediateStorages(std::shared_ptr<Blackboard> blackboard)
