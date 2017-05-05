@@ -104,8 +104,7 @@ SharedMemory::SharedMemory(const std::string& name, size_t initialMemorySize, Ac
 	if (unlockMutex)
 	{
 		boost::interprocess::named_mutex mutex(boost::interprocess::open_only, getMutexName().c_str());
-		mutex.try_lock();
-		mutex.unlock();
+		boost::interprocess::scoped_lock<boost::interprocess::named_mutex> lock(mutex, boost::interprocess::try_to_lock);
 	}
 }
 
