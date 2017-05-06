@@ -200,6 +200,31 @@ void QtGraphView::scrollToValues(int xValue, int yValue)
 	m_scrollValues = Vec2i(xValue, yValue);
 }
 
+void QtGraphView::activateEdge(Id edgeId, bool centerOrigin)
+{
+	m_onQtThread(
+		[=]()
+		{
+			clickedInEmptySpace();
+
+			for (std::shared_ptr<QtGraphEdge> edge : m_oldEdges)
+			{
+				if (edge->getData() && edge->getData()->getId() == edgeId)
+				{
+					edge->setIsActive(true);
+
+					if (centerOrigin)
+					{
+						centerNode(edge->getOwner().lock().get());
+					}
+
+					break;
+				}
+			}
+		}
+	);
+}
+
 void QtGraphView::updateScrollBars()
 {
 	QGraphicsView* view = getView();
@@ -240,6 +265,8 @@ void QtGraphView::clickedInEmptySpace()
 		{
 			activeEdges.push_back(edge);
 		}
+
+		edge->setIsFocused(false);
 	}
 
 	if (m_graph && m_graph->getTrailMode() != Graph::TRAIL_NONE)
@@ -503,17 +530,7 @@ void QtGraphView::switchToNewGraphData()
 	{
 		if (m_centerActiveNode)
 		{
-			Vec2i pos = m_activeNodes.front()->getPosition();
-			Vec2i size = m_activeNodes.front()->getSize();
-
-			QRectF rect(pos.x, pos.y, size.x, size.y);
-
-			if (rect.height() > view->height() - 200)
-			{
-				rect.setHeight(view->height() - 200);
-			}
-
-			view->ensureVisibleAnimated(rect, 100, 100);
+			centerNode(m_activeNodes.front().get());
 		}
 
 		if (m_activeNodes.size() == 1)
@@ -603,17 +620,6 @@ void QtGraphView::doRebuildGraph(
 
 	m_edges.clear();
 
-	for (std::shared_ptr<DummyEdge> edge : edges)
-	{
-		for (size_t i = 0; i < edge->path.size(); i++)
-		{
-			edge->path[i].x = edge->path[i].x - offset.x();
-			edge->path[i].z = edge->path[i].z - offset.x();
-			edge->path[i].y = edge->path[i].y - offset.y();
-			edge->path[i].w = edge->path[i].w - offset.y();
-		}
-	}
-
 	// create edges
 	Graph::TrailMode trailMode = m_graph ? m_graph->getTrailMode() : Graph::TRAIL_NONE;
 	std::set<Id> visibleEdgeIds;
@@ -621,7 +627,7 @@ void QtGraphView::doRebuildGraph(
 	{
 		if (!edge->data || !edge->data->isType(Edge::EDGE_AGGREGATION))
 		{
-			createEdge(view, edge.get(), &visibleEdgeIds, trailMode);
+			createEdge(view, edge.get(), &visibleEdgeIds, trailMode, offset);
 		}
 	}
 	for (const std::shared_ptr<DummyEdge> edge : edges)
@@ -784,7 +790,7 @@ std::shared_ptr<QtGraphNode> QtGraphView::createNodeRecursive(
 }
 
 std::shared_ptr<QtGraphEdge> QtGraphView::createEdge(
-	QGraphicsView* view, const DummyEdge* edge, std::set<Id>* visibleEdgeIds, Graph::TrailMode trailMode)
+	QGraphicsView* view, const DummyEdge* edge, std::set<Id>* visibleEdgeIds, Graph::TrailMode trailMode, QPointF pathOffset)
 {
 	if (!edge->visible)
 	{
@@ -801,12 +807,21 @@ std::shared_ptr<QtGraphEdge> QtGraphView::createEdge(
 
 		if (trailMode != Graph::TRAIL_NONE)
 		{
-			for (const Vec4i& rect : edge->path)
+			std::vector<Vec4i> path = edge->path;
+			for (size_t i = 0; i < path.size(); i++)
+			{
+				path[i].x = path[i].x - pathOffset.x();
+				path[i].z = path[i].z - pathOffset.x();
+				path[i].y = path[i].y - pathOffset.y();
+				path[i].w = path[i].w - pathOffset.y();
+			}
+
+			for (const Vec4i& rect : path)
 			{
 				m_virtualNodeRects.push_back(QRectF(QPointF(rect.x(), rect.y()), QPointF(rect.z(), rect.w())));
 			}
 
-			qtEdge->setIsTrailEdge(edge->path, trailMode == Graph::TRAIL_HORIZONTAL);
+			qtEdge->setIsTrailEdge(path, trailMode == Graph::TRAIL_HORIZONTAL);
 		}
 
 		qtEdge->updateLine();
@@ -854,7 +869,7 @@ std::shared_ptr<QtGraphEdge> QtGraphView::createAggregationEdge(
 		return NULL;
 	}
 
-	return createEdge(view, edge, visibleEdgeIds, Graph::TRAIL_NONE);
+	return createEdge(view, edge, visibleEdgeIds, Graph::TRAIL_NONE, QPointF());
 }
 
 QRectF QtGraphView::itemsBoundingRect(const std::list<std::shared_ptr<QtGraphNode>>& items) const
@@ -877,6 +892,23 @@ QRectF QtGraphView::getSceneRect(const std::list<std::shared_ptr<QtGraphNode>>& 
 	}
 
 	return sceneRect.adjusted(-75, -75, 75, 75).translated(m_sceneRectOffset);
+}
+
+void QtGraphView::centerNode(QtGraphNode* node)
+{
+	QtGraphicsView* view = getView();
+
+	Vec2i pos = node->getPosition();
+	Vec2i size = node->getSize();
+
+	QRectF rect(pos.x, pos.y, size.x, size.y);
+
+	if (rect.height() > view->height() - 200)
+	{
+		rect.setHeight(view->height() - 200);
+	}
+
+	view->ensureVisibleAnimated(rect, 100, 100);
 }
 
 void QtGraphView::compareNodesRecursive(

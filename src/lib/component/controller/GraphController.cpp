@@ -152,11 +152,24 @@ void GraphController::handleMessage(MessageActivateTrail* message)
 
 	MessageStatus("Displaying graph", false, true).dispatch();
 
-	buildGraph(message, true, true, false);
+	message->setIsReplayed(false);
+	buildGraph(message, message->isLast(), true, false);
+}
+
+void GraphController::handleMessage(MessageActivateTrailEdge* message)
+{
+	TRACE("trail edge activate");
+
+	getView()->activateEdge(message->tokenId, message->isReplayed());
 }
 
 void GraphController::handleMessage(MessageFlushUpdates* message)
 {
+	if (m_graph->getTrailMode() != Graph::TRAIL_NONE)
+	{
+		return;
+	}
+
 	buildGraph(message, true, !message->keepContent(), false);
 }
 

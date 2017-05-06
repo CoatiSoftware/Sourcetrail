@@ -175,6 +175,25 @@ void CodeController::handleMessage(MessageActivateTokens* message)
 	showContents(message);
 }
 
+void CodeController::handleMessage(MessageActivateTrailEdge* message)
+{
+	TRACE("trail edge activate");
+
+	CodeView* view = getView();
+	view->clearCodeSnippets();
+
+	std::vector<Id> activeTokenIds = { message->tokenId };
+	m_collection = m_storageAccess->getSourceLocationsForTokenIds(activeTokenIds);
+
+	view->showCodeSnippets(
+		getSnippetsForActiveSourceLocations(m_collection.get(), 0),
+		activeTokenIds,
+		!message->isReplayed() || message->isReplayCleared()
+	);
+
+	showContents(message);
+}
+
 void CodeController::handleMessage(MessageChangeFileView* message)
 {
 	TRACE("code change file");

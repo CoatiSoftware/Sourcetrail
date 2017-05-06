@@ -41,6 +41,8 @@ public:
 	void setIsActive(bool isActive);
 	void setFromAndToActive(bool fromActive, bool toActive);
 
+	void setIsFocused(bool isFocused);
+
 	void onClick();
 
 	void focusIn();
@@ -59,11 +61,10 @@ protected:
 	virtual void hoverEnterEvent(QGraphicsSceneHoverEvent* event);
 	virtual void hoverLeaveEvent(QGraphicsSceneHoverEvent* event);
 
-private slots:
-	void doFocusIn();
-	void doFocusOut();
-
 private:
+	// used to unfocus recent edge, because hover leave event is not always received for trail edges (bezier)
+	static QtGraphEdge* s_focusedTrailEdge;
+
 	const Edge* m_data;
 
 	std::weak_ptr<QtGraphNode> m_owner;
@@ -87,9 +88,6 @@ private:
 
 	Vec2i m_mousePos;
 	bool m_mouseMoved;
-
-	bool m_willFocusIn;
-	bool m_ignoreFocusIn;
 };
 
 #endif // QT_GRAPH_EDGE_H

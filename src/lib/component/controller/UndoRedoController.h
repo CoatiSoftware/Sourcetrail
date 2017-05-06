@@ -9,6 +9,7 @@
 #include "utility/messaging/type/MessageActivateLocalSymbols.h"
 #include "utility/messaging/type/MessageActivateTokens.h"
 #include "utility/messaging/type/MessageActivateTrail.h"
+#include "utility/messaging/type/MessageActivateTrailEdge.h"
 #include "utility/messaging/type/MessageChangeFileView.h"
 #include "utility/messaging/type/MessageDeactivateEdge.h"
 #include "utility/messaging/type/MessageFinishedParsing.h"
@@ -36,6 +37,7 @@ class UndoRedoController
 	, public MessageListener<MessageActivateLocalSymbols>
 	, public MessageListener<MessageActivateTokens>
 	, public MessageListener<MessageActivateTrail>
+	, public MessageListener<MessageActivateTrailEdge>
 	, public MessageListener<MessageChangeFileView>
 	, public MessageListener<MessageDeactivateEdge>
 	, public MessageListener<MessageFinishedParsing>
@@ -81,6 +83,7 @@ private:
 	virtual void handleMessage(MessageActivateLocalSymbols* message);
 	virtual void handleMessage(MessageActivateTokens* message);
 	virtual void handleMessage(MessageActivateTrail* message);
+	virtual void handleMessage(MessageActivateTrailEdge* message);
 	virtual void handleMessage(MessageChangeFileView* message);
 	virtual void handleMessage(MessageDeactivateEdge* message);
 	virtual void handleMessage(MessageFinishedParsing* message);

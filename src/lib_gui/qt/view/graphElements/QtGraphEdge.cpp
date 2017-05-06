@@ -2,7 +2,6 @@
 
 #include <QGraphicsSceneEvent>
 #include <QGraphicsItemGroup>
-#include <QTimer>
 
 #include "component/view/GraphViewStyle.h"
 #include "data/graph/Edge.h"
@@ -12,11 +11,14 @@
 #include "qt/graphics/QtLineItemStraight.h"
 #include "qt/view/graphElements/QtGraphNode.h"
 #include "utility/messaging/type/MessageActivateEdge.h"
+#include "utility/messaging/type/MessageActivateTrailEdge.h"
 #include "utility/messaging/type/MessageFocusIn.h"
 #include "utility/messaging/type/MessageFocusOut.h"
 #include "utility/messaging/type/MessageGraphNodeBundleSplit.h"
 #include "utility/utility.h"
 #include "utility/utilityString.h"
+
+QtGraphEdge* QtGraphEdge::s_focusedTrailEdge = nullptr;
 
 QtGraphEdge::QtGraphEdge(
 	const std::weak_ptr<QtGraphNode>& owner,
@@ -40,8 +42,6 @@ QtGraphEdge::QtGraphEdge(
 	, m_isHorizontalTrail(false)
 	, m_mousePos(0.0f, 0.0f)
 	, m_mouseMoved(false)
-	, m_willFocusIn(false)
-	, m_ignoreFocusIn(false)
 {
 	if (m_direction == TokenComponentAggregation::DIRECTION_BACKWARD)
 	{
@@ -50,6 +50,8 @@ QtGraphEdge::QtGraphEdge(
 
 	m_fromActive = m_owner.lock()->getIsActive();
 	m_toActive = m_target.lock()->getIsActive();
+
+	s_focusedTrailEdge = nullptr;
 }
 
 QtGraphEdge::~QtGraphEdge()
@@ -230,11 +232,25 @@ void QtGraphEdge::setIsActive(bool isActive)
 	}
 }
 
+void QtGraphEdge::setIsFocused(bool isFocused)
+{
+	if (m_isFocused != isFocused)
+	{
+		m_isFocused = isFocused;
+		updateLine();
+	}
+}
+
 void QtGraphEdge::onClick()
 {
 	if (isTrailEdge())
 	{
-		setIsActive(!getIsActive());
+		MessageActivateTrailEdge(
+			getData()->getId(),
+			getData()->getType(),
+			getData()->getFrom()->getNameHierarchy(),
+			getData()->getTo()->getNameHierarchy()
+		).dispatch();
 		return;
 	}
 
@@ -307,37 +323,18 @@ void QtGraphEdge::mouseReleaseEvent(QGraphicsSceneMouseEvent* event)
 
 void QtGraphEdge::hoverEnterEvent(QGraphicsSceneHoverEvent* event)
 {
-	if (!m_ignoreFocusIn)
-	{
-		QTimer::singleShot(50, this, SLOT(doFocusIn()));
-		m_ignoreFocusIn = true;
-		m_willFocusIn = true;
-	}
-}
-
-void QtGraphEdge::hoverLeaveEvent(QGraphicsSceneHoverEvent* event)
-{
-	m_willFocusIn = false;
-	QTimer::singleShot(100, this, SLOT(doFocusOut()));
-
-	if (!getData())
-	{
-		focusOut();
-		return;
-	}
-
-	MessageFocusOut(std::vector<Id>(1, getData()->getId())).dispatch();
-}
-
-void QtGraphEdge::doFocusIn()
-{
-	if (!m_willFocusIn)
-	{
-		return;
-	}
-
 	if (!getData() || isTrailEdge())
 	{
+		if (isTrailEdge())
+		{
+			if (s_focusedTrailEdge && s_focusedTrailEdge != this)
+			{
+				s_focusedTrailEdge->focusOut();
+			}
+
+			s_focusedTrailEdge = this;
+		}
+
 		focusIn();
 		return;
 	}
@@ -345,9 +342,17 @@ void QtGraphEdge::doFocusIn()
 	MessageFocusIn(std::vector<Id>(1, getData()->getId())).dispatch();
 }
 
-void QtGraphEdge::doFocusOut()
+void QtGraphEdge::hoverLeaveEvent(QGraphicsSceneHoverEvent* event)
 {
-	m_ignoreFocusIn = false;
+	s_focusedTrailEdge = nullptr;
+
+	if (!getData() || isTrailEdge())
+	{
+		focusOut();
+		return;
+	}
+
+	MessageFocusOut(std::vector<Id>(1, getData()->getId())).dispatch();
 }
 
 void QtGraphEdge::setDirection(TokenComponentAggregation::Direction direction)

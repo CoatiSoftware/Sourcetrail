@@ -55,6 +55,8 @@ public:
 
 	virtual void scrollToValues(int xValue, int yValue);
 
+	virtual void activateEdge(Id edgeId, bool centerOrigin);
+
 private slots:
 	void updateScrollBars();
 	void finishedTransition();
@@ -96,12 +98,14 @@ private:
 	std::shared_ptr<QtGraphNode> createNodeRecursive(
 		QGraphicsView* view, std::shared_ptr<QtGraphNode> parentNode, const DummyNode* node, bool multipleActive);
 	std::shared_ptr<QtGraphEdge> createEdge(
-		QGraphicsView* view, const DummyEdge* edge, std::set<Id>* visibleEdgeIds, Graph::TrailMode trailMode);
+		QGraphicsView* view, const DummyEdge* edge, std::set<Id>* visibleEdgeIds, Graph::TrailMode trailMode, QPointF pathOffset);
 	std::shared_ptr<QtGraphEdge> createAggregationEdge(
 		QGraphicsView* view, const DummyEdge* edge, std::set<Id>* visibleEdgeIds);
 
 	QRectF itemsBoundingRect(const std::list<std::shared_ptr<QtGraphNode>>& items) const;
 	QRectF getSceneRect(const std::list<std::shared_ptr<QtGraphNode>>& items) const;
+
+	void centerNode(QtGraphNode* node);
 
 	void compareNodesRecursive(
 		std::list<std::shared_ptr<QtGraphNode>> newSubNodes,
@@ -123,6 +127,7 @@ private:
 	QtThreadedFunctor<void> m_refreshFunctor;
 	QtThreadedFunctor<const std::vector<Id>&> m_focusInFunctor;
 	QtThreadedFunctor<const std::vector<Id>&> m_focusOutFunctor;
+	QtThreadedLambdaFunctor m_onQtThread;
 
 	std::shared_ptr<Graph> m_graph;
 	std::shared_ptr<Graph> m_oldGraph;

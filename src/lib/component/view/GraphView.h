@@ -44,6 +44,8 @@ public:
 	virtual Vec2i getViewSize() const = 0;
 
 	virtual void scrollToValues(int xValue, int yValue) = 0;
+
+	virtual void activateEdge(Id edgeId, bool centerOrigin) = 0;
 };
 
 #endif // GRAPH_VIEW_H

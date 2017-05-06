@@ -9,6 +9,7 @@
 #include "utility/messaging/type/MessageActivateAll.h"
 #include "utility/messaging/type/MessageActivateLocalSymbols.h"
 #include "utility/messaging/type/MessageActivateTokens.h"
+#include "utility/messaging/type/MessageActivateTrailEdge.h"
 #include "utility/messaging/type/MessageChangeFileView.h"
 #include "utility/messaging/type/MessageClearErrorCount.h"
 #include "utility/messaging/type/MessageCodeViewExpandedInitialFiles.h"
@@ -37,6 +38,7 @@ class CodeController
 	, public MessageListener<MessageActivateAll>
 	, public MessageListener<MessageActivateLocalSymbols>
 	, public MessageListener<MessageActivateTokens>
+	, public MessageListener<MessageActivateTrailEdge>
 	, public MessageListener<MessageChangeFileView>
 	, public MessageListener<MessageClearErrorCount>
 	, public MessageListener<MessageCodeViewExpandedInitialFiles>
@@ -60,6 +62,7 @@ private:
 	virtual void handleMessage(MessageActivateAll* message);
 	virtual void handleMessage(MessageActivateLocalSymbols* message);
 	virtual void handleMessage(MessageActivateTokens* message);
+	virtual void handleMessage(MessageActivateTrailEdge* message);
 	virtual void handleMessage(MessageChangeFileView* message);
 	virtual void handleMessage(MessageClearErrorCount* message);
 	virtual void handleMessage(MessageCodeViewExpandedInitialFiles* message);

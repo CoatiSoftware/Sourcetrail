@@ -90,6 +90,18 @@ void UndoRedoController::handleMessage(MessageActivateTrail* message)
 	processCommand(command);
 }
 
+void UndoRedoController::handleMessage(MessageActivateTrailEdge* message)
+{
+	if (sameMessageTypeAsLast(message) &&
+		static_cast<MessageActivateTrailEdge*>(lastMessage())->tokenId == message->tokenId)
+	{
+		return;
+	}
+
+	Command command(std::make_shared<MessageActivateTrailEdge>(*message), Command::ORDER_ADAPT, true);
+	processCommand(command);
+}
+
 void UndoRedoController::handleMessage(MessageChangeFileView* message)
 {
 	Command command(std::make_shared<MessageChangeFileView>(*message), Command::ORDER_VIEW);

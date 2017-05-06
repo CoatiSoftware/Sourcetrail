@@ -8,6 +8,7 @@
 #include "utility/messaging/type/MessageActivateAll.h"
 #include "utility/messaging/type/MessageActivateTokens.h"
 #include "utility/messaging/type/MessageActivateTrail.h"
+#include "utility/messaging/type/MessageActivateTrailEdge.h"
 #include "utility/messaging/type/MessageColorSchemeTest.h"
 #include "utility/messaging/type/MessageFlushUpdates.h"
 #include "utility/messaging/type/MessageFocusIn.h"
@@ -36,6 +37,7 @@ class GraphController
 	, public MessageListener<MessageActivateAll>
 	, public MessageListener<MessageActivateTokens>
 	, public MessageListener<MessageActivateTrail>
+	, public MessageListener<MessageActivateTrailEdge>
 	, public MessageListener<MessageColorSchemeTest>
 	, public MessageListener<MessageFlushUpdates>
 	, public MessageListener<MessageFocusIn>
@@ -56,6 +58,7 @@ private:
 	virtual void handleMessage(MessageActivateAll* message);
 	virtual void handleMessage(MessageActivateTokens* message);
 	virtual void handleMessage(MessageActivateTrail* message);
+	virtual void handleMessage(MessageActivateTrailEdge* message);
 	virtual void handleMessage(MessageFlushUpdates* message);
 	virtual void handleMessage(MessageFocusIn* message);
 	virtual void handleMessage(MessageFocusOut* message);
