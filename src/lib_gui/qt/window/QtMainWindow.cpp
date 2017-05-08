@@ -694,7 +694,7 @@ void QtMainWindow::setupBookmarksMenu()
 	QMenu *menu = new QMenu(tr("&Bookmarks"), this);
 	menuBar()->addMenu(menu);
 
-	menu->addAction(tr("Bookmark Active Symbols..."), this, SLOT(showBookmarkCreator()), QKeySequence(Qt::CTRL + Qt::Key_D));
+	menu->addAction(tr("Bookmark Active Symbol..."), this, SLOT(showBookmarkCreator()), QKeySequence(Qt::CTRL + Qt::Key_D));
 	menu->addAction(tr("Bookmark Manager"), this, SLOT(showBookmarkBrowser()), QKeySequence(Qt::CTRL + Qt::Key_B));
 }
 

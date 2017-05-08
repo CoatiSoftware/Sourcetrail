@@ -131,7 +131,7 @@ QTableWidget* QtKeyboardShortcuts::createGenerelShortcutsTable()
 	table->setItem(12, 0, new QTableWidgetItem("Hide Window"));
 	table->setItem(13, 0, new QTableWidgetItem("To Overview"));
 	table->setItem(14, 0, new QTableWidgetItem("Preferences"));
-	table->setItem(15, 0, new QTableWidgetItem("Bookmark Active Symbols"));
+	table->setItem(15, 0, new QTableWidgetItem("Bookmark Active Symbol"));
 	table->setItem(16, 0, new QTableWidgetItem("Bookmark Manager"));
 
 #if defined(Q_OS_MAC)
