@@ -147,6 +147,23 @@ gifsicle --resize-height 18 trans.gif > loader.gif
 
 ### Changelog
 
+#### 0.12.0 (beta)
+released 2017-05-08
+
+* Graph: Zooming on Ctrl + Mouse Wheel now (Shift + Mouse Wheel still working)
+* Added dialog to warn about "verbose indexer logging" before indexing.
+* Added multi process indexing for C/C++ projects to better handle crashes during indexing.
+* Reduced file accesses during C/C++ indexing.
+* Graph: Show call graphs, inheritance trees and include trees for active symbol. UI in the top left of the graph view for defining direction and depth. (issues #249 #337)
+* Improved performance by running UI updates in parallel for each view
+* Fixed project refresh not recognizing newly added files
+* Show progress dialog when clicking refresh while computing files (issue #341)
+* Added show files button to summary of compilation database project setup (issue #354)
+* Show option to run only C/C++ preprocessor when indexing on indexing start dialog (issue #297)
+* Added bookmarking feature for nodes and edges. Bookmarks can have categories and comments. Data gets stored in .srctrlbm next to project file. Shortcuts similar to web browsers. (issue #138)
+* Mark files with errors and all files within a translation unit with fatal errors as incomplete (issue #358)
+* Fixed compilation database projects using C++ source extensions and standard (issue #366)
+
 #### 0.11.86
 released 2017-04-12
 
