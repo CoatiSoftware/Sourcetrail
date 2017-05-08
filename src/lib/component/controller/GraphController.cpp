@@ -165,7 +165,7 @@ void GraphController::handleMessage(MessageActivateTrailEdge* message)
 
 void GraphController::handleMessage(MessageFlushUpdates* message)
 {
-	if (m_graph->getTrailMode() != Graph::TRAIL_NONE)
+	if (m_graph && m_graph->getTrailMode() != Graph::TRAIL_NONE)
 	{
 		return;
 	}
