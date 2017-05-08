@@ -49,6 +49,8 @@ private:
 
 	void buildIndex(const std::set<FilePath>& filesToClean, bool fullRefresh, bool preprocessorOnly);
 
+	bool hasCxxSourceGroup() const;
+
 	std::shared_ptr<ProjectSettings> m_settings;
 	StorageAccessProxy* const m_storageAccessProxy;
 

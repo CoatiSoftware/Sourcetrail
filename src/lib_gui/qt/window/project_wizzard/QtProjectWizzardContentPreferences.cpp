@@ -119,7 +119,7 @@ void QtProjectWizzardContentPreferences::populate(QGridLayout* layout, int& row)
 	row++;
 
 	// multi process indexing
-	m_multiProcessIndexing = addCheckBox("Multi process indexing", "Use processes instead of threads for indexing.",
+	m_multiProcessIndexing = addCheckBox("Multi process C/C++ indexing", "Use processes instead of threads for C/C++ indexing.",
 		"Using processes instead of threads prevents the application from crashing on unforseen exceptions during indexing.",
 		layout, row);
 

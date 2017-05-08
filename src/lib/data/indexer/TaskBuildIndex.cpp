@@ -27,11 +27,13 @@ TaskBuildIndex::TaskBuildIndex(
 	unsigned int processCount,
 	std::shared_ptr<IndexerCommandList> indexerCommandList,
 	std::shared_ptr<StorageProvider> storageProvider,
-	std::shared_ptr<FileRegisterStateData> fileRegisterStateData
+	std::shared_ptr<FileRegisterStateData> fileRegisterStateData,
+	bool multiProcessIndexing
 )
 	: m_indexerCommandList(indexerCommandList)
 	, m_storageProvider(storageProvider)
 	, m_fileRegisterStateData(fileRegisterStateData)
+	, m_multiProcessIndexing(multiProcessIndexing)
 	, m_interprocessIndexerCommandManager(Application::getUUID(), 0, true)
 	, m_interprocessIndexingStatusManager(Application::getUUID(), 0, true)
 	, m_processCount(processCount)
@@ -61,8 +63,6 @@ void TaskBuildIndex::doEnter(std::shared_ptr<Blackboard> blackboard)
 		logFilePath = dynamic_cast<FileLogger*>(logger)->getLogFilePath().str();
 	}
 
-	bool multiProcess = ApplicationSettings::getInstance()->getMultiProcessIndexingEnabled();
-
 	// start indexer processes
 	for (unsigned int i = 0; i < m_processCount; i++)
 	{
@@ -72,7 +72,7 @@ void TaskBuildIndex::doEnter(std::shared_ptr<Blackboard> blackboard)
 			std::make_shared<InterprocessIntermediateStorageManager>(Application::getUUID(), processId, true)
 		);
 
-		if (multiProcess)
+		if (m_multiProcessIndexing)
 		{
 			m_processThreads.push_back(new std::thread(&TaskBuildIndex::runIndexerProcess, this, processId, logFilePath));
 		}

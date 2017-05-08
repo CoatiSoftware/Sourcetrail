@@ -382,17 +382,6 @@ bool Project::requestIndex(bool forceRefresh, bool needsFullRefresh)
 		utility::append(filesToIndex, sourceGroup->getSourceFilePathsToIndex());
 	}
 
-
-	bool hasCXXSourceGroup = false;
-	for (std::shared_ptr<SourceGroup> sourceGroup: m_sourceGroups)
-	{
-		if (sourceGroup->getLanguage() == LANGUAGE_C || sourceGroup->getLanguage() == LANGUAGE_CPP)
-		{
-			hasCXXSourceGroup = true;
-			break;
-		}
-	}
-
 	bool fullRefresh = forceRefresh | needsFullRefresh;
 	bool preprocessorOnly = false;
 
@@ -402,7 +391,7 @@ bool Project::requestIndex(bool forceRefresh, bool needsFullRefresh)
 		options.fullRefreshVisible = !needsFullRefresh;
 		options.fullRefresh = forceRefresh;
 
-		options.preprocessorOnlyVisible = hasCXXSourceGroup;
+		options.preprocessorOnlyVisible = hasCxxSourceGroup();
 		options.preprocessorOnly = false;
 
 		Application::getInstance()->getDialogView()->hideUnknownProgressDialog();
@@ -502,9 +491,11 @@ void Project::buildIndex(const std::set<FilePath>& filesToClean, bool fullRefres
 		// add task for indexing
 		if (indexerThreadCount > 0)
 		{
+			bool multiProcess = ApplicationSettings::getInstance()->getMultiProcessIndexingEnabled() && hasCxxSourceGroup();
+
 			taskParallelIndexing->addChildTasks(
 				std::make_shared<TaskDecoratorRepeat>(TaskDecoratorRepeat::CONDITION_WHILE_SUCCESS, Task::STATE_SUCCESS)->addChildTask(
-					std::make_shared<TaskBuildIndex>(indexerThreadCount, indexerCommandList, storageProvider, fileRegisterStateData)
+					std::make_shared<TaskBuildIndex>(indexerThreadCount, indexerCommandList, storageProvider, fileRegisterStateData, multiProcess)
 				)
 			);
 		}
@@ -557,4 +548,16 @@ void Project::buildIndex(const std::set<FilePath>& filesToClean, bool fullRefres
 	taskSequential->addTask(std::make_shared<TaskFinishParsing>(m_storage.get(), m_storageAccessProxy));
 
 	Task::dispatch(taskSequential);
+}
+
+bool Project::hasCxxSourceGroup() const
+{
+	for (std::shared_ptr<SourceGroup> sourceGroup: m_sourceGroups)
+	{
+		if (sourceGroup->getLanguage() == LANGUAGE_C || sourceGroup->getLanguage() == LANGUAGE_CPP)
+		{
+			return true;
+		}
+	}
+	return false;
 }

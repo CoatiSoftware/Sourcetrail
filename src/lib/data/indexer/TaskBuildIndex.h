@@ -25,7 +25,8 @@ public:
 		unsigned int processCount,
 		std::shared_ptr<IndexerCommandList> indexerCommandList,
 		std::shared_ptr<StorageProvider> storageProvider,
-		std::shared_ptr<FileRegisterStateData> fileRegisterStateData
+		std::shared_ptr<FileRegisterStateData> fileRegisterStateData,
+		bool multiProcessIndexing
 	);
 
 protected:
@@ -47,6 +48,7 @@ protected:
 	std::shared_ptr<IndexerCommandList> m_indexerCommandList;
 	std::shared_ptr<StorageProvider> m_storageProvider;
 	std::shared_ptr<FileRegisterStateData> m_fileRegisterStateData;
+	bool m_multiProcessIndexing;
 
 	InterprocessIndexerCommandManager m_interprocessIndexerCommandManager;
 	InterprocessIndexingStatusManager m_interprocessIndexingStatusManager;
