@@ -712,6 +712,12 @@ if (UNIX)
 	)
 
 	if (UNIX AND NOT APPLE)
+		# Create different sized icons
+		message(STATUS "create icons")
+		execute_process(
+			COMMAND "${CMAKE_SOURCE_DIR}/setup/Linux/createIcons.sh" "${CMAKE_SOURCE_DIR}" "${CMAKE_BINARY_DIR}"
+		)
+
 		# Linux package
 		include(cmake/LinuxPackage.cmake)
 	endif ()

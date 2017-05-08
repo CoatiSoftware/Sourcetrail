@@ -10,8 +10,7 @@ case ${ans:=y} in [yY]*) ;; *) exit ;; esac
 echo "Run this script as root"
 
 cp -rf $MY_PATH/ /opt/sourcetrail/ > /dev/null
-cp $MY_PATH/setup/sourcetrail-mime.xml /usr/share/mime/packages > /dev/null
-cp $MY_PATH/setup/sourcetrail.desktop /usr/share/applications/ > /dev/null
+cp -rf $MY_PATH/setup/share/ /usr > /dev/null
 cp $MY_PATH/data/gui/icon/logo_1024_1024.png /usr/share/icons/sourcetrail.png > /dev/null
 cp $MY_PATH/data/gui/icon/project_256_256.png /usr/share/icons/project-sourcetrail.png > /dev/null
 update-mime-database /usr/share/mime > /dev/null

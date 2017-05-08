@@ -15,6 +15,6 @@ rm /usr/share/applications/sourcetrail.desktop
 rm /usr/share/icons/sourcetrail.png
 rm /usr/share/icons/project-sourcetrail.png
 rm /opt/sourcetrail -rf
-update-mime/database /usr/share/mime
+update-mime-database /usr/share/mime
 update-desktop-database
 

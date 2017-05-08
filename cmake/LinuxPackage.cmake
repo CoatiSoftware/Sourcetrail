@@ -73,7 +73,6 @@ function(AddSharedToComponent componentName)
 	GetAndInstallLibrary(libselinux.so ${componentName})
 	GetAndInstallLibrary(libXrender.so ${componentName})
 	#GetAndInstallLibrary(libstdc++.so ${componentName})
-
 	GetAndInstallLibrary(libX11-xcb.so ${componentName})
 	GetAndInstallLibrary(libXi.so ${componentName})
 	GetAndInstallLibrary(libxcb.so ${componentName})
@@ -97,11 +96,13 @@ function(AddSharedToComponent componentName)
 	GetAndInstallLibrary(libdrm.so ${componentName})
 	GetAndInstallLibrary(libXau.so ${componentName})
 
-	INSTALL(DIRECTORY
-		$ENV{QT_DIR}/plugins/platforms
-		DESTINATION Sourcetrail/lib
-		COMPONENT ${componentName}
-	)
+	if ( $ENV{QT_DIR})
+		INSTALL(DIRECTORY
+			$ENV{QT_DIR}/plugins/platforms
+			DESTINATION Sourcetrail/lib
+			COMPONENT ${componentName}
+		)
+	endif()
 
 	INSTALL(DIRECTORY ${CMAKE_SOURCE_DIR}/bin/app/user
 		DESTINATION Sourcetrail
@@ -125,6 +126,12 @@ INSTALL(DIRECTORY
 	PATTERN "vs" EXCLUDE
 )
 
+INSTALL(DIRECTORY
+	${CMAKE_BINARY_DIR}/share
+	DESTINATION Sourcetrail/setup
+	COMPONENT FULL
+)
+
 INSTALL(FILES
 	${CMAKE_SOURCE_DIR}/setup/Linux/README
 	DESTINATION Sourcetrail
@@ -132,11 +139,16 @@ INSTALL(FILES
 )
 
 INSTALL(FILES
-	${CMAKE_SOURCE_DIR}/setup/Linux/sourcetrail.desktop
 	${CMAKE_SOURCE_DIR}/setup/Linux/sourcetrail-mime.xml
-	DESTINATION Sourcetrail/setup
+	DESTINATION Sourcetrail/setup/share/mime/packages
 	COMPONENT FULL
-	)
+)
+
+INSTALL(FILES
+	${CMAKE_SOURCE_DIR}/setup/Linux/sourcetrail.desktop
+	DESTINATION Sourcetrail/setup/share/applications
+	COMPONENT FULL
+)
 
 INSTALL(PROGRAMS
 	${CMAKE_SOURCE_DIR}/setup/Linux/install.sh
