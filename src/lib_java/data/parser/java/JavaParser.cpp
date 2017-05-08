@@ -24,7 +24,7 @@ std::string JavaParser::prepareJavaEnvironment()
 		const std::string separator = ":";
 #endif
 		JavaEnvironmentFactory::createInstance(
-			ResourcePaths::getJavaPath().str() + "guava-21.0.jar" + separator +
+			ResourcePaths::getJavaPath().str() + "guava-18.0.jar" + separator +
 			ResourcePaths::getJavaPath().str() + "java-indexer.jar" + separator +
 			ResourcePaths::getJavaPath().str() + "javaparser-core.jar" + separator +
 			ResourcePaths::getJavaPath().str() + "javaslang-2.0.3.jar" + separator +
