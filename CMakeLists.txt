@@ -700,6 +700,10 @@ if (UNIX)
 		"${CMAKE_BINARY_DIR}/app/data"
 		COMMAND "${CMAKE_COMMAND}"
 		"-E" "create_symlink"
+		"${CMAKE_SOURCE_DIR}/bin/test/data"
+		"${CMAKE_BINARY_DIR}/test/data"
+		COMMAND "${CMAKE_COMMAND}"
+		"-E" "create_symlink"
 		"${CMAKE_SOURCE_DIR}/bin/app/user"
 		"${CMAKE_BINARY_DIR}/app/user"
 	)
