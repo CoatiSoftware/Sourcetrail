@@ -2,11 +2,13 @@
 
 #include <jni.h>
 
+#include "data/name/NameHierarchy.h"
 #include "data/parser/java/JavaEnvironmentFactory.h"
 #include "data/parser/ParseLocation.h"
 #include "data/parser/ReferenceKind.h"
 #include "data/parser/ParserClient.h"
 #include "settings/ApplicationSettings.h"
+#include "settings/LanguageType.h"
 #include "utility/file/FileSystem.h"
 #include "utility/text/TextAccess.h"
 #include "utility/ResourcePaths.h"
@@ -102,6 +104,8 @@ void JavaParser::buildIndex(
 	const std::string& classPath,
 	std::shared_ptr<TextAccess> textAccess)
 {
+	NameHierarchy::setDelimiter(getSymbolNameDelimiterForLanguage(LANGUAGE_JAVA));
+
 	if (m_javaEnvironment)
 	{
 		m_currentFilePath = sourceFilePath;
