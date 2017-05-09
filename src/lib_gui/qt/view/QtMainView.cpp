@@ -104,6 +104,16 @@ void QtMainView::updateRecentProjectMenu()
 	m_updateRecentProjectMenuFunctor();
 }
 
+void QtMainView::updateHistoryMenu(const std::vector<SearchMatch>& history)
+{
+	m_onQtThread(
+		[=]()
+		{
+			m_window->updateHistoryMenu(history);
+		}
+	);
+}
+
 void QtMainView::handleMessage(MessageForceEnterLicense* message)
 {
 	m_forceLicenseScreenFunctor(message->licenseExpired);

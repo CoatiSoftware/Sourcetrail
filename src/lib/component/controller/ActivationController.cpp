@@ -56,6 +56,7 @@ void ActivationController::handleMessage(MessageActivateFile* message)
 		MessageActivateTokens m(message);
 		m.tokenIds.push_back(fileId);
 		m.tokenNames.push_back(message->filePath.str());
+		m.searchMatches = m_storageAccess->getSearchMatchesForTokenIds({ fileId });
 		m.dispatchImmediately();
 	}
 	else
@@ -87,6 +88,7 @@ void ActivationController::handleMessage(MessageActivateNodes* message)
 		}
 		m.tokenNames.push_back(node.nameHierarchy);
 	}
+	m.searchMatches = m_storageAccess->getSearchMatchesForTokenIds(m.tokenIds);
 	m.dispatchImmediately();
 }
 
@@ -128,7 +130,7 @@ void ActivationController::handleMessage(MessageSearch* message)
 	m.tokenIds = message->getTokenIdsOfMatches();
 	m.searchMatches = matches;
 	m.tokenNames = m_storageAccess->getNameHierarchiesForNodeIds(m.tokenIds);
-	m.isFromSearch = true;
+	m.isFromSearch = message->isFromSearch;
 	m.dispatchImmediately();
 }
 

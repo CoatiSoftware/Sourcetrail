@@ -1,0 +1,19 @@
+QListWidget::item {
+	border-bottom: 1px solid <color:search/popup/background>;
+}
+
+#history_list {
+	background: <color:search/popup/background>;
+}
+
+#history_item, #history_item_current {
+	color: <color:search/popup/text>;
+	font-family: "<setting:font_name>";
+	font-size: <setting:font_size>px;
+	padding-left: 20px;
+	padding-top: 1px;
+}
+
+#history_item_current {
+	font-weight: bold;
+}

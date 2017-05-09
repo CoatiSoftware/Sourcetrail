@@ -24,6 +24,7 @@
 #include "utility/messaging/type/MessageShowErrors.h"
 #include "utility/messaging/type/MessageShowReference.h"
 #include "utility/messaging/type/MessageShowScope.h"
+#include "utility/messaging/type/MessageToUndoRedoPosition.h"
 #include "utility/messaging/type/MessageUndo.h"
 
 #include "component/controller/Controller.h"
@@ -52,6 +53,7 @@ class UndoRedoController
 	, public MessageListener<MessageShowErrors>
 	, public MessageListener<MessageShowReference>
 	, public MessageListener<MessageShowScope>
+	, public MessageListener<MessageToUndoRedoPosition>
 	, public MessageListener<MessageUndo>
 {
 public:
@@ -98,6 +100,7 @@ private:
 	virtual void handleMessage(MessageShowErrors* message);
 	virtual void handleMessage(MessageShowReference* message);
 	virtual void handleMessage(MessageShowScope* message);
+	virtual void handleMessage(MessageToUndoRedoPosition* message);
 	virtual void handleMessage(MessageUndo* message);
 
 	void replayCommands();
@@ -109,12 +112,18 @@ private:
 	bool sameMessageTypeAsLast(MessageBase* message) const;
 	MessageBase* lastMessage() const;
 
+	void updateHistory();
+	SearchMatch getSearchMatchForMessage(MessageBase* message) const;
+
 	void dump() const;
 
 	StorageAccess* m_storageAccess;
 
 	std::list<Command> m_list;
 	std::list<Command>::iterator m_iterator;
+
+	std::deque<SearchMatch> m_history;
+	size_t m_historyOffset;
 };
 
 #endif // UNDO_REDO_CONTROLLER_H

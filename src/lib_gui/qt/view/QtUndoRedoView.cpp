@@ -1,17 +1,13 @@
 #include "qt/view/QtUndoRedoView.h"
 
+#include "utility/ResourcePaths.h"
 #include "qt/utility/utilityQt.h"
 
 #include "qt/view/QtMainView.h"
 #include "qt/view/QtViewWidgetWrapper.h"
 
-#include "utility/ResourcePaths.h"
-
 QtUndoRedoView::QtUndoRedoView(ViewLayout* viewLayout)
 	: UndoRedoView(viewLayout)
-	, m_refreshFunctor(std::bind(&QtUndoRedoView::doRefreshView, this))
-	, m_setRedoButtonEnabledFunctor(std::bind(&QtUndoRedoView::doSetRedoButtonEnabled, this, std::placeholders::_1))
-	, m_setUndoButtonEnabledFunctor(std::bind(&QtUndoRedoView::doSetUndoButtonEnabled, this, std::placeholders::_1))
 {
 	m_widget = new QtUndoRedo();
 	setStyleSheet();
@@ -32,36 +28,47 @@ void QtUndoRedoView::initView()
 
 void QtUndoRedoView::refreshView()
 {
-	m_refreshFunctor();
-}
-
-void QtUndoRedoView::setStyleSheet()
-{
-	m_widget->setStyleSheet(utility::getStyleSheet(ResourcePaths::getGuiPath().concat(FilePath("undoredo_view/undoredo_view.css"))).c_str());
-}
-
-void QtUndoRedoView::doRefreshView()
-{
-	setStyleSheet();
-	m_widget->refreshStyle();
-}
-
-void QtUndoRedoView::doSetRedoButtonEnabled(bool enabled)
-{
-    m_widget->setRedoButtonEnabled(enabled);
-}
-
-void QtUndoRedoView::doSetUndoButtonEnabled(bool enabled)
-{
-    m_widget->setUndoButtonEnabled(enabled);
+	m_onQtThread(
+		[=]()
+		{
+			setStyleSheet();
+			m_widget->refreshStyle();
+		}
+	);
 }
 
 void QtUndoRedoView::setRedoButtonEnabled(bool enabled)
 {
-    m_setRedoButtonEnabledFunctor(enabled);
+	m_onQtThread(
+		[=]()
+		{
+			m_widget->setRedoButtonEnabled(enabled);
+		}
+	);
 }
 
 void QtUndoRedoView::setUndoButtonEnabled(bool enabled)
 {
-    m_setUndoButtonEnabledFunctor(enabled);
+	m_onQtThread(
+		[=]()
+		{
+			m_widget->setUndoButtonEnabled(enabled);
+		}
+	);
+}
+
+void QtUndoRedoView::updateHistory(const std::vector<SearchMatch>& searchMatches, size_t currentIndex)
+{
+	m_onQtThread(
+		[=]()
+		{
+			m_widget->updateHistory(searchMatches, currentIndex);
+		}
+	);
+}
+
+void QtUndoRedoView::setStyleSheet()
+{
+	m_widget->setStyleSheet(utility::getStyleSheet(
+		ResourcePaths::getGuiPath().concat(FilePath("undoredo_view/undoredo_view.css"))).c_str());
 }

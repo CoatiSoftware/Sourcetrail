@@ -95,7 +95,8 @@ bool MouseReleaseFilter::eventFilter(QObject* obj, QEvent* event)
 
 
 QtMainWindow::QtMainWindow()
-	: m_showDockWidgetTitleBars(true)
+	: m_historyMenu(nullptr)
+	, m_showDockWidgetTitleBars(true)
 	, m_windowStack(this)
 {
 	setObjectName("QtMainWindow");
@@ -115,6 +116,7 @@ QtMainWindow::QtMainWindow()
 	setupProjectMenu();
 	setupEditMenu();
 	setupViewMenu();
+	setupHistoryMenu();
 	setupBookmarksMenu();
 	setupHelpMenu();
 
@@ -250,6 +252,12 @@ void QtMainWindow::forceEnterLicense(bool expired)
 		enterLicenseWindow->clear();
 		enterLicenseWindow->setErrorMessage("Please re-enter your license key.");
 	}
+}
+
+void QtMainWindow::updateHistoryMenu(const std::vector<SearchMatch>& history)
+{
+	m_history = history;
+	setupHistoryMenu();
 }
 
 bool QtMainWindow::event(QEvent* event)
@@ -534,7 +542,7 @@ void QtMainWindow::resetWindowLayout()
 
 void QtMainWindow::openRecentProject()
 {
-	QAction *action = qobject_cast<QAction *>(sender());
+	QAction *action = qobject_cast<QAction*>(sender());
 	if (action)
 	{
 		MessageLoadProject(FilePath(action->data().toString().toStdString()), false).dispatch();
@@ -590,6 +598,19 @@ void QtMainWindow::showBookmarkBrowser()
 	MessageDisplayBookmarks().dispatch();
 }
 
+void QtMainWindow::openHistoryAction()
+{
+	QAction* action = qobject_cast<QAction*>(sender());
+	if (action)
+	{
+		SearchMatch& match = m_history[action->data().toInt()];
+
+		MessageSearch msg({ match });
+		msg.isFromSearch = false;
+		msg.dispatch();
+	}
+}
+
 void QtMainWindow::setupProjectMenu()
 {
 	QMenu *menu = new QMenu(tr("&Project"), this);
@@ -626,10 +647,6 @@ void QtMainWindow::setupEditMenu()
 	QMenu *menu = new QMenu(tr("&Edit"), this);
 	menuBar()->addMenu(menu);
 
-	menu->addAction(tr("Back"), this, SLOT(undo()), QKeySequence::Undo);
-	menu->addAction(tr("Forward"), this, SLOT(redo()), QKeySequence::Redo);
-
-	menu->addSeparator();
 	m_trialDisabledActions.push_back(menu->addAction(tr("&Refresh"), this, SLOT(refresh()), QKeySequence::Refresh));
 	if (QSysInfo::windowsVersion() != QSysInfo::WV_None)
 	{
@@ -687,6 +704,41 @@ void QtMainWindow::setupViewMenu()
 	menu->addAction(tr("Reset window layout"), this, SLOT(resetWindowLayout()));
 
 	m_viewMenu = menu;
+}
+
+void QtMainWindow::setupHistoryMenu()
+{
+	if (!m_historyMenu)
+	{
+		m_historyMenu = new QMenu(tr("&History"), this);
+		menuBar()->addMenu(m_historyMenu);
+	}
+	else
+	{
+		m_historyMenu->clear();
+	}
+
+	m_historyMenu->addAction(tr("Back"), this, SLOT(undo()), QKeySequence::Undo);
+	m_historyMenu->addAction(tr("Forward"), this, SLOT(redo()), QKeySequence::Redo);
+
+	m_historyMenu->addSeparator();
+
+	QAction* title = new QAction(tr("Recently Active Symbols"));
+	title->setEnabled(false);
+	m_historyMenu->addAction(title);
+
+	for (size_t i = 0; i < m_history.size(); i++)
+	{
+		SearchMatch& match = m_history[i];
+		std::string name = utility::elide(match.nodeType == Node::NODE_FILE ? match.text : match.name, utility::ELIDE_RIGHT, 50);
+
+		QAction* action = new QAction();
+		action->setText(name.c_str());
+		action->setData(QVariant(int(i)));
+
+		connect(action, SIGNAL(triggered()), this, SLOT(openHistoryAction()));
+		m_historyMenu->addAction(action);
+	}
 }
 
 void QtMainWindow::setupBookmarksMenu()

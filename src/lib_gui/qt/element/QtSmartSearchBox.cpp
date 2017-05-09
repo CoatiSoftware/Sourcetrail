@@ -724,7 +724,6 @@ void QtSmartSearchBox::updateElements()
 
 		if (match.searchType == SearchMatch::SEARCH_TOKEN)
 		{
-			element->setObjectName(QString::fromStdString("search_element_" + match.getNodeTypeAsUnderscoredString()));
 			color = GraphViewStyle::getNodeColor(Node::getUnderscoredTypeString(match.nodeType), false).fill;
 			hoverColor = GraphViewStyle::getNodeColor(Node::getUnderscoredTypeString(match.nodeType), true).fill;
 			textColor = GraphViewStyle::getNodeColor(Node::getUnderscoredTypeString(match.nodeType), false).text;
@@ -734,7 +733,6 @@ void QtSmartSearchBox::updateElements()
 		{
 			std::string typeName = match.getSearchTypeName();
 
-			element->setObjectName(QString::fromStdString("search_element_" + typeName));
 			color = scheme->getSearchTypeColor(typeName, "fill");
 			hoverColor = scheme->getSearchTypeColor(typeName, "fill", "hover");
 			textColor = scheme->getSearchTypeColor(typeName, "text");

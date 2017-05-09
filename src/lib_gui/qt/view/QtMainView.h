@@ -49,6 +49,7 @@ public:
 	virtual void setTitle(const std::string& title);
 	virtual void activateWindow();
 	virtual void updateRecentProjectMenu();
+	virtual void updateHistoryMenu(const std::vector<SearchMatch>& history);
 
 private:
 	void handleMessage(MessageForceEnterLicense* message);

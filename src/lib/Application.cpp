@@ -158,6 +158,11 @@ bool Application::isInTrial() const
 	return m_isInTrial;
 }
 
+void Application::updateHistory(const std::vector<SearchMatch>& history)
+{
+	m_mainView->updateHistoryMenu(history);
+}
+
 void Application::createAndLoadProject(const FilePath& projectSettingsFilePath)
 {
 	MessageStatus("Loading Project: " + projectSettingsFilePath.str(), false, true).dispatch();

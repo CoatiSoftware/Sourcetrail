@@ -48,6 +48,15 @@ namespace utility
 
 	std::string trim(const std::string &str);
 
+	enum ElideMode
+	{
+		ELIDE_LEFT,
+		ELIDE_MIDDLE,
+		ELIDE_RIGHT
+	};
+
+	std::string elide(const std::string& str, ElideMode mode, size_t size);
+
 	template <typename ContainerType>
 	ContainerType split(const std::string& str, const std::string& delimiter)
 	{

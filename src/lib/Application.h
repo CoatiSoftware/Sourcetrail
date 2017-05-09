@@ -53,6 +53,8 @@ public:
 
 	bool isInTrial() const;
 
+	void updateHistory(const std::vector<SearchMatch>& history);
+
 private:
 	static std::shared_ptr<Application> s_instance;
 	static std::string s_uuid;

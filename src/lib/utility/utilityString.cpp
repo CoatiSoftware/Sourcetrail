@@ -243,6 +243,24 @@ namespace utility
 		return (wsback <= wsfront ? std::string() : std::string(wsfront, wsback));
 	}
 
+	std::string elide(const std::string& str, ElideMode mode, size_t size)
+	{
+		if (str.size() <= size || str.size() <= 3)
+		{
+			return str;
+		}
+
+		switch (mode)
+		{
+		case ELIDE_LEFT:
+			return "..." + str.substr(str.size() - size - 3, str.size());
+		case ELIDE_MIDDLE:
+			return str.substr(0, size / 2 - 1) + "..." + str.substr(str.size() - (size / 2 - 2), str.size());
+		case ELIDE_RIGHT:
+			return str.substr(0, size - 3) + "...";
+		}
+	}
+
 	std::string substrBetween(const std::string &str, const std::string &delimiter1, const std::string &delimiter2)
 	{
 		size_t found_delimiter1 = str.find(delimiter1);

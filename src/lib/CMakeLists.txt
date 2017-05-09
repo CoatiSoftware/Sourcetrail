@@ -397,6 +397,7 @@ add_files(
 	utility/messaging/type/MessageStatus.h
 	utility/messaging/type/MessageStatusFilterChanged.h
 	utility/messaging/type/MessageSwitchColorScheme.h
+	utility/messaging/type/MessageToUndoRedoPosition.h
 	utility/messaging/type/MessageUndo.h
 	utility/messaging/type/MessageWindowClosed.h
 	utility/messaging/type/MessageWindowFocus.h

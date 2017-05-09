@@ -170,6 +170,11 @@ bool SearchMatch::operator<(const SearchMatch& other) const
 	return false;
 }
 
+bool SearchMatch::operator==(const SearchMatch& other) const
+{
+	return text == other.text && searchType == other.searchType;
+}
+
 size_t SearchMatch::getTextSizeForSorting(const std::string* str) const
 {
 	// check if templated symbol and only use size up to template stuff

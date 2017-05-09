@@ -5,6 +5,7 @@
 #include "utility/messaging/type/MessageSearch.h"
 #include "utility/utility.h"
 
+#include "Application.h"
 #include "component/view/UndoRedoView.h"
 #include "data/access/StorageAccess.h"
 
@@ -27,6 +28,9 @@ void UndoRedoController::clear()
 {
 	m_list.clear();
 	m_iterator = m_list.begin();
+
+	m_history.clear();
+	m_historyOffset = 0;
 
 	getView()->setUndoButtonEnabled(false);
 	getView()->setRedoButtonEnabled(false);
@@ -199,6 +203,8 @@ void UndoRedoController::handleMessage(MessageRedo* message)
 	}
 
 	replayCommands(oldIterator);
+
+	updateHistory();
 }
 
 void UndoRedoController::handleMessage(MessageRefresh* message)
@@ -288,6 +294,54 @@ void UndoRedoController::handleMessage(MessageShowScope* message)
 	processCommand(command);
 }
 
+void UndoRedoController::handleMessage(MessageToUndoRedoPosition* message)
+{
+	size_t index = 0;
+	const size_t activeIndex = message->index + m_historyOffset;
+
+	for (std::list<Command>::reverse_iterator rit = m_list.rbegin(); rit != m_list.rend(); rit++)
+	{
+		if (rit->order == Command::ORDER_ACTIVATE)
+		{
+			if (index == activeIndex)
+			{
+				std::list<Command>::iterator it = --(rit.base());
+				std::list<Command>::iterator start = it;
+
+				do
+				{
+					std::advance(it, 1);
+				}
+				while (it != m_list.end() && it->order != Command::ORDER_ACTIVATE);
+
+				m_iterator = it;
+
+				if (start != m_iterator)
+				{
+					replayCommands(start);
+				}
+				else
+				{
+					replayCommand(m_iterator);
+					MessageFlushUpdates(false).dispatch();
+				}
+			}
+
+			index++;
+
+			if (index > activeIndex + 1)
+			{
+				break;
+			}
+		}
+	}
+
+	getView()->setUndoButtonEnabled(index > activeIndex + 1);
+	getView()->setRedoButtonEnabled(m_iterator != m_list.end() && m_iterator->order == Command::ORDER_ACTIVATE);
+
+	updateHistory();
+}
+
 void UndoRedoController::handleMessage(MessageUndo* message)
 {
 	if (!m_list.size())
@@ -325,6 +379,8 @@ void UndoRedoController::handleMessage(MessageUndo* message)
 	m_iterator = it;
 
 	replayCommands();
+
+	updateHistory();
 }
 
 void UndoRedoController::replayCommands()
@@ -410,7 +466,7 @@ void UndoRedoController::replayCommand(std::list<Command>::iterator it)
 		if (!msg->isEdge && !msg->isAggregation)
 		{
 			msg->tokenIds = m_storageAccess->getNodeIdsForNameHierarchies(msg->tokenNames);
-			msg->searchMatches.clear();
+			msg->searchMatches = m_storageAccess->getSearchMatchesForTokenIds(msg->tokenIds);
 		}
 	}
 
@@ -468,6 +524,11 @@ void UndoRedoController::processCommand(Command command)
 			getView()->setRedoButtonEnabled(false);
 		}
 	}
+
+	if (command.order == Command::ORDER_ACTIVATE)
+	{
+		updateHistory();
+	}
 }
 
 bool UndoRedoController::sameMessageTypeAsLast(MessageBase* message) const
@@ -483,6 +544,101 @@ bool UndoRedoController::sameMessageTypeAsLast(MessageBase* message) const
 MessageBase* UndoRedoController::lastMessage() const
 {
 	return std::prev(m_iterator)->message.get();
+}
+
+void UndoRedoController::updateHistory()
+{
+	const size_t historySize = 20;
+
+	std::vector<SearchMatch> matches;
+	bool firstActiveMessage = false;
+
+	size_t index = 0;
+	int currentIndex = -1;
+	m_historyOffset = 0;
+
+	for (std::list<Command>::const_reverse_iterator it = m_list.rbegin(); it != m_list.rend(); it++)
+	{
+		if (m_iterator == it.base())
+		{
+			currentIndex = index;
+		}
+
+		if (it->order == Command::ORDER_ACTIVATE)
+		{
+			index++;
+
+			SearchMatch match = getSearchMatchForMessage(it->message.get());
+			if (!firstActiveMessage)
+			{
+				firstActiveMessage = true;
+
+				for (size_t i = 0; i < m_history.size(); i++)
+				{
+					if (m_history[i] == match)
+					{
+						m_history.erase(m_history.begin() + i);
+						break;
+					}
+				}
+				m_history.push_front(match);
+				if (m_history.size() > historySize)
+				{
+					m_history.pop_back();
+				}
+			}
+
+			if (match.text.size())
+			{
+				matches.push_back(match);
+
+				if (matches.size() > historySize)
+				{
+					matches.erase(matches.begin());
+					m_historyOffset++;
+				}
+
+				if (matches.size() == historySize && currentIndex != -1 && currentIndex - m_historyOffset != historySize - 1)
+				{
+					break;
+				}
+			}
+		}
+	}
+
+	getView()->updateHistory(matches, currentIndex - m_historyOffset);
+	Application::getInstance()->updateHistory(std::vector<SearchMatch>(m_history.begin(), m_history.end()));
+}
+
+SearchMatch UndoRedoController::getSearchMatchForMessage(MessageBase* message) const
+{
+	if (message->getType() == MessageActivateAll::getStaticType())
+	{
+		return SearchMatch::createCommand(SearchMatch::COMMAND_ALL);
+	}
+	else if (message->getType() == MessageActivateTokens::getStaticType())
+	{
+		MessageActivateTokens* msg = dynamic_cast<MessageActivateTokens*>(message);
+		if (msg->searchMatches.size())
+		{
+			return msg->searchMatches.front();
+		}
+	}
+	else if (message->getType() == MessageSearchFullText::getStaticType())
+	{
+		MessageSearchFullText* msg = dynamic_cast<MessageSearchFullText*>(message);
+		std::string prefix(msg->caseSensitive ? 2 : 1, SearchMatch::FULLTEXT_SEARCH_CHARACTER);
+
+		SearchMatch match(prefix + msg->searchTerm);
+		match.searchType = SearchMatch::SEARCH_FULLTEXT;
+		return match;
+	}
+	else if (message->getType() == MessageShowErrors::getStaticType())
+	{
+		return SearchMatch::createCommand(SearchMatch::COMMAND_ERROR);
+	}
+
+	return SearchMatch();
 }
 
 void UndoRedoController::dump() const

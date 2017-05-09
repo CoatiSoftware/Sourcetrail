@@ -23,18 +23,14 @@ public:
 	virtual void setRedoButtonEnabled(bool enabled);
 	virtual void setUndoButtonEnabled(bool enabled);
 
+	virtual void updateHistory(const std::vector<SearchMatch>& searchMatches, size_t currentIndex);
+
 private:
-	void doRefreshView();
-
-    void doSetRedoButtonEnabled(bool enabled);
-    void doSetUndoButtonEnabled(bool enabled);
-
-    QtThreadedFunctor<void> m_refreshFunctor;
-    QtThreadedFunctor<bool> m_setRedoButtonEnabledFunctor;
-    QtThreadedFunctor<bool> m_setUndoButtonEnabledFunctor;
-
 	void setStyleSheet();
+
+	QtThreadedLambdaFunctor m_onQtThread;
+
 	QtUndoRedo* m_widget;
 };
 
-#endif // !QT_UNDO_REDO_VIEW_H
+#endif // QT_UNDO_REDO_VIEW_H

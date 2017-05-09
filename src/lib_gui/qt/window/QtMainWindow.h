@@ -7,6 +7,7 @@
 
 #include <QMainWindow>
 
+#include "data/search/SearchMatch.h"
 #include "qt/utility/QtThreadedFunctor.h"
 #include "qt/window/QtWindowStack.h"
 
@@ -69,6 +70,8 @@ public:
 
 	void forceEnterLicense(bool expired);
 
+	void updateHistoryMenu(const std::vector<SearchMatch>& history);
+
 protected:
 	bool event(QEvent* event);
 	void keyPressEvent(QKeyEvent* event);
@@ -126,6 +129,8 @@ private slots:
 	void showBookmarkCreator();
 	void showBookmarkBrowser();
 
+	void openHistoryAction();
+
 private:
 	struct DockWidget
 	{
@@ -138,6 +143,7 @@ private:
     void setupEditMenu();
 	void setupProjectMenu();
 	void setupViewMenu();
+	void setupHistoryMenu();
 	void setupBookmarksMenu();
 	void setupHelpMenu();
 
@@ -153,6 +159,10 @@ private:
 	std::vector<DockWidget> m_dockWidgets;
 	QMenu* m_viewMenu;
 	QAction* m_viewSeparator;
+
+	QMenu* m_historyMenu;
+	std::vector<SearchMatch> m_history;
+
 	QAction** m_recentProjectAction;
 	QAction* m_showTitleBarsAction;
 

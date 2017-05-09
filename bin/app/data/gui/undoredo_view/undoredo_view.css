@@ -5,7 +5,6 @@
 QPushButton {
 	background: <color:search/button/normal>;
 	border: none;
-	background-position: 15px 5px;
 	height: 30px;
 	width: 30px;
 }
@@ -13,12 +12,17 @@ QPushButton {
 #undo_button {
 	border-bottom-left-radius: 12px;
 	border-top-left-radius: 12px;
-	margin-right: 2px;
 }
 
 #redo_button {
 	border-bottom-right-radius: 12px;
 	border-top-right-radius: 12px;
+}
+
+#history_button {
+	width: 14px;
+	margin-left: 2px;
+	margin-right: 2px;
 }
 
 QPushButton:disabled {

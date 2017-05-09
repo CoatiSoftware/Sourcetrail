@@ -11,7 +11,8 @@ class MessageSearch
 {
 public:
 	MessageSearch(const std::vector<SearchMatch>& matches)
-		: m_matches(matches)
+		: isFromSearch(true)
+		, m_matches(matches)
 	{
 	}
 
@@ -69,6 +70,8 @@ public:
 	{
 		os << getMatchesAsString();
 	}
+
+	bool isFromSearch;
 
 private:
 	const std::vector<SearchMatch> m_matches;
