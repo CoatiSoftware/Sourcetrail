@@ -4,8 +4,9 @@
 
 #include "utility/logging/logging.h"
 #include "utility/TimePoint.h"
+#include "utility/utilityApp.h"
 
-std::string SharedMemoryGarbageCollector::s_memoryName = "garbage_collector";
+std::string SharedMemoryGarbageCollector::s_memoryNamePrefix = "grbg_cllctr_";
 std::string SharedMemoryGarbageCollector::s_instancesKeyName = "running_instances";
 std::string SharedMemoryGarbageCollector::s_timeStampsKeyName = "memory_to_timestamps";
 
@@ -30,7 +31,7 @@ SharedMemoryGarbageCollector* SharedMemoryGarbageCollector::getInstance()
 }
 
 SharedMemoryGarbageCollector::SharedMemoryGarbageCollector()
-	: m_memory(s_memoryName, 65536 /* 64 kB */, SharedMemory::OPEN_OR_CREATE)
+	: m_memory(getMemoryName(), 65536 /* 64 kB */, SharedMemory::OPEN_OR_CREATE)
 	, m_loopIsRunning(false)
 {
 }
@@ -114,8 +115,8 @@ void SharedMemoryGarbageCollector::stop()
 
 	if (!otherRunningInstances)
 	{
-		LOG_INFO_STREAM(<< "delete garbage collector memory: " << s_memoryName);
-		SharedMemory::deleteSharedMemory(s_memoryName);
+		LOG_INFO_STREAM(<< "delete garbage collector memory: " << getMemoryName());
+		SharedMemory::deleteSharedMemory(getMemoryName());
 	}
 }
 
@@ -142,6 +143,11 @@ void SharedMemoryGarbageCollector::unregisterSharedMemory(const std::string& sha
 	}
 
 	update();
+}
+
+std::string SharedMemoryGarbageCollector::getMemoryName()
+{
+	return s_memoryNamePrefix + (utility::getApplicationArchitectureType() == APPLICATION_ARCHITECTURE_X86_32 ? "32" : "64");
 }
 
 void SharedMemoryGarbageCollector::update()
