@@ -94,7 +94,12 @@ Task::TaskState TaskBuildIndex::doUpdate(std::shared_ptr<Blackboard> blackboard)
 	size_t commandCount = m_interprocessIndexerCommandManager.indexerCommandCount();
 	if (commandCount != m_lastCommandCount)
 	{
-		updateIndexingDialog(blackboard, m_interprocessIndexingStatusManager.getCurrentlyIndexedSourceFilePath());
+		std::vector<FilePath> indexingFiles = m_interprocessIndexingStatusManager.getCurrentlyIndexedSourceFilePaths();
+		for (const FilePath& path : indexingFiles)
+		{
+			updateIndexingDialog(blackboard, path);
+		}
+
 		m_lastCommandCount = commandCount;
 	}
 
@@ -114,7 +119,7 @@ Task::TaskState TaskBuildIndex::doUpdate(std::shared_ptr<Blackboard> blackboard)
 
 	fetchIntermediateStorages(blackboard);
 
-	const int SLEEP_TIME_MS = 100;
+	const int SLEEP_TIME_MS = 50;
 	std::this_thread::sleep_for(std::chrono::milliseconds(SLEEP_TIME_MS));
 
 	return STATE_RUNNING;
@@ -129,7 +134,7 @@ void TaskBuildIndex::doExit(std::shared_ptr<Blackboard> blackboard)
 	}
 	m_processThreads.clear();
 
-	fetchIntermediateStorages(blackboard);
+	while (fetchIntermediateStorages(blackboard));
 
 	std::vector<FilePath> crashedFiles = m_interprocessIndexingStatusManager.getCrashedSourceFilePaths();
 	if (crashedFiles.size())
@@ -220,30 +225,35 @@ void TaskBuildIndex::runIndexerThread(int processId)
 	}
 }
 
-void TaskBuildIndex::fetchIntermediateStorages(std::shared_ptr<Blackboard> blackboard)
+bool TaskBuildIndex::fetchIntermediateStorages(std::shared_ptr<Blackboard> blackboard)
 {
-	int newlyIndexedCount = 0;
-
-	for (std::shared_ptr<InterprocessIntermediateStorageManager> storageManager: m_interprocessIntermediateStorageManagers)
+	Id finishedProcessId = m_interprocessIndexingStatusManager.getNextFinishedProcessId();
+	if (!finishedProcessId || finishedProcessId > m_interprocessIntermediateStorageManagers.size())
 	{
-		while (int storageCount = storageManager->getIntermediateStorageCount())
-		{
-			LOG_INFO_STREAM(<< storageManager->getProcessId() << " - storage count: " << storageCount);
-			m_storageProvider->insert(storageManager->popIntermediateStorage());
-			++newlyIndexedCount;
-
-			updateIndexingDialog(blackboard, m_interprocessIndexingStatusManager.getCurrentlyIndexedSourceFilePath());
-		}
+		return false;
 	}
 
-	if (newlyIndexedCount > 0)
+	std::shared_ptr<InterprocessIntermediateStorageManager> storageManager =
+		m_interprocessIntermediateStorageManagers[finishedProcessId - 1];
+
+	int storageCount = storageManager->getIntermediateStorageCount();
+	if (!storageCount)
+	{
+		return false;
+	}
+
+	LOG_INFO_STREAM(<< storageManager->getProcessId() << " - storage count: " << storageCount);
+	m_storageProvider->insert(storageManager->popIntermediateStorage());
+
 	{
 		std::lock_guard<std::mutex> lock(blackboard->getMutex());
 
 		int indexedSourceFileCount = 0;
 		blackboard->get("indexed_source_file_count", indexedSourceFileCount);
-		blackboard->set("indexed_source_file_count", indexedSourceFileCount + newlyIndexedCount);
+		blackboard->set("indexed_source_file_count", indexedSourceFileCount + 1);
 	}
+
+	return true;
 }
 
 void TaskBuildIndex::updateIndexingDialog(std::shared_ptr<Blackboard> blackboard, const FilePath& sourcePath)

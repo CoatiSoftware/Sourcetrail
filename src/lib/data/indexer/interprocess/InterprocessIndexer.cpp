@@ -33,7 +33,7 @@ void InterprocessIndexer::work()
 			LOG_INFO_STREAM(<< m_processId << " Indexing " << indexerCommand->getSourceFilePath().str());
 			LOG_INFO_STREAM(<< m_processId << " Commands left: " << (m_interprocessIndexerCommandManager.indexerCommandCount() + 1));
 
-			m_interprocessIndexingStatusManager.setCurrentlyIndexedSourceFilePath(indexerCommand->getSourceFilePath());
+			m_interprocessIndexingStatusManager.startIndexingSourceFile(indexerCommand->getSourceFilePath());
 
 			FileRegisterStateData data;
 			data.setIndexedFiles(m_interprocessIndexingStatusManager.getIndexedFiles());
@@ -48,7 +48,7 @@ void InterprocessIndexer::work()
 
 			m_interprocessIntermediateStorageManager.pushIntermediateStorage(result);
 
-			m_interprocessIndexingStatusManager.clearCurrentlyIndexedSourceFilePath();
+			m_interprocessIndexingStatusManager.finishIndexingSourceFile();
 		}
 	}
 	catch (boost::interprocess::interprocess_exception& e)

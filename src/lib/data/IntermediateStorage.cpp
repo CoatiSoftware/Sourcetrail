@@ -17,9 +17,11 @@ IntermediateStorage::~IntermediateStorage()
 void IntermediateStorage::clear()
 {
 	m_nodes.clear();
+	m_nodesInOrder.clear();
 	m_files.clear();
 	m_symbols.clear();
 	m_edges.clear();
+	m_edgesInOrder.clear();
 	m_localSymbols.clear();
 	m_sourceLocations.clear();
 	m_occurrences.clear();
@@ -118,6 +120,7 @@ Id IntermediateStorage::addNode(int type, const std::string& serializedName)
 	const Id id = m_nextId++;
 	node.id = id;
 	m_nodes[serialized] = node;
+	m_nodesInOrder.push_back(node);
 	return id;
 }
 
@@ -153,6 +156,7 @@ Id IntermediateStorage::addEdge(int type, Id sourceId, Id targetId)
 	const Id id = m_nextId++;
 	edge.id = id;
 	m_edges[serialized] = edge;
+	m_edgesInOrder.push_back(edge);
 	return id;
 }
 
@@ -265,9 +269,9 @@ void IntermediateStorage::addError(
 
 void IntermediateStorage::forEachNode(std::function<void(const StorageNode& /*data*/)> callback) const
 {
-	for (std::unordered_map<std::string, StorageNode>::const_iterator it = m_nodes.begin(); it != m_nodes.end(); it++)
+	for (const StorageNode& node : m_nodesInOrder)
 	{
-		callback(it->second);
+		callback(node);
 	}
 }
 
@@ -289,9 +293,9 @@ void IntermediateStorage::forEachSymbol(std::function<void(const StorageSymbol& 
 
 void IntermediateStorage::forEachEdge(std::function<void(const StorageEdge& /*data*/)> callback) const
 {
-	for (std::unordered_map<std::string, StorageEdge>::const_iterator it = m_edges.begin(); it != m_edges.end(); it++)
+	for (const StorageEdge& edge : m_edgesInOrder)
 	{
-		callback(it->second);
+		callback(edge);
 	}
 }
 
@@ -347,13 +351,7 @@ void IntermediateStorage::forEachError(std::function<void(const StorageError& /*
 
 std::vector<StorageNode> IntermediateStorage::getStorageNodes() const
 {
-	std::vector<StorageNode> nodes;
-	nodes.reserve(m_nodes.size());
-	for (auto it: m_nodes)
-	{
-		nodes.push_back(it.second);
-	}
-	return nodes;
+	return m_nodesInOrder;
 }
 
 std::vector<StorageFile> IntermediateStorage::getStorageFiles() const
@@ -368,13 +366,7 @@ std::vector<StorageSymbol> IntermediateStorage::getStorageSymbols() const
 
 std::vector<StorageEdge> IntermediateStorage::getStorageEdges() const
 {
-	std::vector<StorageEdge> edges;
-	edges.reserve(m_edges.size());
-	for (auto it: m_edges)
-	{
-		edges.push_back(it.second);
-	}
-	return edges;
+	return m_edgesInOrder;
 }
 
 std::vector<StorageLocalSymbol> IntermediateStorage::getStorageLocalSymbols() const
@@ -422,9 +414,11 @@ std::vector<StorageError> IntermediateStorage::getErrors() const
 void IntermediateStorage::setStorageNodes(const std::vector<StorageNode>& storageNodes)
 {
 	m_nodes.clear();
+	m_nodesInOrder.clear();
 	for (const StorageNode& storageNode: storageNodes)
 	{
 		m_nodes[serialize(storageNode)] = storageNode;
+		m_nodesInOrder.push_back(storageNode);
 	}
 }
 
@@ -441,9 +435,11 @@ void IntermediateStorage::setStorageSymbols(const std::vector<StorageSymbol>& st
 void IntermediateStorage::setStorageEdges(const std::vector<StorageEdge>& storageEdges)
 {
 	m_edges.clear();
+	m_edgesInOrder.clear();
 	for (const StorageEdge& storageEdge: storageEdges)
 	{
 		m_edges[serialize(storageEdge)] = storageEdge;
+		m_edgesInOrder.push_back(storageEdge);
 	}
 }
 

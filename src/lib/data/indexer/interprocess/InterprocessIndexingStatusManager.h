@@ -13,10 +13,12 @@ public:
 	InterprocessIndexingStatusManager(const std::string& instanceUuid, Id processId, bool isOwner);
 	virtual ~InterprocessIndexingStatusManager();
 
-	void setCurrentlyIndexedSourceFilePath(const FilePath& filePath);
-	void clearCurrentlyIndexedSourceFilePath();
-	FilePath getCurrentlyIndexedSourceFilePath();
+	void startIndexingSourceFile(const FilePath& filePath);
+	void finishIndexingSourceFile();
 
+	Id getNextFinishedProcessId();
+
+	std::vector<FilePath> getCurrentlyIndexedSourceFilePaths();
 	std::vector<FilePath> getCrashedSourceFilePaths();
 
 	std::set<FilePath> getIndexedFiles();
@@ -25,10 +27,11 @@ public:
 private:
 	static const char* s_sharedMemoryNamePrefix;
 
-	static const char* s_lastFileKeyName;
+	static const char* s_indexingFilesKeyName;
 	static const char* s_currentFilesKeyName;
 	static const char* s_crashedFilesKeyName;
 	static const char* s_indexedFilesKeyName;
+	static const char* s_finishedProcessIdsKeyName;
 };
 
 #endif // INTERPROCESS_INDEXING_STATUS_MANAGER_H

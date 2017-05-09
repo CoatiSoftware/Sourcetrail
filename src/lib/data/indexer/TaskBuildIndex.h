@@ -40,7 +40,7 @@ protected:
 
 	void runIndexerProcess( int processId, const std::string& logFilePath);
 	void runIndexerThread(int processId);
-	void fetchIntermediateStorages(std::shared_ptr<Blackboard> blackboard);
+	bool fetchIntermediateStorages(std::shared_ptr<Blackboard> blackboard);
 	void updateIndexingDialog(std::shared_ptr<Blackboard> blackboard, const FilePath& sourcePath);
 
 	static const std::string s_processName;

@@ -4,10 +4,11 @@
 
 const char* InterprocessIndexingStatusManager::s_sharedMemoryNamePrefix = "ists_";
 
-const char* InterprocessIndexingStatusManager::s_lastFileKeyName = "last_file";
+const char* InterprocessIndexingStatusManager::s_indexingFilesKeyName = "indexing_files";
 const char* InterprocessIndexingStatusManager::s_currentFilesKeyName = "current_files";
 const char* InterprocessIndexingStatusManager::s_crashedFilesKeyName = "crashed_files";
 const char* InterprocessIndexingStatusManager::s_indexedFilesKeyName = "indexed_files";
+const char* InterprocessIndexingStatusManager::s_finishedProcessIdsKeyName = "finished_process_ids";
 
 InterprocessIndexingStatusManager::InterprocessIndexingStatusManager(const std::string& instanceUuid, Id processId, bool isOwner)
 	: BaseInterprocessDataManager(s_sharedMemoryNamePrefix + instanceUuid, 1048576 /* 1 MB */, instanceUuid, processId, isOwner)
@@ -18,14 +19,17 @@ InterprocessIndexingStatusManager::~InterprocessIndexingStatusManager()
 {
 }
 
-void InterprocessIndexingStatusManager::setCurrentlyIndexedSourceFilePath(const FilePath& filePath)
+void InterprocessIndexingStatusManager::startIndexingSourceFile(const FilePath& filePath)
 {
 	SharedMemory::ScopedAccess access(&m_sharedMemory);
 
-	SharedMemory::String* strPtr = access.accessValueWithAllocator<SharedMemory::String>(s_lastFileKeyName);
-	if (strPtr)
+	SharedMemory::Queue<SharedMemory::String>* indexingFilesPtr =
+		access.accessValueWithAllocator<SharedMemory::Queue<SharedMemory::String>>(s_indexingFilesKeyName);
+	if (indexingFilesPtr)
 	{
-		*strPtr = filePath.str().c_str();
+		SharedMemory::String fileStr(access.getAllocator());
+		fileStr = filePath.str().c_str();
+		indexingFilesPtr->push_back(fileStr);
 	}
 
 	SharedMemory::Map<Id, SharedMemory::String>* currentFilesPtr =
@@ -52,7 +56,7 @@ void InterprocessIndexingStatusManager::setCurrentlyIndexedSourceFilePath(const 
 	}
 }
 
-void InterprocessIndexingStatusManager::clearCurrentlyIndexedSourceFilePath()
+void InterprocessIndexingStatusManager::finishIndexingSourceFile()
 {
 	SharedMemory::ScopedAccess access(&m_sharedMemory);
 
@@ -62,19 +66,49 @@ void InterprocessIndexingStatusManager::clearCurrentlyIndexedSourceFilePath()
 	{
 		currentFilesPtr->erase(currentFilesPtr->find(getProcessId()), currentFilesPtr->end());
 	}
+
+	SharedMemory::Queue<Id>* finishedProcessIdsPtr =
+		access.accessValueWithAllocator<SharedMemory::Queue<Id>>(s_finishedProcessIdsKeyName);
+	if (finishedProcessIdsPtr)
+	{
+		finishedProcessIdsPtr->push_back(m_processId);
+	}
 }
 
-FilePath InterprocessIndexingStatusManager::getCurrentlyIndexedSourceFilePath()
+Id InterprocessIndexingStatusManager::getNextFinishedProcessId()
 {
 	SharedMemory::ScopedAccess access(&m_sharedMemory);
 
-	SharedMemory::String* strPtr = access.accessValueWithAllocator<SharedMemory::String>(s_lastFileKeyName);
-	if (strPtr)
+	SharedMemory::Queue<Id>* finishedProcessIdsPtr =
+		access.accessValueWithAllocator<SharedMemory::Queue<Id>>(s_finishedProcessIdsKeyName);
+	if (finishedProcessIdsPtr && finishedProcessIdsPtr->size())
 	{
-		return FilePath(strPtr->c_str());
+		Id processId = finishedProcessIdsPtr->front();
+		finishedProcessIdsPtr->pop_front();
+		return processId;
 	}
 
-	return FilePath();
+	return 0;
+}
+
+std::vector<FilePath> InterprocessIndexingStatusManager::getCurrentlyIndexedSourceFilePaths()
+{
+	SharedMemory::ScopedAccess access(&m_sharedMemory);
+
+	std::vector<FilePath> indexingFiles;
+
+	SharedMemory::Queue<SharedMemory::String>* indexingFilesPtr =
+		access.accessValueWithAllocator<SharedMemory::Queue<SharedMemory::String>>(s_indexingFilesKeyName);
+	if (indexingFilesPtr)
+	{
+		while (indexingFilesPtr->size())
+		{
+			indexingFiles.push_back(FilePath(indexingFilesPtr->front().c_str()));
+			indexingFilesPtr->pop_front();
+		}
+	}
+
+	return indexingFiles;
 }
 
 std::vector<FilePath> InterprocessIndexingStatusManager::getCrashedSourceFilePaths()
