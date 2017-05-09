@@ -1,6 +1,7 @@
 #include "SqliteStorage.h"
 
 #include "utility/logging/logging.h"
+#include "utility/TimePoint.h"
 
 SqliteStorage::SqliteStorage(const FilePath& dbFilePath)
 	: m_dbFilePath(dbFilePath.canonical())
@@ -117,6 +118,16 @@ void SqliteStorage::setVersion()
 {
 	setStorageVersion();
 	setApplicationVersion();
+}
+
+void SqliteStorage::setTime()
+{
+	insertOrUpdateMetaValue("timestamp", TimePoint::now().toString());
+}
+
+TimePoint SqliteStorage::getTime() const
+{
+	return TimePoint(getMetaValue("timestamp"));
 }
 
 void SqliteStorage::setupMetaTable()

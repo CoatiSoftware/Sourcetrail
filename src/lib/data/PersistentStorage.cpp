@@ -559,6 +559,7 @@ void PersistentStorage::optimizeMemory()
 	TRACE();
 
 	m_sqliteIndexStorage.setVersion();
+	m_sqliteIndexStorage.setTime();
 	m_sqliteIndexStorage.optimizeMemory();
 
 	m_sqliteBookmarkStorage.setVersion();
@@ -1410,6 +1411,8 @@ StorageStats PersistentStorage::getStorageStats() const
 	stats.fileCount = m_sqliteIndexStorage.getFileCount();
 	stats.completedFileCount = m_sqliteIndexStorage.getCompletedFileCount();
 	stats.fileLOCCount = m_sqliteIndexStorage.getFileLineSum();
+
+	stats.timestamp = m_sqliteIndexStorage.getTime();
 
 	return stats;
 }

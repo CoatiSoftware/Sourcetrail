@@ -1,6 +1,8 @@
 #ifndef STORAGE_STATS_H
 #define STORAGE_STATS_H
 
+#include "utility/TimePoint.h"
+
 struct StorageStats
 {
 	StorageStats()
@@ -17,6 +19,8 @@ struct StorageStats
 	size_t fileCount;
 	size_t completedFileCount;
 	size_t fileLOCCount;
+
+	TimePoint timestamp;
 };
 
 #endif // STORAGE_STATS_H

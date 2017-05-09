@@ -7,6 +7,8 @@
 #include "utility/file/FilePath.h"
 #include "utility/Version.h"
 
+class TimePoint;
+
 class SqliteStorage
 {
 public:
@@ -38,6 +40,8 @@ public:
 	bool isIncompatible() const;
 
 	void setVersion();
+	void setTime();
+	TimePoint getTime() const;
 
 protected:
 	void setupMetaTable();

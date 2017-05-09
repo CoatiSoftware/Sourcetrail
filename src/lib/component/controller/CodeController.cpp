@@ -69,6 +69,12 @@ void CodeController::handleMessage(MessageActivateAll* message)
 	ErrorCountInfo errorCount = m_storageAccess->getErrorCount();
 
 	ss << "\n";
+	if (stats.timestamp.isValid())
+	{
+		ss << "\tlast indexed: " + stats.timestamp.toString() + "\n";
+		ss << "\n";
+	}
+
 	ss << "\t" + std::to_string(stats.fileCount) + " files";
 	ss << (stats.completedFileCount != stats.fileCount ? " (" + std::to_string(stats.completedFileCount) + " complete)" : "") + "\n";
 	ss << "\t" + std::to_string(stats.fileLOCCount) + " lines of code\n";
