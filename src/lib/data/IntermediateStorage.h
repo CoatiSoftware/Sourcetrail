@@ -84,16 +84,16 @@ private:
 	std::string serialize(const StorageCommentLocation& commentLocation) const;
 	std::string serialize(const StorageError& error) const;
 
-	std::unordered_map<std::string, StorageNode> m_nodes;
-	std::vector<StorageNode> m_nodesInOrder;
+	std::unordered_map<std::string, size_t> m_nodesIndex;
+	std::vector<StorageNode> m_nodes;
 
 	std::unordered_set<std::string> m_serializedFiles; // this is used to prevent duplicates (unique)
 	std::vector<StorageFile> m_files;
 
 	std::vector<StorageSymbol> m_symbols;
 
-	std::unordered_map<std::string, StorageEdge> m_edges;
-	std::vector<StorageEdge> m_edgesInOrder;
+	std::unordered_map<std::string, size_t> m_edgesIndex;
+	std::vector<StorageEdge> m_edges;
 
 	std::unordered_map<std::string, StorageLocalSymbol> m_localSymbols;
 

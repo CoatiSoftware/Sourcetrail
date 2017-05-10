@@ -17,11 +17,11 @@ IntermediateStorage::~IntermediateStorage()
 void IntermediateStorage::clear()
 {
 	m_nodes.clear();
-	m_nodesInOrder.clear();
+	m_nodesIndex.clear();
 	m_files.clear();
 	m_symbols.clear();
 	m_edges.clear();
-	m_edgesInOrder.clear();
+	m_edgesIndex.clear();
 	m_localSymbols.clear();
 	m_sourceLocations.clear();
 	m_occurrences.clear();
@@ -106,10 +106,10 @@ Id IntermediateStorage::addNode(int type, const std::string& serializedName)
 	StorageNode node(0, type, serializedName);
 
 	const std::string serialized = serialize(node);
-	std::unordered_map<std::string, StorageNode>::iterator it = m_nodes.find(serialized);
-	if (it != m_nodes.end())
+	std::unordered_map<std::string, size_t>::iterator it = m_nodesIndex.find(serialized);
+	if (it != m_nodesIndex.end())
 	{
-		StorageNode& storedNode = it->second;
+		StorageNode& storedNode = m_nodes[it->second];
 		if (storedNode.type < type)
 		{
 			storedNode.type = type;
@@ -119,8 +119,8 @@ Id IntermediateStorage::addNode(int type, const std::string& serializedName)
 
 	const Id id = m_nextId++;
 	node.id = id;
-	m_nodes[serialized] = node;
-	m_nodesInOrder.push_back(node);
+	m_nodes.push_back(node);
+	m_nodesIndex.emplace(serialized, m_nodes.size() - 1);
 	return id;
 }
 
@@ -147,16 +147,16 @@ Id IntermediateStorage::addEdge(int type, Id sourceId, Id targetId)
 	StorageEdge edge = StorageEdge(0, type, sourceId, targetId);
 
 	const std::string serialized = serialize(edge);
-	std::unordered_map<std::string, StorageEdge>::const_iterator it = m_edges.find(serialized);
-	if (it != m_edges.end())
+	std::unordered_map<std::string, size_t>::const_iterator it = m_edgesIndex.find(serialized);
+	if (it != m_edgesIndex.end())
 	{
-		return it->second.id;
+		return m_edges[it->second].id;
 	}
 
 	const Id id = m_nextId++;
 	edge.id = id;
-	m_edges[serialized] = edge;
-	m_edgesInOrder.push_back(edge);
+	m_edges.push_back(edge);
+	m_edgesIndex.emplace(serialized, m_edges.size() - 1);
 	return id;
 }
 
@@ -269,7 +269,7 @@ void IntermediateStorage::addError(
 
 void IntermediateStorage::forEachNode(std::function<void(const StorageNode& /*data*/)> callback) const
 {
-	for (const StorageNode& node : m_nodesInOrder)
+	for (const StorageNode& node : m_nodes)
 	{
 		callback(node);
 	}
@@ -293,7 +293,7 @@ void IntermediateStorage::forEachSymbol(std::function<void(const StorageSymbol& 
 
 void IntermediateStorage::forEachEdge(std::function<void(const StorageEdge& /*data*/)> callback) const
 {
-	for (const StorageEdge& edge : m_edgesInOrder)
+	for (const StorageEdge& edge : m_edges)
 	{
 		callback(edge);
 	}
@@ -351,7 +351,7 @@ void IntermediateStorage::forEachError(std::function<void(const StorageError& /*
 
 std::vector<StorageNode> IntermediateStorage::getStorageNodes() const
 {
-	return m_nodesInOrder;
+	return m_nodes;
 }
 
 std::vector<StorageFile> IntermediateStorage::getStorageFiles() const
@@ -366,7 +366,7 @@ std::vector<StorageSymbol> IntermediateStorage::getStorageSymbols() const
 
 std::vector<StorageEdge> IntermediateStorage::getStorageEdges() const
 {
-	return m_edgesInOrder;
+	return m_edges;
 }
 
 std::vector<StorageLocalSymbol> IntermediateStorage::getStorageLocalSymbols() const
@@ -414,11 +414,11 @@ std::vector<StorageError> IntermediateStorage::getErrors() const
 void IntermediateStorage::setStorageNodes(const std::vector<StorageNode>& storageNodes)
 {
 	m_nodes.clear();
-	m_nodesInOrder.clear();
+	m_nodesIndex.clear();
 	for (const StorageNode& storageNode: storageNodes)
 	{
-		m_nodes[serialize(storageNode)] = storageNode;
-		m_nodesInOrder.push_back(storageNode);
+		m_nodes.push_back(storageNode);
+		m_nodesIndex.emplace(serialize(storageNode), m_nodes.size() - 1);
 	}
 }
 
@@ -435,11 +435,11 @@ void IntermediateStorage::setStorageSymbols(const std::vector<StorageSymbol>& st
 void IntermediateStorage::setStorageEdges(const std::vector<StorageEdge>& storageEdges)
 {
 	m_edges.clear();
-	m_edgesInOrder.clear();
+	m_edgesIndex.clear();
 	for (const StorageEdge& storageEdge: storageEdges)
 	{
-		m_edges[serialize(storageEdge)] = storageEdge;
-		m_edgesInOrder.push_back(storageEdge);
+		m_edges.push_back(storageEdge);
+		m_edgesIndex.emplace(serialize(storageEdge), m_edges.size() - 1);
 	}
 }
 
