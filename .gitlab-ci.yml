@@ -1,9 +1,4 @@
-Linux64:
-    image: st4ll1/coati_linux_64
-    stage: deploy
-    only:
-        - master
-        - triggers
+.script_template: &script_definition
     script:
         - ./script/setup.sh
         - ./script/buildonly.sh all
@@ -11,6 +6,14 @@ Linux64:
         - ./build/Release/app/Sourcetrail --licenseFile ./setup/license.txt
         - cd ./bin/test
         - ../../build/Release/test/Sourcetrail_test
+
+Linux64:
+    image: st4ll1/coati_linux_64
+    stage: deploy
+    only:
+        - master
+        - triggers
+    <<: *script_definition
     artifacts:
         name: "$CI_JOB_NAME"
         paths:
@@ -22,17 +25,32 @@ Linux64_tag:
     stage: deploy
     only:
         - tags
+    <<: *script_definition
+    artifacts:
+        paths:
+            - distr/Sourcetrail*.tar.gz
+
+Linux64_manual:
+    image: st4ll1/coati_linux_64
+    stage: deploy
+    when: manual
+    <<: *script_definition
+    artifacts:
+        paths:
+            - distr/Sourcetrail*.tar.gz
+
+Linux64_licenseGenerator:
+    image: st4ll1/coati_linux_64
+    stage: deploy
+    when: manual
     script:
         - ./script/setup.sh
-        - ./script/buildonly.sh all
-        - ./script/buildonly.sh package
-        - ./build/Release/app/Sourcetrail --licenseFile ./setup/license.txt
-        - cd ./bin/test
-        - ../../build/Release/test/Sourcetrail_test
+        - ./script/buildonly.sh r keygen
     artifacts:
         name: "$CI_JOB_NAME"
         paths:
-            - Sourcetrail*.tar.gz
+            - build/Release/license_generator/*_license_generator
+        expire_in: 3 days
 
 Linux32:
     image: st4ll1/coati_linux_32
@@ -40,13 +58,7 @@ Linux32:
     only:
         - master
         - triggers
-    script:
-        - ./script/setup.sh
-        - ./script/buildonly.sh all
-        - ./script/buildonly.sh package
-        - ./build/Release/app/Sourcetrail --licenseFile ./setup/license.txt
-        - cd ./bin/test
-        - ../../build/Release/test/Sourcetrail_test
+    <<: *script_definition
     artifacts:
         name: "$CI_JOB_NAME"
         paths:
@@ -58,13 +70,16 @@ Linux32_tag:
     stage: deploy
     only:
         - tags
-    script:
-        - ./script/setup.sh
-        - ./script/buildonly.sh all
-        - ./script/buildonly.sh package
-        - ./build/Release/app/Sourcetrail --licenseFile ./setup/license.txt
-        - cd ./bin/test
-        - ../../build/Release/test/Sourcetrail_test
+    <<: *script_definition
+    artifacts:
+        paths:
+            - distr/Sourcetrail*.tar.gz
+
+Linux32_manual:
+    image: st4ll1/coati_linux_32
+    stage: deploy
+    when: manual
+    <<: *script_definition
     artifacts:
         name: "$CI_JOB_NAME"
         paths:
