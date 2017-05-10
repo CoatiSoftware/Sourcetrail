@@ -33,6 +33,8 @@ Linux64_tag:
 Linux64_manual:
     image: st4ll1/coati_linux_64
     stage: deploy
+    except:
+        - master
     when: manual
     <<: *script_definition
     artifacts:
@@ -78,6 +80,8 @@ Linux32_tag:
 Linux32_manual:
     image: st4ll1/coati_linux_32
     stage: deploy
+    except:
+        - master
     when: manual
     <<: *script_definition
     artifacts:
