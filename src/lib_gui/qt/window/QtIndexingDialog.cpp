@@ -262,7 +262,11 @@ void QtIndexingDialog::updateIndexingProgress(size_t fileCount, size_t totalFile
 		progress = fileCount * 100 / totalFileCount;
 	}
 
-	m_sourcePath = QString::fromStdString(sourcePath);
+	if (sourcePath.size())
+	{
+		m_sourcePath = QString::fromStdString(sourcePath);
+	}
+
 	updateProgress(progress);
 }
 

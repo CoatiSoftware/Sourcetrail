@@ -117,7 +117,10 @@ Task::TaskState TaskBuildIndex::doUpdate(std::shared_ptr<Blackboard> blackboard)
 		return STATE_FAILURE;
 	}
 
-	fetchIntermediateStorages(blackboard);
+	if (fetchIntermediateStorages(blackboard))
+	{
+		updateIndexingDialog(blackboard, FilePath());
+	}
 
 	const int SLEEP_TIME_MS = 50;
 	std::this_thread::sleep_for(std::chrono::milliseconds(SLEEP_TIME_MS));
