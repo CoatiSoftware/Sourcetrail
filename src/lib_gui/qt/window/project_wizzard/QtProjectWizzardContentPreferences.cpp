@@ -7,6 +7,7 @@
 #include "utility/ResourcePaths.h"
 #include "utility/utilityPathDetection.h"
 #include "utility/utilityApp.h"
+#include "utility/utility.h"
 
 QtProjectWizzardContentPreferences::QtProjectWizzardContentPreferences(
 	QtProjectWizzardWindow* window

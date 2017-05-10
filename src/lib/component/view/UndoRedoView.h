@@ -2,6 +2,7 @@
 #define UNDO_REDO_VIEW_H
 
 #include "component/view/View.h"
+#include <vector>
 
 class UndoRedoController;
 struct SearchMatch;

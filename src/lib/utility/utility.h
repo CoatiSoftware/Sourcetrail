@@ -10,6 +10,7 @@
 
 #include "boost/date_time/posix_time/posix_time.hpp"
 
+#include "utility/ApplicationArchitectureType.h"
 #include "utility/file/FilePath.h"
 #include "utility/math/Vector2.h"
 #include "utility/TimePoint.h"
@@ -91,6 +92,8 @@ namespace utility
 		c.insert(b.begin(), b.end());
 		return a.size() + b.size() != c.size();
 	}
+
+    ApplicationArchitectureType getApplicationArchitectureType();
 
 	bool intersectionPoint(Vec2f a1, Vec2f b1, Vec2f a2, Vec2f b2, Vec2f* i);
 

@@ -78,18 +78,6 @@ void utility::killRunningProcesses()
 	}
 }
 
-ApplicationArchitectureType utility::getApplicationArchitectureType()
-{
-#ifdef Q_PROCESSOR_X86_64
-	return APPLICATION_ARCHITECTURE_X86_64;
-#endif
-
-#ifdef Q_PROCESSOR_X86_32
-	return APPLICATION_ARCHITECTURE_X86_32;
-#endif
-	return APPLICATION_ARCHITECTURE_UNKNOWN;
-}
-
 int utility::getIdealThreadCount()
 {
 	return QThread::idealThreadCount();

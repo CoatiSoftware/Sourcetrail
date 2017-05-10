@@ -14,8 +14,6 @@ namespace utility
 
 	void killRunningProcesses();
 
-	ApplicationArchitectureType getApplicationArchitectureType();
-
 	int getIdealThreadCount();
 }
 
