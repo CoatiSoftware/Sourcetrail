@@ -96,13 +96,11 @@ function(AddSharedToComponent componentName)
 	GetAndInstallLibrary(libdrm.so ${componentName})
 	GetAndInstallLibrary(libXau.so ${componentName})
 
-	if ( $ENV{QT_DIR})
-		INSTALL(DIRECTORY
-			$ENV{QT_DIR}/plugins/platforms
-			DESTINATION Sourcetrail/lib
-			COMPONENT ${componentName}
-		)
-	endif()
+	INSTALL(DIRECTORY
+		$ENV{QT_DIR}/plugins/platforms
+		DESTINATION Sourcetrail/lib
+		COMPONENT ${componentName}
+	)
 
 	INSTALL(DIRECTORY ${CMAKE_SOURCE_DIR}/bin/app/user
 		DESTINATION Sourcetrail

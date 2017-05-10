@@ -12,11 +12,12 @@ Linux64:
         - cd ./bin/test
         - ../../build/Release/test/Sourcetrail_test
     artifacts:
+        name: "$CI_JOB_NAME"
         paths:
-            - distr/Sourcetrail*.tar.gz
+            - Sourcetrail*.tar.gz
         expire_in: 3 days
 
-Linux64_tagged:
+Linux64_tag:
     image: st4ll1/coati_linux_64
     stage: deploy
     only:
@@ -29,8 +30,9 @@ Linux64_tagged:
         - cd ./bin/test
         - ../../build/Release/test/Sourcetrail_test
     artifacts:
+        name: "$CI_JOB_NAME"
         paths:
-            - distr/Sourcetrail*.tar.gz
+            - Sourcetrail*.tar.gz
 
 Linux32:
     image: st4ll1/coati_linux_32
@@ -46,8 +48,9 @@ Linux32:
         - cd ./bin/test
         - ../../build/Release/test/Sourcetrail_test
     artifacts:
+        name: "$CI_JOB_NAME"
         paths:
-            - distr/Sourcetrail*.tar.gz
+            - Sourcetrail*.tar.gz
         expire_in: 3 days
 
 Linux32_tag:
@@ -63,5 +66,6 @@ Linux32_tag:
         - cd ./bin/test
         - ../../build/Release/test/Sourcetrail_test
     artifacts:
+        name: "$CI_JOB_NAME"
         paths:
-            - distr/Sourcetrail*.tar.gz
+            - Sourcetrail*.tar.gz

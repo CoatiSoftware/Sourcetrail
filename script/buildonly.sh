@@ -39,8 +39,8 @@ then
 elif [ "$1" = "package" ] || [ "$1" = "p" ]
 then
 		cmake --build build/Release --target package
-		mkdir -p distr && mv build/Release/Sourcetrail*.tar.gz distr #&& cp build/Release/Sourcetrail*.deb distr
-		echo "Packages copied into the distr folder"
+		mv build/Release/Sourcetrail*.tar.gz . #&& cp build/Release/Sourcetrail*.deb distr
+		echo "Packages copied into the root folder"
 elif [ "$1" = "all" ] || [ "$1" = "a" ]
 then
 	cmake --build build/Release --target all
