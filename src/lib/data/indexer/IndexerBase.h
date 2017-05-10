@@ -2,11 +2,11 @@
 #define INDEXER_BASE_H
 
 #include <memory>
-
-#include "data/indexer/IndexerCommand.h"
-#include "data/IntermediateStorage.h"
+#include <string>
 
 class FileRegister;
+class IndexerCommand;
+class IntermediateStorage;
 
 class IndexerBase
 {

@@ -1,6 +1,8 @@
 #ifndef UNDO_REDO_VIEW_H
 #define UNDO_REDO_VIEW_H
 
+#include <vector>
+
 #include "component/view/View.h"
 #include <vector>
 

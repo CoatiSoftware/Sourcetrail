@@ -32,6 +32,7 @@ public:
 	};
 
 	~JavaEnvironment();
+	bool callStaticVoidMethod(std::string className, std::string methodName);
 	bool callStaticVoidMethod(std::string className, std::string methodName, int arg1, std::string arg2, std::string arg3, std::string arg4, int arg5);
 	bool callStaticMethod(std::string className, std::string methodName, std::string& ret, std::string arg1);
 

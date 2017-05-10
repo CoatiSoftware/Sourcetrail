@@ -108,6 +108,7 @@ std::vector<std::shared_ptr<IndexerCommand>> SourceGroupJava::getIndexerCommands
 bool SourceGroupJava::prepareJavaEnvironment()
 {
 	const std::string errorString = JavaParser::prepareJavaEnvironment();
+
 	if (errorString.size() > 0)
 	{
 		LOG_ERROR(errorString);

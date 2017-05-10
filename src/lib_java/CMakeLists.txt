@@ -6,6 +6,8 @@ add_files(
 	data/indexer/IndexerCommandJava.h
 	data/indexer/IndexerFactoryModuleJava.cpp
 	data/indexer/IndexerFactoryModuleJava.h
+	data/indexer/IndexerJava.cpp
+	data/indexer/IndexerJava.h
 
 	data/parser/java/JavaParser.cpp
 	data/parser/java/JavaParser.h

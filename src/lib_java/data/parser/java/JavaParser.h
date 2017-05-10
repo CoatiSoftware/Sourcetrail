@@ -33,6 +33,7 @@ class JavaParser: public Parser
 public:
 	// returns: error message
 	static std::string prepareJavaEnvironment();
+	static void clearCaches();
 
 	JavaParser(std::shared_ptr<ParserClient> client, std::shared_ptr<FileRegister> fileRegister);
 	~JavaParser();

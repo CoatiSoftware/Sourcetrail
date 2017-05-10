@@ -26,7 +26,7 @@ std::string JavaParser::prepareJavaEnvironment()
 		const std::string separator = ":";
 #endif
 		JavaEnvironmentFactory::createInstance(
-			ResourcePaths::getJavaPath().str() + "guava-18.0.jar" + separator +
+			ResourcePaths::getJavaPath().str() + "guava-21.0.jar" + separator +
 			ResourcePaths::getJavaPath().str() + "java-indexer.jar" + separator +
 			ResourcePaths::getJavaPath().str() + "javaparser-core.jar" + separator +
 			ResourcePaths::getJavaPath().str() + "javaslang-2.0.3.jar" + separator +
@@ -39,6 +39,22 @@ std::string JavaParser::prepareJavaEnvironment()
 	}
 
 	return errorString;
+}
+
+void JavaParser::clearCaches()
+{
+	std::shared_ptr<JavaEnvironmentFactory> factory = JavaEnvironmentFactory::getInstance();
+	if (factory)
+	{
+		std::shared_ptr<JavaEnvironment> environment = factory->createEnvironment();
+		if (environment)
+		{
+			environment->callStaticVoidMethod(
+				"com/sourcetrail/JavaIndexer",
+				"clearCaches"
+			);
+		}
+	}
 }
 
 JavaParser::JavaParser(std::shared_ptr<ParserClient> client, std::shared_ptr<FileRegister> fileRegister)

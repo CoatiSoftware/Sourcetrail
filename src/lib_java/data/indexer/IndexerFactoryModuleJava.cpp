@@ -1,8 +1,6 @@
 #include "data/indexer/IndexerFactoryModuleJava.h"
 
-#include "data/indexer/Indexer.h"
-#include "data/indexer/IndexerCommandJava.h"
-#include "data/parser/java/JavaParser.h"
+#include "data/indexer/IndexerJava.h"
 
 IndexerFactoryModuleJava::~IndexerFactoryModuleJava()
 {
@@ -10,5 +8,5 @@ IndexerFactoryModuleJava::~IndexerFactoryModuleJava()
 
 std::shared_ptr<IndexerBase> IndexerFactoryModuleJava::createIndexer()
 {
-	return std::make_shared<Indexer<IndexerCommandJava, JavaParser>>();
+	return std::make_shared<IndexerJava>();
 }

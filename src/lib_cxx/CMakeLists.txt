@@ -8,6 +8,7 @@ add_files(
 	data/indexer/IndexerCommandCxxCdb.h
 	data/indexer/IndexerCommandCxxManual.cpp
 	data/indexer/IndexerCommandCxxManual.h
+	data/indexer/IndexerCxx.h
 	data/indexer/IndexerFactoryModuleCxxCdb.cpp
 	data/indexer/IndexerFactoryModuleCxxCdb.h
 	data/indexer/IndexerFactoryModuleCxxManual.cpp

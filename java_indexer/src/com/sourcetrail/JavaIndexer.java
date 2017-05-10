@@ -4,6 +4,8 @@ import java.io.File;
 import java.io.IOException;
 import java.io.StringReader;
 import java.lang.String;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 
 import com.github.javaparser.ast.CompilationUnit;
@@ -14,6 +16,7 @@ import com.github.javaparser.Problem;
 import com.github.javaparser.Range;
 import com.github.javaparser.symbolsolver.javaparser.Navigator;
 import com.github.javaparser.symbolsolver.javaparsermodel.JavaParserFacade;
+import com.github.javaparser.symbolsolver.model.resolution.TypeSolver;
 import com.github.javaparser.symbolsolver.resolution.typesolvers.CombinedTypeSolver;
 import com.github.javaparser.symbolsolver.resolution.typesolvers.JarTypeSolver;
 import com.github.javaparser.symbolsolver.resolution.typesolvers.JavaParserTypeSolver;
@@ -21,41 +24,58 @@ import com.github.javaparser.symbolsolver.resolution.typesolvers.ReflectionTypeS
 
 public class JavaIndexer 
 {
+	
+	private static Map<String, TypeSolver> typeSolvers = new HashMap<>();
+			
 	public static void processFile(int address, String filePath, String fileContent, String classPath, int verbose)
 	{
 		logInfo(address, "indexing source file: " + filePath);
 		
 		try 
 		{
-			CombinedTypeSolver typeSolver = new CombinedTypeSolver();
+			CombinedTypeSolver combinedTypeSolver = new CombinedTypeSolver();
 
-			typeSolver.add(new ReflectionTypeSolver());
+			combinedTypeSolver.add(new ReflectionTypeSolver());
 			for (String path: classPath.split("\\;"))
 			{
-				if (path.endsWith(".jar"))
+				if (typeSolvers.containsKey(path))
 				{
-					try
-					{
-						JarTypeSolver solver = new JarTypeSolver(path);
-						typeSolver.add(solver);
-					}
-					catch (IOException e)
-					{
-						System.out.println("unable to add jar file: " + path);
-					}
+					combinedTypeSolver.add(typeSolvers.get(path));
 				}
-				else if (!path.isEmpty())
+				else 
 				{
-					JavaParserTypeSolver solver = new JavaParserTypeSolver(new File(path));
-					typeSolver.add(solver);
+					TypeSolver typeSolver = null;
+					
+					if (path.endsWith(".jar"))
+					{
+						try
+						{
+							typeSolver = new JarTypeSolver(path);
+						}
+						catch (IOException e)
+						{
+							System.out.println("unable to add jar file: " + path);
+						}
+					}
+					else if (!path.isEmpty())
+					{
+						typeSolver = new JavaParserTypeSolver(new File(path));
+					}
+					
+					if (typeSolver != null)
+					{
+						typeSolvers.put(path, typeSolver);
+						combinedTypeSolver.add(typeSolver);
+					}
 				}
 			}
+			
 			CompilationUnit cu = JavaParser.parse(new StringReader(fileContent));
 
 			JavaAstVisitor astVisitor = (
 				verbose == 1 ? 
-				new JavaVerboseAstVisitor(address, filePath, new FileContent(fileContent), typeSolver) : 
-				new JavaAstVisitor(address, filePath, new FileContent(fileContent), typeSolver)
+				new JavaVerboseAstVisitor(address, filePath, new FileContent(fileContent), combinedTypeSolver) : 
+				new JavaAstVisitor(address, filePath, new FileContent(fileContent), combinedTypeSolver)
 			);
 			
 			cu.accept(astVisitor, null);
@@ -95,8 +115,6 @@ public class JavaIndexer
 				}
 			}
 		}
-		
-		JavaParserFacade.clearInstances();
 	}
 	
 	public static String getPackageName(String fileContent)
@@ -121,6 +139,13 @@ public class JavaIndexer
 		}
 		
 		return packageName;
+	}
+	
+	public static void clearCaches()
+	{
+		typeSolvers.clear();
+		JavaParserFacade.clearInstances();
+		Runtime.getRuntime().gc();
 	}
 	
 	// helpers
