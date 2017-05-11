@@ -24,7 +24,6 @@ rm -rf ../../../bin/app/data/install/uninstall_wix_$WIN_ARCH.bat
 echo $"%windir%\system32\msiexec.exe /x {$PRODUCT_GUID}" >../../../bin/app/data/install/uninstall_wix_$WIN_ARCH.bat
 
 
-"devenv.com" Setup/build/Setup.sln //build "Release|$X_ARCH"
 "devenv.com" CustomActions/CustomActions.sln //build "Release|$X_ARCH"
 
 OUTPUT_DIR=bin/$WIN_ARCH
@@ -36,6 +35,5 @@ candle.exe -dProductVersion="$VERSION_STRING" -dProductGuid="$PRODUCT_GUID" -arc
 light.exe -ext WixUIExtension build/sourcetrail.wixobj build/customActions.wixobj build/dialogShortcuts.wixobj build/installDir.wixobj build/appDataDir.wixobj -out build/sourcetrail.msi > build/linkLog.txt
 
 cp -u -r build/sourcetrail.msi $OUTPUT_DIR
-cp -u -r build/Setup.exe $OUTPUT_DIR
 cp -u -r lib/$WIN_ARCH/* $OUTPUT_DIR
 cp -u -r readme.txt $OUTPUT_DIR

@@ -9,7 +9,7 @@
 #include "utility/file/FileSystem.h"
 #include "utility/ResourcePaths.h"
 #include "utility/UserPaths.h"
-#include "utility/utilityApp.h"
+#include "utility/utility.h"
 
 #include "platform_includes/deploy.h"
 
