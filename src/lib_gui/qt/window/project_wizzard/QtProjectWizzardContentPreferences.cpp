@@ -63,16 +63,21 @@ void QtProjectWizzardContentPreferences::populate(QGridLayout* layout, int& row)
 
 	// animations
 	m_useAnimations = addCheckBox("Animations", "Enable animations",
-		"Enable/disable animations throughout the user interface.", layout, row);
+		"<p>Enable animations throughout the user interface.</p>", layout, row);
 
 	// logging
 	m_loggingEnabled = addCheckBox("Logging", "Enable console and file logging",
-		"Save log files and show log information in the console.", layout, row);
+		"<p>Show logs in the console and save this information in files.</p>", layout, row);
 	connect(m_loggingEnabled, SIGNAL(clicked()), this, SLOT(loggingEnabledChanged()));
 
-	m_verboseIndexerLoggingEnabled = addCheckBox("Indexer Logging", "Enable verbose indexer logging",
-		"Logs information of abstract syntax tree traversal during indexing. This information can help us "
-		"reproduce crashes in indexing.\n\nThis slows down indexing performance a lot.", layout, row);
+	m_verboseIndexerLoggingEnabled = addCheckBox(
+		"Indexer Logging",
+		"Enable verbose indexer logging",
+		"<p>Enable additional logs of abstract syntax tree traversal during indexing. This information can help "
+		"tracking down crashes that occurr during indexing.</p>"
+		"<p><b>Warning</b>: This slows down indexing performance a lot.</p>",
+		layout, row
+	);
 
 	addGap(layout, row);
 
@@ -80,13 +85,21 @@ void QtProjectWizzardContentPreferences::populate(QGridLayout* layout, int& row)
 	addTitle("CONTROLS", layout, row);
 
 	// scroll speed
-	m_scrollSpeed = addLineEdit("Scroll Speed", "Multiplier for scroll speed. Set to a value between 0 and 1 to scroll "
-		"slower, or set to larger than 1 to scroll faster.", layout, row);
+	m_scrollSpeed = addLineEdit(
+		"Scroll Speed",
+		"<p>Set a multiplier for the in app scroll speed.</p>"
+		"<p>A value between 0 and 1 results in slower scrolling while a value higher than 1 increases scroll speed.</p>",
+		layout, row
+	);
 
 	// graph zooming
 	QString modifierName = QSysInfo::macVersion() == QSysInfo::MV_None ? "Ctrl" : "Cmd";
-	m_graphZooming = addCheckBox("Graph Zoom", "Zoom on mouse wheel",
-		"Switch graph zooming to mouse wheel only, instead of " + modifierName + " + Mouse Wheel.", layout, row);
+	m_graphZooming = addCheckBox(
+		"Graph Zoom",
+		"Zoom on mouse wheel",
+		"<p>Enable graph zoom using mouse wheel only, instead of using " + modifierName + " + Mouse Wheel.</p>",
+		layout, row
+	);
 
 	addGap(layout, row);
 
@@ -116,12 +129,17 @@ void QtProjectWizzardContentPreferences::populate(QGridLayout* layout, int& row)
 	threadsWidget->setLayout(hlayout);
 
 	addLabelAndWidget("Indexer threads", threadsWidget, layout, row, Qt::AlignLeft);
-	addHelpButton("Number of parallel threads used to index your projects.\nWhen setting this to 0 Sourcetrail tries to use the ideal thread count for your computer.", layout, row);
+	addHelpButton(
+		"<p>Set the number of threads used to work on indexing your project in parallel.</p>"
+		"<p>When setting this value to 0 Sourcetrail tries to use the ideal thread count for your computer.</p>",
+		layout, row
+	);
 	row++;
 
 	// multi process indexing
-	m_multiProcessIndexing = addCheckBox("Multi process C/C++ indexing", "Use processes instead of threads for C/C++ indexing.",
-		"Using processes instead of threads prevents the application from crashing on unforseen exceptions during indexing.",
+	m_multiProcessIndexing = addCheckBox("Multi process<br />C/C++ indexing", "Run C/C++ indexer threads in different process",
+		"<p>Enable C/C++ indexer threads to run in different process.</p>"
+		"<p>This prevents the application from crashing due to unforseen exceptions while indexing.</p>",
 		layout, row);
 
 	addGap(layout, row);
@@ -132,10 +150,10 @@ void QtProjectWizzardContentPreferences::populate(QGridLayout* layout, int& row)
 
 	// Sourcetrail port
 	m_sourcetrailPort = addLineEdit("Sourcetrail Port",
-		"Port number that Sourcetrail uses to listen for incoming messages from plugins.", layout, row);
+		"<p>Port number that Sourcetrail uses to listen for incoming messages from plugins.</p>", layout, row);
 
 	// Sourcetrail port
-	m_pluginPort = addLineEdit("Plugin Port", "Port number that Sourcetrail sends outgoing messages to.", layout, row);
+	m_pluginPort = addLineEdit("Plugin Port", "<p>Port number that Sourcetrail uses to sends outgoing messages to plugins.</p>", layout, row);
 
 	addGap(layout, row);
 
@@ -178,12 +196,12 @@ void QtProjectWizzardContentPreferences::populate(QGridLayout* layout, int& row)
 	javaVersionString += "Java 8";
 
 	addHelpButton((
-		"Only required for indexing Java projects.\n"
-		"Provide the location of the jvm library inside the installation of your " + javaVersionString +
-		" runtime environment (for information on how to set these take a look at "
+		"<p>Only required for indexing Java projects.</p>"
+		"<p>Provide the location of the jvm library inside the installation of your " + javaVersionString +
+		" runtime environment (for information on how to set this take a look at "
 		"<a href=\"https://sourcetrail.com/documentation/#FindingJavaRuntimeLibraryLocation\">"
-		"Finding Java Runtime Library Location</a> or use the auto detection below)").c_str()
-		, layout, row
+		"Finding Java Runtime Library Location</a> or use the auto detection below)</p>").c_str(),
+		layout, row
 	);
 	row++;
 
@@ -191,8 +209,14 @@ void QtProjectWizzardContentPreferences::populate(QGridLayout* layout, int& row)
 	addJavaPathDetection(layout, row);
 
 	// jvm max memory
-	m_jvmMaximumMemory = addLineEdit("JVM Maximum Memory", "Specify the maximum amount of memory that should be "
-		"allocated by the indexer's JVM. A value of -1 ignores this setting.", layout, row);
+	m_jvmMaximumMemory = addLineEdit(
+		"JVM Maximum Memory",
+		"<p>Specify the maximum amount of memory that will be allocated by the indexer's JVM (values are in MB). Set "
+		"this value to -1 to use the JVM's default setting.</p>"
+		"<p><b>Warning</b>: You may experience a sudden slowdown during the course of indexing when setting this value "
+		"too low. This may also happen when using the JVM's default setting.</p>",
+		layout, row
+	);
 	layout->setRowMinimumHeight(row - 1, 30);
 
 	// maven path
@@ -212,8 +236,8 @@ void QtProjectWizzardContentPreferences::populate(QGridLayout* layout, int& row)
 	addLabelAndWidget("Maven Path", m_mavenPath, layout, row);
 
 	addHelpButton(
-		"Only required for indexing projects using Maven.\n"
-		"Provide the location of the Maven executable. You can also use the auto detection below."
+		"<p>Only required for indexing projects using Maven.</p>"
+		"<p>Provide the location of your installed Maven executable. You can also use the auto detection below.</p>"
 		, layout, row
 	);
 	row++;
