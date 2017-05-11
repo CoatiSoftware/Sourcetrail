@@ -27,7 +27,7 @@
 #include "utility/utility.h"
 #include "utility/utilityPathDetection.h"
 #include "utility/utilityString.h"
-#include "utility/UUIDUtility.h"
+#include "utility/utilityUuid.h"
 
 #include "Application.h"
 
@@ -95,7 +95,7 @@ void QtProjectWizzard::newProjectFromCDB(const FilePath& filePath, const std::ve
 {
 	m_projectSettings = std::make_shared<ProjectSettings>();
 
-	std::shared_ptr<SourceGroupSettingsCxx> sourceGroupSettings = std::make_shared<SourceGroupSettingsCxx>(UUIDUtility::getUUIDString(), SOURCE_GROUP_CXX_CDB, m_projectSettings.get());
+	std::shared_ptr<SourceGroupSettingsCxx> sourceGroupSettings = std::make_shared<SourceGroupSettingsCxx>(utility::getUuidString(), SOURCE_GROUP_CXX_CDB, m_projectSettings.get());
 	m_projectSettings->setProjectName(filePath.withoutExtension().fileName());
 	m_projectSettings->setProjectFileLocation(filePath.parentDirectory());
 	sourceGroupSettings->setCompilationDatabasePath(filePath);
@@ -261,7 +261,7 @@ void QtProjectWizzard::selectedProjectType(SourceGroupType sourceGroupType)
 {
 	m_projectSettings = std::make_shared<ProjectSettings>();
 
-	const std::string sourceGroupId = UUIDUtility::getUUIDString();
+	const std::string sourceGroupId = utility::getUuidString();
 
 	switch (sourceGroupType)
 	{

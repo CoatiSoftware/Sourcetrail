@@ -9,7 +9,7 @@
 #include "utility/scheduling/TaskScheduler.h"
 #include "utility/tracing.h"
 #include "utility/UserPaths.h"
-#include "utility/UUIDUtility.h"
+#include "utility/utilityUuid.h"
 #include "utility/Version.h"
 
 #include "component/view/DialogView.h"
@@ -79,7 +79,7 @@ std::string Application::getUUID()
 {
 	if (!s_uuid.size())
 	{
-		s_uuid = UUIDUtility::UUIDtoString(UUIDUtility::getUUID());
+		s_uuid = utility::getUuidString();
 	}
 
 	return s_uuid;

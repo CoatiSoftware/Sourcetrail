@@ -7,7 +7,7 @@
 #include "settings/SourceGroupSettingsJava.h"
 #include "utility/utility.h"
 #include "utility/utilityString.h"
-#include "utility/UUIDUtility.h"
+#include "utility/utilityUuid.h"
 
 const size_t ProjectSettings::VERSION = 4;
 const std::string PROJECT_FILE_EXTENSION = ".srctrlprj";
@@ -298,7 +298,7 @@ SettingsMigrator ProjectSettings::getMigrations() const
 		}
 	));
 
-	const std::string sourceGroupKey = "source_groups/source_group_" + UUIDUtility::getUUIDString();
+	const std::string sourceGroupKey = "source_groups/source_group_" + utility::getUuidString();
 
 	migrator.addMigration(2, std::make_shared<MigrationMoveKey>("info/description", "description"));
 	migrator.addMigration(2, std::make_shared<MigrationMoveKey>("language_settings/standard", sourceGroupKey + "/standard"));

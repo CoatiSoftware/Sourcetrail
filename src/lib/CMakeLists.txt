@@ -474,10 +474,10 @@ add_files(
 	utility/utilityLibrary.h
 	utility/utilityString.cpp
 	utility/utilityString.h
+	utility/utilityUuid.cpp
+	utility/utilityUuid.h
 	utility/utilityXml.cpp
 	utility/utilityXml.h
-	utility/UUIDUtility.cpp
-	utility/UUIDUtility.h
 	utility/Version.cpp
 	utility/Version.h
 
