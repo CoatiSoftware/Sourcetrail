@@ -40,13 +40,13 @@ namespace utility
 	{
 		std::vector<std::string> extensions;
 		extensions.push_back(extension);
-		std::vector<std::string> fontFileNames = FileSystem::getFileNamesFromDirectory(path, extensions);
+		std::vector<FilePath> fontFilePaths = FileSystem::getFilePathsFromDirectory(path, extensions);
 
 		std::set<int> loadedFontIds;
 
-		for (const std::string& fontFileName: fontFileNames)
+		for (const FilePath& fontFilePath: fontFilePaths)
 		{
-			QFile file(fontFileName.c_str());
+			QFile file(fontFilePath.str().c_str());
 			if (file.open(QIODevice::ReadOnly))
 			{
 				int id = QFontDatabase::addApplicationFontFromData(file.readAll());

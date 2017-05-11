@@ -16,12 +16,7 @@ QtProjectWizzardContentPreferences::QtProjectWizzardContentPreferences(
 	, m_oldColorSchemeIndex(-1)
 	, m_newColorSchemeIndex(-1)
 {
-	std::vector<std::string> colorSchemePaths =
-		FileSystem::getFileNamesFromDirectory(ResourcePaths::getColorSchemesPath(), std::vector<std::string>(1, ".xml"));
-	for (const std::string& colorScheme : colorSchemePaths)
-	{
-		m_colorSchemePaths.push_back(FilePath(colorScheme));
-	}
+	m_colorSchemePaths = FileSystem::getFilePathsFromDirectory(ResourcePaths::getColorSchemesPath(), std::vector<std::string>(1, ".xml"));
 }
 
 QtProjectWizzardContentPreferences::~QtProjectWizzardContentPreferences()

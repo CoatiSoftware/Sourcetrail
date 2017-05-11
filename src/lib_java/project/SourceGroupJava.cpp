@@ -187,14 +187,13 @@ std::vector<FilePath> SourceGroupJava::getClassPath()
 
 	if (m_settings->getAbsoluteMavenDependenciesDirectory().exists())
 	{
-		const std::vector<std::string> dependencies = FileSystem::getFileNamesFromDirectory(
-			m_settings->getAbsoluteMavenDependenciesDirectory(),
-			utility::createVectorFromElements<std::string>(".jar")
+		utility::append(
+			classPath,
+			FileSystem::getFilePathsFromDirectory(
+				m_settings->getAbsoluteMavenDependenciesDirectory(),
+				utility::createVectorFromElements<std::string>(".jar")
+			)
 		);
-		for (const std::string& dependency: dependencies)
-		{
-			classPath.push_back(FilePath(dependency));
-		}
 	}
 
 	for (FilePath rootDirectory: fetchRootDirectories())

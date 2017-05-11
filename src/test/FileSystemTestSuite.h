@@ -7,7 +7,7 @@
 
 #include "utility/file/FileSystem.h"
 
-class FileSystemTestSuite : public CxxTest::TestSuite
+class FileSystemTestSuite: public CxxTest::TestSuite
 {
 public:
 	void test_find_cpp_files()
@@ -15,8 +15,10 @@ public:
 		std::vector<std::string> extensions;
 		extensions.push_back(".cpp");
 
-		std::vector<std::string> cppFiles =
-			FileSystem::getFileNamesFromDirectory(FilePath("data/FileSystemTestSuite"), extensions);
+		std::vector<std::string> cppFiles = utility::convert<FilePath, std::string>(
+			FileSystem::getFilePathsFromDirectory(FilePath("data/FileSystemTestSuite"), extensions),
+			[](const FilePath& filePath){ return filePath.str(); }
+		);
 
 		TS_ASSERT_EQUALS(cppFiles.size(), 4);
 		TS_ASSERT(isInVector(cppFiles, "data/FileSystemTestSuite/main.cpp"));
@@ -30,8 +32,10 @@ public:
 		std::vector<std::string> extensions;
 		extensions.push_back(".h");
 
-		std::vector<std::string> headerFiles =
-			FileSystem::getFileNamesFromDirectory(FilePath("data/FileSystemTestSuite"), extensions);
+		std::vector<std::string> headerFiles = utility::convert<FilePath, std::string>(
+			FileSystem::getFilePathsFromDirectory(FilePath("data/FileSystemTestSuite"), extensions),
+			[](const FilePath& filePath){ return filePath.str(); }
+		);
 
 		TS_ASSERT_EQUALS(headerFiles.size(), 3);
 		TS_ASSERT(isInVector(headerFiles, "data/FileSystemTestSuite/tictactoe.h"));
@@ -46,8 +50,10 @@ public:
 		extensions.push_back(".hpp");
 		extensions.push_back(".cpp");
 
-		std::vector<std::string> sourceFiles =
-			FileSystem::getFileNamesFromDirectory(FilePath("data/FileSystemTestSuite"), extensions);
+		std::vector<std::string> sourceFiles = utility::convert<FilePath, std::string>(
+			FileSystem::getFilePathsFromDirectory(FilePath("data/FileSystemTestSuite"), extensions),
+			[](const FilePath& filePath){ return filePath.str(); }
+		);
 
 		TS_ASSERT_EQUALS(sourceFiles.size(), 8);
 	}

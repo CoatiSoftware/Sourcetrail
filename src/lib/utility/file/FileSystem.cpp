@@ -5,11 +5,11 @@
 #include "boost/date_time.hpp"
 #include "boost/filesystem.hpp"
 
-std::vector<std::string> FileSystem::getFileNamesFromDirectory(
+std::vector<FilePath> FileSystem::getFilePathsFromDirectory(
 	const FilePath& path, const std::vector<std::string>& extensions
 ){
 	std::set<std::string> ext(extensions.begin(), extensions.end());
-	std::vector<std::string> files;
+	std::vector<FilePath> files;
 
 	if (boost::filesystem::is_directory(path.path()))
 	{
@@ -30,7 +30,7 @@ std::vector<std::string> FileSystem::getFileNamesFromDirectory(
 
 			if (boost::filesystem::is_regular_file(*it) && ext.find(it->path().extension().string()) != ext.end())
 			{
-				files.push_back(it->path().generic_string());
+				files.push_back(FilePath(it->path().generic_string()));
 			}
 			++it;
 		}

@@ -4,8 +4,10 @@
 #include <algorithm>
 #include <cstdarg>
 #include <deque>
+#include <functional>
 #include <set>
 #include <time.h>
+#include <vector>
 #include <unordered_set>
 
 #include "boost/date_time/posix_time/posix_time.hpp"
@@ -57,6 +59,9 @@ namespace utility
 
 	template<typename T, typename... Args>
 	std::vector<T> createVectorFromElements(const Args&... args);
+
+	template<typename SourceType, typename TargetType>
+	std::vector<TargetType> convert(const std::vector<SourceType>& sourceContainer, std::function<TargetType(const SourceType&)> conversion);
 
 	template<typename T>
 	std::vector<std::string> toStrings(const std::vector<T>& d);
@@ -196,6 +201,17 @@ std::vector<T> utility::createVectorFromElements(const Args&... args)
 	std::vector<T> v;
 	fillVectorWithElements<T>(v, args...);
 	return v;
+}
+
+template<typename SourceType, typename TargetType>
+std::vector<TargetType> utility::convert(const std::vector<SourceType>& sourceContainer, std::function<TargetType(const SourceType&)> conversion)
+{
+	std::vector<TargetType> targetContainer;
+	for (const SourceType& sourceElement: sourceContainer)
+	{
+		targetContainer.push_back(conversion(sourceElement));
+	}
+	return targetContainer;
 }
 
 template<typename T>
