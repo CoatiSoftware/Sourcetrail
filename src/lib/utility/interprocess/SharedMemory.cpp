@@ -67,58 +67,83 @@ SharedMemory::SharedMemory(const std::string& name, size_t initialMemorySize, Ac
 	: m_name(checkName(name))
 	, m_mode(mode)
 {
-	bool unlockMutex = true;
-
-	switch (mode)
+	try
 	{
-	case CREATE_AND_DELETE:
+		bool unlockMutex = true;
+
+		switch (mode)
 		{
-			SharedMemoryGarbageCollector* collector = SharedMemoryGarbageCollector::getInstance();
-			if (collector)
+		case CREATE_AND_DELETE:
 			{
-				collector->registerSharedMemory(m_name);
+				SharedMemoryGarbageCollector* collector = SharedMemoryGarbageCollector::getInstance();
+				if (collector)
+				{
+					collector->registerSharedMemory(m_name);
+				}
+
+				deleteSharedMemory(m_name);
+
+				boost::interprocess::permissions permissions;
+				permissions.set_unrestricted();
+
+				boost::interprocess::managed_shared_memory(
+					boost::interprocess::create_only, getMemoryName().c_str(), initialMemorySize, 0, permissions);
+				boost::interprocess::named_mutex(boost::interprocess::create_only, getMutexName().c_str());
 			}
+			break;
+
+		case OPEN_ONLY:
+			boost::interprocess::managed_shared_memory(
+				boost::interprocess::open_only, getMemoryName().c_str());
+			boost::interprocess::named_mutex(boost::interprocess::open_only, getMutexName().c_str());
+			unlockMutex = false;
+			break;
+
+		case OPEN_OR_CREATE:
+			{
+				boost::interprocess::permissions permissions;
+				permissions.set_unrestricted();
+
+				boost::interprocess::managed_shared_memory(
+					boost::interprocess::open_or_create, getMemoryName().c_str(), initialMemorySize, 0, permissions);
+				boost::interprocess::named_mutex(boost::interprocess::open_or_create, getMutexName().c_str());
+			}
+			break;
 		}
 
-		deleteSharedMemory(m_name);
+		if (unlockMutex)
+		{
+			boost::interprocess::named_mutex mutex(boost::interprocess::open_only, getMutexName().c_str());
+			boost::interprocess::scoped_lock<boost::interprocess::named_mutex> lock(mutex, boost::interprocess::try_to_lock);
+		}
 
-		boost::interprocess::managed_shared_memory(
-			boost::interprocess::create_only, getMemoryName().c_str(), initialMemorySize);
-		boost::interprocess::named_mutex(boost::interprocess::create_only, getMutexName().c_str());
-		break;
-
-	case OPEN_ONLY:
-		boost::interprocess::managed_shared_memory(
-			boost::interprocess::open_only, getMemoryName().c_str());
-		boost::interprocess::named_mutex(boost::interprocess::open_only, getMutexName().c_str());
-		unlockMutex = false;
-		break;
-
-	case OPEN_OR_CREATE:
-		boost::interprocess::managed_shared_memory(
-			boost::interprocess::open_or_create, getMemoryName().c_str(), initialMemorySize);
-		boost::interprocess::named_mutex(boost::interprocess::open_or_create, getMutexName().c_str());
-		break;
 	}
-
-	if (unlockMutex)
+	catch (boost::interprocess::interprocess_exception& e)
 	{
-		boost::interprocess::named_mutex mutex(boost::interprocess::open_only, getMutexName().c_str());
-		boost::interprocess::scoped_lock<boost::interprocess::named_mutex> lock(mutex, boost::interprocess::try_to_lock);
+		LOG_ERROR_STREAM(<< "boost exception thrown at shared momory creation - " << getMemoryName() << ": " << e.what());
+		throw e;
 	}
 }
 
 SharedMemory::~SharedMemory()
 {
-	if (m_mode == CREATE_AND_DELETE)
+	try
 	{
-		SharedMemoryGarbageCollector* collector = SharedMemoryGarbageCollector::getInstance();
-		if (collector)
+		if (m_mode == CREATE_AND_DELETE)
 		{
-			collector->unregisterSharedMemory(m_name);
-		}
+			SharedMemoryGarbageCollector* collector = SharedMemoryGarbageCollector::getInstance();
+			if (collector)
+			{
+				collector->unregisterSharedMemory(m_name);
+			}
 
-		deleteSharedMemory(m_name);
+			deleteSharedMemory(m_name);
+		}
+	}
+	catch (boost::interprocess::interprocess_exception& e)
+	{
+		LOG_ERROR_STREAM(<< "boost exception thrown at shared momory destruction - " << getMemoryName() << ": " << e.what());
+		throw e;
 	}
 }
 

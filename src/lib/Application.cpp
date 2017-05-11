@@ -31,8 +31,9 @@ void Application::createInstance(
 	const Version& version, ViewFactory* viewFactory, NetworkFactory* networkFactory
 ){
 	Version::setApplicationVersion(version);
-	SharedMemoryGarbageCollector::createInstance()->run(Application::getUUID());
 	loadSettings();
+
+	SharedMemoryGarbageCollector::createInstance()->run(Application::getUUID());
 
 	TaskScheduler::getInstance();
 	MessageQueue::getInstance();
