@@ -49,7 +49,7 @@ std::shared_ptr<IntermediateStorage> IndexerCxx<IndexerCommandType, ParserType>:
 		fileRegister->markIndexingFilesIndexed();
 	}
 
-	if (interrupted())
+    if (IndexerBase::interrupted())
 	{
 		return std::shared_ptr<IntermediateStorage>();
 	}
