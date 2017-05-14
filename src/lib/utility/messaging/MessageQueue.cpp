@@ -5,6 +5,7 @@
 
 #include "utility/logging/logging.h"
 #include "utility/messaging/MessageBase.h"
+#include "utility/messaging/MessageFilter.h"
 #include "utility/messaging/MessageListenerBase.h"
 #include "utility/scheduling/TaskGroupParallel.h"
 #include "utility/scheduling/TaskLambda.h"
@@ -75,10 +76,15 @@ MessageListenerBase* MessageQueue::getListenerById(const uint id) const
 	return nullptr;
 }
 
+void MessageQueue::addMessageFilter(std::shared_ptr<MessageFilter> filter)
+{
+	m_filters.push_back(filter);
+}
+
 void MessageQueue::pushMessage(std::shared_ptr<MessageBase> message)
 {
-	std::lock_guard<std::mutex> lock(m_backMessageBufferMutex);
-	m_backMessageBuffer->push(message);
+	std::lock_guard<std::mutex> lock(m_messageBufferMutex);
+	m_messageBuffer.push_back(message);
 }
 
 void MessageQueue::processMessage(std::shared_ptr<MessageBase> message, bool asNextTask)
@@ -182,9 +188,8 @@ bool MessageQueue::loopIsRunning() const
 
 bool MessageQueue::hasMessagesQueued() const
 {
-	std::lock_guard<std::mutex> lock(m_frontMessageBufferMutex);
-	std::lock_guard<std::mutex> lock2(m_backMessageBufferMutex);
-	return m_backMessageBuffer->size() + m_frontMessageBuffer->size() > 0;
+	std::lock_guard<std::mutex> lock(m_messageBufferMutex);
+	return m_messageBuffer.size() > 0;
 }
 
 void MessageQueue::setSendMessagesAsTasks(bool sendMessagesAsTasks)
@@ -201,31 +206,33 @@ MessageQueue::MessageQueue()
 	, m_threadIsRunning(false)
 	, m_sendMessagesAsTasks(false)
 {
-	m_frontMessageBuffer = std::make_shared<MessageBufferType>();
-	m_backMessageBuffer = std::make_shared<MessageBufferType>();
 }
 
 void MessageQueue::processMessages()
 {
-	{
-		std::lock_guard<std::mutex> lock(m_frontMessageBufferMutex);
-		std::lock_guard<std::mutex> lock2(m_backMessageBufferMutex);
-		m_backMessageBuffer.swap(m_frontMessageBuffer);
-	}
-
 	while (true)
 	{
 		std::shared_ptr<MessageBase> message;
 		{
-			std::lock_guard<std::mutex> lock(m_frontMessageBufferMutex);
+			std::lock_guard<std::mutex> lock(m_messageBufferMutex);
 
-			if (!m_frontMessageBuffer->size())
+			if (!m_messageBuffer.size())
 			{
 				break;
 			}
 
-			message = m_frontMessageBuffer->front();
-			m_frontMessageBuffer->pop();
+			for (std::shared_ptr<MessageFilter> filter : m_filters)
+			{
+				filter->filter(&m_messageBuffer);
+			}
+
+			if (!m_messageBuffer.size())
+			{
+				break;
+			}
+
+			message = m_messageBuffer.front();
+			m_messageBuffer.pop_front();
 		}
 
 		processMessage(message, false);

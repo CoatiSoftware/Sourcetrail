@@ -3,6 +3,8 @@
 #include "utility/interprocess/SharedMemoryGarbageCollector.h"
 #include "utility/logging/logging.h"
 #include "utility/logging/LogManager.h"
+#include "utility/messaging/filter_types/MessageFilterFocusInOut.h"
+#include "utility/messaging/filter_types/MessageFilterSearchAutocomplete.h"
 #include "utility/messaging/MessageQueue.h"
 #include "utility/messaging/type/MessageStatus.h"
 #include "utility/messaging/type/MessageShowStartScreen.h"
@@ -307,8 +309,13 @@ void Application::handleMessage(MessageSwitchColorScheme* message)
 void Application::startMessagingAndScheduling()
 {
 	TaskScheduler::getInstance()->startSchedulerLoopThreaded();
-	MessageQueue::getInstance()->setSendMessagesAsTasks(true);
-	MessageQueue::getInstance()->startMessageLoopThreaded();
+
+	MessageQueue* queue = MessageQueue::getInstance().get();
+	queue->addMessageFilter(std::make_shared<MessageFilterFocusInOut>());
+	queue->addMessageFilter(std::make_shared<MessageFilterSearchAutocomplete>());
+
+	queue->setSendMessagesAsTasks(true);
+	queue->startMessageLoopThreaded();
 }
 
 void Application::updateRecentProjects(const FilePath& projectSettingsFilePath)

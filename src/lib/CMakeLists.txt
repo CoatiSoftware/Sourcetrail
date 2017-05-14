@@ -329,6 +329,9 @@ add_files(
 	utility/math/Vector4.h
 	utility/math/VectorBase.h
 
+	utility/messaging/filter_types/MessageFilterFocusInOut.h
+	utility/messaging/filter_types/MessageFilterSearchAutocomplete.h
+
 	utility/messaging/type/MessageActivateAll.h
 	utility/messaging/type/MessageActivateBookmark.h
 	utility/messaging/type/MessageActivateEdge.h
@@ -405,6 +408,7 @@ add_files(
 
 	utility/messaging/Message.h
 	utility/messaging/MessageBase.h
+	utility/messaging/MessageFilter.h
 	utility/messaging/MessageInterruptTasksCounter.cpp
 	utility/messaging/MessageInterruptTasksCounter.h
 	utility/messaging/MessageListener.h
