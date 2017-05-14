@@ -31,8 +31,7 @@ public:
 	void setBookmarkCategories(const std::vector<BookmarkCategory>& categories);
 	void setCurrentBookmarkCategory(const BookmarkCategory& category);
 
-	bool getIsEdge() const;
-	void setIsEdge(const bool isEdge);
+	void setNodeId(Id nodeId);
 
 protected:
 	virtual void resizeEvent(QResizeEvent* event) Q_DECL_OVERRIDE;
@@ -54,7 +53,7 @@ private:
 
 	int m_categoryCount;
 
-	bool m_isEdge;
+	Id m_nodeId;
 
 	QWidget* m_headerBackground;
 };

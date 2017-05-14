@@ -17,6 +17,7 @@
 #include "qt/utility/QtContextMenu.h"
 #include "qt/utility/utilityQt.h"
 #include "settings/ApplicationSettings.h"
+#include "utility/messaging/type/MessageDisplayBookmarkCreator.h"
 #include "utility/ResourcePaths.h"
 
 QtGraphicsView::QtGraphicsView(QWidget* parent)
@@ -51,6 +52,11 @@ QtGraphicsView::QtGraphicsView(QWidget* parent)
 	m_copyNodeNameAction->setStatusTip(tr("Copies the name of this node to the clipboard"));
 	m_copyNodeNameAction->setToolTip(tr("Copies the name of this node to the clipboard"));
 	connect(m_copyNodeNameAction, SIGNAL(triggered()), this, SLOT(copyNodeName()));
+
+	m_bookmarkNodeAction = new QAction(tr("Bookmark Node"), this);
+	m_bookmarkNodeAction->setStatusTip(tr("Create a bookmark for this node"));
+	m_bookmarkNodeAction->setToolTip(tr("Create a bookmark for this node"));
+	connect(m_bookmarkNodeAction, SIGNAL(triggered()), this, SLOT(bookmarkNode()));
 
 	m_zoomInButton = new QPushButton(this);
 	m_zoomInButton->setObjectName("zoom_in_button");
@@ -277,6 +283,7 @@ void QtGraphicsView::wheelEvent(QWheelEvent* event)
 void QtGraphicsView::contextMenuEvent(QContextMenuEvent* event)
 {
 	m_clipboardNodeName = "";
+	m_bookmarkNodeId = 0;
 	FilePath clipboardFilePath;
 
 	QtGraphNode* node = getNodeAtCursorPosition();
@@ -286,6 +293,7 @@ void QtGraphicsView::contextMenuEvent(QContextMenuEvent* event)
 		if (dataNode)
 		{
 			m_clipboardNodeName = dataNode->getName();
+			m_bookmarkNodeId = dataNode->getTokenId();
 			clipboardFilePath = dataNode->getFilePath();
 		}
 		else if (dynamic_cast<QtGraphNodeBundle*>(node))
@@ -299,6 +307,12 @@ void QtGraphicsView::contextMenuEvent(QContextMenuEvent* event)
 	QtContextMenu menu(event, this);
 	menu.addSeparator();
 	menu.addAction(m_exportGraphAction);
+
+	if (m_bookmarkNodeId)
+	{
+		menu.addSeparator();
+		menu.addAction(m_bookmarkNodeAction);
+	}
 
 	if (!m_clipboardNodeName.empty() || !clipboardFilePath.empty())
 	{
@@ -453,6 +467,11 @@ void QtGraphicsView::exportGraph()
 void QtGraphicsView::copyNodeName()
 {
 	QApplication::clipboard()->setText(m_clipboardNodeName.c_str());
+}
+
+void QtGraphicsView::bookmarkNode()
+{
+	MessageDisplayBookmarkCreator(m_bookmarkNodeId).dispatch();
 }
 
 void QtGraphicsView::zoomInPressed()

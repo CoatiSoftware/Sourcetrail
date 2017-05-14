@@ -8,12 +8,11 @@ class MessageEditBookmark
 	: public Message<MessageEditBookmark>
 {
 public:
-	MessageEditBookmark(const Id id, const std::string& comment, const std::string& displayName, const std::string& categoryName, const bool isEdge)
+	MessageEditBookmark(Id id, const std::string& comment, const std::string& displayName, const std::string& categoryName)
 		: bookmarkId(id)
 		, comment(comment)
 		, displayName(displayName)
 		, categoryName(categoryName)
-		, isEdge(isEdge)
 	{
 	}
 
@@ -30,7 +29,6 @@ public:
 	const std::string comment;
 	const std::string displayName;
 	const std::string categoryName;
-	const bool isEdge;
 };
 
 #endif // MESSAGE_EDIT_BOOKMARK_H

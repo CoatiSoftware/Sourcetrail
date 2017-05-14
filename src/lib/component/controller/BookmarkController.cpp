@@ -22,7 +22,6 @@ const std::string BookmarkController::s_defaultCategoryName = "default";
 BookmarkController::BookmarkController(StorageAccess* storageAccess)
 	: m_storageAccess(storageAccess)
 	, m_bookmarkCache(storageAccess)
-	, m_hasBookmarkForActiveToken(false)
 {
 }
 
@@ -34,8 +33,6 @@ void BookmarkController::clear()
 {
 	m_activeNodeIds.clear();
 	m_activeEdgeIds.clear();
-
-	m_hasBookmarkForActiveToken = false;
 
 	getView<BookmarkView>()->setCreateButtonState(BookmarkView::CreateButtonState::CANNOT_CREATE);
 }
@@ -66,14 +63,14 @@ std::vector<std::string> BookmarkController::getActiveTokenDisplayNames() const
 	}
 }
 
+std::vector<std::string> BookmarkController::getDisplayNamesForNodeId(Id nodeId) const
+{
+	return std::vector<std::string>({ getNodeDisplayName(nodeId) });
+}
+
 std::vector<BookmarkCategory> BookmarkController::getAllBookmarkCategories() const
 {
 	return m_storageAccess->getAllBookmarkCategories();
-}
-
-bool BookmarkController::hasBookmarkForActiveToken() const
-{
-	return m_hasBookmarkForActiveToken;
 }
 
 std::shared_ptr<Bookmark> BookmarkController::getBookmarkForActiveToken() const
@@ -97,6 +94,19 @@ std::shared_ptr<Bookmark> BookmarkController::getBookmarkForActiveToken() const
 			{
 				return std::make_shared<NodeBookmark>(*(nodeBookmark.get()));
 			}
+		}
+	}
+
+	return std::shared_ptr<Bookmark>();
+}
+
+std::shared_ptr<Bookmark> BookmarkController::getBookmarkForNodeId(Id nodeId) const
+{
+	for (std::shared_ptr<NodeBookmark> nodeBookmark: getAllNodeBookmarks())
+	{
+		if (nodeBookmark->getNodeIds().size() == 1 && nodeBookmark->getNodeIds()[0] == nodeId)
+		{
+			return std::make_shared<NodeBookmark>(*(nodeBookmark.get()));
 		}
 	}
 
@@ -191,7 +201,7 @@ void BookmarkController::handleMessage(MessageActivateBookmark* message)
 
 		for (Id nodeId: bookmark->getNodeIds())
 		{
-			activateNodes.addNode(nodeId, NameHierarchy());
+			activateNodes.addNode(nodeId, m_storageAccess->getNameHierarchyForNodeId(nodeId));
 		}
 
 		activateNodes.dispatch();
@@ -210,12 +220,10 @@ void BookmarkController::handleMessage(MessageActivateTokens* message)
 
 		if (getBookmarkForActiveToken())
 		{
-			m_hasBookmarkForActiveToken = true;
 			getView<BookmarkView>()->setCreateButtonState(BookmarkView::CreateButtonState::ALREADY_CREATED);
 		}
 		else
 		{
-			m_hasBookmarkForActiveToken = false;
 			getView<BookmarkView>()->setCreateButtonState(BookmarkView::CreateButtonState::CAN_CREATE);
 		}
 	}
@@ -227,12 +235,10 @@ void BookmarkController::handleMessage(MessageActivateTokens* message)
 
 		if (getBookmarkForActiveToken())
 		{
-			m_hasBookmarkForActiveToken = true;
 			getView<BookmarkView>()->setCreateButtonState(BookmarkView::CreateButtonState::ALREADY_CREATED);
 		}
 		else
 		{
-			m_hasBookmarkForActiveToken = false;
 			getView<BookmarkView>()->setCreateButtonState(BookmarkView::CreateButtonState::CAN_CREATE);
 		}
 	}
@@ -248,17 +254,7 @@ void BookmarkController::handleMessage(MessageCreateBookmark* message)
 	{
 		LOG_INFO_STREAM(<< "Creating Edge Bookmark");
 
-		std::string displayName = message->displayName;
-		if (displayName.empty())
-		{
-			std::vector<std::string> activeEdgeDisplayNames = getActiveEdgeDisplayNames();
-			if (!activeEdgeDisplayNames.empty())
-			{
-				displayName = activeEdgeDisplayNames.front();
-			}
-		}
-
-		EdgeBookmark bookmark(0, displayName, message->comment, TimePoint::now(), category);
+		EdgeBookmark bookmark(0, message->displayName, message->comment, TimePoint::now(), category);
 		bookmark.setEdgeIds(m_activeEdgeIds);
 
 		if (!m_activeNodeIds.empty())
@@ -276,24 +272,20 @@ void BookmarkController::handleMessage(MessageCreateBookmark* message)
 	{
 		LOG_INFO_STREAM(<< "Creating Node Bookmark");
 
-		std::string displayName = message->displayName;
-		if (displayName.empty())
+		NodeBookmark bookmark(0, message->displayName, message->comment, TimePoint::now(), category);
+		if (message->nodeId)
 		{
-			std::vector<std::string> activeNodeDisplayNames = getActiveNodeDisplayNames();
-			if (!activeNodeDisplayNames.empty())
-			{
-				displayName = activeNodeDisplayNames.front();
-			}
+			bookmark.addNodeId(message->nodeId);
 		}
-
-		NodeBookmark bookmark(0, displayName, message->comment, TimePoint::now(), category);
-		bookmark.setNodeIds(m_activeNodeIds);
+		else
+		{
+			bookmark.setNodeIds(m_activeNodeIds);
+		}
 		m_storageAccess->addNodeBookmark(bookmark);
 	}
 
 	m_bookmarkCache.clear();
 
-	m_hasBookmarkForActiveToken = true;
 	getView<BookmarkView>()->setCreateButtonState(BookmarkView::CreateButtonState::ALREADY_CREATED);
 	getView<BookmarkView>()->update();
 }
@@ -315,7 +307,6 @@ void BookmarkController::handleMessage(MessageDeleteBookmark* message)
 
 	if (!getBookmarkForActiveToken())
 	{
-		m_hasBookmarkForActiveToken = false;
 		getView<BookmarkView>()->setCreateButtonState(BookmarkView::CreateButtonState::CAN_CREATE);
 	}
 
@@ -330,7 +321,6 @@ void BookmarkController::handleMessage(MessageDeleteBookmarkCategory* message)
 
 	if (!getBookmarkForActiveToken())
 	{
-		m_hasBookmarkForActiveToken = false;
 		getView<BookmarkView>()->setCreateButtonState(BookmarkView::CreateButtonState::CAN_CREATE);
 	}
 
@@ -347,7 +337,6 @@ void BookmarkController::handleMessage(MessageDeleteBookmarkForActiveTokens* mes
 
 		cleanBookmarkCategories();
 
-		m_hasBookmarkForActiveToken = false;
 		getView<BookmarkView>()->setCreateButtonState(BookmarkView::CreateButtonState::CAN_CREATE);
 		getView<BookmarkView>()->update();
 	}

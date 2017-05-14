@@ -6,6 +6,8 @@
 #include <QGraphicsView>
 #include <QPushButton>
 
+#include "utility/types.h"
+
 class QTimer;
 class QtGraphNode;
 
@@ -51,6 +53,7 @@ private slots:
 
 	void exportGraph();
 	void copyNodeName();
+	void bookmarkNode();
 
 	void zoomInPressed();
 	void zoomOutPressed();
@@ -72,12 +75,14 @@ private:
 	bool m_shift;
 
 	std::string m_clipboardNodeName;
+	Id m_bookmarkNodeId;
 
 	std::shared_ptr<QTimer> m_timer;
 	std::shared_ptr<QTimer> m_timerStopper;
 
 	QAction* m_exportGraphAction;
 	QAction* m_copyNodeNameAction;
+	QAction* m_bookmarkNodeAction;
 
 	QPushButton* m_zoomInButton;
 	QPushButton* m_zoomOutButton;

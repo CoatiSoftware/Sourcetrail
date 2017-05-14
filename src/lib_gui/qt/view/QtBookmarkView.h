@@ -35,7 +35,7 @@ private slots:
 
 private:
 	virtual void displayBookmarks(const std::vector<std::shared_ptr<Bookmark>>& bookmarks);
-	virtual void displayBookmarkCreator(const std::vector<std::string>& names, const std::vector<BookmarkCategory>& categories);
+	virtual void displayBookmarkCreator(const std::vector<std::string>& names, const std::vector<BookmarkCategory>& categories, Id nodeId);
 	virtual void displayBookmarkEditor(std::shared_ptr<Bookmark> bookmark, const std::vector<BookmarkCategory>& categories);
 
 	void setStyleSheet();

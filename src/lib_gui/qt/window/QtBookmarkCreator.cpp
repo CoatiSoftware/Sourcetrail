@@ -19,6 +19,7 @@ QtBookmarkCreator::QtBookmarkCreator(QWidget* parent, bool edit, Id id)
 	, m_edit(edit)
 	, m_bookmarkId(id)
 	, m_categoryCount(0)
+	, m_nodeId(0)
 {
 }
 
@@ -151,14 +152,9 @@ void QtBookmarkCreator::setCurrentBookmarkCategory(const BookmarkCategory& categ
 	}
 }
 
-bool QtBookmarkCreator::getIsEdge() const
+void QtBookmarkCreator::setNodeId(Id nodeId)
 {
-	return m_isEdge;
-}
-
-void QtBookmarkCreator::setIsEdge(const bool isEdge)
-{
-	m_isEdge = isEdge;
+	m_nodeId = nodeId;
 }
 
 void QtBookmarkCreator::resizeEvent(QResizeEvent* event)
@@ -177,11 +173,11 @@ void QtBookmarkCreator::handleNext()
 	if (m_edit)
 	{
 		MessageEditBookmark(
-			m_bookmarkId, qComment.toStdString(), qDisplayName.toStdString(), qCategory.toStdString(), m_isEdge).dispatch();
+			m_bookmarkId, qComment.toStdString(), qDisplayName.toStdString(), qCategory.toStdString()).dispatch();
 	}
 	else
 	{
-		MessageCreateBookmark(qComment.toStdString(), qDisplayName.toStdString(), qCategory.toStdString()).dispatch();
+		MessageCreateBookmark(qComment.toStdString(), qDisplayName.toStdString(), qCategory.toStdString(), m_nodeId).dispatch();
 	}
 
 	MessageStatus("Creating Bookmark for active Token").dispatch();

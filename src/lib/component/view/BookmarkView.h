@@ -46,7 +46,7 @@ private:
 	virtual void handleMessage(MessageDisplayBookmarkEditor* message);
 
 	virtual void displayBookmarks(const std::vector<std::shared_ptr<Bookmark>>& bookmarks) = 0;
-	virtual void displayBookmarkCreator(const std::vector<std::string>& names, const std::vector<BookmarkCategory>& categories) = 0;
+	virtual void displayBookmarkCreator(const std::vector<std::string>& names, const std::vector<BookmarkCategory>& categories, Id nodeId) = 0;
 	virtual void displayBookmarkEditor(std::shared_ptr<Bookmark> bookmark, const std::vector<BookmarkCategory>& categories) = 0;
 
 	MessageDisplayBookmarks::BookmarkFilter m_filter;

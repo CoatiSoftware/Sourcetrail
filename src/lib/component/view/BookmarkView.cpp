@@ -46,18 +46,39 @@ void BookmarkView::handleMessage(MessageDisplayBookmarks* message)
 
 void BookmarkView::handleMessage(MessageDisplayBookmarkCreator* message)
 {
-	if (!getController()->canCreateBookmark())
+	if (!getController()->canCreateBookmark() && !message->nodeId)
 	{
 		return;
 	}
 
-	if (getController()->hasBookmarkForActiveToken())
+	if (message->nodeId)
 	{
-		displayBookmarkEditor(getController()->getBookmarkForActiveToken(), getController()->getAllBookmarkCategories());
+		if (getController()->getBookmarkForNodeId(message->nodeId) != nullptr)
+		{
+			displayBookmarkEditor(
+				getController()->getBookmarkForNodeId(message->nodeId),
+				getController()->getAllBookmarkCategories()
+			);
+		}
+		else
+		{
+			displayBookmarkCreator(
+				getController()->getDisplayNamesForNodeId(message->nodeId),
+				getController()->getAllBookmarkCategories(),
+				message->nodeId
+			);
+		}
 	}
 	else
 	{
-		displayBookmarkCreator(getController()->getActiveTokenDisplayNames(), getController()->getAllBookmarkCategories());
+		if (getController()->getBookmarkForActiveToken() != nullptr)
+		{
+			displayBookmarkEditor(getController()->getBookmarkForActiveToken(), getController()->getAllBookmarkCategories());
+		}
+		else
+		{
+			displayBookmarkCreator(getController()->getActiveTokenDisplayNames(), getController()->getAllBookmarkCategories(), 0);
+		}
 	}
 }
 

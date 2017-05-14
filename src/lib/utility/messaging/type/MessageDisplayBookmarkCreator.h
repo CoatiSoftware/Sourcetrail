@@ -8,6 +8,12 @@ class MessageDisplayBookmarkCreator
 {
 public:
 	MessageDisplayBookmarkCreator()
+		: nodeId(0)
+	{
+	}
+
+	MessageDisplayBookmarkCreator(Id nodeId)
+		: nodeId(nodeId)
 	{
 	}
 
@@ -15,6 +21,8 @@ public:
 	{
 		return "MessageDisplayBookmarkCreator";
 	}
+
+	Id nodeId;
 };
 
 #endif // MESSAGE_DISPLAY_BOOKMARK_CREATOR_H

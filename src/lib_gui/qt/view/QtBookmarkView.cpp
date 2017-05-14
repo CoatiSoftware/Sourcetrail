@@ -191,7 +191,7 @@ void QtBookmarkView::displayBookmarks(const std::vector<std::shared_ptr<Bookmark
 	);
 }
 
-void QtBookmarkView::displayBookmarkCreator(const std::vector<std::string>& names, const std::vector<BookmarkCategory>& categories)
+void QtBookmarkView::displayBookmarkCreator(const std::vector<std::string>& names, const std::vector<BookmarkCategory>& categories, Id nodeId)
 {
 	m_onQtThread(
 		[=]()
@@ -213,6 +213,8 @@ void QtBookmarkView::displayBookmarkCreator(const std::vector<std::string>& name
 
 			bookmarkCreator->setDisplayName(displayName);
 			bookmarkCreator->setBookmarkCategories(categories);
+			bookmarkCreator->setNodeId(nodeId);
+
 			bookmarkCreator->show();
 			bookmarkCreator->raise();
 		}
@@ -230,7 +232,6 @@ void QtBookmarkView::displayBookmarkEditor(std::shared_ptr<Bookmark> bookmark, c
 			bookmarkCreator->setComment(bookmark->getComment());
 			bookmarkCreator->setBookmarkCategories(categories);
 			bookmarkCreator->setCurrentBookmarkCategory(bookmark->getCategory());
-			bookmarkCreator->setIsEdge((dynamic_cast<EdgeBookmark*>(bookmark.get()) != nullptr));
 
 			bookmarkCreator->show();
 			bookmarkCreator->raise();

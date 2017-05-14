@@ -50,10 +50,12 @@ public:
 		const MessageDisplayBookmarks::BookmarkFilter& filter, const MessageDisplayBookmarks::BookmarkOrder& order) const;
 
 	std::vector<std::string> getActiveTokenDisplayNames() const;
+	std::vector<std::string> getDisplayNamesForNodeId(Id nodeId) const;
+
 	std::vector<BookmarkCategory> getAllBookmarkCategories() const;
 
-	bool hasBookmarkForActiveToken() const;
 	std::shared_ptr<Bookmark> getBookmarkForActiveToken() const;
+	std::shared_ptr<Bookmark> getBookmarkForNodeId(Id nodeId) const;
 
 	bool canCreateBookmark() const;
 
@@ -118,7 +120,6 @@ private:
 
 	std::vector<Id> m_activeNodeIds;
 	std::vector<Id> m_activeEdgeIds;
-	bool m_hasBookmarkForActiveToken;
 };
 
 #endif // BOOKMARK_CONTROLLER_H
