@@ -594,6 +594,13 @@ void QtCodeNavigator::scrollToDefinition(bool ignoreActiveReference)
 		return;
 	}
 
+	if (!m_activeTokenId && m_mode == MODE_SINGLE && m_references.size() && m_references.front().locationType != LOCATION_TOKEN)
+	{
+		requestScroll(m_references.front().filePath, 0, m_references.front().locationId, false, true);
+		emit scrollRequest();
+		return;
+	}
+
 	if (!m_activeTokenId)
 	{
 		return;
