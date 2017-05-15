@@ -9,6 +9,7 @@ class MessageActivateAll
 public:
 	MessageActivateAll()
 	{
+		setIsParallel(true);
 	}
 
 	static const std::string getStaticType()
