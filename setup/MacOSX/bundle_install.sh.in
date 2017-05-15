@@ -68,6 +68,7 @@ cp -R ../../../ide_plugins/atom $PACKAGE_DIR/plugins/atom/
 cp -R ../../../ide_plugins/emacs $PACKAGE_DIR/plugins/emacs/
 cp -R ../../../ide_plugins/eclipse $PACKAGE_DIR/plugins/eclipse/
 cp -R ../../../ide_plugins/idea $PACKAGE_DIR/plugins/idea/
+cp -R ../../../ide_plugins/qt_creator $PACKAGE_DIR/plugins/qt_creator/
 
 cp ../../../bin/app/data/gui/installer/EULA.rtf $PACKAGE_DIR/EULA.rtf
 
