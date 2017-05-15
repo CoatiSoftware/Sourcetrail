@@ -10,6 +10,11 @@ class MessageFilterFocusInOut
 {
 	void filter(MessageQueue::MessageBufferType* messageBuffer) override
 	{
+		if (messageBuffer->size() < 2)
+		{
+			return;
+		}
+
 		MessageBase* message = messageBuffer->front().get();
 		if (message->getType() == MessageFocusIn::getStaticType())
 		{

@@ -216,13 +216,13 @@ void MessageQueue::processMessages()
 		{
 			std::lock_guard<std::mutex> lock(m_messageBufferMutex);
 
-			if (!m_messageBuffer.size())
-			{
-				break;
-			}
-
 			for (std::shared_ptr<MessageFilter> filter : m_filters)
 			{
+				if (!m_messageBuffer.size())
+				{
+					break;
+				}
+
 				filter->filter(&m_messageBuffer);
 			}
 
