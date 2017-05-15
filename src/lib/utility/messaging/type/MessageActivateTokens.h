@@ -15,6 +15,7 @@ public:
 		, isAggregation(false)
 		, isFromSearch(false)
 	{
+		setIsParallel(true);
 		setKeepContent(other->keepContent());
 	}
 

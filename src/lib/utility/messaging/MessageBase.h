@@ -8,7 +8,8 @@ class MessageBase
 {
 public:
 	MessageBase()
-		: m_isReplayed(false)
+		: m_isParallel(false)
+		, m_isReplayed(false)
 		, m_isReplayCleared(false)
 		, m_sendAsTask(true)
 		, m_keepContent(false)
@@ -32,6 +33,16 @@ public:
 	void setSendAsTask(bool sendAsTask)
 	{
 		m_sendAsTask = sendAsTask;
+	}
+
+	bool isParallel() const
+	{
+		return m_isParallel;
+	}
+
+	void setIsParallel(bool isParallel)
+	{
+		m_isParallel = isParallel;
 	}
 
 	bool isReplayed() const
@@ -95,6 +106,8 @@ public:
 	}
 
 private:
+	bool m_isParallel;
+
 	bool m_isReplayed;
 	bool m_isReplayCleared;
 

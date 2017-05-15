@@ -8,6 +8,7 @@
 #include "utility/messaging/MessageFilter.h"
 #include "utility/messaging/MessageListenerBase.h"
 #include "utility/scheduling/TaskGroupParallel.h"
+#include "utility/scheduling/TaskGroupSequence.h"
 #include "utility/scheduling/TaskLambda.h"
 
 std::shared_ptr<MessageQueue> MessageQueue::getInstance()
@@ -265,7 +266,15 @@ void MessageQueue::sendMessage(std::shared_ptr<MessageBase> message)
 
 void MessageQueue::sendMessageAsTask(std::shared_ptr<MessageBase> message, bool asNextTask) const
 {
-	std::shared_ptr<TaskGroupParallel> taskGroup = std::make_shared<TaskGroupParallel>();
+	std::shared_ptr<TaskGroup> taskGroup;
+	if (message->isParallel())
+	{
+		taskGroup = std::make_shared<TaskGroupParallel>();
+	}
+	else
+	{
+		taskGroup = std::make_shared<TaskGroupSequence>();
+	}
 
 	{
 		std::lock_guard<std::mutex> lock(m_listenersMutex);
