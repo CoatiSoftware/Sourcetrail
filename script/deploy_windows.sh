@@ -128,6 +128,8 @@ mkdir -p $APP_PACKAGE_DIR_WIN32/plugins/emacs/
 cp -u -r ide_plugins/emacs/* $APP_PACKAGE_DIR_WIN32/plugins/emacs/
 mkdir -p $APP_PACKAGE_DIR_WIN32/plugins/idea/
 cp -u -r ide_plugins/idea/* $APP_PACKAGE_DIR_WIN32/plugins/idea/
+mkdir -p $APP_PACKAGE_DIR_WIN32/plugins/qt_creator/
+cp -u -r ide_plugins/qt_creator/* $APP_PACKAGE_DIR_WIN32/plugins/qt_creator/
 mkdir -p $APP_PACKAGE_DIR_WIN32/plugins/sublime_text/
 cp -u -r ide_plugins/sublime_text/* $APP_PACKAGE_DIR_WIN32/plugins/sublime_text/
 mkdir -p $APP_PACKAGE_DIR_WIN32/plugins/vim/
