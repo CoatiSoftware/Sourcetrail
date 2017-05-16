@@ -46,10 +46,10 @@ bool Migrator<MigratableType>::willMigrate(const MigratableType* migratable, siz
 	{
 		for (; sourceVersion <= targetVersion; sourceVersion++)
 		{
-			std::pair<MigrationMap::const_iterator, MigrationMap::const_iterator> ret;
+			std::pair<typename MigrationMap::const_iterator, typename MigrationMap::const_iterator> ret;
 			ret = m_migrations.equal_range(sourceVersion);
 
-			for (MigrationMap::const_iterator it = ret.first; it != ret.second; it++)
+			for (typename MigrationMap::const_iterator it = ret.first; it != ret.second; it++)
 			{
 				return true;
 			}
@@ -68,10 +68,10 @@ bool Migrator<MigratableType>::migrate(MigratableType* migratable, size_t target
 	{
 		for (; sourceVersion <= targetVersion; sourceVersion++)
 		{
-			std::pair<MigrationMap::const_iterator, MigrationMap::const_iterator> ret;
+			std::pair<typename MigrationMap::const_iterator, typename MigrationMap::const_iterator> ret;
 			ret = m_migrations.equal_range(sourceVersion);
 
-			for (MigrationMap::const_iterator it = ret.first; it != ret.second; it++)
+			for (typename MigrationMap::const_iterator it = ret.first; it != ret.second; it++)
 			{
 				it->second->apply(migratable);
 			}
