@@ -21,9 +21,9 @@ std::vector<FilePath> IndexerCommandCxxCdb::getSourceFilesFromCDB(const FilePath
 	return filePaths;
 }
 
-std::string IndexerCommandCxxCdb::getIndexerKindString()
+IndexerCommandType IndexerCommandCxxCdb::getStaticIndexerCommandType()
 {
-	return "CxxCdb";
+	return INDEXER_COMMAND_CXX_CDB;
 }
 
 IndexerCommandCxxCdb::IndexerCommandCxxCdb(
@@ -44,9 +44,9 @@ IndexerCommandCxxCdb::~IndexerCommandCxxCdb()
 {
 }
 
-std::string IndexerCommandCxxCdb::getKindString() const
+IndexerCommandType IndexerCommandCxxCdb::getIndexerCommandType() const
 {
-	return getIndexerKindString();
+	return getStaticIndexerCommandType();
 }
 
 size_t IndexerCommandCxxCdb::getByteSize() const

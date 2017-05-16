@@ -7,44 +7,44 @@
 #include "data/indexer/IndexerCommand.h"
 #include "utility/logging/logging.h"
 
-template <typename IndexerCommandType>
+template <typename T>
 class Indexer
 	: public IndexerBase
 {
 public:
 	virtual ~Indexer();
 
-	virtual std::string getKindString() const;
+	virtual IndexerCommandType getSupportedIndexerCommandType() const;
 
 	virtual std::shared_ptr<IntermediateStorage> index(
 		std::shared_ptr<IndexerCommand> indexerCommand,
 		std::shared_ptr<FileRegister> fileRegister);
 
 	virtual std::shared_ptr<IntermediateStorage> doIndex(
-		std::shared_ptr<IndexerCommandType> indexerCommand,
+		std::shared_ptr<T> indexerCommand,
 		std::shared_ptr<FileRegister> fileRegister) = 0;
 };
 
-template <typename IndexerCommandType>
-Indexer<IndexerCommandType>::~Indexer()
+template <typename T>
+Indexer<T>::~Indexer()
 {
 }
 
-template <typename IndexerCommandType>
-std::string Indexer<IndexerCommandType>::getKindString() const
+template <typename T>
+IndexerCommandType Indexer<T>::getSupportedIndexerCommandType() const
 {
-	return IndexerCommandType::getIndexerKindString();
+	return T::getStaticIndexerCommandType();
 }
 
-template <typename IndexerCommandType>
-std::shared_ptr<IntermediateStorage> Indexer<IndexerCommandType>::index(
+template <typename T>
+std::shared_ptr<IntermediateStorage> Indexer<T>::index(
 	std::shared_ptr<IndexerCommand> indexerCommand, std::shared_ptr<FileRegister> fileRegister)
 {
-	std::shared_ptr<IndexerCommandType> castedCommand = std::dynamic_pointer_cast<IndexerCommandType>(indexerCommand);
+	std::shared_ptr<T> castedCommand = std::dynamic_pointer_cast<T>(indexerCommand);
 	if (!castedCommand)
 	{
-		LOG_ERROR("Trying to process " + indexerCommand->getKindString() +
-			" indexer command with " + getKindString() + " indexer.");
+		LOG_ERROR("Trying to process " + indexerCommandTypeToString(indexerCommand->getIndexerCommandType()) +
+			" indexer command with indexer that supports \"" + indexerCommandTypeToString(getSupportedIndexerCommandType()) + "\".");
 
 		return std::shared_ptr<IntermediateStorage>();
 	}

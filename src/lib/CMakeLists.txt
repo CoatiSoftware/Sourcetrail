@@ -162,6 +162,8 @@ add_files(
 	data/indexer/IndexerCommand.h
 	data/indexer/IndexerCommandList.cpp
 	data/indexer/IndexerCommandList.h
+	data/indexer/IndexerCommandType.cpp
+	data/indexer/IndexerCommandType.h
 	data/indexer/IndexerComposite.cpp
 	data/indexer/IndexerComposite.h
 	data/indexer/IndexerFactory.cpp

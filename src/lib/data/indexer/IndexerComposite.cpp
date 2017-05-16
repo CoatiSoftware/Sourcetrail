@@ -8,26 +8,26 @@ IndexerComposite::~IndexerComposite()
 {
 }
 
-std::string IndexerComposite::getKindString() const
+IndexerCommandType IndexerComposite::getSupportedIndexerCommandType() const
 {
-	return "composite";
+	return INDEXER_COMMAND_UNKNOWN;
 }
 
 void IndexerComposite::addIndexer(std::shared_ptr<IndexerBase> indexer)
 {
-	m_indexers.emplace(indexer->getKindString(), indexer);
+	m_indexers.emplace(indexer->getSupportedIndexerCommandType(), indexer);
 }
 
 std::shared_ptr<IntermediateStorage> IndexerComposite::index(
 	std::shared_ptr<IndexerCommand> indexerCommand, std::shared_ptr<FileRegister> fileRegister)
 {
-	auto it = m_indexers.find(indexerCommand->getKindString());
+	auto it = m_indexers.find(indexerCommand->getIndexerCommandType());
 	if (it != m_indexers.end())
 	{
 		return it->second->index(indexerCommand, fileRegister);
 	}
 
-	LOG_ERROR("No indexer found to handle " + indexerCommand->getKindString() + " indexer command.");
+	LOG_ERROR("No indexer found that supports \"" + indexerCommandTypeToString(indexerCommand->getIndexerCommandType()) + "\".");
 	return std::shared_ptr<IntermediateStorage>();
 }
 

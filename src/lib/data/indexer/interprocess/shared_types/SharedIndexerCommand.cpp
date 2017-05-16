@@ -44,7 +44,7 @@ void SharedIndexerCommand::fromLocal(IndexerCommand* indexerCommand)
 	else
 	{
 		LOG_ERROR_STREAM(<< "Trying to push unhandled type of IndexerCommand for file: "
-			<< indexerCommand->getSourceFilePath().str() << ". Type string is: " << indexerCommand->getKindString()
+			<< indexerCommand->getSourceFilePath().str() << ". Type string is: " << indexerCommandTypeToString(indexerCommand->getIndexerCommandType())
 			<< ". It will be ignored.");
 	}
 }

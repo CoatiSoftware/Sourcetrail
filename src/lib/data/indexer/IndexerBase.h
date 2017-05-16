@@ -4,6 +4,8 @@
 #include <memory>
 #include <string>
 
+#include "data/indexer/IndexerCommandType.h"
+
 class FileRegister;
 class IndexerCommand;
 class IntermediateStorage;
@@ -14,7 +16,7 @@ public:
 	IndexerBase();
 	virtual ~IndexerBase();
 
-	virtual std::string getKindString() const = 0;
+	virtual IndexerCommandType getSupportedIndexerCommandType() const = 0;
 
 	virtual std::shared_ptr<IntermediateStorage> index(
 		std::shared_ptr<IndexerCommand> indexerCommand,

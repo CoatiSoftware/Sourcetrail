@@ -1,8 +1,8 @@
 #include "data/indexer/IndexerCommandCxxManual.h"
 
-std::string IndexerCommandCxxManual::getIndexerKindString()
+IndexerCommandType IndexerCommandCxxManual::getStaticIndexerCommandType()
 {
-	return "CxxManual";
+	return INDEXER_COMMAND_CXX_MANUAL;
 }
 
 IndexerCommandCxxManual::IndexerCommandCxxManual(
@@ -23,9 +23,9 @@ IndexerCommandCxxManual::~IndexerCommandCxxManual()
 {
 }
 
-std::string IndexerCommandCxxManual::getKindString() const
+IndexerCommandType IndexerCommandCxxManual::getIndexerCommandType() const
 {
-	return getIndexerKindString();
+	return getStaticIndexerCommandType();
 }
 
 size_t IndexerCommandCxxManual::getByteSize() const

@@ -11,7 +11,7 @@ class IndexerCommandJava
 	: public IndexerCommand
 {
 public:
-	static std::string getIndexerKindString();
+	static IndexerCommandType getStaticIndexerCommandType();
 
 	IndexerCommandJava(
 		const FilePath& sourceFilePath,
@@ -20,7 +20,7 @@ public:
 		const std::vector<FilePath>& classPath);
 	virtual ~IndexerCommandJava();
 
-	virtual std::string getKindString() const override;
+	virtual IndexerCommandType getIndexerCommandType() const override;
 	virtual size_t getByteSize() const override;
 
 	std::vector<FilePath> getClassPath() const;

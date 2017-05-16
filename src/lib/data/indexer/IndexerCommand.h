@@ -4,6 +4,7 @@
 #include <set>
 #include <string>
 
+#include "data/indexer/IndexerCommandType.h"
 #include "utility/file/FilePath.h"
 
 class IndexerCommand
@@ -12,7 +13,8 @@ public:
 	IndexerCommand(const FilePath& sourceFilePath, const std::set<FilePath>& indexedPaths, const std::set<FilePath>& excludedPaths);
 	virtual ~IndexerCommand();
 
-	virtual std::string getKindString() const = 0;
+	virtual IndexerCommandType getIndexerCommandType() const = 0;
+
 	virtual size_t getByteSize() const;
 
 	FilePath getSourceFilePath() const;

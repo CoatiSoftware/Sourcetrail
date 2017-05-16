@@ -18,7 +18,7 @@ class IndexerCommandCxxCdb
 public:
 	static std::vector<FilePath> getSourceFilesFromCDB(const FilePath& compilationDatabasePath);
 
-	static std::string getIndexerKindString();
+	static IndexerCommandType getStaticIndexerCommandType();
 
 	IndexerCommandCxxCdb(
 		const FilePath& sourceFilePath,
@@ -30,7 +30,7 @@ public:
 		const std::vector<FilePath>& frameworkSearchPaths);
 	virtual ~IndexerCommandCxxCdb();
 
-	virtual std::string getKindString() const;
+	virtual IndexerCommandType getIndexerCommandType() const override;
 	virtual size_t getByteSize() const;
 
 	FilePath getWorkingDirectory() const;

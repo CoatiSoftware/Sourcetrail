@@ -1,8 +1,8 @@
 #include "data/indexer/IndexerCommandJava.h"
 
-std::string IndexerCommandJava::getIndexerKindString()
+IndexerCommandType IndexerCommandJava::getStaticIndexerCommandType()
 {
-	return "Java";
+	return INDEXER_COMMAND_JAVA;
 }
 
 IndexerCommandJava::IndexerCommandJava(
@@ -20,9 +20,9 @@ IndexerCommandJava::~IndexerCommandJava()
 {
 }
 
-std::string IndexerCommandJava::getKindString() const
+IndexerCommandType IndexerCommandJava::getIndexerCommandType() const
 {
-	return getIndexerKindString();
+	return getStaticIndexerCommandType();
 }
 
 size_t IndexerCommandJava::getByteSize() const

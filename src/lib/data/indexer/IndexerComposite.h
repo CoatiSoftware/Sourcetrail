@@ -11,7 +11,7 @@ class IndexerComposite: public IndexerBase
 public:
 	virtual ~IndexerComposite();
 
-	virtual std::string getKindString() const;
+	virtual IndexerCommandType getSupportedIndexerCommandType() const;
 
 	void addIndexer(std::shared_ptr<IndexerBase> indexer);
 
@@ -23,7 +23,7 @@ public:
 	virtual void interrupt();
 
 private:
-	std::unordered_map<std::string, std::shared_ptr<IndexerBase>> m_indexers;
+	std::unordered_map<IndexerCommandType, std::shared_ptr<IndexerBase>> m_indexers;
 };
 
 #endif // INDEXER_COMPOSITE_H

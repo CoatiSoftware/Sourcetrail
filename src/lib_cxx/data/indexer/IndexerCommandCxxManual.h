@@ -9,7 +9,7 @@ class IndexerCommandCxxManual
 	: public IndexerCommandCxx
 {
 public:
-	static std::string getIndexerKindString();
+	static IndexerCommandType getStaticIndexerCommandType();
 
 	IndexerCommandCxxManual(
 		const FilePath& sourceFilePath,
@@ -22,7 +22,7 @@ public:
 
 	virtual ~IndexerCommandCxxManual();
 
-	virtual std::string getKindString() const;
+	virtual IndexerCommandType getIndexerCommandType() const override;
 	virtual size_t getByteSize() const;
 
 	std::string getLanguageStandard() const;
