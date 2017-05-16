@@ -32,7 +32,7 @@ void SqliteBookmarkStorage::migrateIfNecessary()
 		migration->executeStatementInStorage(storage, "UPDATE bookmarked_edge SET serialized_target_node_name = '::\tm' || serialized_target_node_name");
 	}));
 
-	bool migrated = migrator.migrate(this, SqliteBookmarkStorage::s_storageVersion);
+	migrator.migrate(this, SqliteBookmarkStorage::s_storageVersion);
 }
 
 Id SqliteBookmarkStorage::addBookmarkCategory(const std::string& name)

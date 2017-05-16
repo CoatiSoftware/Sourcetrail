@@ -23,7 +23,7 @@ public:
 	virtual ~IndexerCommandCxxManual();
 
 	virtual IndexerCommandType getIndexerCommandType() const override;
-	virtual size_t getByteSize() const;
+	virtual size_t getByteSize() const override;
 
 	std::string getLanguageStandard() const;
 

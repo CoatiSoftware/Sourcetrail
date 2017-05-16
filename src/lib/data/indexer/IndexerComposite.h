@@ -1,8 +1,8 @@
 #ifndef INDEXER_COMPOSITE_H
 #define INDEXER_COMPOSITE_H
 
+#include <map>
 #include <memory>
-#include <unordered_map>
 
 #include "data/indexer/IndexerBase.h"
 
@@ -23,7 +23,7 @@ public:
 	virtual void interrupt();
 
 private:
-	std::unordered_map<IndexerCommandType, std::shared_ptr<IndexerBase>> m_indexers;
+	std::map<IndexerCommandType, std::shared_ptr<IndexerBase>> m_indexers;
 };
 
 #endif // INDEXER_COMPOSITE_H

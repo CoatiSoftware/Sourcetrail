@@ -31,7 +31,7 @@ public:
 	virtual ~IndexerCommandCxxCdb();
 
 	virtual IndexerCommandType getIndexerCommandType() const override;
-	virtual size_t getByteSize() const;
+	virtual size_t getByteSize() const override;
 
 	FilePath getWorkingDirectory() const;
 
