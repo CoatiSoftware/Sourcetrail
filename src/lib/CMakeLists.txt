@@ -180,6 +180,8 @@ add_files(
 	data/location/SourceLocationFile.cpp
 	data/location/SourceLocationFile.h
 
+	data/name/NameDelimiterType.cpp
+	data/name/NameDelimiterType.h
 	data/name/NameElement.cpp
 	data/name/NameElement.h
 	data/name/NameHierarchy.cpp
@@ -226,6 +228,11 @@ add_files(
 	data/SqliteIndexStorage.h
 	data/SqliteStorage.cpp
 	data/SqliteStorage.h
+	data/SqliteStorageMigration.cpp
+	data/SqliteStorageMigration.h
+	data/SqliteStorageMigrationLambda.cpp
+	data/SqliteStorageMigrationLambda.h
+	data/SqliteStorageMigrator.h
 	data/Storage.cpp
 	data/Storage.h
 	data/StorageCache.cpp
@@ -254,15 +261,14 @@ add_files(
 	project/SourceGroup.cpp
 	project/SourceGroup.h
 
-	settings/migration/Migration.cpp
-	settings/migration/Migration.h
-	settings/migration/MigrationDeleteKey.cpp
-	settings/migration/MigrationDeleteKey.h
-	settings/migration/MigrationLambda.cpp
-	settings/migration/MigrationLambda.h
-	settings/migration/MigrationMoveKey.cpp
-	settings/migration/MigrationMoveKey.h
-	settings/migration/SettingsMigrator.cpp
+	settings/migration/SettingsMigration.cpp
+	settings/migration/SettingsMigration.h
+	settings/migration/SettingsMigrationDeleteKey.cpp
+	settings/migration/SettingsMigrationDeleteKey.h
+	settings/migration/SettingsMigrationLambda.cpp
+	settings/migration/SettingsMigrationLambda.h
+	settings/migration/SettingsMigrationMoveKey.cpp
+	settings/migration/SettingsMigrationMoveKey.h
 	settings/migration/SettingsMigrator.h
 
 	settings/ApplicationSettings.cpp
@@ -416,6 +422,9 @@ add_files(
 	utility/messaging/MessageListenerBase.h
 	utility/messaging/MessageQueue.cpp
 	utility/messaging/MessageQueue.h
+	
+	utility/migration/Migration.h
+	utility/migration/Migrator.h
 
 	utility/scheduling/Blackboard.cpp
 	utility/scheduling/Blackboard.h

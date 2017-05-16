@@ -5,7 +5,7 @@
 
 std::string NameHierarchy::serialize(NameHierarchy nameHierarchy)
 {
-	std::string serializedName = "";
+	std::string serializedName = nameDelimiterTypeToString(nameHierarchy.getDelimiterrr()) + "\tm";
 	for (size_t i = 0; i < nameHierarchy.size(); i++)
 	{
 		if (i > 0)
@@ -20,16 +20,24 @@ std::string NameHierarchy::serialize(NameHierarchy nameHierarchy)
 
 NameHierarchy NameHierarchy::deserialize(const std::string& serializedName)
 {
-	NameHierarchy nameHierarchy;
+	std::vector<std::string> serializedNameAndMetaElements = utility::splitToVector(serializedName, "\tm");
+	if (serializedNameAndMetaElements.size() != 2)
+	{
+		LOG_ERROR("unable to deserialize name hierarchy: " + serializedName); // todo: obfuscate serializedName!
+		return NameHierarchy(NAME_DELIMITER_UNKNOWN);
+	}
 
-	std::vector<std::string> serializedNameElements = utility::splitToVector(serializedName, "\tn");
+	const NameDelimiterType delimiter = stringToNameDelimiterType(serializedNameAndMetaElements[0]);
+	NameHierarchy nameHierarchy(delimiter);
+
+	std::vector<std::string> serializedNameElements = utility::splitToVector(serializedNameAndMetaElements[1], "\tn");
 	for (size_t i = 0; i < serializedNameElements.size(); i++)
 	{
 		std::vector<std::string> nameParts = utility::splitToVector(serializedNameElements[i], "\ts");
 		if (nameParts.size() != 2)
 		{
 			LOG_ERROR("unable to deserialize name hierarchy: " + serializedName); // todo: obfuscate serializedName!
-			return NameHierarchy();
+			return NameHierarchy(delimiter);
 		}
 		nameHierarchy.push(std::make_shared<NameElement>(nameParts[0], NameElement::Signature::deserialize(nameParts[1])));
 	}
@@ -37,26 +45,29 @@ NameHierarchy NameHierarchy::deserialize(const std::string& serializedName)
 	return nameHierarchy;
 }
 
-const std::string& NameHierarchy::getDelimiter()
+NameDelimiterType NameHierarchy::getDelimiterrr() const
 {
-	return s_delimiter;
+	return m_delimiter;
 }
 
-void NameHierarchy::setDelimiter(const std::string& delimiter)
+void NameHierarchy::setDelimiterrr(const NameDelimiterType delimiter)
 {
-	s_delimiter = delimiter;
+	m_delimiter = delimiter;
 }
 
-NameHierarchy::NameHierarchy()
+NameHierarchy::NameHierarchy(const NameDelimiterType delimiter)
+	: m_delimiter(delimiter)
 {
 }
 
-NameHierarchy::NameHierarchy(const std::string& name)
+NameHierarchy::NameHierarchy(const std::string& name, const NameDelimiterType delimiter)
+	: m_delimiter(delimiter)
 {
 	push(std::make_shared<NameElement>(name));
 }
 
-NameHierarchy::NameHierarchy(const std::vector<std::string>& names)
+NameHierarchy::NameHierarchy(const std::vector<std::string>& names, const NameDelimiterType delimiter)
+	: m_delimiter(delimiter)
 {
 	for (const std::string& name : names)
 	{
@@ -94,7 +105,7 @@ std::shared_ptr<NameElement> NameHierarchy::operator[](size_t pos) const
 
 NameHierarchy NameHierarchy::getRange(size_t first, size_t last) const
 {
-	NameHierarchy hierarchy;
+	NameHierarchy hierarchy(m_delimiter);
 
 	for (size_t i = first; i < last; i++)
 	{
@@ -116,7 +127,7 @@ std::string NameHierarchy::getQualifiedName() const
 	{
 		if (i > 0)
 		{
-			name += s_delimiter;
+			name += nameDelimiterTypeToString(m_delimiter);
 		}
 		name += m_elements[i]->getName();
 	}
@@ -150,5 +161,3 @@ std::string NameHierarchy::getRawNameWithSignature() const
 	}
 	return "";
 }
-
-std::string NameHierarchy::s_delimiter = "@";

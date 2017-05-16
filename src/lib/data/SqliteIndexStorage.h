@@ -14,7 +14,6 @@
 #include "utility/utility.h"
 #include "utility/utilityString.h"
 
-
 class TextAccess;
 class Version;
 struct ParseLocation;
@@ -25,6 +24,8 @@ class SqliteIndexStorage
 public:
 	SqliteIndexStorage(const FilePath& dbFilePath);
 	virtual ~SqliteIndexStorage();
+
+	virtual size_t getStaticVersion() const;
 
 	std::string getProjectSettingsText() const;
 	void setProjectSettingsText(std::string text);
@@ -127,7 +128,6 @@ public:
 private:
 	static const size_t s_storageVersion;
 
-	virtual size_t getStaticStorageVersion() const;
 	virtual std::vector<std::pair<int, SqliteDatabaseIndex>> getIndices() const;
 	virtual void clearTables();
 	virtual void setupTables();

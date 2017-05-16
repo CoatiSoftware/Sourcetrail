@@ -23,7 +23,7 @@ public:
 		std::string filePath = "path/to/test.h";
 
 		std::shared_ptr<IntermediateStorage> intermetiateStorage = std::make_shared<IntermediateStorage>();
-		Id id = intermetiateStorage->addNode(Node::typeToInt(Node::NODE_FILE), NameHierarchy::serialize(NameHierarchy(filePath)));
+		Id id = intermetiateStorage->addNode(Node::typeToInt(Node::NODE_FILE), NameHierarchy::serialize(NameHierarchy(filePath, NAME_DELIMITER_FILE)));
 		intermetiateStorage->addFile(id, filePath, "someTime", true);
 
 		storage.inject(intermetiateStorage.get());
@@ -249,8 +249,6 @@ private:
 
 		Id getEdgeId(Edge::EdgeType type, const NameHierarchy& fromName, const NameHierarchy& toName) const
 		{
-			NameHierarchy from;
-
 			return getIdForEdge(type, fromName, toName);
 		}
 	};
@@ -271,8 +269,8 @@ private:
 
 	NameHierarchy createNameHierarchy(std::string s) const
 	{
-		NameHierarchy nameHierarchy;
-		for (std::string element: utility::splitToVector(s, "::"))
+		NameHierarchy nameHierarchy(NAME_DELIMITER_CXX);
+		for (std::string element: utility::splitToVector(s, nameDelimiterTypeToString(NAME_DELIMITER_CXX)))
 		{
 			nameHierarchy.push(std::make_shared<NameElement>(element, NameElement::Signature()));
 		}

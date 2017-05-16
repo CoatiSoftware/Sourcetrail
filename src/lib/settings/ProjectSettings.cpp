@@ -1,8 +1,8 @@
 #include "settings/ProjectSettings.h"
 
-#include "settings/migration/MigrationDeleteKey.h"
-#include "settings/migration/MigrationLambda.h"
-#include "settings/migration/MigrationMoveKey.h"
+#include "settings/migration/SettingsMigrationDeleteKey.h"
+#include "settings/migration/SettingsMigrationLambda.h"
+#include "settings/migration/SettingsMigrationMoveKey.h"
 #include "settings/SourceGroupSettingsCxx.h"
 #include "settings/SourceGroupSettingsJava.h"
 #include "utility/utility.h"
@@ -280,8 +280,8 @@ FilePath ProjectSettings::makePathAbsolute(const FilePath& path) const
 SettingsMigrator ProjectSettings::getMigrations() const
 {
 	SettingsMigrator migrator;
-	migrator.addMigration(1, std::make_shared<MigrationLambda>(
-		[](const Migration* migration, Settings* settings)
+	migrator.addMigration(1, std::make_shared<SettingsMigrationLambda>(
+		[](const SettingsMigration* migration, Settings* settings)
 		{
 			const std::string language = migration->getValueFromSettings<std::string>(settings, "language_settings/language", "");
 			const std::string standard = migration->getValueFromSettings<std::string>(settings, "language_settings/standard", "");
@@ -300,23 +300,23 @@ SettingsMigrator ProjectSettings::getMigrations() const
 
 	const std::string sourceGroupKey = "source_groups/source_group_" + utility::getUuidString();
 
-	migrator.addMigration(2, std::make_shared<MigrationMoveKey>("info/description", "description"));
-	migrator.addMigration(2, std::make_shared<MigrationMoveKey>("language_settings/standard", sourceGroupKey + "/standard"));
-	migrator.addMigration(2, std::make_shared<MigrationMoveKey>("source/source_paths/source_path", sourceGroupKey + "/source_paths/source_path"));
-	migrator.addMigration(2, std::make_shared<MigrationMoveKey>("source/exclude_paths/exclude_path", sourceGroupKey + "/exclude_paths/exclude_path"));
-	migrator.addMigration(2, std::make_shared<MigrationMoveKey>("source/extensions/source_extensions", sourceGroupKey + "/source_extensions/source_extension"));
-	migrator.addMigration(2, std::make_shared<MigrationMoveKey>("source/header_search_paths/header_search_path", sourceGroupKey + "/header_search_paths/header_search_path"));
-	migrator.addMigration(2, std::make_shared<MigrationMoveKey>("source/use_source_paths_for_header_search", sourceGroupKey + "/use_source_paths_for_header_search"));
-	migrator.addMigration(2, std::make_shared<MigrationMoveKey>("source/framework_search_paths/framework_search_path", sourceGroupKey + "/framework_search_paths/framework_search_path"));
-	migrator.addMigration(2, std::make_shared<MigrationMoveKey>("source/compiler_flags/compiler_flag", sourceGroupKey + "/compiler_flags/compiler_flag"));
-	migrator.addMigration(2, std::make_shared<MigrationMoveKey>("source/build_file_path/compilation_db_path", sourceGroupKey + "/build_file_path/compilation_db_path"));
-	migrator.addMigration(2, std::make_shared<MigrationMoveKey>("source/class_paths/class_path", sourceGroupKey + "/class_paths/class_path"));
-	migrator.addMigration(2, std::make_shared<MigrationMoveKey>("source/maven/project_file_path", sourceGroupKey + "/maven/project_file_path"));
-	migrator.addMigration(2, std::make_shared<MigrationMoveKey>("source/maven/dependencies_directory", sourceGroupKey + "/maven/dependencies_directory"));
-	migrator.addMigration(2, std::make_shared<MigrationMoveKey>("source/maven/should_index_tests", sourceGroupKey + "/maven/should_index_tests"));
+	migrator.addMigration(2, std::make_shared<SettingsMigrationMoveKey>("info/description", "description"));
+	migrator.addMigration(2, std::make_shared<SettingsMigrationMoveKey>("language_settings/standard", sourceGroupKey + "/standard"));
+	migrator.addMigration(2, std::make_shared<SettingsMigrationMoveKey>("source/source_paths/source_path", sourceGroupKey + "/source_paths/source_path"));
+	migrator.addMigration(2, std::make_shared<SettingsMigrationMoveKey>("source/exclude_paths/exclude_path", sourceGroupKey + "/exclude_paths/exclude_path"));
+	migrator.addMigration(2, std::make_shared<SettingsMigrationMoveKey>("source/extensions/source_extensions", sourceGroupKey + "/source_extensions/source_extension"));
+	migrator.addMigration(2, std::make_shared<SettingsMigrationMoveKey>("source/header_search_paths/header_search_path", sourceGroupKey + "/header_search_paths/header_search_path"));
+	migrator.addMigration(2, std::make_shared<SettingsMigrationMoveKey>("source/use_source_paths_for_header_search", sourceGroupKey + "/use_source_paths_for_header_search"));
+	migrator.addMigration(2, std::make_shared<SettingsMigrationMoveKey>("source/framework_search_paths/framework_search_path", sourceGroupKey + "/framework_search_paths/framework_search_path"));
+	migrator.addMigration(2, std::make_shared<SettingsMigrationMoveKey>("source/compiler_flags/compiler_flag", sourceGroupKey + "/compiler_flags/compiler_flag"));
+	migrator.addMigration(2, std::make_shared<SettingsMigrationMoveKey>("source/build_file_path/compilation_db_path", sourceGroupKey + "/build_file_path/compilation_db_path"));
+	migrator.addMigration(2, std::make_shared<SettingsMigrationMoveKey>("source/class_paths/class_path", sourceGroupKey + "/class_paths/class_path"));
+	migrator.addMigration(2, std::make_shared<SettingsMigrationMoveKey>("source/maven/project_file_path", sourceGroupKey + "/maven/project_file_path"));
+	migrator.addMigration(2, std::make_shared<SettingsMigrationMoveKey>("source/maven/dependencies_directory", sourceGroupKey + "/maven/dependencies_directory"));
+	migrator.addMigration(2, std::make_shared<SettingsMigrationMoveKey>("source/maven/should_index_tests", sourceGroupKey + "/maven/should_index_tests"));
 
-	migrator.addMigration(3, std::make_shared<MigrationLambda>(
-		[=](const Migration* migration, Settings* settings)
+	migrator.addMigration(3, std::make_shared<SettingsMigrationLambda>(
+		[=](const SettingsMigration* migration, Settings* settings)
 		{
 			const std::string language = migration->getValueFromSettings<std::string>(settings, "language_settings/language", "");
 
@@ -354,9 +354,9 @@ SettingsMigrator ProjectSettings::getMigrations() const
 		}
 	));
 
-	migrator.addMigration(4, std::make_shared<MigrationDeleteKey>("language_settings/language"));
-	migrator.addMigration(4, std::make_shared<MigrationDeleteKey>("source/build_file_path/vs_solution_path"));
-	migrator.addMigration(4, std::make_shared<MigrationDeleteKey>("source/extensions/header_extensions"));
+	migrator.addMigration(4, std::make_shared<SettingsMigrationDeleteKey>("language_settings/language"));
+	migrator.addMigration(4, std::make_shared<SettingsMigrationDeleteKey>("source/build_file_path/vs_solution_path"));
+	migrator.addMigration(4, std::make_shared<SettingsMigrationDeleteKey>("source/extensions/header_extensions"));
 
 	return migrator;
 }

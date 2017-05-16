@@ -383,7 +383,7 @@ void CxxAstVisitorComponentIndexer::visitUsingDirectiveDecl(clang::UsingDirectiv
 		m_client->recordReference(
 			REFERENCE_USAGE,
 			nameHierarchy,
-			getAstVisitor()->getComponent<CxxAstVisitorComponentContext>()->getContextName(NameHierarchy(loc.filePath.str())),
+			getAstVisitor()->getComponent<CxxAstVisitorComponentContext>()->getContextName(NameHierarchy(loc.filePath.str(), NAME_DELIMITER_FILE)),
 			loc
 		);
 	}
@@ -397,7 +397,7 @@ void CxxAstVisitorComponentIndexer::visitUsingDecl(clang::UsingDecl* d)
 		m_client->recordReference(
 			REFERENCE_USAGE,
 			getAstVisitor()->getDeclNameCache()->getValue(d),
-			getAstVisitor()->getComponent<CxxAstVisitorComponentContext>()->getContextName(NameHierarchy(loc.filePath.str())),
+			getAstVisitor()->getComponent<CxxAstVisitorComponentContext>()->getContextName(NameHierarchy(loc.filePath.str(), NAME_DELIMITER_FILE)),
 			loc
 		);
 	}

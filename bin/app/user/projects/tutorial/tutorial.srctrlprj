@@ -13,7 +13,7 @@
 		LET'S GET STARTED!\n
 		\tTo keep things simple just click the "main" symbol below to start the tour.\n
 		\n
-		[main\tsint\tp()](); // &lt;- start here\n\n
+		[::\tmmain\tsint\tp()](); // &lt;- start here\n\n
 	</description>
     <source_groups>
         <source_group_75041cb3-37c8-45c6-bb8a-1b8b79040f59>

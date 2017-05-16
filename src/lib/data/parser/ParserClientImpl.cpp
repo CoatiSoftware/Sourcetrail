@@ -84,7 +84,7 @@ void ParserClientImpl::onLocalSymbolParsed(const std::string& name, const ParseL
 
 void ParserClientImpl::onFileParsed(const FileInfo& fileInfo)
 {
-	const Id nodeId = addNodeHierarchy(NameHierarchy(fileInfo.path.str()), Node::NODE_FILE);
+	const Id nodeId = addNodeHierarchy(NameHierarchy(fileInfo.path.str(), NAME_DELIMITER_FILE), Node::NODE_FILE);
 	addFile(nodeId, fileInfo.path, fileInfo.lastWriteTime.toString());
 }
 
@@ -189,7 +189,7 @@ Id ParserClientImpl::addNodeHierarchy(NameHierarchy nameHierarchy, Node::NodeTyp
 	}
 
 	Id parentNodeId = 0;
-	NameHierarchy currentNameHierarchy;
+	NameHierarchy currentNameHierarchy(nameHierarchy.getDelimiterrr());
 
 	for (size_t i = 0; i < nameHierarchy.size(); i++)
 	{
@@ -199,7 +199,6 @@ Id ParserClientImpl::addNodeHierarchy(NameHierarchy nameHierarchy, Node::NodeTyp
 
 		Id nodeId = addNode(currentType, currentNameHierarchy);
 
-		// Todo: performance optimization: check if node exists. dont add edge if it existed before...
 		if (parentNodeId != 0)
 		{
 			addEdge(Edge::EDGE_MEMBER, parentNodeId, nodeId);
@@ -287,7 +286,7 @@ void ParserClientImpl::addSourceLocation(Id elementId, const ParseLocation& loca
 	}
 
 	Id sourceLocationId = m_storage->addSourceLocation(
-		addNodeHierarchy(NameHierarchy(location.filePath.str()), Node::NODE_FILE),
+		addNodeHierarchy(NameHierarchy(location.filePath.str(), NAME_DELIMITER_FILE), Node::NODE_FILE),
 		location.startLineNumber,
 		location.startColumnNumber,
 		location.endLineNumber,
@@ -319,7 +318,7 @@ void ParserClientImpl::addCommentLocation(const ParseLocation& location)
 	}
 
 	m_storage->addCommentLocation(
-		addNodeHierarchy(NameHierarchy(location.filePath.str()), Node::NODE_FILE),
+		addNodeHierarchy(NameHierarchy(location.filePath.str(), NAME_DELIMITER_FILE), Node::NODE_FILE),
 		location.startLineNumber,
 		location.startColumnNumber,
 		location.endLineNumber,

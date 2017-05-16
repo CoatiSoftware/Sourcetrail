@@ -8,7 +8,7 @@
 #include "utility/ConfigManager.h"
 #include "utility/file/FilePath.h"
 
-class Migration;
+class SettingsMigration;
 
 class Settings
 {
@@ -64,7 +64,7 @@ protected:
 private:
 	FilePath m_filePath;
 
-	friend Migration;
+	friend SettingsMigration;
 };
 
 template<typename T>

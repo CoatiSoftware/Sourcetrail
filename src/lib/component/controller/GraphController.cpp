@@ -1578,33 +1578,33 @@ void GraphController::handleMessage(MessageColorSchemeTest* message)
 
 	std::shared_ptr<Graph> graph = std::make_shared<Graph>();
 
-	std::function<void(Id, Node::NodeType)> createNodes(
-		[&](Id id, Node::NodeType type)
+	std::function<void(Id, Node::NodeType, NameDelimiterType)> createNodes(
+		[&](Id id, Node::NodeType type, NameDelimiterType delimiter)
 		{
 			std::string name = Node::getReadableTypeString(type);
-			graph->createNode(id + 1, type, NameHierarchy(name), true);
-			graph->createNode(id + 2, type, NameHierarchy("focused " + name), true);
-			graph->createNode(id + 3, type, NameHierarchy("active " + name), true);
+			graph->createNode(id + 1, type, NameHierarchy(name, delimiter), true);
+			graph->createNode(id + 2, type, NameHierarchy("focused " + name, delimiter), true);
+			graph->createNode(id + 3, type, NameHierarchy("active " + name, delimiter), true);
 
-			graph->createNode(id + 4, type, NameHierarchy("Non-indexed " + name), true);
-			graph->createNode(id + 5, type, NameHierarchy("Non-indexed focused " + name), true);
-			graph->createNode(id + 6, type, NameHierarchy("Non-indexed active " + name), true);
+			graph->createNode(id + 4, type, NameHierarchy("Non-indexed " + name, delimiter), true);
+			graph->createNode(id + 5, type, NameHierarchy("Non-indexed focused " + name, delimiter), true);
+			graph->createNode(id + 6, type, NameHierarchy("Non-indexed active " + name, delimiter), true);
 		}
 	);
 
-	createNodes( 0, Node::NODE_FUNCTION);
-	createNodes(10, Node::NODE_GLOBAL_VARIABLE);
-	createNodes(20, Node::NODE_NON_INDEXED);
-	createNodes(30, Node::NODE_TYPE);
-	createNodes(40, Node::NODE_TYPEDEF);
-	createNodes(50, Node::NODE_NAMESPACE);
-	createNodes(60, Node::NODE_FILE);
-	createNodes(70, Node::NODE_MACRO);
+	createNodes( 0, Node::NODE_FUNCTION, NAME_DELIMITER_CXX);
+	createNodes(10, Node::NODE_GLOBAL_VARIABLE, NAME_DELIMITER_CXX);
+	createNodes(20, Node::NODE_NON_INDEXED, NAME_DELIMITER_CXX);
+	createNodes(30, Node::NODE_TYPE, NAME_DELIMITER_CXX);
+	createNodes(40, Node::NODE_TYPEDEF, NAME_DELIMITER_CXX);
+	createNodes(50, Node::NODE_NAMESPACE, NAME_DELIMITER_CXX);
+	createNodes(60, Node::NODE_FILE, NAME_DELIMITER_FILE);
+	createNodes(70, Node::NODE_MACRO, NAME_DELIMITER_CXX);
 
 	std::function<Node*(Node*, Id, Node::NodeType, std::string, AccessKind)> createChild(
 		[&](Node* parent, Id id, Node::NodeType type, std::string name, AccessKind access)
 		{
-			Node* node = graph->createNode(id + 1000, type, NameHierarchy(name), true);
+			Node* node = graph->createNode(id + 1000, type, NameHierarchy(name, NAME_DELIMITER_CXX), true);
 			graph->createEdge(id + 10000, Edge::EDGE_MEMBER, parent, node);
 
 			if (access != ACCESS_NONE)
@@ -1620,7 +1620,7 @@ void GraphController::handleMessage(MessageColorSchemeTest* message)
 		[&](Id id, std::string name)
 		{
 			Node* enumNode = graph->createNode(id, Node::NODE_ENUM,
-				NameHierarchy(name + Node::getReadableTypeString(Node::NODE_ENUM)), true);
+				NameHierarchy(name + Node::getReadableTypeString(Node::NODE_ENUM), NAME_DELIMITER_CXX), true);
 			createChild(enumNode, id + 10, Node::NODE_ENUM_CONSTANT, name + Node::getReadableTypeString(Node::NODE_ENUM_CONSTANT), ACCESS_NONE);
 		}
 	);
@@ -1636,7 +1636,7 @@ void GraphController::handleMessage(MessageColorSchemeTest* message)
 	std::function<void(Id, Node::NodeType, std::string)> createClass(
 		[&](Id id, Node::NodeType type, std::string name)
 		{
-			Node* classNode = graph->createNode(id, type, NameHierarchy(name + Node::getReadableTypeString(type)), true);
+			Node* classNode = graph->createNode(id, type, NameHierarchy(name + Node::getReadableTypeString(type), NAME_DELIMITER_CXX), true);
 
 			if (type == Node::NODE_CLASS)
 			{
@@ -1676,24 +1676,24 @@ void GraphController::handleMessage(MessageColorSchemeTest* message)
 			if (origin == Node::NODE_METHOD)
 			{
 				Node* classNode = graph->createNode(id + 101, Node::NODE_CLASS,
-					NameHierarchy(name + Node::getReadableTypeString(Node::NODE_CLASS)), true);
+					NameHierarchy(name + Node::getReadableTypeString(Node::NODE_CLASS), NAME_DELIMITER_CXX), true);
 				originNode = createChild(classNode, id + 111, Node::NODE_METHOD, name + Edge::getReadableTypeString(type), ACCESS_PUBLIC);
 			}
 			else
 			{
-				originNode = graph->createNode(id + 1, origin, NameHierarchy(name + Edge::getReadableTypeString(type)), true);
+				originNode = graph->createNode(id + 1, origin, NameHierarchy(name + Edge::getReadableTypeString(type), NAME_DELIMITER_CXX), true);
 			}
 
 			Node* targetNode;
 			if (target == Node::NODE_METHOD)
 			{
 				Node* classNode = graph->createNode(id + 201, Node::NODE_CLASS,
-					NameHierarchy(name + Node::getReadableTypeString(Node::NODE_CLASS)), true);
+					NameHierarchy(name + Node::getReadableTypeString(Node::NODE_CLASS), NAME_DELIMITER_CXX), true);
 				targetNode = createChild(classNode, id + 211, Node::NODE_METHOD, name + Edge::getReadableTypeString(type), ACCESS_PUBLIC);
 			}
 			else
 			{
-				targetNode = graph->createNode(id + 11, target, NameHierarchy(name + Edge::getReadableTypeString(type)), true);
+				targetNode = graph->createNode(id + 11, target, NameHierarchy(name + Edge::getReadableTypeString(type), NAME_DELIMITER_CXX), true);
 			}
 
 			Edge* edge = graph->createEdge(id, type, originNode, targetNode);

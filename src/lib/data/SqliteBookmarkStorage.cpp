@@ -3,8 +3,10 @@
 #include "utility/logging/logging.h"
 #include "utility/utility.h"
 #include "utility/utilityString.h"
+#include "data/SqliteStorageMigrationLambda.h"
+#include "data/SqliteStorageMigrator.h"
 
-const size_t SqliteBookmarkStorage::s_storageVersion = 1;
+const size_t SqliteBookmarkStorage::s_storageVersion = 2;
 
 SqliteBookmarkStorage::SqliteBookmarkStorage(const FilePath& dbFilePath)
 	: SqliteStorage(dbFilePath)
@@ -13,6 +15,24 @@ SqliteBookmarkStorage::SqliteBookmarkStorage(const FilePath& dbFilePath)
 
 SqliteBookmarkStorage::~SqliteBookmarkStorage()
 {
+}
+
+size_t SqliteBookmarkStorage::getStaticVersion() const
+{
+	return s_storageVersion;
+}
+
+void SqliteBookmarkStorage::migrateIfNecessary()
+{
+	SqliteStorageMigrator migrator;
+
+	migrator.addMigration(2, std::make_shared<SqliteStorageMigrationLambda>([](const SqliteStorageMigration* migration, SqliteStorage* storage){
+		migration->executeStatementInStorage(storage, "UPDATE bookmarked_node SET serialized_node_name = '::\tm' || serialized_node_name");
+		migration->executeStatementInStorage(storage, "UPDATE bookmarked_edge SET serialized_source_node_name = '::\tm' || serialized_source_node_name");
+		migration->executeStatementInStorage(storage, "UPDATE bookmarked_edge SET serialized_target_node_name = '::\tm' || serialized_target_node_name");
+	}));
+
+	bool migrated = migrator.migrate(this, SqliteBookmarkStorage::s_storageVersion);
 }
 
 Id SqliteBookmarkStorage::addBookmarkCategory(const std::string& name)
@@ -33,7 +53,6 @@ Id SqliteBookmarkStorage::addBookmark(const std::string& name, const std::string
 {
 	std::string statement = "INSERT INTO bookmark(id, name, comment, timestamp, category_id) "
 		"VALUES (NULL, ?, ?, ?, " + std::to_string(categoryId) + ");";
-
 
 	try
 	{
@@ -126,11 +145,6 @@ void SqliteBookmarkStorage::removeBookmarkCategory(Id id)
 	executeStatement(
 		"DELETE FROM bookmark_category WHERE id = (" + std::to_string(id) + ");"
 	);
-}
-
-size_t SqliteBookmarkStorage::getStaticStorageVersion() const
-{
-	return s_storageVersion;
 }
 
 std::vector<std::pair<int, SqliteDatabaseIndex>> SqliteBookmarkStorage::getIndices() const

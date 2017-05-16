@@ -10,7 +10,6 @@
 
 #include "data/indexer/IndexerCommandCxxCdb.h"
 #include "data/indexer/IndexerCommandCxxManual.h"
-#include "data/name/NameHierarchy.h"
 #include "data/parser/cxx/ASTActionFactory.h"
 #include "data/parser/cxx/CxxCompilationDatabaseSingle.h"
 #include "data/parser/cxx/CxxDiagnosticConsumer.h"
@@ -69,8 +68,6 @@ CxxParser::~CxxParser()
 
 void CxxParser::buildIndex(std::shared_ptr<IndexerCommandCxxCdb> indexerCommand)
 {
-	NameHierarchy::setDelimiter(getSymbolNameDelimiterForLanguage(LANGUAGE_CPP));
-
 	clang::tooling::CompileCommand compileCommand;
 	compileCommand.Filename = indexerCommand->getSourceFilePath().str();
 	compileCommand.Directory = indexerCommand->getWorkingDirectory().str();
@@ -101,8 +98,6 @@ void CxxParser::buildIndex(std::shared_ptr<IndexerCommandCxxCdb> indexerCommand)
 
 void CxxParser::buildIndex(std::shared_ptr<IndexerCommandCxxManual> indexerCommand)
 {
-	NameHierarchy::setDelimiter(getSymbolNameDelimiterForLanguage(LANGUAGE_CPP));
-
 	std::shared_ptr<clang::tooling::CompilationDatabase> compilationDatabase = getCompilationDatabase(indexerCommand);
 
 	clang::tooling::ClangTool tool(*compilationDatabase, std::vector<std::string>(1, indexerCommand->getSourceFilePath().str()));
@@ -122,8 +117,6 @@ void CxxParser::buildIndex(std::shared_ptr<IndexerCommandCxxManual> indexerComma
 
 void CxxParser::buildIndex(const std::string& fileName, std::shared_ptr<TextAccess> fileContent)
 {
-	NameHierarchy::setDelimiter(getSymbolNameDelimiterForLanguage(LANGUAGE_CPP));
-
 	std::shared_ptr<FilePathCache> canonicalFilePathCache = std::make_shared<FilePathCache>([](std::string fileName) -> FilePath
 		{
 			return FilePath(fileName).canonical();

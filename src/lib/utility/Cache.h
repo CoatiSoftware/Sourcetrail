@@ -38,7 +38,7 @@ ValType Cache<KeyType, ValType, Hasher>::getValue(KeyType key)
 	}
 	++m_missCount;
 	ValType val = m_calculator(key);
-	m_map[key] = val;
+	m_map.insert(std::pair<KeyType, ValType>(key, val));
 	return val;
 }
 

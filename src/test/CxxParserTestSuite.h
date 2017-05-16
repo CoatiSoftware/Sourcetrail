@@ -3412,8 +3412,6 @@ public:
 private:
 	std::shared_ptr<TestParserClient> parseCode(std::string code, bool logErrors = true)
 	{
-		NameHierarchy::setDelimiter("::");
-
 		std::shared_ptr<TestFileRegister> fileRegister = std::make_shared<TestFileRegister>();
 		std::shared_ptr<TestParserClient> parserClient = std::make_shared<TestParserClient>();
 		CxxParser parser(parserClient, fileRegister);

@@ -1,16 +1,16 @@
-#ifndef MIGRATION_H
-#define MIGRATION_H
+#ifndef SETTINGS_MIGRATION_H
+#define SETTINGS_MIGRATION_H
 
 #include <string>
 #include <vector>
 
 #include "settings/Settings.h"
+#include "utility/migration/Migration.h"
 
-class Migration
+class SettingsMigration: public Migration<Settings>
 {
 public:
-	virtual ~Migration();
-	virtual void apply(Settings* settings) const = 0;
+	virtual ~SettingsMigration();
 
 	bool isValueDefinedInSettings(const Settings* settings, const std::string& key) const;
 
@@ -30,27 +30,27 @@ public:
 };
 
 template <typename T>
-T Migration::getValueFromSettings(Settings* settings, const std::string& key, T defaultValue) const
+T SettingsMigration::getValueFromSettings(Settings* settings, const std::string& key, T defaultValue) const
 {
 	return settings->getValue(key, defaultValue);
 }
 
 template <typename T>
-std::vector<T> Migration::getValuesFromSettings(Settings* settings, const std::string& key, std::vector<T> defaultValues) const
+std::vector<T> SettingsMigration::getValuesFromSettings(Settings* settings, const std::string& key, std::vector<T> defaultValues) const
 {
 	return settings->getValues(key, defaultValues);
 }
 
 template <typename T>
-bool Migration::setValueInSettings(Settings* settings, const std::string& key, T value) const
+bool SettingsMigration::setValueInSettings(Settings* settings, const std::string& key, T value) const
 {
 	return settings->setValue(key, value);
 }
 
 template <typename T>
-bool Migration::setValuesInSettings(Settings* settings, const std::string& key, std::vector<T> values) const
+bool SettingsMigration::setValuesInSettings(Settings* settings, const std::string& key, std::vector<T> values) const
 {
 	return settings->setValues(key, values);
 }
 
-#endif // MIGRATION_H
+#endif // SETTINGS_MIGRATION_H

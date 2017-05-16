@@ -40,7 +40,7 @@ CxxAstVisitor::CxxAstVisitor(
 					return declName->toNameHierarchy();
 				}
 			}
-			return NameHierarchy("global");
+			return NameHierarchy("global", NAME_DELIMITER_UNKNOWN);
 		}
 	);
 	m_typeNameCache = std::make_shared<TypeNameCache>([](const clang::Type* type) -> NameHierarchy
@@ -53,7 +53,7 @@ CxxAstVisitor::CxxAstVisitor(
 					return typeName->toNameHierarchy();
 				}
 			}
-			return NameHierarchy("global");
+			return NameHierarchy("global", NAME_DELIMITER_UNKNOWN);
 		}
 	);
 

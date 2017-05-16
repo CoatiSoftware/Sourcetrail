@@ -33,21 +33,6 @@ LanguageType stringToLanguageType(std::string s)
 	return LANGUAGE_UNKNOWN;
 }
 
-std::string getSymbolNameDelimiterForLanguage(LanguageType t)
-{
-	switch (t)
-	{
-	case LANGUAGE_C:
-	case LANGUAGE_CPP:
-		return "::";
-	case LANGUAGE_JAVA:
-		return ".";
-	case LANGUAGE_UNKNOWN:
-		break;
-	}
-	return "@";
-}
-
 LanguageType getLanguageTypeForSourceGroupType(SourceGroupType t)
 {
 	switch (t)

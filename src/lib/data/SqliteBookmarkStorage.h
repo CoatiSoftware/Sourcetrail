@@ -17,6 +17,10 @@ public:
 	SqliteBookmarkStorage(const FilePath& dbFilePath);
 	virtual ~SqliteBookmarkStorage();
 
+	virtual size_t getStaticVersion() const;
+
+	void migrateIfNecessary();
+
 	Id addBookmarkCategory(const std::string& name);
 	Id addBookmark(const std::string& name, const std::string& comment, const std::string& timestamp, const Id categoryId);
 	Id addBookmarkedNode(const Id bookmarkId, const std::string& nodeName);
@@ -37,7 +41,6 @@ public:
 private:
 	static const size_t s_storageVersion;
 
-	virtual size_t getStaticStorageVersion() const;
 	virtual std::vector<std::pair<int, SqliteDatabaseIndex>> getIndices() const;
 	virtual void clearTables();
 	virtual void setupTables();

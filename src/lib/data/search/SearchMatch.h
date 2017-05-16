@@ -60,6 +60,8 @@ struct SearchMatch
 	std::string text;
 	std::string subtext;
 
+	NameDelimiterType delimiter;
+
 	std::string typeName;
 
 	Node::NodeType nodeType;

@@ -50,7 +50,7 @@ public class JavaTypeName
 	
 	public String toSerializedNameHierarchy()
 	{
-		String nameHierarchy = "";
+		String nameHierarchy = ".\tm";
 		if (m_parent != null)
 		{
 			nameHierarchy = m_parent.toSerializedNameHierarchy();

@@ -1,7 +1,7 @@
 #include "settings/ApplicationSettings.h"
 
 #include "settings/migration/SettingsMigrator.h"
-#include "settings/migration/MigrationMoveKey.h"
+#include "settings/migration/SettingsMigrationMoveKey.h"
 #include "utility/ResourcePaths.h"
 #include "utility/Status.h"
 #include "utility/utility.h"
@@ -39,19 +39,19 @@ bool ApplicationSettings::load(const FilePath& filePath)
 
 	SettingsMigrator migrator;
 
-	migrator.addMigration(1, std::make_shared<MigrationMoveKey>(
+	migrator.addMigration(1, std::make_shared<SettingsMigrationMoveKey>(
 		"source/header_search_paths/header_search_path",
 		"indexing/cxx/header_search_paths/header_search_path"
 	));
-	migrator.addMigration(1, std::make_shared<MigrationMoveKey>(
+	migrator.addMigration(1, std::make_shared<SettingsMigrationMoveKey>(
 		"source/framework_search_paths/framework_search_path",
 		"indexing/cxx/framework_search_paths/framework_search_path"
 	));
-	migrator.addMigration(1, std::make_shared<MigrationMoveKey>(
+	migrator.addMigration(1, std::make_shared<SettingsMigrationMoveKey>(
 		"application/indexer_thread_count",
 		"indexing/indexer_thread_count"
 	));
-	migrator.addMigration(2, std::make_shared<MigrationMoveKey>(
+	migrator.addMigration(2, std::make_shared<SettingsMigrationMoveKey>(
 		"network/coati_port",
 		"network/sourcetrail_port"
 	));

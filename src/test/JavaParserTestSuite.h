@@ -832,8 +832,6 @@ private:
 
 	std::shared_ptr<TestParserClient> parseCode(std::string code, bool logErrors = true)
 	{
-		NameHierarchy::setDelimiter(".");
-
 		std::shared_ptr<TestParserClient> parserClient = std::make_shared<TestParserClient>();
 
 		std::shared_ptr<TextAccess> textAccess = TextAccess::createFromString(code);

@@ -185,7 +185,7 @@ bool QtSmartSearchBox::event(QEvent *event)
 			{
 				if (m_highlightedMatch.hasChildren)
 				{
-					setEditText((m_highlightedMatch.getFullName() + NameHierarchy::getDelimiter()).c_str());
+					setEditText((m_highlightedMatch.getFullName() + nameDelimiterTypeToString(m_highlightedMatch.delimiter)).c_str());
 				}
 				else
 				{
@@ -256,7 +256,8 @@ void QtSmartSearchBox::keyPressEvent(QKeyEvent* event)
 		}
 		else
 		{
-			std::vector<std::string> names = utility::splitToVector(text().toStdString(), NameHierarchy::getDelimiter());
+			const NameDelimiterType delimiter = detectDelimiterType(text().toStdString());
+			std::vector<std::string> names = utility::splitToVector(text().toStdString(), delimiter);
 			if (names.back() == "")
 			{
 				names.pop_back();
@@ -269,7 +270,7 @@ void QtSmartSearchBox::keyPressEvent(QKeyEvent* event)
 			else
 			{
 				names.back() = "";
-				setEditText(utility::join(names, NameHierarchy::getDelimiter()).c_str());
+				setEditText(utility::join(names, delimiter).c_str());
 			}
 
 			requestAutoCompletions();

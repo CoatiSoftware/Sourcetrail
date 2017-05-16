@@ -67,7 +67,7 @@ public class JavaAstVisitor extends JavaAstVisitorAdapter
 		m_fileContent = fileContent;
 		m_typeSolver = typeSolver;
 		
-		m_context.add(new DeclContext(filePath + "\ts\tp"));
+		m_context.add(new DeclContext("/\tm" + filePath + "\ts\tp"));
 	}
 	
 	// --- record declarations ---
@@ -794,7 +794,7 @@ public class JavaAstVisitor extends JavaAstVisitorAdapter
 		
 		JavaIndexer.logError(m_callbackId, e + " at " + m_filePath + "<"+ beginLine + ", " + beginColumn + ">");
 		JavaIndexer.recordSymbolWithLocation(
-			m_callbackId, "unsolved-symbol\ts\tp", SymbolKind.TYPE_MAX, 
+			m_callbackId, ".\tmunsolved-symbol\ts\tp", SymbolKind.TYPE_MAX, 
 			n.getRange(), 
 			AccessKind.DEFAULT, 
 			DefinitionKind.EXPLICIT
@@ -861,7 +861,7 @@ public class JavaAstVisitor extends JavaAstVisitorAdapter
 		}
 		else // todo: move this implementation somewhere else
 		{
-			qualifiedName = method.declaringType().getQualifiedName();
+			qualifiedName = ".\tm" + method.declaringType().getQualifiedName();
 			qualifiedName = qualifiedName.replace(".", "\ts\tp\tn");
 			
 			qualifiedName += "\ts\tp\tn" + method.getName() + "\ts";
@@ -896,7 +896,7 @@ public class JavaAstVisitor extends JavaAstVisitorAdapter
 		}
 		else // todo: move this implementation somewhere else
 		{
-			qualifiedName = constructor.declaringType().getQualifiedName();
+			qualifiedName = ".\tm" + constructor.declaringType().getQualifiedName();
 			qualifiedName = qualifiedName.replace(".", "\ts\tp\tn");
 			
 			qualifiedName += "\ts\tp\tn" + constructor.getName() + "\ts\tp(";

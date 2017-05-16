@@ -8,7 +8,7 @@
 #include "utility/text/TextAccess.h"
 #include "utility/Version.h"
 
-const size_t SqliteIndexStorage::s_storageVersion = 11;
+const size_t SqliteIndexStorage::s_storageVersion = 12;
 
 SqliteIndexStorage::SqliteIndexStorage(const FilePath& dbFilePath)
 	: SqliteStorage(dbFilePath.canonical())
@@ -17,6 +17,11 @@ SqliteIndexStorage::SqliteIndexStorage(const FilePath& dbFilePath)
 
 SqliteIndexStorage::~SqliteIndexStorage()
 {
+}
+
+size_t SqliteIndexStorage::getStaticVersion() const
+{
+	return s_storageVersion;
 }
 
 std::string SqliteIndexStorage::getProjectSettingsText() const
@@ -920,11 +925,6 @@ void SqliteIndexStorage::setupTables()
 
 		// todo: cancel project creation and destroy created files, display message
 	}
-}
-
-size_t SqliteIndexStorage::getStaticStorageVersion() const
-{
-	return s_storageVersion;
 }
 
 template <>

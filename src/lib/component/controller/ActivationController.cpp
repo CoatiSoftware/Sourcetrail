@@ -34,7 +34,7 @@ void ActivationController::handleMessage(MessageActivateEdge* message)
 		m.tokenIds = message->aggregationIds;
 		m.setKeepContent(false);
 		m.isAggregation = true;
-		m.tokenNames.push_back(NameHierarchy(message->getFullName()));
+		m.tokenNames.push_back(NameHierarchy(message->getFullName(), message->sourceNameHierarchy.getDelimiterrr()));
 		m.dispatchImmediately();
 	}
 	else
@@ -42,7 +42,7 @@ void ActivationController::handleMessage(MessageActivateEdge* message)
 		MessageActivateTokens m(message);
 		m.tokenIds.push_back(message->tokenId);
 		m.isEdge = true;
-		m.tokenNames.push_back(NameHierarchy(message->getFullName()));
+		m.tokenNames.push_back(NameHierarchy(message->getFullName(), message->sourceNameHierarchy.getDelimiterrr()));
 		m.dispatchImmediately();
 	}
 }
@@ -53,11 +53,11 @@ void ActivationController::handleMessage(MessageActivateFile* message)
 
 	if (fileId)
 	{
-		MessageActivateTokens m(message);
-		m.tokenIds.push_back(fileId);
-		m.tokenNames.push_back(message->filePath.str());
-		m.searchMatches = m_storageAccess->getSearchMatchesForTokenIds({ fileId });
-		m.dispatchImmediately();
+		MessageActivateTokens messageActivateTokens(message);
+		messageActivateTokens.tokenIds.push_back(fileId);
+		messageActivateTokens.tokenNames.push_back(NameHierarchy(message->filePath.str(), NAME_DELIMITER_FILE));
+		messageActivateTokens.searchMatches = m_storageAccess->getSearchMatchesForTokenIds({ fileId });
+		messageActivateTokens.dispatchImmediately();
 	}
 	else
 	{

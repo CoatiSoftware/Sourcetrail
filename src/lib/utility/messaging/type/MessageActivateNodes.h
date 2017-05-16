@@ -10,6 +10,10 @@ class MessageActivateNodes
 public:
 	struct ActiveNode
 	{
+		ActiveNode()
+			: nodeId(0)
+			, nameHierarchy(NAME_DELIMITER_UNKNOWN)
+		{ }
 		Id nodeId;
 		NameHierarchy nameHierarchy;
 	};

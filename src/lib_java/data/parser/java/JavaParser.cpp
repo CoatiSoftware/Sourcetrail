@@ -120,8 +120,6 @@ void JavaParser::buildIndex(
 	const std::string& classPath,
 	std::shared_ptr<TextAccess> textAccess)
 {
-	NameHierarchy::setDelimiter(getSymbolNameDelimiterForLanguage(LANGUAGE_JAVA));
-
 	if (m_javaEnvironment)
 	{
 		m_currentFilePath = sourceFilePath;

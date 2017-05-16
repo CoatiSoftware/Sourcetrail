@@ -174,11 +174,6 @@ bool Project::refresh(bool forceRefresh)
 		}
 	}
 
-	if (!m_sourceGroups.empty())
-	{
-		NameHierarchy::setDelimiter(getSymbolNameDelimiterForLanguage(m_sourceGroups.front()->getLanguage()));
-	}
-
 	if (requestIndex(forceRefresh, needsFullRefresh))
 	{
 		m_storageAccessProxy->setSubject(m_storage.get());
@@ -267,10 +262,6 @@ void Project::load()
 	m_storage->setup();
 
 	m_sourceGroups = SourceGroupFactory::getInstance()->createSourceGroups(m_settings->getAllSourceGroupSettings());
-	if (!m_sourceGroups.empty())
-	{
-		NameHierarchy::setDelimiter(getSymbolNameDelimiterForLanguage(m_sourceGroups.front()->getLanguage()));
-	}
 
 	if (canLoad)
 	{

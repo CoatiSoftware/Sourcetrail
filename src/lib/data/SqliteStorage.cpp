@@ -44,6 +44,23 @@ void SqliteStorage::clear()
 	setup();
 }
 
+size_t SqliteStorage::getVersion() const
+{
+	std::string storageVersionStr = getMetaValue("storage_version");
+
+	if (storageVersionStr.size())
+	{
+		return std::stoi(storageVersionStr);
+	}
+
+	return 0;
+}
+
+void SqliteStorage::setVersion(size_t version)
+{
+	insertOrUpdateMetaValue("storage_version", std::to_string(version));
+}
+
 void SqliteStorage::setMode(const StorageModeType mode)
 {
 	if (mode == m_mode)
@@ -93,31 +110,18 @@ FilePath SqliteStorage::getDbFilePath() const
 
 bool SqliteStorage::isEmpty() const
 {
-	size_t storageVersion = getStorageVersion();
-	if (storageVersion > 0)
-	{
-		return false;
-	}
-
-	Version applicationVersion = getApplicationVersion();
-	return applicationVersion.isEmpty();
+	return getVersion() <= 0;
 }
 
 bool SqliteStorage::isIncompatible() const
 {
-	size_t storageVersion = getStorageVersion();
-	if (storageVersion == 0 || storageVersion != getStaticStorageVersion())
+	size_t storageVersion = getVersion();
+	if (isEmpty() || storageVersion != getStaticVersion())
 	{
 		return true;
 	}
 
 	return false;
-}
-
-void SqliteStorage::setVersion()
-{
-	setStorageVersion();
-	setApplicationVersion();
 }
 
 void SqliteStorage::setTime()
@@ -272,38 +276,4 @@ void SqliteStorage::insertOrUpdateMetaValue(const std::string& key, const std::s
 	stmt.bind(2, key.c_str());
 	stmt.bind(3, value.c_str());
 	executeStatement(stmt);
-}
-
-size_t SqliteStorage::getStorageVersion() const
-{
-	std::string storageVersionStr = getMetaValue("storage_version");
-
-	if (storageVersionStr.size())
-	{
-		return std::stoi(storageVersionStr);
-	}
-
-	return 0;
-}
-
-void SqliteStorage::setStorageVersion()
-{
-	insertOrUpdateMetaValue("storage_version", std::to_string(getStaticStorageVersion()));
-}
-
-Version SqliteStorage::getApplicationVersion() const
-{
-	std::string versionStr = getMetaValue("application_version");
-
-	if (versionStr.size())
-	{
-		return Version::fromString(versionStr);
-	}
-
-	return Version();
-}
-
-void SqliteStorage::setApplicationVersion()
-{
-	insertOrUpdateMetaValue("application_version", Version::getApplicationVersion().toString());
 }

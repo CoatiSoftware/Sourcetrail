@@ -68,6 +68,7 @@ public:
 		, layoutBucket(0, 0)
 		, bundledNodeCount(0)
 		, bundledNodeType(Node::NODE_NON_INDEXED)
+		, qualifierName(NAME_DELIMITER_UNKNOWN)
 		, textNode(false)
 	{
 	}

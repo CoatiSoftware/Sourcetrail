@@ -93,7 +93,7 @@ void QtGraphNodeData::onClick()
 	FilePath path = getFilePath();
 
 	MessageActivateNodes message;
-	message.addNode(m_data->getId(), path.empty() ? m_data->getNameHierarchy() : path.str());
+	message.addNode(m_data->getId(), path.empty() ? m_data->getNameHierarchy() : NameHierarchy(path.str(), NAME_DELIMITER_FILE));
 	message.dispatch();
 }
 

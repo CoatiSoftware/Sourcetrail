@@ -73,7 +73,7 @@ NameHierarchy StorageAccessProxy::getNameHierarchyForNodeId(Id id) const
 		return m_subject->getNameHierarchyForNodeId(id);
 	}
 
-	return NameHierarchy();
+	return NameHierarchy(NAME_DELIMITER_UNKNOWN);
 }
 
 std::vector<NameHierarchy> StorageAccessProxy::getNameHierarchiesForNodeIds(const std::vector<Id> nodeIds) const

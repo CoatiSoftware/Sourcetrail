@@ -457,6 +457,8 @@ void PersistentStorage::setup()
 {
 	m_sqliteIndexStorage.setup();
 	m_sqliteBookmarkStorage.setup();
+
+	m_sqliteBookmarkStorage.migrateIfNecessary();
 }
 
 void PersistentStorage::clear()
@@ -552,11 +554,14 @@ void PersistentStorage::optimizeMemory()
 {
 	TRACE();
 
-	m_sqliteIndexStorage.setVersion();
+	m_sqliteIndexStorage.setVersion(m_sqliteIndexStorage.getStaticVersion());
 	m_sqliteIndexStorage.setTime();
 	m_sqliteIndexStorage.optimizeMemory();
 
-	m_sqliteBookmarkStorage.setVersion();
+	if (m_sqliteBookmarkStorage.isEmpty())
+	{
+		m_sqliteBookmarkStorage.setVersion(m_sqliteBookmarkStorage.getStaticVersion());
+	}
 	m_sqliteBookmarkStorage.optimizeMemory();
 }
 
@@ -813,6 +818,8 @@ std::vector<SearchMatch> PersistentStorage::getAutocompletionSymbolMatches(
 		match.text = name.getRange(idx, name.size()).getQualifiedName();
 		match.subtext = name.getRange(0, idx).getQualifiedName();
 
+		match.delimiter = name.getDelimiterrr();
+
 		match.indices = result.indices;
 		match.score = result.score;
 		match.nodeType = Node::intToType(firstNode->type);
@@ -848,6 +855,8 @@ std::vector<SearchMatch> PersistentStorage::getAutocompletionFileMatches(const s
 		match.text = path.fileName();
 		match.subtext = path.str();
 
+		match.delimiter = NAME_DELIMITER_FILE;
+
 		match.indices = result.indices;
 		match.score = result.score;
 
@@ -875,6 +884,9 @@ std::vector<SearchMatch> PersistentStorage::getAutocompletionCommandMatches(cons
 
 		match.name = result.text;
 		match.text = result.text;
+
+		match.delimiter = NAME_DELIMITER_UNKNOWN;
+
 		match.indices = result.indices;
 		match.score = result.score;
 
@@ -917,6 +929,8 @@ std::vector<SearchMatch> PersistentStorage::getSearchMatchesForTokenIds(const st
 		match.tokenIds.push_back(elementId);
 		match.nodeType = Node::intToType(node.type);
 		match.searchType = SearchMatch::SEARCH_TOKEN;
+
+		match.delimiter = nameHierarchy.getDelimiterrr();
 
 		if (match.nodeType == Node::NODE_FILE)
 		{
@@ -1752,7 +1766,7 @@ void PersistentStorage::addNodesToGraph(const std::vector<Id>& nodeIds, Graph* g
 			Node* node = graph->createNode(
 				storageNode.id,
 				Node::NODE_FILE,
-				NameHierarchy(filePath.fileName()),
+				NameHierarchy(filePath.fileName(), NAME_DELIMITER_FILE),
 				defined
 			);
 			node->addComponentFilePath(std::make_shared<TokenComponentFilePath>(filePath));

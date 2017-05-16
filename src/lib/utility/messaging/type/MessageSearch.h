@@ -36,7 +36,7 @@ public:
 			{
 				if (!m_matches[i].subtext.empty())
 				{
-					ss << m_matches[i].subtext << NameHierarchy::getDelimiter();
+					ss << m_matches[i].subtext << m_matches[i].delimiter;
 				}
 				ss << m_matches[i].name;
 			}
