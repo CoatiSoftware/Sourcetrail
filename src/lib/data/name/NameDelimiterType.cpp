@@ -12,6 +12,8 @@ std::string nameDelimiterTypeToString(NameDelimiterType delimiter)
 		return "::";
 	case NAME_DELIMITER_JAVA:
 		return ".";
+	default:
+		break;
 	}
 	return "@";
 }

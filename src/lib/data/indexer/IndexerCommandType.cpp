@@ -10,6 +10,8 @@ std::string indexerCommandTypeToString(IndexerCommandType type)
 		return "indexer command cxx cdb";
 	case INDEXER_COMMAND_JAVA:
 		return "indexer command java";
+	default:
+		break;
 	}
 	return "indexer command unknown";
 }

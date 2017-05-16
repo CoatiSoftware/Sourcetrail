@@ -147,9 +147,20 @@ gifsicle --resize-height 18 trans.gif > loader.gif
 
 ### Changelog
 
-#### 0.12.0 (beta)
-released 2017-05-08
+#### 0.12.25
+released 2017-05-16
 
+* Added QtCreator plugin
+* Graph: Added context menu action to create bookmark for node under mouse cursor (issue #373)
+* Code: Fixed code view not scrolled to first fulltext search match in single file mode
+* Set unrestricted permission for accessing shared memory to fix crash on Windows
+* Improved setting descriptions in preferences dialog
+* Java: Updated to JavaParser 3.2.0 and JavaSymbolSolver 0.5.3
+* Graph: Fixed order of nodes is same as within first encountered header file
+* Save timestamp after project indexing and show it on the overview screen
+* Fixed use of correct name delimiters in indexer processes
+* Fixed crash when running 32 and 64 bit versions in parallel
+* Bookmark: Changed menu action to "Bookmark Active Symbol"
 * Graph: Zooming on Ctrl + Mouse Wheel now (Shift + Mouse Wheel still working)
 * Added dialog to warn about "verbose indexer logging" before indexing.
 * Added multi process indexing for C/C++ projects to better handle crashes during indexing.
@@ -185,8 +196,8 @@ released 2017-04-12
 * Show license information on start screen
 * Added ping support to plugins and display current connected editor/IDE in status bar.
 
-#### 0.11.0 (beta)
-released 2017-02-15
+#### 0.11.15
+released 2017-03-01
 
 * Don't accept richt text in 'enter license' dialog field (issue #207)
 * Updated EULA to include Test License and better clarify other license types
