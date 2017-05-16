@@ -455,14 +455,8 @@ void PersistentStorage::setProjectSettingsText(std::string text)
 
 void PersistentStorage::setup()
 {
-	if (m_sqliteIndexStorage.isEmpty())
-	{
-		m_sqliteIndexStorage.setup();
-	}
-	if (m_sqliteBookmarkStorage.isEmpty())
-	{
-		m_sqliteBookmarkStorage.setup();
-	}
+	m_sqliteIndexStorage.setup();
+	m_sqliteBookmarkStorage.setup();
 }
 
 void PersistentStorage::clear()
