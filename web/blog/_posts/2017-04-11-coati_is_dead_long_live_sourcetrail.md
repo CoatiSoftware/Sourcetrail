@@ -19,7 +19,7 @@ Today we renamed our product from **Coati** to **Sourcetrail**. Here is why:
 * **Trademark** - The trademark is already registered by now and we don't want to waste our energy fighting about it.
 * **Google Rank** - a [coati](https://en.wikipedia.org/wiki/Coati) is a real world animal, so becoming the #1 search result for "Coati" is nearly impossible.
 * **Connotation** - "Sourcetrail" can be associated to software development and code navigation much more easily than "Coati".
-* **Pronunciation** - There are several different opinions on how to pronounce "Coati". 
+* **Pronunciation** - There are several different opinions on how to pronounce "Coati".
 
 <br />
 
