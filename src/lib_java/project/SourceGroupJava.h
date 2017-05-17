@@ -6,7 +6,6 @@
 
 #include "settings/SourceGroupSettingsJava.h"
 #include "project/SourceGroup.h"
-#include "utility/file/FileManager.h"
 
 class SourceGroupJava: public SourceGroup
 {

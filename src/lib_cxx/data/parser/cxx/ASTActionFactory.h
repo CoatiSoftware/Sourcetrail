@@ -3,9 +3,10 @@
 
 #include "clang/Tooling/Tooling.h"
 
-#include "data/parser/cxx/ASTAction.h"
 #include "data/parser/cxx/cxxCacheTypes.h"
 #include "utility/file/FileRegister.h"
+
+class ParserClient;
 
 class ASTActionFactory
 	: public clang::tooling::FrontendActionFactory

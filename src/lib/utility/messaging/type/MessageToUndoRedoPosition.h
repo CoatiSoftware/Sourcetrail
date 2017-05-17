@@ -2,7 +2,6 @@
 #define MESSAGE_TO_UNDO_REDO_POSITION_H
 
 #include "utility/messaging/Message.h"
-#include "utility/types.h"
 
 class MessageToUndoRedoPosition
 	: public Message<MessageToUndoRedoPosition>

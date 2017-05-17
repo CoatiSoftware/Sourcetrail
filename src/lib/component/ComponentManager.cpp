@@ -3,15 +3,9 @@
 #include "component/controller/NetworkFactory.h"
 
 #include "component/controller/Controller.h"
-#include "component/view/CodeView.h"
 #include "component/view/CompositeView.h"
 #include "component/view/DialogView.h"
-#include "component/view/GraphView.h"
-#include "component/view/LogView.h"
-#include "component/view/RefreshView.h"
-#include "component/view/SearchView.h"
 #include "component/view/TabbedView.h"
-#include "component/view/UndoRedoView.h"
 #include "component/view/ViewFactory.h"
 
 std::shared_ptr<ComponentManager> ComponentManager::create(ViewFactory* viewFactory, StorageAccess* storageAccess)

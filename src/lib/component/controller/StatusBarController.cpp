@@ -3,7 +3,6 @@
 #include "component/view/StatusBarView.h"
 #include "data/access/StorageAccess.h"
 #include "utility/logging/logging.h"
-#include "utility/utilityString.h"
 
 StatusBarController::StatusBarController(StorageAccess* storageAccess)
 	: m_storageAccess(storageAccess)

@@ -1,7 +1,5 @@
 #include "component/controller/LogController.h"
 
-#include "data/access/StorageAccess.h"
-#include "utility/logging/LogManager.h"
 #include "settings/ApplicationSettings.h"
 
 LogController::LogController()

@@ -7,6 +7,9 @@
 #include "qt/window/project_wizzard/QtProjectWizzardContent.h"
 #include "qt/element/QtLocationPicker.h"
 
+class ProjectSettings;
+class SourceGroupSettings;
+
 class QtProjectWizzardContentData
 	: public QtProjectWizzardContent
 {

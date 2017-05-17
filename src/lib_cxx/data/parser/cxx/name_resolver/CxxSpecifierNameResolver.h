@@ -3,8 +3,9 @@
 
 #include <memory>
 
-#include "data/parser/cxx/name/CxxDeclName.h"
 #include "data/parser/cxx/name_resolver/CxxNameResolver.h"
+
+class CxxName;
 
 class CxxSpecifierNameResolver: public CxxNameResolver
 {

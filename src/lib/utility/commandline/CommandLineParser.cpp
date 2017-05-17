@@ -1,11 +1,11 @@
 #include "utility/commandline/CommandLineParser.h"
 
+#include <iostream>
+
 #include "boost/program_options.hpp"
 
 #include "utility/ConfigManager.h"
-#include "utility/file/FileSystem.h"
 #include "utility/messaging/type/MessageLoadProject.h"
-#include "utility/messaging/type/MessageStatus.h"
 #include "utility/text/TextAccess.h"
 #include "utility/utilityString.h"
 #include "License.h"

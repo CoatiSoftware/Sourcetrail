@@ -9,14 +9,12 @@
 #include "utility/file/FilePath.h"
 #include "utility/logging/logging.h"
 #include "utility/messaging/type/MessageChangeFileView.h"
-#include "utility/ResourcePaths.h"
 
 #include "data/location/SourceLocationFile.h"
 #include "qt/element/QtCodeArea.h"
 #include "qt/element/QtCodeFileTitleButton.h"
 #include "qt/element/QtCodeNavigator.h"
 #include "qt/utility/utilityQt.h"
-#include "settings/ColorScheme.h"
 
 QtCodeFileSingle::QtCodeFileSingle(QtCodeNavigator* navigator, QWidget* parent)
 	: m_navigator(navigator)

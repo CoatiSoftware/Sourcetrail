@@ -4,7 +4,6 @@
 #include <thread>
 
 #include "utility/logging/logging.h"
-#include "utility/messaging/type/MessageStatus.h"
 #include "utility/scheduling/Blackboard.h"
 #include "utility/ScopedFunctor.h"
 

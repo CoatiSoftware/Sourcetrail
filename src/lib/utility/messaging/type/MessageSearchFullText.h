@@ -2,7 +2,6 @@
 #define MESSAGE_SEARCH_FULLTEXT_H
 
 #include "utility/messaging/Message.h"
-#include "utility/types.h"
 
 class MessageSearchFullText: public Message<MessageSearchFullText>
 {

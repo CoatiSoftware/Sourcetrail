@@ -7,7 +7,6 @@
 
 #include "data/name/NameHierarchy.h"
 #include "data/parser/cxx/name/CxxName.h"
-#include "data/parser/cxx/name/CxxDeclName.h"
 #include "data/parser/cxx/name/CxxQualifierFlags.h"
 
 class CxxTypeName: public CxxName

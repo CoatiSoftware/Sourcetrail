@@ -2,6 +2,7 @@
 #define QT_PROJECT_WIZZARD_CONTENT_SELECT_H
 
 #include "qt/window/project_wizzard/QtProjectWizzardContent.h"
+#include "settings/LanguageType.h"
 #include "settings/SourceGroupType.h"
 
 class QButtonGroup;

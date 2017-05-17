@@ -7,7 +7,6 @@
 #include <QObject>
 
 #include "utility/file/FilePath.h"
-#include "utility/logging/logging.h"
 
 class QtContextMenu
 	: public QObject

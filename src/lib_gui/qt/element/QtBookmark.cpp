@@ -11,7 +11,6 @@
 #include "utility/messaging/type/MessageDisplayBookmarkEditor.h"
 #include "utility/ResourcePaths.h"
 
-#include "qt/window/QtBookmarkCreator.h"
 #include "qt/utility/utilityQt.h"
 
 QtBookmark::QtBookmark()

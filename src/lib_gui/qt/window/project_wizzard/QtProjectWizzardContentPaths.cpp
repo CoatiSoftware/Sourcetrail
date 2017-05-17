@@ -12,7 +12,6 @@
 #include "settings/SourceGroupSettingsJava.h"
 #include "utility/CompilationDatabase.h"
 #include "utility/file/FileManager.h"
-#include "utility/file/FileSystem.h"
 #include "utility/utility.h"
 #include "utility/utilityPathDetection.h"
 

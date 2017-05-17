@@ -5,7 +5,6 @@
 #include <mutex>
 #include <string>
 
-#include "data/name/NameHierarchy.h"
 #include "data/StorageTypes.h"
 #include "utility/types.h"
 

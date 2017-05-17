@@ -6,7 +6,6 @@
 #include "utility/Cache.h"
 #include "utility/file/FileInfo.h"
 #include "utility/file/FilePath.h"
-#include "utility/file/FileSystem.h"
 #include "utility/logging/logging.h"
 #include "utility/messaging/type/MessageNewErrors.h"
 #include "utility/messaging/type/MessageStatus.h"
@@ -14,16 +13,15 @@
 #include "utility/TimePoint.h"
 #include "utility/tracing.h"
 #include "utility/utility.h"
-#include "utility/utilityString.h"
-#include "utility/Version.h"
-#include "utility/utilityString.h"
 
+#include "data/graph/token_component/TokenComponentAccess.h"
 #include "data/graph/token_component/TokenComponentAggregation.h"
 #include "data/graph/token_component/TokenComponentFilePath.h"
 #include "data/graph/token_component/TokenComponentSignature.h"
 #include "data/graph/Graph.h"
 #include "data/location/SourceLocationCollection.h"
 #include "data/location/SourceLocationFile.h"
+#include "data/parser/AccessKind.h"
 #include "data/parser/ParseLocation.h"
 
 PersistentStorage::PersistentStorage(const FilePath& dbPath, const FilePath& bookmarkPath)

@@ -9,7 +9,6 @@
 #include "qt/element/QtHelpButton.h"
 #include "qt/utility/QtThreadedFunctor.h"
 #include "qt/window/project_wizzard/QtProjectWizzardWindow.h"
-#include "settings/ProjectSettings.h"
 
 class QtTextEditDialog;
 

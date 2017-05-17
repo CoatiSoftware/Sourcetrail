@@ -2,7 +2,6 @@
 #define MESSAGE_SEARCH_AUTOCOMPLETE_H
 
 #include "utility/messaging/Message.h"
-#include "utility/types.h"
 
 class MessageSearchAutocomplete: public Message<MessageSearchAutocomplete>
 {

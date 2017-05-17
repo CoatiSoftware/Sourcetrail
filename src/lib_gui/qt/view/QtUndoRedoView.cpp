@@ -3,7 +3,6 @@
 #include "utility/ResourcePaths.h"
 #include "qt/utility/utilityQt.h"
 
-#include "qt/view/QtMainView.h"
 #include "qt/view/QtViewWidgetWrapper.h"
 
 QtUndoRedoView::QtUndoRedoView(ViewLayout* viewLayout)

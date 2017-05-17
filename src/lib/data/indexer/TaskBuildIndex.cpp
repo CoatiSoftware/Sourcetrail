@@ -1,7 +1,6 @@
 #include "data/indexer/TaskBuildIndex.h"
 
 #include "utility/AppPath.h"
-#include "utility/file/FileRegister.h"
 #include "utility/file/FileRegisterStateData.h"
 #include "utility/logging/FileLogger.h"
 #include "utility/scheduling/Blackboard.h"
@@ -10,12 +9,9 @@
 
 #include "Application.h"
 #include "component/view/DialogView.h"
-#include "data/indexer/IndexerFactory.h"
 #include "data/indexer/IndexerCommandList.h"
-#include "data/indexer/IndexerComposite.h"
 #include "data/indexer/interprocess/InterprocessIndexer.h"
 #include "data/StorageProvider.h"
-#include "settings/ApplicationSettings.h"
 
 #if _WIN32
 const std::string TaskBuildIndex::s_processName("sourcetrail_indexer.exe");

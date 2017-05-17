@@ -3,7 +3,6 @@
 
 #include <set>
 
-#include "utility/TimePoint.h"
 #include "utility/types.h"
 
 #include "component/view/helper/CodeSnippetParams.h"

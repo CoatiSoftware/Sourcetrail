@@ -4,8 +4,8 @@
 #include "utility/file/FileRegisterStateData.h"
 #include "utility/logging/logging.h"
 
-#include "data/indexer/IndexerComposite.h"
 #include "data/indexer/IndexerCommand.h"
+#include "data/indexer/IndexerComposite.h"
 #include "data/indexer/IndexerFactory.h"
 
 InterprocessIndexer::InterprocessIndexer(const std::string& uuid, Id processId)

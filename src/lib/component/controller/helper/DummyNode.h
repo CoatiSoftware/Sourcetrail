@@ -7,8 +7,8 @@
 #include "utility/utilityString.h"
 
 #include "data/graph/Node.h"
-#include "data/graph/token_component/TokenComponentAccess.h"
 #include "data/name/NameHierarchy.h"
+#include "data/parser/AccessKind.h"
 
 // temporary data structure for (visual) graph creation process
 struct DummyNode

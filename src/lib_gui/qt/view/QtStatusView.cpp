@@ -14,7 +14,6 @@
 #include "settings/ColorScheme.h"
 #include "utility/messaging/type/MessageClearStatusView.h"
 #include "utility/messaging/type/MessageStatusFilterChanged.h"
-#include "utility/ResourcePaths.h"
 
 QtStatusView::QtStatusView(ViewLayout* viewLayout)
 	: StatusView(viewLayout)

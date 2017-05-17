@@ -1,9 +1,7 @@
 #include "settings/Settings.h"
 
-#include "utility/file/FileSystem.h"
 #include "utility/logging/logging.h"
 #include "utility/text/TextAccess.h"
-#include "utility/utilityString.h"
 #include "utility/utility.h"
 
 Settings::Settings(const Settings& other)

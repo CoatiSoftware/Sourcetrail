@@ -5,6 +5,7 @@
 
 class QCheckBox;
 class QButtonGroup;
+class SourceGroupSettings;
 
 class QtProjectWizzardContentSimple
 	: public QtProjectWizzardContent

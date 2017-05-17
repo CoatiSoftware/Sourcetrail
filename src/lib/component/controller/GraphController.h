@@ -26,8 +26,6 @@
 #include "component/controller/helper/DummyNode.h"
 #include "component/view/GraphView.h"
 #include "data/graph/Node.h"
-#include "data/graph/token_component/TokenComponentAccess.h"
-#include "data/graph/token_component/TokenComponentAggregation.h"
 
 class Graph;
 class StorageAccess;

@@ -3,7 +3,6 @@
 
 #include "utility/logging/logging.h"
 #include "utility/tracing.h"
-#include "utility/utility.h"
 
 void FullTextSearchIndex::addFile(Id fileId, const std::string& file)
 {

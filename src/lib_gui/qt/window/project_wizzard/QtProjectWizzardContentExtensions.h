@@ -4,6 +4,7 @@
 #include "qt/window/project_wizzard/QtProjectWizzardContent.h"
 
 class QtDirectoryListBox;
+class SourceGroupSettings;
 
 class QtProjectWizzardContentExtensions
 	: public QtProjectWizzardContent

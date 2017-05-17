@@ -2,7 +2,6 @@
 #define QT_PROJECT_WIZZARD_WINDOW_H
 
 #include "qt/window/QtWindow.h"
-#include "settings/ProjectSettings.h"
 
 class QtProjectWizzardContent;
 

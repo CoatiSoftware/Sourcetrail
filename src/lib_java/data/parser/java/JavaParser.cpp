@@ -8,7 +8,6 @@
 #include "data/parser/ReferenceKind.h"
 #include "data/parser/ParserClient.h"
 #include "settings/ApplicationSettings.h"
-#include "settings/LanguageType.h"
 #include "utility/file/FileSystem.h"
 #include "utility/text/TextAccess.h"
 #include "utility/ResourcePaths.h"

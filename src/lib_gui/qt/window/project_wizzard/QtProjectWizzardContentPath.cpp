@@ -13,7 +13,6 @@
 #include "utility/file/FileManager.h"
 #include "utility/messaging/type/MessageStatus.h"
 #include "utility/utilityMaven.h"
-#include "utility/ScopedFunctor.h"
 #include "Application.h"
 
 QtProjectWizzardContentPath::QtProjectWizzardContentPath(std::shared_ptr<SourceGroupSettings> settings, QtProjectWizzardWindow* window)

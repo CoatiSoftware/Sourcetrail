@@ -2,7 +2,6 @@
 #define MESSAGE_STATUS_FILTER_CHANGED_H
 
 #include "utility/messaging/Message.h"
-#include "utility/logging/Logger.h"
 #include "utility/Status.h"
 
 class MessageStatusFilterChanged

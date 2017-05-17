@@ -1,6 +1,5 @@
 #include "utility/scheduling/Task.h"
 
-#include "utility/logging/logging.h"
 #include "utility/scheduling/TaskScheduler.h"
 
 void Task::dispatch(std::shared_ptr<Task> task)

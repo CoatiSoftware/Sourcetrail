@@ -2,7 +2,6 @@
 
 #include "boost/filesystem.hpp"
 
-#include "sqlite/CppSQLite3.h"
 #include "data/SqliteIndexStorage.h"
 
 class SqliteIndexStorageTestSuite: public CxxTest::TestSuite

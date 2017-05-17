@@ -1,7 +1,5 @@
 #include "data/parser/cxx/CxxAstVisitorComponentContext.h"
 
-#include "utility/ScopedFunctor.h"
-
 CxxAstVisitorComponentContext::CxxAstVisitorComponentContext(CxxAstVisitor* astVisitor)
 	: CxxAstVisitorComponent(astVisitor)
 {

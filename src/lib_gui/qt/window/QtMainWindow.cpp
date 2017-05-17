@@ -46,7 +46,7 @@
 #include "utility/ResourcePaths.h"
 #include "utility/tracing.h"
 #include "utility/UserPaths.h"
-#include "version.h"
+#include "utility/utilityString.h"
 
 QtViewToggle::QtViewToggle(View* view, QWidget *parent)
 	: QWidget(parent)

@@ -1,9 +1,8 @@
 #include "project/SourceGroupJava.h"
 
-#include "utility/file/FileRegister.h"
+#include "utility/file/FileManager.h"
 #include "utility/file/FileSystem.h"
 #include "utility/messaging/type/MessageStatus.h"
-#include "utility/ResourcePaths.h"
 #include "utility/text/TextAccess.h"
 #include "utility/ScopedFunctor.h"
 #include "utility/utility.h"

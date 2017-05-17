@@ -1,7 +1,6 @@
 #ifndef CXX_DECL_NAME_RESOLVER_H
 #define CXX_DECL_NAME_RESOLVER_H
 
-#include "data/name/NameHierarchy.h"
 #include "data/parser/cxx/name/CxxDeclName.h"
 #include "data/parser/cxx/name_resolver/CxxNameResolver.h"
 

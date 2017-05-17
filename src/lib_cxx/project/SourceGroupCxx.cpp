@@ -7,7 +7,7 @@
 #include "data/indexer/IndexerCommandCxxManual.h"
 #include "data/indexer/IndexerCommandCxxCdb.h"
 #include "settings/ApplicationSettings.h"
-#include "utility/file/FileRegister.h"
+#include "utility/file/FileManager.h"
 #include "utility/file/FileSystem.h"
 #include "utility/messaging/type/MessageStatus.h"
 #include "utility/utility.h"

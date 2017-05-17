@@ -3,6 +3,8 @@
 
 #include "qt/window/project_wizzard/QtProjectWizzardContent.h"
 
+class SourceGroupSettings;
+
 class QtProjectWizzardContentCDBSource
 	: public QtProjectWizzardContent
 {

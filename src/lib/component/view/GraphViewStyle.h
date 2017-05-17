@@ -7,7 +7,7 @@
 #include "utility/math/Vector2.h"
 
 #include "data/graph/Node.h"
-#include "data/graph/token_component/TokenComponentAccess.h"
+#include "data/parser/AccessKind.h"
 
 class GraphViewStyleImpl;
 

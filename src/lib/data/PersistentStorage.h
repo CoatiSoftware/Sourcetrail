@@ -6,16 +6,11 @@
 
 #include "data/access/StorageAccess.h"
 #include "data/fulltextsearch/FullTextSearchIndex.h"
-#include "data/graph/token_component/TokenComponentAccess.h"
-#include "data/parser/ParserClient.h"
-#include "data/parser/ParseLocation.h"
 #include "data/search/SearchIndex.h"
 #include "data/HierarchyCache.h"
 #include "data/SqliteIndexStorage.h"
 #include "data/SqliteBookmarkStorage.h"
 #include "data/Storage.h"
-
-#include "data/parser/ParserClientImpl.h"
 
 class PersistentStorage
 	: public Storage

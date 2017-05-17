@@ -2,7 +2,6 @@
 
 #include "data/name/NameHierarchy.h"
 #include "data/search/SearchIndex.h"
-#include "utility/utilityString.h"
 
 class SearchIndexTestSuite : public CxxTest::TestSuite
 {

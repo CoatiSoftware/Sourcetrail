@@ -2,7 +2,6 @@
 #define MESSAGE_SEARCH_H
 
 #include "utility/messaging/Message.h"
-#include "utility/utilityString.h"
 
 #include "data/search/SearchMatch.h"
 

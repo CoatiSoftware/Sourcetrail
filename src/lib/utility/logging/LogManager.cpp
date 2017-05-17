@@ -2,7 +2,6 @@
 
 #include <algorithm>
 
-#include "utility/logging/LogMessage.h"
 #include "utility/logging/logging.h"
 #include "utility/messaging/type/MessageStatus.h"
 #include "utility/Version.h"

@@ -6,7 +6,6 @@
 
 #include "data/parser/java/JavaEnvironment.h"
 #include "settings/ApplicationSettings.h"
-#include "utility/file/FileSystem.h"
 #include "utility/logging/logging.h"
 #include "utility/utilityLibrary.h"
 

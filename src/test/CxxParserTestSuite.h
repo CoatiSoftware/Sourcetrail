@@ -1,14 +1,11 @@
 #include "cxxtest/TestSuite.h"
 
-#include "utility/file/FileRegister.h"
 #include "utility/text/TextAccess.h"
 #include "utility/utility.h"
 #include "utility/utilityString.h"
 
 #include "data/indexer/IndexerCommandCxxManual.h"
 #include "data/parser/cxx/CxxParser.h"
-#include "data/parser/ParseLocation.h"
-#include "data/parser/ParserClient.h"
 
 #include "helper/TestFileRegister.h"
 #include "helper/TestParserClient.h"

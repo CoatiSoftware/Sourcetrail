@@ -1,5 +1,6 @@
 #include "InterprocessIntermediateStorageManager.h"
 
+#include "data/indexer/interprocess/shared_types/SharedIntermediateStorage.h"
 #include "data/IntermediateStorage.h"
 #include "utility/logging/logging.h"
 

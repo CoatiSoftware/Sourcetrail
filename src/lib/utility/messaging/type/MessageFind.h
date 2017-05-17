@@ -2,7 +2,6 @@
 #define MESSAGE_FIND_H
 
 #include "utility/messaging/Message.h"
-#include "utility/types.h"
 
 class MessageFind
 	: public Message<MessageFind>

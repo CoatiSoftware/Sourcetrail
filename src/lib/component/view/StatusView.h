@@ -1,12 +1,10 @@
 #ifndef STATUS_VIEW_H
 #define STATUS_VIEW_H
 
+#include <vector>
+
 #include "component/view/View.h"
-
 #include "utility/Status.h"
-#include "utility/logging/LogMessage.h"
-#include "utility/logging/Logger.h"
-
 
 class StatusView
 	: public View

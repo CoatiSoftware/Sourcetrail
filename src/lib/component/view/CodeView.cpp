@@ -1,7 +1,6 @@
 #include "component/view/CodeView.h"
 
 #include "component/controller/CodeController.h"
-#include "utility/file/FileSystem.h"
 
 CodeView::CodeView(ViewLayout* viewLayout)
 	: View(viewLayout)

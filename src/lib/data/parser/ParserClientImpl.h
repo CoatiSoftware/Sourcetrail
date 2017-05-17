@@ -5,7 +5,6 @@
 
 #include "data/DefinitionKind.h"
 #include "data/graph/Node.h"
-#include "data/graph/token_component/TokenComponentAccess.h"
 #include "data/IntermediateStorage.h"
 #include "data/parser/ParserClient.h"
 

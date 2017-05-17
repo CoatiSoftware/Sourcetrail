@@ -5,7 +5,6 @@
 #include "data/location/LocationType.h"
 #include "data/parser/ParseLocation.h"
 #include "utility/logging/logging.h"
-#include "utility/utility.h"
 
 ParserClientImpl::ParserClientImpl()
 {

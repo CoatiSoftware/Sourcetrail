@@ -3,7 +3,6 @@
 
 #include "utility/file/FilePath.h"
 #include "utility/messaging/Message.h"
-#include "utility/types.h"
 
 class MessageChangeFileView
 	: public Message<MessageChangeFileView>

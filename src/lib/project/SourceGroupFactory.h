@@ -4,8 +4,6 @@
 #include <memory>
 #include <vector>
 
-#include "settings/SourceGroupType.h"
-
 class SourceGroup;
 class SourceGroupSettings;
 class SourceGroupFactoryModule;

@@ -2,13 +2,13 @@
 #define QT_PROJECT_WIZZARD_CONTENT_PATH_H
 
 #include "qt/window/project_wizzard/QtProjectWizzardContent.h"
-#include "utility/path_detector/CombinedPathDetector.h"
 
 class QCheckBox;
 class QComboBox;
 class QPushButton;
 
 class QtLocationPicker;
+class SourceGroupSettings;
 
 class QtProjectWizzardContentPath
 	: public QtProjectWizzardContent

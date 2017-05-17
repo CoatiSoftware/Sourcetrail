@@ -3,8 +3,6 @@
 #include <QLabel>
 #include <QPlainTextEdit>
 
-#include "utility/utilityString.h"
-
 QtTextEditDialog::QtTextEditDialog(const QString& title, const QString& description, QWidget* parent)
 	: QtWindow(parent)
 	, m_title(title)

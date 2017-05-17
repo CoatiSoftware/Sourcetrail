@@ -2,7 +2,6 @@
 #define EDGE_BOOKMARK_H
 
 #include "Bookmark.h"
-#include "data/graph/Edge.h"
 
 class EdgeBookmark
 	: public Bookmark

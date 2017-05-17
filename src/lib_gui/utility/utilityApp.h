@@ -5,8 +5,6 @@
 #include <set>
 #include <string>
 
-#include "utility/ApplicationArchitectureType.h"
-
 namespace utility
 {
 	std::string executeProcess(const std::string& command, const std::string& workingDirectory = "", int timeout = 30000);

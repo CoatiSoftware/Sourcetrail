@@ -1,6 +1,7 @@
 #include "IDECommunicationController.h"
 
 #include "utility/file/FileSystem.h"
+#include "utility/logging/logging.h"
 #include "utility/messaging/type/MessageActivateSourceLocations.h"
 #include "utility/messaging/type/MessageActivateWindow.h"
 #include "utility/messaging/type/MessageDispatchWhenLicenseValid.h"
@@ -11,7 +12,6 @@
 
 #include "data/access/StorageAccess.h"
 #include "data/location/SourceLocationFile.h"
-#include "settings/ApplicationSettings.h"
 
 IDECommunicationController::IDECommunicationController(StorageAccess* storageAccess)
 	: m_storageAccess(storageAccess)

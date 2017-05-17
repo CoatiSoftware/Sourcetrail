@@ -1,8 +1,8 @@
 #include "LicenseChecker.h"
 
 #include "utility/AppPath.h"
+#include "utility/logging/logging.h"
 #include "utility/messaging/type/MessageForceEnterLicense.h"
-#include "utility/messaging/type/MessageStatus.h"
 
 #include "License.h"
 #include "PublicKey.h"

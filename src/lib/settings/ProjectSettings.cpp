@@ -5,7 +5,6 @@
 #include "settings/migration/SettingsMigrationMoveKey.h"
 #include "settings/SourceGroupSettingsCxx.h"
 #include "settings/SourceGroupSettingsJava.h"
-#include "utility/utility.h"
 #include "utility/utilityString.h"
 #include "utility/utilityUuid.h"
 

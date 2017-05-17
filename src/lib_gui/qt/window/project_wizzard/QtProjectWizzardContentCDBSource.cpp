@@ -1,7 +1,8 @@
 #include "qt/window/project_wizzard/QtProjectWizzardContentCDBSource.h"
 
-#include "settings/SourceGroupSettingsCxx.h"
 #include "data/indexer/IndexerCommandCxxCdb.h"
+#include "settings/SourceGroupSettingsCxx.h"
+#include "utility/file/FilePath.h"
 
 QtProjectWizzardContentCDBSource::QtProjectWizzardContentCDBSource(
 	std::shared_ptr<SourceGroupSettings> settings, QtProjectWizzardWindow* window

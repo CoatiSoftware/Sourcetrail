@@ -14,9 +14,9 @@
 #include "component/view/GraphView.h"
 #include "component/view/GraphViewStyle.h"
 #include "data/access/StorageAccess.h"
-#include "data/parser/AccessKind.h"
+#include "data/graph/token_component/TokenComponentAccess.h"
 #include "data/graph/Graph.h"
-#include "Application.h"
+#include "data/parser/AccessKind.h"
 
 GraphController::GraphController(StorageAccess* storageAccess)
 	: m_storageAccess(storageAccess)

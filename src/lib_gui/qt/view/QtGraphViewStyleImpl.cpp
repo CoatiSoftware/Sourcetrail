@@ -3,6 +3,8 @@
 #include <QFontMetrics>
 #include <QSysInfo>
 
+#include "qt/view/graphElements/QtGraphNode.h"
+
 QtGraphViewStyleImpl::~QtGraphViewStyleImpl()
 {
 }

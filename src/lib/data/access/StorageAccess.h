@@ -7,7 +7,6 @@
 
 #include "utility/types.h"
 
-#include "data/bookmark/Bookmark.h"
 #include "data/bookmark/BookmarkCategory.h"
 #include "data/bookmark/EdgeBookmark.h"
 #include "data/bookmark/NodeBookmark.h"

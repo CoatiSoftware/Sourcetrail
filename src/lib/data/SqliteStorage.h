@@ -5,7 +5,6 @@
 
 #include "data/SqliteDatabaseIndex.h"
 #include "utility/file/FilePath.h"
-#include "utility/Version.h"
 
 class SqliteStorageMigration;
 class TimePoint;

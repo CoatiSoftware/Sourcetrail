@@ -3,9 +3,10 @@
 
 #include <map>
 #include <set>
+#include <string>
 #include <vector>
 
-#include "utility/file/FileInfo.h"
+class FilePath;
 
 class FileManager
 {

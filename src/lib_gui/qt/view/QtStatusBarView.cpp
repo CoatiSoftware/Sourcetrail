@@ -3,7 +3,6 @@
 #include <QStatusBar>
 
 #include "qt/view/QtMainView.h"
-#include "qt/view/QtViewWidgetWrapper.h"
 
 QtStatusBarView::QtStatusBarView(ViewLayout* viewLayout)
 	: StatusBarView(viewLayout)

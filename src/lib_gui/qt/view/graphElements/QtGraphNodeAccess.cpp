@@ -7,7 +7,7 @@
 #include "utility/ResourcePaths.h"
 
 #include "component/view/GraphViewStyle.h"
-#include "qt/graphics/QtRoundedRectItem.h"
+#include "data/graph/token_component/TokenComponentAccess.h"
 #include "qt/utility/QtDeviceScaledPixmap.h"
 #include "qt/utility/utilityQt.h"
 

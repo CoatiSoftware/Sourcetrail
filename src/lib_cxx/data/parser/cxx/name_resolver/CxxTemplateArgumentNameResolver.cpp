@@ -4,7 +4,6 @@
 #include <clang/AST/DeclTemplate.h>
 
 #include "data/parser/cxx/name_resolver/CxxTypeNameResolver.h"
-#include "utility/logging/logging.h"
 
 CxxTemplateArgumentNameResolver::CxxTemplateArgumentNameResolver()
 	: CxxNameResolver(std::vector<const clang::Decl*>())

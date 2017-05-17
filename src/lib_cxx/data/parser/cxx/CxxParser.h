@@ -2,7 +2,6 @@
 #define CXX_PARSER_H
 
 #include "data/parser/cxx/cxxCacheTypes.h"
-#include "data/parser/cxx/CxxCompilationDatabaseSingle.h"
 #include "data/parser/Parser.h"
 
 class CxxDiagnosticConsumer;
@@ -11,6 +10,8 @@ class FileRegister;
 class IndexerCommandCxxCdb;
 class IndexerCommandCxxManual;
 class TaskParseCxx;
+
+namespace clang { namespace tooling { class FixedCompilationDatabase;  } }
 
 class CxxParser: public Parser
 {

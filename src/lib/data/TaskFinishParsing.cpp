@@ -2,7 +2,6 @@
 
 #include "component/view/DialogView.h"
 #include "data/PersistentStorage.h"
-#include "utility/file/FileRegister.h"
 #include "utility/messaging/type/MessageFinishedParsing.h"
 #include "utility/messaging/type/MessageStatus.h"
 #include "utility/scheduling/Blackboard.h"

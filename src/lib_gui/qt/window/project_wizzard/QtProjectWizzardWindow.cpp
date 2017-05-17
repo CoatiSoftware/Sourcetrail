@@ -7,7 +7,6 @@
 
 #include "qt/utility/utilityQt.h"
 #include "qt/window/project_wizzard/QtProjectWizzardContent.h"
-#include "utility/ResourcePaths.h"
 
 QtProjectWizzardWindow::QtProjectWizzardWindow(QWidget *parent)
 	: QtWindow(parent)

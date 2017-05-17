@@ -2,7 +2,6 @@
 #define INTERPROCESS_INTERMEDIATE_STORAGE_MANAGER_H
 
 #include "BaseInterprocessDataManager.h"
-#include "shared_types/SharedIntermediateStorage.h"
 
 class IntermediateStorage;
 

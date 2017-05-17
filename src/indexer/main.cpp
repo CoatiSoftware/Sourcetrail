@@ -1,18 +1,18 @@
 #include "includes.h"
 
-#include "utility/AppPath.h"
-#include "utility/logging/ConsoleLogger.h"
-#include "utility/logging/FileLogger.h"
-#include "utility/logging/logging.h"
-#include "utility/logging/LogManager.h"
+#include <QCoreApplication>
 
 #include "data/indexer/IndexerFactory.h"
 #include "data/indexer/IndexerFactoryModuleJava.h"
 #include "data/indexer/IndexerFactoryModuleCxxCdb.h"
 #include "data/indexer/IndexerFactoryModuleCxxManual.h"
 #include "data/indexer/interprocess/InterprocessIndexer.h"
-#include "qt/QtCoreApplication.h"
 #include "settings/ApplicationSettings.h"
+#include "utility/AppPath.h"
+#include "utility/logging/ConsoleLogger.h"
+#include "utility/logging/FileLogger.h"
+#include "utility/logging/logging.h"
+#include "utility/logging/LogManager.h"
 
 void setupLogging(const std::string logFilePath)
 {

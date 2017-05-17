@@ -1,6 +1,5 @@
 #include "cxxtest/TestSuite.h"
 
-#include "utility/logging/logging.h"
 #include "utility/math/MatrixBase.h"
 #include "utility/math/VectorBase.h"
 

@@ -6,6 +6,7 @@
 #include <QDesktopServices>
 #include <QUrl>
 
+#include "utility/logging/logging.h"
 #include "utility/messaging/type/MessageRedo.h"
 #include "utility/messaging/type/MessageUndo.h"
 

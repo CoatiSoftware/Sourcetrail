@@ -1,6 +1,5 @@
 #include "cxxtest/TestSuite.h"
 
-#include "utility/utilityString.h"
 #include "data/parser/cxx/name/CxxTypeName.h"
 
 class CxxTypeNameTestSuite: public CxxTest::TestSuite

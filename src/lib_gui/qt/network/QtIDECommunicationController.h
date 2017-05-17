@@ -7,7 +7,6 @@
 
 #include "component/controller/IDECommunicationController.h"
 #include "qt/utility/QtThreadedFunctor.h"
-#include "settings/ApplicationSettings.h"
 
 class StorageAccess;
 

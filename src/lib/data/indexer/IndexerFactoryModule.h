@@ -3,8 +3,6 @@
 
 #include <memory>
 
-#include "settings/LanguageType.h"
-
 class IndexerBase;
 
 class IndexerFactoryModule

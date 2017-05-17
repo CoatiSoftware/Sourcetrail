@@ -5,8 +5,6 @@
 #include <mutex>
 #include <deque>
 
-#include "utility/messaging/MessageListener.h"
-#include "utility/messaging/type/MessageInterruptTasks.h"
 #include "utility/scheduling/Task.h"
 #include "utility/scheduling/TaskRunner.h"
 

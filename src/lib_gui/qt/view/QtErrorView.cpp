@@ -13,7 +13,6 @@
 
 #include "qt/utility/utilityQt.h"
 #include "qt/element/QtTable.h"
-#include "settings/ApplicationSettings.h"
 #include "settings/ColorScheme.h"
 #include "utility/messaging/type/MessageErrorFilterChanged.h"
 #include "utility/messaging/type/MessageShowErrors.h"

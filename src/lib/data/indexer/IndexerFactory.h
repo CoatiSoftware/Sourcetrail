@@ -4,8 +4,6 @@
 #include <memory>
 #include <vector>
 
-#include "settings/LanguageType.h"
-
 class IndexerBase;
 class IndexerComposite;
 class IndexerFactoryModule;

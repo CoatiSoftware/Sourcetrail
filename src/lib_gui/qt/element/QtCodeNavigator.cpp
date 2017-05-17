@@ -17,7 +17,6 @@
 #include "data/location/SourceLocationFile.h"
 #include "qt/element/QtCodeFile.h"
 #include "qt/element/QtCodeSnippet.h"
-#include "qt/utility/QtDeviceScaledPixmap.h"
 #include "qt/utility/utilityQt.h"
 #include "settings/ApplicationSettings.h"
 

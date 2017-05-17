@@ -2,11 +2,8 @@
 
 #include <unordered_map>
 
-#include "data/graph/Node.h"
-#include "data/parser/ParseLocation.h"
 #include "utility/logging/logging.h"
 #include "utility/text/TextAccess.h"
-#include "utility/Version.h"
 
 const size_t SqliteIndexStorage::s_storageVersion = 12;
 

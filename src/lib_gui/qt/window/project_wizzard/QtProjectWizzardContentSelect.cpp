@@ -6,6 +6,7 @@
 #include <QPushButton>
 
 #include "qt/window/project_wizzard/QtProjectWizzardWindow.h"
+#include "settings/LanguageType.h"
 #include "utility/ResourcePaths.h"
 #include "utility/utilityString.h"
 

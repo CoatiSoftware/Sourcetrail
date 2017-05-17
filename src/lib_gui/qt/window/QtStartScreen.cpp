@@ -8,13 +8,10 @@
 
 #include "settings/ApplicationSettings.h"
 #include "settings/ProjectSettings.h"
-#include "utility/file/FileSystem.h"
 #include "utility/messaging/type/MessageLoadProject.h"
 #include "utility/ResourcePaths.h"
 
-#include "qt/utility/QtDeviceScaledPixmap.h"
 #include "qt/utility/utilityQt.h"
-#include "utility/logging/logging.h"
 #include "utility/Version.h"
 #include "License.h"
 #include "utility/AppPath.h"

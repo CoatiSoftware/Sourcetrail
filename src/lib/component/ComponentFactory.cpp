@@ -15,7 +15,6 @@
 #include "component/view/BookmarkView.h"
 #include "component/view/CodeView.h"
 #include "component/view/ErrorView.h"
-#include "component/view/GraphView.h"
 #include "component/view/LogView.h"
 #include "component/view/RefreshView.h"
 #include "component/view/SearchView.h"

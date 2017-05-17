@@ -1,7 +1,5 @@
 #include "data/SqliteStorageMigration.h"
 
-#include "settings/Settings.h"
-
 SqliteStorageMigration::~SqliteStorageMigration()
 {
 }

@@ -6,7 +6,6 @@
 #include <QSysInfo>
 
 #include "utility/file/FilePath.h"
-#include "utility/logging/logging.h"
 
 CxxVsHeaderPathDetector::CxxVsHeaderPathDetector(int version, bool isExpress, ApplicationArchitectureType architecture)
 	: PathDetector("Visual Studio " + std::to_string(version) + (isExpress ? " Express" : "") + (architecture == APPLICATION_ARCHITECTURE_X86_64 ? " 64 Bit" : ""))

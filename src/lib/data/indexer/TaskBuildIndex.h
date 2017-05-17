@@ -9,7 +9,6 @@
 #include "data/indexer/interprocess/InterprocessIndexerCommandManager.h"
 #include "data/indexer/interprocess/InterprocessIndexingStatusManager.h"
 #include "data/indexer/interprocess/InterprocessIntermediateStorageManager.h"
-#include "data/parser/Parser.h"
 
 class DialogView;
 class FileRegisterStateData;

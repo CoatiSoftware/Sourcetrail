@@ -6,14 +6,12 @@
 #include "utility/file/FileRegister.h"
 #include "utility/logging/logging.h"
 #include "utility/text/TextAccess.h"
-#include "utility/tracing.h"
 
 #include "data/indexer/IndexerCommandCxxCdb.h"
 #include "data/indexer/IndexerCommandCxxManual.h"
 #include "data/parser/cxx/ASTActionFactory.h"
 #include "data/parser/cxx/CxxCompilationDatabaseSingle.h"
 #include "data/parser/cxx/CxxDiagnosticConsumer.h"
-#include "settings/LanguageType.h"
 
 namespace
 {

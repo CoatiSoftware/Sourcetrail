@@ -2,9 +2,6 @@
 
 #include <set>
 
-#include "data/graph/Edge.h"
-#include "utility/logging/logging.h"
-
 IntermediateStorage::IntermediateStorage()
 	: m_nextId(1)
 {

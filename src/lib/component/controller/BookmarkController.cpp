@@ -7,7 +7,6 @@
 
 #include "utility/messaging/type/MessageActivateEdge.h"
 #include "utility/messaging/type/MessageActivateNodes.h"
-#include "utility/Cache.h"
 
 #include "utility/logging/logging.h"
 #include "utility/utilityString.h"

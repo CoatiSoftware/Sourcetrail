@@ -2,6 +2,7 @@
 
 #include "component/view/SearchView.h"
 #include "data/access/StorageAccess.h"
+#include "utility/logging/logging.h"
 #include "utility/tracing.h"
 
 SearchController::SearchController(StorageAccess* storageAccess)

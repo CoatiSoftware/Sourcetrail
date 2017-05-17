@@ -6,11 +6,9 @@
 #include <QClipboard>
 #include <QKeyEvent>
 
-#include "utility/logging/logging.h"
 #include "utility/messaging/type/MessageSearch.h"
 #include "utility/messaging/type/MessageSearchFullText.h"
 #include "utility/messaging/type/MessageSearchAutocomplete.h"
-#include "utility/text/TextAccess.h"
 #include "utility/utility.h"
 #include "utility/utilityString.h"
 

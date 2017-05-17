@@ -1,9 +1,7 @@
 #include "component/controller/UndoRedoController.h"
 
-#include "utility/logging/logging.h"
 #include "utility/messaging/type/MessageFlushUpdates.h"
 #include "utility/messaging/type/MessageSearch.h"
-#include "utility/utility.h"
 
 #include "Application.h"
 #include "component/view/UndoRedoView.h"

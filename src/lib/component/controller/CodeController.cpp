@@ -6,7 +6,7 @@
 #include "utility/messaging/type/MessageStatus.h"
 #include "utility/text/TextAccess.h"
 #include "utility/tracing.h"
-#include "utility/utility.h"
+#include "utility/logging/logging.h"
 #include "utility/utilityString.h"
 
 #include "data/access/StorageAccess.h"

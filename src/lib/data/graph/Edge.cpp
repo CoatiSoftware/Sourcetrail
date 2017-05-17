@@ -4,7 +4,6 @@
 
 #include "data/graph/Node.h"
 #include "data/graph/token_component/TokenComponentAggregation.h"
-#include "data/graph/token_component/TokenComponentAccess.h"
 #include "utility/logging/logging.h"
 #include "utility/utilityString.h"
 

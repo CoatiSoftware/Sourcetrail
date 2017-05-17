@@ -2,10 +2,8 @@
 
 #include "settings/ApplicationSettings.h"
 #include "utility/utilityPathDetection.h"
-#include "utility/file/FileRegister.h"
 #include "utility/text/TextAccess.h"
 #include "utility/utility.h"
-#include "utility/utilityString.h"
 
 #include "data/parser/java/JavaEnvironmentFactory.h"
 #include "data/parser/java/JavaParser.h"

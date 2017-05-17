@@ -2,7 +2,6 @@
 #define QT_GRAPH_VIEW_STYLE_IMPL_H
 
 #include "component/view/GraphViewStyleImpl.h"
-#include "qt/view/graphElements/QtGraphNode.h"
 
 class QtGraphViewStyleImpl
 	: public GraphViewStyleImpl

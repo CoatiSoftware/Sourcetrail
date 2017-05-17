@@ -3,7 +3,7 @@
 #include <set>
 
 #include "utility/file/FileSystem.h"
-#include "utility/utility.h"
+#include "utility/file/FilePath.h"
 
 FileManager::FileManager()
 {

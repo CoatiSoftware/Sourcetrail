@@ -38,7 +38,6 @@
 #include "utility/utility.h"
 #include "utility/utilityApp.h"
 #include "utility/utilityString.h"
-#include "utility/Version.h"
 
 Project::Project(std::shared_ptr<ProjectSettings> settings, StorageAccessProxy* storageAccessProxy)
 	: m_settings(settings)

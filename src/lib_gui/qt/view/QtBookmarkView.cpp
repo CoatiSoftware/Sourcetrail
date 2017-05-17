@@ -5,8 +5,6 @@
 #include <QMessageBox>
 #include <QPushButton>
 
-#include "data/bookmark/EdgeBookmark.h"
-
 #include "qt/utility/utilityQt.h"
 #include "qt/view/QtViewWidgetWrapper.h"
 #include "qt/window/QtBookmarkCreator.h"
@@ -18,7 +16,6 @@
 #include "utility/ResourcePaths.h"
 
 #include "settings/ApplicationSettings.h"
-#include "settings/ColorScheme.h"
 
 QtBookmarkView::QtBookmarkView(ViewLayout* viewLayout)
 	: BookmarkView(viewLayout)

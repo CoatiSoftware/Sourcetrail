@@ -2,9 +2,7 @@
 
 #include <unordered_map>
 
-#include "data/graph/Edge.h"
 #include "data/StorageTypes.h"
-#include "utility/logging/logging.h"
 #include "utility/tracing.h"
 
 Storage::Storage()

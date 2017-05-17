@@ -6,7 +6,6 @@
 
 #include "project/SourceGroup.h"
 #include "settings/SourceGroupSettingsCxx.h"
-#include "utility/file/FileManager.h"
 
 class SourceGroupCxx: public SourceGroup
 {

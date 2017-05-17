@@ -2,7 +2,6 @@
 #define COMMANDLINEPARSER_H
 
 #include <string>
-#include "Application.h"
 #include "License.h"
 #include "utility/file/FilePath.h"
 

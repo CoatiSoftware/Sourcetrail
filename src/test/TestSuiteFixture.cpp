@@ -3,7 +3,6 @@
 #include <sstream>
 
 #include "utility/logging/FileLogger.h"
-#include "utility/logging/logging.h"
 #include "utility/logging/LogManager.h"
 #include "utility/logging/PlainFileLogger.h"
 #include "settings/ApplicationSettings.h"

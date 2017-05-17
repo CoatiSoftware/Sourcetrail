@@ -1,6 +1,5 @@
 #include "qt/view/QtCodeView.h"
 
-#include "utility/file/FileSystem.h"
 #include "utility/ResourcePaths.h"
 #include "qt/utility/utilityQt.h"
 

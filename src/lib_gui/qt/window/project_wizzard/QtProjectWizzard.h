@@ -3,12 +3,12 @@
 
 #include <QWidget>
 
-#include "qt/window/project_wizzard/QtProjectWizzardContentSelect.h"
 #include "qt/window/QtWindowStack.h"
 
 #include "settings/ApplicationSettings.h"
 #include "settings/ProjectSettings.h"
 
+class QtProjectWizzardContent;
 class QtProjectWizzardContentSummary;
 class QtProjectWizzardWindow;
 

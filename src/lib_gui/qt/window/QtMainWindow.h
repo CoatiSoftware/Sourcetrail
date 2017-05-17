@@ -8,7 +8,6 @@
 #include <QMainWindow>
 
 #include "data/search/SearchMatch.h"
-#include "qt/utility/QtThreadedFunctor.h"
 #include "qt/window/QtWindowStack.h"
 
 class QDockWidget;

@@ -7,6 +7,7 @@
 class QtDirectoryListBox;
 class QPushButton;
 class QComboBox;
+class SourceGroupSettings;
 
 class QtProjectWizzardContentPaths
 	: public QtProjectWizzardContent

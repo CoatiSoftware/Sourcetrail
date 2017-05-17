@@ -8,7 +8,6 @@
 #include "data/parser/cxx/name_resolver/CxxTemplateArgumentNameResolver.h"
 #include "data/parser/cxx/name_resolver/CxxTypeNameResolver.h"
 #include "utility/file/FilePath.h"
-#include "utility/logging/logging.h"
 #include "utility/ScopedSwitcher.h"
 
 CxxDeclNameResolver::CxxDeclNameResolver()

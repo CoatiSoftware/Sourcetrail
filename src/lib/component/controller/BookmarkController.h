@@ -4,13 +4,10 @@
 #include "data/bookmark/Bookmark.h"
 #include "data/bookmark/NodeBookmark.h"
 #include "data/bookmark/EdgeBookmark.h"
-#include "data/name/NameHierarchy.h"
-#include "data/StorageTypes.h"
 
 #include "utility/messaging/MessageListener.h"
 #include "utility/messaging/type/MessageActivateAll.h"
 #include "utility/messaging/type/MessageActivateBookmark.h"
-#include "utility/messaging/type/MessageActivateEdge.h"
 #include "utility/messaging/type/MessageActivateTokens.h"
 #include "utility/messaging/type/MessageCreateBookmark.h"
 #include "utility/messaging/type/MessageCreateBookmarkCategory.h"

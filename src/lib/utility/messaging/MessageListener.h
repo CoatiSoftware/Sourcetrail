@@ -3,7 +3,6 @@
 
 #include <string>
 
-#include "utility/logging/logging.h"
 #include "utility/messaging/MessageBase.h"
 #include "utility/messaging/MessageListenerBase.h"
 #include "utility/messaging/MessageQueue.h"

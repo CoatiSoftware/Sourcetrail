@@ -6,7 +6,6 @@
 #include "utility/messaging/type/MessageLoadProject.h"
 #include "utility/logging/LogManager.h"
 #include "component/controller/LogController.h"
-#include "settings/ApplicationSettings.h"
 
 QtApplication::QtApplication(int& argc, char** argv)
 	: QApplication(argc, argv)

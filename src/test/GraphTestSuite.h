@@ -1,7 +1,5 @@
 #include "cxxtest/TestSuite.h"
 
-#include "utility/utilityString.h"
-
 #include "data/graph/Graph.h"
 
 class GraphTestSuite : public CxxTest::TestSuite

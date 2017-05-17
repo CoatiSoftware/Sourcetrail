@@ -7,7 +7,6 @@
 #include "utility/types.h"
 
 #include "component/controller/helper/DummyNode.h"
-#include "data/graph/Edge.h"
 
 struct DummyEdge;
 

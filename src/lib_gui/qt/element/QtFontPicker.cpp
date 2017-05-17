@@ -4,9 +4,6 @@
 #include <QPainter>
 #include <QFontComboBox>
 
-#include "qt/element/QtLineEdit.h"
-
-
 QtFontPicker::QtFontPicker(QWidget *parent)
 	: QWidget(parent)
 {

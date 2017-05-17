@@ -1,6 +1,5 @@
 #include "data/indexer/IndexerFactory.h"
 
-#include "data/indexer/IndexerBase.h"
 #include "data/indexer/IndexerComposite.h"
 #include "IndexerFactoryModule.h"
 

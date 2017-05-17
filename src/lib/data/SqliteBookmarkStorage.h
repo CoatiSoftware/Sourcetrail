@@ -1,11 +1,6 @@
 #ifndef SQLITE_BOOKMARK_STORAGE_H
 #define SQLITE_BOOKMARK_STORAGE_H
 
-#include "sqlite/CppSQLite3.h"
-
-#include "data/bookmark/BookmarkCategory.h"
-#include "data/bookmark/EdgeBookmark.h"
-#include "data/bookmark/NodeBookmark.h"
 #include "data/SqliteStorage.h"
 #include "data/StorageTypes.h"
 #include "utility/types.h"

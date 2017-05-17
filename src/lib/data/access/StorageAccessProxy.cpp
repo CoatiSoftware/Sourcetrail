@@ -8,7 +8,6 @@
 #include "utility/file/FilePath.h"
 #include "utility/logging/logging.h"
 #include "utility/messaging/type/MessageShowErrors.h"
-#include "utility/TimePoint.h"
 
 StorageAccessProxy::StorageAccessProxy()
 	: m_subject(nullptr)

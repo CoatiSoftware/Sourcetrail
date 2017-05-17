@@ -5,7 +5,6 @@
 #include <QPushButton>
 
 #include "utility/messaging/type/MessageShowScope.h"
-#include "utility/text/TextAccess.h"
 
 #include "data/location/SourceLocationFile.h"
 #include "qt/element/QtCodeNavigator.h"

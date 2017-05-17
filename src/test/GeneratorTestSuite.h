@@ -1,7 +1,5 @@
 #include "cxxtest/TestSuite.h"
 
-#include "utility/text/TextAccess.h"
-
 #include "License.h"
 #include "Generator.h"
 

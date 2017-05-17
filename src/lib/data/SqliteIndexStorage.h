@@ -6,7 +6,6 @@
 #include <vector>
 
 #include "data/location/SourceLocationFile.h"
-#include "data/name/NameHierarchy.h"
 #include "data/SqliteDatabaseIndex.h"
 #include "data/SqliteStorage.h"
 #include "data/StorageTypes.h"

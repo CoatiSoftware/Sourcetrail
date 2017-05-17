@@ -2,10 +2,8 @@
 
 #include "utility/utilityString.h"
 
-#include "data/graph/token_component/TokenComponentAbstraction.h"
-#include "data/graph/token_component/TokenComponentAccess.h"
-#include "data/graph/token_component/TokenComponentStatic.h"
 #include "data/parser/ParseLocation.h"
+#include "data/IntermediateStorage.h"
 #include "data/PersistentStorage.h"
 
 class StorageTestSuite: public CxxTest::TestSuite

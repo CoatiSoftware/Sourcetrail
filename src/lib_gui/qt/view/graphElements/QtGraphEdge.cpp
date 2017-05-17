@@ -16,7 +16,6 @@
 #include "utility/messaging/type/MessageFocusOut.h"
 #include "utility/messaging/type/MessageGraphNodeBundleSplit.h"
 #include "utility/utility.h"
-#include "utility/utilityString.h"
 
 QtGraphEdge* QtGraphEdge::s_focusedTrailEdge = nullptr;
 
