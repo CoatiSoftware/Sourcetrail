@@ -1,6 +1,8 @@
 #ifndef TASK_BUILD_INDEX_H
 #define TASK_BUILD_INDEX_H
 
+#include <thread>
+
 #include "utility/file/FileRegisterStateData.h"
 #include "utility/messaging/MessageListener.h"
 #include "utility/messaging/type/MessageInterruptTasks.h"
