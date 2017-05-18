@@ -35,5 +35,4 @@ candle.exe -dProductVersion="$VERSION_STRING" -dProductGuid="$PRODUCT_GUID" -arc
 light.exe -ext WixUIExtension build/sourcetrail.wixobj build/customActions.wixobj build/dialogShortcuts.wixobj build/installDir.wixobj build/appDataDir.wixobj -out build/sourcetrail.msi > build/linkLog.txt
 
 cp -u -r build/sourcetrail.msi $OUTPUT_DIR
-cp -u -r lib/$WIN_ARCH/* $OUTPUT_DIR
 cp -u -r readme.txt $OUTPUT_DIR
