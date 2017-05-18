@@ -14,6 +14,7 @@ owner:
   avatar:         coati_logo.png
   bio:            "Sourcetrail is cross-platform source explorer for C/C++ and Java"
   url:            https://www.sourcetrail.com
+  buy_url:        https://www.sourcetrail.com/buy-license
   email:          mail@sourcetrail.com
   # Social networking links used in footer. Update and remove as you like.
   twitter:        CoatiSoftware
