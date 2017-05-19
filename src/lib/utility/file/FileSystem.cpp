@@ -5,6 +5,8 @@
 #include "boost/date_time.hpp"
 #include "boost/filesystem.hpp"
 
+#include "utility/utilityString.h"
+
 std::vector<FilePath> FileSystem::getFilePathsFromDirectory(
 	const FilePath& path, const std::vector<std::string>& extensions
 ){
@@ -52,7 +54,11 @@ FileInfo FileSystem::getFileInfoForPath(const FilePath& filePath)
 std::vector<FileInfo> FileSystem::getFileInfosFromPaths(
 	const std::vector<FilePath>& paths, const std::vector<std::string>& fileExtensions, bool followSymLinks
 ){
-	std::set<std::string> ext(fileExtensions.begin(), fileExtensions.end());
+	std::set<std::string> ext;
+	for (const std::string& e : fileExtensions)
+	{
+		ext.insert(utility::toLowerCase(e));
+	}
 
 	std::set<boost::filesystem::path> symlinkDirs;
 	std::set<boost::filesystem::path> filePaths;
@@ -99,7 +105,7 @@ std::vector<FileInfo> FileSystem::getFileInfosFromPaths(
 				}
 
 				if (boost::filesystem::is_regular_file(*it) &&
-					(!ext.size() || ext.find(it->path().extension().string()) != ext.end()))
+					(!ext.size() || ext.find(utility::toLowerCase(it->path().extension().string())) != ext.end()))
 				{
 					boost::filesystem::path p = boost::filesystem::canonical(it->path());
 					if (filePaths.find(p) != filePaths.end())
@@ -114,7 +120,7 @@ std::vector<FileInfo> FileSystem::getFileInfosFromPaths(
 				}
 			}
 		}
-		else if (path.exists() && (!ext.size() || ext.find(path.extension()) != ext.end()))
+		else if (path.exists() && (!ext.size() || ext.find(utility::toLowerCase(path.extension())) != ext.end()))
 		{
 			boost::filesystem::path p = boost::filesystem::canonical(path.path());
 			if (filePaths.find(p) != filePaths.end())
