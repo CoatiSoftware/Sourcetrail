@@ -31,7 +31,8 @@ DialogView::IndexingOptions DialogView::startIndexingDialog(
 	return IndexingOptions();
 }
 
-void DialogView::updateIndexingDialog(size_t fileCount, size_t totalFileCount, std::string sourcePath)
+void DialogView::updateIndexingDialog(
+	size_t startedFileCount, size_t finishedFileCount, size_t totalFileCount, std::string sourcePath)
 {
 }
 

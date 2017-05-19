@@ -35,12 +35,14 @@ TaskBuildIndex::TaskBuildIndex(
 	, m_processCount(processCount)
 	, m_interrupted(false)
 	, m_lastCommandCount(0)
+	, m_indexingFileCount(0)
 	, m_runningThreadCount(0)
 {
 }
 
 void TaskBuildIndex::doEnter(std::shared_ptr<Blackboard> blackboard)
 {
+	m_indexingFileCount = 0;
 	updateIndexingDialog(blackboard, FilePath());
 
 	{
@@ -93,6 +95,7 @@ Task::TaskState TaskBuildIndex::doUpdate(std::shared_ptr<Blackboard> blackboard)
 		std::vector<FilePath> indexingFiles = m_interprocessIndexingStatusManager.getCurrentlyIndexedSourceFilePaths();
 		for (const FilePath& path : indexingFiles)
 		{
+			m_indexingFileCount++;
 			updateIndexingDialog(blackboard, path);
 		}
 
@@ -255,7 +258,8 @@ bool TaskBuildIndex::fetchIntermediateStorages(std::shared_ptr<Blackboard> black
 	return true;
 }
 
-void TaskBuildIndex::updateIndexingDialog(std::shared_ptr<Blackboard> blackboard, const FilePath& sourcePath)
+void TaskBuildIndex::updateIndexingDialog(
+	std::shared_ptr<Blackboard> blackboard, const FilePath& sourcePath)
 {
 	// TODO: factor in unindexed files...
 	int sourceFileCount = 0;
@@ -269,7 +273,7 @@ void TaskBuildIndex::updateIndexingDialog(std::shared_ptr<Blackboard> blackboard
 	if (std::shared_ptr<DialogView> dialogView = Application::getInstance()->getDialogView())
 	{
 		dialogView->updateIndexingDialog(
-			indexedSourceFileCount, sourceFileCount, sourcePath.str()
+			m_indexingFileCount, indexedSourceFileCount, sourceFileCount, sourcePath.str()
 		);
 	}
 }

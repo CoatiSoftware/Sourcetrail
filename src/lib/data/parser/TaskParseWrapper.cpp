@@ -29,7 +29,7 @@ void TaskParseWrapper::doEnter(std::shared_ptr<Blackboard> blackboard)
 	blackboard->get("source_file_count", sourceFileCount);
 	if (std::shared_ptr<DialogView> dialogView = Application::getInstance()->getDialogView())
 	{
-		dialogView->updateIndexingDialog(0, sourceFileCount, "");
+		dialogView->updateIndexingDialog(0, 0, sourceFileCount, "");
     }
 
 	m_start = utility::durationStart();

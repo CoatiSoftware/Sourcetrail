@@ -57,6 +57,7 @@ protected:
 	unsigned int m_processCount;
 	bool m_interrupted;
 	size_t m_lastCommandCount;
+	size_t m_indexingFileCount;
 
 	// store as plain pointers to avoid deallocation issues when closing app during indexing
 	std::vector<std::thread*> m_processThreads;

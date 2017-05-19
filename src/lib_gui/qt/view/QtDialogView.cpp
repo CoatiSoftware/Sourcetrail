@@ -144,13 +144,14 @@ DialogView::IndexingOptions QtDialogView::startIndexingDialog(
 	return result;
 }
 
-void QtDialogView::updateIndexingDialog(size_t fileCount, size_t totalFileCount, std::string sourcePath)
+void QtDialogView::updateIndexingDialog(
+	size_t startedFileCount, size_t finishedFileCount, size_t totalFileCount, std::string sourcePath)
 {
 	if (sourcePath.size())
 	{
 		std::stringstream ss;
-		ss << "Indexing files: [";
-		ss << fileCount << "/";
+		ss << "Indexing file: [";
+		ss << startedFileCount << "/";
 		ss << totalFileCount << "] ";
 		ss << sourcePath;
 		MessageStatus(ss.str(), false, true).dispatch();
@@ -170,7 +171,7 @@ void QtDialogView::updateIndexingDialog(size_t fileCount, size_t totalFileCount,
 
 			if (window && window->getType() == QtIndexingDialog::DIALOG_INDEXING)
 			{
-				window->updateIndexingProgress(fileCount, totalFileCount, sourcePath);
+				window->updateIndexingProgress(finishedFileCount, totalFileCount, sourcePath);
 				setUIBlocked(true);
 			}
 		}

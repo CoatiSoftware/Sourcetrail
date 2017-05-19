@@ -36,7 +36,8 @@ public:
 
 	virtual DialogView::IndexingOptions startIndexingDialog(
 		size_t cleanFileCount, size_t indexFileCount, size_t totalFileCount, DialogView::IndexingOptions options) override;
-	virtual void updateIndexingDialog(size_t fileCount, size_t totalFileCount, std::string sourcePath) override;
+	virtual void updateIndexingDialog(
+		size_t startedFileCount, size_t finishedFileCount, size_t totalFileCount, std::string sourcePath) override;
 	virtual void finishedIndexingDialog(
 		size_t indexedFileCount, size_t totalIndexedFileCount, size_t completedFileCount, size_t totalFileCount,
 		float time, ErrorCountInfo errorInfo, bool interrupted) override;
