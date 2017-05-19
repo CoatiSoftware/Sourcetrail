@@ -34,45 +34,30 @@ QtHistoryItem::QtHistoryItem(const SearchMatch& match, size_t index, bool isCurr
 
 	setLayout(layout);
 
+	QSize size = getSizeHint();
+
+	m_indicator = new QWidget(m_name);
+	m_indicator->setGeometry(5, 2, 12, size.height() - 4);
+	m_indicator->show();
+
 	ColorScheme* scheme = ColorScheme::getInstance().get();
-	std::string searchTextColor = scheme->getColor("search/popup/text");
-
-	std::string color;
-	std::string hoverColor;
-	std::string textColor = searchTextColor;
-	std::string textHoverColor = searchTextColor;
-
 	if (match.searchType == SearchMatch::SEARCH_TOKEN)
 	{
-		color = GraphViewStyle::getNodeColor(Node::getUnderscoredTypeString(match.nodeType), false).fill;
-		hoverColor = GraphViewStyle::getNodeColor(Node::getUnderscoredTypeString(match.nodeType), true).fill;
-		textColor = GraphViewStyle::getNodeColor(Node::getUnderscoredTypeString(match.nodeType), false).text;
-		textHoverColor = GraphViewStyle::getNodeColor(Node::getUnderscoredTypeString(match.nodeType), true).text;
+		m_indicatorColor = GraphViewStyle::getNodeColor(Node::getUnderscoredTypeString(match.nodeType), false).fill;
+		m_indicatorHoverColor = GraphViewStyle::getNodeColor(Node::getUnderscoredTypeString(match.nodeType), true).fill;
 	}
 	else
 	{
-		std::string typeName = match.getSearchTypeName();
-
-		color = scheme->getSearchTypeColor(typeName, "fill");
-		hoverColor = scheme->getSearchTypeColor(typeName, "fill", "hover");
-		textColor = scheme->getSearchTypeColor(typeName, "text");
-		textHoverColor = scheme->getSearchTypeColor(typeName, "text", "hover");;
+		m_indicatorColor = scheme->getSearchTypeColor(match.getSearchTypeName(), "fill");
+		m_indicatorHoverColor = scheme->getSearchTypeColor(match.getSearchTypeName(), "fill", "hover");
 	}
 
 	std::stringstream css;
-	css << "QLabel { background-color:" << color << "; color:" << textColor << ";} ";
-
-	if (!isCurrent)
-	{
-		css << "QLabel:hover { background-color:" << hoverColor << "; color:" << textHoverColor << ";} ";
-	}
-
-	m_name->setStyleSheet(css.str().c_str());
+	css << "QWidget { background-color:" << m_indicatorColor << ";}";
+	m_indicator->setStyleSheet(css.str().c_str());
 
 	if (isCurrent)
 	{
-		QSize size = getSizeHint();
-
 		QtDeviceScaledPixmap pixmap(QString::fromStdString(ResourcePaths::getGuiPath().str() + "history_list/images/arrow.png"));
 		pixmap.scaleToHeight(size.height() / 3);
 
@@ -86,6 +71,42 @@ QtHistoryItem::QtHistoryItem(const SearchMatch& match, size_t index, bool isCurr
 QSize QtHistoryItem::getSizeHint() const
 {
 	return QSize(m_name->fontMetrics().width(m_name->text()) + 40, m_name->fontMetrics().height() + 8);
+}
+
+void QtHistoryItem::enterEvent(QEvent *event)
+{
+	QWidget::enterEvent(event);
+
+	std::stringstream css;
+	css << "QWidget { background-color:" << m_indicatorHoverColor << ";}";
+	m_indicator->setStyleSheet(css.str().c_str());
+
+	if (m_name->objectName() != "history_item")
+	{
+		return;
+	}
+
+	QFont f(m_name->font());
+	f.setBold(true);
+	m_name->setFont(f);
+}
+
+void QtHistoryItem::leaveEvent(QEvent *event)
+{
+	QWidget::leaveEvent(event);
+
+	std::stringstream css;
+	css << "QWidget { background-color:" << m_indicatorColor << ";}";
+	m_indicator->setStyleSheet(css.str().c_str());
+
+	if (m_name->objectName() != "history_item")
+	{
+		return;
+	}
+
+	QFont f(m_name->font());
+	f.setBold(false);
+	m_name->setFont(f);
 }
 
 

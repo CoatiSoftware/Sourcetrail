@@ -98,6 +98,7 @@ SearchMatch::SearchMatch()
 
 SearchMatch::SearchMatch(const std::string& query)
 	: name(query)
+	, text(query)
 	, typeName("")
 	, searchType(SEARCH_NONE)
 	, hasChildren(false)

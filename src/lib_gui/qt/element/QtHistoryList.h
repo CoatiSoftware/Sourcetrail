@@ -18,8 +18,17 @@ public:
 
 	size_t index;
 
+protected:
+	// because changing font-weight within the stylesheet does not work for some reason
+	void enterEvent(QEvent *event);
+	void leaveEvent(QEvent *event);
+
 private:
 	QLabel* m_name;
+
+	QWidget* m_indicator;
+	std::string m_indicatorColor;
+	std::string m_indicatorHoverColor;
 };
 
 
