@@ -23,11 +23,16 @@ public:
 
 	void setIdeStatus(const std::string& text);
 
+protected:
+	virtual void resizeEvent(QResizeEvent* event);
+
 private slots:
 	void showStatus();
 	void showErrors();
 
 private:
+	std::string m_textString;
+
 	QPushButton m_text;
 	QLabel m_loader;
 	QPushButton m_errorButton;

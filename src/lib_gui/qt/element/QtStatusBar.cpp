@@ -27,10 +27,13 @@ QtStatusBar::QtStatusBar()
 
 	m_text.setFlat(true);
 	m_text.setAttribute(Qt::WA_LayoutUsesWidgetRect); // fixes layouting on Mac
+	m_text.setSizePolicy(QSizePolicy::Ignored, m_text.sizePolicy().verticalPolicy());
 	addWidget(&m_text, 1);
 	setText("", false, false);
 
 	connect(&m_text, SIGNAL(clicked()), this, SLOT(showStatus()));
+
+	addPermanentWidget(&m_ideStatusText);
 
 	m_errorButton.hide();
 	m_errorButton.setFlat(true);
@@ -43,9 +46,6 @@ QtStatusBar::QtStatusBar()
 	addPermanentWidget(&m_errorButton);
 
 	connect(&m_errorButton, SIGNAL(clicked()), this, SLOT(showErrors()));
-
-	// m_ideStatusText.setText("No IDE connected"); // don't display this until all plugins support ping
-	addWidget(&m_ideStatusText);
 }
 
 QtStatusBar::~QtStatusBar()
@@ -72,7 +72,8 @@ void QtStatusBar::setText(const std::string& text, bool isError, bool showLoader
 		m_loader.hide();
 	}
 
-	m_text.setText(m_text.fontMetrics().elidedText(QString::fromStdString(text), Qt::ElideRight, m_text.width()));
+	m_textString = text;
+	m_text.setText(m_text.fontMetrics().elidedText(QString::fromStdString(m_textString), Qt::ElideRight, m_text.width()));
 }
 
 void QtStatusBar::setErrorCount(ErrorCountInfo errorCount)
@@ -93,6 +94,11 @@ void QtStatusBar::setErrorCount(ErrorCountInfo errorCount)
 void QtStatusBar::setIdeStatus(const std::string& text)
 {
 	m_ideStatusText.setText(text.c_str());
+}
+
+void QtStatusBar::resizeEvent(QResizeEvent* event)
+{
+	m_text.setText(m_text.fontMetrics().elidedText(QString::fromStdString(m_textString), Qt::ElideRight, m_text.width()));
 }
 
 void QtStatusBar::showStatus()
