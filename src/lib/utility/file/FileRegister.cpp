@@ -2,20 +2,35 @@
 
 #include "utility/file/FilePath.h"
 
-FileRegister::FileRegister(const FileRegisterStateData& stateData, const std::set<FilePath>& indexedPaths, const std::set<FilePath>& excludedPaths)
+FileRegister::FileRegister(
+	const FileRegisterStateData& stateData,
+	const FilePath& currentPath,
+	const std::set<FilePath>& indexedPaths,
+	const std::set<FilePath>& excludedPaths
+)
 	: m_stateData(stateData)
+	, m_currentPath(currentPath)
 	, m_indexedPaths(indexedPaths)
 	, m_excludedPaths(excludedPaths)
 	, m_hasFilePathCache(
 		[&](std::string f){
 			const FilePath filePath(f);
 			bool ret = false;
-			for (const FilePath& indexedPath: m_indexedPaths)
+
+			if (filePath == m_currentPath)
 			{
-				if (indexedPath.contains(filePath))
+				ret = true;
+			}
+
+			if (!ret)
+			{
+				for (const FilePath& indexedPath: m_indexedPaths)
 				{
-					ret = true;
-					break;
+					if (indexedPath.contains(filePath))
+					{
+						ret = true;
+						break;
+					}
 				}
 			}
 

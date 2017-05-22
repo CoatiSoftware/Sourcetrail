@@ -72,8 +72,11 @@ void QtStatusBar::setText(const std::string& text, bool isError, bool showLoader
 		m_loader.hide();
 	}
 
-	m_textString = text;
-	m_text.setText(m_text.fontMetrics().elidedText(QString::fromStdString(m_textString), Qt::ElideRight, m_text.width()));
+	if (text.size())
+	{
+		m_textString = text;
+		m_text.setText(m_text.fontMetrics().elidedText(QString::fromStdString(m_textString), Qt::ElideRight, m_text.width()));
+	}
 }
 
 void QtStatusBar::setErrorCount(ErrorCountInfo errorCount)

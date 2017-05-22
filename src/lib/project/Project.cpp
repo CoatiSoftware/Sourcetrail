@@ -20,7 +20,6 @@
 #include "settings/ProjectSettings.h"
 
 #include "utility/file/FilePath.h"
-#include "utility/file/FileRegisterStateData.h"
 #include "utility/file/FileSystem.h"
 #include "utility/messaging/type/MessageClearErrorCount.h"
 #include "utility/messaging/type/MessageDispatchWhenLicenseValid.h"
@@ -466,7 +465,6 @@ void Project::buildIndex(const std::set<FilePath>& filesToClean, bool fullRefres
 			indexerCommandList->shuffle();
 		}
 
-		std::shared_ptr<FileRegisterStateData> fileRegisterStateData = std::make_shared<FileRegisterStateData>();
 		std::shared_ptr<StorageProvider> storageProvider = std::make_shared<StorageProvider>();
 		// add tasks for setting some variables on the blackboard that are used during indexing
 		taskSequential->addTask(std::make_shared<TaskSetValue<int>>("source_file_count", indexerCommandList->size()));
@@ -485,7 +483,7 @@ void Project::buildIndex(const std::set<FilePath>& filesToClean, bool fullRefres
 
 			taskParallelIndexing->addChildTasks(
 				std::make_shared<TaskDecoratorRepeat>(TaskDecoratorRepeat::CONDITION_WHILE_SUCCESS, Task::STATE_SUCCESS)->addChildTask(
-					std::make_shared<TaskBuildIndex>(indexerThreadCount, indexerCommandList, storageProvider, fileRegisterStateData, multiProcess)
+					std::make_shared<TaskBuildIndex>(indexerThreadCount, indexerCommandList, storageProvider, multiProcess)
 				)
 			);
 		}

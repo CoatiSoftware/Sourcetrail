@@ -1,7 +1,6 @@
 #include "data/indexer/TaskBuildIndex.h"
 
 #include "utility/AppPath.h"
-#include "utility/file/FileRegisterStateData.h"
 #include "utility/logging/FileLogger.h"
 #include "utility/scheduling/Blackboard.h"
 #include "utility/UserPaths.h"
@@ -23,12 +22,10 @@ TaskBuildIndex::TaskBuildIndex(
 	unsigned int processCount,
 	std::shared_ptr<IndexerCommandList> indexerCommandList,
 	std::shared_ptr<StorageProvider> storageProvider,
-	std::shared_ptr<FileRegisterStateData> fileRegisterStateData,
 	bool multiProcessIndexing
 )
 	: m_indexerCommandList(indexerCommandList)
 	, m_storageProvider(storageProvider)
-	, m_fileRegisterStateData(fileRegisterStateData)
 	, m_multiProcessIndexing(multiProcessIndexing)
 	, m_interprocessIndexerCommandManager(Application::getUUID(), 0, true)
 	, m_interprocessIndexingStatusManager(Application::getUUID(), 0, true)

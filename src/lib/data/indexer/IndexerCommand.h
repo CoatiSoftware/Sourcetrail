@@ -17,9 +17,9 @@ public:
 
 	virtual size_t getByteSize() const;
 
-	FilePath getSourceFilePath() const;
-	std::set<FilePath> getIndexedPaths() const;
-	std::set<FilePath> getExcludedPath() const;
+	const FilePath& getSourceFilePath() const;
+	const std::set<FilePath>& getIndexedPaths() const;
+	const std::set<FilePath>& getExcludedPath() const;
 
 	virtual bool preprocessorOnly() const = 0;
 	virtual void setPreprocessorOnly(bool preprocessorOnly) = 0;

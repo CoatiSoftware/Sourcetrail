@@ -30,17 +30,17 @@ size_t IndexerCommand::getByteSize() const
 	return size;
 }
 
-FilePath IndexerCommand::getSourceFilePath() const
+const FilePath& IndexerCommand::getSourceFilePath() const
 {
 	return m_sourceFilePath;
 }
 
-std::set<FilePath> IndexerCommand::getIndexedPaths() const
+const std::set<FilePath>& IndexerCommand::getIndexedPaths() const
 {
 	return m_indexedPaths;
 }
 
-std::set<FilePath> IndexerCommand::getExcludedPath() const
+const std::set<FilePath>& IndexerCommand::getExcludedPath() const
 {
 	return m_excludedPaths;
 }

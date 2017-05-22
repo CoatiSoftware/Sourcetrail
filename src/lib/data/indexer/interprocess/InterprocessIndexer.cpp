@@ -39,7 +39,7 @@ void InterprocessIndexer::work()
 			data.setIndexedFiles(m_interprocessIndexingStatusManager.getIndexedFiles());
 
 			std::shared_ptr<FileRegister> fileRegister = std::make_shared<FileRegister>(
-				data, indexerCommand->getIndexedPaths(), indexerCommand->getExcludedPath()
+				data, indexerCommand->getSourceFilePath(), indexerCommand->getIndexedPaths(), indexerCommand->getExcludedPath()
 			);
 
 			std::shared_ptr<IntermediateStorage> result = indexer->index(indexerCommand, fileRegister);

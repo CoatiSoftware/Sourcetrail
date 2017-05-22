@@ -3,7 +3,6 @@
 
 #include <thread>
 
-#include "utility/file/FileRegisterStateData.h"
 #include "utility/messaging/MessageListener.h"
 #include "utility/messaging/type/MessageInterruptTasks.h"
 #include "utility/scheduling/Task.h"
@@ -13,7 +12,6 @@
 #include "data/indexer/interprocess/InterprocessIntermediateStorageManager.h"
 
 class DialogView;
-class FileRegisterStateData;
 class StorageProvider;
 class IndexerCommandList;
 
@@ -26,7 +24,6 @@ public:
 		unsigned int processCount,
 		std::shared_ptr<IndexerCommandList> indexerCommandList,
 		std::shared_ptr<StorageProvider> storageProvider,
-		std::shared_ptr<FileRegisterStateData> fileRegisterStateData,
 		bool multiProcessIndexing
 	);
 
@@ -48,7 +45,6 @@ protected:
 
 	std::shared_ptr<IndexerCommandList> m_indexerCommandList;
 	std::shared_ptr<StorageProvider> m_storageProvider;
-	std::shared_ptr<FileRegisterStateData> m_fileRegisterStateData;
 	bool m_multiProcessIndexing;
 
 	InterprocessIndexerCommandManager m_interprocessIndexerCommandManager;

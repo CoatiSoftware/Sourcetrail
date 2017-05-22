@@ -1,7 +1,7 @@
 #include "TestFileRegister.h"
 
 TestFileRegister::TestFileRegister()
-	: FileRegister(FileRegisterStateData(), std::set<FilePath>(), std::set<FilePath>())
+	: FileRegister(FileRegisterStateData(), FilePath(), std::set<FilePath>(), std::set<FilePath>())
 {
 }
 
