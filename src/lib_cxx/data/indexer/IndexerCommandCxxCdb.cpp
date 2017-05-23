@@ -2,12 +2,21 @@
 
 #include "clang/Tooling/CompilationDatabase.h"
 #include "clang/Tooling/JSONCompilationDatabase.h"
+#include "utility/logging/logging.h"
+#include "utility/messaging/type/MessageStatus.h"
 
 std::vector<FilePath> IndexerCommandCxxCdb::getSourceFilesFromCDB(const FilePath& compilationDatabasePath)
 {
 	std::string error;
 	std::shared_ptr<clang::tooling::JSONCompilationDatabase> cdb = std::shared_ptr<clang::tooling::JSONCompilationDatabase>
 		(clang::tooling::JSONCompilationDatabase::loadFromFile(compilationDatabasePath.str(), error));
+
+	if (!error.empty())
+	{
+		const std::string message = "Loading Clang compilation database failed with error: \"" + error + "\"";
+		LOG_ERROR(message);
+		MessageStatus(message, true).dispatch();
+	}
 
 	std::vector<FilePath> filePaths;
 	if (cdb)
