@@ -145,13 +145,19 @@ std::vector<std::shared_ptr<IndexerCommand>> SourceGroupCxx::getIndexerCommands(
 
 		for (clang::tooling::CompileCommand command: cdb->getAllCompileCommands())
 		{
-			if (sourceFilePathsToIndex.find(FilePath(command.Filename)) != sourceFilePathsToIndex.end())
+			FilePath path = FilePath(command.Filename).canonical();
+			if (!path.isAbsolute())
+			{
+				path = FilePath(command.Directory + '/' + command.Filename).canonical();
+			}
+
+			if (sourceFilePathsToIndex.find(path) != sourceFilePathsToIndex.end())
 			{
 				std::vector<std::string> currentCompilerFlags = compilerFlags;
 				currentCompilerFlags.insert(currentCompilerFlags.end(), command.CommandLine.begin(), command.CommandLine.end());
 
 				indexerCommands.push_back(std::make_shared<IndexerCommandCxxCdb>(
-					FilePath(command.Filename),
+					FilePath(path),
 					indexedPaths,
 					excludedPaths,
 					FilePath(command.Directory),
