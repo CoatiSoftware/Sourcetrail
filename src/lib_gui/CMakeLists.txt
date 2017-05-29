@@ -191,6 +191,8 @@ add_files(
 	qt/window/QtBookmarkBrowser.h
 	qt/window/QtBookmarkCreator.cpp
 	qt/window/QtBookmarkCreator.h
+	qt/window/QtEulaWindow.cpp
+	qt/window/QtEulaWindow.h
 	qt/window/QtIndexingDialog.cpp
 	qt/window/QtIndexingDialog.h
 	qt/window/QtKeyboardShortcuts.cpp

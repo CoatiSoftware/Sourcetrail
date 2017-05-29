@@ -533,9 +533,9 @@ std::string License::hashLocation(const std::string& location)
 
 bool License::checkLocation(const std::string& location, const std::string& hash)
 {
-	if (location.size() <= 0 || hash.size() <= 0)
+	if (!location.size() || !hash.size())
 	{
-		return "";
+		return false;
 	}
 
 	return Botan::check_passhash9(location, hash);

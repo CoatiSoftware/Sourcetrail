@@ -110,6 +110,9 @@ public:
 	std::vector<FilePath> getRecentProjects() const;
 	bool setRecentProjects(const std::vector<FilePath>& recentProjects);
 
+	int getAcceptedEulaVersion() const;
+	void setAcceptedEulaVersion(int version);
+
 	// network
 	int getPluginPort() const;
 	void setPluginPort(const int pluginPort);

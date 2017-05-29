@@ -1,12 +1,7 @@
 #include "qt/window/QtAboutLicense.h"
 
-#include <QComboBox>
 #include <QVBoxLayout>
-#include <QLineEdit>
 #include <QLabel>
-#include <QTextBrowser>
-#include <QTextBlock>
-#include <QTextEdit>
 
 #include "licenses.h"
 

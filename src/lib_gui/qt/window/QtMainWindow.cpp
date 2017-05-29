@@ -22,6 +22,7 @@
 #include "qt/window/project_wizzard/QtProjectWizzard.h"
 #include "qt/window/QtAbout.h"
 #include "qt/window/QtAboutLicense.h"
+#include "qt/window/QtEulaWindow.h"
 #include "qt/window/QtKeyboardShortcuts.h"
 #include "qt/window/QtLicense.h"
 #include "qt/window/QtPreferencesWindow.h"
@@ -333,6 +334,31 @@ void QtMainWindow::showBugtracker()
 	QDesktopServices::openUrl(QUrl("https://github.com/CoatiSoftware/SourcetrailBugTracker/issues"));
 }
 
+void QtMainWindow::showEula(bool forceAccept)
+{
+	QtEulaWindow* eulaWindow = new QtEulaWindow(this, forceAccept);
+	m_windowStack.pushWindow(eulaWindow);
+	eulaWindow->setup();
+
+	if (forceAccept)
+	{
+		setEnabled(false);
+		eulaWindow->setEnabled(true);
+
+		connect(eulaWindow, SIGNAL(finished()), this, SLOT(acceptedEula()));
+		connect(eulaWindow, SIGNAL(canceled()), dynamic_cast<QApplication*>(QCoreApplication::instance()), SLOT(quit()));
+	}
+}
+
+void QtMainWindow::acceptedEula()
+{
+	ApplicationSettings::getInstance()->setAcceptedEulaVersion(QtEulaWindow::EULA_VERSION);
+	ApplicationSettings::getInstance()->save();
+
+	setEnabled(true);
+	m_windowStack.popWindow();
+}
+
 void QtMainWindow::showLicenses()
 {
 	QtAboutLicense* licenseWindow = createWindow<QtAboutLicense>();
@@ -404,10 +430,15 @@ void QtMainWindow::showStartScreen()
 	connect(startScreen, SIGNAL(openNewProjectDialog()), this, SLOT(newProject()));
 	connect(startScreen, SIGNAL(openEnterLicenseDialog()), this, SLOT(enterLicense()));
 
-
 	if (state != LicenseChecker::LICENSE_VALID && state != LicenseChecker::LICENSE_EMPTY)
 	{
 		forceEnterLicense(state == LicenseChecker::LICENSE_EXPIRED);
+	}
+
+	if (QSysInfo::macVersion() != QSysInfo::MV_None &&
+		ApplicationSettings::getInstance()->getAcceptedEulaVersion() < QtEulaWindow::EULA_VERSION)
+	{
+		showEula(true);
 	}
 }
 
@@ -761,6 +792,7 @@ void QtMainWindow::setupHelpMenu()
 
 	menu->addSeparator();
 
+	menu->addAction(tr("End User License Agreement"), this, SLOT(showEula()));
 	menu->addAction(tr("3rd Party Licences"), this, SLOT(showLicenses()));
 	menu->addAction(tr("&About Sourcetrail"), this, SLOT(about()));
 

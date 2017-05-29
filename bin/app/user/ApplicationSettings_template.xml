@@ -75,6 +75,8 @@
 			<check><!-- STRING: hashed path of the working directory used when entering the license key --></check>
 			<license><!-- STRING: the license key --></license>
 		</license>
+
+		<accepted_eula_version><!-- INTEGER: last accepted eula version --></accepted_eula_version>
 	</user>
 
 	<network>
