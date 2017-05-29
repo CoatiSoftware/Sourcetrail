@@ -13,7 +13,6 @@
             </source_paths>
             <standard>c++1z</standard>
             <type>C++ Source Group</type>
-            <use_source_paths_for_header_search>0</use_source_paths_for_header_search>
         </source_group_afdfade2-4b42-49a6-961a-d4a563f2cf84>
     </source_groups>
     <version>4</version>

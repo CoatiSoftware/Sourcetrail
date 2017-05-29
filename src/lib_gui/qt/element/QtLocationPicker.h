@@ -21,7 +21,9 @@ public:
 	void setText(QString text);
 	void clearText();
 
+	bool pickDirectory() const;
 	void setPickDirectory(bool pickDirectory);
+
 	void setFileFilter(const QString& fileFilter);
 
 	void setRelativeRootDirectory(const FilePath& dir);
@@ -34,6 +36,7 @@ protected:
 
 private slots:
 	void handleButtonPress();
+	void handleFocus();
 
 private:
 	QPushButton* m_button;

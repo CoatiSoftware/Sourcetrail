@@ -49,25 +49,25 @@ bool SourceGroupJava::prepareIndexing()
 void SourceGroupJava::fetchAllSourceFilePaths()
 {
 	std::vector<FilePath> sourcePaths;
-	if (m_settings->getAbsoluteMavenProjectFilePath().exists())
+	if (m_settings->getMavenProjectFilePathExpandedAndAbsolute().exists())
 	{
 		std::shared_ptr<DialogView> dialogView = Application::getInstance()->getDialogView();
 		dialogView->showUnknownProgressDialog("Preparing Project", "Maven\nFetching Source Directories");
 
 		const FilePath mavenPath(ApplicationSettings::getInstance()->getMavenPath());
-		const FilePath projectRootPath = m_settings->getAbsoluteMavenProjectFilePath().parentDirectory();
+		const FilePath projectRootPath = m_settings->getMavenProjectFilePathExpandedAndAbsolute().parentDirectory();
 		sourcePaths = utility::mavenGetAllDirectoriesFromEffectivePom(mavenPath, projectRootPath, m_settings->getShouldIndexMavenTests());
 
 		dialogView->hideUnknownProgressDialog();
 	}
 	else
 	{
-		sourcePaths = m_settings->getAbsoluteSourcePaths();
+		sourcePaths = m_settings->getSourcePathsExpandedAndAbsolute();
 	}
 
 	m_sourceFilePathsToIndex.clear();
 	FileManager fileManager;
-	fileManager.update(sourcePaths, m_settings->getAbsoluteExcludePaths(), m_settings->getSourceExtensions());
+	fileManager.update(sourcePaths, m_settings->getExcludePathsExpandedAndAbsolute(), m_settings->getSourceExtensions());
 	m_allSourceFilePaths = fileManager.getAllSourceFilePaths();
 }
 
@@ -76,7 +76,7 @@ std::vector<std::shared_ptr<IndexerCommand>> SourceGroupJava::getIndexerCommands
 	std::vector<FilePath> classPath = getClassPath();
 
 	std::set<FilePath> indexedPaths;
-	for (FilePath p: m_settings->getAbsoluteSourcePaths())
+	for (FilePath p: m_settings->getSourcePathsExpandedAndAbsolute())
 	{
 		if (p.exists())
 		{
@@ -85,7 +85,7 @@ std::vector<std::shared_ptr<IndexerCommand>> SourceGroupJava::getIndexerCommands
 	}
 
 	std::set<FilePath> excludedPaths;
-	for (FilePath p: m_settings->getAbsoluteExcludePaths())
+	for (FilePath p: m_settings->getExcludePathsExpandedAndAbsolute())
 	{
 		if (p.exists())
 		{
@@ -135,10 +135,10 @@ bool SourceGroupJava::prepareJavaEnvironment()
 
 bool SourceGroupJava::prepareMavenData()
 {
-	if (m_settings && m_settings->getAbsoluteMavenProjectFilePath().exists())
+	if (m_settings && m_settings->getMavenProjectFilePathExpandedAndAbsolute().exists())
 	{
 		const FilePath mavenPath = ApplicationSettings::getInstance()->getMavenPath();
-		const FilePath projectRootPath = m_settings->getAbsoluteMavenProjectFilePath().parentDirectory();
+		const FilePath projectRootPath = m_settings->getMavenProjectFilePathExpandedAndAbsolute().parentDirectory();
 
 		std::shared_ptr<DialogView> dialogView = Application::getInstance()->getDialogView();
 		dialogView->showUnknownProgressDialog("Preparing Project", "Maven\nGenerating Source Files");
@@ -164,7 +164,7 @@ bool SourceGroupJava::prepareMavenData()
 		dialogView->showUnknownProgressDialog("Preparing Project", "Maven\nExporting Dependencies");
 
 		utility::mavenCopyDependencies(
-			mavenPath, projectRootPath, m_settings->getAbsoluteMavenDependenciesDirectory()
+			mavenPath, projectRootPath, m_settings->getMavenDependenciesDirectoryExpandedAndAbsolute()
 		);
 	}
 
@@ -176,7 +176,7 @@ std::vector<FilePath> SourceGroupJava::getClassPath()
 {
 	std::vector<FilePath> classPath;
 
-	for (const FilePath& p: m_settings->getAbsoluteClasspaths())
+	for (const FilePath& p: m_settings->getClasspathsExpandedAndAbsolute())
 	{
 		if (p.exists())
 		{
@@ -184,12 +184,12 @@ std::vector<FilePath> SourceGroupJava::getClassPath()
 		}
 	}
 
-	if (m_settings->getAbsoluteMavenDependenciesDirectory().exists())
+	if (m_settings->getMavenDependenciesDirectoryExpandedAndAbsolute().exists())
 	{
 		utility::append(
 			classPath,
 			FileSystem::getFilePathsFromDirectory(
-				m_settings->getAbsoluteMavenDependenciesDirectory(),
+				m_settings->getMavenDependenciesDirectoryExpandedAndAbsolute(),
 				utility::createVectorFromElements<std::string>(".jar")
 			)
 		);

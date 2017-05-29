@@ -35,6 +35,7 @@ public:
 	void updateSubTitle(QString subTitle);
 
 	void updateNextButton(QString text);
+	void updatePreviousButton(QString text);
 	void updateCloseButton(QString text);
 
 	void setNextEnabled(bool enabled);

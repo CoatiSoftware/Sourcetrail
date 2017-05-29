@@ -34,7 +34,7 @@ void QtProjectWizzardContentPaths::populate(QGridLayout* layout, int& row)
 
 	m_list = new QtDirectoryListBox(this, m_titleString);
 
-	if (m_makePathsRelativeToProjectFileLocation)
+	if (m_makePathsRelativeToProjectFileLocation && m_settings)
 	{
 		m_list->setRelativeRootDirectory(m_settings->getProjectFileLocation());
 	}
@@ -59,29 +59,26 @@ bool QtProjectWizzardContentPaths::check()
 {
 	QString missingPaths;
 
-	for (const FilePath& path : m_list->getList())
+	std::vector<FilePath> paths = m_list->getList();
+	if (m_settings)
 	{
-		std::vector<FilePath> expandedPaths = path.expandEnvironmentVariables();
-		for (FilePath expandedPath: path.expandEnvironmentVariables())
-		{
-			if (m_settings)
-			{
-				expandedPath = m_settings->makePathAbsolute(expandedPath);
-			}
+		paths = m_settings->makePathsExpandedAndAbsolute(paths);
+	}
 
-			if (!expandedPath.exists())
-			{
-				missingPaths.append(expandedPath.str().c_str());
-				missingPaths.append("\n");
-				break;
-			}
+	for (const FilePath& path : paths)
+	{
+		if (!path.exists())
+		{
+			missingPaths.append(path.str().c_str());
+			missingPaths.append("\n");
+			break;
 		}
 	}
 
 	if (!missingPaths.isEmpty())
 	{
 		QMessageBox msgBox;
-		msgBox.setText("Some provided paths do not exist.");
+		msgBox.setText("Some provided paths do not exist at \"" + m_titleString + "\".");
 		msgBox.setDetailedText(missingPaths);
 		msgBox.exec();
 		return false;
@@ -174,8 +171,8 @@ std::vector<std::string> QtProjectWizzardContentPathsSource::getFileNames() cons
 {
 	FileManager fileManager;
 	fileManager.update(
-		m_settings->getAbsoluteSourcePaths(),
-		m_settings->getAbsoluteExcludePaths(),
+		m_settings->getSourcePathsExpandedAndAbsolute(),
+		m_settings->getExcludePathsExpandedAndAbsolute(),
 		m_settings->getSourceExtensions()
 	);
 
@@ -263,7 +260,15 @@ void QtProjectWizzardContentPathsCDBHeader::buttonClicked()
 
 	if (!m_filesDialog)
 	{
-		std::vector<std::string> fileNames = getFileNames();
+		FilePath cdbPath = dynamic_cast<SourceGroupSettingsCxx*>(m_settings.get())->getCompilationDatabasePathExpandedAndAbsolute();
+		if (!cdbPath.exists())
+		{
+			QMessageBox msgBox;
+			msgBox.setText("The provided Compilation Database path does not exist.");
+			msgBox.setDetailedText(QString::fromStdString(cdbPath.str()));
+			msgBox.exec();
+			return;
+		}
 
 		m_filesDialog = std::make_shared<QtSelectPathsDialog>(
 			"Select from Include Paths",
@@ -271,19 +276,16 @@ void QtProjectWizzardContentPathsCDBHeader::buttonClicked()
 			"paths containing the header files you want to index with Sourcetrail.");
 		m_filesDialog->setup();
 
-
-		utility::CompilationDatabase cdb(
-			dynamic_cast<SourceGroupSettingsCxx*>(m_settings.get())->getAbsoluteCompilationDatabasePath().str());
-
-		std::vector<FilePath> cdbHeaderPaths = cdb.getAllHeaderPaths();
-		std::vector<FilePath> sourcePaths = m_settings->getSourcePaths();
-
-		cdbHeaderPaths = utility::unique(utility::concat(sourcePaths, cdbHeaderPaths));
-
-		dynamic_cast<QtSelectPathsDialog*>(m_filesDialog.get())->setPathsList(cdbHeaderPaths, sourcePaths);
-
 		connect(m_filesDialog.get(), SIGNAL(finished()), this, SLOT(savedFilesDialog()));
 		connect(m_filesDialog.get(), SIGNAL(canceled()), this, SLOT(closedFilesDialog()));
+
+
+		utility::CompilationDatabase cdb(cdbPath.str());
+
+		std::vector<FilePath> sourcePaths = m_settings->getSourcePaths();
+		std::vector<FilePath> cdbHeaderPaths = utility::unique(utility::concat(sourcePaths, cdb.getAllHeaderPaths()));
+
+		dynamic_cast<QtSelectPathsDialog*>(m_filesDialog.get())->setPathsList(cdbHeaderPaths, sourcePaths);
 	}
 
 	m_filesDialog->showWindow();

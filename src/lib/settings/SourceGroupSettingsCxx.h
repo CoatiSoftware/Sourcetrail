@@ -15,11 +15,11 @@ public:
 	virtual std::vector<std::string> getAvailableLanguageStandards() const;
 
 	std::vector<FilePath> getHeaderSearchPaths() const;
-	std::vector<FilePath> getAbsoluteHeaderSearchPaths() const;
+	std::vector<FilePath> getHeaderSearchPathsExpandedAndAbsolute() const;
 	void setHeaderSearchPaths(const std::vector<FilePath>& headerSearchPaths);
 
 	std::vector<FilePath> getFrameworkSearchPaths() const;
-	std::vector<FilePath> getAbsoluteFrameworkSearchPaths() const;
+	std::vector<FilePath> getFrameworkSearchPathsExpandedAndAbsolute() const;
 	void setFrameworkSearchPaths(const std::vector<FilePath>& frameworkSearchPaths);
 
 	std::vector<std::string> getCompilerFlags() const;
@@ -33,7 +33,7 @@ public:
 	// deprecated end
 
 	FilePath getCompilationDatabasePath() const;
-	FilePath getAbsoluteCompilationDatabasePath() const;
+	FilePath getCompilationDatabasePathExpandedAndAbsolute() const;
 	void setCompilationDatabasePath(const FilePath& compilationDatabasePath);
 
 private:

@@ -25,18 +25,15 @@ QCheckBox:disabled {
 	color: gray;
 }
 
-#projectTitle {
+#sourceGroupTitle {
 	font-size: 14px;
 	font-weight: bold;
-}
-
-#projectTitle {
 	background: white;
 	padding: 5px;
 	margin-left: 40px;
 }
 
-#projectDescription {
+#sourceGroupDescription {
 	font-size: 12px;
 	margin-left: 20px;
 }
@@ -113,7 +110,7 @@ QCheckBox:disabled {
 	border: 1px solid lightgray;
 	border-radius: 8px;
 	color: black;
-	padding: 3px 5px 2px;
+	padding: 3px 8px 2px;
 	font-size: 14px;
 	min-width: 5em;
 }
@@ -148,7 +145,7 @@ QCheckBox:disabled {
 	background: #CFD2E0;
 }
 
-#projectContainer {
+#sourceGroupContainer {
 	background: white;
 	border: 1px solid lightgray;
 	border-radius: 8px;
@@ -156,7 +153,7 @@ QCheckBox:disabled {
 	margin-left: 20px;
 }
 
-#projectButton {
+#sourceGroupButton {
 	background: white;
 	border-radius: 8px;
 	color: black;
@@ -166,7 +163,7 @@ QCheckBox:disabled {
 	margin-top: 10px;
 }
 
-#projectButton:hover, #projectButton:checked {
+#sourceGroupButton:hover, #sourceGroupButton:checked {
 	background: #CFD2E0;
 }
 
@@ -176,4 +173,58 @@ QCheckBox:disabled {
 	border-radius: 12px;
 	color: black;
 	padding: 6px;
+}
+
+#project_menu {
+	border-left: 1px solid lightgray;
+}
+
+#project_menu QListWidget {
+	background: white;
+	border: none;
+	border-bottom: 1px solid lightgray;
+	border-left: 1px solid lightgray;
+	color: black;
+	font-size: 12px;
+}
+
+#project_menu QListWidget::item, #project_menu #general_button {
+	background: white;
+	border: none;
+	color: black;
+	margin-top: 5px;
+	padding: 3px 5px;
+}
+
+#project_menu #general_button {
+	margin-top: 10px;
+	font-size: 12px;
+	text-align: left;
+	border-left: 1px solid lightgray;
+	padding: 4px 10px;
+}
+
+#project_menu QLabel {
+	background: white;
+	font-weight: bold;
+	border: none;
+	color: black;
+	font-size: 12px;
+	margin-top: 5px;
+	padding: 3px 7px;
+	border-left: 1px solid lightgray;
+}
+
+#project_menu QListWidget::item:hover, #project_menu QListWidget::item:selected,
+#project_menu #general_button:hover, #project_menu #general_button:checked {
+	background: #CFD2E0;
+	color: black;
+}
+
+#project_menu #action_button {
+	background: white;
+	border: none;
+	color: white;
+	margin: 5px;
+	padding: 1px;
 }

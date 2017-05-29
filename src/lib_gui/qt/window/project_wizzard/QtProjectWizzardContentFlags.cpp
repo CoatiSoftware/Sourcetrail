@@ -14,8 +14,7 @@ QtProjectWizzardContentFlags::QtProjectWizzardContentFlags(std::shared_ptr<Sourc
 void QtProjectWizzardContentFlags::populate(QGridLayout* layout, int& row)
 {
 	QLabel* label = createFormLabel("Compiler Flags");
-	label->setObjectName("label");
-	layout->addWidget(label, row, QtProjectWizzardWindow::FRONT_COL, Qt::AlignRight);
+	layout->addWidget(label, row, QtProjectWizzardWindow::FRONT_COL, Qt::AlignTop);
 
 	addHelpButton("Define compiler flags used during indexing including the dash (e.g. use \"-D RELEASE\" to add a #define for \"RELEASE\").", layout, row);
 

@@ -156,24 +156,30 @@ add_files(
 	qt/window/project_wizzard/QtProjectWizzardContent.h
 	qt/window/project_wizzard/QtProjectWizzardContentCDBSource.cpp
 	qt/window/project_wizzard/QtProjectWizzardContentCDBSource.h
-	qt/window/project_wizzard/QtProjectWizzardContentData.cpp
-	qt/window/project_wizzard/QtProjectWizzardContentData.h
 	qt/window/project_wizzard/QtProjectWizzardContentExtensions.cpp
 	qt/window/project_wizzard/QtProjectWizzardContentExtensions.h
 	qt/window/project_wizzard/QtProjectWizzardContentFlags.cpp
 	qt/window/project_wizzard/QtProjectWizzardContentFlags.h
+	qt/window/project_wizzard/QtProjectWizzardContentLanguageAndStandard.cpp
+	qt/window/project_wizzard/QtProjectWizzardContentLanguageAndStandard.h
 	qt/window/project_wizzard/QtProjectWizzardContentPath.cpp
 	qt/window/project_wizzard/QtProjectWizzardContentPath.h
 	qt/window/project_wizzard/QtProjectWizzardContentPaths.cpp
 	qt/window/project_wizzard/QtProjectWizzardContentPaths.h
 	qt/window/project_wizzard/QtProjectWizzardContentPreferences.cpp
 	qt/window/project_wizzard/QtProjectWizzardContentPreferences.h
+	qt/window/project_wizzard/QtProjectWizzardContentProjectData.cpp
+	qt/window/project_wizzard/QtProjectWizzardContentProjectData.h
 	qt/window/project_wizzard/QtProjectWizzardContentSelect.cpp
 	qt/window/project_wizzard/QtProjectWizzardContentSelect.h
 	qt/window/project_wizzard/QtProjectWizzardContentSimple.cpp
 	qt/window/project_wizzard/QtProjectWizzardContentSimple.h
+	qt/window/project_wizzard/QtProjectWizzardContentSourceGroupData.cpp
+	qt/window/project_wizzard/QtProjectWizzardContentSourceGroupData.h
 	qt/window/project_wizzard/QtProjectWizzardContentSummary.cpp
 	qt/window/project_wizzard/QtProjectWizzardContentSummary.h
+	qt/window/project_wizzard/QtProjectWizzardContentVS.cpp
+	qt/window/project_wizzard/QtProjectWizzardContentVS.h
 	qt/window/project_wizzard/QtProjectWizzardWindow.cpp
 	qt/window/project_wizzard/QtProjectWizzardWindow.h
 
@@ -193,6 +199,8 @@ add_files(
     qt/window/QtLicense.h
 	qt/window/QtMainWindow.cpp
 	qt/window/QtMainWindow.h
+	qt/window/QtPreferencesWindow.cpp
+	qt/window/QtPreferencesWindow.h
 	qt/window/QtSelectPathsDialog.cpp
 	qt/window/QtSelectPathsDialog.h
 	qt/window/QtSplashScreen.cpp

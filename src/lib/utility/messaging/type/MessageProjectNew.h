@@ -7,10 +7,9 @@ class MessageProjectNew
 	: public Message<MessageProjectNew>
 {
 public:
-	MessageProjectNew()
-		: solutionPath("")
-		, headerPaths()
-		, ideId("")
+	MessageProjectNew(const std::string cdbPath, const std::vector<std::string> headerPaths)
+		: cdbPath(cdbPath)
+		, headerPaths(headerPaths)
 	{
 	}
 
@@ -19,44 +18,8 @@ public:
 		return "MessageProjectNew";
 	}
 
-	bool fromSolution() const
-	{
-		return solutionPath.size() > 0;
-	}
-
-	bool fromCDB() const
-	{
-		if (solutionPath.length() > 0)
-		{
-			size_t pos = solutionPath.find_last_of('.');
-			if (pos != std::string::npos)
-			{
-				std::string extension = solutionPath.substr(pos + 1);
-
-				return (extension == "json");
-			}
-			else
-			{
-				return false;
-			}
-		}
-
-		return false;
-	}
-
-	void setSolutionPath(const std::string& path)
-	{
-		solutionPath = path;
-	}
-
-	void setHeaderPaths(const std::vector<std::string>& headerPaths)
-	{
-		this->headerPaths = headerPaths;
-	}
-
-	std::string solutionPath;
-	std::vector<std::string> headerPaths;
-	std::string ideId;
+	const std::string cdbPath;
+	const std::vector<std::string> headerPaths;
 };
 
 #endif // MESSAGE_PROJECT_NEW_H

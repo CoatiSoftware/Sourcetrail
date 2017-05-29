@@ -18,15 +18,15 @@ public:
 	virtual std::vector<std::string> getAvailableLanguageStandards() const;
 
 	std::vector<FilePath> getClasspaths() const;
-	std::vector<FilePath> getAbsoluteClasspaths() const;
+	std::vector<FilePath> getClasspathsExpandedAndAbsolute() const;
 	void setClasspaths(const std::vector<FilePath>& classpaths);
 
 	FilePath getMavenProjectFilePath() const;
-	FilePath getAbsoluteMavenProjectFilePath() const;
+	FilePath getMavenProjectFilePathExpandedAndAbsolute() const;
 	void setMavenProjectFilePath(const FilePath& path);
 
 	FilePath getMavenDependenciesDirectory() const;
-	FilePath getAbsoluteMavenDependenciesDirectory() const;
+	FilePath getMavenDependenciesDirectoryExpandedAndAbsolute() const;
 	void setMavenDependenciesDirectory(const FilePath& path);
 
 	bool getShouldIndexMavenTests() const;

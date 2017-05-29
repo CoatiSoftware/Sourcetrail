@@ -67,7 +67,7 @@ void QtProjectWizzardContent::setIsInForm(bool isInForm)
 QLabel* QtProjectWizzardContent::createFormLabel(QString name) const
 {
 	QLabel* label = new QLabel(name);
-	label->setAlignment(Qt::AlignRight);
+	label->setAlignment(Qt::AlignRight | Qt::AlignVCenter);
 	label->setObjectName("label");
 	label->setWordWrap(true);
 	return label;
@@ -81,10 +81,10 @@ QLabel* QtProjectWizzardContent::createFormTitle(QString name) const
 	return label;
 }
 
-QToolButton* QtProjectWizzardContent::createProjectButton(QString name, QString iconPath) const
+QToolButton* QtProjectWizzardContent::createSourceGroupButton(QString name, QString iconPath) const
 {
 	QToolButton* button = new QToolButton();
-	button->setObjectName("projectButton");
+	button->setObjectName("sourceGroupButton");
 	button->setText(name);
 	button->setIcon(QPixmap(iconPath));
 	button->setIconSize(QSize(64, 64));
@@ -104,6 +104,7 @@ QPushButton* QtProjectWizzardContent::addFilesButton(QString name, QGridLayout* 
 {
 	QPushButton* button = new QPushButton(name);
 	button->setObjectName("windowButton");
+	button->setAttribute(Qt::WA_LayoutUsesWidgetRect); // fixes layouting on Mac
 	if (layout)
 	{
 		layout->addWidget(button, row, QtProjectWizzardWindow::BACK_COL, Qt::AlignRight | Qt::AlignTop);
@@ -111,6 +112,19 @@ QPushButton* QtProjectWizzardContent::addFilesButton(QString name, QGridLayout* 
 	connect(button, SIGNAL(clicked()), this, SLOT(filesButtonClicked()));
 
 	return button;
+}
+
+QFrame* QtProjectWizzardContent::addSeparator(QGridLayout* layout, int row) const
+{
+	QFrame* separator = new QFrame();
+	separator->setFrameShape(QFrame::HLine);
+
+	QPalette palette = separator->palette();
+	palette.setColor(QPalette::WindowText, Qt::lightGray);
+	separator->setPalette(palette);
+
+	layout->addWidget(separator, row, 0, 1, -1);
+	return separator;
 }
 
 void QtProjectWizzardContent::filesButtonClicked()

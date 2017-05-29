@@ -11,7 +11,7 @@ class QtProjectWizzardWindow
 	Q_OBJECT
 
 public:
-	QtProjectWizzardWindow(QWidget *parent);
+	QtProjectWizzardWindow(QWidget* parent, bool showSeparator = true);
 	virtual QSize sizeHint() const override;
 
 	QtProjectWizzardContent* content() const;
@@ -38,6 +38,7 @@ protected:
 private:
 	QtProjectWizzardContent* m_content;
 	QSize m_preferredSize;
+	bool m_showSeparator;
 };
 
 #endif // QT_PROJECT_WIZZARD_WINDOW_H

@@ -19,49 +19,49 @@ QtProjectWizzardContentSelect::QtProjectWizzardContentSelect(
 
 void QtProjectWizzardContentSelect::populate(QGridLayout* layout, int& row)
 {
-	struct ProjectInfo
+	struct SourceGroupInfo
 	{
-		ProjectInfo(SourceGroupType type) :type(type) {}
+		SourceGroupInfo(SourceGroupType type) :type(type) {}
 		const SourceGroupType type;
 	};
 
-	// define which kind of projects are available for each language
-	std::map<LanguageType, std::vector<ProjectInfo>> projectInfos;
-	projectInfos[LANGUAGE_C].push_back(ProjectInfo(SOURCE_GROUP_C_EMPTY));
-	projectInfos[LANGUAGE_C].push_back(ProjectInfo(SOURCE_GROUP_CXX_CDB));
-	projectInfos[LANGUAGE_C].push_back(ProjectInfo(SOURCE_GROUP_CXX_VS));
-	projectInfos[LANGUAGE_CPP].push_back(ProjectInfo(SOURCE_GROUP_CPP_EMPTY));
-	projectInfos[LANGUAGE_CPP].push_back(ProjectInfo(SOURCE_GROUP_CXX_CDB));
-	projectInfos[LANGUAGE_CPP].push_back(ProjectInfo(SOURCE_GROUP_CXX_VS));
-	projectInfos[LANGUAGE_JAVA].push_back(ProjectInfo(SOURCE_GROUP_JAVA_EMPTY));
-	projectInfos[LANGUAGE_JAVA].push_back(ProjectInfo(SOURCE_GROUP_JAVA_MAVEN));
+	// define which kind of source groups are available for each language
+	std::map<LanguageType, std::vector<SourceGroupInfo>> sourceGroupInfos;
+	sourceGroupInfos[LANGUAGE_C].push_back(SourceGroupInfo(SOURCE_GROUP_C_EMPTY));
+	sourceGroupInfos[LANGUAGE_C].push_back(SourceGroupInfo(SOURCE_GROUP_CXX_CDB));
+	sourceGroupInfos[LANGUAGE_C].push_back(SourceGroupInfo(SOURCE_GROUP_CXX_VS));
+	sourceGroupInfos[LANGUAGE_CPP].push_back(SourceGroupInfo(SOURCE_GROUP_CPP_EMPTY));
+	sourceGroupInfos[LANGUAGE_CPP].push_back(SourceGroupInfo(SOURCE_GROUP_CXX_CDB));
+	sourceGroupInfos[LANGUAGE_CPP].push_back(SourceGroupInfo(SOURCE_GROUP_CXX_VS));
+	sourceGroupInfos[LANGUAGE_JAVA].push_back(SourceGroupInfo(SOURCE_GROUP_JAVA_EMPTY));
+	sourceGroupInfos[LANGUAGE_JAVA].push_back(SourceGroupInfo(SOURCE_GROUP_JAVA_MAVEN));
 
-	// define which icons should be used for which kind of project
-	m_projectTypeIconName[SOURCE_GROUP_C_EMPTY] = "empty_icon";
-	m_projectTypeIconName[SOURCE_GROUP_CPP_EMPTY] = "empty_icon";
-	m_projectTypeIconName[SOURCE_GROUP_CXX_CDB] = "cdb_icon";
-	m_projectTypeIconName[SOURCE_GROUP_CXX_VS] = "vs_icon";
-	m_projectTypeIconName[SOURCE_GROUP_JAVA_EMPTY] = "empty_icon";
-	m_projectTypeIconName[SOURCE_GROUP_JAVA_MAVEN] = "mvn_icon";
+	// define which icons should be used for which kind of source group
+	m_sourceGroupTypeIconName[SOURCE_GROUP_C_EMPTY] = "empty_icon";
+	m_sourceGroupTypeIconName[SOURCE_GROUP_CPP_EMPTY] = "empty_icon";
+	m_sourceGroupTypeIconName[SOURCE_GROUP_CXX_CDB] = "cdb_icon";
+	m_sourceGroupTypeIconName[SOURCE_GROUP_CXX_VS] = "vs_icon";
+	m_sourceGroupTypeIconName[SOURCE_GROUP_JAVA_EMPTY] = "empty_icon";
+	m_sourceGroupTypeIconName[SOURCE_GROUP_JAVA_MAVEN] = "mvn_icon";
 
-	// define descriptions for each kind of project
-	m_projectTypeDescriptions[SOURCE_GROUP_C_EMPTY] = "Create a new Sourcetrail project by defining which C files will be indexed.";
-	m_projectTypeDescriptions[SOURCE_GROUP_CPP_EMPTY] = "Create a new Sourcetrail project by defining which C++ files will be indexed.";
-	m_projectTypeDescriptions[SOURCE_GROUP_CXX_CDB] = "Create a project from an existing Compilation Database (compile_commands.json). They can be created from Make and "
+	// define descriptions for each kind of Source Group
+	m_sourceGroupTypeDescriptions[SOURCE_GROUP_C_EMPTY] = "Create a new Sourcetrail Source Group by defining which C files will be indexed.";
+	m_sourceGroupTypeDescriptions[SOURCE_GROUP_CPP_EMPTY] = "Create a new Sourcetrail Source Group by defining which C++ files will be indexed.";
+	m_sourceGroupTypeDescriptions[SOURCE_GROUP_CXX_CDB] = "Create a Source Group from an existing Compilation Database (compile_commands.json). They can be created from Make and "
 		"CMake projects. Have a look at the <a href=\"https://sourcetrail.com/documentation/#CreateAProjectFromCompilationDatabase\">"
 		"documentation</a> to find out more.";
-	m_projectTypeDescriptions[SOURCE_GROUP_CXX_VS] = "Create a new project from an existing Visual Studio Solution file. "
+	m_sourceGroupTypeDescriptions[SOURCE_GROUP_CXX_VS] = "Create a new Source Group from an existing Visual Studio Solution file. "
 		"<b>Note: Requires a running Visual Studio instance with the "
 		"<a href=\"https://sourcetrail.com/documentation/index.html#VisualStudio\">Visual Studio plugin</a> installed.";
-	m_projectTypeDescriptions[SOURCE_GROUP_JAVA_EMPTY] = "Create a new Sourcetrail project by defining which Java files will be indexed.";
-	m_projectTypeDescriptions[SOURCE_GROUP_JAVA_MAVEN] = "Create a new project from an existing Maven project.";
+	m_sourceGroupTypeDescriptions[SOURCE_GROUP_JAVA_EMPTY] = "Create a new Sourcetrail Source Group by defining which Java files will be indexed.";
+	m_sourceGroupTypeDescriptions[SOURCE_GROUP_JAVA_MAVEN] = "Create a new Source Group from an existing Maven project.";
 
 	QVBoxLayout* vlayout = new QVBoxLayout();
 	vlayout->setContentsMargins(0, 30, 0, 0);
 	vlayout->setSpacing(10);
 
 	m_languages = new QButtonGroup();
-	for (auto it: projectInfos)
+	for (auto it: sourceGroupInfos)
 	{
 		QPushButton* b = new QPushButton(languageTypeToString(it.first).c_str(), this);
 		b->setObjectName("menuButton");
@@ -97,29 +97,29 @@ void QtProjectWizzardContentSelect::populate(QGridLayout* layout, int& row)
 			}
 
 			m_window->setNextEnabled(false);
-			m_title->setText("Project Types - " + m_languages->checkedButton()->text());
+			m_title->setText("Source Group Types - " + m_languages->checkedButton()->text());
 			m_description->setText("");
 		}
 	);
 
 	QHBoxLayout* hlayout = new QHBoxLayout();
 
-	for (auto languageIt: projectInfos)
+	for (auto languageIt: sourceGroupInfos)
 	{
-		QButtonGroup* projectButtons = new QButtonGroup(this);
+		QButtonGroup* sourceGroupButtons = new QButtonGroup(this);
 
-		for (auto projectIt: languageIt.second)
+		for (auto sourceGroupIt: languageIt.second)
 		{
-			QToolButton* b = createProjectButton(
-				utility::insertLineBreaksAtBlankSpaces(sourceGroupTypeToProjectSetupString(projectIt.type), 15).c_str(),
-				(ResourcePaths::getGuiPath().str() + "icon/" + m_projectTypeIconName[projectIt.type] + ".png").c_str()
+			QToolButton* b = createSourceGroupButton(
+				utility::insertLineBreaksAtBlankSpaces(sourceGroupTypeToProjectSetupString(sourceGroupIt.type), 15).c_str(),
+				(ResourcePaths::getGuiPath().str() + "icon/" + m_sourceGroupTypeIconName[sourceGroupIt.type] + ".png").c_str()
 			);
-			b->setProperty("source_group_type", int(projectIt.type));
-			projectButtons->addButton(b);
+			b->setProperty("source_group_type", int(sourceGroupIt.type));
+			sourceGroupButtons->addButton(b);
 			hlayout->addWidget(b);
 		}
 
-		m_buttons[languageIt.first] = projectButtons;
+		m_buttons[languageIt.first] = sourceGroupButtons;
 	}
 
 	for (auto it: m_buttons)
@@ -135,7 +135,7 @@ void QtProjectWizzardContentSelect::populate(QGridLayout* layout, int& row)
 					selectedType = SourceGroupType(selectedTypeInt);
 				}
 
-				m_description->setText(m_projectTypeDescriptions[selectedType].c_str());
+				m_description->setText(m_sourceGroupTypeDescriptions[selectedType].c_str());
 
 				m_window->setNextEnabled(true);
 			}
@@ -144,7 +144,7 @@ void QtProjectWizzardContentSelect::populate(QGridLayout* layout, int& row)
 
 	QFrame* container = new QFrame();
 	container->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding);
-	container->setObjectName("projectContainer");
+	container->setObjectName("sourceGroupContainer");
 	container->setLayout(hlayout);
 
 	layout->addWidget(container, 0, QtProjectWizzardWindow::BACK_COL);
@@ -152,11 +152,11 @@ void QtProjectWizzardContentSelect::populate(QGridLayout* layout, int& row)
 	m_description = new QLabel(" \n \n");
 	m_description->setWordWrap(true);
 	m_description->setOpenExternalLinks(true);
-	m_description->setObjectName("projectDescription");
+	m_description->setObjectName("sourceGroupDescription");
 	layout->addWidget(m_description, 1, QtProjectWizzardWindow::BACK_COL);
 
-	m_title = new QLabel("Project Types");
-	m_title->setObjectName("projectTitle");
+	m_title = new QLabel("Source Group Types");
+	m_title->setObjectName("sourceGroupTitle");
 
 	layout->addWidget(m_title, 0, QtProjectWizzardWindow::BACK_COL, Qt::AlignLeft | Qt::AlignTop);
 
@@ -191,21 +191,21 @@ void QtProjectWizzardContentSelect::save()
 
 bool QtProjectWizzardContentSelect::check()
 {
-	bool projectChosen = false;
+	bool sourceGroupChosen = false;
 
 	for (auto it: m_buttons)
 	{
 		if (it.second->checkedId() != -1)
 		{
-			projectChosen = true;
+			sourceGroupChosen = true;
 			break;
 		}
 	}
 
-	if (!projectChosen)
+	if (!sourceGroupChosen)
 	{
 		QMessageBox msgBox;
-		msgBox.setText("Please choose a method of creating a new project.");
+		msgBox.setText("Please choose a method of creating a new Source Group.");
 		msgBox.exec();
 		return false;
 	}

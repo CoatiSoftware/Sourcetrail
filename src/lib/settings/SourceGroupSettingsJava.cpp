@@ -39,9 +39,9 @@ std::vector<FilePath> SourceGroupSettingsJava::getClasspaths() const
 	return m_classpaths;
 }
 
-std::vector<FilePath> SourceGroupSettingsJava::getAbsoluteClasspaths() const
+std::vector<FilePath> SourceGroupSettingsJava::getClasspathsExpandedAndAbsolute() const
 {
-	return m_projectSettings->makePathsAbsolute(getClasspaths());
+	return m_projectSettings->makePathsExpandedAndAbsolute(getClasspaths());
 }
 
 void SourceGroupSettingsJava::setClasspaths(const std::vector<FilePath>& classpaths)
@@ -54,9 +54,9 @@ FilePath SourceGroupSettingsJava::getMavenProjectFilePath() const
 	return m_mavenProjectFilePath;
 }
 
-FilePath SourceGroupSettingsJava::getAbsoluteMavenProjectFilePath() const
+FilePath SourceGroupSettingsJava::getMavenProjectFilePathExpandedAndAbsolute() const
 {
-	return m_projectSettings->makePathAbsolute(getMavenProjectFilePath());
+	return m_projectSettings->makePathExpandedAndAbsolute(getMavenProjectFilePath());
 }
 
 void SourceGroupSettingsJava::setMavenProjectFilePath(const FilePath& path)
@@ -69,9 +69,9 @@ FilePath SourceGroupSettingsJava::getMavenDependenciesDirectory() const
 	return m_mavenDependenciesDirectory;
 }
 
-FilePath SourceGroupSettingsJava::getAbsoluteMavenDependenciesDirectory() const
+FilePath SourceGroupSettingsJava::getMavenDependenciesDirectoryExpandedAndAbsolute() const
 {
-	return m_projectSettings->makePathAbsolute(getMavenDependenciesDirectory());
+	return m_projectSettings->makePathExpandedAndAbsolute(getMavenDependenciesDirectory());
 }
 
 void SourceGroupSettingsJava::setMavenDependenciesDirectory(const FilePath& path)

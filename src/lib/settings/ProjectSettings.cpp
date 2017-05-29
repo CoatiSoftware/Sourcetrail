@@ -177,6 +177,12 @@ std::vector<std::shared_ptr<SourceGroupSettings>> ProjectSettings::getAllSourceG
 			continue;
 		}
 
+		const std::string name = getValue<std::string>(key + "/name", "");
+		if (name.size())
+		{
+			settings->setName(name);
+		}
+
 		settings->setStandard(getValue<std::string>(key + "/standard", ""));
 		settings->setSourcePaths(getPathValues(key + "/source_paths/source_path"));
 		settings->setExcludePaths(getPathValues(key + "/exclude_paths/exclude_path"));
@@ -188,7 +194,7 @@ std::vector<std::shared_ptr<SourceGroupSettings>> ProjectSettings::getAllSourceG
 	return allSettings;
 }
 
-void ProjectSettings::setAllSourceGroupSettings(std::vector<std::shared_ptr<SourceGroupSettings>> allSettings)
+void ProjectSettings::setAllSourceGroupSettings(const std::vector<std::shared_ptr<SourceGroupSettings>>& allSettings)
 {
 	for (const std::string& key: m_config->getSublevelKeys("source_groups"))
 	{
@@ -201,6 +207,7 @@ void ProjectSettings::setAllSourceGroupSettings(std::vector<std::shared_ptr<Sour
 		const SourceGroupType type = settings->getType();
 
 		setValue(key + "/type", sourceGroupTypeToString(type));
+		setValue(key + "/name", settings->getName());
 		setValue(key + "/standard", settings->getStandard());
 		setPathValues(key + "/source_paths/source_path", settings->getSourcePaths());
 		setPathValues(key + "/exclude_paths/exclude_path", settings->getExcludePaths());
@@ -246,12 +253,13 @@ void ProjectSettings::setAllSourceGroupSettings(std::vector<std::shared_ptr<Sour
 	}
 }
 
-std::vector<FilePath> ProjectSettings::makePathsAbsolute(const std::vector<FilePath>& paths) const
+std::vector<FilePath> ProjectSettings::makePathsExpandedAndAbsolute(const std::vector<FilePath>& paths) const
 {
-	std::vector<FilePath> absPaths;
+	std::vector<FilePath> p = expandPaths(paths);
 
+	std::vector<FilePath> absPaths;
 	FilePath basePath = getProjectFileLocation();
-	for (const FilePath& path : paths)
+	for (const FilePath& path : p)
 	{
 		if (path.isAbsolute())
 		{
@@ -266,14 +274,16 @@ std::vector<FilePath> ProjectSettings::makePathsAbsolute(const std::vector<FileP
 	return absPaths;
 }
 
-FilePath ProjectSettings::makePathAbsolute(const FilePath& path) const
+FilePath ProjectSettings::makePathExpandedAndAbsolute(const FilePath& path) const
 {
-	if (path.empty() || path.isAbsolute())
+	FilePath p = expandPath(path);
+
+	if (p.empty() || p.isAbsolute())
 	{
-		return path;
+		return p;
 	}
 
-	return getProjectFileLocation().concat(path).canonical();
+	return getProjectFileLocation().concat(p).canonical();
 }
 
 SettingsMigrator ProjectSettings::getMigrations() const

@@ -135,32 +135,30 @@ void IDECommunicationController::handleSetActiveTokenMessage(
 
 void IDECommunicationController::handleCreateProjectMessage(const NetworkProtocolHelper::CreateProjectMessage& message)
 {
-	if (message.valid)
-	{
-		if (message.ideId == "vs")
-		{
-			std::shared_ptr<MessageProjectNew> msg = std::make_shared<MessageProjectNew>();
-			msg->setSolutionPath(message.solutionFileLocation);
-			msg->ideId = message.ideId;
-			MessageDispatchWhenLicenseValid(msg).dispatch();
-		}
-		else
-		{
-			LOG_ERROR_STREAM(<< "Unable to parse provided solution, unknown format");
-		}
-	}
+	LOG_ERROR_STREAM(<< "Network Protocol CreateProjectMessage not supported anymore.");
+
+	// if (message.valid)
+	// {
+	// 	if (message.ideId == "vs")
+	// 	{
+	// 		std::shared_ptr<MessageProjectNew> msg = std::make_shared<MessageProjectNew>();
+	// 		msg->setSolutionPath(message.solutionFileLocation);
+	// 		msg->ideId = message.ideId;
+	// 		MessageDispatchWhenLicenseValid(msg).dispatch();
+	// 	}
+	// 	else
+	// 	{
+	// 		LOG_ERROR_STREAM(<< "Unable to parse provided solution, unknown format");
+	// 	}
+	// }
 }
 
 void IDECommunicationController::handleCreateCDBProjectMessage(const NetworkProtocolHelper::CreateCDBProjectMessage& message)
 {
 	if (message.valid)
 	{
-		std::shared_ptr<MessageProjectNew> msg = std::make_shared<MessageProjectNew>();
-		msg->setSolutionPath(message.cdbFileLocation);
-		msg->setHeaderPaths(message.headerPaths);
-		msg->ideId = message.ideId;
-
-		MessageDispatchWhenLicenseValid(msg).dispatch();
+		MessageDispatchWhenLicenseValid(
+			std::make_shared<MessageProjectNew>(message.cdbFileLocation, message.headerPaths)).dispatch();
 	}
 	else
 	{

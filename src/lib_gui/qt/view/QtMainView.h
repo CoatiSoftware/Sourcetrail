@@ -57,28 +57,8 @@ private:
 	void handleMessage(MessageProjectNew* message);
 	void handleMessage(MessageShowStartScreen* message);
 
-	void doEditProject();
-	void doCreateNewProjectFromSolution(const std::string& ideId, const std::string& solutionPath);
-	void doCreateNewProjectFromCDB(const std::string& filePath, const std::vector<std::string>& headerPaths);
-	void doShowStartScreen();
-	void doHideStartScreen();
-	void doSetTitle(const std::string& title);
-	void doActivateWindow();
-	void doUpdateRecentProjectMenu();
-	void doForceLicenseScreen(bool expired);
-
 	std::shared_ptr<QtMainWindow> m_window;
 	std::vector<View*> m_views;
-
-	QtThreadedFunctor<> m_editProjectFunctor;
-	QtThreadedFunctor<const std::string&, const std::string&> m_createNewProjectFromSolutionFunctor;
-	QtThreadedFunctor<const std::string&, const std::vector<std::string>&> m_createNewProjectFromCDBFunctor;
-	QtThreadedFunctor<> m_showStartScreenFunctor;
-	QtThreadedFunctor<> m_hideStartScreenFunctor;
-	QtThreadedFunctor<const std::string&> m_setTitleFunctor;
-	QtThreadedFunctor<> m_activateWindowFunctor;
-	QtThreadedFunctor<> m_updateRecentProjectMenuFunctor;
-	QtThreadedFunctor<bool> m_forceLicenseScreenFunctor;
 
 	QtThreadedLambdaFunctor m_onQtThread;
 };

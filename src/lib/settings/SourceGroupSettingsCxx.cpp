@@ -101,9 +101,9 @@ std::vector<FilePath> SourceGroupSettingsCxx::getHeaderSearchPaths() const
 	return m_headerSearchPaths;
 }
 
-std::vector<FilePath> SourceGroupSettingsCxx::getAbsoluteHeaderSearchPaths() const
+std::vector<FilePath> SourceGroupSettingsCxx::getHeaderSearchPathsExpandedAndAbsolute() const
 {
-	return m_projectSettings->makePathsAbsolute(getHeaderSearchPaths());
+	return m_projectSettings->makePathsExpandedAndAbsolute(getHeaderSearchPaths());
 }
 
 void SourceGroupSettingsCxx::setHeaderSearchPaths(const std::vector<FilePath>& headerSearchPaths)
@@ -116,9 +116,9 @@ std::vector<FilePath> SourceGroupSettingsCxx::getFrameworkSearchPaths() const
 	return m_frameworkSearchPaths;
 }
 
-std::vector<FilePath> SourceGroupSettingsCxx::getAbsoluteFrameworkSearchPaths() const
+std::vector<FilePath> SourceGroupSettingsCxx::getFrameworkSearchPathsExpandedAndAbsolute() const
 {
-	return m_projectSettings->makePathsAbsolute(getFrameworkSearchPaths());
+	return m_projectSettings->makePathsExpandedAndAbsolute(getFrameworkSearchPaths());
 }
 
 void SourceGroupSettingsCxx::setFrameworkSearchPaths(const std::vector<FilePath>& frameworkSearchPaths)
@@ -161,9 +161,9 @@ FilePath SourceGroupSettingsCxx::getCompilationDatabasePath() const
 	return m_compilationDatabasePath;
 }
 
-FilePath SourceGroupSettingsCxx::getAbsoluteCompilationDatabasePath() const
+FilePath SourceGroupSettingsCxx::getCompilationDatabasePathExpandedAndAbsolute() const
 {
-	return m_projectSettings->makePathAbsolute(getCompilationDatabasePath());
+	return m_projectSettings->makePathExpandedAndAbsolute(getCompilationDatabasePath());
 }
 
 void SourceGroupSettingsCxx::setCompilationDatabasePath(const FilePath& compilationDatabasePath)

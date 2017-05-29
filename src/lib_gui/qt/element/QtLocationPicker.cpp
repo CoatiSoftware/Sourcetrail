@@ -26,6 +26,7 @@ QtLocationPicker::QtLocationPicker(QWidget *parent)
 	m_data->setAttribute(Qt::WA_MacShowFocusRect, 0);
 	m_data->setObjectName("locationField");
 	layout->addWidget(m_data);
+	connect(m_data, SIGNAL(focus()), this, SLOT(handleFocus()));
 
 	m_button = new QtIconButton(
 		(ResourcePaths::getGuiPath().str() + "window/dots.png").c_str(),
@@ -66,6 +67,11 @@ void QtLocationPicker::setText(QString text)
 void QtLocationPicker::clearText()
 {
 	m_data->clear();
+}
+
+bool QtLocationPicker::pickDirectory() const
+{
+	return m_pickDirectory;
 }
 
 void QtLocationPicker::setPickDirectory(bool pickDirectory)
@@ -117,5 +123,13 @@ void QtLocationPicker::handleButtonPress()
 
 		m_data->setText(fileName);
 		emit locationPicked();
+	}
+}
+
+void QtLocationPicker::handleFocus()
+{
+	if (!m_data->text().size())
+	{
+		handleButtonPress();
 	}
 }

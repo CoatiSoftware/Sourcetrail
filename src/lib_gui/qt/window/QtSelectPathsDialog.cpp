@@ -1,5 +1,7 @@
 #include "qt/window/QtSelectPathsDialog.h"
 
+#include <set>
+
 #include <QLabel>
 #include <QListWidget>
 #include <QPushButton>
@@ -28,12 +30,14 @@ std::vector<FilePath> QtSelectPathsDialog::getPathsList() const
 
 void QtSelectPathsDialog::setPathsList(const std::vector<FilePath>& paths, const std::vector<FilePath>& checkedPaths)
 {
+	std::set<FilePath> checked(checkedPaths.begin(), checkedPaths.end());
+
 	for (FilePath s : paths)
 	{
 		QListWidgetItem* item = new QListWidgetItem(s.str().c_str(), m_list);
 		item->setFlags(item->flags() | Qt::ItemIsUserCheckable); // set checkable flag
 
-		if (std::find(checkedPaths.begin(), checkedPaths.end(), s) == checkedPaths.end())
+		if (checked.find(s) == checked.end())
 		{
 			item->setCheckState(Qt::Unchecked); // AND initialize check state
 		}

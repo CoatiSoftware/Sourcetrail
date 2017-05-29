@@ -186,6 +186,14 @@ void QtWindow::updateNextButton(QString text)
 	}
 }
 
+void QtWindow::updatePreviousButton(QString text)
+{
+	if (m_previousButton)
+	{
+		m_previousButton->setText(text);
+	}
+}
+
 void QtWindow::updateCloseButton(QString text)
 {
 	if (m_closeButton)

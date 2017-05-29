@@ -30,7 +30,7 @@ SourceGroupType SourceGroupCxx::getType() const
 
 bool SourceGroupCxx::prepareRefresh()
 {
-	FilePath cdbPath = m_settings->getAbsoluteCompilationDatabasePath();
+	FilePath cdbPath = m_settings->getCompilationDatabasePathExpandedAndAbsolute();
 	if (!cdbPath.empty() && !cdbPath.exists())
 	{
 		MessageStatus("Can't refresh project").dispatch();
@@ -56,19 +56,19 @@ void SourceGroupCxx::fetchAllSourceFilePaths()
 {
 	std::vector<FilePath> sourcePaths;
 
-	FilePath cdbPath = m_settings->getAbsoluteCompilationDatabasePath();
+	FilePath cdbPath = m_settings->getCompilationDatabasePathExpandedAndAbsolute();
 	if (cdbPath.exists())
 	{
 		sourcePaths = IndexerCommandCxxCdb::getSourceFilesFromCDB(cdbPath);
 	}
 	else
 	{
-		sourcePaths = m_settings->getAbsoluteSourcePaths();
+		sourcePaths = m_settings->getSourcePathsExpandedAndAbsolute();
 	}
 
 	m_sourceFilePathsToIndex.clear();
 	FileManager fileManager;
-	fileManager.update(sourcePaths, m_settings->getAbsoluteExcludePaths(), m_settings->getSourceExtensions());
+	fileManager.update(sourcePaths, m_settings->getExcludePathsExpandedAndAbsolute(), m_settings->getSourceExtensions());
 	m_allSourceFilePaths = fileManager.getAllSourceFilePaths();
 }
 
@@ -77,11 +77,11 @@ std::vector<std::shared_ptr<IndexerCommand>> SourceGroupCxx::getIndexerCommands(
 	std::shared_ptr<ApplicationSettings> appSettings = ApplicationSettings::getInstance();
 
 	std::vector<FilePath> systemHeaderSearchPaths;
-	utility::append(systemHeaderSearchPaths, m_settings->getAbsoluteHeaderSearchPaths());
+	utility::append(systemHeaderSearchPaths, m_settings->getHeaderSearchPathsExpandedAndAbsolute());
 	utility::append(systemHeaderSearchPaths, appSettings->getHeaderSearchPathsExpanded());
 
 	// Add the source paths as HeaderSearchPaths as well, so clang will also look here when searching include files.
-	for (const FilePath& sourcePath: m_settings->getAbsoluteSourcePaths())
+	for (const FilePath& sourcePath: m_settings->getSourcePathsExpandedAndAbsolute())
 	{
 		if (sourcePath.isDirectory())
 		{
@@ -93,7 +93,7 @@ std::vector<std::shared_ptr<IndexerCommand>> SourceGroupCxx::getIndexerCommands(
 	if (m_settings->getUseSourcePathsForHeaderSearch())
 	{
 		std::vector<FilePath> headerSearchSubPaths;
-		for (const FilePath& sourcePath : m_settings->getAbsoluteSourcePaths())
+		for (const FilePath& sourcePath : m_settings->getSourcePathsExpandedAndAbsolute())
 		{
 			utility::append(headerSearchSubPaths, FileSystem::getSubDirectories(sourcePath));
 		}
@@ -102,13 +102,13 @@ std::vector<std::shared_ptr<IndexerCommand>> SourceGroupCxx::getIndexerCommands(
 	}
 
 	std::vector<FilePath> frameworkSearchPaths;
-	utility::append(frameworkSearchPaths, m_settings->getAbsoluteFrameworkSearchPaths());
+	utility::append(frameworkSearchPaths, m_settings->getFrameworkSearchPathsExpandedAndAbsolute());
 	utility::append(frameworkSearchPaths, appSettings->getFrameworkSearchPathsExpanded());
 
 	const std::vector<std::string> compilerFlags = m_settings->getCompilerFlags();
 
 	std::set<FilePath> indexedPaths;
-	for (FilePath p: m_settings->getAbsoluteSourcePaths())
+	for (FilePath p: m_settings->getSourcePathsExpandedAndAbsolute())
 	{
 		if (p.exists())
 		{
@@ -117,7 +117,7 @@ std::vector<std::shared_ptr<IndexerCommand>> SourceGroupCxx::getIndexerCommands(
 	}
 
 	std::set<FilePath> excludedPaths;
-	for (FilePath p: m_settings->getAbsoluteExcludePaths())
+	for (FilePath p: m_settings->getExcludePathsExpandedAndAbsolute())
 	{
 		if (p.exists())
 		{
@@ -129,7 +129,7 @@ std::vector<std::shared_ptr<IndexerCommand>> SourceGroupCxx::getIndexerCommands(
 
 	const std::set<FilePath>& sourceFilePathsToIndex = (fullRefresh ? getAllSourceFilePaths() : getSourceFilePathsToIndex());
 
-	FilePath cdbPath = m_settings->getAbsoluteCompilationDatabasePath();
+	FilePath cdbPath = m_settings->getCompilationDatabasePathExpandedAndAbsolute();
 	if (cdbPath.exists())
 	{
 		std::string error;

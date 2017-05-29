@@ -27,17 +27,17 @@ std::string sourceGroupTypeToProjectSetupString(SourceGroupType v)
 	switch (v)
 	{
 	case SOURCE_GROUP_C_EMPTY:
-		return "Empty C Project";
+		return "Empty C Source Group";
 	case SOURCE_GROUP_CPP_EMPTY:
-		return "Empty C++ Project";
+		return "Empty C++ Source Group";
 	case SOURCE_GROUP_CXX_CDB:
 		return "C/C++ from Compilation Database";
 	case SOURCE_GROUP_CXX_VS:
 		return "C/C++ from Visual Studio";
 	case SOURCE_GROUP_JAVA_EMPTY:
-		return "Empty Java Project";
+		return "Empty Java Source Group";
 	case SOURCE_GROUP_JAVA_MAVEN:
-		return "Java Project from Maven";
+		return "Java Source Group from Maven";
 	case SOURCE_GROUP_UNKNOWN:
 		break;
 	}

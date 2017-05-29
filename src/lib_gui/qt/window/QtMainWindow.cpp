@@ -11,20 +11,21 @@
 #include <QTimer>
 
 #include "Application.h"
-#include "component/view/View.h"
+#include "component/controller/LogController.h"
 #include "component/view/CompositeView.h"
 #include "component/view/TabbedView.h"
-#include "component/controller/LogController.h"
+#include "component/view/View.h"
 #include "LicenseChecker.h"
 #include "qt/utility/QtContextMenu.h"
 #include "qt/utility/utilityQt.h"
 #include "qt/view/QtViewWidgetWrapper.h"
 #include "qt/window/project_wizzard/QtProjectWizzard.h"
-#include "qt/window/QtStartScreen.h"
-#include "qt/window/QtAboutLicense.h"
 #include "qt/window/QtAbout.h"
+#include "qt/window/QtAboutLicense.h"
 #include "qt/window/QtKeyboardShortcuts.h"
 #include "qt/window/QtLicense.h"
+#include "qt/window/QtPreferencesWindow.h"
+#include "qt/window/QtStartScreen.h"
 #include "settings/ApplicationSettings.h"
 #include "utility/file/FileSystem.h"
 #include "utility/logging/logging.h"
@@ -312,8 +313,8 @@ void QtMainWindow::about()
 
 void QtMainWindow::openSettings()
 {
-	QtProjectWizzard* wizzard = createWindow<QtProjectWizzard>();
-	wizzard->showPreferences();
+	QtPreferencesWindow* window = createWindow<QtPreferencesWindow>();
+	window->setup();
 }
 
 void QtMainWindow::showDocumentation()
@@ -421,17 +422,15 @@ void QtMainWindow::newProject()
 	wizzard->newProject();
 }
 
-void QtMainWindow::newProjectFromSolution(const std::string& ideId, const std::string& solutionPath)
-{
-	QtProjectWizzard* wizzard = createWindow<QtProjectWizzard>();
-	wizzard->newProjectFromSolution(ideId, FilePath(solutionPath));
-}
-
 void QtMainWindow::newProjectFromCDB(const std::string& filePath, const std::vector<std::string>& headerPaths)
 {
-	QtProjectWizzard* wizzard = createWindow<QtProjectWizzard>();
+	QtProjectWizzard* wizzard = dynamic_cast<QtProjectWizzard*>(m_windowStack.getTopWindow());
+	if (!wizzard)
+	{
+		wizzard = createWindow<QtProjectWizzard>();
+	}
 
-	std::vector<FilePath> headerFilePaths(headerPaths.size());
+	std::vector<FilePath> headerFilePaths;
 	for (const std::string& s: headerPaths)
 	{
 		headerFilePaths.push_back(FilePath(s));

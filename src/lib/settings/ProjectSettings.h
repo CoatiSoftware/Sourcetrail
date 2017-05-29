@@ -38,10 +38,10 @@ public:
 	std::string getDescription() const;
 
 	std::vector<std::shared_ptr<SourceGroupSettings>> getAllSourceGroupSettings() const;
-	void setAllSourceGroupSettings(std::vector<std::shared_ptr<SourceGroupSettings>> allSettings);
+	void setAllSourceGroupSettings(const std::vector<std::shared_ptr<SourceGroupSettings>>& allSettings);
 
-	std::vector<FilePath> makePathsAbsolute(const std::vector<FilePath>& paths) const;
-	FilePath makePathAbsolute(const FilePath& path) const;
+	std::vector<FilePath> makePathsExpandedAndAbsolute(const std::vector<FilePath>& paths) const;
+	FilePath makePathExpandedAndAbsolute(const FilePath& path) const;
 
 private:
 	SettingsMigrator getMigrations() const;

@@ -20,6 +20,7 @@ void QtProjectWizzardContentCDBSource::populate(QGridLayout* layout, int& row)
 	layout->setRowStretch(row, 0);
 
 	m_text = new QLabel("");
+	m_text->setWordWrap(true);
 	layout->addWidget(m_text, row, QtProjectWizzardWindow::BACK_COL, Qt::AlignTop);
 
 	addFilesButton("show source files", layout, row + 1);
@@ -32,42 +33,47 @@ void QtProjectWizzardContentCDBSource::load()
 	m_fileNames.clear();
 
 	const FilePath projectPath = m_settings->getProjectFileLocation();
-	std::vector<FilePath> excludePaths = m_settings->getAbsoluteExcludePaths();
+	std::vector<FilePath> excludePaths = m_settings->getExcludePathsExpandedAndAbsolute();
 
 	std::shared_ptr<SourceGroupSettingsCxx> cxxSettings = std::dynamic_pointer_cast<SourceGroupSettingsCxx>(m_settings);
 	if (cxxSettings)
 	{
-		std::vector<FilePath> filePaths =
-			IndexerCommandCxxCdb::getSourceFilesFromCDB(cxxSettings->getAbsoluteCompilationDatabasePath());
-
-		for (FilePath path : filePaths)
+		FilePath cdbPath = cxxSettings->getCompilationDatabasePathExpandedAndAbsolute();
+		if (!cdbPath.empty() && cdbPath.exists())
 		{
-			bool excluded = false;
-			for (FilePath p : excludePaths)
+			std::vector<FilePath> filePaths =
+				IndexerCommandCxxCdb::getSourceFilesFromCDB(cdbPath);
+
+			for (FilePath path : filePaths)
 			{
-				if (p == path || p.contains(path))
+				bool excluded = false;
+				for (FilePath p : excludePaths)
 				{
-					excluded = true;
-					break;
+					if (p == path || p.contains(path))
+					{
+						excluded = true;
+						break;
+					}
 				}
-			}
 
-			if (excluded)
-			{
-				continue;
-			}
+				if (excluded)
+				{
+					continue;
+				}
 
-			if (projectPath.exists())
-			{
-				path = path.relativeTo(projectPath);
-			}
+				if (projectPath.exists())
+				{
+					path = path.relativeTo(projectPath);
+				}
 
-			m_fileNames.push_back(path.str());
+				m_fileNames.push_back(path.str());
+			}
 		}
 	}
+
 	if (m_text)
 	{
-		m_text->setText(QString::number(m_fileNames.size()) + " source files were found in the compilation database.");
+		m_text->setText("<b>" + QString::number(m_fileNames.size()) + "</b> source files were found in the compilation database.");
 	}
 }
 

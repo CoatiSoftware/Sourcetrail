@@ -3,41 +3,41 @@
 
 #include <QWidget>
 
-#include "qt/window/QtWindowStack.h"
+#include "qt/window/project_wizzard/QtProjectWizzardWindow.h"
+#include "qt/window/QtWindow.h"
 
 #include "settings/ApplicationSettings.h"
 #include "settings/ProjectSettings.h"
 
+class QListWidget;
+class QPushButton;
 class QtProjectWizzardContent;
 class QtProjectWizzardContentSummary;
 class QtProjectWizzardWindow;
 
 class QtProjectWizzard
-	: public QtWindowStackElement
+	: public QtProjectWizzardWindow
 {
 	Q_OBJECT
 
-signals:
-	void finished();
-	void canceled();
-
 public:
 	QtProjectWizzard(QWidget* parent = nullptr);
-
-	// QtWindowStackElement implementation
-	virtual void showWindow() override;
-	virtual void hideWindow() override;
+	virtual QSize sizeHint() const override;
 
 public slots:
 	void newProject();
 
-	void newProjectFromSolution(const std::string& ideId, const FilePath& solutionPath);
 	void newProjectFromCDB(const FilePath& filePath, const std::vector<FilePath>& headerPaths);
 	void refreshProjectFromSolution(const std::string& ideId, const std::string& solutionPath);
 
 	void editProject(const FilePath& settingsPath);
 	void editProject(std::shared_ptr<ProjectSettings> settings);
-	void showPreferences();
+
+protected:
+	virtual void populateWindow(QWidget* widget) override;
+	virtual void windowReady() override;
+
+	virtual void handlePrevious() override;
 
 private:
 	static bool applicationSettingsContainVisualStudioHeaderSearchPaths();
@@ -48,26 +48,44 @@ private:
 	QtProjectWizzardWindow* createWindowWithSummary(
 		std::function<void(QtProjectWizzardWindow*, QtProjectWizzardContentSummary*)> func);
 
+	void updateSourceGroupList();
+	bool canExitContent();
+
 	QtWindowStack m_windowStack;
 
 	std::shared_ptr<ProjectSettings> m_projectSettings;
-	std::shared_ptr<SourceGroupSettings> m_sourceGroupSettings;
+	std::vector<std::shared_ptr<SourceGroupSettings>> m_allSourceGroupSettings;
+	std::shared_ptr<SourceGroupSettings> m_newSourceGroupSettings;
 	ApplicationSettings m_appSettings;
 
 	bool m_editing;
 
+	QPushButton* m_generalButton;
+	QPushButton* m_removeButton;
+	QPushButton* m_duplicateButton;
+	QListWidget* m_sourceGroupList;
+	QWidget* m_contentWidget;
+
 private slots:
+	void generalButtonClicked();
+	void selectedSourceGroupChanged(int index);
+	void selectedSourceGroupNameChanged(QString name);
+	void removeSelectedSourceGroup();
+	void duplicateSelectedSourceGroup();
+
+	void cancelSourceGroup();
+
 	void cancelWizzard();
 	void finishWizzard();
 
 	void windowStackChanged();
 
+	void newSourceGroup();
 	void selectedProjectType(SourceGroupType sourceGroupType);
 
-	void emptyProject();
-	void emptyProjectCDBVS();
-	void emptyProjectCDB();
-	void emptyProjectJavaMaven();
+	void emptySourceGroup();
+	void emptySourceGroupCDBVS();
+	void emptySourceGroupCDB();
 
 	void sourcePaths();
 	void headerSearchPaths();
@@ -75,19 +93,14 @@ private slots:
 	void headerSearchPathsDone();
 	void frameworkSearchPaths();
 
-	void headerPathsCDB();
-
 	void sourcePathsJava();
 	void sourcePathsJavaMaven();
 
 	void advancedSettingsCxx();
 	void advancedSettingsJava();
 
-	void showSummary();
-	void showSummaryJava();
-
+	void createSourceGroup();
 	void createProject();
-	void savePreferences();
 };
 
 #endif // QT_PROJECT_WIZZARD_H

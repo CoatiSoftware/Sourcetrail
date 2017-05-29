@@ -5,6 +5,7 @@
 SourceGroupSettings::SourceGroupSettings(const std::string& id, SourceGroupType type, const ProjectSettings* projectSettings)
 	: m_projectSettings(projectSettings)
 	, m_id(id)
+	, m_name(sourceGroupTypeToString(type))
 	, m_type(type)
 	, m_standard("")
 	, m_sourcePaths(std::vector<FilePath>())
@@ -21,6 +22,7 @@ bool SourceGroupSettings::equals(std::shared_ptr<SourceGroupSettings> other) con
 {
 	return (
 		m_id == other->m_id &&
+		m_name == other->m_name &&
 		m_type == other->m_type &&
 		m_standard == other->m_standard &&
 		utility::isPermutation(m_sourcePaths, other->m_sourcePaths) &&
@@ -34,14 +36,34 @@ std::string SourceGroupSettings::getId() const
 	return m_id;
 }
 
+void SourceGroupSettings::setId(const std::string& id)
+{
+	m_id = id;
+}
+
+std::string SourceGroupSettings::getName() const
+{
+	return m_name;
+}
+
+void SourceGroupSettings::setName(const std::string& name)
+{
+	m_name = name;
+}
+
 FilePath SourceGroupSettings::getProjectFileLocation() const
 {
 	return m_projectSettings->getProjectFileLocation();
 }
 
-FilePath SourceGroupSettings::makePathAbsolute(const FilePath& path) const
+FilePath SourceGroupSettings::makePathExpandedAndAbsolute(const FilePath& path) const
 {
-	return m_projectSettings->makePathAbsolute(path);
+	return m_projectSettings->makePathExpandedAndAbsolute(path);
+}
+
+std::vector<FilePath> SourceGroupSettings::makePathsExpandedAndAbsolute(const std::vector<FilePath>& paths) const
+{
+	return m_projectSettings->makePathsExpandedAndAbsolute(paths);
 }
 
 SourceGroupType SourceGroupSettings::getType() const
@@ -68,9 +90,9 @@ std::vector<FilePath> SourceGroupSettings::getSourcePaths() const
 	return m_sourcePaths;
 }
 
-std::vector<FilePath> SourceGroupSettings::getAbsoluteSourcePaths() const
+std::vector<FilePath> SourceGroupSettings::getSourcePathsExpandedAndAbsolute() const
 {
-	return m_projectSettings->makePathsAbsolute(getSourcePaths());
+	return m_projectSettings->makePathsExpandedAndAbsolute(getSourcePaths());
 }
 
 void SourceGroupSettings::setSourcePaths(const std::vector<FilePath>& sourcePaths)
@@ -83,9 +105,9 @@ std::vector<FilePath> SourceGroupSettings::getExcludePaths() const
 	return m_excludePaths;
 }
 
-std::vector<FilePath> SourceGroupSettings::getAbsoluteExcludePaths() const
+std::vector<FilePath> SourceGroupSettings::getExcludePathsExpandedAndAbsolute() const
 {
-	return m_projectSettings->makePathsAbsolute(getExcludePaths());
+	return m_projectSettings->makePathsExpandedAndAbsolute(getExcludePaths());
 }
 
 void SourceGroupSettings::setExcludePaths(const std::vector<FilePath>& excludePaths)

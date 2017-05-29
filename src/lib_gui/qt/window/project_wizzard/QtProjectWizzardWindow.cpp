@@ -8,9 +8,10 @@
 #include "qt/utility/utilityQt.h"
 #include "qt/window/project_wizzard/QtProjectWizzardContent.h"
 
-QtProjectWizzardWindow::QtProjectWizzardWindow(QWidget *parent)
+QtProjectWizzardWindow::QtProjectWizzardWindow(QWidget *parent, bool showSeparator)
 	: QtWindow(parent)
 	, m_content(nullptr)
+	, m_showSeparator(showSeparator)
 {
 }
 
@@ -31,7 +32,6 @@ QtProjectWizzardContent* QtProjectWizzardWindow::content() const
 void QtProjectWizzardWindow::setContent(QtProjectWizzardContent* content)
 {
 	m_content = content;
-	setScrollAble(content->isScrollAble());
 }
 
 void QtProjectWizzardWindow::setPreferredSize(QSize size)
@@ -67,7 +67,7 @@ void QtProjectWizzardWindow::populateWindow(QWidget* widget)
 	separator->setFrameShape(QFrame::VLine);
 
 	QPalette palette = separator->palette();
-	palette.setColor(QPalette::WindowText, Qt::lightGray);
+	palette.setColor(QPalette::WindowText, m_showSeparator ? Qt::lightGray : Qt::transparent);
 	separator->setPalette(palette);
 
 	layout->addWidget(separator, 0, LINE_COL, -1, 1);
@@ -82,24 +82,32 @@ void QtProjectWizzardWindow::populateWindow(QWidget* widget)
 
 void QtProjectWizzardWindow::windowReady()
 {
-	updateTitle("NEW PROJECT");
+	updateTitle("NEW SOURCE GROUP");
 
 	m_content->windowReady();
 }
 
 void QtProjectWizzardWindow::handleNext()
 {
-	saveContent();
-
-	if (m_content->check())
+	if (m_content)
 	{
-		emit next();
+		saveContent();
+
+		if (!m_content->check())
+		{
+			return;
+		}
 	}
+
+	emit next();
 }
 
 void QtProjectWizzardWindow::handlePrevious()
 {
-	m_content->save();
+	if (m_content)
+	{
+		m_content->save();
+	}
 
 	emit previous();
 }

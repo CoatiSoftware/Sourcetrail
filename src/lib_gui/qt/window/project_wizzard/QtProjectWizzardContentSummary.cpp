@@ -36,7 +36,7 @@ void QtProjectWizzardContentSummary::populate(QGridLayout* layout, int& row)
 		return;
 	}
 
-	layout->setRowMinimumHeight(row++, 20);
+	layout->setRowMinimumHeight(row++, 10);
 
 	for (QtProjectWizzardContent* content : m_contents)
 	{
@@ -50,7 +50,7 @@ void QtProjectWizzardContentSummary::populate(QGridLayout* layout, int& row)
 		}
 	}
 
-	layout->setRowMinimumHeight(row, 20);
+	layout->setRowMinimumHeight(row, 10);
 	layout->setRowStretch(row, 1);
 }
 

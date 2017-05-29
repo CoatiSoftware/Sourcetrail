@@ -94,7 +94,6 @@ public slots:
 	void hideStartScreen();
 
 	void newProject();
-	void newProjectFromSolution(const std::string& ideId, const std::string& solutionPath);
 	void newProjectFromCDB(const std::string& filePath, const std::vector<std::string>& headerPaths);
 	void openProject();
 	void editProject();

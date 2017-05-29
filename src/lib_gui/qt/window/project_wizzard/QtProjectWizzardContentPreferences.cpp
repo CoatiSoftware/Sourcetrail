@@ -339,6 +339,8 @@ void QtProjectWizzardContentPreferences::save()
 	{
 		appSettings->setMavenPath(FilePath(m_mavenPath->getText().toStdString()));
 	}
+
+	appSettings->save();
 }
 
 bool QtProjectWizzardContentPreferences::check()

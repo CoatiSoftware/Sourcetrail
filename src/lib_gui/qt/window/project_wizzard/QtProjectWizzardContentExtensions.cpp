@@ -16,8 +16,7 @@ QtProjectWizzardContentExtensions::QtProjectWizzardContentExtensions(
 void QtProjectWizzardContentExtensions::populate(QGridLayout* layout, int& row)
 {
 	QLabel* sourceLabel = createFormLabel("Source File Extensions");
-	sourceLabel->setObjectName("label");
-	layout->addWidget(sourceLabel, row, QtProjectWizzardWindow::FRONT_COL, Qt::AlignRight);
+	layout->addWidget(sourceLabel, row, QtProjectWizzardWindow::FRONT_COL, Qt::AlignTop);
 
 	addHelpButton("Define extensions for source files including the dot e.g. .cpp", layout, row);
 

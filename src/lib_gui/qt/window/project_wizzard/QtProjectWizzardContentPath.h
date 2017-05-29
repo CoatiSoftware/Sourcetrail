@@ -1,6 +1,8 @@
 #ifndef QT_PROJECT_WIZZARD_CONTENT_PATH_H
 #define QT_PROJECT_WIZZARD_CONTENT_PATH_H
 
+#include <set>
+
 #include "qt/window/project_wizzard/QtProjectWizzardContent.h"
 
 class QCheckBox;
@@ -27,6 +29,8 @@ protected:
 	void setTitleString(const QString& title);
 	void setHelpString(const QString& help);
 
+	void setFileEndings(const std::set<std::string>& fileEndings);
+
 	std::shared_ptr<SourceGroupSettings> m_settings;
 
 	QtLocationPicker* m_picker;
@@ -36,7 +40,28 @@ protected:
 private:
 	QString m_titleString;
 	QString m_helpString;
+	std::set<std::string> m_fileEndings;
 };
+
+
+class QtProjectWizzardContentPathCDB
+	: public QtProjectWizzardContentPath
+{
+	Q_OBJECT
+
+public:
+	QtProjectWizzardContentPathCDB(std::shared_ptr<SourceGroupSettings> settings, QtProjectWizzardWindow* window);
+
+	// QtProjectWizzardContent implementation
+	virtual void populate(QGridLayout* layout, int& row) override;
+
+	virtual void load() override;
+	virtual void save() override;
+
+private slots:
+	void pickedCDBPath();
+};
+
 
 class QtProjectWizzardContentPathSourceMaven
 	: public QtProjectWizzardContentPath
@@ -44,10 +69,9 @@ class QtProjectWizzardContentPathSourceMaven
 public:
 	QtProjectWizzardContentPathSourceMaven(std::shared_ptr<SourceGroupSettings> settings, QtProjectWizzardWindow* window);
 
-	// QtSettingsWindow implementation
+	// QtProjectWizzardContent implementation
 	virtual void populate(QGridLayout* layout, int& row) override;
 
-	// QtProjectWizzardContent implementation
 	virtual void load() override;
 	virtual void save() override;
 
@@ -56,6 +80,7 @@ public:
 private:
 	QCheckBox* m_shouldIndexTests;
 };
+
 
 class QtProjectWizzardContentPathDependenciesMaven
 	: public QtProjectWizzardContentPath
