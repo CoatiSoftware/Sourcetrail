@@ -23,10 +23,11 @@ void QtIDECommunicationController::startListening()
 			m_tcpWrapper.setServerPort(appSettings->getSourcetrailPort());
 			m_tcpWrapper.setClientPort(appSettings->getPluginPort());
 			m_tcpWrapper.startListening();
+
+			sendUpdatePing();
 		}
 	);
 
-	sendInitialPing();
 }
 
 void QtIDECommunicationController::stopListening()

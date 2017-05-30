@@ -37,7 +37,7 @@ public:
 	void setEnabled(const bool enabled);
 
 protected:
-	void sendInitialPing();
+	void sendUpdatePing();
 
 private:
 	void handleSetActiveTokenMessage(const NetworkProtocolHelper::SetActiveTokenMessage& message);
@@ -50,8 +50,6 @@ private:
 	virtual void handleMessage(MessageMoveIDECursor* message);
 	virtual void handleMessage(MessagePluginPortChange* message);
 	virtual void sendMessage(const std::string& message) const = 0;
-
-	void sendUpdatePing();
 
 	StorageAccess* m_storageAccess;
 

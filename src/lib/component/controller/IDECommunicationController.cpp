@@ -68,9 +68,16 @@ void IDECommunicationController::setEnabled(const bool enabled)
 	m_enabled = enabled;
 }
 
-void IDECommunicationController::sendInitialPing()
+void IDECommunicationController::sendUpdatePing()
 {
-	sendUpdatePing();
+	// first reset connection status
+	MessagePingReceived msg;
+	msg.ideId = "";
+	msg.ideName = "";
+	msg.dispatch();
+
+	// send ping to update connection status
+	sendMessage(NetworkProtocolHelper::buildPingMessage());
 }
 
 void IDECommunicationController::handleSetActiveTokenMessage(
@@ -219,16 +226,4 @@ void IDECommunicationController::handleMessage(MessagePluginPortChange* message)
 {
 	stopListening();
 	startListening();
-}
-
-void IDECommunicationController::sendUpdatePing()
-{
-	// first reset connection status
-	MessagePingReceived msg;
-	msg.ideId = "";
-	msg.ideName = "";
-	msg.dispatch();
-
-	// send ping to update connection status
-	sendMessage(NetworkProtocolHelper::buildPingMessage());
 }

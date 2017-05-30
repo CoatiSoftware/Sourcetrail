@@ -336,17 +336,21 @@ void QtMainWindow::showBugtracker()
 
 void QtMainWindow::showEula(bool forceAccept)
 {
-	QtEulaWindow* eulaWindow = new QtEulaWindow(this, forceAccept);
-	m_windowStack.pushWindow(eulaWindow);
-	eulaWindow->setup();
+	QtEulaWindow* window = new QtEulaWindow(this, forceAccept);
+	m_windowStack.pushWindow(window);
+	window->setup();
 
 	if (forceAccept)
 	{
 		setEnabled(false);
-		eulaWindow->setEnabled(true);
+		window->setEnabled(true);
 
-		connect(eulaWindow, SIGNAL(finished()), this, SLOT(acceptedEula()));
-		connect(eulaWindow, SIGNAL(canceled()), dynamic_cast<QApplication*>(QCoreApplication::instance()), SLOT(quit()));
+		connect(window, SIGNAL(finished()), this, SLOT(acceptedEula()));
+		connect(window, SIGNAL(canceled()), dynamic_cast<QApplication*>(QCoreApplication::instance()), SLOT(quit()));
+	}
+	else
+	{
+		connect(window, SIGNAL(canceled()), &m_windowStack, SLOT(popWindow()));
 	}
 }
 
