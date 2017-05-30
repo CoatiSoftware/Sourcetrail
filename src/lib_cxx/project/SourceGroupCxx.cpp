@@ -72,7 +72,8 @@ void SourceGroupCxx::fetchAllSourceFilePaths()
 	m_allSourceFilePaths = fileManager.getAllSourceFilePaths();
 }
 
-std::vector<std::shared_ptr<IndexerCommand>> SourceGroupCxx::getIndexerCommands(const bool fullRefresh)
+std::vector<std::shared_ptr<IndexerCommand>> SourceGroupCxx::getIndexerCommands(
+	std::set<FilePath>* filesToIndex, bool fullRefresh)
 {
 	std::shared_ptr<ApplicationSettings> appSettings = ApplicationSettings::getInstance();
 
@@ -125,9 +126,9 @@ std::vector<std::shared_ptr<IndexerCommand>> SourceGroupCxx::getIndexerCommands(
 		}
 	}
 
-	std::vector<std::shared_ptr<IndexerCommand>> indexerCommands;
-
 	const std::set<FilePath>& sourceFilePathsToIndex = (fullRefresh ? getAllSourceFilePaths() : getSourceFilePathsToIndex());
+
+	std::vector<std::shared_ptr<IndexerCommand>> indexerCommands;
 
 	FilePath cdbPath = m_settings->getCompilationDatabasePathExpandedAndAbsolute();
 	if (cdbPath.exists())
@@ -145,19 +146,20 @@ std::vector<std::shared_ptr<IndexerCommand>> SourceGroupCxx::getIndexerCommands(
 
 		for (clang::tooling::CompileCommand command: cdb->getAllCompileCommands())
 		{
-			FilePath path = FilePath(command.Filename).canonical();
-			if (!path.isAbsolute())
+			FilePath sourcePath = FilePath(command.Filename).canonical();
+			if (!sourcePath.isAbsolute())
 			{
-				path = FilePath(command.Directory + '/' + command.Filename).canonical();
+				sourcePath = FilePath(command.Directory + '/' + command.Filename).canonical();
 			}
 
-			if (sourceFilePathsToIndex.find(path) != sourceFilePathsToIndex.end())
+			if (filesToIndex->find(sourcePath) != filesToIndex->end() &&
+				sourceFilePathsToIndex.find(sourcePath) != sourceFilePathsToIndex.end())
 			{
 				std::vector<std::string> currentCompilerFlags = compilerFlags;
 				currentCompilerFlags.insert(currentCompilerFlags.end(), command.CommandLine.begin(), command.CommandLine.end());
 
 				indexerCommands.push_back(std::make_shared<IndexerCommandCxxCdb>(
-					FilePath(path),
+					sourcePath,
 					indexedPaths,
 					excludedPaths,
 					FilePath(command.Directory),
@@ -165,6 +167,8 @@ std::vector<std::shared_ptr<IndexerCommand>> SourceGroupCxx::getIndexerCommands(
 					systemHeaderSearchPaths,
 					frameworkSearchPaths
 				));
+
+				filesToIndex->erase(sourcePath);
 			}
 		}
 	}
@@ -172,15 +176,20 @@ std::vector<std::shared_ptr<IndexerCommand>> SourceGroupCxx::getIndexerCommands(
 	{
 		for (const FilePath& sourcePath: sourceFilePathsToIndex)
 		{
-			indexerCommands.push_back(std::make_shared<IndexerCommandCxxManual>(
-				sourcePath,
-				indexedPaths,
-				excludedPaths,
-				m_settings->getStandard(),
-				systemHeaderSearchPaths,
-				frameworkSearchPaths,
-				compilerFlags
-			));
+			if (filesToIndex->find(sourcePath) != filesToIndex->end())
+			{
+				indexerCommands.push_back(std::make_shared<IndexerCommandCxxManual>(
+					sourcePath,
+					indexedPaths,
+					excludedPaths,
+					m_settings->getStandard(),
+					systemHeaderSearchPaths,
+					frameworkSearchPaths,
+					compilerFlags
+				));
+
+				filesToIndex->erase(sourcePath);
+			}
 		}
 	}
 

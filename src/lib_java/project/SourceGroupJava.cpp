@@ -71,7 +71,8 @@ void SourceGroupJava::fetchAllSourceFilePaths()
 	m_allSourceFilePaths = fileManager.getAllSourceFilePaths();
 }
 
-std::vector<std::shared_ptr<IndexerCommand>> SourceGroupJava::getIndexerCommands(const bool fullRefresh)
+std::vector<std::shared_ptr<IndexerCommand>> SourceGroupJava::getIndexerCommands(
+	std::set<FilePath>* filesToIndex, bool fullRefresh)
 {
 	std::vector<FilePath> classPath = getClassPath();
 
@@ -93,12 +94,18 @@ std::vector<std::shared_ptr<IndexerCommand>> SourceGroupJava::getIndexerCommands
 		}
 	}
 
-	std::vector<std::shared_ptr<IndexerCommand>> indexerCommands;
-
 	const std::set<FilePath>& sourceFilePathsToIndex = (fullRefresh ? getAllSourceFilePaths() : getSourceFilePathsToIndex());
+
+	std::vector<std::shared_ptr<IndexerCommand>> indexerCommands;
 	for (const FilePath& sourcePath: sourceFilePathsToIndex)
 	{
-		indexerCommands.push_back(std::make_shared<IndexerCommandJava>(sourcePath, indexedPaths, excludedPaths, classPath));
+		if (filesToIndex->find(sourcePath) != filesToIndex->end())
+		{
+			indexerCommands.push_back(
+				std::make_shared<IndexerCommandJava>(sourcePath, indexedPaths, excludedPaths, classPath));
+
+			filesToIndex->erase(sourcePath);
+		}
 	}
 
 	return indexerCommands;

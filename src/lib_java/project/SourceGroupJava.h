@@ -19,7 +19,8 @@ public:
 
 	virtual void fetchAllSourceFilePaths();
 
-	virtual std::vector<std::shared_ptr<IndexerCommand>> getIndexerCommands(const bool fullRefresh);
+	virtual std::vector<std::shared_ptr<IndexerCommand>> getIndexerCommands(
+		std::set<FilePath>* filesToIndex, bool fullRefresh);
 
 private:
 	bool prepareJavaEnvironment();

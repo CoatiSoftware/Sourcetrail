@@ -28,7 +28,8 @@ public:
 	std::set<FilePath> getAllSourceFilePaths() const;
 	std::set<FilePath> getSourceFilePathsToIndex() const;
 
-	virtual std::vector<std::shared_ptr<IndexerCommand>> getIndexerCommands(const bool fullRefresh) = 0;
+	virtual std::vector<std::shared_ptr<IndexerCommand>> getIndexerCommands(
+		std::set<FilePath>* filesToIndex, bool fullRefresh) = 0;
 
 protected:
 	std::set<FilePath> m_allSourceFilePaths;

@@ -411,12 +411,13 @@ bool Project::requestIndex(bool forceRefresh, bool needsFullRefresh)
 
 	MessageStatus((fullRefresh ? "Reindexing Project" : "Refreshing Project"), false, true).dispatch();
 
-	buildIndex(filesToClean, fullRefresh, preprocessorOnly);
+	buildIndex(filesToIndex, filesToClean, fullRefresh, preprocessorOnly);
 
 	return true;
 }
 
-void Project::buildIndex(const std::set<FilePath>& filesToClean, bool fullRefresh, bool preprocessorOnly)
+void Project::buildIndex(
+	const std::set<FilePath>& filesToIndex, const std::set<FilePath>& filesToClean, bool fullRefresh, bool preprocessorOnly)
 {
 	MessageClearErrorCount().dispatch();
 	if (fullRefresh)
@@ -437,10 +438,11 @@ void Project::buildIndex(const std::set<FilePath>& filesToClean, bool fullRefres
 		));
 	}
 
+	std::set<FilePath> filesToIndexTemp = filesToIndex;
 	std::shared_ptr<IndexerCommandList> indexerCommandList = std::make_shared<IndexerCommandList>();
 	for (std::shared_ptr<SourceGroup> sourceGroup: m_sourceGroups)
 	{
-		for (std::shared_ptr<IndexerCommand> command: sourceGroup->getIndexerCommands(fullRefresh))
+		for (std::shared_ptr<IndexerCommand> command: sourceGroup->getIndexerCommands(&filesToIndexTemp, fullRefresh))
 		{
 			command->setPreprocessorOnly(preprocessorOnly);
 			indexerCommandList->addCommand(command);
