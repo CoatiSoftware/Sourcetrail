@@ -68,3 +68,9 @@ bool CodeSnippetParams::sort(const CodeSnippetParams& a, const CodeSnippetParams
 
 	return a.startLineNumber < b.startLineNumber;
 }
+
+bool CodeSnippetParams::sortById(const CodeSnippetParams& a, const CodeSnippetParams& b)
+{
+	return a.locationFile->getSourceLocations().begin()->get()->getLocationId() <
+		b.locationFile->getSourceLocations().begin()->get()->getLocationId();
+}

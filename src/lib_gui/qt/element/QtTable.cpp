@@ -80,31 +80,23 @@ void QtTable::updateRows()
 	verticalHeader()->setStyleSheet("::section { width: " + QString::number(width) + "px; }");
 	verticalHeader()->setDefaultSectionSize(ApplicationSettings::getInstance()->getFontSize() + 6);
 
-	if (this->selectionModel()->hasSelection())
+	if (this->selectionModel()->hasSelection() && selectionModel()->selection().indexes()[0].row() >= model()->rowCount() - 2)
 	{
-		if (selectionModel()->selection().indexes()[0].row() >= model()->rowCount() - 2)
-		{
-			clearSelection();
-			showLastRow();
-		}
-	}
-	else
-	{
-		showLastRow();
+		clearSelection();
 	}
 }
 
 int QtTable::getFilledRowCount()
 {
-	for (int i = 0; i < model()->rowCount(); i++)
+	for (int i = model()->rowCount() - 1; i >= 0; i--)
 	{
-		if (model()->index(i, 0).data(Qt::DisplayRole).toString().isEmpty())
+		if (!model()->index(i, 0).data(Qt::DisplayRole).toString().isEmpty())
 		{
-			return i;
+			return i + 1;
 		}
 	}
 
-	return model()->rowCount();
+	return 0;
 }
 
 void QtTable::showFirstRow()
@@ -118,6 +110,11 @@ void QtTable::showLastRow()
 	{
 		verticalScrollBar()->setValue(verticalScrollBar()->maximum());
 	}
+}
+
+bool QtTable::hasSelection() const
+{
+	return this->selectionModel()->hasSelection();
 }
 
 void QtTable::resizeEvent(QResizeEvent* event)

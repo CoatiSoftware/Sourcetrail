@@ -4,11 +4,13 @@
 #include <QWidget>
 
 #include "component/view/ErrorView.h"
+#include "data/ErrorFilter.h"
 #include "qt/utility/QtThreadedFunctor.h"
 
 class QBoxLayout;
 class QCheckBox;
-class QPalette;
+class QLabel;
+class QPushButton;
 class QStandardItemModel;
 class QtTable;
 
@@ -31,6 +33,12 @@ public:
 	virtual void clear();
 	virtual void addErrors(const std::vector<ErrorInfo>& errors, bool scrollTo);
 	virtual void setErrorId(Id errorId);
+
+	virtual void setErrorCount(ErrorCountInfo info);
+	virtual void resetErrorLimit();
+
+private slots:
+	void errorFilterChanged(int i = 0);
 
 private:
 	enum COLUMN {
@@ -61,6 +69,13 @@ private:
 	QtThreadedFunctor<const std::vector<ErrorInfo>&, bool> m_addErrorsFunctor;
 	QtThreadedFunctor<Id> m_setErrorIdFunctor;
 
+	QtThreadedLambdaFunctor m_onQtThread;
+
+	ErrorFilter m_errorFilter;
+
+	QLabel* m_allLabel;
+	QPushButton* m_allButton;
+
 	QCheckBox* m_showErrors;
 	QCheckBox* m_showFatals;
 	QCheckBox* m_showNonIndexedErrors;
@@ -68,9 +83,6 @@ private:
 
 	QStandardItemModel* m_model;
 	QtTable* m_table;
-
-	std::vector<ErrorInfo> m_errors;
-	QPalette* m_palette;
 
 	bool m_ignoreRowSelection;
 };

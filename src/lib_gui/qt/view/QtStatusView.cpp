@@ -74,7 +74,7 @@ void QtStatusView::initView()
 	);
 
 	filters->addWidget(clearButton);
-	filters->addSpacing(15);
+	filters->addSpacing(10);
 
 	layout->addLayout(filters);
 
@@ -153,6 +153,11 @@ void QtStatusView::doAddStatus(const std::vector<Status>& status)
 	}
 
 	m_table->updateRows();
+
+	if (!m_table->hasSelection())
+	{
+		m_table->showLastRow();
+	}
 }
 
 void QtStatusView::setStyleSheet() const

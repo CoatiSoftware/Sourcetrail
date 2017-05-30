@@ -4,6 +4,7 @@
 #include <vector>
 
 #include "component/view/View.h"
+#include "data/ErrorCountInfo.h"
 #include "data/ErrorInfo.h"
 
 class ErrorView
@@ -19,6 +20,9 @@ public:
 
 	virtual void addErrors(const std::vector<ErrorInfo>& errors, bool scrollTo) = 0;
 	virtual void setErrorId(Id errorId) = 0;
+
+	virtual void setErrorCount(ErrorCountInfo info) = 0;
+	virtual void resetErrorLimit() = 0;
 };
 
 #endif // ERROR_VIEW_H

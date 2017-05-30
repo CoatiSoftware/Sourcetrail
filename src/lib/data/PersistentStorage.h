@@ -131,9 +131,10 @@ public:
 	virtual StorageStats getStorageStats() const;
 
 	virtual ErrorCountInfo getErrorCount() const;
+	virtual ErrorCountInfo getErrorCount(const std::vector<ErrorInfo>& errors) const;
 	virtual std::vector<ErrorInfo> getErrors() const;
-
-	virtual std::shared_ptr<SourceLocationCollection> getErrorSourceLocations(std::vector<ErrorInfo>* errors) const;
+	virtual std::vector<ErrorInfo> getErrorsLimited() const;
+	virtual std::shared_ptr<SourceLocationCollection> getErrorSourceLocationsLimited(std::vector<ErrorInfo>* errors) const;
 
 private:
 	Id getFileNodeId(const FilePath& filePath) const;

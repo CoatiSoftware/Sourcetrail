@@ -388,8 +388,10 @@ void CodeController::handleMessage(MessageShowErrors* message)
 	if (!view->showsErrors() || !message->errorId)
 	{
 		std::vector<ErrorInfo> errors;
-		m_collection = m_storageAccess->getErrorSourceLocations(&errors);
+		m_collection = m_storageAccess->getErrorSourceLocationsLimited(&errors);
 		std::vector<CodeSnippetParams> snippets = getSnippetsForCollection(m_collection);
+
+		std::sort(snippets.begin(), snippets.end(), CodeSnippetParams::sortById);
 
 		view->clear();
 		view->setErrorInfos(errors);

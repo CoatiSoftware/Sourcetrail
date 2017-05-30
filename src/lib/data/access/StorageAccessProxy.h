@@ -64,9 +64,8 @@ public:
 	virtual StorageStats getStorageStats() const;
 
 	virtual ErrorCountInfo getErrorCount() const;
-	virtual std::vector<ErrorInfo> getErrors() const;
-
-	virtual std::shared_ptr<SourceLocationCollection> getErrorSourceLocations(std::vector<ErrorInfo>* errors) const;
+	virtual std::vector<ErrorInfo> getErrorsLimited() const;
+	virtual std::shared_ptr<SourceLocationCollection> getErrorSourceLocationsLimited(std::vector<ErrorInfo>* errors) const;
 
 	virtual Id addNodeBookmark(const NodeBookmark& bookmark);
 	virtual Id addEdgeBookmark(const EdgeBookmark& bookmark);

@@ -5,8 +5,10 @@
 #include <QFrame>
 #include <QHeaderView>
 #include <QItemSelectionModel>
+#include <QLabel>
 #include <QLineEdit>
 #include <QPalette>
+#include <QPushButton>
 #include <QStandardItemModel>
 #include <QStandardItem>
 #include <QStyledItemDelegate>
@@ -107,12 +109,37 @@ void QtErrorView::initView()
 	QBoxLayout* checkboxes = new QHBoxLayout();
 	checkboxes->addSpacing(15);
 
-	m_showFatals = createFilterCheckbox("fatals", true, checkboxes);
-	m_showErrors = createFilterCheckbox("errors", true, checkboxes);
-	m_showNonIndexedFatals = createFilterCheckbox("fatals in non-indexed files", true, checkboxes);
-	m_showNonIndexedErrors = createFilterCheckbox("errors in non-indexed files", false, checkboxes);
+	{
+		m_showFatals = createFilterCheckbox("fatals", m_errorFilter.fatal, checkboxes);
+		m_showErrors = createFilterCheckbox("errors", m_errorFilter.error, checkboxes);
+		m_showNonIndexedFatals = createFilterCheckbox("fatals in non-indexed files", m_errorFilter.unindexedFatal, checkboxes);
+		m_showNonIndexedErrors = createFilterCheckbox("errors in non-indexed files", m_errorFilter.unindexedError, checkboxes);
+	}
 
 	checkboxes->addStretch();
+
+	{
+		m_allLabel = new QLabel("");
+		checkboxes->addWidget(m_allLabel);
+		m_allLabel->hide();
+	}
+
+	checkboxes->addSpacing(5);
+
+	{
+		m_allButton = new QPushButton("");
+		connect(m_allButton, &QPushButton::clicked,
+			[=]()
+			{
+				m_errorFilter.limit = 0;
+				errorFilterChanged();
+			}
+		);
+		checkboxes->addWidget(m_allButton);
+		m_allButton->hide();
+	}
+
+	checkboxes->addSpacing(10);
 
 	layout->addLayout(checkboxes);
 
@@ -139,6 +166,39 @@ void QtErrorView::setErrorId(Id errorId)
 	m_setErrorIdFunctor(errorId);
 }
 
+void QtErrorView::setErrorCount(ErrorCountInfo info)
+{
+	m_onQtThread(
+		[=]()
+		{
+			m_allLabel->setVisible(m_errorFilter.limit > 0 && info.total > m_errorFilter.limit);
+			m_allButton->setVisible(m_errorFilter.limit > 0 && info.total > m_errorFilter.limit);
+
+			m_allLabel->setText("<b>Only showing first " + QString::number(m_errorFilter.limit) + " errors</b>");
+			m_allButton->setText("show all " + QString::number(info.total));
+		}
+	);
+}
+
+void QtErrorView::resetErrorLimit()
+{
+	ErrorFilter filter;
+	m_errorFilter.limit = filter.limit;
+	errorFilterChanged();
+}
+
+void QtErrorView::errorFilterChanged(int i)
+{
+	m_table->selectionModel()->clearSelection();
+
+	m_errorFilter.error = m_showErrors->isChecked();
+	m_errorFilter.fatal = m_showFatals->isChecked();
+	m_errorFilter.unindexedError = m_showNonIndexedErrors->isChecked();
+	m_errorFilter.unindexedFatal = m_showNonIndexedFatals->isChecked();
+
+	MessageErrorFilterChanged(m_errorFilter).dispatch();
+}
+
 void QtErrorView::doRefreshView()
 {
 	setStyleSheet();
@@ -151,16 +211,16 @@ void QtErrorView::doClear()
 		m_model->removeRows(0, m_model->rowCount());
 	}
 
-	m_errors.clear();
+	m_table->updateRows();
 }
 
 void QtErrorView::doAddErrors(const std::vector<ErrorInfo>& errors, bool scrollTo)
 {
 	for (const ErrorInfo& error : errors)
 	{
-		m_errors.push_back(error);
 		addErrorToTable(error);
 	}
+	m_table->updateRows();
 
 	if (scrollTo)
 	{
@@ -191,18 +251,11 @@ void QtErrorView::setStyleSheet() const
 
 	QPalette palette(m_showErrors->palette());
 	palette.setColor(QPalette::WindowText, QColor(ColorScheme::getInstance()->getColor("table/text/normal").c_str()));
-	//palette.setColor(QPalette::Text, QColor(ColorScheme::getInstance()->getColor("error/text/normal").c_str()));
-	//palette.setColor(QPalette::ButtonText, QColor(ColorScheme::getInstance()->getColor("error/text/normal").c_str()));
 
-	//m_showErrors->setAutoFillBackground(true);
 	m_showErrors->setPalette(palette);
 	m_showFatals->setPalette(palette);
 	m_showNonIndexedErrors->setPalette(palette);
 	m_showNonIndexedFatals->setPalette(palette);
-
-	//widget->setStyleSheet(
-		//utility::getStyleSheet(ResourcePaths::getGuiPath() + "error_view/error_view.css").c_str()
-	//);
 
 	m_table->updateRows();
 }
@@ -235,8 +288,6 @@ void QtErrorView::addErrorToTable(const ErrorInfo& error)
 	m_model->setItem(rowNumber, COLUMN::INDEXED, new QStandardItem(error.indexed ? "yes" : "no"));
 
 	m_model->setItem(rowNumber, COLUMN::ID, new QStandardItem(QString::number(error.id)));
-
-	m_table->updateRows();
 }
 
 QCheckBox* QtErrorView::createFilterCheckbox(const QString& name, bool checked, QBoxLayout* layout)
@@ -244,20 +295,7 @@ QCheckBox* QtErrorView::createFilterCheckbox(const QString& name, bool checked, 
 	QCheckBox* checkbox = new QCheckBox(name);
 	checkbox->setChecked(checked);
 
-	connect(checkbox, &QCheckBox::stateChanged,
-		[=](int)
-		{
-			m_table->selectionModel()->clearSelection();
-
-			ErrorFilter filter;
-			filter.error = m_showErrors->isChecked();
-			filter.fatal = m_showFatals->isChecked();
-			filter.unindexedError = m_showNonIndexedErrors->isChecked();
-			filter.unindexedFatal = m_showNonIndexedFatals->isChecked();
-
-			MessageErrorFilterChanged(filter).dispatch();
-		}
-	);
+	connect(checkbox, SIGNAL(stateChanged(int)), this, SLOT(errorFilterChanged(int)));
 
 	layout->addWidget(checkbox);
 	layout->addSpacing(25);

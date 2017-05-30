@@ -1,8 +1,9 @@
 #ifndef MESSAGE_SHOW_ERRORS_H
 #define MESSAGE_SHOW_ERRORS_H
 
-#include "data/ErrorCountInfo.h"
 #include "utility/messaging/Message.h"
+
+#include "data/ErrorCountInfo.h"
 
 class MessageShowErrors
 	: public Message<MessageShowErrors>

@@ -19,6 +19,8 @@ public:
 	void showFirstRow();
 	void showLastRow();
 
+	bool hasSelection() const;
+
 protected:
 	virtual void resizeEvent(QResizeEvent* event);
 

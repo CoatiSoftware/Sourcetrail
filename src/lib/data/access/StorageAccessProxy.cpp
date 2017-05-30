@@ -300,21 +300,21 @@ ErrorCountInfo StorageAccessProxy::getErrorCount() const
 	return ErrorCountInfo();
 }
 
-std::vector<ErrorInfo> StorageAccessProxy::getErrors() const
+std::vector<ErrorInfo> StorageAccessProxy::getErrorsLimited() const
 {
 	if (hasSubject())
 	{
-		return m_subject->getErrors();;
+		return m_subject->getErrorsLimited();
 	}
 
 	return std::vector<ErrorInfo>();
 }
 
-std::shared_ptr<SourceLocationCollection> StorageAccessProxy::getErrorSourceLocations(std::vector<ErrorInfo>* errors) const
+std::shared_ptr<SourceLocationCollection> StorageAccessProxy::getErrorSourceLocationsLimited(std::vector<ErrorInfo>* errors) const
 {
 	if (hasSubject())
 	{
-		return m_subject->getErrorSourceLocations(errors);
+		return m_subject->getErrorSourceLocationsLimited(errors);
 	}
 
 	return std::make_shared<SourceLocationCollection>();

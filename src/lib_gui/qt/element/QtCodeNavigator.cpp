@@ -10,6 +10,7 @@
 #include "utility/logging/logging.h"
 #include "utility/messaging/type/MessageCodeViewExpandedInitialFiles.h"
 #include "utility/messaging/type/MessageScrollCode.h"
+#include "utility/messaging/type/MessageShowErrors.h"
 #include "utility/ResourcePaths.h"
 
 #include "data/location/SourceLocation.h"
@@ -860,6 +861,11 @@ void QtCodeNavigator::handleMessage(MessageShowReference* message)
 
 				requestScroll(ref.filePath, 0, ref.locationId, message->animated, false);
 				emit scrollRequest();
+
+				if (ref.locationType == LOCATION_ERROR)
+				{
+					MessageShowErrors(ref.tokenId).dispatch();
+				}
 			}
 
 			updateRefLabel();

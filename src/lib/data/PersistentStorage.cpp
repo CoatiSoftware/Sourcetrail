@@ -417,7 +417,10 @@ void PersistentStorage::finishInjection()
 
 	if (m_preInjectionErrorCount != errors.size())
 	{
-		MessageNewErrors(std::vector<ErrorInfo>(errors.begin() + m_preInjectionErrorCount, errors.end())).dispatchImmediately();
+		MessageNewErrors(
+			std::vector<ErrorInfo>(errors.begin() + m_preInjectionErrorCount, errors.end()),
+			getErrorCount(errors)
+		).dispatch();
 	}
 }
 
@@ -1425,9 +1428,13 @@ StorageStats PersistentStorage::getStorageStats() const
 
 ErrorCountInfo PersistentStorage::getErrorCount() const
 {
+	return getErrorCount(getErrors());
+}
+
+ErrorCountInfo PersistentStorage::getErrorCount(const std::vector<ErrorInfo>& errors) const
+{
 	ErrorCountInfo info;
 
-	std::vector<ErrorInfo> errors = getErrors();
 	for (const ErrorInfo& error : errors)
 	{
 		info.total++;
@@ -1443,21 +1450,40 @@ ErrorCountInfo PersistentStorage::getErrorCount() const
 
 std::vector<ErrorInfo> PersistentStorage::getErrors() const
 {
-	std::vector<ErrorInfo> errors = m_sqliteIndexStorage.getAll<StorageError>();
-	std::vector<ErrorInfo> filteredErrors;
+	std::vector<ErrorInfo> errors;
 
-	for (const ErrorInfo& error : errors)
+	for (const ErrorInfo& error : m_sqliteIndexStorage.getAll<StorageError>())
 	{
 		if (m_errorFilter.filter(error))
 		{
-			filteredErrors.push_back(error);
+			errors.push_back(error);
 		}
 	}
 
-	return filteredErrors;
+	return errors;
 }
 
-std::shared_ptr<SourceLocationCollection> PersistentStorage::getErrorSourceLocations(std::vector<ErrorInfo>* errors) const
+std::vector<ErrorInfo> PersistentStorage::getErrorsLimited() const
+{
+	std::vector<ErrorInfo> errors;
+
+	for (const ErrorInfo& error : m_sqliteIndexStorage.getAll<StorageError>())
+	{
+		if (m_errorFilter.filter(error))
+		{
+			errors.push_back(error);
+		}
+
+		if (m_errorFilter.limit > 0 && errors.size() >= m_errorFilter.limit)
+		{
+			break;
+		}
+	}
+
+	return errors;
+}
+
+std::shared_ptr<SourceLocationCollection> PersistentStorage::getErrorSourceLocationsLimited(std::vector<ErrorInfo>* errors) const
 {
 	TRACE();
 
@@ -1481,6 +1507,11 @@ std::shared_ptr<SourceLocationCollection> PersistentStorage::getErrorSourceLocat
 				error.lineNumber,
 				error.columnNumber
 			);
+		}
+
+		if (m_errorFilter.limit > 0 && errors->size() >= m_errorFilter.limit)
+		{
+			break;
 		}
 	}
 

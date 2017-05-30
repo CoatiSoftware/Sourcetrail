@@ -14,6 +14,7 @@ struct CodeSnippetParams
 
 	// comparefunction for snippetsorting
 	static bool sort(const CodeSnippetParams& a, const CodeSnippetParams& b);
+	static bool sortById(const CodeSnippetParams& a, const CodeSnippetParams& b);
 
 	uint startLineNumber;
 	uint endLineNumber;

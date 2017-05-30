@@ -11,6 +11,7 @@ struct ErrorFilter
 		, fatal(true)
 		, unindexedError(false)
 		, unindexedFatal(true)
+		, limit(1000)
 	{
 	}
 
@@ -32,6 +33,8 @@ struct ErrorFilter
 
 	bool unindexedError;
 	bool unindexedFatal;
+
+	size_t limit;
 };
 
 #endif // ERROR_FILTER_H
