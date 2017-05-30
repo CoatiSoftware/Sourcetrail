@@ -25,7 +25,7 @@ QPainterPath QtLineItemAngled::shape() const
 		path.addRect(QRectF(poly.at(i), poly.at(i + 1)).normalized().adjusted(-5, -5, 5, 5));
 	}
 
-	path.addRect(getArrowBoundingRect(poly).adjusted(-3, -3, 3, 3));
+	// path.addRect(getArrowBoundingRect(poly).adjusted(-3, -3, 3, 3));
 
 	return path;
 }

@@ -53,6 +53,8 @@ public:
 	bool isTrailEdge() const;
 	void setIsTrailEdge(std::vector<Vec4i> path, bool horizontal);
 
+	void setUseBezier(bool useBezier);
+
 protected:
 	virtual void mousePressEvent(QGraphicsSceneMouseEvent* event);
 	virtual void mouseMoveEvent(QGraphicsSceneMouseEvent* event);
@@ -62,8 +64,8 @@ protected:
 	virtual void hoverLeaveEvent(QGraphicsSceneHoverEvent* event);
 
 private:
-	// used to unfocus recent edge, because hover leave event is not always received for trail edges (bezier)
-	static QtGraphEdge* s_focusedTrailEdge;
+	// used to unfocus recent edge, because hover leave event is not always received for bezier edges
+	static QtGraphEdge* s_focusedBezierEdge;
 
 	const Edge* m_data;
 
@@ -85,6 +87,8 @@ private:
 	bool m_isTrailEdge;
 	bool m_isHorizontalTrail;
 	std::vector<Vec4i> m_path;
+
+	bool m_useBezier;
 
 	Vec2i m_mousePos;
 	bool m_mouseMoved;

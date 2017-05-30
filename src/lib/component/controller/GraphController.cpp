@@ -3,6 +3,7 @@
 #include <set>
 
 #include "utility/logging/logging.h"
+#include "utility/messaging/type/MessageActivateNodes.h"
 #include "utility/messaging/type/MessageStatus.h"
 #include "utility/tracing.h"
 #include "utility/utility.h"
@@ -55,7 +56,14 @@ void GraphController::handleMessage(MessageActivateTokens* message)
 	{
 		m_activeEdgeIds = message->tokenIds;
 		setActiveAndVisibility(utility::concat(m_activeNodeIds, m_activeEdgeIds));
-		buildGraph(message, false, false, false);
+
+		Id edgeId = 0;
+		if (message->isEdge && message->tokenIds.size() == 1)
+		{
+			edgeId = message->tokenIds[0];
+		}
+
+		getView()->activateEdge(edgeId, message->isReplayed());
 		return;
 	}
 	else if (message->isAggregation)
@@ -249,6 +257,14 @@ void GraphController::handleMessage(MessageGraphNodeExpand* message)
 {
 	if (message->ignoreIfNotReplayed && !message->isReplayed())
 	{
+		return;
+	}
+
+	if (m_graph && m_graph->getTrailMode() != Graph::TRAIL_NONE)
+	{
+		MessageActivateNodes msg;
+		msg.addNode(message->tokenId, m_storageAccess->getNameHierarchyForNodeId(message->tokenId));
+		msg.dispatch();
 		return;
 	}
 
@@ -1548,6 +1564,13 @@ void GraphController::buildGraph(
 		params.animatedTransition = animatedTransition;
 		params.scrollToTop = scrollToTop;
 		params.isIndexedList = scrollToTop;
+		params.bezierEdges = false;
+
+		MessageActivateTokens* msg = dynamic_cast<MessageActivateTokens*>(message);
+		if (msg && msg->isAggregation)
+		{
+			params.bezierEdges = true;
+		}
 
 		getView()->rebuildGraph(m_graph, m_dummyNodes, m_dummyEdges, params);
 	}

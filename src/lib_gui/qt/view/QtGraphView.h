@@ -98,7 +98,7 @@ private:
 	std::shared_ptr<QtGraphNode> createNodeRecursive(
 		QGraphicsView* view, std::shared_ptr<QtGraphNode> parentNode, const DummyNode* node, bool multipleActive);
 	std::shared_ptr<QtGraphEdge> createEdge(
-		QGraphicsView* view, const DummyEdge* edge, std::set<Id>* visibleEdgeIds, Graph::TrailMode trailMode, QPointF pathOffset);
+		QGraphicsView* view, const DummyEdge* edge, std::set<Id>* visibleEdgeIds, Graph::TrailMode trailMode, QPointF pathOffset, bool useBezier);
 	std::shared_ptr<QtGraphEdge> createAggregationEdge(
 		QGraphicsView* view, const DummyEdge* edge, std::set<Id>* visibleEdgeIds);
 

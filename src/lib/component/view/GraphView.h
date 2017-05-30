@@ -22,6 +22,7 @@ public:
 		bool centerActiveNode;
 		bool scrollToTop;
 		bool isIndexedList;
+		bool bezierEdges;
 	};
 
 	GraphView(ViewLayout* viewLayout);

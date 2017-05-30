@@ -205,7 +205,11 @@ void QtGraphView::activateEdge(Id edgeId, bool centerOrigin)
 	m_onQtThread(
 		[=]()
 		{
-			clickedInEmptySpace();
+			for (std::shared_ptr<QtGraphEdge> edge : m_oldEdges)
+			{
+				edge->setIsActive(false);
+				edge->setIsFocused(false);
+			}
 
 			for (std::shared_ptr<QtGraphEdge> edge : m_oldEdges)
 			{
@@ -627,7 +631,7 @@ void QtGraphView::doRebuildGraph(
 	{
 		if (!edge->data || !edge->data->isType(Edge::EDGE_AGGREGATION))
 		{
-			createEdge(view, edge.get(), &visibleEdgeIds, trailMode, offset);
+			createEdge(view, edge.get(), &visibleEdgeIds, trailMode, offset, params.bezierEdges);
 		}
 	}
 	for (const std::shared_ptr<DummyEdge> edge : edges)
@@ -790,7 +794,12 @@ std::shared_ptr<QtGraphNode> QtGraphView::createNodeRecursive(
 }
 
 std::shared_ptr<QtGraphEdge> QtGraphView::createEdge(
-	QGraphicsView* view, const DummyEdge* edge, std::set<Id>* visibleEdgeIds, Graph::TrailMode trailMode, QPointF pathOffset)
+	QGraphicsView* view,
+	const DummyEdge* edge,
+	std::set<Id>* visibleEdgeIds,
+	Graph::TrailMode trailMode,
+	QPointF pathOffset,
+	bool useBezier)
 {
 	if (!edge->visible)
 	{
@@ -803,7 +812,7 @@ std::shared_ptr<QtGraphEdge> QtGraphView::createEdge(
 	if (owner != NULL && target != NULL)
 	{
 		std::shared_ptr<QtGraphEdge> qtEdge =
-			std::make_shared<QtGraphEdge>(owner, target, edge->data, edge->getWeight(), edge->active, edge->getDirection());
+			std::make_shared<QtGraphEdge>(owner, target, edge->data, edge->getWeight(), edge->active && !useBezier, edge->getDirection());
 
 		if (trailMode != Graph::TRAIL_NONE)
 		{
@@ -822,6 +831,10 @@ std::shared_ptr<QtGraphEdge> QtGraphView::createEdge(
 			}
 
 			qtEdge->setIsTrailEdge(path, trailMode == Graph::TRAIL_HORIZONTAL);
+		}
+		else if (useBezier)
+		{
+			qtEdge->setUseBezier(true);
 		}
 
 		qtEdge->updateLine();
@@ -869,7 +882,7 @@ std::shared_ptr<QtGraphEdge> QtGraphView::createAggregationEdge(
 		return NULL;
 	}
 
-	return createEdge(view, edge, visibleEdgeIds, Graph::TRAIL_NONE, QPointF());
+	return createEdge(view, edge, visibleEdgeIds, Graph::TRAIL_NONE, QPointF(), false);
 }
 
 QRectF QtGraphView::itemsBoundingRect(const std::list<std::shared_ptr<QtGraphNode>>& items) const

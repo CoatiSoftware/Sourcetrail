@@ -17,7 +17,7 @@
 #include "utility/messaging/type/MessageGraphNodeBundleSplit.h"
 #include "utility/utility.h"
 
-QtGraphEdge* QtGraphEdge::s_focusedTrailEdge = nullptr;
+QtGraphEdge* QtGraphEdge::s_focusedBezierEdge = nullptr;
 
 QtGraphEdge::QtGraphEdge(
 	const std::weak_ptr<QtGraphNode>& owner,
@@ -39,6 +39,7 @@ QtGraphEdge::QtGraphEdge(
 	, m_direction(direction)
 	, m_isTrailEdge(false)
 	, m_isHorizontalTrail(false)
+	, m_useBezier(false)
 	, m_mousePos(0.0f, 0.0f)
 	, m_mouseMoved(false)
 {
@@ -50,7 +51,7 @@ QtGraphEdge::QtGraphEdge(
 	m_fromActive = m_owner.lock()->getIsActive();
 	m_toActive = m_target.lock()->getIsActive();
 
-	s_focusedTrailEdge = nullptr;
+	s_focusedBezierEdge = nullptr;
 }
 
 QtGraphEdge::~QtGraphEdge()
@@ -105,7 +106,7 @@ void QtGraphEdge::updateLine()
 
 	GraphViewStyle::EdgeStyle style = GraphViewStyle::getStyleForEdgeType(type, m_isActive | m_isFocused, false, m_isTrailEdge);
 
-	if (m_isTrailEdge)
+	if (m_useBezier)
 	{
 		for (QGraphicsItem* item : childItems())
 		{
@@ -322,36 +323,38 @@ void QtGraphEdge::mouseReleaseEvent(QGraphicsSceneMouseEvent* event)
 
 void QtGraphEdge::hoverEnterEvent(QGraphicsSceneHoverEvent* event)
 {
-	if (!getData() || isTrailEdge())
+	if (m_useBezier)
 	{
-		if (isTrailEdge())
+		if (s_focusedBezierEdge && s_focusedBezierEdge != this)
 		{
-			if (s_focusedTrailEdge && s_focusedTrailEdge != this)
-			{
-				s_focusedTrailEdge->focusOut();
-			}
-
-			s_focusedTrailEdge = this;
+			s_focusedBezierEdge->focusOut();
 		}
 
-		focusIn();
-		return;
+		s_focusedBezierEdge = this;
 	}
 
-	MessageFocusIn(std::vector<Id>(1, getData()->getId())).dispatch();
+	if (getData() && !m_useBezier)
+	{
+		MessageFocusIn(std::vector<Id>(1, getData()->getId())).dispatch();
+	}
+	else
+	{
+		focusIn();
+	}
 }
 
 void QtGraphEdge::hoverLeaveEvent(QGraphicsSceneHoverEvent* event)
 {
-	s_focusedTrailEdge = nullptr;
+	s_focusedBezierEdge = nullptr;
 
-	if (!getData() || isTrailEdge())
+	if (getData() && !m_useBezier)
+	{
+		MessageFocusOut(std::vector<Id>(1, getData()->getId())).dispatch();
+	}
+	else
 	{
 		focusOut();
-		return;
 	}
-
-	MessageFocusOut(std::vector<Id>(1, getData()->getId())).dispatch();
 }
 
 void QtGraphEdge::setDirection(TokenComponentAggregation::Direction direction)
@@ -372,5 +375,12 @@ void QtGraphEdge::setIsTrailEdge(std::vector<Vec4i> path, bool horizontal)
 {
 	m_path = path;
 	m_isTrailEdge = true;
+	m_useBezier = true;
 	m_isHorizontalTrail = horizontal;
+}
+
+void QtGraphEdge::setUseBezier(bool useBezier)
+{
+	m_useBezier = useBezier;
+	m_isHorizontalTrail = true;
 }

@@ -209,8 +209,6 @@ void BookmarkController::handleMessage(MessageActivateBookmark* message)
 
 void BookmarkController::handleMessage(MessageActivateTokens* message)
 {
-	LOG_INFO_STREAM(<< "Registering new active token");
-
 	m_activeEdgeIds.clear();
 
 	if (message->isEdge || message->isAggregation)
@@ -228,8 +226,6 @@ void BookmarkController::handleMessage(MessageActivateTokens* message)
 	}
 	else if (!message->isEdge)
 	{
-		LOG_INFO_STREAM(<< "Registering new Node");
-
 		m_activeNodeIds = message->tokenIds;
 
 		if (getBookmarkForActiveToken())
