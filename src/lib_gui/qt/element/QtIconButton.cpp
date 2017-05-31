@@ -25,7 +25,7 @@ void QtIconButton::setColor(QColor color)
 
 void QtIconButton::enterEvent(QEvent *event)
 {
-	if (m_hoveredIconPath.size())
+	if (m_hoveredIconPath.size() && isEnabled())
 	{
 		setIconFromPath(m_hoveredIconPath);
 	}

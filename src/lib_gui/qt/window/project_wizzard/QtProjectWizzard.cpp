@@ -152,16 +152,16 @@ void QtProjectWizzard::populateWindow(QWidget* widget)
 		buttonsLayout->setSpacing(0);
 
 		QPushButton* addButton = new QtIconButton(
-			(ResourcePaths::getGuiPath().str() + "window/plus.png").c_str(),
-			(ResourcePaths::getGuiPath().str() + "window/plus_hover.png").c_str());
+			(ResourcePaths::getGuiPath().str() + "window/source_group_add.png").c_str(),
+			(ResourcePaths::getGuiPath().str() + "window/source_group_add_hover.png").c_str());
 
 		m_removeButton = new QtIconButton(
-			(ResourcePaths::getGuiPath().str() + "window/minus.png").c_str(),
-			(ResourcePaths::getGuiPath().str() + "window/minus_hover.png").c_str());
+			(ResourcePaths::getGuiPath().str() + "window/source_group_delete.png").c_str(),
+			(ResourcePaths::getGuiPath().str() + "window/source_group_delete_hover.png").c_str());
 
 		m_duplicateButton = new QtIconButton(
-			(ResourcePaths::getGuiPath().str() + "window/minus.png").c_str(),
-			(ResourcePaths::getGuiPath().str() + "window/minus_hover.png").c_str());
+			(ResourcePaths::getGuiPath().str() + "window/source_group_copy.png").c_str(),
+			(ResourcePaths::getGuiPath().str() + "window/source_group_copy_hover.png").c_str());
 
 		addButton->setIconSize(QSize(20, 20));
 		m_removeButton->setIconSize(QSize(20, 20));
@@ -182,11 +182,8 @@ void QtProjectWizzard::populateWindow(QWidget* widget)
 		connect(m_removeButton, SIGNAL(clicked()), this, SLOT(removeSelectedSourceGroup()));
 		connect(m_duplicateButton, SIGNAL(clicked()), this, SLOT(duplicateSelectedSourceGroup()));
 
-		buttonsLayout->addStretch();
 		buttonsLayout->addWidget(addButton);
-		buttonsLayout->addStretch();
 		buttonsLayout->addWidget(m_removeButton);
-		buttonsLayout->addStretch();
 		buttonsLayout->addWidget(m_duplicateButton);
 		buttonsLayout->addStretch();
 
@@ -523,7 +520,7 @@ void QtProjectWizzard::removeSelectedSourceGroup()
 
 void QtProjectWizzard::duplicateSelectedSourceGroup()
 {
-	if (!m_allSourceGroupSettings.size() || m_sourceGroupList->currentRow() < 0)
+	if (!m_allSourceGroupSettings.size() || m_sourceGroupList->currentRow() < 0 || !canExitContent())
 	{
 		return;
 	}

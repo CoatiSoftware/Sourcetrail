@@ -79,6 +79,8 @@ void QtProjectWizzardContentCDBSource::load()
 
 std::vector<std::string> QtProjectWizzardContentCDBSource::getFileNames() const
 {
+	const_cast<QtProjectWizzardContentCDBSource*>(this)->load();
+
 	return m_fileNames;
 }
 

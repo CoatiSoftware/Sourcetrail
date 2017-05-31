@@ -134,7 +134,6 @@ void QtProjectWizzardContent::filesButtonClicked()
 	std::thread([&](){
 		std::vector<std::string> fileNames = getFileNames();
 		m_showFilesFunctor(fileNames);
-
 	}).detach();
 }
 

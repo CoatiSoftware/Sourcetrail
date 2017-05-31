@@ -221,10 +221,15 @@ QCheckBox:disabled {
 	color: black;
 }
 
+#project_menu QListWidget::item:disabled, #project_menu #general_button:disabled {
+	background: white;
+	color: gray;
+}
+
 #project_menu #action_button {
 	background: white;
 	border: none;
 	color: white;
-	margin: 5px;
+	margin: 5px 5px 3px;
 	padding: 1px;
 }
