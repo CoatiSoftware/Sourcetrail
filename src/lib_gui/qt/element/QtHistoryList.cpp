@@ -37,7 +37,7 @@ QtHistoryItem::QtHistoryItem(const SearchMatch& match, size_t index, bool isCurr
 	QSize size = getSizeHint();
 
 	m_indicator = new QWidget(m_name);
-	m_indicator->setGeometry(5, 2, 12, size.height() - 4);
+	m_indicator->setGeometry(0, 1, 12, size.height());
 	m_indicator->show();
 
 	ColorScheme* scheme = ColorScheme::getInstance().get();
@@ -63,7 +63,7 @@ QtHistoryItem::QtHistoryItem(const SearchMatch& match, size_t index, bool isCurr
 
 		QLabel* arrow = new QLabel(this);
 		arrow->setPixmap(utility::colorizePixmap(pixmap.pixmap(), QColor(scheme->getColor("search/popup/text").c_str())));
-		arrow->setGeometry(size.height() / 3, size.height() / 3, size.height() / 3, size.height() / 3);
+		arrow->setGeometry(15, size.height() / 3, size.height() / 3, size.height() / 3);
 		arrow->show();
 	}
 }
@@ -131,7 +131,7 @@ QtHistoryList::QtHistoryList(const std::vector<SearchMatch>& history, size_t cur
 
 void QtHistoryList::showPopup(QPoint pos)
 {
-	QSize size(50, 1);
+	QSize size(50, 0);
 	for (int i = 0; i < count(); i++)
 	{
 		QtHistoryItem* it = dynamic_cast<QtHistoryItem*>(itemWidget(item(i)));
