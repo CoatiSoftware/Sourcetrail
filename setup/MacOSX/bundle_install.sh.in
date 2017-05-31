@@ -22,7 +22,7 @@ VERSION_STRING="${VERSION_STRING%_*}"
 PACKAGE_DIR=${BUNDLE_NAME}_${VERSION_STRING}
 
 QT_DIR="@MACOSX_QT_DIR@"
-QT_FRAMEWORK_PATHS=(/Users/ebsi/Documents/Qt/5.8/clang_64/lib/QtDBus.framework/Versions/5/QtDBus @MACOSX_QT_FRAMEWORKS@)
+QT_FRAMEWORK_PATHS=(@MACOSX_QT_FRAMEWORKS@)
 
 if [ ! -x "$APP_NAME" ]
 then
@@ -46,11 +46,12 @@ fi
 BUNDLE_PATH=$PACKAGE_DIR/$BUNDLE_NAME.app
 BIN_DIR=$BUNDLE_PATH/Contents/MacOS
 DYNLIB_DIR=$BUNDLE_PATH/Contents/lib
-PLUGIN_DIR=$BUNDLE_PATH/Contents/PlugIns
+PLUGIN_DIR=$BUNDLE_PATH/Contents/Plugins
 FRAMEWORK_DIR=$BUNDLE_PATH/Contents/Frameworks
 RES_DIR=$BUNDLE_PATH/Contents/Resources
 APP_PATH=$BIN_DIR/$APP_NAME
 INDEXER_PATH=$RES_DIR/$INDEXER_NAME
+
 
 echo -e $INFO "Creating bundle folders."
 mkdir -p $BIN_DIR
@@ -59,20 +60,6 @@ mkdir -p $PLUGIN_DIR
 mkdir -p $FRAMEWORK_DIR
 mkdir -p $RES_DIR
 
-echo -e $INFO "Copying top level contents."
-mkdir -p $PACKAGE_DIR/plugins/visual_studio/
-cp -r ../../../ide_plugins/vs/sourcetrail_plugin_vs.vsix $PACKAGE_DIR/plugins/visual_studio/
-cp -R ../../../ide_plugins/sublime_text $PACKAGE_DIR/plugins/sublime_text/
-cp -R ../../../ide_plugins/vim $PACKAGE_DIR/plugins/vim/
-cp -R ../../../ide_plugins/atom $PACKAGE_DIR/plugins/atom/
-cp -R ../../../ide_plugins/emacs $PACKAGE_DIR/plugins/emacs/
-cp -R ../../../ide_plugins/eclipse $PACKAGE_DIR/plugins/eclipse/
-cp -R ../../../ide_plugins/idea $PACKAGE_DIR/plugins/idea/
-cp -R ../../../ide_plugins/qt_creator $PACKAGE_DIR/plugins/qt_creator/
-
-cp ../../../bin/app/data/gui/installer/EULA.rtf $PACKAGE_DIR/EULA.rtf
-
-ln -s /Applications $PACKAGE_DIR/Applications
 
 echo -e $INFO "Copying bundle contents."
 cp $APP_NAME $APP_PATH
@@ -88,90 +75,35 @@ cp -R ../../../bin/app/data/fonts $RES_DIR/data/fonts
 cp -R ../../../bin/app/data/gui $RES_DIR/data/gui
 cp -R ../../../bin/app/data/java $RES_DIR/data/java
 cp -R ../../../bin/app/data/fallback $RES_DIR/data/fallback
-cp -R ../../../bin/app/user/projects $RES_DIR/data/projects
+cp -R ../../../bin/app/user/projects $RES_DIR/data/fallback/projects
 
-cp -R ../../../bin/app/data/3rd_party_licenses $BIN_DIR/3rd_party_licenses
-
-echo -e $INFO "Copying dynamic libraries."
-for LIB_PATH in ${DYNLIB_PATHS[@]}
-do
-	LIB_NAME=$(basename $LIB_PATH)
-	cp $LIB_PATH $DYNLIB_DIR/$LIB_NAME
-
-	install_name_tool -change $LIB_NAME @executable_path/../lib/$LIB_NAME $APP_PATH
-	install_name_tool -change @rpath/$LIB_NAME @executable_path/../lib/$LIB_NAME $APP_PATH
-	install_name_tool -change @rpath/$LIB_NAME @executable_path/../lib/$LIB_NAME $INDEXER_PATH
-
-	echo "lib" $LIB_PATH $LIB_NAME
-done
-
-# echo -e $INFO "Fixing lib dependencies"
-# install_name_tool -change libboost_system.dylib @executable_path/../lib/libboost_system.dylib $DYNLIB_DIR/libboost_filesystem.dylib
-# otool -L $DYNLIB_DIR/libboost_filesystem.dylib
+cp -R ../../../bin/app/data/3rd_party_licenses $RES_DIR/3rd_party_licenses
 
 
-echo -e $INFO "Copying Plugins"
-mkdir -p $PLUGIN_DIR/platforms
-mkdir -p $PLUGIN_DIR/imageformats
+echo -e $INFO "run macdeployqt to copy Qt Frameworks and Plugins"
+$QT_DIR/bin/macdeployqt $BUNDLE_PATH
 
-cp $QT_DIR/plugins/platforms/libqcocoa.dylib $PLUGIN_DIR/platforms/libqcocoa.dylib
-cp $QT_DIR/plugins/imageformats/libqgif.dylib $PLUGIN_DIR/imageformats/libqgif.dylib
+install_name_tool -delete_rpath "/Users/ebsi/Documents/clang-llvm/build_release/./lib" $APP_PATH
+install_name_tool -delete_rpath "/Users/ebsi/Documents/clang-llvm/build_release/lib" $APP_PATH
+install_name_tool -delete_rpath "/Users/ebsi/Documents/boost_1_59_0/stage/lib" $APP_PATH
+install_name_tool -delete_rpath "@executable_path/../Frameworks" $APP_PATH
+install_name_tool -add_rpath "@loader_path/../Frameworks" $APP_PATH
 
-
-echo -e $INFO "Copying frameworks."
-for FRAMEWORK_BIN_PATH in ${QT_FRAMEWORK_PATHS[@]}
-do
-	FRAMEWORK_PATH=$(echo $FRAMEWORK_BIN_PATH | grep -o "\S*.framework")
-	FRAMEWORK_NAME=$(echo $FRAMEWORK_BIN_PATH | grep -o "\w*.framework")
-	cp -R $FRAMEWORK_PATH $FRAMEWORK_DIR/$FRAMEWORK_NAME
-
-	FRAMEWORK_SUB_PATH=$(echo $FRAMEWORK_BIN_PATH | grep -o "\w*.framework\S*")
-	install_name_tool -id @executable_path/../Frameworks/$FRAMEWORK_SUB_PATH $FRAMEWORK_DIR/$FRAMEWORK_SUB_PATH
-	install_name_tool -change @rpath/$FRAMEWORK_SUB_PATH @executable_path/../Frameworks/$FRAMEWORK_SUB_PATH $APP_PATH
-	install_name_tool -change @rpath/$FRAMEWORK_SUB_PATH @executable_path/../Frameworks/$FRAMEWORK_SUB_PATH $INDEXER_PATH
-
-	echo "framework" $FRAMEWORK_BIN_PATH $FRAMEWORK_PATH
-done
-
-# http://qt-project.org/doc/qt-4.8/deployment-mac.html
-echo -e $INFO "Fixing framework dependencies"
-
-install_name_tool -change @rpath/QtCore.framework/Versions/5/QtCore @executable_path/../Frameworks/QtCore.framework/Versions/5/QtCore $FRAMEWORK_DIR/QtGui.framework/Versions/5/QtGui
-install_name_tool -change @rpath/QtCore.framework/Versions/5/QtCore @executable_path/../Frameworks/QtCore.framework/Versions/5/QtCore $FRAMEWORK_DIR/QtWidgets.framework/Versions/5/QtWidgets
-install_name_tool -change @rpath/QtGui.framework/Versions/5/QtGui @executable_path/../Frameworks/QtGui.framework/Versions/5/QtGui $FRAMEWORK_DIR/QtWidgets.framework/Versions/5/QtWidgets
-
-install_name_tool -change @rpath/QtCore.framework/Versions/5/QtCore @executable_path/../Frameworks/QtCore.framework/Versions/5/QtCore $FRAMEWORK_DIR/QtPrintSupport.framework/Versions/5/QtPrintSupport
-install_name_tool -change @rpath/QtGui.framework/Versions/5/QtGui @executable_path/../Frameworks/QtGui.framework/Versions/5/QtGui $FRAMEWORK_DIR/QtPrintSupport.framework/Versions/5/QtPrintSupport
-install_name_tool -change @rpath/QtWidgets.framework/Versions/5/QtWidgets @executable_path/../Frameworks/QtWidgets.framework/Versions/5/QtWidgets $FRAMEWORK_DIR/QtPrintSupport.framework/Versions/5/QtPrintSupport
-
-install_name_tool -change @rpath/QtCore.framework/Versions/5/QtCore @executable_path/../Frameworks/QtCore.framework/Versions/5/QtCore $PLUGIN_DIR/platforms/libqcocoa.dylib
-install_name_tool -change @rpath/QtGui.framework/Versions/5/QtGui @executable_path/../Frameworks/QtGui.framework/Versions/5/QtGui $PLUGIN_DIR/platforms/libqcocoa.dylib
-install_name_tool -change @rpath/QtWidgets.framework/Versions/5/QtWidgets @executable_path/../Frameworks/QtWidgets.framework/Versions/5/QtWidgets $PLUGIN_DIR/platforms/libqcocoa.dylib
-install_name_tool -change @rpath/QtPrintSupport.framework/Versions/5/QtPrintSupport @executable_path/../Frameworks/QtPrintSupport.framework/Versions/5/QtPrintSupport $PLUGIN_DIR/platforms/libqcocoa.dylib
-install_name_tool -change @rpath/QtDBus.framework/Versions/5/QtDBus @executable_path/../Frameworks/QtDBus.framework/Versions/5/QtDBus $PLUGIN_DIR/platforms/libqcocoa.dylib
-
-install_name_tool -change @rpath/QtCore.framework/Versions/5/QtCore @executable_path/../Frameworks/QtCore.framework/Versions/5/QtCore $PLUGIN_DIR/imageformats/libqgif.dylib
-install_name_tool -change @rpath/QtGui.framework/Versions/5/QtGui @executable_path/../Frameworks/QtGui.framework/Versions/5/QtGui $PLUGIN_DIR/imageformats/libqgif.dylib
-
-install_name_tool -change @rpath/QtCore.framework/Versions/5/QtCore @executable_path/../Frameworks/QtCore.framework/Versions/5/QtCore $FRAMEWORK_DIR/QtDBus.framework/Versions/5/QtDBus
-
-install_name_tool -change @rpath/QtCore.framework/Versions/5/QtCore @executable_path/../Frameworks/QtCore.framework/Versions/5/QtCore $FRAMEWORK_DIR/QtNetwork.framework/Versions/5/QtNetwork
-install_name_tool -change @rpath/QtDBus.framework/Versions/5/QtDBus @executable_path/../Frameworks/QtDBus.framework/Versions/5/QtDBus $FRAMEWORK_DIR/QtNetwork.framework/Versions/5/QtNetwork
-
-otool -L $FRAMEWORK_DIR/QtCore.framework/Versions/5/QtCore
-otool -L $FRAMEWORK_DIR/QtGui.framework/Versions/5/QtGui
-otool -L $FRAMEWORK_DIR/QtWidgets.framework/Versions/5/QtWidgets
-otool -L $FRAMEWORK_DIR/QtPrintSupport.framework/Versions/5/QtPrintSupport
-otool -L $FRAMEWORK_DIR/QtDBus.framework/Versions/5/QtDBus
-otool -L $FRAMEWORK_DIR/QtNetwork.framework/Versions/5/QtNetwork
-otool -L $PLUGIN_DIR/platforms/libqcocoa.dylib
-otool -L $PLUGIN_DIR/imageformats/libqgif.dylib
+install_name_tool -delete_rpath "/Users/ebsi/Documents/clang-llvm/build_release/./lib" $INDEXER_PATH
+install_name_tool -delete_rpath "/Users/ebsi/Documents/clang-llvm/build_release/lib" $INDEXER_PATH
+install_name_tool -delete_rpath "/Users/ebsi/Documents/boost_1_59_0/stage/lib" $INDEXER_PATH
+install_name_tool -delete_rpath "/Users/ebsi/Documents/Qt/5.8/clang_64/lib" $INDEXER_PATH
+install_name_tool -add_rpath "@loader_path/../Frameworks" $INDEXER_PATH
 
 echo -e $INFO "App dependencies"
+# otool -l $APP_PATH
 otool -L $APP_PATH
 
 echo -e $INFO "Indexer dependencies"
+# otool -l $INDEXER_PATH
 otool -L $INDEXER_PATH
+
+
 
 echo -e $INFO "Create icon"
 ICON=../../../bin/app/data/gui/icon/logo_1024_1024.png
@@ -211,11 +143,58 @@ convert $ICON -resize 1024x1024 $ICON_SET/icon_512x512@2x.png
 
 iconutil -c icns -o $RES_DIR/project.icns $ICON_SET
 
+
+
 # echo -e $INFO "Obfuscate binary"
 # upx -1 $APP_PATH
 # upx --best $APP_PATH
 
-echo -e $INFO "create DMG"
-# hdiutil create ${PACKAGE_DIR}.dmg -volname ${PACKAGE_DIR} -srcfolder ${PACKAGE_DIR}
+echo -e $INFO "List available signing identities"
+security find-identity -v -p codesigning
+
+echo -e $INFO "Codesign frameworks."
+for FRAMEWORK_BIN_PATH in $FRAMEWORK_DIR/*.framework
+do
+	echo "framework" $FRAMEWORK_BIN_PATH
+	codesign --sign "Developer ID Application: Coati Software OG" $FRAMEWORK_BIN_PATH
+	codesign -v --verbose=4 $FRAMEWORK_BIN_PATH
+	# spctl -a --verbose $FRAMEWORK_BIN_PATH
+done
+
+echo -e $INFO "Codesign plugins."
+for PLUGIN_PATH in $(find $PLUGIN_DIR -name '*.dylib')
+do
+	echo "plugin" $PLUGIN_PATH
+	codesign --sign "Developer ID Application: Coati Software OG" $PLUGIN_PATH
+	codesign -v --verbose=4 $PLUGIN_PATH
+	# spctl -a --verbose $FRAMEWORK_BIN_PATH
+done
+
+echo -e $INFO "Codesign app."
+codesign --sign "Developer ID Application: Coati Software OG" $BUNDLE_PATH
+codesign -v  --deep --verbose=4 $BUNDLE_PATH
+# spctl -a --verbose $BUNDLE_PATH
+
+
+
+echo -e $INFO "Copying other package contents."
+mkdir -p $PACKAGE_DIR/plugins/visual_studio/
+cp -r ../../../ide_plugins/vs/sourcetrail_plugin_vs.vsix $PACKAGE_DIR/plugins/visual_studio/
+cp -R ../../../ide_plugins/sublime_text $PACKAGE_DIR/plugins/sublime_text/
+cp -R ../../../ide_plugins/vim $PACKAGE_DIR/plugins/vim/
+cp -R ../../../ide_plugins/atom $PACKAGE_DIR/plugins/atom/
+cp -R ../../../ide_plugins/emacs $PACKAGE_DIR/plugins/emacs/
+cp -R ../../../ide_plugins/eclipse $PACKAGE_DIR/plugins/eclipse/
+cp -R ../../../ide_plugins/idea $PACKAGE_DIR/plugins/idea/
+cp -R ../../../ide_plugins/qt_creator $PACKAGE_DIR/plugins/qt_creator/
+
+cp ../../../bin/app/data/gui/installer/EULA.rtf $PACKAGE_DIR/EULA.rtf
+
+ln -s /Applications $PACKAGE_DIR/Applications
+
+echo -e $INFO "create DMG package"
+hdiutil create ${PACKAGE_DIR}.dmg -volname ${PACKAGE_DIR} -srcfolder ${PACKAGE_DIR}
+
+rm $PACKAGE_DIR/Applications
 
 echo -e $SUCCESS "Installed bundle successfully!"

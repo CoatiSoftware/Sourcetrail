@@ -369,7 +369,7 @@ std::vector<FilePath> ApplicationSettings::getRecentProjects() const
 		}
 		else
 		{
-			recentProjects.push_back(UserPaths::getSampleProjectsPath().concat(project));
+			recentProjects.push_back(UserPaths::getUserDataPath().concat(project));
 		}
 	}
 	return recentProjects;

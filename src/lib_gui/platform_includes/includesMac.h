@@ -79,8 +79,8 @@ void setupPlatform(int argc, char *argv[])
 
 	utility::copyNewFilesFromDirectory(oldDataPath, dataPath);
 
-	UserPaths::setUserDataPath(FilePath(dataPath.toStdString() + "/"));
 	// ----------------------------------------------------------------------------
+	UserPaths::setUserDataPath(FilePath(dataPath.toStdString() + "/"));
 
 	appIsMacBundle = true;
 }
@@ -93,10 +93,6 @@ void setupApp(int argc, char *argv[])
 	if (!appIsMacBundle)
 	{
 		UserPaths::setUserDataPath(FilePath("./user/"));
-	}
-	else
-	{
-		UserPaths::setSampleProjectsPath(FilePath(path.absolute().str() + "/data/"));
 	}
 }
 
