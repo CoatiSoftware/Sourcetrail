@@ -8,8 +8,9 @@ class MessageErrorFilterChanged
 	: public Message<MessageErrorFilterChanged>
 {
 public:
-	MessageErrorFilterChanged(const ErrorFilter& filter)
+	MessageErrorFilterChanged(const ErrorFilter& filter, bool showErrors)
 		: errorFilter(filter)
+		, showErrors(showErrors)
 	{
 	}
 
@@ -19,6 +20,7 @@ public:
 	}
 
 	const ErrorFilter errorFilter;
+	const bool showErrors;
 };
 
 #endif // MESSAGE_ERROR_FILTER_CHANGED_H

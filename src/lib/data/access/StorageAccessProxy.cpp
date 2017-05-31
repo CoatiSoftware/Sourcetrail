@@ -418,5 +418,8 @@ void StorageAccessProxy::handleMessage(MessageErrorFilterChanged* message)
 {
 	setErrorFilter(message->errorFilter);
 
-	MessageShowErrors(getErrorCount()).dispatch();
+	if (message->showErrors)
+	{
+		MessageShowErrors(getErrorCount()).dispatch();
+	}
 }

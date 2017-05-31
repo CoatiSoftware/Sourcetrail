@@ -183,11 +183,12 @@ void QtErrorView::setErrorCount(ErrorCountInfo info)
 void QtErrorView::resetErrorLimit()
 {
 	ErrorFilter filter;
+
 	m_errorFilter.limit = filter.limit;
-	errorFilterChanged();
+	errorFilterChanged(0, false);
 }
 
-void QtErrorView::errorFilterChanged(int i)
+void QtErrorView::errorFilterChanged(int i, bool showErrors)
 {
 	m_table->selectionModel()->clearSelection();
 
@@ -196,7 +197,7 @@ void QtErrorView::errorFilterChanged(int i)
 	m_errorFilter.unindexedError = m_showNonIndexedErrors->isChecked();
 	m_errorFilter.unindexedFatal = m_showNonIndexedFatals->isChecked();
 
-	MessageErrorFilterChanged(m_errorFilter).dispatch();
+	MessageErrorFilterChanged(m_errorFilter, showErrors).dispatch();
 }
 
 void QtErrorView::doRefreshView()

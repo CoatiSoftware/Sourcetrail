@@ -38,7 +38,7 @@ public:
 	virtual void resetErrorLimit();
 
 private slots:
-	void errorFilterChanged(int i = 0);
+	void errorFilterChanged(int i = 0, bool showErrors = true);
 
 private:
 	enum COLUMN {
