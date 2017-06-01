@@ -125,6 +125,18 @@ Node::Node(Id id, NodeType type, NameHierarchy nameHierarchy, bool defined)
 	, m_defined(defined)
 	, m_implicit(false)
 	, m_explicit(false)
+	, m_childCount(0)
+{
+}
+
+Node::Node(const Node& other)
+	: Token(other)
+	, m_type(other.m_type)
+	, m_nameHierarchy(other.m_nameHierarchy)
+	, m_defined(other.m_defined)
+	, m_implicit(other.m_implicit)
+	, m_explicit(other.m_explicit)
+	, m_childCount(other.m_childCount)
 {
 }
 
@@ -199,19 +211,33 @@ void Node::setExplicit(bool bExplicit)
 	m_explicit = bExplicit;
 }
 
-const std::vector<Edge*>& Node::getEdges() const
+size_t Node::getChildCount() const
 {
-	return m_edges;
+	return m_childCount;
+}
+
+void Node::setChildCount(size_t childCount)
+{
+	m_childCount = childCount;
+}
+
+size_t Node::getEdgeCount() const
+{
+	return m_edges.size();
 }
 
 void Node::addEdge(Edge* edge)
 {
-	m_edges.push_back(edge);
+	m_edges.emplace(edge->getId(), edge);
 }
 
 void Node::removeEdge(Edge* edge)
 {
-	m_edges.erase(find(m_edges.begin(), m_edges.end(), edge));
+	auto it = m_edges.find(edge->getId());
+	if (it != m_edges.end())
+	{
+		m_edges.erase(it);
+	}
 }
 
 Node* Node::getParentNode() const
@@ -246,11 +272,16 @@ Edge* Node::getMemberEdge() const
 
 Edge* Node::findEdge(std::function<bool(Edge*)> func) const
 {
-	std::vector<Edge*>::const_iterator it = find_if(m_edges.begin(), m_edges.end(), func);
+	auto it = find_if(m_edges.begin(), m_edges.end(),
+		[func](std::pair<Id, Edge*> p)
+		{
+			return func(p.second);
+		}
+	);
 
 	if (it != m_edges.end())
 	{
-		return *it;
+		return it->second;
 	}
 
 	return nullptr;
@@ -263,12 +294,12 @@ Edge* Node::findEdgeOfType(Edge::EdgeTypeMask mask) const
 
 Edge* Node::findEdgeOfType(Edge::EdgeTypeMask mask, std::function<bool(Edge*)> func) const
 {
-	std::vector<Edge*>::const_iterator it = find_if(m_edges.begin(), m_edges.end(),
-		[mask, func](Edge* e)
+	auto it = find_if(m_edges.begin(), m_edges.end(),
+		[mask, func](std::pair<Id, Edge*> p)
 		{
-			if (e->isType(mask))
+			if (p.second->isType(mask))
 			{
-				return func(e);
+				return func(p.second);
 			}
 			return false;
 		}
@@ -276,7 +307,7 @@ Edge* Node::findEdgeOfType(Edge::EdgeTypeMask mask, std::function<bool(Edge*)> f
 
 	if (it != m_edges.end())
 	{
-		return *it;
+		return it->second;
 	}
 
 	return nullptr;
@@ -284,12 +315,12 @@ Edge* Node::findEdgeOfType(Edge::EdgeTypeMask mask, std::function<bool(Edge*)> f
 
 Node* Node::findChildNode(std::function<bool(Node*)> func) const
 {
-	std::vector<Edge*>::const_iterator it = find_if(m_edges.begin(), m_edges.end(),
-		[&func](Edge* e)
+	auto it = find_if(m_edges.begin(), m_edges.end(),
+		[&func](std::pair<Id, Edge*> p)
 		{
-			if (e->getType() == Edge::EDGE_MEMBER)
+			if (p.second->getType() == Edge::EDGE_MEMBER)
 			{
-				return func(e->getTo());
+				return func(p.second->getTo());
 			}
 			return false;
 		}
@@ -297,7 +328,7 @@ Node* Node::findChildNode(std::function<bool(Node*)> func) const
 
 	if (it != m_edges.end())
 	{
-		return (*it)->getTo();
+		return it->second->getTo();
 	}
 
 	return nullptr;
@@ -305,17 +336,22 @@ Node* Node::findChildNode(std::function<bool(Node*)> func) const
 
 void Node::forEachEdge(std::function<void(Edge*)> func) const
 {
-	for_each(m_edges.begin(), m_edges.end(), func);
+	for_each(m_edges.begin(), m_edges.end(),
+		[func](std::pair<Id, Edge*> p)
+		{
+			func(p.second);
+		}
+	);
 }
 
 void Node::forEachEdgeOfType(Edge::EdgeTypeMask mask, std::function<void(Edge*)> func) const
 {
 	for_each(m_edges.begin(), m_edges.end(),
-		[mask, func](Edge* e)
+		[mask, func](std::pair<Id, Edge*> p)
 		{
-			if (e->isType(mask))
+			if (p.second->isType(mask))
 			{
-				func(e);
+				func(p.second);
 			}
 		}
 	);

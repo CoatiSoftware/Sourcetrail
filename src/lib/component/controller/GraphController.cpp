@@ -268,43 +268,72 @@ void GraphController::handleMessage(MessageGraphNodeExpand* message)
 		return;
 	}
 
-	DummyNode* node = getDummyGraphNodeById(message->tokenId);
-	if (node)
+	Id nodeId = message->tokenId;
+	DummyNode* dummyNode = getDummyGraphNodeById(nodeId);
+	if (dummyNode)
 	{
-		if (!node->active && message->expand)
+		dummyNode->expanded = message->expand;
+
+		if (message->expand && dummyNode->hasMissingChildNodes())
 		{
-			for (size_t i = 0, l = m_dummyEdges.size(); i < l; i++)
-			{
-				std::shared_ptr<DummyEdge> edge = m_dummyEdges[i];
+			std::shared_ptr<Graph> childGraph = m_storageAccess->getGraphForChildrenOfNodeId(nodeId);
 
-				if (edge && edge->data && edge->data->isType(Edge::EDGE_AGGREGATION) &&
-					(edge->targetId == node->tokenId || edge->ownerId == node->tokenId))
+			childGraph->getNodeById(nodeId)->forEachEdgeOfType(Edge::EDGE_MEMBER,
+				[this](Edge* edge)
 				{
-					std::vector<Id> aggregationIds =
-						utility::toVector<Id>(edge->data->getComponent<TokenComponentAggregation>()->getAggregationIds());
+					m_graph->addEdgeAsPlainCopy(edge);
+				}
+			);
 
-					if (m_graph->getEdgeById(aggregationIds[0]) != nullptr)
+			Node* node = m_graph->getNodeById(nodeId);
+			std::vector<std::shared_ptr<DummyNode>> newDummyNodes = createDummyNodeTopDown(node, node->getLastParentNode()->getId());
+			if (newDummyNodes.size() != 1)
+			{
+				LOG_ERROR("Wrong amount of dummy nodes created");
+				return;
+			}
+			std::shared_ptr<DummyNode> newDummyNode = newDummyNodes[0];
+
+			// replace newer dummy graph nodes with the old ones. Nodes will have the correct sorting after that.
+			newDummyNode->replaceSubGraphNodes(dummyNode->getSubGraphNodes());
+
+			// move all newer and older dummy graph nodes into the old dummy node
+			dummyNode->replaceAccessNodes(newDummyNode->getAccessNodes());
+
+
+			if (!dummyNode->active && message->expand)
+			{
+				for (size_t i = 0, l = m_dummyEdges.size(); i < l; i++)
+				{
+					std::shared_ptr<DummyEdge> edge = m_dummyEdges[i];
+
+					if (edge && edge->data && edge->data->isType(Edge::EDGE_AGGREGATION) &&
+						(edge->targetId == dummyNode->tokenId || edge->ownerId == dummyNode->tokenId))
 					{
-						break;
-					}
+						std::vector<Id> aggregationIds =
+							utility::toVector<Id>(edge->data->getComponent<TokenComponentAggregation>()->getAggregationIds());
 
-					std::shared_ptr<Graph> graph = m_storageAccess->getGraphForActiveTokenIds(aggregationIds);
-
-					graph->forEachEdge(
-						[this](Edge* e)
+						if (m_graph->getEdgeById(aggregationIds[0]) != nullptr)
 						{
-							if (!e->isType(Edge::EDGE_MEMBER))
-							{
-								m_dummyEdges.push_back(std::make_shared<DummyEdge>(
-									e->getFrom()->getId(), e->getTo()->getId(), m_graph->addEdgeAsPlainCopy(e)));
-							}
+							break;
 						}
-					);
+
+						std::shared_ptr<Graph> aggregationGraph = m_storageAccess->getGraphForActiveTokenIds(aggregationIds);
+
+						aggregationGraph->forEachEdge(
+							[this](Edge* e)
+							{
+								if (!e->isType(Edge::EDGE_MEMBER))
+								{
+									m_dummyEdges.push_back(std::make_shared<DummyEdge>(
+										e->getFrom()->getId(), e->getTo()->getId(), m_graph->addEdgeAsPlainCopy(e)));
+								}
+							}
+						);
+					}
 				}
 			}
 		}
-
-		node->expanded = message->expand;
 
 		setActiveAndVisibility(utility::concat(m_activeNodeIds, m_activeEdgeIds));
 
@@ -616,8 +645,6 @@ void GraphController::setVisibility(bool noActive)
 
 	for (std::shared_ptr<DummyNode> node : m_dummyNodes)
 	{
-		removeImplicitChildrenRecursive(node.get());
-
 		setNodeVisibilityRecursiveBottomUp(node.get(), noActive);
 	}
 }
@@ -646,41 +673,6 @@ void GraphController::setNodeActiveRecursive(DummyNode* node, const std::vector<
 	for (std::shared_ptr<DummyNode> subNode : node->subNodes)
 	{
 		setNodeActiveRecursive(subNode.get(), activeTokenIds, noActive);
-	}
-}
-
-void GraphController::removeImplicitChildrenRecursive(DummyNode* node)
-{
-	if (node->isGraphNode() && !node->data->isExplicit())
-	{
-		return;
-	}
-
-	for (size_t i = 0; i < node->subNodes.size(); i++)
-	{
-		bool removeNode = false;
-
-		DummyNode* subNode = node->subNodes[i].get();
-		if (subNode->isGraphNode() && subNode->data->isImplicit() &&
-			!subNode->connected && !subNode->active && !subNode->subNodes.size())
-		{
-			removeNode = true;
-		}
-		else
-		{
-			removeImplicitChildrenRecursive(subNode);
-
-			if (subNode->isAccessNode() && subNode->subNodes.size() == 0)
-			{
-				removeNode = true;
-			}
-		}
-
-		if (removeNode)
-		{
-			node->subNodes.erase(node->subNodes.begin() + i);
-			i--;
-		}
 	}
 }
 
@@ -1310,8 +1302,10 @@ void GraphController::layoutNestingRecursive(DummyNode* node) const
 
 		width = margins.charWidth * node->name.size();
 
-		if (node->data->isType(Node::NODE_TYPE | Node::NODE_BUILTIN_TYPE | Node::NODE_CLASS | Node::NODE_STRUCT | Node::NODE_ENUM) &&
-			node->subNodes.size())
+		Node::NodeTypeMask mask =
+			Node::NODE_NON_INDEXED | Node::NODE_TYPE | Node::NODE_BUILTIN_TYPE |
+			Node::NODE_CLASS | Node::NODE_STRUCT | Node::NODE_ENUM;
+		if (node->data->isType(mask) && node->data->getChildCount() > 0)
 		{
 			addExpandToggleNode(node);
 		}
@@ -1417,7 +1411,7 @@ void GraphController::addExpandToggleNode(DummyNode* node) const
 	expandNode->visible = true;
 	expandNode->expanded = node->expanded;
 
-	bool hasVisibleSubNode = false;
+	size_t visibleSubNodeCount = 0;
 	for (size_t i = 0; i < node->subNodes.size(); i++)
 	{
 		DummyNode* subNode = node->subNodes[i].get();
@@ -1436,18 +1430,15 @@ void GraphController::addExpandToggleNode(DummyNode* node) const
 
 		for (std::shared_ptr<DummyNode> subSubNode : subNode->subNodes)
 		{
-			if (!subSubNode->visible)
+			if (subSubNode->visible && (!subSubNode->isGraphNode() || !subSubNode->data->isImplicit()))
 			{
-				expandNode->invisibleSubNodeCount++;
-			}
-			else
-			{
-				hasVisibleSubNode = true;
+				visibleSubNodeCount++;
 			}
 		}
 	}
 
-	if ((expandNode->isExpanded() && hasVisibleSubNode) || expandNode->invisibleSubNodeCount)
+	expandNode->invisibleSubNodeCount = node->data->getChildCount() - visibleSubNodeCount;
+	if ((expandNode->isExpanded() && visibleSubNodeCount > 0) || expandNode->invisibleSubNodeCount)
 	{
 		node->subNodes.push_back(expandNode);
 	}

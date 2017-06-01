@@ -108,6 +108,7 @@ public:
 
 	virtual std::shared_ptr<Graph> getGraphForAll() const;
 	virtual std::shared_ptr<Graph> getGraphForActiveTokenIds(const std::vector<Id>& tokenIds, bool* isActiveNamespace = nullptr) const;
+	virtual std::shared_ptr<Graph> getGraphForChildrenOfNodeId(Id nodeId) const;
 	virtual std::shared_ptr<Graph> getGraphForTrail(Id originId, Id targetId, Edge::EdgeTypeMask trailType, size_t depth) const;
 
 	virtual std::vector<Id> getActiveTokenIdsForId(Id tokenId, Id* declarationId) const;
@@ -159,7 +160,7 @@ private:
 
 	void addNodesToGraph(const std::vector<Id>& nodeIds, Graph* graph) const;
 	void addEdgesToGraph(const std::vector<Id>& edgeIds, Graph* graph) const;
-	void addNodesWithChildrenAndEdgesToGraph(
+	void addNodesWithParentsAndEdgesToGraph(
 		const std::vector<Id>& nodeIds, const std::vector<Id>& edgeIds, Graph* graph) const;
 
 	void addAggregationEdgesToGraph(const Id nodeId, const std::vector<StorageEdge>& edgesToAggregate, Graph* graph) const;

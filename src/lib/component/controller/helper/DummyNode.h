@@ -238,6 +238,104 @@ public:
 		return bundleId;
 	}
 
+	bool hasMissingChildNodes() const
+	{
+		size_t childCount = 0;
+		if (isGraphNode())
+		{
+			childCount = data->getChildCount();
+		}
+
+		size_t subNodeCount = 0;
+		for (std::shared_ptr<DummyNode> subNode : subNodes)
+		{
+			if (subNode->isAccessNode())
+			{
+				for (std::shared_ptr<DummyNode> subSubNode : subNode->subNodes)
+				{
+					if (subSubNode->isGraphNode() && !subSubNode->data->isImplicit())
+					{
+						subNodeCount++;
+					}
+				}
+			}
+		}
+
+		return subNodeCount < childCount;
+	}
+
+	std::map<Id, std::shared_ptr<DummyNode>> getSubGraphNodes() const
+	{
+		std::map<Id, std::shared_ptr<DummyNode>> subGraphNodes;
+
+		for (std::shared_ptr<DummyNode> subNode : subNodes)
+		{
+			if (subNode->isAccessNode())
+			{
+				for (std::shared_ptr<DummyNode> subSubNode : subNode->subNodes)
+				{
+					if (subSubNode->isGraphNode())
+					{
+						subGraphNodes.emplace(subSubNode->tokenId, subSubNode);
+					}
+				}
+			}
+		}
+
+		return subGraphNodes;
+	}
+
+	void replaceSubGraphNodes(std::map<Id, std::shared_ptr<DummyNode>> subGraphNodes) const
+	{
+		for (std::shared_ptr<DummyNode> subNode : subNodes)
+		{
+			if (subNode->isAccessNode())
+			{
+				for (size_t i = 0; i < subNode->subNodes.size(); i++)
+				{
+					std::shared_ptr<DummyNode> subSubNode = subNode->subNodes[i];
+					if (!subSubNode->isGraphNode())
+					{
+						continue;
+					}
+
+					auto it = subGraphNodes.find(subSubNode->tokenId);
+					if (it != subGraphNodes.end())
+					{
+						subNode->subNodes[i] = it->second;
+						subGraphNodes.erase(it);
+					}
+				}
+			}
+		}
+	}
+
+	std::vector<std::shared_ptr<DummyNode>> getAccessNodes() const
+	{
+		std::vector<std::shared_ptr<DummyNode>> accessNodes;
+		for (std::shared_ptr<DummyNode> subNode : subNodes)
+		{
+			if (subNode->isAccessNode())
+			{
+				accessNodes.push_back(subNode);
+			}
+		}
+		return accessNodes;
+	}
+
+	void replaceAccessNodes(const std::vector<std::shared_ptr<DummyNode>>& accessNodes)
+	{
+		for (size_t i = 0; i < subNodes.size(); i++)
+		{
+			if (subNodes[i]->isAccessNode())
+			{
+				subNodes.erase(subNodes.begin() + i);
+				i--;
+			}
+		}
+		subNodes.insert(subNodes.end(), accessNodes.begin(), accessNodes.end());
+	}
+
 	Vec2i position;
 	Vec2i size;
 

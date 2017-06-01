@@ -85,7 +85,6 @@ private:
 	void setVisibility(bool noActive);
 	void setActiveAndVisibility(const std::vector<Id>& activeTokenIds);
 	void setNodeActiveRecursive(DummyNode* node, const std::vector<Id>& activeTokenIds, bool* noActive) const;
-	void removeImplicitChildrenRecursive(DummyNode* node);
 	bool setNodeVisibilityRecursiveBottomUp(DummyNode* node, bool noActive) const;
 	void setNodeVisibilityRecursiveTopDown(DummyNode* node, bool parentExpanded) const;
 

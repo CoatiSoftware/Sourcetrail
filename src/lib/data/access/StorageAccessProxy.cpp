@@ -165,6 +165,16 @@ std::shared_ptr<Graph> StorageAccessProxy::getGraphForActiveTokenIds(const std::
 	return std::make_shared<Graph>();
 }
 
+std::shared_ptr<Graph> StorageAccessProxy::getGraphForChildrenOfNodeId(Id nodeId) const
+{
+	if (hasSubject())
+	{
+		return m_subject->getGraphForChildrenOfNodeId(nodeId);
+	}
+
+	return std::make_shared<Graph>();
+}
+
 std::shared_ptr<Graph> StorageAccessProxy::getGraphForTrail(Id originId, Id targetId, Edge::EdgeTypeMask trailType, size_t depth) const
 {
 	if (hasSubject())

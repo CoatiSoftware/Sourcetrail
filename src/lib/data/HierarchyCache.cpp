@@ -5,7 +5,7 @@ HierarchyCache::HierarchyNode::HierarchyNode(Id nodeId)
 	, m_edgeId(0)
 	, m_parent(nullptr)
 	, m_isVisible(true)
-	, m_isIndexed(true)
+	, m_isImplicit(false)
 {
 }
 
@@ -39,25 +39,33 @@ void HierarchyCache::HierarchyNode::addChild(HierarchyNode* child)
 	m_children.push_back(child);
 }
 
-const std::vector<HierarchyCache::HierarchyNode*>& HierarchyCache::HierarchyNode::getChildren() const
+size_t HierarchyCache::HierarchyNode::getChildrenCount() const
 {
-	return m_children;
+	return m_children.size();
 }
 
-void HierarchyCache::HierarchyNode::addChildIds(std::vector<Id>* nodeIds) const
+size_t HierarchyCache::HierarchyNode::getNonImplicitChildrenCount() const
 {
+	size_t count = 0;
 	for (const HierarchyNode* child : m_children)
 	{
-		nodeIds->push_back(child->getNodeId());
+		if (!child->isImplicit())
+		{
+			count++;
+		}
 	}
+	return count;
 }
 
-void HierarchyCache::HierarchyNode::addChildIds(std::set<Id>* nodeIds, std::set<Id>* edgeIds) const
+void HierarchyCache::HierarchyNode::addNonImplicitChildIds(std::vector<Id>* nodeIds, std::vector<Id>* edgeIds) const
 {
 	for (const HierarchyNode* child : m_children)
 	{
-		nodeIds->insert(child->getNodeId());
-		edgeIds->insert(child->getEdgeId());
+		if (!child->isImplicit())
+		{
+			nodeIds->push_back(child->getNodeId());
+			edgeIds->push_back(child->getEdgeId());
+		}
 	}
 }
 
@@ -72,21 +80,6 @@ void HierarchyCache::HierarchyNode::addChildIdsRecursive(std::set<Id>* nodeIds, 
 	}
 }
 
-void HierarchyCache::HierarchyNode::addVisibleNodeIdsRecursive(std::vector<Id>* nodeIds) const
-{
-	if (isVisible())
-	{
-		nodeIds->push_back(getNodeId());
-	}
-	else
-	{
-		for (const HierarchyNode* child : m_children)
-		{
-			child->addVisibleNodeIdsRecursive(nodeIds);
-		}
-	}
-}
-
 bool HierarchyCache::HierarchyNode::isVisible() const
 {
 	return m_isVisible;
@@ -97,14 +90,14 @@ void HierarchyCache::HierarchyNode::setIsVisible(bool isVisible)
 	m_isVisible = isVisible;
 }
 
-bool HierarchyCache::HierarchyNode::isIndexed() const
+bool HierarchyCache::HierarchyNode::isImplicit() const
 {
-	return m_isIndexed;
+	return m_isImplicit;
 }
 
-void HierarchyCache::HierarchyNode::setIsIndexed(bool isIndexed)
+void HierarchyCache::HierarchyNode::setIsImplicit(bool isImplicit)
 {
-	m_isIndexed = isIndexed;
+	m_isImplicit = isImplicit;
 }
 
 
@@ -113,7 +106,7 @@ void HierarchyCache::clear()
 	m_nodes.clear();
 }
 
-void HierarchyCache::createConnection(Id edgeId, Id fromId, Id toId, bool sourceVisible, bool sourceIndexed, bool targetIndexed)
+void HierarchyCache::createConnection(Id edgeId, Id fromId, Id toId, bool sourceVisible, bool targetImplicit)
 {
 	HierarchyNode* from = createNode(fromId);
 	HierarchyNode* to = createNode(toId);
@@ -122,10 +115,9 @@ void HierarchyCache::createConnection(Id edgeId, Id fromId, Id toId, bool source
 	to->setParent(from);
 
 	from->setIsVisible(sourceVisible);
-	from->setIsIndexed(sourceIndexed);
 
 	to->setEdgeId(edgeId);
-	to->setIsIndexed(targetIndexed);
+	to->setIsImplicit(targetImplicit);
 }
 
 Id HierarchyCache::getLastVisibleParentNodeId(Id nodeId) const
@@ -170,23 +162,9 @@ size_t HierarchyCache::getIndexOfLastVisibleParentNode(Id nodeId) const
 	return idx;
 }
 
-void HierarchyCache::addAllChildIdsForNodeId(Id nodeId, std::set<Id>* nodeIds, std::set<Id>* edgeIds) const
+void HierarchyCache::addAllVisibleParentIdsForNodeId(Id nodeId, std::set<Id>* nodeIds, std::set<Id>* edgeIds) const
 {
 	HierarchyNode* node = getNode(nodeId);
-	if (node && node->isVisible())
-	{
-		node->addChildIdsRecursive(nodeIds, edgeIds);
-	}
-}
-
-void HierarchyCache::addAllVisibleParentsAndChildIdsForNodeId(Id nodeId, std::set<Id>* nodeIds, std::set<Id>* edgeIds) const
-{
-	HierarchyNode* node = getNode(nodeId);
-	if (node && node->isVisible())
-	{
-		node->addChildIds(nodeIds, edgeIds);
-	}
-
 	Id edgeId = 0;
 	while (node && node->isVisible())
 	{
@@ -202,26 +180,32 @@ void HierarchyCache::addAllVisibleParentsAndChildIdsForNodeId(Id nodeId, std::se
 	}
 }
 
-void HierarchyCache::addFirstChildIdsForNodeId(Id nodeId, std::vector<Id>* nodeIds) const
+void HierarchyCache::addAllChildIdsForNodeId(Id nodeId, std::set<Id>* nodeIds, std::set<Id>* edgeIds) const
 {
 	HierarchyNode* node = getNode(nodeId);
-	if (node)
+	if (node && node->isVisible())
 	{
-		node->addChildIds(nodeIds);
+		node->addChildIdsRecursive(nodeIds, edgeIds);
 	}
 }
 
-void HierarchyCache::addFirstVisibleChildIdsForNodeId(Id nodeId, std::vector<Id>* nodeIds) const
+void HierarchyCache::addFirstNonImplicitChildIdsForNodeId(Id nodeId, std::vector<Id>* nodeIds, std::vector<Id>* edgeIds) const
 {
 	HierarchyNode* node = getNode(nodeId);
 	if (node)
 	{
-		node->addVisibleNodeIdsRecursive(nodeIds);
+		node->addNonImplicitChildIds(nodeIds, edgeIds);
 	}
-	else
+}
+
+size_t HierarchyCache::getFirstNonImplicitChildIdsCountForNodeId(Id nodeId) const
+{
+	HierarchyNode* node = getNode(nodeId);
+	if (node)
 	{
-		nodeIds->push_back(nodeId);
+		return node->getNonImplicitChildrenCount();
 	}
+	return 0;
 }
 
 bool HierarchyCache::isChildOfVisibleNodeOrInvisible(Id nodeId) const
@@ -245,23 +229,12 @@ bool HierarchyCache::isChildOfVisibleNodeOrInvisible(Id nodeId) const
 	return false;
 }
 
-bool HierarchyCache::isIndexed(Id nodeId) const
-{
-	HierarchyNode* node = getNode(nodeId);
-	if (!node)
-	{
-		return true;
-	}
-
-	return node->isIndexed();
-}
-
 bool HierarchyCache::nodeHasChildren(Id nodeId) const
 {
 	HierarchyNode* node = getNode(nodeId);
 	if (node)
 	{
-		return node->getChildren().size();
+		return node->getChildrenCount();
 	}
 
 	return false;

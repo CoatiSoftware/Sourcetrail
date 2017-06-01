@@ -991,9 +991,6 @@ std::shared_ptr<Graph> PersistentStorage::getGraphForActiveTokenIds(
 {
 	TRACE();
 
-	std::shared_ptr<Graph> g = std::make_shared<Graph>();
-	Graph* graph = g.get();
-
 	std::vector<Id> ids(tokenIds);
 	bool isNamespace = false;
 
@@ -1014,13 +1011,16 @@ std::shared_ptr<Graph> PersistentStorage::getGraphForActiveTokenIds(
 			if (nodeType & (Node::NODE_NAMESPACE | Node::NODE_PACKAGE))
 			{
 				ids.clear();
-				m_hierarchyCache.addFirstChildIdsForNodeId(elementId, &ids);
+				m_hierarchyCache.addFirstNonImplicitChildIdsForNodeId(elementId, &ids, &edgeIds);
+				edgeIds.clear();
 
 				isNamespace = true;
 			}
 			else
 			{
 				nodeIds.push_back(elementId);
+				m_hierarchyCache.addFirstNonImplicitChildIdsForNodeId(elementId, &nodeIds, &edgeIds);
+				edgeIds.clear();
 
 				std::vector<StorageEdge> edges = m_sqliteIndexStorage.getEdgesBySourceOrTargetId(elementId);
 				for (const StorageEdge& edge : edges)
@@ -1086,13 +1086,16 @@ std::shared_ptr<Graph> PersistentStorage::getGraphForActiveTokenIds(
 		}
 	}
 
+	std::shared_ptr<Graph> g = std::make_shared<Graph>();
+	Graph* graph = g.get();
+
 	if (isNamespace)
 	{
 		addNodesToGraph(nodeIds, graph);
 	}
 	else
 	{
-		addNodesWithChildrenAndEdgesToGraph(nodeIds, edgeIds, graph);
+		addNodesWithParentsAndEdgesToGraph(nodeIds, edgeIds, graph);
 	}
 
 	if (addAggregations)
@@ -1108,6 +1111,24 @@ std::shared_ptr<Graph> PersistentStorage::getGraphForActiveTokenIds(
 	}
 
 	return g;
+}
+
+std::shared_ptr<Graph> PersistentStorage::getGraphForChildrenOfNodeId(Id nodeId) const
+{
+	TRACE();
+
+	std::vector<Id> nodeIds;
+	std::vector<Id> edgeIds;
+
+	nodeIds.push_back(nodeId);
+	m_hierarchyCache.addFirstNonImplicitChildIdsForNodeId(nodeId, &nodeIds, &edgeIds);
+
+	std::shared_ptr<Graph> graph = std::make_shared<Graph>();
+	addNodesToGraph(nodeIds, graph.get());
+	addEdgesToGraph(edgeIds, graph.get());
+
+	addComponentAccessToGraph(graph.get());
+	return graph;
 }
 
 std::shared_ptr<Graph> PersistentStorage::getGraphForTrail(
@@ -1169,7 +1190,7 @@ std::shared_ptr<Graph> PersistentStorage::getGraphForTrail(
 
 	std::shared_ptr<Graph> graph = std::make_shared<Graph>();
 
-	addNodesWithChildrenAndEdgesToGraph(utility::toVector(nodeIds), utility::toVector(edgeIds), graph.get());
+	addNodesWithParentsAndEdgesToGraph(utility::toVector(nodeIds), utility::toVector(edgeIds), graph.get());
 	addComponentAccessToGraph(graph.get());
 
 	return graph;
@@ -1838,6 +1859,8 @@ void PersistentStorage::addNodesToGraph(const std::vector<Id>& nodeIds, Graph* g
 					);
 				}
 			}
+
+			node->setChildCount(m_hierarchyCache.getFirstNonImplicitChildIdsCountForNodeId(storageNode.id));
 		}
 	}
 }
@@ -1867,50 +1890,31 @@ void PersistentStorage::addEdgesToGraph(const std::vector<Id>& edgeIds, Graph* g
 	}
 }
 
-void PersistentStorage::addNodesWithChildrenAndEdgesToGraph(
+void PersistentStorage::addNodesWithParentsAndEdgesToGraph(
 	const std::vector<Id>& nodeIds, const std::vector<Id>& edgeIds, Graph* graph
 ) const
 {
 	TRACE();
 
-	std::vector<Id> nodeIdsFull = nodeIds;
+	std::set<Id> allNodeIds(nodeIds.begin(), nodeIds.end());
+	std::set<Id> allEdgeIds(edgeIds.begin(), edgeIds.end());
+
 	if (edgeIds.size() > 0)
 	{
 		for (const StorageEdge& storageEdge : m_sqliteIndexStorage.getAllByIds<StorageEdge>(edgeIds))
 		{
-			nodeIdsFull.push_back(storageEdge.sourceNodeId);
-			nodeIdsFull.push_back(storageEdge.targetNodeId);
+			allNodeIds.insert(storageEdge.sourceNodeId);
+			allNodeIds.insert(storageEdge.targetNodeId);
 		}
 	}
 
 	std::set<Id> parentNodeIds;
-	std::set<Id> nonIndexedNodeIds;
-
-	for (Id nodeId : nodeIdsFull)
+	for (Id nodeId : allNodeIds)
 	{
-		if (m_hierarchyCache.isIndexed(nodeId))
-		{
-			parentNodeIds.insert(getLastVisibleParentNodeId(nodeId));
-		}
-		else
-		{
-			nonIndexedNodeIds.insert(nodeId);
-		}
+		m_hierarchyCache.addAllVisibleParentIdsForNodeId(nodeId, &parentNodeIds, &allEdgeIds);
 	}
 
-	std::set<Id> allNodeIds;
-	std::set<Id> allEdgeIds(edgeIds.begin(), edgeIds.end());
-
-	for (Id parentNodeId : parentNodeIds)
-	{
-		allNodeIds.insert(parentNodeId);
-		m_hierarchyCache.addAllChildIdsForNodeId(parentNodeId, &allNodeIds, &allEdgeIds);
-	}
-
-	for (Id nonIndexedNodeId : nonIndexedNodeIds)
-	{
-		m_hierarchyCache.addAllVisibleParentsAndChildIdsForNodeId(nonIndexedNodeId, &allNodeIds, &allEdgeIds);
-	}
+	allNodeIds.insert(parentNodeIds.begin(), parentNodeIds.end());
 
 	addNodesToGraph(utility::toVector(allNodeIds), graph);
 	addEdgesToGraph(utility::toVector(allEdgeIds), graph);
@@ -1988,7 +1992,7 @@ void PersistentStorage::addAggregationEdgesToGraph(
 			nodeIdsToAdd.push_back(aggregationTargetNodeId);
 		}
 	}
-	addNodesWithChildrenAndEdgesToGraph(nodeIdsToAdd, std::vector<Id>(), graph);
+	addNodesWithParentsAndEdgesToGraph(nodeIdsToAdd, std::vector<Id>(), graph);
 
 	// create aggregation edges between parents and active node
 	Node* sourceNode = graph->getNodeById(nodeId);
@@ -2131,23 +2135,21 @@ void PersistentStorage::buildHierarchyCache()
 		return Node::intToType(m_sqliteIndexStorage.getFirstById<StorageNode>(id).type);
 	});
 
-	Cache<Id, bool> indexedNodeCache([this](Id id){
+	Cache<Id, DefinitionKind> definitionKindCache([this](Id id){
 		StorageSymbol symbol = m_sqliteIndexStorage.getFirstById<StorageSymbol>(id);
 		if (symbol.id > 0)
 		{
-			return intToDefinitionKind(symbol.definitionKind) != DEFINITION_NONE;
+			return intToDefinitionKind(symbol.definitionKind);
 		}
-		return false;
+		return DEFINITION_NONE;
 	});
 
 	for (const StorageEdge& edge : memberEdges)
 	{
-		bool isVisible = !(nodeTypeCache.getValue(edge.sourceNodeId) & Node::NODE_NOT_VISIBLE);
-		bool sourceIsIndexed = indexedNodeCache.getValue(edge.sourceNodeId);
-		bool targetIsIndexed = indexedNodeCache.getValue(edge.targetNodeId);
+		bool sourceIsVisible = !(nodeTypeCache.getValue(edge.sourceNodeId) & Node::NODE_NOT_VISIBLE);
+		bool targetIsImplicit = definitionKindCache.getValue(edge.targetNodeId) == DEFINITION_IMPLICIT;
 
 		m_hierarchyCache.createConnection(
-			edge.id, edge.sourceNodeId, edge.targetNodeId, isVisible, sourceIsIndexed, targetIsIndexed);
+			edge.id, edge.sourceNodeId, edge.targetNodeId, sourceIsVisible, targetIsImplicit);
 	}
 }
-

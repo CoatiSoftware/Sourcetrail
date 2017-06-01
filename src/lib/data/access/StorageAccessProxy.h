@@ -38,6 +38,7 @@ public:
 
 	virtual std::shared_ptr<Graph> getGraphForAll() const;
 	virtual std::shared_ptr<Graph> getGraphForActiveTokenIds(const std::vector<Id>& tokenIds, bool* isActiveNamespace = nullptr) const;
+	virtual std::shared_ptr<Graph> getGraphForChildrenOfNodeId(Id nodeId) const;
 	virtual std::shared_ptr<Graph> getGraphForTrail(Id originId, Id targetId, Edge::EdgeTypeMask trailType, size_t depth) const;
 
 	virtual std::vector<Id> getActiveTokenIdsForId(Id tokenId, Id* declarationId) const;

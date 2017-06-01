@@ -3,8 +3,8 @@
 
 #include <algorithm>
 #include <functional>
+#include <map>
 #include <string>
-#include <vector>
 
 #include "data/graph/Edge.h"
 #include "data/graph/Token.h"
@@ -58,6 +58,7 @@ public:
 	static const NodeTypeMask NODE_USEABLE_TYPE;
 
 	Node(Id id, NodeType type, NameHierarchy nameHierarchy, bool defined);
+	Node(const Node& other);
 	virtual ~Node();
 
 	NodeType getType() const;
@@ -77,7 +78,10 @@ public:
 	bool isExplicit() const;
 	void setExplicit(bool bExplicit);
 
-	const std::vector<Edge*>& getEdges() const;
+	size_t getChildCount() const;
+	void setChildCount(size_t childCount);
+
+	size_t getEdgeCount() const;
 
 	void addEdge(Edge* edge);
 	void removeEdge(Edge* edge);
@@ -115,13 +119,15 @@ public:
 private:
 	void operator=(const Node&);
 
-	std::vector<Edge*> m_edges;
+	std::map<Id, Edge*> m_edges;
 
 	NodeType m_type;
 	NameHierarchy m_nameHierarchy;
 	bool m_defined;
 	bool m_implicit;
 	bool m_explicit;
+
+	size_t m_childCount;
 };
 
 std::ostream& operator<<(std::ostream& ostream, const Node& node);

@@ -140,7 +140,7 @@ void Graph::removeNode(Node* node)
 		}
 	);
 
-	if (node->getEdges().size())
+	if (node->getEdgeCount())
 	{
 		LOG_ERROR("Node still has edges.");
 	}
