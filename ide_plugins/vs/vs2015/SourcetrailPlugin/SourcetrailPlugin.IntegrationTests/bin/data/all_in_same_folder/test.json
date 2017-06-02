@@ -1,0 +1,7 @@
+[
+  {
+    "directory": "<CompilationDatabaseFilePath>",
+    "command": "clang-tool -fms-extensions -fms-compatibility -fms-compatibility-version=19  -isystem '<Macro $(VC_IncludePath)>'  -isystem '<Macro $(WindowsSDK_IncludePath)>'  -D WIN32  -D _DEBUG  -D _CONSOLE -std=c++14  '<ProjectBaseDirectory>/main.cpp'",
+    "file": "<ProjectBaseDirectory>/main.cpp"
+  }
+]

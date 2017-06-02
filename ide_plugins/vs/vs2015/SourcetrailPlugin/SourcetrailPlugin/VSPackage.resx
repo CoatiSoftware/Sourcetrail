@@ -1,14 +1,4 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<!--
-    VS SDK Notes: This resx file contains the resources that will be consumed from your package by Visual Studio.
-    For example, Visual Studio will attempt to load resource '400' from this resource stream when it needs to
-    load your package's icon. Because Visual Studio will always look in the VSPackage.resources stream first for
-    resources it needs, you should put additional resources that Visual Studio will load directly into this resx 
-    file. 
-
-    Resources that you would like to access directly from your package in a strong-typed fashion should be stored 
-    in Resources.resx or another resx file.
--->
 <root>
   <!-- 
     Microsoft ResX Schema 
@@ -132,6 +122,6 @@
     <value>SourcetrailPlugin</value>
   </data>
   <data name="112" xml:space="preserve">
-    <value>Sourcetrail plugin test</value>
+    <value>The Sourcetrail Plugin allows Visual Studio to communicate with Sourcetrail - an external source code exploration tool. It also enables Visual Studio to generate a Clang Compilation Database from any Visual Studio Solution which can be used to automate the Sourcetrail project setup and to run other Clang based tools.</value>
   </data>
 </root>

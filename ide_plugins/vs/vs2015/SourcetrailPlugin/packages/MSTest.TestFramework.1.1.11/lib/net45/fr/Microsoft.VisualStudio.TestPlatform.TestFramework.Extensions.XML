@@ -1,0 +1,930 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Microsoft.VisualStudio.TestPlatform.TestFramework.Extensions</name>
+    </assembly>
+    <members>
+        <member name="T:Microsoft.VisualStudio.TestTools.UnitTesting.TestConfiguration">
+            <summary>
+            Support for configuration settings for Tests.
+            </summary>
+        </member>
+        <member name="P:Microsoft.VisualStudio.TestTools.UnitTesting.TestConfiguration.ConfigurationSection">
+            <summary>
+            Gets the configuration section for tests.
+            </summary>
+        </member>
+        <member name="T:Microsoft.VisualStudio.TestTools.UnitTesting.TestConfigurationSection">
+            <summary>
+            The configuration section for tests.
+            </summary>
+        </member>
+        <member name="P:Microsoft.VisualStudio.TestTools.UnitTesting.TestConfigurationSection.Properties">
+            <summary>
+            Gets the collection of properties.
+            </summary>
+            <returns>
+            The <see cref="T:System.Configuration.ConfigurationPropertyCollection"/> of properties for the element.
+            </returns>
+        </member>
+        <member name="P:Microsoft.VisualStudio.TestTools.UnitTesting.TestConfigurationSection.DataSources">
+            <summary>
+            The data sources for this configuration section.
+            </summary>
+        </member>
+        <member name="T:Microsoft.VisualStudio.TestTools.UnitTesting.DataSourceElementCollection">
+            <summary>
+            The Data source element collection.
+            </summary>
+        </member>
+        <member name="M:Microsoft.VisualStudio.TestTools.UnitTesting.DataSourceElementCollection.#ctor">
+            <summary>
+            Constructor.
+            </summary>
+        </member>
+        <member name="M:Microsoft.VisualStudio.TestTools.UnitTesting.DataSourceElementCollection.CreateNewElement">
+            <summary>
+            Creates a new <see cref="T:Microsoft.VisualStudio.TestTools.UnitTesting.DataSourceElement"/>.
+            </summary>
+            <returns>A new <see cref="T:Microsoft.VisualStudio.TestTools.UnitTesting.DataSourceElement"/>.</returns>
+        </member>
+        <member name="M:Microsoft.VisualStudio.TestTools.UnitTesting.DataSourceElementCollection.GetElementKey(System.Configuration.ConfigurationElement)">
+            <summary>
+            Gets the element key for a specified configuration element.
+            </summary>
+            <param name="element">The System.Configuration.ConfigurationElement to return the key for.</param>
+            <returns>An System.Object that acts as the key for the specified System.Configuration.ConfigurationElement.</returns>
+        </member>
+        <member name="M:Microsoft.VisualStudio.TestTools.UnitTesting.DataSourceElementCollection.Add(Microsoft.VisualStudio.TestTools.UnitTesting.DataSourceElement)">
+            <summary>
+            Adds a configuration element to the configuration element collection.
+            </summary>
+            <param name="element">The System.Configuration.ConfigurationElement to add.</param>
+        </member>
+        <member name="M:Microsoft.VisualStudio.TestTools.UnitTesting.DataSourceElementCollection.Remove(Microsoft.VisualStudio.TestTools.UnitTesting.DataSourceElement)">
+            <summary>
+            Removes a System.Configuration.ConfigurationElement from the collection.
+            </summary>
+            <param name="element">The <see cref="T:Microsoft.VisualStudio.TestTools.UnitTesting.DataSourceElement"/> .</param>
+        </member>
+        <member name="M:Microsoft.VisualStudio.TestTools.UnitTesting.DataSourceElementCollection.Remove(System.String)">
+            <summary>
+            Removes a System.Configuration.ConfigurationElement from the collection.
+            </summary>
+            <param name="name">The key of the System.Configuration.ConfigurationElement to remove.</param>
+        </member>
+        <member name="M:Microsoft.VisualStudio.TestTools.UnitTesting.DataSourceElementCollection.Clear">
+            <summary>
+            Removes all configuration element objects from the collection.
+            </summary>
+        </member>
+        <member name="P:Microsoft.VisualStudio.TestTools.UnitTesting.DataSourceElementCollection.Item(System.String)">
+            <summary>
+            Returns the configuration element with the specified key.
+            </summary>
+            <param name="name">The key of the element to return.</param>
+            <returns>The System.Configuration.ConfigurationElement with the specified key; otherwise, null.</returns>
+        </member>
+        <member name="P:Microsoft.VisualStudio.TestTools.UnitTesting.DataSourceElementCollection.Item(System.Int32)">
+            <summary>
+            Gets the configuration element at the specified index location.
+            </summary>
+            <param name="index">The index location of the System.Configuration.ConfigurationElement to return.</param>
+        </member>
+        <member name="M:Microsoft.VisualStudio.TestTools.UnitTesting.DataSourceElementCollection.BaseAdd(System.Configuration.ConfigurationElement)">
+            <summary>
+            Adds a configuration element to the configuration element collection.
+            </summary>
+            <param name="element">The System.Configuration.ConfigurationElement to add.</param>
+        </member>
+        <member name="M:Microsoft.VisualStudio.TestTools.UnitTesting.DataSourceElementCollection.BaseAdd(System.Int32,System.Configuration.ConfigurationElement)">
+            <summary>
+            Adds a configuration element to the configuration element collection.
+            </summary>
+            <param name="index">The index location at which to add the specified System.Configuration.ConfigurationElement.</param>
+            <param name="element">The System.Configuration.ConfigurationElement to add.</param>
+        </member>
+        <member name="T:Microsoft.VisualStudio.TestTools.UnitTesting.DataSourceElement">
+            <summary>
+            The Data Source element.
+            </summary>
+        </member>
+        <member name="P:Microsoft.VisualStudio.TestTools.UnitTesting.DataSourceElement.Properties">
+            <summary>
+            Gets the configuration properties.
+            </summary>
+        </member>
+        <member name="P:Microsoft.VisualStudio.TestTools.UnitTesting.DataSourceElement.Name">
+            <summary>
+            Gets the name of this configuration.
+            </summary>
+        </member>
+        <member name="P:Microsoft.VisualStudio.TestTools.UnitTesting.DataSourceElement.ConnectionString">
+            <summary>
+            Refers to ConnectionStringSettings element in &lt;connectionStrings&gt; section in the .config file.
+            </summary>
+        </member>
+        <member name="P:Microsoft.VisualStudio.TestTools.UnitTesting.DataSourceElement.DataTableName">
+            <summary>
+            Gets the name of the data table.
+            </summary>
+        </member>
+        <member name="P:Microsoft.VisualStudio.TestTools.UnitTesting.DataSourceElement.DataAccessMethod">
+            <summary>
+            Gets the type of data access.
+            </summary>
+        </member>
+        <member name="T:Microsoft.VisualStudio.TestTools.UnitTesting.ConfigurationNames">
+            <summary>
+            Contains literals for names of sections, properties, attributes.
+            </summary>
+        </member>
+        <member name="T:Microsoft.VisualStudio.TestTools.UnitTesting.PrivateType">
+            <summary>
+            This class represents a private class 
+            </summary>
+        </member>
+        <member name="F:Microsoft.VisualStudio.TestTools.UnitTesting.PrivateType.type">
+            <summary>
+            The wrapped type
+            </summary>
+        </member>
+        <member name="P:Microsoft.VisualStudio.TestTools.UnitTesting.PrivateType.ReferencedType">
+            <summary>
+            Gets the referenced type
+            </summary>
+            <value></value>
+        </member>
+        <member name="F:Microsoft.VisualStudio.TestTools.UnitTesting.PrivateType.BindToEveryThing">
+            <summary>
+            Binds to everything
+            </summary>
+        </member>
+        <member name="M:Microsoft.VisualStudio.TestTools.UnitTesting.PrivateType.#ctor(System.String,System.String)">
+            <summary>
+            Creates a private type 
+            </summary>
+            <param name="assemblyName">Assembly name</param>
+            <param name="typeName">fully qualified name of the </param>
+        </member>
+        <member name="M:Microsoft.VisualStudio.TestTools.UnitTesting.PrivateType.#ctor(System.Type)">
+            <summary>
+            Creates a private type from the type object
+            </summary>
+            <param name="type">The wrapped Type to create.</param>
+        </member>
+        <member name="M:Microsoft.VisualStudio.TestTools.UnitTesting.PrivateType.InvokeStatic(System.String,System.Object[])">
+            <summary>
+            Invokes static member
+            </summary>
+            <param name="name">Name of the member to InvokeHelper</param>
+            <param name="args">Arguements to the invoction</param>
+            <returns>Result of invocation</returns>
+        </member>
+        <member name="M:Microsoft.VisualStudio.TestTools.UnitTesting.PrivateType.InvokeStatic(System.String,System.Type[],System.Object[])">
+            <summary>
+            Invokes static member
+            </summary>
+            <param name="name">Name of the member to InvokeHelper</param>
+            <param name="parameterTypes">An array of <see cref="T:System.Type"/> objects representing the number, order, and type of the parameters for the method to invoke</param>
+            <param name="args">Arguements to the invoction</param>
+            <returns>Result of invocation</returns>
+        </member>
+        <member name="M:Microsoft.VisualStudio.TestTools.UnitTesting.PrivateType.InvokeStatic(System.String,System.Type[],System.Object[],System.Type[])">
+            <summary>
+            Invokes static member
+            </summary>
+            <param name="name">Name of the member to InvokeHelper</param>
+            <param name="parameterTypes">An array of <see cref="T:System.Type"/> objects representing the number, order, and type of the parameters for the method to invoke</param>
+            <param name="args">Arguements to the invoction</param>
+            <param name="typeArguments">An array of types corresponding to the types of the generic arguments.</param>
+            <returns>Result of invocation</returns>
+        </member>
+        <member name="M:Microsoft.VisualStudio.TestTools.UnitTesting.PrivateType.InvokeStatic(System.String,System.Object[],System.Globalization.CultureInfo)">
+            <summary>
+            Invokes the static method
+            </summary>
+            <param name="name">Name of the member</param>
+            <param name="args">Arguements to the invocation</param>
+            <param name="culture">Culture</param>
+            <returns>Result of invocation</returns>
+        </member>
+        <member name="M:Microsoft.VisualStudio.TestTools.UnitTesting.PrivateType.InvokeStatic(System.String,System.Type[],System.Object[],System.Globalization.CultureInfo)">
+            <summary>
+            Invokes the static method
+            </summary>
+            <param name="name">Name of the member</param>
+            <param name="parameterTypes">An array of <see cref="T:System.Type"/> objects representing the number, order, and type of the parameters for the method to invoke</param>
+            <param name="args">Arguements to the invocation</param>
+            <param name="culture">Culture info</param>
+            <returns>Result of invocation</returns>
+        </member>
+        <member name="M:Microsoft.VisualStudio.TestTools.UnitTesting.PrivateType.InvokeStatic(System.String,System.Reflection.BindingFlags,System.Object[])">
+            <summary>
+            Invokes the static method
+            </summary>
+            <param name="name">Name of the member</param>
+            <param name="bindingFlags">Additional invocation attributes</param>
+            <param name="args">Arguements to the invocation</param>
+            <returns>Result of invocation</returns>
+        </member>
+        <member name="M:Microsoft.VisualStudio.TestTools.UnitTesting.PrivateType.InvokeStatic(System.String,System.Reflection.BindingFlags,System.Type[],System.Object[])">
+            <summary>
+            Invokes the static method
+            </summary>
+            <param name="name">Name of the member</param>
+            <param name="bindingFlags">Additional invocation attributes</param>
+            <param name="parameterTypes">An array of <see cref="T:System.Type"/> objects representing the number, order, and type of the parameters for the method to invoke</param>
+            <param name="args">Arguements to the invocation</param>
+            <returns>Result of invocation</returns>
+        </member>
+        <member name="M:Microsoft.VisualStudio.TestTools.UnitTesting.PrivateType.InvokeStatic(System.String,System.Reflection.BindingFlags,System.Object[],System.Globalization.CultureInfo)">
+            <summary>
+            Invokes the static method
+            </summary>
+            <param name="name">Name of the member</param>
+            <param name="bindingFlags">Additional invocation attributes</param>
+            <param name="args">Arguements to the invocation</param>
+            <param name="culture">Culture</param>
+            <returns>Result of invocation</returns>
+        </member>
+        <member name="M:Microsoft.VisualStudio.TestTools.UnitTesting.PrivateType.InvokeStatic(System.String,System.Reflection.BindingFlags,System.Type[],System.Object[],System.Globalization.CultureInfo)">
+            <summary>
+            Invokes the static method
+            </summary>
+            <param name="name">Name of the member</param>
+            <param name="bindingFlags">Additional invocation attributes</param>
+            <param name="args">Arguements to the invocation</param>
+            <param name="parameterTypes">An array of <see cref="T:System.Type"/> objects representing the number, order, and type of the parameters for the method to invoke</param>
+            <param name="culture">Culture</param>
+            <returns>Result of invocation</returns>
+        </member>
+        <member name="M:Microsoft.VisualStudio.TestTools.UnitTesting.PrivateType.InvokeStatic(System.String,System.Reflection.BindingFlags,System.Type[],System.Object[],System.Globalization.CultureInfo,System.Type[])">
+            <summary>
+            Invokes the static method
+            </summary>
+            <param name="name">Name of the member</param>
+            <param name="bindingFlags">Additional invocation attributes</param>
+            <param name="args">Arguements to the invocation</param>
+            <param name="parameterTypes">An array of <see cref="T:System.Type"/> objects representing the number, order, and type of the parameters for the method to invoke</param>
+            <param name="culture">Culture</param>
+            <param name="typeArguments">An array of types corresponding to the types of the generic arguments.</param>
+            <returns>Result of invocation</returns>
+        </member>
+        <member name="M:Microsoft.VisualStudio.TestTools.UnitTesting.PrivateType.InvokeHelperStatic(System.String,System.Reflection.BindingFlags,System.Object[],System.Globalization.CultureInfo)">
+            <summary>
+            Invokes the static method
+            </summary>
+            <param name="name">Name of the member</param>
+            <param name="bindingFlags">Additional invocation attributes</param>
+            <param name="args">Arguements to the invocation</param>
+            <param name="culture">Culture</param>
+            <returns>Result of invocation</returns>
+        </member>
+        <member name="M:Microsoft.VisualStudio.TestTools.UnitTesting.PrivateType.GetStaticArrayElement(System.String,System.Int32[])">
+            <summary>
+            Gets the element in static array
+            </summary>
+            <param name="name">Name of the array</param>
+            <param name="indices">
+            A one-dimensional array of 32-bit integers that represent the indexes specifying
+            the position of the element to get. For instance, to access a[10][11] the indices would be {10,11}
+            </param>
+            <returns>element at the specified location</returns>
+        </member>
+        <member name="M:Microsoft.VisualStudio.TestTools.UnitTesting.PrivateType.SetStaticArrayElement(System.String,System.Object,System.Int32[])">
+            <summary>
+            Sets the memeber of the static array
+            </summary>
+            <param name="name">Name of the array</param>
+            <param name="value">value to set</param>
+            <param name="indices">
+            A one-dimensional array of 32-bit integers that represent the indexes specifying
+            the position of the element to set. For instance, to access a[10][11] the array would be {10,11}
+            </param>
+        </member>
+        <member name="M:Microsoft.VisualStudio.TestTools.UnitTesting.PrivateType.GetStaticArrayElement(System.String,System.Reflection.BindingFlags,System.Int32[])">
+            <summary>
+            Gets the element in satatic array 
+            </summary>
+            <param name="name">Name of the array</param>
+            <param name="bindingFlags">Additional InvokeHelper attributes</param>
+            <param name="indices">
+            A one-dimensional array of 32-bit integers that represent the indexes specifying
+            the position of the element to get. For instance, to access a[10][11] the array would be {10,11}
+            </param>
+            <returns>element at the spcified location</returns>
+        </member>
+        <member name="M:Microsoft.VisualStudio.TestTools.UnitTesting.PrivateType.SetStaticArrayElement(System.String,System.Reflection.BindingFlags,System.Object,System.Int32[])">
+            <summary>
+            Sets the memeber of the static array
+            </summary>
+            <param name="name">Name of the array</param>
+            <param name="value">value to set</param>
+            <param name="bindingFlags">Additional InvokeHelper attributes</param>
+            <param name="indices">
+            A one-dimensional array of 32-bit integers that represent the indexes specifying
+            the position of the element to set. For instance, to access a[10][11] the array would be {10,11}
+            </param>
+        </member>
+        <member name="M:Microsoft.VisualStudio.TestTools.UnitTesting.PrivateType.GetStaticField(System.String)">
+            <summary>
+            Gets the static field
+            </summary>
+            <param name="name">Name of the field</param>
+        </member>
+        <member name="M:Microsoft.VisualStudio.TestTools.UnitTesting.PrivateType.SetStaticField(System.String,System.Object)">
+            <summary>
+            Sets the static field
+            </summary>
+            <param name="name">Name of the field</param>
+            <param name="value">Arguement to the invocation</param>
+        </member>
+        <member name="M:Microsoft.VisualStudio.TestTools.UnitTesting.PrivateType.GetStaticField(System.String,System.Reflection.BindingFlags)">
+            <summary>
+            Gets the static field using specified InvokeHelper attributes
+            </summary>
+            <param name="name">Name of the field</param>
+            <param name="bindingFlags">Additional invocation attributes</param>
+        </member>
+        <member name="M:Microsoft.VisualStudio.TestTools.UnitTesting.PrivateType.SetStaticField(System.String,System.Reflection.BindingFlags,System.Object)">
+            <summary>
+            Sets the static field using binding attributes
+            </summary>
+            <param name="name">Name of the field</param>
+            <param name="bindingFlags">Additional InvokeHelper attributes</param>
+            <param name="value">Arguement to the invocation</param>
+        </member>
+        <member name="M:Microsoft.VisualStudio.TestTools.UnitTesting.PrivateType.GetStaticFieldOrProperty(System.String)">
+            <summary>
+            Gets the static field or property
+            </summary>
+            <param name="name">Name of the field or property</param>
+        </member>
+        <member name="M:Microsoft.VisualStudio.TestTools.UnitTesting.PrivateType.SetStaticFieldOrProperty(System.String,System.Object)">
+            <summary>
+            Sets the static field or property
+            </summary>
+            <param name="name">Name of the field or property</param>
+            <param name="value">Value to be set to field or property</param>
+        </member>
+        <member name="M:Microsoft.VisualStudio.TestTools.UnitTesting.PrivateType.GetStaticFieldOrProperty(System.String,System.Reflection.BindingFlags)">
+            <summary>
+            Gets the static field or property using specified InvokeHelper attributes
+            </summary>
+            <param name="name">Name of the field or property</param>
+            <param name="bindingFlags">Additional invocation attributes</param>
+        </member>
+        <member name="M:Microsoft.VisualStudio.TestTools.UnitTesting.PrivateType.SetStaticFieldOrProperty(System.String,System.Reflection.BindingFlags,System.Object)">
+            <summary>
+            Sets the static field or property using binding attributes
+            </summary>
+            <param name="name">Name of the field or property</param>
+            <param name="bindingFlags">Additional invocation attributes</param>
+            <param name="value">Value to be set to field or property</param>
+        </member>
+        <member name="M:Microsoft.VisualStudio.TestTools.UnitTesting.PrivateType.GetStaticProperty(System.String,System.Object[])">
+            <summary>
+            Gets the static property
+            </summary>
+            <param name="name">Name of the field or property</param>
+            <param name="args">Arguements to the invocation</param>
+        </member>
+        <member name="M:Microsoft.VisualStudio.TestTools.UnitTesting.PrivateType.SetStaticProperty(System.String,System.Object,System.Object[])">
+            <summary>
+            Sets the static property
+            </summary>
+            <param name="name">Name of the property</param>
+            <param name="value">Value to be set to field or property</param>
+            <param name="args">Arguments to pass to the member to invoke.</param>
+        </member>
+        <member name="M:Microsoft.VisualStudio.TestTools.UnitTesting.PrivateType.SetStaticProperty(System.String,System.Object,System.Type[],System.Object[])">
+            <summary>
+            Sets the static property
+            </summary>
+            <param name="name">Name of the property</param>
+            <param name="value">Value to be set to field or property</param>
+            <param name="parameterTypes">An array of <see cref="T:System.Type"/> objects representing the number, order, and type of the parameters for the indexed property.</param>
+            <param name="args">Arguments to pass to the member to invoke.</param>
+        </member>
+        <member name="M:Microsoft.VisualStudio.TestTools.UnitTesting.PrivateType.GetStaticProperty(System.String,System.Reflection.BindingFlags,System.Object[])">
+            <summary>
+            Gets the static property
+            </summary>
+            <param name="name">Name of the property</param>
+            <param name="bindingFlags">Additional invocation attributes.</param>
+            <param name="args">Arguments to pass to the member to invoke.</param>
+        </member>
+        <member name="M:Microsoft.VisualStudio.TestTools.UnitTesting.PrivateType.GetStaticProperty(System.String,System.Reflection.BindingFlags,System.Type[],System.Object[])">
+            <summary>
+            Gets the static property
+            </summary>
+            <param name="name">Name of the property</param>
+            <param name="bindingFlags">Additional invocation attributes.</param>
+            <param name="parameterTypes">An array of <see cref="T:System.Type"/> objects representing the number, order, and type of the parameters for the indexed property.</param>
+            <param name="args">Arguments to pass to the member to invoke.</param>
+        </member>
+        <member name="M:Microsoft.VisualStudio.TestTools.UnitTesting.PrivateType.SetStaticProperty(System.String,System.Reflection.BindingFlags,System.Object,System.Object[])">
+            <summary>
+            Sets the static property
+            </summary>
+            <param name="name">Name of the property</param>
+            <param name="bindingFlags">Additional invocation attributes.</param>
+            <param name="value">Value to be set to field or property</param>
+            <param name="args">Optional index values for indexed properties. The indexes of indexed properties are zero-based. This value should be null for non-indexed properties. </param>
+        </member>
+        <member name="M:Microsoft.VisualStudio.TestTools.UnitTesting.PrivateType.SetStaticProperty(System.String,System.Reflection.BindingFlags,System.Object,System.Type[],System.Object[])">
+            <summary>
+            Sets the static property
+            </summary>
+            <param name="name">Name of the property</param>
+            <param name="bindingFlags">Additional invocation attributes.</param>
+            <param name="value">Value to be set to field or property</param>
+            <param name="parameterTypes">An array of <see cref="T:System.Type"/> objects representing the number, order, and type of the parameters for the indexed property.</param>
+            <param name="args">Arguments to pass to the member to invoke.</param>
+        </member>
+        <member name="T:Microsoft.VisualStudio.TestTools.UnitTesting.PrivateObject">
+            <summary>
+            this class represents the live NON public INTERNAL object in the system
+            </summary>
+        </member>
+        <member name="M:Microsoft.VisualStudio.TestTools.UnitTesting.PrivateObject.GetGenericMethodFromCache(System.String,System.Type[],System.Type[],System.Reflection.BindingFlags,System.Reflection.ParameterModifier[])">
+            <summary>
+            Extracts the most appropriate generic method signature from the current private type.
+            </summary>
+            <param name="methodName">The name of the method in which to search the signature cache.</param>
+            <param name="parameterTypes">An array of types corresponding to the types of the parameters in which to search.</param>
+            <param name="typeArguments">An array of types corresponding to the types of the generic arguments.</param>
+            <param name="bindingFlags"><see cref="T:System.Reflection.BindingFlags"/> to further filter the method signatures.</param>
+            <param name="modifiers"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Microsoft.VisualStudio.TestTools.UnitTesting.PrivateObject.#ctor(System.Object,System.String)">
+            <summary>
+            Creates the private object of the already existing object of the private class
+            </summary>
+            <param name="obj"> object that serves as starting point to reach the private members</param>
+            <param name="memberToAccess">the derefrencing string using . that points to the object to be retrived as in m_X.m_Y.m_Z</param>
+        </member>
+        <member name="M:Microsoft.VisualStudio.TestTools.UnitTesting.PrivateObject.#ctor(System.String,System.String,System.Object[])">
+            <summary>
+            create the object of the specified type and wraps it in the private object
+            </summary>
+            <param name="assemblyName">Name of the assembly</param>
+            <param name="typeName">fully qualified name</param>
+            <param name="args">Argmenets to pass to the constructor</param>
+        </member>
+        <member name="M:Microsoft.VisualStudio.TestTools.UnitTesting.PrivateObject.#ctor(System.String,System.String,System.Type[],System.Object[])">
+            <summary>
+            create the object of the specified type and wraps it in the private object
+            </summary>
+            <param name="assemblyName">Name of the assembly</param>
+            <param name="typeName">fully qualified name</param>
+            <param name="parameterTypes">An array of <see cref="T:System.Type"/> objects representing the number, order, and type of the parameters for the constructor to get</param>
+            <param name="args">Argmenets to pass to the constructor</param>
+        </member>
+        <member name="M:Microsoft.VisualStudio.TestTools.UnitTesting.PrivateObject.#ctor(System.Type,System.Object[])">
+            <summary>
+            create the object of the specified type and wraps it in the private object
+            </summary>
+            <param name="type">type of the object to create</param>
+            <param name="args">Argmenets to pass to the constructor</param>
+        </member>
+        <member name="M:Microsoft.VisualStudio.TestTools.UnitTesting.PrivateObject.#ctor(System.Type,System.Type[],System.Object[])">
+            <summary>
+            create the object of the specified type and wraps it in the private object
+            </summary>
+            <param name="type">type of the object to create</param>
+            <param name="parameterTypes">An array of <see cref="T:System.Type"/> objects representing the number, order, and type of the parameters for the constructor to get</param>
+            <param name="args">Argmenets to pass to the constructor</param>
+        </member>
+        <member name="M:Microsoft.VisualStudio.TestTools.UnitTesting.PrivateObject.#ctor(System.Object)">
+            <summary>
+            create the wrapper for given object
+            </summary>
+            <param name="obj">object to wrap</param>
+        </member>
+        <member name="M:Microsoft.VisualStudio.TestTools.UnitTesting.PrivateObject.#ctor(System.Object,Microsoft.VisualStudio.TestTools.UnitTesting.PrivateType)">
+            <summary>
+            create the wrapper for given object
+            </summary>
+            <param name="obj">object to wrap</param>
+            <param name="type">PrivateType object</param>
+        </member>
+        <member name="M:Microsoft.VisualStudio.TestTools.UnitTesting.PrivateObject.GetHashCode">
+            <summary>
+            returns the hash code of the target object
+            </summary>
+            <returns>int representing hashcode of the target object</returns>
+        </member>
+        <member name="M:Microsoft.VisualStudio.TestTools.UnitTesting.PrivateObject.Equals(System.Object)">
+            <summary>
+            Equals
+            </summary>
+            <param name="obj">Object with whom to compare</param>
+            <returns></returns>
+        </member>
+        <member name="P:Microsoft.VisualStudio.TestTools.UnitTesting.PrivateObject.Target">
+            <summary>
+            resets the target
+            </summary>
+            <value></value>
+        </member>
+        <member name="P:Microsoft.VisualStudio.TestTools.UnitTesting.PrivateObject.RealType">
+            <summary>
+            Get the type of underlying object
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Microsoft.VisualStudio.TestTools.UnitTesting.PrivateObject.ValidateAccessString(System.String)">
+            <summary>
+            Validate access string
+            </summary>
+            <param name="access"> access string</param>
+        </member>
+        <member name="M:Microsoft.VisualStudio.TestTools.UnitTesting.PrivateObject.InvokeHelper(System.String,System.Reflection.BindingFlags,System.Object[],System.Globalization.CultureInfo)">
+            <summary>
+            Invokes the memeber
+            </summary>
+            <param name="name">Name of the member</param>
+            <param name="bindingFlags">Additional attributes</param>
+            <param name="args">Arguments for the invocation</param>
+            <param name="culture">Culture</param>
+            <returns>Result of the invocation</returns>
+        </member>
+        <member name="M:Microsoft.VisualStudio.TestTools.UnitTesting.PrivateObject.Invoke(System.String,System.Object[])">
+            <summary>
+            Invokes the specified method
+            </summary>
+            <param name="name">Name of the method</param>
+            <param name="args">Arguments to pass to the member to invoke.</param>
+            <returns>Result of method call</returns>
+        </member>
+        <member name="M:Microsoft.VisualStudio.TestTools.UnitTesting.PrivateObject.Invoke(System.String,System.Type[],System.Object[])">
+            <summary>
+            Invokes the specified method
+            </summary>
+            <param name="name">Name of the method</param>
+            <param name="parameterTypes">An array of <see cref="T:System.Type"/> objects representing the number, order, and type of the parameters for the method to get.</param>
+            <param name="args">Arguments to pass to the member to invoke.</param>
+            <returns>Result of method call</returns>
+        </member>
+        <member name="M:Microsoft.VisualStudio.TestTools.UnitTesting.PrivateObject.Invoke(System.String,System.Type[],System.Object[],System.Type[])">
+            <summary>
+            Invokes the specified method
+            </summary>
+            <param name="name">Name of the method</param>
+            <param name="parameterTypes">An array of <see cref="T:System.Type"/> objects representing the number, order, and type of the parameters for the method to get.</param>
+            <param name="args">Arguments to pass to the member to invoke.</param>
+            <param name="typeArguments">An array of types corresponding to the types of the generic arguments.</param>
+            <returns>Result of method call</returns>
+        </member>
+        <member name="M:Microsoft.VisualStudio.TestTools.UnitTesting.PrivateObject.Invoke(System.String,System.Object[],System.Globalization.CultureInfo)">
+            <summary>
+            Invokes the specified method
+            </summary>
+            <param name="name">Name of the method</param>
+            <param name="args">Arguments to pass to the member to invoke.</param>
+            <param name="culture">Culture info</param>
+            <returns>Result of method call</returns>
+        </member>
+        <member name="M:Microsoft.VisualStudio.TestTools.UnitTesting.PrivateObject.Invoke(System.String,System.Type[],System.Object[],System.Globalization.CultureInfo)">
+            <summary>
+            Invokes the specified method
+            </summary>
+            <param name="name">Name of the method</param>
+            <param name="parameterTypes">An array of <see cref="T:System.Type"/> objects representing the number, order, and type of the parameters for the method to get.</param>
+            <param name="args">Arguments to pass to the member to invoke.</param>
+            <param name="culture">Culture info</param>
+            <returns>Result of method call</returns>
+        </member>
+        <member name="M:Microsoft.VisualStudio.TestTools.UnitTesting.PrivateObject.Invoke(System.String,System.Reflection.BindingFlags,System.Object[])">
+            <summary>
+            Invokes the specified method
+            </summary>
+            <param name="name">Name of the method</param>
+            <param name="bindingFlags">A bitmask comprised of one or more <see cref="T:System.Reflection.BindingFlags"/> that specify how the search is conducted.</param>
+            <param name="args">Arguments to pass to the member to invoke.</param>
+            <returns>Result of method call</returns>
+        </member>
+        <member name="M:Microsoft.VisualStudio.TestTools.UnitTesting.PrivateObject.Invoke(System.String,System.Reflection.BindingFlags,System.Type[],System.Object[])">
+            <summary>
+            Invokes the specified method
+            </summary>
+            <param name="name">Name of the method</param>
+            <param name="bindingFlags">A bitmask comprised of one or more <see cref="T:System.Reflection.BindingFlags"/> that specify how the search is conducted.</param>
+            <param name="parameterTypes">An array of <see cref="T:System.Type"/> objects representing the number, order, and type of the parameters for the method to get.</param>
+            <param name="args">Arguments to pass to the member to invoke.</param>
+            <returns>Result of method call</returns>
+        </member>
+        <member name="M:Microsoft.VisualStudio.TestTools.UnitTesting.PrivateObject.Invoke(System.String,System.Reflection.BindingFlags,System.Object[],System.Globalization.CultureInfo)">
+            <summary>
+            Invokes the specified method
+            </summary>
+            <param name="name">Name of the method</param>
+            <param name="bindingFlags">A bitmask comprised of one or more <see cref="T:System.Reflection.BindingFlags"/> that specify how the search is conducted.</param>
+            <param name="args">Arguments to pass to the member to invoke.</param>
+            <param name="culture">Culture info</param>
+            <returns>Result of method call</returns>
+        </member>
+        <member name="M:Microsoft.VisualStudio.TestTools.UnitTesting.PrivateObject.Invoke(System.String,System.Reflection.BindingFlags,System.Type[],System.Object[],System.Globalization.CultureInfo)">
+            <summary>
+            Invokes the specified method
+            </summary>
+            <param name="name">Name of the method</param>
+            <param name="bindingFlags">A bitmask comprised of one or more <see cref="T:System.Reflection.BindingFlags"/> that specify how the search is conducted.</param>
+            <param name="parameterTypes">An array of <see cref="T:System.Type"/> objects representing the number, order, and type of the parameters for the method to get.</param>
+            <param name="args">Arguments to pass to the member to invoke.</param>
+            <param name="culture">Culture info</param>
+            <returns>Result of method call</returns>
+        </member>
+        <member name="M:Microsoft.VisualStudio.TestTools.UnitTesting.PrivateObject.Invoke(System.String,System.Reflection.BindingFlags,System.Type[],System.Object[],System.Globalization.CultureInfo,System.Type[])">
+            <summary>
+            Invokes the specified method
+            </summary>
+            <param name="name">Name of the method</param>
+            <param name="bindingFlags">A bitmask comprised of one or more <see cref="T:System.Reflection.BindingFlags"/> that specify how the search is conducted.</param>
+            <param name="parameterTypes">An array of <see cref="T:System.Type"/> objects representing the number, order, and type of the parameters for the method to get.</param>
+            <param name="args">Arguments to pass to the member to invoke.</param>
+            <param name="culture">Culture info</param>
+            <param name="typeArguments">An array of types corresponding to the types of the generic arguments.</param>
+            <returns>Result of method call</returns>
+        </member>
+        <member name="M:Microsoft.VisualStudio.TestTools.UnitTesting.PrivateObject.GetArrayElement(System.String,System.Int32[])">
+            <summary>
+            Gets the array element using array of subsrcipts for each dimension 
+            </summary>
+            <param name="name">Name of the member</param>
+            <param name="indices">the indices of array</param>
+        </member>
+        <member name="M:Microsoft.VisualStudio.TestTools.UnitTesting.PrivateObject.SetArrayElement(System.String,System.Object,System.Int32[])">
+            <summary>
+            Sets the array element using array of subsrcipts for each dimension 
+            </summary>
+            <param name="name">Name of the member</param>
+            <param name="value">Value to set</param>
+            <param name="indices">the indices of array</param>
+        </member>
+        <member name="M:Microsoft.VisualStudio.TestTools.UnitTesting.PrivateObject.GetArrayElement(System.String,System.Reflection.BindingFlags,System.Int32[])">
+            <summary>
+            Gets the array element using array of subsrcipts for each dimension 
+            </summary>
+            <param name="name">Name of the member</param>
+            <param name="bindingFlags">A bitmask comprised of one or more <see cref="T:System.Reflection.BindingFlags"/> that specify how the search is conducted.</param>
+            <param name="indices">the indices of array</param>
+        </member>
+        <member name="M:Microsoft.VisualStudio.TestTools.UnitTesting.PrivateObject.SetArrayElement(System.String,System.Reflection.BindingFlags,System.Object,System.Int32[])">
+            <summary>
+            Sets the array element using array of subsrcipts for each dimension 
+            </summary>
+            <param name="name">Name of the member</param>
+            <param name="bindingFlags">A bitmask comprised of one or more <see cref="T:System.Reflection.BindingFlags"/> that specify how the search is conducted.</param>
+            <param name="value">Value to set</param>
+            <param name="indices">the indices of array</param>
+        </member>
+        <member name="M:Microsoft.VisualStudio.TestTools.UnitTesting.PrivateObject.GetField(System.String)">
+            <summary>
+            Get the field
+            </summary>
+            <param name="name">Name of the field</param>
+        </member>
+        <member name="M:Microsoft.VisualStudio.TestTools.UnitTesting.PrivateObject.SetField(System.String,System.Object)">
+            <summary>
+            Sets the field
+            </summary>
+            <param name="name">Name of the field</param>
+            <param name="value">value to set</param>
+        </member>
+        <member name="M:Microsoft.VisualStudio.TestTools.UnitTesting.PrivateObject.GetField(System.String,System.Reflection.BindingFlags)">
+            <summary>
+            Gets the field
+            </summary>
+            <param name="name">Name of the field</param>
+            <param name="bindingFlags">A bitmask comprised of one or more <see cref="T:System.Reflection.BindingFlags"/> that specify how the search is conducted.</param>
+        </member>
+        <member name="M:Microsoft.VisualStudio.TestTools.UnitTesting.PrivateObject.SetField(System.String,System.Reflection.BindingFlags,System.Object)">
+            <summary>
+            Sets the field
+            </summary>
+            <param name="name">Name of the field</param>
+            <param name="bindingFlags">A bitmask comprised of one or more <see cref="T:System.Reflection.BindingFlags"/> that specify how the search is conducted.</param>
+            <param name="value">value to set</param>
+        </member>
+        <member name="M:Microsoft.VisualStudio.TestTools.UnitTesting.PrivateObject.GetFieldOrProperty(System.String)">
+            <summary>
+            Get the field or property
+            </summary>
+            <param name="name">Name of the field or property</param>
+        </member>
+        <member name="M:Microsoft.VisualStudio.TestTools.UnitTesting.PrivateObject.SetFieldOrProperty(System.String,System.Object)">
+            <summary>
+            Sets the field or property
+            </summary>
+            <param name="name">Name of the field or property</param>
+            <param name="value">value to set</param>
+        </member>
+        <member name="M:Microsoft.VisualStudio.TestTools.UnitTesting.PrivateObject.GetFieldOrProperty(System.String,System.Reflection.BindingFlags)">
+            <summary>
+            Gets the field or property
+            </summary>
+            <param name="name">Name of the field or property</param>
+            <param name="bindingFlags">A bitmask comprised of one or more <see cref="T:System.Reflection.BindingFlags"/> that specify how the search is conducted.</param>
+        </member>
+        <member name="M:Microsoft.VisualStudio.TestTools.UnitTesting.PrivateObject.SetFieldOrProperty(System.String,System.Reflection.BindingFlags,System.Object)">
+            <summary>
+            Sets the field or property
+            </summary>
+            <param name="name">Name of the field or property</param>
+            <param name="bindingFlags">A bitmask comprised of one or more <see cref="T:System.Reflection.BindingFlags"/> that specify how the search is conducted.</param>
+            <param name="value">value to set</param>
+        </member>
+        <member name="M:Microsoft.VisualStudio.TestTools.UnitTesting.PrivateObject.GetProperty(System.String,System.Object[])">
+            <summary>
+            Gets the property
+            </summary>
+            <param name="name">Name of the property</param>
+            <param name="args">Arguments to pass to the member to invoke.</param>
+        </member>
+        <member name="M:Microsoft.VisualStudio.TestTools.UnitTesting.PrivateObject.GetProperty(System.String,System.Type[],System.Object[])">
+            <summary>
+            Gets the property
+            </summary>
+            <param name="name">Name of the property</param>
+            <param name="parameterTypes">An array of <see cref="T:System.Type"/> objects representing the number, order, and type of the parameters for the indexed property.</param>
+            <param name="args">Arguments to pass to the member to invoke.</param>
+        </member>
+        <member name="M:Microsoft.VisualStudio.TestTools.UnitTesting.PrivateObject.SetProperty(System.String,System.Object,System.Object[])">
+            <summary>
+            Set the property
+            </summary>
+            <param name="name">Name of the property</param>
+            <param name="value">value to set</param>
+            <param name="args">Arguments to pass to the member to invoke.</param>
+        </member>
+        <member name="M:Microsoft.VisualStudio.TestTools.UnitTesting.PrivateObject.SetProperty(System.String,System.Type[],System.Object,System.Object[])">
+            <summary>
+            Set the property
+            </summary>
+            <param name="name">Name of the property</param>
+            <param name="parameterTypes">An array of <see cref="T:System.Type"/> objects representing the number, order, and type of the parameters for the indexed property.</param>
+            <param name="value">value to set</param>
+            <param name="args">Arguments to pass to the member to invoke.</param>
+        </member>
+        <member name="M:Microsoft.VisualStudio.TestTools.UnitTesting.PrivateObject.GetProperty(System.String,System.Reflection.BindingFlags,System.Object[])">
+            <summary>
+            Gets the property
+            </summary>
+            <param name="name">Name of the property</param>
+            <param name="bindingFlags">A bitmask comprised of one or more <see cref="T:System.Reflection.BindingFlags"/> that specify how the search is conducted.</param>
+            <param name="args">Arguments to pass to the member to invoke.</param>
+        </member>
+        <member name="M:Microsoft.VisualStudio.TestTools.UnitTesting.PrivateObject.GetProperty(System.String,System.Reflection.BindingFlags,System.Type[],System.Object[])">
+            <summary>
+            Gets the property
+            </summary>
+            <param name="name">Name of the property</param>
+            <param name="bindingFlags">A bitmask comprised of one or more <see cref="T:System.Reflection.BindingFlags"/> that specify how the search is conducted.</param>
+            <param name="parameterTypes">An array of <see cref="T:System.Type"/> objects representing the number, order, and type of the parameters for the indexed property.</param>
+            <param name="args">Arguments to pass to the member to invoke.</param>
+        </member>
+        <member name="M:Microsoft.VisualStudio.TestTools.UnitTesting.PrivateObject.SetProperty(System.String,System.Reflection.BindingFlags,System.Object,System.Object[])">
+            <summary>
+            Sets the property
+            </summary>
+            <param name="name">Name of the property</param>
+            <param name="bindingFlags">A bitmask comprised of one or more <see cref="T:System.Reflection.BindingFlags"/> that specify how the search is conducted.</param>
+            <param name="value">value to set</param>
+            <param name="args">Arguments to pass to the member to invoke.</param>
+        </member>
+        <member name="M:Microsoft.VisualStudio.TestTools.UnitTesting.PrivateObject.SetProperty(System.String,System.Reflection.BindingFlags,System.Object,System.Type[],System.Object[])">
+            <summary>
+            Sets the property
+            </summary>
+            <param name="name">Name of the property</param>
+            <param name="bindingFlags">A bitmask comprised of one or more <see cref="T:System.Reflection.BindingFlags"/> that specify how the search is conducted.</param>
+            <param name="value">value to set</param>
+            <param name="parameterTypes">An array of <see cref="T:System.Type"/> objects representing the number, order, and type of the parameters for the indexed property.</param>
+            <param name="args">Arguments to pass to the member to invoke.</param>
+        </member>
+        <member name="T:Microsoft.VisualStudio.TestTools.UnitTesting.RuntimeTypeHelper">
+            <summary>
+            Provides method signature discovery for generic methods.
+            </summary>
+        </member>
+        <member name="M:Microsoft.VisualStudio.TestTools.UnitTesting.RuntimeTypeHelper.SelectMethod(System.Reflection.BindingFlags,System.Reflection.MethodBase[],System.Type[],System.Reflection.ParameterModifier[])">
+            <summary>
+            Given a set of methods that match the base criteria, select a method based
+            upon an array of types. This method should return null if no method matches
+            the criteria.
+            </summary>
+        </member>
+        <member name="T:Microsoft.VisualStudio.TestTools.UnitTesting.TestContext">
+            <summary>
+            Used to store information that is provided to unit tests.
+            </summary>
+        </member>
+        <member name="M:Microsoft.VisualStudio.TestTools.UnitTesting.TestContext.WriteLine(System.String)">
+            <summary>
+            Used to write trace messages while the test is running
+            </summary>
+            <param name="message">formatted message string</param>
+        </member>
+        <member name="M:Microsoft.VisualStudio.TestTools.UnitTesting.TestContext.WriteLine(System.String,System.Object[])">
+            <summary>
+            Used to write trace messages while the test is running
+            </summary>
+            <param name="format">format string</param>
+            <param name="args">the arguments</param>
+        </member>
+        <member name="M:Microsoft.VisualStudio.TestTools.UnitTesting.TestContext.AddResultFile(System.String)">
+            <summary>
+            Adds a file name to the list in TestResult.ResultFileNames
+            </summary>
+            <param name="fileName">
+            The file Name.
+            </param>
+        </member>
+        <member name="M:Microsoft.VisualStudio.TestTools.UnitTesting.TestContext.BeginTimer(System.String)">
+            <summary>
+            Begins a timer with the specified name
+            </summary>
+        </member>
+        <member name="M:Microsoft.VisualStudio.TestTools.UnitTesting.TestContext.EndTimer(System.String)">
+            <summary>
+            Ends a timer with the specified name
+            </summary>
+        </member>
+        <member name="P:Microsoft.VisualStudio.TestTools.UnitTesting.TestContext.Properties">
+            <summary>
+            Per test properties
+            </summary>
+            <value></value>
+        </member>
+        <member name="P:Microsoft.VisualStudio.TestTools.UnitTesting.TestContext.DataRow">
+            <summary>
+            Current data row when test is used for data driven testing.
+            </summary>
+        </member>
+        <member name="P:Microsoft.VisualStudio.TestTools.UnitTesting.TestContext.DataConnection">
+            <summary>
+            Current data connection row when test is used for data driven testing.
+            </summary>
+        </member>
+        <member name="P:Microsoft.VisualStudio.TestTools.UnitTesting.TestContext.TestRunDirectory">
+            <summary>
+            Base directory for the test run, under which deployed files and result files are stored.
+            </summary>
+        </member>
+        <member name="P:Microsoft.VisualStudio.TestTools.UnitTesting.TestContext.DeploymentDirectory">
+            <summary>
+            Directory for files deployed for the test run. Typically a subdirectory of <see cref="P:Microsoft.VisualStudio.TestTools.UnitTesting.TestContext.TestRunDirectory"/>.
+            </summary>
+        </member>
+        <member name="P:Microsoft.VisualStudio.TestTools.UnitTesting.TestContext.ResultsDirectory">
+            <summary>
+            Base directory for results from the test run. Typically a subdirectory of <see cref="P:Microsoft.VisualStudio.TestTools.UnitTesting.TestContext.TestRunDirectory"/>.
+            </summary>
+        </member>
+        <member name="P:Microsoft.VisualStudio.TestTools.UnitTesting.TestContext.TestRunResultsDirectory">
+            <summary>
+            Directory for test run result files. Typically a subdirectory of <see cref="P:Microsoft.VisualStudio.TestTools.UnitTesting.TestContext.ResultsDirectory"/>.
+            </summary>
+        </member>
+        <member name="P:Microsoft.VisualStudio.TestTools.UnitTesting.TestContext.TestResultsDirectory">
+            <summary>
+            Directory for test result files.
+            </summary>
+        </member>
+        <member name="P:Microsoft.VisualStudio.TestTools.UnitTesting.TestContext.TestDir">
+            <summary>
+            Same as <see cref="P:Microsoft.VisualStudio.TestTools.UnitTesting.TestContext.TestRunDirectory"/>. Use that property instead.
+            </summary>
+        </member>
+        <member name="P:Microsoft.VisualStudio.TestTools.UnitTesting.TestContext.TestDeploymentDir">
+            <summary>
+            Same as <see cref="P:Microsoft.VisualStudio.TestTools.UnitTesting.TestContext.DeploymentDirectory"/>. Use that property instead.
+            </summary>
+        </member>
+        <member name="P:Microsoft.VisualStudio.TestTools.UnitTesting.TestContext.TestLogsDir">
+            <summary>
+            Same as <see cref="P:Microsoft.VisualStudio.TestTools.UnitTesting.TestContext.TestRunResultsDirectory"/>. Use that property for test run result files, or
+            <see cref="P:Microsoft.VisualStudio.TestTools.UnitTesting.TestContext.TestResultsDirectory"/> for test-specific result files instead.
+            </summary>
+        </member>
+        <member name="P:Microsoft.VisualStudio.TestTools.UnitTesting.TestContext.FullyQualifiedTestClassName">
+            <summary>
+            Fully-qualified name of the class containing the test method currently being executed
+            </summary>
+        </member>
+        <member name="P:Microsoft.VisualStudio.TestTools.UnitTesting.TestContext.TestName">
+            <summary>
+            Name of the test method currently being executed
+            </summary>
+        </member>
+        <member name="P:Microsoft.VisualStudio.TestTools.UnitTesting.TestContext.CurrentTestOutcome">
+            <summary>
+            Gets the current test outcome.
+            </summary>
+        </member>
+    </members>
+</doc>
