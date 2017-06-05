@@ -5,6 +5,7 @@
 #include <QVBoxLayout>
 
 #include "utility/messaging/type/MessageChangeFileView.h"
+#include "utility/ResourcePaths.h"
 
 #include "data/location/SourceLocationFile.h"
 #include "qt/element/QtCodeFileTitleButton.h"
@@ -28,10 +29,13 @@ QtCodeFile::QtCodeFile(const FilePath& filePath, QtCodeNavigator* navigator)
 	layout->setAlignment(Qt::AlignTop);
 	setLayout(layout);
 
-	m_titleBar = new QPushButton(this);
+	m_titleBar = new QtHoverButton(this);
 	m_titleBar->setObjectName("title_widget");
 	m_titleBar->setAttribute(Qt::WA_LayoutUsesWidgetRect); // fixes layouting on Mac
 	layout->addWidget(m_titleBar);
+
+	connect(dynamic_cast<QtHoverButton*>(m_titleBar), SIGNAL(hoveredIn(QPushButton*)), this, SLOT(enteredTitleBar(QPushButton*)));
+	connect(dynamic_cast<QtHoverButton*>(m_titleBar), SIGNAL(hoveredOut(QPushButton*)), this, SLOT(leftTitleBar(QPushButton*)));
 
 	QHBoxLayout* titleLayout = new QHBoxLayout();
 	titleLayout->setMargin(0);
@@ -56,23 +60,38 @@ QtCodeFile::QtCodeFile(const FilePath& filePath, QtCodeNavigator* navigator)
 
 	titleLayout->addStretch(3);
 
-	m_minimizeButton = new QPushButton(this);
-	m_minimizeButton->setObjectName("minimize_button");
+	m_minimizeButton = new QtIconStateButton(this);
+	m_minimizeButton->addState(QtIconStateButton::STATE_DEFAULT, (ResourcePaths::getGuiPath().str() + "code_view/images/minimize_active.png").c_str());
+	m_minimizeButton->addState(QtIconStateButton::STATE_HOVERED, (ResourcePaths::getGuiPath().str() + "code_view/images/minimize_inactive.png").c_str(), "#5E5D5D");
+	m_minimizeButton->addState(QtIconStateButton::STATE_DISABLED, (ResourcePaths::getGuiPath().str() + "code_view/images/minimize_inactive.png").c_str());
+	m_minimizeButton->setObjectName("file_button");
 	m_minimizeButton->setToolTip("minimize");
-	m_minimizeButton->setAttribute(Qt::WA_LayoutUsesWidgetRect); // fixes layouting on Mac
 	titleLayout->addWidget(m_minimizeButton);
 
-	m_snippetButton = new QPushButton(this);
-	m_snippetButton->setObjectName("snippet_button");
+	m_snippetButton = new QtIconStateButton(this);
+	m_snippetButton->addState(QtIconStateButton::STATE_DEFAULT, (ResourcePaths::getGuiPath().str() + "code_view/images/snippet_active.png").c_str());
+	m_snippetButton->addState(QtIconStateButton::STATE_HOVERED, (ResourcePaths::getGuiPath().str() + "code_view/images/snippet_inactive.png").c_str(), "#5E5D5D");
+	m_snippetButton->addState(QtIconStateButton::STATE_DISABLED, (ResourcePaths::getGuiPath().str() + "code_view/images/snippet_inactive.png").c_str());
+	m_snippetButton->setObjectName("file_button");
 	m_snippetButton->setToolTip("show snippets");
-	m_snippetButton->setAttribute(Qt::WA_LayoutUsesWidgetRect); // fixes layouting on Mac
 	titleLayout->addWidget(m_snippetButton);
 
-	m_maximizeButton = new QPushButton(this);
-	m_maximizeButton->setObjectName("maximize_button");
+	m_maximizeButton = new QtIconStateButton(this);
+	m_maximizeButton->addState(QtIconStateButton::STATE_DEFAULT, (ResourcePaths::getGuiPath().str() + "code_view/images/maximize_active.png").c_str());
+	m_maximizeButton->addState(QtIconStateButton::STATE_HOVERED, (ResourcePaths::getGuiPath().str() + "code_view/images/maximize_inactive.png").c_str(), "#5E5D5D");
+	m_maximizeButton->addState(QtIconStateButton::STATE_DISABLED, (ResourcePaths::getGuiPath().str() + "code_view/images/maximize_inactive.png").c_str());
+	m_maximizeButton->setObjectName("file_button");
 	m_maximizeButton->setToolTip("maximize");
-	m_maximizeButton->setAttribute(Qt::WA_LayoutUsesWidgetRect); // fixes layouting on Mac
 	titleLayout->addWidget(m_maximizeButton);
+
+	connect(m_minimizeButton, SIGNAL(hoveredIn(QPushButton*)), this, SLOT(leftTitleBar(QPushButton*)));
+	connect(m_minimizeButton, SIGNAL(hoveredOut(QPushButton*)), this, SLOT(enteredTitleBar(QPushButton*)));
+	connect(m_snippetButton, SIGNAL(hoveredIn(QPushButton*)), this, SLOT(leftTitleBar(QPushButton*)));
+	connect(m_snippetButton, SIGNAL(hoveredOut(QPushButton*)), this, SLOT(enteredTitleBar(QPushButton*)));
+	connect(m_maximizeButton, SIGNAL(hoveredIn(QPushButton*)), this, SLOT(leftTitleBar(QPushButton*)));
+	connect(m_maximizeButton, SIGNAL(hoveredOut(QPushButton*)), this, SLOT(enteredTitleBar(QPushButton*)));
+
+	titleLayout->addSpacing(3);
 
 	m_minimizeButton->setEnabled(false);
 	m_snippetButton->setEnabled(false);
@@ -112,13 +131,12 @@ std::string QtCodeFile::getFileName() const
 
 QtCodeSnippet* QtCodeFile::addCodeSnippet(const CodeSnippetParams& params)
 {
-	m_isCollapsed = false;
-
 	std::shared_ptr<QtCodeSnippet> snippet(new QtCodeSnippet(params, m_navigator, this));
 
 	if (params.reduced)
 	{
 		m_title->setProject(params.title);
+		m_isCollapsed = false;
 	}
 
 	m_snippetLayout->addWidget(snippet.get());
@@ -140,6 +158,10 @@ QtCodeSnippet* QtCodeFile::addCodeSnippet(const CodeSnippetParams& params)
 		}
 
 		return m_fileSnippet.get();
+	}
+	else
+	{
+		m_isCollapsed = false;
 	}
 
 	m_snippets.push_back(snippet);
@@ -310,6 +332,12 @@ void QtCodeFile::setMinimized()
 	m_minimizeButton->setEnabled(false);
 	m_snippetButton->setEnabled(m_snippets.size() || (isCollapsed() && !m_isWholeFile));
 	m_maximizeButton->setEnabled(true);
+
+	m_minimizeButton->hoverOut();
+	m_snippetButton->hoverOut();
+	m_maximizeButton->hoverOut();
+
+	setStyleSheet("#code_file { padding-bottom: 0; } #code_file #title_widget { border-radius: 7px; }");
 }
 
 void QtCodeFile::setSnippets()
@@ -327,6 +355,12 @@ void QtCodeFile::setSnippets()
 	m_minimizeButton->setEnabled(true);
 	m_snippetButton->setEnabled(false);
 	m_maximizeButton->setEnabled(true);
+
+	m_minimizeButton->hoverOut();
+	m_snippetButton->hoverOut();
+	m_maximizeButton->hoverOut();
+
+	setStyleSheet("");
 }
 
 void QtCodeFile::setMaximized()
@@ -342,8 +376,14 @@ void QtCodeFile::setMaximized()
 	}
 
 	m_minimizeButton->setEnabled(true);
-	m_snippetButton->setEnabled(m_snippets.size());
+	m_snippetButton->setEnabled(m_snippets.size() || (isCollapsed() && !m_isWholeFile));
 	m_maximizeButton->setEnabled(false);
+
+	m_minimizeButton->hoverOut();
+	m_snippetButton->hoverOut();
+	m_maximizeButton->hoverOut();
+
+	setStyleSheet("");
 }
 
 bool QtCodeFile::hasSnippets() const
@@ -385,8 +425,15 @@ void QtCodeFile::updateTitleBar()
 	m_title->updateTexts();
 }
 
-void QtCodeFile::clickedMinimizeButton() const
+void QtCodeFile::clickedMinimizeButton()
 {
+	// overview stats
+	if (m_filePath.empty())
+	{
+		setMinimized();
+		return;
+	}
+
 	MessageChangeFileView(
 		m_filePath,
 		MessageChangeFileView::FILE_MINIMIZED,
@@ -395,7 +442,7 @@ void QtCodeFile::clickedMinimizeButton() const
 	).dispatch();
 }
 
-void QtCodeFile::clickedSnippetButton() const
+void QtCodeFile::clickedSnippetButton()
 {
 	MessageChangeFileView(
 		m_filePath,
@@ -405,14 +452,71 @@ void QtCodeFile::clickedSnippetButton() const
 	).dispatch();
 }
 
-void QtCodeFile::clickedMaximizeButton() const
+void QtCodeFile::clickedMaximizeButton()
 {
+	// overview stats
+	if (m_filePath.empty())
+	{
+		setMaximized();
+		return;
+	}
+
 	MessageChangeFileView(
 		m_filePath,
 		MessageChangeFileView::FILE_MAXIMIZED,
 		!getFileSnippet(),
 		m_navigator->hasErrors()
 	).dispatch();
+}
+
+void QtCodeFile::enteredTitleBar(QPushButton* button)
+{
+	if (m_minimizeButton->isEnabled())
+	{
+		if (m_minimizeButton != button)
+		{
+			m_minimizeButton->hoverIn();
+		}
+	}
+	else if (m_snippetButton->isEnabled())
+	{
+		if (m_snippetButton != button)
+		{
+			m_snippetButton->hoverIn();
+		}
+	}
+	else if (m_maximizeButton->isEnabled())
+	{
+		if (m_maximizeButton != button)
+		{
+			m_maximizeButton->hoverIn();
+		}
+	}
+}
+
+void QtCodeFile::leftTitleBar(QPushButton* button)
+{
+	if (m_minimizeButton->isEnabled())
+	{
+		if (m_minimizeButton != button)
+		{
+			m_minimizeButton->hoverOut();
+		}
+	}
+	else if (m_snippetButton->isEnabled())
+	{
+		if (m_snippetButton != button)
+		{
+			m_snippetButton->hoverOut();
+		}
+	}
+	else if (m_maximizeButton->isEnabled())
+	{
+		if (m_maximizeButton != button)
+		{
+			m_maximizeButton->hoverOut();
+		}
+	}
 }
 
 void QtCodeFile::clickedTitleBar()

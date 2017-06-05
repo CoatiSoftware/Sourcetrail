@@ -82,8 +82,6 @@
 	background-color: <color:code/snippet/background>;
 	border: 2px solid <color:code/file/background>;
 	border-radius: 12px;
-	border-top-left-radius: 14px;
-	border-top-right-radius: 14px;
 	font-size: <setting:font_size>px;
 	padding-bottom: 7px;
 }
@@ -93,7 +91,6 @@
 	border-top-left-radius: 7px;
 	border-top-right-radius: 7px;
 	font-size: <setting:font_size>px;
-	padding-right: 5px;
 }
 
 #code_file #title_label, #single_file_title_bar #file_title {
@@ -106,7 +103,7 @@
 }
 
 #code_file #title_label {
-	margin: 1px 8px 3px;
+	margin: 1px 8px;
 }
 
 #single_file_title_bar #file_title {
@@ -181,34 +178,16 @@
 	selection-background-color: <color:code/snippet/selection/background>;
 }
 
-#code_file #maximize_button, #code_file #snippet_button, #code_file #minimize_button {
+#code_file #file_button {
+	background: transparent;
+	border: none;
 	margin: 3px;
 	max-height: 16px;
 	max-width: 16px;
 }
 
-#code_file #maximize_button {
-	border-image: url(<setting:gui_path>code_view/images/maximize_inactive.png);
-}
-
-#code_file #maximize_button:enabled {
-	border-image: url(<setting:gui_path>code_view/images/maximize_active.png);
-}
-
-#code_file #snippet_button {
-	border-image: url(<setting:gui_path>code_view/images/snippet_inactive.png);
-}
-
-#code_file #snippet_button:enabled {
-	border-image: url(<setting:gui_path>code_view/images/snippet_active.png);
-}
-
-#code_file #minimize_button {
-	border-image: url(<setting:gui_path>code_view/images/minimize_inactive.png);
-}
-
-#code_file #minimize_button:enabled {
-	border-image: url(<setting:gui_path>code_view/images/minimize_active.png);
+#code_file #file_button:enabled {
+	border-image: url(<setting:gui_path>code_view/images/button_background.png);
 }
 
 #single_file_title_bar {

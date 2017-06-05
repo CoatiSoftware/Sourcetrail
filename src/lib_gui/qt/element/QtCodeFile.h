@@ -7,8 +7,10 @@
 
 #include <QFrame>
 
-#include "component/view/helper/CodeSnippetParams.h"
 #include "utility/file/FilePath.h"
+
+#include "component/view/helper/CodeSnippetParams.h"
+#include "qt/element/QtIconButton.h"
 
 class QLabel;
 class QPushButton;
@@ -58,9 +60,12 @@ public:
 	void updateTitleBar();
 
 public slots:
-	void clickedMinimizeButton() const;
-	void clickedSnippetButton() const;
-	void clickedMaximizeButton() const;
+	void clickedMinimizeButton();
+	void clickedSnippetButton();
+	void clickedMaximizeButton();
+
+	void enteredTitleBar(QPushButton* button);
+	void leftTitleBar(QPushButton* button);
 
 private slots:
 	void clickedTitleBar();
@@ -74,9 +79,9 @@ private:
 	QtCodeFileTitleButton* m_title;
 	QLabel* m_referenceCount;
 
-	QPushButton* m_minimizeButton;
-	QPushButton* m_snippetButton;
-	QPushButton* m_maximizeButton;
+	QtIconStateButton* m_minimizeButton;
+	QtIconStateButton* m_snippetButton;
+	QtIconStateButton* m_maximizeButton;
 
 	QVBoxLayout* m_snippetLayout;
 	std::vector<std::shared_ptr<QtCodeSnippet>> m_snippets;
