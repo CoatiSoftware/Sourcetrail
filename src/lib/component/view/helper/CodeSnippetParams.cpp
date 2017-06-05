@@ -7,11 +7,11 @@ CodeSnippetParams::CodeSnippetParams()
 	, endLineNumber(0)
 	, titleId(0)
 	, footerId(0)
-	, locationFile()
 	, refCount(0)
 	, isCollapsed(false)
 	, isDeclaration(false)
 	, isDefinition(false)
+	, insertSnippet(false)
 	, reduced(false)
 {
 }

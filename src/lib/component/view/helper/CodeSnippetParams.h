@@ -36,6 +36,7 @@ struct CodeSnippetParams
 	bool isDeclaration;
 	bool isDefinition;
 
+	bool insertSnippet;
 	bool reduced;
 };
 

@@ -33,9 +33,9 @@ public:
 	// QtCodeNaviatebale implementation
 	virtual QScrollArea* getScrollArea();
 
-	virtual void addCodeSnippet(const CodeSnippetParams& params, bool insert = false);
+	virtual void addCodeSnippet(const CodeSnippetParams& params);
 
-	void requestFileContent(const FilePath& filePath, bool isFirstInList = false);
+	virtual void requestFileContent(const FilePath& filePath);
 	virtual bool requestScroll(const FilePath& filePath, uint lineNumber, Id locationId, bool animated, bool onTop);
 
 	virtual void updateFiles();
@@ -47,7 +47,7 @@ public:
 	void setFileSnippets(const FilePath path);
 	void setFileMaximized(const FilePath path);
 
-	std::pair<QtCodeSnippet*, uint> getFirstSnippetWithActiveLocation(Id tokenId) const;
+	std::pair<QtCodeSnippet*, Id> getFirstSnippetWithActiveLocationId(Id tokenId) const;
 
 private:
 	QtCodeNavigator* m_navigator;

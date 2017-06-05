@@ -58,7 +58,7 @@ void QtCodeNavigateable::ensureWidgetVisibleAnimated(
 	}
 }
 
-void QtCodeNavigateable::ensurePercentVisibleAnimated(double percent, bool animated, bool onTop)
+void QtCodeNavigateable::ensurePercentVisibleAnimated(double percentA, double percentB, bool animated, bool onTop)
 {
 	QAbstractScrollArea* area = getScrollArea();
 	if (!area)
@@ -74,10 +74,34 @@ void QtCodeNavigateable::ensurePercentVisibleAnimated(double percent, bool anima
 		return;
 	}
 
-	int scrollHeight = totalHeight * percent;
+	int scrollHeight = totalHeight * percentA;
 	if (!onTop)
 	{
-		scrollHeight -= visibleHeight / 3;
+		if (percentB)
+		{
+			int scrollHeightB = totalHeight * percentB;
+			int rectHeight = scrollHeightB - scrollHeight;
+
+			if (rectHeight < visibleHeight)
+			{
+				if (rectHeight < visibleHeight / 2)
+				{
+					scrollHeight -= visibleHeight / 4;
+				}
+				else
+				{
+					scrollHeight += rectHeight / 2 - visibleHeight / 2;
+				}
+			}
+			else
+			{
+				scrollHeight -= 20;
+			}
+		}
+		else
+		{
+			scrollHeight -= visibleHeight / 4;
+		}
 	}
 	else
 	{

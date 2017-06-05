@@ -44,7 +44,9 @@ public:
 	void setIsActiveFile(bool isActiveFile);
 
 	uint getLineNumberForLocationId(Id locationId) const;
-	uint getStartLineNumberOfFirstActiveLocationOfTokenId(Id tokenId) const;
+	std::pair<uint, uint> getLineNumbersForLocationId(Id locationId) const;
+
+	Id getFirstActiveLocationId(Id tokenId) const;
 	QRectF getLineRectForLineNumber(uint lineNumber) const;
 
 	std::string getCode() const;

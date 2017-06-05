@@ -369,7 +369,7 @@ void GraphController::handleMessage(MessageShowErrors* message)
 
 void GraphController::handleMessage(MessageShowReference* message)
 {
-	if (!message->tokenId || !message->animated)
+	if (!message->tokenId || !message->fromUser)
 	{
 		return;
 	}

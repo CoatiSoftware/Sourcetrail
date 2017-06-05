@@ -72,7 +72,7 @@ void ActivationController::handleMessage(MessageActivateFile* message)
 
 	if (message->line > 0)
 	{
-		MessageScrollToLine(message->filePath, message->line, true).dispatch();
+		MessageScrollToLine(message->filePath, message->line).dispatch();
 	}
 }
 

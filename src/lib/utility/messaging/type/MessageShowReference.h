@@ -8,11 +8,11 @@ class MessageShowReference
 	: public Message<MessageShowReference>
 {
 public:
-	MessageShowReference(size_t refIndex, Id tokenId, Id locationId, bool animated)
+	MessageShowReference(size_t refIndex, Id tokenId, Id locationId, bool fromUser)
 		: refIndex(refIndex)
 		, tokenId(tokenId)
 		, locationId(locationId)
-		, animated(animated)
+		, fromUser(fromUser)
 	{
 	}
 
@@ -29,7 +29,7 @@ public:
 	const size_t refIndex;
 	const Id tokenId;
 	const Id locationId;
-	const bool animated;
+	const bool fromUser;
 };
 
 #endif // MESSAGE_SHOW_REFERENCE_H

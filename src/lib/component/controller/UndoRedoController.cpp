@@ -152,7 +152,6 @@ void UndoRedoController::handleMessage(MessageFinishedParsing* message)
 				msg->isFromSearch = false;
 			}
 
-			command.message->setIsReplayCleared(true);
 			newList.insert(newList.end(), command);
 		}
 	}
@@ -469,7 +468,6 @@ void UndoRedoController::replayCommand(std::list<Command>::iterator it)
 	}
 
 	m->dispatch();
-	m->setIsReplayCleared(false);
 }
 
 void UndoRedoController::processCommand(Command command)

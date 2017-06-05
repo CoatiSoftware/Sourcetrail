@@ -34,7 +34,7 @@ public:
 	QtCodeNavigator(QWidget* parent = nullptr);
 	virtual ~QtCodeNavigator();
 
-	void addCodeSnippet(const CodeSnippetParams& params, bool insert = false);
+	void addCodeSnippet(const CodeSnippetParams& params);
 	void addFile(std::shared_ptr<SourceLocationFile> locationFile, int refCount, TimePoint modificationTime);
 
 	void addedFiles();
@@ -65,6 +65,7 @@ public:
 	size_t getFatalErrorCountForFile(const FilePath& filePath) const;
 
 	bool isInListMode() const;
+	bool hasSingleFileCached(const FilePath& filePath) const;
 
 	void showActiveSnippet(
 		const std::vector<Id>& activeTokenIds, std::shared_ptr<SourceLocationCollection> collection, bool scrollTo);
@@ -76,7 +77,6 @@ public:
 	void setFileSnippets(const FilePath path);
 	void setFileMaximized(const FilePath path);
 
-	void setupFiles();
 	void updateFiles();
 	void showContents();
 
@@ -84,7 +84,7 @@ public:
 
 	void scrollToValue(int value, bool inListMode);
 	void scrollToLine(const FilePath& filePath, unsigned int line);
-	void scrollToDefinition(bool ignoreActiveReference);
+	void scrollToDefinition(bool animated, bool ignoreActiveReference);
 
 	void scrollToSnippetIfRequested();
 

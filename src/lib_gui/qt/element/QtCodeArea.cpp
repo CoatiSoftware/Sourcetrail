@@ -153,7 +153,6 @@ QtCodeArea::QtCodeArea(
 	m_highlighter->highlightDocument();
 
 	createAnnotations(locationFile);
-	annotateText();
 }
 
 QtCodeArea::~QtCodeArea()
@@ -294,39 +293,38 @@ uint QtCodeArea::getLineNumberForLocationId(Id locationId) const
 	return 0;
 }
 
-uint QtCodeArea::getStartLineNumberOfFirstActiveLocationOfTokenId(Id tokenId) const
+std::pair<uint, uint> QtCodeArea::getLineNumbersForLocationId(Id locationId) const
 {
-	int firstActiveLine = 0;
 	for (const Annotation& annotation : m_annotations)
 	{
-		if (annotation.locationType == LocationType::LOCATION_TOKEN && annotation.isActive)
+		if (annotation.locationId == locationId)
 		{
-			if (annotation.tokenIds.find(tokenId) != annotation.tokenIds.end())
-			{
-				if (!firstActiveLine || firstActiveLine == annotation.startLine)
-				{
-					return getStartLineNumber();
-				}
-				else
-				{
-					return annotation.startLine;
-				}
-			}
-			else
-			{
-				firstActiveLine = annotation.startLine;
-			}
+			return std::pair<uint, uint>(annotation.startLine, annotation.endLine);
+		}
+	}
+
+	return std::pair<uint, uint>(0, 0);
+}
+
+Id QtCodeArea::getLocationIdOfFirstActiveLocation(Id tokenId) const
+{
+	for (const Annotation& annotation : m_annotations)
+	{
+		if (annotation.locationType == LocationType::LOCATION_TOKEN && annotation.isActive &&
+			annotation.tokenIds.find(tokenId) != annotation.tokenIds.end())
+		{
+			return annotation.locationId;
 		}
 	}
 
 	return 0;
 }
 
-Id QtCodeArea::getLocationIdOfFirstActiveLocationOfTokenId(Id tokenId) const
+Id QtCodeArea::getLocationIdOfFirstActiveScopeLocation(Id tokenId) const
 {
 	for (const Annotation& annotation : m_annotations)
 	{
-		if (annotation.locationType == LocationType::LOCATION_TOKEN && annotation.isActive &&
+		if (annotation.locationType == LocationType::LOCATION_SCOPE && annotation.isActive &&
 			annotation.tokenIds.find(tokenId) != annotation.tokenIds.end())
 		{
 			return annotation.locationId;

@@ -357,7 +357,6 @@ add_files(
 	utility/messaging/type/MessageClearLogView.h
 	utility/messaging/type/MessageClearStatusView.h
 	utility/messaging/type/MessageCodeReference.h
-	utility/messaging/type/MessageCodeViewExpandedInitialFiles.h
 	utility/messaging/type/MessageColorSchemeTest.h
 	utility/messaging/type/MessageCreateBookmark.h
 	utility/messaging/type/MessageCreateBookmarkCategory.h
@@ -424,7 +423,7 @@ add_files(
 	utility/messaging/MessageListenerBase.h
 	utility/messaging/MessageQueue.cpp
 	utility/messaging/MessageQueue.h
-	
+
 	utility/migration/Migration.h
 	utility/migration/Migrator.h
 

@@ -1,25 +1,16 @@
 #include "qt/view/QtCodeView.h"
 
 #include "utility/ResourcePaths.h"
-#include "qt/utility/utilityQt.h"
 
 #include "qt/element/QtCodeArea.h"
 #include "qt/element/QtCodeNavigator.h"
 #include "qt/utility/QtHighlighter.h"
+#include "qt/utility/utilityQt.h"
 #include "qt/view/QtViewWidgetWrapper.h"
 #include "settings/ColorScheme.h"
 
 QtCodeView::QtCodeView(ViewLayout* viewLayout)
 	: CodeView(viewLayout)
-	, m_showCodeSnippetsFunctor(
-		std::bind(&QtCodeView::doShowCodeSnippets, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3))
-	, m_addCodeSnippetsFunctor(std::bind(&QtCodeView::doAddCodeSnippets, this, std::placeholders::_1, std::placeholders::_2))
-	, m_setFileStateFunctor(std::bind(&QtCodeView::doSetFileState, this, std::placeholders::_1, std::placeholders::_2))
-	, m_doShowActiveSnippetFunctor(
-		std::bind(&QtCodeView::doShowActiveSnippet, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3))
-	, m_doShowActiveTokenIdsFunctor(std::bind(&QtCodeView::doShowActiveTokenIds, this, std::placeholders::_1))
-	, m_doShowActiveLocalSymbolIdsFunctor(std::bind(&QtCodeView::doShowActiveLocalSymbolIds, this, std::placeholders::_1))
-	, m_focusTokenIdsFunctor(std::bind(&QtCodeView::doFocusTokenIds, this, std::placeholders::_1))
 {
 	m_widget = new QtCodeNavigator();
 	setStyleSheet();
@@ -40,138 +31,156 @@ void QtCodeView::initView()
 
 void QtCodeView::refreshView()
 {
-	m_onQtThread(
-		[=]()
-		{
-			setStyleSheet();
+	m_onQtThread([=]()
+	{
+		setStyleSheet();
 
-			m_widget->refreshStyle();
+		m_widget->refreshStyle();
 
-			QtCodeArea::clearAnnotationColors();
-			QtHighlighter::clearHighlightingRules();
-		}
-	);
+		QtCodeArea::clearAnnotationColors();
+		QtHighlighter::clearHighlightingRules();
+	});
 }
 
 void QtCodeView::clear()
 {
-	m_onQtThread(
-		[=]()
-		{
-			m_widget->clear();
-		}
-	);
+	m_onQtThread([=]()
+	{
+		m_widget->clear();
+	});
 
-	m_errorInfos.clear();
-}
-
-void QtCodeView::clearCodeSnippets()
-{
-	m_onQtThread(
-		[=]()
-		{
-			m_widget->clearCodeSnippets();
-		}
-	);
-
-	m_errorInfos.clear();
-}
-
-void QtCodeView::setErrorInfos(const std::vector<ErrorInfo>& errorInfos)
-{
-	m_errorInfos = errorInfos;
+	m_scrollParams = ScrollParams();
 }
 
 bool QtCodeView::showsErrors() const
 {
-	return m_errorInfos.size() > 0;
+	return m_widget->hasErrors();
 }
 
-void QtCodeView::showCodeSnippets(
-	const std::vector<CodeSnippetParams>& snippets, const std::vector<Id>& activeTokenIds, bool setupFiles)
+void QtCodeView::showCodeSnippets(const std::vector<CodeSnippetParams>& snippets, const CodeParams params)
 {
-	m_showCodeSnippetsFunctor(snippets, activeTokenIds, setupFiles);
+	m_onQtThread([=]()
+	{
+		if (params.clearSnippets)
+		{
+			m_widget->clearCodeSnippets();
+
+			m_widget->setActiveTokenIds(params.activeTokenIds);
+			m_widget->setErrorInfos(params.errorInfos);
+		}
+
+		bool addedFiles = false;
+
+		for (const CodeSnippetParams& snippet : snippets)
+		{
+			if (snippet.isCollapsed)
+			{
+				m_widget->addFile(snippet.locationFile, snippet.refCount, snippet.modificationTime);
+
+				addedFiles = true;
+			}
+			else
+			{
+				m_widget->addCodeSnippet(snippet);
+			}
+		}
+
+		if (addedFiles)
+		{
+			m_widget->addedFiles();
+		}
+
+		m_widget->updateFiles();
+
+		if (m_widget->isInListMode())
+		{
+			setStyleSheet(); // so property "isLast" of QtCodeSnippet is computed correctly
+		}
+
+		if (params.showContents)
+		{
+			m_widget->showContents();
+			performScroll();
+		}
+	});
 }
 
-void QtCodeView::addCodeSnippets(const std::vector<CodeSnippetParams>& snippets, bool insert)
+void QtCodeView::scrollTo(const ScrollParams params)
 {
-	m_addCodeSnippetsFunctor(snippets, insert);
+	m_scrollParams = params;
 }
 
 void QtCodeView::setFileState(const FilePath filePath, FileState state)
 {
-	m_setFileStateFunctor(filePath, state);
+	m_onQtThread([=]()
+	{
+		switch (state)
+		{
+		case FILE_MINIMIZED:
+			m_widget->setFileMinimized(filePath);
+			break;
+		case FILE_SNIPPETS:
+			m_widget->setFileSnippets(filePath);
+			break;
+		case FILE_MAXIMIZED:
+			m_widget->setFileMaximized(filePath);
+			break;
+		}
+	});
 }
 
 void QtCodeView::showActiveSnippet(
 	const std::vector<Id>& activeTokenIds, std::shared_ptr<SourceLocationCollection> collection, bool scrollTo)
 {
-	m_doShowActiveSnippetFunctor(activeTokenIds, collection, scrollTo);
+	m_onQtThread([=]()
+	{
+		m_widget->showActiveSnippet(activeTokenIds, collection, scrollTo);
+	});
 }
 
 void QtCodeView::showActiveTokenIds(const std::vector<Id>& activeTokenIds)
 {
-	m_doShowActiveTokenIdsFunctor(activeTokenIds);
+	m_onQtThread([=]()
+	{
+		m_widget->setActiveTokenIds(activeTokenIds);
+		m_widget->updateFiles();
+
+		performScroll();
+	});
 }
 
 void QtCodeView::showActiveLocalSymbolIds(const std::vector<Id>& activeLocalSymbolIds)
 {
-	m_doShowActiveLocalSymbolIdsFunctor(activeLocalSymbolIds);
+	m_onQtThread([=]()
+	{
+		m_widget->setActiveLocalSymbolIds(activeLocalSymbolIds);
+		m_widget->updateFiles();
+	});
 }
 
 void QtCodeView::focusTokenIds(const std::vector<Id>& focusedTokenIds)
 {
-	m_focusTokenIdsFunctor(focusedTokenIds);
+	m_onQtThread([=]()
+	{
+		m_widget->focusTokenIds(focusedTokenIds);
+	});
 }
 
 void QtCodeView::defocusTokenIds()
 {
-	m_onQtThread(
-		[=]()
-		{
-			m_widget->defocusTokenIds();
-		}
-	);
+	m_onQtThread([=]()
+	{
+		m_widget->defocusTokenIds();
+	});
 }
 
 void QtCodeView::showContents()
 {
-	m_onQtThread(
-		[=]()
-		{
-			m_widget->showContents();
-		}
-	);
-}
-
-void QtCodeView::scrollToValue(int value, bool inListMode)
-{
-	m_onQtThread(
-		[=]()
-		{
-			m_widget->scrollToValue(value, inListMode);
-		}
-	);
-}
-
-void QtCodeView::scrollToLine(const FilePath filePath, unsigned int line)
-{
-	m_onQtThread(
-		[=]()
-		{
-			m_widget->scrollToLine(filePath, line);
-		}
-	);
-}
-
-void QtCodeView::scrollToDefinition(bool ignoreActiveReference)
-{
-	m_onQtThread(
-		[=]()
-		{
-			m_widget->scrollToDefinition(ignoreActiveReference);
-		}
-	);
+	m_onQtThread([=]()
+	{
+		m_widget->showContents();
+		performScroll();
+	});
 }
 
 bool QtCodeView::isInListMode() const
@@ -179,87 +188,31 @@ bool QtCodeView::isInListMode() const
 	return m_widget->isInListMode();
 }
 
-void QtCodeView::doShowCodeSnippets(
-	const std::vector<CodeSnippetParams>& snippets, const std::vector<Id>& activeTokenIds, bool setupFiles)
+bool QtCodeView::hasSingleFileCached(const FilePath& filePath) const
 {
-	m_widget->setActiveTokenIds(activeTokenIds);
-	m_widget->setErrorInfos(m_errorInfos);
-
-	for (const CodeSnippetParams& params : snippets)
-	{
-		if (params.isCollapsed)
-		{
-			m_widget->addFile(params.locationFile, params.refCount, params.modificationTime);
-		}
-		else
-		{
-			m_widget->addCodeSnippet(params);
-		}
-	}
-
-	m_widget->addedFiles();
-
-	if (setupFiles)
-	{
-		m_widget->setupFiles();
-	}
-
-	setStyleSheet(); // so property "isLast" of QtCodeSnippet is computed correctly
+	return m_widget->hasSingleFileCached(filePath);
 }
 
-void QtCodeView::doAddCodeSnippets(const std::vector<CodeSnippetParams>& snippets, bool insert)
+void QtCodeView::performScroll()
 {
-	for (const CodeSnippetParams& params : snippets)
+	switch (m_scrollParams.type)
 	{
-		m_widget->addCodeSnippet(params, insert);
-	}
-
-	m_widget->updateFiles();
-
-	setStyleSheet(); // so property "isLast" of QtCodeSnippet is computed correctly
-
-	m_widget->scrollToSnippetIfRequested();
-}
-
-void QtCodeView::doSetFileState(const FilePath filePath, FileState state)
-{
-	switch (state)
-	{
-	case FILE_MINIMIZED:
-		m_widget->setFileMinimized(filePath);
+	case ScrollParams::SCROLL_TO_DEFINITION:
+		m_widget->scrollToDefinition(m_scrollParams.animated, m_scrollParams.ignoreActiveReference);
 		break;
-	case FILE_SNIPPETS:
-		m_widget->setFileSnippets(filePath);
+	case ScrollParams::SCROLL_TO_LINE:
+		m_widget->scrollToLine(m_scrollParams.filePath, m_scrollParams.line);
 		break;
-	case FILE_MAXIMIZED:
-		m_widget->setFileMaximized(filePath);
+	case ScrollParams::SCROLL_TO_VALUE:
+		m_widget->scrollToValue(m_scrollParams.value, m_scrollParams.inListMode);
+		break;
+	default:
 		break;
 	}
 
 	m_widget->scrollToSnippetIfRequested();
-}
 
-void QtCodeView::doShowActiveSnippet(
-	const std::vector<Id>& activeTokenIds, std::shared_ptr<SourceLocationCollection> collection, bool scrollTo)
-{
-	m_widget->showActiveSnippet(activeTokenIds, collection, scrollTo);
-}
-
-void QtCodeView::doShowActiveTokenIds(const std::vector<Id>& activeTokenIds)
-{
-	m_widget->setActiveTokenIds(activeTokenIds);
-	m_widget->updateFiles();
-}
-
-void QtCodeView::doShowActiveLocalSymbolIds(const std::vector<Id>& localSymbolIds)
-{
-	m_widget->setActiveLocalSymbolIds(localSymbolIds);
-	m_widget->updateFiles();
-}
-
-void QtCodeView::doFocusTokenIds(const std::vector<Id>& focusedTokenIds)
-{
-	m_widget->focusTokenIds(focusedTokenIds);
+	m_scrollParams = ScrollParams();
 }
 
 void QtCodeView::setStyleSheet() const

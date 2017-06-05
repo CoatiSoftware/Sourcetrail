@@ -20,6 +20,7 @@ QtCodeFileSingle::QtCodeFileSingle(QtCodeNavigator* navigator, QWidget* parent)
 	: m_navigator(navigator)
 	, m_area(nullptr)
 	, m_contentRequested(false)
+	, m_scrollRequested(false)
 {
 	setObjectName("code_container");
 
@@ -83,7 +84,7 @@ void QtCodeFileSingle::clearCache()
 	m_filePaths.clear();
 }
 
-void QtCodeFileSingle::addCodeSnippet(const CodeSnippetParams& params, bool insert)
+void QtCodeFileSingle::addCodeSnippet(const CodeSnippetParams& params)
 {
 	if (!params.locationFile->isWhole())
 	{
@@ -163,11 +164,24 @@ bool QtCodeFileSingle::requestScroll(const FilePath& filePath, uint lineNumber, 
 		return false;
 	}
 
+	if (!m_scrollRequested)
+	{
+		animated = false;
+	}
+
+	uint endLineNumber = 0;
 	if (!lineNumber)
 	{
 		if (locationId)
 		{
-			lineNumber = m_area->getLineNumberForLocationId(locationId);
+			std::pair<uint, uint> lineNumbers = m_area->getLineNumbersForLocationId(locationId);
+
+			lineNumber = lineNumbers.first;
+
+			if (lineNumbers.first != lineNumbers.second)
+			{
+				endLineNumber = lineNumbers.second;
+			}
 		}
 		else
 		{
@@ -175,7 +189,12 @@ bool QtCodeFileSingle::requestScroll(const FilePath& filePath, uint lineNumber, 
 		}
 	}
 
-	ensurePercentVisibleAnimated(double(lineNumber - 1) / m_area->getEndLineNumber(), animated, onTop);
+	double percentA = double(lineNumber - 1) / m_area->getEndLineNumber();
+	double percentB = endLineNumber ? double(endLineNumber - 1) / m_area->getEndLineNumber() : 0.0f;
+
+	ensurePercentVisibleAnimated(percentA, percentB, animated, onTop);
+
+	m_scrollRequested = true;
 
 	return true;
 }
@@ -206,6 +225,11 @@ const FilePath& QtCodeFileSingle::getCurrentFilePath() const
 	return m_currentFilePath;
 }
 
+bool QtCodeFileSingle::hasFileCached(const FilePath& filePath) const
+{
+	return getFileData(filePath).area != nullptr;
+}
+
 Id QtCodeFileSingle::getLocationIdOfFirstActiveLocationOfTokenId(Id tokenId) const
 {
 	if (!m_area)
@@ -213,7 +237,13 @@ Id QtCodeFileSingle::getLocationIdOfFirstActiveLocationOfTokenId(Id tokenId) con
 		return 0;
 	}
 
-	return m_area->getLocationIdOfFirstActiveLocationOfTokenId(tokenId);
+	Id scopeId = m_area->getLocationIdOfFirstActiveScopeLocation(tokenId);
+	if (scopeId)
+	{
+		return scopeId;
+	}
+
+	return m_area->getLocationIdOfFirstActiveLocation(tokenId);
 }
 
 QtCodeFileSingle::FileData QtCodeFileSingle::getFileData(const FilePath& filePath) const
@@ -273,6 +303,8 @@ void QtCodeFileSingle::setFileData(const FileData& file)
 
 		m_title->show();
 		m_area->show();
+
+		m_scrollRequested = false;
 	}
 	else
 	{

@@ -32,9 +32,9 @@ public:
 	// QtCodeNaviatebale implementation
 	virtual QAbstractScrollArea* getScrollArea() override;
 
-	virtual void addCodeSnippet(const CodeSnippetParams& params, bool insert = false) override;
+	virtual void addCodeSnippet(const CodeSnippetParams& params) override;
 
-	void requestFileContent(const FilePath& filePath);
+	virtual void requestFileContent(const FilePath& filePath) override;
 	virtual bool requestScroll(const FilePath& filePath, uint lineNumber, Id locationId, bool animated, bool onTop) override;
 
 	virtual void updateFiles() override;
@@ -43,6 +43,7 @@ public:
 	virtual void onWindowFocus() override;
 
 	const FilePath& getCurrentFilePath() const;
+	bool hasFileCached(const FilePath& filePath) const;
 
 	Id getLocationIdOfFirstActiveLocationOfTokenId(Id tokenId) const;
 
@@ -75,6 +76,7 @@ private:
 	std::deque<FilePath> m_filePaths;
 
 	bool m_contentRequested;
+	bool m_scrollRequested;
 };
 
 #endif // QT_CODE_FILE_SINGLE_H

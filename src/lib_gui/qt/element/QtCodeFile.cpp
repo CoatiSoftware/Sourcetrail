@@ -226,17 +226,17 @@ QtCodeSnippet* QtCodeFile::getFileSnippet() const
 	return m_fileSnippet.get();
 }
 
-std::pair<QtCodeSnippet*, uint> QtCodeFile::getFirstSnippetWithActiveLocation(Id tokenId) const
+std::pair<QtCodeSnippet*, Id> QtCodeFile::getFirstSnippetWithActiveLocationId(Id tokenId) const
 {
-	std::pair<QtCodeSnippet*, uint> result(nullptr, 0);
+	std::pair<QtCodeSnippet*, Id> result(nullptr, 0);
 
 	for (std::shared_ptr<QtCodeSnippet> snippet : m_snippets)
 	{
-		uint startLineNumber = snippet->getStartLineNumberOfFirstActiveLocationOfTokenId(tokenId);
-		if (startLineNumber != 0)
+		Id locationId = snippet->getFirstActiveLocationId(tokenId);
+		if (locationId != 0)
 		{
 			result.first = snippet.get();
-			result.second = startLineNumber;
+			result.second = locationId;
 			break;
 		}
 	}
@@ -249,7 +249,7 @@ bool QtCodeFile::isCollapsed() const
 	return m_isCollapsed;
 }
 
-void QtCodeFile::requestContent(bool isFirstInList)
+void QtCodeFile::requestContent()
 {
 	if (!isCollapsed() || m_contentRequested)
 	{
@@ -260,12 +260,7 @@ void QtCodeFile::requestContent(bool isFirstInList)
 	m_contentRequested = true;
 
 	MessageChangeFileView::FileState state =
-		isFirstInList ? MessageChangeFileView::FILE_DEFAULT_FOR_MODE : MessageChangeFileView::FILE_SNIPPETS;
-
-	if (m_isWholeFile)
-	{
-		state = MessageChangeFileView::FILE_MAXIMIZED;
-	}
+		m_isWholeFile ? MessageChangeFileView::FILE_MAXIMIZED : MessageChangeFileView::FILE_SNIPPETS;
 
 	MessageChangeFileView(m_filePath, state, isCollapsed(), m_navigator->hasErrors()).dispatch();
 }

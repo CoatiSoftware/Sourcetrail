@@ -39,11 +39,11 @@ public:
 	QtCodeSnippet* getSnippetForLine(unsigned int line) const;
 	QtCodeSnippet* getFileSnippet() const;
 
-	std::pair<QtCodeSnippet*, uint> getFirstSnippetWithActiveLocation(Id tokenId) const;
+	std::pair<QtCodeSnippet*, Id> getFirstSnippetWithActiveLocationId(Id tokenId) const;
 
 	bool isCollapsed() const;
 
-	void requestContent(bool isFirstInList = false);
+	void requestContent();
 	void updateContent();
 
 	void setWholeFile(bool isWholeFile, int refCount);

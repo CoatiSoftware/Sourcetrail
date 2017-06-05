@@ -12,7 +12,6 @@
 #include "utility/messaging/type/MessageActivateTrailEdge.h"
 #include "utility/messaging/type/MessageChangeFileView.h"
 #include "utility/messaging/type/MessageClearErrorCount.h"
-#include "utility/messaging/type/MessageCodeViewExpandedInitialFiles.h"
 #include "utility/messaging/type/MessageDeactivateEdge.h"
 #include "utility/messaging/type/MessageFlushUpdates.h"
 #include "utility/messaging/type/MessageFocusIn.h"
@@ -41,7 +40,6 @@ class CodeController
 	, public MessageListener<MessageActivateTrailEdge>
 	, public MessageListener<MessageChangeFileView>
 	, public MessageListener<MessageClearErrorCount>
-	, public MessageListener<MessageCodeViewExpandedInitialFiles>
 	, public MessageListener<MessageDeactivateEdge>
 	, public MessageListener<MessageFlushUpdates>
 	, public MessageListener<MessageFocusIn>
@@ -65,7 +63,6 @@ private:
 	virtual void handleMessage(MessageActivateTrailEdge* message);
 	virtual void handleMessage(MessageChangeFileView* message);
 	virtual void handleMessage(MessageClearErrorCount* message);
-	virtual void handleMessage(MessageCodeViewExpandedInitialFiles* message);
 	virtual void handleMessage(MessageDeactivateEdge* message);
 	virtual void handleMessage(MessageFlushUpdates* message);
 	virtual void handleMessage(MessageFocusIn* message);
@@ -76,11 +73,14 @@ private:
 	virtual void handleMessage(MessageShowErrors* message);
 	virtual void handleMessage(MessageShowScope* message);
 
-	CodeView* getView();
+	CodeView* getView() const;
 
 	virtual void clear();
 
-	void showContents(MessageBase* message);
+	void expandVisibleSnippets(std::vector<CodeSnippetParams>* snippets) const;
+
+	std::vector<CodeSnippetParams> getSnippetsForFileWithState(
+		const FilePath& filePath, CodeView::FileState state, bool addSourceLocations) const;
 
 	std::vector<CodeSnippetParams> getSnippetsForActiveSourceLocations(
 		const SourceLocationCollection* collection, Id declarationId) const;
@@ -98,15 +98,10 @@ private:
 	std::vector<std::string> getProjectDescription(SourceLocationFile* locationFile) const;
 
 	void addModificationTimes(std::vector<CodeSnippetParams>& snippets) const;
+	void addActiveSourceLocations(std::shared_ptr<SourceLocationFile> locationFile) const;
 
 	StorageAccess* m_storageAccess;
 	mutable std::shared_ptr<SourceLocationCollection> m_collection;
-
-	bool m_scrollToDefinition;
-	int m_scrollToValue;
-	bool m_scrollInListMode;
-	FilePath m_scrollToFilePath;
-	size_t m_scrollToLine;
 };
 
 #endif // CODE_CONTROLLER_H

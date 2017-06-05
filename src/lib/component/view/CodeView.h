@@ -23,20 +23,59 @@ public:
 		FILE_MAXIMIZED
 	};
 
+	struct CodeParams
+	{
+		CodeParams()
+			: clearSnippets(false)
+			, showContents(false)
+		{}
+
+		bool clearSnippets;
+		bool showContents;
+		std::vector<Id> activeTokenIds;
+		std::vector<ErrorInfo> errorInfos;
+	};
+
+	struct ScrollParams
+	{
+		enum ScrollType
+		{
+			SCROLL_NONE,
+			SCROLL_TO_DEFINITION,
+			SCROLL_TO_LINE,
+			SCROLL_TO_VALUE
+		} type;
+
+		ScrollParams(ScrollType type = SCROLL_NONE)
+			: type(type)
+			, line(0)
+			, value(0)
+			, animated(false)
+			, ignoreActiveReference(false)
+			, inListMode(false)
+		{}
+
+		FilePath filePath;
+		size_t line;
+
+		size_t value;
+
+		bool animated;
+		bool ignoreActiveReference;
+		bool inListMode;
+	};
+
 	CodeView(ViewLayout* viewLayout);
 	virtual ~CodeView();
 
 	virtual std::string getName() const;
 
 	virtual void clear() = 0;
-	virtual void clearCodeSnippets() = 0;
 
-	virtual void setErrorInfos(const std::vector<ErrorInfo>& errorInfos) = 0;
+	virtual void showCodeSnippets(const std::vector<CodeSnippetParams>& snippets, const CodeParams params) = 0;
+	virtual void scrollTo(const ScrollParams params) = 0;
+
 	virtual bool showsErrors() const = 0;
-
-	virtual void showCodeSnippets(
-		const std::vector<CodeSnippetParams>& snippets, const std::vector<Id>& activeTokenIds, bool setupFiles) = 0;
-	virtual void addCodeSnippets(const std::vector<CodeSnippetParams>& snippets, bool insert) = 0;
 
 	virtual void setFileState(const FilePath filePath, FileState state) = 0;
 
@@ -50,11 +89,8 @@ public:
 
 	virtual void showContents() = 0;
 
-	virtual void scrollToValue(int value, bool inListMode) = 0;
-	virtual void scrollToLine(const FilePath filePath, unsigned int line) = 0;
-	virtual void scrollToDefinition(bool ignoreActiveReference) = 0;
-
 	virtual bool isInListMode() const = 0;
+	virtual bool hasSingleFileCached(const FilePath& filePath) const = 0;
 
 private:
 	CodeController* getController();

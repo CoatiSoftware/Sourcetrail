@@ -1,17 +1,16 @@
-#ifndef MESSAGE_SCROLL_TO_LINE_h
-#define MESSAGE_SCROLL_TO_LINE_h
+#ifndef MESSAGE_SCROLL_TO_LINE_H
+#define MESSAGE_SCROLL_TO_LINE_H
 
-#include "utility/messaging/Message.h"
 #include "utility/file/FilePath.h"
+#include "utility/messaging/Message.h"
 
 class MessageScrollToLine
 	: public Message<MessageScrollToLine>
 {
 public:
-	MessageScrollToLine(const FilePath& filePath, unsigned int line, bool isModified = false)
+	MessageScrollToLine(const FilePath& filePath, size_t line)
 		: filePath(filePath)
 		, line(line)
-		, isModified(isModified)
 	{
 	}
 
@@ -21,8 +20,7 @@ public:
 	}
 
 	const FilePath filePath;
-	unsigned int line;
-	bool isModified;
+	size_t line;
 };
 
-#endif // MESSAGE_SCROLL_TO_LINE_h
+#endif // MESSAGE_SCROLL_TO_LINE_H

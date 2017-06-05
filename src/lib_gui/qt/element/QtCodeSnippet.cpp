@@ -164,9 +164,20 @@ uint QtCodeSnippet::getLineNumberForLocationId(Id locationId) const
 	return m_codeArea->getLineNumberForLocationId(locationId);
 }
 
-uint QtCodeSnippet::getStartLineNumberOfFirstActiveLocationOfTokenId(Id tokenId) const
+std::pair<uint, uint> QtCodeSnippet::getLineNumbersForLocationId(Id locationId) const
 {
-	return m_codeArea->getStartLineNumberOfFirstActiveLocationOfTokenId(tokenId);
+	return m_codeArea->getLineNumbersForLocationId(locationId);
+}
+
+Id QtCodeSnippet::getFirstActiveLocationId(Id tokenId) const
+{
+	Id scopeId = m_codeArea->getLocationIdOfFirstActiveScopeLocation(tokenId);
+	if (scopeId)
+	{
+		return scopeId;
+	}
+
+	return m_codeArea->getLocationIdOfFirstActiveLocation(tokenId);
 }
 
 QRectF QtCodeSnippet::getLineRectForLineNumber(uint lineNumber) const
