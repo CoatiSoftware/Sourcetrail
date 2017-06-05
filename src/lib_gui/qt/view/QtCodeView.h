@@ -41,8 +41,6 @@ public:
 	virtual bool isInListMode() const;
 	virtual bool hasSingleFileCached(const FilePath& filePath) const;
 
-
-
 private:
 	void performScroll();
 	void setStyleSheet() const;

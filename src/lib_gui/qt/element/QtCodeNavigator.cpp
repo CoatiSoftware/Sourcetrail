@@ -20,7 +20,6 @@
 #include "qt/utility/utilityQt.h"
 #include "settings/ApplicationSettings.h"
 
-
 QtCodeNavigator::QtCodeNavigator(QWidget* parent)
 	: QWidget(parent)
 	, m_mode(MODE_NONE)
@@ -586,7 +585,7 @@ void QtCodeNavigator::scrollToDefinition(bool animated, bool ignoreActiveReferen
 
 	if (!m_activeTokenId)
 	{
-		if (m_mode == MODE_SINGLE && m_references.size() && m_references.front().locationType != LOCATION_TOKEN)
+		if (m_references.size() && m_references.front().locationType != LOCATION_TOKEN)
 		{
 			requestScroll(m_references.front().filePath, 0, m_references.front().locationId, false, false);
 			emit scrollRequest();
@@ -596,7 +595,6 @@ void QtCodeNavigator::scrollToDefinition(bool animated, bool ignoreActiveReferen
 
 	if (m_mode == MODE_LIST)
 	{
-		std::cout << animated << std::endl;
 		std::pair<QtCodeSnippet*, Id> result = m_list->getFirstSnippetWithActiveLocationId(m_activeTokenId);
 		if (result.first != nullptr)
 		{

@@ -400,6 +400,8 @@ void CodeController::clear()
 
 void CodeController::expandVisibleSnippets(std::vector<CodeSnippetParams>* snippets) const
 {
+	TRACE();
+
 	bool inListMode = getView()->isInListMode();
 
 	size_t filesToExpand = inListMode ? std::min(int(snippets->size()), 3) : 1;
@@ -549,6 +551,8 @@ std::vector<CodeSnippetParams> CodeController::getSnippetsForCollection(
 	std::shared_ptr<SourceLocationCollection> collection, bool addSourceLocations
 ) const
 {
+	TRACE();
+
 	std::vector<CodeSnippetParams> snippets;
 
 	collection->forEachSourceLocationFile(

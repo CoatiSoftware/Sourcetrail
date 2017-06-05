@@ -1,6 +1,7 @@
 #include "qt/view/QtCodeView.h"
 
 #include "utility/ResourcePaths.h"
+#include "utility/tracing.h"
 
 #include "qt/element/QtCodeArea.h"
 #include "qt/element/QtCodeNavigator.h"
@@ -33,6 +34,8 @@ void QtCodeView::refreshView()
 {
 	m_onQtThread([=]()
 	{
+		TRACE("refresh");
+
 		setStyleSheet();
 
 		m_widget->refreshStyle();
@@ -61,6 +64,8 @@ void QtCodeView::showCodeSnippets(const std::vector<CodeSnippetParams>& snippets
 {
 	m_onQtThread([=]()
 	{
+		TRACE("show code snippets");
+
 		if (params.clearSnippets)
 		{
 			m_widget->clearCodeSnippets();
@@ -91,11 +96,6 @@ void QtCodeView::showCodeSnippets(const std::vector<CodeSnippetParams>& snippets
 		}
 
 		m_widget->updateFiles();
-
-		if (m_widget->isInListMode())
-		{
-			setStyleSheet(); // so property "isLast" of QtCodeSnippet is computed correctly
-		}
 
 		if (params.showContents)
 		{
@@ -134,6 +134,7 @@ void QtCodeView::showActiveSnippet(
 {
 	m_onQtThread([=]()
 	{
+		TRACE("show active snippet");
 		m_widget->showActiveSnippet(activeTokenIds, collection, scrollTo);
 	});
 }
@@ -178,6 +179,7 @@ void QtCodeView::showContents()
 {
 	m_onQtThread([=]()
 	{
+		TRACE("show contents");
 		m_widget->showContents();
 		performScroll();
 	});

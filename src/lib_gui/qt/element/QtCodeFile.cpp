@@ -30,6 +30,7 @@ QtCodeFile::QtCodeFile(const FilePath& filePath, QtCodeNavigator* navigator)
 
 	m_titleBar = new QPushButton(this);
 	m_titleBar->setObjectName("title_widget");
+	m_titleBar->setAttribute(Qt::WA_LayoutUsesWidgetRect); // fixes layouting on Mac
 	layout->addWidget(m_titleBar);
 
 	QHBoxLayout* titleLayout = new QHBoxLayout();
@@ -83,6 +84,8 @@ QtCodeFile::QtCodeFile(const FilePath& filePath, QtCodeNavigator* navigator)
 	connect(m_maximizeButton, SIGNAL(clicked()), this, SLOT(clickedMaximizeButton()));
 
 	m_snippetLayout = new QVBoxLayout();
+	m_snippetLayout->setContentsMargins(0, 0, 0, 0);
+	m_snippetLayout->setSpacing(0);
 	layout->addLayout(m_snippetLayout);
 
 	update();
@@ -122,8 +125,7 @@ QtCodeSnippet* QtCodeFile::addCodeSnippet(const CodeSnippetParams& params)
 
 	if (params.locationFile->isWhole())
 	{
-		snippet->setProperty("isFirst", true);
-		snippet->setProperty("isLast", true);
+		snippet->setStyleSheet("#code_snippet { border: none; }");
 
 		m_fileSnippet = snippet;
 		if (!m_snippets.size())
@@ -359,8 +361,10 @@ void QtCodeFile::updateSnippets()
 	int maxDigits = 1;
 	for (std::shared_ptr<QtCodeSnippet> snippet : m_snippets)
 	{
-		snippet->setProperty("isFirst", false);
-		snippet->setProperty("isLast", false);
+		if (snippet != m_snippets.front() && snippet->styleSheet().size())
+		{
+			snippet->setStyleSheet("");
+		}
 
 		maxDigits = qMax(maxDigits, snippet->lineNumberDigits());
 	}
@@ -370,8 +374,10 @@ void QtCodeFile::updateSnippets()
 		snippet->updateLineNumberAreaWidthForDigits(maxDigits);
 	}
 
-	m_snippets.front()->setProperty("isFirst", true);
-	m_snippets.back()->setProperty("isLast", true);
+	if (!m_snippets.front()->styleSheet().size())
+	{
+		m_snippets.front()->setStyleSheet("#code_snippet { border: none; }");
+	}
 }
 
 void QtCodeFile::updateTitleBar()

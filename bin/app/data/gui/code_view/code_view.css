@@ -141,11 +141,6 @@
 	font-size: <setting:font_size>px;
 }
 
-#code_file #code_snippet[isFirst=true] {
-	border: none;
-	padding-top: 0px;
-}
-
 #code_file #code_snippet #scope_name, #code_file #code_snippet #dots {
 	background-color: <color:code/snippet/title/background>;
 	border: none;

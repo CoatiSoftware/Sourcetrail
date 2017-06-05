@@ -29,15 +29,19 @@ void QtCodeNavigateable::ensureWidgetVisibleAnimated(
 	if (rect.height() > 0)
 	{
 		focusRect = QRect(childWidget->mapTo(parentWidget, rect.topLeft().toPoint()), rect.size().toSize());
-		focusRect.adjust(0, 0, 0, 100);
+
+		if (focusRect.height() < 100)
+		{
+			focusRect.adjust(0, 0, 0, 100);
+		}
 	}
 
 	QScrollBar* scrollBar = area->verticalScrollBar();
 	int value = focusRect.center().y() - visibleRect.center().y();
 
-	if (onTop)
+	if (onTop || focusRect.height() > visibleRect.height())
 	{
-		value = focusRect.top() - visibleRect.top();
+		value = focusRect.top() - visibleRect.top() - 20;
 	}
 
 	if (scrollBar && (value > 50 || value < -50))
@@ -113,17 +117,21 @@ void QtCodeNavigateable::ensurePercentVisibleAnimated(double percentA, double pe
 
 	int value = scrollHeight * scrollFactor;
 
-	if (animated && ApplicationSettings::getInstance()->getUseAnimations())
+	int diff = value - scrollBar->value();
+	if (diff > 5 || diff < -5)
 	{
-		QPropertyAnimation* anim = new QPropertyAnimation(scrollBar, "value");
-		anim->setDuration(300);
-		anim->setStartValue(scrollBar->value());
-		anim->setEndValue(value);
-		anim->setEasingCurve(QEasingCurve::InOutQuad);
-		anim->start();
-	}
-	else
-	{
-		scrollBar->setValue(value);
+		if (animated && ApplicationSettings::getInstance()->getUseAnimations())
+		{
+			QPropertyAnimation* anim = new QPropertyAnimation(scrollBar, "value");
+			anim->setDuration(300);
+			anim->setStartValue(scrollBar->value());
+			anim->setEndValue(value);
+			anim->setEasingCurve(QEasingCurve::InOutQuad);
+			anim->start();
+		}
+		else
+		{
+			scrollBar->setValue(value);
+		}
 	}
 }

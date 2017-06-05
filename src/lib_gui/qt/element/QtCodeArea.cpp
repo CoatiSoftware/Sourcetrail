@@ -9,6 +9,7 @@
 #include <QPainter>
 #include <QPushButton>
 #include <QScrollBar>
+#include <QTextBlock>
 #include <QToolTip>
 
 #include "utility/messaging/type/MessageActivateLocalSymbols.h"
@@ -110,22 +111,7 @@ QtCodeArea::QtCodeArea(
 
 	viewport()->setCursor(Qt::ArrowCursor);
 
-	FilePath path = m_locationFile->getFilePath();
-	LanguageType language = LANGUAGE_UNKNOWN;
-	if (!path.empty())
-	{
-		if (path.extension() == ".java")
-		{
-			language = LANGUAGE_JAVA;
-		}
-		else
-		{
-			language = LANGUAGE_CPP;
-		}
-	}
-
 	m_lineNumberArea = new LineNumberArea(this);
-	m_highlighter = new QtHighlighter(document(), language);
 
 	std::string displayCode = m_code;
 	if (!displayCode.empty() && *displayCode.rbegin() == '\n')
@@ -149,10 +135,18 @@ QtCodeArea::QtCodeArea(
 	m_scrollSpeedChangeListener.setScrollBar(horizontalScrollBar());
 
 	createActions();
-
-	m_highlighter->highlightDocument();
-
 	createAnnotations(locationFile);
+
+
+	FilePath path = m_locationFile->getFilePath();
+	LanguageType language = LANGUAGE_UNKNOWN;
+	if (!path.empty())
+	{
+		language = (path.extension() == ".java" ? LANGUAGE_JAVA : LANGUAGE_CPP);
+	}
+
+	m_highlighter = new QtHighlighter(document(), language);
+	m_highlighter->highlightDocument();
 }
 
 QtCodeArea::~QtCodeArea()
@@ -406,15 +400,25 @@ void QtCodeArea::paintEvent(QPaintEvent* event)
 		{
 			if (firstVisibleLine < 0 && bottom >= event->rect().top())
 			{
-				firstVisibleLine = block.blockNumber();;
+				firstVisibleLine = block.blockNumber();
 			}
-			lastVisibleLine = block.blockNumber();;
+			lastVisibleLine = block.blockNumber();
 		}
 
 		block = block.next();
 		top = bottom;
 		bottom = top + static_cast<int>(blockBoundingRect(block).height());
 	}
+
+	std::vector<std::pair<int, int>> ranges;
+	for (size_t i : m_colorChangedAnnotationIndices)
+	{
+		Annotation& annotation = m_annotations[i];
+		ranges.push_back(std::pair<int, int>(annotation.start, annotation.end));
+	}
+
+	m_highlighter->highlightRange(firstVisibleLine, lastVisibleLine, ranges);
+
 	firstVisibleLine += m_startLineNumber;
 	lastVisibleLine += m_startLineNumber;
 
@@ -834,9 +838,13 @@ void QtCodeArea::annotateText()
 	const std::set<Id>& activeLocalSymbolIds = m_navigator->getActiveLocalSymbolIds();
 	const std::set<Id>& focusIds = m_navigator->getFocusedTokenIds();
 
+	std::vector<int> linesToRehighlight;
+
 	bool needsUpdate = false;
-	for (Annotation& annotation: m_annotations)
+	for (size_t i = 0; i < m_annotations.size(); i++)
 	{
+		Annotation& annotation = m_annotations[i];
+
 		bool wasActive = annotation.isActive;
 		bool wasFocused = annotation.isFocused;
 		const AnnotationColor& oldColor = getAnnotationColorForAnnotation(annotation);
@@ -860,31 +868,21 @@ void QtCodeArea::annotateText()
 		{
 			if (newColor.text.size() > 0 && newColor.text != "transparent")
 			{
-				bool isDuplicateAnnotation = false;
-				for (Annotation* a : m_colorChangedAnnotations)
+				if (!annotation.oldTextColor.isValid())
 				{
-					if (a->start == annotation.start && a->end == annotation.end && a->locationId != annotation.locationId)
-					{
-						isDuplicateAnnotation = true;
-						break;
-					}
+					annotation.oldTextColor = m_highlighter->getFormat(annotation.start, annotation.end).foreground().color();
 				}
 
-				if (!isDuplicateAnnotation)
-				{
-					if (!annotation.oldTextColor.isValid())
-					{
-						annotation.oldTextColor = m_highlighter->getFormat(annotation.start, annotation.end).foreground().color();
-					}
-
-					setTextColorForAnnotation(annotation, QColor(newColor.text.c_str()));
-					m_colorChangedAnnotations.push_back(&annotation);
-				}
+				setTextColorForAnnotation(annotation, QColor(newColor.text.c_str()));
+				m_colorChangedAnnotationIndices.insert(i);
 			}
 			else if (annotation.oldTextColor.isValid())
 			{
 				setTextColorForAnnotation(annotation, annotation.oldTextColor);
 				annotation.oldTextColor = QColor();
+
+				m_colorChangedAnnotationIndices.erase(i);
+				linesToRehighlight.push_back(annotation.startLine - 1);
 			}
 		}
 
@@ -894,7 +892,12 @@ void QtCodeArea::annotateText()
 		}
 	}
 
-	if (needsUpdate)
+	if (linesToRehighlight.size())
+	{
+		m_highlighter->rehighlightLines(linesToRehighlight);
+	}
+
+	if (m_wasAnnotated && needsUpdate)
 	{
 		m_lineNumberArea->update();
 		viewport()->update();
