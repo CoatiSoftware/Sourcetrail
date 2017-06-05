@@ -409,6 +409,15 @@ public class JavaAstVisitor extends JavaAstVisitorAdapter
 					name.getRange()
 				);
 			}
+			
+			SymbolReference<ReferenceTypeDeclaration> symbolReference = m_typeSolver.tryToSolveType(name.asString());
+			if (!symbolReference.isSolved())
+			{
+				JavaIndexer.recordError(
+					m_callbackId, "Import not found.", true, true, 
+					n.getRange()
+				);
+			}
 		}
 		else
 		{
