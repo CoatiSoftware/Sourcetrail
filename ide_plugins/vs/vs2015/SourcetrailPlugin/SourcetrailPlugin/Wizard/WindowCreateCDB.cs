@@ -203,33 +203,42 @@ namespace CoatiSoftware.SourcetrailPlugin.Wizard
 
 					Task task = factory.StartNew(() =>
 					{
-						SolutionParser.SolutionParser solutionParser = new SolutionParser.SolutionParser(new VsPathResolver(_targetDir));
-
-						List<SolutionParser.CompileCommand> commands = solutionParser.CreateCompileCommands(project, _configurationName, _platformName, _cStandard);
-
-						lock (_lockObject)
+						try
 						{
-							projectsProcessed++;
-							_headerDirectories.AddRange(solutionParser.HeaderDirectories);
-						}
+							SolutionParser.SolutionParser solutionParser = new SolutionParser.SolutionParser(new VsPathResolver(_targetDir));
 
-						float relativProgress = (float)projectsProcessed / (float)_projects.Count;
-						Logging.Logging.LogInfo("Processing project \"" + Logging.Obfuscation.NameObfuscator.GetObfuscatedName(project.Name) + "\"");
-						backgroundWorker1.ReportProgress((int)(relativProgress * 100), "Processing project \"" + project.Name + "\"");
+							List<CompileCommand> commands = solutionParser.CreateCompileCommands(project, _configurationName, _platformName, _cStandard);
 
-						foreach (SolutionParser.CompileCommand command in commands)
-						{
-							// cdb.AddOrUpdateCommandObject(obj, false); // since the data is written to file right away now, no need to store it
-																		// the cdb is however still needed to store some meta data later
-
-							string serializedCommand = "";
-							foreach (string line in command.SerializeToJson().Split('\n'))
+							lock (_lockObject)
 							{
-								serializedCommand += "  " + line + "\n";
+								projectsProcessed++;
+								_headerDirectories.AddRange(solutionParser.HeaderDirectories);
 							}
-							serializedCommand = serializedCommand.TrimEnd('\n');
 
-							fileWriter.PushMessage(serializedCommand + ",\n");
+							float relativProgress = (float)projectsProcessed / (float)_projects.Count;
+							Logging.Logging.LogInfo("Processing project \"" + Logging.Obfuscation.NameObfuscator.GetObfuscatedName(project.Name) + "\"");
+							backgroundWorker1.ReportProgress((int)(relativProgress * 100), "Processing project \"" + project.Name + "\"");
+
+							foreach (CompileCommand command in commands)
+							{
+								// cdb.AddOrUpdateCommandObject(obj, false); // since the data is written to file right away now, no need to store it
+								// the cdb is however still needed to store some meta data later
+
+								string serializedCommand = "";
+								foreach (string line in command.SerializeToJson().Split('\n'))
+								{
+									serializedCommand += "  " + line + "\n";
+								}
+								serializedCommand = serializedCommand.TrimEnd('\n');
+
+								fileWriter.PushMessage(serializedCommand + ",\n");
+							}
+						}
+						catch (Exception e)
+						{
+							Logging.Logging.LogError("Failed to create CDB for project with exception: " + e.Message);
+							Logging.Logging.LogError("Stack Trace: " + e.StackTrace);
+							throw (e);
 						}
 					});
 
@@ -246,7 +255,8 @@ namespace CoatiSoftware.SourcetrailPlugin.Wizard
 			}
 			catch(Exception e)
 			{
-				Logging.Logging.LogError("Failed to create CDB: " + e.Message);
+				Logging.Logging.LogError("Failed to create CDB for solution with exception: " + e.Message);
+				Logging.Logging.LogError("Stack Trace: " + e.StackTrace);
 			}
 			finally
 			{

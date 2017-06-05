@@ -1,4 +1,6 @@
-﻿namespace VCProjectEngineWrapper
+﻿using System;
+
+namespace VCProjectEngineWrapper
 {
 	public static class VCProjectWrapperFactory
 	{
@@ -6,19 +8,52 @@
 		{
 			IVCProjectWrapper wrapper = null;
 
-			wrapper = new VCProjectWrapperVs2017(wrapped);
+			try
+			{
+				if (wrapper == null || !wrapper.isValid())
+				{
+					wrapper = new VCProjectWrapperVs2017(wrapped);
+				}
+			}
+			catch (Exception e)
+			{
+				wrapper = null;
+			}
 
-			if (wrapper == null || !wrapper.isValid())
+			try
 			{
-				wrapper = new VCProjectWrapperVs2015(wrapped);
+				if (wrapper == null || !wrapper.isValid())
+				{
+					wrapper = new VCProjectWrapperVs2015(wrapped);
+				}
 			}
-			if (wrapper == null || !wrapper.isValid())
+			catch (Exception e)
 			{
-				wrapper = new VCProjectWrapperVs2013(wrapped);
+				wrapper = null;
 			}
-			if (wrapper == null || !wrapper.isValid())
+
+			try
 			{
-				wrapper = new VCProjectWrapperVs2012(wrapped);
+				if (wrapper == null || !wrapper.isValid())
+				{
+					wrapper = new VCProjectWrapperVs2013(wrapped);
+				}
+			}
+			catch (Exception e)
+			{
+				wrapper = null;
+			}
+
+			try
+			{
+				if (wrapper == null || !wrapper.isValid())
+				{
+					wrapper = new VCProjectWrapperVs2012(wrapped);
+				}
+			}
+			catch (Exception e)
+			{
+				wrapper = null;
 			}
 
 			return wrapper;
