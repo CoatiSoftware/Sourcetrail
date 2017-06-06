@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace CoatiSoftware.SourcetrailPlugin.Logging
 {
-	class FileLogger : ILogger
+	public class FileLogger : ILogger
 	{
 		private static string _directory = "";
 		private static string _fileNamePrefix = "Log_SourcetrailPlugin_";

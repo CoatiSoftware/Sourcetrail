@@ -27,6 +27,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VCProjectEngineWrapperVs201
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VCProjectEngineWrapperVs2012", "VCProjectEngineWrapper\VCProjectEngineWrapperVs2012.csproj", "{C5439B90-42E7-414D-8C3F-BDCABB0592E2}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SourcetrailPluginUtility", "SourcetrailPluginUtility\SourcetrailPluginUtility.csproj", "{604B5751-AF34-4FF9-92C3-C85A6BCDF98E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -65,6 +67,10 @@ Global
 		{C5439B90-42E7-414D-8C3F-BDCABB0592E2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C5439B90-42E7-414D-8C3F-BDCABB0592E2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C5439B90-42E7-414D-8C3F-BDCABB0592E2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{604B5751-AF34-4FF9-92C3-C85A6BCDF98E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{604B5751-AF34-4FF9-92C3-C85A6BCDF98E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{604B5751-AF34-4FF9-92C3-C85A6BCDF98E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{604B5751-AF34-4FF9-92C3-C85A6BCDF98E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,4 +1,5 @@
-﻿using Microsoft.VisualStudio.VCProjectEngine;
+﻿using CoatiSoftware.SourcetrailPlugin.Logging;
+using Microsoft.VisualStudio.VCProjectEngine;
 using System;
 using System.Collections;
 
@@ -74,7 +75,7 @@ namespace VCProjectEngineWrapper
 			}
 			catch (Exception e)
 			{
-//				Logging.Logging.LogError("Failed to retreive compiler tool: " + e.Message);
+				Logging.LogError("Failed to retreive compiler tool: " + e.Message);
 			}
 		return new 
 #if (VS2012)

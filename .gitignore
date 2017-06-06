@@ -23,17 +23,18 @@
 
 /ide_plugins/vs/vs2015/SourcetrailPlugin/SourcetrailPlugin/bin
 /ide_plugins/vs/vs2015/SourcetrailPlugin/SourcetrailPlugin/obj
-/ide_plugins/vs/vs2015/SourcetrailPlugin/SourcetrailPlugin.IntegrationTests/bin/Debug
-/ide_plugins/vs/vs2015/SourcetrailPlugin/SourcetrailPlugin.IntegrationTests/bin/Release
+/ide_plugins/vs/vs2015/SourcetrailPlugin/SourcetrailPlugin.IntegrationTests/bin/
 /ide_plugins/vs/vs2015/SourcetrailPlugin/SourcetrailPlugin.IntegrationTests/obj
-/ide_plugins/vs/vs2015/SourcetrailPlugin/TestResults
-
+/ide_plugins/vs/vs2015/SourcetrailPlugin/SourcetrailPluginUtility/bin
+/ide_plugins/vs/vs2015/SourcetrailPlugin/SourcetrailPluginUtility/obj
 /ide_plugins/vs/vs2015/SourcetrailPlugin/VCProjectEngineWrapperInterfaces/bin
 /ide_plugins/vs/vs2015/SourcetrailPlugin/VCProjectEngineWrapperInterfaces/obj
 /ide_plugins/vs/vs2015/SourcetrailPlugin/VCProjectEngineWrapper/bin
 /ide_plugins/vs/vs2015/SourcetrailPlugin/VCProjectEngineWrapper/obj
 /ide_plugins/vs/vs2015/SourcetrailPlugin/VCProjectEngineWrapperFactories/bin
 /ide_plugins/vs/vs2015/SourcetrailPlugin/VCProjectEngineWrapperFactories/obj
+
+/ide_plugins/vs/vs2015/SourcetrailPlugin/TestResults
 
 *.coatidb
 *.srctrldb

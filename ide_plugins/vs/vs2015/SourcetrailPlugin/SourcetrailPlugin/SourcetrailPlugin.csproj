@@ -138,13 +138,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ComUtils.cs" />
-    <Compile Include="Logging\FileLogger.cs" />
-    <Compile Include="Logging\ILogger.cs" />
-    <Compile Include="Logging\Logging.cs" />
-    <Compile Include="Logging\LogManager.cs" />
-    <Compile Include="Logging\LogMessage.cs" />
-    <Compile Include="Logging\Obfuscation\NameObfuscator.cs" />
-    <Compile Include="Logging\VSOutputLogger.cs" />
     <Compile Include="Multitasking\LimitedThreadsTaskScheduler.cs" />
     <Compile Include="Utility\IPathResolver.cs" />
     <Compile Include="SolutionParser\VsPathResolver.cs" />
@@ -224,12 +217,12 @@
       <DependentUpon>WindowMessage.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
-    <ItemGroup>
-      <None Include="packages.config" />
-      <None Include="source.extension.vsixmanifest">
-        <SubType>Designer</SubType>
-      </None>
-    </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+    <None Include="source.extension.vsixmanifest">
+      <SubType>Designer</SubType>
+    </None>
+  </ItemGroup>
   <ItemGroup>
     <None Include="Key.snk" />
   </ItemGroup>
@@ -252,6 +245,10 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\SourcetrailPluginUtility\SourcetrailPluginUtility.csproj">
+      <Project>{604b5751-af34-4ff9-92c3-c85a6bcdf98e}</Project>
+      <Name>SourcetrailPluginUtility</Name>
+    </ProjectReference>
     <ProjectReference Include="..\VCProjectEngineWrapperFactories\VCProjectEngineWrapperFactories.csproj">
       <Project>{8188d64d-e880-490c-b267-b493a2171be3}</Project>
       <Name>VCProjectEngineWrapperFactories</Name>

@@ -1,13 +1,10 @@
 ﻿using EnvDTE;
-using Microsoft.VisualStudio;
-using Microsoft.VisualStudio.Shell;
-using Microsoft.VisualStudio.Shell.Interop;
 using System;
 using System.Diagnostics;
 
 namespace CoatiSoftware.SourcetrailPlugin.Logging
 {
-	class VSOutputLogger : ILogger
+	public class VSOutputLogger : ILogger
 	{
 		private EnvDTE.DTE _dte = null;
 		private OutputWindowPane _pane = null;

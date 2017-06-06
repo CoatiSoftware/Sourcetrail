@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace CoatiSoftware.SourcetrailPlugin.Logging.Obfuscation
 {
-	class NameObfuscator
+	public class NameObfuscator
 	{
 		private static NameObfuscator _instance = null;
 
