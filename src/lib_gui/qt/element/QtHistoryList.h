@@ -34,7 +34,7 @@ private:
 
 
 class QtHistoryList
-	: public QListWidget
+	: public QWidget
 {
 	Q_OBJECT
 
@@ -48,6 +48,7 @@ private slots:
 
 private:
 	size_t m_currentIndex;
+	QListWidget* m_list;
 };
 
 #endif // QT_HISTORY_LIST_H

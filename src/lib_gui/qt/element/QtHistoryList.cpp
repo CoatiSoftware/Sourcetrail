@@ -113,44 +113,48 @@ void QtHistoryItem::leaveEvent(QEvent *event)
 QtHistoryList::QtHistoryList(const std::vector<SearchMatch>& history, size_t currentIndex)
 	: m_currentIndex(currentIndex)
 {
-	setObjectName("history_list");
+	setObjectName("history");
 	setWindowFlags(Qt::Popup);
+
+	m_list = new QListWidget(this);
+	m_list->setObjectName("history_list");
 
 	for (size_t i = 0; i < history.size(); i++)
 	{
-		QListWidgetItem *item = new QListWidgetItem(this);
+		QListWidgetItem *item = new QListWidgetItem(m_list);
 		QtHistoryItem* line = new QtHistoryItem(history[i], i, i == currentIndex);
 		item->setSizeHint(line->getSizeHint());
-		setItemWidget(item, line);
+		m_list->setItemWidget(item, line);
 	}
 
 	setStyleSheet(utility::getStyleSheet(ResourcePaths::getGuiPath().concat(FilePath("history_list/history_list.css"))).c_str());
 
-	connect(this, SIGNAL(itemClicked(QListWidgetItem*)), this, SLOT(onItemClicked(QListWidgetItem*)));
+	connect(m_list, SIGNAL(itemClicked(QListWidgetItem*)), this, SLOT(onItemClicked(QListWidgetItem*)));
 }
 
 void QtHistoryList::showPopup(QPoint pos)
 {
 	QSize size(50, 0);
-	for (int i = 0; i < count(); i++)
+	for (int i = 0; i < m_list->count(); i++)
 	{
-		QtHistoryItem* it = dynamic_cast<QtHistoryItem*>(itemWidget(item(i)));
+		QtHistoryItem* it = dynamic_cast<QtHistoryItem*>(m_list->itemWidget(m_list->item(i)));
 		QSize itemSize = it->getSizeHint();
 		if (itemSize.width() > size.width())
 		{
 			size.setWidth(itemSize.width());
 		}
 
-		size.setHeight(size.height() + item(i)->sizeHint().height());
+		size.setHeight(size.height() + m_list->item(i)->sizeHint().height());
 	}
 
 	setGeometry(pos.x(), pos.y(), size.width(), size.height());
+    m_list->setMinimumSize(size);
 	show();
 }
 
 void QtHistoryList::onItemClicked(QListWidgetItem *item)
 {
-	QtHistoryItem* historyItem = dynamic_cast<QtHistoryItem*>(itemWidget(item));
+	QtHistoryItem* historyItem = dynamic_cast<QtHistoryItem*>(m_list->itemWidget(item));
 	if (historyItem)
 	{
 		if (historyItem->index != m_currentIndex)
