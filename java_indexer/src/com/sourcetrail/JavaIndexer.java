@@ -24,12 +24,13 @@ import com.github.javaparser.symbolsolver.resolution.typesolvers.ReflectionTypeS
 
 public class JavaIndexer 
 {
-	
 	private static Map<String, TypeSolver> typeSolvers = new HashMap<>();
 			
 	public static void processFile(int address, String filePath, String fileContent, String classPath, int verbose)
 	{
-		logInfo(address, "indexing source file: " + filePath);
+		AstVisitorClient astVisitorClient = new JavaIndexerAstVisitorClient(address);
+		
+		astVisitorClient.logInfo( "indexing source file: " + filePath);
 		
 		try 
 		{
@@ -72,10 +73,10 @@ public class JavaIndexer
 			
 			CompilationUnit cu = JavaParser.parse(new StringReader(fileContent));
 
-			JavaAstVisitor astVisitor = (
+			AstVisitor astVisitor = (
 				verbose == 1 ? 
-				new JavaVerboseAstVisitor(address, filePath, new FileContent(fileContent), combinedTypeSolver) : 
-				new JavaAstVisitor(address, filePath, new FileContent(fileContent), combinedTypeSolver)
+				new VerboseAstVisitor(astVisitorClient, filePath, new FileContent(fileContent), combinedTypeSolver) : 
+				new AstVisitor(astVisitorClient, filePath, new FileContent(fileContent), combinedTypeSolver)
 			);
 			
 			cu.accept(astVisitor, null);
@@ -97,8 +98,8 @@ public class JavaIndexer
 						message.indexOf(")")
 					));
 					
-					recordError(
-						address, "Encountered unexpected token.", true, true, 
+					astVisitorClient.recordError(
+						"Encountered unexpected token.", true, true, 
 						Range.range(startLine, startColumn, startLine, startColumn)
 					);
 				}
@@ -107,8 +108,8 @@ public class JavaIndexer
 					Optional<Range> range = problem.getRange();
 					if (range.isPresent())
 					{
-						recordError(
-							address, problem.toString(), true, true, 
+						astVisitorClient.recordError(
+							problem.toString(), true, true, 
 							range.get()
 						);
 					}
@@ -148,156 +149,7 @@ public class JavaIndexer
 		Runtime.getRuntime().gc();
 	}
 	
-	// helpers
 	
-	static public void recordSymbol(
-		int address, String symbolName, SymbolKind symbolType, 
-		AccessKind access, DefinitionKind definitionKind
-	)
-	{
-		recordSymbol(
-			address, symbolName, symbolType.getValue(),  
-			access.getValue(), definitionKind.getValue()
-		);
-	}
-	
-	static public void recordSymbolWithLocation(
-		int address, String symbolName, SymbolKind symbolType, 
-		Optional<Range> range,
-		AccessKind access, DefinitionKind definitionKind
-	)
-	{
-		recordSymbolWithLocation(
-			address, symbolName, symbolType, 
-			range.orElse(Range.range(0, 0, 0, 0)),
-			access, definitionKind
-		);
-	}
-	
-	static public void recordSymbolWithLocation(
-		int address, String symbolName, SymbolKind symbolType, 
-		Range range,
-		AccessKind access, DefinitionKind definitionKind
-	)
-	{
-		recordSymbolWithLocation(
-			address, symbolName, symbolType.getValue(), 
-			range.begin.line, range.begin.column, range.end.line, range.end.column, 
-			access.getValue(), definitionKind.getValue()
-		);
-	}
-	
-	static public void recordSymbolWithLocationAndScope(
-		int address, String symbolName, SymbolKind symbolType, 
-		Optional<Range> range,
-		Optional<Range> scopeRange,
-		AccessKind access, DefinitionKind definitionKind
-	)
-	{
-		recordSymbolWithLocationAndScope(
-			address, symbolName, symbolType, 
-			range.orElse(Range.range(0, 0, 0, 0)),
-			scopeRange.orElse(Range.range(0, 0, 0, 0)),
-			access, definitionKind
-		);
-	}
-	
-	static public void recordSymbolWithLocationAndScope(
-		int address, String symbolName, SymbolKind symbolType, 
-		Range range,
-		Range scopeRange,
-		AccessKind access, DefinitionKind definitionKind
-	)
-	{
-		recordSymbolWithLocationAndScope(
-			address, symbolName, symbolType.getValue(), 
-			range.begin.line, range.begin.column, range.end.line, range.end.column, 
-			scopeRange.begin.line, scopeRange.begin.column, scopeRange.end.line, scopeRange.end.column, 
-			access.getValue(), definitionKind.getValue()
-		);
-	}
-	
-	static public void recordReference(
-		int address, ReferenceKind referenceKind, String referencedName, String contextName, 
-		Optional<Range> range
-	)
-	{
-		recordReference(
-			address, referenceKind, referencedName, contextName, 
-			range.orElse(Range.range(0, 0, 0, 0))
-		);
-	}
-	
-	static public void recordReference(
-		int address, ReferenceKind referenceKind, String referencedName, String contextName, 
-		Range range
-	)
-	{
-		recordReference(
-			address, referenceKind.getValue(), referencedName, contextName, 
-			range.begin.line, range.begin.column, range.end.line, range.end.column
-		);
-	}
-	
-	static public void recordLocalSymbol(
-		int address, String symbolName,
-		Optional<Range> range
-	)
-	{
-		recordLocalSymbol(address, symbolName, range.orElse(Range.range(0, 0, 0, 0)));
-	}
-		
-	static public void recordLocalSymbol(
-		int address, String symbolName,
-		Range range
-	)
-	{
-		recordLocalSymbol(
-			address, symbolName,
-			range.begin.line, range.begin.column, range.end.line, range.end.column
-		);
-	}
-	
-	static public void recordComment(
-		int address,
-		Optional<Range> range
-	)
-	{
-		recordComment(address, range.orElse(Range.range(0, 0, 0, 0)));
-	}
-	
-	static public void recordComment(
-		int address,
-		Range range
-	)
-	{
-		recordComment(
-			address,
-			range.begin.line, range.begin.column, range.end.line, range.end.column
-		);
-	}
-	
-	static public void recordError(
-		int address, String message, boolean fatal, boolean indexed, 
-		Optional<Range> range
-	)
-	{
-		recordError(
-			address, message, fatal, indexed, 
-			range.orElse(Range.range(0, 0, 0, 0))
-		);
-	}
-	
-	static public void recordError(
-		int address, String message, boolean fatal, boolean indexed, 
-		Range range
-	)
-	{
-		recordError(
-			address, message, (fatal ? 1 : 0), (indexed ? 1 : 0), 
-			range.begin.line, range.begin.column, range.end.line, range.end.column
-		);
-	}
 	
 	// the following methods are defined in the native c++ code
 
@@ -307,25 +159,25 @@ public class JavaIndexer
 	
 	static public native void logError(int address, String error);
 	
-	static private native void recordSymbol(
+	static public native void recordSymbol(
 		int address, String symbolName, int symbolType, 
 		int access, int definitionKind
 	);
 
-	static private native void recordSymbolWithLocation(
+	static public native void recordSymbolWithLocation(
 		int address, String symbolName, int symbolType, 
 		int beginLine, int beginColumn, int endLine, int endColumn,
 		int access, int definitionKind
 	);
 	
-	static private native void recordSymbolWithLocationAndScope(
+	static public native void recordSymbolWithLocationAndScope(
 		int address, String symbolName, int symbolType, 
 		int beginLine, int beginColumn, int endLine, int endColumn,
 		int scopeBeginLine, int scopeBeginColumn, int scopeEndLine, int scopeEndColumn,
 		int access, int definitionKind
 	);
 	
-	static private native void recordReference(
+	static public native void recordReference(
 		int address, int referenceKind, String referencedName, String contextName, int beginLine, int beginColumn, int endLine, int endColumn
 	);
 	
@@ -337,7 +189,7 @@ public class JavaIndexer
 		int address, int beginLine, int beginColumn, int endLine, int endColumn
 	);
 	
-	static private native void recordError(
+	static public native void recordError(
 		int address, String message, int fatal, int indexed, int beginLine, int beginColumn, int endLine, int endColumn
 	);
 }

@@ -9,10 +9,10 @@ import com.github.javaparser.ast.stmt.*;
 import com.github.javaparser.ast.type.*;
 import com.github.javaparser.symbolsolver.model.resolution.TypeSolver;
 
-public class JavaVerboseAstVisitor extends JavaAstVisitor{
+public class VerboseAstVisitor extends AstVisitor{
 	
-	public JavaVerboseAstVisitor(int callbackId, String filePath, FileContent fileContent, TypeSolver typeSolver) {
-		super(callbackId, filePath, fileContent, typeSolver);
+	public VerboseAstVisitor(AstVisitorClient client, String filePath, FileContent fileContent, TypeSolver typeSolver) {
+		super(client, filePath, fileContent, typeSolver);
 	}
 
 	int indent = 0;
@@ -51,7 +51,7 @@ public class JavaVerboseAstVisitor extends JavaAstVisitor{
 			line += " line: " + n.getBegin().get().line;
 		}
 		
-		JavaIndexer.logInfo(m_callbackId, line);
+		m_client.logInfo(line);
 	}
 	
 	 //- Compilation Unit ----------------------------------

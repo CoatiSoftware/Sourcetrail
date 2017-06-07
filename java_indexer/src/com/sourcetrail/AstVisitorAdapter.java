@@ -13,7 +13,7 @@ import com.github.javaparser.ast.type.*;
 import java.util.Optional;
 import java.util.Stack;
 
-public abstract class JavaAstVisitorAdapter extends VoidVisitorAdapter<Void>
+public abstract class AstVisitorAdapter extends VoidVisitorAdapter<Void>
 {
 	private Stack<ReferenceKind> m_typeRefKind = new Stack<ReferenceKind>();
 	
