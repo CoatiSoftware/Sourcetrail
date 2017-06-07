@@ -37,7 +37,7 @@ void QtStatusView::initView()
 	QWidget* widget = QtViewWidgetWrapper::getWidgetOfView(this);
 
 	QBoxLayout* layout = new QVBoxLayout();
-	layout->setContentsMargins(0, 0, 0, 5);
+	layout->setContentsMargins(0, 0, 0, 0);
 	layout->setSpacing(0);
 	widget->setLayout(layout);
 
@@ -57,7 +57,8 @@ void QtStatusView::initView()
 
 	// Setup filters
 	QHBoxLayout* filters = new QHBoxLayout();
-	filters->addSpacing(15);
+	filters->setContentsMargins(10, 0, 0, 0);
+	filters->setSpacing(25);
 
 	const StatusFilter filter = ApplicationSettings::getInstance()->getStatusFilter();
 	m_showInfo = createFilterCheckbox("info", filters, filter & StatusType::STATUS_INFO);
@@ -100,7 +101,6 @@ QCheckBox* QtStatusView::createFilterCheckbox(const QString& name, QBoxLayout* l
 	);
 
 	layout->addWidget(checkbox);
-	layout->addSpacing(25);
 
 	return checkbox;
 }
@@ -167,10 +167,6 @@ void QtStatusView::setStyleSheet() const
 
 	QPalette palette(m_showErrors->palette());
 	palette.setColor(QPalette::WindowText, QColor(ColorScheme::getInstance()->getColor("error/text/normal").c_str()));
-
-	// widget->setStyleSheet(
-	// 	utility::getStyleSheet(ResourcePaths::getGuiPath() + "error_view/error_view.css").c_str()
-	// );
 
 	m_table->updateRows();
 }

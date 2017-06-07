@@ -62,7 +62,9 @@ private slots:
 	void finishedTransition();
 	void clickedInEmptySpace();
 	void pressedCharacterKey(QChar c);
+
 	void scrolled(int);
+	void resized();
 
 	void trailDepthChanged(int);
 

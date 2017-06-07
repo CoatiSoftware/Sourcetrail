@@ -281,7 +281,7 @@ void UndoRedoController::handleMessage(MessageShowReference* message)
 		return;
 	}
 
-	Command command(std::make_shared<MessageShowReference>(*message), Command::ORDER_VIEW);
+	Command command(std::make_shared<MessageShowReference>(*message), Command::ORDER_VIEW, true);
 	processCommand(command);
 }
 
@@ -395,9 +395,6 @@ void UndoRedoController::replayCommands()
 
 void UndoRedoController::replayCommands(std::list<Command>::iterator it)
 {
-	std::vector<std::list<Command>::iterator> viewCommands;
-	bool keepsContent = true;
-
 	std::map<std::string, std::list<Command>::iterator> lastOfType;
 	std::list<Command>::iterator at = it;
 	while (at != m_iterator)
@@ -410,6 +407,8 @@ void UndoRedoController::replayCommands(std::list<Command>::iterator it)
 		std::advance(at, 1);
 	}
 
+	bool keepsContent = true;
+
 	while (it != m_iterator)
 	{
 		if (!it->replayLastOnly || lastOfType[it->message->getType()] == it)
@@ -421,30 +420,8 @@ void UndoRedoController::replayCommands(std::list<Command>::iterator it)
 				keepsContent = false;
 			}
 		}
-		else if (it->order == Command::ORDER_VIEW)
-		{
-			viewCommands.push_back(it);
-		}
 
 		std::advance(it, 1);
-	}
-
-	std::set<std::string> messageTypes;
-	std::vector<std::list<Command>::iterator> lastViewCommands;
-
-	for (size_t i = viewCommands.size(); i > 0; i--)
-	{
-		it = viewCommands[i - 1];
-		if (messageTypes.find(it->message->getType()) == messageTypes.end())
-		{
-			messageTypes.insert(it->message->getType());
-			lastViewCommands.push_back(it);
-		}
-	}
-
-	for (size_t i = lastViewCommands.size(); i > 0; i--)
-	{
-		replayCommand(lastViewCommands[i - 1]);
 	}
 
 	MessageFlushUpdates(keepsContent).dispatch();
@@ -529,6 +506,11 @@ void UndoRedoController::processCommand(Command command)
 
 bool UndoRedoController::sameMessageTypeAsLast(MessageBase* message) const
 {
+	if (message->isReplayed())
+	{
+		return false;
+	}
+
 	if (!m_list.size() || m_list.begin() == m_iterator)
 	{
 		return false;

@@ -105,29 +105,32 @@ void QtGraphicsView::ensureVisibleAnimated(const QRectF& rect, int xmargin, int 
 
 	ensureVisible(rect, xmargin, ymargin);
 
-	int xval2 = horizontalScrollBar()->value();
-	int yval2 = verticalScrollBar()->value();
+	if (ApplicationSettings::getInstance()->getUseAnimations())
+	{
+		int xval2 = horizontalScrollBar()->value();
+		int yval2 = verticalScrollBar()->value();
 
-	horizontalScrollBar()->setValue(xval);
-	verticalScrollBar()->setValue(yval);
+		horizontalScrollBar()->setValue(xval);
+		verticalScrollBar()->setValue(yval);
 
-	QParallelAnimationGroup* move = new QParallelAnimationGroup();
+		QParallelAnimationGroup* move = new QParallelAnimationGroup();
 
-	QPropertyAnimation* xanim = new QPropertyAnimation(horizontalScrollBar(), "value");
-	xanim->setDuration(150);
-	xanim->setStartValue(xval);
-	xanim->setEndValue(xval2);
-	xanim->setEasingCurve(QEasingCurve::InOutQuad);
-	move->addAnimation(xanim);
+		QPropertyAnimation* xanim = new QPropertyAnimation(horizontalScrollBar(), "value");
+		xanim->setDuration(150);
+		xanim->setStartValue(xval);
+		xanim->setEndValue(xval2);
+		xanim->setEasingCurve(QEasingCurve::InOutQuad);
+		move->addAnimation(xanim);
 
-	QPropertyAnimation* yanim = new QPropertyAnimation(verticalScrollBar(), "value");
-	yanim->setDuration(150);
-	yanim->setStartValue(yval);
-	yanim->setEndValue(yval2);
-	yanim->setEasingCurve(QEasingCurve::InOutQuad);
-	move->addAnimation(yanim);
+		QPropertyAnimation* yanim = new QPropertyAnimation(verticalScrollBar(), "value");
+		yanim->setDuration(150);
+		yanim->setStartValue(yval);
+		yanim->setEndValue(yval2);
+		yanim->setEasingCurve(QEasingCurve::InOutQuad);
+		move->addAnimation(yanim);
 
-	move->start();
+		move->start();
+	}
 }
 
 void QtGraphicsView::updateZoom(float delta)
@@ -165,6 +168,8 @@ void QtGraphicsView::resizeEvent(QResizeEvent* event)
 
 	m_zoomInButton->setIconSize(QSize(15, 15));
 	m_zoomOutButton->setIconSize(QSize(15, 15));
+
+	emit resized();
 }
 
 void QtGraphicsView::mousePressEvent(QMouseEvent *event)

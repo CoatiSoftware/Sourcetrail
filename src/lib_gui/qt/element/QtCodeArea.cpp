@@ -519,14 +519,21 @@ void QtCodeArea::mouseReleaseEvent(QMouseEvent* event)
 				QTextCursor cursor = this->cursorForPosition(event->pos());
 				std::vector<const Annotation*> annotations = getInteractiveAnnotationsForPosition(cursor.position());
 
-				if (m_navigator->hasErrors())
+				if (annotations.size())
 				{
-					activateErrors(annotations);
+					if (m_navigator->hasErrors())
+					{
+						activateErrors(annotations);
+					}
+					else
+					{
+						activateSourceLocations(annotations);
+						activateLocalSymbols(annotations);
+					}
 				}
-				else
+				else if (m_navigator->getActiveLocalSymbolIds().size())
 				{
-					activateSourceLocations(annotations);
-					activateLocalSymbols(annotations);
+					MessageActivateLocalSymbols(std::vector<Id>()).dispatch();
 				}
 			}
 		}

@@ -36,7 +36,7 @@ QTableView {
 	alternate-background-color: <color:table/table_line_2/normal>;
 	border-radius: 10px;
 	border: 1px solid <color:table/table>;
-	margin: 10px;
+	margin: 10px 10px 2px;
 	padding-right: 10px;
 	font-size: <setting:font_size>px;
 }
@@ -84,6 +84,7 @@ QHeaderView::section:vertical {
 QCheckBox {
 	color: <color:table/text/normal>;
 	border-color: <color:table/table>;
+	margin: 0;
 	/*background-color: <color:table/table>;*/
 }
 
@@ -120,4 +121,3 @@ QTableView QTableCornerButton::section {
 	border-bottom: 1px solid <color:table/table>;
 	border-top-left-radius: 10px;
 }
-

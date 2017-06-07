@@ -89,5 +89,5 @@ void QtPreferencesWindow::handleNext()
 		MessageRefresh().refreshUiOnly().dispatch();
 	}
 
-	QtWindow::handleNext();
+	QtWindow::handleClose();
 }

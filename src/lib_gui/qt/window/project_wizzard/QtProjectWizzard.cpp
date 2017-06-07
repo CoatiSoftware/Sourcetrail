@@ -198,6 +198,7 @@ void QtProjectWizzard::populateWindow(QWidget* widget)
 	separator->setPalette(palette);
 
 	layout->addWidget(separator);
+	layout->addSpacing(10);
 
 	m_contentWidget = new QWidget();
 	m_contentWidget->setObjectName("form");

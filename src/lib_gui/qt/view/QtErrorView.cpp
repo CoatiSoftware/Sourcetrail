@@ -68,7 +68,7 @@ void QtErrorView::initView()
 	QWidget* widget = QtViewWidgetWrapper::getWidgetOfView(this);
 
 	QBoxLayout* layout = new QVBoxLayout();
-	layout->setContentsMargins(0, 0, 0, 5);
+	layout->setContentsMargins(0, 0, 0, 0);
 	layout->setSpacing(0);
 	widget->setLayout(layout);
 
@@ -107,7 +107,8 @@ void QtErrorView::initView()
 
 	// Setup Checkboxes
 	QBoxLayout* checkboxes = new QHBoxLayout();
-	checkboxes->addSpacing(15);
+	checkboxes->setContentsMargins(10, 0, 0, 0);
+	checkboxes->setSpacing(0);
 
 	{
 		m_showFatals = createFilterCheckbox("fatals", m_errorFilter.fatal, checkboxes);

@@ -82,6 +82,7 @@ void QtGraphView::initView()
 
 	connect(view, SIGNAL(emptySpaceClicked()), this, SLOT(clickedInEmptySpace()));
 	connect(view, SIGNAL(characterKeyPressed(QChar)), this, SLOT(pressedCharacterKey(QChar)));
+	connect(view, SIGNAL(resized()), this, SLOT(resized()));
 
 	m_scrollSpeedChangeListenerHorizontal.setScrollBar(view->horizontalScrollBar());
 	m_scrollSpeedChangeListenerVertical.setScrollBar(view->verticalScrollBar());
@@ -335,6 +336,11 @@ void QtGraphView::scrolled(int)
 	QGraphicsView* view = getView();
 
 	MessageScrollGraph(view->horizontalScrollBar()->value(), view->verticalScrollBar()->value()).dispatch();
+}
+
+void QtGraphView::resized()
+{
+	doResize();
 }
 
 void QtGraphView::trailDepthChanged(int)
@@ -1065,7 +1071,7 @@ void QtGraphView::createTransition()
 
 		anim->setDuration(300);
 
-		if (!remainingNodes.size() || m_scrollToTop)
+		if (!remainingNodes.size() || m_scrollToTop || m_restoreScroll)
 		{
 			connect(anim, SIGNAL(finished()), this, SLOT(updateScrollBars()));
 		}

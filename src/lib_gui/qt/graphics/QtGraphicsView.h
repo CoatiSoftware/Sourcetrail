@@ -46,6 +46,7 @@ protected:
 signals:
 	void emptySpaceClicked();
 	void characterKeyPressed(QChar c);
+	void resized();
 
 private slots:
 	void updateTimer();

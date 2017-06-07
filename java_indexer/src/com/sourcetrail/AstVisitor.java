@@ -458,7 +458,7 @@ public class AstVisitor extends AstVisitorAdapter
 				}
 				else
 				{
-					m_client.recordError("Import not found.", true, true, n.getRange());
+					m_client.recordError("Import not found: " + name, true, true, n.getRange());
 				}
 			}
 			catch (Exception e)
