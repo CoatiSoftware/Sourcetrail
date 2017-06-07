@@ -401,12 +401,6 @@ public class AstVisitor extends AstVisitorAdapter
 					name.getRange()
 				);
 			}
-			
-			SymbolReference<ReferenceTypeDeclaration> symbolReference = m_typeSolver.tryToSolveType(name.asString());
-			if (!symbolReference.isSolved())
-			{
-				m_client.recordError("Import not found.", true, true, n.getRange());
-			}
 		}
 		else
 		{
@@ -419,7 +413,7 @@ public class AstVisitor extends AstVisitorAdapter
 				{
 					importedDeclNames.add(JavaSymbolSolverDeclNameResolver.getQualifiedDeclName(solvedTypeDeclatarion.getCorrespondingDeclaration(), m_typeSolver));
 				}
-				else
+				else if (n.isStatic())
 				{
 					String typeName = name.getQualifier().get().asString();
 					String memberName = name.getIdentifier();
