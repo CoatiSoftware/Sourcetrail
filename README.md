@@ -147,6 +147,34 @@ gifsicle --resize-height 18 trans.gif > loader.gif
 
 ### Changelog
 
+#### 1.0 (beta)
+released 2017-06-07
+
+* Fixed issue where black borders appeared around dialogs for some Linux window managers (issue #376)
+* Use platform default window decorations for UI dialogs
+* Code: Made snippet minimize/maximize buttons more interactive by showing hover states
+* Code: improved code view loading performance
+* Java: Record more "import not found" errors
+* Support Visual Studio 2017 in Visual Studio Plugin (issue #381)
+* Graph: increased creation speed by requesting less data
+* macOS: Codesign .app bundle to avoid "from unidentified developer" warning
+* Error: Use same error order in error table and code view
+* Error: Only show first 1000 errors, click button in lower right of error table to show all (issue #385)
+* Graph: use bezier edges when activating aggregation edge
+* Send ping after changing plugin ports
+* Added menu action to display EULA and force accepting on macOS
+* Fixed use of environment variables in project setup paths
+* Multi-language project setup via Source Groups setup UI (issue #230)
+* C/C++: Fixed no files indexed when relative file paths are provided in Compilation Database (issue #388)
+* C/C++: Display an error when loading a Compilation Database fails
+* C/C++: Fixed source files within Compilation Database not indexed unless within Indexed Header Paths
+* Fixed status message length limiting window resizing (issue #372)
+* Match source file extensions case insensitive (issue #384)
+* Fixed indexing progress file count in status bar and status view (issue #387)
+* Windows: remove setup.exe from windows installer with all necessary .dll files
+* Added history list button between back and forward button
+* Added history menu showing activated symbols in chronologic order
+
 #### 0.12.25
 released 2017-05-16
 
