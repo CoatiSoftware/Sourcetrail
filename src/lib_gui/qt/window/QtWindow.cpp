@@ -409,8 +409,26 @@ void QtWindow::mouseMoveEvent(QMouseEvent* event)
 {
 	if (event->buttons() & Qt::LeftButton && m_mousePressedInWindow)
 	{
-		move(event->globalPos() - m_dragPosition);
-		event->accept();
+        if (m_isSubWindow)
+        {
+            QPoint pos = event->globalPos() - m_dragPosition;
+            QRect parentRect = parentWidget()->rect();
+
+            if (pos.x() < parentRect.left())
+            {
+                pos.setX(parentRect.left());
+            }
+            pos.setX(qBound(parentRect.left(), parentRect.right() - width(), pos.x()));
+            pos.setY(qBound(parentRect.top(), parentRect.bottom() - height(), pos.y()));
+
+            move(pos);
+            event->accept();
+        }
+        else
+        {
+            move(event->globalPos() - m_dragPosition);
+            event->accept();
+        }
 	}
 }
 

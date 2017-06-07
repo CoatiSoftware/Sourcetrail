@@ -20,6 +20,7 @@
 
 .DS_Store
 .idea
+.vscode
 
 /ide_plugins/vs/vs2015/SourcetrailPlugin/SourcetrailPlugin/bin
 /ide_plugins/vs/vs2015/SourcetrailPlugin/SourcetrailPlugin/obj
@@ -55,6 +56,7 @@ sourcetrail.srctrlprj
 compile_commands.json
 
 Makefile
+CMakeLists.txt.user*
 /__pycache__/
 
 /deployment/windows/wixSetup/bin
