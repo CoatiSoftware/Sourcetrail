@@ -155,11 +155,12 @@ std::shared_ptr<Graph> StorageAccessProxy::getGraphForAll() const
 	return std::make_shared<Graph>();
 }
 
-std::shared_ptr<Graph> StorageAccessProxy::getGraphForActiveTokenIds(const std::vector<Id>& tokenIds, bool* isActiveNamespace) const
+std::shared_ptr<Graph> StorageAccessProxy::getGraphForActiveTokenIds(
+	const std::vector<Id>& tokenIds, const std::vector<Id>& expandedNodeIds, bool* isActiveNamespace) const
 {
 	if (hasSubject())
 	{
-		return m_subject->getGraphForActiveTokenIds(tokenIds, isActiveNamespace);
+		return m_subject->getGraphForActiveTokenIds(tokenIds, expandedNodeIds, isActiveNamespace);
 	}
 
 	return std::make_shared<Graph>();

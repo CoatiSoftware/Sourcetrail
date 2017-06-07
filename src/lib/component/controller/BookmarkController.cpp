@@ -281,7 +281,11 @@ void BookmarkController::handleMessage(MessageCreateBookmark* message)
 
 	m_bookmarkCache.clear();
 
-	getView<BookmarkView>()->setCreateButtonState(BookmarkView::CreateButtonState::ALREADY_CREATED);
+	if (!message->nodeId || (m_activeNodeIds.size() == 1 && m_activeNodeIds[0] == message->nodeId))
+	{
+		getView<BookmarkView>()->setCreateButtonState(BookmarkView::CreateButtonState::ALREADY_CREATED);
+	}
+
 	getView<BookmarkView>()->update();
 }
 

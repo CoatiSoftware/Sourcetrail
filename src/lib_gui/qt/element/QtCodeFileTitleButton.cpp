@@ -71,7 +71,7 @@ void QtCodeFileTitleButton::setIsComplete(bool isComplete)
 		);
 
 		setStyleSheet((
-			"background-image: url(" + hatchingFilePath.str() + ");"
+			"#title_label { background-image: url(" + hatchingFilePath.str() + "); }"
 		).c_str());
 	}
 	else

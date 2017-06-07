@@ -987,7 +987,7 @@ std::shared_ptr<Graph> PersistentStorage::getGraphForAll() const
 }
 
 std::shared_ptr<Graph> PersistentStorage::getGraphForActiveTokenIds(
-	const std::vector<Id>& tokenIds, bool* isActiveNamespace) const
+	const std::vector<Id>& tokenIds, const std::vector<Id>& expandedNodeIds, bool* isActiveNamespace) const
 {
 	TRACE();
 
@@ -1101,6 +1101,26 @@ std::shared_ptr<Graph> PersistentStorage::getGraphForActiveTokenIds(
 	if (addAggregations)
 	{
 		addAggregationEdgesToGraph(tokenIds[0], edgesToAggregate, graph);
+	}
+
+	if (!isNamespace)
+	{
+		std::vector<Id> expandedChildIds;
+		std::vector<Id> expandedChildEdgeIds;
+
+		for (Id nodeId : expandedNodeIds)
+		{
+			if (graph->getNodeById(nodeId))
+			{
+				m_hierarchyCache.addFirstNonImplicitChildIdsForNodeId(nodeId, &expandedChildIds, &expandedChildEdgeIds);
+			}
+		}
+
+		if (expandedChildIds.size())
+		{
+			addNodesToGraph(expandedChildIds, graph);
+			addEdgesToGraph(expandedChildEdgeIds, graph);
+		}
 	}
 
 	addComponentAccessToGraph(graph);
@@ -1778,9 +1798,18 @@ std::vector<Id> PersistentStorage::getAllChildNodeIds(const Id nodeId) const
 	return utility::toVector(childNodeIds);
 }
 
-void PersistentStorage::addNodesToGraph(const std::vector<Id>& nodeIds, Graph* graph) const
+void PersistentStorage::addNodesToGraph(const std::vector<Id>& newNodeIds, Graph* graph) const
 {
 	TRACE();
+
+	std::vector<Id> nodeIds;
+	for (Id id : newNodeIds)
+	{
+		if (!graph->getNodeById(id))
+		{
+			nodeIds.push_back(id);
+		}
+	}
 
 	if (nodeIds.size() == 0)
 	{
@@ -1865,9 +1894,18 @@ void PersistentStorage::addNodesToGraph(const std::vector<Id>& nodeIds, Graph* g
 	}
 }
 
-void PersistentStorage::addEdgesToGraph(const std::vector<Id>& edgeIds, Graph* graph) const
+void PersistentStorage::addEdgesToGraph(const std::vector<Id>& newEdgeIds, Graph* graph) const
 {
 	TRACE();
+
+	std::vector<Id> edgeIds;
+	for (Id id : newEdgeIds)
+	{
+		if (!graph->getEdgeById(id))
+		{
+			edgeIds.push_back(id);
+		}
+	}
 
 	if (edgeIds.size() == 0)
 	{

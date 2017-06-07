@@ -147,7 +147,7 @@ void CodeController::handleMessage(MessageActivateTokens* message)
 		m_collection = m_storageAccess->getSourceLocationsForTokenIds(params.activeTokenIds);
 
 		std::vector<CodeSnippetParams> snippets = getSnippetsForActiveSourceLocations(m_collection.get(), declarationId);
-		expandVisibleSnippets(&snippets);
+		expandVisibleSnippets(&snippets, true);
 
 		view->showCodeSnippets(snippets, params);
 
@@ -314,7 +314,7 @@ void CodeController::handleMessage(MessageShowErrors* message)
 
 		std::sort(snippets.begin(), snippets.end(), CodeSnippetParams::sortById);
 
-		expandVisibleSnippets(&snippets);
+		expandVisibleSnippets(&snippets, false);
 
 		CodeView::CodeParams params;
 		params.clearSnippets = true;
@@ -340,7 +340,7 @@ void CodeController::handleMessage(MessageSearchFullText* message)
 	getView()->scrollTo(scrollParams);
 
 	std::vector<CodeSnippetParams> snippets = getSnippetsForCollection(m_collection, true);
-	expandVisibleSnippets(&snippets);
+	expandVisibleSnippets(&snippets, true);
 
 	CodeView::CodeParams params;
 	params.clearSnippets = true;
@@ -398,7 +398,7 @@ void CodeController::clear()
 	m_collection.reset();
 }
 
-void CodeController::expandVisibleSnippets(std::vector<CodeSnippetParams>* snippets) const
+void CodeController::expandVisibleSnippets(std::vector<CodeSnippetParams>* snippets, bool addSourceLocations) const
 {
 	TRACE();
 
@@ -417,7 +417,7 @@ void CodeController::expandVisibleSnippets(std::vector<CodeSnippetParams>* snipp
 		}
 
 		std::vector<CodeSnippetParams> newSnippets =
-			getSnippetsForFileWithState(oldSnippet.locationFile->getFilePath(), state, true);
+			getSnippetsForFileWithState(oldSnippet.locationFile->getFilePath(), state, addSourceLocations);
 		if (!newSnippets.size())
 		{
 			continue;

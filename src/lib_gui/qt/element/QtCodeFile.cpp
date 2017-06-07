@@ -473,24 +473,15 @@ void QtCodeFile::enteredTitleBar(QPushButton* button)
 {
 	if (m_minimizeButton->isEnabled())
 	{
-		if (m_minimizeButton != button)
-		{
-			m_minimizeButton->hoverIn();
-		}
+		m_minimizeButton->hoverIn();
 	}
 	else if (m_snippetButton->isEnabled())
 	{
-		if (m_snippetButton != button)
-		{
-			m_snippetButton->hoverIn();
-		}
+		m_snippetButton->hoverIn();
 	}
 	else if (m_maximizeButton->isEnabled())
 	{
-		if (m_maximizeButton != button)
-		{
-			m_maximizeButton->hoverIn();
-		}
+		m_maximizeButton->hoverIn();
 	}
 }
 

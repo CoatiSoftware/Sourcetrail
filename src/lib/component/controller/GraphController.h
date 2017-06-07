@@ -131,6 +131,8 @@ private:
 	std::shared_ptr<Graph> m_graph;
 
 	std::map<Id, Id> m_topLevelAncestorIds;
+
+	bool m_useBezierEdges;
 };
 
 #endif // GRAPH_CONTROLLER_H

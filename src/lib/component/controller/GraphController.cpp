@@ -21,6 +21,7 @@
 
 GraphController::GraphController(StorageAccess* storageAccess)
 	: m_storageAccess(storageAccess)
+	, m_useBezierEdges(false)
 {
 }
 
@@ -86,7 +87,7 @@ void GraphController::handleMessage(MessageActivateTokens* message)
 	std::vector<Id> tokenIds = utility::concat(m_activeNodeIds, m_activeEdgeIds);
 
 	bool isNamespace = false;
-	std::shared_ptr<Graph> graph = m_storageAccess->getGraphForActiveTokenIds(tokenIds, &isNamespace);
+	std::shared_ptr<Graph> graph = m_storageAccess->getGraphForActiveTokenIds(tokenIds, getExpandedNodeIds(), &isNamespace);
 
 	createDummyGraphForTokenIdsAndSetActiveAndVisibility(tokenIds, graph);
 
@@ -106,6 +107,11 @@ void GraphController::handleMessage(MessageActivateTokens* message)
 		layoutNesting();
 		layoutGraph(true);
 		assignBundleIds();
+	}
+
+	if (message->isAggregation)
+	{
+		m_useBezierEdges = true;
 	}
 
 	buildGraph(message, !isNamespace, true, isNamespace);
@@ -318,7 +324,7 @@ void GraphController::handleMessage(MessageGraphNodeExpand* message)
 							break;
 						}
 
-						std::shared_ptr<Graph> aggregationGraph = m_storageAccess->getGraphForActiveTokenIds(aggregationIds);
+						std::shared_ptr<Graph> aggregationGraph = m_storageAccess->getGraphForActiveTokenIds(aggregationIds, std::vector<Id>());
 
 						aggregationGraph->forEachEdge(
 							[this](Edge* e)
@@ -395,6 +401,8 @@ void GraphController::clear()
 	m_activeEdgeIds.clear();
 
 	m_graph.reset();
+
+	m_useBezierEdges = false;
 
 	getView()->clear();
 }
@@ -474,6 +482,7 @@ void GraphController::createDummyGraphForTokenIds(const std::vector<Id>& tokenId
 	m_dummyNodes = dummyNodes;
 
 	m_graph = graph;
+	m_useBezierEdges = false;
 }
 
 void GraphController::createDummyGraphForTokenIdsAndSetActiveAndVisibility(
@@ -1555,13 +1564,7 @@ void GraphController::buildGraph(
 		params.animatedTransition = animatedTransition;
 		params.scrollToTop = scrollToTop;
 		params.isIndexedList = scrollToTop;
-		params.bezierEdges = false;
-
-		MessageActivateTokens* msg = dynamic_cast<MessageActivateTokens*>(message);
-		if (msg && msg->isAggregation)
-		{
-			params.bezierEdges = true;
-		}
+		params.bezierEdges = m_useBezierEdges;
 
 		getView()->rebuildGraph(m_graph, m_dummyNodes, m_dummyEdges, params);
 	}

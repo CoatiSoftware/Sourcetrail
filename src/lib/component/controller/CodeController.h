@@ -77,7 +77,7 @@ private:
 
 	virtual void clear();
 
-	void expandVisibleSnippets(std::vector<CodeSnippetParams>* snippets) const;
+	void expandVisibleSnippets(std::vector<CodeSnippetParams>* snippets, bool addSourceLocations) const;
 
 	std::vector<CodeSnippetParams> getSnippetsForFileWithState(
 		const FilePath& filePath, CodeView::FileState state, bool addSourceLocations) const;
