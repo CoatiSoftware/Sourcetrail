@@ -14,7 +14,7 @@ cd $MY_PATH/..
 
 # run target
 
-if [ "$1" = "release" ] || [ "$1" = "r" ]
+if [ "$1" = "release" ] || [ "$1" = "r" ] || [ "$1" = "" ]
 then
 	if [ "$2" = "test" ]
 	then

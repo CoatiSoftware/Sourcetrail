@@ -18,7 +18,7 @@ class QtWindow
 	Q_OBJECT
 
 public:
-	QtWindow(QWidget* parent = nullptr);
+	QtWindow(bool isSubWindow, QWidget* parent = nullptr);
 
 	QSize sizeHint() const override;
 
@@ -63,11 +63,12 @@ signals:
 	void previous();
 
 protected:
+	void closeEvent(QCloseEvent* event) Q_DECL_OVERRIDE;
 	void resizeEvent(QResizeEvent* event) Q_DECL_OVERRIDE;
 	void keyPressEvent(QKeyEvent* event) Q_DECL_OVERRIDE;
-	void mouseMoveEvent(QMouseEvent *event) Q_DECL_OVERRIDE;
-	void mousePressEvent(QMouseEvent *event) Q_DECL_OVERRIDE;
-	void mouseReleaseEvent(QMouseEvent *event) Q_DECL_OVERRIDE;
+	void mouseMoveEvent(QMouseEvent* event) Q_DECL_OVERRIDE;
+	void mousePressEvent(QMouseEvent* event) Q_DECL_OVERRIDE;
+	void mouseReleaseEvent(QMouseEvent* event) Q_DECL_OVERRIDE;
 
 	virtual void populateWindow(QWidget* widget);
 	virtual void windowReady();
@@ -79,6 +80,8 @@ protected:
 	void setupDone();
 	void addLogo();
 	QHBoxLayout* createButtons();
+
+	bool m_isSubWindow;
 
 	QWidget* m_window;
 	QWidget* m_content;

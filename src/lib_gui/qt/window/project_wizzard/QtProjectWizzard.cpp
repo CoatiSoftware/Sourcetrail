@@ -51,7 +51,7 @@ QtProjectWizzard::QtProjectWizzard(QWidget* parent)
 
 QSize QtProjectWizzard::sizeHint() const
 {
-	return QSize(1000, 700);
+	return QSize(900, 600);
 }
 
 void QtProjectWizzard::newProject()
@@ -590,7 +590,7 @@ void QtProjectWizzard::newSourceGroup()
 	QtProjectWizzardWindow* window = createWindowWithContent(
 		[this](QtProjectWizzardWindow* window)
 		{
-			window->setPreferredSize(QSize(570, 420));
+			window->setPreferredSize(QSize(570, 380));
 			return new QtProjectWizzardContentSelect(window);
 		}
 	);
@@ -651,6 +651,7 @@ void QtProjectWizzard::emptySourceGroup()
 	QtProjectWizzardWindow* window = createWindowWithContent(
 		[this](QtProjectWizzardWindow* window)
 		{
+			window->setPreferredSize(QSize(470, 230));
 			return new QtProjectWizzardContentLanguageAndStandard(m_newSourceGroupSettings, window);
 		}
 	);

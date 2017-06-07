@@ -9,6 +9,8 @@
 #include "qt/view/QtViewWidgetWrapper.h"
 #include "qt/window/QtBookmarkCreator.h"
 #include "qt/window/QtBookmarkBrowser.h"
+#include "qt/view/QtMainView.h"
+#include "qt/window/QtMainWindow.h"
 
 #include "utility/messaging/type/MessageDeleteBookmarkForActiveTokens.h"
 #include "utility/messaging/type/MessageDisplayBookmarks.h"
@@ -176,10 +178,10 @@ void QtBookmarkView::displayBookmarks(const std::vector<std::shared_ptr<Bookmark
 		[=]()
 		{
 			if (m_bookmarkBrowser == nullptr)
-			{
-				m_bookmarkBrowser = new QtBookmarkBrowser();
-				m_bookmarkBrowser->setupBookmarkBrowser();
-			}
+            {
+                m_bookmarkBrowser = new QtBookmarkBrowser(dynamic_cast<QtMainView*>(dynamic_cast<View*>(getViewLayout())->getViewLayout())->getMainWindow());
+                m_bookmarkBrowser->setupBookmarkBrowser();
+            }
 
 			m_bookmarkBrowser->setBookmarks(bookmarks);
 			m_bookmarkBrowser->show();
@@ -193,7 +195,7 @@ void QtBookmarkView::displayBookmarkCreator(const std::vector<std::string>& name
 	m_onQtThread(
 		[=]()
 		{
-			QtBookmarkCreator* bookmarkCreator = new QtBookmarkCreator();
+            QtBookmarkCreator* bookmarkCreator = new QtBookmarkCreator(dynamic_cast<QtMainView*>(dynamic_cast<View*>(getViewLayout())->getViewLayout())->getMainWindow());
 			bookmarkCreator->setupBookmarkCreator();
 
 			std::string displayName = "";
@@ -223,7 +225,7 @@ void QtBookmarkView::displayBookmarkEditor(std::shared_ptr<Bookmark> bookmark, c
 	m_onQtThread(
 		[=]()
 		{
-			QtBookmarkCreator* bookmarkCreator = new QtBookmarkCreator(nullptr, true, bookmark->getId());
+            QtBookmarkCreator* bookmarkCreator = new QtBookmarkCreator(dynamic_cast<QtMainView*>(dynamic_cast<View*>(getViewLayout())->getViewLayout())->getMainWindow(), true, bookmark->getId());
 			bookmarkCreator->setupBookmarkCreator();
 			bookmarkCreator->setDisplayName(bookmark->getName());
 			bookmarkCreator->setComment(bookmark->getComment());

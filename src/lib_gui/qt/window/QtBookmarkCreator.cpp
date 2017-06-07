@@ -15,7 +15,7 @@
 #include "qt/utility/utilityQt.h"
 
 QtBookmarkCreator::QtBookmarkCreator(QWidget* parent, bool edit, Id id)
-	: QtWindow(parent)
+    : QtWindow(false, parent)
 	, m_edit(edit)
 	, m_bookmarkId(id)
 	, m_categoryCount(0)
@@ -30,7 +30,7 @@ QtBookmarkCreator::~QtBookmarkCreator()
 void QtBookmarkCreator::setupBookmarkCreator()
 {
 	QVBoxLayout* layout = new QVBoxLayout(this);
-	layout->setContentsMargins(30, 33, 30, 40);
+	layout->setContentsMargins(20, 23, 20, 20);
 
 	{
 		// title

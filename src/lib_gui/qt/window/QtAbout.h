@@ -13,9 +13,6 @@ public:
 	QSize sizeHint() const override;
 
 	void setupAbout();
-
-private slots:
-	void handleCloseButtonPress();
 };
 
 #endif // QT_ABOUT_H

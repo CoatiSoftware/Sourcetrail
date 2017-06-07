@@ -4,15 +4,15 @@
 #include <QLabel>
 #include <QPushButton>
 #include <QScrollArea>
-#include <QSysInfo>
 
 #include "qt/utility/QtDeviceScaledPixmap.h"
 #include "qt/utility/utilityQt.h"
 #include "settings/ApplicationSettings.h"
 #include "utility/ResourcePaths.h"
 
-QtWindow::QtWindow(QWidget* parent)
+QtWindow::QtWindow(bool isSubWindow, QWidget* parent)
 	: QtWindowStackElement(parent)
+	, m_isSubWindow(isSubWindow)
 	, m_window(nullptr)
 	, m_title(nullptr)
 	, m_subTitle(nullptr)
@@ -23,46 +23,74 @@ QtWindow::QtWindow(QWidget* parent)
 	, m_scrollAble(false)
 	, m_hasLogo(false)
 	, m_mousePressedInWindow(false)
+	, m_sizeGrip(nullptr)
 {
-	setWindowFlags(Qt::Dialog | Qt::FramelessWindowHint);
-	setAttribute(Qt::WA_TranslucentBackground, true);
-
-	m_window = new QWidget(this);
-
-	std::string frameStyle =
-		"#window {"
-		"	border: 1px solid lightgray;"
-		"	border-radius: 15px;"
-		"	background: white;"
-		"}";
-	m_window->setStyleSheet(frameStyle.c_str());
-	m_window->setObjectName("window");
-
-	// window shadow
-	if (QSysInfo::macVersion() == QSysInfo::MV_None)
+	if (isSubWindow)
 	{
-		QGraphicsDropShadowEffect *effect = new QGraphicsDropShadowEffect;
-		effect->setBlurRadius(5);
-		effect->setXOffset(2);
-		effect->setYOffset(2);
-		effect->setColor(Qt::darkGray);
-		m_window->setGraphicsEffect(effect);
+		setWindowFlags(Qt::SubWindow | Qt::FramelessWindowHint);
+		setAttribute(Qt::WA_TranslucentBackground, true);
+		setFocusPolicy(Qt::StrongFocus);
+		setFocus();
+	}
+	else
+	{
+		setWindowFlags(Qt::Window);
 	}
 
+	m_window = new QWidget(this);
+	m_window->setObjectName("window");
+
 	QVBoxLayout* layout = new QVBoxLayout(m_window);
-	layout->setSpacing(1);
+	layout->setSpacing(0);
 
 	m_content = new QWidget();
 	layout->addWidget(m_content);
 
-	QHBoxLayout* gripLayout = new QHBoxLayout();
-	m_sizeGrip = new QSizeGrip(m_window);
-	setSizeGripStyle(true);
-	gripLayout->addWidget(new QWidget());
-	gripLayout->addWidget(m_sizeGrip);
-	layout->addLayout(gripLayout);
+	if (isSubWindow)
+	{
+		std::string frameStyle =
+			"#window {"
+			"	border: 1px solid lightgray;"
+			"	border-radius: 15px;"
+			"	background: white;"
+			"}";
+		m_window->setStyleSheet(frameStyle.c_str());
+
+		QGraphicsDropShadowEffect *effect = new QGraphicsDropShadowEffect;
+		effect->setBlurRadius(15);
+		effect->setXOffset(0);
+		effect->setYOffset(5);
+		effect->setColor(Qt::darkGray);
+		m_window->setGraphicsEffect(effect);
+
+		QHBoxLayout* gripLayout = new QHBoxLayout();
+		m_sizeGrip = new QSizeGrip(m_window);
+		setSizeGripStyle(true);
+		gripLayout->addWidget(new QWidget());
+		gripLayout->addWidget(m_sizeGrip);
+		layout->addLayout(gripLayout);
+	}
 
 	resize(sizeHint());
+
+    if (parentWidget())
+    {
+        if (m_isSubWindow)
+        {
+            move(
+                parentWidget()->width() / 2 - sizeHint().width() / 2,
+                parentWidget()->height() / 2 - sizeHint().height() / 2
+            );
+        }
+        else
+        {
+            move(
+
+                parentWidget()->pos().x() + parentWidget()->width() / 2 - sizeHint().width() / 2,
+                parentWidget()->pos().y() + parentWidget()->height() / 2 - sizeHint().height() / 2
+            );
+        }
+    }
 
 	this->raise();
 }
@@ -77,10 +105,10 @@ QSize QtWindow::sizeHint() const
 
 void QtWindow::setup()
 {
-	m_content->setStyleSheet(utility::getStyleSheet(ResourcePaths::getGuiPath().concat(FilePath("window/window.css"))).c_str());
+	setStyleSheet(utility::getStyleSheet(ResourcePaths::getGuiPath().concat(FilePath("window/window.css"))).c_str());
 
 	QVBoxLayout* layout = new QVBoxLayout();
-	layout->setContentsMargins(25, 30, 25, 0);
+	layout->setContentsMargins(10, 10, 10, 10);
 
 	{
 		QHBoxLayout* hlayout = new QHBoxLayout();
@@ -134,6 +162,11 @@ void QtWindow::setup()
 
 void QtWindow::setSizeGripStyle(bool isBlack)
 {
+	if (!m_sizeGrip)
+	{
+		return;
+	}
+
 	std::string path = isBlack ? "size_grip_black.png" : "size_grip_white.png";
 
 	m_sizeGrip->setStyleSheet(QString::fromStdString(
@@ -284,7 +317,12 @@ void QtWindow::hideWindow()
 	hide();
 }
 
-void QtWindow::resizeEvent(QResizeEvent *event)
+void QtWindow::closeEvent(QCloseEvent* event)
+{
+	handleClose();
+}
+
+void QtWindow::resizeEvent(QResizeEvent* event)
 {
 	QSize size = event->size();
 
@@ -302,16 +340,22 @@ void QtWindow::resizeEvent(QResizeEvent *event)
 		return;
 	}
 
+	if (!m_isSubWindow)
+	{
+		m_window->resize(size);
+		return;
+	}
+
 	int displacement = 0;
 	if (m_hasLogo)
 	{
 		displacement = 58;
 	}
 
-	QSize windowSize = size - QSize(10, 20 + displacement);
+	QSize windowSize = size - QSize(30, 30 + displacement);
 
 	m_window->resize(windowSize);
-	m_window->move(5, displacement + 10);
+	m_window->move(15, displacement + 15);
 }
 
 void QtWindow::keyPressEvent(QKeyEvent* event)
@@ -361,7 +405,7 @@ void QtWindow::keyPressEvent(QKeyEvent* event)
 	QWidget::keyPressEvent(event);
 }
 
-void QtWindow::mouseMoveEvent(QMouseEvent *event)
+void QtWindow::mouseMoveEvent(QMouseEvent* event)
 {
 	if (event->buttons() & Qt::LeftButton && m_mousePressedInWindow)
 	{
@@ -370,7 +414,7 @@ void QtWindow::mouseMoveEvent(QMouseEvent *event)
 	}
 }
 
-void QtWindow::mousePressEvent(QMouseEvent *event)
+void QtWindow::mousePressEvent(QMouseEvent* event)
 {
 	if (event->button() == Qt::LeftButton)
 	{
@@ -380,7 +424,7 @@ void QtWindow::mousePressEvent(QMouseEvent *event)
 	}
 }
 
-void QtWindow::mouseReleaseEvent(QMouseEvent *event)
+void QtWindow::mouseReleaseEvent(QMouseEvent* event)
 {
 	if (event->button() == Qt::LeftButton)
 	{
@@ -425,11 +469,22 @@ void QtWindow::setupDone()
 
 	if (parentWidget())
 	{
-		move(
-			parentWidget()->pos().x() + parentWidget()->width() / 2 - size.width() / 2,
-			parentWidget()->pos().y() + parentWidget()->height() / 2 - size.height() / 2
-		);
-	}
+        if (m_isSubWindow)
+        {
+            move(
+                parentWidget()->width() / 2 - size.width() / 2,
+                parentWidget()->height() / 2 - size.height() / 2
+            );
+        }
+        else
+        {
+            move(
+
+                parentWidget()->pos().x() + parentWidget()->width() / 2 - size.width() / 2,
+                parentWidget()->pos().y() + parentWidget()->height() / 2 - size.height() / 2
+            );
+        }
+    }
 }
 
 void QtWindow::addLogo()
@@ -437,11 +492,10 @@ void QtWindow::addLogo()
 	QtDeviceScaledPixmap sourcetrailLogo((ResourcePaths::getGuiPath().str() + "window/logo.png").c_str());
 	sourcetrailLogo.scaleToWidth(240);
 
-
 	QLabel* sourcetrailLogoLabel = new QLabel(this);
 	sourcetrailLogoLabel->setPixmap(sourcetrailLogo.pixmap());
 	sourcetrailLogoLabel->resize(sourcetrailLogo.width(), sourcetrailLogo.height());
-	sourcetrailLogoLabel->move(30, 25);
+	sourcetrailLogoLabel->move(m_isSubWindow ? 40 : 23, 25);
 	sourcetrailLogoLabel->show();
 
 	m_hasLogo = true;

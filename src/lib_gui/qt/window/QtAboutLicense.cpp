@@ -6,11 +6,9 @@
 #include "licenses.h"
 
 QtAboutLicense::QtAboutLicense(QWidget *parent)
-	: QtWindow(parent)
+	: QtWindow(false, parent)
 {
 	setScrollAble(true);
-
-	raise();
 }
 
 QSize QtAboutLicense::sizeHint() const

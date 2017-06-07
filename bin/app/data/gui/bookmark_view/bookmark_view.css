@@ -2,8 +2,6 @@
 
 #header_background {
 	background-color: #2E3C86;
-	border-top-left-radius: 15px;
-	border-bottom-left-radius: 15px;
 }
 
 #title {
@@ -142,8 +140,6 @@
 
 #creator_header_background {
 	background-color: #2E3C86;
-	border-top-left-radius: 15px;
-	border-top-right-radius: 15px;
 }
 
 #creator_title_label {

@@ -9,7 +9,7 @@
 #include "qt/window/project_wizzard/QtProjectWizzardContent.h"
 
 QtProjectWizzardWindow::QtProjectWizzardWindow(QWidget *parent, bool showSeparator)
-	: QtWindow(parent)
+	: QtWindow(false, parent)
 	, m_content(nullptr)
 	, m_showSeparator(showSeparator)
 {

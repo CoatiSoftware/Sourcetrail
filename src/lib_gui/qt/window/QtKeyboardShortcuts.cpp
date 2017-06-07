@@ -25,11 +25,9 @@ void QtShortcutTable::wheelEvent(QWheelEvent *event)
 
 
 QtKeyboardShortcuts::QtKeyboardShortcuts(QWidget* parent)
-	: QtWindow(parent)
+	: QtWindow(false, parent)
 {
 	setScrollAble(true);
-
-	raise();
 }
 
 QtKeyboardShortcuts::~QtKeyboardShortcuts()

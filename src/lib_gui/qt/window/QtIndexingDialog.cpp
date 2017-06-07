@@ -14,7 +14,7 @@
 #include "utility/utility.h"
 
 QtIndexingDialog::QtIndexingDialog(QWidget* parent)
-	: QtWindow(parent)
+	: QtWindow(true, parent)
 	, m_type(DIALOG_MESSAGE)
 	, m_top(nullptr)
 	, m_topRatio(0)

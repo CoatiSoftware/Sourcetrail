@@ -8,10 +8,9 @@
 #include "utility/text/TextAccess.h"
 
 QtEulaWindow::QtEulaWindow(QWidget *parent, bool forceAccept)
-	: QtWindow(parent)
+	: QtWindow(false, parent)
 	, m_forceAccept(forceAccept)
 {
-	raise();
 }
 
 QSize QtEulaWindow::sizeHint() const

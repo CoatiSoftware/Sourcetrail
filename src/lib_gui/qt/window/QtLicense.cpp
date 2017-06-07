@@ -10,14 +10,13 @@
 #include "utility/ResourcePaths.h"
 
 QtLicense::QtLicense(QWidget *parent)
-	: QtWindow(parent)
+	: QtWindow(false, parent)
 {
-	raise();
 }
 
 QSize QtLicense::sizeHint() const
 {
-	return QSize(780, 590);
+	return QSize(780, 480);
 }
 
 void QtLicense::clear()

@@ -71,6 +71,8 @@ public:
 
 	void updateHistoryMenu(const std::vector<SearchMatch>& history);
 
+	void setContentEnabled(bool enabled);
+
 protected:
 	bool event(QEvent* event);
 	void keyPressEvent(QKeyEvent* event);

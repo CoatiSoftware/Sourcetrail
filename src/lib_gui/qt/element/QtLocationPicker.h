@@ -36,7 +36,6 @@ protected:
 
 private slots:
 	void handleButtonPress();
-	void handleFocus();
 
 private:
 	QPushButton* m_button;

@@ -81,9 +81,8 @@ void QtRecentProjectButton::handleButtonClick()
 
 
 QtStartScreen::QtStartScreen(QWidget *parent)
-	: QtWindow(parent)
+	: QtWindow(true, parent)
 {
-	this->raise();
 }
 
 QSize QtStartScreen::sizeHint() const
@@ -286,8 +285,8 @@ void QtStartScreen::setupStartScreen(bool unlocked)
 
 	QSize size = sizeHint();
 	move(
-		parentWidget()->pos().x() + parentWidget()->width() / 2 - size.width() / 2,
-		parentWidget()->pos().y() + parentWidget()->height() / 2 - size.height() / 2
+		parentWidget()->width() / 2 - size.width() / 2,
+		parentWidget()->height() / 2 - size.height() / 2
 	);
 }
 

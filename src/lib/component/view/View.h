@@ -34,13 +34,11 @@ public:
 	void setComponent(Component* component);
 
 	ViewWidgetWrapper* getWidgetWrapper() const;
-
+    ViewLayout* getViewLayout() const;
 
 protected:
 	template <typename ControllerType>
 	ControllerType* getController();
-
-	ViewLayout* getViewLayout() const;
 
 	void setWidgetWrapper(std::shared_ptr<ViewWidgetWrapper> widgetWrapper);
 

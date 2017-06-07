@@ -330,7 +330,7 @@ template<typename T>
 
 void QtDialogView::setUIBlocked(bool blocked)
 {
-	m_mainWindow->setEnabled(!blocked);
+	m_mainWindow->setContentEnabled(!blocked);
 
 	if (blocked)
 	{

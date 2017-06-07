@@ -262,6 +262,19 @@ void QtMainWindow::updateHistoryMenu(const std::vector<SearchMatch>& history)
 	setupHistoryMenu();
 }
 
+void QtMainWindow::setContentEnabled(bool enabled)
+{
+	foreach (QAction *action, menuBar()->actions())
+	{
+		action->setEnabled(enabled);
+	}
+
+	for (DockWidget& dock : m_dockWidgets)
+	{
+		dock.widget->setEnabled(enabled);
+	}
+}
+
 bool QtMainWindow::event(QEvent* event)
 {
 	if (event->type() == QEvent::WindowActivate)

@@ -13,7 +13,7 @@
 #include "utility/ResourcePaths.h"
 
 QtBookmarkBrowser::QtBookmarkBrowser(QWidget* parent)
-	: QtWindow(parent)
+    : QtWindow(false, parent)
 {
 }
 
@@ -42,7 +42,7 @@ void QtBookmarkBrowser::setupBookmarkBrowser()
 	{
 		QVBoxLayout* headerLayout = new QVBoxLayout();
 		headerLayout->setSpacing(0);
-		headerLayout->setContentsMargins(30, 35, 25, 35);
+		headerLayout->setContentsMargins(25, 35, 25, 35);
 		headerLayout->setAlignment(Qt::AlignTop);
 		layout->addLayout(headerLayout);
 
@@ -93,7 +93,7 @@ void QtBookmarkBrowser::setupBookmarkBrowser()
 	{
 		QVBoxLayout* bodyLayout = new QVBoxLayout();
 		bodyLayout->setSpacing(0);
-		bodyLayout->setContentsMargins(0, 30, 6, 35);
+		bodyLayout->setContentsMargins(0, 10, 0, 10);
 		bodyLayout->setAlignment(Qt::AlignLeft);
 		layout->addLayout(bodyLayout);
 
@@ -112,7 +112,7 @@ void QtBookmarkBrowser::setupBookmarkBrowser()
 		bodyLayout->addSpacing(15);
 
 		QHBoxLayout* buttonLayout = createButtons();
-		buttonLayout->setContentsMargins(0, 0, 35, 0);
+		buttonLayout->setContentsMargins(0, 0, 23, 13);
 		bodyLayout->addLayout(buttonLayout);
 		setPreviousVisible(false);
 		setCloseVisible(false);

@@ -11,9 +11,8 @@
 #include "utility/ResourcePaths.h"
 
 QtAbout::QtAbout(QWidget *parent)
-	: QtWindow(parent)
+	: QtWindow(false, parent)
 {
-	setSizeGripStyle(false);
 }
 
 QSize QtAbout::sizeHint() const
@@ -23,14 +22,6 @@ QSize QtAbout::sizeHint() const
 
 void QtAbout::setupAbout()
 {
-	m_window->setStyleSheet(
-		m_window->styleSheet() +
-		"#window { "
-			"background: qlineargradient( x1:0 y1:0.4, x2:0 y2:1, stop:0 #2F3F86, stop:1 #1C7BBC );"
-			"border: none;"
-		"}"
-	);
-
 	setStyleSheet(utility::getStyleSheet(ResourcePaths::getGuiPath().concat(FilePath("about/about.css"))).c_str());
 
 	QVBoxLayout* windowLayout = new QVBoxLayout();
@@ -42,32 +33,20 @@ void QtAbout::setupAbout()
 		QHBoxLayout* row = new QHBoxLayout();
 		windowLayout->addLayout(row);
 		{
-			QVBoxLayout* column = new QVBoxLayout();
-			row->addLayout(column);
-
 			QtDeviceScaledPixmap sourcetrailLogo((ResourcePaths::getGuiPath().str() + "about/logo_sourcetrail.png").c_str());
 			sourcetrailLogo.scaleToHeight(150);
+
 			QLabel* sourcetrailLogoLabel = new QLabel(this);
 			sourcetrailLogoLabel->setPixmap(sourcetrailLogo.pixmap());
 			sourcetrailLogoLabel->resize(sourcetrailLogo.width(), sourcetrailLogo.height());
-			column->addWidget(sourcetrailLogoLabel);
+			row->addWidget(sourcetrailLogoLabel);
 		}
 
-		row->addSpacing(20);
+		row->addSpacing(50);
 
 		{
 			QVBoxLayout* column = new QVBoxLayout();
 			row->addLayout(column);
-
-			QtDeviceScaledPixmap closePixmap((ResourcePaths::getGuiPath().str() + "about/icon_close.png").c_str());
-			closePixmap.scaleToHeight(20);
-			QPushButton* closeButton = new QPushButton(this);
-			closeButton->setIcon(QIcon(closePixmap.pixmap()));
-			closeButton->setObjectName("closeButton");
-			closeButton->show();
-			connect(closeButton, SIGNAL(clicked()), this, SLOT(handleCloseButtonPress()));
-
-			column->addWidget(closeButton, 0, Qt::AlignTop | Qt::AlignRight);
 
 			column->addStretch();
 
@@ -103,12 +82,13 @@ void QtAbout::setupAbout()
 	windowLayout->addWidget(acknowledgementsTitle);
 
 	QLabel* acknowledgementsLabel = new QLabel(
-		"Sourcetrail (aka Coati) 0.1 was created in the context of education at<br />"
-		"<a href=\"http://www.fh-salzburg.ac.at/en/\" style=\"color: white;\">Salzburg University of Applied Sciences</a>.<br />"
-		"Coati Software OG takes part in the <a href=\"http://www.startup-salzburg.at/\" style=\"color: white;\">Startup Salzburg</a> initiative.<br />"
+		"Sourcetrail (aka Coati) 0.1 was created in the context of education at "
+		"<a href=\"http://www.fh-salzburg.ac.at/en/\" style=\"color: white;\">Salzburg University of Applied Sciences</a>. "
+		"Coati Software OG takes part in the <a href=\"http://www.startup-salzburg.at/\" style=\"color: white;\">Startup Salzburg</a> initiative. "
 		"The development of Sourcetrail was funded by <a href=\"http://awsg.at\" style=\"color: white;\">aws</a>.",
 		this
 	);
+	acknowledgementsLabel->setWordWrap(true);
 	acknowledgementsLabel->setOpenExternalLinks(true);
 	windowLayout->addWidget(acknowledgementsLabel);
 
@@ -155,9 +135,6 @@ void QtAbout::setupAbout()
 			}
 		}
 	}
-}
 
-void QtAbout::handleCloseButtonPress()
-{
-	emit canceled();
+	windowLayout->addSpacing(10);
 }
