@@ -304,9 +304,6 @@
 						<Component Id='AboutCss' Guid='*' Win64="$(var.Win64)">
 							<File Id='About' Name='about.css' DiskId='1' Source='./../../../bin/app/data/gui/about/about.css' KeyPath='yes' />
 						</Component>
-						<Component Id='IconClosePng' Guid='*' Win64="$(var.Win64)">
-							<File Id='IconClose' Name='icon_close.png' DiskId='1' Source='./../../../bin/app/data/gui/about/icon_close.png' KeyPath='yes' />
-						</Component>
 						<Component Id='LogoAwsPng' Guid='*' Win64="$(var.Win64)">
 							<File Id='LogoAws' Name='logo_aws.png' DiskId='1' Source='./../../../bin/app/data/gui/about/logo_aws.png' KeyPath='yes' />
 						</Component>
@@ -366,6 +363,9 @@
 							<Component Id='CodeViewArrowRightPng' Guid='*' Win64="$(var.Win64)">
 								<File Id='CodeViewArrowRight' Name='arrow_right.png' DiskId='1' Source='./../../../bin/app/data/gui/code_view/images/arrow_right.png' KeyPath='yes' />
 							</Component>
+							<Component Id='CodeViewButtonBackgroundPng' Guid='*' Win64="$(var.Win64)">
+								<File Id='CodeViewButtonBackground' Name='button_background.png' DiskId='1' Source='./../../../bin/app/data/gui/code_view/images/button_background.png' KeyPath='yes' />
+							</Component>
 							<Component Id='CodeViewEditPng' Guid='*' Win64="$(var.Win64)">
 								<File Id='CodeViewEdit' Name='edit.png' DiskId='1' Source='./../../../bin/app/data/gui/code_view/images/edit.png' KeyPath='yes' />
 							</Component>
@@ -406,12 +406,6 @@
 						</Directory>
 					</Directory>
 					
-					<Directory Id='DataErrorView' Name='error_view'>
-						<Component Id='ErrorViewCss' Guid='*' Win64="$(var.Win64)">
-							<File Id='ErrorView' Name='error_view.css' DiskId='1' Source='./../../../bin/app/data/gui/error_view/error_view.css' KeyPath='yes' />
-						</Component>
-					</Directory>
-
 					<Directory Id='DataGraphView' Name='graph_view'>
 						<Component Id='GraphViewCss' Guid='*' Win64="$(var.Win64)">
 							<File Id='GraphView' Name='graph_view.css' DiskId='1' Source='./../../../bin/app/data/gui/graph_view/graph_view.css' KeyPath='yes' />
@@ -485,6 +479,19 @@
 						</Directory>
 					</Directory>
 
+					<Directory Id='DataHistoryList' Name='history_list'>
+						<Component Id='HistoryListCss' Guid='*' Win64="$(var.Win64)">
+							<File Id='HistoryList' Name='history_list.css' DiskId='1' Source='./../../../bin/app/data/gui/history_list/history_list.css' KeyPath='yes' />
+						</Component>
+
+						<Directory Id='DataHistoryListImages' Name='images'>
+							<Component Id='HistoryListArrowPng' Guid='*' Win64="$(var.Win64)">
+								<File Id='HistoryListArrow' Name='arrow.png' DiskId='1' Source='./../../../bin/app/data/gui/history_list/images/arrow.png' KeyPath='yes' />
+							</Component>
+
+						</Directory>
+					</Directory>
+					
 					<Directory Id='DataIcon' Name='icon'>
 						<Component Id='C_icon_Png' Guid='*' Win64="$(var.Win64)">
 							<File Id='C_icon' Name='c_icon.png' DiskId='1' Source='./../../../bin/app/data/gui/icon/c_icon.png' KeyPath='yes' />
@@ -614,6 +621,9 @@
 							<Component Id='ArrowRightPng' Guid='*' Win64="$(var.Win64)">
 								<File Id='ArrowRight' Name='arrow_right.png' DiskId='1' Source='./../../../bin/app/data/gui/undoredo_view/images/arrow_right.png' KeyPath='yes' />
 							</Component>
+							<Component Id='HistoryPng' Guid='*' Win64="$(var.Win64)">
+								<File Id='History' Name='history.png' DiskId='1' Source='./../../../bin/app/data/gui/undoredo_view/images/history.png' KeyPath='yes' />
+							</Component>
 
 						</Directory>
 					</Directory>
@@ -662,9 +672,29 @@
 						<Component Id='SizeGripWhitePng' Guid='*' Win64="$(var.Win64)">
 							<File Id='SizeGripWhite' Name='size_grip_white.png' DiskId='1' Source='./../../../bin/app/data/gui/window/size_grip_white.png' KeyPath='yes' />
 						</Component>
+						<Component Id='SourceGroupAddPng' Guid='*' Win64="$(var.Win64)">
+							<File Id='SourceGroupAdd' Name='source_group_add.png' DiskId='1' Source='./../../../bin/app/data/gui/window/source_group_add.png' KeyPath='yes' />
+						</Component>
+						<Component Id='SourceGroupAddHoverPng' Guid='*' Win64="$(var.Win64)">
+							<File Id='SourceGroupAddHover' Name='source_group_add_hover.png' DiskId='1' Source='./../../../bin/app/data/gui/window/source_group_add_hover.png' KeyPath='yes' />
+						</Component>
+						<Component Id='SourceGroupCopyPng' Guid='*' Win64="$(var.Win64)">
+							<File Id='SourceGroupCopy' Name='source_group_copy.png' DiskId='1' Source='./../../../bin/app/data/gui/window/source_group_copy.png' KeyPath='yes' />
+						</Component>
+						<Component Id='SourceGroupCopyHoverPng' Guid='*' Win64="$(var.Win64)">
+							<File Id='SourceGroupCopyHover' Name='source_group_copy_hover.png' DiskId='1' Source='./../../../bin/app/data/gui/window/source_group_copy_hover.png' KeyPath='yes' />
+						</Component>
+						<Component Id='SourceGroupDeletePng' Guid='*' Win64="$(var.Win64)">
+							<File Id='SourceGroupDelete' Name='source_group_delete.png' DiskId='1' Source='./../../../bin/app/data/gui/window/source_group_delete.png' KeyPath='yes' />
+						</Component>
+						<Component Id='SourceGroupDeleteHoverPng' Guid='*' Win64="$(var.Win64)">
+							<File Id='SourceGroupDeleteHover' Name='source_group_delete_hover.png' DiskId='1' Source='./../../../bin/app/data/gui/window/source_group_delete_hover.png' KeyPath='yes' />
+						</Component>
 						<Component Id='WindowCss' Guid='*' Win64="$(var.Win64)">
 							<File Id='Window' Name='window.css' DiskId='1' Source='./../../../bin/app/data/gui/window/window.css' KeyPath='yes' />
 						</Component>
+						
+						
 
 					</Directory>
 

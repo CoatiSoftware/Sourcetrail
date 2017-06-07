@@ -248,7 +248,6 @@
 				<ComponentRef Id='SplashWhitePng'/>
 
 				<ComponentRef Id='AboutCss'/>
-				<ComponentRef Id='IconClosePng'/>
 				<ComponentRef Id='LogoAwsPng'/>
 				<ComponentRef Id='LogoSourcetrailPng'/>
 				<ComponentRef Id='LogoFhsPng'/>
@@ -267,6 +266,7 @@
 				<ComponentRef Id='CodeViewCss'/>
 				<ComponentRef Id='CodeViewArrowLeftPng'/>
 				<ComponentRef Id='CodeViewArrowRightPng'/>
+				<ComponentRef Id='CodeViewButtonBackgroundPng'/>
 				<ComponentRef Id='CodeViewEditPng'/>
 				<ComponentRef Id='CodeViewFilePng'/>
 				<ComponentRef Id='CodeViewListPng'/>
@@ -279,8 +279,6 @@
 				<ComponentRef Id='CodeViewPatternGreyPng'/>
 				<ComponentRef Id='CodeViewSnippetActivePng'/>
 				<ComponentRef Id='CodeViewSnippetInactivePng'/>
-				
-				<ComponentRef Id='ErrorViewCss'/>
 
 				<ComponentRef Id='GraphViewCss'/>
 				<ComponentRef Id='ArrowGraphPng'/>
@@ -304,6 +302,9 @@
 				<ComponentRef Id='TypedefPng'/>
 				<ComponentRef Id='ZoomInPng'/>
 				<ComponentRef Id='ZoomOutPng'/>
+				
+				<ComponentRef Id='HistoryListCss'/>
+				<ComponentRef Id='HistoryListArrowPng'/>
 
 				<ComponentRef Id='C_icon_Png'/>
 				<ComponentRef Id='Cdb_icon_Png'/>
@@ -342,6 +343,7 @@
 				<ComponentRef Id='UndoRedoViewCss'/>
 				<ComponentRef Id='ArrowLeftPng'/>
 				<ComponentRef Id='ArrowRightPng'/>
+				<ComponentRef Id='HistoryPng'/>
 
 				<ComponentRef Id='WindowDotsPng'/>
 				<ComponentRef Id='WindowDotsHoverPng'/>
@@ -357,6 +359,12 @@
 				<ComponentRef Id='RefreshHoverPng'/>
 				<ComponentRef Id='SizeGripBlackPng'/>
 				<ComponentRef Id='SizeGripWhitePng'/>
+				<ComponentRef Id='SourceGroupAddPng'/>
+				<ComponentRef Id='SourceGroupAddHoverPng'/>
+				<ComponentRef Id='SourceGroupCopyPng'/>
+				<ComponentRef Id='SourceGroupCopyHoverPng'/>
+				<ComponentRef Id='SourceGroupDeletePng'/>
+				<ComponentRef Id='SourceGroupDeleteHoverPng'/>
 				<ComponentRef Id='WindowCss'/>
 
 				<ComponentRef Id='JavaGuavaJar'/>
