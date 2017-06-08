@@ -27,8 +27,9 @@ Linux64_tag:
         - tags
     <<: *script_definition
     artifacts:
+        name: "$CI_JOB_NAME$CI_COMMIT_TAG"
         paths:
-            - distr/Sourcetrail*.tar.gz
+            - Sourcetrail*.tar.gz
 
 Linux64_manual:
     image: st4ll1/coati_linux_64
@@ -38,8 +39,9 @@ Linux64_manual:
     when: manual
     <<: *script_definition
     artifacts:
+        name: "$CI_JOB_NAME"
         paths:
-            - distr/Sourcetrail*.tar.gz
+            - Sourcetrail*.tar.gz
 
 Linux64_licenseGenerator:
     image: st4ll1/coati_linux_64
@@ -74,8 +76,9 @@ Linux32_tag:
         - tags
     <<: *script_definition
     artifacts:
+        name: "$CI_JOB_NAME$CI_COMMIT_TAG"
         paths:
-            - distr/Sourcetrail*.tar.gz
+            - Sourcetrail*.tar.gz
 
 Linux32_manual:
     image: st4ll1/coati_linux_32
