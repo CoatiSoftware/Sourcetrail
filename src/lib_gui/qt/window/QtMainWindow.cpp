@@ -125,6 +125,13 @@ QtMainWindow::QtMainWindow()
 	// Need to call loadLayout here for right DockWidget size on Linux
 	// Seconde call is in Application.cpp
 	loadLayout();
+
+#ifdef __linux__
+    if (std::getenv("SOURCETRAIL_VIA_SCRIPT") == nullptr)
+    {
+       QMessageBox::warning(this, "Run Sourcetrail via Script", "Please run Sourcetrail via Sourcetrail.sh");
+    }
+#endif
 }
 
 QtMainWindow::~QtMainWindow()
