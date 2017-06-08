@@ -29,6 +29,7 @@ void UndoRedoController::clear()
 
 	m_history.clear();
 	m_historyOffset = 0;
+	updateHistory();
 
 	getView()->setUndoButtonEnabled(false);
 	getView()->setRedoButtonEnabled(false);

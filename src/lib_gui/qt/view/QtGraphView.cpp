@@ -340,6 +340,11 @@ void QtGraphView::scrolled(int)
 
 void QtGraphView::resized()
 {
+	if (m_transition && m_transition->currentTime() < m_transition->totalDuration())
+	{
+		return;
+	}
+
 	doResize();
 }
 
