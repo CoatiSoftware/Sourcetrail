@@ -1,5 +1,7 @@
 #include "qt/window/QtWindowStack.h"
 
+#include "qt/window/QtWindow.h"
+
 
 QtWindowStackElement::QtWindowStackElement(QWidget* parent)
 	: QWidget(parent)
@@ -69,6 +71,21 @@ void QtWindowStack::popWindow()
 	{
 		emit empty();
 	}
+}
+
+void QtWindowStack::centerSubWindows()
+{
+    for (QtWindowStackElement* window : m_stack)
+    {
+        QtWindow* qtWindow = dynamic_cast<QtWindow*>(window);
+        if (qtWindow)
+        {
+            if (qtWindow->isSubWindow())
+            {
+                qtWindow->moveToCenter();
+            }
+        }
+    }
 }
 
 void QtWindowStack::clearWindows()

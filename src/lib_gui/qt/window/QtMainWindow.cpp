@@ -101,14 +101,21 @@ QtMainWindow::QtMainWindow()
 	, m_showDockWidgetTitleBars(true)
 	, m_windowStack(this)
 {
-	setObjectName("QtMainWindow");
+    setObjectName("QtMainWindow");
 	setCentralWidget(nullptr);
 	setDockNestingEnabled(true);
 
 	setWindowIcon(QIcon((ResourcePaths::getGuiPath().str() + "icon/logo_1024_1024.png").c_str()));
 	setWindowFlags(Qt::Widget);
 
-	QApplication* app = dynamic_cast<QApplication*>(QCoreApplication::instance());
+#ifdef __linux__
+    if (std::getenv("SOURCETRAIL_VIA_SCRIPT") == nullptr)
+    {
+       QMessageBox::warning(this, "Run Sourcetrail via Script", "Please run Sourcetrail via Sourcetrail.sh");
+    }
+#endif
+
+    QApplication* app = dynamic_cast<QApplication*>(QCoreApplication::instance());
 	app->installEventFilter(new MouseReleaseFilter(this));
 
 	app->setStyleSheet(utility::getStyleSheet(ResourcePaths::getGuiPath().concat(FilePath("main.css"))).c_str());
@@ -125,13 +132,6 @@ QtMainWindow::QtMainWindow()
 	// Need to call loadLayout here for right DockWidget size on Linux
 	// Seconde call is in Application.cpp
 	loadLayout();
-
-#ifdef __linux__
-    if (std::getenv("SOURCETRAIL_VIA_SCRIPT") == nullptr)
-    {
-       QMessageBox::warning(this, "Run Sourcetrail via Script", "Please run Sourcetrail via Sourcetrail.sh");
-    }
-#endif
 }
 
 QtMainWindow::~QtMainWindow()
@@ -323,7 +323,13 @@ void QtMainWindow::closeEvent(QCloseEvent* event)
 	{
 		log->setEnabled(false);
 	}
-	MessageWindowClosed().dispatch();
+    MessageWindowClosed().dispatch();
+}
+
+void QtMainWindow::resizeEvent(QResizeEvent *event)
+{
+    m_windowStack.centerSubWindows();
+    QMainWindow::resizeEvent(event);
 }
 
 void QtMainWindow::about()

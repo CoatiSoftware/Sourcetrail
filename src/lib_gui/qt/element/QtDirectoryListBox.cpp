@@ -29,6 +29,7 @@ QtListItemWidget::QtListItemWidget(QtDirectoryListBox* list, QListWidgetItem* it
 	m_data->setAttribute(Qt::WA_MacShowFocusRect, 0);
 	m_data->setAttribute(Qt::WA_LayoutUsesWidgetRect); // fixes layouting on Mac
 	m_data->setObjectName("field");
+    m_data->setAcceptDrops(false);
 
 	m_button = new QtIconButton(
 		(ResourcePaths::getGuiPath().str() + "window/dots.png").c_str(),
@@ -72,7 +73,7 @@ void QtListItemWidget::setText(QString text)
 
 void QtListItemWidget::setFocus()
 {
-	m_data->setFocus(Qt::OtherFocusReason);
+    m_data->setFocus(Qt::OtherFocusReason);
 }
 
 void QtListItemWidget::handleButtonPress()

@@ -31,7 +31,10 @@ public:
 
 	QtWindowStackElement* getTopWindow();
 	QtWindowStackElement* getBottomWindow();
-	size_t getWindowCount();
+
+    size_t getWindowCount();
+
+    void centerSubWindows();
 
 public slots:
 	void pushWindow(QtWindowStackElement* window);

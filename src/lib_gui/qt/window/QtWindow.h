@@ -30,6 +30,9 @@ public:
 	void setScrollAble(bool scrollAble);
 
 	bool isScrollAble() const;
+    bool isSubWindow() const;
+
+    void moveToCenter();
 
 	void updateTitle(QString title);
 	void updateSubTitle(QString subTitle);
@@ -107,7 +110,7 @@ private:
 	QPoint m_dragPosition;
 	bool m_mousePressedInWindow;
 
-	QSizeGrip* m_sizeGrip;
+    QSizeGrip* m_sizeGrip;
 };
 
 #endif // QT_WINDOW_H

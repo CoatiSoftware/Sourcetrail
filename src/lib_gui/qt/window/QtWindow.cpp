@@ -73,24 +73,7 @@ QtWindow::QtWindow(bool isSubWindow, QWidget* parent)
 
 	resize(sizeHint());
 
-    if (parentWidget())
-    {
-        if (m_isSubWindow)
-        {
-            move(
-                parentWidget()->width() / 2 - sizeHint().width() / 2,
-                parentWidget()->height() / 2 - sizeHint().height() / 2
-            );
-        }
-        else
-        {
-            move(
-
-                parentWidget()->pos().x() + parentWidget()->width() / 2 - sizeHint().width() / 2,
-                parentWidget()->pos().y() + parentWidget()->height() / 2 - sizeHint().height() / 2
-            );
-        }
-    }
+    moveToCenter();
 
 	this->raise();
 }
@@ -192,7 +175,34 @@ void QtWindow::setScrollAble(bool scrollAble)
 
 bool QtWindow::isScrollAble() const
 {
-	return m_scrollAble;
+    return m_scrollAble;
+}
+
+bool QtWindow::isSubWindow() const
+{
+    return m_isSubWindow;
+}
+
+void QtWindow::moveToCenter()
+{
+    if (parentWidget())
+    {
+        if (m_isSubWindow)
+        {
+            move(
+                parentWidget()->width() / 2 - sizeHint().width() / 2,
+                parentWidget()->height() / 2 - sizeHint().height() / 2
+            );
+        }
+        else
+        {
+            move(
+
+                parentWidget()->pos().x() + parentWidget()->width() / 2 - sizeHint().width() / 2,
+                parentWidget()->pos().y() + parentWidget()->height() / 2 - sizeHint().height() / 2
+            );
+        }
+    }
 }
 
 void QtWindow::updateTitle(QString title)
@@ -485,24 +495,7 @@ void QtWindow::setupDone()
 	QSize size(qMax(actualSize.width(), preferredSize.width()), qMax(actualSize.height(), preferredSize.height()));
 	resize(size);
 
-	if (parentWidget())
-	{
-        if (m_isSubWindow)
-        {
-            move(
-                parentWidget()->width() / 2 - size.width() / 2,
-                parentWidget()->height() / 2 - size.height() / 2
-            );
-        }
-        else
-        {
-            move(
-
-                parentWidget()->pos().x() + parentWidget()->width() / 2 - size.width() / 2,
-                parentWidget()->pos().y() + parentWidget()->height() / 2 - size.height() / 2
-            );
-        }
-    }
+    moveToCenter();
 }
 
 void QtWindow::addLogo()
