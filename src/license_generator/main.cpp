@@ -6,6 +6,8 @@
 #include "boost/program_options.hpp"
 
 #include "Generator.h"
+#include "PrivateKey.h"
+#include "PublicKey.h"
 
 namespace po = boost::program_options;
 
@@ -28,12 +30,9 @@ bool process_command_line(int argc, char** argv)
             ("generate,g", po::value<std::string>(&user), "Generate a License, USERNAME as value")
             ("check,c", "Validate a License");
 
-        po::options_description required("Required Options");
-        required.add_options()
-            ("version,v", po::value<std::string>(&version), "Versionnumber of Sourcetrail");
-
         po::options_description keygen_description("Options Keygeneration");
         keygen_description.add_options()
+            ("version,v", po::value<std::string>(&version), "Versionnumber (in format 20xx.x) until Sourcetrail valid")
             ("seats,s", po::value<int>(&seats), "Generate a License, USERNAME as value")
             ("licenseType,t", po::value<std::string>(&type), "License Type of ")
             ("testLicense,e", po::value<int>(&days), "Generates a test license for <value> days");
@@ -48,11 +47,11 @@ bool process_command_line(int argc, char** argv)
         po::options_description desc("Sourcetrail Generator");
         desc.add_options()
             ("help,h", "Print this help message");
-        desc.add(modes_description).add(required).add(keygen_description);
+        desc.add(modes_description).add(keygen_description);
 
         po::options_description allDescriptions("Sourcetrail Generator");
         allDescriptions.add_options();
-        allDescriptions.add(modes_description).add(required).add(keygen_description).add(hidden_description);
+        allDescriptions.add(modes_description).add(keygen_description).add(hidden_description);
 
         po::variables_map vm;
 
@@ -82,15 +81,7 @@ bool process_command_line(int argc, char** argv)
             return 1;
         }
 
-        // we need a version for all modes
-        // if no version is given there is nothing to do
-        if (!vm.count("version"))
-        {
-            std::cout << "No version specified" << std::endl;
-            return false;
-        }
-
-        Generator keygen(version);
+        Generator keygen;
 
         // make sure there are no negative amount of seats
         if (vm.count("seats"))
@@ -117,17 +108,21 @@ bool process_command_line(int argc, char** argv)
         {
             keygen.setCustomPrivateKeyFile(privateKeyFile);
         }
+        else
+        {
+            keygen.loadPrivateKeyFromString(PRIVATE_KEY);
+        }
 
         if(vm.count("generate"))
         {
 			if(vm.count("testLicense"))
 			{
-				keygen.encodeLicense(user,days);
+                keygen.encodeLicense(user,days);
                 keygen.printLicenseAndWriteItToFile();
 			}
 			else
 			{
-                keygen.encodeLicense(user,type,seats);
+                keygen.encodeLicense(user,type,seats,version);
                 keygen.printLicenseAndWriteItToFile();
 			}
         }

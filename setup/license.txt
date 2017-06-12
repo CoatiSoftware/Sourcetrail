@@ -1,13 +1,15 @@
 -----BEGIN LICENSE-----
 builder
-builder license
-Coati 0
-$9$AQAKIJ1UwEq5cZQujDjiHaO9R7B/KN9a6JVxppbOcZ4VSvEFRlSn
-hBa0BMnyCdcL95VDSSC13m+BC/GTxweqaR2lBrF6NzVlIDeCjhBGv80
-L5SBw8yaNRx9LOZAnwGWw2IG7lclSuraqECIqVE3o2ooFC4xSg9KC6F
-4Xqq2Fw8rtPCJ3HwkLZzhMhQg208cdLlyOPXL/dPa1AqZiIar4cnF/0
-sJDjxpk5C8CvpD4dq0JOs6Xs6KF8Uc7Gwp0UfnwQ0nlOl8TL63ukb8T
-/70Rmzm5cnwM4iz+BdzfCVnhBgyLwCzJe+/5dF4KlVJxiW/f0GinsmU
-byuZAQUqcCuVSxZXHBthmsLCN9ZWeAsR+Xvv9WRCs018nuk67BnZ5Aq
-sdDRu0Q4GBEg==
+Sourcetrail
+BuildingLicense
+Valid until 2020.1
+-
+$9$AQAKttB/yiIxt1mfkCY8m/k2g8SgiiC23v2BnavARxJf6g1py6lJ
+oYqmp8TK/6ThpE1eNESel+MxBZ5mExT1zp3265FSpUlhI2fsxbxjWvz
+KJsVSGXgv95A/q2K/dQRjtfGuInsujs+FdqyWh18YAF5NRm/PsKQtvj
+J7d6sKNi23LWEBm4WRhYVYweu0T+GAzyMhOQdx9RvEZnjEYKTUZoy2E
+fm+El5WO4kx0Q2SHt+yVz9+SBJCWymGu9eb5R6YIZV/aIdhTd+jqhOR
+N94H0BKZ7L+4kmhPlarR98caQWrrCla9z9tv5B80LyhpgFiTEfHTsag
+3CLI0S9Ez0iqi/d9uGQ0y7UbVZr2CFvnLJ4W8FLRuIqyF7esfgSx7IZ
+GFsQa/6uNHVA==
 -----END LICENSE-----

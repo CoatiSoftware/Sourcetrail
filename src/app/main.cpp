@@ -132,7 +132,15 @@ int main(int argc, char *argv[])
 		QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling, true);
 	}
 
-	Version version = Version::fromString(GIT_VERSION_NUMBER);
+    Version version(
+                // TODO: replace hard coded version
+//        VERSION_YEAR,
+//        VERSION_MINOR,
+        2017,
+        2,
+        VERSION_COMMIT,
+        GIT_COMMIT_HASH
+    );
 	QApplication::setApplicationVersion(version.toDisplayString().c_str());
 
 	MessageStatus("Starting Sourcetrail " + version.toDisplayString()).dispatch();

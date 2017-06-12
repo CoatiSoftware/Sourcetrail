@@ -166,7 +166,7 @@ void LicenseChecker::handleMessage(MessageEnteredLicense* message)
 
 LicenseChecker::LicenseState LicenseChecker::checkLicense(License& license) const
 {
-	license.loadPublicKeyFromString(PublicKey);
+    license.loadPublicKeyFromString(PUBLIC_KEY);
 
 	if (license.isExpired())
 	{

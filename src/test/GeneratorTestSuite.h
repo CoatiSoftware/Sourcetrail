@@ -9,7 +9,7 @@ public:
 
     void test_create_Keys_with_Version_and_check()
     {
-        Generator generator("v0");
+        Generator generator;
         generator.generateKeys();
 
         std::string privateKey = generator.getPrivateKeyPEMFileAsString();
@@ -21,7 +21,7 @@ public:
 
     void test_load_private_Key_from_file()
     {
-        Generator generator("v2");
+        Generator generator;
         generator.setCustomPrivateKeyFile("./data/GeneratorTestSuite/private-v2.pem");
         bool ok = generator.loadPrivateKeyFromFile();
 
@@ -30,7 +30,7 @@ public:
 
     void test_load_private_key_from_string()
     {
-        Generator generator("v0");
+        Generator generator;
         bool ok = generator.loadPrivateKeyFromString(m_privateKey);
 
         TS_ASSERT(ok);
@@ -38,12 +38,14 @@ public:
 
 	void test_create_volume_license_and_validate()
 	{
-		Generator generator("v2");
+        Generator generator;
 		generator.generateKeys();
 		generator.loadPrivateKeyFromString(generator.getPrivateKeyPEMFileAsString());
 
-		License license;
-		license.create("TestUser", "v2", generator.getPrivateKey(), "Volume License", 20);
+        License license;
+        license.loadFromString(generator.encodeLicense("TestUser", "VolumeLicense", 20));
+
+//        license.create(generator.getPrivateKey(), "TestUser", "v2", "Volume License", 20);
         license.loadPublicKeyFromString(generator.getPublicKeyPEMFileAsString());
 
 		TS_ASSERT_EQUALS(license.getSeats(), 20);
@@ -51,7 +53,7 @@ public:
 
     void test_create_test_license_and_validate()
     {
-        Generator generator("v2");
+        Generator generator;
         generator.generateKeys();
         generator.loadPrivateKeyFromString(generator.getPrivateKeyPEMFileAsString());
 
@@ -61,7 +63,7 @@ public:
 
         TS_ASSERT(license.isValid());
         TS_ASSERT_EQUALS(license.getTimeLeft(), 10);
-        TS_ASSERT_EQUALS(license.getVersion(), "v2");
+//        TS_ASSERT_EQUALS(license.getVersion(), "v2");
 
         license.loadPublicKeyFromString(generator.getPublicKeyPEMFileAsString());
         license.loadFromString(generator.encodeLicense("User", -10));
@@ -73,39 +75,39 @@ public:
 
     void test_create_licenses_and_check_the_license_info()
     {
-        Generator generator("v2");
+        Generator generator;
         generator.generateKeys();
 
-        generator.loadPrivateKeyFromString(generator.getPrivateKeyPEMFileAsString());
         License license;
-        license.loadPublicKeyFromString(generator.getPublicKeyPEMFileAsString());
 
-        license.create("TestUser", "v2", generator.getPrivateKey());
-        std::string testInfo = "TestUser\nPrivate License\n1 Seat";
+        license.loadFromString(generator.encodeLicense("TestUser", "Private License", 1, "2017.4"));
+//        license.create(generator.getPrivateKey(), "TestUser", "v2");
+        std::string testInfo = "TestUser\nPrivate License\nValid until 2017.4\n1 Seat";
         TS_ASSERT_EQUALS(license.getLicenseInfo(), testInfo);
 
-        license.create("TestUser", "v2", generator.getPrivateKey(), "Volume License", 20);
-        testInfo = "TestUser\nVolume License\n20 Seats";
+//        license.create(generator.getPrivateKey(), "TestUser", "v2", "Volume License", 20);
+        license.loadFromString(generator.encodeLicense("TestUser", "Volume License", 20, "2017.3"));
+        testInfo = "TestUser\nVolume License\nValid until 2017.3\n20 Seats";
         TS_ASSERT_EQUALS(license.getLicenseInfo(), testInfo);
 
-        license.create("TestUser", "v2", generator.getPrivateKey(), "Private/Academic Single User License", 20);
-        testInfo = "TestUser\nPrivate/Academic Single User License\nnot registered for commercial development";
+//        license.create(generator.getPrivateKey(), "TestUser", "v2", "Private/Academic Single User License", 20);
+        license.loadFromString(generator.encodeLicense("TestUser", "Private/Academic Single User License", 0, "2018.1"));
+        testInfo = "TestUser\nPrivate/Academic Single User License\nValid until 2018.1\nnot registered for commercial development";
         TS_ASSERT_EQUALS(license.getLicenseInfo(), testInfo);
     }
 
     void test_create_license_and_validate()
     {
-        Generator generator("v2");
+        Generator generator;
         generator.generateKeys();
 
         generator.loadPrivateKeyFromString(generator.getPrivateKeyPEMFileAsString());
         License license;
-        license.create("TestUser", "v2", generator.getPrivateKey());
+        license.loadFromString(generator.encodeLicense("TestUser", "Private License", 20, "2017.3"));
         license.loadPublicKeyFromString(generator.getPublicKeyPEMFileAsString());
 
-        TS_ASSERT_EQUALS(license.getOwnerLine(), "TestUser");
-        TS_ASSERT_EQUALS(license.getLicenseTypeLine(), "Private License");
-        TS_ASSERT_EQUALS(license.getVersion(), "v2");
+        TS_ASSERT_EQUALS(license.getLine(License::OWNER_LINE), "TestUser");
+        TS_ASSERT_EQUALS(license.getLine(License::TYPE_LINE), "Private License");
         TS_ASSERT(license.isValid());
     }
 

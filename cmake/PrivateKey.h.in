@@ -1,0 +1,10 @@
+#ifndef PRIVATE_KEY_H
+#define PRIVATE_KEY_H
+
+// This File(PrivateKey.h) is generated with CMake
+
+#include <string>
+
+const std::string PRIVATE_KEY = "@KEY@";
+
+#endif // PRIVATE_KEY_H

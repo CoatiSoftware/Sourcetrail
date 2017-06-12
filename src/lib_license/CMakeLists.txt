@@ -1,8 +1,9 @@
 add_files(
 	LIB_LICENSE_FILES
 
-	Generator.cpp
-	Generator.h
+	utility/Version.cpp
+	utility/Version.h
+
 	License.cpp
 	License.h
 )

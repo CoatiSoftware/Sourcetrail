@@ -492,8 +492,6 @@ add_files(
 	utility/utilityUuid.h
 	utility/utilityXml.cpp
 	utility/utilityXml.h
-	utility/Version.cpp
-	utility/Version.h
 
 	Application.cpp
 	Application.h

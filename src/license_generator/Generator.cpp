@@ -9,12 +9,25 @@
 #include "botan/pk_keys.h"
 #include "botan/pkcs8.h"
 #include "botan/rsa.h"
+#include "botan/pbkdf.h"
+#include "botan/pubkey.h"
+#include "botan/passhash9.h"
+#include "botan/base64.h"
+#include "botan/auto_rng.h"
 
 #include "License.h"
+#include "utility/Version.h"
+#include "PrivateKey.h"
+#include "PublicKey.h"
 
-Generator::Generator(const std::string& version)
-    : m_version(version)
+const std::string KEY_FILEENDING = ".pem";
+const std::string PRIVATE_KEY_PASSWORD = "BA#jk5vbklAiKL9K3k$";
+const char PRIVATE_KEY_FILE[] = "private-sourcetrail.pem";
+const char PUBLIC_KEY_FILE[] = "public-sourcetrail.pem";
+
+Generator::Generator()
 {
+    loadPrivateKeyFromString(PRIVATE_KEY);
 }
 
 Generator::~Generator()
@@ -23,14 +36,14 @@ Generator::~Generator()
 
 void Generator::generateKeys()
 {
-    m_privateKey = std::make_shared<Botan::RSA_PrivateKey>(m_rng, 2048);
+    m_privateKey = std::unique_ptr<Botan::RSA_PrivateKey>(new Botan::RSA_PrivateKey(m_rng, 2048));
 }
 
 std::string Generator::getPrivateKeyFilename()
 {
     if(m_privateKeyFile.empty())
     {
-        return "private-" + m_version + KEY_FILEENDING;
+        return PRIVATE_KEY_FILE;
     }
     return m_privateKeyFile;
 }
@@ -39,17 +52,9 @@ std::string Generator::getPublicKeyFilename()
 {
     if(m_publicKeyFile.empty())
     {
-        return "public-" + m_version + KEY_FILEENDING;
+        return PUBLIC_KEY_FILE;
     }
     return m_publicKeyFile;
-}
-
-void Generator::setVersion(const std::string& version)
-{
-    if(!version.empty())
-    {
-        m_version = version;
-    }
 }
 
 std::string Generator::encodeLicense(const std::string& user, const int days)
@@ -58,12 +63,19 @@ std::string Generator::encodeLicense(const std::string& user, const int days)
 	boost::gregorian::days daysToTry(days);
 	boost::gregorian::date expireDate = today + daysToTry;
 
-	std::string testLicenseTypeString = "Test License - valid till " + boost::gregorian::to_simple_string(expireDate);
-    return encodeLicense(user, testLicenseTypeString);
+    createLicense(user, LicenseConstants::TEST_LICENSE_STRING, boost::gregorian::to_simple_string(expireDate), 0);
+
+    return m_license->getLicenseString();
 }
 
-std::string Generator::encodeLicense(const std::string& user, const std::string& licenseType, const int seats)
+std::string Generator::encodeLicense(
+    const std::string& user,
+    const std::string& licenseType,
+    const int seats,
+    const std::string& version
+)
 {
+    m_license = nullptr;
 	if (user.size() <= 0)
 	{
 		std::cout << "No user given" << std::endl;
@@ -76,22 +88,20 @@ std::string Generator::encodeLicense(const std::string& user, const std::string&
         return "";
 	}
 
-    //load private key
-    if (!m_privateKey)
+    if (!version.empty())
     {
-        std::cout << "No private key. Trying to load from file." << std::endl;
-        loadPrivateKeyFromFile();
+        Version tempVersion = Version::fromShortString(version);
+        if (tempVersion.isValid())
+        {
+            createLicense(user, licenseType, tempVersion.toShortString(), seats);
+        }
     }
 
-    if (!m_privateKey)
+    if (!m_license)
     {
-        std::cout << "No private key. Load from file or string." << std::endl;
-        return "";
+        createLicense(user, licenseType, getExpireVersion(), seats);
     }
 
-
-    m_license = std::make_shared<License>();
-    m_license->create(user, m_version, m_privateKey.get(), licenseType, seats);
 
     return m_license->getLicenseString();
 }
@@ -113,8 +123,7 @@ bool Generator::verifyLicense(const std::string& filename)
 {
     License license;
     license.loadFromFile(filename);
-    license.setVersion(m_version);
-    license.loadPublicKeyFromFile(getPublicKeyFilename());
+    license.loadPublicKeyFromString(PUBLIC_KEY);
     return license.isValid();
 }
 
@@ -194,7 +203,7 @@ bool Generator::loadPrivateKeyFromFile()
         return false;
     }
 
-    m_privateKey = std::shared_ptr<Botan::RSA_PrivateKey>(rsaKey);
+    m_privateKey = std::unique_ptr<Botan::RSA_PrivateKey>(rsaKey);
 
 	return (m_privateKey != NULL);
 }
@@ -217,7 +226,7 @@ bool Generator::loadPrivateKeyFromString(const std::string& key)
         return false;
     }
 
-    m_privateKey = std::shared_ptr<Botan::RSA_PrivateKey>(rsaKey);
+    m_privateKey = std::unique_ptr<Botan::RSA_PrivateKey>(rsaKey);
 
     return (m_privateKey != NULL);
 }
@@ -225,5 +234,62 @@ bool Generator::loadPrivateKeyFromString(const std::string& key)
 Botan::RSA_PrivateKey *Generator::getPrivateKey() const
 {
     return m_privateKey.get();
+}
+
+void Generator::createLicense(
+    const std::string& user,
+    const std::string& type,
+    const std::string& expiration,
+    const unsigned int seats
+)
+{
+    m_license = std::unique_ptr<License>(new License());
+
+    m_license->setLine(License::OWNER_LINE, user);
+    m_license->setLine(License::TYPE_LINE, type);
+    m_license->setLine(License::VERSION_LINE, LicenseConstants::UNTIL_PREFIX + expiration);
+    if (seats > 1)
+    {
+        m_license->setLine(License::SEATS_LINE, std::to_string(seats) + " Seats");
+    }
+    else if (seats == 1)
+    {
+        m_license->setLine(License::SEATS_LINE, "1 Seat");
+    }
+    else
+    {
+        m_license->setLine(License::SEATS_LINE, "-");
+    }
+    Botan::AutoSeeded_RNG rng;
+    std::string pass9 = Botan::generate_passhash9(m_license->getLine(License::VERSION_LINE), m_rng);
+    m_license->setLine(License::HASH_LINE, pass9);
+
+    //encode message
+    const std::string emsa = "EMSA4(SHA-256)";
+    Botan::PK_Signer signer(*(m_privateKey.get()), rng, emsa);
+    Botan::DataSource_Memory in(m_license->getMessage());
+    Botan::byte buffer[4096] = {0};
+
+    while (size_t got = in.read(buffer, sizeof(buffer)))
+    {
+        signer.update(buffer, got);
+    }
+
+    const std::string signature = Botan::base64_encode(signer.signature(rng));
+    m_license->setSignature(signature);
+}
+
+int Generator::mapMonthToVersion(int month)
+{
+    return (month-1)/3+1;
+}
+
+std::string Generator::getExpireVersion(int versions)
+{
+        boost::gregorian::date today = boost::gregorian::day_clock::local_day();
+        int monthNumber = today.month().as_number();
+        Version version(today.year(), mapMonthToVersion(monthNumber));
+        version += versions;
+        return version.toShortString();
 }
 

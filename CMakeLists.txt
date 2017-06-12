@@ -106,7 +106,7 @@ elseif(UNIX AND APPLE)
 	set(Boost_NO_SYSTEM_PATHS ON)
 else()
 	STRING(REGEX REPLACE "\\\\" "/" BOOST_LIBRARYDIR ${BOOST_LIBRARYDIR})
-	
+
 	if(${WINXXBITS} STREQUAL "Win32")
 		set(BOOST_ROOT "${BOOST_LIBRARYDIR}/win32")
 	else()
@@ -402,10 +402,9 @@ configure_file(
 )
 
 # configure public key for the sourcetrail version
-include(cmake/publicKey.cmake)
+include(cmake/public_key.cmake)
 
 set(CMAKE_AUTOMOC OFF)
-
 
 # Indexer App ------------------------------------------------------------------
 
@@ -583,6 +582,9 @@ endif ()
 
 add_subdirectory(src/license_generator)
 
+# configure private key for the sourcetrail version
+include(cmake/private_key.cmake)
+
 if (UNIX)
 	set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/license_generator/")
 else ()
@@ -592,7 +594,7 @@ else ()
 	endforeach( OUTPUTCONFIG CMAKE_CONFIGURATION_TYPES )
 endif ()
 
-add_executable(${LICENSE_GENERATOR_PROJECT_NAME} ${LICENSE_GENERATOR_FILES})
+add_executable(${LICENSE_GENERATOR_PROJECT_NAME} ${LICENSE_GENERATOR_FILES} ${LICENSE_GENERATOR_MAIN})
 
 create_source_groups(${LICENSE_GENERATOR_FILES})
 
@@ -600,6 +602,8 @@ set_property(
 		TARGET ${LICENSE_GENERATOR_PROJECT_NAME}
 		PROPERTY INCLUDE_DIRECTORIES
 		"${CMAKE_SOURCE_DIR}/src/lib_license"
+		"${CMAKE_BINARY_DIR}/src/license_generator"
+		"${CMAKE_BINARY_DIR}/src/lib_license"
 )
 
 target_include_directories(${LICENSE_GENERATOR_PROJECT_NAME} SYSTEM
@@ -632,7 +636,7 @@ set(TESTGEN_FILE ${CMAKE_CURRENT_BINARY_DIR}/test_main.cpp)
 find_package(PythonInterp REQUIRED)
 
 
-add_executable (${TEST_PROJECT_NAME} ${TESTGEN_FILE} ${TEST_FILES} )
+add_executable (${TEST_PROJECT_NAME} ${TESTGEN_FILE} ${TEST_FILES} ${LICENSE_GENERATOR_FILES})
 
 create_source_groups(${TEST_FILES})
 
@@ -650,6 +654,9 @@ if (CXXTEST_FOUND)
 			"${CMAKE_SOURCE_DIR}/src/lib_java"
 			"${CMAKE_SOURCE_DIR}/src/external"
 			"${CMAKE_SOURCE_DIR}/src/lib_license"
+			"${CMAKE_BINARY_DIR}/src/lib_license"
+			"${CMAKE_SOURCE_DIR}/src/license_generator"
+			"${CMAKE_BINARY_DIR}/src/license_generator"
 			"${Boost_INCLUDE_DIRS}"
 	)
 endif (CXXTEST_FOUND)
@@ -719,6 +726,6 @@ if (UNIX)
 		)
 
 		# Linux package
-		include(cmake/LinuxPackage.cmake)
+		include(cmake/linux_package.cmake)
 	endif ()
 endif ()

@@ -50,10 +50,11 @@ Linux64_licenseGenerator:
     script:
         - ./script/setup.sh
         - ./script/buildonly.sh r keygen
+        - mv build/Release/license_generator/Sourcetrail_license_generator .
     artifacts:
         name: "$CI_JOB_NAME"
         paths:
-            - build/Release/license_generator/*_license_generator
+            - Sourcetrail_license_generator
         expire_in: 3 days
 
 Linux32:

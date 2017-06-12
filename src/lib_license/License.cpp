@@ -10,6 +10,7 @@
 
 //#include "botan_all.h"
 #include "boost/date_time.hpp"
+#include "boost/date_time/gregorian/gregorian.hpp"
 #include "boost/filesystem.hpp"
 #include "botan/rsa.h"
 #include "botan/cryptobox.h"
@@ -19,6 +20,8 @@
 #include "botan/pk_keys.h"
 #include "botan/auto_rng.h"
 #include "botan/pbkdf.h"
+
+#include "utility/Version.h"
 
 namespace
 {
@@ -30,42 +33,31 @@ namespace
 	}
 }
 
+
 License::License()
 	: m_rng(std::make_shared<Botan::AutoSeeded_RNG>())
 {
+    m_lines[BEGIN_LICENSE_LINE] = BEGIN_LICENSE;
+    m_lines[SOURCETRAIL_LINE] = "Sourcetrail";
+    m_lines[END_LICENSE_LINE] = END_LICENSE;
 }
 
 License::~License()
 {
 }
 
-std::string License::getHashLine() const
-{
-	if (m_lines.size() >= 5)
-	{
-		return m_lines[4];
-	}
-	else
-	{
-		return "";
-	}
-}
-
 std::string License::getMessage() const
 {
 	std::string message = "";
 
-	if (m_lines.size() >= 5)
-	{
-		for (int i = 1; i < 5; ++i)
-		{
-			message += m_lines[i];
-		}
-	}
-	else
-	{
-		message = "";
-	}
+    for (int i = OWNER_LINE; i < FIRST_SIGNATURE_LINE; ++i)
+    {
+        message += m_lines[i];
+        if (m_lines[i].empty())
+        {
+            return "";
+        }
+    }
 
 	return message;
 }
@@ -74,9 +66,9 @@ std::string License::getSignature() const
 {
 	std::string signatue = "";
 
-	if (m_lines.size() >= 12)
+    if (!m_lines[LAST_SIGNATURE_LINE].empty())
 	{
-		for (int i = 5; i < 12; ++i)
+        for (int i = FIRST_SIGNATURE_LINE; i <= LAST_SIGNATURE_LINE; ++i)
 		{
 			signatue += m_lines[i];
 		}
@@ -89,92 +81,58 @@ std::string License::getSignature() const
 	return signatue;
 }
 
-std::string License::getVersionLine() const
+std::string License::getLine(LICENSE_LINE line) const
 {
-	if (m_lines.size() >= 3)
-	{
-		return m_lines[3];
-	}
-	else
-	{
-		return "";
-	}
+    return m_lines[line];
 }
 
-std::string License::getOwnerLine() const
+void License::setLine(const LICENSE_LINE line, const std::string& value)
 {
-	if (m_lines.size() >= 1)
-	{
-		return m_lines[1];
-	}
-	else
-	{
-		return "";
-	}
+    // only allow to set message lines
+    if (line < FIRST_SIGNATURE_LINE)
+    {
+        m_lines[line] = value;
+    }
 }
 
-std::string License::getLicenseTypeLine() const
+std::string License::getVersionLineWithoutPrefix() const
 {
-	if (m_lines.size() >= 2)
-	{
-		return m_lines[2];
-	}
-	else
-	{
-		return "";
-	}
+    return getLine(VERSION_LINE).substr(LicenseConstants::UNTIL_PREFIX.length());
 }
 
 unsigned int License::getSeats() const
 {
-    std::string licenseTypeLine = getLicenseTypeLine();
-    std::size_t found = licenseTypeLine.find(":");
-    if (found != std::string::npos)
+    std::string line = getLine(SEATS_LINE);
+    if (!line.empty())
     {
-        // +2 (": ")
-        std::stringstream seatsStream(licenseTypeLine.substr(found+2));
-        int seats;
-        seatsStream>>seats;
-        return seats;
+        try
+        {
+            return std::stoi(line);
+        }
+        catch (std::invalid_argument e)
+        {
+            return 0;
+        }
     }
     return 0;
 }
 
-std::string License::getLicenseType() const
-{
-	std::string licenseTypeLine = getLicenseTypeLine();
-    std::size_t found = licenseTypeLine.find(":");
-    if (found != licenseTypeLine.npos)
-    {
-        return licenseTypeLine.substr(0,found);
-    }
-
-    const std::string testLicenseString = "Test License";
-    found = licenseTypeLine.find(testLicenseString);
-    if (found != licenseTypeLine.npos)
-    {
-        return "Test License";
-    }
-
-    return licenseTypeLine;
-}
-
 std::string License::getLicenseInfo() const
 {
-    std::string info = getOwnerLine() + "\n";
+    std::string info = getLine(OWNER_LINE) + "\n";
 
-    const std::string typeString = getLicenseType();
-    info += getLicenseType() + "\n";
+    const std::string typeString = getLine(TYPE_LINE);
+    info += typeString + "\n";
+    info += getLine(VERSION_LINE) + "\n";
 
     // get info depending on license type
-    if (typeString == "Private/Academic Single User License")
+    if (isNonCommercialLicenseType(typeString))
     {
         info += "not registered for commercial development";
     }
-    else if (typeString == "Test License")
+    else if (typeString == LicenseConstants::TEST_LICENSE_STRING)
     {
-        const std::string t = "Test License - ";
-        info += getLicenseTypeLine().substr(t.length()) + "\nunlimited Seats";
+        info += "unlimited Seats";
     }
     else if (getSeats() > 1)
     {
@@ -191,7 +149,9 @@ std::string License::getLicenseInfo() const
 bool License::isNonCommercialLicenseType(const std::string type) const
 {
     for ( const std::string nonCommercialLicenseType : NON_COMMERCIAL_LICENSE_TYPES)
-    { if (type == nonCommercialLicenseType) {
+    {
+        if (type == nonCommercialLicenseType)
+        {
             return true;
         }
     }
@@ -200,72 +160,21 @@ bool License::isNonCommercialLicenseType(const std::string type) const
 
 int License::getTimeLeft() const
 {
-	const std::string testText = "Test License - valid till ";
     const std::string dateText = "YYYY-MMM-DD";
 
-	std::string licenceType = getLicenseTypeLine();
-
-    if (licenceType.length() != (testText.length() + dateText.length()))
-	{
-        return -2; // well, since it's unclear what type of licence...??
-	}
-
-	if(licenceType.substr(0, testText.length()) == testText)
-	{
-        std::string dateString = licenceType.substr(testText.length(), dateText.length());
-
-		boost::gregorian::date expireDate(
-				boost::gregorian::from_simple_string(dateString));
-
-		boost::gregorian::date today = boost::gregorian::day_clock::local_day();
-		boost::gregorian::days daysLeft = expireDate - today;
-
-		return (daysLeft.days() < 0 ? -1 : daysLeft.days());
-	}
-	else
-	{
-		return -2;
-	}
-}
-
-void License::create(
-		const std::string& user, const std::string& version,
-        Botan::RSA_PrivateKey* privateKey, const std::string& type, const unsigned int seats)
-{
-	m_version = version;
-    if (seats > 0)
+    std::string dateString = getVersionLineWithoutPrefix();
+    if (dateString.length() != dateText.length())
     {
-        createMessage(user, version, type + ": " + std::to_string(seats) + " seats");
-    }
-    else
-    {
-        createMessage(user, version, type);
+        return -2;
     }
 
-	//encode message
-	Botan::PK_Signer signer(*privateKey, *(m_rng.get()), "EMSA4(SHA-256)");
-	Botan::DataSource_Memory in(getMessage());
-	Botan::byte buffer[4096] = {0};
+    boost::gregorian::date expireDate(
+        boost::gregorian::from_simple_string(dateString));
 
-	while (size_t got = in.read(buffer, sizeof(buffer)))
-	{
-		signer.update(buffer, got); // the hell does 'got' stand for?
-	}
+    boost::gregorian::date today = boost::gregorian::day_clock::local_day();
+    boost::gregorian::days daysLeft = expireDate - today;
 
-	std::string signature = Botan::base64_encode(signer.signature(*(m_rng.get())));
-	addSignature(signature);
-}
-
-void License::createMessage(const std::string& user, const std::string& version, const std::string& type)
-{
-	m_lines.clear();
-	m_lines.push_back(BEGIN_LICENSE);
-	m_lines.push_back(user);
-	m_lines.push_back(type);
-    std::string versionstring = "Sourcetrail " + getVersion();
-	m_lines.push_back(versionstring);
-	std::string pass9 = Botan::generate_passhash9(versionstring, *(m_rng.get()));
-	m_lines.push_back(pass9);
+    return (daysLeft.days() < 0 ? -1 : daysLeft.days());
 }
 
 void License::writeToFile(const std::string& filename)
@@ -279,23 +188,27 @@ void License::writeToFile(const std::string& filename)
 
 bool License::loadFromString(const std::string& licenseText)
 {
-	m_lines.clear();
 	std::istringstream license(licenseText);
 	return load(license);
 }
 
 bool License::load(std::istream& stream)
 {
-	m_lines.clear();
+    int currentLine = 1;
 	std::string line;
 
-	while (getline(stream, line, '\n'))
+    while (getline(stream, line, '\n') && currentLine < END_LICENSE_LINE)
 	{
-		std::string l = trimWhiteSpaces(line);
-		if (l.size())
+        std::string l = trimWhiteSpaces(line);
+        if (l == BEGIN_LICENSE)
+        {
+            continue;
+        }
+        if (l.size())
 		{
-			m_lines.push_back(l);
+            m_lines[currentLine] = l;
 		}
+        currentLine++;
 	}
 
 	if (m_lines.size() <= 0)
@@ -304,29 +217,11 @@ bool License::load(std::istream& stream)
 		return false;
 	}
 
-	if (m_lines.front() != BEGIN_LICENSE)
-	{
-		std::cout << "No License Header" << std::endl;
-		m_lines.insert(m_lines.begin(), BEGIN_LICENSE);
-	}
-
-	if (m_lines.back() != END_LICENSE)
-	{
-		std::cout << "No License Footer" << std::endl;
-		m_lines.push_back(END_LICENSE);
-	}
-
-	if (m_lines.size() != 13)
-	{
-		return false;
-	}
-
 	return true;
 }
 
 bool License::loadFromFile(const std::string& filename)
 {
-	m_lines.clear();
 	std::ifstream sigfile(filename);
 	return load(sigfile);
 }
@@ -336,34 +231,6 @@ void License::print()
 	std::cout << getLicenseString();
 }
 
-void License::addSignature(const std::string& signature)
-{
-	if(m_lines.size() > 5)
-	{
-		std::cout << "signature already there" << std::endl;
-		return;
-	}
-	if (signature.size() <= 0)
-	{
-		std::cout << "signature is empty." << std::endl;
-		return;
-	}
-	std::stringstream ss;
-
-    const int lineLength = 55;
-	for (size_t i = 0; i < signature.size(); i++)
-	{
-        if(i % lineLength == 0 && i != 0)
-		{
-			m_lines.push_back(ss.str());
-			ss.str("");
-		}
-		ss << signature[i];
-	}
-
-	m_lines.push_back(ss.str());
-	m_lines.push_back(END_LICENSE); // why is this done here? the function name indicates only adding of signature
-}
 
 bool License::isValid() const
 {
@@ -372,15 +239,8 @@ bool License::isValid() const
 		std::cout << "No public key loaded" << std::endl;
 		return false;
 	}
-	try // lol, now we try to handle errors?
+    try
 	{
-        // remove "Coati " in version 1
-        if(!(Botan::check_passhash9("Coati "+ getVersion(), getHashLine())
-             || Botan::check_passhash9("Sourcetrail " + getVersion(), getHashLine())))
-		{
-			std::cout << "Wrong license version" << std::endl;
-            return false;
-		}
 
 		std::string signatureString = getSignature();
 		if (signatureString.size() <= 0)
@@ -422,41 +282,26 @@ bool License::isValid() const
 
 bool License::isExpired() const
 {
-	return (getTimeLeft()==-1);
+    std::string expire = getVersionLineWithoutPrefix();
+    if ( getLine(TYPE_LINE) == LicenseConstants::TEST_LICENSE_STRING)
+    {
+        return (getTimeLeft()==-1);
+    }
+    else
+    {
+        Version version = Version::fromShortString(expire);
+        return Version::getApplicationVersion() > version;
+    }
 }
 
 std::string License::getPublicKeyFilename() const
 {
 	if(m_publicKeyFilename.empty())
 	{
-		return "public-" + getVersion() + KEY_FILEENDING;
+        return "public-sourcetrail" + KEY_FILEENDING;
 	}
 	return m_publicKeyFilename;
 }
-
-std::string License::getVersion() const
-{
-	if(m_version.empty())
-	{
-
-        std::string line = getVersionLine();
-
-        //TODO: remove "Coati " in version 1
-        const std::array<std::string, 2> appNames = {{ "Coati ", "Sourcetrail " }};
-
-        for ( std::string appName : appNames)
-        {
-            if (line.substr(0,appName.length()) == appName)
-            {
-                return line.substr(appName.length());
-            }
-        }
-
-		return "x";
-	}
-	return m_version;
-}
-
 
 bool License::loadPublicKeyFromFile(const std::string& filename)
 {
@@ -637,4 +482,22 @@ std::string License::getEncodeKey(const std::string applicationLocation) const
 	Botan::secure_vector<Botan::byte> salt = Botan::base64_decode("34zA54n60v4CxjY5n20k3J40c976n690", 32);
 	Botan::AutoSeeded_RNG rng;
 	return pbkdf->derive_key(32, applicationLocation, &salt[0], salt.size(), 10000).as_string();
+}
+
+void License::setSignature(const std::string& signature)
+{
+    std::stringstream ss;
+    int line = FIRST_SIGNATURE_LINE;
+    const int lineLength = 55;
+    for (size_t i = 0; i < signature.size(); i++)
+    {
+        if(i % lineLength == 0 && i != 0)
+        {
+            m_lines[line++] = ss.str();
+            ss.str("");
+        }
+        ss << signature[i];
+    }
+
+    m_lines[line] = ss.str();
 }

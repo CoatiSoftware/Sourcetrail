@@ -24,7 +24,7 @@ if(EXISTS "${CMAKE_SOURCE_DIR}/.git")
     )
 
     execute_process(
-        COMMAND ${GIT_EXECUTABLE} describe --long --match "[0-9]*" --abbrev=7 HEAD
+        COMMAND ${GIT_EXECUTABLE} describe --long --match "[0-9]*" HEAD
         WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
         OUTPUT_VARIABLE GIT_VERSION_NUMBER
         OUTPUT_STRIP_TRAILING_WHITESPACE
@@ -37,10 +37,17 @@ else(EXISTS "${CMAKE_SOURCE_DIR}/.git")
 
 endif(EXISTS "${CMAKE_SOURCE_DIR}/.git")
 
+string(REGEX REPLACE "^([0-9]+)\\..*" "\\1" VERSION_YEAR "${GIT_VERSION_NUMBER}")
+string(REGEX REPLACE "^[0-9]+\\.([0-9]+).*" "\\1" VERSION_MINOR "${GIT_VERSION_NUMBER}")
+string(REGEX REPLACE "^[0-9]+\\.[0-9]+-([0-9]+).*" "\\1" VERSION_COMMIT "${GIT_VERSION_NUMBER}")
+
 message(STATUS "Git current branch: ${GIT_BRANCH}")
-message(STATUS "Git commit hash: ${GIT_COMMIT_HASH}")
-message(STATUS "Git commit time: ${GIT_COMMIT_TIME}")
 message(STATUS "Git version number: " ${GIT_VERSION_NUMBER} )
+message(STATUS "Git commit hash: ${GIT_COMMIT_HASH}")
+message(STATUS "Version year: ${VERSION_YEAR}")
+message(STATUS "Version minor: ${VERSION_MINOR}")
+message(STATUS "Version commit: ${VERSION_COMMIT}")
+message(STATUS "Git commit time: ${GIT_COMMIT_TIME}")
 
 configure_file(
   ${CMAKE_SOURCE_DIR}/cmake/version.h.in

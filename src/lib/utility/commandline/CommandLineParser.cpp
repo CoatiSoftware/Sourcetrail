@@ -110,7 +110,7 @@ void CommandLineParser::processLicense(const bool isLoaded)
 	{
 		std::cout << "Could not load License" << std::endl;
 	}
-	m_license.loadPublicKeyFromString(PublicKey);
+    m_license.loadPublicKeyFromString(PUBLIC_KEY);
 	if (!m_license.isValid())
 	{
 		std::cout << "License is not valid" << std::endl;
