@@ -1,14 +1,12 @@
-﻿using System;
+﻿using EnvDTE;
+using Microsoft.VisualStudio.Shell.Interop;
+using Microsoft.VisualStudio.Shell;
+using System;
+using System.Collections.Generic;
+using System.IO;
 using System.Runtime.InteropServices;
 using System.ComponentModel;
 using System.ComponentModel.Design;
-using Microsoft.VisualStudio.Shell.Interop;
-using Microsoft.VisualStudio.Shell;
-
-using System.Collections.Generic;
-
-using EnvDTE;
-using System.IO;
 
 namespace CoatiSoftware.SourcetrailPlugin
 {
@@ -122,15 +120,14 @@ namespace CoatiSoftware.SourcetrailPlugin
 	public sealed class SourcetrailPluginPackage : Package
 	{
 		private MenuCommand _menuItemSetActiveToken = null;
-		private MenuCommand _menuItemCreateProject = null;
-		private MenuCommand _menuItemCreateCDB = null;
+		private MenuCommand _menuItemCreateCdb = null;
 		private MenuCommand _menuItemOpenLogDir = null;
 
 		private SolutionEvents _solutionEvents = null;
 
 		private bool _validSolutionLoaded = false;
 
-		Utility.CompilationDatabaseList _cdbList = new Utility.CompilationDatabaseList();
+		Utility.CompilationDatabaseSettingsList _recentSettingsList = new Utility.CompilationDatabaseSettingsList();
 
 		public uint ServerPort
 		{
@@ -201,26 +198,22 @@ namespace CoatiSoftware.SourcetrailPlugin
 
 			// register the plugin UI elements
 			OleMenuCommandService mcs = GetService(typeof(IMenuCommandService)) as OleMenuCommandService;
-			if ( null != mcs )
+			if (null != mcs)
 			{
 				CommandID setActiveTokenCommandID = new CommandID(GuidList.guidSourcetrailPluginCmdSet, (int)PkgCmdIDList.cmdidSourcetrailSetActiveToken);
-				CommandID createProjectID = new CommandID(GuidList.guidSourcetrailPluginCmdSet, (int)PkgCmdIDList.cmdidSourcetrailCreateProject);
-				CommandID createCDBID = new CommandID(GuidList.guidSourcetrailPluginCmdSet, (int)PkgCmdIDList.cmdidSourcetrailCreateCDB);
+				CommandID createCdbID = new CommandID(GuidList.guidSourcetrailPluginCmdSet, (int)PkgCmdIDList.cmdidSourcetrailCreateCdb);
 				CommandID openLogDirID = new CommandID(GuidList.guidSourcetrailPluginCmdSet, (int)PkgCmdIDList.cmdidSourcetrailOpenLogFolder);
 
 				_menuItemSetActiveToken = new MenuCommand(MenuItemCallback, setActiveTokenCommandID);
-				_menuItemCreateProject = new MenuCommand(MenuItemCallback, createProjectID);
-				_menuItemCreateCDB = new MenuCommand(MenuItemCallback, createCDBID);
+				_menuItemCreateCdb = new MenuCommand(MenuItemCallback, createCdbID);
 				_menuItemOpenLogDir = new MenuCommand(MenuItemCallback, openLogDirID);
-
-				_menuItemCreateProject.Enabled = false;
+				
 				_menuItemSetActiveToken.Enabled = false;
-				_menuItemCreateCDB.Enabled = false;
+				_menuItemCreateCdb.Enabled = false;
 				_menuItemOpenLogDir.Enabled = true;
 
 				mcs.AddCommand(_menuItemSetActiveToken);
-				mcs.AddCommand(_menuItemCreateProject);
-				mcs.AddCommand(_menuItemCreateCDB);
+				mcs.AddCommand(_menuItemCreateCdb);
 				mcs.AddCommand(_menuItemOpenLogDir);
 			}
 
@@ -248,9 +241,9 @@ namespace CoatiSoftware.SourcetrailPlugin
 
 				string solutionPath = Utility.SolutionUtility.GetSolutionPath(dte);
 
-				if(_cdbList.CheckCDBForSolutionExists(solutionPath))
+				if(_recentSettingsList.CheckCdbForSolutionExists(solutionPath))
 				{
-					Logging.Logging.LogInfo("A CDB for the loaded solution already exists.");
+					Logging.Logging.LogInfo("A Cdb for the loaded solution already exists.");
 				}
 
 				bool enable = false;
@@ -268,8 +261,7 @@ namespace CoatiSoftware.SourcetrailPlugin
 				{
 					Logging.Logging.LogInfo("Enabling plugin UI");
 					_menuItemSetActiveToken.Enabled = true;
-					_menuItemCreateProject.Enabled = true;
-					_menuItemCreateCDB.Enabled = true;
+					_menuItemCreateCdb.Enabled = true;
 
 					_validSolutionLoaded = true;
 				}
@@ -292,8 +284,7 @@ namespace CoatiSoftware.SourcetrailPlugin
 			Logging.Logging.LogInfo("Solution closed, disabling plugin UI");
 
 			_menuItemSetActiveToken.Enabled = false;
-			_menuItemCreateProject.Enabled = false;
-			_menuItemCreateCDB.Enabled = false;
+			_menuItemCreateCdb.Enabled = false;
 
 			_validSolutionLoaded = false;
 		}
@@ -340,36 +331,36 @@ namespace CoatiSoftware.SourcetrailPlugin
 		{
 			DTE dte = (DTE)GetService(typeof(DTE));
 
-			Wizard.WindowCreateCDB createCDB = new Wizard.WindowCreateCDB();
-			createCDB.Projects = projects;
-			createCDB.ConfigurationName = configurationName;
-			createCDB.PlatformName = platformName;
-			createCDB.TargetDir = targetDir;
-			createCDB.FileName = fileName;
-			createCDB.CStandard = cStandard;
-			createCDB.ThreadCount = (int)ThreadCount;
-			createCDB.SolutionDir = Utility.SolutionUtility.GetSolutionPath(dte);
+			Wizard.WindowCreateCdb createCdbWindow = new Wizard.WindowCreateCdb();
+			createCdbWindow.Projects = projects;
+			createCdbWindow.ConfigurationName = configurationName;
+			createCdbWindow.PlatformName = platformName;
+			createCdbWindow.TargetDir = targetDir;
+			createCdbWindow.FileName = fileName;
+			createCdbWindow.CStandard = cStandard;
+			createCdbWindow.ThreadCount = (int)ThreadCount;
+			createCdbWindow.SolutionDir = Utility.SolutionUtility.GetSolutionPath(dte);
 
-			createCDB.CDB = _cdbList.GetCDBForSolution(createCDB.SolutionDir, targetDir + "\\" + fileName + ".json");
+			createCdbWindow.Cdb = _recentSettingsList.GetCdbForSolution(createCdbWindow.SolutionDir, targetDir + "\\" + fileName + ".json");
 
-			createCDB.CallbackOnFinishedCreatingCDB = HandleFinishedCDB;
+			createCdbWindow.CallbackOnFinishedCreatingCdb = HandleFinishedCdb;
 
-			createCDB.StartWorking();
-			createCDB.ShowDialog();
+			createCdbWindow.StartWorking();
+			createCdbWindow.ShowDialog();
 		}
 
-		private void HandleFinishedCDB(Wizard.WindowCreateCDB.CreationResult creationResult)
+		private void HandleFinishedCdb(Wizard.WindowCreateCdb.CreationResult creationResult)
 		{
-			if(creationResult._cdb != null && creationResult._cdbDirectory.Length > 0 && creationResult._cdbName.Length > 0)
+			if(creationResult._cdbSettings != null && creationResult._cdbDirectory.Length > 0 && creationResult._cdbName.Length > 0)
 			{
-				_cdbList.AppendOrUpdate(creationResult._cdb);
-				_cdbList.SaveMetaData();
+				_recentSettingsList.AppendOrUpdate(creationResult._cdbSettings);
+				_recentSettingsList.SaveMetaData();
 
-				Wizard.WindowCDBReady dialog = new Wizard.WindowCDBReady();
+				Wizard.WindowCdbReady dialog = new Wizard.WindowCdbReady();
 				dialog.setData(creationResult);
 				dialog.ShowDialog();
 
-				_cdbList.Refresh();
+				_recentSettingsList.Refresh();
 			}
 			else
 			{
@@ -397,53 +388,14 @@ namespace CoatiSoftware.SourcetrailPlugin
 
 					Utility.AsynchronousClient.Send(message);
 				}
-				else if(menuCommand.CommandID.ID == (int)PkgCmdIDList.cmdidSourcetrailCreateCDB)
+				else if(menuCommand.CommandID.ID == (int)PkgCmdIDList.cmdidSourcetrailCreateCdb)
 				{
 					CreateCompilationDatabase(dte);
-				}
-				else if(menuCommand.CommandID.ID == (int)PkgCmdIDList.cmdidSourcetrailCreateProject)
-				{
-					// show hint to use CDB methad (only for CDB beta) and create project on ok
-					Wizard.WindowMessage windowMessage = new Wizard.WindowMessage();
-					windowMessage.Title = "Hint";
-					windowMessage.Message = "Consider using 'Create CDB' if errors arise during Sourcetrail's indexing. This will become standard in the future.";
-					windowMessage.OnOK = CreateSourcetrailProjectOld;
-					windowMessage.RefreshWindow();
-					windowMessage.ShowDialog();
 				}
 				else if(menuCommand.CommandID.ID == (int)PkgCmdIDList.cmdidSourcetrailOpenLogFolder)
 				{
 					Utility.SystemUtility.OpenWindowsExplorerAtDirectory(Utility.DataUtility.GetStandardFolderDirectory());
 				}
-			}
-		}
-
-		// will be removed once the CDB project creation is fully integrated
-		private void CreateSourcetrailProjectOld()
-		{
-			DTE dte = (DTE)GetService(typeof(DTE));
-
-			string solutionName = Utility.SolutionUtility.GetSolutionPath(dte);
-
-			if (solutionName == "") // TODO: make a better fallback for non-existant solution
-			{
-				List<string> items = Utility.SolutionUtility.GetSolutionProjectsFullNames(dte);
-
-				if (items.Count > 0)
-				{
-					solutionName = items[0];
-				}
-			}
-
-			if (solutionName.Length > 0)
-			{
-				string message = Utility.NetworkProtocolUtility.CreateCreateProjectMessage(solutionName);
-
-				Utility.AsynchronousClient.Send(message);
-			}
-			else
-			{
-				DisplayMessage("Sourcetrail", "Can not create a Sourcetrail Project. Please check whether your VS solution is a valid C or C++ solution and is saved.");
 			}
 		}
 
@@ -542,17 +494,18 @@ namespace CoatiSoftware.SourcetrailPlugin
 			Guid clsid = Guid.Empty;
 			int result;
 			Microsoft.VisualStudio.ErrorHandler.ThrowOnFailure(uiShell.ShowMessageBox(
-					   0,
-					   ref clsid,
-					   title,
-					   message,
-					   string.Empty,
-					   0,
-					   OLEMSGBUTTON.OLEMSGBUTTON_OK,
-					   OLEMSGDEFBUTTON.OLEMSGDEFBUTTON_FIRST,
-					   OLEMSGICON.OLEMSGICON_INFO,
-					   0,		// false
-					   out result));
+				0,
+				ref clsid,
+				title,
+				message,
+				string.Empty,
+				0,
+				OLEMSGBUTTON.OLEMSGBUTTON_OK,
+				OLEMSGDEFBUTTON.OLEMSGDEFBUTTON_FIRST,
+				OLEMSGICON.OLEMSGICON_INFO,
+				0,		// false
+				out result
+			));
 		}
 
 		private void CreateCompilationDatabase(DTE dte)
@@ -570,7 +523,7 @@ namespace CoatiSoftware.SourcetrailPlugin
 			bool containsCFiles = true; // Utility.SolutionUtility.ContainsCFiles(dte); // takes ridiculously long, I'd rather just display the option by default
 			window._containsCFiles = containsCFiles;
 
-			window._cdb = _cdbList.GetMostCurrentCDBForSolution(Utility.SolutionUtility.GetSolutionPath(dte));
+			window._cdb = _recentSettingsList.GetMostCurrentCdbForSolution(Utility.SolutionUtility.GetSolutionPath(dte));
 
 			window.UpdateGUI();
 			window._onCreateProject = OnCreateProject;

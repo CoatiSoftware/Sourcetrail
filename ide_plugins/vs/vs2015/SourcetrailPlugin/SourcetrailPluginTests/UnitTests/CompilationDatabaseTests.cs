@@ -1,5 +1,5 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using CoatiSoftware.SourcetrailPlugin.SolutionParser;
+﻿using CoatiSoftware.SourcetrailPlugin.SolutionParser;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace CoatiSoftware.SourcetrailPlugin.IntegrationTests.UnitTests
 {
@@ -31,10 +31,10 @@ namespace CoatiSoftware.SourcetrailPlugin.IntegrationTests.UnitTests
 			command.Command = "D test test.cpp";
 
 			CompilationDatabase cdb1 = new CompilationDatabase();
-			cdb1.AddCommandObject(command);
+			cdb1.AddCompileCommand(command);
 
 			CompilationDatabase cdb2 = new CompilationDatabase();
-			cdb2.AddCommandObject(command);
+			cdb2.AddCompileCommand(command);
 
 			Assert.IsTrue(cdb1 == cdb2);
 		}
@@ -48,7 +48,7 @@ namespace CoatiSoftware.SourcetrailPlugin.IntegrationTests.UnitTests
 			command.Command = "D DEFINE=\"value\" test.cpp";
 
 			CompilationDatabase originalCompilationDatabase = new CompilationDatabase();
-			originalCompilationDatabase.AddCommandObject(command);
+			originalCompilationDatabase.AddCompileCommand(command);
 			string serialized = originalCompilationDatabase.SerializeToJson();
 
 			CompilationDatabase deserializedCompilationDatabase = new CompilationDatabase();

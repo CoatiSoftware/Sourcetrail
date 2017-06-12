@@ -139,9 +139,10 @@
   <ItemGroup>
     <Compile Include="ComUtils.cs" />
     <Compile Include="Multitasking\LimitedThreadsTaskScheduler.cs" />
+    <Compile Include="SolutionParser\CompilationDatabase.cs" />
     <Compile Include="Utility\IPathResolver.cs" />
     <Compile Include="SolutionParser\VsPathResolver.cs" />
-    <Compile Include="Utility\CompilationDatabaseList.cs" />
+    <Compile Include="Utility\CompilationDatabaseSettingsList.cs" />
     <Compile Include="Utility\DataUtility.cs" />
     <Compile Include="Utility\FileUtility.cs" />
     <Compile Include="Guids.cs" />
@@ -158,25 +159,25 @@
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="PkgCmdID.cs" />
-    <Compile Include="SolutionParser\CommandObject.cs" />
-    <Compile Include="SolutionParser\CompilationDatabase.cs" />
+    <Compile Include="SolutionParser\CompileCommand.cs" />
+    <Compile Include="SolutionParser\CompilationDatabaseSettings.cs" />
     <Compile Include="SolutionParser\SolutionParser.cs" />
     <Compile Include="Utility\ProjectUtility.cs" />
     <Compile Include="Utility\QueuedFileWriter.cs" />
     <Compile Include="Utility\SolutionUtility.cs" />
     <Compile Include="Utility\SystemUtility.cs" />
     <Compile Include="Utility\StringUtility.cs" />
-    <Compile Include="Wizard\WindowCDBReady.cs">
+    <Compile Include="Wizard\WindowCdbReady.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Wizard\WindowCDBReady.Designer.cs">
-      <DependentUpon>WindowCDBReady.cs</DependentUpon>
+    <Compile Include="Wizard\WindowCdbReady.Designer.cs">
+      <DependentUpon>WindowCdbReady.cs</DependentUpon>
     </Compile>
-    <Compile Include="Wizard\WindowCreateCDB.cs">
+    <Compile Include="Wizard\WindowCreateCdb.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Wizard\WindowCreateCDB.Designer.cs">
-      <DependentUpon>WindowCreateCDB.cs</DependentUpon>
+    <Compile Include="Wizard\WindowCreateCdb.Designer.cs">
+      <DependentUpon>WindowCreateCdb.cs</DependentUpon>
     </Compile>
     <Compile Include="Wizard\ProjectSetupWindow.cs">
       <SubType>Form</SubType>
@@ -202,11 +203,11 @@
       <ManifestResourceName>VSPackage</ManifestResourceName>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Wizard\WindowCDBReady.resx">
-      <DependentUpon>WindowCDBReady.cs</DependentUpon>
+    <EmbeddedResource Include="Wizard\WindowCdbReady.resx">
+      <DependentUpon>WindowCdbReady.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Wizard\WindowCreateCDB.resx">
-      <DependentUpon>WindowCreateCDB.cs</DependentUpon>
+    <EmbeddedResource Include="Wizard\WindowCreateCdb.resx">
+      <DependentUpon>WindowCreateCdb.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Wizard\ProjectSetupWindow.resx">
       <DependentUpon>ProjectSetupWindow.cs</DependentUpon>
@@ -256,6 +257,22 @@
     <ProjectReference Include="..\VCProjectEngineWrapperInterfaces\VCProjectEngineWrapperInterfaces.csproj">
       <Project>{f592db46-0c77-470b-aaf8-80c51f44380e}</Project>
       <Name>VCProjectEngineWrapperInterfaces</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\VCProjectEngineWrapper\VCProjectEngineWrapperVs2012.csproj">
+      <Project>{c5439b90-42e7-414d-8c3f-bdcabb0592e2}</Project>
+      <Name>VCProjectEngineWrapperVs2012</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\VCProjectEngineWrapper\VCProjectEngineWrapperVs2013.csproj">
+      <Project>{8718929c-5270-4e5a-8998-48ac7ce19dc2}</Project>
+      <Name>VCProjectEngineWrapperVs2013</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\VCProjectEngineWrapper\VCProjectEngineWrapperVs2015.csproj">
+      <Project>{1c139999-9592-4891-aa62-2c8a16430d0a}</Project>
+      <Name>VCProjectEngineWrapperVs2015</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\VCProjectEngineWrapper\VCProjectEngineWrapperVs2017.csproj">
+      <Project>{b49207f9-89a3-42d8-bc04-8bf77ed2e295}</Project>
+      <Name>VCProjectEngineWrapperVs2017</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>

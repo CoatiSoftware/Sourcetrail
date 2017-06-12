@@ -1,6 +1,6 @@
 ﻿namespace CoatiSoftware.SourcetrailPlugin.Wizard
 {
-    partial class WindowCDBReady
+    partial class WindowCdbReady
     {
         /// <summary>
         /// Required designer variable.
@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(WindowCDBReady));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(WindowCdbReady));
             this.label_message = new System.Windows.Forms.Label();
             this.button_ok = new System.Windows.Forms.Button();
             this.button_import = new System.Windows.Forms.Button();
@@ -80,7 +80,7 @@
             this.button_open.UseVisualStyleBackColor = true;
             this.button_open.Click += new System.EventHandler(this.button_open_Click);
             // 
-            // WindowCDBReady
+            // WindowCdbReady
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -92,9 +92,9 @@
             this.Controls.Add(this.label_message);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MinimumSize = new System.Drawing.Size(330, 160);
-            this.Name = "WindowCDBReady";
-            this.Text = "CDB Ready";
-            this.Resize += new System.EventHandler(this.WindowCDBReady_Resize);
+            this.Name = "WindowCdbReady";
+            this.Text = "Cdb Ready";
+            this.Resize += new System.EventHandler(this.WindowCdbReady_Resize);
             this.ResumeLayout(false);
 
         }

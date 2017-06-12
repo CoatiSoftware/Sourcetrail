@@ -68,7 +68,6 @@ namespace CoatiSoftware.SourcetrailPlugin.Utility
 			}
 			_statusLock.ExitReadLock();
 
-
 			_statusLock.EnterWriteLock();
 			_working = true;
 			_workerThread = new Thread(new ThreadStart(Work));
@@ -125,39 +124,43 @@ namespace CoatiSoftware.SourcetrailPlugin.Utility
 
 		private void Commit()
 		{
-			_queueLock.EnterWriteLock();
-
-			Queue<string> tmpQueue = _inputQueue;
-			_inputQueue = _outputQueue;
-			_outputQueue = tmpQueue;
-
-			_queueLock.ExitWriteLock();
-
+			{
+				_queueLock.EnterWriteLock();
+				Queue<string> tmpQueue = _inputQueue;
+				_inputQueue = _outputQueue;
+				_outputQueue = tmpQueue;
+				_queueLock.ExitWriteLock();
+			}
 
 			WriteQueueToFile(ref _outputQueue);
 		}
 
 		private void WriteQueueToFile(ref Queue<string> messageQueue)
 		{
-			_fileLock.EnterWriteLock();
-			try
+			if (messageQueue.Count > 0)
 			{
-				while(messageQueue.Count > 0)
+				_fileLock.EnterWriteLock();
+
+				try
 				{
-					_messageWrittenCount++;
+					StreamWriter writer = System.IO.File.AppendText(_targetDirectory + "\\" + _fileName);
 
-					string message = messageQueue.Dequeue();
+					while (messageQueue.Count > 0)
+					{
+						_messageWrittenCount++;
+						writer.WriteLine(messageQueue.Dequeue());
+					}
 
-					File.AppendAllText(_targetDirectory + "\\" + _fileName, message);
+					writer.Close();
 				}
-			}
-			catch (Exception e)
-			{
-				Logging.Logging.LogError(e.Message);
-			}
-			finally
-			{
-				_fileLock.ExitWriteLock();
+				catch (Exception e)
+				{
+					Logging.Logging.LogError(e.Message);
+				}
+				finally
+				{
+					_fileLock.ExitWriteLock();
+				}
 			}
 		}
 	}

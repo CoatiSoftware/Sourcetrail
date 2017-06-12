@@ -1,6 +1,6 @@
 ﻿namespace CoatiSoftware.SourcetrailPlugin.Wizard
 {
-    partial class WindowCreateCDB
+    partial class WindowCreateCdb
     {
         /// <summary>
         /// Required designer variable.
@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(WindowCreateCDB));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(WindowCreateCdb));
             this.progressBar = new System.Windows.Forms.ProgressBar();
             this.labelStatus = new System.Windows.Forms.Label();
             this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
@@ -57,7 +57,7 @@
             this.backgroundWorker1.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.backgroundWorker1_ProgressChanged);
             this.backgroundWorker1.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.backgroundWorker1_RunWorkerCompleted);
             // 
-            // WindowCreateCDB
+            // WindowCreateCdb
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -67,9 +67,9 @@
             this.Cursor = System.Windows.Forms.Cursors.WaitCursor;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.Name = "WindowCreateCDB";
+            this.Name = "WindowCreateCdb";
             this.Text = "Creating Compilation Data Base";
-            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.WindowCreateCDB_FormClosed);
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.WindowCreateCdb_FormClosed);
             this.ResumeLayout(false);
             this.PerformLayout();
 

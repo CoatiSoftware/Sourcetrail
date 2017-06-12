@@ -62,11 +62,11 @@
         </Strings>
       </Button>
         
-      <Button guid="guidSourcetrailPluginCmdSet" id="cmdidSourcetrailCreateCDB" priority="0x0100" type="Button">
+      <Button guid="guidSourcetrailPluginCmdSet" id="cmdidSourcetrailCreateCdb" priority="0x0100" type="Button">
         <Parent guid="guidSourcetrailPluginCmdSet" id="SubMenu" />
         <Icon guid="icon" id="icon0" />
         <Strings>
-          <ButtonText>Create CDB</ButtonText>
+          <ButtonText>Create Compilation Database</ButtonText>
         </Strings>
       </Button>
 
@@ -129,8 +129,7 @@
       <IDSymbol name="cmdidSourcetrailGetActiveFileName" value="0x0102"/>
       <IDSymbol name="cmdidSourcetrailGetActiveLineNumber" value="0x0103"/>
       <IDSymbol name="cmdidSourcetrailSetActiveToken" value="0x0104"/>
-      <IDSymbol name="cmdidSourcetrailCreateProject" value="0x0105"/>
-      <IDSymbol name="cmdidSourcetrailCreateCDB" value="0x0106"/>
+      <IDSymbol name="cmdidSourcetrailCreateCdb" value="0x0106"/>
       <IDSymbol name="cmdidSourcetrailOpenLogFolder" value="0x0107"/>
       <IDSymbol name="TopLevelMenu" value="0x1021"/>
       <IDSymbol name="SubMenu" value="0x1022"/>

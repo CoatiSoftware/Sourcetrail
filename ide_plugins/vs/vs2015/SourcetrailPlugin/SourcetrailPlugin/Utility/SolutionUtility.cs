@@ -1,13 +1,10 @@
-﻿using System;
+﻿using EnvDTE;
+using EnvDTE80;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using EnvDTE;
-using EnvDTE80;
 using System.Runtime.InteropServices;
 using System.Runtime.InteropServices.ComTypes;
-using Microsoft.VisualStudio.Shell;
-using Microsoft.VisualStudio.Shell.Interop;
-using Microsoft.VisualStudio;
 
 namespace CoatiSoftware.SourcetrailPlugin.Utility
 {

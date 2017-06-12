@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Runtime.InteropServices;
+
 using ComTypes = System.Runtime.InteropServices.ComTypes;
 
 namespace ComUtils

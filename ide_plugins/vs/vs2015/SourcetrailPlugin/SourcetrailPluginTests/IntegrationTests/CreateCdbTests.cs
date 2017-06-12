@@ -1,12 +1,12 @@
-﻿using System;
+﻿using CoatiSoftware.SourcetrailPlugin.IntegrationTests.Helpers;
+using CoatiSoftware.SourcetrailPlugin.SolutionParser;
+using EnvDTE;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Microsoft.VSSDK.Tools.VsIdeTesting;
 using Microsoft.VisualStudio.Shell.Interop;
-using EnvDTE;
-using CoatiSoftware.SourcetrailPlugin.SolutionParser;
-using System.IO;
-using CoatiSoftware.SourcetrailPlugin.IntegrationTests.Helpers;
+using System;
 using System.Collections.Generic;
+using System.IO;
 
 namespace CoatiSoftware.SourcetrailPlugin.IntegrationTests
 {
@@ -44,7 +44,7 @@ namespace CoatiSoftware.SourcetrailPlugin.IntegrationTests
 			UIThreadInvoker.Initialize();
 			UIThreadInvoker.Invoke(new Action(() =>
 			{
-				TestCompilationDatabaseForSolution("../../../SourcetrailPlugin.IntegrationTests/bin/data/cinder/cinder.sln");
+				TestCompilationDatabaseForSolution("../../../SourcetrailPluginTests/bin/data/cinder/cinder.sln");
 			}));
 		}
 
@@ -55,7 +55,7 @@ namespace CoatiSoftware.SourcetrailPlugin.IntegrationTests
 			UIThreadInvoker.Initialize();
 			UIThreadInvoker.Invoke(new Action(() =>
 			{
-				TestCompilationDatabaseForSolution("../../../SourcetrailPlugin.IntegrationTests/bin/data/all_in_same_folder/test.sln");
+				TestCompilationDatabaseForSolution("../../../SourcetrailPluginTests/bin/data/all_in_same_folder/test.sln");
 			}));
 		}
 
@@ -83,6 +83,7 @@ namespace CoatiSoftware.SourcetrailPlugin.IntegrationTests
 			string cdbPath = Path.ChangeExtension(solutionPath, "json");
 			if (_updateExpectedOutput)
 			{
+				output.SortAlphabetically();
 				Console.WriteLine("writing compilation database to file: " + cdbPath);
 				File.WriteAllText(cdbPath, output.SerializeToJson());
 				Assert.IsTrue(File.Exists(cdbPath));
@@ -120,7 +121,7 @@ namespace CoatiSoftware.SourcetrailPlugin.IntegrationTests
 					project, configurationNames[0], platformNames[0], "c11"
 				))
 				{
-					cdb.AddCommandObject(command);
+					cdb.AddCompileCommand(command);
 				}
 			}
 

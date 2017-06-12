@@ -1,11 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using CoatiSoftware.SourcetrailPlugin.Utility;
 using EnvDTE;
-
-using System.IO;
+using System;
+using System.Collections.Generic;
 using System.Diagnostics;
-using CoatiSoftware.SourcetrailPlugin.Utility;
+using System.IO;
+using System.Linq;
 using VCProjectEngineWrapper;
 
 namespace CoatiSoftware.SourcetrailPlugin.SolutionParser
@@ -15,7 +14,8 @@ namespace CoatiSoftware.SourcetrailPlugin.SolutionParser
 		static private List<Guid> _reloadedProjectGuids = new List<Guid>();
 		static private List<string> _compatibilityFlags = new List<string>() { "-fms-extensions", "-fms-compatibility" };
 		static private string _compatibilityVersionFlagBase = "-fms-compatibility-version="; // We want to get the exact version at runtime for this flag, therefore keeping it seperate from the others makes things easier
-		static private List<string> _extensionWhiteList = new List<string>() { "c", "cc", "cpp", "cxx", "C", "h", "hpp" };
+		static private List<string> _sourceExtensionWhiteList = new List<string>() { "c", "cc", "cpp", "cxx" };
+		static private List<string> _headerExtensionWhiteList = new List<string>() { "h", "hpp" };
 
 		private string _compatibilityVersionFlag = _compatibilityVersionFlagBase + "19"; // This default version would correspond to VS2015
 
@@ -35,7 +35,7 @@ namespace CoatiSoftware.SourcetrailPlugin.SolutionParser
 
 		public List<CompileCommand> CreateCompileCommands(Project project, string configurationName, string platformName, string cStandard)
 		{
-			Logging.Logging.LogInfo("Creating command objects from project " + Logging.Obfuscation.NameObfuscator.GetObfuscatedName(project.Name));
+			Logging.Logging.LogInfo("Creating command objects for project \"" + Logging.Obfuscation.NameObfuscator.GetObfuscatedName(project.Name) + "\".");
 
 			List<CompileCommand> result = new List<CompileCommand>();
 
@@ -43,13 +43,13 @@ namespace CoatiSoftware.SourcetrailPlugin.SolutionParser
 			Guid projectGuid = Utility.ProjectUtility.ReloadProject(project);
 
 			IVCProjectWrapper vcProject = VCProjectEngineWrapper.VCProjectWrapperFactory.create(project.Object);
-			if (vcProject.isValid())
+			if (vcProject != null && vcProject.isValid())
 			{
-				Logging.Logging.LogInfo("Project '" + Logging.Obfuscation.NameObfuscator.GetObfuscatedName(project.Name) + "' has been converted to VCProject " + vcProject.GetWrappedVersion() + ".");
+				Logging.Logging.LogInfo("Project \"" + Logging.Obfuscation.NameObfuscator.GetObfuscatedName(project.Name) + "\" has been converted to VCProject " + vcProject.GetWrappedVersion() + ".");
 			}
 			else
 			{
-				Logging.Logging.LogWarning("Project '" + Logging.Obfuscation.NameObfuscator.GetObfuscatedName(project.Name) + "' could not be converted to VCProject, skipping.");
+				Logging.Logging.LogWarning("Project \"" + Logging.Obfuscation.NameObfuscator.GetObfuscatedName(project.Name) + "\" could not be converted to VCProject, skipping.");
 				return result;
 			}
 
@@ -84,7 +84,7 @@ namespace CoatiSoftware.SourcetrailPlugin.SolutionParser
 
 		private CompileCommand CreateCompileCommand(EnvDTE.ProjectItem item, List<string> includeDirectories, List<string> preprocessorDefinitions, string vcStandard, string cStandard, string configurationName, string platformName)
 		{
-			Logging.Logging.LogInfo("Starting to create Command Object from item '" + Logging.Obfuscation.NameObfuscator.GetObfuscatedName(item.Name) + "'");
+			Logging.Logging.LogInfo("Starting to create Command Object from item \"" + Logging.Obfuscation.NameObfuscator.GetObfuscatedName(item.Name) + "\"");
 
 			try
 			{
@@ -116,33 +116,10 @@ namespace CoatiSoftware.SourcetrailPlugin.SolutionParser
 					Logging.Logging.LogInfo("Unable to retrieve build tool. Using extension white-list to determine file type.");
 				}
 
-				if (IsSourceFile(item, compilerTool))
+				if (CheckIsSourceFile(item, compilerTool))
 				{
 					CompileCommand command = new CompileCommand();
 					command.File = item.Name;
-
-					// only write source files to cdb, headers are implicit
-					// however, retreive header directory
-					if (CheckIsHeader(item))
-					{
-						Properties props = item.Properties;
-						foreach (Property prop in props)
-						{
-							string propName = prop.Name;
-							string propValue = prop.Value as String;
-
-							if (propName == "FullPath")
-							{
-								int i = propValue.LastIndexOf('\\');
-
-								propValue = propValue.Substring(0, i);
-
-								_headerDirectories.Add(propValue);
-							}
-						}
-
-						return null;
-					}
 
 					string additionalOptions = "";
 					if (compilerTool != null && compilerTool.isValid())
@@ -202,6 +179,20 @@ namespace CoatiSoftware.SourcetrailPlugin.SolutionParser
 
 					return command;
 				}
+				else if (CheckIsHeaderFile(item, compilerTool))
+				{
+					if (ProjectUtility.HasProperty(item.Properties, "FullPath"))
+					{
+						string propValue = item.Properties.Item("FullPath").Value.ToString();
+
+						int i = propValue.LastIndexOf('\\');
+
+						propValue = propValue.Substring(0, i);
+
+						_headerDirectories.Add(propValue);
+					}
+					return null;
+				}
 				else
 				{
 					Logging.Logging.LogInfo("Item discarded, wrong code model");
@@ -217,7 +208,7 @@ namespace CoatiSoftware.SourcetrailPlugin.SolutionParser
 			return null;
 		}
 
-		static private bool IsSourceFile(ProjectItem item, IVCCLCompilerToolWrapper tool)
+		static private bool CheckIsSourceFile(ProjectItem item, IVCCLCompilerToolWrapper tool)
 		{
 			if (tool != null && tool.isValid()) // if the tool is null it's probably not a normal VC project, indicating that the file code model is unavailable
 			{
@@ -244,7 +235,7 @@ namespace CoatiSoftware.SourcetrailPlugin.SolutionParser
 					return true;
 				}
 			}
-			else if (_extensionWhiteList.Contains(GetFileExtension(item)))
+			else if (_sourceExtensionWhiteList.Contains(GetFileExtension(item).ToLower()))
 			{
 				return true;
 			}
@@ -252,35 +243,28 @@ namespace CoatiSoftware.SourcetrailPlugin.SolutionParser
 			return false;
 		}
 
-		static private bool CheckIsHeader(EnvDTE.ProjectItem item)
+		static private bool CheckIsHeaderFile(EnvDTE.ProjectItem item, IVCCLCompilerToolWrapper tool)
 		{
-			Properties props = item.Properties;
-
-			string propString = "";
-
-			try
+			if (tool != null && tool.isValid()) // if the tool is null it's probably not a normal VC project, indicating that the file code model is unavailable
 			{
-				foreach (Property prop in props)
+				try
 				{
-					string propName = prop.Name;
-					string propValue = prop.Value as String;
-
-					propString += propName + " - " + propValue + "; ";
-
-					if (propName == "ItemType")
+					if (ProjectUtility.HasProperty(item.Properties, "ItemType") && item.Properties.Item("ItemType").Value.ToString() == "ClInclude")
 					{
-						if (propValue as String == "ClInclude")
-						{
-							return true;
-						}
+						Logging.Logging.LogInfo("Accepting item because of its \"ItemType\" property");
+						return true;
 					}
 				}
+				catch (Exception e)
+				{
+					Logging.Logging.LogError("Exception: " + e.Message);
+				}
 			}
-			catch (Exception e)
+			else if (_headerExtensionWhiteList.Contains(GetFileExtension(item).ToLower()))
 			{
-				Logging.Logging.LogError("Exception: " + e.Message);
+				return true;
 			}
-
+			
 			return false;
 		}
 

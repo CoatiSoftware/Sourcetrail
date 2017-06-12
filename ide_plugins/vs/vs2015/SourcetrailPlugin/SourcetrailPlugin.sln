@@ -9,7 +9,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SourcetrailPlugin", "Source
 		{8188D64D-E880-490C-B267-B493A2171BE3} = {8188D64D-E880-490C-B267-B493A2171BE3}
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SourcetrailPlugin.IntegrationTests", "SourcetrailPlugin.IntegrationTests\SourcetrailPlugin.IntegrationTests.csproj", "{9DE8C188-0F0E-4F5D-B3C4-ECF9CFB23E0D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SourcetrailPluginTests", "SourcetrailPluginTests\SourcetrailPluginTests.csproj", "{9DE8C188-0F0E-4F5D-B3C4-ECF9CFB23E0D}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VCProjectEngineWrapperInterfaces", "VCProjectEngineWrapperInterfaces\VCProjectEngineWrapperInterfaces.csproj", "{F592DB46-0C77-470B-AAF8-80C51F44380E}"
 EndProject

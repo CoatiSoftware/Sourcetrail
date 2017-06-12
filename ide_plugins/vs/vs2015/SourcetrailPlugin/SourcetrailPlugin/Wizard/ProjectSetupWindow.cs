@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Windows.Forms;
 using System.IO;
 using System.Text.RegularExpressions;
+using System.Windows.Forms;
 
 namespace CoatiSoftware.SourcetrailPlugin.Wizard
 {
@@ -39,7 +39,7 @@ namespace CoatiSoftware.SourcetrailPlugin.Wizard
 			"c9x", "gnu9x", "iso9899:199x", "c99", "gnu99", "iso9899:1999", "iso9899:199409", "c90", "gnu90", "iso9899:1990",
 			"c89", "gnu89" };
 
-		public SolutionParser.CompilationDatabase _cdb = new SolutionParser.CompilationDatabase();
+		public SolutionParser.CompilationDatabaseSettings _cdb = new SolutionParser.CompilationDatabaseSettings();
 		
 		public ProjectSetupWindow()
 		{
@@ -168,23 +168,30 @@ namespace CoatiSoftware.SourcetrailPlugin.Wizard
 
 		private void InitTextBoxTargetDirectory()
 		{
-			Logging.Logging.LogInfo("Setting default target directory: \"" + Logging.Obfuscation.NameObfuscator.GetObfuscatedName(_solutionDirectory) + "\"");
-
-			folderBrowserTargetDirectory.SelectedPath = _solutionDirectory;
-			string rootDirectory = folderBrowserTargetDirectory.SelectedPath.ToString();
-			textBoxTargetDirectory.Text = rootDirectory;
+			if (_cdb == null)
+			{
+				Logging.Logging.LogInfo("Setting default target directory to default: \"" + Logging.Obfuscation.NameObfuscator.GetObfuscatedName(_solutionDirectory) + "\"");
+				folderBrowserTargetDirectory.SelectedPath = _solutionDirectory;
+				textBoxTargetDirectory.Text = _solutionDirectory;
+			}
+			else
+			{
+				Logging.Logging.LogInfo("Setting default target directory to recent: \"" + Logging.Obfuscation.NameObfuscator.GetObfuscatedName(_cdb.Directory) + "\"");
+				folderBrowserTargetDirectory.SelectedPath = _cdb.Directory;
+				textBoxTargetDirectory.Text = _cdb.Directory;
+			}
 		}
 
 		private void InitTextBoxFileName()
 		{
-			Logging.Logging.LogInfo("Setting default file name: '" + Logging.Obfuscation.NameObfuscator.GetObfuscatedName(_solutionFileName) + "'");
-
 			if(_cdb == null)
 			{
+				Logging.Logging.LogInfo("Setting file name to default: '" + Logging.Obfuscation.NameObfuscator.GetObfuscatedName(_solutionFileName) + "'");
 				textBoxFileName.Text = _solutionFileName;
 			}
 			else
 			{
+				Logging.Logging.LogInfo("Setting file name to recent: '" + Logging.Obfuscation.NameObfuscator.GetObfuscatedName(_cdb.Name) + "'");
 				textBoxFileName.Text = _cdb.Name;
 			}
 		}
@@ -252,7 +259,7 @@ namespace CoatiSoftware.SourcetrailPlugin.Wizard
 
 						if(result == DialogResult.No)
 						{
-							Logging.Logging.LogInfo("Aborting CDB creation and attempting to make file name unique.");
+							Logging.Logging.LogInfo("Aborting Cdb creation and attempting to make file name unique.");
 							MakeFileNameUnique();
 							return;
 						}
@@ -286,7 +293,7 @@ namespace CoatiSoftware.SourcetrailPlugin.Wizard
 			}
 			else
 			{
-				Logging.Logging.LogError("CDB create callback is not set. Cannot start creating CDB.");
+				Logging.Logging.LogError("Cdb create callback is not set. Cannot start creating Cdb.");
 			}
 		}
 
@@ -305,7 +312,7 @@ namespace CoatiSoftware.SourcetrailPlugin.Wizard
 		{
 			string fileName = textBoxFileName.Text;
 			string path = textBoxTargetDirectory.Text;
-			string extension = labelFileNameEnding.Text;
+			string extension = labelFileNameExtension.Text;
 
 			return File.Exists(path + "\\" + fileName + extension);
 		}

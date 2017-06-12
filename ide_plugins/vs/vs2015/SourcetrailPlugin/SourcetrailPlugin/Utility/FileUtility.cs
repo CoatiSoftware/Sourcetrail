@@ -1,5 +1,5 @@
-﻿using System;
-using EnvDTE;
+﻿using EnvDTE;
+using System;
 
 namespace CoatiSoftware.SourcetrailPlugin.Utility
 {

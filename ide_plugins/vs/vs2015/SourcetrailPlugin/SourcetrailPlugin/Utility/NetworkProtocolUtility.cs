@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CoatiSoftware.SourcetrailPlugin.Utility
 {
@@ -12,12 +9,11 @@ namespace CoatiSoftware.SourcetrailPlugin.Utility
 		private static string s_setActiveTokenPrefix = "setActiveToken";
 		private static string s_moveCursorPrefix = "moveCursor";
 		private static string s_endOfMessageToken = "<EOM>";
-
-		private static string s_createProjectPrefix = "createProject"; // deprecate
-		private static string s_createCDBProjectPrefix = "createCDBProject";
+		
+		private static string s_createCdbProjectPrefix = "createCDBProject";
 		private static string s_ideId = "vs";
 
-		private static string s_createCDBPrefix = "createCDB";
+		private static string s_createCdbPrefix = "createCDB";
 
 		private static string s_pingPrefix = "ping";
 
@@ -100,26 +96,9 @@ namespace CoatiSoftware.SourcetrailPlugin.Utility
 			return message;
 		}
 
-		public static string CreateCreateProjectMessage(string solutionPath)
-		{
-			string message = s_createProjectPrefix;
-
-			message += s_divider;
-
-			message += solutionPath;
-
-			message += s_divider;
-
-			message += s_ideId;
-
-			message += s_endOfMessageToken;
-
-			return message;
-		}
-
 		public static string CreateCreateProjectMessage(string cdbPath, List<string> headerPaths)
 		{
-			string message = s_createCDBProjectPrefix;
+			string message = s_createCdbProjectPrefix;
 
 			message += s_divider;
 
@@ -160,7 +139,7 @@ namespace CoatiSoftware.SourcetrailPlugin.Utility
 
 			if (tokens.Count > 0)
 			{
-				if (tokens[0] == s_createCDBPrefix)
+				if (tokens[0] == s_createCdbPrefix)
 				{
 					return MESSAGE_TYPE.CREATE_CDB;
 				}

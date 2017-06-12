@@ -1,5 +1,5 @@
-﻿using System;
-using VCProjectEngineWrapper;
+﻿using VCProjectEngineWrapper;
+using System;
 
 namespace CoatiSoftware.SourcetrailPlugin.Utility
 {

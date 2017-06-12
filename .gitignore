@@ -24,8 +24,9 @@
 
 /ide_plugins/vs/vs2015/SourcetrailPlugin/SourcetrailPlugin/bin
 /ide_plugins/vs/vs2015/SourcetrailPlugin/SourcetrailPlugin/obj
-/ide_plugins/vs/vs2015/SourcetrailPlugin/SourcetrailPlugin.IntegrationTests/bin/
-/ide_plugins/vs/vs2015/SourcetrailPlugin/SourcetrailPlugin.IntegrationTests/obj
+/ide_plugins/vs/vs2015/SourcetrailPlugin/SourcetrailPluginTests/bin/Debug
+/ide_plugins/vs/vs2015/SourcetrailPlugin/SourcetrailPluginTests/bin/Release
+/ide_plugins/vs/vs2015/SourcetrailPlugin/SourcetrailPluginTests/obj
 /ide_plugins/vs/vs2015/SourcetrailPlugin/SourcetrailPluginUtility/bin
 /ide_plugins/vs/vs2015/SourcetrailPlugin/SourcetrailPluginUtility/obj
 /ide_plugins/vs/vs2015/SourcetrailPlugin/VCProjectEngineWrapperInterfaces/bin
