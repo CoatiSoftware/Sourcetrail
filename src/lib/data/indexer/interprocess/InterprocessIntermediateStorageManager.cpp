@@ -13,7 +13,7 @@ InterprocessIntermediateStorageManager::InterprocessIntermediateStorageManager(
 )
 	: BaseInterprocessDataManager(
 		s_sharedMemoryNamePrefix + std::to_string(processId) + "_" + instanceUuid,
-		1048576 /* 1 MB */,
+        3 * 1048576 /* 3 MB */,
 		instanceUuid,
 		processId,
 		isOwner)
@@ -27,8 +27,8 @@ InterprocessIntermediateStorageManager::~InterprocessIntermediateStorageManager(
 void InterprocessIntermediateStorageManager::pushIntermediateStorage(
 	const std::shared_ptr<IntermediateStorage>& intermediateStorage)
 {
-	const unsigned int overestimationMultiplier = 3;
-	size_t size = intermediateStorage->getByteSize() * overestimationMultiplier;
+    const unsigned int overestimationMultiplier = 3;
+    size_t size = (intermediateStorage->getByteSize() + sizeof(SharedIntermediateStorage))* overestimationMultiplier + 1048576/* 1 MB */;
 
 	SharedMemory::ScopedAccess access(&m_sharedMemory);
 
@@ -97,6 +97,7 @@ std::shared_ptr<IntermediateStorage> InterprocessIntermediateStorageManager::pop
 	storage->setNextId(sharedIntermediateStorage.getNextId());
 
 	queue->pop_front();
+    LOG_INFO(access.logString());
 
 	return storage;
 }
