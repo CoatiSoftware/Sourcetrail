@@ -238,31 +238,18 @@ Botan::RSA_PrivateKey *Generator::getPrivateKey() const
 
 void Generator::createLicense(
     const std::string& user,
-    const std::string& type,
+	const std::string& type,
     const std::string& expiration,
     const unsigned int seats
 )
 {
     m_license = std::unique_ptr<License>(new License());
 
-    m_license->setLine(License::OWNER_LINE, user);
-    m_license->setLine(License::TYPE_LINE, type);
-    m_license->setLine(License::VERSION_LINE, LicenseConstants::UNTIL_PREFIX + expiration);
-    if (seats > 1)
-    {
-        m_license->setLine(License::SEATS_LINE, std::to_string(seats) + " Seats");
-    }
-    else if (seats == 1)
-    {
-        m_license->setLine(License::SEATS_LINE, "1 Seat");
-    }
-    else
-    {
-        m_license->setLine(License::SEATS_LINE, "-");
-    }
+	m_license->createHeader(user, type, expiration, seats);
+
     Botan::AutoSeeded_RNG rng;
-    std::string pass9 = Botan::generate_passhash9(m_license->getLine(License::VERSION_LINE), m_rng);
-    m_license->setLine(License::HASH_LINE, pass9);
+	std::string pass9 = Botan::generate_passhash9(m_license->getExpireLine(), m_rng);
+	m_license->setHashLine(pass9);
 
     //encode message
     const std::string emsa = "EMSA4(SHA-256)";

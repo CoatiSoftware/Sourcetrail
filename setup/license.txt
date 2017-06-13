@@ -1,15 +1,16 @@
 -----BEGIN LICENSE-----
-builder
-Sourcetrail
-BuildingLicense
-Valid until 2020.1
+Product: Sourcetrail
+Licensed to: builder
+License type: buildlicense
+Valid up to version: 2020.1
 -
-$9$AQAKttB/yiIxt1mfkCY8m/k2g8SgiiC23v2BnavARxJf6g1py6lJ
-oYqmp8TK/6ThpE1eNESel+MxBZ5mExT1zp3265FSpUlhI2fsxbxjWvz
-KJsVSGXgv95A/q2K/dQRjtfGuInsujs+FdqyWh18YAF5NRm/PsKQtvj
-J7d6sKNi23LWEBm4WRhYVYweu0T+GAzyMhOQdx9RvEZnjEYKTUZoy2E
-fm+El5WO4kx0Q2SHt+yVz9+SBJCWymGu9eb5R6YIZV/aIdhTd+jqhOR
-N94H0BKZ7L+4kmhPlarR98caQWrrCla9z9tv5B80LyhpgFiTEfHTsag
-3CLI0S9Ez0iqi/d9uGQ0y7UbVZr2CFvnLJ4W8FLRuIqyF7esfgSx7IZ
-GFsQa/6uNHVA==
+$9$AQAKHf3pw5lZp/tlQHb7HlYpXvtz77zOWfLC3PKPSaV9gsZtgb9Q
+lLkQVn8+OSMma5EN/aK5Dzb30t+EKSBBRyJ43LZRUOsgfVSXO0MRNdu
+w9WfVuBA0spZ2TtXLF1r4lR9F9XYu2uZ//xcQ3rqFnH8udn2Jakeu55
+CJz/slxam41ZRDVVJ6AIkfeUVkQdtTDLh+1bmuOZVPMBhkD3V5BHrgU
+TgKYDiwl1HDMdhJIh7V0u/clGToZUL8aesGFr35HeaUKWWD9GeZDs2p
+4PizzREzLwPvbwXMcHAxpNaKOPrk2uQzBlfCe0b+FzTNQvZEioPeHI1
+oS1uX3ZtWa99l/iVe7P24tJOmalR0ripNhqu8i6GXaFyBD5ES3c7cqQ
+OHRKWqZA4ypw==
 -----END LICENSE-----
+

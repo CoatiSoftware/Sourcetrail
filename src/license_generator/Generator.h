@@ -43,7 +43,7 @@ public:
     Botan::RSA_PrivateKey* getPrivateKey() const;
     void createLicense(
         const std::string& user,
-        const std::string& type,
+		const std::string& type,
         const std::string& expiration,
         const unsigned int seates
     );

@@ -133,11 +133,8 @@ int main(int argc, char *argv[])
 	}
 
     Version version(
-                // TODO: replace hard coded version
-//        VERSION_YEAR,
-//        VERSION_MINOR,
-        2017,
-        2,
+		VERSION_YEAR,
+		VERSION_MINOR,
         VERSION_COMMIT,
         GIT_COMMIT_HASH
     );

@@ -33,110 +33,160 @@ namespace
 	}
 }
 
-
 License::License()
 	: m_rng(std::make_shared<Botan::AutoSeeded_RNG>())
+	, m_user("")
+	, m_type("Private License")
+	, m_seats(0)
+	, m_expire("")
 {
-    m_lines[BEGIN_LICENSE_LINE] = BEGIN_LICENSE;
-    m_lines[SOURCETRAIL_LINE] = "Sourcetrail";
-    m_lines[END_LICENSE_LINE] = END_LICENSE;
 }
 
 License::~License()
 {
 }
 
-std::string License::getMessage() const
+void License::createHeader(
+	const std::string& user,
+	const std::string& type,
+	const std::string& expiration,
+	uint seats
+)
 {
+	if (user.empty() || type.empty() || expiration.empty())
+	{
+		return;
+	}
+	m_user = user;
+	m_expire = expiration;
+	m_type = type;
+	m_seats = seats;
+}
+
+std::string License::getMessage(bool withNewlines) const
+{
+	const std::string separator = (withNewlines ? "\n" : "");
 	std::string message = "";
 
-    for (int i = OWNER_LINE; i < FIRST_SIGNATURE_LINE; ++i)
-    {
-        message += m_lines[i];
-        if (m_lines[i].empty())
-        {
-            return "";
-        }
-    }
+	if ( m_user.empty() || m_type.empty() || m_expire.empty() || m_hashLine.empty())
+	{
+		return "";
+	}
+
+	message += LicenseConstants::PRODUCT_STRING + separator;
+	message += LicenseConstants::LICENSED_TO_STRING + m_user + separator;
+	message += LicenseConstants::LICENSE_TYPE_STRING + m_type;
+	if (m_seats > 1)
+	{
+		message += " (" + std::to_string(m_seats) + " Seats)";
+	}
+	else if (m_seats == 1)
+	{
+		message += " (1 Seat)";
+	}
+	else if (m_type == LicenseConstants::TEST_LICENSE_STRING)
+	{
+		message += " (unlimited seats)";
+	}
+	message += separator;
+	message += getExpireLine() + separator;
+	message += LicenseConstants::SEPARATOR_STRING + separator;
+	message += m_hashLine;
 
 	return message;
 }
 
-std::string License::getSignature() const
+std::string License::getLine(std::istream& stream)
 {
-	std::string signatue = "";
-
-    if (!m_lines[LAST_SIGNATURE_LINE].empty())
+	std::string line;
+	if(getline(stream, line, '\n'))
 	{
-        for (int i = FIRST_SIGNATURE_LINE; i <= LAST_SIGNATURE_LINE; ++i)
-		{
-			signatue += m_lines[i];
-		}
+		return trimWhiteSpaces(line);
 	}
-	else
+	return "";
+}
+
+void License::setHashLine(const std::string &hash)
+{
+	if (!hash.empty())
 	{
-		signatue = "";
+		m_hashLine = hash;
 	}
-
-	return signatue;
 }
 
-std::string License::getLine(LICENSE_LINE line) const
+std::string License::removeCaption(const std::string& line, const std::string& caption) const
 {
-    return m_lines[line];
+	if (line.substr(0, caption.length()) == caption)
+	{
+		return line.substr(caption.length());
+	}
+	return "";
 }
 
-void License::setLine(const LICENSE_LINE line, const std::string& value)
+bool License::extractData(const std::string& data, LICENSE_LINE line)
 {
-    // only allow to set message lines
-    if (line < FIRST_SIGNATURE_LINE)
-    {
-        m_lines[line] = value;
-    }
+	switch ( line )
+	{
+		case USER_LINE:
+			m_user = removeCaption(data, LicenseConstants::LICENSED_TO_STRING);
+			return !m_user.empty();
+		case EXPIRE_LINE:
+			m_expire = removeCaption(data, LicenseConstants::VALID_UP_TO_STRING);
+			if (m_expire.empty())
+			{
+				m_expire = removeCaption(data, LicenseConstants::VALID_UNTIL_STRING);
+			}
+			return !m_expire.empty();
+		case TYPE_LINE:
+			setTypeAndSeats(removeCaption(data, LicenseConstants::LICENSE_TYPE_STRING));
+			return !m_type.empty();
+		default:
+			return false;
+	}
 }
 
-std::string License::getVersionLineWithoutPrefix() const
+bool License::isTestLicense() const
 {
-    return getLine(VERSION_LINE).substr(LicenseConstants::UNTIL_PREFIX.length());
+	return m_type == LicenseConstants::TEST_LICENSE_STRING;
 }
 
 unsigned int License::getSeats() const
 {
-    std::string line = getLine(SEATS_LINE);
-    if (!line.empty())
-    {
-        try
-        {
-            return std::stoi(line);
-        }
-        catch (std::invalid_argument e)
-        {
-            return 0;
-        }
-    }
-    return 0;
+	return m_seats;
+}
+
+std::string License::getType() const
+{
+	return m_type;
+}
+
+std::string License::getExpireLine() const
+{
+	return (m_type == LicenseConstants::TEST_LICENSE_STRING ?
+				LicenseConstants::VALID_UNTIL_STRING :
+				LicenseConstants::VALID_UP_TO_STRING)
+			+ m_expire;
 }
 
 std::string License::getLicenseInfo() const
 {
-    std::string info = getLine(OWNER_LINE) + "\n";
+	std::string info = m_user + "\n";
 
-    const std::string typeString = getLine(TYPE_LINE);
-    info += typeString + "\n";
-    info += getLine(VERSION_LINE) + "\n";
+	info += m_type + "\n";
+	info += getExpireLine() + "\n";
 
     // get info depending on license type
-    if (isNonCommercialLicenseType(typeString))
+	if (isNonCommercialLicenseType())
     {
         info += "not registered for commercial development";
     }
-    else if (typeString == LicenseConstants::TEST_LICENSE_STRING)
+	else if (m_type == LicenseConstants::TEST_LICENSE_STRING)
     {
         info += "unlimited Seats";
     }
-    else if (getSeats() > 1)
+	else if (m_seats > 1)
     {
-        info += std::to_string(getSeats()) + " Seats";
+		info += std::to_string(m_seats) + " Seats";
     }
     else
     {
@@ -146,11 +196,11 @@ std::string License::getLicenseInfo() const
     return info;
 }
 
-bool License::isNonCommercialLicenseType(const std::string type) const
+bool License::isNonCommercialLicenseType() const
 {
     for ( const std::string nonCommercialLicenseType : NON_COMMERCIAL_LICENSE_TYPES)
     {
-        if (type == nonCommercialLicenseType)
+		if (m_type == nonCommercialLicenseType)
         {
             return true;
         }
@@ -158,11 +208,16 @@ bool License::isNonCommercialLicenseType(const std::string type) const
     return false;
 }
 
+std::string License::getUser() const
+{
+	return m_user;
+}
+
 int License::getTimeLeft() const
 {
     const std::string dateText = "YYYY-MMM-DD";
 
-    std::string dateString = getVersionLineWithoutPrefix();
+	std::string dateString = m_expire;
     if (dateString.length() != dateText.length())
     {
         return -2;
@@ -180,10 +235,7 @@ int License::getTimeLeft() const
 void License::writeToFile(const std::string& filename)
 {
 	std::ofstream licenseFile(filename);
-	for(std::string line : m_lines)
-	{
-		licenseFile << line << std::endl;
-	}
+	licenseFile << getLicenseString() << std::endl;
 }
 
 bool License::loadFromString(const std::string& licenseText)
@@ -194,30 +246,91 @@ bool License::loadFromString(const std::string& licenseText)
 
 bool License::load(std::istream& stream)
 {
-    int currentLine = 1;
 	std::string line;
+	std::array<std::string, LICENSE_LINES> lines;
 
-    while (getline(stream, line, '\n') && currentLine < END_LICENSE_LINE)
+	line = getLine(stream);
+	if (line == LicenseConstants::BEGIN_LICENSE_STRING)
 	{
-        std::string l = trimWhiteSpaces(line);
-        if (l == BEGIN_LICENSE)
-        {
-            continue;
-        }
-        if (l.size())
-		{
-            m_lines[currentLine] = l;
-		}
-        currentLine++;
+		line = getLine(stream);
 	}
 
-	if (m_lines.size() <= 0)
+	// sourcetrail line
+	if (line != LicenseConstants::PRODUCT_STRING)
 	{
-		std::cout << "Could not read licence, possible empty string or only white spaces" << std::endl;
+		return false;
+	}
+
+	// user line
+	if (!extractData(getLine(stream), USER_LINE))
+	{
+		return false;
+	}
+
+	if (!extractData(getLine(stream), TYPE_LINE))
+	{
+		return false;
+	}
+
+	// expire line
+	if (!extractData(getLine(stream), EXPIRE_LINE))
+	{
+		return false;
+	}
+
+	// separator line
+	getline(stream, line, '\n');
+	if (trimWhiteSpaces(line) != LicenseConstants::SEPARATOR_STRING)
+	{
+		return false;
+	}
+
+	// hash line
+	m_hashLine = getLine(stream);
+
+	// signature
+	m_signature = "";
+	while (getline(stream, line, '\n'))
+	{
+        std::string l = trimWhiteSpaces(line);
+		if (l == LicenseConstants::END_LICENSE_STRING)
+		{
+			break;
+		}
+        if (l.size())
+		{
+			m_signature += l;
+		}
+	}
+	if (m_signature.length() != 344)
+	{
 		return false;
 	}
 
 	return true;
+}
+
+void License::setTypeAndSeats(const std::string& line)
+{
+	size_t pos = line.find("(");
+
+	if ( pos != line.npos)
+	{
+		m_type = line.substr(0, pos - 1);
+		try
+		{
+			m_seats = std::stoi(line.substr(pos+1));
+		}
+		catch (std::invalid_argument e)
+		{
+			m_seats = 0;
+		}
+	}
+	else
+	{
+		m_type = line;
+		m_seats = 0;
+	}
 }
 
 bool License::loadFromFile(const std::string& filename)
@@ -231,7 +344,6 @@ void License::print()
 	std::cout << getLicenseString();
 }
 
-
 bool License::isValid() const
 {
 	if(!m_publicKey)
@@ -241,15 +353,13 @@ bool License::isValid() const
 	}
     try
 	{
-
-		std::string signatureString = getSignature();
-		if (signatureString.size() <= 0)
+		if (m_signature.size() <= 0)
 		{
 			std::cout << "Could not read signature" << std::endl;
 			return false;
 		}
 
-		Botan::secure_vector<Botan::byte> signature = Botan::base64_decode(signatureString);
+		Botan::secure_vector<Botan::byte> signature = Botan::base64_decode(m_signature);
 
 		if (m_publicKey == NULL)
 		{
@@ -282,15 +392,14 @@ bool License::isValid() const
 
 bool License::isExpired() const
 {
-    std::string expire = getVersionLineWithoutPrefix();
-    if ( getLine(TYPE_LINE) == LicenseConstants::TEST_LICENSE_STRING)
+	if ( getType() == LicenseConstants::TEST_LICENSE_STRING)
     {
         return (getTimeLeft()==-1);
     }
     else
     {
-        Version version = Version::fromShortString(expire);
-        return Version::getApplicationVersion() > version;
+		Version version = Version::fromShortString(m_expire);
+		return Version::getApplicationVersion() > version;
     }
 }
 
@@ -348,22 +457,15 @@ bool License::loadPublicKeyFromString(const std::string& publicKey)
 	return true;
 }
 
-void License::setVersion(const std::string& version)
-{
-	if(!version.empty())
-	{
-		m_version = version;
-	}
-}
-
 std::string License::getLicenseString() const
 {
-	std::stringstream license;
-	for(std::string line : m_lines)
-	{
-		license << line << std::endl;
-	}
-	return license.str();
+	std::string license = "";
+	license += LicenseConstants::BEGIN_LICENSE_STRING + "\n";
+	license += getMessage(true) + "\n";
+	license += getSignature() + "\n";
+	license += LicenseConstants::END_LICENSE_STRING + "\n";
+
+	return license;
 }
 
 std::string License::hashLocation(const std::string& location)
@@ -484,20 +586,26 @@ std::string License::getEncodeKey(const std::string applicationLocation) const
 	return pbkdf->derive_key(32, applicationLocation, &salt[0], salt.size(), 10000).as_string();
 }
 
+std::string License::getSignature() const
+{
+	std::string sig;
+	std::stringstream ss;
+	const int lineLength = 55;
+	for (size_t i = 0; i < m_signature.size(); i++)
+	{
+		if(i % lineLength == 0 && i != 0)
+		{
+			sig += ss.str() + "\n";
+			ss.str("");
+		}
+		ss << m_signature[i];
+	}
+
+	sig += ss.str();
+	return sig;
+}
+
 void License::setSignature(const std::string& signature)
 {
-    std::stringstream ss;
-    int line = FIRST_SIGNATURE_LINE;
-    const int lineLength = 55;
-    for (size_t i = 0; i < signature.size(); i++)
-    {
-        if(i % lineLength == 0 && i != 0)
-        {
-            m_lines[line++] = ss.str();
-            ss.str("");
-        }
-        ss << signature[i];
-    }
-
-    m_lines[line] = ss.str();
+	m_signature = signature;
 }

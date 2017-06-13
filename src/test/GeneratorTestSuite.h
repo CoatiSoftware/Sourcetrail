@@ -82,17 +82,17 @@ public:
 
         license.loadFromString(generator.encodeLicense("TestUser", "Private License", 1, "2017.4"));
 //        license.create(generator.getPrivateKey(), "TestUser", "v2");
-        std::string testInfo = "TestUser\nPrivate License\nValid until 2017.4\n1 Seat";
+		std::string testInfo = "TestUser\nPrivate License\nValid up to version: 2017.4\n1 Seat";
         TS_ASSERT_EQUALS(license.getLicenseInfo(), testInfo);
 
 //        license.create(generator.getPrivateKey(), "TestUser", "v2", "Volume License", 20);
         license.loadFromString(generator.encodeLicense("TestUser", "Volume License", 20, "2017.3"));
-        testInfo = "TestUser\nVolume License\nValid until 2017.3\n20 Seats";
+		testInfo = "TestUser\nVolume License\nValid up to version: 2017.3\n20 Seats";
         TS_ASSERT_EQUALS(license.getLicenseInfo(), testInfo);
 
 //        license.create(generator.getPrivateKey(), "TestUser", "v2", "Private/Academic Single User License", 20);
         license.loadFromString(generator.encodeLicense("TestUser", "Private/Academic Single User License", 0, "2018.1"));
-        testInfo = "TestUser\nPrivate/Academic Single User License\nValid until 2018.1\nnot registered for commercial development";
+		testInfo = "TestUser\nPrivate/Academic Single User License\nValid up to version: 2018.1\nnot registered for commercial development";
         TS_ASSERT_EQUALS(license.getLicenseInfo(), testInfo);
     }
 
@@ -106,8 +106,8 @@ public:
         license.loadFromString(generator.encodeLicense("TestUser", "Private License", 20, "2017.3"));
         license.loadPublicKeyFromString(generator.getPublicKeyPEMFileAsString());
 
-        TS_ASSERT_EQUALS(license.getLine(License::OWNER_LINE), "TestUser");
-        TS_ASSERT_EQUALS(license.getLine(License::TYPE_LINE), "Private License");
+		TS_ASSERT_EQUALS(license.getUser(), "TestUser");
+		TS_ASSERT_EQUALS(license.getType(), "Private License");
         TS_ASSERT(license.isValid());
     }
 
