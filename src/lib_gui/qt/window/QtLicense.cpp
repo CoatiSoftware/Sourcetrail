@@ -16,7 +16,7 @@ QtLicense::QtLicense(QWidget *parent)
 
 QSize QtLicense::sizeHint() const
 {
-	return QSize(780, 480);
+	return QSize(780, 520);
 }
 
 void QtLicense::clear()
@@ -76,9 +76,11 @@ void QtLicense::populateWindow(QWidget* widget)
 	m_licenseText->setAcceptRichText(false);
 	m_licenseText->setPlaceholderText(
 		"-----BEGIN LICENSE-----\n"
-		"Jane Doe\n"
-		"Single User License\n"
-		"Sourcetrail 0\n"
+		"Product: Sourcetrail\n"
+		"Licensed to:\n"
+		"License type:\n"
+		"Valid up to version:\n"
+		"-\n"
 		"xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx\n"
 		"xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx\n"
 		"xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx\n"

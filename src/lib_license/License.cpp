@@ -556,7 +556,7 @@ bool License::loadFromEncodedString(const std::string& encodedLicense, const std
 		crypbobxInput += "-----END BOTAN CRYPTOBOX MESSAGE-----";
 
 		//decrypt license
-		loadFromString(Botan::CryptoBox::decrypt(crypbobxInput, getEncodeKey(applicationLocation))); // does the result of this operation matter at all? Is it supposed to throw if the input is wrong? wtf?
+		return loadFromString(Botan::CryptoBox::decrypt(crypbobxInput, getEncodeKey(applicationLocation)));
 	}
 	catch(...)
 	{
@@ -564,7 +564,7 @@ bool License::loadFromEncodedString(const std::string& encodedLicense, const std
 		return false;
 	}
 
-	return true;
+	return false;
 }
 
 std::string License::getHashedLicense() const
