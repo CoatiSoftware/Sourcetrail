@@ -198,6 +198,7 @@ void SharedIndexerCommand::setLanguageStandard(const std::string& languageStanda
 std::vector<std::string> SharedIndexerCommand::getCompilerFlags() const
 {
 	std::vector<std::string> result;
+	result.reserve(m_compilerFlags.size());
 
 	for (unsigned int i = 0; i <  m_compilerFlags.size(); i++)
 	{
@@ -210,6 +211,7 @@ std::vector<std::string> SharedIndexerCommand::getCompilerFlags() const
 void SharedIndexerCommand::setCompilerFlags(const std::vector<std::string>& compilerFlags)
 {
 	m_compilerFlags.clear();
+	m_compilerFlags.reserve(compilerFlags.size());
 
 	for (unsigned int i = 0; i < compilerFlags.size(); i++)
 	{
@@ -222,6 +224,7 @@ void SharedIndexerCommand::setCompilerFlags(const std::vector<std::string>& comp
 std::vector<FilePath> SharedIndexerCommand::getSystemHeaderSearchPaths() const
 {
 	std::vector<FilePath> result;
+	result.reserve(m_systemHeaderSearchPaths.size());
 
 	for (unsigned int i = 0; i < m_systemHeaderSearchPaths.size(); i++)
 	{
@@ -234,6 +237,7 @@ std::vector<FilePath> SharedIndexerCommand::getSystemHeaderSearchPaths() const
 void SharedIndexerCommand::setSystemHeaderSearchPaths(const std::vector<FilePath>& filePaths)
 {
 	m_systemHeaderSearchPaths.clear();
+	m_systemHeaderSearchPaths.reserve(filePaths.size());
 
 	for (unsigned int i = 0; i < filePaths.size(); i++)
 	{
@@ -246,6 +250,7 @@ void SharedIndexerCommand::setSystemHeaderSearchPaths(const std::vector<FilePath
 std::vector<FilePath> SharedIndexerCommand::getFrameworkSearchhPaths() const
 {
 	std::vector<FilePath> result;
+	result.reserve(m_frameworkSearchPaths.size());
 
 	for (unsigned int i = 0; i < m_frameworkSearchPaths.size(); i++)
 	{
@@ -258,6 +263,7 @@ std::vector<FilePath> SharedIndexerCommand::getFrameworkSearchhPaths() const
 void SharedIndexerCommand::setFrameworkSearchhPaths(const std::vector<FilePath>& searchPaths)
 {
 	m_frameworkSearchPaths.clear();
+	m_frameworkSearchPaths.reserve(searchPaths.size());
 
 	for (unsigned int i = 0; i < searchPaths.size(); i++)
 	{
@@ -280,6 +286,7 @@ void SharedIndexerCommand::setPreprocessorOnly(bool preprocessorOnly)
 std::vector<FilePath> SharedIndexerCommand::getClassPaths() const
 {
 	std::vector<FilePath> result;
+	result.reserve(m_classPaths.size());
 
 	for (unsigned int i = 0; i < m_classPaths.size(); i++)
 	{
@@ -292,6 +299,7 @@ std::vector<FilePath> SharedIndexerCommand::getClassPaths() const
 void SharedIndexerCommand::setClassPaths(const std::vector<FilePath>& classPaths)
 {
 	m_classPaths.clear();
+	m_classPaths.reserve(classPaths.size());
 
 	for (unsigned int i = 0; i < classPaths.size(); i++)
 	{

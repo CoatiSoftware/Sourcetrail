@@ -19,12 +19,12 @@ size_t IndexerCommand::getByteSize() const
 
 	for (auto i : m_indexedPaths)
 	{
-		size += i.str().size();
+		size += sizeof(std::string) + i.str().size();
 	}
 
 	for (auto i : m_excludedPaths)
 	{
-		size += i.str().size();
+		size += sizeof(std::string) + i.str().size();
 	}
 
 	return size;

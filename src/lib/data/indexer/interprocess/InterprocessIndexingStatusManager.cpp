@@ -39,6 +39,28 @@ void InterprocessIndexingStatusManager::startIndexingSourceFile(const FilePath& 
 		SharedMemory::Map<Id, SharedMemory::String>::iterator it = currentFilesPtr->find(getProcessId());
 		if (it != currentFilesPtr->end())
 		{
+			const int overestimationMultiplier = 2;
+			const std::string crashedFilePath = it->second.c_str();
+
+			size_t estimatedSize = 262144 + sizeof(std::string) + crashedFilePath.size();
+			estimatedSize *= overestimationMultiplier;
+
+			while (access.getFreeMemorySize() < estimatedSize)
+			{
+				LOG_INFO_STREAM(
+					<< "grow memory - est: " << estimatedSize << " size: " << access.getMemorySize()
+					<< " free: " << access.getFreeMemorySize() << " alloc: " << (access.getMemorySize()));
+				access.growMemory(access.getMemorySize());
+
+				LOG_INFO("growing memory succeeded");
+
+				currentFilesPtr = access.accessValueWithAllocator<SharedMemory::Map<Id, SharedMemory::String>>(s_currentFilesKeyName);
+				if (!currentFilesPtr)
+				{
+					return;
+				}
+			}
+
 			SharedMemory::Vector<SharedMemory::String>* crashedFilesPtr =
 				access.accessValueWithAllocator<SharedMemory::Vector<SharedMemory::String>>(s_crashedFilesKeyName);
 
@@ -164,43 +186,58 @@ std::set<FilePath> InterprocessIndexingStatusManager::getIndexedFiles()
 
 void InterprocessIndexingStatusManager::addIndexedFiles(std::set<FilePath> filePaths)
 {
-	const unsigned int overestimationMultiplier = 3;
+	const unsigned int overestimationMultiplier = 2;
 
 	SharedMemory::ScopedAccess access(&m_sharedMemory);
 
-	SharedMemory::Vector<SharedMemory::String>* files =
+	SharedMemory::Vector<SharedMemory::String>* indexedFiles =
 		access.accessValueWithAllocator<SharedMemory::Vector<SharedMemory::String>>(s_indexedFilesKeyName);
-	if (!files)
+	if (!indexedFiles)
 	{
 		return;
 	}
 
-	for (auto file : *files)
+	std::set<std::string> oldFiles;
+	for (auto indexedFile : *indexedFiles)
 	{
-		filePaths.insert(FilePath(file.c_str()));
+		oldFiles.insert(indexedFile.c_str());
 	}
-	files->clear();
 
-
-	size_t size = 1000;
-	for (auto path : filePaths)
+	std::set<std::string> newFiles;
+	for (const FilePath& filePath : filePaths)
 	{
-		size += sizeof(std::string) + path.str().size();
+		if (oldFiles.find(filePath.str()) == oldFiles.end())
+		{
+			newFiles.insert(filePath.str());
+		}
 	}
-	size *= overestimationMultiplier;
 
-	size_t freeMemory = access.getFreeMemorySize();
-	if (freeMemory <= size)
+	size_t estimatedSize = 262144;
+	for (auto newFile : newFiles)
+	{
+		estimatedSize += sizeof(std::string) + newFile.size();
+	}
+	estimatedSize *= overestimationMultiplier;
+
+	while (access.getFreeMemorySize() < estimatedSize)
 	{
 		LOG_INFO_STREAM(
-			<< "grow memory - est: " << size << " size: " << access.getMemorySize()
-			<< " free: " << access.getFreeMemorySize() << " alloc: " << (size - freeMemory));
-		access.growMemory(size - freeMemory);
+			<< "grow memory - est: " << estimatedSize << " size: " << access.getMemorySize()
+			<< " free: " << access.getFreeMemorySize() << " alloc: " << (access.getMemorySize()));
+		access.growMemory(access.getMemorySize());
+
+		LOG_INFO("growing memory succeeded");
+
+		indexedFiles = access.accessValueWithAllocator<SharedMemory::Vector<SharedMemory::String>>(s_indexedFilesKeyName);
+		if (!indexedFiles)
+		{
+			return;
+		}
 	}
 
-	for (auto path : filePaths)
+	for (const std::string& newFile: newFiles)
 	{
-		files->push_back(SharedMemory::String(path.str().c_str(), access.getAllocator()));
+		indexedFiles->push_back(SharedMemory::String(newFile.c_str(), access.getAllocator()));
 	}
 
 	LOG_INFO(access.logString());

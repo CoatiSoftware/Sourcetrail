@@ -33,13 +33,15 @@ void InterprocessIntermediateStorageManager::pushIntermediateStorage(
 	SharedMemory::ScopedAccess access(&m_sharedMemory);
 
 	size_t freeMemory = access.getFreeMemorySize();
-	if (freeMemory <= size)
+	if (freeMemory < size)
 	{
 		LOG_INFO_STREAM(
 			<< "grow memory - est: " << size << " size: " << access.getMemorySize()
 			<< " free: " << access.getFreeMemorySize() << " alloc: " << (size - freeMemory));
 
 		access.growMemory(size - freeMemory);
+
+		LOG_INFO("growing memory succeeded");
 	}
 
 	SharedMemory::Queue<SharedIntermediateStorage>* queue =

@@ -19,26 +19,27 @@ InterprocessIndexerCommandManager::~InterprocessIndexerCommandManager()
 void InterprocessIndexerCommandManager::setIndexerCommands(
 	const std::vector<std::shared_ptr<IndexerCommand>>& indexerCommands)
 {
-	const unsigned int overestimationMultiplier = 3;
+	const unsigned int overestimationMultiplier = 2;
 
-	size_t size = 1000;
+	size_t estimatedSize = 1048576; /* 1 MB */
 	for (auto command : indexerCommands)
 	{
-		size += command->getByteSize() + sizeof(SharedIndexerCommand);
+		estimatedSize += command->getByteSize() + sizeof(SharedIndexerCommand);
 	}
-	size *= overestimationMultiplier;
-
+	estimatedSize *= overestimationMultiplier;
 
 	SharedMemory::ScopedAccess access(&m_sharedMemory);
 
 	size_t freeMemory = access.getFreeMemorySize();
-	if (freeMemory <= size)
+	if (freeMemory < estimatedSize)
 	{
 		LOG_INFO_STREAM(
-			<< "grow memory - est: " << size << " size: " << access.getMemorySize()
-			<< " free: " << access.getFreeMemorySize() << " alloc: " << (size - freeMemory));
+			<< "grow memory - est: " << estimatedSize << " size: " << access.getMemorySize()
+			<< " free: " << access.getFreeMemorySize() << " alloc: " << (estimatedSize - freeMemory));
 
-		access.growMemory(size - freeMemory);
+		access.growMemory(estimatedSize - freeMemory);
+
+		LOG_INFO("growing memory succeeded");
 	}
 
 	SharedMemory::Queue<SharedIndexerCommand>* queue =

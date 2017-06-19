@@ -25,14 +25,15 @@ void InterprocessIndexer::work()
 {
 	try
 	{
-		LOG_INFO_STREAM(<< m_processId << " Starting to index");
+		LOG_INFO_STREAM(<< m_processId << " starting up indexer");
 		std::shared_ptr<IndexerBase> indexer = IndexerFactory::getInstance()->createCompositeIndexerForAllRegisteredModules();
 
 		while (std::shared_ptr<IndexerCommand> indexerCommand = m_interprocessIndexerCommandManager.popIndexerCommand())
 		{
-			LOG_INFO_STREAM(<< m_processId << " Indexing " << indexerCommand->getSourceFilePath().str());
-			LOG_INFO_STREAM(<< m_processId << " Commands left: " << (m_interprocessIndexerCommandManager.indexerCommandCount() + 1));
+			LOG_INFO_STREAM(<< m_processId << " fetched indexer command for \"" << indexerCommand->getSourceFilePath().str() << "\"");
+			LOG_INFO_STREAM(<< m_processId << " indexer commands left: " << (m_interprocessIndexerCommandManager.indexerCommandCount() + 1));
 
+			LOG_INFO_STREAM(<< m_processId << " updating indexer status with currently indexed filepath");
 			m_interprocessIndexingStatusManager.startIndexingSourceFile(indexerCommand->getSourceFilePath());
 
 			FileRegisterStateData data;
@@ -42,13 +43,19 @@ void InterprocessIndexer::work()
 				data, indexerCommand->getSourceFilePath(), indexerCommand->getIndexedPaths(), indexerCommand->getExcludedPath()
 			);
 
+			LOG_INFO_STREAM(<< m_processId << " starting to index current file");
 			std::shared_ptr<IntermediateStorage> result = indexer->index(indexerCommand, fileRegister);
 
+			LOG_INFO_STREAM(<< m_processId << " finished indexing current file, updating indexer status");
 			m_interprocessIndexingStatusManager.addIndexedFiles(fileRegister->getStateData().getIndexedFiles());
 
+			LOG_INFO_STREAM(<< m_processId << " pushing index to shared memory");
 			m_interprocessIntermediateStorageManager.pushIntermediateStorage(result);
 
+			LOG_INFO_STREAM(<< m_processId << " finalizing indexer status for current file");
 			m_interprocessIndexingStatusManager.finishIndexingSourceFile();
+
+			LOG_INFO_STREAM(<< m_processId << " all done");
 		}
 	}
 	catch (boost::interprocess::interprocess_exception& e)
@@ -61,6 +68,10 @@ void InterprocessIndexer::work()
 		LOG_ERROR(e.what());
 		throw e;
 	}
+	catch (...)
+	{
+		LOG_ERROR("something went wrong while running the indexer");
+	}
 
-	LOG_INFO_STREAM(<< "Finished indexing");
+	LOG_INFO_STREAM(<< "shutting down indexer");
 }

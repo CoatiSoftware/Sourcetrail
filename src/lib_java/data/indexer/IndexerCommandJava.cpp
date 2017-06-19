@@ -27,11 +27,11 @@ IndexerCommandType IndexerCommandJava::getIndexerCommandType() const
 
 size_t IndexerCommandJava::getByteSize() const
 {
-	size_t size = IndexerCommand::getByteSize() + sizeof(*this);
+	size_t size = IndexerCommand::getByteSize();
 
 	for (auto i : m_classPath)
 	{
-		size += i.str().size();
+		size += sizeof(std::string) + i.str().size();
 	}
 
 	return size;

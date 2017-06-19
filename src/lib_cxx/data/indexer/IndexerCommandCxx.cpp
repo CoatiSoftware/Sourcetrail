@@ -26,17 +26,17 @@ size_t IndexerCommandCxx::getByteSize() const
 
 	for (auto i : m_systemHeaderSearchPaths)
 	{
-		size += i.str().size();
+		size += sizeof(std::string) + i.str().size();
 	}
 
 	for (auto i : m_frameworkSearchPaths)
 	{
-		size += i.str().size();
+		size += sizeof(std::string) + i.str().size();
 	}
 
 	for (auto i : m_compilerFlags)
 	{
-		size += i.size();
+		size += sizeof(std::string) + i.size();
 	}
 
 	return size;
