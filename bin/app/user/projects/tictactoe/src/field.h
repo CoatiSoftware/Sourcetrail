@@ -1,7 +1,9 @@
 #ifndef _FIELD_
 #define _FIELD_
 
-class Field {
+#include "game_object.h"
+
+class Field : public GameObject {
 public:
 	enum Token {
 		None = 0,

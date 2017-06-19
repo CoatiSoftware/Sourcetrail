@@ -2,8 +2,9 @@
 #define _PLAYER_
 
 #include "field.h"
+#include "game_object.h"
 
-class Player {
+class Player : public GameObject {
 public:
 	Player( Field::Token token, const char* name );
 	virtual ~Player();
