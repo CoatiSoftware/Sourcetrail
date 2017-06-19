@@ -68,7 +68,7 @@ public:
 		const std::string& user,
 		const std::string& type,
 		const std::string& expiration,
-		uint seats = 0
+		unsigned int seats = 0
 	);
 	std::string getExpireLine() const;
 
@@ -114,7 +114,7 @@ private:
 	// message
 	std::string m_user;
 	std::string m_type;
-	uint m_seats;
+	unsigned int m_seats;
 	std::string m_expire;
 	std::string m_hashLine;
 

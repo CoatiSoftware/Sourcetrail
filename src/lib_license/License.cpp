@@ -50,7 +50,7 @@ void License::createHeader(
 	const std::string& user,
 	const std::string& type,
 	const std::string& expiration,
-	uint seats
+	unsigned int seats
 )
 {
 	if (user.empty() || type.empty() || expiration.empty())
