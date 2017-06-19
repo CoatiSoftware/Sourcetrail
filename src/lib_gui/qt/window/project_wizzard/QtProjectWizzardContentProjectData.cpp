@@ -62,8 +62,10 @@ void QtProjectWizzardContentProjectData::load()
 
 void QtProjectWizzardContentProjectData::save()
 {
-	m_projectSettings->setProjectName(m_projectName->text().toStdString());
-	m_projectSettings->setProjectFileLocation(FilePath(m_projectFileLocation->getText().toStdString()));
+	m_projectSettings->setProjectFilePath(
+		m_projectName->text().toStdString(),
+		FilePath(m_projectFileLocation->getText().toStdString())
+	);
 }
 
 bool QtProjectWizzardContentProjectData::check()

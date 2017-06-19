@@ -66,6 +66,14 @@ public:
 		TS_ASSERT(path.parentDirectory().isDirectory());
 	}
 
+	void test_empty_file_path_has_empty_parent_directory()
+	{
+		FilePath path;
+
+		TS_ASSERT(path.empty());
+		TS_ASSERT(path.parentDirectory().empty());
+	}
+
 	void test_file_path_is_absolute()
 	{
 		FilePath path("data/FilePathTestSuite/a.cpp");

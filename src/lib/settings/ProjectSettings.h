@@ -29,11 +29,11 @@ public:
 
 	bool reload();
 
-	std::string getProjectName() const;
-	void setProjectName(const std::string& name);
+	FilePath getProjectFilePath() const;
+	void setProjectFilePath(std::string projectName, const FilePath& projectFileLocation);
 
+	std::string getProjectName() const;
 	FilePath getProjectFileLocation() const;
-	void setProjectFileLocation(const FilePath& location);
 
 	std::string getDescription() const;
 

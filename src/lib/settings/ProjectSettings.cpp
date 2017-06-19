@@ -46,7 +46,7 @@ ProjectSettings::ProjectSettings(const FilePath& projectFilePath)
 
 ProjectSettings::ProjectSettings(std::string projectName, const FilePath& projectFileLocation)
 {
-	setFilePath(FilePath(projectFileLocation.str() + "/" + projectName + PROJECT_FILE_EXTENSION));
+	setProjectFilePath(projectName, projectFileLocation);
 }
 
 ProjectSettings::~ProjectSettings()
@@ -105,24 +105,24 @@ bool ProjectSettings::reload()
 	return Settings::load(getFilePath());
 }
 
+FilePath ProjectSettings::getProjectFilePath() const
+{
+	return getFilePath();
+}
+
+void ProjectSettings::setProjectFilePath(std::string projectName, const FilePath& projectFileLocation)
+{
+	setFilePath(FilePath(projectFileLocation.str() + "/" + projectName + PROJECT_FILE_EXTENSION));
+}
+
 std::string ProjectSettings::getProjectName() const
 {
 	return getFilePath().withoutExtension().fileName();
 }
 
-void ProjectSettings::setProjectName(const std::string& name)
-{
-	setFilePath(FilePath(getProjectFileLocation().str() + "/" + name + PROJECT_FILE_EXTENSION));
-}
-
 FilePath ProjectSettings::getProjectFileLocation() const
 {
 	return getFilePath().parentDirectory();
-}
-
-void ProjectSettings::setProjectFileLocation(const FilePath& location)
-{
-	setFilePath(FilePath(location.str() + "/" + getProjectName() + PROJECT_FILE_EXTENSION));
 }
 
 std::string ProjectSettings::getDescription() const
