@@ -268,9 +268,12 @@ void GraphController::handleMessage(MessageGraphNodeExpand* message)
 
 	if (m_graph && m_graph->getTrailMode() != Graph::TRAIL_NONE)
 	{
-		MessageActivateNodes msg;
-		msg.addNode(message->tokenId, m_storageAccess->getNameHierarchyForNodeId(message->tokenId));
-		msg.dispatch();
+		if (!message->isReplayed())
+		{
+			MessageActivateNodes msg;
+			msg.addNode(message->tokenId, m_storageAccess->getNameHierarchyForNodeId(message->tokenId));
+			msg.dispatch();
+		}
 		return;
 	}
 

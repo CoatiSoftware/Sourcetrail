@@ -131,6 +131,16 @@ std::string QtCodeFile::getFileName() const
 
 QtCodeSnippet* QtCodeFile::addCodeSnippet(const CodeSnippetParams& params)
 {
+	for (std::shared_ptr<QtCodeSnippet> snippet : m_snippets)
+	{
+		if (snippet->getStartLineNumber() == params.startLineNumber &&
+			snippet->getEndLineNumber() == params.endLineNumber)
+		{
+			return snippet.get();
+		}
+	}
+
+
 	std::shared_ptr<QtCodeSnippet> snippet(new QtCodeSnippet(params, m_navigator, this));
 
 	if (params.reduced)

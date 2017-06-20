@@ -229,6 +229,8 @@ void QtCodeNavigator::clear()
 {
 	clearCodeSnippets();
 	clearCaches();
+
+	updateRefLabel();
 }
 
 void QtCodeNavigator::clearCodeSnippets()

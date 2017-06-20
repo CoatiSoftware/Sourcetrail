@@ -548,6 +548,11 @@ void UndoRedoController::updateHistory()
 			index++;
 
 			SearchMatch match = getSearchMatchForMessage(it->message.get());
+			if (!match.text.size())
+			{
+				continue;
+			}
+
 			if (!firstActiveMessage)
 			{
 				firstActiveMessage = true;
@@ -567,20 +572,17 @@ void UndoRedoController::updateHistory()
 				}
 			}
 
-			if (match.text.size())
+			matches.push_back(match);
+
+			if (matches.size() > historySize)
 			{
-				matches.push_back(match);
+				matches.erase(matches.begin());
+				m_historyOffset++;
+			}
 
-				if (matches.size() > historySize)
-				{
-					matches.erase(matches.begin());
-					m_historyOffset++;
-				}
-
-				if (matches.size() == historySize && currentIndex != -1 && currentIndex - m_historyOffset != historySize - 1)
-				{
-					break;
-				}
+			if (matches.size() == historySize && currentIndex != -1 && currentIndex - m_historyOffset != historySize - 1)
+			{
+				break;
 			}
 		}
 	}

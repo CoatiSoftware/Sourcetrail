@@ -327,7 +327,7 @@ void QtGraphView::pressedCharacterKey(QChar c)
 		Vec2i pos = node->getPosition();
 		Vec2i size = node->getSize();
 
-		view->ensureVisibleAnimated(QRectF(pos.x, pos.y, size.x, size.y + view->height() / 3 * 2), 100, 100);
+		view->ensureVisibleAnimated(QRectF(pos.x, pos.y, size.x, size.y + getViewSize().y / 3 * 2), 100, 100);
 	}
 }
 
