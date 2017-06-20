@@ -230,6 +230,47 @@
 					<File Id='qwindowsDLL' Name='qwindows.dll' DiskId='1' Source='$(var.PlatformSourceFolder)/platforms/qwindows.dll' KeyPath='yes' />
 				</Component>
 			</Directory>
+			
+			<Directory Id='License' Name='license'>
+				<Component Id='EulaRtf' Guid='*' Win64="$(var.Win64)">
+					<File Id='EulaRtfId' Name='EULA.rtf' DiskId='1' Source='./../../../bin/app/data/gui/installer/EULA.rtf' KeyPath='yes' />
+				</Component>
+				<Directory Id='ThirdPartyLicenses' Name='3rd_party_licenses'>
+					<Component Id='LicenseBoostTxt' Guid='*' Win64="$(var.Win64)">
+						<File Id='LicenseBoost' Name='license_boost.txt' DiskId='1' Source='./../../../bin/app/data/3rd_party_licenses/license_boost.txt' KeyPath='yes' />
+					</Component>
+					<Component Id='LicenseBotanTxt' Guid='*' Win64="$(var.Win64)">
+						<File Id='LicenseBotan' Name='license_botan.txt' DiskId='1' Source='./../../../bin/app/data/3rd_party_licenses/license_botan.txt' KeyPath='yes' />
+					</Component>
+					<Component Id='LicenseClangTxt' Guid='*' Win64="$(var.Win64)">
+						<File Id='LicenseClang' Name='license_clang.txt' DiskId='1' Source='./../../../bin/app/data/3rd_party_licenses/license_clang.txt' KeyPath='yes' />
+					</Component>
+					<Component Id='LicenseCppSqliteTxt' Guid='*' Win64="$(var.Win64)">
+						<File Id='LicenseCppSqlite' Name='license_cpp_sqlite.txt' DiskId='1' Source='./../../../bin/app/data/3rd_party_licenses/license_cpp_sqlite.txt' KeyPath='yes' />
+					</Component>
+					<Component Id='LicenseGuavaTxt' Guid='*' Win64="$(var.Win64)">
+						<File Id='LicenseGuava' Name='license_guava.txt' DiskId='1' Source='./../../../bin/app/data/3rd_party_licenses/license_guava.txt' KeyPath='yes' />
+					</Component>
+					<Component Id='LicenseJavaSymbolSolverTxt' Guid='*' Win64="$(var.Win64)">
+						<File Id='LicenseJavaSymbolSolver' Name='license_java_symbol_solver.txt' DiskId='1' Source='./../../../bin/app/data/3rd_party_licenses/license_java_symbol_solver.txt' KeyPath='yes' />
+					</Component>
+					<Component Id='LicenseJavaparserTxt' Guid='*' Win64="$(var.Win64)">
+						<File Id='LicenseJavaparser' Name='license_javaparser.txt' DiskId='1' Source='./../../../bin/app/data/3rd_party_licenses/license_javaparser.txt' KeyPath='yes' />
+					</Component>
+					<Component Id='LicenseJavaslangTxt' Guid='*' Win64="$(var.Win64)">
+						<File Id='LicenseJavaslang' Name='license_javaslang.txt' DiskId='1' Source='./../../../bin/app/data/3rd_party_licenses/license_javaslang.txt' KeyPath='yes' />
+					</Component>
+					<Component Id='LicenseJavassistTxt' Guid='*' Win64="$(var.Win64)">
+						<File Id='LicenseJavassist' Name='license_javassist.txt' DiskId='1' Source='./../../../bin/app/data/3rd_party_licenses/license_javassist.txt' KeyPath='yes' />
+					</Component>
+					<Component Id='LicenseQtTxt' Guid='*' Win64="$(var.Win64)">
+						<File Id='LicenseQt' Name='license_qt.txt' DiskId='1' Source='./../../../bin/app/data/3rd_party_licenses/license_qt.txt' KeyPath='yes' />
+					</Component>
+					<Component Id='LicenseTinyxmlTxt' Guid='*' Win64="$(var.Win64)">
+						<File Id='LicenseTinyxml' Name='license_tinyxml.txt' DiskId='1' Source='./../../../bin/app/data/3rd_party_licenses/license_tinyxml.txt' KeyPath='yes' />
+					</Component>
+				</Directory>
+			</Directory>
 
 			<Directory Id='LieutenantCommanderData' Name='data'>
 
@@ -526,7 +567,6 @@
 						<Component Id='Vs_icon_Png' Guid='*' Win64="$(var.Win64)">
 							<File Id='Vs_icon' Name='vs_icon.png' DiskId='1' Source='./../../../bin/app/data/gui/icon/vs_icon.png' KeyPath='yes' />
 						</Component>
-
 					</Directory>
 
 					<Directory Id='DataIndexingDialog' Name='indexing_dialog'>
@@ -542,7 +582,18 @@
 						<Component Id='ProgressBarElementPng' Guid='*' Win64="$(var.Win64)">
 							<File Id='ProgressBarElement' Name='progress_bar_element.png' DiskId='1' Source='./../../../bin/app/data/gui/indexing_dialog/progress_bar_element.png' KeyPath='yes' />
 						</Component>
+					</Directory>
 
+					<Directory Id='DataInstaller' Name='installer'>
+						<Component Id='EulaTxt' Guid='*' Win64="$(var.Win64)">
+							<File Id='EulaTxtId' Name='EULA.txt' DiskId='1' Source='./../../../bin/app/data/gui/installer/EULA.txt' KeyPath='yes' />
+						</Component>
+					</Directory>
+
+					<Directory Id='DataKeyboardShortcuts' Name='keyboard_shortcuts'>
+						<Component Id='KeyboardShortcutsCss' Guid='*' Win64="$(var.Win64)">
+							<File Id='KeyboardShortcuts' Name='keyboard_shortcuts.css' DiskId='1' Source='./../../../bin/app/data/gui/keyboard_shortcuts/keyboard_shortcuts.css' KeyPath='yes' />
+						</Component>
 					</Directory>
 
 					<Directory Id='DataLicense' Name='license'>
@@ -561,7 +612,6 @@
 								<File Id='Refresh' Name='refresh.png' DiskId='1' Source='./../../../bin/app/data/gui/refresh_view/images/refresh.png' KeyPath='yes' />
 							</Component>
 						</Directory>
-
 					</Directory>
 
 					<Directory Id='DataSearchView' Name='search_view'>

@@ -82,7 +82,7 @@ if [ $UPDATE_DATABASES = true ]; then
 	cd temp
 
 	echo -e "$INFO saving license key"
-	../build/win32/Release/app/Sourcetrail.exe -z ../script/license.txt
+	../build/win32/Release/app/Sourcetrail.exe -z ../setup/license.txt
 
 	echo -e "$INFO creating database for tictactoe"
 	../build/win32/Release/app/Sourcetrail.exe -p ../bin/app/user/projects/tictactoe/tictactoe.srctrlprj -d
@@ -135,7 +135,7 @@ cp -u -r ide_plugins/sublime_text/* $APP_PACKAGE_DIR_WIN32/plugins/sublime_text/
 mkdir -p $APP_PACKAGE_DIR_WIN32/plugins/vim/
 cp -u -r ide_plugins/vim/* $APP_PACKAGE_DIR_WIN32/plugins/vim/
 mkdir -p $APP_PACKAGE_DIR_WIN32/plugins/visual_studio/
-cp -u -r ide_plugins/vs/sourcetrail_plugin_vs.vsix $APP_PACKAGE_DIR_WIN32/plugins/visual_studio/
+cp -u -r ide_plugins/vs/sourcetrail_plugin.vsix $APP_PACKAGE_DIR_WIN32/plugins/visual_studio/
 
 
 echo -e "$INFO creating package folder for win64"
@@ -160,7 +160,7 @@ cp -u -r ide_plugins/sublime_text/* $APP_PACKAGE_DIR_WIN64/plugins/sublime_text/
 mkdir -p $APP_PACKAGE_DIR_WIN64/plugins/vim/
 cp -u -r ide_plugins/vim/* $APP_PACKAGE_DIR_WIN64/plugins/vim/
 mkdir -p $APP_PACKAGE_DIR_WIN64/plugins/visual_studio/
-cp -u -r ide_plugins/vs/sourcetrail_plugin_vs.vsix $APP_PACKAGE_DIR_WIN64/plugins/visual_studio/
+cp -u -r ide_plugins/vs/sourcetrail_plugin.vsix $APP_PACKAGE_DIR_WIN64/plugins/visual_studio/
 
 
 # PACKAGING SOURCETRAIL

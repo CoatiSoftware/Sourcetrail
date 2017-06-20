@@ -48,18 +48,14 @@
 							<File Id='ArtificialPlayerHeader' Name='artificial_player.h' DiskId='1' Source='./../../../bin/app/user/projects/tictactoe/src/artificial_player.h' KeyPath='no' />
 							<File Id='Field' Name='field.cpp' DiskId='1' Source='./../../../bin/app/user/projects/tictactoe/src/field.cpp' KeyPath='no' />
 							<File Id='FieldHeader' Name='field.h' DiskId='1' Source='./../../../bin/app/user/projects/tictactoe/src/field.h' KeyPath='no' />
-							
+							<File Id='GameObjectHeader' Name='game_object.h' DiskId='1' Source='./../../../bin/app/user/projects/tictactoe/src/game_object.h' KeyPath='no' />
 							<File Id='HumanPlayer' Name='human_player.cpp' DiskId='1' Source='./../../../bin/app/user/projects/tictactoe/src/human_player.cpp' KeyPath='no' />
 							<File Id='HumanPlayerHeader' Name='human_player.h' DiskId='1' Source='./../../../bin/app/user/projects/tictactoe/src/human_player.h' KeyPath='no' />
-							
 							<File Id='IO' Name='io.cpp' DiskId='1' Source='./../../../bin/app/user/projects/tictactoe/src/io.cpp' KeyPath='no' />
 							<File Id='IOHeader' Name='io.h' DiskId='1' Source='./../../../bin/app/user/projects/tictactoe/src/io.h' KeyPath='no' />
-							
 							<File Id='tictactoeMain' Name='main.cpp' DiskId='1' Source='./../../../bin/app/user/projects/tictactoe/src/main.cpp' KeyPath='no' />
-							
 							<File Id='Player' Name='player.cpp' DiskId='1' Source='./../../../bin/app/user/projects/tictactoe/src/player.cpp' KeyPath='no' />
 							<File Id='PlayerHeader' Name='player.h' DiskId='1' Source='./../../../bin/app/user/projects/tictactoe/src/player.h' KeyPath='no' />
-							
 							<File Id='tictactoeFile' Name='tictactoe.cpp' DiskId='1' Source='./../../../bin/app/user/projects/tictactoe/src/tictactoe.cpp' KeyPath='no' />
 							<File Id='tictactoeHeader' Name='tictactoe.h' DiskId='1' Source='./../../../bin/app/user/projects/tictactoe/src/tictactoe.h' KeyPath='no' />
 						</Component>

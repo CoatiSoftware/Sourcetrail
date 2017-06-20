@@ -32,7 +32,7 @@
 			Description="$(var.ProductDisplayName) Installer"
 			Comments='$(var.ProductName) is a registered trademark of $(var.ProductAuthor)' 
 			Manufacturer='$(var.ProductAuthor)'
-			InstallerVersion='100' 
+			InstallerVersion='200' 
 			Languages='1033' 
 			Compressed='yes' 
 			SummaryCodepage='1252' />
@@ -224,7 +224,20 @@
 				<ComponentRef Id='vcruntime140_dll'/>
 
 				<ComponentRef Id='QWindowsDll'/>
-
+				
+				<ComponentRef Id='EulaRtf'/>
+				<ComponentRef Id='LicenseBoostTxt'/>
+				<ComponentRef Id='LicenseBotanTxt'/>
+				<ComponentRef Id='LicenseClangTxt'/>
+				<ComponentRef Id='LicenseCppSqliteTxt'/>
+				<ComponentRef Id='LicenseGuavaTxt'/>
+				<ComponentRef Id='LicenseJavaSymbolSolverTxt'/>
+				<ComponentRef Id='LicenseJavaparserTxt'/>
+				<ComponentRef Id='LicenseJavaslangTxt'/>
+				<ComponentRef Id='LicenseJavassistTxt'/>
+				<ComponentRef Id='LicenseQtTxt'/>
+				<ComponentRef Id='LicenseTinyxmlTxt'/>
+				
 				<ComponentRef Id='FiraSansLicensetxt'/>
 				<ComponentRef Id='FiraSansRegularotf'/>
 				<ComponentRef Id='FiraSansSemiBoldotf'/>
@@ -324,6 +337,10 @@
 				<ComponentRef Id='ProgressBarElementPng'/>
 
 				<ComponentRef Id='LicenseCss'/>
+				
+				<ComponentRef Id='EulaTxt'/>
+				
+				<ComponentRef Id='KeyboardShortcutsCss'/>
 
 				<ComponentRef Id='RefreshViewCss'/>
 				<ComponentRef Id='RefreshPng'/>
@@ -389,9 +406,8 @@
 				<ComponentRef Id='SampleProjects'/>
 
 				<ComponentRef Id='TictactoeSourcetrailproject'/>
-				
 				<ComponentRef Id='TictactoeCode'/>
-
+				
 				<ComponentRef Id='TutorialSourcetrailproject'/>
 				<ComponentRef Id='TutorialCode'/>
 
