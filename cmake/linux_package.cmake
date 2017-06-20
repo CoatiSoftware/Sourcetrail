@@ -49,7 +49,6 @@ function(AddSharedToComponent componentName)
 		COMPONENT ${componentName}
 		PATTERN "log/*" EXCLUDE
 		PATTERN "data/src" EXCLUDE
-		PATTERN "data/gui/installer" EXCLUDE
 		PATTERN "projects" EXCLUDE
 		PATTERN "data/install" EXCLUDE
 		PATTERN "ProjectSettings_template.xml" EXCLUDE
