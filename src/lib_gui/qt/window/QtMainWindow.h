@@ -78,7 +78,7 @@ protected:
 	void keyPressEvent(QKeyEvent* event);
 	void contextMenuEvent(QContextMenuEvent* event);
 	void closeEvent(QCloseEvent* event);
-    void resizeEvent(QResizeEvent* event) override;
+    void resizeEvent(QResizeEvent* event);
 
 public slots:
 	void about();
