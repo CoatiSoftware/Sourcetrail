@@ -7,7 +7,7 @@ class QtEulaWindow
 	: public QtWindow
 {
 public:
-	static const int EULA_VERSION = 1;
+	static const int EULA_VERSION = 2;
 
 	QtEulaWindow(QWidget* parent, bool forceAccept);
 	QSize sizeHint() const override;

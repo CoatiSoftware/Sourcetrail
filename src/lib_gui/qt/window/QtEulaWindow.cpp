@@ -53,7 +53,7 @@ void QtEulaWindow::windowReady()
 	if (m_forceAccept)
 	{
 		updateCloseButton("Quit");
-		updateNextButton("Agree");
+		updateNextButton("I agree");
 	}
 	else
 	{
