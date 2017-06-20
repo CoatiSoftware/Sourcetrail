@@ -465,11 +465,13 @@ void QtMainWindow::showStartScreen()
 		forceEnterLicense(state == LicenseChecker::LICENSE_EXPIRED);
 	}
 
-	if (QSysInfo::macVersion() != QSysInfo::MV_None &&
-		ApplicationSettings::getInstance()->getAcceptedEulaVersion() < QtEulaWindow::EULA_VERSION)
+#ifndef Q_OS_WIN
+	if (ApplicationSettings::getInstance()->getAcceptedEulaVersion() < QtEulaWindow::EULA_VERSION)
 	{
 		showEula(true);
 	}
+#endif
+
 }
 
 void QtMainWindow::hideStartScreen()
