@@ -147,9 +147,14 @@ gifsicle --resize-height 18 trans.gif > loader.gif
 
 ### Changelog
 
-#### 1.0 (beta)
-released 2017-06-07
+#### 2017.2
+released 2017-06-21
 
+* Fixed crash when using shortcuts containing letters with focus on the graph on macOS (issue #390)
+* Improved Visual Studio plugin performance
+* Updated End User License Agreement and have users accept on first run on macOS and Linux
+* Fixed memory issues when using large Compilation Database files (issue #396)
+* Updated to JavaParser and JavaSymbolSolver
 * Fixed issue where black borders appeared around dialogs for some Linux window managers (issue #376)
 * Use platform default window decorations for UI dialogs
 * Code: Made snippet minimize/maximize buttons more interactive by showing hover states

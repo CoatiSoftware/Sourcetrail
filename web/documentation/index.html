@@ -21,6 +21,7 @@
 		})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
 
 		ga('create', 'UA-64108586-2', 'auto');
+		ga('set', 'anonymizeIp', true);
 		ga('send', 'pageview');
 
 		</script> -->
@@ -76,7 +77,7 @@
 						</div>
 					</div>
 					<div class="row" style="text-align:center; margin-top: 10px;">
-						<p>Documentation for version 0.12</p>
+						<p>Documentation for version 2017.2</p>
 					</div>
 
 					<div class="row" style="height:20px;"></div>
@@ -163,21 +164,38 @@
 
 
 					<h2>Creating a Project</h2>
-					<p>When creating a new Sourcetrail project you will use the <a href="#ProjectSetupWizard">project setup wizard</a>. This wizard splits the setup process into several subsequent steps. Depending on your projects structure and the used build system there are different types for project setup. Choosing the right setup method is important and can make the setup process a lot easier.</p>
+					<p>When creating a new Sourcetrail project you will use the <a href="#ProjectSetupWizard">Project Setup Wizard</a>. This wizard splits the setup process into several subsequent steps. Depending on your project's structure and the used build system there are different types for project setup. Choosing the right setup method is important and can make the setup process a lot easier.</p>
+
+					<p>In the first step of the project setup you will just need to specify name and location of your Sourcetrail project.</p>
 
 					<div class="row">
-						<div class="col-sm-8 col-sm-offset-2">
+						<div class="col-sm-12">
 							<img src="img/project_setup_wizard_start.png" style="width:100%;">
 						</div>
 					</div>
 
+					<div class="callout callout-info">
+						<strong>Tasks:</strong>
+						<ul>
+							<li>Fill in <var>Name</var> and <var>Location</var> of your Sourcetrail project.</li>
+							<li>Press <var>Add Source Group</var> to continue adding source files to the project.</li>
+						</ul>
+					</div>
+
 					<h3>Choosing the right project setup</h3>
-					There are different types of setup for each supported programming language. It is currently not possible to create a mixed language project, except for mixed C & C++ projects via a <a href="#CreateAProjectFromCompilationDatabase">Compilation Database</a>. We will extend to multi-language projects in the future.
+
+					<p>Sourcetrail projects consist of multiple <b>Source Groups</b>. Each Source Group uses a certain language, a set of files and all configurations to index these files. There are different types of Source Groups for each supported programming language. Creating a single Source Group is sufficient for most projects.</p>
+
+					<div class="row">
+						<div class="col-sm-8 col-sm-offset-2">
+							<img src="img/project_setup_wizard_source_group_type.png" style="width:100%;">
+						</div>
+					</div>
 
 					<div class="row" style="height:10px;"></div>
 
-					<h4>Project setup for C/C++</h4>
-					<p>The project setup types for C & C++ are the same.</p>
+					<h4>Source Group setup for C/C++</h4>
+					<p>The Source Group setup types for C & C++ are the same.</p>
 
 					<strong>Are you using CMake or Make?</strong>
 					<p>If you are using <a href="https://cmake.org/">CMake</a> or <a href="https://www.gnu.org/software/make/">Make</a> as build environment you can export a <a href="https://clang.llvm.org/docs/JSONCompilationDatabase.html">clang JSON Compilaton Database</a> as <code>compile_commands.json</code> file. A Compilation Database holds all information necessary for building the project, such as source files, include paths and compiler flags. Having a Compilation Database makes project setup within Sourcetrail a lot easier. We recommend using this approach if possible.</p>
@@ -188,7 +206,7 @@
 						<li>For <strong>Make</strong> projects use <a href="https://github.com/rizsotto/Bear">Bear</a>. Bear generates a <code>compile_commands.json</code> file during a simulated build process. Bear has been tested on FreeBSD, GNU/Linux and OS X.</li>
 					</ul>
 
-					<p>If you managed to export a <code>compile_commands.json</code> file, then please continue at <a href="#CreateAProjectFromCompilationDatabase">Create a project from Compilation Database</a> and come back after you finished creating the project.</p>
+					<p>If you managed to export a <code>compile_commands.json</code> file, then please continue at <a href="#CreateAProjectFromCompilationDatabase">Create a Source Group from Compilation Database</a> and come back after you finished creating the project.</p>
 
 					<div class="row">
 						<div class="col-sm-8 col-sm-offset-2">
@@ -198,7 +216,7 @@
 
 					<strong>Are you using Visual Studio?</strong>
 
-					<p>If you are using Visual Studio you can continue at <a href="#CreateAProjectFromVisualStudio">Project creation from Visual Studio</a> and export a Compilation Database with our <a href="#VisualStudio">Visual Studio Plugin</a>.</p>
+					<p>If you are using Visual Studio you can continue at <a href="#CreateAProjectFromVisualStudio">Source Group creation from Visual Studio</a> and export a Compilation Database with our <a href="#VisualStudio">Visual Studio Plugin</a>.</p>
 
 					<div class="row">
 						<div class="col-sm-8 col-sm-offset-2">
@@ -208,21 +226,21 @@
 
 					<strong>Create empty</strong>
 
-					<p>If none of the above options apply to your project then please continue at <a href="#CreateAnEmptyCXXProject">Create an Empty C/C++ Project</a> and come back here as soon as the project is created.</p>
+					<p>If none of the above options apply to your project then please continue at <a href="#CreateAnEmptyCXXProject">Create an empty C/C++ Source Group</a> and come back here as soon as the project is created.</p>
 
 					<div class="row">
 						<div class="col-sm-8 col-sm-offset-2">
-							<img src="img/project_setup_wizard_start.png" style="width:100%;">
+							<img src="img/project_setup_wizard_source_group_type.png" style="width:100%;">
 						</div>
 					</div>
 
 					<div class="row" style="height:10px;"></div>
 
-					<h4>Project setup for Java</h4>
+					<h4>Source Group setup for Java</h4>
 
 					<strong>Are you using Maven?</strong>
 
-					<p>If you are using Maven you can continue at <a href="#CreateAProjectFromMavenConfiguration">Project creation from Maven</a> to automatically setup your project using your Maven configuration.</p>
+					<p>If you are using Maven you can continue at <a href="#CreateAProjectFromMavenConfiguration">Source Group creation from Maven</a> to automatically setup your Source Group using your Maven configuration.</p>
 
 					<div class="row">
 						<div class="col-sm-8 col-sm-offset-2">
@@ -231,7 +249,7 @@
 					</div>
 
 					<strong>Create empty</strong>
-					If you do not have your project configured using Maven then please continue at <a href="#CreateAnEmptyJavaProject">Create an Empty Java Project</a> and come back here as soon as the project is created.
+					If you do not have your project configured using Maven then please continue at <a href="#CreateAnEmptyJavaProject">Create an Empty Java Source Group</a> and come back here as soon as the project is created.
 
 					<div class="row">
 						<div class="col-sm-8 col-sm-offset-2">
@@ -242,7 +260,7 @@
 					<div class="callout callout-info">
 						<strong>Tasks:</strong>
 						<ul>
-							<li>Continue at with your chosen project setup and come back here as soon as the project is created.</li>
+							<li>Continue with your chosen Source Group setup type and come back here as soon as the project is created.</li>
 						</ul>
 					</div>
 
@@ -281,7 +299,7 @@
 					<h2>UI Intro</h2>
 					<p>As already mentioned Sourcetrail's user interface is split into three main views. Their arrangement can be changed however you wish, you can even detach them from the main window and put them on different screens (see <a href="#WidgetWindows">Window Widgets</a>).</p>
 					<div class="row">
-						<div class="col-sm-10 col-sm-offset-1">
+						<div class="col-sm-12">
 							<img src="img/main_screen.png" style="width:100%;">
 						</div>
 					</div>
@@ -687,32 +705,18 @@
 
 
 					<h3>Project Setup Wizard</h3>
-					<p>The Project Setup Wizard consists of a sequence of windows that let you create a new Sourcetrail project. After selecting the programming language for your project Sourcetrail offers several ways for you to provide all the required information.</p>
+					<p>The Project Setup Wizard lets you create a new Sourcetrail project. It allows for defining name and location of your project Sourcetrail and adding several <b>Source Groups</b>, that define which source files will be indexed. There are several ways to create Source Groups. It is sufficient to add only one Source Group for most projects.</p>
+
+					<p>After you added Source Groups to your project you can edit all their configurations within this dialog, remove them or duplicate them.</p>
+
+					<p>This window is also used when editing the project.</p>
+
 					<div class="row">
-						<div class="col-sm-8 col-sm-offset-2">
+						<div class="col-sm-12">
 							<img src="img/project_setup_wizard_start.png" style="width:100%;">
 						</div>
 					</div>
-					<strong>Interactions:</strong>
-					<ul>
-						<li>Select the language used in code project.</li>
-						<li>Selecting a project type will determine how you enter all the required information.</li>
-						<li>Clicking <var>Cancel</var> or pressing <var>ESC</var> will close the window.</li>
-						<li>Clicking <var>Next</var> will take you to the next step of the setup process.</li>
-					</ul>
 
-					<div class="row" style="height:20px;"></div>
-
-					<h4 id="CreateAnEmptyCXXProject">Create an Empty C/C++ Project</h4>
-					<p>This is the way to go if you just have some source files you want to index. In case you have a build instructions file, you might want to check out one of the other options for project setup described below.</p>
-
-					<strong>Project Meta Data</strong>
-					<p>In the first step you need to enter meta information about the project.</p>
-					<div class="row">
-						<div class="col-sm-8 col-sm-offset-2">
-							<img src="img/project_setup_wizard_empty_meta.png" style="width:100%;">
-						</div>
-					</div>
 					<table class="table table-hover">
 						<thead>
 							<tr> <th>Setting</th> <th>Description</th> </tr>
@@ -720,6 +724,57 @@
 						<tbody>
 							<tr> <th scope="row">Sourcetrail Project Name</th> <td>The name of the project. This will also be the name of the <code>.srctrlprj</code> file generated by Sourcetrail.</td> </tr>
 							<tr> <th scope="row">Sourcetrail Project Location</th> <td>Choose the location of the project file from the dialog.</td> </tr>
+						</tbody>
+					</table>
+					<strong>Interactions:</strong>
+					<ul>
+						<li>Clicking <var>Cancel</var> or pressing <var>ESC</var> will close the window and abort the setup process.</li>
+						<li>Clicking <var>Add Source Group</var> will take you to the creation of a new Source Group.</li>
+						<li>Clicking <var>General</var> will take you to the name and location setting of the project.</li>
+						<li>Clicking a <var>Source Group</var> will let you edit it's configuration and change it's name.</li>
+						<li>Clicking <code>+</code> beneath the Source Group list will take you to the creation of a new Source Group.</li>
+						<li>Clicking <code>-</code> beneath the Source Group list will delete the currently selected Source Group.</li>
+						<li>Clicking <code>☐</code> beneath the Source Group list will duplicate the currenlty selected Source Group.</li>
+						<li>Clicking <var>Create</var> will create the new project.</li>
+					</ul>
+
+					<div class="row" style="height:20px;"></div>
+
+					<h4>Choose a Source Group type</h4>
+
+					<p>When creating a new Source Group you can choose different methods of setup depending on your project language. Please have a look at our <a href="#Choosingtherightprojectsetup">QUCICK START GUIDE section</a> for help on choosing the right Source Group type.</p>
+
+					<div class="row">
+						<div class="col-sm-8 col-sm-offset-2">
+							<img src="img/project_setup_wizard_source_group_type.png" style="width:100%;">
+						</div>
+					</div>
+
+					<strong>Interactions:</strong>
+					<ul>
+						<li>Select the language used in code project.</li>
+						<li>Selecting a Source Group type will determine how you enter all the required information.</li>
+						<li>Clicking <var>Cancel</var> or pressing <var>ESC</var> will close the window.</li>
+						<li>Clicking <var>Next</var> will take you to the next step of the setup process.</li>
+					</ul>
+
+					<div class="row" style="height:20px;"></div>
+
+					<h4 id="CreateAnEmptyCXXProject">Create an Empty C/C++ Source Group</h4>
+					<p>This is the way to go if you just have some C/C++ source files you want to index. In case you have a build instructions file, you might want to check out one of the other options for Source Group setup described below.</p>
+
+					<strong>Language Standard</strong>
+					<p>In the first step you need to choose the desired standard.</p>
+					<div class="row">
+						<div class="col-sm-8 col-sm-offset-2">
+							<img src="img/project_setup_wizard_empty_standard.png" style="width:100%;">
+						</div>
+					</div>
+					<table class="table table-hover">
+						<thead>
+							<tr> <th>Setting</th> <th>Description</th> </tr>
+						</thead>
+						<tbody>
 							<tr> <th scope="row">Standard</th> <td>Select the language standard that should be used for indexing your project. Usually the most recent language standard is preselected here. (See <a href="#SupportedLanguages">Language Support</a>)</td> </tr>
 						</tbody>
 					</table>
@@ -733,7 +788,7 @@
 					<div class="row" style="height:20px;"></div>
 
 					<strong>Indexed Paths</strong>
-					<p>Provide the paths that contain your project's files. Sourcetrail will index all the source and header files in the specified paths, including subdirectories.</p>
+					<p>Provide the paths that contain your source files you want to index. Sourcetrail will index all the source and header files in the specified paths, including subdirectories.</p>
 					<div class="row">
 						<div class="col-sm-10 col-sm-offset-1">
 							<img src="img/project_setup_wizard_empty_project_paths.png" style="width:100%;">
@@ -834,50 +889,24 @@
 					<strong>Interactions:</strong>
 					<ul>
 						<li>Clicking <var>Cancel</var> or pressing <var>ESC</var> will close the window and abort the setup process.</li>
-						<li>Clicking <var>Next</var> will take you to the next step of the setup process.</li>
+						<li>Clicking <var>Next</var> will create this Source Group and return you to the <a href="#ProjectSetupWizard">Project Setup Wizard</a>.</li>
 						<li>Clicking <var>Previous</var> will take you to the previous step of the setup process. All the information you entered will be saved.</li>
 					</ul>
 
 					<div class="callout callout-info">
-						<p>After this step the <a href="#NewProjectSummary">New Project Summary</a> will appear as last step in the project creation proccess.</p>
+						<p>After this step you will return to the <a href="#ProjectSetupWizard">Project Setup Wizard</a>.</p>
 					</div>
 
 					<div class="row" style="height:20px;"></div>
 
-					<h4 id="CreateAProjectFromCompilationDatabase">Create a C/C++ Project from Compilation Database</h4>
+					<h4 id="CreateAProjectFromCompilationDatabase">Create a C/C++ Source Group from Compilation Database</h4>
 					<p>If you are using <a href="https://cmake.org/">CMake</a> you can export compile commands by defining the <code>CMAKE_EXPORT_COMPILE_COMMANDS</code> flag and then use the exportet <code>.json</code> file for Sourcetrail project setup.</p>
 					<p>For non-CMake projects you can use <a href="https://github.com/rizsotto/Bear">Bear</a>. Bear generates a <code>.json</code> file during the simulated build process. Bear has been tested on FreeBSD, GNU/Linux and OS X.</p>
 
 					<div class="row" style="height:20px;"></div>
 
-					<strong>Compilation Database Meta Data</strong>
-					<p>In the first step you need to enter meta information about the project and define the compilation database.</p>
-					<div class="row">
-						<div class="col-sm-8 col-sm-offset-2">
-							<img src="img/project_setup_wizard_compilation_data.png" style="width:100%;">
-						</div>
-					</div>
-					<table class="table table-hover">
-						<thead>
-							<tr> <th>Setting</th> <th>Description</th> </tr>
-						</thead>
-						<tbody>
-							<tr> <th scope="row">Sourcetrail Project Name</th> <td>The name of the project. This will also be the name of the <code>.srctrlprj</code> file generated by Sourcetrail.</td> </tr>
-							<tr> <th scope="row">Sourcetrail Project Location</th> <td>Choose the location of the project file from the dialog.</td> </tr>
-							<tr> <th scope="row">Compilation Database</th> <td>Select the compilation database <code>.json</code> for the project. Sourcetrail will index the project based on the compile commands in this file. If the compilation database changes you can <a href="#Refresh">Refresh</a> Sourcetrail to the new files.</td> </tr>
-						</tbody>
-					</table>
-					<strong>Interactions:</strong>
-					<ul>
-						<li>Clicking <var>Cancel</var> or pressing <var>ESC</var> will close the window and abort the setup process.</li>
-						<li>Clicking <var>Next</var> will take you to the next step of the setup process.</li>
-						<li>Clicking <var>Previous</var> will take you to the previous step of the setup process. All the information you entered will be saved.</li>
-					</ul>
-
-					<div class="row" style="height:20px;"></div>
-
-					<strong>Compilation Database Headers</strong>
-					<p>In the next step you can see which source files are in the compilation database and define the locations of the corresponding header files.</p>
+					<strong>Compilation Database file and Indexed Headers</strong>
+					<p>In the first step you need to enter the path to your Compilation Database file. Then you can see which source files are in the Compilation Database and define the locations of the corresponding header files.</p>
 					<p>Header files will only be indexed if they are included in one of the source files.</p>
 					<div class="row">
 						<div class="col-sm-10 col-sm-offset-1">
@@ -889,6 +918,8 @@
 							<tr> <th>Setting</th> <th>Description</th> </tr>
 						</thead>
 						<tbody>
+							<tr> <th scope="row">Compilation Database</th> <td>Select the compilation database <code>.json</code> for the project. Sourcetrail will index the project based on the compile commands in this file. If the compilation database changes you can <a href="#Refresh">Refresh</a> Sourcetrail to the new files.</td> </tr>
+
 							<tr> <th scope="row">Indexed Header Paths</th> <td>Specify one or multiple locations that contain the header files to the source files defined in the compilation database. (For instructions on how to add paths see <a href="#PathListBox">Path List Box</a>.)</td> </tr>
 						</tbody>
 					</table>
@@ -907,8 +938,8 @@
 
 					<div class="row" style="height:20px;"></div>
 
-					<h4 id="CreateAProjectFromVisualStudio">Create a C/C++ Project from Visual Studio Solution</h4>
-					<p>If you are using Visual Studio you can export a Compilation Database with out <a href="#VisualStudio">Visual Studio Plugin</a> and use it to create a project with Sourcetrail.</p>
+					<h4 id="CreateAProjectFromVisualStudio">Create a C/C++ Source Group from Visual Studio Solution</h4>
+					<p>If you are using Visual Studio you can export a Compilation Database with our <a href="#VisualStudio">Visual Studio Plugin</a> and use it to create a project with Sourcetrail.</p>
 					<div class="row">
 						<div class="col-sm-10 col-sm-offset-1">
 							<img src="img/project_setup_wizard_visual_studio.png" style="width:100%;">
@@ -920,19 +951,19 @@
 					</ul>
 
 					<div class="callout callout-info">
-						<p>After finishing the export process within Visual Studio the project setup will continue using the same steps as creating a project directly <a href="#CreateAProjectFromCompilationDatabase">from Compilation Database</a>.</p>
+						<p>After finishing the export process within Visual Studio the Source Group setup uses the same steps as creating a Source Group directly <a href="#CreateAProjectFromCompilationDatabase">from Compilation Database</a>.</p>
 					</div>
 
 					<div class="row" style="height:20px;"></div>
 
-					<h4 id="CreateAnEmptyJavaProject">Create an Empty Java Project</h4>
-					<p>Choose this option if you want to use Sourcetrail on a Java code base.</p>
+					<h4 id="CreateAnEmptyJavaProject">Create an Empty Java Source Group</h4>
+					<p>Choose this option if you want to index Java files using Sourcetrail.</p>
 
-					<strong>Project Meta Data</strong>
-					<p>In the first step you need to enter meta information about the project.</p>
+					<strong>Language Standard</strong>
+					<p>In the first step you need to set the Java standard for the source files.</p>
 					<div class="row">
 						<div class="col-sm-8 col-sm-offset-2">
-							<img src="img/project_setup_wizard_empty_meta_java.png" style="width:100%;">
+							<img src="img/project_setup_wizard_empty_standard_java.png" style="width:100%;">
 						</div>
 					</div>
 					<table class="table table-hover">
@@ -940,9 +971,7 @@
 							<tr> <th>Setting</th> <th>Description</th> </tr>
 						</thead>
 						<tbody>
-							<tr> <th scope="row">Sourcetrail Project Name</th> <td>The name of the project. This will also be the name of the <code>.srctrlprj</code> file generated by Sourcetrail.</td> </tr>
-							<tr> <th scope="row">Sourcetrail Project Location</th> <td>Choose the location of the project file from the dialog.</td> </tr>
-							<tr> <th scope="row">Standard</th> <td>Select the language standard that should be used for indexing your project. We currently only support Java 8</td> </tr>
+							<tr> <th scope="row">Standard</th> <td>Select the language standard that should be used for indexing your the Source Group. We currently only support Java 8.</td> </tr>
 						</tbody>
 					</table>
 					<strong>Interactions:</strong>
@@ -968,7 +997,7 @@
 						</thead>
 						<tbody>
 							<tr> <th scope="row">Indexed Paths</th> <td>Provide the root path of your Java project. This is the path where all your package names are relative to. You may provide multiple paths here. For an example this may be required if your project's source code resides in one location but generated source files are kept at a different location.</td> </tr>
-							<tr> <th scope="row">Class Path</th> <td>Add one entry per jar file that is required for the project to compile. You can also add the root path of the class files your project depends on, or add a mixture if you have class files for some of the dependencies and jar files for the rest of them.</td> </tr>
+							<tr> <th scope="row">Class Path</th> <td>Add one entry per <code>.jar</code> file that is required for the project to compile. You can also add the root path of the class files your project depends on, or add a mixture if you have class files for some of the dependencies and jar files for the rest of them.</td> </tr>
 						</tbody>
 					</table>
 
@@ -998,42 +1027,16 @@
 					</ul>
 
 					<div class="callout callout-info">
-						<p>After this step the <a href="#NewProjectSummary">New Project Summary</a> will appear as last step in the project creation proccess.</p>
+						<p>After this step you will return to the <a href="#ProjectSetupWizard">Project Setup Wizard</a>.</p>
 					</div>
 
 					<div class="row" style="height:20px;"></div>
 
-					<h4 id="CreateAProjectFromMavenConfiguration">Create a Java Project from your Maven Configuration</h4>
-					<p>If you are using a Maven configuration to manage and build your project use this approach to create a Sourcetrail project.</p>
-
-					<strong>Maven Project Meta Data</strong>
-					<p>In the first step you need to enter meta information about the project.</p>
-					<div class="row">
-						<div class="col-sm-8 col-sm-offset-2">
-							<img src="img/project_setup_wizard_empty_meta_java.png" style="width:100%;">
-						</div>
-					</div>
-					<table class="table table-hover">
-						<thead>
-							<tr> <th>Setting</th> <th>Description</th> </tr>
-						</thead>
-						<tbody>
-							<tr> <th scope="row">Sourcetrail Project Name</th> <td>The name of the project. This will also be the name of the <code>.srctrlprj</code> file generated by Sourcetrail.</td> </tr>
-							<tr> <th scope="row">Sourcetrail Project Location</th> <td>Choose the location of the project file from the dialog.</td> </tr>
-							<tr> <th scope="row">Standard</th> <td>Select the language standard that should be used for indexing your project. We currently only support Java 8</td> </tr>
-						</tbody>
-					</table>
-					<strong>Interactions:</strong>
-					<ul>
-						<li>Clicking <var>Cancel</var> or pressing <var>ESC</var> will close the window and abort the setup process.</li>
-						<li>Clicking <var>Next</var> will take you to the next step of the setup process.</li>
-						<li>Clicking <var>Previous</var> will take you to the previous step of the setup process. All the information you entered will be saved.</li>
-					</ul>
-
-					<div class="row" style="height:20px;"></div>
+					<h4 id="CreateAProjectFromMavenConfiguration">Create a Java Source Group from your Maven Configuration</h4>
+					<p>If you are using a Maven configuration to manage and build your project use this approach to create a Sourcetrail Source Group.</p>
 
 					<strong>Maven Project Indexed Paths</strong>
-					<p>In the first step you need to enter meta information about the project.</p>
+					<p>In the first step you need to choose your Maven <code>pom.xml</code> file and select a directory where the dependencies get stored.</p>
 					<div class="row">
 						<div class="col-sm-10 col-sm-offset-1">
 							<img src="img/project_setup_wizard_java_maven.png" style="width:100%;">
@@ -1083,45 +1086,8 @@
 					</ul>
 
 					<div class="callout callout-info">
-						<p>After this step the <a href="#NewProjectSummary">New Project Summary</a> will appear as last step in the project creation proccess.</p>
+						<p>After this step you will return to the <a href="#ProjectSetupWizard">Project Setup Wizard</a>.</p>
 					</div>
-
-					<div class="row" style="height:20px;"></div>
-
-					<h3>New Project Summary</h3>
-					<p>This window appears at the end of the <a href = "ProjectSetupWizard">Project Setup Wizard</a> to summarize all the information entered before. It is the same as the <a href="#EditProjectWindow">Edit Project Window</a>.</p>
-
-					<div class="row">
-						<div class="col-sm-10 col-sm-offset-1">
-							<img src="img/new_project_summary.png" style="width:100%;">
-						</div>
-					</div>
-
-					<strong>Interactions:</strong>
-					<ul>
-						<li>Clicking <var>Cancel</var> or pressing <var>ESC</var> will close the window and abort the setup process.</li>
-						<li>Clicking <var>Create</var> will check your inputs, save the new project file and start indexing the source files.</li>
-						<li>Clicking <var>Previous</var> will take you to the previous step of the setup process. All the information you entered will be saved.</li>
-					</ul>
-
-					<div class="callout callout-info">
-						<p>If you are following the <a href="#QUICKSTARTGUIDE">Quick Start Guide</a> then please continue at <a href="#SourceIndexing">Source Indexing</a> after pressing <var>Create</var>.</p>
-					</div>
-
-					<div class="row" style="height:20px;"></div>
-
-					<h3>Edit Project Window</h3>
-					<p>This window displays all the information relevant for your Sourcetrail project. Please have a look at the <a href = "ProjectSetupWizard">Project Setup Wizard</a> for descriptions on each setting.</p>
-					<div class="row">
-						<div class="col-sm-10 col-sm-offset-1">
-							<img src="img/edit_project_summary.png" style="width:100%;">
-						</div>
-					</div>
-					<strong>Interactions:</strong>
-					<ul>
-						<li>Clicking <var>Cancel</var> or pressing <var>ESC</var> will close the dialog with no changes made.</li>
-						<li>Clicking <var>Save</var> will check your inputs, save the new project file and inform you whether you need to re-index your project.</li>
-					</ul>
 
 					<div class="row" style="height:20px;"></div>
 
@@ -1137,6 +1103,16 @@
 						<li>Copy and Paste your license key from your "Sourcetrail 0 License Key" e-mail into the textfield. The key should be formated as shown by the placeholder text.</li>
 						<li>Clicking <var>Activate</var> will check if your license key is valid and close the window. Otherwise an error message will be displayed.</li>
 					</ul>
+
+					<div class="row" style="height:20px;"></div>
+
+					<h3>End User License Agreement Window</h3>
+					<p>Shows Sourcetrail's End User License Agreement. On macOs and Linux you will be promted to accept it on your first run of the application.</p>
+					<div class="row">
+						<div class="col-sm-8 col-sm-offset-2">
+							<img src="img/eula_window.png" style="width:100%;">
+						</div>
+					</div>
 
 					<div class="row" style="height:20px;"></div>
 
@@ -1246,20 +1222,6 @@
 					<h3>Edit</h3>
 					<ul>
 						<li>
-							<strong>Back</strong>
-							<ul>
-								<li>Shortcut: <a href="#Shortcuts">Back</a></li>
-								<li>Undoes the last navigation action.</li>
-							</ul>
-						</li>
-						<li>
-							<strong>Forward</strong>
-							<ul>
-								<li>Shortcut: <a href="#Shortcuts">Forward</a></li>
-								<li>Redoes an undone navigation action.</li>
-							</ul>
-						</li>
-						<li>
 							<strong>Refresh</strong>
 							<ul>
 								<li>Shortcut: <a href="#Shortcuts">Refresh</a></li>
@@ -1313,6 +1275,30 @@
 							<ul>
 								<li>Shortcut: <a href="#Shortcuts">Preferences</a></li>
 								<li>Opens the <a href="#PreferencesWindow">Preferences Window</a>.</li>
+							</ul>
+						</li>
+					</ul>
+
+					<h3>History</h3>
+					<ul>
+						<li>
+							<strong>Back</strong>
+							<ul>
+								<li>Shortcut: <a href="#Shortcuts">Back</a></li>
+								<li>Undoes the last navigation action.</li>
+							</ul>
+						</li>
+						<li>
+							<strong>Forward</strong>
+							<ul>
+								<li>Shortcut: <a href="#Shortcuts">Forward</a></li>
+								<li>Redoes an undone navigation action.</li>
+							</ul>
+						</li>
+						<li>
+							<strong>Recently Active Symbols</strong>
+							<ul>
+								<li>List the history of active symbols in chronologic order.</li>
 							</ul>
 						</li>
 					</ul>
@@ -1423,15 +1409,21 @@
 							</ul>
 						</li>
 						<li>
-							<strong>3rd Party Licences</strong>
-							<ul>
-								<li>Documents which third party licences Sourcetrail is using.</li>
-							</ul>
-						</li>
-						<li>
 							<strong>Enter License...</strong>
 							<ul>
 								<li>Opens the <a href="#EnterLicenseWindow">Enter License Window</a>.</li>
+							</ul>
+						</li>
+						<li>
+							<strong>End User License Agreement</strong>
+							<ul>
+								<li>Opens the <a href="#EndUserLicenseAgreementWindow">End User License Agreement Window</a>.</li>
+							</ul>
+						</li>
+						<li>
+							<strong>3rd Party Licences</strong>
+							<ul>
+								<li>Documents which third party licences Sourcetrail is using.</li>
 							</ul>
 						</li>
 						<li>
@@ -1749,17 +1741,24 @@
 						</div>
 					</div>
 
-					<h3>Back & Forward</h3>
+					<h3>Back, Forward and History</h3>
 					<p>The left <var>Backward</var> button lets you undo your last navigation actions (see <a href="#Back">Back</a>) and the right <var>Forward</var> button lets you redo your undone navigation actions again (see <a href="#Forward">Forward</a>). Both buttons are only enabled when the respective actions are available at the moment.</p>
+					<p>The middle button shows a list of the recently active symbol stack. Select a symbol to activate it.</p>
 					<div class="row">
-						<div class="col-xs-3 col-xs-offset-4">
+						<div class="col-xs-3 col-xs-offset-3">
 							<img src="img/undo_redo_buttons.png" style="width:100%;">
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-xs-6 col-xs-offset-3">
+							<img src="img/history_list.png" style="width:100%;">
 						</div>
 					</div>
 					<strong>Interactions:</strong>
 					<ul>
 						<li>Hover the buttons to see a tool tip.</li>
 						<li>Press the buttons to execute the respective action.</li>
+						<li>Press the history button to show the active symbol stack and click on an item to activate it.</li>
 					</ul>
 
 					<h3>Refresh</h3>
@@ -1961,12 +1960,15 @@
 						<li>CLion</li>
 						<li>Eclipse</li>
 						<li>Emacs</li>
+						<li>IntelliJ</li>
+						<li>Qt Creator</li>
 						<li>Sublime Text 2</li>
 						<li>Sublime Text 3</li>
 						<li>Vim</li>
 						<li>Visual Studio 2012</li>
 						<li>Visual Studio 2013</li>
 						<li>Visual Studio 2015</li>
+						<li>Visual Studio 2017</li>
 					</ul>
 					<p>The communication between Sourcetrail and the code editor is achieved using a local TCP connection. Sourcetrail uses the port 6667 to listen for incoming messages. Outgoing messages will be sent to the port 6666. The port numbers can be edited in the <a href="#PreferencesWindow">Preferences Window</a>.</p>
 					<p>Outgoing messages are in the form:</p>
