@@ -7,7 +7,7 @@ INFO="\033[33mInfo:\033[00m"
 MY_PATH=`dirname "$0"`
 cd $MY_PATH
 
-echo -e $INFO "Creating app bundle for MacOSX."
+echo -e $INFO "Creating app bundle for macOS."
 
 BUNDLE_NAME="@MACOSX_BUNDLE_NAME@"
 APP_NAME="@MACOSX_BINARY_NAME@"
@@ -40,7 +40,7 @@ if [ -d "$PACKAGE_DIR" ]
 then
 	echo -e $INFO "Removing old package."
 	rm -rf $PACKAGE_DIR
-	rm ${PACKAGE_DIR}.dmg
+	rm ${PACKAGE_DIR}_macOS_64bit.dmg
 fi
 
 BUNDLE_PATH=$PACKAGE_DIR/$BUNDLE_NAME.app
@@ -178,8 +178,7 @@ codesign -v  --deep --verbose=4 $BUNDLE_PATH
 
 
 echo -e $INFO "Copying other package contents."
-mkdir -p $PACKAGE_DIR/plugins/visual_studio/
-cp -r ../../../ide_plugins/vs/sourcetrail_plugin_vs.vsix $PACKAGE_DIR/plugins/visual_studio/
+mkdir -p $PACKAGE_DIR/plugins/
 cp -R ../../../ide_plugins/sublime_text $PACKAGE_DIR/plugins/sublime_text/
 cp -R ../../../ide_plugins/vim $PACKAGE_DIR/plugins/vim/
 cp -R ../../../ide_plugins/atom $PACKAGE_DIR/plugins/atom/
@@ -193,7 +192,7 @@ cp ../../../bin/app/data/gui/installer/EULA.rtf $PACKAGE_DIR/EULA.rtf
 ln -s /Applications $PACKAGE_DIR/Applications
 
 echo -e $INFO "create DMG package"
-hdiutil create ${PACKAGE_DIR}.dmg -volname ${PACKAGE_DIR} -srcfolder ${PACKAGE_DIR}
+hdiutil create ${PACKAGE_DIR}_macOS_64bit.dmg -volname ${PACKAGE_DIR} -srcfolder ${PACKAGE_DIR}
 
 rm $PACKAGE_DIR/Applications
 
