@@ -330,12 +330,12 @@ QtProjectWizzardContentPathsHeaderSearch::QtProjectWizzardContentPathsHeaderSear
 {
 	setTitleString(isCDB ? "Additional Include Paths" : "Include Paths");
 	setHelpString(
-		((isCDB ? "<b>Note</b>: Use the Additional Include Paths to add paths that are missin in the CDB.<br /><br />" : "") + std::string(
+		((isCDB ? "<b>Note</b>: Use the Additional Include Paths to add paths that are missing in the CDB.<br /><br />" : "") + std::string(
 		"Include Paths are used for resolving #include directives in the indexed source and header files. These paths are "
 		"usually passed to the compiler with the '-I' or '-iquote' flags.<br />"
 		"<br />"
 		"Add all paths #include directives throughout your project are relative to. If all #include directives are "
-		"specified relative to the project's root directory, please add that one.<br />"
+		"specified relative to the project's root directory, please add that root directory here.<br />"
 		"<br />"
 		"If your project also includes files from external libraries (e.g. boost), please add these directories as well "
 		"(e.g. add '&lt;boost_home&gt;/include').<br />"
