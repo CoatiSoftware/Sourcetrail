@@ -1,5 +1,7 @@
 #include "utility/utilityMaven.h"
 
+#include <cstdlib>
+
 #include "settings/ApplicationSettings.h"
 #include "utility/file/FilePath.h"
 #include "utility/messaging/type/MessageStatus.h"
