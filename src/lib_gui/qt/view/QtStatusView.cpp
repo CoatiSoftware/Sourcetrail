@@ -61,12 +61,12 @@ void QtStatusView::initView()
 	filters->setSpacing(25);
 
 	const StatusFilter filter = ApplicationSettings::getInstance()->getStatusFilter();
-	m_showInfo = createFilterCheckbox("info", filters, filter & StatusType::STATUS_INFO);
-	m_showErrors = createFilterCheckbox("error", filters, filter & StatusType::STATUS_ERROR);
+	m_showInfo = createFilterCheckbox("Info", filters, filter & StatusType::STATUS_INFO);
+	m_showErrors = createFilterCheckbox("Error", filters, filter & StatusType::STATUS_ERROR);
 
 	filters->addStretch();
 
-	QPushButton* clearButton = new QPushButton("clear");
+	QPushButton* clearButton = new QPushButton("Clear Table");
 	connect(clearButton, &QPushButton::clicked,
 		[=]()
 		{

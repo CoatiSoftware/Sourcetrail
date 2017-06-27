@@ -17,6 +17,7 @@
 #include "qt/element/QtTable.h"
 #include "settings/ColorScheme.h"
 #include "utility/messaging/type/MessageErrorFilterChanged.h"
+#include "utility/messaging/type/MessageProjectEdit.h"
 #include "utility/messaging/type/MessageShowErrors.h"
 #include "utility/ResourcePaths.h"
 
@@ -111,10 +112,10 @@ void QtErrorView::initView()
 	checkboxes->setSpacing(0);
 
 	{
-		m_showFatals = createFilterCheckbox("fatals", m_errorFilter.fatal, checkboxes);
-		m_showErrors = createFilterCheckbox("errors", m_errorFilter.error, checkboxes);
-		m_showNonIndexedFatals = createFilterCheckbox("fatals in non-indexed files", m_errorFilter.unindexedFatal, checkboxes);
-		m_showNonIndexedErrors = createFilterCheckbox("errors in non-indexed files", m_errorFilter.unindexedError, checkboxes);
+		m_showFatals = createFilterCheckbox("Fatals", m_errorFilter.fatal, checkboxes);
+		m_showErrors = createFilterCheckbox("Errors", m_errorFilter.error, checkboxes);
+		m_showNonIndexedFatals = createFilterCheckbox("Fatals in non-indexed files", m_errorFilter.unindexedFatal, checkboxes);
+		m_showNonIndexedErrors = createFilterCheckbox("Errors in non-indexed files", m_errorFilter.unindexedError, checkboxes);
 	}
 
 	checkboxes->addStretch();
@@ -138,6 +139,23 @@ void QtErrorView::initView()
 		);
 		checkboxes->addWidget(m_allButton);
 		m_allButton->hide();
+	}
+
+	checkboxes->addSpacing(10);
+
+
+	{
+		QPushButton* editButton = new QPushButton("Edit Project");
+		connect(editButton, &QPushButton::clicked,
+			[]()
+			{
+				MessageProjectEdit().dispatch();
+			}
+		);
+		checkboxes->addWidget(editButton);
+
+		editButton->setToolTip("edit project");
+		editButton->setIcon(QPixmap((ResourcePaths::getGuiPath().str() + "code_view/images/edit.png").c_str()));
 	}
 
 	checkboxes->addSpacing(10);
@@ -176,7 +194,7 @@ void QtErrorView::setErrorCount(ErrorCountInfo info)
 			m_allButton->setVisible(m_errorFilter.limit > 0 && info.total > m_errorFilter.limit);
 
 			m_allLabel->setText("<b>Only showing first " + QString::number(m_errorFilter.limit) + " errors</b>");
-			m_allButton->setText("show all " + QString::number(info.total));
+			m_allButton->setText("Show all " + QString::number(info.total));
 		}
 	);
 }
