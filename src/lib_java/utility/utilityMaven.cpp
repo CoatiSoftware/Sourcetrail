@@ -52,7 +52,7 @@ namespace
 
 			LOG_WARNING("Environment variable \"JAVA_HOME\" not found on system. Setting value to \"" + javaHomePath.str() + "\" for this process.");
 
-			putenv(("JAVA_HOME=" + javaHomePath.str()).c_str());
+			putenv(const_cast<char*>(("JAVA_HOME=" + javaHomePath.str()).c_str()));
 		}
 	}
 }
