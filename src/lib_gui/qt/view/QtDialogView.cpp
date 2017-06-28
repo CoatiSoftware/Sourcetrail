@@ -9,12 +9,14 @@
 #include "data/access/StorageAccess.h"
 #include "qt/window/QtIndexingDialog.h"
 #include "qt/window/QtMainWindow.h"
+#include "qt/window/QtWindow.h"
 #include "utility/messaging/type/MessageStatus.h"
 #include "utility/utility.h"
 
 QtDialogView::QtDialogView(QtMainWindow* mainWindow, StorageAccess* storageAccess)
 	: DialogView(storageAccess)
 	, m_mainWindow(mainWindow)
+	, m_parentWindow(nullptr)
 	, m_windowStack(this)
 	, m_resultReady(false)
 {
@@ -258,6 +260,16 @@ int QtDialogView::confirm(const std::string& message, const std::vector<std::str
 	return result;
 }
 
+void QtDialogView::setParentWindow(QtWindow* window)
+{
+	m_onQtThread(
+		[=]()
+		{
+			m_parentWindow = window;
+		}
+	);
+}
+
 void QtDialogView::handleMessage(MessageInterruptTasks* message)
 {
 	m_onQtThread2(
@@ -318,7 +330,15 @@ void QtDialogView::updateErrorCount(size_t errorCount, size_t fatalCount)
 template<typename T>
 	T* QtDialogView::createWindow()
 {
-	T* window = new T(m_mainWindow);
+	T* window = nullptr;
+	if (m_parentWindow)
+	{
+		window = new T(m_parentWindow);
+	}
+	else
+	{
+		window = new T(m_mainWindow);
+	}
 
 	connect(window, SIGNAL(canceled()), &m_windowStack, SLOT(popWindow()));
 	connect(window, SIGNAL(finished()), &m_windowStack, SLOT(clearWindows()));
@@ -330,7 +350,14 @@ template<typename T>
 
 void QtDialogView::setUIBlocked(bool blocked)
 {
-	m_mainWindow->setContentEnabled(!blocked);
+	if (m_parentWindow)
+	{
+		m_parentWindow->setEnabled(!blocked);
+	}
+	else
+	{
+		m_mainWindow->setContentEnabled(!blocked);
+	}
 
 	if (blocked)
 	{

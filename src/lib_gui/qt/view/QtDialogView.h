@@ -13,6 +13,7 @@
 #include "utility/messaging/type/MessageWindowClosed.h"
 
 class QtMainWindow;
+class QtWindow;
 
 class QtDialogView
 	: public QObject
@@ -46,6 +47,8 @@ public:
 
 	int confirm(const std::string& message, const std::vector<std::string>& options) override;
 
+	void setParentWindow(QtWindow* window);
+
 private:
 	void handleMessage(MessageInterruptTasks* message) override;
 	void handleMessage(MessageNewErrors* message) override;
@@ -60,6 +63,7 @@ private:
 	void setUIBlocked(bool blocked);
 
 	QtMainWindow* m_mainWindow;
+	QtWindow* m_parentWindow;
 
 	QtWindowStack m_windowStack;
 

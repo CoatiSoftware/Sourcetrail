@@ -7,8 +7,8 @@
 #include <QVBoxLayout>
 
 #include "Application.h"
-#include "component/view/DialogView.h"
 #include "qt/element/QtLocationPicker.h"
+#include "qt/view/QtDialogView.h"
 #include "settings/ApplicationSettings.h"
 #include "settings/SourceGroupSettingsCxx.h"
 #include "settings/SourceGroupSettingsJava.h"
@@ -226,6 +226,7 @@ std::vector<std::string> QtProjectWizzardContentPathSourceMaven::getFileNames() 
 
 	std::vector<std::string> list;
 	std::shared_ptr<DialogView> dialogView = Application::getInstance()->getDialogView();
+	std::dynamic_pointer_cast<QtDialogView>(dialogView)->setParentWindow(m_window);
 
 	dialogView->showUnknownProgressDialog("Preparing Project", "Maven\nGenerating Source Files");
 	const bool success = utility::mavenGenerateSources(mavenPath, mavenProjectRoot);
@@ -268,6 +269,7 @@ std::vector<std::string> QtProjectWizzardContentPathSourceMaven::getFileNames() 
 		}
 	}
 	dialogView->hideUnknownProgressDialog();
+	std::dynamic_pointer_cast<QtDialogView>(dialogView)->setParentWindow(nullptr);
 
 	return list;
 }
