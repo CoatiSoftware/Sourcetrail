@@ -1,6 +1,8 @@
 #ifndef QT_PROJECT_WIZZARD_H
 #define QT_PROJECT_WIZZARD_H
 
+#include <functional>
+
 #include <QWidget>
 
 #include "qt/window/project_wizzard/QtProjectWizzardWindow.h"

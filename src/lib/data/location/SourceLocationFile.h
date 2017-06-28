@@ -1,6 +1,7 @@
 #ifndef SOURCE_LOCATION_FILE_H
 #define SOURCE_LOCATION_FILE_H
 
+#include <functional>
 #include <map>
 #include <memory>
 #include <ostream>

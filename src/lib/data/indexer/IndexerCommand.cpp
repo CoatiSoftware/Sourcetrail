@@ -17,14 +17,14 @@ size_t IndexerCommand::getByteSize() const
 {
 	size_t size = m_sourceFilePath.str().size();
 
-	for (auto i : m_indexedPaths)
+	for (const FilePath& path: m_indexedPaths)
 	{
-		size += sizeof(std::string) + i.str().size();
+		size += sizeof(std::string) + path.str().size();
 	}
 
-	for (auto i : m_excludedPaths)
+	for (const FilePath& path : m_excludedPaths)
 	{
-		size += sizeof(std::string) + i.str().size();
+		size += sizeof(std::string) + path.str().size();
 	}
 
 	return size;

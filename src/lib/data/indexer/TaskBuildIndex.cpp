@@ -139,7 +139,7 @@ void TaskBuildIndex::doExit(std::shared_ptr<Blackboard> blackboard)
 	if (crashedFiles.size())
 	{
 		std::shared_ptr<IntermediateStorage> is = std::make_shared<IntermediateStorage>();
-		for (auto path : crashedFiles)
+		for (const FilePath& path : crashedFiles)
 		{
 			is->addError("The translation unit threw an exception during indexing. Please check if the source file "
 				"conforms to the specified language standard and all necessary options are defined within your project "

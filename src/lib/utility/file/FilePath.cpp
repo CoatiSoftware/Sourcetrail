@@ -2,6 +2,8 @@
 
 #include <regex>
 
+#include "boost/filesystem.hpp"
+
 #include "utility/logging/logging.h"
 #include "utility/utilityString.h"
 
