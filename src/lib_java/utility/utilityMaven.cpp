@@ -25,12 +25,12 @@ namespace
 			}
 			tagString += tags[i];
 		}
-		LOG_INFO("Fetching directories for \"" + tagString + "\".");
+		LOG_INFO("Fetching source directories in \"" + tagString + "\".");
 
 		std::vector<std::string> fetchedDirectories = utility::getValuesOfAllXmlElementsOnPath(
 			xmlAccess, tags
 		);
-		LOG_INFO("Found " + std::to_string(fetchedDirectories.size()) + " directories.");
+		LOG_INFO("Found " + std::to_string(fetchedDirectories.size()) + " source directories.");
 
 		for (const std::string& fetchedDirectory: fetchedDirectories)
 		{
@@ -40,6 +40,7 @@ namespace
 				path = path.concat(toAppend);
 			}
 			pathList.push_back(path);
+			LOG_INFO("Found directory \"" + path.str() + "\".");
 		}
 	}
 

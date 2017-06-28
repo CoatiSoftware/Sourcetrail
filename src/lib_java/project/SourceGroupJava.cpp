@@ -1,5 +1,11 @@
 #include "project/SourceGroupJava.h"
 
+#include "component/view/DialogView.h"
+#include "data/indexer/IndexerCommandJava.h"
+#include "data/parser/java/JavaEnvironmentFactory.h"
+#include "data/parser/java/JavaEnvironment.h"
+#include "data/parser/java/JavaParser.h"
+#include "settings/ApplicationSettings.h"
 #include "utility/file/FileManager.h"
 #include "utility/file/FileSystem.h"
 #include "utility/messaging/type/MessageStatus.h"
@@ -8,14 +14,7 @@
 #include "utility/utility.h"
 #include "utility/utilityMaven.h"
 #include "utility/utilityString.h"
-
 #include "Application.h"
-#include "component/view/DialogView.h"
-#include "data/indexer/IndexerCommandJava.h"
-#include "data/parser/java/JavaEnvironmentFactory.h"
-#include "data/parser/java/JavaEnvironment.h"
-#include "data/parser/java/JavaParser.h"
-#include "settings/ApplicationSettings.h"
 
 SourceGroupJava::SourceGroupJava(std::shared_ptr<SourceGroupSettingsJava> settings)
 	: m_settings(settings)
@@ -181,34 +180,43 @@ bool SourceGroupJava::prepareMavenData()
 
 std::vector<FilePath> SourceGroupJava::getClassPath()
 {
+	LOG_INFO("Retrieving classpath for indexer commands");
+
 	std::vector<FilePath> classPath;
 
-	for (const FilePath& p: m_settings->getClasspathsExpandedAndAbsolute())
+	for (const FilePath& classpath: m_settings->getClasspathsExpandedAndAbsolute())
 	{
-		if (p.exists())
+		if (classpath.exists())
 		{
-			classPath.push_back(p);
+			LOG_INFO("Adding path to classpath: " + classpath.str());
+			classPath.push_back(classpath);
 		}
 	}
 
 	if (m_settings->getMavenDependenciesDirectoryExpandedAndAbsolute().exists())
 	{
-		utility::append(
-			classPath,
-			FileSystem::getFilePathsFromDirectory(
-				m_settings->getMavenDependenciesDirectoryExpandedAndAbsolute(),
-				utility::createVectorFromElements<std::string>(".jar")
-			)
+		std::vector<FilePath> mavenJarPaths = FileSystem::getFilePathsFromDirectory(
+			m_settings->getMavenDependenciesDirectoryExpandedAndAbsolute(),
+			utility::createVectorFromElements<std::string>(".jar")
 		);
+
+		for (const FilePath& mavenJarPath: mavenJarPaths)
+		{
+			LOG_INFO("Adding jar to classpath: " + mavenJarPath.str());
+		}
+
+		utility::append(classPath, mavenJarPaths);
 	}
 
-	for (FilePath rootDirectory: fetchRootDirectories())
+	for (const FilePath& rootDirectory: fetchRootDirectories())
 	{
 		if (rootDirectory.exists())
 		{
+			LOG_INFO("Adding root directory to classpath: " + rootDirectory.str());
 			classPath.push_back(rootDirectory);
 		}
 	}
+	LOG_INFO("Found " + std::to_string(classPath.size()) + " paths for classpath.");
 
 	return classPath;
 }
