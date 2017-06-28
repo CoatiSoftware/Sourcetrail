@@ -43,6 +43,9 @@ QtGraphicsView::QtGraphicsView(QWidget* parent)
 	m_timerStopper->setSingleShot(true);
 	connect(m_timerStopper.get(), SIGNAL(timeout()), this, SLOT(stopTimer()));
 
+	m_zoomLabelTimer = std::make_shared<QTimer>(this);
+	connect(m_zoomLabelTimer.get(), SIGNAL(timeout()), this, SLOT(hideZoomLabel()));
+
 	m_exportGraphAction = new QAction(tr("Save as Image"), this);
 	m_exportGraphAction->setStatusTip(tr("Save this graph as image file"));
 	m_exportGraphAction->setToolTip(tr("Save this graph as image file"));
@@ -57,6 +60,10 @@ QtGraphicsView::QtGraphicsView(QWidget* parent)
 	m_bookmarkNodeAction->setStatusTip(tr("Create a bookmark for this node"));
 	m_bookmarkNodeAction->setToolTip(tr("Create a bookmark for this node"));
 	connect(m_bookmarkNodeAction, SIGNAL(triggered()), this, SLOT(bookmarkNode()));
+
+	m_zoomState = new QPushButton(this);
+	m_zoomState->setObjectName("zoom_state");
+	m_zoomState->hide();
 
 	m_zoomInButton = new QPushButton(this);
 	m_zoomInButton->setObjectName("zoom_in_button");
@@ -143,9 +150,7 @@ void QtGraphicsView::updateZoom(float delta)
 	}
 
 	double newZoom = m_zoomFactor * factor;
-	m_zoomFactor = qBound(0.1, newZoom, 100.0);
-
-	updateTransform();
+	setZoomFactor(qBound(0.1, newZoom, 100.0));
 }
 
 void QtGraphicsView::refreshStyle()
@@ -163,6 +168,7 @@ void QtGraphicsView::refreshStyle()
 
 void QtGraphicsView::resizeEvent(QResizeEvent* event)
 {
+	m_zoomState->setGeometry(QRect(31, event->size().height() - 27, 65, 19));
 	m_zoomInButton->setGeometry(QRect(8, event->size().height() - 50, 19, 19));
 	m_zoomOutButton->setGeometry(QRect(8, event->size().height() - 27, 19, 19));
 
@@ -218,7 +224,7 @@ void QtGraphicsView::keyPressEvent(QKeyEvent* event)
 			m_right = true;
 			break;
 		case Qt::Key_0:
-			m_zoomFactor = 1.0f;
+			setZoomFactor(1.0f);
 			updateTransform();
 			break;
 		case Qt::Key_Shift:
@@ -489,9 +495,26 @@ void QtGraphicsView::zoomOutPressed()
 	updateZoom(m_zoomOutButtonSpeed);
 }
 
+void QtGraphicsView::hideZoomLabel()
+{
+	m_zoomState->hide();
+}
+
 bool QtGraphicsView::moves() const
 {
 	return m_up || m_down || m_left || m_right;
+}
+
+void QtGraphicsView::setZoomFactor(float zoomFactor)
+{
+	m_zoomFactor = zoomFactor;
+
+	m_zoomState->setText(QString::number(int(m_zoomFactor * 100)) + "%");
+	updateTransform();
+
+	m_zoomState->show();
+	m_zoomLabelTimer->stop();
+	m_zoomLabelTimer->start(1000);
 }
 
 void QtGraphicsView::updateTransform()

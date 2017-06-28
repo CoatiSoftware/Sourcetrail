@@ -59,9 +59,12 @@ private slots:
 	void zoomInPressed();
 	void zoomOutPressed();
 
+	void hideZoomLabel();
+
 private:
 	bool moves() const;
 
+	void setZoomFactor(float zoomFactor);
 	void updateTransform();
 
 	QPoint m_last;
@@ -80,11 +83,13 @@ private:
 
 	std::shared_ptr<QTimer> m_timer;
 	std::shared_ptr<QTimer> m_timerStopper;
+	std::shared_ptr<QTimer> m_zoomLabelTimer;
 
 	QAction* m_exportGraphAction;
 	QAction* m_copyNodeNameAction;
 	QAction* m_bookmarkNodeAction;
 
+	QPushButton* m_zoomState;
 	QPushButton* m_zoomInButton;
 	QPushButton* m_zoomOutButton;
 

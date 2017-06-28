@@ -46,6 +46,8 @@ public:
 	void setFocus();
 	void findFulltext();
 
+	void refreshStyle();
+
 protected:
 	virtual bool event(QEvent *event);
 	virtual void resizeEvent(QResizeEvent* event);

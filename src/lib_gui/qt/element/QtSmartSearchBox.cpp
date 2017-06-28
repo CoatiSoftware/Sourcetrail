@@ -172,6 +172,11 @@ void QtSmartSearchBox::findFulltext()
 	setEditText(QChar(SearchMatch::FULLTEXT_SEARCH_CHARACTER));
 }
 
+void QtSmartSearchBox::refreshStyle()
+{
+	updateElements();
+}
+
 bool QtSmartSearchBox::event(QEvent *event)
 {
 	if (event->type() == QEvent::KeyPress)

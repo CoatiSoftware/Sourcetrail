@@ -110,6 +110,8 @@ void QtSearchBar::refreshStyle()
 		ResourcePaths::getGuiPath().str() + "search_view/images/home.png",
 		"search/button"
 	));
+
+	m_searchBox->refreshStyle();
 }
 
 void QtSearchBar::homeButtonClicked()
