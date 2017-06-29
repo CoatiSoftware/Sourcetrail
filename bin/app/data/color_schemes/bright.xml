@@ -5,26 +5,26 @@
 		<background>white</background>
 
 		<button>
-			<normal>#E0E0E0</normal>
-			<hover>#B2B2B2</hover>
-			<press>#626262</press>
+			<normal>#D0D0D0</normal>
+			<hover>#A2A2A2</hover>
+			<press>#525252</press>
 			<disabled>#F2F2F2</disabled>
 			<icon>white</icon>
-			<icon_disabled>#DEDEDE</icon_disabled>
+			<icon_disabled>#CECECE</icon_disabled>
 		</button>
 
 		<field>
 			<text>black</text>
-			<background>#E0E0E0</background>
-			<highlight>#B2B2B2</highlight>
+			<background>#D0D0D0</background>
+			<highlight>#A2A2A2</highlight>
 		</field>
 
 		<popup>
 			<text>black</text>
-			<by_text>#626262</by_text>
+			<by_text>#525252</by_text>
 			<background>white</background>
 			<highlight>#D0D0D0</highlight>
-			<line>#E0E0E0</line>
+			<line>#D0D0D0</line>
 		</popup>
 
 		<query>
@@ -75,8 +75,8 @@
 		<background>white</background>
 
 		<navigation>
-			<text>#B2B2B2</text>
-			<line>#B2B2B2</line>
+			<text>#A2A2A2</text>
+			<line>#A2A2A2</line>
 		</navigation>
 
 		<file>
@@ -85,8 +85,8 @@
 			<title>
 				<text>black</text>
 				<normal>#E0E0E0</normal>
-				<hover>#B2B2B2</hover>
-				<press>#626262</press>
+				<hover>#C2C2C2</hover>
+				<press>#A2A2A2</press>
 				<icon>black</icon>
 				<border>white</border>
 				<hatching>bright</hatching>
@@ -127,7 +127,7 @@
 
 			<selection>
 				<text>black</text>
-				<background>#E0E0E0</background>
+				<background>#D0D0D0</background>
 			</selection>
 
 			<annotation>
@@ -294,8 +294,8 @@
 
 			<file>
 				<fill>
-					<normal>#DDD</normal>
-					<focus>#CCC</focus>
+					<normal>#BEE0AF</normal>
+					<focus>#A6D492</focus>
 				</fill>
 				<border>
 					<normal>#203C3C3C</normal>
@@ -347,7 +347,7 @@
 					<normal>transparent</normal>
 				</fill>
 				<text>
-					<normal>#B2B2B2</normal>
+					<normal>#A2A2A2</normal>
 				</text>
 			</text>
 		</node>
