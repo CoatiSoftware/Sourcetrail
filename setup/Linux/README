@@ -1,36 +1,36 @@
-Coati
-=====
+Sourcetrail
+===========
 
 Usage
 -----
 
-run coati.sh script to start the application.
+run Sourcetrail.sh script to start the application.
 
 Install
 -------
 
-in the setup folder is a install script that will coati install to /opt/coati
+in the setup folder is a install script that will coati install to /opt/sourcetrail
 root permission are required to run this script
 
 
 Configfiles
 -----------
 
-Coati places configfiles at ~/.config/coati
+Coati places configfiles at ~/.config/sourcetrail
 
 Documentation
 -------------
 
-documentation is available at http://coati.io/documentation/
+documentation is available at http://sourcetrail.com/documentation/
 
 Website
 -------
 
-http://www.coati.io/
+http://www.sourcetrail.com/
 
 Reporting a bug
 ---------------
 
-To report a bug go to https://github.com/CoatiSoftware/CoatiBugTracker/issues
+To report a bug go to https://github.com/CoatiSoftware/SourcetrailBugTracker/issues
 or write a email to support@coati.io
 
