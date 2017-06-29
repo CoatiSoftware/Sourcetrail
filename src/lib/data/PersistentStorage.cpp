@@ -510,10 +510,11 @@ void PersistentStorage::clearFileElements(const std::vector<FilePath>& filePaths
 
 	if (!fileNodeIds.empty())
 	{
+		m_sqliteIndexStorage.beginTransaction();
 		m_sqliteIndexStorage.removeElementsWithLocationInFiles(fileNodeIds, updateStatusCallback);
 		m_sqliteIndexStorage.removeElements(fileNodeIds);
-
 		m_sqliteIndexStorage.removeErrorsInFiles(filePaths);
+		m_sqliteIndexStorage.commitTransaction();
 	}
 }
 

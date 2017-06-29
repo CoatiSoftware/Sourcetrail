@@ -318,7 +318,7 @@ void SqliteIndexStorage::removeElementsWithLocationInFiles(const std::vector<Id>
 
 	if (updateStatusCallback != nullptr)
 	{
-		updateStatusCallback(22);
+		updateStatusCallback(30);
 	}
 
 	// delete all edges originating from element_id_to_clear
@@ -328,19 +328,19 @@ void SqliteIndexStorage::removeElementsWithLocationInFiles(const std::vector<Id>
 
 	if (updateStatusCallback != nullptr)
 	{
-		updateStatusCallback(23);
+		updateStatusCallback(31);
 	}
 
-	// remove all edges from element_id_to_clear (they have been cleared by now and we can disregard them)
+	// remove all non existing ids from element_id_to_clear (they have been cleared by now and we can disregard them)
 	executeStatement(
-		"DELETE FROM element_id_to_clear WHERE id IN ("
-		"	SELECT id FROM edge"
+		"DELETE FROM element_id_to_clear WHERE id NOT IN ("
+		"	SELECT id FROM element"
 		")"
 	);
 
 	if (updateStatusCallback != nullptr)
 	{
-		updateStatusCallback(24);
+		updateStatusCallback(33);
 	}
 
 	// remove all files from element_id_to_clear (they will be cleared later)
@@ -352,7 +352,7 @@ void SqliteIndexStorage::removeElementsWithLocationInFiles(const std::vector<Id>
 
 	if (updateStatusCallback != nullptr)
 	{
-		updateStatusCallback(25);
+		updateStatusCallback(34);
 	}
 
 	// delete source locations from fileIds (this also deletes the respective occurrences)
@@ -362,7 +362,7 @@ void SqliteIndexStorage::removeElementsWithLocationInFiles(const std::vector<Id>
 
 	if (updateStatusCallback != nullptr)
 	{
-		updateStatusCallback(34);
+		updateStatusCallback(45);
 	}
 
 	// remove all ids from element_id_to_clear that still have occurrences
@@ -374,7 +374,7 @@ void SqliteIndexStorage::removeElementsWithLocationInFiles(const std::vector<Id>
 
 	if (updateStatusCallback != nullptr)
 	{
-		updateStatusCallback(35);
+		updateStatusCallback(59);
 	}
 
 	// remove all ids from element_id_to_clear that still have an edge pointing to them
@@ -386,19 +386,19 @@ void SqliteIndexStorage::removeElementsWithLocationInFiles(const std::vector<Id>
 
 	if (updateStatusCallback != nullptr)
 	{
-		updateStatusCallback(44);
+		updateStatusCallback(74);
 	}
 
 	// delete all elements that are still listed in element_id_to_clear
 	executeStatement(
-		"DELETE FROM element WHERE id IN ("
-		"	SELECT id FROM element_id_to_clear"
+		"DELETE FROM element WHERE EXISTS ("
+		"	SELECT * FROM element_id_to_clear WHERE element.id = element_id_to_clear.id"
 		")"
 	);
 
 	if (updateStatusCallback != nullptr)
 	{
-		updateStatusCallback(80);
+		updateStatusCallback(87);
 	}
 
 	// cleaning up
@@ -725,6 +725,14 @@ std::vector<std::pair<int, SqliteDatabaseIndex>> SqliteIndexStorage::getIndices(
 		SqliteDatabaseIndex("edge_multipart_index", "edge(type, source_node_id, target_node_id)")
 	));
 	indices.push_back(std::make_pair(
+		STORAGE_MODE_CLEAR,
+		SqliteDatabaseIndex("edge_source_node_id_index", "edge(source_node_id)")
+	));
+	indices.push_back(std::make_pair(
+		STORAGE_MODE_CLEAR,
+		SqliteDatabaseIndex("edge_target_node_id_index", "edge(target_node_id)")
+	));
+	indices.push_back(std::make_pair(
 		STORAGE_MODE_WRITE | STORAGE_MODE_READ | STORAGE_MODE_CLEAR,
 		SqliteDatabaseIndex("node_serialized_name_index", "node(serialized_name)")
 	));
@@ -743,6 +751,10 @@ std::vector<std::pair<int, SqliteDatabaseIndex>> SqliteIndexStorage::getIndices(
 	indices.push_back(std::make_pair(
 		STORAGE_MODE_WRITE,
 		SqliteDatabaseIndex("comment_location_all_data_index", "comment_location(file_node_id, start_line, start_column, end_line, end_column)")
+	));
+	indices.push_back(std::make_pair(
+		STORAGE_MODE_CLEAR,
+		SqliteDatabaseIndex("comment_location_file_node_id_index", "comment_location(file_node_id)")
 	));
 	indices.push_back(std::make_pair(
 		STORAGE_MODE_WRITE,
@@ -845,8 +857,7 @@ void SqliteIndexStorage::setupTables()
 			"CREATE TABLE IF NOT EXISTS filecontent("
 				"id INTERGER, "
 				"content TEXT, "
-				"FOREIGN KEY(id)"
-				"REFERENCES file(id)"
+				"FOREIGN KEY(id) REFERENCES file(id)"
 					"ON DELETE CASCADE "
 					"ON UPDATE CASCADE);"
 		);
