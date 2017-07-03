@@ -32,6 +32,7 @@ void SqliteStorage::setup()
 	executeStatement("PRAGMA foreign_keys=ON;");
 	setupMetaTable();
 	setupTables();
+	setupPrecompiledStatements();
 	m_mode = STORAGE_MODE_UNKNOWN;
 }
 
@@ -195,12 +196,37 @@ bool SqliteStorage::executeStatement(CppSQLite3Statement& statement) const
 	return true;
 }
 
-int SqliteStorage::executeStatementScalar(const std::string& statement) const
+int SqliteStorage::executeStatementScalar(const std::string& statement, const int nullValue) const
 {
 	int ret = 0;
 	try
 	{
-		ret = m_database.execScalar(statement.c_str());
+		ret = m_database.execScalar(statement.c_str(), nullValue);
+	}
+	catch (CppSQLite3Exception e)
+	{
+		LOG_ERROR(std::to_string(e.errorCode()) + ": " + e.errorMessage());
+	}
+	return ret;
+}
+
+int SqliteStorage::executeStatementScalar(CppSQLite3Statement& statement, const int nullValue) const
+{
+	int ret = 0;
+	try
+	{
+		CppSQLite3Query q = executeQuery(statement);
+
+		if (q.eof() || q.numFields() < 1)
+		{
+			throw CppSQLite3Exception(
+				CPPSQLITE_ERROR,
+				"Invalid scalar query",
+				false
+			);
+		}
+
+		ret = q.getIntField(0, nullValue);
 	}
 	catch (CppSQLite3Exception e)
 	{

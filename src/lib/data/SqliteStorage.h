@@ -51,7 +51,8 @@ protected:
 
 	bool executeStatement(const std::string& statement) const;
 	bool executeStatement(CppSQLite3Statement& statement) const;
-	int executeStatementScalar(const std::string& statement) const;
+	int executeStatementScalar(const std::string& statement, const int nullValue) const;
+	int executeStatementScalar(CppSQLite3Statement& statement, const int nullValue) const;
 	CppSQLite3Query executeQuery(const std::string& statement) const;
 	CppSQLite3Query executeQuery(CppSQLite3Statement& statement) const;
 
@@ -70,6 +71,7 @@ private:
 	virtual std::vector<std::pair<int, SqliteDatabaseIndex>> getIndices() const = 0;
 	virtual void clearTables() = 0;
 	virtual void setupTables() = 0;
+	virtual void setupPrecompiledStatements() = 0;
 
 	std::vector<std::pair<int, SqliteDatabaseIndex>> m_indices;
 

@@ -244,6 +244,10 @@ void SqliteBookmarkStorage::setupTables()
 	}
 }
 
+void SqliteBookmarkStorage::setupPrecompiledStatements()
+{
+}
+
 template <>
 std::vector<StorageBookmarkCategory> SqliteBookmarkStorage::doGetAll<StorageBookmarkCategory>(const std::string& query) const
 {

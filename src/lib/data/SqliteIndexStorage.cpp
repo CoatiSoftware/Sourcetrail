@@ -33,40 +33,47 @@ void SqliteIndexStorage::setProjectSettingsText(std::string text)
 
 Id SqliteIndexStorage::addEdge(int type, Id sourceNodeId, Id targetNodeId)
 {
-	executeStatement("INSERT INTO element(id) VALUES(NULL);");
-	Id id = m_database.lastRowId();
-
-	executeStatement(
-		"INSERT INTO edge(id, type, source_node_id, target_node_id) VALUES("
-		+ std::to_string(id) + ", " + std::to_string(type) + ", "
-		+ std::to_string(sourceNodeId) + ", " + std::to_string(targetNodeId) + ");"
-	);
-
+	Id id = 0;
+	{
+		executeStatement(m_insertElementStmt);
+		m_insertElementStmt.reset();
+		id = m_database.lastRowId();
+	}
+	{
+		m_insertEdgeStmt.bind(1, int(id));
+		m_insertEdgeStmt.bind(2, type);
+		m_insertEdgeStmt.bind(3, int(sourceNodeId));
+		m_insertEdgeStmt.bind(4, int(targetNodeId));
+		executeStatement(m_insertEdgeStmt);
+		m_insertEdgeStmt.reset();
+	}
 	return id;
 }
 
 Id SqliteIndexStorage::addNode(const int type, const std::string& serializedName)
 {
-	executeStatement("INSERT INTO element(id) VALUES(NULL);");
-	Id id = m_database.lastRowId();
-
-	CppSQLite3Statement stmt = m_database.compileStatement((
-		"INSERT INTO node(id, type, serialized_name) VALUES("
-		+ std::to_string(id) + ", " + std::to_string(type) + ", ?);"
-	).c_str());
-
-	stmt.bind(1, serializedName.c_str());
-	executeStatement(stmt);
-
+	Id id = 0;
+	{
+		executeStatement(m_insertElementStmt);
+		m_insertElementStmt.reset();
+		id = m_database.lastRowId();
+	}
+	{
+		m_inserNodeStmt.bind(1, int(id));
+		m_inserNodeStmt.bind(2, type);
+		m_inserNodeStmt.bind(3, serializedName.c_str());
+		executeStatement(m_inserNodeStmt);
+		m_inserNodeStmt.reset();
+	}
 	return id;
 }
 
 void SqliteIndexStorage::addSymbol(const int id, const int definitionKind)
 {
-	executeStatement(
-		"INSERT INTO symbol(id, definition_kind) VALUES("
-		+ std::to_string(id) + ", " + std::to_string(definitionKind) + ");"
-	);
+	m_insertSymbolStmt.bind(1, id);
+	m_insertSymbolStmt.bind(2, definitionKind);
+	executeStatement(m_insertSymbolStmt);
+	m_insertSymbolStmt.reset();
 }
 
 void SqliteIndexStorage::addFile(const int id, const std::string& filePath, const std::string& modificationTime, bool complete)
@@ -77,62 +84,74 @@ void SqliteIndexStorage::addFile(const int id, const std::string& filePath, cons
 	}
 
 	std::shared_ptr<TextAccess> content = TextAccess::createFromFile(FilePath(filePath));
-	const size_t lineCount = content->getLineCount();
+	const int lineCount = content->getLineCount();
 
-	const bool success = executeStatement(
-		"INSERT INTO file(id, path, modification_time, complete, line_count) VALUES("
-		+ std::to_string(id) + ", '" + filePath + "', '" + modificationTime + "', '" + std::to_string(complete) + "', " + std::to_string(lineCount) + ");"
-	);
+	bool success = false;
+	{
+		m_insertFileStmt.bind(1, id);
+		m_insertFileStmt.bind(2, filePath.c_str());
+		m_insertFileStmt.bind(3, modificationTime.c_str());
+		m_insertFileStmt.bind(4, complete);
+		m_insertFileStmt.bind(5, lineCount);
+		success = executeStatement(m_insertFileStmt);
+		m_insertFileStmt.reset();
+	}
 
 	if (success)
 	{
-		CppSQLite3Statement stmt = m_database.compileStatement((
-			"INSERT INTO filecontent(id, content) VALUES("
-			+ std::to_string(id) + ", ?);"
-		).c_str());
-
-		stmt.bind(1, content->getText().c_str());
-		executeStatement(stmt);
+		m_insertFileContentStmt.bind(1, id);
+		m_insertFileContentStmt.bind(2, content->getText().c_str());
+		executeStatement(m_insertFileContentStmt);
+		m_insertFileContentStmt.reset();
 	}
 }
 
 Id SqliteIndexStorage::addLocalSymbol(const std::string& name)
 {
-	executeStatement("INSERT INTO element(id) VALUES(NULL);");
-	Id id = m_database.lastRowId();
-
-	CppSQLite3Statement stmt = m_database.compileStatement((
-		"INSERT INTO local_symbol(id, name) VALUES("
-		+ std::to_string(id) + ", ?);"
-	).c_str());
-
-	stmt.bind(1, name.c_str());
-	executeStatement(stmt);
-
+	Id id = 0;
+	{
+		executeStatement(m_insertElementStmt);
+		m_insertElementStmt.reset();
+		id = m_database.lastRowId();
+	}
+	{
+		m_inserLocalSymbolStmt.bind(1, int(id));
+		m_inserLocalSymbolStmt.bind(2, name.c_str());
+		executeStatement(m_inserLocalSymbolStmt);
+		m_inserLocalSymbolStmt.reset();
+	}
 	return id;
 }
 
 Id SqliteIndexStorage::addSourceLocation(
 	Id fileNodeId, uint startLine, uint startCol, uint endLine, uint endCol, int type)
 {
-	Id id = doGetFirst<StorageSourceLocation>(
-		"WHERE "
-			"file_node_id == " + std::to_string(fileNodeId) + " AND "
-			"start_line == " + std::to_string(startLine) + " AND "
-			"start_column == " + std::to_string(startCol) + " AND "
-			"end_line == " + std::to_string(endLine) + " AND "
-			"end_column == " + std::to_string(endCol) + " AND "
-			"type == " + std::to_string(type)
-	).id;
+	Id id = 0;
+	{
+		m_checkSourceLocationExistsStmt.bind(1, int(fileNodeId));
+		m_checkSourceLocationExistsStmt.bind(2, int(startLine));
+		m_checkSourceLocationExistsStmt.bind(3, int(startCol));
+		m_checkSourceLocationExistsStmt.bind(4, int(endLine));
+		m_checkSourceLocationExistsStmt.bind(5, int(endCol));
+		m_checkSourceLocationExistsStmt.bind(6, type);
+		CppSQLite3Query checkQuery = executeQuery(m_checkSourceLocationExistsStmt);
+		m_checkSourceLocationExistsStmt.reset();
+		if (!checkQuery.eof() && checkQuery.numFields() > 0)
+		{
+			id = checkQuery.getIntField(0, 0);
+		}
+	}
 
 	if (id == 0)
 	{
-		const bool success = executeStatement(
-			"INSERT INTO source_location(id, file_node_id, start_line, start_column, end_line, end_column, type) "
-			"VALUES(NULL, " + std::to_string(fileNodeId) + ", "
-			+ std::to_string(startLine) + ", " + std::to_string(startCol) + ", "
-			+ std::to_string(endLine) + ", " + std::to_string(endCol) + ", " + std::to_string(type) + ");"
-		);
+		m_insertSourceLocationStmt.bind(1, int(fileNodeId));
+		m_insertSourceLocationStmt.bind(2, int(startLine));
+		m_insertSourceLocationStmt.bind(3, int(startCol));
+		m_insertSourceLocationStmt.bind(4, int(endLine));
+		m_insertSourceLocationStmt.bind(5, int(endCol));
+		m_insertSourceLocationStmt.bind(6, type);
+		const bool success = executeStatement(m_insertSourceLocationStmt);
+		m_insertSourceLocationStmt.reset();
 
 		if (success)
 		{
@@ -145,22 +164,23 @@ Id SqliteIndexStorage::addSourceLocation(
 
 bool SqliteIndexStorage::addOccurrence(Id elementId, Id sourceLocationId)
 {
-	if (doGetFirst<StorageOccurrence>(
-			"WHERE "
-			"element_id == " + std::to_string(elementId) + " AND "
-			"source_location_id == " + std::to_string(sourceLocationId)
-		).elementId != 0)
 	{
-		return false;
+		m_checkOccurrenceExistsStmt.bind(1, int(elementId));
+		m_checkOccurrenceExistsStmt.bind(2, int(sourceLocationId));
+		const int checkResult = executeStatementScalar(m_checkOccurrenceExistsStmt, 0);
+		m_checkOccurrenceExistsStmt.reset();
+		if (checkResult != 0)
+		{
+			return false;
+		}
 	}
-
-	const bool success = executeStatement(
-		"INSERT INTO occurrence(element_id, source_location_id) "
-			"VALUES(" + std::to_string(elementId) + ", "
-			+ std::to_string(sourceLocationId) + ");"
-	);
-
-	return success;
+	{
+		m_insertOccurrenceStmt.bind(1, int(elementId));
+		m_insertOccurrenceStmt.bind(2, int(sourceLocationId));
+		executeStatement(m_insertOccurrenceStmt);
+		m_insertOccurrenceStmt.reset();
+	}
+	return true;
 }
 
 Id SqliteIndexStorage::addComponentAccess(Id nodeId, int type)
@@ -169,10 +189,10 @@ Id SqliteIndexStorage::addComponentAccess(Id nodeId, int type)
 
 	if (id == 0)
 	{
-		const bool success = executeStatement(
-			"INSERT INTO component_access(id, node_id, type) "
-			"VALUES (NULL, " + std::to_string(nodeId) + ", " + std::to_string(type) + ");"
-		);
+		m_insertComponentAccessStmt.bind(1, int(nodeId));
+		m_insertComponentAccessStmt.bind(2, type);
+		const bool success = executeStatement(m_insertComponentAccessStmt);
+		m_insertComponentAccessStmt.reset();
 
 		if (success)
 		{
@@ -185,23 +205,30 @@ Id SqliteIndexStorage::addComponentAccess(Id nodeId, int type)
 
 Id SqliteIndexStorage::addCommentLocation(Id fileNodeId, uint startLine, uint startCol, uint endLine, uint endCol)
 {
-	Id id = doGetFirst<StorageCommentLocation>(
-		"WHERE "
-			"file_node_id == " + std::to_string(fileNodeId) + " AND "
-			"start_line == " + std::to_string(startLine) + " AND "
-			"start_column == " + std::to_string(startCol) + " AND "
-			"end_line == " + std::to_string(endLine) + " AND "
-			"end_column == " + std::to_string(endCol)
-	).id;
+	Id id = 0;
+	{
+		m_checkCommentLocationExistsStmt.bind(1, int(fileNodeId));
+		m_checkCommentLocationExistsStmt.bind(2, int(startLine));
+		m_checkCommentLocationExistsStmt.bind(3, int(startCol));
+		m_checkCommentLocationExistsStmt.bind(4, int(endLine));
+		m_checkCommentLocationExistsStmt.bind(5, int(endCol));
+		CppSQLite3Query checkQuery = executeQuery(m_checkCommentLocationExistsStmt);
+		m_checkCommentLocationExistsStmt.reset();
+		if (!checkQuery.eof() && checkQuery.numFields() > 0)
+		{
+			id = checkQuery.getIntField(0, 0);
+		}
+	}
 
 	if (id == 0)
 	{
-		const bool success = executeStatement(
-			"INSERT INTO comment_location(id, file_node_id, start_line, start_column, end_line, end_column) "
-			"VALUES(NULL, "  + std::to_string(fileNodeId) + ", "
-			+ std::to_string(startLine) + ", " + std::to_string(startCol) + ", "
-			+ std::to_string(endLine) + ", " + std::to_string(endCol) + ");"
-		);
+		m_insertCommentLocationStmt.bind(1, int(fileNodeId));
+		m_insertCommentLocationStmt.bind(2, int(startLine));
+		m_insertCommentLocationStmt.bind(3, int(startCol));
+		m_insertCommentLocationStmt.bind(4, int(endLine));
+		m_insertCommentLocationStmt.bind(5, int(endCol));
+		const bool success = executeStatement(m_insertCommentLocationStmt);
+		m_insertCommentLocationStmt.reset();
 
 		if (success)
 		{
@@ -216,34 +243,31 @@ Id SqliteIndexStorage::addError(const std::string& message, const FilePath& file
 {
 	const std::string sanitizedMessage = utility::replace(message, "'", "''");
 
-	CppSQLite3Statement selectStmt = m_database.compileStatement((
-		"SELECT id FROM error WHERE "
-			"message == ? AND "
-			"fatal == " + std::to_string(fatal) + " AND "
-			"file_path == '" + filePath.str() + "' AND "
-			"line_number == " + std::to_string(lineNumber) + " AND "
-			"column_number == " + std::to_string(columnNumber) + ";"
-	).c_str());
-
-	selectStmt.bind(1, sanitizedMessage.c_str());
-	CppSQLite3Query q = executeQuery(selectStmt);
-
 	Id id = 0;
-	if (!q.eof())
 	{
-		id = q.getIntField(0, -1);
+		m_checkErrorExistsStmt.bind(1, sanitizedMessage.c_str());
+		m_checkErrorExistsStmt.bind(2, int(fatal));
+		m_checkErrorExistsStmt.bind(3, filePath.str().c_str());
+		m_checkErrorExistsStmt.bind(4, int(lineNumber));
+		m_checkErrorExistsStmt.bind(5, int(columnNumber));
+		CppSQLite3Query checkQuery = executeQuery(m_checkErrorExistsStmt);
+		m_checkErrorExistsStmt.reset();
+		if (!checkQuery.eof() && checkQuery.numFields() > 0)
+		{
+			id = checkQuery.getIntField(0, -1);
+		}
 	}
 
 	if (id == 0)
 	{
-		CppSQLite3Statement stmt = m_database.compileStatement((
-			"INSERT INTO error(message, fatal, indexed, file_path, line_number, column_number) "
-			"VALUES (?, " + std::to_string(fatal) + ", " + std::to_string(indexed) + ", '" + filePath.str() +
-			"', " + std::to_string(lineNumber) + ", " + std::to_string(columnNumber) + ");"
-		).c_str());
-
-		stmt.bind(1, sanitizedMessage.c_str());
-		const bool success = executeStatement(stmt);
+		m_insertErrorStmt.bind(1, sanitizedMessage.c_str());
+		m_insertErrorStmt.bind(2, fatal);
+		m_insertErrorStmt.bind(3, indexed);
+		m_insertErrorStmt.bind(4, filePath.str().c_str());
+		m_insertErrorStmt.bind(5, int(lineNumber));
+		m_insertErrorStmt.bind(5, int(columnNumber));
+		const bool success = executeStatement(m_insertErrorStmt);
+		m_insertErrorStmt.reset();
 
 		if (success)
 		{
@@ -419,19 +443,19 @@ void SqliteIndexStorage::removeErrorsInFiles(const std::vector<FilePath>& filePa
 
 bool SqliteIndexStorage::isEdge(Id elementId) const
 {
-	int count = executeStatementScalar("SELECT count(*) FROM edge WHERE id = " + std::to_string(elementId) + ";");
+	int count = executeStatementScalar("SELECT count(*) FROM edge WHERE id = " + std::to_string(elementId) + ";", 0);
 	return (count > 0);
 }
 
 bool SqliteIndexStorage::isNode(Id elementId) const
 {
-	int count = executeStatementScalar("SELECT count(*) FROM node WHERE id = " + std::to_string(elementId) + ";");
+	int count = executeStatementScalar("SELECT count(*) FROM node WHERE id = " + std::to_string(elementId) + ";", 0);
 	return (count > 0);
 }
 
 bool SqliteIndexStorage::isFile(Id elementId) const
 {
-	int count = executeStatementScalar("SELECT count(*) FROM file WHERE id = " + std::to_string(elementId) + ";");
+	int count = executeStatementScalar("SELECT count(*) FROM file WHERE id = " + std::to_string(elementId) + ";", 0);
 	return (count > 0);
 }
 
@@ -689,32 +713,32 @@ std::vector<StorageCommentLocation> SqliteIndexStorage::getCommentLocationsInFil
 
 int SqliteIndexStorage::getNodeCount() const
 {
-	return executeStatementScalar("SELECT COUNT(*) FROM node;");
+	return executeStatementScalar("SELECT COUNT(*) FROM node;", 0);
 }
 
 int SqliteIndexStorage::getEdgeCount() const
 {
-	return executeStatementScalar("SELECT COUNT(*) FROM edge;");
+	return executeStatementScalar("SELECT COUNT(*) FROM edge;", 0);
 }
 
 int SqliteIndexStorage::getFileCount() const
 {
-	return executeStatementScalar("SELECT COUNT(*) FROM file;");
+	return executeStatementScalar("SELECT COUNT(*) FROM file;", 0);
 }
 
 int SqliteIndexStorage::getCompletedFileCount() const
 {
-	return executeStatementScalar("SELECT COUNT(*) FROM file WHERE complete = 1;");
+	return executeStatementScalar("SELECT COUNT(*) FROM file WHERE complete = 1;", 0);
 }
 
 int SqliteIndexStorage::getFileLineSum() const
 {
-	return executeStatementScalar("SELECT SUM(line_count) FROM file;");
+	return executeStatementScalar("SELECT SUM(line_count) FROM file;", 0);
 }
 
 int SqliteIndexStorage::getSourceLocationCount() const
 {
-	return executeStatementScalar("SELECT COUNT(*) FROM source_location;");
+	return executeStatementScalar("SELECT COUNT(*) FROM source_location;", 0);
 }
 
 std::vector<std::pair<int, SqliteDatabaseIndex>> SqliteIndexStorage::getIndices() const
@@ -923,6 +947,88 @@ void SqliteIndexStorage::setupTables()
 				"line_number INTEGER, "
 				"column_number INTEGER, "
 				"PRIMARY KEY(id));"
+		);
+	}
+	catch (CppSQLite3Exception& e)
+	{
+		LOG_ERROR(std::to_string(e.errorCode()) + ": " + e.errorMessage());
+
+		throw(std::exception());
+
+		// todo: cancel project creation and destroy created files, display message
+	}
+}
+
+void SqliteIndexStorage::setupPrecompiledStatements()
+{
+	try
+	{
+		m_insertElementStmt = m_database.compileStatement(
+			"INSERT INTO element(id) VALUES(NULL);"
+		);
+		m_insertEdgeStmt = m_database.compileStatement(
+			"INSERT INTO edge(id, type, source_node_id, target_node_id) VALUES(?, ?, ?, ?);"
+		);
+		m_inserNodeStmt = m_database.compileStatement(
+			"INSERT INTO node(id, type, serialized_name) VALUES(?, ?, ?);"
+		);
+		m_insertSymbolStmt = m_database.compileStatement(
+			"INSERT INTO symbol(id, definition_kind) VALUES(?, ?);"
+		);
+		m_insertFileStmt = m_database.compileStatement(
+			"INSERT INTO file(id, path, modification_time, complete, line_count) VALUES(?, ?, ?, ?, ?);"
+		);
+		m_insertFileContentStmt = m_database.compileStatement(
+			"INSERT INTO filecontent(id, content) VALUES(?, ?);"
+		);
+		m_inserLocalSymbolStmt = m_database.compileStatement(
+			"INSERT INTO local_symbol(id, name) VALUES(?, ?);"
+		);
+		m_checkSourceLocationExistsStmt = m_database.compileStatement(
+			"SELECT id FROM source_location WHERE "
+			"file_node_id = ? AND "
+			"start_line == ? AND "
+			"start_column == ? AND "
+			"end_line == ? AND "
+			"end_column == ? AND "
+			"type == ? "
+			"LIMIT 1;"
+		);
+		m_insertSourceLocationStmt = m_database.compileStatement(
+			"INSERT INTO source_location(id, file_node_id, start_line, start_column, end_line, end_column, type) VALUES(NULL, ?, ?, ?, ?, ?, ?);"
+		);
+		m_checkOccurrenceExistsStmt = m_database.compileStatement(
+			"SELECT EXISTS(SELECT * FROM occurrence WHERE element_id = ? AND source_location_id = ? LIMIT 1);"
+		);
+		m_insertOccurrenceStmt = m_database.compileStatement(
+			"INSERT INTO occurrence(element_id, source_location_id) VALUES(?, ?);"
+		);
+		m_insertComponentAccessStmt = m_database.compileStatement(
+			"INSERT INTO component_access(id, node_id, type) VALUES(NULL, ?, ?);"
+		);
+		m_checkCommentLocationExistsStmt = m_database.compileStatement(
+			"SELECT id FROM comment_location WHERE "
+			"file_node_id = ? AND "
+			"start_line == ? AND "
+			"start_column == ? AND "
+			"end_line == ? AND "
+			"end_column == ? "
+			"LIMIT 1;"
+		);
+		m_insertCommentLocationStmt = m_database.compileStatement(
+			"INSERT INTO source_location(id, file_node_id, start_line, start_column, end_line, end_column) VALUES(NULL, ?, ?, ?, ?, ?);"
+		);
+		m_checkErrorExistsStmt = m_database.compileStatement(
+			"SELECT id FROM error WHERE "
+			"message = ? AND "
+			"fatal == ? AND "
+			"file_path == ? AND "
+			"line_number == ? AND "
+			"column_number == ? "
+			"LIMIT 1;"
+		);
+		m_insertErrorStmt = m_database.compileStatement(
+			"INSERT INTO error(message, fatal, indexed, file_path, line_number, column_number) VALUES(?, ?, ?, ?, ?, ?);"
 		);
 	}
 	catch (CppSQLite3Exception& e)

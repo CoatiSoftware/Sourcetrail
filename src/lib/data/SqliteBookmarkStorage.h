@@ -39,6 +39,7 @@ private:
 	virtual std::vector<std::pair<int, SqliteDatabaseIndex>> getIndices() const;
 	virtual void clearTables();
 	virtual void setupTables();
+	virtual void setupPrecompiledStatements();
 
 	//void updateBookmarkMetaData(const BookmarkMetaData& metaData);
 

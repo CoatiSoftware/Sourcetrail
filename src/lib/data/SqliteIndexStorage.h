@@ -130,6 +130,7 @@ private:
 	virtual std::vector<std::pair<int, SqliteDatabaseIndex>> getIndices() const;
 	virtual void clearTables();
 	virtual void setupTables();
+	virtual void setupPrecompiledStatements();
 
 	template <typename ResultType>
 	std::vector<ResultType> doGetAll(const std::string& query) const;
@@ -144,6 +145,23 @@ private:
 		}
 		return ResultType();
 	}
+
+	CppSQLite3Statement m_insertElementStmt;
+	CppSQLite3Statement m_insertEdgeStmt;
+	CppSQLite3Statement m_inserNodeStmt;
+	CppSQLite3Statement m_insertSymbolStmt;
+	CppSQLite3Statement m_insertFileStmt;
+	CppSQLite3Statement m_insertFileContentStmt;
+	CppSQLite3Statement m_inserLocalSymbolStmt;
+	CppSQLite3Statement m_checkSourceLocationExistsStmt;
+	CppSQLite3Statement m_insertSourceLocationStmt;
+	CppSQLite3Statement m_checkOccurrenceExistsStmt;
+	CppSQLite3Statement m_insertOccurrenceStmt;
+	CppSQLite3Statement m_insertComponentAccessStmt;
+	CppSQLite3Statement m_checkCommentLocationExistsStmt;
+	CppSQLite3Statement m_insertCommentLocationStmt;
+	CppSQLite3Statement m_checkErrorExistsStmt;
+	CppSQLite3Statement m_insertErrorStmt;
 };
 
 template <>
