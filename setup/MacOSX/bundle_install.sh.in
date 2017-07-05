@@ -83,6 +83,9 @@ cp -R ../../../bin/app/data/3rd_party_licenses $RES_DIR/3rd_party_licenses
 echo -e $INFO "run macdeployqt to copy Qt Frameworks and Plugins"
 $QT_DIR/bin/macdeployqt $BUNDLE_PATH
 
+echo -e $INFO "edit qt.conf"
+sed -i '' -e 's/PlugIns/Plugins/g' $RES_DIR/qt.conf
+
 install_name_tool -delete_rpath "/Users/ebsi/Documents/clang-llvm/build_release/./lib" $APP_PATH
 install_name_tool -delete_rpath "/Users/ebsi/Documents/clang-llvm/build_release/lib" $APP_PATH
 install_name_tool -delete_rpath "/Users/ebsi/Documents/boost_1_59_0/stage/lib" $APP_PATH
