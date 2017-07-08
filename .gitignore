@@ -22,13 +22,13 @@
 .idea
 .vscode
 
-/ide_plugins/vs/vs2015/SourcetrailPlugin/SourcetrailPlugin/bin
-/ide_plugins/vs/vs2015/SourcetrailPlugin/SourcetrailPlugin/obj
-/ide_plugins/vs/vs2015/SourcetrailPlugin/SourcetrailPluginTests/bin/Debug
-/ide_plugins/vs/vs2015/SourcetrailPlugin/SourcetrailPluginTests/bin/Release
-/ide_plugins/vs/vs2015/SourcetrailPlugin/SourcetrailPluginTests/obj
-/ide_plugins/vs/vs2015/SourcetrailPlugin/SourcetrailPluginUtility/bin
-/ide_plugins/vs/vs2015/SourcetrailPlugin/SourcetrailPluginUtility/obj
+/ide_plugins/vs/vs2015/SourcetrailPlugin/SourcetrailExtension/bin
+/ide_plugins/vs/vs2015/SourcetrailPlugin/SourcetrailExtension/obj
+/ide_plugins/vs/vs2015/SourcetrailPlugin/SourcetrailExtensionTests/bin/Debug
+/ide_plugins/vs/vs2015/SourcetrailPlugin/SourcetrailExtensionTests/bin/Release
+/ide_plugins/vs/vs2015/SourcetrailPlugin/SourcetrailExtensionTests/obj
+/ide_plugins/vs/vs2015/SourcetrailPlugin/SourcetrailExtensionUtility/bin
+/ide_plugins/vs/vs2015/SourcetrailPlugin/SourcetrailExtensionUtility/obj
 /ide_plugins/vs/vs2015/SourcetrailPlugin/VCProjectEngineWrapperInterfaces/bin
 /ide_plugins/vs/vs2015/SourcetrailPlugin/VCProjectEngineWrapperInterfaces/obj
 /ide_plugins/vs/vs2015/SourcetrailPlugin/VCProjectEngineWrapper/bin
