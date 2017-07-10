@@ -4,9 +4,10 @@
 #include "qt/window/project_wizzard/QtProjectWizzardContent.h"
 #include "utility/path_detector/CombinedPathDetector.h"
 
-class QtDirectoryListBox;
-class QPushButton;
+class QCheckBox;
 class QComboBox;
+class QPushButton;
+class QtDirectoryListBox;
 class SourceGroupSettings;
 
 class QtProjectWizzardContentPaths
@@ -153,8 +154,12 @@ public:
 	QtProjectWizzardContentPathsClassJava(std::shared_ptr<SourceGroupSettings> settings, QtProjectWizzardWindow* window);
 
 	// QtProjectWizzardContent implementation
+	virtual void populate(QGridLayout* layout, int& row);
 	virtual void load() override;
 	virtual void save() override;
+
+private:
+	QCheckBox* m_useJreSystemLibraryCheckBox;
 };
 
 #endif // QT_PROJECT_WIZZARD_CONTENT_PATHS_H

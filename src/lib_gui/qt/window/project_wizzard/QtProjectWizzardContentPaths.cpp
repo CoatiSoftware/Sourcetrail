@@ -1,9 +1,10 @@
 #include "qt/window/project_wizzard/QtProjectWizzardContentPaths.h"
 
+#include <QCheckBox>
+#include <QComboBox>
 #include <QLabel>
 #include <QMessageBox>
 #include <QVBoxLayout>
-#include <QComboBox>
 
 #include "qt/element/QtDirectoryListBox.h"
 #include "qt/window/QtSelectPathsDialog.h"
@@ -221,7 +222,7 @@ QtProjectWizzardContentPathsCDBHeader::QtProjectWizzardContentPathsCDBHeader(
 	);
 }
 
-void QtProjectWizzardContentPathsCDBHeader::populate( QGridLayout* layout, int& row)
+void QtProjectWizzardContentPathsCDBHeader::populate(QGridLayout* layout, int& row)
 {
 	QtProjectWizzardContentPaths::populate(layout, row);
 
@@ -479,12 +480,26 @@ QtProjectWizzardContentPathsClassJava::QtProjectWizzardContentPathsClassJava(
 	);
 }
 
+void QtProjectWizzardContentPathsClassJava::populate(QGridLayout* layout, int& row)
+{
+	QtProjectWizzardContentPaths::populate(layout, row);
+
+	QLabel* label = createFormLabel("JRE System Library");
+	layout->addWidget(label, row, QtProjectWizzardWindow::FRONT_COL, Qt::AlignTop);
+
+	m_useJreSystemLibraryCheckBox = new QCheckBox("Use JRE System Library", this);
+
+	layout->addWidget(m_useJreSystemLibraryCheckBox, row, QtProjectWizzardWindow::BACK_COL);
+	row++;
+}
+
 void QtProjectWizzardContentPathsClassJava::load()
 {
 	std::shared_ptr<SourceGroupSettingsJava> javaSettings = std::dynamic_pointer_cast<SourceGroupSettingsJava>(m_settings);
 	if (javaSettings)
 	{
-		m_list->setList(javaSettings->getClasspaths());
+		m_list->setList(javaSettings->getClasspath());
+		m_useJreSystemLibraryCheckBox->setChecked(javaSettings->getUseJreSystemLibrary());
 	}
 }
 
@@ -493,6 +508,7 @@ void QtProjectWizzardContentPathsClassJava::save()
 	std::shared_ptr<SourceGroupSettingsJava> javaSettings = std::dynamic_pointer_cast<SourceGroupSettingsJava>(m_settings);
 	if (javaSettings)
 	{
-		javaSettings->setClasspaths(m_list->getList());
+		javaSettings->setClasspath(m_list->getList());
+		javaSettings->setUseJreSystemLibrary(m_useJreSystemLibraryCheckBox->isChecked());
 	}
 }

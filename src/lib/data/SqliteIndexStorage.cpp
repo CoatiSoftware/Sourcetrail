@@ -265,7 +265,7 @@ Id SqliteIndexStorage::addError(const std::string& message, const FilePath& file
 		m_insertErrorStmt.bind(3, indexed);
 		m_insertErrorStmt.bind(4, filePath.str().c_str());
 		m_insertErrorStmt.bind(5, int(lineNumber));
-		m_insertErrorStmt.bind(5, int(columnNumber));
+		m_insertErrorStmt.bind(6, int(columnNumber));
 		const bool success = executeStatement(m_insertErrorStmt);
 		m_insertErrorStmt.reset();
 

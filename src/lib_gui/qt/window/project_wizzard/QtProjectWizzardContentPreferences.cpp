@@ -155,90 +155,112 @@ void QtProjectWizzardContentPreferences::populate(QGridLayout* layout, int& row)
 	// Java
 	addTitle("JAVA", layout, row);
 
-	// jvm library path
-	m_javaPath = new QtLocationPicker(this);
-
-	if (QSysInfo::windowsVersion() != QSysInfo::WV_None)
 	{
-		m_javaPath->setFileFilter("JVM Library (jvm.dll)");
-		m_javaPath->setPlaceholderText("<jre_path>/bin/client/jvm.dll");
+		// jvm library path
+		m_javaPath = new QtLocationPicker(this);
+
+		if (QSysInfo::windowsVersion() != QSysInfo::WV_None)
+		{
+			m_javaPath->setFileFilter("JVM Library (jvm.dll)");
+			m_javaPath->setPlaceholderText("<jre_path>/bin/client/jvm.dll");
+		}
+		else if (QSysInfo::macVersion() != QSysInfo::MV_None)
+		{
+			m_javaPath->setFileFilter("JLI or JVM Library (libjli.dylib libjvm.dylib)");
+			m_javaPath->setPlaceholderText("<jre_path>/Contents/Home/jre/lib/jli/libjli.dylib");
+		}
+		else
+		{
+			m_javaPath->setFileFilter("JVM Library (libjvm.so)");
+			m_javaPath->setPlaceholderText("<jre_path>/bin/<arch>/server/libjvm.so");
+		}
+
+		addLabelAndWidget("Java Path", m_javaPath, layout, row);
+
+		std::string javaVersionString = "";
+		switch (utility::getApplicationArchitectureType())
+		{
+		case APPLICATION_ARCHITECTURE_X86_32:
+			javaVersionString = "32 Bit ";
+			break;
+		case APPLICATION_ARCHITECTURE_X86_64:
+			javaVersionString = "64 Bit ";
+			break;
+		default:
+			break;
+		}
+		javaVersionString += "Java 8";
+
+		addHelpButton((
+			"<p>Only required for indexing Java projects.</p>"
+			"<p>Provide the location of the jvm library inside the installation of your " + javaVersionString +
+			" runtime environment (for information on how to set this take a look at "
+			"<a href=\"https://sourcetrail.com/documentation/#FindingJavaRuntimeLibraryLocation\">"
+			"Finding Java Runtime Library Location</a> or use the auto detection below)</p>").c_str(),
+			layout, row
+		);
+		row++;
+
+		m_javaPathDetector = utility::getJavaRuntimePathDetector();
+		addJavaPathDetection(layout, row);
 	}
-	else if (QSysInfo::macVersion() != QSysInfo::MV_None)
 	{
-		m_javaPath->setFileFilter("JLI or JVM Library (libjli.dylib libjvm.dylib)");
-		m_javaPath->setPlaceholderText("<jre_path>/Contents/Home/jre/lib/jli/libjli.dylib");
+		// jvm max memory
+		m_jvmMaximumMemory = addLineEdit(
+			"JVM Maximum Memory",
+			"<p>Specify the maximum amount of memory that will be allocated by the indexer's JVM (values are in MB). Set "
+			"this value to -1 to use the JVM's default setting.</p>"
+			"<p><b>Warning</b>: You may experience a sudden slowdown during the course of indexing when setting this value "
+			"too low. This may also happen when using the JVM's default setting.</p>",
+			layout, row
+		);
+		layout->setRowMinimumHeight(row - 1, 30);
 	}
-	else
 	{
-		m_javaPath->setFileFilter("JVM Library (libjvm.so)");
-		m_javaPath->setPlaceholderText("<jre_path>/bin/<arch>/server/libjvm.so");
+		// JRE System Library
+		const QString title = "JRE System Library";
+		QLabel* label = createFormLabel(title);
+		layout->addWidget(label, row, QtProjectWizzardWindow::FRONT_COL, Qt::AlignTop);
+
+		addHelpButton(
+			"<p>Only required for indexing Java projects.</p>"
+			"<p>Add the jar files of your JRE System Library. These jars can be found inside your JRE install directory.</p>", layout, row);
+
+		m_jreSystemLibraryPaths = new QtDirectoryListBox(this, title);
+
+		layout->addWidget(m_jreSystemLibraryPaths, row, QtProjectWizzardWindow::BACK_COL);
+		row++;
+
+		m_jreSystemLibraryPathsDetector = utility::getJreSystemLibraryPathsDetector();
+		addJreSystemLibraryPathsDetection(layout, row);
 	}
-
-	addLabelAndWidget("Java Path", m_javaPath, layout, row);
-
-	std::string javaVersionString = "";
-	switch (utility::getApplicationArchitectureType())
 	{
-	case APPLICATION_ARCHITECTURE_X86_32:
-		javaVersionString = "32 Bit ";
-		break;
-	case APPLICATION_ARCHITECTURE_X86_64:
-		javaVersionString = "64 Bit ";
-		break;
-	default:
-		break;
+		// maven path
+		m_mavenPath = new QtLocationPicker(this);
+
+		if (QSysInfo::windowsVersion() != QSysInfo::WV_None)
+		{
+			m_mavenPath->setFileFilter("Maven command (mvn.cmd)");
+			m_mavenPath->setPlaceholderText("<maven_path>/bin/mvn.cmd");
+		}
+		else
+		{
+			m_mavenPath->setFileFilter("Maven command (mvn)");
+			m_mavenPath->setPlaceholderText("<binarypath>/mvn");
+		}
+
+		addLabelAndWidget("Maven Path", m_mavenPath, layout, row);
+
+		addHelpButton(
+			"<p>Only required for indexing projects using Maven.</p>"
+			"<p>Provide the location of your installed Maven executable. You can also use the auto detection below.</p>"
+			, layout, row
+		);
+		row++;
+
+		m_mavenPathDetector = utility::getMavenExecutablePathDetector();
+		addMavenPathDetection(layout, row);
 	}
-	javaVersionString += "Java 8";
-
-	addHelpButton((
-		"<p>Only required for indexing Java projects.</p>"
-		"<p>Provide the location of the jvm library inside the installation of your " + javaVersionString +
-		" runtime environment (for information on how to set this take a look at "
-		"<a href=\"https://sourcetrail.com/documentation/#FindingJavaRuntimeLibraryLocation\">"
-		"Finding Java Runtime Library Location</a> or use the auto detection below)</p>").c_str(),
-		layout, row
-	);
-	row++;
-
-	m_javaPathDetector = utility::getJavaRuntimePathDetector();
-	addJavaPathDetection(layout, row);
-
-	// jvm max memory
-	m_jvmMaximumMemory = addLineEdit(
-		"JVM Maximum Memory",
-		"<p>Specify the maximum amount of memory that will be allocated by the indexer's JVM (values are in MB). Set "
-		"this value to -1 to use the JVM's default setting.</p>"
-		"<p><b>Warning</b>: You may experience a sudden slowdown during the course of indexing when setting this value "
-		"too low. This may also happen when using the JVM's default setting.</p>",
-		layout, row
-	);
-	layout->setRowMinimumHeight(row - 1, 30);
-
-	// maven path
-	m_mavenPath = new QtLocationPicker(this);
-
-	if (QSysInfo::windowsVersion() != QSysInfo::WV_None)
-	{
-		m_mavenPath->setFileFilter("Maven command (mvn.cmd)");
-		m_mavenPath->setPlaceholderText("<maven_path>/bin/mvn.cmd");
-	}
-	else
-	{
-		m_mavenPath->setFileFilter("Maven command (mvn)");
-		m_mavenPath->setPlaceholderText("<binarypath>/mvn");
-	}
-
-	addLabelAndWidget("Maven Path", m_mavenPath, layout, row);
-
-	addHelpButton(
-		"<p>Only required for indexing projects using Maven.</p>"
-		"<p>Provide the location of your installed Maven executable. You can also use the auto detection below.</p>"
-		, layout, row
-	);
-	row++;
-
-	m_mavenPathDetector = utility::getMavenExecutablePathDetector();
-	addMavenPathDetection(layout, row);
 
 	addGap(layout, row);
 
@@ -290,6 +312,8 @@ void QtProjectWizzardContentPreferences::load()
 
 	m_jvmMaximumMemory->setText(QString::number(appSettings->getJavaMaximumMemory()));
 
+	m_jreSystemLibraryPaths->setList(appSettings->getJreSystemLibraryPaths());
+
 	if (m_mavenPath)
 	{
 		m_mavenPath->setText(QString::fromStdString(appSettings->getMavenPath().str()));
@@ -332,6 +356,8 @@ void QtProjectWizzardContentPreferences::save()
 		appSettings->setJavaPath(m_javaPath->getText().toStdString());
 	}
 
+	appSettings->setJreSystemLibraryPaths(m_jreSystemLibraryPaths->getList());
+
 	int jvmMaximumMemory = m_jvmMaximumMemory->text().toInt();
 	if (jvmMaximumMemory) appSettings->setJavaMaximumMemory(jvmMaximumMemory);
 
@@ -361,6 +387,13 @@ void QtProjectWizzardContentPreferences::javaPathDetectionClicked()
 	{
 		m_javaPath->setText(paths.front().str().c_str());
 	}
+}
+
+void QtProjectWizzardContentPreferences::jreSystemLibraryPathsDetectionClicked()
+{
+	std::vector<FilePath> paths = m_jreSystemLibraryPathsDetector->getPaths(m_jreSystemLibraryPathsDetectorBox->currentText().toStdString());
+	std::vector<FilePath> oldPaths = m_jreSystemLibraryPaths->getList();
+	m_jreSystemLibraryPaths->setList(utility::unique(utility::concat(oldPaths, paths)));
 }
 
 void QtProjectWizzardContentPreferences::mavenPathDetectionClicked()
@@ -415,6 +448,40 @@ void QtProjectWizzardContentPreferences::addJavaPathDetection(QGridLayout* layou
 	hlayout->setContentsMargins(0, 0, 0, 0);
 	hlayout->addWidget(label);
 	hlayout->addWidget(m_javaPathDetectorBox);
+	hlayout->addWidget(button);
+
+	QWidget* detectionWidget = new QWidget();
+	detectionWidget->setLayout(hlayout);
+
+	layout->addWidget(detectionWidget, row, QtProjectWizzardWindow::BACK_COL, Qt::AlignLeft | Qt::AlignTop);
+	row++;
+}
+
+void QtProjectWizzardContentPreferences::addJreSystemLibraryPathsDetection(QGridLayout* layout, int& row)
+{
+	const std::vector<std::string> detectorNames = m_jreSystemLibraryPathsDetector->getWorkingDetectorNames();
+	if (detectorNames.empty())
+	{
+		return;
+	}
+
+	QLabel* label = new QLabel("Auto detection from:");
+
+	m_jreSystemLibraryPathsDetectorBox = new QComboBox();
+
+	for (const std::string& detectorName: detectorNames)
+	{
+		m_jreSystemLibraryPathsDetectorBox->addItem(detectorName.c_str());
+	}
+
+	QPushButton* button = new QPushButton("detect");
+	button->setObjectName("windowButton");
+	connect(button, SIGNAL(clicked()), this, SLOT(jreSystemLibraryPathsDetectionClicked()));
+
+	QHBoxLayout* hlayout = new QHBoxLayout();
+	hlayout->setContentsMargins(0, 0, 0, 0);
+	hlayout->addWidget(label);
+	hlayout->addWidget(m_jreSystemLibraryPathsDetectorBox);
 	hlayout->addWidget(button);
 
 	QWidget* detectionWidget = new QWidget();

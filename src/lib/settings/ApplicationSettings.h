@@ -82,6 +82,10 @@ public:
 	int getJavaMaximumMemory() const;
 	void setJavaMaximumMemory(int size);
 
+	std::vector<FilePath> getJreSystemLibraryPaths() const;
+	std::vector<FilePath> getJreSystemLibraryPathsExpanded() const;
+	bool setJreSystemLibraryPaths(const std::vector<FilePath>& jreSystemLibraryPaths);
+
 	FilePath getMavenPath() const;
 	void setMavenPath(const FilePath& path);
 

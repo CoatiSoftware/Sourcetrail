@@ -163,7 +163,8 @@ std::vector<std::shared_ptr<SourceGroupSettings>> ProjectSettings::getAllSourceG
 		case SOURCE_GROUP_JAVA_MAVEN:
 			{
 				std::shared_ptr<SourceGroupSettingsJava> javaSettings = std::make_shared<SourceGroupSettingsJava>(id, type, this);
-				javaSettings->setClasspaths(getPathValues(key + "/class_paths/class_path"));
+				javaSettings->setClasspath(getPathValues(key + "/class_paths/class_path"));
+				javaSettings->setUseJreSystemLibrary(getValue<bool>(key + "/use_jre_system_library", true));
 				if (type == SOURCE_GROUP_JAVA_MAVEN)
 				{
 					javaSettings->setMavenProjectFilePath(FilePath(getValue<std::string>(key + "/maven/project_file_path", "")));
@@ -237,7 +238,8 @@ void ProjectSettings::setAllSourceGroupSettings(const std::vector<std::shared_pt
 		case SOURCE_GROUP_JAVA_MAVEN:
 			if (std::shared_ptr<SourceGroupSettingsJava> javaSettings = std::dynamic_pointer_cast<SourceGroupSettingsJava>(settings))
 			{
-				setPathValues(key + "/class_paths/class_path", javaSettings->getClasspaths());
+				setPathValues(key + "/class_paths/class_path", javaSettings->getClasspath());
+				setValue(key + "/use_jre_system_library", javaSettings->getUseJreSystemLibrary());
 
 				if (type == SOURCE_GROUP_JAVA_MAVEN)
 				{

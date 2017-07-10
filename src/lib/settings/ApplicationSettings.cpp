@@ -276,6 +276,21 @@ void ApplicationSettings::setJavaMaximumMemory(int size)
 	setValue<int>("indexing/java/java_maximum_memory", size);
 }
 
+std::vector<FilePath> ApplicationSettings::getJreSystemLibraryPaths() const
+{
+	return getPathValues("indexing/java/jre_system_library_paths/jre_system_library_path");
+}
+
+std::vector<FilePath> ApplicationSettings::getJreSystemLibraryPathsExpanded() const
+{
+	return expandPaths(getJreSystemLibraryPaths());
+}
+
+bool ApplicationSettings::setJreSystemLibraryPaths(const std::vector<FilePath>& jreSystemLibraryPaths)
+{
+	return setPathValues("indexing/java/jre_system_library_paths/jre_system_library_path", jreSystemLibraryPaths);
+}
+
 FilePath ApplicationSettings::getMavenPath() const
 {
 	return FilePath(getValue<std::string>("indexing/java/maven_path", ""));

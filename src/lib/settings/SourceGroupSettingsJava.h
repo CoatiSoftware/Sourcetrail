@@ -17,9 +17,12 @@ public:
 
 	virtual std::vector<std::string> getAvailableLanguageStandards() const;
 
-	std::vector<FilePath> getClasspaths() const;
-	std::vector<FilePath> getClasspathsExpandedAndAbsolute() const;
-	void setClasspaths(const std::vector<FilePath>& classpaths);
+	bool getUseJreSystemLibrary() const;
+	void setUseJreSystemLibrary(bool useJreSystemLibrary);
+
+	std::vector<FilePath> getClasspath() const;
+	std::vector<FilePath> getClasspathExpandedAndAbsolute() const;
+	void setClasspath(const std::vector<FilePath>& classpath);
 
 	FilePath getMavenProjectFilePath() const;
 	FilePath getMavenProjectFilePathExpandedAndAbsolute() const;
@@ -36,7 +39,8 @@ private:
 	virtual std::vector<std::string> getDefaultSourceExtensions() const;
 	virtual std::string getDefaultStandard() const;
 
-	std::vector<FilePath> m_classpaths;
+	bool m_useJreSystemLibrary;
+	std::vector<FilePath> m_classpath;
 	FilePath m_mavenProjectFilePath;
 	FilePath m_mavenDependenciesDirectory;
 	bool m_shouldIndexMavenTests;

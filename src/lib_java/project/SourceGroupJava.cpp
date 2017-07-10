@@ -184,12 +184,21 @@ std::vector<FilePath> SourceGroupJava::getClassPath()
 
 	std::vector<FilePath> classPath;
 
-	for (const FilePath& classpath: m_settings->getClasspathsExpandedAndAbsolute())
+	for (const FilePath& classpath: m_settings->getClasspathExpandedAndAbsolute())
 	{
 		if (classpath.exists())
 		{
 			LOG_INFO("Adding path to classpath: " + classpath.str());
 			classPath.push_back(classpath);
+		}
+	}
+
+	if (m_settings->getUseJreSystemLibrary())
+	{
+		for (const FilePath& systemLibraryPath: ApplicationSettings::getInstance()->getJreSystemLibraryPathsExpanded())
+		{
+			LOG_INFO("Adding JRE system library path to classpath: " + systemLibraryPath.str());
+			classPath.push_back(systemLibraryPath);
 		}
 	}
 

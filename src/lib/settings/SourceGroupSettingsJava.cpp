@@ -4,7 +4,7 @@
 
 SourceGroupSettingsJava::SourceGroupSettingsJava(const std::string& id, SourceGroupType type, const ProjectSettings* projectSettings)
 	: SourceGroupSettings(id, type, projectSettings)
-	, m_classpaths(std::vector<FilePath>())
+	, m_classpath(std::vector<FilePath>())
 	, m_mavenProjectFilePath(FilePath())
 	, m_mavenDependenciesDirectory(FilePath())
 	, m_shouldIndexMavenTests(false)
@@ -22,7 +22,8 @@ bool SourceGroupSettingsJava::equals(std::shared_ptr<SourceGroupSettings> other)
 	return (
 		otherJava &&
 		SourceGroupSettings::equals(other) &&
-		utility::isPermutation(m_classpaths, otherJava->m_classpaths) &&
+		utility::isPermutation(m_classpath, otherJava->m_classpath) &&
+		m_useJreSystemLibrary == otherJava->m_useJreSystemLibrary &&
 		m_mavenProjectFilePath == otherJava->m_mavenProjectFilePath &&
 		m_mavenDependenciesDirectory == otherJava->m_mavenDependenciesDirectory &&
 		m_shouldIndexMavenTests == otherJava->m_shouldIndexMavenTests
@@ -34,19 +35,29 @@ std::vector<std::string> SourceGroupSettingsJava::getAvailableLanguageStandards(
 	return std::vector<std::string>(1, "8");
 }
 
-std::vector<FilePath> SourceGroupSettingsJava::getClasspaths() const
+bool SourceGroupSettingsJava::getUseJreSystemLibrary() const
 {
-	return m_classpaths;
+	return m_useJreSystemLibrary;
 }
 
-std::vector<FilePath> SourceGroupSettingsJava::getClasspathsExpandedAndAbsolute() const
+void SourceGroupSettingsJava::setUseJreSystemLibrary(bool useJreSystemLibrary)
 {
-	return m_projectSettings->makePathsExpandedAndAbsolute(getClasspaths());
+	m_useJreSystemLibrary = useJreSystemLibrary;
 }
 
-void SourceGroupSettingsJava::setClasspaths(const std::vector<FilePath>& classpaths)
+std::vector<FilePath> SourceGroupSettingsJava::getClasspath() const
 {
-	m_classpaths = classpaths;
+	return m_classpath;
+}
+
+std::vector<FilePath> SourceGroupSettingsJava::getClasspathExpandedAndAbsolute() const
+{
+	return m_projectSettings->makePathsExpandedAndAbsolute(getClasspath());
+}
+
+void SourceGroupSettingsJava::setClasspath(const std::vector<FilePath>& classpath)
+{
+	m_classpath = classpath;
 }
 
 FilePath SourceGroupSettingsJava::getMavenProjectFilePath() const
