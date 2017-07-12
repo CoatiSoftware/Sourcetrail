@@ -13,6 +13,7 @@
 #include "utility/messaging/type/MessageRefresh.h"
 #include "utility/messaging/type/MessageSwitchColorScheme.h"
 
+class Bookmark;
 class DialogView;
 class IDECommunicationController;
 class MainView;
@@ -54,6 +55,7 @@ public:
 	bool isInTrial() const;
 
 	void updateHistory(const std::vector<SearchMatch>& history);
+	void updateBookmarks(const std::vector<std::shared_ptr<Bookmark>>& bookmarks);
 
 private:
 	static std::shared_ptr<Application> s_instance;

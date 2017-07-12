@@ -7,6 +7,7 @@
 #include "component/view/ViewLayout.h"
 
 struct SearchMatch;
+class Bookmark;
 
 class MainView
 	: public ViewLayout
@@ -24,6 +25,7 @@ public:
 
 	virtual void updateRecentProjectMenu() = 0;
 	virtual void updateHistoryMenu(const std::vector<SearchMatch>& history) = 0;
+	virtual void updateBookmarksMenu(const std::vector<std::shared_ptr<Bookmark>>& bookmarks) = 0;
 };
 
 #endif // MAIN_VIEW_H

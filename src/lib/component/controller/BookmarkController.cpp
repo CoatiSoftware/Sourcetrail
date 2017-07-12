@@ -361,6 +361,8 @@ void BookmarkController::handleMessage(MessageFinishedParsing* message)
 {
 	m_bookmarkCache.clear();
 	getView<BookmarkView>()->enableDisplayBookmarks(true);
+
+	getView<BookmarkView>()->update();
 }
 
 void BookmarkController::handleMessage(MessageShowErrors* message)

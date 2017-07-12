@@ -128,6 +128,16 @@ void QtMainView::updateHistoryMenu(const std::vector<SearchMatch>& history)
 	);
 }
 
+void QtMainView::updateBookmarksMenu(const std::vector<std::shared_ptr<Bookmark>>& bookmarks)
+{
+	m_onQtThread(
+		[=]()
+		{
+			m_window->updateBookmarksMenu(bookmarks);
+		}
+	);
+}
+
 void QtMainView::handleMessage(MessageForceEnterLicense* message)
 {
 	bool expired = message->licenseExpired;

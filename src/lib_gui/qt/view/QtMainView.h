@@ -48,8 +48,10 @@ public:
 	virtual void hideStartScreen();
 	virtual void setTitle(const std::string& title);
 	virtual void activateWindow();
+
 	virtual void updateRecentProjectMenu();
 	virtual void updateHistoryMenu(const std::vector<SearchMatch>& history);
+	virtual void updateBookmarksMenu(const std::vector<std::shared_ptr<Bookmark>>& bookmarks);
 
 private:
 	void handleMessage(MessageForceEnterLicense* message);

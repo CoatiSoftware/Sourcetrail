@@ -10,6 +10,7 @@
 #include "data/search/SearchMatch.h"
 #include "qt/window/QtWindowStack.h"
 
+class Bookmark;
 class QDockWidget;
 class View;
 
@@ -70,6 +71,7 @@ public:
 	void forceEnterLicense(bool expired);
 
 	void updateHistoryMenu(const std::vector<SearchMatch>& history);
+	void updateBookmarksMenu(const std::vector<std::shared_ptr<Bookmark>>& bookmarks);
 
 	void setContentEnabled(bool enabled);
 
@@ -133,6 +135,7 @@ private slots:
 	void showBookmarkBrowser();
 
 	void openHistoryAction();
+	void activateBookmarkAction();
 
 private:
 	struct DockWidget
@@ -165,6 +168,9 @@ private:
 
 	QMenu* m_historyMenu;
 	std::vector<SearchMatch> m_history;
+
+	QMenu* m_bookmarksMenu;
+	std::vector<std::shared_ptr<Bookmark>> m_bookmarks;
 
 	QAction** m_recentProjectAction;
 	QAction* m_showTitleBarsAction;

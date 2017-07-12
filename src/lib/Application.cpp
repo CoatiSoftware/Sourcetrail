@@ -166,6 +166,11 @@ void Application::updateHistory(const std::vector<SearchMatch>& history)
 	m_mainView->updateHistoryMenu(history);
 }
 
+void Application::updateBookmarks(const std::vector<std::shared_ptr<Bookmark>>& bookmarks)
+{
+	m_mainView->updateBookmarksMenu(bookmarks);
+}
+
 void Application::createAndLoadProject(const FilePath& projectSettingsFilePath)
 {
 	MessageStatus("Loading Project: " + projectSettingsFilePath.str(), false, true).dispatch();

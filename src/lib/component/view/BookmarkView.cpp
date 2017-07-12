@@ -1,5 +1,6 @@
 #include "component/view/BookmarkView.h"
 
+#include "Application.h"
 #include "component/controller/BookmarkController.h"
 
 BookmarkView::BookmarkView(ViewLayout* viewLayout)
@@ -24,6 +25,19 @@ void BookmarkView::update()
 	{
 		displayBookmarks(getController()->getBookmarks(m_filter, m_order));
 	}
+
+	std::vector<std::shared_ptr<Bookmark>> bookmarks = getController()->getBookmarks(
+		MessageDisplayBookmarks::BookmarkFilter::ALL,
+		MessageDisplayBookmarks::BookmarkOrder::DATE_DESCENDING
+	);
+
+	const size_t maxBookmarkMenuCount = 20;
+	if (bookmarks.size() > maxBookmarkMenuCount)
+	{
+		bookmarks.resize(maxBookmarkMenuCount);
+	}
+
+	Application::getInstance()->updateBookmarks(bookmarks);
 }
 
 BookmarkController* BookmarkView::getController()

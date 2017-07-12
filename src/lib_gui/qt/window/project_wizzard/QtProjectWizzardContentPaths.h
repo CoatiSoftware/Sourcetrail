@@ -154,7 +154,7 @@ public:
 	QtProjectWizzardContentPathsClassJava(std::shared_ptr<SourceGroupSettings> settings, QtProjectWizzardWindow* window);
 
 	// QtProjectWizzardContent implementation
-	virtual void populate(QGridLayout* layout, int& row);
+	virtual void populate(QGridLayout* layout, int& row) override;
 	virtual void load() override;
 	virtual void save() override;
 

@@ -15,6 +15,7 @@
 #include "component/view/CompositeView.h"
 #include "component/view/TabbedView.h"
 #include "component/view/View.h"
+#include "data/bookmark/Bookmark.h"
 #include "LicenseChecker.h"
 #include "qt/utility/QtContextMenu.h"
 #include "qt/utility/utilityQt.h"
@@ -30,6 +31,7 @@
 #include "settings/ApplicationSettings.h"
 #include "utility/file/FileSystem.h"
 #include "utility/logging/logging.h"
+#include "utility/messaging/type/MessageActivateBookmark.h"
 #include "utility/messaging/type/MessageCodeReference.h"
 #include "utility/messaging/type/MessageDisplayBookmarkCreator.h"
 #include "utility/messaging/type/MessageDisplayBookmarks.h"
@@ -98,6 +100,7 @@ bool MouseReleaseFilter::eventFilter(QObject* obj, QEvent* event)
 
 QtMainWindow::QtMainWindow()
 	: m_historyMenu(nullptr)
+	, m_bookmarksMenu(nullptr)
 	, m_showDockWidgetTitleBars(true)
 	, m_windowStack(this)
 {
@@ -267,6 +270,12 @@ void QtMainWindow::updateHistoryMenu(const std::vector<SearchMatch>& history)
 {
 	m_history = history;
 	setupHistoryMenu();
+}
+
+void QtMainWindow::updateBookmarksMenu(const std::vector<std::shared_ptr<Bookmark>>& bookmarks)
+{
+	m_bookmarks = bookmarks;
+	setupBookmarksMenu();
 }
 
 void QtMainWindow::setContentEnabled(bool enabled)
@@ -673,6 +682,16 @@ void QtMainWindow::openHistoryAction()
 	}
 }
 
+void QtMainWindow::activateBookmarkAction()
+{
+	QAction* action = qobject_cast<QAction*>(sender());
+	if (action)
+	{
+		std::shared_ptr<Bookmark> bookmark = m_bookmarks[action->data().toInt()];
+		MessageActivateBookmark(bookmark).dispatch();
+	}
+}
+
 void QtMainWindow::setupProjectMenu()
 {
 	QMenu *menu = new QMenu(tr("&Project"), this);
@@ -805,11 +824,37 @@ void QtMainWindow::setupHistoryMenu()
 
 void QtMainWindow::setupBookmarksMenu()
 {
-	QMenu *menu = new QMenu(tr("&Bookmarks"), this);
-	menuBar()->addMenu(menu);
+	if (!m_bookmarksMenu)
+	{
+		m_bookmarksMenu = new QMenu(tr("&Bookmarks"), this);
+		menuBar()->addMenu(m_bookmarksMenu);
+	}
+	else
+	{
+		m_bookmarksMenu->clear();
+	}
 
-	menu->addAction(tr("Bookmark Active Symbol..."), this, SLOT(showBookmarkCreator()), QKeySequence(Qt::CTRL + Qt::Key_D));
-	menu->addAction(tr("Bookmark Manager"), this, SLOT(showBookmarkBrowser()), QKeySequence(Qt::CTRL + Qt::Key_B));
+	m_bookmarksMenu->addAction(tr("Bookmark Active Symbol..."), this, SLOT(showBookmarkCreator()), QKeySequence(Qt::CTRL + Qt::Key_D));
+	m_bookmarksMenu->addAction(tr("Bookmark Manager"), this, SLOT(showBookmarkBrowser()), QKeySequence(Qt::CTRL + Qt::Key_B));
+
+	m_bookmarksMenu->addSeparator();
+
+	QAction* title = new QAction(tr("Recent Bookmarks"));
+	title->setEnabled(false);
+	m_bookmarksMenu->addAction(title);
+
+	for (size_t i = 0; i < m_bookmarks.size(); i++)
+	{
+		Bookmark* bookmark = m_bookmarks[i].get();
+		std::string name = utility::elide(bookmark->getName(), utility::ELIDE_RIGHT, 50);
+
+		QAction* action = new QAction();
+		action->setText(name.c_str());
+		action->setData(QVariant(int(i)));
+
+		connect(action, SIGNAL(triggered()), this, SLOT(activateBookmarkAction()));
+		m_bookmarksMenu->addAction(action);
+	}
 }
 
 void QtMainWindow::setupHelpMenu()
