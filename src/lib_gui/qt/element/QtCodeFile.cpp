@@ -151,7 +151,7 @@ QtCodeSnippet* QtCodeFile::addCodeSnippet(const CodeSnippetParams& params)
 
 	m_snippetLayout->addWidget(snippet.get());
 
-	if (params.locationFile->isWhole())
+	if (params.locationFile->isWhole() || m_isWholeFile)
 	{
 		snippet->setStyleSheet("#code_snippet { border: none; }");
 
@@ -538,18 +538,23 @@ void QtCodeFile::clickedTitleBar()
 
 void QtCodeFile::updateRefCount(int refCount)
 {
-	if (refCount > 0)
+	if (refCount > 0 && !m_isWholeFile)
 	{
-		QString label = m_navigator->hasErrors() ? "error" : "reference";
+		bool hasErrors = m_navigator->hasErrors();
+
+		QString label = hasErrors ? "error" : "reference";
 		if (refCount > 1)
 		{
 			label += "s";
 		}
 
-		size_t fatalErrorCount = m_navigator->getFatalErrorCountForFile(m_filePath);
-		if (fatalErrorCount > 0)
+		if (hasErrors)
 		{
-			label += " (" + QString::number(fatalErrorCount) + " fatal)";
+			size_t fatalErrorCount = m_navigator->getFatalErrorCountForFile(m_filePath);
+			if (fatalErrorCount > 0)
+			{
+				label += " (" + QString::number(fatalErrorCount) + " fatal)";
+			}
 		}
 
 		m_referenceCount->setText(QString::number(refCount) + " " + label);
