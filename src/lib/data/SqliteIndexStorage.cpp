@@ -793,7 +793,7 @@ std::vector<std::pair<int, SqliteDatabaseIndex>> SqliteIndexStorage::getIndices(
 		SqliteDatabaseIndex("occurrence_element_id_index", "occurrence(element_id)")
 	));
 	indices.push_back(std::make_pair(
-		STORAGE_MODE_CLEAR,
+		STORAGE_MODE_READ | STORAGE_MODE_CLEAR,
 		SqliteDatabaseIndex("occurrence_source_location_id_index", "occurrence(source_location_id)")
 	));
 	indices.push_back(std::make_pair(

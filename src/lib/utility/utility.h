@@ -93,9 +93,18 @@ namespace utility
 	template<typename T>
 	bool shareElement(const std::set<T>& a, const std::set<T>& b)
 	{
-		std::set<T> c(a.begin(), a.end());
-		c.insert(b.begin(), b.end());
-		return a.size() + b.size() != c.size();
+		const std::set<T>* aPtr = a.size() > b.size() ? &a : &b;
+		const std::set<T>* bPtr = aPtr == &a ? &b : &a;
+
+		for (const T& bt : *bPtr)
+		{
+			if (aPtr->find(bt) != aPtr->end())
+			{
+				return true;
+			}
+		}
+
+		return false;
 	}
 
     ApplicationArchitectureType getApplicationArchitectureType();

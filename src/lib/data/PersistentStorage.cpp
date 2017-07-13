@@ -1299,26 +1299,26 @@ std::shared_ptr<SourceLocationCollection> PersistentStorage::getSourceLocationsF
 {
 	TRACE();
 
-	std::vector<Id> fileIds;
+	std::vector<FilePath> filePaths;
 	std::vector<Id> nonFileIds;
 
 	for (const Id tokenId : tokenIds)
 	{
-		if (getFileNodePath(tokenId).empty())
+		FilePath path = getFileNodePath(tokenId);
+		if (path.empty())
 		{
 			nonFileIds.push_back(tokenId);
 		}
 		else
 		{
-			fileIds.push_back(tokenId);
+			filePaths.push_back(path);
 		}
 	}
 
 	std::shared_ptr<SourceLocationCollection> collection = std::make_shared<SourceLocationCollection>();
-
-	for (const StorageFile& file : m_sqliteIndexStorage.getAllByIds<StorageFile>(fileIds))
+	for (const FilePath& path : filePaths)
 	{
-		collection->addSourceLocationFile(m_sqliteIndexStorage.getSourceLocationsForFile(FilePath(file.filePath)));
+		collection->addSourceLocationFile(std::make_shared<SourceLocationFile>(path, true, false));
 	}
 
 	if (nonFileIds.size())
