@@ -473,9 +473,12 @@ void PersistentStorage::clearCaches()
 {
 	m_symbolIndex.clear();
 	m_fileIndex.clear();
+
 	m_fileNodeIds.clear();
 	m_fileNodePaths.clear();
 	m_fileNodeComplete.clear();
+	m_symbolDefinitionKinds.clear();
+
 	m_hierarchyCache.clear();
 	m_fullTextSearchIndex.clear();
 }
@@ -600,6 +603,8 @@ NameHierarchy PersistentStorage::getNameHierarchyForNodeId(Id nodeId) const
 
 std::vector<NameHierarchy> PersistentStorage::getNameHierarchiesForNodeIds(const std::vector<Id> nodeIds) const
 {
+	TRACE();
+
 	std::vector<NameHierarchy> nameHierarchies;
 	for (const StorageNode& storageNode : m_sqliteIndexStorage.getAllByIds<StorageNode>(nodeIds))
 	{
@@ -820,7 +825,7 @@ std::vector<SearchMatch> PersistentStorage::getAutocompletionSymbolMatches(
 		match.text = name.getRange(idx, name.size()).getQualifiedName();
 		match.subtext = name.getRange(0, idx).getQualifiedName();
 
-		match.delimiter = name.getDelimiterrr();
+		match.delimiter = name.getDelimiter();
 
 		match.indices = result.indices;
 		match.score = result.score;
@@ -903,6 +908,8 @@ std::vector<SearchMatch> PersistentStorage::getAutocompletionCommandMatches(cons
 
 std::vector<SearchMatch> PersistentStorage::getSearchMatchesForTokenIds(const std::vector<Id>& elementIds) const
 {
+	TRACE();
+
 	// todo: what if all these elements share the same node in the searchindex?
 	// In that case there should be only one search match.
 	std::vector<SearchMatch> matches;
@@ -932,7 +939,7 @@ std::vector<SearchMatch> PersistentStorage::getSearchMatchesForTokenIds(const st
 		match.nodeType = Node::intToType(node.type);
 		match.searchType = SearchMatch::SEARCH_TOKEN;
 
-		match.delimiter = nameHierarchy.getDelimiterrr();
+		match.delimiter = nameHierarchy.getDelimiter();
 
 		if (match.nodeType == Node::NODE_FILE)
 		{
@@ -951,35 +958,23 @@ std::shared_ptr<Graph> PersistentStorage::getGraphForAll() const
 
 	std::shared_ptr<Graph> graph = std::make_shared<Graph>();
 
-	std::unordered_set<Id> explicitlyDefinedSymbolIds;
-	for (StorageSymbol symbol: m_sqliteIndexStorage.getAll<StorageSymbol>())
-	{
-		if (intToDefinitionKind(symbol.definitionKind) == DEFINITION_EXPLICIT)
-		{
-			explicitlyDefinedSymbolIds.insert(symbol.id);
-		}
-	}
-
 	std::vector<Id> tokenIds;
 	for (StorageNode node: m_sqliteIndexStorage.getAll<StorageNode>())
 	{
-		if (explicitlyDefinedSymbolIds.find(node.id) != explicitlyDefinedSymbolIds.end() &&
+		auto it = m_symbolDefinitionKinds.find(node.id);
+		if (it != m_symbolDefinitionKinds.end() && it->second == DEFINITION_EXPLICIT &&
 			(
-				!m_hierarchyCache.isChildOfVisibleNodeOrInvisible(node.id) ||
-				(
-					Node::intToType(node.type) == Node::NODE_NAMESPACE || // TODO: use & operator here
-					Node::intToType(node.type) == Node::NODE_PACKAGE
-					)
-				)
+				Node::intToType(node.type) & (Node::NODE_NAMESPACE | Node::NODE_PACKAGE) ||
+				!m_hierarchyCache.isChildOfVisibleNodeOrInvisible(node.id)
 			)
-		{
+		){
 			tokenIds.push_back(node.id);
 		}
 	}
 
-	for (StorageFile file: m_sqliteIndexStorage.getAll<StorageFile>())
+	for (auto p : m_fileNodePaths)
 	{
-		tokenIds.push_back(file.id);
+		tokenIds.push_back(p.first);
 	}
 
 	addNodesToGraph(tokenIds, graph.get());
@@ -1220,6 +1215,8 @@ std::shared_ptr<Graph> PersistentStorage::getGraphForTrail(
 // TODO: rename: getActiveElementIdsForId; TODO: make separate function for declarationId
 std::vector<Id> PersistentStorage::getActiveTokenIdsForId(Id tokenId, Id* declarationId) const
 {
+	TRACE();
+
 	std::vector<Id> activeTokenIds;
 
 	if (!(m_sqliteIndexStorage.isEdge(tokenId) || m_sqliteIndexStorage.isNode(tokenId)))
@@ -1429,6 +1426,8 @@ std::shared_ptr<SourceLocationFile> PersistentStorage::getCommentLocationsInFile
 
 std::shared_ptr<TextAccess> PersistentStorage::getFileContent(const FilePath& filePath) const
 {
+	TRACE();
+
 	return m_sqliteIndexStorage.getFileContentByPath(filePath.str());
 }
 
@@ -1620,11 +1619,14 @@ FilePath PersistentStorage::getFileNodePath(Id fileId) const
 
 bool PersistentStorage::getFileNodeComplete(const FilePath& filePath) const
 {
-	std::map<FilePath, bool>::const_iterator it = m_fileNodeComplete.find(filePath);
-
-	if (it != m_fileNodeComplete.end())
+	auto it = m_fileNodeIds.find(filePath);
+	if (it != m_fileNodeIds.end())
 	{
-		return it->second;
+		auto it2 = m_fileNodeComplete.find(it->second);
+		if (it2 != m_fileNodeComplete.end())
+		{
+			return it2->second;
+		}
 	}
 
 	return false;
@@ -1784,49 +1786,29 @@ std::set<FilePath> PersistentStorage::getReferencingByImports(const std::set<Fil
 	return paths;
 }
 
-Id PersistentStorage::getLastVisibleParentNodeId(const Id nodeId) const
-{
-	return m_hierarchyCache.getLastVisibleParentNodeId(nodeId);
-}
-
-std::vector<Id> PersistentStorage::getAllChildNodeIds(const Id nodeId) const
-{
-	std::set<Id> childNodeIds;
-	std::set<Id> edgeIds;
-
-	m_hierarchyCache.addAllChildIdsForNodeId(nodeId, &childNodeIds, &edgeIds);
-
-	return utility::toVector(childNodeIds);
-}
-
 void PersistentStorage::addNodesToGraph(const std::vector<Id>& newNodeIds, Graph* graph) const
 {
 	TRACE();
 
 	std::vector<Id> nodeIds;
-	for (Id id : newNodeIds)
+	if (graph->getNodeCount())
 	{
-		if (!graph->getNodeById(id))
+		for (Id id : newNodeIds)
 		{
-			nodeIds.push_back(id);
+			if (!graph->getNodeById(id))
+			{
+				nodeIds.push_back(id);
+			}
 		}
+	}
+	else
+	{
+		nodeIds = newNodeIds;
 	}
 
 	if (nodeIds.size() == 0)
 	{
 		return;
-	}
-
-	std::unordered_map<Id, StorageSymbol> symbolMap;
-	for (const StorageSymbol& symbol : m_sqliteIndexStorage.getAllByIds<StorageSymbol>(nodeIds))
-	{
-		symbolMap[symbol.id] = symbol;
-	}
-
-	std::unordered_map<Id, StorageFile> fileMap;
-	for (const StorageFile& file : m_sqliteIndexStorage.getAllByIds<StorageFile>(nodeIds))
-	{
-		fileMap[file.id] = file;
 	}
 
 	for (const StorageNode& storageNode : m_sqliteIndexStorage.getAllByIds<StorageNode>(nodeIds))
@@ -1837,10 +1819,10 @@ void PersistentStorage::addNodesToGraph(const std::vector<Id>& newNodeIds, Graph
 			const FilePath filePath(NameHierarchy::deserialize(storageNode.serializedName).getRawName());
 
 			bool defined = true;
-			auto it = fileMap.find(storageNode.id);
-			if (it != fileMap.end())
+			auto it = m_fileNodeComplete.find(storageNode.id);
+			if (it != m_fileNodeComplete.end())
 			{
-				defined = it->second.complete;
+				defined = it->second;
 			}
 
 			Node* node = graph->createNode(
@@ -1857,10 +1839,10 @@ void PersistentStorage::addNodesToGraph(const std::vector<Id>& newNodeIds, Graph
 			const NameHierarchy nameHierarchy = NameHierarchy::deserialize(storageNode.serializedName);
 
 			DefinitionKind defKind = DEFINITION_NONE;
-			auto it = symbolMap.find(storageNode.id);
-			if (it != symbolMap.end())
+			auto it = m_symbolDefinitionKinds.find(storageNode.id);
+			if (it != m_symbolDefinitionKinds.end())
 			{
-				defKind = intToDefinitionKind(it->second.definitionKind);
+				defKind = it->second;
 			}
 
 			Node* node = graph->createNode(
@@ -1972,7 +1954,9 @@ void PersistentStorage::addAggregationEdgesToGraph(
 
 	// build aggregation edges:
 	// get all children of the active node
-	std::vector<Id> childNodeIds = getAllChildNodeIds(nodeId);
+	std::set<Id> childNodeIdsSet, edgeIdsSet;
+	m_hierarchyCache.addAllChildIdsForNodeId(nodeId, &childNodeIdsSet, &edgeIdsSet);
+	std::vector<Id> childNodeIds = utility::toVector(childNodeIdsSet);
 	if (childNodeIds.size() == 0 && edgesToAggregate.size() == 0)
 	{
 		return;
@@ -2008,12 +1992,12 @@ void PersistentStorage::addAggregationEdgesToGraph(
 	}
 
 	// get all parent nodes of all connected nodes (up to last level except namespace/undefined)
-	Id nodeParentNodeId = getLastVisibleParentNodeId(nodeId);
+	Id nodeParentNodeId = m_hierarchyCache.getLastVisibleParentNodeId(nodeId);
 
 	std::map<Id, std::vector<EdgeInfo>> connectedParentNodeIds;
 	for (const std::pair<Id, std::vector<EdgeInfo>>& p : connectedNodeIds)
 	{
-		Id parentNodeId = getLastVisibleParentNodeId(p.first);
+		Id parentNodeId = m_hierarchyCache.getLastVisibleParentNodeId(p.first);
 
 		if (parentNodeId != nodeParentNodeId)
 		{
@@ -2084,62 +2068,14 @@ void PersistentStorage::addComponentAccessToGraph(Graph* graph) const
 
 void PersistentStorage::addCompleteFlagsToSourceLocationCollection(SourceLocationCollection* collection) const
 {
+	TRACE();
+
 	collection->forEachSourceLocationFile(
 		[this](std::shared_ptr<SourceLocationFile> file)
 		{
 			file->setIsComplete(getFileNodeComplete(file->getFilePath()));
 		}
 	);
-}
-
-void PersistentStorage::buildSearchIndex()
-{
-	TRACE();
-
-	FilePath dbPath = getDbFilePath();
-
-	std::unordered_map<Id, StorageSymbol> symbolMap;
-	for (StorageSymbol symbol : m_sqliteIndexStorage.getAll<StorageSymbol>())
-	{
-		symbolMap[symbol.id] = symbol;
-	}
-
-	std::unordered_map<Id, StorageFile> fileMap;
-	for (StorageFile file : m_sqliteIndexStorage.getAll<StorageFile>())
-	{
-		fileMap[file.id] = file;
-	}
-
-	for (StorageNode node : m_sqliteIndexStorage.getAll<StorageNode>())
-	{
-		if (Node::intToType(node.type) == Node::NODE_FILE)
-		{
-			auto it = fileMap.find(node.id);
-			if (it != fileMap.end())
-			{
-				FilePath filePath(it->second.filePath);
-
-				if (filePath.exists())
-				{
-					filePath = filePath.relativeTo(dbPath);
-				}
-
-				m_fileIndex.addNode(it->second.id, filePath.str());
-			}
-		}
-		else
-		{
-			auto it = symbolMap.find(node.id);
-			if (it == symbolMap.end() || intToDefinitionKind(it->second.definitionKind) != DEFINITION_IMPLICIT)
-			{
-				// we don't use the signature here, so elements with the same signature share the same node.
-				m_symbolIndex.addNode(node.id, NameHierarchy::deserialize(node.serializedName).getQualifiedName());
-			}
-		}
-	}
-
-	m_symbolIndex.finishSetup();
-	m_fileIndex.finishSetup();
 }
 
 void PersistentStorage::buildFilePathMaps()
@@ -2150,8 +2086,51 @@ void PersistentStorage::buildFilePathMaps()
 	{
 		m_fileNodeIds.emplace(FilePath(file.filePath), file.id);
 		m_fileNodePaths.emplace(file.id, FilePath(file.filePath));
-		m_fileNodeComplete.emplace(FilePath(file.filePath), file.complete);
+		m_fileNodeComplete.emplace(file.id, file.complete);
 	}
+
+	for (StorageSymbol symbol : m_sqliteIndexStorage.getAll<StorageSymbol>())
+	{
+		m_symbolDefinitionKinds.emplace(symbol.id, intToDefinitionKind(symbol.definitionKind));
+	}
+}
+
+void PersistentStorage::buildSearchIndex()
+{
+	TRACE();
+
+	FilePath dbPath = getDbFilePath();
+
+	for (StorageNode node : m_sqliteIndexStorage.getAll<StorageNode>())
+	{
+		if (Node::intToType(node.type) == Node::NODE_FILE)
+		{
+			auto it = m_fileNodePaths.find(node.id);
+			if (it != m_fileNodePaths.end())
+			{
+				FilePath filePath(it->second);
+
+				if (filePath.exists())
+				{
+					filePath = filePath.relativeTo(dbPath);
+				}
+
+				m_fileIndex.addNode(node.id, filePath.str());
+			}
+		}
+		else
+		{
+			auto it = m_symbolDefinitionKinds.find(node.id);
+			if (it == m_symbolDefinitionKinds.end() || it->second != DEFINITION_IMPLICIT)
+			{
+				// we don't use the signature here, so elements with the same signature share the same node.
+				m_symbolIndex.addNode(node.id, NameHierarchy::deserialize(node.serializedName).getQualifiedName());
+			}
+		}
+	}
+
+	m_symbolIndex.finishSetup();
+	m_fileIndex.finishSetup();
 }
 
 void PersistentStorage::buildFullTextSearchIndex() const
@@ -2170,23 +2149,30 @@ void PersistentStorage::buildHierarchyCache()
 
 	std::vector<StorageEdge> memberEdges = m_sqliteIndexStorage.getEdgesByType(Edge::typeToInt(Edge::EDGE_MEMBER));
 
-	Cache<Id, Node::NodeType> nodeTypeCache([this](Id id){
-		return Node::intToType(m_sqliteIndexStorage.getFirstById<StorageNode>(id).type);
-	});
+	std::vector<Id> sourceNodeIds;
+	for (const StorageEdge& edge : memberEdges)
+	{
+		sourceNodeIds.push_back(edge.sourceNodeId);
+	}
 
-	Cache<Id, DefinitionKind> definitionKindCache([this](Id id){
-		StorageSymbol symbol = m_sqliteIndexStorage.getFirstById<StorageSymbol>(id);
-		if (symbol.id > 0)
-		{
-			return intToDefinitionKind(symbol.definitionKind);
-		}
-		return DEFINITION_NONE;
-	});
+	std::vector<StorageNode> sourceNodes = m_sqliteIndexStorage.getAllByIds<StorageNode>(sourceNodeIds);
+
+	std::map<Id, Node::NodeType> sourceNodeTypeMap;
+	for (const StorageNode& node : sourceNodes)
+	{
+		sourceNodeTypeMap.emplace(node.id, Node::intToType(node.type));
+	}
 
 	for (const StorageEdge& edge : memberEdges)
 	{
-		bool sourceIsVisible = !(nodeTypeCache.getValue(edge.sourceNodeId) & Node::NODE_NOT_VISIBLE);
-		bool targetIsImplicit = definitionKindCache.getValue(edge.targetNodeId) == DEFINITION_IMPLICIT;
+		bool sourceIsVisible = !(sourceNodeTypeMap[edge.sourceNodeId] & Node::NODE_NOT_VISIBLE);
+
+		bool targetIsImplicit = false;
+		auto it = m_symbolDefinitionKinds.find(edge.targetNodeId);
+		if (it != m_symbolDefinitionKinds.end())
+		{
+			targetIsImplicit = (it->second == DEFINITION_IMPLICIT);
+		}
 
 		m_hierarchyCache.createConnection(
 			edge.id, edge.sourceNodeId, edge.targetNodeId, sourceIsVisible, targetIsImplicit);

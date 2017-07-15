@@ -10,6 +10,11 @@ std::string NameElement::Signature::serialize(Signature signature)
 
 NameElement::Signature NameElement::Signature::deserialize(const std::string& serialized)
 {
+	if (serialized == "\tp")
+	{
+		return Signature();
+	}
+
 	std::vector<std::string> serializedElements = utility::splitToVector(serialized, "\tp");
 	if (serializedElements.size() != 2)
 	{

@@ -5,7 +5,7 @@
 
 std::string NameHierarchy::serialize(NameHierarchy nameHierarchy)
 {
-	std::string serializedName = nameDelimiterTypeToString(nameHierarchy.getDelimiterrr()) + "\tm";
+	std::string serializedName = nameDelimiterTypeToString(nameHierarchy.getDelimiter()) + "\tm";
 	for (size_t i = 0; i < nameHierarchy.size(); i++)
 	{
 		if (i > 0)
@@ -45,12 +45,12 @@ NameHierarchy NameHierarchy::deserialize(const std::string& serializedName)
 	return nameHierarchy;
 }
 
-NameDelimiterType NameHierarchy::getDelimiterrr() const
+NameDelimiterType NameHierarchy::getDelimiter() const
 {
 	return m_delimiter;
 }
 
-void NameHierarchy::setDelimiterrr(const NameDelimiterType delimiter)
+void NameHierarchy::setDelimiter(const NameDelimiterType delimiter)
 {
 	m_delimiter = delimiter;
 }

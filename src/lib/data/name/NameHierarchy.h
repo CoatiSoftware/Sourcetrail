@@ -19,8 +19,8 @@ public:
 	NameHierarchy(const std::vector<std::string>& names, const NameDelimiterType delimiter);
 	~NameHierarchy();
 
-	NameDelimiterType getDelimiterrr() const;
-	void setDelimiterrr(const NameDelimiterType delimiter);
+	NameDelimiterType getDelimiter() const;
+	void setDelimiter(const NameDelimiterType delimiter);
 
 	void push(std::shared_ptr<NameElement> element);
 	void pop();

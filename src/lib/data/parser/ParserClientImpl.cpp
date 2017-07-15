@@ -188,7 +188,7 @@ Id ParserClientImpl::addNodeHierarchy(NameHierarchy nameHierarchy, Node::NodeTyp
 	}
 
 	Id parentNodeId = 0;
-	NameHierarchy currentNameHierarchy(nameHierarchy.getDelimiterrr());
+	NameHierarchy currentNameHierarchy(nameHierarchy.getDelimiter());
 
 	for (size_t i = 0; i < nameHierarchy.size(); i++)
 	{

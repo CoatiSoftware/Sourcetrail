@@ -23,15 +23,14 @@ void SearchIndex::addNode(Id id, const std::string& name)
 	std::string remaining = name;
 	while (remaining.size() > 0)
 	{
-		bool matchingEdgeFound = false;
-		// has edge starting with c?
-		for (size_t i = 0; i < currentNode->edges.size(); i++)
+		auto it = currentNode->edges.find(remaining[0]);
+		if (it != currentNode->edges.end())
 		{
-			Edge* currentEdge = currentNode->edges[i];
+			Edge* currentEdge = it->second;
 			const std::string& edgeString = currentEdge->s;
 
-			size_t matchCount = 0;
-			for (size_t j = 0; j < edgeString.size() && j < remaining.size(); j++)
+			size_t matchCount = 1;
+			for (size_t j = 1; j < edgeString.size() && j < remaining.size(); j++)
 			{
 				if (edgeString[j] != remaining[j])
 				{
@@ -40,32 +39,27 @@ void SearchIndex::addNode(Id id, const std::string& name)
 				matchCount++;
 			}
 
-			if (matchCount != 0)
+			if (matchCount < edgeString.size())
 			{
-				remaining = remaining.substr(matchCount);
-				if (matchCount < edgeString.size())
-				{
-					// split current edge
-					std::shared_ptr<Node> n = std::make_shared<Node>();
-					m_nodes.push_back(n);
-					std::shared_ptr<Edge> e = std::make_shared<Edge>();
-					m_edges.push_back(e);
+				// split current edge
+				std::shared_ptr<Node> n = std::make_shared<Node>();
+				m_nodes.push_back(n);
+				std::shared_ptr<Edge> e = std::make_shared<Edge>();
+				m_edges.push_back(e);
 
-					n->edges.push_back(e.get());
+				e->s = edgeString.substr(matchCount);
+				e->target = currentEdge->target;
 
-					e->s = edgeString.substr(matchCount);
-					e->target = currentEdge->target;
+				n->edges.emplace(e->s[0], e.get());
 
-					currentEdge->s = edgeString.substr(0, matchCount);
-					currentEdge->target = n.get();
-				}
-				currentNode = currentEdge->target;
-				matchingEdgeFound = true;
-				break;
+				currentEdge->s = edgeString.substr(0, matchCount);
+				currentEdge->target = n.get();
 			}
-		}
 
-		if (!matchingEdgeFound)
+			remaining = remaining.substr(matchCount);
+			currentNode = currentEdge->target;
+		}
+		else
 		{
 			std::shared_ptr<Node> n = std::make_shared<Node>();
 			m_nodes.push_back(n);
@@ -75,7 +69,7 @@ void SearchIndex::addNode(Id id, const std::string& name)
 			e->s = remaining;
 			e->target = n.get();
 
-			currentNode->edges.push_back(e.get());
+			currentNode->edges.emplace(e->s[0], e.get());
 			currentNode = n.get();
 
 			remaining = "";
@@ -87,9 +81,9 @@ void SearchIndex::addNode(Id id, const std::string& name)
 
 void SearchIndex::finishSetup()
 {
-	for (size_t i = 0; i < m_root->edges.size(); i++)
+	for (auto p : m_root->edges)
 	{
-		populateEdgeGate(m_root->edges[i]);
+		populateEdgeGate(p.second);
 	}
 }
 
@@ -139,9 +133,9 @@ std::vector<SearchResult> SearchIndex::search(
 void SearchIndex::populateEdgeGate(Edge* e)
 {
 	Node* target = e->target;
-	for (size_t i = 0; i < target->edges.size(); i++)
+	for (auto p : target->edges)
 	{
-		Edge* targetEdge = target->edges[i];
+		Edge* targetEdge = p.second;
 		populateEdgeGate(targetEdge);
 		utility::append(e->gate, targetEdge->gate);
 	}
@@ -160,8 +154,10 @@ void SearchIndex::searchRecursive(
 		return;
 	}
 
-	for (const Edge* currentEdge : path.node->edges)
+	for (auto p : path.node->edges)
 	{
+		const Edge* currentEdge = p.second;
+
 		// test if s passes the edge's gate.
 		bool passesGate = true;
 		for (const char& c : remainingQuery)
@@ -242,8 +238,9 @@ std::multiset<SearchResult> SearchIndex::createScoredResults(const std::vector<P
 					}
 				}
 
-				for (const Edge* edge : path.node->edges)
+				for (auto p : path.node->edges)
 				{
+					const Edge* edge = p.second;
 					Path nextPath;
 					nextPath.indices = path.indices;
 					nextPath.node = edge->target;

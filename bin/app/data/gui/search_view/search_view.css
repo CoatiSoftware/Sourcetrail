@@ -47,13 +47,17 @@ QAbstractItemView#search_box_popup {
 	background: <color:search/button/normal>;
 	border: none;
 	border-radius: 12px;
-	background-position: 15px 5px;
+	height: 30px;
 	width: 30px;
 }
 
 #search_button {
 	border-bottom-left-radius: 0px;
 	border-top-left-radius: 0px;
+}
+
+#search_button:disabled, #home_button:disabled {
+	background: <color:search/button/disabled>;
 }
 
 #search_button:hover, #home_button:hover {

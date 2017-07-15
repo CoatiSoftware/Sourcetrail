@@ -43,7 +43,7 @@ private:
 	struct Node
 	{
 		std::set<Id> elementIds;
-		std::vector<Edge*> edges;
+		std::map<char, Edge*> edges;
 	};
 
 	struct Edge

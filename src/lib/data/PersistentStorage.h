@@ -156,9 +156,6 @@ private:
 	std::set<FilePath> getReferencingByIncludes(const std::set<FilePath>& filePaths);
 	std::set<FilePath> getReferencingByImports(const std::set<FilePath>& filePaths);
 
-	Id getLastVisibleParentNodeId(const Id nodeId) const;
-	std::vector<Id> getAllChildNodeIds(const Id nodeId) const;
-
 	void addNodesToGraph(const std::vector<Id>& nodeIds, Graph* graph) const;
 	void addEdgesToGraph(const std::vector<Id>& edgeIds, Graph* graph) const;
 	void addNodesWithParentsAndEdgesToGraph(
@@ -169,8 +166,8 @@ private:
 
 	void addCompleteFlagsToSourceLocationCollection(SourceLocationCollection* collection) const;
 
-	void buildSearchIndex();
 	void buildFilePathMaps();
+	void buildSearchIndex();
 	void buildFullTextSearchIndex() const;
 	void buildHierarchyCache();
 
@@ -185,9 +182,11 @@ private:
 	SqliteIndexStorage m_sqliteIndexStorage;
 	SqliteBookmarkStorage m_sqliteBookmarkStorage;
 
-	std::map <FilePath, Id> m_fileNodeIds;
-	std::map <Id, FilePath> m_fileNodePaths;
-	std::map <FilePath, bool> m_fileNodeComplete;
+	std::map<FilePath, Id> m_fileNodeIds;
+	std::map<Id, FilePath> m_fileNodePaths;
+	std::map<Id, bool> m_fileNodeComplete;
+
+	std::map<Id, DefinitionKind> m_symbolDefinitionKinds;
 
 	HierarchyCache m_hierarchyCache;
 };
