@@ -14,6 +14,7 @@ public:
 	void clear();
 
 	void createConnection(Id edgeId, Id fromId, Id toId, bool sourceVisible, bool targetImplicit);
+	void createInheritance(Id edgeId, Id fromId, Id toId);
 
 	Id getLastVisibleParentNodeId(Id nodeId) const;
 	size_t getIndexOfLastVisibleParentNode(Id nodeId) const;
@@ -29,6 +30,8 @@ public:
 
 	bool nodeHasChildren(Id nodeId) const;
 
+	std::vector<std::tuple<Id, Id, std::vector<Id>>> getInheritanceEdgesForNodeId(Id nodeId, const std::set<Id>& nodeIds) const;
+
 private:
 	class HierarchyNode
 	{
@@ -42,6 +45,8 @@ private:
 
 		HierarchyNode* getParent() const;
 		void setParent(HierarchyNode* parent);
+
+		void addBase(HierarchyNode* base, Id edgeId);
 
 		void addChild(HierarchyNode* child);
 
@@ -57,11 +62,19 @@ private:
 		bool isImplicit() const;
 		void setIsImplicit(bool isImplicit);
 
+		void addInheritanceEdgesRecursive(
+			Id startId, std::vector<Id> inheritanceEdgeIds,
+			const std::set<Id>& nodeIds, std::vector<std::tuple<Id, Id, std::vector<Id>>>* inheritanceEdges);
+
 	private:
 		const Id m_nodeId;
 		Id m_edgeId;
 
 		HierarchyNode* m_parent;
+
+		std::vector<HierarchyNode*> m_bases;
+		std::vector<Id> m_baseEdgeIds;
+
 		std::vector<HierarchyNode*> m_children;
 
 		bool m_isVisible;

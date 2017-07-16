@@ -34,7 +34,6 @@ void ActivationController::handleMessage(MessageActivateEdge* message)
 		m.tokenIds = message->aggregationIds;
 		m.setKeepContent(false);
 		m.isAggregation = true;
-		m.tokenNames.push_back(NameHierarchy(message->getFullName(), message->sourceNameHierarchy.getDelimiter()));
 		m.dispatchImmediately();
 	}
 	else
@@ -42,7 +41,6 @@ void ActivationController::handleMessage(MessageActivateEdge* message)
 		MessageActivateTokens m(message);
 		m.tokenIds.push_back(message->tokenId);
 		m.isEdge = true;
-		m.tokenNames.push_back(NameHierarchy(message->getFullName(), message->sourceNameHierarchy.getDelimiter()));
 		m.dispatchImmediately();
 	}
 }

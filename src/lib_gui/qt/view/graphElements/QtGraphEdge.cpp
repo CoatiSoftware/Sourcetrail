@@ -6,6 +6,7 @@
 #include "component/view/GraphViewStyle.h"
 #include "data/graph/Edge.h"
 #include "data/graph/token_component/TokenComponentAggregation.h"
+#include "data/graph/token_component/TokenComponentInheritanceChain.h"
 #include "qt/graphics/QtLineItemAngled.h"
 #include "qt/graphics/QtLineItemBezier.h"
 #include "qt/graphics/QtLineItemStraight.h"
@@ -207,6 +208,15 @@ void QtGraphEdge::updateLine()
 			showArrow = m_direction != TokenComponentAggregation::DIRECTION_NONE;
 		}
 
+		if (getData())
+		{
+			TokenComponentInheritanceChain* componentInheritance = getData()->getComponent<TokenComponentInheritanceChain>();
+			if (componentInheritance && componentInheritance->inheritanceEdgeIds.size() > 1)
+			{
+				style.dashed = true;
+			}
+		}
+
 		child->updateLine(
 			owner->getBoundingRect(), target->getBoundingRect(),
 			owner->getParentBoundingRect(), target->getParentBoundingRect(),
@@ -262,9 +272,11 @@ void QtGraphEdge::onClick()
 	}
 	else
 	{
+		TokenComponentInheritanceChain* componentInheritance = getData()->getComponent<TokenComponentInheritanceChain>();
+
 		MessageActivateEdge msg(
 			getData()->getId(),
-			getData()->getType(),
+			componentInheritance ? Edge::EDGE_AGGREGATION : getData()->getType(),
 			getData()->getFrom()->getNameHierarchy(),
 			getData()->getTo()->getNameHierarchy()
 		);
@@ -273,6 +285,10 @@ void QtGraphEdge::onClick()
 		{
 			msg.aggregationIds =
 				utility::toVector<Id>(getData()->getComponent<TokenComponentAggregation>()->getAggregationIds());
+		}
+		else if (componentInheritance)
+		{
+			msg.aggregationIds = componentInheritance->inheritanceEdgeIds;
 		}
 
 		msg.dispatch();

@@ -4,6 +4,7 @@
 
 #include "data/graph/Node.h"
 #include "data/graph/token_component/TokenComponentAggregation.h"
+#include "data/graph/token_component/TokenComponentInheritanceChain.h"
 #include "utility/logging/logging.h"
 #include "utility/utilityString.h"
 
@@ -127,6 +128,22 @@ void Edge::addComponentAggregation(std::shared_ptr<TokenComponentAggregation> co
 	else if (m_type != EDGE_AGGREGATION)
 	{
 		LOG_ERROR("TokenComponentAggregation can't be set on edge of type: " + getReadableTypeString());
+	}
+	else
+	{
+		addComponent(component);
+	}
+}
+
+void Edge::addComponentInheritanceChain(std::shared_ptr<TokenComponentInheritanceChain> component)
+{
+	if (getComponent<TokenComponentInheritanceChain>())
+	{
+		LOG_ERROR("TokenComponentInheritanceChain has been set before!");
+	}
+	else if (m_type != EDGE_INHERITANCE)
+	{
+		LOG_ERROR("TokenComponentInheritanceChain can't be set on edge of type: " + getReadableTypeString());
 	}
 	else
 	{

@@ -34,6 +34,12 @@ void HierarchyCache::HierarchyNode::setParent(HierarchyNode* parent)
 	m_parent = parent;
 }
 
+void HierarchyCache::HierarchyNode::addBase(HierarchyNode* base, Id edgeId)
+{
+	m_bases.push_back(base);
+	m_baseEdgeIds.push_back(edgeId);
+}
+
 void HierarchyCache::HierarchyNode::addChild(HierarchyNode* child)
 {
 	m_children.push_back(child);
@@ -100,6 +106,30 @@ void HierarchyCache::HierarchyNode::setIsImplicit(bool isImplicit)
 	m_isImplicit = isImplicit;
 }
 
+void HierarchyCache::HierarchyNode::addInheritanceEdgesRecursive(
+	Id startId, std::vector<Id> inheritanceEdgeIds,
+	const std::set<Id>& nodeIds, std::vector<std::tuple<Id, Id, std::vector<Id>>>* inheritanceEdges)
+{
+	for (size_t i = 0; i < m_bases.size(); i++)
+	{
+		HierarchyNode* base = m_bases[i];
+		Id baseId = base->getNodeId();
+
+		std::vector<Id> inheritanceEdgeIds2 = inheritanceEdgeIds;
+		inheritanceEdgeIds2.push_back(m_baseEdgeIds[i]);
+
+		if (nodeIds.find(baseId) != nodeIds.end())
+		{
+			std::vector<Id> inheritanceEdgeIds3 = inheritanceEdgeIds2;
+
+			inheritanceEdges->push_back(std::make_tuple<Id, Id, std::vector<Id>>(
+				std::forward<Id>(startId), std::forward<Id>(baseId), std::forward<std::vector<Id>>(inheritanceEdgeIds3)));
+		}
+
+		base->addInheritanceEdgesRecursive(startId, inheritanceEdgeIds2, nodeIds, inheritanceEdges);
+	}
+}
+
 
 void HierarchyCache::clear()
 {
@@ -118,6 +148,14 @@ void HierarchyCache::createConnection(Id edgeId, Id fromId, Id toId, bool source
 
 	to->setEdgeId(edgeId);
 	to->setIsImplicit(targetImplicit);
+}
+
+void HierarchyCache::createInheritance(Id edgeId, Id fromId, Id toId)
+{
+	HierarchyNode* from = createNode(fromId);
+	HierarchyNode* to = createNode(toId);
+
+	from->addBase(to, edgeId);
 }
 
 Id HierarchyCache::getLastVisibleParentNodeId(Id nodeId) const
@@ -238,6 +276,21 @@ bool HierarchyCache::nodeHasChildren(Id nodeId) const
 	}
 
 	return false;
+}
+
+std::vector<std::tuple<Id, Id, std::vector<Id>>> HierarchyCache::getInheritanceEdgesForNodeId(
+	Id nodeId, const std::set<Id>& nodeIds) const
+{
+	std::vector<std::tuple<Id, Id, std::vector<Id>>> inheritanceEdges;
+
+	HierarchyNode* node = getNode(nodeId);
+	if (node)
+	{
+		std::vector<Id> inheritanceEdgeIds;
+		node->addInheritanceEdgesRecursive(node->getNodeId(), inheritanceEdgeIds, nodeIds, & inheritanceEdges);
+	}
+
+	return inheritanceEdges;
 }
 
 HierarchyCache::HierarchyNode* HierarchyCache::getNode(Id nodeId) const

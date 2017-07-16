@@ -89,6 +89,8 @@ public:
 
 		Vec2i originOffset;
 		Vec2i targetOffset;
+
+		bool dashed;
 	};
 
 	static std::shared_ptr<GraphViewStyleImpl> getImpl();

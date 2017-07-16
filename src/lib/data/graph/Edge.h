@@ -8,8 +8,7 @@
 
 class Node;
 class TokenComponentAggregation;
-class TokenComponentAccess;
-class TokenComponentDataType;
+class TokenComponentInheritanceChain;
 
 class Edge
 	: public Token
@@ -57,6 +56,7 @@ public:
 
 	// Component setters
 	void addComponentAggregation(std::shared_ptr<TokenComponentAggregation> component);
+	void addComponentInheritanceChain(std::shared_ptr<TokenComponentInheritanceChain> component);
 
 	static std::string getUnderscoredTypeString(EdgeType type);
 	static std::string getReadableTypeString(EdgeType type);

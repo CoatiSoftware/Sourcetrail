@@ -32,7 +32,8 @@ QPainterPath QtLineItemAngled::shape() const
 
 void QtLineItemAngled::paint(QPainter* painter, const QStyleOptionGraphicsItem* options, QWidget* widget)
 {
-	painter->setPen(pen());
+	QPen p = pen();
+	painter->setPen(p);
 
 	QPainterPath path;
 
@@ -169,12 +170,28 @@ void QtLineItemAngled::paint(QPainter* painter, const QStyleOptionGraphicsItem* 
 		partRect = getArrowBoundingRect(poly);
 		if (drawRect.intersects(partRect) && m_showArrow)
 		{
-			drawArrow(poly, &path);
+			if (m_style.dashed)
+			{
+				QPainterPath arrowPath;
+				drawArrow(poly, &path, &arrowPath);
+
+				painter->drawPath(arrowPath);
+			}
+			else
+			{
+				drawArrow(poly, &path);
+			}
 		}
 		else
 		{
 			path.lineTo(poly.at(0));
 		}
+	}
+
+	if (m_style.dashed)
+	{
+		p.setStyle(Qt::DashLine);
+		painter->setPen(p);
 	}
 
 	painter->drawPath(path);

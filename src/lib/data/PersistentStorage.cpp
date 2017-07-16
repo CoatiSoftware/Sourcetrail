@@ -17,6 +17,7 @@
 #include "data/graph/token_component/TokenComponentAccess.h"
 #include "data/graph/token_component/TokenComponentAggregation.h"
 #include "data/graph/token_component/TokenComponentFilePath.h"
+#include "data/graph/token_component/TokenComponentInheritanceChain.h"
 #include "data/graph/token_component/TokenComponentSignature.h"
 #include "data/graph/Graph.h"
 #include "data/location/SourceLocationCollection.h"
@@ -1117,6 +1118,8 @@ std::shared_ptr<Graph> PersistentStorage::getGraphForActiveTokenIds(
 			addNodesToGraph(expandedChildIds, graph);
 			addEdgesToGraph(expandedChildEdgeIds, graph);
 		}
+
+		addInheritanceChainsToGraph(nodeIds, graph);
 	}
 
 	addComponentAccessToGraph(graph);
@@ -2078,6 +2081,72 @@ void PersistentStorage::addCompleteFlagsToSourceLocationCollection(SourceLocatio
 	);
 }
 
+void PersistentStorage::addInheritanceChainsToGraph(const std::vector<Id>& activeNodeIds, Graph* graph) const
+{
+	TRACE();
+
+	std::set<Id> activeNodeIdsSet;
+	for (Id activeNodeId : activeNodeIds)
+	{
+		std::set<Id> visibleParentIds, edgeIds;
+		visibleParentIds.insert(activeNodeId);
+		m_hierarchyCache.addAllVisibleParentIdsForNodeId(activeNodeId, &visibleParentIds, &edgeIds);
+
+		for (Id nodeId : visibleParentIds)
+		{
+			Node* node = graph->getNodeById(nodeId);
+			if (node && node->isType(Node::NODE_INHERITABLE_TYPE))
+			{
+				activeNodeIdsSet.insert(node->getId());
+			}
+		}
+	}
+
+	std::set<Id> nodeIdsSet;
+	graph->forEachNode(
+		[&nodeIdsSet, &activeNodeIdsSet](Node* node)
+		{
+			if (node->isType(Node::NODE_INHERITABLE_TYPE) && activeNodeIdsSet.find(node->getId()) == activeNodeIdsSet.end())
+			{
+				nodeIdsSet.insert(node->getId());
+			}
+		}
+	);
+
+	std::vector<std::set<Id>*> nodeIdSets;
+	nodeIdSets.push_back(&activeNodeIdsSet);
+	nodeIdSets.push_back(&nodeIdsSet);
+
+	size_t inheritanceEdgeCount = 1;
+
+	for (size_t i = 0; i < nodeIdSets.size(); i++)
+	{
+		for (const Id nodeId : *nodeIdSets[i])
+		{
+			for (const std::tuple<Id, Id, std::vector<Id>>& edge :
+				m_hierarchyCache.getInheritanceEdgesForNodeId(nodeId, *nodeIdSets[(i + 1) % 2]))
+			{
+				Id sourceId = std::get<0>(edge);
+				Id targetId = std::get<1>(edge);
+				std::vector<Id> edgeIds = std::get<2>(edge);
+
+				if (!edgeIds.size() || (edgeIds.size() == 1 && graph->getEdgeById(edgeIds[0])))
+				{
+					continue;
+				}
+
+				// Set first 2 bits to 1 to avoid collisions
+				Id inheritanceEdgeId = ~(~size_t(0) >> 2) + inheritanceEdgeCount++;
+
+				Edge* inheritanceEdge = graph->createEdge(
+					inheritanceEdgeId, Edge::EDGE_INHERITANCE, graph->getNodeById(sourceId), graph->getNodeById(targetId));
+
+				inheritanceEdge->addComponentInheritanceChain(std::make_shared<TokenComponentInheritanceChain>(edgeIds));
+			}
+		}
+	}
+}
+
 void PersistentStorage::buildFilePathMaps()
 {
 	TRACE();
@@ -2176,5 +2245,11 @@ void PersistentStorage::buildHierarchyCache()
 
 		m_hierarchyCache.createConnection(
 			edge.id, edge.sourceNodeId, edge.targetNodeId, sourceIsVisible, targetIsImplicit);
+	}
+
+	std::vector<StorageEdge> inheritanceEdges = m_sqliteIndexStorage.getEdgesByType(Edge::typeToInt(Edge::EDGE_INHERITANCE));
+	for (const StorageEdge& edge : inheritanceEdges)
+	{
+		m_hierarchyCache.createInheritance(edge.id, edge.sourceNodeId, edge.targetNodeId);
 	}
 }

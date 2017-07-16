@@ -336,7 +336,7 @@ QRectF QtLineItemBase::getArrowBoundingRect(const QPolygon& poly) const
 	return rect;
 }
 
-void QtLineItemBase::drawArrow(const QPolygon& poly, QPainterPath* path) const
+void QtLineItemBase::drawArrow(const QPolygon& poly, QPainterPath* path, QPainterPath* arrowPath) const
 {
 	int dir = getDirection(poly.at(1), poly.at(0));
 
@@ -364,7 +364,6 @@ void QtLineItemBase::drawArrow(const QPolygon& poly, QPainterPath* path) const
 		break;
 	}
 
-
 	if (m_style.arrowClosed)
 	{
 		path->lineTo(tip + toBack);
@@ -373,6 +372,12 @@ void QtLineItemBase::drawArrow(const QPolygon& poly, QPainterPath* path) const
 	else
 	{
 		path->lineTo(tip);
+	}
+
+	if (arrowPath)
+	{
+		path = arrowPath;
+		path->moveTo(tip);
 	}
 
 	path->lineTo(tip + toBack + toLeft);

@@ -45,7 +45,7 @@ protected:
 	int getDirection(const QPointF& a, const QPointF& b) const;
 
 	QRectF getArrowBoundingRect(const QPolygon& poly) const;
-	void drawArrow(const QPolygon& poly, QPainterPath* path) const;
+	void drawArrow(const QPolygon& poly, QPainterPath* path, QPainterPath* arrowPath = nullptr) const;
 
 	void getPivotPoints(Vec2f* p, const Vec4i& in, const Vec4i& out, int offset, bool target) const;
 

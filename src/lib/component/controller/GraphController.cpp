@@ -103,15 +103,32 @@ void GraphController::handleMessage(MessageActivateTokens* message)
 		{
 			bundleNodes();
 		}
+		else if (message->isAggregation)
+		{
+			bool isInheritanceChain = true;
+			for (auto edge : m_dummyEdges)
+			{
+				if (!edge->data->isType(Edge::EDGE_INHERITANCE))
+				{
+					isInheritanceChain = false;
+					break;
+				}
+			}
+
+			if (isInheritanceChain)
+			{
+				for (auto node : m_dummyNodes)
+				{
+					node->bundleInfo.layoutVertical = true;
+				}
+			}
+
+			m_useBezierEdges = !isInheritanceChain;
+		}
 
 		layoutNesting();
 		layoutGraph(true);
 		assignBundleIds();
-	}
-
-	if (message->isAggregation)
-	{
-		m_useBezierEdges = true;
 	}
 
 	buildGraph(message, !isNamespace, true, isNamespace);
@@ -640,7 +657,8 @@ bool GraphController::setActive(const std::vector<Id>& activeTokenIds, bool show
 		DummyNode* from = getDummyGraphNodeById(edge->ownerId);
 		DummyNode* to = getDummyGraphNodeById(edge->targetId);
 
-		if (from && to && (showAllEdges || noActive || from->active || to->active || edge->active))
+		bool isInheritance = edge->data->isType(Edge::EDGE_INHERITANCE);
+		if (from && to && (showAllEdges || noActive || from->active || to->active || edge->active || isInheritance))
 		{
 			edge->visible = true;
 			from->connected = true;

@@ -124,6 +124,7 @@ add_files(
 	data/graph/token_component/TokenComponentConst.h
 	data/graph/token_component/TokenComponentFilePath.cpp
 	data/graph/token_component/TokenComponentFilePath.h
+	data/graph/token_component/TokenComponentInheritanceChain.h
 	data/graph/token_component/TokenComponentSignature.cpp
 	data/graph/token_component/TokenComponentSignature.h
 	data/graph/token_component/TokenComponentStatic.cpp

@@ -165,6 +165,7 @@ private:
 	void addComponentAccessToGraph(Graph* graph) const;
 
 	void addCompleteFlagsToSourceLocationCollection(SourceLocationCollection* collection) const;
+	void addInheritanceChainsToGraph(const std::vector<Id>& nodeIds, Graph* graph) const;
 
 	void buildFilePathMaps();
 	void buildSearchIndex();

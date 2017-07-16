@@ -104,6 +104,7 @@ GraphViewStyle::EdgeStyle::EdgeStyle()
 	, arrowClosed(false)
 	, cornerRadius(0)
 	, verticalOffset(0)
+	, dashed(false)
 {
 }
 

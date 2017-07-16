@@ -14,7 +14,9 @@
 
 const Node::NodeTypeMask Node::NODE_NOT_VISIBLE = Node::NODE_NAMESPACE | Node::NODE_PACKAGE;
 const Node::NodeTypeMask Node::NODE_USEABLE_TYPE = Node::NODE_NON_INDEXED | Node::NODE_BUILTIN_TYPE |
-	Node::NODE_BUILTIN_TYPE | Node::NODE_STRUCT | Node::NODE_CLASS | Node::NODE_INTERFACE | Node::NODE_TYPEDEF;
+	Node::NODE_STRUCT | Node::NODE_CLASS | Node::NODE_INTERFACE | Node::NODE_TYPEDEF;
+const Node::NodeTypeMask Node::NODE_INHERITABLE_TYPE = Node::NODE_NON_INDEXED | Node::NODE_BUILTIN_TYPE |
+	NODE_TYPE | Node::NODE_STRUCT | Node::NODE_CLASS | Node::NODE_INTERFACE;
 
 std::string Node::getUnderscoredTypeString(NodeType type)
 {
