@@ -978,7 +978,7 @@ std::shared_ptr<Graph> PersistentStorage::getGraphForAll() const
 		tokenIds.push_back(p.first);
 	}
 
-	addNodesToGraph(tokenIds, graph.get());
+	addNodesToGraph(tokenIds, graph.get(), false);
 
 	return graph;
 }
@@ -1088,7 +1088,7 @@ std::shared_ptr<Graph> PersistentStorage::getGraphForActiveTokenIds(
 
 	if (isNamespace)
 	{
-		addNodesToGraph(nodeIds, graph);
+		addNodesToGraph(nodeIds, graph, false);
 	}
 	else
 	{
@@ -1115,7 +1115,7 @@ std::shared_ptr<Graph> PersistentStorage::getGraphForActiveTokenIds(
 
 		if (expandedChildIds.size())
 		{
-			addNodesToGraph(expandedChildIds, graph);
+			addNodesToGraph(expandedChildIds, graph, true);
 			addEdgesToGraph(expandedChildEdgeIds, graph);
 		}
 
@@ -1143,7 +1143,7 @@ std::shared_ptr<Graph> PersistentStorage::getGraphForChildrenOfNodeId(Id nodeId)
 	m_hierarchyCache.addFirstNonImplicitChildIdsForNodeId(nodeId, &nodeIds, &edgeIds);
 
 	std::shared_ptr<Graph> graph = std::make_shared<Graph>();
-	addNodesToGraph(nodeIds, graph.get());
+	addNodesToGraph(nodeIds, graph.get(), true);
 	addEdgesToGraph(edgeIds, graph.get());
 
 	addComponentAccessToGraph(graph.get());
@@ -1789,7 +1789,7 @@ std::set<FilePath> PersistentStorage::getReferencingByImports(const std::set<Fil
 	return paths;
 }
 
-void PersistentStorage::addNodesToGraph(const std::vector<Id>& newNodeIds, Graph* graph) const
+void PersistentStorage::addNodesToGraph(const std::vector<Id>& newNodeIds, Graph* graph, bool addChildCount) const
 {
 	TRACE();
 
@@ -1875,7 +1875,10 @@ void PersistentStorage::addNodesToGraph(const std::vector<Id>& newNodeIds, Graph
 				}
 			}
 
-			node->setChildCount(m_hierarchyCache.getFirstNonImplicitChildIdsCountForNodeId(storageNode.id));
+			if (addChildCount)
+			{
+				node->setChildCount(m_hierarchyCache.getFirstNonImplicitChildIdsCountForNodeId(storageNode.id));
+			}
 		}
 	}
 }
@@ -1940,7 +1943,7 @@ void PersistentStorage::addNodesWithParentsAndEdgesToGraph(
 
 	allNodeIds.insert(parentNodeIds.begin(), parentNodeIds.end());
 
-	addNodesToGraph(utility::toVector(allNodeIds), graph);
+	addNodesToGraph(utility::toVector(allNodeIds), graph, true);
 	addEdgesToGraph(utility::toVector(allEdgeIds), graph);
 }
 

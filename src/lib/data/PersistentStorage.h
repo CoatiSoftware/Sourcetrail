@@ -156,7 +156,7 @@ private:
 	std::set<FilePath> getReferencingByIncludes(const std::set<FilePath>& filePaths);
 	std::set<FilePath> getReferencingByImports(const std::set<FilePath>& filePaths);
 
-	void addNodesToGraph(const std::vector<Id>& nodeIds, Graph* graph) const;
+	void addNodesToGraph(const std::vector<Id>& nodeIds, Graph* graph, bool addChildCount) const;
 	void addEdgesToGraph(const std::vector<Id>& edgeIds, Graph* graph) const;
 	void addNodesWithParentsAndEdgesToGraph(
 		const std::vector<Id>& nodeIds, const std::vector<Id>& edgeIds, Graph* graph) const;
