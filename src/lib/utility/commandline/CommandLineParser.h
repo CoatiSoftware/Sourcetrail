@@ -13,11 +13,15 @@ public:
 
 	bool runWithoutGUI();
 	bool exitApplication();
-	void projectLoad();
 	bool startedWithLicense();
 	bool hasError();
+
 	std::string getError();
 	License getLicense();
+
+	const FilePath& getProjectFilePath() const;
+	bool getFullProjectRefresh() const;
+
 private:
 	void processProjectfile(const std::string& file);
 	void processLicense(const bool isLoaded);

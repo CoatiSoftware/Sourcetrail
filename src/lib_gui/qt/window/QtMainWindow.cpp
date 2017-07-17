@@ -99,7 +99,8 @@ bool MouseReleaseFilter::eventFilter(QObject* obj, QEvent* event)
 
 
 QtMainWindow::QtMainWindow()
-	: m_historyMenu(nullptr)
+	: m_loaded(false)
+	, m_historyMenu(nullptr)
 	, m_bookmarksMenu(nullptr)
 	, m_showDockWidgetTitleBars(true)
 	, m_windowStack(this)
@@ -224,7 +225,48 @@ void QtMainWindow::loadDockWidgetLayout()
 	{
 		dock.action->setChecked(!dock.widget->isHidden());
 	}
+}
 
+void QtMainWindow::loadWindow(bool showStartWindow)
+{
+	if (m_loaded)
+	{
+		return;
+	}
+
+	m_loaded = true;
+
+	LicenseChecker::LicenseState state = LicenseChecker::getInstance()->checkCurrentLicense();
+	bool licenseValid = (state == LicenseChecker::LICENSE_VALID);
+
+	if (licenseValid)
+	{
+		MessageEnteredLicense(LicenseChecker::getInstance()->getCurrentLicenseType()).dispatch();
+	}
+
+	setTrialActionsEnabled(licenseValid);
+
+	if (state == LicenseChecker::LICENSE_MOVED)
+	{
+		ApplicationSettings::getInstance()->setLicenseString("");
+	}
+
+	if (showStartWindow)
+	{
+		showStartScreen();
+	}
+
+	if (state != LicenseChecker::LICENSE_VALID && state != LicenseChecker::LICENSE_EMPTY)
+	{
+		forceEnterLicense(state == LicenseChecker::LICENSE_EXPIRED);
+	}
+
+#ifndef Q_OS_WIN
+	if (ApplicationSettings::getInstance()->getAcceptedEulaVersion() < QtEulaWindow::EULA_VERSION)
+	{
+		showEula(true);
+	}
+#endif
 }
 
 void QtMainWindow::saveLayout()
@@ -446,41 +488,17 @@ void QtMainWindow::showLogFolder()
 
 void QtMainWindow::showStartScreen()
 {
-	LicenseChecker::LicenseState state = LicenseChecker::getInstance()->checkCurrentLicense();
-	bool licenseValid = (state == LicenseChecker::LICENSE_VALID);
-
-	if (licenseValid)
+	if (dynamic_cast<QtStartScreen*>(m_windowStack.getTopWindow()))
 	{
-		MessageEnteredLicense(LicenseChecker::getInstance()->getCurrentLicenseType()).dispatch();
+		return;
 	}
-
-	setTrialActionsEnabled(licenseValid);
-
-	if (state == LicenseChecker::LICENSE_MOVED)
-	{
-		ApplicationSettings::getInstance()->setLicenseString("");
-	}
-
 
 	QtStartScreen* startScreen = createWindow<QtStartScreen>();
-	startScreen->setupStartScreen(licenseValid);
+	startScreen->setupStartScreen();
 
 	connect(startScreen, SIGNAL(openOpenProjectDialog()), this, SLOT(openProject()));
 	connect(startScreen, SIGNAL(openNewProjectDialog()), this, SLOT(newProject()));
 	connect(startScreen, SIGNAL(openEnterLicenseDialog()), this, SLOT(enterLicense()));
-
-	if (state != LicenseChecker::LICENSE_VALID && state != LicenseChecker::LICENSE_EMPTY)
-	{
-		forceEnterLicense(state == LicenseChecker::LICENSE_EXPIRED);
-	}
-
-#ifndef Q_OS_WIN
-	if (ApplicationSettings::getInstance()->getAcceptedEulaVersion() < QtEulaWindow::EULA_VERSION)
-	{
-		showEula(true);
-	}
-#endif
-
 }
 
 void QtMainWindow::hideStartScreen()
@@ -768,6 +786,8 @@ void QtMainWindow::setupViewMenu()
 {
 	QMenu *menu = new QMenu(tr("&View"), this);
 	menuBar()->addMenu(menu);
+
+	menu->addAction(tr("Show Start Window"), this, SLOT(showStartScreen()));
 
 	m_showTitleBarsAction = new QAction("Show Title Bars", this);
 	m_showTitleBarsAction->setCheckable(true);

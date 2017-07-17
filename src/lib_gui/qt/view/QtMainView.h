@@ -11,9 +11,9 @@
 
 #include "utility/messaging/MessageListener.h"
 #include "utility/messaging/type/MessageForceEnterLicense.h"
+#include "utility/messaging/type/MessageLoadProject.h"
 #include "utility/messaging/type/MessageProjectEdit.h"
 #include "utility/messaging/type/MessageProjectNew.h"
-#include "utility/messaging/type/MessageShowStartScreen.h"
 
 class QtMainWindow;
 class View;
@@ -21,9 +21,9 @@ class View;
 class QtMainView
 	: public MainView
 	, public MessageListener<MessageForceEnterLicense>
+	, public MessageListener<MessageLoadProject>
 	, public MessageListener<MessageProjectEdit>
 	, public MessageListener<MessageProjectNew>
-	, public MessageListener<MessageShowStartScreen>
 {
 public:
 	QtMainView();
@@ -55,9 +55,9 @@ public:
 
 private:
 	void handleMessage(MessageForceEnterLicense* message);
+	void handleMessage(MessageLoadProject* message);
 	void handleMessage(MessageProjectEdit* message);
 	void handleMessage(MessageProjectNew* message);
-	void handleMessage(MessageShowStartScreen* message);
 
 	std::shared_ptr<QtMainWindow> m_window;
 	std::vector<View*> m_views;

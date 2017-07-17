@@ -14,6 +14,7 @@
 #include "qt/utility/utilityQt.h"
 #include "utility/Version.h"
 #include "License.h"
+#include "PublicKey.h"
 #include "utility/AppPath.h"
 
 QtRecentProjectButton::QtRecentProjectButton(QWidget* parent)
@@ -138,8 +139,13 @@ size_t i = 0;
 	setStyleSheet(utility::getStyleSheet(ResourcePaths::getGuiPath().concat(FilePath("startscreen/startscreen.css"))).c_str());
 }
 
-void QtStartScreen::setupStartScreen(bool unlocked)
+void QtStartScreen::setupStartScreen()
 {
+	License license;
+	license.loadFromEncodedString(ApplicationSettings::getInstance()->getLicenseString(), AppPath::getAppPath());
+	license.loadPublicKeyFromString(PUBLIC_KEY);
+	bool licenseValid = license.isValid();
+
 	setStyleSheet(utility::getStyleSheet(ResourcePaths::getGuiPath().concat(FilePath("startscreen/startscreen.css"))).c_str());
 	addLogo();
 
@@ -152,7 +158,7 @@ void QtStartScreen::setupStartScreen(bool unlocked)
 		QVBoxLayout* col = new QVBoxLayout();
 		layout->addLayout(col, 2);
 
-		if (!unlocked)
+		if (!licenseValid)
 		{
 			col->addSpacing(4);
 
@@ -207,19 +213,15 @@ void QtStartScreen::setupStartScreen(bool unlocked)
 
 			col->addSpacing(20);
 
-			License license;
-            license.loadFromEncodedString(
-				ApplicationSettings::getInstance()->getLicenseString(), AppPath::getAppPath());
+			std::string licenseString = license.getLicenseInfo();
 
-            std::string licenseString = license.getLicenseInfo();
-
-            QLabel* licenseHeader = new QLabel("Licensed to:");
-            licenseHeader->setObjectName("licenseHeaderLabel");
-            col->addWidget(licenseHeader);
-            col->addSpacing(2);
+			QLabel* licenseHeader = new QLabel("Licensed to:");
+			licenseHeader->setObjectName("licenseHeaderLabel");
+			col->addWidget(licenseHeader);
+			col->addSpacing(2);
 			QLabel* licenseLabel = new QLabel(licenseString.c_str());
-            licenseLabel->setObjectName("licenseLabel");
-            col->addWidget(licenseLabel);
+			licenseLabel->setObjectName("licenseLabel");
+			col->addWidget(licenseLabel);
 
 			col->addStretch();
 
@@ -248,7 +250,7 @@ void QtStartScreen::setupStartScreen(bool unlocked)
 		layout->addLayout(col, 1);
 
 		QLabel* recentProjectsLabel = new QLabel("Recent Projects: ", this);
-		if (!unlocked)
+		if (!licenseValid)
 		{
 			recentProjectsLabel->setText("Projects:");
 		}

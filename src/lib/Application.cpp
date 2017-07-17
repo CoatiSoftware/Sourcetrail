@@ -183,13 +183,13 @@ void Application::createAndLoadProject(const FilePath& projectSettingsFilePath)
 
 		if (m_project)
 		{
-			m_project->load();
-
 			if (m_hasGUI)
 			{
 				updateTitle();
 				m_mainView->hideStartScreen();
 			}
+
+			m_project->load();
 		}
 		else
 		{

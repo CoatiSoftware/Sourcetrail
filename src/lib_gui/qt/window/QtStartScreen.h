@@ -34,7 +34,7 @@ public:
 	QtStartScreen(QWidget* parent = 0);
 	QSize sizeHint() const override;
 
-	void setupStartScreen(bool unlocked);
+	void setupStartScreen();
 
 signals:
 	void openOpenProjectDialog();

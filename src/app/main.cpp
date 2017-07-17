@@ -23,6 +23,7 @@
 #include "utility/logging/logging.h"
 #include "utility/logging/LogManager.h"
 #include "utility/messaging/type/MessageEnteredLicense.h"
+#include "utility/messaging/type/MessageLoadProject.h"
 #include "utility/messaging/type/MessageStatus.h"
 #include "utility/ResourcePaths.h"
 #include "utility/ScopedFunctor.h"
@@ -123,6 +124,25 @@ void prefillCxxFrameworkPaths()
 	}
 }
 
+void prefillPaths()
+{
+	prefillJavaRuntimePath();
+	prefillMavenExecutablePath();
+	prefillCxxHeaderPaths();
+	prefillCxxFrameworkPaths();
+}
+
+void addLanguageModules()
+{
+	SourceGroupFactory::getInstance()->addModule(std::make_shared<SourceGroupFactoryModuleC>());
+	SourceGroupFactory::getInstance()->addModule(std::make_shared<SourceGroupFactoryModuleCpp>());
+	SourceGroupFactory::getInstance()->addModule(std::make_shared<SourceGroupFactoryModuleJava>());
+
+	IndexerFactory::getInstance()->addModule(std::make_shared<IndexerFactoryModuleJava>());
+	IndexerFactory::getInstance()->addModule(std::make_shared<IndexerFactoryModuleCxxCdb>());
+	IndexerFactory::getInstance()->addModule(std::make_shared<IndexerFactoryModuleCxxManual>());
+}
+
 int main(int argc, char *argv[])
 {
 	QApplication::setApplicationName("Sourcetrail");
@@ -164,18 +184,8 @@ int main(int argc, char *argv[])
 			Application::destroyInstance();
 		});
 
-		prefillJavaRuntimePath();
-		prefillMavenExecutablePath();
-		prefillCxxHeaderPaths();
-		prefillCxxFrameworkPaths();
-
-		SourceGroupFactory::getInstance()->addModule(std::make_shared<SourceGroupFactoryModuleC>());
-		SourceGroupFactory::getInstance()->addModule(std::make_shared<SourceGroupFactoryModuleCpp>());
-		SourceGroupFactory::getInstance()->addModule(std::make_shared<SourceGroupFactoryModuleJava>());
-
-		IndexerFactory::getInstance()->addModule(std::make_shared<IndexerFactoryModuleJava>());
-		IndexerFactory::getInstance()->addModule(std::make_shared<IndexerFactoryModuleCxxCdb>());
-		IndexerFactory::getInstance()->addModule(std::make_shared<IndexerFactoryModuleCxxManual>());
+		prefillPaths();
+		addLanguageModules();
 
 		std::shared_ptr<LicenseChecker> checker = LicenseChecker::getInstance();
 
@@ -202,7 +212,10 @@ int main(int argc, char *argv[])
 		}
 		else
 		{
-			commandLineParser.projectLoad();
+			MessageLoadProject(
+				commandLineParser.getProjectFilePath(),
+				commandLineParser.getFullProjectRefresh()
+			).dispatch();
 		}
 		return qtApp.exec();
 	}
@@ -226,18 +239,11 @@ int main(int argc, char *argv[])
 			Application::destroyInstance();
 		});
 
-		prefillJavaRuntimePath();
-		prefillMavenExecutablePath();
-		prefillCxxHeaderPaths();
-		prefillCxxFrameworkPaths();
+		prefillPaths();
+		addLanguageModules();
 
-		SourceGroupFactory::getInstance()->addModule(std::make_shared<SourceGroupFactoryModuleC>());
-		SourceGroupFactory::getInstance()->addModule(std::make_shared<SourceGroupFactoryModuleCpp>());
-		SourceGroupFactory::getInstance()->addModule(std::make_shared<SourceGroupFactoryModuleJava>());
-
-		IndexerFactory::getInstance()->addModule(std::make_shared<IndexerFactoryModuleJava>());
-		IndexerFactory::getInstance()->addModule(std::make_shared<IndexerFactoryModuleCxxCdb>());
-		IndexerFactory::getInstance()->addModule(std::make_shared<IndexerFactoryModuleCxxManual>());
+		utility::loadFontsFromDirectory(ResourcePaths::getFontsPath(), ".otf");
+		utility::loadFontsFromDirectory(ResourcePaths::getFontsPath(), ".ttf");
 
 		if (commandLineParser.hasError())
 		{
@@ -245,11 +251,11 @@ int main(int argc, char *argv[])
 		}
 		else
 		{
-			commandLineParser.projectLoad();
+			MessageLoadProject(
+				commandLineParser.getProjectFilePath(),
+				commandLineParser.getFullProjectRefresh()
+			).dispatch();
 		}
-
-		utility::loadFontsFromDirectory(ResourcePaths::getFontsPath(), ".otf");
-		utility::loadFontsFromDirectory(ResourcePaths::getFontsPath(), ".ttf");
 
 		return qtApp.exec();
 	}

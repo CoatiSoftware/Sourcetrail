@@ -5,8 +5,6 @@
 #include "boost/program_options.hpp"
 
 #include "utility/ConfigManager.h"
-#include "utility/messaging/type/MessageLoadProject.h"
-#include "utility/messaging/type/MessageShowStartScreen.h"
 #include "utility/text/TextAccess.h"
 #include "utility/utilityString.h"
 #include "License.h"
@@ -151,7 +149,7 @@ bool CommandLineParser::startedWithLicense()
 
 void CommandLineParser::processProjectfile(const std::string& file)
 {
-	FilePath projectfile(file);
+	FilePath projectfile = FilePath(file).absolute();
 	const std::string errorstring =
 		"Provided Projectfile is not valid:\n* Provided Projectfile('" + projectfile.fileName() + "') ";
 	if (!projectfile.exists())
@@ -173,21 +171,7 @@ void CommandLineParser::processProjectfile(const std::string& file)
 		return;
 	}
 
-	m_projectFile = projectfile.absolute();
-}
-
-void CommandLineParser::projectLoad()
-{
-	if (m_projectFile.exists() &&
-		(m_projectFile.extension() == ".srctrlprj" || m_projectFile.extension() == ".coatiproject"))
-	{
-		MessageLoadProject(m_projectFile, m_force).dispatch();
-	}
-	else
-	{
-		MessageShowStartScreen().dispatch();
-	}
-
+	m_projectFile = projectfile;
 }
 
 License CommandLineParser::getLicense()
@@ -195,3 +179,12 @@ License CommandLineParser::getLicense()
 	return m_license;
 }
 
+const FilePath& CommandLineParser::getProjectFilePath() const
+{
+	return m_projectFile;
+}
+
+bool CommandLineParser::getFullProjectRefresh() const
+{
+	return m_force;
+}

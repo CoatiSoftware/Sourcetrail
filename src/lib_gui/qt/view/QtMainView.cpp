@@ -150,6 +150,18 @@ void QtMainView::handleMessage(MessageForceEnterLicense* message)
 	);
 }
 
+void QtMainView::handleMessage(MessageLoadProject* message)
+{
+	bool showStartWindow = message->projectSettingsFilePath.empty();
+
+	m_onQtThread(
+		[=]()
+		{
+			m_window->loadWindow(showStartWindow);
+		}
+	);
+}
+
 void QtMainView::handleMessage(MessageProjectEdit* message)
 {
 	m_onQtThread(
@@ -169,16 +181,6 @@ void QtMainView::handleMessage(MessageProjectNew* message)
 		[=]()
 		{
 			m_window->newProjectFromCDB(cdbPath, headerPaths);
-		}
-	);
-}
-
-void QtMainView::handleMessage(MessageShowStartScreen* message)
-{
-	m_onQtThread(
-		[=]()
-		{
-			m_window->showStartScreen();
 		}
 	);
 }

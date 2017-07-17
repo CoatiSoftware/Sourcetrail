@@ -67,6 +67,7 @@ public:
 	void saveLayout();
 
 	void loadDockWidgetLayout();
+	void loadWindow(bool showStartWindow);
 
 	void forceEnterLicense(bool expired);
 
@@ -163,6 +164,9 @@ private:
 		T* createWindow();
 
 	std::vector<DockWidget> m_dockWidgets;
+
+	bool m_loaded;
+
 	QMenu* m_viewMenu;
 	QAction* m_viewSeparator;
 
