@@ -150,6 +150,18 @@ bool License::isTestLicense() const
 	return m_type == LicenseConstants::TEST_LICENSE_STRING;
 }
 
+bool License::isNonCommercialLicenseType() const
+{
+    for ( const std::string nonCommercialLicenseType : NON_COMMERCIAL_LICENSE_TYPES)
+    {
+		if (m_type == nonCommercialLicenseType)
+        {
+            return true;
+        }
+    }
+    return false;
+}
+
 unsigned int License::getSeats() const
 {
 	return m_seats;
@@ -194,18 +206,6 @@ std::string License::getLicenseInfo() const
     }
 
     return info;
-}
-
-bool License::isNonCommercialLicenseType() const
-{
-    for ( const std::string nonCommercialLicenseType : NON_COMMERCIAL_LICENSE_TYPES)
-    {
-		if (m_type == nonCommercialLicenseType)
-        {
-            return true;
-        }
-    }
-    return false;
 }
 
 std::string License::getUser() const

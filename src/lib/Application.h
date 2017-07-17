@@ -87,7 +87,7 @@ private:
 
 	std::shared_ptr<IDECommunicationController> m_ideCommunicationController;
 
-	bool m_isInTrial;
+	MessageEnteredLicense::LicenseType m_licenseType;
 };
 
 #endif // APPLICATION_H

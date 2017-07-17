@@ -94,6 +94,7 @@ public:
     bool isValid() const;
 	bool isExpired() const;
 	bool isTestLicense() const;
+	bool isNonCommercialLicenseType() const;
 
     void print();
 
@@ -104,8 +105,6 @@ private:
 	std::string getEncodeKey(const std::string applicationLocation) const;
 	bool extractData(const std::string& string, LICENSE_LINE line);
 	std::string removeCaption(const std::string& line, const std::string& caption) const;
-
-	bool isNonCommercialLicenseType() const;
 
 	std::string m_publicKeyFilename;
 	std::shared_ptr<Botan::RSA_PublicKey> m_publicKey;

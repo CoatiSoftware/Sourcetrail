@@ -7,7 +7,16 @@ class MessageEnteredLicense
 	: public Message<MessageEnteredLicense>
 {
 public:
-	MessageEnteredLicense()
+	enum LicenseType
+	{
+		LICENSE_NONE,
+		LICENSE_TEST,
+		LICENSE_NON_COMMERCIAL,
+		LICENSE_COMMERCIAL
+	};
+
+	MessageEnteredLicense(LicenseType type)
+		: type(type)
 	{
 		setSendAsTask(false);
 	}
@@ -16,6 +25,8 @@ public:
 	{
 		return "MessageEnteredLicense";
 	}
+
+	const LicenseType type;
 };
 
 #endif // MESSAGE_ENTERED_LICENSE_H

@@ -106,7 +106,7 @@ void Application::loadStyle(const FilePath& colorSchemePath)
 
 Application::Application(bool withGUI)
 	: m_hasGUI(withGUI)
-	, m_isInTrial(true)
+	, m_licenseType(MessageEnteredLicense::LICENSE_NONE)
 {
 	LicenseChecker::createInstance();
 }
@@ -156,7 +156,7 @@ std::shared_ptr<DialogView> Application::getDialogView()
 
 bool Application::isInTrial() const
 {
-	return m_isInTrial;
+	return m_licenseType == MessageEnteredLicense::LICENSE_NONE;
 }
 
 void Application::updateHistory(const std::vector<SearchMatch>& history)
@@ -242,7 +242,7 @@ void Application::handleMessage(MessageEnteredLicense* message)
 {
 	MessageStatus("Found valid license key, unlocked application.").dispatch();
 
-	m_isInTrial = false;
+	m_licenseType = message->type;
 
 	updateTitle();
 }
@@ -381,7 +381,22 @@ void Application::updateTitle()
 {
 	if (m_hasGUI)
 	{
-		std::string title = m_isInTrial ? "Sourcetrail [Trial]" : "Sourcetrail";
+		std::string title = "Sourcetrail";
+
+		switch (m_licenseType)
+		{
+			case MessageEnteredLicense::LICENSE_NONE:
+				title += " [trial]";
+				break;
+			case MessageEnteredLicense::LICENSE_TEST:
+				title += " [test]";
+				break;
+			case MessageEnteredLicense::LICENSE_NON_COMMERCIAL:
+				title += " [non-commercial]";
+				break;
+			case MessageEnteredLicense::LICENSE_COMMERCIAL:
+				break;
+		}
 
 		if (m_project)
 		{

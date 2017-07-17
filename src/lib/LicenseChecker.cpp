@@ -128,6 +128,34 @@ LicenseChecker::LicenseState LicenseChecker::checkLicenseString(const std::strin
 	return checkLicense(license);
 }
 
+MessageEnteredLicense::LicenseType LicenseChecker::getCurrentLicenseType() const
+{
+	License license;
+	bool isLoaded = license.loadFromEncodedString(
+		ApplicationSettings::getInstance()->getLicenseString(), AppPath::getAppPath());
+
+	if (!isLoaded)
+	{
+		return MessageEnteredLicense::LICENSE_NONE;
+	}
+
+	LicenseState state = checkLicense(license);
+	if (state != LICENSE_VALID)
+	{
+		return MessageEnteredLicense::LICENSE_NONE;
+	}
+	else if (license.isTestLicense())
+	{
+		return MessageEnteredLicense::LICENSE_TEST;
+	}
+	else if (license.isNonCommercialLicenseType())
+	{
+		return MessageEnteredLicense::LICENSE_NON_COMMERCIAL;
+	}
+
+	return MessageEnteredLicense::LICENSE_COMMERCIAL;
+}
+
 LicenseChecker::LicenseChecker()
 	: m_forcedLicenseEntering(false)
 {

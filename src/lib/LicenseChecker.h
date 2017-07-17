@@ -34,6 +34,8 @@ public:
 	LicenseState checkCurrentLicense() const;
 	LicenseState checkLicenseString(const std::string licenseString) const;
 
+	MessageEnteredLicense::LicenseType getCurrentLicenseType() const;
+
 private:
 	LicenseChecker();
 	LicenseChecker(const LicenseChecker&) = delete;

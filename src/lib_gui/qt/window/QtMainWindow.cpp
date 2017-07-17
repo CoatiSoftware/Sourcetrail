@@ -426,7 +426,7 @@ void QtMainWindow::enteredLicense()
 	m_windowStack.clearWindows();
 
 	setTrialActionsEnabled(true);
-	MessageEnteredLicense().dispatch();
+	MessageEnteredLicense(LicenseChecker::getInstance()->getCurrentLicenseType()).dispatch();
 
 	if (showStartWindow)
 	{
@@ -451,7 +451,7 @@ void QtMainWindow::showStartScreen()
 
 	if (licenseValid)
 	{
-		MessageEnteredLicense().dispatch();
+		MessageEnteredLicense(LicenseChecker::getInstance()->getCurrentLicenseType()).dispatch();
 	}
 
 	setTrialActionsEnabled(licenseValid);

@@ -193,7 +193,7 @@ int main(int argc, char *argv[])
 		}
 		else
 		{
-			MessageEnteredLicense().dispatch();
+			MessageEnteredLicense(checker->getCurrentLicenseType()).dispatch();
 		}
 
 		if (commandLineParser.hasError() )
