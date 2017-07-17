@@ -7,7 +7,6 @@
 #include "utility/messaging/filter_types/MessageFilterSearchAutocomplete.h"
 #include "utility/messaging/MessageQueue.h"
 #include "utility/messaging/type/MessageStatus.h"
-#include "utility/messaging/type/MessageShowStartScreen.h"
 #include "utility/scheduling/TaskScheduler.h"
 #include "utility/tracing.h"
 #include "utility/UserPaths.h"
@@ -55,7 +54,6 @@ void Application::createInstance(
 		s_instance->m_componentManager->setup(s_instance->m_mainView.get());
 		s_instance->m_mainView->loadLayout();
 
-		MessageShowStartScreen().dispatch();
 	}
 
 	if (networkFactory != nullptr)

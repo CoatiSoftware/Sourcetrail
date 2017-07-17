@@ -6,6 +6,7 @@
 
 #include "utility/ConfigManager.h"
 #include "utility/messaging/type/MessageLoadProject.h"
+#include "utility/messaging/type/MessageShowStartScreen.h"
 #include "utility/text/TextAccess.h"
 #include "utility/utilityString.h"
 #include "License.h"
@@ -182,6 +183,11 @@ void CommandLineParser::projectLoad()
 	{
 		MessageLoadProject(m_projectFile, m_force).dispatch();
 	}
+	else
+	{
+		MessageShowStartScreen().dispatch();
+	}
+
 }
 
 License CommandLineParser::getLicense()

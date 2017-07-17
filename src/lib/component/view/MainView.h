@@ -1,6 +1,7 @@
 #ifndef MAIN_VIEW_H
 #define MAIN_VIEW_H
 
+#include <memory>
 #include <string>
 #include <vector>
 
