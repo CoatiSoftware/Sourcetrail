@@ -57,12 +57,12 @@ public:
 
 		float targetXY = 1.0f / std::sqrt(2.0f);
 
-		TS_ASSERT_EQUALS(targetXY, vec0.normalized().x);
-		TS_ASSERT_EQUALS(targetXY, vec0.normalized().y);
+		TS_ASSERT_DELTA(targetXY, vec0.normalized().x, 1e-7);
+		TS_ASSERT_DELTA(targetXY, vec0.normalized().y, 1e-7);
 
 		vec0.normalize();
-		TS_ASSERT_EQUALS(targetXY, vec0.x);
-		TS_ASSERT_EQUALS(targetXY, vec0.y);
+		TS_ASSERT_DELTA(targetXY, vec0.x, 1e-7);
+		TS_ASSERT_DELTA(targetXY, vec0.y, 1e-7);
 
 		float x = 17.53f;
 		float y = 42.42f;
