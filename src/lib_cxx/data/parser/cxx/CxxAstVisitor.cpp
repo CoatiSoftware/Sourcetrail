@@ -416,7 +416,7 @@ bool CxxAstVisitor::TraverseTemplateArgumentLoc(const clang::TemplateArgumentLoc
 	return ret;
 }
 
-bool CxxAstVisitor::TraverseLambdaCapture(clang::LambdaExpr *lambdaExpr, const clang::LambdaCapture *capture)
+bool CxxAstVisitor::TraverseLambdaCapture(clang::LambdaExpr *lambdaExpr, const clang::LambdaCapture *capture, clang::Expr *Init)
 {
 	for (auto it = m_components.begin(); it != m_components.end(); it++)
 	{

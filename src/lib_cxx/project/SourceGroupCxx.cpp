@@ -135,8 +135,7 @@ std::vector<std::shared_ptr<IndexerCommand>> SourceGroupCxx::getIndexerCommands(
 	{
 		std::string error;
 		std::shared_ptr<clang::tooling::JSONCompilationDatabase> cdb = std::shared_ptr<clang::tooling::JSONCompilationDatabase>
-			(clang::tooling::JSONCompilationDatabase::loadFromFile(cdbPath.str(), error));
-
+			(clang::tooling::JSONCompilationDatabase::loadFromFile(cdbPath.str(), error, clang::tooling::JSONCommandLineSyntax::AutoDetect));
 		if (!error.empty())
 		{
 			const std::string message = "Loading Clang compilation database failed with error: \"" + error + "\"";

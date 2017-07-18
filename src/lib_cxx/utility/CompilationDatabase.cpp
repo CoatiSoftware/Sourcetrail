@@ -39,7 +39,7 @@ void  utility::CompilationDatabase::getHeaders()
 {
 	std::string error;
 	std::shared_ptr<clang::tooling::JSONCompilationDatabase> cdb = std::shared_ptr<clang::tooling::JSONCompilationDatabase>
-		(clang::tooling::JSONCompilationDatabase::loadFromFile(m_filename, error));
+		(clang::tooling::JSONCompilationDatabase::loadFromFile(m_filename, error, clang::tooling::JSONCommandLineSyntax::AutoDetect));
 
 	std::vector<clang::tooling::CompileCommand> commands = cdb->getAllCompileCommands();
 	std::set<FilePath> frameworkHeaders;

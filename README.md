@@ -8,7 +8,7 @@
 * QT 5.8
 * CxxTest 4.3
 * Valgrind 3.9.0 (linux)
-* Clang & LLVM 3.9 (doesnt quite work for windows, use unix setup below and skip all the ninja stuff)(installation guide http://clang.llvm.org/docs/LibASTMatchersTutorial.html)
+* Clang & LLVM 4.0.1 (doesnt quite work for windows, use unix setup below and skip all the ninja stuff)(installation guide http://clang.llvm.org/docs/LibASTMatchersTutorial.html)
 * Boost 1.59
 * Botan 1.11.34
 
@@ -115,7 +115,7 @@ $ cd ../../../../../build_debug
 $ cmake -G Ninja -DLLVM_ENABLE_RTTI=ON ../llvm
 $ ninja -j4 check-all
 
-$ cd ../release_build
+$ cd ../build_release
 $ cmake -G Ninja -DCMAKE_BUILD_TYPE=Release -DLLVM_ENABLE_RTTI=ON ../llvm
 $ ninja -j4 check-all
 

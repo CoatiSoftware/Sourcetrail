@@ -8,7 +8,7 @@
         - ../../build/Release/test/Sourcetrail_test
 
 Linux64:
-    image: st4ll1/coati_linux_64
+    image: st4ll1/coati_64
     stage: deploy
     only:
         - master
@@ -21,7 +21,7 @@ Linux64:
         expire_in: 3 days
 
 Linux64_tag:
-    image: st4ll1/coati_linux_64
+    image: st4ll1/coati_64
     stage: deploy
     only:
         - tags
@@ -44,7 +44,7 @@ Linux64_manual:
             - Sourcetrail*.tar.gz
 
 Linux64_licenseGenerator:
-    image: st4ll1/coati_linux_64
+    image: st4ll1/coati_64
     stage: deploy
     when: manual
     script:
@@ -58,7 +58,7 @@ Linux64_licenseGenerator:
         expire_in: 3 days
 
 Linux32:
-    image: st4ll1/coati_linux_32
+    image: st4ll1/coati_32
     stage: deploy
     only:
         - master
@@ -71,7 +71,7 @@ Linux32:
         expire_in: 3 days
 
 Linux32_tag:
-    image: st4ll1/coati_linux_32
+    image: st4ll1/coati_32
     stage: deploy
     only:
         - tags
@@ -82,7 +82,7 @@ Linux32_tag:
             - Sourcetrail*.tar.gz
 
 Linux32_manual:
-    image: st4ll1/coati_linux_32
+    image: st4ll1/coati_32
     stage: deploy
     except:
         - master

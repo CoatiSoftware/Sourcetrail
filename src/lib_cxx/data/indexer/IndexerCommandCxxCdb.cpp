@@ -9,7 +9,7 @@ std::vector<FilePath> IndexerCommandCxxCdb::getSourceFilesFromCDB(const FilePath
 {
 	std::string error;
 	std::shared_ptr<clang::tooling::JSONCompilationDatabase> cdb = std::shared_ptr<clang::tooling::JSONCompilationDatabase>
-		(clang::tooling::JSONCompilationDatabase::loadFromFile(compilationDatabasePath.str(), error));
+		(clang::tooling::JSONCompilationDatabase::loadFromFile(compilationDatabasePath.str(), error, clang::tooling::JSONCommandLineSyntax::AutoDetect));
 
 	if (!error.empty())
 	{
