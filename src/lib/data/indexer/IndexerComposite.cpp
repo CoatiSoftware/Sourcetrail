@@ -2,7 +2,7 @@
 
 #include "data/indexer/IndexerCommand.h"
 #include "utility/logging/logging.h"
-#include "data/IntermediateStorage.h"
+#include "data/storage/IntermediateStorage.h"
 
 IndexerComposite::~IndexerComposite()
 {

@@ -4,7 +4,7 @@
 #include <memory>
 #include <mutex>
 #include <list>
-#include "data/IntermediateStorage.h"
+#include "data/storage/IntermediateStorage.h"
 
 class StorageProvider
 {

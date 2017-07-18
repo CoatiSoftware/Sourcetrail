@@ -1,7 +1,7 @@
-#include "SqliteBookmarkStorage.h"
+#include "data/storage/sqlite/SqliteBookmarkStorage.h"
 
-#include "data/SqliteStorageMigrationLambda.h"
-#include "data/SqliteStorageMigrator.h"
+#include "data/storage/migration/SqliteStorageMigrationLambda.h"
+#include "data/storage/migration/SqliteStorageMigrator.h"
 #include "settings/ProjectSettings.h"
 #include "utility/logging/logging.h"
 #include "Application.h"

@@ -292,6 +292,21 @@ public:
 		TS_ASSERT_DIFFERS(utility::substrBeforeLast(client->fields[0], '<'), utility::substrBeforeLast(client->fields[1], '<'));
 	}
 
+	void test_cxx_parser_finds_anonymous_union_declaration()
+	{
+		std::shared_ptr<TestParserClient> client = parseCode(
+			"typedef union\n"
+			"{\n"
+			"	int i;\n"
+			"	float f;\n"
+			"} Foo;\n"
+		);
+
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->unions, "anonymous union (input.cc<1:9>) <1:9 <1:9 1:13> 5:1>"
+		));
+	}
+
 	void test_cxx_parser_finds_enum_defined_in_global_namespace()
 	{
 		std::shared_ptr<TestParserClient> client = parseCode(
@@ -3325,7 +3340,8 @@ public:
 			"c++1z",
 			std::vector<FilePath>(),
 			std::vector<FilePath>(),
-			std::vector<std::string>()
+			std::vector<std::string>(),
+			false
 		);
 
 		std::shared_ptr<TestParserClient> client = std::make_shared<TestParserClient>();

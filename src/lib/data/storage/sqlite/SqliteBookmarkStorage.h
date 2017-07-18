@@ -1,8 +1,8 @@
 #ifndef SQLITE_BOOKMARK_STORAGE_H
 #define SQLITE_BOOKMARK_STORAGE_H
 
-#include "data/SqliteStorage.h"
-#include "data/StorageTypes.h"
+#include "data/storage/sqlite/SqliteStorage.h"
+#include "data/storage/StorageTypes.h"
 #include "utility/types.h"
 
 class SqliteBookmarkStorage

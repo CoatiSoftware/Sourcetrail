@@ -1,4 +1,4 @@
-#include "data/SqliteIndexStorage.h"
+#include "data/storage/sqlite/SqliteIndexStorage.h"
 
 #include <unordered_map>
 

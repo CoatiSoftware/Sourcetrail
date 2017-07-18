@@ -5,6 +5,7 @@
 
 #include "data/indexer/Indexer.h"
 #include "data/parser/ParserClientImpl.h"
+#include "data/storage/StorageTransformationAnonymousTypedef.h"
 #include "utility/file/FileRegister.h"
 
 template <typename IndexerCommandType, typename ParserType>
@@ -52,6 +53,11 @@ std::shared_ptr<IntermediateStorage> IndexerCxx<IndexerCommandType, ParserType>:
     if (IndexerBase::interrupted())
 	{
 		return std::shared_ptr<IntermediateStorage>();
+	}
+
+	if (indexerCommand->shouldApplyAnonymousTypedefTransformation())
+	{
+		StorageTransformationAnonymousTypedef::transform(storage);
 	}
 
 	return storage;

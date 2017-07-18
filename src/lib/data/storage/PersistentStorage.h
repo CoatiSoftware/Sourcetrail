@@ -8,9 +8,9 @@
 #include "data/fulltextsearch/FullTextSearchIndex.h"
 #include "data/search/SearchIndex.h"
 #include "data/HierarchyCache.h"
-#include "data/SqliteIndexStorage.h"
-#include "data/SqliteBookmarkStorage.h"
-#include "data/Storage.h"
+#include "data/storage/sqlite/SqliteIndexStorage.h"
+#include "data/storage/sqlite/SqliteBookmarkStorage.h"
+#include "data/storage/Storage.h"
 
 class PersistentStorage
 	: public Storage

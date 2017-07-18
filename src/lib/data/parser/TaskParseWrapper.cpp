@@ -1,7 +1,7 @@
 #include "data/parser/TaskParseWrapper.h"
 
 #include "component/view/DialogView.h"
-#include "data/PersistentStorage.h"
+#include "data/storage/PersistentStorage.h"
 #include "utility/scheduling/Blackboard.h"
 #include "utility/utility.h"
 #include "Application.h"

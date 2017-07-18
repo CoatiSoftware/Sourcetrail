@@ -22,6 +22,7 @@ void SharedIndexerCommand::fromLocal(IndexerCommand* indexerCommand)
 		setSystemHeaderSearchPaths(cmd->getSystemHeaderSearchPaths());
 		setFrameworkSearchhPaths(cmd->getFrameworkSearchPaths());
 		setPreprocessorOnly(cmd->preprocessorOnly());
+		setShouldApplyAnonymousTypedefTransformation(cmd->shouldApplyAnonymousTypedefTransformation());
 	}
 	else if (dynamic_cast<IndexerCommandCxxManual*>(indexerCommand) != NULL)
 	{
@@ -33,6 +34,7 @@ void SharedIndexerCommand::fromLocal(IndexerCommand* indexerCommand)
 		setSystemHeaderSearchPaths(cmd->getSystemHeaderSearchPaths());
 		setFrameworkSearchhPaths(cmd->getFrameworkSearchPaths());
 		setPreprocessorOnly(cmd->preprocessorOnly());
+		setShouldApplyAnonymousTypedefTransformation(cmd->shouldApplyAnonymousTypedefTransformation());
 	}
 	else if (dynamic_cast<IndexerCommandJava*>(indexerCommand) != NULL)
 	{
@@ -60,8 +62,9 @@ std::shared_ptr<IndexerCommand> SharedIndexerCommand::fromShared(const SharedInd
 			indexerCommand.getWorkingDirectory(),
 			indexerCommand.getCompilerFlags(),
 			indexerCommand.getSystemHeaderSearchPaths(),
-			indexerCommand.getFrameworkSearchhPaths()
-			);
+			indexerCommand.getFrameworkSearchhPaths(),
+			indexerCommand.shouldApplyAnonymousTypedefTransformation()
+		);
 		command->setPreprocessorOnly(indexerCommand.preprocessorOnly());
 		return command;
 	}
@@ -74,8 +77,9 @@ std::shared_ptr<IndexerCommand> SharedIndexerCommand::fromShared(const SharedInd
 			indexerCommand.getLanguageStandard(),
 			indexerCommand.getSystemHeaderSearchPaths(),
 			indexerCommand.getFrameworkSearchhPaths(),
-			indexerCommand.getCompilerFlags()
-			);
+			indexerCommand.getCompilerFlags(),
+			indexerCommand.shouldApplyAnonymousTypedefTransformation()
+		);
 		command->setPreprocessorOnly(indexerCommand.preprocessorOnly());
 		return command;
 	}
@@ -281,6 +285,16 @@ bool SharedIndexerCommand::preprocessorOnly() const
 void SharedIndexerCommand::setPreprocessorOnly(bool preprocessorOnly)
 {
 	m_preprocessorOnly = preprocessorOnly;
+}
+
+bool SharedIndexerCommand::shouldApplyAnonymousTypedefTransformation() const
+{
+	return m_shouldApplyAnonymousTypedefTransformation;
+}
+
+void SharedIndexerCommand::setShouldApplyAnonymousTypedefTransformation(bool shouldApplyAnonymousTypedefTransformation)
+{
+	m_shouldApplyAnonymousTypedefTransformation = shouldApplyAnonymousTypedefTransformation;
 }
 
 std::vector<FilePath> SharedIndexerCommand::getClassPaths() const

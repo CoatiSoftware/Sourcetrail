@@ -110,6 +110,16 @@ namespace utility
 		return str;
 	}
 
+	std::string substrBeforeFirst(const std::string& str, const std::string& delimiter)
+	{
+		size_t pos = str.find(delimiter);
+		if (pos != std::string::npos)
+		{
+			return str.substr(0, pos);
+		}
+		return str;
+	}
+
 	std::string substrBeforeLast(const std::string& str, char delimiter)
 	{
 		size_t pos = str.rfind(delimiter);
@@ -126,6 +136,16 @@ namespace utility
 		if (pos != std::string::npos)
 		{
 			return str.substr(pos + 1, str.size());
+		}
+		return str;
+	}
+
+	std::string substrAfter(const std::string& str, const std::string& delimiter)
+	{
+		size_t pos = str.find(delimiter);
+		if (pos != std::string::npos)
+		{
+			return str.substr(pos + delimiter.size(), str.size());
 		}
 		return str;
 	}

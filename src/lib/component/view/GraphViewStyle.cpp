@@ -188,6 +188,7 @@ size_t GraphViewStyle::getFontSizeForNodeType(Node::NodeType type)
 	case Node::NODE_BUILTIN_TYPE:
 	case Node::NODE_STRUCT:
 	case Node::NODE_CLASS:
+	case Node::NODE_UNION:
 	case Node::NODE_INTERFACE:
 	case Node::NODE_ENUM:
 	case Node::NODE_TYPEDEF:
@@ -276,6 +277,7 @@ GraphViewStyle::NodeMargins GraphViewStyle::getMarginsForNodeType(Node::NodeType
 	case Node::NODE_BUILTIN_TYPE:
 	case Node::NODE_STRUCT:
 	case Node::NODE_CLASS:
+	case Node::NODE_UNION:
 	case Node::NODE_INTERFACE:
 	case Node::NODE_TEMPLATE_PARAMETER_TYPE:
 	case Node::NODE_TYPE_PARAMETER:
@@ -418,6 +420,7 @@ GraphViewStyle::NodeStyle GraphViewStyle::getStyleForNodeType(
 	case Node::NODE_BUILTIN_TYPE:
 	case Node::NODE_STRUCT:
 	case Node::NODE_CLASS:
+	case Node::NODE_UNION:
 	case Node::NODE_INTERFACE:
 	case Node::NODE_ENUM:
 	case Node::NODE_TYPEDEF:

@@ -1,7 +1,7 @@
 #include "data/TaskFinishParsing.h"
 
 #include "component/view/DialogView.h"
-#include "data/PersistentStorage.h"
+#include "data/storage/PersistentStorage.h"
 #include "utility/messaging/type/MessageFinishedParsing.h"
 #include "utility/messaging/type/MessageStatus.h"
 #include "utility/scheduling/Blackboard.h"

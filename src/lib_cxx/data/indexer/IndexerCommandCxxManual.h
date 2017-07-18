@@ -18,7 +18,8 @@ public:
 		const std::string& languageStandard,
 		const std::vector<FilePath>& systemHeaderSearchPaths,
 		const std::vector<FilePath>& frameworkSearchPaths,
-		const std::vector<std::string>& compilerFlags);
+		const std::vector<std::string>& compilerFlags,
+		const bool shouldApplyAnonymousTypedefTransformation);
 
 	virtual ~IndexerCommandCxxManual();
 

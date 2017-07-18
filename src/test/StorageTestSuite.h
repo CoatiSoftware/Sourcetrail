@@ -3,8 +3,8 @@
 #include "utility/utilityString.h"
 
 #include "data/parser/ParseLocation.h"
-#include "data/IntermediateStorage.h"
-#include "data/PersistentStorage.h"
+#include "data/storage/IntermediateStorage.h"
+#include "data/storage/PersistentStorage.h"
 
 class StorageTestSuite: public CxxTest::TestSuite
 {

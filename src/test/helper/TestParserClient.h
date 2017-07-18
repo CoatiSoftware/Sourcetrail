@@ -128,6 +128,7 @@ public:
 	std::vector<std::string> typedefs;
 	std::vector<std::string> builtinTypes;
 	std::vector<std::string> classes;
+	std::vector<std::string> unions;
 	std::vector<std::string> interfaces;
 	std::vector<std::string> enums;
 	std::vector<std::string> enumConstants;
@@ -171,6 +172,8 @@ private:
 			return &builtinTypes;
 		case SYMBOL_CLASS:
 			return &classes;
+		case SYMBOL_UNION:
+			return &unions;
 		case SYMBOL_INTERFACE:
 			return &interfaces;
 		case SYMBOL_ENUM:

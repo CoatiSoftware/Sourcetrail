@@ -156,6 +156,7 @@ std::vector<std::shared_ptr<SourceGroupSettings>> ProjectSettings::getAllSourceG
 				{
 					cxxSettings->setCompilationDatabasePath(FilePath(getValue<std::string>(key + "/build_file_path/compilation_db_path", "")));
 				}
+				cxxSettings->setShouldApplyAnonymousTypedefTransformation(getValue<bool>(key + "/should_apply_anonymous_typedef_transformation", true));
 				settings = cxxSettings;
 			}
 		break;
@@ -232,6 +233,7 @@ void ProjectSettings::setAllSourceGroupSettings(const std::vector<std::shared_pt
 				{
 					setValue(key + "/build_file_path/compilation_db_path", cxxSettings->getCompilationDatabasePath().str());
 				}
+				setValue(key + "/should_apply_anonymous_typedef_transformation", cxxSettings->getShouldApplyAnonymousTypedefTransformation());
 			}
 		break;
 		case SOURCE_GROUP_JAVA_EMPTY:

@@ -36,6 +36,9 @@ public:
 	FilePath getCompilationDatabasePathExpandedAndAbsolute() const;
 	void setCompilationDatabasePath(const FilePath& compilationDatabasePath);
 
+	bool getShouldApplyAnonymousTypedefTransformation() const;
+	void setShouldApplyAnonymousTypedefTransformation(bool shouldApplyAnonymousTypedefTransformation);
+
 private:
 	virtual std::vector<std::string> getDefaultSourceExtensions() const;
 	virtual std::string getDefaultStandard() const;
@@ -46,6 +49,7 @@ private:
 	bool m_useSourcePathsForHeaderSearch;
 	bool m_hasDefinedUseSourcePathsForHeaderSearch;
 	FilePath m_compilationDatabasePath;
+	bool m_shouldApplyAnonymousTypedefTransformation;
 };
 
 #endif // SOURCE_GROUP_SETTINGS_CXX_H

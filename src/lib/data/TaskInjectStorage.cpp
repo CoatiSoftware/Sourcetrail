@@ -3,8 +3,8 @@
 #include <chrono>
 #include <thread>
 
-#include "data/Storage.h"
-#include "data/StorageProvider.h"
+#include "data/storage/Storage.h"
+#include "data/storage/StorageProvider.h"
 
 TaskInjectStorage::TaskInjectStorage(
 	std::shared_ptr<StorageProvider> storageProvider,

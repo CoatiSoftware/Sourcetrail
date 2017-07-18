@@ -1,7 +1,7 @@
 #ifndef ERROR_INFO_H
 #define ERROR_INFO_H
 
-#include "data/StorageTypes.h"
+#include "data/storage/StorageTypes.h"
 
 typedef StorageError ErrorInfo;
 

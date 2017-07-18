@@ -1,8 +1,8 @@
 #ifndef SHARED_INTERMEDIATE_STORAGE_H
 #define SHARED_INTERMEDIATE_STORAGE_H
 
-#include "data/StorageTypes.h"
-#include "SharedStorageTypes.h"
+#include "data/storage/StorageTypes.h"
+#include "data/indexer/interprocess/shared_types/SharedStorageTypes.h"
 #include "utility/interprocess/SharedMemory.h"
 
 class SharedIntermediateStorage

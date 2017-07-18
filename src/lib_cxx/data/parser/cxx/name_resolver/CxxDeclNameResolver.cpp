@@ -126,7 +126,17 @@ std::shared_ptr<CxxDeclName> CxxDeclNameResolver::getDeclName(const clang::Named
 			{
 				const clang::SourceManager& sourceManager = declaration->getASTContext().getSourceManager();
 				const clang::PresumedLoc& presumedBegin = sourceManager.getPresumedLoc(declaration->getLocStart());
-				const std::string symbolKindName = (recordDecl->isStruct() ? "struct" : "class");
+
+				std::string symbolKindName = "class";
+				if (recordDecl->isStruct())
+				{
+					symbolKindName = "struct";
+				}
+				else if (recordDecl->isUnion())
+				{
+					symbolKindName = "union";
+				}
+
 				return std::make_shared<CxxDeclName>(getNameForAnonymousSymbol(symbolKindName, presumedBegin), std::vector<std::string>());
 			}
 			else if (const clang::CXXRecordDecl* cxxRecordDecl = clang::dyn_cast_or_null<clang::CXXRecordDecl>(declaration))

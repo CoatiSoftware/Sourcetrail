@@ -1,8 +1,8 @@
-#include "data/Storage.h"
+#include "data/storage/Storage.h"
 
 #include <unordered_map>
 
-#include "data/StorageTypes.h"
+#include "data/storage/StorageTypes.h"
 #include "utility/tracing.h"
 
 Storage::Storage()

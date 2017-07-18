@@ -171,6 +171,16 @@ void SourceGroupSettingsCxx::setCompilationDatabasePath(const FilePath& compilat
 	m_compilationDatabasePath = compilationDatabasePath;
 }
 
+bool SourceGroupSettingsCxx::getShouldApplyAnonymousTypedefTransformation() const
+{
+	return m_shouldApplyAnonymousTypedefTransformation;
+}
+
+void SourceGroupSettingsCxx::setShouldApplyAnonymousTypedefTransformation(bool shouldApplyAnonymousTypedefTransformation)
+{
+	m_shouldApplyAnonymousTypedefTransformation = shouldApplyAnonymousTypedefTransformation;
+}
+
 std::vector<std::string> SourceGroupSettingsCxx::getDefaultSourceExtensions() const
 {
 	std::vector<std::string> defaultValues;

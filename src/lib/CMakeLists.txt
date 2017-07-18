@@ -211,6 +211,34 @@ add_files(
 	data/search/SearchIndex.h
 	data/search/SearchMatch.cpp
 	data/search/SearchMatch.h
+	
+	data/storage/migration/SqliteStorageMigration.cpp
+	data/storage/migration/SqliteStorageMigration.h
+	data/storage/migration/SqliteStorageMigrationLambda.cpp
+	data/storage/migration/SqliteStorageMigrationLambda.h
+	data/storage/migration/SqliteStorageMigrator.h
+	
+	data/storage/sqlite/SqliteBookmarkStorage.cpp
+	data/storage/sqlite/SqliteBookmarkStorage.h
+	data/storage/sqlite/SqliteDatabaseIndex.cpp
+	data/storage/sqlite/SqliteDatabaseIndex.h
+	data/storage/sqlite/SqliteIndexStorage.cpp
+	data/storage/sqlite/SqliteIndexStorage.h
+	data/storage/sqlite/SqliteStorage.cpp
+	data/storage/sqlite/SqliteStorage.h
+	
+	data/storage/IntermediateStorage.cpp
+	data/storage/IntermediateStorage.h
+	data/storage/PersistentStorage.cpp
+	data/storage/PersistentStorage.h
+	data/storage/Storage.cpp
+	data/storage/Storage.h
+	data/storage/StorageCache.cpp
+	data/storage/StorageCache.h
+	data/storage/StorageProvider.cpp
+	data/storage/StorageProvider.h
+	data/storage/StorageTypes.h
+	data/storage/StorageStats.h
 
 	data/DefinitionKind.cpp
 	data/DefinitionKind.h
@@ -219,31 +247,6 @@ add_files(
 	data/ErrorInfo.h
 	data/HierarchyCache.cpp
 	data/HierarchyCache.h
-	data/IntermediateStorage.cpp
-	data/IntermediateStorage.h
-	data/PersistentStorage.cpp
-	data/PersistentStorage.h
-	data/SqliteBookmarkStorage.cpp
-	data/SqliteBookmarkStorage.h
-	data/SqliteDatabaseIndex.cpp
-	data/SqliteDatabaseIndex.h
-	data/SqliteIndexStorage.cpp
-	data/SqliteIndexStorage.h
-	data/SqliteStorage.cpp
-	data/SqliteStorage.h
-	data/SqliteStorageMigration.cpp
-	data/SqliteStorageMigration.h
-	data/SqliteStorageMigrationLambda.cpp
-	data/SqliteStorageMigrationLambda.h
-	data/SqliteStorageMigrator.h
-	data/Storage.cpp
-	data/Storage.h
-	data/StorageCache.cpp
-	data/StorageCache.h
-	data/StorageProvider.cpp
-	data/StorageProvider.h
-	data/StorageTypes.h
-	data/StorageStats.h
 	data/TaskCleanStorage.cpp
 	data/TaskCleanStorage.h
 	data/TaskFinishParsing.cpp

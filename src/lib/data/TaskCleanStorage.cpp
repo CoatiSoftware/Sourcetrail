@@ -1,7 +1,7 @@
 #include "data/TaskCleanStorage.h"
 
 #include "component/view/DialogView.h"
-#include "data/PersistentStorage.h"
+#include "data/storage/PersistentStorage.h"
 #include "utility/file/FilePath.h"
 #include "utility/scheduling/Blackboard.h"
 #include "utility/utility.h"

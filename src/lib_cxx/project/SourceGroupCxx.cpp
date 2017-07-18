@@ -164,7 +164,8 @@ std::vector<std::shared_ptr<IndexerCommand>> SourceGroupCxx::getIndexerCommands(
 					FilePath(command.Directory),
 					currentCompilerFlags,
 					systemHeaderSearchPaths,
-					frameworkSearchPaths
+					frameworkSearchPaths,
+					m_settings->getShouldApplyAnonymousTypedefTransformation()
 				));
 
 				filesToIndex->erase(sourcePath);
@@ -184,7 +185,8 @@ std::vector<std::shared_ptr<IndexerCommand>> SourceGroupCxx::getIndexerCommands(
 					m_settings->getStandard(),
 					systemHeaderSearchPaths,
 					frameworkSearchPaths,
-					compilerFlags
+					compilerFlags,
+					m_settings->getShouldApplyAnonymousTypedefTransformation()
 				));
 
 				filesToIndex->erase(sourcePath);

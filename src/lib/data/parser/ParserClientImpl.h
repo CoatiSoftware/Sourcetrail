@@ -5,7 +5,7 @@
 
 #include "data/DefinitionKind.h"
 #include "data/graph/Node.h"
-#include "data/IntermediateStorage.h"
+#include "data/storage/IntermediateStorage.h"
 #include "data/parser/ParserClient.h"
 
 class ParserClientImpl

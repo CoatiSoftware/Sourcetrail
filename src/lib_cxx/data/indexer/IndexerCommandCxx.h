@@ -18,7 +18,8 @@ public:
 		const std::set<FilePath>& excludedPaths,
 		const std::vector<FilePath>& systemHeaderSearchPaths,
 		const std::vector<FilePath>& frameworkSearchPaths,
-		const std::vector<std::string>& compilerFlags);
+		const std::vector<std::string>& compilerFlags,
+		const bool shouldApplyAnonymousTypedefTransformation);
 
 	virtual ~IndexerCommandCxx();
 	virtual size_t getByteSize() const override;
@@ -30,10 +31,13 @@ public:
 	bool preprocessorOnly() const override;
 	void setPreprocessorOnly(bool preprocessorOnly) override;
 
+	bool shouldApplyAnonymousTypedefTransformation() const;
+
 private:
 	std::vector<FilePath> m_systemHeaderSearchPaths;
 	std::vector<FilePath> m_frameworkSearchPaths;
 	std::vector<std::string> m_compilerFlags;
+	bool m_shouldApplyAnonymousTypedefTransformation;
 
 	bool m_preprocessorOnly;
 };

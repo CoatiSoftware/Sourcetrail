@@ -3,7 +3,7 @@
 #include <chrono>
 #include <thread>
 
-#include "data/StorageProvider.h"
+#include "data/storage/StorageProvider.h"
 
 TaskMergeStorages::TaskMergeStorages(
 	std::shared_ptr<StorageProvider> storageProvider

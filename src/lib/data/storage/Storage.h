@@ -5,7 +5,7 @@
 #include <mutex>
 #include <string>
 
-#include "data/StorageTypes.h"
+#include "data/storage/StorageTypes.h"
 #include "utility/types.h"
 
 class Storage

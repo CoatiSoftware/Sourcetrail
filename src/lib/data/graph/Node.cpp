@@ -65,6 +65,8 @@ std::string Node::getReadableTypeString(NodeType type)
 		return "file";
 	case NODE_MACRO:
 		return "macro";
+	case NODE_UNION:
+		return "union";
 	}
 
 	return "";
@@ -115,6 +117,8 @@ Node::NodeType Node::intToType(int value)
 		return NODE_FILE;
 	case NODE_MACRO:
 		return NODE_MACRO;
+	case NODE_UNION:
+		return NODE_UNION;
 	}
 
 	return NODE_NON_INDEXED;

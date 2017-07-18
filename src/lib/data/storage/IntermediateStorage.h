@@ -6,8 +6,8 @@
 #include <unordered_map>
 #include <unordered_set>
 
-#include "data/StorageTypes.h"
-#include "data/Storage.h"
+#include "data/storage/StorageTypes.h"
+#include "data/storage/Storage.h"
 
 class IntermediateStorage: public Storage
 {

@@ -235,6 +235,9 @@
 			<enum>
 				<like>type</like>
 			</enum>
+			<union>
+				<like>type</like>
+			</union>
 			<typedef>
 				<like>type</like>
 			</typedef>

@@ -3,7 +3,7 @@
 
 #include "sqlite/CppSQLite3.h"
 
-#include "data/SqliteDatabaseIndex.h"
+#include "data/storage/sqlite/SqliteDatabaseIndex.h"
 #include "utility/file/FilePath.h"
 
 class SqliteStorageMigration;

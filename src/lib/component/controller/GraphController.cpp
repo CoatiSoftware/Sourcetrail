@@ -1169,6 +1169,7 @@ void GraphController::bundleNodesByType()
 	bundleByType(nodes, Node::NODE_TYPE, "Types");
 	bundleByType(nodes, Node::NODE_TYPEDEF, "Typedefs");
 	bundleByType(nodes, Node::NODE_ENUM, "Enums");
+	bundleByType(nodes, Node::NODE_UNION, "Unions");
 
 	// // should never be visible
 
@@ -1334,7 +1335,7 @@ void GraphController::layoutNestingRecursive(DummyNode* node) const
 
 		Node::NodeTypeMask mask =
 			Node::NODE_NON_INDEXED | Node::NODE_TYPE | Node::NODE_BUILTIN_TYPE |
-			Node::NODE_CLASS | Node::NODE_STRUCT | Node::NODE_ENUM;
+			Node::NODE_CLASS | Node::NODE_STRUCT | Node::NODE_ENUM | Node::NODE_UNION;
 		if (node->data->isType(mask) && node->data->getChildCount() > 0)
 		{
 			addExpandToggleNode(node);
@@ -1609,7 +1610,7 @@ void GraphController::forEachDummyEdge(std::function<void(DummyEdge*)> func)
 
 void GraphController::handleMessage(MessageColorSchemeTest* message)
 {
-	// todo: add nodes: package, interface, type_parameter, builtin_type
+	// todo: add nodes: package, interface, type_parameter, builtin_type, union
 	// todo: add edges: EDGE_TYPE_ARGUMENT, EDGE_IMPORT
 	// todo: add access: TYPE_PARAMETER
 	clear();

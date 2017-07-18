@@ -19,7 +19,7 @@
 #include "component/controller/IDECommunicationController.h"
 #include "component/view/MainView.h"
 #include "component/view/ViewFactory.h"
-#include "data/StorageCache.h"
+#include "data/storage/StorageCache.h"
 #include "LicenseChecker.h"
 #include "settings/ApplicationSettings.h"
 #include "settings/ProjectSettings.h"

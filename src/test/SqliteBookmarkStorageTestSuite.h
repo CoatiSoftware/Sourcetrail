@@ -2,7 +2,7 @@
 
 #include "boost/filesystem.hpp"
 
-#include "data/SqliteBookmarkStorage.h"
+#include "data/storage/sqlite/SqliteBookmarkStorage.h"
 
 class SqliteBookmarkStorageTestSuite: public CxxTest::TestSuite
 {

@@ -1,4 +1,4 @@
-#include "data/SqliteDatabaseIndex.h"
+#include "data/storage/sqlite/SqliteDatabaseIndex.h"
 
 #include "utility/logging/logging.h"
 

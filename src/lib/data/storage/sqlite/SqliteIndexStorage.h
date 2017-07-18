@@ -6,9 +6,9 @@
 #include <vector>
 
 #include "data/location/SourceLocationFile.h"
-#include "data/SqliteDatabaseIndex.h"
-#include "data/SqliteStorage.h"
-#include "data/StorageTypes.h"
+#include "data/storage/sqlite/SqliteDatabaseIndex.h"
+#include "data/storage/sqlite/SqliteStorage.h"
+#include "data/storage/StorageTypes.h"
 #include "utility/types.h"
 #include "utility/utility.h"
 #include "utility/utilityString.h"

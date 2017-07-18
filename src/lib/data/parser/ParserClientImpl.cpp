@@ -129,7 +129,7 @@ Node::NodeType ParserClientImpl::symbolKindToNodeType(SymbolKind symbolKind) con
 	case SYMBOL_TYPE_PARAMETER:
 		return Node::NODE_TYPE_PARAMETER;
 	case SYMBOL_UNION:
-		return Node::NODE_TYPE;
+		return Node::NODE_UNION;
 	default:
 		break;
 	}

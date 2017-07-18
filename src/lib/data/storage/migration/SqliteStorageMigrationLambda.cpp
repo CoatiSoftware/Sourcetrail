@@ -1,4 +1,4 @@
-#include "data/SqliteStorageMigrationLambda.h"
+#include "data/storage/migration/SqliteStorageMigrationLambda.h"
 
 
 SqliteStorageMigrationLambda::SqliteStorageMigrationLambda(std::function<void(const SqliteStorageMigration*, SqliteStorage*)> m_lambda)

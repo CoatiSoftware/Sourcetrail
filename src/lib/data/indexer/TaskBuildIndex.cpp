@@ -10,7 +10,7 @@
 #include "component/view/DialogView.h"
 #include "data/indexer/IndexerCommandList.h"
 #include "data/indexer/interprocess/InterprocessIndexer.h"
-#include "data/StorageProvider.h"
+#include "data/storage/StorageProvider.h"
 
 #if _WIN32
 const std::string TaskBuildIndex::s_processName("sourcetrail_indexer.exe");

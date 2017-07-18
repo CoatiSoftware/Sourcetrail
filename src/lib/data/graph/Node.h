@@ -45,7 +45,8 @@ public:
 		NODE_TYPE_PARAMETER				= 0x10000,
 
 		NODE_FILE						= 0x20000,
-		NODE_MACRO						= 0x40000
+		NODE_MACRO						= 0x40000,
+		NODE_UNION						= 0x80000
 	};
 
 	static std::string getUnderscoredTypeString(NodeType type);

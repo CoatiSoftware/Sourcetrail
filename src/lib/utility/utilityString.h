@@ -30,8 +30,10 @@ namespace utility
 	std::deque<std::string> tokenize(const std::deque<std::string>& list, const std::string& delimiter);
 
 	std::string substrBeforeFirst(const std::string& str, char delimiter);
+	std::string substrBeforeFirst(const std::string& str, const std::string& delimiter);
 	std::string substrBeforeLast(const std::string& str, char delimiter);
 	std::string substrAfter(const std::string& str, char delimiter);
+	std::string substrAfter(const std::string& str, const std::string& delimiter);
 
 	std::string substrBetween(const std::string& str, const std::string& delimiter1, const std::string& delimiter2);
 

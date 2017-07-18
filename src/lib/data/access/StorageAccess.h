@@ -15,7 +15,7 @@
 #include "data/ErrorCountInfo.h"
 #include "data/ErrorFilter.h"
 #include "data/ErrorInfo.h"
-#include "data/StorageStats.h"
+#include "data/storage/StorageStats.h"
 
 class FilePath;
 struct FileInfo;
