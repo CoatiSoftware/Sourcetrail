@@ -9,7 +9,7 @@
 * CxxTest 4.3
 * Valgrind 3.9.0 (linux)
 * Clang & LLVM 4.0.1 (doesnt quite work for windows, use unix setup below and skip all the ninja stuff)(installation guide http://clang.llvm.org/docs/LibASTMatchersTutorial.html)
-* Boost 1.59
+* Boost 1.64
 * Botan 2.1.0
 
 also something about java, but who knows...
@@ -18,7 +18,7 @@ also something about java, but who knows...
 
 * CXX_TEST_DIR - .../cxxtest-4.3
 * CLANG_DIR - .../clang-llvm
-* BOOST_159_DIR - .../boost_1_59_0
+* BOOST_DIR - .../boost_1_64_0
 * BOTAN_DIR - .../Botan-2.1.0
 
 For MacOS and Linux
@@ -42,7 +42,7 @@ Execute Cmake twice (once for each target compiler (32 and 64 bit)). Set the res
 ##### Boost setup
 
 For Windows:
-Build the Boost libs for 32 and 64 bit. Create the subdirectories ${BOOST_159_DIR}/win32 and ${BOOST_159_DIR}/win64 and copy the ${BOOST_159_DIR}/boost folder into each of those platform specific directories. Also move the platform specific libs into the respective ( ${BOOST_159_DIR}/win32/lib and ${BOOST_159_DIR}/win64/lib) folder.
+Build the Boost libs for 32 and 64 bit. Make sure that the platform specific libs are located in ${BOOST_DIR}/lib32-msvc-14 and ${BOOST_DIR}/lib64-msvc-14.
 
 ##### Botan setup
 

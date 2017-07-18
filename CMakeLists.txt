@@ -97,25 +97,26 @@ add_definitions(${CLANG_DEFINITIONS})
 set(Boost_USE_MULTITHREAD ON)
 set(Boost_USE_STATIC_LIBS ON)
 set(Boost_USE_STATIC_RUNTIME OFF)
-set(BOOST_LIBRARYDIR $ENV{BOOST_159_DIR})
+set(BOOST_LIBRARYDIR $ENV{BOOST_DIR})
 
 if(UNIX AND NOT APPLE)
 	set(BOOST_ROOT $ENV{BOOST_DIR})
 elseif(UNIX AND APPLE)
-	set(BOOST_ROOT $ENV{BOOST_159_DIR})
+	set(BOOST_ROOT $ENV{BOOST_DIR})
 	set(Boost_NO_SYSTEM_PATHS ON)
 else()
+	set(BOOST_INCLUDEDIR $ENV{BOOST_DIR})
 	STRING(REGEX REPLACE "\\\\" "/" BOOST_LIBRARYDIR ${BOOST_LIBRARYDIR})
 
 	if(${WINXXBITS} STREQUAL "Win32")
-		set(BOOST_ROOT "${BOOST_LIBRARYDIR}/win32")
+		set(BOOST_LIBRARYDIR "${BOOST_LIBRARYDIR}/lib32-msvc-14")
 	else()
-		set(BOOST_ROOT "${BOOST_LIBRARYDIR}/win64")
+		set(BOOST_LIBRARYDIR "${BOOST_LIBRARYDIR}/lib64-msvc-14")
 	endif()
 	set(Boost_NO_SYSTEM_PATHS ON)
 endif()
 
-find_package(Boost 1.59 COMPONENTS system program_options filesystem date_time REQUIRED)
+find_package(Boost 1.64 COMPONENTS system program_options filesystem date_time REQUIRED)
 
 # Botan -------------------------------------------------------------------------
 
