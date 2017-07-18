@@ -7,7 +7,7 @@
         - cd ./bin/test
         - ../../build/Release/test/Sourcetrail_test
 
-Linux64:
+Linux64_test:
     image: st4ll1/coati_64
     stage: deploy
     only:
@@ -31,17 +31,16 @@ Linux64_tag:
         paths:
             - Sourcetrail*.tar.gz
 
-Linux64_manual:
+Linux64:
     image: st4ll1/coati_linux_64
     stage: deploy
-    except:
-        - master
     when: manual
     <<: *script_definition
     artifacts:
         name: "$CI_JOB_NAME"
         paths:
             - Sourcetrail*.tar.gz
+        expire_in: 3 days
 
 Linux64_licenseGenerator:
     image: st4ll1/coati_64
@@ -60,9 +59,7 @@ Linux64_licenseGenerator:
 Linux32:
     image: st4ll1/coati_32
     stage: deploy
-    only:
-        - master
-        - triggers
+    when: manual
     <<: *script_definition
     artifacts:
         name: "$CI_JOB_NAME"
@@ -81,14 +78,3 @@ Linux32_tag:
         paths:
             - Sourcetrail*.tar.gz
 
-Linux32_manual:
-    image: st4ll1/coati_32
-    stage: deploy
-    except:
-        - master
-    when: manual
-    <<: *script_definition
-    artifacts:
-        name: "$CI_JOB_NAME"
-        paths:
-            - Sourcetrail*.tar.gz
