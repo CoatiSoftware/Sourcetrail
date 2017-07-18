@@ -119,7 +119,7 @@ find_package(Boost 1.59 COMPONENTS system program_options filesystem date_time R
 
 # Botan -------------------------------------------------------------------------
 
-set(BOTAN_VERSION "botan-1.11" "botan-2")
+set(BOTAN_VERSION "botan-2")
 
 if(APPLE)
 	find_library(BOTAN ${BOTAN_VERSION} $ENV{BOTAN_DIR}/release NO_DEFAULT_PATH)
@@ -157,7 +157,11 @@ elseif(WIN32)
 		set(BOTAN_INCLUDE_DIR "$ENV{BOTAN_DIR}/win64/build/include")
 	endif()
 else()
-	set(BOTAN_INCLUDE_DIR "$ENV{BOTAN_DIR}/build/include")
+	if("${CMAKE_BUILD_TYPE}" STREQUAL "Release")
+		set(BOTAN_INCLUDE_DIR "$ENV{BOTAN_DIR}/release/build/include")
+	else()
+		set(BOTAN_INCLUDE_DIR "$ENV{BOTAN_DIR}/debug/build/include")
+	endif()
 endif()
 
 if(NOT BOTAN_INCLUDE_DIR)

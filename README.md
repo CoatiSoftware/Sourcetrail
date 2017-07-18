@@ -10,7 +10,7 @@
 * Valgrind 3.9.0 (linux)
 * Clang & LLVM 4.0.1 (doesnt quite work for windows, use unix setup below and skip all the ninja stuff)(installation guide http://clang.llvm.org/docs/LibASTMatchersTutorial.html)
 * Boost 1.59
-* Botan 1.11.34
+* Botan 2.1.0
 
 also something about java, but who knows...
 
@@ -19,7 +19,7 @@ also something about java, but who knows...
 * CXX_TEST_DIR - .../cxxtest-4.3
 * CLANG_DIR - .../clang-llvm
 * BOOST_159_DIR - .../boost_1_59_0
-* BOTAN_DIR - .../Botan-1.11.34
+* BOTAN_DIR - .../Botan-2.1.0
 
 For MacOS and Linux
 * QT_DIR - .../Qt/Qt5.8.0/5.8/<IDE>
@@ -71,7 +71,10 @@ Build release lib in ${BOTAN_DIR}/release
 Build debug lib in ${BOTAN_DIR}/debug
 
 for Mac:
-$ python configure.py --disable-shared --disable-modules=darwin_secrandom
+$ mkdir debug/release
+$ cd debug/release
+$ python ../configure.py --disable-shared --disable-modules=darwin_secrandom (--with-debug-info)
+$ make -j 4
 
 for Linux:
 $ python configure.py --disable-shared
