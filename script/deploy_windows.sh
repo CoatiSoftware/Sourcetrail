@@ -134,8 +134,10 @@ mkdir -p $APP_PACKAGE_DIR_WIN32/plugins/sublime_text/
 cp -u -r ide_plugins/sublime_text/* $APP_PACKAGE_DIR_WIN32/plugins/sublime_text/
 mkdir -p $APP_PACKAGE_DIR_WIN32/plugins/vim/
 cp -u -r ide_plugins/vim/* $APP_PACKAGE_DIR_WIN32/plugins/vim/
+mkdir -p $APP_PACKAGE_DIR_WIN32/plugins/vscode/
+cp -u -r ide_plugins/vscode/* $APP_PACKAGE_DIR_WIN32/plugins/vscode/
 mkdir -p $APP_PACKAGE_DIR_WIN32/plugins/visual_studio/
-cp -u -r ide_plugins/vs/* $APP_PACKAGE_DIR_WIN32/plugins/visual_studio/
+cp -u -r ide_plugins/visual_studio/* $APP_PACKAGE_DIR_WIN32/plugins/visual_studio/
 
 
 echo -e "$INFO creating package folder for win64"
@@ -155,12 +157,16 @@ mkdir -p $APP_PACKAGE_DIR_WIN64/plugins/emacs/
 cp -u -r ide_plugins/emacs/* $APP_PACKAGE_DIR_WIN64/plugins/emacs/
 mkdir -p $APP_PACKAGE_DIR_WIN64/plugins/idea/
 cp -u -r ide_plugins/idea/* $APP_PACKAGE_DIR_WIN64/plugins/idea/
+mkdir -p $APP_PACKAGE_DIR_WIN64/plugins/qt_creator/
+cp -u -r ide_plugins/qt_creator/* $APP_PACKAGE_DIR_WIN64/plugins/qt_creator/
 mkdir -p $APP_PACKAGE_DIR_WIN64/plugins/sublime_text/
 cp -u -r ide_plugins/sublime_text/* $APP_PACKAGE_DIR_WIN64/plugins/sublime_text/
 mkdir -p $APP_PACKAGE_DIR_WIN64/plugins/vim/
 cp -u -r ide_plugins/vim/* $APP_PACKAGE_DIR_WIN64/plugins/vim/
+mkdir -p $APP_PACKAGE_DIR_WIN32/plugins/vscode/
+cp -u -r ide_plugins/vscode/* $APP_PACKAGE_DIR_WIN32/plugins/vscode/
 mkdir -p $APP_PACKAGE_DIR_WIN64/plugins/visual_studio/
-cp -u -r ide_plugins/vs/* $APP_PACKAGE_DIR_WIN64/plugins/visual_studio/
+cp -u -r ide_plugins/visual_studio/* $APP_PACKAGE_DIR_WIN64/plugins/visual_studio/
 
 
 # PACKAGING SOURCETRAIL
