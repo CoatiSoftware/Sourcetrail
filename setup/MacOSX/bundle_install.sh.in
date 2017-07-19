@@ -88,14 +88,14 @@ sed -i '' -e 's/PlugIns/Plugins/g' $RES_DIR/qt.conf
 
 install_name_tool -delete_rpath "/Users/ebsi/Documents/clang-llvm/build_release/./lib" $APP_PATH
 install_name_tool -delete_rpath "/Users/ebsi/Documents/clang-llvm/build_release/lib" $APP_PATH
-install_name_tool -delete_rpath "/Users/ebsi/Documents/boost_1_59_0/stage/lib" $APP_PATH
+install_name_tool -delete_rpath "/Users/ebsi/Documents/boost_1_64_0/stage/lib" $APP_PATH
 install_name_tool -delete_rpath "@executable_path/../Frameworks" $APP_PATH
 install_name_tool -add_rpath "@loader_path/../Frameworks" $APP_PATH
 
 install_name_tool -delete_rpath "/Users/ebsi/Documents/clang-llvm/build_release/./lib" $INDEXER_PATH
 install_name_tool -delete_rpath "/Users/ebsi/Documents/clang-llvm/build_release/lib" $INDEXER_PATH
-install_name_tool -delete_rpath "/Users/ebsi/Documents/boost_1_59_0/stage/lib" $INDEXER_PATH
-install_name_tool -delete_rpath "/Users/ebsi/Documents/Qt/5.8/clang_64/lib" $INDEXER_PATH
+install_name_tool -delete_rpath "/Users/ebsi/Documents/boost_1_64_0/stage/lib" $INDEXER_PATH
+install_name_tool -delete_rpath "/Users/ebsi/Documents/Qt/5.9.1/clang_64/lib" $INDEXER_PATH
 install_name_tool -add_rpath "@loader_path/../Frameworks" $INDEXER_PATH
 
 echo -e $INFO "App dependencies"

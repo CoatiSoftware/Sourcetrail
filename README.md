@@ -5,7 +5,7 @@
 #### External Software
 
 * JDK 1.8
-* QT 5.8
+* QT 5.9.1
 * CxxTest 4.3
 * Valgrind 3.9.0 (linux)
 * Clang & LLVM 4.0.1 (doesnt quite work for windows, use unix setup below and skip all the ninja stuff)(installation guide http://clang.llvm.org/docs/LibASTMatchersTutorial.html)
@@ -22,11 +22,11 @@ also something about java, but who knows...
 * BOTAN_DIR - .../Botan-2.1.0
 
 For MacOS and Linux
-* QT_DIR - .../Qt/Qt5.8.0/5.8/<IDE>
+* QT_DIR - .../Qt/Qt5.9.1/5.9.1/<IDE>
 
 For Windows:
-* QT_WIN32_DIR - .../Qt/Qt5.8.0/win32/5.8/msvc2015<IDE>
-* QT_WIN64_DIR - .../Qt/Qt5.8.0/win64/5.8/msvc2015_64<IDE>
+* QT_WIN32_DIR - .../Qt/Qt5.9.1/5.9.1/msvc2015<IDE>
+* QT_WIN64_DIR - .../Qt/Qt5.9.1/5.9.1/msvc2015_64<IDE>
 * VLD_DIR - .../Visual Leak Detector
 * path
 	- apped path to git.exe
@@ -43,6 +43,10 @@ Execute Cmake twice (once for each target compiler (32 and 64 bit)). Set the res
 
 For Windows:
 Build the Boost libs for 32 and 64 bit. Make sure that the platform specific libs are located in ${BOOST_DIR}/lib32-msvc-14 and ${BOOST_DIR}/lib64-msvc-14.
+
+For Mac:
+$ ./bootstrap.sh --with-libraries=filesystem,program_options,system,date_time
+$ ./b2 --link=static --variant=release --threading=multi --runtime-link=static --cxxflags=-fPIC
 
 ##### Botan setup
 
