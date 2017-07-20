@@ -41,6 +41,7 @@ public:
 
 	void clear();
 	void clearCodeSnippets();
+	void clearFile();
 	void clearCaches();
 
 	const std::set<Id>& getCurrentActiveTokenIds() const;

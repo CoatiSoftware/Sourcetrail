@@ -76,9 +76,14 @@ QAbstractScrollArea* QtCodeFileSingle::getScrollArea()
 	return m_area;
 }
 
-void QtCodeFileSingle::clearCache()
+void QtCodeFileSingle::clearFile()
 {
 	setFileData(FileData());
+}
+
+void QtCodeFileSingle::clearCache()
+{
+	clearFile();
 
 	m_fileDatas.clear();
 	m_filePaths.clear();

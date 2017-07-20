@@ -72,6 +72,11 @@ void QtCodeView::showCodeSnippets(const std::vector<CodeSnippetParams>& snippets
 
 			m_widget->setActiveTokenIds(params.activeTokenIds);
 			m_widget->setErrorInfos(params.errorInfos);
+
+			if (!snippets.size())
+			{
+				m_widget->clearFile();
+			}
 		}
 
 		bool addedFiles = false;

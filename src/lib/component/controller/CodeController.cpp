@@ -402,6 +402,11 @@ void CodeController::expandVisibleSnippets(std::vector<CodeSnippetParams>* snipp
 {
 	TRACE();
 
+	if (!snippets->size())
+	{
+		return;
+	}
+
 	bool inListMode = getView()->isInListMode();
 
 	size_t filesToExpand = inListMode ? std::min(int(snippets->size()), 3) : 1;

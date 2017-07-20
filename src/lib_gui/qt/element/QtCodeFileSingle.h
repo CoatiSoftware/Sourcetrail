@@ -27,6 +27,7 @@ public:
 	QtCodeFileSingle(QtCodeNavigator* navigator, QWidget* parent = nullptr);
 	virtual ~QtCodeFileSingle();
 
+	void clearFile();
 	void clearCache();
 
 	// QtCodeNaviatebale implementation

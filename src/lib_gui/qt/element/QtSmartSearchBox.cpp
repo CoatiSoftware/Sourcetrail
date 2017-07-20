@@ -88,6 +88,7 @@ QtSmartSearchBox::QtSmartSearchBox(QWidget* parent)
 	, m_cursorIndex(0)
 	, m_shiftKeyDown(false)
 	, m_mousePressed(false)
+	, m_ignoreNextMousePress(false)
 {
 	m_highlightRect = new QWidget(this);
 	m_highlightRect->setGeometry(0, 0, 0, 0);
@@ -150,17 +151,6 @@ void QtSmartSearchBox::setMatches(const std::vector<SearchMatch>& matches)
 void QtSmartSearchBox::setFocus()
 {
 	QLineEdit::setFocus(Qt::ShortcutFocusReason);
-
-	if (text().size() == 1 && text().startsWith(SearchMatch::FULLTEXT_SEARCH_CHARACTER))
-	{
-		setEditText("");
-	}
-	else
-	{
-		editTextToElement();
-		selectAllElementsWith(true);
-		layoutElements();
-	}
 }
 
 void QtSmartSearchBox::findFulltext()
@@ -212,6 +202,32 @@ void QtSmartSearchBox::resizeEvent(QResizeEvent* event)
 {
 	QLineEdit::resizeEvent(event);
 	layoutElements();
+}
+
+void QtSmartSearchBox::focusInEvent(QFocusEvent* event)
+{
+	QLineEdit::focusInEvent(event);
+
+	if (event->reason() != Qt::MouseFocusReason && event->reason() != Qt::ShortcutFocusReason)
+	{
+		return;
+	}
+
+	if (text().size() == 1 && text().startsWith(SearchMatch::FULLTEXT_SEARCH_CHARACTER))
+	{
+		setEditText("");
+	}
+	else
+	{
+		editTextToElement();
+		selectAllElementsWith(true);
+		layoutElements();
+	}
+
+	if (event->reason() == Qt::MouseFocusReason)
+	{
+		m_ignoreNextMousePress = true;
+	}
 }
 
 void QtSmartSearchBox::keyPressEvent(QKeyEvent* event)
@@ -436,13 +452,23 @@ void QtSmartSearchBox::mousePressEvent(QMouseEvent* event)
 {
 	QLineEdit::mousePressEvent(event);
 
-	m_mousePressed = true;
-	m_mouseX = event->x();
+	if (!m_ignoreNextMousePress)
+	{
+		m_mousePressed = true;
+		m_mouseX = event->x();
+	}
+
+	m_ignoreNextMousePress = false;
 }
 
 void QtSmartSearchBox::mouseReleaseEvent(QMouseEvent* event)
 {
 	QLineEdit::mouseReleaseEvent(event);
+
+	if (!m_mousePressed)
+	{
+		return;
+	}
 
 	m_mousePressed = false;
 

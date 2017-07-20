@@ -257,6 +257,11 @@ void QtCodeNavigator::clearCodeSnippets()
 	m_singleHasNewFile = false;
 }
 
+void QtCodeNavigator::clearFile()
+{
+	m_single->clearFile();
+}
+
 void QtCodeNavigator::clearCaches()
 {
 	m_single->clearCache();

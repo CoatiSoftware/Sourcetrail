@@ -51,6 +51,8 @@ public:
 protected:
 	virtual bool event(QEvent *event);
 	virtual void resizeEvent(QResizeEvent* event);
+	virtual void focusInEvent(QFocusEvent* event);
+
 	virtual void keyPressEvent(QKeyEvent* event);
 	virtual void keyReleaseEvent(QKeyEvent* event);
 
@@ -112,6 +114,7 @@ private:
 	bool m_shiftKeyDown;
 	bool m_mousePressed;
 	int m_mouseX;
+	bool m_ignoreNextMousePress;
 
 	QWidget* m_highlightRect;
 	QtAutocompletionList* m_completer;
