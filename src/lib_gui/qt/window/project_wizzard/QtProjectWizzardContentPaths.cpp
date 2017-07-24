@@ -292,7 +292,24 @@ void QtProjectWizzardContentPathsCDBHeader::buttonClicked()
 		utility::CompilationDatabase cdb(cdbPath.str());
 
 		std::vector<FilePath> sourcePaths = m_settings->getSourcePaths();
-		std::vector<FilePath> cdbHeaderPaths = utility::unique(utility::concat(sourcePaths, cdb.getAllHeaderPaths()));
+
+		std::vector<FilePath> cdbHeaderPaths;
+		for (const FilePath& path: utility::unique(utility::concat(sourcePaths, cdb.getAllHeaderPaths())))
+		{
+			bool addPath = true;
+			for (const FilePath& cdbHeaderPath: cdbHeaderPaths)
+			{
+				if (cdbHeaderPath.contains(path))
+				{
+					addPath = false;
+					break;
+				}
+			}
+			if (addPath)
+			{
+				cdbHeaderPaths.push_back(path);
+			}
+		}
 
 		dynamic_cast<QtSelectPathsDialog*>(m_filesDialog.get())->setPathsList(cdbHeaderPaths, sourcePaths);
 	}
