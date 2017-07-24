@@ -4,6 +4,7 @@
 #include "qt/window/project_wizzard/QtProjectWizzardContent.h"
 #include "utility/path_detector/CombinedPathDetector.h"
 
+class IncludeDirective;
 class QCheckBox;
 class QComboBox;
 class QPushButton;
@@ -99,15 +100,24 @@ public:
 class QtProjectWizzardContentPathsHeaderSearch
 	: public QtProjectWizzardContentPaths
 {
+	Q_OBJECT
+
 public:
 	QtProjectWizzardContentPathsHeaderSearch(
 		std::shared_ptr<SourceGroupSettings> settings, QtProjectWizzardWindow* window, bool isCDB = false);
 
 	// QtProjectWizzardContent implementation
+	virtual void populate(QGridLayout* layout, int& row);
 	virtual void load() override;
 	virtual void save() override;
-
 	virtual bool isScrollAble() const override;
+
+private slots:
+	void validateButtonClicked();
+
+private:
+	void showValidationResult(const std::vector<IncludeDirective>& unresolvedIncludes);
+	QtThreadedFunctor<std::vector<IncludeDirective>> m_showValidationResultFunctor;
 };
 
 class QtProjectWizzardContentPathsHeaderSearchGlobal

@@ -166,7 +166,8 @@ std::vector<T> utility::unique(const std::vector<T>& a)
 		}
 	}
 
-	std::vector<T> r(i, T());
+	std::vector<T> r;
+	r.reserve(i);
 	for (const std::pair<T, size_t>& p : unique)
 	{
 		r[p.second] = p.first;

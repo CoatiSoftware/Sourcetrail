@@ -56,6 +56,23 @@ std::set<FilePath> FileManager::getAllSourceFilePaths() const
 	return m_allSourceFilePaths;
 }
 
+std::set<FilePath> FileManager::getAllSourceFilePathsRelative(const FilePath& baseDirectory) const
+{
+	std::set<FilePath> absolutePaths;
+	for (const FilePath& path: getAllSourceFilePaths())
+	{
+		if (baseDirectory.exists())
+		{
+			absolutePaths.insert(path.relativeTo(baseDirectory));
+		}
+		else
+		{
+			absolutePaths.insert(path);
+		}
+	}
+	return absolutePaths;
+}
+
 std::vector<FilePath> FileManager::makeCanonical(const std::vector<FilePath>& filePaths)
 {
 	std::vector<FilePath> ret;

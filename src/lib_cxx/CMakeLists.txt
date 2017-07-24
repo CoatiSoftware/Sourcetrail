@@ -76,6 +76,10 @@ add_files(
 	data/storage/StorageTransformationAnonymousTypedef.cpp
 	data/storage/StorageTransformationAnonymousTypedef.h
 
+	project/IncludeDirective.cpp
+	project/IncludeDirective.h
+	project/IncludeValidation.cpp
+	project/IncludeValidation.h
 	project/SourceGroupCxx.cpp
 	project/SourceGroupCxx.h
 	project/SourceGroupFactoryModuleCpp.cpp
