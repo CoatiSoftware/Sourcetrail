@@ -14,6 +14,7 @@
 #include "settings/SourceGroupSettingsJava.h"
 #include "utility/file/FileManager.h"
 #include "utility/messaging/type/MessageStatus.h"
+#include "utility/ScopedFunctor.h"
 #include "utility/utilityMaven.h"
 
 QtProjectWizzardContentPath::QtProjectWizzardContentPath(std::shared_ptr<SourceGroupSettings> settings, QtProjectWizzardWindow* window)
@@ -226,8 +227,12 @@ std::vector<std::string> QtProjectWizzardContentPathSourceMaven::getFileNames() 
 
 	std::vector<std::string> list;
 	std::shared_ptr<DialogView> dialogView = Application::getInstance()->getDialogView();
-	std::dynamic_pointer_cast<QtDialogView>(dialogView)->setParentWindow(m_window);
 
+	ScopedFunctor scopedFunctor([&dialogView](){
+		dialogView->hideUnknownProgressDialog();
+	});
+
+	std::dynamic_pointer_cast<QtDialogView>(dialogView)->setParentWindow(m_window);
 	dialogView->showUnknownProgressDialog("Preparing Project", "Maven\nGenerating Source Files");
 	const bool success = utility::mavenGenerateSources(mavenPath, mavenProjectRoot);
 	if (!success)
@@ -268,12 +273,9 @@ std::vector<std::string> QtProjectWizzardContentPathSourceMaven::getFileNames() 
 			list.push_back(path.str());
 		}
 	}
-	dialogView->hideUnknownProgressDialog();
-	std::dynamic_pointer_cast<QtDialogView>(dialogView)->setParentWindow(nullptr);
 
 	return list;
 }
-
 
 QtProjectWizzardContentPathDependenciesMaven::QtProjectWizzardContentPathDependenciesMaven(
 	std::shared_ptr<SourceGroupSettings> settings, QtProjectWizzardWindow* window

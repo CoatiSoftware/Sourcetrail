@@ -176,6 +176,15 @@ void QtProjectWizzardContentPathsSource::save()
 
 std::vector<std::string> QtProjectWizzardContentPathsSource::getFileNames() const
 {
+	std::shared_ptr<DialogView> dialogView = Application::getInstance()->getDialogView();
+
+	ScopedFunctor scopedFunctor([&dialogView](){
+		dialogView->hideUnknownProgressDialog();
+	});
+
+	std::dynamic_pointer_cast<QtDialogView>(dialogView)->setParentWindow(m_window);
+	dialogView->showUnknownProgressDialog("Processing", "Gathering Source Files");
+
 	FileManager fileManager;
 	fileManager.update(
 		m_settings->getSourcePathsExpandedAndAbsolute(),
@@ -390,16 +399,13 @@ void QtProjectWizzardContentPathsHeaderSearch::validateButtonClicked()
 		std::vector<IncludeDirective> unresolvedIncludes;
 		{
 			std::shared_ptr<DialogView> dialogView = Application::getInstance()->getDialogView();
-			std::dynamic_pointer_cast<QtDialogView>(dialogView)->setParentWindow(m_window);
-			ScopedFunctor dialogParentResetter([&dialogView](){
-				std::dynamic_pointer_cast<QtDialogView>(dialogView)->setParentWindow(nullptr);
-			});
 
 			std::vector<FilePath> sourceFilePaths;
 			std::vector<FilePath> indexedFilePaths;
 			std::vector<FilePath> headerSearchPaths;
 
 			{
+				std::dynamic_pointer_cast<QtDialogView>(dialogView)->setParentWindow(m_window);
 				dialogView->showUnknownProgressDialog("Processing", "Gathering Source Files");
 				ScopedFunctor dialogHider([&dialogView](){
 					dialogView->hideUnknownProgressDialog();
@@ -422,6 +428,7 @@ void QtProjectWizzardContentPathsHeaderSearch::validateButtonClicked()
 				}
 			}
 			{
+				std::dynamic_pointer_cast<QtDialogView>(dialogView)->setParentWindow(m_window);
 				ScopedFunctor dialogHider([&dialogView](){
 					dialogView->hideProgressDialog();
 				});

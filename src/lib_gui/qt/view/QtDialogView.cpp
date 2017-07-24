@@ -67,6 +67,8 @@ void QtDialogView::hideUnknownProgressDialog()
 			setUIBlocked(false);
 		}
 	);
+
+	setParentWindow(nullptr);
 }
 
 void QtDialogView::showProgressDialog(const std::string& title, const std::string& message, int progress)
@@ -110,6 +112,8 @@ void QtDialogView::hideProgressDialog()
 			setUIBlocked(false);
 		}
 	);
+
+	setParentWindow(nullptr);
 }
 
 
@@ -218,6 +222,8 @@ void QtDialogView::hideDialogs()
 			setUIBlocked(false);
 		}
 	);
+
+	setParentWindow(nullptr);
 }
 
 int QtDialogView::confirm(const std::string& message, const std::vector<std::string>& options)
