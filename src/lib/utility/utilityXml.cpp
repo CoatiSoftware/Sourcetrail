@@ -2,6 +2,8 @@
 
 #include "tinyxml/tinyxml.h"
 
+#include "utility/logging/logging.h"
+
 namespace utility
 {
 
@@ -54,12 +56,18 @@ namespace utility
 		}
 		else
 		{
-		//	LOG_ERROR("Unable to load file.");
+			if (doc.Error())
+			{
+				LOG_ERROR(std::string("Error while parsing XML: ") + doc.ErrorDesc() + " (in line " + std::to_string(doc.ErrorRow()) + ": \"" + textAccess->getLine(doc.ErrorRow()) + "\")");
+
+			}
+			else
+			{
+				LOG_ERROR("Unable to load file.");
+			}
 		}
 		return values;
 	}
-
-
 
 	std::vector<std::string> getValuesOfAllXmlTagsByName(std::shared_ptr<TextAccess> textAccess, const std::string& tag)
 	{

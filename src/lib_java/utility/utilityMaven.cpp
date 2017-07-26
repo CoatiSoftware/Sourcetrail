@@ -16,16 +16,18 @@ namespace
 {
 	void fetchDirectories(std::vector<FilePath>& pathList, std::shared_ptr<TextAccess> xmlAccess, const std::vector<std::string>& tags, const FilePath& toAppend = FilePath())
 	{
-		std::string tagString = "";
-		for (size_t i = 0; i < tags.size(); i++)
 		{
-			if (i != 0)
+			std::string tagString = "";
+			for (size_t i = 0; i < tags.size(); i++)
 			{
-				tagString += " -> ";
+				if (i != 0)
+				{
+					tagString += " -> ";
+				}
+				tagString += tags[i];
 			}
-			tagString += tags[i];
+			LOG_INFO("Fetching source directories in \"" + tagString + "\".");
 		}
-		LOG_INFO("Fetching source directories in \"" + tagString + "\".");
 
 		std::vector<std::string> fetchedDirectories = utility::getValuesOfAllXmlElementsOnPath(
 			xmlAccess, tags
@@ -104,14 +106,38 @@ namespace utility
 			return std::vector<FilePath>();
 		}
 
-		std::string xmlContent = "";
-		for (std::string line: outputAccess->getAllLines())
+		size_t startLine = 0;
+		for (size_t i = 1; i <= outputAccess->getLineCount(); i++)
 		{
-			const std::string trimmedLine = utility::trim(line);
-			if (!trimmedLine.empty() && trimmedLine.front() == '<')
+			if (utility::isPrefix("<?xml", utility::trim(outputAccess->getLine(i))))
 			{
-				xmlContent.append(line);
+				startLine = i;
+				break;
 			}
+		}
+
+		size_t endLine = outputAccess->getLineCount();
+		for (size_t i = outputAccess->getLineCount(); i > 0 ; i--)
+		{
+			if (utility::isPrefix("<", utility::trim(outputAccess->getLine(i))))
+			{
+				endLine = i;
+				break;
+			}
+		}
+		for (size_t i = endLine + 1; i <= outputAccess->getLineCount(); i++)
+		{
+			if (utility::isPrefix("[", utility::trim(outputAccess->getLine(i))))
+			{
+				break;
+			}
+			endLine = i;
+		}
+
+		std::string xmlContent = "";
+		for (const std::string& line: outputAccess->getLines(startLine, endLine))
+		{
+			xmlContent.append(line);
 		}
 		std::shared_ptr<TextAccess> xmlAccess = TextAccess::createFromString(xmlContent);
 
