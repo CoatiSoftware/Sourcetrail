@@ -814,15 +814,21 @@ private:
 #else
 			const std::string separator = ":";
 #endif
+			std::string classPath = "";
+			{
+				const std::vector<std::string> jarNames =  JavaParser::getRequiredJarNames();
+				for (size_t i = 0; i < jarNames.size(); i++)
+				{
+					if (i != 0)
+					{
+						classPath += separator;
+					}
+					classPath += "../app/data/java/" + jarNames[i];
+				}
+			}
+
 			JavaEnvironmentFactory::createInstance(
-				"../app/data/java/guava-21.0.jar" + separator +
-				"../app/data/java/java-indexer.jar" + separator +
-				"../app/data/java/javaparser-core.jar" + separator +
-				"../app/data/java/javaslang-2.0.3.jar" + separator +
-				"../app/data/java/javassist-3.19.0-GA.jar" + separator +
-				"../app/data/java/java-symbol-solver-core.jar" + separator +
-				"../app/data/java/java-symbol-solver-logic.jar" + separator +
-				"../app/data/java/java-symbol-solver-model.jar" + separator,
+				classPath,
 				errorString
 			);
 		}

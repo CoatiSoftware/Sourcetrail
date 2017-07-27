@@ -31,6 +31,7 @@ class FileRegister;
 class JavaParser: public Parser
 {
 public:
+	static std::vector<std::string> getRequiredJarNames();
 	// returns: error message
 	static std::string prepareJavaEnvironment();
 	static void clearCaches();

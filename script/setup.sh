@@ -40,20 +40,6 @@ cp setup/git/git_pre_commit_hook.sh .git/hooks/pre-commit
 cp setup/git/git_pre_push_hook.sh .git/hooks/pre-push
 fi
 
-# Copy necessary jars for java indexer
-echo -e $INFO "copy jars for java indexer"
-
-mkdir -p java_indexer/lib
-
-if [ $PLATFORM == "Windows" ]; then
-	cp -u -r setup/jars/windows/*.jar java_indexer/lib
-elif [ $PLATFORM == "Linux" ]; then
-	cp -u -r setup/jars/linux/*.jar java_indexer/lib
-	# what about 32/64 bit?
-elif [ $PLATFORM == "MacOS" ]; then
-	cp -r setup/jars/MacOSX/*.jar java_indexer/lib
-fi
-
 # Create Debug and Release folders
 echo -e $INFO "create build folders"
 if [ $PLATFORM == "Windows" ]; then

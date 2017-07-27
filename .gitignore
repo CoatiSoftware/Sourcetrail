@@ -13,8 +13,7 @@
 /bin/test/data/temp.xml
 /bin/test/data/TestSettings.xml
 
-/java_indexer/bin/
-/java_indexer/lib/
+/java_indexer/target/
 
 /setup/Linux/lib/
 

@@ -27,13 +27,21 @@ ROOT_DIR=$ROOT_DIR/..
 # Enter main directory
 cd $ROOT_DIR/
 
+cd java_indexer
 
-echo -e $INFO "build java-indexer"
-java_indexer/build/build.sh
+echo "cleaning and building java_indexer.jar"
+mvn clean package dependency:copy-dependencies
 
+cd ../
 
 echo -e $INFO "copy jars"
 mkdir -p bin/app/data/java
 rm -rf bin/app/data/java/*
-cp -r java_indexer/lib/*.jar bin/app/data/java
-cp -r java_indexer/bin/*.jar bin/app/data/java
+cp -r java_indexer/target/java-indexer-1.0.jar bin/app/data/java/java-indexer.jar
+cp -r java_indexer/target/dependency/guava*.jar bin/app/data/java
+cp -r java_indexer/target/dependency/javaparser-core*.jar bin/app/data/java
+cp -r java_indexer/target/dependency/javaslang*.jar bin/app/data/java
+cp -r java_indexer/target/dependency/javassist*.jar bin/app/data/java
+cp -r java_indexer/target/dependency/java-symbol-solver-core-x.x.x.jar bin/app/data/java/java-symbol-solver-core.jar
+cp -r java_indexer/target/dependency/java-symbol-solver-logic-x.x.x.jar bin/app/data/java/java-symbol-solver-logic.jar
+cp -r java_indexer/target/dependency/java-symbol-solver-model-x.x.x.jar bin/app/data/java/java-symbol-solver-model.jar
