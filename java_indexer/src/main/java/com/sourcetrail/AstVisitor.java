@@ -51,6 +51,7 @@ import com.github.javaparser.symbolsolver.model.resolution.TypeSolver;
 import com.github.javaparser.symbolsolver.model.resolution.UnsolvedSymbolException;
 import com.github.javaparser.symbolsolver.model.typesystem.*;
 import com.github.javaparser.symbolsolver.resolution.MethodResolutionLogic;
+import com.sourcetrail.name.JavaDeclName;
 
 public class AstVisitor extends AstVisitorAdapter
 {
@@ -77,7 +78,7 @@ public class AstVisitor extends AstVisitorAdapter
 		Name name = n.getName();
 		
 		m_client.recordSymbolWithLocationAndScope( 
-			JavaparserDeclNameResolver.getQualifiedName(name).toSerializedNameHierarchy(), 
+			JavaparserDeclNameResolver.getQualifiedName(name).toNameHierarchy().serialize(), 
 			SymbolKind.PACKAGE,
 			name.getRange(), 
 			n.getRange(),
@@ -89,7 +90,7 @@ public class AstVisitor extends AstVisitorAdapter
 		{
 			name = name.getQualifier().get();
 			m_client.recordSymbol(
-				JavaparserDeclNameResolver.getQualifiedName(name).toSerializedNameHierarchy(), 
+				JavaparserDeclNameResolver.getQualifiedName(name).toNameHierarchy().serialize(), 
 				SymbolKind.PACKAGE, 
 				AccessKind.NONE, 
 				DefinitionKind.EXPLICIT
@@ -103,7 +104,7 @@ public class AstVisitor extends AstVisitorAdapter
 	{
 		SimpleName name = n.getName();
 		
-		String qualifiedName = JavaparserDeclNameResolver.getQualifiedDeclName(n, m_typeSolver).toSerializedNameHierarchy();
+		String qualifiedName = JavaparserDeclNameResolver.getQualifiedDeclName(n, m_typeSolver).toNameHierarchy().serialize();
 		
 		m_client.recordSymbolWithLocationAndScope(
 			qualifiedName, (n.isInterface() ? SymbolKind.INTERFACE : SymbolKind.CLASS),
@@ -171,7 +172,7 @@ public class AstVisitor extends AstVisitorAdapter
 	{
 		SimpleName name = n.getName();
 		
-		String qualifiedName = JavaparserDeclNameResolver.getQualifiedDeclName(n, m_typeSolver).toSerializedNameHierarchy();
+		String qualifiedName = JavaparserDeclNameResolver.getQualifiedDeclName(n, m_typeSolver).toNameHierarchy().serialize();
 		
 		m_client.recordSymbolWithLocationAndScope(
 			qualifiedName, SymbolKind.ENUM, 
@@ -196,7 +197,7 @@ public class AstVisitor extends AstVisitorAdapter
 	
 	@Override public void visit(final EnumConstantDeclaration n, final Void v)
 	{
-		String qualifiedName = JavaparserDeclNameResolver.getQualifiedDeclName(n, m_typeSolver).toSerializedNameHierarchy();
+		String qualifiedName = JavaparserDeclNameResolver.getQualifiedDeclName(n, m_typeSolver).toNameHierarchy().serialize();
 		
 		m_client.recordSymbolWithLocation(
 			qualifiedName, SymbolKind.ENUM_CONSTANT,
@@ -216,7 +217,7 @@ public class AstVisitor extends AstVisitorAdapter
 	{
 		SimpleName name = n.getName();
 		
-		String qualifiedName = JavaparserDeclNameResolver.getQualifiedDeclName(n, m_typeSolver).toSerializedNameHierarchy();
+		String qualifiedName = JavaparserDeclNameResolver.getQualifiedDeclName(n, m_typeSolver).toNameHierarchy().serialize();
 		
 		m_client.recordSymbolWithLocationAndScope(
 			qualifiedName, SymbolKind.METHOD,
@@ -237,7 +238,7 @@ public class AstVisitor extends AstVisitorAdapter
 	{
 		SimpleName name = n.getName();
 		
-		String qualifiedName = JavaparserDeclNameResolver.getQualifiedDeclName(n, m_typeSolver).toSerializedNameHierarchy();
+		String qualifiedName = JavaparserDeclNameResolver.getQualifiedDeclName(n, m_typeSolver).toNameHierarchy().serialize();
 		
 		m_client.recordSymbolWithLocationAndScope(
 			qualifiedName, SymbolKind.METHOD, 
@@ -252,7 +253,7 @@ public class AstVisitor extends AstVisitorAdapter
 		com.github.javaparser.symbolsolver.model.declarations.MethodDeclaration overridden = getOverridden(n);
 		if (overridden != null && (overridden instanceof JavaParserMethodDeclaration))
 		{
-			String overriddenName = JavaparserDeclNameResolver.getQualifiedDeclName(((JavaParserMethodDeclaration)overridden).getWrappedNode(), m_typeSolver).toSerializedNameHierarchy();
+			String overriddenName = JavaparserDeclNameResolver.getQualifiedDeclName(((JavaParserMethodDeclaration)overridden).getWrappedNode(), m_typeSolver).toNameHierarchy().serialize();
 			
 			m_client.recordReference(
 				ReferenceKind.OVERRIDE, overriddenName, qualifiedName, 
@@ -332,9 +333,8 @@ public class AstVisitor extends AstVisitorAdapter
 		
 		for (VariableDeclarator declarator: n.getVariables())
 		{
-			String qualifiedName = JavaparserDeclNameResolver.getQualifiedDeclName(declarator, m_typeSolver).toSerializedNameHierarchy();
+			String qualifiedName = JavaparserDeclNameResolver.getQualifiedDeclName(declarator, m_typeSolver).toNameHierarchy().serialize();
 			SimpleName name = declarator.getName();
-			
 			m_client.recordSymbolWithLocation(
 				qualifiedName, SymbolKind.FIELD, 
 				name.getRange(),
@@ -392,7 +392,7 @@ public class AstVisitor extends AstVisitorAdapter
 		
 		if (n.isAsterisk())
 		{
-			String importedName = JavaparserDeclNameResolver.getQualifiedName(name).toSerializedNameHierarchy();
+			String importedName = JavaparserDeclNameResolver.getQualifiedName(name).toNameHierarchy().serialize();
 			for (DeclContext context: m_context)
 			{
 				m_client.recordReference(
@@ -445,7 +445,7 @@ public class AstVisitor extends AstVisitorAdapter
 				{
 					for (JavaDeclName importedDeclName: importedDeclNames)
 					{
-						String nameHierarchy = importedDeclName.toSerializedNameHierarchy();
+						String nameHierarchy = importedDeclName.toNameHierarchy().serialize();
 						for (DeclContext context: m_context)
 						{
 							m_client.recordReference(
@@ -475,7 +475,7 @@ public class AstVisitor extends AstVisitorAdapter
 		{
 			for (DeclContext context: m_context)
 			{
-				String referencedName = JavaparserTypeNameResolver.getQualifiedTypeName(n, m_typeSolver).toSerializedNameHierarchy();
+				String referencedName = JavaparserTypeNameResolver.getQualifiedTypeName(n, m_typeSolver).toNameHierarchy().serialize();
 
 				Range range = Range.range(0, 0, 0, 0);
 				
@@ -519,7 +519,7 @@ public class AstVisitor extends AstVisitorAdapter
 	{
 		try
 		{
-			String referencedName = JavaparserTypeNameResolver.getQualifiedTypeName(n, m_typeSolver).toSerializedNameHierarchy();
+			String referencedName = JavaparserTypeNameResolver.getQualifiedTypeName(n, m_typeSolver).toNameHierarchy().serialize();
 			
 			m_client.recordSymbol(
 				referencedName, SymbolKind.BUILTIN_TYPE,
@@ -547,7 +547,7 @@ public class AstVisitor extends AstVisitorAdapter
 	{
 		try
 		{
-			String referencedName = JavaparserTypeNameResolver.getQualifiedTypeName(n, m_typeSolver).toSerializedNameHierarchy();
+			String referencedName = JavaparserTypeNameResolver.getQualifiedTypeName(n, m_typeSolver).toNameHierarchy().serialize();
 			
 			m_client.recordSymbol(
 				referencedName, SymbolKind.BUILTIN_TYPE, AccessKind.NONE, DefinitionKind.EXPLICIT
@@ -591,7 +591,7 @@ public class AstVisitor extends AstVisitorAdapter
 					{
 						if (var.getName().getIdentifier().equals(fieldName.getIdentifier()))
 						{
-							String qualifiedName = JavaparserDeclNameResolver.getQualifiedDeclName(var, m_typeSolver).toSerializedNameHierarchy();
+							String qualifiedName = JavaparserDeclNameResolver.getQualifiedDeclName(var, m_typeSolver).toNameHierarchy().serialize();
 							for (DeclContext context: m_context)
 							{
 								m_client.recordReference(
@@ -656,7 +656,7 @@ public class AstVisitor extends AstVisitorAdapter
 					{
 						if (var.getName().getIdentifier().equals(e.getName().getIdentifier()))
 						{
-							String qualifiedName = JavaparserDeclNameResolver.getQualifiedDeclName(var, m_typeSolver).toSerializedNameHierarchy();
+							String qualifiedName = JavaparserDeclNameResolver.getQualifiedDeclName(var, m_typeSolver).toNameHierarchy().serialize();
 							for (DeclContext context: m_context)
 							{
 								m_client.recordReference(
@@ -684,7 +684,7 @@ public class AstVisitor extends AstVisitorAdapter
 				{
 					if (wrappedNode.getAncestorOfType(FieldDeclaration.class).isPresent())
 					{
-						String qualifiedName = JavaparserDeclNameResolver.getQualifiedDeclName((VariableDeclarator)wrappedNode, m_typeSolver).toSerializedNameHierarchy();
+						String qualifiedName = JavaparserDeclNameResolver.getQualifiedDeclName((VariableDeclarator)wrappedNode, m_typeSolver).toNameHierarchy().serialize();
 						
 						for (DeclContext context: m_context)
 						{
@@ -849,7 +849,7 @@ public class AstVisitor extends AstVisitorAdapter
 		if (method instanceof JavaParserMethodDeclaration)
 		{
 			MethodDeclaration wrappedNode = ((JavaParserMethodDeclaration)method).getWrappedNode();
-			qualifiedName = JavaparserDeclNameResolver.getQualifiedDeclName(wrappedNode, m_typeSolver).toSerializedNameHierarchy();
+			qualifiedName = JavaparserDeclNameResolver.getQualifiedDeclName(wrappedNode, m_typeSolver).toNameHierarchy().serialize();
 		}
 		else // todo: move this implementation somewhere else
 		{
@@ -884,7 +884,7 @@ public class AstVisitor extends AstVisitorAdapter
 		if (constructor instanceof JavaParserConstructorDeclaration)
 		{
 			ConstructorDeclaration wrappedNode = ((JavaParserConstructorDeclaration)constructor).getWrappedNode();
-			qualifiedName = JavaparserDeclNameResolver.getQualifiedDeclName(wrappedNode, m_typeSolver).toSerializedNameHierarchy();
+			qualifiedName = JavaparserDeclNameResolver.getQualifiedDeclName(wrappedNode, m_typeSolver).toNameHierarchy().serialize();
 		}
 		else // todo: move this implementation somewhere else
 		{

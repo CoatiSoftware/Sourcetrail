@@ -24,6 +24,11 @@ import com.github.javaparser.ast.expr.Name;
 import com.github.javaparser.ast.type.TypeParameter;
 import com.github.javaparser.symbolsolver.model.resolution.TypeSolver;
 
+import com.sourcetrail.name.JavaDeclName;
+import com.sourcetrail.name.JavaFunctionDeclName;
+import com.sourcetrail.name.JavaTypeName;
+import com.sourcetrail.name.JavaVariableDeclName;
+
 public class JavaparserDeclNameResolver extends JavaNameResolver
 {	
 	public JavaparserDeclNameResolver(TypeSolver typeSolver, ArrayList<BodyDeclaration> ignoredContexts) 
@@ -129,7 +134,17 @@ public class JavaparserDeclNameResolver extends JavaNameResolver
 	
 	public JavaDeclName getDeclName(VariableDeclarator decl)
 	{
-		return new JavaDeclName(decl.getNameAsString());
+		ArrayList<BodyDeclaration> ignoredContextsForTypes = new ArrayList<BodyDeclaration>(m_ignoredContexts);
+		JavaTypeName typeName = JavaparserTypeNameResolver.getQualifiedTypeName(decl.getType(), m_typeSolver, ignoredContextsForTypes);
+		
+		boolean isStatic = false;
+		Optional<FieldDeclaration> fieldDeclaration = decl.getAncestorOfType(FieldDeclaration.class);
+		if (fieldDeclaration.isPresent())
+		{
+			isStatic = fieldDeclaration.get().isStatic();
+		}
+		
+		return new JavaVariableDeclName(decl.getNameAsString(), typeName, isStatic);
 	}
 	
 	public JavaDeclName getDeclName(BodyDeclaration decl)
@@ -216,16 +231,19 @@ public class JavaparserDeclNameResolver extends JavaNameResolver
 		ArrayList<BodyDeclaration> ignoredContextsForTypes = new ArrayList<BodyDeclaration>(m_ignoredContexts);
 		ignoredContextsForTypes.add(decl.getWrappedNode()); // adding own decl
 		
-		String name = decl.getName();
-		List<String> typeParameterNames = getTypeParameterNames(decl.getTypeParameters());
-		JavaTypeName returnTypeName = JavaparserTypeNameResolver.getQualifiedTypeName(decl.getType(), m_typeSolver, ignoredContextsForTypes);
 		List<JavaTypeName> parameterNames = new ArrayList<>();
 		for (Parameter parameter: decl.getParameters())
 		{
 			parameterNames.add(JavaparserTypeNameResolver.getQualifiedTypeName(parameter.getType(), m_typeSolver, ignoredContextsForTypes));
 		}
 		
-		return new JavaDeclName(name, typeParameterNames, returnTypeName, parameterNames);
+		return new JavaFunctionDeclName(
+			decl.getName(), 
+			getTypeParameterNames(decl.getTypeParameters()), 
+			JavaparserTypeNameResolver.getQualifiedTypeName(decl.getType(), m_typeSolver, ignoredContextsForTypes), 
+			parameterNames, 
+			decl.isStatic()
+		);
 	}
 
 	private static BodyDeclaration getBodyDeclContext(Node decl)

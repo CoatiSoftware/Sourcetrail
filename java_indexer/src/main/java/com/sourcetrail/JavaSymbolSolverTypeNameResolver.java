@@ -5,7 +5,6 @@ import java.util.Optional;
 
 import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.body.BodyDeclaration;
-
 import com.github.javaparser.symbolsolver.javaparsermodel.LambdaArgumentTypePlaceholder;
 import com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserTypeParameter;
 import com.github.javaparser.symbolsolver.logic.InferenceVariableType;
@@ -19,6 +18,9 @@ import com.github.javaparser.symbolsolver.model.typesystem.Type;
 import com.github.javaparser.symbolsolver.model.typesystem.TypeVariable;
 import com.github.javaparser.symbolsolver.model.typesystem.VoidType;
 import com.github.javaparser.symbolsolver.model.typesystem.Wildcard;
+
+import com.sourcetrail.name.JavaDeclName;
+import com.sourcetrail.name.JavaTypeName;
 
 public class JavaSymbolSolverTypeNameResolver extends JavaNameResolver
 {

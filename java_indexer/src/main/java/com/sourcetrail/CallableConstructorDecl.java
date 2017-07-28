@@ -1,7 +1,5 @@
 package com.sourcetrail;
 
-import java.util.List;
-
 import com.github.javaparser.ast.type.TypeParameter;
 import com.github.javaparser.ast.NodeList;
 import com.github.javaparser.ast.body.BodyDeclaration;
@@ -42,5 +40,10 @@ public class CallableConstructorDecl implements CallableDecl
 	public Type getType()
 	{
 		return new UnknownType();
+	}
+	
+	public boolean isStatic()
+	{
+		return m_decl.isStatic();
 	}
 }

@@ -158,6 +158,23 @@ public:
 		));
 	}
 
+	void test_java_parser_finds_method_declaration_with_static_keyword_in_signature()
+	{
+		std::shared_ptr<TestParserClient> client = parseCode(
+			"package foo;\n"
+			"public class A\n"
+			"{\n"
+			"	static public void bar()\n"
+			"	{\n"
+			"	};\n"
+			"}\n"
+		);
+
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->methods, "public static void foo.A.bar() <4:2 <4:21 4:23> 6:2>"
+		));
+	}
+
 	void test_java_parser_finds_field_declaration_with_initial_assignment()
 	{
 		std::shared_ptr<TestParserClient> client = parseCode(
@@ -169,7 +186,7 @@ public:
 		);
 
 		TS_ASSERT(utility::containsElement<std::string>(
-			client->fields, "default foo.A.bar <4:6 4:8>"
+			client->fields, "default int foo.A.bar <4:6 4:8>"
 		));
 	}
 
@@ -184,7 +201,7 @@ public:
 		);
 
 		TS_ASSERT(utility::containsElement<std::string>(
-			client->fields, "public foo.A.bar <4:13 4:15>"
+			client->fields, "public int foo.A.bar <4:13 4:15>"
 		));
 	}
 
@@ -199,7 +216,7 @@ public:
 		);
 
 		TS_ASSERT(utility::containsElement<std::string>(
-			client->fields, "protected foo.A.bar <4:16 4:18>"
+			client->fields, "protected int foo.A.bar <4:16 4:18>"
 		));
 	}
 
@@ -214,7 +231,22 @@ public:
 		);
 
 		TS_ASSERT(utility::containsElement<std::string>(
-			client->fields, "private foo.A.bar <4:14 4:16>"
+			client->fields, "private int foo.A.bar <4:14 4:16>"
+		));
+	}
+
+	void test_java_parser_finds_static_keyword_in_field_declaration()
+	{
+		std::shared_ptr<TestParserClient> client = parseCode(
+			"package foo;\n"
+			"public class A\n"
+			"{\n"
+			"	static int bar;\n"
+			"}\n"
+		);
+
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->fields, "default static int foo.A.bar <4:13 4:15>"
 		));
 	}
 
@@ -455,7 +487,7 @@ public:
 		);
 
 		TS_ASSERT(utility::containsElement<std::string>(
-			client->typeUses, "Foo.Derived.x -> Foo.Base.X <7:10 7:10>"
+			client->typeUses, "Foo.Base.X Foo.Derived.x -> Foo.Base.X <7:10 7:10>"
 		));
 	}
 
@@ -522,7 +554,7 @@ public:
 		);
 
 		TS_ASSERT(utility::containsElement<std::string>(
-			client->usages, "foo.X.X(int) -> foo.X.t <7:8 7:8>"
+			client->usages, "foo.X.X(int) -> int foo.X.t <7:8 7:8>"
 		));
 	}
 
@@ -541,7 +573,7 @@ public:
 		);
 
 		TS_ASSERT(utility::containsElement<std::string>(
-			client->usages, "foo.X.foo() -> foo.X.foo <7:8 7:10>"
+			client->usages, "foo.X.foo() -> int foo.X.foo <7:8 7:10>"
 		));
 	}
 
@@ -724,7 +756,7 @@ public:
 		);
 
 		TS_ASSERT(utility::containsElement<std::string>(
-			client->typeUses, "A<T>.t -> A<T>.T <3:2 3:2>"
+			client->typeUses, "A<T>.T A<T>.t -> A<T>.T <3:2 3:2>"
 		));
 	}
 
@@ -752,7 +784,7 @@ public:
 		);
 
 		TS_ASSERT(utility::containsElement<std::string>(
-			client->typeUses, "A<T>.t -> A<T> <3:2 3:2>"
+			client->typeUses, "A<T> A<T>.t -> A<T> <3:2 3:2>"
 		));
 	}
 

@@ -15,6 +15,10 @@ import com.github.javaparser.symbolsolver.model.declarations.TypeDeclaration;
 import com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration;
 import com.github.javaparser.symbolsolver.model.resolution.TypeSolver;
 
+import com.sourcetrail.name.JavaDeclName;
+import com.sourcetrail.name.JavaFunctionDeclName;
+import com.sourcetrail.name.JavaTypeName;
+
 public class JavaSymbolSolverDeclNameResolver extends JavaNameResolver
 {
 	public JavaSymbolSolverDeclNameResolver(TypeSolver typeSolver, ArrayList<BodyDeclaration> ignoredContexts) 
@@ -86,11 +90,12 @@ public class JavaSymbolSolverDeclNameResolver extends JavaNameResolver
 						));
 					}
 					
-					declName = new JavaDeclName(
+					declName = new JavaFunctionDeclName(
 						methodDecl.getName(), 
 						getTypeParameterNames(methodDecl.getTypeParameters()), 
 						JavaSymbolSolverTypeNameResolver.getQualifiedTypeName(methodDecl.getReturnType(), m_typeSolver, m_ignoredContexts),
-						parameterNames
+						parameterNames,
+						methodDecl.isStatic()
 					);
 							
 					declName.setParent(

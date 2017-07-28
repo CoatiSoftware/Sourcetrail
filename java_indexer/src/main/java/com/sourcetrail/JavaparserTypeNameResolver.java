@@ -4,9 +4,10 @@ import java.util.ArrayList;
 
 import com.github.javaparser.ast.body.BodyDeclaration;
 import com.github.javaparser.ast.type.*;
-
 import com.github.javaparser.symbolsolver.javaparsermodel.JavaParserFacade;
 import com.github.javaparser.symbolsolver.model.resolution.TypeSolver;
+
+import com.sourcetrail.name.JavaTypeName;
 
 public class JavaparserTypeNameResolver extends JavaNameResolver
 {

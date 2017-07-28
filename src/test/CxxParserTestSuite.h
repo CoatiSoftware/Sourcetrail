@@ -28,7 +28,7 @@ public:
 		);
 
 		TS_ASSERT(utility::containsElement<std::string>(
-			client->usages, "void A::foo(int) -> A::bar <6:7 6:9>"
+			client->usages, "void A::foo(int) -> int A::bar <6:7 6:9>"
 		));
 	}
 
@@ -47,7 +47,7 @@ public:
 		);
 
 		TS_ASSERT(utility::containsElement<std::string>(
-			client->usages, "void A::foo(int) -> A::a <6:3 6:3>"
+			client->usages, "void A::foo(int) -> A * A::a <6:3 6:3>"
 		));
 	}
 
@@ -109,7 +109,7 @@ public:
 		);
 
 		TS_ASSERT(utility::containsElement<std::string>(
-			client->globalVariables, "x <1:5 1:5>"
+			client->globalVariables, "int x <1:5 1:5>"
 		));
 	}
 
@@ -130,16 +130,16 @@ public:
 		);
 
 		TS_ASSERT(utility::containsElement<std::string>(
-			client->fields, "private A::a <3:6 3:6>"
+			client->fields, "private int A::a <3:6 3:6>"
 		));
 		TS_ASSERT(utility::containsElement<std::string>(
-			client->fields, "public A::b <6:6 6:6>"
+			client->fields, "public int A::b <6:6 6:6>"
 		));
 		TS_ASSERT(utility::containsElement<std::string>(
-			client->fields, "protected A::c <8:13 8:13>"
+			client->fields, "protected static int A::c <8:13 8:13>"
 		));
 		TS_ASSERT(utility::containsElement<std::string>(
-			client->fields, "private A::d <10:12 10:12>"
+			client->fields, "private const int A::d <10:12 10:12>"
 		));
 	}
 
@@ -799,7 +799,7 @@ public:
 		);
 
 		TS_ASSERT(utility::containsElement<std::string>(
-			client->fields, "private A<typename T>::foo <4:6 4:8>"
+			client->fields, "private int A<typename T>::foo <4:6 4:8>"
 		));
 	}
 
@@ -814,7 +814,7 @@ public:
 		);
 
 		TS_ASSERT(utility::containsElement<std::string>(
-			client->typeUses, "A<typename T>::foo -> A<typename T>::T <4:2 4:2>"
+			client->typeUses, "A<typename T>::T A<typename T>::foo -> A<typename T>::T <4:2 4:2>"
 		));
 	}
 
@@ -1124,7 +1124,7 @@ public:
 		);
 
 		TS_ASSERT(utility::containsElement<std::string>(
-			client->globalVariables, "n::x <2:6 2:6>"
+			client->globalVariables, "int n::x <2:6 2:6>"
 		));
 	}
 
@@ -1143,7 +1143,7 @@ public:
 		);
 
 		TS_ASSERT(utility::containsElement<std::string>(
-			client->fields, "private B::C::amount <7:20 7:25>"
+			client->fields, "private static const int B::C::amount <7:20 7:25>"
 		));
 	}
 
@@ -1319,8 +1319,8 @@ public:
 		);
 
 		TS_ASSERT(utility::containsElement<std::string>(
-			client->typeUses, "A<typename T>::foo -> A<typename T>::TestType <9:2 9:9>"
-			));
+			client->typeUses, "A<typename T>::TestType A<typename T>::foo -> A<typename T>::TestType <9:2 9:9>"
+		));
 	}
 
 	void test_cxx_parser_finds_correct_field_member_type_of_nested_template_class_in_declaration()
@@ -1337,8 +1337,8 @@ public:
 		);
 
 		TS_ASSERT(utility::containsElement<std::string>(
-			client->typeUses, "A<typename T>::B::foo -> A<typename T>::T <6:3 6:3>"
-			));
+			client->typeUses, "A<typename T>::T A<typename T>::B::foo -> A<typename T>::T <6:3 6:3>"
+		));
 	}
 
 	void test_cxx_parser_finds_type_usage_of_global_variable()
@@ -1348,7 +1348,7 @@ public:
 		);
 
 		TS_ASSERT(utility::containsElement<std::string>(
-			client->typeUses, "x -> int <1:1 1:3>"
+			client->typeUses, "int x -> int <1:1 1:3>"
 		));
 	}
 
@@ -1386,7 +1386,7 @@ public:
 		);
 
 		TS_ASSERT(utility::containsElement<std::string>(
-			client->typeUses, "number -> uint <2:1 2:4>"
+			client->typeUses, "uint number -> uint <2:1 2:4>"
 		));
 	}
 
@@ -1881,7 +1881,7 @@ public:
 		);
 
 		TS_ASSERT(utility::containsElement<std::string>(
-			client->calls, "app -> void App::App() <6:5 6:7>"
+			client->calls, "App app -> void App::App() <6:5 6:7>"
 		));
 	}
 
@@ -1893,7 +1893,7 @@ public:
 		);
 
 		TS_ASSERT(utility::containsElement<std::string>(
-			client->calls, "a -> int one() <2:9 2:11>"
+			client->calls, "int a -> int one() <2:9 2:11>"
 		));
 	}
 
@@ -1950,7 +1950,7 @@ public:
 		);
 
 		TS_ASSERT(utility::containsElement<std::string>(
-			client->usages, "int main() -> bar <5:2 5:4>"
+			client->usages, "int main() -> int bar <5:2 5:4>"
 		));
 	}
 
@@ -1962,7 +1962,7 @@ public:
 		);
 
 		TS_ASSERT(utility::containsElement<std::string>(
-			client->usages, "b -> a <2:12 2:12>"
+			client->usages, "int [] b -> int a <2:12 2:12>"
 		));
 	}
 
@@ -1981,7 +1981,7 @@ public:
 		);
 
 		TS_ASSERT(utility::containsElement<std::string>(
-			client->usages, "void App::foo() -> bar <7:3 7:5>"
+			client->usages, "void App::foo() -> int bar <7:3 7:5>"
 		));
 	}
 
@@ -2000,10 +2000,10 @@ public:
 		);
 
 		TS_ASSERT(utility::containsElement<std::string>(
-			client->usages, "void App::foo() -> App::bar <5:3 5:5>"
+			client->usages, "void App::foo() -> int App::bar <5:3 5:5>"
 		));
 		TS_ASSERT(utility::containsElement<std::string>(
-			client->usages, "void App::foo() -> App::bar <6:9 6:11>"
+			client->usages, "void App::foo() -> int App::bar <6:9 6:11>"
 		));
 	}
 
@@ -2020,7 +2020,7 @@ public:
 		);
 
 		TS_ASSERT(utility::containsElement<std::string>(
-			client->usages, "void App::App() -> App::bar <4:5 4:7>"
+			client->usages, "void App::App() -> int App::bar <4:5 4:7>"
 		));
 	}
 
@@ -2204,16 +2204,16 @@ public:
 		);
 
 		TS_ASSERT(utility::containsElement<std::string>(
-			client->usages, "a -> A::B <6:7 6:7>"
+			client->usages, "A a -> A::B <6:7 6:7>"
 		));
 		TS_ASSERT(utility::containsElement<std::string>(
-			client->typeUses, "a -> A <6:1 6:1>"
+			client->typeUses, "A a -> A <6:1 6:1>"
 		));
 		TS_ASSERT(utility::containsElement<std::string>(
-			client->typeUses, "aPtr -> A <7:1 7:1>"
+			client->typeUses, "A * aPtr -> A <7:1 7:1>"
 		));
 		TS_ASSERT(utility::containsElement<std::string>(
-			client->typeUses, "aPtr -> A <7:15 7:15>"
+			client->typeUses, "A * aPtr -> A <7:15 7:15>"
 		));
 	}
 
@@ -2504,7 +2504,7 @@ public:
 		);
 
 		TS_ASSERT(utility::containsElement<std::string>(
-			client->templateArgumentTypes, "A<&g_p> -> g_p <9:5 9:7>"
+			client->templateArgumentTypes, "A<&g_p> -> P g_p <9:5 9:7>"
 		));
 	}
 
@@ -2524,7 +2524,7 @@ public:
 		);
 
 		TS_ASSERT(utility::containsElement<std::string>(
-			client->templateArgumentTypes, "A<&g_p> -> g_p <9:4 9:6>"
+			client->templateArgumentTypes, "A<&g_p> -> P g_p <9:4 9:6>"
 		));
 	}
 
@@ -2675,7 +2675,7 @@ public:
 		);
 
 		TS_ASSERT(utility::containsElement<std::string>(
-			client->templateArgumentTypes, "A<&g_p> -> g_p <8:10 8:12>"
+			client->templateArgumentTypes, "A<&g_p> -> P g_p <8:10 8:12>"
 		));
 	}
 
@@ -2695,7 +2695,7 @@ public:
 		);
 
 		TS_ASSERT(utility::containsElement<std::string>(
-			client->templateArgumentTypes, "A<&g_p> -> g_p <8:9 8:11>"
+			client->templateArgumentTypes, "A<&g_p> -> P g_p <8:9 8:11>"
 		));
 	}
 
@@ -2792,7 +2792,7 @@ public:
 		);
 
 		TS_ASSERT(utility::containsElement<std::string>(
-			client->templateArgumentTypes, "A<&g_p, P * q> -> g_p <8:10 8:12>"
+			client->templateArgumentTypes, "A<&g_p, P * q> -> P g_p <8:10 8:12>"
 		));
 		TS_ASSERT(utility::containsElement<std::string>(
 			client->templateArgumentTypes, "A<&g_p, P * q> -> A<&g_p, P * q>::q <8:15 8:15>"
@@ -2815,7 +2815,7 @@ public:
 		);
 
 		TS_ASSERT(utility::containsElement<std::string>(
-			client->templateArgumentTypes, "A<&g_p, P & q> -> g_p <8:9 8:11>"
+			client->templateArgumentTypes, "A<&g_p, P & q> -> P g_p <8:9 8:11>"
 		));
 		TS_ASSERT(utility::containsElement<std::string>(
 			client->templateArgumentTypes, "A<&g_p, P & q> -> A<&g_p, P & q>::q <8:14 8:14>"
@@ -2949,7 +2949,7 @@ public:
 		);
 
 		TS_ASSERT(utility::containsElement<std::string>(
-			client->usages, "void A<typename T>::A<T>() -> A<typename T>::foo <4:7 4:9>"
+			client->usages, "void A<typename T>::A<T>() -> A<typename T>::T A<typename T>::foo <4:7 4:9>"
 		));
 	}
 

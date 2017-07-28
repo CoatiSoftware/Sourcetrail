@@ -4,6 +4,7 @@
 #include <clang/AST/ASTContext.h>
 
 #include "data/parser/cxx/name/CxxFunctionDeclName.h"
+#include "data/parser/cxx/name/CxxVariableDeclName.h"
 #include "data/parser/cxx/name_resolver/CxxSpecifierNameResolver.h"
 #include "data/parser/cxx/name_resolver/CxxTemplateArgumentNameResolver.h"
 #include "data/parser/cxx/name_resolver/CxxTypeNameResolver.h"
@@ -270,6 +271,14 @@ std::shared_ptr<CxxDeclName> CxxDeclNameResolver::getDeclName(const clang::Named
 			}
 			return std::make_shared<CxxDeclName>(declNameString, templateParameters);
 		}
+		else if (clang::isa<clang::FieldDecl>(declaration))
+		{
+			const clang::FieldDecl* fieldDecl = clang::dyn_cast<clang::FieldDecl>(declaration);
+			CxxTypeNameResolver typenNameResolver(getIgnoredContextDecls());
+			typenNameResolver.ignoreContextDecl(fieldDecl);
+			std::shared_ptr<CxxTypeName> typeName = CxxTypeName::makeUnsolvedIfNull(typenNameResolver.getName(fieldDecl->getType()));
+			return std::make_shared<CxxVariableDeclName>(declNameString, std::vector<std::string>(), typeName, false);
+		}
 		else if (clang::isa<clang::NamespaceDecl>(declaration) && clang::dyn_cast<clang::NamespaceDecl>(declaration)->isAnonymousNamespace())
 		{
 			const clang::SourceManager& sourceManager = declaration->getASTContext().getSourceManager();
@@ -298,6 +307,28 @@ std::shared_ptr<CxxDeclName> CxxDeclNameResolver::getDeclName(const clang::Named
 			const clang::SourceManager& sourceManager = declaration->getASTContext().getSourceManager();
 			const clang::PresumedLoc& presumedBegin = sourceManager.getPresumedLoc(declaration->getLocStart());
 			return std::make_shared<CxxDeclName>(getNameForAnonymousSymbol("parameter", presumedBegin), std::vector<std::string>());
+		}
+		else if (clang::isa<clang::VarDecl>(declaration))
+		{
+			const clang::VarDecl* varDecl = clang::dyn_cast<clang::VarDecl>(declaration);
+			if (varDecl->getParentFunctionOrMethod() == NULL)
+			{
+				bool isStatic = false;
+				if (varDecl->getAccess() != clang::AS_none)
+				{
+					// var is declared inside a type and must be static (non-statics are stored as clang::FieldDecl)
+					isStatic = true;
+				}
+				else
+				{
+					// nothing todo, varDecl is global (and non-static)
+				}
+
+				CxxTypeNameResolver typenNameResolver(getIgnoredContextDecls());
+				typenNameResolver.ignoreContextDecl(varDecl);
+				std::shared_ptr<CxxTypeName> typeName = CxxTypeName::makeUnsolvedIfNull(typenNameResolver.getName(varDecl->getType()));
+				return std::make_shared<CxxVariableDeclName>(declNameString, std::vector<std::string>(), typeName, isStatic);
+			}
 		}
 
 		if (declNameString.size() > 0)

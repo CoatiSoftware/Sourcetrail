@@ -13,4 +13,5 @@ public interface CallableDecl
 	public NodeList<TypeParameter> getTypeParameters();
 	public NodeList<Parameter> getParameters();
 	public Type getType();
+	public boolean isStatic();
 }

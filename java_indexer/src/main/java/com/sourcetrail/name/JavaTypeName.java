@@ -1,4 +1,4 @@
-package com.sourcetrail;
+package com.sourcetrail.name;
 
 import java.util.List;
 
@@ -48,18 +48,20 @@ public class JavaTypeName
 		return m_name;
 	}
 	
-	public String toSerializedNameHierarchy()
+	public NameHierarchy toNameHierarchy()
 	{
-		String nameHierarchy = ".\tm";
+		NameHierarchy nameHierarchy;
+		
 		if (m_parent != null)
 		{
-			nameHierarchy = m_parent.toSerializedNameHierarchy();
-			nameHierarchy += "\tn";
+			nameHierarchy = m_parent.toNameHierarchy();
+		}
+		else
+		{
+			nameHierarchy = new NameHierarchy();
 		}
 		
-		nameHierarchy += m_name;
-		nameHierarchy += getTypeArgumentString();
-		nameHierarchy += "\ts\tp";
+		nameHierarchy.push(new NameElement(m_name + getTypeArgumentString()));
 		
 		return nameHierarchy;
 	}
