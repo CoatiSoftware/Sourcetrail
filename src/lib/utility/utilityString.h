@@ -47,6 +47,9 @@ namespace utility
 	std::string replace(std::string str, const std::string& from, const std::string& to);
 
 	std::string insertLineBreaksAtBlankSpaces(const std::string& s, size_t maxLineLength);
+	std::string breakSignature(
+		std::string returnPart, std::string namePart, std::string paramPart,
+		size_t maxLineLength, size_t tabWidth);
 
 	std::string trim(const std::string &str);
 

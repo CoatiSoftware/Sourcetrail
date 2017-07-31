@@ -38,6 +38,8 @@ public:
 	virtual void showView(View* view);
 	virtual void hideView(View* view);
 
+	virtual View* findFloatingView(const std::string& name) const;
+
 	virtual QStatusBar* getStatusBar();
 	virtual void setStatusBar(QStatusBar* statusBar);
 

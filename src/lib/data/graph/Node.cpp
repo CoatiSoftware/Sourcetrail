@@ -10,13 +10,14 @@
 #include "data/graph/token_component/TokenComponentConst.h"
 #include "data/graph/token_component/TokenComponentStatic.h"
 #include "data/graph/token_component/TokenComponentFilePath.h"
-#include "data/graph/token_component/TokenComponentSignature.h"
 
-const Node::NodeTypeMask Node::NODE_NOT_VISIBLE = Node::NODE_NAMESPACE | Node::NODE_PACKAGE;
-const Node::NodeTypeMask Node::NODE_USEABLE_TYPE = Node::NODE_NON_INDEXED | Node::NODE_BUILTIN_TYPE |
-	Node::NODE_STRUCT | Node::NODE_CLASS | Node::NODE_INTERFACE | Node::NODE_TYPEDEF;
-const Node::NodeTypeMask Node::NODE_INHERITABLE_TYPE = Node::NODE_NON_INDEXED | Node::NODE_BUILTIN_TYPE |
-	NODE_TYPE | Node::NODE_STRUCT | Node::NODE_CLASS | Node::NODE_INTERFACE;
+const Node::NodeTypeMask Node::NODE_NOT_VISIBLE = NODE_NAMESPACE | NODE_PACKAGE;
+const Node::NodeTypeMask Node::NODE_USEABLE_TYPE = NODE_NON_INDEXED | NODE_BUILTIN_TYPE | NODE_STRUCT | NODE_CLASS |
+	NODE_UNION | NODE_INTERFACE | NODE_TYPEDEF;
+const Node::NodeTypeMask Node::NODE_INHERITABLE_TYPE = NODE_NON_INDEXED | NODE_BUILTIN_TYPE | NODE_TYPE | NODE_STRUCT |
+	NODE_CLASS | NODE_INTERFACE;
+const Node::NodeTypeMask Node::NODE_MEMBER_TYPE = NODE_METHOD | NODE_FIELD | NODE_CLASS | NODE_INTERFACE | NODE_STRUCT |
+	NODE_UNION | NODE_TYPEDEF | NODE_ENUM;
 
 std::string Node::getUnderscoredTypeString(NodeType type)
 {
@@ -460,23 +461,6 @@ void Node::addComponentFilePath(std::shared_ptr<TokenComponentFilePath> componen
 		return;
 	}
 	else if (!isType(NODE_FILE))
-	{
-		LOG_ERROR("TokenComponentFilePath can't be set on node of type: " + getReadableTypeString());
-	}
-	else
-	{
-		addComponent(component);
-	}
-}
-
-void Node::addComponentSignature(std::shared_ptr<TokenComponentSignature> component)
-{
-	if (getComponent<TokenComponentSignature>())
-	{
-		LOG_ERROR("TokenComponentSignature has been set before!");
-		return;
-	}
-	else if (!isType(NODE_FUNCTION | NODE_METHOD))
 	{
 		LOG_ERROR("TokenComponentFilePath can't be set on node of type: " + getReadableTypeString());
 	}

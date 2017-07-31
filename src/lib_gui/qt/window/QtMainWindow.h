@@ -63,6 +63,8 @@ public:
 	void showView(View* view);
 	void hideView(View* view);
 
+	View* findFloatingView(const std::string& name) const;
+
 	void loadLayout();
 	void saveLayout();
 

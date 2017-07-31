@@ -15,14 +15,6 @@ TaskParseWrapper::~TaskParseWrapper()
 {
 }
 
-void TaskParseWrapper::setTask(std::shared_ptr<Task> task)
-{
-	if (task)
-	{
-		m_taskRunner = std::make_shared<TaskRunner>(task);
-	}
-}
-
 void TaskParseWrapper::doEnter(std::shared_ptr<Blackboard> blackboard)
 {
 	int sourceFileCount = 0;
@@ -53,9 +45,4 @@ void TaskParseWrapper::doExit(std::shared_ptr<Blackboard> blackboard)
 void TaskParseWrapper::doReset(std::shared_ptr<Blackboard> blackboard)
 {
 	m_taskRunner->reset();
-}
-
-void TaskParseWrapper::doTerminate()
-{
-	m_taskRunner->terminate();
 }

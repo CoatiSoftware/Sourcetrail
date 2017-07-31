@@ -21,6 +21,9 @@ public:
 		std::string qualifyName(const std::string& name) const;
 		bool isValid() const;
 
+		const std::string& getPrefix() const;
+		const std::string& getPostfix() const;
+
 	private:
 		std::string m_prefix;
 		std::string m_postfix;

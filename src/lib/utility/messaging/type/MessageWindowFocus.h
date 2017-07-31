@@ -3,10 +3,12 @@
 
 #include "utility/messaging/Message.h"
 
-class MessageWindowFocus: public Message<MessageWindowFocus>
+class MessageWindowFocus
+	: public Message<MessageWindowFocus>
 {
 public:
-	MessageWindowFocus()
+	MessageWindowFocus(bool focusIn)
+		: focusIn(focusIn)
 	{
 	}
 
@@ -14,6 +16,8 @@ public:
 	{
 		return "MessageWindowFocus";
 	}
+
+	const bool focusIn;
 };
 
 #endif // MESSAGE_WINDOW_FOCUS_H

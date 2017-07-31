@@ -196,7 +196,10 @@ void IDECommunicationController::handlePing(const NetworkProtocolHelper::PingMes
 
 void IDECommunicationController::handleMessage(MessageWindowFocus* message)
 {
-	sendUpdatePing();
+	if (message->focusIn)
+	{
+		sendUpdatePing();
+	}
 }
 
 void IDECommunicationController::handleMessage(MessageIDECreateCDB* message)

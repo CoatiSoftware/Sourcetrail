@@ -11,6 +11,7 @@ public:
 	enum TaskState
 	{
 		STATE_RUNNING,
+		STATE_HOLD,
 		STATE_SUCCESS,
 		STATE_FAILURE
 	};

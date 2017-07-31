@@ -876,10 +876,13 @@ void QtCodeNavigator::handleMessage(MessageSwitchColorScheme* message)
 
 void QtCodeNavigator::handleMessage(MessageWindowFocus* message)
 {
-	m_onQtThread(
-		[=]()
-		{
-			m_current->onWindowFocus();
-		}
-	);
+	if (message->focusIn)
+	{
+		m_onQtThread(
+			[=]()
+			{
+				m_current->onWindowFocus();
+			}
+		);
+	}
 }

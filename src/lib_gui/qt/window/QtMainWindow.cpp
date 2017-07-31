@@ -200,6 +200,19 @@ void QtMainWindow::hideView(View* view)
 	getDockWidgetForView(view)->widget->setHidden(true);
 }
 
+View* QtMainWindow::findFloatingView(const std::string& name) const
+{
+	for (size_t i = 0; i < m_dockWidgets.size(); i++)
+	{
+		if (std::string(m_dockWidgets[i].view->getName()) == name && m_dockWidgets[i].widget->isFloating())
+		{
+			return m_dockWidgets[i].view;
+		}
+	}
+
+	return nullptr;
+}
+
 void QtMainWindow::loadLayout()
 {
 	QSettings settings(UserPaths::getWindowSettingsPath().str().c_str(), QSettings::IniFormat);
@@ -337,7 +350,11 @@ bool QtMainWindow::event(QEvent* event)
 {
 	if (event->type() == QEvent::WindowActivate)
 	{
-		MessageWindowFocus().dispatch();
+		MessageWindowFocus(true).dispatch();
+	}
+	else if (event->type() == QEvent::WindowDeactivate)
+	{
+		MessageWindowFocus(false).dispatch();
 	}
 
 	return QMainWindow::event(event);

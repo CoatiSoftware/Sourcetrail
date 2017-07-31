@@ -39,6 +39,10 @@ Task::TaskState TaskGroupSequence::doUpdate(std::shared_ptr<Blackboard> blackboa
 	{
 		m_taskIndex = -1;
 	}
+	else if (state == STATE_HOLD)
+	{
+		return STATE_HOLD;
+	}
 
 	return STATE_RUNNING;
 }

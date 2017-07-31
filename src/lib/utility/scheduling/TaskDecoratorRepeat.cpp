@@ -6,14 +6,6 @@ TaskDecoratorRepeat::TaskDecoratorRepeat(ConditionType condition, TaskState exit
 {
 }
 
-void TaskDecoratorRepeat::setTask(std::shared_ptr<Task> task)
-{
-	if (task)
-	{
-		m_taskRunner = std::make_shared<TaskRunner>(task);
-	}
-}
-
 void TaskDecoratorRepeat::doEnter(std::shared_ptr<Blackboard> blackboard)
 {
 }
@@ -47,9 +39,4 @@ void TaskDecoratorRepeat::doExit(std::shared_ptr<Blackboard> blackboard)
 void TaskDecoratorRepeat::doReset(std::shared_ptr<Blackboard> blackboard)
 {
 	m_taskRunner->reset();
-}
-
-void TaskDecoratorRepeat::doTerminate()
-{
-	m_taskRunner->terminate();
 }

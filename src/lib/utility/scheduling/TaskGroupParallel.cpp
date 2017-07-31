@@ -105,7 +105,7 @@ void TaskGroupParallel::processTaskThreaded(
 	{
 		TaskState state = taskInfo->taskRunner->update(blackboard);
 
-		if (state != STATE_RUNNING)
+		if (state == STATE_SUCCESS || state == STATE_FAILURE)
 		{
 			if (state == STATE_FAILURE)
 			{

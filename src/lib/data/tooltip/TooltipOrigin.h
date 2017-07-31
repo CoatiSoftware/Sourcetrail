@@ -1,0 +1,10 @@
+#ifndef TOOLTIP_ORIGIN_H
+#define TOOLTIP_ORIGIN_H
+
+enum TooltipOrigin
+{
+	TOOLTIP_ORIGIN_GRAPH,
+	TOOLTIP_ORIGIN_CODE
+};
+
+#endif // TOOLTIP_ORIGIN_H

@@ -6,12 +6,15 @@
 #include "utility/messaging/Message.h"
 #include "utility/types.h"
 
+#include "data/tooltip/TooltipOrigin.h"
+
 class MessageFocusIn
 	: public Message<MessageFocusIn>
 {
 public:
-	MessageFocusIn(const std::vector<Id>& tokenIds)
+	MessageFocusIn(const std::vector<Id>& tokenIds, TooltipOrigin origin)
 		: tokenIds(tokenIds)
+		, origin(origin)
 	{
 		setIsLogged(false);
 	}
@@ -30,6 +33,7 @@ public:
 	}
 
 	const std::vector<Id> tokenIds;
+	const TooltipOrigin origin;
 };
 
 #endif //MESSAGE_FOCUS_IN_H

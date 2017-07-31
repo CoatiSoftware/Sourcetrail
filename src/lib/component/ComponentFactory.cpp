@@ -11,6 +11,7 @@
 #include "component/controller/SearchController.h"
 #include "component/controller/StatusBarController.h"
 #include "component/controller/StatusController.h"
+#include "component/controller/TooltipController.h"
 #include "component/controller/UndoRedoController.h"
 #include "component/view/BookmarkView.h"
 #include "component/view/CodeView.h"
@@ -20,6 +21,7 @@
 #include "component/view/SearchView.h"
 #include "component/view/StatusBarView.h"
 #include "component/view/StatusView.h"
+#include "component/view/TooltipView.h"
 #include "component/view/UndoRedoView.h"
 #include "component/view/ViewFactory.h"
 
@@ -54,6 +56,14 @@ std::shared_ptr<Component> ComponentFactory::createActivationComponent()
 	std::shared_ptr<Controller> controller = std::make_shared<ActivationController>(m_storageAccess);
 
 	return std::make_shared<Component>(nullptr, controller);
+}
+
+std::shared_ptr<Component> ComponentFactory::createTooltipComponent(ViewLayout* viewLayout)
+{
+	std::shared_ptr<TooltipView> view = m_viewFactory->createTooltipView(viewLayout);
+	std::shared_ptr<Controller> controller = std::make_shared<TooltipController>(m_storageAccess);
+
+	return std::make_shared<Component>(view, controller);
 }
 
 std::shared_ptr<Component> ComponentFactory::createBookmarkComponent(ViewLayout* viewLayout)

@@ -161,3 +161,13 @@ std::string NameHierarchy::getRawNameWithSignature() const
 	}
 	return "";
 }
+
+NameElement::Signature NameHierarchy::getSignature() const
+{
+	if (m_elements.size())
+	{
+		return m_elements.back()->getSignature(); // todo: use separator for signature!
+	}
+
+	return NameElement::Signature();
+}

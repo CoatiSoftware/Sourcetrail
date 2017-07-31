@@ -55,6 +55,11 @@ void QtMainView::hideView(View* view)
 	);
 }
 
+View* QtMainView::findFloatingView(const std::string& name) const
+{
+	return m_window->findFloatingView(name);
+}
+
 void QtMainView::loadLayout()
 {
 	m_window->loadLayout();

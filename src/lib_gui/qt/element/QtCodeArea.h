@@ -2,25 +2,17 @@
 #define QT_CODE_AREA_H
 
 #include <memory>
-#include <set>
 #include <vector>
 
-#include <QPlainTextEdit>
-
-#include "data/location/LocationType.h"
+#include "qt/element/QtCodeField.h"
 #include "qt/utility/QtScrollSpeedChangeListener.h"
-#include "utility/types.h"
 
 class QDragMoveEvent;
 class QPaintEvent;
 class QResizeEvent;
 class QSize;
 class QtCodeNavigator;
-class QtHighlighter;
 class QWidget;
-class SourceLocation;
-class SourceLocationFile;
-
 
 class MouseWheelOverScrollbarFilter
 	: public QObject
@@ -36,7 +28,7 @@ protected:
 
 
 class QtCodeArea
-	: public QPlainTextEdit
+	: public QtCodeField
 {
 	Q_OBJECT
 
@@ -57,8 +49,6 @@ public:
 		QtCodeArea* m_codeArea;
 	};
 
-	static void clearAnnotationColors();
-
 	QtCodeArea(
 		uint startLineNumber,
 		const std::string& code,
@@ -69,11 +59,6 @@ public:
 	virtual ~QtCodeArea();
 
 	virtual QSize sizeHint() const Q_DECL_OVERRIDE;
-
-	uint getStartLineNumber() const;
-	uint getEndLineNumber() const;
-
-	std::shared_ptr<SourceLocationFile> getSourceLocationFile() const;
 
 	void lineNumberAreaPaintEvent(QPaintEvent* event);
 	int lineNumberDigits() const;
@@ -94,22 +79,19 @@ public:
 
 	QRectF getLineRectForLineNumber(uint lineNumber) const;
 
-	std::string getCode() const;
-
 	void hideLineNumbers();
 
 protected:
 	virtual void resizeEvent(QResizeEvent* event) Q_DECL_OVERRIDE;
-	virtual void showEvent(QShowEvent* event) Q_DECL_OVERRIDE;
-	virtual void paintEvent(QPaintEvent* event) Q_DECL_OVERRIDE;
-	virtual void enterEvent(QEvent* event) Q_DECL_OVERRIDE;
-	virtual void leaveEvent(QEvent* event) Q_DECL_OVERRIDE;
 	virtual void mouseReleaseEvent(QMouseEvent* event) Q_DECL_OVERRIDE;
 	virtual void mousePressEvent(QMouseEvent* event) Q_DECL_OVERRIDE;
 	virtual void mouseMoveEvent(QMouseEvent* event) Q_DECL_OVERRIDE;
 	virtual void wheelEvent(QWheelEvent *event) Q_DECL_OVERRIDE;
 
 	virtual void contextMenuEvent(QContextMenuEvent* event) Q_DECL_OVERRIDE;
+
+	virtual void focusTokenIds(const std::vector<Id>& tokenIds) override;
+	virtual void defocusTokenIds(const std::vector<Id>& tokenIds) override;
 
 private slots:
 	void updateLineNumberAreaWidth(int newBlockCount = 0);
@@ -119,76 +101,18 @@ private slots:
 	void setIDECursorPosition();
 
 private:
-	struct Annotation
-	{
-		int startLine;
-		int endLine;
-
-		int startCol;
-		int endCol;
-
-		int start;
-		int end;
-
-		std::set<Id> tokenIds;
-		Id locationId;
-
-		LocationType locationType;
-
-		bool isActive;
-		bool isFocused;
-
-		QColor oldTextColor;
-	};
-
-	struct AnnotationColor
-	{
-		std::string border;
-		std::string fill;
-		std::string text;
-	};
-
-	std::vector<const Annotation*> getInteractiveAnnotationsForPosition(int pos) const;
 	void activateSourceLocations(const std::vector<const Annotation*>& annotations);
 	void activateLocalSymbols(const std::vector<const Annotation*>& annotations);
 	void activateErrors(const std::vector<const Annotation*>& annotations);
 
-	void createAnnotations(std::shared_ptr<SourceLocationFile> locationFile);
 	void annotateText();
-
-	void setHoveredAnnotations(const std::vector<const Annotation*>& annotations);
-
-	int toTextEditPosition(int lineNumber, int columnNumber) const;
-	std::pair<int, int> toLineColumn(int textEditPosition) const;
-	int startTextEditPosition() const;
-	int endTextEditPosition() const;
 
 	std::set<int> getActiveLineNumbers() const;
 
-	std::vector<QRect> getCursorRectsForAnnotation(const Annotation& annotation) const;
-	const AnnotationColor& getAnnotationColorForAnnotation(const Annotation& annotation);
-	void setTextColorForAnnotation(Annotation& annotation, QColor color) const;
-
 	void createActions();
 
-	void createLineLengthCache();
-
-	static std::vector<AnnotationColor> s_annotationColors;
-
 	QtCodeNavigator* m_navigator;
-
 	QWidget* m_lineNumberArea;
-	QtHighlighter* m_highlighter;
-
-	const uint m_startLineNumber;
-	const std::string m_code;
-
-	std::shared_ptr<SourceLocationFile> m_locationFile;
-
-	std::vector<Annotation> m_annotations;
-	std::vector<const Annotation*> m_hoveredAnnotations;
-
-	std::set<size_t> m_colorChangedAnnotationIndices;
 
 	int m_digits;
 
@@ -203,10 +127,6 @@ private:
 
 	bool m_isActiveFile;
 	bool m_lineNumbersHidden;
-	bool m_wasAnnotated;
-
-	std::vector<int> m_lineLengths;
-	int m_endTextEditPosition;
 
 	QtScrollSpeedChangeListener m_scrollSpeedChangeListener;
 };

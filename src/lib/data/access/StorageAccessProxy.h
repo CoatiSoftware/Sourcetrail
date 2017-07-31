@@ -23,7 +23,7 @@ public:
 	virtual std::vector<Id> getNodeIdsForNameHierarchies(const std::vector<NameHierarchy> nameHierarchies) const;
 
 	virtual NameHierarchy getNameHierarchyForNodeId(Id id) const;
-	virtual std::vector<NameHierarchy> getNameHierarchiesForNodeIds(const std::vector<Id> nodeIds) const;
+	virtual std::vector<NameHierarchy> getNameHierarchiesForNodeIds(const std::vector<Id>& nodeIds) const;
 
 	virtual Node::NodeType getNodeTypeForNodeWithId(Id id) const;
 
@@ -73,15 +73,16 @@ public:
 	virtual Id addEdgeBookmark(const EdgeBookmark& bookmark);
 	virtual Id addBookmarkCategory(const std::string& categoryName);
 
-	virtual void updateBookmark(const Id bookmarkId, const std::string& name, const std::string& comment, const std::string& categoryName);
-
+	virtual void updateBookmark(
+		const Id bookmarkId, const std::string& name, const std::string& comment, const std::string& categoryName);
 	virtual void removeBookmark(const Id id);
 	virtual void removeBookmarkCategory(const Id id);
 
 	virtual std::vector<NodeBookmark> getAllNodeBookmarks() const;
 	virtual std::vector<EdgeBookmark> getAllEdgeBookmarks() const;
-
 	virtual std::vector<BookmarkCategory> getAllBookmarkCategories() const;
+
+	virtual TooltipInfo getTooltipInfoForTokenIds(const std::vector<Id>& tokenIds, TooltipOrigin origin) const;
 
 protected:
 	virtual void setErrorFilter(const ErrorFilter& filter);

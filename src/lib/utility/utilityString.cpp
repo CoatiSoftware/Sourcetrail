@@ -256,6 +256,112 @@ namespace utility
 		return ret;
 	}
 
+	std::string breakSignature(
+		std::string returnPart, std::string namePart, std::string paramPart,
+		size_t maxLineLength, size_t tabWidth)
+	{
+		namePart = ' ' + namePart;
+
+		size_t totalSize = returnPart.size() + namePart.size() + paramPart.size();
+		if (totalSize <= maxLineLength)
+		{
+			return returnPart + namePart + paramPart;
+		}
+
+		if (paramPart.size())
+		{
+			namePart += paramPart[0];
+			paramPart.erase(0, 1);
+		}
+
+		size_t parenPos = paramPart.rfind(')');
+		std::string endPart;
+		if (parenPos == 0)
+		{
+			namePart += paramPart;
+			paramPart = "";
+		}
+		else if (parenPos != std::string::npos)
+		{
+			endPart = paramPart.substr(parenPos);
+			paramPart = paramPart.substr(0, parenPos);
+		}
+
+		if (paramPart.size() && paramPart.size() + tabWidth - endPart.size() > maxLineLength)
+		{
+			std::vector<std::string> paramLines;
+			while (true)
+			{
+				size_t parenCount = 0;
+				bool split = false;
+				for (size_t i = 0; i < paramPart.size(); i++)
+				{
+					char c = paramPart[i];
+					if (parenCount == 0 && c == ',')
+					{
+						paramLines.push_back(paramPart.substr(0, i + 1));
+						paramPart = paramPart.substr(i + 2);
+						split = true;
+						break;
+					}
+					else if (c == '<' || c == '(')
+					{
+						parenCount++;
+					}
+					else if (c == '>' || c == ')')
+					{
+						parenCount--;
+					}
+				}
+
+				if (!split)
+				{
+					paramLines.push_back(paramPart);
+					break;
+				}
+			}
+
+			paramPart = "";
+			for (std::string str : paramLines)
+			{
+				paramPart += "\n\t" + str;
+				size_t length = tabWidth + str.size();
+				maxLineLength = std::max(length, maxLineLength);
+			}
+		}
+		else if (paramPart.size())
+		{
+			paramPart = "\n\t" + paramPart;
+		}
+
+		if (returnPart.size() + namePart.size() <= maxLineLength)
+		{
+			namePart = returnPart + namePart;
+			returnPart = "";
+		}
+
+		std::string sig;
+
+		if (returnPart.size())
+		{
+			sig += returnPart + '\n';
+		}
+
+		sig += namePart;
+
+		if (paramPart.size())
+		{
+			sig += paramPart;
+		}
+
+		if (endPart.size())
+		{
+			sig += '\n' + endPart;
+		}
+
+		return sig;
+	}
+
 	std::string trim(const std::string &str)
 	{
 		auto wsfront = std::find_if_not(str.begin(), str.end(), [](int c){ return std::isspace(c); });

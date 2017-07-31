@@ -58,6 +58,7 @@ public:
 	static const NodeTypeMask NODE_NOT_VISIBLE;
 	static const NodeTypeMask NODE_USEABLE_TYPE;
 	static const NodeTypeMask NODE_INHERITABLE_TYPE;
+	static const NodeTypeMask NODE_MEMBER_TYPE;
 
 	Node(Id id, NodeType type, NameHierarchy nameHierarchy, bool defined);
 	Node(const Node& other);

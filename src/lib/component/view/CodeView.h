@@ -16,6 +16,8 @@ class CodeView
 	: public View
 {
 public:
+	static const char* VIEW_NAME;
+
 	enum FileState
 	{
 		FILE_MINIMIZED,

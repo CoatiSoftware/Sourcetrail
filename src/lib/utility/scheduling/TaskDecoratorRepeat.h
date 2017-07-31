@@ -17,16 +17,12 @@ public:
 
 	TaskDecoratorRepeat(ConditionType condition, TaskState exitState);
 
-	virtual void setTask(std::shared_ptr<Task> task);
-
 private:
 	virtual void doEnter(std::shared_ptr<Blackboard> blackboard);
 	virtual TaskState doUpdate(std::shared_ptr<Blackboard> blackboard);
 	virtual void doExit(std::shared_ptr<Blackboard> blackboard);
 	virtual void doReset(std::shared_ptr<Blackboard> blackboard);
-	virtual void doTerminate();
 
-	std::shared_ptr<TaskRunner> m_taskRunner;
 	const ConditionType m_condition;
 	const TaskState m_exitState;
 };

@@ -107,7 +107,7 @@ public:
 		std::shared_ptr<SourceGroupSettings> settings, QtProjectWizzardWindow* window, bool isCDB = false);
 
 	// QtProjectWizzardContent implementation
-	virtual void populate(QGridLayout* layout, int& row);
+	virtual void populate(QGridLayout* layout, int& row) override;
 	virtual void load() override;
 	virtual void save() override;
 	virtual bool isScrollAble() const override;

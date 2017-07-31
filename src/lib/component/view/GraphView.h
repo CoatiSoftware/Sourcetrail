@@ -16,6 +16,8 @@ class GraphView
 	: public View
 {
 public:
+	static const char* VIEW_NAME;
+
 	struct GraphParams
 	{
 		bool animatedTransition;

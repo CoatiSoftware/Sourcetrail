@@ -146,6 +146,7 @@ void TaskScheduler::processTasks()
 	while (m_taskRunners.size())
 	{
 		std::shared_ptr<TaskRunner> runner = m_taskRunners.front();
+		Task::TaskState state = Task::STATE_RUNNING;
 
 		{
 			m_tasksMutex.unlock();
@@ -166,7 +167,8 @@ void TaskScheduler::processTasks()
 					}
 				}
 
-				if (runner->update(blackboard) != Task::STATE_RUNNING)
+				state = runner->update(blackboard);
+				if (state != Task::STATE_RUNNING)
 				{
 					break;
 				}
@@ -174,6 +176,11 @@ void TaskScheduler::processTasks()
 		}
 
 		m_taskRunners.pop_front();
+
+		if (state == Task::STATE_HOLD)
+		{
+			m_taskRunners.push_back(runner);
+		}
 	}
 
 	m_terminateRunningTasks = false;

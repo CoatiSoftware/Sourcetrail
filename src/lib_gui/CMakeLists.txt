@@ -14,6 +14,8 @@ add_files(
 	qt/element/QtBookmarkCategory.h
 	qt/element/QtCodeArea.cpp
 	qt/element/QtCodeArea.h
+	qt/element/QtCodeField.cpp
+	qt/element/QtCodeField.h
 	qt/element/QtCodeFile.cpp
 	qt/element/QtCodeFile.h
 	qt/element/QtCodeFileList.cpp
@@ -54,6 +56,8 @@ add_files(
 	qt/element/QtStatusBar.h
 	qt/element/QtTable.cpp
 	qt/element/QtTable.h
+	qt/element/QtTooltip.cpp
+	qt/element/QtTooltip.h
 	qt/element/QtUndoRedo.cpp
 	qt/element/QtUndoRedo.h
 
@@ -143,6 +147,8 @@ add_files(
 	qt/view/QtStatusView.h
 	qt/view/QtTabbedView.cpp
 	qt/view/QtTabbedView.h
+	qt/view/QtTooltipView.cpp
+	qt/view/QtTooltipView.h
 	qt/view/QtUndoRedoView.cpp
 	qt/view/QtUndoRedoView.h
 	qt/view/QtViewFactory.cpp

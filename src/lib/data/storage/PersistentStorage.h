@@ -30,20 +30,6 @@ public:
 	virtual void addComponentAccess(Id nodeId , int type);
 	virtual void addCommentLocation(Id fileNodeId, uint startLine, uint startCol, uint endLine, uint endCol);
 	virtual void addError(const std::string& message, const FilePath& filePath, uint startLine, uint startCol, bool fatal, bool indexed);
-	virtual Id addNodeBookmark(const NodeBookmark& bookmark);
-	virtual Id addEdgeBookmark(const EdgeBookmark& bookmark);
-	virtual Id addBookmarkCategory(const std::string& categoryName);
-
-	void updateBookmark(const Id bookmarkId, const std::string& name, const std::string& comment, const std::string& categoryName);
-
-	virtual void removeBookmark(const Id id);
-	virtual void removeBookmarkCategory(const Id id);
-
-	std::vector<NodeBookmark> getAllNodeBookmarks() const;
-	std::vector<EdgeBookmark> getAllEdgeBookmarks() const;
-
-
-	virtual std::vector<BookmarkCategory> getAllBookmarkCategories() const;
 
 	virtual void forEachNode(std::function<void(const StorageNode& /*data*/)> callback) const;
 	virtual void forEachFile(std::function<void(const StorageFile& /*data*/)> callback) const;
@@ -89,7 +75,7 @@ public:
 	virtual std::vector<Id> getNodeIdsForNameHierarchies(const std::vector<NameHierarchy> nameHierarchies) const;
 
 	virtual NameHierarchy getNameHierarchyForNodeId(Id nodeId) const;
-	virtual std::vector<NameHierarchy> getNameHierarchiesForNodeIds(const std::vector<Id> nodeIds) const;
+	virtual std::vector<NameHierarchy> getNameHierarchiesForNodeIds(const std::vector<Id>& nodeIds) const;
 
 	virtual Node::NodeType getNodeTypeForNodeWithId(Id nodeId) const;
 
@@ -137,6 +123,21 @@ public:
 	virtual std::vector<ErrorInfo> getErrors() const;
 	virtual std::vector<ErrorInfo> getErrorsLimited() const;
 	virtual std::shared_ptr<SourceLocationCollection> getErrorSourceLocationsLimited(std::vector<ErrorInfo>* errors) const;
+
+	virtual Id addNodeBookmark(const NodeBookmark& bookmark);
+	virtual Id addEdgeBookmark(const EdgeBookmark& bookmark);
+	virtual Id addBookmarkCategory(const std::string& categoryName);
+
+	virtual void updateBookmark(const Id bookmarkId, const std::string& name, const std::string& comment, const std::string& categoryName);
+	virtual void removeBookmark(const Id id);
+	virtual void removeBookmarkCategory(const Id id);
+
+	virtual std::vector<NodeBookmark> getAllNodeBookmarks() const;
+	virtual std::vector<EdgeBookmark> getAllEdgeBookmarks() const;
+	virtual std::vector<BookmarkCategory> getAllBookmarkCategories() const;
+
+	virtual TooltipInfo getTooltipInfoForTokenIds(const std::vector<Id>& tokenIds, TooltipOrigin origin) const;
+	TooltipSnippet getTooltipSnippetForNode(const StorageNode& node) const;
 
 private:
 	Id getFileNodeId(const FilePath& filePath) const;

@@ -15,6 +15,7 @@
 #include "qt/view/QtStatusBarView.h"
 #include "qt/view/QtStatusView.h"
 #include "qt/view/QtTabbedView.h"
+#include "qt/view/QtTooltipView.h"
 #include "qt/view/QtUndoRedoView.h"
 
 QtViewFactory::QtViewFactory()
@@ -91,6 +92,11 @@ std::shared_ptr<SearchView> QtViewFactory::createSearchView(ViewLayout* viewLayo
 std::shared_ptr<StatusBarView> QtViewFactory::createStatusBarView(ViewLayout* viewLayout) const
 {
 	return View::createAndInit<QtStatusBarView>(viewLayout);
+}
+
+std::shared_ptr<TooltipView> QtViewFactory::createTooltipView(ViewLayout* viewLayout) const
+{
+	return View::createAndInit<QtTooltipView>(viewLayout);
 }
 
 std::shared_ptr<UndoRedoView> QtViewFactory::createUndoRedoView(ViewLayout* viewLayout) const

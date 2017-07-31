@@ -18,12 +18,12 @@
 #include "data/graph/token_component/TokenComponentAggregation.h"
 #include "data/graph/token_component/TokenComponentFilePath.h"
 #include "data/graph/token_component/TokenComponentInheritanceChain.h"
-#include "data/graph/token_component/TokenComponentSignature.h"
 #include "data/graph/Graph.h"
 #include "data/location/SourceLocationCollection.h"
 #include "data/location/SourceLocationFile.h"
 #include "data/parser/AccessKind.h"
 #include "data/parser/ParseLocation.h"
+#include "settings/ApplicationSettings.h"
 
 PersistentStorage::PersistentStorage(const FilePath& dbPath, const FilePath& bookmarkPath)
 	: m_sqliteIndexStorage(dbPath)
@@ -145,182 +145,6 @@ void PersistentStorage::addError(
 		fatal,
 		indexed
 	);
-}
-
-Id PersistentStorage::addNodeBookmark(const NodeBookmark& bookmark)
-{
-	const Id categoryId = addBookmarkCategory(bookmark.getCategory().getName());
-	const Id id = m_sqliteBookmarkStorage.addBookmark(
-		bookmark.getName(), bookmark.getComment(), bookmark.getTimeStamp().toString(), categoryId);
-
-	for (const Id& nodeId: bookmark.getNodeIds())
-	{
-		m_sqliteBookmarkStorage.addBookmarkedNode(id, m_sqliteIndexStorage.getNodeById(nodeId).serializedName);
-	}
-
-	return id;
-}
-
-Id PersistentStorage::addEdgeBookmark(const EdgeBookmark& bookmark)
-{
-	const Id categoryId = addBookmarkCategory(bookmark.getCategory().getName());
-	const Id id = m_sqliteBookmarkStorage.addBookmark(
-		bookmark.getName(), bookmark.getComment(), bookmark.getTimeStamp().toString(), categoryId);
-	for (const Id& edgeId: bookmark.getEdgeIds())
-	{
-		const StorageEdge storageEdge = m_sqliteIndexStorage.getEdgeById(edgeId);
-
-		bool sourceNodeActive = storageEdge.sourceNodeId == bookmark.getActiveNodeId();
-		m_sqliteBookmarkStorage.addBookmarkedEdge(
-			id,
-			// todo: optimization for multiple edges in same bookmark: use a local cache here
-			m_sqliteIndexStorage.getNodeById(storageEdge.sourceNodeId).serializedName,
-			m_sqliteIndexStorage.getNodeById(storageEdge.targetNodeId).serializedName,
-			storageEdge.type,
-			sourceNodeActive
-		);
-	}
-	return id;
-}
-
-Id PersistentStorage::addBookmarkCategory(const std::string& name)
-{
-	if (name.empty())
-	{
-		return 0;
-	}
-
-	Id id = m_sqliteBookmarkStorage.getBookmarkCategoryByName(name).id;
-	if (id == 0)
-	{
-		id = m_sqliteBookmarkStorage.addBookmarkCategory(name);
-	}
-	return id;
-}
-
-void PersistentStorage::updateBookmark(
-	const Id bookmarkId, const std::string& name, const std::string& comment, const std::string& categoryName)
-{
-	const Id categoryId = addBookmarkCategory(categoryName); // only creates category if id didn't exist before;
-	m_sqliteBookmarkStorage.updateBookmark(bookmarkId, name, comment, categoryId);
-}
-
-void PersistentStorage::removeBookmark(const Id id)
-{
-	m_sqliteBookmarkStorage.removeBookmark(id);
-}
-
-void PersistentStorage::removeBookmarkCategory(Id id)
-{
-	m_sqliteBookmarkStorage.removeBookmarkCategory(id);
-}
-
-std::vector<NodeBookmark> PersistentStorage::getAllNodeBookmarks() const
-{
-	std::unordered_map<Id, StorageBookmarkCategory> bookmarkCategories;
-	for (const StorageBookmarkCategory& bookmarkCategory: m_sqliteBookmarkStorage.getAllBookmarkCategories())
-	{
-		bookmarkCategories[bookmarkCategory.id] = bookmarkCategory;
-	}
-
-	std::unordered_map<Id, std::vector<Id>> bookmarkIdToBookmarkedNodeIds;
-	for (const StorageBookmarkedNode& bookmarkedNode: m_sqliteBookmarkStorage.getAllBookmarkedNodes())
-	{
-		bookmarkIdToBookmarkedNodeIds[bookmarkedNode.bookmarkId].push_back(
-			m_sqliteIndexStorage.getNodeBySerializedName(bookmarkedNode.serializedNodeName).id);
-	}
-
-	std::vector<NodeBookmark> nodeBookmarks;
-
-	for (const StorageBookmark& storageBookmark: m_sqliteBookmarkStorage.getAllBookmarks())
-	{
-		auto itCategories = bookmarkCategories.find(storageBookmark.categoryId);
-		auto itNodeIds = bookmarkIdToBookmarkedNodeIds.find(storageBookmark.id);
-		if (itCategories != bookmarkCategories.end() && itNodeIds != bookmarkIdToBookmarkedNodeIds.end())
-		{
-			NodeBookmark bookmark(
-				storageBookmark.id,
-				storageBookmark.name,
-				storageBookmark.comment,
-				storageBookmark.timestamp,
-				BookmarkCategory(itCategories->second.id, itCategories->second.name)
-			);
-			bookmark.setNodeIds(itNodeIds->second);
-			bookmark.setIsValid();
-			nodeBookmarks.push_back(bookmark);
-		}
-	}
-
-	return nodeBookmarks;
-}
-
-std::vector<EdgeBookmark> PersistentStorage::getAllEdgeBookmarks() const
-{
-	std::unordered_map<Id, StorageBookmarkCategory> bookmarkCategories;
-	for (const StorageBookmarkCategory& bookmarkCategory: m_sqliteBookmarkStorage.getAllBookmarkCategories())
-	{
-		bookmarkCategories[bookmarkCategory.id] = bookmarkCategory;
-	}
-
-	std::unordered_map<Id, std::vector<StorageBookmarkedEdge>> bookmarkIdToBookmarkedEdges;
-	for (const StorageBookmarkedEdge& bookmarkedEdge: m_sqliteBookmarkStorage.getAllBookmarkedEdges())
-	{
-		bookmarkIdToBookmarkedEdges[bookmarkedEdge.bookmarkId].push_back(bookmarkedEdge);
-	}
-
-	std::vector<EdgeBookmark> edgeBookmarks;
-
-	Cache<std::string, Id> nodeIdCache([&](std::string serializedNodeName)
-		{
-			return m_sqliteIndexStorage.getNodeBySerializedName(serializedNodeName).id;
-		}
-	);
-
-	for (const StorageBookmark& storageBookmark: m_sqliteBookmarkStorage.getAllBookmarks())
-	{
-		auto itCategories = bookmarkCategories.find(storageBookmark.categoryId);
-		auto itBookmarkedEdges = bookmarkIdToBookmarkedEdges.find(storageBookmark.id);
-		if (itCategories != bookmarkCategories.end() && itBookmarkedEdges != bookmarkIdToBookmarkedEdges.end())
-		{
-			EdgeBookmark bookmark(
-				storageBookmark.id,
-				storageBookmark.name,
-				storageBookmark.comment,
-				storageBookmark.timestamp,
-				BookmarkCategory(itCategories->second.id, itCategories->second.name)
-			);
-
-			Id activeNodeId = 0;
-			for (const StorageBookmarkedEdge& bookmarkedEdge: itBookmarkedEdges->second)
-			{
-				const Id sourceNodeId = nodeIdCache.getValue(bookmarkedEdge.serializedSourceNodeName);
-				const Id targetNodeId = nodeIdCache.getValue(bookmarkedEdge.serializedTargetNodeName);
-				const Id edgeId =
-					m_sqliteIndexStorage.getEdgeBySourceTargetType(sourceNodeId, targetNodeId, bookmarkedEdge.edgeType).id;
-				bookmark.addEdgeId(edgeId);
-
-				if (activeNodeId == 0)
-				{
-					activeNodeId = bookmarkedEdge.sourceNodeActive ? sourceNodeId : targetNodeId;
-				}
-			}
-			bookmark.setActiveNodeId(activeNodeId);
-			bookmark.setIsValid();
-			edgeBookmarks.push_back(bookmark);
-		}
-	}
-
-	return edgeBookmarks;
-}
-
-std::vector<BookmarkCategory> PersistentStorage::getAllBookmarkCategories() const
-{
-	std::vector<BookmarkCategory> categories;
-	for (const StorageBookmarkCategory storageBookmarkCategoriy: m_sqliteBookmarkStorage.getAllBookmarkCategories())
-	{
-		categories.push_back(BookmarkCategory(storageBookmarkCategoriy.id, storageBookmarkCategoriy.name));
-	}
-	return categories;
 }
 
 void PersistentStorage::forEachNode(std::function<void(const StorageNode& /*data*/)> callback) const
@@ -602,7 +426,7 @@ NameHierarchy PersistentStorage::getNameHierarchyForNodeId(Id nodeId) const
 	return NameHierarchy::deserialize(m_sqliteIndexStorage.getFirstById<StorageNode>(nodeId).serializedName);
 }
 
-std::vector<NameHierarchy> PersistentStorage::getNameHierarchiesForNodeIds(const std::vector<Id> nodeIds) const
+std::vector<NameHierarchy> PersistentStorage::getNameHierarchiesForNodeIds(const std::vector<Id>& nodeIds) const
 {
 	TRACE();
 
@@ -1564,6 +1388,370 @@ std::shared_ptr<SourceLocationCollection> PersistentStorage::getErrorSourceLocat
 	return collection;
 }
 
+Id PersistentStorage::addNodeBookmark(const NodeBookmark& bookmark)
+{
+	const Id categoryId = addBookmarkCategory(bookmark.getCategory().getName());
+	const Id id = m_sqliteBookmarkStorage.addBookmark(
+		bookmark.getName(), bookmark.getComment(), bookmark.getTimeStamp().toString(), categoryId);
+
+	for (const Id& nodeId: bookmark.getNodeIds())
+	{
+		m_sqliteBookmarkStorage.addBookmarkedNode(id, m_sqliteIndexStorage.getNodeById(nodeId).serializedName);
+	}
+
+	return id;
+}
+
+Id PersistentStorage::addEdgeBookmark(const EdgeBookmark& bookmark)
+{
+	const Id categoryId = addBookmarkCategory(bookmark.getCategory().getName());
+	const Id id = m_sqliteBookmarkStorage.addBookmark(
+		bookmark.getName(), bookmark.getComment(), bookmark.getTimeStamp().toString(), categoryId);
+	for (const Id& edgeId: bookmark.getEdgeIds())
+	{
+		const StorageEdge storageEdge = m_sqliteIndexStorage.getEdgeById(edgeId);
+
+		bool sourceNodeActive = storageEdge.sourceNodeId == bookmark.getActiveNodeId();
+		m_sqliteBookmarkStorage.addBookmarkedEdge(
+			id,
+			// todo: optimization for multiple edges in same bookmark: use a local cache here
+			m_sqliteIndexStorage.getNodeById(storageEdge.sourceNodeId).serializedName,
+			m_sqliteIndexStorage.getNodeById(storageEdge.targetNodeId).serializedName,
+			storageEdge.type,
+			sourceNodeActive
+		);
+	}
+	return id;
+}
+
+Id PersistentStorage::addBookmarkCategory(const std::string& name)
+{
+	if (name.empty())
+	{
+		return 0;
+	}
+
+	Id id = m_sqliteBookmarkStorage.getBookmarkCategoryByName(name).id;
+	if (id == 0)
+	{
+		id = m_sqliteBookmarkStorage.addBookmarkCategory(name);
+	}
+	return id;
+}
+
+void PersistentStorage::updateBookmark(
+	const Id bookmarkId, const std::string& name, const std::string& comment, const std::string& categoryName)
+{
+	const Id categoryId = addBookmarkCategory(categoryName); // only creates category if id didn't exist before;
+	m_sqliteBookmarkStorage.updateBookmark(bookmarkId, name, comment, categoryId);
+}
+
+void PersistentStorage::removeBookmark(const Id id)
+{
+	m_sqliteBookmarkStorage.removeBookmark(id);
+}
+
+void PersistentStorage::removeBookmarkCategory(Id id)
+{
+	m_sqliteBookmarkStorage.removeBookmarkCategory(id);
+}
+
+std::vector<NodeBookmark> PersistentStorage::getAllNodeBookmarks() const
+{
+	std::unordered_map<Id, StorageBookmarkCategory> bookmarkCategories;
+	for (const StorageBookmarkCategory& bookmarkCategory: m_sqliteBookmarkStorage.getAllBookmarkCategories())
+	{
+		bookmarkCategories[bookmarkCategory.id] = bookmarkCategory;
+	}
+
+	std::unordered_map<Id, std::vector<Id>> bookmarkIdToBookmarkedNodeIds;
+	for (const StorageBookmarkedNode& bookmarkedNode: m_sqliteBookmarkStorage.getAllBookmarkedNodes())
+	{
+		bookmarkIdToBookmarkedNodeIds[bookmarkedNode.bookmarkId].push_back(
+			m_sqliteIndexStorage.getNodeBySerializedName(bookmarkedNode.serializedNodeName).id);
+	}
+
+	std::vector<NodeBookmark> nodeBookmarks;
+
+	for (const StorageBookmark& storageBookmark: m_sqliteBookmarkStorage.getAllBookmarks())
+	{
+		auto itCategories = bookmarkCategories.find(storageBookmark.categoryId);
+		auto itNodeIds = bookmarkIdToBookmarkedNodeIds.find(storageBookmark.id);
+		if (itCategories != bookmarkCategories.end() && itNodeIds != bookmarkIdToBookmarkedNodeIds.end())
+		{
+			NodeBookmark bookmark(
+				storageBookmark.id,
+				storageBookmark.name,
+				storageBookmark.comment,
+				storageBookmark.timestamp,
+				BookmarkCategory(itCategories->second.id, itCategories->second.name)
+			);
+			bookmark.setNodeIds(itNodeIds->second);
+			bookmark.setIsValid();
+			nodeBookmarks.push_back(bookmark);
+		}
+	}
+
+	return nodeBookmarks;
+}
+
+std::vector<EdgeBookmark> PersistentStorage::getAllEdgeBookmarks() const
+{
+	std::unordered_map<Id, StorageBookmarkCategory> bookmarkCategories;
+	for (const StorageBookmarkCategory& bookmarkCategory: m_sqliteBookmarkStorage.getAllBookmarkCategories())
+	{
+		bookmarkCategories[bookmarkCategory.id] = bookmarkCategory;
+	}
+
+	std::unordered_map<Id, std::vector<StorageBookmarkedEdge>> bookmarkIdToBookmarkedEdges;
+	for (const StorageBookmarkedEdge& bookmarkedEdge: m_sqliteBookmarkStorage.getAllBookmarkedEdges())
+	{
+		bookmarkIdToBookmarkedEdges[bookmarkedEdge.bookmarkId].push_back(bookmarkedEdge);
+	}
+
+	std::vector<EdgeBookmark> edgeBookmarks;
+
+	Cache<std::string, Id> nodeIdCache([&](std::string serializedNodeName)
+		{
+			return m_sqliteIndexStorage.getNodeBySerializedName(serializedNodeName).id;
+		}
+	);
+
+	for (const StorageBookmark& storageBookmark: m_sqliteBookmarkStorage.getAllBookmarks())
+	{
+		auto itCategories = bookmarkCategories.find(storageBookmark.categoryId);
+		auto itBookmarkedEdges = bookmarkIdToBookmarkedEdges.find(storageBookmark.id);
+		if (itCategories != bookmarkCategories.end() && itBookmarkedEdges != bookmarkIdToBookmarkedEdges.end())
+		{
+			EdgeBookmark bookmark(
+				storageBookmark.id,
+				storageBookmark.name,
+				storageBookmark.comment,
+				storageBookmark.timestamp,
+				BookmarkCategory(itCategories->second.id, itCategories->second.name)
+			);
+
+			Id activeNodeId = 0;
+			for (const StorageBookmarkedEdge& bookmarkedEdge: itBookmarkedEdges->second)
+			{
+				const Id sourceNodeId = nodeIdCache.getValue(bookmarkedEdge.serializedSourceNodeName);
+				const Id targetNodeId = nodeIdCache.getValue(bookmarkedEdge.serializedTargetNodeName);
+				const Id edgeId =
+					m_sqliteIndexStorage.getEdgeBySourceTargetType(sourceNodeId, targetNodeId, bookmarkedEdge.edgeType).id;
+				bookmark.addEdgeId(edgeId);
+
+				if (activeNodeId == 0)
+				{
+					activeNodeId = bookmarkedEdge.sourceNodeActive ? sourceNodeId : targetNodeId;
+				}
+			}
+			bookmark.setActiveNodeId(activeNodeId);
+			bookmark.setIsValid();
+			edgeBookmarks.push_back(bookmark);
+		}
+	}
+
+	return edgeBookmarks;
+}
+
+std::vector<BookmarkCategory> PersistentStorage::getAllBookmarkCategories() const
+{
+	std::vector<BookmarkCategory> categories;
+	for (const StorageBookmarkCategory storageBookmarkCategoriy: m_sqliteBookmarkStorage.getAllBookmarkCategories())
+	{
+		categories.push_back(BookmarkCategory(storageBookmarkCategoriy.id, storageBookmarkCategoriy.name));
+	}
+	return categories;
+}
+
+TooltipInfo PersistentStorage::getTooltipInfoForTokenIds(const std::vector<Id>& tokenIds, TooltipOrigin origin) const
+{
+	TRACE();
+
+	TooltipInfo info;
+
+	if (!tokenIds.size())
+	{
+		return info;
+	}
+
+	StorageNode node = m_sqliteIndexStorage.getFirstById<StorageNode>(tokenIds[0]);
+	if (node.id == 0 && origin == TOOLTIP_ORIGIN_CODE)
+	{
+		StorageEdge edge = m_sqliteIndexStorage.getFirstById<StorageEdge>(tokenIds[0]);
+
+		if (edge.id > 0)
+		{
+			node = m_sqliteIndexStorage.getFirstById<StorageNode>(edge.targetNodeId);
+		}
+	}
+
+	if (node.id == 0)
+	{
+		return info;
+	}
+
+	Node::NodeType type = Node::intToType(node.type);
+	info.title = Node::getReadableTypeString(type);
+
+	DefinitionKind defKind = DEFINITION_NONE;
+	StorageSymbol symbol = m_sqliteIndexStorage.getFirstById<StorageSymbol>(node.id);
+	if (symbol.id > 0)
+	{
+		defKind = intToDefinitionKind(symbol.definitionKind);
+	}
+
+	if (type & Node::NODE_MEMBER_TYPE)
+	{
+		StorageComponentAccess access = m_sqliteIndexStorage.getComponentAccessByNodeId(node.id);
+		if (access.nodeId != 0)
+		{
+			info.title = accessKindToString(intToAccessKind(access.type)) + " " + info.title;
+		}
+	}
+
+	if (type == Node::NODE_FILE)
+	{
+		bool complete = false;
+		auto it = m_fileNodeComplete.find(node.id);
+		if (it != m_fileNodeComplete.end())
+		{
+			complete = it->second;
+		}
+
+		if (!complete)
+		{
+			info.title = "incomplete " + info.title;
+		}
+	}
+	else if (defKind == DEFINITION_NONE && type != Node::NODE_NON_INDEXED)
+	{
+		info.title = "non-indexed " + info.title;
+	}
+	else if (defKind == DEFINITION_IMPLICIT)
+	{
+		info.title = "implicit " + info.title;
+	}
+
+	info.count = 0;
+	info.countText = "reference";
+	for (auto edge : m_sqliteIndexStorage.getEdgesByTargetId(node.id))
+	{
+		if (Edge::intToType(edge.type) != Edge::EDGE_MEMBER)
+		{
+			info.count++;
+		}
+	}
+
+	info.snippets.push_back(getTooltipSnippetForNode(node));
+
+	if (origin == TOOLTIP_ORIGIN_CODE)
+	{
+		info.offset = Vec2i(20, 30);
+	}
+	else
+	{
+		info.offset = Vec2i(50, 20);
+	}
+
+	return info;
+}
+
+TooltipSnippet PersistentStorage::getTooltipSnippetForNode(const StorageNode& node) const
+{
+	TRACE();
+
+	TooltipSnippet snippet;
+	NameHierarchy nameHierarchy = NameHierarchy::deserialize(node.serializedName);
+	snippet.code = nameHierarchy.getQualifiedNameWithSignature();
+	snippet.locationFile = std::make_shared<SourceLocationFile>(
+		FilePath(nameHierarchy.getDelimiter() == NAME_DELIMITER_JAVA ? "main.java" : "main.cpp"), true, true);
+
+	if (Node::intToType(node.type) & (Node::NODE_FUNCTION | Node::NODE_METHOD | Node::NODE_FIELD | Node::NODE_GLOBAL_VARIABLE))
+	{
+		snippet.code = utility::breakSignature(
+			nameHierarchy.getSignature().getPrefix(),
+			nameHierarchy.getQualifiedName(),
+			nameHierarchy.getSignature().getPostfix(),
+			50,
+			ApplicationSettings::getInstance()->getCodeTabWidth()
+		);
+
+		std::vector<Id> typeNodeIds;
+		for (auto edge : m_sqliteIndexStorage.getEdgesBySourceId(node.id))
+		{
+			if (Edge::intToType(edge.type) == Edge::EDGE_TYPE_USAGE)
+			{
+				typeNodeIds.push_back(edge.targetNodeId);
+			}
+		}
+
+		std::set<std::pair<std::string, Id>, bool(*)(const std::pair<std::string, Id>&, const std::pair<std::string, Id>&)> typeNames(
+			[](const std::pair<std::string, Id>& a, const std::pair<std::string, Id>& b)
+			{
+				if (a.first.size() == b.first.size())
+				{
+					return a.first < b.first;
+				}
+
+				return a.first.size() > b.first.size();
+			}
+		);
+
+		typeNames.insert(std::make_pair(nameHierarchy.getQualifiedName(), node.id));
+		for (auto typeNode : m_sqliteIndexStorage.getAllByIds<StorageNode>(typeNodeIds))
+		{
+			typeNames.insert(std::make_pair(
+				NameHierarchy::deserialize(typeNode.serializedName).getQualifiedName(),
+				typeNode.id
+			));
+		}
+
+		Id locationId = 1;
+		std::vector<std::pair<size_t, size_t>> locationRanges;
+		for (auto p : typeNames)
+		{
+			size_t pos = 0;
+			while (pos != std::string::npos)
+			{
+				pos = snippet.code.find(p.first, pos);
+				if (pos == std::string::npos)
+				{
+					continue;
+				}
+
+				bool inRange = false;
+				for (auto p : locationRanges)
+				{
+					if (pos + 1 >= p.first && pos + 1 <= p.second)
+					{
+						inRange = true;
+						pos = p.second + 1;
+						break;
+					}
+				}
+
+				if (!inRange)
+				{
+					snippet.locationFile->addSourceLocation(
+						LOCATION_TOKEN, locationId, std::vector<Id>(1, p.second), 1, pos + 1, 1, pos + p.first.size());
+
+					locationRanges.push_back(std::make_pair(pos + 1, pos + p.first.size()));
+					pos += p.first.size();
+					locationId++;
+				}
+			}
+		}
+	}
+	else
+	{
+		snippet.locationFile->addSourceLocation(
+			LOCATION_TOKEN, 0, std::vector<Id>(1, node.id), 1, 1, 1, snippet.code.size());
+	}
+
+	return snippet;
+}
+
 Id PersistentStorage::getFileNodeId(const FilePath& filePath) const
 {
 	if (filePath.empty())
@@ -1862,17 +2050,6 @@ void PersistentStorage::addNodesToGraph(const std::vector<Id>& newNodeIds, Graph
 			else if (defKind == DEFINITION_EXPLICIT)
 			{
 				node->setExplicit(true);
-			}
-
-			if (type == Node::NODE_FUNCTION || type == Node::NODE_METHOD)
-			{
-				std::string signatureString = nameHierarchy.getRawNameWithSignature();
-				if (signatureString.size() > 0) // this should always be the case since functions and methods must have sigs.
-				{
-					node->addComponentSignature(
-						std::make_shared<TokenComponentSignature>(signatureString)
-					);
-				}
 			}
 
 			if (addChildCount)

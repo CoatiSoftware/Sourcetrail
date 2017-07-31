@@ -13,8 +13,8 @@ IndexerCommandCxx::IndexerCommandCxx(
 	, m_systemHeaderSearchPaths(systemHeaderSearchPaths)
 	, m_frameworkSearchPaths(frameworkSearchPaths)
 	, m_compilerFlags(compilerFlags)
-	, m_preprocessorOnly(false)
 	, m_shouldApplyAnonymousTypedefTransformation(shouldApplyAnonymousTypedefTransformation)
+	, m_preprocessorOnly(false)
 {
 }
 

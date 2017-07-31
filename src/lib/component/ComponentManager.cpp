@@ -51,6 +51,9 @@ void ComponentManager::setup(ViewLayout* viewLayout)
 	std::shared_ptr<Component> activationComponent = m_componentFactory->createActivationComponent();
 	m_components.push_back(activationComponent);
 
+	std::shared_ptr<Component> tooltipComponent = m_componentFactory->createTooltipComponent(viewLayout);
+	m_components.push_back(tooltipComponent);
+
 	m_dialogView = m_componentFactory->getViewFactory()->createDialogView(viewLayout, m_componentFactory->getStorageAccess());
 
 	std::shared_ptr<TabbedView> tabbedView =

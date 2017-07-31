@@ -12,6 +12,12 @@ fi
 
 cd $MY_PATH/..
 
+# determine if needs to load project
+if [ ! -z "$3" ]
+then
+	PROJECT_PATH="-p $3"
+fi
+
 # run target
 
 if [ "$1" = "release" ] || [ "$1" = "r" ] || [ "$1" = "" ]
@@ -26,7 +32,7 @@ then
 		cd build/Release/license_generator && ./Sourcetrail_license_generator
 	else
 		#echo "release app"
-		cd build/Release/app && ./Sourcetrail
+		cd build/Release/app && ./Sourcetrail $PROJECT_PATH
 	fi
 elif [ "$1" = "debug" ] || [ "$1" = "d" ]
 then
@@ -40,7 +46,7 @@ then
 		cd build/Debug/license_generator && ./Sourcetrail_license_generator
 	else
 		#echo "debug app"
-		cd build/Debug/app && ./Sourcetrail
+		cd build/Debug/app && ./Sourcetrail $PROJECT_PATH
 	fi
 else
 	echo "no arguments: first argument 'release' or 'debug', second argument 'test' for tests"

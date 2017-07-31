@@ -75,7 +75,7 @@ NameHierarchy StorageAccessProxy::getNameHierarchyForNodeId(Id id) const
 	return NameHierarchy(NAME_DELIMITER_UNKNOWN);
 }
 
-std::vector<NameHierarchy> StorageAccessProxy::getNameHierarchiesForNodeIds(const std::vector<Id> nodeIds) const
+std::vector<NameHierarchy> StorageAccessProxy::getNameHierarchiesForNodeIds(const std::vector<Id>& nodeIds) const
 {
 	if (hasSubject())
 	{
@@ -413,6 +413,16 @@ std::vector<BookmarkCategory> StorageAccessProxy::getAllBookmarkCategories() con
 	}
 
 	return std::vector<BookmarkCategory>();
+}
+
+TooltipInfo StorageAccessProxy::getTooltipInfoForTokenIds(const std::vector<Id>& tokenIds, TooltipOrigin origin) const
+{
+	if (hasSubject())
+	{
+		return m_subject->getTooltipInfoForTokenIds(tokenIds, origin);
+	}
+
+	return TooltipInfo();
 }
 
 void StorageAccessProxy::setErrorFilter(const ErrorFilter& filter)

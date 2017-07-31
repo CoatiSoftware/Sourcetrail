@@ -172,8 +172,6 @@
 #code_area {
 	background-color: transparent;
 	color: <color:code/snippet/syntax/normal>;
-	font-family: "<setting:font_name>";
-	font-size: <setting:font_size>px;
 	selection-color: <color:code/snippet/selection/text>;
 	selection-background-color: <color:code/snippet/selection/background>;
 }

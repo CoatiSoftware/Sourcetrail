@@ -16,13 +16,16 @@
 #include "data/ErrorFilter.h"
 #include "data/ErrorInfo.h"
 #include "data/storage/StorageStats.h"
+#include "data/tooltip/TooltipInfo.h"
+#include "data/tooltip/TooltipOrigin.h"
 
 class FilePath;
-struct FileInfo;
 class Graph;
 class SourceLocationCollection;
 class SourceLocationFile;
 class TextAccess;
+
+struct FileInfo;
 
 class StorageAccess
 {
@@ -34,7 +37,7 @@ public:
 	virtual std::vector<Id> getNodeIdsForNameHierarchies(const std::vector<NameHierarchy> nameHierarchies) const = 0;
 
 	virtual NameHierarchy getNameHierarchyForNodeId(Id id) const = 0;
-	virtual std::vector<NameHierarchy> getNameHierarchiesForNodeIds(const std::vector<Id> nodeIds) const = 0;
+	virtual std::vector<NameHierarchy> getNameHierarchiesForNodeIds(const std::vector<Id>& nodeIds) const = 0;
 
 	virtual Node::NodeType getNodeTypeForNodeWithId(Id id) const = 0;
 
@@ -79,19 +82,21 @@ public:
 
 	virtual void setErrorFilter(const ErrorFilter& filter);
 
-	virtual Id addNodeBookmark(const NodeBookmark& bookmark) = 0; // todo: remove these from storage access
-	virtual Id addEdgeBookmark(const EdgeBookmark& bookmark) = 0; // todo: remove these from storage access
-	virtual Id addBookmarkCategory(const std::string& categoryName) = 0; // todo: remove these from storage access
+	// todo: remove bookmark related methods from storage access
+	virtual Id addNodeBookmark(const NodeBookmark& bookmark) = 0;
+	virtual Id addEdgeBookmark(const EdgeBookmark& bookmark) = 0;
+	virtual Id addBookmarkCategory(const std::string& categoryName) = 0;
 
-	virtual void updateBookmark(const Id bookmarkId, const std::string& name, const std::string& comment, const std::string& categoryName) = 0; // todo: remove these from storage access
-
-	virtual void removeBookmark(const Id id) = 0; // todo: remove these from storage access
-	virtual void removeBookmarkCategory(const Id id) = 0; // todo: remove these from storage access
+	virtual void updateBookmark(
+		const Id bookmarkId, const std::string& name, const std::string& comment, const std::string& categoryName) = 0;
+	virtual void removeBookmark(const Id id) = 0;
+	virtual void removeBookmarkCategory(const Id id) = 0;
 
 	virtual std::vector<NodeBookmark> getAllNodeBookmarks() const = 0;
 	virtual std::vector<EdgeBookmark> getAllEdgeBookmarks() const = 0;
-
 	virtual std::vector<BookmarkCategory> getAllBookmarkCategories() const = 0;
+
+	virtual TooltipInfo getTooltipInfoForTokenIds(const std::vector<Id>& tokenIds, TooltipOrigin origin) const = 0;
 
 protected:
 	ErrorFilter m_errorFilter;

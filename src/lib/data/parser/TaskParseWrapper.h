@@ -19,19 +19,15 @@ public:
 	TaskParseWrapper(PersistentStorage* storage);
 	virtual ~TaskParseWrapper();
 
-	virtual void setTask(std::shared_ptr<Task> task);
-
 private:
 	virtual void doEnter(std::shared_ptr<Blackboard> blackboard);
 	virtual TaskState doUpdate(std::shared_ptr<Blackboard> blackboard);
 	virtual void doExit(std::shared_ptr<Blackboard> blackboard);
 	virtual void doReset(std::shared_ptr<Blackboard> blackboard);
-	virtual void doTerminate();
 
 	PersistentStorage* m_storage;
 
 	TimePoint m_start;
-	std::shared_ptr<TaskRunner> m_taskRunner;
 };
 
 #endif // TASK_PARSE_WRAPPER_H

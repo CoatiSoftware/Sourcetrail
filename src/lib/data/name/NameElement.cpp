@@ -61,6 +61,16 @@ bool NameElement::Signature::isValid() const
 	return ((m_prefix + m_postfix).size() > 0);
 }
 
+const std::string& NameElement::Signature::getPrefix() const
+{
+	return m_prefix;
+}
+
+const std::string& NameElement::Signature::getPostfix() const
+{
+	return m_postfix;
+}
+
 NameElement::NameElement(const std::string& name)
 	: m_name(name)
 {

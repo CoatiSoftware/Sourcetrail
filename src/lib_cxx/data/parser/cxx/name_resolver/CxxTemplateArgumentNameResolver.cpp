@@ -54,7 +54,6 @@ std::string CxxTemplateArgumentNameResolver::getTemplateArgumentName(const clang
 	case clang::TemplateArgument::Pack:
 		{
 			std::string typeName = "<";
-			argument.getPackAsArray();
 			llvm::ArrayRef<clang::TemplateArgument> pack = argument.getPackAsArray();
 			for (size_t i = 0; i < pack.size(); i++)
 			{

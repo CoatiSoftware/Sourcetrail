@@ -1,0 +1,26 @@
+#tooltip {
+	background-color: <color:code/file/background>;
+	border: 1px solid <color:code/file/background>;
+}
+
+#tooltip_title {
+	color: <color:code/file/title/text>;
+	padding: 3px;
+	font-size: <setting:font_size>px;
+	font-weight: bold;
+}
+
+#tooltip_references {
+	background-color: <color:code/file/ref_count/background>;
+	color: <color:code/file/ref_count/text>;
+	margin: 4px;
+	padding: 3px 5px;
+	border-radius: 8px;
+	font-size: <setting:font_size-2>px;
+}
+
+#tooltip_widget {
+	background-color: <color:code/snippet/background>;
+	padding: 3px;
+	color: <color:code/snippet/syntax/normal>;
+}

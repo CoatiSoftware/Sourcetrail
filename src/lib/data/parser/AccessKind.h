@@ -1,6 +1,8 @@
 #ifndef ACCESS_KIND_H
 #define ACCESS_KIND_H
 
+#include <string>
+
 enum AccessKind
 { // these values need to be the same as AccessKind in Java code
 	ACCESS_NONE = 0,
@@ -14,5 +16,6 @@ enum AccessKind
 
 AccessKind intToAccessKind(int v);
 int accessKindToInt(AccessKind t);
+std::string accessKindToString(AccessKind t);
 
 #endif // ACCESS_KIND_H

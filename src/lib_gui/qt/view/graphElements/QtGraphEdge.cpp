@@ -16,8 +16,11 @@
 #include "utility/messaging/type/MessageFocusIn.h"
 #include "utility/messaging/type/MessageFocusOut.h"
 #include "utility/messaging/type/MessageGraphNodeBundleSplit.h"
+#include "utility/messaging/type/MessageTooltipShow.h"
+#include "utility/messaging/type/MessageTooltipHide.h"
 #include "utility/utility.h"
 
+QtGraphEdge* QtGraphEdge::s_focusedEdge = nullptr;
 QtGraphEdge* QtGraphEdge::s_focusedBezierEdge = nullptr;
 
 QtGraphEdge::QtGraphEdge(
@@ -52,6 +55,7 @@ QtGraphEdge::QtGraphEdge(
 	m_fromActive = m_owner.lock()->getIsActive();
 	m_toActive = m_target.lock()->getIsActive();
 
+	s_focusedEdge = nullptr;
 	s_focusedBezierEdge = nullptr;
 }
 
@@ -85,26 +89,7 @@ void QtGraphEdge::updateLine()
 		return;
 	}
 
-	Edge::EdgeType type;
-	if (getData())
-	{
-		type = getData()->getType();
-	}
-	else
-	{
-		type = Edge::EDGE_AGGREGATION;
-	}
-
-	QString toolTip = Edge::getReadableTypeString(type).c_str();
-	if (type == Edge::EDGE_AGGREGATION)
-	{
-		toolTip += ": " + QString::number(m_weight) + " edge";
-		if (m_weight != 1)
-		{
-			toolTip += "s";
-		}
-	}
-
+	Edge::EdgeType type = (getData() ? getData()->getType() : Edge::EDGE_AGGREGATION);
 	GraphViewStyle::EdgeStyle style = GraphViewStyle::getStyleForEdgeType(type, m_isActive | m_isFocused, false, m_isTrailEdge);
 
 	if (m_useBezier)
@@ -130,10 +115,8 @@ void QtGraphEdge::updateLine()
 			bezier->updateLine(ownerRect, rect, ownerParentRect, rect, style, m_weight, false);
 			bezier->setRoute(route);
 			bezier->setPivot(QtLineItemBase::PIVOT_MIDDLE);
-			bezier->setToolTip(toolTip);
 
 			QtLineItemStraight* line = new QtLineItemStraight(this);
-			line->setToolTip(toolTip);
 			if (route == QtLineItemBase::ROUTE_HORIZONTAL)
 			{
 				line->updateLine(Vec2i(rect.x(), (rect.y() + rect.w()) / 2), Vec2i(rect.z(), (rect.y() + rect.w()) / 2), style);
@@ -155,7 +138,6 @@ void QtGraphEdge::updateLine()
 			style, m_weight, showArrow);
 		bezier->setRoute(route);
 		bezier->setPivot(QtLineItemBase::PIVOT_MIDDLE);
-		bezier->setToolTip(toolTip);
 
 		if (owner->getLastParent() == target->getLastParent())
 		{
@@ -221,8 +203,6 @@ void QtGraphEdge::updateLine()
 			owner->getBoundingRect(), target->getBoundingRect(),
 			owner->getParentBoundingRect(), target->getParentBoundingRect(),
 			style, m_weight, showArrow);
-
-		child->setToolTip(toolTip);
 	}
 
 	this->setZValue(style.zValue);
@@ -301,6 +281,22 @@ void QtGraphEdge::focusIn()
 	{
 		m_isFocused = true;
 		updateLine();
+
+		if (s_focusedEdge == this)
+		{
+			Edge::EdgeType type = (getData() ? getData()->getType() : Edge::EDGE_AGGREGATION);
+
+			TooltipInfo info;
+			info.title = Edge::getReadableTypeString(type);
+			if (type == Edge::EDGE_AGGREGATION)
+			{
+				info.count = m_weight;
+				info.countText = "edge";
+			}
+			info.offset = Vec2i(10, 20);
+
+			MessageTooltipShow(info, TOOLTIP_ORIGIN_GRAPH).dispatch();
+		}
 	}
 }
 
@@ -310,6 +306,11 @@ void QtGraphEdge::focusOut()
 	{
 		m_isFocused = false;
 		updateLine();
+
+		if (s_focusedEdge == this)
+		{
+			MessageTooltipHide().dispatch();
+		}
 	}
 }
 
@@ -349,9 +350,11 @@ void QtGraphEdge::hoverEnterEvent(QGraphicsSceneHoverEvent* event)
 		s_focusedBezierEdge = this;
 	}
 
+	s_focusedEdge = this;
+
 	if (getData() && !m_useBezier)
 	{
-		MessageFocusIn(std::vector<Id>(1, getData()->getId())).dispatch();
+		MessageFocusIn(std::vector<Id>(1, getData()->getId()), TOOLTIP_ORIGIN_GRAPH).dispatch();
 	}
 	else
 	{
@@ -371,6 +374,8 @@ void QtGraphEdge::hoverLeaveEvent(QGraphicsSceneHoverEvent* event)
 	{
 		focusOut();
 	}
+
+	s_focusedEdge = nullptr;
 }
 
 void QtGraphEdge::setDirection(TokenComponentAggregation::Direction direction)

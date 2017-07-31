@@ -64,6 +64,9 @@ protected:
 	virtual void hoverLeaveEvent(QGraphicsSceneHoverEvent* event);
 
 private:
+	// used to send tooltip message on focusIn(), because both focus messages are filtered out if sent close together
+	static QtGraphEdge* s_focusedEdge;
+
 	// used to unfocus recent edge, because hover leave event is not always received for bezier edges
 	static QtGraphEdge* s_focusedBezierEdge;
 

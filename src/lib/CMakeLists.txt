@@ -41,6 +41,8 @@ add_files(
 	component/controller/StatusBarController.h
 	component/controller/StatusController.cpp
 	component/controller/StatusController.h
+	component/controller/TooltipController.cpp
+	component/controller/TooltipController.h
 	component/controller/UndoRedoController.cpp
 	component/controller/UndoRedoController.h
 
@@ -75,6 +77,8 @@ add_files(
 	component/view/StatusView.h
 	component/view/TabbedView.cpp
 	component/view/TabbedView.h
+	component/view/TooltipView.cpp
+	component/view/TooltipView.h
 	component/view/UndoRedoView.cpp
 	component/view/UndoRedoView.h
 	component/view/View.cpp
@@ -125,8 +129,6 @@ add_files(
 	data/graph/token_component/TokenComponentFilePath.cpp
 	data/graph/token_component/TokenComponentFilePath.h
 	data/graph/token_component/TokenComponentInheritanceChain.h
-	data/graph/token_component/TokenComponentSignature.cpp
-	data/graph/token_component/TokenComponentSignature.h
 	data/graph/token_component/TokenComponentStatic.cpp
 	data/graph/token_component/TokenComponentStatic.h
 
@@ -211,13 +213,13 @@ add_files(
 	data/search/SearchIndex.h
 	data/search/SearchMatch.cpp
 	data/search/SearchMatch.h
-	
+
 	data/storage/migration/SqliteStorageMigration.cpp
 	data/storage/migration/SqliteStorageMigration.h
 	data/storage/migration/SqliteStorageMigrationLambda.cpp
 	data/storage/migration/SqliteStorageMigrationLambda.h
 	data/storage/migration/SqliteStorageMigrator.h
-	
+
 	data/storage/sqlite/SqliteBookmarkStorage.cpp
 	data/storage/sqlite/SqliteBookmarkStorage.h
 	data/storage/sqlite/SqliteDatabaseIndex.cpp
@@ -226,7 +228,7 @@ add_files(
 	data/storage/sqlite/SqliteIndexStorage.h
 	data/storage/sqlite/SqliteStorage.cpp
 	data/storage/sqlite/SqliteStorage.h
-	
+
 	data/storage/IntermediateStorage.cpp
 	data/storage/IntermediateStorage.h
 	data/storage/PersistentStorage.cpp
@@ -239,6 +241,9 @@ add_files(
 	data/storage/StorageProvider.h
 	data/storage/StorageTypes.h
 	data/storage/StorageStats.h
+
+	data/tooltip/TooltipInfo.h
+	data/tooltip/TooltipOrigin.h
 
 	data/DefinitionKind.cpp
 	data/DefinitionKind.h
@@ -410,6 +415,8 @@ add_files(
 	utility/messaging/type/MessageStatus.h
 	utility/messaging/type/MessageStatusFilterChanged.h
 	utility/messaging/type/MessageSwitchColorScheme.h
+	utility/messaging/type/MessageTooltipHide.h
+	utility/messaging/type/MessageTooltipShow.h
 	utility/messaging/type/MessageToUndoRedoPosition.h
 	utility/messaging/type/MessageUndo.h
 	utility/messaging/type/MessageWindowClosed.h
@@ -438,6 +445,8 @@ add_files(
 	utility/scheduling/TaskDecorator.h
 	utility/scheduling/TaskDecoratorRepeat.cpp
 	utility/scheduling/TaskDecoratorRepeat.h
+	utility/scheduling/TaskDecoratorDelay.cpp
+	utility/scheduling/TaskDecoratorDelay.h
 	utility/scheduling/TaskGroup.cpp
 	utility/scheduling/TaskGroup.h
 	utility/scheduling/TaskGroupParallel.cpp

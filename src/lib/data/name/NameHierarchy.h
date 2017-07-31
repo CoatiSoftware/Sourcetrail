@@ -37,6 +37,8 @@ public:
 	std::string getRawName() const;
 	std::string getRawNameWithSignature() const;
 
+	NameElement::Signature getSignature() const;
+
 private:
 	std::vector<std::shared_ptr<NameElement>> m_elements;
 	NameDelimiterType m_delimiter;

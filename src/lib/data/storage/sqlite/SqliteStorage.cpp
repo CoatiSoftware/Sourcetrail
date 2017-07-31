@@ -219,9 +219,10 @@ int SqliteStorage::executeStatementScalar(CppSQLite3Statement& statement, const 
 
 		if (q.eof() || q.numFields() < 1)
 		{
+			char error[] = "Invalid scalar query";
 			throw CppSQLite3Exception(
 				CPPSQLITE_ERROR,
-				"Invalid scalar query",
+				error,
 				false
 			);
 		}

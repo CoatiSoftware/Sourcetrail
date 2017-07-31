@@ -12,6 +12,7 @@
 #include <QTextBlock>
 #include <QToolTip>
 
+#include "data/location/SourceLocationFile.h"
 #include "utility/messaging/type/MessageActivateLocalSymbols.h"
 #include "utility/messaging/type/MessageActivateSourceLocations.h"
 #include "utility/messaging/type/MessageActivateTokenIds.h"
@@ -21,15 +22,9 @@
 #include "utility/messaging/type/MessageShowErrors.h"
 #include "utility/utility.h"
 
-#include "data/location/SourceLocation.h"
-#include "data/location/SourceLocationFile.h"
 #include "qt/element/QtCodeNavigator.h"
 #include "qt/utility/QtContextMenu.h"
-#include "qt/utility/QtHighlighter.h"
-#include "settings/ApplicationSettings.h"
 #include "settings/ColorScheme.h"
-
-std::vector<QtCodeArea::AnnotationColor> QtCodeArea::s_annotationColors;
 
 MouseWheelOverScrollbarFilter::MouseWheelOverScrollbarFilter()
 {
@@ -76,11 +71,6 @@ void QtCodeArea::LineNumberArea::paintEvent(QPaintEvent *event)
 	m_codeArea->lineNumberAreaPaintEvent(event);
 }
 
-void QtCodeArea::clearAnnotationColors()
-{
-	s_annotationColors.clear();
-}
-
 QtCodeArea::QtCodeArea(
 	uint startLineNumber,
 	const std::string& code,
@@ -88,11 +78,8 @@ QtCodeArea::QtCodeArea(
 	QtCodeNavigator* navigator,
 	QWidget* parent
 )
-	: QPlainTextEdit(parent)
+	: QtCodeField(startLineNumber, code, locationFile, parent)
 	, m_navigator(navigator)
-	, m_startLineNumber(startLineNumber)
-	, m_code(code)
-	, m_locationFile(locationFile)
 	, m_digits(0)
 	, m_isSelecting(false)
 	, m_isPanning(false)
@@ -100,27 +87,10 @@ QtCodeArea::QtCodeArea(
 	, m_eventPosition(0, 0)
 	, m_isActiveFile(false)
 	, m_lineNumbersHidden(false)
-	, m_wasAnnotated(false)
-	, m_endTextEditPosition(0)
 {
-	setObjectName("code_area");
-	setReadOnly(true);
-	setFrameStyle(QFrame::NoFrame);
-	setLineWrapMode(QPlainTextEdit::NoWrap);
 	setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Fixed);
 
-	viewport()->setCursor(Qt::ArrowCursor);
-
 	m_lineNumberArea = new LineNumberArea(this);
-
-	std::string displayCode = m_code;
-	if (!displayCode.empty() && *displayCode.rbegin() == '\n')
-	{
-		displayCode.pop_back();
-	}
-
-	setPlainText(QString::fromUtf8(displayCode.c_str()));
-	createLineLengthCache();
 
 	m_digits = lineNumberDigits();
 	updateLineNumberAreaWidth();
@@ -128,25 +98,11 @@ QtCodeArea::QtCodeArea(
 	connect(this, SIGNAL(blockCountChanged(int)), this, SLOT(updateLineNumberAreaWidth(int)));
 	connect(this, SIGNAL(updateRequest(QRect,int)), this, SLOT(updateLineNumberArea(QRect,int)));
 
-	this->setMouseTracking(true);
-
 	// MouseWheelOverScrollbarFilter is deleted by parent.
 	horizontalScrollBar()->installEventFilter(new MouseWheelOverScrollbarFilter());
 	m_scrollSpeedChangeListener.setScrollBar(horizontalScrollBar());
 
 	createActions();
-	createAnnotations(locationFile);
-
-
-	FilePath path = m_locationFile->getFilePath();
-	LanguageType language = LANGUAGE_UNKNOWN;
-	if (!path.empty())
-	{
-		language = (path.extension() == ".java" ? LANGUAGE_JAVA : LANGUAGE_CPP);
-	}
-
-	m_highlighter = new QtHighlighter(document(), language);
-	m_highlighter->highlightDocument();
 }
 
 QtCodeArea::~QtCodeArea()
@@ -160,39 +116,23 @@ QtCodeArea::~QtCodeArea()
 
 QSize QtCodeArea::sizeHint() const
 {
-	QTextBlock block = document()->firstBlock();
-
 	double height = 0;
-	double width = lineNumberAreaWidth() + blockBoundingGeometry(block).translated(contentOffset()).left();
+	double width = 0;
 
-	while (block.isValid())
+	for (QTextBlock block = document()->firstBlock(); block.isValid(); block = block.next())
 	{
-		height += blockBoundingRect(block).height();
-		width = std::max(blockBoundingRect(block).width(), width);
-		block = block.next();
+		QRectF rect = blockBoundingGeometry(block);
+		height += rect.height();
+		width = std::max(rect.width(), width);
 	}
 
+	int scrollHeight = 0;
 	if (horizontalScrollBar()->minimum() != horizontalScrollBar()->maximum())
 	{
-		height += horizontalScrollBar()->height();
+		scrollHeight = horizontalScrollBar()->height();
 	}
 
-	return QSize(width + 1, height + 5);
-}
-
-uint QtCodeArea::getStartLineNumber() const
-{
-	return m_startLineNumber;
-}
-
-uint QtCodeArea::getEndLineNumber() const
-{
-	return m_startLineNumber + blockCount() - 1;
-}
-
-std::shared_ptr<SourceLocationFile> QtCodeArea::getSourceLocationFile() const
-{
-	return m_locationFile;
+	return QSize(width + lineNumberAreaWidth() + 1, height + scrollHeight + 5);
 }
 
 void QtCodeArea::lineNumberAreaPaintEvent(QPaintEvent *event)
@@ -218,7 +158,7 @@ void QtCodeArea::lineNumberAreaPaintEvent(QPaintEvent *event)
 	{
 		if (block.isVisible() && bottom >= event->rect().top())
 		{
-			int number = blockNumber + m_startLineNumber;
+			int number = blockNumber + getStartLineNumber();
 
 			p.setColor(textColor);
 
@@ -232,7 +172,8 @@ void QtCodeArea::lineNumberAreaPaintEvent(QPaintEvent *event)
 			}
 
 			painter.setPen(p);
-			painter.drawText(0, top, m_lineNumberArea->width() - 16, fontMetrics().height(), Qt::AlignRight, QString::number(number));
+			painter.drawText(
+				0, top, m_lineNumberArea->width() - 16, fontMetrics().height(), Qt::AlignRight, QString::number(number));
 		}
 
 		block = block.next();
@@ -244,7 +185,7 @@ void QtCodeArea::lineNumberAreaPaintEvent(QPaintEvent *event)
 
 int QtCodeArea::lineNumberDigits() const
 {
-	int max = qMax(1, int(m_startLineNumber) + blockCount());
+	int max = qMax(1, int(getStartLineNumber()) + blockCount());
 	return utility::digits(max);
 }
 
@@ -354,13 +295,8 @@ QRectF QtCodeArea::getLineRectForLineNumber(uint lineNumber) const
 		lineNumber = getEndLineNumber();
 	}
 
-	QTextBlock block = document()->findBlockByLineNumber(lineNumber - m_startLineNumber);
+	QTextBlock block = document()->findBlockByLineNumber(lineNumber - getStartLineNumber());
 	return blockBoundingGeometry(block);
-}
-
-std::string QtCodeArea::getCode() const
-{
-	return m_code;
 }
 
 void QtCodeArea::hideLineNumbers()
@@ -375,101 +311,6 @@ void QtCodeArea::resizeEvent(QResizeEvent *e)
 
 	QRect cr = contentsRect();
 	m_lineNumberArea->setGeometry(QRect(cr.left(), cr.top(), lineNumberAreaWidth(), cr.height()));
-}
-
-void QtCodeArea::showEvent(QShowEvent* event)
-{
-	int tabWidth = ApplicationSettings::getInstance()->getCodeTabWidth();
-	setTabStopWidth(tabWidth * fontMetrics().width('9'));
-}
-
-void QtCodeArea::paintEvent(QPaintEvent* event)
-{
-	QPainter painter(viewport());
-
-	QTextBlock block = firstVisibleBlock();
-	int top = blockBoundingGeometry(block).translated(contentOffset()).top();
-	int bottom = top + blockBoundingRect(block).height();
-	int blockHeight = blockBoundingRect(block).height();
-
-	int firstVisibleLine = -1;
-	int lastVisibleLine = -1;
-	while (block.isValid() && top <= event->rect().bottom())
-	{
-		if (block.isVisible())
-		{
-			if (firstVisibleLine < 0 && bottom >= event->rect().top())
-			{
-				firstVisibleLine = block.blockNumber();
-			}
-			lastVisibleLine = block.blockNumber();
-		}
-
-		block = block.next();
-		top = bottom;
-		bottom = top + static_cast<int>(blockBoundingRect(block).height());
-	}
-
-	std::vector<std::pair<int, int>> ranges;
-	for (size_t i : m_colorChangedAnnotationIndices)
-	{
-		Annotation& annotation = m_annotations[i];
-		ranges.push_back(std::pair<int, int>(annotation.start, annotation.end));
-	}
-
-	m_highlighter->highlightRange(firstVisibleLine, lastVisibleLine, ranges);
-
-	firstVisibleLine += m_startLineNumber;
-	lastVisibleLine += m_startLineNumber;
-
-	int borderRadius = 3;
-
-	for (const Annotation& annotation : m_annotations)
-	{
-		if (annotation.startLine > lastVisibleLine || annotation.endLine < firstVisibleLine)
-		{
-			continue;
-		}
-
-		const AnnotationColor& color = getAnnotationColorForAnnotation(annotation);
-
-		if (color.border == "transparent" && color.fill == "transparent")
-		{
-			continue;
-		}
-
-		painter.setPen(QPen(color.border.c_str()));
-		painter.setBrush(QBrush(color.fill.c_str()));
-
-		if (annotation.locationType == LOCATION_SCOPE)
-		{
-			painter.drawRoundedRect(
-				0, top + (annotation.startLine - m_startLineNumber) * blockHeight,
-				width(), (annotation.endLine - annotation.startLine + 1) * blockHeight,
-				borderRadius, borderRadius
-			);
-		}
-		else
-		{
-			std::vector<QRect> rects = getCursorRectsForAnnotation(annotation);
-			for (QRect rect : rects)
-			{
-				rect.adjust(-1, 0, 1, 1);
-				painter.drawRoundedRect(rect, borderRadius, borderRadius);
-			}
-		}
-	}
-
-	QPlainTextEdit::paintEvent(event);
-}
-
-void QtCodeArea::enterEvent(QEvent* event)
-{
-}
-
-void QtCodeArea::leaveEvent(QEvent* event)
-{
-	setHoveredAnnotations(std::vector<const Annotation*>());
 }
 
 void QtCodeArea::mousePressEvent(QMouseEvent* event)
@@ -612,15 +453,25 @@ void QtCodeArea::contextMenuEvent(QContextMenuEvent* event)
 		m_eventPosition = event->pos();
 
 		QtContextMenu menu(event, this);
-		if (!m_locationFile->getFilePath().empty())
+		if (!getSourceLocationFile()->getFilePath().empty())
 		{
 			menu.addSeparator();
-			menu.addFileActions(m_locationFile->getFilePath());
+			menu.addFileActions(getSourceLocationFile()->getFilePath());
 			menu.addSeparator();
 			menu.addAction(m_setIDECursorPositionAction);
 		}
 		menu.show();
 	}
+}
+
+void QtCodeArea::focusTokenIds(const std::vector<Id>& tokenIds)
+{
+	MessageFocusIn(tokenIds, TOOLTIP_ORIGIN_CODE).dispatch();
+}
+
+void QtCodeArea::defocusTokenIds(const std::vector<Id>& tokenIds)
+{
+	MessageFocusOut(tokenIds).dispatch();
 }
 
 void QtCodeArea::updateLineNumberAreaWidth(int /* newBlockCount */)
@@ -668,24 +519,7 @@ void QtCodeArea::setIDECursorPosition()
 {
 	std::pair<int, int> lineColumn = toLineColumn(this->cursorForPosition(m_eventPosition).position());
 
-	MessageMoveIDECursor(m_locationFile->getFilePath().str(), lineColumn.first, lineColumn.second).dispatch();
-}
-
-std::vector<const QtCodeArea::Annotation*> QtCodeArea::getInteractiveAnnotationsForPosition(int pos) const
-{
-	std::vector<const QtCodeArea::Annotation*> annotations;
-
-	for (const Annotation& annotation : m_annotations)
-	{
-		const LocationType& type = annotation.locationType;
-		if ((type == LOCATION_TOKEN || type == LOCATION_LOCAL_SYMBOL || type == LOCATION_ERROR)
-			&& pos >= annotation.start && pos <= annotation.end)
-		{
-			annotations.push_back(&annotation);
-		}
-	}
-
-	return annotations;
+	MessageMoveIDECursor(getSourceLocationFile()->getFilePath().str(), lineColumn.first, lineColumn.second).dispatch();
 }
 
 void QtCodeArea::activateSourceLocations(const std::vector<const Annotation*>& annotations)
@@ -772,215 +606,21 @@ void QtCodeArea::activateErrors(const std::vector<const Annotation*>& annotation
 	}
 }
 
-void QtCodeArea::createAnnotations(std::shared_ptr<SourceLocationFile> locationFile)
-{
-	uint endLineNumber = getEndLineNumber();
-	std::set<Id> locationIds;
-
-	locationFile->forEachSourceLocation(
-		[&](const SourceLocation* location)
-		{
-			if (locationIds.find(location->getLocationId()) != locationIds.end())
-			{
-				return;
-			}
-			locationIds.insert(location->getLocationId());
-
-			Annotation annotation;
-
-			const SourceLocation* startLocation = location->getStartLocation();
-			if (!startLocation || startLocation->getLineNumber() < m_startLineNumber)
-			{
-				annotation.start = startTextEditPosition();
-				annotation.startLine = m_startLineNumber;
-				annotation.startCol = 0;
-			}
-			else if (startLocation->getLineNumber() <= endLineNumber)
-			{
-				annotation.start = toTextEditPosition(startLocation->getLineNumber(), startLocation->getColumnNumber() - 1);
-				annotation.startLine = startLocation->getLineNumber();
-				annotation.startCol = startLocation->getColumnNumber() - 1;
-			}
-			else
-			{
-				return;
-			}
-
-			const SourceLocation* endLocation = location->getEndLocation();
-			if (!endLocation || endLocation->getLineNumber() > endLineNumber)
-			{
-				annotation.end = endTextEditPosition();
-				annotation.endLine = endLineNumber;
-				annotation.endCol = m_lineLengths[document()->blockCount() - 1];
-			}
-			else if (endLocation->getLineNumber() >= m_startLineNumber)
-			{
-				annotation.end = toTextEditPosition(endLocation->getLineNumber(), endLocation->getColumnNumber());
-				annotation.endLine = endLocation->getLineNumber();
-				annotation.endCol = endLocation->getColumnNumber();
-			}
-			else
-			{
-				return;
-			}
-
-			annotation.tokenIds.insert(location->getTokenIds().begin(), location->getTokenIds().end());
-			annotation.locationId = location->getLocationId();
-			annotation.locationType = location->getType();
-
-			annotation.isActive = false;
-			annotation.isFocused = false;
-
-			m_annotations.push_back(annotation);
-		}
-	);
-}
-
 void QtCodeArea::annotateText()
 {
-	const std::set<Id>& currentActiveTokenIds = m_navigator->getCurrentActiveTokenIds();
-	const std::set<Id>& currentActiveLocationIds = m_navigator->getCurrentActiveLocationIds();
+	std::set<Id> activeSymbolIds = m_navigator->getCurrentActiveTokenIds();
+	utility::append(activeSymbolIds, m_navigator->getActiveLocalSymbolIds());
 
-	const std::set<Id>& activeTokenIds = m_navigator->getActiveTokenIds();
-	const std::set<Id>& activeLocalSymbolIds = m_navigator->getActiveLocalSymbolIds();
-	const std::set<Id>& focusIds = m_navigator->getFocusedTokenIds();
+	const std::set<Id>& activeLocationIds = m_navigator->getCurrentActiveLocationIds();
 
-	std::vector<int> linesToRehighlight;
+	std::set<Id> focusedSymbolIds = m_navigator->getActiveTokenIds();
+	utility::append(focusedSymbolIds, m_navigator->getFocusedTokenIds());
 
-	bool needsUpdate = false;
-	for (size_t i = 0; i < m_annotations.size(); i++)
-	{
-		Annotation& annotation = m_annotations[i];
-
-		bool wasActive = annotation.isActive;
-		bool wasFocused = annotation.isFocused;
-		const AnnotationColor& oldColor = getAnnotationColorForAnnotation(annotation);
-
-		annotation.isActive = (
-			utility::shareElement(currentActiveTokenIds, annotation.tokenIds) ||
-			utility::shareElement(activeLocalSymbolIds, annotation.tokenIds) ||
-			currentActiveLocationIds.find(annotation.locationId) != currentActiveLocationIds.end()
-		);
-
-		if (!annotation.isActive)
-		{
-			annotation.isFocused = (
-				utility::shareElement(focusIds, annotation.tokenIds) ||
-				utility::shareElement(activeTokenIds, annotation.tokenIds)
-			);
-		}
-
-		const AnnotationColor& newColor = getAnnotationColorForAnnotation(annotation);
-		if (newColor.text != oldColor.text || (!m_wasAnnotated && newColor.text != "transparent"))
-		{
-			if (newColor.text.size() > 0 && newColor.text != "transparent")
-			{
-				if (!annotation.oldTextColor.isValid())
-				{
-					annotation.oldTextColor = m_highlighter->getFormat(annotation.start, annotation.end).foreground().color();
-				}
-
-				setTextColorForAnnotation(annotation, QColor(newColor.text.c_str()));
-				m_colorChangedAnnotationIndices.insert(i);
-			}
-			else if (annotation.oldTextColor.isValid())
-			{
-				setTextColorForAnnotation(annotation, annotation.oldTextColor);
-				annotation.oldTextColor = QColor();
-
-				m_colorChangedAnnotationIndices.erase(i);
-				linesToRehighlight.push_back(annotation.startLine - 1);
-			}
-		}
-
-		if (wasFocused != annotation.isFocused || wasActive != annotation.isActive)
-		{
-			needsUpdate = true;
-		}
-	}
-
-	if (linesToRehighlight.size())
-	{
-		m_highlighter->rehighlightLines(linesToRehighlight);
-	}
-
-	if (m_wasAnnotated && needsUpdate)
+	bool needsUpdate = QtCodeField::annotateText(activeSymbolIds, activeLocationIds, focusedSymbolIds);
+	if (needsUpdate)
 	{
 		m_lineNumberArea->update();
-		viewport()->update();
 	}
-
-	m_wasAnnotated = true;
-}
-
-void QtCodeArea::setHoveredAnnotations(const std::vector<const Annotation*>& annotations)
-{
-	if (m_hoveredAnnotations.size())
-	{
-		std::vector<Id> tokenIds;
-		for (const Annotation* annotation : m_hoveredAnnotations)
-		{
-			tokenIds.insert(tokenIds.end(), annotation->tokenIds.begin(), annotation->tokenIds.end());
-		}
-
-		MessageFocusOut(tokenIds).dispatch();
-	}
-
-	m_hoveredAnnotations = annotations;
-
-	if (annotations.size())
-	{
-		std::vector<Id> tokenIds;
-		for (const Annotation* annotation : annotations)
-		{
-			tokenIds.insert(tokenIds.end(), annotation->tokenIds.begin(), annotation->tokenIds.end());
-		}
-
-		MessageFocusIn(tokenIds).dispatch();
-	}
-}
-
-int QtCodeArea::toTextEditPosition(int lineNumber, int columnNumber) const
-{
-	lineNumber -= m_startLineNumber - 1;
-	int position = 0;
-
-	for (int i = 0; i < lineNumber - 1; i++)
-	{
-		position += m_lineLengths[i];
-	}
-
-	position += columnNumber;
-	return position;
-}
-
-std::pair<int, int> QtCodeArea::toLineColumn(int textEditPosition) const
-{
-	int lineNumber = m_startLineNumber;
-	for (int i = 0; i < document()->lineCount(); i++)
-	{
-		int nextTextEditPosition = textEditPosition - m_lineLengths[i];
-		if (nextTextEditPosition >= 0)
-		{
-			textEditPosition = nextTextEditPosition;
-			lineNumber++;
-		}
-		else
-		{
-			break;
-		}
-	}
-	return std::make_pair(lineNumber, textEditPosition);
-}
-
-int QtCodeArea::startTextEditPosition() const
-{
-	return 0;
-}
-
-int QtCodeArea::endTextEditPosition() const
-{
-	return m_endTextEditPosition;
 }
 
 std::set<int> QtCodeArea::getActiveLineNumbers() const
@@ -1001,128 +641,10 @@ std::set<int> QtCodeArea::getActiveLineNumbers() const
 	return activeLineNumbers;
 }
 
-std::vector<QRect> QtCodeArea::getCursorRectsForAnnotation(const Annotation& annotation) const
-{
-	std::vector<QRect> rects;
-
-	QTextCursor cursor = QTextCursor(document());
-	cursor.setPosition(annotation.start);
-	QRect rectStart = cursorRect(cursor);
-	QRect rectEnd;
-
-	int line = annotation.startLine;
-	while (line <= annotation.endLine)
-	{
-		if (line == annotation.endLine)
-		{
-			// Avoid that annotations at line end span down to first column of the next line.
-			if (annotation.startLine != annotation.endLine ||
-				m_lineLengths[line - m_startLineNumber] != annotation.endCol)
-			{
-				cursor.setPosition(annotation.end);
-			}
-		}
-		else
-		{
-			cursor.setPosition(toTextEditPosition(line, m_lineLengths[line - m_startLineNumber] - 1));
-		}
-
-		rectEnd = cursorRect(cursor);
-		rects.push_back(QRect(
-			rectStart.left(),
-			rectStart.top(),
-			rectEnd.right() - rectStart.left(),
-			rectEnd.bottom() - rectStart.top()
-		));
-
-		line++;
-
-		if (int(line - m_startLineNumber) < document()->blockCount())
-		{
-			cursor.setPosition(toTextEditPosition(line, 0));
-			rectStart = cursorRect(cursor);
-		}
-	}
-
-	return rects;
-}
-
-const QtCodeArea::AnnotationColor& QtCodeArea::getAnnotationColorForAnnotation(const Annotation& annotation)
-{
-	if (!s_annotationColors.size())
-	{
-		ColorScheme* scheme = ColorScheme::getInstance().get();
-		std::vector<std::string> types = { "token", "local_symbol", "scope", "error", "fulltext" };
-		std::vector<ColorScheme::ColorState> states = { ColorScheme::NORMAL, ColorScheme::FOCUS, ColorScheme::ACTIVE };
-
-		for (const std::string& type : types)
-		{
-			for (const ColorScheme::ColorState& state : states)
-			{
-				AnnotationColor color;
-				color.border = scheme->getCodeAnnotationTypeColor(type, "border", state);
-				color.fill = scheme->getCodeAnnotationTypeColor(type, "fill", state);
-				color.text = scheme->getCodeAnnotationTypeColor(type, "text", state);
-				s_annotationColors.push_back(color);
-			}
-		}
-	}
-
-	size_t i = 0;
-
-	if (annotation.locationType == LOCATION_LOCAL_SYMBOL)
-	{
-		i = 3;
-	}
-	else if (annotation.locationType == LOCATION_SCOPE)
-	{
-		i = 6;
-	}
-	else if (annotation.locationType == LOCATION_ERROR)
-	{
-		i = 9;
-	}
-	else if (annotation.locationType == LOCATION_FULLTEXT)
-	{
-		i = 12;
-	}
-
-	if (annotation.isActive)
-	{
-		i += 2;
-	}
-	else if (annotation.isFocused)
-	{
-		i += 1;
-	}
-
-	return s_annotationColors[i];
-}
-
-void QtCodeArea::setTextColorForAnnotation(Annotation& annotation, QColor color) const
-{
-	QTextCharFormat format;
-	format.setForeground(color);
-	m_highlighter->applyFormat(annotation.start, annotation.end, format);
-}
-
 void QtCodeArea::createActions()
 {
 	m_setIDECursorPositionAction = new QAction(tr("Set IDE Cursor"), this);
 	m_setIDECursorPositionAction->setStatusTip(tr("Set the IDE Cursor to this code position"));
 	m_setIDECursorPositionAction->setToolTip(tr("Set the IDE Cursor to this code position"));
 	connect(m_setIDECursorPositionAction, SIGNAL(triggered()), this, SLOT(setIDECursorPosition()));
-}
-
-void QtCodeArea::createLineLengthCache()
-{
-	m_endTextEditPosition = -1;
-
-	m_lineLengths.clear();
-
-	for (QTextBlock it = document()->begin(); it != document()->end(); it = it.next())
-	{
-		m_lineLengths.push_back(it.length());
-		m_endTextEditPosition += it.length();
-	}
 }

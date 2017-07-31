@@ -8,7 +8,6 @@
 #include "utility/messaging/type/MessageGraphNodeMove.h"
 
 #include "data/graph/token_component/TokenComponentFilePath.h"
-#include "data/graph/token_component/TokenComponentSignature.h"
 
 QtGraphNodeData::QtGraphNodeData(const Node* data, const std::string& name, bool hasParent, bool childVisible, bool hasQualifier)
 	: m_data(data)
@@ -18,39 +17,6 @@ QtGraphNodeData::QtGraphNodeData(const Node* data, const std::string& name, bool
 	this->setAcceptHoverEvents(true);
 
 	this->setName(name);
-
-	std::string toolTip = data->getReadableTypeString();
-	if (!data->isDefined() && data->isType(Node::NODE_FILE))
-	{
-		toolTip = "incomplete " + toolTip;
-	}
-	else if (!data->isDefined() && !data->isType(Node::NODE_NON_INDEXED))
-	{
-		toolTip = "non-indexed " + toolTip;
-	}
-	else if (data->isImplicit())
-	{
-		toolTip = "implicit " + toolTip;
-	}
-
-	if (data->isType(Node::NODE_FUNCTION | Node::NODE_METHOD))
-	{
-		TokenComponentSignature* sig = data->getComponent<TokenComponentSignature>();
-		if (sig)
-		{
-			toolTip += ": " + sig->getSignature();
-		}
-	}
-	else
-	{
-		FilePath path = getFilePath();
-		if (!path.empty())
-		{
-			toolTip += ": " + path.str();
-		}
-	}
-
-	this->setToolTip(QString::fromStdString(toolTip));
 }
 
 QtGraphNodeData::~QtGraphNodeData()
@@ -113,7 +79,7 @@ void QtGraphNodeData::updateStyle()
 
 void QtGraphNodeData::hoverEnterEvent(QGraphicsSceneHoverEvent* event)
 {
-	MessageFocusIn(std::vector<Id>(1, m_data->getId())).dispatch();
+	MessageFocusIn(std::vector<Id>(1, m_data->getId()), TOOLTIP_ORIGIN_GRAPH).dispatch();
 }
 
 void QtGraphNodeData::hoverLeaveEvent(QGraphicsSceneHoverEvent* event)
