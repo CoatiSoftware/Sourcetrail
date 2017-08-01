@@ -54,6 +54,7 @@ public:
 		const std::string& code,
 		std::shared_ptr<SourceLocationFile> locationFile,
 		QtCodeNavigator* navigator,
+		bool showLineNumbers,
 		QWidget* parent = nullptr
 	);
 	virtual ~QtCodeArea();
@@ -78,8 +79,6 @@ public:
 	uint getActiveLocationCount() const;
 
 	QRectF getLineRectForLineNumber(uint lineNumber) const;
-
-	void hideLineNumbers();
 
 protected:
 	virtual void resizeEvent(QResizeEvent* event) Q_DECL_OVERRIDE;
@@ -126,7 +125,7 @@ private:
 							// the position where the context menu is opened needs to be stored]
 
 	bool m_isActiveFile;
-	bool m_lineNumbersHidden;
+	bool m_showLineNumbers;
 
 	QtScrollSpeedChangeListener m_scrollSpeedChangeListener;
 };

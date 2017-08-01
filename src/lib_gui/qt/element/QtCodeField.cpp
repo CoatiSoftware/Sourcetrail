@@ -63,7 +63,9 @@ QtCodeField::QtCodeField(
 	m_highlighter->highlightDocument();
 
 	ApplicationSettings* appSettings = ApplicationSettings::getInstance().get();
-	setFont(QFont(appSettings->getFontName().c_str(), appSettings->getFontSize()));
+	QFont font(appSettings->getFontName().c_str());
+	font.setPixelSize(appSettings->getFontSize());
+	setFont(font);
 	setTabStopWidth(appSettings->getCodeTabWidth() * fontMetrics().width('9'));
 }
 

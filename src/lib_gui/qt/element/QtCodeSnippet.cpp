@@ -68,7 +68,8 @@ QtCodeSnippet::QtCodeSnippet(const CodeSnippetParams& params, QtCodeNavigator* n
 	, m_footerString(params.footer)
 	, m_title(nullptr)
 	, m_footer(nullptr)
-	, m_codeArea(std::make_shared<QtCodeArea>(params.startLineNumber, params.code, params.locationFile, navigator, this))
+	, m_codeArea(std::make_shared<QtCodeArea>(
+		params.startLineNumber, params.code, params.locationFile, navigator, !params.reduced, this))
 {
 	setObjectName("code_snippet");
 
@@ -106,11 +107,6 @@ QtCodeSnippet::QtCodeSnippet(const CodeSnippetParams& params, QtCodeNavigator* n
 			m_footer->setText(m_footerString.c_str());
 		}
 		connect(m_footer, &QPushButton::clicked, this, &QtCodeSnippet::clickedFooter);
-	}
-
-	if (params.reduced)
-	{
-		m_codeArea->hideLineNumbers();
 	}
 }
 

@@ -31,6 +31,8 @@ QtCodeFileTitleButton::~QtCodeFileTitleButton()
 
 void QtCodeFileTitleButton::setFilePath(const FilePath& filePath)
 {
+	setEnabled(true);
+
 	m_filePath = filePath;
 	setText("");
 
@@ -89,6 +91,7 @@ void QtCodeFileTitleButton::setProject(const std::string& name)
 
 	if (Application::getInstance()->isInTrial())
 	{
+		setIcon(QIcon());
 		setEnabled(false);
 	}
 	else

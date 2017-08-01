@@ -71,11 +71,13 @@ void QtCodeArea::LineNumberArea::paintEvent(QPaintEvent *event)
 	m_codeArea->lineNumberAreaPaintEvent(event);
 }
 
+
 QtCodeArea::QtCodeArea(
 	uint startLineNumber,
 	const std::string& code,
 	std::shared_ptr<SourceLocationFile> locationFile,
 	QtCodeNavigator* navigator,
+	bool showLineNumbers,
 	QWidget* parent
 )
 	: QtCodeField(startLineNumber, code, locationFile, parent)
@@ -86,7 +88,7 @@ QtCodeArea::QtCodeArea(
 	, m_setIDECursorPositionAction(nullptr)
 	, m_eventPosition(0, 0)
 	, m_isActiveFile(false)
-	, m_lineNumbersHidden(false)
+	, m_showLineNumbers(showLineNumbers)
 {
 	setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Fixed);
 
@@ -191,7 +193,7 @@ int QtCodeArea::lineNumberDigits() const
 
 int QtCodeArea::lineNumberAreaWidth() const
 {
-	if (!m_lineNumbersHidden)
+	if (m_showLineNumbers)
 	{
 		return fontMetrics().width(QLatin1Char('9')) * m_digits + 30;
 	}
@@ -297,12 +299,6 @@ QRectF QtCodeArea::getLineRectForLineNumber(uint lineNumber) const
 
 	QTextBlock block = document()->findBlockByLineNumber(lineNumber - getStartLineNumber());
 	return blockBoundingGeometry(block);
-}
-
-void QtCodeArea::hideLineNumbers()
-{
-	m_lineNumberArea->hide();
-	m_lineNumbersHidden = true;
 }
 
 void QtCodeArea::resizeEvent(QResizeEvent *e)
