@@ -26,7 +26,7 @@ public:
 	QtThreadedFunctorHelper()
 		: m_freeCallbacks(1)
 	{
-		QObject::connect(this, SIGNAL(signalExecution()), this, SLOT(execute()));
+		QObject::connect(this, &QtThreadedFunctorHelper::signalExecution, this, &QtThreadedFunctorHelper::execute);
 	}
 
 	void operator()(std::function<void(void)> callback)

@@ -123,7 +123,7 @@ void QtProjectWizzardContentPaths::addDetection(QGridLayout* layout, int row)
 
 	QPushButton* button = new QPushButton("detect");
 	button->setObjectName("windowButton");
-	connect(button, SIGNAL(clicked()), this, SLOT(detectionClicked()));
+	connect(button, &QPushButton::clicked, this, &QtProjectWizzardContentPaths::detectionClicked);
 
 	QHBoxLayout* hlayout = new QHBoxLayout();
 	hlayout->setContentsMargins(0, 0, 0, 0);
@@ -236,7 +236,7 @@ void QtProjectWizzardContentPathsCDBHeader::populate(QGridLayout* layout, int& r
 
 	QPushButton* button = new QPushButton("Select from Include Paths");
 	button->setObjectName("windowButton");
-	connect(button, SIGNAL(clicked()), this, SLOT(buttonClicked()));
+	connect(button, &QPushButton::clicked, this, &QtProjectWizzardContentPathsCDBHeader::buttonClicked);
 
 	layout->addWidget(button, row, QtProjectWizzardWindow::BACK_COL, Qt::AlignRight | Qt::AlignTop);
 	row++;
@@ -285,8 +285,8 @@ void QtProjectWizzardContentPathsCDBHeader::buttonClicked()
 			"paths containing the header files you want to index with Sourcetrail.");
 		m_filesDialog->setup();
 
-		connect(m_filesDialog.get(), SIGNAL(finished()), this, SLOT(savedFilesDialog()));
-		connect(m_filesDialog.get(), SIGNAL(canceled()), this, SLOT(closedFilesDialog()));
+		connect(m_filesDialog.get(), &QtSelectPathsDialog::finished, this, &QtProjectWizzardContentPathsCDBHeader::savedFilesDialog);
+		connect(m_filesDialog.get(), &QtSelectPathsDialog::canceled, this, &QtProjectWizzardContentPathsCDBHeader::closedFilesDialog);
 
 
 		utility::CompilationDatabase cdb(cdbPath.str());
@@ -377,7 +377,7 @@ void QtProjectWizzardContentPathsHeaderSearch::populate(QGridLayout* layout, int
 
 	QPushButton* button = new QPushButton("validate include directives");
 	button->setObjectName("windowButton");
-	connect(button, SIGNAL(clicked()), this, SLOT(validateButtonClicked()));
+	connect(button, &QPushButton::clicked, this, &QtProjectWizzardContentPathsHeaderSearch::validateButtonClicked);
 
 	layout->addWidget(button, row, QtProjectWizzardWindow::BACK_COL, Qt::AlignRight | Qt::AlignTop);
 	row++;

@@ -27,7 +27,7 @@ void QtProjectWizzardContentSourceGroupData::populate(QGridLayout* layout, int& 
 	m_name = new QLineEdit();
 	m_name->setObjectName("name");
 	m_name->setAttribute(Qt::WA_MacShowFocusRect, 0);
-	connect(m_name, SIGNAL(textEdited(QString)), this, SLOT(editedName(QString)));
+	connect(m_name, &QLineEdit::textEdited, this, &QtProjectWizzardContentSourceGroupData::editedName);
 
 	layout->addWidget(nameLabel, row, QtProjectWizzardWindow::FRONT_COL, Qt::AlignRight);
 	layout->addWidget(m_name, row, QtProjectWizzardWindow::BACK_COL);

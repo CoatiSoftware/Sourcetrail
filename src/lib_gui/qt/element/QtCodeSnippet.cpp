@@ -89,7 +89,7 @@ QtCodeSnippet::QtCodeSnippet(const CodeSnippetParams& params, QtCodeNavigator* n
 		{
 			m_title->setText(m_titleString.c_str());
 		}
-		connect(m_title, SIGNAL(clicked()), this, SLOT(clickedTitle()));
+		connect(m_title, &QPushButton::clicked, this, &QtCodeSnippet::clickedTitle);
 	}
 
 	layout->addWidget(m_codeArea.get());
@@ -105,7 +105,7 @@ QtCodeSnippet::QtCodeSnippet(const CodeSnippetParams& params, QtCodeNavigator* n
 		{
 			m_footer->setText(m_footerString.c_str());
 		}
-		connect(m_footer, SIGNAL(clicked()), this, SLOT(clickedFooter()));
+		connect(m_footer, &QPushButton::clicked, this, &QtCodeSnippet::clickedFooter);
 	}
 
 	if (params.reduced)

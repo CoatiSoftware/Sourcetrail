@@ -36,7 +36,7 @@ Note: Sourcetrail's Visual Studio plugin has to be installed. Visual Studio has 
 
 	addSeparator(layout, row++);
 
-	connect(button, SIGNAL(clicked()), this, SLOT(handleVSCDBClicked()));
+	connect(button, &QPushButton::clicked, this, &QtProjectWizzardContentVS::handleVSCDBClicked);
 }
 
 void QtProjectWizzardContentVS::handleVSCDBClicked()

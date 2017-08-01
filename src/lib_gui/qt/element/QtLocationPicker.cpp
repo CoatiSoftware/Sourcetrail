@@ -32,7 +32,7 @@ QtLocationPicker::QtLocationPicker(QWidget *parent)
 		(ResourcePaths::getGuiPath().str() + "window/dots_hover.png").c_str());
 	m_button->setObjectName("dotsButton");
 	m_button->setToolTip("pick file");
-	connect(m_button, SIGNAL(clicked()), this, SLOT(handleButtonPress()));
+	connect(m_button, &QPushButton::clicked, this, &QtLocationPicker::handleButtonPress);
 	layout->addWidget(m_button);
 
 	setLayout(layout);

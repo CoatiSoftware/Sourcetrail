@@ -95,8 +95,8 @@ QtCodeArea::QtCodeArea(
 	m_digits = lineNumberDigits();
 	updateLineNumberAreaWidth();
 
-	connect(this, SIGNAL(blockCountChanged(int)), this, SLOT(updateLineNumberAreaWidth(int)));
-	connect(this, SIGNAL(updateRequest(QRect,int)), this, SLOT(updateLineNumberArea(QRect,int)));
+	connect(this, &QtCodeArea::blockCountChanged, this, &QtCodeArea::updateLineNumberAreaWidth);
+	connect(this, &QtCodeArea::updateRequest, this, &QtCodeArea::updateLineNumberArea);
 
 	// MouseWheelOverScrollbarFilter is deleted by parent.
 	horizontalScrollBar()->installEventFilter(new MouseWheelOverScrollbarFilter());
@@ -646,5 +646,5 @@ void QtCodeArea::createActions()
 	m_setIDECursorPositionAction = new QAction(tr("Set IDE Cursor"), this);
 	m_setIDECursorPositionAction->setStatusTip(tr("Set the IDE Cursor to this code position"));
 	m_setIDECursorPositionAction->setToolTip(tr("Set the IDE Cursor to this code position"));
-	connect(m_setIDECursorPositionAction, SIGNAL(triggered()), this, SLOT(setIDECursorPosition()));
+	connect(m_setIDECursorPositionAction, &QAction::triggered, this, &QtCodeArea::setIDECursorPosition);
 }

@@ -96,8 +96,8 @@ protected:
 	QPushButton* m_previousButton;
 	QPushButton* m_closeButton;
 
-private slots:
-	void handleNextPress();
+public slots:
+	void handleNextPress(bool);
 	void handlePreviousPress();
 	void handleClosePress();
 

@@ -517,15 +517,15 @@ QHBoxLayout* QtWindow::createButtons()
 {
 	m_nextButton = new QPushButton("Next");
 	m_nextButton->setObjectName("windowButton");
-	connect(m_nextButton, SIGNAL(clicked()), this, SLOT(handleNextPress()));
+	connect(m_nextButton, &QPushButton::clicked, this, &QtWindow::handleNextPress);
 
 	m_previousButton = new QPushButton("Previous");
 	m_previousButton->setObjectName("windowButton");
-	connect(m_previousButton, SIGNAL(clicked()), this, SLOT(handlePreviousPress()));
+	connect(m_previousButton, &QPushButton::clicked, this, &QtWindow::handlePreviousPress);
 
 	m_closeButton = new QPushButton("Cancel");
 	m_closeButton->setObjectName("windowButton");
-	connect(m_closeButton, SIGNAL(clicked()), this, SLOT(handleClosePress()));
+	connect(m_closeButton, &QPushButton::clicked, this, &QtWindow::handleClosePress);
 
 	QHBoxLayout* buttons = new QHBoxLayout();
 	buttons->addWidget(m_closeButton);
@@ -536,7 +536,7 @@ QHBoxLayout* QtWindow::createButtons()
 	return buttons;
 }
 
-void QtWindow::handleNextPress()
+void QtWindow::handleNextPress(bool)
 {
 	handleNext();
 }

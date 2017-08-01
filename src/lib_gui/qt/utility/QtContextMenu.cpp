@@ -67,22 +67,22 @@ QtContextMenu* QtContextMenu::getInstance()
 		s_undoAction = new QAction(tr("Back"), s_instance);
 		s_undoAction->setStatusTip(tr("Go back to last active symbol"));
 		s_undoAction->setToolTip(tr("Go back to last active symbol"));
-		connect(s_undoAction, SIGNAL(triggered()), s_instance, SLOT(undoActionTriggered()));
+		connect(s_undoAction, &QAction::triggered, s_instance, &QtContextMenu::undoActionTriggered);
 
 		s_redoAction = new QAction(tr("Forward"), s_instance);
 		s_redoAction->setStatusTip(tr("Go forward to next active symbol"));
 		s_redoAction->setToolTip(tr("Go forward to next active symbol"));
-		connect(s_redoAction, SIGNAL(triggered()), s_instance, SLOT(redoActionTriggered()));
+		connect(s_redoAction, &QAction::triggered, s_instance, &QtContextMenu::redoActionTriggered);
 
 		s_copyFullPathAction = new QAction(tr("Copy Full Path"), s_instance);
 		s_copyFullPathAction->setStatusTip(tr("Copies the path of this file to the clipboard"));
 		s_copyFullPathAction->setToolTip(tr("Copies the path of this file to the clipboard"));
-		connect(s_copyFullPathAction, SIGNAL(triggered()), s_instance, SLOT(copyFullPathActionTriggered()));
+		connect(s_copyFullPathAction, &QAction::triggered, s_instance, &QtContextMenu::copyFullPathActionTriggered);
 
 		s_openContainingFolderAction = new QAction(tr("Open Containing Folder"), s_instance);
 		s_openContainingFolderAction->setStatusTip(tr("Opens the folder that contains this file"));
 		s_openContainingFolderAction->setToolTip(tr("Opens the folder that contains this file"));
-		connect(s_openContainingFolderAction, SIGNAL(triggered()), s_instance, SLOT(openContainingFolderActionTriggered()));
+		connect(s_openContainingFolderAction, &QAction::triggered, s_instance, &QtContextMenu::openContainingFolderActionTriggered);
 	}
 
 	return s_instance;

@@ -109,7 +109,7 @@ QPushButton* QtProjectWizzardContent::addFilesButton(QString name, QGridLayout* 
 	{
 		layout->addWidget(button, row, QtProjectWizzardWindow::BACK_COL, Qt::AlignRight | Qt::AlignTop);
 	}
-	connect(button, SIGNAL(clicked()), this, SLOT(filesButtonClicked()));
+	connect(button, &QPushButton::clicked, this, &QtProjectWizzardContent::filesButtonClicked);
 
 	return button;
 }
@@ -149,8 +149,8 @@ void QtProjectWizzardContent::showFilesDialog(const std::vector<std::string>& fi
 		m_filesDialog->setCloseVisible(false);
 		m_filesDialog->setReadOnly(true);
 
-		connect(m_filesDialog.get(), SIGNAL(finished()), this, SLOT(closedFilesDialog()));
-		connect(m_filesDialog.get(), SIGNAL(canceled()), this, SLOT(closedFilesDialog()));
+		connect(m_filesDialog.get(), &QtTextEditDialog::finished, this, &QtProjectWizzardContent::closedFilesDialog);
+		connect(m_filesDialog.get(), &QtTextEditDialog::canceled, this, &QtProjectWizzardContent::closedFilesDialog);
 	}
 
 	m_filesDialog->showWindow();

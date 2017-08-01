@@ -25,7 +25,7 @@ QtSearchBar::QtSearchBar()
 	m_homeButton->setToolTip("to overview");
 	m_homeButton->setAttribute(Qt::WA_LayoutUsesWidgetRect); // fixes layouting on Mac
 	layout->addWidget(m_homeButton);
-	connect(m_homeButton, SIGNAL(clicked()), this, SLOT(homeButtonClicked()));
+	connect(m_homeButton, &QPushButton::clicked, this, &QtSearchBar::homeButtonClicked);
 
 	m_searchBoxContainer = new QWidget(this);
 	m_searchBoxContainer->setObjectName("search_box_container");
@@ -51,7 +51,7 @@ QtSearchBar::QtSearchBar()
 	m_searchButton->setAttribute(Qt::WA_LayoutUsesWidgetRect); // fixes layouting on Mac
 	layout->addWidget(m_searchButton);
 
-	connect(m_searchButton, SIGNAL(clicked()), m_searchBox, SLOT(search()));
+	connect(m_searchButton, &QPushButton::clicked, m_searchBox, &QtSmartSearchBox::search);
 
 	refreshStyle();
 }

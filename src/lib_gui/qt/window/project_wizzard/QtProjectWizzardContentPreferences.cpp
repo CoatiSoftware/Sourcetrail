@@ -54,7 +54,7 @@ void QtProjectWizzardContentPreferences::populate(QGridLayout* layout, int& row)
 	{
 		m_colorSchemes->insertItem(i, m_colorSchemePaths[i].withoutExtension().fileName().c_str());
 	}
-	connect(m_colorSchemes, SIGNAL(activated(int)), this, SLOT(colorSchemeChanged(int)));
+	connect(m_colorSchemes, static_cast<void (QComboBox::*)(int)>(&QComboBox::activated), this, &QtProjectWizzardContentPreferences::colorSchemeChanged);
 
 	// animations
 	m_useAnimations = addCheckBox("Animations", "Enable animations",
@@ -63,7 +63,7 @@ void QtProjectWizzardContentPreferences::populate(QGridLayout* layout, int& row)
 	// logging
 	m_loggingEnabled = addCheckBox("Logging", "Enable console and file logging",
 		"<p>Show logs in the console and save this information in files.</p>", layout, row);
-	connect(m_loggingEnabled, SIGNAL(clicked()), this, SLOT(loggingEnabledChanged()));
+	connect(m_loggingEnabled, &QCheckBox::clicked, this, &QtProjectWizzardContentPreferences::loggingEnabledChanged);
 
 	m_verboseIndexerLoggingEnabled = addCheckBox(
 		"Indexer Logging",
@@ -106,7 +106,7 @@ void QtProjectWizzardContentPreferences::populate(QGridLayout* layout, int& row)
 	const int maxThreadCount = 24;
 
 	m_threads = new QComboBox(this);
-	connect(m_threads, SIGNAL(activated(int)), this, SLOT(indexerThreadsChanges(int)));
+	connect(m_threads, static_cast<void (QComboBox::*)(int)>(&QComboBox::activated), this, &QtProjectWizzardContentPreferences::indexerThreadsChanges);
 	for (int i = minThreadCount; i <= maxThreadCount; i++)
 	{
 		m_threads->insertItem(i, QString::number(i));
@@ -442,7 +442,7 @@ void QtProjectWizzardContentPreferences::addJavaPathDetection(QGridLayout* layou
 
 	QPushButton* button = new QPushButton("detect");
 	button->setObjectName("windowButton");
-	connect(button, SIGNAL(clicked()), this, SLOT(javaPathDetectionClicked()));
+	connect(button, &QPushButton::clicked, this, &QtProjectWizzardContentPreferences::javaPathDetectionClicked);
 
 	QHBoxLayout* hlayout = new QHBoxLayout();
 	hlayout->setContentsMargins(0, 0, 0, 0);
@@ -476,7 +476,7 @@ void QtProjectWizzardContentPreferences::addJreSystemLibraryPathsDetection(QGrid
 
 	QPushButton* button = new QPushButton("detect");
 	button->setObjectName("windowButton");
-	connect(button, SIGNAL(clicked()), this, SLOT(jreSystemLibraryPathsDetectionClicked()));
+	connect(button, &QPushButton::clicked, this, &QtProjectWizzardContentPreferences::jreSystemLibraryPathsDetectionClicked);
 
 	QHBoxLayout* hlayout = new QHBoxLayout();
 	hlayout->setContentsMargins(0, 0, 0, 0);
@@ -510,7 +510,7 @@ void QtProjectWizzardContentPreferences::addMavenPathDetection(QGridLayout* layo
 
 	QPushButton* button = new QPushButton("detect");
 	button->setObjectName("windowButton");
-	connect(button, SIGNAL(clicked()), this, SLOT(mavenPathDetectionClicked()));
+	connect(button, &QPushButton::clicked, this, &QtProjectWizzardContentPreferences::mavenPathDetectionClicked);
 
 	QHBoxLayout* hlayout = new QHBoxLayout();
 	hlayout->setContentsMargins(0, 0, 0, 0);

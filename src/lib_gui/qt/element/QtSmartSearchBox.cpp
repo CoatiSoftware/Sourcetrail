@@ -20,7 +20,7 @@ QtSearchElement::QtSearchElement(const QString& text, QWidget* parent)
 {
 	show();
 	setCheckable(true);
-	connect(this, SIGNAL(clicked(bool)), this, SLOT(onChecked(bool)));
+	connect(this, &QtSearchElement::clicked, this, &QtSearchElement::onChecked);
 }
 
 void QtSearchElement::onChecked(bool)
@@ -94,8 +94,8 @@ QtSmartSearchBox::QtSmartSearchBox(QWidget* parent)
 	m_highlightRect->setGeometry(0, 0, 0, 0);
 	m_highlightRect->setObjectName("search_box_highlight");
 
-	connect(this, SIGNAL(textEdited(const QString&)), this, SLOT(onTextEdited(const QString&)));
-	connect(this, SIGNAL(textChanged(const QString&)), this, SLOT(onTextChanged(const QString&)));
+	connect(this, &QtSmartSearchBox::textEdited, this, &QtSmartSearchBox::onTextEdited);
+	connect(this, &QtSmartSearchBox::textChanged, this, &QtSmartSearchBox::onTextChanged);
 
 	m_completer = new QtAutocompletionList(this);
 	m_completer->setWidget(this);
@@ -122,8 +122,8 @@ void QtSmartSearchBox::setAutocompletionList(const std::vector<SearchMatch>& aut
 
 	setCursorPosition(cursor);
 
-	connect(completer, SIGNAL(matchHighlighted(const SearchMatch&)), this, SLOT(onAutocompletionHighlighted(const SearchMatch&)), Qt::DirectConnection);
-	connect(completer, SIGNAL(matchActivated(const SearchMatch&)), this, SLOT(onAutocompletionActivated(const SearchMatch&)), Qt::DirectConnection);
+	connect(completer, &QtAutocompletionList::matchHighlighted, this, &QtSmartSearchBox::onAutocompletionHighlighted, Qt::DirectConnection);
+	connect(completer, &QtAutocompletionList::matchActivated, this, &QtSmartSearchBox::onAutocompletionActivated, Qt::DirectConnection);
 
 	if (autocompletionList.size())
 	{
@@ -775,7 +775,7 @@ void QtSmartSearchBox::updateElements()
 
 		element->setStyleSheet(css.str().c_str());
 
-		connect(element.get(), SIGNAL(wasChecked(QtSearchElement*)), this, SLOT(onElementSelected(QtSearchElement*)));
+		connect(element.get(), &QtSearchElement::wasChecked, this, &QtSmartSearchBox::onElementSelected);
 	}
 
 	updatePlaceholder();

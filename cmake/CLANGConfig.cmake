@@ -38,6 +38,7 @@ endif()
 # Remove unwanted flags
 string(REPLACE "-fno-exceptions" "" CLANG_DEFINITIONS "${CLANG_DEFINITIONS}")
 string(REPLACE "-fno-rtti" "" CLANG_DEFINITIONS "${CLANG_DEFINITIONS}")
+string(REPLACE "-std=c++11" "" CLANG_DEFINITIONS "${CLANG_DEFINITIONS}")
 
 if(CMAKE_COMPILER_IS_GNUCXX)
 	string(REPLACE "-Wcovered-switch-default" "" CLANG_DEFINITIONS "${CLANG_DEFINITIONS}")

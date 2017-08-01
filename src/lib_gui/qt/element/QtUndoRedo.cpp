@@ -45,13 +45,13 @@ QtUndoRedo::QtUndoRedo()
 	layout->addWidget(m_historyButton);
 	layout->addWidget(m_redoButton);
 
-	connect(m_undoButton, SIGNAL(pressed()), this, SLOT(buttonPressed()));
-	connect(m_redoButton, SIGNAL(pressed()), this, SLOT(buttonPressed()));
-	connect(m_historyButton, SIGNAL(pressed()), this, SLOT(buttonPressed()));
+	connect(m_undoButton, &QPushButton::pressed, this, &QtUndoRedo::buttonPressed);
+	connect(m_redoButton, &QPushButton::pressed, this, &QtUndoRedo::buttonPressed);
+	connect(m_historyButton, &QPushButton::pressed, this, &QtUndoRedo::buttonPressed);
 
-	connect(m_undoButton, SIGNAL(released()), this, SLOT(undoReleased()));
-	connect(m_redoButton, SIGNAL(released()), this, SLOT(redoReleased()));
-	connect(m_historyButton, SIGNAL(released()), this, SLOT(showHistory()));
+	connect(m_undoButton, &QPushButton::released, this, &QtUndoRedo::undoReleased);
+	connect(m_redoButton, &QPushButton::released, this, &QtUndoRedo::redoReleased);
+	connect(m_historyButton, &QPushButton::released, this, &QtUndoRedo::showHistory);
 
 	refreshStyle();
 }
@@ -63,7 +63,7 @@ QtUndoRedo::~QtUndoRedo()
 void QtUndoRedo::buttonPressed()
 {
 	m_pressed = true;
-	QTimer::singleShot(250, this, SLOT(showHistory()));
+	QTimer::singleShot(250, this, &QtUndoRedo::showHistory);
 	m_historyButton->setAttribute(Qt::WA_UnderMouse, false);
 }
 

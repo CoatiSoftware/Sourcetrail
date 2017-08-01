@@ -27,7 +27,7 @@ QtBookmarkCategory::QtBookmarkCategory()
 	m_expandButton->setIconSize(QSize(8, 8));
 	layout->addWidget(m_expandButton);
 
-	connect(m_expandButton, SIGNAL(clicked()), this, SLOT(expandClicked()));
+	connect(m_expandButton, &QPushButton::clicked, this, &QtBookmarkCategory::expandClicked);
 
 	m_name = new QLabel();
 	m_name->setObjectName("category_name");
@@ -45,7 +45,7 @@ QtBookmarkCategory::QtBookmarkCategory()
 	m_deleteButton->hide();
 	layout->addWidget(m_deleteButton);
 
-	connect(m_deleteButton, SIGNAL(clicked()), this, SLOT(deleteClicked()));
+	connect(m_deleteButton, &QPushButton::clicked, this, &QtBookmarkCategory::deleteClicked);
 }
 
 QtBookmarkCategory::~QtBookmarkCategory()

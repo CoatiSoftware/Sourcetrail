@@ -30,7 +30,7 @@ QtCodeFileList::QtCodeFileList(QtCodeNavigator* navigator)
 
 	m_scrollSpeedChangeListener.setScrollBar(verticalScrollBar());
 
-	connect(verticalScrollBar(), SIGNAL(valueChanged(int)), m_navigator, SLOT(scrolled(int)));
+	connect(verticalScrollBar(), &QScrollBar::valueChanged, m_navigator, &QtCodeNavigator::scrolled);
 }
 
 QtCodeFileList::~QtCodeFileList()
@@ -86,15 +86,14 @@ QScrollArea* QtCodeFileList::getScrollArea()
 void QtCodeFileList::addCodeSnippet(const CodeSnippetParams& params)
 {
 	QtCodeFile* file = getFile(params.locationFile->getFilePath());
-	QtCodeSnippet* snippet = nullptr;
 
 	if (params.insertSnippet)
 	{
-		snippet = file->insertCodeSnippet(params);
+		file->insertCodeSnippet(params);
 	}
 	else
 	{
-		snippet = file->addCodeSnippet(params);
+		file->addCodeSnippet(params);
 	}
 
 	file->setModificationTime(params.modificationTime);

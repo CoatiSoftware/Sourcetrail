@@ -80,15 +80,15 @@ void QtGraphView::initView()
 
 	widget->layout()->addWidget(view);
 
-	connect(view, SIGNAL(emptySpaceClicked()), this, SLOT(clickedInEmptySpace()));
-	connect(view, SIGNAL(characterKeyPressed(QChar)), this, SLOT(pressedCharacterKey(QChar)));
-	connect(view, SIGNAL(resized()), this, SLOT(resized()));
+	connect(view, &QtGraphicsView::emptySpaceClicked, this, &QtGraphView::clickedInEmptySpace);
+	connect(view, &QtGraphicsView::characterKeyPressed, this, &QtGraphView::pressedCharacterKey);
+	connect(view, &QtGraphicsView::resized, this, &QtGraphView::resized);
 
 	m_scrollSpeedChangeListenerHorizontal.setScrollBar(view->horizontalScrollBar());
 	m_scrollSpeedChangeListenerVertical.setScrollBar(view->verticalScrollBar());
 
-	connect(view->horizontalScrollBar(), SIGNAL(valueChanged(int)), this, SLOT(scrolled(int)));
-	connect(view->verticalScrollBar(), SIGNAL(valueChanged(int)), this, SLOT(scrolled(int)));
+	connect(view->horizontalScrollBar(), &QScrollBar::valueChanged, this, &QtGraphView::scrolled);
+	connect(view->verticalScrollBar(), &QScrollBar::valueChanged, this, &QtGraphView::scrolled);
 
 	// trail controls
 	{
@@ -99,7 +99,7 @@ void QtGraphView::initView()
 			m_expandButton->setObjectName("expand_button");
 			m_expandButton->setToolTip("show depth graph controls");
 			m_expandButton->setGeometry(0, 0, 26, 26);
-			connect(m_expandButton, SIGNAL(clicked()), this, SLOT(clickedExpand()));
+			connect(m_expandButton, &QPushButton::clicked, this, &QtGraphView::clickedExpand);
 			stack->addWidget(m_expandButton);
 		}
 
@@ -111,15 +111,15 @@ void QtGraphView::initView()
 			m_collapseButton = new QPushButton(ui);
 			m_collapseButton->setObjectName("collapse_button");
 			m_collapseButton->setToolTip("hide depth graph controls");
-			connect(m_collapseButton, SIGNAL(clicked()), this, SLOT(clickedCollapse()));
+			connect(m_collapseButton, &QPushButton::clicked, this, &QtGraphView::clickedCollapse);
 
 			m_forwardTrailButton = new QPushButton(ui);
 			m_forwardTrailButton->setObjectName("trail_button");
-			connect(m_forwardTrailButton, SIGNAL(clicked()), this, SLOT(clickedForwardTrail()));
+			connect(m_forwardTrailButton, &QPushButton::clicked, this, &QtGraphView::clickedForwardTrail);
 
 			m_backwardTrailButton = new QPushButton(ui);
 			m_backwardTrailButton->setObjectName("trail_button");
-			connect(m_backwardTrailButton, SIGNAL(clicked()), this, SLOT(clickedBackwardTrail()));
+			connect(m_backwardTrailButton, &QPushButton::clicked, this, &QtGraphView::clickedBackwardTrail);
 
 			m_trailDepthLabel = new QLabel(ui);
 			m_trailDepthLabel->setObjectName("depth_label");
@@ -132,7 +132,7 @@ void QtGraphView::initView()
 			m_trailDepthSlider->setMinimum(1);
 			m_trailDepthSlider->setMaximum(26);
 			m_trailDepthSlider->setValue(5);
-			connect(m_trailDepthSlider, SIGNAL(valueChanged(int)), this, SLOT(trailDepthChanged(int)));
+			connect(m_trailDepthSlider, &QSlider::valueChanged, this, &QtGraphView::trailDepthChanged);
 
 			m_collapseButton->setGeometry(0, 0, 26, 20);
 			m_backwardTrailButton->setGeometry(0, 22, 26, 26);
@@ -1054,8 +1054,8 @@ void QtGraphView::createTransition()
 
 			remain->addAnimation(anim);
 
-			connect(anim, SIGNAL(finished()), newNode, SLOT(showNode()));
-			connect(anim, SIGNAL(finished()), oldNode, SLOT(hideNode()));
+			connect(anim, &QPropertyAnimation::finished, newNode, &QtGraphNode::showNode);
+			connect(anim, &QPropertyAnimation::finished, oldNode, &QtGraphNode::hideNode);
 			newNode->hide();
 
 			anim = new QPropertyAnimation(oldNode, "size");
@@ -1079,7 +1079,7 @@ void QtGraphView::createTransition()
 
 		if (!remainingNodes.size() || m_scrollToTop || m_restoreScroll)
 		{
-			connect(anim, SIGNAL(finished()), this, SLOT(updateScrollBars()));
+			connect(anim, &QPropertyAnimation::finished, this, &QtGraphView::updateScrollBars);
 		}
 
 		remain->addAnimation(anim);
@@ -1101,7 +1101,7 @@ void QtGraphView::createTransition()
 
 			appear->addAnimation(anim);
 
-			connect(anim, SIGNAL(finished()), node, SLOT(blendIn()));
+			connect(anim, &QPropertyAnimation::finished, node, &QtGraphNode::blendIn);
 			node->blendOut();
 		}
 
@@ -1120,7 +1120,7 @@ void QtGraphView::createTransition()
 		m_transition->addAnimation(appear);
 	}
 
-	connect(m_transition.get(), SIGNAL(finished()), this, SLOT(finishedTransition()));
+	connect(m_transition.get(), &QPropertyAnimation::finished, this, &QtGraphView::finishedTransition);
 	m_transition->start();
 }
 

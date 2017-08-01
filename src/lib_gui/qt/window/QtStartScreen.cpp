@@ -118,15 +118,15 @@ size_t i = 0;
 					break;
 			}
 			button->setFixedWidth(button->fontMetrics().width(button->text()) + 45);
-			connect(button, SIGNAL(clicked()), button, SLOT(handleButtonClick()));
+			connect(button, &QtRecentProjectButton::clicked, button, &QtRecentProjectButton::handleButtonClick);
 			if (button->projectExists())
 			{
 				button->setObjectName("recentButton");
-				connect(button, SIGNAL(clicked()), this, SLOT(handleRecentButton()));
+				connect(button, &QtRecentProjectButton::clicked, this, &QtStartScreen::handleRecentButton);
 			}
 			else
 			{
-				connect(button, SIGNAL(updateButtons()), this, SLOT(updateButtons()));
+				connect(button, &QtRecentProjectButton::updateButtons, this, &QtStartScreen::updateButtons);
 				button->setObjectName("recentButtonMissing");
 			}
 		}
@@ -181,7 +181,7 @@ void QtStartScreen::setupStartScreen()
 			openProjectButton->setAttribute(Qt::WA_LayoutUsesWidgetRect); // fixes layouting on Mac
 			openProjectButton->setObjectName("projectButton");
 			openProjectButton->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
-			connect(openProjectButton, SIGNAL(clicked()), this, SLOT(handleOpenProjectButton()));
+			connect(openProjectButton, &QPushButton::clicked, this, &QtStartScreen::handleOpenProjectButton);
 			col->addWidget(openProjectButton);
 
 			col->addSpacing(8);
@@ -190,7 +190,7 @@ void QtStartScreen::setupStartScreen()
 			unlockButton->setAttribute(Qt::WA_LayoutUsesWidgetRect); // fixes layouting on Mac
 			unlockButton->setObjectName("projectButton");
 			unlockButton->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
-			connect(unlockButton, SIGNAL(clicked()), this, SLOT(handleUnlockButton()));
+			connect(unlockButton, &QPushButton::clicked, this, &QtStartScreen::handleUnlockButton);
 
 			QHBoxLayout* row = new QHBoxLayout();
 			row->addWidget(unlockButton);
@@ -229,7 +229,7 @@ void QtStartScreen::setupStartScreen()
 			newProjectButton->setAttribute(Qt::WA_LayoutUsesWidgetRect); // fixes layouting on Mac
 			newProjectButton->setObjectName("projectButton");
 			newProjectButton->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
-			connect(newProjectButton, SIGNAL(clicked()), this, SLOT(handleNewProjectButton()));
+			connect(newProjectButton, &QPushButton::clicked, this, &QtStartScreen::handleNewProjectButton);
 			col->addWidget(newProjectButton);
 
 			col->addSpacing(8);
@@ -238,7 +238,7 @@ void QtStartScreen::setupStartScreen()
 			openProjectButton->setAttribute(Qt::WA_LayoutUsesWidgetRect); // fixes layouting on Mac
 			openProjectButton->setObjectName("projectButton");
 			openProjectButton->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
-			connect(openProjectButton, SIGNAL(clicked()), this, SLOT(handleOpenProjectButton()));
+			connect(openProjectButton, &QPushButton::clicked, this, &QtStartScreen::handleOpenProjectButton);
 			col->addWidget(openProjectButton);
 
 			layout->addStretch(2);

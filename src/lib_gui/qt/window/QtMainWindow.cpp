@@ -161,11 +161,11 @@ void QtMainWindow::addView(View* view)
 	addDockWidget(Qt::TopDockWidgetArea, dock);
 
 	QtViewToggle* toggle = new QtViewToggle(view, this);
-	connect(dock, SIGNAL(visibilityChanged(bool)), toggle, SLOT(toggledByUI()));
+	connect(dock, &QDockWidget::visibilityChanged, toggle, &QtViewToggle::toggledByUI);
 
 	QAction* action = new QAction(tr((view->getName() + " Window").c_str()), this);
 	action->setCheckable(true);
-	connect(action, SIGNAL(triggered()), toggle, SLOT(toggledByAction()));
+	connect(action, &QAction::triggered, toggle, &QtViewToggle::toggledByAction);
 	m_viewMenu->insertAction(m_viewSeparator, action);
 
 	DockWidget dockWidget;
@@ -439,12 +439,12 @@ void QtMainWindow::showEula(bool forceAccept)
 		setEnabled(false);
 		window->setEnabled(true);
 
-		connect(window, SIGNAL(finished()), this, SLOT(acceptedEula()));
-		connect(window, SIGNAL(canceled()), dynamic_cast<QApplication*>(QCoreApplication::instance()), SLOT(quit()));
+		connect(window, &QtEulaWindow::finished, this, &QtMainWindow::acceptedEula);
+		connect(window, &QtEulaWindow::canceled, dynamic_cast<QApplication*>(QCoreApplication::instance()), &QApplication::quit);
 	}
 	else
 	{
-		connect(window, SIGNAL(canceled()), &m_windowStack, SLOT(popWindow()));
+		connect(window, &QtEulaWindow::canceled, &m_windowStack, &QtWindowStack::popWindow);
 	}
 }
 
@@ -468,8 +468,8 @@ void QtMainWindow::enterLicense()
 	QtLicense* enterLicenseWindow = createWindow<QtLicense>();
 	enterLicenseWindow->setup();
 
-	disconnect(enterLicenseWindow, SIGNAL(finished()), &m_windowStack, SLOT(clearWindows()));
-	connect(enterLicenseWindow, SIGNAL(finished()), this, SLOT(enteredLicense()));
+	disconnect(enterLicenseWindow, &QtLicense::finished, &m_windowStack, &QtWindowStack::clearWindows);
+	connect(enterLicenseWindow, &QtLicense::finished, this, &QtMainWindow::enteredLicense);
 
 	enterLicenseWindow->load();
 }
@@ -513,9 +513,9 @@ void QtMainWindow::showStartScreen()
 	QtStartScreen* startScreen = createWindow<QtStartScreen>();
 	startScreen->setupStartScreen();
 
-	connect(startScreen, SIGNAL(openOpenProjectDialog()), this, SLOT(openProject()));
-	connect(startScreen, SIGNAL(openNewProjectDialog()), this, SLOT(newProject()));
-	connect(startScreen, SIGNAL(openEnterLicenseDialog()), this, SLOT(enterLicense()));
+	connect(startScreen, &QtStartScreen::openOpenProjectDialog, this, &QtMainWindow::openProject);
+	connect(startScreen, &QtStartScreen::openNewProjectDialog, this, &QtMainWindow::newProject);
+	connect(startScreen, &QtStartScreen::openEnterLicenseDialog, this, &QtMainWindow::enterLicense);
 }
 
 void QtMainWindow::hideStartScreen()
@@ -732,8 +732,8 @@ void QtMainWindow::setupProjectMenu()
 	QMenu *menu = new QMenu(tr("&Project"), this);
 	menuBar()->addMenu(menu);
 
-	m_trialDisabledActions.push_back(menu->addAction(tr("&New Project..."), this, SLOT(newProject()), QKeySequence::New));
-	menu->addAction(tr("&Open Project..."), this, SLOT(openProject()), QKeySequence::Open);
+	m_trialDisabledActions.push_back(menu->addAction(tr("&New Project..."), this, &QtMainWindow::newProject, QKeySequence::New));
+	menu->addAction(tr("&Open Project..."), this, &QtMainWindow::openProject, QKeySequence::Open);
 
 	QMenu *recentProjectMenu = new QMenu(tr("Recent Projects"));
 	menu->addMenu(recentProjectMenu);
@@ -742,8 +742,8 @@ void QtMainWindow::setupProjectMenu()
 	{
 		m_recentProjectAction[i] = new QAction(this);
 		m_recentProjectAction[i]->setVisible(false);
-		connect(m_recentProjectAction[i], SIGNAL(triggered()),
-			this, SLOT(openRecentProject()));
+		connect(m_recentProjectAction[i], &QAction::triggered,
+			this, &QtMainWindow::openRecentProject);
 		recentProjectMenu->addAction(m_recentProjectAction[i]);
 	}
 	updateRecentProjectMenu();
@@ -752,10 +752,10 @@ void QtMainWindow::setupProjectMenu()
 
 	menu->addSeparator();
 
-	m_trialDisabledActions.push_back(menu->addAction(tr("&Edit Project..."), this, SLOT(editProject())));
+	m_trialDisabledActions.push_back(menu->addAction(tr("&Edit Project..."), this, &QtMainWindow::editProject));
 	m_trialDisabledActions.push_back(menu->addSeparator());
 
-	menu->addAction(tr("E&xit"), QCoreApplication::instance(), SLOT(quit()), QKeySequence::Quit);
+	menu->addAction(tr("E&xit"), QCoreApplication::instance(), &QCoreApplication::quit, QKeySequence::Quit);
 }
 
 void QtMainWindow::setupEditMenu()
@@ -763,11 +763,11 @@ void QtMainWindow::setupEditMenu()
 	QMenu *menu = new QMenu(tr("&Edit"), this);
 	menuBar()->addMenu(menu);
 
-	m_trialDisabledActions.push_back(menu->addAction(tr("&Refresh"), this, SLOT(refresh()), QKeySequence::Refresh));
+	m_trialDisabledActions.push_back(menu->addAction(tr("&Refresh"), this, &QtMainWindow::refresh, QKeySequence::Refresh));
 	if (QSysInfo::windowsVersion() != QSysInfo::WV_None)
 	{
 		m_trialDisabledActions.push_back(
-			menu->addAction(tr("&Full Refresh"), this, SLOT(forceRefresh()), QKeySequence(Qt::SHIFT + Qt::Key_F5))
+			menu->addAction(tr("&Full Refresh"), this, &QtMainWindow::forceRefresh, QKeySequence(Qt::SHIFT + Qt::Key_F5))
 		);
 	}
 	else
@@ -775,28 +775,28 @@ void QtMainWindow::setupEditMenu()
 		m_trialDisabledActions.push_back(menu->addAction(
 			tr("&Full Refresh"),
 			this,
-			SLOT(forceRefresh()),
+			&QtMainWindow::forceRefresh,
 			QKeySequence(Qt::SHIFT + Qt::CTRL + Qt::Key_R)
 		));
 	}
 
 	menu->addSeparator();
 
-	menu->addAction(tr("&Find Symbol"), this, SLOT(find()), QKeySequence::Find);
-	menu->addAction(tr("&Find Text"), this, SLOT(findFulltext()), QKeySequence(Qt::SHIFT + Qt::CTRL + Qt::Key_F));
+	menu->addAction(tr("&Find Symbol"), this, &QtMainWindow::find, QKeySequence::Find);
+	menu->addAction(tr("&Find Text"), this, &QtMainWindow::findFulltext, QKeySequence(Qt::SHIFT + Qt::CTRL + Qt::Key_F));
 
 	menu->addSeparator();
 
-	menu->addAction(tr("Code Reference Next"), this, SLOT(codeReferenceNext()), QKeySequence(Qt::CTRL + Qt::Key_G));
-	menu->addAction(tr("Code Reference Previous"), this, SLOT(codeReferencePrevious()), QKeySequence(Qt::SHIFT + Qt::CTRL + Qt::Key_G));
+	menu->addAction(tr("Code Reference Next"), this, &QtMainWindow::codeReferenceNext, QKeySequence(Qt::CTRL + Qt::Key_G));
+	menu->addAction(tr("Code Reference Previous"), this, &QtMainWindow::codeReferencePrevious, QKeySequence(Qt::SHIFT + Qt::CTRL + Qt::Key_G));
 
 	menu->addSeparator();
 
-	menu->addAction(tr("&To overview"), this, SLOT(overview()), QKeySequence::MoveToStartOfDocument);
+	menu->addAction(tr("&To overview"), this, &QtMainWindow::overview, QKeySequence::MoveToStartOfDocument);
 
 	menu->addSeparator();
 
-	menu->addAction(tr("Preferences..."), this, SLOT(openSettings()), QKeySequence(Qt::CTRL + Qt::Key_Comma));
+	menu->addAction(tr("Preferences..."), this, &QtMainWindow::openSettings, QKeySequence(Qt::CTRL + Qt::Key_Comma));
 }
 
 void QtMainWindow::setupViewMenu()
@@ -804,22 +804,22 @@ void QtMainWindow::setupViewMenu()
 	QMenu *menu = new QMenu(tr("&View"), this);
 	menuBar()->addMenu(menu);
 
-	menu->addAction(tr("Show Start Window"), this, SLOT(showStartScreen()));
+	menu->addAction(tr("Show Start Window"), this, &QtMainWindow::showStartScreen);
 
 	m_showTitleBarsAction = new QAction("Show Title Bars", this);
 	m_showTitleBarsAction->setCheckable(true);
 	m_showTitleBarsAction->setChecked(m_showDockWidgetTitleBars);
-	connect(m_showTitleBarsAction, SIGNAL(triggered()), this, SLOT(toggleShowDockWidgetTitleBars()));
+	connect(m_showTitleBarsAction, &QAction::triggered, this, &QtMainWindow::toggleShowDockWidgetTitleBars);
 	menu->addAction(m_showTitleBarsAction);
 
 	menu->addSeparator();
 
 	m_viewSeparator = menu->addSeparator();
 
-	menu->addAction(tr("Larger font"), this, SLOT(zoomIn()), QKeySequence::ZoomIn);
-	menu->addAction(tr("Smaller font"), this, SLOT(zoomOut()), QKeySequence::ZoomOut);
-	menu->addAction(tr("Reset font size"), this, SLOT(resetZoom()), QKeySequence(Qt::CTRL + Qt::Key_0));
-	menu->addAction(tr("Reset window layout"), this, SLOT(resetWindowLayout()));
+	menu->addAction(tr("Larger font"), this, &QtMainWindow::zoomIn, QKeySequence::ZoomIn);
+	menu->addAction(tr("Smaller font"), this, &QtMainWindow::zoomOut, QKeySequence::ZoomOut);
+	menu->addAction(tr("Reset font size"), this, &QtMainWindow::resetZoom, QKeySequence(Qt::CTRL + Qt::Key_0));
+	menu->addAction(tr("Reset window layout"), this, &QtMainWindow::resetWindowLayout);
 
 	m_viewMenu = menu;
 }
@@ -836,8 +836,8 @@ void QtMainWindow::setupHistoryMenu()
 		m_historyMenu->clear();
 	}
 
-	m_historyMenu->addAction(tr("Back"), this, SLOT(undo()), QKeySequence::Undo);
-	m_historyMenu->addAction(tr("Forward"), this, SLOT(redo()), QKeySequence::Redo);
+	m_historyMenu->addAction(tr("Back"), this, &QtMainWindow::undo, QKeySequence::Undo);
+	m_historyMenu->addAction(tr("Forward"), this, &QtMainWindow::redo, QKeySequence::Redo);
 
 	m_historyMenu->addSeparator();
 
@@ -854,7 +854,7 @@ void QtMainWindow::setupHistoryMenu()
 		action->setText(name.c_str());
 		action->setData(QVariant(int(i)));
 
-		connect(action, SIGNAL(triggered()), this, SLOT(openHistoryAction()));
+		connect(action, &QAction::triggered, this, &QtMainWindow::openHistoryAction);
 		m_historyMenu->addAction(action);
 	}
 }
@@ -871,8 +871,8 @@ void QtMainWindow::setupBookmarksMenu()
 		m_bookmarksMenu->clear();
 	}
 
-	m_bookmarksMenu->addAction(tr("Bookmark Active Symbol..."), this, SLOT(showBookmarkCreator()), QKeySequence(Qt::CTRL + Qt::Key_D));
-	m_bookmarksMenu->addAction(tr("Bookmark Manager"), this, SLOT(showBookmarkBrowser()), QKeySequence(Qt::CTRL + Qt::Key_B));
+	m_bookmarksMenu->addAction(tr("Bookmark Active Symbol..."), this, &QtMainWindow::showBookmarkCreator, QKeySequence(Qt::CTRL + Qt::Key_D));
+	m_bookmarksMenu->addAction(tr("Bookmark Manager"), this, &QtMainWindow::showBookmarkBrowser, QKeySequence(Qt::CTRL + Qt::Key_B));
 
 	m_bookmarksMenu->addSeparator();
 
@@ -889,7 +889,7 @@ void QtMainWindow::setupBookmarksMenu()
 		action->setText(name.c_str());
 		action->setData(QVariant(int(i)));
 
-		connect(action, SIGNAL(triggered()), this, SLOT(activateBookmarkAction()));
+		connect(action, &QAction::triggered, this, &QtMainWindow::activateBookmarkAction);
 		m_bookmarksMenu->addAction(action);
 	}
 }
@@ -899,21 +899,21 @@ void QtMainWindow::setupHelpMenu()
 	QMenu *menu = new QMenu(tr("&Help"), this);
 	menuBar()->addMenu(menu);
 
-	menu->addAction(tr("Keyboard Shortcuts"), this, SLOT(showKeyboardShortcuts()));
-	menu->addAction(tr("Documentation"), this, SLOT(showDocumentation()));
-	menu->addAction(tr("Bug Tracker"), this, SLOT(showBugtracker()));
-	menu->addAction(tr("Enter License..."), this, SLOT(enterLicense()));
+	menu->addAction(tr("Keyboard Shortcuts"), this, &QtMainWindow::showKeyboardShortcuts);
+	menu->addAction(tr("Documentation"), this, &QtMainWindow::showDocumentation);
+	menu->addAction(tr("Bug Tracker"), this, &QtMainWindow::showBugtracker);
+	menu->addAction(tr("Enter License..."), this, &QtMainWindow::enterLicense);
 
 	menu->addSeparator();
 
-	menu->addAction(tr("End User License Agreement"), this, SLOT(showEula()));
-	menu->addAction(tr("3rd Party Licences"), this, SLOT(showLicenses()));
-	menu->addAction(tr("&About Sourcetrail"), this, SLOT(about()));
+	menu->addAction(tr("End User License Agreement"), this, &QtMainWindow::showEula);
+	menu->addAction(tr("3rd Party Licences"), this, &QtMainWindow::showLicenses);
+	menu->addAction(tr("&About Sourcetrail"), this, &QtMainWindow::about);
 
 	menu->addSeparator();
 
-	menu->addAction(tr("Show Data Folder"), this, SLOT(showDataFolder()));
-	menu->addAction(tr("Show Log Folder"), this, SLOT(showLogFolder()));
+	menu->addAction(tr("Show Data Folder"), this, &QtMainWindow::showDataFolder);
+	menu->addAction(tr("Show Log Folder"), this, &QtMainWindow::showLogFolder);
 }
 
 void QtMainWindow::setTrialActionsEnabled(bool enabled)
@@ -991,8 +991,8 @@ template<typename T>
 {
 	T* window = new T(this);
 
-	connect(window, SIGNAL(canceled()), &m_windowStack, SLOT(popWindow()));
-	connect(window, SIGNAL(finished()), &m_windowStack, SLOT(clearWindows()));
+	connect(window, &QtWindow::canceled, &m_windowStack, &QtWindowStack::popWindow);
+	connect(window, &QtWindow::finished, &m_windowStack, &QtWindowStack::clearWindows);
 
 	m_windowStack.pushWindow(window);
 

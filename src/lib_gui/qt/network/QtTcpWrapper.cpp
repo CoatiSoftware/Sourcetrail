@@ -11,7 +11,7 @@ QtTcpWrapper::QtTcpWrapper(QObject* parent, const std::string& ip, const quint16
 {
 	m_tcpServer = new QTcpServer(this);
 
-	connect(m_tcpServer, SIGNAL(newConnection()), this, SLOT(acceptConnection()));
+	connect(m_tcpServer, &QTcpServer::newConnection, this, &QtTcpWrapper::acceptConnection);
 }
 
 void QtTcpWrapper::startListening()
@@ -96,7 +96,7 @@ void QtTcpWrapper::acceptConnection()
 {
 	m_tcpClient = m_tcpServer->nextPendingConnection();
 
-	connect(m_tcpClient, SIGNAL(readyRead()), this, SLOT(startRead()));
+	connect(m_tcpClient, &QTcpSocket::readyRead, this, &QtTcpWrapper::startRead);
 }
 
 void QtTcpWrapper::startRead()

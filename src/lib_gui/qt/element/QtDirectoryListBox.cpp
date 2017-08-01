@@ -46,8 +46,8 @@ QtListItemWidget::QtListItemWidget(QtDirectoryListBox* list, QListWidgetItem* it
 
 	setLayout(layout);
 
-	connect(m_button, SIGNAL(clicked()), this, SLOT(handleButtonPress()));
-	connect(m_data, SIGNAL(focus()), this, SLOT(handleFocus()));
+	connect(m_button, &QPushButton::clicked, this, &QtListItemWidget::handleButtonPress);
+	connect(m_data, &QtLineEdit::focus, this, &QtListItemWidget::handleFocus);
 }
 
 QString QtListItemWidget::getText()
@@ -184,9 +184,9 @@ QtDirectoryListBox::QtDirectoryListBox(QWidget *parent, const QString& listName,
 	layout->addWidget(buttonContainer);
 	setLayout(layout);
 
-	connect(m_addButton, SIGNAL(clicked()), this, SLOT(addListBoxItem()));
-	connect(m_removeButton, SIGNAL(clicked()), this, SLOT(removeListBoxItem()));
-	connect(editButton, SIGNAL(clicked()), this, SLOT(showEditDialog()));
+	connect(m_addButton, &QPushButton::clicked, this, &QtDirectoryListBox::addListBoxItem);
+	connect(m_removeButton, &QPushButton::clicked, this, &QtDirectoryListBox::removeListBoxItem);
+	connect(editButton, &QPushButton::clicked, this, &QtDirectoryListBox::showEditDialog);
 
 	setAcceptDrops(true);
 	setSizePolicy(sizePolicy().horizontalPolicy(), QSizePolicy::Minimum);
@@ -284,7 +284,7 @@ void QtDirectoryListBox::setStringList(const std::vector<std::string>& list)
 
 	m_relativeRootDirectory = root;
 
-	QTimer::singleShot(1, this, SLOT(resize()));
+	QTimer::singleShot(1, this, &QtDirectoryListBox::resize);
 }
 
 void QtDirectoryListBox::selectItem(QListWidgetItem* item)
@@ -382,8 +382,8 @@ void QtDirectoryListBox::showEditDialog()
 
 		m_editDialog->setText(utility::join(getStringList(), "\n"));
 
-		connect(m_editDialog.get(), SIGNAL(canceled()), this, SLOT(canceledEditDialog()));
-		connect(m_editDialog.get(), SIGNAL(finished()), this, SLOT(savedEditDialog()));
+		connect(m_editDialog.get(), &QtTextEditDialog::canceled, this, &QtDirectoryListBox::canceledEditDialog);
+		connect(m_editDialog.get(), &QtTextEditDialog::finished, this, &QtDirectoryListBox::savedEditDialog);
 	}
 
 	m_editDialog->showWindow();

@@ -65,7 +65,7 @@ void QtIndexingDialog::setupStart(
 		m_fullRefreshCheckBox = new QCheckBox("full refresh", this);
 		m_fullRefreshCheckBox->setObjectName("message");
 
-		connect(m_fullRefreshCheckBox, static_cast<void(QCheckBox::*)(bool)>(&QCheckBox::toggled),
+		connect(m_fullRefreshCheckBox, &QCheckBox::toggled,
 			[=](bool checked = false)
 			{
 				clearLabel->setVisible(!checked);
@@ -434,11 +434,11 @@ void QtIndexingDialog::addButtons(QBoxLayout* layout)
 {
 	m_nextButton = new QPushButton("Next");
 	m_nextButton->setObjectName("windowButton");
-	connect(m_nextButton, SIGNAL(clicked()), this, SLOT(handleNextPress()));
+	connect(m_nextButton, &QPushButton::clicked, this, &QtIndexingDialog::handleNextPress);
 
 	m_closeButton = new QPushButton("Cancel");
 	m_closeButton->setObjectName("windowButton");
-	connect(m_closeButton, SIGNAL(clicked()), this, SLOT(handleClosePress()));
+	connect(m_closeButton, &QPushButton::clicked, this, &QtIndexingDialog::handleClosePress);
 
 	QHBoxLayout* buttons = new QHBoxLayout();
 	buttons->addWidget(m_closeButton);

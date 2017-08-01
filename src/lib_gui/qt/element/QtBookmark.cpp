@@ -81,10 +81,10 @@ QtBookmark::QtBookmark()
 	m_comment->hide();
 	layout->addWidget(m_comment);
 
-	connect(m_activateButton, SIGNAL(clicked()), this, SLOT(activateClicked()));
-	connect(m_editButton, SIGNAL(clicked()), this, SLOT(editClicked()));
-	connect(m_deleteButton, SIGNAL(clicked()), this, SLOT(deleteClicked()));
-	connect(m_toggleCommentButton, SIGNAL(clicked()), this, SLOT(commentToggled()));
+	connect(m_activateButton, &QPushButton::clicked, this, &QtBookmark::activateClicked);
+	connect(m_editButton, &QPushButton::clicked, this, &QtBookmark::editClicked);
+	connect(m_deleteButton, &QPushButton::clicked, this, &QtBookmark::deleteClicked);
+	connect(m_toggleCommentButton, &QPushButton::clicked, this, &QtBookmark::commentToggled);
 }
 
 QtBookmark::~QtBookmark()
@@ -174,7 +174,7 @@ void QtBookmark::resizeEvent(QResizeEvent* event)
 	}
 
 	m_activateButton->setText(m_bookmark->getName().c_str());
-	QTimer::singleShot(10, this, SLOT(elideButtonText()));
+	QTimer::singleShot(10, this, &QtBookmark::elideButtonText);
 }
 
 void QtBookmark::showEvent(QShowEvent* event)

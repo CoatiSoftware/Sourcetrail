@@ -127,7 +127,7 @@ void QtProjectWizzardContentPathCDB::populate(QGridLayout* layout, int& row)
 	QtProjectWizzardContentPath::populate(layout, row);
 	m_picker->setPickDirectory(false);
 	m_picker->setFileFilter("JSON Compilation Database (*.json)");
-	connect(m_picker, SIGNAL(locationPicked()), this, SLOT(pickedCDBPath()));
+	connect(m_picker, &QtLocationPicker::locationPicked, this, &QtProjectWizzardContentPathCDB::pickedCDBPath);
 
 	QLabel* description = new QLabel(
 		"Sourcetrail will use all include paths and compiler flags from the compilation database and stay up-to-date "

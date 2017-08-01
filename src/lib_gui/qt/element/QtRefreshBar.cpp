@@ -28,7 +28,7 @@ QtRefreshBar::QtRefreshBar()
 
 	m_refreshButton->setEnabled(false);
 
-	connect(m_refreshButton, SIGNAL(clicked()), this, SLOT(refreshClicked()));
+	connect(m_refreshButton, &QPushButton::clicked, this, &QtRefreshBar::refreshClicked);
 
 	refreshStyle();
 }

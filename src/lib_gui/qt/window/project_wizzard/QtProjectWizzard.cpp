@@ -39,9 +39,9 @@ QtProjectWizzard::QtProjectWizzard(QWidget* parent)
 {
 	setScrollAble(true);
 
-	connect(&m_windowStack, SIGNAL(push()), this, SLOT(windowStackChanged()));
-	connect(&m_windowStack, SIGNAL(pop()), this, SLOT(windowStackChanged()));
-	connect(&m_windowStack, SIGNAL(empty()), this, SLOT(windowStackChanged()));
+	connect(&m_windowStack, &QtWindowStack::push, this, &QtProjectWizzard::windowStackChanged);
+	connect(&m_windowStack, &QtWindowStack::pop, this, &QtProjectWizzard::windowStackChanged);
+	connect(&m_windowStack, &QtWindowStack::empty, this, &QtProjectWizzard::windowStackChanged);
 
 	// save old application settings so they can be compared later
 	ApplicationSettings* appSettings = ApplicationSettings::getInstance().get();
@@ -131,7 +131,7 @@ void QtProjectWizzard::populateWindow(QWidget* widget)
 		m_generalButton = new QPushButton("General");
 		m_generalButton->setObjectName("general_button");
 		m_generalButton->setCheckable(true);
-		connect(m_generalButton, SIGNAL(clicked()), this, SLOT(generalButtonClicked()));
+		connect(m_generalButton, &QPushButton::clicked, this, &QtProjectWizzard::generalButtonClicked);
 		menuLayout->addWidget(m_generalButton);
 
 		QLabel* sourceGroupLabel = new QLabel("Source Groups:");
@@ -139,7 +139,7 @@ void QtProjectWizzard::populateWindow(QWidget* widget)
 
 		m_sourceGroupList = new QListWidget();
 		m_sourceGroupList->setAttribute(Qt::WA_MacShowFocusRect, 0);
-		connect(m_sourceGroupList, SIGNAL(currentRowChanged(int)), this, SLOT(selectedSourceGroupChanged(int)));
+		connect(m_sourceGroupList, &QListWidget::currentRowChanged, this, &QtProjectWizzard::selectedSourceGroupChanged);
 		menuLayout->addWidget(m_sourceGroupList);
 
 		QHBoxLayout* buttonsLayout = new QHBoxLayout();
@@ -173,9 +173,9 @@ void QtProjectWizzard::populateWindow(QWidget* widget)
 		m_removeButton->setEnabled(false);
 		m_duplicateButton->setEnabled(false);
 
-		connect(addButton, SIGNAL(clicked()), this, SLOT(newSourceGroup()));
-		connect(m_removeButton, SIGNAL(clicked()), this, SLOT(removeSelectedSourceGroup()));
-		connect(m_duplicateButton, SIGNAL(clicked()), this, SLOT(duplicateSelectedSourceGroup()));
+		connect(addButton, &QPushButton::clicked, this, &QtProjectWizzard::newSourceGroup);
+		connect(m_removeButton, &QPushButton::clicked, this, &QtProjectWizzard::removeSelectedSourceGroup);
+		connect(m_duplicateButton, &QPushButton::clicked, this, &QtProjectWizzard::duplicateSelectedSourceGroup);
 
 		buttonsLayout->addWidget(addButton);
 		buttonsLayout->addWidget(m_removeButton);
@@ -226,8 +226,8 @@ void QtProjectWizzard::windowReady()
 	updateSubTitle("Overview");
 	updatePreviousButton("Add Source Group");
 
-	connect(this, SIGNAL(previous()), this, SLOT(newSourceGroup()));
-	connect(this, SIGNAL(next()), this, SLOT(createProject()));
+	connect(this, &QtProjectWizzard::previous, this, &QtProjectWizzard::newSourceGroup);
+	connect(this, &QtProjectWizzard::next, this, &QtProjectWizzard::createProject);
 
 	updateSourceGroupList();
 
@@ -279,8 +279,8 @@ QtProjectWizzardWindow* QtProjectWizzard::createWindowWithContent(
 ){
 	QtProjectWizzardWindow* window = new QtProjectWizzardWindow(parentWidget());
 
-	connect(window, SIGNAL(previous()), &m_windowStack, SLOT(popWindow()));
-	connect(window, SIGNAL(canceled()), this, SLOT(cancelSourceGroup()));
+	connect(window, &QtProjectWizzardWindow::previous, &m_windowStack, &QtWindowStack::popWindow);
+	connect(window, &QtProjectWizzardWindow::canceled, this, &QtProjectWizzard::cancelSourceGroup);
 
 	window->setPreferredSize(QSize(580, 340));
 	window->setContent(func(window));
@@ -297,8 +297,8 @@ QtProjectWizzardWindow* QtProjectWizzard::createWindowWithSummary(
 ){
 	QtProjectWizzardWindow* window = new QtProjectWizzardWindow(parentWidget());
 
-	connect(window, SIGNAL(previous()), &m_windowStack, SLOT(popWindow()));
-	connect(window, SIGNAL(canceled()), this, SLOT(cancelSourceGroup()));
+	connect(window, &QtProjectWizzardWindow::previous, &m_windowStack, &QtWindowStack::popWindow);
+	connect(window, &QtProjectWizzardWindow::canceled, this, &QtProjectWizzard::cancelSourceGroup);
 
 	QtProjectWizzardContentSummary* summary = new QtProjectWizzardContentSummary(window);
 
@@ -382,7 +382,7 @@ void QtProjectWizzard::selectedSourceGroupChanged(int index)
 	summary->setIsForm(true);
 
 	QtProjectWizzardContentSourceGroupData* content = new QtProjectWizzardContentSourceGroupData(group, this);
-	connect(content, SIGNAL(nameUpdated(QString)), this, SLOT(selectedSourceGroupNameChanged(QString)));
+	connect(content, &QtProjectWizzardContentSourceGroupData::nameUpdated, this, &QtProjectWizzard::selectedSourceGroupNameChanged);
 	summary->addContent(content);
 	summary->addSpace();
 
@@ -592,8 +592,8 @@ void QtProjectWizzard::newSourceGroup()
 	);
 
 	connect(dynamic_cast<QtProjectWizzardContentSelect*>(window->content()),
-		SIGNAL(selected(SourceGroupType)),
-		this, SLOT(selectedProjectType(SourceGroupType)));
+		&QtProjectWizzardContentSelect::selected,
+		this, &QtProjectWizzard::selectedProjectType);
 
 	window->show();
 	window->setNextEnabled(false);
@@ -654,11 +654,11 @@ void QtProjectWizzard::emptySourceGroup()
 
 	if (m_newSourceGroupSettings->getType() == SOURCE_GROUP_JAVA_EMPTY)
 	{
-		connect(window, SIGNAL(next()), this, SLOT(sourcePathsJava()));
+		connect(window, &QtProjectWizzardWindow::next, this, &QtProjectWizzard::sourcePathsJava);
 	}
 	else
 	{
-		connect(window, SIGNAL(next()), this, SLOT(sourcePaths()));
+		connect(window, &QtProjectWizzardWindow::next, this, &QtProjectWizzard::sourcePaths);
 	}
 
 	window->updateSubTitle("Standard");
@@ -678,7 +678,7 @@ void QtProjectWizzard::emptySourceGroupCDBVS()
 		}
 	);
 
-	connect(window, SIGNAL(next()), this, SLOT(advancedSettingsCxx()));
+	connect(window, &QtProjectWizzardWindow::next, this, &QtProjectWizzard::advancedSettingsCxx);
 	window->updateSubTitle("VS Solution");
 }
 
@@ -695,7 +695,7 @@ void QtProjectWizzard::emptySourceGroupCDB()
 		}
 	);
 
-	connect(window, SIGNAL(next()), this, SLOT(advancedSettingsCxx()));
+	connect(window, &QtProjectWizzardWindow::next, this, &QtProjectWizzard::advancedSettingsCxx);
 	window->updateSubTitle("CDB Path");
 }
 
@@ -710,7 +710,7 @@ void QtProjectWizzard::sourcePaths()
 		}
 	);
 
-	connect(window, SIGNAL(next()), this, SLOT(headerSearchPaths()));
+	connect(window, &QtProjectWizzardWindow::next, this, &QtProjectWizzard::headerSearchPaths);
 	window->updateSubTitle("Indexed Paths");
 }
 
@@ -725,7 +725,7 @@ void QtProjectWizzard::headerSearchPaths()
 		}
 	);
 
-	connect(window, SIGNAL(next()), this, SLOT(headerSearchPathsDone()));
+	connect(window, &QtProjectWizzardWindow::next, this, &QtProjectWizzard::headerSearchPathsDone);
 	window->updateSubTitle("Include Paths");
 }
 
@@ -752,7 +752,7 @@ void QtProjectWizzard::frameworkSearchPaths()
 		}
 	);
 
-	connect(window, SIGNAL(next()), this, SLOT(advancedSettingsCxx()));
+	connect(window, &QtProjectWizzardWindow::next, this, &QtProjectWizzard::advancedSettingsCxx);
 	window->updateSubTitle("Framework Search Paths");
 }
 
@@ -767,7 +767,7 @@ void QtProjectWizzard::sourcePathsJava()
 		}
 	);
 
-	connect(window, SIGNAL(next()), this, SLOT(advancedSettingsJava()));
+	connect(window, &QtProjectWizzardWindow::next, this, &QtProjectWizzard::advancedSettingsJava);
 	window->updateSubTitle("Indexed Paths");
 }
 
@@ -786,7 +786,7 @@ void QtProjectWizzard::sourcePathsJavaMaven()
 		}
 	);
 
-	connect(window, SIGNAL(next()), this, SLOT(advancedSettingsJava()));
+	connect(window, &QtProjectWizzardWindow::next, this, &QtProjectWizzard::advancedSettingsJava);
 	window->updateSubTitle("Indexed Paths");
 }
 
@@ -801,7 +801,7 @@ void QtProjectWizzard::advancedSettingsCxx()
 		}
 	);
 
-	connect(window, SIGNAL(next()), this, SLOT(createSourceGroup()));
+	connect(window, &QtProjectWizzardWindow::next, this, &QtProjectWizzard::createSourceGroup);
 	window->updateSubTitle("Advanced (optional)");
 }
 
@@ -816,7 +816,7 @@ void QtProjectWizzard::advancedSettingsJava()
 		}
 	);
 
-	connect(window, SIGNAL(next()), this, SLOT(createSourceGroup()));
+	connect(window, &QtProjectWizzardWindow::next, this, &QtProjectWizzard::createSourceGroup);
 	window->updateSubTitle("Advanced (optional)");
 }
 

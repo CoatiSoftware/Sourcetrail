@@ -114,7 +114,7 @@ void QtCodeFileSingle::addCodeSnippet(const CodeSnippetParams& params)
 	}
 
 	file.area = std::make_shared<QtCodeArea>(1, params.code, params.locationFile, m_navigator, this);
-	connect(file.area->verticalScrollBar(), SIGNAL(valueChanged(int)), m_navigator, SLOT(scrolled(int)));
+	connect(file.area->verticalScrollBar(), &QScrollBar::valueChanged, m_navigator, &QtCodeNavigator::scrolled);
 
 	m_fileDatas.emplace(file.filePath, file);
 	m_filePaths.push_back(file.filePath);

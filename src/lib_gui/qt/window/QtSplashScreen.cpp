@@ -42,7 +42,7 @@ void QtSplashScreen::exec(QApplication& app)
 {
 	m_state = 0;
 	QTimer* timer = new QTimer(this);
-	QObject::connect(timer, SIGNAL(timeout()), this, SLOT(animate()));
+	QObject::connect(timer, &QTimer::timeout, this, &QtSplashScreen::animate);
 	timer->start(150);
 
 	app.processEvents();
@@ -51,13 +51,6 @@ void QtSplashScreen::exec(QApplication& app)
 	repaint();
 
 	app.processEvents();
-
-	// Eventloop for the SplashScreen
-	// QEventLoop loop;
-	// InitThread* initThread = new InitThread();
-	// QObject::connect(initThread, SIGNAL(finished()), &loop, SLOT(quit()));
-	// initThread->start();
-	// loop.exec();
 }
 
 void QtSplashScreen::setMessage(const QString &str)

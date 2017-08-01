@@ -22,7 +22,7 @@ QtCodeFileTitleButton::QtCodeFileTitleButton(QWidget* parent)
 	setFixedHeight(std::max(fontMetrics().height() * 1.2, 28.0));
 	setSizePolicy(sizePolicy().horizontalPolicy(), QSizePolicy::Fixed);
 
-	connect(this, SIGNAL(clicked()), this, SLOT(clickedTitle()));
+	connect(this, &QtCodeFileTitleButton::clicked, this, &QtCodeFileTitleButton::clickedTitle);
 }
 
 QtCodeFileTitleButton::~QtCodeFileTitleButton()

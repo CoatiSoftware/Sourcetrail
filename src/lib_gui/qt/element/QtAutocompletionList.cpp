@@ -384,8 +384,14 @@ void QtAutocompletionList::completeAt(const QPoint& pos, const std::vector<Searc
 	m_delegate->resetCharSizes();
 
 	disconnect(); // must be done because of a bug where signals are no longer received by QtSmartSearchBox
-	connect(this, SIGNAL(highlighted(const QModelIndex&)), this, SLOT(onHighlighted(const QModelIndex&)), Qt::DirectConnection);
-	connect(this, SIGNAL(activated(const QModelIndex&)), this, SLOT(onActivated(const QModelIndex&)), Qt::DirectConnection);
+	connect(this,
+			static_cast<void (QtAutocompletionList::*)(const QModelIndex&)>(&QtAutocompletionList::highlighted),
+			this,
+			&QtAutocompletionList::onHighlighted, Qt::DirectConnection);
+	connect(this,
+			static_cast<void (QtAutocompletionList::*)(const QModelIndex&)>(&QtAutocompletionList::activated),
+			this,
+			&QtAutocompletionList::onActivated, Qt::DirectConnection);
 
 	complete(QRect(pos.x(), pos.y(), std::max(dynamic_cast<QWidget*>(parent())->width(), 400), 1));
 

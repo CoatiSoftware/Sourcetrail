@@ -326,8 +326,7 @@ void QtDialogView::handleMessage(MessageWindowClosed* message)
 
 void QtDialogView::updateErrorCount(size_t errorCount, size_t fatalCount)
 {
-	QtIndexingDialog* window = dynamic_cast<QtIndexingDialog*>(m_windowStack.getTopWindow());
-	if (window)
+	if (QtIndexingDialog* window = dynamic_cast<QtIndexingDialog*>(m_windowStack.getTopWindow()))
 	{
 		window->updateErrorCount(errorCount, fatalCount);
 	}
@@ -346,10 +345,14 @@ template<typename T>
 		window = new T(m_mainWindow);
 	}
 
-	connect(window, SIGNAL(canceled()), &m_windowStack, SLOT(popWindow()));
-	connect(window, SIGNAL(finished()), &m_windowStack, SLOT(clearWindows()));
+	//make sure T is a QtWindow
+	if (dynamic_cast<QtWindow*>(window))
+	{
+		connect(window, &QtWindow::canceled, &m_windowStack, &QtWindowStack::popWindow);
+		connect(window, &QtWindow::finished, &m_windowStack, &QtWindowStack::clearWindows);
 
-	m_windowStack.pushWindow(window);
+		m_windowStack.pushWindow(window);
+	}
 
 	return window;
 }

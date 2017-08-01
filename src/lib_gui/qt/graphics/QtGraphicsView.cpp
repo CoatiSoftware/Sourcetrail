@@ -37,29 +37,29 @@ QtGraphicsView::QtGraphicsView(QWidget* parent)
 	setTransformationAnchor(QGraphicsView::AnchorUnderMouse);
 
 	m_timer = std::make_shared<QTimer>(this);
-	connect(m_timer.get(), SIGNAL(timeout()), this, SLOT(updateTimer()));
+	connect(m_timer.get(), &QTimer::timeout, this, &QtGraphicsView::updateTimer);
 
 	m_timerStopper = std::make_shared<QTimer>(this);
 	m_timerStopper->setSingleShot(true);
-	connect(m_timerStopper.get(), SIGNAL(timeout()), this, SLOT(stopTimer()));
+	connect(m_timerStopper.get(), &QTimer::timeout, this, &QtGraphicsView::stopTimer);
 
 	m_zoomLabelTimer = std::make_shared<QTimer>(this);
-	connect(m_zoomLabelTimer.get(), SIGNAL(timeout()), this, SLOT(hideZoomLabel()));
+	connect(m_zoomLabelTimer.get(), &QTimer::timeout, this, &QtGraphicsView::hideZoomLabel);
 
 	m_exportGraphAction = new QAction(tr("Save as Image"), this);
 	m_exportGraphAction->setStatusTip(tr("Save this graph as image file"));
 	m_exportGraphAction->setToolTip(tr("Save this graph as image file"));
-	connect(m_exportGraphAction, SIGNAL(triggered()), this, SLOT(exportGraph()));
+	connect(m_exportGraphAction, &QAction::triggered, this, &QtGraphicsView::exportGraph);
 
 	m_copyNodeNameAction = new QAction(tr("Copy Name"), this);
 	m_copyNodeNameAction->setStatusTip(tr("Copies the name of this node to the clipboard"));
 	m_copyNodeNameAction->setToolTip(tr("Copies the name of this node to the clipboard"));
-	connect(m_copyNodeNameAction, SIGNAL(triggered()), this, SLOT(copyNodeName()));
+	connect(m_copyNodeNameAction, &QAction::triggered, this, &QtGraphicsView::copyNodeName);
 
 	m_bookmarkNodeAction = new QAction(tr("Bookmark Node"), this);
 	m_bookmarkNodeAction->setStatusTip(tr("Create a bookmark for this node"));
 	m_bookmarkNodeAction->setToolTip(tr("Create a bookmark for this node"));
-	connect(m_bookmarkNodeAction, SIGNAL(triggered()), this, SLOT(bookmarkNode()));
+	connect(m_bookmarkNodeAction, &QAction::triggered, this, &QtGraphicsView::bookmarkNode);
 
 	m_zoomState = new QPushButton(this);
 	m_zoomState->setObjectName("zoom_state");
@@ -69,13 +69,13 @@ QtGraphicsView::QtGraphicsView(QWidget* parent)
 	m_zoomInButton->setObjectName("zoom_in_button");
 	m_zoomInButton->setAutoRepeat(true);
 	m_zoomInButton->setToolTip("Zoom in (" + modifierName + " + Mousewheel forward)");
-	connect(m_zoomInButton, SIGNAL(pressed()), this, SLOT(zoomInPressed()));
+	connect(m_zoomInButton, &QPushButton::pressed, this, &QtGraphicsView::zoomInPressed);
 
 	m_zoomOutButton = new QPushButton(this);
 	m_zoomOutButton->setObjectName("zoom_out_button");
 	m_zoomOutButton->setAutoRepeat(true);
 	m_zoomOutButton->setToolTip("Zoom out (" + modifierName + " + Mousewheel back)");
-	connect(m_zoomOutButton, SIGNAL(pressed()), this, SLOT(zoomOutPressed()));
+	connect(m_zoomOutButton, &QPushButton::pressed, this, &QtGraphicsView::zoomOutPressed);
 
 	refreshStyle();
 }

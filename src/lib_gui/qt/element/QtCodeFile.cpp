@@ -34,8 +34,8 @@ QtCodeFile::QtCodeFile(const FilePath& filePath, QtCodeNavigator* navigator)
 	m_titleBar->setAttribute(Qt::WA_LayoutUsesWidgetRect); // fixes layouting on Mac
 	layout->addWidget(m_titleBar);
 
-	connect(dynamic_cast<QtHoverButton*>(m_titleBar), SIGNAL(hoveredIn(QPushButton*)), this, SLOT(enteredTitleBar(QPushButton*)));
-	connect(dynamic_cast<QtHoverButton*>(m_titleBar), SIGNAL(hoveredOut(QPushButton*)), this, SLOT(leftTitleBar(QPushButton*)));
+	connect(dynamic_cast<QtHoverButton*>(m_titleBar), &QtHoverButton::hoveredIn, this, &QtCodeFile::enteredTitleBar);
+	connect(dynamic_cast<QtHoverButton*>(m_titleBar), &QtHoverButton::hoveredOut, this, &QtCodeFile::leftTitleBar);
 
 	QHBoxLayout* titleLayout = new QHBoxLayout();
 	titleLayout->setMargin(0);
@@ -84,12 +84,12 @@ QtCodeFile::QtCodeFile(const FilePath& filePath, QtCodeNavigator* navigator)
 	m_maximizeButton->setToolTip("maximize");
 	titleLayout->addWidget(m_maximizeButton);
 
-	connect(m_minimizeButton, SIGNAL(hoveredIn(QPushButton*)), this, SLOT(leftTitleBar(QPushButton*)));
-	connect(m_minimizeButton, SIGNAL(hoveredOut(QPushButton*)), this, SLOT(enteredTitleBar(QPushButton*)));
-	connect(m_snippetButton, SIGNAL(hoveredIn(QPushButton*)), this, SLOT(leftTitleBar(QPushButton*)));
-	connect(m_snippetButton, SIGNAL(hoveredOut(QPushButton*)), this, SLOT(enteredTitleBar(QPushButton*)));
-	connect(m_maximizeButton, SIGNAL(hoveredIn(QPushButton*)), this, SLOT(leftTitleBar(QPushButton*)));
-	connect(m_maximizeButton, SIGNAL(hoveredOut(QPushButton*)), this, SLOT(enteredTitleBar(QPushButton*)));
+	connect(m_minimizeButton, &QtIconStateButton::hoveredIn, this, &QtCodeFile::leftTitleBar);
+	connect(m_minimizeButton, &QtIconStateButton::hoveredOut, this, &QtCodeFile::enteredTitleBar);
+	connect(m_snippetButton, &QtIconStateButton::hoveredIn, this, &QtCodeFile::leftTitleBar);
+	connect(m_snippetButton, &QtIconStateButton::hoveredOut, this, &QtCodeFile::enteredTitleBar);
+	connect(m_maximizeButton, &QtIconStateButton::hoveredIn, this, &QtCodeFile::leftTitleBar);
+	connect(m_maximizeButton, &QtIconStateButton::hoveredOut, this, &QtCodeFile::enteredTitleBar);
 
 	titleLayout->addSpacing(3);
 
@@ -97,10 +97,10 @@ QtCodeFile::QtCodeFile(const FilePath& filePath, QtCodeNavigator* navigator)
 	m_snippetButton->setEnabled(false);
 	m_maximizeButton->setEnabled(false);
 
-	connect(m_titleBar, SIGNAL(clicked()), this, SLOT(clickedTitleBar()));
-	connect(m_minimizeButton, SIGNAL(clicked()), this, SLOT(clickedMinimizeButton()));
-	connect(m_snippetButton, SIGNAL(clicked()), this, SLOT(clickedSnippetButton()));
-	connect(m_maximizeButton, SIGNAL(clicked()), this, SLOT(clickedMaximizeButton()));
+	connect(m_titleBar, &QPushButton::clicked, this, &QtCodeFile::clickedTitleBar);
+	connect(m_minimizeButton, &QtIconStateButton::clicked, this, &QtCodeFile::clickedMinimizeButton);
+	connect(m_snippetButton, &QtIconStateButton::clicked, this, &QtCodeFile::clickedSnippetButton);
+	connect(m_maximizeButton, &QtIconStateButton::clicked, this, &QtCodeFile::clickedMaximizeButton);
 
 	m_snippetLayout = new QVBoxLayout();
 	m_snippetLayout->setContentsMargins(0, 0, 0, 0);

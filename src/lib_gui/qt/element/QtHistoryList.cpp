@@ -129,7 +129,7 @@ QtHistoryList::QtHistoryList(const std::vector<SearchMatch>& history, size_t cur
 
 	setStyleSheet(utility::getStyleSheet(ResourcePaths::getGuiPath().concat(FilePath("history_list/history_list.css"))).c_str());
 
-	connect(m_list, SIGNAL(itemClicked(QListWidgetItem*)), this, SLOT(onItemClicked(QListWidgetItem*)));
+	connect(m_list, &QListWidget::itemClicked, this, &QtHistoryList::onItemClicked);
 }
 
 void QtHistoryList::showPopup(QPoint pos)

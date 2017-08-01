@@ -94,9 +94,11 @@ public:
 signals:
 	void scrollRequest();
 
+public slots:
+	void scrolled(int value);
+
 private slots:
 	void handleScrollRequest();
-	void scrolled(int value);
 	void setValue();
 
 	void previousReference(bool fromUI = true);

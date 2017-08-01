@@ -19,7 +19,7 @@ QtHelpButton::QtHelpButton(const QString& helpText, QWidget* parent)
 
 	leaveEvent(nullptr);
 
-	connect(this, SIGNAL(clicked()), this, SLOT(handleHelpPress()));
+	connect(this, &QtHelpButton::clicked, this, &QtHelpButton::handleHelpPress);
 }
 
 void QtHelpButton::handleHelpPress()

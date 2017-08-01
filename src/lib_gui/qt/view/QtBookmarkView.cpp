@@ -53,7 +53,7 @@ void QtBookmarkView::initView()
 	m_createBookmarkButton->setEnabled(false);
 	layout->addWidget(m_createBookmarkButton);
 
-	connect(m_createBookmarkButton, SIGNAL(clicked()), this, SLOT(createBookmarkClicked()));
+	connect(m_createBookmarkButton, &QPushButton::clicked, this, &QtBookmarkView::createBookmarkClicked);
 
 	m_showBookmarksButton = new QPushButton();
 	m_showBookmarksButton->setObjectName("show_bookmark_button");
@@ -62,7 +62,7 @@ void QtBookmarkView::initView()
 	m_showBookmarksButton->setEnabled(false);
 	layout->addWidget(m_showBookmarksButton);
 
-	connect(m_showBookmarksButton, SIGNAL(clicked()), this, SLOT(showBookmarksClicked()));
+	connect(m_showBookmarksButton, &QPushButton::clicked, this, &QtBookmarkView::showBookmarksClicked);
 
 	setStyleSheet();
 	refreshStyle();

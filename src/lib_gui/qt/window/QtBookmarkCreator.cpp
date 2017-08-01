@@ -53,7 +53,7 @@ void QtBookmarkCreator::setupBookmarkCreator()
 		m_displayName->setAttribute(Qt::WA_MacShowFocusRect, 0);
 		layout->addWidget(m_displayName);
 
-		connect(m_displayName, SIGNAL(textChanged(const QString&)), this, SLOT(onNameChanged(const QString&)));
+		connect(m_displayName, &QLineEdit::textChanged, this, &QtBookmarkCreator::onNameChanged);
 
 		layout->addSpacing(15);
 	}
@@ -86,7 +86,7 @@ void QtBookmarkCreator::setupBookmarkCreator()
 		m_categoryBox->setInsertPolicy(QComboBox::InsertPolicy::InsertAtTop);
 		layout->addWidget(m_categoryBox);
 
-		connect(m_categoryBox, SIGNAL(currentIndexChanged(int)), this, SLOT(onComboBoxIndexChanged(int)));
+		connect(m_categoryBox, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this, &QtBookmarkCreator::onComboBoxIndexChanged);
 
 		m_categoryCount = m_categoryBox->count();
 

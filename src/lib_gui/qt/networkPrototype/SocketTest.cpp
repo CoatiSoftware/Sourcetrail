@@ -10,7 +10,7 @@ SocketTest::SocketTest(QObject* parent)
 	QHostAddress address("127.0.0.1");
 	m_socket->bind(address, 6666);
 
-	connect(m_socket, SIGNAL(readyRead()), this, SLOT(readyRead()));
+	connect(m_socket, &QUdpSocket::readyRead, this, &SocketTest::readyRead);
 }
 
 SocketTest::~SocketTest()

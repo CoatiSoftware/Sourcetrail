@@ -55,8 +55,8 @@ QtCodeNavigator::QtCodeNavigator(QWidget* parent)
 		navLayout->addWidget(m_prevButton);
 		navLayout->addWidget(m_nextButton);
 
-		connect(m_prevButton, SIGNAL(clicked()), this, SLOT(previousReference()));
-		connect(m_nextButton, SIGNAL(clicked()), this, SLOT(nextReference()));
+		connect(m_prevButton, &QPushButton::clicked, this, &QtCodeNavigator::previousReference);
+		connect(m_nextButton, &QPushButton::clicked, this, &QtCodeNavigator::nextReference);
 
 
 		m_refLabel = new QLabel("0/0 references");
@@ -81,8 +81,8 @@ QtCodeNavigator::QtCodeNavigator(QWidget* parent)
 		navLayout->addWidget(m_listButton);
 		navLayout->addWidget(m_fileButton);
 
-		connect(m_listButton, SIGNAL(clicked()), this, SLOT(setModeList()));
-		connect(m_fileButton, SIGNAL(clicked()), this, SLOT(setModeSingle()));
+		connect(m_listButton, &QPushButton::clicked, this, &QtCodeNavigator::setModeList);
+		connect(m_fileButton, &QPushButton::clicked, this, &QtCodeNavigator::setModeSingle);
 
 
 		navigation->setLayout(navLayout);
@@ -128,7 +128,7 @@ QtCodeNavigator::QtCodeNavigator(QWidget* parent)
 		setModeList();
 	}
 
-	connect(this, SIGNAL(scrollRequest()), this, SLOT(handleScrollRequest()), Qt::QueuedConnection);
+	connect(this, &QtCodeNavigator::scrollRequest, this, &QtCodeNavigator::handleScrollRequest, Qt::QueuedConnection);
 }
 
 QtCodeNavigator::~QtCodeNavigator()
@@ -550,7 +550,7 @@ void QtCodeNavigator::scrollToValue(int value, bool inListMode)
 	if ((m_mode == MODE_LIST) == inListMode)
 	{
 		m_value = value;
-		QTimer::singleShot(100, this, SLOT(setValue()));
+		QTimer::singleShot(100, this, &QtCodeNavigator::setValue);
 		m_scrollRequest = ScrollRequest();
 	}
 }

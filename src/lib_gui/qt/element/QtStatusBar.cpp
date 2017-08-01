@@ -17,7 +17,7 @@ QtStatusBar::QtStatusBar()
 	// if movie doesn't loop forever, force it to.
 	if (movie->loopCount() != -1)
 	{
-		connect(movie, SIGNAL(finished()), movie, SLOT(start()));
+		connect(movie, &QMovie::finished, movie, &QMovie::start);
 	}
 	movie->start();
 
@@ -31,7 +31,7 @@ QtStatusBar::QtStatusBar()
 	addWidget(&m_text, 1);
 	setText("", false, false);
 
-	connect(&m_text, SIGNAL(clicked()), this, SLOT(showStatus()));
+	connect(&m_text, &QPushButton::clicked, this, &QtStatusBar::showStatus);
 
 	addPermanentWidget(&m_ideStatusText);
 
@@ -45,7 +45,7 @@ QtStatusBar::QtStatusBar()
 	).scaledToHeight(12));
 	addPermanentWidget(&m_errorButton);
 
-	connect(&m_errorButton, SIGNAL(clicked()), this, SLOT(showErrors()));
+	connect(&m_errorButton, &QPushButton::clicked, this, &QtStatusBar::showErrors);
 }
 
 QtStatusBar::~QtStatusBar()
