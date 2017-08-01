@@ -79,7 +79,6 @@ public:
 	void setContentEnabled(bool enabled);
 
 protected:
-	bool event(QEvent* event);
 	void keyPressEvent(QKeyEvent* event);
 	void contextMenuEvent(QContextMenuEvent* event);
 	void closeEvent(QCloseEvent* event);

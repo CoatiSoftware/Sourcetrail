@@ -45,7 +45,6 @@
 #include "utility/messaging/type/MessageSearch.h"
 #include "utility/messaging/type/MessageUndo.h"
 #include "utility/messaging/type/MessageWindowClosed.h"
-#include "utility/messaging/type/MessageWindowFocus.h"
 #include "utility/messaging/type/MessageZoom.h"
 #include "utility/ResourcePaths.h"
 #include "utility/tracing.h"
@@ -344,20 +343,6 @@ void QtMainWindow::setContentEnabled(bool enabled)
 	{
 		dock.widget->setEnabled(enabled);
 	}
-}
-
-bool QtMainWindow::event(QEvent* event)
-{
-	if (event->type() == QEvent::WindowActivate)
-	{
-		MessageWindowFocus(true).dispatch();
-	}
-	else if (event->type() == QEvent::WindowDeactivate)
-	{
-		MessageWindowFocus(false).dispatch();
-	}
-
-	return QMainWindow::event(event);
 }
 
 void QtMainWindow::keyPressEvent(QKeyEvent* event)
