@@ -36,8 +36,8 @@ Id SqliteIndexStorage::addEdge(int type, Id sourceNodeId, Id targetNodeId)
 	Id id = 0;
 	{
 		executeStatement(m_insertElementStmt);
-		m_insertElementStmt.reset();
 		id = m_database.lastRowId();
+		m_insertElementStmt.reset();
 	}
 	{
 		m_insertEdgeStmt.bind(1, int(id));
@@ -55,8 +55,8 @@ Id SqliteIndexStorage::addNode(const int type, const std::string& serializedName
 	Id id = 0;
 	{
 		executeStatement(m_insertElementStmt);
-		m_insertElementStmt.reset();
 		id = m_database.lastRowId();
+		m_insertElementStmt.reset();
 	}
 	{
 		m_inserNodeStmt.bind(1, int(id));
@@ -111,8 +111,8 @@ Id SqliteIndexStorage::addLocalSymbol(const std::string& name)
 	Id id = 0;
 	{
 		executeStatement(m_insertElementStmt);
-		m_insertElementStmt.reset();
 		id = m_database.lastRowId();
+		m_insertElementStmt.reset();
 	}
 	{
 		m_inserLocalSymbolStmt.bind(1, int(id));
@@ -134,12 +134,14 @@ Id SqliteIndexStorage::addSourceLocation(
 		m_checkSourceLocationExistsStmt.bind(4, int(endLine));
 		m_checkSourceLocationExistsStmt.bind(5, int(endCol));
 		m_checkSourceLocationExistsStmt.bind(6, type);
+
 		CppSQLite3Query checkQuery = executeQuery(m_checkSourceLocationExistsStmt);
-		m_checkSourceLocationExistsStmt.reset();
 		if (!checkQuery.eof() && checkQuery.numFields() > 0)
 		{
 			id = checkQuery.getIntField(0, 0);
 		}
+
+		m_checkSourceLocationExistsStmt.reset();
 	}
 
 	if (id == 0)
@@ -150,13 +152,14 @@ Id SqliteIndexStorage::addSourceLocation(
 		m_insertSourceLocationStmt.bind(4, int(endLine));
 		m_insertSourceLocationStmt.bind(5, int(endCol));
 		m_insertSourceLocationStmt.bind(6, type);
-		const bool success = executeStatement(m_insertSourceLocationStmt);
-		m_insertSourceLocationStmt.reset();
 
+		const bool success = executeStatement(m_insertSourceLocationStmt);
 		if (success)
 		{
 			id = m_database.lastRowId();
 		}
+
+		m_insertSourceLocationStmt.reset();
 	}
 
 	return id;
@@ -167,6 +170,7 @@ bool SqliteIndexStorage::addOccurrence(Id elementId, Id sourceLocationId)
 	{
 		m_checkOccurrenceExistsStmt.bind(1, int(elementId));
 		m_checkOccurrenceExistsStmt.bind(2, int(sourceLocationId));
+
 		const int checkResult = executeStatementScalar(m_checkOccurrenceExistsStmt, 0);
 		m_checkOccurrenceExistsStmt.reset();
 		if (checkResult != 0)
@@ -191,13 +195,14 @@ Id SqliteIndexStorage::addComponentAccess(Id nodeId, int type)
 	{
 		m_insertComponentAccessStmt.bind(1, int(nodeId));
 		m_insertComponentAccessStmt.bind(2, type);
-		const bool success = executeStatement(m_insertComponentAccessStmt);
-		m_insertComponentAccessStmt.reset();
 
+		const bool success = executeStatement(m_insertComponentAccessStmt);
 		if (success)
 		{
 			id = m_database.lastRowId();
 		}
+
+		m_insertComponentAccessStmt.reset();
 	}
 
 	return id;
@@ -212,12 +217,14 @@ Id SqliteIndexStorage::addCommentLocation(Id fileNodeId, uint startLine, uint st
 		m_checkCommentLocationExistsStmt.bind(3, int(startCol));
 		m_checkCommentLocationExistsStmt.bind(4, int(endLine));
 		m_checkCommentLocationExistsStmt.bind(5, int(endCol));
+
 		CppSQLite3Query checkQuery = executeQuery(m_checkCommentLocationExistsStmt);
-		m_checkCommentLocationExistsStmt.reset();
 		if (!checkQuery.eof() && checkQuery.numFields() > 0)
 		{
 			id = checkQuery.getIntField(0, 0);
 		}
+
+		m_checkCommentLocationExistsStmt.reset();
 	}
 
 	if (id == 0)
@@ -227,13 +234,14 @@ Id SqliteIndexStorage::addCommentLocation(Id fileNodeId, uint startLine, uint st
 		m_insertCommentLocationStmt.bind(3, int(startCol));
 		m_insertCommentLocationStmt.bind(4, int(endLine));
 		m_insertCommentLocationStmt.bind(5, int(endCol));
-		const bool success = executeStatement(m_insertCommentLocationStmt);
-		m_insertCommentLocationStmt.reset();
 
+		const bool success = executeStatement(m_insertCommentLocationStmt);
 		if (success)
 		{
 			id = m_database.lastRowId();
 		}
+
+		m_insertCommentLocationStmt.reset();
 	}
 
 	return id;
@@ -250,12 +258,14 @@ Id SqliteIndexStorage::addError(const std::string& message, const FilePath& file
 		m_checkErrorExistsStmt.bind(3, filePath.str().c_str());
 		m_checkErrorExistsStmt.bind(4, int(lineNumber));
 		m_checkErrorExistsStmt.bind(5, int(columnNumber));
+
 		CppSQLite3Query checkQuery = executeQuery(m_checkErrorExistsStmt);
-		m_checkErrorExistsStmt.reset();
 		if (!checkQuery.eof() && checkQuery.numFields() > 0)
 		{
 			id = checkQuery.getIntField(0, -1);
 		}
+
+		m_checkErrorExistsStmt.reset();
 	}
 
 	if (id == 0)
@@ -266,13 +276,14 @@ Id SqliteIndexStorage::addError(const std::string& message, const FilePath& file
 		m_insertErrorStmt.bind(4, filePath.str().c_str());
 		m_insertErrorStmt.bind(5, int(lineNumber));
 		m_insertErrorStmt.bind(6, int(columnNumber));
-		const bool success = executeStatement(m_insertErrorStmt);
-		m_insertErrorStmt.reset();
 
+		const bool success = executeStatement(m_insertErrorStmt);
 		if (success)
 		{
 			id = m_database.lastRowId();
 		}
+
+		m_insertErrorStmt.reset();
 	}
 
 	return id;
@@ -987,11 +998,11 @@ void SqliteIndexStorage::setupPrecompiledStatements()
 		m_checkSourceLocationExistsStmt = m_database.compileStatement(
 			"SELECT id FROM source_location WHERE "
 			"file_node_id = ? AND "
-			"start_line == ? AND "
-			"start_column == ? AND "
-			"end_line == ? AND "
-			"end_column == ? AND "
-			"type == ? "
+			"start_line = ? AND "
+			"start_column = ? AND "
+			"end_line = ? AND "
+			"end_column = ? AND "
+			"type = ? "
 			"LIMIT 1;"
 		);
 		m_insertSourceLocationStmt = m_database.compileStatement(
