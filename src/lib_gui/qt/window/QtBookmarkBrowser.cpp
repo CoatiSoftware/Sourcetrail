@@ -65,7 +65,7 @@ void QtBookmarkBrowser::setupBookmarkBrowser()
 		m_filterComboBox->setObjectName("filter_box");
 		headerLayout->addWidget(m_filterComboBox);
 
-		connect(m_filterComboBox, qOverload<const QString&>(&QComboBox::currentIndexChanged), this, &QtBookmarkBrowser::filterOrOrderChanged);
+		connect(m_filterComboBox, QOverload<const QString&>::of(&QComboBox::currentIndexChanged), this, &QtBookmarkBrowser::filterOrOrderChanged);
 
 		headerLayout->addSpacing(40);
 
@@ -87,7 +87,7 @@ void QtBookmarkBrowser::setupBookmarkBrowser()
 		m_orderComboBox->setObjectName("order_box");
 		headerLayout->addWidget(m_orderComboBox);
 
-		connect(m_orderComboBox, qOverload<const QString&>(&QComboBox::currentIndexChanged), this, &QtBookmarkBrowser::filterOrOrderChanged);
+		connect(m_orderComboBox, QOverload<const QString&>::of(&QComboBox::currentIndexChanged), this, &QtBookmarkBrowser::filterOrOrderChanged);
 	}
 
 	{
