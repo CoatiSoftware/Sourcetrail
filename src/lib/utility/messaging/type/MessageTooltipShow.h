@@ -17,12 +17,24 @@ public:
 		setSendAsTask(false);
 	}
 
+	MessageTooltipShow(const std::vector<Id>& sourceLocationIds, const std::vector<Id>& localSymbolIds, TooltipOrigin origin)
+		: sourceLocationIds(sourceLocationIds)
+		, localSymbolIds(localSymbolIds)
+		, origin(origin)
+	{
+		setSendAsTask(false);
+	}
+
 	static const std::string getStaticType()
 	{
 		return "MessageTooltipShow";
 	}
 
 	const TooltipInfo tooltipInfo;
+
+	const std::vector<Id> sourceLocationIds;
+	const std::vector<Id> localSymbolIds;
+
 	const TooltipOrigin origin;
 };
 

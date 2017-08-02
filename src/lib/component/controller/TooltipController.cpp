@@ -32,6 +32,11 @@ void TooltipController::handleMessage(MessageActivateTokens* message)
 	clear();
 }
 
+void TooltipController::handleMessage(MessageActivateLocalSymbols* message)
+{
+	clear();
+}
+
 void TooltipController::handleMessage(MessageFocusIn* message)
 {
 	if (!message->tokenIds.size())
@@ -52,6 +57,16 @@ void TooltipController::handleMessage(MessageGraphNodeExpand* message)
 	clear();
 }
 
+void TooltipController::handleMessage(MessageScrollCode* message)
+{
+	clear();
+}
+
+void TooltipController::handleMessage(MessageScrollGraph* message)
+{
+	clear();
+}
+
 void TooltipController::handleMessage(MessageTooltipHide* message)
 {
 	clear();
@@ -59,7 +74,23 @@ void TooltipController::handleMessage(MessageTooltipHide* message)
 
 void TooltipController::handleMessage(MessageTooltipShow* message)
 {
-	requestTooltipShow(std::vector<Id>(), message->tooltipInfo, message->origin);
+	if (message->tooltipInfo.title.size())
+	{
+		requestTooltipShow(std::vector<Id>(), message->tooltipInfo, message->origin);
+	}
+	else
+	{
+		TooltipInfo info = m_storageAccess->getTooltipInfoForSourceLocationIdsAndLocalSymbolIds(
+			message->sourceLocationIds, message->localSymbolIds);
+
+		if (info.snippets.size())
+		{
+			getView()->showTooltip(info, getViewForOrigin(message->origin));
+
+			m_showRequest.reset();
+			m_hideRequest = false;
+		}
+	}
 }
 
 void TooltipController::handleMessage(MessageWindowFocus* message)

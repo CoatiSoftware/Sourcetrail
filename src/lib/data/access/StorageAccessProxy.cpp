@@ -425,6 +425,17 @@ TooltipInfo StorageAccessProxy::getTooltipInfoForTokenIds(const std::vector<Id>&
 	return TooltipInfo();
 }
 
+TooltipInfo StorageAccessProxy::getTooltipInfoForSourceLocationIdsAndLocalSymbolIds(
+	const std::vector<Id>& locationIds, const std::vector<Id>& localSymbolIds) const
+{
+	if (hasSubject())
+	{
+		return m_subject->getTooltipInfoForSourceLocationIdsAndLocalSymbolIds(locationIds, localSymbolIds);
+	}
+
+	return TooltipInfo();
+}
+
 void StorageAccessProxy::setErrorFilter(const ErrorFilter& filter)
 {
 	StorageAccess::setErrorFilter(filter);

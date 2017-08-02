@@ -71,7 +71,10 @@ SourceLocation* SourceLocationFile::addSourceLocation(
 	m_locations.insert(start);
 	m_locations.insert(end);
 
-	m_locationIndex.emplace(start->getLocationId(), start.get());
+	if (start->getLocationId())
+	{
+		m_locationIndex.emplace(start->getLocationId(), start.get());
+	}
 
 	return start.get();
 }
@@ -96,7 +99,11 @@ SourceLocation* SourceLocationFile::addSourceLocationCopy(const SourceLocation* 
 
 	std::shared_ptr<SourceLocation> copy = std::make_shared<SourceLocation>(location, this);
 	m_locations.insert(copy);
-	m_locationIndex.emplace(copy->getLocationId(), copy.get());
+
+	if (copy->getLocationId())
+	{
+		m_locationIndex.emplace(copy->getLocationId(), copy.get());
+	}
 
 	// If the old location was added before, then link them with each other.
 	if (oldLocation)

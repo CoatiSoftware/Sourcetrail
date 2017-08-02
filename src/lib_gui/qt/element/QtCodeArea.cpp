@@ -14,8 +14,6 @@
 
 #include "data/location/SourceLocationFile.h"
 #include "utility/messaging/type/MessageActivateLocalSymbols.h"
-#include "utility/messaging/type/MessageActivateSourceLocations.h"
-#include "utility/messaging/type/MessageActivateTokenIds.h"
 #include "utility/messaging/type/MessageFocusIn.h"
 #include "utility/messaging/type/MessageFocusOut.h"
 #include "utility/messaging/type/MessageMoveIDECursor.h"
@@ -364,8 +362,7 @@ void QtCodeArea::mouseReleaseEvent(QMouseEvent* event)
 					}
 					else
 					{
-						activateSourceLocations(annotations);
-						activateLocalSymbols(annotations);
+						activateAnnotations(annotations);
 					}
 				}
 				else if (m_navigator->getActiveLocalSymbolIds().size())
@@ -516,73 +513,6 @@ void QtCodeArea::setIDECursorPosition()
 	std::pair<int, int> lineColumn = toLineColumn(this->cursorForPosition(m_eventPosition).position());
 
 	MessageMoveIDECursor(getSourceLocationFile()->getFilePath().str(), lineColumn.first, lineColumn.second).dispatch();
-}
-
-void QtCodeArea::activateSourceLocations(const std::vector<const Annotation*>& annotations)
-{
-	std::vector<Id> locationIds;
-	std::set<Id> tokenIds;
-
-	bool allActive = true;
-	for (const Annotation* annotation : annotations)
-	{
-		if (annotation->locationType == LOCATION_TOKEN)
-		{
-			if (!annotation->isActive)
-			{
-				allActive = false;
-			}
-
-			if (annotation->locationId > 0)
-			{
-				locationIds.push_back(annotation->locationId);
-			}
-
-			if (annotation->tokenIds.size())
-			{
-				tokenIds.insert(annotation->tokenIds.begin(), annotation->tokenIds.end());
-			}
-		}
-	}
-
-	if (!allActive)
-	{
-		if (locationIds.size())
-		{
-			MessageActivateSourceLocations(locationIds).dispatch();
-		}
-		else if (tokenIds.size()) // fallback for links in project description
-		{
-			MessageActivateTokenIds(utility::toVector(tokenIds)).dispatch();
-		}
-	}
-}
-
-void QtCodeArea::activateLocalSymbols(const std::vector<const Annotation*>& annotations)
-{
-	std::vector<Id> localSymbolIds;
-
-	bool allActive = true;
-	for (const Annotation* annotation : annotations)
-	{
-		if (annotation->locationType == LOCATION_LOCAL_SYMBOL)
-		{
-			if (!annotation->isActive)
-			{
-				allActive = false;
-			}
-
-			if (annotation->tokenIds.size())
-			{
-				localSymbolIds.insert(localSymbolIds.end(), annotation->tokenIds.begin(), annotation->tokenIds.end());
-			}
-		}
-	}
-
-	if (!allActive || localSymbolIds.size())
-	{
-		MessageActivateLocalSymbols(localSymbolIds).dispatch();
-	}
 }
 
 void QtCodeArea::activateErrors(const std::vector<const Annotation*>& annotations)

@@ -138,6 +138,8 @@ public:
 
 	virtual TooltipInfo getTooltipInfoForTokenIds(const std::vector<Id>& tokenIds, TooltipOrigin origin) const;
 	TooltipSnippet getTooltipSnippetForNode(const StorageNode& node) const;
+	virtual TooltipInfo getTooltipInfoForSourceLocationIdsAndLocalSymbolIds(
+		const std::vector<Id>& locationIds, const std::vector<Id>& localSymbolIds) const;
 
 private:
 	Id getFileNodeId(const FilePath& filePath) const;

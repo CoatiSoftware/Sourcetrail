@@ -4,9 +4,12 @@
 #include "component/controller/Controller.h"
 #include "utility/messaging/MessageListener.h"
 #include "utility/messaging/type/MessageActivateTokens.h"
+#include "utility/messaging/type/MessageActivateLocalSymbols.h"
 #include "utility/messaging/type/MessageFocusIn.h"
 #include "utility/messaging/type/MessageFocusOut.h"
 #include "utility/messaging/type/MessageGraphNodeExpand.h"
+#include "utility/messaging/type/MessageScrollCode.h"
+#include "utility/messaging/type/MessageScrollGraph.h"
 #include "utility/messaging/type/MessageTooltipHide.h"
 #include "utility/messaging/type/MessageTooltipShow.h"
 #include "utility/messaging/type/MessageWindowFocus.h"
@@ -17,9 +20,12 @@ class TooltipView;
 class TooltipController
     : public Controller
 	, public MessageListener<MessageActivateTokens>
+	, public MessageListener<MessageActivateLocalSymbols>
 	, public MessageListener<MessageFocusIn>
     , public MessageListener<MessageFocusOut>
     , public MessageListener<MessageGraphNodeExpand>
+    , public MessageListener<MessageScrollCode>
+    , public MessageListener<MessageScrollGraph>
     , public MessageListener<MessageTooltipHide>
     , public MessageListener<MessageTooltipShow>
     , public MessageListener<MessageWindowFocus>
@@ -33,9 +39,12 @@ public:
 
 	// MessageListener
 	virtual void handleMessage(MessageActivateTokens* message);
+	virtual void handleMessage(MessageActivateLocalSymbols* message);
 	virtual void handleMessage(MessageFocusIn* message);
 	virtual void handleMessage(MessageFocusOut* message);
 	virtual void handleMessage(MessageGraphNodeExpand* message);
+	virtual void handleMessage(MessageScrollCode* message);
+	virtual void handleMessage(MessageScrollGraph* message);
 	virtual void handleMessage(MessageTooltipHide* message);
 	virtual void handleMessage(MessageTooltipShow* message);
 	virtual void handleMessage(MessageWindowFocus* message);

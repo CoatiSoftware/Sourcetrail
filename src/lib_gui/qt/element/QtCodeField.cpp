@@ -8,7 +8,10 @@
 #include "qt/utility/QtHighlighter.h"
 #include "settings/ApplicationSettings.h"
 #include "settings/ColorScheme.h"
+#include "utility/messaging/type/MessageActivateLocalSymbols.h"
+#include "utility/messaging/type/MessageActivateSourceLocations.h"
 #include "utility/messaging/type/MessageActivateTokenIds.h"
+#include "utility/messaging/type/MessageTooltipShow.h"
 #include "utility/utility.h"
 
 std::vector<QtCodeField::AnnotationColor> QtCodeField::s_annotationColors;
@@ -253,16 +256,7 @@ void QtCodeField::mouseReleaseEvent(QMouseEvent* event)
 		return;
 	}
 
-	std::set<Id> tokenIds;
-	for (const Annotation* annotation : annotations)
-	{
-		tokenIds.insert(annotation->tokenIds.begin(), annotation->tokenIds.end());
-	}
-
-	if (tokenIds.size())
-	{
-		MessageActivateTokenIds(utility::toVector(tokenIds)).dispatch();
-	}
+	activateAnnotations(annotations);
 }
 
 void QtCodeField::focusTokenIds(const std::vector<Id>& tokenIds)
@@ -353,7 +347,7 @@ void QtCodeField::createAnnotations(std::shared_ptr<SourceLocationFile> location
 	locationFile->forEachSourceLocation(
 		[&](const SourceLocation* location)
 		{
-			if (locationIds.find(location->getLocationId()) != locationIds.end())
+			if (location->getLocationId() && locationIds.find(location->getLocationId()) != locationIds.end())
 			{
 				return;
 			}
@@ -407,6 +401,67 @@ void QtCodeField::createAnnotations(std::shared_ptr<SourceLocationFile> location
 			m_annotations.push_back(annotation);
 		}
 	);
+}
+
+void QtCodeField::activateAnnotations(const std::vector<const Annotation*>& annotations)
+{
+	std::vector<Id> locationIds;
+	std::set<Id> tokenIds;
+	std::set<Id> localSymbolIds;
+
+	bool allActive = true;
+	for (const Annotation* annotation : annotations)
+	{
+		if (annotation->locationType == LOCATION_TOKEN)
+		{
+			if (!annotation->isActive)
+			{
+				allActive = false;
+			}
+
+			if (annotation->locationId > 0)
+			{
+				locationIds.push_back(annotation->locationId);
+			}
+
+			if (annotation->tokenIds.size())
+			{
+				tokenIds.insert(annotation->tokenIds.begin(), annotation->tokenIds.end());
+			}
+		}
+		else if (annotation->locationType == LOCATION_LOCAL_SYMBOL)
+		{
+			if (!annotation->isActive)
+			{
+				allActive = false;
+			}
+
+			if (annotation->tokenIds.size())
+			{
+				localSymbolIds.insert(annotation->tokenIds.begin(), annotation->tokenIds.end());
+			}
+		}
+	}
+
+	if (!allActive)
+	{
+		if (tokenIds.size() > 1 || localSymbolIds.size() > 1 || (tokenIds.size() && localSymbolIds.size()))
+		{
+			MessageTooltipShow(locationIds, utility::toVector(localSymbolIds), TOOLTIP_ORIGIN_CODE).dispatch();
+		}
+		else if (locationIds.size())
+		{
+			MessageActivateSourceLocations(locationIds).dispatch();
+		}
+		else if (tokenIds.size()) // fallback for links in project description
+		{
+			MessageActivateTokenIds(utility::toVector(tokenIds)).dispatch();
+		}
+		else if (localSymbolIds.size())
+		{
+			MessageActivateLocalSymbols(utility::toVector(localSymbolIds)).dispatch();
+		}
+	}
 }
 
 int QtCodeField::toTextEditPosition(int lineNumber, int columnNumber) const

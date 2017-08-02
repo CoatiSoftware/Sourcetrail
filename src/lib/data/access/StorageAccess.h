@@ -97,6 +97,8 @@ public:
 	virtual std::vector<BookmarkCategory> getAllBookmarkCategories() const = 0;
 
 	virtual TooltipInfo getTooltipInfoForTokenIds(const std::vector<Id>& tokenIds, TooltipOrigin origin) const = 0;
+	virtual TooltipInfo getTooltipInfoForSourceLocationIdsAndLocalSymbolIds(
+		const std::vector<Id>& locationIds, const std::vector<Id>& localSymbolIds) const = 0;
 
 protected:
 	ErrorFilter m_errorFilter;

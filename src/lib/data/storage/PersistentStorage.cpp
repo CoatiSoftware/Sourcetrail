@@ -1073,41 +1073,20 @@ std::vector<Id> PersistentStorage::getNodeIdsForLocationIds(const std::vector<Id
 
 	std::set<Id> edgeIds;
 	std::set<Id> nodeIds;
-	std::set<Id> implicitNodeIds;
 
 	for (const StorageOccurrence& occurrence: m_sqliteIndexStorage.getOccurrencesForLocationIds(locationIds))
 	{
 		const Id elementId = occurrence.elementId;
 
 		StorageEdge edge = m_sqliteIndexStorage.getFirstById<StorageEdge>(elementId);
-		if (edge.id != 0) // here we test if location is an edge.
+		if (edge.id != 0)
 		{
 			edgeIds.insert(edge.targetNodeId);
 		}
-		else if(m_sqliteIndexStorage.isNode(elementId))
+		else if (m_sqliteIndexStorage.isNode(elementId))
 		{
-			StorageSymbol symbol = m_sqliteIndexStorage.getFirstById<StorageSymbol>(elementId);
-			if (symbol.id != 0) // here we test if location is a symbol
-			{
-				if (intToDefinitionKind(symbol.definitionKind) == DEFINITION_IMPLICIT)
-				{
-					implicitNodeIds.insert(elementId);
-				}
-				else
-				{
-					nodeIds.insert(elementId);
-				}
-			}
-			else // is file
-			{
-				nodeIds.insert(elementId);
-			}
+			nodeIds.insert(elementId);
 		}
-	}
-
-	if (nodeIds.size() == 0)
-	{
-		nodeIds = implicitNodeIds;
 	}
 
 	if (nodeIds.size())
@@ -1707,7 +1686,6 @@ TooltipSnippet PersistentStorage::getTooltipSnippetForNode(const StorageNode& no
 			));
 		}
 
-		Id locationId = 1;
 		std::vector<std::pair<size_t, size_t>> locationRanges;
 		for (auto p : typeNames)
 		{
@@ -1734,11 +1712,10 @@ TooltipSnippet PersistentStorage::getTooltipSnippetForNode(const StorageNode& no
 				if (!inRange)
 				{
 					snippet.locationFile->addSourceLocation(
-						LOCATION_TOKEN, locationId, std::vector<Id>(1, p.second), 1, pos + 1, 1, pos + p.first.size());
+						LOCATION_TOKEN, 0, std::vector<Id>(1, p.second), 1, pos + 1, 1, pos + p.first.size());
 
 					locationRanges.push_back(std::make_pair(pos + 1, pos + p.first.size()));
 					pos += p.first.size();
-					locationId++;
 				}
 			}
 		}
@@ -1750,6 +1727,60 @@ TooltipSnippet PersistentStorage::getTooltipSnippetForNode(const StorageNode& no
 	}
 
 	return snippet;
+}
+
+TooltipInfo PersistentStorage::getTooltipInfoForSourceLocationIdsAndLocalSymbolIds(
+	const std::vector<Id>& locationIds, const std::vector<Id>& localSymbolIds) const
+{
+	TRACE();
+
+	TooltipInfo info;
+
+	if (!locationIds.size() && !localSymbolIds.size())
+	{
+		return info;
+	}
+
+	if (locationIds.size())
+	{
+		std::vector<Id> tokenIds = getNodeIdsForLocationIds(locationIds);
+
+		for (StorageNode node : m_sqliteIndexStorage.getAllByIds<StorageNode>(tokenIds))
+		{
+			TooltipSnippet snippet;
+
+			NameHierarchy nameHierarchy = NameHierarchy::deserialize(node.serializedName);
+			snippet.code = nameHierarchy.getQualifiedName();
+			snippet.locationFile = std::make_shared<SourceLocationFile>(
+				FilePath(nameHierarchy.getDelimiter() == NAME_DELIMITER_JAVA ? "main.java" : "main.cpp"), true, true);
+
+			snippet.locationFile->addSourceLocation(
+				LOCATION_TOKEN, 0, std::vector<Id>(1, node.id), 1, 1, 1, snippet.code.size());
+
+			if (Node::intToType(node.type) & (Node::NODE_METHOD | Node::NODE_FUNCTION))
+			{
+				snippet.code += "()";
+			}
+
+			info.snippets.push_back(snippet);
+		}
+	}
+
+	for (Id id : localSymbolIds)
+	{
+		TooltipSnippet snippet;
+
+		snippet.code = "local symbol";
+		snippet.locationFile = std::make_shared<SourceLocationFile>(FilePath("main.cpp"), true, true);
+		snippet.locationFile->addSourceLocation(
+			LOCATION_LOCAL_SYMBOL, 0, std::vector<Id>(1, id), 1, 1, 1, snippet.code.size());
+
+		info.snippets.push_back(snippet);
+	}
+
+	info.offset = Vec2i(0, 15);
+
+	return info;
 }
 
 Id PersistentStorage::getFileNodeId(const FilePath& filePath) const

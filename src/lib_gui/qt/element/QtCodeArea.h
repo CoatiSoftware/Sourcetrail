@@ -100,8 +100,6 @@ private slots:
 	void setIDECursorPosition();
 
 private:
-	void activateSourceLocations(const std::vector<const Annotation*>& annotations);
-	void activateLocalSymbols(const std::vector<const Annotation*>& annotations);
 	void activateErrors(const std::vector<const Annotation*>& annotations);
 
 	void annotateText();

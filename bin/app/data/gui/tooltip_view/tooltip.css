@@ -1,6 +1,7 @@
 #tooltip {
 	background-color: <color:code/file/background>;
 	border: 1px solid <color:code/file/background>;
+	border-bottom: none;
 }
 
 #tooltip_title {
@@ -21,6 +22,7 @@
 
 #tooltip_widget {
 	background-color: <color:code/snippet/background>;
+	border-bottom: 1px solid <color:code/file/background>;
 	padding: 3px;
 	color: <color:code/snippet/syntax/normal>;
 }
