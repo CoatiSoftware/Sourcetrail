@@ -71,3 +71,13 @@ SymbolKind utility::convertTagKind(clang::TagTypeKind tagKind)
 		return SYMBOL_KIND_MAX;
 	}
 }
+
+clang::StringRef utility::getFileNameOfFileEntry(const clang::FileEntry* entry)
+{
+	clang::StringRef fileName = entry->tryGetRealPathName();
+	if (!fileName.size())
+	{
+		fileName = entry->getName();
+	}
+	return fileName;
+}

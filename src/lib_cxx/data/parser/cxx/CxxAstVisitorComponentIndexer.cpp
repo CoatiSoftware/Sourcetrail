@@ -767,7 +767,8 @@ bool CxxAstVisitorComponentIndexer::isLocatedInUnparsedProjectFile(clang::Source
 		const clang::FileEntry* fileEntry = sourceManager.getFileEntryForID(fileId);
 		if (fileEntry != NULL)
 		{
-			FilePath filePath = getAstVisitor()->getCanonicalFilePathCache()->getValue(fileEntry->getName());
+			FilePath filePath =
+				getAstVisitor()->getCanonicalFilePathCache()->getValue(utility::getFileNameOfFileEntry(fileEntry));
 
 			if (m_fileRegister->hasFilePath(filePath))
 			{
@@ -805,8 +806,8 @@ bool CxxAstVisitorComponentIndexer::isLocatedInProjectFile(clang::SourceLocation
 		const clang::FileEntry* fileEntry = sourceManager.getFileEntryForID(fileId);
 		if (fileEntry != NULL)
 		{
-			std::string fileName = fileEntry->getName();
-			FilePath filePath = getAstVisitor()->getCanonicalFilePathCache()->getValue(fileName);
+			FilePath filePath =
+				getAstVisitor()->getCanonicalFilePathCache()->getValue(utility::getFileNameOfFileEntry(fileEntry));
 			bool ret = m_fileRegister->hasFilePath(filePath);
 			m_inProjectFileMap[fileId] = ret;
 			return ret;

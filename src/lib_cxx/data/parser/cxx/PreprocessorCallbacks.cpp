@@ -7,6 +7,7 @@
 #include "utility/file/FileSystem.h"
 #include "utility/file/FileRegister.h"
 
+#include "data/parser/cxx/utilityCxxAstVisitor.h"
 #include "data/parser/ParserClient.h"
 #include "data/parser/ParseLocation.h"
 
@@ -33,7 +34,7 @@ void PreprocessorCallbacks::FileChanged(
 	const clang::FileEntry *fileEntry = m_sourceManager.getFileEntryForID(m_sourceManager.getFileID(location));
 	if (fileEntry)
 	{
-		filePath = m_canonicalFilePathCache->getValue(fileEntry->getName());
+		filePath = m_canonicalFilePathCache->getValue(utility::getFileNameOfFileEntry(fileEntry));
 	}
 
 	if (!filePath.empty() && m_fileRegister->hasFilePath(filePath))
@@ -59,7 +60,7 @@ void PreprocessorCallbacks::InclusionDirective(
 ){
 	if (!m_currentPath.empty() && fileEntry)
 	{
-		FilePath includedFilePath = m_canonicalFilePathCache->getValue(fileEntry->getName());
+		FilePath includedFilePath = m_canonicalFilePathCache->getValue(utility::getFileNameOfFileEntry(fileEntry));
 		if (m_fileRegister->hasFilePath(includedFilePath))
 		{
 			const NameHierarchy referencedNameHierarchy(includedFilePath.str(), NAME_DELIMITER_FILE);

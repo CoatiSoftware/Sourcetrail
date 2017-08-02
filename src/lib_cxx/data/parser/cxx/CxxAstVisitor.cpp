@@ -652,7 +652,7 @@ ParseLocation CxxAstVisitor::getParseLocation(const clang::SourceLocation& loc) 
 			const clang::FileEntry* fileEntry = sourceManager.getFileEntryForID(fileId);
 			if (fileEntry != NULL)
 			{
-				parseLocation.filePath = m_canonicalFilePathCache->getValue(fileEntry->getName());
+				parseLocation.filePath = m_canonicalFilePathCache->getValue(utility::getFileNameOfFileEntry(fileEntry));
 			}
 		}
 

@@ -124,6 +124,7 @@ FilePath FilePath::canonical() const
 	{
 		return FilePath(*this);
 	}
+
 	if (!exists())
 	{
 		return FilePath(*this);
@@ -137,14 +138,20 @@ FilePath FilePath::canonical() const
 		{
 			// /a/b/.. is not necessarily /a if b is a symbolic link
 			if (boost::filesystem::is_symlink(canonicalPath))
+			{
 				canonicalPath /= *it;
+			}
 			// /a/b/../.. is not /a/b/.. under most circumstances
 			// We can end up with ..s in our result because of symbolic links
 			else if (canonicalPath.filename() == "..")
+			{
 				canonicalPath /= *it;
+			}
 			// Otherwise it should be safe to resolve the parent
 			else
+			{
 				canonicalPath = canonicalPath.parent_path();
+			}
 		}
 		else if (*it == ".")
 		{
@@ -155,7 +162,13 @@ FilePath FilePath::canonical() const
 			// Just cat other path entries
 			canonicalPath /= *it;
 		}
+
+		if (boost::filesystem::is_symlink(canonicalPath))
+		{
+			canonicalPath = boost::filesystem::canonical(canonicalPath);
+		}
 	}
+
 	FilePath ret(canonicalPath);
 	ret.m_canonicalized = true;
 	return ret;
