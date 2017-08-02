@@ -138,6 +138,11 @@ std::vector<FileInfo> FileSystem::getFileInfosFromPaths(
 	return files;
 }
 
+unsigned long long FileSystem::getFileByteSize(const FilePath& filePath)
+{
+	return boost::filesystem::file_size(filePath.path());
+}
+
 TimePoint FileSystem::getLastWriteTime(const FilePath& filePath)
 {
 	boost::posix_time::ptime lastWriteTime;

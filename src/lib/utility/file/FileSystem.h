@@ -18,6 +18,8 @@ public:
 	static std::vector<FileInfo> getFileInfosFromPaths(
 		const std::vector<FilePath>& paths, const std::vector<std::string>& fileExtensions, bool followSymLinks = true);
 
+	static unsigned long long getFileByteSize(const FilePath& filePath);
+
 	static TimePoint getLastWriteTime(const FilePath& filePath);
 	static std::string getTimeStringNow();
 
