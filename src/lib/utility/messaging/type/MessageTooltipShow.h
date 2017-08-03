@@ -15,6 +15,7 @@ public:
 		, origin(origin)
 	{
 		setSendAsTask(false);
+		setIsLogged(false);
 	}
 
 	MessageTooltipShow(const std::vector<Id>& sourceLocationIds, const std::vector<Id>& localSymbolIds, TooltipOrigin origin)
@@ -23,6 +24,7 @@ public:
 		, origin(origin)
 	{
 		setSendAsTask(false);
+		setIsLogged(false);
 	}
 
 	static const std::string getStaticType()

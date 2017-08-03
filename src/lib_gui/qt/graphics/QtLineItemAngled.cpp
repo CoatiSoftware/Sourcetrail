@@ -18,6 +18,8 @@ QtLineItemAngled::~QtLineItemAngled()
 QPainterPath QtLineItemAngled::shape() const
 {
 	QPainterPath path;
+	path.setFillRule(Qt::WindingFill);
+
 	QPolygon poly = getPath();
 
 	for (int i = 0; i < poly.size() - 1; i++)
@@ -25,7 +27,7 @@ QPainterPath QtLineItemAngled::shape() const
 		path.addRect(QRectF(poly.at(i), poly.at(i + 1)).normalized().adjusted(-5, -5, 5, 5));
 	}
 
-	// path.addRect(getArrowBoundingRect(poly).adjusted(-3, -3, 3, 3));
+	path.addRect(getArrowBoundingRect(poly).adjusted(-3, -3, 3, 3));
 
 	return path;
 }
@@ -43,12 +45,19 @@ void QtLineItemAngled::paint(QPainter* painter, const QStyleOptionGraphicsItem* 
 	path.moveTo(poly.at(i));
 
 
+	// debug: draw line path
 	// while (i > 0)
 	// {
 	// 	i--;
 
 	// 	path.lineTo(poly.at(i));
 	// }
+	// painter->drawPath(path);
+	// return;
+
+
+	// debug: draw bounding rects
+	// path = shape();
 	// painter->drawPath(path);
 	// return;
 

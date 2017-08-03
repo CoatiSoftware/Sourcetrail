@@ -35,10 +35,10 @@ QWidget#search_box_highlight {
 
 QAbstractItemView#search_box_popup {
 	background-color: <color:search/popup/background>;
-	border: none;
+	border: 1px solid <color:search/popup/line>;
 	color: <color:search/popup/text>;
 	font-family: "<setting:font_name>";
-	margin: 8px 0 0;
+	margin: 0;
 	min-height: 26px;
 	selection-background-color: <color:search/popup/highlight>;
 }

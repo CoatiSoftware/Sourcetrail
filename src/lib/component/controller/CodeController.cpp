@@ -314,7 +314,10 @@ void CodeController::handleMessage(MessageShowErrors* message)
 
 		std::sort(snippets.begin(), snippets.end(), CodeSnippetParams::sortById);
 
-		expandVisibleSnippets(&snippets, false);
+		if (view->isInListMode())
+		{
+			expandVisibleSnippets(&snippets, false);
+		}
 
 		CodeView::CodeParams params;
 		params.clearSnippets = true;

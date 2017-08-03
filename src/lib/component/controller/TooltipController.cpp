@@ -5,6 +5,7 @@
 #include "component/view/TooltipView.h"
 #include "data/access/StorageAccess.h"
 
+#include "utility/messaging/type/MessageActivateSourceLocations.h"
 #include "utility/scheduling/TaskDecoratorDelay.h"
 #include "utility/scheduling/TaskLambda.h"
 
@@ -83,7 +84,13 @@ void TooltipController::handleMessage(MessageTooltipShow* message)
 		TooltipInfo info = m_storageAccess->getTooltipInfoForSourceLocationIdsAndLocalSymbolIds(
 			message->sourceLocationIds, message->localSymbolIds);
 
-		if (info.snippets.size())
+		// If a tooltip list would only display one token, then just activate it instead.
+		// This can happen when edges pointing to the token use the same source location e.g. override edges
+		if (info.snippets.size() == 1)
+		{
+			MessageActivateSourceLocations(message->sourceLocationIds).dispatch();
+		}
+		else if (info.snippets.size())
 		{
 			getView()->showTooltip(info, getViewForOrigin(message->origin));
 
