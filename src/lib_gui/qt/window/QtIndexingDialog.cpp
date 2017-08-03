@@ -24,7 +24,6 @@ QtIndexingDialog::QtIndexingDialog(QWidget* parent)
 	, m_filePathLabel(nullptr)
 	, m_errorLabel(nullptr)
 	, m_fullRefreshCheckBox(nullptr)
-	, m_preprocessorOnlyCheckBox(nullptr)
 	, m_sizeHint(QSize(450, 450))
 	, m_callback([](DialogView::IndexingOptions){})
 {
@@ -89,27 +88,7 @@ void QtIndexingDialog::setupStart(
 		indexLabel->hide();
 	}
 
-	if (options.preprocessorOnlyVisible)
-	{
-		m_preprocessorOnlyCheckBox = new QCheckBox("C/C++ preprocessor only", this);
-		m_preprocessorOnlyCheckBox->setObjectName("message");
-		m_preprocessorOnlyCheckBox->setChecked(options.preprocessorOnly);
-
-		QtHelpButton* button = new QtHelpButton(
-			"Run only the C/C++ preprocessor on the files. This will quickly show include errors and help fix problems "
-			"in the project setup faster.\n\nThe files will not be indexed and show up as incomplete.");
-		button->setColor(Qt::white);
-
-		QHBoxLayout* subLayout = new QHBoxLayout();
-		subLayout->addStretch();
-		subLayout->addWidget(m_preprocessorOnlyCheckBox);
-		subLayout->addSpacing(10);
-		subLayout->addWidget(button);
-
-		layout->addLayout(subLayout);
-	}
-
-	if (m_fullRefreshCheckBox || m_preprocessorOnlyCheckBox)
+	if (m_fullRefreshCheckBox)
 	{
 		layout->addSpacing(20);
 	}
@@ -304,7 +283,6 @@ void QtIndexingDialog::handleNext()
 		DialogView::IndexingOptions options;
 		options.startIndexing = true;
 		options.fullRefresh = m_fullRefreshCheckBox && m_fullRefreshCheckBox->isChecked();
-		options.preprocessorOnly = m_preprocessorOnlyCheckBox && m_preprocessorOnlyCheckBox->isChecked();
 		m_callback(options);
 	}
 

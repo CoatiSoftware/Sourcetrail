@@ -28,9 +28,6 @@ public:
 	std::vector<FilePath> getFrameworkSearchPaths() const;
 	std::vector<std::string> getCompilerFlags() const;
 
-	bool preprocessorOnly() const override;
-	void setPreprocessorOnly(bool preprocessorOnly) override;
-
 	bool shouldApplyAnonymousTypedefTransformation() const;
 
 private:
@@ -38,8 +35,6 @@ private:
 	std::vector<FilePath> m_frameworkSearchPaths;
 	std::vector<std::string> m_compilerFlags;
 	bool m_shouldApplyAnonymousTypedefTransformation;
-
-	bool m_preprocessorOnly;
 };
 
 #endif // INDEXER_COMMAND_CXXL_H

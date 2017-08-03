@@ -21,9 +21,6 @@ public:
 	const std::set<FilePath>& getIndexedPaths() const;
 	const std::set<FilePath>& getExcludedPath() const;
 
-	virtual bool preprocessorOnly() const = 0;
-	virtual void setPreprocessorOnly(bool preprocessorOnly) = 0;
-
 private:
 	FilePath m_sourceFilePath;
 	std::set<FilePath> m_indexedPaths;

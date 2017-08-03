@@ -372,16 +372,12 @@ bool Project::requestIndex(bool forceRefresh, bool needsFullRefresh)
 	}
 
 	bool fullRefresh = forceRefresh | needsFullRefresh;
-	bool preprocessorOnly = false;
 
 	if (Application::getInstance()->hasGUI())
 	{
 		DialogView::IndexingOptions options;
 		options.fullRefreshVisible = !needsFullRefresh;
 		options.fullRefresh = forceRefresh;
-
-		options.preprocessorOnlyVisible = hasCxxSourceGroup();
-		options.preprocessorOnly = false;
 
 		Application::getInstance()->getDialogView()->hideUnknownProgressDialog();
 
@@ -394,7 +390,6 @@ bool Project::requestIndex(bool forceRefresh, bool needsFullRefresh)
 		}
 
 		fullRefresh = options.fullRefresh | needsFullRefresh;
-		preprocessorOnly = options.preprocessorOnly;
 	}
 
 	if (fullRefresh)
@@ -411,13 +406,13 @@ bool Project::requestIndex(bool forceRefresh, bool needsFullRefresh)
 
 	MessageStatus((fullRefresh ? "Reindexing Project" : "Refreshing Project"), false, true).dispatch();
 
-	buildIndex(filesToIndex, filesToClean, fullRefresh, preprocessorOnly);
+	buildIndex(filesToIndex, filesToClean, fullRefresh);
 
 	return true;
 }
 
 void Project::buildIndex(
-	const std::set<FilePath>& filesToIndex, const std::set<FilePath>& filesToClean, bool fullRefresh, bool preprocessorOnly)
+	const std::set<FilePath>& filesToIndex, const std::set<FilePath>& filesToClean, bool fullRefresh)
 {
 	MessageClearErrorCount().dispatch();
 	if (fullRefresh)
@@ -444,7 +439,6 @@ void Project::buildIndex(
 	{
 		for (std::shared_ptr<IndexerCommand> command: sourceGroup->getIndexerCommands(&filesToIndexTemp, fullRefresh))
 		{
-			command->setPreprocessorOnly(preprocessorOnly);
 			indexerCommandList->addCommand(command);
 		}
 	}

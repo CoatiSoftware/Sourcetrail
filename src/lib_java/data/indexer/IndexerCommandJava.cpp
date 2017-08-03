@@ -41,12 +41,3 @@ std::vector<FilePath> IndexerCommandJava::getClassPath() const
 {
 	return m_classPath;
 }
-
-bool IndexerCommandJava::preprocessorOnly() const
-{
-	return false;
-}
-
-void IndexerCommandJava::setPreprocessorOnly(bool preprocessorOnly)
-{
-}

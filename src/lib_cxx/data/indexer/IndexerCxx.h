@@ -40,7 +40,7 @@ std::shared_ptr<IntermediateStorage> IndexerCxx<IndexerCommandType, ParserType>:
 
 	parserClient->resetStorage();
 
-	if (parserClient->hasFatalErrors() || indexerCommand->preprocessorOnly())
+	if (parserClient->hasFatalErrors())
 	{
 		storage->setAllFilesIncomplete();
 	}

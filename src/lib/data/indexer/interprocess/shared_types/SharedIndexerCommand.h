@@ -41,9 +41,6 @@ public:
 	std::vector<FilePath> getFrameworkSearchhPaths() const;
 	void setFrameworkSearchhPaths(const std::vector<FilePath>& searchPaths);
 
-	bool preprocessorOnly() const;
-	void setPreprocessorOnly(bool preprocessorOnly);
-
 	bool shouldApplyAnonymousTypedefTransformation() const;
 	void setShouldApplyAnonymousTypedefTransformation(bool shouldApplyAnonymousTypedefTransformation);
 
@@ -75,7 +72,6 @@ private:
 	SharedMemory::Vector<SharedMemory::String> m_compilerFlags;
 	SharedMemory::Vector<SharedMemory::String> m_systemHeaderSearchPaths;
 	SharedMemory::Vector<SharedMemory::String> m_frameworkSearchPaths;
-	bool m_preprocessorOnly;
 	bool m_shouldApplyAnonymousTypedefTransformation;
 
 	// java

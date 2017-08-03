@@ -82,7 +82,6 @@ private:
 
 	// start indexing
 	QCheckBox* m_fullRefreshCheckBox;
-	QCheckBox* m_preprocessorOnlyCheckBox;
 
 	QSize m_sizeHint;
 

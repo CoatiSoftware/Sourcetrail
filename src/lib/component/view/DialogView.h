@@ -17,17 +17,12 @@ public:
 			: startIndexing(false)
 			, fullRefreshVisible(false)
 			, fullRefresh(false)
-			, preprocessorOnlyVisible(false)
-			, preprocessorOnly(false)
 		{}
 
 		bool startIndexing;
 
 		bool fullRefreshVisible;
 		bool fullRefresh;
-
-		bool preprocessorOnlyVisible;
-		bool preprocessorOnly;
 	};
 
 	DialogView(StorageAccess* storageAccess);

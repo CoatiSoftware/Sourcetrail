@@ -21,7 +21,6 @@ void SharedIndexerCommand::fromLocal(IndexerCommand* indexerCommand)
 		setCompilerFlags(cmd->getCompilerFlags());
 		setSystemHeaderSearchPaths(cmd->getSystemHeaderSearchPaths());
 		setFrameworkSearchhPaths(cmd->getFrameworkSearchPaths());
-		setPreprocessorOnly(cmd->preprocessorOnly());
 		setShouldApplyAnonymousTypedefTransformation(cmd->shouldApplyAnonymousTypedefTransformation());
 	}
 	else if (dynamic_cast<IndexerCommandCxxManual*>(indexerCommand) != NULL)
@@ -33,7 +32,6 @@ void SharedIndexerCommand::fromLocal(IndexerCommand* indexerCommand)
 		setCompilerFlags(cmd->getCompilerFlags());
 		setSystemHeaderSearchPaths(cmd->getSystemHeaderSearchPaths());
 		setFrameworkSearchhPaths(cmd->getFrameworkSearchPaths());
-		setPreprocessorOnly(cmd->preprocessorOnly());
 		setShouldApplyAnonymousTypedefTransformation(cmd->shouldApplyAnonymousTypedefTransformation());
 	}
 	else if (dynamic_cast<IndexerCommandJava*>(indexerCommand) != NULL)
@@ -65,7 +63,6 @@ std::shared_ptr<IndexerCommand> SharedIndexerCommand::fromShared(const SharedInd
 			indexerCommand.getFrameworkSearchhPaths(),
 			indexerCommand.shouldApplyAnonymousTypedefTransformation()
 		);
-		command->setPreprocessorOnly(indexerCommand.preprocessorOnly());
 		return command;
 	}
 	else if (indexerCommand.getType() == CXX_MANUAL)
@@ -80,7 +77,6 @@ std::shared_ptr<IndexerCommand> SharedIndexerCommand::fromShared(const SharedInd
 			indexerCommand.getCompilerFlags(),
 			indexerCommand.shouldApplyAnonymousTypedefTransformation()
 		);
-		command->setPreprocessorOnly(indexerCommand.preprocessorOnly());
 		return command;
 	}
 	else if (indexerCommand.getType() == JAVA)
@@ -112,7 +108,6 @@ SharedIndexerCommand::SharedIndexerCommand(SharedMemory::Allocator* allocator)
 	, m_compilerFlags(allocator)
 	, m_systemHeaderSearchPaths(allocator)
 	, m_frameworkSearchPaths(allocator)
-	, m_preprocessorOnly(false)
 	, m_classPaths(allocator)
 {
 }
@@ -275,16 +270,6 @@ void SharedIndexerCommand::setFrameworkSearchhPaths(const std::vector<FilePath>&
 		path = searchPaths[i].str().c_str();
 		m_frameworkSearchPaths.push_back(path);
 	}
-}
-
-bool SharedIndexerCommand::preprocessorOnly() const
-{
-	return m_preprocessorOnly;
-}
-
-void SharedIndexerCommand::setPreprocessorOnly(bool preprocessorOnly)
-{
-	m_preprocessorOnly = preprocessorOnly;
 }
 
 bool SharedIndexerCommand::shouldApplyAnonymousTypedefTransformation() const

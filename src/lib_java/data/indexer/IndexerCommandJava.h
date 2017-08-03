@@ -25,9 +25,6 @@ public:
 
 	std::vector<FilePath> getClassPath() const;
 
-	bool preprocessorOnly() const override;
-	void setPreprocessorOnly(bool preprocessorOnly) override;
-
 private:
 	std::vector<FilePath> m_classPath;
 };

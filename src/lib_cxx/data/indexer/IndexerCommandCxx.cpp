@@ -14,7 +14,6 @@ IndexerCommandCxx::IndexerCommandCxx(
 	, m_frameworkSearchPaths(frameworkSearchPaths)
 	, m_compilerFlags(compilerFlags)
 	, m_shouldApplyAnonymousTypedefTransformation(shouldApplyAnonymousTypedefTransformation)
-	, m_preprocessorOnly(false)
 {
 }
 
@@ -57,16 +56,6 @@ std::vector<FilePath> IndexerCommandCxx::getFrameworkSearchPaths() const
 std::vector<std::string> IndexerCommandCxx::getCompilerFlags() const
 {
 	return m_compilerFlags;
-}
-
-bool IndexerCommandCxx::preprocessorOnly() const
-{
-	return m_preprocessorOnly;
-}
-
-void IndexerCommandCxx::setPreprocessorOnly(bool preprocessorOnly)
-{
-	m_preprocessorOnly = preprocessorOnly;
 }
 
 bool IndexerCommandCxx::shouldApplyAnonymousTypedefTransformation() const

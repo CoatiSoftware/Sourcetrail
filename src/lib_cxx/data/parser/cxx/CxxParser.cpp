@@ -90,7 +90,7 @@ void CxxParser::buildIndex(std::shared_ptr<IndexerCommandCxxCdb> indexerCommand)
 	std::shared_ptr<CxxDiagnosticConsumer> diagnostics = getDiagnostics(canonicalFilePathCache, true);
 	tool.setDiagnosticConsumer(diagnostics.get());
 
-	ASTActionFactory actionFactory(m_client, m_fileRegister, canonicalFilePathCache, indexerCommand->preprocessorOnly());
+	ASTActionFactory actionFactory(m_client, m_fileRegister, canonicalFilePathCache, false);
 	tool.run(&actionFactory);
 }
 
@@ -109,7 +109,7 @@ void CxxParser::buildIndex(std::shared_ptr<IndexerCommandCxxManual> indexerComma
 	std::shared_ptr<CxxDiagnosticConsumer> diagnostics = getDiagnostics(canonicalFilePathCache, true);
 	tool.setDiagnosticConsumer(diagnostics.get());
 
-	ASTActionFactory actionFactory(m_client, m_fileRegister, canonicalFilePathCache, indexerCommand->preprocessorOnly());
+	ASTActionFactory actionFactory(m_client, m_fileRegister, canonicalFilePathCache, false);
 	tool.run(&actionFactory);
 }
 
