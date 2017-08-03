@@ -32,7 +32,7 @@ Linux64_tag:
             - Sourcetrail*.tar.gz
 
 Linux64:
-    image: st4ll1/coati_linux_64
+    image: st4ll1/coati_64
     stage: deploy
     when: manual
     <<: *script_definition
