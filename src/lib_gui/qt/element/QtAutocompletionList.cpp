@@ -378,7 +378,15 @@ void QtAutocompletionList::completeAt(const QPoint& pos, const std::vector<Searc
 		return;
 	}
 
-	m_delegate->resetCharSizes();
+	if (!list->isVisible())
+	{
+		// this block fixes an issue where the autocompletion list becomes invisible after some time on Windows
+		// TODO: try to find out which line actually fixes the issue
+		m_delegate = std::make_shared<QtAutocompletionDelegate>(m_model.get(), this);
+		list->setItemDelegateForColumn(0, m_delegate.get());
+		setPopup(list);
+		list->show();
+	}
 
 	disconnect(); // must be done because of a bug where signals are no longer received by QtSmartSearchBox
 	connect(this,
