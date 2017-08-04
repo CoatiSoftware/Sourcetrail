@@ -12,7 +12,6 @@ import com.github.javaparser.ast.body.AnnotationMemberDeclaration;
 import com.github.javaparser.ast.body.BodyDeclaration;
 import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
 import com.github.javaparser.ast.body.ConstructorDeclaration;
-import com.github.javaparser.ast.body.EmptyMemberDeclaration;
 import com.github.javaparser.ast.body.EnumConstantDeclaration;
 import com.github.javaparser.ast.body.FieldDeclaration;
 import com.github.javaparser.ast.body.InitializerDeclaration;
@@ -21,6 +20,7 @@ import com.github.javaparser.ast.body.Parameter;
 import com.github.javaparser.ast.body.TypeDeclaration;
 import com.github.javaparser.ast.body.VariableDeclarator;
 import com.github.javaparser.ast.expr.Name;
+import com.github.javaparser.ast.expr.SimpleName;
 import com.github.javaparser.ast.type.TypeParameter;
 import com.github.javaparser.symbolsolver.model.resolution.TypeSolver;
 
@@ -31,7 +31,7 @@ import com.sourcetrail.name.JavaVariableDeclName;
 
 public class JavaparserDeclNameResolver extends JavaNameResolver
 {	
-	public JavaparserDeclNameResolver(TypeSolver typeSolver, ArrayList<BodyDeclaration> ignoredContexts) 
+	public JavaparserDeclNameResolver(TypeSolver typeSolver, ContextList ignoredContexts) 
 	{
 		super(typeSolver, ignoredContexts);
 	}
@@ -41,7 +41,7 @@ public class JavaparserDeclNameResolver extends JavaNameResolver
 		return getQualifiedDeclName(decl, typeSolver, null);
 	}
 	
-	public static JavaDeclName getQualifiedDeclName(VariableDeclarator decl, TypeSolver typeSolver, ArrayList<BodyDeclaration> ignoredContexts)
+	public static JavaDeclName getQualifiedDeclName(VariableDeclarator decl, TypeSolver typeSolver, ContextList ignoredContexts)
 	{
 		JavaparserDeclNameResolver resolver = new JavaparserDeclNameResolver(typeSolver, ignoredContexts);
 		return resolver.getQualifiedDeclName(decl);
@@ -49,8 +49,8 @@ public class JavaparserDeclNameResolver extends JavaNameResolver
 	
 	public JavaDeclName getQualifiedDeclName(VariableDeclarator decl)
 	{
-		JavaDeclName declName = null;
-		
+		JavaDeclName declName = new JavaDeclName("unsolved-jp-decl"); // JavaDeclName.unsolved();
+
 		if (decl != null)
 		{
 			declName = getDeclName(decl);
@@ -58,7 +58,7 @@ public class JavaparserDeclNameResolver extends JavaNameResolver
 			BodyDeclaration declContext = getBodyDeclContext(decl);
 			if (declContext != null)
 			{
-				if (!ignoresContext(declContext))
+				if (!m_ignoredContexts.contains(declContext))
 				{
 					declName.setParent(getQualifiedDeclName(declContext));
 				}
@@ -83,59 +83,10 @@ public class JavaparserDeclNameResolver extends JavaNameResolver
 		}
 		return declName;
 	}
-	
-	public static JavaDeclName getQualifiedDeclName(BodyDeclaration decl, TypeSolver typeSolver)
-	{
-		return getQualifiedDeclName(decl, typeSolver, null);
-	}
-	
-	public static JavaDeclName getQualifiedDeclName(BodyDeclaration decl, TypeSolver typeSolver, ArrayList<BodyDeclaration> ignoredContexts)
-	{
-		JavaparserDeclNameResolver resolver = new JavaparserDeclNameResolver(typeSolver, ignoredContexts);
-		return resolver.getQualifiedDeclName(decl);
-	}
-	
-	public JavaDeclName getQualifiedDeclName(BodyDeclaration<?> decl)
-	{
-		JavaDeclName declName = null;
-		
-		if (decl != null)
-		{
-			declName = getDeclName(decl);
-			
-			BodyDeclaration declContext = getBodyDeclContext(decl);
-			if (declContext != null)
-			{
-				if (!ignoresContext(declContext))
-				{
-					declName.setParent(getQualifiedDeclName(declContext));
-				}
-			}
-			else
-			{
-				Optional<CompilationUnit> compilationUnit = decl.getAncestorOfType(CompilationUnit.class);
-			
-				if (compilationUnit.isPresent())
-				{
-					Optional<PackageDeclaration> packageDecl = compilationUnit.get().getPackageDeclaration();
-					if (packageDecl.isPresent())
-					{
-						declName.setParent(getQualifiedName(packageDecl.get().getName()));
-					}
-				}
-				else
-				{
-					throw new UnsupportedOperationException();
-				}
-			}
-		}
-		return declName;
-	}	
 	
 	public JavaDeclName getDeclName(VariableDeclarator decl)
 	{
-		ArrayList<BodyDeclaration> ignoredContextsForTypes = new ArrayList<BodyDeclaration>(m_ignoredContexts);
-		JavaTypeName typeName = JavaparserTypeNameResolver.getQualifiedTypeName(decl.getType(), m_typeSolver, ignoredContextsForTypes);
+		JavaTypeName typeName = JavaparserTypeNameResolver.getQualifiedTypeName(decl.getType(), m_typeSolver, m_ignoredContexts.copy());
 		
 		boolean isStatic = false;
 		Optional<FieldDeclaration> fieldDeclaration = decl.getAncestorOfType(FieldDeclaration.class);
@@ -147,9 +98,58 @@ public class JavaparserDeclNameResolver extends JavaNameResolver
 		return new JavaVariableDeclName(decl.getNameAsString(), typeName, isStatic);
 	}
 	
+	public static JavaDeclName getQualifiedDeclName(BodyDeclaration decl, TypeSolver typeSolver)
+	{
+		return getQualifiedDeclName(decl, typeSolver, null);
+	}
+	
+	public static JavaDeclName getQualifiedDeclName(BodyDeclaration decl, TypeSolver typeSolver, ContextList ignoredContexts)
+	{
+		JavaparserDeclNameResolver resolver = new JavaparserDeclNameResolver(typeSolver, ignoredContexts);
+		return resolver.getQualifiedDeclName(decl);
+	}
+	
+	public JavaDeclName getQualifiedDeclName(BodyDeclaration<?> decl)
+	{
+		JavaDeclName declName = new JavaDeclName("unsolved-jp-decl"); // JavaDeclName.unsolved();
+		
+		if (decl != null)
+		{
+			declName = getDeclName(decl);
+			
+			BodyDeclaration declContext = getBodyDeclContext(decl);
+			if (declContext != null)
+			{
+				if (!m_ignoredContexts.contains(declContext))
+				{
+					declName.setParent(getQualifiedDeclName(declContext));
+				}
+			}
+			else
+			{
+				Optional<CompilationUnit> compilationUnit = decl.getAncestorOfType(CompilationUnit.class);
+			
+				if (compilationUnit.isPresent())
+				{
+					Optional<PackageDeclaration> packageDecl = compilationUnit.get().getPackageDeclaration();
+					if (packageDecl.isPresent())
+					{
+						declName.setParent(getQualifiedName(packageDecl.get().getName()));
+					}
+				}
+				else
+				{
+					throw new UnsupportedOperationException();
+				}
+			}
+		}
+		
+		return declName;
+	}	
+	
 	public JavaDeclName getDeclName(BodyDeclaration decl)
 	{
-		JavaDeclName declName = null;
+		JavaDeclName declName = new JavaDeclName("unsolved-jp-decl"); // JavaDeclName.unsolved();
 		
 		if (decl != null)
 		{
@@ -161,10 +161,6 @@ public class JavaparserDeclNameResolver extends JavaNameResolver
 			{
 				CallableConstructorDecl callableDecl = new CallableConstructorDecl((ConstructorDeclaration)decl);
 				declName = getDeclNameOfCallable(callableDecl);
-			}
-			else if (decl instanceof EmptyMemberDeclaration)
-			{
-				declName = new JavaDeclName("EmptyMemberDeclaration");
 			}
 			else if (decl instanceof EnumConstantDeclaration)
 			{
@@ -190,6 +186,46 @@ public class JavaparserDeclNameResolver extends JavaNameResolver
 		}
 		
 		return declName;
+	}
+	
+	public static JavaDeclName getQualifiedDeclName(TypeParameter decl, TypeSolver typeSolver)
+	{
+		return getQualifiedDeclName(decl, typeSolver, null);
+	}
+	
+	public static JavaDeclName getQualifiedDeclName(TypeParameter decl, TypeSolver typeSolver, ContextList ignoredContexts)
+	{
+		JavaparserDeclNameResolver resolver = new JavaparserDeclNameResolver(typeSolver, ignoredContexts);
+		return resolver.getQualifiedDeclName(decl);
+	}
+	
+	public JavaDeclName getQualifiedDeclName(TypeParameter decl)
+	{
+		JavaDeclName declName = new JavaDeclName("unsolved-jp-decl"); // JavaDeclName.unsolved();
+		
+		if (decl != null)
+		{
+			declName = getDeclName(decl);
+			
+			BodyDeclaration declContext = getBodyDeclContext(decl);
+			if (declContext != null)
+			{
+				if (!m_ignoredContexts.contains(declContext))
+				{
+					declName.setParent(getQualifiedDeclName(declContext));
+				}
+			}
+			else
+			{
+				throw new UnsupportedOperationException("no appropriate parent found for TypeParameter");
+			}
+		}
+		return declName;
+	}
+	
+	public JavaDeclName getDeclName(TypeParameter decl)
+	{
+		return new JavaDeclName(decl.getName().asString());
 	}
 	
 	private static List<String> getTypeParameterNames(TypeDeclaration decl)
@@ -228,7 +264,7 @@ public class JavaparserDeclNameResolver extends JavaNameResolver
 	
 	private <T extends CallableDecl> JavaDeclName getDeclNameOfCallable(T decl)
 	{
-		ArrayList<BodyDeclaration> ignoredContextsForTypes = new ArrayList<BodyDeclaration>(m_ignoredContexts);
+		ContextList ignoredContextsForTypes = m_ignoredContexts.copy();
 		ignoredContextsForTypes.add(decl.getWrappedNode()); // adding own decl
 		
 		List<JavaTypeName> parameterNames = new ArrayList<>();
@@ -237,10 +273,16 @@ public class JavaparserDeclNameResolver extends JavaNameResolver
 			parameterNames.add(JavaparserTypeNameResolver.getQualifiedTypeName(parameter.getType(), m_typeSolver, ignoredContextsForTypes));
 		}
 		
+		JavaTypeName returnType = new JavaTypeName("", null);		
+		if (decl.isMethod())
+		{
+			returnType = JavaparserTypeNameResolver.getQualifiedTypeName(decl.getType(), m_typeSolver, ignoredContextsForTypes);
+		}
+		
 		return new JavaFunctionDeclName(
 			decl.getName(), 
 			getTypeParameterNames(decl.getTypeParameters()), 
-			JavaparserTypeNameResolver.getQualifiedTypeName(decl.getType(), m_typeSolver, ignoredContextsForTypes), 
+			returnType, 
 			parameterNames, 
 			decl.isStatic()
 		);

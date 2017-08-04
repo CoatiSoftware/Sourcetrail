@@ -21,6 +21,11 @@ public class CallableMethodDecl implements CallableDecl
 		return m_decl;
 	}
 	
+	public boolean isMethod()
+	{
+		return true;
+	}
+	
 	public String getName()
 	{
 		return m_decl.getNameAsString();

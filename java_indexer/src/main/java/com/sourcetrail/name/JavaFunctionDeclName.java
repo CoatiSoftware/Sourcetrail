@@ -1,12 +1,13 @@
 package com.sourcetrail.name;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 public class JavaFunctionDeclName extends JavaDeclName
 {
 	private JavaTypeName m_returnTypeName = null;
-	private List<JavaTypeName> m_parameterNames = null;
+	private List<JavaTypeName> m_parameterNames = new ArrayList<>();
 	private boolean m_isStatic = false;
 	
 	public JavaFunctionDeclName(String name, JavaTypeName returnTypeName, List<JavaTypeName> parameterNames, boolean isStatic)
@@ -14,7 +15,7 @@ public class JavaFunctionDeclName extends JavaDeclName
 		super(name);
 		
 		m_returnTypeName = returnTypeName;
-		m_parameterNames = parameterNames;
+		if (m_parameterNames != null) m_parameterNames = parameterNames;
 		m_isStatic = isStatic;
 	}
 	

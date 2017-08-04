@@ -1,6 +1,6 @@
 package com.sourcetrail;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import com.github.javaparser.ast.body.BodyDeclaration;
 import com.github.javaparser.ast.type.*;
@@ -11,7 +11,7 @@ import com.sourcetrail.name.JavaTypeName;
 
 public class JavaparserTypeNameResolver extends JavaNameResolver
 {
-	public JavaparserTypeNameResolver(TypeSolver typeSolver, ArrayList<BodyDeclaration> ignoredContexts)
+	public JavaparserTypeNameResolver(TypeSolver typeSolver, ContextList ignoredContexts)
 	{
 		super(typeSolver, ignoredContexts);
 	}
@@ -21,7 +21,7 @@ public class JavaparserTypeNameResolver extends JavaNameResolver
 		return getQualifiedTypeName(type, typeSolver, null);
 	}
 	
-	public static JavaTypeName getQualifiedTypeName(Type type, TypeSolver typeSolver, ArrayList<BodyDeclaration> ignoredContexts)
+	public static JavaTypeName getQualifiedTypeName(Type type, TypeSolver typeSolver, ContextList ignoredContexts)
 	{
 		JavaparserTypeNameResolver resolver = new JavaparserTypeNameResolver(typeSolver, ignoredContexts);
 		return resolver.getQualifiedTypeName(type);
@@ -92,7 +92,8 @@ public class JavaparserTypeNameResolver extends JavaNameResolver
 		}
 		
 		System.out.println("Unable to resolve qualified name of " + type.getClass().toString() + ": " + fallbackTypeName);
-		return new JavaTypeName("unresolved-type", null);
+
+		return new JavaTypeName("unsolved-jp-type", null); // JavaTypeName.unsolved(); 
 	}
 	
 	

@@ -8,6 +8,11 @@ public class JavaTypeName
 	private String m_name = "";
 	private List<JavaTypeName> m_typeArgumentNames = null;
 
+	public static JavaTypeName unsolved()
+	{
+		return new JavaTypeName("unsolved-type", null);
+	}
+	
 	public static JavaTypeName fromDotSeparatedString(String s) 
 	{
 		JavaTypeName typeName = null;

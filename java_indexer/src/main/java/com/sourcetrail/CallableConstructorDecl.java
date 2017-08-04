@@ -22,6 +22,11 @@ public class CallableConstructorDecl implements CallableDecl
 		return m_decl;
 	}
 	
+	public boolean isMethod()
+	{
+		return false;
+	}
+	
 	public String getName()
 	{
 		return m_decl.getNameAsString();

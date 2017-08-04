@@ -9,6 +9,7 @@ import com.github.javaparser.ast.type.Type;
 public interface CallableDecl
 {
 	public BodyDeclaration getWrappedNode();
+	public boolean isMethod();
 	public String getName();
 	public NodeList<TypeParameter> getTypeParameters();
 	public NodeList<Parameter> getParameters();

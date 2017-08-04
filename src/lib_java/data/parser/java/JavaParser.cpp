@@ -18,7 +18,7 @@ std::vector<std::string> JavaParser::getRequiredJarNames()
 	std::vector<std::string> jarNames = {
 		"guava-21.0.jar",
 		"java-indexer.jar",
-		"javaparser-core-3.2.4.jar",
+		"javaparser-core.jar",
 		"javaslang-2.0.3.jar",
 		"javassist-3.19.0-GA.jar",
 		"java-symbol-solver-core.jar",

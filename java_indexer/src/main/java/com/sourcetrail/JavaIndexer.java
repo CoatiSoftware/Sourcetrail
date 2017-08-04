@@ -12,8 +12,10 @@ import com.github.javaparser.ast.CompilationUnit;
 import com.github.javaparser.ast.PackageDeclaration;
 import com.github.javaparser.JavaParser;
 import com.github.javaparser.ParseProblemException;
+import com.github.javaparser.Position;
 import com.github.javaparser.Problem;
 import com.github.javaparser.Range;
+import com.github.javaparser.TokenRange;
 import com.github.javaparser.symbolsolver.javaparser.Navigator;
 import com.github.javaparser.symbolsolver.javaparsermodel.JavaParserFacade;
 import com.github.javaparser.symbolsolver.model.resolution.TypeSolver;
@@ -85,35 +87,20 @@ public class JavaIndexer
 		{
 			for (Problem problem: e.getProblems())
 			{
+				// "Parse error. Found \"package\", expected one of  \";\" \"@\" \"\\u001a\" \"abstract\" \"class\" \"default\" \"enum\" \"final\" \"import\" \"interface\" \"module\" \"native\" \"open\" \"private\" \"protected\" \"public\" \"static\" \"stric...
 				String message = problem.toString();
-				if (message.startsWith("(line "))
+				if (message.startsWith("Parse error. Found "))
 				{
-					int startLine = Integer.parseInt(message.substring(
-						message.indexOf("line ") + ("line ").length(), 
-						message.indexOf(",")
-					));
-					
-					int startColumn = Integer.parseInt(message.substring(
-						message.indexOf("col ") + ("col ").length(), 
-						message.indexOf(")")
-					));
-					
-					astVisitorClient.recordError(
-						"Encountered unexpected token.", true, true, 
-						Range.range(startLine, startColumn, startLine, startColumn)
-					);
+					message = "Encountered unexpected token.";
+				}		
+				
+				Range range = new Range(new Position(0, 0), new Position(0, 0));
+				if (problem.getLocation().isPresent())
+				{
+					range = problem.getLocation().get().toRange();
 				}
-				else
-				{		
-					Optional<Range> range = problem.getRange();
-					if (range.isPresent())
-					{
-						astVisitorClient.recordError(
-							problem.toString(), true, true, 
-							range.get()
-						);
-					}
-				}
+				
+				astVisitorClient.recordError(message, true, true, range);
 			}
 		}
 	}

@@ -38,7 +38,6 @@ import com.github.javaparser.ast.Modifier;
 import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.PackageDeclaration;
 import com.github.javaparser.symbolsolver.javaparsermodel.JavaParserFacade;
-import com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserConstructorDeclaration;
 import com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserFieldDeclaration;
 import com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserMethodDeclaration;
 import com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserParameterDeclaration;
@@ -132,16 +131,12 @@ public class AstVisitor extends AstVisitorAdapter
 		// todo: test recording of typeargument of type parameter bound type??
 		
 		
-		
 		if (m_context.size() != 1)
 		{
 			 // throw something!
 		}
-		
-		String qualifiedName = m_context.get(0).getName();
-		qualifiedName += "\tn";
-		qualifiedName += n.getName() + "\ts\tp";
-		
+
+		String qualifiedName = JavaparserDeclNameResolver.getQualifiedDeclName(n, m_typeSolver).toNameHierarchy().serialize();
 		
 		Optional<Range> range = Optional.empty();
 		if (n.getBegin().isPresent())
@@ -570,7 +565,7 @@ public class AstVisitor extends AstVisitorAdapter
 
 	@Override public void visit(final FieldAccessExpr n, final Void v)
 	{
-		SimpleName fieldName = n.getField();
+		SimpleName fieldName = n.getName();
 		
 		try
 		{
@@ -616,7 +611,88 @@ public class AstVisitor extends AstVisitorAdapter
 	{
 		try
 		{
-			recordRef(n);
+			SymbolReference<? extends ValueDeclaration> ref = JavaParserFacade.get(m_typeSolver).solve(n);
+			if (ref.isSolved())
+			{
+				ValueDeclaration valueDecl = ref.getCorrespondingDeclaration();
+				
+				Node wrappedNode = null;
+				if (valueDecl instanceof JavaParserSymbolDeclaration)
+				{
+					wrappedNode = ((JavaParserSymbolDeclaration)valueDecl).getWrappedNode();
+				}
+				else if (valueDecl instanceof JavaParserParameterDeclaration)
+				{
+					wrappedNode = ((JavaParserParameterDeclaration)valueDecl).getWrappedNode();
+				}
+				else if (valueDecl instanceof JavaParserFieldDeclaration)
+				{
+					wrappedNode = ((JavaParserFieldDeclaration)valueDecl).getWrappedNode();
+				}
+				
+				if (wrappedNode != null)
+				{
+					if (wrappedNode instanceof FieldDeclaration)
+					{
+						
+						for (VariableDeclarator var: ((FieldDeclaration)wrappedNode).getVariables())
+						{
+							if (var.getName().getIdentifier().equals(n.getName().getIdentifier()))
+							{
+								String qualifiedName = JavaparserDeclNameResolver.getQualifiedDeclName(var, m_typeSolver).toNameHierarchy().serialize();
+								for (DeclContext context: m_context)
+								{
+									m_client.recordReference(
+										ReferenceKind.USAGE, qualifiedName, context.getName(),
+										n.getName().getRange()
+									);
+								}
+							}
+						}
+					}
+					else if (wrappedNode instanceof Parameter)
+					{
+						SimpleName name = ((Parameter)wrappedNode).getName();
+						if (name.getBegin().isPresent())
+						{
+							String qualifiedName = m_filePath + "<" + name.getBegin().get().line + ":" + name.getBegin().get().column + ">";
+							
+							m_client.recordLocalSymbol(
+								qualifiedName,
+								n.getRange()
+							);
+						}
+					}
+					else if (wrappedNode instanceof VariableDeclarator)
+					{
+						if (wrappedNode.getAncestorOfType(FieldDeclaration.class).isPresent())
+						{
+							String qualifiedName = JavaparserDeclNameResolver.getQualifiedDeclName((VariableDeclarator)wrappedNode, m_typeSolver).toNameHierarchy().serialize();
+							
+							for (DeclContext context: m_context)
+							{
+								m_client.recordReference(
+									ReferenceKind.USAGE, qualifiedName, context.getName(),
+									n.getRange()
+								);
+							}
+						}
+						else
+						{
+							SimpleName name = ((VariableDeclarator)wrappedNode).getName();
+							if (name.getBegin().isPresent())
+							{
+								String qualifiedName = m_filePath + "<" + name.getBegin().get().line + ":" + name.getBegin().get().column + ">";
+								
+								m_client.recordLocalSymbol(
+									qualifiedName,
+									n.getRange()
+								);
+							}
+						}
+					}
+				}
+			}
 		}
 		catch (Exception e)
 		{
@@ -624,92 +700,6 @@ public class AstVisitor extends AstVisitorAdapter
 		}
 		
 		super.visit(n, v);
-	}
-
-	private void recordRef(NameExpr e)
-	{
-		SymbolReference<? extends ValueDeclaration> ref = JavaParserFacade.get(m_typeSolver).solve(e);
-		if (ref.isSolved())
-		{
-			ValueDeclaration valueDecl = ref.getCorrespondingDeclaration();
-			
-			Node wrappedNode = null;
-			if (valueDecl instanceof JavaParserSymbolDeclaration)
-			{
-				wrappedNode = ((JavaParserSymbolDeclaration)valueDecl).getWrappedNode();
-			}
-			else if (valueDecl instanceof JavaParserParameterDeclaration)
-			{
-				wrappedNode = ((JavaParserParameterDeclaration)valueDecl).getWrappedNode();
-			}
-			else if (valueDecl instanceof JavaParserFieldDeclaration)
-			{
-				wrappedNode = ((JavaParserFieldDeclaration)valueDecl).getWrappedNode();
-			}
-			
-			if (wrappedNode != null)
-			{
-				if (wrappedNode instanceof FieldDeclaration)
-				{
-					
-					for (VariableDeclarator var: ((FieldDeclaration)wrappedNode).getVariables())
-					{
-						if (var.getName().getIdentifier().equals(e.getName().getIdentifier()))
-						{
-							String qualifiedName = JavaparserDeclNameResolver.getQualifiedDeclName(var, m_typeSolver).toNameHierarchy().serialize();
-							for (DeclContext context: m_context)
-							{
-								m_client.recordReference(
-									ReferenceKind.USAGE, qualifiedName, context.getName(),
-									e.getName().getRange()
-								);
-							}
-						}
-					}
-				}
-				else if (wrappedNode instanceof Parameter)
-				{
-					SimpleName name = ((Parameter)wrappedNode).getName();
-					if (name.getBegin().isPresent())
-					{
-						String qualifiedName = m_filePath + "<" + name.getBegin().get().line + ":" + name.getBegin().get().column + ">";
-						
-						m_client.recordLocalSymbol(
-							qualifiedName,
-							e.getRange()
-						);
-					}
-				}
-				else if (wrappedNode instanceof VariableDeclarator)
-				{
-					if (wrappedNode.getAncestorOfType(FieldDeclaration.class).isPresent())
-					{
-						String qualifiedName = JavaparserDeclNameResolver.getQualifiedDeclName((VariableDeclarator)wrappedNode, m_typeSolver).toNameHierarchy().serialize();
-						
-						for (DeclContext context: m_context)
-						{
-							m_client.recordReference(
-								ReferenceKind.USAGE, qualifiedName, context.getName(),
-								e.getRange()
-							);
-						}
-					}
-					else
-					{
-						SimpleName name = ((VariableDeclarator)wrappedNode).getName();
-						if (name.getBegin().isPresent())
-						{
-							String qualifiedName = m_filePath + "<" + name.getBegin().get().line + ":" + name.getBegin().get().column + ">";
-							
-							m_client.recordLocalSymbol(
-								qualifiedName,
-								e.getRange()
-							);
-						}
-					}
-				}
-			}
-		}
 	}
 
 	@Override public void visit(final MethodCallExpr n, final Void v)
@@ -722,7 +712,7 @@ public class AstVisitor extends AstVisitorAdapter
 				SymbolReference<com.github.javaparser.symbolsolver.model.declarations.MethodDeclaration> solvedSymbol = JavaParserFacade.get(m_typeSolver).solve(n);
 				if (solvedSymbol.isSolved())
 				{
-					qualifiedName = getQualifiedName(solvedSymbol.getCorrespondingDeclaration());
+					qualifiedName = JavaSymbolSolverDeclNameResolver.getQualifiedDeclName(solvedSymbol.getCorrespondingDeclaration(), m_typeSolver).toNameHierarchy().serialize();
 				}
 				else
 				{
@@ -786,7 +776,7 @@ public class AstVisitor extends AstVisitorAdapter
 		
 		m_client.logError(e + " at " + m_filePath + "<"+ beginLine + ", " + beginColumn + ">");
 		m_client.recordSymbolWithLocation(
-			".\tmunsolved-symbol\ts\tp", SymbolKind.TYPE_MAX, 
+			JavaDeclName.unsolved().toNameHierarchy().serialize(), SymbolKind.TYPE_MAX, 
 			n.getRange(), 
 			AccessKind.DEFAULT, 
 			DefinitionKind.EXPLICIT
@@ -803,7 +793,7 @@ public class AstVisitor extends AstVisitorAdapter
 				SymbolReference<com.github.javaparser.symbolsolver.model.declarations.ConstructorDeclaration> solvedSymbol = JavaParserFacade.get(m_typeSolver).solve(n);
 				if (solvedSymbol.isSolved())
 				{
-					qualifiedName = getQualifiedName(solvedSymbol.getCorrespondingDeclaration());
+					qualifiedName = JavaSymbolSolverDeclNameResolver.getQualifiedDeclName(solvedSymbol.getCorrespondingDeclaration(), m_typeSolver).toNameHierarchy().serialize();
 				}
 				else
 				{
@@ -841,70 +831,6 @@ public class AstVisitor extends AstVisitorAdapter
 		}
 		
 		super.visit(n, v);
-	}
-	
-	private String getQualifiedName(com.github.javaparser.symbolsolver.model.declarations.MethodDeclaration method)
-	{
-		String qualifiedName = "";
-		if (method instanceof JavaParserMethodDeclaration)
-		{
-			MethodDeclaration wrappedNode = ((JavaParserMethodDeclaration)method).getWrappedNode();
-			qualifiedName = JavaparserDeclNameResolver.getQualifiedDeclName(wrappedNode, m_typeSolver).toNameHierarchy().serialize();
-		}
-		else // todo: move this implementation somewhere else
-		{
-			qualifiedName = ".\tm" + method.declaringType().getQualifiedName();
-			qualifiedName = qualifiedName.replace(".", "\ts\tp\tn");
-			
-			qualifiedName += "\ts\tp\tn" + method.getName() + "\ts";
-			
-			String returnType = method.getReturnType().describe();
-			qualifiedName += returnType;
-		//	qualifiedName += returnType.substring(returnType.lastIndexOf(".") + 1);
-			
-			qualifiedName += "\tp(";
-			for (int i = 0; i < method.getNumberOfParams(); i++)
-			{
-				if(i != 0)
-				{
-					qualifiedName += (", ");
-				}
-				String paramType = method.getParam(i).describeType();
-				qualifiedName += paramType;
-			//	qualifiedName += paramType.substring(paramType.lastIndexOf(".") + 1);
-			}
-			qualifiedName = qualifiedName.concat(")");
-		}
-		return qualifiedName;
-	}
-	
-	private String getQualifiedName(com.github.javaparser.symbolsolver.model.declarations.ConstructorDeclaration constructor)
-	{
-		String qualifiedName = "";
-		if (constructor instanceof JavaParserConstructorDeclaration)
-		{
-			ConstructorDeclaration wrappedNode = ((JavaParserConstructorDeclaration)constructor).getWrappedNode();
-			qualifiedName = JavaparserDeclNameResolver.getQualifiedDeclName(wrappedNode, m_typeSolver).toNameHierarchy().serialize();
-		}
-		else // todo: move this implementation somewhere else
-		{
-			qualifiedName = ".\tm" + constructor.declaringType().getQualifiedName();
-			qualifiedName = qualifiedName.replace(".", "\ts\tp\tn");
-			
-			qualifiedName += "\ts\tp\tn" + constructor.getName() + "\ts\tp(";
-			for (int i = 0; i < constructor.getNumberOfParams(); i++)
-			{
-				if(i != 0)
-				{
-					qualifiedName += (", ");
-				}
-				String paramType = constructor.getParam(i).describeType();
-				qualifiedName += paramType;
-			//	qualifiedName += paramType.substring(paramType.lastIndexOf(".") + 1);
-			}
-			qualifiedName = qualifiedName.concat(")");
-		}
-		return qualifiedName;
 	}
 	
 	@Override public void visit(final BlockStmt n, final Void v)

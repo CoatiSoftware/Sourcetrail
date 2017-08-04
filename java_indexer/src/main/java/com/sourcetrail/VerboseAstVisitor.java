@@ -90,8 +90,6 @@ public class VerboseAstVisitor extends AstVisitor{
 
 	public void visit(Parameter n, Void v) { dump(n); indent++; super.visit(n, v); indent--; }
 
-	public void visit(EmptyMemberDeclaration n, Void v) { dump(n); indent++; super.visit(n, v); indent--; }
-
 	public void visit(InitializerDeclaration n, Void v) { dump(n); indent++; super.visit(n, v); indent--; }
 
 	public void visit(JavadocComment n, Void v) { dump(n); indent++; super.visit(n, v); indent--; }
@@ -223,4 +221,6 @@ public class VerboseAstVisitor extends AstVisitor{
     public void visit(MethodReferenceExpr n, Void v) { dump(n); indent++; super.visit(n, v); indent--; }
 
     public void visit(TypeExpr n, Void v) { dump(n); indent++; super.visit(n, v); indent--; }
+
+    public void visit(UnparsableStmt n, Void v) { dump(n); indent++; super.visit(n, v); indent--; }
 }

@@ -1,6 +1,7 @@
 package com.sourcetrail;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import com.github.javaparser.ast.body.BodyDeclaration;
 
@@ -9,9 +10,9 @@ import com.github.javaparser.symbolsolver.model.resolution.TypeSolver;
 public abstract class JavaNameResolver 
 {
 	TypeSolver m_typeSolver = null;
-	ArrayList<BodyDeclaration> m_ignoredContexts = null;
+	ContextList m_ignoredContexts = null;
 	 
-	public JavaNameResolver(TypeSolver typeSolver, ArrayList<BodyDeclaration> ignoredContexts)
+	public JavaNameResolver(TypeSolver typeSolver, ContextList ignoredContexts)
 	{
 		m_typeSolver = typeSolver;
 		if (ignoredContexts != null)
@@ -20,23 +21,7 @@ public abstract class JavaNameResolver
 		}
 		else
 		{
-			m_ignoredContexts = new ArrayList<BodyDeclaration>();
+			m_ignoredContexts = new ContextList();
 		}
-	} 
-	
-	protected boolean ignoresContext(BodyDeclaration context)
-	{
-		if (m_ignoredContexts != null)
-		{
-			for (BodyDeclaration ignoredContext: m_ignoredContexts)
-			{
-				if (ignoredContext.equals(context))
-				{
-					return true;
-				}
-			}
-		}
-		return false;
-	}
-	
+	}	
 }

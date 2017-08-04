@@ -8,9 +8,13 @@ public class JavaDeclName
 	private String m_name = "";
 	private List<String> m_typeParameterNames = null;
 	
+	public static JavaDeclName unsolved()
+	{
+		return new JavaDeclName("unsolved-symbol");
+	}
+	
 	public static JavaDeclName fromDotSeparatedString(String s)
 	{
-		
 		JavaDeclName declName = null;
 
 		int separatorIndex = s.lastIndexOf('.');
