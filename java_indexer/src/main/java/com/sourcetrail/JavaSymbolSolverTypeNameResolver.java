@@ -91,6 +91,6 @@ public class JavaSymbolSolverTypeNameResolver extends JavaNameResolver
 		
 		System.out.println("Unable to resolve qualified name of " + type.getClass().toString() + ": " + type.toString());
 		
-		return new JavaTypeName("unsolved-jss-type", null); // JavaTypeName.unsolved(); 
+		return JavaTypeName.unsolved(); 
 	}
 }

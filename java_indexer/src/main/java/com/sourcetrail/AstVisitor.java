@@ -72,7 +72,8 @@ public class AstVisitor extends AstVisitorAdapter
 	
 	// --- record declarations ---
 	
-	@Override public void visit(final PackageDeclaration n, final Void v)
+	@Override 
+	public Boolean visit(final PackageDeclaration n, final Void v)
 	{
 		Name name = n.getName();
 		
@@ -96,10 +97,11 @@ public class AstVisitor extends AstVisitorAdapter
 			);
 		}
 		
-		super.visit(n, v);
+		return super.visit(n, v);
 	}
 	
-	@Override public void visit(final ClassOrInterfaceDeclaration n, final Void v)
+	@Override 
+	public Boolean visit(final ClassOrInterfaceDeclaration n, final Void v)
 	{
 		SimpleName name = n.getName();
 		
@@ -122,11 +124,13 @@ public class AstVisitor extends AstVisitorAdapter
 		List<DeclContext> parentContext = m_context;
 		m_context = new ArrayList<DeclContext>();
 		m_context.add(new DeclContext(qualifiedName));
-		super.visit(n, v);
+		Boolean result = super.visit(n, v);
 		m_context = parentContext;
+		return result;
 	}
 	
-	@Override public void visit(final TypeParameter n, final Void v)
+	@Override
+	public Boolean visit(final TypeParameter n, final Void v)
 	{
 		// todo: test recording of typeargument of type parameter bound type??
 		
@@ -159,11 +163,13 @@ public class AstVisitor extends AstVisitorAdapter
 		List<DeclContext> parentContext = m_context;
 		m_context = new ArrayList<DeclContext>();
 		m_context.add(new DeclContext(qualifiedName));
-		super.visit(n, v);
+		Boolean result = super.visit(n, v);
 		m_context = parentContext;
+		return result;
 	}
 	
-	@Override public void visit(final EnumDeclaration n, final Void v)
+	@Override 
+	public Boolean visit(final EnumDeclaration n, final Void v)
 	{
 		SimpleName name = n.getName();
 		
@@ -186,11 +192,13 @@ public class AstVisitor extends AstVisitorAdapter
 		List<DeclContext> parentContext = m_context;
 		m_context = new ArrayList<DeclContext>();
 		m_context.add(new DeclContext(qualifiedName));
-		super.visit(n, v);
+		Boolean result = super.visit(n, v);
 		m_context = parentContext;
+		return result;
 	}
 	
-	@Override public void visit(final EnumConstantDeclaration n, final Void v)
+	@Override
+	public Boolean visit(final EnumConstantDeclaration n, final Void v)
 	{
 		String qualifiedName = JavaparserDeclNameResolver.getQualifiedDeclName(n, m_typeSolver).toNameHierarchy().serialize();
 		
@@ -204,11 +212,13 @@ public class AstVisitor extends AstVisitorAdapter
 		List<DeclContext> parentContext = m_context;
 		m_context = new ArrayList<DeclContext>();
 		m_context.add(new DeclContext(qualifiedName));
-		super.visit(n, v);
+		Boolean result = super.visit(n, v);
 		m_context = parentContext;
+		return result;
 	}
 	
-	@Override public void visit(final ConstructorDeclaration n, final Void v)
+	@Override
+	public Boolean visit(final ConstructorDeclaration n, final Void v)
 	{
 		SimpleName name = n.getName();
 		
@@ -225,12 +235,20 @@ public class AstVisitor extends AstVisitorAdapter
 		List<DeclContext> parentContext = m_context;
 		m_context = new ArrayList<DeclContext>();
 		m_context.add(new DeclContext(qualifiedName));
-		super.visit(n, v);
+		Boolean result = super.visit(n, v);
 		m_context = parentContext;
+		return result;
 	}
 	
-	@Override public void visit(final MethodDeclaration n, final Void v)
+	@Override 
+	public Boolean visit(final MethodDeclaration n, final Void v)
 	{
+		if (m_client.getInterrupted())
+		{
+			// return something that is not null in order to cancel AST traversal;
+			return false;
+		}
+		
 		SimpleName name = n.getName();
 		
 		String qualifiedName = JavaparserDeclNameResolver.getQualifiedDeclName(n, m_typeSolver).toNameHierarchy().serialize();
@@ -259,8 +277,9 @@ public class AstVisitor extends AstVisitorAdapter
 		List<DeclContext> parentContext = m_context;
 		m_context = new ArrayList<DeclContext>();
 		m_context.add(new DeclContext(qualifiedName));
-		super.visit(n, v);
+		Boolean result = super.visit(n, v);
 		m_context = parentContext;
+		return result;
 	}
 	
 	private com.github.javaparser.symbolsolver.model.declarations.MethodDeclaration getOverridden(MethodDeclaration overrider)
@@ -321,7 +340,8 @@ public class AstVisitor extends AstVisitorAdapter
 		return null;
 	}
 
-	@Override public void visit(final FieldDeclaration n, final Void v)
+	@Override 
+	public Boolean visit(final FieldDeclaration n, final Void v)
 	{
 		List<DeclContext> parentContext = m_context;
 		m_context = new ArrayList<DeclContext>();
@@ -340,11 +360,13 @@ public class AstVisitor extends AstVisitorAdapter
 			m_context.add(new DeclContext(qualifiedName));
 		}
 		
-		super.visit(n, v);
+		Boolean result = super.visit(n, v);
 		m_context = parentContext;
+		return result;
 	}
 	
-	@Override public void visit(final VariableDeclarationExpr n, final Void v)
+	@Override 
+	public Boolean visit(final VariableDeclarationExpr n, final Void v)
 	{
 		for (VariableDeclarator declarator: n.getVariables())
 		{
@@ -359,10 +381,11 @@ public class AstVisitor extends AstVisitorAdapter
 		}
 		
 		// don't change the context here.
-		super.visit(n, v);
+		return super.visit(n, v);
 	}
 	
-	@Override public void visit(final Parameter n, final Void v)
+	@Override 
+	public Boolean visit(final Parameter n, final Void v)
 	{
 		SimpleName name = n.getName();
 		
@@ -374,14 +397,14 @@ public class AstVisitor extends AstVisitorAdapter
 		}
 		
 		// don't change the context here.
-		super.visit(n, v);
+		return super.visit(n, v);
 	}
 	
 	
 	// --- record references ---
 
 	@Override 
-	public void visit(final ImportDeclaration n, final Void v)
+	public Boolean visit(final ImportDeclaration n, final Void v)
 	{
 		Name name = n.getName();
 		
@@ -461,10 +484,11 @@ public class AstVisitor extends AstVisitorAdapter
 				recordException(e, n);
 			}
 		}
-		super.visit(n, v);
+		return super.visit(n, v);
 	}
 	
-	@Override public void visit(final ClassOrInterfaceType n, final Void v)
+	@Override 
+	public Boolean visit(final ClassOrInterfaceType n, final Void v)
 	{
 		try
 		{
@@ -507,10 +531,11 @@ public class AstVisitor extends AstVisitorAdapter
 		{
 			recordException(e, n);
 		}
-		super.visit(n, v);
+		return super.visit(n, v);
 	}
 	
-	@Override public void visit(final PrimitiveType n, final Void v)
+	@Override
+	public Boolean visit(final PrimitiveType n, final Void v)
 	{
 		try
 		{
@@ -535,10 +560,11 @@ public class AstVisitor extends AstVisitorAdapter
 			recordException(e, n);
 		}
 		
-		super.visit(n, v);
+		return super.visit(n, v);
 	}
 	
-	@Override public void visit(final VoidType n, final Void v)
+	@Override 
+	public Boolean visit(final VoidType n, final Void v)
 	{
 		try
 		{
@@ -560,10 +586,11 @@ public class AstVisitor extends AstVisitorAdapter
 			recordException(e, n);
 		}
 		
-		super.visit(n, v);
+		return super.visit(n, v);
 	}
 
-	@Override public void visit(final FieldAccessExpr n, final Void v)
+	@Override 
+	public Boolean visit(final FieldAccessExpr n, final Void v)
 	{
 		SimpleName fieldName = n.getName();
 		
@@ -604,10 +631,11 @@ public class AstVisitor extends AstVisitorAdapter
 			recordException(e, n);
 		}
 		
-		super.visit(n, v);
+		return super.visit(n, v);
 	}
 	
-	@Override public void visit(final NameExpr n, final Void v)
+	@Override 
+	public Boolean visit(final NameExpr n, final Void v)
 	{
 		try
 		{
@@ -699,10 +727,11 @@ public class AstVisitor extends AstVisitorAdapter
 			recordException(e, n);
 		}
 		
-		super.visit(n, v);
+		return super.visit(n, v);
 	}
 
-	@Override public void visit(final MethodCallExpr n, final Void v)
+	@Override 
+	public Boolean visit(final MethodCallExpr n, final Void v)
 	{
 		String qualifiedName = "";
 		if (m_context.size() > 0)
@@ -749,7 +778,7 @@ public class AstVisitor extends AstVisitorAdapter
 			}
 		}
 		
-		super.visit(n, v);
+		return super.visit(n, v);
 	}
 	
 	
@@ -783,7 +812,8 @@ public class AstVisitor extends AstVisitorAdapter
 		);
 	}
 
-	@Override public void visit(final ObjectCreationExpr n, final Void v)
+	@Override 
+	public Boolean visit(final ObjectCreationExpr n, final Void v)
 	{
 		String qualifiedName = "";
 		if (m_context.size() > 0)
@@ -830,29 +860,32 @@ public class AstVisitor extends AstVisitorAdapter
 			}
 		}
 		
-		super.visit(n, v);
+		return super.visit(n, v);
 	}
 	
-	@Override public void visit(final BlockStmt n, final Void v)
+	@Override 
+	public Boolean visit(final BlockStmt n, final Void v)
 	{
 		recordScope(n.getRange());
-		super.visit(n, v);
+		return super.visit(n, v);
 	}
 	
-	@Override public void visit(final ArrayInitializerExpr n, final Void v)
+	@Override 
+	public Boolean visit(final ArrayInitializerExpr n, final Void v)
 	{
 		recordScope(n.getRange());
-		super.visit(n, v);
+		return super.visit(n, v);
 	}
 	
-	@Override public void visit(final SwitchStmt n, final Void v)
+	@Override
+	public Boolean visit(final SwitchStmt n, final Void v)
 	{
 		if (n.getRange().isPresent())
 		{
 			FileContent.Location scopeStartLocation = m_fileContent.find("{", n.getBegin());
 			recordScope(Range.range(scopeStartLocation.line, scopeStartLocation.column, n.getRange().get().end.line, n.getRange().get().end.column));
 		}
-		super.visit(n, v);
+		return super.visit(n, v);
 	}
 	
 	private void recordScope(Optional<Range> range)
@@ -870,15 +903,17 @@ public class AstVisitor extends AstVisitorAdapter
 		m_client.recordLocalSymbol(qualifiedName, Range.range(range.end, range.end));
 	}
 	
-	@Override public void visit(final LineComment n, final Void v)
+	@Override 
+	public Boolean visit(final LineComment n, final Void v)
 	{
 		m_client.recordComment(n.getRange());
-		super.visit(n, v);
+		return super.visit(n, v);
 	}
 
-	@Override public void visit(final BlockComment n, final Void v) 
+	@Override 
+	public Boolean visit(final BlockComment n, final Void v) 
 	{
 		m_client.recordComment(n.getRange());
-		super.visit(n, v);
+		return super.visit(n, v);
 	}
 }

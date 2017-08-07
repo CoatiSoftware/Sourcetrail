@@ -95,6 +95,7 @@ JavaParser::JavaParser(std::shared_ptr<ParserClient> client, std::shared_ptr<Fil
 
 		std::vector<JavaEnvironment::NativeMethod> methods;
 
+		methods.push_back({"getInterrupted", "(I)Z", (void*)&JavaParser::GetInterrupted});
 		methods.push_back({"logInfo", "(ILjava/lang/String;)V", (void*)&JavaParser::LogInfo});
 		methods.push_back({"logWarning", "(ILjava/lang/String;)V", (void*)&JavaParser::LogWarning});
 		methods.push_back({"logError", "(ILjava/lang/String;)V", (void*)&JavaParser::LogError});
@@ -181,6 +182,11 @@ std::mutex JavaParser::s_parsersMutex;
 
 
 // definition of native methods
+
+bool JavaParser::doGetInterrupted()
+{
+	return m_interruptCounter.getCount() > 0;
+}
 
 void JavaParser::doLogInfo(jstring jInfo)
 {

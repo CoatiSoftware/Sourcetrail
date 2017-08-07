@@ -9,6 +9,7 @@
 #include "data/parser/java/JavaEnvironment.h"
 #include "utility/file/FilePath.h"
 #include "utility/logging/logging.h"
+#include "utility/messaging/MessageInterruptTasksCounter.h"
 
 struct JNIEnv_;
 typedef JNIEnv_ JNIEnv;
@@ -48,18 +49,18 @@ private:
 
 // This macro makes available a variable T, the passed-in t. blablabla TODO: write somethign real here
 #define MAKE_PARAMS_0()
-#define MAKE_PARAMS_1(t1) t1 arg1
-#define MAKE_PARAMS_2(t1, t2) t1 arg1, t2 arg2
-#define MAKE_PARAMS_3(t1, t2, t3) t1 arg1, t2 arg2, t3 arg3
-#define MAKE_PARAMS_4(t1, t2, t3, t4) t1 arg1, t2 arg2, t3 arg3, t4 arg4
-#define MAKE_PARAMS_5(t1, t2, t3, t4, t5) t1 arg1, t2 arg2, t3 arg3, t4 arg4, t5 arg5
-#define MAKE_PARAMS_6(t1, t2, t3, t4, t5, t6) t1 arg1, t2 arg2, t3 arg3, t4 arg4, t5 arg5, t6 arg6
-#define MAKE_PARAMS_7(t1, t2, t3, t4, t5, t6, t7) t1 arg1, t2 arg2, t3 arg3, t4 arg4, t5 arg5, t6 arg6, t7 arg7
-#define MAKE_PARAMS_8(t1, t2, t3, t4, t5, t6, t7, t8) t1 arg1, t2 arg2, t3 arg3, t4 arg4, t5 arg5, t6 arg6, t7 arg7, t8 arg8
-#define MAKE_PARAMS_9(t1, t2, t3, t4, t5, t6, t7, t8, t9) t1 arg1, t2 arg2, t3 arg3, t4 arg4, t5 arg5, t6 arg6, t7 arg7, t8 arg8, t9 arg9
-#define MAKE_PARAMS_10(t1, t2, t3, t4, t5, t6, t7, t8, t9, t10) t1 arg1, t2 arg2, t3 arg3, t4 arg4, t5 arg5, t6 arg6, t7 arg7, t8 arg8, t9 arg9, t10 arg10
-#define MAKE_PARAMS_11(t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11) t1 arg1, t2 arg2, t3 arg3, t4 arg4, t5 arg5, t6 arg6, t7 arg7, t8 arg8, t9 arg9, t10 arg10, t11 arg11
-#define MAKE_PARAMS_12(t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12) t1 arg1, t2 arg2, t3 arg3, t4 arg4, t5 arg5, t6 arg6, t7 arg7, t8 arg8, t9 arg9, t10 arg10, t11 arg11, t12 arg12
+#define MAKE_PARAMS_1(t1) , t1 arg1
+#define MAKE_PARAMS_2(t1, t2) , t1 arg1, t2 arg2
+#define MAKE_PARAMS_3(t1, t2, t3) , t1 arg1, t2 arg2, t3 arg3
+#define MAKE_PARAMS_4(t1, t2, t3, t4) , t1 arg1, t2 arg2, t3 arg3, t4 arg4
+#define MAKE_PARAMS_5(t1, t2, t3, t4, t5) , t1 arg1, t2 arg2, t3 arg3, t4 arg4, t5 arg5
+#define MAKE_PARAMS_6(t1, t2, t3, t4, t5, t6) , t1 arg1, t2 arg2, t3 arg3, t4 arg4, t5 arg5, t6 arg6
+#define MAKE_PARAMS_7(t1, t2, t3, t4, t5, t6, t7) , t1 arg1, t2 arg2, t3 arg3, t4 arg4, t5 arg5, t6 arg6, t7 arg7
+#define MAKE_PARAMS_8(t1, t2, t3, t4, t5, t6, t7, t8) , t1 arg1, t2 arg2, t3 arg3, t4 arg4, t5 arg5, t6 arg6, t7 arg7, t8 arg8
+#define MAKE_PARAMS_9(t1, t2, t3, t4, t5, t6, t7, t8, t9) , t1 arg1, t2 arg2, t3 arg3, t4 arg4, t5 arg5, t6 arg6, t7 arg7, t8 arg8, t9 arg9
+#define MAKE_PARAMS_10(t1, t2, t3, t4, t5, t6, t7, t8, t9, t10) , t1 arg1, t2 arg2, t3 arg3, t4 arg4, t5 arg5, t6 arg6, t7 arg7, t8 arg8, t9 arg9, t10 arg10
+#define MAKE_PARAMS_11(t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11) , t1 arg1, t2 arg2, t3 arg3, t4 arg4, t5 arg5, t6 arg6, t7 arg7, t8 arg8, t9 arg9, t10 arg10, t11 arg11
+#define MAKE_PARAMS_12(t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12) , t1 arg1, t2 arg2, t3 arg3, t4 arg4, t5 arg5, t6 arg6, t7 arg7, t8 arg8, t9 arg9, t10 arg10, t11 arg11, t12 arg12
 //.. add as many MAKE_PARAMS_* as required
 
 #define MAKE_ARGS_0()
@@ -77,6 +78,9 @@ private:
 #define MAKE_ARGS_12(t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12) arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10, arg11, arg12
 //.. add as many MAKE_ARGS_* as there are MAKE_PARAMS_*
 
+
+#define DEF_RELAYING_METHOD_0(NAME)										\
+	DEF_RELAYING_METHOD(NAME, MAKE_PARAMS_0(), MAKE_ARGS_0())
 
 #define DEF_RELAYING_METHOD_1(NAME, t1)										\
 	DEF_RELAYING_METHOD(NAME, MAKE_PARAMS_1(t1), MAKE_ARGS_1(t1))
@@ -115,7 +119,7 @@ private:
 	DEF_RELAYING_METHOD(NAME, MAKE_PARAMS_12(t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12), MAKE_ARGS_12(t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12))
 
 #define DEF_RELAYING_METHOD(NAME, PARAMETERS, ARGUMENTS)								\
-	static void NAME(JNIEnv *env, jobject objectOrClass, jint parserId, PARAMETERS)		\
+	static void NAME(JNIEnv *env, jobject objectOrClass, jint parserId PARAMETERS)		\
 	{																					\
 		std::map<int, JavaParser*>::iterator it = s_parsers.find(int(parserId));		\
 		if (it != s_parsers.end())														\
@@ -139,13 +143,26 @@ private:
 	DEF_RELAYING_METHOD_4(RecordComment, jint, jint, jint, jint)
 	DEF_RELAYING_METHOD_7(RecordError, jstring, jint, jint, jint, jint, jint, jint)
 
+	static bool GetInterrupted(JNIEnv *env, jobject objectOrClass, jint parserId)
+	{
+		std::map<int, JavaParser*>::iterator it = s_parsers.find(int(parserId));
+		if (it != s_parsers.end())
+		{
+			return it->second->doGetInterrupted();
+		}
+		else
+		{
+			LOG_ERROR("parser with id " + std::to_string(parserId) + " not found");
+		}
+	}
+
 	static int s_nextParserId;
 	static std::map<int, JavaParser*> s_parsers;
 	static std::mutex s_parsersMutex;
 
 
 
-
+	bool doGetInterrupted();
 
 	void doLogInfo(jstring jInfo);
 
@@ -180,6 +197,7 @@ private:
 
 	const int m_id;
 	FilePath m_currentFilePath;
+	MessageInterruptTasksCounter m_interruptCounter;
 };
 
 #endif // JAVA_PARSER_H

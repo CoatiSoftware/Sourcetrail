@@ -71,6 +71,8 @@ public abstract class AstVisitorClient
 		);
 	}
 	
+	public abstract boolean getInterrupted();
+	
 	public abstract void logInfo(String info);
 	
 	public abstract void logWarning(String warning);

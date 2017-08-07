@@ -210,7 +210,7 @@ public class JavaSymbolSolverDeclNameResolver extends JavaNameResolver
 		if (declName == null)
 		{
 			System.out.println("Unable to resolve qualified declaration name of " + decl.getClass().toString() + ": " + decl.toString());
-			declName = new JavaDeclName("unsolved-jss-decl");  // JavaDeclName.unsolved();
+			declName = JavaDeclName.unsolved();
 		}
 		
 		return declName;

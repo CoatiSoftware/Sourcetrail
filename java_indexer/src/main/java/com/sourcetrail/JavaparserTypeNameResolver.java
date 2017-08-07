@@ -1,8 +1,5 @@
 package com.sourcetrail;
 
-import java.util.List;
-
-import com.github.javaparser.ast.body.BodyDeclaration;
 import com.github.javaparser.ast.type.*;
 import com.github.javaparser.symbolsolver.javaparsermodel.JavaParserFacade;
 import com.github.javaparser.symbolsolver.model.resolution.TypeSolver;
@@ -93,7 +90,7 @@ public class JavaparserTypeNameResolver extends JavaNameResolver
 		
 		System.out.println("Unable to resolve qualified name of " + type.getClass().toString() + ": " + fallbackTypeName);
 
-		return new JavaTypeName("unsolved-jp-type", null); // JavaTypeName.unsolved(); 
+		return JavaTypeName.unsolved(); 
 	}
 	
 	

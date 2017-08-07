@@ -1,5 +1,7 @@
 package com.sourcetrail;
 
+import com.github.javaparser.ast.visitor.GenericListVisitorAdapter;
+import com.github.javaparser.ast.visitor.GenericVisitorAdapter;
 import com.github.javaparser.ast.visitor.VoidVisitorAdapter;
 
 import com.github.javaparser.ast.*;
@@ -13,7 +15,9 @@ import com.github.javaparser.ast.type.*;
 import java.util.Optional;
 import java.util.Stack;
 
-public abstract class AstVisitorAdapter extends VoidVisitorAdapter<Void>
+import javax.annotation.Generated;
+
+public abstract class AstVisitorAdapter extends GenericVisitorAdapter<Boolean, Void>
 {
 	private Stack<ReferenceKind> m_typeRefKind = new Stack<ReferenceKind>();
 	
@@ -28,221 +32,245 @@ public abstract class AstVisitorAdapter extends VoidVisitorAdapter<Void>
 	
 	//- Compilation Unit ----------------------------------
 	
-	@Override public void visit(final CompilationUnit n, Void arg)
+	@Override public Boolean visit(final CompilationUnit n, Void arg)
 	{
 		m_typeRefKind.push(ReferenceKind.TYPE_USAGE);
-		visitComment(n.getComment(), arg);
-		if (n.getPackageDeclaration().isPresent()) 
-		{
-			n.getPackageDeclaration().get().accept(this, arg);
-		}
-		if (n.getImports() != null) 
-		{
-			for (final ImportDeclaration i : n.getImports()) 
-			{
-				i.accept(this, arg);
-			}
-		}
-		if (n.getTypes() != null) 
-		{
-            for (final TypeDeclaration<?> typeDeclaration : n.getTypes()) 
-            {
-				typeDeclaration.accept(this, arg);
-			}
-		}
+		Boolean result = super.visit(n, arg);
 		m_typeRefKind.pop();
+        return result;
 	}
 
 	//- Body ----------------------------------------------
 
-	@Override public void visit(ClassOrInterfaceDeclaration n, Void arg)
+	@Override public Boolean visit(ClassOrInterfaceDeclaration n, Void arg)
 	{
-		visitComment(n.getComment(), arg);
-		visitAnnotations(n, arg);
-        n.getName().accept(this, arg);
-		for (final TypeParameter t : n.getTypeParameters()) 
-		{
-			t.accept(this, arg);
-		}
-		
+		Boolean result;
+        {
+            result = n.getTypeParameters().accept(this, arg);
+            if (result != null)
+                return result;
+        }
+        {
+            result = n.getMembers().accept(this, arg);
+            if (result != null)
+                return result;
+        }
+        {
+            result = n.getName().accept(this, arg);
+            if (result != null)
+                return result;
+        }
+        {
+            result = n.getAnnotations().accept(this, arg);
+            if (result != null)
+                return result;
+        }
+        if (n.getComment().isPresent()) {
+            result = n.getComment().get().accept(this, arg);
+            if (result != null)
+                return result;
+        }
+
 		m_typeRefKind.push(ReferenceKind.INHERITANCE);
-		for (final ClassOrInterfaceType c : n.getExtendedTypes()) 
-		{
-			c.accept(this, arg);
-		}
-		for (final ClassOrInterfaceType c : n.getImplementedTypes()) 
-		{
-			c.accept(this, arg);
-		}
+        {
+            result = n.getExtendedTypes().accept(this, arg);
+            if (result != null)
+                return result;
+        }
+        {
+            result = n.getImplementedTypes().accept(this, arg);
+            if (result != null)
+                return result;
+        }
 		m_typeRefKind.pop();
-		
-		for (final BodyDeclaration<?> member : n.getMembers()) 
-		{
-			member.accept(this, arg);
-		}
+        
+        return null;
 	}
 
-	@Override public void visit(EnumDeclaration n, Void arg)
+	@Override public Boolean visit(EnumDeclaration n, Void arg)
 	{
-		visitComment(n.getComment(), arg);
-		visitAnnotations(n, arg);
-        n.getName().accept(this, arg);
-		
+		Boolean result;
+        {
+            result = n.getEntries().accept(this, arg);
+            if (result != null)
+                return result;
+        }
+        {
+            result = n.getMembers().accept(this, arg);
+            if (result != null)
+                return result;
+        }
+        {
+            result = n.getName().accept(this, arg);
+            if (result != null)
+                return result;
+        }
+        {
+            result = n.getAnnotations().accept(this, arg);
+            if (result != null)
+                return result;
+        }
+        if (n.getComment().isPresent()) {
+            result = n.getComment().get().accept(this, arg);
+            if (result != null)
+                return result;
+        }
+
 		m_typeRefKind.push(ReferenceKind.INHERITANCE);
-		if (n.getImplementedTypes() != null) 
-		{
-			for (final ClassOrInterfaceType c : n.getImplementedTypes()) 
-			{
-				c.accept(this, arg);
-			}
-		}
+        {
+            result = n.getImplementedTypes().accept(this, arg);
+            if (result != null)
+                return result;
+        }
 		m_typeRefKind.pop();
 		
-		if (n.getEntries() != null) 
-		{
-			for (final EnumConstantDeclaration e : n.getEntries()) 
-			{
-				e.accept(this, arg);
-			}
-		}
-		if (n.getMembers() != null) 
-		{
-			for (final BodyDeclaration<?> member : n.getMembers())
-			{
-				member.accept(this, arg);
-			}
-		}
+        return null;
 	}
 
 	//- Type ----------------------------------------------
 
-	@Override public void visit(ClassOrInterfaceType n, Void arg)
+	@Override public Boolean visit(ClassOrInterfaceType n, Void arg)
 	{
-		visitComment(n.getComment(), arg);
-		visitAnnotations(n, arg);
+		Boolean result;
+        {
+            result = n.getName().accept(this, arg);
+            if (result != null)
+                return result;
+        }
 		// don't visit the qualifier here.
-//		if (n.getScope().isPresent()) 
-//		{
-//			n.getScope().get().accept(this, arg);
-//		}
+//        if (n.getScope().isPresent()) {
+//            result = n.getScope().get().accept(this, arg);
+//            if (result != null)
+//                return result;
+//        }
+        {
+            result = n.getAnnotations().accept(this, arg);
+            if (result != null)
+                return result;
+        }
+        if (n.getComment().isPresent()) {
+            result = n.getComment().get().accept(this, arg);
+            if (result != null)
+                return result;
+        }
+
 		m_typeRefKind.push(ReferenceKind.TYPE_ARGUMENT);
-		if (n.getTypeArguments().isPresent())
-		{
-			for (final Type t : n.getTypeArguments().get())
-			{
-				t.accept(this, arg);
-			}
-		}
+        if (n.getTypeArguments().isPresent()) {
+            result = n.getTypeArguments().get().accept(this, arg);
+            if (result != null)
+                return result;
+        }
 		m_typeRefKind.pop();
+		
+        return null;
 	}
 
 	//- Expression ----------------------------------------
 
-	@Override public void visit(MethodCallExpr n, Void arg)
+	@Override public Boolean visit(MethodCallExpr n, Void arg)
 	{
-		visitComment(n.getComment(), arg);
-		if (n.getScope().isPresent()) 
-		{
-			n.getScope().get().accept(this, arg);
-		}
-		
-		m_typeRefKind.push(ReferenceKind.TYPE_ARGUMENT);
-		if (n.getTypeArguments().isPresent())
-		{
-			for (final Type t : n.getTypeArguments().get())
-			{
-				t.accept(this, arg);
-			}
-		}
-		m_typeRefKind.pop();
+		Boolean result;
+        {
+            result = n.getArguments().accept(this, arg);
+            if (result != null)
+                return result;
+        }
+        {
+            result = n.getName().accept(this, arg);
+            if (result != null)
+                return result;
+        }
+        if (n.getScope().isPresent()) {
+            result = n.getScope().get().accept(this, arg);
+            if (result != null)
+                return result;
+        }
+        if (n.getComment().isPresent()) {
+            result = n.getComment().get().accept(this, arg);
+            if (result != null)
+                return result;
+        }
 
-		n.getName().accept(this, arg);
-		if (n.getArguments() != null)
-		{
-			for (final Expression e : n.getArguments())
-			{
-				e.accept(this, arg);
-			}
-		}
+		m_typeRefKind.push(ReferenceKind.TYPE_ARGUMENT);
+        if (n.getTypeArguments().isPresent()) {
+            result = n.getTypeArguments().get().accept(this, arg);
+            if (result != null)
+                return result;
+        }
+		m_typeRefKind.pop();
+		
+        return null;
 	}
 	
-	@Override public void visit(ObjectCreationExpr n, Void arg)
+	@Override public Boolean visit(ObjectCreationExpr n, Void arg)
 	{
-		visitComment(n.getComment(), arg);
-		if (n.getScope().isPresent()) 
-		{
-			n.getScope().get().accept(this, arg);
-		}
-		
+		Boolean result;
+        if (n.getAnonymousClassBody().isPresent()) {
+            result = n.getAnonymousClassBody().get().accept(this, arg);
+            if (result != null)
+                return result;
+        }
+        {
+            result = n.getArguments().accept(this, arg);
+            if (result != null)
+                return result;
+        }
+        if (n.getScope().isPresent()) {
+            result = n.getScope().get().accept(this, arg);
+            if (result != null)
+                return result;
+        }
+//        {
+//            result = n.getType().accept(this, arg);
+//            if (result != null)
+//                return result;
+//        }
+        if (n.getComment().isPresent()) {
+            result = n.getComment().get().accept(this, arg);
+            if (result != null)
+                return result;
+        }
+
 		m_typeRefKind.push(ReferenceKind.TYPE_ARGUMENT);
-		if (n.getTypeArguments().isPresent())
-		{
-			for (final Type t : n.getTypeArguments().get())
-			{
-				t.accept(this, arg);
-			}
-		}
+        if (n.getTypeArguments().isPresent()) {
+            result = n.getTypeArguments().get().accept(this, arg);
+            if (result != null)
+                return result;
+        }
 		m_typeRefKind.pop();
 		
-//		n.getType().accept(this, arg);
-		if (n.getArguments() != null) 
-		{
-			for (final Expression e : n.getArguments()) 
-			{
-				e.accept(this, arg);
-			}
-		}
-		if (n.getAnonymousClassBody().isPresent()) 
-		{
-            for (final BodyDeclaration<?> member : n.getAnonymousClassBody().get()) 
-            {
-				member.accept(this, arg);
-			}
-		}
+        return null;
 	}
 
 	//- Statements ----------------------------------------
 
-	@Override public void visit(ExplicitConstructorInvocationStmt n, Void arg)
+	@Override public Boolean visit(ExplicitConstructorInvocationStmt n, Void arg)
 	{
-		visitComment(n.getComment(), arg);
-		if (!n.isThis() && n.getExpression().isPresent()) 
-		{
-			n.getExpression().get().accept(this, arg);
-		}
+		Boolean result;
+        {
+            result = n.getArguments().accept(this, arg);
+            if (result != null)
+                return result;
+        }
+        if (n.getExpression().isPresent()) {
+            result = n.getExpression().get().accept(this, arg);
+            if (result != null)
+                return result;
+        }
+        if (n.getComment().isPresent()) {
+            result = n.getComment().get().accept(this, arg);
+            if (result != null)
+                return result;
+        }
 
 		m_typeRefKind.push(ReferenceKind.TYPE_ARGUMENT);
-		if (n.getTypeArguments().isPresent())
-		{
-			for (final Type t : n.getTypeArguments().get())
-			{
-				t.accept(this, arg);
-			}
-		}
+        if (n.getTypeArguments().isPresent()) {
+            result = n.getTypeArguments().get().accept(this, arg);
+            if (result != null)
+                return result;
+        }
 		m_typeRefKind.pop();
 		
-		if (n.getArguments() != null) 
-		{
-			for (final Expression e : n.getArguments())
-			{
-				e.accept(this, arg);
-			}
-		}
-	}
-
-	private void visitComment(final Optional<Comment> n, final Void arg) 
-	{
-		if (n.isPresent())
-		{
-			n.get().accept(this, arg);
-		}
-	}
-	
-	private void visitAnnotations(NodeWithAnnotations<?> n, final Void arg) 
-	{
-		for (AnnotationExpr annotation : n.getAnnotations()) 
-		{
-			annotation.accept(this, arg);
-		}
+        return null;
 	}
 }

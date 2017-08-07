@@ -12,6 +12,12 @@ public class JavaIndexerAstVisitorClient extends AstVisitorClient
 	}
 	
 	@Override
+	public boolean getInterrupted()
+	{
+		return JavaIndexer.getInterrupted(m_address);
+	}
+	
+	@Override
 	public void logInfo(String info)
 	{
 		JavaIndexer.logInfo(m_address, info);

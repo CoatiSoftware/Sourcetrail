@@ -56,171 +56,171 @@ public class VerboseAstVisitor extends AstVisitor{
 	
 	 //- Compilation Unit ----------------------------------
 
-	public void visit(CompilationUnit n, Void v) { dump(n); indent++; super.visit(n, v); indent--; }
+	public Boolean visit(CompilationUnit n, Void v) { dump(n); indent++; Boolean result = super.visit(n, v); indent--; return result; }
 
-	public void visit(PackageDeclaration n, Void v) { dump(n); indent++; super.visit(n, v); indent--; }
+	public Boolean visit(PackageDeclaration n, Void v) { dump(n); indent++; Boolean result = super.visit(n, v); indent--; return result; }
 
-	public void visit(ImportDeclaration n, Void v) { dump(n); indent++; super.visit(n, v); indent--; }
+	public Boolean visit(ImportDeclaration n, Void v) { dump(n); indent++; Boolean result = super.visit(n, v); indent--; return result; }
 	
-	public void visit(TypeParameter n, Void v) { dump(n); indent++; super.visit(n, v); indent--; }
+	public Boolean visit(TypeParameter n, Void v) { dump(n); indent++; Boolean result = super.visit(n, v); indent--; return result; }
 
-	public void visit(LineComment n, Void v) { dump(n); indent++; super.visit(n, v); indent--; }
+	public Boolean visit(LineComment n, Void v) { dump(n); indent++; Boolean result = super.visit(n, v); indent--; return result; }
 
-	public void visit(BlockComment n, Void v) { dump(n); indent++; super.visit(n, v); indent--; }
+	public Boolean visit(BlockComment n, Void v) { dump(n); indent++; Boolean result = super.visit(n, v); indent--; return result; }
 
 	//- Body ----------------------------------------------
 
-	public void visit(ClassOrInterfaceDeclaration n, Void v) { dump(n); indent++; super.visit(n, v); indent--; }
+	public Boolean visit(ClassOrInterfaceDeclaration n, Void v) { dump(n); indent++; Boolean result = super.visit(n, v); indent--; return result; }
 
-	public void visit(EnumDeclaration n, Void v) { dump(n); indent++; super.visit(n, v); indent--; }
+	public Boolean visit(EnumDeclaration n, Void v) { dump(n); indent++; Boolean result = super.visit(n, v); indent--; return result; }
 
-	public void visit(EnumConstantDeclaration n, Void v) { dump(n); indent++; super.visit(n, v); indent--; }
+	public Boolean visit(EnumConstantDeclaration n, Void v) { dump(n); indent++; Boolean result = super.visit(n, v); indent--; return result; }
 
-	public void visit(AnnotationDeclaration n, Void v) { dump(n); indent++; super.visit(n, v); indent--; }
+	public Boolean visit(AnnotationDeclaration n, Void v) { dump(n); indent++; Boolean result = super.visit(n, v); indent--; return result; }
 
-	public void visit(AnnotationMemberDeclaration n, Void v) { dump(n); indent++; super.visit(n, v); indent--; }
+	public Boolean visit(AnnotationMemberDeclaration n, Void v) { dump(n); indent++; Boolean result = super.visit(n, v); indent--; return result; }
 
-	public void visit(FieldDeclaration n, Void v) { dump(n); indent++; super.visit(n, v); indent--; }
+	public Boolean visit(FieldDeclaration n, Void v) { dump(n); indent++; Boolean result = super.visit(n, v); indent--; return result; }
 
-	public void visit(VariableDeclarator n, Void v) { dump(n); indent++; super.visit(n, v); indent--; }
+	public Boolean visit(VariableDeclarator n, Void v) { dump(n); indent++; Boolean result = super.visit(n, v); indent--; return result; }
 
-	public void visit(ConstructorDeclaration n, Void v) { dump(n); indent++; super.visit(n, v); indent--; }
+	public Boolean visit(ConstructorDeclaration n, Void v) { dump(n); indent++; Boolean result = super.visit(n, v); indent--; return result; }
 
-	public void visit(MethodDeclaration n, Void v) { dump(n); indent++; super.visit(n, v); indent--; }
+	public Boolean visit(MethodDeclaration n, Void v) { dump(n); indent++; Boolean result = super.visit(n, v); indent--; return result; }
 
-	public void visit(Parameter n, Void v) { dump(n); indent++; super.visit(n, v); indent--; }
+	public Boolean visit(Parameter n, Void v) { dump(n); indent++; Boolean result = super.visit(n, v); indent--; return result; }
 
-	public void visit(InitializerDeclaration n, Void v) { dump(n); indent++; super.visit(n, v); indent--; }
+	public Boolean visit(InitializerDeclaration n, Void v) { dump(n); indent++; Boolean result = super.visit(n, v); indent--; return result; }
 
-	public void visit(JavadocComment n, Void v) { dump(n); indent++; super.visit(n, v); indent--; }
+	public Boolean visit(JavadocComment n, Void v) { dump(n); indent++; Boolean result = super.visit(n, v); indent--; return result; }
 
 	//- Type ----------------------------------------------
 
-	public void visit(ClassOrInterfaceType n, Void v) { dump(n); indent++; super.visit(n, v); indent--; }
+	public Boolean visit(ClassOrInterfaceType n, Void v) { dump(n); indent++; Boolean result = super.visit(n, v); indent--; return result; }
 
-	public void visit(PrimitiveType n, Void v) { dump(n); indent++; super.visit(n, v); indent--; }
+	public Boolean visit(PrimitiveType n, Void v) { dump(n); indent++; Boolean result = super.visit(n, v); indent--; return result; }
 
-	public void visit(ArrayType n, Void v) { dump(n); indent++; super.visit(n, v); indent--; }
+	public Boolean visit(ArrayType n, Void v) { dump(n); indent++; Boolean result = super.visit(n, v); indent--; return result; }
 
-	public void visit(ArrayCreationLevel n, Void v) { dump(n); indent++; super.visit(n, v); indent--; }
+	public Boolean visit(ArrayCreationLevel n, Void v) { dump(n); indent++; Boolean result = super.visit(n, v); indent--; return result; }
 
-    public void visit(IntersectionType n, Void v) { dump(n); indent++; super.visit(n, v); indent--; }
+    public Boolean visit(IntersectionType n, Void v) { dump(n); indent++; Boolean result = super.visit(n, v); indent--; return result; }
 
-    public void visit(UnionType n, Void v) { dump(n); indent++; super.visit(n, v); indent--; }
+    public Boolean visit(UnionType n, Void v) { dump(n); indent++; Boolean result = super.visit(n, v); indent--; return result; }
 
-	public void visit(VoidType n, Void v) { dump(n); indent++; super.visit(n, v); indent--; }
+	public Boolean visit(VoidType n, Void v) { dump(n); indent++; Boolean result = super.visit(n, v); indent--; return result; }
 
-	public void visit(WildcardType n, Void v) { dump(n); indent++; super.visit(n, v); indent--; }
+	public Boolean visit(WildcardType n, Void v) { dump(n); indent++; Boolean result = super.visit(n, v); indent--; return result; }
 
-	public void visit(UnknownType n, Void v) { dump(n); indent++; super.visit(n, v); indent--; }
+	public Boolean visit(UnknownType n, Void v) { dump(n); indent++; Boolean result = super.visit(n, v); indent--; return result; }
 
 	//- Expression ----------------------------------------
 
-	public void visit(ArrayAccessExpr n, Void v) { dump(n); indent++; super.visit(n, v); indent--; }
+	public Boolean visit(ArrayAccessExpr n, Void v) { dump(n); indent++; Boolean result = super.visit(n, v); indent--; return result; }
 
-	public void visit(ArrayCreationExpr n, Void v) { dump(n); indent++; super.visit(n, v); indent--; }
+	public Boolean visit(ArrayCreationExpr n, Void v) { dump(n); indent++; Boolean result = super.visit(n, v); indent--; return result; }
 
-	public void visit(ArrayInitializerExpr n, Void v) { dump(n); indent++; super.visit(n, v); indent--; }
+	public Boolean visit(ArrayInitializerExpr n, Void v) { dump(n); indent++; Boolean result = super.visit(n, v); indent--; return result; }
 
-	public void visit(AssignExpr n, Void v) { dump(n); indent++; super.visit(n, v); indent--; }
+	public Boolean visit(AssignExpr n, Void v) { dump(n); indent++; Boolean result = super.visit(n, v); indent--; return result; }
 
-	public void visit(BinaryExpr n, Void v) { dump(n); indent++; super.visit(n, v); indent--; }
+	public Boolean visit(BinaryExpr n, Void v) { dump(n); indent++; Boolean result = super.visit(n, v); indent--; return result; }
 
-	public void visit(CastExpr n, Void v) { dump(n); indent++; super.visit(n, v); indent--; }
+	public Boolean visit(CastExpr n, Void v) { dump(n); indent++; Boolean result = super.visit(n, v); indent--; return result; }
 
-	public void visit(ClassExpr n, Void v) { dump(n); indent++; super.visit(n, v); indent--; }
+	public Boolean visit(ClassExpr n, Void v) { dump(n); indent++; Boolean result = super.visit(n, v); indent--; return result; }
 
-	public void visit(ConditionalExpr n, Void v) { dump(n); indent++; super.visit(n, v); indent--; }
+	public Boolean visit(ConditionalExpr n, Void v) { dump(n); indent++; Boolean result = super.visit(n, v); indent--; return result; }
 
-	public void visit(EnclosedExpr n, Void v) { dump(n); indent++; super.visit(n, v); indent--; }
+	public Boolean visit(EnclosedExpr n, Void v) { dump(n); indent++; Boolean result = super.visit(n, v); indent--; return result; }
 
-	public void visit(FieldAccessExpr n, Void v) { dump(n); indent++; super.visit(n, v); indent--; }
+	public Boolean visit(FieldAccessExpr n, Void v) { dump(n); indent++; Boolean result = super.visit(n, v); indent--; return result; }
 
-	public void visit(InstanceOfExpr n, Void v) { dump(n); indent++; super.visit(n, v); indent--; }
+	public Boolean visit(InstanceOfExpr n, Void v) { dump(n); indent++; Boolean result = super.visit(n, v); indent--; return result; }
 
-	public void visit(StringLiteralExpr n, Void v) { dump(n); indent++; super.visit(n, v); indent--; }
+	public Boolean visit(StringLiteralExpr n, Void v) { dump(n); indent++; Boolean result = super.visit(n, v); indent--; return result; }
 
-	public void visit(IntegerLiteralExpr n, Void v) { dump(n); indent++; super.visit(n, v); indent--; }
+	public Boolean visit(IntegerLiteralExpr n, Void v) { dump(n); indent++; Boolean result = super.visit(n, v); indent--; return result; }
 
-	public void visit(LongLiteralExpr n, Void v) { dump(n); indent++; super.visit(n, v); indent--; }
+	public Boolean visit(LongLiteralExpr n, Void v) { dump(n); indent++; Boolean result = super.visit(n, v); indent--; return result; }
 
-	public void visit(CharLiteralExpr n, Void v) { dump(n); indent++; super.visit(n, v); indent--; }
+	public Boolean visit(CharLiteralExpr n, Void v) { dump(n); indent++; Boolean result = super.visit(n, v); indent--; return result; }
 
-	public void visit(DoubleLiteralExpr n, Void v) { dump(n); indent++; super.visit(n, v); indent--; }
+	public Boolean visit(DoubleLiteralExpr n, Void v) { dump(n); indent++; Boolean result = super.visit(n, v); indent--; return result; }
 
-	public void visit(BooleanLiteralExpr n, Void v) { dump(n); indent++; super.visit(n, v); indent--; }
+	public Boolean visit(BooleanLiteralExpr n, Void v) { dump(n); indent++; Boolean result = super.visit(n, v); indent--; return result; }
 
-	public void visit(NullLiteralExpr n, Void v) { dump(n); indent++; super.visit(n, v); indent--; }
+	public Boolean visit(NullLiteralExpr n, Void v) { dump(n); indent++; Boolean result = super.visit(n, v); indent--; return result; }
 
-	public void visit(MethodCallExpr n, Void v) { dump(n); indent++; super.visit(n, v); indent--; }
+	public Boolean visit(MethodCallExpr n, Void v) { dump(n); indent++; Boolean result = super.visit(n, v); indent--; return result; }
 
-	public void visit(NameExpr n, Void v) { dump(n); indent++; super.visit(n, v); indent--; }
+	public Boolean visit(NameExpr n, Void v) { dump(n); indent++; Boolean result = super.visit(n, v); indent--; return result; }
 
-	public void visit(ObjectCreationExpr n, Void v) { dump(n); indent++; super.visit(n, v); indent--; }
+	public Boolean visit(ObjectCreationExpr n, Void v) { dump(n); indent++; Boolean result = super.visit(n, v); indent--; return result; }
 
-	public void visit(ThisExpr n, Void v) { dump(n); indent++; super.visit(n, v); indent--; }
+	public Boolean visit(ThisExpr n, Void v) { dump(n); indent++; Boolean result = super.visit(n, v); indent--; return result; }
 
-	public void visit(SuperExpr n, Void v) { dump(n); indent++; super.visit(n, v); indent--; }
+	public Boolean visit(SuperExpr n, Void v) { dump(n); indent++; Boolean result = super.visit(n, v); indent--; return result; }
 
-	public void visit(UnaryExpr n, Void v) { dump(n); indent++; super.visit(n, v); indent--; }
+	public Boolean visit(UnaryExpr n, Void v) { dump(n); indent++; Boolean result = super.visit(n, v); indent--; return result; }
 
-	public void visit(VariableDeclarationExpr n, Void v) { dump(n); indent++; super.visit(n, v); indent--; }
+	public Boolean visit(VariableDeclarationExpr n, Void v) { dump(n); indent++; Boolean result = super.visit(n, v); indent--; return result; }
 
-	public void visit(MarkerAnnotationExpr n, Void v) { dump(n); indent++; super.visit(n, v); indent--; }
+	public Boolean visit(MarkerAnnotationExpr n, Void v) { dump(n); indent++; Boolean result = super.visit(n, v); indent--; return result; }
 
-	public void visit(SingleMemberAnnotationExpr n, Void v) { dump(n); indent++; super.visit(n, v); indent--; }
+	public Boolean visit(SingleMemberAnnotationExpr n, Void v) { dump(n); indent++; Boolean result = super.visit(n, v); indent--; return result; }
 
-	public void visit(NormalAnnotationExpr n, Void v) { dump(n); indent++; super.visit(n, v); indent--; }
+	public Boolean visit(NormalAnnotationExpr n, Void v) { dump(n); indent++; Boolean result = super.visit(n, v); indent--; return result; }
 
-	public void visit(MemberValuePair n, Void v) { dump(n); indent++; super.visit(n, v); indent--; }
+	public Boolean visit(MemberValuePair n, Void v) { dump(n); indent++; Boolean result = super.visit(n, v); indent--; return result; }
 
 	//- Statements ----------------------------------------
 
-	public void visit(ExplicitConstructorInvocationStmt n, Void v) { dump(n); indent++; super.visit(n, v); indent--; }
+	public Boolean visit(ExplicitConstructorInvocationStmt n, Void v) { dump(n); indent++; Boolean result = super.visit(n, v); indent--; return result; }
 
-	public void visit(AssertStmt n, Void v) { dump(n); indent++; super.visit(n, v); indent--; }
+	public Boolean visit(AssertStmt n, Void v) { dump(n); indent++; Boolean result = super.visit(n, v); indent--; return result; }
 
-	public void visit(BlockStmt n, Void v) { dump(n); indent++; super.visit(n, v); indent--; }
+	public Boolean visit(BlockStmt n, Void v) { dump(n); indent++; Boolean result = super.visit(n, v); indent--; return result; }
 
-	public void visit(LabeledStmt n, Void v) { dump(n); indent++; super.visit(n, v); indent--; }
+	public Boolean visit(LabeledStmt n, Void v) { dump(n); indent++; Boolean result = super.visit(n, v); indent--; return result; }
 
-	public void visit(EmptyStmt n, Void v) { dump(n); indent++; super.visit(n, v); indent--; }
+	public Boolean visit(EmptyStmt n, Void v) { dump(n); indent++; Boolean result = super.visit(n, v); indent--; return result; }
 
-	public void visit(ExpressionStmt n, Void v) { dump(n); indent++; super.visit(n, v); indent--; }
+	public Boolean visit(ExpressionStmt n, Void v) { dump(n); indent++; Boolean result = super.visit(n, v); indent--; return result; }
 
-	public void visit(SwitchStmt n, Void v) { dump(n); indent++; super.visit(n, v); indent--; }
+	public Boolean visit(SwitchStmt n, Void v) { dump(n); indent++; Boolean result = super.visit(n, v); indent--; return result; }
 
-	public void visit(SwitchEntryStmt n, Void v) { dump(n); indent++; super.visit(n, v); indent--; }
+	public Boolean visit(SwitchEntryStmt n, Void v) { dump(n); indent++; Boolean result = super.visit(n, v); indent--; return result; }
 
-	public void visit(BreakStmt n, Void v) { dump(n); indent++; super.visit(n, v); indent--; }
+	public Boolean visit(BreakStmt n, Void v) { dump(n); indent++; Boolean result = super.visit(n, v); indent--; return result; }
 
-	public void visit(ReturnStmt n, Void v) { dump(n); indent++; super.visit(n, v); indent--; }
+	public Boolean visit(ReturnStmt n, Void v) { dump(n); indent++; Boolean result = super.visit(n, v); indent--; return result; }
 
-	public void visit(IfStmt n, Void v) { dump(n); indent++; super.visit(n, v); indent--; }
+	public Boolean visit(IfStmt n, Void v) { dump(n); indent++; Boolean result = super.visit(n, v); indent--; return result; }
 
-	public void visit(WhileStmt n, Void v) { dump(n); indent++; super.visit(n, v); indent--; }
+	public Boolean visit(WhileStmt n, Void v) { dump(n); indent++; Boolean result = super.visit(n, v); indent--; return result; }
 
-	public void visit(ContinueStmt n, Void v) { dump(n); indent++; super.visit(n, v); indent--; }
+	public Boolean visit(ContinueStmt n, Void v) { dump(n); indent++; Boolean result = super.visit(n, v); indent--; return result; }
 
-	public void visit(DoStmt n, Void v) { dump(n); indent++; super.visit(n, v); indent--; }
+	public Boolean visit(DoStmt n, Void v) { dump(n); indent++; Boolean result = super.visit(n, v); indent--; return result; }
 
-	public void visit(ForeachStmt n, Void v) { dump(n); indent++; super.visit(n, v); indent--; }
+	public Boolean visit(ForeachStmt n, Void v) { dump(n); indent++; Boolean result = super.visit(n, v); indent--; return result; }
 
-	public void visit(ForStmt n, Void v) { dump(n); indent++; super.visit(n, v); indent--; }
+	public Boolean visit(ForStmt n, Void v) { dump(n); indent++; Boolean result = super.visit(n, v); indent--; return result; }
 
-	public void visit(ThrowStmt n, Void v) { dump(n); indent++; super.visit(n, v); indent--; }
+	public Boolean visit(ThrowStmt n, Void v) { dump(n); indent++; Boolean result = super.visit(n, v); indent--; return result; }
 
-	public void visit(SynchronizedStmt n, Void v) { dump(n); indent++; super.visit(n, v); indent--; }
+	public Boolean visit(SynchronizedStmt n, Void v) { dump(n); indent++; Boolean result = super.visit(n, v); indent--; return result; }
 
-	public void visit(TryStmt n, Void v) { dump(n); indent++; super.visit(n, v); indent--; }
+	public Boolean visit(TryStmt n, Void v) { dump(n); indent++; Boolean result = super.visit(n, v); indent--; return result; }
 
-	public void visit(CatchClause n, Void v) { dump(n); indent++; super.visit(n, v); indent--; }
+	public Boolean visit(CatchClause n, Void v) { dump(n); indent++; Boolean result = super.visit(n, v); indent--; return result; }
 
-    public void visit(LambdaExpr n, Void v) { dump(n); indent++; super.visit(n, v); indent--; }
+    public Boolean visit(LambdaExpr n, Void v) { dump(n); indent++; Boolean result = super.visit(n, v); indent--; return result; }
 
-    public void visit(MethodReferenceExpr n, Void v) { dump(n); indent++; super.visit(n, v); indent--; }
+    public Boolean visit(MethodReferenceExpr n, Void v) { dump(n); indent++; Boolean result = super.visit(n, v); indent--; return result; }
 
-    public void visit(TypeExpr n, Void v) { dump(n); indent++; super.visit(n, v); indent--; }
+    public Boolean visit(TypeExpr n, Void v) { dump(n); indent++; Boolean result = super.visit(n, v); indent--; return result; }
 
-    public void visit(UnparsableStmt n, Void v) { dump(n); indent++; super.visit(n, v); indent--; }
+    public Boolean visit(UnparsableStmt n, Void v) { dump(n); indent++; Boolean result = super.visit(n, v); indent--; return result; }
 }

@@ -6,7 +6,6 @@ import java.io.StringReader;
 import java.lang.String;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Optional;
 
 import com.github.javaparser.ast.CompilationUnit;
 import com.github.javaparser.ast.PackageDeclaration;
@@ -15,7 +14,6 @@ import com.github.javaparser.ParseProblemException;
 import com.github.javaparser.Position;
 import com.github.javaparser.Problem;
 import com.github.javaparser.Range;
-import com.github.javaparser.TokenRange;
 import com.github.javaparser.symbolsolver.javaparser.Navigator;
 import com.github.javaparser.symbolsolver.javaparsermodel.JavaParserFacade;
 import com.github.javaparser.symbolsolver.model.resolution.TypeSolver;
@@ -140,6 +138,8 @@ public class JavaIndexer
 	
 	// the following methods are defined in the native c++ code
 
+	static public native boolean getInterrupted(int address);
+	
 	static public native void logInfo(int address, String info);
 	
 	static public native void logWarning(int address, String warning);

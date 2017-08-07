@@ -20,7 +20,6 @@ import com.github.javaparser.ast.body.Parameter;
 import com.github.javaparser.ast.body.TypeDeclaration;
 import com.github.javaparser.ast.body.VariableDeclarator;
 import com.github.javaparser.ast.expr.Name;
-import com.github.javaparser.ast.expr.SimpleName;
 import com.github.javaparser.ast.type.TypeParameter;
 import com.github.javaparser.symbolsolver.model.resolution.TypeSolver;
 
@@ -49,7 +48,7 @@ public class JavaparserDeclNameResolver extends JavaNameResolver
 	
 	public JavaDeclName getQualifiedDeclName(VariableDeclarator decl)
 	{
-		JavaDeclName declName = new JavaDeclName("unsolved-jp-decl"); // JavaDeclName.unsolved();
+		JavaDeclName declName = JavaDeclName.unsolved();
 
 		if (decl != null)
 		{
@@ -111,7 +110,7 @@ public class JavaparserDeclNameResolver extends JavaNameResolver
 	
 	public JavaDeclName getQualifiedDeclName(BodyDeclaration<?> decl)
 	{
-		JavaDeclName declName = new JavaDeclName("unsolved-jp-decl"); // JavaDeclName.unsolved();
+		JavaDeclName declName = JavaDeclName.unsolved();
 		
 		if (decl != null)
 		{
@@ -149,7 +148,7 @@ public class JavaparserDeclNameResolver extends JavaNameResolver
 	
 	public JavaDeclName getDeclName(BodyDeclaration decl)
 	{
-		JavaDeclName declName = new JavaDeclName("unsolved-jp-decl"); // JavaDeclName.unsolved();
+		JavaDeclName declName = JavaDeclName.unsolved();
 		
 		if (decl != null)
 		{
@@ -201,7 +200,7 @@ public class JavaparserDeclNameResolver extends JavaNameResolver
 	
 	public JavaDeclName getQualifiedDeclName(TypeParameter decl)
 	{
-		JavaDeclName declName = new JavaDeclName("unsolved-jp-decl"); // JavaDeclName.unsolved();
+		JavaDeclName declName = JavaDeclName.unsolved();
 		
 		if (decl != null)
 		{
