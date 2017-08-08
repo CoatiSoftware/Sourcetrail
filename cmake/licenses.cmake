@@ -30,8 +30,9 @@ AddLicense("JavaSymbolSolver" "https://github.com/ftomassetti/java-symbol-solver
 AddLicense("Javaparser" "http://javaparser.org/" "${LICENSEFOLDER}/license_javaparser.txt")
 AddLicense("Javaslang" "http://www.javaslang.io/" "${LICENSEFOLDER}/license_javaslang.txt")
 AddLicense("Javassist" "http://www.javassist.org/" "${LICENSEFOLDER}/license_javassist.txt")
+AddLicense("OpenSSL" "https://www.openssl.org/" "${LICENSEFOLDER}/license_openssl.txt")
 AddLicense("Qt" "http://qt.io" "${LICENSEFOLDER}/license_qt.txt")
-AddLicense("TinyXMl" "http://www.grinninglizard.com/tinyxml2/" "${LICENSEFOLDER}/license_tinyxml.txt")
+AddLicense("TinyXML" "http://www.grinninglizard.com/tinyxml2/" "${LICENSEFOLDER}/license_tinyxml.txt")
 
 set(LICENSE_ARRAY "${LICENSE_ARRAY}\n")
 
