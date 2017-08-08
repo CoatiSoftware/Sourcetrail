@@ -483,12 +483,12 @@ void QtMainWindow::enteredLicense()
 
 void QtMainWindow::showDataFolder()
 {
-	QDesktopServices::openUrl(QUrl(("file:///" + UserPaths::getUserDataPath().str()).c_str(), QUrl::TolerantMode));
+	QDesktopServices::openUrl(QUrl(("file:///" + UserPaths::getUserDataPath().canonical().str()).c_str(), QUrl::TolerantMode));
 }
 
 void QtMainWindow::showLogFolder()
 {
-	QDesktopServices::openUrl(QUrl(("file:///" + UserPaths::getLogPath().str()).c_str(), QUrl::TolerantMode));
+	QDesktopServices::openUrl(QUrl(("file:///" + UserPaths::getLogPath().canonical().str()).c_str(), QUrl::TolerantMode));
 }
 
 void QtMainWindow::showStartScreen()
