@@ -5,7 +5,7 @@
 #include <stack>
 #include <thread>
 
-#include "utility/TimePoint.h"
+#include "utility/TimeStamp.h"
 #include "utility/types.h"
 
 struct TraceEvent
@@ -63,7 +63,7 @@ public:
 
 private:
 	TraceEvent* m_event;
-	TimePoint m_timePoint;
+	TimeStamp m_TimeStamp;
 };
 
 

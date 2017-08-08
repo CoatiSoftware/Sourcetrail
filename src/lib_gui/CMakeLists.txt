@@ -80,8 +80,12 @@ add_files(
 	qt/network/QtIDECommunicationController.h
 	qt/network/QtNetworkFactory.cpp
 	qt/network/QtNetworkFactory.h
+	qt/network/QtRequest.cpp
+	qt/network/QtRequest.h
 	qt/network/QtTcpWrapper.cpp
 	qt/network/QtTcpWrapper.h
+	qt/network/QtUpdateChecker.cpp
+	qt/network/QtUpdateChecker.h
 
 	qt/utility/QtContextMenu.cpp
 	qt/utility/QtContextMenu.h

@@ -4,6 +4,7 @@
 #include "settings/migration/SettingsMigrationMoveKey.h"
 #include "utility/ResourcePaths.h"
 #include "utility/Status.h"
+#include "utility/TimeStamp.h"
 #include "utility/utility.h"
 #include "utility/UserPaths.h"
 
@@ -403,6 +404,36 @@ int ApplicationSettings::getAcceptedEulaVersion() const
 void ApplicationSettings::setAcceptedEulaVersion(int version)
 {
 	setValue<int>("user/accepted_eula_version", version);
+}
+
+std::string ApplicationSettings::getUserToken() const
+{
+	return getValue<std::string>("user/token", "");
+}
+
+void ApplicationSettings::setUserToken(std::string token)
+{
+	setValue<std::string>("user/token", token);
+}
+
+bool ApplicationSettings::getAutomaticUpdateCheck() const
+{
+	return getValue<bool>("user/update_check/automatic", false);
+}
+
+void ApplicationSettings::setAutomaticUpdateCheck(bool automaticUpdates)
+{
+	setValue<bool>("user/update_check/automatic", automaticUpdates);
+}
+
+TimeStamp ApplicationSettings::getLastUpdateCheck() const
+{
+	return TimeStamp(getValue<std::string>("user/update_check/last", ""));
+}
+
+void ApplicationSettings::setLastUpdateCheck(const TimeStamp& time)
+{
+	setValue<std::string>("user/update_check/last", time.toString());
 }
 
 int ApplicationSettings::getPluginPort() const

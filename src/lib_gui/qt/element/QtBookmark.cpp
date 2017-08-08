@@ -242,9 +242,10 @@ std::string QtBookmark::getDateString() const
 {
 	std::string result = "n/a";
 
-	TimePoint creationDate = m_bookmark->getTimeStamp();
+	TimeStamp creationDate = m_bookmark->getTimeStamp();
+	TimeStamp now = TimeStamp::now();
 
-	float delta = TimePoint::now() - creationDate;
+	size_t delta = now.deltaS(creationDate);
 
 	if (delta < 3600.0f) // less than an hour ago
 	{
@@ -254,11 +255,11 @@ std::string QtBookmark::getDateString() const
 	{
 		result = std::to_string(int(delta / 3600.0f)) + " hours ago";
 	}
-	else if (creationDate.isSameDay(TimePoint::now())) // today
+	else if (creationDate.isSameDay(now)) // today
 	{
 		result = "today";
 	}
-	else if (creationDate.deltaDays(TimePoint::now()) == 1) // yesterday
+	else if (creationDate.deltaDays(now) == 1) // yesterday
 	{
 		result = "yesterday";
 	}

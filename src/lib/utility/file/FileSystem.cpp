@@ -143,7 +143,7 @@ unsigned long long FileSystem::getFileByteSize(const FilePath& filePath)
 	return boost::filesystem::file_size(filePath.path());
 }
 
-TimePoint FileSystem::getLastWriteTime(const FilePath& filePath)
+TimeStamp FileSystem::getLastWriteTime(const FilePath& filePath)
 {
 	boost::posix_time::ptime lastWriteTime;
 	if (filePath.exists())
@@ -151,7 +151,7 @@ TimePoint FileSystem::getLastWriteTime(const FilePath& filePath)
 		std::time_t t = boost::filesystem::last_write_time(filePath.path());
 		lastWriteTime = boost::posix_time::from_time_t(t);
 	}
-	return TimePoint(lastWriteTime);
+	return TimeStamp(lastWriteTime);
 }
 
 std::string FileSystem::getTimeStringNow() // TODO: move to utility

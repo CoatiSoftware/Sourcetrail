@@ -90,7 +90,7 @@ std::string Generator::encodeLicense(
 
     if (!version.empty())
     {
-        Version tempVersion = Version::fromShortString(version);
+        Version tempVersion = Version::fromString(version);
         if (tempVersion.isValid())
         {
             createLicense(user, licenseType, tempVersion.toShortString(), seats);
@@ -196,7 +196,7 @@ bool Generator::loadPrivateKeyFromFile()
 
     Botan::Private_Key* privateKey = Botan::PKCS8::load_key(getPrivateKeyFilename(), m_rng, PRIVATE_KEY_PASSWORD);
     Botan::RSA_PrivateKey *rsaKey = dynamic_cast<Botan::RSA_PrivateKey *>(privateKey);
-    
+
 	if (!rsaKey)
 	{
         std::cout << "The key is not a RSA key" << std::endl;
@@ -219,7 +219,7 @@ bool Generator::loadPrivateKeyFromString(const std::string& key)
     Botan::DataSource_Memory in(key);
     Botan::Private_Key* privateKey= Botan::PKCS8::load_key(in, m_rng, PRIVATE_KEY_PASSWORD);
     Botan::RSA_PrivateKey *rsaKey = dynamic_cast<Botan::RSA_PrivateKey *>(privateKey);
-    
+
 	if (!rsaKey)
 	{
         std::cout << "The key is not a RSA key" << std::endl;

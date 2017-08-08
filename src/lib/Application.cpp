@@ -13,10 +13,10 @@
 #include "utility/utilityUuid.h"
 #include "utility/Version.h"
 
+#include "component/controller/IDECommunicationController.h"
+#include "component/NetworkFactory.h"
 #include "component/view/DialogView.h"
 #include "component/view/GraphViewStyle.h"
-#include "component/controller/NetworkFactory.h"
-#include "component/controller/IDECommunicationController.h"
 #include "component/view/MainView.h"
 #include "component/view/ViewFactory.h"
 #include "data/storage/StorageCache.h"
@@ -24,6 +24,7 @@
 #include "settings/ApplicationSettings.h"
 #include "settings/ProjectSettings.h"
 #include "settings/ColorScheme.h"
+#include "UpdateChecker.h"
 
 std::shared_ptr<Application> Application::s_instance;
 std::string Application::s_uuid;
@@ -61,6 +62,8 @@ void Application::createInstance(
 		s_instance->m_ideCommunicationController =
 			networkFactory->createIDECommunicationController(s_instance->m_storageCache.get());
 		s_instance->m_ideCommunicationController->startListening();
+
+		s_instance->m_updateChecker = networkFactory->createUpdateChecker();
 	}
 
 	s_instance->startMessagingAndScheduling();
@@ -307,6 +310,14 @@ void Application::handleMessage(MessageSwitchColorScheme* message)
 
 	loadStyle(message->colorSchemePath);
 	MessageRefresh().refreshUiOnly().noReloadStyle().dispatch();
+}
+
+void Application::handleMessage(MessageWindowFocus* message)
+{
+	if (message->focusIn && ApplicationSettings::getInstance()->getAutomaticUpdateCheck())
+	{
+		m_updateChecker->checkUpdate();
+	}
 }
 
 void Application::startMessagingAndScheduling()

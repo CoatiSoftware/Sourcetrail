@@ -10,7 +10,7 @@
 #include "utility/messaging/type/MessageNewErrors.h"
 #include "utility/messaging/type/MessageStatus.h"
 #include "utility/text/TextAccess.h"
-#include "utility/TimePoint.h"
+#include "utility/TimeStamp.h"
 #include "utility/tracing.h"
 #include "utility/utility.h"
 

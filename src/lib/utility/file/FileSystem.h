@@ -5,7 +5,7 @@
 #include <vector>
 
 #include "utility/file/FileInfo.h"
-#include "utility/TimePoint.h"
+#include "utility/TimeStamp.h"
 
 class FileSystem
 {
@@ -20,7 +20,7 @@ public:
 
 	static unsigned long long getFileByteSize(const FilePath& filePath);
 
-	static TimePoint getLastWriteTime(const FilePath& filePath);
+	static TimeStamp getLastWriteTime(const FilePath& filePath);
 	static std::string getTimeStringNow();
 
 	static bool exists(const FilePath& path);

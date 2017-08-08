@@ -70,7 +70,7 @@ QtCodeFile* QtCodeFileList::getFile(const FilePath filePath)
 	return file;
 }
 
-void QtCodeFileList::addFile(const FilePath& filePath, bool isWholeFile, int refCount, TimePoint modificationTime, bool isComplete)
+void QtCodeFileList::addFile(const FilePath& filePath, bool isWholeFile, int refCount, TimeStamp modificationTime, bool isComplete)
 {
 	QtCodeFile* file = getFile(filePath);
 	file->setWholeFile(isWholeFile, refCount);

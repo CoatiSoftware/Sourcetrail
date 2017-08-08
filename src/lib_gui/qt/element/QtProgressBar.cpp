@@ -56,7 +56,7 @@ void QtProgressBar::paintEvent(QPaintEvent* event)
 
 void QtProgressBar::start()
 {
-	m_timePoint = TimePoint::now();
+	m_TimeStamp = TimeStamp::now();
 	m_timer->start(25);
 }
 
@@ -68,15 +68,15 @@ void QtProgressBar::stop()
 
 void QtProgressBar::animate()
 {
-	TimePoint t = TimePoint::now();
-	size_t dt = t.deltaMS(m_timePoint);
+	TimeStamp t = TimeStamp::now();
+	size_t dt = t.deltaMS(m_TimeStamp);
 
 	if (dt < 5)
 	{
 		return;
 	}
 
-	m_timePoint = t;
+	m_TimeStamp = t;
 	m_count++;
 
 	update();

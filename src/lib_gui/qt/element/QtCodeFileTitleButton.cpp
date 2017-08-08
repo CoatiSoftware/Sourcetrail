@@ -47,7 +47,7 @@ void QtCodeFileTitleButton::setFilePath(const FilePath& filePath)
 	));
 }
 
-void QtCodeFileTitleButton::setModificationTime(const TimePoint modificationTime)
+void QtCodeFileTitleButton::setModificationTime(const TimeStamp modificationTime)
 {
 	if (modificationTime.isValid())
 	{

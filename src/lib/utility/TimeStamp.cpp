@@ -1,26 +1,21 @@
-#include "TimePoint.h"
+#include "TimeStamp.h"
 
-TimePoint TimePoint::now()
+TimeStamp TimeStamp::now()
 {
-	return TimePoint(boost::posix_time::microsec_clock::local_time());
+	return TimeStamp(boost::posix_time::microsec_clock::local_time());
 }
 
-TimePoint::TimePoint()
+TimeStamp::TimeStamp()
 	: m_time(boost::posix_time::not_a_date_time)
 {
 }
 
-TimePoint::TimePoint(boost::posix_time::ptime t)
+TimeStamp::TimeStamp(boost::posix_time::ptime t)
 	: m_time(t)
 {
 }
 
-//TimePoint::TimePoint(time_t t)
-//{
-// needs an implementation
-//}
-
-TimePoint::TimePoint(std::string s)
+TimeStamp::TimeStamp(std::string s)
 	: m_time(boost::posix_time::not_a_date_time)
 {
 	if (s.size())
@@ -29,12 +24,12 @@ TimePoint::TimePoint(std::string s)
 	}
 }
 
-bool TimePoint::isValid() const
+bool TimeStamp::isValid() const
 {
 	return m_time != boost::posix_time::not_a_date_time;
 }
 
-std::string TimePoint::toString() const
+std::string TimeStamp::toString() const
 {
 	std::stringstream stream;
 	boost::posix_time::time_facet* facet = new boost::posix_time::time_facet();
@@ -44,7 +39,7 @@ std::string TimePoint::toString() const
 	return stream.str();
 }
 
-std::string TimePoint::getDDMMYYYYString() const
+std::string TimeStamp::getDDMMYYYYString() const
 {
 	std::stringstream stream;
 	boost::posix_time::time_facet* facet = new boost::posix_time::time_facet();
@@ -54,17 +49,17 @@ std::string TimePoint::getDDMMYYYYString() const
 	return stream.str();
 }
 
-size_t TimePoint::deltaMS(const TimePoint& other) const
+size_t TimeStamp::deltaMS(const TimeStamp& other) const
 {
 	return (m_time - other.m_time).total_milliseconds();
 }
 
-size_t TimePoint::deltaS(const TimePoint& other) const
+size_t TimeStamp::deltaS(const TimeStamp& other) const
 {
 	return (m_time - other.m_time).total_seconds();
 }
 
-bool TimePoint::isSameDay(const TimePoint& other) const
+bool TimeStamp::isSameDay(const TimeStamp& other) const
 {
 	if (m_time.date().day() == other.m_time.date().day() &&
 		m_time.date().month() == other.m_time.date().month() &&
@@ -76,8 +71,14 @@ bool TimePoint::isSameDay(const TimePoint& other) const
 	return false;
 }
 
-size_t TimePoint::deltaDays(const TimePoint& other) const
+size_t TimeStamp::deltaDays(const TimeStamp& other) const
 {
 	boost::gregorian::date_duration deltaDate = m_time.date() - other.m_time.date();
 	return size_t(std::abs(deltaDate.days()));
+}
+
+long TimeStamp::deltaHours(const TimeStamp& other) const
+{
+	boost::posix_time::time_duration delta = m_time - other.m_time;
+	return delta.total_seconds() / 3600;
 }

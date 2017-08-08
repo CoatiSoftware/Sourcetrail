@@ -249,7 +249,7 @@ void BookmarkController::handleMessage(MessageCreateBookmark* message)
 	{
 		LOG_INFO_STREAM(<< "Creating Edge Bookmark");
 
-		EdgeBookmark bookmark(0, message->displayName, message->comment, TimePoint::now(), category);
+		EdgeBookmark bookmark(0, message->displayName, message->comment, TimeStamp::now(), category);
 		bookmark.setEdgeIds(m_activeEdgeIds);
 
 		if (!m_activeNodeIds.empty())
@@ -267,7 +267,7 @@ void BookmarkController::handleMessage(MessageCreateBookmark* message)
 	{
 		LOG_INFO_STREAM(<< "Creating Node Bookmark");
 
-		NodeBookmark bookmark(0, message->displayName, message->comment, TimePoint::now(), category);
+		NodeBookmark bookmark(0, message->displayName, message->comment, TimeStamp::now(), category);
 		if (message->nodeId)
 		{
 			bookmark.addNodeId(message->nodeId);

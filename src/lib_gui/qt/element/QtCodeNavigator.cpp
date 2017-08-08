@@ -155,7 +155,7 @@ void QtCodeNavigator::addCodeSnippet(const CodeSnippetParams& params)
 	}
 }
 
-void QtCodeNavigator::addFile(std::shared_ptr<SourceLocationFile> locationFile, int refCount, TimePoint modificationTime)
+void QtCodeNavigator::addFile(std::shared_ptr<SourceLocationFile> locationFile, int refCount, TimeStamp modificationTime)
 {
 	bool firstFile = m_references.size() == 0;
 

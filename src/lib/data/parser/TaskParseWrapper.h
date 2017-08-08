@@ -6,7 +6,7 @@
 #include "utility/scheduling/Task.h"
 #include "utility/scheduling/TaskRunner.h"
 #include "utility/scheduling/TaskDecorator.h"
-#include "utility/TimePoint.h"
+#include "utility/TimeStamp.h"
 
 class DialogView;
 class FileRegister;
@@ -27,7 +27,7 @@ private:
 
 	PersistentStorage* m_storage;
 
-	TimePoint m_start;
+	TimeStamp m_start;
 };
 
 #endif // TASK_PARSE_WRAPPER_H

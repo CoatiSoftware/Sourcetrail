@@ -4,7 +4,7 @@
 #include <QPushButton>
 
 #include "utility/file/FilePath.h"
-#include "utility/TimePoint.h"
+#include "utility/TimeStamp.h"
 
 class QtCodeFileTitleButton
 	: public QPushButton
@@ -16,7 +16,7 @@ public:
 	virtual ~QtCodeFileTitleButton();
 
 	void setFilePath(const FilePath& filePath);
-	void setModificationTime(const TimePoint modificationTime);
+	void setModificationTime(const TimeStamp modificationTime);
 	void setIsComplete(bool isComplete);
 	void setProject(const std::string& name);
 
@@ -30,7 +30,7 @@ private slots:
 
 private:
 	FilePath m_filePath;
-	TimePoint m_modificationTime;
+	TimeStamp m_modificationTime;
 	bool m_isComplete;
 };
 

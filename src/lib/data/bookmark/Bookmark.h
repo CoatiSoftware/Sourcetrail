@@ -4,7 +4,7 @@
 #include <vector>
 #include <string>
 
-#include "utility/TimePoint.h"
+#include "utility/TimeStamp.h"
 #include "utility/types.h"
 
 #include "BookmarkCategory.h"
@@ -12,7 +12,7 @@
 class Bookmark
 {
 public:
-	Bookmark(const Id id, const std::string& name, const std::string& comment, const TimePoint& timeStamp, const BookmarkCategory& category);
+	Bookmark(const Id id, const std::string& name, const std::string& comment, const TimeStamp& timeStamp, const BookmarkCategory& category);
 	virtual ~Bookmark();
 
 	Id getId() const;
@@ -24,8 +24,8 @@ public:
 	std::string getComment() const;
 	void setComment(const std::string& comment);
 
-	TimePoint getTimeStamp() const;
-	void setTimeStamp(const TimePoint& timeStamp);
+	TimeStamp getTimeStamp() const;
+	void setTimeStamp(const TimeStamp& timeStamp);
 
 	BookmarkCategory getCategory() const;
 	void setCategory(const BookmarkCategory& category);
@@ -37,7 +37,7 @@ private:
 	Id m_id;
 	std::string m_name;
 	std::string m_comment;
-	TimePoint m_timeStamp;
+	TimeStamp m_timeStamp;
 	BookmarkCategory m_category;
 	bool m_isValid;
 };

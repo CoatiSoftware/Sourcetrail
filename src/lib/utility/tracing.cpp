@@ -173,11 +173,11 @@ ScopedTrace::ScopedTrace(
 	m_event->functionName = functionName;
 	m_event->locationName = FilePath(fileName).fileName() + ":" + std::to_string(lineNumber);
 
-	m_timePoint = utility::durationStart();
+	m_TimeStamp = utility::durationStart();
 }
 
 ScopedTrace::~ScopedTrace()
 {
-	m_event->time = utility::duration(m_timePoint);
+	m_event->time = utility::duration(m_TimeStamp);
 	Tracer::getInstance()->finishEvent(m_event);
 }

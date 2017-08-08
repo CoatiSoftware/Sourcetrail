@@ -7,7 +7,7 @@
 #include <QFrame>
 
 #include "utility/file/FilePath.h"
-#include "utility/TimePoint.h"
+#include "utility/TimeStamp.h"
 
 #include "qt/element/QtCodeNavigateable.h"
 
@@ -52,7 +52,7 @@ private:
 	struct FileData
 	{
 		FilePath filePath;
-		TimePoint modificationTime;
+		TimeStamp modificationTime;
 		bool isComplete;
 		std::string title;
 

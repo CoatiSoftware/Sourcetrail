@@ -16,20 +16,20 @@ ApplicationArchitectureType utility::getApplicationArchitectureType()
     return APPLICATION_ARCHITECTURE_UNKNOWN;
 }
 
-TimePoint utility::durationStart()
+TimeStamp utility::durationStart()
 {
-	return TimePoint::now();
+	return TimeStamp::now();
 }
 
-float utility::duration(const TimePoint& start)
+float utility::duration(const TimeStamp& start)
 {
-	TimePoint now = durationStart();
-	return now - start;
+	TimeStamp now = durationStart();
+	return float(now.deltaMS(start)) / 1000.0f;
 }
 
 float utility::duration(std::function<void()> func)
 {
-	const TimePoint start = durationStart();
+	const TimeStamp start = durationStart();
 
 	func();
 
@@ -45,7 +45,7 @@ std::string utility::timeToString(const time_t time)
 
 std::string utility::timeToString(const boost::posix_time::ptime time)
 {
-	return TimePoint(time).toString();
+	return TimeStamp(time).toString();
 }
 
 std::string utility::timeToString(float secondsTotal)

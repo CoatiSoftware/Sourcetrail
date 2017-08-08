@@ -4,7 +4,7 @@
 #include <QWidget>
 
 #include "qt/utility/QtDeviceScaledPixmap.h"
-#include "utility/TimePoint.h"
+#include "utility/TimeStamp.h"
 
 class QTimer;
 
@@ -34,7 +34,7 @@ private:
 
 	size_t m_count;
 	QTimer* m_timer;
-	TimePoint m_timePoint;
+	TimeStamp m_TimeStamp;
 
 	QtDeviceScaledPixmap m_pixmap;
 };

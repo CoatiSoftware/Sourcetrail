@@ -4,7 +4,8 @@
 <!-- INTEGER: int e.g 123 -->
 <!-- DECIMAL: float e.g 123.456 -->
 <!-- STRING: string e.g hello -->
-<!-- COLOR: int int int int - rgba e.g. 125 125 125 255 -->
+<!-- UUID: string e.g. 00000000-0000-0000-0000-000000000000 -->
+<!-- TIME: string in format "%Y-%m-%d %H:%M:%S" -->
 
 <config>
 	<version><!-- INTEGER: Version number --></version>
@@ -77,6 +78,13 @@
 		</license>
 
 		<accepted_eula_version><!-- INTEGER: last accepted eula version --></accepted_eula_version>
+
+		<token><!-- UUID: identifier for this user --></token>
+
+		<update_check>
+			<automatic><!-- BOOL: whether to check automatically for new software updates --></automatic>
+			<time_stamp><!-- TIME: time of the last update check --></time_stamp>
+		</update_check>
 	</user>
 
 	<network>

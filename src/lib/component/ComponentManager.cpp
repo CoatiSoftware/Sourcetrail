@@ -1,7 +1,5 @@
 #include "component/ComponentManager.h"
 
-#include "component/controller/NetworkFactory.h"
-
 #include "component/controller/Controller.h"
 #include "component/view/CompositeView.h"
 #include "component/view/DialogView.h"

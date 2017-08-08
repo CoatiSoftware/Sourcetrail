@@ -42,7 +42,18 @@
 	font-weight: bold;
 }
 
-#updateLabel {
+#updateButton {
+	margin: 1px 0 3px;
+	text-align: left;
+	padding: 0;
+	background: none;
+	border: none;
+	color: #007AC2;
+	font-size: 12px;
+	text-decoration: underline;
+}
+
+#updateCheckbox {
 	color: black;
 	font-size: 12px;
 }

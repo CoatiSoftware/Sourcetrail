@@ -17,6 +17,7 @@
 #include "component/view/View.h"
 #include "data/bookmark/Bookmark.h"
 #include "LicenseChecker.h"
+#include "qt/network/QtUpdateChecker.h"
 #include "qt/utility/QtContextMenu.h"
 #include "qt/utility/utilityQt.h"
 #include "qt/view/QtViewWidgetWrapper.h"
@@ -50,6 +51,7 @@
 #include "utility/tracing.h"
 #include "utility/UserPaths.h"
 #include "utility/utilityString.h"
+
 
 QtViewToggle::QtViewToggle(View* view, QWidget *parent)
 	: QWidget(parent)
@@ -104,7 +106,7 @@ QtMainWindow::QtMainWindow()
 	, m_showDockWidgetTitleBars(true)
 	, m_windowStack(this)
 {
-    setObjectName("QtMainWindow");
+	setObjectName("QtMainWindow");
 	setCentralWidget(nullptr);
 	setDockNestingEnabled(true);
 
@@ -112,13 +114,13 @@ QtMainWindow::QtMainWindow()
 	setWindowFlags(Qt::Widget);
 
 #ifdef __linux__
-    if (std::getenv("SOURCETRAIL_VIA_SCRIPT") == nullptr)
-    {
-       QMessageBox::warning(this, "Run Sourcetrail via Script", "Please run Sourcetrail via Sourcetrail.sh");
-    }
+	if (std::getenv("SOURCETRAIL_VIA_SCRIPT") == nullptr)
+	{
+	   QMessageBox::warning(this, "Run Sourcetrail via Script", "Please run Sourcetrail via Sourcetrail.sh");
+	}
 #endif
 
-    QApplication* app = dynamic_cast<QApplication*>(QCoreApplication::instance());
+	QApplication* app = dynamic_cast<QApplication*>(QCoreApplication::instance());
 	app->installEventFilter(new MouseReleaseFilter(this));
 
 	app->setStyleSheet(utility::getStyleSheet(ResourcePaths::getGuiPath().concat(FilePath("main.css"))).c_str());
@@ -358,6 +360,7 @@ void QtMainWindow::keyPressEvent(QKeyEvent* event)
 			break;
 
 		case Qt::Key_Space:
+			QtUpdateChecker::check();
 			PRINT_TRACES();
 			break;
 	}
@@ -376,13 +379,13 @@ void QtMainWindow::closeEvent(QCloseEvent* event)
 	{
 		log->setEnabled(false);
 	}
-    MessageWindowClosed().dispatch();
+	MessageWindowClosed().dispatch();
 }
 
 void QtMainWindow::resizeEvent(QResizeEvent *event)
 {
-    m_windowStack.centerSubWindows();
-    QMainWindow::resizeEvent(event);
+	m_windowStack.centerSubWindows();
+	QMainWindow::resizeEvent(event);
 }
 
 void QtMainWindow::about()

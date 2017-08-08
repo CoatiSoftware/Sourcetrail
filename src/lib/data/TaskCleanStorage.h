@@ -4,7 +4,7 @@
 #include <vector>
 
 #include "utility/scheduling/Task.h"
-#include "utility/TimePoint.h"
+#include "utility/TimeStamp.h"
 
 class DialogView;
 class FilePath;
@@ -28,7 +28,7 @@ private:
 	PersistentStorage* m_storage;
 	std::vector<FilePath> m_filePaths;
 
-	TimePoint m_start;
+	TimeStamp m_start;
 };
 
 #endif // TASK_CLEAN_STORAGE_H

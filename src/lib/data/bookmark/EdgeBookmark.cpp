@@ -1,6 +1,9 @@
 #include "EdgeBookmark.h"
 
-EdgeBookmark::EdgeBookmark(const Id id, const std::string& name, const std::string& comment, const TimePoint& timeStamp, const BookmarkCategory& category)
+EdgeBookmark::EdgeBookmark(
+	const Id id, const std::string& name, const std::string& comment,
+	const TimeStamp& timeStamp, const BookmarkCategory& category
+)
 	: Bookmark(id, name, comment, timeStamp, category)
 {
 }

@@ -3,7 +3,7 @@
 
 #include <memory>
 
-#include "utility/TimePoint.h"
+#include "utility/TimeStamp.h"
 #include "utility/types.h"
 
 class SourceLocationFile;
@@ -25,7 +25,7 @@ struct CodeSnippetParams
 
 	Id titleId;
 	Id footerId;
-	TimePoint modificationTime;
+	TimeStamp modificationTime;
 
 	std::shared_ptr<SourceLocationFile> locationFile;
 

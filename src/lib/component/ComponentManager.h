@@ -9,7 +9,6 @@
 
 class CompositeView;
 class DialogView;
-class NetworkFactory;
 class StorageAccess;
 class TabbedView;
 class View;

@@ -15,12 +15,12 @@
 #include "utility/ApplicationArchitectureType.h"
 #include "utility/file/FilePath.h"
 #include "utility/math/Vector2.h"
-#include "utility/TimePoint.h"
+#include "utility/TimeStamp.h"
 
 namespace utility
 {
-	TimePoint durationStart();
-	float duration(const TimePoint& start);
+	TimeStamp durationStart();
+	float duration(const TimeStamp& start);
 	float duration(std::function<void()> func);
 
 	std::string timeToString(const time_t time);

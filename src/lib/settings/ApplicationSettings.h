@@ -5,6 +5,8 @@
 
 #include "settings/Settings.h"
 
+class TimeStamp;
+
 class ApplicationSettings
 	: public Settings
 {
@@ -116,6 +118,15 @@ public:
 
 	int getAcceptedEulaVersion() const;
 	void setAcceptedEulaVersion(int version);
+
+	std::string getUserToken() const;
+	void setUserToken(std::string token);
+
+	bool getAutomaticUpdateCheck() const;
+	void setAutomaticUpdateCheck(bool automaticUpdates);
+
+	TimeStamp getLastUpdateCheck() const;
+	void setLastUpdateCheck(const TimeStamp& time);
 
 	// network
 	int getPluginPort() const;

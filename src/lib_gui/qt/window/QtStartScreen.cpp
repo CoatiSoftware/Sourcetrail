@@ -1,21 +1,23 @@
 #include "qt/window/QtStartScreen.h"
 
+#include <QCheckBox>
 #include <QLabel>
 #include <QString>
 #include <QHBoxLayout>
 #include <QVBoxLayout>
 #include <QMessageBox>
 
-#include "settings/ApplicationSettings.h"
-#include "settings/ProjectSettings.h"
+#include "utility/AppPath.h"
 #include "utility/messaging/type/MessageLoadProject.h"
 #include "utility/ResourcePaths.h"
-
-#include "qt/utility/utilityQt.h"
 #include "utility/Version.h"
+
 #include "License.h"
 #include "PublicKey.h"
-#include "utility/AppPath.h"
+#include "qt/network/QtUpdateChecker.h"
+#include "qt/utility/utilityQt.h"
+#include "settings/ApplicationSettings.h"
+#include "settings/ProjectSettings.h"
 
 QtRecentProjectButton::QtRecentProjectButton(QWidget* parent)
 	: QPushButton(parent)
@@ -158,12 +160,44 @@ void QtStartScreen::setupStartScreen()
 		QVBoxLayout* col = new QVBoxLayout();
 		layout->addLayout(col, 2);
 
+		QLabel* versionLabel = new QLabel(("Version " + Version::getApplicationVersion().toDisplayString()).c_str(), this);
+		versionLabel->setObjectName("versionLabel");
+		col->addWidget(versionLabel);
+
+		QPushButton* updateButton = new QPushButton("check for new version", this);
+		updateButton->setObjectName("updateButton");
+		updateButton->setCursor(Qt::PointingHandCursor);
+		connect(updateButton, &QPushButton::clicked,
+			[]()
+			{
+				QtUpdateChecker::check(true);
+			}
+		);
+		col->addWidget(updateButton);
+
+		QCheckBox* updateCheckbox = new QCheckBox("automatic update check");
+		updateCheckbox->setObjectName("updateCheckbox");
+		updateCheckbox->setChecked(ApplicationSettings::getInstance()->getAutomaticUpdateCheck());
+		connect(updateCheckbox, &QCheckBox::stateChanged,
+			[updateCheckbox]()
+			{
+				ApplicationSettings::getInstance()->setAutomaticUpdateCheck(updateCheckbox->isChecked());
+				ApplicationSettings::getInstance()->save();
+
+				if (updateCheckbox->isChecked())
+				{
+					QtUpdateChecker::check();
+				}
+			}
+		);
+		col->addWidget(updateCheckbox);
+
 		if (!licenseValid)
 		{
-			col->addSpacing(4);
+			col->addSpacing(20);
 
 			QLabel* welcomeLabel = new QLabel(
-				"Welcome to the trial version of <b>Sourcetrail</b>!<br /><br />"
+				"<b>Welcome to the trial version of Sourcetrail!</b><br />"
 				"Explore our preindexed projects to experience Sourcetrail's unique user interface. "
 				"More projects are available for download <a href=\"http://sourcetrail.com/downloads#extra\" style=\"color: #007AC2;\">here</a>.<br /><br />"
 				"If you want to use Sourcetrail on your own source code please "
@@ -175,6 +209,7 @@ void QtStartScreen::setupStartScreen()
 			welcomeLabel->setAlignment(Qt::AlignTop);
 
 			col->addWidget(welcomeLabel, 0, Qt::AlignHCenter | Qt::AlignTop);
+			col->addStrut(260);
 			col->addStretch();
 
 			QPushButton* openProjectButton = new QPushButton("Open Project", this);
@@ -201,17 +236,7 @@ void QtStartScreen::setupStartScreen()
 		}
 		else
 		{
-			QLabel* versionLabel = new QLabel(("Version " + Version::getApplicationVersion().toDisplayString()).c_str(), this);
-			versionLabel->setObjectName("versionLabel");
-			col->addWidget(versionLabel);
-
-			QLabel* updateLabel = new QLabel(
-				"<a href=\"https://sourcetrail.com/downloads\" style=\"color: #007AC2;\">check for new version</a>", this);
-			updateLabel->setOpenExternalLinks(true);
-			updateLabel->setObjectName("updateLabel");
-			col->addWidget(updateLabel);
-
-			col->addSpacing(20);
+			col->addSpacing(30);
 
 			std::string licenseString = license.getLicenseInfo();
 

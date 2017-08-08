@@ -12,6 +12,7 @@
 #include "utility/messaging/type/MessageLoadProject.h"
 #include "utility/messaging/type/MessageRefresh.h"
 #include "utility/messaging/type/MessageSwitchColorScheme.h"
+#include "utility/messaging/type/MessageWindowFocus.h"
 
 class Bookmark;
 class DialogView;
@@ -19,6 +20,7 @@ class IDECommunicationController;
 class MainView;
 class NetworkFactory;
 class StorageCache;
+class UpdateChecker;
 class Version;
 class ViewFactory;
 
@@ -29,6 +31,7 @@ class Application
 	, public MessageListener<MessageLoadProject>
 	, public MessageListener<MessageRefresh>
 	, public MessageListener<MessageSwitchColorScheme>
+	, public MessageListener<MessageWindowFocus>
 {
 public:
 	static void createInstance(const Version& version, ViewFactory* viewFactory, NetworkFactory* networkFactory);
@@ -69,6 +72,7 @@ private:
 	virtual void handleMessage(MessageLoadProject* message);
 	virtual void handleMessage(MessageRefresh* message);
 	virtual void handleMessage(MessageSwitchColorScheme* message);
+	virtual void handleMessage(MessageWindowFocus* message);
 
 	void startMessagingAndScheduling();
 
@@ -86,6 +90,7 @@ private:
 	std::shared_ptr<ComponentManager> m_componentManager;
 
 	std::shared_ptr<IDECommunicationController> m_ideCommunicationController;
+	std::shared_ptr<UpdateChecker> m_updateChecker;
 
 	MessageEnteredLicense::LicenseType m_licenseType;
 };

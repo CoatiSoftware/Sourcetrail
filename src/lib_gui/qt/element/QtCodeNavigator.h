@@ -35,7 +35,7 @@ public:
 	virtual ~QtCodeNavigator();
 
 	void addCodeSnippet(const CodeSnippetParams& params);
-	void addFile(std::shared_ptr<SourceLocationFile> locationFile, int refCount, TimePoint modificationTime);
+	void addFile(std::shared_ptr<SourceLocationFile> locationFile, int refCount, TimeStamp modificationTime);
 
 	void addedFiles();
 

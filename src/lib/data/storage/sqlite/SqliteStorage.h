@@ -7,7 +7,7 @@
 #include "utility/file/FilePath.h"
 
 class SqliteStorageMigration;
-class TimePoint;
+class TimeStamp;
 
 class SqliteStorage
 {
@@ -43,7 +43,7 @@ public:
 	bool isIncompatible() const;
 
 	void setTime();
-	TimePoint getTime() const;
+	TimeStamp getTime() const;
 
 protected:
 	void setupMetaTable();

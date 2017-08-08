@@ -10,7 +10,7 @@ FileInfo::FileInfo(const FilePath& path)
 {
 }
 
-FileInfo::FileInfo(const FilePath& path, const TimePoint& lastWriteTime)
+FileInfo::FileInfo(const FilePath& path, const TimeStamp& lastWriteTime)
 	: path(path)
 	, lastWriteTime(lastWriteTime)
 {

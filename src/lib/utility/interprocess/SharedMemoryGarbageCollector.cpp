@@ -3,7 +3,7 @@
 #include <thread>
 
 #include "utility/logging/logging.h"
-#include "utility/TimePoint.h"
+#include "utility/TimeStamp.h"
 #include "utility/utility.h"
 
 std::string SharedMemoryGarbageCollector::s_memoryNamePrefix = "grbg_cllctr_";
@@ -101,11 +101,11 @@ void SharedMemoryGarbageCollector::stop()
 	}
 
 	bool otherRunningInstances = false;
-	TimePoint now = TimePoint::now();
+	TimeStamp now = TimeStamp::now();
 	for (SharedMemory::Map<SharedMemory::String, SharedMemory::String>::iterator it = instances->begin();
 		it != instances->end(); it++)
 	{
-		TimePoint timestamp = TimePoint(std::string(it->second.c_str()));
+		TimeStamp timestamp = TimeStamp(std::string(it->second.c_str()));
 		if (now.deltaS(timestamp) <= s_deleteThresholdSeconds)
 		{
 			otherRunningInstances = true;
@@ -163,7 +163,7 @@ void SharedMemoryGarbageCollector::update()
 	}
 
 	SharedMemory::String t(access.getAllocator());
-	t = TimePoint::now().toString().c_str();
+	t = TimeStamp::now().toString().c_str();
 
 	// update instances
 	{
@@ -231,11 +231,11 @@ void SharedMemoryGarbageCollector::update()
 		}
 
 		// delete old shared memories
-		TimePoint now = TimePoint::now();
+		TimeStamp now = TimeStamp::now();
 		for (SharedMemory::Map<SharedMemory::String, SharedMemory::String>::iterator it = timeStamps->begin();
 			it != timeStamps->end();)
 		{
-			TimePoint timestamp = TimePoint(std::string(it->second.c_str()));
+			TimeStamp timestamp = TimeStamp(std::string(it->second.c_str()));
 			if (now.deltaS(timestamp) > s_deleteThresholdSeconds)
 			{
 				LOG_INFO_STREAM(<< "collect garbage: " << it->first.c_str());

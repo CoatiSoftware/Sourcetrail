@@ -114,7 +114,7 @@ QtCodeFile::~QtCodeFile()
 {
 }
 
-void QtCodeFile::setModificationTime(const TimePoint modificationTime)
+void QtCodeFile::setModificationTime(const TimeStamp modificationTime)
 {
 	m_title->setModificationTime(modificationTime);
 }

@@ -7,7 +7,8 @@ class EdgeBookmark
 	: public Bookmark
 {
 public:
-	EdgeBookmark(const Id id, const std::string& name, const std::string& comment, const TimePoint& timeStamp, const BookmarkCategory& category);
+	EdgeBookmark(const Id id, const std::string& name, const std::string& comment,
+		const TimeStamp& timeStamp, const BookmarkCategory& category);
 	virtual ~EdgeBookmark();
 
 	void addEdgeId(const Id edgeId);

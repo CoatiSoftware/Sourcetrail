@@ -20,7 +20,7 @@ public:
 			for (size_t i = 0; i < bookmarkCount; i++)
 			{
 				const Id categoryId = storage.addBookmarkCategory("test category");
-				storage.addBookmark("test bookmark", "test comment", TimePoint::now().toString(), categoryId);
+				storage.addBookmark("test bookmark", "test comment", TimeStamp::now().toString(), categoryId);
 			}
 
 			result = storage.getAllBookmarks().size();
@@ -42,7 +42,7 @@ public:
 			storage.setup();
 
 			const Id categoryId = storage.addBookmarkCategory("test category");
-			const Id bookmarkId = storage.addBookmark("test bookmark", "test comment", TimePoint::now().toString(), categoryId);
+			const Id bookmarkId = storage.addBookmark("test bookmark", "test comment", TimeStamp::now().toString(), categoryId);
 
 			for (size_t i = 0; i < bookmarkCount; i++)
 			{
@@ -67,7 +67,7 @@ public:
 			storage.setup();
 
 			const Id categoryId = storage.addBookmarkCategory("test category");
-			const Id bookmarkId = storage.addBookmark("test bookmark", "test comment", TimePoint::now().toString(), categoryId);
+			const Id bookmarkId = storage.addBookmark("test bookmark", "test comment", TimeStamp::now().toString(), categoryId);
 			storage.addBookmarkedNode(bookmarkId, "test name");
 
 			storage.removeBookmark(bookmarkId);
@@ -94,7 +94,7 @@ public:
 			storage.setup();
 
 			const Id categoryId = storage.addBookmarkCategory("test category");
-			const Id bookmarkId = storage.addBookmark("test bookmark", "test comment", TimePoint::now().toString(), categoryId);
+			const Id bookmarkId = storage.addBookmark("test bookmark", "test comment", TimeStamp::now().toString(), categoryId);
 			storage.addBookmarkedNode(bookmarkId, "test name");
 
 			storage.updateBookmark(bookmarkId, updatedName, updatedComment, categoryId);

@@ -10,7 +10,7 @@ TaskDecoratorDelay::TaskDecoratorDelay(size_t delayMS)
 
 void TaskDecoratorDelay::doEnter(std::shared_ptr<Blackboard> blackboard)
 {
-	m_start = TimePoint::now();
+	m_start = TimeStamp::now();
 }
 
 Task::TaskState TaskDecoratorDelay::doUpdate(std::shared_ptr<Blackboard> blackboard)
@@ -23,7 +23,7 @@ Task::TaskState TaskDecoratorDelay::doUpdate(std::shared_ptr<Blackboard> blackbo
 	const int SLEEP_TIME_MS = 25;
 	std::this_thread::sleep_for(std::chrono::microseconds(SLEEP_TIME_MS));
 
-	m_delayComplete = (TimePoint::now().deltaMS(m_start) >= m_delayMS);
+	m_delayComplete = (TimeStamp::now().deltaMS(m_start) >= m_delayMS);
 
 	return Task::STATE_HOLD;
 }

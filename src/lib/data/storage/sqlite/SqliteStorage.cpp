@@ -1,7 +1,7 @@
 #include "data/storage/sqlite/SqliteStorage.h"
 
 #include "utility/logging/logging.h"
-#include "utility/TimePoint.h"
+#include "utility/TimeStamp.h"
 
 SqliteStorage::SqliteStorage(const FilePath& dbFilePath)
 	: m_dbFilePath(dbFilePath.canonical())
@@ -127,12 +127,12 @@ bool SqliteStorage::isIncompatible() const
 
 void SqliteStorage::setTime()
 {
-	insertOrUpdateMetaValue("timestamp", TimePoint::now().toString());
+	insertOrUpdateMetaValue("timestamp", TimeStamp::now().toString());
 }
 
-TimePoint SqliteStorage::getTime() const
+TimeStamp SqliteStorage::getTime() const
 {
-	return TimePoint(getMetaValue("timestamp"));
+	return TimeStamp(getMetaValue("timestamp"));
 }
 
 void SqliteStorage::setupMetaTable()

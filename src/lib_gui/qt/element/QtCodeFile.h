@@ -18,7 +18,7 @@ class QtCodeFileTitleButton;
 class QtCodeNavigator;
 class QtCodeSnippet;
 class QVBoxLayout;
-class TimePoint;
+class TimeStamp;
 
 class QtCodeFile
 	: public QFrame
@@ -29,7 +29,7 @@ public:
 	QtCodeFile(const FilePath& filePath, QtCodeNavigator* navigator);
 	virtual ~QtCodeFile();
 
-	void setModificationTime(const TimePoint modificationTime);
+	void setModificationTime(const TimeStamp modificationTime);
 
 	const FilePath& getFilePath() const;
 	std::string getFileName() const;

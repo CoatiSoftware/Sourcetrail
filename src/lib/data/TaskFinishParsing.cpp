@@ -28,7 +28,7 @@ void TaskFinishParsing::doEnter(std::shared_ptr<Blackboard> blackboard)
 
 Task::TaskState TaskFinishParsing::doUpdate(std::shared_ptr<Blackboard> blackboard)
 {
-	TimePoint start = utility::durationStart();
+	TimeStamp start = utility::durationStart();
 
 	std::shared_ptr<DialogView> dialogView = Application::getInstance()->getDialogView();
 

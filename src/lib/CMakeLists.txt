@@ -31,8 +31,6 @@ add_files(
 	component/controller/IDECommunicationController.h
 	component/controller/LogController.cpp
 	component/controller/LogController.h
-	component/controller/NetworkFactory.cpp
-	component/controller/NetworkFactory.h
 	component/controller/RefreshController.cpp
 	component/controller/RefreshController.h
 	component/controller/SearchController.cpp
@@ -96,6 +94,8 @@ add_files(
 	component/ComponentFactory.h
 	component/ComponentManager.cpp
 	component/ComponentManager.h
+	component/NetworkFactory.cpp
+	component/NetworkFactory.h
 
 	data/access/StorageAccess.cpp
 	data/access/StorageAccess.h
@@ -488,8 +488,8 @@ add_files(
 	utility/ScopedFunctor.cpp
 	utility/ScopedFunctor.h
 	utility/ScopedSwitcher.h
-	utility/TimePoint.cpp
-	utility/TimePoint.h
+	utility/TimeStamp.cpp
+	utility/TimeStamp.h
 	utility/tracing.cpp
 	utility/tracing.h
 	utility/types.h
@@ -509,4 +509,5 @@ add_files(
 	Application.h
 	LicenseChecker.cpp
 	LicenseChecker.h
+	UpdateChecker.h
 )

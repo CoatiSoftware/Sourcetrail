@@ -5,7 +5,7 @@
 
 #include "utility/scheduling/TaskDecorator.h"
 #include "utility/scheduling/TaskRunner.h"
-#include "utility/TimePoint.h"
+#include "utility/TimeStamp.h"
 
 class TaskDecoratorDelay
 	: public TaskDecorator
@@ -22,7 +22,7 @@ private:
 
 	const size_t m_delayMS;
 
-	TimePoint m_start;
+	TimeStamp m_start;
 	bool m_delayComplete;
 };
 
