@@ -209,16 +209,20 @@
 				<File Id='apiMsWinCrtUtility_l1_1_0' Name='api-ms-win-crt-utility-l1-1-0.dll' DiskId='1' Source='$(var.PlatformSourceFolder)/api-ms-win-crt-utility-l1-1-0.dll' KeyPath='yes' />
 			</Component>
 			
-			<Component Id='ucrtbaseDll' Guid='*' Win64="$(var.Win64)">
-				<File Id='ucrtbase' Name='ucrtbase.dll' DiskId='1' Source='$(var.PlatformSourceFolder)/ucrtbase.dll' KeyPath='yes' />
+			<Component Id='libeay32_dll' Guid='*' Win64="$(var.Win64)">
+				<File Id='libeay32' Name='libeay32.dll' DiskId='1' Source='$(var.PlatformSourceFolder)/libeay32.dll' KeyPath='yes' />
+			</Component>
+			
+			<Component Id='msvcp140_dll' Guid='*' Win64="$(var.Win64)">
+				<File Id='msvcp140' Name='msvcp140.dll' DiskId='1' Source='$(var.PlatformSourceFolder)/msvcp140.dll' KeyPath='yes' />
 			</Component>
 			
 			<Component Id='qtConf' Guid='*' Win64="$(var.Win64)">
 				<File Id='qt' Name='qt.conf' DiskId='1' Source='$(var.PlatformSourceFolder)/qt.conf' KeyPath='yes' />
 			</Component>
 			
-			<Component Id='msvcp140_dll' Guid='*' Win64="$(var.Win64)">
-				<File Id='msvcp140' Name='msvcp140.dll' DiskId='1' Source='$(var.PlatformSourceFolder)/msvcp140.dll' KeyPath='yes' />
+			<Component Id='ucrtbaseDll' Guid='*' Win64="$(var.Win64)">
+				<File Id='ucrtbase' Name='ucrtbase.dll' DiskId='1' Source='$(var.PlatformSourceFolder)/ucrtbase.dll' KeyPath='yes' />
 			</Component>
 
 			<Component Id='vcruntime140_dll' Guid='*' Win64="$(var.Win64)">
