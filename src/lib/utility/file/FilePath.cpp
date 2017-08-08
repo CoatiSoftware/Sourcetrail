@@ -165,7 +165,14 @@ FilePath FilePath::canonical() const
 
 		if (boost::filesystem::is_symlink(canonicalPath))
 		{
-			canonicalPath = boost::filesystem::canonical(canonicalPath);
+			boost::filesystem::path symlink = boost::filesystem::read_symlink(canonicalPath);
+			if (!symlink.empty())
+			{
+				// on Windows the read_symlink function discards the drive letter (this is a boost bug). Therefore
+				// we need to make the path absolute again. We also have to discard the trailing \0 characters so
+				// that we can continue appending to the path.
+				canonicalPath = utility::substrBeforeFirst(boost::filesystem::absolute(symlink).string(), '\0');
+			}
 		}
 	}
 
