@@ -156,10 +156,18 @@ std::vector<std::shared_ptr<SourceGroupSettings>> ProjectSettings::getAllSourceG
 				{
 					cxxSettings->setCompilationDatabasePath(FilePath(getValue<std::string>(key + "/build_file_path/compilation_db_path", "")));
 				}
+				if (type == SOURCE_GROUP_C_EMPTY || type == SOURCE_GROUP_CPP_EMPTY)
+				{
+					cxxSettings->setTargetOptionsEnabled(getValue<bool>(key + "/cross_compilation/target_options_enabled", false));
+					cxxSettings->setTargetArch(getValue<std::string>(key + "/cross_compilation/target/arch", ""));
+					cxxSettings->setTargetVendor(getValue<std::string>(key + "/cross_compilation/target/vendor", ""));
+					cxxSettings->setTargetSys(getValue<std::string>(key + "/cross_compilation/target/sys", ""));
+					cxxSettings->setTargetAbi(getValue<std::string>(key + "/cross_compilation/target/abi", ""));
+				}
 				cxxSettings->setShouldApplyAnonymousTypedefTransformation(getValue<bool>(key + "/should_apply_anonymous_typedef_transformation", true));
 				settings = cxxSettings;
 			}
-		break;
+			break;
 		case SOURCE_GROUP_JAVA_EMPTY:
 		case SOURCE_GROUP_JAVA_MAVEN:
 			{
@@ -232,6 +240,14 @@ void ProjectSettings::setAllSourceGroupSettings(const std::vector<std::shared_pt
 				if (type == SOURCE_GROUP_CXX_CDB)
 				{
 					setValue(key + "/build_file_path/compilation_db_path", cxxSettings->getCompilationDatabasePath().str());
+				}
+				if (type == SOURCE_GROUP_C_EMPTY || type == SOURCE_GROUP_CPP_EMPTY)
+				{
+					setValue(key + "/cross_compilation/target_options_enabled", cxxSettings->getTargetOptionsEnabled());
+					setValue(key + "/cross_compilation/target/arch", cxxSettings->getTargetArch());
+					setValue(key + "/cross_compilation/target/vendor", cxxSettings->getTargetVendor());
+					setValue(key + "/cross_compilation/target/sys", cxxSettings->getTargetSys());
+					setValue(key + "/cross_compilation/target/abi", cxxSettings->getTargetAbi());
 				}
 				setValue(key + "/should_apply_anonymous_typedef_transformation", cxxSettings->getShouldApplyAnonymousTypedefTransformation());
 			}

@@ -28,6 +28,7 @@
 #include "utility/ResourcePaths.h"
 #include "utility/ScopedFunctor.h"
 #include "utility/UserPaths.h"
+#include "utility/utilityApp.h"
 #include "utility/utilityPathDetection.h"
 #include "utility/Version.h"
 #include "version.h"
@@ -169,7 +170,7 @@ int main(int argc, char *argv[])
 {
 	QApplication::setApplicationName("Sourcetrail");
 
-	if (QSysInfo::windowsVersion() != QSysInfo::WV_None)
+	if (utility::getOsType() == OS_WINDOWS)
 	{
 		QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling, true);
 	}

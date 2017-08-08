@@ -4,16 +4,15 @@
 #include <QFileDialog>
 #include <QMimeData>
 #include <QScrollBar>
-#include <QSysInfo>
 #include <QTimer>
 #include <QTreeView>
-
-#include "utility/ResourcePaths.h"
-#include "utility/utilityString.h"
 
 #include "qt/element/QtIconButton.h"
 #include "qt/utility/utilityQt.h"
 #include "qt/window/QtTextEditDialog.h"
+#include "utility/ResourcePaths.h"
+#include "utility/utilityApp.h"
+#include "utility/utilityString.h"
 
 QtListItemWidget::QtListItemWidget(QtDirectoryListBox* list, QListWidgetItem* item, QWidget *parent)
 	: QWidget(parent)
@@ -80,7 +79,7 @@ void QtListItemWidget::handleButtonPress()
 {
 	QFileDialog dialog(this);
 
-	if (QSysInfo::macVersion() == QSysInfo::MV_None)
+	if (utility::getOsType() != OS_MAC)
 	{
 		dialog.setFileMode(QFileDialog::Directory);
 	}

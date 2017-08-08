@@ -1,9 +1,9 @@
 #include "qt/view/QtGraphViewStyleImpl.h"
 
 #include <QFontMetrics>
-#include <QSysInfo>
 
 #include "qt/view/graphElements/QtGraphNode.h"
+#include "utility/utilityApp.h"
 
 QtGraphViewStyleImpl::~QtGraphViewStyleImpl()
 {
@@ -21,10 +21,10 @@ float QtGraphViewStyleImpl::getCharHeightForNodeType(Node::NodeType type)
 
 float QtGraphViewStyleImpl::getGraphViewZoomDifferenceForPlatform()
 {
-	if (QSysInfo::macVersion() == QSysInfo::MV_None)
+	if (utility::getOsType() == OS_MAC)
 	{
-		return 1.25;
+		return 1;
 	}
 
-	return 1;
+	return 1.25;
 }

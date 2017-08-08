@@ -5,6 +5,8 @@
 #include <set>
 #include <string>
 
+#include "utility/OsType.h"
+
 namespace utility
 {
 	std::string executeProcess(const std::string& command, const std::string& workingDirectory = "", int timeout = 30000);
@@ -13,6 +15,8 @@ namespace utility
 	void killRunningProcesses();
 
 	int getIdealThreadCount();
+
+	OsType getOsType();
 }
 
 #endif // UTILITY_APP_H

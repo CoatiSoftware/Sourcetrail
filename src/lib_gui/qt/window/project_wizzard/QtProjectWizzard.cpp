@@ -8,6 +8,7 @@
 
 #include "qt/window/project_wizzard/QtProjectWizzardContent.h"
 #include "qt/window/project_wizzard/QtProjectWizzardContentCDBSource.h"
+#include "qt/window/project_wizzard/QtProjectWizzardContentCrossCompilationOptions.h"
 #include "qt/window/project_wizzard/QtProjectWizzardContentExtensions.h"
 #include "qt/window/project_wizzard/QtProjectWizzardContentFlags.h"
 #include "qt/window/project_wizzard/QtProjectWizzardContentLanguageAndStandard.h"
@@ -25,6 +26,7 @@
 #include "utility/messaging/type/MessageStatus.h"
 #include "utility/ResourcePaths.h"
 #include "utility/utility.h"
+#include "utility/utilityApp.h"
 #include "utility/utilityPathDetection.h"
 #include "utility/utilityString.h"
 #include "utility/utilityUuid.h"
@@ -419,7 +421,7 @@ void QtProjectWizzard::selectedSourceGroupChanged(int index)
 	}
 	else
 	{
-		const bool isCDB = group->getType() == SOURCE_GROUP_CXX_CDB || group->getType() == SOURCE_GROUP_CXX_CDB;
+		const bool isCDB = group->getType() == SOURCE_GROUP_CXX_CDB;
 
 		if (isCDB)
 		{
@@ -433,6 +435,8 @@ void QtProjectWizzard::selectedSourceGroupChanged(int index)
 		else
 		{
 			summary->addContent(new QtProjectWizzardContentLanguageAndStandard(group, this));
+			summary->addSpace();
+			summary->addContent(new QtProjectWizzardContentCrossCompilationOptions(group, this));
 			summary->addSpace();
 
 			summary->addContent(new QtProjectWizzardContentPathsSource(group, this));
@@ -452,7 +456,7 @@ void QtProjectWizzard::selectedSourceGroupChanged(int index)
 		summary->addContent(new QtProjectWizzardContentPathsHeaderSearchGlobal(this));
 		summary->addSpace();
 
-		if (QSysInfo::macVersion() != QSysInfo::MV_None)
+		if (utility::getOsType() == OS_MAC)
 		{
 			summary->addContent(new QtProjectWizzardContentPathsFrameworkSearch(group, this, isCDB));
 			summary->addContent(new QtProjectWizzardContentPathsFrameworkSearchGlobal(this));
@@ -644,11 +648,20 @@ void QtProjectWizzard::selectedProjectType(SourceGroupType sourceGroupType)
 
 void QtProjectWizzard::emptySourceGroup()
 {
-	QtProjectWizzardWindow* window = createWindowWithContent(
-		[this](QtProjectWizzardWindow* window)
+	QtProjectWizzardWindow* window = createWindowWithSummary(
+		[this](QtProjectWizzardWindow* window, QtProjectWizzardContentSummary* summary)
 		{
-			window->setPreferredSize(QSize(470, 230));
-			return new QtProjectWizzardContentLanguageAndStandard(m_newSourceGroupSettings, window);
+			summary->addContent(new QtProjectWizzardContentLanguageAndStandard(m_newSourceGroupSettings, window));
+			if (m_newSourceGroupSettings->getType() == SOURCE_GROUP_C_EMPTY||
+				m_newSourceGroupSettings->getType() == SOURCE_GROUP_CPP_EMPTY)
+			{
+				summary->addContent(new QtProjectWizzardContentCrossCompilationOptions(m_newSourceGroupSettings, window));
+				window->setPreferredSize(QSize(470, 460));
+			}
+			else
+			{
+				window->setPreferredSize(QSize(470, 230));
+			}
 		}
 	);
 
@@ -731,7 +744,7 @@ void QtProjectWizzard::headerSearchPaths()
 
 void QtProjectWizzard::headerSearchPathsDone()
 {
-	if (QSysInfo::macVersion() != QSysInfo::MV_None)
+	if (utility::getOsType() == OS_MAC)
 	{
 		frameworkSearchPaths();
 	}

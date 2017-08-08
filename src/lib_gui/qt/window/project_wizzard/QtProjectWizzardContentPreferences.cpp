@@ -88,7 +88,7 @@ void QtProjectWizzardContentPreferences::populate(QGridLayout* layout, int& row)
 	);
 
 	// graph zooming
-	QString modifierName = QSysInfo::macVersion() == QSysInfo::MV_None ? "Ctrl" : "Cmd";
+	QString modifierName =utility::getOsType() == OS_MAC ? "Cmd" : "Ctrl";
 	m_graphZooming = addCheckBox(
 		"Graph Zoom",
 		"Zoom on mouse wheel",
@@ -159,20 +159,23 @@ void QtProjectWizzardContentPreferences::populate(QGridLayout* layout, int& row)
 		// jvm library path
 		m_javaPath = new QtLocationPicker(this);
 
-		if (QSysInfo::windowsVersion() != QSysInfo::WV_None)
+		switch (utility::getOsType())
 		{
+		case OS_WINDOWS:
 			m_javaPath->setFileFilter("JVM Library (jvm.dll)");
 			m_javaPath->setPlaceholderText("<jre_path>/bin/client/jvm.dll");
-		}
-		else if (QSysInfo::macVersion() != QSysInfo::MV_None)
-		{
+			break;
+		case OS_MAC:
 			m_javaPath->setFileFilter("JLI or JVM Library (libjli.dylib libjvm.dylib)");
 			m_javaPath->setPlaceholderText("<jre_path>/Contents/Home/jre/lib/jli/libjli.dylib");
-		}
-		else
-		{
+			break;
+		case OS_LINUX:
 			m_javaPath->setFileFilter("JVM Library (libjvm.so)");
 			m_javaPath->setPlaceholderText("<jre_path>/bin/<arch>/server/libjvm.so");
+			break;
+		default:
+			LOG_WARNING("No placeholders and filters set for Java path selection");
+			break;
 		}
 
 		addLabelAndWidget("Java Path", m_javaPath, layout, row);

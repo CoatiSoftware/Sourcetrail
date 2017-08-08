@@ -482,6 +482,7 @@ add_files(
 	utility/Cache.h
 	utility/ConfigManager.cpp
 	utility/ConfigManager.h
+	utility/OsType.h
 	utility/Property.h
 	utility/ResourcePaths.cpp
 	utility/ResourcePaths.h

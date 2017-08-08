@@ -106,7 +106,16 @@ std::vector<std::shared_ptr<IndexerCommand>> SourceGroupCxx::getIndexerCommands(
 	utility::append(frameworkSearchPaths, m_settings->getFrameworkSearchPathsExpandedAndAbsolute());
 	utility::append(frameworkSearchPaths, appSettings->getFrameworkSearchPathsExpanded());
 
-	const std::vector<std::string> compilerFlags = m_settings->getCompilerFlags();
+	std::vector<std::string> compilerFlags;
+	{
+		const std::string targetFlag = m_settings->getTargetFlag();
+		if (!targetFlag.empty())
+		{
+			compilerFlags.push_back(targetFlag);
+		}
+	}
+
+	utility::append(compilerFlags, m_settings->getCompilerFlags());
 
 	std::set<FilePath> indexedPaths;
 	for (FilePath p: m_settings->getSourcePathsExpandedAndAbsolute())

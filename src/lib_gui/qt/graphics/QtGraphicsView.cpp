@@ -3,7 +3,6 @@
 #include <QFileDialog>
 #include <QMouseEvent>
 #include <QScrollBar>
-#include <QSysInfo>
 #include <QTimer>
 
 #include <QApplication>
@@ -18,6 +17,7 @@
 #include "qt/utility/utilityQt.h"
 #include "settings/ApplicationSettings.h"
 #include "utility/messaging/type/MessageDisplayBookmarkCreator.h"
+#include "utility/utilityApp.h"
 #include "utility/ResourcePaths.h"
 
 QtGraphicsView::QtGraphicsView(QWidget* parent)
@@ -32,7 +32,7 @@ QtGraphicsView::QtGraphicsView(QWidget* parent)
 	, m_zoomInButtonSpeed(20.0f)
 	, m_zoomOutButtonSpeed(-20.0f)
 {
-	QString modifierName = QSysInfo::macVersion() == QSysInfo::MV_None ? "Ctrl" : "Cmd";
+	QString modifierName = utility::getOsType() == OS_MAC ? "Cmd" : "Ctrl";
 
 	setTransformationAnchor(QGraphicsView::AnchorUnderMouse);
 

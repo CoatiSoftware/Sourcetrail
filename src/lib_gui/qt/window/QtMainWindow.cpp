@@ -7,7 +7,6 @@
 #include <QMenuBar>
 #include <QMessageBox>
 #include <QSettings>
-#include <QSysInfo>
 #include <QTimer>
 
 #include "Application.h"
@@ -50,6 +49,7 @@
 #include "utility/ResourcePaths.h"
 #include "utility/tracing.h"
 #include "utility/UserPaths.h"
+#include "utility/utilityApp.h"
 #include "utility/utilityString.h"
 
 
@@ -752,7 +752,7 @@ void QtMainWindow::setupEditMenu()
 	menuBar()->addMenu(menu);
 
 	m_trialDisabledActions.push_back(menu->addAction(tr("&Refresh"), this, &QtMainWindow::refresh, QKeySequence::Refresh));
-	if (QSysInfo::windowsVersion() != QSysInfo::WV_None)
+	if (utility::getOsType() == OS_WINDOWS)
 	{
 		m_trialDisabledActions.push_back(
 			menu->addAction(tr("&Full Refresh"), this, &QtMainWindow::forceRefresh, QKeySequence(Qt::SHIFT + Qt::Key_F5))

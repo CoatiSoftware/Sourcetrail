@@ -1,6 +1,6 @@
 #include "utility/utilityPathDetection.h"
 
-#include <QSysInfo>
+#include "utility/logging/logging.h"
 
 #include "utility/path_detector/java_runtime/JavaPathDetectorLinux.h"
 #include "utility/path_detector/java_runtime/JavaPathDetectorMac.h"
@@ -17,20 +17,26 @@
 #include "utility/path_detector/cxx_header/CxxHeaderPathDetector.h"
 #include "utility/path_detector/cxx_header/CxxVsHeaderPathDetector.h"
 
+#include "utility/utilityApp.h"
+
 std::shared_ptr<CombinedPathDetector> utility::getJavaRuntimePathDetector()
 {
 	std::shared_ptr<CombinedPathDetector> combinedDetector = std::make_shared<CombinedPathDetector>();
-	if (QSysInfo::windowsVersion() != QSysInfo::WV_None)
+
+	switch (utility::getOsType())
 	{
+	case OS_WINDOWS:
 		combinedDetector->addDetector(std::make_shared<JavaPathDetectorWindows>("1.8"));
-	}
-	else if (QSysInfo::macVersion() != QSysInfo::MV_None)
-	{
+		break;
+	case OS_MAC:
 		combinedDetector->addDetector(std::make_shared<JavaPathDetectorMac>("1.8"));
-	}
-	else
-	{
+		break;
+	case OS_LINUX:
 		combinedDetector->addDetector(std::make_shared<JavaPathDetectorLinux>("1.8"));
+		break;
+	default:
+		LOG_WARNING("No suitable Java Runtime path detector found");
+		break;
 	}
 
 	return combinedDetector;
@@ -39,17 +45,21 @@ std::shared_ptr<CombinedPathDetector> utility::getJavaRuntimePathDetector()
 std::shared_ptr<CombinedPathDetector> utility::getJreSystemLibraryPathsDetector()
 {
 	std::shared_ptr<CombinedPathDetector> combinedDetector = std::make_shared<CombinedPathDetector>();
-	if (QSysInfo::windowsVersion() != QSysInfo::WV_None)
+
+	switch (utility::getOsType())
 	{
+	case OS_WINDOWS:
 		combinedDetector->addDetector(std::make_shared<JreSystemLibraryPathDetectorWindows>("1.8"));
-	}
-	else if (QSysInfo::macVersion() != QSysInfo::MV_None)
-	{
+		break;
+	case OS_MAC:
 		combinedDetector->addDetector(std::make_shared<JreSystemLibraryPathDetectorMac>("1.8"));
-	}
-	else
-	{
+		break;
+	case OS_LINUX:
 		combinedDetector->addDetector(std::make_shared<JreSystemLibraryPathDetectorLinux>("1.8"));
+		break;
+	default:
+		LOG_WARNING("No suitable JRE system library path detector found");
+		break;
 	}
 
 	return combinedDetector;
@@ -58,13 +68,19 @@ std::shared_ptr<CombinedPathDetector> utility::getJreSystemLibraryPathsDetector(
 std::shared_ptr<CombinedPathDetector> utility::getMavenExecutablePathDetector()
 {
 	std::shared_ptr<CombinedPathDetector> combinedDetector = std::make_shared<CombinedPathDetector>();
-	if (QSysInfo::windowsVersion() != QSysInfo::WV_None)
+
+	switch (utility::getOsType())
 	{
+	case OS_WINDOWS:
 		combinedDetector->addDetector(std::make_shared<MavenPathDetectorWindows>());
-	}
-	else
-	{
+		break;
+	case OS_MAC:
+	case OS_LINUX:
 		combinedDetector->addDetector(std::make_shared<MavenPathDetectorUnix>());
+		break;
+	default:
+		LOG_WARNING("No suitable Maven path detector found");
+		break;
 	}
 
 	return combinedDetector;

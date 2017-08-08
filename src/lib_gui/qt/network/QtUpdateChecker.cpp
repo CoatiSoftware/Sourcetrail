@@ -11,6 +11,7 @@
 #include "settings/ApplicationSettings.h"
 #include "utility/Version.h"
 #include "utility/utility.h"
+#include "utility/utilityApp.h"
 #include "utility/utilityUuid.h"
 
 void QtUpdateChecker::check(bool force)
@@ -30,17 +31,19 @@ void QtUpdateChecker::check(bool force)
 	// OS
 	std::string osString;
 
-	#if defined(Q_OS_WIN)
-		osString = "windows";
-	#elif defined(Q_OS_MACOS)
-		osString = "macOS";
-	#elif defined(Q_OS_LINUX)
-		osString = "linux";
-	#endif
-
-	if (!osString.size())
+	switch (utility::getOsType())
 	{
-		return;
+		case OS_WINDOWS:
+			osString = "windows";
+			break;
+		case OS_MAC:
+			osString = "macOS";
+			break;
+		case OS_LINUX:
+			osString = "linux";
+			break;
+		default:
+			return;
 	}
 
 	urlString += ("?os=" + osString).c_str();

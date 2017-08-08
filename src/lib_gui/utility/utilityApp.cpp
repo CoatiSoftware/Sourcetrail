@@ -1,12 +1,11 @@
 #include "utility/utilityApp.h"
 
 #include <QProcess>
+#include <QSysInfo>
 #include <QThread>
 #include <qprocessordetection.h>
 
 #include "utility/utilityString.h"
-
-#include <iostream>
 
 namespace utility
 {
@@ -76,6 +75,23 @@ void utility::killRunningProcesses()
 	{
 		process->kill();
 	}
+}
+
+OsType utility::getOsType()
+{
+	if (QSysInfo::windowsVersion() != QSysInfo::WV_None)
+	{
+		return OS_WINDOWS;
+	}
+	else if (QSysInfo::macVersion() != QSysInfo::MV_None)
+	{
+		return OS_MAC;
+	}
+	else
+	{
+		return OS_LINUX;
+	}
+	return OS_UNKNOWN;
 }
 
 int utility::getIdealThreadCount()

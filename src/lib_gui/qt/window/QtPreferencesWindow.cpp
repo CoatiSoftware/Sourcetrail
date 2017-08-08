@@ -9,6 +9,7 @@
 #include "qt/window/project_wizzard/QtProjectWizzardContentPaths.h"
 #include "qt/window/project_wizzard/QtProjectWizzardContentPreferences.h"
 #include "qt/window/project_wizzard/QtProjectWizzardContentSummary.h"
+#include "utility/utilityApp.h"
 
 QtPreferencesWindow::QtPreferencesWindow(QWidget* parent)
 	: QtProjectWizzardWindow(parent)
@@ -27,7 +28,7 @@ QtPreferencesWindow::QtPreferencesWindow(QWidget* parent)
 	summary->addContent(new QtProjectWizzardContentPreferences(this));
 
 	summary->addContent(new QtProjectWizzardContentPathsHeaderSearchGlobal(this));
-	if (QSysInfo::macVersion() != QSysInfo::MV_None)
+	if (utility::getOsType() == OS_MAC)
 	{
 		summary->addContent(new QtProjectWizzardContentPathsFrameworkSearchGlobal(this));
 	}

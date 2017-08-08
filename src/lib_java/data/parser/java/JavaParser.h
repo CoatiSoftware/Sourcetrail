@@ -154,6 +154,8 @@ private:
 		{
 			LOG_ERROR("parser with id " + std::to_string(parserId) + " not found");
 		}
+
+		return false;
 	}
 
 	static int s_nextParserId;

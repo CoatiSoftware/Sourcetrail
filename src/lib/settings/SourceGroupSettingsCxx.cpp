@@ -1,6 +1,144 @@
 #include "settings/SourceGroupSettingsCxx.h"
 
 #include "utility/utility.h"
+#include "utility/utilityApp.h"
+
+std::vector<std::string> SourceGroupSettingsCxx::getAvailableArchTypes()
+{
+	return {
+		"aarch64",
+		"aarch64_be",
+		"arm",
+		"armeb",
+		"avr",
+		"bpfel",
+		"bpfeb",
+		"hexagon",
+		"mips",
+		"mipsel",
+		"mips64",
+		"mips64el",
+		"msp430",
+		"powerpc64",
+		"powerpc64le",
+		"powerpc",
+		"r600",
+		"amdgcn",
+		"riscv32",
+		"riscv64",
+		"sparc",
+		"sparcv9",
+		"sparcel",
+		"s390x",
+		"tce",
+		"tcele",
+		"thumb",
+		"thumbeb",
+		"i386",
+		"x86_64",
+		"xcore",
+		"nvptx",
+		"nvptx64",
+		"le32",
+		"le64",
+		"amdil",
+		"amdil64",
+		"hsail",
+		"hsail64",
+		"spir",
+		"spir64",
+		"kalimba",
+		"lanai",
+		"shave",
+		"wasm32",
+		"wasm64",
+		"renderscript32",
+		"renderscript64",
+	};
+}
+
+std::vector<std::string> SourceGroupSettingsCxx::getAvailableVendorTypes()
+{
+	return {
+	  "unknown",
+	  "apple",
+	  "pc",
+	  "scei",
+	  "bgp",
+	  "bgq",
+	  "fsl",
+	  "ibm",
+	  "img",
+	  "mti",
+	  "nvidia",
+	  "csr",
+	  "myriad",
+	  "amd",
+	  "mesa"
+	};
+}
+
+std::vector<std::string> SourceGroupSettingsCxx::getAvailableOsTypes()
+{
+	return {
+		"unknown",
+		"cloudabi",
+		"darwin",
+		"dragonfly",
+		"freebsd",
+		"fuchsia",
+		"ios",
+		"kfreebsd",
+		"linux",
+		"lv2",
+		"macosx",
+		"netbsd",
+		"openbsd",
+		"solaris",
+		"windows",
+		"haiku",
+		"minix",
+		"rtems",
+		"nacl",
+		"cnk",
+		"bitrig",
+		"aix",
+		"cuda",
+		"nvcl",
+		"amdhsa",
+		"ps4",
+		"elfiamcu",
+		"tvos",
+		"watchos",
+		"mesa3d",
+		"contiki"
+	};
+}
+
+std::vector<std::string> SourceGroupSettingsCxx::getAvailableEnvironmentTypes()
+{
+	return {
+		"unknown",
+		"gnu",
+		"gnuabi64",
+		"gnueabihf",
+		"gnueabi",
+		"gnux32",
+		"code16",
+		"eabi",
+		"eabihf",
+		"android",
+		"musl",
+		"musleabi",
+		"musleabihf",
+		"msvc",
+		"itanium",
+		"cygnus",
+		"amdopencl",
+		"coreclr",
+		"opencl"
+	};
+}
 
 SourceGroupSettingsCxx::SourceGroupSettingsCxx(const std::string& id, SourceGroupType type, const ProjectSettings* projectSettings)
 	: SourceGroupSettings(id, type, projectSettings)
@@ -29,7 +167,8 @@ bool SourceGroupSettingsCxx::equals(std::shared_ptr<SourceGroupSettings> other) 
 		utility::isPermutation(m_compilerFlags, otherCxx->m_compilerFlags) &&
 		m_useSourcePathsForHeaderSearch == otherCxx->m_useSourcePathsForHeaderSearch &&
 		m_hasDefinedUseSourcePathsForHeaderSearch == otherCxx->m_hasDefinedUseSourcePathsForHeaderSearch &&
-		m_compilationDatabasePath == otherCxx->m_compilationDatabasePath
+		m_compilationDatabasePath == otherCxx->m_compilationDatabasePath &&
+		getTargetFlag() == otherCxx->getTargetFlag()
 	);
 }
 
@@ -124,6 +263,74 @@ std::vector<FilePath> SourceGroupSettingsCxx::getFrameworkSearchPathsExpandedAnd
 void SourceGroupSettingsCxx::setFrameworkSearchPaths(const std::vector<FilePath>& frameworkSearchPaths)
 {
 	m_frameworkSearchPaths = frameworkSearchPaths;
+}
+
+bool SourceGroupSettingsCxx::getTargetOptionsEnabled() const
+{
+	return m_targetOptionsEnabled;
+}
+
+void SourceGroupSettingsCxx::setTargetOptionsEnabled(bool targetOptionsEnabled)
+{
+	m_targetOptionsEnabled = targetOptionsEnabled;
+}
+
+std::string SourceGroupSettingsCxx::getTargetArch() const
+{
+	return m_targetArch;
+}
+
+void SourceGroupSettingsCxx::setTargetArch(const std::string& arch)
+{
+	m_targetArch = arch;
+}
+
+std::string SourceGroupSettingsCxx::getTargetVendor() const
+{
+	return m_targetVendor;
+}
+
+void SourceGroupSettingsCxx::setTargetVendor(const std::string& vendor)
+{
+	m_targetVendor = vendor;
+}
+
+std::string SourceGroupSettingsCxx::getTargetSys() const
+{
+	return m_targetSys;
+}
+
+void SourceGroupSettingsCxx::setTargetSys(const std::string& sys)
+{
+	m_targetSys = sys;
+}
+
+std::string SourceGroupSettingsCxx::getTargetAbi() const
+{
+	return m_targetAbi;
+}
+
+void SourceGroupSettingsCxx::setTargetAbi(const std::string& abi)
+{
+	m_targetAbi = abi;
+}
+
+std::string SourceGroupSettingsCxx::getTargetFlag() const
+{
+	std::string targetFlag = "";
+	if (m_targetOptionsEnabled)
+	{
+		targetFlag = "--target=";
+		targetFlag += m_targetArch;
+		if (!m_targetSub.empty())
+		{
+			targetFlag += m_targetSub;
+		}
+		targetFlag += "-" + m_targetVendor;
+		targetFlag += "-" + m_targetSys;
+		targetFlag += "-" + m_targetAbi;
+	}
+	return targetFlag;
 }
 
 std::vector<std::string> SourceGroupSettingsCxx::getCompilerFlags() const
