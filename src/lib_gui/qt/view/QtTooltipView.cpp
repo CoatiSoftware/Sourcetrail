@@ -72,6 +72,6 @@ bool QtTooltipView::tooltipVisible() const
 void QtTooltipView::setStyleSheet()
 {
 	m_widget->setStyleSheet(
-		utility::getStyleSheet(ResourcePaths::getGuiPath().concat(FilePath("tooltip_view/tooltip.css"))).c_str()
+		utility::getStyleSheet(ResourcePaths::getGuiPath().concat(FilePath("tooltip_view/tooltip_view.css"))).c_str()
 	);
 }

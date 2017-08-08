@@ -660,15 +660,19 @@
 							<File Id='TabbedView' Name='tabbed_view.css' DiskId='1' Source='./../../../bin/app/data/gui/tabbed_view/tabbed_view.css' KeyPath='yes' />
 						</Component>
 					</Directory>
+					
+					<Directory Id='DataTooltipView' Name='tooltip_view'>
+						<Component Id='TooltipViewCss' Guid='*' Win64="$(var.Win64)">
+							<File Id='TooltipView' Name='tooltip_view.css' DiskId='1' Source='./../../../bin/app/data/gui/tooltip_view/tooltip_view.css' KeyPath='yes' />
+						</Component>
+					</Directory>
 
 					<Directory Id='DataUndoRedoView' Name='undoredo_view'>
-
 						<Component Id='UndoRedoViewCss' Guid='*' Win64="$(var.Win64)">
 							<File Id='UndoRedoView' Name='undoredo_view.css' DiskId='1' Source='./../../../bin/app/data/gui/undoredo_view/undoredo_view.css' KeyPath='yes' />
 						</Component>
-
+						
 						<Directory Id='DataUndoRedoViewImages' Name='images'>
-
 							<Component Id='ArrowLeftPng' Guid='*' Win64="$(var.Win64)">
 								<File Id='ArrowLeft' Name='arrow_left.png' DiskId='1' Source='./../../../bin/app/data/gui/undoredo_view/images/arrow_left.png' KeyPath='yes' />
 							</Component>
@@ -678,7 +682,6 @@
 							<Component Id='HistoryPng' Guid='*' Win64="$(var.Win64)">
 								<File Id='History' Name='history.png' DiskId='1' Source='./../../../bin/app/data/gui/undoredo_view/images/history.png' KeyPath='yes' />
 							</Component>
-
 						</Directory>
 					</Directory>
 

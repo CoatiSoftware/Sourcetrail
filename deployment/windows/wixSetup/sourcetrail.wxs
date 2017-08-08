@@ -358,6 +358,8 @@
 				
 				<ComponentRef Id='TabbedViewCss'/>
 
+				<ComponentRef Id='TooltipViewCss'/>
+				
 				<ComponentRef Id='UndoRedoViewCss'/>
 				<ComponentRef Id='ArrowLeftPng'/>
 				<ComponentRef Id='ArrowRightPng'/>
