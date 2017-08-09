@@ -39,7 +39,8 @@ public:
 	bool addOccurrence(Id elementId, Id sourceLocationId);
 	Id addComponentAccess(Id nodeId, int type);
 	Id addCommentLocation(Id fileNodeId, uint startLine, uint startCol, uint endLine, uint endCol);
-	Id addError(const std::string& message, const FilePath& filePath, uint lineNumber, uint columnNumber, bool fatal, bool indexed);
+	Id addError(const std::string& message, const std::string& commandline, const FilePath& filePath,
+		uint lineNumber, uint columnNumber, bool fatal, bool indexed);
 
 	void removeElement(Id id);
 	void removeElements(const std::vector<Id>& ids);

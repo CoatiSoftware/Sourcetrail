@@ -190,6 +190,7 @@ void Storage::inject(Storage* injected)
 		{
 			addError(
 				injectedData.message,
+				injectedData.commandline,
 				injectedData.filePath,
 				injectedData.lineNumber,
 				injectedData.columnNumber,

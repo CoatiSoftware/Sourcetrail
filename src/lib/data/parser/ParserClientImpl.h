@@ -36,7 +36,8 @@ public:
 		ReferenceKind referenceKind, const NameHierarchy& referencedName, const NameHierarchy& contextName,
 		const ParseLocation& location);
 
-	virtual void onError(const ParseLocation& location, const std::string& message, bool fatal, bool indexed);
+	virtual void onError(const ParseLocation& location, const std::string& message, const std::string& commandline,
+		bool fatal, bool indexed);
 	virtual void onLocalSymbolParsed(const std::string& name, const ParseLocation& location);
 	virtual void onFileParsed(const FileInfo& fileInfo);
 	virtual void onCommentParsed(const ParseLocation& location);
@@ -55,7 +56,8 @@ private:
 	void addSourceLocation(Id elementId, const ParseLocation& location, int type);
 	void addComponentAccess(Id nodeId , int type);
 	void addCommentLocation(const ParseLocation& location);
-	void addError(const std::string& message, bool fatal, bool indexed, const ParseLocation& location);
+	void addError(const std::string& message, const std::string& commandline, bool fatal, bool indexed,
+		const ParseLocation& location);
 
 	std::shared_ptr<IntermediateStorage> m_storage;
 };

@@ -11,7 +11,12 @@ class IndexerCommandCxxCdb;
 class IndexerCommandCxxManual;
 class TaskParseCxx;
 
-namespace clang { namespace tooling { class FixedCompilationDatabase;  } }
+namespace clang {
+	namespace tooling {
+		class CompilationDatabase;
+		class FixedCompilationDatabase;
+	}
+}
 
 class CxxParser: public Parser
 {
@@ -24,6 +29,8 @@ public:
 	void buildIndex(const std::string& fileName, std::shared_ptr<TextAccess> fileContent);
 
 private:
+	void runTool(clang::tooling::CompilationDatabase* compilationDatabase, const FilePath& sourceFilePath);
+
 	std::vector<std::string> getCommandlineArgumentsEssential(
 		const std::vector<std::string>& compilerFlags,
 		const std::vector<FilePath>& systemHeaderSearchPaths,

@@ -79,9 +79,10 @@ ParserClient::~ParserClient()
 {
 }
 
-void ParserClient::onErrorParsed(const ParseLocation& location, const std::string& message, bool fatal, bool indexed)
+void ParserClient::onErrorParsed(
+	const ParseLocation& location, const std::string& message, const std::string& commandline, bool fatal, bool indexed)
 {
-	this->onError(location, message, fatal, indexed);
+	this->onError(location, message, commandline, fatal, indexed);
 
 	if (fatal)
 	{

@@ -26,10 +26,14 @@ public:
 
 	void HandleDiagnostic(clang::DiagnosticsEngine::Level level, const clang::Diagnostic& info);
 
+	void setCommandLine(const std::string& commandline);
+
 private:
 	std::shared_ptr<ParserClient> m_client;
 	std::shared_ptr<FileRegister> m_register;
 	std::shared_ptr<FilePathCache> m_canonicalFilePathCache;
+
+	std::string m_commandline;
 
 	bool m_isParsingFile;
 	bool m_useLogging;

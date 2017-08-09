@@ -46,12 +46,14 @@ public:
 		ReferenceKind referenceKind, const NameHierarchy& referencedName, const NameHierarchy& contextName,
 		const ParseLocation& location) = 0;
 
-	virtual void onError(const ParseLocation& location, const std::string& message, bool fatal, bool indexed) = 0;
+	virtual void onError(const ParseLocation& location, const std::string& message, const std::string& commandline,
+		bool fatal, bool indexed) = 0;
 	virtual void onLocalSymbolParsed(const std::string& name, const ParseLocation& location) = 0;
 	virtual void onFileParsed(const FileInfo& fileInfo) = 0;
 	virtual void onCommentParsed(const ParseLocation& location) = 0;
 
-	void onErrorParsed(const ParseLocation& location, const std::string& message, bool fatal, bool indexed);
+	void onErrorParsed(const ParseLocation& location, const std::string& message, const std::string& commandline,
+		bool fatal, bool indexed);
 
 	bool hasFatalErrors() const;
 

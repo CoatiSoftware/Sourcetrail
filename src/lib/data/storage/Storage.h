@@ -23,7 +23,8 @@ public:
 	virtual void addOccurrence(Id elementId, Id sourceLocationId) = 0;
 	virtual void addComponentAccess(Id nodeId , int type) = 0;
 	virtual void addCommentLocation(Id fileNodeId, uint startLine, uint startCol, uint endLine, uint endCol) = 0;
-	virtual void addError(const std::string& message, const FilePath& filePath, uint startLine, uint startCol, bool fatal, bool indexed) = 0;
+	virtual void addError(const std::string& message, const std::string& commandline, const FilePath& filePath,
+		uint startLine, uint startCol, bool fatal, bool indexed) = 0;
 
 	virtual void forEachNode(std::function<void(const StorageNode& /*data*/)> callback) const = 0;
 	virtual void forEachFile(std::function<void(const StorageFile& /*data*/)> callback) const = 0;

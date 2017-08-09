@@ -135,10 +135,12 @@ void PersistentStorage::addCommentLocation(Id fileNodeId, uint startLine, uint s
 }
 
 void PersistentStorage::addError(
-	const std::string& message, const FilePath& filePath, uint startLine, uint startCol, bool fatal, bool indexed)
+	const std::string& message, const std::string& commandline, const FilePath& filePath,
+	uint startLine, uint startCol, bool fatal, bool indexed)
 {
 	m_sqliteIndexStorage.addError(
 		message,
+		commandline,
 		filePath,
 		startLine,
 		startCol,

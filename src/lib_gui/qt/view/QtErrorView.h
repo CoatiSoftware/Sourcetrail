@@ -47,8 +47,9 @@ private:
 		MESSAGE = 1,
 		FILE = 2,
 		LINE = 3,
-		INDEXED = 4,
-		ID = 5
+		COMMANDLINE = 4,
+		INDEXED = 5,
+		ID = 6
 	};
 
 	void doRefreshView();

@@ -93,8 +93,14 @@ void CxxDiagnosticConsumer::HandleDiagnostic(clang::DiagnosticsEngine::Level lev
 		m_client->onErrorParsed(
 			location,
 			message,
+			m_commandline,
 			level == clang::DiagnosticsEngine::Fatal,
 			m_register->hasFilePath(location.filePath)
 		);
 	}
+}
+
+void CxxDiagnosticConsumer::setCommandLine(const std::string& commandline)
+{
+	m_commandline = commandline;
 }

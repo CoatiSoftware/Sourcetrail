@@ -26,14 +26,14 @@ public:
 
 	void Show() const;
 
-	int SameInRow( Token token, int amount ) const;
+	int SameInRow( Toen token, int amount ) const;
 
 	bool InRange( const Move& move ) const;
 	bool IsEmpty( const Move& move ) const;
 	bool IsFull() const;
 
 	void MakeMove( const Move& move, Token token );
-	void ClearMove( const Move& move );
+	void ClearMve( const Move& move );
 
 private:
 	Token** grid_;

@@ -67,11 +67,12 @@ void ParserClientImpl::recordReference(
 	addSourceLocation(edgeId, location, locationTypeToInt(LOCATION_TOKEN));
 }
 
-void ParserClientImpl::onError(const ParseLocation& location, const std::string& message, bool fatal, bool indexed)
+void ParserClientImpl::onError(
+	const ParseLocation& location, const std::string& message, const std::string& commandline,bool fatal, bool indexed)
 {
 	if (location.isValid())
 	{
-		addError(message, fatal, indexed, location);
+		addError(message, commandline, fatal, indexed, location);
 	}
 }
 
@@ -325,12 +326,14 @@ void ParserClientImpl::addCommentLocation(const ParseLocation& location)
 	);
 }
 
-void ParserClientImpl::addError(const std::string& message, bool fatal, bool indexed, const ParseLocation& location)
+void ParserClientImpl::addError(
+	const std::string& message, const std::string& commandline, bool fatal, bool indexed, const ParseLocation& location)
 {
 	if (!m_storage)
 	{
 		return;
 	}
 
-	m_storage->addError(message, location.filePath, location.startLineNumber, location.startColumnNumber, fatal, indexed);
+	m_storage->addError(
+		message, commandline, location.filePath, location.startLineNumber, location.startColumnNumber, fatal, indexed);
 }

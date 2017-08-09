@@ -44,6 +44,7 @@ size_t IntermediateStorage::getByteSize() const
 		byteSize += sizeof(StorageError);
 		byteSize += storageError.filePath.str().size();
 		byteSize += storageError.message.size();
+		byteSize += storageError.commandline.size();
 	}
 
 	for (const StorageNode& storageNode: getStorageNodes())
@@ -244,11 +245,13 @@ void IntermediateStorage::addCommentLocation(Id fileNodeId, uint startLine, uint
 }
 
 void IntermediateStorage::addError(
-	const std::string& message, const FilePath& filePath, uint startLine, uint startCol, bool fatal, bool indexed)
+	const std::string& message, const std::string& commandline, const FilePath& filePath,
+	uint startLine, uint startCol, bool fatal, bool indexed)
 {
 	const StorageError error(
 		0,
 		message,
+		commandline,
 		filePath,
 		startLine,
 		startCol,
@@ -558,6 +561,3 @@ std::string IntermediateStorage::serialize(const StorageError& error) const
 		std::to_string(error.columnNumber)
 	);
 }
-
-
-

@@ -86,6 +86,16 @@ void QtStatusBar::setErrorCount(ErrorCountInfo errorCount)
 		m_errorButton.setText(
 			QString::number(errorCount.total) + " error" + (errorCount.total > 1 ? "s" : "") +
 			(errorCount.fatal > 0 ? " (" + QString::number(errorCount.fatal) + " fatal)" : ""));
+
+		if (errorCount.fatal > 0)
+		{
+			m_errorButton.setStyleSheet("QPushButton { color: #D00000; margin-right: 0; spacing: none; }");
+		}
+		else
+		{
+			m_errorButton.setStyleSheet("QPushButton { color: #000000; margin-right: 0; spacing: none; }");
+		}
+
 		m_errorButton.show();
 	}
 	else

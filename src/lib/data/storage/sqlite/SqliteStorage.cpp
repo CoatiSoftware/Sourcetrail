@@ -31,8 +31,13 @@ void SqliteStorage::setup()
 
 	executeStatement("PRAGMA foreign_keys=ON;");
 	setupMetaTable();
-	setupTables();
-	setupPrecompiledStatements();
+
+	if (isEmpty() || !isIncompatible())
+	{
+		setupTables();
+		setupPrecompiledStatements();
+	}
+
 	m_mode = STORAGE_MODE_UNKNOWN;
 }
 

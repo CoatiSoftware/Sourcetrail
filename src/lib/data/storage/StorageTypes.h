@@ -211,6 +211,7 @@ struct StorageError
 	StorageError(
 		Id id,
 		const std::string& message,
+		const std::string& commandline,
 		const FilePath& filePath,
 		uint lineNumber,
 		uint columnNumber,
@@ -219,6 +220,7 @@ struct StorageError
 	)
 		: id(id)
 		, message(message)
+		, commandline(commandline)
 		, filePath(filePath)
 		, lineNumber(lineNumber)
 		, columnNumber(columnNumber)
@@ -228,6 +230,7 @@ struct StorageError
 
 	Id id;
 	std::string message;
+	std::string commandline;
 
 	FilePath filePath;
 	uint lineNumber;

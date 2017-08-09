@@ -102,7 +102,8 @@ public:
 		}
 	}
 
-	virtual void onError(const ParseLocation& location, const std::string& message, bool fatal, bool indexed)
+	virtual void onError(const ParseLocation& location, const std::string& message, const std::string& commandline,
+		bool fatal, bool indexed)
 	{
 		errors.push_back(addLocationSuffix(message, location));
 	}

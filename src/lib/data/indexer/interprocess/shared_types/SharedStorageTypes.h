@@ -108,6 +108,7 @@ struct SharedStorageError
 	SharedStorageError(
 		Id id,
 		const std::string& message,
+		const std::string& commandline,
 		const std::string& filePath,
 		uint lineNumber,
 		uint columnNumber,
@@ -117,6 +118,7 @@ struct SharedStorageError
 	)
 		: id(id)
 		, message(message.c_str(), allocator)
+		, commandline(commandline.c_str(), allocator)
 		, filePath(filePath.c_str(), allocator)
 		, lineNumber(lineNumber)
 		, columnNumber(columnNumber)
@@ -126,6 +128,7 @@ struct SharedStorageError
 
 	Id id;
 	SharedMemory::String message;
+	SharedMemory::String commandline;
 
 	SharedMemory::String filePath;
 	uint lineNumber;
@@ -138,14 +141,14 @@ struct SharedStorageError
 inline SharedStorageError toShared(const StorageError& error, SharedMemory::Allocator* allocator)
 {
 	return SharedStorageError(
-		error.id, error.message, error.filePath.str(),
+		error.id, error.message, error.commandline, error.filePath.str(),
 		error.lineNumber, error.columnNumber, error.fatal, error.indexed, allocator);
 }
 
 inline StorageError fromShared(const SharedStorageError& error)
 {
 	return StorageError(
-		error.id, error.message.c_str(), FilePath(error.filePath.c_str()),
+		error.id, error.message.c_str(), error.commandline.c_str(), FilePath(error.filePath.c_str()),
 		error.lineNumber, error.columnNumber, error.fatal, error.indexed);
 }
 

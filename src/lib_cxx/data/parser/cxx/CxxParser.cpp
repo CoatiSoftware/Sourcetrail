@@ -79,38 +79,14 @@ void CxxParser::buildIndex(std::shared_ptr<IndexerCommandCxxCdb> indexerCommand)
 	}
 
 	CxxCompilationDatabaseSingle compilationDatabase(compileCommand);
-	clang::tooling::ClangTool tool(compilationDatabase, std::vector<std::string>(1, indexerCommand->getSourceFilePath().str()));
-
-	std::shared_ptr<FilePathCache> canonicalFilePathCache = std::make_shared<FilePathCache>([](std::string fileName) -> FilePath
-		{
-			return FilePath(fileName).canonical();
-		}
-	);
-
-	std::shared_ptr<CxxDiagnosticConsumer> diagnostics = getDiagnostics(canonicalFilePathCache, true);
-	tool.setDiagnosticConsumer(diagnostics.get());
-
-	ASTActionFactory actionFactory(m_client, m_fileRegister, canonicalFilePathCache, false);
-	tool.run(&actionFactory);
+	runTool(&compilationDatabase, indexerCommand->getSourceFilePath());
 }
 
 void CxxParser::buildIndex(std::shared_ptr<IndexerCommandCxxManual> indexerCommand)
 {
 	std::shared_ptr<clang::tooling::CompilationDatabase> compilationDatabase = getCompilationDatabase(indexerCommand);
 
-	clang::tooling::ClangTool tool(*compilationDatabase, std::vector<std::string>(1, indexerCommand->getSourceFilePath().str()));
-
-	std::shared_ptr<FilePathCache> canonicalFilePathCache = std::make_shared<FilePathCache>([](std::string fileName) -> FilePath
-		{
-			return FilePath(fileName).canonical();
-		}
-	);
-
-	std::shared_ptr<CxxDiagnosticConsumer> diagnostics = getDiagnostics(canonicalFilePathCache, true);
-	tool.setDiagnosticConsumer(diagnostics.get());
-
-	ASTActionFactory actionFactory(m_client, m_fileRegister, canonicalFilePathCache, false);
-	tool.run(&actionFactory);
+	runTool(compilationDatabase.get(), indexerCommand->getSourceFilePath());
 }
 
 void CxxParser::buildIndex(const std::string& fileName, std::shared_ptr<TextAccess> fileContent)
@@ -133,6 +109,35 @@ void CxxParser::buildIndex(const std::string& fileName, std::shared_ptr<TextAcce
 		args,
 		fileName
 	);
+}
+
+void CxxParser::runTool(clang::tooling::CompilationDatabase* compilationDatabase, const FilePath& sourceFilePath)
+{
+	clang::tooling::ClangTool tool(*compilationDatabase, std::vector<std::string>(1, sourceFilePath.str()));
+
+	std::shared_ptr<FilePathCache> canonicalFilePathCache = std::make_shared<FilePathCache>([](std::string fileName) -> FilePath
+		{
+			return FilePath(fileName).canonical();
+		}
+	);
+
+	std::shared_ptr<CxxDiagnosticConsumer> diagnostics = getDiagnostics(canonicalFilePathCache, true);
+
+	std::vector<clang::tooling::CompileCommand> compileCommands = compilationDatabase->getCompileCommands(sourceFilePath.str());
+	if (compileCommands.size() == 1)
+	{
+		std::string commandline;
+		for (const std::string& str : compileCommands[0].CommandLine)
+		{
+			commandline += str + " ";
+		}
+		diagnostics->setCommandLine(commandline);
+	}
+
+	tool.setDiagnosticConsumer(diagnostics.get());
+
+	ASTActionFactory actionFactory(m_client, m_fileRegister, canonicalFilePathCache, false);
+	tool.run(&actionFactory);
 }
 
 std::vector<std::string> CxxParser::getCommandlineArgumentsEssential(
