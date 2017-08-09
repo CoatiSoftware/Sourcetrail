@@ -24,7 +24,7 @@ std::vector<IncludeDirective> IncludeValidation::getUnresolvedIncludeDirectives(
 	std::set<std::string> processedFilePaths;
 	std::set<IncludeDirective, IncludeDirectiveComparator> unresolvedIncludeDirectives;
 
-	quantileCount = std::min(quantileCount, sourceFilePaths.size());
+	quantileCount = std::max<size_t>(1, std::min(quantileCount, sourceFilePaths.size()));
 
 	std::vector<std::vector<FilePath>> quantiles;
 	for (size_t i = 0; i < quantileCount; i++)

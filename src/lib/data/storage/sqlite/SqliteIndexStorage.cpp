@@ -1027,7 +1027,7 @@ void SqliteIndexStorage::setupPrecompiledStatements()
 			"LIMIT 1;"
 		);
 		m_insertCommentLocationStmt = m_database.compileStatement(
-			"INSERT INTO source_location(id, file_node_id, start_line, start_column, end_line, end_column) VALUES(NULL, ?, ?, ?, ?, ?);"
+			"INSERT INTO comment_location(id, file_node_id, start_line, start_column, end_line, end_column) VALUES(NULL, ?, ?, ?, ?, ?);"
 		);
 		m_checkErrorExistsStmt = m_database.compileStatement(
 			"SELECT id FROM error WHERE "

@@ -152,13 +152,19 @@ ParseLocation PreprocessorCallbacks::getParseLocation(const clang::Token& macroN
 	const clang::SourceLocation& location = m_sourceManager.getSpellingLoc(macroNameTok.getLocation());
 	const clang::SourceLocation& endLocation = m_sourceManager.getSpellingLoc(macroNameTok.getEndLoc());
 
-	return ParseLocation(
-		m_canonicalFilePathCache->getValue(m_sourceManager.getFilename(location).str()),
-		m_sourceManager.getSpellingLineNumber(location),
-		m_sourceManager.getSpellingColumnNumber(location),
-		m_sourceManager.getSpellingLineNumber(endLocation),
-		m_sourceManager.getSpellingColumnNumber(endLocation) - 1
-	);
+	const clang::FileEntry *fileEntry = m_sourceManager.getFileEntryForID(m_sourceManager.getFileID(location));
+	if (fileEntry)
+	{
+		return ParseLocation(
+			m_canonicalFilePathCache->getValue(utility::getFileNameOfFileEntry(fileEntry)),
+			m_sourceManager.getSpellingLineNumber(location),
+			m_sourceManager.getSpellingColumnNumber(location),
+			m_sourceManager.getSpellingLineNumber(endLocation),
+			m_sourceManager.getSpellingColumnNumber(endLocation) - 1
+		);
+	}
+
+	return ParseLocation();
 }
 
 ParseLocation PreprocessorCallbacks::getParseLocation(const clang::MacroInfo* macroInfo) const
@@ -166,30 +172,39 @@ ParseLocation PreprocessorCallbacks::getParseLocation(const clang::MacroInfo* ma
 	clang::SourceLocation location = macroInfo->getDefinitionLoc();
 	clang::SourceLocation endLocation = macroInfo->getDefinitionEndLoc();
 
-	return ParseLocation(
-		m_canonicalFilePathCache->getValue(m_sourceManager.getFilename(location).str()),
-		m_sourceManager.getSpellingLineNumber(location),
-		m_sourceManager.getSpellingColumnNumber(location),
-		m_sourceManager.getSpellingLineNumber(endLocation),
-		m_sourceManager.getSpellingColumnNumber(endLocation) - 1
-	);
+	const clang::FileEntry *fileEntry = m_sourceManager.getFileEntryForID(m_sourceManager.getFileID(location));
+	if (fileEntry)
+	{
+		return ParseLocation(
+			m_canonicalFilePathCache->getValue(utility::getFileNameOfFileEntry(fileEntry)),
+			m_sourceManager.getSpellingLineNumber(location),
+			m_sourceManager.getSpellingColumnNumber(location),
+			m_sourceManager.getSpellingLineNumber(endLocation),
+			m_sourceManager.getSpellingColumnNumber(endLocation) - 1
+		);
+	}
+
+	return ParseLocation();
 }
 
 ParseLocation PreprocessorCallbacks::getParseLocation(const clang::SourceRange& sourceRange) const
 {
-	if (sourceRange.isInvalid())
+	if (sourceRange.isValid())
 	{
-		return ParseLocation();
+		const clang::PresumedLoc& presumedBegin = m_sourceManager.getPresumedLoc(sourceRange.getBegin(), false);
+		const clang::PresumedLoc& presumedEnd = m_sourceManager.getPresumedLoc(sourceRange.getEnd(), false);
+
+		const clang::FileEntry *fileEntry = m_sourceManager.getFileEntryForID(m_sourceManager.getFileID(sourceRange.getBegin()));
+		if (fileEntry)
+		{
+			return ParseLocation(
+				m_canonicalFilePathCache->getValue(utility::getFileNameOfFileEntry(fileEntry)),
+				presumedBegin.getLine(),
+				presumedBegin.getColumn(),
+				presumedEnd.getLine(),
+				presumedEnd.getColumn() - 1
+			);
+		}
 	}
-
-	const clang::PresumedLoc& presumedBegin = m_sourceManager.getPresumedLoc(sourceRange.getBegin(), false);
-	const clang::PresumedLoc& presumedEnd = m_sourceManager.getPresumedLoc(sourceRange.getEnd(), false);
-
-	return ParseLocation(
-		m_canonicalFilePathCache->getValue(presumedBegin.getFilename()),
-		presumedBegin.getLine(),
-		presumedBegin.getColumn(),
-		presumedEnd.getLine(),
-		presumedEnd.getColumn() - 1
-	);
+	return ParseLocation();
 }

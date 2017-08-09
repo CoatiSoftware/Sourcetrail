@@ -3,6 +3,7 @@
 #include "clang/Basic/SourceManager.h"
 #include "clang/Tooling/Tooling.h"
 
+#include "data/parser/cxx/utilityCxxAstVisitor.h"
 #include "data/parser/ParseLocation.h"
 #include "data/parser/ParserClient.h"
 #include "utility/file/FileRegister.h"
@@ -74,11 +75,17 @@ void CxxDiagnosticConsumer::HandleDiagnostic(clang::DiagnosticsEngine::Level lev
 		if (info.getLocation().isValid() && info.hasSourceManager())
 		{
 			const clang::SourceManager& sourceManager = info.getSourceManager();
-			clang::PresumedLoc presumedLocation = sourceManager.getPresumedLoc(info.getLocation());
+			{
+				const clang::PresumedLoc presumedLocation = sourceManager.getPresumedLoc(info.getLocation());
+				line = presumedLocation.getLine();
+				column = presumedLocation.getColumn();
+			}
 
-			filePath = clang::tooling::getAbsolutePath(presumedLocation.getFilename());
-			line = presumedLocation.getLine();
-			column = presumedLocation.getColumn();
+			const clang::FileEntry *fileEntry = sourceManager.getFileEntryForID(sourceManager.getFileID(info.getLocation()));
+			if (fileEntry)
+			{
+				filePath = m_canonicalFilePathCache->getValue(utility::getFileNameOfFileEntry(fileEntry)).str();
+			}
 		}
 
 		ParseLocation location(m_canonicalFilePathCache->getValue(filePath), line, column);

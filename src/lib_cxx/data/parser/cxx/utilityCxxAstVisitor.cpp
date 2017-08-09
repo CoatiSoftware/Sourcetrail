@@ -3,6 +3,7 @@
 #include <clang/AST/DeclCXX.h>
 #include <clang/AST/DeclTemplate.h>
 
+#include "utility/file/FilePath.h"
 
 bool utility::isImplicit(const clang::Decl* d)
 {
@@ -72,12 +73,17 @@ SymbolKind utility::convertTagKind(clang::TagTypeKind tagKind)
 	}
 }
 
-clang::StringRef utility::getFileNameOfFileEntry(const clang::FileEntry* entry)
+std::string utility::getFileNameOfFileEntry(const clang::FileEntry* entry)
 {
-	clang::StringRef fileName = entry->tryGetRealPathName();
-	if (!fileName.size())
+	std::string fileName = entry->tryGetRealPathName();
+	if (fileName.empty())
 	{
 		fileName = entry->getName();
 	}
+	else
+	{
+		fileName = FilePath(entry->getName().str()).parentDirectory().concat(FilePath(FilePath(fileName).fileName())).str();
+	}
+
 	return fileName;
 }

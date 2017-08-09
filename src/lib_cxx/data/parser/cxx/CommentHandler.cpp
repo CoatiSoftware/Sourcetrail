@@ -1,5 +1,6 @@
 #include "data/parser/cxx/CommentHandler.h"
 
+#include "data/parser/cxx/utilityCxxAstVisitor.h"
 #include "data/parser/ParseLocation.h"
 #include "data/parser/ParserClient.h"
 #include "utility/file/FileRegister.h"
@@ -25,16 +26,26 @@ bool CommentHandler::HandleComment(clang::Preprocessor& preprocessor, clang::Sou
 	const clang::PresumedLoc& presumedBegin = sourceManager.getPresumedLoc(sourceRange.getBegin(), false);
 	const clang::PresumedLoc& presumedEnd = sourceManager.getPresumedLoc(sourceRange.getEnd(), false);
 
-	FilePath filePath = m_canonicalFilePathCache->getValue(presumedBegin.getFilename());
-	if (m_fileRegister->hasFilePath(filePath) && !m_fileRegister->fileIsIndexed(filePath))
+	clang::FileID fileId = sourceManager.getFileID(sourceRange.getBegin());
+
+	// find the location file
+	if (!fileId.isInvalid())
 	{
-		m_client->onCommentParsed(ParseLocation(
-			filePath,
-			presumedBegin.getLine(),
-			presumedBegin.getColumn(),
-			presumedEnd.getLine(),
-			presumedEnd.getColumn()
-		));
+		const clang::FileEntry* fileEntry = sourceManager.getFileEntryForID(fileId);
+		if (fileEntry != NULL)
+		{
+			FilePath filePath = m_canonicalFilePathCache->getValue(utility::getFileNameOfFileEntry(fileEntry));
+			if (m_fileRegister->hasFilePath(filePath) && !m_fileRegister->fileIsIndexed(filePath))
+			{
+				m_client->onCommentParsed(ParseLocation(
+					filePath,
+					presumedBegin.getLine(),
+					presumedBegin.getColumn(),
+					presumedEnd.getLine(),
+					presumedEnd.getColumn()
+				));
+			}
+		}
 	}
 
 	return false;

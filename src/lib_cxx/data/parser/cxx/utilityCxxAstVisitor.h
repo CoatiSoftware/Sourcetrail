@@ -11,7 +11,7 @@ namespace utility
 	bool isImplicit(const clang::Decl* d);
 	AccessKind convertAccessSpecifier(clang::AccessSpecifier access);
 	SymbolKind convertTagKind(clang::TagTypeKind tagKind);
-	clang::StringRef getFileNameOfFileEntry(const clang::FileEntry* entry);
+	std::string getFileNameOfFileEntry(const clang::FileEntry* entry);
 }
 
 #endif // UTILITY_CXX_AST_VISITOR_H
