@@ -45,7 +45,6 @@ std::string LicenseChecker::getCurrentLicenseString() const
 void LicenseChecker::saveCurrentLicenseString(const std::string& licenseString) const
 {
 	License license;
-//	license.loadPublicKeyFromString(PUBLIC_KEY);
 	bool isLoaded = license.loadFromString(licenseString);
 	if (!isLoaded)
 	{
@@ -184,8 +183,6 @@ void LicenseChecker::handleMessage(MessageEnteredLicense* message)
 
 LicenseChecker::LicenseState LicenseChecker::checkLicense(License& license) const
 {
-//    license.loadPublicKeyFromString(PUBLIC_KEY);
-
 	if (license.isExpired())
 	{
 		return LICENSE_EXPIRED;

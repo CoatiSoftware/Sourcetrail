@@ -9,7 +9,6 @@
 
 class CommandlineTestSuite: public CxxTest::TestSuite
 {
-	ApplicationSettings backup_settings;
 
 public:
 

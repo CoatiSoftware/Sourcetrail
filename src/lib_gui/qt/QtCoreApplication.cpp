@@ -28,10 +28,7 @@ void QtCoreApplication::handleMessage(MessageQuitApplication* message)
 
 void QtCoreApplication::handleMessage(MessageStatus* message)
 {
-//	if (m.substr(0,5) == "Index")
-	{
-		std::cout << message->status << std::endl;
-	}
+	std::cout << message->status << std::endl;
 }
 
 bool QtCoreApplication::saveLicense(License license)

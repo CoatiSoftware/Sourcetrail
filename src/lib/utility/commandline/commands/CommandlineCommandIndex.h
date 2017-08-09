@@ -6,9 +6,6 @@
 
 #include "utility/commandline/commands/CommandlineCommand.h"
 
-//#include "utility/commandline/commands/CommandlineSourceGroupOptionsC.h"
-//#include "utility/commandline/commands/CommandlineSourceGroupOptionsCxx.h"
-//#include "utility/commandline/commands/CommandlineSourceGroupOptionsJava.h"
 namespace po = boost::program_options;
 
 namespace commandline {
@@ -25,4 +22,4 @@ public:
 
 } // namespace cmd
 
-#endif // !COMMANDLINE_COMMAND_H
+#endif // COMMANDLINE_COMMAND_INDEX_H

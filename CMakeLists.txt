@@ -398,10 +398,6 @@ target_include_directories(${LIB_GUI_PROJECT_NAME} SYSTEM
 		PUBLIC ${Boost_INCLUDE_DIRS}
 )
 
-# Use the Widgets module from Qt 5.
-#qt5_use_modules(${LIB_GUI_PROJECT_NAME} Widgets)
-#qt5_use_modules(${LIB_GUI_PROJECT_NAME} Network)
-
 # configure platform specific include file
 configure_file(
 	"${PROJECT_SOURCE_DIR}/src/lib_gui/platform_includes/includes.h.in"
