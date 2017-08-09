@@ -100,7 +100,7 @@ public:
 
     void print();
 
-    std::string hashLocation(const std::string&);
+    std::string hashLocation(const std::string&) const;
     static bool checkLocation(const std::string&, const std::string&);
 
 private:

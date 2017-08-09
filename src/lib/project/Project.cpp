@@ -260,19 +260,15 @@ void Project::load()
 		m_storage->buildCaches();
 		m_storageAccessProxy->setSubject(m_storage.get());
 
-		MessageFinishedParsing().dispatch();
+		if (Application::getInstance()->hasGUI())
+		{
+			MessageFinishedParsing().dispatch();
+		}
 		MessageStatus("Finished Loading", false, false).dispatch();
 	}
 	else
 	{
 		MessageStatus("Project not loaded", false, false).dispatch();
-	}
-
-	// refresh always on headless
-	// since just opening a project in headless does not make sense
-	if (m_state != PROJECT_STATE_LOADED || !Application::getInstance()->hasGUI())
-	{
-		MessageRefresh().dispatch();
 	}
 }
 
@@ -396,6 +392,11 @@ bool Project::requestIndex(bool forceRefresh, bool needsFullRefresh)
 
 	if (!filesToClean.size() && !filesToIndex.size())
 	{
+		if (!Application::getInstance()->hasGUI())
+		{
+			MessageFinishedParsing().dispatch();
+		}
+
 		MessageStatus("Nothing to refresh, all files are up-to-date.").dispatch();
 		return false;
 	}

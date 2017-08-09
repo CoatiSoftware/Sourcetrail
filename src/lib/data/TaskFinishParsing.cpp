@@ -3,7 +3,6 @@
 #include "component/view/DialogView.h"
 #include "data/storage/PersistentStorage.h"
 #include "utility/messaging/type/MessageFinishedParsing.h"
-#include "utility/messaging/type/MessageQuitApplication.h"
 #include "utility/messaging/type/MessageStatus.h"
 #include "utility/scheduling/Blackboard.h"
 #include "utility/utility.h"
@@ -41,11 +40,6 @@ Task::TaskState TaskFinishParsing::doUpdate(std::shared_ptr<Blackboard> blackboa
 
 	dialogView->hideUnknownProgressDialog();
 	MessageFinishedParsing().dispatch();
-
-	if (!Application::getInstance()->hasGUI())
-	{
-		MessageQuitApplication().dispatch();
-	}
 
 	float time = utility::duration(start);
 
@@ -104,9 +98,4 @@ void TaskFinishParsing::terminate()
 
 	MessageStatus("An unknown exception was thrown during indexing.", true, false).dispatch();
 	MessageFinishedParsing().dispatch();
-
-	if (!Application::getInstance()->hasGUI())
-	{
-		MessageQuitApplication().dispatch();
-	}
 }

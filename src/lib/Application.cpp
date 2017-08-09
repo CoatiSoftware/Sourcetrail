@@ -231,10 +231,6 @@ void Application::refreshProject(bool force)
 				m_componentManager->refreshViews();
 			}
 		}
-		else if (!m_hasGUI)
-		{
-			MessageQuitApplication().dispatch();
-		}
 	}
 }
 
@@ -263,6 +259,10 @@ void Application::handleMessage(MessageFinishedParsing* message)
 	{
 		MessageRefresh().refreshUiOnly().dispatch();
 	}
+	else
+	{
+		MessageQuitApplication().dispatch();
+	}
 }
 
 void Application::handleMessage(MessageLoadProject* message)
@@ -275,17 +275,27 @@ void Application::handleMessage(MessageLoadProject* message)
 		return;
 	}
 
-	if (!m_project || projectSettingsFilePath != m_project->getProjectSettingsFilePath())
+	if (m_project && projectSettingsFilePath == m_project->getProjectSettingsFilePath())
 	{
-		createAndLoadProject(projectSettingsFilePath);
+		if (message->forceRefresh && m_hasGUI)
+		{
+			m_project->setStateSettingsUpdated();
+			refreshProject(false);
+		}
+
+		return;
 	}
+
+	createAndLoadProject(projectSettingsFilePath);
 
 	if (message->forceRefresh)
 	{
-		m_project->setStateSettingsUpdated();
+		refreshProject(true);
+	}
+	else if (!m_hasGUI)
+	{
 		refreshProject(false);
 	}
-
 }
 
 void Application::handleMessage(MessageRefresh* message)

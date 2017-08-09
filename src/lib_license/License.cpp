@@ -491,7 +491,7 @@ std::string License::getLicenseString() const
 	return license;
 }
 
-std::string License::hashLocation(const std::string& location)
+std::string License::hashLocation(const std::string& location) const
 {
 	if (m_rng == NULL || location.size() <= 0)
 	{

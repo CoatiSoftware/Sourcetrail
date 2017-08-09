@@ -13,7 +13,6 @@
 #include "project/SourceGroupFactoryModuleCpp.h"
 #include "project/SourceGroupFactoryModuleJava.h"
 #include "qt/network/QtNetworkFactory.h"
-#include <QCoreApplication>
 #include "qt/QtApplication.h"
 #include "qt/QtCoreApplication.h"
 #include "qt/utility/utilityQt.h"
@@ -26,6 +25,7 @@
 #include "utility/logging/logging.h"
 #include "utility/logging/LogManager.h"
 #include "utility/messaging/type/MessageEnteredLicense.h"
+#include "utility/messaging/type/MessageInterruptTasks.h"
 #include "utility/messaging/type/MessageLoadProject.h"
 #include "utility/messaging/type/MessageStatus.h"
 #include "utility/ResourcePaths.h"
@@ -36,17 +36,10 @@
 #include "utility/Version.h"
 #include "version.h"
 
-void signalHandler( int signum )
+void signalHandler(int signum)
 {
-	std::string s;
-	std::cout << "interrupt are you sure(Y/n):" << std::flush;
-	std::cin >> s;
-	std::cout << "\n*******\n" << s << "\n*******\n" << std::endl;
-	if (s == "Y" || s == "y")
-	{
-		std::cout << "quit()" << std::endl;
-		QCoreApplication::quit();
-	}
+	std::cout << "interrupt running tasks" << std::endl;
+	MessageInterruptTasks().dispatch();
 }
 
 void setupLogging()
@@ -232,11 +225,10 @@ int main(int argc, char *argv[])
 
 	if (commandLineParser.runWithoutGUI())
 	{
-
 		commandLineParser.parse();
 		if (commandLineParser.startedWithLicense())
 		{
-			qobject_cast<QtCoreApplication*>(qtApp.data())->saveLicense(commandLineParser.getLicense());
+			utility::saveLicense(commandLineParser.getLicensePtr());
 		}
 		if (commandLineParser.exitApplication())
 		{
@@ -285,14 +277,13 @@ int main(int argc, char *argv[])
 #else
 		struct sigaction sa;
 		sa.sa_handler = signalHandler;
-		sa.sa_flags = 0;
-		::sigemptyset(&sa.sa_mask);
+		sigemptyset(&sa.sa_mask);
 		sa.sa_flags = SA_RESTART;
-		if(::sigaction(SIGINT, &sa, NULL))
+		if (sigaction(SIGINT, &sa, NULL))
 		{
 			std::cout << "Cant install SIGINT handler" << std::endl;
 		}
-		if(::sigaction(SIGHUP, &sa, NULL))
+		if (sigaction(SIGHUP, &sa, NULL))
 		{
 			std::cout << "Cant install SIGHUP handler" << std::endl;
 		}
@@ -318,9 +309,7 @@ int main(int argc, char *argv[])
 		).dispatch();
 	}
 
-
 	int exitcode = qtApp->exec();
 
 	return exitcode;
-
 }

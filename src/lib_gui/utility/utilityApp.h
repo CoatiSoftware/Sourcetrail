@@ -19,7 +19,8 @@ namespace utility
 	int getIdealThreadCount();
 
 	OsType getOsType();
-	bool saveLicense(License* license);
+
+	bool saveLicense(const License* license);
 }
 
 #endif // UTILITY_APP_H

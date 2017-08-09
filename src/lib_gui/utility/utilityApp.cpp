@@ -104,16 +104,17 @@ int utility::getIdealThreadCount()
 	return QThread::idealThreadCount();
 }
 
-bool utility::saveLicense(License* license)
+bool utility::saveLicense(const License* license)
 {
 	if (license == nullptr)
 	{
 		return false;
 	}
+
 	if (license->isValid())
 	{
 		ApplicationSettings* appSettings = ApplicationSettings::getInstance().get();
-		if (appSettings == NULL)
+		if (appSettings == nullptr)
 		{
 			LOG_ERROR_STREAM(<< "Unable to retrieve app settings");
 			return false;
@@ -121,10 +122,8 @@ bool utility::saveLicense(License* license)
 
 		std::string appLocation = AppPath::getAppPath();
 		appSettings->setLicenseString(license->getLicenseEncodedString(appLocation));
-		FilePath p(appLocation);
-		appSettings->setLicenseCheck(license->hashLocation(p.absolute().str()));
-		appSettings->save(UserPaths::getAppSettingsPath());
-
+		appSettings->setLicenseCheck(license->hashLocation(FilePath(appLocation).absolute().str()));
+		appSettings->save();
 		return true;
 	}
 	else
