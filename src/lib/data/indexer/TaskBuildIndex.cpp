@@ -11,6 +11,7 @@
 #include "data/indexer/IndexerCommandList.h"
 #include "data/indexer/interprocess/InterprocessIndexer.h"
 #include "data/storage/StorageProvider.h"
+#include "utility/messaging/type/MessageStatus.h"
 
 #if _WIN32
 const std::string TaskBuildIndex::s_processName("sourcetrail_indexer.exe");
@@ -265,6 +266,16 @@ void TaskBuildIndex::updateIndexingDialog(
 		std::lock_guard<std::mutex> lock(blackboard->getMutex());
 		blackboard->get("source_file_count", sourceFileCount);
 		blackboard->get("indexed_source_file_count", indexedSourceFileCount);
+	}
+
+	if (!sourcePath.empty())
+	{
+		std::stringstream ss;
+		ss << "[" << m_indexingFileCount
+		   << "/" << sourceFileCount
+		   << "] Indexing file: ";
+		ss << sourcePath.str();
+		MessageStatus(ss.str(), false, true).dispatch();
 	}
 
 	if (std::shared_ptr<DialogView> dialogView = Application::getInstance()->getDialogView())

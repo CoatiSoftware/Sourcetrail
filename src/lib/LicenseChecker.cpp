@@ -2,6 +2,7 @@
 
 #include "utility/AppPath.h"
 #include "utility/logging/logging.h"
+#include "utility/utilityApp.h"
 #include "utility/messaging/type/MessageForceEnterLicense.h"
 
 #include "License.h"
@@ -44,25 +45,14 @@ std::string LicenseChecker::getCurrentLicenseString() const
 void LicenseChecker::saveCurrentLicenseString(const std::string& licenseString) const
 {
 	License license;
+//	license.loadPublicKeyFromString(PUBLIC_KEY);
 	bool isLoaded = license.loadFromString(licenseString);
 	if (!isLoaded)
 	{
 		return;
 	}
 
-	ApplicationSettings* appSettings = ApplicationSettings::getInstance().get();
-
-	if (appSettings == NULL)
-	{
-		LOG_ERROR_STREAM(<< "Unable to retrieve app settings");
-		return;
-	}
-
-	std::string appPath(AppPath::getAppPath());
-
-	appSettings->setLicenseString(license.getLicenseEncodedString(appPath));
-	appSettings->setLicenseCheck(license.hashLocation(FilePath(appPath).absolute().str()));
-	appSettings->save();
+	utility::saveLicense(&license);
 }
 
 bool LicenseChecker::isCurrentLicenseValid()
@@ -194,7 +184,7 @@ void LicenseChecker::handleMessage(MessageEnteredLicense* message)
 
 LicenseChecker::LicenseState LicenseChecker::checkLicense(License& license) const
 {
-    license.loadPublicKeyFromString(PUBLIC_KEY);
+//    license.loadPublicKeyFromString(PUBLIC_KEY);
 
 	if (license.isExpired())
 	{

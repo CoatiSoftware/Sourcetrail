@@ -21,7 +21,7 @@ public:
 		std::vector<FilePath> javaPaths = utility::getJavaRuntimePathDetector()->getPaths();
 		if (!javaPaths.empty())
 		{
-			ApplicationSettings::getInstance()->setJavaPath(javaPaths[0].str());
+			ApplicationSettings::getInstance()->setJavaPath(javaPaths[0]);
 		}
 
 		setupJavaEnvironmentFactory();

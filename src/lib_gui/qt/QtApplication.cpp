@@ -8,6 +8,7 @@
 #include "utility/logging/LogManager.h"
 
 #include "component/controller/LogController.h"
+#include "utility/utilityApp.h"
 
 QtApplication::QtApplication(int& argc, char** argv)
 	: QApplication(argc, argv)

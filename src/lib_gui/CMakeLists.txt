@@ -99,6 +99,11 @@ add_files(
 	qt/utility/utilityQt.cpp
 	qt/utility/utilityQt.h
 
+#	qt/utility/qctrlsignals/qctrlsignalhandler.cpp
+#	qt/utility/qctrlsignals/qctrlsignalhandler.h
+#	qt/utility/qctrlsignals/qctrlsignalhandler_p.h
+#	qt/utility/qctrlsignals/QCtrlSignals
+
 	qt/view/graphElements/nodeComponents/QtGraphNodeComponent.cpp
 	qt/view/graphElements/nodeComponents/QtGraphNodeComponent.h
 	qt/view/graphElements/nodeComponents/QtGraphNodeComponentClickable.cpp
@@ -270,8 +275,31 @@ add_files(
 	utility/path_detector/PathDetector.cpp
 	utility/path_detector/PathDetector.h
 
+#	utility/signal_handler/SignalHandler.cpp
+#	utility/signal_handler/SignalHandler.h
+
+#	utility/QtUnixSignalEmitter.cpp
+#	utility/QtUnixSignalEmitter.h
+
+#	utility/SignalWatcher.cpp
+#	utility/SignalWatcher.h
+
 	utility/utilityApp.cpp
 	utility/utilityApp.h
 	utility/utilityPathDetection.cpp
 	utility/utilityPathDetection.h
 )
+
+#if(WIN32)
+#add_files(
+#	LIB_GUI_FILES
+#	qt/utility/qctrlsignals/qctrlsignalhandler_win.cpp
+#	qt/utility/qctrlsignals/qctrlsignalhandler_win.h
+#)
+#else()
+#add_files(
+#	LIB_GUI_FILES
+#	qt/utility/qctrlsignals/qctrlsignalhandler_unix.cpp
+#	qt/utility/qctrlsignals/qctrlsignalhandler_unix.h
+#)
+#endif()

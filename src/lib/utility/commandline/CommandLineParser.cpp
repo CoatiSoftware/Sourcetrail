@@ -1,9 +1,14 @@
 #include "utility/commandline/CommandLineParser.h"
 
 #include <iostream>
+#include <fstream>
+#include <utility>
 
 #include "boost/program_options.hpp"
 
+#include "utility/commandline/CommandlineHelper.h"
+#include "utility/commandline/commands/CommandlineCommandConfig.h"
+#include "utility/commandline/commands/CommandlineCommandIndex.h"
 #include "utility/ConfigManager.h"
 #include "utility/text/TextAccess.h"
 #include "utility/utilityString.h"
@@ -12,111 +17,171 @@
 
 namespace po = boost::program_options;
 
-CommandLineParser::CommandLineParser(int argc, char** argv, const std::string& version)
-	: m_force(false)
-	, m_quit(false)
-	, m_withLicense(false)
-	, m_withoutGUI(false)
+namespace commandline
 {
-	std::string projectfile;
-	std::string projectfile_db;
-	std::string licensefile;
-	std::string licensetext;
-	po::options_description desc("Sourcetrail");
-	desc.add_options()
+
+CommandLineParser::CommandLineParser(const std::string& version)
+	: m_version(version)
+{
+	setup();
+}
+
+void CommandLineParser::setup()
+{
+	po::options_description options("Sourcetrail Options");
+	options.add_options()
 		("help,h", "Print this help message")
 		("version,v", "Version of Sourcetrail")
-		("project,p", "Load Sourcetrail with a Sourcetrailprojectfile")
+		("project-file", po::value<std::string>(), "Open Sourcetrail with this project")
 		;
-	po::positional_options_description positionalOption;
-	positionalOption.add("project-file", 1);
 
-	po::options_description hidden_desc("hidden commandlineflags");
-	hidden_desc.add_options()
-		("force,f", "Force sourcetrail to parse if database exists")
-		("licenseFile,z", po::value<std::string>(&licensefile), "Enter license via Licensefile")
-		("license,l", po::value<std::string>(&licensetext), "Enter licenes via commandline")
-		("hidden", "Print this help message with hidden arguments")
-		("database,d", "Start sourcetrail to parse a Sourcetrail projectfile to get a sourcetraildatabase")
-		("project-file", po::value<std::string>(&projectfile), "Sourcetrail project file");
-		;
-	po::options_description all("Allowed options");
-	all.add(desc).add(hidden_desc);
+	m_options.add(options);
+	m_positional.add("project-file", 1);
+	addCommand(std::make_unique<commandline::CommandConfig>(this));
+	addCommand(std::make_unique<commandline::CommandIndex>(this));
 
-	po::variables_map vm;
-	po::store(po::command_line_parser(argc,argv).options(all).positional(positionalOption).allow_unregistered().run(), vm);
-	po::notify(vm);
-
-	if (vm.count("help"))
+	for ( auto& command : m_commands)
 	{
-		std::cout << desc << std::endl;
-		m_quit = true;
+		command->setup();
 	}
 
-	if (vm.count("hidden"))
-	{
-		std::cout << all << std::endl;
-		m_quit = true;
-	}
-
-	if (vm.count("force"))
-	{
-		m_force = true;
-	}
-
-	if (vm.count("license"))
-	{
-		licensetext = utility::replace(licensetext, "\\n", "\n");
-		processLicense(m_license.loadFromString(licensetext));
-	}
-
-	if (vm.count("licenseFile"))
-	{
-		std::cout << "licensefile flag" << std::endl;
-		if (FilePath(licensefile).exists())
-		{
-			std::cout << "licensefile exists" << std::endl;
-			processLicense(m_license.loadFromFile(licensefile));
-		}
-		else
-		{
-			std::cout << licensefile << " not found" << std::endl;
-		}
-	}
-
-	if (vm.count("version"))
-	{
-		std::cout << "Sourcetrail Version " << version << std::endl;
-		m_quit = true;
-	}
-
-	if (vm.count("project-file"))
-	{
-		processProjectfile(projectfile);
-		if (vm.count("database"))
-		{
-			m_withoutGUI = true;
-		}
-	}
-	else if (vm.count("database") || vm.count("project") ) {
-		std::cout << "A project file is needed for this option" << std::endl;
-	}
 }
 
-void CommandLineParser::processLicense(const bool isLoaded)
+void CommandLineParser::setProjectFile(const FilePath &filepath)
 {
-	if (!isLoaded)
-	{
-		std::cout << "Could not load License" << std::endl;
-	}
-    m_license.loadPublicKeyFromString(PUBLIC_KEY);
-	if (!m_license.isValid())
-	{
-		std::cout << "License is not valid" << std::endl;
-	}
-	m_withLicense = true;
-	m_withoutGUI = true;
+	m_projectFile = filepath;
+	processProjectfile();
 }
+
+void CommandLineParser::addCommand(std::unique_ptr<Command> command)
+{
+	m_commands.push_back(std::move(command));
+}
+
+void CommandLineParser::preparse(int argc, char** argv)
+{
+	// put argv into a string vector
+	std::vector<std::string> args;
+	for(int i = 1; i < argc; i++)
+	{
+		args.push_back(std::string(argv[i]));
+	}
+
+	preparse(args);
+}
+
+void CommandLineParser::preparse(std::vector<std::string>& args)
+{
+	if (args.size() < 1)
+	{
+		return;
+	}
+	m_args = std::move(args);
+	try
+	{
+		// parsing for all commands
+		for ( auto& command : m_commands)
+		{
+			if ( m_args[0] == command->name())
+			{
+				m_withoutGUI = true;
+				return;
+			}
+		}
+
+		po::variables_map vm;
+		po::positional_options_description positional;
+		positional.add("project-file",1);
+		po::store(po::command_line_parser(m_args).options(m_options).positional(positional).allow_unregistered().run(), vm);
+		po::notify(vm);
+
+		if (vm.count("version"))
+		{
+			std::cout << "Sourcetrail Version " << m_version << std::endl;
+			m_quit = true;
+			return;
+		}
+
+		if (vm.count("help"))
+		{
+			printHelp();
+			m_quit = true;
+		}
+
+		if (vm.count("project-file"))
+		{
+			m_projectFile = FilePath(vm["project-file"].as<std::string>());
+			processProjectfile();
+		}
+	}
+	catch(boost::program_options::error& e)
+	{
+		std::cerr << "ERROR: " << e.what() << std::endl << std::endl;
+		std::cerr << m_options << std::endl;
+	}
+}
+
+void CommandLineParser::parse()
+{
+	if (m_args.size() < 1)
+	{
+		return;
+	}
+	try
+	{
+		// parsing for all commands
+		for ( auto& command : m_commands)
+		{
+			if ( m_args[0] == command->name())
+			{
+				m_args.erase(m_args.begin());
+				ReturnStatus status = command->parse(m_args);
+				if (status == ReturnStatus::CMD_QUIT
+						|| status == ReturnStatus::CMD_FAILURE)
+				{
+					m_quit = true;
+				}
+			}
+		}
+	}
+	catch(boost::program_options::error& e)
+	{
+		std::cerr << "ERROR: " << e.what() << std::endl << std::endl;
+		std::cerr << m_options << std::endl;
+	}
+
+}
+
+License* CommandLineParser::getLicensePtr()
+{
+	return &m_license;
+}
+
+void CommandLineParser::printHelp() const
+{
+	std::cout << "Usage:\n  sourcetrail [command] [option...] [positional arguments]\n\n";
+
+	// Commands
+	std::cout << "Commands:\n";
+	for (auto& Command : m_commands)
+	{
+		std::cout << "  " << Command->name() << "\n";
+	}
+	std::cout << "\n  * Each Commands has his own --help\n";
+
+	std::cout << m_options << std::endl;
+
+	if (m_positional.max_total_count() > 0)
+	{
+		std::cout << "Positional Arguments: ";
+		for (unsigned int i = 0; i < m_positional.max_total_count(); i++)
+		{
+			std::cout << "\n  " << i+1 << ": " << m_positional.name_for_position(i);
+		}
+		std::cout << std::endl;
+	}
+}
+
 
 bool CommandLineParser::hasError()
 {
@@ -144,39 +209,49 @@ bool CommandLineParser::exitApplication()
 
 bool CommandLineParser::startedWithLicense()
 {
-	return m_withLicense;
+	if (m_license.getUser().empty())
+	{
+		return false;
+	}
+	return m_license.isValid();
 }
 
-void CommandLineParser::processProjectfile(const std::string& file)
+void CommandLineParser::processProjectfile()
 {
-	FilePath projectfile = FilePath(file).absolute();
+	m_projectFile = m_projectFile.absolute();
 	const std::string errorstring =
-		"Provided Projectfile is not valid:\n* Provided Projectfile('" + projectfile.fileName() + "') ";
-	if (!projectfile.exists())
+		"Provided Projectfile is not valid:\n* Provided Projectfile('" + m_projectFile.fileName() + "') ";
+	if (!m_projectFile.exists())
 	{
 		m_errorString = errorstring + " does not exist";
+		m_projectFile = FilePath();
 		return;
 	}
 
-	if (projectfile.extension() != ".srctrlprj" && projectfile.extension() != ".coatiproject")
+	if (m_projectFile.extension() != ".srctrlprj" && m_projectFile.extension() != ".coatiproject")
 	{
 		m_errorString = errorstring + " has a wrong fileending";
+		m_projectFile = FilePath();
 		return;
 	}
 
 	std::shared_ptr<ConfigManager> configManager = ConfigManager::createEmpty();
-	if (!configManager->load(TextAccess::createFromFile(projectfile)))
+	if (!configManager->load(TextAccess::createFromFile(m_projectFile)))
 	{
 		m_errorString = errorstring + " could not be loaded(invalid)";
+		m_projectFile = FilePath();
 		return;
 	}
-
-	m_projectFile = projectfile;
 }
 
 License CommandLineParser::getLicense()
 {
 	return m_license;
+}
+
+void CommandLineParser::force()
+{
+	m_force = true;
 }
 
 const FilePath& CommandLineParser::getProjectFilePath() const
@@ -188,3 +263,5 @@ bool CommandLineParser::getFullProjectRefresh() const
 {
 	return m_force;
 }
+
+} // namespace cmd

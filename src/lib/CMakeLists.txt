@@ -21,8 +21,9 @@ add_files(
 	component/controller/BookmarkController.h
 	component/controller/CodeController.cpp
 	component/controller/CodeController.h
-	component/controller/Controller.cpp
-	component/controller/Controller.h
+	#component/controller/Controller.cpp
+	component/controller/Controller
+	#component/controller/Controller.h
 	component/controller/ErrorController.cpp
 	component/controller/ErrorController.h
 	component/controller/GraphController.cpp
@@ -299,10 +300,23 @@ add_files(
 	settings/SourceGroupSettingsJava.cpp
 	settings/SourceGroupSettingsJava.h
 	settings/SourceGroupType.cpp
+
 	settings/SourceGroupType.h
 
+	utility/commandline/CommandlineHelper.cpp
+	utility/commandline/CommandlineHelper.h
 	utility/commandline/CommandLineParser.cpp
 	utility/commandline/CommandLineParser.h
+	utility/commandline/commands/CommandlineCommand
+	utility/commandline/commands/CommandlineCommandConfig
+	utility/commandline/commands/CommandlineCommandIndex
+	# utility/commandline/commands/CommandlineSourceGroupOptions.h
+	# utility/commandline/commands/CommandlineSourceGroupOptionsC.cpp
+	# utility/commandline/commands/CommandlineSourceGroupOptionsC.h
+	# utility/commandline/commands/CommandlineSourceGroupOptionsCxx.cpp
+	# utility/commandline/commands/CommandlineSourceGroupOptionsCxx.h
+	# utility/commandline/commands/CommandlineSourceGroupOptionsJava.cpp
+	# utility/commandline/commands/CommandlineSourceGroupOptionsJava.h
 
 	utility/file/FileInfo.cpp
 	utility/file/FileInfo.h
@@ -399,6 +413,7 @@ add_files(
 	utility/messaging/type/MessagePluginPortChange.h
 	utility/messaging/type/MessageProjectEdit.h
 	utility/messaging/type/MessageProjectNew.h
+	utility/messaging/type/MessageQuitApplication.h
 	utility/messaging/type/MessageRedo.h
 	utility/messaging/type/MessageRefresh.h
 	utility/messaging/type/MessageResetZoom.h

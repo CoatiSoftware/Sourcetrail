@@ -1,5 +1,7 @@
 #include "includes.h" // defines 'void setup(int argc, char *argv[])'
 
+#include <csignal>
+
 #include "Application.h"
 #include "data/indexer/IndexerFactory.h"
 #include "data/indexer/IndexerFactoryModuleJava.h"
@@ -11,6 +13,7 @@
 #include "project/SourceGroupFactoryModuleCpp.h"
 #include "project/SourceGroupFactoryModuleJava.h"
 #include "qt/network/QtNetworkFactory.h"
+#include <QCoreApplication>
 #include "qt/QtApplication.h"
 #include "qt/QtCoreApplication.h"
 #include "qt/utility/utilityQt.h"
@@ -32,6 +35,19 @@
 #include "utility/utilityPathDetection.h"
 #include "utility/Version.h"
 #include "version.h"
+
+void signalHandler( int signum )
+{
+	std::string s;
+	std::cout << "interrupt are you sure(Y/n):" << std::flush;
+	std::cin >> s;
+	std::cout << "\n*******\n" << s << "\n*******\n" << std::endl;
+	if (s == "Y" || s == "y")
+	{
+		std::cout << "quit()" << std::endl;
+		QCoreApplication::quit();
+	}
+}
 
 void setupLogging()
 {
@@ -60,7 +76,7 @@ void prefillJavaRuntimePath()
 		{
 			MessageStatus("Ran Java runtime path detection, found: " + paths.front().str());
 
-			settings->setJavaPath(paths.front().str());
+			settings->setJavaPath(paths.front());
 			settings->save();
 		}
 		else
@@ -166,6 +182,18 @@ void addLanguageModules()
 	IndexerFactory::getInstance()->addModule(std::make_shared<IndexerFactoryModuleCxxManual>());
 }
 
+QCoreApplication* createApplication(int &argc, char *argv[], bool noGUI = false)
+{
+	if (noGUI)
+	{
+		return new QtCoreApplication(argc, argv);
+	}
+	else
+	{
+		return new QtApplication(argc, argv);
+	}
+}
+
 int main(int argc, char *argv[])
 {
 	QApplication::setApplicationName("Sourcetrail");
@@ -175,48 +203,70 @@ int main(int argc, char *argv[])
 		QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling, true);
 	}
 
-    Version version(
+	Version version(
 		VERSION_YEAR,
 		VERSION_MINOR,
-        VERSION_COMMIT,
-        GIT_COMMIT_HASH
-    );
+		VERSION_COMMIT,
+		GIT_COMMIT_HASH
+	);
 	QApplication::setApplicationVersion(version.toDisplayString().c_str());
 
 	MessageStatus("Starting Sourcetrail " + version.toDisplayString()).dispatch();
 
-	CommandLineParser commandLineParser(argc, argv, version.toString());
+	commandline::CommandLineParser commandLineParser(version.toString());
+	commandLineParser.preparse(argc, argv);
 	if (commandLineParser.exitApplication())
 	{
 		return 0;
 	}
 
+	setupPlatform(argc, argv);
+
+	QScopedPointer<QCoreApplication> qtApp(createApplication(argc, argv, commandLineParser.runWithoutGUI()));
+	setupApp(argc, argv);
+	setupLogging();
+
+	QScopedPointer<QtNetworkFactory> networkFactory;
+	QScopedPointer<QtViewFactory> viewFactory;
+
+
 	if (commandLineParser.runWithoutGUI())
 	{
-		setupPlatform(argc, argv);
 
-		// headless Sourcetrail
-		QtCoreApplication qtApp(argc, argv);
-
-		setupApp(argc, argv);
-
-		setupLogging();
-
-		Application::createInstance(version, nullptr, nullptr);
-		ScopedFunctor f([](){
-			Application::destroyInstance();
-		});
-
-		prefillPaths();
-		addLanguageModules();
-
-		std::shared_ptr<LicenseChecker> checker = LicenseChecker::getInstance();
-
+		commandLineParser.parse();
 		if (commandLineParser.startedWithLicense())
 		{
-			qtApp.saveLicense(commandLineParser.getLicense());
+			qobject_cast<QtCoreApplication*>(qtApp.data())->saveLicense(commandLineParser.getLicense());
+		}
+		if (commandLineParser.exitApplication())
+		{
 			return 0;
 		}
+	}
+	else
+	{
+		qtApp->setAttribute(Qt::AA_UseHighDpiPixmaps);
+
+		utility::loadFontsFromDirectory(ResourcePaths::getFontsPath(), ".otf");
+		utility::loadFontsFromDirectory(ResourcePaths::getFontsPath(), ".ttf");
+
+		networkFactory.reset(new QtNetworkFactory());
+		viewFactory.reset(new QtViewFactory());
+	}
+
+
+	Application::createInstance(version, viewFactory.data(), networkFactory.data());
+
+	ScopedFunctor f([](){
+		Application::destroyInstance();
+	});
+
+	prefillPaths();
+	addLanguageModules();
+
+	if (commandLineParser.runWithoutGUI())
+	{
+		std::shared_ptr<LicenseChecker> checker = LicenseChecker::getInstance();
 
 		if (!checker->isCurrentLicenseValid()) // this works because the user cannot enter a license string while running the app in headless more.
 		{
@@ -228,58 +278,38 @@ int main(int argc, char *argv[])
 		{
 			MessageEnteredLicense(checker->getCurrentLicenseType()).dispatch();
 		}
+		struct sigaction sa;
+		sa.sa_handler = signalHandler;
+		sa.sa_flags = 0;
+		::sigemptyset(&sa.sa_mask);
+	//	sa.sa_flags |= SA_RESTART;
+		if(::sigaction(SIGINT, &sa, NULL))
+		{
+		}
+	}
 
-		if (commandLineParser.hasError() )
+	if (commandLineParser.hasError() )
+	{
+		if (commandLineParser.runWithoutGUI())
 		{
 			std::cout << commandLineParser.getError() << std::endl;
 		}
 		else
 		{
-			MessageLoadProject(
-				commandLineParser.getProjectFilePath(),
-				commandLineParser.getFullProjectRefresh()
-			).dispatch();
+			Application::getInstance()->handleDialog(commandLineParser.getError());
 		}
-		return qtApp.exec();
 	}
 	else
 	{
-		setupPlatform(argc, argv);
-
-		QtApplication qtApp(argc, argv);
-
-		setupApp(argc, argv);
-
-		setupLogging();
-
-		qtApp.setAttribute(Qt::AA_UseHighDpiPixmaps);
-
-		QtViewFactory viewFactory;
-		QtNetworkFactory networkFactory;
-
-		Application::createInstance(version, &viewFactory, &networkFactory);
-		ScopedFunctor f([](){
-			Application::destroyInstance();
-		});
-
-		prefillPaths();
-		addLanguageModules();
-
-		utility::loadFontsFromDirectory(ResourcePaths::getFontsPath(), ".otf");
-		utility::loadFontsFromDirectory(ResourcePaths::getFontsPath(), ".ttf");
-
-		if (commandLineParser.hasError())
-		{
-			Application::getInstance()->handleDialog(commandLineParser.getError());
-		}
-		else
-		{
-			MessageLoadProject(
-				commandLineParser.getProjectFilePath(),
-				commandLineParser.getFullProjectRefresh()
-			).dispatch();
-		}
-
-		return qtApp.exec();
+		MessageLoadProject(
+			commandLineParser.getProjectFilePath(),
+			commandLineParser.getFullProjectRefresh()
+		).dispatch();
 	}
+
+
+	int exitcode = qtApp->exec();
+
+	return exitcode;
+
 }

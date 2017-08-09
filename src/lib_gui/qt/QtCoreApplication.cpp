@@ -7,39 +7,34 @@
 #include "utility/logging/logging.h"
 #include "utility/AppPath.h"
 #include "utility/UserPaths.h"
+#include "utility/utilityApp.h"
 #include "License.h"
 
 QtCoreApplication::QtCoreApplication(int argc, char **argv )
 	: QCoreApplication(argc, argv)
 {
+
+
 }
 
 QtCoreApplication::~QtCoreApplication()
 {
 }
 
-void QtCoreApplication::handleMessage(MessageFinishedParsing* message)
+void QtCoreApplication::handleMessage(MessageQuitApplication* message)
 {
-	std::cout << "Finished parsing" << std::endl;
-	LOG_INFO("Finished parsing");
-	this->quit();
+	emit quit();
+}
+
+void QtCoreApplication::handleMessage(MessageStatus* message)
+{
+//	if (m.substr(0,5) == "Index")
+	{
+		std::cout << message->status << std::endl;
+	}
 }
 
 bool QtCoreApplication::saveLicense(License license)
 {
-	if (license.isValid())
-	{
-		ApplicationSettings* appSettings = ApplicationSettings::getInstance().get();
-		std::string appLocation = AppPath::getAppPath();
-		appSettings->setLicenseString(license.getLicenseEncodedString(appLocation));
-		FilePath p(appLocation);
-		appSettings->setLicenseCheck(license.hashLocation(p.absolute().str()));
-		appSettings->save(UserPaths::getAppSettingsPath());
-		return true;
-	}
-	else
-	{
-		LOG_ERROR( "The entered license key is invalid.");
-		return false;
-	}
+	return utility::saveLicense(&license);
 }

@@ -3,6 +3,7 @@
 #include <set>
 
 #include "clang/Tooling/JSONCompilationDatabase.h"
+#include "clang/Tooling/CompilationDatabase.h"
 #include "utility/file/FilePath.h"
 #include "utility/utility.h"
 

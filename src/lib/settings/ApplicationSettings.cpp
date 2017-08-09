@@ -262,9 +262,9 @@ std::string ApplicationSettings::getJavaPath() const
 	return getValue<std::string>("indexing/java/java_path", "");
 }
 
-void ApplicationSettings::setJavaPath(const std::string path)
+void ApplicationSettings::setJavaPath(const FilePath& path)
 {
-	setValue<std::string>("indexing/java/java_path", path);
+	setValue<std::string>("indexing/java/java_path", path.str());
 }
 
 int ApplicationSettings::getJavaMaximumMemory() const

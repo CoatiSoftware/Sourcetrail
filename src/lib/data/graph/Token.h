@@ -50,7 +50,7 @@ private:
 template <typename ComponentType>
 ComponentType* Token::getComponent() const
 {
-	for (std::shared_ptr<TokenComponent> component: m_components)
+	for (const std::shared_ptr<TokenComponent>& component: m_components)
 	{
 		TokenComponent* componentPtr = component.get();
 		if (typeid(ComponentType) == typeid(*componentPtr))

@@ -3,7 +3,7 @@
         - ./script/setup.sh
         - ./script/buildonly.sh all
         - ./script/buildonly.sh package
-        - ./build/Release/app/Sourcetrail --licenseFile ./setup/license.txt
+        - ./build/Release/app/Sourcetrail config -z ./setup/license.txt
         - cd ./bin/test
         - ../../build/Release/test/Sourcetrail_test
 

@@ -356,7 +356,7 @@ void QtProjectWizzardContentPreferences::save()
 
 	if (m_javaPath)
 	{
-		appSettings->setJavaPath(m_javaPath->getText().toStdString());
+		appSettings->setJavaPath(FilePath(m_javaPath->getText().toStdString()));
 	}
 
 	appSettings->setJreSystemLibraryPaths(m_jreSystemLibraryPaths->getList());

@@ -5,6 +5,11 @@
 #include <QThread>
 #include <qprocessordetection.h>
 
+#include "License.h"
+#include "settings/ApplicationSettings.h"
+#include "utility/logging/logging.h"
+#include "utility/AppPath.h"
+#include "utility/UserPaths.h"
 #include "utility/utilityString.h"
 
 namespace utility
@@ -97,4 +102,34 @@ OsType utility::getOsType()
 int utility::getIdealThreadCount()
 {
 	return QThread::idealThreadCount();
+}
+
+bool utility::saveLicense(License* license)
+{
+	if (license == nullptr)
+	{
+		return false;
+	}
+	if (license->isValid())
+	{
+		ApplicationSettings* appSettings = ApplicationSettings::getInstance().get();
+		if (appSettings == NULL)
+		{
+			LOG_ERROR_STREAM(<< "Unable to retrieve app settings");
+			return false;
+		}
+
+		std::string appLocation = AppPath::getAppPath();
+		appSettings->setLicenseString(license->getLicenseEncodedString(appLocation));
+		FilePath p(appLocation);
+		appSettings->setLicenseCheck(license->hashLocation(p.absolute().str()));
+		appSettings->save(UserPaths::getAppSettingsPath());
+
+		return true;
+	}
+	else
+	{
+		LOG_ERROR( "The entered license key is invalid.");
+		return false;
+	}
 }

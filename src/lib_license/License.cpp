@@ -22,6 +22,7 @@
 #include "botan/pbkdf.h"
 
 #include "utility/Version.h"
+#include "PublicKey.h"
 
 namespace
 {
@@ -40,6 +41,7 @@ License::License()
 	, m_seats(0)
 	, m_expire("")
 {
+	loadPublicKey();
 }
 
 License::~License()
@@ -434,6 +436,27 @@ bool License::loadPublicKeyFromFile(const std::string& filename)
 	}
 
 	return false;
+}
+
+bool License::loadPublicKey()
+{
+	if (PUBLIC_KEY.empty())
+	{
+		std::cout << "Public key is empty" << std::endl;
+		return false;
+	}
+
+	Botan::DataSource_Memory in(PUBLIC_KEY);
+	Botan::RSA_PublicKey *rsaPublicKey = dynamic_cast<Botan::RSA_PublicKey *>(Botan::X509::load_key(in));
+
+	if (!rsaPublicKey)
+	{
+		std::cout << "The loaded key is not a RSA key" << std::endl;
+		return false;
+	}
+
+	m_publicKey = std::shared_ptr<Botan::RSA_PublicKey>(rsaPublicKey);
+	return true;
 }
 
 bool License::loadPublicKeyFromString(const std::string& publicKey)

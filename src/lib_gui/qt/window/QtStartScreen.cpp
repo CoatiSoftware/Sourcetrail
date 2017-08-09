@@ -145,7 +145,7 @@ void QtStartScreen::setupStartScreen()
 {
 	License license;
 	license.loadFromEncodedString(ApplicationSettings::getInstance()->getLicenseString(), AppPath::getAppPath());
-	license.loadPublicKeyFromString(PUBLIC_KEY);
+//	license.loadPublicKeyFromString(PUBLIC_KEY);
 	bool licenseValid = license.isValid();
 
 	setStyleSheet(utility::getStyleSheet(ResourcePaths::getGuiPath().concat(FilePath("startscreen/startscreen.css"))).c_str());

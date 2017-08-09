@@ -6,6 +6,7 @@
 #include "utility/messaging/filter_types/MessageFilterFocusInOut.h"
 #include "utility/messaging/filter_types/MessageFilterSearchAutocomplete.h"
 #include "utility/messaging/MessageQueue.h"
+#include "utility/messaging/type/MessageQuitApplication.h"
 #include "utility/messaging/type/MessageStatus.h"
 #include "utility/scheduling/TaskScheduler.h"
 #include "utility/tracing.h"
@@ -230,6 +231,10 @@ void Application::refreshProject(bool force)
 				m_componentManager->refreshViews();
 			}
 		}
+		else if (!m_hasGUI)
+		{
+			MessageQuitApplication().dispatch();
+		}
 	}
 }
 
@@ -270,18 +275,17 @@ void Application::handleMessage(MessageLoadProject* message)
 		return;
 	}
 
-	if (m_project && projectSettingsFilePath == m_project->getProjectSettingsFilePath())
+	if (!m_project || projectSettingsFilePath != m_project->getProjectSettingsFilePath())
 	{
-		if (message->forceRefresh)
-		{
-			m_project->setStateSettingsUpdated();
-			refreshProject(false);
-		}
-
-		return;
+		createAndLoadProject(projectSettingsFilePath);
 	}
 
-	createAndLoadProject(projectSettingsFilePath);
+	if (message->forceRefresh)
+	{
+		m_project->setStateSettingsUpdated();
+		refreshProject(false);
+	}
+
 }
 
 void Application::handleMessage(MessageRefresh* message)

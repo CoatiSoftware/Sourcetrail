@@ -108,9 +108,7 @@ bool Project::refresh(bool forceRefresh)
 		Application::getInstance()->hasGUI()
 		)
 	{
-		std::vector<std::string> options;
-		options.push_back("Yes");
-		options.push_back("No");
+		std::vector<std::string> options = { "Yes", "No" };
 		int result = dialogView->confirm(
 			"Warning: You are about to index your project with the \"verbose indexer logging\" setting "
 			"enabled. This will cause a significant slowdown in indexing performance. Do you want to proceed?",
@@ -123,12 +121,9 @@ bool Project::refresh(bool forceRefresh)
 		}
 	}
 
-
 	if (!forceRefresh && needsFullRefresh && question.size() && Application::getInstance()->hasGUI())
 	{
-		std::vector<std::string> options;
-		options.push_back("Yes");
-		options.push_back("No");
+		std::vector<std::string> options = { "Yes", "No"};
 		int result = dialogView->confirm(question, options);
 
 		if (result == 1)
@@ -139,15 +134,13 @@ bool Project::refresh(bool forceRefresh)
 
 	if (Application::getInstance()->isInTrial())
 	{
-		std::vector<std::string> options;
-		options.push_back("Ok");
+		std::vector<std::string> options = { "Ok" };
 		dialogView->confirm("You can't refresh the project in trial mode, please unlock with a license key.", options);
 
 		MessageDispatchWhenLicenseValid(std::make_shared<MessageRefresh>()).dispatch();
 
 		return false;
 	}
-
 
 	dialogView->showUnknownProgressDialog("Preparing Project", "Processing Files");
 
@@ -275,7 +268,9 @@ void Project::load()
 		MessageStatus("Project not loaded", false, false).dispatch();
 	}
 
-	if (m_state != PROJECT_STATE_LOADED)
+	// refresh always on headless
+	// since just opening a project in headless does not make sense
+	if (m_state != PROJECT_STATE_LOADED || !Application::getInstance()->hasGUI())
 	{
 		MessageRefresh().dispatch();
 	}
@@ -354,6 +349,7 @@ bool Project::requestIndex(bool forceRefresh, bool needsFullRefresh)
 		}
 		filesToAdd = staticSourceFiles;
 	}
+
 
 	std::set<FilePath> staticSourceFilePaths;
 	for (const FilePath& path: allSourceFilePaths)

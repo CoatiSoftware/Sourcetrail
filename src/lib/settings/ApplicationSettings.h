@@ -79,7 +79,7 @@ public:
 	void setMultiProcessIndexingEnabled(bool enabled);
 
 	std::string getJavaPath() const;
-	void setJavaPath(const std::string path);
+	void setJavaPath(const FilePath& path);
 
 	int getJavaMaximumMemory() const;
 	void setJavaMaximumMemory(int size);

@@ -1,4 +1,3 @@
-include(cmake/external.cmake)
 
 if (UNIX AND APPLE)
 	if ("${CMAKE_BUILD_TYPE}" STREQUAL "Release")
@@ -50,10 +49,6 @@ if(UNIX AND NOT APPLE)
 		OUTPUT_VARIABLE CLANG_INCLUDE_DIRS
 		OUTPUT_STRIP_TRAILING_WHITESPACE
 	)
-	#set(CLANG_INCLUDE_DIRS
-		#"${EXTERNAL_SRC}/clang/include"
-		#"${CLANG_BUILD_PATH}/tools/clang/include"
-		#)
 else()
 	set(CLANG_INCLUDE_DIRS
 		"$ENV{CLANG_DIR}/llvm/tools/clang/include"

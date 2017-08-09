@@ -2,6 +2,7 @@
 
 #include <iostream>
 #include <fstream>
+#include <memory>
 #include <sstream>
 
 #include "boost/filesystem.hpp"
@@ -36,7 +37,7 @@ Generator::~Generator()
 
 void Generator::generateKeys()
 {
-    m_privateKey = std::unique_ptr<Botan::RSA_PrivateKey>(new Botan::RSA_PrivateKey(m_rng, 2048));
+	m_privateKey = std::make_unique<Botan::RSA_PrivateKey>(m_rng, 2048);
 }
 
 std::string Generator::getPrivateKeyFilename()
@@ -123,7 +124,7 @@ bool Generator::verifyLicense(const std::string& filename)
 {
     License license;
     license.loadFromFile(filename);
-    license.loadPublicKeyFromString(PUBLIC_KEY);
+//    license.loadPublicKeyFromString(PUBLIC_KEY);
     return license.isValid();
 }
 
@@ -203,7 +204,7 @@ bool Generator::loadPrivateKeyFromFile()
         return false;
     }
 
-    m_privateKey = std::unique_ptr<Botan::RSA_PrivateKey>(rsaKey);
+	m_privateKey = std::unique_ptr<Botan::RSA_PrivateKey>(rsaKey);
 
 	return (m_privateKey != NULL);
 }
@@ -226,7 +227,7 @@ bool Generator::loadPrivateKeyFromString(const std::string& key)
         return false;
     }
 
-    m_privateKey = std::unique_ptr<Botan::RSA_PrivateKey>(rsaKey);
+	m_privateKey = std::unique_ptr<Botan::RSA_PrivateKey>(rsaKey);
 
     return (m_privateKey != NULL);
 }
@@ -243,7 +244,7 @@ void Generator::createLicense(
     const unsigned int seats
 )
 {
-    m_license = std::unique_ptr<License>(new License());
+	m_license = std::make_unique<License>();
 
 	m_license->createHeader(user, type, expiration, seats);
 

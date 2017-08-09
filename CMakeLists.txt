@@ -9,7 +9,14 @@ include(cmake/create_source_groups.cmake)
 include(cmake/version.cmake)
 include(cmake/version_setup.cmake)
 include(cmake/licenses.cmake)
-include(cmake/setWinXxBits.cmake)
+
+
+# prohibit in-source-builds
+IF(${CMAKE_BINARY_DIR} STREQUAL ${CMAKE_SOURCE_DIR})
+  MESSAGE(STATUS "In-source-builds are not allowed")
+  MESSAGE(STATUS "Clean your source directory (e.g. delete the CMakeCache.txt file)")
+  MESSAGE(FATAL_ERROR "Please create a separate build directory and call CMake again")
+ENDIF(${CMAKE_BINARY_DIR} STREQUAL ${CMAKE_SOURCE_DIR})
 
 # Variables --------------------------------------------------------------------
 
@@ -28,6 +35,7 @@ set(TEST_PROJECT_NAME "${PROJECT_NAME}_test")
 set (APP_INDEXER_NAME "${PROJECT_NAME_LOWER_CASE}_indexer")
 
 if (WIN32)
+	include(cmake/setWinXxBits.cmake)
 	set(PLATFORM_INCLUDE "includesWindows.h")
 	# this adds the library path for VLD, must be done before the project target is created
 	if(${WINXXBITS} STREQUAL "Win32")
@@ -53,7 +61,6 @@ if(UNIX AND NOT APPLE)
 	set(CMAKE_SKIP_BUILD_RPATH FALSE)
 	set(CMAKE_INSTALL_RPATH_USE_LINK_PATH TRUE)
 	set(CMAKE_INSTALL_RPATH "$ORIGIN/lib/:$$ORIGIN/lib/")
-	include(cmake/external.cmake)
 endif()
 
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
@@ -183,14 +190,13 @@ endif ()
 
 add_subdirectory(src/lib_license)
 
-add_library(${LIB_LICENSE_PROJECT_NAME} ${LIB_LICENSE_FILES})
+add_library(${LIB_LICENSE_PROJECT_NAME} STATIC ${LIB_LICENSE_FILES})
 
 create_source_groups(${LIB_LICENSE_FILES})
 
-set_property(
-		TARGET ${LIB_LICENSE_PROJECT_NAME}
-		PROPERTY INCLUDE_DIRECTORIES
-		"${CMAKE_SOURCE_DIR}/src/lib_license"
+target_include_directories( ${LIB_LICENSE_PROJECT_NAME} PUBLIC
+	"${CMAKE_SOURCE_DIR}/src/lib_license"
+	"${CMAKE_BINARY_DIR}/src/lib_license"
 )
 
 target_include_directories(${LIB_LICENSE_PROJECT_NAME} SYSTEM
@@ -358,6 +364,8 @@ add_custom_target(
 
 add_library(${LIB_GUI_PROJECT_NAME} ${LIB_GUI_FILES} ${CMAKE_BINARY_DIR}/src/lib_gui/version.h)
 
+target_link_libraries(${LIB_GUI_PROJECT_NAME} Qt5::Widgets Qt5::Network)
+
 # command for versioning script
 add_custom_command(
 	TARGET versionnumber
@@ -391,8 +399,8 @@ target_include_directories(${LIB_GUI_PROJECT_NAME} SYSTEM
 )
 
 # Use the Widgets module from Qt 5.
-qt5_use_modules(${LIB_GUI_PROJECT_NAME} Widgets)
-qt5_use_modules(${LIB_GUI_PROJECT_NAME} Network)
+#qt5_use_modules(${LIB_GUI_PROJECT_NAME} Widgets)
+#qt5_use_modules(${LIB_GUI_PROJECT_NAME} Network)
 
 # configure platform specific include file
 configure_file(

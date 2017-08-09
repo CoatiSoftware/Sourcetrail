@@ -153,15 +153,6 @@ DialogView::IndexingOptions QtDialogView::startIndexingDialog(
 void QtDialogView::updateIndexingDialog(
 	size_t startedFileCount, size_t finishedFileCount, size_t totalFileCount, std::string sourcePath)
 {
-	if (sourcePath.size())
-	{
-		std::stringstream ss;
-		ss << "Indexing file: [";
-		ss << startedFileCount << "/";
-		ss << totalFileCount << "] ";
-		ss << sourcePath;
-		MessageStatus(ss.str(), false, true).dispatch();
-	}
 
 	m_onQtThread(
 		[=]()

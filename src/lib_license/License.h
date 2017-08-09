@@ -86,10 +86,12 @@ public:
     bool loadFromFile(const std::string& filename);
 	bool loadFromEncodedString(const std::string& encodedLicense, const std::string& applicationLocation);
 
-	bool loadPublicKeyFromFile(const std::string&);
+	bool loadPublicKey();
 
-    bool loadPublicKeyFromString(const std::string&);
-    void setSignature(const std::string&);
+	bool loadPublicKeyFromFile(const std::string&);
+	bool loadPublicKeyFromString(const std::string&);
+
+	void setSignature(const std::string&);
 
     bool isValid() const;
 	bool isExpired() const;

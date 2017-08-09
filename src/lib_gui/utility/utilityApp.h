@@ -7,6 +7,8 @@
 
 #include "utility/OsType.h"
 
+class License;
+
 namespace utility
 {
 	std::string executeProcess(const std::string& command, const std::string& workingDirectory = "", int timeout = 30000);
@@ -17,6 +19,7 @@ namespace utility
 	int getIdealThreadCount();
 
 	OsType getOsType();
+	bool saveLicense(License* license);
 }
 
 #endif // UTILITY_APP_H
