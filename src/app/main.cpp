@@ -278,14 +278,25 @@ int main(int argc, char *argv[])
 		{
 			MessageEnteredLicense(checker->getCurrentLicenseType()).dispatch();
 		}
+#ifdef _WIN32
+		signal(SIGINT, signalHandler);
+		signal(SIGTERM, signalHandler);
+		signal(SIGABRT, signalHandler);
+#else
 		struct sigaction sa;
 		sa.sa_handler = signalHandler;
 		sa.sa_flags = 0;
 		::sigemptyset(&sa.sa_mask);
-	//	sa.sa_flags |= SA_RESTART;
+		sa.sa_flags = SA_RESTART;
 		if(::sigaction(SIGINT, &sa, NULL))
 		{
+			std::cout << "Cant install SIGINT handler" << std::endl;
 		}
+		if(::sigaction(SIGHUP, &sa, NULL))
+		{
+			std::cout << "Cant install SIGHUP handler" << std::endl;
+		}
+#endif
 	}
 
 	if (commandLineParser.hasError() )
