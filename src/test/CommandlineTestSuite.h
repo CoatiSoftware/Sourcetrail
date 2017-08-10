@@ -73,9 +73,14 @@ public:
 			"/opt/testpath/mvn"
 		});
 
+		std::stringstream redStream;
+		auto oldBuf = std::cout.rdbuf( redStream.rdbuf() );
+
 		commandline::CommandLineParser parser("2");
 		parser.preparse(args);
 		parser.parse();
+
+		std::cout.rdbuf( oldBuf );
 
 		FilePath path = ApplicationSettings::getInstance()->getMavenPath();
 		TS_ASSERT_EQUALS( path.str(), "/opt/testpath/mvn")

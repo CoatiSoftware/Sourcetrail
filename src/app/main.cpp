@@ -234,24 +234,9 @@ int main(int argc, char *argv[])
 
 		std::shared_ptr<LicenseChecker> checker = LicenseChecker::getInstance();
 
-#ifdef _WIN32
 		signal(SIGINT, signalHandler);
 		signal(SIGTERM, signalHandler);
 		signal(SIGABRT, signalHandler);
-#else
-		struct sigaction sa;
-		sa.sa_handler = signalHandler;
-		sigemptyset(&sa.sa_mask);
-		sa.sa_flags = SA_RESTART;
-		if (sigaction(SIGINT, &sa, NULL))
-		{
-			std::cout << "Cant install SIGINT handler" << std::endl;
-		}
-		if (sigaction(SIGHUP, &sa, NULL))
-		{
-			std::cout << "Cant install SIGHUP handler" << std::endl;
-		}
-#endif
 
 		commandLineParser.parse();
 		if (commandLineParser.startedWithLicense())
@@ -286,6 +271,7 @@ int main(int argc, char *argv[])
 				commandLineParser.getFullProjectRefresh()
 			).dispatch();
 		}
+
 		return qtApp.exec();
 	}
 	else
