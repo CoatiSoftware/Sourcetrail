@@ -3,6 +3,7 @@
 
 #include <string>
 #include <QDir>
+#include <windows.h>
 
 #include "vld.h"
 

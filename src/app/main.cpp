@@ -217,7 +217,6 @@ int main(int argc, char *argv[])
 
 	if (commandLineParser.runWithoutGUI())
 	{
-
 		// headless Sourcetrail
 		QtCoreApplication qtApp(argc, argv);
 
@@ -291,7 +290,9 @@ int main(int argc, char *argv[])
 	}
 	else
 	{
-
+#ifdef _WIN32
+		ShowWindow(GetConsoleWindow(), SW_HIDE);
+#endif
 		QtApplication qtApp(argc, argv);
 
 		setupApp(argc, argv);

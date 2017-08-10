@@ -8,7 +8,10 @@
 #include <QObject>
 #include <QSemaphore>
 
-class QtThreadedFunctorHelper: public QObject
+#include "utility/messaging/type/MessageWindowClosed.h"
+#include "utility/messaging/MessageListener.h"
+
+class QtThreadedFunctorHelper: public QObject, public MessageListener<MessageWindowClosed>
 {
 	Q_OBJECT
 
@@ -37,6 +40,14 @@ public:
 	}
 
 private:
+	void handleMessage(MessageWindowClosed* message) override
+	{
+		// The QT thread probably won't relay signals anymore. So this stops other
+		// threads from getting stuck here (if they have less than 1000 open tasks,
+		// but that should be a reasonable assumption).
+		m_freeCallbacks.release(1000);
+	}
+
 	std::function<void(void)> m_callback;
 	QSemaphore m_freeCallbacks;
 };

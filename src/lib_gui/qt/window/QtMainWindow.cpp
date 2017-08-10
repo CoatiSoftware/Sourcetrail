@@ -379,7 +379,7 @@ void QtMainWindow::closeEvent(QCloseEvent* event)
 	{
 		log->setEnabled(false);
 	}
-	MessageWindowClosed().dispatch();
+	MessageWindowClosed().dispatchImmediately();
 }
 
 void QtMainWindow::resizeEvent(QResizeEvent *event)
