@@ -31,12 +31,6 @@ if [ $UPDATE_DATABASES = false ]; then
 	read -p "Press [Enter] key to continue"
 fi
 
-echo -e "$INFO Did you set the correct version number for the Visual Studio plugin?"
-read -p "Press [Enter] key to continue"
-
-echo -e "$INFO Is the Visual Studio plugin up to date?"
-read -p "Press [Enter] key to continue"
-
 
 # SETTING THE DEPLOY FLAG
 rm -rf src/lib_gui/platform_includes/deploy.h
@@ -81,17 +75,19 @@ if [ $UPDATE_DATABASES = true ]; then
 	mkdir -p temp
 	cd temp
 
-	echo -e "$INFO saving license key"
-	../build/win32/Release/app/Sourcetrail.exe -z ../setup/license.txt
+	echo -e "$INFO configuring application"
+	../build/win32/Release/app/Sourcetrail.exe config -z ../setup/license.txt
+	../build/win32/Release/app/Sourcetrail.exe config -t 8
+	../build/win32/Release/app/Sourcetrail.exe config -M 1024
 
 	echo -e "$INFO creating database for tictactoe"
-	../build/win32/Release/app/Sourcetrail.exe -p ../bin/app/user/projects/tictactoe/tictactoe.srctrlprj -d
+	../build/win32/Release/app/Sourcetrail.exe index --full --project-file ../bin/app/user/projects/tictactoe/tictactoe.srctrlprj
 
 	echo -e "$INFO creating database for tutorial"
-	../build/win32/Release/app/Sourcetrail.exe -p ../bin/app/user/projects/tutorial/tutorial.srctrlprj -d
+	../build/win32/Release/app/Sourcetrail.exe index --full --project-file ../bin/app/user/projects/tutorial/tutorial.srctrlprj
 
 	echo -e "$INFO creating database for javaparser"
-	../build/win32/Release/app/Sourcetrail.exe -p ../bin/app/user/projects/javaparser/javaparser.srctrlprj -d
+	../build/win32/Release/app/Sourcetrail.exe index --full --project-file ../bin/app/user/projects/javaparser/javaparser.srctrlprj
 
 	cd ..
 	rm -rf temp
@@ -163,8 +159,8 @@ mkdir -p $APP_PACKAGE_DIR_WIN64/plugins/sublime_text/
 cp -u -r ide_plugins/sublime_text/* $APP_PACKAGE_DIR_WIN64/plugins/sublime_text/
 mkdir -p $APP_PACKAGE_DIR_WIN64/plugins/vim/
 cp -u -r ide_plugins/vim/* $APP_PACKAGE_DIR_WIN64/plugins/vim/
-mkdir -p $APP_PACKAGE_DIR_WIN32/plugins/vscode/
-cp -u -r ide_plugins/vscode/* $APP_PACKAGE_DIR_WIN32/plugins/vscode/
+mkdir -p $APP_PACKAGE_DIR_WIN64/plugins/vscode/
+cp -u -r ide_plugins/vscode/* $APP_PACKAGE_DIR_WIN64/plugins/vscode/
 mkdir -p $APP_PACKAGE_DIR_WIN64/plugins/visual_studio/
 cp -u -r ide_plugins/visual_studio/* $APP_PACKAGE_DIR_WIN64/plugins/visual_studio/
 
