@@ -277,7 +277,7 @@ void Application::handleMessage(MessageLoadProject* message)
 
 	if (m_project && projectSettingsFilePath == m_project->getProjectSettingsFilePath())
 	{
-		if (message->forceRefresh)
+		if (message->forceRefresh && m_hasGUI)
 		{
 			m_project->setStateSettingsUpdated();
 			refreshProject(false);
@@ -285,6 +285,15 @@ void Application::handleMessage(MessageLoadProject* message)
 		return;
 	}
 	createAndLoadProject(projectSettingsFilePath);
+
+	if (message->forceRefresh)
+	{
+		refreshProject(true);
+	}
+	else if (!m_hasGUI)
+	{
+		refreshProject(false);
+	}
 }
 
 void Application::handleMessage(MessageRefresh* message)
