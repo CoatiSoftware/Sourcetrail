@@ -7,10 +7,21 @@ public class JavaDeclName
 	private JavaDeclName m_parent = null;
 	private String m_name = "";
 	private List<String> m_typeParameterNames = null;
-	
+	private boolean m_isUnsolved = false;
+	private boolean m_isAnonymous = false;
+
 	public static JavaDeclName unsolved()
 	{
-		return new JavaDeclName("unsolved-symbol");
+		JavaDeclName declName = new JavaDeclName("unsolved-symbol");
+		declName.m_isUnsolved = true;
+		return declName;
+	}
+	
+	public static JavaDeclName anonymousClass(String fileName, int line, int col)
+	{
+		JavaDeclName declName = new JavaDeclName("anonymous class (" + fileName + "<" + line + ":" + col + ">)");
+		declName.m_isAnonymous = true;
+		return declName;
 	}
 	
 	public static JavaDeclName fromDotSeparatedString(String s)
@@ -55,6 +66,16 @@ public class JavaDeclName
 	public String getName()
 	{
 		return m_name;
+	}
+	
+	public boolean getIsUnsolved()
+	{
+		return m_isUnsolved;
+	}
+	
+	public boolean getIsAnonymous()
+	{
+		return m_isAnonymous;
 	}
 	
 	public NameHierarchy toNameHierarchy()

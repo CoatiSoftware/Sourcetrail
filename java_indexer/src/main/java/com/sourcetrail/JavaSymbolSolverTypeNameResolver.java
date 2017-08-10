@@ -1,5 +1,6 @@
 package com.sourcetrail;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -24,19 +25,19 @@ import com.sourcetrail.name.JavaTypeName;
 
 public class JavaSymbolSolverTypeNameResolver extends JavaNameResolver
 {
-	public JavaSymbolSolverTypeNameResolver(TypeSolver typeSolver, ContextList ignoredContexts)
+	public JavaSymbolSolverTypeNameResolver(File currentFile, TypeSolver typeSolver, ContextList ignoredContexts)
 	{
-		super(typeSolver, ignoredContexts);
+		super(currentFile, typeSolver, ignoredContexts);
 	}
 
-	public static JavaTypeName getQualifiedTypeName(Type type, TypeSolver typeSolver)
+	public static JavaTypeName getQualifiedTypeName(Type type, File currentFile, TypeSolver typeSolver)
 	{
-		return getQualifiedTypeName(type, typeSolver, null);
+		return getQualifiedTypeName(type, currentFile, typeSolver, null);
 	}
 	
-	public static JavaTypeName getQualifiedTypeName(Type type, TypeSolver typeSolver, ContextList ignoredContexts)
+	public static JavaTypeName getQualifiedTypeName(Type type, File currentFile, TypeSolver typeSolver, ContextList ignoredContexts)
 	{
-		JavaSymbolSolverTypeNameResolver resolver = new JavaSymbolSolverTypeNameResolver(typeSolver, ignoredContexts);
+		JavaSymbolSolverTypeNameResolver resolver = new JavaSymbolSolverTypeNameResolver(currentFile, typeSolver, ignoredContexts);
 		return resolver.getQualifiedTypeName(type);
 	}
 	
@@ -67,7 +68,8 @@ public class JavaSymbolSolverTypeNameResolver extends JavaNameResolver
 			ReferenceType refTypeUsage = (ReferenceType)type;
 			
 			JavaDeclName declName = JavaSymbolSolverDeclNameResolver.getQualifiedDeclName(
-					refTypeUsage.getTypeDeclaration(), 
+					refTypeUsage.getTypeDeclaration(),
+					m_currentFile, 
 					m_typeSolver, 
 					m_ignoredContexts);
 			return new JavaTypeName(declName.getName() + declName.getTypeParameterString(), new ArrayList<JavaTypeName>(), declName.getParent());
@@ -76,6 +78,7 @@ public class JavaSymbolSolverTypeNameResolver extends JavaNameResolver
 		{
 			JavaDeclName declName = JavaSymbolSolverDeclNameResolver.getQualifiedDeclName(
 					((TypeVariable)type).asTypeParameter(), 
+					m_currentFile, 
 					m_typeSolver, 
 					m_ignoredContexts);
 			return new JavaTypeName(declName.getName(), new ArrayList<JavaTypeName>(), declName.getParent());

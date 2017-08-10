@@ -158,6 +158,49 @@ public:
 		));
 	}
 
+	void test_java_parser_finds_anonymous_class_declaration()
+	{
+		std::shared_ptr<TestParserClient> client = parseCode(
+			"package foo;\n"
+			"public class A\n"
+			"{\n"
+			"	interface I { }\n"
+			"	public void bar()\n"
+			"	{\n"
+			"		I i = new I() { };\n"
+			"	};\n"
+			"}\n"
+		);
+
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->classes, "foo.A.bar.anonymous class (input.cc<7:9>) <7:9 <7:13 7:13> 7:19>"
+		));
+	}
+
+	void test_java_parser_finds_method_declaration_in_anonymous_class()
+	{
+		std::shared_ptr<TestParserClient> client = parseCode(
+			"package foo;\n"
+			"public class A\n"
+			"{\n"
+			"	interface I {\n"
+			"		public void foo();\n"
+			"	}\n"
+			"	public void bar()\n"
+			"	{\n"
+			"		I i = new I()\n"
+			"		{\n"
+			"			public void foo() {}\n"
+			"		};\n"
+			"	};\n"
+			"}\n"
+		);
+
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->methods, "public void foo.A.bar.anonymous class (input.cc<9:9>).foo() <11:4 <11:16 11:18> 11:23>"
+		));
+	}
+
 	void test_java_parser_finds_method_declaration_with_static_keyword_in_signature()
 	{
 		std::shared_ptr<TestParserClient> client = parseCode(
@@ -250,7 +293,7 @@ public:
 		));
 	}
 
-	void test_java_parser_finds_definition_of_method_parameter()
+	void test_java_parser_finds_declaration_of_method_parameter()
 	{
 		std::shared_ptr<TestParserClient> client = parseCode(
 			"package foo;\n"
@@ -267,7 +310,7 @@ public:
 		));
 	}
 
-	void test_java_parser_finds_definition_of_local_variable()
+	void test_java_parser_finds_declaration_of_local_variable()
 	{
 		std::shared_ptr<TestParserClient> client = parseCode(
 			"package foo;\n"
@@ -285,7 +328,7 @@ public:
 		));
 	}
 
-	void test_java_parser_finds_definition_of_type_parameter_of_class()
+	void test_java_parser_finds_declaration_of_type_parameter_of_class()
 	{
 		std::shared_ptr<TestParserClient> client = parseCode(
 			"public class A <T>\n"
@@ -298,7 +341,7 @@ public:
 		));
 	}
 
-	void test_java_parser_finds_definition_of_type_parameter_of_method()
+	void test_java_parser_finds_declaration_of_type_parameter_of_method()
 	{
 		std::shared_ptr<TestParserClient> client = parseCode(
 			"public class A\n"

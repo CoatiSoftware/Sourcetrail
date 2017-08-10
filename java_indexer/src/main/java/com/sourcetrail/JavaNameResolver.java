@@ -1,19 +1,18 @@
 package com.sourcetrail;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import com.github.javaparser.ast.body.BodyDeclaration;
+import java.io.File;
 
 import com.github.javaparser.symbolsolver.model.resolution.TypeSolver;
 
 public abstract class JavaNameResolver 
 {
+	File m_currentFile = null;
 	TypeSolver m_typeSolver = null;
 	ContextList m_ignoredContexts = null;
 	 
-	public JavaNameResolver(TypeSolver typeSolver, ContextList ignoredContexts)
+	public JavaNameResolver(File currentFile, TypeSolver typeSolver, ContextList ignoredContexts)
 	{
+		m_currentFile = currentFile;
 		m_typeSolver = typeSolver;
 		if (ignoredContexts != null)
 		{

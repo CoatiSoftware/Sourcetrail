@@ -1,5 +1,7 @@
 package com.sourcetrail;
 
+import java.io.File;
+
 import com.github.javaparser.ast.type.*;
 import com.github.javaparser.symbolsolver.javaparsermodel.JavaParserFacade;
 import com.github.javaparser.symbolsolver.model.resolution.TypeSolver;
@@ -8,19 +10,19 @@ import com.sourcetrail.name.JavaTypeName;
 
 public class JavaparserTypeNameResolver extends JavaNameResolver
 {
-	public JavaparserTypeNameResolver(TypeSolver typeSolver, ContextList ignoredContexts)
+	public JavaparserTypeNameResolver(File currentFile, TypeSolver typeSolver, ContextList ignoredContexts)
 	{
-		super(typeSolver, ignoredContexts);
+		super(currentFile, typeSolver, ignoredContexts);
 	}
 
-	public static JavaTypeName getQualifiedTypeName(Type type, TypeSolver typeSolver)
+	public static JavaTypeName getQualifiedTypeName(Type type, File currentFile, TypeSolver typeSolver)
 	{
-		return getQualifiedTypeName(type, typeSolver, null);
+		return getQualifiedTypeName(type, currentFile, typeSolver, null);
 	}
 	
-	public static JavaTypeName getQualifiedTypeName(Type type, TypeSolver typeSolver, ContextList ignoredContexts)
+	public static JavaTypeName getQualifiedTypeName(Type type, File currentFile, TypeSolver typeSolver, ContextList ignoredContexts)
 	{
-		JavaparserTypeNameResolver resolver = new JavaparserTypeNameResolver(typeSolver, ignoredContexts);
+		JavaparserTypeNameResolver resolver = new JavaparserTypeNameResolver(currentFile, typeSolver, ignoredContexts);
 		return resolver.getQualifiedTypeName(type);
 	}
 	
@@ -34,6 +36,7 @@ public class JavaparserTypeNameResolver extends JavaNameResolver
 			{
 				return JavaSymbolSolverTypeNameResolver.getQualifiedTypeName(
 					JavaParserFacade.get(m_typeSolver).convert(type, type), 
+					m_currentFile,
 					m_typeSolver, 
 					m_ignoredContexts
 				);
@@ -53,7 +56,8 @@ public class JavaparserTypeNameResolver extends JavaNameResolver
 		else if (type instanceof TypeParameter)
 		{
 			return JavaSymbolSolverTypeNameResolver.getQualifiedTypeName(
-				JavaParserFacade.get(m_typeSolver).convert(type, type), 
+				JavaParserFacade.get(m_typeSolver).convert(type, type),
+				m_currentFile,
 				m_typeSolver, 
 				m_ignoredContexts
 			);

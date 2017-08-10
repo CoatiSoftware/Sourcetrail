@@ -1,21 +1,14 @@
 package com.sourcetrail;
 
-import com.github.javaparser.ast.visitor.GenericListVisitorAdapter;
 import com.github.javaparser.ast.visitor.GenericVisitorAdapter;
-import com.github.javaparser.ast.visitor.VoidVisitorAdapter;
 
 import com.github.javaparser.ast.*;
 import com.github.javaparser.ast.body.*;
-import com.github.javaparser.ast.comments.Comment;
 import com.github.javaparser.ast.expr.*;
-import com.github.javaparser.ast.nodeTypes.NodeWithAnnotations;
 import com.github.javaparser.ast.stmt.*;
 import com.github.javaparser.ast.type.*;
 
-import java.util.Optional;
 import java.util.Stack;
-
-import javax.annotation.Generated;
 
 public abstract class AstVisitorAdapter extends GenericVisitorAdapter<Boolean, Void>
 {

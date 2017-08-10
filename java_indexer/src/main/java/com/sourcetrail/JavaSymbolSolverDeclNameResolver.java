@@ -1,13 +1,10 @@
 package com.sourcetrail;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import com.github.javaparser.ast.body.BodyDeclaration;
-import com.github.javaparser.ast.body.FieldDeclaration;
-import com.github.javaparser.ast.body.Parameter;
-import com.github.javaparser.ast.type.TypeParameter;
 import com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserAnnotationDeclaration;
 import com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserAnonymousClassDeclaration;
 import com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserClassDeclaration;
@@ -21,16 +18,12 @@ import com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParse
 import com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserSymbolDeclaration;
 import com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserTypeParameter;
 import com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserTypeVariableDeclaration;
-import com.github.javaparser.symbolsolver.javassistmodel.JavassistClassDeclaration;
-import com.github.javaparser.symbolsolver.javassistmodel.JavassistTypeParameter;
 import com.github.javaparser.symbolsolver.model.declarations.Declaration;
 import com.github.javaparser.symbolsolver.model.declarations.MethodDeclaration;
 import com.github.javaparser.symbolsolver.model.declarations.MethodLikeDeclaration;
 import com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration;
-import com.github.javaparser.symbolsolver.model.declarations.TypeDeclaration;
 import com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration;
 import com.github.javaparser.symbolsolver.model.declarations.TypeParametrizable;
-import com.github.javaparser.symbolsolver.model.declarations.ValueDeclaration;
 import com.github.javaparser.symbolsolver.model.resolution.TypeSolver;
 
 import com.sourcetrail.name.JavaDeclName;
@@ -40,19 +33,19 @@ import com.sourcetrail.name.JavaVariableDeclName;
 
 public class JavaSymbolSolverDeclNameResolver extends JavaNameResolver
 {
-	public JavaSymbolSolverDeclNameResolver(TypeSolver typeSolver, ContextList ignoredContexts) 
+	public JavaSymbolSolverDeclNameResolver(File currentFile, TypeSolver typeSolver, ContextList ignoredContexts) 
 	{
-		super(typeSolver, ignoredContexts);
+		super(currentFile, typeSolver, ignoredContexts);
 	}
 
-	public static JavaDeclName getQualifiedDeclName(Declaration decl, TypeSolver typeSolver)
+	public static JavaDeclName getQualifiedDeclName(Declaration decl, File currentFile, TypeSolver typeSolver)
 	{
-		return getQualifiedDeclName(decl, typeSolver, null);
+		return getQualifiedDeclName(decl, currentFile, typeSolver, null);
 	}
 	
-	public static JavaDeclName getQualifiedDeclName(Declaration decl, TypeSolver typeSolver, ContextList ignoredContexts)
+	public static JavaDeclName getQualifiedDeclName(Declaration decl, File currentFile, TypeSolver typeSolver, ContextList ignoredContexts)
 	{
-		JavaSymbolSolverDeclNameResolver resolver = new JavaSymbolSolverDeclNameResolver(typeSolver, ignoredContexts);
+		JavaSymbolSolverDeclNameResolver resolver = new JavaSymbolSolverDeclNameResolver(currentFile, typeSolver, ignoredContexts);
 		return resolver.getQualifiedDeclName(decl);
 	}
 	
@@ -69,44 +62,44 @@ public class JavaSymbolSolverDeclNameResolver extends JavaNameResolver
         } 
 		if (decl instanceof JavaParserAnonymousClassDeclaration)
         {
-			// TODO: implement
+			// TODO: implement maybe the case is new XXX { methods and stuff }.doSomething();
 			System.out.println("solving name of JavaParserAnonymousClassDeclaration not implemented");
 			declName = JavaDeclName.unsolved();
         } 
 		else if (decl instanceof JavaParserClassDeclaration)
         {
             declName = JavaparserDeclNameResolver.getQualifiedDeclName(
-            		((JavaParserClassDeclaration)decl).getWrappedNode(), m_typeSolver, m_ignoredContexts);
+            		((JavaParserClassDeclaration)decl).getWrappedNode(), m_currentFile, m_typeSolver, m_ignoredContexts);
         }
         else if (decl instanceof JavaParserConstructorDeclaration)
         {
             declName = JavaparserDeclNameResolver.getQualifiedDeclName(
-            		((JavaParserConstructorDeclaration)decl).getWrappedNode(), m_typeSolver, m_ignoredContexts);
+            		((JavaParserConstructorDeclaration)decl).getWrappedNode(), m_currentFile, m_typeSolver, m_ignoredContexts);
         }
         else if (decl instanceof JavaParserEnumDeclaration)
         {
             declName = JavaparserDeclNameResolver.getQualifiedDeclName(
-            		((JavaParserEnumDeclaration)decl).getWrappedNode(), m_typeSolver, m_ignoredContexts);
+            		((JavaParserEnumDeclaration)decl).getWrappedNode(), m_currentFile, m_typeSolver, m_ignoredContexts);
         }
         else if (decl instanceof JavaParserEnumConstantDeclaration)
         {
             declName = JavaparserDeclNameResolver.getQualifiedDeclName(
-            		((JavaParserEnumConstantDeclaration)decl).getWrappedNode(), m_typeSolver, m_ignoredContexts);
+            		((JavaParserEnumConstantDeclaration)decl).getWrappedNode(), m_currentFile, m_typeSolver, m_ignoredContexts);
         }
         else if (decl instanceof JavaParserFieldDeclaration)
         {
             declName = JavaparserDeclNameResolver.getQualifiedDeclName(
-            		((JavaParserFieldDeclaration)decl).getWrappedNode(), m_typeSolver, m_ignoredContexts);
+            		((JavaParserFieldDeclaration)decl).getWrappedNode(), m_currentFile, m_typeSolver, m_ignoredContexts);
         }
         else if (decl instanceof JavaParserInterfaceDeclaration)
         {
             declName = JavaparserDeclNameResolver.getQualifiedDeclName(
-            		((JavaParserInterfaceDeclaration)decl).getWrappedNode(), m_typeSolver, m_ignoredContexts);
+            		((JavaParserInterfaceDeclaration)decl).getWrappedNode(), m_currentFile, m_typeSolver, m_ignoredContexts);
         }
         else if (decl instanceof JavaParserMethodDeclaration)
         {
             declName = JavaparserDeclNameResolver.getQualifiedDeclName(
-            		((JavaParserMethodDeclaration)decl).getWrappedNode(), m_typeSolver, m_ignoredContexts);
+            		((JavaParserMethodDeclaration)decl).getWrappedNode(), m_currentFile, m_typeSolver, m_ignoredContexts);
         }
         else if (decl instanceof JavaParserParameterDeclaration)
         {
@@ -121,12 +114,12 @@ public class JavaSymbolSolverDeclNameResolver extends JavaNameResolver
         else if (decl instanceof JavaParserTypeParameter)
         {
         	declName = JavaparserDeclNameResolver.getQualifiedDeclName(
-        			((JavaParserTypeParameter)decl).getWrappedNode(), m_typeSolver, m_ignoredContexts);
+        			((JavaParserTypeParameter)decl).getWrappedNode(), m_currentFile, m_typeSolver, m_ignoredContexts);
         }
         else if (decl instanceof JavaParserTypeVariableDeclaration)
         {
         	declName = JavaparserDeclNameResolver.getQualifiedDeclName(
-        			((JavaParserTypeVariableDeclaration)decl).getWrappedNode(), m_typeSolver, m_ignoredContexts);
+        			((JavaParserTypeVariableDeclaration)decl).getWrappedNode(), m_currentFile, m_typeSolver, m_ignoredContexts);
         }
         else
 		{
@@ -144,7 +137,7 @@ public class JavaSymbolSolverDeclNameResolver extends JavaNameResolver
 				Optional<ReferenceTypeDeclaration> containerType = ((ReferenceTypeDeclaration) decl).containerType();
 				if (containerType.isPresent())
 				{
-					declName.setParent(getQualifiedDeclName(containerType.get(), m_typeSolver, m_ignoredContexts));
+					declName.setParent(getQualifiedDeclName(containerType.get(), m_currentFile, m_typeSolver, m_ignoredContexts));
 				}
 				else
 				{
@@ -160,11 +153,11 @@ public class JavaSymbolSolverDeclNameResolver extends JavaNameResolver
 				{
 					if (container instanceof ReferenceTypeDeclaration)
 					{
-						declName.setParent(getQualifiedDeclName((ReferenceTypeDeclaration) container, m_typeSolver, m_ignoredContexts));
+						declName.setParent(getQualifiedDeclName((ReferenceTypeDeclaration) container, m_currentFile, m_typeSolver, m_ignoredContexts));
 					}
 					if (container instanceof MethodLikeDeclaration)
 					{
-						declName.setParent(getQualifiedDeclName((MethodLikeDeclaration) container, m_typeSolver, m_ignoredContexts));
+						declName.setParent(getQualifiedDeclName((MethodLikeDeclaration) container, m_currentFile, m_typeSolver, m_ignoredContexts));
 					}
 				}
 			}
@@ -177,18 +170,18 @@ public class JavaSymbolSolverDeclNameResolver extends JavaNameResolver
 				boolean isStatic = false;
 				if (decl instanceof MethodDeclaration)
 				{
-					returnTypeName = JavaSymbolSolverTypeNameResolver.getQualifiedTypeName(((MethodDeclaration)decl).getReturnType(), m_typeSolver, ignoredContextsForTypes);
+					returnTypeName = JavaSymbolSolverTypeNameResolver.getQualifiedTypeName(((MethodDeclaration)decl).getReturnType(), m_currentFile, m_typeSolver, ignoredContextsForTypes);
 					isStatic = ((MethodDeclaration)decl).isStatic();
 				}
 				
 				declName = new JavaFunctionDeclName(
 						name, typeParameters, 
 						returnTypeName, 
-						getParameterTypeNames((MethodLikeDeclaration) decl, m_typeSolver, ignoredContextsForTypes), 
+						getParameterTypeNames((MethodLikeDeclaration) decl, m_currentFile, m_typeSolver, ignoredContextsForTypes), 
 						isStatic);
 				
 				declName.setParent(
-						getQualifiedDeclName(((MethodLikeDeclaration) decl).declaringType(), m_typeSolver, m_ignoredContexts));
+						getQualifiedDeclName(((MethodLikeDeclaration) decl).declaringType(), m_currentFile, m_typeSolver, m_ignoredContexts));
 				
 			}
 			else if (decl instanceof com.github.javaparser.symbolsolver.model.declarations.FieldDeclaration)
@@ -196,12 +189,13 @@ public class JavaSymbolSolverDeclNameResolver extends JavaNameResolver
 				com.github.javaparser.symbolsolver.model.declarations.FieldDeclaration fieldDecl = ((com.github.javaparser.symbolsolver.model.declarations.FieldDeclaration) decl);
 				declName = new JavaVariableDeclName(
 						name, 
-						JavaSymbolSolverTypeNameResolver.getQualifiedTypeName(fieldDecl.getType(), m_typeSolver, m_ignoredContexts), 
+						JavaSymbolSolverTypeNameResolver.getQualifiedTypeName(fieldDecl.getType(), m_currentFile, m_typeSolver, m_ignoredContexts), 
 						fieldDecl.isStatic());
 				
 				declName.setParent(
 						getQualifiedDeclName(
 								fieldDecl.declaringType(), 
+								m_currentFile, 
 								m_typeSolver, 
 								m_ignoredContexts));
 			}
@@ -230,13 +224,13 @@ public class JavaSymbolSolverDeclNameResolver extends JavaNameResolver
 		return typeParameterNames;
 	}
 	
-	private static List<JavaTypeName> getParameterTypeNames(MethodLikeDeclaration decl, TypeSolver typeSolver, ContextList ignoredContexts)
+	private static List<JavaTypeName> getParameterTypeNames(MethodLikeDeclaration decl, File currentFile, TypeSolver typeSolver, ContextList ignoredContexts)
 	{		
 		List<JavaTypeName> typeTypeParameterNames = new ArrayList<>();
 		for (int i = 0; i < decl.getNumberOfParams(); i++)
 		{
 			typeTypeParameterNames.add(JavaSymbolSolverTypeNameResolver.getQualifiedTypeName(
-				decl.getParam(i).getType(), typeSolver, ignoredContexts
+				decl.getParam(i).getType(), currentFile, typeSolver, ignoredContexts
 			));
 		}
 		return typeTypeParameterNames;
