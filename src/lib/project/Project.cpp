@@ -270,6 +270,11 @@ void Project::load()
 	{
 		MessageStatus("Project not loaded", false, false).dispatch();
 	}
+
+	if (m_state != PROJECT_STATE_LOADED && Application::getInstance()->hasGUI())
+	{
+		MessageRefresh().dispatch();
+	}
 }
 
 bool Project::requestIndex(bool forceRefresh, bool needsFullRefresh)

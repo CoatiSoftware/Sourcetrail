@@ -215,60 +215,26 @@ int main(int argc, char *argv[])
 
 	setupPlatform(argc, argv);
 
-	QScopedPointer<QCoreApplication> qtApp(createApplication(argc, argv, commandLineParser.runWithoutGUI()));
-	setupApp(argc, argv);
-	setupLogging();
-
-	QScopedPointer<QtNetworkFactory> networkFactory;
-	QScopedPointer<QtViewFactory> viewFactory;
-
-	if (!commandLineParser.runWithoutGUI())
-	{
-		qtApp->setAttribute(Qt::AA_UseHighDpiPixmaps);
-
-		utility::loadFontsFromDirectory(ResourcePaths::getFontsPath(), ".otf");
-		utility::loadFontsFromDirectory(ResourcePaths::getFontsPath(), ".ttf");
-
-		networkFactory.reset(new QtNetworkFactory());
-		viewFactory.reset(new QtViewFactory());
-	}
-
-	Application::createInstance(version, viewFactory.data(), networkFactory.data());
-
-	ScopedFunctor f([](){
-		Application::destroyInstance();
-	});
-
 	if (commandLineParser.runWithoutGUI())
 	{
-		commandLineParser.parse();
-		if (commandLineParser.startedWithLicense())
-		{
-			utility::saveLicense(commandLineParser.getLicensePtr());
-		}
-		if (commandLineParser.exitApplication())
-		{
-			return 0;
-		}
-	}
 
-	prefillPaths();
-	addLanguageModules();
+		// headless Sourcetrail
+		QtCoreApplication qtApp(argc, argv);
 
-	if (commandLineParser.runWithoutGUI())
-	{
+		setupApp(argc, argv);
+
+		setupLogging();
+
+		Application::createInstance(version, nullptr, nullptr);
+		ScopedFunctor f([](){
+			Application::destroyInstance();
+		});
+
+		prefillPaths();
+		addLanguageModules();
+
 		std::shared_ptr<LicenseChecker> checker = LicenseChecker::getInstance();
 
-		if (!checker->isCurrentLicenseValid()) // this works because the user cannot enter a license string while running the app in headless more.
-		{
-			std::cout << "No or invalide License" << std::endl;
-			LOG_WARNING("Your current Sourcetrail license seems to be invalid. Please update your license info.");
-			return 0;
-		}
-		else
-		{
-			MessageEnteredLicense(checker->getCurrentLicenseType()).dispatch();
-		}
 #ifdef _WIN32
 		signal(SIGINT, signalHandler);
 		signal(SIGTERM, signalHandler);
@@ -287,28 +253,79 @@ int main(int argc, char *argv[])
 			std::cout << "Cant install SIGHUP handler" << std::endl;
 		}
 #endif
-	}
 
-	if (commandLineParser.hasError() )
-	{
-		if (commandLineParser.runWithoutGUI())
+		commandLineParser.parse();
+		if (commandLineParser.startedWithLicense())
+		{
+			utility::saveLicense(commandLineParser.getLicensePtr());
+		}
+
+		if (commandLineParser.exitApplication())
+		{
+			return 0;
+		}
+
+		if (!checker->isCurrentLicenseValid()) // this works because the user cannot enter a license string while running the app in headless more.
+		{
+			std::cout << "No or invalide License" << std::endl;
+			LOG_WARNING("Your current Sourcetrail license seems to be invalid. Please update your license info.");
+			return 0;
+		}
+		else
+		{
+			MessageEnteredLicense(checker->getCurrentLicenseType()).dispatch();
+		}
+
+		if (commandLineParser.hasError() )
 		{
 			std::cout << commandLineParser.getError() << std::endl;
 		}
 		else
 		{
-			Application::getInstance()->handleDialog(commandLineParser.getError());
+			MessageLoadProject(
+				commandLineParser.getProjectFilePath(),
+				commandLineParser.getFullProjectRefresh()
+			).dispatch();
 		}
+		return qtApp.exec();
 	}
 	else
 	{
-		MessageLoadProject(
-			commandLineParser.getProjectFilePath(),
-			commandLineParser.getFullProjectRefresh()
-		).dispatch();
+
+		QtApplication qtApp(argc, argv);
+
+		setupApp(argc, argv);
+
+		setupLogging();
+
+		qtApp.setAttribute(Qt::AA_UseHighDpiPixmaps);
+
+		QtViewFactory viewFactory;
+		QtNetworkFactory networkFactory;
+
+		Application::createInstance(version, &viewFactory, &networkFactory);
+		ScopedFunctor f([](){
+			Application::destroyInstance();
+		});
+
+		prefillPaths();
+		addLanguageModules();
+
+		utility::loadFontsFromDirectory(ResourcePaths::getFontsPath(), ".otf");
+		utility::loadFontsFromDirectory(ResourcePaths::getFontsPath(), ".ttf");
+
+		if (commandLineParser.hasError())
+		{
+			Application::getInstance()->handleDialog(commandLineParser.getError());
+		}
+		else
+		{
+			MessageLoadProject(
+				commandLineParser.getProjectFilePath(),
+				commandLineParser.getFullProjectRefresh()
+			).dispatch();
+		}
+
+		return qtApp.exec();
 	}
-
-	int exitcode = qtApp->exec();
-
-	return exitcode;
 }
