@@ -459,11 +459,23 @@ void QtCodeArea::contextMenuEvent(QContextMenuEvent* event)
 
 void QtCodeArea::focusTokenIds(const std::vector<Id>& tokenIds)
 {
+	if (m_navigator->hasErrors() && tokenIds.size() == 1)
+	{
+		QtCodeField::focusTokenIds(tokenIds);
+		return;
+	}
+
 	MessageFocusIn(tokenIds, TOOLTIP_ORIGIN_CODE).dispatch();
 }
 
 void QtCodeArea::defocusTokenIds(const std::vector<Id>& tokenIds)
 {
+	if (m_navigator->hasErrors() && tokenIds.size() == 1)
+	{
+		QtCodeField::defocusTokenIds(tokenIds);
+		return;
+	}
+
 	MessageFocusOut(tokenIds).dispatch();
 }
 

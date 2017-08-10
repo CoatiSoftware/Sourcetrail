@@ -93,7 +93,7 @@
 			</title>
 
 			<ref_count>
-				<text>#C4C4C4</text>
+				<text>#D4D4D4</text>
 				<background>#494949</background>
 			</ref_count>
 		</file>
@@ -108,21 +108,21 @@
 			</title>
 
 			<line_number>
-				<text>#C4C4C4</text>
+				<text>#D4D4D4</text>
 				<inactive_text>#A0A0A0</inactive_text>
 				<background>#494949</background>
-				<marker>#C4C4C4</marker>
+				<marker>#D4D4D4</marker>
 			</line_number>
 
 			<syntax>
-				<normal>#C4C4C4</normal>
+				<normal>#D4D4D4</normal>
 				<directive>#00A0B6</directive>
-				<keyword>#00A0B6</keyword>
-				<type>#FF4A52</type>
-				<comment>#9DC28D</comment>
-				<number>#EE7326</number>
-				<quotation>#D663D6</quotation>
-				<function>#FBBA00</function>
+				<keyword>#00BCD6</keyword>
+				<type>#FF5961</type>
+				<comment>#78946B</comment>
+				<number>#FC7F30</number>
+				<quotation>#F283F2</quotation>
+				<function>#FFCC3B</function>
 			</syntax>
 
 			<selection>
@@ -255,7 +255,7 @@
 
 			<function>
 				<fill>
-					<normal>#FBBA00</normal>
+					<normal>#FFCC3B</normal>
 					<focus>#FFD05A</focus>
 				</fill>
 				<border>
@@ -272,8 +272,8 @@
 
 			<global_variable>
 				<fill>
-					<normal>#00A0B6</normal>
-					<focus>#3BAFB2</focus>
+					<normal>#00BCD6</normal>
+					<focus>#38D3E8</focus>
 				</fill>
 				<border>
 					<normal>transparent</normal>
@@ -396,12 +396,12 @@
 			</override>
 
 			<call>
-				<normal>#FBBA00</normal>
+				<normal>#DEA400</normal>
 				<trail_focus>#FFFFFF</trail_focus>
 			</call>
 
 			<use>
-				<normal>#2A6484</normal>
+				<normal>#00A0B6</normal>
 			</use>
 
 			<template_argument>
@@ -435,9 +435,9 @@
 	</graph>
 	<table>
 		<background>#494949</background>
-		<table>#C4C4C4</table>
+		<table>#D4D4D4</table>
 		<text>
-			<normal>#C4C4C4</normal>
+			<normal>#D4D4D4</normal>
 			<active>black</active>
 		</text>
 		<table_line_1>
@@ -451,7 +451,7 @@
 	</table>
 	<tab>
 		<background>#494949</background>
-		<active>#C4C4C4</active>
+		<active>#D4D4D4</active>
 		<hover>#878787</hover>
 		<text>#878787</text>
 	</tab>

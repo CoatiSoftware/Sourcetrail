@@ -88,8 +88,6 @@ QtCodeNavigator::QtCodeNavigator(QWidget* parent)
 		navigation->setLayout(navLayout);
 		layout->addWidget(navigation);
 
-		refreshStyle();
-
 		QHBoxLayout* separatorLayout = new QHBoxLayout();
 
 		QWidget* widget = new QWidget();
@@ -127,6 +125,8 @@ QtCodeNavigator::QtCodeNavigator(QWidget* parent)
 	{
 		setModeList();
 	}
+
+	refreshStyle();
 
 	connect(this, &QtCodeNavigator::scrollRequest, this, &QtCodeNavigator::handleScrollRequest, Qt::QueuedConnection);
 }
@@ -260,6 +260,8 @@ void QtCodeNavigator::clearCodeSnippets()
 void QtCodeNavigator::clearFile()
 {
 	m_single->clearFile();
+
+	updateRefLabel();
 }
 
 void QtCodeNavigator::clearCaches()
@@ -543,6 +545,8 @@ void QtCodeNavigator::refreshStyle()
 	m_nextButton->setIconSize(QSize(12, 12));
 	m_listButton->setIconSize(QSize(14, 14));
 	m_fileButton->setIconSize(QSize(14, 14));
+
+	clearCaches();
 }
 
 void QtCodeNavigator::scrollToValue(int value, bool inListMode)
