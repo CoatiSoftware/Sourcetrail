@@ -6,6 +6,7 @@
 class QtEulaWindow
 	: public QtWindow
 {
+	Q_OBJECT
 public:
 	static const int EULA_VERSION = 2;
 

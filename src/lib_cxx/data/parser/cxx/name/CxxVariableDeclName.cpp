@@ -31,14 +31,14 @@ CxxVariableDeclName::~CxxVariableDeclName()
 
 NameHierarchy CxxVariableDeclName::toNameHierarchy() const
 {
-	std::string signaturePrefix = "";
+	std::string signaturePrefix;
 	if (m_isStatic)
 	{
 		signaturePrefix += "static ";
 	}
 	signaturePrefix += CxxTypeName::makeUnsolvedIfNull(m_typeName)->toString();
 
-	const std::string signaturePostfix = "";
+	const std::string signaturePostfix;
 
 	NameHierarchy ret = CxxDeclName::toNameHierarchy();
 	std::shared_ptr<NameElement> nameElement = std::make_shared<NameElement>(

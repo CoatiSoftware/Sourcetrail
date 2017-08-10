@@ -23,6 +23,13 @@ ENDIF(${CMAKE_BINARY_DIR} STREQUAL ${CMAKE_SOURCE_DIR})
 set(PROJECT_NAME Sourcetrail)
 set(PROJECT_NAME_LOWER_CASE sourcetrail)
 
+# speed up recompiling on unix with ccache
+find_program(CCACHE_PROGRAM ccache)
+if(CCACHE_PROGRAM)
+	# Support Unix Makefiles and Ninja
+	set_property(GLOBAL PROPERTY RULE_LAUNCH_COMPILE "${CCACHE_PROGRAM}")
+endif()
+
 set(APP_PROJECT_NAME "${PROJECT_NAME}")
 set(LIB_LICENSE_PROJECT_NAME "${PROJECT_NAME}_lib_license")
 set(LIB_GUI_PROJECT_NAME "${PROJECT_NAME}_lib_gui")

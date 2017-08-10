@@ -118,7 +118,7 @@ std::vector<std::shared_ptr<IndexerCommand>> SourceGroupCxx::getIndexerCommands(
 	utility::append(compilerFlags, m_settings->getCompilerFlags());
 
 	std::set<FilePath> indexedPaths;
-	for (FilePath p: m_settings->getSourcePathsExpandedAndAbsolute())
+	for (const FilePath& p : m_settings->getSourcePathsExpandedAndAbsolute())
 	{
 		if (p.exists())
 		{
@@ -127,7 +127,7 @@ std::vector<std::shared_ptr<IndexerCommand>> SourceGroupCxx::getIndexerCommands(
 	}
 
 	std::set<FilePath> excludedPaths;
-	for (FilePath p: m_settings->getExcludePathsExpandedAndAbsolute())
+	for (const FilePath& p: m_settings->getExcludePathsExpandedAndAbsolute())
 	{
 		if (p.exists())
 		{
@@ -152,7 +152,7 @@ std::vector<std::shared_ptr<IndexerCommand>> SourceGroupCxx::getIndexerCommands(
 			MessageStatus(message, true).dispatch();
 		}
 
-		for (clang::tooling::CompileCommand command: cdb->getAllCompileCommands())
+		for (const clang::tooling::CompileCommand& command: cdb->getAllCompileCommands())
 		{
 			FilePath sourcePath = FilePath(command.Filename).canonical();
 			if (!sourcePath.isAbsolute())

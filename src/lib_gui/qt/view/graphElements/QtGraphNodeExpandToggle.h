@@ -8,6 +8,7 @@
 class QtGraphNodeExpandToggle
 	: public QtGraphNode
 {
+	Q_OBJECT
 public:
 	QtGraphNodeExpandToggle(bool expanded, int invisibleSubNodeCount);
 	virtual ~QtGraphNodeExpandToggle();

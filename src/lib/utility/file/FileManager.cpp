@@ -24,7 +24,7 @@ void FileManager::update(
 
 	m_allSourceFilePaths.clear();
 
-	for (FileInfo fileInfo: FileSystem::getFileInfosFromPaths(m_sourcePaths, m_sourceExtensions))
+	for (const FileInfo& fileInfo : FileSystem::getFileInfosFromPaths(m_sourcePaths, m_sourceExtensions))
 	{
 		const FilePath& filePath = fileInfo.path;
 		if (isExcluded(filePath))
@@ -76,7 +76,7 @@ std::set<FilePath> FileManager::getAllSourceFilePathsRelative(const FilePath& ba
 std::vector<FilePath> FileManager::makeCanonical(const std::vector<FilePath>& filePaths)
 {
 	std::vector<FilePath> ret;
-	for (const FilePath filePath: filePaths)
+	for (const FilePath& filePath: filePaths)
 	{
 		ret.push_back(filePath.canonical());
 	}
@@ -85,7 +85,7 @@ std::vector<FilePath> FileManager::makeCanonical(const std::vector<FilePath>& fi
 
 bool FileManager::isExcluded(const FilePath& filePath) const
 {
-	for (FilePath path : m_excludePaths)
+	for (const FilePath& path : m_excludePaths)
 	{
 		if (path == filePath || path.contains(filePath))
 		{

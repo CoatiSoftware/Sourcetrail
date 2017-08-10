@@ -1,7 +1,5 @@
 #include "includes.h" // defines 'void setup(int argc, char *argv[])'
 
-#include <csignal>
-
 #include "Application.h"
 #include "data/indexer/IndexerFactory.h"
 #include "data/indexer/IndexerFactoryModuleJava.h"
@@ -35,12 +33,6 @@
 #include "utility/utilityPathDetection.h"
 #include "utility/Version.h"
 #include "version.h"
-
-void signalHandler(int signum)
-{
-	std::cout << "interrupt running tasks" << std::endl;
-	MessageInterruptTasks().dispatch();
-}
 
 void setupLogging()
 {
@@ -269,24 +261,6 @@ int main(int argc, char *argv[])
 		{
 			MessageEnteredLicense(checker->getCurrentLicenseType()).dispatch();
 		}
-#ifdef _WIN32
-		signal(SIGINT, signalHandler);
-		signal(SIGTERM, signalHandler);
-		signal(SIGABRT, signalHandler);
-#else
-		struct sigaction sa;
-		sa.sa_handler = signalHandler;
-		sigemptyset(&sa.sa_mask);
-		sa.sa_flags = SA_RESTART;
-		if (sigaction(SIGINT, &sa, NULL))
-		{
-			std::cout << "Cant install SIGINT handler" << std::endl;
-		}
-		if (sigaction(SIGHUP, &sa, NULL))
-		{
-			std::cout << "Cant install SIGHUP handler" << std::endl;
-		}
-#endif
 	}
 
 	if (commandLineParser.hasError() )

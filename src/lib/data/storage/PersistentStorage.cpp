@@ -608,12 +608,12 @@ std::vector<SearchMatch> PersistentStorage::getAutocompletionSymbolMatches(
 			elementIds.insert(elementIds.end(), result.elementIds.begin(), result.elementIds.end());
 		}
 
-		for (StorageNode& node : m_sqliteIndexStorage.getAllByIds<StorageNode>(elementIds))
+		for (const StorageNode& node : m_sqliteIndexStorage.getAllByIds<StorageNode>(elementIds))
 		{
 			storageNodeMap[node.id] = node;
 		}
 
-		for (StorageSymbol& symbol : m_sqliteIndexStorage.getAllByIds<StorageSymbol>(elementIds))
+		for (const StorageSymbol& symbol : m_sqliteIndexStorage.getAllByIds<StorageSymbol>(elementIds))
 		{
 			storageSymbolMap[symbol.id] = symbol;
 		}
@@ -786,7 +786,7 @@ std::shared_ptr<Graph> PersistentStorage::getGraphForAll() const
 	std::shared_ptr<Graph> graph = std::make_shared<Graph>();
 
 	std::vector<Id> tokenIds;
-	for (StorageNode node: m_sqliteIndexStorage.getAll<StorageNode>())
+	for (StorageNode& node: m_sqliteIndexStorage.getAll<StorageNode>())
 	{
 		auto it = m_symbolDefinitionKinds.find(node.id);
 		if (it != m_symbolDefinitionKinds.end() && it->second == DEFINITION_EXPLICIT &&
@@ -799,7 +799,7 @@ std::shared_ptr<Graph> PersistentStorage::getGraphForAll() const
 		}
 	}
 
-	for (auto p : m_fileNodePaths)
+	for (const auto& p : m_fileNodePaths)
 	{
 		tokenIds.push_back(p.first);
 	}
@@ -1538,7 +1538,7 @@ std::vector<EdgeBookmark> PersistentStorage::getAllEdgeBookmarks() const
 std::vector<BookmarkCategory> PersistentStorage::getAllBookmarkCategories() const
 {
 	std::vector<BookmarkCategory> categories;
-	for (const StorageBookmarkCategory storageBookmarkCategoriy: m_sqliteBookmarkStorage.getAllBookmarkCategories())
+	for (const StorageBookmarkCategory& storageBookmarkCategoriy : m_sqliteBookmarkStorage.getAllBookmarkCategories())
 	{
 		categories.push_back(BookmarkCategory(storageBookmarkCategoriy.id, storageBookmarkCategoriy.name));
 	}
@@ -1616,7 +1616,7 @@ TooltipInfo PersistentStorage::getTooltipInfoForTokenIds(const std::vector<Id>& 
 
 	info.count = 0;
 	info.countText = "reference";
-	for (auto edge : m_sqliteIndexStorage.getEdgesByTargetId(node.id))
+	for (const auto& edge : m_sqliteIndexStorage.getEdgesByTargetId(node.id))
 	{
 		if (Edge::intToType(edge.type) != Edge::EDGE_MEMBER)
 		{
@@ -1659,7 +1659,7 @@ TooltipSnippet PersistentStorage::getTooltipSnippetForNode(const StorageNode& no
 		);
 
 		std::vector<Id> typeNodeIds;
-		for (auto edge : m_sqliteIndexStorage.getEdgesBySourceId(node.id))
+		for (const auto& edge : m_sqliteIndexStorage.getEdgesBySourceId(node.id))
 		{
 			if (Edge::intToType(edge.type) == Edge::EDGE_TYPE_USAGE)
 			{
@@ -1680,7 +1680,7 @@ TooltipSnippet PersistentStorage::getTooltipSnippetForNode(const StorageNode& no
 		);
 
 		typeNames.insert(std::make_pair(nameHierarchy.getQualifiedName(), node.id));
-		for (auto typeNode : m_sqliteIndexStorage.getAllByIds<StorageNode>(typeNodeIds))
+		for (const auto& typeNode : m_sqliteIndexStorage.getAllByIds<StorageNode>(typeNodeIds))
 		{
 			typeNames.insert(std::make_pair(
 				NameHierarchy::deserialize(typeNode.serializedName).getQualifiedName(),
@@ -1689,7 +1689,7 @@ TooltipSnippet PersistentStorage::getTooltipSnippetForNode(const StorageNode& no
 		}
 
 		std::vector<std::pair<size_t, size_t>> locationRanges;
-		for (auto p : typeNames)
+		for (const auto& p : typeNames)
 		{
 			size_t pos = 0;
 			while (pos != std::string::npos)
@@ -1701,7 +1701,7 @@ TooltipSnippet PersistentStorage::getTooltipSnippetForNode(const StorageNode& no
 				}
 
 				bool inRange = false;
-				for (auto p : locationRanges)
+				for (const auto& p : locationRanges)
 				{
 					if (pos + 1 >= p.first && pos + 1 <= p.second)
 					{
@@ -1747,7 +1747,7 @@ TooltipInfo PersistentStorage::getTooltipInfoForSourceLocationIdsAndLocalSymbolI
 	{
 		std::vector<Id> tokenIds = getNodeIdsForLocationIds(locationIds);
 
-		for (StorageNode node : m_sqliteIndexStorage.getAllByIds<StorageNode>(tokenIds))
+		for (const StorageNode& node : m_sqliteIndexStorage.getAllByIds<StorageNode>(tokenIds))
 		{
 			TooltipSnippet snippet;
 
@@ -1916,7 +1916,7 @@ std::set<Id> PersistentStorage::getReferenced(
 	const std::set<Id>& ids, std::unordered_map<Id, std::set<Id>> idToReferencingIdMap) const
 {
 	std::unordered_map<Id, std::set<Id>> idToReferencedIdMap;
-	for (auto it: idToReferencingIdMap)
+	for (const auto& it: idToReferencingIdMap)
 	{
 		for (Id referencingId: it.second)
 		{
@@ -2223,7 +2223,7 @@ void PersistentStorage::addAggregationEdgesToGraph(
 
 	// add hierarchies of these parents
 	std::vector<Id> nodeIdsToAdd;
-	for (const std::pair<Id, std::vector<EdgeInfo>> p : connectedParentNodeIds)
+	for (const std::pair<Id, std::vector<EdgeInfo>>& p : connectedParentNodeIds)
 	{
 		const Id aggregationTargetNodeId = p.first;
 		if (!graph->getNodeById(aggregationTargetNodeId))
@@ -2235,7 +2235,7 @@ void PersistentStorage::addAggregationEdgesToGraph(
 
 	// create aggregation edges between parents and active node
 	Node* sourceNode = graph->getNodeById(nodeId);
-	for (const std::pair<Id, std::vector<EdgeInfo>> p : connectedParentNodeIds)
+	for (const std::pair<Id, std::vector<EdgeInfo>>& p : connectedParentNodeIds)
 	{
 		const Id aggregationTargetNodeId = p.first;
 
@@ -2364,14 +2364,14 @@ void PersistentStorage::buildFilePathMaps()
 {
 	TRACE();
 
-	for (StorageFile file: m_sqliteIndexStorage.getAll<StorageFile>())
+	for (StorageFile& file: m_sqliteIndexStorage.getAll<StorageFile>())
 	{
 		m_fileNodeIds.emplace(FilePath(file.filePath), file.id);
 		m_fileNodePaths.emplace(file.id, FilePath(file.filePath));
 		m_fileNodeComplete.emplace(file.id, file.complete);
 	}
 
-	for (StorageSymbol symbol : m_sqliteIndexStorage.getAll<StorageSymbol>())
+	for (StorageSymbol& symbol : m_sqliteIndexStorage.getAll<StorageSymbol>())
 	{
 		m_symbolDefinitionKinds.emplace(symbol.id, intToDefinitionKind(symbol.definitionKind));
 	}
@@ -2383,7 +2383,7 @@ void PersistentStorage::buildSearchIndex()
 
 	FilePath dbPath = getDbFilePath();
 
-	for (StorageNode node : m_sqliteIndexStorage.getAll<StorageNode>())
+	for (StorageNode& node : m_sqliteIndexStorage.getAll<StorageNode>())
 	{
 		if (Node::intToType(node.type) == Node::NODE_FILE)
 		{
@@ -2419,7 +2419,7 @@ void PersistentStorage::buildFullTextSearchIndex() const
 {
 	TRACE();
 
-	for (StorageFile file : m_sqliteIndexStorage.getAll<StorageFile>())
+	for (StorageFile& file : m_sqliteIndexStorage.getAll<StorageFile>())
 	{
 		m_fullTextSearchIndex.addFile(file.id, m_sqliteIndexStorage.getFileContentById(file.id)->getText());
 	}

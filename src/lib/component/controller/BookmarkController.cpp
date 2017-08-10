@@ -76,7 +76,7 @@ std::shared_ptr<Bookmark> BookmarkController::getBookmarkForActiveToken() const
 {
 	if (!m_activeEdgeIds.empty())
 	{
-		for (std::shared_ptr<EdgeBookmark> edgeBookmark: getAllEdgeBookmarks())
+		for (const std::shared_ptr<EdgeBookmark>& edgeBookmark: getAllEdgeBookmarks())
 		{
 			if (!m_activeNodeIds.empty() && edgeBookmark->getActiveNodeId() == m_activeNodeIds.front() &&
 				utility::isPermutation(edgeBookmark->getEdgeIds(), m_activeEdgeIds))
@@ -87,7 +87,7 @@ std::shared_ptr<Bookmark> BookmarkController::getBookmarkForActiveToken() const
 	}
 	else
 	{
-		for (std::shared_ptr<NodeBookmark> nodeBookmark: getAllNodeBookmarks())
+		for (const std::shared_ptr<NodeBookmark>& nodeBookmark: getAllNodeBookmarks())
 		{
 			if (utility::isPermutation(nodeBookmark->getNodeIds(), m_activeNodeIds))
 			{
@@ -101,7 +101,7 @@ std::shared_ptr<Bookmark> BookmarkController::getBookmarkForActiveToken() const
 
 std::shared_ptr<Bookmark> BookmarkController::getBookmarkForNodeId(Id nodeId) const
 {
-	for (std::shared_ptr<NodeBookmark> nodeBookmark: getAllNodeBookmarks())
+	for (const std::shared_ptr<NodeBookmark>& nodeBookmark: getAllNodeBookmarks())
 	{
 		if (nodeBookmark->getNodeIds().size() == 1 && nodeBookmark->getNodeIds()[0] == nodeId)
 		{
@@ -376,11 +376,11 @@ std::vector<std::shared_ptr<Bookmark>> BookmarkController::getAllBookmarks() con
 
 	std::vector<std::shared_ptr<Bookmark>> bookmarks;
 
-	for (std::shared_ptr<NodeBookmark> nodeBookmark: getAllNodeBookmarks())
+	for (const std::shared_ptr<NodeBookmark>& nodeBookmark: getAllNodeBookmarks())
 	{
 		bookmarks.push_back(nodeBookmark);
 	}
-	for (std::shared_ptr<EdgeBookmark> edgeBookmark: getAllEdgeBookmarks())
+	for (const std::shared_ptr<EdgeBookmark>& edgeBookmark: getAllEdgeBookmarks())
 	{
 		bookmarks.push_back(edgeBookmark);
 	}
@@ -455,7 +455,7 @@ std::vector<std::shared_ptr<Bookmark>> BookmarkController::getFilteredBookmarks(
 	}
 	else if (filter == MessageDisplayBookmarks::BookmarkFilter::NODES)
 	{
-		for (std::shared_ptr<Bookmark> bookmark: bookmarks)
+		for (const std::shared_ptr<Bookmark>& bookmark: bookmarks)
 		{
 			if (std::dynamic_pointer_cast<NodeBookmark>(bookmark))
 			{
@@ -465,7 +465,7 @@ std::vector<std::shared_ptr<Bookmark>> BookmarkController::getFilteredBookmarks(
 	}
 	else if (filter == MessageDisplayBookmarks::BookmarkFilter::EDGES)
 	{
-		for (std::shared_ptr<Bookmark> bookmark: bookmarks)
+		for (const std::shared_ptr<Bookmark>& bookmark: bookmarks)
 		{
 			if (std::dynamic_pointer_cast<EdgeBookmark>(bookmark))
 			{

@@ -106,7 +106,7 @@ void GraphController::handleMessage(MessageActivateTokens* message)
 		else if (message->isAggregation)
 		{
 			bool isInheritanceChain = true;
-			for (auto edge : m_dummyEdges)
+			for (const auto& edge : m_dummyEdges)
 			{
 				if (!edge->data->isType(Edge::EDGE_INHERITANCE))
 				{
@@ -117,7 +117,7 @@ void GraphController::handleMessage(MessageActivateTokens* message)
 
 			if (isInheritanceChain)
 			{
-				for (auto node : m_dummyNodes)
+				for (auto& node : m_dummyNodes)
 				{
 					node->bundleInfo.layoutVertical = true;
 				}
@@ -472,7 +472,7 @@ void GraphController::createDummyGraphForTokenIds(const std::vector<Id>& tokenId
 		}
 	);
 
-	for (std::shared_ptr<DummyNode> node : dummyNodes)
+	for (const std::shared_ptr<DummyNode>& node : dummyNodes)
 	{
 		node->hasParent = false;
 
@@ -558,7 +558,7 @@ std::vector<std::shared_ptr<DummyNode>> GraphController::createDummyNodeTopDown(
 				accessKind = access->getAccess();
 			}
 
-			for (std::shared_ptr<DummyNode> dummy : result->subNodes)
+			for (const std::shared_ptr<DummyNode>& dummy : result->subNodes)
 			{
 				if (dummy->accessKind == accessKind)
 				{
@@ -586,7 +586,7 @@ std::vector<std::shared_ptr<DummyNode>> GraphController::createDummyNodeTopDown(
 std::vector<Id> GraphController::getExpandedNodeIds() const
 {
 	std::vector<Id> nodeIds;
-	for (std::pair<Id, std::shared_ptr<DummyNode>> p : m_dummyGraphNodes)
+	for (const std::pair<Id, std::shared_ptr<DummyNode>>& p : m_dummyGraphNodes)
 	{
 		DummyNode* oldNode = p.second.get();
 		if (oldNode->expanded && !oldNode->autoExpanded && oldNode->isGraphNode() &&
@@ -634,13 +634,13 @@ bool GraphController::setActive(const std::vector<Id>& activeTokenIds, bool show
 	if (activeTokenIds.size() > 0)
 	{
 		noActive = true;
-		for (std::shared_ptr<DummyNode> node : m_dummyNodes)
+		for (const std::shared_ptr<DummyNode>& node : m_dummyNodes)
 		{
 			setNodeActiveRecursive(node.get(), activeTokenIds, &noActive);
 		}
 	}
 
-	for (std::shared_ptr<DummyEdge> edge : m_dummyEdges)
+	for (const std::shared_ptr<DummyEdge>& edge : m_dummyEdges)
 	{
 		if (!edge->data)
 		{
@@ -673,7 +673,7 @@ void GraphController::setVisibility(bool noActive)
 {
 	TRACE();
 
-	for (std::shared_ptr<DummyNode> node : m_dummyNodes)
+	for (const std::shared_ptr<DummyNode>& node : m_dummyNodes)
 	{
 		setNodeVisibilityRecursiveBottomUp(node.get(), noActive);
 	}
@@ -700,7 +700,7 @@ void GraphController::setNodeActiveRecursive(DummyNode* node, const std::vector<
 		}
 	}
 
-	for (std::shared_ptr<DummyNode> subNode : node->subNodes)
+	for (const std::shared_ptr<DummyNode>& subNode : node->subNodes)
 	{
 		setNodeActiveRecursive(subNode.get(), activeTokenIds, noActive);
 	}
@@ -727,7 +727,7 @@ bool GraphController::setNodeVisibilityRecursiveBottomUp(DummyNode* node, bool n
 		return false;
 	}
 
-	for (std::shared_ptr<DummyNode> subNode : node->subNodes)
+	for (const std::shared_ptr<DummyNode>& subNode : node->subNodes)
 	{
 		if (setNodeVisibilityRecursiveBottomUp(subNode.get(), noActive))
 		{
@@ -759,7 +759,7 @@ void GraphController::setNodeVisibilityRecursiveTopDown(DummyNode* node, bool pa
 	if ((node->isGraphNode() && node->isExpanded()) ||
 		(node->isAccessNode() && (node->accessKind == ACCESS_NONE || parentExpanded)))
 	{
-		for (std::shared_ptr<DummyNode> subNode : node->subNodes)
+		for (const std::shared_ptr<DummyNode>& subNode : node->subNodes)
 		{
 			if (!subNode->isQualifierNode())
 			{
@@ -775,7 +775,7 @@ void GraphController::bundleNodes()
 	TRACE();
 
 	// evaluate top level nodes
-	for (std::shared_ptr<DummyNode> node : m_dummyNodes)
+	for (const std::shared_ptr<DummyNode>& node : m_dummyNodes)
 	{
 		if (!node->isGraphNode() || !node->visible)
 		{
@@ -876,7 +876,7 @@ void GraphController::bundleNodes()
 
 	// bundle
 	bool fileOrMacroActive = false;
-	for (std::shared_ptr<DummyNode> node : m_dummyNodes)
+	for (const std::shared_ptr<DummyNode>& node : m_dummyNodes)
 	{
 		if (node->bundleInfo.isActive && (
 			node->data->isType(Node::NODE_FILE | Node::NODE_MACRO) ||
@@ -1045,7 +1045,7 @@ void GraphController::bundleNodesAndEdgesMatching(
 	std::vector<const DummyNode*> bundledNodes = bundleNode->getAllBundledNodes();
 	for (const DummyNode* node : bundledNodes)
 	{
-		for (std::shared_ptr<DummyEdge> edge : m_dummyEdges)
+		for (const std::shared_ptr<DummyEdge>& edge : m_dummyEdges)
 		{
 			bool owner = (edge->ownerId == node->data->getId());
 			bool target = (edge->targetId == node->data->getId());
@@ -1056,7 +1056,7 @@ void GraphController::bundleNodesAndEdgesMatching(
 			}
 
 			DummyEdge* bundleEdgePtr = nullptr;
-			for (std::shared_ptr<DummyEdge> bundleEdge : bundleEdges)
+			for (const std::shared_ptr<DummyEdge>& bundleEdge : bundleEdges)
 			{
 				if ((owner && bundleEdge->ownerId == edge->targetId) ||
 					(target && bundleEdge->ownerId == edge->ownerId))
@@ -1185,7 +1185,7 @@ void GraphController::bundleNodesByType()
 		LOG_ERROR("Nodes left after bundling for overview");
 	}
 
-	for (std::shared_ptr<DummyNode> bundleNode : m_dummyNodes)
+	for (const std::shared_ptr<DummyNode>& bundleNode : m_dummyNodes)
 	{
 		if (!bundleNode->isBundleNode())
 		{
@@ -1195,7 +1195,7 @@ void GraphController::bundleNodesByType()
 		if (bundleNode->name == "Namespaces")
 		{
 			std::list<std::shared_ptr<DummyNode>> nodes;
-			for (std::shared_ptr<DummyNode> node : bundleNode->bundledNodes)
+			for (const std::shared_ptr<DummyNode>& node : bundleNode->bundledNodes)
 			{
 				nodes.push_back(node);
 			}
@@ -1210,7 +1210,7 @@ void GraphController::bundleNodesByType()
 				"Anonymous Namespaces"
 			);
 
-			for (std::shared_ptr<DummyNode> node : nodes)
+			for (const std::shared_ptr<DummyNode>& node : nodes)
 			{
 				bundleNode->bundledNodes.insert(node);
 			}
@@ -1229,7 +1229,7 @@ void GraphController::addCharacterIndex()
 {
 	// Remove index characters from last time
 	DummyNode::BundledNodesSet newNodes;
-	for (const std::shared_ptr<DummyNode> node : m_dummyNodes)
+	for (const std::shared_ptr<DummyNode>& node : m_dummyNodes)
 	{
 		if (!node->isTextNode())
 		{
@@ -1266,12 +1266,12 @@ void GraphController::layoutNesting()
 {
 	TRACE();
 
-	for (std::shared_ptr<DummyNode> node : m_dummyNodes)
+	for (const std::shared_ptr<DummyNode>& node : m_dummyNodes)
 	{
 		layoutNestingRecursive(node.get());
 	}
 
-	for (std::shared_ptr<DummyNode> node : m_dummyNodes)
+	for (const std::shared_ptr<DummyNode>& node : m_dummyNodes)
 	{
 		layoutToGrid(node.get());
 	}
@@ -1351,7 +1351,7 @@ void GraphController::layoutNestingRecursive(DummyNode* node) const
 	// Horizontal layouting is currently not used, but left in place for experimentation.
 	bool layoutHorizontal = false;
 
-	for (std::shared_ptr<DummyNode> subNode : node->subNodes)
+	for (const std::shared_ptr<DummyNode>& subNode : node->subNodes)
 	{
 		if (!subNode->visible)
 		{
@@ -1366,7 +1366,7 @@ void GraphController::layoutNestingRecursive(DummyNode* node) const
 		}
 	}
 
-	for (std::shared_ptr<DummyNode> subNode : node->subNodes)
+	for (const std::shared_ptr<DummyNode>& subNode : node->subNodes)
 	{
 		if (!subNode->visible || subNode->isExpandToggleNode())
 		{
@@ -1417,7 +1417,7 @@ void GraphController::layoutNestingRecursive(DummyNode* node) const
 	node->size.x = margins.left + width + margins.right;
 	node->size.y = margins.top + margins.charHeight + margins.spacingA + y + height + margins.bottom;
 
-	for (std::shared_ptr<DummyNode> subNode : node->subNodes)
+	for (const std::shared_ptr<DummyNode>& subNode : node->subNodes)
 	{
 		if (!subNode->visible)
 		{
@@ -1459,7 +1459,7 @@ void GraphController::addExpandToggleNode(DummyNode* node) const
 			continue;
 		}
 
-		for (std::shared_ptr<DummyNode> subSubNode : subNode->subNodes)
+		for (const std::shared_ptr<DummyNode>& subSubNode : subNode->subNodes)
 		{
 			if (subSubNode->visible && (!subSubNode->isGraphNode() || !subSubNode->data->isImplicit()))
 			{
@@ -1493,7 +1493,7 @@ void GraphController::layoutToGrid(DummyNode* node) const
 	DummyNode* lastAccessNode = nullptr;
 	DummyNode* expandToggleNode = nullptr;
 
-	for (std::shared_ptr<DummyNode> subNode : node->subNodes)
+	for (const std::shared_ptr<DummyNode>& subNode : node->subNodes)
 	{
 		if (!subNode->visible)
 		{
@@ -1565,7 +1565,7 @@ DummyNode* GraphController::getDummyGraphNodeById(Id tokenId) const
 		return it->second.get();
 	}
 
-	for (std::shared_ptr<DummyNode> node : m_dummyNodes)
+	for (const std::shared_ptr<DummyNode>& node : m_dummyNodes)
 	{
 		if (node->tokenId == tokenId)
 		{
@@ -1594,7 +1594,7 @@ void GraphController::buildGraph(
 
 void GraphController::forEachDummyNodeRecursive(std::function<void(DummyNode*)> func)
 {
-	for (std::shared_ptr<DummyNode> node : m_dummyNodes)
+	for (const std::shared_ptr<DummyNode>& node : m_dummyNodes)
 	{
 		node->forEachDummyNodeRecursive(func);
 	}
@@ -1602,7 +1602,7 @@ void GraphController::forEachDummyNodeRecursive(std::function<void(DummyNode*)> 
 
 void GraphController::forEachDummyEdge(std::function<void(DummyEdge*)> func)
 {
-	for (std::shared_ptr<DummyEdge> edge : m_dummyEdges)
+	for (const std::shared_ptr<DummyEdge>& edge : m_dummyEdges)
 	{
 		func(edge.get());
 	}

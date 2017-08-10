@@ -26,8 +26,5 @@ clang::FrontendAction* ASTActionFactory::create()
 	{
 		return new ASTAction<clang::PreprocessOnlyAction>(m_client, m_fileRegister, m_canonicalFilePathCache);
 	}
-	else
-	{
-		return new ASTAction<clang::ASTFrontendAction>(m_client, m_fileRegister, m_canonicalFilePathCache);
-	}
+	return new ASTAction<clang::ASTFrontendAction>(m_client, m_fileRegister, m_canonicalFilePathCache);
 }

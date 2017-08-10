@@ -58,10 +58,7 @@ NameHierarchy CxxAstVisitorComponentContext::getContextName(const NameHierarchy&
 			{
 				return (*it)->getName();
 			}
-			else
-			{
-				skipped++;
-			}
+			skipped++;
 		}
 	}
 	return fallback;

@@ -15,7 +15,7 @@ namespace utility
 
 		if (!standardHeaders.empty())
 		{
-			for (std::string s : utility::splitToVector(standardHeaders, '\n'))
+			for (const std::string& s : utility::splitToVector(standardHeaders, '\n'))
 			{
 				paths.push_back(utility::trim(s));
 			}

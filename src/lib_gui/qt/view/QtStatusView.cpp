@@ -139,7 +139,7 @@ void QtStatusView::doRefreshView()
 
 void QtStatusView::doAddStatus(const std::vector<Status>& status)
 {
-	for (Status s : status)
+	for (const Status& s : status)
 	{
 		const int rowNumber = m_table->getFilledRowCount();
 		if (rowNumber < m_model->rowCount())

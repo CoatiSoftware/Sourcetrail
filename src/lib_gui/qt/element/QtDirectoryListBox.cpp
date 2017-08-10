@@ -228,7 +228,6 @@ bool QtDirectoryListBox::event(QEvent* event)
 
 void QtDirectoryListBox::dropEvent(QDropEvent *event)
 {
-	QFileInfo fileInfo;
 	foreach(QUrl url, event->mimeData()->urls())
 	{
 		QtListItemWidget* widget = addListBoxItem();

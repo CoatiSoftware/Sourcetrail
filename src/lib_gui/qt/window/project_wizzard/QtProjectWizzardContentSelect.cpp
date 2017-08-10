@@ -61,7 +61,7 @@ void QtProjectWizzardContentSelect::populate(QGridLayout* layout, int& row)
 	vlayout->setSpacing(10);
 
 	m_languages = new QButtonGroup();
-	for (auto it: sourceGroupInfos)
+	for (auto& it: sourceGroupInfos)
 	{
 		QPushButton* b = new QPushButton(languageTypeToString(it.first).c_str(), this);
 		b->setObjectName("menuButton");
@@ -85,10 +85,10 @@ void QtProjectWizzardContentSelect::populate(QGridLayout* layout, int& row)
 				selectedLanguage = LanguageType(languageTypeInt);
 			}
 
-			for (auto it: m_buttons)
+			for (auto& it: m_buttons)
 			{
 				it.second->setExclusive(false);
-				for (QAbstractButton* button: it.second->buttons())
+				for (QAbstractButton* button : it.second->buttons())
 				{
 					button->setChecked(false);
 					button->setVisible(it.first == selectedLanguage);
@@ -104,11 +104,11 @@ void QtProjectWizzardContentSelect::populate(QGridLayout* layout, int& row)
 
 	QHBoxLayout* hlayout = new QHBoxLayout();
 
-	for (auto languageIt: sourceGroupInfos)
+	for (auto& languageIt: sourceGroupInfos)
 	{
 		QButtonGroup* sourceGroupButtons = new QButtonGroup(this);
 
-		for (auto sourceGroupIt: languageIt.second)
+		for (auto& sourceGroupIt: languageIt.second)
 		{
 			QToolButton* b = createSourceGroupButton(
 				utility::insertLineBreaksAtBlankSpaces(sourceGroupTypeToProjectSetupString(sourceGroupIt.type), 15).c_str(),
@@ -122,7 +122,7 @@ void QtProjectWizzardContentSelect::populate(QGridLayout* layout, int& row)
 		m_buttons[languageIt.first] = sourceGroupButtons;
 	}
 
-	for (auto it: m_buttons)
+	for (auto& it: m_buttons)
 	{
 		connect(it.second, static_cast<void(QButtonGroup::*)(QAbstractButton*)>(&QButtonGroup::buttonClicked),
 			[this](QAbstractButton* button)
@@ -166,14 +166,14 @@ void QtProjectWizzardContentSelect::populate(QGridLayout* layout, int& row)
 	layout->setColumnStretch(QtProjectWizzardWindow::BACK_COL, 1);
 	layout->setHorizontalSpacing(0);
 
-	m_languages->buttons().first()->click();
+	m_languages->buttons().constFirst()->click();
 }
 
 void QtProjectWizzardContentSelect::save()
 {
 	SourceGroupType selectedType;
 
-	for (auto it: m_buttons)
+	for (auto& it: m_buttons)
 	{
 		if (QAbstractButton* b = it.second->checkedButton())
 		{
@@ -193,7 +193,7 @@ bool QtProjectWizzardContentSelect::check()
 {
 	bool sourceGroupChosen = false;
 
-	for (auto it: m_buttons)
+	for (auto& it: m_buttons)
 	{
 		if (it.second->checkedId() != -1)
 		{

@@ -9,7 +9,7 @@
 #include "utility/utilityUuid.h"
 
 const size_t ProjectSettings::VERSION = 4;
-const std::string PROJECT_FILE_EXTENSION = ".srctrlprj";
+const char PROJECT_FILE_EXTENSION[] = ".srctrlprj";
 
 LanguageType ProjectSettings::getLanguageOfProject(const FilePath& filePath)
 {
@@ -17,7 +17,7 @@ LanguageType ProjectSettings::getLanguageOfProject(const FilePath& filePath)
 
 	ProjectSettings projectSettings;
 	projectSettings.load(filePath);
-	for (std::shared_ptr<SourceGroupSettings> sourceGroupSettings: projectSettings.getAllSourceGroupSettings())
+	for (const std::shared_ptr<SourceGroupSettings>& sourceGroupSettings: projectSettings.getAllSourceGroupSettings())
 	{
 		const LanguageType currentLanguageType = getLanguageTypeForSourceGroupType(sourceGroupSettings->getType());
 		if (languageType == LANGUAGE_UNKNOWN)
@@ -63,10 +63,10 @@ bool ProjectSettings::equalsExceptNameAndLocation(const ProjectSettings& other) 
 		return false;
 	}
 
-	for (std::shared_ptr<SourceGroupSettings> mySourceGroup: allMySettings)
+	for (const std::shared_ptr<SourceGroupSettings>& mySourceGroup : allMySettings)
 	{
 		bool matched = false;
-		for (std::shared_ptr<SourceGroupSettings> otherSourceGroup: allOtherSettings)
+		for (const std::shared_ptr<SourceGroupSettings>& otherSourceGroup : allOtherSettings)
 		{
 			if (mySourceGroup->equals(otherSourceGroup))
 			{
@@ -211,7 +211,7 @@ void ProjectSettings::setAllSourceGroupSettings(const std::vector<std::shared_pt
 		m_config->removeValues(key);
 	}
 
-	for (std::shared_ptr<SourceGroupSettings> settings: allSettings)
+	for (const std::shared_ptr<SourceGroupSettings>& settings: allSettings)
 	{
 		const std::string key = "source_groups/source_group_" + settings->getId();
 		const SourceGroupType type = settings->getType();

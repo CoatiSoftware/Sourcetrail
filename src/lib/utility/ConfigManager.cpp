@@ -113,7 +113,7 @@ bool ConfigManager::getValues(const std::string& key, std::vector<int>& values) 
 	std::vector<std::string> valuesStringVector;
 	if (getValues(key, valuesStringVector))
 	{
-		for (std::string valueString : valuesStringVector)
+		for (const std::string& valueString : valuesStringVector)
 		{
 			values.push_back(atoi(valueString.c_str()));
 		}
@@ -127,7 +127,7 @@ bool ConfigManager::getValues(const std::string& key, std::vector<float>& values
 	std::vector<std::string> valuesStringVector;
 	if (getValues(key, valuesStringVector))
 	{
-		for (std::string valueString : valuesStringVector)
+		for (const std::string& valueString : valuesStringVector)
 		{
 			values.push_back(static_cast<float>(atof(valueString.c_str())));
 		}
@@ -141,7 +141,7 @@ bool ConfigManager::getValues(const std::string& key, std::vector<bool>& values)
 	std::vector<std::string> valuesStringVector;
 	if (getValues(key, valuesStringVector))
 	{
-		for (std::string valueString : valuesStringVector)
+		for (const std::string& valueString : valuesStringVector)
 		{
 			values.push_back(atoi(valueString.c_str()) != 0);
 		}

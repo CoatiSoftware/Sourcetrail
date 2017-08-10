@@ -8,6 +8,7 @@
 class QtGraphNodeAccess
 	: public QtGraphNode
 {
+	Q_OBJECT
 public:
 	QtGraphNodeAccess(AccessKind accessKind);
 	virtual ~QtGraphNodeAccess();

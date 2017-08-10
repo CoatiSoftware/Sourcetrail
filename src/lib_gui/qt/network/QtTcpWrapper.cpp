@@ -16,8 +16,6 @@ QtTcpWrapper::QtTcpWrapper(QObject* parent, const std::string& ip, const quint16
 
 void QtTcpWrapper::startListening()
 {
-	QHostAddress address(m_ip.c_str());
-
 	if (!m_tcpServer->listen(QHostAddress::LocalHost, m_serverPort))
 	{
 		LOG_ERROR_STREAM(<< "TCP server failed to start with error: \"" + m_tcpServer->errorString().toStdString() + "\". Unable to listen for IDE plugin messages.");

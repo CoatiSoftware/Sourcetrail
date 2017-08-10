@@ -131,3 +131,4 @@ void QtTable::resizeEvent(QResizeEvent* event)
 
 	updateRows();
 }
+

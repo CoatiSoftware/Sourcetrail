@@ -29,7 +29,7 @@ size_t IndexerCommandJava::getByteSize() const
 {
 	size_t size = IndexerCommand::getByteSize();
 
-	for (auto i : m_classPath)
+	for (auto& i : m_classPath)
 	{
 		size += sizeof(std::string) + i.str().size();
 	}

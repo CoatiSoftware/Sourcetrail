@@ -12,9 +12,10 @@ class QStandardItemModel;
 class QtTable;
 
 class QtStatusView
-	: public StatusView
-	, public QWidget
+	: public QWidget
+	, public StatusView
 {
+	Q_OBJECT
 public:
 	QtStatusView(ViewLayout* viewLayout);
 	virtual ~QtStatusView();

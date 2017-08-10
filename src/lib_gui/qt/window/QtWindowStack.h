@@ -8,6 +8,7 @@
 class QtWindowStackElement
 	: public QWidget
 {
+	Q_OBJECT
 public:
 	QtWindowStackElement(QWidget* parent = nullptr);
 

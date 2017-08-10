@@ -19,7 +19,7 @@ void CombinedPathDetector::addDetector(std::shared_ptr<PathDetector> detector)
 std::vector<std::string> CombinedPathDetector::getWorkingDetectorNames()
 {
 	std::vector<std::string> names;
-	for (std::shared_ptr<PathDetector> detector: m_detectors)
+	for (const std::shared_ptr<PathDetector>& detector: m_detectors)
 	{
 		if (detector->isWorking())
 		{
@@ -31,7 +31,7 @@ std::vector<std::string> CombinedPathDetector::getWorkingDetectorNames()
 
 std::vector<FilePath> CombinedPathDetector::getPaths() const
 {
-	for (std::shared_ptr<PathDetector> detector: m_detectors)
+	for (const std::shared_ptr<PathDetector>& detector: m_detectors)
 	{
 		std::vector<FilePath> detectedPaths = detector->getPaths();
 		if (!detectedPaths.empty())
@@ -44,7 +44,7 @@ std::vector<FilePath> CombinedPathDetector::getPaths() const
 
 std::vector<FilePath> CombinedPathDetector::getPaths(std::string detectorName) const
 {
-	for (std::shared_ptr<PathDetector> detector: m_detectors)
+	for (const std::shared_ptr<PathDetector>& detector: m_detectors)
 	{
 		if (detector->getName() == detectorName)
 		{

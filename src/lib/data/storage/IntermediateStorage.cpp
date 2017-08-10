@@ -85,7 +85,7 @@ void IntermediateStorage::setAllFilesIncomplete()
 void IntermediateStorage::setFilesWithErrorsIncomplete()
 {
 	std::set<std::string> errorFileNames;
-	for (StorageError& error : m_errors)
+	for (const StorageError& error : m_errors)
 	{
 		errorFileNames.insert(error.filePath.str());
 	}
@@ -373,7 +373,7 @@ std::vector<StorageLocalSymbol> IntermediateStorage::getStorageLocalSymbols() co
 {
 	std::vector<StorageLocalSymbol> localSymbol;
 	localSymbol.reserve(m_localSymbols.size());
-	for (auto it: m_localSymbols)
+	for (const auto& it: m_localSymbols)
 	{
 		localSymbol.push_back(it.second);
 	}
@@ -384,7 +384,7 @@ std::vector<StorageSourceLocation> IntermediateStorage::getStorageSourceLocation
 {
 	std::vector<StorageSourceLocation> sourceLocations;
 	sourceLocations.reserve(m_sourceLocations.size());
-	for (auto it: m_sourceLocations)
+	for (const auto& it: m_sourceLocations)
 	{
 		sourceLocations.push_back(it.second);
 	}

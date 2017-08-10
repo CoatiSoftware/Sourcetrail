@@ -249,7 +249,7 @@ void QtLogView::updateTable()
 		m_model->removeRows(0, m_model->rowCount());
 	}
 
-	for ( Log log : m_logs )
+	for ( Log& log : m_logs )
 	{
 		if (log.type & m_logLevel)
 		{
@@ -298,7 +298,7 @@ void QtLogView::doAddLog(Logger::LogLevel type, const LogMessage& message)
 void QtLogView::doAddLogs(const std::vector<Log>& logs)
 {
 	doClear();
-	for(Log log : logs)
+	for(const Log& log : logs)
 	{
 		if( log.type & m_logLevel )
 		{

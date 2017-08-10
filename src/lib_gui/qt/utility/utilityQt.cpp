@@ -59,7 +59,7 @@ namespace utility
 
 		for (int loadedFontId: loadedFontIds)
 		{
-			for (QString family: QFontDatabase::applicationFontFamilies(loadedFontId))
+			for (QString& family: QFontDatabase::applicationFontFamilies(loadedFontId))
 			{
 				LOG_INFO("Loaded FontFamily: " + family.toStdString());
 			}

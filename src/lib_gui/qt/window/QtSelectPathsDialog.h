@@ -9,6 +9,7 @@ class QListWidget;
 class QtSelectPathsDialog
 	: public QtTextEditDialog
 {
+	Q_OBJECT
 public:
 	QtSelectPathsDialog(const QString& title, const QString& description, QWidget* parent = 0);
 

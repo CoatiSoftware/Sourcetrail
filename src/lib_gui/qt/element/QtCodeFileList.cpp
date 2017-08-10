@@ -47,7 +47,7 @@ QtCodeFile* QtCodeFileList::getFile(const FilePath filePath)
 {
 	QtCodeFile* file = nullptr;
 
-	for (std::shared_ptr<QtCodeFile> filePtr : m_files)
+	for (const std::shared_ptr<QtCodeFile>& filePtr : m_files)
 	{
 		if (filePtr->getFilePath() == filePath)
 		{
@@ -177,7 +177,7 @@ bool QtCodeFileList::requestScroll(const FilePath& filePath, uint lineNumber, Id
 
 void QtCodeFileList::updateFiles()
 {
-	for (std::shared_ptr<QtCodeFile> file : m_files)
+	for (const std::shared_ptr<QtCodeFile>& file : m_files)
 	{
 		file->updateContent();
 	}
@@ -185,7 +185,7 @@ void QtCodeFileList::updateFiles()
 
 void QtCodeFileList::showContents()
 {
-	for (std::shared_ptr<QtCodeFile> filePtr : m_files)
+	for (const std::shared_ptr<QtCodeFile>& filePtr : m_files)
 	{
 		filePtr->show();
 	}
@@ -193,7 +193,7 @@ void QtCodeFileList::showContents()
 
 void QtCodeFileList::onWindowFocus()
 {
-	for (std::shared_ptr<QtCodeFile> filePtr : m_files)
+	for (const std::shared_ptr<QtCodeFile>& filePtr : m_files)
 	{
 		filePtr->updateTitleBar();
 	}
@@ -218,7 +218,7 @@ std::pair<QtCodeSnippet*, Id> QtCodeFileList::getFirstSnippetWithActiveLocationI
 {
 	std::pair<QtCodeSnippet*, Id> result(nullptr, 0);
 
-	for (std::shared_ptr<QtCodeFile> filePtr : m_files)
+	for (const std::shared_ptr<QtCodeFile>& filePtr : m_files)
 	{
 		if (filePtr->isCollapsed())
 		{

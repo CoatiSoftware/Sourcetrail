@@ -5,12 +5,11 @@
 #include "utility/utilityString.h"
 
 #ifdef __x86_64__
-	const std::string arch = "amd64";
+	const char jvmLibPathRelativeToJavaExecutable[] = "/../lib/amd64/server/libjvm.so";
 #else
-	const std::string arch = "i386";
+	const char jvmLibPathRelativeToJavaExecutable[] = "/../lib/i386/server/libjvm.so";
 #endif
 
-const std::string jvmLibPathRelativeToJavaExecutable = "/../lib/" + arch + "/server/libjvm.so";
 
 JavaPathDetectorLinux::JavaPathDetectorLinux(const std::string javaVersion)
 	: JavaPathDetector("Java " + javaVersion + " for Linux", javaVersion)
@@ -109,7 +108,7 @@ std::vector<FilePath> JavaPathDetectorLinux::getPaths() const
 	paths.push_back(FilePath("/usr/lib/jvm/default/bin/java"));
 	paths.push_back(FilePath("/usr/lib/jvm/java-openjdk/bin/java"));
 
-	for ( FilePath path : paths )
+	for (const FilePath& path : paths )
 	{
 		if (checkVersion(path))
 		{

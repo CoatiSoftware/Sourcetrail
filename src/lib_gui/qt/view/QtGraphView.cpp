@@ -206,13 +206,13 @@ void QtGraphView::activateEdge(Id edgeId, bool centerOrigin)
 	m_onQtThread(
 		[=]()
 		{
-			for (std::shared_ptr<QtGraphEdge> edge : m_oldEdges)
+			for (std::shared_ptr<QtGraphEdge>& edge : m_oldEdges)
 			{
 				edge->setIsActive(false);
 				edge->setIsFocused(false);
 			}
 
-			for (std::shared_ptr<QtGraphEdge> edge : m_oldEdges)
+			for (std::shared_ptr<QtGraphEdge>& edge : m_oldEdges)
 			{
 				if (edge->getData() && edge->getData()->getId() == edgeId)
 				{
@@ -264,7 +264,7 @@ void QtGraphView::finishedTransition()
 void QtGraphView::clickedInEmptySpace()
 {
 	std::vector<std::shared_ptr<QtGraphEdge>> activeEdges;
-	for (std::shared_ptr<QtGraphEdge> edge : m_oldEdges)
+	for (std::shared_ptr<QtGraphEdge>& edge : m_oldEdges)
 	{
 		if (edge->getIsActive())
 		{
@@ -276,7 +276,7 @@ void QtGraphView::clickedInEmptySpace()
 
 	if (m_graph && m_graph->getTrailMode() != Graph::TRAIL_NONE)
 	{
-		for (std::shared_ptr<QtGraphEdge> edge : activeEdges)
+		for (std::shared_ptr<QtGraphEdge>& edge : activeEdges)
 		{
 			edge->setIsActive(false);
 		}
@@ -639,14 +639,14 @@ void QtGraphView::doRebuildGraph(
 	// create edges
 	Graph::TrailMode trailMode = m_graph ? m_graph->getTrailMode() : Graph::TRAIL_NONE;
 	std::set<Id> visibleEdgeIds;
-	for (const std::shared_ptr<DummyEdge> edge : edges)
+	for (const std::shared_ptr<DummyEdge>& edge : edges)
 	{
 		if (!edge->data || !edge->data->isType(Edge::EDGE_AGGREGATION))
 		{
 			createEdge(view, edge.get(), &visibleEdgeIds, trailMode, offset, params.bezierEdges);
 		}
 	}
-	for (const std::shared_ptr<DummyEdge> edge : edges)
+	for (const std::shared_ptr<DummyEdge>& edge : edges)
 	{
 		if (edge->data && edge->data->isType(Edge::EDGE_AGGREGATION))
 		{
@@ -1025,7 +1025,7 @@ void QtGraphView::createTransition()
 			vanish->addAnimation(anim);
 		}
 
-		for (std::shared_ptr<QtGraphEdge> edge : m_oldEdges)
+		for (const std::shared_ptr<QtGraphEdge>& edge : m_oldEdges)
 		{
 			QPropertyAnimation* anim = new QPropertyAnimation(edge.get(), "opacity");
 			anim->setDuration(150);
@@ -1105,7 +1105,7 @@ void QtGraphView::createTransition()
 			node->blendOut();
 		}
 
-		for (std::shared_ptr<QtGraphEdge> edge : m_edges)
+		for (const std::shared_ptr<QtGraphEdge>& edge : m_edges)
 		{
 			QPropertyAnimation* anim = new QPropertyAnimation(edge.get(), "opacity");
 			anim->setDuration(150);

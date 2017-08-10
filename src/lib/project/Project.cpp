@@ -53,7 +53,7 @@ Project::~Project()
 bool Project::refresh(bool forceRefresh)
 {
 	if (m_state == PROJECT_STATE_NOT_LOADED)
-	{
+			{
 		return false;
 	}
 
@@ -157,7 +157,7 @@ bool Project::refresh(bool forceRefresh)
 	m_settings->reload();
 
 	m_sourceGroups = SourceGroupFactory::getInstance()->createSourceGroups(m_settings->getAllSourceGroupSettings());
-	for (std::shared_ptr<SourceGroup> sourceGroup: m_sourceGroups)
+	for (const std::shared_ptr<SourceGroup>& sourceGroup: m_sourceGroups)
 	{
 		if (!sourceGroup->prepareRefresh())
 		{
@@ -275,7 +275,7 @@ void Project::load()
 bool Project::requestIndex(bool forceRefresh, bool needsFullRefresh)
 {
 	std::set<FilePath> allSourceFilePaths;
-	for (std::shared_ptr<SourceGroup> sourceGroup: m_sourceGroups)
+	for (const std::shared_ptr<SourceGroup>& sourceGroup: m_sourceGroups)
 	{
 		if (!sourceGroup->prepareIndexing())
 		{
@@ -357,7 +357,7 @@ bool Project::requestIndex(bool forceRefresh, bool needsFullRefresh)
 	}
 
 	std::set<FilePath> filesToIndex;
-	for (std::shared_ptr<SourceGroup> sourceGroup: m_sourceGroups)
+	for (const std::shared_ptr<SourceGroup>& sourceGroup: m_sourceGroups)
 	{
 		sourceGroup->fetchSourceFilePathsToIndex(staticSourceFilePaths);
 		utility::append(filesToIndex, sourceGroup->getSourceFilePathsToIndex());
@@ -432,9 +432,9 @@ void Project::buildIndex(
 
 	std::set<FilePath> filesToIndexTemp = filesToIndex;
 	std::shared_ptr<IndexerCommandList> indexerCommandList = std::make_shared<IndexerCommandList>();
-	for (std::shared_ptr<SourceGroup> sourceGroup: m_sourceGroups)
+	for (const std::shared_ptr<SourceGroup>& sourceGroup : m_sourceGroups)
 	{
-		for (std::shared_ptr<IndexerCommand> command: sourceGroup->getIndexerCommands(&filesToIndexTemp, fullRefresh))
+		for (const std::shared_ptr<IndexerCommand>& command : sourceGroup->getIndexerCommands(&filesToIndexTemp, fullRefresh))
 		{
 			indexerCommandList->addCommand(command);
 		}
@@ -533,7 +533,7 @@ void Project::buildIndex(
 
 bool Project::hasCxxSourceGroup() const
 {
-	for (std::shared_ptr<SourceGroup> sourceGroup: m_sourceGroups)
+	for (const std::shared_ptr<SourceGroup>& sourceGroup: m_sourceGroups)
 	{
 		if (sourceGroup->getLanguage() == LANGUAGE_C || sourceGroup->getLanguage() == LANGUAGE_CPP)
 		{

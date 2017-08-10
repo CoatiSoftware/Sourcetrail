@@ -110,7 +110,7 @@ public:
 
 	bool hasVisibleSubNode() const
 	{
-		for (std::shared_ptr<DummyNode> node : subNodes)
+		for (const std::shared_ptr<DummyNode>& node : subNodes)
 		{
 			if (node->visible)
 			{
@@ -128,7 +128,7 @@ public:
 			return true;
 		}
 
-		for (std::shared_ptr<DummyNode> node : subNodes)
+		for (const std::shared_ptr<DummyNode>& node : subNodes)
 		{
 			if (node->hasActiveSubNode())
 			{
@@ -148,7 +148,7 @@ public:
 			count += 1;
 		}
 
-		for (std::shared_ptr<DummyNode> node : subNodes)
+		for (const std::shared_ptr<DummyNode>& node : subNodes)
 		{
 			count += node->getActiveSubNodeCount();
 		}
@@ -163,7 +163,7 @@ public:
 			return true;
 		}
 
-		for (std::shared_ptr<DummyNode> node : subNodes)
+		for (const std::shared_ptr<DummyNode>& node : subNodes)
 		{
 			if (node->hasConnectedSubNode())
 			{
@@ -183,7 +183,7 @@ public:
 			nodes.push_back(this);
 		}
 
-		for (std::shared_ptr<DummyNode> node : subNodes)
+		for (const std::shared_ptr<DummyNode>& node : subNodes)
 		{
 			utility::append(nodes, node->getConnectedSubNodes());
 		}
@@ -194,7 +194,7 @@ public:
 	std::vector<const DummyNode*> getAllBundledNodes() const
 	{
 		std::vector<const DummyNode*> nodes;
-		for (std::shared_ptr<DummyNode> node : bundledNodes)
+		for (const std::shared_ptr<DummyNode>& node : bundledNodes)
 		{
 			utility::append(nodes, node->getConnectedSubNodes());
 		}
@@ -215,7 +215,7 @@ public:
 	{
 		func(this);
 
-		for (std::shared_ptr<DummyNode> node : subNodes)
+		for (const std::shared_ptr<DummyNode>& node : subNodes)
 		{
 			node->forEachDummyNodeRecursive(func);
 		}
@@ -230,7 +230,7 @@ public:
 
 		this->bundleId = bundleId;
 
-		for (std::shared_ptr<DummyNode> node : bundledNodes)
+		for (const std::shared_ptr<DummyNode>& node : bundledNodes)
 		{
 			bundleId = node->setBundleIdRecursive(bundleId);
 		}
@@ -247,11 +247,11 @@ public:
 		}
 
 		size_t subNodeCount = 0;
-		for (std::shared_ptr<DummyNode> subNode : subNodes)
+		for (const std::shared_ptr<DummyNode>& subNode : subNodes)
 		{
 			if (subNode->isAccessNode())
 			{
-				for (std::shared_ptr<DummyNode> subSubNode : subNode->subNodes)
+				for (const std::shared_ptr<DummyNode>& subSubNode : subNode->subNodes)
 				{
 					if (subSubNode->isGraphNode() && !subSubNode->data->isImplicit())
 					{
@@ -268,11 +268,11 @@ public:
 	{
 		std::map<Id, std::shared_ptr<DummyNode>> subGraphNodes;
 
-		for (std::shared_ptr<DummyNode> subNode : subNodes)
+		for (const std::shared_ptr<DummyNode>& subNode : subNodes)
 		{
 			if (subNode->isAccessNode())
 			{
-				for (std::shared_ptr<DummyNode> subSubNode : subNode->subNodes)
+				for (const std::shared_ptr<DummyNode>& subSubNode : subNode->subNodes)
 				{
 					if (subSubNode->isGraphNode())
 					{
@@ -287,7 +287,7 @@ public:
 
 	void replaceSubGraphNodes(std::map<Id, std::shared_ptr<DummyNode>> subGraphNodes) const
 	{
-		for (std::shared_ptr<DummyNode> subNode : subNodes)
+		for (const std::shared_ptr<DummyNode>& subNode : subNodes)
 		{
 			if (subNode->isAccessNode())
 			{
@@ -313,7 +313,7 @@ public:
 	std::vector<std::shared_ptr<DummyNode>> getAccessNodes() const
 	{
 		std::vector<std::shared_ptr<DummyNode>> accessNodes;
-		for (std::shared_ptr<DummyNode> subNode : subNodes)
+		for (const std::shared_ptr<DummyNode>& subNode : subNodes)
 		{
 			if (subNode->isAccessNode())
 			{

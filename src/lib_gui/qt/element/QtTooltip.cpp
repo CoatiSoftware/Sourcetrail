@@ -37,7 +37,7 @@ void QtTooltip::setTooltipInfo(TooltipInfo info)
 		addTitle(info.title.c_str(), info.count, info.countText.c_str());
 	}
 
-	for (TooltipSnippet snippet : info.snippets)
+	for (TooltipSnippet& snippet : info.snippets)
 	{
 		QtCodeField* field = new QtCodeField(1, snippet.code, snippet.locationFile);
 

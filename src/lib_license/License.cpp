@@ -154,7 +154,7 @@ bool License::isTestLicense() const
 
 bool License::isNonCommercialLicenseType() const
 {
-    for ( const std::string nonCommercialLicenseType : NON_COMMERCIAL_LICENSE_TYPES)
+    for ( const std::string& nonCommercialLicenseType : NON_COMMERCIAL_LICENSE_TYPES)
     {
 		if (m_type == nonCommercialLicenseType)
         {
@@ -440,12 +440,6 @@ bool License::loadPublicKeyFromFile(const std::string& filename)
 
 bool License::loadPublicKey()
 {
-	if (PUBLIC_KEY.empty())
-	{
-		std::cout << "Public key is empty" << std::endl;
-		return false;
-	}
-
 	Botan::DataSource_Memory in(PUBLIC_KEY);
 	Botan::RSA_PublicKey *rsaPublicKey = dynamic_cast<Botan::RSA_PublicKey *>(Botan::X509::load_key(in));
 
@@ -483,10 +477,12 @@ bool License::loadPublicKeyFromString(const std::string& publicKey)
 std::string License::getLicenseString() const
 {
 	std::string license = "";
-	license += LicenseConstants::BEGIN_LICENSE_STRING + "\n";
+	license += LicenseConstants::BEGIN_LICENSE_STRING;
+	license += "\n";
 	license += getMessage(true) + "\n";
 	license += getSignature() + "\n";
-	license += LicenseConstants::END_LICENSE_STRING + "\n";
+	license += LicenseConstants::END_LICENSE_STRING;
+	license += "\n";
 
 	return license;
 }

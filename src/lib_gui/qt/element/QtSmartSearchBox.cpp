@@ -862,7 +862,7 @@ void QtSmartSearchBox::layoutElements()
 
 bool QtSmartSearchBox::hasSelectedElements() const
 {
-	for (const std::shared_ptr<QtSearchElement> element : m_elements)
+	for (const std::shared_ptr<QtSearchElement>& element : m_elements)
 	{
 		if (element->isChecked())
 		{
@@ -887,7 +887,7 @@ std::string QtSmartSearchBox::getSelectedString() const
 
 void QtSmartSearchBox::selectAllElementsWith(bool selected)
 {
-	for (const std::shared_ptr<QtSearchElement> element : m_elements)
+	for (const std::shared_ptr<QtSearchElement>& element : m_elements)
 	{
 		element->setChecked(selected);
 	}

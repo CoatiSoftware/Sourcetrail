@@ -62,7 +62,8 @@ QtCodeFile::QtCodeFile(const FilePath& filePath, QtCodeNavigator* navigator)
 
 	m_minimizeButton = new QtIconStateButton(this);
 	m_minimizeButton->addState(QtIconStateButton::STATE_DEFAULT, (ResourcePaths::getGuiPath().str() + "code_view/images/minimize_active.png").c_str());
-	m_minimizeButton->addState(QtIconStateButton::STATE_HOVERED, (ResourcePaths::getGuiPath().str() + "code_view/images/minimize_inactive.png").c_str(), "#5E5D5D");
+//	m_minimizeButton->addState(QtIconStateButton::STATE_HOVERED, (ResourcePaths::getGuiPath().str() + "code_view/images/minimize_inactive.png").c_str(), "#5E5D5D");
+	m_minimizeButton->addState(QtIconStateButton::STATE_HOVERED, (ResourcePaths::getGuiPath().str() + "code_view/images/minimize_inactive.png").c_str(), QColor(0x5E, 0x5D, 0x5D));
 	m_minimizeButton->addState(QtIconStateButton::STATE_DISABLED, (ResourcePaths::getGuiPath().str() + "code_view/images/minimize_inactive.png").c_str());
 	m_minimizeButton->setObjectName("file_button");
 	m_minimizeButton->setToolTip("minimize");
@@ -70,7 +71,8 @@ QtCodeFile::QtCodeFile(const FilePath& filePath, QtCodeNavigator* navigator)
 
 	m_snippetButton = new QtIconStateButton(this);
 	m_snippetButton->addState(QtIconStateButton::STATE_DEFAULT, (ResourcePaths::getGuiPath().str() + "code_view/images/snippet_active.png").c_str());
-	m_snippetButton->addState(QtIconStateButton::STATE_HOVERED, (ResourcePaths::getGuiPath().str() + "code_view/images/snippet_inactive.png").c_str(), "#5E5D5D");
+//	m_snippetButton->addState(QtIconStateButton::STATE_HOVERED, (ResourcePaths::getGuiPath().str() + "code_view/images/snippet_inactive.png").c_str(), "#5E5D5D");
+	m_snippetButton->addState(QtIconStateButton::STATE_HOVERED, (ResourcePaths::getGuiPath().str() + "code_view/images/snippet_inactive.png").c_str(), QColor(0x5E, 0x5D, 0x5D));
 	m_snippetButton->addState(QtIconStateButton::STATE_DISABLED, (ResourcePaths::getGuiPath().str() + "code_view/images/snippet_inactive.png").c_str());
 	m_snippetButton->setObjectName("file_button");
 	m_snippetButton->setToolTip("show snippets");
@@ -78,7 +80,8 @@ QtCodeFile::QtCodeFile(const FilePath& filePath, QtCodeNavigator* navigator)
 
 	m_maximizeButton = new QtIconStateButton(this);
 	m_maximizeButton->addState(QtIconStateButton::STATE_DEFAULT, (ResourcePaths::getGuiPath().str() + "code_view/images/maximize_active.png").c_str());
-	m_maximizeButton->addState(QtIconStateButton::STATE_HOVERED, (ResourcePaths::getGuiPath().str() + "code_view/images/maximize_inactive.png").c_str(), "#5E5D5D");
+//	m_maximizeButton->addState(QtIconStateButton::STATE_HOVERED, (ResourcePaths::getGuiPath().str() + "code_view/images/maximize_inactive.png").c_str(), "#5E5D5D");
+	m_maximizeButton->addState(QtIconStateButton::STATE_HOVERED, (ResourcePaths::getGuiPath().str() + "code_view/images/maximize_inactive.png").c_str(), QColor(0x5E, 0x5D, 0x5D));
 	m_maximizeButton->addState(QtIconStateButton::STATE_DISABLED, (ResourcePaths::getGuiPath().str() + "code_view/images/maximize_inactive.png").c_str());
 	m_maximizeButton->setObjectName("file_button");
 	m_maximizeButton->setToolTip("maximize");
@@ -131,7 +134,7 @@ std::string QtCodeFile::getFileName() const
 
 QtCodeSnippet* QtCodeFile::addCodeSnippet(const CodeSnippetParams& params)
 {
-	for (std::shared_ptr<QtCodeSnippet> snippet : m_snippets)
+	for (const std::shared_ptr<QtCodeSnippet>& snippet : m_snippets)
 	{
 		if (snippet->getStartLineNumber() == params.startLineNumber &&
 			snippet->getEndLineNumber() == params.endLineNumber)
@@ -226,7 +229,7 @@ QtCodeSnippet* QtCodeFile::insertCodeSnippet(const CodeSnippetParams& params)
 
 QtCodeSnippet* QtCodeFile::getSnippetForLocationId(Id locationId) const
 {
-	for (std::shared_ptr<QtCodeSnippet> snippet : m_snippets)
+	for (const std::shared_ptr<QtCodeSnippet>& snippet : m_snippets)
 	{
 		if (snippet->getLineNumberForLocationId(locationId))
 		{
@@ -244,7 +247,7 @@ QtCodeSnippet* QtCodeFile::getSnippetForLine(unsigned int line) const
 		return m_fileSnippet.get();
 	}
 
-	for (std::shared_ptr<QtCodeSnippet> snippet : m_snippets)
+	for (const std::shared_ptr<QtCodeSnippet>& snippet : m_snippets)
 	{
 		if (snippet->getStartLineNumber() <= line && line <= snippet->getEndLineNumber())
 		{
@@ -264,7 +267,7 @@ std::pair<QtCodeSnippet*, Id> QtCodeFile::getFirstSnippetWithActiveLocationId(Id
 {
 	std::pair<QtCodeSnippet*, Id> result(nullptr, 0);
 
-	for (std::shared_ptr<QtCodeSnippet> snippet : m_snippets)
+	for (const std::shared_ptr<QtCodeSnippet>& snippet : m_snippets)
 	{
 		Id locationId = snippet->getFirstActiveLocationId(tokenId);
 		if (locationId != 0)
@@ -303,7 +306,7 @@ void QtCodeFile::updateContent()
 {
 	updateSnippets();
 
-	for (std::shared_ptr<QtCodeSnippet> snippet : m_snippets)
+	for (const std::shared_ptr<QtCodeSnippet>& snippet : m_snippets)
 	{
 		snippet->updateContent();
 	}
@@ -329,7 +332,7 @@ void QtCodeFile::setIsComplete(bool isComplete)
 
 void QtCodeFile::setMinimized()
 {
-	for (std::shared_ptr<QtCodeSnippet> snippet : m_snippets)
+	for (const std::shared_ptr<QtCodeSnippet>& snippet : m_snippets)
 	{
 		snippet->hide();
 	}
@@ -352,7 +355,7 @@ void QtCodeFile::setMinimized()
 
 void QtCodeFile::setSnippets()
 {
-	for (std::shared_ptr<QtCodeSnippet> snippet : m_snippets)
+	for (const std::shared_ptr<QtCodeSnippet>& snippet : m_snippets)
 	{
 		snippet->show();
 	}
@@ -375,7 +378,7 @@ void QtCodeFile::setSnippets()
 
 void QtCodeFile::setMaximized()
 {
-	for (std::shared_ptr<QtCodeSnippet> snippet : m_snippets)
+	for (const std::shared_ptr<QtCodeSnippet>& snippet : m_snippets)
 	{
 		snippet->hide();
 	}
@@ -409,7 +412,7 @@ void QtCodeFile::updateSnippets()
 	}
 
 	int maxDigits = 1;
-	for (std::shared_ptr<QtCodeSnippet> snippet : m_snippets)
+	for (const std::shared_ptr<QtCodeSnippet>& snippet : m_snippets)
 	{
 		if (snippet != m_snippets.front() && snippet->styleSheet().size())
 		{
@@ -419,7 +422,7 @@ void QtCodeFile::updateSnippets()
 		maxDigits = qMax(maxDigits, snippet->lineNumberDigits());
 	}
 
-	for (std::shared_ptr<QtCodeSnippet> snippet : m_snippets)
+	for (const std::shared_ptr<QtCodeSnippet>& snippet : m_snippets)
 	{
 		snippet->updateLineNumberAreaWidthForDigits(maxDigits);
 	}

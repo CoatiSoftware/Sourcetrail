@@ -33,7 +33,7 @@ std::shared_ptr<IntermediateStorage> IndexerComposite::index(
 
 void IndexerComposite::interrupt()
 {
-	for (auto it: m_indexers)
+	for (auto& it: m_indexers)
 	{
 		it.second->interrupt();
 	}

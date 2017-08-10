@@ -132,17 +132,17 @@ void QtBookmarkBrowser::setBookmarks(const std::vector<std::shared_ptr<Bookmark>
 	m_bookmarkTree->clear();
 
 	std::map<std::string, BookmarkCategory> categoryNamesOrdered;
-	for (std::shared_ptr<Bookmark> bookmark: bookmarks)
+	for (const std::shared_ptr<Bookmark>& bookmark : bookmarks)
 	{
 		categoryNamesOrdered.emplace(bookmark->getCategory().getName(), bookmark->getCategory());
 	}
 
-	for (auto p : categoryNamesOrdered)
+	for (const auto& p : categoryNamesOrdered)
 	{
 		findOrCreateTreeCategory(p.second);
 	}
 
-	for (std::shared_ptr<Bookmark> bookmark: bookmarks)
+	for (const std::shared_ptr<Bookmark>& bookmark : bookmarks)
 	{
 		QtBookmark* qtBookmark = new QtBookmark();
 		qtBookmark->setBookmark(bookmark);

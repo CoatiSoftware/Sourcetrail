@@ -377,7 +377,7 @@ std::vector<FilePath> ApplicationSettings::getRecentProjects() const
 	std::vector<FilePath> recentProjects;
 	std::vector<FilePath> loadedRecentProjects = getPathValues("user/recent_projects/recent_project");
 
-	for (FilePath project: loadedRecentProjects)
+	for (const FilePath& project: loadedRecentProjects)
 	{
 		if (project.isAbsolute())
 		{

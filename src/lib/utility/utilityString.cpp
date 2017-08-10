@@ -88,7 +88,7 @@ namespace utility
 	{
 		std::deque<std::string> c;
 
-		for (std::string str : list)
+		for (const std::string& str : list)
 		{
 			if (str.size())
 			{
@@ -322,7 +322,7 @@ namespace utility
 			}
 
 			paramPart = "";
-			for (std::string str : paramLines)
+			for (const std::string& str : paramLines)
 			{
 				paramPart += "\n\t" + str;
 				size_t length = tabWidth + str.size();

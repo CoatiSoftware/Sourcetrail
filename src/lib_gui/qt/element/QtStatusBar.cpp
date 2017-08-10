@@ -41,7 +41,8 @@ QtStatusBar::QtStatusBar()
 	m_errorButton.setStyleSheet("QPushButton { color: #D00000; margin-right: 0; spacing: none; }");
 	m_errorButton.setIcon(utility::colorizePixmap(
 		QPixmap((ResourcePaths::getGuiPath().str() + "statusbar_view/dot.png").c_str()),
-		"#D00000"
+//		"#D00000"
+		QColor(0xD0, 0, 0)
 	).scaledToHeight(12));
 	addPermanentWidget(&m_errorButton);
 

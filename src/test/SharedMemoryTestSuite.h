@@ -51,7 +51,7 @@ public:
 			));
 		}
 
-		for (auto thread : threads)
+		for (auto& thread : threads)
 		{
 			thread->join();
 		}
@@ -74,7 +74,7 @@ public:
 			SharedMemory::Vector<SharedMemory::String>* strings =
 				access.accessValueWithAllocator<SharedMemory::Vector<SharedMemory::String>>("strings");
 			TS_ASSERT_EQUALS(strings->size(), 4);
-			for (SharedMemory::String str : *strings)
+			for (SharedMemory::String& str : *strings)
 			{
 				TS_ASSERT_EQUALS(str, "ho");
 			}

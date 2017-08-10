@@ -56,6 +56,7 @@ private:
 class QtProjectWizzardContentPathsSource
 	: public QtProjectWizzardContentPaths
 {
+	Q_OBJECT
 public:
 	QtProjectWizzardContentPathsSource(std::shared_ptr<SourceGroupSettings> settings, QtProjectWizzardWindow* window);
 
@@ -89,6 +90,7 @@ private slots:
 class QtProjectWizzardContentPathsExclude
 	: public QtProjectWizzardContentPaths
 {
+	Q_OBJECT
 public:
 	QtProjectWizzardContentPathsExclude(std::shared_ptr<SourceGroupSettings> settings, QtProjectWizzardWindow* window);
 
@@ -101,7 +103,6 @@ class QtProjectWizzardContentPathsHeaderSearch
 	: public QtProjectWizzardContentPaths
 {
 	Q_OBJECT
-
 public:
 	QtProjectWizzardContentPathsHeaderSearch(
 		std::shared_ptr<SourceGroupSettings> settings, QtProjectWizzardWindow* window, bool isCDB = false);
@@ -123,6 +124,7 @@ private:
 class QtProjectWizzardContentPathsHeaderSearchGlobal
 	: public QtProjectWizzardContentPaths
 {
+	Q_OBJECT
 public:
 	QtProjectWizzardContentPathsHeaderSearchGlobal(QtProjectWizzardWindow* window);
 
@@ -135,6 +137,7 @@ public:
 class QtProjectWizzardContentPathsFrameworkSearch
 	: public QtProjectWizzardContentPaths
 {
+	Q_OBJECT
 public:
 	QtProjectWizzardContentPathsFrameworkSearch(
 		std::shared_ptr<SourceGroupSettings> settings, QtProjectWizzardWindow* window, bool isCDB = false);
@@ -149,6 +152,7 @@ public:
 class QtProjectWizzardContentPathsFrameworkSearchGlobal
 	: public QtProjectWizzardContentPaths
 {
+	Q_OBJECT
 public:
 	QtProjectWizzardContentPathsFrameworkSearchGlobal(QtProjectWizzardWindow* window);
 
@@ -160,6 +164,7 @@ public:
 class QtProjectWizzardContentPathsClassJava
 	: public QtProjectWizzardContentPaths
 {
+	Q_OBJECT
 public:
 	QtProjectWizzardContentPathsClassJava(std::shared_ptr<SourceGroupSettings> settings, QtProjectWizzardWindow* window);
 

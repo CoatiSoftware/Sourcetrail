@@ -6,6 +6,7 @@
 class QtGraphNodeText
 	: public QtGraphNode
 {
+	Q_OBJECT
 public:
 	QtGraphNodeText(const std::string& name);
 	virtual ~QtGraphNodeText();

@@ -26,6 +26,9 @@ void QtRequest::finished(QNetworkReply *reply)
 	QVariant statusCodeV = reply->attribute(QNetworkRequest::HttpStatusCodeAttribute);
 	QVariant redirectionTargetUrl = reply->attribute(QNetworkRequest::RedirectionTargetAttribute);
 
+	Q_UNUSED(statusCodeV);
+	Q_UNUSED(redirectionTargetUrl);
+
 	if (reply->error() != QNetworkReply::NoError)
 	{
 		LOG_ERROR_STREAM(<< "An error occured during http request. ERRORCODE: " << reply->error());

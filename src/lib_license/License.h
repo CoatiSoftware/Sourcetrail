@@ -14,15 +14,15 @@ namespace Botan
 }
 
 namespace LicenseConstants {
-	const std::string BEGIN_LICENSE_STRING = "-----BEGIN LICENSE-----";
-	const std::string END_LICENSE_STRING = "-----END LICENSE-----";
-    const std::string TEST_LICENSE_STRING = "Test License";
-	const std::string PRODUCT_STRING = "Product: Sourcetrail";
-	const std::string LICENSED_TO_STRING = "Licensed to: ";
-	const std::string LICENSE_TYPE_STRING = "License type: ";
-	const std::string VALID_UNTIL_STRING = "Valid until: ";
-	const std::string VALID_UP_TO_STRING = "Valid up to version: ";
-	const std::string SEPARATOR_STRING = "-";
+	const char BEGIN_LICENSE_STRING[] = "-----BEGIN LICENSE-----";
+	const char END_LICENSE_STRING[] = "-----END LICENSE-----";
+    const char TEST_LICENSE_STRING[] = "Test License";
+	const char PRODUCT_STRING[] = "Product: Sourcetrail";
+	const char LICENSED_TO_STRING[] = "Licensed to: ";
+	const char LICENSE_TYPE_STRING[] = "License type: ";
+	const char VALID_UNTIL_STRING[] = "Valid until: ";
+	const char VALID_UP_TO_STRING[] = "Valid up to version: ";
+	const char SEPARATOR_STRING[] = "-";
     const int MINOR_VERSIONS_PER_YEAR = 4;
 }
 

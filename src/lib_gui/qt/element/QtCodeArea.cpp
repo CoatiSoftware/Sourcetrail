@@ -48,23 +48,23 @@ bool MouseWheelOverScrollbarFilter::eventFilter(QObject* obj, QEvent* event)
 	return QObject::eventFilter(obj, event);
 }
 
-QtCodeArea::LineNumberArea::LineNumberArea(QtCodeArea *codeArea)
+QtLineNumberArea::QtLineNumberArea(QtCodeArea *codeArea)
 	: QWidget(codeArea)
 	, m_codeArea(codeArea)
 {
 	setObjectName("line_number_area");
 }
 
-QtCodeArea::LineNumberArea::~LineNumberArea()
+QtLineNumberArea::~QtLineNumberArea()
 {
 }
 
-QSize QtCodeArea::LineNumberArea::sizeHint() const
+QSize QtLineNumberArea::sizeHint() const
 {
 	return QSize(m_codeArea->lineNumberAreaWidth(), 0);
 }
 
-void QtCodeArea::LineNumberArea::paintEvent(QPaintEvent *event)
+void QtLineNumberArea::paintEvent(QPaintEvent *event)
 {
 	m_codeArea->lineNumberAreaPaintEvent(event);
 }
@@ -90,7 +90,7 @@ QtCodeArea::QtCodeArea(
 {
 	setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Fixed);
 
-	m_lineNumberArea = new LineNumberArea(this);
+	m_lineNumberArea = new QtLineNumberArea(this);
 
 	m_digits = lineNumberDigits();
 	updateLineNumberAreaWidth();

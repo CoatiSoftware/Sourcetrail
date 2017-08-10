@@ -431,7 +431,7 @@ void CodeController::expandVisibleSnippets(std::vector<CodeSnippetParams>* snipp
 			continue;
 		}
 
-		for (CodeSnippetParams newSnippet : newSnippets)
+		for (CodeSnippetParams& newSnippet : newSnippets)
 		{
 			newSnippet.isDeclaration = oldSnippet.isDeclaration;
 			newSnippet.isDefinition = oldSnippet.isDefinition;

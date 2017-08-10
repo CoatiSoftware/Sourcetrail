@@ -31,7 +31,7 @@ int Bucket::getHeight() const
 
 bool Bucket::hasNode(std::shared_ptr<DummyNode> node) const
 {
-	for (std::shared_ptr<DummyNode> n : m_nodes)
+	for (const std::shared_ptr<DummyNode>& n : m_nodes)
 	{
 		if (node == n)
 		{
@@ -66,7 +66,7 @@ void Bucket::preLayout(Vec2i viewSize)
 
 	m_height = 0;
 
-	for (std::shared_ptr<DummyNode> node : m_nodes)
+	for (const std::shared_ptr<DummyNode>& node : m_nodes)
 	{
 		node->position.x = x;
 		node->position.y = y;
@@ -93,7 +93,7 @@ void Bucket::layout(int x, int y, int width, int height)
 	int cx = GraphViewStyle::toGridOffset(x + (width - m_width) / 2);
 	int cy = GraphViewStyle::toGridOffset(y + (height - m_height) / 2);
 
-	for (std::shared_ptr<DummyNode> node : m_nodes)
+	for (const std::shared_ptr<DummyNode>& node : m_nodes)
 	{
 		node->position.x = node->position.x + cx;
 		node->position.y = node->position.y + cy;
@@ -120,7 +120,7 @@ void BucketLayouter::createBuckets(
 	}
 
 	bool activeNodeAdded = false;
-	for (std::shared_ptr<DummyNode> node : nodes)
+	for (const std::shared_ptr<DummyNode>& node : nodes)
 	{
 		if (node->hasActiveSubNode() || !edges.size())
 		{
@@ -140,7 +140,7 @@ void BucketLayouter::createBuckets(
 	}
 
 	std::vector<const DummyEdge*> remainingEdges;
-	for (std::shared_ptr<DummyEdge> edge : edges)
+	for (const std::shared_ptr<DummyEdge>& edge : edges)
 	{
 		remainingEdges.push_back(edge.get());
 	}
@@ -264,7 +264,7 @@ std::vector<std::shared_ptr<DummyNode>> BucketLayouter::getSortedNodes()
 std::shared_ptr<DummyNode> BucketLayouter::findTopMostDummyNodeRecursive(
 	std::vector<std::shared_ptr<DummyNode>>& nodes, Id tokenId, std::shared_ptr<DummyNode> top
 ){
-	for (std::shared_ptr<DummyNode> node : nodes)
+	for (const std::shared_ptr<DummyNode>& node : nodes)
 	{
 		std::shared_ptr<DummyNode> t = (top ? top : node);
 

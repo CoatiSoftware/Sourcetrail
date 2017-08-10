@@ -42,12 +42,12 @@ void TrailLayouter::buildGraph(
 	const std::vector<std::shared_ptr<DummyEdge>>& dummyEdges,
 	const std::map<Id, Id>& topLevelAncestorIds)
 {
-	for (const std::shared_ptr<DummyNode> dummyNode : dummyNodes)
+	for (const std::shared_ptr<DummyNode>& dummyNode : dummyNodes)
 	{
 		addNode(dummyNode);
 	}
 
-	for (const std::shared_ptr<DummyEdge> dummyEdge : dummyEdges)
+	for (const std::shared_ptr<DummyEdge>& dummyEdge : dummyEdges)
 	{
 		dummyEdge->path.clear();
 
@@ -267,7 +267,7 @@ void TrailLayouter::addVirtualNodes()
 {
 	std::vector<std::shared_ptr<TrailEdge>> newEdges;
 
-	for (std::shared_ptr<TrailEdge> edge : m_allEdges)
+	for (const std::shared_ptr<TrailEdge>& edge : m_allEdges)
 	{
 		for (int i = edge->origin->level + 1; i < edge->target->level; i++)
 		{
@@ -304,7 +304,7 @@ void TrailLayouter::addVirtualNodes()
 
 void TrailLayouter::buildColumns()
 {
-	for (std::shared_ptr<TrailNode> node : m_allNodes)
+	for (const std::shared_ptr<TrailNode>& node : m_allNodes)
 	{
 		int level = node->level + 1;
 		for (int i = m_nodesPerCol.size(); i <= level; i++)
@@ -501,7 +501,7 @@ void TrailLayouter::moveNodesToAveragePosition(std::vector<TrailNode*> nodes, bo
 	}
 
 	int averagePosition = 0;
-	for (std::pair<int, std::vector<TrailNode*>> p : averagePositions)
+	for (const std::pair<int, std::vector<TrailNode*>>& p : averagePositions)
 	{
 		averagePosition += p.first;
 	}
@@ -584,7 +584,7 @@ void TrailLayouter::moveNodesToAveragePosition(std::vector<TrailNode*> nodes, bo
 
 void TrailLayouter::retrievePositions(const std::map<Id, Id>& topLevelAncestorIds)
 {
-	for (std::shared_ptr<TrailNode> node : m_allNodes)
+	for (std::shared_ptr<TrailNode>& node : m_allNodes)
 	{
 		if (node->dummyNode)
 		{
@@ -592,7 +592,7 @@ void TrailLayouter::retrievePositions(const std::map<Id, Id>& topLevelAncestorId
 		}
 	}
 
-	for (std::shared_ptr<TrailEdge> edge : m_allEdges)
+	for (std::shared_ptr<TrailEdge>& edge : m_allEdges)
 	{
 		if (edge->virtualNodes.size())
 		{
@@ -613,7 +613,7 @@ void TrailLayouter::retrievePositions(const std::map<Id, Id>& topLevelAncestorId
 void TrailLayouter::print()
 {
 	std::cout << "graph: " << std::endl;
-	for (std::shared_ptr<TrailNode> node : m_allNodes)
+	for (std::shared_ptr<TrailNode>& node : m_allNodes)
 	{
 		if (node->id)
 		{
@@ -624,7 +624,7 @@ void TrailLayouter::print()
 	}
 	std::cout << std::endl;
 
-	for (std::shared_ptr<TrailEdge> edge : m_allEdges)
+	for (std::shared_ptr<TrailEdge>& edge : m_allEdges)
 	{
 		if (edge->origin->id || edge->target->id)
 		{
@@ -686,7 +686,7 @@ void TrailLayouter::addEdge(const std::shared_ptr<DummyEdge> dummyEdge, const st
 	edge->origin = origin->second;
 	edge->target = target->second;
 
-	for (std::shared_ptr<TrailEdge> e : m_allEdges)
+	for (std::shared_ptr<TrailEdge>& e : m_allEdges)
 	{
 		if ((e->origin == edge->origin && e->target == edge->target) ||
 			(e->origin == edge->target && e->target == edge->origin))

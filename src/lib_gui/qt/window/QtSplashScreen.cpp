@@ -95,3 +95,4 @@ void QtSplashScreen::drawContents(QPainter *painter)
 
 	painter->drawText(r, Qt::AlignLeft, m_string);
 }
+

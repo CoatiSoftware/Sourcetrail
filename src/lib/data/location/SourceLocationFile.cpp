@@ -49,7 +49,7 @@ size_t SourceLocationFile::getSourceLocationCount() const
 size_t SourceLocationFile::getUnscopedStartLocationCount() const
 {
 	size_t count = 0;
-	for (std::shared_ptr<SourceLocation> location : m_locations)
+	for (const std::shared_ptr<SourceLocation>& location : m_locations)
 	{
 		if (location->isStartLocation() && !location->isScopeLocation())
 		{
@@ -129,7 +129,7 @@ SourceLocation* SourceLocationFile::getSourceLocationById(Id locationId) const
 
 void SourceLocationFile::forEachSourceLocation(std::function<void(SourceLocation*)> func) const
 {
-	for (std::shared_ptr<SourceLocation> location : m_locations)
+	for (const std::shared_ptr<SourceLocation>& location : m_locations)
 	{
 		func(location.get());
 	}
@@ -137,7 +137,7 @@ void SourceLocationFile::forEachSourceLocation(std::function<void(SourceLocation
 
 void SourceLocationFile::forEachStartSourceLocation(std::function<void(SourceLocation*)> func) const
 {
-	for (std::shared_ptr<SourceLocation> location : m_locations)
+	for (const std::shared_ptr<SourceLocation>& location : m_locations)
 	{
 		if (location->isStartLocation())
 		{
@@ -148,7 +148,7 @@ void SourceLocationFile::forEachStartSourceLocation(std::function<void(SourceLoc
 
 void SourceLocationFile::forEachEndSourceLocation(std::function<void(SourceLocation*)> func) const
 {
-	for (std::shared_ptr<SourceLocation> location : m_locations)
+	for (const std::shared_ptr<SourceLocation>& location : m_locations)
 	{
 		if (location->isEndLocation())
 		{
@@ -161,7 +161,7 @@ std::shared_ptr<SourceLocationFile> SourceLocationFile::getFilteredByLines(size_
 {
 	std::shared_ptr<SourceLocationFile> ret = std::make_shared<SourceLocationFile>(getFilePath(), false, isComplete());
 
-	for (std::shared_ptr<SourceLocation> location : m_locations)
+	for (const std::shared_ptr<SourceLocation>& location : m_locations)
 	{
 		if (location->getLineNumber() >= firstLineNumber && location->getLineNumber() <= lastLineNumber)
 		{
@@ -176,7 +176,7 @@ std::shared_ptr<SourceLocationFile> SourceLocationFile::getFilteredByType(Locati
 {
 	std::shared_ptr<SourceLocationFile> ret = std::make_shared<SourceLocationFile>(getFilePath(), false, isComplete());
 
-	for (std::shared_ptr<SourceLocation> location : m_locations)
+	for (const std::shared_ptr<SourceLocation>& location : m_locations)
 	{
 		if (location->getType() == type)
 		{

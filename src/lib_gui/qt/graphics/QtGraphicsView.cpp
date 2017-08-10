@@ -434,7 +434,7 @@ QString ShowSaveFileDialog(QWidget *parent,
 
 	if (dialog.exec() == QDialog::Accepted)
 	{
-		QString file_name = dialog.selectedFiles().first();
+		QString file_name = dialog.selectedFiles().constFirst();
 		QFileInfo info(file_name);
 
 		if (info.suffix().isEmpty() && !dialog.selectedNameFilter().isEmpty())

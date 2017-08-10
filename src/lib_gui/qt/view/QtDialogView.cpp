@@ -179,16 +179,6 @@ void QtDialogView::finishedIndexingDialog(
 	size_t indexedFileCount, size_t totalIndexedFileCount, size_t completedFileCount, size_t totalFileCount,
 	float time, ErrorCountInfo errorInfo, bool interrupted)
 {
-	std::stringstream ss;
-	ss << "Finished indexing: ";
-	ss << indexedFileCount << "/" << totalIndexedFileCount << " source files indexed; ";
-	ss << utility::timeToString(time);
-	ss << "; " << errorInfo.total << " error" << (errorInfo.total != 1 ? "s" : "");
-	if (errorInfo.fatal > 0)
-	{
-		ss << " (" << errorInfo.fatal << " fatal)";
-	}
-	MessageStatus(ss.str(), false, false).dispatch();
 
 	m_onQtThread(
 		[=]()

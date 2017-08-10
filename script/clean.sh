@@ -42,7 +42,6 @@ fi
 
 # Remove folders and contents
 rm -rf java_indexer/bin
-rm -rf java_indexer/lib
 rm -rf build
 
 # Remove log files

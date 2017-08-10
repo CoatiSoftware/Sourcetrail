@@ -4,6 +4,8 @@
 #include "data/storage/PersistentStorage.h"
 #include "utility/messaging/type/MessageFinishedParsing.h"
 #include "utility/messaging/type/MessageStatus.h"
+#include "utility/messaging/type/MessageQuitApplication.h"
+#include "utility/messaging/type/MessageStatus.h"
 #include "utility/scheduling/Blackboard.h"
 #include "utility/utility.h"
 #include "Application.h"
@@ -66,6 +68,19 @@ Task::TaskState TaskFinishParsing::doUpdate(std::shared_ptr<Blackboard> blackboa
 	bool interruptedIndexing = false;
 	blackboard->get("interrupted_indexing", interruptedIndexing);
 
+	ErrorCountInfo errorInfo = m_storageAccess->getErrorCount();
+
+	std::stringstream ss;
+	ss << "Finished indexing: ";
+	ss << indexedSourceFileCount << "/" << sourceFileCount << " source files indexed; ";
+	ss << utility::timeToString(time);
+	ss << "; " << errorInfo.total << " error" << (errorInfo.total != 1 ? "s" : "");
+	if (errorInfo.fatal > 0)
+	{
+		ss << " (" << errorInfo.fatal << " fatal)";
+	}
+	MessageStatus(ss.str(), false, false).dispatch();
+
 	StorageStats stats = m_storageAccess->getStorageStats();
 	dialogView->finishedIndexingDialog(
 		indexedSourceFileCount,
@@ -73,7 +88,7 @@ Task::TaskState TaskFinishParsing::doUpdate(std::shared_ptr<Blackboard> blackboa
 		stats.completedFileCount,
 		stats.fileCount,
 		time,
-		m_storageAccess->getErrorCount(),
+		errorInfo,
 		interruptedIndexing
 	);
 

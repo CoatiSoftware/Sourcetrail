@@ -6,6 +6,7 @@
 class QtAboutLicense
 	: public QtWindow
 {
+	Q_OBJECT
 public:
 	QtAboutLicense(QWidget* parent = 0);
 	QSize sizeHint() const override;

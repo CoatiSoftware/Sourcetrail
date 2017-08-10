@@ -9,6 +9,7 @@
 class QtShortcutTable
 	: public QTableWidget
 {
+	Q_OBJECT
 public:
 	QtShortcutTable(QWidget* parent = nullptr);
 	void updateSize();

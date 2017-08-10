@@ -252,7 +252,7 @@ bool QtProjectWizzard::applicationSettingsContainVisualStudioHeaderSearchPaths()
 {
 	std::vector<FilePath> expandedPaths;
 	const std::shared_ptr<CombinedPathDetector> headerPathDetector = utility::getCxxVsHeaderPathDetector();
-	for (const std::string& detectorName: headerPathDetector->getWorkingDetectorNames())
+	for (const std::string& detectorName : headerPathDetector->getWorkingDetectorNames())
 	{
 		for (const FilePath& path: headerPathDetector->getPaths(detectorName))
 		{
@@ -319,7 +319,7 @@ void QtProjectWizzard::updateSourceGroupList()
 {
 	m_sourceGroupList->clear();
 
-	for (const std::shared_ptr<SourceGroupSettings> group : m_allSourceGroupSettings)
+	for (const std::shared_ptr<SourceGroupSettings>& group : m_allSourceGroupSettings)
 	{
 		QListWidgetItem *item = new QListWidgetItem(QString::fromStdString(group->getName()));
 		m_sourceGroupList->addItem(item);

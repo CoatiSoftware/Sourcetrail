@@ -352,3 +352,4 @@ bool QtErrorView::isShownError(const ErrorInfo& error)
 	}
 	return false;
 }
+

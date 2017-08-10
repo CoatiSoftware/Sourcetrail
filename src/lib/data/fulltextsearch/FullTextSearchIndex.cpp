@@ -26,7 +26,7 @@ std::vector<FullTextSearchResult> FullTextSearchIndex::searchForTerm(const std::
 
 	std::vector<FullTextSearchResult> ret;
 	FullTextSearchResult hit;
-	for (auto f : m_files)
+	for (auto& f : m_files)
 	{
 		hit.fileId = f.fileId;
 		hit.positions = f.array.searchForTerm(term);

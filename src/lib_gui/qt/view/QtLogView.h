@@ -14,9 +14,10 @@ class QStandardItemModel;
 class QtTable;
 
 class QtLogView
-	: public LogView
-	, public QWidget
+	: public QWidget
+	, public LogView
 {
+	Q_OBJECT
 public:
 	QtLogView(ViewLayout* viewLayout);
 	virtual ~QtLogView();

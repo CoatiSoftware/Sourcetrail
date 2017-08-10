@@ -122,7 +122,6 @@ QString QtAutocompletionModel::longestType() const
 QtAutocompletionDelegate::QtAutocompletionDelegate(QtAutocompletionModel* model, QObject* parent)
 	: QStyledItemDelegate(parent)
 	, m_model(model)
-	, m_arrow()
 {
 	resetCharSizes();
 }
@@ -145,8 +144,10 @@ void QtAutocompletionDelegate::paint(QPainter* painter, const QStyleOptionViewIt
 
 	// define highlight colors
     ColorScheme* scheme = ColorScheme::getInstance().get();
-	QColor fillColor("#FFFFFF");
-	QColor textColor("#000000");
+//	QColor fillColor("#FFFFFF");
+	QColor fillColor(0xFF, 0xFF, 0xFF);
+//	QColor textColor("#000000");
+	QColor textColor(0, 0, 0);
 
 	if (type.size() && type != "command")
 	{
@@ -169,7 +170,7 @@ void QtAutocompletionDelegate::paint(QPainter* painter, const QStyleOptionViewIt
 
     // draw highlights at indices
 	QString highlightText(text.size(), ' ');
-	if (indices.size())
+	if (!indices.empty())
 	{
 		for (int i = 0; i < indices.size(); i++)
 		{

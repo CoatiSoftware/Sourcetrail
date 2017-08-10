@@ -322,7 +322,7 @@ FilePath FilePath::replaceExtension(const std::string& extension) const
 bool FilePath::hasExtension(const std::vector<std::string>& extensions) const
 {
 	std::string e = extension();
-	for (std::string ext : extensions)
+	for (const std::string& ext : extensions)
 	{
 		if (e == ext)
 		{

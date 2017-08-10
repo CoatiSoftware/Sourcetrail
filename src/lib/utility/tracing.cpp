@@ -42,7 +42,7 @@ void Tracer::printTraces()
 	std::lock_guard<std::mutex> lock(m_mutex);
 
 	size_t unfinishEvents = 0;
-	for (auto p : m_startedEvents)
+	for (auto& p : m_startedEvents)
 	{
 		unfinishEvents += p.second.size();
 	}
@@ -67,11 +67,11 @@ void Tracer::printTraces()
 	std::cout << "-----------------------------------------------------------------";
 	std::cout << "------------------------------------------------------------\n";
 
-	for (auto p : m_events)
+	for (auto& p : m_events)
 	{
 		std::cout << "thread: " << p.first << std::endl;
 
-		for (const std::shared_ptr<TraceEvent> event : p.second)
+		for (const std::shared_ptr<TraceEvent>& event : p.second)
 		{
 			std::cout.width(8 + 2 * event->depth);
 			std::cout << std::right << std::setprecision(3) << std::fixed << event->time;
@@ -104,9 +104,9 @@ void Tracer::printTraces()
 
 	std::map<std::string, AccumulatedTraceEvent> accumulatedEvents;
 
-	for (auto p : m_events)
+	for (auto& p : m_events)
 	{
-		for (const std::shared_ptr<TraceEvent> event : p.second)
+		for (const std::shared_ptr<TraceEvent>& event : p.second)
 		{
 			std::string name = event->eventName + event->functionName + event->locationName;
 
@@ -136,7 +136,7 @@ void Tracer::printTraces()
 		}
 	);
 
-	for (const std::pair<std::string, AccumulatedTraceEvent> p : accumulatedEvents)
+	for (const std::pair<std::string, AccumulatedTraceEvent>& p : accumulatedEvents)
 	{
 		sortedEvents.insert(p.second);
 	}

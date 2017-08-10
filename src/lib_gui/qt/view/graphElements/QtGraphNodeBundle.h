@@ -9,6 +9,7 @@ class QtCountCircleItem;
 class QtGraphNodeBundle
 	: public QtGraphNode
 {
+	Q_OBJECT
 public:
 	QtGraphNodeBundle(Id tokenId, size_t nodeCount, Node::NodeType type, std::string name);
 	virtual ~QtGraphNodeBundle();

@@ -24,6 +24,7 @@ protected:
 class QtIconButton
 	: public QPushButton
 {
+	Q_OBJECT
 public:
 	QtIconButton(QString iconPath, QString hoveredIconPath, QWidget* parent = nullptr);
 

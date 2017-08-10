@@ -70,7 +70,7 @@ std::string CxxTypeName::toString() const
 	}
 	ret += toNameHierarchy().getQualifiedName();
 
-	for (Modifier modifier: m_modifiers)
+	for (const Modifier& modifier: m_modifiers)
 	{
 		ret += " " + modifier.symbol;
 		if (!modifier.qualifierFlags.empty())

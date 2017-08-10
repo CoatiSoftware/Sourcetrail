@@ -47,7 +47,7 @@ void  utility::CompilationDatabase::getHeaders()
 	std::set<FilePath> systemHeaders;
 	std::set<FilePath> headers;
 
-	for (clang::tooling::CompileCommand command : commands)
+	for (clang::tooling::CompileCommand& command : commands)
 	{
 		for( size_t i = 0; i < command.CommandLine.size(); i++)
 		{

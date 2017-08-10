@@ -21,8 +21,7 @@
 #include "PrivateKey.h"
 #include "PublicKey.h"
 
-const std::string KEY_FILEENDING = ".pem";
-const std::string PRIVATE_KEY_PASSWORD = "BA#jk5vbklAiKL9K3k$";
+const char PRIVATE_KEY_PASSWORD[] = "BA#jk5vbklAiKL9K3k$";
 const char PRIVATE_KEY_FILE[] = "private-sourcetrail.pem";
 const char PUBLIC_KEY_FILE[] = "public-sourcetrail.pem";
 

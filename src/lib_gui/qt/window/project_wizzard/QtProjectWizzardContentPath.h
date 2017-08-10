@@ -66,6 +66,7 @@ private slots:
 class QtProjectWizzardContentPathSourceMaven
 	: public QtProjectWizzardContentPath
 {
+	Q_OBJECT
 public:
 	QtProjectWizzardContentPathSourceMaven(std::shared_ptr<SourceGroupSettings> settings, QtProjectWizzardWindow* window);
 
@@ -85,6 +86,7 @@ private:
 class QtProjectWizzardContentPathDependenciesMaven
 	: public QtProjectWizzardContentPath
 {
+	Q_OBJECT
 public:
 	QtProjectWizzardContentPathDependenciesMaven(std::shared_ptr<SourceGroupSettings> settings, QtProjectWizzardWindow* window);
 

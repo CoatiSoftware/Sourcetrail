@@ -176,7 +176,7 @@ std::set<FilePath> InterprocessIndexingStatusManager::getIndexedFiles()
 		return result;
 	}
 
-	for (auto file : *files)
+	for (auto& file : *files)
 	{
 		result.insert(FilePath(file.c_str()));
 	}
@@ -198,7 +198,7 @@ void InterprocessIndexingStatusManager::addIndexedFiles(std::set<FilePath> fileP
 	}
 
 	std::set<std::string> oldFiles;
-	for (auto indexedFile : *indexedFiles)
+	for (auto& indexedFile : *indexedFiles)
 	{
 		oldFiles.insert(indexedFile.c_str());
 	}
@@ -213,7 +213,7 @@ void InterprocessIndexingStatusManager::addIndexedFiles(std::set<FilePath> fileP
 	}
 
 	size_t estimatedSize = 262144;
-	for (auto newFile : newFiles)
+	for (auto& newFile : newFiles)
 	{
 		estimatedSize += sizeof(std::string) + newFile.size();
 	}

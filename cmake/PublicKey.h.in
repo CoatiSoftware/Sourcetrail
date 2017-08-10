@@ -5,6 +5,6 @@
 
 #include <string>
 
-const std::string PUBLIC_KEY = "@KEY@";
+const char PUBLIC_KEY[] = "@KEY@";
 
 #endif // PUBLIC_KEY_H

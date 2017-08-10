@@ -13,6 +13,7 @@ class QResizeEvent;
 class QSize;
 class QtCodeNavigator;
 class QWidget;
+class QtCodeArea;
 
 class MouseWheelOverScrollbarFilter
 	: public QObject
@@ -26,6 +27,23 @@ protected:
 	bool eventFilter(QObject* obj, QEvent* event);
 };
 
+class QtLineNumberArea
+	: public QWidget
+{
+	Q_OBJECT
+public:
+	QtLineNumberArea(QtCodeArea* codeArea);
+	virtual ~QtLineNumberArea();
+
+	QSize sizeHint() const Q_DECL_OVERRIDE;
+
+protected:
+	virtual void paintEvent(QPaintEvent* event) Q_DECL_OVERRIDE;
+
+private:
+	QtCodeArea* m_codeArea;
+};
+
 
 class QtCodeArea
 	: public QtCodeField
@@ -33,21 +51,6 @@ class QtCodeArea
 	Q_OBJECT
 
 public:
-	class LineNumberArea
-		: public QWidget
-	{
-	public:
-		LineNumberArea(QtCodeArea* codeArea);
-		virtual ~LineNumberArea();
-
-		QSize sizeHint() const Q_DECL_OVERRIDE;
-
-	protected:
-		virtual void paintEvent(QPaintEvent* event) Q_DECL_OVERRIDE;
-
-	private:
-		QtCodeArea* m_codeArea;
-	};
 
 	QtCodeArea(
 		uint startLineNumber,

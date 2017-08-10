@@ -42,6 +42,7 @@ private:
 class QtAutocompletionDelegate
 	: public QStyledItemDelegate
 {
+	Q_OBJECT
 public:
 	explicit QtAutocompletionDelegate(QtAutocompletionModel* model, QObject* parent = 0);
 	virtual ~QtAutocompletionDelegate();

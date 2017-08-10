@@ -51,7 +51,7 @@ bool FileRegisterStateData::fileIsIndexed(const FilePath& filePath) const
 
 void FileRegisterStateData::setIndexedFiles(const std::set<FilePath>& filePaths)
 {
-	for (auto path : filePaths)
+	for (auto& path : filePaths)
 	{
 		m_filePaths[path] = STATE_INDEXED;
 	}

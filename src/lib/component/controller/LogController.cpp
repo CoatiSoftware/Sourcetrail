@@ -119,7 +119,7 @@ void LogController::syncLogs()
 	}
 
 	std::vector<Log> logs;
-	for (Log log : m_logs)
+	for (const Log& log : m_logs)
 	{
 		if (log.type & m_logLevel)
 		{

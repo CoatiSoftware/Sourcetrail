@@ -46,15 +46,15 @@ void conflicting_options(const boost::program_options::variables_map& vm,
 std::vector<FilePath> extractPaths(const std::vector<std::string>& vector)
 {
 	std::vector<FilePath> v;
-	for (std::string s : vector)
+	for (const std::string& s : vector)
 	{
 		std::vector<std::string> temp= utility::splitToVector(s, ',');
-		for (std::string path : temp)
+		for (const std::string& path : temp)
 		{
 			v.push_back(FilePath(path));
 		}
 	}
-	return std::move(v);
+	return v;
 }
 
 } // namespace cmd

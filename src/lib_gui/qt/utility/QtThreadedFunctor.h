@@ -33,7 +33,7 @@ public:
 	{
 		m_freeCallbacks.acquire();
 		m_callback = callback;
-		signalExecution();
+		emit signalExecution();
 	}
 
 private:

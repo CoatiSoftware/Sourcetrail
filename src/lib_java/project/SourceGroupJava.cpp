@@ -76,7 +76,7 @@ std::vector<std::shared_ptr<IndexerCommand>> SourceGroupJava::getIndexerCommands
 	std::vector<FilePath> classPath = getClassPath();
 
 	std::set<FilePath> indexedPaths;
-	for (FilePath p: m_settings->getSourcePathsExpandedAndAbsolute())
+	for (const FilePath& p: m_settings->getSourcePathsExpandedAndAbsolute())
 	{
 		if (p.exists())
 		{
@@ -85,7 +85,7 @@ std::vector<std::shared_ptr<IndexerCommand>> SourceGroupJava::getIndexerCommands
 	}
 
 	std::set<FilePath> excludedPaths;
-	for (FilePath p: m_settings->getExcludePathsExpandedAndAbsolute())
+	for (const FilePath& p: m_settings->getExcludePathsExpandedAndAbsolute())
 	{
 		if (p.exists())
 		{
@@ -242,7 +242,7 @@ std::set<FilePath> SourceGroupJava::fetchRootDirectories()
 	std::set<FilePath> rootDirectories;
 
 	std::shared_ptr<JavaEnvironment> javaEnvironment = JavaEnvironmentFactory::getInstance()->createEnvironment();
-	for (FilePath filePath: m_allSourceFilePaths)
+	for (const FilePath& filePath: m_allSourceFilePaths)
 	{
 		std::shared_ptr<TextAccess> textAccess = TextAccess::createFromFile(filePath);
 

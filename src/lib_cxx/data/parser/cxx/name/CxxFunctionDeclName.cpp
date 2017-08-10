@@ -39,7 +39,7 @@ CxxFunctionDeclName::~CxxFunctionDeclName()
 
 NameHierarchy CxxFunctionDeclName::toNameHierarchy() const
 {
-	std::string signaturePrefix = "";
+	std::string signaturePrefix;
 	if (m_isStatic)
 	{
 		signaturePrefix += "static ";

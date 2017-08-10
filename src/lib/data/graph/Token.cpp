@@ -43,7 +43,7 @@ void Token::removeLocationId(Id locationId)
 Token::Token(const Token& other)
 	: m_id(other.m_id)
 {
-	for (std::shared_ptr<TokenComponent> component: other.m_components)
+	for (const std::shared_ptr<TokenComponent>& component: other.m_components)
 	{
 		addComponent(component->copy());
 	}

@@ -71,7 +71,7 @@ void ComponentManager::setup(ViewLayout* viewLayout)
 
 void ComponentManager::clearComponents()
 {
-	for (std::shared_ptr<Component> component : m_components)
+	for (const std::shared_ptr<Component>& component : m_components)
 	{
 		Controller* controller = component->getController<Controller>();
 
@@ -84,7 +84,7 @@ void ComponentManager::clearComponents()
 
 void ComponentManager::refreshViews()
 {
-	for (std::shared_ptr<Component> component : m_components)
+	for (const std::shared_ptr<Component>& component : m_components)
 	{
 		View* view = component->getView<View>();
 
@@ -94,12 +94,12 @@ void ComponentManager::refreshViews()
 		}
 	}
 
-	for (std::shared_ptr<CompositeView> view : m_compositeViews)
+	for (const std::shared_ptr<CompositeView>& view : m_compositeViews)
 	{
 		view->refreshView();
 	}
 
-	for (std::shared_ptr<TabbedView> view : m_tabbedViews)
+	for (const std::shared_ptr<TabbedView>& view : m_tabbedViews)
 	{
 		view->refreshView();
 	}

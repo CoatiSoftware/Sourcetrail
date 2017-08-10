@@ -9,6 +9,7 @@
 class QtGraphNodeQualifier
 	: public QtGraphNode
 {
+	Q_OBJECT
 public:
 	QtGraphNodeQualifier(const NameHierarchy& name);
 	virtual ~QtGraphNodeQualifier();

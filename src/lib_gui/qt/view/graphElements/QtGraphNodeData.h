@@ -8,6 +8,7 @@ class FilePath;
 class QtGraphNodeData
 	: public QtGraphNode
 {
+	Q_OBJECT
 public:
 	QtGraphNodeData(const Node* data, const std::string& name, bool hasParent, bool childVisible, bool hasQualifier);
 	virtual ~QtGraphNodeData();

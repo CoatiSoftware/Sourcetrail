@@ -44,10 +44,10 @@ void QtProjectWizzardContentCDBSource::load()
 			std::vector<FilePath> filePaths =
 				IndexerCommandCxxCdb::getSourceFilesFromCDB(cdbPath);
 
-			for (FilePath path : filePaths)
+			for (FilePath& path : filePaths)
 			{
 				bool excluded = false;
-				for (FilePath p : excludePaths)
+				for (const FilePath& p : excludePaths)
 				{
 					if (p == path || p.contains(path))
 					{

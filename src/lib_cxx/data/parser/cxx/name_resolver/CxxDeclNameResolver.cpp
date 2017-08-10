@@ -123,7 +123,7 @@ std::shared_ptr<CxxDeclName> CxxDeclNameResolver::getDeclName(const clang::Named
 				// we skip this node because its child (the lambda call operator) has already been recorded.
 				return std::shared_ptr<CxxDeclName>();
 			}
-			else if (declNameString.size() == 0)
+			else if (declNameString.empty())
 			{
 				const clang::SourceManager& sourceManager = declaration->getASTContext().getSourceManager();
 				const clang::PresumedLoc& presumedBegin = sourceManager.getPresumedLoc(declaration->getLocStart());
@@ -285,7 +285,7 @@ std::shared_ptr<CxxDeclName> CxxDeclNameResolver::getDeclName(const clang::Named
 			const clang::PresumedLoc& presumedBegin = sourceManager.getPresumedLoc(declaration->getLocStart());
 			return std::make_shared<CxxDeclName>(getNameForAnonymousSymbol("namespace", presumedBegin), std::vector<std::string>());
 		}
-		else if (clang::isa<clang::EnumDecl>(declaration) && declNameString.size() == 0)
+		else if (clang::isa<clang::EnumDecl>(declaration) && declNameString.empty())
 		{
 			const clang::SourceManager& sourceManager = declaration->getASTContext().getSourceManager();
 			const clang::PresumedLoc& presumedBegin = sourceManager.getPresumedLoc(declaration->getLocStart());
@@ -296,13 +296,13 @@ std::shared_ptr<CxxDeclName> CxxDeclNameResolver::getDeclName(const clang::Named
 				clang::isa<clang::TemplateTypeParmDecl>(declaration) ||
 				clang::isa<clang::NonTypeTemplateParmDecl>(declaration) ||
 				clang::isa<clang::TemplateTemplateParmDecl>(declaration)
-			) && declNameString.size() == 0)
+			) && declNameString.empty())
 		{
 			const clang::SourceManager& sourceManager = declaration->getASTContext().getSourceManager();
 			const clang::PresumedLoc& presumedBegin = sourceManager.getPresumedLoc(declaration->getLocStart());
 			return std::make_shared<CxxDeclName>(getNameForAnonymousSymbol("template parameter", presumedBegin), std::vector<std::string>());
 		}
-		else if (clang::isa<clang::ParmVarDecl>(declaration) && declNameString.size() == 0)
+		else if (clang::isa<clang::ParmVarDecl>(declaration) && declNameString.empty())
 		{
 			const clang::SourceManager& sourceManager = declaration->getASTContext().getSourceManager();
 			const clang::PresumedLoc& presumedBegin = sourceManager.getPresumedLoc(declaration->getLocStart());
@@ -331,7 +331,7 @@ std::shared_ptr<CxxDeclName> CxxDeclNameResolver::getDeclName(const clang::Named
 			}
 		}
 
-		if (declNameString.size() > 0)
+		if (!declNameString.empty())
 		{
 			return std::make_shared<CxxDeclName>(declNameString, std::vector<std::string>(), std::shared_ptr<CxxName>());
 		}
@@ -355,7 +355,7 @@ std::string CxxDeclNameResolver::getNameForAnonymousSymbol(const std::string& sy
 
 std::string CxxDeclNameResolver::getTemplateParameterString(const clang::NamedDecl* parameter)
 {
-	std::string templateParameterTypeString = "";
+	std::string templateParameterTypeString;
 
 	if (parameter)
 	{
@@ -398,7 +398,7 @@ std::string CxxDeclNameResolver::getTemplateParameterTypeString(const clang::Non
 		typeNameResolver.ignoreContextDecl(m_currentDecl);
 	}
 
-	std::string typeString = "";
+	std::string typeString;
 
 	std::shared_ptr<CxxTypeName> typeName = CxxTypeName::makeUnsolvedIfNull(typeNameResolver.getName(parameter->getType()));
 	typeString = typeName->toString();

@@ -22,7 +22,7 @@ void InterprocessIndexerCommandManager::setIndexerCommands(
 	const unsigned int overestimationMultiplier = 2;
 
 	size_t estimatedSize = 1048576; /* 1 MB */
-	for (auto command : indexerCommands)
+	for (auto& command : indexerCommands)
 	{
 		estimatedSize += command->getByteSize() + sizeof(SharedIndexerCommand);
 	}
@@ -49,7 +49,7 @@ void InterprocessIndexerCommandManager::setIndexerCommands(
 		return;
 	}
 
-	for (auto command : indexerCommands)
+	for (auto& command : indexerCommands)
 	{
 		queue->push_back(SharedIndexerCommand(access.getAllocator()));
 		SharedIndexerCommand& sharedCommand = queue->back();

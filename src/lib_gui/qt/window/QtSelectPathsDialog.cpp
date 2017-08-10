@@ -32,7 +32,7 @@ void QtSelectPathsDialog::setPathsList(const std::vector<FilePath>& paths, const
 {
 	std::set<FilePath> checked(checkedPaths.begin(), checkedPaths.end());
 
-	for (FilePath s : paths)
+	for (const FilePath& s : paths)
 	{
 		QListWidgetItem* item = new QListWidgetItem(s.str().c_str(), m_list);
 		item->setFlags(item->flags() | Qt::ItemIsUserCheckable); // set checkable flag
@@ -61,7 +61,7 @@ void QtSelectPathsDialog::setPathsList(const std::vector<FilePath>& paths, const
 
 void QtSelectPathsDialog::checkSelected(bool checked)
 {
-	for(QListWidgetItem* item : m_list->selectedItems())
+	for (QListWidgetItem* item : m_list->selectedItems())
 	{
 		item->setCheckState( (checked ? Qt::Checked : Qt::Unchecked) );
 	}

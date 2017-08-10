@@ -21,7 +21,7 @@ void SourceGroupFactory::addModule(std::shared_ptr<SourceGroupFactoryModule> mod
 std::vector<std::shared_ptr<SourceGroup>> SourceGroupFactory::createSourceGroups(std::vector<std::shared_ptr<SourceGroupSettings>> allSourceGroupSettings)
 {
 	std::vector<std::shared_ptr<SourceGroup>> sourceGroups;
-	for (std::shared_ptr<SourceGroupSettings> sourceGroupSettings: allSourceGroupSettings)
+	for (const std::shared_ptr<SourceGroupSettings>& sourceGroupSettings: allSourceGroupSettings)
 	{
 		std::shared_ptr<SourceGroup> sourceGroup = createSourceGroup(sourceGroupSettings);
 		if (sourceGroup)
@@ -36,7 +36,7 @@ std::shared_ptr<SourceGroup> SourceGroupFactory::createSourceGroup(std::shared_p
 {
 	std::shared_ptr<SourceGroup> sourceGroup;
 
-	for (std::shared_ptr<SourceGroupFactoryModule> module: m_modules)
+	for (const std::shared_ptr<SourceGroupFactoryModule>& module: m_modules)
 	{
 		if (module->supports(settings->getType()))
 		{
