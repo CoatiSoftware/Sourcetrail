@@ -170,6 +170,16 @@ public:
 		TS_ASSERT_EQUALS(path.absolute(), path.canonical());
 	}
 
+	void test_file_path_canonical_removes_symlinks()
+	{
+#ifndef _WIN32
+		FilePath pathA("data/FilePathTestSuite/parent/target/d.cpp");
+		FilePath pathB("data/FilePathTestSuite/target/d.cpp");
+
+		TS_ASSERT_EQUALS(pathB.absolute(), pathA.canonical());
+#endif
+	}
+
 	void test_file_path_compares_paths_with_posix_and_windows_format()
 	{
 #ifdef _WIN32

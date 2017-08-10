@@ -83,6 +83,10 @@ CommandConfig::CommandConfig(CommandLineParser* parser)
 {
 }
 
+CommandConfig::~CommandConfig()
+{
+}
+
 void CommandConfig::setup()
 {
 	po::options_description options("Config Options");
@@ -112,7 +116,7 @@ void CommandConfig::setup()
 	m_options.add(options);
 }
 
-void printVector(std::string title, std::vector<FilePath> vec)
+void printVector(const std::string& title, const std::vector<FilePath>& vec)
 {
 	std::cout << "\n  " << title << ":";
 	if (vec.empty())
@@ -125,17 +129,8 @@ void printVector(std::string title, std::vector<FilePath> vec)
 	}
 }
 
-void CommandConfig::printSettings()
+void CommandConfig::printSettings(ApplicationSettings* settings)
 {
-	ApplicationSettings* settings = ApplicationSettings::getInstance().get();
-	settings->load(UserPaths::getAppSettingsPath());
-
-	if (settings == nullptr)
-	{
-		LOG_ERROR("Could not load application settings");
-		return;
-	}
-
 	std::cout << "Sourcetrail Settings:\n"
 			  << "\n  indexerthread count: " << settings->getIndexerThreadCount()
 			  << "\n  use-processes: " << settings->getMultiProcessIndexingEnabled()
@@ -144,9 +139,9 @@ void CommandConfig::printSettings()
 			  << "\n  jvm-path: " << settings->getJavaPath()
 			  << "\n  jvm-max-memory: " << settings->getJavaMaximumMemory()
 			  << "\n  maven-path: " << settings->getMavenPath().str();
-	printVector("global-header-search-paths", std::move(settings->getHeaderSearchPaths()));
-	printVector("global-framework-search-paths", std::move(settings->getFrameworkSearchPaths()));
-	printVector("jre-system-library-paths", std::move(settings->getJreSystemLibraryPaths()));
+	printVector("global-header-search-paths", settings->getHeaderSearchPaths());
+	printVector("global-framework-search-paths", settings->getFrameworkSearchPaths());
+	printVector("jre-system-library-paths", settings->getJreSystemLibraryPaths());
 	License license;
 	license.loadFromEncodedString(settings->getLicenseString(), AppPath::getAppPath());
 	std::cout << "\nValid license: " << license.isValid() << std::endl;
@@ -178,14 +173,18 @@ ReturnStatus CommandConfig::parse(std::vector<std::string>& args)
 		return ReturnStatus::CMD_QUIT;
 	}
 
-	if (args[0] == "show" || vm.count("show"))
+	ApplicationSettings* settings = ApplicationSettings::getInstance().get();
+	if (settings == nullptr)
 	{
-		printSettings();
+		LOG_ERROR("No application settings loaded");
 		return ReturnStatus::CMD_QUIT;
 	}
 
-	ApplicationSettings* settings = ApplicationSettings::getInstance().get();
-	settings->load(UserPaths::getAppSettingsPath());
+	if (args[0] == "show" || vm.count("show"))
+	{
+		printSettings(settings);
+		return ReturnStatus::CMD_QUIT;
+	}
 
 	parseAndSetValue(&ApplicationSettings::setMultiProcessIndexingEnabled, "use-processes", settings, vm);
 	parseAndSetValue(&ApplicationSettings::setLoggingEnabled, "logging-enabled", settings, vm);

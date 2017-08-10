@@ -11,6 +11,10 @@ Command::Command(const std::string name, CommandLineParser* parser)
 {
 }
 
+Command::~Command()
+{
+}
+
 const std::string Command::name()
 {
 	return m_name;
@@ -31,6 +35,5 @@ void Command::printHelp()
 		std::cout << std::endl;
 	}
 }
-
 
 } // namespace cmd

@@ -120,61 +120,45 @@ FilePath FilePath::absolute() const
 
 FilePath FilePath::canonical() const
 {
-	if (m_canonicalized)
+	if (m_canonicalized || !exists())
 	{
 		return FilePath(*this);
 	}
 
-	if (!exists())
-	{
-		return FilePath(*this);
-	}
-
-	boost::filesystem::path abs_p = boost::filesystem::absolute(m_path);
 	boost::filesystem::path canonicalPath;
+
+#if defined(_WIN32)
+	boost::filesystem::path abs_p = boost::filesystem::absolute(m_path);
 	for (boost::filesystem::path::iterator it = abs_p.begin(); it != abs_p.end(); ++it)
 	{
 		if (*it == "..")
 		{
-			// /a/b/.. is not necessarily /a if b is a symbolic link
-			if (boost::filesystem::is_symlink(canonicalPath))
-			{
-				canonicalPath /= *it;
-			}
-			// /a/b/../.. is not /a/b/.. under most circumstances
-			// We can end up with ..s in our result because of symbolic links
-			else if (canonicalPath.filename() == "..")
-			{
-				canonicalPath /= *it;
-			}
-			// Otherwise it should be safe to resolve the parent
-			else
-			{
-				canonicalPath = canonicalPath.parent_path();
-			}
+			canonicalPath = canonicalPath.parent_path();
 		}
 		else if (*it == ".")
 		{
-			// Ignore
+			continue;
 		}
 		else
 		{
-			// Just cat other path entries
 			canonicalPath /= *it;
-		}
 
-		if (boost::filesystem::is_symlink(canonicalPath))
-		{
-			boost::filesystem::path symlink = boost::filesystem::read_symlink(canonicalPath);
-			if (!symlink.empty())
+			if (boost::filesystem::is_symlink(canonicalPath))
 			{
-				// on Windows the read_symlink function discards the drive letter (this is a boost bug). Therefore
-				// we need to make the path absolute again. We also have to discard the trailing \0 characters so
-				// that we can continue appending to the path.
-				canonicalPath = utility::substrBeforeFirst(boost::filesystem::absolute(symlink).string(), '\0');
+				boost::filesystem::path symlink = boost::filesystem::read_symlink(canonicalPath);
+				if (!symlink.empty())
+				{
+					// on Windows the read_symlink function discards the drive letter (this is a boost bug). Therefore
+					// we need to make the path absolute again. We also have to discard the trailing \0 characters so
+					// that we can continue appending to the path.
+					canonicalPath = utility::substrBeforeFirst(boost::filesystem::absolute(symlink).string(), '\0');
+				}
 			}
 		}
 	}
+#else
+	canonicalPath = boost::filesystem::canonical(m_path);
+#endif
 
 	FilePath ret(canonicalPath);
 	ret.m_canonicalized = true;

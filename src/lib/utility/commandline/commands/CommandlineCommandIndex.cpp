@@ -11,6 +11,10 @@ CommandIndex::CommandIndex(CommandLineParser* parser)
 {
 }
 
+CommandIndex::~CommandIndex()
+{
+}
+
 void CommandIndex::setup()
 {
 	po::options_description options("Config Options");

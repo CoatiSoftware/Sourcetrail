@@ -222,6 +222,22 @@ int main(int argc, char *argv[])
 	QScopedPointer<QtNetworkFactory> networkFactory;
 	QScopedPointer<QtViewFactory> viewFactory;
 
+	if (!commandLineParser.runWithoutGUI())
+	{
+		qtApp->setAttribute(Qt::AA_UseHighDpiPixmaps);
+
+		utility::loadFontsFromDirectory(ResourcePaths::getFontsPath(), ".otf");
+		utility::loadFontsFromDirectory(ResourcePaths::getFontsPath(), ".ttf");
+
+		networkFactory.reset(new QtNetworkFactory());
+		viewFactory.reset(new QtViewFactory());
+	}
+
+	Application::createInstance(version, viewFactory.data(), networkFactory.data());
+
+	ScopedFunctor f([](){
+		Application::destroyInstance();
+	});
 
 	if (commandLineParser.runWithoutGUI())
 	{
@@ -235,23 +251,6 @@ int main(int argc, char *argv[])
 			return 0;
 		}
 	}
-	else
-	{
-		qtApp->setAttribute(Qt::AA_UseHighDpiPixmaps);
-
-		utility::loadFontsFromDirectory(ResourcePaths::getFontsPath(), ".otf");
-		utility::loadFontsFromDirectory(ResourcePaths::getFontsPath(), ".ttf");
-
-		networkFactory.reset(new QtNetworkFactory());
-		viewFactory.reset(new QtViewFactory());
-	}
-
-
-	Application::createInstance(version, viewFactory.data(), networkFactory.data());
-
-	ScopedFunctor f([](){
-		Application::destroyInstance();
-	});
 
 	prefillPaths();
 	addLanguageModules();

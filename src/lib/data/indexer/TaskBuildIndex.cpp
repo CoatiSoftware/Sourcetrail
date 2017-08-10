@@ -271,17 +271,11 @@ void TaskBuildIndex::updateIndexingDialog(
 	if (!sourcePath.empty())
 	{
 		std::stringstream ss;
-		ss << "[" << m_indexingFileCount
-		   << "/" << sourceFileCount
-		   << "] Indexing file: ";
-		ss << sourcePath.str();
+		ss << "[" << m_indexingFileCount << "/" << sourceFileCount << "] Indexing file: " << sourcePath.str();
 		MessageStatus(ss.str(), false, true).dispatch();
 	}
 
-	if (std::shared_ptr<DialogView> dialogView = Application::getInstance()->getDialogView())
-	{
-		dialogView->updateIndexingDialog(
-			m_indexingFileCount, indexedSourceFileCount, sourceFileCount, sourcePath.str()
-		);
-	}
+	Application::getInstance()->getDialogView()->updateIndexingDialog(
+		m_indexingFileCount, indexedSourceFileCount, sourceFileCount, sourcePath.str()
+	);
 }

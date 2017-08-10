@@ -1,6 +1,6 @@
 #include "TestSuiteFixture.h"
 
-#include <sstream>
+#include <iostream>
 
 #include "utility/logging/FileLogger.h"
 #include "utility/logging/LogManager.h"
@@ -14,8 +14,6 @@ TestSuiteFixture::TestSuiteFixture()
 TestSuiteFixture::~TestSuiteFixture()
 {
 }
-
-#include <iostream>
 
 bool TestSuiteFixture::setUpWorld()
 {

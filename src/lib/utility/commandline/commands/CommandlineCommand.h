@@ -8,13 +8,15 @@
 namespace po = boost::program_options;
 
 namespace commandline {
+
 enum class ReturnStatus;
 class CommandLineParser;
 
-
-class Command {
+class Command
+{
 public:
 	Command(const std::string name, CommandLineParser* parser = nullptr);
+	virtual ~Command();
 
 	const std::string name();
 

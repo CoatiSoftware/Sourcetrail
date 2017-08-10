@@ -2,6 +2,7 @@
 #define COMMANDLINE_COMMAND_INDEX_H
 
 #include <memory>
+
 #include "boost/program_options.hpp"
 
 #include "utility/commandline/commands/CommandlineCommand.h"
@@ -12,9 +13,12 @@ namespace commandline {
 
 enum class ReturnStatus;
 
-class CommandIndex : public Command {
+class CommandIndex
+	: public Command
+{
 public:
 	CommandIndex(CommandLineParser* parser);
+	virtual ~CommandIndex();
 
 	virtual void setup();
 	virtual ReturnStatus parse(std::vector<std::string>& args);
