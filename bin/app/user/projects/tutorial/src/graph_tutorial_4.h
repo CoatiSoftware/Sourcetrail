@@ -11,12 +11,12 @@ class ConsumerOfTheLastMember
 public:
 	void go()
 	{
-		ClassWithHiddenMembers::this_last_member = 42;
+		ClassWithHiddenMembers::this_last_member.consume();
 	}
 
 	void on()
 	{
-		ClassWithHiddenMembers::this_last_member--;
+		ClassWithHiddenMembers::this_last_member.consume();
 	}
 //------------------------------------------------------------------------------
 //
@@ -32,7 +32,7 @@ public:
 //------------------------------------------------------------------------------
 	void reading()
 	{
-		ClassWithHiddenMembers::this_last_member /= 2;
+		ClassWithHiddenMembers::this_last_member.consume();
 	}
 };
 

@@ -4,6 +4,7 @@
 
 
 #include "graph_tutorial_1.h"
+#include "graph_tutorial_5.h"
 
 //------------------------------------------------------------------------------
 //
@@ -59,7 +60,7 @@ public:
 //  click the edge?
 //
 //------------------------------------------------------------------------------
-	static int this_last_member;
+	static ClickMeLater this_last_member;
 };
 
 

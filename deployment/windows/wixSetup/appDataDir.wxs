@@ -100,6 +100,8 @@
 							<File Id='GraphTutorial2Header' Name='graph_tutorial_2.h' DiskId='1' Source='./../../../bin/app/user/projects/tutorial/src/graph_tutorial_2.h' KeyPath='no' />
 							<File Id='GraphTutorial3Header' Name='graph_tutorial_3.h' DiskId='1' Source='./../../../bin/app/user/projects/tutorial/src/graph_tutorial_3.h' KeyPath='no' />
 							<File Id='GraphTutorial4Header' Name='graph_tutorial_4.h' DiskId='1' Source='./../../../bin/app/user/projects/tutorial/src/graph_tutorial_4.h' KeyPath='no' />
+							<File Id='GraphTutorial5Header' Name='graph_tutorial_5.h' DiskId='1' Source='./../../../bin/app/user/projects/tutorial/src/graph_tutorial_5.h' KeyPath='no' />
+							<File Id='GraphTutorial6Header' Name='graph_tutorial_6.h' DiskId='1' Source='./../../../bin/app/user/projects/tutorial/src/graph_tutorial_6.h' KeyPath='no' />
 							<File Id='MainCpp' Name='main.cpp' DiskId='1' Source='./../../../bin/app/user/projects/tutorial/src/main.cpp' KeyPath='no' />
 							<File Id='MyFirstStepHeader' Name='my_first_step.h' DiskId='1' Source='./../../../bin/app/user/projects/tutorial/src/my_first_step.h' KeyPath='no' />
 							<File Id='MyNextStepHeader' Name='my_next_step.h' DiskId='1' Source='./../../../bin/app/user/projects/tutorial/src/my_next_step.h' KeyPath='no' />
