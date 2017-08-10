@@ -36,7 +36,6 @@ Linux64:
     stage: deploy
     when: manual
     <<: *script_definition
-    allow_failure: false
     artifacts:
         name: "$CI_JOB_NAME"
         paths:
@@ -47,7 +46,6 @@ Linux64_licenseGenerator:
     image: st4ll1/coati_64
     stage: deploy
     when: manual
-    allow_failure: false
     script:
         - ./script/setup.sh
         - ./script/buildonly.sh r keygen
@@ -62,7 +60,6 @@ Linux32:
     image: st4ll1/coati_32
     stage: deploy
     when: manual
-    allow_failure: false
     <<: *script_definition
     artifacts:
         name: "$CI_JOB_NAME"
