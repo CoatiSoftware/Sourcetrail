@@ -144,15 +144,16 @@ SourceGroupSettingsCxx::SourceGroupSettingsCxx(const std::string& id, SourceGrou
 	: SourceGroupSettings(id, type, projectSettings)
 	, m_headerSearchPaths(std::vector<FilePath>())
 	, m_frameworkSearchPaths(std::vector<FilePath>())
-	, m_compilerFlags(std::vector<std::string>())
-	, m_useSourcePathsForHeaderSearch(false)
-	, m_hasDefinedUseSourcePathsForHeaderSearch(false)
-	, m_compilationDatabasePath(FilePath())
 	, m_targetOptionsEnabled(false)
 	, m_targetArch("")
 	, m_targetVendor("")
 	, m_targetSys("")
 	, m_targetAbi("")
+	, m_compilerFlags(std::vector<std::string>())
+	, m_useSourcePathsForHeaderSearch(false)
+	, m_hasDefinedUseSourcePathsForHeaderSearch(false)
+	, m_compilationDatabasePath(FilePath())
+	, m_shouldApplyAnonymousTypedefTransformation(true)
 {
 }
 
@@ -327,9 +328,9 @@ std::string SourceGroupSettingsCxx::getTargetFlag() const
 	{
 		targetFlag = "--target=";
 		targetFlag += m_targetArch;
-		targetFlag += "-" + m_targetVendor.empty() ? "unknown" : m_targetVendor;
-		targetFlag += "-" + m_targetSys.empty() ? "unknown" : m_targetSys;
-		targetFlag += "-" + m_targetAbi.empty() ? "unknown" : m_targetAbi;
+		targetFlag += "-" + (m_targetVendor.empty() ? "unknown" : m_targetVendor);
+		targetFlag += "-" + (m_targetSys.empty() ? "unknown" : m_targetSys);
+		targetFlag += "-" + (m_targetAbi.empty() ? "unknown" : m_targetAbi);
 	}
 	return targetFlag;
 }

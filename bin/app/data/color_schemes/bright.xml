@@ -119,7 +119,7 @@
 				<directive>#1B8856</directive>
 				<keyword>#1B8856</keyword>
 				<type>#C1492D</type>
-				<comment>#8FB2C4</comment>
+				<comment>#6B9AB2</comment>
 				<number>#C1315E</number>
 				<quotation>#865F9E</quotation>
 				<function>#CC9533</function>
@@ -173,7 +173,7 @@
 						<text>#000000</text>
 					</normal>
 					<focus>
-						<fill>#FFFF0000</fill>
+						<fill>#CCFF0000</fill>
 					</focus>
 				</error>
 				<fulltext>
