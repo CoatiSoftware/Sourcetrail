@@ -113,7 +113,7 @@ void CxxAstVisitorComponentDeclRefKind::beginTraverseConstructorInitializer(clan
 void CxxAstVisitorComponentDeclRefKind::beginTraverseCXXTemporaryObjectExpr(clang::CXXTemporaryObjectExpr* s)
 {
 	m_thisRefKind = REFERENCE_CALL;
-	m_childRefKind = REFERENCE_CALL;
+	m_childRefKind = REFERENCE_USAGE;
 }
 
 void CxxAstVisitorComponentDeclRefKind::visitVarDecl(clang::VarDecl* d)

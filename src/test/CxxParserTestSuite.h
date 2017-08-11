@@ -2024,6 +2024,35 @@ public:
 		));
 	}
 
+	void test_cxx_parser_finds_usage_of_member_in_temporary_object_expression()
+	{
+		std::shared_ptr<TestParserClient> client = parseCode(
+			"class Foo\n"
+			"{\n"
+			"public:\n"
+			"	Foo() { }\n"
+			"	Foo(const Foo& i, int d) { }\n"
+			"};\n"
+			"\n"
+			"class Bar\n"
+			"{\n"
+			"public:\n"
+			"	Bar(): m_i() {}\n"
+			"\n"
+			"	void baba()\n"
+			"	{\n"
+			"		Foo(m_i, 4);\n"
+			"	}\n"
+			"\n"
+			"	const Foo m_i;\n"
+			"};\n"
+		);
+
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->usages, "void Bar::baba() -> const Foo Bar::m_i <15:7 15:9>"
+		));
+	}
+
 	void test_cxx_parser_finds_return_type_use_in_function()
 	{
 		std::shared_ptr<TestParserClient> client = parseCode(
