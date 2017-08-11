@@ -148,6 +148,11 @@ SourceGroupSettingsCxx::SourceGroupSettingsCxx(const std::string& id, SourceGrou
 	, m_useSourcePathsForHeaderSearch(false)
 	, m_hasDefinedUseSourcePathsForHeaderSearch(false)
 	, m_compilationDatabasePath(FilePath())
+	, m_targetOptionsEnabled(false)
+	, m_targetArch("")
+	, m_targetVendor("")
+	, m_targetSys("")
+	, m_targetAbi("")
 {
 }
 
@@ -318,17 +323,13 @@ void SourceGroupSettingsCxx::setTargetAbi(const std::string& abi)
 std::string SourceGroupSettingsCxx::getTargetFlag() const
 {
 	std::string targetFlag = "";
-	if (m_targetOptionsEnabled)
+	if (m_targetOptionsEnabled && !m_targetArch.empty())
 	{
 		targetFlag = "--target=";
 		targetFlag += m_targetArch;
-		if (!m_targetSub.empty())
-		{
-			targetFlag += m_targetSub;
-		}
-		targetFlag += "-" + m_targetVendor;
-		targetFlag += "-" + m_targetSys;
-		targetFlag += "-" + m_targetAbi;
+		targetFlag += "-" + m_targetVendor.empty() ? "unknown" : m_targetVendor;
+		targetFlag += "-" + m_targetSys.empty() ? "unknown" : m_targetSys;
+		targetFlag += "-" + m_targetAbi.empty() ? "unknown" : m_targetAbi;
 	}
 	return targetFlag;
 }

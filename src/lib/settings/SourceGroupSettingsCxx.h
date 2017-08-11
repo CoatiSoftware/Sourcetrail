@@ -69,7 +69,6 @@ private:
 	std::vector<FilePath> m_frameworkSearchPaths;
 	bool m_targetOptionsEnabled;
 	std::string m_targetArch;
-	std::string m_targetSub;
 	std::string m_targetVendor;
 	std::string m_targetSys;
 	std::string m_targetAbi;
