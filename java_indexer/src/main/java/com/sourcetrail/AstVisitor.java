@@ -265,10 +265,10 @@ public class AstVisitor extends AstVisitorAdapter
 		
 // test this!
 		com.github.javaparser.symbolsolver.model.declarations.MethodDeclaration overridden = getOverridden(n);
-		if (overridden != null && (overridden instanceof JavaParserMethodDeclaration))
+		if (overridden != null)
 		{
-			String overriddenName = JavaparserDeclNameResolver.getQualifiedDeclName(
-					((JavaParserMethodDeclaration)overridden).getWrappedNode(), m_filePath, m_typeSolver).toNameHierarchy().serialize();
+			String overriddenName = JavaSymbolSolverDeclNameResolver.getQualifiedDeclName(
+					overridden, m_filePath, m_typeSolver).toNameHierarchy().serialize();
 			
 			m_client.recordReference(
 				ReferenceKind.OVERRIDE, overriddenName, qualifiedName, 
