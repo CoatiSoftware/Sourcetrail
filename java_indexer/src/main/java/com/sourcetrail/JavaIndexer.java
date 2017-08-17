@@ -3,24 +3,24 @@ package com.sourcetrail;
 import java.io.File;
 import java.io.IOException;
 import java.io.StringReader;
-import java.lang.String;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.github.javaparser.ast.CompilationUnit;
-import com.github.javaparser.ast.PackageDeclaration;
 import com.github.javaparser.JavaParser;
 import com.github.javaparser.ParseProblemException;
 import com.github.javaparser.Position;
 import com.github.javaparser.Problem;
 import com.github.javaparser.Range;
+import com.github.javaparser.ast.CompilationUnit;
+import com.github.javaparser.ast.PackageDeclaration;
 import com.github.javaparser.symbolsolver.javaparser.Navigator;
 import com.github.javaparser.symbolsolver.javaparsermodel.JavaParserFacade;
 import com.github.javaparser.symbolsolver.model.resolution.TypeSolver;
 import com.github.javaparser.symbolsolver.resolution.typesolvers.CombinedTypeSolver;
 import com.github.javaparser.symbolsolver.resolution.typesolvers.JarTypeSolver;
-import com.github.javaparser.symbolsolver.resolution.typesolvers.JavaParserTypeSolver;
 import com.github.javaparser.symbolsolver.resolution.typesolvers.ReflectionTypeSolver;
+
+import com.sourcetrail.typesolver.SynchronizedJavaParserTypeSolver;
 
 public class JavaIndexer 
 {
@@ -37,36 +37,40 @@ public class JavaIndexer
 			CombinedTypeSolver combinedTypeSolver = new CombinedTypeSolver();
 
 			combinedTypeSolver.add(new ReflectionTypeSolver());
-			for (String path: classPath.split("\\;"))
+			
+			synchronized (typeSolvers)
 			{
-				if (typeSolvers.containsKey(path))
+				for (String path: classPath.split("\\;"))
 				{
-					combinedTypeSolver.add(typeSolvers.get(path));
-				}
-				else 
-				{
-					TypeSolver typeSolver = null;
-					
-					if (path.endsWith(".jar"))
+					if (typeSolvers.containsKey(path))
 					{
-						try
-						{
-							typeSolver = new JarTypeSolver(path);
-						}
-						catch (IOException e)
-						{
-							System.out.println("unable to add jar file: " + path);
-						}
+						combinedTypeSolver.add(typeSolvers.get(path));
 					}
-					else if (!path.isEmpty())
+					else 
 					{
-						typeSolver = new JavaParserTypeSolver(new File(path));
-					}
-					
-					if (typeSolver != null)
-					{
-						typeSolvers.put(path, typeSolver);
-						combinedTypeSolver.add(typeSolver);
+						TypeSolver typeSolver = null;
+						
+						if (path.endsWith(".jar"))
+						{
+							try
+							{
+								typeSolver = new JarTypeSolver(path);
+							}
+							catch (IOException e)
+							{
+								System.out.println("unable to add jar file: " + path);
+							}
+						}
+						else if (!path.isEmpty())
+						{
+							typeSolver = new SynchronizedJavaParserTypeSolver(new File(path));
+						}
+						
+						if (typeSolver != null)
+						{
+							typeSolvers.put(path, typeSolver);
+							combinedTypeSolver.add(typeSolver);
+						}
 					}
 				}
 			}

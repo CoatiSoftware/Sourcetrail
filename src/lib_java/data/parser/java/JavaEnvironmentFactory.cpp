@@ -53,6 +53,14 @@ void JavaEnvironmentFactory::createInstance(std::string classPath, std::string& 
 	std::string classPathOption = "-Djava.class.path=" + classPath;
 	options[0].optionString = const_cast<char*>(classPathOption.c_str());
 	options[1].optionString = const_cast<char*>("-Xms64m");
+
+	// use these options to enable profiling in VisualVM
+	//options[2].optionString = const_cast<char*>("-Dcom.sun.management.jmxremote");
+	//options[3].optionString = const_cast<char*>("-Dcom.sun.management.jmxremote.port=9010");
+	//options[4].optionString = const_cast<char*>("-Dcom.sun.management.jmxremote.local.only=false");
+	//options[5].optionString = const_cast<char*>("-Dcom.sun.management.jmxremote.authenticate=false");
+	//options[6].optionString = const_cast<char*>("-Dcom.sun.management.jmxremote.ssl=false");
+
 	if (optionCount == 3)
 	{
 		options[2].optionString = const_cast<char*>(maximumMemoryOprionString.c_str());
