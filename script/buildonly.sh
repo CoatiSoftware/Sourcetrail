@@ -6,6 +6,18 @@ MY_PATH=`dirname "$0"`
 
 cd $MY_PATH/..
 
+# run setup script if needed
+if [ ! -d "build/Release" ]
+then
+	$MY_PATH/setup.sh
+	if [ $? -ne 0 ]
+	then
+		exit 1;
+	fi
+else
+	echo "build exists"
+fi
+
 # Build target
 
 if [ "$1" = "release" ] || [ "$1" = "r" ] || [ "$1" = "" ]
