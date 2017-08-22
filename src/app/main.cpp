@@ -31,6 +31,7 @@
 #include "utility/ResourcePaths.h"
 #include "utility/ScopedFunctor.h"
 #include "utility/UserPaths.h"
+#include "utility/utility.h"
 #include "utility/utilityApp.h"
 #include "utility/utilityPathDetection.h"
 #include "utility/Version.h"
