@@ -69,6 +69,7 @@ private:
 
 	QtThreadedLambdaFunctor m_onQtThread;
 	QtThreadedLambdaFunctor m_onQtThread2;
+	QtThreadedLambdaFunctor m_onQtThread3;
 
 	bool m_resultReady;
 };

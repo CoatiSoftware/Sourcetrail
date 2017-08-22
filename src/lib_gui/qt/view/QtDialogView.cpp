@@ -31,7 +31,7 @@ void QtDialogView::showUnknownProgressDialog(const std::string& title, const std
 {
 	MessageStatus(title + ": " + message, false, true).dispatch();
 
-	m_onQtThread(
+	m_onQtThread2(
 		[=]()
 		{
 			QtIndexingDialog* window = dynamic_cast<QtIndexingDialog*>(m_windowStack.getTopWindow());
@@ -55,7 +55,7 @@ void QtDialogView::hideUnknownProgressDialog()
 {
 	MessageStatus("", false, false).dispatch();
 
-	m_onQtThread(
+	m_onQtThread2(
 		[=]()
 		{
 			QtIndexingDialog* window = dynamic_cast<QtIndexingDialog*>(m_windowStack.getTopWindow());
@@ -196,7 +196,7 @@ void QtDialogView::finishedIndexingDialog(
 
 void QtDialogView::hideDialogs()
 {
-	m_onQtThread(
+	m_onQtThread2(
 		[=]()
 		{
 			m_windowStack.clearWindows();
@@ -212,7 +212,7 @@ int QtDialogView::confirm(const std::string& message, const std::vector<std::str
 	int result = -1;
 	m_resultReady = false;
 
-	m_onQtThread(
+	m_onQtThread2(
 		[=, &result]()
 		{
 			QMessageBox msgBox;
@@ -259,7 +259,7 @@ void QtDialogView::setParentWindow(QtWindow* window)
 
 void QtDialogView::handleMessage(MessageInterruptTasks* message)
 {
-	m_onQtThread2(
+	m_onQtThread3(
 		[=]()
 		{
 			QtIndexingDialog* window = dynamic_cast<QtIndexingDialog*>(m_windowStack.getTopWindow());
@@ -275,7 +275,7 @@ void QtDialogView::handleMessage(MessageNewErrors* message)
 {
 	ErrorCountInfo errorInfo = m_storageAccess->getErrorCount();
 
-	m_onQtThread2(
+	m_onQtThread3(
 		[=]()
 		{
 			updateErrorCount(errorInfo.total, errorInfo.fatal);
@@ -292,7 +292,7 @@ void QtDialogView::handleMessage(MessageShowErrors* message)
 
 	ErrorCountInfo errorInfo = message->errorCount;
 
-	m_onQtThread2(
+	m_onQtThread3(
 		[=]()
 		{
 			updateErrorCount(errorInfo.total, errorInfo.fatal);
