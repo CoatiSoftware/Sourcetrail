@@ -787,7 +787,7 @@ void QtProjectWizzard::sourcePathsJava()
 void QtProjectWizzard::sourcePathsJavaMaven()
 {
 	std::dynamic_pointer_cast<SourceGroupSettingsJava>(m_newSourceGroupSettings)->setMavenDependenciesDirectory(
-		FilePath("./sourcetrail_dependencies/" + utility::replace(m_projectSettings->getProjectName(), " ", "_") + "/maven")
+		FilePath("./sourcetrail_dependencies/" + utility::replace(m_projectSettings->getProjectName(), " ", "_") + "/" + m_newSourceGroupSettings->getId() + "/maven")
 	);
 
 	QtProjectWizzardWindow* window = createWindowWithSummary(
