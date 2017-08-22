@@ -204,7 +204,10 @@ int main(int argc, char *argv[])
 	);
 	QApplication::setApplicationVersion(version.toDisplayString().c_str());
 
-	MessageStatus("Starting Sourcetrail " + version.toDisplayString()).dispatch();
+	MessageStatus(
+		std::string("Starting Sourcetrail ") +
+		(utility::getApplicationArchitectureType() == APPLICATION_ARCHITECTURE_X86_32 ? "32" : "64") + " bit, " + 
+		"version " + version.toDisplayString()).dispatch();
 
 	commandline::CommandLineParser commandLineParser(version.toString());
 	commandLineParser.preparse(argc, argv);

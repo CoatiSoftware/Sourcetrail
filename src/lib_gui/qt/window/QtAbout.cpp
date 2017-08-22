@@ -7,8 +7,9 @@
 
 #include "qt/utility/QtDeviceScaledPixmap.h"
 #include "qt/utility/utilityQt.h"
-#include "utility/Version.h"
 #include "utility/ResourcePaths.h"
+#include "utility/utility.h"
+#include "utility/Version.h"
 
 QtAbout::QtAbout(QWidget *parent)
 	: QtWindow(false, parent)
@@ -71,7 +72,13 @@ void QtAbout::setupAbout()
 	{
 		QHBoxLayout* row = new QHBoxLayout();
 		windowLayout->addLayout(row);
-		QLabel* versionLabel = new QLabel(("Version " + Version::getApplicationVersion().toDisplayString()).c_str(), this);
+		QLabel* versionLabel = new QLabel(
+			(
+				"Version " + Version::getApplicationVersion().toDisplayString() + " - " +
+				std::string(utility::getApplicationArchitectureType() == APPLICATION_ARCHITECTURE_X86_32 ? "32" : "64") + " bit"
+			).c_str(), 
+			this
+		);
 		row->addWidget(versionLabel);
 	}
 

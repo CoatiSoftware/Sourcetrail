@@ -4,6 +4,7 @@
 
 #include "utility/logging/logging.h"
 #include "utility/messaging/type/MessageStatus.h"
+#include "utility/utility.h"
 #include "utility/Version.h"
 
 std::shared_ptr<LogManager> LogManager::getInstance()
@@ -28,9 +29,15 @@ void LogManager::setLoggingEnabled(bool enabled)
 {
 	if (m_loggingEnabled != enabled)
 	{
+		m_loggingEnabled = enabled;
+
 		if (enabled)
 		{
-			LOG_INFO("Enabled logging for Sourcetrail " + Version::getApplicationVersion().toDisplayString());
+			LOG_INFO(
+				std::string("Enabled logging for Sourcetrail ") + 
+				(utility::getApplicationArchitectureType() == APPLICATION_ARCHITECTURE_X86_32 ? "32" : "64") + " bit, " +
+				"version " + Version::getApplicationVersion().toDisplayString()
+			);
 			MessageStatus("Enabled console and file logging.").dispatch();
 		}
 		else
@@ -39,8 +46,6 @@ void LogManager::setLoggingEnabled(bool enabled)
 			MessageStatus("Disabled console and file logging.").dispatch();
 		}
 	}
-
-	m_loggingEnabled = enabled;
 }
 
 void LogManager::addLogger(std::shared_ptr<Logger> logger)
