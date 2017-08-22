@@ -92,24 +92,24 @@ void CommandConfig::setup()
 	po::options_description options("Config Options");
 	options.add_options()
 		("help,h", "Print this help message")
-		("indexerthreads,t", po::value<int>(), "Set the number of threads used for indexing")
+		("indexer-threads,t", po::value<int>(), "Set the number of threads used for indexing (0 uses ideal thread count)")
 		("use-processes,p", po::value<bool>(), "Enable C/C++ Indexer threads to run in different processes. <true/false>")
 		("logging-enabled,l", po::value<bool>(), "Enable file/console logging <true/false>")
 		("verbose-indexer-logging-enabled,L", po::value<bool>(),
-		 "Enable additional log of abstract syntax tree during the indexing. <true/false> WARNINIG Slows down the indexing process")
+		 "Enable additional log of abstract syntax tree during the indexing. <true/false> WARNINIG Slows down indexing speed")
 		("jvm-path,j", po::value<std::string>(), "Path to the location of the jvm library")
 		("jvm-max-memory,M", po::value<int>(),
 		 "Set the maximum amount of memory for the JVM indexer(-1 for using the JVM default settings)")
 		("maven-path,m", po::value<std::string>(), "Path to the maven binary")
 		("jre-system-library-paths,J", po::value<std::vector<std::string>>(),
 		 "paths to the jars of the JRE system library. "
-		 "These jars can be found inside your JRE install directory(once per path or comma separated)")
+		 "These jars can be found inside your JRE install directory (once per path or comma separated)")
 		("license-file,z", po::value<std::string>(), "Enter license via Licensefile")
 		("license-string,Z", po::value<std::string>(), "Enter licenes via commandline")
 		("global-header-search-paths,g", po::value<std::vector<std::string>>(),
-		 "Global include paths(once per path or comma separated)")
+		 "Global include paths (once per path or comma separated)")
 		("global-framework-search-paths,F", po::value<std::vector<std::string>>(),
-		 "Global include paths(once per path or comma separated)")
+		 "Global include paths (once per path or comma separated)")
 		("show,s", "displays all settings")
 		;
 
@@ -132,7 +132,7 @@ void printVector(const std::string& title, const std::vector<FilePath>& vec)
 void CommandConfig::printSettings(ApplicationSettings* settings)
 {
 	std::cout << "Sourcetrail Settings:\n"
-			  << "\n  indexerthread count: " << settings->getIndexerThreadCount()
+			  << "\n  indexer-threads: " << settings->getIndexerThreadCount()
 			  << "\n  use-processes: " << settings->getMultiProcessIndexingEnabled()
 			  << "\n  logging-enabled: " << settings->getLoggingEnabled()
 			  << "\n  verbose-indexer-logging-enabled: " << settings->getVerboseIndexerLoggingEnabled()
@@ -195,7 +195,7 @@ ReturnStatus CommandConfig::parse(std::vector<std::string>& args)
 		vm
 	);
 
-	parseAndSetValue(&ApplicationSettings::setIndexerThreadCount, "indexerthreads", settings, vm);
+	parseAndSetValue(&ApplicationSettings::setIndexerThreadCount, "indexer-threads", settings, vm);
 	parseAndSetValue(&ApplicationSettings::setJavaMaximumMemory, "jvm-max-memory", settings, vm);
 
 	parseAndSetValue(&ApplicationSettings::setMavenPath, "maven-path", settings, vm);

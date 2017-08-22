@@ -22,7 +22,7 @@ const std::string Command::name()
 
 void Command::printHelp()
 {
-	std::cout << "Usage:\n  sourcetrail "
+	std::cout << "Usage:\n  Sourcetrail "
 			<< m_name << " [option...]\n\n";
 	std::cout << m_options << std::endl;
 	if (m_positional.max_total_count() > 0)

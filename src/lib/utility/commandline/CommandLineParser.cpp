@@ -32,7 +32,7 @@ void CommandLineParser::setup()
 	options.add_options()
 		("help,h", "Print this help message")
 		("version,v", "Version of Sourcetrail")
-		("project-file", po::value<std::string>(), "Open Sourcetrail with this project")
+		("project-file", po::value<std::string>(), "Open Sourcetrail with this project (.srctrlprj)")
 		;
 
 	m_options.add(options);
@@ -159,7 +159,7 @@ License* CommandLineParser::getLicensePtr()
 
 void CommandLineParser::printHelp() const
 {
-	std::cout << "Usage:\n  sourcetrail [command] [option...] [positional arguments]\n\n";
+	std::cout << "Usage:\n  Sourcetrail [command] [option...] [positional arguments]\n\n";
 
 	// Commands
 	std::cout << "Commands:\n";
@@ -167,7 +167,7 @@ void CommandLineParser::printHelp() const
 	{
 		std::cout << "  " << Command->name() << "\n";
 	}
-	std::cout << "\n  * Each Commands has his own --help\n";
+	std::cout << "\n  * Each command has its own --help\n";
 
 	std::cout << m_options << std::endl;
 
@@ -230,7 +230,7 @@ void CommandLineParser::processProjectfile()
 
 	if (m_projectFile.extension() != ".srctrlprj" && m_projectFile.extension() != ".coatiproject")
 	{
-		m_errorString = errorstring + " has a wrong fileending";
+		m_errorString = errorstring + " has a wrong file ending";
 		m_projectFile = FilePath();
 		return;
 	}
@@ -238,7 +238,7 @@ void CommandLineParser::processProjectfile()
 	std::shared_ptr<ConfigManager> configManager = ConfigManager::createEmpty();
 	if (!configManager->load(TextAccess::createFromFile(m_projectFile)))
 	{
-		m_errorString = errorstring + " could not be loaded(invalid)";
+		m_errorString = errorstring + " could not be loaded (invalid)";
 		m_projectFile = FilePath();
 		return;
 	}

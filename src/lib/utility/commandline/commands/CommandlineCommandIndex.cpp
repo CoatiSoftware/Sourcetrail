@@ -20,8 +20,8 @@ void CommandIndex::setup()
 	po::options_description options("Config Options");
 	options.add_options()
 		("help,h", "Print this help message")
-		("full", "Paths for Sourcefiles")
-		("project-file", po::value<std::string>(), "Project file to index")
+		("full,f", "Index full project (omit to only index new/changed files)")
+		("project-file", po::value<std::string>(), "Project file to index (.srctrlprj)")
 		;
 
 	m_options.add(options);
