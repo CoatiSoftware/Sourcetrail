@@ -5,7 +5,7 @@
 		<window_base_height>500</window_base_height>
 	</application>
   <indexing>
-    <indexer_thread_count>4</indexer_thread_count>
+    <indexer_thread_count>0</indexer_thread_count>
   </indexing>
 	<user>
 		<recent_projects>
