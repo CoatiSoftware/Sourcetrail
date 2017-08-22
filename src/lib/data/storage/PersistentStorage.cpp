@@ -530,7 +530,7 @@ std::shared_ptr<SourceLocationCollection> PersistentStorage::getFullTextSearchLo
 			if ( addHit )
 			{
 				// Set first bit to 1 to avoid collisions
-				Id locationId = ~(~size_t(0) >> 1) + collection->getSourceLocationCount();
+				Id locationId = ~(~Id(0) >> 1) + collection->getSourceLocationCount() + 1;
 
 				collection->addSourceLocation(
 					LOCATION_FULLTEXT,
@@ -1344,7 +1344,7 @@ std::shared_ptr<SourceLocationCollection> PersistentStorage::getErrorSourceLocat
 			errors->push_back(error);
 
 			// Set first bit to 1 to avoid collisions
-			Id locationId = ~(~size_t(0) >> 1) + error.id;
+			Id locationId = ~(~Id(0) >> 1) + error.id;
 
 			collection->addSourceLocation(
 				LOCATION_ERROR,
@@ -2252,7 +2252,7 @@ void PersistentStorage::addAggregationEdgesToGraph(
 		}
 
 		// Set first bit to 1 to avoid collisions
-		Id aggregationId = ~(~size_t(0) >> 1) + *componentAggregation->getAggregationIds().begin();
+		Id aggregationId = ~(~Id(0) >> 1) + *componentAggregation->getAggregationIds().begin();
 
 		Edge* edge = graph->createEdge(aggregationId, Edge::EDGE_AGGREGATION, sourceNode, targetNode);
 		edge->addComponentAggregation(componentAggregation);
@@ -2349,7 +2349,7 @@ void PersistentStorage::addInheritanceChainsToGraph(const std::vector<Id>& activ
 				}
 
 				// Set first 2 bits to 1 to avoid collisions
-				Id inheritanceEdgeId = ~(~size_t(0) >> 2) + inheritanceEdgeCount++;
+				Id inheritanceEdgeId = ~(~Id(0) >> 2) + inheritanceEdgeCount++;
 
 				Edge* inheritanceEdge = graph->createEdge(
 					inheritanceEdgeId, Edge::EDGE_INHERITANCE, graph->getNodeById(sourceId), graph->getNodeById(targetId));
