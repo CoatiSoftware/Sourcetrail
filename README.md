@@ -12,8 +12,10 @@
 * Boost 1.64
 * Botan 2.1.0
 * Image Magick 7.0.6
+* ccache (unix)
 
 also something about java, but who knows...
+
 
 #### Environment Variables
 
@@ -35,6 +37,11 @@ For Windows:
 	- apped path to jdk/bin
 	- append path to VisualStudio/Common7/Tools
 	- append path to VisualStudio/Common7/IDE
+
+##### ccache
+
+* install ccache
+* if ccache is in path it will be used for recompilation
 
 ##### Clang setup
 
