@@ -724,6 +724,9 @@ if (UNIX)
 		"-E" "create_symlink"
 		"${CMAKE_SOURCE_DIR}/bin/app/data"
 		"${CMAKE_BINARY_DIR}/app/data"
+		COMMAND ${CMAKE_COMMAND}
+		"-E" "make_directory"
+		"${CMAKE_BINARY_DIR}/test"
 		COMMAND "${CMAKE_COMMAND}"
 		"-E" "create_symlink"
 		"${CMAKE_SOURCE_DIR}/bin/test/data"
