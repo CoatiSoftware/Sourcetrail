@@ -46,6 +46,7 @@ void QtTextEditDialog::populateWindow(QWidget* widget)
 
 	QLabel* description = new QLabel(m_description);
 	description->setObjectName("description");
+	description->setWordWrap(true);
 	layout->addWidget(description);
 
 	m_text = new QPlainTextEdit();

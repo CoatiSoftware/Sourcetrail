@@ -484,33 +484,22 @@ void QtProjectWizzardContentPathsHeaderSearch::showValidationResult(const std::v
 			detailedText += unresolvedInclude.getIncludingFile().str() + "[" + std::to_string(unresolvedInclude.getLineNumber()) + "]: " + unresolvedInclude.getDirective() + "\n";
 		}
 
-		QMessageBox msgBox;
-		msgBox.setText(QString::fromStdString(
-			"<p>The indexed files contain <b>" + std::to_string(unresolvedIncludes.size()) + "</b> include directive" + (unresolvedIncludes.size() == 1 ? "" : "s") + " that could "
+		m_filesDialog = std::make_shared<QtTextEditDialog>("Unresolved Include Directives",
+			("<p>The indexed files contain <b>" + std::to_string(unresolvedIncludes.size()) + "</b> include directive" + (unresolvedIncludes.size() == 1 ? "" : "s") + " that could "
 			"not be resolved correctly. Please check the details and add the respective header search paths.</p>"
 			"<p><b>Note</b>: This is only a quick pass that does not regard block commenting or conditional preprocessor directives. This means that "
-			"some of the unresolved includes may actually not be required by the indexer.</p>"));
-		msgBox.setDetailedText(QString::fromStdString(detailedText));
-		msgBox.exec();
+			"some of the unresolved includes may actually not be required by the indexer.</p>").c_str()
+		);
+		m_filesDialog->setup();
+		m_filesDialog->setCloseVisible(false);
+		m_filesDialog->setReadOnly(true);
+
+		m_filesDialog->setText(detailedText);
+		m_filesDialog->showWindow();
+
+		connect(m_filesDialog.get(), &QtTextEditDialog::finished, this, &QtProjectWizzardContentPathsHeaderSearch::closedFilesDialog);
+		connect(m_filesDialog.get(), &QtTextEditDialog::canceled, this, &QtProjectWizzardContentPathsHeaderSearch::closedFilesDialog);
 	}
-
-
-	//if (!m_filesDialog)
-	//{
-	//	m_filesDialog = std::make_shared<QtTextEditDialog>(
-	//		getFileNamesTitle(), QString::number(fileNames.size()) + " " + getFileNamesDescription());
-	//	m_filesDialog->setup();
-
-	//	m_filesDialog->setText(utility::join(fileNames, "\n"));
-	//	m_filesDialog->setCloseVisible(false);
-	//	m_filesDialog->setReadOnly(true);
-
-	//	connect(m_filesDialog.get(), SIGNAL(finished()), this, SLOT(closedFilesDialog()));
-	//	connect(m_filesDialog.get(), SIGNAL(canceled()), this, SLOT(closedFilesDialog()));
-	//}
-
-	//m_filesDialog->showWindow();
-	//m_filesDialog->raise();
 }
 
 QtProjectWizzardContentPathsHeaderSearchGlobal::QtProjectWizzardContentPathsHeaderSearchGlobal(
