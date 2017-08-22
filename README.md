@@ -11,6 +11,7 @@
 * Clang & LLVM 4.0.1 (doesnt quite work for windows, use unix setup below and skip all the ninja stuff)(installation guide http://clang.llvm.org/docs/LibASTMatchersTutorial.html)
 * Boost 1.64
 * Botan 2.1.0
+* Image Magick 7.0.6
 
 also something about java, but who knows...
 
@@ -28,6 +29,7 @@ For Windows:
 * QT_WIN32_DIR - .../Qt/Qt5.9.1/5.9.1/msvc2015<IDE>
 * QT_WIN64_DIR - .../Qt/Qt5.9.1/5.9.1/msvc2015_64<IDE>
 * VLD_DIR - .../Visual Leak Detector
+* JAVA_HOME - .../Java/jdk1.x.x_xxx
 * path
 	- apped path to git.exe
 	- apped path to jdk/bin
