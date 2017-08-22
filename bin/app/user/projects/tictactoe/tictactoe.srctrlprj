@@ -2,7 +2,17 @@
 <config>
     <source_groups>
         <source_group_afdfade2-4b42-49a6-961a-d4a563f2cf84>
-            <name>C++ Source Group</name>
+            <cross_compilation>
+                <target>
+                    <abi>unknown</abi>
+                    <arch>x86_64</arch>
+                    <sys>unknown</sys>
+                    <vendor>unknown</vendor>
+                </target>
+                <target_options_enabled>0</target_options_enabled>
+            </cross_compilation>
+            <name>TicTacToe Source Group</name>
+            <should_apply_anonymous_typedef_transformation>1</should_apply_anonymous_typedef_transformation>
             <source_extensions>
                 <source_extension>.cpp</source_extension>
                 <source_extension>.cxx</source_extension>

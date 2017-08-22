@@ -17,7 +17,7 @@
 	</description>
     <source_groups>
         <source_group_7a9e75fc-2cad-42d5-8c5b-c86d02f7b4e4>
-            <type>Java Source Group</type>
+            <name>Javaparser Source Group</name>
             <source_extensions>
                 <source_extension>.java</source_extension>
             </source_extensions>
@@ -25,8 +25,9 @@
                 <source_path>./src/main/java</source_path>
                 <source_path>./target/generated-sources/javacc</source_path>
             </source_paths>
-            <use_jre_system_library>1</use_jre_system_library>
             <standard>8</standard>
+            <type>Java Source Group</type>
+            <use_jre_system_library>1</use_jre_system_library>
         </source_group_7a9e75fc-2cad-42d5-8c5b-c86d02f7b4e4>
     </source_groups>
     <version>4</version>
