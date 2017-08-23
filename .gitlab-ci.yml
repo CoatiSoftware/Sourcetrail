@@ -41,7 +41,7 @@ variables:
 build:Linux64:
     image: $IMAGE_64
     only:
-        - /^release-.*$/
+        - /^release.*$/
         - master
         - tags
     cache:
@@ -54,7 +54,7 @@ build:Linux64:
 build:Linux32:
     image: $IMAGE_32
     only:
-        - /^release-.*$/
+        - /^release.*$/
         - master
         - tags
     cache:
