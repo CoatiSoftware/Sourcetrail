@@ -30,7 +30,7 @@ public class JavaIndexer
 	{
 		AstVisitorClient astVisitorClient = new JavaIndexerAstVisitorClient(address);
 		
-		astVisitorClient.logInfo( "indexing source file: " + filePath);
+		astVisitorClient.logInfo("indexing source file: " + filePath);
 		
 		try 
 		{
@@ -48,28 +48,35 @@ public class JavaIndexer
 					}
 					else 
 					{
-						TypeSolver typeSolver = null;
-						
-						if (path.endsWith(".jar"))
+						try
 						{
-							try
+							TypeSolver typeSolver = null;
+							
+							if (path.endsWith(".jar"))
 							{
-								typeSolver = new JarTypeSolver(path);
+								try
+								{
+									typeSolver = new JarTypeSolver(path);
+								}
+								catch (IOException e)
+								{
+									System.out.println("unable to add jar file: " + path);
+								}
 							}
-							catch (IOException e)
+							else if (!path.isEmpty())
 							{
-								System.out.println("unable to add jar file: " + path);
+								typeSolver = new SynchronizedJavaParserTypeSolver(new File(path));
+							}
+							
+							if (typeSolver != null)
+							{
+								typeSolvers.put(path, typeSolver);
+								combinedTypeSolver.add(typeSolver);
 							}
 						}
-						else if (!path.isEmpty())
+						catch (Exception e)
 						{
-							typeSolver = new SynchronizedJavaParserTypeSolver(new File(path));
-						}
-						
-						if (typeSolver != null)
-						{
-							typeSolvers.put(path, typeSolver);
-							combinedTypeSolver.add(typeSolver);
+							astVisitorClient.logWarning("unable to add dependency: " + path);
 						}
 					}
 				}
