@@ -16,7 +16,6 @@
 #include "component/view/View.h"
 #include "data/bookmark/Bookmark.h"
 #include "LicenseChecker.h"
-#include "qt/network/QtUpdateChecker.h"
 #include "qt/utility/QtContextMenu.h"
 #include "qt/utility/utilityQt.h"
 #include "qt/view/QtViewWidgetWrapper.h"
@@ -360,7 +359,6 @@ void QtMainWindow::keyPressEvent(QKeyEvent* event)
 			break;
 
 		case Qt::Key_Space:
-			QtUpdateChecker::check();
 			PRINT_TRACES();
 			break;
 	}

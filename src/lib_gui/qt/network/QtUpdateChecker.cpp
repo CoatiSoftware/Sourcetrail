@@ -53,6 +53,7 @@ void QtUpdateChecker::check(bool force)
 	urlString += ("&platform=" + platformString + "bit").c_str();
 
 	// version
+	// Version::setApplicationVersion(Version::fromString("2017.3.10")); // for debugging
 	urlString += ("&version=" + Version::getApplicationVersion().toDisplayString()).c_str();
 
 	// license
@@ -147,5 +148,10 @@ void QtUpdateChecker::check(bool force)
 
 void QtUpdateChecker::checkUpdate()
 {
-	check();
+	m_onQtThread(
+		[this]()
+		{
+			check();
+		}
+	);
 }

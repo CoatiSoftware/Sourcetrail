@@ -8,7 +8,7 @@
 QtRequest::QtRequest()
 {
 	m_networkManager = new QNetworkAccessManager(this);
-	QObject::connect(m_networkManager, SIGNAL(finished(QNetworkReply*)), this, SLOT(finished(QNetworkReply*)));
+	QObject::connect(m_networkManager, &QNetworkAccessManager::finished, this, &QtRequest::finished);
 }
 
 void QtRequest::sendRequest(QString url)
