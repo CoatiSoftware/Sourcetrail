@@ -96,8 +96,8 @@ fi
 
 # BUILDING THE INSTALLER
 cd deployment/windows/wixSetup
-build_win32.sh
-build_win64.sh
+sh build_win32.sh
+sh build_win64.sh
 cd ../../..
 
 

@@ -1,1 +1,1 @@
-build.sh -win32
+sh build.sh -win32

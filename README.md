@@ -7,12 +7,13 @@
 * JDK 1.8
 * QT 5.9.1
 * CxxTest 4.3
-* Valgrind 3.9.0 (linux)
 * Clang & LLVM 4.0.1 (doesnt quite work for windows, use unix setup below and skip all the ninja stuff)(installation guide http://clang.llvm.org/docs/LibASTMatchersTutorial.html)
 * Boost 1.64
 * Botan 2.1.0
 * Image Magick 7.0.6
-* ccache (unix)
+* ccache (Unix)
+* Wix 3.11 (Windows)
+* Winrar (Windows)
 
 also something about java, but who knows...
 
@@ -33,10 +34,13 @@ For Windows:
 * VLD_DIR - .../Visual Leak Detector
 * JAVA_HOME - .../Java/jdk1.x.x_xxx
 * path
-	- apped path to git.exe
-	- apped path to jdk/bin
+	- append path to git.exe
+	- append path to jdk/bin
 	- append path to VisualStudio/Common7/Tools
 	- append path to VisualStudio/Common7/IDE
+	- append path to .../Microsoft SDKs/Windows/v7.1A/Bin (for uuidgen in deploy script)
+	- append path to .../WiX Toolset v3.11/bin
+	- append path to .../WinRAR
 
 ##### ccache
 
