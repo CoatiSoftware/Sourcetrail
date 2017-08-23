@@ -1,4 +1,3 @@
-
 variables:
     MAVEN_OPTS: "-Dmaven.repo.local=.m2/repository"
     IMAGE_64: coatisoftware/centos6_64_qt_llvm:qt591-llvm401
@@ -41,6 +40,10 @@ variables:
 
 build:Linux64:
     image: $IMAGE_64
+    only:
+        - /^release-.*$/
+        - master
+        - tags
     cache:
         key: cache_linux_64
         paths:
@@ -50,18 +53,16 @@ build:Linux64:
 
 build:Linux32:
     image: $IMAGE_32
+    only:
+        - /^release-.*$/
+        - master
+        - tags
     cache:
         key: cache_linux_32
         paths:
             - ccache/
             - java_indexer/.m2/repository
     when: manual
-    <<: *build_def
-
-build:Linux32_tag:
-    image: $IMAGE_32
-    only:
-        - tags
     <<: *build_def
 
 LicenseGenerator:
