@@ -35,6 +35,9 @@ variables:
         - lftp -u $FTP_USER,$FTP_PW -p $FTP_PORT $FTP_ADDR -e "mkdir $TARGET_DIR; mput -O $TARGET_DIR Sourcetrail*; bye"
     only:
         - master
+        - tags
+        - /^release.*$/
+        
 
 ## Build Stage ##
 
