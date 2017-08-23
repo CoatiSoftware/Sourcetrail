@@ -219,8 +219,13 @@
 				<ComponentRef Id='apiMsWinCrtTime_l1_1_0Dll'/>
 				<ComponentRef Id='apiMsWinCrtUtility_l1_1_0Dll'/>
 				<ComponentRef Id='libeay32_dll'/>
+				<?if $(var.Win64) = "no" ?>
+					<ComponentRef Id='libgcc_s_dw2_1_dll'/>
+					<ComponentRef Id='libwinpthread_1_dll'/>
+				<?endif ?>
 				<ComponentRef Id='msvcp140_dll'/>
 				<ComponentRef Id='qtConf'/>
+				<ComponentRef Id='ssleay32_dll'/>
 				<ComponentRef Id='ucrtbaseDll'/>
 				<ComponentRef Id='vcruntime140_dll'/>
 

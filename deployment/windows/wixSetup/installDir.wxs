@@ -213,12 +213,28 @@
 				<File Id='libeay32' Name='libeay32.dll' DiskId='1' Source='$(var.PlatformSourceFolder)/libeay32.dll' KeyPath='yes' />
 			</Component>
 			
+			<?if $(var.Win64) = "no" ?>
+				<Component Id='libgcc_s_dw2_1_dll' Guid='*' Win64="$(var.Win64)">
+					<File Id='libgcc_s_dw2_1' Name='libgcc_s_dw2-1.dll' DiskId='1' Source='$(var.PlatformSourceFolder)/libgcc_s_dw2-1.dll' KeyPath='yes' />
+				</Component>
+			<?endif ?>
+			
+			<?if $(var.Win64) = "no" ?>
+				<Component Id='libwinpthread_1_dll' Guid='*' Win64="$(var.Win64)">
+					<File Id='libwinpthread_1' Name='libwinpthread-1.dll' DiskId='1' Source='$(var.PlatformSourceFolder)/libwinpthread-1.dll' KeyPath='yes' />
+				</Component>
+			<?endif ?>
+			
 			<Component Id='msvcp140_dll' Guid='*' Win64="$(var.Win64)">
 				<File Id='msvcp140' Name='msvcp140.dll' DiskId='1' Source='$(var.PlatformSourceFolder)/msvcp140.dll' KeyPath='yes' />
 			</Component>
 			
 			<Component Id='qtConf' Guid='*' Win64="$(var.Win64)">
 				<File Id='qt' Name='qt.conf' DiskId='1' Source='$(var.PlatformSourceFolder)/qt.conf' KeyPath='yes' />
+			</Component>
+			
+			<Component Id='ssleay32_dll' Guid='*' Win64="$(var.Win64)">
+				<File Id='ssleay32' Name='ssleay32.dll' DiskId='1' Source='$(var.PlatformSourceFolder)/ssleay32.dll' KeyPath='yes' />
 			</Component>
 			
 			<Component Id='ucrtbaseDll' Guid='*' Win64="$(var.Win64)">
