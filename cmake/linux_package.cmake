@@ -1,15 +1,14 @@
 
-function(InstallQtModule module qtversion componentName)
+function(InstallQtModule module qtversion)
 	get_filename_component(realpath $ENV{QT_DIR}/lib/libQt5${module}.so.${qtversion} REALPATH)
 	INSTALL(FILES
 		${realpath}
 		DESTINATION Sourcetrail/lib
-		COMPONENT ${componentName}
 		RENAME libQt5${module}.so.${qtversion}
 	)
 endfunction(InstallQtModule)
 
-function(GetAndInstallLibrary libraryName componentName)
+function(GetAndInstallLibrary libraryName withoutVersion)
 	execute_process(
 		COMMAND ${CMAKE_CXX_COMPILER} -print-file-name=${libraryName}
 		OUTPUT_VARIABLE LIB
@@ -20,33 +19,35 @@ function(GetAndInstallLibrary libraryName componentName)
 	get_filename_component(realPath ${LIB} REALPATH)
 	string(REGEX MATCH "([^\/]*)$" fileName ${realPath})
 
-	string(REGEX MATCH ".*\.so\.[^.]*" SHORTER ${fileName})
+	if (withoutVersion)
+		string(REGEX MATCH ".*\.so" SHORTER ${fileName})
+	else()
+		string(REGEX MATCH ".*\.so\.[^.]*" SHORTER ${fileName})
+	endif()
 	if (NOT EXISTS ${realPath})
 		message(WARNING "${libraryName} not found")
 	else()
 		INSTALL(FILES
 			${realPath}
 			DESTINATION Sourcetrail/lib
-			COMPONENT ${componentName}
 			RENAME ${SHORTER}
 		)
 	endif()
 endfunction(GetAndInstallLibrary)
 
-function(InstallQt qtversion componentName)
-	InstallQtModule(Gui ${qtversion} ${componentName})
-	InstallQtModule(Core ${qtversion} ${componentName})
-	InstallQtModule(Network ${qtversion} ${componentName})
-	InstallQtModule(XcbQpa ${qtversion} ${componentName})
-	InstallQtModule(Widgets ${qtversion} ${componentName})
-	InstallQtModule(DBus ${qtversion} ${componentName})
+function(InstallQt qtversion)
+	InstallQtModule(Gui ${qtversion})
+	InstallQtModule(Core ${qtversion} )
+	InstallQtModule(Network ${qtversion} )
+	InstallQtModule(XcbQpa ${qtversion} )
+	InstallQtModule(Widgets ${qtversion} )
+	InstallQtModule(DBus ${qtversion} )
 endfunction(InstallQt)
 
-function(AddSharedToComponent componentName)
+function(AddSharedToComponent)
 	INSTALL(DIRECTORY
 		${CMAKE_SOURCE_DIR}/bin/app/data
 		DESTINATION Sourcetrail
-		COMPONENT ${componentName}
 		PATTERN "log/*" EXCLUDE
 		PATTERN "data/src" EXCLUDE
 		PATTERN "projects" EXCLUDE
@@ -57,53 +58,52 @@ function(AddSharedToComponent componentName)
 
 	INSTALL(FILES
 		${CMAKE_SOURCE_DIR}/bin/app/data/gui/installer/EULA.txt
-		COMPONENT ${componentName}
 		DESTINATION Sourcetrail
 	)
 
-	InstallQt(5 ${componentName})
+    InstallQt(5)
 
-	GetAndInstallLibrary(libicui18n.so ${componentName})
-	GetAndInstallLibrary(libicudata.so ${componentName})
-	GetAndInstallLibrary(libicuuc.so ${componentName})
-	GetAndInstallLibrary(libudev.so ${componentName})
-	GetAndInstallLibrary(libpng.so ${componentName})
-	GetAndInstallLibrary(libEGL.so ${componentName})
-	GetAndInstallLibrary(libselinux.so ${componentName})
-	GetAndInstallLibrary(libXrender.so ${componentName})
-	#GetAndInstallLibrary(libstdc++.so ${componentName})
-	GetAndInstallLibrary(libX11-xcb.so ${componentName})
-	GetAndInstallLibrary(libXi.so ${componentName})
-	GetAndInstallLibrary(libxcb.so ${componentName})
-	GetAndInstallLibrary(libfontconfig.so ${componentName})
-	GetAndInstallLibrary(libfreetype.so ${componentName})
-	GetAndInstallLibrary(libXext.so ${componentName})
-	GetAndInstallLibrary(libX11.so ${componentName})
-	GetAndInstallLibrary(libudev.so ${componentName})
-	GetAndInstallLibrary(libGL.so ${componentName})
-	GetAndInstallLibrary(libxcb-dri2.so ${componentName})
-	GetAndInstallLibrary(libxcb-xfixes.so ${componentName})
-	GetAndInstallLibrary(libxcb-render.so ${componentName})
-	GetAndInstallLibrary(libxcb-shape.so ${componentName})
-	GetAndInstallLibrary(libgbm.so.1 ${componentName})
-	GetAndInstallLibrary(libdrm.so ${componentName})
-	GetAndInstallLibrary(libglapi.so ${componentName})
-	GetAndInstallLibrary(libXdamage.so ${componentName})
-	GetAndInstallLibrary(libXfixes.so ${componentName})
-	GetAndInstallLibrary(libxcb-glx.so ${componentName})
-	GetAndInstallLibrary(libXxf86vm.so ${componentName})
-	GetAndInstallLibrary(libdrm.so ${componentName})
-	GetAndInstallLibrary(libXau.so ${componentName})
+	GetAndInstallLibrary(libicui18n.so 0)
+	GetAndInstallLibrary(libicudata.so 0)
+	GetAndInstallLibrary(libicuuc.so 0)
+	GetAndInstallLibrary(libudev.so 0)
+	GetAndInstallLibrary(libpng.so 0)
+	GetAndInstallLibrary(libEGL.so 0)
+	GetAndInstallLibrary(libselinux.so 0)
+	GetAndInstallLibrary(libXrender.so 0)
+	#GetAndInstallLibrary(libstdc++.so 0)
+	GetAndInstallLibrary(libX11-xcb.so 0)
+	GetAndInstallLibrary(libXi.so 0)
+	GetAndInstallLibrary(libxcb.so 0)
+	GetAndInstallLibrary(libfontconfig.so  0)
+	GetAndInstallLibrary(libfreetype.so  0)
+	GetAndInstallLibrary(libXext.so  0)
+	GetAndInstallLibrary(libX11.so  0)
+	GetAndInstallLibrary(libudev.so  0)
+	GetAndInstallLibrary(libGL.so  0)
+	GetAndInstallLibrary(libxcb-dri2.so  0)
+	GetAndInstallLibrary(libxcb-xfixes.so  0)
+	GetAndInstallLibrary(libxcb-render.so  0)
+	GetAndInstallLibrary(libxcb-shape.so  0)
+	GetAndInstallLibrary(libgbm.so.1  0)
+	GetAndInstallLibrary(libdrm.so  0)
+	GetAndInstallLibrary(libglapi.so  0)
+	GetAndInstallLibrary(libXdamage.so  0)
+	GetAndInstallLibrary(libXfixes.so  0)
+	GetAndInstallLibrary(libxcb-glx.so  0)
+	GetAndInstallLibrary(libXxf86vm.so  0)
+	GetAndInstallLibrary(libdrm.so 0)
+	GetAndInstallLibrary(libXau.so 0)
+	GetAndInstallLibrary(libssl.so 1)
+	GetAndInstallLibrary(libcrypto.so 1)
 
 	INSTALL(DIRECTORY
 		$ENV{QT_DIR}/plugins/platforms
 		DESTINATION Sourcetrail/lib
-		COMPONENT ${componentName}
 	)
 
 	INSTALL(DIRECTORY ${CMAKE_SOURCE_DIR}/bin/app/user
 		DESTINATION Sourcetrail
-		COMPONENT ${componentName}
 		PATTERN "ApplicationSettings.xml" EXCLUDE
 		PATTERN "ApplicationSettings_for_package.xml" EXCLUDE
 		PATTERN "ProjectSettings_template.xml" EXCLUDE
@@ -113,38 +113,32 @@ function(AddSharedToComponent componentName)
 
 endfunction(AddSharedToComponent)
 
-# Add shared files to full and trial version
-AddSharedToComponent(FULL)
+AddSharedToComponent()
 
 INSTALL(DIRECTORY
 	${CMAKE_SOURCE_DIR}/ide_plugins/
 	DESTINATION Sourcetrail/plugin
-	COMPONENT FULL
 	PATTERN "vs" EXCLUDE
 )
 
 INSTALL(DIRECTORY
 	${CMAKE_BINARY_DIR}/share
 	DESTINATION Sourcetrail/setup
-	COMPONENT FULL
 )
 
 INSTALL(FILES
 	${CMAKE_SOURCE_DIR}/setup/Linux/README
 	DESTINATION Sourcetrail
-	COMPONENT FULL
 )
 
 INSTALL(FILES
 	${CMAKE_SOURCE_DIR}/setup/Linux/sourcetrail-mime.xml
 	DESTINATION Sourcetrail/setup/share/mime/packages
-	COMPONENT FULL
 )
 
 INSTALL(FILES
 	${CMAKE_SOURCE_DIR}/setup/Linux/sourcetrail.desktop
 	DESTINATION Sourcetrail/setup/share/applications
-	COMPONENT FULL
 )
 
 INSTALL(PROGRAMS
@@ -152,25 +146,21 @@ INSTALL(PROGRAMS
 	${CMAKE_SOURCE_DIR}/setup/Linux/deinstall.sh
 	${CMAKE_SOURCE_DIR}/setup/Linux/removeConfigs.sh
 	DESTINATION Sourcetrail/setup
-	COMPONENT FULL
 	)
 
 INSTALL(PROGRAMS
 	${CMAKE_SOURCE_DIR}/setup/Linux/Sourcetrail.sh
 	DESTINATION Sourcetrail
-	COMPONENT FULL
 )
 
 INSTALL(TARGETS
 	${APP_PROJECT_NAME}
 	DESTINATION Sourcetrail
-	COMPONENT FULL
 )
 
 INSTALL(TARGETS
 	${APP_INDEXER_NAME}
 	DESTINATION Sourcetrail
-	COMPONENT FULL
 )
 
 # SET(CPACK_GENERATOR "DEB;TGZ")
