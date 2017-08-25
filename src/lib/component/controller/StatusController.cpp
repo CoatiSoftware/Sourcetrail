@@ -35,17 +35,21 @@ void StatusController::handleMessage(MessageShowStatus* message)
 
 void StatusController::handleMessage(MessageStatus* message)
 {
-	if (!message->status.size())
+	if (!message->status().size())
 	{
 		return;
 	}
 
-	std::vector<Status> status;
-	status.push_back(Status(message->status, message->isError));
+	std::vector<Status> stati;
 
-	utility::append(m_status, status);
+	for (const std::string& status : message->stati())
+	{
+		stati.push_back(Status(status, message->isError));
+	}
 
-	addStatus(status);
+	utility::append(m_status, stati);
+
+	addStatus(stati);
 }
 
 void StatusController::handleMessage(MessageStatusFilterChanged* message)

@@ -69,7 +69,7 @@ void StatusBarController::handleMessage(MessageShowErrors* message)
 
 void StatusBarController::handleMessage(MessageStatus* message)
 {
-	setStatus(message->status, message->isError, message->showLoader);
+	setStatus(message->status(), message->isError, message->showLoader);
 }
 
 void StatusBarController::setStatus(const std::string& status, bool isError, bool showLoader)

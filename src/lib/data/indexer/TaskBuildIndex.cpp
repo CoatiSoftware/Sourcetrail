@@ -41,7 +41,7 @@ TaskBuildIndex::TaskBuildIndex(
 void TaskBuildIndex::doEnter(std::shared_ptr<Blackboard> blackboard)
 {
 	m_indexingFileCount = 0;
-	updateIndexingDialog(blackboard, FilePath());
+	updateIndexingDialog(blackboard, std::vector<FilePath>());
 
 	{
 		std::lock_guard<std::mutex> lock(blackboard->getMutex());
@@ -91,10 +91,9 @@ Task::TaskState TaskBuildIndex::doUpdate(std::shared_ptr<Blackboard> blackboard)
 	if (commandCount != m_lastCommandCount)
 	{
 		std::vector<FilePath> indexingFiles = m_interprocessIndexingStatusManager.getCurrentlyIndexedSourceFilePaths();
-		for (const FilePath& path : indexingFiles)
+		if (indexingFiles.size())
 		{
-			m_indexingFileCount++;
-			updateIndexingDialog(blackboard, path);
+			updateIndexingDialog(blackboard, indexingFiles);
 		}
 
 		m_lastCommandCount = commandCount;
@@ -116,7 +115,7 @@ Task::TaskState TaskBuildIndex::doUpdate(std::shared_ptr<Blackboard> blackboard)
 
 	if (fetchIntermediateStorages(blackboard))
 	{
-		updateIndexingDialog(blackboard, FilePath());
+		updateIndexingDialog(blackboard, std::vector<FilePath>());
 	}
 
 	const int SLEEP_TIME_MS = 50;
@@ -227,37 +226,47 @@ void TaskBuildIndex::runIndexerThread(int processId)
 
 bool TaskBuildIndex::fetchIntermediateStorages(std::shared_ptr<Blackboard> blackboard)
 {
-	Id finishedProcessId = m_interprocessIndexingStatusManager.getNextFinishedProcessId();
-	if (!finishedProcessId || finishedProcessId > m_interprocessIntermediateStorageManagers.size())
+	int poppedStorageCount = 0;
+
+	TimeStamp t = TimeStamp::now();
+	do
 	{
-		return false;
+		Id finishedProcessId = m_interprocessIndexingStatusManager.getNextFinishedProcessId();
+		if (!finishedProcessId || finishedProcessId > m_interprocessIntermediateStorageManagers.size())
+		{
+			break;
+		}
+
+		std::shared_ptr<InterprocessIntermediateStorageManager> storageManager =
+			m_interprocessIntermediateStorageManagers[finishedProcessId - 1];
+
+		int storageCount = storageManager->getIntermediateStorageCount();
+		if (!storageCount)
+		{
+			break;
+		}
+
+		LOG_INFO_STREAM(<< storageManager->getProcessId() << " - storage count: " << storageCount);
+		m_storageProvider->insert(storageManager->popIntermediateStorage());
+		poppedStorageCount++;
 	}
+	while (TimeStamp::now().deltaMS(t) < 500); // don't process all storages at once to allow for status updates in-between
 
-	std::shared_ptr<InterprocessIntermediateStorageManager> storageManager =
-		m_interprocessIntermediateStorageManagers[finishedProcessId - 1];
-
-	int storageCount = storageManager->getIntermediateStorageCount();
-	if (!storageCount)
-	{
-		return false;
-	}
-
-	LOG_INFO_STREAM(<< storageManager->getProcessId() << " - storage count: " << storageCount);
-	m_storageProvider->insert(storageManager->popIntermediateStorage());
-
+	if (poppedStorageCount > 0)
 	{
 		std::lock_guard<std::mutex> lock(blackboard->getMutex());
 
 		int indexedSourceFileCount = 0;
 		blackboard->get("indexed_source_file_count", indexedSourceFileCount);
-		blackboard->set("indexed_source_file_count", indexedSourceFileCount + 1);
+		blackboard->set("indexed_source_file_count", indexedSourceFileCount + poppedStorageCount);
+		return true;
 	}
 
-	return true;
+	return false;
 }
 
 void TaskBuildIndex::updateIndexingDialog(
-	std::shared_ptr<Blackboard> blackboard, const FilePath& sourcePath)
+	std::shared_ptr<Blackboard> blackboard, const std::vector<FilePath>& sourcePaths)
 {
 	// TODO: factor in unindexed files...
 	int sourceFileCount = 0;
@@ -268,14 +277,21 @@ void TaskBuildIndex::updateIndexingDialog(
 		blackboard->get("indexed_source_file_count", indexedSourceFileCount);
 	}
 
-	if (!sourcePath.empty())
+	if (sourcePaths.size())
 	{
-		std::stringstream ss;
-		ss << "[" << m_indexingFileCount << "/" << sourceFileCount << "] Indexing file: " << sourcePath.str();
-		MessageStatus(ss.str(), false, true).dispatch();
+		std::vector<std::string> stati;
+		for (const FilePath& path : sourcePaths)
+		{
+			m_indexingFileCount++;
+
+			std::stringstream ss;
+			ss << "[" << m_indexingFileCount << "/" << sourceFileCount << "] Indexing file: " << path.str();
+			stati.push_back(ss.str());
+		}
+		MessageStatus(stati, false, true).dispatch();
 	}
 
 	Application::getInstance()->getDialogView()->updateIndexingDialog(
-		m_indexingFileCount, indexedSourceFileCount, sourceFileCount, sourcePath.str()
+		m_indexingFileCount, indexedSourceFileCount, sourceFileCount, (sourcePaths.size() ? sourcePaths.back().str() : "")
 	);
 }

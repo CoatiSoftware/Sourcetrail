@@ -19,5 +19,8 @@ void QtCoreApplication::handleMessage(MessageQuitApplication* message)
 
 void QtCoreApplication::handleMessage(MessageStatus* message)
 {
-	std::cout << message->status << std::endl;
+	for (const std::string& status : message->stati())
+	{
+		std::cout << status << std::endl;
+	}
 }
