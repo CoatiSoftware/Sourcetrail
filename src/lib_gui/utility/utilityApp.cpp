@@ -18,7 +18,7 @@ namespace utility
 	std::set<QProcess*> s_runningProcesses;
 }
 
-std::string utility::executeProcess(const std::string& command, const std::string& workingDirectory, int timeout)
+std::string utility::executeProcess(const std::string& command, const std::string& workingDirectory, const int timeout)
 {
 	QProcess process;
 	process.setProcessChannelMode(QProcess::MergedChannels);
@@ -47,7 +47,50 @@ std::string utility::executeProcess(const std::string& command, const std::strin
 	return processoutput;
 }
 
-int utility::executeProcessAndGetExitCode(const std::string& command, const std::string& workingDirectory, int timeout)
+std::string utility::executeProcessUntilNoOutput(const std::string& command, const std::string& workingDirectory, const int waitTime)
+{
+	QProcess process;
+	process.setProcessChannelMode(QProcess::MergedChannels);
+
+	if (!workingDirectory.empty())
+	{
+		process.setWorkingDirectory(workingDirectory.c_str());
+	}
+
+	{
+		std::lock_guard<std::mutex> lock(s_runningProcessesMutex);
+		process.start(command.c_str());
+		s_runningProcesses.insert(&process);
+	}
+
+	std::string processoutput = "";
+	while (!process.waitForFinished(waitTime))
+	{
+		const std::string currentOutput = process.readAll().toStdString();
+		if (currentOutput.empty())
+		{
+			LOG_WARNING("Canceling process because it did not generate any output during the last " + std::to_string(waitTime / 1000) + " seconds.");
+			break;
+		}
+		else
+		{
+			processoutput += currentOutput;
+		}
+	}
+
+	{
+		std::lock_guard<std::mutex> lock(s_runningProcessesMutex);
+		s_runningProcesses.erase(&process);
+	}
+
+	processoutput += process.readAll().toStdString();
+	process.close();
+	processoutput = utility::trim(processoutput);
+
+	return processoutput;
+}
+
+int utility::executeProcessAndGetExitCode(const std::string& command, const std::string& workingDirectory, const int timeout)
 {
 	QProcess process;
 

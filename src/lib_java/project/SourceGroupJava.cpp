@@ -162,16 +162,19 @@ bool SourceGroupJava::prepareMavenData()
 				"Please make sure to provide the correct Maven Path in the preferences.";
 
 			MessageStatus(dialogMessage, true, false).dispatch();
-
 			Application::getInstance()->handleDialog(dialogMessage);
-			return false;
 		}
 
-		dialogView->showUnknownProgressDialog("Preparing Project", "Maven\nExporting Dependencies");
+		if (success)
+		{
+			dialogView->showUnknownProgressDialog("Preparing Project", "Maven\nExporting Dependencies");
 
-		utility::mavenCopyDependencies(
-			mavenPath, projectRootPath, m_settings->getMavenDependenciesDirectoryExpandedAndAbsolute()
-		);
+			success = utility::mavenCopyDependencies(
+				mavenPath, projectRootPath, m_settings->getMavenDependenciesDirectoryExpandedAndAbsolute()
+			);
+		}
+
+		return success;
 	}
 
 	return true;

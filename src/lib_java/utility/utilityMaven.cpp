@@ -66,9 +66,10 @@ namespace utility
 	{
 		setJavaHomeVariableIfNotExists();
 
-		const std::string output = utility::executeProcess(
+		const std::string output = utility::executeProcessUntilNoOutput(
 			"\"" + mavenPath.str() + "\" generate-sources",
-			projectDirectoryPath.str()
+			projectDirectoryPath.str(),
+			60000
 		);
 		return !output.empty();
 	}
@@ -77,10 +78,26 @@ namespace utility
 	{
 		setJavaHomeVariableIfNotExists();
 
-		const std::string output = utility::executeProcess(
+		const std::string output = utility::executeProcessUntilNoOutput(
 			"\"" + mavenPath.str() + "\" dependency:copy-dependencies -DoutputDirectory=" + outputDirectoryPath.str(),
-			projectDirectoryPath.str()
+			projectDirectoryPath.str(),
+			60000
 		);
+
+		std::shared_ptr<TextAccess> outputAccess = TextAccess::createFromString(output);
+		for (const std::string& line: outputAccess->getAllLines())
+		{
+			if (utility::isPrefix("[ERROR]", utility::trim(line)))
+			{
+				// TODO: move error handling to caller of this function
+				const std::string dialogMessage =
+					"The following error occurred while executing a Maven command:\n\n" + utility::replace(line, "\r\n", "\n");
+				MessageStatus(dialogMessage, true, false).dispatch();
+				Application::getInstance()->handleDialog(dialogMessage);
+				return false;
+			}
+		}
+
 		return !output.empty();
 	}
 
@@ -88,9 +105,10 @@ namespace utility
 	{
 		setJavaHomeVariableIfNotExists();
 
-		std::shared_ptr<TextAccess> outputAccess = TextAccess::createFromString(utility::executeProcess(
+		std::shared_ptr<TextAccess> outputAccess = TextAccess::createFromString(utility::executeProcessUntilNoOutput(
 			"\"" + mavenPath.str() + "\" help:effective-pom",
-			projectDirectoryPath.str()
+			projectDirectoryPath.str(),
+			60000
 		));
 
 		if (outputAccess->getLineCount() > 0 && utility::isPrefix("Error", utility::trim(outputAccess->getLine(1))))
