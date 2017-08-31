@@ -91,6 +91,8 @@ add_files(
 	qt/utility/QtContextMenu.h
 	qt/utility/QtDeviceScaledPixmap.cpp
 	qt/utility/QtDeviceScaledPixmap.h
+	qt/utility/QtFileDialog.cpp
+	qt/utility/QtFileDialog.h
 	qt/utility/QtHighlighter.cpp
 	qt/utility/QtHighlighter.h
 	qt/utility/QtScrollSpeedChangeListener.cpp

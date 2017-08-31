@@ -1,9 +1,9 @@
 #include "qt/window/QtMainWindow.h"
 
 #include <QApplication>
-#include <QFileDialog>
 #include <QDesktopServices>
 #include <QDockWidget>
+#include <QDir>
 #include <QMenuBar>
 #include <QMessageBox>
 #include <QSettings>
@@ -17,6 +17,7 @@
 #include "data/bookmark/Bookmark.h"
 #include "LicenseChecker.h"
 #include "qt/utility/QtContextMenu.h"
+#include "qt/utility/QtFileDialog.h"
 #include "qt/utility/utilityQt.h"
 #include "qt/view/QtViewWidgetWrapper.h"
 #include "qt/window/project_wizzard/QtProjectWizzard.h"
@@ -534,7 +535,7 @@ void QtMainWindow::newProjectFromCDB(const std::string& filePath, const std::vec
 
 void QtMainWindow::openProject()
 {
-	QString fileName = QFileDialog::getOpenFileName(this, tr("Open File"), "", "Sourcetrail Project Files (*.srctrlprj *.coatiproject)");
+	QString fileName = QtFileDialog::getOpenFileName(this, tr("Open File"), QDir::homePath(), "Sourcetrail Project Files (*.srctrlprj *.coatiproject)");
 
 	if (!fileName.isEmpty())
 	{

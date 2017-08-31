@@ -1,7 +1,6 @@
 #include "qt/element/QtLocationPicker.h"
 
 #include <QEvent>
-#include <QFileDialog>
 #include <QHBoxLayout>
 #include <QLabel>
 #include <QPainter>
@@ -10,6 +9,7 @@
 #include "utility/ResourcePaths.h"
 
 #include "qt/element/QtIconButton.h"
+#include "qt/utility/QtFileDialog.h"
 
 QtLocationPicker::QtLocationPicker(QWidget *parent)
 	: QWidget(parent)
@@ -101,11 +101,11 @@ void QtLocationPicker::handleButtonPress()
 	QString fileName;
 	if (m_pickDirectory)
 	{
-		fileName = QFileDialog::getExistingDirectory(this, tr("Select Directory"), m_data->text());
+		fileName = QtFileDialog::getExistingDirectory(this, tr("Select Directory"), m_data->text());
 	}
 	else
 	{
-		fileName = QFileDialog::getOpenFileName(this, tr("Open File"), m_data->text(), m_fileFilter);
+		fileName = QtFileDialog::getOpenFileName(this, tr("Open File"), m_data->text(), m_fileFilter);
 	}
 
 	if (!fileName.isEmpty())

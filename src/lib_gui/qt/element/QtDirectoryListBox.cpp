@@ -1,17 +1,15 @@
 #include "qt/element/QtDirectoryListBox.h"
 
 #include <QBoxLayout>
-#include <QFileDialog>
 #include <QMimeData>
 #include <QScrollBar>
 #include <QTimer>
-#include <QTreeView>
 
 #include "qt/element/QtIconButton.h"
 #include "qt/utility/utilityQt.h"
+#include "qt/utility/QtFileDialog.h"
 #include "qt/window/QtTextEditDialog.h"
 #include "utility/ResourcePaths.h"
-#include "utility/utilityApp.h"
 #include "utility/utilityString.h"
 
 QtListItemWidget::QtListItemWidget(QtDirectoryListBox* list, QListWidgetItem* item, QWidget *parent)
@@ -77,37 +75,12 @@ void QtListItemWidget::setFocus()
 
 void QtListItemWidget::handleButtonPress()
 {
-	QFileDialog dialog(this);
-
-	if (utility::getOsType() != OS_MAC)
+	QStringList list = QtFileDialog::getFileNamesAndDirectories(this, m_data->text());
+	for (int i = 0; i < list.size(); i++)
 	{
-		dialog.setFileMode(QFileDialog::Directory);
+		setText(list.at(i));
 	}
 
-	if (m_data->text().size())
-	{
-		dialog.setDirectory(m_data->text());
-	}
-
-	QListView *l = dialog.findChild<QListView*>("listView");
-	if (l)
-	{
-		l->setSelectionMode(QAbstractItemView::SingleSelection);
-	}
-	QTreeView *t = dialog.findChild<QTreeView*>();
-	if (t)
-	{
-		t->setSelectionMode(QAbstractItemView::SingleSelection);
-	}
-
-	if (dialog.exec())
-	{
-		QStringList list = dialog.selectedFiles();
-		for (int i = 0; i < list.size(); i++)
-		{
-			setText(list.at(i));
-		}
-	}
 	handleFocus();
 }
 
