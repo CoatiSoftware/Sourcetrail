@@ -68,14 +68,14 @@ void prefillJavaRuntimePath()
 		std::vector<FilePath> paths = javaPathDetector->getPaths();
 		if (!paths.empty())
 		{
-			MessageStatus("Ran Java runtime path detection, found: " + paths.front().str());
+			MessageStatus("Ran Java runtime path detection, found: " + paths.front().str()).dispatch();
 
 			settings->setJavaPath(paths.front());
 			settings->save();
 		}
 		else
 		{
-			MessageStatus("Ran Java runtime path detection, no path found.");
+			MessageStatus("Ran Java runtime path detection, no path found.").dispatch();
 		}
 	}
 }
@@ -89,14 +89,14 @@ void prefillJreSystemLibraryPaths()
 		std::vector<FilePath> paths = jreSystemLibraryPathsDetector->getPaths();
 		if (!paths.empty())
 		{
-			MessageStatus("Ran JRE system library path detection, found: " + paths.front().str());
+			MessageStatus("Ran JRE system library path detection, found: " + paths.front().str()).dispatch();
 
 			settings->setJreSystemLibraryPaths(paths);
 			settings->save();
 		}
 		else
 		{
-			MessageStatus("Ran JRE system library path detection, no path found.");
+			MessageStatus("Ran JRE system library path detection, no path found.").dispatch();
 		}
 	}
 }
@@ -110,14 +110,14 @@ void prefillMavenExecutablePath()
 		std::vector<FilePath> paths = mavenPathDetector->getPaths();
 		if (!paths.empty())
 		{
-			MessageStatus("Ran Maven executable path detection, found: " + paths.front().str());
+			MessageStatus("Ran Maven executable path detection, found: " + paths.front().str()).dispatch();
 
 			settings->setMavenPath(paths.front());
 			settings->save();
 		}
 		else
 		{
-			MessageStatus("Ran Maven executable path detection, no path found.");
+			MessageStatus("Ran Maven executable path detection, no path found.").dispatch();
 		}
 	}
 }
@@ -131,7 +131,7 @@ void prefillCxxHeaderPaths()
 		std::vector<FilePath> paths = cxxHeaderDetector->getPaths();
 		if (!paths.empty())
 		{
-			MessageStatus("Ran C/C++ header path detection, found " + std::to_string(paths.size()) + " paths");
+			MessageStatus("Ran C/C++ header path detection, found " + std::to_string(paths.size()) + " paths").dispatch();
 
 			settings->setHeaderSearchPaths(paths);
 			settings->save();
@@ -148,7 +148,7 @@ void prefillCxxFrameworkPaths()
 		std::vector<FilePath> paths = cxxFrameworkDetector->getPaths();
 		if (!paths.empty())
 		{
-			MessageStatus("Ran C/C++ framework path detection, found " + std::to_string(paths.size()) + " paths");
+			MessageStatus("Ran C/C++ framework path detection, found " + std::to_string(paths.size()) + " paths").dispatch();
 
 			settings->setFrameworkSearchPaths(paths);
 			settings->save();
