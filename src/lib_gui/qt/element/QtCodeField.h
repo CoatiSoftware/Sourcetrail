@@ -68,8 +68,6 @@ protected:
 
 		bool isActive;
 		bool isFocused;
-
-		QColor oldTextColor;
 	};
 
 	struct AnnotationColor
@@ -95,7 +93,7 @@ protected:
 	std::vector<QRect> getCursorRectsForAnnotation(const Annotation& annotation) const;
 
 	const AnnotationColor& getAnnotationColorForAnnotation(const Annotation& annotation);
-	void setTextColorForAnnotation(Annotation& annotation, QColor color) const;
+	void setTextColorForAnnotation(const Annotation& annotation, QColor color) const;
 
 	std::vector<const Annotation*> getInteractiveAnnotationsForPosition(int pos) const;
 
@@ -115,10 +113,9 @@ private:
 	QtHighlighter* m_highlighter;
 
 	std::vector<int> m_lineLengths;
-	std::set<size_t> m_colorChangedAnnotationIndices;
+	std::vector<int> m_linesToRehighlight;
 
 	int m_endTextEditPosition;
-	bool m_wasAnnotated;
 };
 
 #endif // QT_CODE_FIELD_H

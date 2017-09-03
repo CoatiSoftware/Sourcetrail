@@ -16,7 +16,7 @@ public:
 
 	QtHighlighter(QTextDocument *parent, LanguageType language);
 	void highlightDocument();
-	void highlightRange(int startLine, int endLine, std::vector<std::pair<int, int>> ranges);
+	void highlightRange(int startLine, int endLine);
 
 	void rehighlightLines(const std::vector<int>& lines);
 

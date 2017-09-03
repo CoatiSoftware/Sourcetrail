@@ -32,7 +32,6 @@ QtCodeField::QtCodeField(
 	, m_code(code)
 	, m_locationFile(locationFile)
 	, m_endTextEditPosition(0)
-	, m_wasAnnotated(false)
 {
 	setObjectName("code_area");
 	setReadOnly(true);
@@ -153,14 +152,11 @@ void QtCodeField::paintEvent(QPaintEvent* event)
 		bottom = top + static_cast<int>(blockBoundingRect(block).height());
 	}
 
-	std::vector<std::pair<int, int>> ranges;
-	for (size_t i : m_colorChangedAnnotationIndices)
-	{
-		Annotation& annotation = m_annotations[i];
-		ranges.push_back(std::pair<int, int>(annotation.start, annotation.end));
-	}
+	m_highlighter->rehighlightLines(m_linesToRehighlight);
+	m_linesToRehighlight.clear();
 
-	m_highlighter->highlightRange(firstVisibleLine, lastVisibleLine, ranges);
+	// TODO: this causes another paint event if lines get rehighlighted
+	m_highlighter->highlightRange(firstVisibleLine, lastVisibleLine);
 
 	firstVisibleLine += m_startLineNumber;
 	lastVisibleLine += m_startLineNumber;
@@ -175,6 +171,13 @@ void QtCodeField::paintEvent(QPaintEvent* event)
 		}
 
 		const AnnotationColor& color = getAnnotationColorForAnnotation(annotation);
+
+		if (color.text != "transparent" &&
+			QColor(color.text.c_str()) != m_highlighter->getFormat(annotation.start, annotation.end).foreground().color())
+		{
+			// TODO: this causes another paint event if text color changes
+			setTextColorForAnnotation(annotation, QColor(color.text.c_str()));
+		}
 
 		if (color.border == "transparent" && color.fill == "transparent")
 		{
@@ -272,16 +275,11 @@ void QtCodeField::defocusTokenIds(const std::vector<Id>& tokenIds)
 bool QtCodeField::annotateText(
 	const std::set<Id>& activeSymbolIds, const std::set<Id>& activeLocationIds, const std::set<Id>& focusedSymbolIds)
 {
-	std::vector<int> linesToRehighlight;
-
-	bool needsUpdate = false;
 	for (size_t i = 0; i < m_annotations.size(); i++)
 	{
 		Annotation& annotation = m_annotations[i];
-
 		bool wasActive = annotation.isActive;
 		bool wasFocused = annotation.isFocused;
-		const AnnotationColor& oldColor = getAnnotationColorForAnnotation(annotation);
 
 		annotation.isActive = (
 			utility::shareElement(activeSymbolIds, annotation.tokenIds) ||
@@ -293,50 +291,19 @@ bool QtCodeField::annotateText(
 			annotation.isFocused = utility::shareElement(focusedSymbolIds, annotation.tokenIds);
 		}
 
-		const AnnotationColor& newColor = getAnnotationColorForAnnotation(annotation);
-		if (newColor.text != oldColor.text || (!m_wasAnnotated && newColor.text != "transparent"))
-		{
-			if (newColor.text.size() > 0 && newColor.text != "transparent")
-			{
-				if (!annotation.oldTextColor.isValid())
-				{
-					annotation.oldTextColor =
-						m_highlighter->getFormat(annotation.start, annotation.end).foreground().color();
-				}
-
-				setTextColorForAnnotation(annotation, QColor(newColor.text.c_str()));
-				m_colorChangedAnnotationIndices.insert(i);
-			}
-			else if (annotation.oldTextColor.isValid())
-			{
-				setTextColorForAnnotation(annotation, annotation.oldTextColor);
-				annotation.oldTextColor = QColor();
-
-				m_colorChangedAnnotationIndices.erase(i);
-				linesToRehighlight.push_back(annotation.startLine - 1);
-			}
-		}
-
 		if (wasFocused != annotation.isFocused || wasActive != annotation.isActive)
 		{
-			needsUpdate = true;
+			m_linesToRehighlight.push_back(annotation.startLine - m_startLineNumber);
 		}
 	}
 
-	if (linesToRehighlight.size())
-	{
-		m_highlighter->rehighlightLines(linesToRehighlight);
-	}
-
-	needsUpdate = (needsUpdate && m_wasAnnotated);
-	if (needsUpdate)
+	if (m_linesToRehighlight.size())
 	{
 		viewport()->update();
+		return true;
 	}
 
-	m_wasAnnotated = true;
-
-	return needsUpdate;
+	return false;
 }
 
 void QtCodeField::createAnnotations(std::shared_ptr<SourceLocationFile> locationFile)
@@ -632,7 +599,7 @@ const QtCodeField::AnnotationColor& QtCodeField::getAnnotationColorForAnnotation
 	return s_annotationColors[i];
 }
 
-void QtCodeField::setTextColorForAnnotation(Annotation& annotation, QColor color) const
+void QtCodeField::setTextColorForAnnotation(const Annotation& annotation, QColor color) const
 {
 	QTextCharFormat format;
 	format.setForeground(color);
