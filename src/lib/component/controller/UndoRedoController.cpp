@@ -44,7 +44,8 @@ UndoRedoController::Command::Command(std::shared_ptr<MessageBase> message, Order
 
 void UndoRedoController::handleMessage(MessageActivateAll* message)
 {
-	if (sameMessageTypeAsLast(message))
+	if (sameMessageTypeAsLast(message) &&
+		static_cast<MessageActivateAll*>(lastMessage())->filter == message->filter)
 	{
 		return;
 	}
@@ -595,7 +596,12 @@ SearchMatch UndoRedoController::getSearchMatchForMessage(MessageBase* message) c
 {
 	if (message->getType() == MessageActivateAll::getStaticType())
 	{
-		return SearchMatch::createCommand(SearchMatch::COMMAND_ALL);
+		SearchMatch match = SearchMatch::createCommand(SearchMatch::COMMAND_ALL);
+		if (dynamic_cast<MessageActivateAll*>(message)->filter)
+		{
+			match.name = match.text = "filter"; // TODO: show filter names
+		}
+		return match;
 	}
 	else if (message->getType() == MessageActivateTokens::getStaticType())
 	{
@@ -603,6 +609,14 @@ SearchMatch UndoRedoController::getSearchMatchForMessage(MessageBase* message) c
 		if (msg->searchMatches.size())
 		{
 			return msg->searchMatches.front();
+		}
+		else if (msg->isAggregation)
+		{
+			SearchMatch match;
+			match.name = match.text = "aggregation"; // TODO: show aggregation source and target
+			match.searchType = SearchMatch::SEARCH_TOKEN;
+			match.nodeType = Node::NODE_TYPE;
+			return match;
 		}
 	}
 	else if (message->getType() == MessageSearchFullText::getStaticType())

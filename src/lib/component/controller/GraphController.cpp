@@ -38,15 +38,27 @@ void GraphController::handleMessage(MessageActivateAll* message)
 
 	m_dummyGraphNodes.clear();
 
-	createDummyGraphForTokenIdsAndSetActiveAndVisibility(std::vector<Id>(), m_storageAccess->getGraphForAll());
+	if (message->filter)
+	{
+		createDummyGraphForTokenIdsAndSetActiveAndVisibility(
+			std::vector<Id>(), m_storageAccess->getGraphForFilter(message->filter));
 
-	bundleNodesByType();
+		addCharacterIndex();
+		layoutNesting();
+		layoutList();
+	}
+	else
+	{
+		createDummyGraphForTokenIdsAndSetActiveAndVisibility(std::vector<Id>(), m_storageAccess->getGraphForAll());
 
-	layoutNesting();
-	assignBundleIds();
-	layoutGraph();
+		bundleNodesByType();
 
-	buildGraph(message, false, true, false);
+		layoutNesting();
+		assignBundleIds();
+		layoutGraph();
+	}
+
+	buildGraph(message, false, true, message->filter);
 }
 
 void GraphController::handleMessage(MessageActivateTokens* message)

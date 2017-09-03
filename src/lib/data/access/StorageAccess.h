@@ -47,10 +47,11 @@ public:
 
 	virtual std::shared_ptr<SourceLocationCollection> getFullTextSearchLocations(
 			const std::string& searchTerm, bool caseSensitive) const = 0;
-	virtual std::vector<SearchMatch> getAutocompletionMatches(const std::string& query) const = 0;
+	virtual std::vector<SearchMatch> getAutocompletionMatches(const std::string& query, Node::NodeTypeMask filter) const = 0;
 	virtual std::vector<SearchMatch> getSearchMatchesForTokenIds(const std::vector<Id>& tokenIds) const = 0;
 
 	virtual std::shared_ptr<Graph> getGraphForAll() const = 0;
+	virtual std::shared_ptr<Graph> getGraphForFilter(Node::NodeTypeMask filter) const = 0;
 	virtual std::shared_ptr<Graph> getGraphForActiveTokenIds(
 		const std::vector<Id>& tokenIds, const std::vector<Id>& expandedNodeIds, bool* isActiveNamespace = nullptr) const = 0;
 	virtual std::shared_ptr<Graph> getGraphForChildrenOfNodeId(Id nodeId) const = 0;

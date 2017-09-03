@@ -31,7 +31,30 @@ PersistentStorage::PersistentStorage(const FilePath& dbPath, const FilePath& boo
 {
 	m_commandIndex.addNode(0, SearchMatch::getCommandName(SearchMatch::COMMAND_ALL));
 	m_commandIndex.addNode(0, SearchMatch::getCommandName(SearchMatch::COMMAND_ERROR));
+
+	m_commandIndex.addNode(0, Node::getReadableTypeString(Node::NODE_NON_INDEXED));
+	m_commandIndex.addNode(0, Node::getReadableTypeString(Node::NODE_TYPE));
+	m_commandIndex.addNode(0, Node::getReadableTypeString(Node::NODE_BUILTIN_TYPE));
+	m_commandIndex.addNode(0, Node::getReadableTypeString(Node::NODE_NAMESPACE));
+	m_commandIndex.addNode(0, Node::getReadableTypeString(Node::NODE_PACKAGE));
+	m_commandIndex.addNode(0, Node::getReadableTypeString(Node::NODE_STRUCT));
+	m_commandIndex.addNode(0, Node::getReadableTypeString(Node::NODE_CLASS));
+	m_commandIndex.addNode(0, Node::getReadableTypeString(Node::NODE_INTERFACE));
+	m_commandIndex.addNode(0, Node::getReadableTypeString(Node::NODE_GLOBAL_VARIABLE));
+	m_commandIndex.addNode(0, Node::getReadableTypeString(Node::NODE_FIELD));
+	m_commandIndex.addNode(0, Node::getReadableTypeString(Node::NODE_FUNCTION));
+	m_commandIndex.addNode(0, Node::getReadableTypeString(Node::NODE_METHOD));
+	m_commandIndex.addNode(0, Node::getReadableTypeString(Node::NODE_ENUM));
+	m_commandIndex.addNode(0, Node::getReadableTypeString(Node::NODE_ENUM_CONSTANT));
+	m_commandIndex.addNode(0, Node::getReadableTypeString(Node::NODE_TYPEDEF));
+	m_commandIndex.addNode(0, Node::getReadableTypeString(Node::NODE_TEMPLATE_PARAMETER_TYPE));
+	m_commandIndex.addNode(0, Node::getReadableTypeString(Node::NODE_TYPE_PARAMETER));
+	m_commandIndex.addNode(0, Node::getReadableTypeString(Node::NODE_FILE));
+	m_commandIndex.addNode(0, Node::getReadableTypeString(Node::NODE_MACRO));
+	m_commandIndex.addNode(0, Node::getReadableTypeString(Node::NODE_UNION));
+
 	// m_commandIndex.addNode(0, SearchMatch::getCommandName(SearchMatch::COMMAND_COLOR_SCHEME_TEST));
+
 	m_commandIndex.finishSetup();
 }
 
@@ -558,7 +581,7 @@ std::shared_ptr<SourceLocationCollection> PersistentStorage::getFullTextSearchLo
 	return collection;
 }
 
-std::vector<SearchMatch> PersistentStorage::getAutocompletionMatches(const std::string& query) const
+std::vector<SearchMatch> PersistentStorage::getAutocompletionMatches(const std::string& query, Node::NodeTypeMask filter) const
 {
 	TRACE();
 
@@ -568,9 +591,18 @@ std::vector<SearchMatch> PersistentStorage::getAutocompletionMatches(const std::
 
 	// create SearchMatches
 	std::vector<SearchMatch> matches;
-	utility::append(matches, getAutocompletionSymbolMatches(query, maxResultsCount));
-	utility::append(matches, getAutocompletionFileMatches(query, maxResultsCount));
-	utility::append(matches, getAutocompletionCommandMatches(query));
+
+	if (!filter || (filter & ~Node::NODE_FILE))
+	{
+		utility::append(matches, getAutocompletionSymbolMatches(query, filter, maxResultsCount));
+	}
+
+	if (!filter || (filter & Node::NODE_FILE))
+	{
+		utility::append(matches, getAutocompletionFileMatches(query, maxResultsCount));
+	}
+
+	utility::append(matches, getAutocompletionCommandMatches(query, filter));
 
 	std::set<SearchMatch> matchesSet;
 	for (SearchMatch& match : matches)
@@ -592,7 +624,7 @@ std::vector<SearchMatch> PersistentStorage::getAutocompletionMatches(const std::
 }
 
 std::vector<SearchMatch> PersistentStorage::getAutocompletionSymbolMatches(
-	const std::string& query, size_t maxResultsCount) const
+	const std::string& query, Node::NodeTypeMask filter, size_t maxResultsCount) const
 {
 	// search in indices
 	std::vector<SearchResult> results = m_symbolIndex.search(query, maxResultsCount, maxResultsCount);
@@ -632,7 +664,7 @@ std::vector<SearchMatch> PersistentStorage::getAutocompletionSymbolMatches(
 			{
 				match.tokenIds.push_back(elementId);
 
-				if (!match.hasChildren)
+				if (!match.hasChildren && !filter) // TODO: apply filter to children
 				{
 					match.hasChildren = m_hierarchyCache.nodeHasChildren(elementId);
 				}
@@ -642,6 +674,11 @@ std::vector<SearchMatch> PersistentStorage::getAutocompletionSymbolMatches(
 					firstNode = &storageNodeMap[elementId];
 				}
 			}
+		}
+
+		if (filter && !(filter & Node::intToType(firstNode->type)))
+		{
+			continue;
 		}
 
 		match.name = result.text;
@@ -705,7 +742,8 @@ std::vector<SearchMatch> PersistentStorage::getAutocompletionFileMatches(const s
 	return matches;
 }
 
-std::vector<SearchMatch> PersistentStorage::getAutocompletionCommandMatches(const std::string& query) const
+std::vector<SearchMatch> PersistentStorage::getAutocompletionCommandMatches(
+	const std::string& query, Node::NodeTypeMask filter) const
 {
 	// search in indices
 	std::vector<SearchResult> results = m_commandIndex.search(query, 0);
@@ -727,7 +765,16 @@ std::vector<SearchMatch> PersistentStorage::getAutocompletionCommandMatches(cons
 		match.searchType = SearchMatch::SEARCH_COMMAND;
 		match.typeName = "command";
 
-		matches.push_back(match);
+		if (match.getCommandType() == SearchMatch::COMMAND_NODE_FILTER)
+		{
+			match.nodeType = Node::getTypeForReadableTypeString(match.name);
+			match.typeName = "filter";
+		}
+
+		if (!filter || (match.getCommandType() == SearchMatch::COMMAND_NODE_FILTER && !(filter & match.nodeType)))
+		{
+			matches.push_back(match);
+		}
 	}
 
 	return matches;
@@ -805,6 +852,38 @@ std::shared_ptr<Graph> PersistentStorage::getGraphForAll() const
 	}
 
 	addNodesToGraph(tokenIds, graph.get(), false);
+
+	return graph;
+}
+
+std::shared_ptr<Graph> PersistentStorage::getGraphForFilter(Node::NodeTypeMask filter) const
+{
+	TRACE();
+
+	std::shared_ptr<Graph> graph = std::make_shared<Graph>();
+
+	std::vector<Id> tokenIds;
+	for (StorageNode& node: m_sqliteIndexStorage.getAll<StorageNode>())
+	{
+		if ((filter & Node::intToType(node.type)))
+		{
+			auto it = m_symbolDefinitionKinds.find(node.id);
+			if (it != m_symbolDefinitionKinds.end() && it->second == DEFINITION_EXPLICIT)
+			{
+				tokenIds.push_back(node.id);
+			}
+		}
+	}
+
+	if (!filter || (filter & Node::NODE_FILE))
+	{
+		for (const auto& p : m_fileNodePaths)
+		{
+			tokenIds.push_back(p.first);
+		}
+	}
+
+	addNodesWithParentsAndEdgesToGraph(tokenIds, std::vector<Id>(), graph.get(), false);
 
 	return graph;
 }
@@ -918,7 +997,7 @@ std::shared_ptr<Graph> PersistentStorage::getGraphForActiveTokenIds(
 	}
 	else
 	{
-		addNodesWithParentsAndEdgesToGraph(nodeIds, edgeIds, graph);
+		addNodesWithParentsAndEdgesToGraph(nodeIds, edgeIds, graph, true);
 	}
 
 	if (addAggregations)
@@ -1035,7 +1114,7 @@ std::shared_ptr<Graph> PersistentStorage::getGraphForTrail(
 
 	std::shared_ptr<Graph> graph = std::make_shared<Graph>();
 
-	addNodesWithParentsAndEdgesToGraph(utility::toVector(nodeIds), utility::toVector(edgeIds), graph.get());
+	addNodesWithParentsAndEdgesToGraph(utility::toVector(nodeIds), utility::toVector(edgeIds), graph.get(), false);
 	addComponentAccessToGraph(graph.get());
 
 	return graph;
@@ -2128,7 +2207,7 @@ void PersistentStorage::addEdgesToGraph(const std::vector<Id>& newEdgeIds, Graph
 }
 
 void PersistentStorage::addNodesWithParentsAndEdgesToGraph(
-	const std::vector<Id>& nodeIds, const std::vector<Id>& edgeIds, Graph* graph
+	const std::vector<Id>& nodeIds, const std::vector<Id>& edgeIds, Graph* graph, bool addChildCount
 ) const
 {
 	TRACE();
@@ -2153,7 +2232,7 @@ void PersistentStorage::addNodesWithParentsAndEdgesToGraph(
 
 	allNodeIds.insert(parentNodeIds.begin(), parentNodeIds.end());
 
-	addNodesToGraph(utility::toVector(allNodeIds), graph, true);
+	addNodesToGraph(utility::toVector(allNodeIds), graph, addChildCount);
 	addEdgesToGraph(utility::toVector(allEdgeIds), graph);
 }
 
@@ -2231,7 +2310,7 @@ void PersistentStorage::addAggregationEdgesToGraph(
 			nodeIdsToAdd.push_back(aggregationTargetNodeId);
 		}
 	}
-	addNodesWithParentsAndEdgesToGraph(nodeIdsToAdd, std::vector<Id>(), graph);
+	addNodesWithParentsAndEdgesToGraph(nodeIdsToAdd, std::vector<Id>(), graph, true);
 
 	// create aggregation edges between parents and active node
 	Node* sourceNode = graph->getNodeById(nodeId);

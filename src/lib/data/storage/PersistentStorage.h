@@ -87,13 +87,15 @@ public:
 	virtual std::shared_ptr<SourceLocationCollection> getFullTextSearchLocations(
 		const std::string& searchTerm, bool caseSensitive) const;
 
-	virtual std::vector<SearchMatch> getAutocompletionMatches(const std::string& query) const;
-	std::vector<SearchMatch> getAutocompletionSymbolMatches(const std::string& query, size_t maxResultsCount) const;
+	virtual std::vector<SearchMatch> getAutocompletionMatches(const std::string& query, Node::NodeTypeMask filter) const;
+	std::vector<SearchMatch> getAutocompletionSymbolMatches(
+		const std::string& query, Node::NodeTypeMask filter, size_t maxResultsCount) const;
 	std::vector<SearchMatch> getAutocompletionFileMatches(const std::string& query, size_t maxResultsCount) const;
-	std::vector<SearchMatch> getAutocompletionCommandMatches(const std::string& query) const;
+	std::vector<SearchMatch> getAutocompletionCommandMatches(const std::string& query, Node::NodeTypeMask filter) const;
 	virtual std::vector<SearchMatch> getSearchMatchesForTokenIds(const std::vector<Id>& elementIds) const;
 
 	virtual std::shared_ptr<Graph> getGraphForAll() const;
+	virtual std::shared_ptr<Graph> getGraphForFilter(Node::NodeTypeMask filter) const;
 	virtual std::shared_ptr<Graph> getGraphForActiveTokenIds(
 		const std::vector<Id>& tokenIds, const std::vector<Id>& expandedNodeIds, bool* isActiveNamespace = nullptr) const;
 	virtual std::shared_ptr<Graph> getGraphForChildrenOfNodeId(Id nodeId) const;
@@ -163,7 +165,7 @@ private:
 	void addNodesToGraph(const std::vector<Id>& nodeIds, Graph* graph, bool addChildCount) const;
 	void addEdgesToGraph(const std::vector<Id>& edgeIds, Graph* graph) const;
 	void addNodesWithParentsAndEdgesToGraph(
-		const std::vector<Id>& nodeIds, const std::vector<Id>& edgeIds, Graph* graph) const;
+		const std::vector<Id>& nodeIds, const std::vector<Id>& edgeIds, Graph* graphh, bool addChildCount) const;
 
 	void addAggregationEdgesToGraph(const Id nodeId, const std::vector<StorageEdge>& edgesToAggregate, Graph* graph) const;
 	void addComponentAccessToGraph(Graph* graph) const;

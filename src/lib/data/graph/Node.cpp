@@ -73,6 +73,20 @@ std::string Node::getReadableTypeString(NodeType type)
 	return "";
 }
 
+Node::NodeType Node::getTypeForReadableTypeString(const std::string str)
+{
+	for (Node::NodeTypeMask mask = 1; mask <= NODE_MAX_VALUE; mask *= 2)
+	{
+		Node::NodeType type = intToType(mask);
+		if (getReadableTypeString(type) == str)
+		{
+			return type;
+		}
+	}
+
+	return NODE_NON_INDEXED;
+}
+
 int Node::typeToInt(NodeType type)
 {
 	return type;

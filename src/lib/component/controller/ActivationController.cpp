@@ -94,32 +94,28 @@ void ActivationController::handleMessage(MessageSearch* message)
 {
 	const std::vector<SearchMatch>& matches = message->getMatches();
 
-	for (const SearchMatch& match : matches)
+	if (matches.size() && matches.back().searchType == SearchMatch::SEARCH_COMMAND)
 	{
-		if (match.searchType == SearchMatch::SEARCH_COMMAND)
+		switch (matches.back().getCommandType())
 		{
-			SearchMatch::CommandType type = SearchMatch::getCommandType(match.getFullName());
-
-			switch (type)
+			case SearchMatch::COMMAND_ALL:
+			case SearchMatch::COMMAND_NODE_FILTER:
 			{
-				case SearchMatch::COMMAND_ALL:
-				{
-					MessageActivateAll().dispatchImmediately();
-					return;
-				}
+				MessageActivateAll(message->filter).dispatchImmediately();
+				return;
+			}
 
-				case SearchMatch::COMMAND_ERROR:
-				{
-					MessageShowErrors(m_storageAccess->getErrorCount()).dispatch();
-					MessageFlushUpdates().dispatch();
-					return;
-				}
+			case SearchMatch::COMMAND_ERROR:
+			{
+				MessageShowErrors(m_storageAccess->getErrorCount()).dispatch();
+				MessageFlushUpdates().dispatch();
+				return;
+			}
 
-				case SearchMatch::COMMAND_COLOR_SCHEME_TEST:
-				{
-					MessageColorSchemeTest().dispatchImmediately();
-					return;
-				}
+			case SearchMatch::COMMAND_COLOR_SCHEME_TEST:
+			{
+				MessageColorSchemeTest().dispatchImmediately();
+				return;
 			}
 		}
 	}

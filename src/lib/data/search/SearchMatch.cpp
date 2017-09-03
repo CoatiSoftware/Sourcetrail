@@ -56,6 +56,27 @@ SearchMatch SearchMatch::createCommand(CommandType type)
 	return match;
 }
 
+std::vector<SearchMatch> SearchMatch::createCommandsForFilter(Node::NodeTypeMask filter)
+{
+	std::vector<SearchMatch> matches;
+
+	for (Node::NodeTypeMask type = 1; type <= filter; type *= 2)
+	{
+		if (type & filter)
+		{
+			SearchMatch match;
+			match.name = Node::getReadableTypeString(Node::intToType(type));
+			match.text = match.name;
+			match.typeName = "filter";
+			match.searchType = SEARCH_COMMAND;
+			match.nodeType = Node::intToType(type);
+			matches.push_back(match);
+		}
+	}
+
+	return matches;
+}
+
 std::string SearchMatch::getCommandName(CommandType type)
 {
 	switch (type)
@@ -64,6 +85,8 @@ std::string SearchMatch::getCommandName(CommandType type)
 		return "overview";
 	case COMMAND_ERROR:
 		return "error";
+	case COMMAND_NODE_FILTER:
+		return "node_filter";
 	case COMMAND_COLOR_SCHEME_TEST:
 		return "color_scheme_test";
 	}
@@ -71,26 +94,9 @@ std::string SearchMatch::getCommandName(CommandType type)
 	return "none";
 }
 
-SearchMatch::CommandType SearchMatch::getCommandType(const std::string& name)
-{
-	if (name == "overview")
-	{
-		return COMMAND_ALL;
-	}
-	else if (name == "error")
-	{
-		return COMMAND_ERROR;
-	}
-	else if (name == "color_scheme_test")
-	{
-		return COMMAND_COLOR_SCHEME_TEST;
-	}
-
-	return COMMAND_ALL;
-}
-
 SearchMatch::SearchMatch()
 	: typeName("")
+	, nodeType(Node::NODE_NON_INDEXED)
 	, searchType(SEARCH_NONE)
 	, hasChildren(false)
 {
@@ -100,6 +106,7 @@ SearchMatch::SearchMatch(const std::string& query)
 	: name(query)
 	, text(query)
 	, typeName("")
+	, nodeType(Node::NODE_NON_INDEXED)
 	, searchType(SEARCH_NONE)
 	, hasChildren(false)
 {
@@ -193,6 +200,11 @@ bool SearchMatch::isValid() const
 	return searchType != SEARCH_NONE;
 }
 
+bool SearchMatch::isFilterCommand() const
+{
+	return searchType == SEARCH_COMMAND && getCommandType() == COMMAND_NODE_FILTER;
+}
+
 void SearchMatch::print(std::ostream& ostream) const
 {
 	ostream << name << std::endl << '\t';
@@ -228,4 +240,22 @@ std::string SearchMatch::getNodeTypeAsUnderscoredString() const
 std::string SearchMatch::getSearchTypeName() const
 {
 	return getSearchTypeName(searchType);
+}
+
+SearchMatch::CommandType SearchMatch::getCommandType() const
+{
+	if (name == "overview")
+	{
+		return COMMAND_ALL;
+	}
+	else if (name == "error")
+	{
+		return COMMAND_ERROR;
+	}
+	else if (name == "color_scheme_test")
+	{
+		return COMMAND_COLOR_SCHEME_TEST;
+	}
+
+	return COMMAND_NODE_FILTER;
 }

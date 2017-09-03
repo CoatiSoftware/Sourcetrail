@@ -24,6 +24,7 @@ struct SearchMatch
 	{
 		COMMAND_ALL,
 		COMMAND_ERROR,
+		COMMAND_NODE_FILTER,
 		COMMAND_COLOR_SCHEME_TEST
 	};
 
@@ -33,8 +34,8 @@ struct SearchMatch
 	static std::string searchMatchesToString(const std::vector<SearchMatch>& matches);
 
 	static SearchMatch createCommand(CommandType type);
+	static std::vector<SearchMatch> createCommandsForFilter(Node::NodeTypeMask filter);
 	static std::string getCommandName(CommandType type);
-	static CommandType getCommandType(const std::string& name);
 
 	static const char FULLTEXT_SEARCH_CHARACTER = '?';
 
@@ -47,12 +48,14 @@ struct SearchMatch
 	size_t getTextSizeForSorting(const std::string* str) const;
 
 	bool isValid() const;
+	bool isFilterCommand() const;
 
 	void print(std::ostream& ostream) const;
 
 	std::string getFullName() const;
 	std::string getNodeTypeAsUnderscoredString() const;
 	std::string getSearchTypeName() const;
+	CommandType getCommandType() const;
 
 	std::string name;
 	std::vector<Id> tokenIds;

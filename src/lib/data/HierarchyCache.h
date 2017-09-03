@@ -29,6 +29,8 @@ public:
 	bool isChildOfVisibleNodeOrInvisible(Id nodeId) const;
 
 	bool nodeHasChildren(Id nodeId) const;
+	bool nodeIsVisible(Id nodeId) const;
+	bool nodeIsImplicit(Id nodeId) const;
 
 	std::vector<std::tuple<Id, Id, std::vector<Id>>> getInheritanceEdgesForNodeId(Id nodeId, const std::set<Id>& nodeIds) const;
 

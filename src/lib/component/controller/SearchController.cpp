@@ -16,6 +16,15 @@ SearchController::~SearchController()
 
 void SearchController::handleMessage(MessageActivateAll* message)
 {
+	if (message->filter)
+	{
+		if (message->isReplayed())
+		{
+			getView()->setMatches(SearchMatch::createCommandsForFilter(message->filter));
+		}
+		return;
+	}
+
 	getView()->setMatches(std::vector<SearchMatch>(1, SearchMatch::createCommand(SearchMatch::COMMAND_ALL)));
 }
 
@@ -78,7 +87,7 @@ void SearchController::handleMessage(MessageSearchAutocomplete* message)
 	}
 
 	LOG_INFO("autocomplete string: \"" + message->query + "\"");
-	view->setAutocompletionList(m_storageAccess->getAutocompletionMatches(message->query));
+	view->setAutocompletionList(m_storageAccess->getAutocompletionMatches(message->query, message->filter));
 }
 
 void SearchController::handleMessage(MessageSearchFullText* message)

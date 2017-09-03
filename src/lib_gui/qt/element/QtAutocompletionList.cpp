@@ -144,12 +144,10 @@ void QtAutocompletionDelegate::paint(QPainter* painter, const QStyleOptionViewIt
 
 	// define highlight colors
     ColorScheme* scheme = ColorScheme::getInstance().get();
-//	QColor fillColor("#FFFFFF");
 	QColor fillColor(0xFF, 0xFF, 0xFF);
-//	QColor textColor("#000000");
 	QColor textColor(0, 0, 0);
 
-	if (type.size() && type != "command")
+	if (type.size() && type != "command" && type != "filter")
 	{
 		const GraphViewStyle::NodeColor& nodeColor = GraphViewStyle::getNodeColor(Node::getUnderscoredTypeString(nodeType), false);
 		fillColor = QColor(nodeColor.fill.c_str());

@@ -125,11 +125,11 @@ std::shared_ptr<SourceLocationCollection> StorageAccessProxy::getFullTextSearchL
 	return std::make_shared<SourceLocationCollection>();
 }
 
-std::vector<SearchMatch> StorageAccessProxy::getAutocompletionMatches(const std::string& query) const
+std::vector<SearchMatch> StorageAccessProxy::getAutocompletionMatches(const std::string& query, Node::NodeTypeMask filter) const
 {
 	if (hasSubject())
 	{
-		return m_subject->getAutocompletionMatches(query);
+		return m_subject->getAutocompletionMatches(query, filter);
 	}
 
 	return std::vector<SearchMatch>();
@@ -150,6 +150,16 @@ std::shared_ptr<Graph> StorageAccessProxy::getGraphForAll() const
 	if (hasSubject())
 	{
 		return m_subject->getGraphForAll();
+	}
+
+	return std::make_shared<Graph>();
+}
+
+std::shared_ptr<Graph> StorageAccessProxy::getGraphForFilter(Node::NodeTypeMask filter) const
+{
+	if (hasSubject())
+	{
+		return m_subject->getGraphForFilter(filter);
 	}
 
 	return std::make_shared<Graph>();

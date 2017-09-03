@@ -34,7 +34,7 @@ void CodeController::handleMessage(MessageActivateAll* message)
 	clear();
 
 	Project* currentProject = Application::getInstance()->getCurrentProject().get();
-	if (!currentProject)
+	if (!currentProject || message->filter)
 	{
 		return;
 	}

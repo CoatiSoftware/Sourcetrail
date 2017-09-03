@@ -32,6 +32,11 @@ void QtSmartSearchBox::search()
 {
 	editTextToElement();
 
+	if (!m_matches.size())
+	{
+		return;
+	}
+
 	// Do a fulltext search if no autocompletion match was selected for this match
 	if (m_matches.size() == 1)
 	{
@@ -55,7 +60,7 @@ void QtSmartSearchBox::search()
 
 	std::vector<SearchMatch> matches = utility::toVector(m_matches);
 
-	MessageSearch(matches).dispatch();
+	MessageSearch(matches, getMatchFilter()).dispatch();
 }
 
 void QtSmartSearchBox::fullTextSearch()
@@ -83,7 +88,6 @@ void QtSmartSearchBox::fullTextSearch()
 
 QtSmartSearchBox::QtSmartSearchBox(QWidget* parent)
 	: QLineEdit(parent)
-	, m_allowMultipleElements(false)
 	, m_allowTextChange(false)
 	, m_cursorIndex(0)
 	, m_shiftKeyDown(false)
@@ -176,20 +180,20 @@ bool QtSmartSearchBox::event(QEvent *event)
 		{
 			if (m_completer->popup()->isVisible())
 			{
-				if (m_highlightedMatch.hasChildren)
+				if (m_highlightedMatch.isFilterCommand())
+				{
+					addMatchAndUpdate(m_highlightedMatch);
+				}
+				else if (m_highlightedMatch.hasChildren)
 				{
 					setEditText((m_highlightedMatch.getFullName() + nameDelimiterTypeToString(m_highlightedMatch.delimiter)).c_str());
+					requestAutoCompletions();
 				}
 				else
 				{
 					setEditText(m_highlightedMatch.getFullName().c_str());
+					requestAutoCompletions();
 				}
-
-				requestAutoCompletions();
-			}
-			else if (m_allowMultipleElements)
-			{
-				requestAutoCompletions();
 			}
 			return true;
 		}
@@ -525,7 +529,7 @@ void QtSmartSearchBox::onTextEdited(const QString& text)
 		}
 	}
 
-	if (match.name.size() && !m_allowMultipleElements)
+	if (match.name.size() && lastMatchIsNoFilter())
 	{
 		if (m_matches.size())
 		{
@@ -544,7 +548,7 @@ void QtSmartSearchBox::onTextEdited(const QString& text)
 		layoutElements();
 	}
 
-	if (match.name.size() || m_elements.size())
+	if (match.name.size())
 	{
 		requestAutoCompletions();
 	}
@@ -665,7 +669,7 @@ void QtSmartSearchBox::addMatch(const SearchMatch& match)
 		}
 	}
 
-	if (!m_allowMultipleElements)
+	if (lastMatchIsNoFilter())
 	{
 		clearMatches();
 	}
@@ -743,6 +747,10 @@ void QtSmartSearchBox::updateElements()
 	{
 		std::string name = match.getFullName();
 		name = utility::replace(name, "&", "&&");
+		if (match.isFilterCommand())
+		{
+			name += ':';
+		}
 
 		std::shared_ptr<QtSearchElement> element = std::make_shared<QtSearchElement>(QString::fromStdString(name), this);
 		m_elements.push_back(element);
@@ -964,7 +972,7 @@ void QtSmartSearchBox::requestAutoCompletions()
 {
 	if (text().size() && !text().startsWith(SearchMatch::FULLTEXT_SEARCH_CHARACTER))
 	{
-		MessageSearchAutocomplete(text().toStdString()).dispatch();
+		MessageSearchAutocomplete(text().toStdString(), getMatchFilter()).dispatch();
 	}
 	else
 	{
@@ -985,4 +993,28 @@ std::deque<SearchMatch> QtSmartSearchBox::getMatchesForInput(const std::string& 
 		matches.push_back(SearchMatch(text));
 	}
 	return matches;
+}
+
+Node::NodeTypeMask QtSmartSearchBox::getMatchFilter() const
+{
+	Node::NodeTypeMask filter = 0;
+
+	for (const SearchMatch& match : m_matches)
+	{
+		if (match.isFilterCommand())
+		{
+			filter |= match.nodeType;
+		}
+		else
+		{
+			break;
+		}
+	}
+
+	return filter;
+}
+
+bool QtSmartSearchBox::lastMatchIsNoFilter() const
+{
+	return !m_matches.size() || !m_matches.back().isFilterCommand();
 }

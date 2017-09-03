@@ -278,6 +278,28 @@ bool HierarchyCache::nodeHasChildren(Id nodeId) const
 	return false;
 }
 
+bool HierarchyCache::nodeIsVisible(Id nodeId) const
+{
+	HierarchyNode* node = getNode(nodeId);
+	if (node)
+	{
+		return node->isVisible();
+	}
+
+	return false;
+}
+
+bool HierarchyCache::nodeIsImplicit(Id nodeId) const
+{
+	HierarchyNode* node = getNode(nodeId);
+	if (node)
+	{
+		return node->isImplicit();
+	}
+
+	return false;
+}
+
 std::vector<std::tuple<Id, Id, std::vector<Id>>> HierarchyCache::getInheritanceEdgesForNodeId(
 	Id nodeId, const std::set<Id>& nodeIds) const
 {
