@@ -199,6 +199,8 @@ void QtHighlighter::highlightRange(int startLine, int endLine)
 	{
 		if (!m_highlightedLines[index])
 		{
+			applyFormatWithoutRanges(it.position(), it.position() + it.length() - 1, s_textFormat, m_ranges);
+
 			foreach (const HighlightingRule &rule, m_highlightingRules)
 			{
 				formatBlock(it, rule, &m_ranges, false);
@@ -240,6 +242,40 @@ void QtHighlighter::applyFormat(int startPosition, int endPosition, const QTextC
 	cursor.setPosition(startPosition);
 	cursor.setPosition(endPosition, QTextCursor::KeepAnchor);
 	cursor.setCharFormat(format);
+}
+
+void QtHighlighter::applyFormatWithoutRanges(
+	int startPosition, int endPosition, const QTextCharFormat& format, const std::vector<std::pair<int, int>>& ranges
+){
+	std::vector<std::pair<int, int>> highlightRanges;
+
+	for (const std::pair<int, int> p : ranges)
+	{
+		if (p.first <= startPosition && p.second >= endPosition)
+		{
+			return;
+		}
+
+		if (p.first > startPosition && p.first < endPosition)
+		{
+			highlightRanges.push_back(std::pair<int, int>(startPosition, p.first - 1));
+		}
+
+		if (p.second > startPosition && p.second < endPosition)
+		{
+			highlightRanges.push_back(std::pair<int, int>(p.second + 1, endPosition));
+		}
+	}
+
+	if (!highlightRanges.size())
+	{
+		highlightRanges.push_back(std::pair<int, int>(startPosition, endPosition));
+	}
+
+	for (const std::pair<int, int> p : highlightRanges)
+	{
+		applyFormat(p.first, p.second, format);
+	}
 }
 
 QTextCharFormat QtHighlighter::getFormat(int startPosition, int endPosition) const
