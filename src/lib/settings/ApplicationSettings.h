@@ -6,6 +6,7 @@
 #include "settings/Settings.h"
 
 class TimeStamp;
+class Version;
 
 class ApplicationSettings
 	: public Settings
@@ -127,6 +128,9 @@ public:
 
 	TimeStamp getLastUpdateCheck() const;
 	void setLastUpdateCheck(const TimeStamp& time);
+
+	Version getSkipUpdateForVersion() const;
+	void setSkipUpdateForVersion(const Version& version);
 
 	// network
 	int getPluginPort() const;

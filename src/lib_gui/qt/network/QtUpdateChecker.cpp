@@ -111,6 +111,12 @@ void QtUpdateChecker::check(bool force)
 					break;
 				}
 
+				ApplicationSettings* appSettings = ApplicationSettings::getInstance().get();
+				if (!force && appSettings->getSkipUpdateForVersion() == updateVersion)
+				{
+					break;
+				}
+
 				if (updateVersion > Version::getApplicationVersion())
 				{
 					QMessageBox msgBox;
@@ -118,10 +124,18 @@ void QtUpdateChecker::check(bool force)
 					msgBox.setInformativeText(
 						"Sourcetrial " + version + " is available for download: <a href=\"" + url + "\">" + url + "</a>");
 					msgBox.addButton("Close", QMessageBox::ButtonRole::NoRole);
+					msgBox.addButton("Skip this Version", QMessageBox::ButtonRole::NoRole);
 					QPushButton* but = msgBox.addButton("Download", QMessageBox::ButtonRole::YesRole);
 					msgBox.setDefaultButton(but);
 
-					if (msgBox.exec() == 1)
+					int val = msgBox.exec();
+
+					if (val == 1)
+					{
+						appSettings->setSkipUpdateForVersion(updateVersion);
+						appSettings->save();
+					}
+					else if (val == 2)
 					{
 						QDesktopServices::openUrl(QUrl(url, QUrl::TolerantMode));
 					}

@@ -67,6 +67,60 @@ Version Version::fromString(const std::string& versionString)
 	return Version();
 }
 
+void Version::setApplicationVersion(const Version& version)
+{
+	s_version = version;
+}
+
+const Version& Version::getApplicationVersion()
+{
+	return s_version;
+}
+
+Version::Version(int year, int minor, int commit, const std::string& hash)
+	: m_year(year)
+	, m_minorNumber(minor)
+	, m_commitNumber(commit)
+	, m_commitHash(hash)
+{
+}
+
+bool Version::isEmpty() const
+{
+	return m_year == 0 && m_minorNumber == 0 && m_commitNumber == 0;
+}
+
+bool Version::isValid() const
+{
+	if (m_minorNumber < 5 && m_minorNumber > 0
+			&& m_year > 2016)
+	{
+		return true;
+	}
+	return false;
+}
+
+std::string Version::toShortString() const
+{
+	std::stringstream ss;
+	ss << m_year << '.' << m_minorNumber;
+	return ss.str();
+}
+
+std::string Version::toString() const
+{
+	std::stringstream ss;
+	ss << m_year << '.' << m_minorNumber << '-' << m_commitNumber << '-' << m_commitHash;
+	return ss.str();
+}
+
+std::string Version::toDisplayString() const
+{
+	std::stringstream ss;
+	ss << m_year << '.' << m_minorNumber << '.' << m_commitNumber;
+	return ss.str();
+}
+
 bool Version::operator<(const Version& other) const
 {
 	if (m_year != other.m_year)
@@ -99,64 +153,15 @@ bool Version::operator>(const Version& other) const
 	}
 }
 
+bool Version::operator==(const Version& other) const
+{
+	return m_year == other.m_year && m_minorNumber == other.m_minorNumber && m_commitNumber == other.m_commitNumber;
+}
+
 Version& Version::operator+=(const int& number)
 {
 	int minor = this->m_minorNumber - 1 + number;
 	this->m_year += minor/4;
 	this->m_minorNumber = (minor%4) + 1;
 	return *this;
-}
-
-bool Version::isValid()
-{
-	if (m_minorNumber < 5 && m_minorNumber > 0
-			&& m_year > 2016)
-	{
-		return true;
-	}
-	return false;
-}
-
-void Version::setApplicationVersion(const Version& version)
-{
-	s_version = version;
-}
-
-const Version& Version::getApplicationVersion()
-{
-	return s_version;
-}
-
-Version::Version(int year, int minor, int commit, const std::string& hash)
-	: m_year(year)
-	, m_minorNumber(minor)
-	, m_commitNumber(commit)
-	, m_commitHash(hash)
-{
-}
-
-bool Version::isEmpty() const
-{
-	return m_year == 0 && m_minorNumber == 0 && m_commitNumber == 0;
-}
-
-std::string Version::toShortString() const
-{
-	std::stringstream ss;
-	ss << m_year << '.' << m_minorNumber;
-	return ss.str();
-}
-
-std::string Version::toString() const
-{
-	std::stringstream ss;
-	ss << m_year << '.' << m_minorNumber << '-' << m_commitNumber << '-' << m_commitHash;
-	return ss.str();
-}
-
-std::string Version::toDisplayString() const
-{
-	std::stringstream ss;
-	ss << m_year << '.' << m_minorNumber << '.' << m_commitNumber;
-	return ss.str();
 }

@@ -6,6 +6,7 @@
 <!-- STRING: string e.g hello -->
 <!-- UUID: string e.g. 00000000-0000-0000-0000-000000000000 -->
 <!-- TIME: string in format "%Y-%m-%d %H:%M:%S" -->
+<!-- VERSION: string in format "yyyy.x.z" -->
 
 <config>
 	<version><!-- INTEGER: Version number --></version>
@@ -84,6 +85,7 @@
 		<update_check>
 			<automatic><!-- BOOL: whether to check automatically for new software updates --></automatic>
 			<time_stamp><!-- TIME: time of the last update check --></time_stamp>
+			<skip_version><!-- VERSION: version to skip for update --></skip_version>
 		</update_check>
 	</user>
 

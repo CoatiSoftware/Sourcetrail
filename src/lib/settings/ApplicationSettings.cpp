@@ -7,6 +7,7 @@
 #include "utility/TimeStamp.h"
 #include "utility/utility.h"
 #include "utility/UserPaths.h"
+#include "utility/Version.h"
 
 const size_t ApplicationSettings::VERSION = 2;
 
@@ -434,6 +435,19 @@ TimeStamp ApplicationSettings::getLastUpdateCheck() const
 void ApplicationSettings::setLastUpdateCheck(const TimeStamp& time)
 {
 	setValue<std::string>("user/update_check/last", time.toString());
+}
+
+Version ApplicationSettings::getSkipUpdateForVersion() const
+{
+	return Version::fromString(getValue<std::string>("user/update_check/skip_version", "2017.1.0"));
+}
+
+void ApplicationSettings::setSkipUpdateForVersion(const Version& version)
+{
+	if (version.isValid())
+	{
+		setValue<std::string>("user/update_check/skip_version", version.toDisplayString());
+	}
 }
 
 int ApplicationSettings::getPluginPort() const
