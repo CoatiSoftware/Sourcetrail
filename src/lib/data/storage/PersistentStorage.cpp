@@ -684,10 +684,13 @@ std::vector<SearchMatch> PersistentStorage::getAutocompletionSymbolMatches(
 		match.name = result.text;
 		match.text = result.text;
 
-		const size_t idx = m_hierarchyCache.getIndexOfLastVisibleParentNode(firstNode->id);
-		const NameHierarchy& name = NameHierarchy::deserialize(firstNode->serializedName);
-		match.text = name.getRange(idx, name.size()).getQualifiedName();
-		match.subtext = name.getRange(0, idx).getQualifiedName();
+		NameHierarchy name = NameHierarchy::deserialize(firstNode->serializedName);
+		if (name.getQualifiedName() == match.name)
+		{
+			const size_t idx = m_hierarchyCache.getIndexOfLastVisibleParentNode(firstNode->id);
+			match.text = name.getRange(idx, name.size()).getQualifiedName();
+			match.subtext = name.getRange(0, idx).getQualifiedName();
+		}
 
 		match.delimiter = name.getDelimiter();
 
@@ -2484,8 +2487,19 @@ void PersistentStorage::buildSearchIndex()
 			auto it = m_symbolDefinitionKinds.find(node.id);
 			if (it == m_symbolDefinitionKinds.end() || it->second != DEFINITION_IMPLICIT)
 			{
+				NameHierarchy nameHierarchy = NameHierarchy::deserialize(node.serializedName);
+
 				// we don't use the signature here, so elements with the same signature share the same node.
-				m_symbolIndex.addNode(node.id, NameHierarchy::deserialize(node.serializedName).getQualifiedName());
+				std::string name = nameHierarchy.getQualifiedName();
+
+				// replace template arguments with .. to avoid clutter in search results and have different
+				// template specializations share the same node.
+				if (it->second == DEFINITION_NONE && nameHierarchy.getDelimiter() == NAME_DELIMITER_CXX)
+				{
+					name = utility::replaceBetween(name, '<', '>', "..");
+				}
+
+				m_symbolIndex.addNode(node.id, name);
 			}
 		}
 	}

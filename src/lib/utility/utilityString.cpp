@@ -215,6 +215,38 @@ namespace utility
 		return str;
 	}
 
+	std::string replaceBetween(const std::string& str, char startDelimiter, char endDelimiter, const std::string& to)
+	{
+		size_t startPos = str.find(startDelimiter);
+		if (startPos == std::string::npos)
+		{
+			return str;
+		}
+
+		size_t depth = 1;
+
+		for (size_t pos = startPos + 1; pos < str.size(); pos++)
+		{
+			if (str[pos] == endDelimiter && depth)
+			{
+				depth--;
+
+				if (depth == 0)
+				{
+					std::string end = replaceBetween(str.substr(pos + 1), startDelimiter, endDelimiter, to);
+					return str.substr(0, startPos) + startDelimiter + to + endDelimiter + end;
+				}
+			}
+
+			if (str[pos] == startDelimiter)
+			{
+				depth++;
+			}
+		}
+
+		return str;
+	}
+
 	std::string insertLineBreaksAtBlankSpaces(const std::string& s, size_t maxLineLength)
 	{
 		const std::vector<std::string> atoms = splitToVector(s, " ");

@@ -1,6 +1,10 @@
 #ifndef TRACING_H
 #define TRACING_H
 
+
+// #define TRACING_ENABLED
+
+
 #include <mutex>
 #include <stack>
 #include <thread>
@@ -66,8 +70,6 @@ private:
 	TimeStamp m_TimeStamp;
 };
 
-
-// #define TRACING_ENABLED
 
 #ifdef TRACING_ENABLED
 	#define TRACE(__name__) \
