@@ -75,6 +75,8 @@ private:
 
 	std::vector<std::pair<int, SqliteDatabaseIndex>> m_indices;
 
+	bool m_precompiledStatementsInitialized = false;
+
 	friend SqliteStorageMigration;
 };
 

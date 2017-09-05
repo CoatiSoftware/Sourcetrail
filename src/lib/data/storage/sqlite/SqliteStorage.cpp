@@ -35,7 +35,12 @@ void SqliteStorage::setup()
 	if (isEmpty() || !isIncompatible())
 	{
 		setupTables();
-		setupPrecompiledStatements();
+
+		if (!m_precompiledStatementsInitialized)
+		{
+			setupPrecompiledStatements();
+			m_precompiledStatementsInitialized = true;
+		}
 	}
 
 	m_mode = STORAGE_MODE_UNKNOWN;
