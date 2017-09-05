@@ -32,8 +32,8 @@ PersistentStorage::PersistentStorage(const FilePath& dbPath, const FilePath& boo
 	m_commandIndex.addNode(0, SearchMatch::getCommandName(SearchMatch::COMMAND_ALL));
 	m_commandIndex.addNode(0, SearchMatch::getCommandName(SearchMatch::COMMAND_ERROR));
 
-	m_commandIndex.addNode(0, Node::getReadableTypeString(Node::NODE_NON_INDEXED));
-	m_commandIndex.addNode(0, Node::getReadableTypeString(Node::NODE_TYPE));
+	// m_commandIndex.addNode(0, Node::getReadableTypeString(Node::NODE_NON_INDEXED));
+	// m_commandIndex.addNode(0, Node::getReadableTypeString(Node::NODE_TYPE));
 	m_commandIndex.addNode(0, Node::getReadableTypeString(Node::NODE_BUILTIN_TYPE));
 	m_commandIndex.addNode(0, Node::getReadableTypeString(Node::NODE_NAMESPACE));
 	m_commandIndex.addNode(0, Node::getReadableTypeString(Node::NODE_PACKAGE));
@@ -47,8 +47,8 @@ PersistentStorage::PersistentStorage(const FilePath& dbPath, const FilePath& boo
 	m_commandIndex.addNode(0, Node::getReadableTypeString(Node::NODE_ENUM));
 	m_commandIndex.addNode(0, Node::getReadableTypeString(Node::NODE_ENUM_CONSTANT));
 	m_commandIndex.addNode(0, Node::getReadableTypeString(Node::NODE_TYPEDEF));
-	m_commandIndex.addNode(0, Node::getReadableTypeString(Node::NODE_TEMPLATE_PARAMETER_TYPE));
-	m_commandIndex.addNode(0, Node::getReadableTypeString(Node::NODE_TYPE_PARAMETER));
+	// m_commandIndex.addNode(0, Node::getReadableTypeString(Node::NODE_TEMPLATE_PARAMETER_TYPE));
+	// m_commandIndex.addNode(0, Node::getReadableTypeString(Node::NODE_TYPE_PARAMETER));
 	m_commandIndex.addNode(0, Node::getReadableTypeString(Node::NODE_FILE));
 	m_commandIndex.addNode(0, Node::getReadableTypeString(Node::NODE_MACRO));
 	m_commandIndex.addNode(0, Node::getReadableTypeString(Node::NODE_UNION));
