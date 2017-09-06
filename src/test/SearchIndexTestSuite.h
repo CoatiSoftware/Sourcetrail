@@ -12,7 +12,7 @@ public:
 		SearchIndex index;
 		index.addNode(1, NameHierarchy::deserialize("::\tmfoo\tsvoid\tp() const").getQualifiedName());
 		index.finishSetup();
-		std::vector<SearchResult> results = index.search("oo", 0);
+		std::vector<SearchResult> results = index.search("oo", 0, 0);
 
 		TS_ASSERT_EQUALS(1, results.size());
 		TS_ASSERT_EQUALS(1, results[0].elementIds.size());
@@ -24,7 +24,7 @@ public:
 		SearchIndex index;
 		index.addNode(1, NameHierarchy::deserialize("::\tmfoo\tsvoid\tp() const").getQualifiedName());
 		index.finishSetup();
-		std::vector<SearchResult> results = index.search("oo", 0);
+		std::vector<SearchResult> results = index.search("oo", 0, 0);
 
 		TS_ASSERT_EQUALS(1, results.size());
 		TS_ASSERT_EQUALS(2, results[0].indices.size());
@@ -38,7 +38,7 @@ public:
 		index.addNode(1, NameHierarchy::deserialize("::\tmfor\tsvoid\tp() const").getQualifiedName());
 		index.addNode(2, NameHierarchy::deserialize("::\tmfos\tsvoid\tp() const").getQualifiedName());
 		index.finishSetup();
-		std::vector<SearchResult> results = index.search("fo", 0);
+		std::vector<SearchResult> results = index.search("fo", 0, 0);
 
 		TS_ASSERT_EQUALS(2, results.size());
 		TS_ASSERT_EQUALS(1, results[0].elementIds.size());
@@ -53,7 +53,7 @@ public:
 		index.addNode(1, NameHierarchy::deserialize("::\tmfoo\tsvoid\tp() const").getQualifiedName());
 		index.finishSetup();
 		index.clear();
-		std::vector<SearchResult> results = index.search("oo", 0);
+		std::vector<SearchResult> results = index.search("oo", 0, 0);
 
 		TS_ASSERT_EQUALS(0, results.size());
 	}
@@ -64,7 +64,7 @@ public:
 		index.addNode(1, NameHierarchy::deserialize("::\tmfoo1\tsvoid\tp() const").getQualifiedName());
 		index.addNode(2, NameHierarchy::deserialize("::\tmfoo2\tsvoid\tp() const").getQualifiedName());
 		index.finishSetup();
-		std::vector<SearchResult> results = index.search("oo", 1);
+		std::vector<SearchResult> results = index.search("oo", 0, 1);
 
 		TS_ASSERT_EQUALS(1, results.size());
 	}
@@ -75,7 +75,7 @@ public:
 		index.addNode(1, NameHierarchy::deserialize("::\tmfoo1\tsvoid\tp() const").getQualifiedName());
 		index.addNode(2, NameHierarchy::deserialize("::\tmFOO2\tsvoid\tp() const").getQualifiedName());
 		index.finishSetup();
-		std::vector<SearchResult> results = index.search("oo", 0);
+		std::vector<SearchResult> results = index.search("oo", 0, 0);
 
 		TS_ASSERT_EQUALS(2, results.size());
 	}
@@ -87,7 +87,7 @@ public:
 		index.addNode(1, NameHierarchy::deserialize("::\tmoaabbcc\tsvoid\tp() const").getQualifiedName());
 		index.addNode(2, NameHierarchy::deserialize("::\tmocbcabc\tsvoid\tp() const").getQualifiedName());
 		index.finishSetup();
-		std::vector<SearchResult> results = index.search("abc", 0);
+		std::vector<SearchResult> results = index.search("abc", 0, 0);
 
 		TS_ASSERT_EQUALS(2, results.size());
 		TS_ASSERT_EQUALS("ocbcabc", results[0].text);

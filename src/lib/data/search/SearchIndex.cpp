@@ -16,9 +16,9 @@ SearchIndex::~SearchIndex()
 {
 }
 
-void SearchIndex::addNode(Id id, const std::string& name)
+void SearchIndex::addNode(Id id, const std::string& name, Node::NodeTypeMask type)
 {
-	Node* currentNode = m_root;
+	SearchNode* currentNode = m_root;
 
 	std::string remaining = name;
 	while (remaining.size() > 0)
@@ -26,7 +26,7 @@ void SearchIndex::addNode(Id id, const std::string& name)
 		auto it = currentNode->edges.find(remaining[0]);
 		if (it != currentNode->edges.end())
 		{
-			Edge* currentEdge = it->second;
+			SearchEdge* currentEdge = it->second;
 			const std::string& edgeString = currentEdge->s;
 
 			size_t matchCount = 1;
@@ -42,9 +42,9 @@ void SearchIndex::addNode(Id id, const std::string& name)
 			if (matchCount < edgeString.size())
 			{
 				// split current edge
-				std::shared_ptr<Node> n = std::make_shared<Node>();
+				std::shared_ptr<SearchNode> n = std::make_shared<SearchNode>();
 				m_nodes.push_back(n);
-				std::shared_ptr<Edge> e = std::make_shared<Edge>();
+				std::shared_ptr<SearchEdge> e = std::make_shared<SearchEdge>();
 				m_edges.push_back(e);
 
 				e->s = edgeString.substr(matchCount);
@@ -61,9 +61,9 @@ void SearchIndex::addNode(Id id, const std::string& name)
 		}
 		else
 		{
-			std::shared_ptr<Node> n = std::make_shared<Node>();
+			std::shared_ptr<SearchNode> n = std::make_shared<SearchNode>();
 			m_nodes.push_back(n);
-			std::shared_ptr<Edge> e = std::make_shared<Edge>();
+			std::shared_ptr<SearchEdge> e = std::make_shared<SearchEdge>();
 			m_edges.push_back(e);
 
 			e->s = remaining;
@@ -77,6 +77,7 @@ void SearchIndex::addNode(Id id, const std::string& name)
 	}
 
 	currentNode->elementIds.insert(id);
+	currentNode->mask |= type;
 }
 
 void SearchIndex::finishSetup()
@@ -92,24 +93,24 @@ void SearchIndex::clear()
 	m_nodes.clear();
 	m_edges.clear();
 
-	std::shared_ptr<Node> n = std::make_shared<Node>();
+	std::shared_ptr<SearchNode> n = std::make_shared<SearchNode>();
 	m_nodes.push_back(n);
 
 	m_root = n.get();
 }
 
 std::vector<SearchResult> SearchIndex::search(
-	const std::string& query, size_t maxResultCount, size_t maxBestScoredLength) const
+	const std::string& query, Node::NodeTypeMask filter, size_t maxResultCount, size_t maxBestScoredLength) const
 {
 	// find paths containing query
-	Path startPath;
+	SearchPath startPath;
 	startPath.node = m_root;
 
-	std::vector<Path> paths;
-	searchRecursive(startPath, utility::toLowerCase(query), &paths);
+	std::vector<SearchPath> paths;
+	searchRecursive(startPath, utility::toLowerCase(query), filter, &paths);
 
 	// create scored search results
-	std::multiset<SearchResult> searchResults = createScoredResults(paths, maxResultCount * 3);
+	std::multiset<SearchResult> searchResults = createScoredResults(paths, filter, maxResultCount * 3);
 
 	// find best scores
 	std::map<std::string, SearchResult> scoresCache;
@@ -130,12 +131,12 @@ std::vector<SearchResult> SearchIndex::search(
 	return std::vector<SearchResult>(bestResults.begin(), it);
 }
 
-void SearchIndex::populateEdgeGate(Edge* e)
+void SearchIndex::populateEdgeGate(SearchEdge* e)
 {
-	Node* target = e->target;
+	SearchNode* target = e->target;
 	for (auto p : target->edges)
 	{
-		Edge* targetEdge = p.second;
+		SearchEdge* targetEdge = p.second;
 		populateEdgeGate(targetEdge);
 		utility::append(e->gate, targetEdge->gate);
 	}
@@ -146,9 +147,9 @@ void SearchIndex::populateEdgeGate(Edge* e)
 }
 
 void SearchIndex::searchRecursive(
-	const Path& path, const std::string& remainingQuery, std::vector<SearchIndex::Path>* results) const
+	const SearchPath& path, const std::string& remainingQuery, Node::NodeTypeMask filter, std::vector<SearchIndex::SearchPath>* results) const
 {
-	if (remainingQuery.size() == 0)
+	if (remainingQuery.size() == 0 && (!filter || (path.node->mask & filter)))
 	{
 		results->push_back(path);
 		return;
@@ -156,7 +157,7 @@ void SearchIndex::searchRecursive(
 
 	for (auto p : path.node->edges)
 	{
-		const Edge* currentEdge = p.second;
+		const SearchEdge* currentEdge = p.second;
 
 		// test if s passes the edge's gate.
 		bool passesGate = true;
@@ -185,45 +186,46 @@ void SearchIndex::searchRecursive(
 				}
 			}
 
-			Path currentPath;
+			SearchPath currentPath;
 			currentPath.node = currentEdge->target;
 			currentPath.indices = indices;
 			currentPath.text = path.text + edgeString;
 
-			searchRecursive(currentPath, remainingQuery.substr(j), results);
+			searchRecursive(currentPath, remainingQuery.substr(j), filter, results);
 		}
 	}
 }
 
-std::multiset<SearchResult> SearchIndex::createScoredResults(const std::vector<Path>& paths, size_t maxResultCount) const
+std::multiset<SearchResult> SearchIndex::createScoredResults(
+	const std::vector<SearchPath>& paths, Node::NodeTypeMask filter, size_t maxResultCount) const
 {
 	// score and order initial paths
-	std::multiset<std::pair<int, Path>, bool(*)(const std::pair<int, Path>&, const std::pair<int, Path>&)> scoredPaths(
-		[](const std::pair<int, Path>& a, const std::pair<int, Path>& b)
+	std::multiset<std::pair<int, SearchPath>, bool(*)(const std::pair<int, SearchPath>&, const std::pair<int, SearchPath>&)> scoredPaths(
+		[](const std::pair<int, SearchPath>& a, const std::pair<int, SearchPath>& b)
 		{
 			return a.first > b.first;
 		}
 	);
 
-	for (const Path& path : paths)
+	for (const SearchPath& path : paths)
 	{
 		scoredPaths.insert(std::make_pair(scoreText(path.text, path.indices), path));
 	}
 
 	// score paths and subpaths
 	std::multiset<SearchResult> searchResults;
-	for (const std::pair<int, Path>& p : scoredPaths)
+	for (const std::pair<int, SearchPath>& p : scoredPaths)
 	{
-		std::vector<Path> currentPaths;
+		std::vector<SearchPath> currentPaths;
 		currentPaths.push_back(p.second);
 
 		while (currentPaths.size())
 		{
-			std::vector<Path> nextPaths;
+			std::vector<SearchPath> nextPaths;
 
-			for (const Path& path : currentPaths)
+			for (const SearchPath& path : currentPaths)
 			{
-				if (path.node->elementIds.size())
+				if (path.node->elementIds.size() && (!filter || (path.node->mask & filter)))
 				{
 					SearchResult result;
 					result.text = path.text;
@@ -240,8 +242,8 @@ std::multiset<SearchResult> SearchIndex::createScoredResults(const std::vector<P
 
 				for (auto p : path.node->edges)
 				{
-					const Edge* edge = p.second;
-					Path nextPath;
+					const SearchEdge* edge = p.second;
+					SearchPath nextPath;
 					nextPath.indices = path.indices;
 					nextPath.node = edge->target;
 					nextPath.text = path.text + edge->s;

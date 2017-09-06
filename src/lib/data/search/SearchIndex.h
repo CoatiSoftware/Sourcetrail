@@ -9,6 +9,7 @@
 #include <unordered_set>
 
 #include "utility/types.h"
+#include "data/graph/Node.h"
 
 struct SearchResult
 {
@@ -29,41 +30,43 @@ public:
 	SearchIndex();
 	virtual ~SearchIndex();
 
-	void addNode(Id id, const std::string& name);
+	void addNode(Id id, const std::string& name, Node::NodeTypeMask type = 0);
 	void finishSetup();
 	void clear();
 
 	// maxResultCount == 0 means "no restriction".
-	std::vector<SearchResult> search(const std::string& query, size_t maxResultCount, size_t maxBestScoredLength = 0) const;
+	std::vector<SearchResult> search(const std::string& query, Node::NodeTypeMask filter, size_t maxResultCount, size_t maxBestScoredLength = 0) const;
 
 private:
-	struct Node;
-	struct Edge;
+	struct SearchEdge;
 
-	struct Node
+	struct SearchNode
 	{
 		std::set<Id> elementIds;
-		std::map<char, Edge*> edges;
+		Node::NodeTypeMask mask = 0;
+		std::map<char, SearchEdge*> edges;
 	};
 
-	struct Edge
+	struct SearchEdge
 	{
-		Node* target;
+		SearchNode* target;
 		std::string s;
 		std::unordered_set<char> gate;
 	};
 
-	struct Path
+	struct SearchPath
 	{
 		std::string text;
 		std::vector<size_t> indices;
-		Node* node;
+		SearchNode* node;
 	};
 
-	void populateEdgeGate(Edge* e);
-	void searchRecursive(const Path& path, const std::string& remainingQuery, std::vector<SearchIndex::Path>* results) const;
+	void populateEdgeGate(SearchEdge* e);
+	void searchRecursive(const SearchPath& path, const std::string& remainingQuery, Node::NodeTypeMask filter,
+		std::vector<SearchIndex::SearchPath>* results) const;
 
-	std::multiset<SearchResult> createScoredResults(const std::vector<Path>& paths, size_t maxResultCount) const;
+	std::multiset<SearchResult> createScoredResults(
+		const std::vector<SearchPath>& paths, Node::NodeTypeMask filter, size_t maxResultCount) const;
 
 	static SearchResult bestScoredResult(
 		SearchResult result, std::map<std::string, SearchResult>* scoresCache, size_t maxBestScoredLength);
@@ -81,9 +84,9 @@ public:
 		size_t maxBestScoredLength);
 
 private:
-	std::vector<std::shared_ptr<Node>> m_nodes;
-	std::vector<std::shared_ptr<Edge>> m_edges;
-	Node* m_root;
+	std::vector<std::shared_ptr<SearchNode>> m_nodes;
+	std::vector<std::shared_ptr<SearchEdge>> m_edges;
+	SearchNode* m_root;
 };
 
 #endif // SEARCH_INDEX_H

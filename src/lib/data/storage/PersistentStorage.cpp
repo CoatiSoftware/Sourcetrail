@@ -627,7 +627,7 @@ std::vector<SearchMatch> PersistentStorage::getAutocompletionSymbolMatches(
 	const std::string& query, Node::NodeTypeMask filter, size_t maxResultsCount) const
 {
 	// search in indices
-	std::vector<SearchResult> results = m_symbolIndex.search(query, maxResultsCount, maxResultsCount);
+	std::vector<SearchResult> results = m_symbolIndex.search(query, filter, maxResultsCount, maxResultsCount);
 
 	// fetch StorageNodes for node ids
 	std::map<Id, StorageNode> storageNodeMap;
@@ -676,11 +676,6 @@ std::vector<SearchMatch> PersistentStorage::getAutocompletionSymbolMatches(
 			}
 		}
 
-		if (filter && !(filter & Node::intToType(firstNode->type)))
-		{
-			continue;
-		}
-
 		match.name = result.text;
 		match.text = result.text;
 
@@ -714,7 +709,7 @@ std::vector<SearchMatch> PersistentStorage::getAutocompletionSymbolMatches(
 
 std::vector<SearchMatch> PersistentStorage::getAutocompletionFileMatches(const std::string& query, size_t maxResultsCount) const
 {
-	std::vector<SearchResult> results = m_fileIndex.search(query, maxResultsCount);
+	std::vector<SearchResult> results = m_fileIndex.search(query, Node::NODE_FILE, maxResultsCount);
 
 	// create SearchMatches
 	std::vector<SearchMatch> matches;
@@ -749,7 +744,7 @@ std::vector<SearchMatch> PersistentStorage::getAutocompletionCommandMatches(
 	const std::string& query, Node::NodeTypeMask filter) const
 {
 	// search in indices
-	std::vector<SearchResult> results = m_commandIndex.search(query, 0);
+	std::vector<SearchResult> results = m_commandIndex.search(query, 0, 0);
 
 	// create SearchMatches
 	std::vector<SearchMatch> matches;
@@ -2467,7 +2462,8 @@ void PersistentStorage::buildSearchIndex()
 
 	for (StorageNode& node : m_sqliteIndexStorage.getAll<StorageNode>())
 	{
-		if (Node::intToType(node.type) == Node::NODE_FILE)
+		Node::NodeType type = Node::intToType(node.type);
+		if (type == Node::NODE_FILE)
 		{
 			auto it = m_fileNodePaths.find(node.id);
 			if (it != m_fileNodePaths.end())
@@ -2479,7 +2475,7 @@ void PersistentStorage::buildSearchIndex()
 					filePath = filePath.relativeTo(dbPath);
 				}
 
-				m_fileIndex.addNode(node.id, filePath.str());
+				m_fileIndex.addNode(node.id, filePath.str(), type);
 			}
 		}
 		else
@@ -2499,7 +2495,7 @@ void PersistentStorage::buildSearchIndex()
 					name = utility::replaceBetween(name, '<', '>', "..");
 				}
 
-				m_symbolIndex.addNode(node.id, name);
+				m_symbolIndex.addNode(node.id, name, type);
 			}
 		}
 	}
