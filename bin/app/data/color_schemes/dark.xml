@@ -111,7 +111,10 @@
 				<text>#F7F7F7</text>
 				<inactive_text>#A0A0A0</inactive_text>
 				<background>#272728</background>
-				<marker>#969696</marker>
+				<marker>
+					<active>#797979</active>
+					<focus>#F7F7F7</focus>
+				</marker>
 			</line_number>
 
 			<syntax>

@@ -7,7 +7,7 @@
 		<button>
 			<normal>#D0D0D0</normal>
 			<hover>#A2A2A2</hover>
-			<press>#525252</press>
+			<press>#727272</press>
 			<disabled>#F2F2F2</disabled>
 			<icon>white</icon>
 			<icon_disabled>#CECECE</icon_disabled>
@@ -111,7 +111,10 @@
 				<text>black</text>
 				<inactive_text>#A0A0A0</inactive_text>
 				<background>white</background>
-				<marker>#A0A0A0</marker>
+				<marker>
+					<active>#D0D0D0</active>
+					<focus>#727272</focus>
+				</marker>
 			</line_number>
 
 			<syntax>

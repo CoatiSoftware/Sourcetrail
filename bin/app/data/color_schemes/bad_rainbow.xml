@@ -111,7 +111,10 @@
 				<text>#D4D4D4</text>
 				<inactive_text>#A0A0A0</inactive_text>
 				<background>#494949</background>
-				<marker>#D4D4D4</marker>
+				<marker>
+					<active>#807F80</active>
+					<focus>#D4D4D4</focus>
+				</marker>
 			</line_number>
 
 			<syntax>

@@ -144,13 +144,66 @@ void QtCodeArea::lineNumberAreaPaintEvent(QPaintEvent *event)
 	int top = static_cast<int>(blockBoundingGeometry(block).translated(contentOffset()).top());
 	int bottom = top + static_cast<int>(blockBoundingRect(block).height());
 
-	std::set<int> activeLineNumbers = getActiveLineNumbers();
+	std::set<int> activeLineNumbers;
+	std::set<int> focusedLineNumbers;
+
+	std::set<Id> activeSymbolIds = m_navigator->getActiveTokenIds();
+
+	for (const Annotation& annotation : m_annotations)
+	{
+		bool focus = false;
+		bool active = false;
+
+		switch (annotation.locationType)
+		{
+		case LOCATION_LOCAL_SYMBOL:
+			if (annotation.isActive || annotation.isFocused)
+			{
+				focus = true;
+			}
+			break;
+
+		case LOCATION_TOKEN:
+		case LOCATION_SCOPE:
+			if (annotation.isFocused && utility::shareElement(activeSymbolIds, annotation.tokenIds))
+			{
+				active = true;
+			}
+
+		default:
+			if (annotation.isActive)
+			{
+				active = true;
+			}
+			else if (annotation.isFocused)
+			{
+				focus = true;
+			}
+			break;
+		}
+
+		if (active || focus)
+		{
+			for (int i = annotation.startLine; i <= annotation.endLine; i++)
+			{
+				if (active)
+				{
+					activeLineNumbers.insert(i);
+				}
+				else
+				{
+					focusedLineNumbers.insert(i);
+				}
+			}
+		}
+	}
 
 	ColorScheme* scheme = ColorScheme::getInstance().get();
 
 	QColor textColor(scheme->getColor("code/snippet/line_number/text").c_str());
 	QColor inactiveTextColor(scheme->getColor("code/snippet/line_number/inactive_text").c_str());
-	QColor markerColor(scheme->getColor("code/snippet/line_number/marker").c_str());
+	QColor activeMarkerColor(scheme->getColor("code/snippet/line_number/marker/active").c_str());
+	QColor focusedMarkerColor(scheme->getColor("code/snippet/line_number/marker/focus").c_str());
 
 	QPen p = painter.pen();
 
@@ -162,9 +215,13 @@ void QtCodeArea::lineNumberAreaPaintEvent(QPaintEvent *event)
 
 			p.setColor(textColor);
 
-			if (activeLineNumbers.find(number) != activeLineNumbers.end())
+			if (focusedLineNumbers.find(number) != focusedLineNumbers.end())
 			{
-				painter.fillRect(m_lineNumberArea->width() - 8, top, 3, fontMetrics().height() + 1, markerColor);
+				painter.fillRect(m_lineNumberArea->width() - 8, top, 3, fontMetrics().height() + 1, focusedMarkerColor);
+			}
+			else if (activeLineNumbers.find(number) != activeLineNumbers.end())
+			{
+				painter.fillRect(m_lineNumberArea->width() - 8, top, 3, fontMetrics().height() + 1, activeMarkerColor);
 			}
 			else if (!m_isActiveFile)
 			{
@@ -559,24 +616,6 @@ void QtCodeArea::annotateText()
 	{
 		m_lineNumberArea->update();
 	}
-}
-
-std::set<int> QtCodeArea::getActiveLineNumbers() const
-{
-	std::set<int> activeLineNumbers;
-
-	for (const Annotation& annotation : m_annotations)
-	{
-		if (annotation.isActive || annotation.isFocused)
-		{
-			for (int i = annotation.startLine; i <= annotation.endLine; i++)
-			{
-				activeLineNumbers.insert(i);
-			}
-		}
-	}
-
-	return activeLineNumbers;
 }
 
 void QtCodeArea::createActions()

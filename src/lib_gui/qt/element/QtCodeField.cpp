@@ -286,10 +286,7 @@ bool QtCodeField::annotateText(
 			activeLocationIds.find(annotation.locationId) != activeLocationIds.end()
 		);
 
-		if (!annotation.isActive)
-		{
-			annotation.isFocused = utility::shareElement(focusedSymbolIds, annotation.tokenIds);
-		}
+		annotation.isFocused = utility::shareElement(focusedSymbolIds, annotation.tokenIds);
 
 		if (wasFocused != annotation.isFocused || wasActive != annotation.isActive)
 		{

@@ -107,8 +107,6 @@ private:
 
 	void annotateText();
 
-	std::set<int> getActiveLineNumbers() const;
-
 	void createActions();
 
 	QtCodeNavigator* m_navigator;
