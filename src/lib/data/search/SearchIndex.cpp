@@ -100,7 +100,7 @@ void SearchIndex::clear()
 }
 
 std::vector<SearchResult> SearchIndex::search(
-	const std::string& query, Node::NodeTypeMask filter, size_t maxResultCount, size_t maxBestScoredLength) const
+	const std::string& query, Node::NodeTypeMask filter, size_t maxResultCount, size_t maxBestScoredResultsLength) const
 {
 	// find paths containing query
 	SearchPath startPath;
@@ -110,14 +110,14 @@ std::vector<SearchResult> SearchIndex::search(
 	searchRecursive(startPath, utility::toLowerCase(query), filter, &paths);
 
 	// create scored search results
-	std::multiset<SearchResult> searchResults = createScoredResults(paths, filter, maxResultCount * 3);
+	std::multiset<SearchResult> searchResults = createScoredResults(paths, filter, maxResultCount * 2);
 
 	// find best scores
 	std::map<std::string, SearchResult> scoresCache;
 	std::multiset<SearchResult> bestResults;
 	for (const SearchResult& result : searchResults)
 	{
-		bestResults.insert(bestScoredResult(result, &scoresCache, maxBestScoredLength));
+		bestResults.insert(bestScoredResult(result, &scoresCache, maxBestScoredResultsLength));
 	}
 
 	// narrow down to max result count
@@ -147,7 +147,8 @@ void SearchIndex::populateEdgeGate(SearchEdge* e)
 }
 
 void SearchIndex::searchRecursive(
-	const SearchPath& path, const std::string& remainingQuery, Node::NodeTypeMask filter, std::vector<SearchIndex::SearchPath>* results) const
+	const SearchPath& path, const std::string& remainingQuery, Node::NodeTypeMask filter,
+	std::vector<SearchIndex::SearchPath>* results) const
 {
 	if (remainingQuery.size() == 0 && (!filter || (path.node->mask & filter)))
 	{
@@ -200,16 +201,10 @@ std::multiset<SearchResult> SearchIndex::createScoredResults(
 	const std::vector<SearchPath>& paths, Node::NodeTypeMask filter, size_t maxResultCount) const
 {
 	// score and order initial paths
-	std::multiset<std::pair<int, SearchPath>, bool(*)(const std::pair<int, SearchPath>&, const std::pair<int, SearchPath>&)> scoredPaths(
-		[](const std::pair<int, SearchPath>& a, const std::pair<int, SearchPath>& b)
-		{
-			return a.first > b.first;
-		}
-	);
-
+	std::multimap<int, SearchPath, std::greater<int>> scoredPaths;
 	for (const SearchPath& path : paths)
 	{
-		scoredPaths.insert(std::make_pair(scoreText(path.text, path.indices), path));
+		scoredPaths.emplace(scoreText(path.text, path.indices), path);
 	}
 
 	// score paths and subpaths
@@ -259,13 +254,8 @@ std::multiset<SearchResult> SearchIndex::createScoredResults(
 }
 
 SearchResult SearchIndex::bestScoredResult(
-	SearchResult result, std::map<std::string, SearchResult>* scoresCache, size_t maxBestScoredLength)
+	SearchResult result, std::map<std::string, SearchResult>* scoresCache, size_t maxBestScoredResultsLength)
 {
-	if (maxBestScoredLength && result.text.size() > maxBestScoredLength)
-	{
-		return result;
-	}
-
 	const std::vector<size_t> indices = result.indices;
 	int oldScore = result.score;
 
@@ -281,13 +271,24 @@ SearchResult SearchIndex::bestScoredResult(
 
 	if (!consecutive)
 	{
-		bestScoredResultRecursive(utility::toLowerCase(result.text), indices, indices.size() - 1, scoresCache, &result);
+		std::string lowerText = utility::toLowerCase(result.text);
+		if (maxBestScoredResultsLength && lowerText.size() > maxBestScoredResultsLength)
+		{
+			if (indices.back() >= maxBestScoredResultsLength)
+			{
+				return result;
+			}
+
+			lowerText = lowerText.substr(0, maxBestScoredResultsLength);
+		}
+
+		bestScoredResultRecursive(lowerText, indices, indices.size() - 1, scoresCache, &result);
 	}
 
 	std::string subtext = result.text.substr(0, result.indices.back() + 1);
 	if (result.score != oldScore || scoresCache->find(subtext) == scoresCache->end())
 	{
-		scoresCache->emplace(subtext, result);
+		scoresCache->operator[](subtext) = result;
 	}
 
 	return result;
@@ -340,7 +341,7 @@ void SearchIndex::bestScoredResultRecursive(
 	if (indicesPos + 1 == indices.size())
 	{
 		std::map<std::string, SearchResult>::const_iterator it = scoresCache->find(result->text.substr(0, indices.back() + 1));
-		if (it != scoresCache->end())
+		if (it != scoresCache->end() && it->second.score > result->score)
 		{
 			result->score = it->second.score;
 			result->indices = it->second.indices;
@@ -364,7 +365,7 @@ void SearchIndex::bestScoredResultRecursive(
 int SearchIndex::scoreText(const std::string& text, const std::vector<size_t>& indices)
 {
 	const int unmatchedLetterBonus = -1;
-	const int consecutiveLetterBonus = 5;
+	const int consecutiveLetterBonus = 4;
 	const int camelCaseBonus = 4;
 	const int noLetterBonus = 3;
 	const int firstLetterBonus = 4;
@@ -391,13 +392,23 @@ int SearchIndex::scoreText(const std::string& text, const std::vector<size_t>& i
 		noLetters.insert('\\');
 	}
 
+	size_t consecutiveLetterCount = 0;
 	for (size_t i = 0; i < indices.size(); i++)
 	{
 		// unmatched and consecutive
 		if (i > 0)
 		{
 			unmatchedLetterScore += (indices[i] - indices[i - 1] - 1) * unmatchedLetterBonus;
-			consecutiveLetterScore += (indices[i] - indices[i - 1] == 1 ? consecutiveLetterBonus : 0);
+
+			if (indices[i] - indices[i - 1] == 1)
+			{
+				consecutiveLetterCount++;
+				consecutiveLetterScore += consecutiveLetterBonus * consecutiveLetterCount;
+			}
+			else
+			{
+				consecutiveLetterCount = 0;
+			}
 		}
 
 		size_t index = indices[i];
@@ -443,7 +454,7 @@ SearchResult SearchIndex::rescoreText(
 	const std::string& text,
 	const std::vector<size_t>& indices,
 	int score,
-	size_t maxBestScoredLength)
+	size_t maxBestScoredResultsLength)
 {
 	SearchResult result;
 	result.text = text;
@@ -461,16 +472,17 @@ SearchResult SearchIndex::rescoreText(
 			textIndices.push_back(idx - (fulltext.size() - text.size()));
 		}
 	}
-	// ignore rescoring if result is too long
-	else if (maxBestScoredLength > 0 && fulltext.size() > maxBestScoredLength * 2)
-	{
-		return result;
-	}
 	// try if match is within text
 	else
 	{
 		size_t idx = 0;
-		for (size_t i = 0; i < text.size() && idx < indices.size(); i++)
+		size_t textSize = text.size();
+		if (maxBestScoredResultsLength && textSize > maxBestScoredResultsLength)
+		{
+			textSize = maxBestScoredResultsLength;
+		}
+
+		for (size_t i = 0; i < textSize && idx < indices.size(); i++)
 		{
 			if (tolower(text[i]) == tolower(fulltext[indices[idx]]))
 			{
@@ -491,7 +503,7 @@ SearchResult SearchIndex::rescoreText(
 	result.indices = textIndices;
 
 	std::map<std::string, SearchResult> scoresCache;
-	result = bestScoredResult(result, &scoresCache, maxBestScoredLength);
+	result = bestScoredResult(result, &scoresCache, maxBestScoredResultsLength);
 
 	for (size_t i = 0; i < result.indices.size(); i++)
 	{

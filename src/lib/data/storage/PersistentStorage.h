@@ -89,7 +89,7 @@ public:
 
 	virtual std::vector<SearchMatch> getAutocompletionMatches(const std::string& query, Node::NodeTypeMask filter) const;
 	std::vector<SearchMatch> getAutocompletionSymbolMatches(
-		const std::string& query, Node::NodeTypeMask filter, size_t maxResultsCount) const;
+		const std::string& query, Node::NodeTypeMask filter, size_t maxResultsCount, size_t maxBestScoredResultsLength) const;
 	std::vector<SearchMatch> getAutocompletionFileMatches(const std::string& query, size_t maxResultsCount) const;
 	std::vector<SearchMatch> getAutocompletionCommandMatches(const std::string& query, Node::NodeTypeMask filter) const;
 	virtual std::vector<SearchMatch> getSearchMatchesForTokenIds(const std::vector<Id>& elementIds) const;

@@ -587,7 +587,7 @@ std::vector<SearchMatch> PersistentStorage::getAutocompletionMatches(const std::
 	TRACE();
 
 	// search in indices
-	size_t maxResultsCount = 100;
+	size_t maxResultsCount = 500;
 	size_t maxBestScoredResultsLength = 100;
 
 	// create SearchMatches
@@ -595,7 +595,7 @@ std::vector<SearchMatch> PersistentStorage::getAutocompletionMatches(const std::
 
 	if (!filter || (filter & ~Node::NODE_FILE))
 	{
-		utility::append(matches, getAutocompletionSymbolMatches(query, filter, maxResultsCount));
+		utility::append(matches, getAutocompletionSymbolMatches(query, filter, maxResultsCount, maxBestScoredResultsLength));
 	}
 
 	if (!filter || (filter & Node::NODE_FILE))
@@ -621,14 +621,20 @@ std::vector<SearchMatch> PersistentStorage::getAutocompletionMatches(const std::
 		matchesSet.insert(match);
 	}
 
+	// for (auto a : matchesSet)
+	// {
+	// 	std::cout << a.score << " " << a.name << std::endl;
+	// }
+
 	return utility::toVector(matchesSet);
 }
 
 std::vector<SearchMatch> PersistentStorage::getAutocompletionSymbolMatches(
-	const std::string& query, Node::NodeTypeMask filter, size_t maxResultsCount) const
+	const std::string& query, Node::NodeTypeMask filter, size_t maxResultsCount, size_t maxBestScoredResultsLength) const
 {
 	// search in indices
-	std::vector<SearchResult> results = m_symbolIndex.search(query, filter, maxResultsCount, maxResultsCount);
+	std::vector<SearchResult> results =
+		m_symbolIndex.search(query, filter, maxResultsCount, maxBestScoredResultsLength);
 
 	// fetch StorageNodes for node ids
 	std::map<Id, StorageNode> storageNodeMap;
@@ -2500,7 +2506,8 @@ void PersistentStorage::buildSearchIndex()
 		else
 		{
 			auto it = m_symbolDefinitionKinds.find(node.id);
-			if (it == m_symbolDefinitionKinds.end() || it->second != DEFINITION_IMPLICIT)
+			DefinitionKind defKind = (it != m_symbolDefinitionKinds.end() ? it->second : DEFINITION_NONE);
+			if (defKind != DEFINITION_IMPLICIT)
 			{
 				NameHierarchy nameHierarchy = NameHierarchy::deserialize(node.serializedName);
 
@@ -2509,7 +2516,7 @@ void PersistentStorage::buildSearchIndex()
 
 				// replace template arguments with .. to avoid clutter in search results and have different
 				// template specializations share the same node.
-				if (it->second == DEFINITION_NONE && nameHierarchy.getDelimiter() == NAME_DELIMITER_CXX)
+				if (defKind == DEFINITION_NONE && nameHierarchy.getDelimiter() == NAME_DELIMITER_CXX)
 				{
 					name = utility::replaceBetween(name, '<', '>', "..");
 				}

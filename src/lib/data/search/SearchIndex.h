@@ -35,7 +35,8 @@ public:
 	void clear();
 
 	// maxResultCount == 0 means "no restriction".
-	std::vector<SearchResult> search(const std::string& query, Node::NodeTypeMask filter, size_t maxResultCount, size_t maxBestScoredLength = 0) const;
+	std::vector<SearchResult> search(
+		const std::string& query, Node::NodeTypeMask filter, size_t maxResultCount, size_t maxBestScoredResultsLength = 0) const;
 
 private:
 	struct SearchEdge;
@@ -69,7 +70,7 @@ private:
 		const std::vector<SearchPath>& paths, Node::NodeTypeMask filter, size_t maxResultCount) const;
 
 	static SearchResult bestScoredResult(
-		SearchResult result, std::map<std::string, SearchResult>* scoresCache, size_t maxBestScoredLength);
+		SearchResult result, std::map<std::string, SearchResult>* scoresCache, size_t maxBestScoredResultsLength);
 	static void bestScoredResultRecursive(
 		const std::string& lowerText, const std::vector<size_t>& indices, const size_t indicesPos,
 		std::map<std::string, SearchResult>* scoresCache, SearchResult* result);
@@ -81,7 +82,7 @@ public:
 		const std::string& text,
 		const std::vector<size_t>& indices,
 		int score,
-		size_t maxBestScoredLength);
+		size_t maxBestScoredResultsLength);
 
 private:
 	std::vector<std::shared_ptr<SearchNode>> m_nodes;
