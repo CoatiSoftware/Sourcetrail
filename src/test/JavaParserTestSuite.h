@@ -37,7 +37,7 @@ public:
 		);
 
 		TS_ASSERT(utility::containsElement<std::string>(
-			client->packages, "foo <1:1 <1:9 1:11> 1:12>"
+			client->packages, "foo <1:9 1:11>"
 		));
 	}
 
@@ -120,7 +120,7 @@ public:
 		);
 
 		TS_ASSERT(utility::containsElement<std::string>(
-			client->enumConstants, "foo.A.A_TEST <4:2 4:10>"
+			client->enumConstants, "foo.A.A_TEST <4:2 4:7>"
 		));
 	}
 
@@ -173,7 +173,7 @@ public:
 		);
 
 		TS_ASSERT(utility::containsElement<std::string>(
-			client->classes, "foo.A.bar.anonymous class (input.cc<7:9>) <7:9 <7:13 7:13> 7:19>"
+			client->classes, "foo.A.bar.anonymous class (input.cc<7:17>) <7:17 <7:17 7:17> 7:19>"
 		));
 	}
 
@@ -197,7 +197,7 @@ public:
 		);
 
 		TS_ASSERT(utility::containsElement<std::string>(
-			client->methods, "public void foo.A.bar.anonymous class (input.cc<9:9>).foo() <11:4 <11:16 11:18> 11:23>"
+			client->methods, "public void foo.A.bar.anonymous class (input.cc<10:3>).foo() <11:4 <11:16 11:18> 11:23>"
 		));
 	}
 
@@ -306,7 +306,7 @@ public:
 		);
 
 		TS_ASSERT(utility::containsElement<std::string>(
-			client->localSymbols, "input.cc<4:15> <4:15 4:15>"
+			client->localSymbols, "foo.A.bar<0> <4:15 4:15>"
 		));
 	}
 
@@ -324,7 +324,7 @@ public:
 		);
 
 		TS_ASSERT(utility::containsElement<std::string>(
-			client->localSymbols, "input.cc<6:7> <6:7 6:7>"
+			client->localSymbols, "foo.A.bar<0> <6:7 6:7>"
 		));
 	}
 
@@ -357,6 +357,20 @@ public:
 		));
 	}
 
+	void test_java_parser_finds_field_of_interface_to_be_implicitly_static()
+	{
+		std::shared_ptr<TestParserClient> client = parseCode(
+			"public interface A\n"
+			"{\n"
+			"	int b = 5;\n"
+			"}\n"
+		);
+
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->fields, "default static int A.b <3:6 3:6>"
+		));
+	}
+
 	void test_java_parser_finds_line_comment()
 	{
 		std::shared_ptr<TestParserClient> client = parseCode(
@@ -365,7 +379,7 @@ public:
 		);
 
 		TS_ASSERT(utility::containsElement<std::string>(
-			client->comments, "comment <1:1 1:26>"
+			client->comments, "comment <1:1 1:25>"
 		));
 	}
 
@@ -388,19 +402,20 @@ public:
 		);
 
 		TS_ASSERT(utility::containsElement<std::string>(
-			client->errors, "Encountered unexpected token. <0:0 0:0>"
+			client->errors, "Syntax error on token \"foo\", ; expected after this token <1:9 1:11>"
 		));
 	}
 
-	//void _test_java_parser_finds_missing_import_as_error()
-	//{
-	//	std::shared_ptr<TestParserClient> client = parseCode(
-	//		"import foo;\n"
-	//	);
+	void test_java_parser_finds_missing_import_as_error()
+	{
+		std::shared_ptr<TestParserClient> client = parseCode(
+			"import foo;\n"
+		);
 
-	//	TS_ASSERT_EQUALS(client->errors.size(), 1);
-	//	TS_ASSERT_EQUALS(client->errors[0], "Import not found. <1:8 1:10>");
-	//}
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->errors, "The import foo cannot be resolved <1:8 1:10>"
+		));
+	}
 
 
 
@@ -449,17 +464,6 @@ public:
 ///////////////////////////////////////////////////////////////////////////////
 // test finding usages of symbols
 
-	void test_java_parser_finds_name_of_package_imported_with_asterisk()
-	{
-		std::shared_ptr<TestParserClient> client = parseCode(
-			"import foo.bar.*;\n"
-		);
-
-		TS_ASSERT(utility::containsElement<std::string>(
-			client->imports, "input.cc -> foo.bar <1:8 1:14>"
-		));
-	}
-
 	void test_java_parser_finds_inheritance_using_extends_keyword()
 	{
 		std::shared_ptr<TestParserClient> client = parseCode(
@@ -496,6 +500,29 @@ public:
 		));
 	}
 
+	void test_java_parser_finds_inheritance_of_anonymous_class_declaration()
+	{
+		std::shared_ptr<TestParserClient> client = parseCode(
+			"public class A\n"
+			"{\n"
+			"	public interface Base\n"
+			"	{\n"
+			"	}\n"
+			"\n"
+			"	void foo()\n"
+			"	{\n"
+			"		Base b = new Base()\n"
+			"		{\n"
+			"		}\n"
+			"	};\n"
+			"}\n"
+		);
+
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->inheritances, "A.foo.anonymous class (input.cc<10:3>) -> A.Base <9:16 9:19>"
+		));
+	}
+
 	void test_java_parser_finds_type_parameter_in_signature_of_method()
 	{
 		std::shared_ptr<TestParserClient> client = parseCode(
@@ -508,10 +535,10 @@ public:
 		);
 
 		TS_ASSERT(utility::containsElement<std::string>(
-			client->typeUses, "A<T> A<T>.foo(A<T>) -> A<T> <3:9 3:9>"
+			client->typeUses, "A<java.lang.Void> A<T>.foo(A<java.lang.Void>) -> A<T> <3:9 3:9>"
 		));
 		TS_ASSERT(utility::containsElement<std::string>(
-			client->typeUses, "A<T> A<T>.foo(A<T>) -> A<T> <3:21 3:21>"
+			client->typeUses, "A<java.lang.Void> A<T>.foo(A<java.lang.Void>) -> A<T> <3:21 3:21>"
 		));
 	}
 
@@ -554,7 +581,7 @@ public:
 		));
 	}
 
-	void test_java_parser_finds_method_call_to_super()
+	void test_java_parser_finds_super_method_invocation()
 	{
 		std::shared_ptr<TestParserClient> client = parseCode(
 			"package foo;\n"
@@ -580,6 +607,237 @@ public:
 		TS_ASSERT(utility::containsElement<std::string>(
 			client->calls, "void foo.X.B.bar() -> void foo.X.A.bar() <15:10 15:12>"
 		));
+	}
+
+	void test_java_parser_finds_constructor_invocation()
+	{
+		std::shared_ptr<TestParserClient> client = parseCode(
+			"package foo;\n"
+			"public class Bar\n"
+			"{\n"
+			"	public Bar()\n"
+			"	{\n"
+			"	}\n"
+			"	\n"
+			"	public Bar(int i)\n"
+			"	{\n"
+			"		this();\n"
+			"	}\n"
+			"}\n"
+		);
+
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->calls, "foo.Bar.Bar(int) -> foo.Bar.Bar() <10:3 10:6>"
+		));
+	}
+	
+	void test_java_parser_finds_super_constructor_invocation()
+	{
+		std::shared_ptr<TestParserClient> client = parseCode(
+			"public class A\n"
+			"{\n"
+			"	public class Base\n"
+			"	{\n"
+			"	}\n"
+			"\n"
+			"	public class Derived extends Base\n"
+			"	{\n"
+			"		public Derived()\n"
+			"		{\n"
+			"			super();\n"
+			"		}\n"
+			"	}\n"
+			"}\n"
+		);
+
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->calls, "A.Derived.Derived() -> A.Base.Base() <11:4 11:8>"
+		));
+	}
+
+	void test_java_parser_finds_invocation_of_method_of_anonymous_class()
+	{
+		std::shared_ptr<TestParserClient> client = parseCode(
+			"class Main {\n"
+			"	public interface Interfaze {\n"
+			"		public void foo();\n"
+			"	}\n"
+			"\n"
+			"	private Interfaze i = new Interfaze() {\n"
+			"		public void foo() {\n"
+			"			bar();\n"
+			"		}\n"
+			"\n"
+			"		private void bar() {\n"
+			"		}\n"
+			"	};\n"
+			"}\n"
+		);
+
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->calls, "void Main.anonymous class (input.cc<6:40>).foo() -> void Main.anonymous class (input.cc<6:40>).bar() <8:4 8:6>"
+		));
+	}
+
+	void test_java_parser_finds_overridden_method_with_same_signature()
+	{
+		std::shared_ptr<TestParserClient> client = parseCode(
+			"class Main {\n"
+			"	public interface Interfaze {\n"
+			"		public void foo(int t);\n"
+			"	}\n"
+			"\n"
+			"	public class C implements Interfaze {\n"
+			"		public void foo(int t) {\n"
+			"		}\n"
+			"	}\n"
+			"}\n"
+		);
+
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->overrides, "void Main.C.foo(int) -> void Main.Interfaze.foo(int) <7:15 7:17>"
+		));
+	}
+
+	void test_java_parser_finds_overridden_method_with_generic_signature()
+	{
+		std::shared_ptr<TestParserClient> client = parseCode(
+			"class Main <X> {\n"
+			"	public interface Interfaze <T> {\n"
+			"		public void foo(T t);\n"
+			"	}\n"
+			"\n"
+			"	public class C implements Interfaze <X> {\n"
+			"		public void foo(X t) {\n"
+			"		}\n"
+			"	}\n"
+			"}\n"
+		);
+
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->overrides, "void Main<X>.C.foo(Main<X>.X) -> void Main<X>.Interfaze<T>.foo(Main<X>.Interfaze<T>.T) <7:15 7:17>"
+		));
+	}
+
+	void test_java_parser_finds_method_usage_for_creation_reference()
+	{
+		std::shared_ptr<TestParserClient> client = parseCode(
+			"public class A\n"
+			"{\n"
+			"	public interface Functor\n"
+			"	{\n"
+			"		public void doSomething();\n"
+			"	}\n"
+			"\n"
+			"	public class B\n"
+			"	{\n"
+			"	}\n"
+			"\n"
+			"	void foo()\n"
+			"	{\n"
+			"		Functor method = B::new;\n"
+			"	}\n"
+			"}\n"
+		);
+
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->usages, "void A.foo() -> A.B.B() <14:23 14:25>"
+		));
+	}
+
+	void test_java_parser_finds_method_usage_for_expression_method_reference()
+	{
+		std::shared_ptr<TestParserClient> client = parseCode(
+			"public class A\n"
+			"{\n"
+			"	public interface Functor\n"
+			"	{\n"
+			"		public void doSomething();\n"
+			"	}\n"
+			"\n"
+			"	public class B\n"
+			"	{\n"
+			"		void bar()\n"
+			"		{\n"
+			"		}\n"
+			"	}\n"
+			"\n"
+			"	void foo()\n"
+			"	{\n"
+			"		Functor method = B::bar;\n"
+			"	}\n"
+			"}\n"
+		);
+
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->usages, "void A.foo() -> void A.B.bar() <17:23 17:25>"
+		));
+	}
+
+	void test_java_parser_finds_method_usage_for_super_method_reference()
+	{
+		std::shared_ptr<TestParserClient> client = parseCode(
+			"public class A {\n"
+			"	public interface Functor {\n"
+			"		public void doSomething();\n"
+			"	}\n"
+			"\n"
+			"	public class B {\n"
+			"		void bar() {\n"
+			"		}\n"
+			"	}\n"
+			"\n"
+			"	public class C extends B {\n"
+			"		void foo() {\n"
+			"			Functor method = super::bar;\n"
+			"		}\n"
+			"	}\n"
+			"}\n"
+		);
+
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->usages, "void A.C.foo() -> void A.B.bar() <13:28 13:30>"
+		));
+	}
+
+	void test_java_parser_finds_no_method_usage_for_type_method_reference() 
+	{
+		std::shared_ptr<TestParserClient> client = parseCode(
+			"public class A {\n"
+			"	void foo() {\n"
+			"		Functor method = int []::clone;\n"
+			"	}\n"
+			"}\n"
+		);
+
+		// finding method usage here may be implemented in the future.
+		TS_ASSERT_EQUALS(client->usages.size(), 0);
+	}
+
+	void test_java_parser_finds_no_usage_of_field_within_that_fields_declaration()
+	{
+		std::shared_ptr<TestParserClient> client = parseCode(
+			"package foo;\n"
+			"public class X\n"
+			"{\n"
+			"	private int t;\n"
+			"}\n"
+		);
+
+		TS_ASSERT_EQUALS(client->usages.size(), 0);
+	}
+
+	void test_java_parser_finds_no_usage_of_enum_constant_within_that_enum_constants_declaration()
+	{
+		std::shared_ptr<TestParserClient> client = parseCode(
+			"package foo;\n"
+			"public enum X\n"
+			"{\n"
+			"	OPTION_0;\n"
+			"}\n"
+		);
+
+		TS_ASSERT_EQUALS(client->usages.size(), 0);
 	}
 
 	void test_java_parser_finds_usage_of_field_with_same_name_as_method_parameter()
@@ -608,7 +866,7 @@ public:
 			"public class X\n"
 			"{\n"
 			"	private int foo;\n"
-			"	public foo()\n"
+			"	public void foo()\n"
 			"	{\n"
 			"		this.foo = 5;\n"
 			"	}\n"
@@ -616,11 +874,11 @@ public:
 		);
 
 		TS_ASSERT(utility::containsElement<std::string>(
-			client->usages, "foo.X.foo() -> int foo.X.foo <7:8 7:10>"
+			client->usages, "void foo.X.foo() -> int foo.X.foo <7:8 7:10>"
 		));
 	}
 
-	void test_java_parser_finds_assignment_of_method_argument()
+	void test_java_parser_finds_assignment_of_method_parameter()
 	{
 		std::shared_ptr<TestParserClient> client = parseCode(
 			"package foo;\n"
@@ -634,7 +892,7 @@ public:
 		);
 
 		TS_ASSERT(utility::containsElement<std::string>(
-			client->localSymbols, "input.cc<4:15> <6:3 6:3>"
+			client->localSymbols, "foo.A.bar<0> <6:3 6:3>"
 		));
 	}
 
@@ -653,7 +911,7 @@ public:
 		);
 
 		TS_ASSERT(utility::containsElement<std::string>(
-			client->localSymbols, "input.cc<6:7> <7:3 7:3>"
+			client->localSymbols, "foo.A.bar<0> <7:3 7:3>"
 		));
 	}
 
@@ -789,6 +1047,32 @@ public:
 		));
 	}
 
+	void test_java_parser_finds_scope_of_anonymous_class_declaration()
+	{
+		std::shared_ptr<TestParserClient> client = parseCode(
+			"public class A\n"
+			"{\n"
+			"	public interface Base\n"
+			"	{\n"
+			"	}\n"
+			"\n"
+			"	void foo()\n"
+			"	{\n"
+			"		Base b = new Base()\n"
+			"		{\n"
+			"		}\n"
+			"	};\n"
+			"}\n"
+		);
+
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->localSymbols, "input.cc<10:3> <10:3 10:3>"
+		));
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->localSymbols, "input.cc<10:3> <11:3 11:3>"
+		));
+	}
+
 	void test_java_parser_finds_usage_of_type_parameter_of_class()
 	{
 		std::shared_ptr<TestParserClient> client = parseCode(
@@ -827,7 +1111,7 @@ public:
 		);
 
 		TS_ASSERT(utility::containsElement<std::string>(
-			client->typeUses, "A<T> A<T>.t -> A<T> <3:2 3:2>"
+			client->typeUses, "A<java.lang.Void> A<T>.t -> A<T> <3:2 3:2>"
 		));
 	}
 
@@ -841,7 +1125,8 @@ public:
 
 		TS_ASSERT(utility::containsElement<std::string>(
 			client->typeUses, "A<T>.T -> java.lang.Void <1:27 1:30>"
-		))
+		));
+		system("PAUSE");
 	}
 
 

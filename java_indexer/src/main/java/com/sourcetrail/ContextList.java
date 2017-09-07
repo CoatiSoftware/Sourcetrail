@@ -1,57 +1,33 @@
 package com.sourcetrail;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
-import com.github.javaparser.ast.body.BodyDeclaration;
-import com.github.javaparser.symbolsolver.model.declarations.TypeParametrizable;
+import org.eclipse.jdt.core.dom.IBinding;
 
 public class ContextList
 {
-	private List<BodyDeclaration> m_bodyDeclarations = new ArrayList<>();
-	private List<TypeParametrizable> m_typeParameterizables = new ArrayList<>();
+	private Set<String> m_bindingKeys = new HashSet<>();
 	
 	public ContextList copy()
 	{
 		ContextList contextList = new ContextList();
 
-		contextList.m_bodyDeclarations = new ArrayList<>(m_bodyDeclarations);
-		contextList.m_typeParameterizables = new ArrayList<>(m_typeParameterizables);
+		contextList.m_bindingKeys = new HashSet<>(m_bindingKeys);
 		
 		return contextList;
 	}
 	
-	public void add(BodyDeclaration v) 
+	public void add(IBinding v) 
 	{
-		m_bodyDeclarations.add(v);
-	}
-	
-	public boolean contains(BodyDeclaration v)
-	{
-		for (BodyDeclaration bodyDeclaration: m_bodyDeclarations)
+		if (v != null)
 		{
-			if (bodyDeclaration.equals(v))
-			{
-				return true;
-			}
+			m_bindingKeys.add(v.getKey());
 		}
-		return false;
 	}
 	
-	public void add(TypeParametrizable v) 
+	public boolean contains(IBinding v)
 	{
-		m_typeParameterizables.add(v);
-	}
-	
-	public boolean contains(TypeParametrizable v)
-	{
-		for (TypeParametrizable typeParameterizable: m_typeParameterizables)
-		{
-			if (typeParameterizable.toString().equals(v.toString()))
-			{
-				return true;
-			}
-		}
-		return false;
+		return v != null && m_bindingKeys.contains(v.getKey());
 	}
 }

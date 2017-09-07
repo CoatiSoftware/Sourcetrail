@@ -1,6 +1,6 @@
 package com.sourcetrail;
 
-import com.github.javaparser.ast.AccessSpecifier;
+import org.eclipse.jdt.core.dom.Modifier;
 
 public enum AccessKind 
 { // these values need to be the same as AccesKind in C++ code
@@ -14,31 +14,23 @@ public enum AccessKind
 	
 	private final int m_value;
 	
-    private AccessKind(int value) 
-    {
-        this.m_value = value;
-    }
-
-    public int getValue() 
-    {
-        return m_value;
-    }
-    
-    public static AccessKind fromAccessSpecifier(AccessSpecifier specifier)
-    {
-		switch (specifier)
-		{
-		case PUBLIC:
-			return AccessKind.PUBLIC;
-		case PROTECTED:
-			return AccessKind.PROTECTED;
-		case PRIVATE:
-			return AccessKind.PRIVATE;
-		case DEFAULT:
-			return AccessKind.DEFAULT;
-		default:
-			return AccessKind.NONE;
-		}
-    }
+	private AccessKind(int value) 
+	{
+	    this.m_value = value;
+	}
+	
+	public int getValue() 
+	{
+	    return m_value;
+	}
+	
+	public static AccessKind fromModifiers(int modifiers)
+	{
+		if ((modifiers & Modifier.PUBLIC) != 0) { return AccessKind.PUBLIC; }
+		if ((modifiers & Modifier.PROTECTED) != 0) { return AccessKind.PROTECTED; }
+		if ((modifiers & Modifier.PRIVATE) != 0) { return AccessKind.PRIVATE; }
+		if ((modifiers & Modifier.DEFAULT) != 0) { return AccessKind.DEFAULT; }
+		return AccessKind.DEFAULT;
+	}
 }
 

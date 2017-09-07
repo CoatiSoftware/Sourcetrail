@@ -2,15 +2,19 @@ package com.sourcetrail.name;
 
 import java.util.List;
 
-public class JavaTypeName 
+public class JavaTypeName implements JavaSymbolName
 {
 	private JavaDeclName m_parent = null;
 	private String m_name = "";
-	private List<JavaTypeName> m_typeArgumentNames = null;
+	private List<String> m_typeParameterNames = null;
+	private List<JavaTypeName> m_typeArguments = null;
+	private boolean m_isUnsolved = false;
 
 	public static JavaTypeName unsolved()
 	{
-		return new JavaTypeName("unsolved-type", null);
+		JavaTypeName typeName = new JavaTypeName("unsolved-type", null);
+		typeName.m_isUnsolved = true;
+		return typeName;
 	}
 	
 	public static JavaTypeName fromDotSeparatedString(String s) 
@@ -36,11 +40,12 @@ public class JavaTypeName
 		m_name = name;
 	}
 	
-	public JavaTypeName(String name, List<JavaTypeName> typeArgumentNames, JavaDeclName parent)
+	public JavaTypeName(String name, List<String> typeParameterNames, List<JavaTypeName> typeArguments, JavaDeclName parent)
 	{
 		m_parent = parent;
 		m_name = name;
-		m_typeArgumentNames = typeArgumentNames;
+		m_typeParameterNames = typeParameterNames;
+		m_typeArguments = typeArguments;
 	}
 	
 	public JavaDeclName getParent()
@@ -51,6 +56,13 @@ public class JavaTypeName
 	public String getName()
 	{
 		return m_name;
+	}
+	
+	public JavaDeclName toDeclName()
+	{
+		JavaDeclName declName = new JavaDeclName(m_name, m_typeParameterNames);
+		declName.setParent(m_parent);
+		return declName;
 	}
 	
 	public NameHierarchy toNameHierarchy()
@@ -89,16 +101,16 @@ public class JavaTypeName
 	private String getTypeArgumentString()
 	{
 		String string = "";
-		if (m_typeArgumentNames != null && !m_typeArgumentNames.isEmpty())
+		if (m_typeArguments != null && !m_typeArguments.isEmpty())
 		{
 			string += "<";
-			for (int i = 0; i < m_typeArgumentNames.size(); i++)
+			for (int i = 0; i < m_typeArguments.size(); i++)
 			{
 				if (i != 0)
 				{
 					string += ", ";
 				}
-				string += m_typeArgumentNames.get(i).toString();
+				string += m_typeArguments.get(i).toString();
 			}
 			string += ">";
 		}

@@ -236,11 +236,7 @@
 				<ComponentRef Id='LicenseBotanTxt'/>
 				<ComponentRef Id='LicenseClangTxt'/>
 				<ComponentRef Id='LicenseCppSqliteTxt'/>
-				<ComponentRef Id='LicenseGuavaTxt'/>
-				<ComponentRef Id='LicenseJavaSymbolSolverTxt'/>
-				<ComponentRef Id='LicenseJavaparserTxt'/>
-				<ComponentRef Id='LicenseJavaslangTxt'/>
-				<ComponentRef Id='LicenseJavassistTxt'/>
+				<ComponentRef Id='LicenseEclipseTxt'/>
 				<ComponentRef Id='LicenseQtTxt'/>
 				<ComponentRef Id='LicenseTinyxmlTxt'/>
 				

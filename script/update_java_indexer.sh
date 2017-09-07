@@ -38,10 +38,4 @@ echo -e $INFO "copy jars"
 mkdir -p bin/app/data/java
 rm -rf bin/app/data/java/*
 cp -r java_indexer/target/java-indexer-1.0.jar bin/app/data/java/java-indexer.jar
-cp -r java_indexer/target/dependency/guava*.jar bin/app/data/java
-cp -r java_indexer/target/dependency/javaparser-core*.jar bin/app/data/java/javaparser-core.jar
-cp -r java_indexer/target/dependency/javaslang*.jar bin/app/data/java
-cp -r java_indexer/target/dependency/javassist*.jar bin/app/data/java
-cp -r java_indexer/target/dependency/java-symbol-solver-core-x.x.x.jar bin/app/data/java/java-symbol-solver-core.jar
-cp -r java_indexer/target/dependency/java-symbol-solver-logic-x.x.x.jar bin/app/data/java/java-symbol-solver-logic.jar
-cp -r java_indexer/target/dependency/java-symbol-solver-model-x.x.x.jar bin/app/data/java/java-symbol-solver-model.jar
+cp -r java_indexer/target/dependency/*.jar bin/app/data/java

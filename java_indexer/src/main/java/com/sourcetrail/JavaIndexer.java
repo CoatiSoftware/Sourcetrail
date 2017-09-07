@@ -1,147 +1,128 @@
 package com.sourcetrail;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.StringReader;
-import java.util.HashMap;
-import java.util.Map;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.Hashtable;
 
-import com.github.javaparser.JavaParser;
-import com.github.javaparser.ParseProblemException;
-import com.github.javaparser.Position;
-import com.github.javaparser.Problem;
-import com.github.javaparser.Range;
-import com.github.javaparser.ast.CompilationUnit;
-import com.github.javaparser.ast.PackageDeclaration;
-import com.github.javaparser.symbolsolver.javaparser.Navigator;
-import com.github.javaparser.symbolsolver.javaparsermodel.JavaParserFacade;
-import com.github.javaparser.symbolsolver.model.resolution.TypeSolver;
-import com.github.javaparser.symbolsolver.resolution.typesolvers.CombinedTypeSolver;
-import com.github.javaparser.symbolsolver.resolution.typesolvers.JarTypeSolver;
-import com.github.javaparser.symbolsolver.resolution.typesolvers.ReflectionTypeSolver;
-
-import com.sourcetrail.typesolver.SynchronizedJavaParserTypeSolver;
+import org.eclipse.jdt.core.JavaCore;
+import org.eclipse.jdt.core.compiler.IProblem;
+import org.eclipse.jdt.core.dom.AST;
+import org.eclipse.jdt.core.dom.ASTParser;
+import org.eclipse.jdt.core.dom.ASTVisitor;
+import org.eclipse.jdt.core.dom.BlockComment;
+import org.eclipse.jdt.core.dom.Comment;
+import org.eclipse.jdt.core.dom.CompilationUnit;
+import org.eclipse.jdt.core.dom.LineComment;
+import org.eclipse.jdt.core.dom.PackageDeclaration;
 
 public class JavaIndexer 
-{
-	private static Map<String, TypeSolver> typeSolvers = new HashMap<>();
-			
+{	
 	public static void processFile(int address, String filePath, String fileContent, String classPath, int verbose)
 	{
-		AstVisitorClient astVisitorClient = new JavaIndexerAstVisitorClient(address);
-		
+		processFile(new JavaIndexerAstVisitorClient(address), filePath, fileContent, classPath, verbose);
+	}
+	
+	public static void processFile(AstVisitorClient astVisitorClient, String filePath, String fileContent, String classPath, int verbose)
+	{
 		astVisitorClient.logInfo("indexing source file: " + filePath);
 		
-		try 
-		{
-			CombinedTypeSolver combinedTypeSolver = new CombinedTypeSolver();
+		Path path = Paths.get(filePath);
+	
+		ASTParser parser = ASTParser.newParser(AST.JLS8);
+		
+		parser.setResolveBindings(true); // solve "bindings" like the declatarion of the type used in a var decl
+		parser.setKind(ASTParser.K_COMPILATION_UNIT); // specify to parse the entire compilation unit
+		parser.setBindingsRecovery(true); // also return bindings that are not resolved completely
+        parser.setStatementsRecovery(true);
+		
+        Hashtable<String, String> options = JavaCore.getOptions();
+        JavaCore.setComplianceOptions(JavaCore.VERSION_1_8, options);
+        parser.setCompilerOptions(options);
+		
+		parser.setUnitName(path.getFileName().toString());
 
-			combinedTypeSolver.add(new ReflectionTypeSolver());
-			
-			synchronized (typeSolvers)
+		String sources = "";
+		String classpath = "";
+		
+		for (String classPathEntry: classPath.split("\\;"))
+		{	
+			if (classPathEntry.endsWith(".jar"))
 			{
-				for (String path: classPath.split("\\;"))
+				if (!classpath.isEmpty())
 				{
-					if (typeSolvers.containsKey(path))
-					{
-						combinedTypeSolver.add(typeSolvers.get(path));
-					}
-					else 
-					{
-						try
-						{
-							TypeSolver typeSolver = null;
-							
-							if (path.endsWith(".jar"))
-							{
-								try
-								{
-									typeSolver = new JarTypeSolver(path);
-								}
-								catch (IOException e)
-								{
-									System.out.println("unable to add jar file: " + path);
-								}
-							}
-							else if (!path.isEmpty())
-							{
-								typeSolver = new SynchronizedJavaParserTypeSolver(new File(path));
-							}
-							
-							if (typeSolver != null)
-							{
-								typeSolvers.put(path, typeSolver);
-								combinedTypeSolver.add(typeSolver);
-							}
-						}
-						catch (Exception e)
-						{
-							astVisitorClient.logWarning("unable to add dependency: " + path);
-						}
-					}
+					classpath += ";";
 				}
+				classpath += classPathEntry;
 			}
-			
-			CompilationUnit cu = JavaParser.parse(new StringReader(fileContent));
-
-			AstVisitor astVisitor = (
-				verbose == 1 ? 
-				new VerboseAstVisitor(astVisitorClient, filePath, new FileContent(fileContent), combinedTypeSolver) : 
-				new AstVisitor(astVisitorClient, filePath, new FileContent(fileContent), combinedTypeSolver)
-			);
-			
-			cu.accept(astVisitor, null);
-		} 
-		catch (ParseProblemException e) 
-		{
-			for (Problem problem: e.getProblems())
+			else if (!classPathEntry.isEmpty())
 			{
-				// "Parse error. Found \"package\", expected one of  \";\" \"@\" \"\\u001a\" \"abstract\" \"class\" \"default\" \"enum\" \"final\" \"import\" \"interface\" \"module\" \"native\" \"open\" \"private\" \"protected\" \"public\" \"static\" \"stric...
-				String message = problem.toString();
-				if (message.startsWith("Parse error. Found "))
+				if (!sources.isEmpty())
 				{
-					message = "Encountered unexpected token.";
-				}		
-				
-				Range range = new Range(new Position(0, 0), new Position(0, 0));
-				if (problem.getLocation().isPresent())
-				{
-					range = problem.getLocation().get().toRange();
+					sources += ";";
 				}
-				
-				astVisitorClient.recordError(message, true, true, range);
+				sources += classPathEntry;
+			}		
+		}
+		
+		parser.setEnvironment(new String[] {classpath} , new String[] {sources}, new String[] {"UTF-8"}, true);
+		parser.setSource(fileContent.toCharArray());
+		
+		CompilationUnit cu = (CompilationUnit) parser.createAST(null);
+		
+		ASTVisitor visitor;
+		if (verbose != 0)
+		{
+			visitor = new VerboseContextAwareAstVisitor(astVisitorClient, path.toFile(), fileContent, cu);
+		}
+		else
+		{
+			visitor = new ContextAwareAstVisitor(astVisitorClient, path.toFile(), fileContent, cu);
+		}
+		
+		cu.accept(visitor);
+
+		for (IProblem problem: cu.getProblems())
+		{
+			if (problem.isError())
+			{
+				Range range = new Range(
+						cu.getLineNumber(problem.getSourceStart()),
+						cu.getColumnNumber(problem.getSourceStart() + 1),
+						cu.getLineNumber(problem.getSourceEnd()),
+						cu.getColumnNumber(problem.getSourceEnd()) + 1);
+
+				astVisitorClient.recordError(problem.getMessage(), false, true, range);
 			}
 		}
+		
+		for (Object commentObject: cu.getCommentList())
+		{
+			if ((commentObject instanceof LineComment) || (commentObject instanceof BlockComment))
+			{
+				((Comment) commentObject).accept(visitor);
+			}
+		}
+	
 	}
 	
 	public static String getPackageName(String fileContent)
 	{
 		String packageName = "";
-		try 
-		{
-			CompilationUnit cu = JavaParser.parse(new StringReader(fileContent));
-			PackageDeclaration pd = Navigator.findNodeOfGivenClass(cu, PackageDeclaration.class);
-			if (pd != null)
-			{
-				packageName = JavaparserDeclNameResolver.getQualifiedName(pd.getName()).toString();
-			}
-		} 
-		catch (ParseProblemException e) 
-		{
-			// do nothing
-		}
-		catch (IllegalArgumentException e) 
-		{
-			// do nothing
-		}
 		
+		ASTParser parser = ASTParser.newParser(AST.JLS8);
+		parser.setKind(ASTParser.K_COMPILATION_UNIT); // specify to parse the entire compilation unit
+		parser.setSource(fileContent.toCharArray());
+		CompilationUnit cu = (CompilationUnit) parser.createAST(null);
+		PackageDeclaration packageDeclaration = cu.getPackage();
+		if (packageDeclaration != null)
+		{
+			packageName = packageDeclaration.getName().getFullyQualifiedName();
+		}
 		return packageName;
 	}
 	
 	public static void clearCaches()
 	{
-		typeSolvers.clear();
-		JavaParserFacade.clearInstances();
 		Runtime.getRuntime().gc();
 	}
 	
@@ -158,36 +139,30 @@ public class JavaIndexer
 	static public native void logError(int address, String error);
 	
 	static public native void recordSymbol(
-		int address, String symbolName, int symbolType, 
-		int access, int definitionKind
-	);
+			int address, String symbolName, int symbolType, 
+			int access, int definitionKind);
 
 	static public native void recordSymbolWithLocation(
-		int address, String symbolName, int symbolType, 
-		int beginLine, int beginColumn, int endLine, int endColumn,
-		int access, int definitionKind
-	);
+			int address, String symbolName, int symbolType, 
+			int beginLine, int beginColumn, int endLine, int endColumn,
+			int access, int definitionKind);
 	
 	static public native void recordSymbolWithLocationAndScope(
-		int address, String symbolName, int symbolType, 
-		int beginLine, int beginColumn, int endLine, int endColumn,
-		int scopeBeginLine, int scopeBeginColumn, int scopeEndLine, int scopeEndColumn,
-		int access, int definitionKind
+			int address, String symbolName, int symbolType, 
+			int beginLine, int beginColumn, int endLine, int endColumn,
+			int scopeBeginLine, int scopeBeginColumn, int scopeEndLine, int scopeEndColumn,
+			int access, int definitionKind
 	);
 	
 	static public native void recordReference(
-		int address, int referenceKind, String referencedName, String contextName, int beginLine, int beginColumn, int endLine, int endColumn
-	);
+			int address, int referenceKind, String referencedName, String contextName, int beginLine, int beginColumn, int endLine, int endColumn);
 	
 	static public native void recordLocalSymbol(
-		int address, String symbolName, int beginLine, int beginColumn, int endLine, int endColumn
-	);
+			int address, String symbolName, int beginLine, int beginColumn, int endLine, int endColumn);
 	
 	static public native void recordComment(
-		int address, int beginLine, int beginColumn, int endLine, int endColumn
-	);
+			int address, int beginLine, int beginColumn, int endLine, int endColumn);
 	
 	static public native void recordError(
-		int address, String message, int fatal, int indexed, int beginLine, int beginColumn, int endLine, int endColumn
-	);
+			int address, String message, int fatal, int indexed, int beginLine, int beginColumn, int endLine, int endColumn);
 }

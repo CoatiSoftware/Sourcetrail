@@ -2,24 +2,9 @@ package com.sourcetrail;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.Optional;
-
-import com.github.javaparser.Position;
 
 public class FileContent 
 {
-	public class Location
-	{
-		public int line;
-		public int column;
-		
-		Location(int line, int column)
-		{
-			this.line = line;
-			this.column = column;
-		}
-	}
-	
 	private List<String> m_lines;
 	
 	public FileContent(String text)
@@ -27,17 +12,12 @@ public class FileContent
 		m_lines = Arrays.asList(text.split("\\r?\\n"));
 	}
 	
-	public Location find(String s)
+	public Position findStartPosition(String s)
 	{
-		return find(s, Position.pos(1, 1));
+		return findStartPosition(s, new Position(1, 1));
 	}
 	
-	public Location find(String s, Optional<Position> from)
-	{
-		return find(s, from.orElse(Position.pos(1, 1)));
-	}
-	
-	public Location find(String s, Position from)
+	public Position findStartPosition(String s, Position from)
 	{
 		int lineIndex = from.line - 1;
 		int startColumn = from.column - 1;
@@ -47,11 +27,25 @@ public class FileContent
 			column = m_lines.get(lineIndex).indexOf(s, startColumn);
 			if (column != -1)
 			{
-				return new Location(lineIndex + 1, column + 1);
+				return new Position(lineIndex + 1, column + 1);
 			}
 			startColumn = 0;
 			lineIndex++;
 		}
-		return new Location(0, 0);
+		return new Position(0, 0);
+	}
+
+	public Range findRange(String s)
+	{
+		return findRange(s, new Position(1, 1));
+	}
+
+	public Range findRange(String s, Position from)
+	{
+		Position startPosition = findStartPosition(s, from);
+		
+		return new Range(
+				startPosition, 
+				new Position(startPosition.line, startPosition.column + s.length() - 1));
 	}
 }

@@ -1,14 +1,19 @@
 package com.sourcetrail.name;
 
+import java.io.File;
 import java.util.List;
 
-public class JavaDeclName 
+import com.sourcetrail.Position;
+
+public class JavaDeclName implements JavaSymbolName
 {
 	private JavaDeclName m_parent = null;
 	private String m_name = "";
 	private List<String> m_typeParameterNames = null;
 	private boolean m_isUnsolved = false;
 	private boolean m_isAnonymous = false;
+	private boolean m_isLocal = false;
+	private boolean m_isGlobal = false;
 
 	public static JavaDeclName unsolved()
 	{
@@ -17,10 +22,30 @@ public class JavaDeclName
 		return declName;
 	}
 	
-	public static JavaDeclName anonymousClass(String fileName, int line, int col)
+	public static JavaDeclName anonymousClass(File filePath, int line, int col)
 	{
-		JavaDeclName declName = new JavaDeclName("anonymous class (" + fileName + "<" + line + ":" + col + ">)");
+		JavaDeclName declName = new JavaDeclName("anonymous class (" + filePath.getName() + "<" + line + ":" + col + ">)");
 		declName.m_isAnonymous = true;
+		return declName;
+	}
+	
+	public static JavaDeclName localSymbol(JavaDeclName methodContextName, int id)
+	{
+		JavaDeclName declName = new JavaDeclName(methodContextName + "<" + id + ">");
+		declName.m_isLocal = true;
+		return declName;
+	}
+	
+	public static JavaDeclName globalSymbol(File fileContext, int id)
+	{
+		JavaDeclName declName = new JavaDeclName(fileContext.getName() + "<" + id + ">");
+		declName.m_isGlobal = true;
+		return declName;
+	}
+	
+	public static JavaDeclName scope(File fileContext, Position begin)
+	{
+		JavaDeclName declName = new JavaDeclName(fileContext.getName() + "<" + begin.line + ":" + begin.column + ">");
 		return declName;
 	}
 	
@@ -78,6 +103,16 @@ public class JavaDeclName
 		return m_isAnonymous;
 	}
 	
+	public boolean getIsLocal()
+	{
+		return m_isLocal;
+	}
+	
+	public boolean getIsGlobal()
+	{
+		return m_isGlobal;
+	}
+	
 	public NameHierarchy toNameHierarchy()
 	{
 		NameHierarchy nameHierarchy;
@@ -128,5 +163,9 @@ public class JavaDeclName
 			string += ">";
 		}
 		return string;
+	}
+
+	public List<String> getTypeParameterNames() {
+		return m_typeParameterNames;
 	}
 }

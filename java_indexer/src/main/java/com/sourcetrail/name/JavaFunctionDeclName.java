@@ -7,24 +7,24 @@ import java.util.Optional;
 public class JavaFunctionDeclName extends JavaDeclName
 {
 	private JavaTypeName m_returnTypeName = null;
-	private List<JavaTypeName> m_parameterNames = new ArrayList<>();
+	private List<JavaTypeName> m_parameterTypeNames = new ArrayList<>();
 	private boolean m_isStatic = false;
 	
-	public JavaFunctionDeclName(String name, JavaTypeName returnTypeName, List<JavaTypeName> parameterNames, boolean isStatic)
+	public JavaFunctionDeclName(String name, JavaTypeName returnTypeName, List<JavaTypeName> parameterTypeNames, boolean isStatic)
 	{
 		super(name);
 		
 		m_returnTypeName = returnTypeName;
-		if (m_parameterNames != null) m_parameterNames = parameterNames;
+		if (parameterTypeNames != null) m_parameterTypeNames = parameterTypeNames;
 		m_isStatic = isStatic;
 	}
 	
-	public JavaFunctionDeclName(String name, List<String> typeParameterNames, JavaTypeName returnTypeName, List<JavaTypeName> parameterNames, boolean isStatic)
+	public JavaFunctionDeclName(String name, List<String> typeParameterNames, JavaTypeName returnTypeName, List<JavaTypeName> parameterTypeNames, boolean isStatic)
 	{
 		super(name, typeParameterNames);
 		
 		m_returnTypeName = returnTypeName;
-		m_parameterNames = parameterNames;
+		if (parameterTypeNames != null) m_parameterTypeNames = parameterTypeNames;
 		m_isStatic = isStatic;
 	}
 	
@@ -60,15 +60,15 @@ public class JavaFunctionDeclName extends JavaDeclName
 	private String getParameterString()
 	{
 		String string = "(";
-		if (m_parameterNames != null)
+		if (m_parameterTypeNames != null)
 		{
-			for (int i = 0; i < m_parameterNames.size(); i++)
+			for (int i = 0; i < m_parameterTypeNames.size(); i++)
 			{
 				if (i != 0)
 				{
 					string += ", ";
 				}
-				string += m_parameterNames.get(i).toString();
+				string += m_parameterTypeNames.get(i).toString();
 			}
 		}
 		string += ")";

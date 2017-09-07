@@ -4,932 +4,746 @@ import java.io.File;
 import java.lang.String;
 import java.util.List;
 import java.util.Optional;
+import java.util.Stack;
+
+import org.eclipse.jdt.core.dom.ASTNode;
+import org.eclipse.jdt.core.dom.ASTVisitor;
+import org.eclipse.jdt.core.dom.AnonymousClassDeclaration;
+import org.eclipse.jdt.core.dom.ArrayInitializer;
+import org.eclipse.jdt.core.dom.Block;
+import org.eclipse.jdt.core.dom.BlockComment;
+import org.eclipse.jdt.core.dom.ClassInstanceCreation;
+import org.eclipse.jdt.core.dom.CompilationUnit;
+import org.eclipse.jdt.core.dom.ConstructorInvocation;
+import org.eclipse.jdt.core.dom.CreationReference;
+import org.eclipse.jdt.core.dom.EnumConstantDeclaration;
+import org.eclipse.jdt.core.dom.EnumDeclaration;
+import org.eclipse.jdt.core.dom.ExpressionMethodReference;
+import org.eclipse.jdt.core.dom.FieldDeclaration;
+import org.eclipse.jdt.core.dom.IBinding;
+import org.eclipse.jdt.core.dom.IMethodBinding;
+import org.eclipse.jdt.core.dom.IPackageBinding;
+import org.eclipse.jdt.core.dom.ITypeBinding;
+import org.eclipse.jdt.core.dom.IVariableBinding;
+import org.eclipse.jdt.core.dom.ImportDeclaration;
+import org.eclipse.jdt.core.dom.Javadoc;
+import org.eclipse.jdt.core.dom.LineComment;
+import org.eclipse.jdt.core.dom.MethodDeclaration;
+import org.eclipse.jdt.core.dom.MethodInvocation;
+import org.eclipse.jdt.core.dom.NameQualifiedType;
+import org.eclipse.jdt.core.dom.PackageDeclaration;
+import org.eclipse.jdt.core.dom.PrimitiveType;
+import org.eclipse.jdt.core.dom.QualifiedType;
+import org.eclipse.jdt.core.dom.SimpleName;
+import org.eclipse.jdt.core.dom.SimpleType;
+import org.eclipse.jdt.core.dom.SuperConstructorInvocation;
+import org.eclipse.jdt.core.dom.SuperMethodInvocation;
+import org.eclipse.jdt.core.dom.SuperMethodReference;
+import org.eclipse.jdt.core.dom.SwitchStatement;
+import org.eclipse.jdt.core.dom.TypeDeclaration;
+import org.eclipse.jdt.core.dom.TypeMethodReference;
+import org.eclipse.jdt.core.dom.TypeParameter;
+import org.eclipse.jdt.core.dom.VariableDeclarationFragment;
+
+import com.sourcetrail.name.JavaDeclName;
+import com.sourcetrail.name.JavaFileName;
+import com.sourcetrail.name.JavaSymbolName;
+import com.sourcetrail.name.JavaTypeName;
+import com.sourcetrail.name.NameHierarchy;
+import com.sourcetrail.name.resolver.BindingNameResolver;
+import com.sourcetrail.name.resolver.DeclNameResolver;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
-import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
-import com.github.javaparser.ast.body.ConstructorDeclaration;
-import com.github.javaparser.ast.body.EnumConstantDeclaration;
-import com.github.javaparser.ast.body.EnumDeclaration;
-import com.github.javaparser.ast.body.FieldDeclaration;
-import com.github.javaparser.ast.body.MethodDeclaration;
-import com.github.javaparser.ast.body.Parameter;
-import com.github.javaparser.ast.body.VariableDeclarator;
-import com.github.javaparser.ast.comments.BlockComment;
-import com.github.javaparser.ast.comments.LineComment;
-import com.github.javaparser.ast.expr.ArrayInitializerExpr;
-import com.github.javaparser.ast.expr.FieldAccessExpr;
-import com.github.javaparser.ast.expr.MethodCallExpr;
-import com.github.javaparser.ast.expr.Name;
-import com.github.javaparser.ast.expr.NameExpr;
-import com.github.javaparser.ast.expr.ObjectCreationExpr;
-import com.github.javaparser.ast.expr.SimpleName;
-import com.github.javaparser.ast.expr.VariableDeclarationExpr;
-import com.github.javaparser.ast.stmt.BlockStmt;
-import com.github.javaparser.ast.stmt.SwitchStmt;
-import com.github.javaparser.ast.type.ClassOrInterfaceType;
-import com.github.javaparser.ast.type.PrimitiveType;
-import com.github.javaparser.ast.type.Type;
-import com.github.javaparser.ast.type.TypeParameter;
-import com.github.javaparser.ast.type.VoidType;
-import com.github.javaparser.Position;
-import com.github.javaparser.Range;
-import com.github.javaparser.ast.ImportDeclaration;
-import com.github.javaparser.ast.Modifier;
-import com.github.javaparser.ast.Node;
-import com.github.javaparser.ast.PackageDeclaration;
-import com.github.javaparser.symbolsolver.javaparsermodel.JavaParserFacade;
-import com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserFieldDeclaration;
-import com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserMethodDeclaration;
-import com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserParameterDeclaration;
-import com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserSymbolDeclaration;
-import com.github.javaparser.symbolsolver.model.declarations.MethodAmbiguityException;
-import com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration;
-import com.github.javaparser.symbolsolver.model.declarations.ValueDeclaration;
-import com.github.javaparser.symbolsolver.model.resolution.SymbolReference;
-import com.github.javaparser.symbolsolver.model.resolution.TypeSolver;
-import com.github.javaparser.symbolsolver.model.resolution.UnsolvedSymbolException;
-import com.github.javaparser.symbolsolver.model.typesystem.*;
-import com.github.javaparser.symbolsolver.resolution.MethodResolutionLogic;
-import com.sourcetrail.name.JavaDeclName;
-
-public class AstVisitor extends AstVisitorAdapter
+public abstract class AstVisitor extends ASTVisitor
 {
 	protected AstVisitorClient m_client = null;
 	private File m_filePath;
-	private FileContent m_fileContent;
-	private TypeSolver m_typeSolver;
-	private List<DeclContext> m_context = new ArrayList<DeclContext>();
+	private FileContent m_fileContent = null;
+	private CompilationUnit m_compilationUnit;
+	private Stack<List<JavaSymbolName>> m_contextStack = new Stack<>();
 	
-	public AstVisitor(AstVisitorClient client, String filePath, FileContent fileContent, TypeSolver typeSolver)
+	public AstVisitor(AstVisitorClient client, File filePath, String fileContent, CompilationUnit compilationUnit)
 	{		
 		m_client = client;
-		m_filePath = new File(filePath);
-		m_fileContent = fileContent;
-		m_typeSolver = typeSolver;
-		
-		m_context.add(new DeclContext("/\tm" + filePath + "\ts\tp"));
+		m_filePath = filePath;
+		m_fileContent = new FileContent(fileContent);
+		m_compilationUnit = compilationUnit;
+
+		m_contextStack.push(Arrays.asList(new JavaFileName(filePath)));
 	}
+	
+	protected abstract ReferenceKind getTypeReferenceKind();
+	
 	
 	// --- record declarations ---
 	
 	@Override 
-	public Boolean visit(final PackageDeclaration n, final Void v)
+	public boolean visit(PackageDeclaration node)
 	{
-		Name name = n.getName();
-		
-		m_client.recordSymbolWithLocationAndScope( 
-			JavaparserDeclNameResolver.getQualifiedName(name).toNameHierarchy().serialize(), 
-			SymbolKind.PACKAGE,
-			name.getRange(), 
-			n.getRange(),
-			AccessKind.NONE, 
-			DefinitionKind.EXPLICIT
-		);
-		
-		while (name.getQualifier().isPresent())
-		{
-			name = name.getQualifier().get();
-			m_client.recordSymbol(
-				JavaparserDeclNameResolver.getQualifiedName(name).toNameHierarchy().serialize(), 
-				SymbolKind.PACKAGE, 
+		m_client.recordSymbolWithLocation(
+				DeclNameResolver.getQualifiedName(node.getName()).toNameHierarchy(), 
+				SymbolKind.PACKAGE,
+				getRange(node.getName()), 
 				AccessKind.NONE, 
-				DefinitionKind.EXPLICIT
-			);
-		}
+				DefinitionKind.EXPLICIT);
+		return true;
+	}
+
+
+	@Override 
+	public boolean visit(TypeDeclaration node)
+	{
+		JavaDeclName symbolName = DeclNameResolver.getQualifiedDeclName(node, m_filePath, m_compilationUnit);
+		Range scopeRange = getRange(node);
 		
-		return super.visit(n, v);
+		m_client.recordSymbolWithLocationAndScope(
+				symbolName.toNameHierarchy(), 
+				node.isInterface() ? SymbolKind.INTERFACE : SymbolKind.CLASS,
+				getRange(node.getName()), 
+				scopeRange, 
+				AccessKind.fromModifiers(node.getModifiers()),
+				DefinitionKind.EXPLICIT);
+		
+		scopeRange.begin = m_fileContent.findStartPosition("{", scopeRange.begin);
+		recordScope(scopeRange);
+
+		m_contextStack.push(Arrays.asList(symbolName));
+		
+		return true;
 	}
 	
 	@Override 
-	public Boolean visit(final ClassOrInterfaceDeclaration n, final Void v)
+	public void endVisit(TypeDeclaration node)
 	{
-		SimpleName name = n.getName();
-		
-		String qualifiedName = JavaparserDeclNameResolver.getQualifiedDeclName(n, m_filePath, m_typeSolver).toNameHierarchy().serialize();
-		
-		m_client.recordSymbolWithLocationAndScope(
-			qualifiedName, (n.isInterface() ? SymbolKind.INTERFACE : SymbolKind.CLASS),
-			name.getRange(), 
-			n.getRange(),
-			AccessKind.fromAccessSpecifier(Modifier.getAccessSpecifier(n.getModifiers())), 
-			DefinitionKind.EXPLICIT
-		);
-
-		if (n.getRange().isPresent())
-		{
-			FileContent.Location scopeStartLocation = m_fileContent.find("{", n.getBegin());
-			recordScope(Range.range(scopeStartLocation.line, scopeStartLocation.column, n.getRange().get().end.line, n.getRange().get().end.column));
-		}
-		
-		List<DeclContext> parentContext = m_context;
-		m_context = new ArrayList<DeclContext>();
-		m_context.add(new DeclContext(qualifiedName));
-		Boolean result = super.visit(n, v);
-		m_context = parentContext;
-		return result;
+		m_contextStack.pop();
 	}
 	
+	
 	@Override
-	public Boolean visit(final TypeParameter n, final Void v)
+	public boolean visit(TypeParameter node)
 	{
-		// todo: test recording of typeargument of type parameter bound type??
-		
-		
-		if (m_context.size() != 1)
-		{
-			 // throw something!
-		}
-
-		String qualifiedName = JavaparserDeclNameResolver.getQualifiedDeclName(n, m_filePath, m_typeSolver).toNameHierarchy().serialize();
-		
-		Optional<Range> range = Optional.empty();
-		if (n.getBegin().isPresent())
-		{
-			range = Optional.of(Range.range(
-				n.getBegin().get().line, 
-				n.getBegin().get().column, 
-				n.getBegin().get().line, 
-				n.getBegin().get().column + n.getNameAsString().length() - 1
-			));
-		}
+		JavaDeclName symbolName = BindingNameResolver.getQualifiedName(node.resolveBinding(), m_filePath, m_compilationUnit).map(tn -> tn.toDeclName()).orElse(JavaDeclName.unsolved());
 		
 		m_client.recordSymbolWithLocation(
-			qualifiedName, SymbolKind.TYPE_PARAMETER, 
-			range,
-			AccessKind.TYPE_PARAMETER, 
-			DefinitionKind.EXPLICIT
-		);
+				symbolName.toNameHierarchy(), SymbolKind.TYPE_PARAMETER, 
+				getRange(node.getName()),
+				AccessKind.TYPE_PARAMETER, 
+				DefinitionKind.EXPLICIT);
 
-		List<DeclContext> parentContext = m_context;
-		m_context = new ArrayList<DeclContext>();
-		m_context.add(new DeclContext(qualifiedName));
-		Boolean result = super.visit(n, v);
-		m_context = parentContext;
-		return result;
+		m_contextStack.push(Arrays.asList(symbolName));
+		
+		return true;
 	}
 	
 	@Override 
-	public Boolean visit(final EnumDeclaration n, final Void v)
+	public void endVisit(TypeParameter node)
 	{
-		SimpleName name = n.getName();
-		
-		String qualifiedName = JavaparserDeclNameResolver.getQualifiedDeclName(n, m_filePath, m_typeSolver).toNameHierarchy().serialize();
-		
-		m_client.recordSymbolWithLocationAndScope(
-			qualifiedName, SymbolKind.ENUM, 
-			name.getRange(), 
-			n.getRange(),
-			AccessKind.fromAccessSpecifier(Modifier.getAccessSpecifier(n.getModifiers())), 
-			DefinitionKind.EXPLICIT
-		);
-
-		if (n.getRange().isPresent())
-		{
-			FileContent.Location scopeStartLocation = m_fileContent.find("{", n.getBegin());
-			recordScope(Range.range(scopeStartLocation.line, scopeStartLocation.column, n.getRange().get().end.line, n.getRange().get().end.column));
-		}
-		
-		List<DeclContext> parentContext = m_context;
-		m_context = new ArrayList<DeclContext>();
-		m_context.add(new DeclContext(qualifiedName));
-		Boolean result = super.visit(n, v);
-		m_context = parentContext;
-		return result;
+		m_contextStack.pop();
 	}
 	
-	@Override
-	public Boolean visit(final EnumConstantDeclaration n, final Void v)
+	
+
+	@Override 
+	public boolean visit(EnumDeclaration node)
 	{
-		String qualifiedName = JavaparserDeclNameResolver.getQualifiedDeclName(n, m_filePath, m_typeSolver).toNameHierarchy().serialize();
+		JavaDeclName symbolName = DeclNameResolver.getQualifiedDeclName(node, m_filePath, m_compilationUnit);
+		Range scopeRange = getRange(node);
+				
+		m_client.recordSymbolWithLocationAndScope(
+				symbolName.toNameHierarchy(), 
+				SymbolKind.ENUM,
+				getRange(node.getName()), 
+				scopeRange, 
+				AccessKind.fromModifiers(node.getModifiers()),
+				DefinitionKind.EXPLICIT);
+
+		scopeRange.begin = m_fileContent.findStartPosition("{", scopeRange.begin);
+		recordScope(scopeRange);
 		
+		m_contextStack.push(Arrays.asList(symbolName));
+		
+		return true;
+	}
+	
+	@Override 
+	public void endVisit(EnumDeclaration node)
+	{
+		m_contextStack.pop();
+	}
+	
+	
+	public boolean visit(EnumConstantDeclaration node)
+	{
+		JavaDeclName symbolName = DeclNameResolver.getQualifiedDeclName(node, m_filePath, m_compilationUnit);
+				
 		m_client.recordSymbolWithLocation(
-			qualifiedName, SymbolKind.ENUM_CONSTANT,
-			n.getRange(), 
-			AccessKind.NONE, 
-			DefinitionKind.EXPLICIT
-		);
+				symbolName.toNameHierarchy(), 
+				SymbolKind.ENUM_CONSTANT,
+				getRange(node.getName()), 
+				AccessKind.NONE,
+				DefinitionKind.EXPLICIT);
+
+		m_contextStack.push(Arrays.asList(symbolName));
 		
-		List<DeclContext> parentContext = m_context;
-		m_context = new ArrayList<DeclContext>();
-		m_context.add(new DeclContext(qualifiedName));
-		Boolean result = super.visit(n, v);
-		m_context = parentContext;
-		return result;
-	}
-	
-	@Override
-	public Boolean visit(final ConstructorDeclaration n, final Void v)
-	{
-		SimpleName name = n.getName();
-		
-		String qualifiedName = JavaparserDeclNameResolver.getQualifiedDeclName(n, m_filePath, m_typeSolver).toNameHierarchy().serialize();
-		
-		m_client.recordSymbolWithLocationAndScope(
-			qualifiedName, SymbolKind.METHOD,
-			name.getRange(), 
-			n.getRange(), 
-			AccessKind.fromAccessSpecifier(Modifier.getAccessSpecifier(n.getModifiers())), 
-			DefinitionKind.EXPLICIT
-		);
-		
-		List<DeclContext> parentContext = m_context;
-		m_context = new ArrayList<DeclContext>();
-		m_context.add(new DeclContext(qualifiedName));
-		Boolean result = super.visit(n, v);
-		m_context = parentContext;
-		return result;
+		return true;
 	}
 	
 	@Override 
-	public Boolean visit(final MethodDeclaration n, final Void v)
+	public void endVisit(EnumConstantDeclaration node)
+	{
+		m_contextStack.pop();
+	}
+	
+	
+	@Override 
+	public boolean visit(MethodDeclaration node)
 	{
 		if (m_client.getInterrupted())
 		{
-			// return something that is not null in order to cancel AST traversal;
 			return false;
 		}
 		
-		SimpleName name = n.getName();
-		
-		String qualifiedName = JavaparserDeclNameResolver.getQualifiedDeclName(n, m_filePath, m_typeSolver).toNameHierarchy().serialize();
+		JavaDeclName symbolName = DeclNameResolver.getQualifiedDeclName(node, m_filePath, m_compilationUnit);
 		
 		m_client.recordSymbolWithLocationAndScope(
-			qualifiedName, SymbolKind.METHOD, 
-			name.getRange(), 
-			n.getRange(), 
-			AccessKind.fromAccessSpecifier(Modifier.getAccessSpecifier(n.getModifiers())), 
-			DefinitionKind.EXPLICIT
-		);
+				symbolName.toNameHierarchy(), 
+				SymbolKind.METHOD,
+				getRange(node.getName()), 
+				getRange(node), 
+				AccessKind.fromModifiers(node.getModifiers()),
+				DefinitionKind.EXPLICIT);
 		
 		
-// test this!
-		com.github.javaparser.symbolsolver.model.declarations.MethodDeclaration overridden = getOverridden(n);
-		if (overridden != null)
+		Optional<IMethodBinding> overriddenMethod = getOverriddenMethod(node.resolveBinding());
+		if (overriddenMethod.isPresent())
 		{
-			String overriddenName = JavaSymbolSolverDeclNameResolver.getQualifiedDeclName(
-					overridden, m_filePath, m_typeSolver).toNameHierarchy().serialize();
+			// We use the declaration to replace type arguments with the respective type parameters inside the signature.
+			IMethodBinding overriddenMethodDeclaration = overriddenMethod.get().getMethodDeclaration();
+
+			JavaDeclName overriddenMethodName = BindingNameResolver.getQualifiedName(overriddenMethodDeclaration, m_filePath, m_compilationUnit).orElse(JavaDeclName.unsolved());
+			if (!overriddenMethodName.getIsUnsolved())
+			{
+				m_client.recordSymbol(overriddenMethodName.toNameHierarchy(), SymbolKind.METHOD, AccessKind.NONE, DefinitionKind.NONE);
+			}
 			
 			m_client.recordReference(
-				ReferenceKind.OVERRIDE, overriddenName, qualifiedName, 
-				name.getRange()
-			);
+					ReferenceKind.OVERRIDE, 
+					overriddenMethodName.toNameHierarchy(), 
+					symbolName.toNameHierarchy(), 
+					getRange(node.getName()));
 		}
 		
-		List<DeclContext> parentContext = m_context;
-		m_context = new ArrayList<DeclContext>();
-		m_context.add(new DeclContext(qualifiedName));
-		Boolean result = super.visit(n, v);
-		m_context = parentContext;
-		return result;
+		m_contextStack.push(Arrays.asList(symbolName));
+		
+		return true;
 	}
 	
-	private com.github.javaparser.symbolsolver.model.declarations.MethodDeclaration getOverridden(MethodDeclaration overrider)
+	@Override 
+	public void endVisit(MethodDeclaration node)
 	{
-		com.github.javaparser.ast.body.TypeDeclaration<?> scopeNode = overrider.getAncestorOfType(com.github.javaparser.ast.body.TypeDeclaration.class).get();
-		if (scopeNode instanceof ClassOrInterfaceDeclaration)
+		m_contextStack.pop();
+	}
+	
+
+	@Override 
+	public boolean visit(FieldDeclaration node)
+	{
+		ArrayList<JavaSymbolName> childContext = new ArrayList<>();
+		
+		for (Object declarator: node.fragments())
 		{
-			List<com.github.javaparser.symbolsolver.model.typesystem.Type> parameterTypes = new ArrayList<>();
-			try
+			if (declarator instanceof VariableDeclarationFragment)
 			{
-				for (Parameter parameter: overrider.getParameters())
-				{
-					Type parameterType = parameter.getType();
-					parameterTypes.add(JavaParserFacade.get(m_typeSolver).convert(parameterType, parameterType));
-				}
+				VariableDeclarationFragment fragment = (VariableDeclarationFragment) declarator;
 				
-				ReferenceTypeDeclaration scopeDecl = JavaParserFacade.get(m_typeSolver).getTypeDeclaration((ClassOrInterfaceDeclaration)scopeNode);
-				for (ReferenceType ancestor: scopeDecl.getAllAncestors())
-				{
-					try
-					{
-						SymbolReference<com.github.javaparser.symbolsolver.model.declarations.MethodDeclaration> solvedMethod = MethodResolutionLogic.solveMethodInType(
-							ancestor.getTypeDeclaration(), 
-							overrider.getNameAsString(), 
-							parameterTypes, 
-							m_typeSolver
-						);
-						
-						if (solvedMethod.isSolved())
-						{
-							return solvedMethod.getCorrespondingDeclaration();
-						}
-					}
-					catch (UnsolvedSymbolException e)
-					{
-						// nothing to do here, just try to solve in the next ancestor
-					}
-					catch (Exception e)
-					{
-						// hmm, maybe we should handle these cases. soon..
-						// don't do anything for parse exceptions. they are displayed as errors anyways.
-					}
-				}
-			}
-			catch (UnsolvedSymbolException e)
-			{
-				return null;
-			}
-			catch (ClassCastException e)
-			{
-				return null;
-			}
-			catch (Exception e)
-			{
-				return null;
-			}
-		}
-		return null;
-	}
-
-	@Override 
-	public Boolean visit(final FieldDeclaration n, final Void v)
-	{
-		List<DeclContext> parentContext = m_context;
-		m_context = new ArrayList<DeclContext>();
-		
-		for (VariableDeclarator declarator: n.getVariables())
-		{
-			String qualifiedName = JavaparserDeclNameResolver.getQualifiedDeclName(declarator, m_filePath, m_typeSolver).toNameHierarchy().serialize();
-			SimpleName name = declarator.getName();
-			m_client.recordSymbolWithLocation(
-				qualifiedName, SymbolKind.FIELD, 
-				name.getRange(),
-				AccessKind.fromAccessSpecifier(Modifier.getAccessSpecifier(n.getModifiers())), 
-				DefinitionKind.EXPLICIT
-			);
-
-			m_context.add(new DeclContext(qualifiedName));
-		}
-		
-		Boolean result = super.visit(n, v);
-		m_context = parentContext;
-		return result;
-	}
-	
-	@Override 
-	public Boolean visit(final VariableDeclarationExpr n, final Void v)
-	{
-		for (VariableDeclarator declarator: n.getVariables())
-		{
-			SimpleName name = declarator.getName();
-
-			if (name.getBegin().isPresent())
-			{
-				String qualifiedName = m_filePath + "<" + name.getBegin().get().line + ":" + name.getBegin().get().column + ">";
+				JavaDeclName symbolName = DeclNameResolver.getQualifiedDeclName(fragment, m_filePath, m_compilationUnit);
 				
-				m_client.recordLocalSymbol(qualifiedName, name.getRange());
+				m_client.recordSymbolWithLocation(
+						symbolName.toNameHierarchy(), SymbolKind.FIELD, 
+						getRange(fragment.getName()),
+						AccessKind.fromModifiers(node.getModifiers()), 
+						DefinitionKind.EXPLICIT);
+	
+				childContext.add(symbolName);
 			}
 		}
 		
-		// don't change the context here.
-		return super.visit(n, v);
+		m_contextStack.push(childContext);
+		
+		return true;
 	}
 	
 	@Override 
-	public Boolean visit(final Parameter n, final Void v)
+	public void endVisit(FieldDeclaration node)
 	{
-		SimpleName name = n.getName();
-		
-		if (name.getBegin().isPresent())
-		{
-			String qualifiedName = m_filePath + "<" + name.getBegin().get().line + ":" + name.getBegin().get().column + ">";
-			
-			m_client.recordLocalSymbol(qualifiedName, name.getRange());
-		}
-		
-		// don't change the context here.
-		return super.visit(n, v);
+		m_contextStack.pop();
 	}
 	
 	
 	// --- record references ---
 
 	@Override 
-	public Boolean visit(final ImportDeclaration n, final Void v)
+	public boolean visit(final ImportDeclaration node)
 	{
-		Name name = n.getName();
+		JavaDeclName symbolName = JavaDeclName.unsolved();
+		IBinding binding = node.resolveBinding();
+		if (!binding.isRecovered())
+		{
+			if (binding instanceof IPackageBinding)
+			{
+				symbolName = BindingNameResolver.getQualifiedName((IPackageBinding) binding, m_filePath, m_compilationUnit).orElse(JavaDeclName.unsolved());
+			}
+			else if (binding instanceof ITypeBinding)
+			{
+				symbolName = BindingNameResolver.getQualifiedName((ITypeBinding) binding, m_filePath, m_compilationUnit).map(tn -> tn.toDeclName()).orElse(JavaDeclName.unsolved());
+			}
+			else if (binding instanceof IMethodBinding)
+			{
+				symbolName = BindingNameResolver.getQualifiedName((IMethodBinding) binding, m_filePath, m_compilationUnit).orElse(JavaDeclName.unsolved());
+			}
+			else if (binding instanceof IVariableBinding)
+			{
+				symbolName = BindingNameResolver.getQualifiedName((IVariableBinding) binding, m_filePath, m_compilationUnit);
+			}
+		}
 		
-		if (n.isAsterisk())
+		for (JavaSymbolName context: m_contextStack.peek())
 		{
-			String importedName = JavaparserDeclNameResolver.getQualifiedName(name).toNameHierarchy().serialize();
-			for (DeclContext context: m_context)
-			{
-				m_client.recordReference(
+			m_client.recordReference(
 					ReferenceKind.IMPORT, 
-					importedName, context.getName(), 
-					name.getRange()
-				);
-			}
+					symbolName.toNameHierarchy(), context.toNameHierarchy(), 
+					getRange(node.getName()));
 		}
-		else
+		
+		Optional<JavaDeclName> packageName = BindingNameResolver.getQualifiedName(getDeclaringPackage(binding), m_filePath, m_compilationUnit);
+		if (packageName.isPresent())
 		{
-			try
-			{
-				List<JavaDeclName> importedDeclNames = new ArrayList<>();
-				
-				SymbolReference<ReferenceTypeDeclaration> solvedTypeDeclatarion = m_typeSolver.tryToSolveType(name.asString());
-				if (solvedTypeDeclatarion.isSolved())
-				{
-					importedDeclNames.add(JavaSymbolSolverDeclNameResolver.getQualifiedDeclName(
-							solvedTypeDeclatarion.getCorrespondingDeclaration(), m_filePath, m_typeSolver));
-				}
-				else if (n.isStatic())
-				{
-					String typeName = name.getQualifier().get().asString();
-					String memberName = name.getIdentifier();
-	
-					ReferenceTypeDeclaration solvedDecl = m_typeSolver.solveType(typeName);
-					
-					for (com.github.javaparser.symbolsolver.model.declarations.MethodDeclaration methodDecl: solvedDecl.getDeclaredMethods()) // look for method
-					{
-						if (methodDecl.getName().equals(memberName))
-						{
-							importedDeclNames.add(
-									JavaSymbolSolverDeclNameResolver.getQualifiedDeclName(methodDecl, m_filePath, m_typeSolver));
-						}
-					}
-					if (importedDeclNames.isEmpty() && solvedDecl.hasField(memberName)) // look for field
-					{
-						JavaDeclName importedTypeDeclName = JavaSymbolSolverDeclNameResolver.getQualifiedDeclName(solvedDecl, m_filePath, m_typeSolver);
-						if (importedTypeDeclName != null)
-						{
-							JavaDeclName importedDeclName = new JavaDeclName(memberName);
-							importedDeclName.setParent(importedTypeDeclName);
-							importedDeclNames.add(importedDeclName);
-						}
-					}
-				}
-				
-				if (!importedDeclNames.isEmpty())
-				{
-					for (JavaDeclName importedDeclName: importedDeclNames)
-					{
-						String nameHierarchy = importedDeclName.toNameHierarchy().serialize();
-						for (DeclContext context: m_context)
-						{
-							m_client.recordReference(
-								ReferenceKind.IMPORT, 
-								nameHierarchy, context.getName(), 
-								n.getRange()
-							);
-						}
-					}
-				}
-				else
-				{
-					m_client.recordError("Import not found: " + name, true, true, n.getRange());
-				}
-			}
-			catch (Exception e)
-			{
-				recordException(e, n);
-			}
+			m_client.recordSymbol(packageName.get().toNameHierarchy(), 
+					SymbolKind.PACKAGE, AccessKind.NONE, DefinitionKind.NONE);
 		}
-		return super.visit(n, v);
+		
+		return true;
 	}
 	
 	@Override 
-	public Boolean visit(final ClassOrInterfaceType n, final Void v)
+	public boolean visit(SimpleType node)
 	{
-		try
+		for (JavaSymbolName context: m_contextStack.peek())
 		{
-			for (DeclContext context: m_context)
+			ITypeBinding binding = node.resolveBinding();
+			if (binding != null)
 			{
-				String referencedName = JavaparserTypeNameResolver.getQualifiedTypeName(n, m_filePath, m_typeSolver).toNameHierarchy().serialize();
-
-				Range range = Range.range(0, 0, 0, 0);
-				
-				if (n.getRange().isPresent())
-				{
-					range = Range.range(
-						n.getRange().get().begin.line,
-						n.getRange().get().begin.column,
-						n.getRange().get().begin.line,
-						n.getRange().get().begin.column + n.getNameAsString().length() - 1
-					);
-				}
-				
-				Optional<ClassOrInterfaceType> scope = n.getScope();
-				if (scope.isPresent())
-				{
-					Optional<Position> position = scope.get().getEnd();
-
-					if (position.isPresent())
-					{
-						range = range.withEnd(
-							Position.pos(position.get().line, 
-							position.get().column + n.getNameAsString().length() + 1 // +1 for separator
-						));
-					}
-				}
-				
-				m_client.recordReference(
-					getTypeReferenceKind(), referencedName, context.getName(), range
-				);
+				binding = binding.getTypeDeclaration();
 			}
+			
+			m_client.recordReference(
+					getTypeReferenceKind(), 
+					BindingNameResolver.getQualifiedName(binding, m_filePath, m_compilationUnit).orElse(JavaTypeName.unsolved()).toDeclName().toNameHierarchy(),
+					context.toNameHierarchy(), 
+					getRange(node));
 		}
-		catch (Exception e)
-		{
-			recordException(e, n);
-		}
-		return super.visit(n, v);
+		return true;
 	}
 	
-	@Override
-	public Boolean visit(final PrimitiveType n, final Void v)
+	@Override 
+	public boolean visit(QualifiedType node)
 	{
-		try
+		for (JavaSymbolName context: m_contextStack.peek())
 		{
-			String referencedName = JavaparserTypeNameResolver.getQualifiedTypeName(n, m_filePath, m_typeSolver).toNameHierarchy().serialize();
+			ITypeBinding binding = node.resolveBinding();
+			if (binding != null)
+			{
+				binding = binding.getTypeDeclaration();
+			}
 			
-			m_client.recordSymbol(
+			m_client.recordReference(
+					getTypeReferenceKind(), 
+					BindingNameResolver.getQualifiedName(binding, m_filePath, m_compilationUnit).orElse(JavaTypeName.unsolved()).toDeclName().toNameHierarchy(),
+					context.toNameHierarchy(), 
+					getRange(node));
+		}
+		return true;
+	}
+	
+	@Override 
+	public boolean visit(NameQualifiedType node)
+	{
+		for (JavaSymbolName context: m_contextStack.peek())
+		{
+			ITypeBinding binding = node.resolveBinding();
+			if (binding != null)
+			{
+				binding = binding.getTypeDeclaration();
+			}
+			
+			m_client.recordReference(
+					getTypeReferenceKind(), 
+					BindingNameResolver.getQualifiedName(binding, m_filePath, m_compilationUnit).orElse(JavaTypeName.unsolved()).toDeclName().toNameHierarchy(),
+					context.toNameHierarchy(), 
+					getRange(node));
+		}
+		return true;
+	}
+
+	@Override
+	public boolean visit(final PrimitiveType node)
+	{
+		NameHierarchy referencedName = JavaTypeName.fromDotSeparatedString(node.getPrimitiveTypeCode().toString()).toDeclName().toNameHierarchy();
+		
+		m_client.recordSymbol(
 				referencedName, SymbolKind.BUILTIN_TYPE,
 				AccessKind.NONE, 
-				DefinitionKind.EXPLICIT
-			);
+				DefinitionKind.EXPLICIT);
+		
+		for (JavaSymbolName context: m_contextStack.peek())
+		{		
+			m_client.recordReference(
+					getTypeReferenceKind(), 
+					referencedName, 
+					context.toNameHierarchy(), 
+					getRange(node));
+		}
+		return true;
+	}
+	
+	@Override 
+	public boolean visit(SimpleName node)
+	{
+		IBinding binding = node.resolveBinding();
+		if (binding instanceof IVariableBinding)
+		{
+			IVariableBinding variableBinding = ((IVariableBinding) binding).getVariableDeclaration();
+			JavaDeclName declName = BindingNameResolver.getQualifiedName(
+					variableBinding, m_filePath, m_compilationUnit);
 			
-			for (DeclContext context: m_context)
-			{		
-				m_client.recordReference(
-					getTypeReferenceKind(), referencedName, context.getName(), 
-					n.getRange()
-				);
+			if (declName.getIsUnsolved() && variableBinding.getDeclaringClass() == null && variableBinding.getName().equals("length")) 
+			{
+				// Do nothing. We ignore the case of unsolved symbols on array type
 			}
-		}
-		catch (Exception e)
-		{
-			recordException(e, n);
-		}
-		
-		return super.visit(n, v);
-	}
-	
-	@Override 
-	public Boolean visit(final VoidType n, final Void v)
-	{
-		try
-		{
-			String referencedName = JavaparserTypeNameResolver.getQualifiedTypeName(n, m_filePath, m_typeSolver).toNameHierarchy().serialize();
-			
-			m_client.recordSymbol(
-				referencedName, SymbolKind.BUILTIN_TYPE, AccessKind.NONE, DefinitionKind.EXPLICIT
-			);
-			
-			for (DeclContext context: m_context)
+			else if (declName.getIsLocal() || declName.getIsGlobal())
 			{
-				m_client.recordReference(
-					getTypeReferenceKind(), referencedName, context.getName(), n.getRange()
-				);
-			}
-		}
-		catch (Exception e)
-		{
-			recordException(e, n);
-		}
-		
-		return super.visit(n, v);
-	}
-
-	@Override 
-	public Boolean visit(final FieldAccessExpr n, final Void v)
-	{
-		SimpleName fieldName = n.getName();
-		
-		try
-		{
-			SymbolReference<? extends ValueDeclaration> ref = JavaParserFacade.get(m_typeSolver).solve(fieldName);
-			if (ref.isSolved())
-			{
-				ValueDeclaration valueDecl = ref.getCorrespondingDeclaration();
-				
-				Node wrappedNode = null;
-				if (valueDecl instanceof JavaParserFieldDeclaration)
-				{
-					wrappedNode = ((JavaParserFieldDeclaration)valueDecl).getWrappedNode();
-				}
-				if (wrappedNode != null && wrappedNode instanceof FieldDeclaration)
-				{
-					
-					for (VariableDeclarator var: ((FieldDeclaration)wrappedNode).getVariables())
-					{
-						if (var.getName().getIdentifier().equals(fieldName.getIdentifier()))
-						{
-							String qualifiedName = JavaparserDeclNameResolver.getQualifiedDeclName(var, m_filePath, m_typeSolver).toNameHierarchy().serialize();
-							for (DeclContext context: m_context)
-							{
-								m_client.recordReference(
-									ReferenceKind.USAGE, qualifiedName, context.getName(),
-									fieldName.getRange()
-								);
-							}
-						}
-					}
-				}
-			}
-		}
-		catch (Exception e)
-		{
-			recordException(e, n);
-		}
-		
-		return super.visit(n, v);
-	}
-	
-	@Override 
-	public Boolean visit(final NameExpr n, final Void v)
-	{
-		try
-		{
-			SymbolReference<? extends ValueDeclaration> ref = JavaParserFacade.get(m_typeSolver).solve(n);
-			if (ref.isSolved())
-			{
-				ValueDeclaration valueDecl = ref.getCorrespondingDeclaration();
-				
-				Node wrappedNode = null;
-				if (valueDecl instanceof JavaParserSymbolDeclaration)
-				{
-					wrappedNode = ((JavaParserSymbolDeclaration)valueDecl).getWrappedNode();
-				}
-				else if (valueDecl instanceof JavaParserParameterDeclaration)
-				{
-					wrappedNode = ((JavaParserParameterDeclaration)valueDecl).getWrappedNode();
-				}
-				else if (valueDecl instanceof JavaParserFieldDeclaration)
-				{
-					wrappedNode = ((JavaParserFieldDeclaration)valueDecl).getWrappedNode();
-				}
-				
-				if (wrappedNode != null)
-				{
-					if (wrappedNode instanceof FieldDeclaration)
-					{
-						
-						for (VariableDeclarator var: ((FieldDeclaration)wrappedNode).getVariables())
-						{
-							if (var.getName().getIdentifier().equals(n.getName().getIdentifier()))
-							{
-								String qualifiedName = JavaparserDeclNameResolver.getQualifiedDeclName(var, m_filePath, m_typeSolver).toNameHierarchy().serialize();
-								for (DeclContext context: m_context)
-								{
-									m_client.recordReference(
-										ReferenceKind.USAGE, qualifiedName, context.getName(),
-										n.getName().getRange()
-									);
-								}
-							}
-						}
-					}
-					else if (wrappedNode instanceof Parameter)
-					{
-						SimpleName name = ((Parameter)wrappedNode).getName();
-						if (name.getBegin().isPresent())
-						{
-							String qualifiedName = m_filePath + "<" + name.getBegin().get().line + ":" + name.getBegin().get().column + ">";
-							
-							m_client.recordLocalSymbol(
-								qualifiedName,
-								n.getRange()
-							);
-						}
-					}
-					else if (wrappedNode instanceof VariableDeclarator)
-					{
-						if (wrappedNode.getAncestorOfType(FieldDeclaration.class).isPresent())
-						{
-							String qualifiedName = JavaparserDeclNameResolver.getQualifiedDeclName((VariableDeclarator)wrappedNode, m_filePath, m_typeSolver).toNameHierarchy().serialize();
-							
-							for (DeclContext context: m_context)
-							{
-								m_client.recordReference(
-									ReferenceKind.USAGE, qualifiedName, context.getName(),
-									n.getRange()
-								);
-							}
-						}
-						else
-						{
-							SimpleName name = ((VariableDeclarator)wrappedNode).getName();
-							if (name.getBegin().isPresent())
-							{
-								String qualifiedName = m_filePath + "<" + name.getBegin().get().line + ":" + name.getBegin().get().column + ">";
-								
-								m_client.recordLocalSymbol(
-									qualifiedName,
-									n.getRange()
-								);
-							}
-						}
-					}
-				}
-			}
-		}
-		catch (Exception e)
-		{
-			recordException(e, n);
-		}
-		
-		return super.visit(n, v);
-	}
-
-	@Override 
-	public Boolean visit(final MethodCallExpr n, final Void v)
-	{
-		String qualifiedName = "";
-		if (m_context.size() > 0)
-		{
-			try
-			{
-				SymbolReference<com.github.javaparser.symbolsolver.model.declarations.MethodDeclaration> solvedSymbol = JavaParserFacade.get(m_typeSolver).solve(n);
-				if (solvedSymbol.isSolved())
-				{
-					qualifiedName = JavaSymbolSolverDeclNameResolver.getQualifiedDeclName(
-							solvedSymbol.getCorrespondingDeclaration(), m_filePath, m_typeSolver).toNameHierarchy().serialize();
-				}
-				else
-				{
-					throw new UnsolvedSymbolException(n.getNameAsString());
-				}
-			}
-			catch (UnsupportedOperationException e)
-			{
-				recordException(e, n);
-			}
-			catch (MethodAmbiguityException e)
-			{
-				recordException(e, n);
-			}
-			catch(StackOverflowError e)
-			{
-				recordError(e, n);
-	        }
-			catch (Exception e)
-			{
-				recordException(e, n);
-			}
-		}
-		
-		if (!qualifiedName.isEmpty())
-		{
-			SimpleName name = n.getName();
-			for (DeclContext context: m_context)
-			{
-				m_client.recordReference(
-					ReferenceKind.CALL, qualifiedName, context.getName(),
-					name.getRange()
-				);
-			}
-		}
-		
-		return super.visit(n, v);
-	}
-	
-	
-	private void recordException(Exception e, Node n)
-	{
-		recordExceptionOrError(e.getClass().getSimpleName(), n);
-	}
-	
-	private void recordError(Error e, Node n)
-	{
-		recordExceptionOrError(e.getClass().getSimpleName(), n);
-	}
-	
-	private void recordExceptionOrError(String e, Node n)
-	{
-		String beginLine = "?";
-		String beginColumn = "?";
-		
-		if (n.getBegin().isPresent())
-		{
-			beginLine = n.getBegin().get().line + "";
-			beginColumn = n.getBegin().get().column + "";
-		}
-		
-		m_client.logError(e + " at " + m_filePath + "<"+ beginLine + ", " + beginColumn + ">");
-		m_client.recordSymbolWithLocation(
-			JavaDeclName.unsolved().toNameHierarchy().serialize(), SymbolKind.TYPE_MAX, 
-			n.getRange(), 
-			AccessKind.DEFAULT, 
-			DefinitionKind.EXPLICIT
-		);
-	}
-
-	@Override 
-	public Boolean visit(final ObjectCreationExpr n, final Void v)
-	{
-		if (m_context.size() > 0)
-		{
-			if (n.getAnonymousClassBody().isPresent())
-			{
-				String qualifiedName = JavaparserDeclNameResolver.getQualifiedDeclName(n, m_filePath, m_typeSolver).toNameHierarchy().serialize();
-				m_client.recordSymbolWithLocationAndScope(
-					qualifiedName, SymbolKind.CLASS,
-					n.getType().getRange(),
-					n.getRange(),
-					AccessKind.NONE,
-					DefinitionKind.EXPLICIT
-				);
+				m_client.recordLocalSymbol(
+						declName.toNameHierarchy(), getRange(node));
 			}
 			else
 			{
-				String qualifiedName = "";
-				try
+				m_client.recordSymbol(declName.toNameHierarchy(), SymbolKind.FIELD, AccessKind.NONE, DefinitionKind.NONE);
+				
+				for (JavaSymbolName context: m_contextStack.peek())
 				{
-					SymbolReference<com.github.javaparser.symbolsolver.model.declarations.ConstructorDeclaration> solvedSymbol = JavaParserFacade.get(m_typeSolver).solve(n);
-					if (solvedSymbol.isSolved())
-					{
-						qualifiedName = JavaSymbolSolverDeclNameResolver.getQualifiedDeclName(solvedSymbol.getCorrespondingDeclaration(), m_filePath, m_typeSolver).toNameHierarchy().serialize();
-					}
-					else
-					{
-						throw new UnsolvedSymbolException("constructor for " + n.getType().getNameAsString());
-					}
-				}
-				catch (UnsupportedOperationException e)
-				{
-					recordException(e, n);
-				}
-				catch (MethodAmbiguityException e)
-				{
-					recordException(e, n);
-				}
-				catch(StackOverflowError e)
-				{
-					recordError(e, n);
-				}
-				catch (Exception e)
-				{
-					recordException(e, n);
-				}
-
-				if (!qualifiedName.isEmpty())
-				{
-					ClassOrInterfaceType type = n.getType();
-					for (DeclContext context: m_context)
-					{
-						m_client.recordReference(
-							ReferenceKind.CALL, qualifiedName, context.getName(),
-							type.getRange()
-						);
-					}
+					m_client.recordReference(
+							ReferenceKind.USAGE, 
+							declName.toNameHierarchy(),
+							context.toNameHierarchy(), 
+							getRange(node));
 				}
 			}
 		}
-		return super.visit(n, v);
+		return true;
 	}
 	
 	@Override 
-	public Boolean visit(final BlockStmt n, final Void v)
+	public boolean visit(MethodInvocation node)
 	{
-		recordScope(n.getRange());
-		return super.visit(n, v);
+		recordReferenceToMethodDeclaration(node.resolveMethodBinding(), getRange(node.getName()), ReferenceKind.CALL, m_contextStack.peek());
+		return true;
 	}
 	
 	@Override 
-	public Boolean visit(final ArrayInitializerExpr n, final Void v)
+	public boolean visit(SuperMethodInvocation node)
 	{
-		recordScope(n.getRange());
-		return super.visit(n, v);
+		recordReferenceToMethodDeclaration(node.resolveMethodBinding(), getRange(node.getName()), ReferenceKind.CALL, m_contextStack.peek());
+		return true;
+	}
+
+	@Override 
+	public boolean visit(ConstructorInvocation node)
+	{
+		recordReferenceToMethodDeclaration(
+				node.resolveConstructorBinding(), 
+				m_fileContent.findRange("this", getRange(node).begin), 
+				ReferenceKind.CALL,
+				m_contextStack.peek());
+		
+		return true;
+	}
+
+	@Override 
+	public boolean visit(SuperConstructorInvocation node)
+	{
+		recordReferenceToMethodDeclaration(
+				node.resolveConstructorBinding(), 
+				m_fileContent.findRange("super", getRange(node).begin), 
+				ReferenceKind.CALL,
+				m_contextStack.peek());
+		
+		return true;
+	}
+	
+	@Override 
+	public boolean visit(CreationReference node)
+	{
+		recordReferenceToMethodDeclaration(
+				node.resolveMethodBinding(), 
+				m_fileContent.findRange("new", getRange(node).begin), 
+				ReferenceKind.USAGE,
+				m_contextStack.peek());
+		return true;
+	}
+	
+	@Override 
+	public boolean visit(ExpressionMethodReference node)
+	{
+		recordReferenceToMethodDeclaration(
+				node.resolveMethodBinding(), 
+				getRange(node.getName()), 
+				ReferenceKind.USAGE,
+				m_contextStack.peek());
+		
+		return true;
+	}
+	
+	@Override 
+	public boolean visit(SuperMethodReference node)
+	{
+		recordReferenceToMethodDeclaration(
+				node.resolveMethodBinding(), 
+				getRange(node.getName()), 
+				ReferenceKind.USAGE,
+				m_contextStack.peek());
+		
+		return true;
+	}
+	
+	@Override 
+	public boolean visit(TypeMethodReference node)
+	{
+		IMethodBinding binding = node.resolveMethodBinding();
+		if (binding == null && node.getType() != null && node.getType().isArrayType())
+		{
+			// Do nothing. We ignore the case of unsolved symbols on array type
+		}
+		else
+		{
+			recordReferenceToMethodDeclaration(
+					binding, 
+					getRange(node.getName()), 
+					ReferenceKind.USAGE,
+					m_contextStack.peek());
+		}
+
+		return true;
+	}
+	
+	@Override 
+	public boolean visit(ClassInstanceCreation node)
+	{
+		if (node.getAnonymousClassDeclaration() != null)
+		{
+			// record anonymous class here instead of overriding visit(AnonymousClassDeclaration node) because
+			// the ClassInstanceCreation still contains the Type node.
+			
+			AnonymousClassDeclaration anonymousClassDeclaration = node.getAnonymousClassDeclaration();
+			JavaDeclName symbolName = DeclNameResolver.getQualifiedDeclName(anonymousClassDeclaration, m_filePath, m_compilationUnit);
+			
+			Range anonymousClassScope = getRange(anonymousClassDeclaration);
+			
+			m_client.recordSymbolWithLocationAndScope(
+					symbolName.toNameHierarchy(), 
+					SymbolKind.CLASS,
+					new Range(anonymousClassScope.begin, anonymousClassScope.begin), 
+					anonymousClassScope, 
+					AccessKind.NONE,
+					DefinitionKind.EXPLICIT);
+			
+			recordScope(anonymousClassScope);
+
+			m_contextStack.push(Arrays.asList(symbolName));
+		}
+		else
+		{
+			IMethodBinding constructorBinding = node.resolveConstructorBinding();
+			if (constructorBinding != null)
+			{
+				constructorBinding = constructorBinding.getMethodDeclaration();
+			}
+			
+			JavaDeclName referencedDeclName = BindingNameResolver.getQualifiedName(constructorBinding, m_filePath, m_compilationUnit).orElse(JavaDeclName.unsolved());
+			if (!referencedDeclName.getIsUnsolved())
+			{
+				m_client.recordSymbol(referencedDeclName.toNameHierarchy(), SymbolKind.METHOD, AccessKind.NONE, DefinitionKind.NONE);
+			}
+			
+			for (JavaSymbolName context: m_contextStack.peek())
+			{
+				m_client.recordReference(
+						ReferenceKind.CALL, 
+						referencedDeclName.toNameHierarchy(),
+						context.toNameHierarchy(), 
+						getRange(node.getType()));
+			}
+		}
+
+		return true;
+	}
+
+	@Override 
+	public void endVisit(ClassInstanceCreation node)
+	{
+		if (node.getAnonymousClassDeclaration() != null)
+		{
+			m_contextStack.pop();
+		}
+	}
+	
+	@Override 
+	public boolean visit(Block node)
+	{
+		recordScope(getRange(node));
+		return true;
+	}
+	
+	@Override 
+	public boolean visit(ArrayInitializer node)
+	{
+		recordScope(getRange(node));
+		return true;
 	}
 	
 	@Override
-	public Boolean visit(final SwitchStmt n, final Void v)
+	public boolean visit(SwitchStatement node)
 	{
-		if (n.getRange().isPresent())
-		{
-			FileContent.Location scopeStartLocation = m_fileContent.find("{", n.getBegin());
-			recordScope(Range.range(scopeStartLocation.line, scopeStartLocation.column, n.getRange().get().end.line, n.getRange().get().end.column));
-		}
-		return super.visit(n, v);
+		Range scopeRange = getRange(node);
+		scopeRange.begin = m_fileContent.findStartPosition("{", scopeRange.begin);
+		recordScope(scopeRange);
+		
+		return true;
 	}
 	
-	private void recordScope(Optional<Range> range)
+	@Override 
+	public boolean visit(LineComment node)
 	{
-		if (range.isPresent())
+		m_client.recordComment(getRange(node));
+		return true;
+	}
+	
+	@Override 
+	public boolean visit(BlockComment node)
+	{
+		m_client.recordComment(getRange(node));
+		return true;
+	}
+	
+	@Override 
+	public boolean visit(Javadoc node)
+	{
+		m_client.recordComment(getRange(node));
+		return true;
+	}
+	
+	
+	// --- utility methods ---
+	
+	private void recordReferenceToMethodDeclaration(IMethodBinding methodBinding, Range range, ReferenceKind referenceKind, List<JavaSymbolName> contexts)
+	{
+		if (methodBinding != null)
 		{
-			recordScope(range.get());
+			// replacing type arguments of invocation with type variables of declaration
+			methodBinding = methodBinding.getMethodDeclaration();
+		}
+		
+		JavaDeclName referencedDeclName = BindingNameResolver.getQualifiedName(methodBinding, m_filePath, m_compilationUnit).orElse(JavaDeclName.unsolved());
+		if (!referencedDeclName.getIsUnsolved())
+		{
+			m_client.recordSymbol(referencedDeclName.toNameHierarchy(), SymbolKind.METHOD, AccessKind.NONE, DefinitionKind.NONE);
+		}
+		
+		for (JavaSymbolName context: m_contextStack.peek())
+		{
+			m_client.recordReference(
+					referenceKind, 
+					referencedDeclName.toNameHierarchy(),
+					context.toNameHierarchy(), 
+					range);
 		}
 	}
 	
 	private void recordScope(Range range)
 	{
-		String qualifiedName = m_filePath + "<" + range.begin.line + ":" + range.begin.column + ">";
-		m_client.recordLocalSymbol(qualifiedName, Range.range(range.begin, range.begin));
-		m_client.recordLocalSymbol(qualifiedName, Range.range(range.end, range.end));
+		NameHierarchy nameHierarchy = JavaDeclName.scope(m_filePath, range.begin).toNameHierarchy();
+		m_client.recordLocalSymbol(nameHierarchy, new Range(range.begin, range.begin));
+		m_client.recordLocalSymbol(nameHierarchy, new Range(range.end, range.end));
 	}
 	
-	@Override 
-	public Boolean visit(final LineComment n, final Void v)
+	protected Range getRange(ASTNode node)
 	{
-		m_client.recordComment(n.getRange());
-		return super.visit(n, v);
+		return Utility.getRange(node, m_compilationUnit);
 	}
-
-	@Override 
-	public Boolean visit(final BlockComment n, final Void v) 
+	
+	private IPackageBinding getDeclaringPackage(IBinding binding)
 	{
-		m_client.recordComment(n.getRange());
-		return super.visit(n, v);
+		if (binding instanceof IPackageBinding)
+		{
+			return (IPackageBinding) binding;
+		}
+		else if (binding != null)
+		{
+			return getDeclaringPackage(BindingNameResolver.getParentBinding(binding));
+		}
+		return null;
+	}
+	
+	private Optional<IMethodBinding> getOverriddenMethod(IMethodBinding method)
+	{
+		if (method != null)
+		{
+			for (ITypeBinding declaringClassAncestor: getAllAncestorTypes(method.getDeclaringClass()))
+			{
+				for (IMethodBinding potentiallyOverridden: declaringClassAncestor.getDeclaredMethods())
+				{
+					if (method.overrides(potentiallyOverridden))
+					{
+						return Optional.of(potentiallyOverridden);
+					}
+				}
+			}
+		}
+		
+		return Optional.empty();
+	}
+	
+	private List<ITypeBinding> getAllAncestorTypes(ITypeBinding type)
+	{
+		List<ITypeBinding> allAncestorTypes = new ArrayList<>();
+		
+		List<ITypeBinding> directAncestorTypes = getDirectAncestorTypes(type);
+		allAncestorTypes.addAll(directAncestorTypes);
+		
+		for (ITypeBinding directAncestorType: directAncestorTypes)
+		{
+			allAncestorTypes.addAll(getAllAncestorTypes(directAncestorType));
+		}
+		
+		return allAncestorTypes;
+	}
+	
+	private List<ITypeBinding> getDirectAncestorTypes(ITypeBinding type)
+	{
+		List<ITypeBinding> ancestorTypes = new ArrayList<>();
+		
+		if (type != null)
+		{
+			ITypeBinding superclass = type.getSuperclass();
+			if (superclass != null)
+			{
+				ancestorTypes.add(superclass);
+			}
+			
+			ancestorTypes.addAll(Arrays.asList(type.getInterfaces()));
+		}
+		
+		return ancestorTypes;
 	}
 }

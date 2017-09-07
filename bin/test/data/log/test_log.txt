@@ -87,3 +87,17 @@ TextAccess.cpp WARNING: Line numbers start with one, is 0
  INFO: Indexer - indexing source file: input.cc
  INFO: Indexer - indexing source file: input.cc
  INFO: Indexer - indexing source file: input.cc
+ INFO: Indexer - indexing source file: input.cc
+ INFO: Indexer - indexing source file: input.cc
+ INFO: Indexer - indexing source file: input.cc
+ INFO: Indexer - indexing source file: input.cc
+ INFO: Indexer - indexing source file: input.cc
+ INFO: Indexer - indexing source file: input.cc
+ INFO: Indexer - indexing source file: input.cc
+ INFO: Indexer - indexing source file: input.cc
+ INFO: Indexer - indexing source file: input.cc
+ INFO: Indexer - indexing source file: input.cc
+ INFO: Indexer - indexing source file: input.cc
+ INFO: Indexer - indexing source file: input.cc
+ INFO: Indexer - indexing source file: input.cc
+ INFO: Indexer - indexing source file: input.cc

@@ -16,14 +16,22 @@
 std::vector<std::string> JavaParser::getRequiredJarNames()
 {
 	std::vector<std::string> jarNames = {
-		"guava-21.0.jar",
+
 		"java-indexer.jar",
-		"javaparser-core.jar",
-		"javaslang-2.0.3.jar",
-		"javassist-3.19.0-GA.jar",
-		"java-symbol-solver-core.jar",
-		"java-symbol-solver-logic.jar",
-		"java-symbol-solver-model.jar"
+		"org.eclipse.core.commands-3.8.1.jar",
+		"org.eclipse.core.contenttype-3.5.100.jar",
+		"org.eclipse.core.expressions-3.5.100.jar",
+		"org.eclipse.core.filesystem-1.6.1.jar",
+		"org.eclipse.core.jobs-3.8.0.jar",
+		"org.eclipse.core.resources-3.11.1.jar",
+		"org.eclipse.core.runtime-3.12.0.jar",
+		"org.eclipse.equinox.app-1.3.400.jar",
+		"org.eclipse.equinox.common-3.8.0.jar",
+		"org.eclipse.equinox.preferences-3.6.1.jar",
+		"org.eclipse.equinox.registry-3.6.100.jar",
+		"org.eclipse.jdt.core-3.12.3.jar",
+		"org.eclipse.osgi-3.11.3.jar",
+		"org.eclipse.text-3.6.0.jar"
 	};
 	return jarNames;
 }
@@ -273,7 +281,7 @@ void JavaParser::doRecordReference(
 void JavaParser::doRecordLocalSymbol(jstring jSymbolName, jint beginLine, jint beginColumn, jint endLine, jint endColumn)
 {
 	m_client->onLocalSymbolParsed(
-		m_javaEnvironment->toStdString(jSymbolName),
+		NameHierarchy::deserialize(m_javaEnvironment->toStdString(jSymbolName)).getQualifiedName(),
 		ParseLocation(m_currentFilePath, beginLine, beginColumn, endLine, endColumn)
 	);
 }

@@ -268,20 +268,8 @@
 					<Component Id='LicenseCppSqliteTxt' Guid='*' Win64="$(var.Win64)">
 						<File Id='LicenseCppSqlite' Name='license_cpp_sqlite.txt' DiskId='1' Source='./../../../bin/app/data/3rd_party_licenses/license_cpp_sqlite.txt' KeyPath='yes' />
 					</Component>
-					<Component Id='LicenseGuavaTxt' Guid='*' Win64="$(var.Win64)">
-						<File Id='LicenseGuava' Name='license_guava.txt' DiskId='1' Source='./../../../bin/app/data/3rd_party_licenses/license_guava.txt' KeyPath='yes' />
-					</Component>
-					<Component Id='LicenseJavaSymbolSolverTxt' Guid='*' Win64="$(var.Win64)">
-						<File Id='LicenseJavaSymbolSolver' Name='license_java_symbol_solver.txt' DiskId='1' Source='./../../../bin/app/data/3rd_party_licenses/license_java_symbol_solver.txt' KeyPath='yes' />
-					</Component>
-					<Component Id='LicenseJavaparserTxt' Guid='*' Win64="$(var.Win64)">
-						<File Id='LicenseJavaparser' Name='license_javaparser.txt' DiskId='1' Source='./../../../bin/app/data/3rd_party_licenses/license_javaparser.txt' KeyPath='yes' />
-					</Component>
-					<Component Id='LicenseJavaslangTxt' Guid='*' Win64="$(var.Win64)">
-						<File Id='LicenseJavaslang' Name='license_javaslang.txt' DiskId='1' Source='./../../../bin/app/data/3rd_party_licenses/license_javaslang.txt' KeyPath='yes' />
-					</Component>
-					<Component Id='LicenseJavassistTxt' Guid='*' Win64="$(var.Win64)">
-						<File Id='LicenseJavassist' Name='license_javassist.txt' DiskId='1' Source='./../../../bin/app/data/3rd_party_licenses/license_javassist.txt' KeyPath='yes' />
+					<Component Id='LicenseEclipseTxt' Guid='*' Win64="$(var.Win64)">
+						<File Id='LicenseEclipse' Name='license_eclipse.txt' DiskId='1' Source='./../../../bin/app/data/3rd_party_licenses/license_eclipse.txt' KeyPath='yes' />
 					</Component>
 					<Component Id='LicenseQtTxt' Guid='*' Win64="$(var.Win64)">
 						<File Id='LicenseQt' Name='license_qt.txt' DiskId='1' Source='./../../../bin/app/data/3rd_party_licenses/license_qt.txt' KeyPath='yes' />

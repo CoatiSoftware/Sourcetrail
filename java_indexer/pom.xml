@@ -8,7 +8,6 @@
 	<url>http://maven.apache.org</url>
 	<properties>
 		<java.version>1.8</java.version>
-		<javasymbolsolver.version>x.x.x</javasymbolsolver.version>
 	</properties>
 	
     <build>
@@ -27,49 +26,9 @@
 	
 	<dependencies>
 		<dependency>
-			<groupId>org.dummy</groupId>
-			<artifactId>java-symbol-solver-core</artifactId>
-			<version>${javasymbolsolver.version}</version>
-			<scope>system</scope>
-			<systemPath>${project.basedir}/lib/java-symbol-solver-core.jar</systemPath>
-		</dependency>
-		<dependency>
-			<groupId>org.dummy</groupId>
-			<artifactId>java-symbol-solver-logic</artifactId>
-			<version>${javasymbolsolver.version}</version>
-			<scope>system</scope>
-			<systemPath>${project.basedir}/lib/java-symbol-solver-logic.jar</systemPath>
-		</dependency>
-		<dependency>
-			<groupId>org.dummy</groupId>
-			<artifactId>java-symbol-solver-model</artifactId>
-			<version>${javasymbolsolver.version}</version>
-			<scope>system</scope>
-			<systemPath>${project.basedir}/lib/java-symbol-solver-model.jar</systemPath>
-		</dependency>
-		<dependency>
-			<groupId>com.github.javaparser</groupId>
-			<artifactId>javaparser-core</artifactId>
-			<version>3.3.0</version>
-			<scope>compile</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.javassist</groupId>
-			<artifactId>javassist</artifactId>
-			<version>3.19.0-GA</version>
-			<scope>compile</scope>
-		</dependency>
-		<dependency>
-			<groupId>com.google.guava</groupId>
-			<artifactId>guava</artifactId>
-			<version>21.0</version>
-			<scope>compile</scope>
-		</dependency>
-		<dependency>
-			<groupId>io.javaslang</groupId>
-			<artifactId>javaslang</artifactId>
-			<version>2.0.3</version>
-			<scope>compile</scope>
+			<groupId>org.eclipse.jdt</groupId>
+			<artifactId>org.eclipse.jdt.core</artifactId>
+			<version>3.12.3</version>
 		</dependency>
 	</dependencies>
 </project>
