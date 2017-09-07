@@ -763,30 +763,52 @@
 
 				<Directory Id='DataJava' Name='java'>
 
-					<Component Id='JavaGuavaJar' Guid='*' Win64="$(var.Win64)">
-						<File Id='JavaGuava' Name='guava-21.0.jar' DiskId='1' Source='./../../../bin/app/data/java/guava-21.0.jar' KeyPath='yes' />
-					</Component>
 					<Component Id='JavaJavaIndexerJar' Guid='*' Win64="$(var.Win64)">
 						<File Id='JavaJavaIndexer' Name='java-indexer.jar' DiskId='1' Source='./../../../bin/app/data/java/java-indexer.jar' KeyPath='yes' />
 					</Component>
-					<Component Id='JavaJavaparserJar' Guid='*' Win64="$(var.Win64)">
-						<File Id='JavaJavaparser' Name='javaparser-core.jar' DiskId='1' Source='./../../../bin/app/data/java/javaparser-core.jar' KeyPath='yes' />
+					<Component Id='JavaOrgEclipseCoreCommandsJar' Guid='*' Win64="$(var.Win64)">
+						<File Id='OrgEclipseCoreCommands' Name='org.eclipse.core.commands-3.8.1.jar' DiskId='1' Source='./../../../bin/app/data/java/org.eclipse.core.commands-3.8.1.jar' KeyPath='yes' />
 					</Component>
-					<Component Id='JavaJavaslangJar' Guid='*' Win64="$(var.Win64)">
-						<File Id='JavaJavaslang' Name='javaslang-2.0.3.jar' DiskId='1' Source='./../../../bin/app/data/java/javaslang-2.0.3.jar' KeyPath='yes' />
+					<Component Id='JavaOrgEclipseCoreContenttypeJar' Guid='*' Win64="$(var.Win64)">
+						<File Id='OrgEclipseCoreContenttype' Name='org.eclipse.core.contenttype-3.5.100.jar' DiskId='1' Source='./../../../bin/app/data/java/org.eclipse.core.contenttype-3.5.100.jar' KeyPath='yes' />
 					</Component>
-					<Component Id='JavaJavassistJar' Guid='*' Win64="$(var.Win64)">
-						<File Id='JavaJavassist' Name='javassist-3.19.0-GA.jar' DiskId='1' Source='./../../../bin/app/data/java/javassist-3.19.0-GA.jar' KeyPath='yes' />
+					<Component Id='JavaOrgEclipseCoreExpressionsJar' Guid='*' Win64="$(var.Win64)">
+						<File Id='OrgEclipseCoreExpressions' Name='org.eclipse.core.expressions-3.5.100.jar' DiskId='1' Source='./../../../bin/app/data/java/org.eclipse.core.expressions-3.5.100.jar' KeyPath='yes' />
 					</Component>
-					<Component Id='JavaJavaSymbolSolverCoreJar' Guid='*' Win64="$(var.Win64)">
-						<File Id='JavaJavaSymbolSolverCore' Name='java-symbol-solver-core.jar' DiskId='1' Source='./../../../bin/app/data/java/java-symbol-solver-core.jar' KeyPath='yes' />
+					<Component Id='JavaOrgEclipseCoreFilesystemJar' Guid='*' Win64="$(var.Win64)">
+						<File Id='OrgEclipseCoreFilesystem' Name='org.eclipse.core.filesystem-1.6.1.jar' DiskId='1' Source='./../../../bin/app/data/java/org.eclipse.core.filesystem-1.6.1.jar' KeyPath='yes' />
 					</Component>
-					<Component Id='JavaJavaSymbolSolverLogicJar' Guid='*' Win64="$(var.Win64)">
-						<File Id='JavaJavaSymbolSolverLogic' Name='java-symbol-solver-logic.jar' DiskId='1' Source='./../../../bin/app/data/java/java-symbol-solver-logic.jar' KeyPath='yes' />
+					<Component Id='JavaOrgEclipseCoreJobsJar' Guid='*' Win64="$(var.Win64)">
+						<File Id='OrgEclipseCoreJobs' Name='org.eclipse.core.jobs-3.8.0.jar' DiskId='1' Source='./../../../bin/app/data/java/org.eclipse.core.jobs-3.8.0.jar' KeyPath='yes' />
 					</Component>
-					<Component Id='JavaJavaSymbolSolverModelJar' Guid='*' Win64="$(var.Win64)">
-						<File Id='JavaJavaSymbolSolverModel' Name='java-symbol-solver-model.jar' DiskId='1' Source='./../../../bin/app/data/java/java-symbol-solver-model.jar' KeyPath='yes' />
+					<Component Id='JavaOrgEclipseCoreResourcesJar' Guid='*' Win64="$(var.Win64)">
+						<File Id='OrgEclipseCoreResources' Name='org.eclipse.core.resources-3.11.1.jar' DiskId='1' Source='./../../../bin/app/data/java/org.eclipse.core.resources-3.11.1.jar' KeyPath='yes' />
 					</Component>
+					<Component Id='JavaOrgEclipseCoreRuntimeJar' Guid='*' Win64="$(var.Win64)">
+						<File Id='OrgEclipseCoreRuntime' Name='org.eclipse.core.runtime-3.12.0.jar' DiskId='1' Source='./../../../bin/app/data/java/org.eclipse.core.runtime-3.12.0.jar' KeyPath='yes' />
+					</Component>
+					<Component Id='JavaOrgEclipseEquinoxJar' Guid='*' Win64="$(var.Win64)">
+						<File Id='OrgEclipseEquinox.app' Name='org.eclipse.equinox.app-1.3.400.jar' DiskId='1' Source='./../../../bin/app/data/java/org.eclipse.equinox.app-1.3.400.jar' KeyPath='yes' />
+					</Component>
+					<Component Id='JavaOrgEclipseEquinoxCommonJar' Guid='*' Win64="$(var.Win64)">
+						<File Id='OrgEclipseEquinoxCommon' Name='org.eclipse.equinox.common-3.8.0.jar' DiskId='1' Source='./../../../bin/app/data/java/org.eclipse.equinox.common-3.8.0.jar' KeyPath='yes' />
+					</Component>
+					<Component Id='JavaOrgEclipseEquinoxPreferencesJar' Guid='*' Win64="$(var.Win64)">
+						<File Id='OrgEclipseEquinoxPreferences' Name='org.eclipse.equinox.preferences-3.6.1.jar' DiskId='1' Source='./../../../bin/app/data/java/org.eclipse.equinox.preferences-3.6.1.jar' KeyPath='yes' />
+					</Component>
+					<Component Id='JavaOrgEclipseEquinoxRegistryJar' Guid='*' Win64="$(var.Win64)">
+						<File Id='OrgEclipseEquinoxRegistry' Name='org.eclipse.equinox.registry-3.6.100.jar' DiskId='1' Source='./../../../bin/app/data/java/org.eclipse.equinox.registry-3.6.100.jar' KeyPath='yes' />
+					</Component>
+					<Component Id='JavaOrgEclipseJdtCoreJar' Guid='*' Win64="$(var.Win64)">
+						<File Id='OrgEclipseJdtCore' Name='org.eclipse.jdt.core-3.12.3.jar' DiskId='1' Source='./../../../bin/app/data/java/org.eclipse.jdt.core-3.12.3.jar' KeyPath='yes' />
+					</Component>
+					<Component Id='JavaOrgEclipseOsgiJar' Guid='*' Win64="$(var.Win64)">
+						<File Id='OrgEclipseOsgi' Name='org.eclipse.osgi-3.11.3.jar' DiskId='1' Source='./../../../bin/app/data/java/org.eclipse.osgi-3.11.3.jar' KeyPath='yes' />
+					</Component>
+					<Component Id='JavaOrgEclipseTextJar' Guid='*' Win64="$(var.Win64)">
+						<File Id='OrgEclipseText' Name='org.eclipse.text-3.6.0.jar' DiskId='1' Source='./../../../bin/app/data/java/org.eclipse.text-3.6.0.jar' KeyPath='yes' />
+					</Component>
+					
 
 
 				</Directory>

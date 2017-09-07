@@ -388,14 +388,21 @@
 				<ComponentRef Id='SourceGroupDeleteHoverPng'/>
 				<ComponentRef Id='WindowCss'/>
 
-				<ComponentRef Id='JavaGuavaJar'/>
 				<ComponentRef Id='JavaJavaIndexerJar'/>
-				<ComponentRef Id='JavaJavaparserJar'/>
-				<ComponentRef Id='JavaJavaslangJar'/>
-				<ComponentRef Id='JavaJavassistJar'/>
-				<ComponentRef Id='JavaJavaSymbolSolverCoreJar'/>
-				<ComponentRef Id='JavaJavaSymbolSolverLogicJar'/>
-				<ComponentRef Id='JavaJavaSymbolSolverModelJar'/>
+				<ComponentRef Id='JavaOrgEclipseCoreCommandsJar'/>
+				<ComponentRef Id='JavaOrgEclipseCoreContenttypeJar'/>
+				<ComponentRef Id='JavaOrgEclipseCoreExpressionsJar'/>
+				<ComponentRef Id='JavaOrgEclipseCoreFilesystemJar'/>
+				<ComponentRef Id='JavaOrgEclipseCoreJobsJar'/>
+				<ComponentRef Id='JavaOrgEclipseCoreResourcesJar'/>
+				<ComponentRef Id='JavaOrgEclipseCoreRuntimeJar'/>
+				<ComponentRef Id='JavaOrgEclipseEquinoxJar'/>
+				<ComponentRef Id='JavaOrgEclipseEquinoxCommonJar'/>
+				<ComponentRef Id='JavaOrgEclipseEquinoxPreferencesJar'/>
+				<ComponentRef Id='JavaOrgEclipseEquinoxRegistryJar'/>
+				<ComponentRef Id='JavaOrgEclipseJdtCoreJar'/>
+				<ComponentRef Id='JavaOrgEclipseOsgiJar'/>
+				<ComponentRef Id='JavaOrgEclipseTextJar'/>
 
 				<ComponentRef Id='UninstallBat'/>
 
