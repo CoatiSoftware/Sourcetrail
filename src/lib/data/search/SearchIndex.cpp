@@ -110,7 +110,7 @@ std::vector<SearchResult> SearchIndex::search(
 	searchRecursive(startPath, utility::toLowerCase(query), filter, &paths);
 
 	// create scored search results
-	std::multiset<SearchResult> searchResults = createScoredResults(paths, filter, maxResultCount * 2);
+	std::multiset<SearchResult> searchResults = createScoredResults(paths, filter, maxResultCount * 3);
 
 	// find best scores
 	std::map<std::string, SearchResult> scoresCache;

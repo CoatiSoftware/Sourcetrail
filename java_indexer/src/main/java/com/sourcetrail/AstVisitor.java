@@ -30,9 +30,11 @@ import org.eclipse.jdt.core.dom.Javadoc;
 import org.eclipse.jdt.core.dom.LineComment;
 import org.eclipse.jdt.core.dom.MethodDeclaration;
 import org.eclipse.jdt.core.dom.MethodInvocation;
+import org.eclipse.jdt.core.dom.Name;
 import org.eclipse.jdt.core.dom.NameQualifiedType;
 import org.eclipse.jdt.core.dom.PackageDeclaration;
 import org.eclipse.jdt.core.dom.PrimitiveType;
+import org.eclipse.jdt.core.dom.QualifiedName;
 import org.eclipse.jdt.core.dom.QualifiedType;
 import org.eclipse.jdt.core.dom.SimpleName;
 import org.eclipse.jdt.core.dom.SimpleType;
@@ -82,12 +84,24 @@ public abstract class AstVisitor extends ASTVisitor
 	@Override 
 	public boolean visit(PackageDeclaration node)
 	{
+		Name name = node.getName();
 		m_client.recordSymbolWithLocation(
-				DeclNameResolver.getQualifiedName(node.getName()).toNameHierarchy(), 
+				DeclNameResolver.getQualifiedName(name).toNameHierarchy(), 
 				SymbolKind.PACKAGE,
 				getRange(node.getName()), 
 				AccessKind.NONE, 
 				DefinitionKind.EXPLICIT);
+		
+		while (name instanceof QualifiedName)
+		{
+			name = ((QualifiedName) name).getQualifier();
+			m_client.recordSymbol(
+					DeclNameResolver.getQualifiedName(name).toNameHierarchy(), 
+					SymbolKind.PACKAGE, 
+					AccessKind.NONE, 
+					DefinitionKind.EXPLICIT);
+		}
+		
 		return true;
 	}
 

@@ -716,7 +716,7 @@ std::vector<SearchMatch> PersistentStorage::getAutocompletionSymbolMatches(
 
 std::vector<SearchMatch> PersistentStorage::getAutocompletionFileMatches(const std::string& query, size_t maxResultsCount) const
 {
-	std::vector<SearchResult> results = m_fileIndex.search(query, Node::NODE_FILE, maxResultsCount, 150);
+	std::vector<SearchResult> results = m_fileIndex.search(query, Node::NODE_FILE, maxResultsCount, 100);
 
 	// create SearchMatches
 	std::vector<SearchMatch> matches;
