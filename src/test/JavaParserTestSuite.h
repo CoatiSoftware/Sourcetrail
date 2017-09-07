@@ -1126,7 +1126,6 @@ public:
 		TS_ASSERT(utility::containsElement<std::string>(
 			client->typeUses, "A<T>.T -> java.lang.Void <1:27 1:30>"
 		));
-		system("PAUSE");
 	}
 
 
