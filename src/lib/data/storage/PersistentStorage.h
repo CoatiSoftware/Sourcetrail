@@ -176,9 +176,10 @@ private:
 	void buildFilePathMaps();
 	void buildSearchIndex();
 	void buildFullTextSearchIndex() const;
+	void buildMemberEdgeIdOrderMap();
 	void buildHierarchyCache();
 
-	size_t m_preInjectionErrorCount;
+	size_t m_preInjectionErrorCount = 0;
 
 	SearchIndex m_commandIndex;
 	SearchIndex m_symbolIndex;
@@ -194,8 +195,11 @@ private:
 	std::map<Id, bool> m_fileNodeComplete;
 
 	std::map<Id, DefinitionKind> m_symbolDefinitionKinds;
+	std::map<Id, Id> m_memberEdgeIdOrderMap;
 
 	HierarchyCache m_hierarchyCache;
+
+	bool m_hasJavaFiles = false;
 };
 
 #endif // PERSISTENT_STORAGE_H

@@ -402,6 +402,7 @@ void PersistentStorage::buildCaches()
 
 	buildFilePathMaps();
 	buildSearchIndex();
+	buildMemberEdgeIdOrderMap();
 	buildHierarchyCache();
 }
 
@@ -2195,7 +2196,18 @@ void PersistentStorage::addEdgesToGraph(const std::vector<Id>& newEdgeIds, Graph
 
 		if (sourceNode && targetNode)
 		{
-			graph->createEdge(storageEdge.id, Edge::intToType(storageEdge.type), sourceNode, targetNode);
+			Edge::EdgeType type = Edge::intToType(storageEdge.type);
+			Id edgeId = storageEdge.id;
+			if (type & Edge::EDGE_MEMBER && m_memberEdgeIdOrderMap.size())
+			{
+				auto it = m_memberEdgeIdOrderMap.find(edgeId);
+				if (it != m_memberEdgeIdOrderMap.end())
+				{
+					edgeId = it->second;
+				}
+			}
+
+			graph->createEdge(edgeId, type, sourceNode, targetNode);
 		}
 		else
 		{
@@ -2443,9 +2455,16 @@ void PersistentStorage::buildFilePathMaps()
 
 	for (StorageFile& file: m_sqliteIndexStorage.getAll<StorageFile>())
 	{
-		m_fileNodeIds.emplace(FilePath(file.filePath), file.id);
-		m_fileNodePaths.emplace(file.id, FilePath(file.filePath));
+		FilePath path = FilePath(file.filePath);
+
+		m_fileNodeIds.emplace(path, file.id);
+		m_fileNodePaths.emplace(file.id, path);
 		m_fileNodeComplete.emplace(file.id, file.complete);
+
+		if (!m_hasJavaFiles && path.extension() == ".java")
+		{
+			m_hasJavaFiles = true;
+		}
 	}
 
 	for (StorageSymbol& symbol : m_sqliteIndexStorage.getAll<StorageSymbol>())
@@ -2512,6 +2531,79 @@ void PersistentStorage::buildFullTextSearchIndex() const
 	{
 		m_fullTextSearchIndex.addFile(file.id, m_sqliteIndexStorage.getFileContentById(file.id)->getText());
 	}
+}
+
+void PersistentStorage::buildMemberEdgeIdOrderMap()
+{
+	TRACE();
+
+	if (!m_hasJavaFiles)
+	{
+		return;
+	}
+
+	std::vector<Id> childNodeIds;
+	std::unordered_map<Id, Id> childIdToMemberEdgeIdMap;
+
+	for (const StorageEdge& edge : m_sqliteIndexStorage.getEdgesByType(Edge::typeToInt(Edge::EDGE_MEMBER)))
+	{
+		childNodeIds.push_back(edge.targetNodeId);
+		childIdToMemberEdgeIdMap.emplace(edge.targetNodeId, edge.id);
+	}
+
+	std::vector<Id> locationIds;
+	std::unordered_map<Id, Id> locationIdToElementIdMap;
+	for (const StorageOccurrence& occurrence: m_sqliteIndexStorage.getOccurrencesForElementIds(childNodeIds))
+	{
+		locationIds.push_back(occurrence.sourceLocationId);
+		locationIdToElementIdMap.emplace(occurrence.sourceLocationId, occurrence.elementId);
+	}
+
+	SourceLocationCollection collection;
+	for (const StorageSourceLocation& location: m_sqliteIndexStorage.getAllByIds<StorageSourceLocation>(locationIds))
+	{
+		LocationType locType = intToLocationType(location.type);
+		if (locType != LOCATION_TOKEN)
+		{
+			continue;
+		}
+
+		FilePath path(m_fileNodePaths[location.fileNodeId]);
+		if (path.extension() == ".java")
+		{
+			collection.addSourceLocation(
+				intToLocationType(location.type),
+				location.id,
+				std::vector<Id>(),
+				FilePath(std::to_string(location.fileNodeId)),
+				location.startLine,
+				location.startCol,
+				location.endLine,
+				location.endCol
+			);
+		}
+	}
+
+	// Set first 3 bits to 1 to avoid collisions
+	Id baseId = ~(~Id(0) >> 3) + 1;
+
+	collection.forEachSourceLocation(
+		[&](SourceLocation* location)
+		{
+			auto it = locationIdToElementIdMap.find(location->getLocationId());
+			if (it != locationIdToElementIdMap.end())
+			{
+				auto it2 = childIdToMemberEdgeIdMap.find(it->second);
+				if (it2 != childIdToMemberEdgeIdMap.end())
+				{
+					if (m_memberEdgeIdOrderMap.emplace(it2->second, baseId).second)
+					{
+						baseId++;
+					}
+				}
+			}
+		}
+	);
 }
 
 void PersistentStorage::buildHierarchyCache()
