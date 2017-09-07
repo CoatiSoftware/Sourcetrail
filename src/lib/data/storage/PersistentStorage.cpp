@@ -587,7 +587,7 @@ std::vector<SearchMatch> PersistentStorage::getAutocompletionMatches(const std::
 	TRACE();
 
 	// search in indices
-	size_t maxResultsCount = 500;
+	size_t maxResultsCount = 100;
 	size_t maxBestScoredResultsLength = 100;
 
 	// create SearchMatches
@@ -716,7 +716,7 @@ std::vector<SearchMatch> PersistentStorage::getAutocompletionSymbolMatches(
 
 std::vector<SearchMatch> PersistentStorage::getAutocompletionFileMatches(const std::string& query, size_t maxResultsCount) const
 {
-	std::vector<SearchResult> results = m_fileIndex.search(query, Node::NODE_FILE, maxResultsCount);
+	std::vector<SearchResult> results = m_fileIndex.search(query, Node::NODE_FILE, maxResultsCount, 150);
 
 	// create SearchMatches
 	std::vector<SearchMatch> matches;

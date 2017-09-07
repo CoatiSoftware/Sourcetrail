@@ -187,7 +187,7 @@ size_t HierarchyCache::getIndexOfLastVisibleParentNode(Id nodeId) const
 		node = parent;
 		parent = node->getParent();
 
-		if (node->isVisible())
+		if (node->isVisible() && !idx)
 		{
 			visible = true;
 		}
