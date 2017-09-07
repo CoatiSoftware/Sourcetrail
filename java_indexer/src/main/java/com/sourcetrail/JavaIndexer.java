@@ -2,7 +2,9 @@ package com.sourcetrail;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.Hashtable;
+import java.util.List;
 
 import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jdt.core.compiler.IProblem;
@@ -41,30 +43,22 @@ public class JavaIndexer
 		
 		parser.setUnitName(path.getFileName().toString());
 
-		String sources = "";
-		String classpath = "";
+		List<String> classpath = new ArrayList<>();
+		List<String> sources = new ArrayList<>();
 		
 		for (String classPathEntry: classPath.split("\\;"))
 		{	
 			if (classPathEntry.endsWith(".jar"))
 			{
-				if (!classpath.isEmpty())
-				{
-					classpath += ";";
-				}
-				classpath += classPathEntry;
+				classpath.add(classPathEntry);
 			}
 			else if (!classPathEntry.isEmpty())
 			{
-				if (!sources.isEmpty())
-				{
-					sources += ";";
-				}
-				sources += classPathEntry;
+				sources.add(classPathEntry);
 			}		
 		}
 		
-		parser.setEnvironment(new String[] {classpath} , new String[] {sources}, new String[] {"UTF-8"}, true);
+		parser.setEnvironment(classpath.toArray(new String[0]), sources.toArray(new String[0]), null, true);
 		parser.setSource(fileContent.toCharArray());
 		
 		CompilationUnit cu = (CompilationUnit) parser.createAST(null);
