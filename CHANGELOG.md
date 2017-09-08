@@ -1,5 +1,21 @@
 ### Changelog
 
+#### 2017.3.48
+released 2017-09-07
+
+* Java: migrated Java indexer from JavaSymbolSolver to Eclipse JDT
+* Java: Use same node order in graph as in file
+* Code: Added second line marker color to better highlight hovered and local symbols
+* Added "Skip this Version" option to update dialog
+* Search: replace template arguments with .. in non-indexed nodes to reduce clutter in search results
+* Code: Fixed default text color not reset text was annotated in dark schemes
+* Code: Fixed text color not correctly changed when annotation type changes
+* Fixed history list activating wrong symbol after aggregation edge was active
+* Added node type keywords to filter autocompletions or activate all nodes (issue #78)
+* File dialog shows home directory instead of working directory for first file dialog (issue #448)
+* Java: improved Maven timeout policy (issue #449)
+* Fixed indexing results insertion starving when indexers are really fast because of other UI updates
+
 #### 2017.3.26
 released 2017-08-24
 
