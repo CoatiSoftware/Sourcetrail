@@ -152,7 +152,7 @@ void SearchIndex::searchRecursive(
 {
 	if (remainingQuery.size() == 0 && (!filter || (path.node->mask & filter)))
 	{
-		results->push_back(path);
+		results->push_back(std::move(path));
 		return;
 	}
 
@@ -175,22 +175,21 @@ void SearchIndex::searchRecursive(
 		{
 			// consume characters for edge
 			const std::string& edgeString = currentEdge->s;
-			std::vector<size_t> indices = path.indices;
+
+			SearchPath currentPath;
+			currentPath.node = currentEdge->target;
+			currentPath.indices = path.indices;
+			currentPath.text = path.text + edgeString;
 
 			size_t j = 0;
 			for (size_t i = 0; i < edgeString.size() && j < remainingQuery.size(); i++)
 			{
 				if (tolower(edgeString[i]) == remainingQuery[j])
 				{
-					indices.push_back(path.text.size() + i);
+					currentPath.indices.push_back(path.text.size() + i);
 					j++;
 				}
 			}
-
-			SearchPath currentPath;
-			currentPath.node = currentEdge->target;
-			currentPath.indices = indices;
-			currentPath.text = path.text + edgeString;
 
 			searchRecursive(currentPath, remainingQuery.substr(j), filter, results);
 		}
@@ -227,7 +226,7 @@ std::multiset<SearchResult> SearchIndex::createScoredResults(
 					result.elementIds = path.node->elementIds;
 					result.indices = path.indices;
 					result.score = scoreText(path.text, path.indices);
-					searchResults.insert(result);
+					searchResults.insert(std::move(result));
 
 					if (maxResultCount && searchResults.size() >= maxResultCount)
 					{
@@ -242,7 +241,7 @@ std::multiset<SearchResult> SearchIndex::createScoredResults(
 					nextPath.indices = path.indices;
 					nextPath.node = edge->target;
 					nextPath.text = path.text + edge->s;
-					nextPaths.push_back(nextPath);
+					nextPaths.push_back(std::move(nextPath));
 				}
 			}
 
@@ -278,7 +277,8 @@ SearchResult SearchIndex::bestScoredResult(
 	}
 
 	const std::vector<size_t> indices = result.indices;
-	bestScoredResultRecursive(utility::toLowerCase(result.text), indices, indices.size() - 1, scoresCache, &result);
+	bestScoredResultRecursive(
+		utility::toLowerCase(result.text), indices, indices.back(), indices.size() - 1, scoresCache, &result);
 
 	// std::cout << "save: " << result.text << " " << result.score << std::endl;
 	scoresCache->emplace(result.text, result);
@@ -289,7 +289,7 @@ SearchResult SearchIndex::bestScoredResult(
 }
 
 void SearchIndex::bestScoredResultRecursive(
-	const std::string& lowerText, const std::vector<size_t>& indices, const size_t indicesPos,
+	const std::string& lowerText, const std::vector<size_t>& indices, const size_t lastIndex, const size_t indicesPos,
 	std::map<std::string, SearchResult>* scoresCache, SearchResult* result)
 {
 	// left for debugging
@@ -310,59 +310,73 @@ void SearchIndex::bestScoredResultRecursive(
 	// }
 	// std::cout << "\n" << std::endl;
 
-	size_t oldTextPos = indices[indicesPos];
-	size_t nextTextPos = (indicesPos + 1 == indices.size() ? lowerText.size() : indices[indicesPos + 1]);
-	bool foundMatch = false;
-
-	for (size_t i = oldTextPos + 1; i < nextTextPos; i++)
-	{
-		if (lowerText[i] == lowerText[oldTextPos])
-		{
-			foundMatch = true;
-
-			std::vector<size_t> newIndices = indices;
-			newIndices[indicesPos] = i;
-
-			int newScore = scoreText(result->text, newIndices);
-			if (newScore > result->score)
-			{
-				result->score = newScore;
-				result->indices = newIndices;
-			}
-
-			bestScoredResultRecursive(lowerText, newIndices, indicesPos, scoresCache, result);
-			break;
-		}
-	}
-
 	if (indicesPos + 1 == indices.size())
 	{
-		std::map<std::string, SearchResult>::const_iterator it = scoresCache->find(result->text.substr(0, indices.back() + 1));
-		if (it != scoresCache->end())
+		for (size_t i = (indices.back() == lastIndex ? lowerText.size() - 1 : indices.back() - 1); i > lastIndex; i--)
 		{
-			// std::cout << "cached: " << it->first << " " << it->second.score << std::endl;
-			result->score = it->second.score;
-			result->indices = it->second.indices;
-			return;
+			if (lowerText[i] == lowerText[lastIndex])
+			{
+				std::string lowerTextPart = result->text.substr(0, i + 1);
+
+				auto it = scoresCache->find(lowerTextPart);
+				if (it != scoresCache->end())
+				{
+					// std::cout << "cached: " << it->first << " " << it->second.score << std::endl;
+					result->score = it->second.score;
+					result->indices = it->second.indices;
+					return;
+				}
+
+				std::vector<size_t> newIndices = indices;
+				newIndices[indicesPos] = i;
+
+				int newScore = scoreText(result->text, newIndices);
+				if (newScore > result->score)
+				{
+					result->score = newScore;
+					result->indices = newIndices;
+				}
+
+				bestScoredResultRecursive(lowerText, newIndices, lastIndex, indicesPos, scoresCache, result);
+
+				// std::cout << "save: " << lowerTextPart << " " << result->score << std::endl;
+				scoresCache->emplace(lowerTextPart, *result);
+				break;
+			}
+		}
+	}
+	else
+	{
+		size_t oldTextPos = indices[indicesPos];
+		size_t nextTextPos = indices[indicesPos + 1];
+
+		for (size_t i = oldTextPos + 1; i < nextTextPos; i++)
+		{
+			if (lowerText[i] == lowerText[oldTextPos])
+			{
+				std::vector<size_t> newIndices = indices;
+				newIndices[indicesPos] = i;
+
+				int newScore = scoreText(result->text, newIndices);
+				if (newScore > result->score)
+				{
+					result->score = newScore;
+					result->indices = newIndices;
+				}
+
+				bestScoredResultRecursive(lowerText, newIndices, lastIndex, indicesPos, scoresCache, result);
+				break;
+			}
 		}
 	}
 
-	size_t newIndicesPos = indicesPos;
-	while (newIndicesPos > 0)
+	for (size_t i = indicesPos; i > 0; i--)
 	{
-		newIndicesPos--;
-
-		if (indices[newIndicesPos + 1] - indices[newIndicesPos] > 1)
+		if (indices[i] - indices[i - 1] > 1)
 		{
-			bestScoredResultRecursive(lowerText, indices, newIndicesPos, scoresCache, result);
+			bestScoredResultRecursive(lowerText, indices, lastIndex, i - 1, scoresCache, result);
 			break;
 		}
-	}
-
-	if (indicesPos == 0 && !foundMatch)
-	{
-		// std::cout << "save: " << result->text.substr(0, indices.back() + 1) << " " << result->score << std::endl;
-		scoresCache->emplace(result->text.substr(0, indices.back() + 1), *result);
 	}
 }
 
@@ -376,25 +390,25 @@ int SearchIndex::scoreText(const std::string& text, const std::vector<size_t>& i
 	const int delayedStartBonus = -1;
 	const int minDelayedStartBonus = -20;
 
+	static bool isNoLetter[256] = { false };
+	if (!isNoLetter[int(' ')])
+	{
+		isNoLetter[int(' ')] = true;
+		isNoLetter[int('.')] = true;
+		isNoLetter[int(',')] = true;
+		isNoLetter[int('_')] = true;
+		isNoLetter[int(':')] = true;
+		isNoLetter[int('<')] = true;
+		isNoLetter[int('>')] = true;
+		isNoLetter[int('/')] = true;
+		isNoLetter[int('\\')] = true;
+	}
+
 	int unmatchedLetterScore = 0;
 	int consecutiveLetterScore = 0;
 	int camelCaseScore = 0;
 	int noLetterScore = 0;
 	int firstLetterScore = 0;
-
-	static std::set<char> noLetters;
-	if (!noLetters.size())
-	{
-		noLetters.insert(' ');
-		noLetters.insert('.');
-		noLetters.insert(',');
-		noLetters.insert('_');
-		noLetters.insert(':');
-		noLetters.insert('<');
-		noLetters.insert('>');
-		noLetters.insert('/');
-		noLetters.insert('\\');
-	}
 
 	for (size_t i = 0; i < indices.size(); i++)
 	{
@@ -413,7 +427,7 @@ int SearchIndex::scoreText(const std::string& text, const std::vector<size_t>& i
 			firstLetterScore += firstLetterBonus;
 		}
 		// after no letter
-		else if ((index != 0 && noLetters.find(text[index - 1]) != noLetters.end()))
+		else if (index != 0 && isNoLetter[ int(text[index - 1]) ])
 		{
 			noLetterScore += noLetterBonus;
 		}

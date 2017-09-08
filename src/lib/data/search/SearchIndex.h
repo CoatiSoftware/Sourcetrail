@@ -72,7 +72,7 @@ private:
 	static SearchResult bestScoredResult(
 		SearchResult result, std::map<std::string, SearchResult>* scoresCache, size_t maxBestScoredResultsLength);
 	static void bestScoredResultRecursive(
-		const std::string& lowerText, const std::vector<size_t>& indices, const size_t indicesPos,
+		const std::string& lowerText, const std::vector<size_t>& indices, const size_t lastIndex, const size_t indicesPos,
 		std::map<std::string, SearchResult>* scoresCache, SearchResult* result);
 	static int scoreText(const std::string& text, const std::vector<size_t>& indices);
 
