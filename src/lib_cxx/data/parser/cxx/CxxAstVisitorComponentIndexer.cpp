@@ -230,7 +230,7 @@ void CxxAstVisitorComponentIndexer::visitFunctionDecl(clang::FunctionDecl* d)
 		m_client->recordSymbol(
 			getAstVisitor()->getDeclNameCache()->getValue(d),
 			clang::isa<clang::CXXMethodDecl>(d) ? SYMBOL_METHOD : SYMBOL_FUNCTION,
-			getParseLocation(d->getLocation()),
+			getParseLocation(d->getNameInfo().getSourceRange()),
 			getParseLocationOfFunctionBody(d),
 			utility::convertAccessSpecifier(d->getAccess()),
 			utility::isImplicit(d) ? DEFINITION_IMPLICIT : DEFINITION_EXPLICIT

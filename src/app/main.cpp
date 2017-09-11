@@ -281,13 +281,15 @@ int main(int argc, char *argv[])
 	else
 	{
 #ifdef _WIN32
-		HWND consoleWnd = GetConsoleWindow();
-		DWORD dwProcessId;
-		GetWindowThreadProcessId(consoleWnd, &dwProcessId);
-		if (GetCurrentProcessId() == dwProcessId)
 		{
-			// Sourcetrail has not been started from console and thus has it's own console
-			ShowWindow(consoleWnd, SW_HIDE);
+			HWND consoleWnd = GetConsoleWindow();
+			DWORD dwProcessId;
+			GetWindowThreadProcessId(consoleWnd, &dwProcessId);
+			if (GetCurrentProcessId() == dwProcessId)
+			{
+				// Sourcetrail has not been started from console and thus has it's own console
+				ShowWindow(consoleWnd, SW_HIDE);
+			}
 		}
 #endif
 		QtApplication qtApp(argc, argv);

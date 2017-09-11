@@ -91,6 +91,8 @@ public:
 	virtual bool TraverseLambdaCapture(clang::LambdaExpr* lambdaExpr, const clang::LambdaCapture* capture, clang::Expr *Init);
 	virtual bool TraverseBinComma(clang::BinaryOperator* s);
 
+	virtual bool TraverseDeclarationNameInfo(clang::DeclarationNameInfo NameInfo);
+
 #define OPERATOR(NAME) virtual bool TraverseBin##NAME##Assign(clang::CompoundAssignOperator *s) { return TraverseAssignCommon(s); }
 	OPERATOR(Mul) OPERATOR(Div) OPERATOR(Rem) OPERATOR(Add) OPERATOR(Sub)
 	OPERATOR(Shl) OPERATOR(Shr) OPERATOR(And) OPERATOR(Or)  OPERATOR(Xor)

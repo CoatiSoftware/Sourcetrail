@@ -186,6 +186,21 @@ public:
 		));
 	}
 
+	void test_cxx_parser_finds_overloaded_operator_declaration()
+	{
+		std::shared_ptr<TestParserClient> client = parseCode(
+			"class B\n"
+			"{\n"
+			"public:\n"
+			"	B& operator=(const B& other);\n"
+			"};\n"
+		);
+
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->methods, "public B & B::operator=(const B &) <4:5 4:13>"
+		));
+	}
+
 	void test_cxx_parser_finds_method_declaration_and_definition()
 	{
 		std::shared_ptr<TestParserClient> client = parseCode(
@@ -1295,8 +1310,8 @@ public:
 			"}\n"
 		);
 
-		TS_ASSERT(utility::containsElement<std::string>(client->methods, "public void TestClass::TestClass() <1:7 <1:7 1:15> 1:7>"));
-		TS_ASSERT(utility::containsElement<std::string>(client->methods, "public void TestClass::TestClass(const TestClass &) <1:7 <1:7 1:15> 1:7>"));
+		TS_ASSERT(utility::containsElement<std::string>(client->methods, "public void TestClass::TestClass() <1:7 <1:7 1:15> 1:15>"));
+		TS_ASSERT(utility::containsElement<std::string>(client->methods, "public void TestClass::TestClass(const TestClass &) <1:7 <1:7 1:15> 1:15>"));
 		TS_ASSERT(utility::containsElement<std::string>(client->methods, "public void TestClass::TestClass(TestClass &) <1:7 1:15>"));
 	}
 
@@ -3394,7 +3409,7 @@ public:
 		TS_ASSERT_EQUALS(client->inheritances.size(), 1);
 		TS_ASSERT_EQUALS(client->calls.size(), 3);
 		TS_ASSERT_EQUALS(client->usages.size(), 3);
-		TS_ASSERT_EQUALS(client->typeUses.size(), 17);
+		TS_ASSERT_EQUALS(client->typeUses.size(), 16);
 
 		TS_ASSERT_EQUALS(client->files.size(), 2);
 		TS_ASSERT_EQUALS(client->includes.size(), 1);
