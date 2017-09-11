@@ -300,11 +300,8 @@ bool Project::requestIndex(bool forceRefresh, bool needsFullRefresh)
 		{
 			if (info.path.exists())
 			{
-				FileInfo newFileInfo = FileSystem::getFileInfoForPath(info.path);
-
-				if (newFileInfo.lastWriteTime > info.lastWriteTime)
+				if (didFileChange(info))
 				{
-					// file has been updated
 					changedFilePaths.insert(info.path);
 				}
 				else
@@ -544,6 +541,29 @@ bool Project::hasCxxSourceGroup() const
 		{
 			return true;
 		}
+	}
+	return false;
+}
+
+bool Project::didFileChange(const FileInfo& info) const
+{
+	FileInfo diskFileInfo = FileSystem::getFileInfoForPath(info.path);
+	if (diskFileInfo.lastWriteTime > info.lastWriteTime)
+	{
+		std::shared_ptr<TextAccess> storedFileContent = m_storage->getFileContent(info.path);
+		std::shared_ptr<TextAccess> diskFileContent = TextAccess::createFromFile(diskFileInfo.path);
+		if (diskFileContent->getLineCount() == storedFileContent->getLineCount())
+		{
+			for (size_t i = 0; i < diskFileContent->getLineCount(); i++)
+			{
+				if (diskFileContent->getLine(i) != storedFileContent->getLine(i))
+				{
+					return true;
+				}
+			}
+			return false;
+		}
+		return true;
 	}
 	return false;
 }

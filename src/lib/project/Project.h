@@ -8,6 +8,7 @@
 
 #include "project/SourceGroup.h"
 
+struct FileInfo;
 class FilePath;
 class PersistentStorage;
 class ProjectSettings;
@@ -50,6 +51,7 @@ private:
 	void buildIndex(const std::set<FilePath>& filesToIndex, const std::set<FilePath>& filesToClean, bool fullRefresh);
 
 	bool hasCxxSourceGroup() const;
+	bool didFileChange(const FileInfo& info) const;
 
 	std::shared_ptr<ProjectSettings> m_settings;
 	StorageAccessProxy* const m_storageAccessProxy;
