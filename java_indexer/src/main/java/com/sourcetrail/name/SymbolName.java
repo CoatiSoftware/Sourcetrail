@@ -1,6 +1,6 @@
 package com.sourcetrail.name;
 
-public interface JavaSymbolName 
+public interface SymbolName 
 {
 	public NameHierarchy toNameHierarchy();
 }

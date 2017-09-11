@@ -30,10 +30,10 @@ import org.eclipse.jdt.core.dom.VariableDeclarationFragment;
 import com.sourcetrail.ContextList;
 import com.sourcetrail.Position;
 import com.sourcetrail.Utility;
-import com.sourcetrail.name.JavaDeclName;
-import com.sourcetrail.name.JavaFunctionDeclName;
-import com.sourcetrail.name.JavaTypeName;
-import com.sourcetrail.name.JavaVariableDeclName;
+import com.sourcetrail.name.DeclName;
+import com.sourcetrail.name.FunctionDeclName;
+import com.sourcetrail.name.TypeName;
+import com.sourcetrail.name.VariableDeclName;
 
 public class DeclNameResolver extends NameResolver
 {	
@@ -42,27 +42,27 @@ public class DeclNameResolver extends NameResolver
 		super(currentFile, compilationUnit, ignoredContexts);
 	}
 
-	public static JavaDeclName getQualifiedDeclName(VariableDeclarationFragment decl, File currentFile, CompilationUnit compilationUnit)
+	public static DeclName getQualifiedDeclName(VariableDeclarationFragment decl, File currentFile, CompilationUnit compilationUnit)
 	{
 		return getQualifiedDeclName(decl, currentFile, compilationUnit, null);
 	}
 	
-	public static JavaDeclName getQualifiedDeclName(VariableDeclarationFragment decl, File currentFile, CompilationUnit compilationUnit, ContextList ignoredContexts)
+	public static DeclName getQualifiedDeclName(VariableDeclarationFragment decl, File currentFile, CompilationUnit compilationUnit, ContextList ignoredContexts)
 	{
 		DeclNameResolver resolver = new DeclNameResolver(currentFile, compilationUnit, ignoredContexts);
 		return resolver.getQualifiedDeclName(decl);
 	}
 	
-	public JavaDeclName getQualifiedDeclName(VariableDeclarationFragment decl)
+	public DeclName getQualifiedDeclName(VariableDeclarationFragment decl)
 	{
-		JavaDeclName declName = JavaDeclName.unsolved();
+		DeclName declName = DeclName.unsolved();
 
 		if (decl != null)
 		{
 			declName = getDeclName(decl);
 			if (!declName.getIsUnsolved())
 			{
-				JavaDeclName parentDeclName = getQualifiedContextName(decl);
+				DeclName parentDeclName = getQualifiedContextName(decl);
 				if (parentDeclName != null)
 				{
 					if (!parentDeclName.getIsUnsolved())
@@ -71,7 +71,7 @@ public class DeclNameResolver extends NameResolver
 					}
 					else
 					{
-						declName = JavaDeclName.unsolved();
+						declName = DeclName.unsolved();
 					}
 				}
 			}
@@ -79,9 +79,9 @@ public class DeclNameResolver extends NameResolver
 		return declName;
 	}
 	
-	public JavaDeclName getDeclName(VariableDeclarationFragment decl)
+	public DeclName getDeclName(VariableDeclarationFragment decl)
 	{
-		JavaTypeName typeName = JavaTypeName.unsolved();
+		TypeName typeName = TypeName.unsolved();
 		
 		boolean isStatic = false;
 		Optional<FieldDeclaration> fieldDeclaration = getAncestorOfType(decl, FieldDeclaration.class);
@@ -99,33 +99,33 @@ public class DeclNameResolver extends NameResolver
 					fieldDeclaration.get().getType().resolveBinding(),
 					m_currentFile, 
 					m_compilationUnit, 
-					m_ignoredContexts.copy()).orElse(JavaTypeName.unsolved());
+					m_ignoredContexts.copy()).orElse(TypeName.unsolved());
 		}
 		
-		return new JavaVariableDeclName(decl.getName().getIdentifier(), typeName, isStatic);
+		return new VariableDeclName(decl.getName().getIdentifier(), typeName, isStatic);
 	}
 	
-	public static JavaDeclName getQualifiedDeclName(BodyDeclaration decl, File currentFile, CompilationUnit compilationUnit)
+	public static DeclName getQualifiedDeclName(BodyDeclaration decl, File currentFile, CompilationUnit compilationUnit)
 	{
 		return getQualifiedDeclName(decl, currentFile, compilationUnit, null);
 	}
 	
-	public static JavaDeclName getQualifiedDeclName(BodyDeclaration decl, File currentFile, CompilationUnit compilationUnit, ContextList ignoredContexts)
+	public static DeclName getQualifiedDeclName(BodyDeclaration decl, File currentFile, CompilationUnit compilationUnit, ContextList ignoredContexts)
 	{
 		DeclNameResolver resolver = new DeclNameResolver(currentFile, compilationUnit, ignoredContexts);
 		return resolver.getQualifiedDeclName(decl);
 	}
 	
-	public JavaDeclName getQualifiedDeclName(BodyDeclaration decl)
+	public DeclName getQualifiedDeclName(BodyDeclaration decl)
 	{
-		JavaDeclName declName = JavaDeclName.unsolved();
+		DeclName declName = DeclName.unsolved();
 		
 		if (decl != null)
 		{
 			declName = getDeclName(decl);
 			if (!declName.getIsUnsolved())
 			{
-				JavaDeclName parentDeclName = getQualifiedContextName(decl);
+				DeclName parentDeclName = getQualifiedContextName(decl);
 				if (parentDeclName != null)
 				{
 					if (!parentDeclName.getIsUnsolved())
@@ -134,7 +134,7 @@ public class DeclNameResolver extends NameResolver
 					}
 					else
 					{
-						declName = JavaDeclName.unsolved();
+						declName = DeclName.unsolved();
 					}
 				}
 			}
@@ -143,19 +143,19 @@ public class DeclNameResolver extends NameResolver
 		return declName;
 	}	
 	
-	public JavaDeclName getDeclName(BodyDeclaration decl)
+	public DeclName getDeclName(BodyDeclaration decl)
 	{
-		JavaDeclName declName = JavaDeclName.unsolved();
+		DeclName declName = DeclName.unsolved();
 		
 		if (decl != null)
 		{
 			if (decl instanceof AnnotationTypeDeclaration)
 			{
-				declName = new JavaDeclName("AnnotationTypeDeclaration");
+				declName = new DeclName("AnnotationTypeDeclaration");
 			}
 			else if (decl instanceof EnumDeclaration)
 			{
-				declName = new JavaDeclName(((EnumDeclaration) decl).getName().getIdentifier());
+				declName = new DeclName(((EnumDeclaration) decl).getName().getIdentifier());
 			}
 			else if (decl instanceof TypeDeclaration)
 			{
@@ -170,23 +170,23 @@ public class DeclNameResolver extends NameResolver
 					}
 				}
 				
-				declName = new JavaDeclName(typeDeclaration.getName().getIdentifier(), typeParameterNames);
+				declName = new DeclName(typeDeclaration.getName().getIdentifier(), typeParameterNames);
 			}
 			else if (decl instanceof AnnotationTypeMemberDeclaration)
 			{
-				declName = new JavaDeclName("AnnotationTypeMemberDeclaration");
+				declName = new DeclName("AnnotationTypeMemberDeclaration");
 			}
 			else if (decl instanceof EnumConstantDeclaration)
 			{
-				declName = new JavaDeclName(((EnumConstantDeclaration) decl).getName().getIdentifier());
+				declName = new DeclName(((EnumConstantDeclaration) decl).getName().getIdentifier());
 			}
 			else if (decl instanceof FieldDeclaration)
 			{
-				declName = new JavaDeclName("FieldDeclaration");
+				declName = new DeclName("FieldDeclaration");
 			}
 			else if (decl instanceof Initializer)
 			{
-				declName = new JavaDeclName("Initializer");
+				declName = new DeclName("Initializer");
 			}
 			else if (decl instanceof MethodDeclaration)
 			{
@@ -204,20 +204,20 @@ public class DeclNameResolver extends NameResolver
 				ContextList ignoredContexts = m_ignoredContexts.copy();
 				ignoredContexts.add(((MethodDeclaration) decl).resolveBinding());
 				
-				JavaTypeName returnTypeName = methodDeclaration.isConstructor() ? null : BindingNameResolver.getQualifiedName(
-						methodDeclaration.getReturnType2().resolveBinding(), m_currentFile, m_compilationUnit, ignoredContexts).orElse(JavaTypeName.unsolved());
+				TypeName returnTypeName = methodDeclaration.isConstructor() ? null : BindingNameResolver.getQualifiedName(
+						methodDeclaration.getReturnType2().resolveBinding(), m_currentFile, m_compilationUnit, ignoredContexts).orElse(TypeName.unsolved());
 				
-				List<JavaTypeName> parameterTypeNames =  new ArrayList<>();
+				List<TypeName> parameterTypeNames =  new ArrayList<>();
 				for (Object parameter: methodDeclaration.parameters())
 				{
 					if (parameter instanceof SingleVariableDeclaration)
 					{
 						parameterTypeNames.add(BindingNameResolver.getQualifiedName(
-								((SingleVariableDeclaration) parameter).getType().resolveBinding(), m_currentFile, m_compilationUnit, ignoredContexts).orElse(JavaTypeName.unsolved()));
+								((SingleVariableDeclaration) parameter).getType().resolveBinding(), m_currentFile, m_compilationUnit, ignoredContexts).orElse(TypeName.unsolved()));
 					}
 				}
 				
-				declName = new JavaFunctionDeclName(
+				declName = new FunctionDeclName(
 						methodDeclaration.getName().getIdentifier(), 
 						typeParameterNames, 
 						returnTypeName, 
@@ -229,27 +229,27 @@ public class DeclNameResolver extends NameResolver
 		return declName;
 	}
 	
-	public static JavaDeclName getQualifiedDeclName(AnonymousClassDeclaration decl, File currentFile, CompilationUnit compilationUnit)
+	public static DeclName getQualifiedDeclName(AnonymousClassDeclaration decl, File currentFile, CompilationUnit compilationUnit)
 	{
 		return getQualifiedDeclName(decl, currentFile, compilationUnit, null);
 	}
 	
-	public static JavaDeclName getQualifiedDeclName(AnonymousClassDeclaration decl, File currentFile, CompilationUnit compilationUnit, ContextList ignoredContexts)
+	public static DeclName getQualifiedDeclName(AnonymousClassDeclaration decl, File currentFile, CompilationUnit compilationUnit, ContextList ignoredContexts)
 	{
 		DeclNameResolver resolver = new DeclNameResolver(currentFile, compilationUnit, ignoredContexts);
 		return resolver.getQualifiedDeclName(decl);
 	}
 	
-	public JavaDeclName getQualifiedDeclName(AnonymousClassDeclaration decl)
+	public DeclName getQualifiedDeclName(AnonymousClassDeclaration decl)
 	{
-		JavaDeclName declName = JavaDeclName.unsolved();
+		DeclName declName = DeclName.unsolved();
 
 		if (decl != null)
 		{
 			declName = getDeclName(decl);
 			if (!declName.getIsUnsolved())
 			{
-				JavaDeclName parentDeclName = getQualifiedContextName(decl);
+				DeclName parentDeclName = getQualifiedContextName(decl);
 				if (parentDeclName != null)
 				{
 					if (!parentDeclName.getIsUnsolved())
@@ -258,7 +258,7 @@ public class DeclNameResolver extends NameResolver
 					}
 					else
 					{
-						declName = JavaDeclName.unsolved();
+						declName = DeclName.unsolved();
 					}
 				}
 			}
@@ -266,28 +266,28 @@ public class DeclNameResolver extends NameResolver
 		return declName;
 	}
 	
-	public JavaDeclName getDeclName(AnonymousClassDeclaration decl)
+	public DeclName getDeclName(AnonymousClassDeclaration decl)
 	{
 		Position pos = Utility.getRange(decl, m_compilationUnit).begin;
-		return JavaDeclName.anonymousClass(m_currentFile, pos.line, pos.column);
+		return DeclName.anonymousClass(m_currentFile, pos.line, pos.column);
 	}
 	
 	
-	public static JavaDeclName getQualifiedName(Name name)
+	public static DeclName getQualifiedName(Name name)
 	{
 		if (name.isSimpleName())
 		{
-			return new JavaDeclName(((SimpleName) name).getIdentifier());
+			return new DeclName(((SimpleName) name).getIdentifier());
 		}
 		else
 		{
-			JavaDeclName declName = new JavaDeclName(((QualifiedName) name).getName().getIdentifier());
+			DeclName declName = new DeclName(((QualifiedName) name).getName().getIdentifier());
 			declName.setParent(getQualifiedName(((QualifiedName) name).getQualifier()));
 			return declName;
 		}
 	}
 	
-	private JavaDeclName getQualifiedContextName(ASTNode decl)
+	private DeclName getQualifiedContextName(ASTNode decl)
 	{
 		ASTNode parentNode = decl.getParent();
 		if (parentNode == null)

@@ -47,10 +47,10 @@ import org.eclipse.jdt.core.dom.TypeMethodReference;
 import org.eclipse.jdt.core.dom.TypeParameter;
 import org.eclipse.jdt.core.dom.VariableDeclarationFragment;
 
-import com.sourcetrail.name.JavaDeclName;
-import com.sourcetrail.name.JavaFileName;
-import com.sourcetrail.name.JavaSymbolName;
-import com.sourcetrail.name.JavaTypeName;
+import com.sourcetrail.name.DeclName;
+import com.sourcetrail.name.FileName;
+import com.sourcetrail.name.SymbolName;
+import com.sourcetrail.name.TypeName;
 import com.sourcetrail.name.NameHierarchy;
 import com.sourcetrail.name.resolver.BindingNameResolver;
 import com.sourcetrail.name.resolver.DeclNameResolver;
@@ -64,7 +64,7 @@ public abstract class AstVisitor extends ASTVisitor
 	private File m_filePath;
 	private FileContent m_fileContent = null;
 	private CompilationUnit m_compilationUnit;
-	private Stack<List<JavaSymbolName>> m_contextStack = new Stack<>();
+	private Stack<List<SymbolName>> m_contextStack = new Stack<>();
 	
 	public AstVisitor(AstVisitorClient client, File filePath, String fileContent, CompilationUnit compilationUnit)
 	{		
@@ -73,7 +73,7 @@ public abstract class AstVisitor extends ASTVisitor
 		m_fileContent = new FileContent(fileContent);
 		m_compilationUnit = compilationUnit;
 
-		m_contextStack.push(Arrays.asList(new JavaFileName(filePath)));
+		m_contextStack.push(Arrays.asList(new FileName(filePath)));
 	}
 	
 	protected abstract ReferenceKind getTypeReferenceKind();
@@ -109,7 +109,7 @@ public abstract class AstVisitor extends ASTVisitor
 	@Override 
 	public boolean visit(TypeDeclaration node)
 	{
-		JavaDeclName symbolName = DeclNameResolver.getQualifiedDeclName(node, m_filePath, m_compilationUnit);
+		DeclName symbolName = DeclNameResolver.getQualifiedDeclName(node, m_filePath, m_compilationUnit);
 		Range scopeRange = getRange(node);
 		
 		m_client.recordSymbolWithLocationAndScope(
@@ -138,7 +138,7 @@ public abstract class AstVisitor extends ASTVisitor
 	@Override
 	public boolean visit(TypeParameter node)
 	{
-		JavaDeclName symbolName = BindingNameResolver.getQualifiedName(node.resolveBinding(), m_filePath, m_compilationUnit).map(tn -> tn.toDeclName()).orElse(JavaDeclName.unsolved());
+		DeclName symbolName = BindingNameResolver.getQualifiedName(node.resolveBinding(), m_filePath, m_compilationUnit).map(tn -> tn.toDeclName()).orElse(DeclName.unsolved());
 		
 		m_client.recordSymbolWithLocation(
 				symbolName.toNameHierarchy(), SymbolKind.TYPE_PARAMETER, 
@@ -162,7 +162,7 @@ public abstract class AstVisitor extends ASTVisitor
 	@Override 
 	public boolean visit(EnumDeclaration node)
 	{
-		JavaDeclName symbolName = DeclNameResolver.getQualifiedDeclName(node, m_filePath, m_compilationUnit);
+		DeclName symbolName = DeclNameResolver.getQualifiedDeclName(node, m_filePath, m_compilationUnit);
 		Range scopeRange = getRange(node);
 				
 		m_client.recordSymbolWithLocationAndScope(
@@ -190,7 +190,7 @@ public abstract class AstVisitor extends ASTVisitor
 	
 	public boolean visit(EnumConstantDeclaration node)
 	{
-		JavaDeclName symbolName = DeclNameResolver.getQualifiedDeclName(node, m_filePath, m_compilationUnit);
+		DeclName symbolName = DeclNameResolver.getQualifiedDeclName(node, m_filePath, m_compilationUnit);
 				
 		m_client.recordSymbolWithLocation(
 				symbolName.toNameHierarchy(), 
@@ -219,7 +219,7 @@ public abstract class AstVisitor extends ASTVisitor
 			return false;
 		}
 		
-		JavaDeclName symbolName = DeclNameResolver.getQualifiedDeclName(node, m_filePath, m_compilationUnit);
+		DeclName symbolName = DeclNameResolver.getQualifiedDeclName(node, m_filePath, m_compilationUnit);
 		
 		m_client.recordSymbolWithLocationAndScope(
 				symbolName.toNameHierarchy(), 
@@ -236,7 +236,7 @@ public abstract class AstVisitor extends ASTVisitor
 			// We use the declaration to replace type arguments with the respective type parameters inside the signature.
 			IMethodBinding overriddenMethodDeclaration = overriddenMethod.get().getMethodDeclaration();
 
-			JavaDeclName overriddenMethodName = BindingNameResolver.getQualifiedName(overriddenMethodDeclaration, m_filePath, m_compilationUnit).orElse(JavaDeclName.unsolved());
+			DeclName overriddenMethodName = BindingNameResolver.getQualifiedName(overriddenMethodDeclaration, m_filePath, m_compilationUnit).orElse(DeclName.unsolved());
 			if (!overriddenMethodName.getIsUnsolved())
 			{
 				m_client.recordSymbol(overriddenMethodName.toNameHierarchy(), SymbolKind.METHOD, AccessKind.NONE, DefinitionKind.NONE);
@@ -264,7 +264,7 @@ public abstract class AstVisitor extends ASTVisitor
 	@Override 
 	public boolean visit(FieldDeclaration node)
 	{
-		ArrayList<JavaSymbolName> childContext = new ArrayList<>();
+		ArrayList<SymbolName> childContext = new ArrayList<>();
 		
 		for (Object declarator: node.fragments())
 		{
@@ -272,7 +272,7 @@ public abstract class AstVisitor extends ASTVisitor
 			{
 				VariableDeclarationFragment fragment = (VariableDeclarationFragment) declarator;
 				
-				JavaDeclName symbolName = DeclNameResolver.getQualifiedDeclName(fragment, m_filePath, m_compilationUnit);
+				DeclName symbolName = DeclNameResolver.getQualifiedDeclName(fragment, m_filePath, m_compilationUnit);
 				
 				m_client.recordSymbolWithLocation(
 						symbolName.toNameHierarchy(), SymbolKind.FIELD, 
@@ -301,21 +301,21 @@ public abstract class AstVisitor extends ASTVisitor
 	@Override 
 	public boolean visit(final ImportDeclaration node)
 	{
-		JavaDeclName symbolName = JavaDeclName.unsolved();
+		DeclName symbolName = DeclName.unsolved();
 		IBinding binding = node.resolveBinding();
 		if (!binding.isRecovered())
 		{
 			if (binding instanceof IPackageBinding)
 			{
-				symbolName = BindingNameResolver.getQualifiedName((IPackageBinding) binding, m_filePath, m_compilationUnit).orElse(JavaDeclName.unsolved());
+				symbolName = BindingNameResolver.getQualifiedName((IPackageBinding) binding, m_filePath, m_compilationUnit).orElse(DeclName.unsolved());
 			}
 			else if (binding instanceof ITypeBinding)
 			{
-				symbolName = BindingNameResolver.getQualifiedName((ITypeBinding) binding, m_filePath, m_compilationUnit).map(tn -> tn.toDeclName()).orElse(JavaDeclName.unsolved());
+				symbolName = BindingNameResolver.getQualifiedName((ITypeBinding) binding, m_filePath, m_compilationUnit).map(tn -> tn.toDeclName()).orElse(DeclName.unsolved());
 			}
 			else if (binding instanceof IMethodBinding)
 			{
-				symbolName = BindingNameResolver.getQualifiedName((IMethodBinding) binding, m_filePath, m_compilationUnit).orElse(JavaDeclName.unsolved());
+				symbolName = BindingNameResolver.getQualifiedName((IMethodBinding) binding, m_filePath, m_compilationUnit).orElse(DeclName.unsolved());
 			}
 			else if (binding instanceof IVariableBinding)
 			{
@@ -323,7 +323,7 @@ public abstract class AstVisitor extends ASTVisitor
 			}
 		}
 		
-		for (JavaSymbolName context: m_contextStack.peek())
+		for (SymbolName context: m_contextStack.peek())
 		{
 			m_client.recordReference(
 					ReferenceKind.IMPORT, 
@@ -331,7 +331,7 @@ public abstract class AstVisitor extends ASTVisitor
 					getRange(node.getName()));
 		}
 		
-		Optional<JavaDeclName> packageName = BindingNameResolver.getQualifiedName(getDeclaringPackage(binding), m_filePath, m_compilationUnit);
+		Optional<DeclName> packageName = BindingNameResolver.getQualifiedName(getDeclaringPackage(binding), m_filePath, m_compilationUnit);
 		if (packageName.isPresent())
 		{
 			m_client.recordSymbol(packageName.get().toNameHierarchy(), 
@@ -344,7 +344,7 @@ public abstract class AstVisitor extends ASTVisitor
 	@Override 
 	public boolean visit(SimpleType node)
 	{
-		for (JavaSymbolName context: m_contextStack.peek())
+		for (SymbolName context: m_contextStack.peek())
 		{
 			ITypeBinding binding = node.resolveBinding();
 			if (binding != null)
@@ -354,7 +354,7 @@ public abstract class AstVisitor extends ASTVisitor
 			
 			m_client.recordReference(
 					getTypeReferenceKind(), 
-					BindingNameResolver.getQualifiedName(binding, m_filePath, m_compilationUnit).orElse(JavaTypeName.unsolved()).toDeclName().toNameHierarchy(),
+					BindingNameResolver.getQualifiedName(binding, m_filePath, m_compilationUnit).orElse(TypeName.unsolved()).toDeclName().toNameHierarchy(),
 					context.toNameHierarchy(), 
 					getRange(node));
 		}
@@ -364,7 +364,7 @@ public abstract class AstVisitor extends ASTVisitor
 	@Override 
 	public boolean visit(QualifiedType node)
 	{
-		for (JavaSymbolName context: m_contextStack.peek())
+		for (SymbolName context: m_contextStack.peek())
 		{
 			ITypeBinding binding = node.resolveBinding();
 			if (binding != null)
@@ -374,7 +374,7 @@ public abstract class AstVisitor extends ASTVisitor
 			
 			m_client.recordReference(
 					getTypeReferenceKind(), 
-					BindingNameResolver.getQualifiedName(binding, m_filePath, m_compilationUnit).orElse(JavaTypeName.unsolved()).toDeclName().toNameHierarchy(),
+					BindingNameResolver.getQualifiedName(binding, m_filePath, m_compilationUnit).orElse(TypeName.unsolved()).toDeclName().toNameHierarchy(),
 					context.toNameHierarchy(), 
 					getRange(node));
 		}
@@ -384,7 +384,7 @@ public abstract class AstVisitor extends ASTVisitor
 	@Override 
 	public boolean visit(NameQualifiedType node)
 	{
-		for (JavaSymbolName context: m_contextStack.peek())
+		for (SymbolName context: m_contextStack.peek())
 		{
 			ITypeBinding binding = node.resolveBinding();
 			if (binding != null)
@@ -394,7 +394,7 @@ public abstract class AstVisitor extends ASTVisitor
 			
 			m_client.recordReference(
 					getTypeReferenceKind(), 
-					BindingNameResolver.getQualifiedName(binding, m_filePath, m_compilationUnit).orElse(JavaTypeName.unsolved()).toDeclName().toNameHierarchy(),
+					BindingNameResolver.getQualifiedName(binding, m_filePath, m_compilationUnit).orElse(TypeName.unsolved()).toDeclName().toNameHierarchy(),
 					context.toNameHierarchy(), 
 					getRange(node));
 		}
@@ -404,14 +404,14 @@ public abstract class AstVisitor extends ASTVisitor
 	@Override
 	public boolean visit(final PrimitiveType node)
 	{
-		NameHierarchy referencedName = JavaTypeName.fromDotSeparatedString(node.getPrimitiveTypeCode().toString()).toDeclName().toNameHierarchy();
+		NameHierarchy referencedName = TypeName.fromDotSeparatedString(node.getPrimitiveTypeCode().toString()).toDeclName().toNameHierarchy();
 		
 		m_client.recordSymbol(
 				referencedName, SymbolKind.BUILTIN_TYPE,
 				AccessKind.NONE, 
 				DefinitionKind.EXPLICIT);
 		
-		for (JavaSymbolName context: m_contextStack.peek())
+		for (SymbolName context: m_contextStack.peek())
 		{		
 			m_client.recordReference(
 					getTypeReferenceKind(), 
@@ -429,7 +429,7 @@ public abstract class AstVisitor extends ASTVisitor
 		if (binding instanceof IVariableBinding)
 		{
 			IVariableBinding variableBinding = ((IVariableBinding) binding).getVariableDeclaration();
-			JavaDeclName declName = BindingNameResolver.getQualifiedName(
+			DeclName declName = BindingNameResolver.getQualifiedName(
 					variableBinding, m_filePath, m_compilationUnit);
 			
 			if (declName.getIsUnsolved() && variableBinding.getDeclaringClass() == null && variableBinding.getName().equals("length")) 
@@ -445,7 +445,7 @@ public abstract class AstVisitor extends ASTVisitor
 			{
 				m_client.recordSymbol(declName.toNameHierarchy(), SymbolKind.FIELD, AccessKind.NONE, DefinitionKind.NONE);
 				
-				for (JavaSymbolName context: m_contextStack.peek())
+				for (SymbolName context: m_contextStack.peek())
 				{
 					m_client.recordReference(
 							ReferenceKind.USAGE, 
@@ -560,7 +560,7 @@ public abstract class AstVisitor extends ASTVisitor
 			// the ClassInstanceCreation still contains the Type node.
 			
 			AnonymousClassDeclaration anonymousClassDeclaration = node.getAnonymousClassDeclaration();
-			JavaDeclName symbolName = DeclNameResolver.getQualifiedDeclName(anonymousClassDeclaration, m_filePath, m_compilationUnit);
+			DeclName symbolName = DeclNameResolver.getQualifiedDeclName(anonymousClassDeclaration, m_filePath, m_compilationUnit);
 			
 			Range anonymousClassScope = getRange(anonymousClassDeclaration);
 			
@@ -584,13 +584,13 @@ public abstract class AstVisitor extends ASTVisitor
 				constructorBinding = constructorBinding.getMethodDeclaration();
 			}
 			
-			JavaDeclName referencedDeclName = BindingNameResolver.getQualifiedName(constructorBinding, m_filePath, m_compilationUnit).orElse(JavaDeclName.unsolved());
+			DeclName referencedDeclName = BindingNameResolver.getQualifiedName(constructorBinding, m_filePath, m_compilationUnit).orElse(DeclName.unsolved());
 			if (!referencedDeclName.getIsUnsolved())
 			{
 				m_client.recordSymbol(referencedDeclName.toNameHierarchy(), SymbolKind.METHOD, AccessKind.NONE, DefinitionKind.NONE);
 			}
 			
-			for (JavaSymbolName context: m_contextStack.peek())
+			for (SymbolName context: m_contextStack.peek())
 			{
 				m_client.recordReference(
 						ReferenceKind.CALL, 
@@ -660,7 +660,7 @@ public abstract class AstVisitor extends ASTVisitor
 	
 	// --- utility methods ---
 	
-	private void recordReferenceToMethodDeclaration(IMethodBinding methodBinding, Range range, ReferenceKind referenceKind, List<JavaSymbolName> contexts)
+	private void recordReferenceToMethodDeclaration(IMethodBinding methodBinding, Range range, ReferenceKind referenceKind, List<SymbolName> contexts)
 	{
 		if (methodBinding != null)
 		{
@@ -668,13 +668,13 @@ public abstract class AstVisitor extends ASTVisitor
 			methodBinding = methodBinding.getMethodDeclaration();
 		}
 		
-		JavaDeclName referencedDeclName = BindingNameResolver.getQualifiedName(methodBinding, m_filePath, m_compilationUnit).orElse(JavaDeclName.unsolved());
+		DeclName referencedDeclName = BindingNameResolver.getQualifiedName(methodBinding, m_filePath, m_compilationUnit).orElse(DeclName.unsolved());
 		if (!referencedDeclName.getIsUnsolved())
 		{
 			m_client.recordSymbol(referencedDeclName.toNameHierarchy(), SymbolKind.METHOD, AccessKind.NONE, DefinitionKind.NONE);
 		}
 		
-		for (JavaSymbolName context: m_contextStack.peek())
+		for (SymbolName context: m_contextStack.peek())
 		{
 			m_client.recordReference(
 					referenceKind, 
@@ -686,7 +686,7 @@ public abstract class AstVisitor extends ASTVisitor
 	
 	private void recordScope(Range range)
 	{
-		NameHierarchy nameHierarchy = JavaDeclName.scope(m_filePath, range.begin).toNameHierarchy();
+		NameHierarchy nameHierarchy = DeclName.scope(m_filePath, range.begin).toNameHierarchy();
 		m_client.recordLocalSymbol(nameHierarchy, new Range(range.begin, range.begin));
 		m_client.recordLocalSymbol(nameHierarchy, new Range(range.end, range.end));
 	}

@@ -2,11 +2,11 @@ package com.sourcetrail.name;
 
 import java.io.File;
 
-public class JavaFileName implements JavaSymbolName
+public class FileName implements SymbolName
 {
 	private File m_filePath = null;
 
-	public JavaFileName(File filePath)
+	public FileName(File filePath)
 	{
 		m_filePath = filePath;
 	}

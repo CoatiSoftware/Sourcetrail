@@ -118,34 +118,10 @@ public class ContextAwareAstVisitor extends AstVisitor
 	}
 	
 	@Override 
-	public boolean visit(ClassInstanceCreation node)
+	public boolean visit(final ImportDeclaration node)
 	{
-		boolean visitChildren = super.visit(node);
-		
-		if (visitChildren)
-		{
-			acceptChild(node.getExpression());
-			{
-				m_typeRefKind.push(ReferenceKind.TYPE_ARGUMENT);
-				acceptChildren(node.typeArguments());
-				m_typeRefKind.pop();
-			}
-			
-			if (node.getAnonymousClassDeclaration() != null)
-			{
-				m_typeRefKind.push(ReferenceKind.INHERITANCE);
-				acceptChild(node.getType());
-				m_typeRefKind.pop();
-			}
-			else
-			{
-				acceptChild(node.getType());
-			}
-			
-			acceptChildren(node.arguments());
-			acceptChild(node.getAnonymousClassDeclaration());
-		}
-		
+		// We don't want to visit the name of the ImportDeclaration because this could cause a self reference.
+		super.visit(node);
 		return false;
 	}
 	
@@ -196,18 +172,6 @@ public class ContextAwareAstVisitor extends AstVisitor
 		
 		return false;
 	}
-	
-	@Override 
-	public boolean visit(final ImportDeclaration node)
-	{
-		// We don't want to visit the name of the ImportDeclaration because this could cause a self reference.
-		super.visit(node);
-		return false;
-	}
-	
-	
-	
-	
 	
 	@Override 
 	public boolean visit(MethodInvocation node)
@@ -286,9 +250,6 @@ public class ContextAwareAstVisitor extends AstVisitor
 		return false;
 	}
 	
-	
-	
-	
 	@Override 
 	public boolean visit(CreationReference node)
 	{
@@ -340,6 +301,38 @@ public class ContextAwareAstVisitor extends AstVisitor
 				m_typeRefKind.pop();
 			}
 			acceptChild(node.getName());
+		}
+		
+		return false;
+	}
+	
+	@Override 
+	public boolean visit(ClassInstanceCreation node)
+	{
+		boolean visitChildren = super.visit(node);
+		
+		if (visitChildren)
+		{
+			acceptChild(node.getExpression());
+			{
+				m_typeRefKind.push(ReferenceKind.TYPE_ARGUMENT);
+				acceptChildren(node.typeArguments());
+				m_typeRefKind.pop();
+			}
+			
+			if (node.getAnonymousClassDeclaration() != null)
+			{
+				m_typeRefKind.push(ReferenceKind.INHERITANCE);
+				acceptChild(node.getType());
+				m_typeRefKind.pop();
+			}
+			else
+			{
+				acceptChild(node.getType());
+			}
+			
+			acceptChildren(node.arguments());
+			acceptChild(node.getAnonymousClassDeclaration());
 		}
 		
 		return false;

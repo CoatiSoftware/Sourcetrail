@@ -4,13 +4,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-public class JavaFunctionDeclName extends JavaDeclName
+public class FunctionDeclName extends DeclName
 {
-	private JavaTypeName m_returnTypeName = null;
-	private List<JavaTypeName> m_parameterTypeNames = new ArrayList<>();
+	private TypeName m_returnTypeName = null;
+	private List<TypeName> m_parameterTypeNames = new ArrayList<>();
 	private boolean m_isStatic = false;
 	
-	public JavaFunctionDeclName(String name, JavaTypeName returnTypeName, List<JavaTypeName> parameterTypeNames, boolean isStatic)
+	public FunctionDeclName(String name, TypeName returnTypeName, List<TypeName> parameterTypeNames, boolean isStatic)
 	{
 		super(name);
 		
@@ -19,7 +19,7 @@ public class JavaFunctionDeclName extends JavaDeclName
 		m_isStatic = isStatic;
 	}
 	
-	public JavaFunctionDeclName(String name, List<String> typeParameterNames, JavaTypeName returnTypeName, List<JavaTypeName> parameterTypeNames, boolean isStatic)
+	public FunctionDeclName(String name, List<String> typeParameterNames, TypeName returnTypeName, List<TypeName> parameterTypeNames, boolean isStatic)
 	{
 		super(name, typeParameterNames);
 		

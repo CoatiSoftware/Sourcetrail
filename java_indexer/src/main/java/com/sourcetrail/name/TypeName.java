@@ -2,45 +2,45 @@ package com.sourcetrail.name;
 
 import java.util.List;
 
-public class JavaTypeName implements JavaSymbolName
+public class TypeName implements SymbolName
 {
-	private JavaDeclName m_parent = null;
+	private DeclName m_parent = null;
 	private String m_name = "";
 	private List<String> m_typeParameterNames = null;
-	private List<JavaTypeName> m_typeArguments = null;
+	private List<TypeName> m_typeArguments = null;
 	private boolean m_isUnsolved = false;
 
-	public static JavaTypeName unsolved()
+	public static TypeName unsolved()
 	{
-		JavaTypeName typeName = new JavaTypeName("unsolved-type", null);
+		TypeName typeName = new TypeName("unsolved-type", null);
 		typeName.m_isUnsolved = true;
 		return typeName;
 	}
 	
-	public static JavaTypeName fromDotSeparatedString(String s) 
+	public static TypeName fromDotSeparatedString(String s) 
 	{
-		JavaTypeName typeName = null;
+		TypeName typeName = null;
 
 		int separatorIndex = s.lastIndexOf('.');
 		if (separatorIndex != -1)
 		{
-			typeName = new JavaTypeName(s.substring(separatorIndex + 1), JavaDeclName.fromDotSeparatedString(s.substring(0, separatorIndex)));
+			typeName = new TypeName(s.substring(separatorIndex + 1), DeclName.fromDotSeparatedString(s.substring(0, separatorIndex)));
 		}
 		else
 		{
-			typeName = new JavaTypeName(s, null);
+			typeName = new TypeName(s, null);
 		}
 		
 		return typeName;
 	}
 	
-	public JavaTypeName(String name, JavaDeclName parent)
+	public TypeName(String name, DeclName parent)
 	{
 		m_parent = parent;
 		m_name = name;
 	}
 	
-	public JavaTypeName(String name, List<String> typeParameterNames, List<JavaTypeName> typeArguments, JavaDeclName parent)
+	public TypeName(String name, List<String> typeParameterNames, List<TypeName> typeArguments, DeclName parent)
 	{
 		m_parent = parent;
 		m_name = name;
@@ -48,7 +48,7 @@ public class JavaTypeName implements JavaSymbolName
 		m_typeArguments = typeArguments;
 	}
 	
-	public JavaDeclName getParent()
+	public DeclName getParent()
 	{
 		return m_parent;
 	}
@@ -58,9 +58,14 @@ public class JavaTypeName implements JavaSymbolName
 		return m_name;
 	}
 	
-	public JavaDeclName toDeclName()
+	public boolean getIsUnsolved()
 	{
-		JavaDeclName declName = new JavaDeclName(m_name, m_typeParameterNames);
+		return m_isUnsolved;
+	}
+	
+	public DeclName toDeclName()
+	{
+		DeclName declName = new DeclName(m_name, m_typeParameterNames);
 		declName.setParent(m_parent);
 		return declName;
 	}

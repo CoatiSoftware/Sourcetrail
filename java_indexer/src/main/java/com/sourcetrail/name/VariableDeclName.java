@@ -2,12 +2,12 @@ package com.sourcetrail.name;
 
 import java.util.Optional;
 
-public class JavaVariableDeclName extends JavaDeclName
+public class VariableDeclName extends DeclName
 {
-	private JavaTypeName m_typeName = null;
+	private TypeName m_typeName = null;
 	private boolean m_isStatic = false;
 	
-	public JavaVariableDeclName(String name, JavaTypeName typeName, boolean isStatic)
+	public VariableDeclName(String name, TypeName typeName, boolean isStatic)
 	{
 		super(name);
 		

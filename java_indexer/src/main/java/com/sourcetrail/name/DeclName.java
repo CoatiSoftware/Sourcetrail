@@ -5,9 +5,9 @@ import java.util.List;
 
 import com.sourcetrail.Position;
 
-public class JavaDeclName implements JavaSymbolName
+public class DeclName implements SymbolName
 {
-	private JavaDeclName m_parent = null;
+	private DeclName m_parent = null;
 	private String m_name = "";
 	private List<String> m_typeParameterNames = null;
 	private boolean m_isUnsolved = false;
@@ -15,75 +15,75 @@ public class JavaDeclName implements JavaSymbolName
 	private boolean m_isLocal = false;
 	private boolean m_isGlobal = false;
 
-	public static JavaDeclName unsolved()
+	public static DeclName unsolved()
 	{
-		JavaDeclName declName = new JavaDeclName("unsolved-symbol");
+		DeclName declName = new DeclName("unsolved-symbol");
 		declName.m_isUnsolved = true;
 		return declName;
 	}
 	
-	public static JavaDeclName anonymousClass(File filePath, int line, int col)
+	public static DeclName anonymousClass(File filePath, int line, int col)
 	{
-		JavaDeclName declName = new JavaDeclName("anonymous class (" + filePath.getName() + "<" + line + ":" + col + ">)");
+		DeclName declName = new DeclName("anonymous class (" + filePath.getName() + "<" + line + ":" + col + ">)");
 		declName.m_isAnonymous = true;
 		return declName;
 	}
 	
-	public static JavaDeclName localSymbol(JavaDeclName methodContextName, int id)
+	public static DeclName localSymbol(DeclName methodContextName, int id)
 	{
-		JavaDeclName declName = new JavaDeclName(methodContextName + "<" + id + ">");
+		DeclName declName = new DeclName(methodContextName + "<" + id + ">");
 		declName.m_isLocal = true;
 		return declName;
 	}
 	
-	public static JavaDeclName globalSymbol(File fileContext, int id)
+	public static DeclName globalSymbol(File fileContext, int id)
 	{
-		JavaDeclName declName = new JavaDeclName(fileContext.getName() + "<" + id + ">");
+		DeclName declName = new DeclName(fileContext.getName() + "<" + id + ">");
 		declName.m_isGlobal = true;
 		return declName;
 	}
 	
-	public static JavaDeclName scope(File fileContext, Position begin)
+	public static DeclName scope(File fileContext, Position begin)
 	{
-		JavaDeclName declName = new JavaDeclName(fileContext.getName() + "<" + begin.line + ":" + begin.column + ">");
+		DeclName declName = new DeclName(fileContext.getName() + "<" + begin.line + ":" + begin.column + ">");
 		return declName;
 	}
 	
-	public static JavaDeclName fromDotSeparatedString(String s)
+	public static DeclName fromDotSeparatedString(String s)
 	{
-		JavaDeclName declName = null;
+		DeclName declName = null;
 
 		int separatorIndex = s.lastIndexOf('.');
 		if (separatorIndex != -1)
 		{
-			declName = new JavaDeclName(s.substring(separatorIndex + 1));
-			declName.setParent(JavaDeclName.fromDotSeparatedString(s.substring(0, separatorIndex)));
+			declName = new DeclName(s.substring(separatorIndex + 1));
+			declName.setParent(DeclName.fromDotSeparatedString(s.substring(0, separatorIndex)));
 		}
 		else
 		{
-			declName = new JavaDeclName(s, null);
+			declName = new DeclName(s, null);
 		}
 		
 		return declName;
 	}
 	
-	public JavaDeclName(String name)
+	public DeclName(String name)
 	{
 		m_name = name;
 	}
 	
-	public JavaDeclName(String name, List<String> typeParameterNames)
+	public DeclName(String name, List<String> typeParameterNames)
 	{
 		m_name = name;
 		m_typeParameterNames = typeParameterNames;
 	}
 	
-	public void setParent(JavaDeclName parent)
+	public void setParent(DeclName parent)
 	{
 		m_parent = parent;
 	}
 	
-	public JavaDeclName getParent()
+	public DeclName getParent()
 	{
 		return m_parent;
 	}
