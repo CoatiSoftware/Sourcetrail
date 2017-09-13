@@ -2633,7 +2633,7 @@ public:
 		));
 	}
 
-	void test_cxx_parser_finds_template_member_specialization_of_implicit_template_specialization()
+	void test_cxx_parser_finds_template_member_specialization_for_method_of_implicit_template_specialization()
 	{
 		std::shared_ptr<TestParserClient> client = parseCode(
 			"template <typename T>\n"
@@ -2650,6 +2650,89 @@ public:
 
 		TS_ASSERT(utility::containsElement<std::string>(
 			client->templateMemberSpecializations, "int A<int>::foo() -> A<typename T>::T A<typename T>::foo() <5:4 5:6>"
+		));
+	}
+
+	void test_cxx_parser_finds_template_member_specialization_for_static_variable_of_implicit_template_specialization()
+	{
+		std::shared_ptr<TestParserClient> client = parseCode(
+			"template <typename T>\n"
+			"class A\n"
+			"{\n"
+			"public:\n"
+			"	static T foo;\n"
+			"};\n"
+			"int main()\n"
+			"{\n"
+			"	A<int> a;\n"
+			"}\n"
+		);
+
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->templateMemberSpecializations, "static int A<int>::foo -> static A<typename T>::T A<typename T>::foo <5:11 5:13>"
+		));
+	}
+
+	void test_cxx_parser_finds_template_member_specialization_for_field_of_implicit_template_specialization()
+	{
+		std::shared_ptr<TestParserClient> client = parseCode(
+			"template <typename T>\n"
+			"class A\n"
+			"{\n"
+			"public:\n"
+			"	T foo;\n"
+			"};\n"
+			"int main()\n"
+			"{\n"
+			"	A<int> a;\n"
+			"}\n"
+		);
+
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->templateMemberSpecializations, "int A<int>::foo -> A<typename T>::T A<typename T>::foo <5:4 5:6>"
+		));
+	}
+
+	void test_cxx_parser_finds_template_member_specialization_for_field_of_member_class_of_implicit_template_specialization()
+	{
+		std::shared_ptr<TestParserClient> client = parseCode(
+			"template <typename T>\n"
+			"class A\n"
+			"{\n"
+			"public:\n"
+			"	class B {\n"
+			"	public:\n"
+			"		T foo;\n"
+			"	};\n"
+			"};\n"
+			"int main()\n"
+			"{\n"
+			"	A<int>::B b;\n"
+			"}\n"
+		);
+
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->templateMemberSpecializations, "int A<int>::B::foo -> A<typename T>::T A<typename T>::B::foo <7:5 7:7>"
+		));
+	}
+
+	void test_cxx_parser_finds_template_member_specialization_for_member_class_of_implicit_template_specialization()
+	{
+		std::shared_ptr<TestParserClient> client = parseCode(
+			"template <typename T>\n"
+			"class A\n"
+			"{\n"
+			"public:\n"
+			"	class B {};\n"
+			"};\n"
+			"int main()\n"
+			"{\n"
+			"	A<int> a;\n"
+			"}\n"
+		);
+
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->templateMemberSpecializations, "A<int>::B -> A<typename T>::B <5:8 5:8>"
 		));
 	}
 

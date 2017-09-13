@@ -1,0 +1,131 @@
+FILE: b2ChainAndCircleContact.cpp
+FILE: b2ChainAndCircleContact.cpp
+COMMENT: comment [b2ChainAndCircleContact.cpp <1:1 17:3>]
+FILE: b2ChainAndCircleContact.cpp
+FILE: b2ChainAndCircleContact.cpp
+FILE: b2ChainAndCircleContact.cpp
+REFERENCE_MACRO_USAGE b2ChainAndCircleContact.cpp -> b2Assert [b2ChainAndCircleContact.cpp <42:2 42:9>]
+REFERENCE_MACRO_USAGE b2Settings.h -> assert [b2Settings.h <31:21 31:26>]
+REFERENCE_MACRO_USAGE assert.h -> _CRT_WIDE [assert.h <34:23 34:31>]
+REFERENCE_MACRO_USAGE vcruntime.h -> _CRT_WIDE_ [vcruntime.h <95:22 95:31>]
+REFERENCE_MACRO_USAGE assert.h -> _CRT_WIDE [assert.h <34:47 34:55>]
+REFERENCE_MACRO_USAGE assert.h -> __FILE__ [assert.h <34:57 34:64>]
+REFERENCE_MACRO_USAGE vcruntime.h -> _CRT_WIDE_ [vcruntime.h <95:22 95:31>]
+REFERENCE_MACRO_USAGE assert.h -> __LINE__ [assert.h <34:79 34:86>]
+REFERENCE_MACRO_USAGE b2ChainAndCircleContact.cpp -> b2Assert [b2ChainAndCircleContact.cpp <43:2 43:9>]
+REFERENCE_MACRO_USAGE b2Settings.h -> assert [b2Settings.h <31:21 31:26>]
+REFERENCE_MACRO_USAGE assert.h -> _CRT_WIDE [assert.h <34:23 34:31>]
+REFERENCE_MACRO_USAGE vcruntime.h -> _CRT_WIDE_ [vcruntime.h <95:22 95:31>]
+REFERENCE_MACRO_USAGE assert.h -> _CRT_WIDE [assert.h <34:47 34:55>]
+REFERENCE_MACRO_USAGE assert.h -> __FILE__ [assert.h <34:57 34:64>]
+REFERENCE_MACRO_USAGE vcruntime.h -> _CRT_WIDE_ [vcruntime.h <95:22 95:31>]
+REFERENCE_MACRO_USAGE assert.h -> __LINE__ [assert.h <34:79 34:86>]
+SYMBOL_METHOD public static b2Contact * b2ChainAndCircleContact::Create(b2Fixture *, int32, b2Fixture *, int32, b2BlockAllocator *) [b2ChainAndCircleContact.cpp <27:1 <27:37 27:42> 31:1>]
+SYMBOL_CLASS b2ChainAndCircleContact
+REFERENCE_TYPE_USAGE static b2Contact * b2ChainAndCircleContact::Create(b2Fixture *, int32, b2Fixture *, int32, b2BlockAllocator *) -> b2Contact [b2ChainAndCircleContact.cpp <27:1 27:9>]
+LOCAL_SYMBOL: b2ChainAndCircleContact.cpp<27:55> [b2ChainAndCircleContact.cpp <27:55 27:62>]
+REFERENCE_TYPE_USAGE static b2Contact * b2ChainAndCircleContact::Create(b2Fixture *, int32, b2Fixture *, int32, b2BlockAllocator *) -> b2Fixture [b2ChainAndCircleContact.cpp <27:44 27:52>]
+LOCAL_SYMBOL: b2ChainAndCircleContact.cpp<27:71> [b2ChainAndCircleContact.cpp <27:71 27:76>]
+REFERENCE_TYPE_USAGE static b2Contact * b2ChainAndCircleContact::Create(b2Fixture *, int32, b2Fixture *, int32, b2BlockAllocator *) -> int32 [b2ChainAndCircleContact.cpp <27:65 27:69>]
+LOCAL_SYMBOL: b2ChainAndCircleContact.cpp<27:90> [b2ChainAndCircleContact.cpp <27:90 27:97>]
+REFERENCE_TYPE_USAGE static b2Contact * b2ChainAndCircleContact::Create(b2Fixture *, int32, b2Fixture *, int32, b2BlockAllocator *) -> b2Fixture [b2ChainAndCircleContact.cpp <27:79 27:87>]
+LOCAL_SYMBOL: b2ChainAndCircleContact.cpp<27:106> [b2ChainAndCircleContact.cpp <27:106 27:111>]
+REFERENCE_TYPE_USAGE static b2Contact * b2ChainAndCircleContact::Create(b2Fixture *, int32, b2Fixture *, int32, b2BlockAllocator *) -> int32 [b2ChainAndCircleContact.cpp <27:100 27:104>]
+LOCAL_SYMBOL: b2ChainAndCircleContact.cpp<27:132> [b2ChainAndCircleContact.cpp <27:132 27:140>]
+REFERENCE_TYPE_USAGE static b2Contact * b2ChainAndCircleContact::Create(b2Fixture *, int32, b2Fixture *, int32, b2BlockAllocator *) -> b2BlockAllocator [b2ChainAndCircleContact.cpp <27:114 27:129>]
+LOCAL_SYMBOL: b2ChainAndCircleContact.cpp<29:8> [b2ChainAndCircleContact.cpp <29:8 29:10>]
+SYMBOL_BUILTIN_TYPE void
+REFERENCE_TYPE_USAGE static b2Contact * b2ChainAndCircleContact::Create(b2Fixture *, int32, b2Fixture *, int32, b2BlockAllocator *) -> void [b2ChainAndCircleContact.cpp <29:2 29:5>]
+SYMBOL_FUNCTION void * b2BlockAllocator::Allocate(int32)
+REFERENCE_CALL static b2Contact * b2ChainAndCircleContact::Create(b2Fixture *, int32, b2Fixture *, int32, b2BlockAllocator *) -> void * b2BlockAllocator::Allocate(int32) [b2ChainAndCircleContact.cpp <29:25 29:32>]
+LOCAL_SYMBOL: b2ChainAndCircleContact.cpp<27:132> [b2ChainAndCircleContact.cpp <29:14 29:22>]
+REFERENCE_TYPE_USAGE static b2Contact * b2ChainAndCircleContact::Create(b2Fixture *, int32, b2Fixture *, int32, b2BlockAllocator *) -> b2ChainAndCircleContact [b2ChainAndCircleContact.cpp <29:41 29:63>]
+REFERENCE_TYPE_USAGE static b2Contact * b2ChainAndCircleContact::Create(b2Fixture *, int32, b2Fixture *, int32, b2BlockAllocator *) -> b2ChainAndCircleContact [b2ChainAndCircleContact.cpp <30:19 30:41>]
+SYMBOL_FUNCTION void b2ChainAndCircleContact::b2ChainAndCircleContact(b2Fixture *, int32, b2Fixture *, int32)
+REFERENCE_CALL static b2Contact * b2ChainAndCircleContact::Create(b2Fixture *, int32, b2Fixture *, int32, b2BlockAllocator *) -> void b2ChainAndCircleContact::b2ChainAndCircleContact(b2Fixture *, int32, b2Fixture *, int32) [b2ChainAndCircleContact.cpp <30:19 30:41>]
+LOCAL_SYMBOL: b2ChainAndCircleContact.cpp<27:55> [b2ChainAndCircleContact.cpp <30:43 30:50>]
+LOCAL_SYMBOL: b2ChainAndCircleContact.cpp<27:71> [b2ChainAndCircleContact.cpp <30:53 30:58>]
+LOCAL_SYMBOL: b2ChainAndCircleContact.cpp<27:90> [b2ChainAndCircleContact.cpp <30:61 30:68>]
+LOCAL_SYMBOL: b2ChainAndCircleContact.cpp<27:106> [b2ChainAndCircleContact.cpp <30:71 30:76>]
+LOCAL_SYMBOL: b2ChainAndCircleContact.cpp<29:8> [b2ChainAndCircleContact.cpp <30:14 30:16>]
+SYMBOL_METHOD public static void b2ChainAndCircleContact::Destroy(b2Contact *, b2BlockAllocator *) [b2ChainAndCircleContact.cpp <33:1 <33:31 33:37> 37:1>]
+SYMBOL_CLASS b2ChainAndCircleContact
+SYMBOL_BUILTIN_TYPE void
+REFERENCE_TYPE_USAGE static void b2ChainAndCircleContact::Destroy(b2Contact *, b2BlockAllocator *) -> void [b2ChainAndCircleContact.cpp <33:1 33:4>]
+LOCAL_SYMBOL: b2ChainAndCircleContact.cpp<33:50> [b2ChainAndCircleContact.cpp <33:50 33:56>]
+REFERENCE_TYPE_USAGE static void b2ChainAndCircleContact::Destroy(b2Contact *, b2BlockAllocator *) -> b2Contact [b2ChainAndCircleContact.cpp <33:39 33:47>]
+LOCAL_SYMBOL: b2ChainAndCircleContact.cpp<33:77> [b2ChainAndCircleContact.cpp <33:77 33:85>]
+REFERENCE_TYPE_USAGE static void b2ChainAndCircleContact::Destroy(b2Contact *, b2BlockAllocator *) -> b2BlockAllocator [b2ChainAndCircleContact.cpp <33:59 33:74>]
+SYMBOL_FUNCTION void b2ChainAndCircleContact::~b2ChainAndCircleContact()
+REFERENCE_CALL static void b2ChainAndCircleContact::Destroy(b2Contact *, b2BlockAllocator *) -> void b2ChainAndCircleContact::~b2ChainAndCircleContact() [b2ChainAndCircleContact.cpp <35:39 35:39>]
+REFERENCE_TYPE_USAGE static void b2ChainAndCircleContact::Destroy(b2Contact *, b2BlockAllocator *) -> b2ChainAndCircleContact [b2ChainAndCircleContact.cpp <35:4 35:26>]
+LOCAL_SYMBOL: b2ChainAndCircleContact.cpp<33:50> [b2ChainAndCircleContact.cpp <35:29 35:35>]
+SYMBOL_FUNCTION void b2BlockAllocator::Free(void *, int32)
+REFERENCE_CALL static void b2ChainAndCircleContact::Destroy(b2Contact *, b2BlockAllocator *) -> void b2BlockAllocator::Free(void *, int32) [b2ChainAndCircleContact.cpp <36:13 36:16>]
+LOCAL_SYMBOL: b2ChainAndCircleContact.cpp<33:77> [b2ChainAndCircleContact.cpp <36:2 36:10>]
+LOCAL_SYMBOL: b2ChainAndCircleContact.cpp<33:50> [b2ChainAndCircleContact.cpp <36:18 36:24>]
+REFERENCE_TYPE_USAGE static void b2ChainAndCircleContact::Destroy(b2Contact *, b2BlockAllocator *) -> b2ChainAndCircleContact [b2ChainAndCircleContact.cpp <36:34 36:56>]
+SYMBOL_METHOD public void b2ChainAndCircleContact::b2ChainAndCircleContact(b2Fixture *, int32, b2Fixture *, int32) [b2ChainAndCircleContact.cpp <39:1 <39:26 39:48> 44:1>]
+SYMBOL_CLASS b2ChainAndCircleContact
+LOCAL_SYMBOL: b2ChainAndCircleContact.cpp<39:61> [b2ChainAndCircleContact.cpp <39:61 39:68>]
+REFERENCE_TYPE_USAGE void b2ChainAndCircleContact::b2ChainAndCircleContact(b2Fixture *, int32, b2Fixture *, int32) -> b2Fixture [b2ChainAndCircleContact.cpp <39:50 39:58>]
+LOCAL_SYMBOL: b2ChainAndCircleContact.cpp<39:77> [b2ChainAndCircleContact.cpp <39:77 39:82>]
+REFERENCE_TYPE_USAGE void b2ChainAndCircleContact::b2ChainAndCircleContact(b2Fixture *, int32, b2Fixture *, int32) -> int32 [b2ChainAndCircleContact.cpp <39:71 39:75>]
+LOCAL_SYMBOL: b2ChainAndCircleContact.cpp<39:96> [b2ChainAndCircleContact.cpp <39:96 39:103>]
+REFERENCE_TYPE_USAGE void b2ChainAndCircleContact::b2ChainAndCircleContact(b2Fixture *, int32, b2Fixture *, int32) -> b2Fixture [b2ChainAndCircleContact.cpp <39:85 39:93>]
+LOCAL_SYMBOL: b2ChainAndCircleContact.cpp<39:112> [b2ChainAndCircleContact.cpp <39:112 39:117>]
+REFERENCE_TYPE_USAGE void b2ChainAndCircleContact::b2ChainAndCircleContact(b2Fixture *, int32, b2Fixture *, int32) -> int32 [b2ChainAndCircleContact.cpp <39:106 39:110>]
+REFERENCE_TYPE_USAGE void b2ChainAndCircleContact::b2ChainAndCircleContact(b2Fixture *, int32, b2Fixture *, int32) -> b2Contact [b2ChainAndCircleContact.cpp <40:3 40:11>]
+SYMBOL_FUNCTION void b2Contact::b2Contact(b2Fixture *, int32, b2Fixture *, int32)
+REFERENCE_CALL void b2ChainAndCircleContact::b2ChainAndCircleContact(b2Fixture *, int32, b2Fixture *, int32) -> void b2Contact::b2Contact(b2Fixture *, int32, b2Fixture *, int32) [b2ChainAndCircleContact.cpp <40:3 40:11>]
+LOCAL_SYMBOL: b2ChainAndCircleContact.cpp<39:61> [b2ChainAndCircleContact.cpp <40:13 40:20>]
+LOCAL_SYMBOL: b2ChainAndCircleContact.cpp<39:77> [b2ChainAndCircleContact.cpp <40:23 40:28>]
+LOCAL_SYMBOL: b2ChainAndCircleContact.cpp<39:96> [b2ChainAndCircleContact.cpp <40:31 40:38>]
+LOCAL_SYMBOL: b2ChainAndCircleContact.cpp<39:112> [b2ChainAndCircleContact.cpp <40:41 40:46>]
+SYMBOL_FUNCTION b2Shape::Type b2Fixture::GetType() const
+REFERENCE_CALL void b2ChainAndCircleContact::b2ChainAndCircleContact(b2Fixture *, int32, b2Fixture *, int32) -> b2Shape::Type b2Fixture::GetType() const [b2ChainAndCircleContact.cpp <42:23 42:29>]
+REFERENCE_USAGE void b2ChainAndCircleContact::b2ChainAndCircleContact(b2Fixture *, int32, b2Fixture *, int32) -> b2Fixture * b2Contact::m_fixtureA [b2ChainAndCircleContact.cpp <42:11 42:20>]
+REFERENCE_USAGE void b2ChainAndCircleContact::b2ChainAndCircleContact(b2Fixture *, int32, b2Fixture *, int32) -> b2Shape::Type::e_chain [b2ChainAndCircleContact.cpp <42:45 42:51>]
+SYMBOL_CLASS b2Shape
+SYMBOL_FUNCTION b2Shape::Type b2Fixture::GetType() const
+REFERENCE_CALL void b2ChainAndCircleContact::b2ChainAndCircleContact(b2Fixture *, int32, b2Fixture *, int32) -> b2Shape::Type b2Fixture::GetType() const [b2ChainAndCircleContact.cpp <43:23 43:29>]
+REFERENCE_USAGE void b2ChainAndCircleContact::b2ChainAndCircleContact(b2Fixture *, int32, b2Fixture *, int32) -> b2Fixture * b2Contact::m_fixtureB [b2ChainAndCircleContact.cpp <43:11 43:20>]
+REFERENCE_USAGE void b2ChainAndCircleContact::b2ChainAndCircleContact(b2Fixture *, int32, b2Fixture *, int32) -> b2Shape::Type::e_circle [b2ChainAndCircleContact.cpp <43:45 43:52>]
+SYMBOL_CLASS b2Shape
+SYMBOL_METHOD public void b2ChainAndCircleContact::Evaluate(b2Manifold *, const b2Transform &, const b2Transform &) [b2ChainAndCircleContact.cpp <46:1 <46:31 46:38> 53:1>]
+SYMBOL_FUNCTION void b2Contact::Evaluate(b2Manifold *, const b2Transform &, const b2Transform &)
+REFERENCE_OVERRIDE void b2ChainAndCircleContact::Evaluate(b2Manifold *, const b2Transform &, const b2Transform &) -> void b2Contact::Evaluate(b2Manifold *, const b2Transform &, const b2Transform &) [b2ChainAndCircleContact.cpp <46:31 46:38>]
+SYMBOL_CLASS b2ChainAndCircleContact
+SYMBOL_BUILTIN_TYPE void
+REFERENCE_TYPE_USAGE void b2ChainAndCircleContact::Evaluate(b2Manifold *, const b2Transform &, const b2Transform &) -> void [b2ChainAndCircleContact.cpp <46:1 46:4>]
+LOCAL_SYMBOL: b2ChainAndCircleContact.cpp<46:52> [b2ChainAndCircleContact.cpp <46:52 46:59>]
+REFERENCE_TYPE_USAGE void b2ChainAndCircleContact::Evaluate(b2Manifold *, const b2Transform &, const b2Transform &) -> b2Manifold [b2ChainAndCircleContact.cpp <46:40 46:49>]
+LOCAL_SYMBOL: b2ChainAndCircleContact.cpp<46:81> [b2ChainAndCircleContact.cpp <46:81 46:83>]
+REFERENCE_TYPE_USAGE void b2ChainAndCircleContact::Evaluate(b2Manifold *, const b2Transform &, const b2Transform &) -> b2Transform [b2ChainAndCircleContact.cpp <46:68 46:78>]
+LOCAL_SYMBOL: b2ChainAndCircleContact.cpp<46:105> [b2ChainAndCircleContact.cpp <46:105 46:107>]
+REFERENCE_TYPE_USAGE void b2ChainAndCircleContact::Evaluate(b2Manifold *, const b2Transform &, const b2Transform &) -> b2Transform [b2ChainAndCircleContact.cpp <46:92 46:102>]
+LOCAL_SYMBOL: b2ChainAndCircleContact.cpp<48:16> [b2ChainAndCircleContact.cpp <48:16 48:20>]
+REFERENCE_TYPE_USAGE void b2ChainAndCircleContact::Evaluate(b2Manifold *, const b2Transform &, const b2Transform &) -> b2ChainShape [b2ChainAndCircleContact.cpp <48:2 48:13>]
+REFERENCE_TYPE_USAGE void b2ChainAndCircleContact::Evaluate(b2Manifold *, const b2Transform &, const b2Transform &) -> b2ChainShape [b2ChainAndCircleContact.cpp <48:25 48:36>]
+SYMBOL_FUNCTION b2Shape * b2Fixture::GetShape()
+REFERENCE_CALL void b2ChainAndCircleContact::Evaluate(b2Manifold *, const b2Transform &, const b2Transform &) -> b2Shape * b2Fixture::GetShape() [b2ChainAndCircleContact.cpp <48:51 48:58>]
+REFERENCE_USAGE void b2ChainAndCircleContact::Evaluate(b2Manifold *, const b2Transform &, const b2Transform &) -> b2Fixture * b2Contact::m_fixtureA [b2ChainAndCircleContact.cpp <48:39 48:48>]
+LOCAL_SYMBOL: b2ChainAndCircleContact.cpp<49:14> [b2ChainAndCircleContact.cpp <49:14 49:17>]
+REFERENCE_TYPE_USAGE void b2ChainAndCircleContact::Evaluate(b2Manifold *, const b2Transform &, const b2Transform &) -> b2EdgeShape [b2ChainAndCircleContact.cpp <49:2 49:12>]
+SYMBOL_FUNCTION void b2EdgeShape::b2EdgeShape()
+REFERENCE_CALL void b2ChainAndCircleContact::Evaluate(b2Manifold *, const b2Transform &, const b2Transform &) -> void b2EdgeShape::b2EdgeShape() [b2ChainAndCircleContact.cpp <49:14 49:17>]
+SYMBOL_FUNCTION void b2ChainShape::GetChildEdge(b2EdgeShape *, int32) const
+REFERENCE_CALL void b2ChainAndCircleContact::Evaluate(b2Manifold *, const b2Transform &, const b2Transform &) -> void b2ChainShape::GetChildEdge(b2EdgeShape *, int32) const [b2ChainAndCircleContact.cpp <50:9 50:20>]
+LOCAL_SYMBOL: b2ChainAndCircleContact.cpp<48:16> [b2ChainAndCircleContact.cpp <50:2 50:6>]
+LOCAL_SYMBOL: b2ChainAndCircleContact.cpp<49:14> [b2ChainAndCircleContact.cpp <50:23 50:26>]
+REFERENCE_USAGE void b2ChainAndCircleContact::Evaluate(b2Manifold *, const b2Transform &, const b2Transform &) -> int32 b2Contact::m_indexA [b2ChainAndCircleContact.cpp <50:29 50:36>]
+SYMBOL_FUNCTION void b2CollideEdgeAndCircle(b2Manifold *, const b2EdgeShape *, const b2Transform &, const b2CircleShape *, const b2Transform &)
+REFERENCE_CALL void b2ChainAndCircleContact::Evaluate(b2Manifold *, const b2Transform &, const b2Transform &) -> void b2CollideEdgeAndCircle(b2Manifold *, const b2EdgeShape *, const b2Transform &, const b2CircleShape *, const b2Transform &) [b2ChainAndCircleContact.cpp <51:2 51:23>]
+LOCAL_SYMBOL: b2ChainAndCircleContact.cpp<46:52> [b2ChainAndCircleContact.cpp <51:26 51:33>]
+LOCAL_SYMBOL: b2ChainAndCircleContact.cpp<49:14> [b2ChainAndCircleContact.cpp <51:37 51:40>]
+LOCAL_SYMBOL: b2ChainAndCircleContact.cpp<46:81> [b2ChainAndCircleContact.cpp <51:43 51:45>]
+REFERENCE_TYPE_USAGE void b2ChainAndCircleContact::Evaluate(b2Manifold *, const b2Transform &, const b2Transform &) -> b2CircleShape [b2ChainAndCircleContact.cpp <52:9 52:21>]
+SYMBOL_FUNCTION b2Shape * b2Fixture::GetShape()
+REFERENCE_CALL void b2ChainAndCircleContact::Evaluate(b2Manifold *, const b2Transform &, const b2Transform &) -> b2Shape * b2Fixture::GetShape() [b2ChainAndCircleContact.cpp <52:36 52:43>]
+REFERENCE_USAGE void b2ChainAndCircleContact::Evaluate(b2Manifold *, const b2Transform &, const b2Transform &) -> b2Fixture * b2Contact::m_fixtureB [b2ChainAndCircleContact.cpp <52:24 52:33>]
+LOCAL_SYMBOL: b2ChainAndCircleContact.cpp<46:105> [b2ChainAndCircleContact.cpp <52:48 52:50>]

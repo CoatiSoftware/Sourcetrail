@@ -1,0 +1,49 @@
+FILE: b2Settings.cpp
+FILE: b2Settings.cpp
+COMMENT: comment [b2Settings.cpp <1:1 17:3>]
+FILE: b2Settings.cpp
+FILE: b2Settings.cpp
+FILE: b2Settings.cpp
+FILE: b2Settings.cpp
+COMMENT: comment [b2Settings.cpp <26:1 26:62>]
+COMMENT: comment [b2Settings.cpp <37:1 37:53>]
+REFERENCE_MACRO_USAGE b2Settings.cpp -> va_start [b2Settings.cpp <41:2 41:9>]
+REFERENCE_MACRO_USAGE stdarg.h -> __crt_va_start [stdarg.h <17:18 17:31>]
+REFERENCE_MACRO_USAGE vadefs.h -> __crt_va_start_a [vadefs.h <149:96 149:111>]
+REFERENCE_MACRO_USAGE b2Settings.cpp -> va_end [b2Settings.cpp <43:2 43:7>]
+REFERENCE_MACRO_USAGE stdarg.h -> __crt_va_end [stdarg.h <19:18 19:29>]
+SYMBOL_GLOBAL_VARIABLE b2Version b2_version [b2Settings.cpp <24:11 24:20>]
+REFERENCE_TYPE_USAGE b2Version b2_version -> b2Version [b2Settings.cpp <24:1 24:9>]
+SYMBOL_FUNCTION void * b2Alloc(int32) [b2Settings.cpp <27:1 <27:7 27:13> 30:1>]
+SYMBOL_BUILTIN_TYPE void
+REFERENCE_TYPE_USAGE void * b2Alloc(int32) -> void [b2Settings.cpp <27:1 27:4>]
+LOCAL_SYMBOL: b2Settings.cpp<27:21> [b2Settings.cpp <27:21 27:24>]
+REFERENCE_TYPE_USAGE void * b2Alloc(int32) -> int32 [b2Settings.cpp <27:15 27:19>]
+SYMBOL_FUNCTION void * malloc(size_t)
+REFERENCE_CALL void * b2Alloc(int32) -> void * malloc(size_t) [b2Settings.cpp <29:9 29:14>]
+LOCAL_SYMBOL: b2Settings.cpp<27:21> [b2Settings.cpp <29:16 29:19>]
+SYMBOL_FUNCTION void b2Free(void *) [b2Settings.cpp <32:1 <32:6 32:11> 35:1>]
+SYMBOL_BUILTIN_TYPE void
+REFERENCE_TYPE_USAGE void b2Free(void *) -> void [b2Settings.cpp <32:1 32:4>]
+LOCAL_SYMBOL: b2Settings.cpp<32:19> [b2Settings.cpp <32:19 32:21>]
+SYMBOL_BUILTIN_TYPE void
+REFERENCE_TYPE_USAGE void b2Free(void *) -> void [b2Settings.cpp <32:13 32:16>]
+SYMBOL_FUNCTION void free(void *)
+REFERENCE_CALL void b2Free(void *) -> void free(void *) [b2Settings.cpp <34:2 34:5>]
+LOCAL_SYMBOL: b2Settings.cpp<32:19> [b2Settings.cpp <34:7 34:9>]
+SYMBOL_FUNCTION void b2Log(const char *) [b2Settings.cpp <38:1 <38:6 38:10> 44:1>]
+SYMBOL_BUILTIN_TYPE void
+REFERENCE_TYPE_USAGE void b2Log(const char *) -> void [b2Settings.cpp <38:1 38:4>]
+LOCAL_SYMBOL: b2Settings.cpp<38:24> [b2Settings.cpp <38:24 38:29>]
+SYMBOL_BUILTIN_TYPE char
+REFERENCE_TYPE_USAGE void b2Log(const char *) -> char [b2Settings.cpp <38:18 38:21>]
+LOCAL_SYMBOL: b2Settings.cpp<40:10> [b2Settings.cpp <40:10 40:13>]
+REFERENCE_TYPE_USAGE void b2Log(const char *) -> va_list [b2Settings.cpp <40:2 40:8>]
+LOCAL_SYMBOL: b2Settings.cpp<38:24> [b2Settings.cpp <41:17 41:22>]
+LOCAL_SYMBOL: b2Settings.cpp<40:10> [b2Settings.cpp <41:11 41:14>]
+LOCAL_SYMBOL: b2Settings.cpp<38:24> [b2Settings.cpp <41:17 41:22>]
+SYMBOL_FUNCTION int vprintf(const char * const, va_list)
+REFERENCE_CALL void b2Log(const char *) -> int vprintf(const char * const, va_list) [b2Settings.cpp <42:2 42:8>]
+LOCAL_SYMBOL: b2Settings.cpp<38:24> [b2Settings.cpp <42:10 42:15>]
+LOCAL_SYMBOL: b2Settings.cpp<40:10> [b2Settings.cpp <42:18 42:21>]
+LOCAL_SYMBOL: b2Settings.cpp<40:10> [b2Settings.cpp <43:9 43:12>]

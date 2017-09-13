@@ -1,0 +1,107 @@
+FILE: b2EdgeAndPolygonContact.cpp
+FILE: b2EdgeAndPolygonContact.cpp
+COMMENT: comment [b2EdgeAndPolygonContact.cpp <1:1 17:3>]
+FILE: b2EdgeAndPolygonContact.cpp
+REFERENCE_MACRO_USAGE b2EdgeAndPolygonContact.cpp -> b2Assert [b2EdgeAndPolygonContact.cpp <40:2 40:9>]
+REFERENCE_MACRO_USAGE b2Settings.h -> assert [b2Settings.h <31:21 31:26>]
+REFERENCE_MACRO_USAGE assert.h -> _CRT_WIDE [assert.h <34:23 34:31>]
+REFERENCE_MACRO_USAGE vcruntime.h -> _CRT_WIDE_ [vcruntime.h <95:22 95:31>]
+REFERENCE_MACRO_USAGE assert.h -> _CRT_WIDE [assert.h <34:47 34:55>]
+REFERENCE_MACRO_USAGE assert.h -> __FILE__ [assert.h <34:57 34:64>]
+REFERENCE_MACRO_USAGE vcruntime.h -> _CRT_WIDE_ [vcruntime.h <95:22 95:31>]
+REFERENCE_MACRO_USAGE assert.h -> __LINE__ [assert.h <34:79 34:86>]
+REFERENCE_MACRO_USAGE b2EdgeAndPolygonContact.cpp -> b2Assert [b2EdgeAndPolygonContact.cpp <41:2 41:9>]
+REFERENCE_MACRO_USAGE b2Settings.h -> assert [b2Settings.h <31:21 31:26>]
+REFERENCE_MACRO_USAGE assert.h -> _CRT_WIDE [assert.h <34:23 34:31>]
+REFERENCE_MACRO_USAGE vcruntime.h -> _CRT_WIDE_ [vcruntime.h <95:22 95:31>]
+REFERENCE_MACRO_USAGE assert.h -> _CRT_WIDE [assert.h <34:47 34:55>]
+REFERENCE_MACRO_USAGE assert.h -> __FILE__ [assert.h <34:57 34:64>]
+REFERENCE_MACRO_USAGE vcruntime.h -> _CRT_WIDE_ [vcruntime.h <95:22 95:31>]
+REFERENCE_MACRO_USAGE assert.h -> __LINE__ [assert.h <34:79 34:86>]
+SYMBOL_METHOD public static b2Contact * b2EdgeAndPolygonContact::Create(b2Fixture *, int32, b2Fixture *, int32, b2BlockAllocator *) [b2EdgeAndPolygonContact.cpp <25:1 <25:37 25:42> 29:1>]
+SYMBOL_CLASS b2EdgeAndPolygonContact
+REFERENCE_TYPE_USAGE static b2Contact * b2EdgeAndPolygonContact::Create(b2Fixture *, int32, b2Fixture *, int32, b2BlockAllocator *) -> b2Contact [b2EdgeAndPolygonContact.cpp <25:1 25:9>]
+LOCAL_SYMBOL: b2EdgeAndPolygonContact.cpp<25:55> [b2EdgeAndPolygonContact.cpp <25:55 25:62>]
+REFERENCE_TYPE_USAGE static b2Contact * b2EdgeAndPolygonContact::Create(b2Fixture *, int32, b2Fixture *, int32, b2BlockAllocator *) -> b2Fixture [b2EdgeAndPolygonContact.cpp <25:44 25:52>]
+REFERENCE_TYPE_USAGE static b2Contact * b2EdgeAndPolygonContact::Create(b2Fixture *, int32, b2Fixture *, int32, b2BlockAllocator *) -> int32 [b2EdgeAndPolygonContact.cpp <25:65 25:69>]
+LOCAL_SYMBOL: b2EdgeAndPolygonContact.cpp<25:83> [b2EdgeAndPolygonContact.cpp <25:83 25:90>]
+REFERENCE_TYPE_USAGE static b2Contact * b2EdgeAndPolygonContact::Create(b2Fixture *, int32, b2Fixture *, int32, b2BlockAllocator *) -> b2Fixture [b2EdgeAndPolygonContact.cpp <25:72 25:80>]
+REFERENCE_TYPE_USAGE static b2Contact * b2EdgeAndPolygonContact::Create(b2Fixture *, int32, b2Fixture *, int32, b2BlockAllocator *) -> int32 [b2EdgeAndPolygonContact.cpp <25:93 25:97>]
+LOCAL_SYMBOL: b2EdgeAndPolygonContact.cpp<25:118> [b2EdgeAndPolygonContact.cpp <25:118 25:126>]
+REFERENCE_TYPE_USAGE static b2Contact * b2EdgeAndPolygonContact::Create(b2Fixture *, int32, b2Fixture *, int32, b2BlockAllocator *) -> b2BlockAllocator [b2EdgeAndPolygonContact.cpp <25:100 25:115>]
+LOCAL_SYMBOL: b2EdgeAndPolygonContact.cpp<27:8> [b2EdgeAndPolygonContact.cpp <27:8 27:10>]
+SYMBOL_BUILTIN_TYPE void
+REFERENCE_TYPE_USAGE static b2Contact * b2EdgeAndPolygonContact::Create(b2Fixture *, int32, b2Fixture *, int32, b2BlockAllocator *) -> void [b2EdgeAndPolygonContact.cpp <27:2 27:5>]
+SYMBOL_FUNCTION void * b2BlockAllocator::Allocate(int32)
+REFERENCE_CALL static b2Contact * b2EdgeAndPolygonContact::Create(b2Fixture *, int32, b2Fixture *, int32, b2BlockAllocator *) -> void * b2BlockAllocator::Allocate(int32) [b2EdgeAndPolygonContact.cpp <27:25 27:32>]
+LOCAL_SYMBOL: b2EdgeAndPolygonContact.cpp<25:118> [b2EdgeAndPolygonContact.cpp <27:14 27:22>]
+REFERENCE_TYPE_USAGE static b2Contact * b2EdgeAndPolygonContact::Create(b2Fixture *, int32, b2Fixture *, int32, b2BlockAllocator *) -> b2EdgeAndPolygonContact [b2EdgeAndPolygonContact.cpp <27:41 27:63>]
+REFERENCE_TYPE_USAGE static b2Contact * b2EdgeAndPolygonContact::Create(b2Fixture *, int32, b2Fixture *, int32, b2BlockAllocator *) -> b2EdgeAndPolygonContact [b2EdgeAndPolygonContact.cpp <28:19 28:41>]
+SYMBOL_FUNCTION void b2EdgeAndPolygonContact::b2EdgeAndPolygonContact(b2Fixture *, b2Fixture *)
+REFERENCE_CALL static b2Contact * b2EdgeAndPolygonContact::Create(b2Fixture *, int32, b2Fixture *, int32, b2BlockAllocator *) -> void b2EdgeAndPolygonContact::b2EdgeAndPolygonContact(b2Fixture *, b2Fixture *) [b2EdgeAndPolygonContact.cpp <28:19 28:41>]
+LOCAL_SYMBOL: b2EdgeAndPolygonContact.cpp<25:55> [b2EdgeAndPolygonContact.cpp <28:43 28:50>]
+LOCAL_SYMBOL: b2EdgeAndPolygonContact.cpp<25:83> [b2EdgeAndPolygonContact.cpp <28:53 28:60>]
+LOCAL_SYMBOL: b2EdgeAndPolygonContact.cpp<27:8> [b2EdgeAndPolygonContact.cpp <28:14 28:16>]
+SYMBOL_METHOD public static void b2EdgeAndPolygonContact::Destroy(b2Contact *, b2BlockAllocator *) [b2EdgeAndPolygonContact.cpp <31:1 <31:31 31:37> 35:1>]
+SYMBOL_CLASS b2EdgeAndPolygonContact
+SYMBOL_BUILTIN_TYPE void
+REFERENCE_TYPE_USAGE static void b2EdgeAndPolygonContact::Destroy(b2Contact *, b2BlockAllocator *) -> void [b2EdgeAndPolygonContact.cpp <31:1 31:4>]
+LOCAL_SYMBOL: b2EdgeAndPolygonContact.cpp<31:50> [b2EdgeAndPolygonContact.cpp <31:50 31:56>]
+REFERENCE_TYPE_USAGE static void b2EdgeAndPolygonContact::Destroy(b2Contact *, b2BlockAllocator *) -> b2Contact [b2EdgeAndPolygonContact.cpp <31:39 31:47>]
+LOCAL_SYMBOL: b2EdgeAndPolygonContact.cpp<31:77> [b2EdgeAndPolygonContact.cpp <31:77 31:85>]
+REFERENCE_TYPE_USAGE static void b2EdgeAndPolygonContact::Destroy(b2Contact *, b2BlockAllocator *) -> b2BlockAllocator [b2EdgeAndPolygonContact.cpp <31:59 31:74>]
+SYMBOL_FUNCTION void b2EdgeAndPolygonContact::~b2EdgeAndPolygonContact()
+REFERENCE_CALL static void b2EdgeAndPolygonContact::Destroy(b2Contact *, b2BlockAllocator *) -> void b2EdgeAndPolygonContact::~b2EdgeAndPolygonContact() [b2EdgeAndPolygonContact.cpp <33:39 33:39>]
+REFERENCE_TYPE_USAGE static void b2EdgeAndPolygonContact::Destroy(b2Contact *, b2BlockAllocator *) -> b2EdgeAndPolygonContact [b2EdgeAndPolygonContact.cpp <33:4 33:26>]
+LOCAL_SYMBOL: b2EdgeAndPolygonContact.cpp<31:50> [b2EdgeAndPolygonContact.cpp <33:29 33:35>]
+SYMBOL_FUNCTION void b2BlockAllocator::Free(void *, int32)
+REFERENCE_CALL static void b2EdgeAndPolygonContact::Destroy(b2Contact *, b2BlockAllocator *) -> void b2BlockAllocator::Free(void *, int32) [b2EdgeAndPolygonContact.cpp <34:13 34:16>]
+LOCAL_SYMBOL: b2EdgeAndPolygonContact.cpp<31:77> [b2EdgeAndPolygonContact.cpp <34:2 34:10>]
+LOCAL_SYMBOL: b2EdgeAndPolygonContact.cpp<31:50> [b2EdgeAndPolygonContact.cpp <34:18 34:24>]
+REFERENCE_TYPE_USAGE static void b2EdgeAndPolygonContact::Destroy(b2Contact *, b2BlockAllocator *) -> b2EdgeAndPolygonContact [b2EdgeAndPolygonContact.cpp <34:34 34:56>]
+SYMBOL_METHOD public void b2EdgeAndPolygonContact::b2EdgeAndPolygonContact(b2Fixture *, b2Fixture *) [b2EdgeAndPolygonContact.cpp <37:1 <37:26 37:48> 42:1>]
+SYMBOL_CLASS b2EdgeAndPolygonContact
+LOCAL_SYMBOL: b2EdgeAndPolygonContact.cpp<37:61> [b2EdgeAndPolygonContact.cpp <37:61 37:68>]
+REFERENCE_TYPE_USAGE void b2EdgeAndPolygonContact::b2EdgeAndPolygonContact(b2Fixture *, b2Fixture *) -> b2Fixture [b2EdgeAndPolygonContact.cpp <37:50 37:58>]
+LOCAL_SYMBOL: b2EdgeAndPolygonContact.cpp<37:82> [b2EdgeAndPolygonContact.cpp <37:82 37:89>]
+REFERENCE_TYPE_USAGE void b2EdgeAndPolygonContact::b2EdgeAndPolygonContact(b2Fixture *, b2Fixture *) -> b2Fixture [b2EdgeAndPolygonContact.cpp <37:71 37:79>]
+REFERENCE_TYPE_USAGE void b2EdgeAndPolygonContact::b2EdgeAndPolygonContact(b2Fixture *, b2Fixture *) -> b2Contact [b2EdgeAndPolygonContact.cpp <38:3 38:11>]
+SYMBOL_FUNCTION void b2Contact::b2Contact(b2Fixture *, int32, b2Fixture *, int32)
+REFERENCE_CALL void b2EdgeAndPolygonContact::b2EdgeAndPolygonContact(b2Fixture *, b2Fixture *) -> void b2Contact::b2Contact(b2Fixture *, int32, b2Fixture *, int32) [b2EdgeAndPolygonContact.cpp <38:3 38:11>]
+LOCAL_SYMBOL: b2EdgeAndPolygonContact.cpp<37:61> [b2EdgeAndPolygonContact.cpp <38:13 38:20>]
+LOCAL_SYMBOL: b2EdgeAndPolygonContact.cpp<37:82> [b2EdgeAndPolygonContact.cpp <38:26 38:33>]
+SYMBOL_FUNCTION b2Shape::Type b2Fixture::GetType() const
+REFERENCE_CALL void b2EdgeAndPolygonContact::b2EdgeAndPolygonContact(b2Fixture *, b2Fixture *) -> b2Shape::Type b2Fixture::GetType() const [b2EdgeAndPolygonContact.cpp <40:23 40:29>]
+REFERENCE_USAGE void b2EdgeAndPolygonContact::b2EdgeAndPolygonContact(b2Fixture *, b2Fixture *) -> b2Fixture * b2Contact::m_fixtureA [b2EdgeAndPolygonContact.cpp <40:11 40:20>]
+REFERENCE_USAGE void b2EdgeAndPolygonContact::b2EdgeAndPolygonContact(b2Fixture *, b2Fixture *) -> b2Shape::Type::e_edge [b2EdgeAndPolygonContact.cpp <40:45 40:50>]
+SYMBOL_CLASS b2Shape
+SYMBOL_FUNCTION b2Shape::Type b2Fixture::GetType() const
+REFERENCE_CALL void b2EdgeAndPolygonContact::b2EdgeAndPolygonContact(b2Fixture *, b2Fixture *) -> b2Shape::Type b2Fixture::GetType() const [b2EdgeAndPolygonContact.cpp <41:23 41:29>]
+REFERENCE_USAGE void b2EdgeAndPolygonContact::b2EdgeAndPolygonContact(b2Fixture *, b2Fixture *) -> b2Fixture * b2Contact::m_fixtureB [b2EdgeAndPolygonContact.cpp <41:11 41:20>]
+REFERENCE_USAGE void b2EdgeAndPolygonContact::b2EdgeAndPolygonContact(b2Fixture *, b2Fixture *) -> b2Shape::Type::e_polygon [b2EdgeAndPolygonContact.cpp <41:45 41:53>]
+SYMBOL_CLASS b2Shape
+SYMBOL_METHOD public void b2EdgeAndPolygonContact::Evaluate(b2Manifold *, const b2Transform &, const b2Transform &) [b2EdgeAndPolygonContact.cpp <44:1 <44:31 44:38> 49:1>]
+SYMBOL_FUNCTION void b2Contact::Evaluate(b2Manifold *, const b2Transform &, const b2Transform &)
+REFERENCE_OVERRIDE void b2EdgeAndPolygonContact::Evaluate(b2Manifold *, const b2Transform &, const b2Transform &) -> void b2Contact::Evaluate(b2Manifold *, const b2Transform &, const b2Transform &) [b2EdgeAndPolygonContact.cpp <44:31 44:38>]
+SYMBOL_CLASS b2EdgeAndPolygonContact
+SYMBOL_BUILTIN_TYPE void
+REFERENCE_TYPE_USAGE void b2EdgeAndPolygonContact::Evaluate(b2Manifold *, const b2Transform &, const b2Transform &) -> void [b2EdgeAndPolygonContact.cpp <44:1 44:4>]
+LOCAL_SYMBOL: b2EdgeAndPolygonContact.cpp<44:52> [b2EdgeAndPolygonContact.cpp <44:52 44:59>]
+REFERENCE_TYPE_USAGE void b2EdgeAndPolygonContact::Evaluate(b2Manifold *, const b2Transform &, const b2Transform &) -> b2Manifold [b2EdgeAndPolygonContact.cpp <44:40 44:49>]
+LOCAL_SYMBOL: b2EdgeAndPolygonContact.cpp<44:81> [b2EdgeAndPolygonContact.cpp <44:81 44:83>]
+REFERENCE_TYPE_USAGE void b2EdgeAndPolygonContact::Evaluate(b2Manifold *, const b2Transform &, const b2Transform &) -> b2Transform [b2EdgeAndPolygonContact.cpp <44:68 44:78>]
+LOCAL_SYMBOL: b2EdgeAndPolygonContact.cpp<44:105> [b2EdgeAndPolygonContact.cpp <44:105 44:107>]
+REFERENCE_TYPE_USAGE void b2EdgeAndPolygonContact::Evaluate(b2Manifold *, const b2Transform &, const b2Transform &) -> b2Transform [b2EdgeAndPolygonContact.cpp <44:92 44:102>]
+SYMBOL_FUNCTION void b2CollideEdgeAndPolygon(b2Manifold *, const b2EdgeShape *, const b2Transform &, const b2PolygonShape *, const b2Transform &)
+REFERENCE_CALL void b2EdgeAndPolygonContact::Evaluate(b2Manifold *, const b2Transform &, const b2Transform &) -> void b2CollideEdgeAndPolygon(b2Manifold *, const b2EdgeShape *, const b2Transform &, const b2PolygonShape *, const b2Transform &) [b2EdgeAndPolygonContact.cpp <46:2 46:24>]
+LOCAL_SYMBOL: b2EdgeAndPolygonContact.cpp<44:52> [b2EdgeAndPolygonContact.cpp <46:27 46:34>]
+REFERENCE_TYPE_USAGE void b2EdgeAndPolygonContact::Evaluate(b2Manifold *, const b2Transform &, const b2Transform &) -> b2EdgeShape [b2EdgeAndPolygonContact.cpp <47:10 47:20>]
+SYMBOL_FUNCTION b2Shape * b2Fixture::GetShape()
+REFERENCE_CALL void b2EdgeAndPolygonContact::Evaluate(b2Manifold *, const b2Transform &, const b2Transform &) -> b2Shape * b2Fixture::GetShape() [b2EdgeAndPolygonContact.cpp <47:35 47:42>]
+REFERENCE_USAGE void b2EdgeAndPolygonContact::Evaluate(b2Manifold *, const b2Transform &, const b2Transform &) -> b2Fixture * b2Contact::m_fixtureA [b2EdgeAndPolygonContact.cpp <47:23 47:32>]
+LOCAL_SYMBOL: b2EdgeAndPolygonContact.cpp<44:81> [b2EdgeAndPolygonContact.cpp <47:47 47:49>]
+REFERENCE_TYPE_USAGE void b2EdgeAndPolygonContact::Evaluate(b2Manifold *, const b2Transform &, const b2Transform &) -> b2PolygonShape [b2EdgeAndPolygonContact.cpp <48:10 48:23>]
+SYMBOL_FUNCTION b2Shape * b2Fixture::GetShape()
+REFERENCE_CALL void b2EdgeAndPolygonContact::Evaluate(b2Manifold *, const b2Transform &, const b2Transform &) -> b2Shape * b2Fixture::GetShape() [b2EdgeAndPolygonContact.cpp <48:38 48:45>]
+REFERENCE_USAGE void b2EdgeAndPolygonContact::Evaluate(b2Manifold *, const b2Transform &, const b2Transform &) -> b2Fixture * b2Contact::m_fixtureB [b2EdgeAndPolygonContact.cpp <48:26 48:35>]
+LOCAL_SYMBOL: b2EdgeAndPolygonContact.cpp<44:105> [b2EdgeAndPolygonContact.cpp <48:50 48:52>]

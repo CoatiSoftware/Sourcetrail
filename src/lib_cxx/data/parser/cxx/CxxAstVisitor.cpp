@@ -204,7 +204,7 @@ DEF_TRAVERSE_TYPE(TypeLoc, {}, {})
 // additionally: skip implicit CXXRecordDecls (this does not skip template specializations).
 bool CxxAstVisitor::TraverseCXXRecordDecl(clang::CXXRecordDecl *d)
 {
-	if (utility::isImplicit(d))
+	if (utility::isImplicit(d) && d->getMemberSpecializationInfo() == nullptr)
 	{
 		return true;
 	}

@@ -1,0 +1,1210 @@
+FILE: b3OverlappingPairCache.cpp
+FILE: b3OverlappingPairCache.cpp
+COMMENT: comment [b3OverlappingPairCache.cpp <1:1 14:3>]
+FILE: b3OverlappingPairCache.cpp
+COMMENT: comment [b3OverlappingPairCache.cpp <20:1 20:28>]
+COMMENT: comment [b3OverlappingPairCache.cpp <21:1 21:36>]
+FILE: b3OverlappingPairCache.cpp
+COMMENT: comment [b3OverlappingPairCache.cpp <36:1 36:31>]
+COMMENT: comment [b3OverlappingPairCache.cpp <54:1 62:4>]
+COMMENT: comment [b3OverlappingPairCache.cpp <144:2 145:32>]
+REFERENCE_MACRO_USAGE b3OverlappingPairCache.cpp -> NULL [b3OverlappingPairCache.cpp <151:10 151:13>]
+REFERENCE_MACRO_USAGE b3OverlappingPairCache.cpp -> NULL [b3OverlappingPairCache.cpp <162:10 162:13>]
+REFERENCE_MACRO_USAGE b3OverlappingPairCache.cpp -> b3Assert [b3OverlappingPairCache.cpp <165:2 165:9>]
+COMMENT: comment [b3OverlappingPairCache.cpp <170:1 170:21>]
+COMMENT: comment [b3OverlappingPairCache.cpp <179:3 179:34>]
+COMMENT: comment [b3OverlappingPairCache.cpp <203:4 204:34>]
+COMMENT: comment [b3OverlappingPairCache.cpp <205:160 205:191>]
+COMMENT: comment [b3OverlappingPairCache.cpp <221:2 222:32>]
+COMMENT: comment [b3OverlappingPairCache.cpp <224:153 224:184>]
+REFERENCE_MACRO_USAGE b3OverlappingPairCache.cpp -> NULL [b3OverlappingPairCache.cpp <228:14 228:17>]
+COMMENT: comment [b3OverlappingPairCache.cpp <232:2 240:6>]
+COMMENT: comment [b3OverlappingPairCache.cpp <245:2 245:65>]
+COMMENT: comment [b3OverlappingPairCache.cpp <246:1 246:28>]
+COMMENT: comment [b3OverlappingPairCache.cpp <247:1 247:60>]
+COMMENT: comment [b3OverlappingPairCache.cpp <254:3 254:27>]
+COMMENT: comment [b3OverlappingPairCache.cpp <260:1 260:29>]
+COMMENT: comment [b3OverlappingPairCache.cpp <261:1 261:29>]
+COMMENT: comment [b3OverlappingPairCache.cpp <262:2 262:26>]
+COMMENT: comment [b3OverlappingPairCache.cpp <263:2 263:33>]
+COMMENT: comment [b3OverlappingPairCache.cpp <282:2 283:32>]
+REFERENCE_MACRO_USAGE b3OverlappingPairCache.cpp -> NULL [b3OverlappingPairCache.cpp <288:14 288:17>]
+REFERENCE_MACRO_USAGE b3OverlappingPairCache.cpp -> b3Assert [b3OverlappingPairCache.cpp <298:2 298:9>]
+COMMENT: comment [b3OverlappingPairCache.cpp <300:2 300:41>]
+REFERENCE_MACRO_USAGE b3OverlappingPairCache.cpp -> b3Assert [b3OverlappingPairCache.cpp <302:2 302:9>]
+REFERENCE_MACRO_USAGE b3OverlappingPairCache.cpp -> b3Assert [b3OverlappingPairCache.cpp <313:3 313:10>]
+COMMENT: comment [b3OverlappingPairCache.cpp <321:2 321:47>]
+COMMENT: comment [b3OverlappingPairCache.cpp <322:2 322:48>]
+COMMENT: comment [b3OverlappingPairCache.cpp <323:2 323:39>]
+COMMENT: comment [b3OverlappingPairCache.cpp <327:2 327:28>]
+COMMENT: comment [b3OverlappingPairCache.cpp <328:2 328:75>]
+COMMENT: comment [b3OverlappingPairCache.cpp <330:2 330:55>]
+COMMENT: comment [b3OverlappingPairCache.cpp <337:2 337:46>]
+COMMENT: comment [b3OverlappingPairCache.cpp <339:3 339:36>]
+REFERENCE_MACRO_USAGE b3OverlappingPairCache.cpp -> b3Assert [b3OverlappingPairCache.cpp <343:2 343:9>]
+REFERENCE_MACRO_USAGE b3OverlappingPairCache.cpp -> b3Assert [b3OverlappingPairCache.cpp <354:3 354:10>]
+COMMENT: comment [b3OverlappingPairCache.cpp <362:2 362:52>]
+COMMENT: comment [b3OverlappingPairCache.cpp <365:2 365:45>]
+COMMENT: comment [b3OverlappingPairCache.cpp <373:1 373:21>]
+COMMENT: comment [b3OverlappingPairCache.cpp <380:1 380:79>]
+COMMENT: comment [b3OverlappingPairCache.cpp <403:2 403:67>]
+COMMENT: comment [b3OverlappingPairCache.cpp <446:4 446:30>]
+COMMENT: comment [b3OverlappingPairCache.cpp <447:4 447:77>]
+COMMENT: comment [b3OverlappingPairCache.cpp <467:2 467:30>]
+REFERENCE_MACRO_USAGE b3OverlappingPairCache.cpp -> b3Assert [b3OverlappingPairCache.cpp <468:2 468:9>]
+COMMENT: comment [b3OverlappingPairCache.cpp <480:1 480:28>]
+COMMENT: comment [b3OverlappingPairCache.cpp <481:1 481:61>]
+COMMENT: comment [b3OverlappingPairCache.cpp <486:1 486:84>]
+COMMENT: comment [b3OverlappingPairCache.cpp <487:1 487:105>]
+COMMENT: comment [b3OverlappingPairCache.cpp <488:1 488:112>]
+COMMENT: comment [b3OverlappingPairCache.cpp <489:1 489:84>]
+COMMENT: comment [b3OverlappingPairCache.cpp <500:3 500:48>]
+COMMENT: comment [b3OverlappingPairCache.cpp <516:1 516:21>]
+COMMENT: comment [b3OverlappingPairCache.cpp <561:1 570:4>]
+COMMENT: comment [b3OverlappingPairCache.cpp <636:2 636:28>]
+SYMBOL_GLOBAL_VARIABLE int b3g_overlappingPairs [b3OverlappingPairCache.cpp <26:5 26:24>]
+SYMBOL_BUILTIN_TYPE int
+REFERENCE_TYPE_USAGE int b3g_overlappingPairs -> int [b3OverlappingPairCache.cpp <26:1 26:3>]
+SYMBOL_GLOBAL_VARIABLE int b3g_removePairs [b3OverlappingPairCache.cpp <27:5 27:19>]
+SYMBOL_BUILTIN_TYPE int
+REFERENCE_TYPE_USAGE int b3g_removePairs -> int [b3OverlappingPairCache.cpp <27:1 27:3>]
+SYMBOL_GLOBAL_VARIABLE int b3g_addedPairs [b3OverlappingPairCache.cpp <28:5 28:18>]
+SYMBOL_BUILTIN_TYPE int
+REFERENCE_TYPE_USAGE int b3g_addedPairs -> int [b3OverlappingPairCache.cpp <28:1 28:3>]
+SYMBOL_GLOBAL_VARIABLE int b3g_findPairs [b3OverlappingPairCache.cpp <29:5 29:17>]
+SYMBOL_BUILTIN_TYPE int
+REFERENCE_TYPE_USAGE int b3g_findPairs -> int [b3OverlappingPairCache.cpp <29:1 29:3>]
+SYMBOL_METHOD public void b3HashedOverlappingPairCache::b3HashedOverlappingPairCache() [b3OverlappingPairCache.cpp <34:1 <34:31 34:58> 41:1>]
+SYMBOL_CLASS b3HashedOverlappingPairCache
+SYMBOL_FUNCTION void b3OverlappingPairCache::b3OverlappingPairCache()
+REFERENCE_CALL void b3HashedOverlappingPairCache::b3HashedOverlappingPairCache() -> void b3OverlappingPairCache::b3OverlappingPairCache() [b3OverlappingPairCache.cpp <34:31 34:58>]
+REFERENCE_USAGE void b3HashedOverlappingPairCache::b3HashedOverlappingPairCache() -> b3BroadphasePairArray b3HashedOverlappingPairCache::m_overlappingPairArray [b3OverlappingPairCache.cpp <34:31 34:58>]
+SYMBOL_FUNCTION void b3AlignedObjectArray<b3Int4>::b3AlignedObjectArray()
+REFERENCE_CALL void b3HashedOverlappingPairCache::b3HashedOverlappingPairCache() -> void b3AlignedObjectArray<b3Int4>::b3AlignedObjectArray() [b3OverlappingPairCache.cpp <34:31 34:58>]
+REFERENCE_USAGE void b3HashedOverlappingPairCache::b3HashedOverlappingPairCache() -> b3OverlapFilterCallback * b3HashedOverlappingPairCache::m_overlapFilterCallback [b3OverlappingPairCache.cpp <35:2 35:24>]
+REFERENCE_USAGE void b3HashedOverlappingPairCache::b3HashedOverlappingPairCache() -> b3AlignedObjectArray<int> b3HashedOverlappingPairCache::m_hashTable [b3OverlappingPairCache.cpp <34:31 34:58>]
+SYMBOL_FUNCTION void b3AlignedObjectArray<int>::b3AlignedObjectArray()
+REFERENCE_CALL void b3HashedOverlappingPairCache::b3HashedOverlappingPairCache() -> void b3AlignedObjectArray<int>::b3AlignedObjectArray() [b3OverlappingPairCache.cpp <34:31 34:58>]
+REFERENCE_USAGE void b3HashedOverlappingPairCache::b3HashedOverlappingPairCache() -> b3AlignedObjectArray<int> b3HashedOverlappingPairCache::m_next [b3OverlappingPairCache.cpp <34:31 34:58>]
+SYMBOL_FUNCTION void b3AlignedObjectArray<int>::b3AlignedObjectArray()
+REFERENCE_CALL void b3HashedOverlappingPairCache::b3HashedOverlappingPairCache() -> void b3AlignedObjectArray<int>::b3AlignedObjectArray() [b3OverlappingPairCache.cpp <34:31 34:58>]
+LOCAL_SYMBOL: b3OverlappingPairCache.cpp<38:6> [b3OverlappingPairCache.cpp <38:6 38:25>]
+SYMBOL_BUILTIN_TYPE int
+REFERENCE_TYPE_USAGE void b3HashedOverlappingPairCache::b3HashedOverlappingPairCache() -> int [b3OverlappingPairCache.cpp <38:2 38:4>]
+SYMBOL_FUNCTION void b3AlignedObjectArray<b3Int4>::reserve(int)
+REFERENCE_CALL void b3HashedOverlappingPairCache::b3HashedOverlappingPairCache() -> void b3AlignedObjectArray<b3Int4>::reserve(int) [b3OverlappingPairCache.cpp <39:25 39:31>]
+REFERENCE_USAGE void b3HashedOverlappingPairCache::b3HashedOverlappingPairCache() -> b3BroadphasePairArray b3HashedOverlappingPairCache::m_overlappingPairArray [b3OverlappingPairCache.cpp <39:2 39:23>]
+LOCAL_SYMBOL: b3OverlappingPairCache.cpp<38:6> [b3OverlappingPairCache.cpp <39:33 39:52>]
+SYMBOL_FUNCTION void b3HashedOverlappingPairCache::growTables()
+REFERENCE_CALL void b3HashedOverlappingPairCache::b3HashedOverlappingPairCache() -> void b3HashedOverlappingPairCache::growTables() [b3OverlappingPairCache.cpp <40:2 40:11>]
+SYMBOL_METHOD public void b3HashedOverlappingPairCache::~b3HashedOverlappingPairCache() [b3OverlappingPairCache.cpp <46:1 <46:31 46:59> 48:1>]
+SYMBOL_FUNCTION void b3OverlappingPairCache::~b3OverlappingPairCache()
+REFERENCE_OVERRIDE void b3HashedOverlappingPairCache::~b3HashedOverlappingPairCache() -> void b3OverlappingPairCache::~b3OverlappingPairCache() [b3OverlappingPairCache.cpp <46:31 46:31>]
+SYMBOL_CLASS b3HashedOverlappingPairCache
+SYMBOL_METHOD public void b3HashedOverlappingPairCache::cleanOverlappingPair(b3BroadphasePair &, b3Dispatcher *) [b3OverlappingPairCache.cpp <52:1 <52:36 52:55> 64:1>]
+SYMBOL_FUNCTION void b3OverlappingPairCache::cleanOverlappingPair(b3BroadphasePair &, b3Dispatcher *)
+REFERENCE_OVERRIDE void b3HashedOverlappingPairCache::cleanOverlappingPair(b3BroadphasePair &, b3Dispatcher *) -> void b3OverlappingPairCache::cleanOverlappingPair(b3BroadphasePair &, b3Dispatcher *) [b3OverlappingPairCache.cpp <52:36 52:55>]
+SYMBOL_CLASS b3HashedOverlappingPairCache
+SYMBOL_BUILTIN_TYPE void
+REFERENCE_TYPE_USAGE void b3HashedOverlappingPairCache::cleanOverlappingPair(b3BroadphasePair &, b3Dispatcher *) -> void [b3OverlappingPairCache.cpp <52:1 52:4>]
+LOCAL_SYMBOL: b3OverlappingPairCache.cpp<52:75> [b3OverlappingPairCache.cpp <52:75 52:78>]
+REFERENCE_TYPE_USAGE void b3HashedOverlappingPairCache::cleanOverlappingPair(b3BroadphasePair &, b3Dispatcher *) -> b3BroadphasePair [b3OverlappingPairCache.cpp <52:57 52:72>]
+LOCAL_SYMBOL: b3OverlappingPairCache.cpp<52:94> [b3OverlappingPairCache.cpp <52:94 52:103>]
+REFERENCE_TYPE_USAGE void b3HashedOverlappingPairCache::cleanOverlappingPair(b3BroadphasePair &, b3Dispatcher *) -> b3Dispatcher [b3OverlappingPairCache.cpp <52:80 52:91>]
+SYMBOL_METHOD public void b3HashedOverlappingPairCache::cleanProxyFromPairs(int, b3Dispatcher *) [b3OverlappingPairCache.cpp <69:1 <69:36 69:54> 101:1>]
+SYMBOL_FUNCTION void b3OverlappingPairCache::cleanProxyFromPairs(int, b3Dispatcher *)
+REFERENCE_OVERRIDE void b3HashedOverlappingPairCache::cleanProxyFromPairs(int, b3Dispatcher *) -> void b3OverlappingPairCache::cleanProxyFromPairs(int, b3Dispatcher *) [b3OverlappingPairCache.cpp <69:36 69:54>]
+SYMBOL_CLASS b3HashedOverlappingPairCache
+SYMBOL_BUILTIN_TYPE void
+REFERENCE_TYPE_USAGE void b3HashedOverlappingPairCache::cleanProxyFromPairs(int, b3Dispatcher *) -> void [b3OverlappingPairCache.cpp <69:1 69:4>]
+LOCAL_SYMBOL: b3OverlappingPairCache.cpp<69:60> [b3OverlappingPairCache.cpp <69:60 69:64>]
+SYMBOL_BUILTIN_TYPE int
+REFERENCE_TYPE_USAGE void b3HashedOverlappingPairCache::cleanProxyFromPairs(int, b3Dispatcher *) -> int [b3OverlappingPairCache.cpp <69:56 69:58>]
+LOCAL_SYMBOL: b3OverlappingPairCache.cpp<69:80> [b3OverlappingPairCache.cpp <69:80 69:89>]
+REFERENCE_TYPE_USAGE void b3HashedOverlappingPairCache::cleanProxyFromPairs(int, b3Dispatcher *) -> b3Dispatcher [b3OverlappingPairCache.cpp <69:66 69:77>]
+SYMBOL_CLASS b3HashedOverlappingPairCache::cleanProxyFromPairs::CleanPairCallback [b3OverlappingPairCache.cpp <72:2 <72:8 72:24> 95:2>]
+REFERENCE_INHERITANCE b3HashedOverlappingPairCache::cleanProxyFromPairs::CleanPairCallback -> b3OverlapCallback [b3OverlappingPairCache.cpp <72:35 72:51>]
+SYMBOL_FIELD private int b3HashedOverlappingPairCache::cleanProxyFromPairs::CleanPairCallback::m_cleanProxy [b3OverlappingPairCache.cpp <74:7 74:18>]
+SYMBOL_BUILTIN_TYPE int
+REFERENCE_TYPE_USAGE int b3HashedOverlappingPairCache::cleanProxyFromPairs::CleanPairCallback::m_cleanProxy -> int [b3OverlappingPairCache.cpp <74:3 74:5>]
+SYMBOL_FIELD private b3OverlappingPairCache * b3HashedOverlappingPairCache::cleanProxyFromPairs::CleanPairCallback::m_pairCache [b3OverlappingPairCache.cpp <75:27 75:37>]
+REFERENCE_TYPE_USAGE b3OverlappingPairCache * b3HashedOverlappingPairCache::cleanProxyFromPairs::CleanPairCallback::m_pairCache -> b3OverlappingPairCache [b3OverlappingPairCache.cpp <75:3 75:24>]
+SYMBOL_FIELD private b3Dispatcher * b3HashedOverlappingPairCache::cleanProxyFromPairs::CleanPairCallback::m_dispatcher [b3OverlappingPairCache.cpp <76:17 76:28>]
+REFERENCE_TYPE_USAGE b3Dispatcher * b3HashedOverlappingPairCache::cleanProxyFromPairs::CleanPairCallback::m_dispatcher -> b3Dispatcher [b3OverlappingPairCache.cpp <76:3 76:14>]
+SYMBOL_METHOD public void b3HashedOverlappingPairCache::cleanProxyFromPairs::CleanPairCallback::CleanPairCallback(int, b3OverlappingPairCache *, b3Dispatcher *) [b3OverlappingPairCache.cpp <79:3 <79:3 79:19> 84:3>]
+LOCAL_SYMBOL: b3OverlappingPairCache.cpp<79:25> [b3OverlappingPairCache.cpp <79:25 79:34>]
+SYMBOL_BUILTIN_TYPE int
+REFERENCE_TYPE_USAGE void b3HashedOverlappingPairCache::cleanProxyFromPairs::CleanPairCallback::CleanPairCallback(int, b3OverlappingPairCache *, b3Dispatcher *) -> int [b3OverlappingPairCache.cpp <79:21 79:23>]
+LOCAL_SYMBOL: b3OverlappingPairCache.cpp<79:60> [b3OverlappingPairCache.cpp <79:60 79:68>]
+REFERENCE_TYPE_USAGE void b3HashedOverlappingPairCache::cleanProxyFromPairs::CleanPairCallback::CleanPairCallback(int, b3OverlappingPairCache *, b3Dispatcher *) -> b3OverlappingPairCache [b3OverlappingPairCache.cpp <79:36 79:57>]
+LOCAL_SYMBOL: b3OverlappingPairCache.cpp<79:84> [b3OverlappingPairCache.cpp <79:84 79:93>]
+REFERENCE_TYPE_USAGE void b3HashedOverlappingPairCache::cleanProxyFromPairs::CleanPairCallback::CleanPairCallback(int, b3OverlappingPairCache *, b3Dispatcher *) -> b3Dispatcher [b3OverlappingPairCache.cpp <79:70 79:81>]
+SYMBOL_FUNCTION void b3OverlapCallback::b3OverlapCallback()
+REFERENCE_CALL void b3HashedOverlappingPairCache::cleanProxyFromPairs::CleanPairCallback::CleanPairCallback(int, b3OverlappingPairCache *, b3Dispatcher *) -> void b3OverlapCallback::b3OverlapCallback() [b3OverlappingPairCache.cpp <79:3 79:19>]
+REFERENCE_USAGE void b3HashedOverlappingPairCache::cleanProxyFromPairs::CleanPairCallback::CleanPairCallback(int, b3OverlappingPairCache *, b3Dispatcher *) -> int b3HashedOverlappingPairCache::cleanProxyFromPairs::CleanPairCallback::m_cleanProxy [b3OverlappingPairCache.cpp <80:5 80:16>]
+LOCAL_SYMBOL: b3OverlappingPairCache.cpp<79:25> [b3OverlappingPairCache.cpp <80:18 80:27>]
+REFERENCE_USAGE void b3HashedOverlappingPairCache::cleanProxyFromPairs::CleanPairCallback::CleanPairCallback(int, b3OverlappingPairCache *, b3Dispatcher *) -> b3OverlappingPairCache * b3HashedOverlappingPairCache::cleanProxyFromPairs::CleanPairCallback::m_pairCache [b3OverlappingPairCache.cpp <81:4 81:14>]
+LOCAL_SYMBOL: b3OverlappingPairCache.cpp<79:60> [b3OverlappingPairCache.cpp <81:16 81:24>]
+REFERENCE_USAGE void b3HashedOverlappingPairCache::cleanProxyFromPairs::CleanPairCallback::CleanPairCallback(int, b3OverlappingPairCache *, b3Dispatcher *) -> b3Dispatcher * b3HashedOverlappingPairCache::cleanProxyFromPairs::CleanPairCallback::m_dispatcher [b3OverlappingPairCache.cpp <82:4 82:15>]
+LOCAL_SYMBOL: b3OverlappingPairCache.cpp<79:84> [b3OverlappingPairCache.cpp <82:17 82:26>]
+SYMBOL_METHOD public bool b3HashedOverlappingPairCache::cleanProxyFromPairs::CleanPairCallback::processOverlap(b3BroadphasePair &) [b3OverlappingPairCache.cpp <85:3 <85:16 85:29> 93:3>]
+SYMBOL_FUNCTION bool b3OverlapCallback::processOverlap(b3BroadphasePair &)
+REFERENCE_OVERRIDE bool b3HashedOverlappingPairCache::cleanProxyFromPairs::CleanPairCallback::processOverlap(b3BroadphasePair &) -> bool b3OverlapCallback::processOverlap(b3BroadphasePair &) [b3OverlappingPairCache.cpp <85:16 85:29>]
+SYMBOL_BUILTIN_TYPE bool
+REFERENCE_TYPE_USAGE bool b3HashedOverlappingPairCache::cleanProxyFromPairs::CleanPairCallback::processOverlap(b3BroadphasePair &) -> bool [b3OverlappingPairCache.cpp <85:11 85:14>]
+LOCAL_SYMBOL: b3OverlappingPairCache.cpp<85:49> [b3OverlappingPairCache.cpp <85:49 85:52>]
+REFERENCE_TYPE_USAGE bool b3HashedOverlappingPairCache::cleanProxyFromPairs::CleanPairCallback::processOverlap(b3BroadphasePair &) -> b3BroadphasePair [b3OverlappingPairCache.cpp <85:31 85:46>]
+REFERENCE_USAGE bool b3HashedOverlappingPairCache::cleanProxyFromPairs::CleanPairCallback::processOverlap(b3BroadphasePair &) -> int b3Int4::anonymous union (b3Int4.h<30:2>)::anonymous struct (b3Int4.h<32:3>)::x [b3OverlappingPairCache.cpp <87:14 87:14>]
+REFERENCE_USAGE bool b3HashedOverlappingPairCache::cleanProxyFromPairs::CleanPairCallback::processOverlap(b3BroadphasePair &) -> b3Int4::anonymous union (b3Int4.h<30:2>)::anonymous struct (b3Int4.h<32:3>) b3Int4::anonymous union (b3Int4.h<30:2>):: [b3OverlappingPairCache.cpp <87:14 87:14>]
+REFERENCE_USAGE bool b3HashedOverlappingPairCache::cleanProxyFromPairs::CleanPairCallback::processOverlap(b3BroadphasePair &) -> b3Int4::anonymous union (b3Int4.h<30:2>) b3Int4:: [b3OverlappingPairCache.cpp <87:14 87:14>]
+LOCAL_SYMBOL: b3OverlappingPairCache.cpp<85:49> [b3OverlappingPairCache.cpp <87:9 87:12>]
+REFERENCE_USAGE bool b3HashedOverlappingPairCache::cleanProxyFromPairs::CleanPairCallback::processOverlap(b3BroadphasePair &) -> int b3HashedOverlappingPairCache::cleanProxyFromPairs::CleanPairCallback::m_cleanProxy [b3OverlappingPairCache.cpp <87:19 87:30>]
+REFERENCE_USAGE bool b3HashedOverlappingPairCache::cleanProxyFromPairs::CleanPairCallback::processOverlap(b3BroadphasePair &) -> int b3Int4::anonymous union (b3Int4.h<30:2>)::anonymous struct (b3Int4.h<32:3>)::y [b3OverlappingPairCache.cpp <88:11 88:11>]
+REFERENCE_USAGE bool b3HashedOverlappingPairCache::cleanProxyFromPairs::CleanPairCallback::processOverlap(b3BroadphasePair &) -> b3Int4::anonymous union (b3Int4.h<30:2>)::anonymous struct (b3Int4.h<32:3>) b3Int4::anonymous union (b3Int4.h<30:2>):: [b3OverlappingPairCache.cpp <88:11 88:11>]
+REFERENCE_USAGE bool b3HashedOverlappingPairCache::cleanProxyFromPairs::CleanPairCallback::processOverlap(b3BroadphasePair &) -> b3Int4::anonymous union (b3Int4.h<30:2>) b3Int4:: [b3OverlappingPairCache.cpp <88:11 88:11>]
+LOCAL_SYMBOL: b3OverlappingPairCache.cpp<85:49> [b3OverlappingPairCache.cpp <88:6 88:9>]
+REFERENCE_USAGE bool b3HashedOverlappingPairCache::cleanProxyFromPairs::CleanPairCallback::processOverlap(b3BroadphasePair &) -> int b3HashedOverlappingPairCache::cleanProxyFromPairs::CleanPairCallback::m_cleanProxy [b3OverlappingPairCache.cpp <88:16 88:27>]
+SYMBOL_FUNCTION void b3OverlappingPairCache::cleanOverlappingPair(b3BroadphasePair &, b3Dispatcher *)
+REFERENCE_CALL bool b3HashedOverlappingPairCache::cleanProxyFromPairs::CleanPairCallback::processOverlap(b3BroadphasePair &) -> void b3OverlappingPairCache::cleanOverlappingPair(b3BroadphasePair &, b3Dispatcher *) [b3OverlappingPairCache.cpp <90:18 90:37>]
+REFERENCE_USAGE bool b3HashedOverlappingPairCache::cleanProxyFromPairs::CleanPairCallback::processOverlap(b3BroadphasePair &) -> b3OverlappingPairCache * b3HashedOverlappingPairCache::cleanProxyFromPairs::CleanPairCallback::m_pairCache [b3OverlappingPairCache.cpp <90:5 90:15>]
+LOCAL_SYMBOL: b3OverlappingPairCache.cpp<85:49> [b3OverlappingPairCache.cpp <90:39 90:42>]
+REFERENCE_USAGE bool b3HashedOverlappingPairCache::cleanProxyFromPairs::CleanPairCallback::processOverlap(b3BroadphasePair &) -> b3Dispatcher * b3HashedOverlappingPairCache::cleanProxyFromPairs::CleanPairCallback::m_dispatcher [b3OverlappingPairCache.cpp <90:44 90:55>]
+SYMBOL_METHOD public void b3HashedOverlappingPairCache::cleanProxyFromPairs::CleanPairCallback::CleanPairCallback(const b3HashedOverlappingPairCache::cleanProxyFromPairs::CleanPairCallback &) [b3OverlappingPairCache.cpp <72:8 72:24>]
+SYMBOL_METHOD public void b3HashedOverlappingPairCache::cleanProxyFromPairs::CleanPairCallback::CleanPairCallback(b3HashedOverlappingPairCache::cleanProxyFromPairs::CleanPairCallback &) [b3OverlappingPairCache.cpp <72:8 72:24>]
+SYMBOL_METHOD public b3HashedOverlappingPairCache::cleanProxyFromPairs::CleanPairCallback & b3HashedOverlappingPairCache::cleanProxyFromPairs::CleanPairCallback::operator=(const b3HashedOverlappingPairCache::cleanProxyFromPairs::CleanPairCallback &) [b3OverlappingPairCache.cpp <72:8 72:24>]
+SYMBOL_METHOD public b3HashedOverlappingPairCache::cleanProxyFromPairs::CleanPairCallback & b3HashedOverlappingPairCache::cleanProxyFromPairs::CleanPairCallback::operator=(b3HashedOverlappingPairCache::cleanProxyFromPairs::CleanPairCallback &) [b3OverlappingPairCache.cpp <72:8 72:24>]
+SYMBOL_METHOD public void b3HashedOverlappingPairCache::cleanProxyFromPairs::CleanPairCallback::~CleanPairCallback() [b3OverlappingPairCache.cpp <72:8 <72:8 72:24> 72:24>]
+SYMBOL_FUNCTION void b3OverlapCallback::~b3OverlapCallback()
+REFERENCE_OVERRIDE void b3HashedOverlappingPairCache::cleanProxyFromPairs::CleanPairCallback::~CleanPairCallback() -> void b3OverlapCallback::~b3OverlapCallback() [b3OverlappingPairCache.cpp <72:8 72:24>]
+LOCAL_SYMBOL: b3OverlappingPairCache.cpp<97:20> [b3OverlappingPairCache.cpp <97:20 97:29>]
+REFERENCE_TYPE_USAGE void b3HashedOverlappingPairCache::cleanProxyFromPairs(int, b3Dispatcher *) -> b3HashedOverlappingPairCache::cleanProxyFromPairs::CleanPairCallback [b3OverlappingPairCache.cpp <97:2 97:18>]
+SYMBOL_FUNCTION void b3HashedOverlappingPairCache::cleanProxyFromPairs::CleanPairCallback::CleanPairCallback(int, b3OverlappingPairCache *, b3Dispatcher *)
+REFERENCE_CALL void b3HashedOverlappingPairCache::cleanProxyFromPairs(int, b3Dispatcher *) -> void b3HashedOverlappingPairCache::cleanProxyFromPairs::CleanPairCallback::CleanPairCallback(int, b3OverlappingPairCache *, b3Dispatcher *) [b3OverlappingPairCache.cpp <97:20 97:29>]
+LOCAL_SYMBOL: b3OverlappingPairCache.cpp<69:60> [b3OverlappingPairCache.cpp <97:31 97:35>]
+LOCAL_SYMBOL: b3OverlappingPairCache.cpp<69:80> [b3OverlappingPairCache.cpp <97:42 97:51>]
+SYMBOL_FUNCTION void b3HashedOverlappingPairCache::processAllOverlappingPairs(b3OverlapCallback *, b3Dispatcher *)
+REFERENCE_CALL void b3HashedOverlappingPairCache::cleanProxyFromPairs(int, b3Dispatcher *) -> void b3HashedOverlappingPairCache::processAllOverlappingPairs(b3OverlapCallback *, b3Dispatcher *) [b3OverlappingPairCache.cpp <99:2 99:27>]
+LOCAL_SYMBOL: b3OverlappingPairCache.cpp<97:20> [b3OverlappingPairCache.cpp <99:30 99:39>]
+LOCAL_SYMBOL: b3OverlappingPairCache.cpp<69:80> [b3OverlappingPairCache.cpp <99:41 99:50>]
+SYMBOL_METHOD public void b3HashedOverlappingPairCache::removeOverlappingPairsContainingProxy(int, b3Dispatcher *) [b3OverlappingPairCache.cpp <106:1 <106:36 106:72> 130:1>]
+SYMBOL_FUNCTION void b3OverlappingPairCache::removeOverlappingPairsContainingProxy(int, b3Dispatcher *)
+REFERENCE_OVERRIDE void b3HashedOverlappingPairCache::removeOverlappingPairsContainingProxy(int, b3Dispatcher *) -> void b3OverlappingPairCache::removeOverlappingPairsContainingProxy(int, b3Dispatcher *) [b3OverlappingPairCache.cpp <106:36 106:72>]
+SYMBOL_CLASS b3HashedOverlappingPairCache
+SYMBOL_BUILTIN_TYPE void
+REFERENCE_TYPE_USAGE void b3HashedOverlappingPairCache::removeOverlappingPairsContainingProxy(int, b3Dispatcher *) -> void [b3OverlappingPairCache.cpp <106:1 106:4>]
+LOCAL_SYMBOL: b3OverlappingPairCache.cpp<106:78> [b3OverlappingPairCache.cpp <106:78 106:82>]
+SYMBOL_BUILTIN_TYPE int
+REFERENCE_TYPE_USAGE void b3HashedOverlappingPairCache::removeOverlappingPairsContainingProxy(int, b3Dispatcher *) -> int [b3OverlappingPairCache.cpp <106:74 106:76>]
+LOCAL_SYMBOL: b3OverlappingPairCache.cpp<106:98> [b3OverlappingPairCache.cpp <106:98 106:107>]
+REFERENCE_TYPE_USAGE void b3HashedOverlappingPairCache::removeOverlappingPairsContainingProxy(int, b3Dispatcher *) -> b3Dispatcher [b3OverlappingPairCache.cpp <106:84 106:95>]
+SYMBOL_CLASS b3HashedOverlappingPairCache::removeOverlappingPairsContainingProxy::RemovePairCallback [b3OverlappingPairCache.cpp <109:2 <109:8 109:25> 124:2>]
+REFERENCE_INHERITANCE b3HashedOverlappingPairCache::removeOverlappingPairsContainingProxy::RemovePairCallback -> b3OverlapCallback [b3OverlappingPairCache.cpp <109:36 109:52>]
+SYMBOL_FIELD private int b3HashedOverlappingPairCache::removeOverlappingPairsContainingProxy::RemovePairCallback::m_obsoleteProxy [b3OverlappingPairCache.cpp <111:7 111:21>]
+SYMBOL_BUILTIN_TYPE int
+REFERENCE_TYPE_USAGE int b3HashedOverlappingPairCache::removeOverlappingPairsContainingProxy::RemovePairCallback::m_obsoleteProxy -> int [b3OverlappingPairCache.cpp <111:3 111:5>]
+SYMBOL_METHOD public void b3HashedOverlappingPairCache::removeOverlappingPairsContainingProxy::RemovePairCallback::RemovePairCallback(int) [b3OverlappingPairCache.cpp <114:3 <114:3 114:20> 117:3>]
+LOCAL_SYMBOL: b3OverlappingPairCache.cpp<114:26> [b3OverlappingPairCache.cpp <114:26 114:38>]
+SYMBOL_BUILTIN_TYPE int
+REFERENCE_TYPE_USAGE void b3HashedOverlappingPairCache::removeOverlappingPairsContainingProxy::RemovePairCallback::RemovePairCallback(int) -> int [b3OverlappingPairCache.cpp <114:22 114:24>]
+SYMBOL_FUNCTION void b3OverlapCallback::b3OverlapCallback()
+REFERENCE_CALL void b3HashedOverlappingPairCache::removeOverlappingPairsContainingProxy::RemovePairCallback::RemovePairCallback(int) -> void b3OverlapCallback::b3OverlapCallback() [b3OverlappingPairCache.cpp <114:3 114:20>]
+REFERENCE_USAGE void b3HashedOverlappingPairCache::removeOverlappingPairsContainingProxy::RemovePairCallback::RemovePairCallback(int) -> int b3HashedOverlappingPairCache::removeOverlappingPairsContainingProxy::RemovePairCallback::m_obsoleteProxy [b3OverlappingPairCache.cpp <115:5 115:19>]
+LOCAL_SYMBOL: b3OverlappingPairCache.cpp<114:26> [b3OverlappingPairCache.cpp <115:21 115:33>]
+SYMBOL_METHOD public bool b3HashedOverlappingPairCache::removeOverlappingPairsContainingProxy::RemovePairCallback::processOverlap(b3BroadphasePair &) [b3OverlappingPairCache.cpp <118:3 <118:16 118:29> 122:3>]
+SYMBOL_FUNCTION bool b3OverlapCallback::processOverlap(b3BroadphasePair &)
+REFERENCE_OVERRIDE bool b3HashedOverlappingPairCache::removeOverlappingPairsContainingProxy::RemovePairCallback::processOverlap(b3BroadphasePair &) -> bool b3OverlapCallback::processOverlap(b3BroadphasePair &) [b3OverlappingPairCache.cpp <118:16 118:29>]
+SYMBOL_BUILTIN_TYPE bool
+REFERENCE_TYPE_USAGE bool b3HashedOverlappingPairCache::removeOverlappingPairsContainingProxy::RemovePairCallback::processOverlap(b3BroadphasePair &) -> bool [b3OverlappingPairCache.cpp <118:11 118:14>]
+LOCAL_SYMBOL: b3OverlappingPairCache.cpp<118:49> [b3OverlappingPairCache.cpp <118:49 118:52>]
+REFERENCE_TYPE_USAGE bool b3HashedOverlappingPairCache::removeOverlappingPairsContainingProxy::RemovePairCallback::processOverlap(b3BroadphasePair &) -> b3BroadphasePair [b3OverlappingPairCache.cpp <118:31 118:46>]
+REFERENCE_USAGE bool b3HashedOverlappingPairCache::removeOverlappingPairsContainingProxy::RemovePairCallback::processOverlap(b3BroadphasePair &) -> int b3Int4::anonymous union (b3Int4.h<30:2>)::anonymous struct (b3Int4.h<32:3>)::x [b3OverlappingPairCache.cpp <120:18 120:18>]
+REFERENCE_USAGE bool b3HashedOverlappingPairCache::removeOverlappingPairsContainingProxy::RemovePairCallback::processOverlap(b3BroadphasePair &) -> b3Int4::anonymous union (b3Int4.h<30:2>)::anonymous struct (b3Int4.h<32:3>) b3Int4::anonymous union (b3Int4.h<30:2>):: [b3OverlappingPairCache.cpp <120:18 120:18>]
+REFERENCE_USAGE bool b3HashedOverlappingPairCache::removeOverlappingPairsContainingProxy::RemovePairCallback::processOverlap(b3BroadphasePair &) -> b3Int4::anonymous union (b3Int4.h<30:2>) b3Int4:: [b3OverlappingPairCache.cpp <120:18 120:18>]
+LOCAL_SYMBOL: b3OverlappingPairCache.cpp<118:49> [b3OverlappingPairCache.cpp <120:13 120:16>]
+REFERENCE_USAGE bool b3HashedOverlappingPairCache::removeOverlappingPairsContainingProxy::RemovePairCallback::processOverlap(b3BroadphasePair &) -> int b3HashedOverlappingPairCache::removeOverlappingPairsContainingProxy::RemovePairCallback::m_obsoleteProxy [b3OverlappingPairCache.cpp <120:23 120:37>]
+REFERENCE_USAGE bool b3HashedOverlappingPairCache::removeOverlappingPairsContainingProxy::RemovePairCallback::processOverlap(b3BroadphasePair &) -> int b3Int4::anonymous union (b3Int4.h<30:2>)::anonymous struct (b3Int4.h<32:3>)::y [b3OverlappingPairCache.cpp <121:11 121:11>]
+REFERENCE_USAGE bool b3HashedOverlappingPairCache::removeOverlappingPairsContainingProxy::RemovePairCallback::processOverlap(b3BroadphasePair &) -> b3Int4::anonymous union (b3Int4.h<30:2>)::anonymous struct (b3Int4.h<32:3>) b3Int4::anonymous union (b3Int4.h<30:2>):: [b3OverlappingPairCache.cpp <121:11 121:11>]
+REFERENCE_USAGE bool b3HashedOverlappingPairCache::removeOverlappingPairsContainingProxy::RemovePairCallback::processOverlap(b3BroadphasePair &) -> b3Int4::anonymous union (b3Int4.h<30:2>) b3Int4:: [b3OverlappingPairCache.cpp <121:11 121:11>]
+LOCAL_SYMBOL: b3OverlappingPairCache.cpp<118:49> [b3OverlappingPairCache.cpp <121:6 121:9>]
+REFERENCE_USAGE bool b3HashedOverlappingPairCache::removeOverlappingPairsContainingProxy::RemovePairCallback::processOverlap(b3BroadphasePair &) -> int b3HashedOverlappingPairCache::removeOverlappingPairsContainingProxy::RemovePairCallback::m_obsoleteProxy [b3OverlappingPairCache.cpp <121:16 121:30>]
+SYMBOL_METHOD public void b3HashedOverlappingPairCache::removeOverlappingPairsContainingProxy::RemovePairCallback::RemovePairCallback(const b3HashedOverlappingPairCache::removeOverlappingPairsContainingProxy::RemovePairCallback &) [b3OverlappingPairCache.cpp <109:8 109:25>]
+SYMBOL_METHOD public void b3HashedOverlappingPairCache::removeOverlappingPairsContainingProxy::RemovePairCallback::RemovePairCallback(b3HashedOverlappingPairCache::removeOverlappingPairsContainingProxy::RemovePairCallback &) [b3OverlappingPairCache.cpp <109:8 109:25>]
+SYMBOL_METHOD public b3HashedOverlappingPairCache::removeOverlappingPairsContainingProxy::RemovePairCallback & b3HashedOverlappingPairCache::removeOverlappingPairsContainingProxy::RemovePairCallback::operator=(const b3HashedOverlappingPairCache::removeOverlappingPairsContainingProxy::RemovePairCallback &) [b3OverlappingPairCache.cpp <109:8 109:25>]
+SYMBOL_METHOD public b3HashedOverlappingPairCache::removeOverlappingPairsContainingProxy::RemovePairCallback & b3HashedOverlappingPairCache::removeOverlappingPairsContainingProxy::RemovePairCallback::operator=(b3HashedOverlappingPairCache::removeOverlappingPairsContainingProxy::RemovePairCallback &) [b3OverlappingPairCache.cpp <109:8 109:25>]
+SYMBOL_METHOD public void b3HashedOverlappingPairCache::removeOverlappingPairsContainingProxy::RemovePairCallback::~RemovePairCallback() [b3OverlappingPairCache.cpp <109:8 <109:8 109:25> 109:25>]
+SYMBOL_FUNCTION void b3OverlapCallback::~b3OverlapCallback()
+REFERENCE_OVERRIDE void b3HashedOverlappingPairCache::removeOverlappingPairsContainingProxy::RemovePairCallback::~RemovePairCallback() -> void b3OverlapCallback::~b3OverlapCallback() [b3OverlappingPairCache.cpp <109:8 109:25>]
+LOCAL_SYMBOL: b3OverlappingPairCache.cpp<127:21> [b3OverlappingPairCache.cpp <127:21 127:34>]
+REFERENCE_TYPE_USAGE void b3HashedOverlappingPairCache::removeOverlappingPairsContainingProxy(int, b3Dispatcher *) -> b3HashedOverlappingPairCache::removeOverlappingPairsContainingProxy::RemovePairCallback [b3OverlappingPairCache.cpp <127:2 127:19>]
+SYMBOL_FUNCTION void b3HashedOverlappingPairCache::removeOverlappingPairsContainingProxy::RemovePairCallback::RemovePairCallback(int)
+REFERENCE_CALL void b3HashedOverlappingPairCache::removeOverlappingPairsContainingProxy(int, b3Dispatcher *) -> void b3HashedOverlappingPairCache::removeOverlappingPairsContainingProxy::RemovePairCallback::RemovePairCallback(int) [b3OverlappingPairCache.cpp <127:21 127:34>]
+LOCAL_SYMBOL: b3OverlappingPairCache.cpp<106:78> [b3OverlappingPairCache.cpp <127:36 127:40>]
+SYMBOL_FUNCTION void b3HashedOverlappingPairCache::processAllOverlappingPairs(b3OverlapCallback *, b3Dispatcher *)
+REFERENCE_CALL void b3HashedOverlappingPairCache::removeOverlappingPairsContainingProxy(int, b3Dispatcher *) -> void b3HashedOverlappingPairCache::processAllOverlappingPairs(b3OverlapCallback *, b3Dispatcher *) [b3OverlappingPairCache.cpp <129:2 129:27>]
+LOCAL_SYMBOL: b3OverlappingPairCache.cpp<127:21> [b3OverlappingPairCache.cpp <129:30 129:43>]
+LOCAL_SYMBOL: b3OverlappingPairCache.cpp<106:98> [b3OverlappingPairCache.cpp <129:45 129:54>]
+SYMBOL_METHOD public b3BroadphasePair * b3HashedOverlappingPairCache::findPair(int, int) [b3OverlappingPairCache.cpp <136:1 <136:49 136:56> 168:1>]
+SYMBOL_FUNCTION b3BroadphasePair * b3OverlappingPairCache::findPair(int, int)
+REFERENCE_OVERRIDE b3BroadphasePair * b3HashedOverlappingPairCache::findPair(int, int) -> b3BroadphasePair * b3OverlappingPairCache::findPair(int, int) [b3OverlappingPairCache.cpp <136:49 136:56>]
+SYMBOL_CLASS b3HashedOverlappingPairCache
+REFERENCE_TYPE_USAGE b3BroadphasePair * b3HashedOverlappingPairCache::findPair(int, int) -> b3BroadphasePair [b3OverlappingPairCache.cpp <136:1 136:16>]
+LOCAL_SYMBOL: b3OverlappingPairCache.cpp<136:62> [b3OverlappingPairCache.cpp <136:62 136:67>]
+SYMBOL_BUILTIN_TYPE int
+REFERENCE_TYPE_USAGE b3BroadphasePair * b3HashedOverlappingPairCache::findPair(int, int) -> int [b3OverlappingPairCache.cpp <136:58 136:60>]
+LOCAL_SYMBOL: b3OverlappingPairCache.cpp<136:74> [b3OverlappingPairCache.cpp <136:74 136:79>]
+SYMBOL_BUILTIN_TYPE int
+REFERENCE_TYPE_USAGE b3BroadphasePair * b3HashedOverlappingPairCache::findPair(int, int) -> int [b3OverlappingPairCache.cpp <136:70 136:72>]
+REFERENCE_USAGE b3BroadphasePair * b3HashedOverlappingPairCache::findPair(int, int) -> int b3g_findPairs [b3OverlappingPairCache.cpp <138:2 138:14>]
+LOCAL_SYMBOL: b3OverlappingPairCache.cpp<136:62> [b3OverlappingPairCache.cpp <139:5 139:10>]
+LOCAL_SYMBOL: b3OverlappingPairCache.cpp<136:74> [b3OverlappingPairCache.cpp <139:13 139:18>]
+SYMBOL_FUNCTION void b3Swap<int>(int &, int &)
+REFERENCE_CALL b3BroadphasePair * b3HashedOverlappingPairCache::findPair(int, int) -> void b3Swap<int>(int &, int &) [b3OverlappingPairCache.cpp <140:3 140:8>]
+LOCAL_SYMBOL: b3OverlappingPairCache.cpp<136:62> [b3OverlappingPairCache.cpp <140:10 140:15>]
+LOCAL_SYMBOL: b3OverlappingPairCache.cpp<136:74> [b3OverlappingPairCache.cpp <140:17 140:22>]
+LOCAL_SYMBOL: b3OverlappingPairCache.cpp<141:6> [b3OverlappingPairCache.cpp <141:6 141:13>]
+SYMBOL_BUILTIN_TYPE int
+REFERENCE_TYPE_USAGE b3BroadphasePair * b3HashedOverlappingPairCache::findPair(int, int) -> int [b3OverlappingPairCache.cpp <141:2 141:4>]
+LOCAL_SYMBOL: b3OverlappingPairCache.cpp<136:62> [b3OverlappingPairCache.cpp <141:17 141:22>]
+LOCAL_SYMBOL: b3OverlappingPairCache.cpp<142:6> [b3OverlappingPairCache.cpp <142:6 142:13>]
+SYMBOL_BUILTIN_TYPE int
+REFERENCE_TYPE_USAGE b3BroadphasePair * b3HashedOverlappingPairCache::findPair(int, int) -> int [b3OverlappingPairCache.cpp <142:2 142:4>]
+LOCAL_SYMBOL: b3OverlappingPairCache.cpp<136:74> [b3OverlappingPairCache.cpp <142:17 142:22>]
+LOCAL_SYMBOL: b3OverlappingPairCache.cpp<147:6> [b3OverlappingPairCache.cpp <147:6 147:9>]
+SYMBOL_BUILTIN_TYPE int
+REFERENCE_TYPE_USAGE b3BroadphasePair * b3HashedOverlappingPairCache::findPair(int, int) -> int [b3OverlappingPairCache.cpp <147:2 147:4>]
+SYMBOL_BUILTIN_TYPE int
+REFERENCE_TYPE_USAGE b3BroadphasePair * b3HashedOverlappingPairCache::findPair(int, int) -> int [b3OverlappingPairCache.cpp <147:25 147:27>]
+SYMBOL_FUNCTION unsigned int b3HashedOverlappingPairCache::getHash(unsigned int, unsigned int)
+REFERENCE_CALL b3BroadphasePair * b3HashedOverlappingPairCache::findPair(int, int) -> unsigned int b3HashedOverlappingPairCache::getHash(unsigned int, unsigned int) [b3OverlappingPairCache.cpp <147:30 147:36>]
+SYMBOL_BUILTIN_TYPE unsigned int
+REFERENCE_TYPE_USAGE b3BroadphasePair * b3HashedOverlappingPairCache::findPair(int, int) -> unsigned int [b3OverlappingPairCache.cpp <147:50 147:57>]
+LOCAL_SYMBOL: b3OverlappingPairCache.cpp<141:6> [b3OverlappingPairCache.cpp <147:64 147:71>]
+SYMBOL_BUILTIN_TYPE unsigned int
+REFERENCE_TYPE_USAGE b3BroadphasePair * b3HashedOverlappingPairCache::findPair(int, int) -> unsigned int [b3OverlappingPairCache.cpp <147:87 147:94>]
+LOCAL_SYMBOL: b3OverlappingPairCache.cpp<142:6> [b3OverlappingPairCache.cpp <147:101 147:108>]
+SYMBOL_FUNCTION int b3AlignedObjectArray<b3Int4>::capacity() const
+REFERENCE_CALL b3BroadphasePair * b3HashedOverlappingPairCache::findPair(int, int) -> int b3AlignedObjectArray<b3Int4>::capacity() const [b3OverlappingPairCache.cpp <147:138 147:145>]
+REFERENCE_USAGE b3BroadphasePair * b3HashedOverlappingPairCache::findPair(int, int) -> b3BroadphasePairArray b3HashedOverlappingPairCache::m_overlappingPairArray [b3OverlappingPairCache.cpp <147:115 147:136>]
+LOCAL_SYMBOL: b3OverlappingPairCache.cpp<147:6> [b3OverlappingPairCache.cpp <149:6 149:9>]
+SYMBOL_FUNCTION int b3AlignedObjectArray<int>::size() const
+REFERENCE_CALL b3BroadphasePair * b3HashedOverlappingPairCache::findPair(int, int) -> int b3AlignedObjectArray<int>::size() const [b3OverlappingPairCache.cpp <149:26 149:29>]
+REFERENCE_USAGE b3BroadphasePair * b3HashedOverlappingPairCache::findPair(int, int) -> b3AlignedObjectArray<int> b3HashedOverlappingPairCache::m_hashTable [b3OverlappingPairCache.cpp <149:14 149:24>]
+LOCAL_SYMBOL: b3OverlappingPairCache.cpp<154:6> [b3OverlappingPairCache.cpp <154:6 154:10>]
+SYMBOL_BUILTIN_TYPE int
+REFERENCE_TYPE_USAGE b3BroadphasePair * b3HashedOverlappingPairCache::findPair(int, int) -> int [b3OverlappingPairCache.cpp <154:2 154:4>]
+SYMBOL_FUNCTION int & b3AlignedObjectArray<int>::operator[](int)
+REFERENCE_CALL b3BroadphasePair * b3HashedOverlappingPairCache::findPair(int, int) -> int & b3AlignedObjectArray<int>::operator[](int) [b3OverlappingPairCache.cpp <154:25 154:25>]
+REFERENCE_USAGE b3BroadphasePair * b3HashedOverlappingPairCache::findPair(int, int) -> b3AlignedObjectArray<int> b3HashedOverlappingPairCache::m_hashTable [b3OverlappingPairCache.cpp <154:14 154:24>]
+LOCAL_SYMBOL: b3OverlappingPairCache.cpp<147:6> [b3OverlappingPairCache.cpp <154:26 154:29>]
+LOCAL_SYMBOL: b3OverlappingPairCache.cpp<154:6> [b3OverlappingPairCache.cpp <155:9 155:13>]
+REFERENCE_USAGE b3BroadphasePair * b3HashedOverlappingPairCache::findPair(int, int) -> const int B3_NULL_PAIR [b3OverlappingPairCache.cpp <155:18 155:29>]
+SYMBOL_FUNCTION bool b3HashedOverlappingPairCache::equalsPair(const b3BroadphasePair &, int, int)
+REFERENCE_CALL b3BroadphasePair * b3HashedOverlappingPairCache::findPair(int, int) -> bool b3HashedOverlappingPairCache::equalsPair(const b3BroadphasePair &, int, int) [b3OverlappingPairCache.cpp <155:34 155:43>]
+SYMBOL_FUNCTION b3Int4 & b3AlignedObjectArray<b3Int4>::operator[](int)
+REFERENCE_CALL b3BroadphasePair * b3HashedOverlappingPairCache::findPair(int, int) -> b3Int4 & b3AlignedObjectArray<b3Int4>::operator[](int) [b3OverlappingPairCache.cpp <155:67 155:67>]
+REFERENCE_USAGE b3BroadphasePair * b3HashedOverlappingPairCache::findPair(int, int) -> b3BroadphasePairArray b3HashedOverlappingPairCache::m_overlappingPairArray [b3OverlappingPairCache.cpp <155:45 155:66>]
+LOCAL_SYMBOL: b3OverlappingPairCache.cpp<154:6> [b3OverlappingPairCache.cpp <155:68 155:72>]
+LOCAL_SYMBOL: b3OverlappingPairCache.cpp<141:6> [b3OverlappingPairCache.cpp <155:76 155:83>]
+LOCAL_SYMBOL: b3OverlappingPairCache.cpp<142:6> [b3OverlappingPairCache.cpp <155:86 155:93>]
+LOCAL_SYMBOL: b3OverlappingPairCache.cpp<154:6> [b3OverlappingPairCache.cpp <157:3 157:7>]
+SYMBOL_FUNCTION int & b3AlignedObjectArray<int>::operator[](int)
+REFERENCE_CALL b3BroadphasePair * b3HashedOverlappingPairCache::findPair(int, int) -> int & b3AlignedObjectArray<int>::operator[](int) [b3OverlappingPairCache.cpp <157:17 157:17>]
+REFERENCE_USAGE b3BroadphasePair * b3HashedOverlappingPairCache::findPair(int, int) -> b3AlignedObjectArray<int> b3HashedOverlappingPairCache::m_next [b3OverlappingPairCache.cpp <157:11 157:16>]
+LOCAL_SYMBOL: b3OverlappingPairCache.cpp<154:6> [b3OverlappingPairCache.cpp <157:18 157:22>]
+LOCAL_SYMBOL: b3OverlappingPairCache.cpp<154:6> [b3OverlappingPairCache.cpp <160:6 160:10>]
+REFERENCE_USAGE b3BroadphasePair * b3HashedOverlappingPairCache::findPair(int, int) -> const int B3_NULL_PAIR [b3OverlappingPairCache.cpp <160:15 160:26>]
+SYMBOL_FUNCTION b3Int4 & b3AlignedObjectArray<b3Int4>::operator[](int)
+REFERENCE_CALL b3BroadphasePair * b3HashedOverlappingPairCache::findPair(int, int) -> b3Int4 & b3AlignedObjectArray<b3Int4>::operator[](int) [b3OverlappingPairCache.cpp <167:32 167:32>]
+REFERENCE_USAGE b3BroadphasePair * b3HashedOverlappingPairCache::findPair(int, int) -> b3BroadphasePairArray b3HashedOverlappingPairCache::m_overlappingPairArray [b3OverlappingPairCache.cpp <167:10 167:31>]
+LOCAL_SYMBOL: b3OverlappingPairCache.cpp<154:6> [b3OverlappingPairCache.cpp <167:33 167:37>]
+SYMBOL_METHOD private void b3HashedOverlappingPairCache::growTables() [b3OverlappingPairCache.cpp <172:1 <172:36 172:45> 212:1>]
+SYMBOL_CLASS b3HashedOverlappingPairCache
+SYMBOL_BUILTIN_TYPE void
+REFERENCE_TYPE_USAGE void b3HashedOverlappingPairCache::growTables() -> void [b3OverlappingPairCache.cpp <172:1 172:4>]
+LOCAL_SYMBOL: b3OverlappingPairCache.cpp<175:6> [b3OverlappingPairCache.cpp <175:6 175:16>]
+SYMBOL_BUILTIN_TYPE int
+REFERENCE_TYPE_USAGE void b3HashedOverlappingPairCache::growTables() -> int [b3OverlappingPairCache.cpp <175:2 175:4>]
+SYMBOL_FUNCTION int b3AlignedObjectArray<b3Int4>::capacity() const
+REFERENCE_CALL void b3HashedOverlappingPairCache::growTables() -> int b3AlignedObjectArray<b3Int4>::capacity() const [b3OverlappingPairCache.cpp <175:43 175:50>]
+REFERENCE_USAGE void b3HashedOverlappingPairCache::growTables() -> b3BroadphasePairArray b3HashedOverlappingPairCache::m_overlappingPairArray [b3OverlappingPairCache.cpp <175:20 175:41>]
+SYMBOL_FUNCTION int b3AlignedObjectArray<int>::size() const
+REFERENCE_CALL void b3HashedOverlappingPairCache::growTables() -> int b3AlignedObjectArray<int>::size() const [b3OverlappingPairCache.cpp <177:18 177:21>]
+REFERENCE_USAGE void b3HashedOverlappingPairCache::growTables() -> b3AlignedObjectArray<int> b3HashedOverlappingPairCache::m_hashTable [b3OverlappingPairCache.cpp <177:6 177:16>]
+LOCAL_SYMBOL: b3OverlappingPairCache.cpp<175:6> [b3OverlappingPairCache.cpp <177:27 177:37>]
+LOCAL_SYMBOL: b3OverlappingPairCache.cpp<180:7> [b3OverlappingPairCache.cpp <180:7 180:22>]
+SYMBOL_BUILTIN_TYPE int
+REFERENCE_TYPE_USAGE void b3HashedOverlappingPairCache::growTables() -> int [b3OverlappingPairCache.cpp <180:3 180:5>]
+SYMBOL_FUNCTION int b3AlignedObjectArray<int>::size() const
+REFERENCE_CALL void b3HashedOverlappingPairCache::growTables() -> int b3AlignedObjectArray<int>::size() const [b3OverlappingPairCache.cpp <180:38 180:41>]
+REFERENCE_USAGE void b3HashedOverlappingPairCache::growTables() -> b3AlignedObjectArray<int> b3HashedOverlappingPairCache::m_hashTable [b3OverlappingPairCache.cpp <180:26 180:36>]
+SYMBOL_FUNCTION void b3AlignedObjectArray<int>::resize(int, const int &)
+REFERENCE_CALL void b3HashedOverlappingPairCache::growTables() -> void b3AlignedObjectArray<int>::resize(int, const int &) [b3OverlappingPairCache.cpp <182:15 182:20>]
+REFERENCE_USAGE void b3HashedOverlappingPairCache::growTables() -> b3AlignedObjectArray<int> b3HashedOverlappingPairCache::m_hashTable [b3OverlappingPairCache.cpp <182:3 182:13>]
+LOCAL_SYMBOL: b3OverlappingPairCache.cpp<175:6> [b3OverlappingPairCache.cpp <182:22 182:32>]
+SYMBOL_FUNCTION void b3AlignedObjectArray<int>::resize(int, const int &)
+REFERENCE_CALL void b3HashedOverlappingPairCache::growTables() -> void b3AlignedObjectArray<int>::resize(int, const int &) [b3OverlappingPairCache.cpp <183:10 183:15>]
+REFERENCE_USAGE void b3HashedOverlappingPairCache::growTables() -> b3AlignedObjectArray<int> b3HashedOverlappingPairCache::m_next [b3OverlappingPairCache.cpp <183:3 183:8>]
+LOCAL_SYMBOL: b3OverlappingPairCache.cpp<175:6> [b3OverlappingPairCache.cpp <183:17 183:27>]
+LOCAL_SYMBOL: b3OverlappingPairCache.cpp<186:7> [b3OverlappingPairCache.cpp <186:7 186:7>]
+SYMBOL_BUILTIN_TYPE int
+REFERENCE_TYPE_USAGE void b3HashedOverlappingPairCache::growTables() -> int [b3OverlappingPairCache.cpp <186:3 186:5>]
+LOCAL_SYMBOL: b3OverlappingPairCache.cpp<186:7> [b3OverlappingPairCache.cpp <188:8 188:8>]
+LOCAL_SYMBOL: b3OverlappingPairCache.cpp<186:7> [b3OverlappingPairCache.cpp <188:14 188:14>]
+LOCAL_SYMBOL: b3OverlappingPairCache.cpp<175:6> [b3OverlappingPairCache.cpp <188:18 188:28>]
+LOCAL_SYMBOL: b3OverlappingPairCache.cpp<186:7> [b3OverlappingPairCache.cpp <188:33 188:33>]
+SYMBOL_FUNCTION int & b3AlignedObjectArray<int>::operator[](int)
+REFERENCE_CALL void b3HashedOverlappingPairCache::growTables() -> int & b3AlignedObjectArray<int>::operator[](int) [b3OverlappingPairCache.cpp <190:15 190:15>]
+REFERENCE_USAGE void b3HashedOverlappingPairCache::growTables() -> b3AlignedObjectArray<int> b3HashedOverlappingPairCache::m_hashTable [b3OverlappingPairCache.cpp <190:4 190:14>]
+LOCAL_SYMBOL: b3OverlappingPairCache.cpp<186:7> [b3OverlappingPairCache.cpp <190:16 190:16>]
+REFERENCE_USAGE void b3HashedOverlappingPairCache::growTables() -> const int B3_NULL_PAIR [b3OverlappingPairCache.cpp <190:21 190:32>]
+LOCAL_SYMBOL: b3OverlappingPairCache.cpp<186:7> [b3OverlappingPairCache.cpp <192:8 192:8>]
+LOCAL_SYMBOL: b3OverlappingPairCache.cpp<186:7> [b3OverlappingPairCache.cpp <192:15 192:15>]
+LOCAL_SYMBOL: b3OverlappingPairCache.cpp<175:6> [b3OverlappingPairCache.cpp <192:19 192:29>]
+LOCAL_SYMBOL: b3OverlappingPairCache.cpp<186:7> [b3OverlappingPairCache.cpp <192:34 192:34>]
+SYMBOL_FUNCTION int & b3AlignedObjectArray<int>::operator[](int)
+REFERENCE_CALL void b3HashedOverlappingPairCache::growTables() -> int & b3AlignedObjectArray<int>::operator[](int) [b3OverlappingPairCache.cpp <194:10 194:10>]
+REFERENCE_USAGE void b3HashedOverlappingPairCache::growTables() -> b3AlignedObjectArray<int> b3HashedOverlappingPairCache::m_next [b3OverlappingPairCache.cpp <194:4 194:9>]
+LOCAL_SYMBOL: b3OverlappingPairCache.cpp<186:7> [b3OverlappingPairCache.cpp <194:11 194:11>]
+REFERENCE_USAGE void b3HashedOverlappingPairCache::growTables() -> const int B3_NULL_PAIR [b3OverlappingPairCache.cpp <194:16 194:27>]
+LOCAL_SYMBOL: b3OverlappingPairCache.cpp<186:7> [b3OverlappingPairCache.cpp <197:7 197:7>]
+LOCAL_SYMBOL: b3OverlappingPairCache.cpp<186:7> [b3OverlappingPairCache.cpp <197:11 197:11>]
+LOCAL_SYMBOL: b3OverlappingPairCache.cpp<180:7> [b3OverlappingPairCache.cpp <197:13 197:28>]
+LOCAL_SYMBOL: b3OverlappingPairCache.cpp<186:7> [b3OverlappingPairCache.cpp <197:30 197:30>]
+LOCAL_SYMBOL: b3OverlappingPairCache.cpp<200:28> [b3OverlappingPairCache.cpp <200:28 200:31>]
+REFERENCE_TYPE_USAGE void b3HashedOverlappingPairCache::growTables() -> b3BroadphasePair [b3OverlappingPairCache.cpp <200:10 200:25>]
+SYMBOL_FUNCTION b3Int4 & b3AlignedObjectArray<b3Int4>::operator[](int)
+REFERENCE_CALL void b3HashedOverlappingPairCache::growTables() -> b3Int4 & b3AlignedObjectArray<b3Int4>::operator[](int) [b3OverlappingPairCache.cpp <200:57 200:57>]
+REFERENCE_USAGE void b3HashedOverlappingPairCache::growTables() -> b3BroadphasePairArray b3HashedOverlappingPairCache::m_overlappingPairArray [b3OverlappingPairCache.cpp <200:35 200:56>]
+LOCAL_SYMBOL: b3OverlappingPairCache.cpp<186:7> [b3OverlappingPairCache.cpp <200:58 200:58>]
+LOCAL_SYMBOL: b3OverlappingPairCache.cpp<201:8> [b3OverlappingPairCache.cpp <201:8 201:15>]
+SYMBOL_BUILTIN_TYPE int
+REFERENCE_TYPE_USAGE void b3HashedOverlappingPairCache::growTables() -> int [b3OverlappingPairCache.cpp <201:4 201:6>]
+REFERENCE_USAGE void b3HashedOverlappingPairCache::growTables() -> int b3Int4::anonymous union (b3Int4.h<30:2>)::anonymous struct (b3Int4.h<32:3>)::x [b3OverlappingPairCache.cpp <201:24 201:24>]
+REFERENCE_USAGE void b3HashedOverlappingPairCache::growTables() -> b3Int4::anonymous union (b3Int4.h<30:2>)::anonymous struct (b3Int4.h<32:3>) b3Int4::anonymous union (b3Int4.h<30:2>):: [b3OverlappingPairCache.cpp <201:24 201:24>]
+REFERENCE_USAGE void b3HashedOverlappingPairCache::growTables() -> b3Int4::anonymous union (b3Int4.h<30:2>) b3Int4:: [b3OverlappingPairCache.cpp <201:24 201:24>]
+LOCAL_SYMBOL: b3OverlappingPairCache.cpp<200:28> [b3OverlappingPairCache.cpp <201:19 201:22>]
+LOCAL_SYMBOL: b3OverlappingPairCache.cpp<202:8> [b3OverlappingPairCache.cpp <202:8 202:15>]
+SYMBOL_BUILTIN_TYPE int
+REFERENCE_TYPE_USAGE void b3HashedOverlappingPairCache::growTables() -> int [b3OverlappingPairCache.cpp <202:4 202:6>]
+REFERENCE_USAGE void b3HashedOverlappingPairCache::growTables() -> int b3Int4::anonymous union (b3Int4.h<30:2>)::anonymous struct (b3Int4.h<32:3>)::y [b3OverlappingPairCache.cpp <202:24 202:24>]
+REFERENCE_USAGE void b3HashedOverlappingPairCache::growTables() -> b3Int4::anonymous union (b3Int4.h<30:2>)::anonymous struct (b3Int4.h<32:3>) b3Int4::anonymous union (b3Int4.h<30:2>):: [b3OverlappingPairCache.cpp <202:24 202:24>]
+REFERENCE_USAGE void b3HashedOverlappingPairCache::growTables() -> b3Int4::anonymous union (b3Int4.h<30:2>) b3Int4:: [b3OverlappingPairCache.cpp <202:24 202:24>]
+LOCAL_SYMBOL: b3OverlappingPairCache.cpp<200:28> [b3OverlappingPairCache.cpp <202:19 202:22>]
+LOCAL_SYMBOL: b3OverlappingPairCache.cpp<205:8> [b3OverlappingPairCache.cpp <205:8 205:16>]
+SYMBOL_BUILTIN_TYPE int
+REFERENCE_TYPE_USAGE void b3HashedOverlappingPairCache::growTables() -> int [b3OverlappingPairCache.cpp <205:4 205:6>]
+SYMBOL_BUILTIN_TYPE int
+REFERENCE_TYPE_USAGE void b3HashedOverlappingPairCache::growTables() -> int [b3OverlappingPairCache.cpp <205:32 205:34>]
+SYMBOL_FUNCTION unsigned int b3HashedOverlappingPairCache::getHash(unsigned int, unsigned int)
+REFERENCE_CALL void b3HashedOverlappingPairCache::growTables() -> unsigned int b3HashedOverlappingPairCache::getHash(unsigned int, unsigned int) [b3OverlappingPairCache.cpp <205:37 205:43>]
+SYMBOL_BUILTIN_TYPE unsigned int
+REFERENCE_TYPE_USAGE void b3HashedOverlappingPairCache::growTables() -> unsigned int [b3OverlappingPairCache.cpp <205:57 205:64>]
+LOCAL_SYMBOL: b3OverlappingPairCache.cpp<201:8> [b3OverlappingPairCache.cpp <205:71 205:78>]
+SYMBOL_BUILTIN_TYPE unsigned int
+REFERENCE_TYPE_USAGE void b3HashedOverlappingPairCache::growTables() -> unsigned int [b3OverlappingPairCache.cpp <205:93 205:100>]
+LOCAL_SYMBOL: b3OverlappingPairCache.cpp<202:8> [b3OverlappingPairCache.cpp <205:107 205:114>]
+SYMBOL_FUNCTION int b3AlignedObjectArray<b3Int4>::capacity() const
+REFERENCE_CALL void b3HashedOverlappingPairCache::growTables() -> int b3AlignedObjectArray<b3Int4>::capacity() const [b3OverlappingPairCache.cpp <205:144 205:151>]
+REFERENCE_USAGE void b3HashedOverlappingPairCache::growTables() -> b3BroadphasePairArray b3HashedOverlappingPairCache::m_overlappingPairArray [b3OverlappingPairCache.cpp <205:121 205:142>]
+SYMBOL_FUNCTION int & b3AlignedObjectArray<int>::operator[](int)
+REFERENCE_CALL void b3HashedOverlappingPairCache::growTables() -> int & b3AlignedObjectArray<int>::operator[](int) [b3OverlappingPairCache.cpp <206:10 206:10>]
+REFERENCE_USAGE void b3HashedOverlappingPairCache::growTables() -> b3AlignedObjectArray<int> b3HashedOverlappingPairCache::m_next [b3OverlappingPairCache.cpp <206:4 206:9>]
+LOCAL_SYMBOL: b3OverlappingPairCache.cpp<186:7> [b3OverlappingPairCache.cpp <206:11 206:11>]
+SYMBOL_FUNCTION int & b3AlignedObjectArray<int>::operator[](int)
+REFERENCE_CALL void b3HashedOverlappingPairCache::growTables() -> int & b3AlignedObjectArray<int>::operator[](int) [b3OverlappingPairCache.cpp <206:27 206:27>]
+REFERENCE_USAGE void b3HashedOverlappingPairCache::growTables() -> b3AlignedObjectArray<int> b3HashedOverlappingPairCache::m_hashTable [b3OverlappingPairCache.cpp <206:16 206:26>]
+LOCAL_SYMBOL: b3OverlappingPairCache.cpp<205:8> [b3OverlappingPairCache.cpp <206:28 206:36>]
+SYMBOL_FUNCTION int & b3AlignedObjectArray<int>::operator[](int)
+REFERENCE_CALL void b3HashedOverlappingPairCache::growTables() -> int & b3AlignedObjectArray<int>::operator[](int) [b3OverlappingPairCache.cpp <207:15 207:15>]
+REFERENCE_USAGE void b3HashedOverlappingPairCache::growTables() -> b3AlignedObjectArray<int> b3HashedOverlappingPairCache::m_hashTable [b3OverlappingPairCache.cpp <207:4 207:14>]
+LOCAL_SYMBOL: b3OverlappingPairCache.cpp<205:8> [b3OverlappingPairCache.cpp <207:16 207:24>]
+LOCAL_SYMBOL: b3OverlappingPairCache.cpp<186:7> [b3OverlappingPairCache.cpp <207:29 207:29>]
+SYMBOL_METHOD private b3BroadphasePair * b3HashedOverlappingPairCache::internalAddPair(int, int) [b3OverlappingPairCache.cpp <214:1 <214:49 214:63> 270:1>]
+SYMBOL_CLASS b3HashedOverlappingPairCache
+REFERENCE_TYPE_USAGE b3BroadphasePair * b3HashedOverlappingPairCache::internalAddPair(int, int) -> b3BroadphasePair [b3OverlappingPairCache.cpp <214:1 214:16>]
+LOCAL_SYMBOL: b3OverlappingPairCache.cpp<214:69> [b3OverlappingPairCache.cpp <214:69 214:74>]
+SYMBOL_BUILTIN_TYPE int
+REFERENCE_TYPE_USAGE b3BroadphasePair * b3HashedOverlappingPairCache::internalAddPair(int, int) -> int [b3OverlappingPairCache.cpp <214:65 214:67>]
+LOCAL_SYMBOL: b3OverlappingPairCache.cpp<214:81> [b3OverlappingPairCache.cpp <214:81 214:86>]
+SYMBOL_BUILTIN_TYPE int
+REFERENCE_TYPE_USAGE b3BroadphasePair * b3HashedOverlappingPairCache::internalAddPair(int, int) -> int [b3OverlappingPairCache.cpp <214:77 214:79>]
+LOCAL_SYMBOL: b3OverlappingPairCache.cpp<214:69> [b3OverlappingPairCache.cpp <216:5 216:10>]
+LOCAL_SYMBOL: b3OverlappingPairCache.cpp<214:81> [b3OverlappingPairCache.cpp <216:12 216:17>]
+SYMBOL_FUNCTION void b3Swap<int>(int &, int &)
+REFERENCE_CALL b3BroadphasePair * b3HashedOverlappingPairCache::internalAddPair(int, int) -> void b3Swap<int>(int &, int &) [b3OverlappingPairCache.cpp <217:3 217:8>]
+LOCAL_SYMBOL: b3OverlappingPairCache.cpp<214:69> [b3OverlappingPairCache.cpp <217:10 217:15>]
+LOCAL_SYMBOL: b3OverlappingPairCache.cpp<214:81> [b3OverlappingPairCache.cpp <217:17 217:22>]
+LOCAL_SYMBOL: b3OverlappingPairCache.cpp<218:6> [b3OverlappingPairCache.cpp <218:6 218:13>]
+SYMBOL_BUILTIN_TYPE int
+REFERENCE_TYPE_USAGE b3BroadphasePair * b3HashedOverlappingPairCache::internalAddPair(int, int) -> int [b3OverlappingPairCache.cpp <218:2 218:4>]
+LOCAL_SYMBOL: b3OverlappingPairCache.cpp<214:69> [b3OverlappingPairCache.cpp <218:17 218:22>]
+LOCAL_SYMBOL: b3OverlappingPairCache.cpp<219:6> [b3OverlappingPairCache.cpp <219:6 219:13>]
+SYMBOL_BUILTIN_TYPE int
+REFERENCE_TYPE_USAGE b3BroadphasePair * b3HashedOverlappingPairCache::internalAddPair(int, int) -> int [b3OverlappingPairCache.cpp <219:2 219:4>]
+LOCAL_SYMBOL: b3OverlappingPairCache.cpp<214:81> [b3OverlappingPairCache.cpp <219:17 219:22>]
+LOCAL_SYMBOL: b3OverlappingPairCache.cpp<224:6> [b3OverlappingPairCache.cpp <224:6 224:9>]
+SYMBOL_BUILTIN_TYPE int
+REFERENCE_TYPE_USAGE b3BroadphasePair * b3HashedOverlappingPairCache::internalAddPair(int, int) -> int [b3OverlappingPairCache.cpp <224:2 224:4>]
+SYMBOL_BUILTIN_TYPE int
+REFERENCE_TYPE_USAGE b3BroadphasePair * b3HashedOverlappingPairCache::internalAddPair(int, int) -> int [b3OverlappingPairCache.cpp <224:25 224:27>]
+SYMBOL_FUNCTION unsigned int b3HashedOverlappingPairCache::getHash(unsigned int, unsigned int)
+REFERENCE_CALL b3BroadphasePair * b3HashedOverlappingPairCache::internalAddPair(int, int) -> unsigned int b3HashedOverlappingPairCache::getHash(unsigned int, unsigned int) [b3OverlappingPairCache.cpp <224:30 224:36>]
+SYMBOL_BUILTIN_TYPE unsigned int
+REFERENCE_TYPE_USAGE b3BroadphasePair * b3HashedOverlappingPairCache::internalAddPair(int, int) -> unsigned int [b3OverlappingPairCache.cpp <224:50 224:57>]
+LOCAL_SYMBOL: b3OverlappingPairCache.cpp<218:6> [b3OverlappingPairCache.cpp <224:64 224:71>]
+SYMBOL_BUILTIN_TYPE unsigned int
+REFERENCE_TYPE_USAGE b3BroadphasePair * b3HashedOverlappingPairCache::internalAddPair(int, int) -> unsigned int [b3OverlappingPairCache.cpp <224:86 224:93>]
+LOCAL_SYMBOL: b3OverlappingPairCache.cpp<219:6> [b3OverlappingPairCache.cpp <224:100 224:107>]
+SYMBOL_FUNCTION int b3AlignedObjectArray<b3Int4>::capacity() const
+REFERENCE_CALL b3BroadphasePair * b3HashedOverlappingPairCache::internalAddPair(int, int) -> int b3AlignedObjectArray<b3Int4>::capacity() const [b3OverlappingPairCache.cpp <224:137 224:144>]
+REFERENCE_USAGE b3BroadphasePair * b3HashedOverlappingPairCache::internalAddPair(int, int) -> b3BroadphasePairArray b3HashedOverlappingPairCache::m_overlappingPairArray [b3OverlappingPairCache.cpp <224:114 224:135>]
+LOCAL_SYMBOL: b3OverlappingPairCache.cpp<227:20> [b3OverlappingPairCache.cpp <227:20 227:23>]
+REFERENCE_TYPE_USAGE b3BroadphasePair * b3HashedOverlappingPairCache::internalAddPair(int, int) -> b3BroadphasePair [b3OverlappingPairCache.cpp <227:2 227:17>]
+SYMBOL_FUNCTION b3BroadphasePair * b3HashedOverlappingPairCache::internalFindPair(int, int, int)
+REFERENCE_CALL b3BroadphasePair * b3HashedOverlappingPairCache::internalAddPair(int, int) -> b3BroadphasePair * b3HashedOverlappingPairCache::internalFindPair(int, int, int) [b3OverlappingPairCache.cpp <227:27 227:42>]
+LOCAL_SYMBOL: b3OverlappingPairCache.cpp<214:69> [b3OverlappingPairCache.cpp <227:44 227:49>]
+LOCAL_SYMBOL: b3OverlappingPairCache.cpp<214:81> [b3OverlappingPairCache.cpp <227:52 227:57>]
+LOCAL_SYMBOL: b3OverlappingPairCache.cpp<224:6> [b3OverlappingPairCache.cpp <227:60 227:63>]
+LOCAL_SYMBOL: b3OverlappingPairCache.cpp<227:20> [b3OverlappingPairCache.cpp <228:6 228:9>]
+LOCAL_SYMBOL: b3OverlappingPairCache.cpp<227:20> [b3OverlappingPairCache.cpp <230:10 230:13>]
+LOCAL_SYMBOL: b3OverlappingPairCache.cpp<241:6> [b3OverlappingPairCache.cpp <241:6 241:10>]
+SYMBOL_BUILTIN_TYPE int
+REFERENCE_TYPE_USAGE b3BroadphasePair * b3HashedOverlappingPairCache::internalAddPair(int, int) -> int [b3OverlappingPairCache.cpp <241:2 241:4>]
+SYMBOL_FUNCTION int b3AlignedObjectArray<b3Int4>::size() const
+REFERENCE_CALL b3BroadphasePair * b3HashedOverlappingPairCache::internalAddPair(int, int) -> int b3AlignedObjectArray<b3Int4>::size() const [b3OverlappingPairCache.cpp <241:37 241:40>]
+REFERENCE_USAGE b3BroadphasePair * b3HashedOverlappingPairCache::internalAddPair(int, int) -> b3BroadphasePairArray b3HashedOverlappingPairCache::m_overlappingPairArray [b3OverlappingPairCache.cpp <241:14 241:35>]
+LOCAL_SYMBOL: b3OverlappingPairCache.cpp<242:6> [b3OverlappingPairCache.cpp <242:6 242:16>]
+SYMBOL_BUILTIN_TYPE int
+REFERENCE_TYPE_USAGE b3BroadphasePair * b3HashedOverlappingPairCache::internalAddPair(int, int) -> int [b3OverlappingPairCache.cpp <242:2 242:4>]
+SYMBOL_FUNCTION int b3AlignedObjectArray<b3Int4>::capacity() const
+REFERENCE_CALL b3BroadphasePair * b3HashedOverlappingPairCache::internalAddPair(int, int) -> int b3AlignedObjectArray<b3Int4>::capacity() const [b3OverlappingPairCache.cpp <242:43 242:50>]
+REFERENCE_USAGE b3BroadphasePair * b3HashedOverlappingPairCache::internalAddPair(int, int) -> b3BroadphasePairArray b3HashedOverlappingPairCache::m_overlappingPairArray [b3OverlappingPairCache.cpp <242:20 242:41>]
+LOCAL_SYMBOL: b3OverlappingPairCache.cpp<227:20> [b3OverlappingPairCache.cpp <243:2 243:5>]
+SYMBOL_FUNCTION b3Int4 & b3AlignedObjectArray<b3Int4>::expandNonInitializing()
+REFERENCE_CALL b3BroadphasePair * b3HashedOverlappingPairCache::internalAddPair(int, int) -> b3Int4 & b3AlignedObjectArray<b3Int4>::expandNonInitializing() [b3OverlappingPairCache.cpp <243:33 243:53>]
+REFERENCE_USAGE b3BroadphasePair * b3HashedOverlappingPairCache::internalAddPair(int, int) -> b3BroadphasePairArray b3HashedOverlappingPairCache::m_overlappingPairArray [b3OverlappingPairCache.cpp <243:10 243:31>]
+LOCAL_SYMBOL: b3OverlappingPairCache.cpp<249:6> [b3OverlappingPairCache.cpp <249:6 249:16>]
+SYMBOL_BUILTIN_TYPE int
+REFERENCE_TYPE_USAGE b3BroadphasePair * b3HashedOverlappingPairCache::internalAddPair(int, int) -> int [b3OverlappingPairCache.cpp <249:2 249:4>]
+SYMBOL_FUNCTION int b3AlignedObjectArray<b3Int4>::capacity() const
+REFERENCE_CALL b3BroadphasePair * b3HashedOverlappingPairCache::internalAddPair(int, int) -> int b3AlignedObjectArray<b3Int4>::capacity() const [b3OverlappingPairCache.cpp <249:43 249:50>]
+REFERENCE_USAGE b3BroadphasePair * b3HashedOverlappingPairCache::internalAddPair(int, int) -> b3BroadphasePairArray b3HashedOverlappingPairCache::m_overlappingPairArray [b3OverlappingPairCache.cpp <249:20 249:41>]
+LOCAL_SYMBOL: b3OverlappingPairCache.cpp<242:6> [b3OverlappingPairCache.cpp <251:6 251:16>]
+LOCAL_SYMBOL: b3OverlappingPairCache.cpp<249:6> [b3OverlappingPairCache.cpp <251:20 251:30>]
+SYMBOL_FUNCTION void b3HashedOverlappingPairCache::growTables()
+REFERENCE_CALL b3BroadphasePair * b3HashedOverlappingPairCache::internalAddPair(int, int) -> void b3HashedOverlappingPairCache::growTables() [b3OverlappingPairCache.cpp <253:3 253:12>]
+LOCAL_SYMBOL: b3OverlappingPairCache.cpp<224:6> [b3OverlappingPairCache.cpp <255:3 255:6>]
+SYMBOL_BUILTIN_TYPE int
+REFERENCE_TYPE_USAGE b3BroadphasePair * b3HashedOverlappingPairCache::internalAddPair(int, int) -> int [b3OverlappingPairCache.cpp <255:22 255:24>]
+SYMBOL_FUNCTION unsigned int b3HashedOverlappingPairCache::getHash(unsigned int, unsigned int)
+REFERENCE_CALL b3BroadphasePair * b3HashedOverlappingPairCache::internalAddPair(int, int) -> unsigned int b3HashedOverlappingPairCache::getHash(unsigned int, unsigned int) [b3OverlappingPairCache.cpp <255:27 255:33>]
+SYMBOL_BUILTIN_TYPE unsigned int
+REFERENCE_TYPE_USAGE b3BroadphasePair * b3HashedOverlappingPairCache::internalAddPair(int, int) -> unsigned int [b3OverlappingPairCache.cpp <255:47 255:54>]
+LOCAL_SYMBOL: b3OverlappingPairCache.cpp<218:6> [b3OverlappingPairCache.cpp <255:61 255:68>]
+SYMBOL_BUILTIN_TYPE unsigned int
+REFERENCE_TYPE_USAGE b3BroadphasePair * b3HashedOverlappingPairCache::internalAddPair(int, int) -> unsigned int [b3OverlappingPairCache.cpp <255:83 255:90>]
+LOCAL_SYMBOL: b3OverlappingPairCache.cpp<219:6> [b3OverlappingPairCache.cpp <255:97 255:104>]
+SYMBOL_FUNCTION int b3AlignedObjectArray<b3Int4>::capacity() const
+REFERENCE_CALL b3BroadphasePair * b3HashedOverlappingPairCache::internalAddPair(int, int) -> int b3AlignedObjectArray<b3Int4>::capacity() const [b3OverlappingPairCache.cpp <255:134 255:141>]
+REFERENCE_USAGE b3BroadphasePair * b3HashedOverlappingPairCache::internalAddPair(int, int) -> b3BroadphasePairArray b3HashedOverlappingPairCache::m_overlappingPairArray [b3OverlappingPairCache.cpp <255:111 255:132>]
+SYMBOL_FUNCTION b3Int4 & b3Int4::operator=(b3Int4 &)
+REFERENCE_CALL b3BroadphasePair * b3HashedOverlappingPairCache::internalAddPair(int, int) -> b3Int4 & b3Int4::operator=(b3Int4 &) [b3OverlappingPairCache.cpp <258:8 258:8>]
+LOCAL_SYMBOL: b3OverlappingPairCache.cpp<227:20> [b3OverlappingPairCache.cpp <258:3 258:6>]
+SYMBOL_FUNCTION b3Int4 b3MakeBroadphasePair(int, int)
+REFERENCE_CALL b3BroadphasePair * b3HashedOverlappingPairCache::internalAddPair(int, int) -> b3Int4 b3MakeBroadphasePair(int, int) [b3OverlappingPairCache.cpp <258:10 258:29>]
+LOCAL_SYMBOL: b3OverlappingPairCache.cpp<214:69> [b3OverlappingPairCache.cpp <258:31 258:36>]
+LOCAL_SYMBOL: b3OverlappingPairCache.cpp<214:81> [b3OverlappingPairCache.cpp <258:38 258:43>]
+SYMBOL_FUNCTION int & b3AlignedObjectArray<int>::operator[](int)
+REFERENCE_CALL b3BroadphasePair * b3HashedOverlappingPairCache::internalAddPair(int, int) -> int & b3AlignedObjectArray<int>::operator[](int) [b3OverlappingPairCache.cpp <266:8 266:8>]
+REFERENCE_USAGE b3BroadphasePair * b3HashedOverlappingPairCache::internalAddPair(int, int) -> b3AlignedObjectArray<int> b3HashedOverlappingPairCache::m_next [b3OverlappingPairCache.cpp <266:2 266:7>]
+LOCAL_SYMBOL: b3OverlappingPairCache.cpp<241:6> [b3OverlappingPairCache.cpp <266:9 266:13>]
+SYMBOL_FUNCTION int & b3AlignedObjectArray<int>::operator[](int)
+REFERENCE_CALL b3BroadphasePair * b3HashedOverlappingPairCache::internalAddPair(int, int) -> int & b3AlignedObjectArray<int>::operator[](int) [b3OverlappingPairCache.cpp <266:29 266:29>]
+REFERENCE_USAGE b3BroadphasePair * b3HashedOverlappingPairCache::internalAddPair(int, int) -> b3AlignedObjectArray<int> b3HashedOverlappingPairCache::m_hashTable [b3OverlappingPairCache.cpp <266:18 266:28>]
+LOCAL_SYMBOL: b3OverlappingPairCache.cpp<224:6> [b3OverlappingPairCache.cpp <266:30 266:33>]
+SYMBOL_FUNCTION int & b3AlignedObjectArray<int>::operator[](int)
+REFERENCE_CALL b3BroadphasePair * b3HashedOverlappingPairCache::internalAddPair(int, int) -> int & b3AlignedObjectArray<int>::operator[](int) [b3OverlappingPairCache.cpp <267:13 267:13>]
+REFERENCE_USAGE b3BroadphasePair * b3HashedOverlappingPairCache::internalAddPair(int, int) -> b3AlignedObjectArray<int> b3HashedOverlappingPairCache::m_hashTable [b3OverlappingPairCache.cpp <267:2 267:12>]
+LOCAL_SYMBOL: b3OverlappingPairCache.cpp<224:6> [b3OverlappingPairCache.cpp <267:14 267:17>]
+LOCAL_SYMBOL: b3OverlappingPairCache.cpp<241:6> [b3OverlappingPairCache.cpp <267:22 267:26>]
+LOCAL_SYMBOL: b3OverlappingPairCache.cpp<227:20> [b3OverlappingPairCache.cpp <269:9 269:12>]
+SYMBOL_METHOD public void * b3HashedOverlappingPairCache::removeOverlappingPair(int, int, b3Dispatcher *) [b3OverlappingPairCache.cpp <274:1 <274:37 274:57> 372:1>]
+SYMBOL_FUNCTION void * b3OverlappingPairCache::removeOverlappingPair(int, int, b3Dispatcher *)
+REFERENCE_OVERRIDE void * b3HashedOverlappingPairCache::removeOverlappingPair(int, int, b3Dispatcher *) -> void * b3OverlappingPairCache::removeOverlappingPair(int, int, b3Dispatcher *) [b3OverlappingPairCache.cpp <274:37 274:57>]
+SYMBOL_CLASS b3HashedOverlappingPairCache
+SYMBOL_BUILTIN_TYPE void
+REFERENCE_TYPE_USAGE void * b3HashedOverlappingPairCache::removeOverlappingPair(int, int, b3Dispatcher *) -> void [b3OverlappingPairCache.cpp <274:1 274:4>]
+LOCAL_SYMBOL: b3OverlappingPairCache.cpp<274:63> [b3OverlappingPairCache.cpp <274:63 274:68>]
+SYMBOL_BUILTIN_TYPE int
+REFERENCE_TYPE_USAGE void * b3HashedOverlappingPairCache::removeOverlappingPair(int, int, b3Dispatcher *) -> int [b3OverlappingPairCache.cpp <274:59 274:61>]
+LOCAL_SYMBOL: b3OverlappingPairCache.cpp<274:75> [b3OverlappingPairCache.cpp <274:75 274:80>]
+SYMBOL_BUILTIN_TYPE int
+REFERENCE_TYPE_USAGE void * b3HashedOverlappingPairCache::removeOverlappingPair(int, int, b3Dispatcher *) -> int [b3OverlappingPairCache.cpp <274:71 274:73>]
+LOCAL_SYMBOL: b3OverlappingPairCache.cpp<274:96> [b3OverlappingPairCache.cpp <274:96 274:105>]
+REFERENCE_TYPE_USAGE void * b3HashedOverlappingPairCache::removeOverlappingPair(int, int, b3Dispatcher *) -> b3Dispatcher [b3OverlappingPairCache.cpp <274:82 274:93>]
+REFERENCE_USAGE void * b3HashedOverlappingPairCache::removeOverlappingPair(int, int, b3Dispatcher *) -> int b3g_removePairs [b3OverlappingPairCache.cpp <276:2 276:16>]
+LOCAL_SYMBOL: b3OverlappingPairCache.cpp<274:63> [b3OverlappingPairCache.cpp <277:5 277:10>]
+LOCAL_SYMBOL: b3OverlappingPairCache.cpp<274:75> [b3OverlappingPairCache.cpp <277:12 277:17>]
+SYMBOL_FUNCTION void b3Swap<int>(int &, int &)
+REFERENCE_CALL void * b3HashedOverlappingPairCache::removeOverlappingPair(int, int, b3Dispatcher *) -> void b3Swap<int>(int &, int &) [b3OverlappingPairCache.cpp <278:3 278:8>]
+LOCAL_SYMBOL: b3OverlappingPairCache.cpp<274:63> [b3OverlappingPairCache.cpp <278:10 278:15>]
+LOCAL_SYMBOL: b3OverlappingPairCache.cpp<274:75> [b3OverlappingPairCache.cpp <278:17 278:22>]
+LOCAL_SYMBOL: b3OverlappingPairCache.cpp<279:6> [b3OverlappingPairCache.cpp <279:6 279:13>]
+SYMBOL_BUILTIN_TYPE int
+REFERENCE_TYPE_USAGE void * b3HashedOverlappingPairCache::removeOverlappingPair(int, int, b3Dispatcher *) -> int [b3OverlappingPairCache.cpp <279:2 279:4>]
+LOCAL_SYMBOL: b3OverlappingPairCache.cpp<274:63> [b3OverlappingPairCache.cpp <279:17 279:22>]
+LOCAL_SYMBOL: b3OverlappingPairCache.cpp<280:6> [b3OverlappingPairCache.cpp <280:6 280:13>]
+SYMBOL_BUILTIN_TYPE int
+REFERENCE_TYPE_USAGE void * b3HashedOverlappingPairCache::removeOverlappingPair(int, int, b3Dispatcher *) -> int [b3OverlappingPairCache.cpp <280:2 280:4>]
+LOCAL_SYMBOL: b3OverlappingPairCache.cpp<274:75> [b3OverlappingPairCache.cpp <280:17 280:22>]
+LOCAL_SYMBOL: b3OverlappingPairCache.cpp<285:6> [b3OverlappingPairCache.cpp <285:6 285:9>]
+SYMBOL_BUILTIN_TYPE int
+REFERENCE_TYPE_USAGE void * b3HashedOverlappingPairCache::removeOverlappingPair(int, int, b3Dispatcher *) -> int [b3OverlappingPairCache.cpp <285:2 285:4>]
+SYMBOL_BUILTIN_TYPE int
+REFERENCE_TYPE_USAGE void * b3HashedOverlappingPairCache::removeOverlappingPair(int, int, b3Dispatcher *) -> int [b3OverlappingPairCache.cpp <285:25 285:27>]
+SYMBOL_FUNCTION unsigned int b3HashedOverlappingPairCache::getHash(unsigned int, unsigned int)
+REFERENCE_CALL void * b3HashedOverlappingPairCache::removeOverlappingPair(int, int, b3Dispatcher *) -> unsigned int b3HashedOverlappingPairCache::getHash(unsigned int, unsigned int) [b3OverlappingPairCache.cpp <285:30 285:36>]
+SYMBOL_BUILTIN_TYPE unsigned int
+REFERENCE_TYPE_USAGE void * b3HashedOverlappingPairCache::removeOverlappingPair(int, int, b3Dispatcher *) -> unsigned int [b3OverlappingPairCache.cpp <285:50 285:57>]
+LOCAL_SYMBOL: b3OverlappingPairCache.cpp<279:6> [b3OverlappingPairCache.cpp <285:64 285:71>]
+SYMBOL_BUILTIN_TYPE unsigned int
+REFERENCE_TYPE_USAGE void * b3HashedOverlappingPairCache::removeOverlappingPair(int, int, b3Dispatcher *) -> unsigned int [b3OverlappingPairCache.cpp <285:86 285:93>]
+LOCAL_SYMBOL: b3OverlappingPairCache.cpp<280:6> [b3OverlappingPairCache.cpp <285:100 285:107>]
+SYMBOL_FUNCTION int b3AlignedObjectArray<b3Int4>::capacity() const
+REFERENCE_CALL void * b3HashedOverlappingPairCache::removeOverlappingPair(int, int, b3Dispatcher *) -> int b3AlignedObjectArray<b3Int4>::capacity() const [b3OverlappingPairCache.cpp <285:137 285:144>]
+REFERENCE_USAGE void * b3HashedOverlappingPairCache::removeOverlappingPair(int, int, b3Dispatcher *) -> b3BroadphasePairArray b3HashedOverlappingPairCache::m_overlappingPairArray [b3OverlappingPairCache.cpp <285:114 285:135>]
+LOCAL_SYMBOL: b3OverlappingPairCache.cpp<287:20> [b3OverlappingPairCache.cpp <287:20 287:23>]
+REFERENCE_TYPE_USAGE void * b3HashedOverlappingPairCache::removeOverlappingPair(int, int, b3Dispatcher *) -> b3BroadphasePair [b3OverlappingPairCache.cpp <287:2 287:17>]
+SYMBOL_FUNCTION b3BroadphasePair * b3HashedOverlappingPairCache::internalFindPair(int, int, int)
+REFERENCE_CALL void * b3HashedOverlappingPairCache::removeOverlappingPair(int, int, b3Dispatcher *) -> b3BroadphasePair * b3HashedOverlappingPairCache::internalFindPair(int, int, int) [b3OverlappingPairCache.cpp <287:27 287:42>]
+LOCAL_SYMBOL: b3OverlappingPairCache.cpp<274:63> [b3OverlappingPairCache.cpp <287:44 287:49>]
+LOCAL_SYMBOL: b3OverlappingPairCache.cpp<274:75> [b3OverlappingPairCache.cpp <287:52 287:57>]
+LOCAL_SYMBOL: b3OverlappingPairCache.cpp<285:6> [b3OverlappingPairCache.cpp <287:60 287:63>]
+LOCAL_SYMBOL: b3OverlappingPairCache.cpp<287:20> [b3OverlappingPairCache.cpp <288:6 288:9>]
+SYMBOL_FUNCTION void b3HashedOverlappingPairCache::cleanOverlappingPair(b3BroadphasePair &, b3Dispatcher *)
+REFERENCE_CALL void * b3HashedOverlappingPairCache::removeOverlappingPair(int, int, b3Dispatcher *) -> void b3HashedOverlappingPairCache::cleanOverlappingPair(b3BroadphasePair &, b3Dispatcher *) [b3OverlappingPairCache.cpp <293:2 293:21>]
+LOCAL_SYMBOL: b3OverlappingPairCache.cpp<287:20> [b3OverlappingPairCache.cpp <293:24 293:27>]
+LOCAL_SYMBOL: b3OverlappingPairCache.cpp<274:96> [b3OverlappingPairCache.cpp <293:29 293:38>]
+LOCAL_SYMBOL: b3OverlappingPairCache.cpp<297:6> [b3OverlappingPairCache.cpp <297:6 297:14>]
+SYMBOL_BUILTIN_TYPE int
+REFERENCE_TYPE_USAGE void * b3HashedOverlappingPairCache::removeOverlappingPair(int, int, b3Dispatcher *) -> int [b3OverlappingPairCache.cpp <297:2 297:4>]
+SYMBOL_BUILTIN_TYPE int
+REFERENCE_TYPE_USAGE void * b3HashedOverlappingPairCache::removeOverlappingPair(int, int, b3Dispatcher *) -> int [b3OverlappingPairCache.cpp <297:18 297:20>]
+LOCAL_SYMBOL: b3OverlappingPairCache.cpp<287:20> [b3OverlappingPairCache.cpp <297:22 297:25>]
+SYMBOL_FUNCTION b3Int4 & b3AlignedObjectArray<b3Int4>::operator[](int)
+REFERENCE_CALL void * b3HashedOverlappingPairCache::removeOverlappingPair(int, int, b3Dispatcher *) -> b3Int4 & b3AlignedObjectArray<b3Int4>::operator[](int) [b3OverlappingPairCache.cpp <297:52 297:52>]
+REFERENCE_USAGE void * b3HashedOverlappingPairCache::removeOverlappingPair(int, int, b3Dispatcher *) -> b3BroadphasePairArray b3HashedOverlappingPairCache::m_overlappingPairArray [b3OverlappingPairCache.cpp <297:30 297:51>]
+LOCAL_SYMBOL: b3OverlappingPairCache.cpp<301:6> [b3OverlappingPairCache.cpp <301:6 301:10>]
+SYMBOL_BUILTIN_TYPE int
+REFERENCE_TYPE_USAGE void * b3HashedOverlappingPairCache::removeOverlappingPair(int, int, b3Dispatcher *) -> int [b3OverlappingPairCache.cpp <301:2 301:4>]
+SYMBOL_FUNCTION int & b3AlignedObjectArray<int>::operator[](int)
+REFERENCE_CALL void * b3HashedOverlappingPairCache::removeOverlappingPair(int, int, b3Dispatcher *) -> int & b3AlignedObjectArray<int>::operator[](int) [b3OverlappingPairCache.cpp <301:25 301:25>]
+REFERENCE_USAGE void * b3HashedOverlappingPairCache::removeOverlappingPair(int, int, b3Dispatcher *) -> b3AlignedObjectArray<int> b3HashedOverlappingPairCache::m_hashTable [b3OverlappingPairCache.cpp <301:14 301:24>]
+LOCAL_SYMBOL: b3OverlappingPairCache.cpp<285:6> [b3OverlappingPairCache.cpp <301:26 301:29>]
+LOCAL_SYMBOL: b3OverlappingPairCache.cpp<304:6> [b3OverlappingPairCache.cpp <304:6 304:13>]
+SYMBOL_BUILTIN_TYPE int
+REFERENCE_TYPE_USAGE void * b3HashedOverlappingPairCache::removeOverlappingPair(int, int, b3Dispatcher *) -> int [b3OverlappingPairCache.cpp <304:2 304:4>]
+REFERENCE_USAGE void * b3HashedOverlappingPairCache::removeOverlappingPair(int, int, b3Dispatcher *) -> const int B3_NULL_PAIR [b3OverlappingPairCache.cpp <304:17 304:28>]
+LOCAL_SYMBOL: b3OverlappingPairCache.cpp<301:6> [b3OverlappingPairCache.cpp <305:9 305:13>]
+LOCAL_SYMBOL: b3OverlappingPairCache.cpp<297:6> [b3OverlappingPairCache.cpp <305:18 305:26>]
+LOCAL_SYMBOL: b3OverlappingPairCache.cpp<304:6> [b3OverlappingPairCache.cpp <307:3 307:10>]
+LOCAL_SYMBOL: b3OverlappingPairCache.cpp<301:6> [b3OverlappingPairCache.cpp <307:14 307:18>]
+LOCAL_SYMBOL: b3OverlappingPairCache.cpp<301:6> [b3OverlappingPairCache.cpp <308:3 308:7>]
+SYMBOL_FUNCTION int & b3AlignedObjectArray<int>::operator[](int)
+REFERENCE_CALL void * b3HashedOverlappingPairCache::removeOverlappingPair(int, int, b3Dispatcher *) -> int & b3AlignedObjectArray<int>::operator[](int) [b3OverlappingPairCache.cpp <308:17 308:17>]
+REFERENCE_USAGE void * b3HashedOverlappingPairCache::removeOverlappingPair(int, int, b3Dispatcher *) -> b3AlignedObjectArray<int> b3HashedOverlappingPairCache::m_next [b3OverlappingPairCache.cpp <308:11 308:16>]
+LOCAL_SYMBOL: b3OverlappingPairCache.cpp<301:6> [b3OverlappingPairCache.cpp <308:18 308:22>]
+LOCAL_SYMBOL: b3OverlappingPairCache.cpp<304:6> [b3OverlappingPairCache.cpp <311:6 311:13>]
+REFERENCE_USAGE void * b3HashedOverlappingPairCache::removeOverlappingPair(int, int, b3Dispatcher *) -> const int B3_NULL_PAIR [b3OverlappingPairCache.cpp <311:18 311:29>]
+SYMBOL_FUNCTION int & b3AlignedObjectArray<int>::operator[](int)
+REFERENCE_CALL void * b3HashedOverlappingPairCache::removeOverlappingPair(int, int, b3Dispatcher *) -> int & b3AlignedObjectArray<int>::operator[](int) [b3OverlappingPairCache.cpp <314:9 314:9>]
+REFERENCE_USAGE void * b3HashedOverlappingPairCache::removeOverlappingPair(int, int, b3Dispatcher *) -> b3AlignedObjectArray<int> b3HashedOverlappingPairCache::m_next [b3OverlappingPairCache.cpp <314:3 314:8>]
+LOCAL_SYMBOL: b3OverlappingPairCache.cpp<304:6> [b3OverlappingPairCache.cpp <314:10 314:17>]
+SYMBOL_FUNCTION int & b3AlignedObjectArray<int>::operator[](int)
+REFERENCE_CALL void * b3HashedOverlappingPairCache::removeOverlappingPair(int, int, b3Dispatcher *) -> int & b3AlignedObjectArray<int>::operator[](int) [b3OverlappingPairCache.cpp <314:28 314:28>]
+REFERENCE_USAGE void * b3HashedOverlappingPairCache::removeOverlappingPair(int, int, b3Dispatcher *) -> b3AlignedObjectArray<int> b3HashedOverlappingPairCache::m_next [b3OverlappingPairCache.cpp <314:22 314:27>]
+LOCAL_SYMBOL: b3OverlappingPairCache.cpp<297:6> [b3OverlappingPairCache.cpp <314:29 314:37>]
+SYMBOL_FUNCTION int & b3AlignedObjectArray<int>::operator[](int)
+REFERENCE_CALL void * b3HashedOverlappingPairCache::removeOverlappingPair(int, int, b3Dispatcher *) -> int & b3AlignedObjectArray<int>::operator[](int) [b3OverlappingPairCache.cpp <318:14 318:14>]
+REFERENCE_USAGE void * b3HashedOverlappingPairCache::removeOverlappingPair(int, int, b3Dispatcher *) -> b3AlignedObjectArray<int> b3HashedOverlappingPairCache::m_hashTable [b3OverlappingPairCache.cpp <318:3 318:13>]
+LOCAL_SYMBOL: b3OverlappingPairCache.cpp<285:6> [b3OverlappingPairCache.cpp <318:15 318:18>]
+SYMBOL_FUNCTION int & b3AlignedObjectArray<int>::operator[](int)
+REFERENCE_CALL void * b3HashedOverlappingPairCache::removeOverlappingPair(int, int, b3Dispatcher *) -> int & b3AlignedObjectArray<int>::operator[](int) [b3OverlappingPairCache.cpp <318:29 318:29>]
+REFERENCE_USAGE void * b3HashedOverlappingPairCache::removeOverlappingPair(int, int, b3Dispatcher *) -> b3AlignedObjectArray<int> b3HashedOverlappingPairCache::m_next [b3OverlappingPairCache.cpp <318:23 318:28>]
+LOCAL_SYMBOL: b3OverlappingPairCache.cpp<297:6> [b3OverlappingPairCache.cpp <318:30 318:38>]
+LOCAL_SYMBOL: b3OverlappingPairCache.cpp<325:6> [b3OverlappingPairCache.cpp <325:6 325:18>]
+SYMBOL_BUILTIN_TYPE int
+REFERENCE_TYPE_USAGE void * b3HashedOverlappingPairCache::removeOverlappingPair(int, int, b3Dispatcher *) -> int [b3OverlappingPairCache.cpp <325:2 325:4>]
+SYMBOL_FUNCTION int b3AlignedObjectArray<b3Int4>::size() const
+REFERENCE_CALL void * b3HashedOverlappingPairCache::removeOverlappingPair(int, int, b3Dispatcher *) -> int b3AlignedObjectArray<b3Int4>::size() const [b3OverlappingPairCache.cpp <325:45 325:48>]
+REFERENCE_USAGE void * b3HashedOverlappingPairCache::removeOverlappingPair(int, int, b3Dispatcher *) -> b3BroadphasePairArray b3HashedOverlappingPairCache::m_overlappingPairArray [b3OverlappingPairCache.cpp <325:22 325:43>]
+LOCAL_SYMBOL: b3OverlappingPairCache.cpp<325:6> [b3OverlappingPairCache.cpp <331:6 331:18>]
+LOCAL_SYMBOL: b3OverlappingPairCache.cpp<297:6> [b3OverlappingPairCache.cpp <331:23 331:31>]
+SYMBOL_FUNCTION void b3AlignedObjectArray<b3Int4>::pop_back()
+REFERENCE_CALL void * b3HashedOverlappingPairCache::removeOverlappingPair(int, int, b3Dispatcher *) -> void b3AlignedObjectArray<b3Int4>::pop_back() [b3OverlappingPairCache.cpp <333:26 333:33>]
+REFERENCE_USAGE void * b3HashedOverlappingPairCache::removeOverlappingPair(int, int, b3Dispatcher *) -> b3BroadphasePairArray b3HashedOverlappingPairCache::m_overlappingPairArray [b3OverlappingPairCache.cpp <333:3 333:24>]
+LOCAL_SYMBOL: b3OverlappingPairCache.cpp<338:26> [b3OverlappingPairCache.cpp <338:26 338:29>]
+REFERENCE_TYPE_USAGE void * b3HashedOverlappingPairCache::removeOverlappingPair(int, int, b3Dispatcher *) -> b3BroadphasePair [b3OverlappingPairCache.cpp <338:8 338:23>]
+SYMBOL_FUNCTION b3Int4 & b3AlignedObjectArray<b3Int4>::operator[](int)
+REFERENCE_CALL void * b3HashedOverlappingPairCache::removeOverlappingPair(int, int, b3Dispatcher *) -> b3Int4 & b3AlignedObjectArray<b3Int4>::operator[](int) [b3OverlappingPairCache.cpp <338:56 338:56>]
+REFERENCE_USAGE void * b3HashedOverlappingPairCache::removeOverlappingPair(int, int, b3Dispatcher *) -> b3BroadphasePairArray b3HashedOverlappingPairCache::m_overlappingPairArray [b3OverlappingPairCache.cpp <338:34 338:55>]
+LOCAL_SYMBOL: b3OverlappingPairCache.cpp<325:6> [b3OverlappingPairCache.cpp <338:57 338:69>]
+LOCAL_SYMBOL: b3OverlappingPairCache.cpp<340:6> [b3OverlappingPairCache.cpp <340:6 340:13>]
+SYMBOL_BUILTIN_TYPE int
+REFERENCE_TYPE_USAGE void * b3HashedOverlappingPairCache::removeOverlappingPair(int, int, b3Dispatcher *) -> int [b3OverlappingPairCache.cpp <340:2 340:4>]
+SYMBOL_BUILTIN_TYPE int
+REFERENCE_TYPE_USAGE void * b3HashedOverlappingPairCache::removeOverlappingPair(int, int, b3Dispatcher *) -> int [b3OverlappingPairCache.cpp <340:29 340:31>]
+SYMBOL_FUNCTION unsigned int b3HashedOverlappingPairCache::getHash(unsigned int, unsigned int)
+REFERENCE_CALL void * b3HashedOverlappingPairCache::removeOverlappingPair(int, int, b3Dispatcher *) -> unsigned int b3HashedOverlappingPairCache::getHash(unsigned int, unsigned int) [b3OverlappingPairCache.cpp <340:34 340:40>]
+SYMBOL_BUILTIN_TYPE unsigned int
+REFERENCE_TYPE_USAGE void * b3HashedOverlappingPairCache::removeOverlappingPair(int, int, b3Dispatcher *) -> unsigned int [b3OverlappingPairCache.cpp <340:54 340:61>]
+REFERENCE_USAGE void * b3HashedOverlappingPairCache::removeOverlappingPair(int, int, b3Dispatcher *) -> int b3Int4::anonymous union (b3Int4.h<30:2>)::anonymous struct (b3Int4.h<32:3>)::x [b3OverlappingPairCache.cpp <340:74 340:74>]
+REFERENCE_USAGE void * b3HashedOverlappingPairCache::removeOverlappingPair(int, int, b3Dispatcher *) -> b3Int4::anonymous union (b3Int4.h<30:2>)::anonymous struct (b3Int4.h<32:3>) b3Int4::anonymous union (b3Int4.h<30:2>):: [b3OverlappingPairCache.cpp <340:74 340:74>]
+REFERENCE_USAGE void * b3HashedOverlappingPairCache::removeOverlappingPair(int, int, b3Dispatcher *) -> b3Int4::anonymous union (b3Int4.h<30:2>) b3Int4:: [b3OverlappingPairCache.cpp <340:74 340:74>]
+LOCAL_SYMBOL: b3OverlappingPairCache.cpp<338:26> [b3OverlappingPairCache.cpp <340:68 340:71>]
+SYMBOL_BUILTIN_TYPE unsigned int
+REFERENCE_TYPE_USAGE void * b3HashedOverlappingPairCache::removeOverlappingPair(int, int, b3Dispatcher *) -> unsigned int [b3OverlappingPairCache.cpp <340:90 340:97>]
+REFERENCE_USAGE void * b3HashedOverlappingPairCache::removeOverlappingPair(int, int, b3Dispatcher *) -> int b3Int4::anonymous union (b3Int4.h<30:2>)::anonymous struct (b3Int4.h<32:3>)::y [b3OverlappingPairCache.cpp <340:110 340:110>]
+REFERENCE_USAGE void * b3HashedOverlappingPairCache::removeOverlappingPair(int, int, b3Dispatcher *) -> b3Int4::anonymous union (b3Int4.h<30:2>)::anonymous struct (b3Int4.h<32:3>) b3Int4::anonymous union (b3Int4.h<30:2>):: [b3OverlappingPairCache.cpp <340:110 340:110>]
+REFERENCE_USAGE void * b3HashedOverlappingPairCache::removeOverlappingPair(int, int, b3Dispatcher *) -> b3Int4::anonymous union (b3Int4.h<30:2>) b3Int4:: [b3OverlappingPairCache.cpp <340:110 340:110>]
+LOCAL_SYMBOL: b3OverlappingPairCache.cpp<338:26> [b3OverlappingPairCache.cpp <340:104 340:107>]
+SYMBOL_FUNCTION int b3AlignedObjectArray<b3Int4>::capacity() const
+REFERENCE_CALL void * b3HashedOverlappingPairCache::removeOverlappingPair(int, int, b3Dispatcher *) -> int b3AlignedObjectArray<b3Int4>::capacity() const [b3OverlappingPairCache.cpp <340:140 340:147>]
+REFERENCE_USAGE void * b3HashedOverlappingPairCache::removeOverlappingPair(int, int, b3Dispatcher *) -> b3BroadphasePairArray b3HashedOverlappingPairCache::m_overlappingPairArray [b3OverlappingPairCache.cpp <340:117 340:138>]
+LOCAL_SYMBOL: b3OverlappingPairCache.cpp<301:6> [b3OverlappingPairCache.cpp <342:2 342:6>]
+SYMBOL_FUNCTION int & b3AlignedObjectArray<int>::operator[](int)
+REFERENCE_CALL void * b3HashedOverlappingPairCache::removeOverlappingPair(int, int, b3Dispatcher *) -> int & b3AlignedObjectArray<int>::operator[](int) [b3OverlappingPairCache.cpp <342:21 342:21>]
+REFERENCE_USAGE void * b3HashedOverlappingPairCache::removeOverlappingPair(int, int, b3Dispatcher *) -> b3AlignedObjectArray<int> b3HashedOverlappingPairCache::m_hashTable [b3OverlappingPairCache.cpp <342:10 342:20>]
+LOCAL_SYMBOL: b3OverlappingPairCache.cpp<340:6> [b3OverlappingPairCache.cpp <342:22 342:29>]
+LOCAL_SYMBOL: b3OverlappingPairCache.cpp<304:6> [b3OverlappingPairCache.cpp <345:2 345:9>]
+REFERENCE_USAGE void * b3HashedOverlappingPairCache::removeOverlappingPair(int, int, b3Dispatcher *) -> const int B3_NULL_PAIR [b3OverlappingPairCache.cpp <345:13 345:24>]
+LOCAL_SYMBOL: b3OverlappingPairCache.cpp<301:6> [b3OverlappingPairCache.cpp <346:9 346:13>]
+LOCAL_SYMBOL: b3OverlappingPairCache.cpp<325:6> [b3OverlappingPairCache.cpp <346:18 346:30>]
+LOCAL_SYMBOL: b3OverlappingPairCache.cpp<304:6> [b3OverlappingPairCache.cpp <348:3 348:10>]
+LOCAL_SYMBOL: b3OverlappingPairCache.cpp<301:6> [b3OverlappingPairCache.cpp <348:14 348:18>]
+LOCAL_SYMBOL: b3OverlappingPairCache.cpp<301:6> [b3OverlappingPairCache.cpp <349:3 349:7>]
+SYMBOL_FUNCTION int & b3AlignedObjectArray<int>::operator[](int)
+REFERENCE_CALL void * b3HashedOverlappingPairCache::removeOverlappingPair(int, int, b3Dispatcher *) -> int & b3AlignedObjectArray<int>::operator[](int) [b3OverlappingPairCache.cpp <349:17 349:17>]
+REFERENCE_USAGE void * b3HashedOverlappingPairCache::removeOverlappingPair(int, int, b3Dispatcher *) -> b3AlignedObjectArray<int> b3HashedOverlappingPairCache::m_next [b3OverlappingPairCache.cpp <349:11 349:16>]
+LOCAL_SYMBOL: b3OverlappingPairCache.cpp<301:6> [b3OverlappingPairCache.cpp <349:18 349:22>]
+LOCAL_SYMBOL: b3OverlappingPairCache.cpp<304:6> [b3OverlappingPairCache.cpp <352:6 352:13>]
+REFERENCE_USAGE void * b3HashedOverlappingPairCache::removeOverlappingPair(int, int, b3Dispatcher *) -> const int B3_NULL_PAIR [b3OverlappingPairCache.cpp <352:18 352:29>]
+SYMBOL_FUNCTION int & b3AlignedObjectArray<int>::operator[](int)
+REFERENCE_CALL void * b3HashedOverlappingPairCache::removeOverlappingPair(int, int, b3Dispatcher *) -> int & b3AlignedObjectArray<int>::operator[](int) [b3OverlappingPairCache.cpp <355:9 355:9>]
+REFERENCE_USAGE void * b3HashedOverlappingPairCache::removeOverlappingPair(int, int, b3Dispatcher *) -> b3AlignedObjectArray<int> b3HashedOverlappingPairCache::m_next [b3OverlappingPairCache.cpp <355:3 355:8>]
+LOCAL_SYMBOL: b3OverlappingPairCache.cpp<304:6> [b3OverlappingPairCache.cpp <355:10 355:17>]
+SYMBOL_FUNCTION int & b3AlignedObjectArray<int>::operator[](int)
+REFERENCE_CALL void * b3HashedOverlappingPairCache::removeOverlappingPair(int, int, b3Dispatcher *) -> int & b3AlignedObjectArray<int>::operator[](int) [b3OverlappingPairCache.cpp <355:28 355:28>]
+REFERENCE_USAGE void * b3HashedOverlappingPairCache::removeOverlappingPair(int, int, b3Dispatcher *) -> b3AlignedObjectArray<int> b3HashedOverlappingPairCache::m_next [b3OverlappingPairCache.cpp <355:22 355:27>]
+LOCAL_SYMBOL: b3OverlappingPairCache.cpp<325:6> [b3OverlappingPairCache.cpp <355:29 355:41>]
+SYMBOL_FUNCTION int & b3AlignedObjectArray<int>::operator[](int)
+REFERENCE_CALL void * b3HashedOverlappingPairCache::removeOverlappingPair(int, int, b3Dispatcher *) -> int & b3AlignedObjectArray<int>::operator[](int) [b3OverlappingPairCache.cpp <359:14 359:14>]
+REFERENCE_USAGE void * b3HashedOverlappingPairCache::removeOverlappingPair(int, int, b3Dispatcher *) -> b3AlignedObjectArray<int> b3HashedOverlappingPairCache::m_hashTable [b3OverlappingPairCache.cpp <359:3 359:13>]
+LOCAL_SYMBOL: b3OverlappingPairCache.cpp<340:6> [b3OverlappingPairCache.cpp <359:15 359:22>]
+SYMBOL_FUNCTION int & b3AlignedObjectArray<int>::operator[](int)
+REFERENCE_CALL void * b3HashedOverlappingPairCache::removeOverlappingPair(int, int, b3Dispatcher *) -> int & b3AlignedObjectArray<int>::operator[](int) [b3OverlappingPairCache.cpp <359:33 359:33>]
+REFERENCE_USAGE void * b3HashedOverlappingPairCache::removeOverlappingPair(int, int, b3Dispatcher *) -> b3AlignedObjectArray<int> b3HashedOverlappingPairCache::m_next [b3OverlappingPairCache.cpp <359:27 359:32>]
+LOCAL_SYMBOL: b3OverlappingPairCache.cpp<325:6> [b3OverlappingPairCache.cpp <359:34 359:46>]
+SYMBOL_FUNCTION b3Int4 & b3Int4::operator=(const b3Int4 &)
+REFERENCE_CALL void * b3HashedOverlappingPairCache::removeOverlappingPair(int, int, b3Dispatcher *) -> b3Int4 & b3Int4::operator=(const b3Int4 &) [b3OverlappingPairCache.cpp <363:36 363:36>]
+SYMBOL_FUNCTION b3Int4 & b3AlignedObjectArray<b3Int4>::operator[](int)
+REFERENCE_CALL void * b3HashedOverlappingPairCache::removeOverlappingPair(int, int, b3Dispatcher *) -> b3Int4 & b3AlignedObjectArray<b3Int4>::operator[](int) [b3OverlappingPairCache.cpp <363:24 363:24>]
+REFERENCE_USAGE void * b3HashedOverlappingPairCache::removeOverlappingPair(int, int, b3Dispatcher *) -> b3BroadphasePairArray b3HashedOverlappingPairCache::m_overlappingPairArray [b3OverlappingPairCache.cpp <363:2 363:23>]
+LOCAL_SYMBOL: b3OverlappingPairCache.cpp<297:6> [b3OverlappingPairCache.cpp <363:25 363:33>]
+SYMBOL_FUNCTION b3Int4 & b3AlignedObjectArray<b3Int4>::operator[](int)
+REFERENCE_CALL void * b3HashedOverlappingPairCache::removeOverlappingPair(int, int, b3Dispatcher *) -> b3Int4 & b3AlignedObjectArray<b3Int4>::operator[](int) [b3OverlappingPairCache.cpp <363:60 363:60>]
+REFERENCE_USAGE void * b3HashedOverlappingPairCache::removeOverlappingPair(int, int, b3Dispatcher *) -> b3BroadphasePairArray b3HashedOverlappingPairCache::m_overlappingPairArray [b3OverlappingPairCache.cpp <363:38 363:59>]
+LOCAL_SYMBOL: b3OverlappingPairCache.cpp<325:6> [b3OverlappingPairCache.cpp <363:61 363:73>]
+SYMBOL_FUNCTION int & b3AlignedObjectArray<int>::operator[](int)
+REFERENCE_CALL void * b3HashedOverlappingPairCache::removeOverlappingPair(int, int, b3Dispatcher *) -> int & b3AlignedObjectArray<int>::operator[](int) [b3OverlappingPairCache.cpp <366:8 366:8>]
+REFERENCE_USAGE void * b3HashedOverlappingPairCache::removeOverlappingPair(int, int, b3Dispatcher *) -> b3AlignedObjectArray<int> b3HashedOverlappingPairCache::m_next [b3OverlappingPairCache.cpp <366:2 366:7>]
+LOCAL_SYMBOL: b3OverlappingPairCache.cpp<297:6> [b3OverlappingPairCache.cpp <366:9 366:17>]
+SYMBOL_FUNCTION int & b3AlignedObjectArray<int>::operator[](int)
+REFERENCE_CALL void * b3HashedOverlappingPairCache::removeOverlappingPair(int, int, b3Dispatcher *) -> int & b3AlignedObjectArray<int>::operator[](int) [b3OverlappingPairCache.cpp <366:33 366:33>]
+REFERENCE_USAGE void * b3HashedOverlappingPairCache::removeOverlappingPair(int, int, b3Dispatcher *) -> b3AlignedObjectArray<int> b3HashedOverlappingPairCache::m_hashTable [b3OverlappingPairCache.cpp <366:22 366:32>]
+LOCAL_SYMBOL: b3OverlappingPairCache.cpp<340:6> [b3OverlappingPairCache.cpp <366:34 366:41>]
+SYMBOL_FUNCTION int & b3AlignedObjectArray<int>::operator[](int)
+REFERENCE_CALL void * b3HashedOverlappingPairCache::removeOverlappingPair(int, int, b3Dispatcher *) -> int & b3AlignedObjectArray<int>::operator[](int) [b3OverlappingPairCache.cpp <367:13 367:13>]
+REFERENCE_USAGE void * b3HashedOverlappingPairCache::removeOverlappingPair(int, int, b3Dispatcher *) -> b3AlignedObjectArray<int> b3HashedOverlappingPairCache::m_hashTable [b3OverlappingPairCache.cpp <367:2 367:12>]
+LOCAL_SYMBOL: b3OverlappingPairCache.cpp<340:6> [b3OverlappingPairCache.cpp <367:14 367:21>]
+LOCAL_SYMBOL: b3OverlappingPairCache.cpp<297:6> [b3OverlappingPairCache.cpp <367:26 367:34>]
+SYMBOL_FUNCTION void b3AlignedObjectArray<b3Int4>::pop_back()
+REFERENCE_CALL void * b3HashedOverlappingPairCache::removeOverlappingPair(int, int, b3Dispatcher *) -> void b3AlignedObjectArray<b3Int4>::pop_back() [b3OverlappingPairCache.cpp <369:25 369:32>]
+REFERENCE_USAGE void * b3HashedOverlappingPairCache::removeOverlappingPair(int, int, b3Dispatcher *) -> b3BroadphasePairArray b3HashedOverlappingPairCache::m_overlappingPairArray [b3OverlappingPairCache.cpp <369:2 369:23>]
+SYMBOL_METHOD public void b3HashedOverlappingPairCache::processAllOverlappingPairs(b3OverlapCallback *, b3Dispatcher *) [b3OverlappingPairCache.cpp <375:1 <375:36 375:61> 395:1>]
+SYMBOL_FUNCTION void b3OverlappingPairCache::processAllOverlappingPairs(b3OverlapCallback *, b3Dispatcher *)
+REFERENCE_OVERRIDE void b3HashedOverlappingPairCache::processAllOverlappingPairs(b3OverlapCallback *, b3Dispatcher *) -> void b3OverlappingPairCache::processAllOverlappingPairs(b3OverlapCallback *, b3Dispatcher *) [b3OverlappingPairCache.cpp <375:36 375:61>]
+SYMBOL_CLASS b3HashedOverlappingPairCache
+SYMBOL_BUILTIN_TYPE void
+REFERENCE_TYPE_USAGE void b3HashedOverlappingPairCache::processAllOverlappingPairs(b3OverlapCallback *, b3Dispatcher *) -> void [b3OverlappingPairCache.cpp <375:1 375:4>]
+LOCAL_SYMBOL: b3OverlappingPairCache.cpp<375:82> [b3OverlappingPairCache.cpp <375:82 375:89>]
+REFERENCE_TYPE_USAGE void b3HashedOverlappingPairCache::processAllOverlappingPairs(b3OverlapCallback *, b3Dispatcher *) -> b3OverlapCallback [b3OverlappingPairCache.cpp <375:63 375:79>]
+LOCAL_SYMBOL: b3OverlappingPairCache.cpp<375:105> [b3OverlappingPairCache.cpp <375:105 375:114>]
+REFERENCE_TYPE_USAGE void b3HashedOverlappingPairCache::processAllOverlappingPairs(b3OverlapCallback *, b3Dispatcher *) -> b3Dispatcher [b3OverlappingPairCache.cpp <375:91 375:102>]
+LOCAL_SYMBOL: b3OverlappingPairCache.cpp<378:6> [b3OverlappingPairCache.cpp <378:6 378:6>]
+SYMBOL_BUILTIN_TYPE int
+REFERENCE_TYPE_USAGE void b3HashedOverlappingPairCache::processAllOverlappingPairs(b3OverlapCallback *, b3Dispatcher *) -> int [b3OverlappingPairCache.cpp <378:2 378:4>]
+LOCAL_SYMBOL: b3OverlappingPairCache.cpp<378:6> [b3OverlappingPairCache.cpp <381:7 381:7>]
+LOCAL_SYMBOL: b3OverlappingPairCache.cpp<378:6> [b3OverlappingPairCache.cpp <381:11 381:11>]
+SYMBOL_FUNCTION int b3AlignedObjectArray<b3Int4>::size() const
+REFERENCE_CALL void b3HashedOverlappingPairCache::processAllOverlappingPairs(b3OverlapCallback *, b3Dispatcher *) -> int b3AlignedObjectArray<b3Int4>::size() const [b3OverlappingPairCache.cpp <381:36 381:39>]
+REFERENCE_USAGE void b3HashedOverlappingPairCache::processAllOverlappingPairs(b3OverlapCallback *, b3Dispatcher *) -> b3BroadphasePairArray b3HashedOverlappingPairCache::m_overlappingPairArray [b3OverlappingPairCache.cpp <381:13 381:34>]
+LOCAL_SYMBOL: b3OverlappingPairCache.cpp<384:21> [b3OverlappingPairCache.cpp <384:21 384:24>]
+REFERENCE_TYPE_USAGE void b3HashedOverlappingPairCache::processAllOverlappingPairs(b3OverlapCallback *, b3Dispatcher *) -> b3BroadphasePair [b3OverlappingPairCache.cpp <384:3 384:18>]
+SYMBOL_FUNCTION b3Int4 & b3AlignedObjectArray<b3Int4>::operator[](int)
+REFERENCE_CALL void b3HashedOverlappingPairCache::processAllOverlappingPairs(b3OverlapCallback *, b3Dispatcher *) -> b3Int4 & b3AlignedObjectArray<b3Int4>::operator[](int) [b3OverlappingPairCache.cpp <384:51 384:51>]
+REFERENCE_USAGE void b3HashedOverlappingPairCache::processAllOverlappingPairs(b3OverlapCallback *, b3Dispatcher *) -> b3BroadphasePairArray b3HashedOverlappingPairCache::m_overlappingPairArray [b3OverlappingPairCache.cpp <384:29 384:50>]
+LOCAL_SYMBOL: b3OverlappingPairCache.cpp<378:6> [b3OverlappingPairCache.cpp <384:52 384:52>]
+SYMBOL_FUNCTION bool b3OverlapCallback::processOverlap(b3BroadphasePair &)
+REFERENCE_CALL void b3HashedOverlappingPairCache::processAllOverlappingPairs(b3OverlapCallback *, b3Dispatcher *) -> bool b3OverlapCallback::processOverlap(b3BroadphasePair &) [b3OverlappingPairCache.cpp <385:17 385:30>]
+LOCAL_SYMBOL: b3OverlappingPairCache.cpp<375:82> [b3OverlappingPairCache.cpp <385:7 385:14>]
+LOCAL_SYMBOL: b3OverlappingPairCache.cpp<384:21> [b3OverlappingPairCache.cpp <385:33 385:36>]
+SYMBOL_FUNCTION void * b3HashedOverlappingPairCache::removeOverlappingPair(int, int, b3Dispatcher *)
+REFERENCE_CALL void b3HashedOverlappingPairCache::processAllOverlappingPairs(b3OverlapCallback *, b3Dispatcher *) -> void * b3HashedOverlappingPairCache::removeOverlappingPair(int, int, b3Dispatcher *) [b3OverlappingPairCache.cpp <387:4 387:24>]
+REFERENCE_USAGE void b3HashedOverlappingPairCache::processAllOverlappingPairs(b3OverlapCallback *, b3Dispatcher *) -> int b3Int4::anonymous union (b3Int4.h<30:2>)::anonymous struct (b3Int4.h<32:3>)::x [b3OverlappingPairCache.cpp <387:32 387:32>]
+REFERENCE_USAGE void b3HashedOverlappingPairCache::processAllOverlappingPairs(b3OverlapCallback *, b3Dispatcher *) -> b3Int4::anonymous union (b3Int4.h<30:2>)::anonymous struct (b3Int4.h<32:3>) b3Int4::anonymous union (b3Int4.h<30:2>):: [b3OverlappingPairCache.cpp <387:32 387:32>]
+REFERENCE_USAGE void b3HashedOverlappingPairCache::processAllOverlappingPairs(b3OverlapCallback *, b3Dispatcher *) -> b3Int4::anonymous union (b3Int4.h<30:2>) b3Int4:: [b3OverlappingPairCache.cpp <387:32 387:32>]
+LOCAL_SYMBOL: b3OverlappingPairCache.cpp<384:21> [b3OverlappingPairCache.cpp <387:26 387:29>]
+REFERENCE_USAGE void b3HashedOverlappingPairCache::processAllOverlappingPairs(b3OverlapCallback *, b3Dispatcher *) -> int b3Int4::anonymous union (b3Int4.h<30:2>)::anonymous struct (b3Int4.h<32:3>)::y [b3OverlappingPairCache.cpp <387:40 387:40>]
+REFERENCE_USAGE void b3HashedOverlappingPairCache::processAllOverlappingPairs(b3OverlapCallback *, b3Dispatcher *) -> b3Int4::anonymous union (b3Int4.h<30:2>)::anonymous struct (b3Int4.h<32:3>) b3Int4::anonymous union (b3Int4.h<30:2>):: [b3OverlappingPairCache.cpp <387:40 387:40>]
+REFERENCE_USAGE void b3HashedOverlappingPairCache::processAllOverlappingPairs(b3OverlapCallback *, b3Dispatcher *) -> b3Int4::anonymous union (b3Int4.h<30:2>) b3Int4:: [b3OverlappingPairCache.cpp <387:40 387:40>]
+LOCAL_SYMBOL: b3OverlappingPairCache.cpp<384:21> [b3OverlappingPairCache.cpp <387:34 387:37>]
+LOCAL_SYMBOL: b3OverlappingPairCache.cpp<375:105> [b3OverlappingPairCache.cpp <387:42 387:51>]
+REFERENCE_USAGE void b3HashedOverlappingPairCache::processAllOverlappingPairs(b3OverlapCallback *, b3Dispatcher *) -> int b3g_overlappingPairs [b3OverlappingPairCache.cpp <389:4 389:23>]
+LOCAL_SYMBOL: b3OverlappingPairCache.cpp<378:6> [b3OverlappingPairCache.cpp <392:4 392:4>]
+SYMBOL_METHOD private void b3HashedOverlappingPairCache::sortOverlappingPairs(b3Dispatcher *) [b3OverlappingPairCache.cpp <401:1 <401:36 401:55> 429:1>]
+SYMBOL_FUNCTION void b3OverlappingPairCache::sortOverlappingPairs(b3Dispatcher *)
+REFERENCE_OVERRIDE void b3HashedOverlappingPairCache::sortOverlappingPairs(b3Dispatcher *) -> void b3OverlappingPairCache::sortOverlappingPairs(b3Dispatcher *) [b3OverlappingPairCache.cpp <401:36 401:55>]
+SYMBOL_CLASS b3HashedOverlappingPairCache
+SYMBOL_BUILTIN_TYPE void
+REFERENCE_TYPE_USAGE void b3HashedOverlappingPairCache::sortOverlappingPairs(b3Dispatcher *) -> void [b3OverlappingPairCache.cpp <401:1 401:4>]
+LOCAL_SYMBOL: b3OverlappingPairCache.cpp<401:71> [b3OverlappingPairCache.cpp <401:71 401:80>]
+REFERENCE_TYPE_USAGE void b3HashedOverlappingPairCache::sortOverlappingPairs(b3Dispatcher *) -> b3Dispatcher [b3OverlappingPairCache.cpp <401:57 401:68>]
+LOCAL_SYMBOL: b3OverlappingPairCache.cpp<404:24> [b3OverlappingPairCache.cpp <404:24 404:31>]
+REFERENCE_TYPE_USAGE void b3HashedOverlappingPairCache::sortOverlappingPairs(b3Dispatcher *) -> b3BroadphasePairArray [b3OverlappingPairCache.cpp <404:2 404:22>]
+SYMBOL_FUNCTION void b3AlignedObjectArray<b3Int4>::b3AlignedObjectArray()
+REFERENCE_CALL void b3HashedOverlappingPairCache::sortOverlappingPairs(b3Dispatcher *) -> void b3AlignedObjectArray<b3Int4>::b3AlignedObjectArray() [b3OverlappingPairCache.cpp <404:24 404:31>]
+LOCAL_SYMBOL: b3OverlappingPairCache.cpp<405:6> [b3OverlappingPairCache.cpp <405:6 405:6>]
+SYMBOL_BUILTIN_TYPE int
+REFERENCE_TYPE_USAGE void b3HashedOverlappingPairCache::sortOverlappingPairs(b3Dispatcher *) -> int [b3OverlappingPairCache.cpp <405:2 405:4>]
+LOCAL_SYMBOL: b3OverlappingPairCache.cpp<405:6> [b3OverlappingPairCache.cpp <406:7 406:7>]
+LOCAL_SYMBOL: b3OverlappingPairCache.cpp<405:6> [b3OverlappingPairCache.cpp <406:11 406:11>]
+SYMBOL_FUNCTION int b3AlignedObjectArray<b3Int4>::size() const
+REFERENCE_CALL void b3HashedOverlappingPairCache::sortOverlappingPairs(b3Dispatcher *) -> int b3AlignedObjectArray<b3Int4>::size() const [b3OverlappingPairCache.cpp <406:36 406:39>]
+REFERENCE_USAGE void b3HashedOverlappingPairCache::sortOverlappingPairs(b3Dispatcher *) -> b3BroadphasePairArray b3HashedOverlappingPairCache::m_overlappingPairArray [b3OverlappingPairCache.cpp <406:13 406:34>]
+LOCAL_SYMBOL: b3OverlappingPairCache.cpp<405:6> [b3OverlappingPairCache.cpp <406:43 406:43>]
+SYMBOL_FUNCTION void b3AlignedObjectArray<b3Int4>::push_back(const b3Int4 &)
+REFERENCE_CALL void b3HashedOverlappingPairCache::sortOverlappingPairs(b3Dispatcher *) -> void b3AlignedObjectArray<b3Int4>::push_back(const b3Int4 &) [b3OverlappingPairCache.cpp <408:12 408:20>]
+LOCAL_SYMBOL: b3OverlappingPairCache.cpp<404:24> [b3OverlappingPairCache.cpp <408:3 408:10>]
+SYMBOL_FUNCTION b3Int4 & b3AlignedObjectArray<b3Int4>::operator[](int)
+REFERENCE_CALL void b3HashedOverlappingPairCache::sortOverlappingPairs(b3Dispatcher *) -> b3Int4 & b3AlignedObjectArray<b3Int4>::operator[](int) [b3OverlappingPairCache.cpp <408:44 408:44>]
+REFERENCE_USAGE void b3HashedOverlappingPairCache::sortOverlappingPairs(b3Dispatcher *) -> b3BroadphasePairArray b3HashedOverlappingPairCache::m_overlappingPairArray [b3OverlappingPairCache.cpp <408:22 408:43>]
+LOCAL_SYMBOL: b3OverlappingPairCache.cpp<405:6> [b3OverlappingPairCache.cpp <408:45 408:45>]
+LOCAL_SYMBOL: b3OverlappingPairCache.cpp<405:6> [b3OverlappingPairCache.cpp <411:7 411:7>]
+LOCAL_SYMBOL: b3OverlappingPairCache.cpp<405:6> [b3OverlappingPairCache.cpp <411:11 411:11>]
+SYMBOL_FUNCTION int b3AlignedObjectArray<b3Int4>::size() const
+REFERENCE_CALL void b3HashedOverlappingPairCache::sortOverlappingPairs(b3Dispatcher *) -> int b3AlignedObjectArray<b3Int4>::size() const [b3OverlappingPairCache.cpp <411:22 411:25>]
+LOCAL_SYMBOL: b3OverlappingPairCache.cpp<404:24> [b3OverlappingPairCache.cpp <411:13 411:20>]
+LOCAL_SYMBOL: b3OverlappingPairCache.cpp<405:6> [b3OverlappingPairCache.cpp <411:29 411:29>]
+SYMBOL_FUNCTION void * b3HashedOverlappingPairCache::removeOverlappingPair(int, int, b3Dispatcher *)
+REFERENCE_CALL void b3HashedOverlappingPairCache::sortOverlappingPairs(b3Dispatcher *) -> void * b3HashedOverlappingPairCache::removeOverlappingPair(int, int, b3Dispatcher *) [b3OverlappingPairCache.cpp <413:3 413:23>]
+REFERENCE_USAGE void b3HashedOverlappingPairCache::sortOverlappingPairs(b3Dispatcher *) -> int b3Int4::anonymous union (b3Int4.h<30:2>)::anonymous struct (b3Int4.h<32:3>)::x [b3OverlappingPairCache.cpp <413:37 413:37>]
+REFERENCE_USAGE void b3HashedOverlappingPairCache::sortOverlappingPairs(b3Dispatcher *) -> b3Int4::anonymous union (b3Int4.h<30:2>)::anonymous struct (b3Int4.h<32:3>) b3Int4::anonymous union (b3Int4.h<30:2>):: [b3OverlappingPairCache.cpp <413:37 413:37>]
+REFERENCE_USAGE void b3HashedOverlappingPairCache::sortOverlappingPairs(b3Dispatcher *) -> b3Int4::anonymous union (b3Int4.h<30:2>) b3Int4:: [b3OverlappingPairCache.cpp <413:37 413:37>]
+SYMBOL_FUNCTION b3Int4 & b3AlignedObjectArray<b3Int4>::operator[](int)
+REFERENCE_CALL void b3HashedOverlappingPairCache::sortOverlappingPairs(b3Dispatcher *) -> b3Int4 & b3AlignedObjectArray<b3Int4>::operator[](int) [b3OverlappingPairCache.cpp <413:33 413:33>]
+LOCAL_SYMBOL: b3OverlappingPairCache.cpp<404:24> [b3OverlappingPairCache.cpp <413:25 413:32>]
+LOCAL_SYMBOL: b3OverlappingPairCache.cpp<405:6> [b3OverlappingPairCache.cpp <413:34 413:34>]
+REFERENCE_USAGE void b3HashedOverlappingPairCache::sortOverlappingPairs(b3Dispatcher *) -> int b3Int4::anonymous union (b3Int4.h<30:2>)::anonymous struct (b3Int4.h<32:3>)::y [b3OverlappingPairCache.cpp <413:51 413:51>]
+REFERENCE_USAGE void b3HashedOverlappingPairCache::sortOverlappingPairs(b3Dispatcher *) -> b3Int4::anonymous union (b3Int4.h<30:2>)::anonymous struct (b3Int4.h<32:3>) b3Int4::anonymous union (b3Int4.h<30:2>):: [b3OverlappingPairCache.cpp <413:51 413:51>]
+REFERENCE_USAGE void b3HashedOverlappingPairCache::sortOverlappingPairs(b3Dispatcher *) -> b3Int4::anonymous union (b3Int4.h<30:2>) b3Int4:: [b3OverlappingPairCache.cpp <413:51 413:51>]
+SYMBOL_FUNCTION b3Int4 & b3AlignedObjectArray<b3Int4>::operator[](int)
+REFERENCE_CALL void b3HashedOverlappingPairCache::sortOverlappingPairs(b3Dispatcher *) -> b3Int4 & b3AlignedObjectArray<b3Int4>::operator[](int) [b3OverlappingPairCache.cpp <413:47 413:47>]
+LOCAL_SYMBOL: b3OverlappingPairCache.cpp<404:24> [b3OverlappingPairCache.cpp <413:39 413:46>]
+LOCAL_SYMBOL: b3OverlappingPairCache.cpp<405:6> [b3OverlappingPairCache.cpp <413:48 413:48>]
+LOCAL_SYMBOL: b3OverlappingPairCache.cpp<401:71> [b3OverlappingPairCache.cpp <413:53 413:62>]
+LOCAL_SYMBOL: b3OverlappingPairCache.cpp<405:6> [b3OverlappingPairCache.cpp <416:7 416:7>]
+LOCAL_SYMBOL: b3OverlappingPairCache.cpp<405:6> [b3OverlappingPairCache.cpp <416:14 416:14>]
+SYMBOL_FUNCTION int b3AlignedObjectArray<int>::size() const
+REFERENCE_CALL void b3HashedOverlappingPairCache::sortOverlappingPairs(b3Dispatcher *) -> int b3AlignedObjectArray<int>::size() const [b3OverlappingPairCache.cpp <416:25 416:28>]
+REFERENCE_USAGE void b3HashedOverlappingPairCache::sortOverlappingPairs(b3Dispatcher *) -> b3AlignedObjectArray<int> b3HashedOverlappingPairCache::m_next [b3OverlappingPairCache.cpp <416:18 416:23>]
+LOCAL_SYMBOL: b3OverlappingPairCache.cpp<405:6> [b3OverlappingPairCache.cpp <416:33 416:33>]
+SYMBOL_FUNCTION int & b3AlignedObjectArray<int>::operator[](int)
+REFERENCE_CALL void b3HashedOverlappingPairCache::sortOverlappingPairs(b3Dispatcher *) -> int & b3AlignedObjectArray<int>::operator[](int) [b3OverlappingPairCache.cpp <418:9 418:9>]
+REFERENCE_USAGE void b3HashedOverlappingPairCache::sortOverlappingPairs(b3Dispatcher *) -> b3AlignedObjectArray<int> b3HashedOverlappingPairCache::m_next [b3OverlappingPairCache.cpp <418:3 418:8>]
+LOCAL_SYMBOL: b3OverlappingPairCache.cpp<405:6> [b3OverlappingPairCache.cpp <418:10 418:10>]
+REFERENCE_USAGE void b3HashedOverlappingPairCache::sortOverlappingPairs(b3Dispatcher *) -> const int B3_NULL_PAIR [b3OverlappingPairCache.cpp <418:15 418:26>]
+SYMBOL_FUNCTION void b3AlignedObjectArray<b3Int4>::quickSort<b3BroadphasePairSortPredicate>(const b3BroadphasePairSortPredicate &)
+REFERENCE_CALL void b3HashedOverlappingPairCache::sortOverlappingPairs(b3Dispatcher *) -> void b3AlignedObjectArray<b3Int4>::quickSort<b3BroadphasePairSortPredicate>(const b3BroadphasePairSortPredicate &) [b3OverlappingPairCache.cpp <421:11 421:19>]
+LOCAL_SYMBOL: b3OverlappingPairCache.cpp<404:24> [b3OverlappingPairCache.cpp <421:2 421:9>]
+SYMBOL_FUNCTION void b3BroadphasePairSortPredicate::b3BroadphasePairSortPredicate()
+REFERENCE_CALL void b3HashedOverlappingPairCache::sortOverlappingPairs(b3Dispatcher *) -> void b3BroadphasePairSortPredicate::b3BroadphasePairSortPredicate() [b3OverlappingPairCache.cpp <421:21 421:49>]
+REFERENCE_TYPE_USAGE void b3HashedOverlappingPairCache::sortOverlappingPairs(b3Dispatcher *) -> b3BroadphasePairSortPredicate [b3OverlappingPairCache.cpp <421:21 421:49>]
+LOCAL_SYMBOL: b3OverlappingPairCache.cpp<405:6> [b3OverlappingPairCache.cpp <423:7 423:7>]
+LOCAL_SYMBOL: b3OverlappingPairCache.cpp<405:6> [b3OverlappingPairCache.cpp <423:11 423:11>]
+SYMBOL_FUNCTION int b3AlignedObjectArray<b3Int4>::size() const
+REFERENCE_CALL void b3HashedOverlappingPairCache::sortOverlappingPairs(b3Dispatcher *) -> int b3AlignedObjectArray<b3Int4>::size() const [b3OverlappingPairCache.cpp <423:22 423:25>]
+LOCAL_SYMBOL: b3OverlappingPairCache.cpp<404:24> [b3OverlappingPairCache.cpp <423:13 423:20>]
+LOCAL_SYMBOL: b3OverlappingPairCache.cpp<405:6> [b3OverlappingPairCache.cpp <423:29 423:29>]
+SYMBOL_FUNCTION b3BroadphasePair * b3HashedOverlappingPairCache::addOverlappingPair(int, int)
+REFERENCE_CALL void b3HashedOverlappingPairCache::sortOverlappingPairs(b3Dispatcher *) -> b3BroadphasePair * b3HashedOverlappingPairCache::addOverlappingPair(int, int) [b3OverlappingPairCache.cpp <425:3 425:20>]
+REFERENCE_USAGE void b3HashedOverlappingPairCache::sortOverlappingPairs(b3Dispatcher *) -> int b3Int4::anonymous union (b3Int4.h<30:2>)::anonymous struct (b3Int4.h<32:3>)::x [b3OverlappingPairCache.cpp <425:34 425:34>]
+REFERENCE_USAGE void b3HashedOverlappingPairCache::sortOverlappingPairs(b3Dispatcher *) -> b3Int4::anonymous union (b3Int4.h<30:2>)::anonymous struct (b3Int4.h<32:3>) b3Int4::anonymous union (b3Int4.h<30:2>):: [b3OverlappingPairCache.cpp <425:34 425:34>]
+REFERENCE_USAGE void b3HashedOverlappingPairCache::sortOverlappingPairs(b3Dispatcher *) -> b3Int4::anonymous union (b3Int4.h<30:2>) b3Int4:: [b3OverlappingPairCache.cpp <425:34 425:34>]
+SYMBOL_FUNCTION b3Int4 & b3AlignedObjectArray<b3Int4>::operator[](int)
+REFERENCE_CALL void b3HashedOverlappingPairCache::sortOverlappingPairs(b3Dispatcher *) -> b3Int4 & b3AlignedObjectArray<b3Int4>::operator[](int) [b3OverlappingPairCache.cpp <425:30 425:30>]
+LOCAL_SYMBOL: b3OverlappingPairCache.cpp<404:24> [b3OverlappingPairCache.cpp <425:22 425:29>]
+LOCAL_SYMBOL: b3OverlappingPairCache.cpp<405:6> [b3OverlappingPairCache.cpp <425:31 425:31>]
+REFERENCE_USAGE void b3HashedOverlappingPairCache::sortOverlappingPairs(b3Dispatcher *) -> int b3Int4::anonymous union (b3Int4.h<30:2>)::anonymous struct (b3Int4.h<32:3>)::y [b3OverlappingPairCache.cpp <425:49 425:49>]
+REFERENCE_USAGE void b3HashedOverlappingPairCache::sortOverlappingPairs(b3Dispatcher *) -> b3Int4::anonymous union (b3Int4.h<30:2>)::anonymous struct (b3Int4.h<32:3>) b3Int4::anonymous union (b3Int4.h<30:2>):: [b3OverlappingPairCache.cpp <425:49 425:49>]
+REFERENCE_USAGE void b3HashedOverlappingPairCache::sortOverlappingPairs(b3Dispatcher *) -> b3Int4::anonymous union (b3Int4.h<30:2>) b3Int4:: [b3OverlappingPairCache.cpp <425:49 425:49>]
+SYMBOL_FUNCTION b3Int4 & b3AlignedObjectArray<b3Int4>::operator[](int)
+REFERENCE_CALL void b3HashedOverlappingPairCache::sortOverlappingPairs(b3Dispatcher *) -> b3Int4 & b3AlignedObjectArray<b3Int4>::operator[](int) [b3OverlappingPairCache.cpp <425:45 425:45>]
+LOCAL_SYMBOL: b3OverlappingPairCache.cpp<404:24> [b3OverlappingPairCache.cpp <425:37 425:44>]
+LOCAL_SYMBOL: b3OverlappingPairCache.cpp<405:6> [b3OverlappingPairCache.cpp <425:46 425:46>]
+SYMBOL_METHOD public void * b3SortedOverlappingPairCache::removeOverlappingPair(int, int, b3Dispatcher *) [b3OverlappingPairCache.cpp <432:1 <432:37 432:57> 456:1>]
+SYMBOL_FUNCTION void * b3OverlappingPairCache::removeOverlappingPair(int, int, b3Dispatcher *)
+REFERENCE_OVERRIDE void * b3SortedOverlappingPairCache::removeOverlappingPair(int, int, b3Dispatcher *) -> void * b3OverlappingPairCache::removeOverlappingPair(int, int, b3Dispatcher *) [b3OverlappingPairCache.cpp <432:37 432:57>]
+SYMBOL_CLASS b3SortedOverlappingPairCache
+SYMBOL_BUILTIN_TYPE void
+REFERENCE_TYPE_USAGE void * b3SortedOverlappingPairCache::removeOverlappingPair(int, int, b3Dispatcher *) -> void [b3OverlappingPairCache.cpp <432:1 432:4>]
+LOCAL_SYMBOL: b3OverlappingPairCache.cpp<432:63> [b3OverlappingPairCache.cpp <432:63 432:68>]
+SYMBOL_BUILTIN_TYPE int
+REFERENCE_TYPE_USAGE void * b3SortedOverlappingPairCache::removeOverlappingPair(int, int, b3Dispatcher *) -> int [b3OverlappingPairCache.cpp <432:59 432:61>]
+LOCAL_SYMBOL: b3OverlappingPairCache.cpp<432:74> [b3OverlappingPairCache.cpp <432:74 432:79>]
+SYMBOL_BUILTIN_TYPE int
+REFERENCE_TYPE_USAGE void * b3SortedOverlappingPairCache::removeOverlappingPair(int, int, b3Dispatcher *) -> int [b3OverlappingPairCache.cpp <432:70 432:72>]
+LOCAL_SYMBOL: b3OverlappingPairCache.cpp<432:96> [b3OverlappingPairCache.cpp <432:96 432:105>]
+REFERENCE_TYPE_USAGE void * b3SortedOverlappingPairCache::removeOverlappingPair(int, int, b3Dispatcher *) -> b3Dispatcher [b3OverlappingPairCache.cpp <432:82 432:93>]
+SYMBOL_FUNCTION bool b3SortedOverlappingPairCache::hasDeferredRemoval()
+REFERENCE_CALL void * b3SortedOverlappingPairCache::removeOverlappingPair(int, int, b3Dispatcher *) -> bool b3SortedOverlappingPairCache::hasDeferredRemoval() [b3OverlappingPairCache.cpp <434:7 434:24>]
+LOCAL_SYMBOL: b3OverlappingPairCache.cpp<436:20> [b3OverlappingPairCache.cpp <436:20 436:27>]
+REFERENCE_TYPE_USAGE void * b3SortedOverlappingPairCache::removeOverlappingPair(int, int, b3Dispatcher *) -> b3BroadphasePair [b3OverlappingPairCache.cpp <436:3 436:18>]
+SYMBOL_FUNCTION b3Int4 b3MakeBroadphasePair(int, int)
+REFERENCE_CALL void * b3SortedOverlappingPairCache::removeOverlappingPair(int, int, b3Dispatcher *) -> b3Int4 b3MakeBroadphasePair(int, int) [b3OverlappingPairCache.cpp <436:31 436:50>]
+LOCAL_SYMBOL: b3OverlappingPairCache.cpp<432:63> [b3OverlappingPairCache.cpp <436:52 436:57>]
+LOCAL_SYMBOL: b3OverlappingPairCache.cpp<432:74> [b3OverlappingPairCache.cpp <436:59 436:64>]
+LOCAL_SYMBOL: b3OverlappingPairCache.cpp<439:7> [b3OverlappingPairCache.cpp <439:7 439:15>]
+SYMBOL_BUILTIN_TYPE int
+REFERENCE_TYPE_USAGE void * b3SortedOverlappingPairCache::removeOverlappingPair(int, int, b3Dispatcher *) -> int [b3OverlappingPairCache.cpp <439:3 439:5>]
+SYMBOL_FUNCTION int b3AlignedObjectArray<b3Int4>::findLinearSearch(const b3Int4 &) const
+REFERENCE_CALL void * b3SortedOverlappingPairCache::removeOverlappingPair(int, int, b3Dispatcher *) -> int b3AlignedObjectArray<b3Int4>::findLinearSearch(const b3Int4 &) const [b3OverlappingPairCache.cpp <439:42 439:57>]
+REFERENCE_USAGE void * b3SortedOverlappingPairCache::removeOverlappingPair(int, int, b3Dispatcher *) -> b3BroadphasePairArray b3SortedOverlappingPairCache::m_overlappingPairArray [b3OverlappingPairCache.cpp <439:19 439:40>]
+LOCAL_SYMBOL: b3OverlappingPairCache.cpp<436:20> [b3OverlappingPairCache.cpp <439:59 439:66>]
+LOCAL_SYMBOL: b3OverlappingPairCache.cpp<439:7> [b3OverlappingPairCache.cpp <440:7 440:15>]
+SYMBOL_FUNCTION int b3AlignedObjectArray<b3Int4>::size() const
+REFERENCE_CALL void * b3SortedOverlappingPairCache::removeOverlappingPair(int, int, b3Dispatcher *) -> int b3AlignedObjectArray<b3Int4>::size() const [b3OverlappingPairCache.cpp <440:42 440:45>]
+REFERENCE_USAGE void * b3SortedOverlappingPairCache::removeOverlappingPair(int, int, b3Dispatcher *) -> b3BroadphasePairArray b3SortedOverlappingPairCache::m_overlappingPairArray [b3OverlappingPairCache.cpp <440:19 440:40>]
+REFERENCE_USAGE void * b3SortedOverlappingPairCache::removeOverlappingPair(int, int, b3Dispatcher *) -> int b3g_overlappingPairs [b3OverlappingPairCache.cpp <442:4 442:23>]
+LOCAL_SYMBOL: b3OverlappingPairCache.cpp<443:22> [b3OverlappingPairCache.cpp <443:22 443:25>]
+REFERENCE_TYPE_USAGE void * b3SortedOverlappingPairCache::removeOverlappingPair(int, int, b3Dispatcher *) -> b3BroadphasePair [b3OverlappingPairCache.cpp <443:4 443:19>]
+SYMBOL_FUNCTION b3Int4 & b3AlignedObjectArray<b3Int4>::operator[](int)
+REFERENCE_CALL void * b3SortedOverlappingPairCache::removeOverlappingPair(int, int, b3Dispatcher *) -> b3Int4 & b3AlignedObjectArray<b3Int4>::operator[](int) [b3OverlappingPairCache.cpp <443:51 443:51>]
+REFERENCE_USAGE void * b3SortedOverlappingPairCache::removeOverlappingPair(int, int, b3Dispatcher *) -> b3BroadphasePairArray b3SortedOverlappingPairCache::m_overlappingPairArray [b3OverlappingPairCache.cpp <443:29 443:50>]
+LOCAL_SYMBOL: b3OverlappingPairCache.cpp<439:7> [b3OverlappingPairCache.cpp <443:52 443:60>]
+SYMBOL_FUNCTION void b3SortedOverlappingPairCache::cleanOverlappingPair(b3BroadphasePair &, b3Dispatcher *)
+REFERENCE_CALL void * b3SortedOverlappingPairCache::removeOverlappingPair(int, int, b3Dispatcher *) -> void b3SortedOverlappingPairCache::cleanOverlappingPair(b3BroadphasePair &, b3Dispatcher *) [b3OverlappingPairCache.cpp <445:4 445:23>]
+LOCAL_SYMBOL: b3OverlappingPairCache.cpp<443:22> [b3OverlappingPairCache.cpp <445:25 445:28>]
+LOCAL_SYMBOL: b3OverlappingPairCache.cpp<432:96> [b3OverlappingPairCache.cpp <445:30 445:39>]
+SYMBOL_FUNCTION void b3AlignedObjectArray<b3Int4>::swap(int, int)
+REFERENCE_CALL void * b3SortedOverlappingPairCache::removeOverlappingPair(int, int, b3Dispatcher *) -> void b3AlignedObjectArray<b3Int4>::swap(int, int) [b3OverlappingPairCache.cpp <449:27 449:30>]
+REFERENCE_USAGE void * b3SortedOverlappingPairCache::removeOverlappingPair(int, int, b3Dispatcher *) -> b3BroadphasePairArray b3SortedOverlappingPairCache::m_overlappingPairArray [b3OverlappingPairCache.cpp <449:4 449:25>]
+LOCAL_SYMBOL: b3OverlappingPairCache.cpp<439:7> [b3OverlappingPairCache.cpp <449:32 449:40>]
+SYMBOL_FUNCTION int b3AlignedObjectArray<b3Int4>::capacity() const
+REFERENCE_CALL void * b3SortedOverlappingPairCache::removeOverlappingPair(int, int, b3Dispatcher *) -> int b3AlignedObjectArray<b3Int4>::capacity() const [b3OverlappingPairCache.cpp <449:65 449:72>]
+REFERENCE_USAGE void * b3SortedOverlappingPairCache::removeOverlappingPair(int, int, b3Dispatcher *) -> b3BroadphasePairArray b3SortedOverlappingPairCache::m_overlappingPairArray [b3OverlappingPairCache.cpp <449:42 449:63>]
+SYMBOL_FUNCTION void b3AlignedObjectArray<b3Int4>::pop_back()
+REFERENCE_CALL void * b3SortedOverlappingPairCache::removeOverlappingPair(int, int, b3Dispatcher *) -> void b3AlignedObjectArray<b3Int4>::pop_back() [b3OverlappingPairCache.cpp <450:27 450:34>]
+REFERENCE_USAGE void * b3SortedOverlappingPairCache::removeOverlappingPair(int, int, b3Dispatcher *) -> b3BroadphasePairArray b3SortedOverlappingPairCache::m_overlappingPairArray [b3OverlappingPairCache.cpp <450:4 450:25>]
+SYMBOL_METHOD public b3BroadphasePair * b3SortedOverlappingPairCache::addOverlappingPair(int, int) [b3OverlappingPairCache.cpp <465:1 <465:49 465:66> 484:1>]
+SYMBOL_FUNCTION b3BroadphasePair * b3OverlappingPairCache::addOverlappingPair(int, int)
+REFERENCE_OVERRIDE b3BroadphasePair * b3SortedOverlappingPairCache::addOverlappingPair(int, int) -> b3BroadphasePair * b3OverlappingPairCache::addOverlappingPair(int, int) [b3OverlappingPairCache.cpp <465:49 465:66>]
+SYMBOL_CLASS b3SortedOverlappingPairCache
+REFERENCE_TYPE_USAGE b3BroadphasePair * b3SortedOverlappingPairCache::addOverlappingPair(int, int) -> b3BroadphasePair [b3OverlappingPairCache.cpp <465:1 465:16>]
+LOCAL_SYMBOL: b3OverlappingPairCache.cpp<465:72> [b3OverlappingPairCache.cpp <465:72 465:77>]
+SYMBOL_BUILTIN_TYPE int
+REFERENCE_TYPE_USAGE b3BroadphasePair * b3SortedOverlappingPairCache::addOverlappingPair(int, int) -> int [b3OverlappingPairCache.cpp <465:68 465:70>]
+LOCAL_SYMBOL: b3OverlappingPairCache.cpp<465:83> [b3OverlappingPairCache.cpp <465:83 465:88>]
+SYMBOL_BUILTIN_TYPE int
+REFERENCE_TYPE_USAGE b3BroadphasePair * b3SortedOverlappingPairCache::addOverlappingPair(int, int) -> int [b3OverlappingPairCache.cpp <465:79 465:81>]
+SYMBOL_FUNCTION bool b3SortedOverlappingPairCache::needsBroadphaseCollision(int, int) const
+REFERENCE_CALL b3BroadphasePair * b3SortedOverlappingPairCache::addOverlappingPair(int, int) -> bool b3SortedOverlappingPairCache::needsBroadphaseCollision(int, int) const [b3OverlappingPairCache.cpp <470:7 470:30>]
+LOCAL_SYMBOL: b3OverlappingPairCache.cpp<465:72> [b3OverlappingPairCache.cpp <470:32 470:37>]
+LOCAL_SYMBOL: b3OverlappingPairCache.cpp<465:83> [b3OverlappingPairCache.cpp <470:39 470:44>]
+LOCAL_SYMBOL: b3OverlappingPairCache.cpp<473:20> [b3OverlappingPairCache.cpp <473:20 473:23>]
+REFERENCE_TYPE_USAGE b3BroadphasePair * b3SortedOverlappingPairCache::addOverlappingPair(int, int) -> b3BroadphasePair [b3OverlappingPairCache.cpp <473:2 473:17>]
+SYMBOL_FUNCTION b3Int4 & b3AlignedObjectArray<b3Int4>::expandNonInitializing()
+REFERENCE_CALL b3BroadphasePair * b3SortedOverlappingPairCache::addOverlappingPair(int, int) -> b3Int4 & b3AlignedObjectArray<b3Int4>::expandNonInitializing() [b3OverlappingPairCache.cpp <473:51 473:71>]
+REFERENCE_USAGE b3BroadphasePair * b3SortedOverlappingPairCache::addOverlappingPair(int, int) -> b3BroadphasePairArray b3SortedOverlappingPairCache::m_overlappingPairArray [b3OverlappingPairCache.cpp <473:28 473:49>]
+SYMBOL_FUNCTION b3Int4 & b3Int4::operator=(b3Int4 &)
+REFERENCE_CALL b3BroadphasePair * b3SortedOverlappingPairCache::addOverlappingPair(int, int) -> b3Int4 & b3Int4::operator=(b3Int4 &) [b3OverlappingPairCache.cpp <474:8 474:8>]
+LOCAL_SYMBOL: b3OverlappingPairCache.cpp<473:20> [b3OverlappingPairCache.cpp <474:3 474:6>]
+SYMBOL_FUNCTION b3Int4 b3MakeBroadphasePair(int, int)
+REFERENCE_CALL b3BroadphasePair * b3SortedOverlappingPairCache::addOverlappingPair(int, int) -> b3Int4 b3MakeBroadphasePair(int, int) [b3OverlappingPairCache.cpp <474:10 474:29>]
+LOCAL_SYMBOL: b3OverlappingPairCache.cpp<465:72> [b3OverlappingPairCache.cpp <474:31 474:36>]
+LOCAL_SYMBOL: b3OverlappingPairCache.cpp<465:83> [b3OverlappingPairCache.cpp <474:38 474:43>]
+REFERENCE_USAGE b3BroadphasePair * b3SortedOverlappingPairCache::addOverlappingPair(int, int) -> int b3g_overlappingPairs [b3OverlappingPairCache.cpp <477:2 477:21>]
+REFERENCE_USAGE b3BroadphasePair * b3SortedOverlappingPairCache::addOverlappingPair(int, int) -> int b3g_addedPairs [b3OverlappingPairCache.cpp <478:2 478:15>]
+LOCAL_SYMBOL: b3OverlappingPairCache.cpp<473:20> [b3OverlappingPairCache.cpp <482:9 482:12>]
+SYMBOL_METHOD public b3BroadphasePair * b3SortedOverlappingPairCache::findPair(int, int) [b3OverlappingPairCache.cpp <490:2 <490:50 490:57> 505:1>]
+SYMBOL_FUNCTION b3BroadphasePair * b3OverlappingPairCache::findPair(int, int)
+REFERENCE_OVERRIDE b3BroadphasePair * b3SortedOverlappingPairCache::findPair(int, int) -> b3BroadphasePair * b3OverlappingPairCache::findPair(int, int) [b3OverlappingPairCache.cpp <490:50 490:57>]
+SYMBOL_CLASS b3SortedOverlappingPairCache
+REFERENCE_TYPE_USAGE b3BroadphasePair * b3SortedOverlappingPairCache::findPair(int, int) -> b3BroadphasePair [b3OverlappingPairCache.cpp <490:2 490:17>]
+LOCAL_SYMBOL: b3OverlappingPairCache.cpp<490:63> [b3OverlappingPairCache.cpp <490:63 490:68>]
+SYMBOL_BUILTIN_TYPE int
+REFERENCE_TYPE_USAGE b3BroadphasePair * b3SortedOverlappingPairCache::findPair(int, int) -> int [b3OverlappingPairCache.cpp <490:59 490:61>]
+LOCAL_SYMBOL: b3OverlappingPairCache.cpp<490:74> [b3OverlappingPairCache.cpp <490:74 490:79>]
+SYMBOL_BUILTIN_TYPE int
+REFERENCE_TYPE_USAGE b3BroadphasePair * b3SortedOverlappingPairCache::findPair(int, int) -> int [b3OverlappingPairCache.cpp <490:70 490:72>]
+SYMBOL_FUNCTION bool b3SortedOverlappingPairCache::needsBroadphaseCollision(int, int) const
+REFERENCE_CALL b3BroadphasePair * b3SortedOverlappingPairCache::findPair(int, int) -> bool b3SortedOverlappingPairCache::needsBroadphaseCollision(int, int) const [b3OverlappingPairCache.cpp <492:7 492:30>]
+LOCAL_SYMBOL: b3OverlappingPairCache.cpp<490:63> [b3OverlappingPairCache.cpp <492:32 492:37>]
+LOCAL_SYMBOL: b3OverlappingPairCache.cpp<490:74> [b3OverlappingPairCache.cpp <492:39 492:44>]
+LOCAL_SYMBOL: b3OverlappingPairCache.cpp<495:19> [b3OverlappingPairCache.cpp <495:19 495:25>]
+REFERENCE_TYPE_USAGE b3BroadphasePair * b3SortedOverlappingPairCache::findPair(int, int) -> b3BroadphasePair [b3OverlappingPairCache.cpp <495:2 495:17>]
+SYMBOL_FUNCTION b3Int4 b3MakeBroadphasePair(int, int)
+REFERENCE_CALL b3BroadphasePair * b3SortedOverlappingPairCache::findPair(int, int) -> b3Int4 b3MakeBroadphasePair(int, int) [b3OverlappingPairCache.cpp <495:29 495:48>]
+LOCAL_SYMBOL: b3OverlappingPairCache.cpp<490:63> [b3OverlappingPairCache.cpp <495:50 495:55>]
+LOCAL_SYMBOL: b3OverlappingPairCache.cpp<490:74> [b3OverlappingPairCache.cpp <495:57 495:62>]
+LOCAL_SYMBOL: b3OverlappingPairCache.cpp<496:6> [b3OverlappingPairCache.cpp <496:6 496:14>]
+SYMBOL_BUILTIN_TYPE int
+REFERENCE_TYPE_USAGE b3BroadphasePair * b3SortedOverlappingPairCache::findPair(int, int) -> int [b3OverlappingPairCache.cpp <496:2 496:4>]
+SYMBOL_FUNCTION int b3AlignedObjectArray<b3Int4>::findLinearSearch(const b3Int4 &) const
+REFERENCE_CALL b3BroadphasePair * b3SortedOverlappingPairCache::findPair(int, int) -> int b3AlignedObjectArray<b3Int4>::findLinearSearch(const b3Int4 &) const [b3OverlappingPairCache.cpp <496:41 496:56>]
+REFERENCE_USAGE b3BroadphasePair * b3SortedOverlappingPairCache::findPair(int, int) -> b3BroadphasePairArray b3SortedOverlappingPairCache::m_overlappingPairArray [b3OverlappingPairCache.cpp <496:18 496:39>]
+LOCAL_SYMBOL: b3OverlappingPairCache.cpp<495:19> [b3OverlappingPairCache.cpp <496:58 496:64>]
+LOCAL_SYMBOL: b3OverlappingPairCache.cpp<496:6> [b3OverlappingPairCache.cpp <498:6 498:14>]
+SYMBOL_FUNCTION int b3AlignedObjectArray<b3Int4>::size() const
+REFERENCE_CALL b3BroadphasePair * b3SortedOverlappingPairCache::findPair(int, int) -> int b3AlignedObjectArray<b3Int4>::size() const [b3OverlappingPairCache.cpp <498:41 498:44>]
+REFERENCE_USAGE b3BroadphasePair * b3SortedOverlappingPairCache::findPair(int, int) -> b3BroadphasePairArray b3SortedOverlappingPairCache::m_overlappingPairArray [b3OverlappingPairCache.cpp <498:18 498:39>]
+LOCAL_SYMBOL: b3OverlappingPairCache.cpp<501:22> [b3OverlappingPairCache.cpp <501:22 501:25>]
+REFERENCE_TYPE_USAGE b3BroadphasePair * b3SortedOverlappingPairCache::findPair(int, int) -> b3BroadphasePair [b3OverlappingPairCache.cpp <501:4 501:19>]
+SYMBOL_FUNCTION b3Int4 & b3AlignedObjectArray<b3Int4>::operator[](int)
+REFERENCE_CALL b3BroadphasePair * b3SortedOverlappingPairCache::findPair(int, int) -> b3Int4 & b3AlignedObjectArray<b3Int4>::operator[](int) [b3OverlappingPairCache.cpp <501:52 501:52>]
+REFERENCE_USAGE b3BroadphasePair * b3SortedOverlappingPairCache::findPair(int, int) -> b3BroadphasePairArray b3SortedOverlappingPairCache::m_overlappingPairArray [b3OverlappingPairCache.cpp <501:30 501:51>]
+LOCAL_SYMBOL: b3OverlappingPairCache.cpp<496:6> [b3OverlappingPairCache.cpp <501:53 501:61>]
+LOCAL_SYMBOL: b3OverlappingPairCache.cpp<501:22> [b3OverlappingPairCache.cpp <502:10 502:13>]
+SYMBOL_METHOD public void b3SortedOverlappingPairCache::processAllOverlappingPairs(b3OverlapCallback *, b3Dispatcher *) [b3OverlappingPairCache.cpp <518:1 <518:36 518:61> 540:1>]
+SYMBOL_FUNCTION void b3OverlappingPairCache::processAllOverlappingPairs(b3OverlapCallback *, b3Dispatcher *)
+REFERENCE_OVERRIDE void b3SortedOverlappingPairCache::processAllOverlappingPairs(b3OverlapCallback *, b3Dispatcher *) -> void b3OverlappingPairCache::processAllOverlappingPairs(b3OverlapCallback *, b3Dispatcher *) [b3OverlappingPairCache.cpp <518:36 518:61>]
+SYMBOL_CLASS b3SortedOverlappingPairCache
+SYMBOL_BUILTIN_TYPE void
+REFERENCE_TYPE_USAGE void b3SortedOverlappingPairCache::processAllOverlappingPairs(b3OverlapCallback *, b3Dispatcher *) -> void [b3OverlappingPairCache.cpp <518:1 518:4>]
+LOCAL_SYMBOL: b3OverlappingPairCache.cpp<518:82> [b3OverlappingPairCache.cpp <518:82 518:89>]
+REFERENCE_TYPE_USAGE void b3SortedOverlappingPairCache::processAllOverlappingPairs(b3OverlapCallback *, b3Dispatcher *) -> b3OverlapCallback [b3OverlappingPairCache.cpp <518:63 518:79>]
+LOCAL_SYMBOL: b3OverlappingPairCache.cpp<518:105> [b3OverlappingPairCache.cpp <518:105 518:114>]
+REFERENCE_TYPE_USAGE void b3SortedOverlappingPairCache::processAllOverlappingPairs(b3OverlapCallback *, b3Dispatcher *) -> b3Dispatcher [b3OverlappingPairCache.cpp <518:91 518:102>]
+LOCAL_SYMBOL: b3OverlappingPairCache.cpp<521:6> [b3OverlappingPairCache.cpp <521:6 521:6>]
+SYMBOL_BUILTIN_TYPE int
+REFERENCE_TYPE_USAGE void b3SortedOverlappingPairCache::processAllOverlappingPairs(b3OverlapCallback *, b3Dispatcher *) -> int [b3OverlappingPairCache.cpp <521:2 521:4>]
+LOCAL_SYMBOL: b3OverlappingPairCache.cpp<521:6> [b3OverlappingPairCache.cpp <523:7 523:7>]
+LOCAL_SYMBOL: b3OverlappingPairCache.cpp<521:6> [b3OverlappingPairCache.cpp <523:11 523:11>]
+SYMBOL_FUNCTION int b3AlignedObjectArray<b3Int4>::size() const
+REFERENCE_CALL void b3SortedOverlappingPairCache::processAllOverlappingPairs(b3OverlapCallback *, b3Dispatcher *) -> int b3AlignedObjectArray<b3Int4>::size() const [b3OverlappingPairCache.cpp <523:36 523:39>]
+REFERENCE_USAGE void b3SortedOverlappingPairCache::processAllOverlappingPairs(b3OverlapCallback *, b3Dispatcher *) -> b3BroadphasePairArray b3SortedOverlappingPairCache::m_overlappingPairArray [b3OverlappingPairCache.cpp <523:13 523:34>]
+LOCAL_SYMBOL: b3OverlappingPairCache.cpp<526:21> [b3OverlappingPairCache.cpp <526:21 526:24>]
+REFERENCE_TYPE_USAGE void b3SortedOverlappingPairCache::processAllOverlappingPairs(b3OverlapCallback *, b3Dispatcher *) -> b3BroadphasePair [b3OverlappingPairCache.cpp <526:3 526:18>]
+SYMBOL_FUNCTION b3Int4 & b3AlignedObjectArray<b3Int4>::operator[](int)
+REFERENCE_CALL void b3SortedOverlappingPairCache::processAllOverlappingPairs(b3OverlapCallback *, b3Dispatcher *) -> b3Int4 & b3AlignedObjectArray<b3Int4>::operator[](int) [b3OverlappingPairCache.cpp <526:51 526:51>]
+REFERENCE_USAGE void b3SortedOverlappingPairCache::processAllOverlappingPairs(b3OverlapCallback *, b3Dispatcher *) -> b3BroadphasePairArray b3SortedOverlappingPairCache::m_overlappingPairArray [b3OverlappingPairCache.cpp <526:29 526:50>]
+LOCAL_SYMBOL: b3OverlappingPairCache.cpp<521:6> [b3OverlappingPairCache.cpp <526:52 526:52>]
+SYMBOL_FUNCTION bool b3OverlapCallback::processOverlap(b3BroadphasePair &)
+REFERENCE_CALL void b3SortedOverlappingPairCache::processAllOverlappingPairs(b3OverlapCallback *, b3Dispatcher *) -> bool b3OverlapCallback::processOverlap(b3BroadphasePair &) [b3OverlappingPairCache.cpp <527:17 527:30>]
+LOCAL_SYMBOL: b3OverlappingPairCache.cpp<518:82> [b3OverlappingPairCache.cpp <527:7 527:14>]
+LOCAL_SYMBOL: b3OverlappingPairCache.cpp<526:21> [b3OverlappingPairCache.cpp <527:33 527:36>]
+SYMBOL_FUNCTION void b3SortedOverlappingPairCache::cleanOverlappingPair(b3BroadphasePair &, b3Dispatcher *)
+REFERENCE_CALL void b3SortedOverlappingPairCache::processAllOverlappingPairs(b3OverlapCallback *, b3Dispatcher *) -> void b3SortedOverlappingPairCache::cleanOverlappingPair(b3BroadphasePair &, b3Dispatcher *) [b3OverlappingPairCache.cpp <529:4 529:23>]
+LOCAL_SYMBOL: b3OverlappingPairCache.cpp<526:21> [b3OverlappingPairCache.cpp <529:26 529:29>]
+LOCAL_SYMBOL: b3OverlappingPairCache.cpp<518:105> [b3OverlappingPairCache.cpp <529:31 529:40>]
+REFERENCE_USAGE void b3SortedOverlappingPairCache::processAllOverlappingPairs(b3OverlapCallback *, b3Dispatcher *) -> int b3Int4::anonymous union (b3Int4.h<30:2>)::anonymous struct (b3Int4.h<32:3>)::x [b3OverlappingPairCache.cpp <530:10 530:10>]
+REFERENCE_USAGE void b3SortedOverlappingPairCache::processAllOverlappingPairs(b3OverlapCallback *, b3Dispatcher *) -> b3Int4::anonymous union (b3Int4.h<30:2>)::anonymous struct (b3Int4.h<32:3>) b3Int4::anonymous union (b3Int4.h<30:2>):: [b3OverlappingPairCache.cpp <530:10 530:10>]
+REFERENCE_USAGE void b3SortedOverlappingPairCache::processAllOverlappingPairs(b3OverlapCallback *, b3Dispatcher *) -> b3Int4::anonymous union (b3Int4.h<30:2>) b3Int4:: [b3OverlappingPairCache.cpp <530:10 530:10>]
+LOCAL_SYMBOL: b3OverlappingPairCache.cpp<526:21> [b3OverlappingPairCache.cpp <530:4 530:7>]
+REFERENCE_USAGE void b3SortedOverlappingPairCache::processAllOverlappingPairs(b3OverlapCallback *, b3Dispatcher *) -> int b3Int4::anonymous union (b3Int4.h<30:2>)::anonymous struct (b3Int4.h<32:3>)::y [b3OverlappingPairCache.cpp <531:10 531:10>]
+REFERENCE_USAGE void b3SortedOverlappingPairCache::processAllOverlappingPairs(b3OverlapCallback *, b3Dispatcher *) -> b3Int4::anonymous union (b3Int4.h<30:2>)::anonymous struct (b3Int4.h<32:3>) b3Int4::anonymous union (b3Int4.h<30:2>):: [b3OverlappingPairCache.cpp <531:10 531:10>]
+REFERENCE_USAGE void b3SortedOverlappingPairCache::processAllOverlappingPairs(b3OverlapCallback *, b3Dispatcher *) -> b3Int4::anonymous union (b3Int4.h<30:2>) b3Int4:: [b3OverlappingPairCache.cpp <531:10 531:10>]
+LOCAL_SYMBOL: b3OverlappingPairCache.cpp<526:21> [b3OverlappingPairCache.cpp <531:4 531:7>]
+SYMBOL_FUNCTION void b3AlignedObjectArray<b3Int4>::swap(int, int)
+REFERENCE_CALL void b3SortedOverlappingPairCache::processAllOverlappingPairs(b3OverlapCallback *, b3Dispatcher *) -> void b3AlignedObjectArray<b3Int4>::swap(int, int) [b3OverlappingPairCache.cpp <532:27 532:30>]
+REFERENCE_USAGE void b3SortedOverlappingPairCache::processAllOverlappingPairs(b3OverlapCallback *, b3Dispatcher *) -> b3BroadphasePairArray b3SortedOverlappingPairCache::m_overlappingPairArray [b3OverlappingPairCache.cpp <532:4 532:25>]
+LOCAL_SYMBOL: b3OverlappingPairCache.cpp<521:6> [b3OverlappingPairCache.cpp <532:32 532:32>]
+SYMBOL_FUNCTION int b3AlignedObjectArray<b3Int4>::size() const
+REFERENCE_CALL void b3SortedOverlappingPairCache::processAllOverlappingPairs(b3OverlapCallback *, b3Dispatcher *) -> int b3AlignedObjectArray<b3Int4>::size() const [b3OverlappingPairCache.cpp <532:57 532:60>]
+REFERENCE_USAGE void b3SortedOverlappingPairCache::processAllOverlappingPairs(b3OverlapCallback *, b3Dispatcher *) -> b3BroadphasePairArray b3SortedOverlappingPairCache::m_overlappingPairArray [b3OverlappingPairCache.cpp <532:34 532:55>]
+SYMBOL_FUNCTION void b3AlignedObjectArray<b3Int4>::pop_back()
+REFERENCE_CALL void b3SortedOverlappingPairCache::processAllOverlappingPairs(b3OverlapCallback *, b3Dispatcher *) -> void b3AlignedObjectArray<b3Int4>::pop_back() [b3OverlappingPairCache.cpp <533:27 533:34>]
+REFERENCE_USAGE void b3SortedOverlappingPairCache::processAllOverlappingPairs(b3OverlapCallback *, b3Dispatcher *) -> b3BroadphasePairArray b3SortedOverlappingPairCache::m_overlappingPairArray [b3OverlappingPairCache.cpp <533:4 533:25>]
+REFERENCE_USAGE void b3SortedOverlappingPairCache::processAllOverlappingPairs(b3OverlapCallback *, b3Dispatcher *) -> int b3g_overlappingPairs [b3OverlappingPairCache.cpp <534:4 534:23>]
+LOCAL_SYMBOL: b3OverlappingPairCache.cpp<521:6> [b3OverlappingPairCache.cpp <537:4 537:4>]
+SYMBOL_METHOD public void b3SortedOverlappingPairCache::b3SortedOverlappingPairCache() [b3OverlappingPairCache.cpp <545:1 <545:31 545:58> 553:1>]
+SYMBOL_CLASS b3SortedOverlappingPairCache
+SYMBOL_FUNCTION void b3OverlappingPairCache::b3OverlappingPairCache()
+REFERENCE_CALL void b3SortedOverlappingPairCache::b3SortedOverlappingPairCache() -> void b3OverlappingPairCache::b3OverlappingPairCache() [b3OverlappingPairCache.cpp <545:31 545:58>]
+REFERENCE_USAGE void b3SortedOverlappingPairCache::b3SortedOverlappingPairCache() -> b3BroadphasePairArray b3SortedOverlappingPairCache::m_overlappingPairArray [b3OverlappingPairCache.cpp <545:31 545:58>]
+SYMBOL_FUNCTION void b3AlignedObjectArray<b3Int4>::b3AlignedObjectArray()
+REFERENCE_CALL void b3SortedOverlappingPairCache::b3SortedOverlappingPairCache() -> void b3AlignedObjectArray<b3Int4>::b3AlignedObjectArray() [b3OverlappingPairCache.cpp <545:31 545:58>]
+REFERENCE_USAGE void b3SortedOverlappingPairCache::b3SortedOverlappingPairCache() -> bool b3SortedOverlappingPairCache::m_blockedForChanges [b3OverlappingPairCache.cpp <546:2 546:20>]
+REFERENCE_USAGE void b3SortedOverlappingPairCache::b3SortedOverlappingPairCache() -> bool b3SortedOverlappingPairCache::m_hasDeferredRemoval [b3OverlappingPairCache.cpp <547:2 547:21>]
+REFERENCE_USAGE void b3SortedOverlappingPairCache::b3SortedOverlappingPairCache() -> b3OverlapFilterCallback * b3SortedOverlappingPairCache::m_overlapFilterCallback [b3OverlappingPairCache.cpp <548:2 548:24>]
+LOCAL_SYMBOL: b3OverlappingPairCache.cpp<551:6> [b3OverlappingPairCache.cpp <551:6 551:25>]
+SYMBOL_BUILTIN_TYPE int
+REFERENCE_TYPE_USAGE void b3SortedOverlappingPairCache::b3SortedOverlappingPairCache() -> int [b3OverlappingPairCache.cpp <551:2 551:4>]
+SYMBOL_FUNCTION void b3AlignedObjectArray<b3Int4>::reserve(int)
+REFERENCE_CALL void b3SortedOverlappingPairCache::b3SortedOverlappingPairCache() -> void b3AlignedObjectArray<b3Int4>::reserve(int) [b3OverlappingPairCache.cpp <552:25 552:31>]
+REFERENCE_USAGE void b3SortedOverlappingPairCache::b3SortedOverlappingPairCache() -> b3BroadphasePairArray b3SortedOverlappingPairCache::m_overlappingPairArray [b3OverlappingPairCache.cpp <552:2 552:23>]
+LOCAL_SYMBOL: b3OverlappingPairCache.cpp<551:6> [b3OverlappingPairCache.cpp <552:33 552:52>]
+SYMBOL_METHOD public void b3SortedOverlappingPairCache::~b3SortedOverlappingPairCache() [b3OverlappingPairCache.cpp <555:1 <555:31 555:59> 557:1>]
+SYMBOL_FUNCTION void b3OverlappingPairCache::~b3OverlappingPairCache()
+REFERENCE_OVERRIDE void b3SortedOverlappingPairCache::~b3SortedOverlappingPairCache() -> void b3OverlappingPairCache::~b3OverlappingPairCache() [b3OverlappingPairCache.cpp <555:31 555:31>]
+SYMBOL_CLASS b3SortedOverlappingPairCache
+SYMBOL_METHOD public void b3SortedOverlappingPairCache::cleanOverlappingPair(b3BroadphasePair &, b3Dispatcher *) [b3OverlappingPairCache.cpp <559:1 <559:36 559:55> 571:1>]
+SYMBOL_FUNCTION void b3OverlappingPairCache::cleanOverlappingPair(b3BroadphasePair &, b3Dispatcher *)
+REFERENCE_OVERRIDE void b3SortedOverlappingPairCache::cleanOverlappingPair(b3BroadphasePair &, b3Dispatcher *) -> void b3OverlappingPairCache::cleanOverlappingPair(b3BroadphasePair &, b3Dispatcher *) [b3OverlappingPairCache.cpp <559:36 559:55>]
+SYMBOL_CLASS b3SortedOverlappingPairCache
+SYMBOL_BUILTIN_TYPE void
+REFERENCE_TYPE_USAGE void b3SortedOverlappingPairCache::cleanOverlappingPair(b3BroadphasePair &, b3Dispatcher *) -> void [b3OverlappingPairCache.cpp <559:1 559:4>]
+LOCAL_SYMBOL: b3OverlappingPairCache.cpp<559:75> [b3OverlappingPairCache.cpp <559:75 559:78>]
+REFERENCE_TYPE_USAGE void b3SortedOverlappingPairCache::cleanOverlappingPair(b3BroadphasePair &, b3Dispatcher *) -> b3BroadphasePair [b3OverlappingPairCache.cpp <559:57 559:72>]
+LOCAL_SYMBOL: b3OverlappingPairCache.cpp<559:94> [b3OverlappingPairCache.cpp <559:94 559:103>]
+REFERENCE_TYPE_USAGE void b3SortedOverlappingPairCache::cleanOverlappingPair(b3BroadphasePair &, b3Dispatcher *) -> b3Dispatcher [b3OverlappingPairCache.cpp <559:80 559:91>]
+SYMBOL_METHOD public void b3SortedOverlappingPairCache::cleanProxyFromPairs(int, b3Dispatcher *) [b3OverlappingPairCache.cpp <574:1 <574:36 574:54> 606:1>]
+SYMBOL_FUNCTION void b3OverlappingPairCache::cleanProxyFromPairs(int, b3Dispatcher *)
+REFERENCE_OVERRIDE void b3SortedOverlappingPairCache::cleanProxyFromPairs(int, b3Dispatcher *) -> void b3OverlappingPairCache::cleanProxyFromPairs(int, b3Dispatcher *) [b3OverlappingPairCache.cpp <574:36 574:54>]
+SYMBOL_CLASS b3SortedOverlappingPairCache
+SYMBOL_BUILTIN_TYPE void
+REFERENCE_TYPE_USAGE void b3SortedOverlappingPairCache::cleanProxyFromPairs(int, b3Dispatcher *) -> void [b3OverlappingPairCache.cpp <574:1 574:4>]
+LOCAL_SYMBOL: b3OverlappingPairCache.cpp<574:60> [b3OverlappingPairCache.cpp <574:60 574:64>]
+SYMBOL_BUILTIN_TYPE int
+REFERENCE_TYPE_USAGE void b3SortedOverlappingPairCache::cleanProxyFromPairs(int, b3Dispatcher *) -> int [b3OverlappingPairCache.cpp <574:56 574:58>]
+LOCAL_SYMBOL: b3OverlappingPairCache.cpp<574:80> [b3OverlappingPairCache.cpp <574:80 574:89>]
+REFERENCE_TYPE_USAGE void b3SortedOverlappingPairCache::cleanProxyFromPairs(int, b3Dispatcher *) -> b3Dispatcher [b3OverlappingPairCache.cpp <574:66 574:77>]
+SYMBOL_CLASS b3SortedOverlappingPairCache::cleanProxyFromPairs::CleanPairCallback [b3OverlappingPairCache.cpp <577:2 <577:8 577:24> 600:2>]
+REFERENCE_INHERITANCE b3SortedOverlappingPairCache::cleanProxyFromPairs::CleanPairCallback -> b3OverlapCallback [b3OverlappingPairCache.cpp <577:35 577:51>]
+SYMBOL_FIELD private int b3SortedOverlappingPairCache::cleanProxyFromPairs::CleanPairCallback::m_cleanProxy [b3OverlappingPairCache.cpp <579:7 579:18>]
+SYMBOL_BUILTIN_TYPE int
+REFERENCE_TYPE_USAGE int b3SortedOverlappingPairCache::cleanProxyFromPairs::CleanPairCallback::m_cleanProxy -> int [b3OverlappingPairCache.cpp <579:3 579:5>]
+SYMBOL_FIELD private b3OverlappingPairCache * b3SortedOverlappingPairCache::cleanProxyFromPairs::CleanPairCallback::m_pairCache [b3OverlappingPairCache.cpp <580:27 580:37>]
+REFERENCE_TYPE_USAGE b3OverlappingPairCache * b3SortedOverlappingPairCache::cleanProxyFromPairs::CleanPairCallback::m_pairCache -> b3OverlappingPairCache [b3OverlappingPairCache.cpp <580:3 580:24>]
+SYMBOL_FIELD private b3Dispatcher * b3SortedOverlappingPairCache::cleanProxyFromPairs::CleanPairCallback::m_dispatcher [b3OverlappingPairCache.cpp <581:17 581:28>]
+REFERENCE_TYPE_USAGE b3Dispatcher * b3SortedOverlappingPairCache::cleanProxyFromPairs::CleanPairCallback::m_dispatcher -> b3Dispatcher [b3OverlappingPairCache.cpp <581:3 581:14>]
+SYMBOL_METHOD public void b3SortedOverlappingPairCache::cleanProxyFromPairs::CleanPairCallback::CleanPairCallback(int, b3OverlappingPairCache *, b3Dispatcher *) [b3OverlappingPairCache.cpp <584:3 <584:3 584:19> 589:3>]
+LOCAL_SYMBOL: b3OverlappingPairCache.cpp<584:25> [b3OverlappingPairCache.cpp <584:25 584:34>]
+SYMBOL_BUILTIN_TYPE int
+REFERENCE_TYPE_USAGE void b3SortedOverlappingPairCache::cleanProxyFromPairs::CleanPairCallback::CleanPairCallback(int, b3OverlappingPairCache *, b3Dispatcher *) -> int [b3OverlappingPairCache.cpp <584:21 584:23>]
+LOCAL_SYMBOL: b3OverlappingPairCache.cpp<584:60> [b3OverlappingPairCache.cpp <584:60 584:68>]
+REFERENCE_TYPE_USAGE void b3SortedOverlappingPairCache::cleanProxyFromPairs::CleanPairCallback::CleanPairCallback(int, b3OverlappingPairCache *, b3Dispatcher *) -> b3OverlappingPairCache [b3OverlappingPairCache.cpp <584:36 584:57>]
+LOCAL_SYMBOL: b3OverlappingPairCache.cpp<584:84> [b3OverlappingPairCache.cpp <584:84 584:93>]
+REFERENCE_TYPE_USAGE void b3SortedOverlappingPairCache::cleanProxyFromPairs::CleanPairCallback::CleanPairCallback(int, b3OverlappingPairCache *, b3Dispatcher *) -> b3Dispatcher [b3OverlappingPairCache.cpp <584:70 584:81>]
+SYMBOL_FUNCTION void b3OverlapCallback::b3OverlapCallback()
+REFERENCE_CALL void b3SortedOverlappingPairCache::cleanProxyFromPairs::CleanPairCallback::CleanPairCallback(int, b3OverlappingPairCache *, b3Dispatcher *) -> void b3OverlapCallback::b3OverlapCallback() [b3OverlappingPairCache.cpp <584:3 584:19>]
+REFERENCE_USAGE void b3SortedOverlappingPairCache::cleanProxyFromPairs::CleanPairCallback::CleanPairCallback(int, b3OverlappingPairCache *, b3Dispatcher *) -> int b3SortedOverlappingPairCache::cleanProxyFromPairs::CleanPairCallback::m_cleanProxy [b3OverlappingPairCache.cpp <585:5 585:16>]
+LOCAL_SYMBOL: b3OverlappingPairCache.cpp<584:25> [b3OverlappingPairCache.cpp <585:18 585:27>]
+REFERENCE_USAGE void b3SortedOverlappingPairCache::cleanProxyFromPairs::CleanPairCallback::CleanPairCallback(int, b3OverlappingPairCache *, b3Dispatcher *) -> b3OverlappingPairCache * b3SortedOverlappingPairCache::cleanProxyFromPairs::CleanPairCallback::m_pairCache [b3OverlappingPairCache.cpp <586:4 586:14>]
+LOCAL_SYMBOL: b3OverlappingPairCache.cpp<584:60> [b3OverlappingPairCache.cpp <586:16 586:24>]
+REFERENCE_USAGE void b3SortedOverlappingPairCache::cleanProxyFromPairs::CleanPairCallback::CleanPairCallback(int, b3OverlappingPairCache *, b3Dispatcher *) -> b3Dispatcher * b3SortedOverlappingPairCache::cleanProxyFromPairs::CleanPairCallback::m_dispatcher [b3OverlappingPairCache.cpp <587:4 587:15>]
+LOCAL_SYMBOL: b3OverlappingPairCache.cpp<584:84> [b3OverlappingPairCache.cpp <587:17 587:26>]
+SYMBOL_METHOD public bool b3SortedOverlappingPairCache::cleanProxyFromPairs::CleanPairCallback::processOverlap(b3BroadphasePair &) [b3OverlappingPairCache.cpp <590:3 <590:16 590:29> 598:3>]
+SYMBOL_FUNCTION bool b3OverlapCallback::processOverlap(b3BroadphasePair &)
+REFERENCE_OVERRIDE bool b3SortedOverlappingPairCache::cleanProxyFromPairs::CleanPairCallback::processOverlap(b3BroadphasePair &) -> bool b3OverlapCallback::processOverlap(b3BroadphasePair &) [b3OverlappingPairCache.cpp <590:16 590:29>]
+SYMBOL_BUILTIN_TYPE bool
+REFERENCE_TYPE_USAGE bool b3SortedOverlappingPairCache::cleanProxyFromPairs::CleanPairCallback::processOverlap(b3BroadphasePair &) -> bool [b3OverlappingPairCache.cpp <590:11 590:14>]
+LOCAL_SYMBOL: b3OverlappingPairCache.cpp<590:49> [b3OverlappingPairCache.cpp <590:49 590:52>]
+REFERENCE_TYPE_USAGE bool b3SortedOverlappingPairCache::cleanProxyFromPairs::CleanPairCallback::processOverlap(b3BroadphasePair &) -> b3BroadphasePair [b3OverlappingPairCache.cpp <590:31 590:46>]
+REFERENCE_USAGE bool b3SortedOverlappingPairCache::cleanProxyFromPairs::CleanPairCallback::processOverlap(b3BroadphasePair &) -> int b3Int4::anonymous union (b3Int4.h<30:2>)::anonymous struct (b3Int4.h<32:3>)::x [b3OverlappingPairCache.cpp <592:14 592:14>]
+REFERENCE_USAGE bool b3SortedOverlappingPairCache::cleanProxyFromPairs::CleanPairCallback::processOverlap(b3BroadphasePair &) -> b3Int4::anonymous union (b3Int4.h<30:2>)::anonymous struct (b3Int4.h<32:3>) b3Int4::anonymous union (b3Int4.h<30:2>):: [b3OverlappingPairCache.cpp <592:14 592:14>]
+REFERENCE_USAGE bool b3SortedOverlappingPairCache::cleanProxyFromPairs::CleanPairCallback::processOverlap(b3BroadphasePair &) -> b3Int4::anonymous union (b3Int4.h<30:2>) b3Int4:: [b3OverlappingPairCache.cpp <592:14 592:14>]
+LOCAL_SYMBOL: b3OverlappingPairCache.cpp<590:49> [b3OverlappingPairCache.cpp <592:9 592:12>]
+REFERENCE_USAGE bool b3SortedOverlappingPairCache::cleanProxyFromPairs::CleanPairCallback::processOverlap(b3BroadphasePair &) -> int b3SortedOverlappingPairCache::cleanProxyFromPairs::CleanPairCallback::m_cleanProxy [b3OverlappingPairCache.cpp <592:19 592:30>]
+REFERENCE_USAGE bool b3SortedOverlappingPairCache::cleanProxyFromPairs::CleanPairCallback::processOverlap(b3BroadphasePair &) -> int b3Int4::anonymous union (b3Int4.h<30:2>)::anonymous struct (b3Int4.h<32:3>)::y [b3OverlappingPairCache.cpp <593:11 593:11>]
+REFERENCE_USAGE bool b3SortedOverlappingPairCache::cleanProxyFromPairs::CleanPairCallback::processOverlap(b3BroadphasePair &) -> b3Int4::anonymous union (b3Int4.h<30:2>)::anonymous struct (b3Int4.h<32:3>) b3Int4::anonymous union (b3Int4.h<30:2>):: [b3OverlappingPairCache.cpp <593:11 593:11>]
+REFERENCE_USAGE bool b3SortedOverlappingPairCache::cleanProxyFromPairs::CleanPairCallback::processOverlap(b3BroadphasePair &) -> b3Int4::anonymous union (b3Int4.h<30:2>) b3Int4:: [b3OverlappingPairCache.cpp <593:11 593:11>]
+LOCAL_SYMBOL: b3OverlappingPairCache.cpp<590:49> [b3OverlappingPairCache.cpp <593:6 593:9>]
+REFERENCE_USAGE bool b3SortedOverlappingPairCache::cleanProxyFromPairs::CleanPairCallback::processOverlap(b3BroadphasePair &) -> int b3SortedOverlappingPairCache::cleanProxyFromPairs::CleanPairCallback::m_cleanProxy [b3OverlappingPairCache.cpp <593:16 593:27>]
+SYMBOL_FUNCTION void b3OverlappingPairCache::cleanOverlappingPair(b3BroadphasePair &, b3Dispatcher *)
+REFERENCE_CALL bool b3SortedOverlappingPairCache::cleanProxyFromPairs::CleanPairCallback::processOverlap(b3BroadphasePair &) -> void b3OverlappingPairCache::cleanOverlappingPair(b3BroadphasePair &, b3Dispatcher *) [b3OverlappingPairCache.cpp <595:18 595:37>]
+REFERENCE_USAGE bool b3SortedOverlappingPairCache::cleanProxyFromPairs::CleanPairCallback::processOverlap(b3BroadphasePair &) -> b3OverlappingPairCache * b3SortedOverlappingPairCache::cleanProxyFromPairs::CleanPairCallback::m_pairCache [b3OverlappingPairCache.cpp <595:5 595:15>]
+LOCAL_SYMBOL: b3OverlappingPairCache.cpp<590:49> [b3OverlappingPairCache.cpp <595:39 595:42>]
+REFERENCE_USAGE bool b3SortedOverlappingPairCache::cleanProxyFromPairs::CleanPairCallback::processOverlap(b3BroadphasePair &) -> b3Dispatcher * b3SortedOverlappingPairCache::cleanProxyFromPairs::CleanPairCallback::m_dispatcher [b3OverlappingPairCache.cpp <595:44 595:55>]
+SYMBOL_METHOD public void b3SortedOverlappingPairCache::cleanProxyFromPairs::CleanPairCallback::CleanPairCallback(const b3SortedOverlappingPairCache::cleanProxyFromPairs::CleanPairCallback &) [b3OverlappingPairCache.cpp <577:8 577:24>]
+SYMBOL_METHOD public void b3SortedOverlappingPairCache::cleanProxyFromPairs::CleanPairCallback::CleanPairCallback(b3SortedOverlappingPairCache::cleanProxyFromPairs::CleanPairCallback &) [b3OverlappingPairCache.cpp <577:8 577:24>]
+SYMBOL_METHOD public b3SortedOverlappingPairCache::cleanProxyFromPairs::CleanPairCallback & b3SortedOverlappingPairCache::cleanProxyFromPairs::CleanPairCallback::operator=(const b3SortedOverlappingPairCache::cleanProxyFromPairs::CleanPairCallback &) [b3OverlappingPairCache.cpp <577:8 577:24>]
+SYMBOL_METHOD public b3SortedOverlappingPairCache::cleanProxyFromPairs::CleanPairCallback & b3SortedOverlappingPairCache::cleanProxyFromPairs::CleanPairCallback::operator=(b3SortedOverlappingPairCache::cleanProxyFromPairs::CleanPairCallback &) [b3OverlappingPairCache.cpp <577:8 577:24>]
+SYMBOL_METHOD public void b3SortedOverlappingPairCache::cleanProxyFromPairs::CleanPairCallback::~CleanPairCallback() [b3OverlappingPairCache.cpp <577:8 <577:8 577:24> 577:24>]
+SYMBOL_FUNCTION void b3OverlapCallback::~b3OverlapCallback()
+REFERENCE_OVERRIDE void b3SortedOverlappingPairCache::cleanProxyFromPairs::CleanPairCallback::~CleanPairCallback() -> void b3OverlapCallback::~b3OverlapCallback() [b3OverlappingPairCache.cpp <577:8 577:24>]
+LOCAL_SYMBOL: b3OverlappingPairCache.cpp<602:20> [b3OverlappingPairCache.cpp <602:20 602:29>]
+REFERENCE_TYPE_USAGE void b3SortedOverlappingPairCache::cleanProxyFromPairs(int, b3Dispatcher *) -> b3SortedOverlappingPairCache::cleanProxyFromPairs::CleanPairCallback [b3OverlappingPairCache.cpp <602:2 602:18>]
+SYMBOL_FUNCTION void b3SortedOverlappingPairCache::cleanProxyFromPairs::CleanPairCallback::CleanPairCallback(int, b3OverlappingPairCache *, b3Dispatcher *)
+REFERENCE_CALL void b3SortedOverlappingPairCache::cleanProxyFromPairs(int, b3Dispatcher *) -> void b3SortedOverlappingPairCache::cleanProxyFromPairs::CleanPairCallback::CleanPairCallback(int, b3OverlappingPairCache *, b3Dispatcher *) [b3OverlappingPairCache.cpp <602:20 602:29>]
+LOCAL_SYMBOL: b3OverlappingPairCache.cpp<574:60> [b3OverlappingPairCache.cpp <602:31 602:35>]
+LOCAL_SYMBOL: b3OverlappingPairCache.cpp<574:80> [b3OverlappingPairCache.cpp <602:42 602:51>]
+SYMBOL_FUNCTION void b3SortedOverlappingPairCache::processAllOverlappingPairs(b3OverlapCallback *, b3Dispatcher *)
+REFERENCE_CALL void b3SortedOverlappingPairCache::cleanProxyFromPairs(int, b3Dispatcher *) -> void b3SortedOverlappingPairCache::processAllOverlappingPairs(b3OverlapCallback *, b3Dispatcher *) [b3OverlappingPairCache.cpp <604:2 604:27>]
+LOCAL_SYMBOL: b3OverlappingPairCache.cpp<602:20> [b3OverlappingPairCache.cpp <604:30 604:39>]
+LOCAL_SYMBOL: b3OverlappingPairCache.cpp<574:80> [b3OverlappingPairCache.cpp <604:41 604:50>]
+SYMBOL_METHOD public void b3SortedOverlappingPairCache::removeOverlappingPairsContainingProxy(int, b3Dispatcher *) [b3OverlappingPairCache.cpp <609:1 <609:36 609:72> 632:1>]
+SYMBOL_FUNCTION void b3OverlappingPairCache::removeOverlappingPairsContainingProxy(int, b3Dispatcher *)
+REFERENCE_OVERRIDE void b3SortedOverlappingPairCache::removeOverlappingPairsContainingProxy(int, b3Dispatcher *) -> void b3OverlappingPairCache::removeOverlappingPairsContainingProxy(int, b3Dispatcher *) [b3OverlappingPairCache.cpp <609:36 609:72>]
+SYMBOL_CLASS b3SortedOverlappingPairCache
+SYMBOL_BUILTIN_TYPE void
+REFERENCE_TYPE_USAGE void b3SortedOverlappingPairCache::removeOverlappingPairsContainingProxy(int, b3Dispatcher *) -> void [b3OverlappingPairCache.cpp <609:1 609:4>]
+LOCAL_SYMBOL: b3OverlappingPairCache.cpp<609:78> [b3OverlappingPairCache.cpp <609:78 609:82>]
+SYMBOL_BUILTIN_TYPE int
+REFERENCE_TYPE_USAGE void b3SortedOverlappingPairCache::removeOverlappingPairsContainingProxy(int, b3Dispatcher *) -> int [b3OverlappingPairCache.cpp <609:74 609:76>]
+LOCAL_SYMBOL: b3OverlappingPairCache.cpp<609:98> [b3OverlappingPairCache.cpp <609:98 609:107>]
+REFERENCE_TYPE_USAGE void b3SortedOverlappingPairCache::removeOverlappingPairsContainingProxy(int, b3Dispatcher *) -> b3Dispatcher [b3OverlappingPairCache.cpp <609:84 609:95>]
+SYMBOL_CLASS b3SortedOverlappingPairCache::removeOverlappingPairsContainingProxy::RemovePairCallback [b3OverlappingPairCache.cpp <612:2 <612:8 612:25> 627:2>]
+REFERENCE_INHERITANCE b3SortedOverlappingPairCache::removeOverlappingPairsContainingProxy::RemovePairCallback -> b3OverlapCallback [b3OverlappingPairCache.cpp <612:36 612:52>]
+SYMBOL_FIELD private int b3SortedOverlappingPairCache::removeOverlappingPairsContainingProxy::RemovePairCallback::m_obsoleteProxy [b3OverlappingPairCache.cpp <614:7 614:21>]
+SYMBOL_BUILTIN_TYPE int
+REFERENCE_TYPE_USAGE int b3SortedOverlappingPairCache::removeOverlappingPairsContainingProxy::RemovePairCallback::m_obsoleteProxy -> int [b3OverlappingPairCache.cpp <614:3 614:5>]
+SYMBOL_METHOD public void b3SortedOverlappingPairCache::removeOverlappingPairsContainingProxy::RemovePairCallback::RemovePairCallback(int) [b3OverlappingPairCache.cpp <617:3 <617:3 617:20> 620:3>]
+LOCAL_SYMBOL: b3OverlappingPairCache.cpp<617:26> [b3OverlappingPairCache.cpp <617:26 617:38>]
+SYMBOL_BUILTIN_TYPE int
+REFERENCE_TYPE_USAGE void b3SortedOverlappingPairCache::removeOverlappingPairsContainingProxy::RemovePairCallback::RemovePairCallback(int) -> int [b3OverlappingPairCache.cpp <617:22 617:24>]
+SYMBOL_FUNCTION void b3OverlapCallback::b3OverlapCallback()
+REFERENCE_CALL void b3SortedOverlappingPairCache::removeOverlappingPairsContainingProxy::RemovePairCallback::RemovePairCallback(int) -> void b3OverlapCallback::b3OverlapCallback() [b3OverlappingPairCache.cpp <617:3 617:20>]
+REFERENCE_USAGE void b3SortedOverlappingPairCache::removeOverlappingPairsContainingProxy::RemovePairCallback::RemovePairCallback(int) -> int b3SortedOverlappingPairCache::removeOverlappingPairsContainingProxy::RemovePairCallback::m_obsoleteProxy [b3OverlappingPairCache.cpp <618:5 618:19>]
+LOCAL_SYMBOL: b3OverlappingPairCache.cpp<617:26> [b3OverlappingPairCache.cpp <618:21 618:33>]
+SYMBOL_METHOD public bool b3SortedOverlappingPairCache::removeOverlappingPairsContainingProxy::RemovePairCallback::processOverlap(b3BroadphasePair &) [b3OverlappingPairCache.cpp <621:3 <621:16 621:29> 625:3>]
+SYMBOL_FUNCTION bool b3OverlapCallback::processOverlap(b3BroadphasePair &)
+REFERENCE_OVERRIDE bool b3SortedOverlappingPairCache::removeOverlappingPairsContainingProxy::RemovePairCallback::processOverlap(b3BroadphasePair &) -> bool b3OverlapCallback::processOverlap(b3BroadphasePair &) [b3OverlappingPairCache.cpp <621:16 621:29>]
+SYMBOL_BUILTIN_TYPE bool
+REFERENCE_TYPE_USAGE bool b3SortedOverlappingPairCache::removeOverlappingPairsContainingProxy::RemovePairCallback::processOverlap(b3BroadphasePair &) -> bool [b3OverlappingPairCache.cpp <621:11 621:14>]
+LOCAL_SYMBOL: b3OverlappingPairCache.cpp<621:49> [b3OverlappingPairCache.cpp <621:49 621:52>]
+REFERENCE_TYPE_USAGE bool b3SortedOverlappingPairCache::removeOverlappingPairsContainingProxy::RemovePairCallback::processOverlap(b3BroadphasePair &) -> b3BroadphasePair [b3OverlappingPairCache.cpp <621:31 621:46>]
+REFERENCE_USAGE bool b3SortedOverlappingPairCache::removeOverlappingPairsContainingProxy::RemovePairCallback::processOverlap(b3BroadphasePair &) -> int b3Int4::anonymous union (b3Int4.h<30:2>)::anonymous struct (b3Int4.h<32:3>)::x [b3OverlappingPairCache.cpp <623:18 623:18>]
+REFERENCE_USAGE bool b3SortedOverlappingPairCache::removeOverlappingPairsContainingProxy::RemovePairCallback::processOverlap(b3BroadphasePair &) -> b3Int4::anonymous union (b3Int4.h<30:2>)::anonymous struct (b3Int4.h<32:3>) b3Int4::anonymous union (b3Int4.h<30:2>):: [b3OverlappingPairCache.cpp <623:18 623:18>]
+REFERENCE_USAGE bool b3SortedOverlappingPairCache::removeOverlappingPairsContainingProxy::RemovePairCallback::processOverlap(b3BroadphasePair &) -> b3Int4::anonymous union (b3Int4.h<30:2>) b3Int4:: [b3OverlappingPairCache.cpp <623:18 623:18>]
+LOCAL_SYMBOL: b3OverlappingPairCache.cpp<621:49> [b3OverlappingPairCache.cpp <623:13 623:16>]
+REFERENCE_USAGE bool b3SortedOverlappingPairCache::removeOverlappingPairsContainingProxy::RemovePairCallback::processOverlap(b3BroadphasePair &) -> int b3SortedOverlappingPairCache::removeOverlappingPairsContainingProxy::RemovePairCallback::m_obsoleteProxy [b3OverlappingPairCache.cpp <623:23 623:37>]
+REFERENCE_USAGE bool b3SortedOverlappingPairCache::removeOverlappingPairsContainingProxy::RemovePairCallback::processOverlap(b3BroadphasePair &) -> int b3Int4::anonymous union (b3Int4.h<30:2>)::anonymous struct (b3Int4.h<32:3>)::y [b3OverlappingPairCache.cpp <624:11 624:11>]
+REFERENCE_USAGE bool b3SortedOverlappingPairCache::removeOverlappingPairsContainingProxy::RemovePairCallback::processOverlap(b3BroadphasePair &) -> b3Int4::anonymous union (b3Int4.h<30:2>)::anonymous struct (b3Int4.h<32:3>) b3Int4::anonymous union (b3Int4.h<30:2>):: [b3OverlappingPairCache.cpp <624:11 624:11>]
+REFERENCE_USAGE bool b3SortedOverlappingPairCache::removeOverlappingPairsContainingProxy::RemovePairCallback::processOverlap(b3BroadphasePair &) -> b3Int4::anonymous union (b3Int4.h<30:2>) b3Int4:: [b3OverlappingPairCache.cpp <624:11 624:11>]
+LOCAL_SYMBOL: b3OverlappingPairCache.cpp<621:49> [b3OverlappingPairCache.cpp <624:6 624:9>]
+REFERENCE_USAGE bool b3SortedOverlappingPairCache::removeOverlappingPairsContainingProxy::RemovePairCallback::processOverlap(b3BroadphasePair &) -> int b3SortedOverlappingPairCache::removeOverlappingPairsContainingProxy::RemovePairCallback::m_obsoleteProxy [b3OverlappingPairCache.cpp <624:16 624:30>]
+SYMBOL_METHOD public void b3SortedOverlappingPairCache::removeOverlappingPairsContainingProxy::RemovePairCallback::RemovePairCallback(const b3SortedOverlappingPairCache::removeOverlappingPairsContainingProxy::RemovePairCallback &) [b3OverlappingPairCache.cpp <612:8 612:25>]
+SYMBOL_METHOD public void b3SortedOverlappingPairCache::removeOverlappingPairsContainingProxy::RemovePairCallback::RemovePairCallback(b3SortedOverlappingPairCache::removeOverlappingPairsContainingProxy::RemovePairCallback &) [b3OverlappingPairCache.cpp <612:8 612:25>]
+SYMBOL_METHOD public b3SortedOverlappingPairCache::removeOverlappingPairsContainingProxy::RemovePairCallback & b3SortedOverlappingPairCache::removeOverlappingPairsContainingProxy::RemovePairCallback::operator=(const b3SortedOverlappingPairCache::removeOverlappingPairsContainingProxy::RemovePairCallback &) [b3OverlappingPairCache.cpp <612:8 612:25>]
+SYMBOL_METHOD public b3SortedOverlappingPairCache::removeOverlappingPairsContainingProxy::RemovePairCallback & b3SortedOverlappingPairCache::removeOverlappingPairsContainingProxy::RemovePairCallback::operator=(b3SortedOverlappingPairCache::removeOverlappingPairsContainingProxy::RemovePairCallback &) [b3OverlappingPairCache.cpp <612:8 612:25>]
+SYMBOL_METHOD public void b3SortedOverlappingPairCache::removeOverlappingPairsContainingProxy::RemovePairCallback::~RemovePairCallback() [b3OverlappingPairCache.cpp <612:8 <612:8 612:25> 612:25>]
+SYMBOL_FUNCTION void b3OverlapCallback::~b3OverlapCallback()
+REFERENCE_OVERRIDE void b3SortedOverlappingPairCache::removeOverlappingPairsContainingProxy::RemovePairCallback::~RemovePairCallback() -> void b3OverlapCallback::~b3OverlapCallback() [b3OverlappingPairCache.cpp <612:8 612:25>]
+LOCAL_SYMBOL: b3OverlappingPairCache.cpp<629:21> [b3OverlappingPairCache.cpp <629:21 629:34>]
+REFERENCE_TYPE_USAGE void b3SortedOverlappingPairCache::removeOverlappingPairsContainingProxy(int, b3Dispatcher *) -> b3SortedOverlappingPairCache::removeOverlappingPairsContainingProxy::RemovePairCallback [b3OverlappingPairCache.cpp <629:2 629:19>]
+SYMBOL_FUNCTION void b3SortedOverlappingPairCache::removeOverlappingPairsContainingProxy::RemovePairCallback::RemovePairCallback(int)
+REFERENCE_CALL void b3SortedOverlappingPairCache::removeOverlappingPairsContainingProxy(int, b3Dispatcher *) -> void b3SortedOverlappingPairCache::removeOverlappingPairsContainingProxy::RemovePairCallback::RemovePairCallback(int) [b3OverlappingPairCache.cpp <629:21 629:34>]
+LOCAL_SYMBOL: b3OverlappingPairCache.cpp<609:78> [b3OverlappingPairCache.cpp <629:36 629:40>]
+SYMBOL_FUNCTION void b3SortedOverlappingPairCache::processAllOverlappingPairs(b3OverlapCallback *, b3Dispatcher *)
+REFERENCE_CALL void b3SortedOverlappingPairCache::removeOverlappingPairsContainingProxy(int, b3Dispatcher *) -> void b3SortedOverlappingPairCache::processAllOverlappingPairs(b3OverlapCallback *, b3Dispatcher *) [b3OverlappingPairCache.cpp <631:2 631:27>]
+LOCAL_SYMBOL: b3OverlappingPairCache.cpp<629:21> [b3OverlappingPairCache.cpp <631:30 631:43>]
+LOCAL_SYMBOL: b3OverlappingPairCache.cpp<609:98> [b3OverlappingPairCache.cpp <631:45 631:54>]
+SYMBOL_METHOD public void b3SortedOverlappingPairCache::sortOverlappingPairs(b3Dispatcher *) [b3OverlappingPairCache.cpp <634:1 <634:36 634:55> 637:1>]
+SYMBOL_FUNCTION void b3OverlappingPairCache::sortOverlappingPairs(b3Dispatcher *)
+REFERENCE_OVERRIDE void b3SortedOverlappingPairCache::sortOverlappingPairs(b3Dispatcher *) -> void b3OverlappingPairCache::sortOverlappingPairs(b3Dispatcher *) [b3OverlappingPairCache.cpp <634:36 634:55>]
+SYMBOL_CLASS b3SortedOverlappingPairCache
+SYMBOL_BUILTIN_TYPE void
+REFERENCE_TYPE_USAGE void b3SortedOverlappingPairCache::sortOverlappingPairs(b3Dispatcher *) -> void [b3OverlappingPairCache.cpp <634:1 634:4>]
+LOCAL_SYMBOL: b3OverlappingPairCache.cpp<634:71> [b3OverlappingPairCache.cpp <634:71 634:80>]
+REFERENCE_TYPE_USAGE void b3SortedOverlappingPairCache::sortOverlappingPairs(b3Dispatcher *) -> b3Dispatcher [b3OverlappingPairCache.cpp <634:57 634:68>]

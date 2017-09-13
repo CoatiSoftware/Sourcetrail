@@ -1,0 +1,45 @@
+FILE: b2WorldCallbacks.cpp
+FILE: b2WorldCallbacks.cpp
+COMMENT: comment [b2WorldCallbacks.cpp <1:1 17:3>]
+FILE: b2WorldCallbacks.cpp
+FILE: b2WorldCallbacks.cpp
+COMMENT: comment [b2WorldCallbacks.cpp <22:1 22:85>]
+COMMENT: comment [b2WorldCallbacks.cpp <23:1 23:94>]
+SYMBOL_METHOD public bool b2ContactFilter::ShouldCollide(b2Fixture *, b2Fixture *) [b2WorldCallbacks.cpp <24:1 <24:23 24:35> 36:1>]
+SYMBOL_CLASS b2ContactFilter
+SYMBOL_BUILTIN_TYPE bool
+REFERENCE_TYPE_USAGE bool b2ContactFilter::ShouldCollide(b2Fixture *, b2Fixture *) -> bool [b2WorldCallbacks.cpp <24:1 24:4>]
+LOCAL_SYMBOL: b2WorldCallbacks.cpp<24:48> [b2WorldCallbacks.cpp <24:48 24:55>]
+REFERENCE_TYPE_USAGE bool b2ContactFilter::ShouldCollide(b2Fixture *, b2Fixture *) -> b2Fixture [b2WorldCallbacks.cpp <24:37 24:45>]
+LOCAL_SYMBOL: b2WorldCallbacks.cpp<24:69> [b2WorldCallbacks.cpp <24:69 24:76>]
+REFERENCE_TYPE_USAGE bool b2ContactFilter::ShouldCollide(b2Fixture *, b2Fixture *) -> b2Fixture [b2WorldCallbacks.cpp <24:58 24:66>]
+LOCAL_SYMBOL: b2WorldCallbacks.cpp<26:18> [b2WorldCallbacks.cpp <26:18 26:24>]
+REFERENCE_TYPE_USAGE bool b2ContactFilter::ShouldCollide(b2Fixture *, b2Fixture *) -> b2Filter [b2WorldCallbacks.cpp <26:8 26:15>]
+SYMBOL_FUNCTION const b2Filter & b2Fixture::GetFilterData() const
+REFERENCE_CALL bool b2ContactFilter::ShouldCollide(b2Fixture *, b2Fixture *) -> const b2Filter & b2Fixture::GetFilterData() const [b2WorldCallbacks.cpp <26:38 26:50>]
+LOCAL_SYMBOL: b2WorldCallbacks.cpp<24:48> [b2WorldCallbacks.cpp <26:28 26:35>]
+LOCAL_SYMBOL: b2WorldCallbacks.cpp<27:18> [b2WorldCallbacks.cpp <27:18 27:24>]
+REFERENCE_TYPE_USAGE bool b2ContactFilter::ShouldCollide(b2Fixture *, b2Fixture *) -> b2Filter [b2WorldCallbacks.cpp <27:8 27:15>]
+SYMBOL_FUNCTION const b2Filter & b2Fixture::GetFilterData() const
+REFERENCE_CALL bool b2ContactFilter::ShouldCollide(b2Fixture *, b2Fixture *) -> const b2Filter & b2Fixture::GetFilterData() const [b2WorldCallbacks.cpp <27:38 27:50>]
+LOCAL_SYMBOL: b2WorldCallbacks.cpp<24:69> [b2WorldCallbacks.cpp <27:28 27:35>]
+REFERENCE_USAGE bool b2ContactFilter::ShouldCollide(b2Fixture *, b2Fixture *) -> int16 b2Filter::groupIndex [b2WorldCallbacks.cpp <29:14 29:23>]
+LOCAL_SYMBOL: b2WorldCallbacks.cpp<26:18> [b2WorldCallbacks.cpp <29:6 29:12>]
+REFERENCE_USAGE bool b2ContactFilter::ShouldCollide(b2Fixture *, b2Fixture *) -> int16 b2Filter::groupIndex [b2WorldCallbacks.cpp <29:36 29:45>]
+LOCAL_SYMBOL: b2WorldCallbacks.cpp<27:18> [b2WorldCallbacks.cpp <29:28 29:34>]
+REFERENCE_USAGE bool b2ContactFilter::ShouldCollide(b2Fixture *, b2Fixture *) -> int16 b2Filter::groupIndex [b2WorldCallbacks.cpp <29:58 29:67>]
+LOCAL_SYMBOL: b2WorldCallbacks.cpp<26:18> [b2WorldCallbacks.cpp <29:50 29:56>]
+REFERENCE_USAGE bool b2ContactFilter::ShouldCollide(b2Fixture *, b2Fixture *) -> int16 b2Filter::groupIndex [b2WorldCallbacks.cpp <31:18 31:27>]
+LOCAL_SYMBOL: b2WorldCallbacks.cpp<26:18> [b2WorldCallbacks.cpp <31:10 31:16>]
+LOCAL_SYMBOL: b2WorldCallbacks.cpp<34:7> [b2WorldCallbacks.cpp <34:7 34:13>]
+SYMBOL_BUILTIN_TYPE bool
+REFERENCE_TYPE_USAGE bool b2ContactFilter::ShouldCollide(b2Fixture *, b2Fixture *) -> bool [b2WorldCallbacks.cpp <34:2 34:5>]
+REFERENCE_USAGE bool b2ContactFilter::ShouldCollide(b2Fixture *, b2Fixture *) -> uint16 b2Filter::maskBits [b2WorldCallbacks.cpp <34:26 34:33>]
+LOCAL_SYMBOL: b2WorldCallbacks.cpp<26:18> [b2WorldCallbacks.cpp <34:18 34:24>]
+REFERENCE_USAGE bool b2ContactFilter::ShouldCollide(b2Fixture *, b2Fixture *) -> uint16 b2Filter::categoryBits [b2WorldCallbacks.cpp <34:45 34:56>]
+LOCAL_SYMBOL: b2WorldCallbacks.cpp<27:18> [b2WorldCallbacks.cpp <34:37 34:43>]
+REFERENCE_USAGE bool b2ContactFilter::ShouldCollide(b2Fixture *, b2Fixture *) -> uint16 b2Filter::categoryBits [b2WorldCallbacks.cpp <34:76 34:87>]
+LOCAL_SYMBOL: b2WorldCallbacks.cpp<26:18> [b2WorldCallbacks.cpp <34:68 34:74>]
+REFERENCE_USAGE bool b2ContactFilter::ShouldCollide(b2Fixture *, b2Fixture *) -> uint16 b2Filter::maskBits [b2WorldCallbacks.cpp <34:99 34:106>]
+LOCAL_SYMBOL: b2WorldCallbacks.cpp<27:18> [b2WorldCallbacks.cpp <34:91 34:97>]
+LOCAL_SYMBOL: b2WorldCallbacks.cpp<34:7> [b2WorldCallbacks.cpp <35:9 35:15>]

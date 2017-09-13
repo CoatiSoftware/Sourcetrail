@@ -97,6 +97,16 @@ std::vector<std::string> TextAccess::readFile(const FilePath& filePath)
 	}
 	srcFile.close();
 
+	if (!result.empty())
+	{
+		std::string last = result.back().substr(0, result.back().size() - 1);
+		result.pop_back();
+		if (!last.empty())
+		{
+			result.push_back(last);
+		}
+	}
+
 	return result;
 }
 

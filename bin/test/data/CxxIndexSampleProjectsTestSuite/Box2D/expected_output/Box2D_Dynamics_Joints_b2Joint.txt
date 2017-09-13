@@ -1,0 +1,356 @@
+FILE: b2Joint.cpp
+FILE: b2Joint.cpp
+COMMENT: comment [b2Joint.cpp <1:1 17:3>]
+FILE: b2Joint.cpp
+FILE: b2Joint.cpp
+FILE: b2Joint.cpp
+FILE: b2Joint.cpp
+FILE: b2Joint.cpp
+FILE: b2Joint.cpp
+FILE: b2Joint.cpp
+FILE: b2Joint.cpp
+FILE: b2Joint.cpp
+FILE: b2Joint.cpp
+FILE: b2Joint.cpp
+FILE: b2Joint.cpp
+FILE: b2Joint.cpp
+FILE: b2Joint.cpp
+REFERENCE_MACRO_USAGE b2Joint.cpp -> b2Assert [b2Joint.cpp <121:3 121:10>]
+REFERENCE_MACRO_USAGE b2Settings.h -> assert [b2Settings.h <31:21 31:26>]
+REFERENCE_MACRO_USAGE assert.h -> _CRT_WIDE [assert.h <34:23 34:31>]
+REFERENCE_MACRO_USAGE vcruntime.h -> _CRT_WIDE_ [vcruntime.h <95:22 95:31>]
+REFERENCE_MACRO_USAGE assert.h -> _CRT_WIDE [assert.h <34:47 34:55>]
+REFERENCE_MACRO_USAGE assert.h -> __FILE__ [assert.h <34:57 34:64>]
+REFERENCE_MACRO_USAGE vcruntime.h -> _CRT_WIDE_ [vcruntime.h <95:22 95:31>]
+REFERENCE_MACRO_USAGE assert.h -> __LINE__ [assert.h <34:79 34:86>]
+REFERENCE_MACRO_USAGE b2Joint.cpp -> b2Assert [b2Joint.cpp <178:3 178:10>]
+REFERENCE_MACRO_USAGE b2Settings.h -> assert [b2Settings.h <31:21 31:26>]
+REFERENCE_MACRO_USAGE assert.h -> _CRT_WIDE [assert.h <34:23 34:31>]
+REFERENCE_MACRO_USAGE vcruntime.h -> _CRT_WIDE_ [vcruntime.h <95:22 95:31>]
+REFERENCE_MACRO_USAGE assert.h -> _CRT_WIDE [assert.h <34:47 34:55>]
+REFERENCE_MACRO_USAGE assert.h -> __FILE__ [assert.h <34:57 34:64>]
+REFERENCE_MACRO_USAGE vcruntime.h -> _CRT_WIDE_ [vcruntime.h <95:22 95:31>]
+REFERENCE_MACRO_USAGE assert.h -> __LINE__ [assert.h <34:79 34:86>]
+REFERENCE_MACRO_USAGE b2Joint.cpp -> b2Assert [b2Joint.cpp <185:2 185:9>]
+REFERENCE_MACRO_USAGE b2Settings.h -> assert [b2Settings.h <31:21 31:26>]
+REFERENCE_MACRO_USAGE assert.h -> _CRT_WIDE [assert.h <34:23 34:31>]
+REFERENCE_MACRO_USAGE vcruntime.h -> _CRT_WIDE_ [vcruntime.h <95:22 95:31>]
+REFERENCE_MACRO_USAGE assert.h -> _CRT_WIDE [assert.h <34:47 34:55>]
+REFERENCE_MACRO_USAGE assert.h -> __FILE__ [assert.h <34:57 34:64>]
+REFERENCE_MACRO_USAGE vcruntime.h -> _CRT_WIDE_ [vcruntime.h <95:22 95:31>]
+REFERENCE_MACRO_USAGE assert.h -> __LINE__ [assert.h <34:79 34:86>]
+SYMBOL_METHOD protected static b2Joint * b2Joint::Create(const b2JointDef *, b2BlockAllocator *) [b2Joint.cpp <37:1 <37:19 37:24> 126:1>]
+SYMBOL_CLASS b2Joint
+REFERENCE_TYPE_USAGE static b2Joint * b2Joint::Create(const b2JointDef *, b2BlockAllocator *) -> b2Joint [b2Joint.cpp <37:1 37:7>]
+LOCAL_SYMBOL: b2Joint.cpp<37:44> [b2Joint.cpp <37:44 37:46>]
+REFERENCE_TYPE_USAGE static b2Joint * b2Joint::Create(const b2JointDef *, b2BlockAllocator *) -> b2JointDef [b2Joint.cpp <37:32 37:41>]
+LOCAL_SYMBOL: b2Joint.cpp<37:67> [b2Joint.cpp <37:67 37:75>]
+REFERENCE_TYPE_USAGE static b2Joint * b2Joint::Create(const b2JointDef *, b2BlockAllocator *) -> b2BlockAllocator [b2Joint.cpp <37:49 37:64>]
+LOCAL_SYMBOL: b2Joint.cpp<39:11> [b2Joint.cpp <39:11 39:15>]
+REFERENCE_TYPE_USAGE static b2Joint * b2Joint::Create(const b2JointDef *, b2BlockAllocator *) -> b2Joint [b2Joint.cpp <39:2 39:8>]
+REFERENCE_USAGE static b2Joint * b2Joint::Create(const b2JointDef *, b2BlockAllocator *) -> b2JointType b2JointDef::type [b2Joint.cpp <41:15 41:18>]
+LOCAL_SYMBOL: b2Joint.cpp<37:44> [b2Joint.cpp <41:10 41:12>]
+REFERENCE_USAGE static b2Joint * b2Joint::Create(const b2JointDef *, b2BlockAllocator *) -> b2JointType::e_distanceJoint [b2Joint.cpp <43:7 43:21>]
+LOCAL_SYMBOL: b2Joint.cpp<45:10> [b2Joint.cpp <45:10 45:12>]
+SYMBOL_BUILTIN_TYPE void
+REFERENCE_TYPE_USAGE static b2Joint * b2Joint::Create(const b2JointDef *, b2BlockAllocator *) -> void [b2Joint.cpp <45:4 45:7>]
+SYMBOL_FUNCTION void * b2BlockAllocator::Allocate(int32)
+REFERENCE_CALL static b2Joint * b2Joint::Create(const b2JointDef *, b2BlockAllocator *) -> void * b2BlockAllocator::Allocate(int32) [b2Joint.cpp <45:27 45:34>]
+LOCAL_SYMBOL: b2Joint.cpp<37:67> [b2Joint.cpp <45:16 45:24>]
+REFERENCE_TYPE_USAGE static b2Joint * b2Joint::Create(const b2JointDef *, b2BlockAllocator *) -> b2DistanceJoint [b2Joint.cpp <45:43 45:57>]
+LOCAL_SYMBOL: b2Joint.cpp<39:11> [b2Joint.cpp <46:4 46:8>]
+REFERENCE_TYPE_USAGE static b2Joint * b2Joint::Create(const b2JointDef *, b2BlockAllocator *) -> b2DistanceJoint [b2Joint.cpp <46:22 46:36>]
+SYMBOL_FUNCTION void b2DistanceJoint::b2DistanceJoint(const b2DistanceJointDef *)
+REFERENCE_CALL static b2Joint * b2Joint::Create(const b2JointDef *, b2BlockAllocator *) -> void b2DistanceJoint::b2DistanceJoint(const b2DistanceJointDef *) [b2Joint.cpp <46:22 46:36>]
+REFERENCE_TYPE_USAGE static b2Joint * b2Joint::Create(const b2JointDef *, b2BlockAllocator *) -> b2DistanceJointDef [b2Joint.cpp <46:56 46:73>]
+LOCAL_SYMBOL: b2Joint.cpp<37:44> [b2Joint.cpp <46:77 46:79>]
+LOCAL_SYMBOL: b2Joint.cpp<45:10> [b2Joint.cpp <46:17 46:19>]
+REFERENCE_USAGE static b2Joint * b2Joint::Create(const b2JointDef *, b2BlockAllocator *) -> b2JointType::e_mouseJoint [b2Joint.cpp <50:7 50:18>]
+LOCAL_SYMBOL: b2Joint.cpp<52:10> [b2Joint.cpp <52:10 52:12>]
+SYMBOL_BUILTIN_TYPE void
+REFERENCE_TYPE_USAGE static b2Joint * b2Joint::Create(const b2JointDef *, b2BlockAllocator *) -> void [b2Joint.cpp <52:4 52:7>]
+SYMBOL_FUNCTION void * b2BlockAllocator::Allocate(int32)
+REFERENCE_CALL static b2Joint * b2Joint::Create(const b2JointDef *, b2BlockAllocator *) -> void * b2BlockAllocator::Allocate(int32) [b2Joint.cpp <52:27 52:34>]
+LOCAL_SYMBOL: b2Joint.cpp<37:67> [b2Joint.cpp <52:16 52:24>]
+REFERENCE_TYPE_USAGE static b2Joint * b2Joint::Create(const b2JointDef *, b2BlockAllocator *) -> b2MouseJoint [b2Joint.cpp <52:43 52:54>]
+LOCAL_SYMBOL: b2Joint.cpp<39:11> [b2Joint.cpp <53:4 53:8>]
+REFERENCE_TYPE_USAGE static b2Joint * b2Joint::Create(const b2JointDef *, b2BlockAllocator *) -> b2MouseJoint [b2Joint.cpp <53:22 53:33>]
+SYMBOL_FUNCTION void b2MouseJoint::b2MouseJoint(const b2MouseJointDef *)
+REFERENCE_CALL static b2Joint * b2Joint::Create(const b2JointDef *, b2BlockAllocator *) -> void b2MouseJoint::b2MouseJoint(const b2MouseJointDef *) [b2Joint.cpp <53:22 53:33>]
+REFERENCE_TYPE_USAGE static b2Joint * b2Joint::Create(const b2JointDef *, b2BlockAllocator *) -> b2MouseJointDef [b2Joint.cpp <53:53 53:67>]
+LOCAL_SYMBOL: b2Joint.cpp<37:44> [b2Joint.cpp <53:71 53:73>]
+LOCAL_SYMBOL: b2Joint.cpp<52:10> [b2Joint.cpp <53:17 53:19>]
+REFERENCE_USAGE static b2Joint * b2Joint::Create(const b2JointDef *, b2BlockAllocator *) -> b2JointType::e_prismaticJoint [b2Joint.cpp <57:7 57:22>]
+LOCAL_SYMBOL: b2Joint.cpp<59:10> [b2Joint.cpp <59:10 59:12>]
+SYMBOL_BUILTIN_TYPE void
+REFERENCE_TYPE_USAGE static b2Joint * b2Joint::Create(const b2JointDef *, b2BlockAllocator *) -> void [b2Joint.cpp <59:4 59:7>]
+SYMBOL_FUNCTION void * b2BlockAllocator::Allocate(int32)
+REFERENCE_CALL static b2Joint * b2Joint::Create(const b2JointDef *, b2BlockAllocator *) -> void * b2BlockAllocator::Allocate(int32) [b2Joint.cpp <59:27 59:34>]
+LOCAL_SYMBOL: b2Joint.cpp<37:67> [b2Joint.cpp <59:16 59:24>]
+REFERENCE_TYPE_USAGE static b2Joint * b2Joint::Create(const b2JointDef *, b2BlockAllocator *) -> b2PrismaticJoint [b2Joint.cpp <59:43 59:58>]
+LOCAL_SYMBOL: b2Joint.cpp<39:11> [b2Joint.cpp <60:4 60:8>]
+REFERENCE_TYPE_USAGE static b2Joint * b2Joint::Create(const b2JointDef *, b2BlockAllocator *) -> b2PrismaticJoint [b2Joint.cpp <60:22 60:37>]
+SYMBOL_FUNCTION void b2PrismaticJoint::b2PrismaticJoint(const b2PrismaticJointDef *)
+REFERENCE_CALL static b2Joint * b2Joint::Create(const b2JointDef *, b2BlockAllocator *) -> void b2PrismaticJoint::b2PrismaticJoint(const b2PrismaticJointDef *) [b2Joint.cpp <60:22 60:37>]
+REFERENCE_TYPE_USAGE static b2Joint * b2Joint::Create(const b2JointDef *, b2BlockAllocator *) -> b2PrismaticJointDef [b2Joint.cpp <60:57 60:75>]
+LOCAL_SYMBOL: b2Joint.cpp<37:44> [b2Joint.cpp <60:79 60:81>]
+LOCAL_SYMBOL: b2Joint.cpp<59:10> [b2Joint.cpp <60:17 60:19>]
+REFERENCE_USAGE static b2Joint * b2Joint::Create(const b2JointDef *, b2BlockAllocator *) -> b2JointType::e_revoluteJoint [b2Joint.cpp <64:7 64:21>]
+LOCAL_SYMBOL: b2Joint.cpp<66:10> [b2Joint.cpp <66:10 66:12>]
+SYMBOL_BUILTIN_TYPE void
+REFERENCE_TYPE_USAGE static b2Joint * b2Joint::Create(const b2JointDef *, b2BlockAllocator *) -> void [b2Joint.cpp <66:4 66:7>]
+SYMBOL_FUNCTION void * b2BlockAllocator::Allocate(int32)
+REFERENCE_CALL static b2Joint * b2Joint::Create(const b2JointDef *, b2BlockAllocator *) -> void * b2BlockAllocator::Allocate(int32) [b2Joint.cpp <66:27 66:34>]
+LOCAL_SYMBOL: b2Joint.cpp<37:67> [b2Joint.cpp <66:16 66:24>]
+REFERENCE_TYPE_USAGE static b2Joint * b2Joint::Create(const b2JointDef *, b2BlockAllocator *) -> b2RevoluteJoint [b2Joint.cpp <66:43 66:57>]
+LOCAL_SYMBOL: b2Joint.cpp<39:11> [b2Joint.cpp <67:4 67:8>]
+REFERENCE_TYPE_USAGE static b2Joint * b2Joint::Create(const b2JointDef *, b2BlockAllocator *) -> b2RevoluteJoint [b2Joint.cpp <67:22 67:36>]
+SYMBOL_FUNCTION void b2RevoluteJoint::b2RevoluteJoint(const b2RevoluteJointDef *)
+REFERENCE_CALL static b2Joint * b2Joint::Create(const b2JointDef *, b2BlockAllocator *) -> void b2RevoluteJoint::b2RevoluteJoint(const b2RevoluteJointDef *) [b2Joint.cpp <67:22 67:36>]
+REFERENCE_TYPE_USAGE static b2Joint * b2Joint::Create(const b2JointDef *, b2BlockAllocator *) -> b2RevoluteJointDef [b2Joint.cpp <67:56 67:73>]
+LOCAL_SYMBOL: b2Joint.cpp<37:44> [b2Joint.cpp <67:77 67:79>]
+LOCAL_SYMBOL: b2Joint.cpp<66:10> [b2Joint.cpp <67:17 67:19>]
+REFERENCE_USAGE static b2Joint * b2Joint::Create(const b2JointDef *, b2BlockAllocator *) -> b2JointType::e_pulleyJoint [b2Joint.cpp <71:7 71:19>]
+LOCAL_SYMBOL: b2Joint.cpp<73:10> [b2Joint.cpp <73:10 73:12>]
+SYMBOL_BUILTIN_TYPE void
+REFERENCE_TYPE_USAGE static b2Joint * b2Joint::Create(const b2JointDef *, b2BlockAllocator *) -> void [b2Joint.cpp <73:4 73:7>]
+SYMBOL_FUNCTION void * b2BlockAllocator::Allocate(int32)
+REFERENCE_CALL static b2Joint * b2Joint::Create(const b2JointDef *, b2BlockAllocator *) -> void * b2BlockAllocator::Allocate(int32) [b2Joint.cpp <73:27 73:34>]
+LOCAL_SYMBOL: b2Joint.cpp<37:67> [b2Joint.cpp <73:16 73:24>]
+REFERENCE_TYPE_USAGE static b2Joint * b2Joint::Create(const b2JointDef *, b2BlockAllocator *) -> b2PulleyJoint [b2Joint.cpp <73:43 73:55>]
+LOCAL_SYMBOL: b2Joint.cpp<39:11> [b2Joint.cpp <74:4 74:8>]
+REFERENCE_TYPE_USAGE static b2Joint * b2Joint::Create(const b2JointDef *, b2BlockAllocator *) -> b2PulleyJoint [b2Joint.cpp <74:22 74:34>]
+SYMBOL_FUNCTION void b2PulleyJoint::b2PulleyJoint(const b2PulleyJointDef *)
+REFERENCE_CALL static b2Joint * b2Joint::Create(const b2JointDef *, b2BlockAllocator *) -> void b2PulleyJoint::b2PulleyJoint(const b2PulleyJointDef *) [b2Joint.cpp <74:22 74:34>]
+REFERENCE_TYPE_USAGE static b2Joint * b2Joint::Create(const b2JointDef *, b2BlockAllocator *) -> b2PulleyJointDef [b2Joint.cpp <74:54 74:69>]
+LOCAL_SYMBOL: b2Joint.cpp<37:44> [b2Joint.cpp <74:73 74:75>]
+LOCAL_SYMBOL: b2Joint.cpp<73:10> [b2Joint.cpp <74:17 74:19>]
+REFERENCE_USAGE static b2Joint * b2Joint::Create(const b2JointDef *, b2BlockAllocator *) -> b2JointType::e_gearJoint [b2Joint.cpp <78:7 78:17>]
+LOCAL_SYMBOL: b2Joint.cpp<80:10> [b2Joint.cpp <80:10 80:12>]
+SYMBOL_BUILTIN_TYPE void
+REFERENCE_TYPE_USAGE static b2Joint * b2Joint::Create(const b2JointDef *, b2BlockAllocator *) -> void [b2Joint.cpp <80:4 80:7>]
+SYMBOL_FUNCTION void * b2BlockAllocator::Allocate(int32)
+REFERENCE_CALL static b2Joint * b2Joint::Create(const b2JointDef *, b2BlockAllocator *) -> void * b2BlockAllocator::Allocate(int32) [b2Joint.cpp <80:27 80:34>]
+LOCAL_SYMBOL: b2Joint.cpp<37:67> [b2Joint.cpp <80:16 80:24>]
+REFERENCE_TYPE_USAGE static b2Joint * b2Joint::Create(const b2JointDef *, b2BlockAllocator *) -> b2GearJoint [b2Joint.cpp <80:43 80:53>]
+LOCAL_SYMBOL: b2Joint.cpp<39:11> [b2Joint.cpp <81:4 81:8>]
+REFERENCE_TYPE_USAGE static b2Joint * b2Joint::Create(const b2JointDef *, b2BlockAllocator *) -> b2GearJoint [b2Joint.cpp <81:22 81:32>]
+SYMBOL_FUNCTION void b2GearJoint::b2GearJoint(const b2GearJointDef *)
+REFERENCE_CALL static b2Joint * b2Joint::Create(const b2JointDef *, b2BlockAllocator *) -> void b2GearJoint::b2GearJoint(const b2GearJointDef *) [b2Joint.cpp <81:22 81:32>]
+REFERENCE_TYPE_USAGE static b2Joint * b2Joint::Create(const b2JointDef *, b2BlockAllocator *) -> b2GearJointDef [b2Joint.cpp <81:52 81:65>]
+LOCAL_SYMBOL: b2Joint.cpp<37:44> [b2Joint.cpp <81:69 81:71>]
+LOCAL_SYMBOL: b2Joint.cpp<80:10> [b2Joint.cpp <81:17 81:19>]
+REFERENCE_USAGE static b2Joint * b2Joint::Create(const b2JointDef *, b2BlockAllocator *) -> b2JointType::e_wheelJoint [b2Joint.cpp <85:7 85:18>]
+LOCAL_SYMBOL: b2Joint.cpp<87:10> [b2Joint.cpp <87:10 87:12>]
+SYMBOL_BUILTIN_TYPE void
+REFERENCE_TYPE_USAGE static b2Joint * b2Joint::Create(const b2JointDef *, b2BlockAllocator *) -> void [b2Joint.cpp <87:4 87:7>]
+SYMBOL_FUNCTION void * b2BlockAllocator::Allocate(int32)
+REFERENCE_CALL static b2Joint * b2Joint::Create(const b2JointDef *, b2BlockAllocator *) -> void * b2BlockAllocator::Allocate(int32) [b2Joint.cpp <87:27 87:34>]
+LOCAL_SYMBOL: b2Joint.cpp<37:67> [b2Joint.cpp <87:16 87:24>]
+REFERENCE_TYPE_USAGE static b2Joint * b2Joint::Create(const b2JointDef *, b2BlockAllocator *) -> b2WheelJoint [b2Joint.cpp <87:43 87:54>]
+LOCAL_SYMBOL: b2Joint.cpp<39:11> [b2Joint.cpp <88:4 88:8>]
+REFERENCE_TYPE_USAGE static b2Joint * b2Joint::Create(const b2JointDef *, b2BlockAllocator *) -> b2WheelJoint [b2Joint.cpp <88:22 88:33>]
+SYMBOL_FUNCTION void b2WheelJoint::b2WheelJoint(const b2WheelJointDef *)
+REFERENCE_CALL static b2Joint * b2Joint::Create(const b2JointDef *, b2BlockAllocator *) -> void b2WheelJoint::b2WheelJoint(const b2WheelJointDef *) [b2Joint.cpp <88:22 88:33>]
+REFERENCE_TYPE_USAGE static b2Joint * b2Joint::Create(const b2JointDef *, b2BlockAllocator *) -> b2WheelJointDef [b2Joint.cpp <88:53 88:67>]
+LOCAL_SYMBOL: b2Joint.cpp<37:44> [b2Joint.cpp <88:71 88:73>]
+LOCAL_SYMBOL: b2Joint.cpp<87:10> [b2Joint.cpp <88:17 88:19>]
+REFERENCE_USAGE static b2Joint * b2Joint::Create(const b2JointDef *, b2BlockAllocator *) -> b2JointType::e_weldJoint [b2Joint.cpp <92:7 92:17>]
+LOCAL_SYMBOL: b2Joint.cpp<94:10> [b2Joint.cpp <94:10 94:12>]
+SYMBOL_BUILTIN_TYPE void
+REFERENCE_TYPE_USAGE static b2Joint * b2Joint::Create(const b2JointDef *, b2BlockAllocator *) -> void [b2Joint.cpp <94:4 94:7>]
+SYMBOL_FUNCTION void * b2BlockAllocator::Allocate(int32)
+REFERENCE_CALL static b2Joint * b2Joint::Create(const b2JointDef *, b2BlockAllocator *) -> void * b2BlockAllocator::Allocate(int32) [b2Joint.cpp <94:27 94:34>]
+LOCAL_SYMBOL: b2Joint.cpp<37:67> [b2Joint.cpp <94:16 94:24>]
+REFERENCE_TYPE_USAGE static b2Joint * b2Joint::Create(const b2JointDef *, b2BlockAllocator *) -> b2WeldJoint [b2Joint.cpp <94:43 94:53>]
+LOCAL_SYMBOL: b2Joint.cpp<39:11> [b2Joint.cpp <95:4 95:8>]
+REFERENCE_TYPE_USAGE static b2Joint * b2Joint::Create(const b2JointDef *, b2BlockAllocator *) -> b2WeldJoint [b2Joint.cpp <95:22 95:32>]
+SYMBOL_FUNCTION void b2WeldJoint::b2WeldJoint(const b2WeldJointDef *)
+REFERENCE_CALL static b2Joint * b2Joint::Create(const b2JointDef *, b2BlockAllocator *) -> void b2WeldJoint::b2WeldJoint(const b2WeldJointDef *) [b2Joint.cpp <95:22 95:32>]
+REFERENCE_TYPE_USAGE static b2Joint * b2Joint::Create(const b2JointDef *, b2BlockAllocator *) -> b2WeldJointDef [b2Joint.cpp <95:52 95:65>]
+LOCAL_SYMBOL: b2Joint.cpp<37:44> [b2Joint.cpp <95:69 95:71>]
+LOCAL_SYMBOL: b2Joint.cpp<94:10> [b2Joint.cpp <95:17 95:19>]
+REFERENCE_USAGE static b2Joint * b2Joint::Create(const b2JointDef *, b2BlockAllocator *) -> b2JointType::e_frictionJoint [b2Joint.cpp <99:7 99:21>]
+LOCAL_SYMBOL: b2Joint.cpp<101:10> [b2Joint.cpp <101:10 101:12>]
+SYMBOL_BUILTIN_TYPE void
+REFERENCE_TYPE_USAGE static b2Joint * b2Joint::Create(const b2JointDef *, b2BlockAllocator *) -> void [b2Joint.cpp <101:4 101:7>]
+SYMBOL_FUNCTION void * b2BlockAllocator::Allocate(int32)
+REFERENCE_CALL static b2Joint * b2Joint::Create(const b2JointDef *, b2BlockAllocator *) -> void * b2BlockAllocator::Allocate(int32) [b2Joint.cpp <101:27 101:34>]
+LOCAL_SYMBOL: b2Joint.cpp<37:67> [b2Joint.cpp <101:16 101:24>]
+REFERENCE_TYPE_USAGE static b2Joint * b2Joint::Create(const b2JointDef *, b2BlockAllocator *) -> b2FrictionJoint [b2Joint.cpp <101:43 101:57>]
+LOCAL_SYMBOL: b2Joint.cpp<39:11> [b2Joint.cpp <102:4 102:8>]
+REFERENCE_TYPE_USAGE static b2Joint * b2Joint::Create(const b2JointDef *, b2BlockAllocator *) -> b2FrictionJoint [b2Joint.cpp <102:22 102:36>]
+SYMBOL_FUNCTION void b2FrictionJoint::b2FrictionJoint(const b2FrictionJointDef *)
+REFERENCE_CALL static b2Joint * b2Joint::Create(const b2JointDef *, b2BlockAllocator *) -> void b2FrictionJoint::b2FrictionJoint(const b2FrictionJointDef *) [b2Joint.cpp <102:22 102:36>]
+REFERENCE_TYPE_USAGE static b2Joint * b2Joint::Create(const b2JointDef *, b2BlockAllocator *) -> b2FrictionJointDef [b2Joint.cpp <102:56 102:73>]
+LOCAL_SYMBOL: b2Joint.cpp<37:44> [b2Joint.cpp <102:77 102:79>]
+LOCAL_SYMBOL: b2Joint.cpp<101:10> [b2Joint.cpp <102:17 102:19>]
+REFERENCE_USAGE static b2Joint * b2Joint::Create(const b2JointDef *, b2BlockAllocator *) -> b2JointType::e_ropeJoint [b2Joint.cpp <106:7 106:17>]
+LOCAL_SYMBOL: b2Joint.cpp<108:10> [b2Joint.cpp <108:10 108:12>]
+SYMBOL_BUILTIN_TYPE void
+REFERENCE_TYPE_USAGE static b2Joint * b2Joint::Create(const b2JointDef *, b2BlockAllocator *) -> void [b2Joint.cpp <108:4 108:7>]
+SYMBOL_FUNCTION void * b2BlockAllocator::Allocate(int32)
+REFERENCE_CALL static b2Joint * b2Joint::Create(const b2JointDef *, b2BlockAllocator *) -> void * b2BlockAllocator::Allocate(int32) [b2Joint.cpp <108:27 108:34>]
+LOCAL_SYMBOL: b2Joint.cpp<37:67> [b2Joint.cpp <108:16 108:24>]
+REFERENCE_TYPE_USAGE static b2Joint * b2Joint::Create(const b2JointDef *, b2BlockAllocator *) -> b2RopeJoint [b2Joint.cpp <108:43 108:53>]
+LOCAL_SYMBOL: b2Joint.cpp<39:11> [b2Joint.cpp <109:4 109:8>]
+REFERENCE_TYPE_USAGE static b2Joint * b2Joint::Create(const b2JointDef *, b2BlockAllocator *) -> b2RopeJoint [b2Joint.cpp <109:22 109:32>]
+SYMBOL_FUNCTION void b2RopeJoint::b2RopeJoint(const b2RopeJointDef *)
+REFERENCE_CALL static b2Joint * b2Joint::Create(const b2JointDef *, b2BlockAllocator *) -> void b2RopeJoint::b2RopeJoint(const b2RopeJointDef *) [b2Joint.cpp <109:22 109:32>]
+REFERENCE_TYPE_USAGE static b2Joint * b2Joint::Create(const b2JointDef *, b2BlockAllocator *) -> b2RopeJointDef [b2Joint.cpp <109:52 109:65>]
+LOCAL_SYMBOL: b2Joint.cpp<37:44> [b2Joint.cpp <109:69 109:71>]
+LOCAL_SYMBOL: b2Joint.cpp<108:10> [b2Joint.cpp <109:17 109:19>]
+REFERENCE_USAGE static b2Joint * b2Joint::Create(const b2JointDef *, b2BlockAllocator *) -> b2JointType::e_motorJoint [b2Joint.cpp <113:7 113:18>]
+LOCAL_SYMBOL: b2Joint.cpp<115:10> [b2Joint.cpp <115:10 115:12>]
+SYMBOL_BUILTIN_TYPE void
+REFERENCE_TYPE_USAGE static b2Joint * b2Joint::Create(const b2JointDef *, b2BlockAllocator *) -> void [b2Joint.cpp <115:4 115:7>]
+SYMBOL_FUNCTION void * b2BlockAllocator::Allocate(int32)
+REFERENCE_CALL static b2Joint * b2Joint::Create(const b2JointDef *, b2BlockAllocator *) -> void * b2BlockAllocator::Allocate(int32) [b2Joint.cpp <115:27 115:34>]
+LOCAL_SYMBOL: b2Joint.cpp<37:67> [b2Joint.cpp <115:16 115:24>]
+REFERENCE_TYPE_USAGE static b2Joint * b2Joint::Create(const b2JointDef *, b2BlockAllocator *) -> b2MotorJoint [b2Joint.cpp <115:43 115:54>]
+LOCAL_SYMBOL: b2Joint.cpp<39:11> [b2Joint.cpp <116:4 116:8>]
+REFERENCE_TYPE_USAGE static b2Joint * b2Joint::Create(const b2JointDef *, b2BlockAllocator *) -> b2MotorJoint [b2Joint.cpp <116:22 116:33>]
+SYMBOL_FUNCTION void b2MotorJoint::b2MotorJoint(const b2MotorJointDef *)
+REFERENCE_CALL static b2Joint * b2Joint::Create(const b2JointDef *, b2BlockAllocator *) -> void b2MotorJoint::b2MotorJoint(const b2MotorJointDef *) [b2Joint.cpp <116:22 116:33>]
+REFERENCE_TYPE_USAGE static b2Joint * b2Joint::Create(const b2JointDef *, b2BlockAllocator *) -> b2MotorJointDef [b2Joint.cpp <116:53 116:67>]
+LOCAL_SYMBOL: b2Joint.cpp<37:44> [b2Joint.cpp <116:71 116:73>]
+LOCAL_SYMBOL: b2Joint.cpp<115:10> [b2Joint.cpp <116:17 116:19>]
+LOCAL_SYMBOL: b2Joint.cpp<39:11> [b2Joint.cpp <125:9 125:13>]
+SYMBOL_METHOD protected static void b2Joint::Destroy(b2Joint *, b2BlockAllocator *) [b2Joint.cpp <128:1 <128:15 128:21> 181:1>]
+SYMBOL_CLASS b2Joint
+SYMBOL_BUILTIN_TYPE void
+REFERENCE_TYPE_USAGE static void b2Joint::Destroy(b2Joint *, b2BlockAllocator *) -> void [b2Joint.cpp <128:1 128:4>]
+LOCAL_SYMBOL: b2Joint.cpp<128:32> [b2Joint.cpp <128:32 128:36>]
+REFERENCE_TYPE_USAGE static void b2Joint::Destroy(b2Joint *, b2BlockAllocator *) -> b2Joint [b2Joint.cpp <128:23 128:29>]
+LOCAL_SYMBOL: b2Joint.cpp<128:57> [b2Joint.cpp <128:57 128:65>]
+REFERENCE_TYPE_USAGE static void b2Joint::Destroy(b2Joint *, b2BlockAllocator *) -> b2BlockAllocator [b2Joint.cpp <128:39 128:54>]
+SYMBOL_FUNCTION void b2Joint::~b2Joint()
+REFERENCE_CALL static void b2Joint::Destroy(b2Joint *, b2BlockAllocator *) -> void b2Joint::~b2Joint() [b2Joint.cpp <130:9 130:9>]
+LOCAL_SYMBOL: b2Joint.cpp<128:32> [b2Joint.cpp <130:2 130:6>]
+REFERENCE_USAGE static void b2Joint::Destroy(b2Joint *, b2BlockAllocator *) -> b2JointType b2Joint::m_type [b2Joint.cpp <131:17 131:22>]
+LOCAL_SYMBOL: b2Joint.cpp<128:32> [b2Joint.cpp <131:10 131:14>]
+REFERENCE_USAGE static void b2Joint::Destroy(b2Joint *, b2BlockAllocator *) -> b2JointType::e_distanceJoint [b2Joint.cpp <133:7 133:21>]
+SYMBOL_FUNCTION void b2BlockAllocator::Free(void *, int32)
+REFERENCE_CALL static void b2Joint::Destroy(b2Joint *, b2BlockAllocator *) -> void b2BlockAllocator::Free(void *, int32) [b2Joint.cpp <134:14 134:17>]
+LOCAL_SYMBOL: b2Joint.cpp<128:57> [b2Joint.cpp <134:3 134:11>]
+LOCAL_SYMBOL: b2Joint.cpp<128:32> [b2Joint.cpp <134:19 134:23>]
+REFERENCE_TYPE_USAGE static void b2Joint::Destroy(b2Joint *, b2BlockAllocator *) -> b2DistanceJoint [b2Joint.cpp <134:33 134:47>]
+REFERENCE_USAGE static void b2Joint::Destroy(b2Joint *, b2BlockAllocator *) -> b2JointType::e_mouseJoint [b2Joint.cpp <137:7 137:18>]
+SYMBOL_FUNCTION void b2BlockAllocator::Free(void *, int32)
+REFERENCE_CALL static void b2Joint::Destroy(b2Joint *, b2BlockAllocator *) -> void b2BlockAllocator::Free(void *, int32) [b2Joint.cpp <138:14 138:17>]
+LOCAL_SYMBOL: b2Joint.cpp<128:57> [b2Joint.cpp <138:3 138:11>]
+LOCAL_SYMBOL: b2Joint.cpp<128:32> [b2Joint.cpp <138:19 138:23>]
+REFERENCE_TYPE_USAGE static void b2Joint::Destroy(b2Joint *, b2BlockAllocator *) -> b2MouseJoint [b2Joint.cpp <138:33 138:44>]
+REFERENCE_USAGE static void b2Joint::Destroy(b2Joint *, b2BlockAllocator *) -> b2JointType::e_prismaticJoint [b2Joint.cpp <141:7 141:22>]
+SYMBOL_FUNCTION void b2BlockAllocator::Free(void *, int32)
+REFERENCE_CALL static void b2Joint::Destroy(b2Joint *, b2BlockAllocator *) -> void b2BlockAllocator::Free(void *, int32) [b2Joint.cpp <142:14 142:17>]
+LOCAL_SYMBOL: b2Joint.cpp<128:57> [b2Joint.cpp <142:3 142:11>]
+LOCAL_SYMBOL: b2Joint.cpp<128:32> [b2Joint.cpp <142:19 142:23>]
+REFERENCE_TYPE_USAGE static void b2Joint::Destroy(b2Joint *, b2BlockAllocator *) -> b2PrismaticJoint [b2Joint.cpp <142:33 142:48>]
+REFERENCE_USAGE static void b2Joint::Destroy(b2Joint *, b2BlockAllocator *) -> b2JointType::e_revoluteJoint [b2Joint.cpp <145:7 145:21>]
+SYMBOL_FUNCTION void b2BlockAllocator::Free(void *, int32)
+REFERENCE_CALL static void b2Joint::Destroy(b2Joint *, b2BlockAllocator *) -> void b2BlockAllocator::Free(void *, int32) [b2Joint.cpp <146:14 146:17>]
+LOCAL_SYMBOL: b2Joint.cpp<128:57> [b2Joint.cpp <146:3 146:11>]
+LOCAL_SYMBOL: b2Joint.cpp<128:32> [b2Joint.cpp <146:19 146:23>]
+REFERENCE_TYPE_USAGE static void b2Joint::Destroy(b2Joint *, b2BlockAllocator *) -> b2RevoluteJoint [b2Joint.cpp <146:33 146:47>]
+REFERENCE_USAGE static void b2Joint::Destroy(b2Joint *, b2BlockAllocator *) -> b2JointType::e_pulleyJoint [b2Joint.cpp <149:7 149:19>]
+SYMBOL_FUNCTION void b2BlockAllocator::Free(void *, int32)
+REFERENCE_CALL static void b2Joint::Destroy(b2Joint *, b2BlockAllocator *) -> void b2BlockAllocator::Free(void *, int32) [b2Joint.cpp <150:14 150:17>]
+LOCAL_SYMBOL: b2Joint.cpp<128:57> [b2Joint.cpp <150:3 150:11>]
+LOCAL_SYMBOL: b2Joint.cpp<128:32> [b2Joint.cpp <150:19 150:23>]
+REFERENCE_TYPE_USAGE static void b2Joint::Destroy(b2Joint *, b2BlockAllocator *) -> b2PulleyJoint [b2Joint.cpp <150:33 150:45>]
+REFERENCE_USAGE static void b2Joint::Destroy(b2Joint *, b2BlockAllocator *) -> b2JointType::e_gearJoint [b2Joint.cpp <153:7 153:17>]
+SYMBOL_FUNCTION void b2BlockAllocator::Free(void *, int32)
+REFERENCE_CALL static void b2Joint::Destroy(b2Joint *, b2BlockAllocator *) -> void b2BlockAllocator::Free(void *, int32) [b2Joint.cpp <154:14 154:17>]
+LOCAL_SYMBOL: b2Joint.cpp<128:57> [b2Joint.cpp <154:3 154:11>]
+LOCAL_SYMBOL: b2Joint.cpp<128:32> [b2Joint.cpp <154:19 154:23>]
+REFERENCE_TYPE_USAGE static void b2Joint::Destroy(b2Joint *, b2BlockAllocator *) -> b2GearJoint [b2Joint.cpp <154:33 154:43>]
+REFERENCE_USAGE static void b2Joint::Destroy(b2Joint *, b2BlockAllocator *) -> b2JointType::e_wheelJoint [b2Joint.cpp <157:7 157:18>]
+SYMBOL_FUNCTION void b2BlockAllocator::Free(void *, int32)
+REFERENCE_CALL static void b2Joint::Destroy(b2Joint *, b2BlockAllocator *) -> void b2BlockAllocator::Free(void *, int32) [b2Joint.cpp <158:14 158:17>]
+LOCAL_SYMBOL: b2Joint.cpp<128:57> [b2Joint.cpp <158:3 158:11>]
+LOCAL_SYMBOL: b2Joint.cpp<128:32> [b2Joint.cpp <158:19 158:23>]
+REFERENCE_TYPE_USAGE static void b2Joint::Destroy(b2Joint *, b2BlockAllocator *) -> b2WheelJoint [b2Joint.cpp <158:33 158:44>]
+REFERENCE_USAGE static void b2Joint::Destroy(b2Joint *, b2BlockAllocator *) -> b2JointType::e_weldJoint [b2Joint.cpp <161:7 161:17>]
+SYMBOL_FUNCTION void b2BlockAllocator::Free(void *, int32)
+REFERENCE_CALL static void b2Joint::Destroy(b2Joint *, b2BlockAllocator *) -> void b2BlockAllocator::Free(void *, int32) [b2Joint.cpp <162:14 162:17>]
+LOCAL_SYMBOL: b2Joint.cpp<128:57> [b2Joint.cpp <162:3 162:11>]
+LOCAL_SYMBOL: b2Joint.cpp<128:32> [b2Joint.cpp <162:19 162:23>]
+REFERENCE_TYPE_USAGE static void b2Joint::Destroy(b2Joint *, b2BlockAllocator *) -> b2WeldJoint [b2Joint.cpp <162:33 162:43>]
+REFERENCE_USAGE static void b2Joint::Destroy(b2Joint *, b2BlockAllocator *) -> b2JointType::e_frictionJoint [b2Joint.cpp <165:7 165:21>]
+SYMBOL_FUNCTION void b2BlockAllocator::Free(void *, int32)
+REFERENCE_CALL static void b2Joint::Destroy(b2Joint *, b2BlockAllocator *) -> void b2BlockAllocator::Free(void *, int32) [b2Joint.cpp <166:14 166:17>]
+LOCAL_SYMBOL: b2Joint.cpp<128:57> [b2Joint.cpp <166:3 166:11>]
+LOCAL_SYMBOL: b2Joint.cpp<128:32> [b2Joint.cpp <166:19 166:23>]
+REFERENCE_TYPE_USAGE static void b2Joint::Destroy(b2Joint *, b2BlockAllocator *) -> b2FrictionJoint [b2Joint.cpp <166:33 166:47>]
+REFERENCE_USAGE static void b2Joint::Destroy(b2Joint *, b2BlockAllocator *) -> b2JointType::e_ropeJoint [b2Joint.cpp <169:7 169:17>]
+SYMBOL_FUNCTION void b2BlockAllocator::Free(void *, int32)
+REFERENCE_CALL static void b2Joint::Destroy(b2Joint *, b2BlockAllocator *) -> void b2BlockAllocator::Free(void *, int32) [b2Joint.cpp <170:14 170:17>]
+LOCAL_SYMBOL: b2Joint.cpp<128:57> [b2Joint.cpp <170:3 170:11>]
+LOCAL_SYMBOL: b2Joint.cpp<128:32> [b2Joint.cpp <170:19 170:23>]
+REFERENCE_TYPE_USAGE static void b2Joint::Destroy(b2Joint *, b2BlockAllocator *) -> b2RopeJoint [b2Joint.cpp <170:33 170:43>]
+REFERENCE_USAGE static void b2Joint::Destroy(b2Joint *, b2BlockAllocator *) -> b2JointType::e_motorJoint [b2Joint.cpp <173:7 173:18>]
+SYMBOL_FUNCTION void b2BlockAllocator::Free(void *, int32)
+REFERENCE_CALL static void b2Joint::Destroy(b2Joint *, b2BlockAllocator *) -> void b2BlockAllocator::Free(void *, int32) [b2Joint.cpp <174:14 174:17>]
+LOCAL_SYMBOL: b2Joint.cpp<128:57> [b2Joint.cpp <174:3 174:11>]
+LOCAL_SYMBOL: b2Joint.cpp<128:32> [b2Joint.cpp <174:19 174:23>]
+REFERENCE_TYPE_USAGE static void b2Joint::Destroy(b2Joint *, b2BlockAllocator *) -> b2MotorJoint [b2Joint.cpp <174:33 174:44>]
+SYMBOL_METHOD protected void b2Joint::b2Joint(const b2JointDef *) [b2Joint.cpp <183:1 <183:10 183:16> 206:1>]
+SYMBOL_CLASS b2Joint
+LOCAL_SYMBOL: b2Joint.cpp<183:36> [b2Joint.cpp <183:36 183:38>]
+REFERENCE_TYPE_USAGE void b2Joint::b2Joint(const b2JointDef *) -> b2JointDef [b2Joint.cpp <183:24 183:33>]
+REFERENCE_USAGE void b2Joint::b2Joint(const b2JointDef *) -> b2JointEdge b2Joint::m_edgeA [b2Joint.cpp <183:10 183:16>]
+SYMBOL_FUNCTION void b2JointEdge::b2JointEdge()
+REFERENCE_CALL void b2Joint::b2Joint(const b2JointDef *) -> void b2JointEdge::b2JointEdge() [b2Joint.cpp <183:10 183:16>]
+REFERENCE_USAGE void b2Joint::b2Joint(const b2JointDef *) -> b2JointEdge b2Joint::m_edgeB [b2Joint.cpp <183:10 183:16>]
+SYMBOL_FUNCTION void b2JointEdge::b2JointEdge()
+REFERENCE_CALL void b2Joint::b2Joint(const b2JointDef *) -> void b2JointEdge::b2JointEdge() [b2Joint.cpp <183:10 183:16>]
+REFERENCE_USAGE void b2Joint::b2Joint(const b2JointDef *) -> b2Body * b2JointDef::bodyA [b2Joint.cpp <185:16 185:20>]
+LOCAL_SYMBOL: b2Joint.cpp<183:36> [b2Joint.cpp <185:11 185:13>]
+REFERENCE_USAGE void b2Joint::b2Joint(const b2JointDef *) -> b2Body * b2JointDef::bodyB [b2Joint.cpp <185:30 185:34>]
+LOCAL_SYMBOL: b2Joint.cpp<183:36> [b2Joint.cpp <185:25 185:27>]
+REFERENCE_USAGE void b2Joint::b2Joint(const b2JointDef *) -> b2JointType b2Joint::m_type [b2Joint.cpp <187:2 187:7>]
+REFERENCE_USAGE void b2Joint::b2Joint(const b2JointDef *) -> b2JointType b2JointDef::type [b2Joint.cpp <187:16 187:19>]
+LOCAL_SYMBOL: b2Joint.cpp<183:36> [b2Joint.cpp <187:11 187:13>]
+REFERENCE_USAGE void b2Joint::b2Joint(const b2JointDef *) -> b2Joint * b2Joint::m_prev [b2Joint.cpp <188:2 188:7>]
+REFERENCE_USAGE void b2Joint::b2Joint(const b2JointDef *) -> b2Joint * b2Joint::m_next [b2Joint.cpp <189:2 189:7>]
+REFERENCE_USAGE void b2Joint::b2Joint(const b2JointDef *) -> b2Body * b2Joint::m_bodyA [b2Joint.cpp <190:2 190:8>]
+REFERENCE_USAGE void b2Joint::b2Joint(const b2JointDef *) -> b2Body * b2JointDef::bodyA [b2Joint.cpp <190:17 190:21>]
+LOCAL_SYMBOL: b2Joint.cpp<183:36> [b2Joint.cpp <190:12 190:14>]
+REFERENCE_USAGE void b2Joint::b2Joint(const b2JointDef *) -> b2Body * b2Joint::m_bodyB [b2Joint.cpp <191:2 191:8>]
+REFERENCE_USAGE void b2Joint::b2Joint(const b2JointDef *) -> b2Body * b2JointDef::bodyB [b2Joint.cpp <191:17 191:21>]
+LOCAL_SYMBOL: b2Joint.cpp<183:36> [b2Joint.cpp <191:12 191:14>]
+REFERENCE_USAGE void b2Joint::b2Joint(const b2JointDef *) -> int32 b2Joint::m_index [b2Joint.cpp <192:2 192:8>]
+REFERENCE_USAGE void b2Joint::b2Joint(const b2JointDef *) -> bool b2Joint::m_collideConnected [b2Joint.cpp <193:2 193:19>]
+REFERENCE_USAGE void b2Joint::b2Joint(const b2JointDef *) -> bool b2JointDef::collideConnected [b2Joint.cpp <193:28 193:43>]
+LOCAL_SYMBOL: b2Joint.cpp<183:36> [b2Joint.cpp <193:23 193:25>]
+REFERENCE_USAGE void b2Joint::b2Joint(const b2JointDef *) -> bool b2Joint::m_islandFlag [b2Joint.cpp <194:2 194:13>]
+REFERENCE_USAGE void b2Joint::b2Joint(const b2JointDef *) -> void * b2Joint::m_userData [b2Joint.cpp <195:2 195:11>]
+REFERENCE_USAGE void b2Joint::b2Joint(const b2JointDef *) -> void * b2JointDef::userData [b2Joint.cpp <195:20 195:27>]
+LOCAL_SYMBOL: b2Joint.cpp<183:36> [b2Joint.cpp <195:15 195:17>]
+REFERENCE_USAGE void b2Joint::b2Joint(const b2JointDef *) -> b2Joint * b2JointEdge::joint [b2Joint.cpp <197:10 197:14>]
+REFERENCE_USAGE void b2Joint::b2Joint(const b2JointDef *) -> b2JointEdge b2Joint::m_edgeA [b2Joint.cpp <197:2 197:8>]
+REFERENCE_USAGE void b2Joint::b2Joint(const b2JointDef *) -> b2Body * b2JointEdge::other [b2Joint.cpp <198:10 198:14>]
+REFERENCE_USAGE void b2Joint::b2Joint(const b2JointDef *) -> b2JointEdge b2Joint::m_edgeA [b2Joint.cpp <198:2 198:8>]
+REFERENCE_USAGE void b2Joint::b2Joint(const b2JointDef *) -> b2JointEdge * b2JointEdge::prev [b2Joint.cpp <199:10 199:13>]
+REFERENCE_USAGE void b2Joint::b2Joint(const b2JointDef *) -> b2JointEdge b2Joint::m_edgeA [b2Joint.cpp <199:2 199:8>]
+REFERENCE_USAGE void b2Joint::b2Joint(const b2JointDef *) -> b2JointEdge * b2JointEdge::next [b2Joint.cpp <200:10 200:13>]
+REFERENCE_USAGE void b2Joint::b2Joint(const b2JointDef *) -> b2JointEdge b2Joint::m_edgeA [b2Joint.cpp <200:2 200:8>]
+REFERENCE_USAGE void b2Joint::b2Joint(const b2JointDef *) -> b2Joint * b2JointEdge::joint [b2Joint.cpp <202:10 202:14>]
+REFERENCE_USAGE void b2Joint::b2Joint(const b2JointDef *) -> b2JointEdge b2Joint::m_edgeB [b2Joint.cpp <202:2 202:8>]
+REFERENCE_USAGE void b2Joint::b2Joint(const b2JointDef *) -> b2Body * b2JointEdge::other [b2Joint.cpp <203:10 203:14>]
+REFERENCE_USAGE void b2Joint::b2Joint(const b2JointDef *) -> b2JointEdge b2Joint::m_edgeB [b2Joint.cpp <203:2 203:8>]
+REFERENCE_USAGE void b2Joint::b2Joint(const b2JointDef *) -> b2JointEdge * b2JointEdge::prev [b2Joint.cpp <204:10 204:13>]
+REFERENCE_USAGE void b2Joint::b2Joint(const b2JointDef *) -> b2JointEdge b2Joint::m_edgeB [b2Joint.cpp <204:2 204:8>]
+REFERENCE_USAGE void b2Joint::b2Joint(const b2JointDef *) -> b2JointEdge * b2JointEdge::next [b2Joint.cpp <205:10 205:13>]
+REFERENCE_USAGE void b2Joint::b2Joint(const b2JointDef *) -> b2JointEdge b2Joint::m_edgeB [b2Joint.cpp <205:2 205:8>]
+SYMBOL_METHOD public bool b2Joint::IsActive() const [b2Joint.cpp <208:1 <208:15 208:22> 211:1>]
+SYMBOL_CLASS b2Joint
+SYMBOL_BUILTIN_TYPE bool
+REFERENCE_TYPE_USAGE bool b2Joint::IsActive() const -> bool [b2Joint.cpp <208:1 208:4>]
+SYMBOL_FUNCTION bool b2Body::IsActive() const
+REFERENCE_CALL bool b2Joint::IsActive() const -> bool b2Body::IsActive() const [b2Joint.cpp <210:18 210:25>]
+REFERENCE_USAGE bool b2Joint::IsActive() const -> b2Body * b2Joint::m_bodyA [b2Joint.cpp <210:9 210:15>]
+SYMBOL_FUNCTION bool b2Body::IsActive() const
+REFERENCE_CALL bool b2Joint::IsActive() const -> bool b2Body::IsActive() const [b2Joint.cpp <210:41 210:48>]
+REFERENCE_USAGE bool b2Joint::IsActive() const -> b2Body * b2Joint::m_bodyB [b2Joint.cpp <210:32 210:38>]

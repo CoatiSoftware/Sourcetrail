@@ -54,6 +54,13 @@ private:
 		}
 	};
 
+	void recordTemplateMemberSpecialization(
+		const clang::MemberSpecializationInfo* memberSpecializationInfo, 
+		const NameHierarchy& context, 
+		const ParseLocation& location, 
+		SymbolKind symbolKind
+	);
+
 	ParseLocation getParseLocationOfTagDeclBody(clang::TagDecl* decl) const;
 	ParseLocation getParseLocationOfFunctionBody(const clang::FunctionDecl* decl) const;
 	ParseLocation getParseLocation(const clang::SourceLocation& loc) const;

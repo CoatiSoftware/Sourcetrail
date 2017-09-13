@@ -1,0 +1,72 @@
+FILE: b2Timer.cpp
+FILE: b2Timer.cpp
+COMMENT: comment [b2Timer.cpp <1:1 17:3>]
+FILE: b2Timer.cpp
+REFERENCE_MACRO_USAGE b2Timer.cpp -> _WIN32 [b2Timer.cpp <21:13 21:18>]
+REFERENCE_MACRO_USAGE b2Timer.cpp -> WIN32_LEAN_AND_MEAN [b2Timer.cpp <25:9 25:27>]
+SYMBOL_MACRO WIN32_LEAN_AND_MEAN [b2Timer.cpp <26:9 <26:9 26:27> 26:8>]
+FILE: b2Timer.cpp
+SYMBOL_FIELD private static float64 b2Timer::s_invFrequency [b2Timer.cpp <23:18 23:31>]
+SYMBOL_CLASS b2Timer
+REFERENCE_TYPE_USAGE static float64 b2Timer::s_invFrequency -> float64 [b2Timer.cpp <23:1 23:7>]
+SYMBOL_METHOD public void b2Timer::b2Timer() [b2Timer.cpp <31:1 <31:10 31:16> 47:1>]
+SYMBOL_CLASS b2Timer
+LOCAL_SYMBOL: b2Timer.cpp<33:16> [b2Timer.cpp <33:16 33:27>]
+REFERENCE_TYPE_USAGE void b2Timer::b2Timer() -> LARGE_INTEGER [b2Timer.cpp <33:2 33:14>]
+SYMBOL_FUNCTION void _LARGE_INTEGER::_LARGE_INTEGER()
+REFERENCE_CALL void b2Timer::b2Timer() -> void _LARGE_INTEGER::_LARGE_INTEGER() [b2Timer.cpp <33:16 33:27>]
+REFERENCE_USAGE void b2Timer::b2Timer() -> static float64 b2Timer::s_invFrequency [b2Timer.cpp <35:6 35:19>]
+SYMBOL_FUNCTION BOOL QueryPerformanceFrequency(LARGE_INTEGER *)
+REFERENCE_CALL void b2Timer::b2Timer() -> BOOL QueryPerformanceFrequency(LARGE_INTEGER *) [b2Timer.cpp <37:3 37:27>]
+LOCAL_SYMBOL: b2Timer.cpp<33:16> [b2Timer.cpp <37:30 37:41>]
+REFERENCE_USAGE void b2Timer::b2Timer() -> static float64 b2Timer::s_invFrequency [b2Timer.cpp <38:3 38:16>]
+REFERENCE_TYPE_USAGE void b2Timer::b2Timer() -> float64 [b2Timer.cpp <38:20 38:26>]
+REFERENCE_USAGE void b2Timer::b2Timer() -> LONGLONG _LARGE_INTEGER::QuadPart [b2Timer.cpp <38:41 38:48>]
+LOCAL_SYMBOL: b2Timer.cpp<33:16> [b2Timer.cpp <38:28 38:39>]
+REFERENCE_USAGE void b2Timer::b2Timer() -> static float64 b2Timer::s_invFrequency [b2Timer.cpp <39:7 39:20>]
+REFERENCE_USAGE void b2Timer::b2Timer() -> static float64 b2Timer::s_invFrequency [b2Timer.cpp <41:4 41:17>]
+REFERENCE_USAGE void b2Timer::b2Timer() -> static float64 b2Timer::s_invFrequency [b2Timer.cpp <41:31 41:44>]
+SYMBOL_FUNCTION BOOL QueryPerformanceCounter(LARGE_INTEGER *)
+REFERENCE_CALL void b2Timer::b2Timer() -> BOOL QueryPerformanceCounter(LARGE_INTEGER *) [b2Timer.cpp <45:2 45:24>]
+LOCAL_SYMBOL: b2Timer.cpp<33:16> [b2Timer.cpp <45:27 45:38>]
+REFERENCE_USAGE void b2Timer::b2Timer() -> float64 b2Timer::m_start [b2Timer.cpp <46:2 46:8>]
+REFERENCE_TYPE_USAGE void b2Timer::b2Timer() -> float64 [b2Timer.cpp <46:12 46:18>]
+REFERENCE_USAGE void b2Timer::b2Timer() -> LONGLONG _LARGE_INTEGER::QuadPart [b2Timer.cpp <46:33 46:40>]
+LOCAL_SYMBOL: b2Timer.cpp<33:16> [b2Timer.cpp <46:20 46:31>]
+SYMBOL_METHOD public void b2Timer::Reset() [b2Timer.cpp <49:1 <49:15 49:19> 54:1>]
+SYMBOL_CLASS b2Timer
+SYMBOL_BUILTIN_TYPE void
+REFERENCE_TYPE_USAGE void b2Timer::Reset() -> void [b2Timer.cpp <49:1 49:4>]
+LOCAL_SYMBOL: b2Timer.cpp<51:16> [b2Timer.cpp <51:16 51:27>]
+REFERENCE_TYPE_USAGE void b2Timer::Reset() -> LARGE_INTEGER [b2Timer.cpp <51:2 51:14>]
+SYMBOL_FUNCTION void _LARGE_INTEGER::_LARGE_INTEGER()
+REFERENCE_CALL void b2Timer::Reset() -> void _LARGE_INTEGER::_LARGE_INTEGER() [b2Timer.cpp <51:16 51:27>]
+SYMBOL_FUNCTION BOOL QueryPerformanceCounter(LARGE_INTEGER *)
+REFERENCE_CALL void b2Timer::Reset() -> BOOL QueryPerformanceCounter(LARGE_INTEGER *) [b2Timer.cpp <52:2 52:24>]
+LOCAL_SYMBOL: b2Timer.cpp<51:16> [b2Timer.cpp <52:27 52:38>]
+REFERENCE_USAGE void b2Timer::Reset() -> float64 b2Timer::m_start [b2Timer.cpp <53:2 53:8>]
+REFERENCE_TYPE_USAGE void b2Timer::Reset() -> float64 [b2Timer.cpp <53:12 53:18>]
+REFERENCE_USAGE void b2Timer::Reset() -> LONGLONG _LARGE_INTEGER::QuadPart [b2Timer.cpp <53:33 53:40>]
+LOCAL_SYMBOL: b2Timer.cpp<51:16> [b2Timer.cpp <53:20 53:31>]
+SYMBOL_METHOD public float32 b2Timer::GetMilliseconds() const [b2Timer.cpp <56:1 <56:18 56:32> 63:1>]
+SYMBOL_CLASS b2Timer
+REFERENCE_TYPE_USAGE float32 b2Timer::GetMilliseconds() const -> float32 [b2Timer.cpp <56:1 56:7>]
+LOCAL_SYMBOL: b2Timer.cpp<58:16> [b2Timer.cpp <58:16 58:27>]
+REFERENCE_TYPE_USAGE float32 b2Timer::GetMilliseconds() const -> LARGE_INTEGER [b2Timer.cpp <58:2 58:14>]
+SYMBOL_FUNCTION void _LARGE_INTEGER::_LARGE_INTEGER()
+REFERENCE_CALL float32 b2Timer::GetMilliseconds() const -> void _LARGE_INTEGER::_LARGE_INTEGER() [b2Timer.cpp <58:16 58:27>]
+SYMBOL_FUNCTION BOOL QueryPerformanceCounter(LARGE_INTEGER *)
+REFERENCE_CALL float32 b2Timer::GetMilliseconds() const -> BOOL QueryPerformanceCounter(LARGE_INTEGER *) [b2Timer.cpp <59:2 59:24>]
+LOCAL_SYMBOL: b2Timer.cpp<58:16> [b2Timer.cpp <59:27 59:38>]
+LOCAL_SYMBOL: b2Timer.cpp<60:10> [b2Timer.cpp <60:10 60:14>]
+REFERENCE_TYPE_USAGE float32 b2Timer::GetMilliseconds() const -> float64 [b2Timer.cpp <60:2 60:8>]
+REFERENCE_TYPE_USAGE float32 b2Timer::GetMilliseconds() const -> float64 [b2Timer.cpp <60:18 60:24>]
+REFERENCE_USAGE float32 b2Timer::GetMilliseconds() const -> LONGLONG _LARGE_INTEGER::QuadPart [b2Timer.cpp <60:39 60:46>]
+LOCAL_SYMBOL: b2Timer.cpp<58:16> [b2Timer.cpp <60:26 60:37>]
+LOCAL_SYMBOL: b2Timer.cpp<61:10> [b2Timer.cpp <61:10 61:11>]
+REFERENCE_TYPE_USAGE float32 b2Timer::GetMilliseconds() const -> float32 [b2Timer.cpp <61:2 61:8>]
+REFERENCE_TYPE_USAGE float32 b2Timer::GetMilliseconds() const -> float32 [b2Timer.cpp <61:15 61:21>]
+REFERENCE_USAGE float32 b2Timer::GetMilliseconds() const -> static float64 b2Timer::s_invFrequency [b2Timer.cpp <61:23 61:36>]
+LOCAL_SYMBOL: b2Timer.cpp<60:10> [b2Timer.cpp <61:41 61:45>]
+REFERENCE_USAGE float32 b2Timer::GetMilliseconds() const -> float64 b2Timer::m_start [b2Timer.cpp <61:49 61:55>]
+LOCAL_SYMBOL: b2Timer.cpp<61:10> [b2Timer.cpp <62:9 62:10>]

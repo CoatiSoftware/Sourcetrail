@@ -142,14 +142,35 @@ void CxxAstVisitorComponentIndexer::visitTagDecl(clang::TagDecl* d)
 			definitionKind = utility::isImplicit(d) ? DEFINITION_IMPLICIT : DEFINITION_EXPLICIT;
 		}
 
+		const SymbolKind symbolKind = utility::convertTagKind(d->getTagKind());
 		m_client->recordSymbol(
 			getAstVisitor()->getDeclNameCache()->getValue(d),
-			utility::convertTagKind(d->getTagKind()),
+			symbolKind,
 			getParseLocation(d->getLocation()),
 			getParseLocationOfTagDeclBody(d),
 			utility::convertAccessSpecifier(d->getAccess()),
 			definitionKind
 		);
+		
+		if (clang::EnumDecl* enumDecl = clang::dyn_cast_or_null<clang::EnumDecl>(d))
+		{
+			recordTemplateMemberSpecialization(
+				enumDecl->getMemberSpecializationInfo(),
+				getAstVisitor()->getDeclNameCache()->getValue(d),
+				getParseLocation(d->getLocation()),
+				symbolKind
+			);
+		}
+		if(clang::CXXRecordDecl* recordDecl = clang::dyn_cast_or_null<clang::CXXRecordDecl>(d))
+		{
+			recordTemplateMemberSpecialization(
+				recordDecl->getMemberSpecializationInfo(),
+				getAstVisitor()->getDeclNameCache()->getValue(d),
+				getParseLocation(d->getLocation()),
+				symbolKind
+			);
+		}
+
 	}
 }
 
@@ -205,6 +226,13 @@ void CxxAstVisitorComponentIndexer::visitVarDecl(clang::VarDecl* d)
 				utility::convertAccessSpecifier(d->getAccess()),
 				utility::isImplicit(d) ? DEFINITION_IMPLICIT : DEFINITION_EXPLICIT
 			);
+
+			recordTemplateMemberSpecialization(
+				d->getMemberSpecializationInfo(), 
+				getAstVisitor()->getDeclNameCache()->getValue(d),
+				getParseLocation(d->getLocation()),
+				symbolKind
+			);
 		}
 	}
 }
@@ -220,6 +248,30 @@ void CxxAstVisitorComponentIndexer::visitFieldDecl(clang::FieldDecl* d)
 			utility::convertAccessSpecifier(d->getAccess()),
 			utility::isImplicit(d) ? DEFINITION_IMPLICIT : DEFINITION_EXPLICIT
 		);
+
+		if (clang::CXXRecordDecl* declaringRecordDecl = clang::dyn_cast_or_null<clang::CXXRecordDecl>(d->getParent()))
+		{
+			if (clang::CXXRecordDecl* declaringRecordTemplateDecl = declaringRecordDecl->getTemplateInstantiationPattern())
+			{
+				for (clang::FieldDecl* templateFieldDecl : declaringRecordTemplateDecl->fields())
+				{
+					if (d->getName() == templateFieldDecl->getName())
+					{
+						const NameHierarchy referencedName = getAstVisitor()->getDeclNameCache()->getValue(templateFieldDecl);
+
+						m_client->recordSymbol(referencedName, SYMBOL_FIELD, ACCESS_NONE, DEFINITION_NONE);
+
+						m_client->recordReference(
+							REFERENCE_TEMPLATE_MEMBER_SPECIALIZATION,
+							referencedName,
+							getAstVisitor()->getDeclNameCache()->getValue(d),
+							getParseLocation(d->getLocation())
+						);
+						break;
+					}
+				}
+			}
+		}
 	}
 }
 
@@ -272,24 +324,12 @@ void CxxAstVisitorComponentIndexer::visitCXXMethodDecl(clang::CXXMethodDecl* d)
 			);
 		}
 
-		clang::MemberSpecializationInfo* memberSpecializationInfo = d->getMemberSpecializationInfo();
-		if (memberSpecializationInfo)
-		{
-			clang::NamedDecl* specializedNamedDecl = memberSpecializationInfo->getInstantiatedFrom();
-			if (clang::isa<clang::FunctionDecl>(specializedNamedDecl))
-			{
-				const NameHierarchy referencedName = getAstVisitor()->getDeclNameCache()->getValue(specializedNamedDecl);
-
-				m_client->recordSymbol(referencedName, SYMBOL_FUNCTION, ACCESS_NONE, DEFINITION_NONE);
-
-				m_client->recordReference(
-					REFERENCE_TEMPLATE_MEMBER_SPECIALIZATION,
-					referencedName,
-					getAstVisitor()->getDeclNameCache()->getValue(d),
-					getParseLocation(d->getLocation())
-				);
-			}
-		}
+		recordTemplateMemberSpecialization(
+			d->getMemberSpecializationInfo(),
+			getAstVisitor()->getDeclNameCache()->getValue(d),
+			getParseLocation(d->getLocation()),
+			SYMBOL_FUNCTION
+		);
 	}
 }
 
@@ -640,6 +680,25 @@ void CxxAstVisitorComponentIndexer::visitConstructorInitializer(clang::CXXCtorIn
 				getParseLocation(init->getMemberLocation())
 			);
 		}
+	}
+}
+
+void CxxAstVisitorComponentIndexer::recordTemplateMemberSpecialization(
+	const clang::MemberSpecializationInfo* memberSpecializationInfo, const NameHierarchy& context, const ParseLocation& location, SymbolKind symbolKind)
+{
+	if (memberSpecializationInfo != nullptr)
+	{
+		clang::NamedDecl* specializedNamedDecl = memberSpecializationInfo->getInstantiatedFrom();
+		const NameHierarchy referencedName = getAstVisitor()->getDeclNameCache()->getValue(specializedNamedDecl);
+
+		m_client->recordSymbol(referencedName, symbolKind, ACCESS_NONE, DEFINITION_NONE);
+
+		m_client->recordReference(
+			REFERENCE_TEMPLATE_MEMBER_SPECIALIZATION,
+			referencedName,
+			context,
+			location
+		);
 	}
 }
 

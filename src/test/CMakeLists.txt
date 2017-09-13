@@ -8,8 +8,9 @@ add_files(
 	TestSuiteFixture.cpp
 	TestSuiteFixture.h
 
-	ConfigManagerTestSuite.h
 	CommandlineTestSuite.h
+	ConfigManagerTestSuite.h
+	CxxIndexSampleProjectsTestSuite.h
 	CxxParserTestSuite.h
 	CxxTypeNameTestSuite.h
 	FileManagerTestSuite.h
