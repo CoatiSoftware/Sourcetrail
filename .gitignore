@@ -12,6 +12,7 @@
 /bin/test/data/log/
 /bin/test/data/temp.xml
 /bin/test/data/TestSettings.xml
+/bin/test/data/CommandlineTestSuite/settings.xml
 
 /java_indexer/target/
 

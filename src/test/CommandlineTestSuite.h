@@ -9,15 +9,16 @@
 
 class CommandlineTestSuite: public CxxTest::TestSuite
 {
-
 public:
+	void setUp()
+	{
+		m_appSettingsPath = ApplicationSettings::getInstance()->getFilePath();
+		ApplicationSettings::getInstance()->load(FilePath("data/CommandlineTestSuite/settings.xml"));
+	}
 
 	void tearDown()
 	{
-	}
-
-	void setUp()
-	{
+		ApplicationSettings::getInstance()->load(m_appSettingsPath);
 	}
 
 	void test_commandline_version()
@@ -139,5 +140,5 @@ public:
 	}
 
 private:
-
+	FilePath m_appSettingsPath;
 };

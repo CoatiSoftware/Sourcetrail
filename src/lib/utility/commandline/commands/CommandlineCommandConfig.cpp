@@ -248,7 +248,7 @@ ReturnStatus CommandConfig::parse(std::vector<std::string>& args)
 		}
 	}
 
-	settings->save(UserPaths::getAppSettingsPath());
+	settings->save();
 
 	return ReturnStatus::CMD_QUIT;
 }
