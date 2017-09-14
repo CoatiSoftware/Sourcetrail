@@ -1167,10 +1167,22 @@ std::vector<Id> PersistentStorage::getNodeIdsForLocationIds(const std::vector<Id
 		StorageEdge edge = m_sqliteIndexStorage.getFirstById<StorageEdge>(elementId);
 		if (edge.id != 0)
 		{
+			auto it = m_symbolDefinitionKinds.find(edge.targetNodeId);
+			if (it != m_symbolDefinitionKinds.end() && it->second == DEFINITION_IMPLICIT)
+			{
+				continue;
+			}
+
 			edgeIds.insert(edge.targetNodeId);
 		}
 		else if (m_sqliteIndexStorage.isNode(elementId))
 		{
+			auto it = m_symbolDefinitionKinds.find(elementId);
+			if (it != m_symbolDefinitionKinds.end() && it->second == DEFINITION_IMPLICIT)
+			{
+				continue;
+			}
+
 			nodeIds.insert(elementId);
 		}
 	}
@@ -1833,6 +1845,12 @@ TooltipInfo PersistentStorage::getTooltipInfoForSourceLocationIdsAndLocalSymbolI
 
 		for (const StorageNode& node : m_sqliteIndexStorage.getAllByIds<StorageNode>(tokenIds))
 		{
+			auto it = m_symbolDefinitionKinds.find(node.id);
+			if (it != m_symbolDefinitionKinds.end() && it->second == DEFINITION_IMPLICIT)
+			{
+				continue;
+			}
+
 			TooltipSnippet snippet;
 
 			NameHierarchy nameHierarchy = NameHierarchy::deserialize(node.serializedName);
