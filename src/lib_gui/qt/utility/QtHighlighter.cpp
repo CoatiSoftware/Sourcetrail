@@ -120,16 +120,16 @@ QtHighlighter::QtHighlighter(QTextDocument *document, LanguageType language)
 		createHighlightingRules();
 	}
 
-	m_highlightingRules = s_highlightingRules;
-
 	if (m_language == LANGUAGE_JAVA)
 	{
-		m_highlightingRules.append(s_highlightingRulesJava);
+		m_highlightingRules = s_highlightingRulesJava;
 	}
 	else
 	{
-		m_highlightingRules.append(s_highlightingRulesCpp);
+		m_highlightingRules = s_highlightingRulesCpp;
 	}
+
+	m_highlightingRules.append(s_highlightingRules);
 }
 
 void QtHighlighter::highlightDocument()
@@ -360,14 +360,14 @@ void QtHighlighter::formatBlock(
 	{
 		int length = expression.matchedLength();
 
-		if (!isInRange(pos + index, *ranges) && !isInRange(pos + index + length, *ranges))
+		if (!isInRange(pos + index, *ranges))
 		{
 			applyFormat(pos + index, pos + index + length, rule.format);
 		}
 
 		if (saveRange)
 		{
-			newRanges.push_back(std::pair<int, int>(pos + index, pos + index + length));
+			newRanges.push_back(std::pair<int, int>(pos + index, pos + index + length - 1));
 		}
 
 		index = expression.indexIn(block.text(), index + length);
