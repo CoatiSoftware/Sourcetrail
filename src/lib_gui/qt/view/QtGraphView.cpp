@@ -408,7 +408,8 @@ MessageActivateTrail QtGraphView::getMessageActivateTrail(bool forward)
 
 			case Node::NODE_FUNCTION:
 			case Node::NODE_METHOD:
-				trailType = Edge::EDGE_CALL | Edge::EDGE_OVERRIDE;
+				trailType = Edge::EDGE_CALL | Edge::EDGE_OVERRIDE |
+					Edge::EDGE_TEMPLATE_SPECIALIZATION | Edge::EDGE_TEMPLATE_MEMBER_SPECIALIZATION;
 				horizontalLayout = true;
 				break;
 
