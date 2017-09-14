@@ -63,6 +63,15 @@ size_t HierarchyCache::HierarchyNode::getNonImplicitChildrenCount() const
 	return count;
 }
 
+void HierarchyCache::HierarchyNode::addChildIds(std::vector<Id>* nodeIds, std::vector<Id>* edgeIds) const
+{
+	for (const HierarchyNode* child : m_children)
+	{
+		nodeIds->push_back(child->getNodeId());
+		edgeIds->push_back(child->getEdgeId());
+	}
+}
+
 void HierarchyCache::HierarchyNode::addNonImplicitChildIds(std::vector<Id>* nodeIds, std::vector<Id>* edgeIds) const
 {
 	for (const HierarchyNode* child : m_children)
@@ -136,7 +145,8 @@ void HierarchyCache::clear()
 	m_nodes.clear();
 }
 
-void HierarchyCache::createConnection(Id edgeId, Id fromId, Id toId, bool sourceVisible, bool targetImplicit)
+void HierarchyCache::createConnection(
+	Id edgeId, Id fromId, Id toId, bool sourceVisible, bool sourceImplicit, bool targetImplicit)
 {
 	HierarchyNode* from = createNode(fromId);
 	HierarchyNode* to = createNode(toId);
@@ -145,6 +155,7 @@ void HierarchyCache::createConnection(Id edgeId, Id fromId, Id toId, bool source
 	to->setParent(from);
 
 	from->setIsVisible(sourceVisible);
+	from->setIsImplicit(sourceImplicit);
 
 	to->setEdgeId(edgeId);
 	to->setIsImplicit(targetImplicit);
@@ -227,21 +238,35 @@ void HierarchyCache::addAllChildIdsForNodeId(Id nodeId, std::set<Id>* nodeIds, s
 	}
 }
 
-void HierarchyCache::addFirstNonImplicitChildIdsForNodeId(Id nodeId, std::vector<Id>* nodeIds, std::vector<Id>* edgeIds) const
+void HierarchyCache::addFirstChildIdsForNodeId(Id nodeId, std::vector<Id>* nodeIds, std::vector<Id>* edgeIds) const
 {
 	HierarchyNode* node = getNode(nodeId);
 	if (node)
 	{
-		node->addNonImplicitChildIds(nodeIds, edgeIds);
+		if (node->isImplicit())
+		{
+			node->addChildIds(nodeIds, edgeIds);
+		}
+		else
+		{
+			node->addNonImplicitChildIds(nodeIds, edgeIds);
+		}
 	}
 }
 
-size_t HierarchyCache::getFirstNonImplicitChildIdsCountForNodeId(Id nodeId) const
+size_t HierarchyCache::getFirstChildIdsCountForNodeId(Id nodeId) const
 {
 	HierarchyNode* node = getNode(nodeId);
 	if (node)
 	{
-		return node->getNonImplicitChildrenCount();
+		if (node->isImplicit())
+		{
+			return node->getChildrenCount();
+		}
+		else
+		{
+			return node->getNonImplicitChildrenCount();
+		}
 	}
 	return 0;
 }

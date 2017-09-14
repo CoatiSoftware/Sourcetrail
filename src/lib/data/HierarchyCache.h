@@ -13,7 +13,7 @@ class HierarchyCache
 public:
 	void clear();
 
-	void createConnection(Id edgeId, Id fromId, Id toId, bool sourceVisible, bool targetImplicit);
+	void createConnection(Id edgeId, Id fromId, Id toId, bool sourceVisible, bool sourceImplicit, bool targetImplicit);
 	void createInheritance(Id edgeId, Id fromId, Id toId);
 
 	Id getLastVisibleParentNodeId(Id nodeId) const;
@@ -22,9 +22,9 @@ public:
 	void addAllVisibleParentIdsForNodeId(Id nodeId, std::set<Id>* nodeIds, std::set<Id>* edgeIds) const;
 
 	void addAllChildIdsForNodeId(Id nodeId, std::set<Id>* nodeIds, std::set<Id>* edgeIds) const;
-	void addFirstNonImplicitChildIdsForNodeId(Id nodeId, std::vector<Id>* nodeIds, std::vector<Id>* edgeIds) const;
+	void addFirstChildIdsForNodeId(Id nodeId, std::vector<Id>* nodeIds, std::vector<Id>* edgeIds) const;
 
-	size_t getFirstNonImplicitChildIdsCountForNodeId(Id nodeId) const;
+	size_t getFirstChildIdsCountForNodeId(Id nodeId) const;
 
 	bool isChildOfVisibleNodeOrInvisible(Id nodeId) const;
 
@@ -55,6 +55,7 @@ private:
 		size_t getChildrenCount() const;
 		size_t getNonImplicitChildrenCount() const;
 
+		void addChildIds(std::vector<Id>* nodeIds, std::vector<Id>* edgeIds) const;
 		void addNonImplicitChildIds(std::vector<Id>* nodeIds, std::vector<Id>* edgeIds) const;
 		void addChildIdsRecursive(std::set<Id>* nodeIds, std::set<Id>* edgeIds) const;
 

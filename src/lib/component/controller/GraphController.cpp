@@ -1473,7 +1473,7 @@ void GraphController::addExpandToggleNode(DummyNode* node) const
 
 		for (const std::shared_ptr<DummyNode>& subSubNode : subNode->subNodes)
 		{
-			if (subSubNode->visible && (!subSubNode->isGraphNode() || !subSubNode->data->isImplicit()))
+			if (subSubNode->visible && (!subSubNode->isGraphNode() || !subSubNode->data->isImplicit() || node->data->isImplicit()))
 			{
 				visibleSubNodeCount++;
 			}

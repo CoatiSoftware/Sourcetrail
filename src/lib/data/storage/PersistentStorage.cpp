@@ -918,7 +918,7 @@ std::shared_ptr<Graph> PersistentStorage::getGraphForActiveTokenIds(
 			if (nodeType & (Node::NODE_NAMESPACE | Node::NODE_PACKAGE))
 			{
 				ids.clear();
-				m_hierarchyCache.addFirstNonImplicitChildIdsForNodeId(elementId, &ids, &edgeIds);
+				m_hierarchyCache.addFirstChildIdsForNodeId(elementId, &ids, &edgeIds);
 				edgeIds.clear();
 
 				isNamespace = true;
@@ -926,7 +926,7 @@ std::shared_ptr<Graph> PersistentStorage::getGraphForActiveTokenIds(
 			else
 			{
 				nodeIds.push_back(elementId);
-				m_hierarchyCache.addFirstNonImplicitChildIdsForNodeId(elementId, &nodeIds, &edgeIds);
+				m_hierarchyCache.addFirstChildIdsForNodeId(elementId, &nodeIds, &edgeIds);
 				edgeIds.clear();
 
 				std::vector<StorageEdge> edges = m_sqliteIndexStorage.getEdgesBySourceOrTargetId(elementId);
@@ -1019,7 +1019,7 @@ std::shared_ptr<Graph> PersistentStorage::getGraphForActiveTokenIds(
 		{
 			if (graph->getNodeById(nodeId))
 			{
-				m_hierarchyCache.addFirstNonImplicitChildIdsForNodeId(nodeId, &expandedChildIds, &expandedChildEdgeIds);
+				m_hierarchyCache.addFirstChildIdsForNodeId(nodeId, &expandedChildIds, &expandedChildEdgeIds);
 			}
 		}
 
@@ -1050,7 +1050,7 @@ std::shared_ptr<Graph> PersistentStorage::getGraphForChildrenOfNodeId(Id nodeId)
 	std::vector<Id> edgeIds;
 
 	nodeIds.push_back(nodeId);
-	m_hierarchyCache.addFirstNonImplicitChildIdsForNodeId(nodeId, &nodeIds, &edgeIds);
+	m_hierarchyCache.addFirstChildIdsForNodeId(nodeId, &nodeIds, &edgeIds);
 
 	std::shared_ptr<Graph> graph = std::make_shared<Graph>();
 	addNodesToGraph(nodeIds, graph.get(), true);
@@ -2171,7 +2171,7 @@ void PersistentStorage::addNodesToGraph(const std::vector<Id>& newNodeIds, Graph
 
 			if (addChildCount)
 			{
-				node->setChildCount(m_hierarchyCache.getFirstNonImplicitChildIdsCountForNodeId(storageNode.id));
+				node->setChildCount(m_hierarchyCache.getFirstChildIdsCountForNodeId(storageNode.id));
 			}
 		}
 	}
@@ -2637,15 +2637,22 @@ void PersistentStorage::buildHierarchyCache()
 	{
 		bool sourceIsVisible = !(sourceNodeTypeMap[edge.sourceNodeId] & Node::NODE_NOT_VISIBLE);
 
+		bool sourceIsImplicit = false;
+		auto it = m_symbolDefinitionKinds.find(edge.sourceNodeId);
+		if (it != m_symbolDefinitionKinds.end())
+		{
+			sourceIsImplicit = (it->second == DEFINITION_IMPLICIT);
+		}
+
 		bool targetIsImplicit = false;
-		auto it = m_symbolDefinitionKinds.find(edge.targetNodeId);
+		it = m_symbolDefinitionKinds.find(edge.targetNodeId);
 		if (it != m_symbolDefinitionKinds.end())
 		{
 			targetIsImplicit = (it->second == DEFINITION_IMPLICIT);
 		}
 
 		m_hierarchyCache.createConnection(
-			edge.id, edge.sourceNodeId, edge.targetNodeId, sourceIsVisible, targetIsImplicit);
+			edge.id, edge.sourceNodeId, edge.targetNodeId, sourceIsVisible, sourceIsImplicit, targetIsImplicit);
 	}
 
 	std::vector<StorageEdge> inheritanceEdges = m_sqliteIndexStorage.getEdgesByType(Edge::typeToInt(Edge::EDGE_INHERITANCE));
