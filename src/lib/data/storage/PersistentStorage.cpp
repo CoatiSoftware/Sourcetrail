@@ -1159,6 +1159,8 @@ std::vector<Id> PersistentStorage::getNodeIdsForLocationIds(const std::vector<Id
 
 	std::set<Id> edgeIds;
 	std::set<Id> nodeIds;
+	std::set<Id> implicitEdgeIds;
+	std::set<Id> implicitNodeIds;
 
 	for (const StorageOccurrence& occurrence: m_sqliteIndexStorage.getOccurrencesForLocationIds(locationIds))
 	{
@@ -1170,20 +1172,24 @@ std::vector<Id> PersistentStorage::getNodeIdsForLocationIds(const std::vector<Id
 			auto it = m_symbolDefinitionKinds.find(edge.targetNodeId);
 			if (it != m_symbolDefinitionKinds.end() && it->second == DEFINITION_IMPLICIT)
 			{
-				continue;
+				implicitEdgeIds.insert(edge.targetNodeId);
 			}
-
-			edgeIds.insert(edge.targetNodeId);
+			else
+			{
+				edgeIds.insert(edge.targetNodeId);
+			}
 		}
 		else if (m_sqliteIndexStorage.isNode(elementId))
 		{
 			auto it = m_symbolDefinitionKinds.find(elementId);
 			if (it != m_symbolDefinitionKinds.end() && it->second == DEFINITION_IMPLICIT)
 			{
-				continue;
+				implicitNodeIds.insert(elementId);
 			}
-
-			nodeIds.insert(elementId);
+			else
+			{
+				nodeIds.insert(elementId);
+			}
 		}
 	}
 
@@ -1191,8 +1197,18 @@ std::vector<Id> PersistentStorage::getNodeIdsForLocationIds(const std::vector<Id
 	{
 		return utility::toVector(nodeIds);
 	}
-
-	return utility::toVector(edgeIds);
+	else if (implicitNodeIds.size())
+	{
+		return utility::toVector(implicitNodeIds);
+	}
+	else if (edgeIds.size())
+	{
+		return utility::toVector(edgeIds);
+	}
+	else
+	{
+		return utility::toVector(implicitEdgeIds);
+	}
 }
 
 std::shared_ptr<SourceLocationCollection> PersistentStorage::getSourceLocationsForTokenIds(
@@ -1845,12 +1861,6 @@ TooltipInfo PersistentStorage::getTooltipInfoForSourceLocationIdsAndLocalSymbolI
 
 		for (const StorageNode& node : m_sqliteIndexStorage.getAllByIds<StorageNode>(tokenIds))
 		{
-			auto it = m_symbolDefinitionKinds.find(node.id);
-			if (it != m_symbolDefinitionKinds.end() && it->second == DEFINITION_IMPLICIT)
-			{
-				continue;
-			}
-
 			TooltipSnippet snippet;
 
 			NameHierarchy nameHierarchy = NameHierarchy::deserialize(node.serializedName);
