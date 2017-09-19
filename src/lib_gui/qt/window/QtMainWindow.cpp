@@ -360,6 +360,11 @@ void QtMainWindow::keyPressEvent(QKeyEvent* event)
 			emit hideScreenSearch();
 			break;
 
+		case Qt::Key_Slash:
+		case Qt::Key_Question:
+			emit showScreenSearch();
+			break;
+
 		case Qt::Key_Space:
 			PRINT_TRACES();
 			break;
@@ -536,7 +541,8 @@ void QtMainWindow::newProjectFromCDB(const std::string& filePath, const std::vec
 
 void QtMainWindow::openProject()
 {
-	QString fileName = QtFileDialog::getOpenFileName(this, tr("Open File"), QDir::homePath(), "Sourcetrail Project Files (*.srctrlprj *.coatiproject)");
+	QString fileName = QtFileDialog::getOpenFileName(
+		this, tr("Open File"), QDir::homePath(), "Sourcetrail Project Files (*.srctrlprj *.coatiproject)");
 
 	if (!fileName.isEmpty())
 	{
@@ -635,7 +641,8 @@ void QtMainWindow::resetZoom()
 void QtMainWindow::resetWindowLayout()
 {
 	FileSystem::remove(UserPaths::getWindowSettingsPath());
-	FileSystem::copyFile(ResourcePaths::getFallbackPath().concat(FilePath("window_settings.ini")), UserPaths::getWindowSettingsPath());
+	FileSystem::copyFile(
+		ResourcePaths::getFallbackPath().concat(FilePath("window_settings.ini")), UserPaths::getWindowSettingsPath());
 	loadDockWidgetLayout();
 }
 
@@ -725,7 +732,8 @@ void QtMainWindow::setupProjectMenu()
 	QMenu *menu = new QMenu(tr("&Project"), this);
 	menuBar()->addMenu(menu);
 
-	m_trialDisabledActions.push_back(menu->addAction(tr("&New Project..."), this, &QtMainWindow::newProject, QKeySequence::New));
+	m_trialDisabledActions.push_back(
+		menu->addAction(tr("&New Project..."), this, &QtMainWindow::newProject, QKeySequence::New));
 	menu->addAction(tr("&Open Project..."), this, &QtMainWindow::openProject, QKeySequence::Open);
 
 	QMenu *recentProjectMenu = new QMenu(tr("Recent Projects"));
@@ -782,7 +790,8 @@ void QtMainWindow::setupEditMenu()
 	menu->addSeparator();
 
 	menu->addAction(tr("Code Reference Next"), this, &QtMainWindow::codeReferenceNext, QKeySequence(Qt::CTRL + Qt::Key_G));
-	menu->addAction(tr("Code Reference Previous"), this, &QtMainWindow::codeReferencePrevious, QKeySequence(Qt::SHIFT + Qt::CTRL + Qt::Key_G));
+	menu->addAction(tr("Code Reference Previous"), this,
+		&QtMainWindow::codeReferencePrevious, QKeySequence(Qt::SHIFT + Qt::CTRL + Qt::Key_G));
 
 	menu->addSeparator();
 
@@ -866,7 +875,8 @@ void QtMainWindow::setupBookmarksMenu()
 	}
 
 	m_bookmarksMenu->addAction(tr("Bookmark Active Symbol..."), this, &QtMainWindow::showBookmarkCreator, QKeySequence::Save);
-	m_bookmarksMenu->addAction(tr("Bookmark Manager"), this, &QtMainWindow::showBookmarkBrowser, QKeySequence(Qt::CTRL + Qt::Key_B));
+	m_bookmarksMenu->addAction(tr("Bookmark Manager"), this,
+		&QtMainWindow::showBookmarkBrowser, QKeySequence(Qt::CTRL + Qt::Key_B));
 
 	m_bookmarksMenu->addSeparator();
 
