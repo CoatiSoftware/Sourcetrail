@@ -181,7 +181,7 @@
 						<fill>#FFFF0000</fill>
 					</focus>
 				</error>
-				<fulltext>
+				<fulltext_search>
 					<normal>
 						<fill>#C2AFEF</fill>
 						<text>#3D3D3D</text>
@@ -189,7 +189,17 @@
 					<focus>
 						<fill>#987CEA</fill>
 					</focus>
-				</fulltext>
+				</fulltext_search>
+				<screen_search>
+					<normal>
+						<border>transparent</border>
+						<fill>#D2FA6E</fill>
+						<text>#262626</text>
+					</normal>
+					<focus>
+						<fill>#FA6EF3</fill>
+					</focus>
+				</screen_search>
 			</annotation>
 		</snippet>
 	</code>
@@ -436,6 +446,14 @@
 			</aggregation>
 		</edge>
 	</graph>
+
+	<tab>
+		<background>#494949</background>
+		<active>#D4D4D4</active>
+		<hover>#878787</hover>
+		<text>#878787</text>
+	</tab>
+
 	<table>
 		<background>#494949</background>
 		<table>#D4D4D4</table>
@@ -452,10 +470,22 @@
 			<active>#7B7B7B</active>
 		</table_line_2>
 	</table>
-	<tab>
-		<background>#494949</background>
-		<active>#D4D4D4</active>
-		<hover>#878787</hover>
-		<text>#878787</text>
-	</tab>
+
+	<screen_search>
+		<background>#808080</background>
+		<box>
+			<background>#494949</background>
+			<text>#D4D4D4</text>
+			<match_label>#A0A0A0</match_label>
+		</box>
+		<filter>white</filter>
+		<button>
+			<normal>#494949</normal>
+			<hover>#606060</hover>
+			<press>#707070</press>
+			<disabled>#494949</disabled>
+			<icon>white</icon>
+			<icon_disabled>#666666</icon_disabled>
+		</button>
+	</screen_search>
 </config>

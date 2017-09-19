@@ -10,6 +10,7 @@ add_files(
 	component/controller/helper/ListLayouter.h
 	component/controller/helper/NetworkProtocolHelper.cpp
 	component/controller/helper/NetworkProtocolHelper.h
+	component/controller/helper/ScreenSearchInterfaces.h
 	component/controller/helper/SnippetMerger.cpp
 	component/controller/helper/SnippetMerger.h
 	component/controller/helper/TrailLayouter.cpp
@@ -32,6 +33,8 @@ add_files(
 	component/controller/LogController.h
 	component/controller/RefreshController.cpp
 	component/controller/RefreshController.h
+	component/controller/ScreenSearchController.cpp
+	component/controller/ScreenSearchController.h
 	component/controller/SearchController.cpp
 	component/controller/SearchController.h
 	component/controller/StatusBarController.cpp
@@ -66,6 +69,8 @@ add_files(
 	component/view/MainView.h
 	component/view/RefreshView.cpp
 	component/view/RefreshView.h
+	component/view/ScreenSearchView.cpp
+	component/view/ScreenSearchView.h
 	component/view/SearchView.cpp
 	component/view/SearchView.h
 	component/view/StatusBarView.cpp

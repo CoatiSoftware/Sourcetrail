@@ -26,6 +26,7 @@ public:
 	std::shared_ptr<Component> createGraphComponent(ViewLayout* viewLayout);
 	std::shared_ptr<Component> createLogComponent(ViewLayout* viewLayout);
 	std::shared_ptr<Component> createRefreshComponent(ViewLayout* viewLayout);
+	std::shared_ptr<Component> createScreenSearchComponent(ViewLayout* viewLayout);
 	std::shared_ptr<Component> createSearchComponent(ViewLayout* viewLayout);
 	std::shared_ptr<Component> createStatusBarComponent(ViewLayout* viewLayout);
 	std::shared_ptr<Component> createStatusComponent(ViewLayout* viewLayout);

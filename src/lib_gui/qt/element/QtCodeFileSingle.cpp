@@ -225,6 +225,14 @@ void QtCodeFileSingle::onWindowFocus()
 	m_title->updateTexts();
 }
 
+void QtCodeFileSingle::findScreenMatches(const std::string& query, std::vector<std::pair<QtCodeArea*, Id>>* screenMatches)
+{
+	if (m_area)
+	{
+		m_area->findScreenMatches(query, screenMatches);
+	}
+}
+
 const FilePath& QtCodeFileSingle::getCurrentFilePath() const
 {
 	return m_currentFilePath;

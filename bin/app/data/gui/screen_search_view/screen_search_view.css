@@ -1,0 +1,82 @@
+#screen_search_bar {
+	border: none;
+}
+
+#screen_search_box {
+	padding-left: 10;
+	border-top: 1px solid #BEBEBE;
+	background: <color:screen_search/background>;
+}
+
+#search_box {
+	background: <color:screen_search/box/background>;
+	border: none;
+	color: <color:screen_search/box/text>;
+	font-family: <setting:font_name>;
+	font-size: <setting:font_size>px;
+	margin: 4px 0;
+	max-width: <setting:font_size*20>px;
+	min-height: 20px;
+	padding: 1px 0px 1px 0px;
+}
+
+#match_label {
+	border: none;
+	background: <color:screen_search/box/background>;
+	color: <color:screen_search/box/match_label>;
+	font-size: <setting:font_size-2>px;
+	margin: 4px 0;
+	padding-right: 4px;
+	text-align: right;
+	min-width: <setting:font_size*7>px;
+	min-height: 20px;
+	max-height: 40px;
+}
+
+#search_button, #prev_button, #next_button, #close_button {
+	background: <color:screen_search/button/normal>;
+	width: 20px;
+	min-height: 20px;
+	max-height: 40px;
+	border-radius: 0;
+	margin: 4px 0;
+}
+
+#search_button {
+	border-bottom-left-radius: 10px;
+	border-top-left-radius: 10px;
+	padding-left: 2px;
+}
+
+#prev_button {
+	margin: 4px 1px;
+}
+
+#next_button {
+	border-bottom-right-radius: 10px;
+	border-top-right-radius: 10px;
+}
+
+#prev_button:disabled, #next_button:disabled {
+	background: <color:screen_search/button/disabled>;
+}
+
+#prev_button:hover, #next_button:hover {
+	background: <color:screen_search/button/hover>;
+}
+
+#prev_button:pressed, #next_button:pressed {
+	background: <color:screen_search/button/press>;
+}
+
+#close_button {
+	background: transparent;
+	margin: 4px 6px;
+	padding-top: 1px;
+}
+
+#filter_checkbox {
+	color: <color:screen_search/filter>;
+	margin-left: 20px;
+	font-size: <setting:font_size-1>px;
+}

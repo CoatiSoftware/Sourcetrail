@@ -5,6 +5,7 @@
 
 #include "data/ErrorInfo.h"
 
+#include "component/controller/helper/ScreenSearchInterfaces.h"
 #include "component/view/helper/CodeSnippetParams.h"
 #include "component/view/View.h"
 
@@ -14,6 +15,7 @@ class SourceLocationCollection;
 
 class CodeView
 	: public View
+	, public ScreenSearchResponder
 {
 public:
 	static const char* VIEW_NAME;

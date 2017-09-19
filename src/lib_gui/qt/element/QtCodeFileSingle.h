@@ -43,6 +43,8 @@ public:
 
 	virtual void onWindowFocus() override;
 
+	virtual void findScreenMatches(const std::string& query, std::vector<std::pair<QtCodeArea*, Id>>* screenMatches) override;
+
 	const FilePath& getCurrentFilePath() const;
 	bool hasFileCached(const FilePath& filePath) const;
 

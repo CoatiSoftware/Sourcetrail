@@ -10,6 +10,7 @@
 class FilePath;
 class QRectF;
 class QAbstractScrollArea;
+class QtCodeArea;
 class QWidget;
 
 class QtCodeNavigateable
@@ -28,6 +29,8 @@ public:
 	virtual void showContents() = 0;
 
 	virtual void onWindowFocus() = 0;
+
+	virtual void findScreenMatches(const std::string& query, std::vector<std::pair<QtCodeArea*, Id>>* screenMatches) = 0;
 
 protected:
 	void ensureWidgetVisibleAnimated(QWidget* parentWidget, QWidget *childWidget, QRectF rect, bool animated, bool onTop);

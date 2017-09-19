@@ -143,13 +143,12 @@ QtCodeSnippet* QtCodeFile::addCodeSnippet(const CodeSnippetParams& params)
 		}
 	}
 
-
+	m_isCollapsed = false;
 	std::shared_ptr<QtCodeSnippet> snippet(new QtCodeSnippet(params, m_navigator, this));
 
 	if (params.reduced)
 	{
 		m_title->setProject(params.title);
-		m_isCollapsed = false;
 	}
 
 	m_snippetLayout->addWidget(snippet.get());
@@ -171,10 +170,6 @@ QtCodeSnippet* QtCodeFile::addCodeSnippet(const CodeSnippetParams& params)
 		}
 
 		return m_fileSnippet.get();
-	}
-	else
-	{
-		m_isCollapsed = false;
 	}
 
 	m_snippets.push_back(snippet);
@@ -229,6 +224,11 @@ QtCodeSnippet* QtCodeFile::insertCodeSnippet(const CodeSnippetParams& params)
 
 QtCodeSnippet* QtCodeFile::getSnippetForLocationId(Id locationId) const
 {
+	if (m_fileSnippet && m_fileSnippet->isVisible() && m_fileSnippet->getLineNumberForLocationId(locationId))
+	{
+		return m_fileSnippet.get();
+	}
+
 	for (const std::shared_ptr<QtCodeSnippet>& snippet : m_snippets)
 	{
 		if (snippet->getLineNumberForLocationId(locationId))
@@ -436,6 +436,23 @@ void QtCodeFile::updateSnippets()
 void QtCodeFile::updateTitleBar()
 {
 	m_title->updateTexts();
+}
+
+void QtCodeFile::findScreenMatches(const std::string& query, std::vector<std::pair<QtCodeArea*, Id>>* screenMatches)
+{
+	if (m_fileSnippet && m_fileSnippet->isVisible())
+	{
+		m_fileSnippet->findScreenMatches(query, screenMatches);
+		return;
+	}
+
+	for (const std::shared_ptr<QtCodeSnippet>& snippet : m_snippets)
+	{
+		if (snippet->isVisible())
+		{
+			snippet->findScreenMatches(query, screenMatches);
+		}
+	}
 }
 
 void QtCodeFile::clickedMinimizeButton()

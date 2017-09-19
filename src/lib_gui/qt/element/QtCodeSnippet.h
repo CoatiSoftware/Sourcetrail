@@ -51,6 +51,8 @@ public:
 
 	std::string getCode() const;
 
+	void findScreenMatches(const std::string& query, std::vector<std::pair<QtCodeArea*, Id>>* screenMatches);
+
 private slots:
 	void clickedTitle();
 	void clickedFooter();

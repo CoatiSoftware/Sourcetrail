@@ -187,6 +187,11 @@ std::string QtCodeSnippet::getCode() const
 	return m_codeArea->getCode();
 }
 
+void QtCodeSnippet::findScreenMatches(const std::string& query, std::vector<std::pair<QtCodeArea*, Id>>* screenMatches)
+{
+	m_codeArea->findScreenMatches(query, screenMatches);
+}
+
 void QtCodeSnippet::clickedTitle()
 {
 	if (m_titleId > 0)

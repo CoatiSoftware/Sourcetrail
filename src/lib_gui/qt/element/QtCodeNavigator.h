@@ -83,6 +83,11 @@ public:
 
 	void refreshStyle();
 
+	size_t findScreenMatches(const std::string& query);
+	void activateScreenMatch(size_t matchIndex);
+	void deactivateScreenMatch(size_t matchIndex);
+	void clearScreenMatches();
+
 	void scrollToValue(int value, bool inListMode);
 	void scrollToLine(const FilePath& filePath, unsigned int line);
 	void scrollToDefinition(bool animated, bool ignoreActiveReference);
@@ -192,6 +197,9 @@ private:
 
 	ScrollRequest m_scrollRequest;
 	bool m_singleHasNewFile;
+
+	std::vector<std::pair<QtCodeArea*, Id>> m_screenMatches;
+	Id m_activeScreenMatchId = 0;
 };
 
 #endif // QT_CODE_NAVIGATOR_H

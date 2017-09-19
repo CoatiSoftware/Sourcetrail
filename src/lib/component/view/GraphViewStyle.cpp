@@ -22,6 +22,7 @@ float GraphViewStyle::s_zoomFactor;
 
 std::map<std::string, GraphViewStyle::NodeColor> GraphViewStyle::s_nodeColors;
 std::map<std::string, std::string> GraphViewStyle::s_edgeColors;
+std::map<bool, GraphViewStyle::NodeColor> GraphViewStyle::s_screenMatchColors;
 
 Vec2i GraphViewStyle::alignOnRaster(Vec2i position)
 {
@@ -142,6 +143,7 @@ void GraphViewStyle::loadStyleSettings()
 
 	s_nodeColors.clear();
 	s_edgeColors.clear();
+	s_screenMatchColors.clear();
 
 	s_gridCellPadding = getImpl()->getCharHeightForNodeType(Node::NODE_TYPE) - 8;
 	s_gridCellSize = s_gridCellPadding / 2;
@@ -711,6 +713,28 @@ const std::string& GraphViewStyle::getEdgeColor(const std::string& typeStr, bool
 	s_edgeColors.emplace(type, color);
 
 	return s_edgeColors.find(type)->second;
+}
+
+const GraphViewStyle::NodeColor& GraphViewStyle::getScreenMatchColor(bool focus)
+{
+	auto it = s_screenMatchColors.find(focus);
+	if (it != s_screenMatchColors.end())
+	{
+		return it->second;
+	}
+
+	NodeColor color;
+	ColorScheme* scheme = ColorScheme::getInstance().get();
+
+	ColorScheme::ColorState state = focus ? ColorScheme::FOCUS : ColorScheme::NORMAL;
+
+	color.fill = scheme->getCodeAnnotationTypeColor("screen_search", "fill", state);
+	color.border = scheme->getCodeAnnotationTypeColor("screen_search", "border", state);
+	color.text = scheme->getCodeAnnotationTypeColor("screen_search", "text", state);
+
+	s_screenMatchColors.emplace(focus, color);
+
+	return s_screenMatchColors.find(focus)->second;
 }
 
 void GraphViewStyle::addIcon(Node::NodeType type, bool hasChildren, NodeStyle* style)

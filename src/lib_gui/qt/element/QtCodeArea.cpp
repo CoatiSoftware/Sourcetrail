@@ -19,6 +19,7 @@
 #include "utility/messaging/type/MessageMoveIDECursor.h"
 #include "utility/messaging/type/MessageShowErrors.h"
 #include "utility/utility.h"
+#include "utility/utilityString.h"
 
 #include "qt/element/QtCodeNavigator.h"
 #include "qt/utility/QtContextMenu.h"
@@ -160,6 +161,18 @@ void QtCodeArea::lineNumberAreaPaintEvent(QPaintEvent *event)
 			if (annotation.isActive || annotation.isFocused)
 			{
 				focus = true;
+			}
+			break;
+
+		case LOCATION_ERROR:
+		case LOCATION_SCREEN_SEARCH:
+			if (annotation.isFocused || annotation.isActive)
+			{
+				focus = true;
+			}
+			else
+			{
+				active = true;
 			}
 			break;
 
@@ -354,6 +367,65 @@ QRectF QtCodeArea::getLineRectForLineNumber(uint lineNumber) const
 
 	QTextBlock block = document()->findBlockByLineNumber(lineNumber - getStartLineNumber());
 	return blockBoundingGeometry(block);
+}
+
+void QtCodeArea::findScreenMatches(const std::string& query, std::vector<std::pair<QtCodeArea*, Id>>* screenMatches)
+{
+	const std::string& code = utility::toLowerCase(getCode());
+	size_t pos = 0;
+	while (pos != std::string::npos)
+	{
+		pos = code.find(query, pos);
+		if (pos == std::string::npos)
+		{
+			break;
+		}
+
+		Annotation matchAnnotation;
+		matchAnnotation.start = pos;
+		matchAnnotation.end = pos + query.size();
+
+		std::pair<int, int> start = toLineColumn(matchAnnotation.start);
+		matchAnnotation.startLine = start.first;
+		matchAnnotation.startCol = start.second;
+
+		std::pair<int, int> end = toLineColumn(matchAnnotation.end);
+		matchAnnotation.endLine = end.first;
+		matchAnnotation.endCol = end.second;
+
+		// Set first 2 bits to 1 to avoid collisions
+		matchAnnotation.locationId = ~(~Id(0) >> 2) + screenMatches->size() + 1;
+		matchAnnotation.locationType = LOCATION_SCREEN_SEARCH;
+
+		matchAnnotation.isActive = false;
+		matchAnnotation.isFocused = false;
+
+		m_annotations.push_back(matchAnnotation);
+		screenMatches->push_back(std::make_pair(this, matchAnnotation.locationId));
+
+		pos += query.size();
+	}
+
+	if (screenMatches->size() && screenMatches->back().first == this)
+	{
+		viewport()->update();
+	}
+}
+
+void QtCodeArea::clearScreenMatches()
+{
+	size_t i = m_annotations.size();
+	while (i > 0 && m_annotations[i - 1].locationType == LOCATION_SCREEN_SEARCH)
+	{
+		i--;
+		m_linesToRehighlight.push_back(m_annotations[i].startLine - getStartLineNumber());
+	}
+
+	if (i != m_annotations.size())
+	{
+		m_annotations.erase(m_annotations.begin() + i, m_annotations.end());
+		viewport()->update();
+	}
 }
 
 void QtCodeArea::resizeEvent(QResizeEvent *e)

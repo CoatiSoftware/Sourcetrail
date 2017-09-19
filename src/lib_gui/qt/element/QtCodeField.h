@@ -99,6 +99,7 @@ protected:
 
 	std::vector<Annotation> m_annotations;
 	std::vector<const Annotation*> m_hoveredAnnotations;
+	std::vector<int> m_linesToRehighlight;
 
 private:
 	static std::vector<AnnotationColor> s_annotationColors;
@@ -113,7 +114,6 @@ private:
 	QtHighlighter* m_highlighter;
 
 	std::vector<int> m_lineLengths;
-	std::vector<int> m_linesToRehighlight;
 
 	int m_endTextEditPosition;
 };

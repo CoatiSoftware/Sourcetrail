@@ -11,6 +11,7 @@
 #include "qt/view/QtLogView.h"
 #include "qt/view/QtMainView.h"
 #include "qt/view/QtRefreshView.h"
+#include "qt/view/QtScreenSearchView.h"
 #include "qt/view/QtSearchView.h"
 #include "qt/view/QtStatusBarView.h"
 #include "qt/view/QtStatusView.h"
@@ -82,6 +83,11 @@ std::shared_ptr<GraphView> QtViewFactory::createGraphView(ViewLayout* viewLayout
 std::shared_ptr<RefreshView> QtViewFactory::createRefreshView(ViewLayout* viewLayout) const
 {
 	return View::createInitAndAddToLayout<QtRefreshView>(viewLayout);
+}
+
+std::shared_ptr<ScreenSearchView> QtViewFactory::createScreenSearchView(ViewLayout* viewLayout) const
+{
+	return View::createAndInit<QtScreenSearchView>(viewLayout);
 }
 
 std::shared_ptr<SearchView> QtViewFactory::createSearchView(ViewLayout* viewLayout) const

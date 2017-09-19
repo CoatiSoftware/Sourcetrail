@@ -39,6 +39,14 @@ public:
 	virtual void initView();
 	virtual void refreshView();
 
+	// ScreenSearchResponder implementation
+	virtual bool isVisible() const;
+	virtual void findMatches(ScreenSearchSender* sender, const std::string& query);
+	virtual void activateMatch(size_t matchIndex);
+	virtual void deactivateMatch(size_t matchIndex);
+	virtual void clearMatches();
+
+	// GraphView implementation
 	virtual void rebuildGraph(
 		std::shared_ptr<Graph> graph,
 		const std::vector<std::shared_ptr<DummyNode>>& nodes,
@@ -164,6 +172,9 @@ private:
 	QLabel* m_trailDepthLabel;
 
 	std::vector<QRectF> m_virtualNodeRects;
+
+	// Name matches
+	std::vector<QtGraphNode*> m_matchedNodes;
 };
 
 #endif // QT_GRAPH_VIEW_H

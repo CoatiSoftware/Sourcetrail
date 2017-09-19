@@ -199,6 +199,14 @@ void QtCodeFileList::onWindowFocus()
 	}
 }
 
+void QtCodeFileList::findScreenMatches(const std::string& query, std::vector<std::pair<QtCodeArea*, Id>>* screenMatches)
+{
+	for (const std::shared_ptr<QtCodeFile>& filePtr : m_files)
+	{
+		filePtr->findScreenMatches(query, screenMatches);
+	}
+}
+
 void QtCodeFileList::setFileMinimized(const FilePath path)
 {
 	getFile(path)->setMinimized();

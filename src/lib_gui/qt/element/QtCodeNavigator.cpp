@@ -15,6 +15,7 @@
 #include "data/location/SourceLocation.h"
 #include "data/location/SourceLocationCollection.h"
 #include "data/location/SourceLocationFile.h"
+#include "qt/element/QtCodeArea.h"
 #include "qt/element/QtCodeFile.h"
 #include "qt/element/QtCodeSnippet.h"
 #include "qt/utility/utilityQt.h"
@@ -255,6 +256,9 @@ void QtCodeNavigator::clearCodeSnippets()
 	m_refIndex = 0;
 
 	m_singleHasNewFile = false;
+
+	m_screenMatches.clear();
+	m_activeScreenMatchId = 0;
 }
 
 void QtCodeNavigator::clearFile()
@@ -547,6 +551,60 @@ void QtCodeNavigator::refreshStyle()
 	m_fileButton->setIconSize(QSize(14, 14));
 
 	clearCaches();
+}
+
+size_t QtCodeNavigator::findScreenMatches(const std::string& query)
+{
+	clearScreenMatches();
+
+	m_current->findScreenMatches(query, &m_screenMatches);
+
+	return m_screenMatches.size();
+}
+
+void QtCodeNavigator::activateScreenMatch(size_t matchIndex)
+{
+	if (matchIndex >= m_screenMatches.size())
+	{
+		return;
+	}
+
+	std::pair<QtCodeArea*, Id> p = m_screenMatches[matchIndex];
+	m_activeScreenMatchId = p.second;
+	m_currentActiveLocationIds.insert(m_activeScreenMatchId);
+	p.first->updateContent();
+
+	requestScroll(p.first->getSourceLocationFile()->getFilePath(), 0, m_activeScreenMatchId, true, false);
+	emit scrollRequest();
+}
+
+void QtCodeNavigator::deactivateScreenMatch(size_t matchIndex)
+{
+	if (matchIndex >= m_screenMatches.size())
+	{
+		return;
+	}
+
+	m_currentActiveLocationIds.erase(m_screenMatches[matchIndex].second);
+	m_screenMatches[matchIndex].first->updateContent();
+
+	m_activeScreenMatchId = 0;
+}
+
+void QtCodeNavigator::clearScreenMatches()
+{
+	if (m_activeScreenMatchId)
+	{
+		m_currentActiveLocationIds.erase(m_activeScreenMatchId);
+		m_activeScreenMatchId = 0;
+	}
+
+	for (auto p : m_screenMatches)
+	{
+		p.first->clearScreenMatches();
+	}
+
+	m_screenMatches.clear();
 }
 
 void QtCodeNavigator::scrollToValue(int value, bool inListMode)

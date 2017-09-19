@@ -1,6 +1,7 @@
 #include "component/ComponentManager.h"
 
 #include "component/controller/Controller.h"
+#include "component/controller/ScreenSearchController.h"
 #include "component/view/CompositeView.h"
 #include "component/view/DialogView.h"
 #include "component/view/TabbedView.h"
@@ -51,6 +52,12 @@ void ComponentManager::setup(ViewLayout* viewLayout)
 
 	std::shared_ptr<Component> tooltipComponent = m_componentFactory->createTooltipComponent(viewLayout);
 	m_components.push_back(tooltipComponent);
+
+	std::shared_ptr<Component> screenSearchComponent = m_componentFactory->createScreenSearchComponent(viewLayout);
+	ScreenSearchController* screenSearchController = screenSearchComponent->getController<ScreenSearchController>();
+	screenSearchController->addResponder(dynamic_cast<ScreenSearchResponder*>(graphComponent->getViewPtr()));
+	screenSearchController->addResponder(dynamic_cast<ScreenSearchResponder*>(codeComponent->getViewPtr()));
+	m_components.push_back(screenSearchComponent);
 
 	m_dialogView = m_componentFactory->getViewFactory()->createDialogView(viewLayout, m_componentFactory->getStorageAccess());
 

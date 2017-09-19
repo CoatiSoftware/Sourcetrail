@@ -5,6 +5,7 @@
 #include <QTextDocument>
 
 #include "settings/ColorScheme.h"
+#include "utility/utility.h"
 
 QVector<QtHighlighter::HighlightingRule> QtHighlighter::s_highlightingRules;
 QVector<QtHighlighter::HighlightingRule> QtHighlighter::s_highlightingRulesCpp;
@@ -110,14 +111,14 @@ QtHighlighter::QtHighlighter(QTextDocument *document, LanguageType language)
 	: m_document(document)
 	, m_language(language)
 {
-	if (m_language == LANGUAGE_UNKNOWN)
-	{
-		return;
-	}
-
 	if (!s_highlightingRules.size())
 	{
 		createHighlightingRules();
+	}
+
+	if (m_language == LANGUAGE_UNKNOWN)
+	{
+		return;
 	}
 
 	if (m_language == LANGUAGE_JAVA)
@@ -134,11 +135,6 @@ QtHighlighter::QtHighlighter(QTextDocument *document, LanguageType language)
 
 void QtHighlighter::highlightDocument()
 {
-	if (m_language == LANGUAGE_UNKNOWN)
-	{
-		return;
-	}
-
 	QTextDocument* doc = document();
 
 	int docStart = 0;
@@ -150,26 +146,29 @@ void QtHighlighter::highlightDocument()
 	docEnd -= 1;
 	applyFormat(docStart, docEnd, s_textFormat);
 
-	m_ranges.clear();
-
 	m_highlightedLines.clear();
 	m_highlightedLines.resize(document()->blockCount(), false);
 
-	for (QTextBlock it = doc->begin(); it != doc->end(); it = it.next())
-	{
-		formatBlock(it, s_quotationRule, &m_ranges, true);
-	}
-
-	highlightMultiLineComments(&m_ranges);
-}
-
-void QtHighlighter::highlightRange(int startLine, int endLine)
-{
 	if (m_language == LANGUAGE_UNKNOWN)
 	{
 		return;
 	}
 
+	m_quotationRanges.clear();
+	m_multiLineCommentRanges.clear();
+
+	std::vector<std::pair<int, int>> ranges;
+	ranges.push_back(std::pair<int, int>(docStart, docEnd));
+	for (QTextBlock it = doc->begin(); it != doc->end(); it = it.next())
+	{
+		utility::append(m_quotationRanges, formatBlockForRule(it, s_quotationRule, &ranges));
+	}
+
+	highlightMultiLineComments();
+}
+
+void QtHighlighter::highlightRange(int startLine, int endLine)
+{
 	if (startLine < 0 || endLine < 0 || startLine > endLine || endLine > int(m_highlightedLines.size()))
 	{
 		return;
@@ -199,22 +198,19 @@ void QtHighlighter::highlightRange(int startLine, int endLine)
 	{
 		if (!m_highlightedLines[index])
 		{
-			applyFormatWithoutRanges(it.position(), it.position() + it.length() - 1, s_textFormat, m_ranges);
+			applyFormat(it.position(), it.position() + it.length() - 1, s_textFormat);
 
-			foreach (const HighlightingRule &rule, m_highlightingRules)
+			if (m_language != LANGUAGE_UNKNOWN)
 			{
-				formatBlock(it, rule, &m_ranges, false);
-			}
-		}
-		index++;
-	}
+				foreach (const HighlightingRule &rule, m_highlightingRules)
+				{
+					formatBlockForRule(it, rule);
+				}
 
-	index = startLine;
-	for (QTextBlock it = start; it != end; it = it.next())
-	{
-		if (!m_highlightedLines[index])
-		{
-			formatBlock(it, s_commentRule, &m_ranges, false);
+				formatBlockIfInRange(it, s_quotationRule.format, &m_quotationRanges);
+				formatBlockForRule(it, s_commentRule, &m_quotationRanges);
+				formatBlockIfInRange(it, s_commentRule.format, &m_multiLineCommentRanges);
+			}
 		}
 		index++;
 	}
@@ -244,40 +240,6 @@ void QtHighlighter::applyFormat(int startPosition, int endPosition, const QTextC
 	cursor.setCharFormat(format);
 }
 
-void QtHighlighter::applyFormatWithoutRanges(
-	int startPosition, int endPosition, const QTextCharFormat& format, const std::vector<std::pair<int, int>>& ranges
-){
-	std::vector<std::pair<int, int>> highlightRanges;
-
-	for (const std::pair<int, int> p : ranges)
-	{
-		if (p.first <= startPosition && p.second >= endPosition)
-		{
-			return;
-		}
-
-		if (p.first > startPosition && p.first < endPosition)
-		{
-			highlightRanges.push_back(std::pair<int, int>(startPosition, p.first - 1));
-		}
-
-		if (p.second > startPosition && p.second < endPosition)
-		{
-			highlightRanges.push_back(std::pair<int, int>(p.second + 1, endPosition));
-		}
-	}
-
-	if (!highlightRanges.size())
-	{
-		highlightRanges.push_back(std::pair<int, int>(startPosition, endPosition));
-	}
-
-	for (const std::pair<int, int> p : highlightRanges)
-	{
-		applyFormat(p.first, p.second, format);
-	}
-}
-
 QTextCharFormat QtHighlighter::getFormat(int startPosition, int endPosition) const
 {
 	QTextCursor cursor(document());
@@ -285,7 +247,7 @@ QTextCharFormat QtHighlighter::getFormat(int startPosition, int endPosition) con
 	return cursor.charFormat();
 }
 
-void QtHighlighter::highlightMultiLineComments(std::vector<std::pair<int, int>>* ranges)
+void QtHighlighter::highlightMultiLineComments()
 {
 	QTextDocument* doc = document();
 
@@ -305,7 +267,7 @@ void QtHighlighter::highlightMultiLineComments(std::vector<std::pair<int, int>>*
 				cursorStart.setPosition(cursorStart.selectionEnd() - 2);
 			}
 		}
-		while (isInRange(cursorStart.position(), *ranges));
+		while (isInRange(cursorStart.position(), m_quotationRanges));
 
 		if (cursorStart.isNull())
 		{
@@ -318,9 +280,7 @@ void QtHighlighter::highlightMultiLineComments(std::vector<std::pair<int, int>>*
 			break;
 		}
 
-		applyFormat(cursorStart.selectionStart(), cursorEnd.position(), s_commentRule.format);
-		ranges->push_back(std::pair<int, int>(cursorStart.selectionStart(), cursorEnd.position()));
-
+		m_multiLineCommentRanges.push_back(std::pair<int, int>(cursorStart.selectionStart(), cursorEnd.position()));
 		cursorStart = cursorEnd;
 	}
 }
@@ -348,34 +308,47 @@ bool QtHighlighter::isInRange(int pos, const std::vector<std::pair<int, int>>& r
 	return false;
 }
 
-void QtHighlighter::formatBlock(
-	const QTextBlock& block, const HighlightingRule& rule, std::vector<std::pair<int, int>>* ranges, bool saveRange
+std::vector<std::pair<int, int>> QtHighlighter::formatBlockForRule(
+	const QTextBlock& block, const HighlightingRule& rule, std::vector<std::pair<int, int>>* ranges
 ){
 	QRegExp expression(rule.pattern);
 	int pos = block.position();
 	int index = expression.indexIn(block.text());
+
 	std::vector<std::pair<int, int>> newRanges;
 
 	while (index >= 0)
 	{
 		int length = expression.matchedLength();
 
-		if (!isInRange(pos + index, *ranges))
+		if (!ranges || !isInRange(pos + index, *ranges))
 		{
 			applyFormat(pos + index, pos + index + length, rule.format);
 		}
 
-		if (saveRange)
-		{
-			newRanges.push_back(std::pair<int, int>(pos + index, pos + index + length - 1));
-		}
+		newRanges.push_back(std::pair<int, int>(pos + index, pos + index + length));
 
 		index = expression.indexIn(block.text(), index + length);
 	}
 
-	if (saveRange)
+	return newRanges;
+}
+
+void QtHighlighter::formatBlockIfInRange(
+	const QTextBlock& block, const QTextCharFormat& format, std::vector<std::pair<int, int>>* ranges
+){
+	int startPos = block.position();
+	int endPos = startPos + block.length() - 1;
+
+	for (auto range : *ranges)
 	{
-		ranges->insert(ranges->end(), newRanges.begin(), newRanges.end());
+		int start = std::max(range.first, startPos);
+		int end = std::min(range.second, endPos);
+
+		if (start <= end)
+		{
+			applyFormat(start, end, format);
+		}
 	}
 }
 

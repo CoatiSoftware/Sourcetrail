@@ -177,7 +177,7 @@ bool SourceLocation::isScopeLocation() const
 
 bool SourceLocation::isFullTextSearchMatch() const
 {
-	return m_type == LOCATION_FULLTEXT;
+	return m_type == LOCATION_FULLTEXT_SEARCH;
 }
 
 std::ostream& operator<<(std::ostream& ostream, const SourceLocation& location)

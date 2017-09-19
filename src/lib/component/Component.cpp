@@ -30,3 +30,13 @@ Component::~Component()
 		m_view->setComponent(NULL);
 	}
 }
+
+Controller* Component::getControllerPtr() const
+{
+	return m_controller.get();
+}
+
+View* Component::getViewPtr() const
+{
+	return m_view.get();
+}

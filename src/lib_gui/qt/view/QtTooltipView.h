@@ -25,9 +25,6 @@ public:
 	virtual bool tooltipVisible() const;
 
 private:
-	void setStyleSheet();
-	void doRefreshView();
-
 	QtThreadedLambdaFunctor m_onQtThread;
 
 	QtTooltip* m_widget;

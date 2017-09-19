@@ -5,13 +5,12 @@
 #include "qt/view/QtMainView.h"
 #include "qt/view/QtViewWidgetWrapper.h"
 #include "qt/window/QtMainWindow.h"
-#include "settings/ColorScheme.h"
 #include "utility/ResourcePaths.h"
 
 QtTooltipView::QtTooltipView(ViewLayout* viewLayout)
 	: TooltipView(viewLayout)
 {
-	m_widget = new QtTooltip(dynamic_cast<QtMainView*>(getViewLayout())->getMainWindow());
+	m_widget = new QtTooltip(dynamic_cast<QtMainView*>(viewLayout)->getMainWindow());
 }
 
 QtTooltipView::~QtTooltipView()
@@ -31,7 +30,9 @@ void QtTooltipView::refreshView()
 {
 	m_onQtThread([=]()
 	{
-		setStyleSheet();
+		m_widget->setStyleSheet(
+			utility::getStyleSheet(ResourcePaths::getGuiPath().concat(FilePath("tooltip_view/tooltip_view.css"))).c_str()
+		);
 	});
 }
 
@@ -67,11 +68,4 @@ void QtTooltipView::hideTooltip(bool force)
 bool QtTooltipView::tooltipVisible() const
 {
 	return m_widget->isVisible();
-}
-
-void QtTooltipView::setStyleSheet()
-{
-	m_widget->setStyleSheet(
-		utility::getStyleSheet(ResourcePaths::getGuiPath().concat(FilePath("tooltip_view/tooltip_view.css"))).c_str()
-	);
 }

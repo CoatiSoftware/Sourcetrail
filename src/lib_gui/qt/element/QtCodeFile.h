@@ -14,6 +14,7 @@
 
 class QLabel;
 class QPushButton;
+class QtCodeArea;
 class QtCodeFileTitleButton;
 class QtCodeNavigator;
 class QtCodeSnippet;
@@ -58,6 +59,8 @@ public:
 	bool hasSnippets() const;
 	void updateSnippets();
 	void updateTitleBar();
+
+	void findScreenMatches(const std::string& query, std::vector<std::pair<QtCodeArea*, Id>>* screenMatches);
 
 public slots:
 	void clickedMinimizeButton();

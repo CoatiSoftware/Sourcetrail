@@ -179,7 +179,7 @@
 						<fill>#CCFF0000</fill>
 					</focus>
 				</error>
-				<fulltext>
+				<fulltext_search>
 					<normal>
 						<fill>#C7C7E2</fill>
 						<text>#000000</text>
@@ -187,7 +187,17 @@
 					<focus>
 						<fill>#ABABDD</fill>
 					</focus>
-				</fulltext>
+				</fulltext_search>
+				<screen_search>
+					<normal>
+						<border>transparent</border>
+						<fill>#8ADBBC</fill>
+						<text>#000000</text>
+					</normal>
+					<focus>
+						<fill>#DB97C2</fill>
+					</focus>
+				</screen_search>
 			</annotation>
 		</snippet>
 	</code>
@@ -397,15 +407,14 @@
 			</aggregation>
 		</edge>
 	</graph>
-	<error>
-		<background>white</background>
-	</error>
+
 	<tab>
 		<background>white</background>
 		<active>black</active>
 		<hover>#878787</hover>
 		<text>#878787</text>
 	</tab>
+
 	<table>
 		<background>white</background>
 		<table>#aaa</table>
@@ -422,4 +431,22 @@
 			<active>grey</active>
 		</table_line_2>
 	</table>
+
+	<screen_search>
+		<background>#E0E0E0</background>
+		<box>
+			<background>white</background>
+			<text>black</text>
+			<match_label>#A0A0A0</match_label>
+		</box>
+		<filter>black</filter>
+		<button>
+			<normal>white</normal>
+			<hover>#F2F2F2</hover>
+			<press>#CECECE</press>
+			<disabled>white</disabled>
+			<icon>#727272</icon>
+			<icon_disabled>#CECECE</icon_disabled>
+		</button>
+	</screen_search>
 </config>

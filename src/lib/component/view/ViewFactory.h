@@ -13,6 +13,7 @@ class GraphView;
 class MainView;
 class LogView;
 class RefreshView;
+class ScreenSearchView;
 class SearchView;
 class StatusBarView;
 class StatusView;
@@ -39,6 +40,7 @@ public:
 	virtual std::shared_ptr<GraphView> createGraphView(ViewLayout* viewLayout) const = 0;
 	virtual std::shared_ptr<LogView> createLogView(ViewLayout* viewLayout) const = 0;
 	virtual std::shared_ptr<RefreshView> createRefreshView(ViewLayout* viewLayout) const = 0;
+	virtual std::shared_ptr<ScreenSearchView> createScreenSearchView(ViewLayout* viewLayout) const = 0;
 	virtual std::shared_ptr<SearchView> createSearchView(ViewLayout* viewLayout) const = 0;
 	virtual std::shared_ptr<StatusBarView> createStatusBarView(ViewLayout* viewLayout) const = 0;
 	virtual std::shared_ptr<StatusView> createStatusView(ViewLayout* viewLayout) const = 0;

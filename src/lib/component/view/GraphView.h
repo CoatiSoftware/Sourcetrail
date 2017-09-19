@@ -6,6 +6,7 @@
 #include "utility/math/Vector2.h"
 #include "utility/types.h"
 
+#include "component/controller/helper/ScreenSearchInterfaces.h"
 #include "component/view/View.h"
 
 struct DummyEdge;
@@ -14,6 +15,7 @@ class Graph;
 
 class GraphView
 	: public View
+	, public ScreenSearchResponder
 {
 public:
 	static const char* VIEW_NAME;

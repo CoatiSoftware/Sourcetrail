@@ -23,6 +23,9 @@ public:
 
 	void hideLabel();
 
+protected:
+	virtual void matchName(const std::string& query, std::vector<QtGraphNode*>* matchedNodes) {}
+
 private:
 	AccessKind m_accessKind;
 

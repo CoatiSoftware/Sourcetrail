@@ -549,7 +549,7 @@ const QtCodeField::AnnotationColor& QtCodeField::getAnnotationColorForAnnotation
 	if (!s_annotationColors.size())
 	{
 		ColorScheme* scheme = ColorScheme::getInstance().get();
-		std::vector<std::string> types = { "token", "local_symbol", "scope", "error", "fulltext" };
+		std::vector<std::string> types = { "token", "local_symbol", "scope", "error", "fulltext_search", "screen_search" };
 		std::vector<ColorScheme::ColorState> states = { ColorScheme::NORMAL, ColorScheme::FOCUS, ColorScheme::ACTIVE };
 
 		for (const std::string& type : types)
@@ -579,9 +579,13 @@ const QtCodeField::AnnotationColor& QtCodeField::getAnnotationColorForAnnotation
 	{
 		i = 9;
 	}
-	else if (annotation.locationType == LOCATION_FULLTEXT)
+	else if (annotation.locationType == LOCATION_FULLTEXT_SEARCH)
 	{
 		i = 12;
+	}
+	else if (annotation.locationType == LOCATION_SCREEN_SEARCH)
+	{
+		i = 15;
 	}
 
 	if (annotation.isActive)

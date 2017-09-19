@@ -19,6 +19,9 @@ public:
 	virtual void onClick();
 	virtual void updateStyle();
 
+protected:
+	virtual void matchName(const std::string& query, std::vector<QtGraphNode*>* matchedNodes) {}
+
 private:
 	QGraphicsPixmapItem* m_icon;
 	bool m_invisibleSubNodeCount;

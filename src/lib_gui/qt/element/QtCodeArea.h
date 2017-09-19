@@ -83,6 +83,9 @@ public:
 
 	QRectF getLineRectForLineNumber(uint lineNumber) const;
 
+	void findScreenMatches(const std::string& query, std::vector<std::pair<QtCodeArea*, Id>>* screenMatches);
+	void clearScreenMatches();
+
 protected:
 	virtual void resizeEvent(QResizeEvent* event) Q_DECL_OVERRIDE;
 	virtual void mouseReleaseEvent(QMouseEvent* event) Q_DECL_OVERRIDE;

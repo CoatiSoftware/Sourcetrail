@@ -557,7 +557,7 @@ std::shared_ptr<SourceLocationCollection> PersistentStorage::getFullTextSearchLo
 				Id locationId = ~(~Id(0) >> 1) + collection->getSourceLocationCount() + 1;
 
 				collection->addSourceLocation(
-					LOCATION_FULLTEXT,
+					LOCATION_FULLTEXT_SEARCH,
 					locationId,
 					std::vector<Id>(),
 					filePath,

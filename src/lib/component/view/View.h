@@ -8,6 +8,7 @@
 #include "component/view/ViewLayout.h"
 
 class ViewWidgetWrapper;
+class ControllerProxy;
 
 class View
 {
@@ -43,6 +44,8 @@ protected:
 	void setWidgetWrapper(std::shared_ptr<ViewWidgetWrapper> widgetWrapper);
 
 private:
+	friend ControllerProxy;
+
 	Component* m_component;
 	ViewLayout* const m_viewLayout;
 	std::shared_ptr<ViewWidgetWrapper> m_widgetWrapper;

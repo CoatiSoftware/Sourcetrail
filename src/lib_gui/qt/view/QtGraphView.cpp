@@ -168,6 +168,80 @@ void QtGraphView::refreshView()
 	getView()->refreshStyle();
 }
 
+bool QtGraphView::isVisible() const
+{
+	return QtViewWidgetWrapper::getWidgetOfView(this)->isVisible();
+}
+
+void QtGraphView::findMatches(ScreenSearchSender* sender, const std::string& query)
+{
+	m_onQtThread(
+		[sender, query, this]()
+		{
+			m_matchedNodes.clear();
+
+			for (std::shared_ptr<QtGraphNode> node : m_oldNodes)
+			{
+				node->matchNameRecursive(query, &m_matchedNodes);
+			}
+
+			sender->foundMatches(this, m_matchedNodes.size());
+		}
+	);
+}
+
+void QtGraphView::activateMatch(size_t matchIndex)
+{
+	m_onQtThread(
+		[matchIndex, this]()
+		{
+			if (matchIndex >= m_matchedNodes.size())
+			{
+				return;
+			}
+
+			QtGraphNode* node = m_matchedNodes[matchIndex];
+
+			node->setActiveMatch(true);
+			node->updateStyle();
+
+			centerNode(node);
+		}
+	);
+}
+
+void QtGraphView::deactivateMatch(size_t matchIndex)
+{
+	m_onQtThread(
+		[matchIndex, this]()
+		{
+			if (matchIndex >= m_matchedNodes.size())
+			{
+				return;
+			}
+
+			QtGraphNode* node = m_matchedNodes[matchIndex];
+			node->setActiveMatch(false);
+			node->updateStyle();
+		}
+	);
+}
+
+void QtGraphView::clearMatches()
+{
+	m_onQtThread(
+		[this]()
+		{
+			for (QtGraphNode* node : m_matchedNodes)
+			{
+				node->removeNameMatch();
+			}
+
+			m_matchedNodes.clear();
+		}
+	);
+}
+
 void QtGraphView::rebuildGraph(
 	std::shared_ptr<Graph> graph,
 	const std::vector<std::shared_ptr<DummyNode>>& nodes,
@@ -599,6 +673,8 @@ void QtGraphView::doRebuildGraph(
 		m_graph = graph;
 	}
 
+	m_matchedNodes.clear();
+
 	QGraphicsView* view = getView();
 
 
@@ -682,6 +758,8 @@ void QtGraphView::doClear()
 
 	m_graph.reset();
 	m_oldGraph.reset();
+
+	m_matchedNodes.clear();
 }
 
 void QtGraphView::doResize()

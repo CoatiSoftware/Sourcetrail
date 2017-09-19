@@ -21,8 +21,6 @@ public:
 	void rehighlightLines(const std::vector<int>& lines);
 
 	void applyFormat(int startPosition, int endPosition, const QTextCharFormat& format);
-	void applyFormatWithoutRanges(
-		int startPosition, int endPosition, const QTextCharFormat& format, const std::vector<std::pair<int, int>>& ranges);
 
 	QTextCharFormat getFormat(int startPosition, int endPosition) const;
 
@@ -36,11 +34,13 @@ private:
 		QTextCharFormat format;
 	};
 
-	void highlightMultiLineComments(std::vector<std::pair<int, int>>* ranges);
+	void highlightMultiLineComments();
 
 	bool isInRange(int index, const std::vector<std::pair<int, int>>& ranges) const;
-	void formatBlock(
-		const QTextBlock& block, const HighlightingRule& rule, std::vector<std::pair<int, int>>* ranges, bool saveRange);
+	std::vector<std::pair<int, int>> formatBlockForRule(
+		const QTextBlock& block, const HighlightingRule& rule, std::vector<std::pair<int, int>>* ranges = nullptr);
+	void formatBlockIfInRange(
+		const QTextBlock& block, const QTextCharFormat& format, std::vector<std::pair<int, int>>* ranges);
 
 	QTextDocument* document() const;
 
@@ -56,7 +56,8 @@ private:
 	LanguageType m_language;
 
 	QVector<HighlightingRule> m_highlightingRules;
-	std::vector<std::pair<int, int>> m_ranges;
+	std::vector<std::pair<int, int>> m_quotationRanges;
+	std::vector<std::pair<int, int>> m_multiLineCommentRanges;
 	std::vector<bool> m_highlightedLines;
 };
 

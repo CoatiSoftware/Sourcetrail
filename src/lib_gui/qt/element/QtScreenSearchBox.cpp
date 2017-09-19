@@ -1,0 +1,263 @@
+#include "qt/element/QtScreenSearchBox.h"
+
+#include <QApplication>
+#include <QCheckBox>
+#include <QFocusEvent>
+#include <QHBoxLayout>
+#include <QLineEdit>
+#include <QPushButton>
+#include <QTimer>
+
+#include "component/controller/helper/ControllerProxy.h"
+#include "component/controller/ScreenSearchController.h"
+#include "qt/utility/utilityQt.h"
+#include "utility/ResourcePaths.h"
+
+
+QtFocusInFilter::QtFocusInFilter()
+{
+}
+
+bool QtFocusInFilter::eventFilter(QObject* obj, QEvent* event)
+{
+	QLineEdit* lineEdit = dynamic_cast<QLineEdit*>(obj);
+	if (lineEdit && event->type() == QEvent::FocusIn && dynamic_cast<QFocusEvent*>(event)->reason() == Qt::MouseFocusReason)
+	{
+		emit focusIn();
+	}
+
+	return QObject::eventFilter(obj, event);
+}
+
+
+QtScreenSearchBox::QtScreenSearchBox(ControllerProxy* controllerProxy, QWidget* parent)
+	: QFrame(parent)
+	, m_controllerProxy(controllerProxy)
+{
+	setObjectName("screen_search_box");
+
+	QHBoxLayout* layout = new QHBoxLayout();
+	layout->setContentsMargins(0, 0, 0, 0);
+	layout->setSpacing(0);
+	setLayout(layout);
+
+	// search field
+	{
+		m_searchButton = new QPushButton();
+		m_searchButton->setAttribute(Qt::WA_LayoutUsesWidgetRect); // fixes layouting on Mac
+		m_searchButton->setObjectName("search_button");
+		layout->addWidget(m_searchButton);
+
+		connect(m_searchButton, &QPushButton::clicked, this, &QtScreenSearchBox::setFocus);
+
+		m_searchBox = new QLineEdit(this);
+		m_searchBox->setObjectName("search_box");
+		m_searchBox->setAttribute(Qt::WA_LayoutUsesWidgetRect); // fixes layouting on Mac
+		m_searchBox->setAttribute(Qt::WA_MacShowFocusRect, 0); // remove blue focus box on Mac
+		layout->addWidget(m_searchBox);
+
+		connect(m_searchBox, &QLineEdit::textChanged, this, &QtScreenSearchBox::searchQueryChanged);
+		connect(m_searchBox, &QLineEdit::returnPressed, this, &QtScreenSearchBox::returnPressed);
+
+		QtFocusInFilter* filter = new QtFocusInFilter();
+		m_searchBox->installEventFilter(filter);
+		connect(filter, &QtFocusInFilter::focusIn, this, &QtScreenSearchBox::findMatches);
+	}
+
+	// match label
+	{
+		m_matchLabel = new QPushButton();
+		m_matchLabel->setAttribute(Qt::WA_LayoutUsesWidgetRect); // fixes layouting on Mac
+		m_matchLabel->setObjectName("match_label");
+		layout->addWidget(m_matchLabel);
+
+		connect(m_matchLabel, &QPushButton::clicked, this, &QtScreenSearchBox::setFocus);
+	}
+
+	// buttons
+	{
+		m_prevButton = new QPushButton();
+		m_nextButton = new QPushButton();
+
+		m_prevButton->setAttribute(Qt::WA_LayoutUsesWidgetRect); // fixes layouting on Mac
+		m_nextButton->setAttribute(Qt::WA_LayoutUsesWidgetRect); // fixes layouting on Mac
+
+		m_prevButton->setObjectName("prev_button");
+		m_nextButton->setObjectName("next_button");
+
+		layout->addWidget(m_prevButton);
+		layout->addWidget(m_nextButton);
+
+		connect(m_prevButton, &QPushButton::clicked, this, &QtScreenSearchBox::previousPressed);
+		connect(m_nextButton, &QPushButton::clicked, this, &QtScreenSearchBox::nextPressed);
+	}
+
+	// filter
+	{
+		m_checkboxLayout = new QHBoxLayout();
+		layout->addLayout(m_checkboxLayout);
+		layout->addStretch();
+	}
+
+	// buttons
+	{
+		m_closeButton = new QPushButton();
+		m_closeButton->setObjectName("close_button");
+		m_closeButton->setAttribute(Qt::WA_LayoutUsesWidgetRect); // fixes layouting on Mac
+		layout->addWidget(m_closeButton);
+
+		connect(m_closeButton, &QPushButton::clicked, [this](){ emit closePressed(); });
+	}
+
+	m_timer = new QTimer(this);
+	m_timer->setSingleShot(true);
+	connect(m_timer, &QTimer::timeout, this, &QtScreenSearchBox::findMatches);
+
+	refreshStyle();
+	setMatchCount(0);
+}
+
+QtScreenSearchBox::~QtScreenSearchBox()
+{
+}
+
+void QtScreenSearchBox::refreshStyle()
+{
+	m_searchButton->setIcon(utility::createButtonIcon(
+		ResourcePaths::getGuiPath().str() + "search_view/images/search.png",
+		"screen_search/button"
+	));
+
+	m_prevButton->setIcon(utility::createButtonIcon(
+		ResourcePaths::getGuiPath().str() + "code_view/images/arrow_left.png",
+		"screen_search/button"
+	));
+
+	m_nextButton->setIcon(utility::createButtonIcon(
+		ResourcePaths::getGuiPath().str() + "code_view/images/arrow_right.png",
+		"screen_search/button"
+	));
+
+	m_closeButton->setIcon(utility::createButtonIcon(
+		ResourcePaths::getGuiPath().str() + "screen_search_view/images/close.png",
+		"screen_search/button"
+	));
+
+	m_searchButton->setIconSize(QSize(12, 12));
+	m_prevButton->setIconSize(QSize(12, 12));
+	m_nextButton->setIconSize(QSize(12, 12));
+	m_closeButton->setIconSize(QSize(15, 15));
+}
+
+void QtScreenSearchBox::setMatchCount(size_t matchCount)
+{
+	m_matchCount = matchCount;
+	m_matchIndex = 0;
+	updateMatchLabel();
+
+	m_prevButton->setEnabled(matchCount > 0);
+	m_nextButton->setEnabled(matchCount > 0);
+}
+
+void QtScreenSearchBox::setMatchIndex(size_t matchIndex)
+{
+	m_matchIndex = matchIndex;
+	updateMatchLabel();
+}
+
+void QtScreenSearchBox::addResponder(const std::string& name)
+{
+	QCheckBox* box = new QCheckBox(name.c_str());
+	box->setObjectName("filter_checkbox");
+	box->setChecked(true);
+	m_checkBoxes.push_back(box);
+	m_checkboxLayout->addWidget(box);
+
+	connect(box, &QCheckBox::stateChanged, this, &QtScreenSearchBox::findMatches);
+}
+
+void QtScreenSearchBox::setFocus()
+{
+	m_searchBox->setFocus();
+
+	if (m_searchBox->text().size())
+	{
+		m_searchBox->selectAll();
+		searchQueryChanged();
+	}
+}
+
+void QtScreenSearchBox::searchQueryChanged()
+{
+	m_timer->stop();
+	m_timer->start(200);
+}
+
+void QtScreenSearchBox::findMatches()
+{
+	m_controllerProxy->executeAsTask<ScreenSearchController>(
+		[this](ScreenSearchController* controller)
+		{
+			std::set<std::string> responderNames;
+			for (QCheckBox* box : m_checkBoxes)
+			{
+				if (box->isChecked())
+				{
+					responderNames.insert(box->text().toStdString());
+				}
+			}
+
+			controller->search(m_searchBox->text().toLower().toStdString(), responderNames);
+		}
+	);
+}
+
+void QtScreenSearchBox::returnPressed()
+{
+	if (Qt::KeyboardModifier::ShiftModifier & QApplication::keyboardModifiers())
+	{
+		previousPressed();
+	}
+	else
+	{
+		nextPressed();
+	}
+}
+
+void QtScreenSearchBox::previousPressed()
+{
+	activateMatch(false);
+}
+
+void QtScreenSearchBox::nextPressed()
+{
+	activateMatch(true);
+}
+
+void QtScreenSearchBox::activateMatch(bool next)
+{
+	m_controllerProxy->executeAsTask<ScreenSearchController>(
+		[next, this](ScreenSearchController* controller)
+		{
+			controller->activateMatch(next);
+		}
+	);
+}
+
+void QtScreenSearchBox::updateMatchLabel()
+{
+	QString text;
+
+	if (m_matchIndex > 0)
+	{
+		text += QString::number(m_matchIndex) + " of ";
+	}
+
+	text += QString::number(m_matchCount) + " match";
+	if (m_matchCount != 1)
+	{
+		text += "es";
+	}
+
+	m_matchLabel->setText(text);
+}

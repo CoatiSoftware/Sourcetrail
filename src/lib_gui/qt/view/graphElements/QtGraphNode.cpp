@@ -2,6 +2,7 @@
 
 #include <QBrush>
 #include <QFont>
+#include <QFontMetrics>
 #include <QGraphicsSceneEvent>
 #include <QPen>
 
@@ -11,6 +12,7 @@
 #include "qt/view/graphElements/nodeComponents/QtGraphNodeComponent.h"
 #include "qt/view/graphElements/QtGraphEdge.h"
 #include "utility/ResourcePaths.h"
+#include "utility/utilityString.h"
 
 void QtGraphNode::blendIn()
 {
@@ -40,10 +42,6 @@ QFont QtGraphNode::getFontForNodeType(Node::NodeType type)
 }
 
 QtGraphNode::QtGraphNode()
-	: m_icon(nullptr)
-	, m_isActive(false)
-	, m_multipleActive(false)
-	, m_isHovering(false)
 {
 	this->setPen(QPen(Qt::transparent));
 
@@ -244,6 +242,35 @@ void QtGraphNode::focusOut()
 	updateStyle();
 }
 
+void QtGraphNode::matchNameRecursive(const std::string& query, std::vector<QtGraphNode*>* matchedNodes)
+{
+	matchName(query, matchedNodes);
+
+	for (auto subNode : m_subNodes)
+	{
+		subNode->matchNameRecursive(query, matchedNodes);
+	}
+}
+
+void QtGraphNode::removeNameMatch()
+{
+	if (m_matchLength)
+	{
+		m_matchRect->hide();
+		m_matchText->hide();
+
+		m_matchPos = 0;
+		m_matchLength = 0;
+
+		updateStyle();
+	}
+}
+
+void QtGraphNode::setActiveMatch(bool active)
+{
+	m_isActiveMatch = active;
+}
+
 bool QtGraphNode::isDataNode() const
 {
 	return false;
@@ -407,6 +434,40 @@ void QtGraphNode::notifyEdgesAfterMove()
 	}
 }
 
+void QtGraphNode::matchName(const std::string& query, std::vector<QtGraphNode*>* matchedNodes)
+{
+	m_isActiveMatch = false;
+	std::string name = getName();
+	size_t pos = utility::toLowerCase(name).find(query);
+
+	if (pos != std::string::npos)
+	{
+		if (!m_matchText)
+		{
+			m_matchRect = new QtRoundedRectItem(this);
+			m_matchText = new QGraphicsSimpleTextItem(this);
+		}
+
+		m_matchRect->show();
+		m_matchText->show();
+
+		std::string matchName(name.length(), ' ');
+		matchName.replace(pos, query.length(), name.substr(pos, query.length()));
+		m_matchText->setText(matchName.c_str());
+
+		matchedNodes->push_back(this);
+
+		m_matchPos = pos;
+		m_matchLength = query.length();
+
+		updateStyle();
+	}
+	else if (m_matchLength)
+	{
+		removeNameMatch();
+	}
+}
+
 void QtGraphNode::setStyle(const GraphViewStyle::NodeStyle& style)
 {
 	QPen pen(Qt::transparent);
@@ -462,4 +523,25 @@ void QtGraphNode::setStyle(const GraphViewStyle::NodeStyle& style)
 	m_text->setFont(font);
 	m_text->setBrush(QBrush(style.color.text.c_str()));
 	m_text->setPos(style.iconOffset.x + style.iconSize + style.textOffset.x, style.textOffset.y);
+
+	if (m_matchLength)
+	{
+		GraphViewStyle::NodeColor color = GraphViewStyle::getScreenMatchColor(m_isActiveMatch);
+
+		m_matchText->setFont(font);
+		m_matchText->setBrush(QBrush(color.text.c_str()));
+		m_matchText->setPos(style.iconOffset.x + style.iconSize + style.textOffset.x, style.textOffset.y);
+
+		float charWidth = QFontMetrics(font).width("QtGraphNode::QtGraphNode::QtGraphNode") / 37.0f;
+		float charHeight = QFontMetrics(font).height();
+		m_matchRect->setRect(
+			style.iconOffset.x + style.iconSize + style.textOffset.x + m_matchPos * charWidth,
+			style.textOffset.y,
+			m_matchLength * charWidth,
+			charHeight
+		);
+		m_matchRect->setPen(QPen(color.border.c_str()));
+		m_matchRect->setBrush(QBrush(color.fill.c_str()));
+		m_matchRect->setRadius(3);
+	}
 }

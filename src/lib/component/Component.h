@@ -15,8 +15,12 @@ public:
 	template <typename ControllerType>
 	ControllerType* getController() const;
 
+	Controller* getControllerPtr() const;
+
 	template <typename ViewType>
 	ViewType* getView() const;
+
+	View* getViewPtr() const;
 
 private:
 	const std::shared_ptr<Controller> m_controller;

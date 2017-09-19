@@ -357,6 +357,7 @@ void QtMainWindow::keyPressEvent(QKeyEvent* event)
 
 		case Qt::Key_Escape:
 			MessageInterruptTasks().dispatch();
+			emit hideScreenSearch();
 			break;
 
 		case Qt::Key_Space:
@@ -565,6 +566,11 @@ void QtMainWindow::findFulltext()
 	MessageFind(true).dispatch();
 }
 
+void QtMainWindow::findInView()
+{
+	emit showScreenSearch();
+}
+
 void QtMainWindow::codeReferencePrevious()
 {
 	MessageCodeReference(MessageCodeReference::REFERENCE_PREVIOUS).dispatch();
@@ -771,6 +777,7 @@ void QtMainWindow::setupEditMenu()
 
 	menu->addAction(tr("&Find Symbol"), this, &QtMainWindow::find, QKeySequence::Find);
 	menu->addAction(tr("&Find Text"), this, &QtMainWindow::findFulltext, QKeySequence(Qt::SHIFT + Qt::CTRL + Qt::Key_F));
+	menu->addAction(tr("&Find in View"), this, &QtMainWindow::findInView, QKeySequence(Qt::CTRL + Qt::Key_D));
 
 	menu->addSeparator();
 
@@ -858,7 +865,7 @@ void QtMainWindow::setupBookmarksMenu()
 		m_bookmarksMenu->clear();
 	}
 
-	m_bookmarksMenu->addAction(tr("Bookmark Active Symbol..."), this, &QtMainWindow::showBookmarkCreator, QKeySequence(Qt::CTRL + Qt::Key_D));
+	m_bookmarksMenu->addAction(tr("Bookmark Active Symbol..."), this, &QtMainWindow::showBookmarkCreator, QKeySequence::Save);
 	m_bookmarksMenu->addAction(tr("Bookmark Manager"), this, &QtMainWindow::showBookmarkBrowser, QKeySequence(Qt::CTRL + Qt::Key_B));
 
 	m_bookmarksMenu->addSeparator();

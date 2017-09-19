@@ -74,6 +74,10 @@ public:
 	void focusIn();
 	void focusOut();
 
+	void matchNameRecursive(const std::string& query, std::vector<QtGraphNode*>* matchedNodes);
+	void removeNameMatch();
+	void setActiveMatch(bool active);
+
 	virtual bool isDataNode() const;
 	virtual bool isAccessNode() const;
 	virtual bool isExpandToggleNode() const;
@@ -99,6 +103,8 @@ protected:
 
 	void notifyEdgesAfterMove();
 
+	virtual void matchName(const std::string& query, std::vector<QtGraphNode*>* matchedNodes);
+
 	void setStyle(const GraphViewStyle::NodeStyle& style);
 
 	std::list<std::shared_ptr<QtGraphEdge>> m_outEdges;
@@ -107,19 +113,26 @@ protected:
 	std::weak_ptr<QtGraphNode> m_parentNode;
 	std::list<std::shared_ptr<QtGraphNode>> m_subNodes;
 
-	QGraphicsSimpleTextItem* m_text;
-	QtRoundedRectItem* m_rect;
-	QtRoundedRectItem* m_undefinedRect;
-	QGraphicsPixmapItem* m_icon;
+	QGraphicsSimpleTextItem* m_text = nullptr;
+	QtRoundedRectItem* m_rect = nullptr;
+	QtRoundedRectItem* m_undefinedRect = nullptr;
+	QGraphicsPixmapItem* m_icon = nullptr;
 
 	Vec2i m_size;
 
-	bool m_isActive;
-	bool m_multipleActive;
-	bool m_isHovering;
+	bool m_isActive = false;
+	bool m_multipleActive = false;
+	bool m_isHovering = false;
 
 private:
 	std::list<std::shared_ptr<QtGraphNodeComponent>> m_components;
+
+	// Name match
+	QGraphicsSimpleTextItem* m_matchText = nullptr;
+	QtRoundedRectItem* m_matchRect = nullptr;
+	size_t m_matchPos = 0;
+	size_t m_matchLength = 0;
+	bool m_isActiveMatch = false;
 };
 
 #endif // QT_GRAPH_NODE_H

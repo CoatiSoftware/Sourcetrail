@@ -78,6 +78,10 @@ public:
 
 	void setContentEnabled(bool enabled);
 
+signals:
+	void showScreenSearch();
+	void hideScreenSearch();
+
 protected:
 	void keyPressEvent(QKeyEvent* event);
 	void contextMenuEvent(QContextMenuEvent* event);
@@ -109,6 +113,7 @@ public slots:
 
 	void find();
 	void findFulltext();
+	void findInView();
 	void codeReferencePrevious();
 	void codeReferenceNext();
 	void overview();

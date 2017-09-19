@@ -45,6 +45,52 @@ void QtCodeView::refreshView()
 	});
 }
 
+bool QtCodeView::isVisible() const
+{
+	return m_widget->isVisible();
+}
+
+void QtCodeView::findMatches(ScreenSearchSender* sender, const std::string& query)
+{
+	m_onQtThread(
+		[sender, query, this]()
+		{
+			size_t matchCount = m_widget->findScreenMatches(query);
+			sender->foundMatches(this, matchCount);
+		}
+	);
+}
+
+void QtCodeView::activateMatch(size_t matchIndex)
+{
+	m_onQtThread(
+		[matchIndex, this]()
+		{
+			m_widget->activateScreenMatch(matchIndex);
+		}
+	);
+}
+
+void QtCodeView::deactivateMatch(size_t matchIndex)
+{
+	m_onQtThread(
+		[matchIndex, this]()
+		{
+			m_widget->deactivateScreenMatch(matchIndex);
+		}
+	);
+}
+
+void QtCodeView::clearMatches()
+{
+	m_onQtThread(
+		[this]()
+		{
+			m_widget->clearScreenMatches();
+		}
+	);
+}
+
 void QtCodeView::clear()
 {
 	m_onQtThread([=]()

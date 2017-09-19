@@ -138,6 +138,7 @@ public:
 
 	static const NodeColor& getNodeColor(const std::string& typeStr, bool focus);
 	static const std::string& getEdgeColor(const std::string& typeStr, bool focus);
+	static const NodeColor& getScreenMatchColor(bool focus);
 
 	static int s_gridCellSize;
 	static int s_gridCellPadding;
@@ -156,6 +157,7 @@ private:
 
 	static std::map<std::string, NodeColor> s_nodeColors;
 	static std::map<std::string, std::string> s_edgeColors;
+	static std::map<bool, NodeColor> s_screenMatchColors;
 };
 
 #endif // GRAPH_VIEW_STYLE_H
