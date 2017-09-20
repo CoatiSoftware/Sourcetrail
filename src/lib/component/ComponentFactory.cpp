@@ -6,7 +6,6 @@
 #include "component/controller/CodeController.h"
 #include "component/controller/ErrorController.h"
 #include "component/controller/GraphController.h"
-#include "component/controller/LogController.h"
 #include "component/controller/RefreshController.h"
 #include "component/controller/ScreenSearchController.h"
 #include "component/controller/SearchController.h"
@@ -17,7 +16,6 @@
 #include "component/view/BookmarkView.h"
 #include "component/view/CodeView.h"
 #include "component/view/ErrorView.h"
-#include "component/view/LogView.h"
 #include "component/view/RefreshView.h"
 #include "component/view/ScreenSearchView.h"
 #include "component/view/SearchView.h"
@@ -26,8 +24,6 @@
 #include "component/view/TooltipView.h"
 #include "component/view/UndoRedoView.h"
 #include "component/view/ViewFactory.h"
-
-#include "utility/logging/LogManager.h"
 
 std::shared_ptr<ComponentFactory> ComponentFactory::create(ViewFactory* viewFactory, StorageAccess* storageAccess)
 {
@@ -88,16 +84,6 @@ std::shared_ptr<Component> ComponentFactory::createGraphComponent(ViewLayout* vi
 {
 	std::shared_ptr<View> view = m_viewFactory->createGraphView(viewLayout);
 	std::shared_ptr<GraphController> controller = std::make_shared<GraphController>(m_storageAccess);
-
-	return std::make_shared<Component>(view, controller);
-}
-
-std::shared_ptr<Component> ComponentFactory::createLogComponent(ViewLayout* viewLayout)
-{
-	std::shared_ptr<LogView> view = m_viewFactory->createLogView(viewLayout);
-	std::shared_ptr<LogController> controller = std::make_shared<LogController>();
-
-	LogManager::getInstance()->addLogger(controller);
 
 	return std::make_shared<Component>(view, controller);
 }

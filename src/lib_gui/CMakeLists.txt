@@ -141,8 +141,6 @@ add_files(
 	qt/view/QtGraphView.h
 	qt/view/QtGraphViewStyleImpl.cpp
 	qt/view/QtGraphViewStyleImpl.h
-	qt/view/QtLogView.cpp
-	qt/view/QtLogView.h
 	qt/view/QtMainView.cpp
 	qt/view/QtMainView.h
 	qt/view/QtRefreshView.cpp
@@ -223,8 +221,6 @@ add_files(
 	qt/window/QtPreferencesWindow.h
 	qt/window/QtSelectPathsDialog.cpp
 	qt/window/QtSelectPathsDialog.h
-	qt/window/QtSplashScreen.cpp
-	qt/window/QtSplashScreen.h
 	qt/window/QtStartScreen.cpp
 	qt/window/QtStartScreen.h
 	qt/window/QtTextEditDialog.cpp

@@ -6,8 +6,6 @@
 #include "utility/messaging/type/MessageLoadProject.h"
 #include "utility/messaging/type/MessageWindowFocus.h"
 #include "utility/logging/LogManager.h"
-
-#include "component/controller/LogController.h"
 #include "utility/utilityApp.h"
 
 QtApplication::QtApplication(int& argc, char** argv)
@@ -18,12 +16,6 @@ QtApplication::QtApplication(int& argc, char** argv)
 
 int QtApplication::exec()
 {
-	LogController* log = dynamic_cast<LogController*>(LogManager::getInstance()->getLoggerByType("WindowLogger"));
-	if (log != nullptr)
-	{
-		log->setEnabled(true);
-	}
-
 	return QApplication::exec();
 }
 

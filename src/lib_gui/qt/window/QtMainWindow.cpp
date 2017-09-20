@@ -10,7 +10,6 @@
 #include <QTimer>
 
 #include "Application.h"
-#include "component/controller/LogController.h"
 #include "component/view/CompositeView.h"
 #include "component/view/TabbedView.h"
 #include "component/view/View.h"
@@ -379,11 +378,6 @@ void QtMainWindow::contextMenuEvent(QContextMenuEvent* event)
 
 void QtMainWindow::closeEvent(QCloseEvent* event)
 {
-	LogController* log = dynamic_cast<LogController*>(LogManager::getInstance()->getLoggerByType("WindowLogger"));
-	if (log != nullptr)
-	{
-		log->setEnabled(false);
-	}
 	MessageWindowClosed().dispatchImmediately();
 }
 

@@ -8,7 +8,6 @@
 #include "qt/view/QtErrorView.h"
 #include "qt/view/QtGraphView.h"
 #include "qt/view/QtGraphViewStyleImpl.h"
-#include "qt/view/QtLogView.h"
 #include "qt/view/QtMainView.h"
 #include "qt/view/QtRefreshView.h"
 #include "qt/view/QtScreenSearchView.h"
@@ -62,11 +61,6 @@ std::shared_ptr<CodeView> QtViewFactory::createCodeView(ViewLayout* viewLayout) 
 std::shared_ptr<ErrorView> QtViewFactory::createErrorView(ViewLayout* viewLayout) const
 {
 	return View::createInitAndAddToLayout<QtErrorView>(viewLayout);
-}
-
-std::shared_ptr<LogView> QtViewFactory::createLogView(ViewLayout* viewLayout) const
-{
-	return View::createInitAndAddToLayout<QtLogView>(viewLayout);
 }
 
 std::shared_ptr<StatusView> QtViewFactory::createStatusView(ViewLayout* viewLayout) const

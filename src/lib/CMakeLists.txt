@@ -29,8 +29,6 @@ add_files(
 	component/controller/GraphController.h
 	component/controller/IDECommunicationController.cpp
 	component/controller/IDECommunicationController.h
-	component/controller/LogController.cpp
-	component/controller/LogController.h
 	component/controller/RefreshController.cpp
 	component/controller/RefreshController.h
 	component/controller/ScreenSearchController.cpp
@@ -63,8 +61,6 @@ add_files(
 	component/view/GraphViewStyle.cpp
 	component/view/GraphViewStyle.h
 	component/view/GraphViewStyleImpl.h
-	component/view/LogView.cpp
-	component/view/LogView.h
 	component/view/MainView.cpp
 	component/view/MainView.h
 	component/view/RefreshView.cpp

@@ -18,7 +18,6 @@ public:
 	virtual std::shared_ptr<CodeView> createCodeView(ViewLayout* viewLayout) const;
 	virtual std::shared_ptr<ErrorView> createErrorView(ViewLayout* viewLayout) const;
 	virtual std::shared_ptr<GraphView> createGraphView(ViewLayout* viewLayout) const;
-	virtual std::shared_ptr<LogView> createLogView(ViewLayout* viewLayout) const;
 	virtual std::shared_ptr<RefreshView> createRefreshView(ViewLayout* viewLayout) const;
 	virtual std::shared_ptr<ScreenSearchView> createScreenSearchView(ViewLayout* viewLayout) const;
 	virtual std::shared_ptr<SearchView> createSearchView(ViewLayout* viewLayout) const;

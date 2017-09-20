@@ -11,7 +11,6 @@ class DialogView;
 class ErrorView;
 class GraphView;
 class MainView;
-class LogView;
 class RefreshView;
 class ScreenSearchView;
 class SearchView;
@@ -38,7 +37,6 @@ public:
 	virtual std::shared_ptr<CodeView> createCodeView(ViewLayout* viewLayout) const = 0;
 	virtual std::shared_ptr<ErrorView> createErrorView(ViewLayout* viewLayout) const = 0;
 	virtual std::shared_ptr<GraphView> createGraphView(ViewLayout* viewLayout) const = 0;
-	virtual std::shared_ptr<LogView> createLogView(ViewLayout* viewLayout) const = 0;
 	virtual std::shared_ptr<RefreshView> createRefreshView(ViewLayout* viewLayout) const = 0;
 	virtual std::shared_ptr<ScreenSearchView> createScreenSearchView(ViewLayout* viewLayout) const = 0;
 	virtual std::shared_ptr<SearchView> createSearchView(ViewLayout* viewLayout) const = 0;
