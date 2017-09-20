@@ -2,7 +2,6 @@
 
 #include <QBoxLayout>
 #include <QFrame>
-#include <QLabel>
 #include <QCheckBox>
 #include <QPushButton>
 #include <QStandardItemModel>
@@ -17,9 +16,6 @@
 
 QtStatusView::QtStatusView(ViewLayout* viewLayout)
 	: StatusView(viewLayout)
-	, m_addStatusFunctor(std::bind(&QtStatusView::doAddStatus, this, std::placeholders::_1))
-	, m_clearFunctor(std::bind(&QtStatusView::doClear, this))
-	, m_refreshFunctor(std::bind(&QtStatusView::doRefreshView, this))
 {
 }
 
@@ -79,7 +75,62 @@ void QtStatusView::initView()
 
 	layout->addLayout(filters);
 
-	doRefreshView();
+	refreshView();
+}
+
+void QtStatusView::refreshView()
+{
+	m_onQtThread([this]()
+	{
+		QWidget* widget = QtViewWidgetWrapper::getWidgetOfView(this);
+		utility::setWidgetBackgroundColor(widget, ColorScheme::getInstance()->getColor("error/background"));
+
+		QPalette palette(m_showErrors->palette());
+		palette.setColor(QPalette::WindowText, QColor(ColorScheme::getInstance()->getColor("error/text/normal").c_str()));
+
+		m_table->updateRows();
+	});
+}
+
+void QtStatusView::clear()
+{
+	m_onQtThread([this]()
+	{
+		if (!m_model->index(0, 0).data(Qt::DisplayRole).toString().isEmpty())
+		{
+			m_model->removeRows(0, m_model->rowCount());
+		}
+
+		m_table->showFirstRow();
+
+		m_status.clear();
+	});
+}
+
+void QtStatusView::addStatus(const std::vector<Status>& status)
+{
+	m_onQtThread([=]()
+	{
+		for (const Status& s : status)
+		{
+			const int rowNumber = m_table->getFilledRowCount();
+			if (rowNumber < m_model->rowCount())
+			{
+				m_model->insertRow(rowNumber);
+			}
+
+			QString statusType = (s.type == StatusType::STATUS_ERROR ? "ERROR" : "INFO");
+			m_model->setItem(rowNumber, STATUSVIEW_COLUMN::TYPE, new QStandardItem(statusType));
+			m_model->setItem(rowNumber, STATUSVIEW_COLUMN::STATUS, new QStandardItem(s.message.c_str()));
+		}
+
+		m_table->updateRows();
+
+		if (!m_table->hasSelection())
+		{
+			m_table->showLastRow();
+		}
+	});
 }
 
 QCheckBox* QtStatusView::createFilterCheckbox(const QString& name, QBoxLayout* layout, bool checked)
@@ -103,70 +154,4 @@ QCheckBox* QtStatusView::createFilterCheckbox(const QString& name, QBoxLayout* l
 	layout->addWidget(checkbox);
 
 	return checkbox;
-}
-
-void QtStatusView::refreshView()
-{
-	m_refreshFunctor();
-}
-
-void QtStatusView::clear()
-{
-	m_clearFunctor();
-}
-
-void QtStatusView::addStatus(const std::vector<Status>& status)
-{
-	m_addStatusFunctor(status);
-}
-
-void QtStatusView::doClear()
-{
-	if (!m_model->index(0, 0).data(Qt::DisplayRole).toString().isEmpty())
-	{
-		m_model->removeRows(0, m_model->rowCount());
-	}
-
-	m_table->showFirstRow();
-
-	m_status.clear();
-}
-
-void QtStatusView::doRefreshView()
-{
-	setStyleSheet();
-}
-
-void QtStatusView::doAddStatus(const std::vector<Status>& status)
-{
-	for (const Status& s : status)
-	{
-		const int rowNumber = m_table->getFilledRowCount();
-		if (rowNumber < m_model->rowCount())
-		{
-			m_model->insertRow(rowNumber);
-		}
-
-		QString statusType = (s.type == StatusType::STATUS_ERROR ? "ERROR" : "INFO");
-		m_model->setItem(rowNumber, STATUSVIEW_COLUMN::TYPE, new QStandardItem(statusType));
-		m_model->setItem(rowNumber, STATUSVIEW_COLUMN::STATUS, new QStandardItem(s.message.c_str()));
-	}
-
-	m_table->updateRows();
-
-	if (!m_table->hasSelection())
-	{
-		m_table->showLastRow();
-	}
-}
-
-void QtStatusView::setStyleSheet() const
-{
-	QWidget* widget = QtViewWidgetWrapper::getWidgetOfView(this);
-	utility::setWidgetBackgroundColor(widget, ColorScheme::getInstance()->getColor("error/background"));
-
-	QPalette palette(m_showErrors->palette());
-	palette.setColor(QPalette::WindowText, QColor(ColorScheme::getInstance()->getColor("error/text/normal").c_str()));
-
-	m_table->updateRows();
 }

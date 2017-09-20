@@ -1,15 +1,12 @@
 #include "qt/view/QtRefreshView.h"
 
-#include "qt/utility/utilityQt.h"
-
-#include "utility/ResourcePaths.h"
-
 #include "component/controller/RefreshController.h"
+#include "qt/utility/utilityQt.h"
 #include "qt/view/QtViewWidgetWrapper.h"
+#include "utility/ResourcePaths.h"
 
 QtRefreshView::QtRefreshView(ViewLayout* viewLayout)
 	: RefreshView(viewLayout)
-	, m_refreshViewFunctor(std::bind(&QtRefreshView::doRefreshView, this))
 {
 	m_widget = new QtRefreshBar();
 	setStyleSheet();
@@ -30,16 +27,15 @@ void QtRefreshView::initView()
 
 void QtRefreshView::refreshView()
 {
-	m_refreshViewFunctor();
-}
-
-void QtRefreshView::doRefreshView()
-{
-	setStyleSheet();
-	m_widget->refreshStyle();
+	m_onQtThread([this]()
+	{
+		setStyleSheet();
+		m_widget->refreshStyle();
+	});
 }
 
 void QtRefreshView::setStyleSheet()
 {
-	m_widget->setStyleSheet(utility::getStyleSheet(ResourcePaths::getGuiPath().concat(FilePath("refresh_view/refresh_view.css"))).c_str());
+	m_widget->setStyleSheet(utility::getStyleSheet(
+		ResourcePaths::getGuiPath().concat(FilePath("refresh_view/refresh_view.css"))).c_str());
 }

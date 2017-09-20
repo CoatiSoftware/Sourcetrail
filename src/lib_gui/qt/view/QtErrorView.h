@@ -52,11 +52,6 @@ private:
 		ID = 6
 	};
 
-	void doRefreshView();
-	void doClear();
-	void doAddErrors(const std::vector<ErrorInfo>& errors, bool scrollTo);
-	void doSetErrorId(Id errorId);
-
 	void setStyleSheet() const;
 
 	void addErrorToTable(const ErrorInfo& error);
@@ -65,11 +60,6 @@ private:
 	bool isShownError(const ErrorInfo& error);
 
 	static QIcon s_errorIcon;
-
-	QtThreadedFunctor<void> m_clearFunctor;
-	QtThreadedFunctor<void> m_refreshFunctor;
-	QtThreadedFunctor<const std::vector<ErrorInfo>&, bool> m_addErrorsFunctor;
-	QtThreadedFunctor<Id> m_setErrorIdFunctor;
 
 	QtThreadedLambdaFunctor m_onQtThread;
 

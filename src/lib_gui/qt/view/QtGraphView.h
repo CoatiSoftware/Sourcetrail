@@ -91,17 +91,7 @@ private:
 
 	QtGraphicsView* getView() const;
 
-	void doRebuildGraph(
-		std::shared_ptr<Graph> graph,
-		const std::vector<std::shared_ptr<DummyNode>>& nodes,
-		const std::vector<std::shared_ptr<DummyEdge>>& edges,
-		const GraphParams params);
-	void doClear();
 	void doResize();
-	void doRefreshView();
-
-	void doFocusIn(const std::vector<Id>& tokenIds);
-	void doFocusOut(const std::vector<Id>& tokenIds);
 
 	std::shared_ptr<QtGraphNode> findNodeRecursive(const std::list<std::shared_ptr<QtGraphNode>>& nodes, Id tokenId);
 
@@ -126,17 +116,6 @@ private:
 
 	void createTransition();
 
-	QtThreadedFunctor<
-		std::shared_ptr<Graph>,
-		const std::vector<std::shared_ptr<DummyNode>>&,
-		const std::vector<std::shared_ptr<DummyEdge>>&,
-		const GraphParams
-	> m_rebuildGraphFunctor;
-	QtThreadedFunctor<void> m_clearFunctor;
-	QtThreadedFunctor<void> m_resizeFunctor;
-	QtThreadedFunctor<void> m_refreshFunctor;
-	QtThreadedFunctor<const std::vector<Id>&> m_focusInFunctor;
-	QtThreadedFunctor<const std::vector<Id>&> m_focusOutFunctor;
 	QtThreadedLambdaFunctor m_onQtThread;
 
 	std::shared_ptr<Graph> m_graph;

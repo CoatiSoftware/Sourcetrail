@@ -8,7 +8,6 @@
 
 QtCompositeView::QtCompositeView(ViewLayout* viewLayout, CompositeDirection direction, const std::string& name)
 	: CompositeView(viewLayout, direction, name)
-	, m_refreshFunctor(std::bind(&QtCompositeView::doRefreshView, this))
 {
 	QBoxLayout* layout;
 	if (getDirection() == CompositeView::DIRECTION_HORIZONTAL)
@@ -27,7 +26,7 @@ QtCompositeView::QtCompositeView(ViewLayout* viewLayout, CompositeDirection dire
 	m_widget = new QWidget();
 	m_widget->setLayout(layout);
 
-	doRefreshView();
+	refreshView();
 }
 
 QtCompositeView::~QtCompositeView()
@@ -45,12 +44,10 @@ void QtCompositeView::initView()
 
 void QtCompositeView::refreshView()
 {
-	m_refreshFunctor();
-}
-
-void QtCompositeView::doRefreshView()
-{
-	utility::setWidgetBackgroundColor(m_widget, ColorScheme::getInstance()->getColor("search/background"));
+	m_onQtThread([=]()
+	{
+		utility::setWidgetBackgroundColor(m_widget, ColorScheme::getInstance()->getColor("search/background"));
+	});
 }
 
 void QtCompositeView::addViewWidget(View* view)

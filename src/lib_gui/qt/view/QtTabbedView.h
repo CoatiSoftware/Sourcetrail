@@ -24,9 +24,8 @@ public:
 
 private:
 	void setStyleSheet();
-	void doRefreshView();
 
-	QtThreadedFunctor<void> m_refreshFunctor;
+	QtThreadedLambdaFunctor m_onQtThread;
 	QTabWidget* m_widget;
 };
 

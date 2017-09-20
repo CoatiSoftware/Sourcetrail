@@ -38,14 +38,6 @@
 
 QtGraphView::QtGraphView(ViewLayout* viewLayout)
 	: GraphView(viewLayout)
-	, m_rebuildGraphFunctor(
-		std::bind(&QtGraphView::doRebuildGraph, this,
-			std::placeholders::_1, std::placeholders::_2, std::placeholders::_3, std::placeholders::_4))
-	, m_clearFunctor(std::bind(&QtGraphView::doClear, this))
-	, m_resizeFunctor(std::bind(&QtGraphView::doResize, this))
-	, m_refreshFunctor(std::bind(&QtGraphView::doRefreshView, this))
-	, m_focusInFunctor(std::bind(&QtGraphView::doFocusIn, this, std::placeholders::_1))
-	, m_focusOutFunctor(std::bind(&QtGraphView::doFocusOut, this, std::placeholders::_1))
 	, m_centerActiveNode(false)
 	, m_scrollToTop(false)
 	, m_restoreScroll(false)
@@ -158,14 +150,36 @@ void QtGraphView::initView()
 		trailDepthChanged(0);
 	}
 
-	doRefreshView();
+	refreshView();
 }
 
 void QtGraphView::refreshView()
 {
-	m_refreshFunctor();
+	m_onQtThread([this]()
+	{
+		doResize();
 
-	getView()->refreshStyle();
+		QtGraphicsView* view = getView();
+
+		std::string css = utility::getStyleSheet(ResourcePaths::getGuiPath().concat(FilePath("graph_view/graph_view.css")));
+		view->setStyleSheet(css.c_str());
+		view->setAppZoomFactor(GraphViewStyle::getZoomFactor());
+		view->refreshStyle();
+
+		m_trailWidget->setStyleSheet(css.c_str());
+
+		m_expandButton->setIcon(utility::createButtonIcon(
+			ResourcePaths::getGuiPath().str() + "graph_view/images/graph.png",
+			"search/button"
+		));
+
+		m_collapseButton->setIcon(utility::createButtonIcon(
+			ResourcePaths::getGuiPath().str() + "graph_view/images/graph_arrow.png",
+			"search/button"
+		));
+
+		updateTrailButtons();
+	});
 }
 
 bool QtGraphView::isVisible() const
@@ -248,17 +262,169 @@ void QtGraphView::rebuildGraph(
 	const std::vector<std::shared_ptr<DummyEdge>>& edges,
 	const GraphParams params
 ){
-	m_rebuildGraphFunctor(graph, nodes, edges, params);
+	m_onQtThread([=]()
+	{
+		if (m_transition && m_transition->currentTime() < m_transition->totalDuration())
+		{
+			m_transition->stop();
+			finishedTransition();
+		}
+
+		if (graph)
+		{
+			m_graph = graph;
+		}
+
+		m_matchedNodes.clear();
+
+		QGraphicsView* view = getView();
+
+
+		// create nodes
+		size_t activeNodeCount = 0;
+		for (unsigned int i = 0; i < nodes.size(); i++)
+		{
+			activeNodeCount += nodes[i]->getActiveSubNodeCount();
+		}
+
+		m_nodes.clear();
+		m_activeNodes.clear();
+		m_oldActiveNode.reset();
+		m_virtualNodeRects.clear();
+
+		for (unsigned int i = 0; i < nodes.size(); i++)
+		{
+			std::shared_ptr<QtGraphNode> node = createNodeRecursive(view, NULL, nodes[i].get(), activeNodeCount > 1);
+			if (node)
+			{
+				m_nodes.push_back(node);
+			}
+		}
+
+
+		// move graph to center
+		QPointF center = itemsBoundingRect(m_nodes).center();
+		Vec2i o = GraphViewStyle::alignOnRaster(Vec2i(center.x(), center.y()));
+		QPointF offset = QPointF(o.x, o.y);
+		m_sceneRectOffset = offset - center;
+
+		for (const std::shared_ptr<QtGraphNode>& node : m_nodes)
+		{
+			node->setPos(node->pos() - offset);
+		}
+
+		m_edges.clear();
+
+		// create edges
+		Graph::TrailMode trailMode = m_graph ? m_graph->getTrailMode() : Graph::TRAIL_NONE;
+		std::set<Id> visibleEdgeIds;
+		for (const std::shared_ptr<DummyEdge>& edge : edges)
+		{
+			if (!edge->data || !edge->data->isType(Edge::EDGE_AGGREGATION))
+			{
+				createEdge(view, edge.get(), &visibleEdgeIds, trailMode, offset, params.bezierEdges);
+			}
+		}
+		for (const std::shared_ptr<DummyEdge>& edge : edges)
+		{
+			if (edge->data && edge->data->isType(Edge::EDGE_AGGREGATION))
+			{
+				createAggregationEdge(view, edge.get(), &visibleEdgeIds);
+			}
+		}
+
+		m_centerActiveNode = params.centerActiveNode;
+		m_scrollToTop = params.scrollToTop;
+		m_isIndexedList = params.isIndexedList;
+
+		if (params.animatedTransition && ApplicationSettings::getInstance()->getUseAnimations())
+		{
+			createTransition();
+		}
+		else
+		{
+			switchToNewGraphData();
+		}
+	});
 }
 
 void QtGraphView::clear()
 {
-	m_clearFunctor();
+	m_onQtThread([this]()
+	{
+		m_oldActiveNode.reset();
+		m_activeNodes.clear();
+
+		m_nodes.clear();
+		m_edges.clear();
+
+		m_oldNodes.clear();
+		m_oldEdges.clear();
+
+		m_graph.reset();
+		m_oldGraph.reset();
+
+		m_matchedNodes.clear();
+	});
+
+}
+
+void QtGraphView::focusTokenIds(const std::vector<Id>& focusedTokenIds)
+{
+	m_onQtThread([=]()
+	{
+		for (const Id& tokenId : focusedTokenIds)
+		{
+			std::shared_ptr<QtGraphNode> node = findNodeRecursive(m_oldNodes, tokenId);
+			if (node)
+			{
+				node->focusIn();
+				continue;
+			}
+
+			for (std::shared_ptr<QtGraphEdge> edge : m_oldEdges)
+			{
+				if (edge->getData() && edge->getData()->getId() == tokenId)
+				{
+					edge->focusIn();
+					break;
+				}
+			}
+		}
+	});
+}
+
+void QtGraphView::defocusTokenIds(const std::vector<Id>& defocusedTokenIds)
+{
+	m_onQtThread([=]()
+	{
+		for (const Id& tokenId : defocusedTokenIds)
+		{
+			std::shared_ptr<QtGraphNode> node = findNodeRecursive(m_oldNodes, tokenId);
+			if (node && node->isDataNode())
+			{
+				node->focusOut();
+				continue;
+			}
+
+			for (std::shared_ptr<QtGraphEdge> edge : m_oldEdges)
+			{
+				if (edge->getData() && edge->getData()->getId() == tokenId)
+				{
+					edge->focusOut();
+					break;
+				}
+			}
+		}
+	});
 }
 
 void QtGraphView::resizeView()
 {
-	m_resizeFunctor();
+	m_onQtThread([this]()
+	{
+		doResize();
+	});
 }
 
 Vec2i QtGraphView::getViewSize() const
@@ -656,140 +822,9 @@ QtGraphicsView* QtGraphView::getView() const
 	return view;
 }
 
-void QtGraphView::doRebuildGraph(
-	std::shared_ptr<Graph> graph,
-	const std::vector<std::shared_ptr<DummyNode>>& nodes,
-	const std::vector<std::shared_ptr<DummyEdge>>& edges,
-	const GraphParams params
-){
-	if (m_transition && m_transition->currentTime() < m_transition->totalDuration())
-	{
-		m_transition->stop();
-		finishedTransition();
-	}
-
-	if (graph)
-	{
-		m_graph = graph;
-	}
-
-	m_matchedNodes.clear();
-
-	QGraphicsView* view = getView();
-
-
-	// create nodes
-	size_t activeNodeCount = 0;
-	for (unsigned int i = 0; i < nodes.size(); i++)
-	{
-		activeNodeCount += nodes[i]->getActiveSubNodeCount();
-	}
-
-	m_nodes.clear();
-	m_activeNodes.clear();
-	m_oldActiveNode.reset();
-	m_virtualNodeRects.clear();
-
-	for (unsigned int i = 0; i < nodes.size(); i++)
-	{
-		std::shared_ptr<QtGraphNode> node = createNodeRecursive(view, NULL, nodes[i].get(), activeNodeCount > 1);
-		if (node)
-		{
-			m_nodes.push_back(node);
-		}
-	}
-
-
-	// move graph to center
-	QPointF center = itemsBoundingRect(m_nodes).center();
-	Vec2i o = GraphViewStyle::alignOnRaster(Vec2i(center.x(), center.y()));
-	QPointF offset = QPointF(o.x, o.y);
-	m_sceneRectOffset = offset - center;
-
-	for (const std::shared_ptr<QtGraphNode>& node : m_nodes)
-	{
-		node->setPos(node->pos() - offset);
-	}
-
-	m_edges.clear();
-
-	// create edges
-	Graph::TrailMode trailMode = m_graph ? m_graph->getTrailMode() : Graph::TRAIL_NONE;
-	std::set<Id> visibleEdgeIds;
-	for (const std::shared_ptr<DummyEdge>& edge : edges)
-	{
-		if (!edge->data || !edge->data->isType(Edge::EDGE_AGGREGATION))
-		{
-			createEdge(view, edge.get(), &visibleEdgeIds, trailMode, offset, params.bezierEdges);
-		}
-	}
-	for (const std::shared_ptr<DummyEdge>& edge : edges)
-	{
-		if (edge->data && edge->data->isType(Edge::EDGE_AGGREGATION))
-		{
-			createAggregationEdge(view, edge.get(), &visibleEdgeIds);
-		}
-	}
-
-	m_centerActiveNode = params.centerActiveNode;
-	m_scrollToTop = params.scrollToTop;
-	m_isIndexedList = params.isIndexedList;
-
-	if (params.animatedTransition && ApplicationSettings::getInstance()->getUseAnimations())
-	{
-		createTransition();
-	}
-	else
-	{
-		switchToNewGraphData();
-	}
-}
-
-void QtGraphView::doClear()
-{
-	m_oldActiveNode.reset();
-	m_activeNodes.clear();
-
-	m_nodes.clear();
-	m_edges.clear();
-
-	m_oldNodes.clear();
-	m_oldEdges.clear();
-
-	m_graph.reset();
-	m_oldGraph.reset();
-
-	m_matchedNodes.clear();
-}
-
 void QtGraphView::doResize()
 {
 	getView()->setSceneRect(getSceneRect(m_oldNodes));
-}
-
-void QtGraphView::doRefreshView()
-{
-	doResize();
-
-	QtGraphicsView* view = getView();
-
-	std::string css = utility::getStyleSheet(ResourcePaths::getGuiPath().concat(FilePath("graph_view/graph_view.css")));
-	view->setStyleSheet(css.c_str());
-	view->setAppZoomFactor(GraphViewStyle::getZoomFactor());
-
-	m_trailWidget->setStyleSheet(css.c_str());
-
-	m_expandButton->setIcon(utility::createButtonIcon(
-		ResourcePaths::getGuiPath().str() + "graph_view/images/graph.png",
-		"search/button"
-	));
-
-	m_collapseButton->setIcon(utility::createButtonIcon(
-		ResourcePaths::getGuiPath().str() + "graph_view/images/graph_arrow.png",
-		"search/button"
-	));
-
-	updateTrailButtons();
 }
 
 std::shared_ptr<QtGraphNode> QtGraphView::findNodeRecursive(const std::list<std::shared_ptr<QtGraphNode>>& nodes, Id tokenId)
@@ -1201,58 +1236,4 @@ void QtGraphView::createTransition()
 
 	connect(m_transition.get(), &QPropertyAnimation::finished, this, &QtGraphView::finishedTransition);
 	m_transition->start();
-}
-
-void QtGraphView::focusTokenIds(const std::vector<Id>& focusedTokenIds)
-{
-	m_focusInFunctor(focusedTokenIds);
-}
-
-void QtGraphView::doFocusIn(const std::vector<Id>& tokenIds)
-{
-	for (const Id& tokenId : tokenIds)
-	{
-		std::shared_ptr<QtGraphNode> node = findNodeRecursive(m_oldNodes, tokenId);
-		if (node)
-		{
-			node->focusIn();
-			continue;
-		}
-
-		for (std::shared_ptr<QtGraphEdge> edge : m_oldEdges)
-		{
-			if (edge->getData() && edge->getData()->getId() == tokenId)
-			{
-				edge->focusIn();
-				break;
-			}
-		}
-	}
-}
-
-void QtGraphView::defocusTokenIds(const std::vector<Id>& defocusedTokenIds)
-{
-	m_focusOutFunctor(defocusedTokenIds);
-}
-
-void QtGraphView::doFocusOut(const std::vector<Id>& tokenIds)
-{
-	for (const Id& tokenId : tokenIds)
-	{
-		std::shared_ptr<QtGraphNode> node = findNodeRecursive(m_oldNodes, tokenId);
-		if (node && node->isDataNode())
-		{
-			node->focusOut();
-			continue;
-		}
-
-		for (std::shared_ptr<QtGraphEdge> edge : m_oldEdges)
-		{
-			if (edge->getData() && edge->getData()->getId() == tokenId)
-			{
-				edge->focusOut();
-				break;
-			}
-		}
-	}
 }

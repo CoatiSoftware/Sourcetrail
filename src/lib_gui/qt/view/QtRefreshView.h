@@ -1,8 +1,6 @@
 #ifndef QT_REFRESH_VIEW_H
 #define QT_REFRESH_VIEW_H
 
-#include <QWidget>
-
 #include "component/view/RefreshView.h"
 #include "qt/element/QtRefreshBar.h"
 #include "qt/utility/QtThreadedFunctor.h"
@@ -22,11 +20,9 @@ public:
 	// RefreshView implementation
 
 private:
-	void doRefreshView();
-
 	void setStyleSheet();
 
-	QtThreadedFunctor<> m_refreshViewFunctor;
+	QtThreadedLambdaFunctor m_onQtThread;
 
 	QtRefreshBar* m_widget;
 };

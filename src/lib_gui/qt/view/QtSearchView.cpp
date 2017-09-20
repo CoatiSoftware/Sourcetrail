@@ -9,11 +9,6 @@
 
 QtSearchView::QtSearchView(ViewLayout* viewLayout)
 	: SearchView(viewLayout)
-	, m_refreshViewFunctor(std::bind(&QtSearchView::doRefreshView, this))
-	, m_setMatchesFunctor(std::bind(&QtSearchView::doSetMatches, this, std::placeholders::_1))
-	, m_setFocusFunctor(std::bind(&QtSearchView::doSetFocus, this))
-	, m_findFulltextFunctor(std::bind(&QtSearchView::doFindFulltext, this))
-	, m_setAutocompletionListFunctor(std::bind(&QtSearchView::doSetAutocompletionList, this, std::placeholders::_1))
 {
 	m_widget = new QtSearchBar();
 	setStyleSheet();
@@ -34,7 +29,11 @@ void QtSearchView::initView()
 
 void QtSearchView::refreshView()
 {
-	m_refreshViewFunctor();
+	m_onQtThread([this]()
+	{
+		setStyleSheet();
+		m_widget->refreshStyle();
+	});
 }
 
 std::string QtSearchView::getQuery() const
@@ -44,51 +43,37 @@ std::string QtSearchView::getQuery() const
 
 void QtSearchView::setMatches(const std::vector<SearchMatch>& matches)
 {
-	m_setMatchesFunctor(matches);
+	m_onQtThread([=]()
+	{
+		m_widget->setMatches(matches);
+	});
 }
 
 void QtSearchView::setFocus()
 {
-	m_setFocusFunctor();
+	m_onQtThread([this]()
+	{
+		getViewLayout()->showView(this);
+		m_widget->setFocus();
+	});
 }
 
 void QtSearchView::findFulltext()
 {
-	m_findFulltextFunctor();
+	m_onQtThread([this]()
+	{
+		getViewLayout()->showView(this);
+		m_widget->findFulltext();
+	});
 }
 
 void QtSearchView::setAutocompletionList(const std::vector<SearchMatch>& autocompletionList)
 {
-	m_setAutocompletionListFunctor(autocompletionList);
-}
-
-void QtSearchView::doRefreshView()
-{
-	setStyleSheet();
-	m_widget->refreshStyle();
-}
-
-void QtSearchView::doSetMatches(const std::vector<SearchMatch>& matches)
-{
-	m_widget->setMatches(matches);
-}
-
-void QtSearchView::doSetFocus()
-{
-	getViewLayout()->showView(this);
-	m_widget->setFocus();
-}
-
-void QtSearchView::doFindFulltext()
-{
-	getViewLayout()->showView(this);
-	m_widget->findFulltext();
-}
-
-void QtSearchView::doSetAutocompletionList(const std::vector<SearchMatch>& autocompletionList)
-{
-	m_widget->setAutocompletionList(autocompletionList);
-	setStyleSheet();
+	m_onQtThread([=]()
+	{
+		m_widget->setAutocompletionList(autocompletionList);
+		setStyleSheet();
+	});
 }
 
 void QtSearchView::setStyleSheet()

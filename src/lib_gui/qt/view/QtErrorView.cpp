@@ -13,19 +13,19 @@
 #include <QStandardItem>
 #include <QStyledItemDelegate>
 
-#include "qt/utility/utilityQt.h"
 #include "qt/element/QtTable.h"
+#include "qt/utility/utilityQt.h"
+#include "qt/view/QtViewWidgetWrapper.h"
 #include "settings/ColorScheme.h"
 #include "utility/messaging/type/MessageErrorFilterChanged.h"
 #include "utility/messaging/type/MessageProjectEdit.h"
 #include "utility/messaging/type/MessageShowErrors.h"
 #include "utility/ResourcePaths.h"
 
-#include "qt/view/QtViewWidgetWrapper.h"
-
 QIcon QtErrorView::s_errorIcon;
 
-class SelectableDelegate : public QStyledItemDelegate
+class SelectableDelegate
+	: public QStyledItemDelegate
 {
 	QWidget* createEditor(QWidget* parent, const QStyleOptionViewItem &option, const QModelIndex &index) const;
 };
@@ -46,10 +46,6 @@ QWidget* SelectableDelegate::createEditor(
 
 QtErrorView::QtErrorView(ViewLayout* viewLayout)
 	: ErrorView(viewLayout)
-	, m_clearFunctor(std::bind(&QtErrorView::doClear, this))
-	, m_refreshFunctor(std::bind(&QtErrorView::doRefreshView, this))
-	, m_addErrorsFunctor(std::bind(&QtErrorView::doAddErrors, this, std::placeholders::_1, std::placeholders::_2))
-	, m_setErrorIdFunctor(std::bind(&QtErrorView::doSetErrorId, this, std::placeholders::_1))
 	, m_ignoreRowSelection(false)
 {
 	s_errorIcon = QIcon(QString((ResourcePaths::getGuiPath().str() + "/indexing_dialog/error.png").c_str()));
@@ -163,41 +159,76 @@ void QtErrorView::initView()
 
 	layout->addLayout(checkboxes);
 
-	doRefreshView();
+	setStyleSheet();
 }
 
 void QtErrorView::refreshView()
 {
-	m_refreshFunctor();
+	m_onQtThread([=]()
+	{
+		setStyleSheet();
+	});
 }
 
 void QtErrorView::clear()
 {
-	m_clearFunctor();
+	m_onQtThread([=]()
+	{
+		if (!m_model->index(0, 0).data(Qt::DisplayRole).toString().isEmpty())
+		{
+			m_model->removeRows(0, m_model->rowCount());
+		}
+
+		m_table->updateRows();
+	});
 }
 
 void QtErrorView::addErrors(const std::vector<ErrorInfo>& errors, bool scrollTo)
 {
-	m_addErrorsFunctor(errors, scrollTo);
+	m_onQtThread([=]()
+	{
+		for (const ErrorInfo& error : errors)
+		{
+			addErrorToTable(error);
+		}
+		m_table->updateRows();
+
+		if (scrollTo)
+		{
+			m_table->showLastRow();
+		}
+		else
+		{
+			m_table->showFirstRow();
+		}
+	});
 }
 
 void QtErrorView::setErrorId(Id errorId)
 {
-	m_setErrorIdFunctor(errorId);
+	m_onQtThread([=]()
+	{
+		QList<QStandardItem*> items = m_model->findItems(QString::number(errorId), Qt::MatchExactly, COLUMN::ID);
+
+		if (items.size() == 1)
+		{
+			m_ignoreRowSelection = true;
+			m_table->selectRow(items.at(0)->row());
+			m_ignoreRowSelection = false;
+		}
+	});
 }
 
 void QtErrorView::setErrorCount(ErrorCountInfo info)
 {
-	m_onQtThread(
-		[=]()
-		{
-			m_allLabel->setVisible(m_errorFilter.limit > 0 && info.total > m_errorFilter.limit);
-			m_allButton->setVisible(m_errorFilter.limit > 0 && info.total > m_errorFilter.limit);
+	m_onQtThread([=]()
+	{
+		m_allLabel->setVisible(m_errorFilter.limit > 0 && info.total > m_errorFilter.limit);
+		m_allButton->setVisible(m_errorFilter.limit > 0 && info.total > m_errorFilter.limit);
 
-			m_allLabel->setText("<b>Only showing first " + QString::number(m_errorFilter.limit) + " errors</b>");
-			m_allButton->setText("Show all " + QString::number(info.total));
-		}
-	);
+		m_allLabel->setText("<b>Only showing first " + QString::number(m_errorFilter.limit) + " errors</b>");
+		m_allButton->setText("Show all " + QString::number(info.total));
+	});
 }
 
 void QtErrorView::resetErrorLimit()
@@ -223,51 +254,6 @@ void QtErrorView::errorFilterChanged(int i, bool showErrors)
 	m_errorFilter.unindexedFatal = m_showNonIndexedFatals->isChecked();
 
 	MessageErrorFilterChanged(m_errorFilter, showErrors).dispatch();
-}
-
-void QtErrorView::doRefreshView()
-{
-	setStyleSheet();
-}
-
-void QtErrorView::doClear()
-{
-	if (!m_model->index(0, 0).data(Qt::DisplayRole).toString().isEmpty())
-	{
-		m_model->removeRows(0, m_model->rowCount());
-	}
-
-	m_table->updateRows();
-}
-
-void QtErrorView::doAddErrors(const std::vector<ErrorInfo>& errors, bool scrollTo)
-{
-	for (const ErrorInfo& error : errors)
-	{
-		addErrorToTable(error);
-	}
-	m_table->updateRows();
-
-	if (scrollTo)
-	{
-		m_table->showLastRow();
-	}
-	else
-	{
-		m_table->showFirstRow();
-	}
-}
-
-void QtErrorView::doSetErrorId(Id errorId)
-{
-	QList<QStandardItem*> items = m_model->findItems(QString::number(errorId), Qt::MatchExactly, COLUMN::ID);
-
-	if (items.size() == 1)
-	{
-		m_ignoreRowSelection = true;
-		m_table->selectRow(items.at(0)->row());
-		m_ignoreRowSelection = false;
-	}
 }
 
 void QtErrorView::setStyleSheet() const

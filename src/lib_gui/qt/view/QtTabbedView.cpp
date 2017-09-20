@@ -10,10 +10,8 @@
 #include "settings/ColorScheme.h"
 #include "utility/ResourcePaths.h"
 
-
 QtTabbedView::QtTabbedView(ViewLayout* viewLayout, const std::string& name)
 	: TabbedView(viewLayout, name)
-	, m_refreshFunctor(std::bind(&QtTabbedView::doRefreshView, this))
 {
 }
 
@@ -41,19 +39,17 @@ void QtTabbedView::initView()
 
 void QtTabbedView::refreshView()
 {
-	m_refreshFunctor();
-}
-
-void QtTabbedView::doRefreshView()
-{
-	setStyleSheet();
+	m_onQtThread([=]()
+	{
+		setStyleSheet();
+	});
 }
 
 void QtTabbedView::addViewWidget(View* view)
 {
 	m_widget->addTab(QtViewWidgetWrapper::getWidgetOfView(view), view->getName().c_str());
 
-	doRefreshView();
+	setStyleSheet();
 }
 
 void QtTabbedView::showView(View* view)
@@ -65,7 +61,8 @@ void QtTabbedView::showView(View* view)
 
 void QtTabbedView::setStyleSheet()
 {
-	utility::setWidgetBackgroundColor(QtViewWidgetWrapper::getWidgetOfView(this), ColorScheme::getInstance()->getColor("tab/background"));
+	utility::setWidgetBackgroundColor(
+		QtViewWidgetWrapper::getWidgetOfView(this), ColorScheme::getInstance()->getColor("tab/background"));
 
 	m_widget->setStyleSheet(
 		utility::getStyleSheet(ResourcePaths::getGuiPath().concat(FilePath("tabbed_view/tabbed_view.css"))).c_str()

@@ -22,9 +22,7 @@ public:
 	virtual void addViewWidget(View* view);
 
 private:
-	void doRefreshView();
-
-	QtThreadedFunctor<void> m_refreshFunctor;
+	QtThreadedLambdaFunctor m_onQtThread;
 	QWidget* m_widget;
 };
 

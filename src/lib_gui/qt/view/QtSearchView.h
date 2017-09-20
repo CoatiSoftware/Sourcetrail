@@ -34,11 +34,7 @@ private:
 
 	void setStyleSheet();
 
-	QtThreadedFunctor<> m_refreshViewFunctor;
-	QtThreadedFunctor<const std::vector<SearchMatch>&> m_setMatchesFunctor;
-	QtThreadedFunctor<> m_setFocusFunctor;
-	QtThreadedFunctor<> m_findFulltextFunctor;
-	QtThreadedFunctor<const std::vector<SearchMatch>&> m_setAutocompletionListFunctor;
+	QtThreadedLambdaFunctor m_onQtThread;
 
 	QtSearchBar* m_widget;
 };

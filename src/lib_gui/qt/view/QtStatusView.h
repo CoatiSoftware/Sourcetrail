@@ -16,6 +16,7 @@ class QtStatusView
 	, public StatusView
 {
 	Q_OBJECT
+
 public:
 	QtStatusView(ViewLayout* viewLayout);
 	virtual ~QtStatusView();
@@ -36,17 +37,9 @@ private:
 		STATUS = 1,
 	};
 
-	void doClear();
-	void doRefreshView();
-	void doAddStatus(const std::vector<Status>& status);
-
 	QCheckBox* createFilterCheckbox(const QString& name, QBoxLayout* layout, bool checked = false);
 
-	void setStyleSheet() const;
-
-	QtThreadedFunctor<const std::vector<Status>&> m_addStatusFunctor;
-	QtThreadedFunctor<void> m_clearFunctor;
-	QtThreadedFunctor<void> m_refreshFunctor;
+	QtThreadedLambdaFunctor m_onQtThread;
 
 	QtTable* m_table;
 	QStandardItemModel* m_model;
