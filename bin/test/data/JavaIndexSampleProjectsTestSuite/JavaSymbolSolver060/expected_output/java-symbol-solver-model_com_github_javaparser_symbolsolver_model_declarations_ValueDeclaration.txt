@@ -1,0 +1,18 @@
+FILE: ValueDeclaration.java
+SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model.declarations [ValueDeclaration.java <17:9 17:61>]
+SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model
+SYMBOL_PACKAGE com.github.javaparser.symbolsolver
+SYMBOL_PACKAGE com.github.javaparser
+SYMBOL_PACKAGE com.github
+SYMBOL_PACKAGE com
+REFERENCE_IMPORT ValueDeclaration.java -> com.github.javaparser.symbolsolver.model.typesystem.Type [ValueDeclaration.java <19:8 19:63>]
+SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model.typesystem
+SYMBOL_INTERFACE public com.github.javaparser.symbolsolver.model.declarations.ValueDeclaration [ValueDeclaration.java <26:1 <26:18 26:33> 33:1>]
+LOCAL_SYMBOL: ValueDeclaration.java<26:55> [ValueDeclaration.java <26:55 26:55>]
+LOCAL_SYMBOL: ValueDeclaration.java<26:55> [ValueDeclaration.java <33:1 33:1>]
+COMMENT: comment [ValueDeclaration.java <21:1 25:3>]
+REFERENCE_INHERITANCE com.github.javaparser.symbolsolver.model.declarations.ValueDeclaration -> com.github.javaparser.symbolsolver.model.declarations.Declaration [ValueDeclaration.java <26:43 26:53>]
+SYMBOL_METHOD default com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.model.declarations.ValueDeclaration.getType() [ValueDeclaration.java <31:1 <31:10 31:16> 31:19>]
+COMMENT: comment [ValueDeclaration.java <28:5 30:7>]
+REFERENCE_TYPE_USAGE com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.model.declarations.ValueDeclaration.getType() -> com.github.javaparser.symbolsolver.model.typesystem.Type [ValueDeclaration.java <31:5 31:8>]
+COMMENT: comment [ValueDeclaration.java <1:1 15:3>]

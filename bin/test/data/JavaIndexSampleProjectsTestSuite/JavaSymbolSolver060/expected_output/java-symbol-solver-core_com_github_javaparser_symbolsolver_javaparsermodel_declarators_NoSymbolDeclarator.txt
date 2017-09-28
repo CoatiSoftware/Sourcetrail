@@ -1,0 +1,48 @@
+FILE: NoSymbolDeclarator.java
+SYMBOL_PACKAGE com.github.javaparser.symbolsolver.javaparsermodel.declarators [NoSymbolDeclarator.java <17:9 17:70>]
+SYMBOL_PACKAGE com.github.javaparser.symbolsolver.javaparsermodel
+SYMBOL_PACKAGE com.github.javaparser.symbolsolver
+SYMBOL_PACKAGE com.github.javaparser
+SYMBOL_PACKAGE com.github
+SYMBOL_PACKAGE com
+REFERENCE_IMPORT NoSymbolDeclarator.java -> com.github.javaparser.ast.Node [NoSymbolDeclarator.java <19:8 19:37>]
+SYMBOL_PACKAGE com.github.javaparser.ast
+REFERENCE_IMPORT NoSymbolDeclarator.java -> com.github.javaparser.symbolsolver.model.declarations.ValueDeclaration [NoSymbolDeclarator.java <20:8 20:77>]
+SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model.declarations
+REFERENCE_IMPORT NoSymbolDeclarator.java -> com.github.javaparser.symbolsolver.model.resolution.TypeSolver [NoSymbolDeclarator.java <21:8 21:69>]
+SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model.resolution
+REFERENCE_IMPORT NoSymbolDeclarator.java -> java.util.Collections [NoSymbolDeclarator.java <23:8 23:28>]
+SYMBOL_PACKAGE java.util
+REFERENCE_IMPORT NoSymbolDeclarator.java -> java.util.List<E> [NoSymbolDeclarator.java <24:8 24:21>]
+SYMBOL_PACKAGE java.util
+SYMBOL_CLASS public com.github.javaparser.symbolsolver.javaparsermodel.declarators.NoSymbolDeclarator<N> [NoSymbolDeclarator.java <29:1 <29:14 29:31> 40:1>]
+LOCAL_SYMBOL: NoSymbolDeclarator.java<29:85> [NoSymbolDeclarator.java <29:85 29:85>]
+LOCAL_SYMBOL: NoSymbolDeclarator.java<29:85> [NoSymbolDeclarator.java <40:1 40:1>]
+COMMENT: comment [NoSymbolDeclarator.java <26:1 28:3>]
+SYMBOL_TYPE_PARAMETER com.github.javaparser.symbolsolver.javaparsermodel.declarators.NoSymbolDeclarator<N>.N [NoSymbolDeclarator.java <29:33 29:33>]
+REFERENCE_TYPE_USAGE com.github.javaparser.symbolsolver.javaparsermodel.declarators.NoSymbolDeclarator<N>.N -> com.github.javaparser.ast.Node [NoSymbolDeclarator.java <29:43 29:46>]
+REFERENCE_INHERITANCE com.github.javaparser.symbolsolver.javaparsermodel.declarators.NoSymbolDeclarator<N> -> com.github.javaparser.symbolsolver.javaparsermodel.declarators.AbstractSymbolDeclarator<N> [NoSymbolDeclarator.java <29:57 29:80>]
+REFERENCE_TYPE_ARGUMENT com.github.javaparser.symbolsolver.javaparsermodel.declarators.NoSymbolDeclarator<N> -> com.github.javaparser.symbolsolver.javaparsermodel.declarators.NoSymbolDeclarator<N>.N [NoSymbolDeclarator.java <29:82 29:82>]
+SYMBOL_METHOD public com.github.javaparser.symbolsolver.javaparsermodel.declarators.NoSymbolDeclarator<N>.NoSymbolDeclarator(com.github.javaparser.symbolsolver.javaparsermodel.declarators.NoSymbolDeclarator<N>.N, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) [NoSymbolDeclarator.java <31:5 <31:12 31:29> 33:5>]
+SYMBOL_METHOD com.github.javaparser.symbolsolver.javaparsermodel.declarators.AbstractSymbolDeclarator<N>.AbstractSymbolDeclarator(com.github.javaparser.symbolsolver.javaparsermodel.declarators.AbstractSymbolDeclarator<N>.N, com.github.javaparser.symbolsolver.model.resolution.TypeSolver)
+REFERENCE_OVERRIDE com.github.javaparser.symbolsolver.javaparsermodel.declarators.NoSymbolDeclarator<N>.NoSymbolDeclarator(com.github.javaparser.symbolsolver.javaparsermodel.declarators.NoSymbolDeclarator<N>.N, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> com.github.javaparser.symbolsolver.javaparsermodel.declarators.AbstractSymbolDeclarator<N>.AbstractSymbolDeclarator(com.github.javaparser.symbolsolver.javaparsermodel.declarators.AbstractSymbolDeclarator<N>.N, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) [NoSymbolDeclarator.java <31:12 31:29>]
+REFERENCE_TYPE_USAGE com.github.javaparser.symbolsolver.javaparsermodel.declarators.NoSymbolDeclarator<N>.NoSymbolDeclarator(com.github.javaparser.symbolsolver.javaparsermodel.declarators.NoSymbolDeclarator<N>.N, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> com.github.javaparser.symbolsolver.javaparsermodel.declarators.NoSymbolDeclarator<N>.N [NoSymbolDeclarator.java <31:31 31:31>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javaparsermodel.declarators.NoSymbolDeclarator<N>.NoSymbolDeclarator<0> [NoSymbolDeclarator.java <31:33 31:43>]
+REFERENCE_TYPE_USAGE com.github.javaparser.symbolsolver.javaparsermodel.declarators.NoSymbolDeclarator<N>.NoSymbolDeclarator(com.github.javaparser.symbolsolver.javaparsermodel.declarators.NoSymbolDeclarator<N>.N, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> com.github.javaparser.symbolsolver.model.resolution.TypeSolver [NoSymbolDeclarator.java <31:46 31:55>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javaparsermodel.declarators.NoSymbolDeclarator<N>.NoSymbolDeclarator<1> [NoSymbolDeclarator.java <31:57 31:66>]
+LOCAL_SYMBOL: NoSymbolDeclarator.java<31:69> [NoSymbolDeclarator.java <31:69 31:69>]
+LOCAL_SYMBOL: NoSymbolDeclarator.java<31:69> [NoSymbolDeclarator.java <33:5 33:5>]
+SYMBOL_METHOD com.github.javaparser.symbolsolver.javaparsermodel.declarators.AbstractSymbolDeclarator<N>.AbstractSymbolDeclarator(com.github.javaparser.symbolsolver.javaparsermodel.declarators.AbstractSymbolDeclarator<N>.N, com.github.javaparser.symbolsolver.model.resolution.TypeSolver)
+REFERENCE_CALL com.github.javaparser.symbolsolver.javaparsermodel.declarators.NoSymbolDeclarator<N>.NoSymbolDeclarator(com.github.javaparser.symbolsolver.javaparsermodel.declarators.NoSymbolDeclarator<N>.N, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> com.github.javaparser.symbolsolver.javaparsermodel.declarators.AbstractSymbolDeclarator<N>.AbstractSymbolDeclarator(com.github.javaparser.symbolsolver.javaparsermodel.declarators.AbstractSymbolDeclarator<N>.N, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) [NoSymbolDeclarator.java <32:9 32:13>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javaparsermodel.declarators.NoSymbolDeclarator<N>.NoSymbolDeclarator<0> [NoSymbolDeclarator.java <32:15 32:25>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javaparsermodel.declarators.NoSymbolDeclarator<N>.NoSymbolDeclarator<1> [NoSymbolDeclarator.java <32:28 32:37>]
+SYMBOL_METHOD public java.util.List<com.github.javaparser.symbolsolver.model.declarations.ValueDeclaration> com.github.javaparser.symbolsolver.javaparsermodel.declarators.NoSymbolDeclarator<N>.getSymbolDeclarations() [NoSymbolDeclarator.java <35:5 <36:35 36:55> 38:5>]
+SYMBOL_METHOD java.util.List<com.github.javaparser.symbolsolver.model.declarations.ValueDeclaration> com.github.javaparser.symbolsolver.resolution.SymbolDeclarator.getSymbolDeclarations()
+REFERENCE_OVERRIDE java.util.List<com.github.javaparser.symbolsolver.model.declarations.ValueDeclaration> com.github.javaparser.symbolsolver.javaparsermodel.declarators.NoSymbolDeclarator<N>.getSymbolDeclarations() -> java.util.List<com.github.javaparser.symbolsolver.model.declarations.ValueDeclaration> com.github.javaparser.symbolsolver.resolution.SymbolDeclarator.getSymbolDeclarations() [NoSymbolDeclarator.java <36:35 36:55>]
+REFERENCE_TYPE_USAGE java.util.List<com.github.javaparser.symbolsolver.model.declarations.ValueDeclaration> com.github.javaparser.symbolsolver.javaparsermodel.declarators.NoSymbolDeclarator<N>.getSymbolDeclarations() -> java.util.List<E> [NoSymbolDeclarator.java <36:12 36:15>]
+REFERENCE_TYPE_ARGUMENT java.util.List<com.github.javaparser.symbolsolver.model.declarations.ValueDeclaration> com.github.javaparser.symbolsolver.javaparsermodel.declarators.NoSymbolDeclarator<N>.getSymbolDeclarations() -> com.github.javaparser.symbolsolver.model.declarations.ValueDeclaration [NoSymbolDeclarator.java <36:17 36:32>]
+LOCAL_SYMBOL: NoSymbolDeclarator.java<36:59> [NoSymbolDeclarator.java <36:59 36:59>]
+LOCAL_SYMBOL: NoSymbolDeclarator.java<36:59> [NoSymbolDeclarator.java <38:5 38:5>]
+SYMBOL_METHOD static java.util.List<T> java.util.Collections.emptyList<T>()
+REFERENCE_CALL java.util.List<com.github.javaparser.symbolsolver.model.declarations.ValueDeclaration> com.github.javaparser.symbolsolver.javaparsermodel.declarators.NoSymbolDeclarator<N>.getSymbolDeclarations() -> static java.util.List<T> java.util.Collections.emptyList<T>() [NoSymbolDeclarator.java <37:28 37:36>]
+COMMENT: comment [NoSymbolDeclarator.java <1:1 15:3>]

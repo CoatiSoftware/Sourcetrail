@@ -1,0 +1,38 @@
+FILE: AbstractSymbolDeclarator.java
+SYMBOL_PACKAGE com.github.javaparser.symbolsolver.javaparsermodel.declarators [AbstractSymbolDeclarator.java <17:9 17:70>]
+SYMBOL_PACKAGE com.github.javaparser.symbolsolver.javaparsermodel
+SYMBOL_PACKAGE com.github.javaparser.symbolsolver
+SYMBOL_PACKAGE com.github.javaparser
+SYMBOL_PACKAGE com.github
+SYMBOL_PACKAGE com
+REFERENCE_IMPORT AbstractSymbolDeclarator.java -> com.github.javaparser.ast.Node [AbstractSymbolDeclarator.java <19:8 19:37>]
+SYMBOL_PACKAGE com.github.javaparser.ast
+REFERENCE_IMPORT AbstractSymbolDeclarator.java -> com.github.javaparser.symbolsolver.model.resolution.TypeSolver [AbstractSymbolDeclarator.java <20:8 20:69>]
+SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model.resolution
+REFERENCE_IMPORT AbstractSymbolDeclarator.java -> com.github.javaparser.symbolsolver.resolution.SymbolDeclarator [AbstractSymbolDeclarator.java <21:8 21:69>]
+SYMBOL_PACKAGE com.github.javaparser.symbolsolver.resolution
+SYMBOL_CLASS public com.github.javaparser.symbolsolver.javaparsermodel.declarators.AbstractSymbolDeclarator<N> [AbstractSymbolDeclarator.java <26:1 <26:23 26:46> 35:1>]
+LOCAL_SYMBOL: AbstractSymbolDeclarator.java<26:92> [AbstractSymbolDeclarator.java <26:92 26:92>]
+LOCAL_SYMBOL: AbstractSymbolDeclarator.java<26:92> [AbstractSymbolDeclarator.java <35:1 35:1>]
+COMMENT: comment [AbstractSymbolDeclarator.java <23:1 25:3>]
+SYMBOL_TYPE_PARAMETER com.github.javaparser.symbolsolver.javaparsermodel.declarators.AbstractSymbolDeclarator<N>.N [AbstractSymbolDeclarator.java <26:48 26:48>]
+REFERENCE_TYPE_USAGE com.github.javaparser.symbolsolver.javaparsermodel.declarators.AbstractSymbolDeclarator<N>.N -> com.github.javaparser.ast.Node [AbstractSymbolDeclarator.java <26:58 26:61>]
+REFERENCE_INHERITANCE com.github.javaparser.symbolsolver.javaparsermodel.declarators.AbstractSymbolDeclarator<N> -> com.github.javaparser.symbolsolver.resolution.SymbolDeclarator [AbstractSymbolDeclarator.java <26:75 26:90>]
+SYMBOL_FIELD protected com.github.javaparser.symbolsolver.javaparsermodel.declarators.AbstractSymbolDeclarator<N>.N com.github.javaparser.symbolsolver.javaparsermodel.declarators.AbstractSymbolDeclarator<N>.wrappedNode [AbstractSymbolDeclarator.java <28:17 28:27>]
+REFERENCE_TYPE_USAGE com.github.javaparser.symbolsolver.javaparsermodel.declarators.AbstractSymbolDeclarator<N>.N com.github.javaparser.symbolsolver.javaparsermodel.declarators.AbstractSymbolDeclarator<N>.wrappedNode -> com.github.javaparser.symbolsolver.javaparsermodel.declarators.AbstractSymbolDeclarator<N>.N [AbstractSymbolDeclarator.java <28:15 28:15>]
+SYMBOL_FIELD protected com.github.javaparser.symbolsolver.model.resolution.TypeSolver com.github.javaparser.symbolsolver.javaparsermodel.declarators.AbstractSymbolDeclarator<N>.typeSolver [AbstractSymbolDeclarator.java <29:26 29:35>]
+REFERENCE_TYPE_USAGE com.github.javaparser.symbolsolver.model.resolution.TypeSolver com.github.javaparser.symbolsolver.javaparsermodel.declarators.AbstractSymbolDeclarator<N>.typeSolver -> com.github.javaparser.symbolsolver.model.resolution.TypeSolver [AbstractSymbolDeclarator.java <29:15 29:24>]
+SYMBOL_METHOD public com.github.javaparser.symbolsolver.javaparsermodel.declarators.AbstractSymbolDeclarator<N>.AbstractSymbolDeclarator(com.github.javaparser.symbolsolver.javaparsermodel.declarators.AbstractSymbolDeclarator<N>.N, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) [AbstractSymbolDeclarator.java <31:5 <31:12 31:35> 34:5>]
+REFERENCE_TYPE_USAGE com.github.javaparser.symbolsolver.javaparsermodel.declarators.AbstractSymbolDeclarator<N>.AbstractSymbolDeclarator(com.github.javaparser.symbolsolver.javaparsermodel.declarators.AbstractSymbolDeclarator<N>.N, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> com.github.javaparser.symbolsolver.javaparsermodel.declarators.AbstractSymbolDeclarator<N>.N [AbstractSymbolDeclarator.java <31:37 31:37>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javaparsermodel.declarators.AbstractSymbolDeclarator<N>.AbstractSymbolDeclarator<0> [AbstractSymbolDeclarator.java <31:39 31:49>]
+REFERENCE_TYPE_USAGE com.github.javaparser.symbolsolver.javaparsermodel.declarators.AbstractSymbolDeclarator<N>.AbstractSymbolDeclarator(com.github.javaparser.symbolsolver.javaparsermodel.declarators.AbstractSymbolDeclarator<N>.N, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> com.github.javaparser.symbolsolver.model.resolution.TypeSolver [AbstractSymbolDeclarator.java <31:52 31:61>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javaparsermodel.declarators.AbstractSymbolDeclarator<N>.AbstractSymbolDeclarator<1> [AbstractSymbolDeclarator.java <31:63 31:72>]
+LOCAL_SYMBOL: AbstractSymbolDeclarator.java<31:75> [AbstractSymbolDeclarator.java <31:75 31:75>]
+LOCAL_SYMBOL: AbstractSymbolDeclarator.java<31:75> [AbstractSymbolDeclarator.java <34:5 34:5>]
+SYMBOL_FIELD com.github.javaparser.symbolsolver.javaparsermodel.declarators.AbstractSymbolDeclarator<N>.N com.github.javaparser.symbolsolver.javaparsermodel.declarators.AbstractSymbolDeclarator<N>.wrappedNode
+REFERENCE_USAGE com.github.javaparser.symbolsolver.javaparsermodel.declarators.AbstractSymbolDeclarator<N>.AbstractSymbolDeclarator(com.github.javaparser.symbolsolver.javaparsermodel.declarators.AbstractSymbolDeclarator<N>.N, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> com.github.javaparser.symbolsolver.javaparsermodel.declarators.AbstractSymbolDeclarator<N>.N com.github.javaparser.symbolsolver.javaparsermodel.declarators.AbstractSymbolDeclarator<N>.wrappedNode [AbstractSymbolDeclarator.java <32:14 32:24>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javaparsermodel.declarators.AbstractSymbolDeclarator<N>.AbstractSymbolDeclarator<0> [AbstractSymbolDeclarator.java <32:28 32:38>]
+SYMBOL_FIELD com.github.javaparser.symbolsolver.model.resolution.TypeSolver com.github.javaparser.symbolsolver.javaparsermodel.declarators.AbstractSymbolDeclarator<N>.typeSolver
+REFERENCE_USAGE com.github.javaparser.symbolsolver.javaparsermodel.declarators.AbstractSymbolDeclarator<N>.AbstractSymbolDeclarator(com.github.javaparser.symbolsolver.javaparsermodel.declarators.AbstractSymbolDeclarator<N>.N, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> com.github.javaparser.symbolsolver.model.resolution.TypeSolver com.github.javaparser.symbolsolver.javaparsermodel.declarators.AbstractSymbolDeclarator<N>.typeSolver [AbstractSymbolDeclarator.java <33:14 33:23>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javaparsermodel.declarators.AbstractSymbolDeclarator<N>.AbstractSymbolDeclarator<1> [AbstractSymbolDeclarator.java <33:27 33:36>]
+COMMENT: comment [AbstractSymbolDeclarator.java <1:1 15:3>]

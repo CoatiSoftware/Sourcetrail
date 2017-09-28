@@ -1,0 +1,93 @@
+FILE: LambdaArgumentTypePlaceholder.java
+SYMBOL_PACKAGE com.github.javaparser.symbolsolver.javaparsermodel [LambdaArgumentTypePlaceholder.java <17:9 17:58>]
+SYMBOL_PACKAGE com.github.javaparser.symbolsolver
+SYMBOL_PACKAGE com.github.javaparser
+SYMBOL_PACKAGE com.github
+SYMBOL_PACKAGE com
+REFERENCE_IMPORT LambdaArgumentTypePlaceholder.java -> com.github.javaparser.symbolsolver.model.declarations.MethodLikeDeclaration [LambdaArgumentTypePlaceholder.java <19:8 19:82>]
+SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model.declarations
+REFERENCE_IMPORT LambdaArgumentTypePlaceholder.java -> com.github.javaparser.symbolsolver.model.resolution.SymbolReference<S> [LambdaArgumentTypePlaceholder.java <20:8 20:74>]
+SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model.resolution
+REFERENCE_IMPORT LambdaArgumentTypePlaceholder.java -> com.github.javaparser.symbolsolver.model.typesystem.Type [LambdaArgumentTypePlaceholder.java <21:8 21:63>]
+SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model.typesystem
+SYMBOL_CLASS public com.github.javaparser.symbolsolver.javaparsermodel.LambdaArgumentTypePlaceholder [LambdaArgumentTypePlaceholder.java <29:1 <29:14 29:42> 72:1>]
+LOCAL_SYMBOL: LambdaArgumentTypePlaceholder.java<29:60> [LambdaArgumentTypePlaceholder.java <29:60 29:60>]
+LOCAL_SYMBOL: LambdaArgumentTypePlaceholder.java<29:60> [LambdaArgumentTypePlaceholder.java <72:1 72:1>]
+COMMENT: comment [LambdaArgumentTypePlaceholder.java <23:1 28:3>]
+REFERENCE_INHERITANCE com.github.javaparser.symbolsolver.javaparsermodel.LambdaArgumentTypePlaceholder -> com.github.javaparser.symbolsolver.model.typesystem.Type [LambdaArgumentTypePlaceholder.java <29:55 29:58>]
+SYMBOL_FIELD private int com.github.javaparser.symbolsolver.javaparsermodel.LambdaArgumentTypePlaceholder.pos [LambdaArgumentTypePlaceholder.java <31:17 31:19>]
+SYMBOL_BUILTIN_TYPE int
+REFERENCE_TYPE_USAGE int com.github.javaparser.symbolsolver.javaparsermodel.LambdaArgumentTypePlaceholder.pos -> int [LambdaArgumentTypePlaceholder.java <31:13 31:15>]
+SYMBOL_FIELD private com.github.javaparser.symbolsolver.model.resolution.SymbolReference<? extends MethodLikeDeclaration> com.github.javaparser.symbolsolver.javaparsermodel.LambdaArgumentTypePlaceholder.method [LambdaArgumentTypePlaceholder.java <32:62 32:67>]
+REFERENCE_TYPE_USAGE com.github.javaparser.symbolsolver.model.resolution.SymbolReference<? extends MethodLikeDeclaration> com.github.javaparser.symbolsolver.javaparsermodel.LambdaArgumentTypePlaceholder.method -> com.github.javaparser.symbolsolver.model.resolution.SymbolReference<S> [LambdaArgumentTypePlaceholder.java <32:13 32:27>]
+REFERENCE_TYPE_ARGUMENT com.github.javaparser.symbolsolver.model.resolution.SymbolReference<? extends MethodLikeDeclaration> com.github.javaparser.symbolsolver.javaparsermodel.LambdaArgumentTypePlaceholder.method -> com.github.javaparser.symbolsolver.model.declarations.MethodLikeDeclaration [LambdaArgumentTypePlaceholder.java <32:39 32:59>]
+SYMBOL_METHOD public com.github.javaparser.symbolsolver.javaparsermodel.LambdaArgumentTypePlaceholder.LambdaArgumentTypePlaceholder(int) [LambdaArgumentTypePlaceholder.java <34:5 <34:12 34:40> 36:5>]
+SYMBOL_BUILTIN_TYPE int
+REFERENCE_TYPE_USAGE com.github.javaparser.symbolsolver.javaparsermodel.LambdaArgumentTypePlaceholder.LambdaArgumentTypePlaceholder(int) -> int [LambdaArgumentTypePlaceholder.java <34:42 34:44>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javaparsermodel.LambdaArgumentTypePlaceholder.LambdaArgumentTypePlaceholder<0> [LambdaArgumentTypePlaceholder.java <34:46 34:48>]
+LOCAL_SYMBOL: LambdaArgumentTypePlaceholder.java<34:51> [LambdaArgumentTypePlaceholder.java <34:51 34:51>]
+LOCAL_SYMBOL: LambdaArgumentTypePlaceholder.java<34:51> [LambdaArgumentTypePlaceholder.java <36:5 36:5>]
+SYMBOL_FIELD int com.github.javaparser.symbolsolver.javaparsermodel.LambdaArgumentTypePlaceholder.pos
+REFERENCE_USAGE com.github.javaparser.symbolsolver.javaparsermodel.LambdaArgumentTypePlaceholder.LambdaArgumentTypePlaceholder(int) -> int com.github.javaparser.symbolsolver.javaparsermodel.LambdaArgumentTypePlaceholder.pos [LambdaArgumentTypePlaceholder.java <35:14 35:16>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javaparsermodel.LambdaArgumentTypePlaceholder.LambdaArgumentTypePlaceholder<0> [LambdaArgumentTypePlaceholder.java <35:20 35:22>]
+SYMBOL_METHOD public boolean com.github.javaparser.symbolsolver.javaparsermodel.LambdaArgumentTypePlaceholder.isArray() [LambdaArgumentTypePlaceholder.java <38:5 <39:20 39:26> 41:5>]
+SYMBOL_METHOD boolean com.github.javaparser.symbolsolver.model.typesystem.Type.isArray()
+REFERENCE_OVERRIDE boolean com.github.javaparser.symbolsolver.javaparsermodel.LambdaArgumentTypePlaceholder.isArray() -> boolean com.github.javaparser.symbolsolver.model.typesystem.Type.isArray() [LambdaArgumentTypePlaceholder.java <39:20 39:26>]
+SYMBOL_BUILTIN_TYPE boolean
+REFERENCE_TYPE_USAGE boolean com.github.javaparser.symbolsolver.javaparsermodel.LambdaArgumentTypePlaceholder.isArray() -> boolean [LambdaArgumentTypePlaceholder.java <39:12 39:18>]
+LOCAL_SYMBOL: LambdaArgumentTypePlaceholder.java<39:30> [LambdaArgumentTypePlaceholder.java <39:30 39:30>]
+LOCAL_SYMBOL: LambdaArgumentTypePlaceholder.java<39:30> [LambdaArgumentTypePlaceholder.java <41:5 41:5>]
+SYMBOL_METHOD public boolean com.github.javaparser.symbolsolver.javaparsermodel.LambdaArgumentTypePlaceholder.isPrimitive() [LambdaArgumentTypePlaceholder.java <43:5 <44:20 44:30> 46:5>]
+SYMBOL_METHOD boolean com.github.javaparser.symbolsolver.model.typesystem.Type.isPrimitive()
+REFERENCE_OVERRIDE boolean com.github.javaparser.symbolsolver.javaparsermodel.LambdaArgumentTypePlaceholder.isPrimitive() -> boolean com.github.javaparser.symbolsolver.model.typesystem.Type.isPrimitive() [LambdaArgumentTypePlaceholder.java <44:20 44:30>]
+SYMBOL_BUILTIN_TYPE boolean
+REFERENCE_TYPE_USAGE boolean com.github.javaparser.symbolsolver.javaparsermodel.LambdaArgumentTypePlaceholder.isPrimitive() -> boolean [LambdaArgumentTypePlaceholder.java <44:12 44:18>]
+LOCAL_SYMBOL: LambdaArgumentTypePlaceholder.java<44:34> [LambdaArgumentTypePlaceholder.java <44:34 44:34>]
+LOCAL_SYMBOL: LambdaArgumentTypePlaceholder.java<44:34> [LambdaArgumentTypePlaceholder.java <46:5 46:5>]
+SYMBOL_METHOD public boolean com.github.javaparser.symbolsolver.javaparsermodel.LambdaArgumentTypePlaceholder.isReferenceType() [LambdaArgumentTypePlaceholder.java <48:5 <49:20 49:34> 51:5>]
+SYMBOL_METHOD boolean com.github.javaparser.symbolsolver.model.typesystem.Type.isReferenceType()
+REFERENCE_OVERRIDE boolean com.github.javaparser.symbolsolver.javaparsermodel.LambdaArgumentTypePlaceholder.isReferenceType() -> boolean com.github.javaparser.symbolsolver.model.typesystem.Type.isReferenceType() [LambdaArgumentTypePlaceholder.java <49:20 49:34>]
+SYMBOL_BUILTIN_TYPE boolean
+REFERENCE_TYPE_USAGE boolean com.github.javaparser.symbolsolver.javaparsermodel.LambdaArgumentTypePlaceholder.isReferenceType() -> boolean [LambdaArgumentTypePlaceholder.java <49:12 49:18>]
+LOCAL_SYMBOL: LambdaArgumentTypePlaceholder.java<49:38> [LambdaArgumentTypePlaceholder.java <49:38 49:38>]
+LOCAL_SYMBOL: LambdaArgumentTypePlaceholder.java<49:38> [LambdaArgumentTypePlaceholder.java <51:5 51:5>]
+SYMBOL_METHOD public java.lang.String com.github.javaparser.symbolsolver.javaparsermodel.LambdaArgumentTypePlaceholder.describe() [LambdaArgumentTypePlaceholder.java <53:5 <54:19 54:26> 56:5>]
+SYMBOL_METHOD java.lang.String com.github.javaparser.symbolsolver.model.typesystem.Type.describe()
+REFERENCE_OVERRIDE java.lang.String com.github.javaparser.symbolsolver.javaparsermodel.LambdaArgumentTypePlaceholder.describe() -> java.lang.String com.github.javaparser.symbolsolver.model.typesystem.Type.describe() [LambdaArgumentTypePlaceholder.java <54:19 54:26>]
+REFERENCE_TYPE_USAGE java.lang.String com.github.javaparser.symbolsolver.javaparsermodel.LambdaArgumentTypePlaceholder.describe() -> java.lang.String [LambdaArgumentTypePlaceholder.java <54:12 54:17>]
+LOCAL_SYMBOL: LambdaArgumentTypePlaceholder.java<54:30> [LambdaArgumentTypePlaceholder.java <54:30 54:30>]
+LOCAL_SYMBOL: LambdaArgumentTypePlaceholder.java<54:30> [LambdaArgumentTypePlaceholder.java <56:5 56:5>]
+SYMBOL_METHOD java.lang.UnsupportedOperationException.UnsupportedOperationException()
+REFERENCE_CALL java.lang.String com.github.javaparser.symbolsolver.javaparsermodel.LambdaArgumentTypePlaceholder.describe() -> java.lang.UnsupportedOperationException.UnsupportedOperationException() [LambdaArgumentTypePlaceholder.java <55:19 55:47>]
+REFERENCE_TYPE_USAGE java.lang.String com.github.javaparser.symbolsolver.javaparsermodel.LambdaArgumentTypePlaceholder.describe() -> java.lang.UnsupportedOperationException [LambdaArgumentTypePlaceholder.java <55:19 55:47>]
+SYMBOL_METHOD public boolean com.github.javaparser.symbolsolver.javaparsermodel.LambdaArgumentTypePlaceholder.isTypeVariable() [LambdaArgumentTypePlaceholder.java <58:5 <59:20 59:33> 61:5>]
+SYMBOL_METHOD boolean com.github.javaparser.symbolsolver.model.typesystem.Type.isTypeVariable()
+REFERENCE_OVERRIDE boolean com.github.javaparser.symbolsolver.javaparsermodel.LambdaArgumentTypePlaceholder.isTypeVariable() -> boolean com.github.javaparser.symbolsolver.model.typesystem.Type.isTypeVariable() [LambdaArgumentTypePlaceholder.java <59:20 59:33>]
+SYMBOL_BUILTIN_TYPE boolean
+REFERENCE_TYPE_USAGE boolean com.github.javaparser.symbolsolver.javaparsermodel.LambdaArgumentTypePlaceholder.isTypeVariable() -> boolean [LambdaArgumentTypePlaceholder.java <59:12 59:18>]
+LOCAL_SYMBOL: LambdaArgumentTypePlaceholder.java<59:37> [LambdaArgumentTypePlaceholder.java <59:37 59:37>]
+LOCAL_SYMBOL: LambdaArgumentTypePlaceholder.java<59:37> [LambdaArgumentTypePlaceholder.java <61:5 61:5>]
+SYMBOL_METHOD public void com.github.javaparser.symbolsolver.javaparsermodel.LambdaArgumentTypePlaceholder.setMethod(com.github.javaparser.symbolsolver.model.resolution.SymbolReference<? extends MethodLikeDeclaration>) [LambdaArgumentTypePlaceholder.java <63:5 <63:17 63:25> 65:5>]
+SYMBOL_BUILTIN_TYPE void
+REFERENCE_TYPE_USAGE void com.github.javaparser.symbolsolver.javaparsermodel.LambdaArgumentTypePlaceholder.setMethod(com.github.javaparser.symbolsolver.model.resolution.SymbolReference<? extends MethodLikeDeclaration>) -> void [LambdaArgumentTypePlaceholder.java <63:12 63:15>]
+REFERENCE_TYPE_USAGE void com.github.javaparser.symbolsolver.javaparsermodel.LambdaArgumentTypePlaceholder.setMethod(com.github.javaparser.symbolsolver.model.resolution.SymbolReference<? extends MethodLikeDeclaration>) -> com.github.javaparser.symbolsolver.model.resolution.SymbolReference<S> [LambdaArgumentTypePlaceholder.java <63:27 63:41>]
+REFERENCE_TYPE_ARGUMENT void com.github.javaparser.symbolsolver.javaparsermodel.LambdaArgumentTypePlaceholder.setMethod(com.github.javaparser.symbolsolver.model.resolution.SymbolReference<? extends MethodLikeDeclaration>) -> com.github.javaparser.symbolsolver.model.declarations.MethodLikeDeclaration [LambdaArgumentTypePlaceholder.java <63:53 63:73>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javaparsermodel.LambdaArgumentTypePlaceholder.setMethod<0> [LambdaArgumentTypePlaceholder.java <63:76 63:81>]
+LOCAL_SYMBOL: LambdaArgumentTypePlaceholder.java<63:84> [LambdaArgumentTypePlaceholder.java <63:84 63:84>]
+LOCAL_SYMBOL: LambdaArgumentTypePlaceholder.java<63:84> [LambdaArgumentTypePlaceholder.java <65:5 65:5>]
+SYMBOL_FIELD com.github.javaparser.symbolsolver.model.resolution.SymbolReference<? extends MethodLikeDeclaration> com.github.javaparser.symbolsolver.javaparsermodel.LambdaArgumentTypePlaceholder.method
+REFERENCE_USAGE void com.github.javaparser.symbolsolver.javaparsermodel.LambdaArgumentTypePlaceholder.setMethod(com.github.javaparser.symbolsolver.model.resolution.SymbolReference<? extends MethodLikeDeclaration>) -> com.github.javaparser.symbolsolver.model.resolution.SymbolReference<? extends MethodLikeDeclaration> com.github.javaparser.symbolsolver.javaparsermodel.LambdaArgumentTypePlaceholder.method [LambdaArgumentTypePlaceholder.java <64:14 64:19>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javaparsermodel.LambdaArgumentTypePlaceholder.setMethod<0> [LambdaArgumentTypePlaceholder.java <64:23 64:28>]
+SYMBOL_METHOD public boolean com.github.javaparser.symbolsolver.javaparsermodel.LambdaArgumentTypePlaceholder.isAssignableBy(com.github.javaparser.symbolsolver.model.typesystem.Type) [LambdaArgumentTypePlaceholder.java <67:5 <68:20 68:33> 70:5>]
+SYMBOL_METHOD boolean com.github.javaparser.symbolsolver.model.typesystem.Type.isAssignableBy(com.github.javaparser.symbolsolver.model.typesystem.Type)
+REFERENCE_OVERRIDE boolean com.github.javaparser.symbolsolver.javaparsermodel.LambdaArgumentTypePlaceholder.isAssignableBy(com.github.javaparser.symbolsolver.model.typesystem.Type) -> boolean com.github.javaparser.symbolsolver.model.typesystem.Type.isAssignableBy(com.github.javaparser.symbolsolver.model.typesystem.Type) [LambdaArgumentTypePlaceholder.java <68:20 68:33>]
+SYMBOL_BUILTIN_TYPE boolean
+REFERENCE_TYPE_USAGE boolean com.github.javaparser.symbolsolver.javaparsermodel.LambdaArgumentTypePlaceholder.isAssignableBy(com.github.javaparser.symbolsolver.model.typesystem.Type) -> boolean [LambdaArgumentTypePlaceholder.java <68:12 68:18>]
+REFERENCE_TYPE_USAGE boolean com.github.javaparser.symbolsolver.javaparsermodel.LambdaArgumentTypePlaceholder.isAssignableBy(com.github.javaparser.symbolsolver.model.typesystem.Type) -> com.github.javaparser.symbolsolver.model.typesystem.Type [LambdaArgumentTypePlaceholder.java <68:35 68:38>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javaparsermodel.LambdaArgumentTypePlaceholder.isAssignableBy<0> [LambdaArgumentTypePlaceholder.java <68:40 68:44>]
+LOCAL_SYMBOL: LambdaArgumentTypePlaceholder.java<68:47> [LambdaArgumentTypePlaceholder.java <68:47 68:47>]
+LOCAL_SYMBOL: LambdaArgumentTypePlaceholder.java<68:47> [LambdaArgumentTypePlaceholder.java <70:5 70:5>]
+SYMBOL_METHOD java.lang.UnsupportedOperationException.UnsupportedOperationException()
+REFERENCE_CALL boolean com.github.javaparser.symbolsolver.javaparsermodel.LambdaArgumentTypePlaceholder.isAssignableBy(com.github.javaparser.symbolsolver.model.typesystem.Type) -> java.lang.UnsupportedOperationException.UnsupportedOperationException() [LambdaArgumentTypePlaceholder.java <69:19 69:47>]
+REFERENCE_TYPE_USAGE boolean com.github.javaparser.symbolsolver.javaparsermodel.LambdaArgumentTypePlaceholder.isAssignableBy(com.github.javaparser.symbolsolver.model.typesystem.Type) -> java.lang.UnsupportedOperationException [LambdaArgumentTypePlaceholder.java <69:19 69:47>]
+COMMENT: comment [LambdaArgumentTypePlaceholder.java <1:1 15:3>]

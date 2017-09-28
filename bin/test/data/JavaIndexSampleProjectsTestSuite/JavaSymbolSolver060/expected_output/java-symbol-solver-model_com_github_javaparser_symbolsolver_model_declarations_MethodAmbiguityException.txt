@@ -1,0 +1,24 @@
+FILE: MethodAmbiguityException.java
+SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model.declarations [MethodAmbiguityException.java <17:9 17:61>]
+SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model
+SYMBOL_PACKAGE com.github.javaparser.symbolsolver
+SYMBOL_PACKAGE com.github.javaparser
+SYMBOL_PACKAGE com.github
+SYMBOL_PACKAGE com
+SYMBOL_CLASS public com.github.javaparser.symbolsolver.model.declarations.MethodAmbiguityException [MethodAmbiguityException.java <24:1 <24:14 24:37> 33:1>]
+LOCAL_SYMBOL: MethodAmbiguityException.java<24:64> [MethodAmbiguityException.java <24:64 24:64>]
+LOCAL_SYMBOL: MethodAmbiguityException.java<24:64> [MethodAmbiguityException.java <33:1 33:1>]
+COMMENT: comment [MethodAmbiguityException.java <19:1 23:3>]
+REFERENCE_INHERITANCE com.github.javaparser.symbolsolver.model.declarations.MethodAmbiguityException -> java.lang.RuntimeException [MethodAmbiguityException.java <24:47 24:62>]
+SYMBOL_METHOD public com.github.javaparser.symbolsolver.model.declarations.MethodAmbiguityException.MethodAmbiguityException(java.lang.String) [MethodAmbiguityException.java <29:1 <29:12 29:35> 31:5>]
+SYMBOL_METHOD java.lang.RuntimeException.RuntimeException(java.lang.String)
+REFERENCE_OVERRIDE com.github.javaparser.symbolsolver.model.declarations.MethodAmbiguityException.MethodAmbiguityException(java.lang.String) -> java.lang.RuntimeException.RuntimeException(java.lang.String) [MethodAmbiguityException.java <29:12 29:35>]
+COMMENT: comment [MethodAmbiguityException.java <26:5 28:7>]
+REFERENCE_TYPE_USAGE com.github.javaparser.symbolsolver.model.declarations.MethodAmbiguityException.MethodAmbiguityException(java.lang.String) -> java.lang.String [MethodAmbiguityException.java <29:37 29:42>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.model.declarations.MethodAmbiguityException.MethodAmbiguityException<0> [MethodAmbiguityException.java <29:44 29:54>]
+LOCAL_SYMBOL: MethodAmbiguityException.java<29:57> [MethodAmbiguityException.java <29:57 29:57>]
+LOCAL_SYMBOL: MethodAmbiguityException.java<29:57> [MethodAmbiguityException.java <31:5 31:5>]
+SYMBOL_METHOD java.lang.RuntimeException.RuntimeException(java.lang.String)
+REFERENCE_CALL com.github.javaparser.symbolsolver.model.declarations.MethodAmbiguityException.MethodAmbiguityException(java.lang.String) -> java.lang.RuntimeException.RuntimeException(java.lang.String) [MethodAmbiguityException.java <30:9 30:13>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.model.declarations.MethodAmbiguityException.MethodAmbiguityException<0> [MethodAmbiguityException.java <30:15 30:25>]
+COMMENT: comment [MethodAmbiguityException.java <1:1 15:3>]

@@ -1,0 +1,202 @@
+FILE: JavassistFactory.java
+SYMBOL_PACKAGE com.github.javaparser.symbolsolver.javassistmodel [JavassistFactory.java <15:9 15:57>]
+SYMBOL_PACKAGE com.github.javaparser.symbolsolver
+SYMBOL_PACKAGE com.github.javaparser
+SYMBOL_PACKAGE com.github
+SYMBOL_PACKAGE com
+REFERENCE_IMPORT JavassistFactory.java -> com.github.javaparser.symbolsolver.model.declarations.AccessLevel [JavassistFactory.java <17:8 17:72>]
+SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model.declarations
+REFERENCE_IMPORT JavassistFactory.java -> com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration [JavassistFactory.java <18:8 18:85>]
+SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model.declarations
+REFERENCE_IMPORT JavassistFactory.java -> com.github.javaparser.symbolsolver.model.resolution.TypeSolver [JavassistFactory.java <19:8 19:69>]
+SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model.resolution
+REFERENCE_IMPORT JavassistFactory.java -> com.github.javaparser.symbolsolver.model.typesystem [JavassistFactory.java <20:8 20:58>]
+SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model.typesystem
+REFERENCE_IMPORT JavassistFactory.java -> javassist.CtClass [JavassistFactory.java <21:8 21:24>]
+SYMBOL_PACKAGE javassist
+REFERENCE_IMPORT JavassistFactory.java -> javassist.NotFoundException [JavassistFactory.java <22:8 22:34>]
+SYMBOL_PACKAGE javassist
+REFERENCE_IMPORT JavassistFactory.java -> java.lang.reflect.Modifier [JavassistFactory.java <24:8 24:33>]
+SYMBOL_PACKAGE java.lang.reflect
+SYMBOL_CLASS public com.github.javaparser.symbolsolver.javassistmodel.JavassistFactory [JavassistFactory.java <29:1 <29:14 29:29> 84:1>]
+LOCAL_SYMBOL: JavassistFactory.java<29:31> [JavassistFactory.java <29:31 29:31>]
+LOCAL_SYMBOL: JavassistFactory.java<29:31> [JavassistFactory.java <84:1 84:1>]
+COMMENT: comment [JavassistFactory.java <26:1 28:3>]
+SYMBOL_METHOD public static com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.javassistmodel.JavassistFactory.typeUsageFor(javassist.CtClass, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) [JavassistFactory.java <31:3 <31:22 31:33> 56:3>]
+REFERENCE_TYPE_USAGE static com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.javassistmodel.JavassistFactory.typeUsageFor(javassist.CtClass, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> com.github.javaparser.symbolsolver.model.typesystem.Type [JavassistFactory.java <31:17 31:20>]
+REFERENCE_TYPE_USAGE static com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.javassistmodel.JavassistFactory.typeUsageFor(javassist.CtClass, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> javassist.CtClass [JavassistFactory.java <31:35 31:41>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javassistmodel.JavassistFactory.typeUsageFor<0> [JavassistFactory.java <31:43 31:49>]
+REFERENCE_TYPE_USAGE static com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.javassistmodel.JavassistFactory.typeUsageFor(javassist.CtClass, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> com.github.javaparser.symbolsolver.model.resolution.TypeSolver [JavassistFactory.java <31:52 31:61>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javassistmodel.JavassistFactory.typeUsageFor<1> [JavassistFactory.java <31:63 31:72>]
+LOCAL_SYMBOL: JavassistFactory.java<31:75> [JavassistFactory.java <31:75 31:75>]
+LOCAL_SYMBOL: JavassistFactory.java<31:75> [JavassistFactory.java <56:3 56:3>]
+LOCAL_SYMBOL: JavassistFactory.java<32:9> [JavassistFactory.java <32:9 32:9>]
+LOCAL_SYMBOL: JavassistFactory.java<32:9> [JavassistFactory.java <53:5 53:5>]
+SYMBOL_METHOD boolean javassist.CtClass.isArray()
+REFERENCE_CALL static com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.javassistmodel.JavassistFactory.typeUsageFor(javassist.CtClass, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> boolean javassist.CtClass.isArray() [JavassistFactory.java <33:19 33:25>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javassistmodel.JavassistFactory.typeUsageFor<0> [JavassistFactory.java <33:11 33:17>]
+LOCAL_SYMBOL: JavassistFactory.java<33:30> [JavassistFactory.java <33:30 33:30>]
+LOCAL_SYMBOL: JavassistFactory.java<33:30> [JavassistFactory.java <35:7 35:7>]
+SYMBOL_METHOD com.github.javaparser.symbolsolver.model.typesystem.ArrayType.ArrayType(com.github.javaparser.symbolsolver.model.typesystem.Type)
+REFERENCE_CALL static com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.javassistmodel.JavassistFactory.typeUsageFor(javassist.CtClass, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> com.github.javaparser.symbolsolver.model.typesystem.ArrayType.ArrayType(com.github.javaparser.symbolsolver.model.typesystem.Type) [JavassistFactory.java <34:20 34:28>]
+REFERENCE_TYPE_USAGE static com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.javassistmodel.JavassistFactory.typeUsageFor(javassist.CtClass, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> com.github.javaparser.symbolsolver.model.typesystem.ArrayType [JavassistFactory.java <34:20 34:28>]
+SYMBOL_METHOD static com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.javassistmodel.JavassistFactory.typeUsageFor(javassist.CtClass, com.github.javaparser.symbolsolver.model.resolution.TypeSolver)
+REFERENCE_CALL static com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.javassistmodel.JavassistFactory.typeUsageFor(javassist.CtClass, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> static com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.javassistmodel.JavassistFactory.typeUsageFor(javassist.CtClass, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) [JavassistFactory.java <34:30 34:41>]
+SYMBOL_METHOD javassist.CtClass javassist.CtClass.getComponentType()
+REFERENCE_CALL static com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.javassistmodel.JavassistFactory.typeUsageFor(javassist.CtClass, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> javassist.CtClass javassist.CtClass.getComponentType() [JavassistFactory.java <34:51 34:66>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javassistmodel.JavassistFactory.typeUsageFor<0> [JavassistFactory.java <34:43 34:49>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javassistmodel.JavassistFactory.typeUsageFor<1> [JavassistFactory.java <34:71 34:80>]
+SYMBOL_METHOD boolean javassist.CtClass.isPrimitive()
+REFERENCE_CALL static com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.javassistmodel.JavassistFactory.typeUsageFor(javassist.CtClass, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> boolean javassist.CtClass.isPrimitive() [JavassistFactory.java <35:26 35:36>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javassistmodel.JavassistFactory.typeUsageFor<0> [JavassistFactory.java <35:18 35:24>]
+LOCAL_SYMBOL: JavassistFactory.java<35:41> [JavassistFactory.java <35:41 35:41>]
+LOCAL_SYMBOL: JavassistFactory.java<35:41> [JavassistFactory.java <41:7 41:7>]
+SYMBOL_METHOD boolean java.lang.String.equals(java.lang.Object)
+REFERENCE_CALL static com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.javassistmodel.JavassistFactory.typeUsageFor(javassist.CtClass, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> boolean java.lang.String.equals(java.lang.Object) [JavassistFactory.java <36:31 36:36>]
+SYMBOL_METHOD java.lang.String javassist.CtClass.getName()
+REFERENCE_CALL static com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.javassistmodel.JavassistFactory.typeUsageFor(javassist.CtClass, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> java.lang.String javassist.CtClass.getName() [JavassistFactory.java <36:21 36:27>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javassistmodel.JavassistFactory.typeUsageFor<0> [JavassistFactory.java <36:13 36:19>]
+LOCAL_SYMBOL: JavassistFactory.java<36:47> [JavassistFactory.java <36:47 36:47>]
+LOCAL_SYMBOL: JavassistFactory.java<36:47> [JavassistFactory.java <38:9 38:9>]
+SYMBOL_FIELD static com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.model.typesystem.VoidType.INSTANCE
+REFERENCE_USAGE static com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.javassistmodel.JavassistFactory.typeUsageFor(javassist.CtClass, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> static com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.model.typesystem.VoidType.INSTANCE [JavassistFactory.java <37:27 37:34>]
+LOCAL_SYMBOL: JavassistFactory.java<38:16> [JavassistFactory.java <38:16 38:16>]
+LOCAL_SYMBOL: JavassistFactory.java<38:16> [JavassistFactory.java <40:9 40:9>]
+SYMBOL_METHOD static com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType.byName(java.lang.String)
+REFERENCE_CALL static com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.javassistmodel.JavassistFactory.typeUsageFor(javassist.CtClass, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> static com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType.byName(java.lang.String) [JavassistFactory.java <39:32 39:37>]
+SYMBOL_METHOD java.lang.String javassist.CtClass.getName()
+REFERENCE_CALL static com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.javassistmodel.JavassistFactory.typeUsageFor(javassist.CtClass, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> java.lang.String javassist.CtClass.getName() [JavassistFactory.java <39:47 39:53>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javassistmodel.JavassistFactory.typeUsageFor<0> [JavassistFactory.java <39:39 39:45>]
+LOCAL_SYMBOL: JavassistFactory.java<41:14> [JavassistFactory.java <41:14 41:14>]
+LOCAL_SYMBOL: JavassistFactory.java<41:14> [JavassistFactory.java <52:7 52:7>]
+SYMBOL_METHOD boolean javassist.CtClass.isInterface()
+REFERENCE_CALL static com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.javassistmodel.JavassistFactory.typeUsageFor(javassist.CtClass, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> boolean javassist.CtClass.isInterface() [JavassistFactory.java <42:21 42:31>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javassistmodel.JavassistFactory.typeUsageFor<0> [JavassistFactory.java <42:13 42:19>]
+LOCAL_SYMBOL: JavassistFactory.java<42:36> [JavassistFactory.java <42:36 42:36>]
+LOCAL_SYMBOL: JavassistFactory.java<42:36> [JavassistFactory.java <45:9 45:9>]
+SYMBOL_METHOD com.github.javaparser.symbolsolver.model.typesystem.ReferenceTypeImpl.ReferenceTypeImpl(com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration, com.github.javaparser.symbolsolver.model.resolution.TypeSolver)
+REFERENCE_CALL static com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.javassistmodel.JavassistFactory.typeUsageFor(javassist.CtClass, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> com.github.javaparser.symbolsolver.model.typesystem.ReferenceTypeImpl.ReferenceTypeImpl(com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) [JavassistFactory.java <43:22 43:38>]
+REFERENCE_TYPE_USAGE static com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.javassistmodel.JavassistFactory.typeUsageFor(javassist.CtClass, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> com.github.javaparser.symbolsolver.model.typesystem.ReferenceTypeImpl [JavassistFactory.java <43:22 43:38>]
+SYMBOL_METHOD com.github.javaparser.symbolsolver.javassistmodel.JavassistInterfaceDeclaration.JavassistInterfaceDeclaration(javassist.CtClass, com.github.javaparser.symbolsolver.model.resolution.TypeSolver)
+REFERENCE_CALL static com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.javassistmodel.JavassistFactory.typeUsageFor(javassist.CtClass, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> com.github.javaparser.symbolsolver.javassistmodel.JavassistInterfaceDeclaration.JavassistInterfaceDeclaration(javassist.CtClass, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) [JavassistFactory.java <43:44 43:72>]
+REFERENCE_TYPE_USAGE static com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.javassistmodel.JavassistFactory.typeUsageFor(javassist.CtClass, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> com.github.javaparser.symbolsolver.javassistmodel.JavassistInterfaceDeclaration [JavassistFactory.java <43:44 43:72>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javassistmodel.JavassistFactory.typeUsageFor<0> [JavassistFactory.java <43:74 43:80>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javassistmodel.JavassistFactory.typeUsageFor<1> [JavassistFactory.java <43:83 43:92>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javassistmodel.JavassistFactory.typeUsageFor<1> [JavassistFactory.java <44:15 44:24>]
+SYMBOL_METHOD boolean javassist.CtClass.isEnum()
+REFERENCE_CALL static com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.javassistmodel.JavassistFactory.typeUsageFor(javassist.CtClass, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> boolean javassist.CtClass.isEnum() [JavassistFactory.java <45:28 45:33>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javassistmodel.JavassistFactory.typeUsageFor<0> [JavassistFactory.java <45:20 45:26>]
+LOCAL_SYMBOL: JavassistFactory.java<45:38> [JavassistFactory.java <45:38 45:38>]
+LOCAL_SYMBOL: JavassistFactory.java<45:38> [JavassistFactory.java <48:9 48:9>]
+SYMBOL_METHOD com.github.javaparser.symbolsolver.model.typesystem.ReferenceTypeImpl.ReferenceTypeImpl(com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration, com.github.javaparser.symbolsolver.model.resolution.TypeSolver)
+REFERENCE_CALL static com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.javassistmodel.JavassistFactory.typeUsageFor(javassist.CtClass, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> com.github.javaparser.symbolsolver.model.typesystem.ReferenceTypeImpl.ReferenceTypeImpl(com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) [JavassistFactory.java <46:22 46:38>]
+REFERENCE_TYPE_USAGE static com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.javassistmodel.JavassistFactory.typeUsageFor(javassist.CtClass, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> com.github.javaparser.symbolsolver.model.typesystem.ReferenceTypeImpl [JavassistFactory.java <46:22 46:38>]
+SYMBOL_METHOD com.github.javaparser.symbolsolver.javassistmodel.JavassistEnumDeclaration.JavassistEnumDeclaration(javassist.CtClass, com.github.javaparser.symbolsolver.model.resolution.TypeSolver)
+REFERENCE_CALL static com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.javassistmodel.JavassistFactory.typeUsageFor(javassist.CtClass, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> com.github.javaparser.symbolsolver.javassistmodel.JavassistEnumDeclaration.JavassistEnumDeclaration(javassist.CtClass, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) [JavassistFactory.java <46:44 46:67>]
+REFERENCE_TYPE_USAGE static com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.javassistmodel.JavassistFactory.typeUsageFor(javassist.CtClass, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> com.github.javaparser.symbolsolver.javassistmodel.JavassistEnumDeclaration [JavassistFactory.java <46:44 46:67>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javassistmodel.JavassistFactory.typeUsageFor<0> [JavassistFactory.java <46:69 46:75>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javassistmodel.JavassistFactory.typeUsageFor<1> [JavassistFactory.java <46:78 46:87>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javassistmodel.JavassistFactory.typeUsageFor<1> [JavassistFactory.java <47:15 47:24>]
+LOCAL_SYMBOL: JavassistFactory.java<48:16> [JavassistFactory.java <48:16 48:16>]
+LOCAL_SYMBOL: JavassistFactory.java<48:16> [JavassistFactory.java <51:9 51:9>]
+SYMBOL_METHOD com.github.javaparser.symbolsolver.model.typesystem.ReferenceTypeImpl.ReferenceTypeImpl(com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration, com.github.javaparser.symbolsolver.model.resolution.TypeSolver)
+REFERENCE_CALL static com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.javassistmodel.JavassistFactory.typeUsageFor(javassist.CtClass, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> com.github.javaparser.symbolsolver.model.typesystem.ReferenceTypeImpl.ReferenceTypeImpl(com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) [JavassistFactory.java <49:22 49:38>]
+REFERENCE_TYPE_USAGE static com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.javassistmodel.JavassistFactory.typeUsageFor(javassist.CtClass, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> com.github.javaparser.symbolsolver.model.typesystem.ReferenceTypeImpl [JavassistFactory.java <49:22 49:38>]
+SYMBOL_METHOD com.github.javaparser.symbolsolver.javassistmodel.JavassistClassDeclaration.JavassistClassDeclaration(javassist.CtClass, com.github.javaparser.symbolsolver.model.resolution.TypeSolver)
+REFERENCE_CALL static com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.javassistmodel.JavassistFactory.typeUsageFor(javassist.CtClass, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> com.github.javaparser.symbolsolver.javassistmodel.JavassistClassDeclaration.JavassistClassDeclaration(javassist.CtClass, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) [JavassistFactory.java <49:44 49:68>]
+REFERENCE_TYPE_USAGE static com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.javassistmodel.JavassistFactory.typeUsageFor(javassist.CtClass, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> com.github.javaparser.symbolsolver.javassistmodel.JavassistClassDeclaration [JavassistFactory.java <49:44 49:68>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javassistmodel.JavassistFactory.typeUsageFor<0> [JavassistFactory.java <49:70 49:76>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javassistmodel.JavassistFactory.typeUsageFor<1> [JavassistFactory.java <49:79 49:88>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javassistmodel.JavassistFactory.typeUsageFor<1> [JavassistFactory.java <50:15 50:24>]
+REFERENCE_TYPE_USAGE static com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.javassistmodel.JavassistFactory.typeUsageFor(javassist.CtClass, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> javassist.NotFoundException [JavassistFactory.java <53:14 53:30>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javassistmodel.JavassistFactory.typeUsageFor<2> [JavassistFactory.java <53:32 53:32>]
+LOCAL_SYMBOL: JavassistFactory.java<53:35> [JavassistFactory.java <53:35 53:35>]
+LOCAL_SYMBOL: JavassistFactory.java<53:35> [JavassistFactory.java <55:5 55:5>]
+SYMBOL_METHOD java.lang.RuntimeException.RuntimeException(java.lang.Throwable)
+REFERENCE_CALL static com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.javassistmodel.JavassistFactory.typeUsageFor(javassist.CtClass, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> java.lang.RuntimeException.RuntimeException(java.lang.Throwable) [JavassistFactory.java <54:17 54:32>]
+REFERENCE_TYPE_USAGE static com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.javassistmodel.JavassistFactory.typeUsageFor(javassist.CtClass, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> java.lang.RuntimeException [JavassistFactory.java <54:17 54:32>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javassistmodel.JavassistFactory.typeUsageFor<2> [JavassistFactory.java <54:34 54:34>]
+SYMBOL_METHOD public static com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration com.github.javaparser.symbolsolver.javassistmodel.JavassistFactory.toTypeDeclaration(javassist.CtClass, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) [JavassistFactory.java <58:3 <58:42 58:58> 70:3>]
+REFERENCE_TYPE_USAGE static com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration com.github.javaparser.symbolsolver.javassistmodel.JavassistFactory.toTypeDeclaration(javassist.CtClass, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration [JavassistFactory.java <58:17 58:40>]
+REFERENCE_TYPE_USAGE static com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration com.github.javaparser.symbolsolver.javassistmodel.JavassistFactory.toTypeDeclaration(javassist.CtClass, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> javassist.CtClass [JavassistFactory.java <58:60 58:66>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javassistmodel.JavassistFactory.toTypeDeclaration<0> [JavassistFactory.java <58:68 58:74>]
+REFERENCE_TYPE_USAGE static com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration com.github.javaparser.symbolsolver.javassistmodel.JavassistFactory.toTypeDeclaration(javassist.CtClass, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> com.github.javaparser.symbolsolver.model.resolution.TypeSolver [JavassistFactory.java <58:77 58:86>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javassistmodel.JavassistFactory.toTypeDeclaration<1> [JavassistFactory.java <58:88 58:97>]
+LOCAL_SYMBOL: JavassistFactory.java<58:100> [JavassistFactory.java <58:100 58:100>]
+LOCAL_SYMBOL: JavassistFactory.java<58:100> [JavassistFactory.java <70:3 70:3>]
+SYMBOL_METHOD boolean javassist.CtClass.isInterface()
+REFERENCE_CALL static com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration com.github.javaparser.symbolsolver.javassistmodel.JavassistFactory.toTypeDeclaration(javassist.CtClass, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> boolean javassist.CtClass.isInterface() [JavassistFactory.java <59:17 59:27>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javassistmodel.JavassistFactory.toTypeDeclaration<0> [JavassistFactory.java <59:9 59:15>]
+LOCAL_SYMBOL: JavassistFactory.java<59:32> [JavassistFactory.java <59:32 59:32>]
+LOCAL_SYMBOL: JavassistFactory.java<59:32> [JavassistFactory.java <61:5 61:5>]
+SYMBOL_METHOD com.github.javaparser.symbolsolver.javassistmodel.JavassistInterfaceDeclaration.JavassistInterfaceDeclaration(javassist.CtClass, com.github.javaparser.symbolsolver.model.resolution.TypeSolver)
+REFERENCE_CALL static com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration com.github.javaparser.symbolsolver.javassistmodel.JavassistFactory.toTypeDeclaration(javassist.CtClass, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> com.github.javaparser.symbolsolver.javassistmodel.JavassistInterfaceDeclaration.JavassistInterfaceDeclaration(javassist.CtClass, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) [JavassistFactory.java <60:18 60:46>]
+REFERENCE_TYPE_USAGE static com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration com.github.javaparser.symbolsolver.javassistmodel.JavassistFactory.toTypeDeclaration(javassist.CtClass, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> com.github.javaparser.symbolsolver.javassistmodel.JavassistInterfaceDeclaration [JavassistFactory.java <60:18 60:46>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javassistmodel.JavassistFactory.toTypeDeclaration<0> [JavassistFactory.java <60:48 60:54>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javassistmodel.JavassistFactory.toTypeDeclaration<1> [JavassistFactory.java <60:57 60:66>]
+SYMBOL_METHOD boolean javassist.CtClass.isEnum()
+REFERENCE_CALL static com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration com.github.javaparser.symbolsolver.javassistmodel.JavassistFactory.toTypeDeclaration(javassist.CtClass, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> boolean javassist.CtClass.isEnum() [JavassistFactory.java <61:24 61:29>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javassistmodel.JavassistFactory.toTypeDeclaration<0> [JavassistFactory.java <61:16 61:22>]
+LOCAL_SYMBOL: JavassistFactory.java<61:34> [JavassistFactory.java <61:34 61:34>]
+LOCAL_SYMBOL: JavassistFactory.java<61:34> [JavassistFactory.java <63:5 63:5>]
+SYMBOL_METHOD com.github.javaparser.symbolsolver.javassistmodel.JavassistEnumDeclaration.JavassistEnumDeclaration(javassist.CtClass, com.github.javaparser.symbolsolver.model.resolution.TypeSolver)
+REFERENCE_CALL static com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration com.github.javaparser.symbolsolver.javassistmodel.JavassistFactory.toTypeDeclaration(javassist.CtClass, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> com.github.javaparser.symbolsolver.javassistmodel.JavassistEnumDeclaration.JavassistEnumDeclaration(javassist.CtClass, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) [JavassistFactory.java <62:18 62:41>]
+REFERENCE_TYPE_USAGE static com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration com.github.javaparser.symbolsolver.javassistmodel.JavassistFactory.toTypeDeclaration(javassist.CtClass, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> com.github.javaparser.symbolsolver.javassistmodel.JavassistEnumDeclaration [JavassistFactory.java <62:18 62:41>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javassistmodel.JavassistFactory.toTypeDeclaration<0> [JavassistFactory.java <62:43 62:49>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javassistmodel.JavassistFactory.toTypeDeclaration<1> [JavassistFactory.java <62:52 62:61>]
+SYMBOL_METHOD boolean javassist.CtClass.isAnnotation()
+REFERENCE_CALL static com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration com.github.javaparser.symbolsolver.javassistmodel.JavassistFactory.toTypeDeclaration(javassist.CtClass, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> boolean javassist.CtClass.isAnnotation() [JavassistFactory.java <63:24 63:35>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javassistmodel.JavassistFactory.toTypeDeclaration<0> [JavassistFactory.java <63:16 63:22>]
+LOCAL_SYMBOL: JavassistFactory.java<63:40> [JavassistFactory.java <63:40 63:40>]
+LOCAL_SYMBOL: JavassistFactory.java<63:40> [JavassistFactory.java <65:5 65:5>]
+SYMBOL_METHOD java.lang.UnsupportedOperationException.UnsupportedOperationException(java.lang.String)
+REFERENCE_CALL static com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration com.github.javaparser.symbolsolver.javassistmodel.JavassistFactory.toTypeDeclaration(javassist.CtClass, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> java.lang.UnsupportedOperationException.UnsupportedOperationException(java.lang.String) [JavassistFactory.java <64:17 64:45>]
+REFERENCE_TYPE_USAGE static com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration com.github.javaparser.symbolsolver.javassistmodel.JavassistFactory.toTypeDeclaration(javassist.CtClass, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> java.lang.UnsupportedOperationException [JavassistFactory.java <64:17 64:45>]
+SYMBOL_METHOD boolean javassist.CtClass.isArray()
+REFERENCE_CALL static com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration com.github.javaparser.symbolsolver.javassistmodel.JavassistFactory.toTypeDeclaration(javassist.CtClass, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> boolean javassist.CtClass.isArray() [JavassistFactory.java <65:24 65:30>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javassistmodel.JavassistFactory.toTypeDeclaration<0> [JavassistFactory.java <65:16 65:22>]
+LOCAL_SYMBOL: JavassistFactory.java<65:35> [JavassistFactory.java <65:35 65:35>]
+LOCAL_SYMBOL: JavassistFactory.java<65:35> [JavassistFactory.java <67:5 67:5>]
+SYMBOL_METHOD java.lang.IllegalArgumentException.IllegalArgumentException(java.lang.String)
+REFERENCE_CALL static com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration com.github.javaparser.symbolsolver.javassistmodel.JavassistFactory.toTypeDeclaration(javassist.CtClass, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> java.lang.IllegalArgumentException.IllegalArgumentException(java.lang.String) [JavassistFactory.java <66:17 66:40>]
+REFERENCE_TYPE_USAGE static com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration com.github.javaparser.symbolsolver.javassistmodel.JavassistFactory.toTypeDeclaration(javassist.CtClass, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> java.lang.IllegalArgumentException [JavassistFactory.java <66:17 66:40>]
+LOCAL_SYMBOL: JavassistFactory.java<67:12> [JavassistFactory.java <67:12 67:12>]
+LOCAL_SYMBOL: JavassistFactory.java<67:12> [JavassistFactory.java <69:5 69:5>]
+SYMBOL_METHOD com.github.javaparser.symbolsolver.javassistmodel.JavassistClassDeclaration.JavassistClassDeclaration(javassist.CtClass, com.github.javaparser.symbolsolver.model.resolution.TypeSolver)
+REFERENCE_CALL static com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration com.github.javaparser.symbolsolver.javassistmodel.JavassistFactory.toTypeDeclaration(javassist.CtClass, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> com.github.javaparser.symbolsolver.javassistmodel.JavassistClassDeclaration.JavassistClassDeclaration(javassist.CtClass, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) [JavassistFactory.java <68:18 68:42>]
+REFERENCE_TYPE_USAGE static com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration com.github.javaparser.symbolsolver.javassistmodel.JavassistFactory.toTypeDeclaration(javassist.CtClass, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> com.github.javaparser.symbolsolver.javassistmodel.JavassistClassDeclaration [JavassistFactory.java <68:18 68:42>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javassistmodel.JavassistFactory.toTypeDeclaration<0> [JavassistFactory.java <68:44 68:50>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javassistmodel.JavassistFactory.toTypeDeclaration<1> [JavassistFactory.java <68:53 68:62>]
+SYMBOL_METHOD default static com.github.javaparser.symbolsolver.model.declarations.AccessLevel com.github.javaparser.symbolsolver.javassistmodel.JavassistFactory.modifiersToAccessLevel(int) [JavassistFactory.java <72:3 <72:22 72:43> 82:3>]
+REFERENCE_TYPE_USAGE static com.github.javaparser.symbolsolver.model.declarations.AccessLevel com.github.javaparser.symbolsolver.javassistmodel.JavassistFactory.modifiersToAccessLevel(int) -> com.github.javaparser.symbolsolver.model.declarations.AccessLevel [JavassistFactory.java <72:10 72:20>]
+SYMBOL_BUILTIN_TYPE int
+REFERENCE_TYPE_USAGE static com.github.javaparser.symbolsolver.model.declarations.AccessLevel com.github.javaparser.symbolsolver.javassistmodel.JavassistFactory.modifiersToAccessLevel(int) -> int [JavassistFactory.java <72:51 72:53>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javassistmodel.JavassistFactory.modifiersToAccessLevel<0> [JavassistFactory.java <72:55 72:63>]
+LOCAL_SYMBOL: JavassistFactory.java<72:66> [JavassistFactory.java <72:66 72:66>]
+LOCAL_SYMBOL: JavassistFactory.java<72:66> [JavassistFactory.java <82:3 82:3>]
+SYMBOL_METHOD static boolean java.lang.reflect.Modifier.isPublic(int)
+REFERENCE_CALL static com.github.javaparser.symbolsolver.model.declarations.AccessLevel com.github.javaparser.symbolsolver.javassistmodel.JavassistFactory.modifiersToAccessLevel(int) -> static boolean java.lang.reflect.Modifier.isPublic(int) [JavassistFactory.java <73:18 73:25>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javassistmodel.JavassistFactory.modifiersToAccessLevel<0> [JavassistFactory.java <73:27 73:35>]
+LOCAL_SYMBOL: JavassistFactory.java<73:39> [JavassistFactory.java <73:39 73:39>]
+LOCAL_SYMBOL: JavassistFactory.java<73:39> [JavassistFactory.java <75:5 75:5>]
+SYMBOL_FIELD com.github.javaparser.symbolsolver.model.declarations.AccessLevel.PUBLIC
+REFERENCE_USAGE static com.github.javaparser.symbolsolver.model.declarations.AccessLevel com.github.javaparser.symbolsolver.javassistmodel.JavassistFactory.modifiersToAccessLevel(int) -> com.github.javaparser.symbolsolver.model.declarations.AccessLevel.PUBLIC [JavassistFactory.java <74:26 74:31>]
+SYMBOL_METHOD static boolean java.lang.reflect.Modifier.isProtected(int)
+REFERENCE_CALL static com.github.javaparser.symbolsolver.model.declarations.AccessLevel com.github.javaparser.symbolsolver.javassistmodel.JavassistFactory.modifiersToAccessLevel(int) -> static boolean java.lang.reflect.Modifier.isProtected(int) [JavassistFactory.java <75:25 75:35>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javassistmodel.JavassistFactory.modifiersToAccessLevel<0> [JavassistFactory.java <75:37 75:45>]
+LOCAL_SYMBOL: JavassistFactory.java<75:49> [JavassistFactory.java <75:49 75:49>]
+LOCAL_SYMBOL: JavassistFactory.java<75:49> [JavassistFactory.java <77:5 77:5>]
+SYMBOL_FIELD com.github.javaparser.symbolsolver.model.declarations.AccessLevel.PROTECTED
+REFERENCE_USAGE static com.github.javaparser.symbolsolver.model.declarations.AccessLevel com.github.javaparser.symbolsolver.javassistmodel.JavassistFactory.modifiersToAccessLevel(int) -> com.github.javaparser.symbolsolver.model.declarations.AccessLevel.PROTECTED [JavassistFactory.java <76:26 76:34>]
+SYMBOL_METHOD static boolean java.lang.reflect.Modifier.isPrivate(int)
+REFERENCE_CALL static com.github.javaparser.symbolsolver.model.declarations.AccessLevel com.github.javaparser.symbolsolver.javassistmodel.JavassistFactory.modifiersToAccessLevel(int) -> static boolean java.lang.reflect.Modifier.isPrivate(int) [JavassistFactory.java <77:25 77:33>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javassistmodel.JavassistFactory.modifiersToAccessLevel<0> [JavassistFactory.java <77:35 77:43>]
+LOCAL_SYMBOL: JavassistFactory.java<77:47> [JavassistFactory.java <77:47 77:47>]
+LOCAL_SYMBOL: JavassistFactory.java<77:47> [JavassistFactory.java <79:5 79:5>]
+SYMBOL_FIELD com.github.javaparser.symbolsolver.model.declarations.AccessLevel.PRIVATE
+REFERENCE_USAGE static com.github.javaparser.symbolsolver.model.declarations.AccessLevel com.github.javaparser.symbolsolver.javassistmodel.JavassistFactory.modifiersToAccessLevel(int) -> com.github.javaparser.symbolsolver.model.declarations.AccessLevel.PRIVATE [JavassistFactory.java <78:26 78:32>]
+LOCAL_SYMBOL: JavassistFactory.java<79:12> [JavassistFactory.java <79:12 79:12>]
+LOCAL_SYMBOL: JavassistFactory.java<79:12> [JavassistFactory.java <81:5 81:5>]
+SYMBOL_FIELD com.github.javaparser.symbolsolver.model.declarations.AccessLevel.PACKAGE_PROTECTED
+REFERENCE_USAGE static com.github.javaparser.symbolsolver.model.declarations.AccessLevel com.github.javaparser.symbolsolver.javassistmodel.JavassistFactory.modifiersToAccessLevel(int) -> com.github.javaparser.symbolsolver.model.declarations.AccessLevel.PACKAGE_PROTECTED [JavassistFactory.java <80:26 80:42>]
+COMMENT: comment [JavassistFactory.java <1:1 13:3>]

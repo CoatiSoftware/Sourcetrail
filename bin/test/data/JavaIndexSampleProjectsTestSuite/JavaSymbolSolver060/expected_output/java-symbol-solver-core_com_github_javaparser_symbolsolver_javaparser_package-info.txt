@@ -1,0 +1,8 @@
+FILE: package-info.java
+SYMBOL_PACKAGE com.github.javaparser.symbolsolver.javaparser [package-info.java <20:9 20:53>]
+SYMBOL_PACKAGE com.github.javaparser.symbolsolver
+SYMBOL_PACKAGE com.github.javaparser
+SYMBOL_PACKAGE com.github
+SYMBOL_PACKAGE com
+COMMENT: comment [package-info.java <17:1 19:3>]
+COMMENT: comment [package-info.java <1:1 15:3>]

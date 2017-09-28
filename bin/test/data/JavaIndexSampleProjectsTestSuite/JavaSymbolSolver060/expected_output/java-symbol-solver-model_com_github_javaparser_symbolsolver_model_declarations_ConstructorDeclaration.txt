@@ -1,0 +1,17 @@
+FILE: ConstructorDeclaration.java
+SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model.declarations [ConstructorDeclaration.java <17:9 17:61>]
+SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model
+SYMBOL_PACKAGE com.github.javaparser.symbolsolver
+SYMBOL_PACKAGE com.github.javaparser
+SYMBOL_PACKAGE com.github
+SYMBOL_PACKAGE com
+SYMBOL_INTERFACE public com.github.javaparser.symbolsolver.model.declarations.ConstructorDeclaration [ConstructorDeclaration.java <24:1 <24:18 24:39> 28:1>]
+LOCAL_SYMBOL: ConstructorDeclaration.java<24:71> [ConstructorDeclaration.java <24:71 24:71>]
+LOCAL_SYMBOL: ConstructorDeclaration.java<24:71> [ConstructorDeclaration.java <28:1 28:1>]
+COMMENT: comment [ConstructorDeclaration.java <19:1 23:3>]
+REFERENCE_INHERITANCE com.github.javaparser.symbolsolver.model.declarations.ConstructorDeclaration -> com.github.javaparser.symbolsolver.model.declarations.MethodLikeDeclaration [ConstructorDeclaration.java <24:49 24:69>]
+SYMBOL_METHOD default com.github.javaparser.symbolsolver.model.declarations.ClassDeclaration com.github.javaparser.symbolsolver.model.declarations.ConstructorDeclaration.declaringType() [ConstructorDeclaration.java <26:5 <27:22 27:34> 27:37>]
+SYMBOL_METHOD com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration com.github.javaparser.symbolsolver.model.declarations.MethodLikeDeclaration.declaringType()
+REFERENCE_OVERRIDE com.github.javaparser.symbolsolver.model.declarations.ClassDeclaration com.github.javaparser.symbolsolver.model.declarations.ConstructorDeclaration.declaringType() -> com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration com.github.javaparser.symbolsolver.model.declarations.MethodLikeDeclaration.declaringType() [ConstructorDeclaration.java <27:22 27:34>]
+REFERENCE_TYPE_USAGE com.github.javaparser.symbolsolver.model.declarations.ClassDeclaration com.github.javaparser.symbolsolver.model.declarations.ConstructorDeclaration.declaringType() -> com.github.javaparser.symbolsolver.model.declarations.ClassDeclaration [ConstructorDeclaration.java <27:5 27:20>]
+COMMENT: comment [ConstructorDeclaration.java <1:1 15:3>]

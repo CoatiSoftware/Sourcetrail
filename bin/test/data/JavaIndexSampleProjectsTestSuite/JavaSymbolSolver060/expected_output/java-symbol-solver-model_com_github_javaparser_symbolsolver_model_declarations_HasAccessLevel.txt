@@ -1,0 +1,15 @@
+FILE: HasAccessLevel.java
+SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model.declarations [HasAccessLevel.java <17:9 17:61>]
+SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model
+SYMBOL_PACKAGE com.github.javaparser.symbolsolver
+SYMBOL_PACKAGE com.github.javaparser
+SYMBOL_PACKAGE com.github
+SYMBOL_PACKAGE com
+SYMBOL_INTERFACE public com.github.javaparser.symbolsolver.model.declarations.HasAccessLevel [HasAccessLevel.java <24:1 <24:18 24:31> 31:1>]
+LOCAL_SYMBOL: HasAccessLevel.java<24:33> [HasAccessLevel.java <24:33 24:33>]
+LOCAL_SYMBOL: HasAccessLevel.java<24:33> [HasAccessLevel.java <31:1 31:1>]
+COMMENT: comment [HasAccessLevel.java <19:1 23:3>]
+SYMBOL_METHOD default com.github.javaparser.symbolsolver.model.declarations.AccessLevel com.github.javaparser.symbolsolver.model.declarations.HasAccessLevel.accessLevel() [HasAccessLevel.java <29:1 <29:17 29:27> 29:30>]
+COMMENT: comment [HasAccessLevel.java <26:5 28:7>]
+REFERENCE_TYPE_USAGE com.github.javaparser.symbolsolver.model.declarations.AccessLevel com.github.javaparser.symbolsolver.model.declarations.HasAccessLevel.accessLevel() -> com.github.javaparser.symbolsolver.model.declarations.AccessLevel [HasAccessLevel.java <29:5 29:15>]
+COMMENT: comment [HasAccessLevel.java <1:1 15:3>]

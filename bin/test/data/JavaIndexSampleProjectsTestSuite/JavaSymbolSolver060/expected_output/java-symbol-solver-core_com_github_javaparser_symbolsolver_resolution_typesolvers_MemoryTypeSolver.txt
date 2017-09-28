@@ -1,0 +1,170 @@
+FILE: MemoryTypeSolver.java
+SYMBOL_PACKAGE com.github.javaparser.symbolsolver.resolution.typesolvers [MemoryTypeSolver.java <17:9 17:65>]
+SYMBOL_PACKAGE com.github.javaparser.symbolsolver.resolution
+SYMBOL_PACKAGE com.github.javaparser.symbolsolver
+SYMBOL_PACKAGE com.github.javaparser
+SYMBOL_PACKAGE com.github
+SYMBOL_PACKAGE com
+REFERENCE_IMPORT MemoryTypeSolver.java -> com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration [MemoryTypeSolver.java <19:8 19:85>]
+SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model.declarations
+REFERENCE_IMPORT MemoryTypeSolver.java -> com.github.javaparser.symbolsolver.model.resolution.SymbolReference<S> [MemoryTypeSolver.java <20:8 20:74>]
+SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model.resolution
+REFERENCE_IMPORT MemoryTypeSolver.java -> com.github.javaparser.symbolsolver.model.resolution.TypeSolver [MemoryTypeSolver.java <21:8 21:69>]
+SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model.resolution
+REFERENCE_IMPORT MemoryTypeSolver.java -> java.util.HashMap<K, V> [MemoryTypeSolver.java <23:8 23:24>]
+SYMBOL_PACKAGE java.util
+REFERENCE_IMPORT MemoryTypeSolver.java -> java.util.Map<K, V> [MemoryTypeSolver.java <24:8 24:20>]
+SYMBOL_PACKAGE java.util
+SYMBOL_CLASS public com.github.javaparser.symbolsolver.resolution.typesolvers.MemoryTypeSolver [MemoryTypeSolver.java <31:1 <31:14 31:29> 86:1>]
+LOCAL_SYMBOL: MemoryTypeSolver.java<31:53> [MemoryTypeSolver.java <31:53 31:53>]
+LOCAL_SYMBOL: MemoryTypeSolver.java<31:53> [MemoryTypeSolver.java <86:1 86:1>]
+COMMENT: comment [MemoryTypeSolver.java <26:1 30:3>]
+REFERENCE_INHERITANCE com.github.javaparser.symbolsolver.resolution.typesolvers.MemoryTypeSolver -> com.github.javaparser.symbolsolver.model.resolution.TypeSolver [MemoryTypeSolver.java <31:42 31:51>]
+SYMBOL_FIELD private com.github.javaparser.symbolsolver.model.resolution.TypeSolver com.github.javaparser.symbolsolver.resolution.typesolvers.MemoryTypeSolver.parent [MemoryTypeSolver.java <33:24 33:29>]
+REFERENCE_TYPE_USAGE com.github.javaparser.symbolsolver.model.resolution.TypeSolver com.github.javaparser.symbolsolver.resolution.typesolvers.MemoryTypeSolver.parent -> com.github.javaparser.symbolsolver.model.resolution.TypeSolver [MemoryTypeSolver.java <33:13 33:22>]
+SYMBOL_FIELD private java.util.Map<java.lang.String, com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration> com.github.javaparser.symbolsolver.resolution.typesolvers.MemoryTypeSolver.declarationMap [MemoryTypeSolver.java <34:51 34:64>]
+REFERENCE_TYPE_USAGE java.util.Map<java.lang.String, com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration> com.github.javaparser.symbolsolver.resolution.typesolvers.MemoryTypeSolver.declarationMap -> java.util.Map<K, V> [MemoryTypeSolver.java <34:13 34:15>]
+REFERENCE_TYPE_ARGUMENT java.util.Map<java.lang.String, com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration> com.github.javaparser.symbolsolver.resolution.typesolvers.MemoryTypeSolver.declarationMap -> java.lang.String [MemoryTypeSolver.java <34:17 34:22>]
+REFERENCE_TYPE_ARGUMENT java.util.Map<java.lang.String, com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration> com.github.javaparser.symbolsolver.resolution.typesolvers.MemoryTypeSolver.declarationMap -> com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration [MemoryTypeSolver.java <34:25 34:48>]
+SYMBOL_METHOD java.util.HashMap<K, V>.HashMap()
+REFERENCE_CALL java.util.Map<java.lang.String, com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration> com.github.javaparser.symbolsolver.resolution.typesolvers.MemoryTypeSolver.declarationMap -> java.util.HashMap<K, V>.HashMap() [MemoryTypeSolver.java <34:72 34:80>]
+REFERENCE_TYPE_USAGE java.util.Map<java.lang.String, com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration> com.github.javaparser.symbolsolver.resolution.typesolvers.MemoryTypeSolver.declarationMap -> java.util.HashMap<K, V> [MemoryTypeSolver.java <34:72 34:78>]
+SYMBOL_METHOD public java.lang.String com.github.javaparser.symbolsolver.resolution.typesolvers.MemoryTypeSolver.toString() [MemoryTypeSolver.java <36:5 <37:19 37:26> 42:5>]
+SYMBOL_METHOD java.lang.String java.lang.Object.toString()
+REFERENCE_OVERRIDE java.lang.String com.github.javaparser.symbolsolver.resolution.typesolvers.MemoryTypeSolver.toString() -> java.lang.String java.lang.Object.toString() [MemoryTypeSolver.java <37:19 37:26>]
+REFERENCE_TYPE_USAGE java.lang.String com.github.javaparser.symbolsolver.resolution.typesolvers.MemoryTypeSolver.toString() -> java.lang.String [MemoryTypeSolver.java <37:12 37:17>]
+LOCAL_SYMBOL: MemoryTypeSolver.java<37:30> [MemoryTypeSolver.java <37:30 37:30>]
+LOCAL_SYMBOL: MemoryTypeSolver.java<37:30> [MemoryTypeSolver.java <42:5 42:5>]
+SYMBOL_FIELD com.github.javaparser.symbolsolver.model.resolution.TypeSolver com.github.javaparser.symbolsolver.resolution.typesolvers.MemoryTypeSolver.parent
+REFERENCE_USAGE java.lang.String com.github.javaparser.symbolsolver.resolution.typesolvers.MemoryTypeSolver.toString() -> com.github.javaparser.symbolsolver.model.resolution.TypeSolver com.github.javaparser.symbolsolver.resolution.typesolvers.MemoryTypeSolver.parent [MemoryTypeSolver.java <39:29 39:34>]
+SYMBOL_FIELD java.util.Map<java.lang.String, com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration> com.github.javaparser.symbolsolver.resolution.typesolvers.MemoryTypeSolver.declarationMap
+REFERENCE_USAGE java.lang.String com.github.javaparser.symbolsolver.resolution.typesolvers.MemoryTypeSolver.toString() -> java.util.Map<java.lang.String, com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration> com.github.javaparser.symbolsolver.resolution.typesolvers.MemoryTypeSolver.declarationMap [MemoryTypeSolver.java <40:39 40:52>]
+SYMBOL_METHOD public boolean com.github.javaparser.symbolsolver.resolution.typesolvers.MemoryTypeSolver.equals(java.lang.Object) [MemoryTypeSolver.java <44:5 <45:20 45:25> 54:5>]
+SYMBOL_METHOD boolean java.lang.Object.equals(java.lang.Object)
+REFERENCE_OVERRIDE boolean com.github.javaparser.symbolsolver.resolution.typesolvers.MemoryTypeSolver.equals(java.lang.Object) -> boolean java.lang.Object.equals(java.lang.Object) [MemoryTypeSolver.java <45:20 45:25>]
+SYMBOL_BUILTIN_TYPE boolean
+REFERENCE_TYPE_USAGE boolean com.github.javaparser.symbolsolver.resolution.typesolvers.MemoryTypeSolver.equals(java.lang.Object) -> boolean [MemoryTypeSolver.java <45:12 45:18>]
+REFERENCE_TYPE_USAGE boolean com.github.javaparser.symbolsolver.resolution.typesolvers.MemoryTypeSolver.equals(java.lang.Object) -> java.lang.Object [MemoryTypeSolver.java <45:27 45:32>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.resolution.typesolvers.MemoryTypeSolver.equals<0> [MemoryTypeSolver.java <45:34 45:34>]
+LOCAL_SYMBOL: MemoryTypeSolver.java<45:37> [MemoryTypeSolver.java <45:37 45:37>]
+LOCAL_SYMBOL: MemoryTypeSolver.java<45:37> [MemoryTypeSolver.java <54:5 54:5>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.resolution.typesolvers.MemoryTypeSolver.equals<0> [MemoryTypeSolver.java <46:21 46:21>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.resolution.typesolvers.MemoryTypeSolver.equals<0> [MemoryTypeSolver.java <47:15 47:15>]
+REFERENCE_TYPE_USAGE boolean com.github.javaparser.symbolsolver.resolution.typesolvers.MemoryTypeSolver.equals(java.lang.Object) -> com.github.javaparser.symbolsolver.resolution.typesolvers.MemoryTypeSolver [MemoryTypeSolver.java <47:28 47:43>]
+REFERENCE_TYPE_USAGE boolean com.github.javaparser.symbolsolver.resolution.typesolvers.MemoryTypeSolver.equals(java.lang.Object) -> com.github.javaparser.symbolsolver.resolution.typesolvers.MemoryTypeSolver [MemoryTypeSolver.java <49:9 49:24>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.resolution.typesolvers.MemoryTypeSolver.equals<1> [MemoryTypeSolver.java <49:26 49:29>]
+REFERENCE_TYPE_USAGE boolean com.github.javaparser.symbolsolver.resolution.typesolvers.MemoryTypeSolver.equals(java.lang.Object) -> com.github.javaparser.symbolsolver.resolution.typesolvers.MemoryTypeSolver [MemoryTypeSolver.java <49:34 49:49>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.resolution.typesolvers.MemoryTypeSolver.equals<0> [MemoryTypeSolver.java <49:52 49:52>]
+SYMBOL_FIELD com.github.javaparser.symbolsolver.model.resolution.TypeSolver com.github.javaparser.symbolsolver.resolution.typesolvers.MemoryTypeSolver.parent
+REFERENCE_USAGE boolean com.github.javaparser.symbolsolver.resolution.typesolvers.MemoryTypeSolver.equals(java.lang.Object) -> com.github.javaparser.symbolsolver.model.resolution.TypeSolver com.github.javaparser.symbolsolver.resolution.typesolvers.MemoryTypeSolver.parent [MemoryTypeSolver.java <51:13 51:18>]
+SYMBOL_METHOD boolean java.lang.Object.equals(java.lang.Object)
+REFERENCE_CALL boolean com.github.javaparser.symbolsolver.resolution.typesolvers.MemoryTypeSolver.equals(java.lang.Object) -> boolean java.lang.Object.equals(java.lang.Object) [MemoryTypeSolver.java <51:38 51:43>]
+SYMBOL_FIELD com.github.javaparser.symbolsolver.model.resolution.TypeSolver com.github.javaparser.symbolsolver.resolution.typesolvers.MemoryTypeSolver.parent
+REFERENCE_USAGE boolean com.github.javaparser.symbolsolver.resolution.typesolvers.MemoryTypeSolver.equals(java.lang.Object) -> com.github.javaparser.symbolsolver.model.resolution.TypeSolver com.github.javaparser.symbolsolver.resolution.typesolvers.MemoryTypeSolver.parent [MemoryTypeSolver.java <51:31 51:36>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.resolution.typesolvers.MemoryTypeSolver.equals<1> [MemoryTypeSolver.java <51:45 51:48>]
+SYMBOL_FIELD com.github.javaparser.symbolsolver.model.resolution.TypeSolver com.github.javaparser.symbolsolver.resolution.typesolvers.MemoryTypeSolver.parent
+REFERENCE_USAGE boolean com.github.javaparser.symbolsolver.resolution.typesolvers.MemoryTypeSolver.equals(java.lang.Object) -> com.github.javaparser.symbolsolver.model.resolution.TypeSolver com.github.javaparser.symbolsolver.resolution.typesolvers.MemoryTypeSolver.parent [MemoryTypeSolver.java <51:50 51:55>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.resolution.typesolvers.MemoryTypeSolver.equals<1> [MemoryTypeSolver.java <51:60 51:63>]
+SYMBOL_FIELD com.github.javaparser.symbolsolver.model.resolution.TypeSolver com.github.javaparser.symbolsolver.resolution.typesolvers.MemoryTypeSolver.parent
+REFERENCE_USAGE boolean com.github.javaparser.symbolsolver.resolution.typesolvers.MemoryTypeSolver.equals(java.lang.Object) -> com.github.javaparser.symbolsolver.model.resolution.TypeSolver com.github.javaparser.symbolsolver.resolution.typesolvers.MemoryTypeSolver.parent [MemoryTypeSolver.java <51:65 51:70>]
+SYMBOL_FIELD java.util.Map<java.lang.String, com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration> com.github.javaparser.symbolsolver.resolution.typesolvers.MemoryTypeSolver.declarationMap
+REFERENCE_USAGE boolean com.github.javaparser.symbolsolver.resolution.typesolvers.MemoryTypeSolver.equals(java.lang.Object) -> java.util.Map<java.lang.String, com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration> com.github.javaparser.symbolsolver.resolution.typesolvers.MemoryTypeSolver.declarationMap [MemoryTypeSolver.java <52:18 52:31>]
+SYMBOL_METHOD boolean java.util.Map<K, V>.equals(java.lang.Object)
+REFERENCE_CALL boolean com.github.javaparser.symbolsolver.resolution.typesolvers.MemoryTypeSolver.equals(java.lang.Object) -> boolean java.util.Map<K, V>.equals(java.lang.Object) [MemoryTypeSolver.java <52:59 52:64>]
+SYMBOL_FIELD java.util.Map<java.lang.String, com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration> com.github.javaparser.symbolsolver.resolution.typesolvers.MemoryTypeSolver.declarationMap
+REFERENCE_USAGE boolean com.github.javaparser.symbolsolver.resolution.typesolvers.MemoryTypeSolver.equals(java.lang.Object) -> java.util.Map<java.lang.String, com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration> com.github.javaparser.symbolsolver.resolution.typesolvers.MemoryTypeSolver.declarationMap [MemoryTypeSolver.java <52:44 52:57>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.resolution.typesolvers.MemoryTypeSolver.equals<1> [MemoryTypeSolver.java <52:66 52:69>]
+SYMBOL_FIELD java.util.Map<java.lang.String, com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration> com.github.javaparser.symbolsolver.resolution.typesolvers.MemoryTypeSolver.declarationMap
+REFERENCE_USAGE boolean com.github.javaparser.symbolsolver.resolution.typesolvers.MemoryTypeSolver.equals(java.lang.Object) -> java.util.Map<java.lang.String, com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration> com.github.javaparser.symbolsolver.resolution.typesolvers.MemoryTypeSolver.declarationMap [MemoryTypeSolver.java <52:71 52:84>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.resolution.typesolvers.MemoryTypeSolver.equals<1> [MemoryTypeSolver.java <52:89 52:92>]
+SYMBOL_FIELD java.util.Map<java.lang.String, com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration> com.github.javaparser.symbolsolver.resolution.typesolvers.MemoryTypeSolver.declarationMap
+REFERENCE_USAGE boolean com.github.javaparser.symbolsolver.resolution.typesolvers.MemoryTypeSolver.equals(java.lang.Object) -> java.util.Map<java.lang.String, com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration> com.github.javaparser.symbolsolver.resolution.typesolvers.MemoryTypeSolver.declarationMap [MemoryTypeSolver.java <52:94 52:107>]
+SYMBOL_METHOD public int com.github.javaparser.symbolsolver.resolution.typesolvers.MemoryTypeSolver.hashCode() [MemoryTypeSolver.java <56:5 <57:16 57:23> 61:5>]
+SYMBOL_METHOD int java.lang.Object.hashCode()
+REFERENCE_OVERRIDE int com.github.javaparser.symbolsolver.resolution.typesolvers.MemoryTypeSolver.hashCode() -> int java.lang.Object.hashCode() [MemoryTypeSolver.java <57:16 57:23>]
+SYMBOL_BUILTIN_TYPE int
+REFERENCE_TYPE_USAGE int com.github.javaparser.symbolsolver.resolution.typesolvers.MemoryTypeSolver.hashCode() -> int [MemoryTypeSolver.java <57:12 57:14>]
+LOCAL_SYMBOL: MemoryTypeSolver.java<57:27> [MemoryTypeSolver.java <57:27 57:27>]
+LOCAL_SYMBOL: MemoryTypeSolver.java<57:27> [MemoryTypeSolver.java <61:5 61:5>]
+SYMBOL_BUILTIN_TYPE int
+REFERENCE_TYPE_USAGE int com.github.javaparser.symbolsolver.resolution.typesolvers.MemoryTypeSolver.hashCode() -> int [MemoryTypeSolver.java <58:9 58:11>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.resolution.typesolvers.MemoryTypeSolver.hashCode<0> [MemoryTypeSolver.java <58:13 58:18>]
+SYMBOL_FIELD com.github.javaparser.symbolsolver.model.resolution.TypeSolver com.github.javaparser.symbolsolver.resolution.typesolvers.MemoryTypeSolver.parent
+REFERENCE_USAGE int com.github.javaparser.symbolsolver.resolution.typesolvers.MemoryTypeSolver.hashCode() -> com.github.javaparser.symbolsolver.model.resolution.TypeSolver com.github.javaparser.symbolsolver.resolution.typesolvers.MemoryTypeSolver.parent [MemoryTypeSolver.java <58:22 58:27>]
+SYMBOL_METHOD int java.lang.Object.hashCode()
+REFERENCE_CALL int com.github.javaparser.symbolsolver.resolution.typesolvers.MemoryTypeSolver.hashCode() -> int java.lang.Object.hashCode() [MemoryTypeSolver.java <58:46 58:53>]
+SYMBOL_FIELD com.github.javaparser.symbolsolver.model.resolution.TypeSolver com.github.javaparser.symbolsolver.resolution.typesolvers.MemoryTypeSolver.parent
+REFERENCE_USAGE int com.github.javaparser.symbolsolver.resolution.typesolvers.MemoryTypeSolver.hashCode() -> com.github.javaparser.symbolsolver.model.resolution.TypeSolver com.github.javaparser.symbolsolver.resolution.typesolvers.MemoryTypeSolver.parent [MemoryTypeSolver.java <58:39 58:44>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.resolution.typesolvers.MemoryTypeSolver.hashCode<0> [MemoryTypeSolver.java <59:9 59:14>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.resolution.typesolvers.MemoryTypeSolver.hashCode<0> [MemoryTypeSolver.java <59:23 59:28>]
+SYMBOL_FIELD java.util.Map<java.lang.String, com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration> com.github.javaparser.symbolsolver.resolution.typesolvers.MemoryTypeSolver.declarationMap
+REFERENCE_USAGE int com.github.javaparser.symbolsolver.resolution.typesolvers.MemoryTypeSolver.hashCode() -> java.util.Map<java.lang.String, com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration> com.github.javaparser.symbolsolver.resolution.typesolvers.MemoryTypeSolver.declarationMap [MemoryTypeSolver.java <59:33 59:46>]
+SYMBOL_METHOD int java.util.Map<K, V>.hashCode()
+REFERENCE_CALL int com.github.javaparser.symbolsolver.resolution.typesolvers.MemoryTypeSolver.hashCode() -> int java.util.Map<K, V>.hashCode() [MemoryTypeSolver.java <59:73 59:80>]
+SYMBOL_FIELD java.util.Map<java.lang.String, com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration> com.github.javaparser.symbolsolver.resolution.typesolvers.MemoryTypeSolver.declarationMap
+REFERENCE_USAGE int com.github.javaparser.symbolsolver.resolution.typesolvers.MemoryTypeSolver.hashCode() -> java.util.Map<java.lang.String, com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration> com.github.javaparser.symbolsolver.resolution.typesolvers.MemoryTypeSolver.declarationMap [MemoryTypeSolver.java <59:58 59:71>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.resolution.typesolvers.MemoryTypeSolver.hashCode<0> [MemoryTypeSolver.java <60:16 60:21>]
+SYMBOL_METHOD public com.github.javaparser.symbolsolver.model.resolution.TypeSolver com.github.javaparser.symbolsolver.resolution.typesolvers.MemoryTypeSolver.getParent() [MemoryTypeSolver.java <63:5 <64:23 64:31> 66:5>]
+SYMBOL_METHOD com.github.javaparser.symbolsolver.model.resolution.TypeSolver com.github.javaparser.symbolsolver.model.resolution.TypeSolver.getParent()
+REFERENCE_OVERRIDE com.github.javaparser.symbolsolver.model.resolution.TypeSolver com.github.javaparser.symbolsolver.resolution.typesolvers.MemoryTypeSolver.getParent() -> com.github.javaparser.symbolsolver.model.resolution.TypeSolver com.github.javaparser.symbolsolver.model.resolution.TypeSolver.getParent() [MemoryTypeSolver.java <64:23 64:31>]
+REFERENCE_TYPE_USAGE com.github.javaparser.symbolsolver.model.resolution.TypeSolver com.github.javaparser.symbolsolver.resolution.typesolvers.MemoryTypeSolver.getParent() -> com.github.javaparser.symbolsolver.model.resolution.TypeSolver [MemoryTypeSolver.java <64:12 64:21>]
+LOCAL_SYMBOL: MemoryTypeSolver.java<64:35> [MemoryTypeSolver.java <64:35 64:35>]
+LOCAL_SYMBOL: MemoryTypeSolver.java<64:35> [MemoryTypeSolver.java <66:5 66:5>]
+SYMBOL_FIELD com.github.javaparser.symbolsolver.model.resolution.TypeSolver com.github.javaparser.symbolsolver.resolution.typesolvers.MemoryTypeSolver.parent
+REFERENCE_USAGE com.github.javaparser.symbolsolver.model.resolution.TypeSolver com.github.javaparser.symbolsolver.resolution.typesolvers.MemoryTypeSolver.getParent() -> com.github.javaparser.symbolsolver.model.resolution.TypeSolver com.github.javaparser.symbolsolver.resolution.typesolvers.MemoryTypeSolver.parent [MemoryTypeSolver.java <65:16 65:21>]
+SYMBOL_METHOD public void com.github.javaparser.symbolsolver.resolution.typesolvers.MemoryTypeSolver.setParent(com.github.javaparser.symbolsolver.model.resolution.TypeSolver) [MemoryTypeSolver.java <68:5 <69:17 69:25> 71:5>]
+SYMBOL_METHOD void com.github.javaparser.symbolsolver.model.resolution.TypeSolver.setParent(com.github.javaparser.symbolsolver.model.resolution.TypeSolver)
+REFERENCE_OVERRIDE void com.github.javaparser.symbolsolver.resolution.typesolvers.MemoryTypeSolver.setParent(com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> void com.github.javaparser.symbolsolver.model.resolution.TypeSolver.setParent(com.github.javaparser.symbolsolver.model.resolution.TypeSolver) [MemoryTypeSolver.java <69:17 69:25>]
+SYMBOL_BUILTIN_TYPE void
+REFERENCE_TYPE_USAGE void com.github.javaparser.symbolsolver.resolution.typesolvers.MemoryTypeSolver.setParent(com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> void [MemoryTypeSolver.java <69:12 69:15>]
+REFERENCE_TYPE_USAGE void com.github.javaparser.symbolsolver.resolution.typesolvers.MemoryTypeSolver.setParent(com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> com.github.javaparser.symbolsolver.model.resolution.TypeSolver [MemoryTypeSolver.java <69:27 69:36>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.resolution.typesolvers.MemoryTypeSolver.setParent<0> [MemoryTypeSolver.java <69:38 69:43>]
+LOCAL_SYMBOL: MemoryTypeSolver.java<69:46> [MemoryTypeSolver.java <69:46 69:46>]
+LOCAL_SYMBOL: MemoryTypeSolver.java<69:46> [MemoryTypeSolver.java <71:5 71:5>]
+SYMBOL_FIELD com.github.javaparser.symbolsolver.model.resolution.TypeSolver com.github.javaparser.symbolsolver.resolution.typesolvers.MemoryTypeSolver.parent
+REFERENCE_USAGE void com.github.javaparser.symbolsolver.resolution.typesolvers.MemoryTypeSolver.setParent(com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> com.github.javaparser.symbolsolver.model.resolution.TypeSolver com.github.javaparser.symbolsolver.resolution.typesolvers.MemoryTypeSolver.parent [MemoryTypeSolver.java <70:14 70:19>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.resolution.typesolvers.MemoryTypeSolver.setParent<0> [MemoryTypeSolver.java <70:23 70:28>]
+SYMBOL_METHOD public void com.github.javaparser.symbolsolver.resolution.typesolvers.MemoryTypeSolver.addDeclaration(java.lang.String, com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration) [MemoryTypeSolver.java <73:5 <73:17 73:30> 75:5>]
+SYMBOL_BUILTIN_TYPE void
+REFERENCE_TYPE_USAGE void com.github.javaparser.symbolsolver.resolution.typesolvers.MemoryTypeSolver.addDeclaration(java.lang.String, com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration) -> void [MemoryTypeSolver.java <73:12 73:15>]
+REFERENCE_TYPE_USAGE void com.github.javaparser.symbolsolver.resolution.typesolvers.MemoryTypeSolver.addDeclaration(java.lang.String, com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration) -> java.lang.String [MemoryTypeSolver.java <73:32 73:37>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.resolution.typesolvers.MemoryTypeSolver.addDeclaration<0> [MemoryTypeSolver.java <73:39 73:42>]
+REFERENCE_TYPE_USAGE void com.github.javaparser.symbolsolver.resolution.typesolvers.MemoryTypeSolver.addDeclaration(java.lang.String, com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration) -> com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration [MemoryTypeSolver.java <73:45 73:68>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.resolution.typesolvers.MemoryTypeSolver.addDeclaration<1> [MemoryTypeSolver.java <73:70 73:84>]
+LOCAL_SYMBOL: MemoryTypeSolver.java<73:87> [MemoryTypeSolver.java <73:87 73:87>]
+LOCAL_SYMBOL: MemoryTypeSolver.java<73:87> [MemoryTypeSolver.java <75:5 75:5>]
+SYMBOL_METHOD java.util.Map<K, V>.V java.util.Map<K, V>.put(java.util.Map<K, V>.K, java.util.Map<K, V>.V)
+REFERENCE_CALL void com.github.javaparser.symbolsolver.resolution.typesolvers.MemoryTypeSolver.addDeclaration(java.lang.String, com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration) -> java.util.Map<K, V>.V java.util.Map<K, V>.put(java.util.Map<K, V>.K, java.util.Map<K, V>.V) [MemoryTypeSolver.java <74:29 74:31>]
+SYMBOL_FIELD java.util.Map<java.lang.String, com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration> com.github.javaparser.symbolsolver.resolution.typesolvers.MemoryTypeSolver.declarationMap
+REFERENCE_USAGE void com.github.javaparser.symbolsolver.resolution.typesolvers.MemoryTypeSolver.addDeclaration(java.lang.String, com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration) -> java.util.Map<java.lang.String, com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration> com.github.javaparser.symbolsolver.resolution.typesolvers.MemoryTypeSolver.declarationMap [MemoryTypeSolver.java <74:14 74:27>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.resolution.typesolvers.MemoryTypeSolver.addDeclaration<0> [MemoryTypeSolver.java <74:33 74:36>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.resolution.typesolvers.MemoryTypeSolver.addDeclaration<1> [MemoryTypeSolver.java <74:39 74:53>]
+SYMBOL_METHOD public com.github.javaparser.symbolsolver.model.resolution.SymbolReference<com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration> com.github.javaparser.symbolsolver.resolution.typesolvers.MemoryTypeSolver.tryToSolveType(java.lang.String) [MemoryTypeSolver.java <77:5 <78:54 78:67> 84:5>]
+SYMBOL_METHOD com.github.javaparser.symbolsolver.model.resolution.SymbolReference<com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration> com.github.javaparser.symbolsolver.model.resolution.TypeSolver.tryToSolveType(java.lang.String)
+REFERENCE_OVERRIDE com.github.javaparser.symbolsolver.model.resolution.SymbolReference<com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration> com.github.javaparser.symbolsolver.resolution.typesolvers.MemoryTypeSolver.tryToSolveType(java.lang.String) -> com.github.javaparser.symbolsolver.model.resolution.SymbolReference<com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration> com.github.javaparser.symbolsolver.model.resolution.TypeSolver.tryToSolveType(java.lang.String) [MemoryTypeSolver.java <78:54 78:67>]
+REFERENCE_TYPE_USAGE com.github.javaparser.symbolsolver.model.resolution.SymbolReference<com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration> com.github.javaparser.symbolsolver.resolution.typesolvers.MemoryTypeSolver.tryToSolveType(java.lang.String) -> com.github.javaparser.symbolsolver.model.resolution.SymbolReference<S> [MemoryTypeSolver.java <78:12 78:26>]
+REFERENCE_TYPE_ARGUMENT com.github.javaparser.symbolsolver.model.resolution.SymbolReference<com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration> com.github.javaparser.symbolsolver.resolution.typesolvers.MemoryTypeSolver.tryToSolveType(java.lang.String) -> com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration [MemoryTypeSolver.java <78:28 78:51>]
+REFERENCE_TYPE_USAGE com.github.javaparser.symbolsolver.model.resolution.SymbolReference<com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration> com.github.javaparser.symbolsolver.resolution.typesolvers.MemoryTypeSolver.tryToSolveType(java.lang.String) -> java.lang.String [MemoryTypeSolver.java <78:69 78:74>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.resolution.typesolvers.MemoryTypeSolver.tryToSolveType<0> [MemoryTypeSolver.java <78:76 78:79>]
+LOCAL_SYMBOL: MemoryTypeSolver.java<78:82> [MemoryTypeSolver.java <78:82 78:82>]
+LOCAL_SYMBOL: MemoryTypeSolver.java<78:82> [MemoryTypeSolver.java <84:5 84:5>]
+SYMBOL_METHOD boolean java.util.Map<K, V>.containsKey(java.lang.Object)
+REFERENCE_CALL com.github.javaparser.symbolsolver.model.resolution.SymbolReference<com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration> com.github.javaparser.symbolsolver.resolution.typesolvers.MemoryTypeSolver.tryToSolveType(java.lang.String) -> boolean java.util.Map<K, V>.containsKey(java.lang.Object) [MemoryTypeSolver.java <79:28 79:38>]
+SYMBOL_FIELD java.util.Map<java.lang.String, com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration> com.github.javaparser.symbolsolver.resolution.typesolvers.MemoryTypeSolver.declarationMap
+REFERENCE_USAGE com.github.javaparser.symbolsolver.model.resolution.SymbolReference<com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration> com.github.javaparser.symbolsolver.resolution.typesolvers.MemoryTypeSolver.tryToSolveType(java.lang.String) -> java.util.Map<java.lang.String, com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration> com.github.javaparser.symbolsolver.resolution.typesolvers.MemoryTypeSolver.declarationMap [MemoryTypeSolver.java <79:13 79:26>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.resolution.typesolvers.MemoryTypeSolver.tryToSolveType<0> [MemoryTypeSolver.java <79:40 79:43>]
+LOCAL_SYMBOL: MemoryTypeSolver.java<79:47> [MemoryTypeSolver.java <79:47 79:47>]
+LOCAL_SYMBOL: MemoryTypeSolver.java<79:47> [MemoryTypeSolver.java <81:9 81:9>]
+SYMBOL_METHOD static com.github.javaparser.symbolsolver.model.resolution.SymbolReference<S> com.github.javaparser.symbolsolver.model.resolution.SymbolReference<S>.solved<S, S2>(S2)
+REFERENCE_CALL com.github.javaparser.symbolsolver.model.resolution.SymbolReference<com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration> com.github.javaparser.symbolsolver.resolution.typesolvers.MemoryTypeSolver.tryToSolveType(java.lang.String) -> static com.github.javaparser.symbolsolver.model.resolution.SymbolReference<S> com.github.javaparser.symbolsolver.model.resolution.SymbolReference<S>.solved<S, S2>(S2) [MemoryTypeSolver.java <80:36 80:41>]
+SYMBOL_METHOD java.util.Map<K, V>.V java.util.Map<K, V>.get(java.lang.Object)
+REFERENCE_CALL com.github.javaparser.symbolsolver.model.resolution.SymbolReference<com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration> com.github.javaparser.symbolsolver.resolution.typesolvers.MemoryTypeSolver.tryToSolveType(java.lang.String) -> java.util.Map<K, V>.V java.util.Map<K, V>.get(java.lang.Object) [MemoryTypeSolver.java <80:58 80:60>]
+SYMBOL_FIELD java.util.Map<java.lang.String, com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration> com.github.javaparser.symbolsolver.resolution.typesolvers.MemoryTypeSolver.declarationMap
+REFERENCE_USAGE com.github.javaparser.symbolsolver.model.resolution.SymbolReference<com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration> com.github.javaparser.symbolsolver.resolution.typesolvers.MemoryTypeSolver.tryToSolveType(java.lang.String) -> java.util.Map<java.lang.String, com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration> com.github.javaparser.symbolsolver.resolution.typesolvers.MemoryTypeSolver.declarationMap [MemoryTypeSolver.java <80:43 80:56>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.resolution.typesolvers.MemoryTypeSolver.tryToSolveType<0> [MemoryTypeSolver.java <80:62 80:65>]
+LOCAL_SYMBOL: MemoryTypeSolver.java<81:16> [MemoryTypeSolver.java <81:16 81:16>]
+LOCAL_SYMBOL: MemoryTypeSolver.java<81:16> [MemoryTypeSolver.java <83:9 83:9>]
+SYMBOL_METHOD static com.github.javaparser.symbolsolver.model.resolution.SymbolReference<S> com.github.javaparser.symbolsolver.model.resolution.SymbolReference<S>.unsolved<S, S2>(java.lang.Class<S2>)
+REFERENCE_CALL com.github.javaparser.symbolsolver.model.resolution.SymbolReference<com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration> com.github.javaparser.symbolsolver.resolution.typesolvers.MemoryTypeSolver.tryToSolveType(java.lang.String) -> static com.github.javaparser.symbolsolver.model.resolution.SymbolReference<S> com.github.javaparser.symbolsolver.model.resolution.SymbolReference<S>.unsolved<S, S2>(java.lang.Class<S2>) [MemoryTypeSolver.java <82:36 82:43>]
+REFERENCE_TYPE_USAGE com.github.javaparser.symbolsolver.model.resolution.SymbolReference<com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration> com.github.javaparser.symbolsolver.resolution.typesolvers.MemoryTypeSolver.tryToSolveType(java.lang.String) -> com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration [MemoryTypeSolver.java <82:45 82:68>]
+COMMENT: comment [MemoryTypeSolver.java <1:1 15:3>]

@@ -1,0 +1,96 @@
+FILE: MethodComparator.java
+SYMBOL_PACKAGE com.github.javaparser.symbolsolver.reflectionmodel.comparators [MethodComparator.java <1:9 1:70>]
+SYMBOL_PACKAGE com.github.javaparser.symbolsolver.reflectionmodel
+SYMBOL_PACKAGE com.github.javaparser.symbolsolver
+SYMBOL_PACKAGE com.github.javaparser
+SYMBOL_PACKAGE com.github
+SYMBOL_PACKAGE com
+REFERENCE_IMPORT MethodComparator.java -> java.lang.reflect.Method [MethodComparator.java <3:8 3:31>]
+SYMBOL_PACKAGE java.lang.reflect
+REFERENCE_IMPORT MethodComparator.java -> java.util.Comparator<T> [MethodComparator.java <4:8 4:27>]
+SYMBOL_PACKAGE java.util
+SYMBOL_CLASS public com.github.javaparser.symbolsolver.reflectionmodel.comparators.MethodComparator [MethodComparator.java <9:1 <9:14 9:29> 25:1>]
+LOCAL_SYMBOL: MethodComparator.java<9:61> [MethodComparator.java <9:61 9:61>]
+LOCAL_SYMBOL: MethodComparator.java<9:61> [MethodComparator.java <25:1 25:1>]
+COMMENT: comment [MethodComparator.java <6:1 8:3>]
+REFERENCE_INHERITANCE com.github.javaparser.symbolsolver.reflectionmodel.comparators.MethodComparator -> java.util.Comparator<T> [MethodComparator.java <9:42 9:51>]
+REFERENCE_TYPE_ARGUMENT com.github.javaparser.symbolsolver.reflectionmodel.comparators.MethodComparator -> java.lang.reflect.Method [MethodComparator.java <9:53 9:58>]
+SYMBOL_METHOD public int com.github.javaparser.symbolsolver.reflectionmodel.comparators.MethodComparator.compare(java.lang.reflect.Method, java.lang.reflect.Method) [MethodComparator.java <11:5 <12:16 12:22> 24:5>]
+SYMBOL_METHOD int java.util.Comparator<T>.compare(java.util.Comparator<T>.T, java.util.Comparator<T>.T)
+REFERENCE_OVERRIDE int com.github.javaparser.symbolsolver.reflectionmodel.comparators.MethodComparator.compare(java.lang.reflect.Method, java.lang.reflect.Method) -> int java.util.Comparator<T>.compare(java.util.Comparator<T>.T, java.util.Comparator<T>.T) [MethodComparator.java <12:16 12:22>]
+SYMBOL_BUILTIN_TYPE int
+REFERENCE_TYPE_USAGE int com.github.javaparser.symbolsolver.reflectionmodel.comparators.MethodComparator.compare(java.lang.reflect.Method, java.lang.reflect.Method) -> int [MethodComparator.java <12:12 12:14>]
+REFERENCE_TYPE_USAGE int com.github.javaparser.symbolsolver.reflectionmodel.comparators.MethodComparator.compare(java.lang.reflect.Method, java.lang.reflect.Method) -> java.lang.reflect.Method [MethodComparator.java <12:24 12:29>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.reflectionmodel.comparators.MethodComparator.compare<0> [MethodComparator.java <12:31 12:32>]
+REFERENCE_TYPE_USAGE int com.github.javaparser.symbolsolver.reflectionmodel.comparators.MethodComparator.compare(java.lang.reflect.Method, java.lang.reflect.Method) -> java.lang.reflect.Method [MethodComparator.java <12:35 12:40>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.reflectionmodel.comparators.MethodComparator.compare<1> [MethodComparator.java <12:42 12:43>]
+LOCAL_SYMBOL: MethodComparator.java<12:46> [MethodComparator.java <12:46 12:46>]
+LOCAL_SYMBOL: MethodComparator.java<12:46> [MethodComparator.java <24:5 24:5>]
+SYMBOL_BUILTIN_TYPE int
+REFERENCE_TYPE_USAGE int com.github.javaparser.symbolsolver.reflectionmodel.comparators.MethodComparator.compare(java.lang.reflect.Method, java.lang.reflect.Method) -> int [MethodComparator.java <13:9 13:11>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.reflectionmodel.comparators.MethodComparator.compare<2> [MethodComparator.java <13:13 13:23>]
+SYMBOL_METHOD int java.lang.String.compareTo(java.lang.String)
+REFERENCE_CALL int com.github.javaparser.symbolsolver.reflectionmodel.comparators.MethodComparator.compare(java.lang.reflect.Method, java.lang.reflect.Method) -> int java.lang.String.compareTo(java.lang.String) [MethodComparator.java <13:40 13:48>]
+SYMBOL_METHOD java.lang.String java.lang.reflect.Method.getName()
+REFERENCE_CALL int com.github.javaparser.symbolsolver.reflectionmodel.comparators.MethodComparator.compare(java.lang.reflect.Method, java.lang.reflect.Method) -> java.lang.String java.lang.reflect.Method.getName() [MethodComparator.java <13:30 13:36>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.reflectionmodel.comparators.MethodComparator.compare<0> [MethodComparator.java <13:27 13:28>]
+SYMBOL_METHOD java.lang.String java.lang.reflect.Method.getName()
+REFERENCE_CALL int com.github.javaparser.symbolsolver.reflectionmodel.comparators.MethodComparator.compare(java.lang.reflect.Method, java.lang.reflect.Method) -> java.lang.String java.lang.reflect.Method.getName() [MethodComparator.java <13:53 13:59>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.reflectionmodel.comparators.MethodComparator.compare<1> [MethodComparator.java <13:50 13:51>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.reflectionmodel.comparators.MethodComparator.compare<2> [MethodComparator.java <14:13 14:23>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.reflectionmodel.comparators.MethodComparator.compare<2> [MethodComparator.java <14:38 14:48>]
+SYMBOL_BUILTIN_TYPE int
+REFERENCE_TYPE_USAGE int com.github.javaparser.symbolsolver.reflectionmodel.comparators.MethodComparator.compare(java.lang.reflect.Method, java.lang.reflect.Method) -> int [MethodComparator.java <15:9 15:11>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.reflectionmodel.comparators.MethodComparator.compare<3> [MethodComparator.java <15:13 15:26>]
+SYMBOL_METHOD int java.lang.reflect.Method.getParameterCount()
+REFERENCE_CALL int com.github.javaparser.symbolsolver.reflectionmodel.comparators.MethodComparator.compare(java.lang.reflect.Method, java.lang.reflect.Method) -> int java.lang.reflect.Method.getParameterCount() [MethodComparator.java <15:33 15:49>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.reflectionmodel.comparators.MethodComparator.compare<0> [MethodComparator.java <15:30 15:31>]
+SYMBOL_METHOD int java.lang.reflect.Method.getParameterCount()
+REFERENCE_CALL int com.github.javaparser.symbolsolver.reflectionmodel.comparators.MethodComparator.compare(java.lang.reflect.Method, java.lang.reflect.Method) -> int java.lang.reflect.Method.getParameterCount() [MethodComparator.java <15:58 15:74>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.reflectionmodel.comparators.MethodComparator.compare<1> [MethodComparator.java <15:55 15:56>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.reflectionmodel.comparators.MethodComparator.compare<3> [MethodComparator.java <16:13 16:26>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.reflectionmodel.comparators.MethodComparator.compare<3> [MethodComparator.java <16:41 16:54>]
+SYMBOL_BUILTIN_TYPE int
+REFERENCE_TYPE_USAGE int com.github.javaparser.symbolsolver.reflectionmodel.comparators.MethodComparator.compare(java.lang.reflect.Method, java.lang.reflect.Method) -> int [MethodComparator.java <17:14 17:16>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.reflectionmodel.comparators.MethodComparator.compare<4> [MethodComparator.java <17:18 17:18>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.reflectionmodel.comparators.MethodComparator.compare<4> [MethodComparator.java <17:25 17:25>]
+SYMBOL_METHOD int java.lang.reflect.Method.getParameterCount()
+REFERENCE_CALL int com.github.javaparser.symbolsolver.reflectionmodel.comparators.MethodComparator.compare(java.lang.reflect.Method, java.lang.reflect.Method) -> int java.lang.reflect.Method.getParameterCount() [MethodComparator.java <17:32 17:48>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.reflectionmodel.comparators.MethodComparator.compare<0> [MethodComparator.java <17:29 17:30>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.reflectionmodel.comparators.MethodComparator.compare<4> [MethodComparator.java <17:53 17:53>]
+LOCAL_SYMBOL: MethodComparator.java<17:58> [MethodComparator.java <17:58 17:58>]
+LOCAL_SYMBOL: MethodComparator.java<17:58> [MethodComparator.java <20:9 20:9>]
+SYMBOL_BUILTIN_TYPE int
+REFERENCE_TYPE_USAGE int com.github.javaparser.symbolsolver.reflectionmodel.comparators.MethodComparator.compare(java.lang.reflect.Method, java.lang.reflect.Method) -> int [MethodComparator.java <18:13 18:15>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.reflectionmodel.comparators.MethodComparator.compare<5> [MethodComparator.java <18:17 18:28>]
+SYMBOL_METHOD int com.github.javaparser.symbolsolver.reflectionmodel.comparators.ParameterComparator.compare(java.lang.reflect.Parameter, java.lang.reflect.Parameter)
+REFERENCE_CALL int com.github.javaparser.symbolsolver.reflectionmodel.comparators.MethodComparator.compare(java.lang.reflect.Method, java.lang.reflect.Method) -> int com.github.javaparser.symbolsolver.reflectionmodel.comparators.ParameterComparator.compare(java.lang.reflect.Parameter, java.lang.reflect.Parameter) [MethodComparator.java <18:58 18:64>]
+SYMBOL_METHOD com.github.javaparser.symbolsolver.reflectionmodel.comparators.ParameterComparator.ParameterComparator()
+REFERENCE_CALL int com.github.javaparser.symbolsolver.reflectionmodel.comparators.MethodComparator.compare(java.lang.reflect.Method, java.lang.reflect.Method) -> com.github.javaparser.symbolsolver.reflectionmodel.comparators.ParameterComparator.ParameterComparator() [MethodComparator.java <18:36 18:54>]
+REFERENCE_TYPE_USAGE int com.github.javaparser.symbolsolver.reflectionmodel.comparators.MethodComparator.compare(java.lang.reflect.Method, java.lang.reflect.Method) -> com.github.javaparser.symbolsolver.reflectionmodel.comparators.ParameterComparator [MethodComparator.java <18:36 18:54>]
+SYMBOL_METHOD java.lang.reflect.Parameter java.lang.reflect.Executable.getParameters()
+REFERENCE_CALL int com.github.javaparser.symbolsolver.reflectionmodel.comparators.MethodComparator.compare(java.lang.reflect.Method, java.lang.reflect.Method) -> java.lang.reflect.Parameter java.lang.reflect.Executable.getParameters() [MethodComparator.java <18:69 18:81>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.reflectionmodel.comparators.MethodComparator.compare<0> [MethodComparator.java <18:66 18:67>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.reflectionmodel.comparators.MethodComparator.compare<4> [MethodComparator.java <18:85 18:85>]
+SYMBOL_METHOD java.lang.reflect.Parameter java.lang.reflect.Executable.getParameters()
+REFERENCE_CALL int com.github.javaparser.symbolsolver.reflectionmodel.comparators.MethodComparator.compare(java.lang.reflect.Method, java.lang.reflect.Method) -> java.lang.reflect.Parameter java.lang.reflect.Executable.getParameters() [MethodComparator.java <18:92 18:104>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.reflectionmodel.comparators.MethodComparator.compare<1> [MethodComparator.java <18:89 18:90>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.reflectionmodel.comparators.MethodComparator.compare<4> [MethodComparator.java <18:108 18:108>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.reflectionmodel.comparators.MethodComparator.compare<5> [MethodComparator.java <19:17 19:28>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.reflectionmodel.comparators.MethodComparator.compare<5> [MethodComparator.java <19:43 19:54>]
+SYMBOL_BUILTIN_TYPE int
+REFERENCE_TYPE_USAGE int com.github.javaparser.symbolsolver.reflectionmodel.comparators.MethodComparator.compare(java.lang.reflect.Method, java.lang.reflect.Method) -> int [MethodComparator.java <21:9 21:11>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.reflectionmodel.comparators.MethodComparator.compare<6> [MethodComparator.java <21:13 21:25>]
+SYMBOL_METHOD int com.github.javaparser.symbolsolver.reflectionmodel.comparators.ClassComparator.compare(java.lang.Class<?>, java.lang.Class<?>)
+REFERENCE_CALL int com.github.javaparser.symbolsolver.reflectionmodel.comparators.MethodComparator.compare(java.lang.reflect.Method, java.lang.reflect.Method) -> int com.github.javaparser.symbolsolver.reflectionmodel.comparators.ClassComparator.compare(java.lang.Class<?>, java.lang.Class<?>) [MethodComparator.java <21:51 21:57>]
+SYMBOL_METHOD com.github.javaparser.symbolsolver.reflectionmodel.comparators.ClassComparator.ClassComparator()
+REFERENCE_CALL int com.github.javaparser.symbolsolver.reflectionmodel.comparators.MethodComparator.compare(java.lang.reflect.Method, java.lang.reflect.Method) -> com.github.javaparser.symbolsolver.reflectionmodel.comparators.ClassComparator.ClassComparator() [MethodComparator.java <21:33 21:47>]
+REFERENCE_TYPE_USAGE int com.github.javaparser.symbolsolver.reflectionmodel.comparators.MethodComparator.compare(java.lang.reflect.Method, java.lang.reflect.Method) -> com.github.javaparser.symbolsolver.reflectionmodel.comparators.ClassComparator [MethodComparator.java <21:33 21:47>]
+SYMBOL_METHOD java.lang.Class<?> java.lang.reflect.Method.getReturnType()
+REFERENCE_CALL int com.github.javaparser.symbolsolver.reflectionmodel.comparators.MethodComparator.compare(java.lang.reflect.Method, java.lang.reflect.Method) -> java.lang.Class<?> java.lang.reflect.Method.getReturnType() [MethodComparator.java <21:62 21:74>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.reflectionmodel.comparators.MethodComparator.compare<0> [MethodComparator.java <21:59 21:60>]
+SYMBOL_METHOD java.lang.Class<?> java.lang.reflect.Method.getReturnType()
+REFERENCE_CALL int com.github.javaparser.symbolsolver.reflectionmodel.comparators.MethodComparator.compare(java.lang.reflect.Method, java.lang.reflect.Method) -> java.lang.Class<?> java.lang.reflect.Method.getReturnType() [MethodComparator.java <21:82 21:94>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.reflectionmodel.comparators.MethodComparator.compare<1> [MethodComparator.java <21:79 21:80>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.reflectionmodel.comparators.MethodComparator.compare<6> [MethodComparator.java <22:13 22:25>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.reflectionmodel.comparators.MethodComparator.compare<6> [MethodComparator.java <22:40 22:52>]

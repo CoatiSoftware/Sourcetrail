@@ -1,0 +1,72 @@
+FILE: TypeSolver.java
+SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model.resolution [TypeSolver.java <17:9 17:59>]
+SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model
+SYMBOL_PACKAGE com.github.javaparser.symbolsolver
+SYMBOL_PACKAGE com.github.javaparser
+SYMBOL_PACKAGE com.github
+SYMBOL_PACKAGE com
+REFERENCE_IMPORT TypeSolver.java -> com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration [TypeSolver.java <19:8 19:85>]
+SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model.declarations
+SYMBOL_INTERFACE public com.github.javaparser.symbolsolver.model.resolution.TypeSolver [TypeSolver.java <27:1 <27:18 27:27> 68:1>]
+LOCAL_SYMBOL: TypeSolver.java<27:29> [TypeSolver.java <27:29 27:29>]
+LOCAL_SYMBOL: TypeSolver.java<27:29> [TypeSolver.java <68:1 68:1>]
+COMMENT: comment [TypeSolver.java <21:1 26:3>]
+SYMBOL_METHOD default com.github.javaparser.symbolsolver.model.resolution.TypeSolver com.github.javaparser.symbolsolver.model.resolution.TypeSolver.getRoot() [TypeSolver.java <32:1 <32:24 32:30> 38:5>]
+COMMENT: comment [TypeSolver.java <29:5 31:7>]
+REFERENCE_TYPE_USAGE com.github.javaparser.symbolsolver.model.resolution.TypeSolver com.github.javaparser.symbolsolver.model.resolution.TypeSolver.getRoot() -> com.github.javaparser.symbolsolver.model.resolution.TypeSolver [TypeSolver.java <32:13 32:22>]
+LOCAL_SYMBOL: TypeSolver.java<32:34> [TypeSolver.java <32:34 32:34>]
+LOCAL_SYMBOL: TypeSolver.java<32:34> [TypeSolver.java <38:5 38:5>]
+SYMBOL_METHOD com.github.javaparser.symbolsolver.model.resolution.TypeSolver com.github.javaparser.symbolsolver.model.resolution.TypeSolver.getParent()
+REFERENCE_CALL com.github.javaparser.symbolsolver.model.resolution.TypeSolver com.github.javaparser.symbolsolver.model.resolution.TypeSolver.getRoot() -> com.github.javaparser.symbolsolver.model.resolution.TypeSolver com.github.javaparser.symbolsolver.model.resolution.TypeSolver.getParent() [TypeSolver.java <33:13 33:21>]
+LOCAL_SYMBOL: TypeSolver.java<33:34> [TypeSolver.java <33:34 33:34>]
+LOCAL_SYMBOL: TypeSolver.java<33:34> [TypeSolver.java <35:9 35:9>]
+LOCAL_SYMBOL: TypeSolver.java<35:16> [TypeSolver.java <35:16 35:16>]
+LOCAL_SYMBOL: TypeSolver.java<35:16> [TypeSolver.java <37:9 37:9>]
+SYMBOL_METHOD com.github.javaparser.symbolsolver.model.resolution.TypeSolver com.github.javaparser.symbolsolver.model.resolution.TypeSolver.getRoot()
+REFERENCE_CALL com.github.javaparser.symbolsolver.model.resolution.TypeSolver com.github.javaparser.symbolsolver.model.resolution.TypeSolver.getRoot() -> com.github.javaparser.symbolsolver.model.resolution.TypeSolver com.github.javaparser.symbolsolver.model.resolution.TypeSolver.getRoot() [TypeSolver.java <36:32 36:38>]
+SYMBOL_METHOD com.github.javaparser.symbolsolver.model.resolution.TypeSolver com.github.javaparser.symbolsolver.model.resolution.TypeSolver.getParent()
+REFERENCE_CALL com.github.javaparser.symbolsolver.model.resolution.TypeSolver com.github.javaparser.symbolsolver.model.resolution.TypeSolver.getRoot() -> com.github.javaparser.symbolsolver.model.resolution.TypeSolver com.github.javaparser.symbolsolver.model.resolution.TypeSolver.getParent() [TypeSolver.java <36:20 36:28>]
+SYMBOL_METHOD default com.github.javaparser.symbolsolver.model.resolution.TypeSolver com.github.javaparser.symbolsolver.model.resolution.TypeSolver.getParent() [TypeSolver.java <43:1 <43:16 43:24> 43:27>]
+COMMENT: comment [TypeSolver.java <40:5 42:7>]
+REFERENCE_TYPE_USAGE com.github.javaparser.symbolsolver.model.resolution.TypeSolver com.github.javaparser.symbolsolver.model.resolution.TypeSolver.getParent() -> com.github.javaparser.symbolsolver.model.resolution.TypeSolver [TypeSolver.java <43:5 43:14>]
+SYMBOL_METHOD default void com.github.javaparser.symbolsolver.model.resolution.TypeSolver.setParent(com.github.javaparser.symbolsolver.model.resolution.TypeSolver) [TypeSolver.java <48:1 <48:10 48:18> 48:38>]
+COMMENT: comment [TypeSolver.java <45:5 47:7>]
+SYMBOL_BUILTIN_TYPE void
+REFERENCE_TYPE_USAGE void com.github.javaparser.symbolsolver.model.resolution.TypeSolver.setParent(com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> void [TypeSolver.java <48:5 48:8>]
+REFERENCE_TYPE_USAGE void com.github.javaparser.symbolsolver.model.resolution.TypeSolver.setParent(com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> com.github.javaparser.symbolsolver.model.resolution.TypeSolver [TypeSolver.java <48:20 48:29>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.model.resolution.TypeSolver.setParent<0> [TypeSolver.java <48:31 48:36>]
+SYMBOL_METHOD default com.github.javaparser.symbolsolver.model.resolution.SymbolReference<com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration> com.github.javaparser.symbolsolver.model.resolution.TypeSolver.tryToSolveType(java.lang.String) [TypeSolver.java <54:1 <54:47 54:60> 54:74>]
+COMMENT: comment [TypeSolver.java <50:5 53:7>]
+REFERENCE_TYPE_USAGE com.github.javaparser.symbolsolver.model.resolution.SymbolReference<com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration> com.github.javaparser.symbolsolver.model.resolution.TypeSolver.tryToSolveType(java.lang.String) -> com.github.javaparser.symbolsolver.model.resolution.SymbolReference<S> [TypeSolver.java <54:5 54:19>]
+REFERENCE_TYPE_ARGUMENT com.github.javaparser.symbolsolver.model.resolution.SymbolReference<com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration> com.github.javaparser.symbolsolver.model.resolution.TypeSolver.tryToSolveType(java.lang.String) -> com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration [TypeSolver.java <54:21 54:44>]
+REFERENCE_TYPE_USAGE com.github.javaparser.symbolsolver.model.resolution.SymbolReference<com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration> com.github.javaparser.symbolsolver.model.resolution.TypeSolver.tryToSolveType(java.lang.String) -> java.lang.String [TypeSolver.java <54:62 54:67>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.model.resolution.TypeSolver.tryToSolveType<0> [TypeSolver.java <54:69 54:72>]
+SYMBOL_METHOD default com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration com.github.javaparser.symbolsolver.model.resolution.TypeSolver.solveType(java.lang.String) [TypeSolver.java <59:1 <59:38 59:46> 66:5>]
+COMMENT: comment [TypeSolver.java <56:5 58:7>]
+REFERENCE_TYPE_USAGE com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration com.github.javaparser.symbolsolver.model.resolution.TypeSolver.solveType(java.lang.String) -> com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration [TypeSolver.java <59:13 59:36>]
+REFERENCE_TYPE_USAGE com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration com.github.javaparser.symbolsolver.model.resolution.TypeSolver.solveType(java.lang.String) -> java.lang.String [TypeSolver.java <59:48 59:53>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.model.resolution.TypeSolver.solveType<0> [TypeSolver.java <59:55 59:58>]
+REFERENCE_TYPE_USAGE com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration com.github.javaparser.symbolsolver.model.resolution.TypeSolver.solveType(java.lang.String) -> com.github.javaparser.symbolsolver.model.resolution.UnsolvedSymbolException [TypeSolver.java <59:68 59:90>]
+LOCAL_SYMBOL: TypeSolver.java<59:92> [TypeSolver.java <59:92 59:92>]
+LOCAL_SYMBOL: TypeSolver.java<59:92> [TypeSolver.java <66:5 66:5>]
+REFERENCE_TYPE_USAGE com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration com.github.javaparser.symbolsolver.model.resolution.TypeSolver.solveType(java.lang.String) -> com.github.javaparser.symbolsolver.model.resolution.SymbolReference<S> [TypeSolver.java <60:9 60:23>]
+REFERENCE_TYPE_ARGUMENT com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration com.github.javaparser.symbolsolver.model.resolution.TypeSolver.solveType(java.lang.String) -> com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration [TypeSolver.java <60:25 60:48>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.model.resolution.TypeSolver.solveType<1> [TypeSolver.java <60:51 60:53>]
+SYMBOL_METHOD com.github.javaparser.symbolsolver.model.resolution.SymbolReference<com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration> com.github.javaparser.symbolsolver.model.resolution.TypeSolver.tryToSolveType(java.lang.String)
+REFERENCE_CALL com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration com.github.javaparser.symbolsolver.model.resolution.TypeSolver.solveType(java.lang.String) -> com.github.javaparser.symbolsolver.model.resolution.SymbolReference<com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration> com.github.javaparser.symbolsolver.model.resolution.TypeSolver.tryToSolveType(java.lang.String) [TypeSolver.java <60:57 60:70>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.model.resolution.TypeSolver.solveType<0> [TypeSolver.java <60:72 60:75>]
+SYMBOL_METHOD boolean com.github.javaparser.symbolsolver.model.resolution.SymbolReference<S>.isSolved()
+REFERENCE_CALL com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration com.github.javaparser.symbolsolver.model.resolution.TypeSolver.solveType(java.lang.String) -> boolean com.github.javaparser.symbolsolver.model.resolution.SymbolReference<S>.isSolved() [TypeSolver.java <61:17 61:24>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.model.resolution.TypeSolver.solveType<1> [TypeSolver.java <61:13 61:15>]
+LOCAL_SYMBOL: TypeSolver.java<61:29> [TypeSolver.java <61:29 61:29>]
+LOCAL_SYMBOL: TypeSolver.java<61:29> [TypeSolver.java <63:9 63:9>]
+SYMBOL_METHOD com.github.javaparser.symbolsolver.model.resolution.SymbolReference<S>.S com.github.javaparser.symbolsolver.model.resolution.SymbolReference<S>.getCorrespondingDeclaration()
+REFERENCE_CALL com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration com.github.javaparser.symbolsolver.model.resolution.TypeSolver.solveType(java.lang.String) -> com.github.javaparser.symbolsolver.model.resolution.SymbolReference<S>.S com.github.javaparser.symbolsolver.model.resolution.SymbolReference<S>.getCorrespondingDeclaration() [TypeSolver.java <62:24 62:50>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.model.resolution.TypeSolver.solveType<1> [TypeSolver.java <62:20 62:22>]
+LOCAL_SYMBOL: TypeSolver.java<63:16> [TypeSolver.java <63:16 63:16>]
+LOCAL_SYMBOL: TypeSolver.java<63:16> [TypeSolver.java <65:9 65:9>]
+SYMBOL_METHOD com.github.javaparser.symbolsolver.model.resolution.UnsolvedSymbolException.UnsolvedSymbolException(java.lang.String, com.github.javaparser.symbolsolver.model.resolution.TypeSolver)
+REFERENCE_CALL com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration com.github.javaparser.symbolsolver.model.resolution.TypeSolver.solveType(java.lang.String) -> com.github.javaparser.symbolsolver.model.resolution.UnsolvedSymbolException.UnsolvedSymbolException(java.lang.String, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) [TypeSolver.java <64:23 64:45>]
+REFERENCE_TYPE_USAGE com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration com.github.javaparser.symbolsolver.model.resolution.TypeSolver.solveType(java.lang.String) -> com.github.javaparser.symbolsolver.model.resolution.UnsolvedSymbolException [TypeSolver.java <64:23 64:45>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.model.resolution.TypeSolver.solveType<0> [TypeSolver.java <64:47 64:50>]
+COMMENT: comment [TypeSolver.java <1:1 15:3>]

@@ -1,0 +1,86 @@
+FILE: VariableSymbolDeclarator.java
+SYMBOL_PACKAGE com.github.javaparser.symbolsolver.javaparsermodel.declarators [VariableSymbolDeclarator.java <17:9 17:70>]
+SYMBOL_PACKAGE com.github.javaparser.symbolsolver.javaparsermodel
+SYMBOL_PACKAGE com.github.javaparser.symbolsolver
+SYMBOL_PACKAGE com.github.javaparser
+SYMBOL_PACKAGE com.github
+SYMBOL_PACKAGE com
+REFERENCE_IMPORT VariableSymbolDeclarator.java -> com.github.javaparser.ast.body.FieldDeclaration [VariableSymbolDeclarator.java <19:8 19:54>]
+SYMBOL_PACKAGE com.github.javaparser.ast.body
+REFERENCE_IMPORT VariableSymbolDeclarator.java -> com.github.javaparser.ast.expr.VariableDeclarationExpr [VariableSymbolDeclarator.java <20:8 20:61>]
+SYMBOL_PACKAGE com.github.javaparser.ast.expr
+REFERENCE_IMPORT VariableSymbolDeclarator.java -> com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserSymbolDeclaration [VariableSymbolDeclarator.java <21:8 21:98>]
+SYMBOL_PACKAGE com.github.javaparser.symbolsolver.javaparsermodel.declarations
+REFERENCE_IMPORT VariableSymbolDeclarator.java -> com.github.javaparser.symbolsolver.model.declarations.ValueDeclaration [VariableSymbolDeclarator.java <22:8 22:77>]
+SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model.declarations
+REFERENCE_IMPORT VariableSymbolDeclarator.java -> com.github.javaparser.symbolsolver.model.resolution.TypeSolver [VariableSymbolDeclarator.java <23:8 23:69>]
+SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model.resolution
+REFERENCE_IMPORT VariableSymbolDeclarator.java -> java.util.LinkedList<E> [VariableSymbolDeclarator.java <25:8 25:27>]
+SYMBOL_PACKAGE java.util
+REFERENCE_IMPORT VariableSymbolDeclarator.java -> java.util.List<E> [VariableSymbolDeclarator.java <26:8 26:21>]
+SYMBOL_PACKAGE java.util
+REFERENCE_IMPORT VariableSymbolDeclarator.java -> java.util.stream.Collectors [VariableSymbolDeclarator.java <27:8 27:34>]
+SYMBOL_PACKAGE java.util.stream
+REFERENCE_IMPORT VariableSymbolDeclarator.java -> static com.github.javaparser.ast.Node com.github.javaparser.symbolsolver.javaparser.Navigator.getParentNode(com.github.javaparser.ast.Node) [VariableSymbolDeclarator.java <29:15 29:83>]
+SYMBOL_PACKAGE com.github.javaparser.symbolsolver.javaparser
+SYMBOL_CLASS public com.github.javaparser.symbolsolver.javaparsermodel.declarators.VariableSymbolDeclarator [VariableSymbolDeclarator.java <34:1 <34:14 34:37> 52:1>]
+LOCAL_SYMBOL: VariableSymbolDeclarator.java<34:97> [VariableSymbolDeclarator.java <34:97 34:97>]
+LOCAL_SYMBOL: VariableSymbolDeclarator.java<34:97> [VariableSymbolDeclarator.java <52:1 52:1>]
+COMMENT: comment [VariableSymbolDeclarator.java <31:1 33:3>]
+REFERENCE_INHERITANCE com.github.javaparser.symbolsolver.javaparsermodel.declarators.VariableSymbolDeclarator -> com.github.javaparser.symbolsolver.javaparsermodel.declarators.AbstractSymbolDeclarator<N> [VariableSymbolDeclarator.java <34:47 34:70>]
+REFERENCE_TYPE_ARGUMENT com.github.javaparser.symbolsolver.javaparsermodel.declarators.VariableSymbolDeclarator -> com.github.javaparser.ast.expr.VariableDeclarationExpr [VariableSymbolDeclarator.java <34:72 34:94>]
+SYMBOL_METHOD public com.github.javaparser.symbolsolver.javaparsermodel.declarators.VariableSymbolDeclarator.VariableSymbolDeclarator(com.github.javaparser.ast.expr.VariableDeclarationExpr, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) [VariableSymbolDeclarator.java <36:5 <36:12 36:35> 41:5>]
+SYMBOL_METHOD com.github.javaparser.symbolsolver.javaparsermodel.declarators.AbstractSymbolDeclarator<N>.AbstractSymbolDeclarator(com.github.javaparser.symbolsolver.javaparsermodel.declarators.AbstractSymbolDeclarator<N>.N, com.github.javaparser.symbolsolver.model.resolution.TypeSolver)
+REFERENCE_OVERRIDE com.github.javaparser.symbolsolver.javaparsermodel.declarators.VariableSymbolDeclarator.VariableSymbolDeclarator(com.github.javaparser.ast.expr.VariableDeclarationExpr, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> com.github.javaparser.symbolsolver.javaparsermodel.declarators.AbstractSymbolDeclarator<N>.AbstractSymbolDeclarator(com.github.javaparser.symbolsolver.javaparsermodel.declarators.AbstractSymbolDeclarator<N>.N, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) [VariableSymbolDeclarator.java <36:12 36:35>]
+REFERENCE_TYPE_USAGE com.github.javaparser.symbolsolver.javaparsermodel.declarators.VariableSymbolDeclarator.VariableSymbolDeclarator(com.github.javaparser.ast.expr.VariableDeclarationExpr, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> com.github.javaparser.ast.expr.VariableDeclarationExpr [VariableSymbolDeclarator.java <36:37 36:59>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javaparsermodel.declarators.VariableSymbolDeclarator.VariableSymbolDeclarator<0> [VariableSymbolDeclarator.java <36:61 36:71>]
+REFERENCE_TYPE_USAGE com.github.javaparser.symbolsolver.javaparsermodel.declarators.VariableSymbolDeclarator.VariableSymbolDeclarator(com.github.javaparser.ast.expr.VariableDeclarationExpr, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> com.github.javaparser.symbolsolver.model.resolution.TypeSolver [VariableSymbolDeclarator.java <36:74 36:83>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javaparsermodel.declarators.VariableSymbolDeclarator.VariableSymbolDeclarator<1> [VariableSymbolDeclarator.java <36:85 36:94>]
+LOCAL_SYMBOL: VariableSymbolDeclarator.java<36:97> [VariableSymbolDeclarator.java <36:97 36:97>]
+LOCAL_SYMBOL: VariableSymbolDeclarator.java<36:97> [VariableSymbolDeclarator.java <41:5 41:5>]
+SYMBOL_METHOD com.github.javaparser.symbolsolver.javaparsermodel.declarators.AbstractSymbolDeclarator<N>.AbstractSymbolDeclarator(com.github.javaparser.symbolsolver.javaparsermodel.declarators.AbstractSymbolDeclarator<N>.N, com.github.javaparser.symbolsolver.model.resolution.TypeSolver)
+REFERENCE_CALL com.github.javaparser.symbolsolver.javaparsermodel.declarators.VariableSymbolDeclarator.VariableSymbolDeclarator(com.github.javaparser.ast.expr.VariableDeclarationExpr, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> com.github.javaparser.symbolsolver.javaparsermodel.declarators.AbstractSymbolDeclarator<N>.AbstractSymbolDeclarator(com.github.javaparser.symbolsolver.javaparsermodel.declarators.AbstractSymbolDeclarator<N>.N, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) [VariableSymbolDeclarator.java <37:9 37:13>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javaparsermodel.declarators.VariableSymbolDeclarator.VariableSymbolDeclarator<0> [VariableSymbolDeclarator.java <37:15 37:25>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javaparsermodel.declarators.VariableSymbolDeclarator.VariableSymbolDeclarator<1> [VariableSymbolDeclarator.java <37:28 37:37>]
+SYMBOL_METHOD static com.github.javaparser.ast.Node com.github.javaparser.symbolsolver.javaparser.Navigator.getParentNode(com.github.javaparser.ast.Node)
+REFERENCE_CALL com.github.javaparser.symbolsolver.javaparsermodel.declarators.VariableSymbolDeclarator.VariableSymbolDeclarator(com.github.javaparser.ast.expr.VariableDeclarationExpr, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> static com.github.javaparser.ast.Node com.github.javaparser.symbolsolver.javaparser.Navigator.getParentNode(com.github.javaparser.ast.Node) [VariableSymbolDeclarator.java <38:13 38:25>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javaparsermodel.declarators.VariableSymbolDeclarator.VariableSymbolDeclarator<0> [VariableSymbolDeclarator.java <38:27 38:37>]
+REFERENCE_TYPE_USAGE com.github.javaparser.symbolsolver.javaparsermodel.declarators.VariableSymbolDeclarator.VariableSymbolDeclarator(com.github.javaparser.ast.expr.VariableDeclarationExpr, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> com.github.javaparser.ast.body.FieldDeclaration [VariableSymbolDeclarator.java <38:51 38:66>]
+LOCAL_SYMBOL: VariableSymbolDeclarator.java<38:69> [VariableSymbolDeclarator.java <38:69 38:69>]
+LOCAL_SYMBOL: VariableSymbolDeclarator.java<38:69> [VariableSymbolDeclarator.java <40:9 40:9>]
+SYMBOL_METHOD java.lang.IllegalArgumentException.IllegalArgumentException()
+REFERENCE_CALL com.github.javaparser.symbolsolver.javaparsermodel.declarators.VariableSymbolDeclarator.VariableSymbolDeclarator(com.github.javaparser.ast.expr.VariableDeclarationExpr, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> java.lang.IllegalArgumentException.IllegalArgumentException() [VariableSymbolDeclarator.java <39:23 39:46>]
+REFERENCE_TYPE_USAGE com.github.javaparser.symbolsolver.javaparsermodel.declarators.VariableSymbolDeclarator.VariableSymbolDeclarator(com.github.javaparser.ast.expr.VariableDeclarationExpr, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> java.lang.IllegalArgumentException [VariableSymbolDeclarator.java <39:23 39:46>]
+SYMBOL_METHOD public java.util.List<com.github.javaparser.symbolsolver.model.declarations.ValueDeclaration> com.github.javaparser.symbolsolver.javaparsermodel.declarators.VariableSymbolDeclarator.getSymbolDeclarations() [VariableSymbolDeclarator.java <43:5 <44:35 44:55> 50:5>]
+SYMBOL_METHOD java.util.List<com.github.javaparser.symbolsolver.model.declarations.ValueDeclaration> com.github.javaparser.symbolsolver.resolution.SymbolDeclarator.getSymbolDeclarations()
+REFERENCE_OVERRIDE java.util.List<com.github.javaparser.symbolsolver.model.declarations.ValueDeclaration> com.github.javaparser.symbolsolver.javaparsermodel.declarators.VariableSymbolDeclarator.getSymbolDeclarations() -> java.util.List<com.github.javaparser.symbolsolver.model.declarations.ValueDeclaration> com.github.javaparser.symbolsolver.resolution.SymbolDeclarator.getSymbolDeclarations() [VariableSymbolDeclarator.java <44:35 44:55>]
+REFERENCE_TYPE_USAGE java.util.List<com.github.javaparser.symbolsolver.model.declarations.ValueDeclaration> com.github.javaparser.symbolsolver.javaparsermodel.declarators.VariableSymbolDeclarator.getSymbolDeclarations() -> java.util.List<E> [VariableSymbolDeclarator.java <44:12 44:15>]
+REFERENCE_TYPE_ARGUMENT java.util.List<com.github.javaparser.symbolsolver.model.declarations.ValueDeclaration> com.github.javaparser.symbolsolver.javaparsermodel.declarators.VariableSymbolDeclarator.getSymbolDeclarations() -> com.github.javaparser.symbolsolver.model.declarations.ValueDeclaration [VariableSymbolDeclarator.java <44:17 44:32>]
+LOCAL_SYMBOL: VariableSymbolDeclarator.java<44:59> [VariableSymbolDeclarator.java <44:59 44:59>]
+LOCAL_SYMBOL: VariableSymbolDeclarator.java<44:59> [VariableSymbolDeclarator.java <50:5 50:5>]
+REFERENCE_TYPE_USAGE java.util.List<com.github.javaparser.symbolsolver.model.declarations.ValueDeclaration> com.github.javaparser.symbolsolver.javaparsermodel.declarators.VariableSymbolDeclarator.getSymbolDeclarations() -> java.util.List<E> [VariableSymbolDeclarator.java <45:9 45:12>]
+REFERENCE_TYPE_ARGUMENT java.util.List<com.github.javaparser.symbolsolver.model.declarations.ValueDeclaration> com.github.javaparser.symbolsolver.javaparsermodel.declarators.VariableSymbolDeclarator.getSymbolDeclarations() -> com.github.javaparser.symbolsolver.model.declarations.ValueDeclaration [VariableSymbolDeclarator.java <45:14 45:29>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javaparsermodel.declarators.VariableSymbolDeclarator.getSymbolDeclarations<0> [VariableSymbolDeclarator.java <45:32 45:38>]
+SYMBOL_METHOD R java.util.stream.Stream<T>.collect<R, A>(java.util.stream.Collector<? super T, A, R>)
+REFERENCE_CALL java.util.List<com.github.javaparser.symbolsolver.model.declarations.ValueDeclaration> com.github.javaparser.symbolsolver.javaparsermodel.declarators.VariableSymbolDeclarator.getSymbolDeclarations() -> R java.util.stream.Stream<T>.collect<R, A>(java.util.stream.Collector<? super T, A, R>) [VariableSymbolDeclarator.java <47:11 47:17>]
+SYMBOL_METHOD java.util.stream.Stream<R> java.util.stream.Stream<T>.map<R>(java.util.function.Function<? super T, ? extends R>)
+REFERENCE_CALL java.util.List<com.github.javaparser.symbolsolver.model.declarations.ValueDeclaration> com.github.javaparser.symbolsolver.javaparsermodel.declarators.VariableSymbolDeclarator.getSymbolDeclarations() -> java.util.stream.Stream<R> java.util.stream.Stream<T>.map<R>(java.util.function.Function<? super T, ? extends R>) [VariableSymbolDeclarator.java <45:78 45:80>]
+SYMBOL_METHOD java.util.stream.Stream<java.util.Collection<E>.E> java.util.Collection<E>.stream()
+REFERENCE_CALL java.util.List<com.github.javaparser.symbolsolver.model.declarations.ValueDeclaration> com.github.javaparser.symbolsolver.javaparsermodel.declarators.VariableSymbolDeclarator.getSymbolDeclarations() -> java.util.stream.Stream<java.util.Collection<E>.E> java.util.Collection<E>.stream() [VariableSymbolDeclarator.java <45:69 45:74>]
+SYMBOL_METHOD com.github.javaparser.ast.NodeList<com.github.javaparser.ast.body.VariableDeclarator> com.github.javaparser.ast.expr.VariableDeclarationExpr.getVariables()
+REFERENCE_CALL java.util.List<com.github.javaparser.symbolsolver.model.declarations.ValueDeclaration> com.github.javaparser.symbolsolver.javaparsermodel.declarators.VariableSymbolDeclarator.getSymbolDeclarations() -> com.github.javaparser.ast.NodeList<com.github.javaparser.ast.body.VariableDeclarator> com.github.javaparser.ast.expr.VariableDeclarationExpr.getVariables() [VariableSymbolDeclarator.java <45:54 45:65>]
+SYMBOL_FIELD com.github.javaparser.symbolsolver.javaparsermodel.declarators.AbstractSymbolDeclarator<N>.N com.github.javaparser.symbolsolver.javaparsermodel.declarators.AbstractSymbolDeclarator<N>.wrappedNode
+REFERENCE_USAGE java.util.List<com.github.javaparser.symbolsolver.model.declarations.ValueDeclaration> com.github.javaparser.symbolsolver.javaparsermodel.declarators.VariableSymbolDeclarator.getSymbolDeclarations() -> com.github.javaparser.symbolsolver.javaparsermodel.declarators.AbstractSymbolDeclarator<N>.N com.github.javaparser.symbolsolver.javaparsermodel.declarators.AbstractSymbolDeclarator<N>.wrappedNode [VariableSymbolDeclarator.java <45:42 45:52>]
+LOCAL_SYMBOL: java.util.function.Function<T, R>.apply<2> [VariableSymbolDeclarator.java <46:17 46:17>]
+SYMBOL_METHOD static com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserSymbolDeclaration com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserSymbolDeclaration.localVar(com.github.javaparser.ast.body.VariableDeclarator, com.github.javaparser.symbolsolver.model.resolution.TypeSolver)
+REFERENCE_CALL java.util.List<com.github.javaparser.symbolsolver.model.declarations.ValueDeclaration> com.github.javaparser.symbolsolver.javaparsermodel.declarators.VariableSymbolDeclarator.getSymbolDeclarations() -> static com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserSymbolDeclaration com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserSymbolDeclaration.localVar(com.github.javaparser.ast.body.VariableDeclarator, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) [VariableSymbolDeclarator.java <46:50 46:57>]
+LOCAL_SYMBOL: java.util.function.Function<T, R>.apply<2> [VariableSymbolDeclarator.java <46:59 46:59>]
+SYMBOL_FIELD com.github.javaparser.symbolsolver.model.resolution.TypeSolver com.github.javaparser.symbolsolver.javaparsermodel.declarators.AbstractSymbolDeclarator<N>.typeSolver
+REFERENCE_USAGE java.util.List<com.github.javaparser.symbolsolver.model.declarations.ValueDeclaration> com.github.javaparser.symbolsolver.javaparsermodel.declarators.VariableSymbolDeclarator.getSymbolDeclarations() -> com.github.javaparser.symbolsolver.model.resolution.TypeSolver com.github.javaparser.symbolsolver.javaparsermodel.declarators.AbstractSymbolDeclarator<N>.typeSolver [VariableSymbolDeclarator.java <46:62 46:71>]
+SYMBOL_METHOD static java.util.stream.Collector<T, ?, C> java.util.stream.Collectors.toCollection<T, C>(java.util.function.Supplier<C>)
+REFERENCE_CALL java.util.List<com.github.javaparser.symbolsolver.model.declarations.ValueDeclaration> com.github.javaparser.symbolsolver.javaparsermodel.declarators.VariableSymbolDeclarator.getSymbolDeclarations() -> static java.util.stream.Collector<T, ?, C> java.util.stream.Collectors.toCollection<T, C>(java.util.function.Supplier<C>) [VariableSymbolDeclarator.java <48:28 48:39>]
+SYMBOL_METHOD java.util.LinkedList<E>.LinkedList()
+REFERENCE_CALL java.util.List<com.github.javaparser.symbolsolver.model.declarations.ValueDeclaration> com.github.javaparser.symbolsolver.javaparsermodel.declarators.VariableSymbolDeclarator.getSymbolDeclarations() -> java.util.LinkedList<E>.LinkedList() [VariableSymbolDeclarator.java <48:51 48:62>]
+REFERENCE_TYPE_USAGE java.util.List<com.github.javaparser.symbolsolver.model.declarations.ValueDeclaration> com.github.javaparser.symbolsolver.javaparsermodel.declarators.VariableSymbolDeclarator.getSymbolDeclarations() -> java.util.LinkedList<E> [VariableSymbolDeclarator.java <48:51 48:60>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javaparsermodel.declarators.VariableSymbolDeclarator.getSymbolDeclarations<0> [VariableSymbolDeclarator.java <49:16 49:22>]
+COMMENT: comment [VariableSymbolDeclarator.java <1:1 15:3>]

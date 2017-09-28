@@ -1,0 +1,12 @@
+FILE: AnnotationDeclaration.java
+SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model.declarations [AnnotationDeclaration.java <1:9 1:61>]
+SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model
+SYMBOL_PACKAGE com.github.javaparser.symbolsolver
+SYMBOL_PACKAGE com.github.javaparser
+SYMBOL_PACKAGE com.github
+SYMBOL_PACKAGE com
+SYMBOL_INTERFACE public com.github.javaparser.symbolsolver.model.declarations.AnnotationDeclaration [AnnotationDeclaration.java <6:1 <6:18 6:38> 7:1>]
+LOCAL_SYMBOL: AnnotationDeclaration.java<6:73> [AnnotationDeclaration.java <6:73 6:73>]
+LOCAL_SYMBOL: AnnotationDeclaration.java<6:73> [AnnotationDeclaration.java <7:1 7:1>]
+COMMENT: comment [AnnotationDeclaration.java <3:1 5:3>]
+REFERENCE_INHERITANCE com.github.javaparser.symbolsolver.model.declarations.AnnotationDeclaration -> com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration [AnnotationDeclaration.java <6:48 6:71>]

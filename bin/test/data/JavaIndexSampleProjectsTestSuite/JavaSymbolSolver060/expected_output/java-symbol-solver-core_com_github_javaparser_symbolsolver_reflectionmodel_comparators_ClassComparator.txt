@@ -1,0 +1,84 @@
+FILE: ClassComparator.java
+SYMBOL_PACKAGE com.github.javaparser.symbolsolver.reflectionmodel.comparators [ClassComparator.java <1:9 1:70>]
+SYMBOL_PACKAGE com.github.javaparser.symbolsolver.reflectionmodel
+SYMBOL_PACKAGE com.github.javaparser.symbolsolver
+SYMBOL_PACKAGE com.github.javaparser
+SYMBOL_PACKAGE com.github
+SYMBOL_PACKAGE com
+REFERENCE_IMPORT ClassComparator.java -> java.util.Comparator<T> [ClassComparator.java <3:8 3:27>]
+SYMBOL_PACKAGE java.util
+SYMBOL_CLASS public com.github.javaparser.symbolsolver.reflectionmodel.comparators.ClassComparator [ClassComparator.java <8:1 <8:14 8:28> 25:1>]
+LOCAL_SYMBOL: ClassComparator.java<8:62> [ClassComparator.java <8:62 8:62>]
+LOCAL_SYMBOL: ClassComparator.java<8:62> [ClassComparator.java <25:1 25:1>]
+COMMENT: comment [ClassComparator.java <5:1 7:3>]
+REFERENCE_INHERITANCE com.github.javaparser.symbolsolver.reflectionmodel.comparators.ClassComparator -> java.util.Comparator<T> [ClassComparator.java <8:41 8:50>]
+REFERENCE_TYPE_ARGUMENT com.github.javaparser.symbolsolver.reflectionmodel.comparators.ClassComparator -> java.lang.Class<T> [ClassComparator.java <8:52 8:56>]
+SYMBOL_METHOD public int com.github.javaparser.symbolsolver.reflectionmodel.comparators.ClassComparator.compare(java.lang.Class<?>, java.lang.Class<?>) [ClassComparator.java <10:5 <11:16 11:22> 24:5>]
+SYMBOL_METHOD int java.util.Comparator<T>.compare(java.util.Comparator<T>.T, java.util.Comparator<T>.T)
+REFERENCE_OVERRIDE int com.github.javaparser.symbolsolver.reflectionmodel.comparators.ClassComparator.compare(java.lang.Class<?>, java.lang.Class<?>) -> int java.util.Comparator<T>.compare(java.util.Comparator<T>.T, java.util.Comparator<T>.T) [ClassComparator.java <11:16 11:22>]
+SYMBOL_BUILTIN_TYPE int
+REFERENCE_TYPE_USAGE int com.github.javaparser.symbolsolver.reflectionmodel.comparators.ClassComparator.compare(java.lang.Class<?>, java.lang.Class<?>) -> int [ClassComparator.java <11:12 11:14>]
+REFERENCE_TYPE_USAGE int com.github.javaparser.symbolsolver.reflectionmodel.comparators.ClassComparator.compare(java.lang.Class<?>, java.lang.Class<?>) -> java.lang.Class<T> [ClassComparator.java <11:24 11:28>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.reflectionmodel.comparators.ClassComparator.compare<0> [ClassComparator.java <11:33 11:34>]
+REFERENCE_TYPE_USAGE int com.github.javaparser.symbolsolver.reflectionmodel.comparators.ClassComparator.compare(java.lang.Class<?>, java.lang.Class<?>) -> java.lang.Class<T> [ClassComparator.java <11:37 11:41>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.reflectionmodel.comparators.ClassComparator.compare<1> [ClassComparator.java <11:46 11:47>]
+LOCAL_SYMBOL: ClassComparator.java<11:50> [ClassComparator.java <11:50 11:50>]
+LOCAL_SYMBOL: ClassComparator.java<11:50> [ClassComparator.java <24:5 24:5>]
+SYMBOL_BUILTIN_TYPE int
+REFERENCE_TYPE_USAGE int com.github.javaparser.symbolsolver.reflectionmodel.comparators.ClassComparator.compare(java.lang.Class<?>, java.lang.Class<?>) -> int [ClassComparator.java <12:9 12:11>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.reflectionmodel.comparators.ClassComparator.compare<2> [ClassComparator.java <12:13 12:22>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.reflectionmodel.comparators.ClassComparator.compare<2> [ClassComparator.java <13:9 13:18>]
+SYMBOL_METHOD int java.lang.String.compareTo(java.lang.String)
+REFERENCE_CALL int com.github.javaparser.symbolsolver.reflectionmodel.comparators.ClassComparator.compare(java.lang.Class<?>, java.lang.Class<?>) -> int java.lang.String.compareTo(java.lang.String) [ClassComparator.java <13:44 13:52>]
+SYMBOL_METHOD java.lang.String java.lang.Class<T>.getCanonicalName()
+REFERENCE_CALL int com.github.javaparser.symbolsolver.reflectionmodel.comparators.ClassComparator.compare(java.lang.Class<?>, java.lang.Class<?>) -> java.lang.String java.lang.Class<T>.getCanonicalName() [ClassComparator.java <13:25 13:40>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.reflectionmodel.comparators.ClassComparator.compare<0> [ClassComparator.java <13:22 13:23>]
+SYMBOL_METHOD java.lang.String java.lang.Class<T>.getCanonicalName()
+REFERENCE_CALL int com.github.javaparser.symbolsolver.reflectionmodel.comparators.ClassComparator.compare(java.lang.Class<?>, java.lang.Class<?>) -> java.lang.String java.lang.Class<T>.getCanonicalName() [ClassComparator.java <13:57 13:72>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.reflectionmodel.comparators.ClassComparator.compare<1> [ClassComparator.java <13:54 13:55>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.reflectionmodel.comparators.ClassComparator.compare<2> [ClassComparator.java <14:13 14:22>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.reflectionmodel.comparators.ClassComparator.compare<2> [ClassComparator.java <14:37 14:46>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.reflectionmodel.comparators.ClassComparator.compare<2> [ClassComparator.java <15:9 15:18>]
+SYMBOL_METHOD static int java.lang.Boolean.compare(boolean, boolean)
+REFERENCE_CALL int com.github.javaparser.symbolsolver.reflectionmodel.comparators.ClassComparator.compare(java.lang.Class<?>, java.lang.Class<?>) -> static int java.lang.Boolean.compare(boolean, boolean) [ClassComparator.java <15:30 15:36>]
+SYMBOL_METHOD boolean java.lang.Class<T>.isAnnotation()
+REFERENCE_CALL int com.github.javaparser.symbolsolver.reflectionmodel.comparators.ClassComparator.compare(java.lang.Class<?>, java.lang.Class<?>) -> boolean java.lang.Class<T>.isAnnotation() [ClassComparator.java <15:41 15:52>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.reflectionmodel.comparators.ClassComparator.compare<0> [ClassComparator.java <15:38 15:39>]
+SYMBOL_METHOD boolean java.lang.Class<T>.isAnnotation()
+REFERENCE_CALL int com.github.javaparser.symbolsolver.reflectionmodel.comparators.ClassComparator.compare(java.lang.Class<?>, java.lang.Class<?>) -> boolean java.lang.Class<T>.isAnnotation() [ClassComparator.java <15:60 15:71>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.reflectionmodel.comparators.ClassComparator.compare<1> [ClassComparator.java <15:57 15:58>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.reflectionmodel.comparators.ClassComparator.compare<2> [ClassComparator.java <16:13 16:22>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.reflectionmodel.comparators.ClassComparator.compare<2> [ClassComparator.java <16:37 16:46>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.reflectionmodel.comparators.ClassComparator.compare<2> [ClassComparator.java <17:9 17:18>]
+SYMBOL_METHOD static int java.lang.Boolean.compare(boolean, boolean)
+REFERENCE_CALL int com.github.javaparser.symbolsolver.reflectionmodel.comparators.ClassComparator.compare(java.lang.Class<?>, java.lang.Class<?>) -> static int java.lang.Boolean.compare(boolean, boolean) [ClassComparator.java <17:30 17:36>]
+SYMBOL_METHOD boolean java.lang.Class<T>.isArray()
+REFERENCE_CALL int com.github.javaparser.symbolsolver.reflectionmodel.comparators.ClassComparator.compare(java.lang.Class<?>, java.lang.Class<?>) -> boolean java.lang.Class<T>.isArray() [ClassComparator.java <17:41 17:47>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.reflectionmodel.comparators.ClassComparator.compare<0> [ClassComparator.java <17:38 17:39>]
+SYMBOL_METHOD boolean java.lang.Class<T>.isArray()
+REFERENCE_CALL int com.github.javaparser.symbolsolver.reflectionmodel.comparators.ClassComparator.compare(java.lang.Class<?>, java.lang.Class<?>) -> boolean java.lang.Class<T>.isArray() [ClassComparator.java <17:55 17:61>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.reflectionmodel.comparators.ClassComparator.compare<1> [ClassComparator.java <17:52 17:53>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.reflectionmodel.comparators.ClassComparator.compare<2> [ClassComparator.java <18:13 18:22>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.reflectionmodel.comparators.ClassComparator.compare<2> [ClassComparator.java <18:37 18:46>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.reflectionmodel.comparators.ClassComparator.compare<2> [ClassComparator.java <19:9 19:18>]
+SYMBOL_METHOD static int java.lang.Boolean.compare(boolean, boolean)
+REFERENCE_CALL int com.github.javaparser.symbolsolver.reflectionmodel.comparators.ClassComparator.compare(java.lang.Class<?>, java.lang.Class<?>) -> static int java.lang.Boolean.compare(boolean, boolean) [ClassComparator.java <19:30 19:36>]
+SYMBOL_METHOD boolean java.lang.Class<T>.isEnum()
+REFERENCE_CALL int com.github.javaparser.symbolsolver.reflectionmodel.comparators.ClassComparator.compare(java.lang.Class<?>, java.lang.Class<?>) -> boolean java.lang.Class<T>.isEnum() [ClassComparator.java <19:41 19:46>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.reflectionmodel.comparators.ClassComparator.compare<0> [ClassComparator.java <19:38 19:39>]
+SYMBOL_METHOD boolean java.lang.Class<T>.isEnum()
+REFERENCE_CALL int com.github.javaparser.symbolsolver.reflectionmodel.comparators.ClassComparator.compare(java.lang.Class<?>, java.lang.Class<?>) -> boolean java.lang.Class<T>.isEnum() [ClassComparator.java <19:54 19:59>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.reflectionmodel.comparators.ClassComparator.compare<1> [ClassComparator.java <19:51 19:52>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.reflectionmodel.comparators.ClassComparator.compare<2> [ClassComparator.java <20:13 20:22>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.reflectionmodel.comparators.ClassComparator.compare<2> [ClassComparator.java <20:37 20:46>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.reflectionmodel.comparators.ClassComparator.compare<2> [ClassComparator.java <21:9 21:18>]
+SYMBOL_METHOD static int java.lang.Boolean.compare(boolean, boolean)
+REFERENCE_CALL int com.github.javaparser.symbolsolver.reflectionmodel.comparators.ClassComparator.compare(java.lang.Class<?>, java.lang.Class<?>) -> static int java.lang.Boolean.compare(boolean, boolean) [ClassComparator.java <21:30 21:36>]
+SYMBOL_METHOD boolean java.lang.Class<T>.isInterface()
+REFERENCE_CALL int com.github.javaparser.symbolsolver.reflectionmodel.comparators.ClassComparator.compare(java.lang.Class<?>, java.lang.Class<?>) -> boolean java.lang.Class<T>.isInterface() [ClassComparator.java <21:41 21:51>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.reflectionmodel.comparators.ClassComparator.compare<0> [ClassComparator.java <21:38 21:39>]
+SYMBOL_METHOD boolean java.lang.Class<T>.isInterface()
+REFERENCE_CALL int com.github.javaparser.symbolsolver.reflectionmodel.comparators.ClassComparator.compare(java.lang.Class<?>, java.lang.Class<?>) -> boolean java.lang.Class<T>.isInterface() [ClassComparator.java <21:59 21:69>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.reflectionmodel.comparators.ClassComparator.compare<1> [ClassComparator.java <21:56 21:57>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.reflectionmodel.comparators.ClassComparator.compare<2> [ClassComparator.java <22:13 22:22>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.reflectionmodel.comparators.ClassComparator.compare<2> [ClassComparator.java <22:37 22:46>]

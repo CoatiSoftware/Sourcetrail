@@ -1,0 +1,46 @@
+FILE: VoidType.java
+SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model.typesystem [VoidType.java <17:9 17:59>]
+SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model
+SYMBOL_PACKAGE com.github.javaparser.symbolsolver
+SYMBOL_PACKAGE com.github.javaparser
+SYMBOL_PACKAGE com.github
+SYMBOL_PACKAGE com
+SYMBOL_CLASS public com.github.javaparser.symbolsolver.model.typesystem.VoidType [VoidType.java <24:1 <24:14 24:21> 44:1>]
+LOCAL_SYMBOL: VoidType.java<24:39> [VoidType.java <24:39 24:39>]
+LOCAL_SYMBOL: VoidType.java<24:39> [VoidType.java <44:1 44:1>]
+COMMENT: comment [VoidType.java <19:1 23:3>]
+REFERENCE_INHERITANCE com.github.javaparser.symbolsolver.model.typesystem.VoidType -> com.github.javaparser.symbolsolver.model.typesystem.Type [VoidType.java <24:34 24:37>]
+SYMBOL_FIELD public static com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.model.typesystem.VoidType.INSTANCE [VoidType.java <25:30 25:37>]
+REFERENCE_TYPE_USAGE static com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.model.typesystem.VoidType.INSTANCE -> com.github.javaparser.symbolsolver.model.typesystem.Type [VoidType.java <25:25 25:28>]
+SYMBOL_METHOD com.github.javaparser.symbolsolver.model.typesystem.VoidType.VoidType()
+REFERENCE_CALL static com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.model.typesystem.VoidType.INSTANCE -> com.github.javaparser.symbolsolver.model.typesystem.VoidType.VoidType() [VoidType.java <25:45 25:52>]
+REFERENCE_TYPE_USAGE static com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.model.typesystem.VoidType.INSTANCE -> com.github.javaparser.symbolsolver.model.typesystem.VoidType [VoidType.java <25:45 25:52>]
+SYMBOL_METHOD private com.github.javaparser.symbolsolver.model.typesystem.VoidType.VoidType() [VoidType.java <27:5 <27:13 27:20> 28:5>]
+LOCAL_SYMBOL: VoidType.java<27:24> [VoidType.java <27:24 27:24>]
+LOCAL_SYMBOL: VoidType.java<27:24> [VoidType.java <28:5 28:5>]
+SYMBOL_METHOD public java.lang.String com.github.javaparser.symbolsolver.model.typesystem.VoidType.describe() [VoidType.java <30:5 <31:19 31:26> 33:5>]
+SYMBOL_METHOD java.lang.String com.github.javaparser.symbolsolver.model.typesystem.Type.describe()
+REFERENCE_OVERRIDE java.lang.String com.github.javaparser.symbolsolver.model.typesystem.VoidType.describe() -> java.lang.String com.github.javaparser.symbolsolver.model.typesystem.Type.describe() [VoidType.java <31:19 31:26>]
+REFERENCE_TYPE_USAGE java.lang.String com.github.javaparser.symbolsolver.model.typesystem.VoidType.describe() -> java.lang.String [VoidType.java <31:12 31:17>]
+LOCAL_SYMBOL: VoidType.java<31:30> [VoidType.java <31:30 31:30>]
+LOCAL_SYMBOL: VoidType.java<31:30> [VoidType.java <33:5 33:5>]
+SYMBOL_METHOD public boolean com.github.javaparser.symbolsolver.model.typesystem.VoidType.isAssignableBy(com.github.javaparser.symbolsolver.model.typesystem.Type) [VoidType.java <35:5 <36:20 36:33> 38:5>]
+SYMBOL_METHOD boolean com.github.javaparser.symbolsolver.model.typesystem.Type.isAssignableBy(com.github.javaparser.symbolsolver.model.typesystem.Type)
+REFERENCE_OVERRIDE boolean com.github.javaparser.symbolsolver.model.typesystem.VoidType.isAssignableBy(com.github.javaparser.symbolsolver.model.typesystem.Type) -> boolean com.github.javaparser.symbolsolver.model.typesystem.Type.isAssignableBy(com.github.javaparser.symbolsolver.model.typesystem.Type) [VoidType.java <36:20 36:33>]
+SYMBOL_BUILTIN_TYPE boolean
+REFERENCE_TYPE_USAGE boolean com.github.javaparser.symbolsolver.model.typesystem.VoidType.isAssignableBy(com.github.javaparser.symbolsolver.model.typesystem.Type) -> boolean [VoidType.java <36:12 36:18>]
+REFERENCE_TYPE_USAGE boolean com.github.javaparser.symbolsolver.model.typesystem.VoidType.isAssignableBy(com.github.javaparser.symbolsolver.model.typesystem.Type) -> com.github.javaparser.symbolsolver.model.typesystem.Type [VoidType.java <36:35 36:38>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.model.typesystem.VoidType.isAssignableBy<0> [VoidType.java <36:40 36:44>]
+LOCAL_SYMBOL: VoidType.java<36:47> [VoidType.java <36:47 36:47>]
+LOCAL_SYMBOL: VoidType.java<36:47> [VoidType.java <38:5 38:5>]
+SYMBOL_METHOD java.lang.UnsupportedOperationException.UnsupportedOperationException()
+REFERENCE_CALL boolean com.github.javaparser.symbolsolver.model.typesystem.VoidType.isAssignableBy(com.github.javaparser.symbolsolver.model.typesystem.Type) -> java.lang.UnsupportedOperationException.UnsupportedOperationException() [VoidType.java <37:19 37:47>]
+REFERENCE_TYPE_USAGE boolean com.github.javaparser.symbolsolver.model.typesystem.VoidType.isAssignableBy(com.github.javaparser.symbolsolver.model.typesystem.Type) -> java.lang.UnsupportedOperationException [VoidType.java <37:19 37:47>]
+SYMBOL_METHOD public boolean com.github.javaparser.symbolsolver.model.typesystem.VoidType.isVoid() [VoidType.java <40:5 <41:20 41:25> 43:5>]
+SYMBOL_METHOD boolean com.github.javaparser.symbolsolver.model.typesystem.Type.isVoid()
+REFERENCE_OVERRIDE boolean com.github.javaparser.symbolsolver.model.typesystem.VoidType.isVoid() -> boolean com.github.javaparser.symbolsolver.model.typesystem.Type.isVoid() [VoidType.java <41:20 41:25>]
+SYMBOL_BUILTIN_TYPE boolean
+REFERENCE_TYPE_USAGE boolean com.github.javaparser.symbolsolver.model.typesystem.VoidType.isVoid() -> boolean [VoidType.java <41:12 41:18>]
+LOCAL_SYMBOL: VoidType.java<41:29> [VoidType.java <41:29 41:29>]
+LOCAL_SYMBOL: VoidType.java<41:29> [VoidType.java <43:5 43:5>]
+COMMENT: comment [VoidType.java <1:1 15:3>]

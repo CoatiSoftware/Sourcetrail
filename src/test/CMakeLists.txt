@@ -1,6 +1,7 @@
 add_files(
 	TEST_FILES
 
+	helper/DumpParserClient.h
 	helper/TestFileRegister.cpp
 	helper/TestFileRegister.h
 	helper/TestParserClient.h
@@ -35,5 +36,8 @@ add_files(
 	TextAccessTestSuite.h
 	UtilityStringTestSuite.h
 	Vector2TestSuite.h
+	
+# Java tests need to be executed last because of some linux related issues.
     JavaParserTestSuite.h
+	JavaIndexSampleProjectsTestSuite.h
 )

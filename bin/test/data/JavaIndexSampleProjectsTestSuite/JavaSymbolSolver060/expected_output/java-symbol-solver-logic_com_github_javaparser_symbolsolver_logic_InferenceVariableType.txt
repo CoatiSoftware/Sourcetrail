@@ -1,0 +1,415 @@
+FILE: InferenceVariableType.java
+SYMBOL_PACKAGE com.github.javaparser.symbolsolver.logic [InferenceVariableType.java <17:9 17:48>]
+SYMBOL_PACKAGE com.github.javaparser.symbolsolver
+SYMBOL_PACKAGE com.github.javaparser
+SYMBOL_PACKAGE com.github
+SYMBOL_PACKAGE com
+REFERENCE_IMPORT InferenceVariableType.java -> com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration [InferenceVariableType.java <19:8 19:85>]
+SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model.declarations
+REFERENCE_IMPORT InferenceVariableType.java -> com.github.javaparser.symbolsolver.model.typesystem.ReferenceType [InferenceVariableType.java <20:8 20:72>]
+SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model.typesystem
+REFERENCE_IMPORT InferenceVariableType.java -> com.github.javaparser.symbolsolver.model.typesystem.Type [InferenceVariableType.java <21:8 21:63>]
+SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model.typesystem
+REFERENCE_IMPORT InferenceVariableType.java -> com.github.javaparser.symbolsolver.model.typesystem.TypeVariable [InferenceVariableType.java <22:8 22:71>]
+SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model.typesystem
+REFERENCE_IMPORT InferenceVariableType.java -> com.github.javaparser.symbolsolver.model.typesystem.Wildcard [InferenceVariableType.java <23:8 23:67>]
+SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model.typesystem
+REFERENCE_IMPORT InferenceVariableType.java -> java.util.HashSet<E> [InferenceVariableType.java <25:8 25:24>]
+SYMBOL_PACKAGE java.util
+REFERENCE_IMPORT InferenceVariableType.java -> java.util.Set<E> [InferenceVariableType.java <26:8 26:20>]
+SYMBOL_PACKAGE java.util
+REFERENCE_IMPORT InferenceVariableType.java -> java.util.stream.Collectors [InferenceVariableType.java <27:8 27:34>]
+SYMBOL_PACKAGE java.util.stream
+SYMBOL_CLASS public com.github.javaparser.symbolsolver.logic.InferenceVariableType [InferenceVariableType.java <34:1 <34:14 34:34> 164:1>]
+LOCAL_SYMBOL: InferenceVariableType.java<34:52> [InferenceVariableType.java <34:52 34:52>]
+LOCAL_SYMBOL: InferenceVariableType.java<34:52> [InferenceVariableType.java <164:1 164:1>]
+COMMENT: comment [InferenceVariableType.java <29:1 33:3>]
+REFERENCE_INHERITANCE com.github.javaparser.symbolsolver.logic.InferenceVariableType -> com.github.javaparser.symbolsolver.model.typesystem.Type [InferenceVariableType.java <34:47 34:50>]
+SYMBOL_METHOD public java.lang.String com.github.javaparser.symbolsolver.logic.InferenceVariableType.toString() [InferenceVariableType.java <35:5 <36:19 36:26> 40:5>]
+SYMBOL_METHOD java.lang.String java.lang.Object.toString()
+REFERENCE_OVERRIDE java.lang.String com.github.javaparser.symbolsolver.logic.InferenceVariableType.toString() -> java.lang.String java.lang.Object.toString() [InferenceVariableType.java <36:19 36:26>]
+REFERENCE_TYPE_USAGE java.lang.String com.github.javaparser.symbolsolver.logic.InferenceVariableType.toString() -> java.lang.String [InferenceVariableType.java <36:12 36:17>]
+LOCAL_SYMBOL: InferenceVariableType.java<36:30> [InferenceVariableType.java <36:30 36:30>]
+LOCAL_SYMBOL: InferenceVariableType.java<36:30> [InferenceVariableType.java <40:5 40:5>]
+SYMBOL_FIELD int com.github.javaparser.symbolsolver.logic.InferenceVariableType.id
+REFERENCE_USAGE java.lang.String com.github.javaparser.symbolsolver.logic.InferenceVariableType.toString() -> int com.github.javaparser.symbolsolver.logic.InferenceVariableType.id [InferenceVariableType.java <38:25 38:26>]
+SYMBOL_FIELD private int com.github.javaparser.symbolsolver.logic.InferenceVariableType.id [InferenceVariableType.java <42:17 42:18>]
+SYMBOL_BUILTIN_TYPE int
+REFERENCE_TYPE_USAGE int com.github.javaparser.symbolsolver.logic.InferenceVariableType.id -> int [InferenceVariableType.java <42:13 42:15>]
+SYMBOL_FIELD private com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration com.github.javaparser.symbolsolver.logic.InferenceVariableType.correspondingTp [InferenceVariableType.java <43:38 43:52>]
+REFERENCE_TYPE_USAGE com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration com.github.javaparser.symbolsolver.logic.InferenceVariableType.correspondingTp -> com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration [InferenceVariableType.java <43:13 43:36>]
+SYMBOL_METHOD public void com.github.javaparser.symbolsolver.logic.InferenceVariableType.setCorrespondingTp(com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration) [InferenceVariableType.java <45:5 <45:17 45:34> 47:5>]
+SYMBOL_BUILTIN_TYPE void
+REFERENCE_TYPE_USAGE void com.github.javaparser.symbolsolver.logic.InferenceVariableType.setCorrespondingTp(com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration) -> void [InferenceVariableType.java <45:12 45:15>]
+REFERENCE_TYPE_USAGE void com.github.javaparser.symbolsolver.logic.InferenceVariableType.setCorrespondingTp(com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration) -> com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration [InferenceVariableType.java <45:36 45:59>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.logic.InferenceVariableType.setCorrespondingTp<0> [InferenceVariableType.java <45:61 45:75>]
+LOCAL_SYMBOL: InferenceVariableType.java<45:78> [InferenceVariableType.java <45:78 45:78>]
+LOCAL_SYMBOL: InferenceVariableType.java<45:78> [InferenceVariableType.java <47:5 47:5>]
+SYMBOL_FIELD com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration com.github.javaparser.symbolsolver.logic.InferenceVariableType.correspondingTp
+REFERENCE_USAGE void com.github.javaparser.symbolsolver.logic.InferenceVariableType.setCorrespondingTp(com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration) -> com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration com.github.javaparser.symbolsolver.logic.InferenceVariableType.correspondingTp [InferenceVariableType.java <46:14 46:28>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.logic.InferenceVariableType.setCorrespondingTp<0> [InferenceVariableType.java <46:32 46:46>]
+SYMBOL_FIELD private java.util.Set<com.github.javaparser.symbolsolver.model.typesystem.Type> com.github.javaparser.symbolsolver.logic.InferenceVariableType.equivalentTypes [InferenceVariableType.java <49:23 49:37>]
+REFERENCE_TYPE_USAGE java.util.Set<com.github.javaparser.symbolsolver.model.typesystem.Type> com.github.javaparser.symbolsolver.logic.InferenceVariableType.equivalentTypes -> java.util.Set<E> [InferenceVariableType.java <49:13 49:15>]
+REFERENCE_TYPE_ARGUMENT java.util.Set<com.github.javaparser.symbolsolver.model.typesystem.Type> com.github.javaparser.symbolsolver.logic.InferenceVariableType.equivalentTypes -> com.github.javaparser.symbolsolver.model.typesystem.Type [InferenceVariableType.java <49:17 49:20>]
+SYMBOL_METHOD java.util.HashSet<E>.HashSet()
+REFERENCE_CALL java.util.Set<com.github.javaparser.symbolsolver.model.typesystem.Type> com.github.javaparser.symbolsolver.logic.InferenceVariableType.equivalentTypes -> java.util.HashSet<E>.HashSet() [InferenceVariableType.java <49:45 49:53>]
+REFERENCE_TYPE_USAGE java.util.Set<com.github.javaparser.symbolsolver.model.typesystem.Type> com.github.javaparser.symbolsolver.logic.InferenceVariableType.equivalentTypes -> java.util.HashSet<E> [InferenceVariableType.java <49:45 49:51>]
+SYMBOL_FIELD private com.github.javaparser.symbolsolver.logic.ObjectProvider com.github.javaparser.symbolsolver.logic.InferenceVariableType.objectProvider [InferenceVariableType.java <50:28 50:41>]
+REFERENCE_TYPE_USAGE com.github.javaparser.symbolsolver.logic.ObjectProvider com.github.javaparser.symbolsolver.logic.InferenceVariableType.objectProvider -> com.github.javaparser.symbolsolver.logic.ObjectProvider [InferenceVariableType.java <50:13 50:26>]
+SYMBOL_METHOD public void com.github.javaparser.symbolsolver.logic.InferenceVariableType.registerEquivalentType(com.github.javaparser.symbolsolver.model.typesystem.Type) [InferenceVariableType.java <52:5 <52:17 52:38> 54:5>]
+SYMBOL_BUILTIN_TYPE void
+REFERENCE_TYPE_USAGE void com.github.javaparser.symbolsolver.logic.InferenceVariableType.registerEquivalentType(com.github.javaparser.symbolsolver.model.typesystem.Type) -> void [InferenceVariableType.java <52:12 52:15>]
+REFERENCE_TYPE_USAGE void com.github.javaparser.symbolsolver.logic.InferenceVariableType.registerEquivalentType(com.github.javaparser.symbolsolver.model.typesystem.Type) -> com.github.javaparser.symbolsolver.model.typesystem.Type [InferenceVariableType.java <52:40 52:43>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.logic.InferenceVariableType.registerEquivalentType<0> [InferenceVariableType.java <52:45 52:48>]
+LOCAL_SYMBOL: InferenceVariableType.java<52:51> [InferenceVariableType.java <52:51 52:51>]
+LOCAL_SYMBOL: InferenceVariableType.java<52:51> [InferenceVariableType.java <54:5 54:5>]
+SYMBOL_METHOD boolean java.util.Set<E>.add(java.util.Set<E>.E)
+REFERENCE_CALL void com.github.javaparser.symbolsolver.logic.InferenceVariableType.registerEquivalentType(com.github.javaparser.symbolsolver.model.typesystem.Type) -> boolean java.util.Set<E>.add(java.util.Set<E>.E) [InferenceVariableType.java <53:30 53:32>]
+SYMBOL_FIELD java.util.Set<com.github.javaparser.symbolsolver.model.typesystem.Type> com.github.javaparser.symbolsolver.logic.InferenceVariableType.equivalentTypes
+REFERENCE_USAGE void com.github.javaparser.symbolsolver.logic.InferenceVariableType.registerEquivalentType(com.github.javaparser.symbolsolver.model.typesystem.Type) -> java.util.Set<com.github.javaparser.symbolsolver.model.typesystem.Type> com.github.javaparser.symbolsolver.logic.InferenceVariableType.equivalentTypes [InferenceVariableType.java <53:14 53:28>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.logic.InferenceVariableType.registerEquivalentType<0> [InferenceVariableType.java <53:34 53:37>]
+SYMBOL_METHOD public boolean com.github.javaparser.symbolsolver.logic.InferenceVariableType.equals(java.lang.Object) [InferenceVariableType.java <56:5 <57:20 57:25> 65:5>]
+SYMBOL_METHOD boolean java.lang.Object.equals(java.lang.Object)
+REFERENCE_OVERRIDE boolean com.github.javaparser.symbolsolver.logic.InferenceVariableType.equals(java.lang.Object) -> boolean java.lang.Object.equals(java.lang.Object) [InferenceVariableType.java <57:20 57:25>]
+SYMBOL_BUILTIN_TYPE boolean
+REFERENCE_TYPE_USAGE boolean com.github.javaparser.symbolsolver.logic.InferenceVariableType.equals(java.lang.Object) -> boolean [InferenceVariableType.java <57:12 57:18>]
+REFERENCE_TYPE_USAGE boolean com.github.javaparser.symbolsolver.logic.InferenceVariableType.equals(java.lang.Object) -> java.lang.Object [InferenceVariableType.java <57:27 57:32>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.logic.InferenceVariableType.equals<0> [InferenceVariableType.java <57:34 57:34>]
+LOCAL_SYMBOL: InferenceVariableType.java<57:37> [InferenceVariableType.java <57:37 57:37>]
+LOCAL_SYMBOL: InferenceVariableType.java<57:37> [InferenceVariableType.java <65:5 65:5>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.logic.InferenceVariableType.equals<0> [InferenceVariableType.java <58:21 58:21>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.logic.InferenceVariableType.equals<0> [InferenceVariableType.java <59:15 59:15>]
+REFERENCE_TYPE_USAGE boolean com.github.javaparser.symbolsolver.logic.InferenceVariableType.equals(java.lang.Object) -> com.github.javaparser.symbolsolver.logic.InferenceVariableType [InferenceVariableType.java <59:28 59:48>]
+REFERENCE_TYPE_USAGE boolean com.github.javaparser.symbolsolver.logic.InferenceVariableType.equals(java.lang.Object) -> com.github.javaparser.symbolsolver.logic.InferenceVariableType [InferenceVariableType.java <61:9 61:29>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.logic.InferenceVariableType.equals<1> [InferenceVariableType.java <61:31 61:34>]
+REFERENCE_TYPE_USAGE boolean com.github.javaparser.symbolsolver.logic.InferenceVariableType.equals(java.lang.Object) -> com.github.javaparser.symbolsolver.logic.InferenceVariableType [InferenceVariableType.java <61:39 61:59>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.logic.InferenceVariableType.equals<0> [InferenceVariableType.java <61:62 61:62>]
+SYMBOL_FIELD int com.github.javaparser.symbolsolver.logic.InferenceVariableType.id
+REFERENCE_USAGE boolean com.github.javaparser.symbolsolver.logic.InferenceVariableType.equals(java.lang.Object) -> int com.github.javaparser.symbolsolver.logic.InferenceVariableType.id [InferenceVariableType.java <63:16 63:17>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.logic.InferenceVariableType.equals<1> [InferenceVariableType.java <63:22 63:25>]
+SYMBOL_FIELD int com.github.javaparser.symbolsolver.logic.InferenceVariableType.id
+REFERENCE_USAGE boolean com.github.javaparser.symbolsolver.logic.InferenceVariableType.equals(java.lang.Object) -> int com.github.javaparser.symbolsolver.logic.InferenceVariableType.id [InferenceVariableType.java <63:27 63:28>]
+SYMBOL_METHOD public int com.github.javaparser.symbolsolver.logic.InferenceVariableType.hashCode() [InferenceVariableType.java <67:5 <68:16 68:23> 70:5>]
+SYMBOL_METHOD int java.lang.Object.hashCode()
+REFERENCE_OVERRIDE int com.github.javaparser.symbolsolver.logic.InferenceVariableType.hashCode() -> int java.lang.Object.hashCode() [InferenceVariableType.java <68:16 68:23>]
+SYMBOL_BUILTIN_TYPE int
+REFERENCE_TYPE_USAGE int com.github.javaparser.symbolsolver.logic.InferenceVariableType.hashCode() -> int [InferenceVariableType.java <68:12 68:14>]
+LOCAL_SYMBOL: InferenceVariableType.java<68:27> [InferenceVariableType.java <68:27 68:27>]
+LOCAL_SYMBOL: InferenceVariableType.java<68:27> [InferenceVariableType.java <70:5 70:5>]
+SYMBOL_FIELD int com.github.javaparser.symbolsolver.logic.InferenceVariableType.id
+REFERENCE_USAGE int com.github.javaparser.symbolsolver.logic.InferenceVariableType.hashCode() -> int com.github.javaparser.symbolsolver.logic.InferenceVariableType.id [InferenceVariableType.java <69:16 69:17>]
+SYMBOL_FIELD private java.util.Set<com.github.javaparser.symbolsolver.model.typesystem.Type> com.github.javaparser.symbolsolver.logic.InferenceVariableType.superTypes [InferenceVariableType.java <72:23 72:32>]
+REFERENCE_TYPE_USAGE java.util.Set<com.github.javaparser.symbolsolver.model.typesystem.Type> com.github.javaparser.symbolsolver.logic.InferenceVariableType.superTypes -> java.util.Set<E> [InferenceVariableType.java <72:13 72:15>]
+REFERENCE_TYPE_ARGUMENT java.util.Set<com.github.javaparser.symbolsolver.model.typesystem.Type> com.github.javaparser.symbolsolver.logic.InferenceVariableType.superTypes -> com.github.javaparser.symbolsolver.model.typesystem.Type [InferenceVariableType.java <72:17 72:20>]
+SYMBOL_METHOD java.util.HashSet<E>.HashSet()
+REFERENCE_CALL java.util.Set<com.github.javaparser.symbolsolver.model.typesystem.Type> com.github.javaparser.symbolsolver.logic.InferenceVariableType.superTypes -> java.util.HashSet<E>.HashSet() [InferenceVariableType.java <72:40 72:48>]
+REFERENCE_TYPE_USAGE java.util.Set<com.github.javaparser.symbolsolver.model.typesystem.Type> com.github.javaparser.symbolsolver.logic.InferenceVariableType.superTypes -> java.util.HashSet<E> [InferenceVariableType.java <72:40 72:46>]
+SYMBOL_METHOD public com.github.javaparser.symbolsolver.logic.InferenceVariableType.InferenceVariableType(int, com.github.javaparser.symbolsolver.logic.ObjectProvider) [InferenceVariableType.java <74:5 <74:12 74:32> 77:5>]
+SYMBOL_BUILTIN_TYPE int
+REFERENCE_TYPE_USAGE com.github.javaparser.symbolsolver.logic.InferenceVariableType.InferenceVariableType(int, com.github.javaparser.symbolsolver.logic.ObjectProvider) -> int [InferenceVariableType.java <74:34 74:36>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.logic.InferenceVariableType.InferenceVariableType<0> [InferenceVariableType.java <74:38 74:39>]
+REFERENCE_TYPE_USAGE com.github.javaparser.symbolsolver.logic.InferenceVariableType.InferenceVariableType(int, com.github.javaparser.symbolsolver.logic.ObjectProvider) -> com.github.javaparser.symbolsolver.logic.ObjectProvider [InferenceVariableType.java <74:42 74:55>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.logic.InferenceVariableType.InferenceVariableType<1> [InferenceVariableType.java <74:57 74:70>]
+LOCAL_SYMBOL: InferenceVariableType.java<74:73> [InferenceVariableType.java <74:73 74:73>]
+LOCAL_SYMBOL: InferenceVariableType.java<74:73> [InferenceVariableType.java <77:5 77:5>]
+SYMBOL_FIELD int com.github.javaparser.symbolsolver.logic.InferenceVariableType.id
+REFERENCE_USAGE com.github.javaparser.symbolsolver.logic.InferenceVariableType.InferenceVariableType(int, com.github.javaparser.symbolsolver.logic.ObjectProvider) -> int com.github.javaparser.symbolsolver.logic.InferenceVariableType.id [InferenceVariableType.java <75:14 75:15>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.logic.InferenceVariableType.InferenceVariableType<0> [InferenceVariableType.java <75:19 75:20>]
+SYMBOL_FIELD com.github.javaparser.symbolsolver.logic.ObjectProvider com.github.javaparser.symbolsolver.logic.InferenceVariableType.objectProvider
+REFERENCE_USAGE com.github.javaparser.symbolsolver.logic.InferenceVariableType.InferenceVariableType(int, com.github.javaparser.symbolsolver.logic.ObjectProvider) -> com.github.javaparser.symbolsolver.logic.ObjectProvider com.github.javaparser.symbolsolver.logic.InferenceVariableType.objectProvider [InferenceVariableType.java <76:14 76:27>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.logic.InferenceVariableType.InferenceVariableType<1> [InferenceVariableType.java <76:31 76:44>]
+SYMBOL_METHOD public static com.github.javaparser.symbolsolver.logic.InferenceVariableType com.github.javaparser.symbolsolver.logic.InferenceVariableType.fromWildcard(com.github.javaparser.symbolsolver.model.typesystem.Wildcard, int, com.github.javaparser.symbolsolver.logic.ObjectProvider) [InferenceVariableType.java <79:5 <79:41 79:52> 89:5>]
+REFERENCE_TYPE_USAGE static com.github.javaparser.symbolsolver.logic.InferenceVariableType com.github.javaparser.symbolsolver.logic.InferenceVariableType.fromWildcard(com.github.javaparser.symbolsolver.model.typesystem.Wildcard, int, com.github.javaparser.symbolsolver.logic.ObjectProvider) -> com.github.javaparser.symbolsolver.logic.InferenceVariableType [InferenceVariableType.java <79:19 79:39>]
+REFERENCE_TYPE_USAGE static com.github.javaparser.symbolsolver.logic.InferenceVariableType com.github.javaparser.symbolsolver.logic.InferenceVariableType.fromWildcard(com.github.javaparser.symbolsolver.model.typesystem.Wildcard, int, com.github.javaparser.symbolsolver.logic.ObjectProvider) -> com.github.javaparser.symbolsolver.model.typesystem.Wildcard [InferenceVariableType.java <79:54 79:61>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.logic.InferenceVariableType.fromWildcard<0> [InferenceVariableType.java <79:63 79:70>]
+SYMBOL_BUILTIN_TYPE int
+REFERENCE_TYPE_USAGE static com.github.javaparser.symbolsolver.logic.InferenceVariableType com.github.javaparser.symbolsolver.logic.InferenceVariableType.fromWildcard(com.github.javaparser.symbolsolver.model.typesystem.Wildcard, int, com.github.javaparser.symbolsolver.logic.ObjectProvider) -> int [InferenceVariableType.java <79:73 79:75>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.logic.InferenceVariableType.fromWildcard<1> [InferenceVariableType.java <79:77 79:78>]
+REFERENCE_TYPE_USAGE static com.github.javaparser.symbolsolver.logic.InferenceVariableType com.github.javaparser.symbolsolver.logic.InferenceVariableType.fromWildcard(com.github.javaparser.symbolsolver.model.typesystem.Wildcard, int, com.github.javaparser.symbolsolver.logic.ObjectProvider) -> com.github.javaparser.symbolsolver.logic.ObjectProvider [InferenceVariableType.java <79:81 79:94>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.logic.InferenceVariableType.fromWildcard<2> [InferenceVariableType.java <79:96 79:109>]
+LOCAL_SYMBOL: InferenceVariableType.java<79:112> [InferenceVariableType.java <79:112 79:112>]
+LOCAL_SYMBOL: InferenceVariableType.java<79:112> [InferenceVariableType.java <89:5 89:5>]
+REFERENCE_TYPE_USAGE static com.github.javaparser.symbolsolver.logic.InferenceVariableType com.github.javaparser.symbolsolver.logic.InferenceVariableType.fromWildcard(com.github.javaparser.symbolsolver.model.typesystem.Wildcard, int, com.github.javaparser.symbolsolver.logic.ObjectProvider) -> com.github.javaparser.symbolsolver.logic.InferenceVariableType [InferenceVariableType.java <80:9 80:29>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.logic.InferenceVariableType.fromWildcard<3> [InferenceVariableType.java <80:31 80:51>]
+SYMBOL_METHOD com.github.javaparser.symbolsolver.logic.InferenceVariableType.InferenceVariableType(int, com.github.javaparser.symbolsolver.logic.ObjectProvider)
+REFERENCE_CALL static com.github.javaparser.symbolsolver.logic.InferenceVariableType com.github.javaparser.symbolsolver.logic.InferenceVariableType.fromWildcard(com.github.javaparser.symbolsolver.model.typesystem.Wildcard, int, com.github.javaparser.symbolsolver.logic.ObjectProvider) -> com.github.javaparser.symbolsolver.logic.InferenceVariableType.InferenceVariableType(int, com.github.javaparser.symbolsolver.logic.ObjectProvider) [InferenceVariableType.java <80:59 80:79>]
+REFERENCE_TYPE_USAGE static com.github.javaparser.symbolsolver.logic.InferenceVariableType com.github.javaparser.symbolsolver.logic.InferenceVariableType.fromWildcard(com.github.javaparser.symbolsolver.model.typesystem.Wildcard, int, com.github.javaparser.symbolsolver.logic.ObjectProvider) -> com.github.javaparser.symbolsolver.logic.InferenceVariableType [InferenceVariableType.java <80:59 80:79>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.logic.InferenceVariableType.fromWildcard<1> [InferenceVariableType.java <80:81 80:82>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.logic.InferenceVariableType.fromWildcard<2> [InferenceVariableType.java <80:85 80:98>]
+SYMBOL_METHOD boolean com.github.javaparser.symbolsolver.model.typesystem.Wildcard.isExtends()
+REFERENCE_CALL static com.github.javaparser.symbolsolver.logic.InferenceVariableType com.github.javaparser.symbolsolver.logic.InferenceVariableType.fromWildcard(com.github.javaparser.symbolsolver.model.typesystem.Wildcard, int, com.github.javaparser.symbolsolver.logic.ObjectProvider) -> boolean com.github.javaparser.symbolsolver.model.typesystem.Wildcard.isExtends() [InferenceVariableType.java <81:22 81:30>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.logic.InferenceVariableType.fromWildcard<0> [InferenceVariableType.java <81:13 81:20>]
+LOCAL_SYMBOL: InferenceVariableType.java<81:35> [InferenceVariableType.java <81:35 81:35>]
+LOCAL_SYMBOL: InferenceVariableType.java<81:35> [InferenceVariableType.java <83:9 83:9>]
+SYMBOL_METHOD boolean java.util.Set<E>.add(java.util.Set<E>.E)
+REFERENCE_CALL static com.github.javaparser.symbolsolver.logic.InferenceVariableType com.github.javaparser.symbolsolver.logic.InferenceVariableType.fromWildcard(com.github.javaparser.symbolsolver.model.typesystem.Wildcard, int, com.github.javaparser.symbolsolver.logic.ObjectProvider) -> boolean java.util.Set<E>.add(java.util.Set<E>.E) [InferenceVariableType.java <82:46 82:48>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.logic.InferenceVariableType.fromWildcard<3> [InferenceVariableType.java <82:13 82:33>]
+SYMBOL_FIELD java.util.Set<com.github.javaparser.symbolsolver.model.typesystem.Type> com.github.javaparser.symbolsolver.logic.InferenceVariableType.superTypes
+REFERENCE_USAGE static com.github.javaparser.symbolsolver.logic.InferenceVariableType com.github.javaparser.symbolsolver.logic.InferenceVariableType.fromWildcard(com.github.javaparser.symbolsolver.model.typesystem.Wildcard, int, com.github.javaparser.symbolsolver.logic.ObjectProvider) -> java.util.Set<com.github.javaparser.symbolsolver.model.typesystem.Type> com.github.javaparser.symbolsolver.logic.InferenceVariableType.superTypes [InferenceVariableType.java <82:35 82:44>]
+SYMBOL_METHOD com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.model.typesystem.Wildcard.getBoundedType()
+REFERENCE_CALL static com.github.javaparser.symbolsolver.logic.InferenceVariableType com.github.javaparser.symbolsolver.logic.InferenceVariableType.fromWildcard(com.github.javaparser.symbolsolver.model.typesystem.Wildcard, int, com.github.javaparser.symbolsolver.logic.ObjectProvider) -> com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.model.typesystem.Wildcard.getBoundedType() [InferenceVariableType.java <82:59 82:72>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.logic.InferenceVariableType.fromWildcard<0> [InferenceVariableType.java <82:50 82:57>]
+SYMBOL_METHOD boolean com.github.javaparser.symbolsolver.model.typesystem.Wildcard.isSuper()
+REFERENCE_CALL static com.github.javaparser.symbolsolver.logic.InferenceVariableType com.github.javaparser.symbolsolver.logic.InferenceVariableType.fromWildcard(com.github.javaparser.symbolsolver.model.typesystem.Wildcard, int, com.github.javaparser.symbolsolver.logic.ObjectProvider) -> boolean com.github.javaparser.symbolsolver.model.typesystem.Wildcard.isSuper() [InferenceVariableType.java <84:22 84:28>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.logic.InferenceVariableType.fromWildcard<0> [InferenceVariableType.java <84:13 84:20>]
+LOCAL_SYMBOL: InferenceVariableType.java<84:33> [InferenceVariableType.java <84:33 84:33>]
+LOCAL_SYMBOL: InferenceVariableType.java<84:33> [InferenceVariableType.java <87:9 87:9>]
+SYMBOL_METHOD boolean java.util.Set<E>.add(java.util.Set<E>.E)
+REFERENCE_CALL static com.github.javaparser.symbolsolver.logic.InferenceVariableType com.github.javaparser.symbolsolver.logic.InferenceVariableType.fromWildcard(com.github.javaparser.symbolsolver.model.typesystem.Wildcard, int, com.github.javaparser.symbolsolver.logic.ObjectProvider) -> boolean java.util.Set<E>.add(java.util.Set<E>.E) [InferenceVariableType.java <86:46 86:48>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.logic.InferenceVariableType.fromWildcard<3> [InferenceVariableType.java <86:13 86:33>]
+SYMBOL_FIELD java.util.Set<com.github.javaparser.symbolsolver.model.typesystem.Type> com.github.javaparser.symbolsolver.logic.InferenceVariableType.superTypes
+REFERENCE_USAGE static com.github.javaparser.symbolsolver.logic.InferenceVariableType com.github.javaparser.symbolsolver.logic.InferenceVariableType.fromWildcard(com.github.javaparser.symbolsolver.model.typesystem.Wildcard, int, com.github.javaparser.symbolsolver.logic.ObjectProvider) -> java.util.Set<com.github.javaparser.symbolsolver.model.typesystem.Type> com.github.javaparser.symbolsolver.logic.InferenceVariableType.superTypes [InferenceVariableType.java <86:35 86:44>]
+SYMBOL_METHOD com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.model.typesystem.Wildcard.getBoundedType()
+REFERENCE_CALL static com.github.javaparser.symbolsolver.logic.InferenceVariableType com.github.javaparser.symbolsolver.logic.InferenceVariableType.fromWildcard(com.github.javaparser.symbolsolver.model.typesystem.Wildcard, int, com.github.javaparser.symbolsolver.logic.ObjectProvider) -> com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.model.typesystem.Wildcard.getBoundedType() [InferenceVariableType.java <86:59 86:72>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.logic.InferenceVariableType.fromWildcard<0> [InferenceVariableType.java <86:50 86:57>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.logic.InferenceVariableType.fromWildcard<3> [InferenceVariableType.java <88:16 88:36>]
+SYMBOL_METHOD public java.lang.String com.github.javaparser.symbolsolver.logic.InferenceVariableType.describe() [InferenceVariableType.java <91:5 <92:19 92:26> 94:5>]
+SYMBOL_METHOD java.lang.String com.github.javaparser.symbolsolver.model.typesystem.Type.describe()
+REFERENCE_OVERRIDE java.lang.String com.github.javaparser.symbolsolver.logic.InferenceVariableType.describe() -> java.lang.String com.github.javaparser.symbolsolver.model.typesystem.Type.describe() [InferenceVariableType.java <92:19 92:26>]
+REFERENCE_TYPE_USAGE java.lang.String com.github.javaparser.symbolsolver.logic.InferenceVariableType.describe() -> java.lang.String [InferenceVariableType.java <92:12 92:17>]
+LOCAL_SYMBOL: InferenceVariableType.java<92:30> [InferenceVariableType.java <92:30 92:30>]
+LOCAL_SYMBOL: InferenceVariableType.java<92:30> [InferenceVariableType.java <94:5 94:5>]
+SYMBOL_FIELD int com.github.javaparser.symbolsolver.logic.InferenceVariableType.id
+REFERENCE_USAGE java.lang.String com.github.javaparser.symbolsolver.logic.InferenceVariableType.describe() -> int com.github.javaparser.symbolsolver.logic.InferenceVariableType.id [InferenceVariableType.java <93:39 93:40>]
+SYMBOL_METHOD public boolean com.github.javaparser.symbolsolver.logic.InferenceVariableType.isAssignableBy(com.github.javaparser.symbolsolver.model.typesystem.Type) [InferenceVariableType.java <96:5 <97:20 97:33> 99:5>]
+SYMBOL_METHOD boolean com.github.javaparser.symbolsolver.model.typesystem.Type.isAssignableBy(com.github.javaparser.symbolsolver.model.typesystem.Type)
+REFERENCE_OVERRIDE boolean com.github.javaparser.symbolsolver.logic.InferenceVariableType.isAssignableBy(com.github.javaparser.symbolsolver.model.typesystem.Type) -> boolean com.github.javaparser.symbolsolver.model.typesystem.Type.isAssignableBy(com.github.javaparser.symbolsolver.model.typesystem.Type) [InferenceVariableType.java <97:20 97:33>]
+SYMBOL_BUILTIN_TYPE boolean
+REFERENCE_TYPE_USAGE boolean com.github.javaparser.symbolsolver.logic.InferenceVariableType.isAssignableBy(com.github.javaparser.symbolsolver.model.typesystem.Type) -> boolean [InferenceVariableType.java <97:12 97:18>]
+REFERENCE_TYPE_USAGE boolean com.github.javaparser.symbolsolver.logic.InferenceVariableType.isAssignableBy(com.github.javaparser.symbolsolver.model.typesystem.Type) -> com.github.javaparser.symbolsolver.model.typesystem.Type [InferenceVariableType.java <97:35 97:38>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.logic.InferenceVariableType.isAssignableBy<0> [InferenceVariableType.java <97:40 97:44>]
+LOCAL_SYMBOL: InferenceVariableType.java<97:47> [InferenceVariableType.java <97:47 97:47>]
+LOCAL_SYMBOL: InferenceVariableType.java<97:47> [InferenceVariableType.java <99:5 99:5>]
+SYMBOL_METHOD java.lang.UnsupportedOperationException.UnsupportedOperationException()
+REFERENCE_CALL boolean com.github.javaparser.symbolsolver.logic.InferenceVariableType.isAssignableBy(com.github.javaparser.symbolsolver.model.typesystem.Type) -> java.lang.UnsupportedOperationException.UnsupportedOperationException() [InferenceVariableType.java <98:19 98:47>]
+REFERENCE_TYPE_USAGE boolean com.github.javaparser.symbolsolver.logic.InferenceVariableType.isAssignableBy(com.github.javaparser.symbolsolver.model.typesystem.Type) -> java.lang.UnsupportedOperationException [InferenceVariableType.java <98:19 98:47>]
+SYMBOL_METHOD private java.util.Set<com.github.javaparser.symbolsolver.model.typesystem.Type> com.github.javaparser.symbolsolver.logic.InferenceVariableType.concreteEquivalentTypesAlsoIndirectly(java.util.Set<com.github.javaparser.symbolsolver.logic.InferenceVariableType>, com.github.javaparser.symbolsolver.logic.InferenceVariableType) [InferenceVariableType.java <101:5 <101:23 101:59> 112:5>]
+REFERENCE_TYPE_USAGE java.util.Set<com.github.javaparser.symbolsolver.model.typesystem.Type> com.github.javaparser.symbolsolver.logic.InferenceVariableType.concreteEquivalentTypesAlsoIndirectly(java.util.Set<com.github.javaparser.symbolsolver.logic.InferenceVariableType>, com.github.javaparser.symbolsolver.logic.InferenceVariableType) -> java.util.Set<E> [InferenceVariableType.java <101:13 101:15>]
+REFERENCE_TYPE_ARGUMENT java.util.Set<com.github.javaparser.symbolsolver.model.typesystem.Type> com.github.javaparser.symbolsolver.logic.InferenceVariableType.concreteEquivalentTypesAlsoIndirectly(java.util.Set<com.github.javaparser.symbolsolver.logic.InferenceVariableType>, com.github.javaparser.symbolsolver.logic.InferenceVariableType) -> com.github.javaparser.symbolsolver.model.typesystem.Type [InferenceVariableType.java <101:17 101:20>]
+REFERENCE_TYPE_USAGE java.util.Set<com.github.javaparser.symbolsolver.model.typesystem.Type> com.github.javaparser.symbolsolver.logic.InferenceVariableType.concreteEquivalentTypesAlsoIndirectly(java.util.Set<com.github.javaparser.symbolsolver.logic.InferenceVariableType>, com.github.javaparser.symbolsolver.logic.InferenceVariableType) -> java.util.Set<E> [InferenceVariableType.java <101:61 101:63>]
+REFERENCE_TYPE_ARGUMENT java.util.Set<com.github.javaparser.symbolsolver.model.typesystem.Type> com.github.javaparser.symbolsolver.logic.InferenceVariableType.concreteEquivalentTypesAlsoIndirectly(java.util.Set<com.github.javaparser.symbolsolver.logic.InferenceVariableType>, com.github.javaparser.symbolsolver.logic.InferenceVariableType) -> com.github.javaparser.symbolsolver.logic.InferenceVariableType [InferenceVariableType.java <101:65 101:85>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.logic.InferenceVariableType.concreteEquivalentTypesAlsoIndirectly<0> [InferenceVariableType.java <101:88 101:97>]
+REFERENCE_TYPE_USAGE java.util.Set<com.github.javaparser.symbolsolver.model.typesystem.Type> com.github.javaparser.symbolsolver.logic.InferenceVariableType.concreteEquivalentTypesAlsoIndirectly(java.util.Set<com.github.javaparser.symbolsolver.logic.InferenceVariableType>, com.github.javaparser.symbolsolver.logic.InferenceVariableType) -> com.github.javaparser.symbolsolver.logic.InferenceVariableType [InferenceVariableType.java <101:100 101:120>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.logic.InferenceVariableType.concreteEquivalentTypesAlsoIndirectly<1> [InferenceVariableType.java <101:122 101:142>]
+LOCAL_SYMBOL: InferenceVariableType.java<101:145> [InferenceVariableType.java <101:145 101:145>]
+LOCAL_SYMBOL: InferenceVariableType.java<101:145> [InferenceVariableType.java <112:5 112:5>]
+SYMBOL_METHOD boolean java.util.Set<E>.add(java.util.Set<E>.E)
+REFERENCE_CALL java.util.Set<com.github.javaparser.symbolsolver.model.typesystem.Type> com.github.javaparser.symbolsolver.logic.InferenceVariableType.concreteEquivalentTypesAlsoIndirectly(java.util.Set<com.github.javaparser.symbolsolver.logic.InferenceVariableType>, com.github.javaparser.symbolsolver.logic.InferenceVariableType) -> boolean java.util.Set<E>.add(java.util.Set<E>.E) [InferenceVariableType.java <102:20 102:22>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.logic.InferenceVariableType.concreteEquivalentTypesAlsoIndirectly<0> [InferenceVariableType.java <102:9 102:18>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.logic.InferenceVariableType.concreteEquivalentTypesAlsoIndirectly<1> [InferenceVariableType.java <102:24 102:44>]
+REFERENCE_TYPE_USAGE java.util.Set<com.github.javaparser.symbolsolver.model.typesystem.Type> com.github.javaparser.symbolsolver.logic.InferenceVariableType.concreteEquivalentTypesAlsoIndirectly(java.util.Set<com.github.javaparser.symbolsolver.logic.InferenceVariableType>, com.github.javaparser.symbolsolver.logic.InferenceVariableType) -> java.util.Set<E> [InferenceVariableType.java <103:9 103:11>]
+REFERENCE_TYPE_ARGUMENT java.util.Set<com.github.javaparser.symbolsolver.model.typesystem.Type> com.github.javaparser.symbolsolver.logic.InferenceVariableType.concreteEquivalentTypesAlsoIndirectly(java.util.Set<com.github.javaparser.symbolsolver.logic.InferenceVariableType>, com.github.javaparser.symbolsolver.logic.InferenceVariableType) -> com.github.javaparser.symbolsolver.model.typesystem.Type [InferenceVariableType.java <103:13 103:16>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.logic.InferenceVariableType.concreteEquivalentTypesAlsoIndirectly<2> [InferenceVariableType.java <103:19 103:24>]
+SYMBOL_METHOD java.util.HashSet<E>.HashSet()
+REFERENCE_CALL java.util.Set<com.github.javaparser.symbolsolver.model.typesystem.Type> com.github.javaparser.symbolsolver.logic.InferenceVariableType.concreteEquivalentTypesAlsoIndirectly(java.util.Set<com.github.javaparser.symbolsolver.logic.InferenceVariableType>, com.github.javaparser.symbolsolver.logic.InferenceVariableType) -> java.util.HashSet<E>.HashSet() [InferenceVariableType.java <103:32 103:40>]
+REFERENCE_TYPE_USAGE java.util.Set<com.github.javaparser.symbolsolver.model.typesystem.Type> com.github.javaparser.symbolsolver.logic.InferenceVariableType.concreteEquivalentTypesAlsoIndirectly(java.util.Set<com.github.javaparser.symbolsolver.logic.InferenceVariableType>, com.github.javaparser.symbolsolver.logic.InferenceVariableType) -> java.util.HashSet<E> [InferenceVariableType.java <103:32 103:38>]
+SYMBOL_METHOD boolean java.util.Set<E>.addAll(java.util.Collection<? extends E>)
+REFERENCE_CALL java.util.Set<com.github.javaparser.symbolsolver.model.typesystem.Type> com.github.javaparser.symbolsolver.logic.InferenceVariableType.concreteEquivalentTypesAlsoIndirectly(java.util.Set<com.github.javaparser.symbolsolver.logic.InferenceVariableType>, com.github.javaparser.symbolsolver.logic.InferenceVariableType) -> boolean java.util.Set<E>.addAll(java.util.Collection<? extends E>) [InferenceVariableType.java <104:16 104:21>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.logic.InferenceVariableType.concreteEquivalentTypesAlsoIndirectly<2> [InferenceVariableType.java <104:9 104:14>]
+SYMBOL_METHOD R java.util.stream.Stream<T>.collect<R, A>(java.util.stream.Collector<? super T, A, R>)
+REFERENCE_CALL java.util.Set<com.github.javaparser.symbolsolver.model.typesystem.Type> com.github.javaparser.symbolsolver.logic.InferenceVariableType.concreteEquivalentTypesAlsoIndirectly(java.util.Set<com.github.javaparser.symbolsolver.logic.InferenceVariableType>, com.github.javaparser.symbolsolver.logic.InferenceVariableType) -> R java.util.stream.Stream<T>.collect<R, A>(java.util.stream.Collector<? super T, A, R>) [InferenceVariableType.java <104:144 104:150>]
+SYMBOL_METHOD java.util.stream.Stream<java.util.stream.Stream<T>.T> java.util.stream.Stream<T>.filter(java.util.function.Predicate<? super T>)
+REFERENCE_CALL java.util.Set<com.github.javaparser.symbolsolver.model.typesystem.Type> com.github.javaparser.symbolsolver.logic.InferenceVariableType.concreteEquivalentTypesAlsoIndirectly(java.util.Set<com.github.javaparser.symbolsolver.logic.InferenceVariableType>, com.github.javaparser.symbolsolver.logic.InferenceVariableType) -> java.util.stream.Stream<java.util.stream.Stream<T>.T> java.util.stream.Stream<T>.filter(java.util.function.Predicate<? super T>) [InferenceVariableType.java <104:70 104:75>]
+SYMBOL_METHOD java.util.stream.Stream<java.util.Collection<E>.E> java.util.Collection<E>.stream()
+REFERENCE_CALL java.util.Set<com.github.javaparser.symbolsolver.model.typesystem.Type> com.github.javaparser.symbolsolver.logic.InferenceVariableType.concreteEquivalentTypesAlsoIndirectly(java.util.Set<com.github.javaparser.symbolsolver.logic.InferenceVariableType>, com.github.javaparser.symbolsolver.logic.InferenceVariableType) -> java.util.stream.Stream<java.util.Collection<E>.E> java.util.Collection<E>.stream() [InferenceVariableType.java <104:61 104:66>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.logic.InferenceVariableType.concreteEquivalentTypesAlsoIndirectly<1> [InferenceVariableType.java <104:23 104:43>]
+SYMBOL_FIELD java.util.Set<com.github.javaparser.symbolsolver.model.typesystem.Type> com.github.javaparser.symbolsolver.logic.InferenceVariableType.equivalentTypes
+REFERENCE_USAGE java.util.Set<com.github.javaparser.symbolsolver.model.typesystem.Type> com.github.javaparser.symbolsolver.logic.InferenceVariableType.concreteEquivalentTypesAlsoIndirectly(java.util.Set<com.github.javaparser.symbolsolver.logic.InferenceVariableType>, com.github.javaparser.symbolsolver.logic.InferenceVariableType) -> java.util.Set<com.github.javaparser.symbolsolver.model.typesystem.Type> com.github.javaparser.symbolsolver.logic.InferenceVariableType.equivalentTypes [InferenceVariableType.java <104:45 104:59>]
+LOCAL_SYMBOL: java.util.function.Predicate<T>.test<4> [InferenceVariableType.java <104:77 104:77>]
+SYMBOL_METHOD boolean com.github.javaparser.symbolsolver.model.typesystem.Type.isTypeVariable()
+REFERENCE_CALL java.util.Set<com.github.javaparser.symbolsolver.model.typesystem.Type> com.github.javaparser.symbolsolver.logic.InferenceVariableType.concreteEquivalentTypesAlsoIndirectly(java.util.Set<com.github.javaparser.symbolsolver.logic.InferenceVariableType>, com.github.javaparser.symbolsolver.logic.InferenceVariableType) -> boolean com.github.javaparser.symbolsolver.model.typesystem.Type.isTypeVariable() [InferenceVariableType.java <104:85 104:98>]
+LOCAL_SYMBOL: java.util.function.Predicate<T>.test<4> [InferenceVariableType.java <104:83 104:83>]
+LOCAL_SYMBOL: java.util.function.Predicate<T>.test<4> [InferenceVariableType.java <104:107 104:107>]
+REFERENCE_TYPE_USAGE java.util.Set<com.github.javaparser.symbolsolver.model.typesystem.Type> com.github.javaparser.symbolsolver.logic.InferenceVariableType.concreteEquivalentTypesAlsoIndirectly(java.util.Set<com.github.javaparser.symbolsolver.logic.InferenceVariableType>, com.github.javaparser.symbolsolver.logic.InferenceVariableType) -> com.github.javaparser.symbolsolver.logic.InferenceVariableType [InferenceVariableType.java <104:120 104:140>]
+SYMBOL_METHOD static java.util.stream.Collector<T, ?, java.util.Set<T>> java.util.stream.Collectors.toSet<T>()
+REFERENCE_CALL java.util.Set<com.github.javaparser.symbolsolver.model.typesystem.Type> com.github.javaparser.symbolsolver.logic.InferenceVariableType.concreteEquivalentTypesAlsoIndirectly(java.util.Set<com.github.javaparser.symbolsolver.logic.InferenceVariableType>, com.github.javaparser.symbolsolver.logic.InferenceVariableType) -> static java.util.stream.Collector<T, ?, java.util.Set<T>> java.util.stream.Collectors.toSet<T>() [InferenceVariableType.java <104:163 104:167>]
+SYMBOL_METHOD void java.util.stream.Stream<T>.forEach(java.util.function.Consumer<? super T>)
+REFERENCE_CALL java.util.Set<com.github.javaparser.symbolsolver.model.typesystem.Type> com.github.javaparser.symbolsolver.logic.InferenceVariableType.concreteEquivalentTypesAlsoIndirectly(java.util.Set<com.github.javaparser.symbolsolver.logic.InferenceVariableType>, com.github.javaparser.symbolsolver.logic.InferenceVariableType) -> void java.util.stream.Stream<T>.forEach(java.util.function.Consumer<? super T>) [InferenceVariableType.java <105:104 105:110>]
+SYMBOL_METHOD java.util.stream.Stream<java.util.stream.Stream<T>.T> java.util.stream.Stream<T>.filter(java.util.function.Predicate<? super T>)
+REFERENCE_CALL java.util.Set<com.github.javaparser.symbolsolver.model.typesystem.Type> com.github.javaparser.symbolsolver.logic.InferenceVariableType.concreteEquivalentTypesAlsoIndirectly(java.util.Set<com.github.javaparser.symbolsolver.logic.InferenceVariableType>, com.github.javaparser.symbolsolver.logic.InferenceVariableType) -> java.util.stream.Stream<java.util.stream.Stream<T>.T> java.util.stream.Stream<T>.filter(java.util.function.Predicate<? super T>) [InferenceVariableType.java <105:56 105:61>]
+SYMBOL_METHOD java.util.stream.Stream<java.util.Collection<E>.E> java.util.Collection<E>.stream()
+REFERENCE_CALL java.util.Set<com.github.javaparser.symbolsolver.model.typesystem.Type> com.github.javaparser.symbolsolver.logic.InferenceVariableType.concreteEquivalentTypesAlsoIndirectly(java.util.Set<com.github.javaparser.symbolsolver.logic.InferenceVariableType>, com.github.javaparser.symbolsolver.logic.InferenceVariableType) -> java.util.stream.Stream<java.util.Collection<E>.E> java.util.Collection<E>.stream() [InferenceVariableType.java <105:47 105:52>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.logic.InferenceVariableType.concreteEquivalentTypesAlsoIndirectly<1> [InferenceVariableType.java <105:9 105:29>]
+SYMBOL_FIELD java.util.Set<com.github.javaparser.symbolsolver.model.typesystem.Type> com.github.javaparser.symbolsolver.logic.InferenceVariableType.equivalentTypes
+REFERENCE_USAGE java.util.Set<com.github.javaparser.symbolsolver.model.typesystem.Type> com.github.javaparser.symbolsolver.logic.InferenceVariableType.concreteEquivalentTypesAlsoIndirectly(java.util.Set<com.github.javaparser.symbolsolver.logic.InferenceVariableType>, com.github.javaparser.symbolsolver.logic.InferenceVariableType) -> java.util.Set<com.github.javaparser.symbolsolver.model.typesystem.Type> com.github.javaparser.symbolsolver.logic.InferenceVariableType.equivalentTypes [InferenceVariableType.java <105:31 105:45>]
+LOCAL_SYMBOL: java.util.function.Predicate<T>.test<6> [InferenceVariableType.java <105:63 105:63>]
+LOCAL_SYMBOL: java.util.function.Predicate<T>.test<6> [InferenceVariableType.java <105:68 105:68>]
+REFERENCE_TYPE_USAGE java.util.Set<com.github.javaparser.symbolsolver.model.typesystem.Type> com.github.javaparser.symbolsolver.logic.InferenceVariableType.concreteEquivalentTypesAlsoIndirectly(java.util.Set<com.github.javaparser.symbolsolver.logic.InferenceVariableType>, com.github.javaparser.symbolsolver.logic.InferenceVariableType) -> com.github.javaparser.symbolsolver.logic.InferenceVariableType [InferenceVariableType.java <105:81 105:101>]
+LOCAL_SYMBOL: java.util.function.Consumer<T>.accept<9> [InferenceVariableType.java <105:112 105:112>]
+LOCAL_SYMBOL: InferenceVariableType.java<105:117> [InferenceVariableType.java <105:117 105:117>]
+LOCAL_SYMBOL: InferenceVariableType.java<105:117> [InferenceVariableType.java <110:9 110:9>]
+REFERENCE_TYPE_USAGE java.util.Set<com.github.javaparser.symbolsolver.model.typesystem.Type> com.github.javaparser.symbolsolver.logic.InferenceVariableType.concreteEquivalentTypesAlsoIndirectly(java.util.Set<com.github.javaparser.symbolsolver.logic.InferenceVariableType>, com.github.javaparser.symbolsolver.logic.InferenceVariableType) -> com.github.javaparser.symbolsolver.logic.InferenceVariableType [InferenceVariableType.java <106:13 106:33>]
+LOCAL_SYMBOL: java.util.function.Consumer<T>.accept<10> [InferenceVariableType.java <106:35 106:37>]
+REFERENCE_TYPE_USAGE java.util.Set<com.github.javaparser.symbolsolver.model.typesystem.Type> com.github.javaparser.symbolsolver.logic.InferenceVariableType.concreteEquivalentTypesAlsoIndirectly(java.util.Set<com.github.javaparser.symbolsolver.logic.InferenceVariableType>, com.github.javaparser.symbolsolver.logic.InferenceVariableType) -> com.github.javaparser.symbolsolver.logic.InferenceVariableType [InferenceVariableType.java <106:42 106:62>]
+LOCAL_SYMBOL: java.util.function.Consumer<T>.accept<9> [InferenceVariableType.java <106:64 106:64>]
+SYMBOL_METHOD boolean java.util.Set<E>.contains(java.lang.Object)
+REFERENCE_CALL java.util.Set<com.github.javaparser.symbolsolver.model.typesystem.Type> com.github.javaparser.symbolsolver.logic.InferenceVariableType.concreteEquivalentTypesAlsoIndirectly(java.util.Set<com.github.javaparser.symbolsolver.logic.InferenceVariableType>, com.github.javaparser.symbolsolver.logic.InferenceVariableType) -> boolean java.util.Set<E>.contains(java.lang.Object) [InferenceVariableType.java <107:29 107:36>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.logic.InferenceVariableType.concreteEquivalentTypesAlsoIndirectly<0> [InferenceVariableType.java <107:18 107:27>]
+LOCAL_SYMBOL: java.util.function.Consumer<T>.accept<10> [InferenceVariableType.java <107:38 107:40>]
+LOCAL_SYMBOL: InferenceVariableType.java<107:44> [InferenceVariableType.java <107:44 107:44>]
+LOCAL_SYMBOL: InferenceVariableType.java<107:44> [InferenceVariableType.java <109:13 109:13>]
+SYMBOL_METHOD boolean java.util.Set<E>.addAll(java.util.Collection<? extends E>)
+REFERENCE_CALL java.util.Set<com.github.javaparser.symbolsolver.model.typesystem.Type> com.github.javaparser.symbolsolver.logic.InferenceVariableType.concreteEquivalentTypesAlsoIndirectly(java.util.Set<com.github.javaparser.symbolsolver.logic.InferenceVariableType>, com.github.javaparser.symbolsolver.logic.InferenceVariableType) -> boolean java.util.Set<E>.addAll(java.util.Collection<? extends E>) [InferenceVariableType.java <108:24 108:29>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.logic.InferenceVariableType.concreteEquivalentTypesAlsoIndirectly<2> [InferenceVariableType.java <108:17 108:22>]
+SYMBOL_METHOD java.util.Set<com.github.javaparser.symbolsolver.model.typesystem.Type> com.github.javaparser.symbolsolver.logic.InferenceVariableType.concreteEquivalentTypesAlsoIndirectly(java.util.Set<com.github.javaparser.symbolsolver.logic.InferenceVariableType>, com.github.javaparser.symbolsolver.logic.InferenceVariableType)
+REFERENCE_CALL java.util.Set<com.github.javaparser.symbolsolver.model.typesystem.Type> com.github.javaparser.symbolsolver.logic.InferenceVariableType.concreteEquivalentTypesAlsoIndirectly(java.util.Set<com.github.javaparser.symbolsolver.logic.InferenceVariableType>, com.github.javaparser.symbolsolver.logic.InferenceVariableType) -> java.util.Set<com.github.javaparser.symbolsolver.model.typesystem.Type> com.github.javaparser.symbolsolver.logic.InferenceVariableType.concreteEquivalentTypesAlsoIndirectly(java.util.Set<com.github.javaparser.symbolsolver.logic.InferenceVariableType>, com.github.javaparser.symbolsolver.logic.InferenceVariableType) [InferenceVariableType.java <108:31 108:67>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.logic.InferenceVariableType.concreteEquivalentTypesAlsoIndirectly<0> [InferenceVariableType.java <108:69 108:78>]
+LOCAL_SYMBOL: java.util.function.Consumer<T>.accept<10> [InferenceVariableType.java <108:81 108:83>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.logic.InferenceVariableType.concreteEquivalentTypesAlsoIndirectly<2> [InferenceVariableType.java <111:16 111:21>]
+SYMBOL_METHOD public com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.logic.InferenceVariableType.equivalentType() [InferenceVariableType.java <114:5 <114:17 114:30> 140:5>]
+REFERENCE_TYPE_USAGE com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.logic.InferenceVariableType.equivalentType() -> com.github.javaparser.symbolsolver.model.typesystem.Type [InferenceVariableType.java <114:12 114:15>]
+LOCAL_SYMBOL: InferenceVariableType.java<114:34> [InferenceVariableType.java <114:34 114:34>]
+LOCAL_SYMBOL: InferenceVariableType.java<114:34> [InferenceVariableType.java <140:5 140:5>]
+REFERENCE_TYPE_USAGE com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.logic.InferenceVariableType.equivalentType() -> java.util.Set<E> [InferenceVariableType.java <115:9 115:11>]
+REFERENCE_TYPE_ARGUMENT com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.logic.InferenceVariableType.equivalentType() -> com.github.javaparser.symbolsolver.model.typesystem.Type [InferenceVariableType.java <115:13 115:16>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.logic.InferenceVariableType.equivalentType<0> [InferenceVariableType.java <115:19 115:36>]
+SYMBOL_METHOD java.util.Set<com.github.javaparser.symbolsolver.model.typesystem.Type> com.github.javaparser.symbolsolver.logic.InferenceVariableType.concreteEquivalentTypesAlsoIndirectly(java.util.Set<com.github.javaparser.symbolsolver.logic.InferenceVariableType>, com.github.javaparser.symbolsolver.logic.InferenceVariableType)
+REFERENCE_CALL com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.logic.InferenceVariableType.equivalentType() -> java.util.Set<com.github.javaparser.symbolsolver.model.typesystem.Type> com.github.javaparser.symbolsolver.logic.InferenceVariableType.concreteEquivalentTypesAlsoIndirectly(java.util.Set<com.github.javaparser.symbolsolver.logic.InferenceVariableType>, com.github.javaparser.symbolsolver.logic.InferenceVariableType) [InferenceVariableType.java <115:40 115:76>]
+SYMBOL_METHOD java.util.HashSet<E>.HashSet()
+REFERENCE_CALL com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.logic.InferenceVariableType.equivalentType() -> java.util.HashSet<E>.HashSet() [InferenceVariableType.java <115:82 115:90>]
+REFERENCE_TYPE_USAGE com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.logic.InferenceVariableType.equivalentType() -> java.util.HashSet<E> [InferenceVariableType.java <115:82 115:88>]
+SYMBOL_METHOD boolean java.util.Set<E>.isEmpty()
+REFERENCE_CALL com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.logic.InferenceVariableType.equivalentType() -> boolean java.util.Set<E>.isEmpty() [InferenceVariableType.java <116:32 116:38>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.logic.InferenceVariableType.equivalentType<0> [InferenceVariableType.java <116:13 116:30>]
+LOCAL_SYMBOL: InferenceVariableType.java<116:43> [InferenceVariableType.java <116:43 116:43>]
+LOCAL_SYMBOL: InferenceVariableType.java<116:43> [InferenceVariableType.java <122:9 122:9>]
+SYMBOL_FIELD com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration com.github.javaparser.symbolsolver.logic.InferenceVariableType.correspondingTp
+REFERENCE_USAGE com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.logic.InferenceVariableType.equivalentType() -> com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration com.github.javaparser.symbolsolver.logic.InferenceVariableType.correspondingTp [InferenceVariableType.java <117:17 117:31>]
+LOCAL_SYMBOL: InferenceVariableType.java<117:42> [InferenceVariableType.java <117:42 117:42>]
+LOCAL_SYMBOL: InferenceVariableType.java<117:42> [InferenceVariableType.java <119:13 119:13>]
+SYMBOL_METHOD com.github.javaparser.symbolsolver.model.typesystem.ReferenceType com.github.javaparser.symbolsolver.logic.ObjectProvider.object()
+REFERENCE_CALL com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.logic.InferenceVariableType.equivalentType() -> com.github.javaparser.symbolsolver.model.typesystem.ReferenceType com.github.javaparser.symbolsolver.logic.ObjectProvider.object() [InferenceVariableType.java <118:39 118:44>]
+SYMBOL_FIELD com.github.javaparser.symbolsolver.logic.ObjectProvider com.github.javaparser.symbolsolver.logic.InferenceVariableType.objectProvider
+REFERENCE_USAGE com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.logic.InferenceVariableType.equivalentType() -> com.github.javaparser.symbolsolver.logic.ObjectProvider com.github.javaparser.symbolsolver.logic.InferenceVariableType.objectProvider [InferenceVariableType.java <118:24 118:37>]
+LOCAL_SYMBOL: InferenceVariableType.java<119:20> [InferenceVariableType.java <119:20 119:20>]
+LOCAL_SYMBOL: InferenceVariableType.java<119:20> [InferenceVariableType.java <121:13 121:13>]
+SYMBOL_METHOD com.github.javaparser.symbolsolver.model.typesystem.TypeVariable.TypeVariable(com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration)
+REFERENCE_CALL com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.logic.InferenceVariableType.equivalentType() -> com.github.javaparser.symbolsolver.model.typesystem.TypeVariable.TypeVariable(com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration) [InferenceVariableType.java <120:28 120:39>]
+REFERENCE_TYPE_USAGE com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.logic.InferenceVariableType.equivalentType() -> com.github.javaparser.symbolsolver.model.typesystem.TypeVariable [InferenceVariableType.java <120:28 120:39>]
+SYMBOL_FIELD com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration com.github.javaparser.symbolsolver.logic.InferenceVariableType.correspondingTp
+REFERENCE_USAGE com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.logic.InferenceVariableType.equivalentType() -> com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration com.github.javaparser.symbolsolver.logic.InferenceVariableType.correspondingTp [InferenceVariableType.java <120:41 120:55>]
+SYMBOL_METHOD int java.util.Set<E>.size()
+REFERENCE_CALL com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.logic.InferenceVariableType.equivalentType() -> int java.util.Set<E>.size() [InferenceVariableType.java <123:32 123:35>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.logic.InferenceVariableType.equivalentType<0> [InferenceVariableType.java <123:13 123:30>]
+LOCAL_SYMBOL: InferenceVariableType.java<123:45> [InferenceVariableType.java <123:45 123:45>]
+LOCAL_SYMBOL: InferenceVariableType.java<123:45> [InferenceVariableType.java <125:9 125:9>]
+SYMBOL_METHOD java.util.Iterator<E>.E java.util.Iterator<E>.next()
+REFERENCE_CALL com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.logic.InferenceVariableType.equivalentType() -> java.util.Iterator<E>.E java.util.Iterator<E>.next() [InferenceVariableType.java <124:50 124:53>]
+SYMBOL_METHOD java.util.Iterator<java.util.Set<E>.E> java.util.Set<E>.iterator()
+REFERENCE_CALL com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.logic.InferenceVariableType.equivalentType() -> java.util.Iterator<java.util.Set<E>.E> java.util.Set<E>.iterator() [InferenceVariableType.java <124:39 124:46>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.logic.InferenceVariableType.equivalentType<0> [InferenceVariableType.java <124:20 124:37>]
+REFERENCE_TYPE_USAGE com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.logic.InferenceVariableType.equivalentType() -> java.util.Set<E> [InferenceVariableType.java <126:9 126:11>]
+REFERENCE_TYPE_ARGUMENT com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.logic.InferenceVariableType.equivalentType() -> com.github.javaparser.symbolsolver.model.typesystem.Type [InferenceVariableType.java <126:13 126:16>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.logic.InferenceVariableType.equivalentType<1> [InferenceVariableType.java <126:19 126:34>]
+SYMBOL_METHOD R java.util.stream.Stream<T>.collect<R, A>(java.util.stream.Collector<? super T, A, R>)
+REFERENCE_CALL com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.logic.InferenceVariableType.equivalentType() -> R java.util.stream.Stream<T>.collect<R, A>(java.util.stream.Collector<? super T, A, R>) [InferenceVariableType.java <128:54 128:60>]
+SYMBOL_METHOD java.util.stream.Stream<java.util.stream.Stream<T>.T> java.util.stream.Stream<T>.filter(java.util.function.Predicate<? super T>)
+REFERENCE_CALL com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.logic.InferenceVariableType.equivalentType() -> java.util.stream.Stream<java.util.stream.Stream<T>.T> java.util.stream.Stream<T>.filter(java.util.function.Predicate<? super T>) [InferenceVariableType.java <127:54 127:59>]
+SYMBOL_METHOD java.util.stream.Stream<java.util.Collection<E>.E> java.util.Collection<E>.stream()
+REFERENCE_CALL com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.logic.InferenceVariableType.equivalentType() -> java.util.stream.Stream<java.util.Collection<E>.E> java.util.Collection<E>.stream() [InferenceVariableType.java <126:54 126:59>]
+SYMBOL_FIELD java.util.Set<com.github.javaparser.symbolsolver.model.typesystem.Type> com.github.javaparser.symbolsolver.logic.InferenceVariableType.equivalentTypes
+REFERENCE_USAGE com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.logic.InferenceVariableType.equivalentType() -> java.util.Set<com.github.javaparser.symbolsolver.model.typesystem.Type> com.github.javaparser.symbolsolver.logic.InferenceVariableType.equivalentTypes [InferenceVariableType.java <126:38 126:52>]
+LOCAL_SYMBOL: java.util.function.Predicate<T>.test<3> [InferenceVariableType.java <127:61 127:61>]
+SYMBOL_METHOD boolean com.github.javaparser.symbolsolver.model.typesystem.Type.isTypeVariable()
+REFERENCE_CALL com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.logic.InferenceVariableType.equivalentType() -> boolean com.github.javaparser.symbolsolver.model.typesystem.Type.isTypeVariable() [InferenceVariableType.java <127:69 127:82>]
+LOCAL_SYMBOL: java.util.function.Predicate<T>.test<3> [InferenceVariableType.java <127:67 127:67>]
+SYMBOL_METHOD boolean com.github.javaparser.symbolsolver.logic.InferenceVariableType.hasInferenceVariables(com.github.javaparser.symbolsolver.model.typesystem.Type)
+REFERENCE_CALL com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.logic.InferenceVariableType.equivalentType() -> boolean com.github.javaparser.symbolsolver.logic.InferenceVariableType.hasInferenceVariables(com.github.javaparser.symbolsolver.model.typesystem.Type) [InferenceVariableType.java <127:90 127:110>]
+LOCAL_SYMBOL: java.util.function.Predicate<T>.test<3> [InferenceVariableType.java <127:112 127:112>]
+SYMBOL_METHOD static java.util.stream.Collector<T, ?, java.util.Set<T>> java.util.stream.Collectors.toSet<T>()
+REFERENCE_CALL com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.logic.InferenceVariableType.equivalentType() -> static java.util.stream.Collector<T, ?, java.util.Set<T>> java.util.stream.Collectors.toSet<T>() [InferenceVariableType.java <128:73 128:77>]
+SYMBOL_METHOD int java.util.Set<E>.size()
+REFERENCE_CALL com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.logic.InferenceVariableType.equivalentType() -> int java.util.Set<E>.size() [InferenceVariableType.java <129:30 129:33>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.logic.InferenceVariableType.equivalentType<1> [InferenceVariableType.java <129:13 129:28>]
+LOCAL_SYMBOL: InferenceVariableType.java<129:43> [InferenceVariableType.java <129:43 129:43>]
+LOCAL_SYMBOL: InferenceVariableType.java<129:43> [InferenceVariableType.java <131:9 131:9>]
+SYMBOL_METHOD java.util.Iterator<E>.E java.util.Iterator<E>.next()
+REFERENCE_CALL com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.logic.InferenceVariableType.equivalentType() -> java.util.Iterator<E>.E java.util.Iterator<E>.next() [InferenceVariableType.java <130:48 130:51>]
+SYMBOL_METHOD java.util.Iterator<java.util.Set<E>.E> java.util.Set<E>.iterator()
+REFERENCE_CALL com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.logic.InferenceVariableType.equivalentType() -> java.util.Iterator<java.util.Set<E>.E> java.util.Set<E>.iterator() [InferenceVariableType.java <130:37 130:44>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.logic.InferenceVariableType.equivalentType<1> [InferenceVariableType.java <130:20 130:35>]
+SYMBOL_METHOD int java.util.Set<E>.size()
+REFERENCE_CALL com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.logic.InferenceVariableType.equivalentType() -> int java.util.Set<E>.size() [InferenceVariableType.java <131:37 131:40>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.logic.InferenceVariableType.equivalentType<1> [InferenceVariableType.java <131:20 131:35>]
+SYMBOL_METHOD boolean java.util.Set<E>.isEmpty()
+REFERENCE_CALL com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.logic.InferenceVariableType.equivalentType() -> boolean java.util.Set<E>.isEmpty() [InferenceVariableType.java <131:64 131:70>]
+SYMBOL_FIELD java.util.Set<com.github.javaparser.symbolsolver.model.typesystem.Type> com.github.javaparser.symbolsolver.logic.InferenceVariableType.superTypes
+REFERENCE_USAGE com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.logic.InferenceVariableType.equivalentType() -> java.util.Set<com.github.javaparser.symbolsolver.model.typesystem.Type> com.github.javaparser.symbolsolver.logic.InferenceVariableType.superTypes [InferenceVariableType.java <131:53 131:62>]
+LOCAL_SYMBOL: InferenceVariableType.java<131:75> [InferenceVariableType.java <131:75 131:75>]
+LOCAL_SYMBOL: InferenceVariableType.java<131:75> [InferenceVariableType.java <137:9 137:9>]
+SYMBOL_METHOD int java.util.Set<E>.size()
+REFERENCE_CALL com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.logic.InferenceVariableType.equivalentType() -> int java.util.Set<E>.size() [InferenceVariableType.java <132:28 132:31>]
+SYMBOL_FIELD java.util.Set<com.github.javaparser.symbolsolver.model.typesystem.Type> com.github.javaparser.symbolsolver.logic.InferenceVariableType.superTypes
+REFERENCE_USAGE com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.logic.InferenceVariableType.equivalentType() -> java.util.Set<com.github.javaparser.symbolsolver.model.typesystem.Type> com.github.javaparser.symbolsolver.logic.InferenceVariableType.superTypes [InferenceVariableType.java <132:17 132:26>]
+LOCAL_SYMBOL: InferenceVariableType.java<132:41> [InferenceVariableType.java <132:41 132:41>]
+LOCAL_SYMBOL: InferenceVariableType.java<132:41> [InferenceVariableType.java <134:13 134:13>]
+SYMBOL_METHOD java.util.Iterator<E>.E java.util.Iterator<E>.next()
+REFERENCE_CALL com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.logic.InferenceVariableType.equivalentType() -> java.util.Iterator<E>.E java.util.Iterator<E>.next() [InferenceVariableType.java <133:46 133:49>]
+SYMBOL_METHOD java.util.Iterator<java.util.Set<E>.E> java.util.Set<E>.iterator()
+REFERENCE_CALL com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.logic.InferenceVariableType.equivalentType() -> java.util.Iterator<java.util.Set<E>.E> java.util.Set<E>.iterator() [InferenceVariableType.java <133:35 133:42>]
+SYMBOL_FIELD java.util.Set<com.github.javaparser.symbolsolver.model.typesystem.Type> com.github.javaparser.symbolsolver.logic.InferenceVariableType.superTypes
+REFERENCE_USAGE com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.logic.InferenceVariableType.equivalentType() -> java.util.Set<com.github.javaparser.symbolsolver.model.typesystem.Type> com.github.javaparser.symbolsolver.logic.InferenceVariableType.superTypes [InferenceVariableType.java <133:24 133:33>]
+LOCAL_SYMBOL: InferenceVariableType.java<134:20> [InferenceVariableType.java <134:20 134:20>]
+LOCAL_SYMBOL: InferenceVariableType.java<134:20> [InferenceVariableType.java <136:13 136:13>]
+SYMBOL_METHOD java.lang.IllegalStateException.IllegalStateException(java.lang.String)
+REFERENCE_CALL com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.logic.InferenceVariableType.equivalentType() -> java.lang.IllegalStateException.IllegalStateException(java.lang.String) [InferenceVariableType.java <135:27 135:47>]
+REFERENCE_TYPE_USAGE com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.logic.InferenceVariableType.equivalentType() -> java.lang.IllegalStateException [InferenceVariableType.java <135:27 135:47>]
+SYMBOL_FIELD java.util.Set<com.github.javaparser.symbolsolver.model.typesystem.Type> com.github.javaparser.symbolsolver.logic.InferenceVariableType.superTypes
+REFERENCE_USAGE com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.logic.InferenceVariableType.equivalentType() -> java.util.Set<com.github.javaparser.symbolsolver.model.typesystem.Type> com.github.javaparser.symbolsolver.logic.InferenceVariableType.superTypes [InferenceVariableType.java <135:71 135:80>]
+LOCAL_SYMBOL: InferenceVariableType.java<137:16> [InferenceVariableType.java <137:16 137:16>]
+LOCAL_SYMBOL: InferenceVariableType.java<137:16> [InferenceVariableType.java <139:9 139:9>]
+SYMBOL_METHOD java.lang.IllegalStateException.IllegalStateException(java.lang.String)
+REFERENCE_CALL com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.logic.InferenceVariableType.equivalentType() -> java.lang.IllegalStateException.IllegalStateException(java.lang.String) [InferenceVariableType.java <138:23 138:43>]
+REFERENCE_TYPE_USAGE com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.logic.InferenceVariableType.equivalentType() -> java.lang.IllegalStateException [InferenceVariableType.java <138:23 138:43>]
+SYMBOL_FIELD java.util.Set<com.github.javaparser.symbolsolver.model.typesystem.Type> com.github.javaparser.symbolsolver.logic.InferenceVariableType.equivalentTypes
+REFERENCE_USAGE com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.logic.InferenceVariableType.equivalentType() -> java.util.Set<com.github.javaparser.symbolsolver.model.typesystem.Type> com.github.javaparser.symbolsolver.logic.InferenceVariableType.equivalentTypes [InferenceVariableType.java <138:72 138:86>]
+SYMBOL_METHOD private boolean com.github.javaparser.symbolsolver.logic.InferenceVariableType.hasInferenceVariables(com.github.javaparser.symbolsolver.model.typesystem.Type) [InferenceVariableType.java <142:5 <142:21 142:41> 163:5>]
+SYMBOL_BUILTIN_TYPE boolean
+REFERENCE_TYPE_USAGE boolean com.github.javaparser.symbolsolver.logic.InferenceVariableType.hasInferenceVariables(com.github.javaparser.symbolsolver.model.typesystem.Type) -> boolean [InferenceVariableType.java <142:13 142:19>]
+REFERENCE_TYPE_USAGE boolean com.github.javaparser.symbolsolver.logic.InferenceVariableType.hasInferenceVariables(com.github.javaparser.symbolsolver.model.typesystem.Type) -> com.github.javaparser.symbolsolver.model.typesystem.Type [InferenceVariableType.java <142:43 142:46>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.logic.InferenceVariableType.hasInferenceVariables<0> [InferenceVariableType.java <142:48 142:51>]
+LOCAL_SYMBOL: InferenceVariableType.java<142:53> [InferenceVariableType.java <142:53 142:53>]
+LOCAL_SYMBOL: InferenceVariableType.java<142:53> [InferenceVariableType.java <163:5 163:5>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.logic.InferenceVariableType.hasInferenceVariables<0> [InferenceVariableType.java <143:13 143:16>]
+REFERENCE_TYPE_USAGE boolean com.github.javaparser.symbolsolver.logic.InferenceVariableType.hasInferenceVariables(com.github.javaparser.symbolsolver.model.typesystem.Type) -> com.github.javaparser.symbolsolver.logic.InferenceVariableType [InferenceVariableType.java <143:29 143:49>]
+LOCAL_SYMBOL: InferenceVariableType.java<143:51> [InferenceVariableType.java <143:51 143:51>]
+LOCAL_SYMBOL: InferenceVariableType.java<143:51> [InferenceVariableType.java <145:9 145:9>]
+SYMBOL_METHOD boolean com.github.javaparser.symbolsolver.model.typesystem.Type.isReferenceType()
+REFERENCE_CALL boolean com.github.javaparser.symbolsolver.logic.InferenceVariableType.hasInferenceVariables(com.github.javaparser.symbolsolver.model.typesystem.Type) -> boolean com.github.javaparser.symbolsolver.model.typesystem.Type.isReferenceType() [InferenceVariableType.java <147:18 147:32>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.logic.InferenceVariableType.hasInferenceVariables<0> [InferenceVariableType.java <147:13 147:16>]
+LOCAL_SYMBOL: InferenceVariableType.java<147:36> [InferenceVariableType.java <147:36 147:36>]
+LOCAL_SYMBOL: InferenceVariableType.java<147:36> [InferenceVariableType.java <155:9 155:9>]
+REFERENCE_TYPE_USAGE boolean com.github.javaparser.symbolsolver.logic.InferenceVariableType.hasInferenceVariables(com.github.javaparser.symbolsolver.model.typesystem.Type) -> com.github.javaparser.symbolsolver.model.typesystem.ReferenceType [InferenceVariableType.java <148:13 148:25>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.logic.InferenceVariableType.hasInferenceVariables<1> [InferenceVariableType.java <148:27 148:33>]
+SYMBOL_METHOD com.github.javaparser.symbolsolver.model.typesystem.ReferenceType com.github.javaparser.symbolsolver.model.typesystem.Type.asReferenceType()
+REFERENCE_CALL boolean com.github.javaparser.symbolsolver.logic.InferenceVariableType.hasInferenceVariables(com.github.javaparser.symbolsolver.model.typesystem.Type) -> com.github.javaparser.symbolsolver.model.typesystem.ReferenceType com.github.javaparser.symbolsolver.model.typesystem.Type.asReferenceType() [InferenceVariableType.java <148:42 148:56>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.logic.InferenceVariableType.hasInferenceVariables<0> [InferenceVariableType.java <148:37 148:40>]
+REFERENCE_TYPE_USAGE boolean com.github.javaparser.symbolsolver.logic.InferenceVariableType.hasInferenceVariables(com.github.javaparser.symbolsolver.model.typesystem.Type) -> com.github.javaparser.symbolsolver.model.typesystem.Type [InferenceVariableType.java <149:18 149:21>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.logic.InferenceVariableType.hasInferenceVariables<2> [InferenceVariableType.java <149:23 149:23>]
+SYMBOL_METHOD java.util.List<com.github.javaparser.symbolsolver.model.typesystem.Type> com.github.javaparser.symbolsolver.model.typesystem.ReferenceType.typeParametersValues()
+REFERENCE_CALL boolean com.github.javaparser.symbolsolver.logic.InferenceVariableType.hasInferenceVariables(com.github.javaparser.symbolsolver.model.typesystem.Type) -> java.util.List<com.github.javaparser.symbolsolver.model.typesystem.Type> com.github.javaparser.symbolsolver.model.typesystem.ReferenceType.typeParametersValues() [InferenceVariableType.java <149:35 149:54>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.logic.InferenceVariableType.hasInferenceVariables<1> [InferenceVariableType.java <149:27 149:33>]
+LOCAL_SYMBOL: InferenceVariableType.java<149:58> [InferenceVariableType.java <149:58 149:58>]
+LOCAL_SYMBOL: InferenceVariableType.java<149:58> [InferenceVariableType.java <153:13 153:13>]
+SYMBOL_METHOD boolean com.github.javaparser.symbolsolver.logic.InferenceVariableType.hasInferenceVariables(com.github.javaparser.symbolsolver.model.typesystem.Type)
+REFERENCE_CALL boolean com.github.javaparser.symbolsolver.logic.InferenceVariableType.hasInferenceVariables(com.github.javaparser.symbolsolver.model.typesystem.Type) -> boolean com.github.javaparser.symbolsolver.logic.InferenceVariableType.hasInferenceVariables(com.github.javaparser.symbolsolver.model.typesystem.Type) [InferenceVariableType.java <150:21 150:41>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.logic.InferenceVariableType.hasInferenceVariables<2> [InferenceVariableType.java <150:43 150:43>]
+LOCAL_SYMBOL: InferenceVariableType.java<150:46> [InferenceVariableType.java <150:46 150:46>]
+LOCAL_SYMBOL: InferenceVariableType.java<150:46> [InferenceVariableType.java <152:17 152:17>]
+SYMBOL_METHOD boolean com.github.javaparser.symbolsolver.model.typesystem.Type.isWildcard()
+REFERENCE_CALL boolean com.github.javaparser.symbolsolver.logic.InferenceVariableType.hasInferenceVariables(com.github.javaparser.symbolsolver.model.typesystem.Type) -> boolean com.github.javaparser.symbolsolver.model.typesystem.Type.isWildcard() [InferenceVariableType.java <157:18 157:27>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.logic.InferenceVariableType.hasInferenceVariables<0> [InferenceVariableType.java <157:13 157:16>]
+LOCAL_SYMBOL: InferenceVariableType.java<157:31> [InferenceVariableType.java <157:31 157:31>]
+LOCAL_SYMBOL: InferenceVariableType.java<157:31> [InferenceVariableType.java <160:9 160:9>]
+REFERENCE_TYPE_USAGE boolean com.github.javaparser.symbolsolver.logic.InferenceVariableType.hasInferenceVariables(com.github.javaparser.symbolsolver.model.typesystem.Type) -> com.github.javaparser.symbolsolver.model.typesystem.Wildcard [InferenceVariableType.java <158:13 158:20>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.logic.InferenceVariableType.hasInferenceVariables<4> [InferenceVariableType.java <158:22 158:33>]
+SYMBOL_METHOD com.github.javaparser.symbolsolver.model.typesystem.Wildcard com.github.javaparser.symbolsolver.model.typesystem.Type.asWildcard()
+REFERENCE_CALL boolean com.github.javaparser.symbolsolver.logic.InferenceVariableType.hasInferenceVariables(com.github.javaparser.symbolsolver.model.typesystem.Type) -> com.github.javaparser.symbolsolver.model.typesystem.Wildcard com.github.javaparser.symbolsolver.model.typesystem.Type.asWildcard() [InferenceVariableType.java <158:42 158:51>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.logic.InferenceVariableType.hasInferenceVariables<0> [InferenceVariableType.java <158:37 158:40>]
+SYMBOL_METHOD boolean com.github.javaparser.symbolsolver.logic.InferenceVariableType.hasInferenceVariables(com.github.javaparser.symbolsolver.model.typesystem.Type)
+REFERENCE_CALL boolean com.github.javaparser.symbolsolver.logic.InferenceVariableType.hasInferenceVariables(com.github.javaparser.symbolsolver.model.typesystem.Type) -> boolean com.github.javaparser.symbolsolver.logic.InferenceVariableType.hasInferenceVariables(com.github.javaparser.symbolsolver.model.typesystem.Type) [InferenceVariableType.java <159:20 159:40>]
+SYMBOL_METHOD com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.model.typesystem.Wildcard.getBoundedType()
+REFERENCE_CALL boolean com.github.javaparser.symbolsolver.logic.InferenceVariableType.hasInferenceVariables(com.github.javaparser.symbolsolver.model.typesystem.Type) -> com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.model.typesystem.Wildcard.getBoundedType() [InferenceVariableType.java <159:55 159:68>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.logic.InferenceVariableType.hasInferenceVariables<4> [InferenceVariableType.java <159:42 159:53>]
+COMMENT: comment [InferenceVariableType.java <1:1 15:3>]
+COMMENT: comment [InferenceVariableType.java <85:13 85:46>]

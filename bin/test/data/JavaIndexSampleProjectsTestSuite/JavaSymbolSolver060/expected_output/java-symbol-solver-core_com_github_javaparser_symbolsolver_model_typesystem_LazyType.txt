@@ -1,0 +1,269 @@
+FILE: LazyType.java
+SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model.typesystem [LazyType.java <1:9 1:59>]
+SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model
+SYMBOL_PACKAGE com.github.javaparser.symbolsolver
+SYMBOL_PACKAGE com.github.javaparser
+SYMBOL_PACKAGE com.github
+SYMBOL_PACKAGE com
+REFERENCE_IMPORT LazyType.java -> com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration [LazyType.java <3:8 3:85>]
+SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model.declarations
+REFERENCE_IMPORT LazyType.java -> java.util.Map<K, V> [LazyType.java <5:8 5:20>]
+SYMBOL_PACKAGE java.util
+REFERENCE_IMPORT LazyType.java -> java.util.function.Function<T, R> [LazyType.java <6:8 6:34>]
+SYMBOL_PACKAGE java.util.function
+SYMBOL_CLASS public com.github.javaparser.symbolsolver.model.typesystem.LazyType [LazyType.java <8:1 <8:14 8:21> 117:1>]
+LOCAL_SYMBOL: LazyType.java<8:39> [LazyType.java <8:39 8:39>]
+LOCAL_SYMBOL: LazyType.java<8:39> [LazyType.java <117:1 117:1>]
+REFERENCE_INHERITANCE com.github.javaparser.symbolsolver.model.typesystem.LazyType -> com.github.javaparser.symbolsolver.model.typesystem.Type [LazyType.java <8:34 8:37>]
+SYMBOL_FIELD private com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.model.typesystem.LazyType.concrete [LazyType.java <9:18 9:25>]
+REFERENCE_TYPE_USAGE com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.model.typesystem.LazyType.concrete -> com.github.javaparser.symbolsolver.model.typesystem.Type [LazyType.java <9:13 9:16>]
+SYMBOL_FIELD private java.util.function.Function<java.lang.Void, com.github.javaparser.symbolsolver.model.typesystem.Type> com.github.javaparser.symbolsolver.model.typesystem.LazyType.provider [LazyType.java <10:34 10:41>]
+REFERENCE_TYPE_USAGE java.util.function.Function<java.lang.Void, com.github.javaparser.symbolsolver.model.typesystem.Type> com.github.javaparser.symbolsolver.model.typesystem.LazyType.provider -> java.util.function.Function<T, R> [LazyType.java <10:13 10:20>]
+REFERENCE_TYPE_ARGUMENT java.util.function.Function<java.lang.Void, com.github.javaparser.symbolsolver.model.typesystem.Type> com.github.javaparser.symbolsolver.model.typesystem.LazyType.provider -> java.lang.Void [LazyType.java <10:22 10:25>]
+REFERENCE_TYPE_ARGUMENT java.util.function.Function<java.lang.Void, com.github.javaparser.symbolsolver.model.typesystem.Type> com.github.javaparser.symbolsolver.model.typesystem.LazyType.provider -> com.github.javaparser.symbolsolver.model.typesystem.Type [LazyType.java <10:28 10:31>]
+SYMBOL_METHOD public com.github.javaparser.symbolsolver.model.typesystem.LazyType.LazyType(java.util.function.Function<java.lang.Void, com.github.javaparser.symbolsolver.model.typesystem.Type>) [LazyType.java <12:5 <12:12 12:19> 14:5>]
+REFERENCE_TYPE_USAGE com.github.javaparser.symbolsolver.model.typesystem.LazyType.LazyType(java.util.function.Function<java.lang.Void, com.github.javaparser.symbolsolver.model.typesystem.Type>) -> java.util.function.Function<T, R> [LazyType.java <12:21 12:28>]
+REFERENCE_TYPE_ARGUMENT com.github.javaparser.symbolsolver.model.typesystem.LazyType.LazyType(java.util.function.Function<java.lang.Void, com.github.javaparser.symbolsolver.model.typesystem.Type>) -> java.lang.Void [LazyType.java <12:30 12:33>]
+REFERENCE_TYPE_ARGUMENT com.github.javaparser.symbolsolver.model.typesystem.LazyType.LazyType(java.util.function.Function<java.lang.Void, com.github.javaparser.symbolsolver.model.typesystem.Type>) -> com.github.javaparser.symbolsolver.model.typesystem.Type [LazyType.java <12:36 12:39>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.model.typesystem.LazyType.LazyType<0> [LazyType.java <12:42 12:49>]
+LOCAL_SYMBOL: LazyType.java<12:52> [LazyType.java <12:52 12:52>]
+LOCAL_SYMBOL: LazyType.java<12:52> [LazyType.java <14:5 14:5>]
+SYMBOL_FIELD java.util.function.Function<java.lang.Void, com.github.javaparser.symbolsolver.model.typesystem.Type> com.github.javaparser.symbolsolver.model.typesystem.LazyType.provider
+REFERENCE_USAGE com.github.javaparser.symbolsolver.model.typesystem.LazyType.LazyType(java.util.function.Function<java.lang.Void, com.github.javaparser.symbolsolver.model.typesystem.Type>) -> java.util.function.Function<java.lang.Void, com.github.javaparser.symbolsolver.model.typesystem.Type> com.github.javaparser.symbolsolver.model.typesystem.LazyType.provider [LazyType.java <13:14 13:21>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.model.typesystem.LazyType.LazyType<0> [LazyType.java <13:25 13:32>]
+SYMBOL_METHOD private com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.model.typesystem.LazyType.getType() [LazyType.java <16:5 <16:18 16:24> 21:5>]
+REFERENCE_TYPE_USAGE com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.model.typesystem.LazyType.getType() -> com.github.javaparser.symbolsolver.model.typesystem.Type [LazyType.java <16:13 16:16>]
+LOCAL_SYMBOL: LazyType.java<16:28> [LazyType.java <16:28 16:28>]
+LOCAL_SYMBOL: LazyType.java<16:28> [LazyType.java <21:5 21:5>]
+SYMBOL_FIELD com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.model.typesystem.LazyType.concrete
+REFERENCE_USAGE com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.model.typesystem.LazyType.getType() -> com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.model.typesystem.LazyType.concrete [LazyType.java <17:13 17:20>]
+LOCAL_SYMBOL: LazyType.java<17:31> [LazyType.java <17:31 17:31>]
+LOCAL_SYMBOL: LazyType.java<17:31> [LazyType.java <19:9 19:9>]
+SYMBOL_FIELD com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.model.typesystem.LazyType.concrete
+REFERENCE_USAGE com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.model.typesystem.LazyType.getType() -> com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.model.typesystem.LazyType.concrete [LazyType.java <18:13 18:20>]
+SYMBOL_METHOD java.util.function.Function<T, R>.R java.util.function.Function<T, R>.apply(java.util.function.Function<T, R>.T)
+REFERENCE_CALL com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.model.typesystem.LazyType.getType() -> java.util.function.Function<T, R>.R java.util.function.Function<T, R>.apply(java.util.function.Function<T, R>.T) [LazyType.java <18:33 18:37>]
+SYMBOL_FIELD java.util.function.Function<java.lang.Void, com.github.javaparser.symbolsolver.model.typesystem.Type> com.github.javaparser.symbolsolver.model.typesystem.LazyType.provider
+REFERENCE_USAGE com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.model.typesystem.LazyType.getType() -> java.util.function.Function<java.lang.Void, com.github.javaparser.symbolsolver.model.typesystem.Type> com.github.javaparser.symbolsolver.model.typesystem.LazyType.provider [LazyType.java <18:24 18:31>]
+SYMBOL_FIELD com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.model.typesystem.LazyType.concrete
+REFERENCE_USAGE com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.model.typesystem.LazyType.getType() -> com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.model.typesystem.LazyType.concrete [LazyType.java <20:16 20:23>]
+SYMBOL_METHOD public boolean com.github.javaparser.symbolsolver.model.typesystem.LazyType.isArray() [LazyType.java <23:5 <24:20 24:26> 26:5>]
+SYMBOL_METHOD boolean com.github.javaparser.symbolsolver.model.typesystem.Type.isArray()
+REFERENCE_OVERRIDE boolean com.github.javaparser.symbolsolver.model.typesystem.LazyType.isArray() -> boolean com.github.javaparser.symbolsolver.model.typesystem.Type.isArray() [LazyType.java <24:20 24:26>]
+SYMBOL_BUILTIN_TYPE boolean
+REFERENCE_TYPE_USAGE boolean com.github.javaparser.symbolsolver.model.typesystem.LazyType.isArray() -> boolean [LazyType.java <24:12 24:18>]
+LOCAL_SYMBOL: LazyType.java<24:30> [LazyType.java <24:30 24:30>]
+LOCAL_SYMBOL: LazyType.java<24:30> [LazyType.java <26:5 26:5>]
+SYMBOL_METHOD boolean com.github.javaparser.symbolsolver.model.typesystem.Type.isArray()
+REFERENCE_CALL boolean com.github.javaparser.symbolsolver.model.typesystem.LazyType.isArray() -> boolean com.github.javaparser.symbolsolver.model.typesystem.Type.isArray() [LazyType.java <25:26 25:32>]
+SYMBOL_METHOD com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.model.typesystem.LazyType.getType()
+REFERENCE_CALL boolean com.github.javaparser.symbolsolver.model.typesystem.LazyType.isArray() -> com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.model.typesystem.LazyType.getType() [LazyType.java <25:16 25:22>]
+SYMBOL_METHOD public int com.github.javaparser.symbolsolver.model.typesystem.LazyType.arrayLevel() [LazyType.java <28:5 <29:16 29:25> 31:5>]
+SYMBOL_METHOD int com.github.javaparser.symbolsolver.model.typesystem.Type.arrayLevel()
+REFERENCE_OVERRIDE int com.github.javaparser.symbolsolver.model.typesystem.LazyType.arrayLevel() -> int com.github.javaparser.symbolsolver.model.typesystem.Type.arrayLevel() [LazyType.java <29:16 29:25>]
+SYMBOL_BUILTIN_TYPE int
+REFERENCE_TYPE_USAGE int com.github.javaparser.symbolsolver.model.typesystem.LazyType.arrayLevel() -> int [LazyType.java <29:12 29:14>]
+LOCAL_SYMBOL: LazyType.java<29:29> [LazyType.java <29:29 29:29>]
+LOCAL_SYMBOL: LazyType.java<29:29> [LazyType.java <31:5 31:5>]
+SYMBOL_METHOD int com.github.javaparser.symbolsolver.model.typesystem.Type.arrayLevel()
+REFERENCE_CALL int com.github.javaparser.symbolsolver.model.typesystem.LazyType.arrayLevel() -> int com.github.javaparser.symbolsolver.model.typesystem.Type.arrayLevel() [LazyType.java <30:26 30:35>]
+SYMBOL_METHOD com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.model.typesystem.LazyType.getType()
+REFERENCE_CALL int com.github.javaparser.symbolsolver.model.typesystem.LazyType.arrayLevel() -> com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.model.typesystem.LazyType.getType() [LazyType.java <30:16 30:22>]
+SYMBOL_METHOD public boolean com.github.javaparser.symbolsolver.model.typesystem.LazyType.isPrimitive() [LazyType.java <33:5 <34:20 34:30> 36:5>]
+SYMBOL_METHOD boolean com.github.javaparser.symbolsolver.model.typesystem.Type.isPrimitive()
+REFERENCE_OVERRIDE boolean com.github.javaparser.symbolsolver.model.typesystem.LazyType.isPrimitive() -> boolean com.github.javaparser.symbolsolver.model.typesystem.Type.isPrimitive() [LazyType.java <34:20 34:30>]
+SYMBOL_BUILTIN_TYPE boolean
+REFERENCE_TYPE_USAGE boolean com.github.javaparser.symbolsolver.model.typesystem.LazyType.isPrimitive() -> boolean [LazyType.java <34:12 34:18>]
+LOCAL_SYMBOL: LazyType.java<34:34> [LazyType.java <34:34 34:34>]
+LOCAL_SYMBOL: LazyType.java<34:34> [LazyType.java <36:5 36:5>]
+SYMBOL_METHOD boolean com.github.javaparser.symbolsolver.model.typesystem.Type.isPrimitive()
+REFERENCE_CALL boolean com.github.javaparser.symbolsolver.model.typesystem.LazyType.isPrimitive() -> boolean com.github.javaparser.symbolsolver.model.typesystem.Type.isPrimitive() [LazyType.java <35:26 35:36>]
+SYMBOL_METHOD com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.model.typesystem.LazyType.getType()
+REFERENCE_CALL boolean com.github.javaparser.symbolsolver.model.typesystem.LazyType.isPrimitive() -> com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.model.typesystem.LazyType.getType() [LazyType.java <35:16 35:22>]
+SYMBOL_METHOD public boolean com.github.javaparser.symbolsolver.model.typesystem.LazyType.isNull() [LazyType.java <38:5 <39:20 39:25> 41:5>]
+SYMBOL_METHOD boolean com.github.javaparser.symbolsolver.model.typesystem.Type.isNull()
+REFERENCE_OVERRIDE boolean com.github.javaparser.symbolsolver.model.typesystem.LazyType.isNull() -> boolean com.github.javaparser.symbolsolver.model.typesystem.Type.isNull() [LazyType.java <39:20 39:25>]
+SYMBOL_BUILTIN_TYPE boolean
+REFERENCE_TYPE_USAGE boolean com.github.javaparser.symbolsolver.model.typesystem.LazyType.isNull() -> boolean [LazyType.java <39:12 39:18>]
+LOCAL_SYMBOL: LazyType.java<39:29> [LazyType.java <39:29 39:29>]
+LOCAL_SYMBOL: LazyType.java<39:29> [LazyType.java <41:5 41:5>]
+SYMBOL_METHOD boolean com.github.javaparser.symbolsolver.model.typesystem.Type.isNull()
+REFERENCE_CALL boolean com.github.javaparser.symbolsolver.model.typesystem.LazyType.isNull() -> boolean com.github.javaparser.symbolsolver.model.typesystem.Type.isNull() [LazyType.java <40:26 40:31>]
+SYMBOL_METHOD com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.model.typesystem.LazyType.getType()
+REFERENCE_CALL boolean com.github.javaparser.symbolsolver.model.typesystem.LazyType.isNull() -> com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.model.typesystem.LazyType.getType() [LazyType.java <40:16 40:22>]
+SYMBOL_METHOD public boolean com.github.javaparser.symbolsolver.model.typesystem.LazyType.isReference() [LazyType.java <43:5 <44:20 44:30> 46:5>]
+SYMBOL_METHOD boolean com.github.javaparser.symbolsolver.model.typesystem.Type.isReference()
+REFERENCE_OVERRIDE boolean com.github.javaparser.symbolsolver.model.typesystem.LazyType.isReference() -> boolean com.github.javaparser.symbolsolver.model.typesystem.Type.isReference() [LazyType.java <44:20 44:30>]
+SYMBOL_BUILTIN_TYPE boolean
+REFERENCE_TYPE_USAGE boolean com.github.javaparser.symbolsolver.model.typesystem.LazyType.isReference() -> boolean [LazyType.java <44:12 44:18>]
+LOCAL_SYMBOL: LazyType.java<44:34> [LazyType.java <44:34 44:34>]
+LOCAL_SYMBOL: LazyType.java<44:34> [LazyType.java <46:5 46:5>]
+SYMBOL_METHOD boolean com.github.javaparser.symbolsolver.model.typesystem.Type.isReference()
+REFERENCE_CALL boolean com.github.javaparser.symbolsolver.model.typesystem.LazyType.isReference() -> boolean com.github.javaparser.symbolsolver.model.typesystem.Type.isReference() [LazyType.java <45:26 45:36>]
+SYMBOL_METHOD com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.model.typesystem.LazyType.getType()
+REFERENCE_CALL boolean com.github.javaparser.symbolsolver.model.typesystem.LazyType.isReference() -> com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.model.typesystem.LazyType.getType() [LazyType.java <45:16 45:22>]
+SYMBOL_METHOD public boolean com.github.javaparser.symbolsolver.model.typesystem.LazyType.isReferenceType() [LazyType.java <48:5 <49:20 49:34> 51:5>]
+SYMBOL_METHOD boolean com.github.javaparser.symbolsolver.model.typesystem.Type.isReferenceType()
+REFERENCE_OVERRIDE boolean com.github.javaparser.symbolsolver.model.typesystem.LazyType.isReferenceType() -> boolean com.github.javaparser.symbolsolver.model.typesystem.Type.isReferenceType() [LazyType.java <49:20 49:34>]
+SYMBOL_BUILTIN_TYPE boolean
+REFERENCE_TYPE_USAGE boolean com.github.javaparser.symbolsolver.model.typesystem.LazyType.isReferenceType() -> boolean [LazyType.java <49:12 49:18>]
+LOCAL_SYMBOL: LazyType.java<49:38> [LazyType.java <49:38 49:38>]
+LOCAL_SYMBOL: LazyType.java<49:38> [LazyType.java <51:5 51:5>]
+SYMBOL_METHOD boolean com.github.javaparser.symbolsolver.model.typesystem.Type.isReferenceType()
+REFERENCE_CALL boolean com.github.javaparser.symbolsolver.model.typesystem.LazyType.isReferenceType() -> boolean com.github.javaparser.symbolsolver.model.typesystem.Type.isReferenceType() [LazyType.java <50:26 50:40>]
+SYMBOL_METHOD com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.model.typesystem.LazyType.getType()
+REFERENCE_CALL boolean com.github.javaparser.symbolsolver.model.typesystem.LazyType.isReferenceType() -> com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.model.typesystem.LazyType.getType() [LazyType.java <50:16 50:22>]
+SYMBOL_METHOD public boolean com.github.javaparser.symbolsolver.model.typesystem.LazyType.isVoid() [LazyType.java <53:5 <54:20 54:25> 56:5>]
+SYMBOL_METHOD boolean com.github.javaparser.symbolsolver.model.typesystem.Type.isVoid()
+REFERENCE_OVERRIDE boolean com.github.javaparser.symbolsolver.model.typesystem.LazyType.isVoid() -> boolean com.github.javaparser.symbolsolver.model.typesystem.Type.isVoid() [LazyType.java <54:20 54:25>]
+SYMBOL_BUILTIN_TYPE boolean
+REFERENCE_TYPE_USAGE boolean com.github.javaparser.symbolsolver.model.typesystem.LazyType.isVoid() -> boolean [LazyType.java <54:12 54:18>]
+LOCAL_SYMBOL: LazyType.java<54:29> [LazyType.java <54:29 54:29>]
+LOCAL_SYMBOL: LazyType.java<54:29> [LazyType.java <56:5 56:5>]
+SYMBOL_METHOD boolean com.github.javaparser.symbolsolver.model.typesystem.Type.isVoid()
+REFERENCE_CALL boolean com.github.javaparser.symbolsolver.model.typesystem.LazyType.isVoid() -> boolean com.github.javaparser.symbolsolver.model.typesystem.Type.isVoid() [LazyType.java <55:26 55:31>]
+SYMBOL_METHOD com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.model.typesystem.LazyType.getType()
+REFERENCE_CALL boolean com.github.javaparser.symbolsolver.model.typesystem.LazyType.isVoid() -> com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.model.typesystem.LazyType.getType() [LazyType.java <55:16 55:22>]
+SYMBOL_METHOD public boolean com.github.javaparser.symbolsolver.model.typesystem.LazyType.isTypeVariable() [LazyType.java <58:5 <59:20 59:33> 61:5>]
+SYMBOL_METHOD boolean com.github.javaparser.symbolsolver.model.typesystem.Type.isTypeVariable()
+REFERENCE_OVERRIDE boolean com.github.javaparser.symbolsolver.model.typesystem.LazyType.isTypeVariable() -> boolean com.github.javaparser.symbolsolver.model.typesystem.Type.isTypeVariable() [LazyType.java <59:20 59:33>]
+SYMBOL_BUILTIN_TYPE boolean
+REFERENCE_TYPE_USAGE boolean com.github.javaparser.symbolsolver.model.typesystem.LazyType.isTypeVariable() -> boolean [LazyType.java <59:12 59:18>]
+LOCAL_SYMBOL: LazyType.java<59:37> [LazyType.java <59:37 59:37>]
+LOCAL_SYMBOL: LazyType.java<59:37> [LazyType.java <61:5 61:5>]
+SYMBOL_METHOD boolean com.github.javaparser.symbolsolver.model.typesystem.Type.isTypeVariable()
+REFERENCE_CALL boolean com.github.javaparser.symbolsolver.model.typesystem.LazyType.isTypeVariable() -> boolean com.github.javaparser.symbolsolver.model.typesystem.Type.isTypeVariable() [LazyType.java <60:26 60:39>]
+SYMBOL_METHOD com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.model.typesystem.LazyType.getType()
+REFERENCE_CALL boolean com.github.javaparser.symbolsolver.model.typesystem.LazyType.isTypeVariable() -> com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.model.typesystem.LazyType.getType() [LazyType.java <60:16 60:22>]
+SYMBOL_METHOD public boolean com.github.javaparser.symbolsolver.model.typesystem.LazyType.isWildcard() [LazyType.java <63:5 <64:20 64:29> 66:5>]
+SYMBOL_METHOD boolean com.github.javaparser.symbolsolver.model.typesystem.Type.isWildcard()
+REFERENCE_OVERRIDE boolean com.github.javaparser.symbolsolver.model.typesystem.LazyType.isWildcard() -> boolean com.github.javaparser.symbolsolver.model.typesystem.Type.isWildcard() [LazyType.java <64:20 64:29>]
+SYMBOL_BUILTIN_TYPE boolean
+REFERENCE_TYPE_USAGE boolean com.github.javaparser.symbolsolver.model.typesystem.LazyType.isWildcard() -> boolean [LazyType.java <64:12 64:18>]
+LOCAL_SYMBOL: LazyType.java<64:33> [LazyType.java <64:33 64:33>]
+LOCAL_SYMBOL: LazyType.java<64:33> [LazyType.java <66:5 66:5>]
+SYMBOL_METHOD boolean com.github.javaparser.symbolsolver.model.typesystem.Type.isArray()
+REFERENCE_CALL boolean com.github.javaparser.symbolsolver.model.typesystem.LazyType.isWildcard() -> boolean com.github.javaparser.symbolsolver.model.typesystem.Type.isArray() [LazyType.java <65:26 65:32>]
+SYMBOL_METHOD com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.model.typesystem.LazyType.getType()
+REFERENCE_CALL boolean com.github.javaparser.symbolsolver.model.typesystem.LazyType.isWildcard() -> com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.model.typesystem.LazyType.getType() [LazyType.java <65:16 65:22>]
+SYMBOL_METHOD public com.github.javaparser.symbolsolver.model.typesystem.ArrayType com.github.javaparser.symbolsolver.model.typesystem.LazyType.asArrayType() [LazyType.java <68:5 <69:22 69:32> 71:5>]
+SYMBOL_METHOD com.github.javaparser.symbolsolver.model.typesystem.ArrayType com.github.javaparser.symbolsolver.model.typesystem.Type.asArrayType()
+REFERENCE_OVERRIDE com.github.javaparser.symbolsolver.model.typesystem.ArrayType com.github.javaparser.symbolsolver.model.typesystem.LazyType.asArrayType() -> com.github.javaparser.symbolsolver.model.typesystem.ArrayType com.github.javaparser.symbolsolver.model.typesystem.Type.asArrayType() [LazyType.java <69:22 69:32>]
+REFERENCE_TYPE_USAGE com.github.javaparser.symbolsolver.model.typesystem.ArrayType com.github.javaparser.symbolsolver.model.typesystem.LazyType.asArrayType() -> com.github.javaparser.symbolsolver.model.typesystem.ArrayType [LazyType.java <69:12 69:20>]
+LOCAL_SYMBOL: LazyType.java<69:36> [LazyType.java <69:36 69:36>]
+LOCAL_SYMBOL: LazyType.java<69:36> [LazyType.java <71:5 71:5>]
+SYMBOL_METHOD com.github.javaparser.symbolsolver.model.typesystem.ArrayType com.github.javaparser.symbolsolver.model.typesystem.Type.asArrayType()
+REFERENCE_CALL com.github.javaparser.symbolsolver.model.typesystem.ArrayType com.github.javaparser.symbolsolver.model.typesystem.LazyType.asArrayType() -> com.github.javaparser.symbolsolver.model.typesystem.ArrayType com.github.javaparser.symbolsolver.model.typesystem.Type.asArrayType() [LazyType.java <70:26 70:36>]
+SYMBOL_METHOD com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.model.typesystem.LazyType.getType()
+REFERENCE_CALL com.github.javaparser.symbolsolver.model.typesystem.ArrayType com.github.javaparser.symbolsolver.model.typesystem.LazyType.asArrayType() -> com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.model.typesystem.LazyType.getType() [LazyType.java <70:16 70:22>]
+SYMBOL_METHOD public com.github.javaparser.symbolsolver.model.typesystem.ReferenceType com.github.javaparser.symbolsolver.model.typesystem.LazyType.asReferenceType() [LazyType.java <73:5 <74:26 74:40> 76:5>]
+SYMBOL_METHOD com.github.javaparser.symbolsolver.model.typesystem.ReferenceType com.github.javaparser.symbolsolver.model.typesystem.Type.asReferenceType()
+REFERENCE_OVERRIDE com.github.javaparser.symbolsolver.model.typesystem.ReferenceType com.github.javaparser.symbolsolver.model.typesystem.LazyType.asReferenceType() -> com.github.javaparser.symbolsolver.model.typesystem.ReferenceType com.github.javaparser.symbolsolver.model.typesystem.Type.asReferenceType() [LazyType.java <74:26 74:40>]
+REFERENCE_TYPE_USAGE com.github.javaparser.symbolsolver.model.typesystem.ReferenceType com.github.javaparser.symbolsolver.model.typesystem.LazyType.asReferenceType() -> com.github.javaparser.symbolsolver.model.typesystem.ReferenceType [LazyType.java <74:12 74:24>]
+LOCAL_SYMBOL: LazyType.java<74:44> [LazyType.java <74:44 74:44>]
+LOCAL_SYMBOL: LazyType.java<74:44> [LazyType.java <76:5 76:5>]
+SYMBOL_METHOD com.github.javaparser.symbolsolver.model.typesystem.ReferenceType com.github.javaparser.symbolsolver.model.typesystem.Type.asReferenceType()
+REFERENCE_CALL com.github.javaparser.symbolsolver.model.typesystem.ReferenceType com.github.javaparser.symbolsolver.model.typesystem.LazyType.asReferenceType() -> com.github.javaparser.symbolsolver.model.typesystem.ReferenceType com.github.javaparser.symbolsolver.model.typesystem.Type.asReferenceType() [LazyType.java <75:26 75:40>]
+SYMBOL_METHOD com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.model.typesystem.LazyType.getType()
+REFERENCE_CALL com.github.javaparser.symbolsolver.model.typesystem.ReferenceType com.github.javaparser.symbolsolver.model.typesystem.LazyType.asReferenceType() -> com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.model.typesystem.LazyType.getType() [LazyType.java <75:16 75:22>]
+SYMBOL_METHOD public com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration com.github.javaparser.symbolsolver.model.typesystem.LazyType.asTypeParameter() [LazyType.java <78:5 <79:37 79:51> 81:5>]
+SYMBOL_METHOD com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration com.github.javaparser.symbolsolver.model.typesystem.Type.asTypeParameter()
+REFERENCE_OVERRIDE com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration com.github.javaparser.symbolsolver.model.typesystem.LazyType.asTypeParameter() -> com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration com.github.javaparser.symbolsolver.model.typesystem.Type.asTypeParameter() [LazyType.java <79:37 79:51>]
+REFERENCE_TYPE_USAGE com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration com.github.javaparser.symbolsolver.model.typesystem.LazyType.asTypeParameter() -> com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration [LazyType.java <79:12 79:35>]
+LOCAL_SYMBOL: LazyType.java<79:55> [LazyType.java <79:55 79:55>]
+LOCAL_SYMBOL: LazyType.java<79:55> [LazyType.java <81:5 81:5>]
+SYMBOL_METHOD com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration com.github.javaparser.symbolsolver.model.typesystem.Type.asTypeParameter()
+REFERENCE_CALL com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration com.github.javaparser.symbolsolver.model.typesystem.LazyType.asTypeParameter() -> com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration com.github.javaparser.symbolsolver.model.typesystem.Type.asTypeParameter() [LazyType.java <80:26 80:40>]
+SYMBOL_METHOD com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.model.typesystem.LazyType.getType()
+REFERENCE_CALL com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration com.github.javaparser.symbolsolver.model.typesystem.LazyType.asTypeParameter() -> com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.model.typesystem.LazyType.getType() [LazyType.java <80:16 80:22>]
+SYMBOL_METHOD public com.github.javaparser.symbolsolver.model.typesystem.TypeVariable com.github.javaparser.symbolsolver.model.typesystem.LazyType.asTypeVariable() [LazyType.java <83:5 <84:25 84:38> 86:5>]
+SYMBOL_METHOD com.github.javaparser.symbolsolver.model.typesystem.TypeVariable com.github.javaparser.symbolsolver.model.typesystem.Type.asTypeVariable()
+REFERENCE_OVERRIDE com.github.javaparser.symbolsolver.model.typesystem.TypeVariable com.github.javaparser.symbolsolver.model.typesystem.LazyType.asTypeVariable() -> com.github.javaparser.symbolsolver.model.typesystem.TypeVariable com.github.javaparser.symbolsolver.model.typesystem.Type.asTypeVariable() [LazyType.java <84:25 84:38>]
+REFERENCE_TYPE_USAGE com.github.javaparser.symbolsolver.model.typesystem.TypeVariable com.github.javaparser.symbolsolver.model.typesystem.LazyType.asTypeVariable() -> com.github.javaparser.symbolsolver.model.typesystem.TypeVariable [LazyType.java <84:12 84:23>]
+LOCAL_SYMBOL: LazyType.java<84:42> [LazyType.java <84:42 84:42>]
+LOCAL_SYMBOL: LazyType.java<84:42> [LazyType.java <86:5 86:5>]
+SYMBOL_METHOD com.github.javaparser.symbolsolver.model.typesystem.TypeVariable com.github.javaparser.symbolsolver.model.typesystem.Type.asTypeVariable()
+REFERENCE_CALL com.github.javaparser.symbolsolver.model.typesystem.TypeVariable com.github.javaparser.symbolsolver.model.typesystem.LazyType.asTypeVariable() -> com.github.javaparser.symbolsolver.model.typesystem.TypeVariable com.github.javaparser.symbolsolver.model.typesystem.Type.asTypeVariable() [LazyType.java <85:26 85:39>]
+SYMBOL_METHOD com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.model.typesystem.LazyType.getType()
+REFERENCE_CALL com.github.javaparser.symbolsolver.model.typesystem.TypeVariable com.github.javaparser.symbolsolver.model.typesystem.LazyType.asTypeVariable() -> com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.model.typesystem.LazyType.getType() [LazyType.java <85:16 85:22>]
+SYMBOL_METHOD public com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType com.github.javaparser.symbolsolver.model.typesystem.LazyType.asPrimitive() [LazyType.java <88:5 <89:26 89:36> 91:5>]
+SYMBOL_METHOD com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType com.github.javaparser.symbolsolver.model.typesystem.Type.asPrimitive()
+REFERENCE_OVERRIDE com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType com.github.javaparser.symbolsolver.model.typesystem.LazyType.asPrimitive() -> com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType com.github.javaparser.symbolsolver.model.typesystem.Type.asPrimitive() [LazyType.java <89:26 89:36>]
+REFERENCE_TYPE_USAGE com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType com.github.javaparser.symbolsolver.model.typesystem.LazyType.asPrimitive() -> com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType [LazyType.java <89:12 89:24>]
+LOCAL_SYMBOL: LazyType.java<89:40> [LazyType.java <89:40 89:40>]
+LOCAL_SYMBOL: LazyType.java<89:40> [LazyType.java <91:5 91:5>]
+SYMBOL_METHOD com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType com.github.javaparser.symbolsolver.model.typesystem.Type.asPrimitive()
+REFERENCE_CALL com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType com.github.javaparser.symbolsolver.model.typesystem.LazyType.asPrimitive() -> com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType com.github.javaparser.symbolsolver.model.typesystem.Type.asPrimitive() [LazyType.java <90:26 90:36>]
+SYMBOL_METHOD com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.model.typesystem.LazyType.getType()
+REFERENCE_CALL com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType com.github.javaparser.symbolsolver.model.typesystem.LazyType.asPrimitive() -> com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.model.typesystem.LazyType.getType() [LazyType.java <90:16 90:22>]
+SYMBOL_METHOD public com.github.javaparser.symbolsolver.model.typesystem.Wildcard com.github.javaparser.symbolsolver.model.typesystem.LazyType.asWildcard() [LazyType.java <93:5 <94:21 94:30> 96:5>]
+SYMBOL_METHOD com.github.javaparser.symbolsolver.model.typesystem.Wildcard com.github.javaparser.symbolsolver.model.typesystem.Type.asWildcard()
+REFERENCE_OVERRIDE com.github.javaparser.symbolsolver.model.typesystem.Wildcard com.github.javaparser.symbolsolver.model.typesystem.LazyType.asWildcard() -> com.github.javaparser.symbolsolver.model.typesystem.Wildcard com.github.javaparser.symbolsolver.model.typesystem.Type.asWildcard() [LazyType.java <94:21 94:30>]
+REFERENCE_TYPE_USAGE com.github.javaparser.symbolsolver.model.typesystem.Wildcard com.github.javaparser.symbolsolver.model.typesystem.LazyType.asWildcard() -> com.github.javaparser.symbolsolver.model.typesystem.Wildcard [LazyType.java <94:12 94:19>]
+LOCAL_SYMBOL: LazyType.java<94:34> [LazyType.java <94:34 94:34>]
+LOCAL_SYMBOL: LazyType.java<94:34> [LazyType.java <96:5 96:5>]
+SYMBOL_METHOD com.github.javaparser.symbolsolver.model.typesystem.Wildcard com.github.javaparser.symbolsolver.model.typesystem.Type.asWildcard()
+REFERENCE_CALL com.github.javaparser.symbolsolver.model.typesystem.Wildcard com.github.javaparser.symbolsolver.model.typesystem.LazyType.asWildcard() -> com.github.javaparser.symbolsolver.model.typesystem.Wildcard com.github.javaparser.symbolsolver.model.typesystem.Type.asWildcard() [LazyType.java <95:26 95:35>]
+SYMBOL_METHOD com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.model.typesystem.LazyType.getType()
+REFERENCE_CALL com.github.javaparser.symbolsolver.model.typesystem.Wildcard com.github.javaparser.symbolsolver.model.typesystem.LazyType.asWildcard() -> com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.model.typesystem.LazyType.getType() [LazyType.java <95:16 95:22>]
+SYMBOL_METHOD public java.lang.String com.github.javaparser.symbolsolver.model.typesystem.LazyType.describe() [LazyType.java <98:5 <99:19 99:26> 101:5>]
+SYMBOL_METHOD java.lang.String com.github.javaparser.symbolsolver.model.typesystem.Type.describe()
+REFERENCE_OVERRIDE java.lang.String com.github.javaparser.symbolsolver.model.typesystem.LazyType.describe() -> java.lang.String com.github.javaparser.symbolsolver.model.typesystem.Type.describe() [LazyType.java <99:19 99:26>]
+REFERENCE_TYPE_USAGE java.lang.String com.github.javaparser.symbolsolver.model.typesystem.LazyType.describe() -> java.lang.String [LazyType.java <99:12 99:17>]
+LOCAL_SYMBOL: LazyType.java<99:30> [LazyType.java <99:30 99:30>]
+LOCAL_SYMBOL: LazyType.java<99:30> [LazyType.java <101:5 101:5>]
+SYMBOL_METHOD java.lang.String com.github.javaparser.symbolsolver.model.typesystem.Type.describe()
+REFERENCE_CALL java.lang.String com.github.javaparser.symbolsolver.model.typesystem.LazyType.describe() -> java.lang.String com.github.javaparser.symbolsolver.model.typesystem.Type.describe() [LazyType.java <100:26 100:33>]
+SYMBOL_METHOD com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.model.typesystem.LazyType.getType()
+REFERENCE_CALL java.lang.String com.github.javaparser.symbolsolver.model.typesystem.LazyType.describe() -> com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.model.typesystem.LazyType.getType() [LazyType.java <100:16 100:22>]
+SYMBOL_METHOD public com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.model.typesystem.LazyType.replaceTypeVariables(com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration, com.github.javaparser.symbolsolver.model.typesystem.Type, java.util.Map<com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration, com.github.javaparser.symbolsolver.model.typesystem.Type>) [LazyType.java <103:5 <104:17 104:36> 106:5>]
+SYMBOL_METHOD com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.model.typesystem.Type.replaceTypeVariables(com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration, com.github.javaparser.symbolsolver.model.typesystem.Type, java.util.Map<com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration, com.github.javaparser.symbolsolver.model.typesystem.Type>)
+REFERENCE_OVERRIDE com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.model.typesystem.LazyType.replaceTypeVariables(com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration, com.github.javaparser.symbolsolver.model.typesystem.Type, java.util.Map<com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration, com.github.javaparser.symbolsolver.model.typesystem.Type>) -> com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.model.typesystem.Type.replaceTypeVariables(com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration, com.github.javaparser.symbolsolver.model.typesystem.Type, java.util.Map<com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration, com.github.javaparser.symbolsolver.model.typesystem.Type>) [LazyType.java <104:17 104:36>]
+REFERENCE_TYPE_USAGE com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.model.typesystem.LazyType.replaceTypeVariables(com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration, com.github.javaparser.symbolsolver.model.typesystem.Type, java.util.Map<com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration, com.github.javaparser.symbolsolver.model.typesystem.Type>) -> com.github.javaparser.symbolsolver.model.typesystem.Type [LazyType.java <104:12 104:15>]
+REFERENCE_TYPE_USAGE com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.model.typesystem.LazyType.replaceTypeVariables(com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration, com.github.javaparser.symbolsolver.model.typesystem.Type, java.util.Map<com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration, com.github.javaparser.symbolsolver.model.typesystem.Type>) -> com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration [LazyType.java <104:38 104:61>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.model.typesystem.LazyType.replaceTypeVariables<0> [LazyType.java <104:63 104:64>]
+REFERENCE_TYPE_USAGE com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.model.typesystem.LazyType.replaceTypeVariables(com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration, com.github.javaparser.symbolsolver.model.typesystem.Type, java.util.Map<com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration, com.github.javaparser.symbolsolver.model.typesystem.Type>) -> com.github.javaparser.symbolsolver.model.typesystem.Type [LazyType.java <104:67 104:70>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.model.typesystem.LazyType.replaceTypeVariables<1> [LazyType.java <104:72 104:79>]
+REFERENCE_TYPE_USAGE com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.model.typesystem.LazyType.replaceTypeVariables(com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration, com.github.javaparser.symbolsolver.model.typesystem.Type, java.util.Map<com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration, com.github.javaparser.symbolsolver.model.typesystem.Type>) -> java.util.Map<K, V> [LazyType.java <104:82 104:84>]
+REFERENCE_TYPE_ARGUMENT com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.model.typesystem.LazyType.replaceTypeVariables(com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration, com.github.javaparser.symbolsolver.model.typesystem.Type, java.util.Map<com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration, com.github.javaparser.symbolsolver.model.typesystem.Type>) -> com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration [LazyType.java <104:86 104:109>]
+REFERENCE_TYPE_ARGUMENT com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.model.typesystem.LazyType.replaceTypeVariables(com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration, com.github.javaparser.symbolsolver.model.typesystem.Type, java.util.Map<com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration, com.github.javaparser.symbolsolver.model.typesystem.Type>) -> com.github.javaparser.symbolsolver.model.typesystem.Type [LazyType.java <104:112 104:115>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.model.typesystem.LazyType.replaceTypeVariables<2> [LazyType.java <104:118 104:130>]
+LOCAL_SYMBOL: LazyType.java<104:133> [LazyType.java <104:133 104:133>]
+LOCAL_SYMBOL: LazyType.java<104:133> [LazyType.java <106:5 106:5>]
+SYMBOL_METHOD com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.model.typesystem.Type.replaceTypeVariables(com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration, com.github.javaparser.symbolsolver.model.typesystem.Type, java.util.Map<com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration, com.github.javaparser.symbolsolver.model.typesystem.Type>)
+REFERENCE_CALL com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.model.typesystem.LazyType.replaceTypeVariables(com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration, com.github.javaparser.symbolsolver.model.typesystem.Type, java.util.Map<com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration, com.github.javaparser.symbolsolver.model.typesystem.Type>) -> com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.model.typesystem.Type.replaceTypeVariables(com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration, com.github.javaparser.symbolsolver.model.typesystem.Type, java.util.Map<com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration, com.github.javaparser.symbolsolver.model.typesystem.Type>) [LazyType.java <105:26 105:45>]
+SYMBOL_METHOD com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.model.typesystem.LazyType.getType()
+REFERENCE_CALL com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.model.typesystem.LazyType.replaceTypeVariables(com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration, com.github.javaparser.symbolsolver.model.typesystem.Type, java.util.Map<com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration, com.github.javaparser.symbolsolver.model.typesystem.Type>) -> com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.model.typesystem.LazyType.getType() [LazyType.java <105:16 105:22>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.model.typesystem.LazyType.replaceTypeVariables<0> [LazyType.java <105:47 105:48>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.model.typesystem.LazyType.replaceTypeVariables<1> [LazyType.java <105:51 105:58>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.model.typesystem.LazyType.replaceTypeVariables<2> [LazyType.java <105:61 105:73>]
+SYMBOL_METHOD public com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.model.typesystem.LazyType.replaceTypeVariables(com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration, com.github.javaparser.symbolsolver.model.typesystem.Type) [LazyType.java <108:5 <109:17 109:36> 111:5>]
+SYMBOL_METHOD com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.model.typesystem.Type.replaceTypeVariables(com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration, com.github.javaparser.symbolsolver.model.typesystem.Type)
+REFERENCE_OVERRIDE com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.model.typesystem.LazyType.replaceTypeVariables(com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration, com.github.javaparser.symbolsolver.model.typesystem.Type) -> com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.model.typesystem.Type.replaceTypeVariables(com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration, com.github.javaparser.symbolsolver.model.typesystem.Type) [LazyType.java <109:17 109:36>]
+REFERENCE_TYPE_USAGE com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.model.typesystem.LazyType.replaceTypeVariables(com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration, com.github.javaparser.symbolsolver.model.typesystem.Type) -> com.github.javaparser.symbolsolver.model.typesystem.Type [LazyType.java <109:12 109:15>]
+REFERENCE_TYPE_USAGE com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.model.typesystem.LazyType.replaceTypeVariables(com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration, com.github.javaparser.symbolsolver.model.typesystem.Type) -> com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration [LazyType.java <109:38 109:61>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.model.typesystem.LazyType.replaceTypeVariables<0> [LazyType.java <109:63 109:64>]
+REFERENCE_TYPE_USAGE com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.model.typesystem.LazyType.replaceTypeVariables(com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration, com.github.javaparser.symbolsolver.model.typesystem.Type) -> com.github.javaparser.symbolsolver.model.typesystem.Type [LazyType.java <109:67 109:70>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.model.typesystem.LazyType.replaceTypeVariables<1> [LazyType.java <109:72 109:79>]
+LOCAL_SYMBOL: LazyType.java<109:82> [LazyType.java <109:82 109:82>]
+LOCAL_SYMBOL: LazyType.java<109:82> [LazyType.java <111:5 111:5>]
+SYMBOL_METHOD com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.model.typesystem.Type.replaceTypeVariables(com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration, com.github.javaparser.symbolsolver.model.typesystem.Type)
+REFERENCE_CALL com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.model.typesystem.LazyType.replaceTypeVariables(com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration, com.github.javaparser.symbolsolver.model.typesystem.Type) -> com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.model.typesystem.Type.replaceTypeVariables(com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration, com.github.javaparser.symbolsolver.model.typesystem.Type) [LazyType.java <110:26 110:45>]
+SYMBOL_METHOD com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.model.typesystem.LazyType.getType()
+REFERENCE_CALL com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.model.typesystem.LazyType.replaceTypeVariables(com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration, com.github.javaparser.symbolsolver.model.typesystem.Type) -> com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.model.typesystem.LazyType.getType() [LazyType.java <110:16 110:22>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.model.typesystem.LazyType.replaceTypeVariables<0> [LazyType.java <110:47 110:48>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.model.typesystem.LazyType.replaceTypeVariables<1> [LazyType.java <110:51 110:58>]
+SYMBOL_METHOD public boolean com.github.javaparser.symbolsolver.model.typesystem.LazyType.isAssignableBy(com.github.javaparser.symbolsolver.model.typesystem.Type) [LazyType.java <113:5 <114:20 114:33> 116:5>]
+SYMBOL_METHOD boolean com.github.javaparser.symbolsolver.model.typesystem.Type.isAssignableBy(com.github.javaparser.symbolsolver.model.typesystem.Type)
+REFERENCE_OVERRIDE boolean com.github.javaparser.symbolsolver.model.typesystem.LazyType.isAssignableBy(com.github.javaparser.symbolsolver.model.typesystem.Type) -> boolean com.github.javaparser.symbolsolver.model.typesystem.Type.isAssignableBy(com.github.javaparser.symbolsolver.model.typesystem.Type) [LazyType.java <114:20 114:33>]
+SYMBOL_BUILTIN_TYPE boolean
+REFERENCE_TYPE_USAGE boolean com.github.javaparser.symbolsolver.model.typesystem.LazyType.isAssignableBy(com.github.javaparser.symbolsolver.model.typesystem.Type) -> boolean [LazyType.java <114:12 114:18>]
+REFERENCE_TYPE_USAGE boolean com.github.javaparser.symbolsolver.model.typesystem.LazyType.isAssignableBy(com.github.javaparser.symbolsolver.model.typesystem.Type) -> com.github.javaparser.symbolsolver.model.typesystem.Type [LazyType.java <114:35 114:38>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.model.typesystem.LazyType.isAssignableBy<0> [LazyType.java <114:40 114:44>]
+LOCAL_SYMBOL: LazyType.java<114:47> [LazyType.java <114:47 114:47>]
+LOCAL_SYMBOL: LazyType.java<114:47> [LazyType.java <116:5 116:5>]
+SYMBOL_METHOD boolean com.github.javaparser.symbolsolver.model.typesystem.Type.isAssignableBy(com.github.javaparser.symbolsolver.model.typesystem.Type)
+REFERENCE_CALL boolean com.github.javaparser.symbolsolver.model.typesystem.LazyType.isAssignableBy(com.github.javaparser.symbolsolver.model.typesystem.Type) -> boolean com.github.javaparser.symbolsolver.model.typesystem.Type.isAssignableBy(com.github.javaparser.symbolsolver.model.typesystem.Type) [LazyType.java <115:26 115:39>]
+SYMBOL_METHOD com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.model.typesystem.LazyType.getType()
+REFERENCE_CALL boolean com.github.javaparser.symbolsolver.model.typesystem.LazyType.isAssignableBy(com.github.javaparser.symbolsolver.model.typesystem.Type) -> com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.model.typesystem.LazyType.getType() [LazyType.java <115:16 115:22>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.model.typesystem.LazyType.isAssignableBy<0> [LazyType.java <115:41 115:45>]

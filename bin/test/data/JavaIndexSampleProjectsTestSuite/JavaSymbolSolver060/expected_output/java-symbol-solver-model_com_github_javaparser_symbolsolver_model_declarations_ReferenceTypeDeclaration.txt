@@ -1,0 +1,443 @@
+FILE: ReferenceTypeDeclaration.java
+SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model.declarations [ReferenceTypeDeclaration.java <1:9 1:61>]
+SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model
+SYMBOL_PACKAGE com.github.javaparser.symbolsolver
+SYMBOL_PACKAGE com.github.javaparser
+SYMBOL_PACKAGE com.github
+SYMBOL_PACKAGE com
+REFERENCE_IMPORT ReferenceTypeDeclaration.java -> com.github.javaparser.symbolsolver.model.methods.MethodUsage [ReferenceTypeDeclaration.java <3:8 3:67>]
+SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model.methods
+REFERENCE_IMPORT ReferenceTypeDeclaration.java -> com.github.javaparser.symbolsolver.model.resolution.UnsolvedSymbolException [ReferenceTypeDeclaration.java <4:8 4:82>]
+SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model.resolution
+REFERENCE_IMPORT ReferenceTypeDeclaration.java -> com.github.javaparser.symbolsolver.model.typesystem.ReferenceType [ReferenceTypeDeclaration.java <5:8 5:72>]
+SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model.typesystem
+REFERENCE_IMPORT ReferenceTypeDeclaration.java -> com.github.javaparser.symbolsolver.model.typesystem.Type [ReferenceTypeDeclaration.java <6:8 6:63>]
+SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model.typesystem
+REFERENCE_IMPORT ReferenceTypeDeclaration.java -> java.util.ArrayList<E> [ReferenceTypeDeclaration.java <8:8 8:26>]
+SYMBOL_PACKAGE java.util
+REFERENCE_IMPORT ReferenceTypeDeclaration.java -> java.util.List<E> [ReferenceTypeDeclaration.java <9:8 9:21>]
+SYMBOL_PACKAGE java.util
+REFERENCE_IMPORT ReferenceTypeDeclaration.java -> java.util.Optional<T> [ReferenceTypeDeclaration.java <10:8 10:25>]
+SYMBOL_PACKAGE java.util
+REFERENCE_IMPORT ReferenceTypeDeclaration.java -> java.util.Set<E> [ReferenceTypeDeclaration.java <11:8 11:20>]
+SYMBOL_PACKAGE java.util
+REFERENCE_IMPORT ReferenceTypeDeclaration.java -> java.util.stream.Collectors [ReferenceTypeDeclaration.java <12:8 12:34>]
+SYMBOL_PACKAGE java.util.stream
+SYMBOL_INTERFACE public com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration [ReferenceTypeDeclaration.java <17:1 <17:18 17:41> 225:1>]
+LOCAL_SYMBOL: ReferenceTypeDeclaration.java<17:87> [ReferenceTypeDeclaration.java <17:87 17:87>]
+LOCAL_SYMBOL: ReferenceTypeDeclaration.java<17:87> [ReferenceTypeDeclaration.java <225:1 225:1>]
+COMMENT: comment [ReferenceTypeDeclaration.java <14:1 16:3>]
+REFERENCE_INHERITANCE com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration -> com.github.javaparser.symbolsolver.model.declarations.TypeDeclaration [ReferenceTypeDeclaration.java <17:51 17:65>]
+REFERENCE_INHERITANCE com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration -> com.github.javaparser.symbolsolver.model.declarations.TypeParametrizable [ReferenceTypeDeclaration.java <17:68 17:85>]
+SYMBOL_METHOD default com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration.asReferenceType() [ReferenceTypeDeclaration.java <19:5 <20:38 20:52> 22:5>]
+SYMBOL_METHOD com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration com.github.javaparser.symbolsolver.model.declarations.TypeDeclaration.asReferenceType()
+REFERENCE_OVERRIDE com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration.asReferenceType() -> com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration com.github.javaparser.symbolsolver.model.declarations.TypeDeclaration.asReferenceType() [ReferenceTypeDeclaration.java <20:38 20:52>]
+REFERENCE_TYPE_USAGE com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration.asReferenceType() -> com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration [ReferenceTypeDeclaration.java <20:13 20:36>]
+LOCAL_SYMBOL: ReferenceTypeDeclaration.java<20:56> [ReferenceTypeDeclaration.java <20:56 20:56>]
+LOCAL_SYMBOL: ReferenceTypeDeclaration.java<20:56> [ReferenceTypeDeclaration.java <22:5 22:5>]
+SYMBOL_METHOD default java.util.List<com.github.javaparser.symbolsolver.model.typesystem.ReferenceType> com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration.getAncestors() [ReferenceTypeDeclaration.java <36:1 <36:25 36:36> 36:39>]
+COMMENT: comment [ReferenceTypeDeclaration.java <28:5 35:7>]
+REFERENCE_TYPE_USAGE java.util.List<com.github.javaparser.symbolsolver.model.typesystem.ReferenceType> com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration.getAncestors() -> java.util.List<E> [ReferenceTypeDeclaration.java <36:5 36:8>]
+REFERENCE_TYPE_ARGUMENT java.util.List<com.github.javaparser.symbolsolver.model.typesystem.ReferenceType> com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration.getAncestors() -> com.github.javaparser.symbolsolver.model.typesystem.ReferenceType [ReferenceTypeDeclaration.java <36:10 36:22>]
+SYMBOL_METHOD default java.util.List<com.github.javaparser.symbolsolver.model.typesystem.ReferenceType> com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration.getAllAncestors() [ReferenceTypeDeclaration.java <42:1 <42:33 42:47> 56:5>]
+COMMENT: comment [ReferenceTypeDeclaration.java <38:5 41:7>]
+REFERENCE_TYPE_USAGE java.util.List<com.github.javaparser.symbolsolver.model.typesystem.ReferenceType> com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration.getAllAncestors() -> java.util.List<E> [ReferenceTypeDeclaration.java <42:13 42:16>]
+REFERENCE_TYPE_ARGUMENT java.util.List<com.github.javaparser.symbolsolver.model.typesystem.ReferenceType> com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration.getAllAncestors() -> com.github.javaparser.symbolsolver.model.typesystem.ReferenceType [ReferenceTypeDeclaration.java <42:18 42:30>]
+LOCAL_SYMBOL: ReferenceTypeDeclaration.java<42:51> [ReferenceTypeDeclaration.java <42:51 42:51>]
+LOCAL_SYMBOL: ReferenceTypeDeclaration.java<42:51> [ReferenceTypeDeclaration.java <56:5 56:5>]
+REFERENCE_TYPE_USAGE java.util.List<com.github.javaparser.symbolsolver.model.typesystem.ReferenceType> com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration.getAllAncestors() -> java.util.List<E> [ReferenceTypeDeclaration.java <43:9 43:12>]
+REFERENCE_TYPE_ARGUMENT java.util.List<com.github.javaparser.symbolsolver.model.typesystem.ReferenceType> com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration.getAllAncestors() -> com.github.javaparser.symbolsolver.model.typesystem.ReferenceType [ReferenceTypeDeclaration.java <43:14 43:26>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration.getAllAncestors<0> [ReferenceTypeDeclaration.java <43:29 43:37>]
+SYMBOL_METHOD java.util.ArrayList<E>.ArrayList()
+REFERENCE_CALL java.util.List<com.github.javaparser.symbolsolver.model.typesystem.ReferenceType> com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration.getAllAncestors() -> java.util.ArrayList<E>.ArrayList() [ReferenceTypeDeclaration.java <43:45 43:55>]
+REFERENCE_TYPE_USAGE java.util.List<com.github.javaparser.symbolsolver.model.typesystem.ReferenceType> com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration.getAllAncestors() -> java.util.ArrayList<E> [ReferenceTypeDeclaration.java <43:45 43:53>]
+SYMBOL_METHOD boolean java.lang.String.equals(java.lang.Object)
+REFERENCE_CALL java.util.List<com.github.javaparser.symbolsolver.model.typesystem.ReferenceType> com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration.getAllAncestors() -> boolean java.lang.String.equals(java.lang.Object) [ReferenceTypeDeclaration.java <45:47 45:52>]
+SYMBOL_METHOD java.lang.String java.lang.Class<T>.getCanonicalName()
+REFERENCE_CALL java.util.List<com.github.javaparser.symbolsolver.model.typesystem.ReferenceType> com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration.getAllAncestors() -> java.lang.String java.lang.Class<T>.getCanonicalName() [ReferenceTypeDeclaration.java <45:28 45:43>]
+REFERENCE_TYPE_USAGE java.util.List<com.github.javaparser.symbolsolver.model.typesystem.ReferenceType> com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration.getAllAncestors() -> java.lang.Object [ReferenceTypeDeclaration.java <45:15 45:20>]
+SYMBOL_METHOD java.lang.String com.github.javaparser.symbolsolver.model.declarations.TypeDeclaration.getQualifiedName()
+REFERENCE_CALL java.util.List<com.github.javaparser.symbolsolver.model.typesystem.ReferenceType> com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration.getAllAncestors() -> java.lang.String com.github.javaparser.symbolsolver.model.declarations.TypeDeclaration.getQualifiedName() [ReferenceTypeDeclaration.java <45:54 45:69>]
+LOCAL_SYMBOL: ReferenceTypeDeclaration.java<45:76> [ReferenceTypeDeclaration.java <45:76 45:76>]
+LOCAL_SYMBOL: ReferenceTypeDeclaration.java<45:76> [ReferenceTypeDeclaration.java <54:9 54:9>]
+REFERENCE_TYPE_USAGE java.util.List<com.github.javaparser.symbolsolver.model.typesystem.ReferenceType> com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration.getAllAncestors() -> com.github.javaparser.symbolsolver.model.typesystem.ReferenceType [ReferenceTypeDeclaration.java <46:18 46:30>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration.getAllAncestors<1> [ReferenceTypeDeclaration.java <46:32 46:39>]
+SYMBOL_METHOD java.util.List<com.github.javaparser.symbolsolver.model.typesystem.ReferenceType> com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration.getAncestors()
+REFERENCE_CALL java.util.List<com.github.javaparser.symbolsolver.model.typesystem.ReferenceType> com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration.getAllAncestors() -> java.util.List<com.github.javaparser.symbolsolver.model.typesystem.ReferenceType> com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration.getAncestors() [ReferenceTypeDeclaration.java <46:43 46:54>]
+LOCAL_SYMBOL: ReferenceTypeDeclaration.java<46:59> [ReferenceTypeDeclaration.java <46:59 46:59>]
+LOCAL_SYMBOL: ReferenceTypeDeclaration.java<46:59> [ReferenceTypeDeclaration.java <53:13 53:13>]
+SYMBOL_METHOD boolean java.util.List<E>.add(java.util.List<E>.E)
+REFERENCE_CALL java.util.List<com.github.javaparser.symbolsolver.model.typesystem.ReferenceType> com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration.getAllAncestors() -> boolean java.util.List<E>.add(java.util.List<E>.E) [ReferenceTypeDeclaration.java <47:27 47:29>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration.getAllAncestors<0> [ReferenceTypeDeclaration.java <47:17 47:25>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration.getAllAncestors<1> [ReferenceTypeDeclaration.java <47:31 47:38>]
+REFERENCE_TYPE_USAGE java.util.List<com.github.javaparser.symbolsolver.model.typesystem.ReferenceType> com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration.getAllAncestors() -> com.github.javaparser.symbolsolver.model.typesystem.ReferenceType [ReferenceTypeDeclaration.java <48:22 48:34>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration.getAllAncestors<3> [ReferenceTypeDeclaration.java <48:36 48:52>]
+SYMBOL_METHOD java.util.List<com.github.javaparser.symbolsolver.model.typesystem.ReferenceType> com.github.javaparser.symbolsolver.model.typesystem.ReferenceType.getAllAncestors()
+REFERENCE_CALL java.util.List<com.github.javaparser.symbolsolver.model.typesystem.ReferenceType> com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration.getAllAncestors() -> java.util.List<com.github.javaparser.symbolsolver.model.typesystem.ReferenceType> com.github.javaparser.symbolsolver.model.typesystem.ReferenceType.getAllAncestors() [ReferenceTypeDeclaration.java <48:65 48:79>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration.getAllAncestors<1> [ReferenceTypeDeclaration.java <48:56 48:63>]
+LOCAL_SYMBOL: ReferenceTypeDeclaration.java<48:84> [ReferenceTypeDeclaration.java <48:84 48:84>]
+LOCAL_SYMBOL: ReferenceTypeDeclaration.java<48:84> [ReferenceTypeDeclaration.java <52:17 52:17>]
+SYMBOL_METHOD boolean java.util.List<E>.contains(java.lang.Object)
+REFERENCE_CALL java.util.List<com.github.javaparser.symbolsolver.model.typesystem.ReferenceType> com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration.getAllAncestors() -> boolean java.util.List<E>.contains(java.lang.Object) [ReferenceTypeDeclaration.java <49:36 49:43>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration.getAllAncestors<0> [ReferenceTypeDeclaration.java <49:26 49:34>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration.getAllAncestors<3> [ReferenceTypeDeclaration.java <49:45 49:61>]
+LOCAL_SYMBOL: ReferenceTypeDeclaration.java<49:65> [ReferenceTypeDeclaration.java <49:65 49:65>]
+LOCAL_SYMBOL: ReferenceTypeDeclaration.java<49:65> [ReferenceTypeDeclaration.java <51:21 51:21>]
+SYMBOL_METHOD boolean java.util.List<E>.add(java.util.List<E>.E)
+REFERENCE_CALL java.util.List<com.github.javaparser.symbolsolver.model.typesystem.ReferenceType> com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration.getAllAncestors() -> boolean java.util.List<E>.add(java.util.List<E>.E) [ReferenceTypeDeclaration.java <50:35 50:37>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration.getAllAncestors<0> [ReferenceTypeDeclaration.java <50:25 50:33>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration.getAllAncestors<3> [ReferenceTypeDeclaration.java <50:39 50:55>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration.getAllAncestors<0> [ReferenceTypeDeclaration.java <55:16 55:24>]
+SYMBOL_METHOD default com.github.javaparser.symbolsolver.model.declarations.FieldDeclaration com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration.getField(java.lang.String) [ReferenceTypeDeclaration.java <73:1 <73:30 73:37> 80:5>]
+COMMENT: comment [ReferenceTypeDeclaration.java <62:5 72:7>]
+REFERENCE_TYPE_USAGE com.github.javaparser.symbolsolver.model.declarations.FieldDeclaration com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration.getField(java.lang.String) -> com.github.javaparser.symbolsolver.model.declarations.FieldDeclaration [ReferenceTypeDeclaration.java <73:13 73:28>]
+REFERENCE_TYPE_USAGE com.github.javaparser.symbolsolver.model.declarations.FieldDeclaration com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration.getField(java.lang.String) -> java.lang.String [ReferenceTypeDeclaration.java <73:39 73:44>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration.getField<0> [ReferenceTypeDeclaration.java <73:46 73:49>]
+LOCAL_SYMBOL: ReferenceTypeDeclaration.java<73:52> [ReferenceTypeDeclaration.java <73:52 73:52>]
+LOCAL_SYMBOL: ReferenceTypeDeclaration.java<73:52> [ReferenceTypeDeclaration.java <80:5 80:5>]
+REFERENCE_TYPE_USAGE com.github.javaparser.symbolsolver.model.declarations.FieldDeclaration com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration.getField(java.lang.String) -> java.util.Optional<T> [ReferenceTypeDeclaration.java <74:9 74:16>]
+REFERENCE_TYPE_ARGUMENT com.github.javaparser.symbolsolver.model.declarations.FieldDeclaration com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration.getField(java.lang.String) -> com.github.javaparser.symbolsolver.model.declarations.FieldDeclaration [ReferenceTypeDeclaration.java <74:18 74:33>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration.getField<1> [ReferenceTypeDeclaration.java <74:36 74:40>]
+SYMBOL_METHOD java.util.Optional<java.util.stream.Stream<T>.T> java.util.stream.Stream<T>.findFirst()
+REFERENCE_CALL com.github.javaparser.symbolsolver.model.declarations.FieldDeclaration com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration.getField(java.lang.String) -> java.util.Optional<java.util.stream.Stream<T>.T> java.util.stream.Stream<T>.findFirst() [ReferenceTypeDeclaration.java <74:111 74:119>]
+SYMBOL_METHOD java.util.stream.Stream<java.util.stream.Stream<T>.T> java.util.stream.Stream<T>.filter(java.util.function.Predicate<? super T>)
+REFERENCE_CALL com.github.javaparser.symbolsolver.model.declarations.FieldDeclaration com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration.getField(java.lang.String) -> java.util.stream.Stream<java.util.stream.Stream<T>.T> java.util.stream.Stream<T>.filter(java.util.function.Predicate<? super T>) [ReferenceTypeDeclaration.java <74:73 74:78>]
+SYMBOL_METHOD java.util.stream.Stream<java.util.Collection<E>.E> java.util.Collection<E>.stream()
+REFERENCE_CALL com.github.javaparser.symbolsolver.model.declarations.FieldDeclaration com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration.getField(java.lang.String) -> java.util.stream.Stream<java.util.Collection<E>.E> java.util.Collection<E>.stream() [ReferenceTypeDeclaration.java <74:64 74:69>]
+SYMBOL_METHOD java.util.List<com.github.javaparser.symbolsolver.model.declarations.FieldDeclaration> com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration.getAllFields()
+REFERENCE_CALL com.github.javaparser.symbolsolver.model.declarations.FieldDeclaration com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration.getField(java.lang.String) -> java.util.List<com.github.javaparser.symbolsolver.model.declarations.FieldDeclaration> com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration.getAllFields() [ReferenceTypeDeclaration.java <74:49 74:60>]
+LOCAL_SYMBOL: java.util.function.Predicate<T>.test<3> [ReferenceTypeDeclaration.java <74:80 74:80>]
+SYMBOL_METHOD boolean java.lang.String.equals(java.lang.Object)
+REFERENCE_CALL com.github.javaparser.symbolsolver.model.declarations.FieldDeclaration com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration.getField(java.lang.String) -> boolean java.lang.String.equals(java.lang.Object) [ReferenceTypeDeclaration.java <74:97 74:102>]
+SYMBOL_METHOD java.lang.String com.github.javaparser.symbolsolver.model.declarations.Declaration.getName()
+REFERENCE_CALL com.github.javaparser.symbolsolver.model.declarations.FieldDeclaration com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration.getField(java.lang.String) -> java.lang.String com.github.javaparser.symbolsolver.model.declarations.Declaration.getName() [ReferenceTypeDeclaration.java <74:87 74:93>]
+LOCAL_SYMBOL: java.util.function.Predicate<T>.test<3> [ReferenceTypeDeclaration.java <74:85 74:85>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration.getField<0> [ReferenceTypeDeclaration.java <74:104 74:107>]
+SYMBOL_METHOD boolean java.util.Optional<T>.isPresent()
+REFERENCE_CALL com.github.javaparser.symbolsolver.model.declarations.FieldDeclaration com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration.getField(java.lang.String) -> boolean java.util.Optional<T>.isPresent() [ReferenceTypeDeclaration.java <75:19 75:27>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration.getField<1> [ReferenceTypeDeclaration.java <75:13 75:17>]
+LOCAL_SYMBOL: ReferenceTypeDeclaration.java<75:32> [ReferenceTypeDeclaration.java <75:32 75:32>]
+LOCAL_SYMBOL: ReferenceTypeDeclaration.java<75:32> [ReferenceTypeDeclaration.java <77:9 77:9>]
+SYMBOL_METHOD java.util.Optional<T>.T java.util.Optional<T>.get()
+REFERENCE_CALL com.github.javaparser.symbolsolver.model.declarations.FieldDeclaration com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration.getField(java.lang.String) -> java.util.Optional<T>.T java.util.Optional<T>.get() [ReferenceTypeDeclaration.java <76:26 76:28>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration.getField<1> [ReferenceTypeDeclaration.java <76:20 76:24>]
+LOCAL_SYMBOL: ReferenceTypeDeclaration.java<77:16> [ReferenceTypeDeclaration.java <77:16 77:16>]
+LOCAL_SYMBOL: ReferenceTypeDeclaration.java<77:16> [ReferenceTypeDeclaration.java <79:9 79:9>]
+SYMBOL_METHOD com.github.javaparser.symbolsolver.model.resolution.UnsolvedSymbolException.UnsolvedSymbolException(java.lang.String)
+REFERENCE_CALL com.github.javaparser.symbolsolver.model.declarations.FieldDeclaration com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration.getField(java.lang.String) -> com.github.javaparser.symbolsolver.model.resolution.UnsolvedSymbolException.UnsolvedSymbolException(java.lang.String) [ReferenceTypeDeclaration.java <78:23 78:45>]
+REFERENCE_TYPE_USAGE com.github.javaparser.symbolsolver.model.declarations.FieldDeclaration com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration.getField(java.lang.String) -> com.github.javaparser.symbolsolver.model.resolution.UnsolvedSymbolException [ReferenceTypeDeclaration.java <78:23 78:45>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration.getField<0> [ReferenceTypeDeclaration.java <78:69 78:72>]
+SYMBOL_METHOD default com.github.javaparser.symbolsolver.model.declarations.FieldDeclaration com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration.getVisibleField(java.lang.String) [ReferenceTypeDeclaration.java <85:1 <85:30 85:44> 92:5>]
+COMMENT: comment [ReferenceTypeDeclaration.java <82:5 84:7>]
+REFERENCE_TYPE_USAGE com.github.javaparser.symbolsolver.model.declarations.FieldDeclaration com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration.getVisibleField(java.lang.String) -> com.github.javaparser.symbolsolver.model.declarations.FieldDeclaration [ReferenceTypeDeclaration.java <85:13 85:28>]
+REFERENCE_TYPE_USAGE com.github.javaparser.symbolsolver.model.declarations.FieldDeclaration com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration.getVisibleField(java.lang.String) -> java.lang.String [ReferenceTypeDeclaration.java <85:46 85:51>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration.getVisibleField<0> [ReferenceTypeDeclaration.java <85:53 85:56>]
+LOCAL_SYMBOL: ReferenceTypeDeclaration.java<85:59> [ReferenceTypeDeclaration.java <85:59 85:59>]
+LOCAL_SYMBOL: ReferenceTypeDeclaration.java<85:59> [ReferenceTypeDeclaration.java <92:5 92:5>]
+REFERENCE_TYPE_USAGE com.github.javaparser.symbolsolver.model.declarations.FieldDeclaration com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration.getVisibleField(java.lang.String) -> java.util.Optional<T> [ReferenceTypeDeclaration.java <86:9 86:16>]
+REFERENCE_TYPE_ARGUMENT com.github.javaparser.symbolsolver.model.declarations.FieldDeclaration com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration.getVisibleField(java.lang.String) -> com.github.javaparser.symbolsolver.model.declarations.FieldDeclaration [ReferenceTypeDeclaration.java <86:18 86:33>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration.getVisibleField<1> [ReferenceTypeDeclaration.java <86:36 86:40>]
+SYMBOL_METHOD java.util.Optional<java.util.stream.Stream<T>.T> java.util.stream.Stream<T>.findFirst()
+REFERENCE_CALL com.github.javaparser.symbolsolver.model.declarations.FieldDeclaration com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration.getVisibleField(java.lang.String) -> java.util.Optional<java.util.stream.Stream<T>.T> java.util.stream.Stream<T>.findFirst() [ReferenceTypeDeclaration.java <86:110 86:118>]
+SYMBOL_METHOD java.util.stream.Stream<java.util.stream.Stream<T>.T> java.util.stream.Stream<T>.filter(java.util.function.Predicate<? super T>)
+REFERENCE_CALL com.github.javaparser.symbolsolver.model.declarations.FieldDeclaration com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration.getVisibleField(java.lang.String) -> java.util.stream.Stream<java.util.stream.Stream<T>.T> java.util.stream.Stream<T>.filter(java.util.function.Predicate<? super T>) [ReferenceTypeDeclaration.java <86:72 86:77>]
+SYMBOL_METHOD java.util.stream.Stream<java.util.Collection<E>.E> java.util.Collection<E>.stream()
+REFERENCE_CALL com.github.javaparser.symbolsolver.model.declarations.FieldDeclaration com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration.getVisibleField(java.lang.String) -> java.util.stream.Stream<java.util.Collection<E>.E> java.util.Collection<E>.stream() [ReferenceTypeDeclaration.java <86:63 86:68>]
+SYMBOL_METHOD java.util.List<com.github.javaparser.symbolsolver.model.declarations.FieldDeclaration> com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration.getVisibleFields()
+REFERENCE_CALL com.github.javaparser.symbolsolver.model.declarations.FieldDeclaration com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration.getVisibleField(java.lang.String) -> java.util.List<com.github.javaparser.symbolsolver.model.declarations.FieldDeclaration> com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration.getVisibleFields() [ReferenceTypeDeclaration.java <86:44 86:59>]
+LOCAL_SYMBOL: java.util.function.Predicate<T>.test<3> [ReferenceTypeDeclaration.java <86:79 86:79>]
+SYMBOL_METHOD boolean java.lang.String.equals(java.lang.Object)
+REFERENCE_CALL com.github.javaparser.symbolsolver.model.declarations.FieldDeclaration com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration.getVisibleField(java.lang.String) -> boolean java.lang.String.equals(java.lang.Object) [ReferenceTypeDeclaration.java <86:96 86:101>]
+SYMBOL_METHOD java.lang.String com.github.javaparser.symbolsolver.model.declarations.Declaration.getName()
+REFERENCE_CALL com.github.javaparser.symbolsolver.model.declarations.FieldDeclaration com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration.getVisibleField(java.lang.String) -> java.lang.String com.github.javaparser.symbolsolver.model.declarations.Declaration.getName() [ReferenceTypeDeclaration.java <86:86 86:92>]
+LOCAL_SYMBOL: java.util.function.Predicate<T>.test<3> [ReferenceTypeDeclaration.java <86:84 86:84>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration.getVisibleField<0> [ReferenceTypeDeclaration.java <86:103 86:106>]
+SYMBOL_METHOD boolean java.util.Optional<T>.isPresent()
+REFERENCE_CALL com.github.javaparser.symbolsolver.model.declarations.FieldDeclaration com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration.getVisibleField(java.lang.String) -> boolean java.util.Optional<T>.isPresent() [ReferenceTypeDeclaration.java <87:19 87:27>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration.getVisibleField<1> [ReferenceTypeDeclaration.java <87:13 87:17>]
+LOCAL_SYMBOL: ReferenceTypeDeclaration.java<87:32> [ReferenceTypeDeclaration.java <87:32 87:32>]
+LOCAL_SYMBOL: ReferenceTypeDeclaration.java<87:32> [ReferenceTypeDeclaration.java <89:9 89:9>]
+SYMBOL_METHOD java.util.Optional<T>.T java.util.Optional<T>.get()
+REFERENCE_CALL com.github.javaparser.symbolsolver.model.declarations.FieldDeclaration com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration.getVisibleField(java.lang.String) -> java.util.Optional<T>.T java.util.Optional<T>.get() [ReferenceTypeDeclaration.java <88:26 88:28>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration.getVisibleField<1> [ReferenceTypeDeclaration.java <88:20 88:24>]
+LOCAL_SYMBOL: ReferenceTypeDeclaration.java<89:16> [ReferenceTypeDeclaration.java <89:16 89:16>]
+LOCAL_SYMBOL: ReferenceTypeDeclaration.java<89:16> [ReferenceTypeDeclaration.java <91:9 91:9>]
+SYMBOL_METHOD java.lang.IllegalArgumentException.IllegalArgumentException()
+REFERENCE_CALL com.github.javaparser.symbolsolver.model.declarations.FieldDeclaration com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration.getVisibleField(java.lang.String) -> java.lang.IllegalArgumentException.IllegalArgumentException() [ReferenceTypeDeclaration.java <90:23 90:46>]
+REFERENCE_TYPE_USAGE com.github.javaparser.symbolsolver.model.declarations.FieldDeclaration com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration.getVisibleField(java.lang.String) -> java.lang.IllegalArgumentException [ReferenceTypeDeclaration.java <90:23 90:46>]
+SYMBOL_METHOD default boolean com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration.hasField(java.lang.String) [ReferenceTypeDeclaration.java <97:1 <97:21 97:28> 99:5>]
+COMMENT: comment [ReferenceTypeDeclaration.java <94:5 96:7>]
+SYMBOL_BUILTIN_TYPE boolean
+REFERENCE_TYPE_USAGE boolean com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration.hasField(java.lang.String) -> boolean [ReferenceTypeDeclaration.java <97:13 97:19>]
+REFERENCE_TYPE_USAGE boolean com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration.hasField(java.lang.String) -> java.lang.String [ReferenceTypeDeclaration.java <97:30 97:35>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration.hasField<0> [ReferenceTypeDeclaration.java <97:37 97:40>]
+LOCAL_SYMBOL: ReferenceTypeDeclaration.java<97:43> [ReferenceTypeDeclaration.java <97:43 97:43>]
+LOCAL_SYMBOL: ReferenceTypeDeclaration.java<97:43> [ReferenceTypeDeclaration.java <99:5 99:5>]
+SYMBOL_METHOD boolean java.util.Optional<T>.isPresent()
+REFERENCE_CALL boolean com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration.hasField(java.lang.String) -> boolean java.util.Optional<T>.isPresent() [ReferenceTypeDeclaration.java <98:95 98:103>]
+SYMBOL_METHOD java.util.Optional<java.util.stream.Stream<T>.T> java.util.stream.Stream<T>.findFirst()
+REFERENCE_CALL boolean com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration.hasField(java.lang.String) -> java.util.Optional<java.util.stream.Stream<T>.T> java.util.stream.Stream<T>.findFirst() [ReferenceTypeDeclaration.java <98:83 98:91>]
+SYMBOL_METHOD java.util.stream.Stream<java.util.stream.Stream<T>.T> java.util.stream.Stream<T>.filter(java.util.function.Predicate<? super T>)
+REFERENCE_CALL boolean com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration.hasField(java.lang.String) -> java.util.stream.Stream<java.util.stream.Stream<T>.T> java.util.stream.Stream<T>.filter(java.util.function.Predicate<? super T>) [ReferenceTypeDeclaration.java <98:45 98:50>]
+SYMBOL_METHOD java.util.stream.Stream<java.util.Collection<E>.E> java.util.Collection<E>.stream()
+REFERENCE_CALL boolean com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration.hasField(java.lang.String) -> java.util.stream.Stream<java.util.Collection<E>.E> java.util.Collection<E>.stream() [ReferenceTypeDeclaration.java <98:36 98:41>]
+SYMBOL_METHOD java.util.List<com.github.javaparser.symbolsolver.model.declarations.FieldDeclaration> com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration.getAllFields()
+REFERENCE_CALL boolean com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration.hasField(java.lang.String) -> java.util.List<com.github.javaparser.symbolsolver.model.declarations.FieldDeclaration> com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration.getAllFields() [ReferenceTypeDeclaration.java <98:21 98:32>]
+LOCAL_SYMBOL: java.util.function.Predicate<T>.test<2> [ReferenceTypeDeclaration.java <98:52 98:52>]
+SYMBOL_METHOD boolean java.lang.String.equals(java.lang.Object)
+REFERENCE_CALL boolean com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration.hasField(java.lang.String) -> boolean java.lang.String.equals(java.lang.Object) [ReferenceTypeDeclaration.java <98:69 98:74>]
+SYMBOL_METHOD java.lang.String com.github.javaparser.symbolsolver.model.declarations.Declaration.getName()
+REFERENCE_CALL boolean com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration.hasField(java.lang.String) -> java.lang.String com.github.javaparser.symbolsolver.model.declarations.Declaration.getName() [ReferenceTypeDeclaration.java <98:59 98:65>]
+LOCAL_SYMBOL: java.util.function.Predicate<T>.test<2> [ReferenceTypeDeclaration.java <98:57 98:57>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration.hasField<0> [ReferenceTypeDeclaration.java <98:76 98:79>]
+SYMBOL_METHOD default boolean com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration.hasVisibleField(java.lang.String) [ReferenceTypeDeclaration.java <104:1 <104:21 104:35> 106:5>]
+COMMENT: comment [ReferenceTypeDeclaration.java <101:5 103:7>]
+SYMBOL_BUILTIN_TYPE boolean
+REFERENCE_TYPE_USAGE boolean com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration.hasVisibleField(java.lang.String) -> boolean [ReferenceTypeDeclaration.java <104:13 104:19>]
+REFERENCE_TYPE_USAGE boolean com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration.hasVisibleField(java.lang.String) -> java.lang.String [ReferenceTypeDeclaration.java <104:37 104:42>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration.hasVisibleField<0> [ReferenceTypeDeclaration.java <104:44 104:47>]
+LOCAL_SYMBOL: ReferenceTypeDeclaration.java<104:50> [ReferenceTypeDeclaration.java <104:50 104:50>]
+LOCAL_SYMBOL: ReferenceTypeDeclaration.java<104:50> [ReferenceTypeDeclaration.java <106:5 106:5>]
+SYMBOL_METHOD boolean java.util.Optional<T>.isPresent()
+REFERENCE_CALL boolean com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration.hasVisibleField(java.lang.String) -> boolean java.util.Optional<T>.isPresent() [ReferenceTypeDeclaration.java <105:94 105:102>]
+SYMBOL_METHOD java.util.Optional<java.util.stream.Stream<T>.T> java.util.stream.Stream<T>.findFirst()
+REFERENCE_CALL boolean com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration.hasVisibleField(java.lang.String) -> java.util.Optional<java.util.stream.Stream<T>.T> java.util.stream.Stream<T>.findFirst() [ReferenceTypeDeclaration.java <105:82 105:90>]
+SYMBOL_METHOD java.util.stream.Stream<java.util.stream.Stream<T>.T> java.util.stream.Stream<T>.filter(java.util.function.Predicate<? super T>)
+REFERENCE_CALL boolean com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration.hasVisibleField(java.lang.String) -> java.util.stream.Stream<java.util.stream.Stream<T>.T> java.util.stream.Stream<T>.filter(java.util.function.Predicate<? super T>) [ReferenceTypeDeclaration.java <105:44 105:49>]
+SYMBOL_METHOD java.util.stream.Stream<java.util.Collection<E>.E> java.util.Collection<E>.stream()
+REFERENCE_CALL boolean com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration.hasVisibleField(java.lang.String) -> java.util.stream.Stream<java.util.Collection<E>.E> java.util.Collection<E>.stream() [ReferenceTypeDeclaration.java <105:35 105:40>]
+SYMBOL_METHOD java.util.List<com.github.javaparser.symbolsolver.model.declarations.FieldDeclaration> com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration.getVisibleFields()
+REFERENCE_CALL boolean com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration.hasVisibleField(java.lang.String) -> java.util.List<com.github.javaparser.symbolsolver.model.declarations.FieldDeclaration> com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration.getVisibleFields() [ReferenceTypeDeclaration.java <105:16 105:31>]
+LOCAL_SYMBOL: java.util.function.Predicate<T>.test<2> [ReferenceTypeDeclaration.java <105:51 105:51>]
+SYMBOL_METHOD boolean java.lang.String.equals(java.lang.Object)
+REFERENCE_CALL boolean com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration.hasVisibleField(java.lang.String) -> boolean java.lang.String.equals(java.lang.Object) [ReferenceTypeDeclaration.java <105:68 105:73>]
+SYMBOL_METHOD java.lang.String com.github.javaparser.symbolsolver.model.declarations.Declaration.getName()
+REFERENCE_CALL boolean com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration.hasVisibleField(java.lang.String) -> java.lang.String com.github.javaparser.symbolsolver.model.declarations.Declaration.getName() [ReferenceTypeDeclaration.java <105:58 105:64>]
+LOCAL_SYMBOL: java.util.function.Predicate<T>.test<2> [ReferenceTypeDeclaration.java <105:56 105:56>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration.hasVisibleField<0> [ReferenceTypeDeclaration.java <105:75 105:78>]
+SYMBOL_METHOD default java.util.List<com.github.javaparser.symbolsolver.model.declarations.FieldDeclaration> com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration.getAllFields() [ReferenceTypeDeclaration.java <113:1 <113:28 113:39> 113:42>]
+COMMENT: comment [ReferenceTypeDeclaration.java <108:5 112:7>]
+REFERENCE_TYPE_USAGE java.util.List<com.github.javaparser.symbolsolver.model.declarations.FieldDeclaration> com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration.getAllFields() -> java.util.List<E> [ReferenceTypeDeclaration.java <113:5 113:8>]
+REFERENCE_TYPE_ARGUMENT java.util.List<com.github.javaparser.symbolsolver.model.declarations.FieldDeclaration> com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration.getAllFields() -> com.github.javaparser.symbolsolver.model.declarations.FieldDeclaration [ReferenceTypeDeclaration.java <113:10 113:25>]
+SYMBOL_METHOD default java.util.List<com.github.javaparser.symbolsolver.model.declarations.FieldDeclaration> com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration.getVisibleFields() [ReferenceTypeDeclaration.java <118:1 <118:36 118:51> 122:5>]
+COMMENT: comment [ReferenceTypeDeclaration.java <115:5 117:7>]
+REFERENCE_TYPE_USAGE java.util.List<com.github.javaparser.symbolsolver.model.declarations.FieldDeclaration> com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration.getVisibleFields() -> java.util.List<E> [ReferenceTypeDeclaration.java <118:13 118:16>]
+REFERENCE_TYPE_ARGUMENT java.util.List<com.github.javaparser.symbolsolver.model.declarations.FieldDeclaration> com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration.getVisibleFields() -> com.github.javaparser.symbolsolver.model.declarations.FieldDeclaration [ReferenceTypeDeclaration.java <118:18 118:33>]
+LOCAL_SYMBOL: ReferenceTypeDeclaration.java<118:55> [ReferenceTypeDeclaration.java <118:55 118:55>]
+LOCAL_SYMBOL: ReferenceTypeDeclaration.java<118:55> [ReferenceTypeDeclaration.java <122:5 122:5>]
+SYMBOL_METHOD R java.util.stream.Stream<T>.collect<R, A>(java.util.stream.Collector<? super T, A, R>)
+REFERENCE_CALL java.util.List<com.github.javaparser.symbolsolver.model.declarations.FieldDeclaration> com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration.getVisibleFields() -> R java.util.stream.Stream<T>.collect<R, A>(java.util.stream.Collector<? super T, A, R>) [ReferenceTypeDeclaration.java <121:18 121:24>]
+SYMBOL_METHOD java.util.stream.Stream<java.util.stream.Stream<T>.T> java.util.stream.Stream<T>.filter(java.util.function.Predicate<? super T>)
+REFERENCE_CALL java.util.List<com.github.javaparser.symbolsolver.model.declarations.FieldDeclaration> com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration.getVisibleFields() -> java.util.stream.Stream<java.util.stream.Stream<T>.T> java.util.stream.Stream<T>.filter(java.util.function.Predicate<? super T>) [ReferenceTypeDeclaration.java <120:18 120:23>]
+SYMBOL_METHOD java.util.stream.Stream<java.util.Collection<E>.E> java.util.Collection<E>.stream()
+REFERENCE_CALL java.util.List<com.github.javaparser.symbolsolver.model.declarations.FieldDeclaration> com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration.getVisibleFields() -> java.util.stream.Stream<java.util.Collection<E>.E> java.util.Collection<E>.stream() [ReferenceTypeDeclaration.java <119:31 119:36>]
+SYMBOL_METHOD java.util.List<com.github.javaparser.symbolsolver.model.declarations.FieldDeclaration> com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration.getAllFields()
+REFERENCE_CALL java.util.List<com.github.javaparser.symbolsolver.model.declarations.FieldDeclaration> com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration.getVisibleFields() -> java.util.List<com.github.javaparser.symbolsolver.model.declarations.FieldDeclaration> com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration.getAllFields() [ReferenceTypeDeclaration.java <119:16 119:27>]
+LOCAL_SYMBOL: java.util.function.Predicate<T>.test<1> [ReferenceTypeDeclaration.java <120:25 120:25>]
+SYMBOL_METHOD boolean java.lang.Object.equals(java.lang.Object)
+REFERENCE_CALL java.util.List<com.github.javaparser.symbolsolver.model.declarations.FieldDeclaration> com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration.getVisibleFields() -> boolean java.lang.Object.equals(java.lang.Object) [ReferenceTypeDeclaration.java <120:48 120:53>]
+SYMBOL_METHOD com.github.javaparser.symbolsolver.model.declarations.TypeDeclaration com.github.javaparser.symbolsolver.model.declarations.FieldDeclaration.declaringType()
+REFERENCE_CALL java.util.List<com.github.javaparser.symbolsolver.model.declarations.FieldDeclaration> com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration.getVisibleFields() -> com.github.javaparser.symbolsolver.model.declarations.TypeDeclaration com.github.javaparser.symbolsolver.model.declarations.FieldDeclaration.declaringType() [ReferenceTypeDeclaration.java <120:32 120:44>]
+LOCAL_SYMBOL: java.util.function.Predicate<T>.test<1> [ReferenceTypeDeclaration.java <120:30 120:30>]
+SYMBOL_METHOD com.github.javaparser.symbolsolver.model.declarations.AccessLevel com.github.javaparser.symbolsolver.model.declarations.HasAccessLevel.accessLevel()
+REFERENCE_CALL java.util.List<com.github.javaparser.symbolsolver.model.declarations.FieldDeclaration> com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration.getVisibleFields() -> com.github.javaparser.symbolsolver.model.declarations.AccessLevel com.github.javaparser.symbolsolver.model.declarations.HasAccessLevel.accessLevel() [ReferenceTypeDeclaration.java <120:66 120:76>]
+LOCAL_SYMBOL: java.util.function.Predicate<T>.test<1> [ReferenceTypeDeclaration.java <120:64 120:64>]
+SYMBOL_FIELD com.github.javaparser.symbolsolver.model.declarations.AccessLevel.PRIVATE
+REFERENCE_USAGE java.util.List<com.github.javaparser.symbolsolver.model.declarations.FieldDeclaration> com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration.getVisibleFields() -> com.github.javaparser.symbolsolver.model.declarations.AccessLevel.PRIVATE [ReferenceTypeDeclaration.java <120:95 120:101>]
+SYMBOL_METHOD static java.util.stream.Collector<T, ?, java.util.List<T>> java.util.stream.Collectors.toList<T>()
+REFERENCE_CALL java.util.List<com.github.javaparser.symbolsolver.model.declarations.FieldDeclaration> com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration.getVisibleFields() -> static java.util.stream.Collector<T, ?, java.util.List<T>> java.util.stream.Collectors.toList<T>() [ReferenceTypeDeclaration.java <121:37 121:42>]
+SYMBOL_METHOD default java.util.List<com.github.javaparser.symbolsolver.model.declarations.FieldDeclaration> com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration.getAllNonStaticFields() [ReferenceTypeDeclaration.java <127:1 <127:36 127:56> 129:5>]
+COMMENT: comment [ReferenceTypeDeclaration.java <124:5 126:7>]
+REFERENCE_TYPE_USAGE java.util.List<com.github.javaparser.symbolsolver.model.declarations.FieldDeclaration> com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration.getAllNonStaticFields() -> java.util.List<E> [ReferenceTypeDeclaration.java <127:13 127:16>]
+REFERENCE_TYPE_ARGUMENT java.util.List<com.github.javaparser.symbolsolver.model.declarations.FieldDeclaration> com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration.getAllNonStaticFields() -> com.github.javaparser.symbolsolver.model.declarations.FieldDeclaration [ReferenceTypeDeclaration.java <127:18 127:33>]
+LOCAL_SYMBOL: ReferenceTypeDeclaration.java<127:60> [ReferenceTypeDeclaration.java <127:60 127:60>]
+LOCAL_SYMBOL: ReferenceTypeDeclaration.java<127:60> [ReferenceTypeDeclaration.java <129:5 129:5>]
+SYMBOL_METHOD R java.util.stream.Stream<T>.collect<R, A>(java.util.stream.Collector<? super T, A, R>)
+REFERENCE_CALL java.util.List<com.github.javaparser.symbolsolver.model.declarations.FieldDeclaration> com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration.getAllNonStaticFields() -> R java.util.stream.Stream<T>.collect<R, A>(java.util.stream.Collector<? super T, A, R>) [ReferenceTypeDeclaration.java <128:69 128:75>]
+SYMBOL_METHOD java.util.stream.Stream<java.util.stream.Stream<T>.T> java.util.stream.Stream<T>.filter(java.util.function.Predicate<? super T>)
+REFERENCE_CALL java.util.List<com.github.javaparser.symbolsolver.model.declarations.FieldDeclaration> com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration.getAllNonStaticFields() -> java.util.stream.Stream<java.util.stream.Stream<T>.T> java.util.stream.Stream<T>.filter(java.util.function.Predicate<? super T>) [ReferenceTypeDeclaration.java <128:40 128:45>]
+SYMBOL_METHOD java.util.stream.Stream<java.util.Collection<E>.E> java.util.Collection<E>.stream()
+REFERENCE_CALL java.util.List<com.github.javaparser.symbolsolver.model.declarations.FieldDeclaration> com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration.getAllNonStaticFields() -> java.util.stream.Stream<java.util.Collection<E>.E> java.util.Collection<E>.stream() [ReferenceTypeDeclaration.java <128:31 128:36>]
+SYMBOL_METHOD java.util.List<com.github.javaparser.symbolsolver.model.declarations.FieldDeclaration> com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration.getAllFields()
+REFERENCE_CALL java.util.List<com.github.javaparser.symbolsolver.model.declarations.FieldDeclaration> com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration.getAllNonStaticFields() -> java.util.List<com.github.javaparser.symbolsolver.model.declarations.FieldDeclaration> com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration.getAllFields() [ReferenceTypeDeclaration.java <128:16 128:27>]
+LOCAL_SYMBOL: java.util.function.Predicate<T>.test<1> [ReferenceTypeDeclaration.java <128:47 128:48>]
+SYMBOL_METHOD boolean com.github.javaparser.symbolsolver.model.declarations.FieldDeclaration.isStatic()
+REFERENCE_CALL java.util.List<com.github.javaparser.symbolsolver.model.declarations.FieldDeclaration> com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration.getAllNonStaticFields() -> boolean com.github.javaparser.symbolsolver.model.declarations.FieldDeclaration.isStatic() [ReferenceTypeDeclaration.java <128:57 128:64>]
+LOCAL_SYMBOL: java.util.function.Predicate<T>.test<1> [ReferenceTypeDeclaration.java <128:54 128:55>]
+SYMBOL_METHOD static java.util.stream.Collector<T, ?, java.util.List<T>> java.util.stream.Collectors.toList<T>()
+REFERENCE_CALL java.util.List<com.github.javaparser.symbolsolver.model.declarations.FieldDeclaration> com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration.getAllNonStaticFields() -> static java.util.stream.Collector<T, ?, java.util.List<T>> java.util.stream.Collectors.toList<T>() [ReferenceTypeDeclaration.java <128:88 128:93>]
+SYMBOL_METHOD default java.util.List<com.github.javaparser.symbolsolver.model.declarations.FieldDeclaration> com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration.getAllStaticFields() [ReferenceTypeDeclaration.java <134:1 <134:36 134:53> 136:5>]
+COMMENT: comment [ReferenceTypeDeclaration.java <131:5 133:7>]
+REFERENCE_TYPE_USAGE java.util.List<com.github.javaparser.symbolsolver.model.declarations.FieldDeclaration> com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration.getAllStaticFields() -> java.util.List<E> [ReferenceTypeDeclaration.java <134:13 134:16>]
+REFERENCE_TYPE_ARGUMENT java.util.List<com.github.javaparser.symbolsolver.model.declarations.FieldDeclaration> com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration.getAllStaticFields() -> com.github.javaparser.symbolsolver.model.declarations.FieldDeclaration [ReferenceTypeDeclaration.java <134:18 134:33>]
+LOCAL_SYMBOL: ReferenceTypeDeclaration.java<134:57> [ReferenceTypeDeclaration.java <134:57 134:57>]
+LOCAL_SYMBOL: ReferenceTypeDeclaration.java<134:57> [ReferenceTypeDeclaration.java <136:5 136:5>]
+SYMBOL_METHOD R java.util.stream.Stream<T>.collect<R, A>(java.util.stream.Collector<? super T, A, R>)
+REFERENCE_CALL java.util.List<com.github.javaparser.symbolsolver.model.declarations.FieldDeclaration> com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration.getAllStaticFields() -> R java.util.stream.Stream<T>.collect<R, A>(java.util.stream.Collector<? super T, A, R>) [ReferenceTypeDeclaration.java <135:68 135:74>]
+SYMBOL_METHOD java.util.stream.Stream<java.util.stream.Stream<T>.T> java.util.stream.Stream<T>.filter(java.util.function.Predicate<? super T>)
+REFERENCE_CALL java.util.List<com.github.javaparser.symbolsolver.model.declarations.FieldDeclaration> com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration.getAllStaticFields() -> java.util.stream.Stream<java.util.stream.Stream<T>.T> java.util.stream.Stream<T>.filter(java.util.function.Predicate<? super T>) [ReferenceTypeDeclaration.java <135:40 135:45>]
+SYMBOL_METHOD java.util.stream.Stream<java.util.Collection<E>.E> java.util.Collection<E>.stream()
+REFERENCE_CALL java.util.List<com.github.javaparser.symbolsolver.model.declarations.FieldDeclaration> com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration.getAllStaticFields() -> java.util.stream.Stream<java.util.Collection<E>.E> java.util.Collection<E>.stream() [ReferenceTypeDeclaration.java <135:31 135:36>]
+SYMBOL_METHOD java.util.List<com.github.javaparser.symbolsolver.model.declarations.FieldDeclaration> com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration.getAllFields()
+REFERENCE_CALL java.util.List<com.github.javaparser.symbolsolver.model.declarations.FieldDeclaration> com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration.getAllStaticFields() -> java.util.List<com.github.javaparser.symbolsolver.model.declarations.FieldDeclaration> com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration.getAllFields() [ReferenceTypeDeclaration.java <135:16 135:27>]
+LOCAL_SYMBOL: java.util.function.Predicate<T>.test<1> [ReferenceTypeDeclaration.java <135:47 135:48>]
+SYMBOL_METHOD boolean com.github.javaparser.symbolsolver.model.declarations.FieldDeclaration.isStatic()
+REFERENCE_CALL java.util.List<com.github.javaparser.symbolsolver.model.declarations.FieldDeclaration> com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration.getAllStaticFields() -> boolean com.github.javaparser.symbolsolver.model.declarations.FieldDeclaration.isStatic() [ReferenceTypeDeclaration.java <135:56 135:63>]
+LOCAL_SYMBOL: java.util.function.Predicate<T>.test<1> [ReferenceTypeDeclaration.java <135:53 135:54>]
+SYMBOL_METHOD static java.util.stream.Collector<T, ?, java.util.List<T>> java.util.stream.Collectors.toList<T>()
+REFERENCE_CALL java.util.List<com.github.javaparser.symbolsolver.model.declarations.FieldDeclaration> com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration.getAllStaticFields() -> static java.util.stream.Collector<T, ?, java.util.List<T>> java.util.stream.Collectors.toList<T>() [ReferenceTypeDeclaration.java <135:87 135:92>]
+SYMBOL_METHOD default java.util.List<com.github.javaparser.symbolsolver.model.declarations.FieldDeclaration> com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration.getDeclaredFields() [ReferenceTypeDeclaration.java <141:1 <141:36 141:52> 143:5>]
+COMMENT: comment [ReferenceTypeDeclaration.java <138:5 140:7>]
+REFERENCE_TYPE_USAGE java.util.List<com.github.javaparser.symbolsolver.model.declarations.FieldDeclaration> com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration.getDeclaredFields() -> java.util.List<E> [ReferenceTypeDeclaration.java <141:13 141:16>]
+REFERENCE_TYPE_ARGUMENT java.util.List<com.github.javaparser.symbolsolver.model.declarations.FieldDeclaration> com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration.getDeclaredFields() -> com.github.javaparser.symbolsolver.model.declarations.FieldDeclaration [ReferenceTypeDeclaration.java <141:18 141:33>]
+LOCAL_SYMBOL: ReferenceTypeDeclaration.java<141:56> [ReferenceTypeDeclaration.java <141:56 141:56>]
+LOCAL_SYMBOL: ReferenceTypeDeclaration.java<141:56> [ReferenceTypeDeclaration.java <143:5 143:5>]
+SYMBOL_METHOD R java.util.stream.Stream<T>.collect<R, A>(java.util.stream.Collector<? super T, A, R>)
+REFERENCE_CALL java.util.List<com.github.javaparser.symbolsolver.model.declarations.FieldDeclaration> com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration.getDeclaredFields() -> R java.util.stream.Stream<T>.collect<R, A>(java.util.stream.Collector<? super T, A, R>) [ReferenceTypeDeclaration.java <142:119 142:125>]
+SYMBOL_METHOD java.util.stream.Stream<java.util.stream.Stream<T>.T> java.util.stream.Stream<T>.filter(java.util.function.Predicate<? super T>)
+REFERENCE_CALL java.util.List<com.github.javaparser.symbolsolver.model.declarations.FieldDeclaration> com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration.getDeclaredFields() -> java.util.stream.Stream<java.util.stream.Stream<T>.T> java.util.stream.Stream<T>.filter(java.util.function.Predicate<? super T>) [ReferenceTypeDeclaration.java <142:40 142:45>]
+SYMBOL_METHOD java.util.stream.Stream<java.util.Collection<E>.E> java.util.Collection<E>.stream()
+REFERENCE_CALL java.util.List<com.github.javaparser.symbolsolver.model.declarations.FieldDeclaration> com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration.getDeclaredFields() -> java.util.stream.Stream<java.util.Collection<E>.E> java.util.Collection<E>.stream() [ReferenceTypeDeclaration.java <142:31 142:36>]
+SYMBOL_METHOD java.util.List<com.github.javaparser.symbolsolver.model.declarations.FieldDeclaration> com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration.getAllFields()
+REFERENCE_CALL java.util.List<com.github.javaparser.symbolsolver.model.declarations.FieldDeclaration> com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration.getDeclaredFields() -> java.util.List<com.github.javaparser.symbolsolver.model.declarations.FieldDeclaration> com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration.getAllFields() [ReferenceTypeDeclaration.java <142:16 142:27>]
+LOCAL_SYMBOL: java.util.function.Predicate<T>.test<1> [ReferenceTypeDeclaration.java <142:47 142:48>]
+SYMBOL_METHOD boolean java.lang.String.equals(java.lang.Object)
+REFERENCE_CALL java.util.List<com.github.javaparser.symbolsolver.model.declarations.FieldDeclaration> com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration.getDeclaredFields() -> boolean java.lang.String.equals(java.lang.Object) [ReferenceTypeDeclaration.java <142:91 142:96>]
+SYMBOL_METHOD java.lang.String com.github.javaparser.symbolsolver.model.declarations.TypeDeclaration.getQualifiedName()
+REFERENCE_CALL java.util.List<com.github.javaparser.symbolsolver.model.declarations.FieldDeclaration> com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration.getDeclaredFields() -> java.lang.String com.github.javaparser.symbolsolver.model.declarations.TypeDeclaration.getQualifiedName() [ReferenceTypeDeclaration.java <142:72 142:87>]
+SYMBOL_METHOD com.github.javaparser.symbolsolver.model.declarations.TypeDeclaration com.github.javaparser.symbolsolver.model.declarations.FieldDeclaration.declaringType()
+REFERENCE_CALL java.util.List<com.github.javaparser.symbolsolver.model.declarations.FieldDeclaration> com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration.getDeclaredFields() -> com.github.javaparser.symbolsolver.model.declarations.TypeDeclaration com.github.javaparser.symbolsolver.model.declarations.FieldDeclaration.declaringType() [ReferenceTypeDeclaration.java <142:56 142:68>]
+LOCAL_SYMBOL: java.util.function.Predicate<T>.test<1> [ReferenceTypeDeclaration.java <142:53 142:54>]
+SYMBOL_METHOD java.lang.String com.github.javaparser.symbolsolver.model.declarations.TypeDeclaration.getQualifiedName()
+REFERENCE_CALL java.util.List<com.github.javaparser.symbolsolver.model.declarations.FieldDeclaration> com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration.getDeclaredFields() -> java.lang.String com.github.javaparser.symbolsolver.model.declarations.TypeDeclaration.getQualifiedName() [ReferenceTypeDeclaration.java <142:98 142:113>]
+SYMBOL_METHOD static java.util.stream.Collector<T, ?, java.util.List<T>> java.util.stream.Collectors.toList<T>()
+REFERENCE_CALL java.util.List<com.github.javaparser.symbolsolver.model.declarations.FieldDeclaration> com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration.getDeclaredFields() -> static java.util.stream.Collector<T, ?, java.util.List<T>> java.util.stream.Collectors.toList<T>() [ReferenceTypeDeclaration.java <142:138 142:143>]
+SYMBOL_METHOD default java.util.Set<com.github.javaparser.symbolsolver.model.declarations.MethodDeclaration> com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration.getDeclaredMethods() [ReferenceTypeDeclaration.java <152:1 <152:28 152:45> 152:48>]
+COMMENT: comment [ReferenceTypeDeclaration.java <149:5 151:7>]
+REFERENCE_TYPE_USAGE java.util.Set<com.github.javaparser.symbolsolver.model.declarations.MethodDeclaration> com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration.getDeclaredMethods() -> java.util.Set<E> [ReferenceTypeDeclaration.java <152:5 152:7>]
+REFERENCE_TYPE_ARGUMENT java.util.Set<com.github.javaparser.symbolsolver.model.declarations.MethodDeclaration> com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration.getDeclaredMethods() -> com.github.javaparser.symbolsolver.model.declarations.MethodDeclaration [ReferenceTypeDeclaration.java <152:9 152:25>]
+SYMBOL_METHOD default java.util.Set<com.github.javaparser.symbolsolver.model.methods.MethodUsage> com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration.getAllMethods() [ReferenceTypeDeclaration.java <158:1 <158:22 158:34> 158:37>]
+COMMENT: comment [ReferenceTypeDeclaration.java <154:5 157:7>]
+REFERENCE_TYPE_USAGE java.util.Set<com.github.javaparser.symbolsolver.model.methods.MethodUsage> com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration.getAllMethods() -> java.util.Set<E> [ReferenceTypeDeclaration.java <158:5 158:7>]
+REFERENCE_TYPE_ARGUMENT java.util.Set<com.github.javaparser.symbolsolver.model.methods.MethodUsage> com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration.getAllMethods() -> com.github.javaparser.symbolsolver.model.methods.MethodUsage [ReferenceTypeDeclaration.java <158:9 158:19>]
+SYMBOL_METHOD default boolean com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration.isAssignableBy(com.github.javaparser.symbolsolver.model.typesystem.Type) [ReferenceTypeDeclaration.java <168:1 <168:13 168:26> 168:38>]
+COMMENT: comment [ReferenceTypeDeclaration.java <164:5 167:7>]
+SYMBOL_BUILTIN_TYPE boolean
+REFERENCE_TYPE_USAGE boolean com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration.isAssignableBy(com.github.javaparser.symbolsolver.model.typesystem.Type) -> boolean [ReferenceTypeDeclaration.java <168:5 168:11>]
+REFERENCE_TYPE_USAGE boolean com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration.isAssignableBy(com.github.javaparser.symbolsolver.model.typesystem.Type) -> com.github.javaparser.symbolsolver.model.typesystem.Type [ReferenceTypeDeclaration.java <168:28 168:31>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration.isAssignableBy<0> [ReferenceTypeDeclaration.java <168:33 168:36>]
+SYMBOL_METHOD default boolean com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration.canBeAssignedTo(com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration) [ReferenceTypeDeclaration.java <174:1 <174:21 174:35> 176:5>]
+COMMENT: comment [ReferenceTypeDeclaration.java <170:5 173:7>]
+SYMBOL_BUILTIN_TYPE boolean
+REFERENCE_TYPE_USAGE boolean com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration.canBeAssignedTo(com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration) -> boolean [ReferenceTypeDeclaration.java <174:13 174:19>]
+REFERENCE_TYPE_USAGE boolean com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration.canBeAssignedTo(com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration) -> com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration [ReferenceTypeDeclaration.java <174:37 174:60>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration.canBeAssignedTo<0> [ReferenceTypeDeclaration.java <174:62 174:66>]
+LOCAL_SYMBOL: ReferenceTypeDeclaration.java<174:69> [ReferenceTypeDeclaration.java <174:69 174:69>]
+LOCAL_SYMBOL: ReferenceTypeDeclaration.java<174:69> [ReferenceTypeDeclaration.java <176:5 176:5>]
+SYMBOL_METHOD boolean com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration.isAssignableBy(com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration)
+REFERENCE_CALL boolean com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration.canBeAssignedTo(com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration) -> boolean com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration.isAssignableBy(com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration) [ReferenceTypeDeclaration.java <175:22 175:35>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration.canBeAssignedTo<0> [ReferenceTypeDeclaration.java <175:16 175:20>]
+SYMBOL_METHOD default boolean com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration.isAssignableBy(com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration) [ReferenceTypeDeclaration.java <182:1 <182:13 182:26> 182:59>]
+COMMENT: comment [ReferenceTypeDeclaration.java <178:5 181:7>]
+SYMBOL_BUILTIN_TYPE boolean
+REFERENCE_TYPE_USAGE boolean com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration.isAssignableBy(com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration) -> boolean [ReferenceTypeDeclaration.java <182:5 182:11>]
+REFERENCE_TYPE_USAGE boolean com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration.isAssignableBy(com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration) -> com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration [ReferenceTypeDeclaration.java <182:28 182:51>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration.isAssignableBy<0> [ReferenceTypeDeclaration.java <182:53 182:57>]
+SYMBOL_METHOD default boolean com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration.hasDirectlyAnnotation(java.lang.String) [ReferenceTypeDeclaration.java <191:1 <191:13 191:33> 191:56>]
+COMMENT: comment [ReferenceTypeDeclaration.java <188:5 190:7>]
+SYMBOL_BUILTIN_TYPE boolean
+REFERENCE_TYPE_USAGE boolean com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration.hasDirectlyAnnotation(java.lang.String) -> boolean [ReferenceTypeDeclaration.java <191:5 191:11>]
+REFERENCE_TYPE_USAGE boolean com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration.hasDirectlyAnnotation(java.lang.String) -> java.lang.String [ReferenceTypeDeclaration.java <191:35 191:40>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration.hasDirectlyAnnotation<0> [ReferenceTypeDeclaration.java <191:42 191:54>]
+SYMBOL_METHOD default boolean com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration.hasAnnotation(java.lang.String) [ReferenceTypeDeclaration.java <196:1 <196:21 196:33> 201:5>]
+COMMENT: comment [ReferenceTypeDeclaration.java <193:5 195:7>]
+SYMBOL_BUILTIN_TYPE boolean
+REFERENCE_TYPE_USAGE boolean com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration.hasAnnotation(java.lang.String) -> boolean [ReferenceTypeDeclaration.java <196:13 196:19>]
+REFERENCE_TYPE_USAGE boolean com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration.hasAnnotation(java.lang.String) -> java.lang.String [ReferenceTypeDeclaration.java <196:35 196:40>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration.hasAnnotation<0> [ReferenceTypeDeclaration.java <196:42 196:54>]
+LOCAL_SYMBOL: ReferenceTypeDeclaration.java<196:57> [ReferenceTypeDeclaration.java <196:57 196:57>]
+LOCAL_SYMBOL: ReferenceTypeDeclaration.java<196:57> [ReferenceTypeDeclaration.java <201:5 201:5>]
+SYMBOL_METHOD boolean com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration.hasDirectlyAnnotation(java.lang.String)
+REFERENCE_CALL boolean com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration.hasAnnotation(java.lang.String) -> boolean com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration.hasDirectlyAnnotation(java.lang.String) [ReferenceTypeDeclaration.java <197:13 197:33>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration.hasAnnotation<0> [ReferenceTypeDeclaration.java <197:35 197:47>]
+LOCAL_SYMBOL: ReferenceTypeDeclaration.java<197:51> [ReferenceTypeDeclaration.java <197:51 197:51>]
+LOCAL_SYMBOL: ReferenceTypeDeclaration.java<197:51> [ReferenceTypeDeclaration.java <199:9 199:9>]
+SYMBOL_METHOD boolean java.util.stream.Stream<T>.anyMatch(java.util.function.Predicate<? super T>)
+REFERENCE_CALL boolean com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration.hasAnnotation(java.lang.String) -> boolean java.util.stream.Stream<T>.anyMatch(java.util.function.Predicate<? super T>) [ReferenceTypeDeclaration.java <200:43 200:50>]
+SYMBOL_METHOD java.util.stream.Stream<java.util.Collection<E>.E> java.util.Collection<E>.stream()
+REFERENCE_CALL boolean com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration.hasAnnotation(java.lang.String) -> java.util.stream.Stream<java.util.Collection<E>.E> java.util.Collection<E>.stream() [ReferenceTypeDeclaration.java <200:34 200:39>]
+SYMBOL_METHOD java.util.List<com.github.javaparser.symbolsolver.model.typesystem.ReferenceType> com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration.getAllAncestors()
+REFERENCE_CALL boolean com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration.hasAnnotation(java.lang.String) -> java.util.List<com.github.javaparser.symbolsolver.model.typesystem.ReferenceType> com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration.getAllAncestors() [ReferenceTypeDeclaration.java <200:16 200:30>]
+LOCAL_SYMBOL: java.util.function.Predicate<T>.test<2> [ReferenceTypeDeclaration.java <200:52 200:53>]
+SYMBOL_METHOD boolean com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration.hasDirectlyAnnotation(java.lang.String)
+REFERENCE_CALL boolean com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration.hasAnnotation(java.lang.String) -> boolean com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration.hasDirectlyAnnotation(java.lang.String) [ReferenceTypeDeclaration.java <200:100 200:120>]
+SYMBOL_METHOD com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration com.github.javaparser.symbolsolver.model.typesystem.ReferenceType.getTypeDeclaration()
+REFERENCE_CALL boolean com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration.hasAnnotation(java.lang.String) -> com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration com.github.javaparser.symbolsolver.model.typesystem.ReferenceType.getTypeDeclaration() [ReferenceTypeDeclaration.java <200:79 200:96>]
+SYMBOL_METHOD com.github.javaparser.symbolsolver.model.typesystem.ReferenceType com.github.javaparser.symbolsolver.model.typesystem.ReferenceType.asReferenceType()
+REFERENCE_CALL boolean com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration.hasAnnotation(java.lang.String) -> com.github.javaparser.symbolsolver.model.typesystem.ReferenceType com.github.javaparser.symbolsolver.model.typesystem.ReferenceType.asReferenceType() [ReferenceTypeDeclaration.java <200:61 200:75>]
+LOCAL_SYMBOL: java.util.function.Predicate<T>.test<2> [ReferenceTypeDeclaration.java <200:58 200:59>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration.hasAnnotation<0> [ReferenceTypeDeclaration.java <200:122 200:134>]
+SYMBOL_METHOD default boolean com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration.isFunctionalInterface() [ReferenceTypeDeclaration.java <207:1 <207:13 207:33> 207:36>]
+COMMENT: comment [ReferenceTypeDeclaration.java <203:5 206:7>]
+SYMBOL_BUILTIN_TYPE boolean
+REFERENCE_TYPE_USAGE boolean com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration.isFunctionalInterface() -> boolean [ReferenceTypeDeclaration.java <207:5 207:11>]
+SYMBOL_METHOD default java.util.Optional<com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration> com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration.findTypeParameter(java.lang.String) [ReferenceTypeDeclaration.java <213:5 <214:48 214:64> 224:5>]
+SYMBOL_METHOD java.util.Optional<com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration> com.github.javaparser.symbolsolver.model.declarations.TypeParametrizable.findTypeParameter(java.lang.String)
+REFERENCE_OVERRIDE java.util.Optional<com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration> com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration.findTypeParameter(java.lang.String) -> java.util.Optional<com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration> com.github.javaparser.symbolsolver.model.declarations.TypeParametrizable.findTypeParameter(java.lang.String) [ReferenceTypeDeclaration.java <214:48 214:64>]
+REFERENCE_TYPE_USAGE java.util.Optional<com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration> com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration.findTypeParameter(java.lang.String) -> java.util.Optional<T> [ReferenceTypeDeclaration.java <214:13 214:20>]
+REFERENCE_TYPE_ARGUMENT java.util.Optional<com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration> com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration.findTypeParameter(java.lang.String) -> com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration [ReferenceTypeDeclaration.java <214:22 214:45>]
+REFERENCE_TYPE_USAGE java.util.Optional<com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration> com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration.findTypeParameter(java.lang.String) -> java.lang.String [ReferenceTypeDeclaration.java <214:66 214:71>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration.findTypeParameter<0> [ReferenceTypeDeclaration.java <214:73 214:76>]
+LOCAL_SYMBOL: ReferenceTypeDeclaration.java<214:79> [ReferenceTypeDeclaration.java <214:79 214:79>]
+LOCAL_SYMBOL: ReferenceTypeDeclaration.java<214:79> [ReferenceTypeDeclaration.java <224:5 224:5>]
+REFERENCE_TYPE_USAGE java.util.Optional<com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration> com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration.findTypeParameter(java.lang.String) -> com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration [ReferenceTypeDeclaration.java <215:14 215:37>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration.findTypeParameter<1> [ReferenceTypeDeclaration.java <215:39 215:40>]
+SYMBOL_METHOD java.util.List<com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration> com.github.javaparser.symbolsolver.model.declarations.TypeParametrizable.getTypeParameters()
+REFERENCE_CALL java.util.Optional<com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration> com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration.findTypeParameter(java.lang.String) -> java.util.List<com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration> com.github.javaparser.symbolsolver.model.declarations.TypeParametrizable.getTypeParameters() [ReferenceTypeDeclaration.java <215:49 215:65>]
+LOCAL_SYMBOL: ReferenceTypeDeclaration.java<215:70> [ReferenceTypeDeclaration.java <215:70 215:70>]
+LOCAL_SYMBOL: ReferenceTypeDeclaration.java<215:70> [ReferenceTypeDeclaration.java <219:9 219:9>]
+SYMBOL_METHOD boolean java.lang.String.equals(java.lang.Object)
+REFERENCE_CALL java.util.Optional<com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration> com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration.findTypeParameter(java.lang.String) -> boolean java.lang.String.equals(java.lang.Object) [ReferenceTypeDeclaration.java <216:30 216:35>]
+SYMBOL_METHOD java.lang.String com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration.getName()
+REFERENCE_CALL java.util.Optional<com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration> com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration.findTypeParameter(java.lang.String) -> java.lang.String com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration.getName() [ReferenceTypeDeclaration.java <216:20 216:26>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration.findTypeParameter<1> [ReferenceTypeDeclaration.java <216:17 216:18>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration.findTypeParameter<0> [ReferenceTypeDeclaration.java <216:37 216:40>]
+LOCAL_SYMBOL: ReferenceTypeDeclaration.java<216:44> [ReferenceTypeDeclaration.java <216:44 216:44>]
+LOCAL_SYMBOL: ReferenceTypeDeclaration.java<216:44> [ReferenceTypeDeclaration.java <218:13 218:13>]
+SYMBOL_METHOD static java.util.Optional<T> java.util.Optional<T>.of<T>(T)
+REFERENCE_CALL java.util.Optional<com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration> com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration.findTypeParameter(java.lang.String) -> static java.util.Optional<T> java.util.Optional<T>.of<T>(T) [ReferenceTypeDeclaration.java <217:33 217:34>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration.findTypeParameter<1> [ReferenceTypeDeclaration.java <217:36 217:37>]
+SYMBOL_METHOD boolean java.util.Optional<T>.isPresent()
+REFERENCE_CALL java.util.Optional<com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration> com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration.findTypeParameter(java.lang.String) -> boolean java.util.Optional<T>.isPresent() [ReferenceTypeDeclaration.java <220:34 220:42>]
+SYMBOL_METHOD java.util.Optional<com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration> com.github.javaparser.symbolsolver.model.declarations.TypeDeclaration.containerType()
+REFERENCE_CALL java.util.Optional<com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration> com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration.findTypeParameter(java.lang.String) -> java.util.Optional<com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration> com.github.javaparser.symbolsolver.model.declarations.TypeDeclaration.containerType() [ReferenceTypeDeclaration.java <220:18 220:30>]
+LOCAL_SYMBOL: ReferenceTypeDeclaration.java<220:47> [ReferenceTypeDeclaration.java <220:47 220:47>]
+LOCAL_SYMBOL: ReferenceTypeDeclaration.java<220:47> [ReferenceTypeDeclaration.java <222:9 222:9>]
+SYMBOL_METHOD java.util.Optional<com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration> com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration.findTypeParameter(java.lang.String)
+REFERENCE_CALL java.util.Optional<com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration> com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration.findTypeParameter(java.lang.String) -> java.util.Optional<com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration> com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration.findTypeParameter(java.lang.String) [ReferenceTypeDeclaration.java <221:47 221:63>]
+SYMBOL_METHOD java.util.Optional<T>.T java.util.Optional<T>.get()
+REFERENCE_CALL java.util.Optional<com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration> com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration.findTypeParameter(java.lang.String) -> java.util.Optional<T>.T java.util.Optional<T>.get() [ReferenceTypeDeclaration.java <221:41 221:43>]
+SYMBOL_METHOD java.util.Optional<com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration> com.github.javaparser.symbolsolver.model.declarations.TypeDeclaration.containerType()
+REFERENCE_CALL java.util.Optional<com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration> com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration.findTypeParameter(java.lang.String) -> java.util.Optional<com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration> com.github.javaparser.symbolsolver.model.declarations.TypeDeclaration.containerType() [ReferenceTypeDeclaration.java <221:25 221:37>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration.findTypeParameter<0> [ReferenceTypeDeclaration.java <221:65 221:68>]
+SYMBOL_METHOD static java.util.Optional<T> java.util.Optional<T>.empty<T>()
+REFERENCE_CALL java.util.Optional<com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration> com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration.findTypeParameter(java.lang.String) -> static java.util.Optional<T> java.util.Optional<T>.empty<T>() [ReferenceTypeDeclaration.java <223:25 223:29>]
+COMMENT: comment [ReferenceTypeDeclaration.java <24:5 24:7>]
+COMMENT: comment [ReferenceTypeDeclaration.java <25:5 25:17>]
+COMMENT: comment [ReferenceTypeDeclaration.java <26:5 26:7>]
+COMMENT: comment [ReferenceTypeDeclaration.java <44:9 44:90>]
+COMMENT: comment [ReferenceTypeDeclaration.java <58:5 58:7>]
+COMMENT: comment [ReferenceTypeDeclaration.java <59:5 59:14>]
+COMMENT: comment [ReferenceTypeDeclaration.java <60:5 60:7>]
+COMMENT: comment [ReferenceTypeDeclaration.java <145:5 145:7>]
+COMMENT: comment [ReferenceTypeDeclaration.java <146:5 146:15>]
+COMMENT: comment [ReferenceTypeDeclaration.java <147:5 147:7>]
+COMMENT: comment [ReferenceTypeDeclaration.java <160:5 160:7>]
+COMMENT: comment [ReferenceTypeDeclaration.java <161:5 161:21>]
+COMMENT: comment [ReferenceTypeDeclaration.java <162:5 162:7>]
+COMMENT: comment [ReferenceTypeDeclaration.java <184:5 184:7>]
+COMMENT: comment [ReferenceTypeDeclaration.java <185:5 185:19>]
+COMMENT: comment [ReferenceTypeDeclaration.java <186:5 186:7>]
+COMMENT: comment [ReferenceTypeDeclaration.java <209:5 209:7>]
+COMMENT: comment [ReferenceTypeDeclaration.java <210:5 210:23>]
+COMMENT: comment [ReferenceTypeDeclaration.java <211:5 211:7>]

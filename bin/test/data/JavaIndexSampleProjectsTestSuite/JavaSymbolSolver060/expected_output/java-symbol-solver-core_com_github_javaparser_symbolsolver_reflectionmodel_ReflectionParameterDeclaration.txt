@@ -1,0 +1,110 @@
+FILE: ReflectionParameterDeclaration.java
+SYMBOL_PACKAGE com.github.javaparser.symbolsolver.reflectionmodel [ReflectionParameterDeclaration.java <17:9 17:58>]
+SYMBOL_PACKAGE com.github.javaparser.symbolsolver
+SYMBOL_PACKAGE com.github.javaparser
+SYMBOL_PACKAGE com.github
+SYMBOL_PACKAGE com
+REFERENCE_IMPORT ReflectionParameterDeclaration.java -> com.github.javaparser.symbolsolver.model.declarations.ParameterDeclaration [ReflectionParameterDeclaration.java <19:8 19:81>]
+SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model.declarations
+REFERENCE_IMPORT ReflectionParameterDeclaration.java -> com.github.javaparser.symbolsolver.model.resolution.TypeSolver [ReflectionParameterDeclaration.java <20:8 20:69>]
+SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model.resolution
+REFERENCE_IMPORT ReflectionParameterDeclaration.java -> com.github.javaparser.symbolsolver.model.typesystem.Type [ReflectionParameterDeclaration.java <21:8 21:63>]
+SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model.typesystem
+SYMBOL_CLASS public com.github.javaparser.symbolsolver.reflectionmodel.ReflectionParameterDeclaration [ReflectionParameterDeclaration.java <26:1 <26:14 26:43> 75:1>]
+LOCAL_SYMBOL: ReflectionParameterDeclaration.java<26:77> [ReflectionParameterDeclaration.java <26:77 26:77>]
+LOCAL_SYMBOL: ReflectionParameterDeclaration.java<26:77> [ReflectionParameterDeclaration.java <75:1 75:1>]
+COMMENT: comment [ReflectionParameterDeclaration.java <23:1 25:3>]
+REFERENCE_INHERITANCE com.github.javaparser.symbolsolver.reflectionmodel.ReflectionParameterDeclaration -> com.github.javaparser.symbolsolver.model.declarations.ParameterDeclaration [ReflectionParameterDeclaration.java <26:56 26:75>]
+SYMBOL_FIELD private java.lang.Class<?> com.github.javaparser.symbolsolver.reflectionmodel.ReflectionParameterDeclaration.type [ReflectionParameterDeclaration.java <27:22 27:25>]
+REFERENCE_TYPE_USAGE java.lang.Class<?> com.github.javaparser.symbolsolver.reflectionmodel.ReflectionParameterDeclaration.type -> java.lang.Class<T> [ReflectionParameterDeclaration.java <27:13 27:17>]
+SYMBOL_FIELD private java.lang.reflect.Type com.github.javaparser.symbolsolver.reflectionmodel.ReflectionParameterDeclaration.genericType [ReflectionParameterDeclaration.java <28:36 28:46>]
+REFERENCE_TYPE_USAGE java.lang.reflect.Type com.github.javaparser.symbolsolver.reflectionmodel.ReflectionParameterDeclaration.genericType -> java.lang.reflect.Type [ReflectionParameterDeclaration.java <28:13 28:34>]
+SYMBOL_FIELD private com.github.javaparser.symbolsolver.model.resolution.TypeSolver com.github.javaparser.symbolsolver.reflectionmodel.ReflectionParameterDeclaration.typeSolver [ReflectionParameterDeclaration.java <29:24 29:33>]
+REFERENCE_TYPE_USAGE com.github.javaparser.symbolsolver.model.resolution.TypeSolver com.github.javaparser.symbolsolver.reflectionmodel.ReflectionParameterDeclaration.typeSolver -> com.github.javaparser.symbolsolver.model.resolution.TypeSolver [ReflectionParameterDeclaration.java <29:13 29:22>]
+SYMBOL_FIELD private boolean com.github.javaparser.symbolsolver.reflectionmodel.ReflectionParameterDeclaration.variadic [ReflectionParameterDeclaration.java <30:21 30:28>]
+SYMBOL_BUILTIN_TYPE boolean
+REFERENCE_TYPE_USAGE boolean com.github.javaparser.symbolsolver.reflectionmodel.ReflectionParameterDeclaration.variadic -> boolean [ReflectionParameterDeclaration.java <30:13 30:19>]
+SYMBOL_METHOD public com.github.javaparser.symbolsolver.reflectionmodel.ReflectionParameterDeclaration.ReflectionParameterDeclaration(java.lang.Class<?>, java.lang.reflect.Type, com.github.javaparser.symbolsolver.model.resolution.TypeSolver, boolean) [ReflectionParameterDeclaration.java <32:5 <32:12 32:41> 37:5>]
+REFERENCE_TYPE_USAGE com.github.javaparser.symbolsolver.reflectionmodel.ReflectionParameterDeclaration.ReflectionParameterDeclaration(java.lang.Class<?>, java.lang.reflect.Type, com.github.javaparser.symbolsolver.model.resolution.TypeSolver, boolean) -> java.lang.Class<T> [ReflectionParameterDeclaration.java <32:43 32:47>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.reflectionmodel.ReflectionParameterDeclaration.ReflectionParameterDeclaration<0> [ReflectionParameterDeclaration.java <32:52 32:55>]
+REFERENCE_TYPE_USAGE com.github.javaparser.symbolsolver.reflectionmodel.ReflectionParameterDeclaration.ReflectionParameterDeclaration(java.lang.Class<?>, java.lang.reflect.Type, com.github.javaparser.symbolsolver.model.resolution.TypeSolver, boolean) -> java.lang.reflect.Type [ReflectionParameterDeclaration.java <32:58 32:79>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.reflectionmodel.ReflectionParameterDeclaration.ReflectionParameterDeclaration<1> [ReflectionParameterDeclaration.java <32:81 32:91>]
+REFERENCE_TYPE_USAGE com.github.javaparser.symbolsolver.reflectionmodel.ReflectionParameterDeclaration.ReflectionParameterDeclaration(java.lang.Class<?>, java.lang.reflect.Type, com.github.javaparser.symbolsolver.model.resolution.TypeSolver, boolean) -> com.github.javaparser.symbolsolver.model.resolution.TypeSolver [ReflectionParameterDeclaration.java <32:94 32:103>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.reflectionmodel.ReflectionParameterDeclaration.ReflectionParameterDeclaration<2> [ReflectionParameterDeclaration.java <32:105 32:114>]
+SYMBOL_BUILTIN_TYPE boolean
+REFERENCE_TYPE_USAGE com.github.javaparser.symbolsolver.reflectionmodel.ReflectionParameterDeclaration.ReflectionParameterDeclaration(java.lang.Class<?>, java.lang.reflect.Type, com.github.javaparser.symbolsolver.model.resolution.TypeSolver, boolean) -> boolean [ReflectionParameterDeclaration.java <32:117 32:123>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.reflectionmodel.ReflectionParameterDeclaration.ReflectionParameterDeclaration<3> [ReflectionParameterDeclaration.java <32:125 32:132>]
+LOCAL_SYMBOL: ReflectionParameterDeclaration.java<32:135> [ReflectionParameterDeclaration.java <32:135 32:135>]
+LOCAL_SYMBOL: ReflectionParameterDeclaration.java<32:135> [ReflectionParameterDeclaration.java <37:5 37:5>]
+SYMBOL_FIELD java.lang.Class<?> com.github.javaparser.symbolsolver.reflectionmodel.ReflectionParameterDeclaration.type
+REFERENCE_USAGE com.github.javaparser.symbolsolver.reflectionmodel.ReflectionParameterDeclaration.ReflectionParameterDeclaration(java.lang.Class<?>, java.lang.reflect.Type, com.github.javaparser.symbolsolver.model.resolution.TypeSolver, boolean) -> java.lang.Class<?> com.github.javaparser.symbolsolver.reflectionmodel.ReflectionParameterDeclaration.type [ReflectionParameterDeclaration.java <33:14 33:17>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.reflectionmodel.ReflectionParameterDeclaration.ReflectionParameterDeclaration<0> [ReflectionParameterDeclaration.java <33:21 33:24>]
+SYMBOL_FIELD java.lang.reflect.Type com.github.javaparser.symbolsolver.reflectionmodel.ReflectionParameterDeclaration.genericType
+REFERENCE_USAGE com.github.javaparser.symbolsolver.reflectionmodel.ReflectionParameterDeclaration.ReflectionParameterDeclaration(java.lang.Class<?>, java.lang.reflect.Type, com.github.javaparser.symbolsolver.model.resolution.TypeSolver, boolean) -> java.lang.reflect.Type com.github.javaparser.symbolsolver.reflectionmodel.ReflectionParameterDeclaration.genericType [ReflectionParameterDeclaration.java <34:14 34:24>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.reflectionmodel.ReflectionParameterDeclaration.ReflectionParameterDeclaration<1> [ReflectionParameterDeclaration.java <34:28 34:38>]
+SYMBOL_FIELD com.github.javaparser.symbolsolver.model.resolution.TypeSolver com.github.javaparser.symbolsolver.reflectionmodel.ReflectionParameterDeclaration.typeSolver
+REFERENCE_USAGE com.github.javaparser.symbolsolver.reflectionmodel.ReflectionParameterDeclaration.ReflectionParameterDeclaration(java.lang.Class<?>, java.lang.reflect.Type, com.github.javaparser.symbolsolver.model.resolution.TypeSolver, boolean) -> com.github.javaparser.symbolsolver.model.resolution.TypeSolver com.github.javaparser.symbolsolver.reflectionmodel.ReflectionParameterDeclaration.typeSolver [ReflectionParameterDeclaration.java <35:14 35:23>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.reflectionmodel.ReflectionParameterDeclaration.ReflectionParameterDeclaration<2> [ReflectionParameterDeclaration.java <35:27 35:36>]
+SYMBOL_FIELD boolean com.github.javaparser.symbolsolver.reflectionmodel.ReflectionParameterDeclaration.variadic
+REFERENCE_USAGE com.github.javaparser.symbolsolver.reflectionmodel.ReflectionParameterDeclaration.ReflectionParameterDeclaration(java.lang.Class<?>, java.lang.reflect.Type, com.github.javaparser.symbolsolver.model.resolution.TypeSolver, boolean) -> boolean com.github.javaparser.symbolsolver.reflectionmodel.ReflectionParameterDeclaration.variadic [ReflectionParameterDeclaration.java <36:14 36:21>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.reflectionmodel.ReflectionParameterDeclaration.ReflectionParameterDeclaration<3> [ReflectionParameterDeclaration.java <36:25 36:32>]
+SYMBOL_METHOD public java.lang.String com.github.javaparser.symbolsolver.reflectionmodel.ReflectionParameterDeclaration.getName() [ReflectionParameterDeclaration.java <39:5 <40:19 40:25> 42:5>]
+SYMBOL_METHOD java.lang.String com.github.javaparser.symbolsolver.model.declarations.Declaration.getName()
+REFERENCE_OVERRIDE java.lang.String com.github.javaparser.symbolsolver.reflectionmodel.ReflectionParameterDeclaration.getName() -> java.lang.String com.github.javaparser.symbolsolver.model.declarations.Declaration.getName() [ReflectionParameterDeclaration.java <40:19 40:25>]
+REFERENCE_TYPE_USAGE java.lang.String com.github.javaparser.symbolsolver.reflectionmodel.ReflectionParameterDeclaration.getName() -> java.lang.String [ReflectionParameterDeclaration.java <40:12 40:17>]
+LOCAL_SYMBOL: ReflectionParameterDeclaration.java<40:29> [ReflectionParameterDeclaration.java <40:29 40:29>]
+LOCAL_SYMBOL: ReflectionParameterDeclaration.java<40:29> [ReflectionParameterDeclaration.java <42:5 42:5>]
+SYMBOL_METHOD java.lang.UnsupportedOperationException.UnsupportedOperationException()
+REFERENCE_CALL java.lang.String com.github.javaparser.symbolsolver.reflectionmodel.ReflectionParameterDeclaration.getName() -> java.lang.UnsupportedOperationException.UnsupportedOperationException() [ReflectionParameterDeclaration.java <41:19 41:47>]
+REFERENCE_TYPE_USAGE java.lang.String com.github.javaparser.symbolsolver.reflectionmodel.ReflectionParameterDeclaration.getName() -> java.lang.UnsupportedOperationException [ReflectionParameterDeclaration.java <41:19 41:47>]
+SYMBOL_METHOD public java.lang.String com.github.javaparser.symbolsolver.reflectionmodel.ReflectionParameterDeclaration.toString() [ReflectionParameterDeclaration.java <44:5 <45:19 45:26> 49:5>]
+SYMBOL_METHOD java.lang.String java.lang.Object.toString()
+REFERENCE_OVERRIDE java.lang.String com.github.javaparser.symbolsolver.reflectionmodel.ReflectionParameterDeclaration.toString() -> java.lang.String java.lang.Object.toString() [ReflectionParameterDeclaration.java <45:19 45:26>]
+REFERENCE_TYPE_USAGE java.lang.String com.github.javaparser.symbolsolver.reflectionmodel.ReflectionParameterDeclaration.toString() -> java.lang.String [ReflectionParameterDeclaration.java <45:12 45:17>]
+LOCAL_SYMBOL: ReflectionParameterDeclaration.java<45:30> [ReflectionParameterDeclaration.java <45:30 45:30>]
+LOCAL_SYMBOL: ReflectionParameterDeclaration.java<45:30> [ReflectionParameterDeclaration.java <49:5 49:5>]
+SYMBOL_FIELD java.lang.Class<?> com.github.javaparser.symbolsolver.reflectionmodel.ReflectionParameterDeclaration.type
+REFERENCE_USAGE java.lang.String com.github.javaparser.symbolsolver.reflectionmodel.ReflectionParameterDeclaration.toString() -> java.lang.Class<?> com.github.javaparser.symbolsolver.reflectionmodel.ReflectionParameterDeclaration.type [ReflectionParameterDeclaration.java <47:27 47:30>]
+SYMBOL_METHOD public boolean com.github.javaparser.symbolsolver.reflectionmodel.ReflectionParameterDeclaration.isField() [ReflectionParameterDeclaration.java <51:5 <52:20 52:26> 54:5>]
+SYMBOL_METHOD boolean com.github.javaparser.symbolsolver.model.declarations.Declaration.isField()
+REFERENCE_OVERRIDE boolean com.github.javaparser.symbolsolver.reflectionmodel.ReflectionParameterDeclaration.isField() -> boolean com.github.javaparser.symbolsolver.model.declarations.Declaration.isField() [ReflectionParameterDeclaration.java <52:20 52:26>]
+SYMBOL_BUILTIN_TYPE boolean
+REFERENCE_TYPE_USAGE boolean com.github.javaparser.symbolsolver.reflectionmodel.ReflectionParameterDeclaration.isField() -> boolean [ReflectionParameterDeclaration.java <52:12 52:18>]
+LOCAL_SYMBOL: ReflectionParameterDeclaration.java<52:30> [ReflectionParameterDeclaration.java <52:30 52:30>]
+LOCAL_SYMBOL: ReflectionParameterDeclaration.java<52:30> [ReflectionParameterDeclaration.java <54:5 54:5>]
+SYMBOL_METHOD public boolean com.github.javaparser.symbolsolver.reflectionmodel.ReflectionParameterDeclaration.isParameter() [ReflectionParameterDeclaration.java <56:5 <57:20 57:30> 59:5>]
+SYMBOL_METHOD boolean com.github.javaparser.symbolsolver.model.declarations.ParameterDeclaration.isParameter()
+REFERENCE_OVERRIDE boolean com.github.javaparser.symbolsolver.reflectionmodel.ReflectionParameterDeclaration.isParameter() -> boolean com.github.javaparser.symbolsolver.model.declarations.ParameterDeclaration.isParameter() [ReflectionParameterDeclaration.java <57:20 57:30>]
+SYMBOL_BUILTIN_TYPE boolean
+REFERENCE_TYPE_USAGE boolean com.github.javaparser.symbolsolver.reflectionmodel.ReflectionParameterDeclaration.isParameter() -> boolean [ReflectionParameterDeclaration.java <57:12 57:18>]
+LOCAL_SYMBOL: ReflectionParameterDeclaration.java<57:34> [ReflectionParameterDeclaration.java <57:34 57:34>]
+LOCAL_SYMBOL: ReflectionParameterDeclaration.java<57:34> [ReflectionParameterDeclaration.java <59:5 59:5>]
+SYMBOL_METHOD public boolean com.github.javaparser.symbolsolver.reflectionmodel.ReflectionParameterDeclaration.isVariadic() [ReflectionParameterDeclaration.java <61:5 <62:20 62:29> 64:5>]
+SYMBOL_METHOD boolean com.github.javaparser.symbolsolver.model.declarations.ParameterDeclaration.isVariadic()
+REFERENCE_OVERRIDE boolean com.github.javaparser.symbolsolver.reflectionmodel.ReflectionParameterDeclaration.isVariadic() -> boolean com.github.javaparser.symbolsolver.model.declarations.ParameterDeclaration.isVariadic() [ReflectionParameterDeclaration.java <62:20 62:29>]
+SYMBOL_BUILTIN_TYPE boolean
+REFERENCE_TYPE_USAGE boolean com.github.javaparser.symbolsolver.reflectionmodel.ReflectionParameterDeclaration.isVariadic() -> boolean [ReflectionParameterDeclaration.java <62:12 62:18>]
+LOCAL_SYMBOL: ReflectionParameterDeclaration.java<62:33> [ReflectionParameterDeclaration.java <62:33 62:33>]
+LOCAL_SYMBOL: ReflectionParameterDeclaration.java<62:33> [ReflectionParameterDeclaration.java <64:5 64:5>]
+SYMBOL_FIELD boolean com.github.javaparser.symbolsolver.reflectionmodel.ReflectionParameterDeclaration.variadic
+REFERENCE_USAGE boolean com.github.javaparser.symbolsolver.reflectionmodel.ReflectionParameterDeclaration.isVariadic() -> boolean com.github.javaparser.symbolsolver.reflectionmodel.ReflectionParameterDeclaration.variadic [ReflectionParameterDeclaration.java <63:16 63:23>]
+SYMBOL_METHOD public boolean com.github.javaparser.symbolsolver.reflectionmodel.ReflectionParameterDeclaration.isType() [ReflectionParameterDeclaration.java <66:5 <67:20 67:25> 69:5>]
+SYMBOL_METHOD boolean com.github.javaparser.symbolsolver.model.declarations.Declaration.isType()
+REFERENCE_OVERRIDE boolean com.github.javaparser.symbolsolver.reflectionmodel.ReflectionParameterDeclaration.isType() -> boolean com.github.javaparser.symbolsolver.model.declarations.Declaration.isType() [ReflectionParameterDeclaration.java <67:20 67:25>]
+SYMBOL_BUILTIN_TYPE boolean
+REFERENCE_TYPE_USAGE boolean com.github.javaparser.symbolsolver.reflectionmodel.ReflectionParameterDeclaration.isType() -> boolean [ReflectionParameterDeclaration.java <67:12 67:18>]
+LOCAL_SYMBOL: ReflectionParameterDeclaration.java<67:29> [ReflectionParameterDeclaration.java <67:29 67:29>]
+LOCAL_SYMBOL: ReflectionParameterDeclaration.java<67:29> [ReflectionParameterDeclaration.java <69:5 69:5>]
+SYMBOL_METHOD public com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.reflectionmodel.ReflectionParameterDeclaration.getType() [ReflectionParameterDeclaration.java <71:5 <72:17 72:23> 74:5>]
+SYMBOL_METHOD com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.model.declarations.ValueDeclaration.getType()
+REFERENCE_OVERRIDE com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.reflectionmodel.ReflectionParameterDeclaration.getType() -> com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.model.declarations.ValueDeclaration.getType() [ReflectionParameterDeclaration.java <72:17 72:23>]
+REFERENCE_TYPE_USAGE com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.reflectionmodel.ReflectionParameterDeclaration.getType() -> com.github.javaparser.symbolsolver.model.typesystem.Type [ReflectionParameterDeclaration.java <72:12 72:15>]
+LOCAL_SYMBOL: ReflectionParameterDeclaration.java<72:27> [ReflectionParameterDeclaration.java <72:27 72:27>]
+LOCAL_SYMBOL: ReflectionParameterDeclaration.java<72:27> [ReflectionParameterDeclaration.java <74:5 74:5>]
+SYMBOL_METHOD static com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFactory.typeUsageFor(java.lang.reflect.Type, com.github.javaparser.symbolsolver.model.resolution.TypeSolver)
+REFERENCE_CALL com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.reflectionmodel.ReflectionParameterDeclaration.getType() -> static com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFactory.typeUsageFor(java.lang.reflect.Type, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) [ReflectionParameterDeclaration.java <73:34 73:45>]
+SYMBOL_FIELD java.lang.reflect.Type com.github.javaparser.symbolsolver.reflectionmodel.ReflectionParameterDeclaration.genericType
+REFERENCE_USAGE com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.reflectionmodel.ReflectionParameterDeclaration.getType() -> java.lang.reflect.Type com.github.javaparser.symbolsolver.reflectionmodel.ReflectionParameterDeclaration.genericType [ReflectionParameterDeclaration.java <73:47 73:57>]
+SYMBOL_FIELD com.github.javaparser.symbolsolver.model.resolution.TypeSolver com.github.javaparser.symbolsolver.reflectionmodel.ReflectionParameterDeclaration.typeSolver
+REFERENCE_USAGE com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.reflectionmodel.ReflectionParameterDeclaration.getType() -> com.github.javaparser.symbolsolver.model.resolution.TypeSolver com.github.javaparser.symbolsolver.reflectionmodel.ReflectionParameterDeclaration.typeSolver [ReflectionParameterDeclaration.java <73:60 73:69>]
+COMMENT: comment [ReflectionParameterDeclaration.java <1:1 15:3>]

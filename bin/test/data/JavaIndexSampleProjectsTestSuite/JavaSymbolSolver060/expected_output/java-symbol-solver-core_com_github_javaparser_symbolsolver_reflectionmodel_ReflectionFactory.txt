@@ -1,0 +1,372 @@
+FILE: ReflectionFactory.java
+SYMBOL_PACKAGE com.github.javaparser.symbolsolver.reflectionmodel [ReflectionFactory.java <17:9 17:58>]
+SYMBOL_PACKAGE com.github.javaparser.symbolsolver
+SYMBOL_PACKAGE com.github.javaparser
+SYMBOL_PACKAGE com.github
+SYMBOL_PACKAGE com
+REFERENCE_IMPORT ReflectionFactory.java -> com.github.javaparser.symbolsolver.model.declarations.AccessLevel [ReflectionFactory.java <19:8 19:72>]
+SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model.declarations
+REFERENCE_IMPORT ReflectionFactory.java -> com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration [ReflectionFactory.java <20:8 20:85>]
+SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model.declarations
+REFERENCE_IMPORT ReflectionFactory.java -> com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration [ReflectionFactory.java <21:8 21:85>]
+SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model.declarations
+REFERENCE_IMPORT ReflectionFactory.java -> com.github.javaparser.symbolsolver.model.resolution.TypeSolver [ReflectionFactory.java <22:8 22:69>]
+SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model.resolution
+REFERENCE_IMPORT ReflectionFactory.java -> com.github.javaparser.symbolsolver.model.typesystem [ReflectionFactory.java <23:8 23:58>]
+SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model.typesystem
+REFERENCE_IMPORT ReflectionFactory.java -> java.lang.reflect.GenericArrayType [ReflectionFactory.java <25:8 25:41>]
+SYMBOL_PACKAGE java.lang.reflect
+REFERENCE_IMPORT ReflectionFactory.java -> java.lang.reflect.Modifier [ReflectionFactory.java <26:8 26:33>]
+SYMBOL_PACKAGE java.lang.reflect
+REFERENCE_IMPORT ReflectionFactory.java -> java.lang.reflect.ParameterizedType [ReflectionFactory.java <27:8 27:42>]
+SYMBOL_PACKAGE java.lang.reflect
+REFERENCE_IMPORT ReflectionFactory.java -> java.lang.reflect.WildcardType [ReflectionFactory.java <28:8 28:37>]
+SYMBOL_PACKAGE java.lang.reflect
+REFERENCE_IMPORT ReflectionFactory.java -> java.util.ArrayList<E> [ReflectionFactory.java <29:8 29:26>]
+SYMBOL_PACKAGE java.util
+REFERENCE_IMPORT ReflectionFactory.java -> java.util.Arrays [ReflectionFactory.java <30:8 30:23>]
+SYMBOL_PACKAGE java.util
+REFERENCE_IMPORT ReflectionFactory.java -> java.util.List<E> [ReflectionFactory.java <31:8 31:21>]
+SYMBOL_PACKAGE java.util
+SYMBOL_CLASS public com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFactory [ReflectionFactory.java <36:1 <36:14 36:30> 118:1>]
+LOCAL_SYMBOL: ReflectionFactory.java<36:32> [ReflectionFactory.java <36:32 36:32>]
+LOCAL_SYMBOL: ReflectionFactory.java<36:32> [ReflectionFactory.java <118:1 118:1>]
+COMMENT: comment [ReflectionFactory.java <33:1 35:3>]
+SYMBOL_METHOD public static com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFactory.typeDeclarationFor(java.lang.Class<?>, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) [ReflectionFactory.java <38:5 <38:44 38:61> 50:5>]
+REFERENCE_TYPE_USAGE static com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFactory.typeDeclarationFor(java.lang.Class<?>, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration [ReflectionFactory.java <38:19 38:42>]
+REFERENCE_TYPE_USAGE static com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFactory.typeDeclarationFor(java.lang.Class<?>, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> java.lang.Class<T> [ReflectionFactory.java <38:63 38:67>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFactory.typeDeclarationFor<0> [ReflectionFactory.java <38:72 38:76>]
+REFERENCE_TYPE_USAGE static com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFactory.typeDeclarationFor(java.lang.Class<?>, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> com.github.javaparser.symbolsolver.model.resolution.TypeSolver [ReflectionFactory.java <38:79 38:88>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFactory.typeDeclarationFor<1> [ReflectionFactory.java <38:90 38:99>]
+LOCAL_SYMBOL: ReflectionFactory.java<38:102> [ReflectionFactory.java <38:102 38:102>]
+LOCAL_SYMBOL: ReflectionFactory.java<38:102> [ReflectionFactory.java <50:5 50:5>]
+SYMBOL_METHOD boolean java.lang.Class<T>.isArray()
+REFERENCE_CALL static com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFactory.typeDeclarationFor(java.lang.Class<?>, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> boolean java.lang.Class<T>.isArray() [ReflectionFactory.java <39:19 39:25>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFactory.typeDeclarationFor<0> [ReflectionFactory.java <39:13 39:17>]
+LOCAL_SYMBOL: ReflectionFactory.java<39:30> [ReflectionFactory.java <39:30 39:30>]
+LOCAL_SYMBOL: ReflectionFactory.java<39:30> [ReflectionFactory.java <41:9 41:9>]
+SYMBOL_METHOD java.lang.IllegalArgumentException.IllegalArgumentException(java.lang.String)
+REFERENCE_CALL static com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFactory.typeDeclarationFor(java.lang.Class<?>, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> java.lang.IllegalArgumentException.IllegalArgumentException(java.lang.String) [ReflectionFactory.java <40:23 40:46>]
+REFERENCE_TYPE_USAGE static com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFactory.typeDeclarationFor(java.lang.Class<?>, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> java.lang.IllegalArgumentException [ReflectionFactory.java <40:23 40:46>]
+SYMBOL_METHOD boolean java.lang.Class<T>.isPrimitive()
+REFERENCE_CALL static com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFactory.typeDeclarationFor(java.lang.Class<?>, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> boolean java.lang.Class<T>.isPrimitive() [ReflectionFactory.java <41:26 41:36>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFactory.typeDeclarationFor<0> [ReflectionFactory.java <41:20 41:24>]
+LOCAL_SYMBOL: ReflectionFactory.java<41:41> [ReflectionFactory.java <41:41 41:41>]
+LOCAL_SYMBOL: ReflectionFactory.java<41:41> [ReflectionFactory.java <43:9 43:9>]
+SYMBOL_METHOD java.lang.IllegalArgumentException.IllegalArgumentException()
+REFERENCE_CALL static com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFactory.typeDeclarationFor(java.lang.Class<?>, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> java.lang.IllegalArgumentException.IllegalArgumentException() [ReflectionFactory.java <42:23 42:46>]
+REFERENCE_TYPE_USAGE static com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFactory.typeDeclarationFor(java.lang.Class<?>, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> java.lang.IllegalArgumentException [ReflectionFactory.java <42:23 42:46>]
+SYMBOL_METHOD boolean java.lang.Class<T>.isInterface()
+REFERENCE_CALL static com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFactory.typeDeclarationFor(java.lang.Class<?>, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> boolean java.lang.Class<T>.isInterface() [ReflectionFactory.java <43:26 43:36>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFactory.typeDeclarationFor<0> [ReflectionFactory.java <43:20 43:24>]
+LOCAL_SYMBOL: ReflectionFactory.java<43:41> [ReflectionFactory.java <43:41 43:41>]
+LOCAL_SYMBOL: ReflectionFactory.java<43:41> [ReflectionFactory.java <45:9 45:9>]
+SYMBOL_METHOD com.github.javaparser.symbolsolver.reflectionmodel.ReflectionInterfaceDeclaration.ReflectionInterfaceDeclaration(java.lang.Class<?>, com.github.javaparser.symbolsolver.model.resolution.TypeSolver)
+REFERENCE_CALL static com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFactory.typeDeclarationFor(java.lang.Class<?>, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> com.github.javaparser.symbolsolver.reflectionmodel.ReflectionInterfaceDeclaration.ReflectionInterfaceDeclaration(java.lang.Class<?>, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) [ReflectionFactory.java <44:24 44:53>]
+REFERENCE_TYPE_USAGE static com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFactory.typeDeclarationFor(java.lang.Class<?>, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> com.github.javaparser.symbolsolver.reflectionmodel.ReflectionInterfaceDeclaration [ReflectionFactory.java <44:24 44:53>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFactory.typeDeclarationFor<0> [ReflectionFactory.java <44:55 44:59>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFactory.typeDeclarationFor<1> [ReflectionFactory.java <44:62 44:71>]
+SYMBOL_METHOD boolean java.lang.Class<T>.isEnum()
+REFERENCE_CALL static com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFactory.typeDeclarationFor(java.lang.Class<?>, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> boolean java.lang.Class<T>.isEnum() [ReflectionFactory.java <45:26 45:31>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFactory.typeDeclarationFor<0> [ReflectionFactory.java <45:20 45:24>]
+LOCAL_SYMBOL: ReflectionFactory.java<45:36> [ReflectionFactory.java <45:36 45:36>]
+LOCAL_SYMBOL: ReflectionFactory.java<45:36> [ReflectionFactory.java <47:9 47:9>]
+SYMBOL_METHOD com.github.javaparser.symbolsolver.reflectionmodel.ReflectionEnumDeclaration.ReflectionEnumDeclaration(java.lang.Class<?>, com.github.javaparser.symbolsolver.model.resolution.TypeSolver)
+REFERENCE_CALL static com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFactory.typeDeclarationFor(java.lang.Class<?>, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> com.github.javaparser.symbolsolver.reflectionmodel.ReflectionEnumDeclaration.ReflectionEnumDeclaration(java.lang.Class<?>, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) [ReflectionFactory.java <46:24 46:48>]
+REFERENCE_TYPE_USAGE static com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFactory.typeDeclarationFor(java.lang.Class<?>, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> com.github.javaparser.symbolsolver.reflectionmodel.ReflectionEnumDeclaration [ReflectionFactory.java <46:24 46:48>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFactory.typeDeclarationFor<0> [ReflectionFactory.java <46:50 46:54>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFactory.typeDeclarationFor<1> [ReflectionFactory.java <46:57 46:66>]
+LOCAL_SYMBOL: ReflectionFactory.java<47:16> [ReflectionFactory.java <47:16 47:16>]
+LOCAL_SYMBOL: ReflectionFactory.java<47:16> [ReflectionFactory.java <49:9 49:9>]
+SYMBOL_METHOD com.github.javaparser.symbolsolver.reflectionmodel.ReflectionClassDeclaration.ReflectionClassDeclaration(java.lang.Class<?>, com.github.javaparser.symbolsolver.model.resolution.TypeSolver)
+REFERENCE_CALL static com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFactory.typeDeclarationFor(java.lang.Class<?>, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> com.github.javaparser.symbolsolver.reflectionmodel.ReflectionClassDeclaration.ReflectionClassDeclaration(java.lang.Class<?>, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) [ReflectionFactory.java <48:24 48:49>]
+REFERENCE_TYPE_USAGE static com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFactory.typeDeclarationFor(java.lang.Class<?>, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> com.github.javaparser.symbolsolver.reflectionmodel.ReflectionClassDeclaration [ReflectionFactory.java <48:24 48:49>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFactory.typeDeclarationFor<0> [ReflectionFactory.java <48:51 48:55>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFactory.typeDeclarationFor<1> [ReflectionFactory.java <48:58 48:67>]
+SYMBOL_METHOD public static com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFactory.typeUsageFor(java.lang.reflect.Type, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) [ReflectionFactory.java <52:5 <52:24 52:35> 105:5>]
+REFERENCE_TYPE_USAGE static com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFactory.typeUsageFor(java.lang.reflect.Type, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> com.github.javaparser.symbolsolver.model.typesystem.Type [ReflectionFactory.java <52:19 52:22>]
+REFERENCE_TYPE_USAGE static com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFactory.typeUsageFor(java.lang.reflect.Type, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> java.lang.reflect.Type [ReflectionFactory.java <52:37 52:58>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFactory.typeUsageFor<0> [ReflectionFactory.java <52:60 52:63>]
+REFERENCE_TYPE_USAGE static com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFactory.typeUsageFor(java.lang.reflect.Type, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> com.github.javaparser.symbolsolver.model.resolution.TypeSolver [ReflectionFactory.java <52:66 52:75>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFactory.typeUsageFor<1> [ReflectionFactory.java <52:77 52:86>]
+LOCAL_SYMBOL: ReflectionFactory.java<52:89> [ReflectionFactory.java <52:89 52:89>]
+LOCAL_SYMBOL: ReflectionFactory.java<52:89> [ReflectionFactory.java <105:5 105:5>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFactory.typeUsageFor<0> [ReflectionFactory.java <53:13 53:16>]
+REFERENCE_TYPE_USAGE static com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFactory.typeUsageFor(java.lang.reflect.Type, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> java.lang.reflect.TypeVariable<D> [ReflectionFactory.java <53:29 53:58>]
+LOCAL_SYMBOL: ReflectionFactory.java<53:61> [ReflectionFactory.java <53:61 53:61>]
+LOCAL_SYMBOL: ReflectionFactory.java<53:61> [ReflectionFactory.java <58:9 58:9>]
+REFERENCE_TYPE_USAGE static com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFactory.typeUsageFor(java.lang.reflect.Type, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> java.lang.reflect.TypeVariable<D> [ReflectionFactory.java <54:13 54:42>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFactory.typeUsageFor<2> [ReflectionFactory.java <54:47 54:48>]
+REFERENCE_TYPE_USAGE static com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFactory.typeUsageFor(java.lang.reflect.Type, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> java.lang.reflect.TypeVariable<D> [ReflectionFactory.java <54:53 54:82>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFactory.typeUsageFor<0> [ReflectionFactory.java <54:88 54:91>]
+SYMBOL_BUILTIN_TYPE boolean
+REFERENCE_TYPE_USAGE static com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFactory.typeUsageFor(java.lang.reflect.Type, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> boolean [ReflectionFactory.java <55:13 55:19>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFactory.typeUsageFor<3> [ReflectionFactory.java <55:21 55:35>]
+SYMBOL_METHOD java.lang.reflect.TypeVariable<D>.D java.lang.reflect.TypeVariable<D>.getGenericDeclaration()
+REFERENCE_CALL static com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFactory.typeUsageFor(java.lang.reflect.Type, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> java.lang.reflect.TypeVariable<D>.D java.lang.reflect.TypeVariable<D>.getGenericDeclaration() [ReflectionFactory.java <55:42 55:62>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFactory.typeUsageFor<2> [ReflectionFactory.java <55:39 55:40>]
+REFERENCE_TYPE_USAGE static com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFactory.typeUsageFor(java.lang.reflect.Type, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> java.lang.reflect.Type [ReflectionFactory.java <55:77 55:98>]
+REFERENCE_TYPE_USAGE static com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFactory.typeUsageFor(java.lang.reflect.Type, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration [ReflectionFactory.java <56:13 56:36>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFactory.typeUsageFor<4> [ReflectionFactory.java <56:38 56:50>]
+SYMBOL_METHOD com.github.javaparser.symbolsolver.reflectionmodel.ReflectionTypeParameter.ReflectionTypeParameter(java.lang.reflect.TypeVariable, boolean, com.github.javaparser.symbolsolver.model.resolution.TypeSolver)
+REFERENCE_CALL static com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFactory.typeUsageFor(java.lang.reflect.Type, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> com.github.javaparser.symbolsolver.reflectionmodel.ReflectionTypeParameter.ReflectionTypeParameter(java.lang.reflect.TypeVariable, boolean, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) [ReflectionFactory.java <56:58 56:80>]
+REFERENCE_TYPE_USAGE static com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFactory.typeUsageFor(java.lang.reflect.Type, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> com.github.javaparser.symbolsolver.reflectionmodel.ReflectionTypeParameter [ReflectionFactory.java <56:58 56:80>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFactory.typeUsageFor<2> [ReflectionFactory.java <56:82 56:83>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFactory.typeUsageFor<3> [ReflectionFactory.java <56:86 56:100>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFactory.typeUsageFor<1> [ReflectionFactory.java <56:103 56:112>]
+SYMBOL_METHOD com.github.javaparser.symbolsolver.model.typesystem.TypeVariable.TypeVariable(com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration)
+REFERENCE_CALL static com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFactory.typeUsageFor(java.lang.reflect.Type, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> com.github.javaparser.symbolsolver.model.typesystem.TypeVariable.TypeVariable(com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration) [ReflectionFactory.java <57:24 57:87>]
+REFERENCE_TYPE_USAGE static com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFactory.typeUsageFor(java.lang.reflect.Type, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> com.github.javaparser.symbolsolver.model.typesystem.TypeVariable [ReflectionFactory.java <57:24 57:87>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFactory.typeUsageFor<4> [ReflectionFactory.java <57:89 57:101>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFactory.typeUsageFor<0> [ReflectionFactory.java <58:20 58:23>]
+REFERENCE_TYPE_USAGE static com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFactory.typeUsageFor(java.lang.reflect.Type, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> java.lang.reflect.ParameterizedType [ReflectionFactory.java <58:36 58:52>]
+LOCAL_SYMBOL: ReflectionFactory.java<58:55> [ReflectionFactory.java <58:55 58:55>]
+LOCAL_SYMBOL: ReflectionFactory.java<58:55> [ReflectionFactory.java <66:9 66:9>]
+REFERENCE_TYPE_USAGE static com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFactory.typeUsageFor(java.lang.reflect.Type, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> java.lang.reflect.ParameterizedType [ReflectionFactory.java <59:13 59:29>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFactory.typeUsageFor<5> [ReflectionFactory.java <59:31 59:32>]
+REFERENCE_TYPE_USAGE static com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFactory.typeUsageFor(java.lang.reflect.Type, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> java.lang.reflect.ParameterizedType [ReflectionFactory.java <59:37 59:53>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFactory.typeUsageFor<0> [ReflectionFactory.java <59:56 59:59>]
+REFERENCE_TYPE_USAGE static com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFactory.typeUsageFor(java.lang.reflect.Type, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> com.github.javaparser.symbolsolver.model.typesystem.ReferenceType [ReflectionFactory.java <60:13 60:25>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFactory.typeUsageFor<6> [ReflectionFactory.java <60:27 60:33>]
+SYMBOL_METHOD com.github.javaparser.symbolsolver.model.typesystem.ReferenceType com.github.javaparser.symbolsolver.model.typesystem.Type.asReferenceType()
+REFERENCE_CALL static com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFactory.typeUsageFor(java.lang.reflect.Type, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> com.github.javaparser.symbolsolver.model.typesystem.ReferenceType com.github.javaparser.symbolsolver.model.typesystem.Type.asReferenceType() [ReflectionFactory.java <60:79 60:93>]
+SYMBOL_METHOD static com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFactory.typeUsageFor(java.lang.reflect.Type, com.github.javaparser.symbolsolver.model.resolution.TypeSolver)
+REFERENCE_CALL static com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFactory.typeUsageFor(java.lang.reflect.Type, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> static com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFactory.typeUsageFor(java.lang.reflect.Type, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) [ReflectionFactory.java <60:37 60:48>]
+SYMBOL_METHOD java.lang.reflect.Type java.lang.reflect.ParameterizedType.getRawType()
+REFERENCE_CALL static com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFactory.typeUsageFor(java.lang.reflect.Type, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> java.lang.reflect.Type java.lang.reflect.ParameterizedType.getRawType() [ReflectionFactory.java <60:53 60:62>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFactory.typeUsageFor<5> [ReflectionFactory.java <60:50 60:51>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFactory.typeUsageFor<1> [ReflectionFactory.java <60:67 60:76>]
+REFERENCE_TYPE_USAGE static com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFactory.typeUsageFor(java.lang.reflect.Type, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> java.util.List<E> [ReflectionFactory.java <61:13 61:16>]
+REFERENCE_TYPE_ARGUMENT static com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFactory.typeUsageFor(java.lang.reflect.Type, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> java.lang.reflect.Type [ReflectionFactory.java <61:18 61:39>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFactory.typeUsageFor<7> [ReflectionFactory.java <61:42 61:52>]
+SYMBOL_METHOD java.util.ArrayList<E>.ArrayList()
+REFERENCE_CALL static com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFactory.typeUsageFor(java.lang.reflect.Type, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> java.util.ArrayList<E>.ArrayList() [ReflectionFactory.java <61:60 61:70>]
+REFERENCE_TYPE_USAGE static com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFactory.typeUsageFor(java.lang.reflect.Type, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> java.util.ArrayList<E> [ReflectionFactory.java <61:60 61:68>]
+SYMBOL_METHOD boolean java.util.List<E>.addAll(java.util.Collection<? extends E>)
+REFERENCE_CALL static com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFactory.typeUsageFor(java.lang.reflect.Type, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> boolean java.util.List<E>.addAll(java.util.Collection<? extends E>) [ReflectionFactory.java <62:25 62:30>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFactory.typeUsageFor<7> [ReflectionFactory.java <62:13 62:23>]
+SYMBOL_METHOD static java.util.List<T> java.util.Arrays.asList<T>(T)
+REFERENCE_CALL static com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFactory.typeUsageFor(java.lang.reflect.Type, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> static java.util.List<T> java.util.Arrays.asList<T>(T) [ReflectionFactory.java <62:39 62:44>]
+SYMBOL_METHOD java.lang.reflect.Type java.lang.reflect.ParameterizedType.getActualTypeArguments()
+REFERENCE_CALL static com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFactory.typeUsageFor(java.lang.reflect.Type, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> java.lang.reflect.Type java.lang.reflect.ParameterizedType.getActualTypeArguments() [ReflectionFactory.java <62:49 62:70>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFactory.typeUsageFor<5> [ReflectionFactory.java <62:46 62:47>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFactory.typeUsageFor<6> [ReflectionFactory.java <64:13 64:19>]
+SYMBOL_METHOD com.github.javaparser.symbolsolver.model.typesystem.ReferenceType com.github.javaparser.symbolsolver.model.typesystem.Type.asReferenceType()
+REFERENCE_CALL static com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFactory.typeUsageFor(java.lang.reflect.Type, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> com.github.javaparser.symbolsolver.model.typesystem.ReferenceType com.github.javaparser.symbolsolver.model.typesystem.Type.asReferenceType() [ReflectionFactory.java <64:110 64:124>]
+SYMBOL_METHOD com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.model.typesystem.ReferenceType.transformTypeParameters(com.github.javaparser.symbolsolver.model.typesystem.TypeTransformer)
+REFERENCE_CALL static com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFactory.typeUsageFor(java.lang.reflect.Type, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.model.typesystem.ReferenceType.transformTypeParameters(com.github.javaparser.symbolsolver.model.typesystem.TypeTransformer) [ReflectionFactory.java <64:31 64:53>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFactory.typeUsageFor<6> [ReflectionFactory.java <64:23 64:29>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.model.typesystem.TypeTransformer.transform<9> [ReflectionFactory.java <64:55 64:56>]
+SYMBOL_METHOD static com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFactory.typeUsageFor(java.lang.reflect.Type, com.github.javaparser.symbolsolver.model.resolution.TypeSolver)
+REFERENCE_CALL static com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFactory.typeUsageFor(java.lang.reflect.Type, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> static com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFactory.typeUsageFor(java.lang.reflect.Type, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) [ReflectionFactory.java <64:61 64:72>]
+SYMBOL_METHOD java.util.List<E>.E java.util.List<E>.remove(int)
+REFERENCE_CALL static com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFactory.typeUsageFor(java.lang.reflect.Type, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> java.util.List<E>.E java.util.List<E>.remove(int) [ReflectionFactory.java <64:86 64:91>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFactory.typeUsageFor<7> [ReflectionFactory.java <64:74 64:84>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFactory.typeUsageFor<1> [ReflectionFactory.java <64:97 64:106>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFactory.typeUsageFor<6> [ReflectionFactory.java <65:20 65:26>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFactory.typeUsageFor<0> [ReflectionFactory.java <66:20 66:23>]
+REFERENCE_TYPE_USAGE static com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFactory.typeUsageFor(java.lang.reflect.Type, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> java.lang.Class<T> [ReflectionFactory.java <66:36 66:40>]
+LOCAL_SYMBOL: ReflectionFactory.java<66:43> [ReflectionFactory.java <66:43 66:43>]
+LOCAL_SYMBOL: ReflectionFactory.java<66:43> [ReflectionFactory.java <79:9 79:9>]
+REFERENCE_TYPE_USAGE static com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFactory.typeUsageFor(java.lang.reflect.Type, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> java.lang.Class<T> [ReflectionFactory.java <67:13 67:17>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFactory.typeUsageFor<10> [ReflectionFactory.java <67:22 67:22>]
+REFERENCE_TYPE_USAGE static com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFactory.typeUsageFor(java.lang.reflect.Type, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> java.lang.Class<T> [ReflectionFactory.java <67:27 67:31>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFactory.typeUsageFor<0> [ReflectionFactory.java <67:37 67:40>]
+SYMBOL_METHOD boolean java.lang.Class<T>.isPrimitive()
+REFERENCE_CALL static com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFactory.typeUsageFor(java.lang.reflect.Type, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> boolean java.lang.Class<T>.isPrimitive() [ReflectionFactory.java <68:19 68:29>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFactory.typeUsageFor<10> [ReflectionFactory.java <68:17 68:17>]
+LOCAL_SYMBOL: ReflectionFactory.java<68:34> [ReflectionFactory.java <68:34 68:34>]
+LOCAL_SYMBOL: ReflectionFactory.java<68:34> [ReflectionFactory.java <74:13 74:13>]
+SYMBOL_METHOD boolean java.lang.String.equals(java.lang.Object)
+REFERENCE_CALL static com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFactory.typeUsageFor(java.lang.reflect.Type, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> boolean java.lang.String.equals(java.lang.Object) [ReflectionFactory.java <69:33 69:38>]
+SYMBOL_METHOD java.lang.String java.lang.Class<T>.getName()
+REFERENCE_CALL static com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFactory.typeUsageFor(java.lang.reflect.Type, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> java.lang.String java.lang.Class<T>.getName() [ReflectionFactory.java <69:23 69:29>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFactory.typeUsageFor<10> [ReflectionFactory.java <69:21 69:21>]
+SYMBOL_METHOD java.lang.String java.lang.Class<T>.getName()
+REFERENCE_CALL static com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFactory.typeUsageFor(java.lang.reflect.Type, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> java.lang.String java.lang.Class<T>.getName() [ReflectionFactory.java <69:50 69:56>]
+SYMBOL_FIELD static java.lang.Class<java.lang.Void> java.lang.Void.TYPE
+REFERENCE_USAGE static com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFactory.typeUsageFor(java.lang.reflect.Type, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> static java.lang.Class<java.lang.Void> java.lang.Void.TYPE [ReflectionFactory.java <69:45 69:48>]
+LOCAL_SYMBOL: ReflectionFactory.java<69:62> [ReflectionFactory.java <69:62 69:62>]
+LOCAL_SYMBOL: ReflectionFactory.java<69:62> [ReflectionFactory.java <71:17 71:17>]
+SYMBOL_FIELD static com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.model.typesystem.VoidType.INSTANCE
+REFERENCE_USAGE static com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFactory.typeUsageFor(java.lang.reflect.Type, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> static com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.model.typesystem.VoidType.INSTANCE [ReflectionFactory.java <70:37 70:44>]
+LOCAL_SYMBOL: ReflectionFactory.java<71:24> [ReflectionFactory.java <71:24 71:24>]
+LOCAL_SYMBOL: ReflectionFactory.java<71:24> [ReflectionFactory.java <73:17 73:17>]
+SYMBOL_METHOD static com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType.byName(java.lang.String)
+REFERENCE_CALL static com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFactory.typeUsageFor(java.lang.reflect.Type, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> static com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType.byName(java.lang.String) [ReflectionFactory.java <72:42 72:47>]
+SYMBOL_METHOD java.lang.String java.lang.Class<T>.getName()
+REFERENCE_CALL static com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFactory.typeUsageFor(java.lang.reflect.Type, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> java.lang.String java.lang.Class<T>.getName() [ReflectionFactory.java <72:51 72:57>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFactory.typeUsageFor<10> [ReflectionFactory.java <72:49 72:49>]
+SYMBOL_METHOD boolean java.lang.Class<T>.isArray()
+REFERENCE_CALL static com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFactory.typeUsageFor(java.lang.reflect.Type, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> boolean java.lang.Class<T>.isArray() [ReflectionFactory.java <74:26 74:32>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFactory.typeUsageFor<10> [ReflectionFactory.java <74:24 74:24>]
+LOCAL_SYMBOL: ReflectionFactory.java<74:37> [ReflectionFactory.java <74:37 74:37>]
+LOCAL_SYMBOL: ReflectionFactory.java<74:37> [ReflectionFactory.java <76:13 76:13>]
+SYMBOL_METHOD com.github.javaparser.symbolsolver.model.typesystem.ArrayType.ArrayType(com.github.javaparser.symbolsolver.model.typesystem.Type)
+REFERENCE_CALL static com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFactory.typeUsageFor(java.lang.reflect.Type, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> com.github.javaparser.symbolsolver.model.typesystem.ArrayType.ArrayType(com.github.javaparser.symbolsolver.model.typesystem.Type) [ReflectionFactory.java <75:28 75:36>]
+REFERENCE_TYPE_USAGE static com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFactory.typeUsageFor(java.lang.reflect.Type, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> com.github.javaparser.symbolsolver.model.typesystem.ArrayType [ReflectionFactory.java <75:28 75:36>]
+SYMBOL_METHOD static com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFactory.typeUsageFor(java.lang.reflect.Type, com.github.javaparser.symbolsolver.model.resolution.TypeSolver)
+REFERENCE_CALL static com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFactory.typeUsageFor(java.lang.reflect.Type, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> static com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFactory.typeUsageFor(java.lang.reflect.Type, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) [ReflectionFactory.java <75:38 75:49>]
+SYMBOL_METHOD java.lang.Class<?> java.lang.Class<T>.getComponentType()
+REFERENCE_CALL static com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFactory.typeUsageFor(java.lang.reflect.Type, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> java.lang.Class<?> java.lang.Class<T>.getComponentType() [ReflectionFactory.java <75:53 75:68>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFactory.typeUsageFor<10> [ReflectionFactory.java <75:51 75:51>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFactory.typeUsageFor<1> [ReflectionFactory.java <75:73 75:82>]
+LOCAL_SYMBOL: ReflectionFactory.java<76:20> [ReflectionFactory.java <76:20 76:20>]
+LOCAL_SYMBOL: ReflectionFactory.java<76:20> [ReflectionFactory.java <78:13 78:13>]
+SYMBOL_METHOD com.github.javaparser.symbolsolver.model.typesystem.ReferenceTypeImpl.ReferenceTypeImpl(com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration, com.github.javaparser.symbolsolver.model.resolution.TypeSolver)
+REFERENCE_CALL static com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFactory.typeUsageFor(java.lang.reflect.Type, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> com.github.javaparser.symbolsolver.model.typesystem.ReferenceTypeImpl.ReferenceTypeImpl(com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) [ReflectionFactory.java <77:28 77:44>]
+REFERENCE_TYPE_USAGE static com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFactory.typeUsageFor(java.lang.reflect.Type, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> com.github.javaparser.symbolsolver.model.typesystem.ReferenceTypeImpl [ReflectionFactory.java <77:28 77:44>]
+SYMBOL_METHOD static com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFactory.typeDeclarationFor(java.lang.Class<?>, com.github.javaparser.symbolsolver.model.resolution.TypeSolver)
+REFERENCE_CALL static com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFactory.typeUsageFor(java.lang.reflect.Type, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> static com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFactory.typeDeclarationFor(java.lang.Class<?>, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) [ReflectionFactory.java <77:46 77:63>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFactory.typeUsageFor<10> [ReflectionFactory.java <77:65 77:65>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFactory.typeUsageFor<1> [ReflectionFactory.java <77:68 77:77>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFactory.typeUsageFor<1> [ReflectionFactory.java <77:81 77:90>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFactory.typeUsageFor<0> [ReflectionFactory.java <79:20 79:23>]
+REFERENCE_TYPE_USAGE static com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFactory.typeUsageFor(java.lang.reflect.Type, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> java.lang.reflect.GenericArrayType [ReflectionFactory.java <79:36 79:51>]
+LOCAL_SYMBOL: ReflectionFactory.java<79:54> [ReflectionFactory.java <79:54 79:54>]
+LOCAL_SYMBOL: ReflectionFactory.java<79:54> [ReflectionFactory.java <82:9 82:9>]
+REFERENCE_TYPE_USAGE static com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFactory.typeUsageFor(java.lang.reflect.Type, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> java.lang.reflect.GenericArrayType [ReflectionFactory.java <80:13 80:28>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFactory.typeUsageFor<11> [ReflectionFactory.java <80:30 80:45>]
+REFERENCE_TYPE_USAGE static com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFactory.typeUsageFor(java.lang.reflect.Type, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> java.lang.reflect.GenericArrayType [ReflectionFactory.java <80:50 80:65>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFactory.typeUsageFor<0> [ReflectionFactory.java <80:68 80:71>]
+SYMBOL_METHOD com.github.javaparser.symbolsolver.model.typesystem.ArrayType.ArrayType(com.github.javaparser.symbolsolver.model.typesystem.Type)
+REFERENCE_CALL static com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFactory.typeUsageFor(java.lang.reflect.Type, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> com.github.javaparser.symbolsolver.model.typesystem.ArrayType.ArrayType(com.github.javaparser.symbolsolver.model.typesystem.Type) [ReflectionFactory.java <81:24 81:32>]
+REFERENCE_TYPE_USAGE static com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFactory.typeUsageFor(java.lang.reflect.Type, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> com.github.javaparser.symbolsolver.model.typesystem.ArrayType [ReflectionFactory.java <81:24 81:32>]
+SYMBOL_METHOD static com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFactory.typeUsageFor(java.lang.reflect.Type, com.github.javaparser.symbolsolver.model.resolution.TypeSolver)
+REFERENCE_CALL static com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFactory.typeUsageFor(java.lang.reflect.Type, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> static com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFactory.typeUsageFor(java.lang.reflect.Type, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) [ReflectionFactory.java <81:34 81:45>]
+SYMBOL_METHOD java.lang.reflect.Type java.lang.reflect.GenericArrayType.getGenericComponentType()
+REFERENCE_CALL static com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFactory.typeUsageFor(java.lang.reflect.Type, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> java.lang.reflect.Type java.lang.reflect.GenericArrayType.getGenericComponentType() [ReflectionFactory.java <81:64 81:86>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFactory.typeUsageFor<11> [ReflectionFactory.java <81:47 81:62>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFactory.typeUsageFor<1> [ReflectionFactory.java <81:91 81:100>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFactory.typeUsageFor<0> [ReflectionFactory.java <82:20 82:23>]
+REFERENCE_TYPE_USAGE static com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFactory.typeUsageFor(java.lang.reflect.Type, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> java.lang.reflect.WildcardType [ReflectionFactory.java <82:36 82:47>]
+LOCAL_SYMBOL: ReflectionFactory.java<82:50> [ReflectionFactory.java <82:50 82:50>]
+LOCAL_SYMBOL: ReflectionFactory.java<82:50> [ReflectionFactory.java <102:9 102:9>]
+REFERENCE_TYPE_USAGE static com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFactory.typeUsageFor(java.lang.reflect.Type, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> java.lang.reflect.WildcardType [ReflectionFactory.java <83:13 83:24>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFactory.typeUsageFor<12> [ReflectionFactory.java <83:26 83:37>]
+REFERENCE_TYPE_USAGE static com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFactory.typeUsageFor(java.lang.reflect.Type, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> java.lang.reflect.WildcardType [ReflectionFactory.java <83:42 83:53>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFactory.typeUsageFor<0> [ReflectionFactory.java <83:56 83:59>]
+SYMBOL_METHOD java.lang.reflect.Type java.lang.reflect.WildcardType.getLowerBounds()
+REFERENCE_CALL static com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFactory.typeUsageFor(java.lang.reflect.Type, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> java.lang.reflect.Type java.lang.reflect.WildcardType.getLowerBounds() [ReflectionFactory.java <84:30 84:43>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFactory.typeUsageFor<12> [ReflectionFactory.java <84:17 84:28>]
+SYMBOL_FIELD int length
+REFERENCE_USAGE static com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFactory.typeUsageFor(java.lang.reflect.Type, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> int length [ReflectionFactory.java <84:47 84:52>]
+SYMBOL_METHOD java.lang.reflect.Type java.lang.reflect.WildcardType.getUpperBounds()
+REFERENCE_CALL static com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFactory.typeUsageFor(java.lang.reflect.Type, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> java.lang.reflect.Type java.lang.reflect.WildcardType.getUpperBounds() [ReflectionFactory.java <84:74 84:87>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFactory.typeUsageFor<12> [ReflectionFactory.java <84:61 84:72>]
+SYMBOL_FIELD int length
+REFERENCE_USAGE static com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFactory.typeUsageFor(java.lang.reflect.Type, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> int length [ReflectionFactory.java <84:91 84:96>]
+LOCAL_SYMBOL: ReflectionFactory.java<84:103> [ReflectionFactory.java <84:103 84:103>]
+LOCAL_SYMBOL: ReflectionFactory.java<84:103> [ReflectionFactory.java <88:13 88:13>]
+SYMBOL_METHOD java.lang.reflect.Type java.lang.reflect.WildcardType.getUpperBounds()
+REFERENCE_CALL static com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFactory.typeUsageFor(java.lang.reflect.Type, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> java.lang.reflect.Type java.lang.reflect.WildcardType.getUpperBounds() [ReflectionFactory.java <85:34 85:47>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFactory.typeUsageFor<12> [ReflectionFactory.java <85:21 85:32>]
+SYMBOL_FIELD int length
+REFERENCE_USAGE static com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFactory.typeUsageFor(java.lang.reflect.Type, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> int length [ReflectionFactory.java <85:51 85:56>]
+SYMBOL_METHOD boolean java.lang.String.equals(java.lang.Object)
+REFERENCE_CALL static com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFactory.typeUsageFor(java.lang.reflect.Type, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> boolean java.lang.String.equals(java.lang.Object) [ReflectionFactory.java <85:113 85:118>]
+SYMBOL_METHOD java.lang.String java.lang.reflect.Type.getTypeName()
+REFERENCE_CALL static com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFactory.typeUsageFor(java.lang.reflect.Type, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> java.lang.String java.lang.reflect.Type.getTypeName() [ReflectionFactory.java <85:99 85:109>]
+SYMBOL_METHOD java.lang.reflect.Type java.lang.reflect.WildcardType.getUpperBounds()
+REFERENCE_CALL static com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFactory.typeUsageFor(java.lang.reflect.Type, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> java.lang.reflect.Type java.lang.reflect.WildcardType.getUpperBounds() [ReflectionFactory.java <85:79 85:92>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFactory.typeUsageFor<12> [ReflectionFactory.java <85:66 85:77>]
+LOCAL_SYMBOL: ReflectionFactory.java<85:141> [ReflectionFactory.java <85:141 85:141>]
+LOCAL_SYMBOL: ReflectionFactory.java<85:141> [ReflectionFactory.java <87:17 87:17>]
+SYMBOL_METHOD java.lang.reflect.Type java.lang.reflect.WildcardType.getLowerBounds()
+REFERENCE_CALL static com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFactory.typeUsageFor(java.lang.reflect.Type, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> java.lang.reflect.Type java.lang.reflect.WildcardType.getLowerBounds() [ReflectionFactory.java <89:30 89:43>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFactory.typeUsageFor<12> [ReflectionFactory.java <89:17 89:28>]
+SYMBOL_FIELD int length
+REFERENCE_USAGE static com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFactory.typeUsageFor(java.lang.reflect.Type, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> int length [ReflectionFactory.java <89:47 89:52>]
+LOCAL_SYMBOL: ReflectionFactory.java<89:59> [ReflectionFactory.java <89:59 89:59>]
+LOCAL_SYMBOL: ReflectionFactory.java<89:59> [ReflectionFactory.java <94:13 94:13>]
+SYMBOL_METHOD java.lang.reflect.Type java.lang.reflect.WildcardType.getLowerBounds()
+REFERENCE_CALL static com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFactory.typeUsageFor(java.lang.reflect.Type, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> java.lang.reflect.Type java.lang.reflect.WildcardType.getLowerBounds() [ReflectionFactory.java <90:34 90:47>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFactory.typeUsageFor<12> [ReflectionFactory.java <90:21 90:32>]
+SYMBOL_FIELD int length
+REFERENCE_USAGE static com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFactory.typeUsageFor(java.lang.reflect.Type, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> int length [ReflectionFactory.java <90:51 90:56>]
+LOCAL_SYMBOL: ReflectionFactory.java<90:63> [ReflectionFactory.java <90:63 90:63>]
+LOCAL_SYMBOL: ReflectionFactory.java<90:63> [ReflectionFactory.java <92:17 92:17>]
+SYMBOL_METHOD java.lang.UnsupportedOperationException.UnsupportedOperationException()
+REFERENCE_CALL static com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFactory.typeUsageFor(java.lang.reflect.Type, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> java.lang.UnsupportedOperationException.UnsupportedOperationException() [ReflectionFactory.java <91:31 91:59>]
+REFERENCE_TYPE_USAGE static com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFactory.typeUsageFor(java.lang.reflect.Type, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> java.lang.UnsupportedOperationException [ReflectionFactory.java <91:31 91:59>]
+SYMBOL_METHOD static com.github.javaparser.symbolsolver.model.typesystem.Wildcard com.github.javaparser.symbolsolver.model.typesystem.Wildcard.superBound(com.github.javaparser.symbolsolver.model.typesystem.Type)
+REFERENCE_CALL static com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFactory.typeUsageFor(java.lang.reflect.Type, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> static com.github.javaparser.symbolsolver.model.typesystem.Wildcard com.github.javaparser.symbolsolver.model.typesystem.Wildcard.superBound(com.github.javaparser.symbolsolver.model.typesystem.Type) [ReflectionFactory.java <93:33 93:42>]
+SYMBOL_METHOD static com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFactory.typeUsageFor(java.lang.reflect.Type, com.github.javaparser.symbolsolver.model.resolution.TypeSolver)
+REFERENCE_CALL static com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFactory.typeUsageFor(java.lang.reflect.Type, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> static com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFactory.typeUsageFor(java.lang.reflect.Type, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) [ReflectionFactory.java <93:44 93:55>]
+SYMBOL_METHOD java.lang.reflect.Type java.lang.reflect.WildcardType.getLowerBounds()
+REFERENCE_CALL static com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFactory.typeUsageFor(java.lang.reflect.Type, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> java.lang.reflect.Type java.lang.reflect.WildcardType.getLowerBounds() [ReflectionFactory.java <93:70 93:83>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFactory.typeUsageFor<12> [ReflectionFactory.java <93:57 93:68>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFactory.typeUsageFor<1> [ReflectionFactory.java <93:91 93:100>]
+SYMBOL_METHOD java.lang.reflect.Type java.lang.reflect.WildcardType.getUpperBounds()
+REFERENCE_CALL static com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFactory.typeUsageFor(java.lang.reflect.Type, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> java.lang.reflect.Type java.lang.reflect.WildcardType.getUpperBounds() [ReflectionFactory.java <95:30 95:43>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFactory.typeUsageFor<12> [ReflectionFactory.java <95:17 95:28>]
+SYMBOL_FIELD int length
+REFERENCE_USAGE static com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFactory.typeUsageFor(java.lang.reflect.Type, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> int length [ReflectionFactory.java <95:47 95:52>]
+LOCAL_SYMBOL: ReflectionFactory.java<95:59> [ReflectionFactory.java <95:59 95:59>]
+LOCAL_SYMBOL: ReflectionFactory.java<95:59> [ReflectionFactory.java <100:13 100:13>]
+SYMBOL_METHOD java.lang.reflect.Type java.lang.reflect.WildcardType.getUpperBounds()
+REFERENCE_CALL static com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFactory.typeUsageFor(java.lang.reflect.Type, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> java.lang.reflect.Type java.lang.reflect.WildcardType.getUpperBounds() [ReflectionFactory.java <96:34 96:47>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFactory.typeUsageFor<12> [ReflectionFactory.java <96:21 96:32>]
+SYMBOL_FIELD int length
+REFERENCE_USAGE static com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFactory.typeUsageFor(java.lang.reflect.Type, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> int length [ReflectionFactory.java <96:51 96:56>]
+LOCAL_SYMBOL: ReflectionFactory.java<96:63> [ReflectionFactory.java <96:63 96:63>]
+LOCAL_SYMBOL: ReflectionFactory.java<96:63> [ReflectionFactory.java <98:17 98:17>]
+SYMBOL_METHOD java.lang.UnsupportedOperationException.UnsupportedOperationException()
+REFERENCE_CALL static com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFactory.typeUsageFor(java.lang.reflect.Type, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> java.lang.UnsupportedOperationException.UnsupportedOperationException() [ReflectionFactory.java <97:31 97:59>]
+REFERENCE_TYPE_USAGE static com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFactory.typeUsageFor(java.lang.reflect.Type, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> java.lang.UnsupportedOperationException [ReflectionFactory.java <97:31 97:59>]
+SYMBOL_METHOD static com.github.javaparser.symbolsolver.model.typesystem.Wildcard com.github.javaparser.symbolsolver.model.typesystem.Wildcard.extendsBound(com.github.javaparser.symbolsolver.model.typesystem.Type)
+REFERENCE_CALL static com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFactory.typeUsageFor(java.lang.reflect.Type, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> static com.github.javaparser.symbolsolver.model.typesystem.Wildcard com.github.javaparser.symbolsolver.model.typesystem.Wildcard.extendsBound(com.github.javaparser.symbolsolver.model.typesystem.Type) [ReflectionFactory.java <99:33 99:44>]
+SYMBOL_METHOD static com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFactory.typeUsageFor(java.lang.reflect.Type, com.github.javaparser.symbolsolver.model.resolution.TypeSolver)
+REFERENCE_CALL static com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFactory.typeUsageFor(java.lang.reflect.Type, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> static com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFactory.typeUsageFor(java.lang.reflect.Type, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) [ReflectionFactory.java <99:46 99:57>]
+SYMBOL_METHOD java.lang.reflect.Type java.lang.reflect.WildcardType.getUpperBounds()
+REFERENCE_CALL static com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFactory.typeUsageFor(java.lang.reflect.Type, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> java.lang.reflect.Type java.lang.reflect.WildcardType.getUpperBounds() [ReflectionFactory.java <99:72 99:85>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFactory.typeUsageFor<12> [ReflectionFactory.java <99:59 99:70>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFactory.typeUsageFor<1> [ReflectionFactory.java <99:93 99:102>]
+SYMBOL_FIELD static com.github.javaparser.symbolsolver.model.typesystem.Wildcard com.github.javaparser.symbolsolver.model.typesystem.Wildcard.UNBOUNDED
+REFERENCE_USAGE static com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFactory.typeUsageFor(java.lang.reflect.Type, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> static com.github.javaparser.symbolsolver.model.typesystem.Wildcard com.github.javaparser.symbolsolver.model.typesystem.Wildcard.UNBOUNDED [ReflectionFactory.java <101:29 101:37>]
+LOCAL_SYMBOL: ReflectionFactory.java<102:16> [ReflectionFactory.java <102:16 102:16>]
+LOCAL_SYMBOL: ReflectionFactory.java<102:16> [ReflectionFactory.java <104:9 104:9>]
+SYMBOL_METHOD java.lang.UnsupportedOperationException.UnsupportedOperationException(java.lang.String)
+REFERENCE_CALL static com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFactory.typeUsageFor(java.lang.reflect.Type, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> java.lang.UnsupportedOperationException.UnsupportedOperationException(java.lang.String) [ReflectionFactory.java <103:23 103:51>]
+REFERENCE_TYPE_USAGE static com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFactory.typeUsageFor(java.lang.reflect.Type, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> java.lang.UnsupportedOperationException [ReflectionFactory.java <103:23 103:51>]
+SYMBOL_METHOD java.lang.String java.lang.Class<T>.getCanonicalName()
+REFERENCE_CALL static com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFactory.typeUsageFor(java.lang.reflect.Type, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> java.lang.String java.lang.Class<T>.getCanonicalName() [ReflectionFactory.java <103:69 103:84>]
+SYMBOL_METHOD java.lang.Class<?> java.lang.Object.getClass()
+REFERENCE_CALL static com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFactory.typeUsageFor(java.lang.reflect.Type, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> java.lang.Class<?> java.lang.Object.getClass() [ReflectionFactory.java <103:58 103:65>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFactory.typeUsageFor<0> [ReflectionFactory.java <103:53 103:56>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFactory.typeUsageFor<0> [ReflectionFactory.java <103:96 103:99>]
+SYMBOL_METHOD default static com.github.javaparser.symbolsolver.model.declarations.AccessLevel com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFactory.modifiersToAccessLevel(int) [ReflectionFactory.java <107:5 <107:24 107:45> 117:5>]
+REFERENCE_TYPE_USAGE static com.github.javaparser.symbolsolver.model.declarations.AccessLevel com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFactory.modifiersToAccessLevel(int) -> com.github.javaparser.symbolsolver.model.declarations.AccessLevel [ReflectionFactory.java <107:12 107:22>]
+SYMBOL_BUILTIN_TYPE int
+REFERENCE_TYPE_USAGE static com.github.javaparser.symbolsolver.model.declarations.AccessLevel com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFactory.modifiersToAccessLevel(int) -> int [ReflectionFactory.java <107:53 107:55>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFactory.modifiersToAccessLevel<0> [ReflectionFactory.java <107:57 107:65>]
+LOCAL_SYMBOL: ReflectionFactory.java<107:68> [ReflectionFactory.java <107:68 107:68>]
+LOCAL_SYMBOL: ReflectionFactory.java<107:68> [ReflectionFactory.java <117:5 117:5>]
+SYMBOL_METHOD static boolean java.lang.reflect.Modifier.isPublic(int)
+REFERENCE_CALL static com.github.javaparser.symbolsolver.model.declarations.AccessLevel com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFactory.modifiersToAccessLevel(int) -> static boolean java.lang.reflect.Modifier.isPublic(int) [ReflectionFactory.java <108:22 108:29>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFactory.modifiersToAccessLevel<0> [ReflectionFactory.java <108:31 108:39>]
+LOCAL_SYMBOL: ReflectionFactory.java<108:43> [ReflectionFactory.java <108:43 108:43>]
+LOCAL_SYMBOL: ReflectionFactory.java<108:43> [ReflectionFactory.java <110:9 110:9>]
+SYMBOL_FIELD com.github.javaparser.symbolsolver.model.declarations.AccessLevel.PUBLIC
+REFERENCE_USAGE static com.github.javaparser.symbolsolver.model.declarations.AccessLevel com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFactory.modifiersToAccessLevel(int) -> com.github.javaparser.symbolsolver.model.declarations.AccessLevel.PUBLIC [ReflectionFactory.java <109:32 109:37>]
+SYMBOL_METHOD static boolean java.lang.reflect.Modifier.isProtected(int)
+REFERENCE_CALL static com.github.javaparser.symbolsolver.model.declarations.AccessLevel com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFactory.modifiersToAccessLevel(int) -> static boolean java.lang.reflect.Modifier.isProtected(int) [ReflectionFactory.java <110:29 110:39>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFactory.modifiersToAccessLevel<0> [ReflectionFactory.java <110:41 110:49>]
+LOCAL_SYMBOL: ReflectionFactory.java<110:53> [ReflectionFactory.java <110:53 110:53>]
+LOCAL_SYMBOL: ReflectionFactory.java<110:53> [ReflectionFactory.java <112:9 112:9>]
+SYMBOL_FIELD com.github.javaparser.symbolsolver.model.declarations.AccessLevel.PROTECTED
+REFERENCE_USAGE static com.github.javaparser.symbolsolver.model.declarations.AccessLevel com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFactory.modifiersToAccessLevel(int) -> com.github.javaparser.symbolsolver.model.declarations.AccessLevel.PROTECTED [ReflectionFactory.java <111:32 111:40>]
+SYMBOL_METHOD static boolean java.lang.reflect.Modifier.isPrivate(int)
+REFERENCE_CALL static com.github.javaparser.symbolsolver.model.declarations.AccessLevel com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFactory.modifiersToAccessLevel(int) -> static boolean java.lang.reflect.Modifier.isPrivate(int) [ReflectionFactory.java <112:29 112:37>]
+LOCAL_SYMBOL: com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFactory.modifiersToAccessLevel<0> [ReflectionFactory.java <112:39 112:47>]
+LOCAL_SYMBOL: ReflectionFactory.java<112:51> [ReflectionFactory.java <112:51 112:51>]
+LOCAL_SYMBOL: ReflectionFactory.java<112:51> [ReflectionFactory.java <114:9 114:9>]
+SYMBOL_FIELD com.github.javaparser.symbolsolver.model.declarations.AccessLevel.PRIVATE
+REFERENCE_USAGE static com.github.javaparser.symbolsolver.model.declarations.AccessLevel com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFactory.modifiersToAccessLevel(int) -> com.github.javaparser.symbolsolver.model.declarations.AccessLevel.PRIVATE [ReflectionFactory.java <113:32 113:38>]
+LOCAL_SYMBOL: ReflectionFactory.java<114:16> [ReflectionFactory.java <114:16 114:16>]
+LOCAL_SYMBOL: ReflectionFactory.java<114:16> [ReflectionFactory.java <116:9 116:9>]
+SYMBOL_FIELD com.github.javaparser.symbolsolver.model.declarations.AccessLevel.PACKAGE_PROTECTED
+REFERENCE_USAGE static com.github.javaparser.symbolsolver.model.declarations.AccessLevel com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFactory.modifiersToAccessLevel(int) -> com.github.javaparser.symbolsolver.model.declarations.AccessLevel.PACKAGE_PROTECTED [ReflectionFactory.java <115:32 115:48>]
+COMMENT: comment [ReflectionFactory.java <1:1 15:3>]
+COMMENT: comment [ReflectionFactory.java <63:13 63:42>]
+COMMENT: comment [ReflectionFactory.java <86:21 86:45>]
