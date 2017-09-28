@@ -4,6 +4,8 @@
 #include "data/parser/ParseLocation.h"
 #include "data/parser/ParserClient.h"
 
+#include <boost/filesystem.hpp>
+
 class DumpParserClient : public ParserClient
 {
 public:
@@ -43,9 +45,16 @@ public:
 		const ParseLocation& location)
 	{
 		std::string contextNameString = contextName.getQualifiedNameWithSignature();
-		if (FilePath(contextNameString).exists())
+		try
 		{
-			contextNameString = FilePath(contextNameString).fileName();
+			if (FilePath(contextNameString).exists())
+			{
+				contextNameString = FilePath(contextNameString).fileName();
+			}
+		}
+		catch (const boost::filesystem::filesystem_error& e)
+		{
+			// do nothing and use the old contectNameString
 		}
 		m_dump += referenceKindToString(referenceKind) + " " + addLocationSuffix(contextNameString + " -> " + referencedName.getQualifiedNameWithSignature() + " [" + location.filePath.fileName(), location) + "]\n";
 	}
