@@ -33,8 +33,10 @@ public:
 
 	~JavaEnvironment();
 	bool callStaticVoidMethod(std::string className, std::string methodName);
+	bool callStaticVoidMethod(std::string className, std::string methodName, const std::string& arg1, const std::string& arg2, const std::string& arg3);
 	bool callStaticVoidMethod(std::string className, std::string methodName, int arg1, std::string arg2, std::string arg3, std::string arg4, int arg5);
-	bool callStaticMethod(std::string className, std::string methodName, std::string& ret, std::string arg1);
+	bool callStaticStringMethod(std::string className, std::string methodName, std::string& ret, const std::string& arg1);
+	bool callStaticStringMethod(std::string className, std::string methodName, std::string& ret, const std::string& arg1, const std::string& arg2);
 
 	std::string toStdString(jstring s);
 	jstring toJString(std::string s);

@@ -16,11 +16,21 @@ add_files(
 	data/parser/java/JavaEnvironmentFactory.cpp
 	data/parser/java/JavaEnvironmentFactory.h
 
-	project/SourceGroupJava.cpp
-	project/SourceGroupJava.h
 	project/SourceGroupFactoryModuleJava.cpp
 	project/SourceGroupFactoryModuleJava.h
+	project/SourceGroupJava.cpp
+	project/SourceGroupJava.h
+	project/SourceGroupJavaEmpty.cpp
+	project/SourceGroupJavaEmpty.h
+	project/SourceGroupJavaGradle.cpp
+	project/SourceGroupJavaGradle.h
+	project/SourceGroupJavaMaven.cpp
+	project/SourceGroupJavaMaven.h
 
+	utility/utilityJava.cpp
+	utility/utilityJava.h
+	utility/utilityGradle.cpp
+	utility/utilityGradle.h
 	utility/utilityMaven.cpp
 	utility/utilityMaven.h
 )

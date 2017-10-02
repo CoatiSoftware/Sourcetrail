@@ -10,20 +10,12 @@
 class SourceGroupCxx: public SourceGroup
 {
 public:
-	SourceGroupCxx(std::shared_ptr<SourceGroupSettingsCxx> settings);
+	SourceGroupCxx();
 	virtual ~SourceGroupCxx();
 
-	virtual SourceGroupType getType() const;
-
-	virtual bool prepareRefresh();
-
-	virtual void fetchAllSourceFilePaths();
-
-	virtual std::vector<std::shared_ptr<IndexerCommand>> getIndexerCommands(
-		std::set<FilePath>* filesToIndex, bool fullRefresh);
-
 private:
-	std::shared_ptr<SourceGroupSettingsCxx> m_settings;
+	virtual std::shared_ptr<SourceGroupSettingsCxx> getSourceGroupSettingsCxx() = 0;
+	virtual std::shared_ptr<SourceGroupSettings> getSourceGroupSettings();
 };
 
 #endif // SOURCE_GROUP_CXX_H

@@ -9,8 +9,7 @@
 #include "data/indexer/IndexerFactoryModuleCxxManual.h"
 #include "LicenseChecker.h"
 #include "project/SourceGroupFactory.h"
-#include "project/SourceGroupFactoryModuleC.h"
-#include "project/SourceGroupFactoryModuleCpp.h"
+#include "project/SourceGroupFactoryModuleCxx.h"
 #include "project/SourceGroupFactoryModuleJava.h"
 #include "qt/network/QtNetworkFactory.h"
 #include "qt/QtApplication.h"
@@ -167,8 +166,7 @@ void prefillPaths()
 
 void addLanguageModules()
 {
-	SourceGroupFactory::getInstance()->addModule(std::make_shared<SourceGroupFactoryModuleC>());
-	SourceGroupFactory::getInstance()->addModule(std::make_shared<SourceGroupFactoryModuleCpp>());
+	SourceGroupFactory::getInstance()->addModule(std::make_shared<SourceGroupFactoryModuleCxx>());
 	SourceGroupFactory::getInstance()->addModule(std::make_shared<SourceGroupFactoryModuleJava>());
 
 	IndexerFactory::getInstance()->addModule(std::make_shared<IndexerFactoryModuleJava>());

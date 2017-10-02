@@ -97,6 +97,7 @@ private slots:
 
 	void sourcePathsJava();
 	void sourcePathsJavaMaven();
+	void sourcePathsJavaGradle();
 
 	void advancedSettingsCxx();
 	void advancedSettingsJava();

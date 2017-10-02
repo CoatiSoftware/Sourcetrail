@@ -188,8 +188,6 @@ add_files(
 	qt/window/project_wizzard/QtProjectWizzardContentProjectData.h
 	qt/window/project_wizzard/QtProjectWizzardContentSelect.cpp
 	qt/window/project_wizzard/QtProjectWizzardContentSelect.h
-	qt/window/project_wizzard/QtProjectWizzardContentSimple.cpp
-	qt/window/project_wizzard/QtProjectWizzardContentSimple.h
 	qt/window/project_wizzard/QtProjectWizzardContentSourceGroupData.cpp
 	qt/window/project_wizzard/QtProjectWizzardContentSourceGroupData.h
 	qt/window/project_wizzard/QtProjectWizzardContentSummary.cpp

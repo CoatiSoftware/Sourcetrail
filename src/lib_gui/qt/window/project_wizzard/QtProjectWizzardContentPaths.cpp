@@ -13,7 +13,7 @@
 #include "qt/view/QtDialogView.h"
 #include "qt/window/QtSelectPathsDialog.h"
 #include "settings/ApplicationSettings.h"
-#include "settings/SourceGroupSettingsCxx.h"
+#include "settings/SourceGroupSettingsCxxCdb.h"
 #include "settings/SourceGroupSettingsJava.h"
 #include "utility/CompilationDatabase.h"
 #include "utility/file/FileManager.h"
@@ -269,7 +269,7 @@ void QtProjectWizzardContentPathsCDBHeader::buttonClicked()
 
 	if (!m_filesDialog)
 	{
-		FilePath cdbPath = dynamic_cast<SourceGroupSettingsCxx*>(m_settings.get())->getCompilationDatabasePathExpandedAndAbsolute();
+		FilePath cdbPath = dynamic_cast<SourceGroupSettingsCxxCdb*>(m_settings.get())->getCompilationDatabasePathExpandedAndAbsolute(); // TODO: remove this cast
 		if (!cdbPath.exists())
 		{
 			QMessageBox msgBox;

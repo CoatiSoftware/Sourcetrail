@@ -12,6 +12,7 @@
 #include "utility/file/FileRegister.h"
 #include "utility/text/TextAccess.h"
 #include "utility/utility.h"
+#include "utility/utilityJava.h"
 #include "utility/utilityPathDetection.h"
 #include "utility/utilityString.h"
 
@@ -196,14 +197,14 @@ private:
 #endif
 			std::string classPath = "";
 			{
-				const std::vector<std::string> jarNames = JavaParser::getRequiredJarNames();
+				const std::vector<std::string> jarNames = utility::getRequiredJarNames();
 				for (size_t i = 0; i < jarNames.size(); i++)
 				{
 					if (i != 0)
 					{
 						classPath += separator;
 					}
-					classPath += "../app/data/java/" + jarNames[i];
+					classPath += "../app/data/java/lib/" + jarNames[i];
 				}
 			}
 

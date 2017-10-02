@@ -118,9 +118,9 @@ std::vector<FilePath> Settings::getPathValues(const std::string& key) const
 	values = getValues(key, values);
 
 	std::vector<FilePath> paths;
-	for (const std::string& path : values)
+	for (const std::string& value : values)
 	{
-		paths.push_back(FilePath(path));
+		paths.push_back(FilePath(value));
 	}
 	return paths;
 }

@@ -26,6 +26,7 @@ AddLicense("Botan" "http://botan.randombit.net/" "${LICENSEFOLDER}/license_botan
 AddLicense("Clang" "http://clang.llvm.org/" "${LICENSEFOLDER}/license_clang.txt")
 AddLicense("CppSQLite" "http://www.codeproject.com/Articles/6343/CppSQLite-C-Wrapper-for-SQLite" "${LICENSEFOLDER}/license_cpp_sqlite.txt")
 AddLicense("Eclipse" "https://github.com/eclipse/eclipse.jdt.core" "${LICENSEFOLDER}/license_eclipse.txt")
+AddLicense("Gradle" "https://github.com/gradle/gradle" "${LICENSEFOLDER}/license_gradle.txt")
 AddLicense("OpenSSL" "https://www.openssl.org/" "${LICENSEFOLDER}/license_openssl.txt")
 AddLicense("Qt" "http://qt.io" "${LICENSEFOLDER}/license_qt.txt")
 AddLicense("TinyXML" "http://www.grinninglizard.com/tinyxml2/" "${LICENSEFOLDER}/license_tinyxml.txt")

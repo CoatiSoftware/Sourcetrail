@@ -45,7 +45,6 @@ Project::Project(std::shared_ptr<ProjectSettings> settings, StorageAccessProxy* 
 {
 }
 
-
 Project::~Project()
 {
 }
@@ -53,7 +52,7 @@ Project::~Project()
 bool Project::refresh(bool forceRefresh)
 {
 	if (m_state == PROJECT_STATE_NOT_LOADED)
-			{
+	{
 		return false;
 	}
 

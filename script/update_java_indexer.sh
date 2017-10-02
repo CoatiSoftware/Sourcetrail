@@ -35,7 +35,7 @@ mvn clean package dependency:copy-dependencies
 cd ../
 
 echo -e $INFO "copy jars"
-mkdir -p bin/app/data/java
-rm -rf bin/app/data/java/*
-cp -r java_indexer/target/java-indexer-1.0.jar bin/app/data/java/java-indexer.jar
-cp -r java_indexer/target/dependency/*.jar bin/app/data/java
+mkdir -p bin/app/data/java/lib/
+rm -rf bin/app/data/java/lib/*
+cp -r java_indexer/target/java-indexer-1.0.jar bin/app/data/java/lib/java-indexer.jar
+cp -r java_indexer/target/dependency/*.jar bin/app/data/java/lib

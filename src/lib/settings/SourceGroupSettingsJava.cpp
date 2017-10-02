@@ -4,15 +4,33 @@
 
 SourceGroupSettingsJava::SourceGroupSettingsJava(const std::string& id, SourceGroupType type, const ProjectSettings* projectSettings)
 	: SourceGroupSettings(id, type, projectSettings)
+	, m_useJreSystemLibrary(true)
 	, m_classpath(std::vector<FilePath>())
-	, m_mavenProjectFilePath(FilePath())
-	, m_mavenDependenciesDirectory(FilePath())
-	, m_shouldIndexMavenTests(false)
 {
 }
 
 SourceGroupSettingsJava::~SourceGroupSettingsJava()
 {
+}
+
+void SourceGroupSettingsJava::load(std::shared_ptr<const ConfigManager> config)
+{
+	SourceGroupSettings::load(config);
+
+	const std::string key = s_keyPrefix + getId();
+
+	setClasspath(getPathValues(key + "/class_paths/class_path", config));
+	setUseJreSystemLibrary(getValue<bool>(key + "/use_jre_system_library", true, config));
+}
+
+void SourceGroupSettingsJava::save(std::shared_ptr<ConfigManager> config)
+{
+	SourceGroupSettings::save(config);
+
+	const std::string key = s_keyPrefix + getId();
+
+	setPathValues(key + "/class_paths/class_path", getClasspath(), config);
+	setValue(key + "/use_jre_system_library", getUseJreSystemLibrary(), config);
 }
 
 bool SourceGroupSettingsJava::equals(std::shared_ptr<SourceGroupSettings> other) const
@@ -22,11 +40,8 @@ bool SourceGroupSettingsJava::equals(std::shared_ptr<SourceGroupSettings> other)
 	return (
 		otherJava &&
 		SourceGroupSettings::equals(other) &&
-		utility::isPermutation(m_classpath, otherJava->m_classpath) &&
 		m_useJreSystemLibrary == otherJava->m_useJreSystemLibrary &&
-		m_mavenProjectFilePath == otherJava->m_mavenProjectFilePath &&
-		m_mavenDependenciesDirectory == otherJava->m_mavenDependenciesDirectory &&
-		m_shouldIndexMavenTests == otherJava->m_shouldIndexMavenTests
+		utility::isPermutation(m_classpath, otherJava->m_classpath)
 	);
 }
 
@@ -59,47 +74,6 @@ void SourceGroupSettingsJava::setClasspath(const std::vector<FilePath>& classpat
 {
 	m_classpath = classpath;
 }
-
-FilePath SourceGroupSettingsJava::getMavenProjectFilePath() const
-{
-	return m_mavenProjectFilePath;
-}
-
-FilePath SourceGroupSettingsJava::getMavenProjectFilePathExpandedAndAbsolute() const
-{
-	return m_projectSettings->makePathExpandedAndAbsolute(getMavenProjectFilePath());
-}
-
-void SourceGroupSettingsJava::setMavenProjectFilePath(const FilePath& path)
-{
-	m_mavenProjectFilePath = path;
-}
-
-FilePath SourceGroupSettingsJava::getMavenDependenciesDirectory() const
-{
-	return m_mavenDependenciesDirectory;
-}
-
-FilePath SourceGroupSettingsJava::getMavenDependenciesDirectoryExpandedAndAbsolute() const
-{
-	return m_projectSettings->makePathExpandedAndAbsolute(getMavenDependenciesDirectory());
-}
-
-void SourceGroupSettingsJava::setMavenDependenciesDirectory(const FilePath& path)
-{
-	m_mavenDependenciesDirectory = path;
-}
-
-bool SourceGroupSettingsJava::getShouldIndexMavenTests() const
-{
-	return m_shouldIndexMavenTests;
-}
-
-void SourceGroupSettingsJava::setShouldIndexMavenTests(bool value)
-{
-	m_shouldIndexMavenTests = value;
-}
-
 std::vector<std::string> SourceGroupSettingsJava::getDefaultSourceExtensions() const
 {
 	return std::vector<std::string>(1, ".java");

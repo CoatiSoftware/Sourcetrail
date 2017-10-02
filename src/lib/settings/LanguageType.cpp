@@ -49,6 +49,8 @@ LanguageType getLanguageTypeForSourceGroupType(SourceGroupType t)
 		return LANGUAGE_JAVA;
 	case SOURCE_GROUP_JAVA_MAVEN:
 		return LANGUAGE_JAVA;
+	case SOURCE_GROUP_JAVA_GRADLE:
+		return LANGUAGE_JAVA;
 	default:
 		break;
 	}

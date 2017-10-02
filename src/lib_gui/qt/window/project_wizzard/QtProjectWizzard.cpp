@@ -16,12 +16,14 @@
 #include "qt/window/project_wizzard/QtProjectWizzardContentPaths.h"
 #include "qt/window/project_wizzard/QtProjectWizzardContentProjectData.h"
 #include "qt/window/project_wizzard/QtProjectWizzardContentSelect.h"
-#include "qt/window/project_wizzard/QtProjectWizzardContentSimple.h"
 #include "qt/window/project_wizzard/QtProjectWizzardContentSourceGroupData.h"
 #include "qt/window/project_wizzard/QtProjectWizzardContentSummary.h"
 #include "qt/window/project_wizzard/QtProjectWizzardContentVS.h"
-#include "settings/SourceGroupSettingsCxx.h"
-#include "settings/SourceGroupSettingsJava.h"
+#include "settings/SourceGroupSettingsCxxEmpty.h"
+#include "settings/SourceGroupSettingsCxxCdb.h"
+#include "settings/SourceGroupSettingsJavaEmpty.h"
+#include "settings/SourceGroupSettingsJavaGradle.h"
+#include "settings/SourceGroupSettingsJavaMaven.h"
 #include "utility/messaging/type/MessageLoadProject.h"
 #include "utility/messaging/type/MessageStatus.h"
 #include "utility/ResourcePaths.h"
@@ -85,8 +87,8 @@ void QtProjectWizzard::newProjectFromCDB(const FilePath& filePath, const std::ve
 
 	cancelSourceGroup();
 
-	std::shared_ptr<SourceGroupSettingsCxx> sourceGroupSettings =
-		std::make_shared<SourceGroupSettingsCxx>(utility::getUuidString(), SOURCE_GROUP_CXX_CDB, m_projectSettings.get());
+	std::shared_ptr<SourceGroupSettingsCxxCdb> sourceGroupSettings =
+		std::make_shared<SourceGroupSettingsCxxCdb>(utility::getUuidString(), m_projectSettings.get());
 	sourceGroupSettings->setCompilationDatabasePath(filePath);
 	sourceGroupSettings->setSourcePaths(headerPaths);
 	m_newSourceGroupSettings = sourceGroupSettings;
@@ -388,30 +390,28 @@ void QtProjectWizzard::selectedSourceGroupChanged(int index)
 	summary->addContent(content);
 	summary->addSpace();
 
-	if (group->getType() == SOURCE_GROUP_JAVA_EMPTY || group->getType() == SOURCE_GROUP_JAVA_MAVEN)
+	if (std::shared_ptr<SourceGroupSettingsJava> settingsJava = std::dynamic_pointer_cast<SourceGroupSettingsJava>(group))
 	{
-		bool isMaven = false;
-		std::shared_ptr<SourceGroupSettingsJava> javaSettings =
-			std::dynamic_pointer_cast<SourceGroupSettingsJava>(group);
-		if (javaSettings)
-		{
-			isMaven = javaSettings->getMavenProjectFilePathExpandedAndAbsolute().exists();
-		}
-
 		summary->addContent(new QtProjectWizzardContentLanguageAndStandard(group, this));
 		summary->addSpace();
 
-		if (isMaven)
-		{
-			summary->addContent(new QtProjectWizzardContentPathSourceMaven(group, this));
-			summary->addSpace();
-			summary->addContent(new QtProjectWizzardContentPathDependenciesMaven(group, this));
-		}
-		else
+		if (std::shared_ptr<SourceGroupSettingsJavaEmpty> settingsJavaEmpty = std::dynamic_pointer_cast<SourceGroupSettingsJavaEmpty>(group))
 		{
 			summary->addContent(new QtProjectWizzardContentPathsSource(group, this));
 			summary->addSpace();
 			summary->addContent(new QtProjectWizzardContentPathsClassJava(group, this));
+		}
+		else if (std::shared_ptr<SourceGroupSettingsJavaGradle> settingsJavaGradle = std::dynamic_pointer_cast<SourceGroupSettingsJavaGradle>(group))
+		{
+			summary->addContent(new QtProjectWizzardContentPathSourceGradle(group, this));
+			summary->addSpace();
+			summary->addContent(new QtProjectWizzardContentPathDependenciesGradle(group, this));
+		}
+		else if (std::shared_ptr<SourceGroupSettingsJavaMaven> settingsJavaMaven = std::dynamic_pointer_cast<SourceGroupSettingsJavaMaven>(group))
+		{
+			summary->addContent(new QtProjectWizzardContentPathSourceMaven(group, this));
+			summary->addSpace();
+			summary->addContent(new QtProjectWizzardContentPathDependenciesMaven(group, this));
 		}
 
 		summary->addSpace();
@@ -419,20 +419,10 @@ void QtProjectWizzard::selectedSourceGroupChanged(int index)
 		summary->addSpace();
 		summary->addContent(new QtProjectWizzardContentPathsExclude(group, this));
 	}
-	else
+	else if (std::shared_ptr<SourceGroupSettingsCxx> settingsCxx = std::dynamic_pointer_cast<SourceGroupSettingsCxx>(group))
 	{
-		const bool isCDB = group->getType() == SOURCE_GROUP_CXX_CDB;
-
-		if (isCDB)
-		{
-			summary->addContent(new QtProjectWizzardContentPathCDB(group, this));
-			summary->addContent(new QtProjectWizzardContentCDBSource(group, this));
-			summary->addSpace();
-
-			summary->addContent(new QtProjectWizzardContentPathsCDBHeader(group, this));
-			summary->addSpace();
-		}
-		else
+		bool isCDB = false;
+		if (std::shared_ptr<SourceGroupSettingsCxxEmpty> settingsCxxEmpty = std::dynamic_pointer_cast<SourceGroupSettingsCxxEmpty>(group))
 		{
 			summary->addContent(new QtProjectWizzardContentLanguageAndStandard(group, this));
 			summary->addSpace();
@@ -443,15 +433,19 @@ void QtProjectWizzard::selectedSourceGroupChanged(int index)
 			summary->addContent(new QtProjectWizzardContentExtensions(group, this));
 			summary->addSpace();
 		}
+		else if (std::shared_ptr<SourceGroupSettingsCxxCdb> settingsCxxCdb = std::dynamic_pointer_cast<SourceGroupSettingsCxxCdb>(group))
+		{
+			isCDB = true;
+
+			summary->addContent(new QtProjectWizzardContentPathCDB(group, this));
+			summary->addContent(new QtProjectWizzardContentCDBSource(group, this));
+			summary->addSpace();
+
+			summary->addContent(new QtProjectWizzardContentPathsCDBHeader(group, this));
+			summary->addSpace();
+		}
 
 		summary->addContent(new QtProjectWizzardContentPathsHeaderSearch(group, this, isCDB));
-
-		std::shared_ptr<SourceGroupSettingsCxx> cxxSettings = std::dynamic_pointer_cast<SourceGroupSettingsCxx>(group);
-		if (!isCDB && cxxSettings && cxxSettings->getHasDefinedUseSourcePathsForHeaderSearch())
-		{
-			summary->addSpace();
-			summary->addContent(new QtProjectWizzardContentSimple(group, this));
-		}
 
 		summary->addContent(new QtProjectWizzardContentPathsHeaderSearchGlobal(this));
 		summary->addSpace();
@@ -526,15 +520,26 @@ void QtProjectWizzard::duplicateSelectedSourceGroup()
 	}
 
 	std::shared_ptr<SourceGroupSettings> oldSourceGroup = m_allSourceGroupSettings[m_sourceGroupList->currentRow()];
-	std::shared_ptr<SourceGroupSettings> newSourceGroup;
 
-	if (oldSourceGroup->getType() == SOURCE_GROUP_JAVA_EMPTY || oldSourceGroup->getType() == SOURCE_GROUP_JAVA_MAVEN)
+	std::shared_ptr<SourceGroupSettings> newSourceGroup;
+	switch (oldSourceGroup->getType())
 	{
-		newSourceGroup = std::make_shared<SourceGroupSettingsJava>(*dynamic_cast<SourceGroupSettingsJava*>(oldSourceGroup.get()));
-	}
-	else
-	{
-		newSourceGroup = std::make_shared<SourceGroupSettingsCxx>(*dynamic_cast<SourceGroupSettingsCxx*>(oldSourceGroup.get()));
+	case SOURCE_GROUP_JAVA_EMPTY:
+		newSourceGroup = std::make_shared<SourceGroupSettingsJavaEmpty>(*dynamic_cast<SourceGroupSettingsJavaEmpty*>(oldSourceGroup.get()));
+		break;
+	case SOURCE_GROUP_JAVA_MAVEN:
+		newSourceGroup = std::make_shared<SourceGroupSettingsJavaMaven>(*dynamic_cast<SourceGroupSettingsJavaMaven*>(oldSourceGroup.get()));
+		break;
+	case SOURCE_GROUP_JAVA_GRADLE:
+		newSourceGroup = std::make_shared<SourceGroupSettingsJavaGradle>(*dynamic_cast<SourceGroupSettingsJavaGradle*>(oldSourceGroup.get()));
+		break;
+	case SOURCE_GROUP_C_EMPTY:
+	case SOURCE_GROUP_CPP_EMPTY:
+		newSourceGroup = std::make_shared<SourceGroupSettingsCxxEmpty>(*dynamic_cast<SourceGroupSettingsCxxEmpty*>(oldSourceGroup.get()));
+		break;
+	case SOURCE_GROUP_CXX_CDB:
+		newSourceGroup = std::make_shared<SourceGroupSettingsCxxCdb>(*dynamic_cast<SourceGroupSettingsCxxCdb*>(oldSourceGroup.get()));
+		break;
 	}
 
 	newSourceGroup->setId(utility::getUuidString());
@@ -613,7 +618,7 @@ void QtProjectWizzard::selectedProjectType(SourceGroupType sourceGroupType)
 	{
 	case SOURCE_GROUP_C_EMPTY:
 	case SOURCE_GROUP_CPP_EMPTY:
-		m_newSourceGroupSettings = std::make_shared<SourceGroupSettingsCxx>(sourceGroupId, sourceGroupType, m_projectSettings.get());
+		m_newSourceGroupSettings = std::make_shared<SourceGroupSettingsCxxEmpty>(sourceGroupId, sourceGroupType, m_projectSettings.get());
 		if (applicationSettingsContainVisualStudioHeaderSearchPaths())
 		{
 			std::vector<std::string> flags;
@@ -625,21 +630,24 @@ void QtProjectWizzard::selectedProjectType(SourceGroupType sourceGroupType)
 		emptySourceGroup();
 		break;
 	case SOURCE_GROUP_CXX_CDB:
-		m_newSourceGroupSettings = std::make_shared<SourceGroupSettingsCxx>(sourceGroupId, sourceGroupType, m_projectSettings.get());
+		m_newSourceGroupSettings = std::make_shared<SourceGroupSettingsCxxCdb>(sourceGroupId, m_projectSettings.get());
 		emptySourceGroupCDB();
 		break;
 	case SOURCE_GROUP_CXX_VS:
-		m_newSourceGroupSettings =
-			std::make_shared<SourceGroupSettingsCxx>(sourceGroupId, SOURCE_GROUP_CXX_CDB, m_projectSettings.get());
+		m_newSourceGroupSettings = std::make_shared<SourceGroupSettingsCxxCdb>(sourceGroupId, m_projectSettings.get());
 		emptySourceGroupCDBVS();
 		break;
 	case SOURCE_GROUP_JAVA_EMPTY:
-		m_newSourceGroupSettings = std::make_shared<SourceGroupSettingsJava>(sourceGroupId, sourceGroupType, m_projectSettings.get());
+		m_newSourceGroupSettings = std::make_shared<SourceGroupSettingsJavaEmpty>(sourceGroupId, m_projectSettings.get());
 		emptySourceGroup();
 		break;
 	case SOURCE_GROUP_JAVA_MAVEN:
-		m_newSourceGroupSettings = std::make_shared<SourceGroupSettingsJava>(sourceGroupId, sourceGroupType, m_projectSettings.get());
+		m_newSourceGroupSettings = std::make_shared<SourceGroupSettingsJavaMaven>(sourceGroupId, m_projectSettings.get());
 		sourcePathsJavaMaven();
+		break;
+	case SOURCE_GROUP_JAVA_GRADLE:
+		m_newSourceGroupSettings = std::make_shared<SourceGroupSettingsJavaGradle>(sourceGroupId, m_projectSettings.get());
+		sourcePathsJavaGradle();
 		break;
 	case SOURCE_GROUP_UNKNOWN:
 		break;
@@ -786,7 +794,7 @@ void QtProjectWizzard::sourcePathsJava()
 
 void QtProjectWizzard::sourcePathsJavaMaven()
 {
-	std::dynamic_pointer_cast<SourceGroupSettingsJava>(m_newSourceGroupSettings)->setMavenDependenciesDirectory(
+	std::dynamic_pointer_cast<SourceGroupSettingsJavaMaven>(m_newSourceGroupSettings)->setMavenDependenciesDirectory(
 		FilePath("./sourcetrail_dependencies/" + utility::replace(m_projectSettings->getProjectName(), " ", "_") + "/" + m_newSourceGroupSettings->getId() + "/maven")
 	);
 
@@ -796,6 +804,25 @@ void QtProjectWizzard::sourcePathsJavaMaven()
 			summary->addContent(new QtProjectWizzardContentPathSourceMaven(m_newSourceGroupSettings, window));
 			summary->addSpace();
 			summary->addContent(new QtProjectWizzardContentPathDependenciesMaven(m_newSourceGroupSettings, window));
+		}
+	);
+
+	connect(window, &QtProjectWizzardWindow::next, this, &QtProjectWizzard::advancedSettingsJava);
+	window->updateSubTitle("Indexed Paths");
+}
+
+void QtProjectWizzard::sourcePathsJavaGradle()
+{
+	std::dynamic_pointer_cast<SourceGroupSettingsJavaGradle>(m_newSourceGroupSettings)->setGradleDependenciesDirectory(
+		FilePath("./sourcetrail_dependencies/" + utility::replace(m_projectSettings->getProjectName(), " ", "_") + "/" + m_newSourceGroupSettings->getId() + "/gradle")
+	);
+
+	QtProjectWizzardWindow* window = createWindowWithSummary(
+		[this](QtProjectWizzardWindow* window, QtProjectWizzardContentSummary* summary)
+		{
+			summary->addContent(new QtProjectWizzardContentPathSourceGradle(m_newSourceGroupSettings, window));
+			summary->addSpace();
+			summary->addContent(new QtProjectWizzardContentPathDependenciesGradle(m_newSourceGroupSettings, window));
 		}
 	);
 

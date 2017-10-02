@@ -3,7 +3,7 @@
 /deps/
 
 /bin/app/data/projects/ignored/
-/bin/app/data/java/
+/bin/app/data/java/lib/
 /bin/app/user/log/
 /bin/app/user/ApplicationSettings.xml
 /bin/app/user/window_settings.ini

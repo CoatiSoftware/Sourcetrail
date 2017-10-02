@@ -16,6 +16,8 @@ std::string sourceGroupTypeToString(SourceGroupType v)
 		return "Java Source Group";
 	case SOURCE_GROUP_JAVA_MAVEN:
 		return "Java Source Group from Maven";
+	case SOURCE_GROUP_JAVA_GRADLE:
+		return "Java Source Group from Gradle";
 	case SOURCE_GROUP_UNKNOWN:
 		break;
 	}
@@ -38,6 +40,8 @@ std::string sourceGroupTypeToProjectSetupString(SourceGroupType v)
 		return "Empty Java Source Group";
 	case SOURCE_GROUP_JAVA_MAVEN:
 		return "Java Source Group from Maven";
+	case SOURCE_GROUP_JAVA_GRADLE:
+		return "Java Source Group from Gradle";
 	case SOURCE_GROUP_UNKNOWN:
 		break;
 	}
@@ -69,6 +73,10 @@ SourceGroupType stringToSourceGroupType(std::string v)
 	else if (v == sourceGroupTypeToString(SOURCE_GROUP_JAVA_MAVEN))
 	{
 		return SOURCE_GROUP_JAVA_MAVEN;
+	}
+	else if (v == sourceGroupTypeToString(SOURCE_GROUP_JAVA_GRADLE))
+	{
+		return SOURCE_GROUP_JAVA_GRADLE;
 	}
 
 	return SOURCE_GROUP_UNKNOWN;

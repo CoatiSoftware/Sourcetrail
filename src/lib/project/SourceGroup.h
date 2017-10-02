@@ -10,6 +10,7 @@
 
 class FilePath;
 class IndexerCommand;
+class SourceGroupSettings;
 
 class SourceGroup
 {
@@ -22,7 +23,7 @@ public:
 	virtual bool prepareRefresh();
 	virtual bool prepareIndexing();
 
-	virtual void fetchAllSourceFilePaths() = 0;
+	void fetchAllSourceFilePaths();
 	void fetchSourceFilePathsToIndex(const std::set<FilePath>& staticSourceFilePaths);
 
 	std::set<FilePath> getAllSourceFilePaths() const;
@@ -34,6 +35,10 @@ public:
 protected:
 	std::set<FilePath> m_allSourceFilePaths;
 	std::set<FilePath> m_sourceFilePathsToIndex;
+
+private:
+	virtual std::shared_ptr<SourceGroupSettings> getSourceGroupSettings() = 0;
+	virtual std::vector<FilePath> getAllSourcePaths() const = 0;
 };
 
 #endif // SOURCE_GROUP_H

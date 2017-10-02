@@ -296,8 +296,18 @@ add_files(
 	settings/SourceGroupSettings.h
 	settings/SourceGroupSettingsCxx.cpp
 	settings/SourceGroupSettingsCxx.h
+	settings/SourceGroupSettingsCxxCdb.cpp
+	settings/SourceGroupSettingsCxxCdb.h
+	settings/SourceGroupSettingsCxxEmpty.cpp
+	settings/SourceGroupSettingsCxxEmpty.h
 	settings/SourceGroupSettingsJava.cpp
 	settings/SourceGroupSettingsJava.h
+	settings/SourceGroupSettingsJavaEmpty.cpp
+	settings/SourceGroupSettingsJavaEmpty.h
+	settings/SourceGroupSettingsJavaGradle.cpp
+	settings/SourceGroupSettingsJavaGradle.h
+	settings/SourceGroupSettingsJavaMaven.cpp
+	settings/SourceGroupSettingsJavaMaven.h
 	settings/SourceGroupType.cpp
 
 	settings/SourceGroupType.h

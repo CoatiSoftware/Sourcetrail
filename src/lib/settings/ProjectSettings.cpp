@@ -3,8 +3,12 @@
 #include "settings/migration/SettingsMigrationDeleteKey.h"
 #include "settings/migration/SettingsMigrationLambda.h"
 #include "settings/migration/SettingsMigrationMoveKey.h"
-#include "settings/SourceGroupSettingsCxx.h"
-#include "settings/SourceGroupSettingsJava.h"
+#include "settings/SourceGroupSettingsCxxCdb.h"
+#include "settings/SourceGroupSettingsCxxEmpty.h"
+#include "settings/SourceGroupSettingsJavaEmpty.h"
+#include "settings/SourceGroupSettingsJavaMaven.h"
+#include "settings/SourceGroupSettingsJavaGradle.h"
+#include "utility/logging/logging.h"
 #include "utility/utilityString.h"
 #include "utility/utilityUuid.h"
 
@@ -135,7 +139,7 @@ std::vector<std::shared_ptr<SourceGroupSettings>> ProjectSettings::getAllSourceG
 	std::vector<std::shared_ptr<SourceGroupSettings>> allSettings;
 	for (const std::string& key: m_config->getSublevelKeys("source_groups"))
 	{
-		const std::string id = key.substr(std::string("source_groups/source_group_").length());
+		const std::string id = key.substr(std::string(SourceGroupSettings::s_keyPrefix).length());
 		const SourceGroupType type = stringToSourceGroupType(getValue<std::string>(key + "/type", ""));
 
 		std::shared_ptr<SourceGroupSettings> settings;
@@ -143,62 +147,36 @@ std::vector<std::shared_ptr<SourceGroupSettings>> ProjectSettings::getAllSourceG
 		switch (type)
 		{
 		case SOURCE_GROUP_C_EMPTY:
+			settings = std::make_shared<SourceGroupSettingsCxxEmpty>(id, SOURCE_GROUP_C_EMPTY, this);
+			break;
 		case SOURCE_GROUP_CPP_EMPTY:
+			settings = std::make_shared<SourceGroupSettingsCxxEmpty>(id, SOURCE_GROUP_CPP_EMPTY, this);
+			break;
 		case SOURCE_GROUP_CXX_CDB:
-			{
-				std::shared_ptr<SourceGroupSettingsCxx> cxxSettings = std::make_shared<SourceGroupSettingsCxx>(id, type, this);
-				cxxSettings->setHeaderSearchPaths(getPathValues(key + "/header_search_paths/header_search_path"));
-				cxxSettings->setFrameworkSearchPaths(getPathValues(key + "/framework_search_paths/framework_search_path"));
-				cxxSettings->setCompilerFlags(getValues<std::string>(key + "/compiler_flags/compiler_flag", std::vector<std::string>()));
-				cxxSettings->setUseSourcePathsForHeaderSearch(getValue<bool>(key + "/use_source_paths_for_header_search", false));
-				cxxSettings->setHasDefinedUseSourcePathsForHeaderSearch(isValueDefined(key + "/use_source_paths_for_header_search"));
-				if (type == SOURCE_GROUP_CXX_CDB)
-				{
-					cxxSettings->setCompilationDatabasePath(FilePath(getValue<std::string>(key + "/build_file_path/compilation_db_path", "")));
-				}
-				if (type == SOURCE_GROUP_C_EMPTY || type == SOURCE_GROUP_CPP_EMPTY)
-				{
-					cxxSettings->setTargetOptionsEnabled(getValue<bool>(key + "/cross_compilation/target_options_enabled", false));
-					cxxSettings->setTargetArch(getValue<std::string>(key + "/cross_compilation/target/arch", ""));
-					cxxSettings->setTargetVendor(getValue<std::string>(key + "/cross_compilation/target/vendor", ""));
-					cxxSettings->setTargetSys(getValue<std::string>(key + "/cross_compilation/target/sys", ""));
-					cxxSettings->setTargetAbi(getValue<std::string>(key + "/cross_compilation/target/abi", ""));
-				}
-				cxxSettings->setShouldApplyAnonymousTypedefTransformation(getValue<bool>(key + "/should_apply_anonymous_typedef_transformation", true));
-				settings = cxxSettings;
-			}
+			settings = std::make_shared<SourceGroupSettingsCxxCdb>(id, this);
 			break;
 		case SOURCE_GROUP_JAVA_EMPTY:
+			settings = std::make_shared<SourceGroupSettingsJavaEmpty>(id, this);
+			break;
 		case SOURCE_GROUP_JAVA_MAVEN:
-			{
-				std::shared_ptr<SourceGroupSettingsJava> javaSettings = std::make_shared<SourceGroupSettingsJava>(id, type, this);
-				javaSettings->setClasspath(getPathValues(key + "/class_paths/class_path"));
-				javaSettings->setUseJreSystemLibrary(getValue<bool>(key + "/use_jre_system_library", true));
-				if (type == SOURCE_GROUP_JAVA_MAVEN)
-				{
-					javaSettings->setMavenProjectFilePath(FilePath(getValue<std::string>(key + "/maven/project_file_path", "")));
-					javaSettings->setMavenDependenciesDirectory(FilePath(getValue<std::string>(key + "/maven/dependencies_directory", "")));
-					javaSettings->setShouldIndexMavenTests(getValue<bool>(key + "/maven/should_index_tests", false));
-				}
-				settings = javaSettings;
-			}
+			settings = std::make_shared<SourceGroupSettingsJavaMaven>(id, this);
+			break;
+		case SOURCE_GROUP_JAVA_GRADLE:
+			settings = std::make_shared<SourceGroupSettingsJavaGradle>(id, this);
 			break;
 		default:
 			continue;
 		}
 
-		const std::string name = getValue<std::string>(key + "/name", "");
-		if (name.size())
+		if (settings)
 		{
-			settings->setName(name);
+			settings->load(m_config);
+			allSettings.push_back(settings);
 		}
-
-		settings->setStandard(getValue<std::string>(key + "/standard", ""));
-		settings->setSourcePaths(getPathValues(key + "/source_paths/source_path"));
-		settings->setExcludePaths(getPathValues(key + "/exclude_paths/exclude_path"));
-		settings->setSourceExtensions(getValues(key + "/source_extensions/source_extension", std::vector<std::string>()));
-
-		allSettings.push_back(settings);
+		else
+		{
+			LOG_WARNING("Sourcegroup with id \"" + id + "\" could not be loaded.");
+		}
 	}
 
 	return allSettings;
@@ -213,63 +191,11 @@ void ProjectSettings::setAllSourceGroupSettings(const std::vector<std::shared_pt
 
 	for (const std::shared_ptr<SourceGroupSettings>& settings: allSettings)
 	{
-		const std::string key = "source_groups/source_group_" + settings->getId();
+		const std::string key = SourceGroupSettings::s_keyPrefix + settings->getId();
 		const SourceGroupType type = settings->getType();
-
 		setValue(key + "/type", sourceGroupTypeToString(type));
-		setValue(key + "/name", settings->getName());
-		setValue(key + "/standard", settings->getStandard());
-		setPathValues(key + "/source_paths/source_path", settings->getSourcePaths());
-		setPathValues(key + "/exclude_paths/exclude_path", settings->getExcludePaths());
-		setValues(key + "/source_extensions/source_extension", settings->getSourceExtensions());
 
-		switch (type)
-		{
-		case SOURCE_GROUP_C_EMPTY:
-		case SOURCE_GROUP_CPP_EMPTY:
-		case SOURCE_GROUP_CXX_CDB:
-			if (std::shared_ptr<SourceGroupSettingsCxx> cxxSettings = std::dynamic_pointer_cast<SourceGroupSettingsCxx>(settings))
-			{
-				setPathValues(key + "/header_search_paths/header_search_path", cxxSettings->getHeaderSearchPaths());
-				setPathValues(key + "/framework_search_paths/framework_search_path", cxxSettings->getFrameworkSearchPaths());
-				setValues(key + "/compiler_flags/compiler_flag", cxxSettings->getCompilerFlags());
-				if (cxxSettings->getHasDefinedUseSourcePathsForHeaderSearch())
-				{
-					setValue(key + "/use_source_paths_for_header_search", cxxSettings->getUseSourcePathsForHeaderSearch());
-				}
-				if (type == SOURCE_GROUP_CXX_CDB)
-				{
-					setValue(key + "/build_file_path/compilation_db_path", cxxSettings->getCompilationDatabasePath().str());
-				}
-				if (type == SOURCE_GROUP_C_EMPTY || type == SOURCE_GROUP_CPP_EMPTY)
-				{
-					setValue(key + "/cross_compilation/target_options_enabled", cxxSettings->getTargetOptionsEnabled());
-					setValue(key + "/cross_compilation/target/arch", cxxSettings->getTargetArch());
-					setValue(key + "/cross_compilation/target/vendor", cxxSettings->getTargetVendor());
-					setValue(key + "/cross_compilation/target/sys", cxxSettings->getTargetSys());
-					setValue(key + "/cross_compilation/target/abi", cxxSettings->getTargetAbi());
-				}
-				setValue(key + "/should_apply_anonymous_typedef_transformation", cxxSettings->getShouldApplyAnonymousTypedefTransformation());
-			}
-		break;
-		case SOURCE_GROUP_JAVA_EMPTY:
-		case SOURCE_GROUP_JAVA_MAVEN:
-			if (std::shared_ptr<SourceGroupSettingsJava> javaSettings = std::dynamic_pointer_cast<SourceGroupSettingsJava>(settings))
-			{
-				setPathValues(key + "/class_paths/class_path", javaSettings->getClasspath());
-				setValue(key + "/use_jre_system_library", javaSettings->getUseJreSystemLibrary());
-
-				if (type == SOURCE_GROUP_JAVA_MAVEN)
-				{
-					setValue(key + "/maven/project_file_path", javaSettings->getMavenProjectFilePath().str());
-					setValue(key + "/maven/dependencies_directory", javaSettings->getMavenDependenciesDirectory().str());
-					setValue(key + "/maven/should_index_tests", javaSettings->getShouldIndexMavenTests());
-				}
-			}
-		break;
-		default:
-			continue;
-		}
+		settings->save(m_config);
 	}
 }
 
@@ -372,6 +298,11 @@ SettingsMigrator ProjectSettings::getMigrations() const
 				if (!mavenProjectFilePath.empty())
 				{
 					type = SOURCE_GROUP_JAVA_MAVEN;
+				}
+				const std::string gradleProjectFilePath = migration->getValueFromSettings<std::string>(settings, sourceGroupKey + "/gradle/project_file_path", "");
+				if (!gradleProjectFilePath.empty())
+				{
+					type = SOURCE_GROUP_JAVA_GRADLE;
 				}
 				else
 				{

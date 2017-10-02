@@ -84,10 +84,12 @@ add_files(
 	project/IncludeValidation.h
 	project/SourceGroupCxx.cpp
 	project/SourceGroupCxx.h
-	project/SourceGroupFactoryModuleCpp.cpp
-	project/SourceGroupFactoryModuleCpp.h
-	project/SourceGroupFactoryModuleC.cpp
-	project/SourceGroupFactoryModuleC.h
+	project/SourceGroupCxxCdb.cpp
+	project/SourceGroupCxxCdb.h
+	project/SourceGroupCxxEmpty.cpp
+	project/SourceGroupCxxEmpty.h
+	project/SourceGroupFactoryModuleCxx.cpp
+	project/SourceGroupFactoryModuleCxx.h
 
 	utility/CompilationDatabase.cpp
 	utility/CompilationDatabase.h

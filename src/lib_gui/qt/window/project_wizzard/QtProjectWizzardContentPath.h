@@ -95,4 +95,37 @@ public:
 	virtual void save() override;
 };
 
+
+class QtProjectWizzardContentPathSourceGradle
+	: public QtProjectWizzardContentPath
+{
+	Q_OBJECT
+public:
+	QtProjectWizzardContentPathSourceGradle(std::shared_ptr<SourceGroupSettings> settings, QtProjectWizzardWindow* window);
+
+	// QtProjectWizzardContent implementation
+	virtual void populate(QGridLayout* layout, int& row) override;
+
+	virtual void load() override;
+	virtual void save() override;
+
+	virtual std::vector<std::string> getFileNames() const override;
+
+private:
+	QCheckBox* m_shouldIndexTests;
+};
+
+
+class QtProjectWizzardContentPathDependenciesGradle
+	: public QtProjectWizzardContentPath
+{
+	Q_OBJECT
+public:
+	QtProjectWizzardContentPathDependenciesGradle(std::shared_ptr<SourceGroupSettings> settings, QtProjectWizzardWindow* window);
+
+	// QtProjectWizzardContent implementation
+	virtual void load() override;
+	virtual void save() override;
+};
+
 #endif // QT_PROJECT_WIZZARD_CONTENT_PATH_H

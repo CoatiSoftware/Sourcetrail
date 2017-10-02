@@ -237,6 +237,8 @@
 				<ComponentRef Id='LicenseClangTxt'/>
 				<ComponentRef Id='LicenseCppSqliteTxt'/>
 				<ComponentRef Id='LicenseEclipseTxt'/>
+				<ComponentRef Id='LicenseGradleTxt'/>
+				<ComponentRef Id='LicenseOpensslTxt'/>
 				<ComponentRef Id='LicenseQtTxt'/>
 				<ComponentRef Id='LicenseTinyxmlTxt'/>
 				
@@ -387,7 +389,10 @@
 				<ComponentRef Id='SourceGroupDeletePng'/>
 				<ComponentRef Id='SourceGroupDeleteHoverPng'/>
 				<ComponentRef Id='WindowCss'/>
-
+				
+				<ComponentRef Id='JavaGradleInitGradle'/>
+				
+				<ComponentRef Id='GradleToolingApiJar'/>
 				<ComponentRef Id='JavaJavaIndexerJar'/>
 				<ComponentRef Id='JavaOrgEclipseCoreCommandsJar'/>
 				<ComponentRef Id='JavaOrgEclipseCoreContenttypeJar'/>
@@ -403,7 +408,9 @@
 				<ComponentRef Id='JavaOrgEclipseJdtCoreJar'/>
 				<ComponentRef Id='JavaOrgEclipseOsgiJar'/>
 				<ComponentRef Id='JavaOrgEclipseTextJar'/>
-
+				<ComponentRef Id='Slf4jApiJar'/>
+				<ComponentRef Id='Slf4jSimpleJar'/>
+				
 				<ComponentRef Id='UninstallBat'/>
 
 				<!-- AppData Folder Stuff -->

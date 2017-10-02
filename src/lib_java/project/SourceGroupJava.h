@@ -3,33 +3,34 @@
 
 #include <memory>
 #include <set>
+#include <vector>
 
-#include "settings/SourceGroupSettingsJava.h"
 #include "project/SourceGroup.h"
+
+class SourceGroupSettingsJava;
 
 class SourceGroupJava: public SourceGroup
 {
 public:
-	SourceGroupJava(std::shared_ptr<SourceGroupSettingsJava> settings);
+	SourceGroupJava();
 	virtual ~SourceGroupJava();
 
-	virtual SourceGroupType getType() const;
-
 	virtual bool prepareIndexing();
-
-	virtual void fetchAllSourceFilePaths();
 
 	virtual std::vector<std::shared_ptr<IndexerCommand>> getIndexerCommands(
 		std::set<FilePath>* filesToIndex, bool fullRefresh);
 
+protected:
+	virtual std::vector<FilePath> doGetClassPath();
+
 private:
+	virtual std::shared_ptr<SourceGroupSettingsJava> getSourceGroupSettingsJava() = 0;
+
+	virtual std::shared_ptr<SourceGroupSettings> getSourceGroupSettings();
 	bool prepareJavaEnvironment();
-	bool prepareMavenData();
 
 	std::vector<FilePath> getClassPath();
 	std::set<FilePath> fetchRootDirectories();
-
-	std::shared_ptr<SourceGroupSettingsJava> m_settings;
 };
 
 #endif // SOURCE_GROUP_JAVA_H

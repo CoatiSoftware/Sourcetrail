@@ -10,11 +10,13 @@
 #include "qt/element/QtLocationPicker.h"
 #include "qt/view/QtDialogView.h"
 #include "settings/ApplicationSettings.h"
-#include "settings/SourceGroupSettingsCxx.h"
-#include "settings/SourceGroupSettingsJava.h"
+#include "settings/SourceGroupSettingsCxxCdb.h"
+#include "settings/SourceGroupSettingsJavaMaven.h"
+#include "settings/SourceGroupSettingsJavaGradle.h"
 #include "utility/file/FileManager.h"
 #include "utility/messaging/type/MessageStatus.h"
 #include "utility/ScopedFunctor.h"
+#include "utility/utilityGradle.h"
 #include "utility/utilityMaven.h"
 
 QtProjectWizzardContentPath::QtProjectWizzardContentPath(std::shared_ptr<SourceGroupSettings> settings, QtProjectWizzardWindow* window)
@@ -140,21 +142,21 @@ void QtProjectWizzardContentPathCDB::populate(QGridLayout* layout, int& row)
 
 void QtProjectWizzardContentPathCDB::load()
 {
-	std::shared_ptr<SourceGroupSettingsCxx> cxxSettings =
-		std::dynamic_pointer_cast<SourceGroupSettingsCxx>(m_settings);
-	if (cxxSettings)
+	std::shared_ptr<SourceGroupSettingsCxxCdb> settings =
+		std::dynamic_pointer_cast<SourceGroupSettingsCxxCdb>(m_settings);
+	if (settings)
 	{
-		m_picker->setText(QString::fromStdString(cxxSettings->getCompilationDatabasePath().str()));
+		m_picker->setText(QString::fromStdString(settings->getCompilationDatabasePath().str()));
 	}
 }
 
 void QtProjectWizzardContentPathCDB::save()
 {
-	std::shared_ptr<SourceGroupSettingsCxx> cxxSettings =
-		std::dynamic_pointer_cast<SourceGroupSettingsCxx>(m_settings);
-	if (cxxSettings)
+	std::shared_ptr<SourceGroupSettingsCxxCdb> m_settings =
+		std::dynamic_pointer_cast<SourceGroupSettingsCxxCdb>(m_settings);
+	if (m_settings)
 	{
-		cxxSettings->setCompilationDatabasePath(FilePath(m_picker->getText().toStdString()));
+		m_settings->setCompilationDatabasePath(FilePath(m_picker->getText().toStdString()));
 	}
 }
 
@@ -200,30 +202,30 @@ void QtProjectWizzardContentPathSourceMaven::populate(QGridLayout* layout, int& 
 
 void QtProjectWizzardContentPathSourceMaven::load()
 {
-	std::shared_ptr<SourceGroupSettingsJava> javaSettings = std::dynamic_pointer_cast<SourceGroupSettingsJava>(m_settings);
-	if (javaSettings)
+	std::shared_ptr<SourceGroupSettingsJavaMaven> settings = std::dynamic_pointer_cast<SourceGroupSettingsJavaMaven>(m_settings);
+	if (settings)
 	{
-		m_picker->setText(QString::fromStdString(javaSettings->getMavenProjectFilePath().str()));
-		m_shouldIndexTests->setChecked(javaSettings->getShouldIndexMavenTests());
+		m_picker->setText(QString::fromStdString(settings->getMavenProjectFilePath().str()));
+		m_shouldIndexTests->setChecked(settings->getShouldIndexMavenTests());
 	}
 }
 
 void QtProjectWizzardContentPathSourceMaven::save()
 {
-	std::shared_ptr<SourceGroupSettingsJava> javaSettings = std::dynamic_pointer_cast<SourceGroupSettingsJava>(m_settings);
-	if (javaSettings)
+	std::shared_ptr<SourceGroupSettingsJavaMaven> settings = std::dynamic_pointer_cast<SourceGroupSettingsJavaMaven>(m_settings);
+	if (settings)
 	{
-		javaSettings->setMavenProjectFilePath(FilePath(m_picker->getText().toStdString()));
-		javaSettings->setShouldIndexMavenTests(m_shouldIndexTests->isChecked());
+		settings->setMavenProjectFilePath(FilePath(m_picker->getText().toStdString()));
+		settings->setShouldIndexMavenTests(m_shouldIndexTests->isChecked());
 	}
 }
 
 std::vector<std::string> QtProjectWizzardContentPathSourceMaven::getFileNames() const
 {
-	std::shared_ptr<SourceGroupSettingsJava> javaSettings = std::dynamic_pointer_cast<SourceGroupSettingsJava>(m_settings);
+	std::shared_ptr<SourceGroupSettingsJavaMaven> settings = std::dynamic_pointer_cast<SourceGroupSettingsJavaMaven>(m_settings);
 
 	const FilePath mavenPath = ApplicationSettings::getInstance()->getMavenPath();
-	const FilePath mavenProjectRoot = javaSettings->getMavenProjectFilePathExpandedAndAbsolute().parentDirectory();
+	const FilePath mavenProjectRoot = settings->getMavenProjectFilePathExpandedAndAbsolute().parentDirectory();
 
 	std::vector<std::string> list;
 	std::shared_ptr<DialogView> dialogView = Application::getInstance()->getDialogView();
@@ -251,7 +253,7 @@ std::vector<std::string> QtProjectWizzardContentPathSourceMaven::getFileNames() 
 		const std::vector<FilePath> sourceDirectories = utility::mavenGetAllDirectoriesFromEffectivePom(
 			mavenPath,
 			mavenProjectRoot,
-			javaSettings->getShouldIndexMavenTests()
+			settings->getShouldIndexMavenTests()
 		);
 
 		FileManager fileManager;
@@ -277,6 +279,7 @@ std::vector<std::string> QtProjectWizzardContentPathSourceMaven::getFileNames() 
 	return list;
 }
 
+
 QtProjectWizzardContentPathDependenciesMaven::QtProjectWizzardContentPathDependenciesMaven(
 	std::shared_ptr<SourceGroupSettings> settings, QtProjectWizzardWindow* window
 )
@@ -292,18 +295,149 @@ QtProjectWizzardContentPathDependenciesMaven::QtProjectWizzardContentPathDepende
 
 void QtProjectWizzardContentPathDependenciesMaven::load()
 {
-	std::shared_ptr<SourceGroupSettingsJava> javaSettings = std::dynamic_pointer_cast<SourceGroupSettingsJava>(m_settings);
-	if (javaSettings)
+	std::shared_ptr<SourceGroupSettingsJavaMaven> settings = std::dynamic_pointer_cast<SourceGroupSettingsJavaMaven>(m_settings);
+	if (settings)
 	{
-		m_picker->setText(QString::fromStdString(javaSettings->getMavenDependenciesDirectory().str()));
+		m_picker->setText(QString::fromStdString(settings->getMavenDependenciesDirectory().str()));
 	}
 }
 
 void QtProjectWizzardContentPathDependenciesMaven::save()
 {
-	std::shared_ptr<SourceGroupSettingsJava> javaSettings = std::dynamic_pointer_cast<SourceGroupSettingsJava>(m_settings);
-	if (javaSettings)
+	std::shared_ptr<SourceGroupSettingsJavaMaven> settings = std::dynamic_pointer_cast<SourceGroupSettingsJavaMaven>(m_settings);
+	if (settings)
 	{
-		javaSettings->setMavenDependenciesDirectory(FilePath(m_picker->getText().toStdString()));
+		settings->setMavenDependenciesDirectory(FilePath(m_picker->getText().toStdString()));
+	}
+}
+
+
+QtProjectWizzardContentPathSourceGradle::QtProjectWizzardContentPathSourceGradle(
+	std::shared_ptr<SourceGroupSettings> settings, QtProjectWizzardWindow* window
+)
+	: QtProjectWizzardContentPath(settings, window)
+{
+	setTitleString("Gradle Project File (build.gradle)");
+	setHelpString(
+		"Enter the path to the main build.gradle file of your Gradle project.<br />"
+		"<br />"
+		"You can make use of environment variables with ${ENV_VAR}."
+	);
+	setFileEndings({ ".gradle" });
+}
+
+void QtProjectWizzardContentPathSourceGradle::populate(QGridLayout* layout, int& row)
+{
+	QtProjectWizzardContentPath::populate(layout, row);
+	m_picker->setPickDirectory(false);
+	m_picker->setFileFilter("Gradle Build File (build.gradle)");
+
+	QPushButton* filesButton = addFilesButton("show source files", nullptr, row);
+	m_shouldIndexTests = new QCheckBox("Should Index Tests");
+
+	QHBoxLayout* hlayout = new QHBoxLayout();
+	hlayout->setContentsMargins(0, 0, 0, 0);
+	hlayout->addWidget(m_shouldIndexTests);
+	hlayout->addStretch();
+	hlayout->addWidget(filesButton);
+
+	layout->addLayout(hlayout, row, QtProjectWizzardWindow::BACK_COL);
+	row++;
+}
+
+void QtProjectWizzardContentPathSourceGradle::load()
+{
+	std::shared_ptr<SourceGroupSettingsJavaGradle> settings = std::dynamic_pointer_cast<SourceGroupSettingsJavaGradle>(m_settings);
+	if (settings)
+	{
+		m_picker->setText(QString::fromStdString(settings->getGradleProjectFilePath().str()));
+		m_shouldIndexTests->setChecked(settings->getShouldIndexGradleTests());
+	}
+}
+
+void QtProjectWizzardContentPathSourceGradle::save()
+{
+	std::shared_ptr<SourceGroupSettingsJavaGradle> settings = std::dynamic_pointer_cast<SourceGroupSettingsJavaGradle>(m_settings);
+	if (settings)
+	{
+		settings->setGradleProjectFilePath(FilePath(m_picker->getText().toStdString()));
+		settings->setShouldIndexGradleTests(m_shouldIndexTests->isChecked());
+	}
+}
+
+std::vector<std::string> QtProjectWizzardContentPathSourceGradle::getFileNames() const
+{
+	std::shared_ptr<SourceGroupSettingsJavaGradle> settings = std::dynamic_pointer_cast<SourceGroupSettingsJavaGradle>(m_settings);
+
+	const FilePath gradleProjectRoot = settings->getGradleProjectFilePathExpandedAndAbsolute().parentDirectory();
+
+	std::vector<std::string> list;
+
+	std::shared_ptr<DialogView> dialogView = Application::getInstance()->getDialogView();
+
+	ScopedFunctor scopedFunctor([&dialogView]() {
+		dialogView->hideUnknownProgressDialog();
+	});
+
+	std::dynamic_pointer_cast<QtDialogView>(dialogView)->setParentWindow(m_window);
+	{
+		dialogView->showUnknownProgressDialog("Preparing Project", "Gradle\nFetching Source Directories");
+		const std::vector<FilePath> sourceDirectories = utility::gradleGetAllSourceDirectories(
+			gradleProjectRoot,
+			settings->getShouldIndexGradleTests()
+		);
+
+		FileManager fileManager;
+		fileManager.update(
+			sourceDirectories,
+			m_settings->getExcludePathsExpandedAndAbsolute(),
+			m_settings->getSourceExtensions()
+		);
+
+		const FilePath projectPath = m_settings->getProjectFileLocation();
+
+		for (FilePath path : fileManager.getAllSourceFilePaths())
+		{
+			if (projectPath.exists())
+			{
+				path = path.relativeTo(projectPath);
+			}
+
+			list.push_back(path.str());
+		}
+	}
+	
+	return list;
+}
+
+
+QtProjectWizzardContentPathDependenciesGradle::QtProjectWizzardContentPathDependenciesGradle(
+	std::shared_ptr<SourceGroupSettings> settings, QtProjectWizzardWindow* window
+)
+	: QtProjectWizzardContentPath(settings, window)
+{
+	setTitleString("Intermediate Dependencies Directory");
+	setHelpString(
+		"This directory is used to temporarily download and store the dependencies (e.g. .jar files) of the Gradle project while it is indexed.<br />"
+		"<br />"
+		"You can make use of environment variables with ${ENV_VAR}."
+	);
+}
+
+void QtProjectWizzardContentPathDependenciesGradle::load()
+{
+	std::shared_ptr<SourceGroupSettingsJavaGradle> settings = std::dynamic_pointer_cast<SourceGroupSettingsJavaGradle>(m_settings);
+	if (settings)
+	{
+		m_picker->setText(QString::fromStdString(settings->getGradleDependenciesDirectory().str()));
+	}
+}
+
+void QtProjectWizzardContentPathDependenciesGradle::save()
+{
+	std::shared_ptr<SourceGroupSettingsJavaGradle> settings = std::dynamic_pointer_cast<SourceGroupSettingsJavaGradle>(m_settings);
+	if (settings)
+	{
+		settings->setGradleDependenciesDirectory(FilePath(m_picker->getText().toStdString()));
 	}
 }

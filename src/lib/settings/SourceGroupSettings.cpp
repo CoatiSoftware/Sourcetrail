@@ -2,6 +2,8 @@
 
 #include "utility/utility.h"
 
+std::string SourceGroupSettings::s_keyPrefix = "source_groups/source_group_";
+
 SourceGroupSettings::SourceGroupSettings(const std::string& id, SourceGroupType type, const ProjectSettings* projectSettings)
 	: m_projectSettings(projectSettings)
 	, m_id(id)
@@ -16,6 +18,33 @@ SourceGroupSettings::SourceGroupSettings(const std::string& id, SourceGroupType 
 
 SourceGroupSettings::~SourceGroupSettings()
 {
+}
+
+void SourceGroupSettings::load(std::shared_ptr<const ConfigManager> config)
+{
+	const std::string key = s_keyPrefix + getId();
+
+	const std::string name = getValue<std::string>(key + "/name", "", config);
+	if (!name.empty())
+	{
+		setName(name);
+	}
+
+	setStandard(getValue<std::string>(key + "/standard", "", config));
+	setSourcePaths(getPathValues(key + "/source_paths/source_path", config));
+	setExcludePaths(getPathValues(key + "/exclude_paths/exclude_path", config));
+	setSourceExtensions(getValues(key + "/source_extensions/source_extension", std::vector<std::string>(), config));
+}
+
+void SourceGroupSettings::save(std::shared_ptr<ConfigManager> config)
+{
+	const std::string key = s_keyPrefix + getId();
+
+	setValue(key + "/name", getName(), config);
+	setValue(key + "/standard", getStandard(), config);
+	setPathValues(key + "/source_paths/source_path", getSourcePaths(), config);
+	setPathValues(key + "/exclude_paths/exclude_path", getExcludePaths(), config);
+	setValues(key + "/source_extensions/source_extension", getSourceExtensions(), config);
 }
 
 bool SourceGroupSettings::equals(std::shared_ptr<SourceGroupSettings> other) const
@@ -127,4 +156,28 @@ std::vector<std::string> SourceGroupSettings::getSourceExtensions() const
 void SourceGroupSettings::setSourceExtensions(const std::vector<std::string>& sourceExtensions)
 {
 	m_sourceExtensions = sourceExtensions;
+}
+
+std::vector<FilePath> SourceGroupSettings::getPathValues(const std::string& key, std::shared_ptr<const ConfigManager> config)
+{
+	std::vector<std::string> values;
+	values = getValues(key, values, config);
+
+	std::vector<FilePath> paths;
+	for (const std::string& value : values)
+	{
+		paths.push_back(FilePath(value));
+	}
+	return paths;
+}
+
+bool SourceGroupSettings::setPathValues(const std::string& key, const std::vector<FilePath>& paths, std::shared_ptr<ConfigManager> config)
+{
+	std::vector<std::string> values;
+	for (const FilePath& path : paths)
+	{
+		values.push_back(path.str());
+	}
+
+	return setValues(key, values, config);
 }

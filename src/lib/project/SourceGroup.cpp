@@ -1,5 +1,7 @@
 #include "project/SourceGroup.h"
 
+#include "settings/SourceGroupSettings.h"
+#include "utility/file/FileManager.h"
 #include "utility/file/FilePath.h"
 
 SourceGroup::~SourceGroup()
@@ -19,6 +21,18 @@ bool SourceGroup::prepareRefresh()
 bool SourceGroup::prepareIndexing()
 {
 	return true;
+}
+
+void SourceGroup::fetchAllSourceFilePaths()
+{
+	m_sourceFilePathsToIndex.clear();
+	FileManager fileManager;
+	fileManager.update(
+		getAllSourcePaths(), 
+		getSourceGroupSettings()->getExcludePathsExpandedAndAbsolute(), 
+		getSourceGroupSettings()->getSourceExtensions()
+	);
+	m_allSourceFilePaths = fileManager.getAllSourceFilePaths();
 }
 
 void SourceGroup::fetchSourceFilePathsToIndex(const std::set<FilePath>& staticSourceFilePaths)

@@ -35,6 +35,7 @@ void QtProjectWizzardContentSelect::populate(QGridLayout* layout, int& row)
 	sourceGroupInfos[LANGUAGE_CPP].push_back(SourceGroupInfo(SOURCE_GROUP_CXX_VS));
 	sourceGroupInfos[LANGUAGE_JAVA].push_back(SourceGroupInfo(SOURCE_GROUP_JAVA_EMPTY));
 	sourceGroupInfos[LANGUAGE_JAVA].push_back(SourceGroupInfo(SOURCE_GROUP_JAVA_MAVEN));
+	sourceGroupInfos[LANGUAGE_JAVA].push_back(SourceGroupInfo(SOURCE_GROUP_JAVA_GRADLE));
 
 	// define which icons should be used for which kind of source group
 	m_sourceGroupTypeIconName[SOURCE_GROUP_C_EMPTY] = "empty_icon";
@@ -43,6 +44,7 @@ void QtProjectWizzardContentSelect::populate(QGridLayout* layout, int& row)
 	m_sourceGroupTypeIconName[SOURCE_GROUP_CXX_VS] = "vs_icon";
 	m_sourceGroupTypeIconName[SOURCE_GROUP_JAVA_EMPTY] = "empty_icon";
 	m_sourceGroupTypeIconName[SOURCE_GROUP_JAVA_MAVEN] = "mvn_icon";
+	m_sourceGroupTypeIconName[SOURCE_GROUP_JAVA_GRADLE] = "empty_icon"; // Todo: make and use gradle icon here
 
 	// define descriptions for each kind of Source Group
 	m_sourceGroupTypeDescriptions[SOURCE_GROUP_C_EMPTY] = "Create a new Sourcetrail Source Group by defining which C files will be indexed.";
@@ -54,7 +56,8 @@ void QtProjectWizzardContentSelect::populate(QGridLayout* layout, int& row)
 		"<b>Note: Requires a running Visual Studio instance with the "
 		"<a href=\"https://sourcetrail.com/documentation/index.html#VisualStudio\">Visual Studio plugin</a> installed.";
 	m_sourceGroupTypeDescriptions[SOURCE_GROUP_JAVA_EMPTY] = "Create a new Sourcetrail Source Group by defining which Java files will be indexed.";
-	m_sourceGroupTypeDescriptions[SOURCE_GROUP_JAVA_MAVEN] = "Create a new Source Group from an existing Maven project.";
+	m_sourceGroupTypeDescriptions[SOURCE_GROUP_JAVA_MAVEN] = "Create a new Source Group from an existing Maven project."; 
+	m_sourceGroupTypeDescriptions[SOURCE_GROUP_JAVA_GRADLE] = "Create a new Source Group from an existing Gradle project."; 
 
 	QVBoxLayout* vlayout = new QVBoxLayout();
 	vlayout->setContentsMargins(0, 30, 0, 0);
