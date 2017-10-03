@@ -6,6 +6,8 @@
 #include <QPushButton>
 #include <QTreeWidget>
 
+#include "component/controller/BookmarkController.h"
+#include "component/controller/helper/ControllerProxy.h"
 #include "data/bookmark/Bookmark.h"
 
 class Bookmark;
@@ -16,7 +18,7 @@ class QtBookmark
 	Q_OBJECT
 
 public:
-	QtBookmark();
+	QtBookmark(ControllerProxy<BookmarkController>* controllerProxy);
 	virtual ~QtBookmark();
 
 	void setBookmark(const std::shared_ptr<Bookmark> bookmark);
@@ -45,6 +47,8 @@ private:
 	void updateArrow();
 
 	std::string getDateString() const;
+
+	ControllerProxy<BookmarkController>* m_controllerProxy;
 
 	QPushButton* m_activateButton;
 	QPushButton* m_editButton;

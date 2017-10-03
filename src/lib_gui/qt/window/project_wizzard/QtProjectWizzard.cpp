@@ -540,6 +540,8 @@ void QtProjectWizzard::duplicateSelectedSourceGroup()
 	case SOURCE_GROUP_CXX_CDB:
 		newSourceGroup = std::make_shared<SourceGroupSettingsCxxCdb>(*dynamic_cast<SourceGroupSettingsCxxCdb*>(oldSourceGroup.get()));
 		break;
+	default:
+		return;
 	}
 
 	newSourceGroup->setId(utility::getUuidString());

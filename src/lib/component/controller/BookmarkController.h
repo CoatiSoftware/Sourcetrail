@@ -9,13 +9,8 @@
 #include "utility/messaging/type/MessageActivateAll.h"
 #include "utility/messaging/type/MessageActivateBookmark.h"
 #include "utility/messaging/type/MessageActivateTokens.h"
-#include "utility/messaging/type/MessageCreateBookmark.h"
-#include "utility/messaging/type/MessageCreateBookmarkCategory.h"
-#include "utility/messaging/type/MessageDeleteBookmark.h"
-#include "utility/messaging/type/MessageDeleteBookmarkCategory.h"
-#include "utility/messaging/type/MessageDeleteBookmarkForActiveTokens.h"
+#include "utility/messaging/type/MessageDisplayBookmarkCreator.h"
 #include "utility/messaging/type/MessageDisplayBookmarks.h"
-#include "utility/messaging/type/MessageEditBookmark.h"
 #include "utility/messaging/type/MessageFinishedParsing.h"
 #include "utility/messaging/type/MessageShowErrors.h"
 
@@ -28,12 +23,8 @@ class BookmarkController
 	, public MessageListener<MessageActivateAll>
 	, public MessageListener<MessageActivateBookmark>
 	, public MessageListener<MessageActivateTokens>
-	, public MessageListener<MessageCreateBookmark>
-	, public MessageListener<MessageCreateBookmarkCategory>
-	, public MessageListener<MessageDeleteBookmark>
-	, public MessageListener<MessageDeleteBookmarkCategory>
-	, public MessageListener<MessageDeleteBookmarkForActiveTokens>
-	, public MessageListener<MessageEditBookmark>
+	, public MessageListener<MessageDisplayBookmarkCreator>
+	, public MessageListener<MessageDisplayBookmarks>
 	, public MessageListener<MessageFinishedParsing>
 	, public MessageListener<MessageShowErrors>
 {
@@ -43,18 +34,20 @@ public:
 
 	virtual void clear();
 
-	std::vector<std::shared_ptr<Bookmark>> getBookmarks(
-		const MessageDisplayBookmarks::BookmarkFilter& filter, const MessageDisplayBookmarks::BookmarkOrder& order) const;
+	void displayBookmarks();
+	void displayBookmarksFor(Bookmark::BookmarkFilter filter, Bookmark::BookmarkOrder order);
 
-	std::vector<std::string> getActiveTokenDisplayNames() const;
-	std::vector<std::string> getDisplayNamesForNodeId(Id nodeId) const;
+	void createBookmark(const std::string& name, const std::string& comment, const std::string& category, Id nodeId);
+	void editBookmark(Id bookmarkId, const std::string& name, const std::string& comment, const std::string& category);
 
-	std::vector<BookmarkCategory> getAllBookmarkCategories() const;
+	void deleteBookmark(Id bookmarkId);
+	void deleteBookmarkCategory(Id categoryId);
+	void deleteBookmarkForActiveTokens();
 
-	std::shared_ptr<Bookmark> getBookmarkForActiveToken() const;
-	std::shared_ptr<Bookmark> getBookmarkForNodeId(Id nodeId) const;
+	void activateBookmark(const std::shared_ptr<Bookmark> bookmark);
 
-	bool canCreateBookmark() const;
+	void showBookmarkCreator(Id nodeId = 0);
+	void showBookmarkEditor(const std::shared_ptr<Bookmark> bookmark);
 
 private:
 	class BookmarkCache
@@ -78,27 +71,35 @@ private:
 	virtual void handleMessage(MessageActivateAll* message);
 	virtual void handleMessage(MessageActivateBookmark* message);
 	virtual void handleMessage(MessageActivateTokens* message);
-	virtual void handleMessage(MessageCreateBookmark* message);
-	virtual void handleMessage(MessageCreateBookmarkCategory* message);
-	virtual void handleMessage(MessageDeleteBookmark* message);
-	virtual void handleMessage(MessageDeleteBookmarkCategory* message);
-	virtual void handleMessage(MessageDeleteBookmarkForActiveTokens* message);
-	virtual void handleMessage(MessageEditBookmark* message);
+	virtual void handleMessage(MessageDisplayBookmarkCreator* message);
+	virtual void handleMessage(MessageDisplayBookmarks* message);
 	virtual void handleMessage(MessageFinishedParsing* message);
 	virtual void handleMessage(MessageShowErrors* message);
+
+	std::vector<std::string> getActiveTokenDisplayNames() const;
+	std::vector<std::string> getDisplayNamesForNodeId(Id nodeId) const;
+
+	std::vector<BookmarkCategory> getAllBookmarkCategories() const;
+
+	std::shared_ptr<Bookmark> getBookmarkForActiveToken() const;
+	std::shared_ptr<Bookmark> getBookmarkForNodeId(Id nodeId) const;
+
+	bool canCreateBookmark() const;
 
 	std::vector<std::shared_ptr<Bookmark>> getAllBookmarks() const;
 	std::vector<std::shared_ptr<NodeBookmark>> getAllNodeBookmarks() const;
 	std::vector<std::shared_ptr<EdgeBookmark>> getAllEdgeBookmarks() const;
+	std::vector<std::shared_ptr<Bookmark>> getBookmarks(
+		Bookmark::BookmarkFilter filter, Bookmark::BookmarkOrder order) const;
 
 	std::vector<std::string> getActiveNodeDisplayNames() const;
 	std::vector<std::string> getActiveEdgeDisplayNames() const;
 	std::string getNodeDisplayName(const Id id) const;
 
 	std::vector<std::shared_ptr<Bookmark>> getFilteredBookmarks(
-		const std::vector<std::shared_ptr<Bookmark>>& bookmarks, const MessageDisplayBookmarks::BookmarkFilter& filter) const;
+		const std::vector<std::shared_ptr<Bookmark>>& bookmarks, Bookmark::BookmarkFilter filter) const;
 	std::vector<std::shared_ptr<Bookmark>> getOrderedBookmarks(
-		const std::vector<std::shared_ptr<Bookmark>>& bookmarks, const MessageDisplayBookmarks::BookmarkOrder& order) const;
+		const std::vector<std::shared_ptr<Bookmark>>& bookmarks, Bookmark::BookmarkOrder order) const;
 	std::vector<std::shared_ptr<Bookmark>> getDateOrderedBookmarks(
 		const std::vector<std::shared_ptr<Bookmark>>& bookmarks, const bool ascending) const;
 	std::vector<std::shared_ptr<Bookmark>> getNameOrderedBookmarks(
@@ -109,6 +110,8 @@ private:
 	static bool bookmarkDateCompare(const std::shared_ptr<Bookmark> a, const std::shared_ptr<Bookmark> b);
 	static bool bookmarkNameCompare(const std::shared_ptr<Bookmark> a, const std::shared_ptr<Bookmark> b);
 
+	void update();
+
 	static const std::string s_edgeSeperatorToken;
 	static const std::string s_defaultCategoryName;
 
@@ -117,6 +120,9 @@ private:
 
 	std::vector<Id> m_activeNodeIds;
 	std::vector<Id> m_activeEdgeIds;
+
+	Bookmark::BookmarkFilter m_filter;
+	Bookmark::BookmarkOrder m_order;
 };
 
 #endif // BOOKMARK_CONTROLLER_H

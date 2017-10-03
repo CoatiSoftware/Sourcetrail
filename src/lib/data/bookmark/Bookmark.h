@@ -12,6 +12,23 @@
 class Bookmark
 {
 public:
+	enum BookmarkFilter
+	{
+		FILTER_UNKNOWN = 0,
+		FILTER_ALL,
+		FILTER_NODES,
+		FILTER_EDGES
+	};
+
+	enum BookmarkOrder
+	{
+		ORDER_NONE = 0,
+		ORDER_DATE_ASCENDING,
+		ORDER_DATE_DESCENDING,
+		ORDER_NAME_ASCENDING,
+		ORDER_NAME_DESCENDING
+	};
+
 	Bookmark(const Id id, const std::string& name, const std::string& comment, const TimeStamp& timeStamp, const BookmarkCategory& category);
 	virtual ~Bookmark();
 

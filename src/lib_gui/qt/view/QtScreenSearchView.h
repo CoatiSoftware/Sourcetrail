@@ -2,6 +2,7 @@
 #define QT_SCREEN_SEARCH_VIEW_H
 
 #include "component/controller/helper/ControllerProxy.h"
+#include "component/controller/ScreenSearchController.h"
 #include "component/view/ScreenSearchView.h"
 #include "qt/utility/QtThreadedFunctor.h"
 
@@ -34,7 +35,7 @@ public slots:
 	void hide();
 
 private:
-	ControllerProxy m_controllerProxy;
+	ControllerProxy<ScreenSearchController> m_controllerProxy;
 	QtThreadedLambdaFunctor m_onQtThread;
 
 	QtScreenSearchBox* m_widget;

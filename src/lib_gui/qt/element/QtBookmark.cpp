@@ -6,15 +6,12 @@
 #include <QTimer>
 #include <QVBoxLayout>
 
-#include "utility/messaging/type/MessageActivateBookmark.h"
-#include "utility/messaging/type/MessageDeleteBookmark.h"
-#include "utility/messaging/type/MessageDisplayBookmarkEditor.h"
+#include "qt/utility/utilityQt.h"
 #include "utility/ResourcePaths.h"
 
-#include "qt/utility/utilityQt.h"
-
-QtBookmark::QtBookmark()
-	: m_treeWidgetItem(NULL)
+QtBookmark::QtBookmark(ControllerProxy<BookmarkController>* controllerProxy)
+	: m_controllerProxy(controllerProxy)
+	, m_treeWidgetItem(NULL)
 	, m_arrowImageName("arrow_line_down.png")
 	, m_hovered(false)
 	, m_ignoreNextResize(false)
@@ -202,12 +199,12 @@ void QtBookmark::leaveEvent(QEvent *event)
 
 void QtBookmark::activateClicked()
 {
-	MessageActivateBookmark(m_bookmark).dispatch();
+	m_controllerProxy->executeAsTaskWithArgs(&BookmarkController::activateBookmark, m_bookmark);
 }
 
 void QtBookmark::editClicked()
 {
-	MessageDisplayBookmarkEditor(m_bookmark).dispatch();
+	m_controllerProxy->executeAsTaskWithArgs(&BookmarkController::showBookmarkEditor, m_bookmark);
 }
 
 void QtBookmark::deleteClicked()
@@ -222,7 +219,7 @@ void QtBookmark::deleteClicked()
 
 	if (ret == 0) // QMessageBox::Yes)
 	{
-		MessageDeleteBookmark(m_bookmark->getId()).dispatch();
+		m_controllerProxy->executeAsTaskWithArgs(&BookmarkController::deleteBookmark, m_bookmark->getId());
 	}
 }
 

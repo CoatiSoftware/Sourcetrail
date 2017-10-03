@@ -2,7 +2,6 @@
 
 #include <QToolBar>
 
-#include "component/controller/ScreenSearchController.h"
 #include "qt/element/QtScreenSearchBox.h"
 #include "qt/utility/utilityQt.h"
 #include "qt/view/QtMainView.h"
@@ -89,10 +88,5 @@ void QtScreenSearchView::hide()
 	m_bar->hide();
 	m_widget->setMatchCount(0);
 
-	m_controllerProxy.executeAsTask<ScreenSearchController>(
-		[](ScreenSearchController* controller)
-		{
-			controller->clearMatches();
-		}
-	);
+	m_controllerProxy.executeAsTask(&ScreenSearchController::clearMatches);
 }

@@ -3,7 +3,9 @@
 
 #include <QFrame>
 
-class ControllerProxy;
+#include "component/controller/helper/ControllerProxy.h"
+#include "component/controller/ScreenSearchController.h"
+
 class QCheckBox;
 class QHBoxLayout;
 class QLineEdit;
@@ -33,7 +35,7 @@ class QtScreenSearchBox
 	Q_OBJECT
 
 public:
-	QtScreenSearchBox(ControllerProxy* controllerProxy, QWidget* parent = nullptr);
+	QtScreenSearchBox(ControllerProxy<ScreenSearchController>* controllerProxy, QWidget* parent = nullptr);
 	virtual ~QtScreenSearchBox();
 
 	void refreshStyle();
@@ -62,7 +64,7 @@ private:
 
 	void updateMatchLabel();
 
-	ControllerProxy* m_controllerProxy;
+	ControllerProxy<ScreenSearchController>* m_controllerProxy;
 
 	QLineEdit* m_searchBox;
 	QPushButton* m_matchLabel;

@@ -11,16 +11,12 @@
 #include "qt/window/QtBookmarkBrowser.h"
 #include "qt/view/QtMainView.h"
 #include "qt/window/QtMainWindow.h"
-
-#include "utility/messaging/type/MessageDeleteBookmarkForActiveTokens.h"
-#include "utility/messaging/type/MessageDisplayBookmarks.h"
-#include "utility/messaging/type/MessageDisplayBookmarkCreator.h"
-#include "utility/ResourcePaths.h"
-
 #include "settings/ApplicationSettings.h"
+#include "utility/ResourcePaths.h"
 
 QtBookmarkView::QtBookmarkView(ViewLayout* viewLayout)
 	: BookmarkView(viewLayout)
+	, m_controllerProxy(this)
 	, m_bookmarkBrowser(nullptr)
 	, m_createButtonState(BookmarkView::CreateButtonState::CANNOT_CREATE)
 {
@@ -116,6 +112,85 @@ void QtBookmarkView::setCreateButtonState(const CreateButtonState& state)
 	);
 }
 
+void QtBookmarkView::displayBookmarkCreator(
+	const std::vector<std::string>& names, const std::vector<BookmarkCategory>& categories, Id nodeId
+){
+	m_onQtThread(
+		[=]()
+		{
+			QtBookmarkCreator* bookmarkCreator = new QtBookmarkCreator(
+				&m_controllerProxy,
+				dynamic_cast<QtMainView*>(dynamic_cast<View*>(getViewLayout())->getViewLayout())->getMainWindow()
+			);
+			bookmarkCreator->setupBookmarkCreator();
+
+			std::string displayName = "";
+
+			for (unsigned int i = 0; i < names.size(); i++)
+			{
+				displayName += names[i];
+
+				if (i < names.size() - 1)
+				{
+					displayName += "; ";
+				}
+			}
+
+			bookmarkCreator->setDisplayName(displayName);
+			bookmarkCreator->setBookmarkCategories(categories);
+			bookmarkCreator->setNodeId(nodeId);
+
+			bookmarkCreator->show();
+			bookmarkCreator->raise();
+		}
+	);
+}
+
+void QtBookmarkView::displayBookmarkEditor(
+	std::shared_ptr<Bookmark> bookmark, const std::vector<BookmarkCategory>& categories
+){
+	m_onQtThread(
+		[=]()
+		{
+			QtBookmarkCreator* bookmarkCreator = new QtBookmarkCreator(
+				&m_controllerProxy,
+				dynamic_cast<QtMainView*>(dynamic_cast<View*>(getViewLayout())->getViewLayout())->getMainWindow(),
+				bookmark->getId()
+			);
+
+			bookmarkCreator->setupBookmarkCreator();
+			bookmarkCreator->setDisplayName(bookmark->getName());
+			bookmarkCreator->setComment(bookmark->getComment());
+			bookmarkCreator->setBookmarkCategories(categories);
+			bookmarkCreator->setCurrentBookmarkCategory(bookmark->getCategory());
+
+			bookmarkCreator->show();
+			bookmarkCreator->raise();
+		}
+	);
+}
+
+void QtBookmarkView::displayBookmarks(const std::vector<std::shared_ptr<Bookmark>>& bookmarks)
+{
+	m_onQtThread(
+		[=]()
+		{
+			if (m_bookmarkBrowser == nullptr)
+			{
+				m_bookmarkBrowser = new QtBookmarkBrowser(
+					&m_controllerProxy,
+					dynamic_cast<QtMainView*>(dynamic_cast<View*>(getViewLayout())->getViewLayout())->getMainWindow()
+				);
+				m_bookmarkBrowser->setupBookmarkBrowser();
+			}
+
+			m_bookmarkBrowser->setBookmarks(bookmarks);
+			m_bookmarkBrowser->show();
+			m_bookmarkBrowser->raise();
+		}
+	);
+}
+
 void QtBookmarkView::enableDisplayBookmarks(bool enable)
 {
 	m_onQtThread(
@@ -142,7 +217,7 @@ void QtBookmarkView::createBookmarkClicked()
 {
 	if (m_createButtonState == BookmarkView::CreateButtonState::CAN_CREATE)
 	{
-		MessageDisplayBookmarkCreator().dispatch();
+		m_controllerProxy.executeAsTaskWithArgs(&BookmarkController::showBookmarkCreator, 0);
 	}
 	else if (m_createButtonState == BookmarkView::CreateButtonState::ALREADY_CREATED)
 	{
@@ -158,89 +233,24 @@ void QtBookmarkView::createBookmarkClicked()
 
 		if (ret == 0) // QMessageBox::Yes
 		{
-			MessageDisplayBookmarkCreator().dispatch();
+			m_controllerProxy.executeAsTaskWithArgs(&BookmarkController::showBookmarkCreator, 0);
 		}
 		else if (ret == 1)
 		{
-			MessageDeleteBookmarkForActiveTokens().dispatch();
+			m_controllerProxy.executeAsTask(&BookmarkController::deleteBookmarkForActiveTokens);
 		}
 	}
 }
 
 void QtBookmarkView::showBookmarksClicked()
 {
-	MessageDisplayBookmarks().dispatch();
-}
-
-void QtBookmarkView::displayBookmarks(const std::vector<std::shared_ptr<Bookmark>>& bookmarks)
-{
-	m_onQtThread(
-		[=]()
-		{
-			if (m_bookmarkBrowser == nullptr)
-            {
-                m_bookmarkBrowser = new QtBookmarkBrowser(dynamic_cast<QtMainView*>(dynamic_cast<View*>(getViewLayout())->getViewLayout())->getMainWindow());
-                m_bookmarkBrowser->setupBookmarkBrowser();
-            }
-
-			m_bookmarkBrowser->setBookmarks(bookmarks);
-			m_bookmarkBrowser->show();
-			m_bookmarkBrowser->raise();
-		}
-	);
-}
-
-void QtBookmarkView::displayBookmarkCreator(const std::vector<std::string>& names, const std::vector<BookmarkCategory>& categories, Id nodeId)
-{
-	m_onQtThread(
-		[=]()
-		{
-            QtBookmarkCreator* bookmarkCreator = new QtBookmarkCreator(dynamic_cast<QtMainView*>(dynamic_cast<View*>(getViewLayout())->getViewLayout())->getMainWindow());
-			bookmarkCreator->setupBookmarkCreator();
-
-			std::string displayName = "";
-
-			for (unsigned int i = 0; i < names.size(); i++)
-			{
-				displayName += names[i];
-
-				if (i < names.size() - 1)
-				{
-					displayName += "; ";
-				}
-			}
-
-			bookmarkCreator->setDisplayName(displayName);
-			bookmarkCreator->setBookmarkCategories(categories);
-			bookmarkCreator->setNodeId(nodeId);
-
-			bookmarkCreator->show();
-			bookmarkCreator->raise();
-		}
-	);
-}
-
-void QtBookmarkView::displayBookmarkEditor(std::shared_ptr<Bookmark> bookmark, const std::vector<BookmarkCategory>& categories)
-{
-	m_onQtThread(
-		[=]()
-		{
-            QtBookmarkCreator* bookmarkCreator = new QtBookmarkCreator(dynamic_cast<QtMainView*>(dynamic_cast<View*>(getViewLayout())->getViewLayout())->getMainWindow(), true, bookmark->getId());
-			bookmarkCreator->setupBookmarkCreator();
-			bookmarkCreator->setDisplayName(bookmark->getName());
-			bookmarkCreator->setComment(bookmark->getComment());
-			bookmarkCreator->setBookmarkCategories(categories);
-			bookmarkCreator->setCurrentBookmarkCategory(bookmark->getCategory());
-
-			bookmarkCreator->show();
-			bookmarkCreator->raise();
-		}
-	);
+	m_controllerProxy.executeAsTask(&BookmarkController::displayBookmarks);
 }
 
 void QtBookmarkView::setStyleSheet()
 {
-	m_widget->setStyleSheet(utility::getStyleSheet(ResourcePaths::getGuiPath().concat(FilePath("bookmark_view/bookmark_view.css"))).c_str());
+	m_widget->setStyleSheet(utility::getStyleSheet(
+		ResourcePaths::getGuiPath().concat(FilePath("bookmark_view/bookmark_view.css"))).c_str());
 }
 
 void QtBookmarkView::refreshStyle()

@@ -1,15 +1,17 @@
 #include "QtBookmarkCategory.h"
 
 #include <QHBoxLayout>
+#include <QLabel>
 #include <QMessageBox>
-
-#include "utility/messaging/type/MessageDeleteBookmarkCategory.h"
-#include "utility/ResourcePaths.h"
+#include <QPushButton>
+#include <QTreeWidget>
 
 #include "qt/utility/utilityQt.h"
+#include "utility/ResourcePaths.h"
 
-QtBookmarkCategory::QtBookmarkCategory()
-	: m_id(0)
+QtBookmarkCategory::QtBookmarkCategory(ControllerProxy<BookmarkController>* controllerProxy)
+	: m_controllerProxy(controllerProxy)
+	, m_id(0)
 {
 	setObjectName("bookmark_category");
 
@@ -125,6 +127,6 @@ void QtBookmarkCategory::deleteClicked()
 
 	if (ret == 0) // QMessageBox::Yes
 	{
-		MessageDeleteBookmarkCategory(m_id).dispatch();
+		m_controllerProxy->executeAsTaskWithArgs(&BookmarkController::deleteBookmarkCategory, m_id);
 	}
 }

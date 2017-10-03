@@ -5,12 +5,11 @@
 #include <QListWidget>
 #include <QTreeWidget>
 
+#include "component/controller/BookmarkController.h"
+#include "component/controller/helper/ControllerProxy.h"
+#include "data/bookmark/Bookmark.h"
 #include "qt/window/QtWindow.h"
 
-#include "utility/messaging/type/MessageDisplayBookmarks.h"
-
-class Bookmark;
-class BookmarkCategory;
 class QtBookmark;
 
 class QtBookmarkBrowser
@@ -19,7 +18,7 @@ class QtBookmarkBrowser
 	Q_OBJECT
 
 public:
-	QtBookmarkBrowser(QWidget* parent = nullptr);
+	QtBookmarkBrowser(ControllerProxy<BookmarkController>* controllerProxy, QWidget* parent = nullptr);
 	~QtBookmarkBrowser();
 
 	void setupBookmarkBrowser();
@@ -36,10 +35,12 @@ private slots:
 	void treeItemClicked(QTreeWidgetItem* item, int column);
 
 private:
-	MessageDisplayBookmarks::BookmarkFilter getSelectedFilter();
-	MessageDisplayBookmarks::BookmarkOrder getSelectedOrder();
+	Bookmark::BookmarkFilter getSelectedFilter();
+	Bookmark::BookmarkOrder getSelectedOrder();
 
 	QTreeWidgetItem* findOrCreateTreeCategory(const BookmarkCategory& category);
+
+	ControllerProxy<BookmarkController>* m_controllerProxy;
 
 	QTreeWidget* m_bookmarkTree;
 

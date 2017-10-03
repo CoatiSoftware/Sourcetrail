@@ -1,16 +1,17 @@
 #ifndef QT_BOOKMARK_CREATOR_H
 #define QT_BOOKMARK_CREATOR_H
 
-#include <QComboBox>
-#include <QLineEdit>
-#include <QTextEdit>
 #include <QWidget>
 
+#include "component/controller/BookmarkController.h"
+#include "component/controller/helper/ControllerProxy.h"
 #include "qt/window/QtWindow.h"
-
 #include "utility/types.h"
 
 class BookmarkCategory;
+class QComboBox;
+class QLineEdit;
+class QTextEdit;
 
 class QtBookmarkCreator
 	: public QtWindow
@@ -18,7 +19,7 @@ class QtBookmarkCreator
 	Q_OBJECT
 
 public:
-	QtBookmarkCreator(QWidget* parent = nullptr, bool edit = false, Id id = 0);
+	QtBookmarkCreator(ControllerProxy<BookmarkController>* controllerProxy, QWidget* parent = nullptr, Id bookmarkId = 0);
 	~QtBookmarkCreator();
 
 	void setupBookmarkCreator();
@@ -41,17 +42,15 @@ protected:
 
 private slots:
 	void onNameChanged(const QString& text);
-	void onComboBoxIndexChanged(int index);
 
 private:
-	bool m_edit;
-	Id m_bookmarkId; // important for editing
+	ControllerProxy<BookmarkController>* m_controllerProxy;
+
+	const Id m_editBookmarkId;
 
 	QLineEdit* m_displayName;
 	QTextEdit* m_commentBox;
 	QComboBox* m_categoryBox;
-
-	int m_categoryCount;
 
 	Id m_nodeId;
 

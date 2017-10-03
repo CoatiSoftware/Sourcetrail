@@ -6,14 +6,14 @@
 #include <QPushButton>
 #include <QVBoxLayout>
 
-#include "data/bookmark/Bookmark.h"
 #include "qt/element/QtBookmark.h"
 #include "qt/element/QtBookmarkCategory.h"
 #include "qt/utility/utilityQt.h"
 #include "utility/ResourcePaths.h"
 
-QtBookmarkBrowser::QtBookmarkBrowser(QWidget* parent)
+QtBookmarkBrowser::QtBookmarkBrowser(ControllerProxy<BookmarkController>* controllerProxy, QWidget* parent)
     : QtWindow(false, parent)
+    , m_controllerProxy(controllerProxy)
 {
 }
 
@@ -79,11 +79,11 @@ void QtBookmarkBrowser::setupBookmarkBrowser()
 		m_orderNames.push_back("Date des.");
 
 		m_orderComboBox = new QComboBox(this);
-		// m_orderComboBox->setToolTip("Select Bookmark Order");
 		m_orderComboBox->addItem(m_orderNames[0].c_str());
 		m_orderComboBox->addItem(m_orderNames[1].c_str());
 		m_orderComboBox->addItem(m_orderNames[2].c_str());
 		m_orderComboBox->addItem(m_orderNames[3].c_str());
+		m_orderComboBox->setCurrentIndex(3);
 		m_orderComboBox->setObjectName("order_box");
 		headerLayout->addWidget(m_orderComboBox);
 
@@ -144,7 +144,7 @@ void QtBookmarkBrowser::setBookmarks(const std::vector<std::shared_ptr<Bookmark>
 
 	for (const std::shared_ptr<Bookmark>& bookmark : bookmarks)
 	{
-		QtBookmark* qtBookmark = new QtBookmark();
+		QtBookmark* qtBookmark = new QtBookmark(m_controllerProxy);
 		qtBookmark->setBookmark(bookmark);
 
 		QTreeWidgetItem* categoryItem = findOrCreateTreeCategory(bookmark->getCategory());
@@ -184,7 +184,10 @@ void QtBookmarkBrowser::handleNext()
 
 void QtBookmarkBrowser::filterOrOrderChanged(const QString& text)
 {
-	MessageDisplayBookmarks(getSelectedFilter(), getSelectedOrder()).dispatch();
+	Bookmark::BookmarkFilter filter = getSelectedFilter();
+	Bookmark::BookmarkOrder order = getSelectedOrder();
+
+	m_controllerProxy->executeAsTaskWithArgs(&BookmarkController::displayBookmarksFor, filter, order);
 }
 
 void  QtBookmarkBrowser::treeItemClicked(QTreeWidgetItem* item, int column)
@@ -204,45 +207,45 @@ void  QtBookmarkBrowser::treeItemClicked(QTreeWidgetItem* item, int column)
 	}
 }
 
-MessageDisplayBookmarks::BookmarkFilter QtBookmarkBrowser::getSelectedFilter()
+Bookmark::BookmarkFilter QtBookmarkBrowser::getSelectedFilter()
 {
 	std::string text = m_filterComboBox->currentText().toStdString();
 
 	if (text == "Nodes")
 	{
-		return MessageDisplayBookmarks::BookmarkFilter::NODES;
+		return Bookmark::FILTER_NODES;
 	}
 	else if (text == "Edges")
 	{
-		return MessageDisplayBookmarks::BookmarkFilter::EDGES;
+		return Bookmark::FILTER_EDGES;
 	}
 
-	return MessageDisplayBookmarks::BookmarkFilter::ALL;
+	return Bookmark::FILTER_ALL;
 }
 
-MessageDisplayBookmarks::BookmarkOrder QtBookmarkBrowser::getSelectedOrder()
+Bookmark::BookmarkOrder QtBookmarkBrowser::getSelectedOrder()
 {
-	std::string orderString = m_orderComboBox->currentText().toStdString(); // m_orderButton->text().toStdString();
+	std::string orderString = m_orderComboBox->currentText().toStdString();
 
 	if (orderString == m_orderNames[0])
 	{
-		return MessageDisplayBookmarks::BookmarkOrder::DATE_DESCENDING;
+		return Bookmark::ORDER_NAME_ASCENDING;
 	}
 	else if (orderString == m_orderNames[1])
 	{
-		return MessageDisplayBookmarks::BookmarkOrder::DATE_ASCENDING;
+		return Bookmark::ORDER_NAME_DESCENDING;
 	}
 	else if (orderString == m_orderNames[2])
 	{
-		return MessageDisplayBookmarks::BookmarkOrder::NAME_DESCENDING;
+		return Bookmark::ORDER_DATE_ASCENDING;
 	}
 	else if (orderString == m_orderNames[3])
 	{
-		return MessageDisplayBookmarks::BookmarkOrder::NAME_ASCENDING;
+		return Bookmark::ORDER_DATE_DESCENDING;
 	}
 	else
 	{
-		return MessageDisplayBookmarks::BookmarkOrder::NONE;
+		return Bookmark::ORDER_NONE;
 	}
 }
 
@@ -258,7 +261,7 @@ QTreeWidgetItem* QtBookmarkBrowser::findOrCreateTreeCategory(const BookmarkCateg
 		}
 	}
 
-	QtBookmarkCategory* categoryItem = new QtBookmarkCategory();
+	QtBookmarkCategory* categoryItem = new QtBookmarkCategory(m_controllerProxy);
 	if (category.getName().length() > 0)
 	{
 		categoryItem->setName(category.getName());

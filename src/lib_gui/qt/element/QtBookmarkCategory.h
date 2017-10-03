@@ -2,11 +2,14 @@
 #define QT_BOOKMARK_CATEGORY_H
 
 #include <QFrame>
-#include <QLabel>
-#include <QPushButton>
-#include <QTreeWidget>
 
+#include "component/controller/BookmarkController.h"
+#include "component/controller/helper/ControllerProxy.h"
 #include "utility/types.h"
+
+class QLabel;
+class QPushButton;
+class QTreeWidgetItem;
 
 class QtBookmarkCategory
 	: public QFrame
@@ -14,7 +17,7 @@ class QtBookmarkCategory
 	Q_OBJECT
 
 public:
-	QtBookmarkCategory();
+	QtBookmarkCategory(ControllerProxy<BookmarkController>* controllerProxy);
 	~QtBookmarkCategory();
 
 	void setName(const std::string& name);
@@ -38,6 +41,8 @@ private slots:
 	void deleteClicked();
 
 private:
+	ControllerProxy<BookmarkController>* m_controllerProxy;
+
 	QLabel* m_name;
 	Id m_id;
 

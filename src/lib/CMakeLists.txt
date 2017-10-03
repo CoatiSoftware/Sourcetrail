@@ -383,17 +383,10 @@ add_files(
 	utility/messaging/type/MessageClearStatusView.h
 	utility/messaging/type/MessageCodeReference.h
 	utility/messaging/type/MessageColorSchemeTest.h
-	utility/messaging/type/MessageCreateBookmark.h
-	utility/messaging/type/MessageCreateBookmarkCategory.h
 	utility/messaging/type/MessageDeactivateEdge.h
-	utility/messaging/type/MessageDeleteBookmark.h
-	utility/messaging/type/MessageDeleteBookmarkCategory.h
-	utility/messaging/type/MessageDeleteBookmarkForActiveTokens.h
 	utility/messaging/type/MessageDispatchWhenLicenseValid.h
 	utility/messaging/type/MessageDisplayBookmarkCreator.h
-	utility/messaging/type/MessageDisplayBookmarkEditor.h
 	utility/messaging/type/MessageDisplayBookmarks.h
-	utility/messaging/type/MessageEditBookmark.h
 	utility/messaging/type/MessageEnteredLicense.h
 	utility/messaging/type/MessageErrorFilterChanged.h
 	utility/messaging/type/MessageFind.h

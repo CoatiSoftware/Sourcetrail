@@ -8,8 +8,6 @@
 #include <QPushButton>
 #include <QTimer>
 
-#include "component/controller/helper/ControllerProxy.h"
-#include "component/controller/ScreenSearchController.h"
 #include "qt/utility/utilityQt.h"
 #include "utility/ResourcePaths.h"
 
@@ -30,7 +28,7 @@ bool QtFocusInFilter::eventFilter(QObject* obj, QEvent* event)
 }
 
 
-QtScreenSearchBox::QtScreenSearchBox(ControllerProxy* controllerProxy, QWidget* parent)
+QtScreenSearchBox::QtScreenSearchBox(ControllerProxy<ScreenSearchController>* controllerProxy, QWidget* parent)
 	: QFrame(parent)
 	, m_controllerProxy(controllerProxy)
 {
@@ -195,7 +193,7 @@ void QtScreenSearchBox::searchQueryChanged()
 
 void QtScreenSearchBox::findMatches()
 {
-	m_controllerProxy->executeAsTask<ScreenSearchController>(
+	m_controllerProxy->executeAsTask(
 		[this](ScreenSearchController* controller)
 		{
 			std::set<std::string> responderNames;
@@ -236,12 +234,7 @@ void QtScreenSearchBox::nextPressed()
 
 void QtScreenSearchBox::activateMatch(bool next)
 {
-	m_controllerProxy->executeAsTask<ScreenSearchController>(
-		[next, this](ScreenSearchController* controller)
-		{
-			controller->activateMatch(next);
-		}
-	);
+	m_controllerProxy->executeAsTaskWithArgs(&ScreenSearchController::activateMatch, next);
 }
 
 void QtScreenSearchBox::updateMatchLabel()

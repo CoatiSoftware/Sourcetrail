@@ -7,6 +7,7 @@
 
 #include "component/view/View.h"
 
+template <typename ControllerType>
 class ControllerProxy
 {
 public:
@@ -15,7 +16,6 @@ public:
 	{
 	}
 
-	template<typename ControllerType>
 	void execute(std::function<void(ControllerType*)> callback)
 	{
 		ControllerType* controller = m_view->getController<ControllerType>();
@@ -25,16 +25,27 @@ public:
 		}
 	}
 
-	template<typename ControllerType>
 	void executeAsTask(std::function<void(ControllerType*)> callback)
 	{
 		ControllerType* controller = m_view->getController<ControllerType>();
 		if (controller)
 		{
 			Task::dispatch(std::make_shared<TaskLambda>(
-				[callback, controller]()
+				std::bind(callback, controller)
+			));
+		}
+	}
+
+	template<typename FuncType, typename... Args>
+	void executeAsTaskWithArgs(FuncType callback, const Args... args)
+	{
+		ControllerType* controller = m_view->getController<ControllerType>();
+		if (controller)
+		{
+			Task::dispatch(std::make_shared<TaskLambda>(
+				[func = std::bind(callback, controller, args...)]()
 				{
-					callback(controller);
+					func();
 				}
 			));
 		}
