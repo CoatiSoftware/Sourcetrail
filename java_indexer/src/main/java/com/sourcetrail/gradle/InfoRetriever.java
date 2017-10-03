@@ -1,17 +1,16 @@
 package com.sourcetrail.gradle;
 
 import java.io.BufferedReader;
-import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.io.PrintStream;
 import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import org.gradle.api.GradleException;
 import org.gradle.tooling.BuildLauncher;
 import org.gradle.tooling.GradleConnector;
 import org.gradle.tooling.ProjectConnection;
@@ -20,36 +19,50 @@ public class InfoRetriever
 {
 	public static String getMainSrcDirs(String projectRootPath, String initScriptPath)
 	{
-		String ret = "";
-		
-		List<String> srcDirs = getSrcDirs("printMainSrcDirs", projectRootPath, initScriptPath);
-		for (int i = 0; i < srcDirs.size(); i++)
+		try
 		{
-			if (i != 0)
+			String ret = "";
+			
+			List<String> srcDirs = getSrcDirs("printMainSrcDirs", projectRootPath, initScriptPath);
+			for (int i = 0; i < srcDirs.size(); i++)
 			{
-				ret += ";";
+				if (i != 0)
+				{
+					ret += ";";
+				}
+				ret += srcDirs.get(i);
 			}
-			ret += srcDirs.get(i);
+			
+			return ret;
 		}
-		
-		return ret;
+		catch (GradleException e)
+		{
+			return "[ERROR] " + e.getMessage();
+		}
 	}
 	
 	public static String getTestSrcDirs(String projectRootPath, String initScriptPath)
 	{
-		String ret = "";
-
-		List<String> srcDirs = getSrcDirs("printTestSrcDirs", projectRootPath, initScriptPath);
-		for (int i = 0; i < srcDirs.size(); i++)
+		try
 		{
-			if (i != 0)
+			String ret = "";
+
+			List<String> srcDirs = getSrcDirs("printTestSrcDirs", projectRootPath, initScriptPath);
+			for (int i = 0; i < srcDirs.size(); i++)
 			{
-				ret += ";";
+				if (i != 0)
+				{
+					ret += ";";
+				}
+				ret += srcDirs.get(i);
 			}
-			ret += srcDirs.get(i);
+			
+			return ret;
 		}
-		
-		return ret;
+		catch (GradleException e)
+		{
+			return "[ERROR] " + e.getMessage();
+		}
 	}
 	
 	public static void copyCompileLibs(String projectRootPath, String initScriptPath, String targetPath)
@@ -84,7 +97,7 @@ public class InfoRetriever
 		return paths;
 	}
 	
-	private static String executeTask(String taskName, String projectRootPath, String initScriptPath, List<String> additionalArguments)
+	private static String executeTask(String taskName, String projectRootPath, String initScriptPath, List<String> additionalArguments) throws GradleException
 	{		
 		ProjectConnection connection = GradleConnector
 				.newConnector()
@@ -99,7 +112,7 @@ public class InfoRetriever
 			List<String> arguments = new ArrayList<>();
 			arguments.add("--init-script");
 			arguments.add(initScriptPath);
-//			arguments.add("-q");
+			arguments.add("-q");
 
 			if (additionalArguments != null)
 			{
@@ -124,8 +137,7 @@ public class InfoRetriever
 		
 		if (!errorStream.toString().isEmpty())
 		{
-			// TODO: handle this by sending the error to cpp
-		    System.out.println("Error: " + errorStream.toString()); // TODO: remove this later
+			throw new GradleException(errorStream.toString());
 		}
 		
 		return outputStream.toString();
