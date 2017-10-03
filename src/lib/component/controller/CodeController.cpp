@@ -424,8 +424,10 @@ void CodeController::expandVisibleSnippets(std::vector<CodeSnippetParams>* snipp
 			continue;
 		}
 
+		CodeView::FileState fileState = oldSnippet.locationFile->isWhole() ? CodeView::FILE_MAXIMIZED : state;
+
 		std::vector<CodeSnippetParams> newSnippets =
-			getSnippetsForFileWithState(oldSnippet.locationFile->getFilePath(), state, addSourceLocations);
+			getSnippetsForFileWithState(oldSnippet.locationFile->getFilePath(), fileState, addSourceLocations);
 		if (!newSnippets.size())
 		{
 			continue;

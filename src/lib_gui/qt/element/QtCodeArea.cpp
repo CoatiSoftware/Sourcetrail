@@ -149,6 +149,7 @@ void QtCodeArea::lineNumberAreaPaintEvent(QPaintEvent *event)
 	std::set<int> focusedLineNumbers;
 
 	std::set<Id> activeSymbolIds = m_navigator->getActiveTokenIds();
+	std::set<Id> activeLocationIds = m_navigator->getCurrentActiveLocationIds();
 
 	for (const Annotation& annotation : m_annotations)
 	{
@@ -178,9 +179,15 @@ void QtCodeArea::lineNumberAreaPaintEvent(QPaintEvent *event)
 
 		case LOCATION_TOKEN:
 		case LOCATION_SCOPE:
-			if (annotation.isFocused && utility::shareElement(activeSymbolIds, annotation.tokenIds))
+			if (annotation.isActive && activeLocationIds.size())
+			{
+				focus = true;
+				break;
+			}
+			else if (annotation.isFocused && utility::shareElement(activeSymbolIds, annotation.tokenIds))
 			{
 				active = true;
+				break;
 			}
 
 		default:
