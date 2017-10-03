@@ -44,7 +44,7 @@ void QtProjectWizzardContentSelect::populate(QGridLayout* layout, int& row)
 	m_sourceGroupTypeIconName[SOURCE_GROUP_CXX_VS] = "vs_icon";
 	m_sourceGroupTypeIconName[SOURCE_GROUP_JAVA_EMPTY] = "empty_icon";
 	m_sourceGroupTypeIconName[SOURCE_GROUP_JAVA_MAVEN] = "mvn_icon";
-	m_sourceGroupTypeIconName[SOURCE_GROUP_JAVA_GRADLE] = "empty_icon"; // Todo: make and use gradle icon here
+	m_sourceGroupTypeIconName[SOURCE_GROUP_JAVA_GRADLE] = "gradle_icon";
 
 	// define descriptions for each kind of Source Group
 	m_sourceGroupTypeDescriptions[SOURCE_GROUP_C_EMPTY] = "Create a new Sourcetrail Source Group by defining which C files will be indexed.";

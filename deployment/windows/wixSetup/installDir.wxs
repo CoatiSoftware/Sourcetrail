@@ -563,6 +563,9 @@
 						<Component Id='Empty_icon_Png' Guid='*' Win64="$(var.Win64)">
 							<File Id='Empty_icon' Name='empty_icon.png' DiskId='1' Source='./../../../bin/app/data/gui/icon/empty_icon.png' KeyPath='yes' />
 						</Component>
+						<Component Id='Gradle_icon_Png' Guid='*' Win64="$(var.Win64)">
+							<File Id='Gradle_icon' Name='gradle_icon.png' DiskId='1' Source='./../../../bin/app/data/gui/icon/gradle_icon.png' KeyPath='yes' />
+						</Component>
 						<Component Id='Java_icon_Png' Guid='*' Win64="$(var.Win64)">
 							<File Id='Java_icon' Name='java_icon.png' DiskId='1' Source='./../../../bin/app/data/gui/icon/java_icon.png' KeyPath='yes' />
 						</Component>

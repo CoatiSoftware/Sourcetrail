@@ -328,6 +328,7 @@
 				<ComponentRef Id='SourcetrailIco'/>
 				<ComponentRef Id='Cpp_icon_Png'/>
 				<ComponentRef Id='Empty_icon_Png'/>
+				<ComponentRef Id='Gradle_icon_Png'/>
 				<ComponentRef Id='Java_icon_Png'/>
 				<ComponentRef Id='Logo_1024_1024_Png'/>
 				<ComponentRef Id='Mvn_icon_Png'/>
