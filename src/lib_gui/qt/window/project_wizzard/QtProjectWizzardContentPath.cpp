@@ -152,11 +152,11 @@ void QtProjectWizzardContentPathCDB::load()
 
 void QtProjectWizzardContentPathCDB::save()
 {
-	std::shared_ptr<SourceGroupSettingsCxxCdb> m_settings =
+	std::shared_ptr<SourceGroupSettingsCxxCdb> settings =
 		std::dynamic_pointer_cast<SourceGroupSettingsCxxCdb>(m_settings);
-	if (m_settings)
+	if (settings)
 	{
-		m_settings->setCompilationDatabasePath(FilePath(m_picker->getText().toStdString()));
+		settings->setCompilationDatabasePath(FilePath(m_picker->getText().toStdString()));
 	}
 }
 
