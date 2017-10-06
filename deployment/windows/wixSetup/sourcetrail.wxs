@@ -230,6 +230,8 @@
 				<ComponentRef Id='vcruntime140_dll'/>
 
 				<ComponentRef Id='QWindowsDll'/>
+				<ComponentRef Id='QJpegDll'/>
+				<ComponentRef Id='QWBmpDll'/>
 				
 				<ComponentRef Id='EulaRtf'/>
 				<ComponentRef Id='LicenseBoostTxt'/>

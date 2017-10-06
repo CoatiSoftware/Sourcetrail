@@ -251,6 +251,15 @@
 				</Component>
 			</Directory>
 			
+			<Directory Id='Imageformats' Name='imageformats'>
+				<Component Id='QJpegDll' Guid='*' Win64="$(var.Win64)">
+					<File Id='QJpeg' Name='qjpeg.dll' DiskId='1' Source='$(var.PlatformSourceFolder)/imageformats/qjpeg.dll' KeyPath='yes' />
+				</Component>
+				<Component Id='QWBmpDll' Guid='*' Win64="$(var.Win64)">
+					<File Id='QWBmp' Name='qwbmp.dll' DiskId='1' Source='$(var.PlatformSourceFolder)/imageformats/qwbmp.dll' KeyPath='yes' />
+				</Component>
+			</Directory>
+			
 			<Directory Id='License' Name='license'>
 				<Component Id='EulaRtf' Guid='*' Win64="$(var.Win64)">
 					<File Id='EulaRtfId' Name='EULA.rtf' DiskId='1' Source='./../../../bin/app/data/gui/installer/EULA.rtf' KeyPath='yes' />
