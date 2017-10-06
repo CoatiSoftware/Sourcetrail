@@ -32,14 +32,13 @@ public:
 	virtual ~ASTAction() {}
 
 protected:
-	virtual std::unique_ptr<clang::ASTConsumer> CreateASTConsumer(clang::CompilerInstance& compiler, llvm::StringRef inFile)
+	virtual std::unique_ptr<clang::ASTConsumer> CreateASTConsumer(clang::CompilerInstance& compiler, llvm::StringRef inFile) override
 	{
-//		return std::make_unique<clang::ASTConsumer>(&compiler.getASTContext(), &compiler.getPreprocessor(), m_client, m_fileRegister, m_canonicalFilePathCache);
 		return std::unique_ptr<clang::ASTConsumer>(
 			new ASTConsumer(&compiler.getASTContext(), &compiler.getPreprocessor(), m_client, m_fileRegister, m_canonicalFilePathCache));
 	}
 
-	virtual bool BeginSourceFileAction(clang::CompilerInstance& compiler, llvm::StringRef filePath)
+	virtual bool BeginSourceFileAction(clang::CompilerInstance& compiler) override
 	{
 		clang::Preprocessor& preprocessor = compiler.getPreprocessor();
 		preprocessor.addPPCallbacks(

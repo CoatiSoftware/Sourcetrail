@@ -20,7 +20,7 @@ public:
 
 	virtual ~CommentHandler();
 
-	virtual bool HandleComment(clang::Preprocessor& preprocessor, clang::SourceRange sourceRange);
+	virtual bool HandleComment(clang::Preprocessor& preprocessor, clang::SourceRange sourceRange) override;
 
 private:
 	std::shared_ptr<ParserClient> m_client;

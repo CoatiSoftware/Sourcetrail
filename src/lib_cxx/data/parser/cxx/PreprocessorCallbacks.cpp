@@ -100,7 +100,7 @@ void PreprocessorCallbacks::MacroDefined(const clang::Token& macroNameToken, con
 }
 
 void PreprocessorCallbacks::MacroUndefined(
-	const clang::Token& macroNameToken, const clang::MacroDefinition& macroDefinition)
+	const clang::Token& macroNameToken, const clang::MacroDefinition& macroDefinition, const clang::MacroDirective* macroUndefinition)
 {
 	onMacroUsage(macroNameToken);
 }

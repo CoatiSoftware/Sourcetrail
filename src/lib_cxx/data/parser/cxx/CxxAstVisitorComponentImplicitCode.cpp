@@ -11,7 +11,6 @@ CxxAstVisitorComponentImplicitCode::~CxxAstVisitorComponentImplicitCode()
 
 bool CxxAstVisitorComponentImplicitCode::shouldVisitImplicitCode() const
 {
-//	return false;
 	if (!m_stack.empty())
 	{
 		return m_stack.back();

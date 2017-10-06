@@ -209,8 +209,9 @@ std::shared_ptr<clang::tooling::FixedCompilationDatabase> CxxParser::getCompilat
 		argv[i] = args[i].c_str();
 	}
 
+	std::string errorMessage;
 	std::shared_ptr<clang::tooling::FixedCompilationDatabase> compilationDatabase(
-		clang::tooling::FixedCompilationDatabase::loadFromCommandLine(argc, argv)
+		clang::tooling::FixedCompilationDatabase::loadFromCommandLine(argc, argv, errorMessage)
 	);
 
 	delete[] argv;

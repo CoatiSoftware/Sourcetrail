@@ -21,7 +21,7 @@ public:
 
 	virtual ~ASTActionFactory();
 
-	virtual clang::FrontendAction* create();
+	virtual clang::FrontendAction* create() override;
 
 private:
 	std::shared_ptr<ParserClient> m_client;

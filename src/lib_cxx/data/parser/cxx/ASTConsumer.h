@@ -24,7 +24,7 @@ public:
 
 	virtual ~ASTConsumer();
 
-	virtual void HandleTranslationUnit(clang::ASTContext& context);
+	virtual void HandleTranslationUnit(clang::ASTContext& context) override;
 
 private:
 	std::shared_ptr<CxxAstVisitor> m_visitor;
