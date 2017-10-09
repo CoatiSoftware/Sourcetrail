@@ -354,6 +354,7 @@ QtProjectWizzardContentPathsHeaderSearch::QtProjectWizzardContentPathsHeaderSear
 )
 	: QtProjectWizzardContentPaths(settings, window)
 	, m_showValidationResultFunctor(std::bind(&QtProjectWizzardContentPathsHeaderSearch::showValidationResult, this, std::placeholders::_1))
+	, m_isCdb(isCDB)
 {
 	setTitleString(isCDB ? "Additional Include Paths" : "Include Paths");
 	setHelpString(
@@ -375,12 +376,15 @@ void QtProjectWizzardContentPathsHeaderSearch::populate(QGridLayout* layout, int
 {
 	QtProjectWizzardContentPaths::populate(layout, row);
 
-	QPushButton* button = new QPushButton("validate include directives");
-	button->setObjectName("windowButton");
-	connect(button, &QPushButton::clicked, this, &QtProjectWizzardContentPathsHeaderSearch::validateButtonClicked);
+	if (!m_isCdb)
+	{
+		QPushButton* button = new QPushButton("validate include directives");
+		button->setObjectName("windowButton");
+		connect(button, &QPushButton::clicked, this, &QtProjectWizzardContentPathsHeaderSearch::validateButtonClicked);
 
-	layout->addWidget(button, row, QtProjectWizzardWindow::BACK_COL, Qt::AlignRight | Qt::AlignTop);
-	row++;
+		layout->addWidget(button, row, QtProjectWizzardWindow::BACK_COL, Qt::AlignRight | Qt::AlignTop);
+		row++;
+	}
 }
 
 void QtProjectWizzardContentPathsHeaderSearch::load()

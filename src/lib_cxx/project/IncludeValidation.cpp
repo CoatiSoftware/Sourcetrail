@@ -46,14 +46,19 @@ std::vector<IncludeDirective> IncludeValidation::getUnresolvedIncludeDirectives(
 
 		while (!unprocessedFilePaths.empty())
 		{
-			std::transform(unprocessedFilePaths.begin(), unprocessedFilePaths.end(), std::inserter(processedFilePaths, processedFilePaths.begin()), [](const FilePath& p){ return p.str(); });
+			std::transform(
+				unprocessedFilePaths.begin(), unprocessedFilePaths.end(),
+				std::inserter(processedFilePaths, processedFilePaths.begin()),
+				[](const FilePath& p){ return p.str(); }
+			);
 			std::set<FilePath> tempUnprocessedFilePaths;
 
 			for (const FilePath& filePath: unprocessedFilePaths)
 			{
 				for (const IncludeDirective& includeDirective: getIncludeDirectives(filePath))
 				{
-					const FilePath resolvedIncludePath = resolveIncludeDirective(includeDirective, headerSearchDirectories);
+					const FilePath resolvedIncludePath =
+						resolveIncludeDirective(includeDirective, headerSearchDirectories).canonical();
 					if (resolvedIncludePath.empty())
 					{
 						unresolvedIncludeDirectives.insert(includeDirective);

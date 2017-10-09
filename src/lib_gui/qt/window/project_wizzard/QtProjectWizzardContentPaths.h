@@ -119,6 +119,8 @@ private slots:
 private:
 	void showValidationResult(const std::vector<IncludeDirective>& unresolvedIncludes);
 	QtThreadedFunctor<std::vector<IncludeDirective>> m_showValidationResultFunctor;
+
+	bool m_isCdb;
 };
 
 class QtProjectWizzardContentPathsHeaderSearchGlobal
