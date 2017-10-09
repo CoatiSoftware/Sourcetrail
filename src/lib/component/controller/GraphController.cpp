@@ -1217,7 +1217,7 @@ void GraphController::bundleNodesByType()
 				nodes,
 				[&](const DummyNode* node)
 				{
-					return utility::isPrefix("anonymous", node->name);
+					return node->name.find("anonymous namespace") != std::string::npos;
 				},
 				"Anonymous Namespaces"
 			);
