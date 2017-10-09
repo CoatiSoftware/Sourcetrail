@@ -152,6 +152,12 @@ void QtMainWindow::addView(View* view)
 	dock->setWidget(QtViewWidgetWrapper::getWidgetOfView(view));
 	dock->setObjectName(QString::fromStdString("Dock" + view->getName()));
 
+	// Disable un-intended vertical growth of search widget
+	if (view->getName() == "Search")
+	{
+		dock->setSizePolicy(dock->sizePolicy().horizontalPolicy(), QSizePolicy::Fixed);
+	}
+
 	if (!m_showDockWidgetTitleBars)
 	{
 		dock->setFeatures(QDockWidget::NoDockWidgetFeatures);
