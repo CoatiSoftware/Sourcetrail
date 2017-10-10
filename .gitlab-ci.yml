@@ -1,7 +1,7 @@
 variables:
     MAVEN_OPTS: "-Dmaven.repo.local=.m2/repository"
-    IMAGE_64: coatisoftware/centos6_64_qt_llvm:qt591-llvm401
-    IMAGE_32: coatisoftware/centos6_32_qt_llvm:qt591-llvm401
+    IMAGE_64: coatisoftware/centos6_64_qt_llvm:qt591-llvm500
+    IMAGE_32: coatisoftware/centos6_32_qt_llvm:qt591-llvm500
 
 ## Templates ##
 
@@ -37,7 +37,7 @@ variables:
         - master
         - tags
         - /^release.*$/
-        
+
 
 ## Build Stage ##
 
