@@ -189,11 +189,7 @@ QCoreApplication* createApplication(int &argc, char *argv[], bool noGUI = false)
 int main(int argc, char *argv[])
 {
 	QApplication::setApplicationName("Sourcetrail");
-
-	if (utility::getOsType() == OS_WINDOWS)
-	{
-		QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling, true);
-	}
+	QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling, true);
 
 	Version version(
 		VERSION_YEAR,
