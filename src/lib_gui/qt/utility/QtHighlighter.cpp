@@ -10,7 +10,8 @@
 QVector<QtHighlighter::HighlightingRule> QtHighlighter::s_highlightingRules;
 QVector<QtHighlighter::HighlightingRule> QtHighlighter::s_highlightingRulesCpp;
 QVector<QtHighlighter::HighlightingRule> QtHighlighter::s_highlightingRulesJava;
-QtHighlighter::HighlightingRule QtHighlighter::s_quotationRule;
+QtHighlighter::HighlightingRule QtHighlighter::s_stringQuotationRule;
+QtHighlighter::HighlightingRule QtHighlighter::s_charQuotationRule;
 QtHighlighter::HighlightingRule QtHighlighter::s_commentRule;
 QTextCharFormat QtHighlighter::s_textFormat;
 
@@ -52,8 +53,9 @@ void QtHighlighter::createHighlightingRules()
 	QRegExp directiveRegExp = QRegExp("#[a-z]+\\b");
 	QRegExp numberRegExp = QRegExp("\\b[0-9]+\\b");
 	QRegExp functionRegExp = QRegExp("\\b[A-Za-z0-9_]+(?=\\()");
-	QRegExp quotationRegExp = QRegExp("\"([^\"]|\\\\.)*\"");
-	QRegExp quotation2RegExp = QRegExp(" <[^<>\\s]*>$");
+	QRegExp stringQuotationRegExp = QRegExp("\"([^\"]|\\\\.)*\"");
+	QRegExp charQuotationRegExp = QRegExp("\'[^\']\'");
+	QRegExp tagQuotationRegExp = QRegExp(" <[^<>\\s]*>$");
 	QRegExp commentRegExp = QRegExp("//[^\n]*");
 
 	ColorScheme* scheme = ColorScheme::getInstance().get();
@@ -72,7 +74,7 @@ void QtHighlighter::createHighlightingRules()
 	s_highlightingRules.append(HighlightingRule(directiveColor, directiveRegExp));
 	s_highlightingRules.append(HighlightingRule(numberColor, numberRegExp));
 	s_highlightingRules.append(HighlightingRule(functionColor, functionRegExp));
-	s_highlightingRules.append(HighlightingRule(quotationColor, quotation2RegExp));
+	s_highlightingRules.append(HighlightingRule(quotationColor, tagQuotationRegExp));
 
 	s_highlightingRulesCpp.clear();
 
@@ -98,7 +100,8 @@ void QtHighlighter::createHighlightingRules()
 		s_highlightingRulesJava.append(HighlightingRule(typeColor, QRegExp("\\b" + pattern + "\\b")));
 	}
 
-	s_quotationRule = HighlightingRule(quotationColor, quotationRegExp);
+	s_stringQuotationRule = HighlightingRule(quotationColor, stringQuotationRegExp);
+	s_charQuotationRule = HighlightingRule(quotationColor, charQuotationRegExp);
 	s_commentRule = HighlightingRule(commentColor, commentRegExp);
 }
 
@@ -161,7 +164,8 @@ void QtHighlighter::highlightDocument()
 	ranges.push_back(std::pair<int, int>(docStart, docEnd));
 	for (QTextBlock it = doc->begin(); it != doc->end(); it = it.next())
 	{
-		utility::append(m_quotationRanges, formatBlockForRule(it, s_quotationRule, &ranges));
+		utility::append(m_quotationRanges, formatBlockForRule(it, s_stringQuotationRule, &ranges));
+		utility::append(m_quotationRanges, formatBlockForRule(it, s_charQuotationRule, &ranges));
 	}
 
 	highlightMultiLineComments();
@@ -207,7 +211,8 @@ void QtHighlighter::highlightRange(int startLine, int endLine)
 					formatBlockForRule(it, rule);
 				}
 
-				formatBlockIfInRange(it, s_quotationRule.format, &m_quotationRanges);
+				formatBlockIfInRange(it, s_stringQuotationRule.format, &m_quotationRanges);
+				formatBlockIfInRange(it, s_charQuotationRule.format, &m_quotationRanges);
 				formatBlockForRule(it, s_commentRule, &m_quotationRanges);
 				formatBlockIfInRange(it, s_commentRule.format, &m_multiLineCommentRanges);
 			}

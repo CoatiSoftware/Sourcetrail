@@ -47,7 +47,8 @@ private:
 	static QVector<HighlightingRule> s_highlightingRules;
 	static QVector<HighlightingRule> s_highlightingRulesCpp;
 	static QVector<HighlightingRule> s_highlightingRulesJava;
-	static HighlightingRule s_quotationRule;
+	static HighlightingRule s_stringQuotationRule;
+	static HighlightingRule s_charQuotationRule;
 	static HighlightingRule s_commentRule;
 	static QTextCharFormat s_textFormat;
 
