@@ -1222,6 +1222,17 @@ std::shared_ptr<SourceLocationCollection> PersistentStorage::getSourceLocationsF
 	for (const Id tokenId : tokenIds)
 	{
 		FilePath path = getFileNodePath(tokenId);
+
+		// check for non-indexed file
+		if (path.empty() && m_symbolDefinitionKinds.find(tokenId) == m_symbolDefinitionKinds.end())
+		{
+			StorageNode fileNode = m_sqliteIndexStorage.getNodeById(tokenId);
+			if (Node::intToType(fileNode.type) == Node::NODE_FILE)
+			{
+				path = FilePath(NameHierarchy::deserialize(fileNode.serializedName).getQualifiedName());
+			}
+		}
+
 		if (path.empty())
 		{
 			nonFileIds.push_back(tokenId);
@@ -1253,16 +1264,33 @@ std::shared_ptr<SourceLocationCollection> PersistentStorage::getSourceLocationsF
 			auto it = locationIdToElementIdMap.find(sourceLocation.id);
 			if (it != locationIdToElementIdMap.end())
 			{
-				collection->addSourceLocation(
-					intToLocationType(sourceLocation.type),
-					sourceLocation.id,
-					std::vector<Id>(1, it->second),
-					getFileNodePath(sourceLocation.fileNodeId),
-					sourceLocation.startLine,
-					sourceLocation.startCol,
-					sourceLocation.endLine,
-					sourceLocation.endCol
-				);
+				FilePath path = getFileNodePath(sourceLocation.fileNodeId);
+				if (path.empty())
+				{
+					StorageNode fileNode = m_sqliteIndexStorage.getNodeById(sourceLocation.fileNodeId);
+					if (fileNode.id)
+					{
+						FilePath path2 = FilePath(NameHierarchy::deserialize(fileNode.serializedName).getQualifiedName());
+						if (path2.exists())
+						{
+							path = path2;
+						}
+					}
+				}
+
+				if (!path.empty())
+				{
+					collection->addSourceLocation(
+						intToLocationType(sourceLocation.type),
+						sourceLocation.id,
+						std::vector<Id>(1, it->second),
+						path,
+						sourceLocation.startLine,
+						sourceLocation.startCol,
+						sourceLocation.endLine,
+						sourceLocation.endCol
+					);
+				}
 			}
 		}
 	}
@@ -1703,7 +1731,7 @@ TooltipInfo PersistentStorage::getTooltipInfoForTokenIds(const std::vector<Id>& 
 		}
 	}
 
-	if (type == Node::NODE_FILE)
+	if (type == Node::NODE_FILE && m_fileNodePaths.find(node.id) != m_fileNodePaths.end())
 	{
 		bool complete = false;
 		auto it = m_fileNodeComplete.find(node.id);
@@ -2154,7 +2182,7 @@ void PersistentStorage::addNodesToGraph(const std::vector<Id>& newNodeIds, Graph
 		{
 			const FilePath filePath(NameHierarchy::deserialize(storageNode.serializedName).getRawName());
 
-			bool defined = true;
+			bool defined = false;
 			auto it = m_fileNodeComplete.find(storageNode.id);
 			if (it != m_fileNodeComplete.end())
 			{
