@@ -1,32 +1,93 @@
 FILE: ForechStatementContext.java
-SYMBOL_PACKAGE com.github.javaparser.symbolsolver.javaparsermodel.contexts [ForechStatementContext.java <17:9 17:67>]
+SYMBOL_PACKAGE com.github.javaparser.symbolsolver.javaparsermodel.contexts [ForechStatementContext.java <17:60 17:67>]
 SYMBOL_PACKAGE com.github.javaparser.symbolsolver.javaparsermodel
 SYMBOL_PACKAGE com.github.javaparser.symbolsolver
 SYMBOL_PACKAGE com.github.javaparser
 SYMBOL_PACKAGE com.github
 SYMBOL_PACKAGE com
-REFERENCE_IMPORT ForechStatementContext.java -> com.github.javaparser.ast.body.VariableDeclarator [ForechStatementContext.java <19:8 19:56>]
+QUALIFIER: com.github.javaparser.symbolsolver.javaparsermodel [ForechStatementContext.java <17:44 17:58>]
+QUALIFIER: com.github.javaparser.symbolsolver [ForechStatementContext.java <17:31 17:42>]
+QUALIFIER: com.github.javaparser [ForechStatementContext.java <17:20 17:29>]
+QUALIFIER: com.github [ForechStatementContext.java <17:13 17:18>]
+QUALIFIER: com [ForechStatementContext.java <17:9 17:11>]
+REFERENCE_IMPORT ForechStatementContext.java -> com.github.javaparser.ast.body.VariableDeclarator [ForechStatementContext.java <19:39 19:56>]
 SYMBOL_PACKAGE com.github.javaparser.ast.body
-REFERENCE_IMPORT ForechStatementContext.java -> com.github.javaparser.ast.stmt.BlockStmt [ForechStatementContext.java <20:8 20:47>]
+QUALIFIER: com.github.javaparser.ast.body [ForechStatementContext.java <19:34 19:37>]
+QUALIFIER: com.github.javaparser.ast [ForechStatementContext.java <19:30 19:32>]
+QUALIFIER: com.github.javaparser [ForechStatementContext.java <19:19 19:28>]
+QUALIFIER: com.github [ForechStatementContext.java <19:12 19:17>]
+QUALIFIER: com [ForechStatementContext.java <19:8 19:10>]
+REFERENCE_IMPORT ForechStatementContext.java -> com.github.javaparser.ast.stmt.BlockStmt [ForechStatementContext.java <20:39 20:47>]
 SYMBOL_PACKAGE com.github.javaparser.ast.stmt
-REFERENCE_IMPORT ForechStatementContext.java -> com.github.javaparser.ast.stmt.ForeachStmt [ForechStatementContext.java <21:8 21:49>]
-SYMBOL_PACKAGE com.github.javaparser.ast.stmt
-REFERENCE_IMPORT ForechStatementContext.java -> com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserSymbolDeclaration [ForechStatementContext.java <22:8 22:98>]
+QUALIFIER: com.github.javaparser.ast.stmt [ForechStatementContext.java <20:34 20:37>]
+QUALIFIER: com.github.javaparser.ast [ForechStatementContext.java <20:30 20:32>]
+QUALIFIER: com.github.javaparser [ForechStatementContext.java <20:19 20:28>]
+QUALIFIER: com.github [ForechStatementContext.java <20:12 20:17>]
+QUALIFIER: com [ForechStatementContext.java <20:8 20:10>]
+REFERENCE_IMPORT ForechStatementContext.java -> com.github.javaparser.ast.stmt.ForeachStmt [ForechStatementContext.java <21:39 21:49>]
+QUALIFIER: com.github.javaparser.ast.stmt [ForechStatementContext.java <21:34 21:37>]
+QUALIFIER: com.github.javaparser.ast [ForechStatementContext.java <21:30 21:32>]
+QUALIFIER: com.github.javaparser [ForechStatementContext.java <21:19 21:28>]
+QUALIFIER: com.github [ForechStatementContext.java <21:12 21:17>]
+QUALIFIER: com [ForechStatementContext.java <21:8 21:10>]
+REFERENCE_IMPORT ForechStatementContext.java -> com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserSymbolDeclaration [ForechStatementContext.java <22:72 22:98>]
 SYMBOL_PACKAGE com.github.javaparser.symbolsolver.javaparsermodel.declarations
-REFERENCE_IMPORT ForechStatementContext.java -> com.github.javaparser.symbolsolver.model.declarations.MethodDeclaration [ForechStatementContext.java <23:8 23:78>]
+QUALIFIER: com.github.javaparser.symbolsolver.javaparsermodel.declarations [ForechStatementContext.java <22:59 22:70>]
+QUALIFIER: com.github.javaparser.symbolsolver.javaparsermodel [ForechStatementContext.java <22:43 22:57>]
+QUALIFIER: com.github.javaparser.symbolsolver [ForechStatementContext.java <22:30 22:41>]
+QUALIFIER: com.github.javaparser [ForechStatementContext.java <22:19 22:28>]
+QUALIFIER: com.github [ForechStatementContext.java <22:12 22:17>]
+QUALIFIER: com [ForechStatementContext.java <22:8 22:10>]
+REFERENCE_IMPORT ForechStatementContext.java -> com.github.javaparser.symbolsolver.model.declarations.MethodDeclaration [ForechStatementContext.java <23:62 23:78>]
 SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model.declarations
-REFERENCE_IMPORT ForechStatementContext.java -> com.github.javaparser.symbolsolver.model.declarations.ValueDeclaration [ForechStatementContext.java <24:8 24:77>]
-SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model.declarations
-REFERENCE_IMPORT ForechStatementContext.java -> com.github.javaparser.symbolsolver.model.resolution.SymbolReference<S> [ForechStatementContext.java <25:8 25:74>]
+QUALIFIER: com.github.javaparser.symbolsolver.model.declarations [ForechStatementContext.java <23:49 23:60>]
+QUALIFIER: com.github.javaparser.symbolsolver.model [ForechStatementContext.java <23:43 23:47>]
+QUALIFIER: com.github.javaparser.symbolsolver [ForechStatementContext.java <23:30 23:41>]
+QUALIFIER: com.github.javaparser [ForechStatementContext.java <23:19 23:28>]
+QUALIFIER: com.github [ForechStatementContext.java <23:12 23:17>]
+QUALIFIER: com [ForechStatementContext.java <23:8 23:10>]
+REFERENCE_IMPORT ForechStatementContext.java -> com.github.javaparser.symbolsolver.model.declarations.ValueDeclaration [ForechStatementContext.java <24:62 24:77>]
+QUALIFIER: com.github.javaparser.symbolsolver.model.declarations [ForechStatementContext.java <24:49 24:60>]
+QUALIFIER: com.github.javaparser.symbolsolver.model [ForechStatementContext.java <24:43 24:47>]
+QUALIFIER: com.github.javaparser.symbolsolver [ForechStatementContext.java <24:30 24:41>]
+QUALIFIER: com.github.javaparser [ForechStatementContext.java <24:19 24:28>]
+QUALIFIER: com.github [ForechStatementContext.java <24:12 24:17>]
+QUALIFIER: com [ForechStatementContext.java <24:8 24:10>]
+REFERENCE_IMPORT ForechStatementContext.java -> com.github.javaparser.symbolsolver.model.resolution.SymbolReference<S> [ForechStatementContext.java <25:60 25:74>]
 SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model.resolution
-REFERENCE_IMPORT ForechStatementContext.java -> com.github.javaparser.symbolsolver.model.resolution.TypeSolver [ForechStatementContext.java <26:8 26:69>]
-SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model.resolution
-REFERENCE_IMPORT ForechStatementContext.java -> com.github.javaparser.symbolsolver.model.typesystem.Type [ForechStatementContext.java <27:8 27:63>]
+QUALIFIER: com.github.javaparser.symbolsolver.model.resolution [ForechStatementContext.java <25:49 25:58>]
+QUALIFIER: com.github.javaparser.symbolsolver.model [ForechStatementContext.java <25:43 25:47>]
+QUALIFIER: com.github.javaparser.symbolsolver [ForechStatementContext.java <25:30 25:41>]
+QUALIFIER: com.github.javaparser [ForechStatementContext.java <25:19 25:28>]
+QUALIFIER: com.github [ForechStatementContext.java <25:12 25:17>]
+QUALIFIER: com [ForechStatementContext.java <25:8 25:10>]
+REFERENCE_IMPORT ForechStatementContext.java -> com.github.javaparser.symbolsolver.model.resolution.TypeSolver [ForechStatementContext.java <26:60 26:69>]
+QUALIFIER: com.github.javaparser.symbolsolver.model.resolution [ForechStatementContext.java <26:49 26:58>]
+QUALIFIER: com.github.javaparser.symbolsolver.model [ForechStatementContext.java <26:43 26:47>]
+QUALIFIER: com.github.javaparser.symbolsolver [ForechStatementContext.java <26:30 26:41>]
+QUALIFIER: com.github.javaparser [ForechStatementContext.java <26:19 26:28>]
+QUALIFIER: com.github [ForechStatementContext.java <26:12 26:17>]
+QUALIFIER: com [ForechStatementContext.java <26:8 26:10>]
+REFERENCE_IMPORT ForechStatementContext.java -> com.github.javaparser.symbolsolver.model.typesystem.Type [ForechStatementContext.java <27:60 27:63>]
 SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model.typesystem
-REFERENCE_IMPORT ForechStatementContext.java -> java.util.List<E> [ForechStatementContext.java <29:8 29:21>]
+QUALIFIER: com.github.javaparser.symbolsolver.model.typesystem [ForechStatementContext.java <27:49 27:58>]
+QUALIFIER: com.github.javaparser.symbolsolver.model [ForechStatementContext.java <27:43 27:47>]
+QUALIFIER: com.github.javaparser.symbolsolver [ForechStatementContext.java <27:30 27:41>]
+QUALIFIER: com.github.javaparser [ForechStatementContext.java <27:19 27:28>]
+QUALIFIER: com.github [ForechStatementContext.java <27:12 27:17>]
+QUALIFIER: com [ForechStatementContext.java <27:8 27:10>]
+REFERENCE_IMPORT ForechStatementContext.java -> java.util.List<E> [ForechStatementContext.java <29:18 29:21>]
 SYMBOL_PACKAGE java.util
-REFERENCE_IMPORT ForechStatementContext.java -> static com.github.javaparser.ast.Node com.github.javaparser.symbolsolver.javaparser.Navigator.getParentNode(com.github.javaparser.ast.Node) [ForechStatementContext.java <31:15 31:83>]
+QUALIFIER: java.util [ForechStatementContext.java <29:13 29:16>]
+QUALIFIER: java [ForechStatementContext.java <29:8 29:11>]
+REFERENCE_IMPORT ForechStatementContext.java -> static com.github.javaparser.ast.Node com.github.javaparser.symbolsolver.javaparser.Navigator.getParentNode(com.github.javaparser.ast.Node) [ForechStatementContext.java <31:71 31:83>]
 SYMBOL_PACKAGE com.github.javaparser.symbolsolver.javaparser
+QUALIFIER: com.github.javaparser.symbolsolver.javaparser.Navigator [ForechStatementContext.java <31:61 31:69>]
+QUALIFIER: com.github.javaparser.symbolsolver.javaparser [ForechStatementContext.java <31:50 31:59>]
+QUALIFIER: com.github.javaparser.symbolsolver [ForechStatementContext.java <31:37 31:48>]
+QUALIFIER: com.github.javaparser [ForechStatementContext.java <31:26 31:35>]
+QUALIFIER: com.github [ForechStatementContext.java <31:19 31:24>]
+QUALIFIER: com [ForechStatementContext.java <31:15 31:17>]
 SYMBOL_CLASS public com.github.javaparser.symbolsolver.javaparsermodel.contexts.ForechStatementContext [ForechStatementContext.java <33:1 <33:14 33:35> 60:1>]
 LOCAL_SYMBOL: ForechStatementContext.java<33:84> [ForechStatementContext.java <33:84 33:84>]
 LOCAL_SYMBOL: ForechStatementContext.java<33:84> [ForechStatementContext.java <60:1 60:1>]
@@ -41,7 +102,6 @@ REFERENCE_TYPE_USAGE com.github.javaparser.symbolsolver.javaparsermodel.contexts
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javaparsermodel.contexts.ForechStatementContext.ForechStatementContext<1> [ForechStatementContext.java <35:71 35:80>]
 LOCAL_SYMBOL: ForechStatementContext.java<35:83> [ForechStatementContext.java <35:83 35:83>]
 LOCAL_SYMBOL: ForechStatementContext.java<35:83> [ForechStatementContext.java <37:5 37:5>]
-SYMBOL_METHOD com.github.javaparser.symbolsolver.javaparsermodel.contexts.AbstractJavaParserContext<N>.AbstractJavaParserContext(com.github.javaparser.symbolsolver.javaparsermodel.contexts.AbstractJavaParserContext<N>.N, com.github.javaparser.symbolsolver.model.resolution.TypeSolver)
 REFERENCE_CALL com.github.javaparser.symbolsolver.javaparsermodel.contexts.ForechStatementContext.ForechStatementContext(com.github.javaparser.ast.stmt.ForeachStmt, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> com.github.javaparser.symbolsolver.javaparsermodel.contexts.AbstractJavaParserContext<N>.AbstractJavaParserContext(com.github.javaparser.symbolsolver.javaparsermodel.contexts.AbstractJavaParserContext<N>.N, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) [ForechStatementContext.java <36:9 36:13>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javaparsermodel.contexts.ForechStatementContext.ForechStatementContext<0> [ForechStatementContext.java <36:15 36:25>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javaparsermodel.contexts.ForechStatementContext.ForechStatementContext<1> [ForechStatementContext.java <36:28 36:37>]
@@ -73,11 +133,8 @@ REFERENCE_TYPE_USAGE com.github.javaparser.symbolsolver.model.resolution.SymbolR
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javaparsermodel.contexts.ForechStatementContext.solveSymbol<2> [ForechStatementContext.java <44:28 44:45>]
 SYMBOL_METHOD com.github.javaparser.ast.NodeList<N>.N com.github.javaparser.ast.NodeList<N>.get(int)
 REFERENCE_CALL com.github.javaparser.symbolsolver.model.resolution.SymbolReference<? extends ValueDeclaration> com.github.javaparser.symbolsolver.javaparsermodel.contexts.ForechStatementContext.solveSymbol(java.lang.String, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> com.github.javaparser.ast.NodeList<N>.N com.github.javaparser.ast.NodeList<N>.get(int) [ForechStatementContext.java <44:90 44:92>]
-SYMBOL_METHOD com.github.javaparser.ast.NodeList<com.github.javaparser.ast.body.VariableDeclarator> com.github.javaparser.ast.expr.VariableDeclarationExpr.getVariables()
 REFERENCE_CALL com.github.javaparser.symbolsolver.model.resolution.SymbolReference<? extends ValueDeclaration> com.github.javaparser.symbolsolver.javaparsermodel.contexts.ForechStatementContext.solveSymbol(java.lang.String, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> com.github.javaparser.ast.NodeList<com.github.javaparser.ast.body.VariableDeclarator> com.github.javaparser.ast.expr.VariableDeclarationExpr.getVariables() [ForechStatementContext.java <44:75 44:86>]
-SYMBOL_METHOD com.github.javaparser.ast.expr.VariableDeclarationExpr com.github.javaparser.ast.stmt.ForeachStmt.getVariable()
 REFERENCE_CALL com.github.javaparser.symbolsolver.model.resolution.SymbolReference<? extends ValueDeclaration> com.github.javaparser.symbolsolver.javaparsermodel.contexts.ForechStatementContext.solveSymbol(java.lang.String, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> com.github.javaparser.ast.expr.VariableDeclarationExpr com.github.javaparser.ast.stmt.ForeachStmt.getVariable() [ForechStatementContext.java <44:61 44:71>]
-SYMBOL_FIELD com.github.javaparser.symbolsolver.javaparsermodel.contexts.AbstractJavaParserContext<N>.N com.github.javaparser.symbolsolver.javaparsermodel.contexts.AbstractJavaParserContext<N>.wrappedNode
 REFERENCE_USAGE com.github.javaparser.symbolsolver.model.resolution.SymbolReference<? extends ValueDeclaration> com.github.javaparser.symbolsolver.javaparsermodel.contexts.ForechStatementContext.solveSymbol(java.lang.String, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> com.github.javaparser.symbolsolver.javaparsermodel.contexts.AbstractJavaParserContext<N>.N com.github.javaparser.symbolsolver.javaparsermodel.contexts.AbstractJavaParserContext<N>.wrappedNode [ForechStatementContext.java <44:49 44:59>]
 SYMBOL_METHOD boolean java.lang.String.equals(java.lang.Object)
 REFERENCE_CALL com.github.javaparser.symbolsolver.model.resolution.SymbolReference<? extends ValueDeclaration> com.github.javaparser.symbolsolver.javaparsermodel.contexts.ForechStatementContext.solveSymbol(java.lang.String, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> boolean java.lang.String.equals(java.lang.Object) [ForechStatementContext.java <45:50 45:55>]
@@ -91,28 +148,28 @@ LOCAL_SYMBOL: ForechStatementContext.java<45:64> [ForechStatementContext.java <4
 LOCAL_SYMBOL: ForechStatementContext.java<45:64> [ForechStatementContext.java <47:9 47:9>]
 SYMBOL_METHOD static com.github.javaparser.symbolsolver.model.resolution.SymbolReference<S> com.github.javaparser.symbolsolver.model.resolution.SymbolReference<S>.solved<S, S2>(S2)
 REFERENCE_CALL com.github.javaparser.symbolsolver.model.resolution.SymbolReference<? extends ValueDeclaration> com.github.javaparser.symbolsolver.javaparsermodel.contexts.ForechStatementContext.solveSymbol(java.lang.String, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> static com.github.javaparser.symbolsolver.model.resolution.SymbolReference<S> com.github.javaparser.symbolsolver.model.resolution.SymbolReference<S>.solved<S, S2>(S2) [ForechStatementContext.java <46:36 46:41>]
+QUALIFIER: com.github.javaparser.symbolsolver.model.resolution.SymbolReference [ForechStatementContext.java <46:20 46:34>]
 SYMBOL_METHOD static com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserSymbolDeclaration com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserSymbolDeclaration.localVar(com.github.javaparser.ast.body.VariableDeclarator, com.github.javaparser.symbolsolver.model.resolution.TypeSolver)
 REFERENCE_CALL com.github.javaparser.symbolsolver.model.resolution.SymbolReference<? extends ValueDeclaration> com.github.javaparser.symbolsolver.javaparsermodel.contexts.ForechStatementContext.solveSymbol(java.lang.String, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> static com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserSymbolDeclaration com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserSymbolDeclaration.localVar(com.github.javaparser.ast.body.VariableDeclarator, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) [ForechStatementContext.java <46:71 46:78>]
+QUALIFIER: com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserSymbolDeclaration [ForechStatementContext.java <46:43 46:69>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javaparsermodel.contexts.ForechStatementContext.solveSymbol<2> [ForechStatementContext.java <46:80 46:97>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javaparsermodel.contexts.ForechStatementContext.solveSymbol<1> [ForechStatementContext.java <46:100 46:109>]
 LOCAL_SYMBOL: ForechStatementContext.java<47:16> [ForechStatementContext.java <47:16 47:16>]
 LOCAL_SYMBOL: ForechStatementContext.java<47:16> [ForechStatementContext.java <53:9 53:9>]
 SYMBOL_METHOD static com.github.javaparser.ast.Node com.github.javaparser.symbolsolver.javaparser.Navigator.getParentNode(com.github.javaparser.ast.Node)
 REFERENCE_CALL com.github.javaparser.symbolsolver.model.resolution.SymbolReference<? extends ValueDeclaration> com.github.javaparser.symbolsolver.javaparsermodel.contexts.ForechStatementContext.solveSymbol(java.lang.String, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> static com.github.javaparser.ast.Node com.github.javaparser.symbolsolver.javaparser.Navigator.getParentNode(com.github.javaparser.ast.Node) [ForechStatementContext.java <48:17 48:29>]
-SYMBOL_FIELD com.github.javaparser.symbolsolver.javaparsermodel.contexts.AbstractJavaParserContext<N>.N com.github.javaparser.symbolsolver.javaparsermodel.contexts.AbstractJavaParserContext<N>.wrappedNode
 REFERENCE_USAGE com.github.javaparser.symbolsolver.model.resolution.SymbolReference<? extends ValueDeclaration> com.github.javaparser.symbolsolver.javaparsermodel.contexts.ForechStatementContext.solveSymbol(java.lang.String, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> com.github.javaparser.symbolsolver.javaparsermodel.contexts.AbstractJavaParserContext<N>.N com.github.javaparser.symbolsolver.javaparsermodel.contexts.AbstractJavaParserContext<N>.wrappedNode [ForechStatementContext.java <48:31 48:41>]
 REFERENCE_TYPE_USAGE com.github.javaparser.symbolsolver.model.resolution.SymbolReference<? extends ValueDeclaration> com.github.javaparser.symbolsolver.javaparsermodel.contexts.ForechStatementContext.solveSymbol(java.lang.String, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> com.github.javaparser.ast.stmt.BlockStmt [ForechStatementContext.java <48:55 48:63>]
 LOCAL_SYMBOL: ForechStatementContext.java<48:66> [ForechStatementContext.java <48:66 48:66>]
 LOCAL_SYMBOL: ForechStatementContext.java<48:66> [ForechStatementContext.java <50:13 50:13>]
 SYMBOL_METHOD static com.github.javaparser.symbolsolver.model.resolution.SymbolReference<? extends ValueDeclaration> com.github.javaparser.symbolsolver.javaparsermodel.contexts.StatementContext<N>.solveInBlock(java.lang.String, com.github.javaparser.symbolsolver.model.resolution.TypeSolver, com.github.javaparser.ast.stmt.Statement)
 REFERENCE_CALL com.github.javaparser.symbolsolver.model.resolution.SymbolReference<? extends ValueDeclaration> com.github.javaparser.symbolsolver.javaparsermodel.contexts.ForechStatementContext.solveSymbol(java.lang.String, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> static com.github.javaparser.symbolsolver.model.resolution.SymbolReference<? extends ValueDeclaration> com.github.javaparser.symbolsolver.javaparsermodel.contexts.StatementContext<N>.solveInBlock(java.lang.String, com.github.javaparser.symbolsolver.model.resolution.TypeSolver, com.github.javaparser.ast.stmt.Statement) [ForechStatementContext.java <49:41 49:52>]
+QUALIFIER: com.github.javaparser.symbolsolver.javaparsermodel.contexts.StatementContext [ForechStatementContext.java <49:24 49:39>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javaparsermodel.contexts.ForechStatementContext.solveSymbol<0> [ForechStatementContext.java <49:54 49:57>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javaparsermodel.contexts.ForechStatementContext.solveSymbol<1> [ForechStatementContext.java <49:60 49:69>]
-SYMBOL_FIELD com.github.javaparser.symbolsolver.javaparsermodel.contexts.AbstractJavaParserContext<N>.N com.github.javaparser.symbolsolver.javaparsermodel.contexts.AbstractJavaParserContext<N>.wrappedNode
 REFERENCE_USAGE com.github.javaparser.symbolsolver.model.resolution.SymbolReference<? extends ValueDeclaration> com.github.javaparser.symbolsolver.javaparsermodel.contexts.ForechStatementContext.solveSymbol(java.lang.String, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> com.github.javaparser.symbolsolver.javaparsermodel.contexts.AbstractJavaParserContext<N>.N com.github.javaparser.symbolsolver.javaparsermodel.contexts.AbstractJavaParserContext<N>.wrappedNode [ForechStatementContext.java <49:72 49:82>]
 LOCAL_SYMBOL: ForechStatementContext.java<50:20> [ForechStatementContext.java <50:20 50:20>]
 LOCAL_SYMBOL: ForechStatementContext.java<50:20> [ForechStatementContext.java <52:13 52:13>]
-SYMBOL_METHOD com.github.javaparser.symbolsolver.model.resolution.SymbolReference<? extends ValueDeclaration> com.github.javaparser.symbolsolver.core.resolution.Context.solveSymbol(java.lang.String, com.github.javaparser.symbolsolver.model.resolution.TypeSolver)
 REFERENCE_CALL com.github.javaparser.symbolsolver.model.resolution.SymbolReference<? extends ValueDeclaration> com.github.javaparser.symbolsolver.javaparsermodel.contexts.ForechStatementContext.solveSymbol(java.lang.String, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> com.github.javaparser.symbolsolver.model.resolution.SymbolReference<? extends ValueDeclaration> com.github.javaparser.symbolsolver.core.resolution.Context.solveSymbol(java.lang.String, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) [ForechStatementContext.java <51:36 51:46>]
 SYMBOL_METHOD com.github.javaparser.symbolsolver.core.resolution.Context com.github.javaparser.symbolsolver.javaparsermodel.contexts.AbstractJavaParserContext<N>.getParent()
 REFERENCE_CALL com.github.javaparser.symbolsolver.model.resolution.SymbolReference<? extends ValueDeclaration> com.github.javaparser.symbolsolver.javaparsermodel.contexts.ForechStatementContext.solveSymbol(java.lang.String, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> com.github.javaparser.symbolsolver.core.resolution.Context com.github.javaparser.symbolsolver.javaparsermodel.contexts.AbstractJavaParserContext<N>.getParent() [ForechStatementContext.java <51:24 51:32>]
@@ -135,9 +192,7 @@ REFERENCE_TYPE_USAGE com.github.javaparser.symbolsolver.model.resolution.SymbolR
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javaparsermodel.contexts.ForechStatementContext.solveMethod<3> [ForechStatementContext.java <57:130 57:139>]
 LOCAL_SYMBOL: ForechStatementContext.java<57:142> [ForechStatementContext.java <57:142 57:142>]
 LOCAL_SYMBOL: ForechStatementContext.java<57:142> [ForechStatementContext.java <59:5 59:5>]
-SYMBOL_METHOD com.github.javaparser.symbolsolver.model.resolution.SymbolReference<com.github.javaparser.symbolsolver.model.declarations.MethodDeclaration> com.github.javaparser.symbolsolver.core.resolution.Context.solveMethod(java.lang.String, java.util.List<com.github.javaparser.symbolsolver.model.typesystem.Type>, boolean, com.github.javaparser.symbolsolver.model.resolution.TypeSolver)
 REFERENCE_CALL com.github.javaparser.symbolsolver.model.resolution.SymbolReference<com.github.javaparser.symbolsolver.model.declarations.MethodDeclaration> com.github.javaparser.symbolsolver.javaparsermodel.contexts.ForechStatementContext.solveMethod(java.lang.String, java.util.List<com.github.javaparser.symbolsolver.model.typesystem.Type>, boolean, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> com.github.javaparser.symbolsolver.model.resolution.SymbolReference<com.github.javaparser.symbolsolver.model.declarations.MethodDeclaration> com.github.javaparser.symbolsolver.core.resolution.Context.solveMethod(java.lang.String, java.util.List<com.github.javaparser.symbolsolver.model.typesystem.Type>, boolean, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) [ForechStatementContext.java <58:28 58:38>]
-SYMBOL_METHOD com.github.javaparser.symbolsolver.core.resolution.Context com.github.javaparser.symbolsolver.javaparsermodel.contexts.AbstractJavaParserContext<N>.getParent()
 REFERENCE_CALL com.github.javaparser.symbolsolver.model.resolution.SymbolReference<com.github.javaparser.symbolsolver.model.declarations.MethodDeclaration> com.github.javaparser.symbolsolver.javaparsermodel.contexts.ForechStatementContext.solveMethod(java.lang.String, java.util.List<com.github.javaparser.symbolsolver.model.typesystem.Type>, boolean, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> com.github.javaparser.symbolsolver.core.resolution.Context com.github.javaparser.symbolsolver.javaparsermodel.contexts.AbstractJavaParserContext<N>.getParent() [ForechStatementContext.java <58:16 58:24>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javaparsermodel.contexts.ForechStatementContext.solveMethod<0> [ForechStatementContext.java <58:40 58:43>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javaparsermodel.contexts.ForechStatementContext.solveMethod<1> [ForechStatementContext.java <58:46 58:59>]

@@ -1,14 +1,27 @@
 FILE: Wildcard.java
-SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model.typesystem [Wildcard.java <17:9 17:59>]
+SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model.typesystem [Wildcard.java <17:50 17:59>]
 SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model
 SYMBOL_PACKAGE com.github.javaparser.symbolsolver
 SYMBOL_PACKAGE com.github.javaparser
 SYMBOL_PACKAGE com.github
 SYMBOL_PACKAGE com
-REFERENCE_IMPORT Wildcard.java -> com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration [Wildcard.java <19:8 19:85>]
+QUALIFIER: com.github.javaparser.symbolsolver.model [Wildcard.java <17:44 17:48>]
+QUALIFIER: com.github.javaparser.symbolsolver [Wildcard.java <17:31 17:42>]
+QUALIFIER: com.github.javaparser [Wildcard.java <17:20 17:29>]
+QUALIFIER: com.github [Wildcard.java <17:13 17:18>]
+QUALIFIER: com [Wildcard.java <17:9 17:11>]
+REFERENCE_IMPORT Wildcard.java -> com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration [Wildcard.java <19:62 19:85>]
 SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model.declarations
-REFERENCE_IMPORT Wildcard.java -> java.util.Map<K, V> [Wildcard.java <21:8 21:20>]
+QUALIFIER: com.github.javaparser.symbolsolver.model.declarations [Wildcard.java <19:49 19:60>]
+QUALIFIER: com.github.javaparser.symbolsolver.model [Wildcard.java <19:43 19:47>]
+QUALIFIER: com.github.javaparser.symbolsolver [Wildcard.java <19:30 19:41>]
+QUALIFIER: com.github.javaparser [Wildcard.java <19:19 19:28>]
+QUALIFIER: com.github [Wildcard.java <19:12 19:17>]
+QUALIFIER: com [Wildcard.java <19:8 19:10>]
+REFERENCE_IMPORT Wildcard.java -> java.util.Map<K, V> [Wildcard.java <21:18 21:20>]
 SYMBOL_PACKAGE java.util
+QUALIFIER: java.util [Wildcard.java <21:13 21:16>]
+QUALIFIER: java [Wildcard.java <21:8 21:11>]
 SYMBOL_CLASS public com.github.javaparser.symbolsolver.model.typesystem.Wildcard [Wildcard.java <32:1 <32:14 32:21> 163:1>]
 LOCAL_SYMBOL: Wildcard.java<32:39> [Wildcard.java <32:39 32:39>]
 LOCAL_SYMBOL: Wildcard.java<32:39> [Wildcard.java <163:1 163:1>]
@@ -41,12 +54,13 @@ LOCAL_SYMBOL: com.github.javaparser.symbolsolver.model.typesystem.Wildcard.Wildc
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.model.typesystem.Wildcard.Wildcard<1> [Wildcard.java <43:29 43:39>]
 LOCAL_SYMBOL: Wildcard.java<43:50> [Wildcard.java <43:50 43:50>]
 LOCAL_SYMBOL: Wildcard.java<43:50> [Wildcard.java <45:9 45:9>]
-SYMBOL_METHOD java.lang.IllegalArgumentException.IllegalArgumentException()
 REFERENCE_CALL com.github.javaparser.symbolsolver.model.typesystem.Wildcard.Wildcard(com.github.javaparser.symbolsolver.model.typesystem.Wildcard.BoundType, com.github.javaparser.symbolsolver.model.typesystem.Type) -> java.lang.IllegalArgumentException.IllegalArgumentException() [Wildcard.java <44:23 44:46>]
 REFERENCE_TYPE_USAGE com.github.javaparser.symbolsolver.model.typesystem.Wildcard.Wildcard(com.github.javaparser.symbolsolver.model.typesystem.Wildcard.BoundType, com.github.javaparser.symbolsolver.model.typesystem.Type) -> java.lang.IllegalArgumentException [Wildcard.java <44:23 44:46>]
+QUALIFIER: com.github.javaparser.symbolsolver.model.typesystem.Wildcard [Wildcard.java <46:9 46:12>]
 SYMBOL_FIELD com.github.javaparser.symbolsolver.model.typesystem.Wildcard.BoundType com.github.javaparser.symbolsolver.model.typesystem.Wildcard.type
 REFERENCE_USAGE com.github.javaparser.symbolsolver.model.typesystem.Wildcard.Wildcard(com.github.javaparser.symbolsolver.model.typesystem.Wildcard.BoundType, com.github.javaparser.symbolsolver.model.typesystem.Type) -> com.github.javaparser.symbolsolver.model.typesystem.Wildcard.BoundType com.github.javaparser.symbolsolver.model.typesystem.Wildcard.type [Wildcard.java <46:14 46:17>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.model.typesystem.Wildcard.Wildcard<0> [Wildcard.java <46:21 46:24>]
+QUALIFIER: com.github.javaparser.symbolsolver.model.typesystem.Wildcard [Wildcard.java <47:9 47:12>]
 SYMBOL_FIELD com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.model.typesystem.Wildcard.boundedType
 REFERENCE_USAGE com.github.javaparser.symbolsolver.model.typesystem.Wildcard.Wildcard(com.github.javaparser.symbolsolver.model.typesystem.Wildcard.BoundType, com.github.javaparser.symbolsolver.model.typesystem.Type) -> com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.model.typesystem.Wildcard.boundedType [Wildcard.java <47:14 47:24>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.model.typesystem.Wildcard.Wildcard<1> [Wildcard.java <47:28 47:38>]
@@ -56,9 +70,9 @@ REFERENCE_TYPE_USAGE static com.github.javaparser.symbolsolver.model.typesystem.
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.model.typesystem.Wildcard.superBound<0> [Wildcard.java <50:44 50:47>]
 LOCAL_SYMBOL: Wildcard.java<50:50> [Wildcard.java <50:50 50:50>]
 LOCAL_SYMBOL: Wildcard.java<50:50> [Wildcard.java <52:5 52:5>]
-SYMBOL_METHOD com.github.javaparser.symbolsolver.model.typesystem.Wildcard.Wildcard(com.github.javaparser.symbolsolver.model.typesystem.Wildcard.BoundType, com.github.javaparser.symbolsolver.model.typesystem.Type)
 REFERENCE_CALL static com.github.javaparser.symbolsolver.model.typesystem.Wildcard com.github.javaparser.symbolsolver.model.typesystem.Wildcard.superBound(com.github.javaparser.symbolsolver.model.typesystem.Type) -> com.github.javaparser.symbolsolver.model.typesystem.Wildcard.Wildcard(com.github.javaparser.symbolsolver.model.typesystem.Wildcard.BoundType, com.github.javaparser.symbolsolver.model.typesystem.Type) [Wildcard.java <51:20 51:27>]
 REFERENCE_TYPE_USAGE static com.github.javaparser.symbolsolver.model.typesystem.Wildcard com.github.javaparser.symbolsolver.model.typesystem.Wildcard.superBound(com.github.javaparser.symbolsolver.model.typesystem.Type) -> com.github.javaparser.symbolsolver.model.typesystem.Wildcard [Wildcard.java <51:20 51:27>]
+QUALIFIER: com.github.javaparser.symbolsolver.model.typesystem.Wildcard.BoundType [Wildcard.java <51:29 51:37>]
 SYMBOL_FIELD com.github.javaparser.symbolsolver.model.typesystem.Wildcard.BoundType.SUPER
 REFERENCE_USAGE static com.github.javaparser.symbolsolver.model.typesystem.Wildcard com.github.javaparser.symbolsolver.model.typesystem.Wildcard.superBound(com.github.javaparser.symbolsolver.model.typesystem.Type) -> com.github.javaparser.symbolsolver.model.typesystem.Wildcard.BoundType.SUPER [Wildcard.java <51:39 51:43>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.model.typesystem.Wildcard.superBound<0> [Wildcard.java <51:46 51:49>]
@@ -68,9 +82,9 @@ REFERENCE_TYPE_USAGE static com.github.javaparser.symbolsolver.model.typesystem.
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.model.typesystem.Wildcard.extendsBound<0> [Wildcard.java <54:46 54:49>]
 LOCAL_SYMBOL: Wildcard.java<54:52> [Wildcard.java <54:52 54:52>]
 LOCAL_SYMBOL: Wildcard.java<54:52> [Wildcard.java <56:5 56:5>]
-SYMBOL_METHOD com.github.javaparser.symbolsolver.model.typesystem.Wildcard.Wildcard(com.github.javaparser.symbolsolver.model.typesystem.Wildcard.BoundType, com.github.javaparser.symbolsolver.model.typesystem.Type)
 REFERENCE_CALL static com.github.javaparser.symbolsolver.model.typesystem.Wildcard com.github.javaparser.symbolsolver.model.typesystem.Wildcard.extendsBound(com.github.javaparser.symbolsolver.model.typesystem.Type) -> com.github.javaparser.symbolsolver.model.typesystem.Wildcard.Wildcard(com.github.javaparser.symbolsolver.model.typesystem.Wildcard.BoundType, com.github.javaparser.symbolsolver.model.typesystem.Type) [Wildcard.java <55:20 55:27>]
 REFERENCE_TYPE_USAGE static com.github.javaparser.symbolsolver.model.typesystem.Wildcard com.github.javaparser.symbolsolver.model.typesystem.Wildcard.extendsBound(com.github.javaparser.symbolsolver.model.typesystem.Type) -> com.github.javaparser.symbolsolver.model.typesystem.Wildcard [Wildcard.java <55:20 55:27>]
+QUALIFIER: com.github.javaparser.symbolsolver.model.typesystem.Wildcard.BoundType [Wildcard.java <55:29 55:37>]
 SYMBOL_FIELD com.github.javaparser.symbolsolver.model.typesystem.Wildcard.BoundType.EXTENDS
 REFERENCE_USAGE static com.github.javaparser.symbolsolver.model.typesystem.Wildcard com.github.javaparser.symbolsolver.model.typesystem.Wildcard.extendsBound(com.github.javaparser.symbolsolver.model.typesystem.Type) -> com.github.javaparser.symbolsolver.model.typesystem.Wildcard.BoundType.EXTENDS [Wildcard.java <55:39 55:45>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.model.typesystem.Wildcard.extendsBound<0> [Wildcard.java <55:48 55:51>]
@@ -80,9 +94,7 @@ REFERENCE_OVERRIDE java.lang.String com.github.javaparser.symbolsolver.model.typ
 REFERENCE_TYPE_USAGE java.lang.String com.github.javaparser.symbolsolver.model.typesystem.Wildcard.toString() -> java.lang.String [Wildcard.java <59:12 59:17>]
 LOCAL_SYMBOL: Wildcard.java<59:30> [Wildcard.java <59:30 59:30>]
 LOCAL_SYMBOL: Wildcard.java<59:30> [Wildcard.java <64:5 64:5>]
-SYMBOL_FIELD com.github.javaparser.symbolsolver.model.typesystem.Wildcard.BoundType com.github.javaparser.symbolsolver.model.typesystem.Wildcard.type
 REFERENCE_USAGE java.lang.String com.github.javaparser.symbolsolver.model.typesystem.Wildcard.toString() -> com.github.javaparser.symbolsolver.model.typesystem.Wildcard.BoundType com.github.javaparser.symbolsolver.model.typesystem.Wildcard.type [Wildcard.java <61:27 61:30>]
-SYMBOL_FIELD com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.model.typesystem.Wildcard.boundedType
 REFERENCE_USAGE java.lang.String com.github.javaparser.symbolsolver.model.typesystem.Wildcard.toString() -> com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.model.typesystem.Wildcard.boundedType [Wildcard.java <62:36 62:46>]
 SYMBOL_METHOD public boolean com.github.javaparser.symbolsolver.model.typesystem.Wildcard.isWildcard() [Wildcard.java <66:5 <66:20 66:29> 68:5>]
 SYMBOL_METHOD boolean com.github.javaparser.symbolsolver.model.typesystem.Type.isWildcard()
@@ -100,7 +112,6 @@ LOCAL_SYMBOL: Wildcard.java<70:34> [Wildcard.java <72:5 72:5>]
 SYMBOL_METHOD public boolean com.github.javaparser.symbolsolver.model.typesystem.Wildcard.equals(java.lang.Object) [Wildcard.java <74:5 <75:20 75:25> 85:5>]
 SYMBOL_METHOD boolean java.lang.Object.equals(java.lang.Object)
 REFERENCE_OVERRIDE boolean com.github.javaparser.symbolsolver.model.typesystem.Wildcard.equals(java.lang.Object) -> boolean java.lang.Object.equals(java.lang.Object) [Wildcard.java <75:20 75:25>]
-SYMBOL_BUILTIN_TYPE boolean
 REFERENCE_TYPE_USAGE boolean com.github.javaparser.symbolsolver.model.typesystem.Wildcard.equals(java.lang.Object) -> boolean [Wildcard.java <75:12 75:18>]
 REFERENCE_TYPE_USAGE boolean com.github.javaparser.symbolsolver.model.typesystem.Wildcard.equals(java.lang.Object) -> java.lang.Object [Wildcard.java <75:27 75:32>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.model.typesystem.Wildcard.equals<0> [Wildcard.java <75:34 75:34>]
@@ -113,22 +124,15 @@ REFERENCE_TYPE_USAGE boolean com.github.javaparser.symbolsolver.model.typesystem
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.model.typesystem.Wildcard.equals<1> [Wildcard.java <79:18 79:21>]
 REFERENCE_TYPE_USAGE boolean com.github.javaparser.symbolsolver.model.typesystem.Wildcard.equals(java.lang.Object) -> com.github.javaparser.symbolsolver.model.typesystem.Wildcard [Wildcard.java <79:26 79:33>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.model.typesystem.Wildcard.equals<0> [Wildcard.java <79:36 79:36>]
-SYMBOL_FIELD com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.model.typesystem.Wildcard.boundedType
 REFERENCE_USAGE boolean com.github.javaparser.symbolsolver.model.typesystem.Wildcard.equals(java.lang.Object) -> com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.model.typesystem.Wildcard.boundedType [Wildcard.java <81:13 81:23>]
-SYMBOL_METHOD boolean java.lang.Object.equals(java.lang.Object)
 REFERENCE_CALL boolean com.github.javaparser.symbolsolver.model.typesystem.Wildcard.equals(java.lang.Object) -> boolean java.lang.Object.equals(java.lang.Object) [Wildcard.java <81:48 81:53>]
-SYMBOL_FIELD com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.model.typesystem.Wildcard.boundedType
 REFERENCE_USAGE boolean com.github.javaparser.symbolsolver.model.typesystem.Wildcard.equals(java.lang.Object) -> com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.model.typesystem.Wildcard.boundedType [Wildcard.java <81:36 81:46>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.model.typesystem.Wildcard.equals<1> [Wildcard.java <81:55 81:58>]
-SYMBOL_FIELD com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.model.typesystem.Wildcard.boundedType
 REFERENCE_USAGE boolean com.github.javaparser.symbolsolver.model.typesystem.Wildcard.equals(java.lang.Object) -> com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.model.typesystem.Wildcard.boundedType [Wildcard.java <81:60 81:70>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.model.typesystem.Wildcard.equals<1> [Wildcard.java <81:75 81:78>]
-SYMBOL_FIELD com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.model.typesystem.Wildcard.boundedType
 REFERENCE_USAGE boolean com.github.javaparser.symbolsolver.model.typesystem.Wildcard.equals(java.lang.Object) -> com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.model.typesystem.Wildcard.boundedType [Wildcard.java <81:80 81:90>]
-SYMBOL_FIELD com.github.javaparser.symbolsolver.model.typesystem.Wildcard.BoundType com.github.javaparser.symbolsolver.model.typesystem.Wildcard.type
 REFERENCE_USAGE boolean com.github.javaparser.symbolsolver.model.typesystem.Wildcard.equals(java.lang.Object) -> com.github.javaparser.symbolsolver.model.typesystem.Wildcard.BoundType com.github.javaparser.symbolsolver.model.typesystem.Wildcard.type [Wildcard.java <82:13 82:16>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.model.typesystem.Wildcard.equals<1> [Wildcard.java <82:21 82:24>]
-SYMBOL_FIELD com.github.javaparser.symbolsolver.model.typesystem.Wildcard.BoundType com.github.javaparser.symbolsolver.model.typesystem.Wildcard.type
 REFERENCE_USAGE boolean com.github.javaparser.symbolsolver.model.typesystem.Wildcard.equals(java.lang.Object) -> com.github.javaparser.symbolsolver.model.typesystem.Wildcard.BoundType com.github.javaparser.symbolsolver.model.typesystem.Wildcard.type [Wildcard.java <82:26 82:29>]
 SYMBOL_METHOD public int com.github.javaparser.symbolsolver.model.typesystem.Wildcard.hashCode() [Wildcard.java <87:5 <88:16 88:23> 92:5>]
 SYMBOL_METHOD int java.lang.Object.hashCode()
@@ -137,22 +141,16 @@ SYMBOL_BUILTIN_TYPE int
 REFERENCE_TYPE_USAGE int com.github.javaparser.symbolsolver.model.typesystem.Wildcard.hashCode() -> int [Wildcard.java <88:12 88:14>]
 LOCAL_SYMBOL: Wildcard.java<88:27> [Wildcard.java <88:27 88:27>]
 LOCAL_SYMBOL: Wildcard.java<88:27> [Wildcard.java <92:5 92:5>]
-SYMBOL_BUILTIN_TYPE int
 REFERENCE_TYPE_USAGE int com.github.javaparser.symbolsolver.model.typesystem.Wildcard.hashCode() -> int [Wildcard.java <89:9 89:11>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.model.typesystem.Wildcard.hashCode<0> [Wildcard.java <89:13 89:18>]
-SYMBOL_FIELD com.github.javaparser.symbolsolver.model.typesystem.Wildcard.BoundType com.github.javaparser.symbolsolver.model.typesystem.Wildcard.type
 REFERENCE_USAGE int com.github.javaparser.symbolsolver.model.typesystem.Wildcard.hashCode() -> com.github.javaparser.symbolsolver.model.typesystem.Wildcard.BoundType com.github.javaparser.symbolsolver.model.typesystem.Wildcard.type [Wildcard.java <89:22 89:25>]
 SYMBOL_METHOD int java.lang.Enum<E>.hashCode()
 REFERENCE_CALL int com.github.javaparser.symbolsolver.model.typesystem.Wildcard.hashCode() -> int java.lang.Enum<E>.hashCode() [Wildcard.java <89:42 89:49>]
-SYMBOL_FIELD com.github.javaparser.symbolsolver.model.typesystem.Wildcard.BoundType com.github.javaparser.symbolsolver.model.typesystem.Wildcard.type
 REFERENCE_USAGE int com.github.javaparser.symbolsolver.model.typesystem.Wildcard.hashCode() -> com.github.javaparser.symbolsolver.model.typesystem.Wildcard.BoundType com.github.javaparser.symbolsolver.model.typesystem.Wildcard.type [Wildcard.java <89:37 89:40>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.model.typesystem.Wildcard.hashCode<0> [Wildcard.java <90:9 90:14>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.model.typesystem.Wildcard.hashCode<0> [Wildcard.java <90:23 90:28>]
-SYMBOL_FIELD com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.model.typesystem.Wildcard.boundedType
 REFERENCE_USAGE int com.github.javaparser.symbolsolver.model.typesystem.Wildcard.hashCode() -> com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.model.typesystem.Wildcard.boundedType [Wildcard.java <90:33 90:43>]
-SYMBOL_METHOD int java.lang.Object.hashCode()
 REFERENCE_CALL int com.github.javaparser.symbolsolver.model.typesystem.Wildcard.hashCode() -> int java.lang.Object.hashCode() [Wildcard.java <90:67 90:74>]
-SYMBOL_FIELD com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.model.typesystem.Wildcard.boundedType
 REFERENCE_USAGE int com.github.javaparser.symbolsolver.model.typesystem.Wildcard.hashCode() -> com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.model.typesystem.Wildcard.boundedType [Wildcard.java <90:55 90:65>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.model.typesystem.Wildcard.hashCode<0> [Wildcard.java <91:16 91:21>]
 SYMBOL_METHOD public java.lang.String com.github.javaparser.symbolsolver.model.typesystem.Wildcard.describe() [Wildcard.java <94:5 <95:19 95:26> 105:5>]
@@ -161,29 +159,22 @@ REFERENCE_OVERRIDE java.lang.String com.github.javaparser.symbolsolver.model.typ
 REFERENCE_TYPE_USAGE java.lang.String com.github.javaparser.symbolsolver.model.typesystem.Wildcard.describe() -> java.lang.String [Wildcard.java <95:12 95:17>]
 LOCAL_SYMBOL: Wildcard.java<95:30> [Wildcard.java <95:30 95:30>]
 LOCAL_SYMBOL: Wildcard.java<95:30> [Wildcard.java <105:5 105:5>]
-SYMBOL_FIELD com.github.javaparser.symbolsolver.model.typesystem.Wildcard.BoundType com.github.javaparser.symbolsolver.model.typesystem.Wildcard.type
 REFERENCE_USAGE java.lang.String com.github.javaparser.symbolsolver.model.typesystem.Wildcard.describe() -> com.github.javaparser.symbolsolver.model.typesystem.Wildcard.BoundType com.github.javaparser.symbolsolver.model.typesystem.Wildcard.type [Wildcard.java <96:13 96:16>]
 LOCAL_SYMBOL: Wildcard.java<96:27> [Wildcard.java <96:27 96:27>]
 LOCAL_SYMBOL: Wildcard.java<96:27> [Wildcard.java <98:9 98:9>]
-SYMBOL_FIELD com.github.javaparser.symbolsolver.model.typesystem.Wildcard.BoundType com.github.javaparser.symbolsolver.model.typesystem.Wildcard.type
 REFERENCE_USAGE java.lang.String com.github.javaparser.symbolsolver.model.typesystem.Wildcard.describe() -> com.github.javaparser.symbolsolver.model.typesystem.Wildcard.BoundType com.github.javaparser.symbolsolver.model.typesystem.Wildcard.type [Wildcard.java <98:20 98:23>]
-SYMBOL_FIELD com.github.javaparser.symbolsolver.model.typesystem.Wildcard.BoundType.SUPER
+QUALIFIER: com.github.javaparser.symbolsolver.model.typesystem.Wildcard.BoundType [Wildcard.java <98:28 98:36>]
 REFERENCE_USAGE java.lang.String com.github.javaparser.symbolsolver.model.typesystem.Wildcard.describe() -> com.github.javaparser.symbolsolver.model.typesystem.Wildcard.BoundType.SUPER [Wildcard.java <98:38 98:42>]
 LOCAL_SYMBOL: Wildcard.java<98:45> [Wildcard.java <98:45 98:45>]
 LOCAL_SYMBOL: Wildcard.java<98:45> [Wildcard.java <100:9 100:9>]
-SYMBOL_METHOD java.lang.String com.github.javaparser.symbolsolver.model.typesystem.Type.describe()
 REFERENCE_CALL java.lang.String com.github.javaparser.symbolsolver.model.typesystem.Wildcard.describe() -> java.lang.String com.github.javaparser.symbolsolver.model.typesystem.Type.describe() [Wildcard.java <99:45 99:52>]
-SYMBOL_FIELD com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.model.typesystem.Wildcard.boundedType
 REFERENCE_USAGE java.lang.String com.github.javaparser.symbolsolver.model.typesystem.Wildcard.describe() -> com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.model.typesystem.Wildcard.boundedType [Wildcard.java <99:33 99:43>]
-SYMBOL_FIELD com.github.javaparser.symbolsolver.model.typesystem.Wildcard.BoundType com.github.javaparser.symbolsolver.model.typesystem.Wildcard.type
 REFERENCE_USAGE java.lang.String com.github.javaparser.symbolsolver.model.typesystem.Wildcard.describe() -> com.github.javaparser.symbolsolver.model.typesystem.Wildcard.BoundType com.github.javaparser.symbolsolver.model.typesystem.Wildcard.type [Wildcard.java <100:20 100:23>]
-SYMBOL_FIELD com.github.javaparser.symbolsolver.model.typesystem.Wildcard.BoundType.EXTENDS
+QUALIFIER: com.github.javaparser.symbolsolver.model.typesystem.Wildcard.BoundType [Wildcard.java <100:28 100:36>]
 REFERENCE_USAGE java.lang.String com.github.javaparser.symbolsolver.model.typesystem.Wildcard.describe() -> com.github.javaparser.symbolsolver.model.typesystem.Wildcard.BoundType.EXTENDS [Wildcard.java <100:38 100:44>]
 LOCAL_SYMBOL: Wildcard.java<100:47> [Wildcard.java <100:47 100:47>]
 LOCAL_SYMBOL: Wildcard.java<100:47> [Wildcard.java <102:9 102:9>]
-SYMBOL_METHOD java.lang.String com.github.javaparser.symbolsolver.model.typesystem.Type.describe()
 REFERENCE_CALL java.lang.String com.github.javaparser.symbolsolver.model.typesystem.Wildcard.describe() -> java.lang.String com.github.javaparser.symbolsolver.model.typesystem.Type.describe() [Wildcard.java <101:47 101:54>]
-SYMBOL_FIELD com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.model.typesystem.Wildcard.boundedType
 REFERENCE_USAGE java.lang.String com.github.javaparser.symbolsolver.model.typesystem.Wildcard.describe() -> com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.model.typesystem.Wildcard.boundedType [Wildcard.java <101:35 101:45>]
 LOCAL_SYMBOL: Wildcard.java<102:16> [Wildcard.java <102:16 102:16>]
 LOCAL_SYMBOL: Wildcard.java<102:16> [Wildcard.java <104:9 104:9>]
@@ -191,25 +182,20 @@ SYMBOL_METHOD java.lang.UnsupportedOperationException.UnsupportedOperationExcept
 REFERENCE_CALL java.lang.String com.github.javaparser.symbolsolver.model.typesystem.Wildcard.describe() -> java.lang.UnsupportedOperationException.UnsupportedOperationException() [Wildcard.java <103:23 103:51>]
 REFERENCE_TYPE_USAGE java.lang.String com.github.javaparser.symbolsolver.model.typesystem.Wildcard.describe() -> java.lang.UnsupportedOperationException [Wildcard.java <103:23 103:51>]
 SYMBOL_METHOD public boolean com.github.javaparser.symbolsolver.model.typesystem.Wildcard.isSuper() [Wildcard.java <107:5 <107:20 107:26> 109:5>]
-SYMBOL_BUILTIN_TYPE boolean
 REFERENCE_TYPE_USAGE boolean com.github.javaparser.symbolsolver.model.typesystem.Wildcard.isSuper() -> boolean [Wildcard.java <107:12 107:18>]
 LOCAL_SYMBOL: Wildcard.java<107:30> [Wildcard.java <107:30 107:30>]
 LOCAL_SYMBOL: Wildcard.java<107:30> [Wildcard.java <109:5 109:5>]
-SYMBOL_FIELD com.github.javaparser.symbolsolver.model.typesystem.Wildcard.BoundType com.github.javaparser.symbolsolver.model.typesystem.Wildcard.type
 REFERENCE_USAGE boolean com.github.javaparser.symbolsolver.model.typesystem.Wildcard.isSuper() -> com.github.javaparser.symbolsolver.model.typesystem.Wildcard.BoundType com.github.javaparser.symbolsolver.model.typesystem.Wildcard.type [Wildcard.java <108:16 108:19>]
-SYMBOL_FIELD com.github.javaparser.symbolsolver.model.typesystem.Wildcard.BoundType.SUPER
+QUALIFIER: com.github.javaparser.symbolsolver.model.typesystem.Wildcard.BoundType [Wildcard.java <108:24 108:32>]
 REFERENCE_USAGE boolean com.github.javaparser.symbolsolver.model.typesystem.Wildcard.isSuper() -> com.github.javaparser.symbolsolver.model.typesystem.Wildcard.BoundType.SUPER [Wildcard.java <108:34 108:38>]
 SYMBOL_METHOD public boolean com.github.javaparser.symbolsolver.model.typesystem.Wildcard.isExtends() [Wildcard.java <111:5 <111:20 111:28> 113:5>]
-SYMBOL_BUILTIN_TYPE boolean
 REFERENCE_TYPE_USAGE boolean com.github.javaparser.symbolsolver.model.typesystem.Wildcard.isExtends() -> boolean [Wildcard.java <111:12 111:18>]
 LOCAL_SYMBOL: Wildcard.java<111:32> [Wildcard.java <111:32 111:32>]
 LOCAL_SYMBOL: Wildcard.java<111:32> [Wildcard.java <113:5 113:5>]
-SYMBOL_FIELD com.github.javaparser.symbolsolver.model.typesystem.Wildcard.BoundType com.github.javaparser.symbolsolver.model.typesystem.Wildcard.type
 REFERENCE_USAGE boolean com.github.javaparser.symbolsolver.model.typesystem.Wildcard.isExtends() -> com.github.javaparser.symbolsolver.model.typesystem.Wildcard.BoundType com.github.javaparser.symbolsolver.model.typesystem.Wildcard.type [Wildcard.java <112:16 112:19>]
-SYMBOL_FIELD com.github.javaparser.symbolsolver.model.typesystem.Wildcard.BoundType.EXTENDS
+QUALIFIER: com.github.javaparser.symbolsolver.model.typesystem.Wildcard.BoundType [Wildcard.java <112:24 112:32>]
 REFERENCE_USAGE boolean com.github.javaparser.symbolsolver.model.typesystem.Wildcard.isExtends() -> com.github.javaparser.symbolsolver.model.typesystem.Wildcard.BoundType.EXTENDS [Wildcard.java <112:34 112:40>]
 SYMBOL_METHOD public boolean com.github.javaparser.symbolsolver.model.typesystem.Wildcard.isBounded() [Wildcard.java <115:5 <115:20 115:28> 117:5>]
-SYMBOL_BUILTIN_TYPE boolean
 REFERENCE_TYPE_USAGE boolean com.github.javaparser.symbolsolver.model.typesystem.Wildcard.isBounded() -> boolean [Wildcard.java <115:12 115:18>]
 LOCAL_SYMBOL: Wildcard.java<115:32> [Wildcard.java <115:32 115:32>]
 LOCAL_SYMBOL: Wildcard.java<115:32> [Wildcard.java <117:5 117:5>]
@@ -221,42 +207,34 @@ SYMBOL_METHOD public com.github.javaparser.symbolsolver.model.typesystem.Type co
 REFERENCE_TYPE_USAGE com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.model.typesystem.Wildcard.getBoundedType() -> com.github.javaparser.symbolsolver.model.typesystem.Type [Wildcard.java <119:12 119:15>]
 LOCAL_SYMBOL: Wildcard.java<119:34> [Wildcard.java <119:34 119:34>]
 LOCAL_SYMBOL: Wildcard.java<119:34> [Wildcard.java <124:5 124:5>]
-SYMBOL_FIELD com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.model.typesystem.Wildcard.boundedType
 REFERENCE_USAGE com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.model.typesystem.Wildcard.getBoundedType() -> com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.model.typesystem.Wildcard.boundedType [Wildcard.java <120:13 120:23>]
 LOCAL_SYMBOL: Wildcard.java<120:34> [Wildcard.java <120:34 120:34>]
 LOCAL_SYMBOL: Wildcard.java<120:34> [Wildcard.java <122:9 122:9>]
 SYMBOL_METHOD java.lang.IllegalStateException.IllegalStateException()
 REFERENCE_CALL com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.model.typesystem.Wildcard.getBoundedType() -> java.lang.IllegalStateException.IllegalStateException() [Wildcard.java <121:23 121:43>]
 REFERENCE_TYPE_USAGE com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.model.typesystem.Wildcard.getBoundedType() -> java.lang.IllegalStateException [Wildcard.java <121:23 121:43>]
-SYMBOL_FIELD com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.model.typesystem.Wildcard.boundedType
 REFERENCE_USAGE com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.model.typesystem.Wildcard.getBoundedType() -> com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.model.typesystem.Wildcard.boundedType [Wildcard.java <123:16 123:26>]
 SYMBOL_METHOD public boolean com.github.javaparser.symbolsolver.model.typesystem.Wildcard.isAssignableBy(com.github.javaparser.symbolsolver.model.typesystem.Type) [Wildcard.java <126:5 <127:20 127:33> 138:5>]
 SYMBOL_METHOD boolean com.github.javaparser.symbolsolver.model.typesystem.Type.isAssignableBy(com.github.javaparser.symbolsolver.model.typesystem.Type)
 REFERENCE_OVERRIDE boolean com.github.javaparser.symbolsolver.model.typesystem.Wildcard.isAssignableBy(com.github.javaparser.symbolsolver.model.typesystem.Type) -> boolean com.github.javaparser.symbolsolver.model.typesystem.Type.isAssignableBy(com.github.javaparser.symbolsolver.model.typesystem.Type) [Wildcard.java <127:20 127:33>]
-SYMBOL_BUILTIN_TYPE boolean
 REFERENCE_TYPE_USAGE boolean com.github.javaparser.symbolsolver.model.typesystem.Wildcard.isAssignableBy(com.github.javaparser.symbolsolver.model.typesystem.Type) -> boolean [Wildcard.java <127:12 127:18>]
 REFERENCE_TYPE_USAGE boolean com.github.javaparser.symbolsolver.model.typesystem.Wildcard.isAssignableBy(com.github.javaparser.symbolsolver.model.typesystem.Type) -> com.github.javaparser.symbolsolver.model.typesystem.Type [Wildcard.java <127:35 127:38>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.model.typesystem.Wildcard.isAssignableBy<0> [Wildcard.java <127:40 127:44>]
 LOCAL_SYMBOL: Wildcard.java<127:47> [Wildcard.java <127:47 127:47>]
 LOCAL_SYMBOL: Wildcard.java<127:47> [Wildcard.java <138:5 138:5>]
-SYMBOL_FIELD com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.model.typesystem.Wildcard.boundedType
 REFERENCE_USAGE boolean com.github.javaparser.symbolsolver.model.typesystem.Wildcard.isAssignableBy(com.github.javaparser.symbolsolver.model.typesystem.Type) -> com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.model.typesystem.Wildcard.boundedType [Wildcard.java <128:13 128:23>]
 LOCAL_SYMBOL: Wildcard.java<128:34> [Wildcard.java <128:34 128:34>]
 LOCAL_SYMBOL: Wildcard.java<128:34> [Wildcard.java <131:9 131:9>]
-SYMBOL_FIELD com.github.javaparser.symbolsolver.model.typesystem.Wildcard.BoundType com.github.javaparser.symbolsolver.model.typesystem.Wildcard.type
 REFERENCE_USAGE boolean com.github.javaparser.symbolsolver.model.typesystem.Wildcard.isAssignableBy(com.github.javaparser.symbolsolver.model.typesystem.Type) -> com.github.javaparser.symbolsolver.model.typesystem.Wildcard.BoundType com.github.javaparser.symbolsolver.model.typesystem.Wildcard.type [Wildcard.java <131:20 131:23>]
-SYMBOL_FIELD com.github.javaparser.symbolsolver.model.typesystem.Wildcard.BoundType.SUPER
+QUALIFIER: com.github.javaparser.symbolsolver.model.typesystem.Wildcard.BoundType [Wildcard.java <131:28 131:36>]
 REFERENCE_USAGE boolean com.github.javaparser.symbolsolver.model.typesystem.Wildcard.isAssignableBy(com.github.javaparser.symbolsolver.model.typesystem.Type) -> com.github.javaparser.symbolsolver.model.typesystem.Wildcard.BoundType.SUPER [Wildcard.java <131:38 131:42>]
 LOCAL_SYMBOL: Wildcard.java<131:45> [Wildcard.java <131:45 131:45>]
 LOCAL_SYMBOL: Wildcard.java<131:45> [Wildcard.java <133:9 133:9>]
-SYMBOL_METHOD boolean com.github.javaparser.symbolsolver.model.typesystem.Type.isAssignableBy(com.github.javaparser.symbolsolver.model.typesystem.Type)
 REFERENCE_CALL boolean com.github.javaparser.symbolsolver.model.typesystem.Wildcard.isAssignableBy(com.github.javaparser.symbolsolver.model.typesystem.Type) -> boolean com.github.javaparser.symbolsolver.model.typesystem.Type.isAssignableBy(com.github.javaparser.symbolsolver.model.typesystem.Type) [Wildcard.java <132:32 132:45>]
-SYMBOL_FIELD com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.model.typesystem.Wildcard.boundedType
 REFERENCE_USAGE boolean com.github.javaparser.symbolsolver.model.typesystem.Wildcard.isAssignableBy(com.github.javaparser.symbolsolver.model.typesystem.Type) -> com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.model.typesystem.Wildcard.boundedType [Wildcard.java <132:20 132:30>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.model.typesystem.Wildcard.isAssignableBy<0> [Wildcard.java <132:47 132:51>]
-SYMBOL_FIELD com.github.javaparser.symbolsolver.model.typesystem.Wildcard.BoundType com.github.javaparser.symbolsolver.model.typesystem.Wildcard.type
 REFERENCE_USAGE boolean com.github.javaparser.symbolsolver.model.typesystem.Wildcard.isAssignableBy(com.github.javaparser.symbolsolver.model.typesystem.Type) -> com.github.javaparser.symbolsolver.model.typesystem.Wildcard.BoundType com.github.javaparser.symbolsolver.model.typesystem.Wildcard.type [Wildcard.java <133:20 133:23>]
-SYMBOL_FIELD com.github.javaparser.symbolsolver.model.typesystem.Wildcard.BoundType.EXTENDS
+QUALIFIER: com.github.javaparser.symbolsolver.model.typesystem.Wildcard.BoundType [Wildcard.java <133:28 133:36>]
 REFERENCE_USAGE boolean com.github.javaparser.symbolsolver.model.typesystem.Wildcard.isAssignableBy(com.github.javaparser.symbolsolver.model.typesystem.Type) -> com.github.javaparser.symbolsolver.model.typesystem.Wildcard.BoundType.EXTENDS [Wildcard.java <133:38 133:44>]
 LOCAL_SYMBOL: Wildcard.java<133:47> [Wildcard.java <133:47 133:47>]
 LOCAL_SYMBOL: Wildcard.java<133:47> [Wildcard.java <135:9 135:9>]
@@ -282,18 +260,14 @@ LOCAL_SYMBOL: Wildcard.java<141:142> [Wildcard.java <157:5 157:5>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.model.typesystem.Wildcard.replaceTypeVariables<1> [Wildcard.java <142:13 142:20>]
 LOCAL_SYMBOL: Wildcard.java<142:31> [Wildcard.java <142:31 142:31>]
 LOCAL_SYMBOL: Wildcard.java<142:31> [Wildcard.java <144:9 144:9>]
-SYMBOL_METHOD java.lang.IllegalArgumentException.IllegalArgumentException()
 REFERENCE_CALL com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.model.typesystem.Wildcard.replaceTypeVariables(com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration, com.github.javaparser.symbolsolver.model.typesystem.Type, java.util.Map<com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration, com.github.javaparser.symbolsolver.model.typesystem.Type>) -> java.lang.IllegalArgumentException.IllegalArgumentException() [Wildcard.java <143:23 143:46>]
 REFERENCE_TYPE_USAGE com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.model.typesystem.Wildcard.replaceTypeVariables(com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration, com.github.javaparser.symbolsolver.model.typesystem.Type, java.util.Map<com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration, com.github.javaparser.symbolsolver.model.typesystem.Type>) -> java.lang.IllegalArgumentException [Wildcard.java <143:23 143:46>]
-SYMBOL_FIELD com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.model.typesystem.Wildcard.boundedType
 REFERENCE_USAGE com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.model.typesystem.Wildcard.replaceTypeVariables(com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration, com.github.javaparser.symbolsolver.model.typesystem.Type, java.util.Map<com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration, com.github.javaparser.symbolsolver.model.typesystem.Type>) -> com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.model.typesystem.Wildcard.boundedType [Wildcard.java <145:13 145:23>]
 LOCAL_SYMBOL: Wildcard.java<145:34> [Wildcard.java <145:34 145:34>]
 LOCAL_SYMBOL: Wildcard.java<145:34> [Wildcard.java <147:9 147:9>]
 REFERENCE_TYPE_USAGE com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.model.typesystem.Wildcard.replaceTypeVariables(com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration, com.github.javaparser.symbolsolver.model.typesystem.Type, java.util.Map<com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration, com.github.javaparser.symbolsolver.model.typesystem.Type>) -> com.github.javaparser.symbolsolver.model.typesystem.Type [Wildcard.java <148:9 148:12>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.model.typesystem.Wildcard.replaceTypeVariables<3> [Wildcard.java <148:14 148:32>]
-SYMBOL_METHOD com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.model.typesystem.Type.replaceTypeVariables(com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration, com.github.javaparser.symbolsolver.model.typesystem.Type, java.util.Map<com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration, com.github.javaparser.symbolsolver.model.typesystem.Type>)
 REFERENCE_CALL com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.model.typesystem.Wildcard.replaceTypeVariables(com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration, com.github.javaparser.symbolsolver.model.typesystem.Type, java.util.Map<com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration, com.github.javaparser.symbolsolver.model.typesystem.Type>) -> com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.model.typesystem.Type.replaceTypeVariables(com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration, com.github.javaparser.symbolsolver.model.typesystem.Type, java.util.Map<com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration, com.github.javaparser.symbolsolver.model.typesystem.Type>) [Wildcard.java <148:48 148:67>]
-SYMBOL_FIELD com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.model.typesystem.Wildcard.boundedType
 REFERENCE_USAGE com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.model.typesystem.Wildcard.replaceTypeVariables(com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration, com.github.javaparser.symbolsolver.model.typesystem.Type, java.util.Map<com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration, com.github.javaparser.symbolsolver.model.typesystem.Type>) -> com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.model.typesystem.Wildcard.boundedType [Wildcard.java <148:36 148:46>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.model.typesystem.Wildcard.replaceTypeVariables<0> [Wildcard.java <148:69 148:79>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.model.typesystem.Wildcard.replaceTypeVariables<1> [Wildcard.java <148:82 148:89>]
@@ -301,18 +275,14 @@ LOCAL_SYMBOL: com.github.javaparser.symbolsolver.model.typesystem.Wildcard.repla
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.model.typesystem.Wildcard.replaceTypeVariables<3> [Wildcard.java <149:13 149:31>]
 LOCAL_SYMBOL: Wildcard.java<149:42> [Wildcard.java <149:42 149:42>]
 LOCAL_SYMBOL: Wildcard.java<149:42> [Wildcard.java <151:9 151:9>]
-SYMBOL_METHOD java.lang.RuntimeException.RuntimeException()
 REFERENCE_CALL com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.model.typesystem.Wildcard.replaceTypeVariables(com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration, com.github.javaparser.symbolsolver.model.typesystem.Type, java.util.Map<com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration, com.github.javaparser.symbolsolver.model.typesystem.Type>) -> java.lang.RuntimeException.RuntimeException() [Wildcard.java <150:23 150:38>]
 REFERENCE_TYPE_USAGE com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.model.typesystem.Wildcard.replaceTypeVariables(com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration, com.github.javaparser.symbolsolver.model.typesystem.Type, java.util.Map<com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration, com.github.javaparser.symbolsolver.model.typesystem.Type>) -> java.lang.RuntimeException [Wildcard.java <150:23 150:38>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.model.typesystem.Wildcard.replaceTypeVariables<3> [Wildcard.java <152:13 152:31>]
-SYMBOL_FIELD com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.model.typesystem.Wildcard.boundedType
 REFERENCE_USAGE com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.model.typesystem.Wildcard.replaceTypeVariables(com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration, com.github.javaparser.symbolsolver.model.typesystem.Type, java.util.Map<com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration, com.github.javaparser.symbolsolver.model.typesystem.Type>) -> com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.model.typesystem.Wildcard.boundedType [Wildcard.java <152:36 152:46>]
 LOCAL_SYMBOL: Wildcard.java<152:49> [Wildcard.java <152:49 152:49>]
 LOCAL_SYMBOL: Wildcard.java<152:49> [Wildcard.java <154:9 154:9>]
-SYMBOL_METHOD com.github.javaparser.symbolsolver.model.typesystem.Wildcard.Wildcard(com.github.javaparser.symbolsolver.model.typesystem.Wildcard.BoundType, com.github.javaparser.symbolsolver.model.typesystem.Type)
 REFERENCE_CALL com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.model.typesystem.Wildcard.replaceTypeVariables(com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration, com.github.javaparser.symbolsolver.model.typesystem.Type, java.util.Map<com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration, com.github.javaparser.symbolsolver.model.typesystem.Type>) -> com.github.javaparser.symbolsolver.model.typesystem.Wildcard.Wildcard(com.github.javaparser.symbolsolver.model.typesystem.Wildcard.BoundType, com.github.javaparser.symbolsolver.model.typesystem.Type) [Wildcard.java <153:24 153:31>]
 REFERENCE_TYPE_USAGE com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.model.typesystem.Wildcard.replaceTypeVariables(com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration, com.github.javaparser.symbolsolver.model.typesystem.Type, java.util.Map<com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration, com.github.javaparser.symbolsolver.model.typesystem.Type>) -> com.github.javaparser.symbolsolver.model.typesystem.Wildcard [Wildcard.java <153:24 153:31>]
-SYMBOL_FIELD com.github.javaparser.symbolsolver.model.typesystem.Wildcard.BoundType com.github.javaparser.symbolsolver.model.typesystem.Wildcard.type
 REFERENCE_USAGE com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.model.typesystem.Wildcard.replaceTypeVariables(com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration, com.github.javaparser.symbolsolver.model.typesystem.Type, java.util.Map<com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration, com.github.javaparser.symbolsolver.model.typesystem.Type>) -> com.github.javaparser.symbolsolver.model.typesystem.Wildcard.BoundType com.github.javaparser.symbolsolver.model.typesystem.Wildcard.type [Wildcard.java <153:33 153:36>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.model.typesystem.Wildcard.replaceTypeVariables<3> [Wildcard.java <153:39 153:57>]
 LOCAL_SYMBOL: Wildcard.java<154:16> [Wildcard.java <154:16 154:16>]

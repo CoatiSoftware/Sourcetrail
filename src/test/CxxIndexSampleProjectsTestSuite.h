@@ -8,6 +8,7 @@
 #include "helper/DumpParserClient.h"
 #include "settings/ApplicationSettings.h"
 #include "utility/file/FileRegister.h"
+#include "utility/text/TextAccess.h"
 #include "utility/utility.h"
 #include "utility/utilityString.h"
 
@@ -146,6 +147,6 @@ private:
 
 		parser.buildIndex(command);
 
-		return TextAccess::createFromString(parserClient->m_dump);
+		return TextAccess::createFromString(parserClient->m_lines);
 	}
 };

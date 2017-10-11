@@ -1,14 +1,27 @@
 FILE: TypeVariable.java
-SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model.typesystem [TypeVariable.java <17:9 17:59>]
+SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model.typesystem [TypeVariable.java <17:50 17:59>]
 SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model
 SYMBOL_PACKAGE com.github.javaparser.symbolsolver
 SYMBOL_PACKAGE com.github.javaparser
 SYMBOL_PACKAGE com.github
 SYMBOL_PACKAGE com
-REFERENCE_IMPORT TypeVariable.java -> com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration [TypeVariable.java <19:8 19:85>]
+QUALIFIER: com.github.javaparser.symbolsolver.model [TypeVariable.java <17:44 17:48>]
+QUALIFIER: com.github.javaparser.symbolsolver [TypeVariable.java <17:31 17:42>]
+QUALIFIER: com.github.javaparser [TypeVariable.java <17:20 17:29>]
+QUALIFIER: com.github [TypeVariable.java <17:13 17:18>]
+QUALIFIER: com [TypeVariable.java <17:9 17:11>]
+REFERENCE_IMPORT TypeVariable.java -> com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration [TypeVariable.java <19:62 19:85>]
 SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model.declarations
-REFERENCE_IMPORT TypeVariable.java -> java.util.Map<K, V> [TypeVariable.java <21:8 21:20>]
+QUALIFIER: com.github.javaparser.symbolsolver.model.declarations [TypeVariable.java <19:49 19:60>]
+QUALIFIER: com.github.javaparser.symbolsolver.model [TypeVariable.java <19:43 19:47>]
+QUALIFIER: com.github.javaparser.symbolsolver [TypeVariable.java <19:30 19:41>]
+QUALIFIER: com.github.javaparser [TypeVariable.java <19:19 19:28>]
+QUALIFIER: com.github [TypeVariable.java <19:12 19:17>]
+QUALIFIER: com [TypeVariable.java <19:8 19:10>]
+REFERENCE_IMPORT TypeVariable.java -> java.util.Map<K, V> [TypeVariable.java <21:18 21:20>]
 SYMBOL_PACKAGE java.util
+QUALIFIER: java.util [TypeVariable.java <21:13 21:16>]
+QUALIFIER: java [TypeVariable.java <21:8 21:11>]
 SYMBOL_CLASS public com.github.javaparser.symbolsolver.model.typesystem.TypeVariable [TypeVariable.java <29:1 <29:14 29:25> 119:1>]
 LOCAL_SYMBOL: TypeVariable.java<29:43> [TypeVariable.java <29:43 29:43>]
 LOCAL_SYMBOL: TypeVariable.java<29:43> [TypeVariable.java <119:1 119:1>]
@@ -21,6 +34,7 @@ REFERENCE_TYPE_USAGE com.github.javaparser.symbolsolver.model.typesystem.TypeVar
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.model.typesystem.TypeVariable.TypeVariable<0> [TypeVariable.java <33:50 33:62>]
 LOCAL_SYMBOL: TypeVariable.java<33:65> [TypeVariable.java <33:65 33:65>]
 LOCAL_SYMBOL: TypeVariable.java<33:65> [TypeVariable.java <35:5 35:5>]
+QUALIFIER: com.github.javaparser.symbolsolver.model.typesystem.TypeVariable [TypeVariable.java <34:9 34:12>]
 SYMBOL_FIELD com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration com.github.javaparser.symbolsolver.model.typesystem.TypeVariable.typeParameter
 REFERENCE_USAGE com.github.javaparser.symbolsolver.model.typesystem.TypeVariable.TypeVariable(com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration) -> com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration com.github.javaparser.symbolsolver.model.typesystem.TypeVariable.typeParameter [TypeVariable.java <34:14 34:26>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.model.typesystem.TypeVariable.TypeVariable<0> [TypeVariable.java <34:30 34:42>]
@@ -32,15 +46,13 @@ LOCAL_SYMBOL: TypeVariable.java<38:30> [TypeVariable.java <38:30 38:30>]
 LOCAL_SYMBOL: TypeVariable.java<38:30> [TypeVariable.java <40:5 40:5>]
 SYMBOL_METHOD java.lang.String com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration.getQualifiedName()
 REFERENCE_CALL java.lang.String com.github.javaparser.symbolsolver.model.typesystem.TypeVariable.toString() -> java.lang.String com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration.getQualifiedName() [TypeVariable.java <39:49 39:64>]
-SYMBOL_FIELD com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration com.github.javaparser.symbolsolver.model.typesystem.TypeVariable.typeParameter
 REFERENCE_USAGE java.lang.String com.github.javaparser.symbolsolver.model.typesystem.TypeVariable.toString() -> com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration com.github.javaparser.symbolsolver.model.typesystem.TypeVariable.typeParameter [TypeVariable.java <39:35 39:47>]
 SYMBOL_METHOD public java.lang.String com.github.javaparser.symbolsolver.model.typesystem.TypeVariable.qualifiedName() [TypeVariable.java <42:5 <42:19 42:31> 44:5>]
 REFERENCE_TYPE_USAGE java.lang.String com.github.javaparser.symbolsolver.model.typesystem.TypeVariable.qualifiedName() -> java.lang.String [TypeVariable.java <42:12 42:17>]
 LOCAL_SYMBOL: TypeVariable.java<42:35> [TypeVariable.java <42:35 42:35>]
 LOCAL_SYMBOL: TypeVariable.java<42:35> [TypeVariable.java <44:5 44:5>]
-SYMBOL_METHOD java.lang.String com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration.getQualifiedName()
 REFERENCE_CALL java.lang.String com.github.javaparser.symbolsolver.model.typesystem.TypeVariable.qualifiedName() -> java.lang.String com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration.getQualifiedName() [TypeVariable.java <43:35 43:50>]
-SYMBOL_FIELD com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration com.github.javaparser.symbolsolver.model.typesystem.TypeVariable.typeParameter
+QUALIFIER: com.github.javaparser.symbolsolver.model.typesystem.TypeVariable [TypeVariable.java <43:16 43:19>]
 REFERENCE_USAGE java.lang.String com.github.javaparser.symbolsolver.model.typesystem.TypeVariable.qualifiedName() -> com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration com.github.javaparser.symbolsolver.model.typesystem.TypeVariable.typeParameter [TypeVariable.java <43:21 43:33>]
 SYMBOL_METHOD public boolean com.github.javaparser.symbolsolver.model.typesystem.TypeVariable.equals(java.lang.Object) [TypeVariable.java <46:5 <47:20 47:25> 58:5>]
 SYMBOL_METHOD boolean java.lang.Object.equals(java.lang.Object)
@@ -55,7 +67,6 @@ LOCAL_SYMBOL: com.github.javaparser.symbolsolver.model.typesystem.TypeVariable.e
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.model.typesystem.TypeVariable.equals<0> [TypeVariable.java <49:13 49:13>]
 SYMBOL_METHOD java.lang.Class<?> java.lang.Object.getClass()
 REFERENCE_CALL boolean com.github.javaparser.symbolsolver.model.typesystem.TypeVariable.equals(java.lang.Object) -> java.lang.Class<?> java.lang.Object.getClass() [TypeVariable.java <49:26 49:33>]
-SYMBOL_METHOD java.lang.Class<?> java.lang.Object.getClass()
 REFERENCE_CALL boolean com.github.javaparser.symbolsolver.model.typesystem.TypeVariable.equals(java.lang.Object) -> java.lang.Class<?> java.lang.Object.getClass() [TypeVariable.java <49:42 49:49>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.model.typesystem.TypeVariable.equals<0> [TypeVariable.java <49:40 49:40>]
 REFERENCE_TYPE_USAGE boolean com.github.javaparser.symbolsolver.model.typesystem.TypeVariable.equals(java.lang.Object) -> com.github.javaparser.symbolsolver.model.typesystem.TypeVariable [TypeVariable.java <51:9 51:20>]
@@ -66,30 +77,21 @@ SYMBOL_METHOD boolean java.lang.String.equals(java.lang.Object)
 REFERENCE_CALL boolean com.github.javaparser.symbolsolver.model.typesystem.TypeVariable.equals(java.lang.Object) -> boolean java.lang.String.equals(java.lang.Object) [TypeVariable.java <53:38 53:43>]
 SYMBOL_METHOD java.lang.String com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration.getName()
 REFERENCE_CALL boolean com.github.javaparser.symbolsolver.model.typesystem.TypeVariable.equals(java.lang.Object) -> java.lang.String com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration.getName() [TypeVariable.java <53:28 53:34>]
-SYMBOL_FIELD com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration com.github.javaparser.symbolsolver.model.typesystem.TypeVariable.typeParameter
 REFERENCE_USAGE boolean com.github.javaparser.symbolsolver.model.typesystem.TypeVariable.equals(java.lang.Object) -> com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration com.github.javaparser.symbolsolver.model.typesystem.TypeVariable.typeParameter [TypeVariable.java <53:14 53:26>]
-SYMBOL_METHOD java.lang.String com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration.getName()
 REFERENCE_CALL boolean com.github.javaparser.symbolsolver.model.typesystem.TypeVariable.equals(java.lang.Object) -> java.lang.String com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration.getName() [TypeVariable.java <53:64 53:70>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.model.typesystem.TypeVariable.equals<1> [TypeVariable.java <53:45 53:48>]
-SYMBOL_FIELD com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration com.github.javaparser.symbolsolver.model.typesystem.TypeVariable.typeParameter
 REFERENCE_USAGE boolean com.github.javaparser.symbolsolver.model.typesystem.TypeVariable.equals(java.lang.Object) -> com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration com.github.javaparser.symbolsolver.model.typesystem.TypeVariable.typeParameter [TypeVariable.java <53:50 53:62>]
 SYMBOL_METHOD boolean com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration.declaredOnType()
 REFERENCE_CALL boolean com.github.javaparser.symbolsolver.model.typesystem.TypeVariable.equals(java.lang.Object) -> boolean com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration.declaredOnType() [TypeVariable.java <54:27 54:40>]
-SYMBOL_FIELD com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration com.github.javaparser.symbolsolver.model.typesystem.TypeVariable.typeParameter
 REFERENCE_USAGE boolean com.github.javaparser.symbolsolver.model.typesystem.TypeVariable.equals(java.lang.Object) -> com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration com.github.javaparser.symbolsolver.model.typesystem.TypeVariable.typeParameter [TypeVariable.java <54:13 54:25>]
-SYMBOL_METHOD boolean com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration.declaredOnType()
 REFERENCE_CALL boolean com.github.javaparser.symbolsolver.model.typesystem.TypeVariable.equals(java.lang.Object) -> boolean com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration.declaredOnType() [TypeVariable.java <54:66 54:79>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.model.typesystem.TypeVariable.equals<1> [TypeVariable.java <54:47 54:50>]
-SYMBOL_FIELD com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration com.github.javaparser.symbolsolver.model.typesystem.TypeVariable.typeParameter
 REFERENCE_USAGE boolean com.github.javaparser.symbolsolver.model.typesystem.TypeVariable.equals(java.lang.Object) -> com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration com.github.javaparser.symbolsolver.model.typesystem.TypeVariable.typeParameter [TypeVariable.java <54:52 54:64>]
 SYMBOL_METHOD boolean com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration.declaredOnMethod()
 REFERENCE_CALL boolean com.github.javaparser.symbolsolver.model.typesystem.TypeVariable.equals(java.lang.Object) -> boolean com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration.declaredOnMethod() [TypeVariable.java <55:27 55:42>]
-SYMBOL_FIELD com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration com.github.javaparser.symbolsolver.model.typesystem.TypeVariable.typeParameter
 REFERENCE_USAGE boolean com.github.javaparser.symbolsolver.model.typesystem.TypeVariable.equals(java.lang.Object) -> com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration com.github.javaparser.symbolsolver.model.typesystem.TypeVariable.typeParameter [TypeVariable.java <55:13 55:25>]
-SYMBOL_METHOD boolean com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration.declaredOnMethod()
 REFERENCE_CALL boolean com.github.javaparser.symbolsolver.model.typesystem.TypeVariable.equals(java.lang.Object) -> boolean com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration.declaredOnMethod() [TypeVariable.java <55:68 55:83>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.model.typesystem.TypeVariable.equals<1> [TypeVariable.java <55:49 55:52>]
-SYMBOL_FIELD com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration com.github.javaparser.symbolsolver.model.typesystem.TypeVariable.typeParameter
 REFERENCE_USAGE boolean com.github.javaparser.symbolsolver.model.typesystem.TypeVariable.equals(java.lang.Object) -> com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration com.github.javaparser.symbolsolver.model.typesystem.TypeVariable.typeParameter [TypeVariable.java <55:54 55:66>]
 SYMBOL_METHOD public int com.github.javaparser.symbolsolver.model.typesystem.TypeVariable.hashCode() [TypeVariable.java <60:5 <61:16 61:23> 63:5>]
 SYMBOL_METHOD int java.lang.Object.hashCode()
@@ -98,21 +100,17 @@ SYMBOL_BUILTIN_TYPE int
 REFERENCE_TYPE_USAGE int com.github.javaparser.symbolsolver.model.typesystem.TypeVariable.hashCode() -> int [TypeVariable.java <61:12 61:14>]
 LOCAL_SYMBOL: TypeVariable.java<61:27> [TypeVariable.java <61:27 61:27>]
 LOCAL_SYMBOL: TypeVariable.java<61:27> [TypeVariable.java <63:5 63:5>]
-SYMBOL_METHOD int java.lang.Object.hashCode()
 REFERENCE_CALL int com.github.javaparser.symbolsolver.model.typesystem.TypeVariable.hashCode() -> int java.lang.Object.hashCode() [TypeVariable.java <62:30 62:37>]
-SYMBOL_FIELD com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration com.github.javaparser.symbolsolver.model.typesystem.TypeVariable.typeParameter
 REFERENCE_USAGE int com.github.javaparser.symbolsolver.model.typesystem.TypeVariable.hashCode() -> com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration com.github.javaparser.symbolsolver.model.typesystem.TypeVariable.typeParameter [TypeVariable.java <62:16 62:28>]
 SYMBOL_METHOD public boolean com.github.javaparser.symbolsolver.model.typesystem.TypeVariable.isArray() [TypeVariable.java <65:5 <66:20 66:26> 68:5>]
 SYMBOL_METHOD boolean com.github.javaparser.symbolsolver.model.typesystem.Type.isArray()
 REFERENCE_OVERRIDE boolean com.github.javaparser.symbolsolver.model.typesystem.TypeVariable.isArray() -> boolean com.github.javaparser.symbolsolver.model.typesystem.Type.isArray() [TypeVariable.java <66:20 66:26>]
-SYMBOL_BUILTIN_TYPE boolean
 REFERENCE_TYPE_USAGE boolean com.github.javaparser.symbolsolver.model.typesystem.TypeVariable.isArray() -> boolean [TypeVariable.java <66:12 66:18>]
 LOCAL_SYMBOL: TypeVariable.java<66:30> [TypeVariable.java <66:30 66:30>]
 LOCAL_SYMBOL: TypeVariable.java<66:30> [TypeVariable.java <68:5 68:5>]
 SYMBOL_METHOD public boolean com.github.javaparser.symbolsolver.model.typesystem.TypeVariable.isPrimitive() [TypeVariable.java <70:5 <71:20 71:30> 73:5>]
 SYMBOL_METHOD boolean com.github.javaparser.symbolsolver.model.typesystem.Type.isPrimitive()
 REFERENCE_OVERRIDE boolean com.github.javaparser.symbolsolver.model.typesystem.TypeVariable.isPrimitive() -> boolean com.github.javaparser.symbolsolver.model.typesystem.Type.isPrimitive() [TypeVariable.java <71:20 71:30>]
-SYMBOL_BUILTIN_TYPE boolean
 REFERENCE_TYPE_USAGE boolean com.github.javaparser.symbolsolver.model.typesystem.TypeVariable.isPrimitive() -> boolean [TypeVariable.java <71:12 71:18>]
 LOCAL_SYMBOL: TypeVariable.java<71:34> [TypeVariable.java <71:34 71:34>]
 LOCAL_SYMBOL: TypeVariable.java<71:34> [TypeVariable.java <73:5 73:5>]
@@ -130,14 +128,11 @@ REFERENCE_TYPE_ARGUMENT com.github.javaparser.symbolsolver.model.typesystem.Type
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.model.typesystem.TypeVariable.replaceTypeVariables<2> [TypeVariable.java <76:130 76:142>]
 LOCAL_SYMBOL: TypeVariable.java<76:145> [TypeVariable.java <76:145 76:145>]
 LOCAL_SYMBOL: TypeVariable.java<76:145> [TypeVariable.java <83:5 83:5>]
-SYMBOL_METHOD boolean java.lang.String.equals(java.lang.Object)
 REFERENCE_CALL com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.model.typesystem.TypeVariable.replaceTypeVariables(com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration, com.github.javaparser.symbolsolver.model.typesystem.Type, java.util.Map<com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration, com.github.javaparser.symbolsolver.model.typesystem.Type>) -> boolean java.lang.String.equals(java.lang.Object) [TypeVariable.java <77:37 77:42>]
-SYMBOL_METHOD java.lang.String com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration.getName()
 REFERENCE_CALL com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.model.typesystem.TypeVariable.replaceTypeVariables(com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration, com.github.javaparser.symbolsolver.model.typesystem.Type, java.util.Map<com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration, com.github.javaparser.symbolsolver.model.typesystem.Type>) -> java.lang.String com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration.getName() [TypeVariable.java <77:27 77:33>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.model.typesystem.TypeVariable.replaceTypeVariables<0> [TypeVariable.java <77:12 77:25>]
-SYMBOL_METHOD java.lang.String com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration.getName()
 REFERENCE_CALL com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.model.typesystem.TypeVariable.replaceTypeVariables(com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration, com.github.javaparser.symbolsolver.model.typesystem.Type, java.util.Map<com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration, com.github.javaparser.symbolsolver.model.typesystem.Type>) -> java.lang.String com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration.getName() [TypeVariable.java <77:63 77:69>]
-SYMBOL_FIELD com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration com.github.javaparser.symbolsolver.model.typesystem.TypeVariable.typeParameter
+QUALIFIER: com.github.javaparser.symbolsolver.model.typesystem.TypeVariable [TypeVariable.java <77:44 77:47>]
 REFERENCE_USAGE com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.model.typesystem.TypeVariable.replaceTypeVariables(com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration, com.github.javaparser.symbolsolver.model.typesystem.Type, java.util.Map<com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration, com.github.javaparser.symbolsolver.model.typesystem.Type>) -> com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration com.github.javaparser.symbolsolver.model.typesystem.TypeVariable.typeParameter [TypeVariable.java <77:49 77:61>]
 LOCAL_SYMBOL: TypeVariable.java<77:74> [TypeVariable.java <77:74 77:74>]
 LOCAL_SYMBOL: TypeVariable.java<77:74> [TypeVariable.java <80:9 80:9>]
@@ -146,6 +141,7 @@ REFERENCE_CALL com.github.javaparser.symbolsolver.model.typesystem.Type com.gith
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.model.typesystem.TypeVariable.replaceTypeVariables<2> [TypeVariable.java <78:13 78:25>]
 SYMBOL_METHOD com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration com.github.javaparser.symbolsolver.model.typesystem.TypeVariable.asTypeParameter()
 REFERENCE_CALL com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.model.typesystem.TypeVariable.replaceTypeVariables(com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration, com.github.javaparser.symbolsolver.model.typesystem.Type, java.util.Map<com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration, com.github.javaparser.symbolsolver.model.typesystem.Type>) -> com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration com.github.javaparser.symbolsolver.model.typesystem.TypeVariable.asTypeParameter() [TypeVariable.java <78:36 78:50>]
+QUALIFIER: com.github.javaparser.symbolsolver.model.typesystem.TypeVariable [TypeVariable.java <78:31 78:34>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.model.typesystem.TypeVariable.replaceTypeVariables<1> [TypeVariable.java <78:55 78:62>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.model.typesystem.TypeVariable.replaceTypeVariables<1> [TypeVariable.java <79:20 79:27>]
 LOCAL_SYMBOL: TypeVariable.java<80:16> [TypeVariable.java <80:16 80:16>]
@@ -153,7 +149,6 @@ LOCAL_SYMBOL: TypeVariable.java<80:16> [TypeVariable.java <82:9 82:9>]
 SYMBOL_METHOD public boolean com.github.javaparser.symbolsolver.model.typesystem.TypeVariable.isReferenceType() [TypeVariable.java <85:5 <86:20 86:34> 88:5>]
 SYMBOL_METHOD boolean com.github.javaparser.symbolsolver.model.typesystem.Type.isReferenceType()
 REFERENCE_OVERRIDE boolean com.github.javaparser.symbolsolver.model.typesystem.TypeVariable.isReferenceType() -> boolean com.github.javaparser.symbolsolver.model.typesystem.Type.isReferenceType() [TypeVariable.java <86:20 86:34>]
-SYMBOL_BUILTIN_TYPE boolean
 REFERENCE_TYPE_USAGE boolean com.github.javaparser.symbolsolver.model.typesystem.TypeVariable.isReferenceType() -> boolean [TypeVariable.java <86:12 86:18>]
 LOCAL_SYMBOL: TypeVariable.java<86:38> [TypeVariable.java <86:38 86:38>]
 LOCAL_SYMBOL: TypeVariable.java<86:38> [TypeVariable.java <88:5 88:5>]
@@ -163,9 +158,7 @@ REFERENCE_OVERRIDE java.lang.String com.github.javaparser.symbolsolver.model.typ
 REFERENCE_TYPE_USAGE java.lang.String com.github.javaparser.symbolsolver.model.typesystem.TypeVariable.describe() -> java.lang.String [TypeVariable.java <91:12 91:17>]
 LOCAL_SYMBOL: TypeVariable.java<91:30> [TypeVariable.java <91:30 91:30>]
 LOCAL_SYMBOL: TypeVariable.java<91:30> [TypeVariable.java <93:5 93:5>]
-SYMBOL_METHOD java.lang.String com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration.getName()
 REFERENCE_CALL java.lang.String com.github.javaparser.symbolsolver.model.typesystem.TypeVariable.describe() -> java.lang.String com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration.getName() [TypeVariable.java <92:30 92:36>]
-SYMBOL_FIELD com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration com.github.javaparser.symbolsolver.model.typesystem.TypeVariable.typeParameter
 REFERENCE_USAGE java.lang.String com.github.javaparser.symbolsolver.model.typesystem.TypeVariable.describe() -> com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration com.github.javaparser.symbolsolver.model.typesystem.TypeVariable.typeParameter [TypeVariable.java <92:16 92:28>]
 SYMBOL_METHOD public com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration com.github.javaparser.symbolsolver.model.typesystem.TypeVariable.asTypeParameter() [TypeVariable.java <95:5 <96:37 96:51> 98:5>]
 SYMBOL_METHOD com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration com.github.javaparser.symbolsolver.model.typesystem.Type.asTypeParameter()
@@ -173,7 +166,6 @@ REFERENCE_OVERRIDE com.github.javaparser.symbolsolver.model.declarations.TypePar
 REFERENCE_TYPE_USAGE com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration com.github.javaparser.symbolsolver.model.typesystem.TypeVariable.asTypeParameter() -> com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration [TypeVariable.java <96:12 96:35>]
 LOCAL_SYMBOL: TypeVariable.java<96:55> [TypeVariable.java <96:55 96:55>]
 LOCAL_SYMBOL: TypeVariable.java<96:55> [TypeVariable.java <98:5 98:5>]
-SYMBOL_FIELD com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration com.github.javaparser.symbolsolver.model.typesystem.TypeVariable.typeParameter
 REFERENCE_USAGE com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration com.github.javaparser.symbolsolver.model.typesystem.TypeVariable.asTypeParameter() -> com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration com.github.javaparser.symbolsolver.model.typesystem.TypeVariable.typeParameter [TypeVariable.java <97:16 97:28>]
 SYMBOL_METHOD public com.github.javaparser.symbolsolver.model.typesystem.TypeVariable com.github.javaparser.symbolsolver.model.typesystem.TypeVariable.asTypeVariable() [TypeVariable.java <100:5 <101:25 101:38> 103:5>]
 SYMBOL_METHOD com.github.javaparser.symbolsolver.model.typesystem.TypeVariable com.github.javaparser.symbolsolver.model.typesystem.Type.asTypeVariable()
@@ -184,29 +176,24 @@ LOCAL_SYMBOL: TypeVariable.java<101:42> [TypeVariable.java <103:5 103:5>]
 SYMBOL_METHOD public boolean com.github.javaparser.symbolsolver.model.typesystem.TypeVariable.isTypeVariable() [TypeVariable.java <105:5 <106:20 106:33> 108:5>]
 SYMBOL_METHOD boolean com.github.javaparser.symbolsolver.model.typesystem.Type.isTypeVariable()
 REFERENCE_OVERRIDE boolean com.github.javaparser.symbolsolver.model.typesystem.TypeVariable.isTypeVariable() -> boolean com.github.javaparser.symbolsolver.model.typesystem.Type.isTypeVariable() [TypeVariable.java <106:20 106:33>]
-SYMBOL_BUILTIN_TYPE boolean
 REFERENCE_TYPE_USAGE boolean com.github.javaparser.symbolsolver.model.typesystem.TypeVariable.isTypeVariable() -> boolean [TypeVariable.java <106:12 106:18>]
 LOCAL_SYMBOL: TypeVariable.java<106:37> [TypeVariable.java <106:37 106:37>]
 LOCAL_SYMBOL: TypeVariable.java<106:37> [TypeVariable.java <108:5 108:5>]
 SYMBOL_METHOD public boolean com.github.javaparser.symbolsolver.model.typesystem.TypeVariable.isAssignableBy(com.github.javaparser.symbolsolver.model.typesystem.Type) [TypeVariable.java <110:5 <111:20 111:33> 117:5>]
 SYMBOL_METHOD boolean com.github.javaparser.symbolsolver.model.typesystem.Type.isAssignableBy(com.github.javaparser.symbolsolver.model.typesystem.Type)
 REFERENCE_OVERRIDE boolean com.github.javaparser.symbolsolver.model.typesystem.TypeVariable.isAssignableBy(com.github.javaparser.symbolsolver.model.typesystem.Type) -> boolean com.github.javaparser.symbolsolver.model.typesystem.Type.isAssignableBy(com.github.javaparser.symbolsolver.model.typesystem.Type) [TypeVariable.java <111:20 111:33>]
-SYMBOL_BUILTIN_TYPE boolean
 REFERENCE_TYPE_USAGE boolean com.github.javaparser.symbolsolver.model.typesystem.TypeVariable.isAssignableBy(com.github.javaparser.symbolsolver.model.typesystem.Type) -> boolean [TypeVariable.java <111:12 111:18>]
 REFERENCE_TYPE_USAGE boolean com.github.javaparser.symbolsolver.model.typesystem.TypeVariable.isAssignableBy(com.github.javaparser.symbolsolver.model.typesystem.Type) -> com.github.javaparser.symbolsolver.model.typesystem.Type [TypeVariable.java <111:35 111:38>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.model.typesystem.TypeVariable.isAssignableBy<0> [TypeVariable.java <111:40 111:44>]
 LOCAL_SYMBOL: TypeVariable.java<111:47> [TypeVariable.java <111:47 111:47>]
 LOCAL_SYMBOL: TypeVariable.java<111:47> [TypeVariable.java <117:5 117:5>]
-SYMBOL_METHOD boolean com.github.javaparser.symbolsolver.model.typesystem.Type.isTypeVariable()
 REFERENCE_CALL boolean com.github.javaparser.symbolsolver.model.typesystem.TypeVariable.isAssignableBy(com.github.javaparser.symbolsolver.model.typesystem.Type) -> boolean com.github.javaparser.symbolsolver.model.typesystem.Type.isTypeVariable() [TypeVariable.java <112:19 112:32>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.model.typesystem.TypeVariable.isAssignableBy<0> [TypeVariable.java <112:13 112:17>]
 LOCAL_SYMBOL: TypeVariable.java<112:37> [TypeVariable.java <112:37 112:37>]
 LOCAL_SYMBOL: TypeVariable.java<112:37> [TypeVariable.java <114:9 114:9>]
-SYMBOL_METHOD boolean java.lang.String.equals(java.lang.Object)
 REFERENCE_CALL boolean com.github.javaparser.symbolsolver.model.typesystem.TypeVariable.isAssignableBy(com.github.javaparser.symbolsolver.model.typesystem.Type) -> boolean java.lang.String.equals(java.lang.Object) [TypeVariable.java <113:31 113:36>]
 SYMBOL_METHOD java.lang.String com.github.javaparser.symbolsolver.model.typesystem.TypeVariable.describe()
 REFERENCE_CALL boolean com.github.javaparser.symbolsolver.model.typesystem.TypeVariable.isAssignableBy(com.github.javaparser.symbolsolver.model.typesystem.Type) -> java.lang.String com.github.javaparser.symbolsolver.model.typesystem.TypeVariable.describe() [TypeVariable.java <113:20 113:27>]
-SYMBOL_METHOD java.lang.String com.github.javaparser.symbolsolver.model.typesystem.Type.describe()
 REFERENCE_CALL boolean com.github.javaparser.symbolsolver.model.typesystem.TypeVariable.isAssignableBy(com.github.javaparser.symbolsolver.model.typesystem.Type) -> java.lang.String com.github.javaparser.symbolsolver.model.typesystem.Type.describe() [TypeVariable.java <113:44 113:51>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.model.typesystem.TypeVariable.isAssignableBy<0> [TypeVariable.java <113:38 113:42>]
 LOCAL_SYMBOL: TypeVariable.java<114:16> [TypeVariable.java <114:16 114:16>]

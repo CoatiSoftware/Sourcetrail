@@ -288,6 +288,11 @@ bool QtCodeField::annotateText(
 
 		annotation.isFocused = utility::shareElement(focusedSymbolIds, annotation.tokenIds);
 
+		if (annotation.locationType == LOCATION_QUALIFIER)
+		{
+			annotation.isActive = false;
+		}
+
 		if (wasFocused != annotation.isFocused || wasActive != annotation.isActive)
 		{
 			m_linesToRehighlight.push_back(annotation.startLine - m_startLineNumber);
@@ -376,7 +381,7 @@ void QtCodeField::activateAnnotations(const std::vector<const Annotation*>& anno
 	bool allActive = true;
 	for (const Annotation* annotation : annotations)
 	{
-		if (annotation->locationType == LOCATION_TOKEN)
+		if (annotation->locationType == LOCATION_TOKEN || annotation->locationType == LOCATION_QUALIFIER)
 		{
 			if (!annotation->isActive)
 			{
@@ -614,7 +619,7 @@ std::vector<const QtCodeField::Annotation*> QtCodeField::getInteractiveAnnotatio
 	for (const Annotation& annotation : m_annotations)
 	{
 		const LocationType& type = annotation.locationType;
-		if ((type == LOCATION_TOKEN || type == LOCATION_LOCAL_SYMBOL || type == LOCATION_ERROR)
+		if ((type == LOCATION_TOKEN || type == LOCATION_QUALIFIER || type == LOCATION_LOCAL_SYMBOL || type == LOCATION_ERROR)
 			&& pos >= annotation.start && pos <= annotation.end)
 		{
 			annotations.push_back(&annotation);

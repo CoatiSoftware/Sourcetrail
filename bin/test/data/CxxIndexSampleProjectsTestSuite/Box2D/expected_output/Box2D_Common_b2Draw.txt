@@ -1,12 +1,11 @@
 FILE: b2Draw.cpp
-FILE: b2Draw.cpp
 COMMENT: comment [b2Draw.cpp <1:1 17:3>]
-FILE: b2Draw.cpp
 SYMBOL_METHOD public void b2Draw::b2Draw() [b2Draw.cpp <21:1 <21:9 21:14> 24:1>]
 SYMBOL_CLASS b2Draw
+QUALIFIER: b2Draw [b2Draw.cpp <21:1 21:6>]
 REFERENCE_USAGE void b2Draw::b2Draw() -> uint32 b2Draw::m_drawFlags [b2Draw.cpp <23:2 23:12>]
 SYMBOL_METHOD public void b2Draw::SetFlags(uint32) [b2Draw.cpp <26:1 <26:14 26:21> 29:1>]
-SYMBOL_CLASS b2Draw
+QUALIFIER: b2Draw [b2Draw.cpp <26:6 26:11>]
 SYMBOL_BUILTIN_TYPE void
 REFERENCE_TYPE_USAGE void b2Draw::SetFlags(uint32) -> void [b2Draw.cpp <26:1 26:4>]
 LOCAL_SYMBOL: b2Draw.cpp<26:30> [b2Draw.cpp <26:30 26:34>]
@@ -14,20 +13,18 @@ REFERENCE_TYPE_USAGE void b2Draw::SetFlags(uint32) -> uint32 [b2Draw.cpp <26:23 
 REFERENCE_USAGE void b2Draw::SetFlags(uint32) -> uint32 b2Draw::m_drawFlags [b2Draw.cpp <28:2 28:12>]
 LOCAL_SYMBOL: b2Draw.cpp<26:30> [b2Draw.cpp <28:16 28:20>]
 SYMBOL_METHOD public uint32 b2Draw::GetFlags() const [b2Draw.cpp <31:1 <31:16 31:23> 34:1>]
-SYMBOL_CLASS b2Draw
+QUALIFIER: b2Draw [b2Draw.cpp <31:8 31:13>]
 REFERENCE_TYPE_USAGE uint32 b2Draw::GetFlags() const -> uint32 [b2Draw.cpp <31:1 31:6>]
 REFERENCE_USAGE uint32 b2Draw::GetFlags() const -> uint32 b2Draw::m_drawFlags [b2Draw.cpp <33:9 33:19>]
 SYMBOL_METHOD public void b2Draw::AppendFlags(uint32) [b2Draw.cpp <36:1 <36:14 36:24> 39:1>]
-SYMBOL_CLASS b2Draw
-SYMBOL_BUILTIN_TYPE void
+QUALIFIER: b2Draw [b2Draw.cpp <36:6 36:11>]
 REFERENCE_TYPE_USAGE void b2Draw::AppendFlags(uint32) -> void [b2Draw.cpp <36:1 36:4>]
 LOCAL_SYMBOL: b2Draw.cpp<36:33> [b2Draw.cpp <36:33 36:37>]
 REFERENCE_TYPE_USAGE void b2Draw::AppendFlags(uint32) -> uint32 [b2Draw.cpp <36:26 36:31>]
 REFERENCE_USAGE void b2Draw::AppendFlags(uint32) -> uint32 b2Draw::m_drawFlags [b2Draw.cpp <38:2 38:12>]
 LOCAL_SYMBOL: b2Draw.cpp<36:33> [b2Draw.cpp <38:17 38:21>]
 SYMBOL_METHOD public void b2Draw::ClearFlags(uint32) [b2Draw.cpp <41:1 <41:14 41:23> 44:1>]
-SYMBOL_CLASS b2Draw
-SYMBOL_BUILTIN_TYPE void
+QUALIFIER: b2Draw [b2Draw.cpp <41:6 41:11>]
 REFERENCE_TYPE_USAGE void b2Draw::ClearFlags(uint32) -> void [b2Draw.cpp <41:1 41:4>]
 LOCAL_SYMBOL: b2Draw.cpp<41:32> [b2Draw.cpp <41:32 41:36>]
 REFERENCE_TYPE_USAGE void b2Draw::ClearFlags(uint32) -> uint32 [b2Draw.cpp <41:25 41:30>]

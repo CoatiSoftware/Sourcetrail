@@ -26,9 +26,13 @@ public abstract class AstVisitorClient
 			Range range,
 			Range scopeRange,
 			AccessKind access, DefinitionKind definitionKind);
-	
+
 	public abstract void recordReference(
 			ReferenceKind referenceKind, NameHierarchy referencedName, NameHierarchy contextName, 
+			Range range);
+
+	public abstract void recordQualifierLocation(
+			NameHierarchy qualifierName, 
 			Range range);
 		
 	public abstract void recordLocalSymbol(

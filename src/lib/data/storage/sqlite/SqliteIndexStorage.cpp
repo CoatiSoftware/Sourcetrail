@@ -5,7 +5,7 @@
 #include "utility/logging/logging.h"
 #include "utility/text/TextAccess.h"
 
-const size_t SqliteIndexStorage::s_storageVersion = 13;
+const size_t SqliteIndexStorage::s_storageVersion = 14;
 
 SqliteIndexStorage::SqliteIndexStorage(const FilePath& dbFilePath)
 	: SqliteStorage(dbFilePath.canonical())

@@ -1,14 +1,27 @@
 FILE: ClassDeclaration.java
-SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model.declarations [ClassDeclaration.java <17:9 17:61>]
+SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model.declarations [ClassDeclaration.java <17:50 17:61>]
 SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model
 SYMBOL_PACKAGE com.github.javaparser.symbolsolver
 SYMBOL_PACKAGE com.github.javaparser
 SYMBOL_PACKAGE com.github
 SYMBOL_PACKAGE com
-REFERENCE_IMPORT ClassDeclaration.java -> com.github.javaparser.symbolsolver.model.typesystem.ReferenceType [ClassDeclaration.java <19:8 19:72>]
+QUALIFIER: com.github.javaparser.symbolsolver.model [ClassDeclaration.java <17:44 17:48>]
+QUALIFIER: com.github.javaparser.symbolsolver [ClassDeclaration.java <17:31 17:42>]
+QUALIFIER: com.github.javaparser [ClassDeclaration.java <17:20 17:29>]
+QUALIFIER: com.github [ClassDeclaration.java <17:13 17:18>]
+QUALIFIER: com [ClassDeclaration.java <17:9 17:11>]
+REFERENCE_IMPORT ClassDeclaration.java -> com.github.javaparser.symbolsolver.model.typesystem.ReferenceType [ClassDeclaration.java <19:60 19:72>]
 SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model.typesystem
-REFERENCE_IMPORT ClassDeclaration.java -> java.util.List<E> [ClassDeclaration.java <21:8 21:21>]
+QUALIFIER: com.github.javaparser.symbolsolver.model.typesystem [ClassDeclaration.java <19:49 19:58>]
+QUALIFIER: com.github.javaparser.symbolsolver.model [ClassDeclaration.java <19:43 19:47>]
+QUALIFIER: com.github.javaparser.symbolsolver [ClassDeclaration.java <19:30 19:41>]
+QUALIFIER: com.github.javaparser [ClassDeclaration.java <19:19 19:28>]
+QUALIFIER: com.github [ClassDeclaration.java <19:12 19:17>]
+QUALIFIER: com [ClassDeclaration.java <19:8 19:10>]
+REFERENCE_IMPORT ClassDeclaration.java -> java.util.List<E> [ClassDeclaration.java <21:18 21:21>]
 SYMBOL_PACKAGE java.util
+QUALIFIER: java.util [ClassDeclaration.java <21:13 21:16>]
+QUALIFIER: java [ClassDeclaration.java <21:8 21:11>]
 SYMBOL_INTERFACE public com.github.javaparser.symbolsolver.model.declarations.ClassDeclaration [ClassDeclaration.java <28:1 <28:18 28:33> 79:1>]
 LOCAL_SYMBOL: ClassDeclaration.java<28:104> [ClassDeclaration.java <28:104 28:104>]
 LOCAL_SYMBOL: ClassDeclaration.java<28:104> [ClassDeclaration.java <79:1 79:1>]

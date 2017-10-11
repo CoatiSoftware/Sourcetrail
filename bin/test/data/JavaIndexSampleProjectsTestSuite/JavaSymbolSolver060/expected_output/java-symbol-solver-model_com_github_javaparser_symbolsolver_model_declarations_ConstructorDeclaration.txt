@@ -1,10 +1,15 @@
 FILE: ConstructorDeclaration.java
-SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model.declarations [ConstructorDeclaration.java <17:9 17:61>]
+SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model.declarations [ConstructorDeclaration.java <17:50 17:61>]
 SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model
 SYMBOL_PACKAGE com.github.javaparser.symbolsolver
 SYMBOL_PACKAGE com.github.javaparser
 SYMBOL_PACKAGE com.github
 SYMBOL_PACKAGE com
+QUALIFIER: com.github.javaparser.symbolsolver.model [ConstructorDeclaration.java <17:44 17:48>]
+QUALIFIER: com.github.javaparser.symbolsolver [ConstructorDeclaration.java <17:31 17:42>]
+QUALIFIER: com.github.javaparser [ConstructorDeclaration.java <17:20 17:29>]
+QUALIFIER: com.github [ConstructorDeclaration.java <17:13 17:18>]
+QUALIFIER: com [ConstructorDeclaration.java <17:9 17:11>]
 SYMBOL_INTERFACE public com.github.javaparser.symbolsolver.model.declarations.ConstructorDeclaration [ConstructorDeclaration.java <24:1 <24:18 24:39> 28:1>]
 LOCAL_SYMBOL: ConstructorDeclaration.java<24:71> [ConstructorDeclaration.java <24:71 24:71>]
 LOCAL_SYMBOL: ConstructorDeclaration.java<24:71> [ConstructorDeclaration.java <28:1 28:1>]

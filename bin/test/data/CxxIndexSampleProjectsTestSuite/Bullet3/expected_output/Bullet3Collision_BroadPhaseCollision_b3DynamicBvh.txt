@@ -1,8 +1,6 @@
 FILE: b3DynamicBvh.cpp
-FILE: b3DynamicBvh.cpp
 COMMENT: comment [b3DynamicBvh.cpp <1:1 14:3>]
 COMMENT: comment [b3DynamicBvh.cpp <15:1 15:52>]
-FILE: b3DynamicBvh.cpp
 COMMENT: comment [b3DynamicBvh.cpp <19:1 19:3>]
 COMMENT: comment [b3DynamicBvh.cpp <23:1 23:3>]
 COMMENT: comment [b3DynamicBvh.cpp <30:1 30:3>]
@@ -10,27 +8,21 @@ REFERENCE_MACRO_USAGE b3DynamicBvh.cpp -> B3_DBVT_INLINE [b3DynamicBvh.cpp <31:8
 REFERENCE_MACRO_USAGE b3DynamicBvh.h -> B3_FORCE_INLINE [b3DynamicBvh.h <55:27 55:41>]
 COMMENT: comment [b3DynamicBvh.cpp <36:1 36:3>]
 REFERENCE_MACRO_USAGE b3DynamicBvh.cpp -> B3_DBVT_INLINE [b3DynamicBvh.cpp <37:8 37:21>]
-REFERENCE_MACRO_USAGE b3DynamicBvh.h -> B3_FORCE_INLINE [b3DynamicBvh.h <55:27 55:41>]
 REFERENCE_MACRO_USAGE b3DynamicBvh.cpp -> B3_ATTRIBUTE_ALIGNED16 [b3DynamicBvh.cpp <41:2 41:23>]
 COMMENT: comment [b3DynamicBvh.cpp <50:1 50:23>]
 REFERENCE_MACRO_USAGE b3DynamicBvh.cpp -> B3_DBVT_INLINE [b3DynamicBvh.cpp <51:8 51:21>]
-REFERENCE_MACRO_USAGE b3DynamicBvh.h -> B3_FORCE_INLINE [b3DynamicBvh.h <55:27 55:41>]
 COMMENT: comment [b3DynamicBvh.cpp <58:1 58:3>]
 COMMENT: comment [b3DynamicBvh.cpp <68:1 68:3>]
 REFERENCE_MACRO_USAGE b3DynamicBvh.cpp -> B3_DBVT_INLINE [b3DynamicBvh.cpp <69:8 69:21>]
-REFERENCE_MACRO_USAGE b3DynamicBvh.h -> B3_FORCE_INLINE [b3DynamicBvh.h <55:27 55:41>]
 REFERENCE_MACRO_USAGE b3DynamicBvh.cpp -> b3AlignedFree [b3DynamicBvh.cpp <72:2 72:14>]
 COMMENT: comment [b3DynamicBvh.cpp <76:1 76:3>]
 COMMENT: comment [b3DynamicBvh.cpp <89:1 89:3>]
 REFERENCE_MACRO_USAGE b3DynamicBvh.cpp -> B3_DBVT_INLINE [b3DynamicBvh.cpp <90:8 90:21>]
-REFERENCE_MACRO_USAGE b3DynamicBvh.h -> B3_FORCE_INLINE [b3DynamicBvh.h <55:27 55:41>]
 REFERENCE_MACRO_USAGE b3DynamicBvh.cpp -> b3AlignedAlloc [b3DynamicBvh.cpp <98:13 98:26>]
 COMMENT: comment [b3DynamicBvh.cpp <105:1 105:3>]
 REFERENCE_MACRO_USAGE b3DynamicBvh.cpp -> B3_DBVT_INLINE [b3DynamicBvh.cpp <106:8 106:21>]
-REFERENCE_MACRO_USAGE b3DynamicBvh.h -> B3_FORCE_INLINE [b3DynamicBvh.h <55:27 55:41>]
 COMMENT: comment [b3DynamicBvh.cpp <116:1 116:3>]
 REFERENCE_MACRO_USAGE b3DynamicBvh.cpp -> B3_DBVT_INLINE [b3DynamicBvh.cpp <117:8 117:21>]
-REFERENCE_MACRO_USAGE b3DynamicBvh.h -> B3_FORCE_INLINE [b3DynamicBvh.h <55:27 55:41>]
 COMMENT: comment [b3DynamicBvh.cpp <128:1 128:3>]
 COMMENT: comment [b3DynamicBvh.cpp <172:1 172:3>]
 COMMENT: comment [b3DynamicBvh.cpp <212:1 212:3>]
@@ -43,7 +35,6 @@ REFERENCE_MACRO_USAGE b3Scalar.h -> FLT_MAX [b3Scalar.h <423:25 423:31>]
 COMMENT: comment [b3DynamicBvh.cpp <298:1 298:3>]
 COMMENT: comment [b3DynamicBvh.cpp <368:1 368:3>]
 REFERENCE_MACRO_USAGE b3DynamicBvh.cpp -> B3_DBVT_INLINE [b3DynamicBvh.cpp <369:8 369:21>]
-REFERENCE_MACRO_USAGE b3DynamicBvh.h -> B3_FORCE_INLINE [b3DynamicBvh.h <55:27 55:41>]
 REFERENCE_MACRO_USAGE b3DynamicBvh.cpp -> b3Assert [b3DynamicBvh.cpp <372:2 372:9>]
 REFERENCE_MACRO_USAGE b3DynamicBvh.cpp -> b3Assert [b3DynamicBvh.cpp <379:3 379:10>]
 COMMENT: comment [b3DynamicBvh.cpp <404:1 404:3>]
@@ -78,6 +69,7 @@ REFERENCE_TYPE_USAGE b3ConstNodeArray -> b3AlignedObjectArray<const b3DbvtNode *
 REFERENCE_TEMPLATE_ARGUMENT b3AlignedObjectArray<const b3DbvtNode *> -> b3DbvtNode [b3DynamicBvh.cpp <21:36 21:45>]
 SYMBOL_STRUCT b3DbvtNodeEnumerator [b3DynamicBvh.cpp <24:1 <24:8 24:27> 28:1>]
 SYMBOL_STRUCT b3DynamicBvh
+QUALIFIER: b3DynamicBvh [b3DynamicBvh.cpp <24:31 24:42>]
 REFERENCE_INHERITANCE b3DbvtNodeEnumerator -> b3DynamicBvh::ICollide [b3DynamicBvh.cpp <24:45 24:52>]
 SYMBOL_FIELD public b3ConstNodeArray b3DbvtNodeEnumerator::nodes [b3DynamicBvh.cpp <26:19 26:23>]
 REFERENCE_TYPE_USAGE b3ConstNodeArray b3DbvtNodeEnumerator::nodes -> b3ConstNodeArray [b3DynamicBvh.cpp <26:2 26:17>]
@@ -166,15 +158,12 @@ REFERENCE_USAGE static b3Scalar b3Size(const b3DbvtVolume &) -> b3Vector3::anony
 REFERENCE_USAGE static b3Scalar b3Size(const b3DbvtVolume &) -> b3Vector3::anonymous union (b3Vector3.h<96:9>) b3Vector3:: [b3DynamicBvh.cpp <55:25 55:25>]
 LOCAL_SYMBOL: b3DynamicBvh.cpp<53:18> [b3DynamicBvh.cpp <55:19 55:23>]
 SYMBOL_FUNCTION static void b3GetMaxDepth(const b3DbvtNode *, int, int &) [b3DynamicBvh.cpp <59:1 <59:18 59:30> 66:1>]
-SYMBOL_BUILTIN_TYPE void
 REFERENCE_TYPE_USAGE static void b3GetMaxDepth(const b3DbvtNode *, int, int &) -> void [b3DynamicBvh.cpp <59:8 59:11>]
 LOCAL_SYMBOL: b3DynamicBvh.cpp<59:50> [b3DynamicBvh.cpp <59:50 59:53>]
 REFERENCE_TYPE_USAGE static void b3GetMaxDepth(const b3DbvtNode *, int, int &) -> b3DbvtNode [b3DynamicBvh.cpp <59:38 59:47>]
 LOCAL_SYMBOL: b3DynamicBvh.cpp<59:59> [b3DynamicBvh.cpp <59:59 59:63>]
-SYMBOL_BUILTIN_TYPE int
 REFERENCE_TYPE_USAGE static void b3GetMaxDepth(const b3DbvtNode *, int, int &) -> int [b3DynamicBvh.cpp <59:55 59:57>]
 LOCAL_SYMBOL: b3DynamicBvh.cpp<59:70> [b3DynamicBvh.cpp <59:70 59:77>]
-SYMBOL_BUILTIN_TYPE int
 REFERENCE_TYPE_USAGE static void b3GetMaxDepth(const b3DbvtNode *, int, int &) -> int [b3DynamicBvh.cpp <59:65 59:67>]
 SYMBOL_FUNCTION bool b3DbvtNode::isinternal() const
 REFERENCE_CALL static void b3GetMaxDepth(const b3DbvtNode *, int, int &) -> bool b3DbvtNode::isinternal() const [b3DynamicBvh.cpp <61:11 61:20>]
@@ -186,7 +175,6 @@ REFERENCE_USAGE static void b3GetMaxDepth(const b3DbvtNode *, int, int &) -> b3D
 LOCAL_SYMBOL: b3DynamicBvh.cpp<59:50> [b3DynamicBvh.cpp <63:17 63:20>]
 LOCAL_SYMBOL: b3DynamicBvh.cpp<59:59> [b3DynamicBvh.cpp <63:33 63:37>]
 LOCAL_SYMBOL: b3DynamicBvh.cpp<59:70> [b3DynamicBvh.cpp <63:41 63:48>]
-SYMBOL_FUNCTION static void b3GetMaxDepth(const b3DbvtNode *, int, int &)
 REFERENCE_CALL static void b3GetMaxDepth(const b3DbvtNode *, int, int &) -> static void b3GetMaxDepth(const b3DbvtNode *, int, int &) [b3DynamicBvh.cpp <64:3 64:15>]
 REFERENCE_USAGE static void b3GetMaxDepth(const b3DbvtNode *, int, int &) -> b3DbvtNode * [] b3DbvtNode::anonymous union (b3DynamicBvh.h<183:2>)::childs [b3DynamicBvh.cpp <64:23 64:28>]
 REFERENCE_USAGE static void b3GetMaxDepth(const b3DbvtNode *, int, int &) -> b3DbvtNode::anonymous union (b3DynamicBvh.h<183:2>) b3DbvtNode:: [b3DynamicBvh.cpp <64:23 64:28>]
@@ -199,7 +187,6 @@ REFERENCE_CALL static void b3GetMaxDepth(const b3DbvtNode *, int, int &) -> cons
 LOCAL_SYMBOL: b3DynamicBvh.cpp<59:70> [b3DynamicBvh.cpp <65:24 65:31>]
 LOCAL_SYMBOL: b3DynamicBvh.cpp<59:59> [b3DynamicBvh.cpp <65:33 65:37>]
 SYMBOL_FUNCTION static void b3DeleteNode(b3DynamicBvh *, b3DbvtNode *) [b3DynamicBvh.cpp <69:1 <69:30 69:41> 74:1>]
-SYMBOL_BUILTIN_TYPE void
 REFERENCE_TYPE_USAGE static void b3DeleteNode(b3DynamicBvh *, b3DbvtNode *) -> void [b3DynamicBvh.cpp <69:23 69:26>]
 LOCAL_SYMBOL: b3DynamicBvh.cpp<69:58> [b3DynamicBvh.cpp <69:58 69:62>]
 REFERENCE_TYPE_USAGE static void b3DeleteNode(b3DynamicBvh *, b3DbvtNode *) -> b3DynamicBvh [b3DynamicBvh.cpp <69:44 69:55>]
@@ -211,7 +198,6 @@ REFERENCE_USAGE static void b3DeleteNode(b3DynamicBvh *, b3DbvtNode *) -> b3Dbvt
 LOCAL_SYMBOL: b3DynamicBvh.cpp<69:58> [b3DynamicBvh.cpp <73:2 73:6>]
 LOCAL_SYMBOL: b3DynamicBvh.cpp<70:26> [b3DynamicBvh.cpp <73:16 73:19>]
 SYMBOL_FUNCTION static void b3RecurseDeleteNode(b3DynamicBvh *, b3DbvtNode *) [b3DynamicBvh.cpp <77:1 <77:18 77:36> 87:1>]
-SYMBOL_BUILTIN_TYPE void
 REFERENCE_TYPE_USAGE static void b3RecurseDeleteNode(b3DynamicBvh *, b3DbvtNode *) -> void [b3DynamicBvh.cpp <77:8 77:11>]
 LOCAL_SYMBOL: b3DynamicBvh.cpp<77:53> [b3DynamicBvh.cpp <77:53 77:57>]
 REFERENCE_TYPE_USAGE static void b3RecurseDeleteNode(b3DynamicBvh *, b3DbvtNode *) -> b3DynamicBvh [b3DynamicBvh.cpp <77:39 77:50>]
@@ -226,7 +212,6 @@ LOCAL_SYMBOL: b3DynamicBvh.cpp<77:53> [b3DynamicBvh.cpp <82:23 82:27>]
 REFERENCE_USAGE static void b3RecurseDeleteNode(b3DynamicBvh *, b3DbvtNode *) -> b3DbvtNode * [] b3DbvtNode::anonymous union (b3DynamicBvh.h<183:2>)::childs [b3DynamicBvh.cpp <82:35 82:40>]
 REFERENCE_USAGE static void b3RecurseDeleteNode(b3DynamicBvh *, b3DbvtNode *) -> b3DbvtNode::anonymous union (b3DynamicBvh.h<183:2>) b3DbvtNode:: [b3DynamicBvh.cpp <82:35 82:40>]
 LOCAL_SYMBOL: b3DynamicBvh.cpp<78:27> [b3DynamicBvh.cpp <82:29 82:32>]
-SYMBOL_FUNCTION static void b3RecurseDeleteNode(b3DynamicBvh *, b3DbvtNode *)
 REFERENCE_CALL static void b3RecurseDeleteNode(b3DynamicBvh *, b3DbvtNode *) -> static void b3RecurseDeleteNode(b3DynamicBvh *, b3DbvtNode *) [b3DynamicBvh.cpp <83:3 83:21>]
 LOCAL_SYMBOL: b3DynamicBvh.cpp<77:53> [b3DynamicBvh.cpp <83:23 83:27>]
 REFERENCE_USAGE static void b3RecurseDeleteNode(b3DynamicBvh *, b3DbvtNode *) -> b3DbvtNode * [] b3DbvtNode::anonymous union (b3DynamicBvh.h<183:2>)::childs [b3DynamicBvh.cpp <83:35 83:40>]
@@ -248,7 +233,6 @@ REFERENCE_TYPE_USAGE static b3DbvtNode * b3CreateNode(b3DynamicBvh *, b3DbvtNode
 LOCAL_SYMBOL: b3DynamicBvh.cpp<91:26> [b3DynamicBvh.cpp <91:26 91:31>]
 REFERENCE_TYPE_USAGE static b3DbvtNode * b3CreateNode(b3DynamicBvh *, b3DbvtNode *, void *) -> b3DbvtNode [b3DynamicBvh.cpp <91:14 91:23>]
 LOCAL_SYMBOL: b3DynamicBvh.cpp<92:20> [b3DynamicBvh.cpp <92:20 92:23>]
-SYMBOL_BUILTIN_TYPE void
 REFERENCE_TYPE_USAGE static b3DbvtNode * b3CreateNode(b3DynamicBvh *, b3DbvtNode *, void *) -> void [b3DynamicBvh.cpp <92:14 92:17>]
 LOCAL_SYMBOL: b3DynamicBvh.cpp<94:14> [b3DynamicBvh.cpp <94:14 94:17>]
 REFERENCE_TYPE_USAGE static b3DbvtNode * b3CreateNode(b3DynamicBvh *, b3DbvtNode *, void *) -> b3DbvtNode [b3DynamicBvh.cpp <94:2 94:11>]
@@ -284,7 +268,6 @@ REFERENCE_TYPE_USAGE static b3DbvtNode * b3CreateNode(b3DynamicBvh *, b3DbvtNode
 LOCAL_SYMBOL: b3DynamicBvh.cpp<108:34> [b3DynamicBvh.cpp <108:34 108:39>]
 REFERENCE_TYPE_USAGE static b3DbvtNode * b3CreateNode(b3DynamicBvh *, b3DbvtNode *, const b3DbvtVolume &, void *) -> b3DbvtVolume [b3DynamicBvh.cpp <108:20 108:31>]
 LOCAL_SYMBOL: b3DynamicBvh.cpp<109:20> [b3DynamicBvh.cpp <109:20 109:23>]
-SYMBOL_BUILTIN_TYPE void
 REFERENCE_TYPE_USAGE static b3DbvtNode * b3CreateNode(b3DynamicBvh *, b3DbvtNode *, const b3DbvtVolume &, void *) -> void [b3DynamicBvh.cpp <109:14 109:17>]
 LOCAL_SYMBOL: b3DynamicBvh.cpp<111:14> [b3DynamicBvh.cpp <111:14 111:17>]
 REFERENCE_TYPE_USAGE static b3DbvtNode * b3CreateNode(b3DynamicBvh *, b3DbvtNode *, const b3DbvtVolume &, void *) -> b3DbvtNode [b3DynamicBvh.cpp <111:2 111:11>]
@@ -310,16 +293,13 @@ REFERENCE_TYPE_USAGE static b3DbvtNode * b3CreateNode(b3DynamicBvh *, b3DbvtNode
 LOCAL_SYMBOL: b3DynamicBvh.cpp<120:34> [b3DynamicBvh.cpp <120:34 120:40>]
 REFERENCE_TYPE_USAGE static b3DbvtNode * b3CreateNode(b3DynamicBvh *, b3DbvtNode *, const b3DbvtVolume &, const b3DbvtVolume &, void *) -> b3DbvtVolume [b3DynamicBvh.cpp <120:20 120:31>]
 LOCAL_SYMBOL: b3DynamicBvh.cpp<121:20> [b3DynamicBvh.cpp <121:20 121:23>]
-SYMBOL_BUILTIN_TYPE void
 REFERENCE_TYPE_USAGE static b3DbvtNode * b3CreateNode(b3DynamicBvh *, b3DbvtNode *, const b3DbvtVolume &, const b3DbvtVolume &, void *) -> void [b3DynamicBvh.cpp <121:14 121:17>]
 LOCAL_SYMBOL: b3DynamicBvh.cpp<123:14> [b3DynamicBvh.cpp <123:14 123:17>]
 REFERENCE_TYPE_USAGE static b3DbvtNode * b3CreateNode(b3DynamicBvh *, b3DbvtNode *, const b3DbvtVolume &, const b3DbvtVolume &, void *) -> b3DbvtNode [b3DynamicBvh.cpp <123:2 123:11>]
-SYMBOL_FUNCTION static b3DbvtNode * b3CreateNode(b3DynamicBvh *, b3DbvtNode *, void *)
 REFERENCE_CALL static b3DbvtNode * b3CreateNode(b3DynamicBvh *, b3DbvtNode *, const b3DbvtVolume &, const b3DbvtVolume &, void *) -> static b3DbvtNode * b3CreateNode(b3DynamicBvh *, b3DbvtNode *, void *) [b3DynamicBvh.cpp <123:19 123:30>]
 LOCAL_SYMBOL: b3DynamicBvh.cpp<117:63> [b3DynamicBvh.cpp <123:32 123:36>]
 LOCAL_SYMBOL: b3DynamicBvh.cpp<118:26> [b3DynamicBvh.cpp <123:38 123:43>]
 LOCAL_SYMBOL: b3DynamicBvh.cpp<121:20> [b3DynamicBvh.cpp <123:45 123:48>]
-SYMBOL_FUNCTION void b3Merge(const b3DbvtAabbMm &, const b3DbvtAabbMm &, b3DbvtAabbMm &)
 REFERENCE_CALL static b3DbvtNode * b3CreateNode(b3DynamicBvh *, b3DbvtNode *, const b3DbvtVolume &, const b3DbvtVolume &, void *) -> void b3Merge(const b3DbvtAabbMm &, const b3DbvtAabbMm &, b3DbvtAabbMm &) [b3DynamicBvh.cpp <124:2 124:8>]
 LOCAL_SYMBOL: b3DynamicBvh.cpp<119:34> [b3DynamicBvh.cpp <124:10 124:16>]
 LOCAL_SYMBOL: b3DynamicBvh.cpp<120:34> [b3DynamicBvh.cpp <124:18 124:24>]
@@ -327,7 +307,6 @@ REFERENCE_USAGE static b3DbvtNode * b3CreateNode(b3DynamicBvh *, b3DbvtNode *, c
 LOCAL_SYMBOL: b3DynamicBvh.cpp<123:14> [b3DynamicBvh.cpp <124:26 124:29>]
 LOCAL_SYMBOL: b3DynamicBvh.cpp<123:14> [b3DynamicBvh.cpp <125:9 125:12>]
 SYMBOL_FUNCTION static void b3InsertLeaf(b3DynamicBvh *, b3DbvtNode *, b3DbvtNode *) [b3DynamicBvh.cpp <129:1 <129:18 129:29> 170:1>]
-SYMBOL_BUILTIN_TYPE void
 REFERENCE_TYPE_USAGE static void b3InsertLeaf(b3DynamicBvh *, b3DbvtNode *, b3DbvtNode *) -> void [b3DynamicBvh.cpp <129:8 129:11>]
 LOCAL_SYMBOL: b3DynamicBvh.cpp<129:46> [b3DynamicBvh.cpp <129:46 129:50>]
 REFERENCE_TYPE_USAGE static void b3InsertLeaf(b3DynamicBvh *, b3DbvtNode *, b3DbvtNode *) -> b3DynamicBvh [b3DynamicBvh.cpp <129:32 129:43>]
@@ -342,7 +321,6 @@ LOCAL_SYMBOL: b3DynamicBvh.cpp<129:46> [b3DynamicBvh.cpp <135:3 135:7>]
 LOCAL_SYMBOL: b3DynamicBvh.cpp<131:26> [b3DynamicBvh.cpp <135:19 135:22>]
 REFERENCE_USAGE static void b3InsertLeaf(b3DynamicBvh *, b3DbvtNode *, b3DbvtNode *) -> b3DbvtNode * b3DbvtNode::parent [b3DynamicBvh.cpp <136:9 136:14>]
 LOCAL_SYMBOL: b3DynamicBvh.cpp<131:26> [b3DynamicBvh.cpp <136:3 136:6>]
-SYMBOL_FUNCTION bool b3DbvtNode::isleaf() const
 REFERENCE_CALL static void b3InsertLeaf(b3DynamicBvh *, b3DbvtNode *, b3DbvtNode *) -> bool b3DbvtNode::isleaf() const [b3DynamicBvh.cpp <140:13 140:18>]
 LOCAL_SYMBOL: b3DynamicBvh.cpp<130:26> [b3DynamicBvh.cpp <140:7 140:10>]
 LOCAL_SYMBOL: b3DynamicBvh.cpp<130:26> [b3DynamicBvh.cpp <143:5 143:8>]
@@ -361,7 +339,6 @@ REFERENCE_USAGE static void b3InsertLeaf(b3DynamicBvh *, b3DbvtNode *, b3DbvtNod
 REFERENCE_USAGE static void b3InsertLeaf(b3DynamicBvh *, b3DbvtNode *, b3DbvtNode *) -> b3DbvtNode * [] b3DbvtNode::anonymous union (b3DynamicBvh.h<183:2>)::childs [b3DynamicBvh.cpp <145:12 145:17>]
 REFERENCE_USAGE static void b3InsertLeaf(b3DynamicBvh *, b3DbvtNode *, b3DbvtNode *) -> b3DbvtNode::anonymous union (b3DynamicBvh.h<183:2>) b3DbvtNode:: [b3DynamicBvh.cpp <145:12 145:17>]
 LOCAL_SYMBOL: b3DynamicBvh.cpp<130:26> [b3DynamicBvh.cpp <145:6 145:9>]
-SYMBOL_FUNCTION bool b3DbvtNode::isleaf() const
 REFERENCE_CALL static void b3InsertLeaf(b3DynamicBvh *, b3DbvtNode *, b3DbvtNode *) -> bool b3DbvtNode::isleaf() const [b3DynamicBvh.cpp <146:19 146:24>]
 LOCAL_SYMBOL: b3DynamicBvh.cpp<130:26> [b3DynamicBvh.cpp <146:13 146:16>]
 LOCAL_SYMBOL: b3DynamicBvh.cpp<148:15> [b3DynamicBvh.cpp <148:15 148:18>]
@@ -406,7 +383,6 @@ REFERENCE_USAGE static void b3InsertLeaf(b3DynamicBvh *, b3DbvtNode *, b3DbvtNod
 LOCAL_SYMBOL: b3DynamicBvh.cpp<148:15> [b3DynamicBvh.cpp <156:9 156:12>]
 REFERENCE_USAGE static void b3InsertLeaf(b3DynamicBvh *, b3DbvtNode *, b3DbvtNode *) -> b3DbvtVolume b3DbvtNode::volume [b3DynamicBvh.cpp <156:36 156:41>]
 LOCAL_SYMBOL: b3DynamicBvh.cpp<149:15> [b3DynamicBvh.cpp <156:30 156:33>]
-SYMBOL_FUNCTION void b3Merge(const b3DbvtAabbMm &, const b3DbvtAabbMm &, b3DbvtAabbMm &)
 REFERENCE_CALL static void b3InsertLeaf(b3DynamicBvh *, b3DbvtNode *, b3DbvtNode *) -> void b3Merge(const b3DbvtAabbMm &, const b3DbvtAabbMm &, b3DbvtAabbMm &) [b3DynamicBvh.cpp <157:6 157:12>]
 REFERENCE_USAGE static void b3InsertLeaf(b3DynamicBvh *, b3DbvtNode *, b3DbvtNode *) -> b3DbvtVolume b3DbvtNode::volume [b3DynamicBvh.cpp <157:31 157:36>]
 REFERENCE_USAGE static void b3InsertLeaf(b3DynamicBvh *, b3DbvtNode *, b3DbvtNode *) -> b3DbvtNode * [] b3DbvtNode::anonymous union (b3DynamicBvh.h<183:2>)::childs [b3DynamicBvh.cpp <157:20 157:25>]
@@ -464,32 +440,27 @@ REFERENCE_TYPE_USAGE static b3DbvtNode * b3RemoveLeaf(b3DynamicBvh *, b3DbvtNode
 REFERENCE_USAGE static b3DbvtNode * b3RemoveLeaf(b3DynamicBvh *, b3DbvtNode *) -> b3DbvtNode * [] b3DbvtNode::anonymous union (b3DynamicBvh.h<183:2>)::childs [b3DynamicBvh.cpp <185:31 185:36>]
 REFERENCE_USAGE static b3DbvtNode * b3RemoveLeaf(b3DynamicBvh *, b3DbvtNode *) -> b3DbvtNode::anonymous union (b3DynamicBvh.h<183:2>) b3DbvtNode:: [b3DynamicBvh.cpp <185:31 185:36>]
 LOCAL_SYMBOL: b3DynamicBvh.cpp<183:15> [b3DynamicBvh.cpp <185:23 185:28>]
-SYMBOL_FUNCTION static int b3IndexOf(const b3DbvtNode *)
 REFERENCE_CALL static b3DbvtNode * b3RemoveLeaf(b3DynamicBvh *, b3DbvtNode *) -> static int b3IndexOf(const b3DbvtNode *) [b3DynamicBvh.cpp <185:40 185:48>]
 LOCAL_SYMBOL: b3DynamicBvh.cpp<174:26> [b3DynamicBvh.cpp <185:50 185:53>]
 LOCAL_SYMBOL: b3DynamicBvh.cpp<184:15> [b3DynamicBvh.cpp <186:6 186:9>]
 REFERENCE_USAGE static b3DbvtNode * b3RemoveLeaf(b3DynamicBvh *, b3DbvtNode *) -> b3DbvtNode * [] b3DbvtNode::anonymous union (b3DynamicBvh.h<183:2>)::childs [b3DynamicBvh.cpp <188:10 188:15>]
 REFERENCE_USAGE static b3DbvtNode * b3RemoveLeaf(b3DynamicBvh *, b3DbvtNode *) -> b3DbvtNode::anonymous union (b3DynamicBvh.h<183:2>) b3DbvtNode:: [b3DynamicBvh.cpp <188:10 188:15>]
 LOCAL_SYMBOL: b3DynamicBvh.cpp<184:15> [b3DynamicBvh.cpp <188:4 188:7>]
-SYMBOL_FUNCTION static int b3IndexOf(const b3DbvtNode *)
 REFERENCE_CALL static b3DbvtNode * b3RemoveLeaf(b3DynamicBvh *, b3DbvtNode *) -> static int b3IndexOf(const b3DbvtNode *) [b3DynamicBvh.cpp <188:17 188:25>]
 LOCAL_SYMBOL: b3DynamicBvh.cpp<183:15> [b3DynamicBvh.cpp <188:27 188:32>]
 LOCAL_SYMBOL: b3DynamicBvh.cpp<185:15> [b3DynamicBvh.cpp <188:36 188:42>]
 REFERENCE_USAGE static b3DbvtNode * b3RemoveLeaf(b3DynamicBvh *, b3DbvtNode *) -> b3DbvtNode * b3DbvtNode::parent [b3DynamicBvh.cpp <189:13 189:18>]
 LOCAL_SYMBOL: b3DynamicBvh.cpp<185:15> [b3DynamicBvh.cpp <189:4 189:10>]
 LOCAL_SYMBOL: b3DynamicBvh.cpp<184:15> [b3DynamicBvh.cpp <189:20 189:23>]
-SYMBOL_FUNCTION static void b3DeleteNode(b3DynamicBvh *, b3DbvtNode *)
 REFERENCE_CALL static b3DbvtNode * b3RemoveLeaf(b3DynamicBvh *, b3DbvtNode *) -> static void b3DeleteNode(b3DynamicBvh *, b3DbvtNode *) [b3DynamicBvh.cpp <190:4 190:15>]
 LOCAL_SYMBOL: b3DynamicBvh.cpp<173:51> [b3DynamicBvh.cpp <190:17 190:21>]
 LOCAL_SYMBOL: b3DynamicBvh.cpp<183:15> [b3DynamicBvh.cpp <190:23 190:28>]
 LOCAL_SYMBOL: b3DynamicBvh.cpp<184:15> [b3DynamicBvh.cpp <191:10 191:13>]
 LOCAL_SYMBOL: b3DynamicBvh.cpp<193:24> [b3DynamicBvh.cpp <193:24 193:25>]
 REFERENCE_TYPE_USAGE static b3DbvtNode * b3RemoveLeaf(b3DynamicBvh *, b3DbvtNode *) -> b3DbvtVolume [b3DynamicBvh.cpp <193:11 193:22>]
-SYMBOL_FUNCTION void b3DbvtAabbMm::b3DbvtAabbMm(const b3DbvtAabbMm &)
 REFERENCE_CALL static b3DbvtNode * b3RemoveLeaf(b3DynamicBvh *, b3DbvtNode *) -> void b3DbvtAabbMm::b3DbvtAabbMm(const b3DbvtAabbMm &) [b3DynamicBvh.cpp <193:33 193:38>]
 REFERENCE_USAGE static b3DbvtNode * b3RemoveLeaf(b3DynamicBvh *, b3DbvtNode *) -> b3DbvtVolume b3DbvtNode::volume [b3DynamicBvh.cpp <193:33 193:38>]
 LOCAL_SYMBOL: b3DynamicBvh.cpp<184:15> [b3DynamicBvh.cpp <193:27 193:30>]
-SYMBOL_FUNCTION void b3Merge(const b3DbvtAabbMm &, const b3DbvtAabbMm &, b3DbvtAabbMm &)
 REFERENCE_CALL static b3DbvtNode * b3RemoveLeaf(b3DynamicBvh *, b3DbvtNode *) -> void b3Merge(const b3DbvtAabbMm &, const b3DbvtAabbMm &, b3DbvtAabbMm &) [b3DynamicBvh.cpp <194:5 194:11>]
 REFERENCE_USAGE static b3DbvtNode * b3RemoveLeaf(b3DynamicBvh *, b3DbvtNode *) -> b3DbvtVolume b3DbvtNode::volume [b3DynamicBvh.cpp <194:30 194:35>]
 REFERENCE_USAGE static b3DbvtNode * b3RemoveLeaf(b3DynamicBvh *, b3DbvtNode *) -> b3DbvtNode * [] b3DbvtNode::anonymous union (b3DynamicBvh.h<183:2>)::childs [b3DynamicBvh.cpp <194:19 194:24>]
@@ -518,14 +489,12 @@ LOCAL_SYMBOL: b3DynamicBvh.cpp<173:51> [b3DynamicBvh.cpp <204:4 204:8>]
 LOCAL_SYMBOL: b3DynamicBvh.cpp<185:15> [b3DynamicBvh.cpp <204:18 204:24>]
 REFERENCE_USAGE static b3DbvtNode * b3RemoveLeaf(b3DynamicBvh *, b3DbvtNode *) -> b3DbvtNode * b3DbvtNode::parent [b3DynamicBvh.cpp <205:13 205:18>]
 LOCAL_SYMBOL: b3DynamicBvh.cpp<185:15> [b3DynamicBvh.cpp <205:4 205:10>]
-SYMBOL_FUNCTION static void b3DeleteNode(b3DynamicBvh *, b3DbvtNode *)
 REFERENCE_CALL static b3DbvtNode * b3RemoveLeaf(b3DynamicBvh *, b3DbvtNode *) -> static void b3DeleteNode(b3DynamicBvh *, b3DbvtNode *) [b3DynamicBvh.cpp <206:4 206:15>]
 LOCAL_SYMBOL: b3DynamicBvh.cpp<173:51> [b3DynamicBvh.cpp <206:17 206:21>]
 LOCAL_SYMBOL: b3DynamicBvh.cpp<183:15> [b3DynamicBvh.cpp <206:23 206:28>]
 REFERENCE_USAGE static b3DbvtNode * b3RemoveLeaf(b3DynamicBvh *, b3DbvtNode *) -> b3DbvtNode * b3DynamicBvh::m_root [b3DynamicBvh.cpp <207:18 207:23>]
 LOCAL_SYMBOL: b3DynamicBvh.cpp<173:51> [b3DynamicBvh.cpp <207:11 207:15>]
 SYMBOL_FUNCTION static void b3FetchLeaves(b3DynamicBvh *, b3DbvtNode *, b3NodeArray &, int) [b3DynamicBvh.cpp <213:1 <213:18 213:30> 228:1>]
-SYMBOL_BUILTIN_TYPE void
 REFERENCE_TYPE_USAGE static void b3FetchLeaves(b3DynamicBvh *, b3DbvtNode *, b3NodeArray &, int) -> void [b3DynamicBvh.cpp <213:8 213:11>]
 LOCAL_SYMBOL: b3DynamicBvh.cpp<213:46> [b3DynamicBvh.cpp <213:46 213:50>]
 REFERENCE_TYPE_USAGE static void b3FetchLeaves(b3DynamicBvh *, b3DbvtNode *, b3NodeArray &, int) -> b3DynamicBvh [b3DynamicBvh.cpp <213:32 213:43>]
@@ -534,9 +503,7 @@ REFERENCE_TYPE_USAGE static void b3FetchLeaves(b3DynamicBvh *, b3DbvtNode *, b3N
 LOCAL_SYMBOL: b3DynamicBvh.cpp<215:25> [b3DynamicBvh.cpp <215:25 215:30>]
 REFERENCE_TYPE_USAGE static void b3FetchLeaves(b3DynamicBvh *, b3DbvtNode *, b3NodeArray &, int) -> b3NodeArray [b3DynamicBvh.cpp <215:12 215:22>]
 LOCAL_SYMBOL: b3DynamicBvh.cpp<216:16> [b3DynamicBvh.cpp <216:16 216:20>]
-SYMBOL_BUILTIN_TYPE int
 REFERENCE_TYPE_USAGE static void b3FetchLeaves(b3DynamicBvh *, b3DbvtNode *, b3NodeArray &, int) -> int [b3DynamicBvh.cpp <216:12 216:14>]
-SYMBOL_FUNCTION bool b3DbvtNode::isinternal() const
 REFERENCE_CALL static void b3FetchLeaves(b3DynamicBvh *, b3DbvtNode *, b3NodeArray &, int) -> bool b3DbvtNode::isinternal() const [b3DynamicBvh.cpp <218:11 218:20>]
 LOCAL_SYMBOL: b3DynamicBvh.cpp<214:24> [b3DynamicBvh.cpp <218:5 218:8>]
 LOCAL_SYMBOL: b3DynamicBvh.cpp<216:16> [b3DynamicBvh.cpp <218:25 218:29>]
@@ -548,7 +515,6 @@ REFERENCE_USAGE static void b3FetchLeaves(b3DynamicBvh *, b3DbvtNode *, b3NodeAr
 LOCAL_SYMBOL: b3DynamicBvh.cpp<214:24> [b3DynamicBvh.cpp <220:23 220:26>]
 LOCAL_SYMBOL: b3DynamicBvh.cpp<215:25> [b3DynamicBvh.cpp <220:39 220:44>]
 LOCAL_SYMBOL: b3DynamicBvh.cpp<216:16> [b3DynamicBvh.cpp <220:46 220:50>]
-SYMBOL_FUNCTION static void b3FetchLeaves(b3DynamicBvh *, b3DbvtNode *, b3NodeArray &, int)
 REFERENCE_CALL static void b3FetchLeaves(b3DynamicBvh *, b3DbvtNode *, b3NodeArray &, int) -> static void b3FetchLeaves(b3DynamicBvh *, b3DbvtNode *, b3NodeArray &, int) [b3DynamicBvh.cpp <221:3 221:15>]
 LOCAL_SYMBOL: b3DynamicBvh.cpp<213:46> [b3DynamicBvh.cpp <221:17 221:21>]
 REFERENCE_USAGE static void b3FetchLeaves(b3DynamicBvh *, b3DbvtNode *, b3NodeArray &, int) -> b3DbvtNode * [] b3DbvtNode::anonymous union (b3DynamicBvh.h<183:2>)::childs [b3DynamicBvh.cpp <221:29 221:34>]
@@ -556,7 +522,6 @@ REFERENCE_USAGE static void b3FetchLeaves(b3DynamicBvh *, b3DbvtNode *, b3NodeAr
 LOCAL_SYMBOL: b3DynamicBvh.cpp<214:24> [b3DynamicBvh.cpp <221:23 221:26>]
 LOCAL_SYMBOL: b3DynamicBvh.cpp<215:25> [b3DynamicBvh.cpp <221:39 221:44>]
 LOCAL_SYMBOL: b3DynamicBvh.cpp<216:16> [b3DynamicBvh.cpp <221:46 221:50>]
-SYMBOL_FUNCTION static void b3DeleteNode(b3DynamicBvh *, b3DbvtNode *)
 REFERENCE_CALL static void b3FetchLeaves(b3DynamicBvh *, b3DbvtNode *, b3NodeArray &, int) -> static void b3DeleteNode(b3DynamicBvh *, b3DbvtNode *) [b3DynamicBvh.cpp <222:3 222:14>]
 LOCAL_SYMBOL: b3DynamicBvh.cpp<213:46> [b3DynamicBvh.cpp <222:16 222:20>]
 LOCAL_SYMBOL: b3DynamicBvh.cpp<214:24> [b3DynamicBvh.cpp <222:22 222:25>]
@@ -565,7 +530,6 @@ REFERENCE_CALL static void b3FetchLeaves(b3DynamicBvh *, b3DbvtNode *, b3NodeArr
 LOCAL_SYMBOL: b3DynamicBvh.cpp<215:25> [b3DynamicBvh.cpp <226:3 226:8>]
 LOCAL_SYMBOL: b3DynamicBvh.cpp<214:24> [b3DynamicBvh.cpp <226:20 226:23>]
 SYMBOL_FUNCTION static void b3Split(const b3NodeArray &, b3NodeArray &, b3NodeArray &, const b3Vector3 &, const b3Vector3 &) [b3DynamicBvh.cpp <231:1 <231:18 231:24> 246:1>]
-SYMBOL_BUILTIN_TYPE void
 REFERENCE_TYPE_USAGE static void b3Split(const b3NodeArray &, b3NodeArray &, b3NodeArray &, const b3Vector3 &, const b3Vector3 &) -> void [b3DynamicBvh.cpp <231:8 231:11>]
 LOCAL_SYMBOL: b3DynamicBvh.cpp<231:46> [b3DynamicBvh.cpp <231:46 231:51>]
 REFERENCE_TYPE_USAGE static void b3Split(const b3NodeArray &, b3NodeArray &, b3NodeArray &, const b3Vector3 &, const b3Vector3 &) -> b3NodeArray [b3DynamicBvh.cpp <231:33 231:43>]
@@ -580,15 +544,11 @@ REFERENCE_TYPE_USAGE static void b3Split(const b3NodeArray &, b3NodeArray &, b3N
 SYMBOL_FUNCTION void b3AlignedObjectArray<b3DbvtNode *>::resize(int, b3DbvtNode * const &)
 REFERENCE_CALL static void b3Split(const b3NodeArray &, b3NodeArray &, b3NodeArray &, const b3Vector3 &, const b3Vector3 &) -> void b3AlignedObjectArray<b3DbvtNode *>::resize(int, b3DbvtNode * const &) [b3DynamicBvh.cpp <237:7 237:12>]
 LOCAL_SYMBOL: b3DynamicBvh.cpp<232:25> [b3DynamicBvh.cpp <237:2 237:5>]
-SYMBOL_FUNCTION void b3AlignedObjectArray<b3DbvtNode *>::resize(int, b3DbvtNode * const &)
 REFERENCE_CALL static void b3Split(const b3NodeArray &, b3NodeArray &, b3NodeArray &, const b3Vector3 &, const b3Vector3 &) -> void b3AlignedObjectArray<b3DbvtNode *>::resize(int, b3DbvtNode * const &) [b3DynamicBvh.cpp <238:8 238:13>]
 LOCAL_SYMBOL: b3DynamicBvh.cpp<233:25> [b3DynamicBvh.cpp <238:2 238:6>]
 LOCAL_SYMBOL: b3DynamicBvh.cpp<239:10> [b3DynamicBvh.cpp <239:10 239:10>]
-SYMBOL_BUILTIN_TYPE int
 REFERENCE_TYPE_USAGE static void b3Split(const b3NodeArray &, b3NodeArray &, b3NodeArray &, const b3Vector3 &, const b3Vector3 &) -> int [b3DynamicBvh.cpp <239:6 239:8>]
 LOCAL_SYMBOL: b3DynamicBvh.cpp<239:14> [b3DynamicBvh.cpp <239:14 239:15>]
-SYMBOL_BUILTIN_TYPE int
-REFERENCE_TYPE_USAGE static void b3Split(const b3NodeArray &, b3NodeArray &, b3NodeArray &, const b3Vector3 &, const b3Vector3 &) -> int [b3DynamicBvh.cpp <239:6 239:8>]
 SYMBOL_FUNCTION int b3AlignedObjectArray<b3DbvtNode *>::size() const
 REFERENCE_CALL static void b3Split(const b3NodeArray &, b3NodeArray &, b3NodeArray &, const b3Vector3 &, const b3Vector3 &) -> int b3AlignedObjectArray<b3DbvtNode *>::size() const [b3DynamicBvh.cpp <239:24 239:27>]
 LOCAL_SYMBOL: b3DynamicBvh.cpp<231:46> [b3DynamicBvh.cpp <239:17 239:22>]
@@ -608,17 +568,13 @@ REFERENCE_CALL static void b3Split(const b3NodeArray &, b3NodeArray &, b3NodeArr
 LOCAL_SYMBOL: b3DynamicBvh.cpp<231:46> [b3DynamicBvh.cpp <241:17 241:22>]
 LOCAL_SYMBOL: b3DynamicBvh.cpp<239:10> [b3DynamicBvh.cpp <241:24 241:24>]
 LOCAL_SYMBOL: b3DynamicBvh.cpp<234:29> [b3DynamicBvh.cpp <241:44 241:46>]
-SYMBOL_FUNCTION void b3AlignedObjectArray<b3DbvtNode *>::push_back(b3DbvtNode * const &)
 REFERENCE_CALL static void b3Split(const b3NodeArray &, b3NodeArray &, b3NodeArray &, const b3Vector3 &, const b3Vector3 &) -> void b3AlignedObjectArray<b3DbvtNode *>::push_back(b3DbvtNode * const &) [b3DynamicBvh.cpp <242:9 242:17>]
 LOCAL_SYMBOL: b3DynamicBvh.cpp<232:25> [b3DynamicBvh.cpp <242:4 242:7>]
-SYMBOL_FUNCTION b3DbvtNode * const & b3AlignedObjectArray<b3DbvtNode *>::operator[](int) const
 REFERENCE_CALL static void b3Split(const b3NodeArray &, b3NodeArray &, b3NodeArray &, const b3Vector3 &, const b3Vector3 &) -> b3DbvtNode * const & b3AlignedObjectArray<b3DbvtNode *>::operator[](int) const [b3DynamicBvh.cpp <242:25 242:25>]
 LOCAL_SYMBOL: b3DynamicBvh.cpp<231:46> [b3DynamicBvh.cpp <242:19 242:24>]
 LOCAL_SYMBOL: b3DynamicBvh.cpp<239:10> [b3DynamicBvh.cpp <242:26 242:26>]
-SYMBOL_FUNCTION void b3AlignedObjectArray<b3DbvtNode *>::push_back(b3DbvtNode * const &)
 REFERENCE_CALL static void b3Split(const b3NodeArray &, b3NodeArray &, b3NodeArray &, const b3Vector3 &, const b3Vector3 &) -> void b3AlignedObjectArray<b3DbvtNode *>::push_back(b3DbvtNode * const &) [b3DynamicBvh.cpp <244:10 244:18>]
 LOCAL_SYMBOL: b3DynamicBvh.cpp<233:25> [b3DynamicBvh.cpp <244:4 244:8>]
-SYMBOL_FUNCTION b3DbvtNode * const & b3AlignedObjectArray<b3DbvtNode *>::operator[](int) const
 REFERENCE_CALL static void b3Split(const b3NodeArray &, b3NodeArray &, b3NodeArray &, const b3Vector3 &, const b3Vector3 &) -> b3DbvtNode * const & b3AlignedObjectArray<b3DbvtNode *>::operator[](int) const [b3DynamicBvh.cpp <244:26 244:26>]
 LOCAL_SYMBOL: b3DynamicBvh.cpp<231:46> [b3DynamicBvh.cpp <244:20 244:25>]
 LOCAL_SYMBOL: b3DynamicBvh.cpp<239:10> [b3DynamicBvh.cpp <244:27 244:27>]
@@ -627,73 +583,56 @@ REFERENCE_TYPE_USAGE static b3DbvtVolume b3Bounds(const b3NodeArray &) -> b3Dbvt
 LOCAL_SYMBOL: b3DynamicBvh.cpp<249:53> [b3DynamicBvh.cpp <249:53 249:58>]
 REFERENCE_TYPE_USAGE static b3DbvtVolume b3Bounds(const b3NodeArray &) -> b3NodeArray [b3DynamicBvh.cpp <249:40 249:50>]
 LOCAL_SYMBOL: b3DynamicBvh.cpp<252:30> [b3DynamicBvh.cpp <252:30 252:35>]
-SYMBOL_BUILTIN_TYPE char
 REFERENCE_TYPE_USAGE static b3DbvtVolume b3Bounds(const b3NodeArray &) -> char [b3DynamicBvh.cpp <252:25 252:28>]
 REFERENCE_TYPE_USAGE static b3DbvtVolume b3Bounds(const b3NodeArray &) -> b3DbvtVolume [b3DynamicBvh.cpp <252:44 252:55>]
 LOCAL_SYMBOL: b3DynamicBvh.cpp<253:16> [b3DynamicBvh.cpp <253:16 253:21>]
 REFERENCE_TYPE_USAGE static b3DbvtVolume b3Bounds(const b3NodeArray &) -> b3DbvtVolume [b3DynamicBvh.cpp <253:2 253:13>]
 REFERENCE_TYPE_USAGE static b3DbvtVolume b3Bounds(const b3NodeArray &) -> b3DbvtVolume [b3DynamicBvh.cpp <253:25 253:36>]
 LOCAL_SYMBOL: b3DynamicBvh.cpp<252:30> [b3DynamicBvh.cpp <253:39 253:44>]
-SYMBOL_FUNCTION b3DbvtAabbMm & b3DbvtAabbMm::operator=(const b3DbvtAabbMm &)
 REFERENCE_CALL static b3DbvtVolume b3Bounds(const b3NodeArray &) -> b3DbvtAabbMm & b3DbvtAabbMm::operator=(const b3DbvtAabbMm &) [b3DynamicBvh.cpp <254:8 254:8>]
 LOCAL_SYMBOL: b3DynamicBvh.cpp<253:16> [b3DynamicBvh.cpp <254:2 254:7>]
 REFERENCE_USAGE static b3DbvtVolume b3Bounds(const b3NodeArray &) -> b3DbvtVolume b3DbvtNode::volume [b3DynamicBvh.cpp <254:20 254:25>]
-SYMBOL_FUNCTION b3DbvtNode * const & b3AlignedObjectArray<b3DbvtNode *>::operator[](int) const
 REFERENCE_CALL static b3DbvtVolume b3Bounds(const b3NodeArray &) -> b3DbvtNode * const & b3AlignedObjectArray<b3DbvtNode *>::operator[](int) const [b3DynamicBvh.cpp <254:15 254:15>]
 LOCAL_SYMBOL: b3DynamicBvh.cpp<249:53> [b3DynamicBvh.cpp <254:9 254:14>]
 LOCAL_SYMBOL: b3DynamicBvh.cpp<258:10> [b3DynamicBvh.cpp <258:10 258:10>]
-SYMBOL_BUILTIN_TYPE int
 REFERENCE_TYPE_USAGE static b3DbvtVolume b3Bounds(const b3NodeArray &) -> int [b3DynamicBvh.cpp <258:6 258:8>]
 LOCAL_SYMBOL: b3DynamicBvh.cpp<258:14> [b3DynamicBvh.cpp <258:14 258:15>]
-SYMBOL_BUILTIN_TYPE int
-REFERENCE_TYPE_USAGE static b3DbvtVolume b3Bounds(const b3NodeArray &) -> int [b3DynamicBvh.cpp <258:6 258:8>]
-SYMBOL_FUNCTION int b3AlignedObjectArray<b3DbvtNode *>::size() const
 REFERENCE_CALL static b3DbvtVolume b3Bounds(const b3NodeArray &) -> int b3AlignedObjectArray<b3DbvtNode *>::size() const [b3DynamicBvh.cpp <258:24 258:27>]
 LOCAL_SYMBOL: b3DynamicBvh.cpp<249:53> [b3DynamicBvh.cpp <258:17 258:22>]
 LOCAL_SYMBOL: b3DynamicBvh.cpp<258:10> [b3DynamicBvh.cpp <258:31 258:31>]
 LOCAL_SYMBOL: b3DynamicBvh.cpp<258:14> [b3DynamicBvh.cpp <258:33 258:34>]
 LOCAL_SYMBOL: b3DynamicBvh.cpp<258:10> [b3DynamicBvh.cpp <258:38 258:38>]
-SYMBOL_FUNCTION void b3Merge(const b3DbvtAabbMm &, const b3DbvtAabbMm &, b3DbvtAabbMm &)
 REFERENCE_CALL static b3DbvtVolume b3Bounds(const b3NodeArray &) -> void b3Merge(const b3DbvtAabbMm &, const b3DbvtAabbMm &, b3DbvtAabbMm &) [b3DynamicBvh.cpp <260:3 260:9>]
 LOCAL_SYMBOL: b3DynamicBvh.cpp<253:16> [b3DynamicBvh.cpp <260:11 260:16>]
 REFERENCE_USAGE static b3DbvtVolume b3Bounds(const b3NodeArray &) -> b3DbvtVolume b3DbvtNode::volume [b3DynamicBvh.cpp <260:29 260:34>]
-SYMBOL_FUNCTION b3DbvtNode * const & b3AlignedObjectArray<b3DbvtNode *>::operator[](int) const
 REFERENCE_CALL static b3DbvtVolume b3Bounds(const b3NodeArray &) -> b3DbvtNode * const & b3AlignedObjectArray<b3DbvtNode *>::operator[](int) const [b3DynamicBvh.cpp <260:24 260:24>]
 LOCAL_SYMBOL: b3DynamicBvh.cpp<249:53> [b3DynamicBvh.cpp <260:18 260:23>]
 LOCAL_SYMBOL: b3DynamicBvh.cpp<258:10> [b3DynamicBvh.cpp <260:25 260:25>]
 LOCAL_SYMBOL: b3DynamicBvh.cpp<253:16> [b3DynamicBvh.cpp <260:36 260:41>]
-SYMBOL_FUNCTION void b3DbvtAabbMm::b3DbvtAabbMm(const b3DbvtAabbMm &)
 REFERENCE_CALL static b3DbvtVolume b3Bounds(const b3NodeArray &) -> void b3DbvtAabbMm::b3DbvtAabbMm(const b3DbvtAabbMm &) [b3DynamicBvh.cpp <262:15 262:15>]
 LOCAL_SYMBOL: b3DynamicBvh.cpp<253:16> [b3DynamicBvh.cpp <262:9 262:14>]
 SYMBOL_FUNCTION static void b3BottomUp(b3DynamicBvh *, b3NodeArray &) [b3DynamicBvh.cpp <266:1 <266:18 266:27> 296:1>]
-SYMBOL_BUILTIN_TYPE void
 REFERENCE_TYPE_USAGE static void b3BottomUp(b3DynamicBvh *, b3NodeArray &) -> void [b3DynamicBvh.cpp <266:8 266:11>]
 LOCAL_SYMBOL: b3DynamicBvh.cpp<266:44> [b3DynamicBvh.cpp <266:44 266:48>]
 REFERENCE_TYPE_USAGE static void b3BottomUp(b3DynamicBvh *, b3NodeArray &) -> b3DynamicBvh [b3DynamicBvh.cpp <266:30 266:41>]
 LOCAL_SYMBOL: b3DynamicBvh.cpp<267:25> [b3DynamicBvh.cpp <267:25 267:30>]
 REFERENCE_TYPE_USAGE static void b3BottomUp(b3DynamicBvh *, b3NodeArray &) -> b3NodeArray [b3DynamicBvh.cpp <267:12 267:22>]
-SYMBOL_FUNCTION int b3AlignedObjectArray<b3DbvtNode *>::size() const
 REFERENCE_CALL static void b3BottomUp(b3DynamicBvh *, b3NodeArray &) -> int b3AlignedObjectArray<b3DbvtNode *>::size() const [b3DynamicBvh.cpp <269:15 269:18>]
 LOCAL_SYMBOL: b3DynamicBvh.cpp<267:25> [b3DynamicBvh.cpp <269:8 269:13>]
 LOCAL_SYMBOL: b3DynamicBvh.cpp<271:12> [b3DynamicBvh.cpp <271:12 271:18>]
 REFERENCE_TYPE_USAGE static void b3BottomUp(b3DynamicBvh *, b3NodeArray &) -> b3Scalar [b3DynamicBvh.cpp <271:3 271:10>]
 LOCAL_SYMBOL: b3DynamicBvh.cpp<272:9> [b3DynamicBvh.cpp <272:9 272:14>]
-SYMBOL_BUILTIN_TYPE int
 REFERENCE_TYPE_USAGE static void b3BottomUp(b3DynamicBvh *, b3NodeArray &) -> int [b3DynamicBvh.cpp <272:3 272:5>]
 LOCAL_SYMBOL: b3DynamicBvh.cpp<273:11> [b3DynamicBvh.cpp <273:11 273:11>]
-SYMBOL_BUILTIN_TYPE int
 REFERENCE_TYPE_USAGE static void b3BottomUp(b3DynamicBvh *, b3NodeArray &) -> int [b3DynamicBvh.cpp <273:7 273:9>]
 LOCAL_SYMBOL: b3DynamicBvh.cpp<273:11> [b3DynamicBvh.cpp <273:15 273:15>]
-SYMBOL_FUNCTION int b3AlignedObjectArray<b3DbvtNode *>::size() const
 REFERENCE_CALL static void b3BottomUp(b3DynamicBvh *, b3NodeArray &) -> int b3AlignedObjectArray<b3DbvtNode *>::size() const [b3DynamicBvh.cpp <273:24 273:27>]
 LOCAL_SYMBOL: b3DynamicBvh.cpp<267:25> [b3DynamicBvh.cpp <273:17 273:22>]
 LOCAL_SYMBOL: b3DynamicBvh.cpp<273:11> [b3DynamicBvh.cpp <273:33 273:33>]
 LOCAL_SYMBOL: b3DynamicBvh.cpp<275:12> [b3DynamicBvh.cpp <275:12 275:12>]
-SYMBOL_BUILTIN_TYPE int
 REFERENCE_TYPE_USAGE static void b3BottomUp(b3DynamicBvh *, b3NodeArray &) -> int [b3DynamicBvh.cpp <275:8 275:10>]
 LOCAL_SYMBOL: b3DynamicBvh.cpp<273:11> [b3DynamicBvh.cpp <275:14 275:14>]
 LOCAL_SYMBOL: b3DynamicBvh.cpp<275:12> [b3DynamicBvh.cpp <275:18 275:18>]
-SYMBOL_FUNCTION int b3AlignedObjectArray<b3DbvtNode *>::size() const
 REFERENCE_CALL static void b3BottomUp(b3DynamicBvh *, b3NodeArray &) -> int b3AlignedObjectArray<b3DbvtNode *>::size() const [b3DynamicBvh.cpp <275:27 275:30>]
 LOCAL_SYMBOL: b3DynamicBvh.cpp<267:25> [b3DynamicBvh.cpp <275:20 275:25>]
 LOCAL_SYMBOL: b3DynamicBvh.cpp<275:12> [b3DynamicBvh.cpp <275:36 275:36>]
@@ -709,7 +648,6 @@ REFERENCE_CALL static void b3BottomUp(b3DynamicBvh *, b3NodeArray &) -> b3DbvtNo
 LOCAL_SYMBOL: b3DynamicBvh.cpp<267:25> [b3DynamicBvh.cpp <277:38 277:43>]
 LOCAL_SYMBOL: b3DynamicBvh.cpp<273:11> [b3DynamicBvh.cpp <277:45 277:45>]
 REFERENCE_USAGE static void b3BottomUp(b3DynamicBvh *, b3NodeArray &) -> b3DbvtVolume b3DbvtNode::volume [b3DynamicBvh.cpp <277:67 277:72>]
-SYMBOL_FUNCTION b3DbvtNode * & b3AlignedObjectArray<b3DbvtNode *>::operator[](int)
 REFERENCE_CALL static void b3BottomUp(b3DynamicBvh *, b3NodeArray &) -> b3DbvtNode * & b3AlignedObjectArray<b3DbvtNode *>::operator[](int) [b3DynamicBvh.cpp <277:62 277:62>]
 LOCAL_SYMBOL: b3DynamicBvh.cpp<267:25> [b3DynamicBvh.cpp <277:56 277:61>]
 LOCAL_SYMBOL: b3DynamicBvh.cpp<275:12> [b3DynamicBvh.cpp <277:63 277:63>]
@@ -723,25 +661,14 @@ LOCAL_SYMBOL: b3DynamicBvh.cpp<272:9> [b3DynamicBvh.cpp <282:6 282:11>]
 LOCAL_SYMBOL: b3DynamicBvh.cpp<275:12> [b3DynamicBvh.cpp <282:18 282:18>]
 LOCAL_SYMBOL: b3DynamicBvh.cpp<286:15> [b3DynamicBvh.cpp <286:15 286:15>]
 REFERENCE_TYPE_USAGE static void b3BottomUp(b3DynamicBvh *, b3NodeArray &) -> b3DbvtNode [b3DynamicBvh.cpp <286:3 286:12>]
-SYMBOL_FUNCTION b3DbvtNode * & b3AlignedObjectArray<b3DbvtNode *>::operator[](int)
 REFERENCE_CALL static void b3BottomUp(b3DynamicBvh *, b3NodeArray &) -> b3DbvtNode * & b3AlignedObjectArray<b3DbvtNode *>::operator[](int) [b3DynamicBvh.cpp <286:28 286:28>]
 LOCAL_SYMBOL: b3DynamicBvh.cpp<267:25> [b3DynamicBvh.cpp <286:22 286:27>]
 LOCAL_SYMBOL: b3DynamicBvh.cpp<272:9> [b3DynamicBvh.cpp <286:29 286:34>]
-SYMBOL_FUNCTION b3DbvtNode * & b3AlignedObjectArray<b3DbvtNode *>::operator[](int)
-REFERENCE_CALL static void b3BottomUp(b3DynamicBvh *, b3NodeArray &) -> b3DbvtNode * & b3AlignedObjectArray<b3DbvtNode *>::operator[](int) [b3DynamicBvh.cpp <286:46 286:46>]
-LOCAL_SYMBOL: b3DynamicBvh.cpp<267:25> [b3DynamicBvh.cpp <286:40 286:45>]
-LOCAL_SYMBOL: b3DynamicBvh.cpp<272:9> [b3DynamicBvh.cpp <286:47 286:52>]
-SYMBOL_FUNCTION b3DbvtNode * & b3AlignedObjectArray<b3DbvtNode *>::operator[](int)
-REFERENCE_CALL static void b3BottomUp(b3DynamicBvh *, b3NodeArray &) -> b3DbvtNode * & b3AlignedObjectArray<b3DbvtNode *>::operator[](int) [b3DynamicBvh.cpp <286:28 286:28>]
-LOCAL_SYMBOL: b3DynamicBvh.cpp<267:25> [b3DynamicBvh.cpp <286:22 286:27>]
-LOCAL_SYMBOL: b3DynamicBvh.cpp<272:9> [b3DynamicBvh.cpp <286:29 286:34>]
-SYMBOL_FUNCTION b3DbvtNode * & b3AlignedObjectArray<b3DbvtNode *>::operator[](int)
 REFERENCE_CALL static void b3BottomUp(b3DynamicBvh *, b3NodeArray &) -> b3DbvtNode * & b3AlignedObjectArray<b3DbvtNode *>::operator[](int) [b3DynamicBvh.cpp <286:46 286:46>]
 LOCAL_SYMBOL: b3DynamicBvh.cpp<267:25> [b3DynamicBvh.cpp <286:40 286:45>]
 LOCAL_SYMBOL: b3DynamicBvh.cpp<272:9> [b3DynamicBvh.cpp <286:47 286:52>]
 LOCAL_SYMBOL: b3DynamicBvh.cpp<287:15> [b3DynamicBvh.cpp <287:15 287:15>]
 REFERENCE_TYPE_USAGE static void b3BottomUp(b3DynamicBvh *, b3NodeArray &) -> b3DbvtNode [b3DynamicBvh.cpp <287:3 287:12>]
-SYMBOL_FUNCTION static b3DbvtNode * b3CreateNode(b3DynamicBvh *, b3DbvtNode *, const b3DbvtVolume &, const b3DbvtVolume &, void *)
 REFERENCE_CALL static void b3BottomUp(b3DynamicBvh *, b3NodeArray &) -> static b3DbvtNode * b3CreateNode(b3DynamicBvh *, b3DbvtNode *, const b3DbvtVolume &, const b3DbvtVolume &, void *) [b3DynamicBvh.cpp <287:19 287:30>]
 LOCAL_SYMBOL: b3DynamicBvh.cpp<266:44> [b3DynamicBvh.cpp <287:32 287:36>]
 REFERENCE_USAGE static void b3BottomUp(b3DynamicBvh *, b3NodeArray &) -> b3DbvtVolume b3DbvtNode::volume [b3DynamicBvh.cpp <287:46 287:51>]
@@ -762,7 +689,6 @@ LOCAL_SYMBOL: b3DynamicBvh.cpp<287:15> [b3DynamicBvh.cpp <290:19 290:19>]
 REFERENCE_USAGE static void b3BottomUp(b3DynamicBvh *, b3NodeArray &) -> b3DbvtNode * b3DbvtNode::parent [b3DynamicBvh.cpp <291:9 291:14>]
 LOCAL_SYMBOL: b3DynamicBvh.cpp<286:15> [b3DynamicBvh.cpp <291:3 291:3>]
 LOCAL_SYMBOL: b3DynamicBvh.cpp<287:15> [b3DynamicBvh.cpp <291:19 291:19>]
-SYMBOL_FUNCTION b3DbvtNode * & b3AlignedObjectArray<b3DbvtNode *>::operator[](int)
 REFERENCE_CALL static void b3BottomUp(b3DynamicBvh *, b3NodeArray &) -> b3DbvtNode * & b3AlignedObjectArray<b3DbvtNode *>::operator[](int) [b3DynamicBvh.cpp <292:9 292:9>]
 LOCAL_SYMBOL: b3DynamicBvh.cpp<267:25> [b3DynamicBvh.cpp <292:3 292:8>]
 LOCAL_SYMBOL: b3DynamicBvh.cpp<272:9> [b3DynamicBvh.cpp <292:10 292:15>]
@@ -771,7 +697,6 @@ SYMBOL_FUNCTION void b3AlignedObjectArray<b3DbvtNode *>::swap(int, int)
 REFERENCE_CALL static void b3BottomUp(b3DynamicBvh *, b3NodeArray &) -> void b3AlignedObjectArray<b3DbvtNode *>::swap(int, int) [b3DynamicBvh.cpp <293:10 293:13>]
 LOCAL_SYMBOL: b3DynamicBvh.cpp<267:25> [b3DynamicBvh.cpp <293:3 293:8>]
 LOCAL_SYMBOL: b3DynamicBvh.cpp<272:9> [b3DynamicBvh.cpp <293:15 293:20>]
-SYMBOL_FUNCTION int b3AlignedObjectArray<b3DbvtNode *>::size() const
 REFERENCE_CALL static void b3BottomUp(b3DynamicBvh *, b3NodeArray &) -> int b3AlignedObjectArray<b3DbvtNode *>::size() const [b3DynamicBvh.cpp <293:32 293:35>]
 LOCAL_SYMBOL: b3DynamicBvh.cpp<267:25> [b3DynamicBvh.cpp <293:25 293:30>]
 SYMBOL_FUNCTION void b3AlignedObjectArray<b3DbvtNode *>::pop_back()
@@ -784,26 +709,15 @@ REFERENCE_TYPE_USAGE static b3DbvtNode * b3TopDown(b3DynamicBvh *, b3NodeArray &
 LOCAL_SYMBOL: b3DynamicBvh.cpp<300:23> [b3DynamicBvh.cpp <300:23 300:28>]
 REFERENCE_TYPE_USAGE static b3DbvtNode * b3TopDown(b3DynamicBvh *, b3NodeArray &, int) -> b3NodeArray [b3DynamicBvh.cpp <300:10 300:20>]
 LOCAL_SYMBOL: b3DynamicBvh.cpp<301:14> [b3DynamicBvh.cpp <301:14 301:24>]
-SYMBOL_BUILTIN_TYPE int
 REFERENCE_TYPE_USAGE static b3DbvtNode * b3TopDown(b3DynamicBvh *, b3NodeArray &, int) -> int [b3DynamicBvh.cpp <301:10 301:12>]
 LOCAL_SYMBOL: b3DynamicBvh.cpp<303:25> [b3DynamicBvh.cpp <303:25 303:28>]
 REFERENCE_TYPE_USAGE static b3DbvtNode * b3TopDown(b3DynamicBvh *, b3NodeArray &, int) -> b3Vector3 [b3DynamicBvh.cpp <303:15 303:23>]
 SYMBOL_FUNCTION b3Vector3 b3MakeVector3(b3Scalar, b3Scalar, b3Scalar)
 REFERENCE_CALL static b3DbvtNode * b3TopDown(b3DynamicBvh *, b3NodeArray &, int) -> b3Vector3 b3MakeVector3(b3Scalar, b3Scalar, b3Scalar) [b3DynamicBvh.cpp <303:33 303:45>]
-SYMBOL_FUNCTION b3Vector3 b3MakeVector3(b3Scalar, b3Scalar, b3Scalar)
 REFERENCE_CALL static b3DbvtNode * b3TopDown(b3DynamicBvh *, b3NodeArray &, int) -> b3Vector3 b3MakeVector3(b3Scalar, b3Scalar, b3Scalar) [b3DynamicBvh.cpp <304:3 304:15>]
-SYMBOL_FUNCTION b3Vector3 b3MakeVector3(b3Scalar, b3Scalar, b3Scalar)
 REFERENCE_CALL static b3DbvtNode * b3TopDown(b3DynamicBvh *, b3NodeArray &, int) -> b3Vector3 b3MakeVector3(b3Scalar, b3Scalar, b3Scalar) [b3DynamicBvh.cpp <305:3 305:15>]
-SYMBOL_FUNCTION b3Vector3 b3MakeVector3(b3Scalar, b3Scalar, b3Scalar)
-REFERENCE_CALL static b3DbvtNode * b3TopDown(b3DynamicBvh *, b3NodeArray &, int) -> b3Vector3 b3MakeVector3(b3Scalar, b3Scalar, b3Scalar) [b3DynamicBvh.cpp <303:33 303:45>]
-SYMBOL_FUNCTION b3Vector3 b3MakeVector3(b3Scalar, b3Scalar, b3Scalar)
-REFERENCE_CALL static b3DbvtNode * b3TopDown(b3DynamicBvh *, b3NodeArray &, int) -> b3Vector3 b3MakeVector3(b3Scalar, b3Scalar, b3Scalar) [b3DynamicBvh.cpp <304:3 304:15>]
-SYMBOL_FUNCTION b3Vector3 b3MakeVector3(b3Scalar, b3Scalar, b3Scalar)
-REFERENCE_CALL static b3DbvtNode * b3TopDown(b3DynamicBvh *, b3NodeArray &, int) -> b3Vector3 b3MakeVector3(b3Scalar, b3Scalar, b3Scalar) [b3DynamicBvh.cpp <305:3 305:15>]
-SYMBOL_FUNCTION int b3AlignedObjectArray<b3DbvtNode *>::size() const
 REFERENCE_CALL static b3DbvtNode * b3TopDown(b3DynamicBvh *, b3NodeArray &, int) -> int b3AlignedObjectArray<b3DbvtNode *>::size() const [b3DynamicBvh.cpp <306:12 306:15>]
 LOCAL_SYMBOL: b3DynamicBvh.cpp<300:23> [b3DynamicBvh.cpp <306:5 306:10>]
-SYMBOL_FUNCTION int b3AlignedObjectArray<b3DbvtNode *>::size() const
 REFERENCE_CALL static b3DbvtNode * b3TopDown(b3DynamicBvh *, b3NodeArray &, int) -> int b3AlignedObjectArray<b3DbvtNode *>::size() const [b3DynamicBvh.cpp <308:13 308:16>]
 LOCAL_SYMBOL: b3DynamicBvh.cpp<300:23> [b3DynamicBvh.cpp <308:6 308:11>]
 LOCAL_SYMBOL: b3DynamicBvh.cpp<301:14> [b3DynamicBvh.cpp <308:20 308:30>]
@@ -814,7 +728,6 @@ REFERENCE_CALL static b3DbvtNode * b3TopDown(b3DynamicBvh *, b3NodeArray &, int)
 LOCAL_SYMBOL: b3DynamicBvh.cpp<300:23> [b3DynamicBvh.cpp <310:36 310:41>]
 LOCAL_SYMBOL: b3DynamicBvh.cpp<311:22> [b3DynamicBvh.cpp <311:22 311:24>]
 REFERENCE_TYPE_USAGE static b3DbvtNode * b3TopDown(b3DynamicBvh *, b3NodeArray &, int) -> b3Vector3 [b3DynamicBvh.cpp <311:10 311:18>]
-SYMBOL_FUNCTION b3Vector3 b3DbvtAabbMm::Center() const
 REFERENCE_CALL static b3DbvtNode * b3TopDown(b3DynamicBvh *, b3NodeArray &, int) -> b3Vector3 b3DbvtAabbMm::Center() const [b3DynamicBvh.cpp <311:30 311:35>]
 LOCAL_SYMBOL: b3DynamicBvh.cpp<310:23> [b3DynamicBvh.cpp <311:26 311:28>]
 LOCAL_SYMBOL: b3DynamicBvh.cpp<312:19> [b3DynamicBvh.cpp <312:19 312:22>]
@@ -822,46 +735,35 @@ REFERENCE_TYPE_USAGE static b3DbvtNode * b3TopDown(b3DynamicBvh *, b3NodeArray &
 SYMBOL_FUNCTION void b3AlignedObjectArray<b3DbvtNode *>::b3AlignedObjectArray()
 REFERENCE_CALL static b3DbvtNode * b3TopDown(b3DynamicBvh *, b3NodeArray &, int) -> void b3AlignedObjectArray<b3DbvtNode *>::b3AlignedObjectArray() [b3DynamicBvh.cpp <312:19 312:22>]
 LOCAL_SYMBOL: b3DynamicBvh.cpp<313:13> [b3DynamicBvh.cpp <313:13 313:20>]
-SYMBOL_BUILTIN_TYPE int
 REFERENCE_TYPE_USAGE static b3DbvtNode * b3TopDown(b3DynamicBvh *, b3NodeArray &, int) -> int [b3DynamicBvh.cpp <313:4 313:6>]
 LOCAL_SYMBOL: b3DynamicBvh.cpp<314:13> [b3DynamicBvh.cpp <314:13 314:20>]
-SYMBOL_BUILTIN_TYPE int
 REFERENCE_TYPE_USAGE static b3DbvtNode * b3TopDown(b3DynamicBvh *, b3NodeArray &, int) -> int [b3DynamicBvh.cpp <314:4 314:6>]
-SYMBOL_FUNCTION int b3AlignedObjectArray<b3DbvtNode *>::size() const
 REFERENCE_CALL static b3DbvtNode * b3TopDown(b3DynamicBvh *, b3NodeArray &, int) -> int b3AlignedObjectArray<b3DbvtNode *>::size() const [b3DynamicBvh.cpp <314:29 314:32>]
 LOCAL_SYMBOL: b3DynamicBvh.cpp<300:23> [b3DynamicBvh.cpp <314:22 314:27>]
 LOCAL_SYMBOL: b3DynamicBvh.cpp<315:13> [b3DynamicBvh.cpp <315:13 315:22>]
-SYMBOL_BUILTIN_TYPE int
 REFERENCE_TYPE_USAGE static b3DbvtNode * b3TopDown(b3DynamicBvh *, b3NodeArray &, int) -> int [b3DynamicBvh.cpp <315:4 315:6>]
 LOCAL_SYMBOL: b3DynamicBvh.cpp<316:8> [b3DynamicBvh.cpp <316:8 316:8>]
-SYMBOL_BUILTIN_TYPE int
 REFERENCE_TYPE_USAGE static b3DbvtNode * b3TopDown(b3DynamicBvh *, b3NodeArray &, int) -> int [b3DynamicBvh.cpp <316:4 316:6>]
 LOCAL_SYMBOL: b3DynamicBvh.cpp<316:8> [b3DynamicBvh.cpp <317:9 317:9>]
 LOCAL_SYMBOL: b3DynamicBvh.cpp<316:8> [b3DynamicBvh.cpp <317:13 317:13>]
-SYMBOL_FUNCTION int b3AlignedObjectArray<b3DbvtNode *>::size() const
 REFERENCE_CALL static b3DbvtNode * b3TopDown(b3DynamicBvh *, b3NodeArray &, int) -> int b3AlignedObjectArray<b3DbvtNode *>::size() const [b3DynamicBvh.cpp <317:22 317:25>]
 LOCAL_SYMBOL: b3DynamicBvh.cpp<300:23> [b3DynamicBvh.cpp <317:15 317:20>]
 LOCAL_SYMBOL: b3DynamicBvh.cpp<316:8> [b3DynamicBvh.cpp <317:31 317:31>]
 LOCAL_SYMBOL: b3DynamicBvh.cpp<319:21> [b3DynamicBvh.cpp <319:21 319:21>]
 REFERENCE_TYPE_USAGE static b3DbvtNode * b3TopDown(b3DynamicBvh *, b3NodeArray &, int) -> b3Vector3 [b3DynamicBvh.cpp <319:11 319:19>]
-SYMBOL_FUNCTION b3Vector3 operator-(const b3Vector3 &, const b3Vector3 &)
 REFERENCE_CALL static b3DbvtNode * b3TopDown(b3DynamicBvh *, b3NodeArray &, int) -> b3Vector3 operator-(const b3Vector3 &, const b3Vector3 &) [b3DynamicBvh.cpp <319:49 319:49>]
-SYMBOL_FUNCTION b3Vector3 b3DbvtAabbMm::Center() const
 REFERENCE_CALL static b3DbvtNode * b3TopDown(b3DynamicBvh *, b3NodeArray &, int) -> b3Vector3 b3DbvtAabbMm::Center() const [b3DynamicBvh.cpp <319:41 319:46>]
 REFERENCE_USAGE static b3DbvtNode * b3TopDown(b3DynamicBvh *, b3NodeArray &, int) -> b3DbvtVolume b3DbvtNode::volume [b3DynamicBvh.cpp <319:34 319:39>]
-SYMBOL_FUNCTION b3DbvtNode * & b3AlignedObjectArray<b3DbvtNode *>::operator[](int)
 REFERENCE_CALL static b3DbvtNode * b3TopDown(b3DynamicBvh *, b3NodeArray &, int) -> b3DbvtNode * & b3AlignedObjectArray<b3DbvtNode *>::operator[](int) [b3DynamicBvh.cpp <319:29 319:29>]
 LOCAL_SYMBOL: b3DynamicBvh.cpp<300:23> [b3DynamicBvh.cpp <319:23 319:28>]
 LOCAL_SYMBOL: b3DynamicBvh.cpp<316:8> [b3DynamicBvh.cpp <319:30 319:30>]
 LOCAL_SYMBOL: b3DynamicBvh.cpp<311:22> [b3DynamicBvh.cpp <319:50 319:52>]
 LOCAL_SYMBOL: b3DynamicBvh.cpp<320:13> [b3DynamicBvh.cpp <320:13 320:13>]
-SYMBOL_BUILTIN_TYPE int
 REFERENCE_TYPE_USAGE static b3DbvtNode * b3TopDown(b3DynamicBvh *, b3NodeArray &, int) -> int [b3DynamicBvh.cpp <320:9 320:11>]
 LOCAL_SYMBOL: b3DynamicBvh.cpp<320:13> [b3DynamicBvh.cpp <320:17 320:17>]
 LOCAL_SYMBOL: b3DynamicBvh.cpp<320:13> [b3DynamicBvh.cpp <320:23 320:23>]
 LOCAL_SYMBOL: b3DynamicBvh.cpp<315:13> [b3DynamicBvh.cpp <322:8 322:17>]
 LOCAL_SYMBOL: b3DynamicBvh.cpp<320:13> [b3DynamicBvh.cpp <322:19 322:19>]
-SYMBOL_FUNCTION b3Scalar b3Dot(const b3Vector3 &, const b3Vector3 &)
 REFERENCE_CALL static b3DbvtNode * b3TopDown(b3DynamicBvh *, b3NodeArray &, int) -> b3Scalar b3Dot(const b3Vector3 &, const b3Vector3 &) [b3DynamicBvh.cpp <322:22 322:26>]
 LOCAL_SYMBOL: b3DynamicBvh.cpp<319:21> [b3DynamicBvh.cpp <322:28 322:28>]
 LOCAL_SYMBOL: b3DynamicBvh.cpp<303:25> [b3DynamicBvh.cpp <322:30 322:33>]
@@ -874,9 +776,7 @@ LOCAL_SYMBOL: b3DynamicBvh.cpp<316:8> [b3DynamicBvh.cpp <327:20 327:20>]
 LOCAL_SYMBOL: b3DynamicBvh.cpp<315:13> [b3DynamicBvh.cpp <327:31 327:40>]
 LOCAL_SYMBOL: b3DynamicBvh.cpp<316:8> [b3DynamicBvh.cpp <327:42 327:42>]
 LOCAL_SYMBOL: b3DynamicBvh.cpp<329:16> [b3DynamicBvh.cpp <329:16 329:19>]
-SYMBOL_BUILTIN_TYPE int
 REFERENCE_TYPE_USAGE static b3DbvtNode * b3TopDown(b3DynamicBvh *, b3NodeArray &, int) -> int [b3DynamicBvh.cpp <329:12 329:14>]
-SYMBOL_BUILTIN_TYPE int
 REFERENCE_TYPE_USAGE static b3DbvtNode * b3TopDown(b3DynamicBvh *, b3NodeArray &, int) -> int [b3DynamicBvh.cpp <329:22 329:24>]
 SYMBOL_FUNCTION b3Scalar b3Fabs(b3Scalar)
 REFERENCE_CALL static b3DbvtNode * b3TopDown(b3DynamicBvh *, b3NodeArray &, int) -> b3Scalar b3Fabs(b3Scalar) [b3DynamicBvh.cpp <329:26 329:31>]
@@ -897,7 +797,6 @@ REFERENCE_CALL static b3DbvtNode * b3TopDown(b3DynamicBvh *, b3NodeArray &, int)
 LOCAL_SYMBOL: b3DynamicBvh.cpp<312:19> [b3DynamicBvh.cpp <339:5 339:8>]
 LOCAL_SYMBOL: b3DynamicBvh.cpp<315:13> [b3DynamicBvh.cpp <339:21 339:30>]
 LOCAL_SYMBOL: b3DynamicBvh.cpp<313:13> [b3DynamicBvh.cpp <339:32 339:39>]
-SYMBOL_FUNCTION void b3AlignedObjectArray<b3DbvtNode *>::reserve(int)
 REFERENCE_CALL static b3DbvtNode * b3TopDown(b3DynamicBvh *, b3NodeArray &, int) -> void b3AlignedObjectArray<b3DbvtNode *>::reserve(int) [b3DynamicBvh.cpp <340:13 340:19>]
 LOCAL_SYMBOL: b3DynamicBvh.cpp<312:19> [b3DynamicBvh.cpp <340:5 340:8>]
 LOCAL_SYMBOL: b3DynamicBvh.cpp<315:13> [b3DynamicBvh.cpp <340:21 340:30>]
@@ -910,35 +809,25 @@ LOCAL_SYMBOL: b3DynamicBvh.cpp<312:19> [b3DynamicBvh.cpp <341:28 341:31>]
 LOCAL_SYMBOL: b3DynamicBvh.cpp<311:22> [b3DynamicBvh.cpp <341:36 341:38>]
 LOCAL_SYMBOL: b3DynamicBvh.cpp<303:25> [b3DynamicBvh.cpp <341:40 341:43>]
 LOCAL_SYMBOL: b3DynamicBvh.cpp<313:13> [b3DynamicBvh.cpp <341:45 341:52>]
-SYMBOL_FUNCTION void b3AlignedObjectArray<b3DbvtNode *>::reserve(int)
 REFERENCE_CALL static b3DbvtNode * b3TopDown(b3DynamicBvh *, b3NodeArray &, int) -> void b3AlignedObjectArray<b3DbvtNode *>::reserve(int) [b3DynamicBvh.cpp <345:13 345:19>]
 LOCAL_SYMBOL: b3DynamicBvh.cpp<312:19> [b3DynamicBvh.cpp <345:5 345:8>]
-SYMBOL_FUNCTION int b3AlignedObjectArray<b3DbvtNode *>::size() const
 REFERENCE_CALL static b3DbvtNode * b3TopDown(b3DynamicBvh *, b3NodeArray &, int) -> int b3AlignedObjectArray<b3DbvtNode *>::size() const [b3DynamicBvh.cpp <345:28 345:31>]
 LOCAL_SYMBOL: b3DynamicBvh.cpp<300:23> [b3DynamicBvh.cpp <345:21 345:26>]
-SYMBOL_FUNCTION void b3AlignedObjectArray<b3DbvtNode *>::reserve(int)
 REFERENCE_CALL static b3DbvtNode * b3TopDown(b3DynamicBvh *, b3NodeArray &, int) -> void b3AlignedObjectArray<b3DbvtNode *>::reserve(int) [b3DynamicBvh.cpp <346:13 346:19>]
 LOCAL_SYMBOL: b3DynamicBvh.cpp<312:19> [b3DynamicBvh.cpp <346:5 346:8>]
-SYMBOL_FUNCTION int b3AlignedObjectArray<b3DbvtNode *>::size() const
 REFERENCE_CALL static b3DbvtNode * b3TopDown(b3DynamicBvh *, b3NodeArray &, int) -> int b3AlignedObjectArray<b3DbvtNode *>::size() const [b3DynamicBvh.cpp <346:28 346:31>]
 LOCAL_SYMBOL: b3DynamicBvh.cpp<300:23> [b3DynamicBvh.cpp <346:21 346:26>]
 LOCAL_SYMBOL: b3DynamicBvh.cpp<347:13> [b3DynamicBvh.cpp <347:13 347:13>]
-SYMBOL_BUILTIN_TYPE int
 REFERENCE_TYPE_USAGE static b3DbvtNode * b3TopDown(b3DynamicBvh *, b3NodeArray &, int) -> int [b3DynamicBvh.cpp <347:9 347:11>]
 LOCAL_SYMBOL: b3DynamicBvh.cpp<347:17> [b3DynamicBvh.cpp <347:17 347:18>]
-SYMBOL_BUILTIN_TYPE int
-REFERENCE_TYPE_USAGE static b3DbvtNode * b3TopDown(b3DynamicBvh *, b3NodeArray &, int) -> int [b3DynamicBvh.cpp <347:9 347:11>]
-SYMBOL_FUNCTION int b3AlignedObjectArray<b3DbvtNode *>::size() const
 REFERENCE_CALL static b3DbvtNode * b3TopDown(b3DynamicBvh *, b3NodeArray &, int) -> int b3AlignedObjectArray<b3DbvtNode *>::size() const [b3DynamicBvh.cpp <347:27 347:30>]
 LOCAL_SYMBOL: b3DynamicBvh.cpp<300:23> [b3DynamicBvh.cpp <347:20 347:25>]
 LOCAL_SYMBOL: b3DynamicBvh.cpp<347:13> [b3DynamicBvh.cpp <347:34 347:34>]
 LOCAL_SYMBOL: b3DynamicBvh.cpp<347:17> [b3DynamicBvh.cpp <347:36 347:37>]
 LOCAL_SYMBOL: b3DynamicBvh.cpp<347:13> [b3DynamicBvh.cpp <347:41 347:41>]
-SYMBOL_FUNCTION void b3AlignedObjectArray<b3DbvtNode *>::push_back(b3DbvtNode * const &)
 REFERENCE_CALL static b3DbvtNode * b3TopDown(b3DynamicBvh *, b3NodeArray &, int) -> void b3AlignedObjectArray<b3DbvtNode *>::push_back(b3DbvtNode * const &) [b3DynamicBvh.cpp <349:16 349:24>]
 LOCAL_SYMBOL: b3DynamicBvh.cpp<312:19> [b3DynamicBvh.cpp <349:6 349:9>]
 LOCAL_SYMBOL: b3DynamicBvh.cpp<347:13> [b3DynamicBvh.cpp <349:11 349:11>]
-SYMBOL_FUNCTION b3DbvtNode * & b3AlignedObjectArray<b3DbvtNode *>::operator[](int)
 REFERENCE_CALL static b3DbvtNode * b3TopDown(b3DynamicBvh *, b3NodeArray &, int) -> b3DbvtNode * & b3AlignedObjectArray<b3DbvtNode *>::operator[](int) [b3DynamicBvh.cpp <349:32 349:32>]
 LOCAL_SYMBOL: b3DynamicBvh.cpp<300:23> [b3DynamicBvh.cpp <349:26 349:31>]
 LOCAL_SYMBOL: b3DynamicBvh.cpp<347:13> [b3DynamicBvh.cpp <349:33 349:33>]
@@ -959,7 +848,6 @@ LOCAL_SYMBOL: b3DynamicBvh.cpp<301:14> [b3DynamicBvh.cpp <353:44 353:54>]
 REFERENCE_USAGE static b3DbvtNode * b3TopDown(b3DynamicBvh *, b3NodeArray &, int) -> b3DbvtNode * [] b3DbvtNode::anonymous union (b3DynamicBvh.h<183:2>)::childs [b3DynamicBvh.cpp <354:10 354:15>]
 REFERENCE_USAGE static b3DbvtNode * b3TopDown(b3DynamicBvh *, b3NodeArray &, int) -> b3DbvtNode::anonymous union (b3DynamicBvh.h<183:2>) b3DbvtNode:: [b3DynamicBvh.cpp <354:10 354:15>]
 LOCAL_SYMBOL: b3DynamicBvh.cpp<352:16> [b3DynamicBvh.cpp <354:4 354:7>]
-SYMBOL_FUNCTION static b3DbvtNode * b3TopDown(b3DynamicBvh *, b3NodeArray &, int)
 REFERENCE_CALL static b3DbvtNode * b3TopDown(b3DynamicBvh *, b3NodeArray &, int) -> static b3DbvtNode * b3TopDown(b3DynamicBvh *, b3NodeArray &, int) [b3DynamicBvh.cpp <354:20 354:28>]
 LOCAL_SYMBOL: b3DynamicBvh.cpp<299:46> [b3DynamicBvh.cpp <354:30 354:34>]
 LOCAL_SYMBOL: b3DynamicBvh.cpp<312:19> [b3DynamicBvh.cpp <354:36 354:39>]
@@ -979,10 +867,8 @@ SYMBOL_FUNCTION static void b3BottomUp(b3DynamicBvh *, b3NodeArray &)
 REFERENCE_CALL static b3DbvtNode * b3TopDown(b3DynamicBvh *, b3NodeArray &, int) -> static void b3BottomUp(b3DynamicBvh *, b3NodeArray &) [b3DynamicBvh.cpp <361:4 361:13>]
 LOCAL_SYMBOL: b3DynamicBvh.cpp<299:46> [b3DynamicBvh.cpp <361:15 361:19>]
 LOCAL_SYMBOL: b3DynamicBvh.cpp<300:23> [b3DynamicBvh.cpp <361:21 361:26>]
-SYMBOL_FUNCTION b3DbvtNode * & b3AlignedObjectArray<b3DbvtNode *>::operator[](int)
 REFERENCE_CALL static b3DbvtNode * b3TopDown(b3DynamicBvh *, b3NodeArray &, int) -> b3DbvtNode * & b3AlignedObjectArray<b3DbvtNode *>::operator[](int) [b3DynamicBvh.cpp <362:17 362:17>]
 LOCAL_SYMBOL: b3DynamicBvh.cpp<300:23> [b3DynamicBvh.cpp <362:11 362:16>]
-SYMBOL_FUNCTION b3DbvtNode * & b3AlignedObjectArray<b3DbvtNode *>::operator[](int)
 REFERENCE_CALL static b3DbvtNode * b3TopDown(b3DynamicBvh *, b3NodeArray &, int) -> b3DbvtNode * & b3AlignedObjectArray<b3DbvtNode *>::operator[](int) [b3DynamicBvh.cpp <365:15 365:15>]
 LOCAL_SYMBOL: b3DynamicBvh.cpp<300:23> [b3DynamicBvh.cpp <365:9 365:14>]
 SYMBOL_FUNCTION static b3DbvtNode * b3Sort(b3DbvtNode *, b3DbvtNode * &) [b3DynamicBvh.cpp <369:1 <369:35 369:40> 394:1>]
@@ -998,13 +884,10 @@ LOCAL_SYMBOL: b3DynamicBvh.cpp<369:54> [b3DynamicBvh.cpp <371:16 371:16>]
 LOCAL_SYMBOL: b3DynamicBvh.cpp<371:14> [b3DynamicBvh.cpp <373:5 373:5>]
 LOCAL_SYMBOL: b3DynamicBvh.cpp<369:54> [b3DynamicBvh.cpp <373:7 373:7>]
 LOCAL_SYMBOL: b3DynamicBvh.cpp<375:14> [b3DynamicBvh.cpp <375:14 375:14>]
-SYMBOL_BUILTIN_TYPE int
 REFERENCE_TYPE_USAGE static b3DbvtNode * b3Sort(b3DbvtNode *, b3DbvtNode * &) -> int [b3DynamicBvh.cpp <375:9 375:11>]
-SYMBOL_FUNCTION static int b3IndexOf(const b3DbvtNode *)
 REFERENCE_CALL static b3DbvtNode * b3Sort(b3DbvtNode *, b3DbvtNode * &) -> static int b3IndexOf(const b3DbvtNode *) [b3DynamicBvh.cpp <375:16 375:24>]
 LOCAL_SYMBOL: b3DynamicBvh.cpp<369:54> [b3DynamicBvh.cpp <375:26 375:26>]
 LOCAL_SYMBOL: b3DynamicBvh.cpp<376:14> [b3DynamicBvh.cpp <376:14 376:14>]
-SYMBOL_BUILTIN_TYPE int
 REFERENCE_TYPE_USAGE static b3DbvtNode * b3Sort(b3DbvtNode *, b3DbvtNode * &) -> int [b3DynamicBvh.cpp <376:9 376:11>]
 LOCAL_SYMBOL: b3DynamicBvh.cpp<375:14> [b3DynamicBvh.cpp <376:18 376:18>]
 LOCAL_SYMBOL: b3DynamicBvh.cpp<377:15> [b3DynamicBvh.cpp <377:15 377:15>]
@@ -1021,7 +904,6 @@ LOCAL_SYMBOL: b3DynamicBvh.cpp<378:15> [b3DynamicBvh.cpp <380:6 380:6>]
 REFERENCE_USAGE static b3DbvtNode * b3Sort(b3DbvtNode *, b3DbvtNode * &) -> b3DbvtNode * [] b3DbvtNode::anonymous union (b3DynamicBvh.h<183:2>)::childs [b3DynamicBvh.cpp <380:12 380:17>]
 REFERENCE_USAGE static b3DbvtNode * b3Sort(b3DbvtNode *, b3DbvtNode * &) -> b3DbvtNode::anonymous union (b3DynamicBvh.h<183:2>) b3DbvtNode:: [b3DynamicBvh.cpp <380:12 380:17>]
 LOCAL_SYMBOL: b3DynamicBvh.cpp<378:15> [b3DynamicBvh.cpp <380:9 380:9>]
-SYMBOL_FUNCTION static int b3IndexOf(const b3DbvtNode *)
 REFERENCE_CALL static b3DbvtNode * b3Sort(b3DbvtNode *, b3DbvtNode * &) -> static int b3IndexOf(const b3DbvtNode *) [b3DynamicBvh.cpp <380:19 380:27>]
 LOCAL_SYMBOL: b3DynamicBvh.cpp<371:14> [b3DynamicBvh.cpp <380:29 380:29>]
 LOCAL_SYMBOL: b3DynamicBvh.cpp<369:54> [b3DynamicBvh.cpp <380:33 380:33>]
@@ -1077,12 +959,11 @@ LOCAL_SYMBOL: b3DynamicBvh.cpp<369:54> [b3DynamicBvh.cpp <390:20 390:20>]
 LOCAL_SYMBOL: b3DynamicBvh.cpp<371:14> [b3DynamicBvh.cpp <391:10 391:10>]
 LOCAL_SYMBOL: b3DynamicBvh.cpp<369:54> [b3DynamicBvh.cpp <393:9 393:9>]
 SYMBOL_METHOD public void b3DynamicBvh::b3DynamicBvh() [b3DynamicBvh.cpp <409:1 <409:15 409:26> 416:1>]
-SYMBOL_STRUCT b3DynamicBvh
+QUALIFIER: b3DynamicBvh [b3DynamicBvh.cpp <409:1 409:12>]
 REFERENCE_USAGE void b3DynamicBvh::b3DynamicBvh() -> b3AlignedObjectArray<b3DynamicBvh::sStkNN> b3DynamicBvh::m_stkStack [b3DynamicBvh.cpp <409:15 409:26>]
 SYMBOL_FUNCTION void b3AlignedObjectArray<b3DynamicBvh::sStkNN>::b3AlignedObjectArray()
 REFERENCE_CALL void b3DynamicBvh::b3DynamicBvh() -> void b3AlignedObjectArray<b3DynamicBvh::sStkNN>::b3AlignedObjectArray() [b3DynamicBvh.cpp <409:15 409:26>]
 REFERENCE_USAGE void b3DynamicBvh::b3DynamicBvh() -> b3AlignedObjectArray<const b3DbvtNode *> b3DynamicBvh::m_rayTestStack [b3DynamicBvh.cpp <409:15 409:26>]
-SYMBOL_FUNCTION void b3AlignedObjectArray<const b3DbvtNode *>::b3AlignedObjectArray()
 REFERENCE_CALL void b3DynamicBvh::b3DynamicBvh() -> void b3AlignedObjectArray<const b3DbvtNode *>::b3AlignedObjectArray() [b3DynamicBvh.cpp <409:15 409:26>]
 REFERENCE_USAGE void b3DynamicBvh::b3DynamicBvh() -> b3DbvtNode * b3DynamicBvh::m_root [b3DynamicBvh.cpp <411:2 411:7>]
 REFERENCE_USAGE void b3DynamicBvh::b3DynamicBvh() -> b3DbvtNode * b3DynamicBvh::m_free [b3DynamicBvh.cpp <412:2 412:7>]
@@ -1090,15 +971,13 @@ REFERENCE_USAGE void b3DynamicBvh::b3DynamicBvh() -> int b3DynamicBvh::m_lkhd [b
 REFERENCE_USAGE void b3DynamicBvh::b3DynamicBvh() -> int b3DynamicBvh::m_leaves [b3DynamicBvh.cpp <414:2 414:9>]
 REFERENCE_USAGE void b3DynamicBvh::b3DynamicBvh() -> unsigned int b3DynamicBvh::m_opath [b3DynamicBvh.cpp <415:2 415:8>]
 SYMBOL_METHOD public void b3DynamicBvh::~b3DynamicBvh() [b3DynamicBvh.cpp <419:1 <419:15 419:27> 422:1>]
-SYMBOL_STRUCT b3DynamicBvh
+QUALIFIER: b3DynamicBvh [b3DynamicBvh.cpp <419:1 419:12>]
 SYMBOL_FUNCTION void b3DynamicBvh::clear()
 REFERENCE_CALL void b3DynamicBvh::~b3DynamicBvh() -> void b3DynamicBvh::clear() [b3DynamicBvh.cpp <421:2 421:6>]
 SYMBOL_METHOD public void b3DynamicBvh::clear() [b3DynamicBvh.cpp <425:1 <425:22 425:26> 435:1>]
-SYMBOL_STRUCT b3DynamicBvh
-SYMBOL_BUILTIN_TYPE void
+QUALIFIER: b3DynamicBvh [b3DynamicBvh.cpp <425:8 425:19>]
 REFERENCE_TYPE_USAGE void b3DynamicBvh::clear() -> void [b3DynamicBvh.cpp <425:1 425:4>]
 REFERENCE_USAGE void b3DynamicBvh::clear() -> b3DbvtNode * b3DynamicBvh::m_root [b3DynamicBvh.cpp <427:5 427:10>]
-SYMBOL_FUNCTION static void b3RecurseDeleteNode(b3DynamicBvh *, b3DbvtNode *)
 REFERENCE_CALL void b3DynamicBvh::clear() -> static void b3RecurseDeleteNode(b3DynamicBvh *, b3DbvtNode *) [b3DynamicBvh.cpp <428:3 428:21>]
 REFERENCE_USAGE void b3DynamicBvh::clear() -> b3DbvtNode * b3DynamicBvh::m_root [b3DynamicBvh.cpp <428:28 428:33>]
 REFERENCE_USAGE void b3DynamicBvh::clear() -> b3DbvtNode * b3DynamicBvh::m_free [b3DynamicBvh.cpp <429:16 429:21>]
@@ -1109,60 +988,46 @@ REFERENCE_CALL void b3DynamicBvh::clear() -> void b3AlignedObjectArray<b3Dynamic
 REFERENCE_USAGE void b3DynamicBvh::clear() -> b3AlignedObjectArray<b3DynamicBvh::sStkNN> b3DynamicBvh::m_stkStack [b3DynamicBvh.cpp <432:2 432:11>]
 REFERENCE_USAGE void b3DynamicBvh::clear() -> unsigned int b3DynamicBvh::m_opath [b3DynamicBvh.cpp <433:2 433:8>]
 SYMBOL_METHOD public void b3DynamicBvh::optimizeBottomUp() [b3DynamicBvh.cpp <438:1 <438:22 438:37> 448:1>]
-SYMBOL_STRUCT b3DynamicBvh
-SYMBOL_BUILTIN_TYPE void
+QUALIFIER: b3DynamicBvh [b3DynamicBvh.cpp <438:8 438:19>]
 REFERENCE_TYPE_USAGE void b3DynamicBvh::optimizeBottomUp() -> void [b3DynamicBvh.cpp <438:1 438:4>]
 REFERENCE_USAGE void b3DynamicBvh::optimizeBottomUp() -> b3DbvtNode * b3DynamicBvh::m_root [b3DynamicBvh.cpp <440:5 440:10>]
 LOCAL_SYMBOL: b3DynamicBvh.cpp<442:15> [b3DynamicBvh.cpp <442:15 442:20>]
 REFERENCE_TYPE_USAGE void b3DynamicBvh::optimizeBottomUp() -> b3NodeArray [b3DynamicBvh.cpp <442:3 442:13>]
-SYMBOL_FUNCTION void b3AlignedObjectArray<b3DbvtNode *>::b3AlignedObjectArray()
 REFERENCE_CALL void b3DynamicBvh::optimizeBottomUp() -> void b3AlignedObjectArray<b3DbvtNode *>::b3AlignedObjectArray() [b3DynamicBvh.cpp <442:15 442:20>]
-SYMBOL_FUNCTION void b3AlignedObjectArray<b3DbvtNode *>::reserve(int)
 REFERENCE_CALL void b3DynamicBvh::optimizeBottomUp() -> void b3AlignedObjectArray<b3DbvtNode *>::reserve(int) [b3DynamicBvh.cpp <443:10 443:16>]
 LOCAL_SYMBOL: b3DynamicBvh.cpp<442:15> [b3DynamicBvh.cpp <443:3 443:8>]
 REFERENCE_USAGE void b3DynamicBvh::optimizeBottomUp() -> int b3DynamicBvh::m_leaves [b3DynamicBvh.cpp <443:18 443:25>]
-SYMBOL_FUNCTION static void b3FetchLeaves(b3DynamicBvh *, b3DbvtNode *, b3NodeArray &, int)
 REFERENCE_CALL void b3DynamicBvh::optimizeBottomUp() -> static void b3FetchLeaves(b3DynamicBvh *, b3DbvtNode *, b3NodeArray &, int) [b3DynamicBvh.cpp <444:3 444:15>]
 REFERENCE_USAGE void b3DynamicBvh::optimizeBottomUp() -> b3DbvtNode * b3DynamicBvh::m_root [b3DynamicBvh.cpp <444:22 444:27>]
 LOCAL_SYMBOL: b3DynamicBvh.cpp<442:15> [b3DynamicBvh.cpp <444:29 444:34>]
-SYMBOL_FUNCTION static void b3BottomUp(b3DynamicBvh *, b3NodeArray &)
 REFERENCE_CALL void b3DynamicBvh::optimizeBottomUp() -> static void b3BottomUp(b3DynamicBvh *, b3NodeArray &) [b3DynamicBvh.cpp <445:3 445:12>]
 LOCAL_SYMBOL: b3DynamicBvh.cpp<442:15> [b3DynamicBvh.cpp <445:19 445:24>]
 REFERENCE_USAGE void b3DynamicBvh::optimizeBottomUp() -> b3DbvtNode * b3DynamicBvh::m_root [b3DynamicBvh.cpp <446:3 446:8>]
-SYMBOL_FUNCTION b3DbvtNode * & b3AlignedObjectArray<b3DbvtNode *>::operator[](int)
 REFERENCE_CALL void b3DynamicBvh::optimizeBottomUp() -> b3DbvtNode * & b3AlignedObjectArray<b3DbvtNode *>::operator[](int) [b3DynamicBvh.cpp <446:16 446:16>]
 LOCAL_SYMBOL: b3DynamicBvh.cpp<442:15> [b3DynamicBvh.cpp <446:10 446:15>]
 SYMBOL_METHOD public void b3DynamicBvh::optimizeTopDown(int) [b3DynamicBvh.cpp <451:1 <451:22 451:36> 460:1>]
-SYMBOL_STRUCT b3DynamicBvh
-SYMBOL_BUILTIN_TYPE void
+QUALIFIER: b3DynamicBvh [b3DynamicBvh.cpp <451:8 451:19>]
 REFERENCE_TYPE_USAGE void b3DynamicBvh::optimizeTopDown(int) -> void [b3DynamicBvh.cpp <451:1 451:4>]
 LOCAL_SYMBOL: b3DynamicBvh.cpp<451:42> [b3DynamicBvh.cpp <451:42 451:52>]
-SYMBOL_BUILTIN_TYPE int
 REFERENCE_TYPE_USAGE void b3DynamicBvh::optimizeTopDown(int) -> int [b3DynamicBvh.cpp <451:38 451:40>]
 REFERENCE_USAGE void b3DynamicBvh::optimizeTopDown(int) -> b3DbvtNode * b3DynamicBvh::m_root [b3DynamicBvh.cpp <453:5 453:10>]
 LOCAL_SYMBOL: b3DynamicBvh.cpp<455:15> [b3DynamicBvh.cpp <455:15 455:20>]
 REFERENCE_TYPE_USAGE void b3DynamicBvh::optimizeTopDown(int) -> b3NodeArray [b3DynamicBvh.cpp <455:3 455:13>]
-SYMBOL_FUNCTION void b3AlignedObjectArray<b3DbvtNode *>::b3AlignedObjectArray()
 REFERENCE_CALL void b3DynamicBvh::optimizeTopDown(int) -> void b3AlignedObjectArray<b3DbvtNode *>::b3AlignedObjectArray() [b3DynamicBvh.cpp <455:15 455:20>]
-SYMBOL_FUNCTION void b3AlignedObjectArray<b3DbvtNode *>::reserve(int)
 REFERENCE_CALL void b3DynamicBvh::optimizeTopDown(int) -> void b3AlignedObjectArray<b3DbvtNode *>::reserve(int) [b3DynamicBvh.cpp <456:10 456:16>]
 LOCAL_SYMBOL: b3DynamicBvh.cpp<455:15> [b3DynamicBvh.cpp <456:3 456:8>]
 REFERENCE_USAGE void b3DynamicBvh::optimizeTopDown(int) -> int b3DynamicBvh::m_leaves [b3DynamicBvh.cpp <456:18 456:25>]
-SYMBOL_FUNCTION static void b3FetchLeaves(b3DynamicBvh *, b3DbvtNode *, b3NodeArray &, int)
 REFERENCE_CALL void b3DynamicBvh::optimizeTopDown(int) -> static void b3FetchLeaves(b3DynamicBvh *, b3DbvtNode *, b3NodeArray &, int) [b3DynamicBvh.cpp <457:3 457:15>]
 REFERENCE_USAGE void b3DynamicBvh::optimizeTopDown(int) -> b3DbvtNode * b3DynamicBvh::m_root [b3DynamicBvh.cpp <457:22 457:27>]
 LOCAL_SYMBOL: b3DynamicBvh.cpp<455:15> [b3DynamicBvh.cpp <457:29 457:34>]
 REFERENCE_USAGE void b3DynamicBvh::optimizeTopDown(int) -> b3DbvtNode * b3DynamicBvh::m_root [b3DynamicBvh.cpp <458:3 458:8>]
-SYMBOL_FUNCTION static b3DbvtNode * b3TopDown(b3DynamicBvh *, b3NodeArray &, int)
 REFERENCE_CALL void b3DynamicBvh::optimizeTopDown(int) -> static b3DbvtNode * b3TopDown(b3DynamicBvh *, b3NodeArray &, int) [b3DynamicBvh.cpp <458:10 458:18>]
 LOCAL_SYMBOL: b3DynamicBvh.cpp<455:15> [b3DynamicBvh.cpp <458:25 458:30>]
 LOCAL_SYMBOL: b3DynamicBvh.cpp<451:42> [b3DynamicBvh.cpp <458:32 458:42>]
 SYMBOL_METHOD public void b3DynamicBvh::optimizeIncremental(int) [b3DynamicBvh.cpp <463:1 <463:22 463:40> 480:1>]
-SYMBOL_STRUCT b3DynamicBvh
-SYMBOL_BUILTIN_TYPE void
+QUALIFIER: b3DynamicBvh [b3DynamicBvh.cpp <463:8 463:19>]
 REFERENCE_TYPE_USAGE void b3DynamicBvh::optimizeIncremental(int) -> void [b3DynamicBvh.cpp <463:1 463:4>]
 LOCAL_SYMBOL: b3DynamicBvh.cpp<463:46> [b3DynamicBvh.cpp <463:46 463:51>]
-SYMBOL_BUILTIN_TYPE int
 REFERENCE_TYPE_USAGE void b3DynamicBvh::optimizeIncremental(int) -> int [b3DynamicBvh.cpp <463:42 463:44>]
 LOCAL_SYMBOL: b3DynamicBvh.cpp<463:46> [b3DynamicBvh.cpp <465:5 465:10>]
 LOCAL_SYMBOL: b3DynamicBvh.cpp<463:46> [b3DynamicBvh.cpp <465:15 465:20>]
@@ -1175,7 +1040,6 @@ REFERENCE_USAGE void b3DynamicBvh::optimizeIncremental(int) -> b3DbvtNode * b3Dy
 LOCAL_SYMBOL: b3DynamicBvh.cpp<470:13> [b3DynamicBvh.cpp <470:13 470:15>]
 SYMBOL_BUILTIN_TYPE unsigned int
 REFERENCE_TYPE_USAGE void b3DynamicBvh::optimizeIncremental(int) -> unsigned int [b3DynamicBvh.cpp <470:4 470:11>]
-SYMBOL_FUNCTION bool b3DbvtNode::isinternal() const
 REFERENCE_CALL void b3DynamicBvh::optimizeIncremental(int) -> bool b3DbvtNode::isinternal() const [b3DynamicBvh.cpp <471:16 471:25>]
 LOCAL_SYMBOL: b3DynamicBvh.cpp<469:17> [b3DynamicBvh.cpp <471:10 471:13>]
 LOCAL_SYMBOL: b3DynamicBvh.cpp<469:17> [b3DynamicBvh.cpp <473:5 473:8>]
@@ -1189,7 +1053,6 @@ REFERENCE_USAGE void b3DynamicBvh::optimizeIncremental(int) -> unsigned int b3Dy
 LOCAL_SYMBOL: b3DynamicBvh.cpp<470:13> [b3DynamicBvh.cpp <473:48 473:50>]
 LOCAL_SYMBOL: b3DynamicBvh.cpp<470:13> [b3DynamicBvh.cpp <474:5 474:7>]
 LOCAL_SYMBOL: b3DynamicBvh.cpp<470:13> [b3DynamicBvh.cpp <474:10 474:12>]
-SYMBOL_BUILTIN_TYPE unsigned int
 REFERENCE_TYPE_USAGE void b3DynamicBvh::optimizeIncremental(int) -> unsigned int [b3DynamicBvh.cpp <474:25 474:32>]
 SYMBOL_FUNCTION void b3DynamicBvh::update(b3DbvtNode *, int)
 REFERENCE_CALL void b3DynamicBvh::optimizeIncremental(int) -> void b3DynamicBvh::update(b3DbvtNode *, int) [b3DynamicBvh.cpp <476:4 476:9>]
@@ -1197,16 +1060,14 @@ LOCAL_SYMBOL: b3DynamicBvh.cpp<469:17> [b3DynamicBvh.cpp <476:11 476:14>]
 REFERENCE_USAGE void b3DynamicBvh::optimizeIncremental(int) -> unsigned int b3DynamicBvh::m_opath [b3DynamicBvh.cpp <477:6 477:12>]
 LOCAL_SYMBOL: b3DynamicBvh.cpp<463:46> [b3DynamicBvh.cpp <478:13 478:18>]
 SYMBOL_METHOD public b3DbvtNode * b3DynamicBvh::insert(const b3DbvtVolume &, void *) [b3DynamicBvh.cpp <483:1 <483:27 483:32> 489:1>]
-SYMBOL_STRUCT b3DynamicBvh
+QUALIFIER: b3DynamicBvh [b3DynamicBvh.cpp <483:13 483:24>]
 REFERENCE_TYPE_USAGE b3DbvtNode * b3DynamicBvh::insert(const b3DbvtVolume &, void *) -> b3DbvtNode [b3DynamicBvh.cpp <483:1 483:10>]
 LOCAL_SYMBOL: b3DynamicBvh.cpp<483:54> [b3DynamicBvh.cpp <483:54 483:59>]
 REFERENCE_TYPE_USAGE b3DbvtNode * b3DynamicBvh::insert(const b3DbvtVolume &, void *) -> b3DbvtVolume [b3DynamicBvh.cpp <483:40 483:51>]
 LOCAL_SYMBOL: b3DynamicBvh.cpp<483:67> [b3DynamicBvh.cpp <483:67 483:70>]
-SYMBOL_BUILTIN_TYPE void
 REFERENCE_TYPE_USAGE b3DbvtNode * b3DynamicBvh::insert(const b3DbvtVolume &, void *) -> void [b3DynamicBvh.cpp <483:61 483:64>]
 LOCAL_SYMBOL: b3DynamicBvh.cpp<485:14> [b3DynamicBvh.cpp <485:14 485:17>]
 REFERENCE_TYPE_USAGE b3DbvtNode * b3DynamicBvh::insert(const b3DbvtVolume &, void *) -> b3DbvtNode [b3DynamicBvh.cpp <485:2 485:11>]
-SYMBOL_FUNCTION static b3DbvtNode * b3CreateNode(b3DynamicBvh *, b3DbvtNode *, const b3DbvtVolume &, void *)
 REFERENCE_CALL b3DbvtNode * b3DynamicBvh::insert(const b3DbvtVolume &, void *) -> static b3DbvtNode * b3CreateNode(b3DynamicBvh *, b3DbvtNode *, const b3DbvtVolume &, void *) [b3DynamicBvh.cpp <485:19 485:30>]
 LOCAL_SYMBOL: b3DynamicBvh.cpp<483:54> [b3DynamicBvh.cpp <485:39 485:44>]
 LOCAL_SYMBOL: b3DynamicBvh.cpp<483:67> [b3DynamicBvh.cpp <485:46 485:49>]
@@ -1217,13 +1078,11 @@ LOCAL_SYMBOL: b3DynamicBvh.cpp<485:14> [b3DynamicBvh.cpp <486:27 486:30>]
 REFERENCE_USAGE b3DbvtNode * b3DynamicBvh::insert(const b3DbvtVolume &, void *) -> int b3DynamicBvh::m_leaves [b3DynamicBvh.cpp <487:4 487:11>]
 LOCAL_SYMBOL: b3DynamicBvh.cpp<485:14> [b3DynamicBvh.cpp <488:9 488:12>]
 SYMBOL_METHOD public void b3DynamicBvh::update(b3DbvtNode *, int) [b3DynamicBvh.cpp <492:1 <492:22 492:27> 506:1>]
-SYMBOL_STRUCT b3DynamicBvh
-SYMBOL_BUILTIN_TYPE void
+QUALIFIER: b3DynamicBvh [b3DynamicBvh.cpp <492:8 492:19>]
 REFERENCE_TYPE_USAGE void b3DynamicBvh::update(b3DbvtNode *, int) -> void [b3DynamicBvh.cpp <492:1 492:4>]
 LOCAL_SYMBOL: b3DynamicBvh.cpp<492:41> [b3DynamicBvh.cpp <492:41 492:44>]
 REFERENCE_TYPE_USAGE void b3DynamicBvh::update(b3DbvtNode *, int) -> b3DbvtNode [b3DynamicBvh.cpp <492:29 492:38>]
 LOCAL_SYMBOL: b3DynamicBvh.cpp<492:50> [b3DynamicBvh.cpp <492:50 492:58>]
-SYMBOL_BUILTIN_TYPE int
 REFERENCE_TYPE_USAGE void b3DynamicBvh::update(b3DbvtNode *, int) -> int [b3DynamicBvh.cpp <492:46 492:48>]
 LOCAL_SYMBOL: b3DynamicBvh.cpp<494:14> [b3DynamicBvh.cpp <494:14 494:17>]
 REFERENCE_TYPE_USAGE void b3DynamicBvh::update(b3DbvtNode *, int) -> b3DbvtNode [b3DynamicBvh.cpp <494:2 494:11>]
@@ -1233,7 +1092,6 @@ LOCAL_SYMBOL: b3DynamicBvh.cpp<492:41> [b3DynamicBvh.cpp <494:37 494:40>]
 LOCAL_SYMBOL: b3DynamicBvh.cpp<494:14> [b3DynamicBvh.cpp <495:5 495:8>]
 LOCAL_SYMBOL: b3DynamicBvh.cpp<492:50> [b3DynamicBvh.cpp <497:6 497:14>]
 LOCAL_SYMBOL: b3DynamicBvh.cpp<499:12> [b3DynamicBvh.cpp <499:12 499:12>]
-SYMBOL_BUILTIN_TYPE int
 REFERENCE_TYPE_USAGE void b3DynamicBvh::update(b3DbvtNode *, int) -> int [b3DynamicBvh.cpp <499:8 499:10>]
 LOCAL_SYMBOL: b3DynamicBvh.cpp<499:12> [b3DynamicBvh.cpp <499:17 499:17>]
 LOCAL_SYMBOL: b3DynamicBvh.cpp<492:50> [b3DynamicBvh.cpp <499:19 499:27>]
@@ -1245,13 +1103,11 @@ REFERENCE_USAGE void b3DynamicBvh::update(b3DbvtNode *, int) -> b3DbvtNode * b3D
 LOCAL_SYMBOL: b3DynamicBvh.cpp<494:14> [b3DynamicBvh.cpp <501:10 501:13>]
 LOCAL_SYMBOL: b3DynamicBvh.cpp<494:14> [b3DynamicBvh.cpp <503:10 503:13>]
 REFERENCE_USAGE void b3DynamicBvh::update(b3DbvtNode *, int) -> b3DbvtNode * b3DynamicBvh::m_root [b3DynamicBvh.cpp <503:15 503:20>]
-SYMBOL_FUNCTION static void b3InsertLeaf(b3DynamicBvh *, b3DbvtNode *, b3DbvtNode *)
 REFERENCE_CALL void b3DynamicBvh::update(b3DbvtNode *, int) -> static void b3InsertLeaf(b3DynamicBvh *, b3DbvtNode *, b3DbvtNode *) [b3DynamicBvh.cpp <505:2 505:13>]
 LOCAL_SYMBOL: b3DynamicBvh.cpp<494:14> [b3DynamicBvh.cpp <505:20 505:23>]
 LOCAL_SYMBOL: b3DynamicBvh.cpp<492:41> [b3DynamicBvh.cpp <505:25 505:28>]
 SYMBOL_METHOD public void b3DynamicBvh::update(b3DbvtNode *, b3DbvtVolume &) [b3DynamicBvh.cpp <509:1 <509:22 509:27> 524:1>]
-SYMBOL_STRUCT b3DynamicBvh
-SYMBOL_BUILTIN_TYPE void
+QUALIFIER: b3DynamicBvh [b3DynamicBvh.cpp <509:8 509:19>]
 REFERENCE_TYPE_USAGE void b3DynamicBvh::update(b3DbvtNode *, b3DbvtVolume &) -> void [b3DynamicBvh.cpp <509:1 509:4>]
 LOCAL_SYMBOL: b3DynamicBvh.cpp<509:41> [b3DynamicBvh.cpp <509:41 509:44>]
 REFERENCE_TYPE_USAGE void b3DynamicBvh::update(b3DbvtNode *, b3DbvtVolume &) -> b3DbvtNode [b3DynamicBvh.cpp <509:29 509:38>]
@@ -1259,13 +1115,11 @@ LOCAL_SYMBOL: b3DynamicBvh.cpp<509:60> [b3DynamicBvh.cpp <509:60 509:65>]
 REFERENCE_TYPE_USAGE void b3DynamicBvh::update(b3DbvtNode *, b3DbvtVolume &) -> b3DbvtVolume [b3DynamicBvh.cpp <509:46 509:57>]
 LOCAL_SYMBOL: b3DynamicBvh.cpp<511:14> [b3DynamicBvh.cpp <511:14 511:17>]
 REFERENCE_TYPE_USAGE void b3DynamicBvh::update(b3DbvtNode *, b3DbvtVolume &) -> b3DbvtNode [b3DynamicBvh.cpp <511:2 511:11>]
-SYMBOL_FUNCTION static b3DbvtNode * b3RemoveLeaf(b3DynamicBvh *, b3DbvtNode *)
 REFERENCE_CALL void b3DynamicBvh::update(b3DbvtNode *, b3DbvtVolume &) -> static b3DbvtNode * b3RemoveLeaf(b3DynamicBvh *, b3DbvtNode *) [b3DynamicBvh.cpp <511:19 511:30>]
 LOCAL_SYMBOL: b3DynamicBvh.cpp<509:41> [b3DynamicBvh.cpp <511:37 511:40>]
 LOCAL_SYMBOL: b3DynamicBvh.cpp<511:14> [b3DynamicBvh.cpp <512:5 512:8>]
 REFERENCE_USAGE void b3DynamicBvh::update(b3DbvtNode *, b3DbvtVolume &) -> int b3DynamicBvh::m_lkhd [b3DynamicBvh.cpp <514:6 514:11>]
 LOCAL_SYMBOL: b3DynamicBvh.cpp<516:12> [b3DynamicBvh.cpp <516:12 516:12>]
-SYMBOL_BUILTIN_TYPE int
 REFERENCE_TYPE_USAGE void b3DynamicBvh::update(b3DbvtNode *, b3DbvtVolume &) -> int [b3DynamicBvh.cpp <516:8 516:10>]
 LOCAL_SYMBOL: b3DynamicBvh.cpp<516:12> [b3DynamicBvh.cpp <516:17 516:17>]
 REFERENCE_USAGE void b3DynamicBvh::update(b3DbvtNode *, b3DbvtVolume &) -> int b3DynamicBvh::m_lkhd [b3DynamicBvh.cpp <516:19 516:24>]
@@ -1277,17 +1131,15 @@ REFERENCE_USAGE void b3DynamicBvh::update(b3DbvtNode *, b3DbvtVolume &) -> b3Dbv
 LOCAL_SYMBOL: b3DynamicBvh.cpp<511:14> [b3DynamicBvh.cpp <518:10 518:13>]
 LOCAL_SYMBOL: b3DynamicBvh.cpp<511:14> [b3DynamicBvh.cpp <520:10 520:13>]
 REFERENCE_USAGE void b3DynamicBvh::update(b3DbvtNode *, b3DbvtVolume &) -> b3DbvtNode * b3DynamicBvh::m_root [b3DynamicBvh.cpp <520:15 520:20>]
-SYMBOL_FUNCTION b3DbvtAabbMm & b3DbvtAabbMm::operator=(const b3DbvtAabbMm &)
 REFERENCE_CALL void b3DynamicBvh::update(b3DbvtNode *, b3DbvtVolume &) -> b3DbvtAabbMm & b3DbvtAabbMm::operator=(const b3DbvtAabbMm &) [b3DynamicBvh.cpp <522:14 522:14>]
 REFERENCE_USAGE void b3DynamicBvh::update(b3DbvtNode *, b3DbvtVolume &) -> b3DbvtVolume b3DbvtNode::volume [b3DynamicBvh.cpp <522:8 522:13>]
 LOCAL_SYMBOL: b3DynamicBvh.cpp<509:41> [b3DynamicBvh.cpp <522:2 522:5>]
 LOCAL_SYMBOL: b3DynamicBvh.cpp<509:60> [b3DynamicBvh.cpp <522:15 522:20>]
-SYMBOL_FUNCTION static void b3InsertLeaf(b3DynamicBvh *, b3DbvtNode *, b3DbvtNode *)
 REFERENCE_CALL void b3DynamicBvh::update(b3DbvtNode *, b3DbvtVolume &) -> static void b3InsertLeaf(b3DynamicBvh *, b3DbvtNode *, b3DbvtNode *) [b3DynamicBvh.cpp <523:2 523:13>]
 LOCAL_SYMBOL: b3DynamicBvh.cpp<511:14> [b3DynamicBvh.cpp <523:20 523:23>]
 LOCAL_SYMBOL: b3DynamicBvh.cpp<509:41> [b3DynamicBvh.cpp <523:25 523:28>]
 SYMBOL_METHOD public bool b3DynamicBvh::update(b3DbvtNode *, b3DbvtVolume &, const b3Vector3 &, b3Scalar) [b3DynamicBvh.cpp <527:1 <527:22 527:27> 534:1>]
-SYMBOL_STRUCT b3DynamicBvh
+QUALIFIER: b3DynamicBvh [b3DynamicBvh.cpp <527:8 527:19>]
 SYMBOL_BUILTIN_TYPE bool
 REFERENCE_TYPE_USAGE bool b3DynamicBvh::update(b3DbvtNode *, b3DbvtVolume &, const b3Vector3 &, b3Scalar) -> bool [b3DynamicBvh.cpp <527:1 527:4>]
 LOCAL_SYMBOL: b3DynamicBvh.cpp<527:41> [b3DynamicBvh.cpp <527:41 527:44>]
@@ -1298,7 +1150,6 @@ LOCAL_SYMBOL: b3DynamicBvh.cpp<527:84> [b3DynamicBvh.cpp <527:84 527:91>]
 REFERENCE_TYPE_USAGE bool b3DynamicBvh::update(b3DbvtNode *, b3DbvtVolume &, const b3Vector3 &, b3Scalar) -> b3Vector3 [b3DynamicBvh.cpp <527:73 527:81>]
 LOCAL_SYMBOL: b3DynamicBvh.cpp<527:102> [b3DynamicBvh.cpp <527:102 527:107>]
 REFERENCE_TYPE_USAGE bool b3DynamicBvh::update(b3DbvtNode *, b3DbvtVolume &, const b3Vector3 &, b3Scalar) -> b3Scalar [b3DynamicBvh.cpp <527:93 527:100>]
-SYMBOL_FUNCTION bool b3DbvtAabbMm::Contain(const b3DbvtAabbMm &) const
 REFERENCE_CALL bool b3DynamicBvh::update(b3DbvtNode *, b3DbvtVolume &, const b3Vector3 &, b3Scalar) -> bool b3DbvtAabbMm::Contain(const b3DbvtAabbMm &) const [b3DynamicBvh.cpp <529:18 529:24>]
 REFERENCE_USAGE bool b3DynamicBvh::update(b3DbvtNode *, b3DbvtVolume &, const b3Vector3 &, b3Scalar) -> b3DbvtVolume b3DbvtNode::volume [b3DynamicBvh.cpp <529:11 529:16>]
 LOCAL_SYMBOL: b3DynamicBvh.cpp<527:41> [b3DynamicBvh.cpp <529:5 529:8>]
@@ -1306,7 +1157,6 @@ LOCAL_SYMBOL: b3DynamicBvh.cpp<527:60> [b3DynamicBvh.cpp <529:26 529:31>]
 SYMBOL_FUNCTION void b3DbvtAabbMm::Expand(const b3Vector3 &)
 REFERENCE_CALL bool b3DynamicBvh::update(b3DbvtNode *, b3DbvtVolume &, const b3Vector3 &, b3Scalar) -> void b3DbvtAabbMm::Expand(const b3Vector3 &) [b3DynamicBvh.cpp <530:9 530:14>]
 LOCAL_SYMBOL: b3DynamicBvh.cpp<527:60> [b3DynamicBvh.cpp <530:2 530:7>]
-SYMBOL_FUNCTION b3Vector3 b3MakeVector3(b3Scalar, b3Scalar, b3Scalar)
 REFERENCE_CALL bool b3DynamicBvh::update(b3DbvtNode *, b3DbvtVolume &, const b3Vector3 &, b3Scalar) -> b3Vector3 b3MakeVector3(b3Scalar, b3Scalar, b3Scalar) [b3DynamicBvh.cpp <530:16 530:28>]
 LOCAL_SYMBOL: b3DynamicBvh.cpp<527:102> [b3DynamicBvh.cpp <530:30 530:35>]
 LOCAL_SYMBOL: b3DynamicBvh.cpp<527:102> [b3DynamicBvh.cpp <530:37 530:42>]
@@ -1320,8 +1170,7 @@ REFERENCE_CALL bool b3DynamicBvh::update(b3DbvtNode *, b3DbvtVolume &, const b3V
 LOCAL_SYMBOL: b3DynamicBvh.cpp<527:41> [b3DynamicBvh.cpp <532:9 532:12>]
 LOCAL_SYMBOL: b3DynamicBvh.cpp<527:60> [b3DynamicBvh.cpp <532:14 532:19>]
 SYMBOL_METHOD public bool b3DynamicBvh::update(b3DbvtNode *, b3DbvtVolume &, const b3Vector3 &) [b3DynamicBvh.cpp <537:1 <537:22 537:27> 543:1>]
-SYMBOL_STRUCT b3DynamicBvh
-SYMBOL_BUILTIN_TYPE bool
+QUALIFIER: b3DynamicBvh [b3DynamicBvh.cpp <537:8 537:19>]
 REFERENCE_TYPE_USAGE bool b3DynamicBvh::update(b3DbvtNode *, b3DbvtVolume &, const b3Vector3 &) -> bool [b3DynamicBvh.cpp <537:1 537:4>]
 LOCAL_SYMBOL: b3DynamicBvh.cpp<537:41> [b3DynamicBvh.cpp <537:41 537:44>]
 REFERENCE_TYPE_USAGE bool b3DynamicBvh::update(b3DbvtNode *, b3DbvtVolume &, const b3Vector3 &) -> b3DbvtNode [b3DynamicBvh.cpp <537:29 537:38>]
@@ -1329,22 +1178,18 @@ LOCAL_SYMBOL: b3DynamicBvh.cpp<537:60> [b3DynamicBvh.cpp <537:60 537:65>]
 REFERENCE_TYPE_USAGE bool b3DynamicBvh::update(b3DbvtNode *, b3DbvtVolume &, const b3Vector3 &) -> b3DbvtVolume [b3DynamicBvh.cpp <537:46 537:57>]
 LOCAL_SYMBOL: b3DynamicBvh.cpp<537:84> [b3DynamicBvh.cpp <537:84 537:91>]
 REFERENCE_TYPE_USAGE bool b3DynamicBvh::update(b3DbvtNode *, b3DbvtVolume &, const b3Vector3 &) -> b3Vector3 [b3DynamicBvh.cpp <537:73 537:81>]
-SYMBOL_FUNCTION bool b3DbvtAabbMm::Contain(const b3DbvtAabbMm &) const
 REFERENCE_CALL bool b3DynamicBvh::update(b3DbvtNode *, b3DbvtVolume &, const b3Vector3 &) -> bool b3DbvtAabbMm::Contain(const b3DbvtAabbMm &) const [b3DynamicBvh.cpp <539:18 539:24>]
 REFERENCE_USAGE bool b3DynamicBvh::update(b3DbvtNode *, b3DbvtVolume &, const b3Vector3 &) -> b3DbvtVolume b3DbvtNode::volume [b3DynamicBvh.cpp <539:11 539:16>]
 LOCAL_SYMBOL: b3DynamicBvh.cpp<537:41> [b3DynamicBvh.cpp <539:5 539:8>]
 LOCAL_SYMBOL: b3DynamicBvh.cpp<537:60> [b3DynamicBvh.cpp <539:26 539:31>]
-SYMBOL_FUNCTION void b3DbvtAabbMm::SignedExpand(const b3Vector3 &)
 REFERENCE_CALL bool b3DynamicBvh::update(b3DbvtNode *, b3DbvtVolume &, const b3Vector3 &) -> void b3DbvtAabbMm::SignedExpand(const b3Vector3 &) [b3DynamicBvh.cpp <540:9 540:20>]
 LOCAL_SYMBOL: b3DynamicBvh.cpp<537:60> [b3DynamicBvh.cpp <540:2 540:7>]
 LOCAL_SYMBOL: b3DynamicBvh.cpp<537:84> [b3DynamicBvh.cpp <540:22 540:29>]
-SYMBOL_FUNCTION void b3DynamicBvh::update(b3DbvtNode *, b3DbvtVolume &)
 REFERENCE_CALL bool b3DynamicBvh::update(b3DbvtNode *, b3DbvtVolume &, const b3Vector3 &) -> void b3DynamicBvh::update(b3DbvtNode *, b3DbvtVolume &) [b3DynamicBvh.cpp <541:2 541:7>]
 LOCAL_SYMBOL: b3DynamicBvh.cpp<537:41> [b3DynamicBvh.cpp <541:9 541:12>]
 LOCAL_SYMBOL: b3DynamicBvh.cpp<537:60> [b3DynamicBvh.cpp <541:14 541:19>]
 SYMBOL_METHOD public bool b3DynamicBvh::update(b3DbvtNode *, b3DbvtVolume &, b3Scalar) [b3DynamicBvh.cpp <546:1 <546:22 546:27> 552:1>]
-SYMBOL_STRUCT b3DynamicBvh
-SYMBOL_BUILTIN_TYPE bool
+QUALIFIER: b3DynamicBvh [b3DynamicBvh.cpp <546:8 546:19>]
 REFERENCE_TYPE_USAGE bool b3DynamicBvh::update(b3DbvtNode *, b3DbvtVolume &, b3Scalar) -> bool [b3DynamicBvh.cpp <546:1 546:4>]
 LOCAL_SYMBOL: b3DynamicBvh.cpp<546:41> [b3DynamicBvh.cpp <546:41 546:44>]
 REFERENCE_TYPE_USAGE bool b3DynamicBvh::update(b3DbvtNode *, b3DbvtVolume &, b3Scalar) -> b3DbvtNode [b3DynamicBvh.cpp <546:29 546:38>]
@@ -1352,39 +1197,31 @@ LOCAL_SYMBOL: b3DynamicBvh.cpp<546:60> [b3DynamicBvh.cpp <546:60 546:65>]
 REFERENCE_TYPE_USAGE bool b3DynamicBvh::update(b3DbvtNode *, b3DbvtVolume &, b3Scalar) -> b3DbvtVolume [b3DynamicBvh.cpp <546:46 546:57>]
 LOCAL_SYMBOL: b3DynamicBvh.cpp<546:76> [b3DynamicBvh.cpp <546:76 546:81>]
 REFERENCE_TYPE_USAGE bool b3DynamicBvh::update(b3DbvtNode *, b3DbvtVolume &, b3Scalar) -> b3Scalar [b3DynamicBvh.cpp <546:67 546:74>]
-SYMBOL_FUNCTION bool b3DbvtAabbMm::Contain(const b3DbvtAabbMm &) const
 REFERENCE_CALL bool b3DynamicBvh::update(b3DbvtNode *, b3DbvtVolume &, b3Scalar) -> bool b3DbvtAabbMm::Contain(const b3DbvtAabbMm &) const [b3DynamicBvh.cpp <548:18 548:24>]
 REFERENCE_USAGE bool b3DynamicBvh::update(b3DbvtNode *, b3DbvtVolume &, b3Scalar) -> b3DbvtVolume b3DbvtNode::volume [b3DynamicBvh.cpp <548:11 548:16>]
 LOCAL_SYMBOL: b3DynamicBvh.cpp<546:41> [b3DynamicBvh.cpp <548:5 548:8>]
 LOCAL_SYMBOL: b3DynamicBvh.cpp<546:60> [b3DynamicBvh.cpp <548:26 548:31>]
-SYMBOL_FUNCTION void b3DbvtAabbMm::Expand(const b3Vector3 &)
 REFERENCE_CALL bool b3DynamicBvh::update(b3DbvtNode *, b3DbvtVolume &, b3Scalar) -> void b3DbvtAabbMm::Expand(const b3Vector3 &) [b3DynamicBvh.cpp <549:9 549:14>]
 LOCAL_SYMBOL: b3DynamicBvh.cpp<546:60> [b3DynamicBvh.cpp <549:2 549:7>]
-SYMBOL_FUNCTION b3Vector3 b3MakeVector3(b3Scalar, b3Scalar, b3Scalar)
 REFERENCE_CALL bool b3DynamicBvh::update(b3DbvtNode *, b3DbvtVolume &, b3Scalar) -> b3Vector3 b3MakeVector3(b3Scalar, b3Scalar, b3Scalar) [b3DynamicBvh.cpp <549:16 549:28>]
 LOCAL_SYMBOL: b3DynamicBvh.cpp<546:76> [b3DynamicBvh.cpp <549:30 549:35>]
 LOCAL_SYMBOL: b3DynamicBvh.cpp<546:76> [b3DynamicBvh.cpp <549:37 549:42>]
 LOCAL_SYMBOL: b3DynamicBvh.cpp<546:76> [b3DynamicBvh.cpp <549:44 549:49>]
-SYMBOL_FUNCTION void b3DynamicBvh::update(b3DbvtNode *, b3DbvtVolume &)
 REFERENCE_CALL bool b3DynamicBvh::update(b3DbvtNode *, b3DbvtVolume &, b3Scalar) -> void b3DynamicBvh::update(b3DbvtNode *, b3DbvtVolume &) [b3DynamicBvh.cpp <550:2 550:7>]
 LOCAL_SYMBOL: b3DynamicBvh.cpp<546:41> [b3DynamicBvh.cpp <550:9 550:12>]
 LOCAL_SYMBOL: b3DynamicBvh.cpp<546:60> [b3DynamicBvh.cpp <550:14 550:19>]
 SYMBOL_METHOD public void b3DynamicBvh::remove(b3DbvtNode *) [b3DynamicBvh.cpp <555:1 <555:22 555:27> 560:1>]
-SYMBOL_STRUCT b3DynamicBvh
-SYMBOL_BUILTIN_TYPE void
+QUALIFIER: b3DynamicBvh [b3DynamicBvh.cpp <555:8 555:19>]
 REFERENCE_TYPE_USAGE void b3DynamicBvh::remove(b3DbvtNode *) -> void [b3DynamicBvh.cpp <555:1 555:4>]
 LOCAL_SYMBOL: b3DynamicBvh.cpp<555:41> [b3DynamicBvh.cpp <555:41 555:44>]
 REFERENCE_TYPE_USAGE void b3DynamicBvh::remove(b3DbvtNode *) -> b3DbvtNode [b3DynamicBvh.cpp <555:29 555:38>]
-SYMBOL_FUNCTION static b3DbvtNode * b3RemoveLeaf(b3DynamicBvh *, b3DbvtNode *)
 REFERENCE_CALL void b3DynamicBvh::remove(b3DbvtNode *) -> static b3DbvtNode * b3RemoveLeaf(b3DynamicBvh *, b3DbvtNode *) [b3DynamicBvh.cpp <557:2 557:13>]
 LOCAL_SYMBOL: b3DynamicBvh.cpp<555:41> [b3DynamicBvh.cpp <557:20 557:23>]
-SYMBOL_FUNCTION static void b3DeleteNode(b3DynamicBvh *, b3DbvtNode *)
 REFERENCE_CALL void b3DynamicBvh::remove(b3DbvtNode *) -> static void b3DeleteNode(b3DynamicBvh *, b3DbvtNode *) [b3DynamicBvh.cpp <558:2 558:13>]
 LOCAL_SYMBOL: b3DynamicBvh.cpp<555:41> [b3DynamicBvh.cpp <558:20 558:23>]
 REFERENCE_USAGE void b3DynamicBvh::remove(b3DbvtNode *) -> int b3DynamicBvh::m_leaves [b3DynamicBvh.cpp <559:4 559:11>]
 SYMBOL_METHOD public void b3DynamicBvh::write(b3DynamicBvh::IWriter *) const [b3DynamicBvh.cpp <563:1 <563:22 563:26> 585:1>]
-SYMBOL_STRUCT b3DynamicBvh
-SYMBOL_BUILTIN_TYPE void
+QUALIFIER: b3DynamicBvh [b3DynamicBvh.cpp <563:8 563:19>]
 REFERENCE_TYPE_USAGE void b3DynamicBvh::write(b3DynamicBvh::IWriter *) const -> void [b3DynamicBvh.cpp <563:1 563:4>]
 LOCAL_SYMBOL: b3DynamicBvh.cpp<563:37> [b3DynamicBvh.cpp <563:37 563:43>]
 REFERENCE_TYPE_USAGE void b3DynamicBvh::write(b3DynamicBvh::IWriter *) const -> b3DynamicBvh::IWriter [b3DynamicBvh.cpp <563:28 563:34>]
@@ -1410,10 +1247,8 @@ REFERENCE_CALL void b3DynamicBvh::write(b3DynamicBvh::IWriter *) const -> int b3
 REFERENCE_USAGE void b3DynamicBvh::write(b3DynamicBvh::IWriter *) const -> b3ConstNodeArray b3DbvtNodeEnumerator::nodes [b3DynamicBvh.cpp <568:32 568:36>]
 LOCAL_SYMBOL: b3DynamicBvh.cpp<565:23> [b3DynamicBvh.cpp <568:26 568:30>]
 LOCAL_SYMBOL: b3DynamicBvh.cpp<569:10> [b3DynamicBvh.cpp <569:10 569:10>]
-SYMBOL_BUILTIN_TYPE int
 REFERENCE_TYPE_USAGE void b3DynamicBvh::write(b3DynamicBvh::IWriter *) const -> int [b3DynamicBvh.cpp <569:6 569:8>]
 LOCAL_SYMBOL: b3DynamicBvh.cpp<569:10> [b3DynamicBvh.cpp <569:14 569:14>]
-SYMBOL_FUNCTION int b3AlignedObjectArray<const b3DbvtNode *>::size() const
 REFERENCE_CALL void b3DynamicBvh::write(b3DynamicBvh::IWriter *) const -> int b3AlignedObjectArray<const b3DbvtNode *>::size() const [b3DynamicBvh.cpp <569:28 569:31>]
 REFERENCE_USAGE void b3DynamicBvh::write(b3DynamicBvh::IWriter *) const -> b3ConstNodeArray b3DbvtNodeEnumerator::nodes [b3DynamicBvh.cpp <569:22 569:26>]
 LOCAL_SYMBOL: b3DynamicBvh.cpp<565:23> [b3DynamicBvh.cpp <569:16 569:20>]
@@ -1426,7 +1261,6 @@ REFERENCE_USAGE void b3DynamicBvh::write(b3DynamicBvh::IWriter *) const -> b3Con
 LOCAL_SYMBOL: b3DynamicBvh.cpp<565:23> [b3DynamicBvh.cpp <571:23 571:27>]
 LOCAL_SYMBOL: b3DynamicBvh.cpp<569:10> [b3DynamicBvh.cpp <571:35 571:35>]
 LOCAL_SYMBOL: b3DynamicBvh.cpp<572:9> [b3DynamicBvh.cpp <572:9 572:9>]
-SYMBOL_BUILTIN_TYPE int
 REFERENCE_TYPE_USAGE void b3DynamicBvh::write(b3DynamicBvh::IWriter *) const -> int [b3DynamicBvh.cpp <572:3 572:5>]
 REFERENCE_USAGE void b3DynamicBvh::write(b3DynamicBvh::IWriter *) const -> b3DbvtNode * b3DbvtNode::parent [b3DynamicBvh.cpp <573:9 573:14>]
 LOCAL_SYMBOL: b3DynamicBvh.cpp<571:21> [b3DynamicBvh.cpp <573:6 573:6>]
@@ -1437,13 +1271,10 @@ REFERENCE_USAGE void b3DynamicBvh::write(b3DynamicBvh::IWriter *) const -> b3Con
 LOCAL_SYMBOL: b3DynamicBvh.cpp<565:23> [b3DynamicBvh.cpp <573:19 573:23>]
 REFERENCE_USAGE void b3DynamicBvh::write(b3DynamicBvh::IWriter *) const -> b3DbvtNode * b3DbvtNode::parent [b3DynamicBvh.cpp <573:51 573:56>]
 LOCAL_SYMBOL: b3DynamicBvh.cpp<571:21> [b3DynamicBvh.cpp <573:48 573:48>]
-SYMBOL_FUNCTION bool b3DbvtNode::isinternal() const
 REFERENCE_CALL void b3DynamicBvh::write(b3DynamicBvh::IWriter *) const -> bool b3DbvtNode::isinternal() const [b3DynamicBvh.cpp <574:9 574:18>]
 LOCAL_SYMBOL: b3DynamicBvh.cpp<571:21> [b3DynamicBvh.cpp <574:6 574:6>]
 LOCAL_SYMBOL: b3DynamicBvh.cpp<576:14> [b3DynamicBvh.cpp <576:14 576:15>]
-SYMBOL_BUILTIN_TYPE int
 REFERENCE_TYPE_USAGE void b3DynamicBvh::write(b3DynamicBvh::IWriter *) const -> int [b3DynamicBvh.cpp <576:10 576:12>]
-SYMBOL_FUNCTION int b3AlignedObjectArray<const b3DbvtNode *>::findLinearSearch(const b3DbvtNode * const &) const
 REFERENCE_CALL void b3DynamicBvh::write(b3DynamicBvh::IWriter *) const -> int b3AlignedObjectArray<const b3DbvtNode *>::findLinearSearch(const b3DbvtNode * const &) const [b3DynamicBvh.cpp <576:29 576:44>]
 REFERENCE_USAGE void b3DynamicBvh::write(b3DynamicBvh::IWriter *) const -> b3ConstNodeArray b3DbvtNodeEnumerator::nodes [b3DynamicBvh.cpp <576:23 576:27>]
 LOCAL_SYMBOL: b3DynamicBvh.cpp<565:23> [b3DynamicBvh.cpp <576:17 576:21>]
@@ -1451,9 +1282,7 @@ REFERENCE_USAGE void b3DynamicBvh::write(b3DynamicBvh::IWriter *) const -> b3Dbv
 REFERENCE_USAGE void b3DynamicBvh::write(b3DynamicBvh::IWriter *) const -> b3DbvtNode::anonymous union (b3DynamicBvh.h<183:2>) b3DbvtNode:: [b3DynamicBvh.cpp <576:49 576:54>]
 LOCAL_SYMBOL: b3DynamicBvh.cpp<571:21> [b3DynamicBvh.cpp <576:46 576:46>]
 LOCAL_SYMBOL: b3DynamicBvh.cpp<577:14> [b3DynamicBvh.cpp <577:14 577:15>]
-SYMBOL_BUILTIN_TYPE int
 REFERENCE_TYPE_USAGE void b3DynamicBvh::write(b3DynamicBvh::IWriter *) const -> int [b3DynamicBvh.cpp <577:10 577:12>]
-SYMBOL_FUNCTION int b3AlignedObjectArray<const b3DbvtNode *>::findLinearSearch(const b3DbvtNode * const &) const
 REFERENCE_CALL void b3DynamicBvh::write(b3DynamicBvh::IWriter *) const -> int b3AlignedObjectArray<const b3DbvtNode *>::findLinearSearch(const b3DbvtNode * const &) const [b3DynamicBvh.cpp <577:29 577:44>]
 REFERENCE_USAGE void b3DynamicBvh::write(b3DynamicBvh::IWriter *) const -> b3ConstNodeArray b3DbvtNodeEnumerator::nodes [b3DynamicBvh.cpp <577:23 577:27>]
 LOCAL_SYMBOL: b3DynamicBvh.cpp<565:23> [b3DynamicBvh.cpp <577:17 577:21>]
@@ -1475,14 +1304,12 @@ LOCAL_SYMBOL: b3DynamicBvh.cpp<571:21> [b3DynamicBvh.cpp <582:23 582:23>]
 LOCAL_SYMBOL: b3DynamicBvh.cpp<569:10> [b3DynamicBvh.cpp <582:25 582:25>]
 LOCAL_SYMBOL: b3DynamicBvh.cpp<572:9> [b3DynamicBvh.cpp <582:27 582:27>]
 SYMBOL_METHOD public void b3DynamicBvh::clone(b3DynamicBvh &, b3DynamicBvh::IClone *) const [b3DynamicBvh.cpp <588:1 <588:22 588:26> 616:1>]
-SYMBOL_STRUCT b3DynamicBvh
-SYMBOL_BUILTIN_TYPE void
+QUALIFIER: b3DynamicBvh [b3DynamicBvh.cpp <588:8 588:19>]
 REFERENCE_TYPE_USAGE void b3DynamicBvh::clone(b3DynamicBvh &, b3DynamicBvh::IClone *) const -> void [b3DynamicBvh.cpp <588:1 588:4>]
 LOCAL_SYMBOL: b3DynamicBvh.cpp<588:42> [b3DynamicBvh.cpp <588:42 588:45>]
 REFERENCE_TYPE_USAGE void b3DynamicBvh::clone(b3DynamicBvh &, b3DynamicBvh::IClone *) const -> b3DynamicBvh [b3DynamicBvh.cpp <588:28 588:39>]
 LOCAL_SYMBOL: b3DynamicBvh.cpp<588:55> [b3DynamicBvh.cpp <588:55 588:60>]
 REFERENCE_TYPE_USAGE void b3DynamicBvh::clone(b3DynamicBvh &, b3DynamicBvh::IClone *) const -> b3DynamicBvh::IClone [b3DynamicBvh.cpp <588:47 588:52>]
-SYMBOL_FUNCTION void b3DynamicBvh::clear()
 REFERENCE_CALL void b3DynamicBvh::clone(b3DynamicBvh &, b3DynamicBvh::IClone *) const -> void b3DynamicBvh::clear() [b3DynamicBvh.cpp <590:7 590:11>]
 LOCAL_SYMBOL: b3DynamicBvh.cpp<588:42> [b3DynamicBvh.cpp <590:2 590:5>]
 REFERENCE_USAGE void b3DynamicBvh::clone(b3DynamicBvh &, b3DynamicBvh::IClone *) const -> b3DbvtNode * b3DynamicBvh::m_root [b3DynamicBvh.cpp <591:5 591:10>]
@@ -1503,7 +1330,6 @@ REFERENCE_CALL void b3DynamicBvh::clone(b3DynamicBvh &, b3DynamicBvh::IClone *) 
 REFERENCE_TYPE_USAGE void b3DynamicBvh::clone(b3DynamicBvh &, b3DynamicBvh::IClone *) const -> b3DynamicBvh::sStkCLN [b3DynamicBvh.cpp <595:19 595:25>]
 REFERENCE_USAGE void b3DynamicBvh::clone(b3DynamicBvh &, b3DynamicBvh::IClone *) const -> b3DbvtNode * b3DynamicBvh::m_root [b3DynamicBvh.cpp <595:27 595:32>]
 LOCAL_SYMBOL: b3DynamicBvh.cpp<597:15> [b3DynamicBvh.cpp <597:15 597:15>]
-SYMBOL_BUILTIN_TYPE int
 REFERENCE_TYPE_USAGE void b3DynamicBvh::clone(b3DynamicBvh &, b3DynamicBvh::IClone *) const -> int [b3DynamicBvh.cpp <597:10 597:12>]
 SYMBOL_FUNCTION int b3AlignedObjectArray<b3DynamicBvh::sStkCLN>::size() const
 REFERENCE_CALL void b3DynamicBvh::clone(b3DynamicBvh &, b3DynamicBvh::IClone *) const -> int b3AlignedObjectArray<b3DynamicBvh::sStkCLN>::size() const [b3DynamicBvh.cpp <597:23 597:26>]
@@ -1518,7 +1344,6 @@ LOCAL_SYMBOL: b3DynamicBvh.cpp<593:33> [b3DynamicBvh.cpp <598:20 598:24>]
 LOCAL_SYMBOL: b3DynamicBvh.cpp<597:15> [b3DynamicBvh.cpp <598:26 598:26>]
 LOCAL_SYMBOL: b3DynamicBvh.cpp<599:18> [b3DynamicBvh.cpp <599:18 599:18>]
 REFERENCE_TYPE_USAGE void b3DynamicBvh::clone(b3DynamicBvh &, b3DynamicBvh::IClone *) const -> b3DbvtNode [b3DynamicBvh.cpp <599:4 599:13>]
-SYMBOL_FUNCTION static b3DbvtNode * b3CreateNode(b3DynamicBvh *, b3DbvtNode *, const b3DbvtVolume &, void *)
 REFERENCE_CALL void b3DynamicBvh::clone(b3DynamicBvh &, b3DynamicBvh::IClone *) const -> static b3DbvtNode * b3CreateNode(b3DynamicBvh *, b3DbvtNode *, const b3DbvtVolume &, void *) [b3DynamicBvh.cpp <599:20 599:31>]
 LOCAL_SYMBOL: b3DynamicBvh.cpp<588:42> [b3DynamicBvh.cpp <599:34 599:37>]
 REFERENCE_USAGE void b3DynamicBvh::clone(b3DynamicBvh &, b3DynamicBvh::IClone *) const -> b3DbvtNode * b3DynamicBvh::sStkCLN::parent [b3DynamicBvh.cpp <599:41 599:46>]
@@ -1544,14 +1369,11 @@ LOCAL_SYMBOL: b3DynamicBvh.cpp<599:18> [b3DynamicBvh.cpp <602:27 602:27>]
 REFERENCE_USAGE void b3DynamicBvh::clone(b3DynamicBvh &, b3DynamicBvh::IClone *) const -> b3DbvtNode * b3DynamicBvh::m_root [b3DynamicBvh.cpp <604:10 604:15>]
 LOCAL_SYMBOL: b3DynamicBvh.cpp<588:42> [b3DynamicBvh.cpp <604:5 604:8>]
 LOCAL_SYMBOL: b3DynamicBvh.cpp<599:18> [b3DynamicBvh.cpp <604:17 604:17>]
-SYMBOL_FUNCTION bool b3DbvtNode::isinternal() const
 REFERENCE_CALL void b3DynamicBvh::clone(b3DynamicBvh &, b3DynamicBvh::IClone *) const -> bool b3DbvtNode::isinternal() const [b3DynamicBvh.cpp <605:15 605:24>]
 REFERENCE_USAGE void b3DynamicBvh::clone(b3DynamicBvh &, b3DynamicBvh::IClone *) const -> const b3DbvtNode * b3DynamicBvh::sStkCLN::node [b3DynamicBvh.cpp <605:9 605:12>]
 LOCAL_SYMBOL: b3DynamicBvh.cpp<598:18> [b3DynamicBvh.cpp <605:7 605:7>]
-SYMBOL_FUNCTION void b3AlignedObjectArray<b3DynamicBvh::sStkCLN>::push_back(const b3DynamicBvh::sStkCLN &)
 REFERENCE_CALL void b3DynamicBvh::clone(b3DynamicBvh &, b3DynamicBvh::IClone *) const -> void b3AlignedObjectArray<b3DynamicBvh::sStkCLN>::push_back(const b3DynamicBvh::sStkCLN &) [b3DynamicBvh.cpp <607:11 607:19>]
 LOCAL_SYMBOL: b3DynamicBvh.cpp<593:33> [b3DynamicBvh.cpp <607:5 607:9>]
-SYMBOL_FUNCTION void b3DynamicBvh::sStkCLN::sStkCLN(const b3DbvtNode *, b3DbvtNode *)
 REFERENCE_CALL void b3DynamicBvh::clone(b3DynamicBvh &, b3DynamicBvh::IClone *) const -> void b3DynamicBvh::sStkCLN::sStkCLN(const b3DbvtNode *, b3DbvtNode *) [b3DynamicBvh.cpp <607:21 607:27>]
 REFERENCE_TYPE_USAGE void b3DynamicBvh::clone(b3DynamicBvh &, b3DynamicBvh::IClone *) const -> b3DynamicBvh::sStkCLN [b3DynamicBvh.cpp <607:21 607:27>]
 REFERENCE_USAGE void b3DynamicBvh::clone(b3DynamicBvh &, b3DynamicBvh::IClone *) const -> b3DbvtNode * [] b3DbvtNode::anonymous union (b3DynamicBvh.h<183:2>)::childs [b3DynamicBvh.cpp <607:37 607:42>]
@@ -1559,10 +1381,8 @@ REFERENCE_USAGE void b3DynamicBvh::clone(b3DynamicBvh &, b3DynamicBvh::IClone *)
 REFERENCE_USAGE void b3DynamicBvh::clone(b3DynamicBvh &, b3DynamicBvh::IClone *) const -> const b3DbvtNode * b3DynamicBvh::sStkCLN::node [b3DynamicBvh.cpp <607:31 607:34>]
 LOCAL_SYMBOL: b3DynamicBvh.cpp<598:18> [b3DynamicBvh.cpp <607:29 607:29>]
 LOCAL_SYMBOL: b3DynamicBvh.cpp<599:18> [b3DynamicBvh.cpp <607:47 607:47>]
-SYMBOL_FUNCTION void b3AlignedObjectArray<b3DynamicBvh::sStkCLN>::push_back(const b3DynamicBvh::sStkCLN &)
 REFERENCE_CALL void b3DynamicBvh::clone(b3DynamicBvh &, b3DynamicBvh::IClone *) const -> void b3AlignedObjectArray<b3DynamicBvh::sStkCLN>::push_back(const b3DynamicBvh::sStkCLN &) [b3DynamicBvh.cpp <608:11 608:19>]
 LOCAL_SYMBOL: b3DynamicBvh.cpp<593:33> [b3DynamicBvh.cpp <608:5 608:9>]
-SYMBOL_FUNCTION void b3DynamicBvh::sStkCLN::sStkCLN(const b3DbvtNode *, b3DbvtNode *)
 REFERENCE_CALL void b3DynamicBvh::clone(b3DynamicBvh &, b3DynamicBvh::IClone *) const -> void b3DynamicBvh::sStkCLN::sStkCLN(const b3DbvtNode *, b3DbvtNode *) [b3DynamicBvh.cpp <608:21 608:27>]
 REFERENCE_TYPE_USAGE void b3DynamicBvh::clone(b3DynamicBvh &, b3DynamicBvh::IClone *) const -> b3DynamicBvh::sStkCLN [b3DynamicBvh.cpp <608:21 608:27>]
 REFERENCE_USAGE void b3DynamicBvh::clone(b3DynamicBvh &, b3DynamicBvh::IClone *) const -> b3DbvtNode * [] b3DbvtNode::anonymous union (b3DynamicBvh.h<183:2>)::childs [b3DynamicBvh.cpp <608:37 608:42>]
@@ -1574,31 +1394,25 @@ SYMBOL_FUNCTION void b3DynamicBvh::IClone::CloneLeaf(b3DbvtNode *)
 REFERENCE_CALL void b3DynamicBvh::clone(b3DynamicBvh &, b3DynamicBvh::IClone *) const -> void b3DynamicBvh::IClone::CloneLeaf(b3DbvtNode *) [b3DynamicBvh.cpp <612:13 612:21>]
 LOCAL_SYMBOL: b3DynamicBvh.cpp<588:55> [b3DynamicBvh.cpp <612:5 612:10>]
 LOCAL_SYMBOL: b3DynamicBvh.cpp<599:18> [b3DynamicBvh.cpp <612:23 612:23>]
-SYMBOL_FUNCTION int b3AlignedObjectArray<b3DynamicBvh::sStkCLN>::size() const
 REFERENCE_CALL void b3DynamicBvh::clone(b3DynamicBvh &, b3DynamicBvh::IClone *) const -> int b3AlignedObjectArray<b3DynamicBvh::sStkCLN>::size() const [b3DynamicBvh.cpp <614:17 614:20>]
 LOCAL_SYMBOL: b3DynamicBvh.cpp<593:33> [b3DynamicBvh.cpp <614:11 614:15>]
 SYMBOL_METHOD public static int b3DynamicBvh::maxdepth(const b3DbvtNode *) [b3DynamicBvh.cpp <619:1 <619:22 619:29> 624:1>]
-SYMBOL_STRUCT b3DynamicBvh
-SYMBOL_BUILTIN_TYPE int
+QUALIFIER: b3DynamicBvh [b3DynamicBvh.cpp <619:8 619:19>]
 REFERENCE_TYPE_USAGE static int b3DynamicBvh::maxdepth(const b3DbvtNode *) -> int [b3DynamicBvh.cpp <619:1 619:3>]
 LOCAL_SYMBOL: b3DynamicBvh.cpp<619:49> [b3DynamicBvh.cpp <619:49 619:52>]
 REFERENCE_TYPE_USAGE static int b3DynamicBvh::maxdepth(const b3DbvtNode *) -> b3DbvtNode [b3DynamicBvh.cpp <619:37 619:46>]
 LOCAL_SYMBOL: b3DynamicBvh.cpp<621:6> [b3DynamicBvh.cpp <621:6 621:10>]
-SYMBOL_BUILTIN_TYPE int
 REFERENCE_TYPE_USAGE static int b3DynamicBvh::maxdepth(const b3DbvtNode *) -> int [b3DynamicBvh.cpp <621:2 621:4>]
 LOCAL_SYMBOL: b3DynamicBvh.cpp<619:49> [b3DynamicBvh.cpp <622:5 622:8>]
-SYMBOL_FUNCTION static void b3GetMaxDepth(const b3DbvtNode *, int, int &)
 REFERENCE_CALL static int b3DynamicBvh::maxdepth(const b3DbvtNode *) -> static void b3GetMaxDepth(const b3DbvtNode *, int, int &) [b3DynamicBvh.cpp <622:11 622:23>]
 LOCAL_SYMBOL: b3DynamicBvh.cpp<619:49> [b3DynamicBvh.cpp <622:25 622:28>]
 LOCAL_SYMBOL: b3DynamicBvh.cpp<621:6> [b3DynamicBvh.cpp <622:32 622:36>]
 LOCAL_SYMBOL: b3DynamicBvh.cpp<621:6> [b3DynamicBvh.cpp <623:9 623:13>]
 SYMBOL_METHOD public static int b3DynamicBvh::countLeaves(const b3DbvtNode *) [b3DynamicBvh.cpp <627:1 <627:22 627:32> 633:1>]
-SYMBOL_STRUCT b3DynamicBvh
-SYMBOL_BUILTIN_TYPE int
+QUALIFIER: b3DynamicBvh [b3DynamicBvh.cpp <627:8 627:19>]
 REFERENCE_TYPE_USAGE static int b3DynamicBvh::countLeaves(const b3DbvtNode *) -> int [b3DynamicBvh.cpp <627:1 627:3>]
 LOCAL_SYMBOL: b3DynamicBvh.cpp<627:52> [b3DynamicBvh.cpp <627:52 627:55>]
 REFERENCE_TYPE_USAGE static int b3DynamicBvh::countLeaves(const b3DbvtNode *) -> b3DbvtNode [b3DynamicBvh.cpp <627:40 627:49>]
-SYMBOL_FUNCTION bool b3DbvtNode::isinternal() const
 REFERENCE_CALL static int b3DynamicBvh::countLeaves(const b3DbvtNode *) -> bool b3DbvtNode::isinternal() const [b3DynamicBvh.cpp <629:11 629:20>]
 LOCAL_SYMBOL: b3DynamicBvh.cpp<627:52> [b3DynamicBvh.cpp <629:5 629:8>]
 SYMBOL_FUNCTION static int b3DynamicBvh::countLeaves(const b3DbvtNode *)
@@ -1606,21 +1420,18 @@ REFERENCE_CALL static int b3DynamicBvh::countLeaves(const b3DbvtNode *) -> stati
 REFERENCE_USAGE static int b3DynamicBvh::countLeaves(const b3DbvtNode *) -> b3DbvtNode * [] b3DbvtNode::anonymous union (b3DynamicBvh.h<183:2>)::childs [b3DynamicBvh.cpp <630:28 630:33>]
 REFERENCE_USAGE static int b3DynamicBvh::countLeaves(const b3DbvtNode *) -> b3DbvtNode::anonymous union (b3DynamicBvh.h<183:2>) b3DbvtNode:: [b3DynamicBvh.cpp <630:28 630:33>]
 LOCAL_SYMBOL: b3DynamicBvh.cpp<627:52> [b3DynamicBvh.cpp <630:22 630:25>]
-SYMBOL_FUNCTION static int b3DynamicBvh::countLeaves(const b3DbvtNode *)
 REFERENCE_CALL static int b3DynamicBvh::countLeaves(const b3DbvtNode *) -> static int b3DynamicBvh::countLeaves(const b3DbvtNode *) [b3DynamicBvh.cpp <630:39 630:49>]
 REFERENCE_USAGE static int b3DynamicBvh::countLeaves(const b3DbvtNode *) -> b3DbvtNode * [] b3DbvtNode::anonymous union (b3DynamicBvh.h<183:2>)::childs [b3DynamicBvh.cpp <630:57 630:62>]
 REFERENCE_USAGE static int b3DynamicBvh::countLeaves(const b3DbvtNode *) -> b3DbvtNode::anonymous union (b3DynamicBvh.h<183:2>) b3DbvtNode:: [b3DynamicBvh.cpp <630:57 630:62>]
 LOCAL_SYMBOL: b3DynamicBvh.cpp<627:52> [b3DynamicBvh.cpp <630:51 630:54>]
 SYMBOL_METHOD public static void b3DynamicBvh::extractLeaves(const b3DbvtNode *, b3AlignedObjectArray<const b3DbvtNode *> &) [b3DynamicBvh.cpp <636:1 <636:22 636:34> 647:1>]
-SYMBOL_STRUCT b3DynamicBvh
-SYMBOL_BUILTIN_TYPE void
+QUALIFIER: b3DynamicBvh [b3DynamicBvh.cpp <636:8 636:19>]
 REFERENCE_TYPE_USAGE static void b3DynamicBvh::extractLeaves(const b3DbvtNode *, b3AlignedObjectArray<const b3DbvtNode *> &) -> void [b3DynamicBvh.cpp <636:1 636:4>]
 LOCAL_SYMBOL: b3DynamicBvh.cpp<636:54> [b3DynamicBvh.cpp <636:54 636:57>]
 REFERENCE_TYPE_USAGE static void b3DynamicBvh::extractLeaves(const b3DbvtNode *, b3AlignedObjectArray<const b3DbvtNode *> &) -> b3DbvtNode [b3DynamicBvh.cpp <636:42 636:51>]
 LOCAL_SYMBOL: b3DynamicBvh.cpp<636:100> [b3DynamicBvh.cpp <636:100 636:105>]
 REFERENCE_TYPE_USAGE static void b3DynamicBvh::extractLeaves(const b3DbvtNode *, b3AlignedObjectArray<const b3DbvtNode *> &) -> b3AlignedObjectArray<const b3DbvtNode *> [b3DynamicBvh.cpp <636:59 636:78>]
 REFERENCE_TEMPLATE_ARGUMENT b3AlignedObjectArray<const b3DbvtNode *> -> b3DbvtNode [b3DynamicBvh.cpp <636:86 636:95>]
-SYMBOL_FUNCTION bool b3DbvtNode::isinternal() const
 REFERENCE_CALL static void b3DynamicBvh::extractLeaves(const b3DbvtNode *, b3AlignedObjectArray<const b3DbvtNode *> &) -> bool b3DbvtNode::isinternal() const [b3DynamicBvh.cpp <638:11 638:20>]
 LOCAL_SYMBOL: b3DynamicBvh.cpp<636:54> [b3DynamicBvh.cpp <638:5 638:8>]
 SYMBOL_FUNCTION static void b3DynamicBvh::extractLeaves(const b3DbvtNode *, b3AlignedObjectArray<const b3DbvtNode *> &)
@@ -1629,13 +1440,11 @@ REFERENCE_USAGE static void b3DynamicBvh::extractLeaves(const b3DbvtNode *, b3Al
 REFERENCE_USAGE static void b3DynamicBvh::extractLeaves(const b3DbvtNode *, b3AlignedObjectArray<const b3DbvtNode *> &) -> b3DbvtNode::anonymous union (b3DynamicBvh.h<183:2>) b3DbvtNode:: [b3DynamicBvh.cpp <640:23 640:28>]
 LOCAL_SYMBOL: b3DynamicBvh.cpp<636:54> [b3DynamicBvh.cpp <640:17 640:20>]
 LOCAL_SYMBOL: b3DynamicBvh.cpp<636:100> [b3DynamicBvh.cpp <640:33 640:38>]
-SYMBOL_FUNCTION static void b3DynamicBvh::extractLeaves(const b3DbvtNode *, b3AlignedObjectArray<const b3DbvtNode *> &)
 REFERENCE_CALL static void b3DynamicBvh::extractLeaves(const b3DbvtNode *, b3AlignedObjectArray<const b3DbvtNode *> &) -> static void b3DynamicBvh::extractLeaves(const b3DbvtNode *, b3AlignedObjectArray<const b3DbvtNode *> &) [b3DynamicBvh.cpp <641:3 641:15>]
 REFERENCE_USAGE static void b3DynamicBvh::extractLeaves(const b3DbvtNode *, b3AlignedObjectArray<const b3DbvtNode *> &) -> b3DbvtNode * [] b3DbvtNode::anonymous union (b3DynamicBvh.h<183:2>)::childs [b3DynamicBvh.cpp <641:23 641:28>]
 REFERENCE_USAGE static void b3DynamicBvh::extractLeaves(const b3DbvtNode *, b3AlignedObjectArray<const b3DbvtNode *> &) -> b3DbvtNode::anonymous union (b3DynamicBvh.h<183:2>) b3DbvtNode:: [b3DynamicBvh.cpp <641:23 641:28>]
 LOCAL_SYMBOL: b3DynamicBvh.cpp<636:54> [b3DynamicBvh.cpp <641:17 641:20>]
 LOCAL_SYMBOL: b3DynamicBvh.cpp<636:100> [b3DynamicBvh.cpp <641:33 641:38>]
-SYMBOL_FUNCTION void b3AlignedObjectArray<const b3DbvtNode *>::push_back(const b3DbvtNode * const &)
 REFERENCE_CALL static void b3DynamicBvh::extractLeaves(const b3DbvtNode *, b3AlignedObjectArray<const b3DbvtNode *> &) -> void b3AlignedObjectArray<const b3DbvtNode *>::push_back(const b3DbvtNode * const &) [b3DynamicBvh.cpp <645:10 645:18>]
 LOCAL_SYMBOL: b3DynamicBvh.cpp<636:100> [b3DynamicBvh.cpp <645:3 645:8>]
 LOCAL_SYMBOL: b3DynamicBvh.cpp<636:54> [b3DynamicBvh.cpp <645:20 645:23>]

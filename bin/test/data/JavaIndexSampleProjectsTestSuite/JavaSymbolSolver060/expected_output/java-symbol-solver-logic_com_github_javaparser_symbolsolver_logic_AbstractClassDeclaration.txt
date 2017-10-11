@@ -1,19 +1,43 @@
 FILE: AbstractClassDeclaration.java
-SYMBOL_PACKAGE com.github.javaparser.symbolsolver.logic [AbstractClassDeclaration.java <17:9 17:48>]
+SYMBOL_PACKAGE com.github.javaparser.symbolsolver.logic [AbstractClassDeclaration.java <17:44 17:48>]
 SYMBOL_PACKAGE com.github.javaparser.symbolsolver
 SYMBOL_PACKAGE com.github.javaparser
 SYMBOL_PACKAGE com.github
 SYMBOL_PACKAGE com
-REFERENCE_IMPORT AbstractClassDeclaration.java -> com.github.javaparser.symbolsolver.model.declarations.ClassDeclaration [AbstractClassDeclaration.java <19:8 19:77>]
+QUALIFIER: com.github.javaparser.symbolsolver [AbstractClassDeclaration.java <17:31 17:42>]
+QUALIFIER: com.github.javaparser [AbstractClassDeclaration.java <17:20 17:29>]
+QUALIFIER: com.github [AbstractClassDeclaration.java <17:13 17:18>]
+QUALIFIER: com [AbstractClassDeclaration.java <17:9 17:11>]
+REFERENCE_IMPORT AbstractClassDeclaration.java -> com.github.javaparser.symbolsolver.model.declarations.ClassDeclaration [AbstractClassDeclaration.java <19:62 19:77>]
 SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model.declarations
-REFERENCE_IMPORT AbstractClassDeclaration.java -> com.github.javaparser.symbolsolver.model.declarations.TypeDeclaration [AbstractClassDeclaration.java <20:8 20:76>]
-SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model.declarations
-REFERENCE_IMPORT AbstractClassDeclaration.java -> com.github.javaparser.symbolsolver.model.typesystem.ReferenceType [AbstractClassDeclaration.java <21:8 21:72>]
+QUALIFIER: com.github.javaparser.symbolsolver.model.declarations [AbstractClassDeclaration.java <19:49 19:60>]
+QUALIFIER: com.github.javaparser.symbolsolver.model [AbstractClassDeclaration.java <19:43 19:47>]
+QUALIFIER: com.github.javaparser.symbolsolver [AbstractClassDeclaration.java <19:30 19:41>]
+QUALIFIER: com.github.javaparser [AbstractClassDeclaration.java <19:19 19:28>]
+QUALIFIER: com.github [AbstractClassDeclaration.java <19:12 19:17>]
+QUALIFIER: com [AbstractClassDeclaration.java <19:8 19:10>]
+REFERENCE_IMPORT AbstractClassDeclaration.java -> com.github.javaparser.symbolsolver.model.declarations.TypeDeclaration [AbstractClassDeclaration.java <20:62 20:76>]
+QUALIFIER: com.github.javaparser.symbolsolver.model.declarations [AbstractClassDeclaration.java <20:49 20:60>]
+QUALIFIER: com.github.javaparser.symbolsolver.model [AbstractClassDeclaration.java <20:43 20:47>]
+QUALIFIER: com.github.javaparser.symbolsolver [AbstractClassDeclaration.java <20:30 20:41>]
+QUALIFIER: com.github.javaparser [AbstractClassDeclaration.java <20:19 20:28>]
+QUALIFIER: com.github [AbstractClassDeclaration.java <20:12 20:17>]
+QUALIFIER: com [AbstractClassDeclaration.java <20:8 20:10>]
+REFERENCE_IMPORT AbstractClassDeclaration.java -> com.github.javaparser.symbolsolver.model.typesystem.ReferenceType [AbstractClassDeclaration.java <21:60 21:72>]
 SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model.typesystem
-REFERENCE_IMPORT AbstractClassDeclaration.java -> java.util.ArrayList<E> [AbstractClassDeclaration.java <23:8 23:26>]
+QUALIFIER: com.github.javaparser.symbolsolver.model.typesystem [AbstractClassDeclaration.java <21:49 21:58>]
+QUALIFIER: com.github.javaparser.symbolsolver.model [AbstractClassDeclaration.java <21:43 21:47>]
+QUALIFIER: com.github.javaparser.symbolsolver [AbstractClassDeclaration.java <21:30 21:41>]
+QUALIFIER: com.github.javaparser [AbstractClassDeclaration.java <21:19 21:28>]
+QUALIFIER: com.github [AbstractClassDeclaration.java <21:12 21:17>]
+QUALIFIER: com [AbstractClassDeclaration.java <21:8 21:10>]
+REFERENCE_IMPORT AbstractClassDeclaration.java -> java.util.ArrayList<E> [AbstractClassDeclaration.java <23:18 23:26>]
 SYMBOL_PACKAGE java.util
-REFERENCE_IMPORT AbstractClassDeclaration.java -> java.util.List<E> [AbstractClassDeclaration.java <24:8 24:21>]
-SYMBOL_PACKAGE java.util
+QUALIFIER: java.util [AbstractClassDeclaration.java <23:13 23:16>]
+QUALIFIER: java [AbstractClassDeclaration.java <23:8 23:11>]
+REFERENCE_IMPORT AbstractClassDeclaration.java -> java.util.List<E> [AbstractClassDeclaration.java <24:18 24:21>]
+QUALIFIER: java.util [AbstractClassDeclaration.java <24:13 24:16>]
+QUALIFIER: java [AbstractClassDeclaration.java <24:8 24:11>]
 SYMBOL_CLASS public com.github.javaparser.symbolsolver.logic.AbstractClassDeclaration [AbstractClassDeclaration.java <31:1 <31:23 31:46> 85:1>]
 LOCAL_SYMBOL: AbstractClassDeclaration.java<31:108> [AbstractClassDeclaration.java <31:108 31:108>]
 LOCAL_SYMBOL: AbstractClassDeclaration.java<31:108> [AbstractClassDeclaration.java <85:1 85:1>]
@@ -73,7 +97,6 @@ REFERENCE_CALL java.util.List<com.github.javaparser.symbolsolver.model.typesyste
 REFERENCE_TYPE_USAGE java.util.List<com.github.javaparser.symbolsolver.model.typesystem.ReferenceType> com.github.javaparser.symbolsolver.logic.AbstractClassDeclaration.getAllSuperClasses() -> java.lang.Object [AbstractClassDeclaration.java <51:68 51:73>]
 LOCAL_SYMBOL: AbstractClassDeclaration.java<51:103> [AbstractClassDeclaration.java <51:103 51:103>]
 LOCAL_SYMBOL: AbstractClassDeclaration.java<51:103> [AbstractClassDeclaration.java <53:9 53:9>]
-SYMBOL_METHOD boolean java.util.List<E>.add(java.util.List<E>.E)
 REFERENCE_CALL java.util.List<com.github.javaparser.symbolsolver.model.typesystem.ReferenceType> com.github.javaparser.symbolsolver.logic.AbstractClassDeclaration.getAllSuperClasses() -> boolean java.util.List<E>.add(java.util.List<E>.E) [AbstractClassDeclaration.java <52:26 52:28>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.logic.AbstractClassDeclaration.getAllSuperClasses<0> [AbstractClassDeclaration.java <52:13 52:24>]
 SYMBOL_METHOD com.github.javaparser.symbolsolver.model.typesystem.ReferenceType com.github.javaparser.symbolsolver.logic.AbstractClassDeclaration.object()
@@ -89,7 +112,6 @@ LOCAL_SYMBOL: AbstractClassDeclaration.java<58:57> [AbstractClassDeclaration.jav
 REFERENCE_TYPE_USAGE java.util.List<com.github.javaparser.symbolsolver.model.typesystem.ReferenceType> com.github.javaparser.symbolsolver.logic.AbstractClassDeclaration.getAllInterfaces() -> java.util.List<E> [AbstractClassDeclaration.java <59:9 59:12>]
 REFERENCE_TYPE_ARGUMENT java.util.List<com.github.javaparser.symbolsolver.model.typesystem.ReferenceType> com.github.javaparser.symbolsolver.logic.AbstractClassDeclaration.getAllInterfaces() -> com.github.javaparser.symbolsolver.model.typesystem.ReferenceType [AbstractClassDeclaration.java <59:14 59:26>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.logic.AbstractClassDeclaration.getAllInterfaces<0> [AbstractClassDeclaration.java <59:29 59:38>]
-SYMBOL_METHOD java.util.ArrayList<E>.ArrayList()
 REFERENCE_CALL java.util.List<com.github.javaparser.symbolsolver.model.typesystem.ReferenceType> com.github.javaparser.symbolsolver.logic.AbstractClassDeclaration.getAllInterfaces() -> java.util.ArrayList<E>.ArrayList() [AbstractClassDeclaration.java <59:46 59:56>]
 REFERENCE_TYPE_USAGE java.util.List<com.github.javaparser.symbolsolver.model.typesystem.ReferenceType> com.github.javaparser.symbolsolver.logic.AbstractClassDeclaration.getAllInterfaces() -> java.util.ArrayList<E> [AbstractClassDeclaration.java <59:46 59:54>]
 REFERENCE_TYPE_USAGE java.util.List<com.github.javaparser.symbolsolver.model.typesystem.ReferenceType> com.github.javaparser.symbolsolver.logic.AbstractClassDeclaration.getAllInterfaces() -> com.github.javaparser.symbolsolver.model.typesystem.ReferenceType [AbstractClassDeclaration.java <60:14 60:26>]
@@ -98,11 +120,9 @@ SYMBOL_METHOD java.util.List<com.github.javaparser.symbolsolver.model.typesystem
 REFERENCE_CALL java.util.List<com.github.javaparser.symbolsolver.model.typesystem.ReferenceType> com.github.javaparser.symbolsolver.logic.AbstractClassDeclaration.getAllInterfaces() -> java.util.List<com.github.javaparser.symbolsolver.model.typesystem.ReferenceType> com.github.javaparser.symbolsolver.model.declarations.ClassDeclaration.getInterfaces() [AbstractClassDeclaration.java <60:51 60:63>]
 LOCAL_SYMBOL: AbstractClassDeclaration.java<60:68> [AbstractClassDeclaration.java <60:68 60:68>]
 LOCAL_SYMBOL: AbstractClassDeclaration.java<60:68> [AbstractClassDeclaration.java <63:9 63:9>]
-SYMBOL_METHOD boolean java.util.List<E>.add(java.util.List<E>.E)
 REFERENCE_CALL java.util.List<com.github.javaparser.symbolsolver.model.typesystem.ReferenceType> com.github.javaparser.symbolsolver.logic.AbstractClassDeclaration.getAllInterfaces() -> boolean java.util.List<E>.add(java.util.List<E>.E) [AbstractClassDeclaration.java <61:24 61:26>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.logic.AbstractClassDeclaration.getAllInterfaces<0> [AbstractClassDeclaration.java <61:13 61:22>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.logic.AbstractClassDeclaration.getAllInterfaces<1> [AbstractClassDeclaration.java <61:28 61:47>]
-SYMBOL_METHOD boolean java.util.List<E>.addAll(java.util.Collection<? extends E>)
 REFERENCE_CALL java.util.List<com.github.javaparser.symbolsolver.model.typesystem.ReferenceType> com.github.javaparser.symbolsolver.logic.AbstractClassDeclaration.getAllInterfaces() -> boolean java.util.List<E>.addAll(java.util.Collection<? extends E>) [AbstractClassDeclaration.java <62:24 62:29>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.logic.AbstractClassDeclaration.getAllInterfaces<0> [AbstractClassDeclaration.java <62:13 62:22>]
 SYMBOL_METHOD java.util.List<com.github.javaparser.symbolsolver.model.typesystem.ReferenceType> com.github.javaparser.symbolsolver.model.typesystem.ReferenceType.getAllInterfacesAncestors()
@@ -110,15 +130,13 @@ REFERENCE_CALL java.util.List<com.github.javaparser.symbolsolver.model.typesyste
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.logic.AbstractClassDeclaration.getAllInterfaces<1> [AbstractClassDeclaration.java <62:31 62:50>]
 REFERENCE_TYPE_USAGE java.util.List<com.github.javaparser.symbolsolver.model.typesystem.ReferenceType> com.github.javaparser.symbolsolver.logic.AbstractClassDeclaration.getAllInterfaces() -> com.github.javaparser.symbolsolver.model.typesystem.ReferenceType [AbstractClassDeclaration.java <64:9 64:21>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.logic.AbstractClassDeclaration.getAllInterfaces<3> [AbstractClassDeclaration.java <64:23 64:32>]
-SYMBOL_METHOD com.github.javaparser.symbolsolver.model.typesystem.ReferenceType com.github.javaparser.symbolsolver.model.declarations.ClassDeclaration.getSuperClass()
 REFERENCE_CALL java.util.List<com.github.javaparser.symbolsolver.model.typesystem.ReferenceType> com.github.javaparser.symbolsolver.logic.AbstractClassDeclaration.getAllInterfaces() -> com.github.javaparser.symbolsolver.model.typesystem.ReferenceType com.github.javaparser.symbolsolver.model.declarations.ClassDeclaration.getSuperClass() [AbstractClassDeclaration.java <64:41 64:53>]
+QUALIFIER: com.github.javaparser.symbolsolver.logic.AbstractClassDeclaration [AbstractClassDeclaration.java <64:36 64:39>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.logic.AbstractClassDeclaration.getAllInterfaces<3> [AbstractClassDeclaration.java <65:13 65:22>]
 LOCAL_SYMBOL: AbstractClassDeclaration.java<65:33> [AbstractClassDeclaration.java <65:33 65:33>]
 LOCAL_SYMBOL: AbstractClassDeclaration.java<65:33> [AbstractClassDeclaration.java <67:9 67:9>]
-SYMBOL_METHOD boolean java.util.List<E>.addAll(java.util.Collection<? extends E>)
 REFERENCE_CALL java.util.List<com.github.javaparser.symbolsolver.model.typesystem.ReferenceType> com.github.javaparser.symbolsolver.logic.AbstractClassDeclaration.getAllInterfaces() -> boolean java.util.List<E>.addAll(java.util.Collection<? extends E>) [AbstractClassDeclaration.java <66:24 66:29>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.logic.AbstractClassDeclaration.getAllInterfaces<0> [AbstractClassDeclaration.java <66:13 66:22>]
-SYMBOL_METHOD java.util.List<com.github.javaparser.symbolsolver.model.typesystem.ReferenceType> com.github.javaparser.symbolsolver.model.typesystem.ReferenceType.getAllInterfacesAncestors()
 REFERENCE_CALL java.util.List<com.github.javaparser.symbolsolver.model.typesystem.ReferenceType> com.github.javaparser.symbolsolver.logic.AbstractClassDeclaration.getAllInterfaces() -> java.util.List<com.github.javaparser.symbolsolver.model.typesystem.ReferenceType> com.github.javaparser.symbolsolver.model.typesystem.ReferenceType.getAllInterfacesAncestors() [AbstractClassDeclaration.java <66:42 66:66>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.logic.AbstractClassDeclaration.getAllInterfaces<3> [AbstractClassDeclaration.java <66:31 66:40>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.logic.AbstractClassDeclaration.getAllInterfaces<0> [AbstractClassDeclaration.java <68:16 68:25>]

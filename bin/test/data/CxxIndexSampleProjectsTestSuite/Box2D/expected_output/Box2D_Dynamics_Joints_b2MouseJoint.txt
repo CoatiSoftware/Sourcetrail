@@ -1,9 +1,5 @@
 FILE: b2MouseJoint.cpp
-FILE: b2MouseJoint.cpp
 COMMENT: comment [b2MouseJoint.cpp <1:1 17:3>]
-FILE: b2MouseJoint.cpp
-FILE: b2MouseJoint.cpp
-FILE: b2MouseJoint.cpp
 COMMENT: comment [b2MouseJoint.cpp <23:1 23:39>]
 COMMENT: comment [b2MouseJoint.cpp <24:1 24:13>]
 COMMENT: comment [b2MouseJoint.cpp <25:1 25:12>]
@@ -17,32 +13,10 @@ REFERENCE_MACRO_USAGE assert.h -> _CRT_WIDE [assert.h <34:23 34:31>]
 REFERENCE_MACRO_USAGE vcruntime.h -> _CRT_WIDE_ [vcruntime.h <95:22 95:31>]
 REFERENCE_MACRO_USAGE assert.h -> _CRT_WIDE [assert.h <34:47 34:55>]
 REFERENCE_MACRO_USAGE assert.h -> __FILE__ [assert.h <34:57 34:64>]
-REFERENCE_MACRO_USAGE vcruntime.h -> _CRT_WIDE_ [vcruntime.h <95:22 95:31>]
 REFERENCE_MACRO_USAGE assert.h -> __LINE__ [assert.h <34:79 34:86>]
 REFERENCE_MACRO_USAGE b2MouseJoint.cpp -> b2Assert [b2MouseJoint.cpp <35:2 35:9>]
-REFERENCE_MACRO_USAGE b2Settings.h -> assert [b2Settings.h <31:21 31:26>]
-REFERENCE_MACRO_USAGE assert.h -> _CRT_WIDE [assert.h <34:23 34:31>]
-REFERENCE_MACRO_USAGE vcruntime.h -> _CRT_WIDE_ [vcruntime.h <95:22 95:31>]
-REFERENCE_MACRO_USAGE assert.h -> _CRT_WIDE [assert.h <34:47 34:55>]
-REFERENCE_MACRO_USAGE assert.h -> __FILE__ [assert.h <34:57 34:64>]
-REFERENCE_MACRO_USAGE vcruntime.h -> _CRT_WIDE_ [vcruntime.h <95:22 95:31>]
-REFERENCE_MACRO_USAGE assert.h -> __LINE__ [assert.h <34:79 34:86>]
 REFERENCE_MACRO_USAGE b2MouseJoint.cpp -> b2Assert [b2MouseJoint.cpp <36:2 36:9>]
-REFERENCE_MACRO_USAGE b2Settings.h -> assert [b2Settings.h <31:21 31:26>]
-REFERENCE_MACRO_USAGE assert.h -> _CRT_WIDE [assert.h <34:23 34:31>]
-REFERENCE_MACRO_USAGE vcruntime.h -> _CRT_WIDE_ [vcruntime.h <95:22 95:31>]
-REFERENCE_MACRO_USAGE assert.h -> _CRT_WIDE [assert.h <34:47 34:55>]
-REFERENCE_MACRO_USAGE assert.h -> __FILE__ [assert.h <34:57 34:64>]
-REFERENCE_MACRO_USAGE vcruntime.h -> _CRT_WIDE_ [vcruntime.h <95:22 95:31>]
-REFERENCE_MACRO_USAGE assert.h -> __LINE__ [assert.h <34:79 34:86>]
 REFERENCE_MACRO_USAGE b2MouseJoint.cpp -> b2Assert [b2MouseJoint.cpp <37:2 37:9>]
-REFERENCE_MACRO_USAGE b2Settings.h -> assert [b2Settings.h <31:21 31:26>]
-REFERENCE_MACRO_USAGE assert.h -> _CRT_WIDE [assert.h <34:23 34:31>]
-REFERENCE_MACRO_USAGE vcruntime.h -> _CRT_WIDE_ [vcruntime.h <95:22 95:31>]
-REFERENCE_MACRO_USAGE assert.h -> _CRT_WIDE [assert.h <34:47 34:55>]
-REFERENCE_MACRO_USAGE assert.h -> __FILE__ [assert.h <34:57 34:64>]
-REFERENCE_MACRO_USAGE vcruntime.h -> _CRT_WIDE_ [vcruntime.h <95:22 95:31>]
-REFERENCE_MACRO_USAGE assert.h -> __LINE__ [assert.h <34:79 34:86>]
 COMMENT: comment [b2MouseJoint.cpp <112:2 112:14>]
 REFERENCE_MACRO_USAGE b2MouseJoint.cpp -> b2_pi [b2MouseJoint.cpp <113:25 113:29>]
 COMMENT: comment [b2MouseJoint.cpp <115:2 115:24>]
@@ -53,13 +27,6 @@ COMMENT: comment [b2MouseJoint.cpp <123:2 123:36>]
 REFERENCE_MACRO_USAGE b2MouseJoint.cpp -> b2Assert [b2MouseJoint.cpp <125:2 125:9>]
 REFERENCE_MACRO_USAGE b2MouseJoint.cpp -> b2_epsilon [b2MouseJoint.cpp <125:23 125:32>]
 REFERENCE_MACRO_USAGE b2Settings.h -> FLT_EPSILON [b2Settings.h <43:21 43:31>]
-REFERENCE_MACRO_USAGE b2Settings.h -> assert [b2Settings.h <31:21 31:26>]
-REFERENCE_MACRO_USAGE assert.h -> _CRT_WIDE [assert.h <34:23 34:31>]
-REFERENCE_MACRO_USAGE vcruntime.h -> _CRT_WIDE_ [vcruntime.h <95:22 95:31>]
-REFERENCE_MACRO_USAGE assert.h -> _CRT_WIDE [assert.h <34:47 34:55>]
-REFERENCE_MACRO_USAGE assert.h -> __FILE__ [assert.h <34:57 34:64>]
-REFERENCE_MACRO_USAGE vcruntime.h -> _CRT_WIDE_ [vcruntime.h <95:22 95:31>]
-REFERENCE_MACRO_USAGE assert.h -> __LINE__ [assert.h <34:79 34:86>]
 COMMENT: comment [b2MouseJoint.cpp <133:2 133:39>]
 COMMENT: comment [b2MouseJoint.cpp <136:2 136:96>]
 COMMENT: comment [b2MouseJoint.cpp <137:2 137:99>]
@@ -69,6 +36,7 @@ COMMENT: comment [b2MouseJoint.cpp <173:2 173:27>]
 REFERENCE_MACRO_USAGE b2MouseJoint.cpp -> B2_NOT_USED [b2MouseJoint.cpp <195:2 195:12>]
 SYMBOL_METHOD protected void b2MouseJoint::b2MouseJoint(const b2MouseJointDef *) [b2MouseJoint.cpp <31:1 <31:15 31:26> 50:1>]
 SYMBOL_CLASS b2MouseJoint
+QUALIFIER: b2MouseJoint [b2MouseJoint.cpp <31:1 31:12>]
 LOCAL_SYMBOL: b2MouseJoint.cpp<31:51> [b2MouseJoint.cpp <31:51 31:53>]
 REFERENCE_TYPE_USAGE void b2MouseJoint::b2MouseJoint(const b2MouseJointDef *) -> b2MouseJointDef [b2MouseJoint.cpp <31:34 31:48>]
 REFERENCE_TYPE_USAGE void b2MouseJoint::b2MouseJoint(const b2MouseJointDef *) -> b2Joint [b2MouseJoint.cpp <32:3 32:9>]
@@ -79,23 +47,13 @@ REFERENCE_USAGE void b2MouseJoint::b2MouseJoint(const b2MouseJointDef *) -> b2Ve
 SYMBOL_FUNCTION void b2Vec2::b2Vec2()
 REFERENCE_CALL void b2MouseJoint::b2MouseJoint(const b2MouseJointDef *) -> void b2Vec2::b2Vec2() [b2MouseJoint.cpp <31:15 31:26>]
 REFERENCE_USAGE void b2MouseJoint::b2MouseJoint(const b2MouseJointDef *) -> b2Vec2 b2MouseJoint::m_targetA [b2MouseJoint.cpp <31:15 31:26>]
-SYMBOL_FUNCTION void b2Vec2::b2Vec2()
-REFERENCE_CALL void b2MouseJoint::b2MouseJoint(const b2MouseJointDef *) -> void b2Vec2::b2Vec2() [b2MouseJoint.cpp <31:15 31:26>]
 REFERENCE_USAGE void b2MouseJoint::b2MouseJoint(const b2MouseJointDef *) -> b2Vec2 b2MouseJoint::m_impulse [b2MouseJoint.cpp <31:15 31:26>]
-SYMBOL_FUNCTION void b2Vec2::b2Vec2()
-REFERENCE_CALL void b2MouseJoint::b2MouseJoint(const b2MouseJointDef *) -> void b2Vec2::b2Vec2() [b2MouseJoint.cpp <31:15 31:26>]
 REFERENCE_USAGE void b2MouseJoint::b2MouseJoint(const b2MouseJointDef *) -> b2Vec2 b2MouseJoint::m_rB [b2MouseJoint.cpp <31:15 31:26>]
-SYMBOL_FUNCTION void b2Vec2::b2Vec2()
-REFERENCE_CALL void b2MouseJoint::b2MouseJoint(const b2MouseJointDef *) -> void b2Vec2::b2Vec2() [b2MouseJoint.cpp <31:15 31:26>]
 REFERENCE_USAGE void b2MouseJoint::b2MouseJoint(const b2MouseJointDef *) -> b2Vec2 b2MouseJoint::m_localCenterB [b2MouseJoint.cpp <31:15 31:26>]
-SYMBOL_FUNCTION void b2Vec2::b2Vec2()
-REFERENCE_CALL void b2MouseJoint::b2MouseJoint(const b2MouseJointDef *) -> void b2Vec2::b2Vec2() [b2MouseJoint.cpp <31:15 31:26>]
 REFERENCE_USAGE void b2MouseJoint::b2MouseJoint(const b2MouseJointDef *) -> b2Mat22 b2MouseJoint::m_mass [b2MouseJoint.cpp <31:15 31:26>]
 SYMBOL_FUNCTION void b2Mat22::b2Mat22()
 REFERENCE_CALL void b2MouseJoint::b2MouseJoint(const b2MouseJointDef *) -> void b2Mat22::b2Mat22() [b2MouseJoint.cpp <31:15 31:26>]
 REFERENCE_USAGE void b2MouseJoint::b2MouseJoint(const b2MouseJointDef *) -> b2Vec2 b2MouseJoint::m_C [b2MouseJoint.cpp <31:15 31:26>]
-SYMBOL_FUNCTION void b2Vec2::b2Vec2()
-REFERENCE_CALL void b2MouseJoint::b2MouseJoint(const b2MouseJointDef *) -> void b2Vec2::b2Vec2() [b2MouseJoint.cpp <31:15 31:26>]
 SYMBOL_FUNCTION bool b2Vec2::IsValid() const
 REFERENCE_CALL void b2MouseJoint::b2MouseJoint(const b2MouseJointDef *) -> bool b2Vec2::IsValid() const [b2MouseJoint.cpp <34:23 34:29>]
 REFERENCE_USAGE void b2MouseJoint::b2MouseJoint(const b2MouseJointDef *) -> b2Vec2 b2MouseJointDef::target [b2MouseJoint.cpp <34:16 34:21>]
@@ -106,13 +64,11 @@ REFERENCE_USAGE void b2MouseJoint::b2MouseJoint(const b2MouseJointDef *) -> floa
 LOCAL_SYMBOL: b2MouseJoint.cpp<31:51> [b2MouseJoint.cpp <35:21 35:23>]
 REFERENCE_USAGE void b2MouseJoint::b2MouseJoint(const b2MouseJointDef *) -> float32 b2MouseJointDef::maxForce [b2MouseJoint.cpp <35:44 35:51>]
 LOCAL_SYMBOL: b2MouseJoint.cpp<31:51> [b2MouseJoint.cpp <35:39 35:41>]
-SYMBOL_FUNCTION bool b2IsValid(float32)
 REFERENCE_CALL void b2MouseJoint::b2MouseJoint(const b2MouseJointDef *) -> bool b2IsValid(float32) [b2MouseJoint.cpp <36:11 36:19>]
 REFERENCE_USAGE void b2MouseJoint::b2MouseJoint(const b2MouseJointDef *) -> float32 b2MouseJointDef::frequencyHz [b2MouseJoint.cpp <36:26 36:36>]
 LOCAL_SYMBOL: b2MouseJoint.cpp<31:51> [b2MouseJoint.cpp <36:21 36:23>]
 REFERENCE_USAGE void b2MouseJoint::b2MouseJoint(const b2MouseJointDef *) -> float32 b2MouseJointDef::frequencyHz [b2MouseJoint.cpp <36:47 36:57>]
 LOCAL_SYMBOL: b2MouseJoint.cpp<31:51> [b2MouseJoint.cpp <36:42 36:44>]
-SYMBOL_FUNCTION bool b2IsValid(float32)
 REFERENCE_CALL void b2MouseJoint::b2MouseJoint(const b2MouseJointDef *) -> bool b2IsValid(float32) [b2MouseJoint.cpp <37:11 37:19>]
 REFERENCE_USAGE void b2MouseJoint::b2MouseJoint(const b2MouseJointDef *) -> float32 b2MouseJointDef::dampingRatio [b2MouseJoint.cpp <37:26 37:37>]
 LOCAL_SYMBOL: b2MouseJoint.cpp<31:51> [b2MouseJoint.cpp <37:21 37:23>]
@@ -147,7 +103,7 @@ LOCAL_SYMBOL: b2MouseJoint.cpp<31:51> [b2MouseJoint.cpp <46:19 46:21>]
 REFERENCE_USAGE void b2MouseJoint::b2MouseJoint(const b2MouseJointDef *) -> float32 b2MouseJoint::m_beta [b2MouseJoint.cpp <48:2 48:7>]
 REFERENCE_USAGE void b2MouseJoint::b2MouseJoint(const b2MouseJointDef *) -> float32 b2MouseJoint::m_gamma [b2MouseJoint.cpp <49:2 49:8>]
 SYMBOL_METHOD public void b2MouseJoint::SetTarget(const b2Vec2 &) [b2MouseJoint.cpp <52:1 <52:20 52:28> 59:1>]
-SYMBOL_CLASS b2MouseJoint
+QUALIFIER: b2MouseJoint [b2MouseJoint.cpp <52:6 52:17>]
 SYMBOL_BUILTIN_TYPE void
 REFERENCE_TYPE_USAGE void b2MouseJoint::SetTarget(const b2Vec2 &) -> void [b2MouseJoint.cpp <52:1 52:4>]
 LOCAL_SYMBOL: b2MouseJoint.cpp<52:44> [b2MouseJoint.cpp <52:44 52:49>]
@@ -159,62 +115,56 @@ REFERENCE_USAGE void b2MouseJoint::SetTarget(const b2Vec2 &) -> b2Vec2 b2MouseJo
 SYMBOL_FUNCTION void b2Body::SetAwake(bool)
 REFERENCE_CALL void b2MouseJoint::SetTarget(const b2Vec2 &) -> void b2Body::SetAwake(bool) [b2MouseJoint.cpp <56:12 56:19>]
 REFERENCE_USAGE void b2MouseJoint::SetTarget(const b2Vec2 &) -> b2Body * b2Joint::m_bodyB [b2MouseJoint.cpp <56:3 56:9>]
-SYMBOL_FUNCTION b2Vec2 & b2Vec2::operator=(const b2Vec2 &)
 REFERENCE_CALL void b2MouseJoint::SetTarget(const b2Vec2 &) -> b2Vec2 & b2Vec2::operator=(const b2Vec2 &) [b2MouseJoint.cpp <57:13 57:13>]
 REFERENCE_USAGE void b2MouseJoint::SetTarget(const b2Vec2 &) -> b2Vec2 b2MouseJoint::m_targetA [b2MouseJoint.cpp <57:3 57:11>]
 LOCAL_SYMBOL: b2MouseJoint.cpp<52:44> [b2MouseJoint.cpp <57:15 57:20>]
 SYMBOL_METHOD public const b2Vec2 & b2MouseJoint::GetTarget() const [b2MouseJoint.cpp <61:1 <61:29 61:37> 64:1>]
-SYMBOL_CLASS b2MouseJoint
+QUALIFIER: b2MouseJoint [b2MouseJoint.cpp <61:15 61:26>]
 REFERENCE_TYPE_USAGE const b2Vec2 & b2MouseJoint::GetTarget() const -> b2Vec2 [b2MouseJoint.cpp <61:7 61:12>]
 REFERENCE_USAGE const b2Vec2 & b2MouseJoint::GetTarget() const -> b2Vec2 b2MouseJoint::m_targetA [b2MouseJoint.cpp <63:9 63:17>]
 SYMBOL_METHOD public void b2MouseJoint::SetMaxForce(float32) [b2MouseJoint.cpp <66:1 <66:20 66:30> 69:1>]
-SYMBOL_CLASS b2MouseJoint
-SYMBOL_BUILTIN_TYPE void
+QUALIFIER: b2MouseJoint [b2MouseJoint.cpp <66:6 66:17>]
 REFERENCE_TYPE_USAGE void b2MouseJoint::SetMaxForce(float32) -> void [b2MouseJoint.cpp <66:1 66:4>]
 LOCAL_SYMBOL: b2MouseJoint.cpp<66:40> [b2MouseJoint.cpp <66:40 66:44>]
 REFERENCE_TYPE_USAGE void b2MouseJoint::SetMaxForce(float32) -> float32 [b2MouseJoint.cpp <66:32 66:38>]
 REFERENCE_USAGE void b2MouseJoint::SetMaxForce(float32) -> float32 b2MouseJoint::m_maxForce [b2MouseJoint.cpp <68:2 68:11>]
 LOCAL_SYMBOL: b2MouseJoint.cpp<66:40> [b2MouseJoint.cpp <68:15 68:19>]
 SYMBOL_METHOD public float32 b2MouseJoint::GetMaxForce() const [b2MouseJoint.cpp <71:1 <71:23 71:33> 74:1>]
-SYMBOL_CLASS b2MouseJoint
+QUALIFIER: b2MouseJoint [b2MouseJoint.cpp <71:9 71:20>]
 REFERENCE_TYPE_USAGE float32 b2MouseJoint::GetMaxForce() const -> float32 [b2MouseJoint.cpp <71:1 71:7>]
 REFERENCE_USAGE float32 b2MouseJoint::GetMaxForce() const -> float32 b2MouseJoint::m_maxForce [b2MouseJoint.cpp <73:9 73:18>]
 SYMBOL_METHOD public void b2MouseJoint::SetFrequency(float32) [b2MouseJoint.cpp <76:1 <76:20 76:31> 79:1>]
-SYMBOL_CLASS b2MouseJoint
-SYMBOL_BUILTIN_TYPE void
+QUALIFIER: b2MouseJoint [b2MouseJoint.cpp <76:6 76:17>]
 REFERENCE_TYPE_USAGE void b2MouseJoint::SetFrequency(float32) -> void [b2MouseJoint.cpp <76:1 76:4>]
 LOCAL_SYMBOL: b2MouseJoint.cpp<76:41> [b2MouseJoint.cpp <76:41 76:42>]
 REFERENCE_TYPE_USAGE void b2MouseJoint::SetFrequency(float32) -> float32 [b2MouseJoint.cpp <76:33 76:39>]
 REFERENCE_USAGE void b2MouseJoint::SetFrequency(float32) -> float32 b2MouseJoint::m_frequencyHz [b2MouseJoint.cpp <78:2 78:14>]
 LOCAL_SYMBOL: b2MouseJoint.cpp<76:41> [b2MouseJoint.cpp <78:18 78:19>]
 SYMBOL_METHOD public float32 b2MouseJoint::GetFrequency() const [b2MouseJoint.cpp <81:1 <81:23 81:34> 84:1>]
-SYMBOL_CLASS b2MouseJoint
+QUALIFIER: b2MouseJoint [b2MouseJoint.cpp <81:9 81:20>]
 REFERENCE_TYPE_USAGE float32 b2MouseJoint::GetFrequency() const -> float32 [b2MouseJoint.cpp <81:1 81:7>]
 REFERENCE_USAGE float32 b2MouseJoint::GetFrequency() const -> float32 b2MouseJoint::m_frequencyHz [b2MouseJoint.cpp <83:9 83:21>]
 SYMBOL_METHOD public void b2MouseJoint::SetDampingRatio(float32) [b2MouseJoint.cpp <86:1 <86:20 86:34> 89:1>]
-SYMBOL_CLASS b2MouseJoint
-SYMBOL_BUILTIN_TYPE void
+QUALIFIER: b2MouseJoint [b2MouseJoint.cpp <86:6 86:17>]
 REFERENCE_TYPE_USAGE void b2MouseJoint::SetDampingRatio(float32) -> void [b2MouseJoint.cpp <86:1 86:4>]
 LOCAL_SYMBOL: b2MouseJoint.cpp<86:44> [b2MouseJoint.cpp <86:44 86:48>]
 REFERENCE_TYPE_USAGE void b2MouseJoint::SetDampingRatio(float32) -> float32 [b2MouseJoint.cpp <86:36 86:42>]
 REFERENCE_USAGE void b2MouseJoint::SetDampingRatio(float32) -> float32 b2MouseJoint::m_dampingRatio [b2MouseJoint.cpp <88:2 88:15>]
 LOCAL_SYMBOL: b2MouseJoint.cpp<86:44> [b2MouseJoint.cpp <88:19 88:23>]
 SYMBOL_METHOD public float32 b2MouseJoint::GetDampingRatio() const [b2MouseJoint.cpp <91:1 <91:23 91:37> 94:1>]
-SYMBOL_CLASS b2MouseJoint
+QUALIFIER: b2MouseJoint [b2MouseJoint.cpp <91:9 91:20>]
 REFERENCE_TYPE_USAGE float32 b2MouseJoint::GetDampingRatio() const -> float32 [b2MouseJoint.cpp <91:1 91:7>]
 REFERENCE_USAGE float32 b2MouseJoint::GetDampingRatio() const -> float32 b2MouseJoint::m_dampingRatio [b2MouseJoint.cpp <93:9 93:22>]
 SYMBOL_METHOD protected void b2MouseJoint::InitVelocityConstraints(const b2SolverData &) [b2MouseJoint.cpp <96:1 <96:20 96:42> 166:1>]
 SYMBOL_FUNCTION void b2Joint::InitVelocityConstraints(const b2SolverData &)
 REFERENCE_OVERRIDE void b2MouseJoint::InitVelocityConstraints(const b2SolverData &) -> void b2Joint::InitVelocityConstraints(const b2SolverData &) [b2MouseJoint.cpp <96:20 96:42>]
-SYMBOL_CLASS b2MouseJoint
-SYMBOL_BUILTIN_TYPE void
+QUALIFIER: b2MouseJoint [b2MouseJoint.cpp <96:6 96:17>]
 REFERENCE_TYPE_USAGE void b2MouseJoint::InitVelocityConstraints(const b2SolverData &) -> void [b2MouseJoint.cpp <96:1 96:4>]
 LOCAL_SYMBOL: b2MouseJoint.cpp<96:64> [b2MouseJoint.cpp <96:64 96:67>]
 REFERENCE_TYPE_USAGE void b2MouseJoint::InitVelocityConstraints(const b2SolverData &) -> b2SolverData [b2MouseJoint.cpp <96:50 96:61>]
 REFERENCE_USAGE void b2MouseJoint::InitVelocityConstraints(const b2SolverData &) -> int32 b2MouseJoint::m_indexB [b2MouseJoint.cpp <98:2 98:9>]
 REFERENCE_USAGE void b2MouseJoint::InitVelocityConstraints(const b2SolverData &) -> int32 b2Body::m_islandIndex [b2MouseJoint.cpp <98:22 98:34>]
 REFERENCE_USAGE void b2MouseJoint::InitVelocityConstraints(const b2SolverData &) -> b2Body * b2Joint::m_bodyB [b2MouseJoint.cpp <98:13 98:19>]
-SYMBOL_FUNCTION b2Vec2 & b2Vec2::operator=(const b2Vec2 &)
 REFERENCE_CALL void b2MouseJoint::InitVelocityConstraints(const b2SolverData &) -> b2Vec2 & b2Vec2::operator=(const b2Vec2 &) [b2MouseJoint.cpp <99:17 99:17>]
 REFERENCE_USAGE void b2MouseJoint::InitVelocityConstraints(const b2SolverData &) -> b2Vec2 b2MouseJoint::m_localCenterB [b2MouseJoint.cpp <99:2 99:15>]
 REFERENCE_USAGE void b2MouseJoint::InitVelocityConstraints(const b2SolverData &) -> b2Vec2 b2Sweep::localCenter [b2MouseJoint.cpp <99:36 99:46>]
@@ -242,7 +192,6 @@ LOCAL_SYMBOL: b2MouseJoint.cpp<96:64> [b2MouseJoint.cpp <104:15 104:18>]
 REFERENCE_USAGE void b2MouseJoint::InitVelocityConstraints(const b2SolverData &) -> int32 b2MouseJoint::m_indexB [b2MouseJoint.cpp <104:30 104:37>]
 LOCAL_SYMBOL: b2MouseJoint.cpp<105:9> [b2MouseJoint.cpp <105:9 105:10>]
 REFERENCE_TYPE_USAGE void b2MouseJoint::InitVelocityConstraints(const b2SolverData &) -> b2Vec2 [b2MouseJoint.cpp <105:2 105:7>]
-SYMBOL_FUNCTION void b2Vec2::b2Vec2(const b2Vec2 &)
 REFERENCE_CALL void b2MouseJoint::InitVelocityConstraints(const b2SolverData &) -> void b2Vec2::b2Vec2(const b2Vec2 &) [b2MouseJoint.cpp <105:40 105:40>]
 REFERENCE_USAGE void b2MouseJoint::InitVelocityConstraints(const b2SolverData &) -> b2Vec2 b2Velocity::v [b2MouseJoint.cpp <105:40 105:40>]
 REFERENCE_USAGE void b2MouseJoint::InitVelocityConstraints(const b2SolverData &) -> b2Velocity * b2SolverData::velocities [b2MouseJoint.cpp <105:19 105:28>]
@@ -297,7 +246,6 @@ REFERENCE_USAGE void b2MouseJoint::InitVelocityConstraints(const b2SolverData &)
 LOCAL_SYMBOL: b2MouseJoint.cpp<124:10> [b2MouseJoint.cpp <131:11 131:11>]
 LOCAL_SYMBOL: b2MouseJoint.cpp<119:10> [b2MouseJoint.cpp <131:15 131:15>]
 REFERENCE_USAGE void b2MouseJoint::InitVelocityConstraints(const b2SolverData &) -> float32 b2MouseJoint::m_gamma [b2MouseJoint.cpp <131:19 131:25>]
-SYMBOL_FUNCTION b2Vec2 & b2Vec2::operator=(b2Vec2 &)
 REFERENCE_CALL void b2MouseJoint::InitVelocityConstraints(const b2SolverData &) -> b2Vec2 & b2Vec2::operator=(b2Vec2 &) [b2MouseJoint.cpp <134:7 134:7>]
 REFERENCE_USAGE void b2MouseJoint::InitVelocityConstraints(const b2SolverData &) -> b2Vec2 b2MouseJoint::m_rB [b2MouseJoint.cpp <134:2 134:5>]
 SYMBOL_FUNCTION b2Vec2 b2Mul(const b2Rot &, const b2Vec2 &)
@@ -309,7 +257,6 @@ REFERENCE_USAGE void b2MouseJoint::InitVelocityConstraints(const b2SolverData &)
 REFERENCE_USAGE void b2MouseJoint::InitVelocityConstraints(const b2SolverData &) -> b2Vec2 b2MouseJoint::m_localCenterB [b2MouseJoint.cpp <134:36 134:49>]
 LOCAL_SYMBOL: b2MouseJoint.cpp<139:10> [b2MouseJoint.cpp <139:10 139:10>]
 REFERENCE_TYPE_USAGE void b2MouseJoint::InitVelocityConstraints(const b2SolverData &) -> b2Mat22 [b2MouseJoint.cpp <139:2 139:8>]
-SYMBOL_FUNCTION void b2Mat22::b2Mat22()
 REFERENCE_CALL void b2MouseJoint::InitVelocityConstraints(const b2SolverData &) -> void b2Mat22::b2Mat22() [b2MouseJoint.cpp <139:10 139:10>]
 REFERENCE_USAGE void b2MouseJoint::InitVelocityConstraints(const b2SolverData &) -> float32 b2Vec2::x [b2MouseJoint.cpp <140:7 140:7>]
 REFERENCE_USAGE void b2MouseJoint::InitVelocityConstraints(const b2SolverData &) -> b2Vec2 b2Mat22::ex [b2MouseJoint.cpp <140:4 140:5>]
@@ -351,10 +298,8 @@ REFERENCE_USAGE void b2MouseJoint::InitVelocityConstraints(const b2SolverData &)
 SYMBOL_FUNCTION b2Mat22 b2Mat22::GetInverse() const
 REFERENCE_CALL void b2MouseJoint::InitVelocityConstraints(const b2SolverData &) -> b2Mat22 b2Mat22::GetInverse() const [b2MouseJoint.cpp <145:13 145:22>]
 LOCAL_SYMBOL: b2MouseJoint.cpp<139:10> [b2MouseJoint.cpp <145:11 145:11>]
-SYMBOL_FUNCTION b2Vec2 & b2Vec2::operator=(b2Vec2 &)
 REFERENCE_CALL void b2MouseJoint::InitVelocityConstraints(const b2SolverData &) -> b2Vec2 & b2Vec2::operator=(b2Vec2 &) [b2MouseJoint.cpp <147:6 147:6>]
 REFERENCE_USAGE void b2MouseJoint::InitVelocityConstraints(const b2SolverData &) -> b2Vec2 b2MouseJoint::m_C [b2MouseJoint.cpp <147:2 147:4>]
-SYMBOL_FUNCTION b2Vec2 operator-(const b2Vec2 &, const b2Vec2 &)
 REFERENCE_CALL void b2MouseJoint::InitVelocityConstraints(const b2SolverData &) -> b2Vec2 operator-(const b2Vec2 &, const b2Vec2 &) [b2MouseJoint.cpp <147:18 147:18>]
 SYMBOL_FUNCTION b2Vec2 operator+(const b2Vec2 &, const b2Vec2 &)
 REFERENCE_CALL void b2MouseJoint::InitVelocityConstraints(const b2SolverData &) -> b2Vec2 operator+(const b2Vec2 &, const b2Vec2 &) [b2MouseJoint.cpp <147:11 147:11>]
@@ -369,7 +314,6 @@ LOCAL_SYMBOL: b2MouseJoint.cpp<106:10> [b2MouseJoint.cpp <151:2 151:3>]
 REFERENCE_USAGE void b2MouseJoint::InitVelocityConstraints(const b2SolverData &) -> bool b2TimeStep::warmStarting [b2MouseJoint.cpp <153:16 153:27>]
 REFERENCE_USAGE void b2MouseJoint::InitVelocityConstraints(const b2SolverData &) -> b2TimeStep b2SolverData::step [b2MouseJoint.cpp <153:11 153:14>]
 LOCAL_SYMBOL: b2MouseJoint.cpp<96:64> [b2MouseJoint.cpp <153:6 153:9>]
-SYMBOL_FUNCTION void b2Vec2::operator*=(float32)
 REFERENCE_CALL void b2MouseJoint::InitVelocityConstraints(const b2SolverData &) -> void b2Vec2::operator*=(float32) [b2MouseJoint.cpp <155:13 155:14>]
 REFERENCE_USAGE void b2MouseJoint::InitVelocityConstraints(const b2SolverData &) -> b2Vec2 b2MouseJoint::m_impulse [b2MouseJoint.cpp <155:3 155:11>]
 REFERENCE_USAGE void b2MouseJoint::InitVelocityConstraints(const b2SolverData &) -> float32 b2TimeStep::dtRatio [b2MouseJoint.cpp <155:26 155:32>]
@@ -388,10 +332,8 @@ SYMBOL_FUNCTION float32 b2Cross(const b2Vec2 &, const b2Vec2 &)
 REFERENCE_CALL void b2MouseJoint::InitVelocityConstraints(const b2SolverData &) -> float32 b2Cross(const b2Vec2 &, const b2Vec2 &) [b2MouseJoint.cpp <157:19 157:25>]
 REFERENCE_USAGE void b2MouseJoint::InitVelocityConstraints(const b2SolverData &) -> b2Vec2 b2MouseJoint::m_rB [b2MouseJoint.cpp <157:27 157:30>]
 REFERENCE_USAGE void b2MouseJoint::InitVelocityConstraints(const b2SolverData &) -> b2Vec2 b2MouseJoint::m_impulse [b2MouseJoint.cpp <157:33 157:41>]
-SYMBOL_FUNCTION void b2Vec2::SetZero()
 REFERENCE_CALL void b2MouseJoint::InitVelocityConstraints(const b2SolverData &) -> void b2Vec2::SetZero() [b2MouseJoint.cpp <161:13 161:19>]
 REFERENCE_USAGE void b2MouseJoint::InitVelocityConstraints(const b2SolverData &) -> b2Vec2 b2MouseJoint::m_impulse [b2MouseJoint.cpp <161:3 161:11>]
-SYMBOL_FUNCTION b2Vec2 & b2Vec2::operator=(const b2Vec2 &)
 REFERENCE_CALL void b2MouseJoint::InitVelocityConstraints(const b2SolverData &) -> b2Vec2 & b2Vec2::operator=(const b2Vec2 &) [b2MouseJoint.cpp <164:30 164:30>]
 REFERENCE_USAGE void b2MouseJoint::InitVelocityConstraints(const b2SolverData &) -> b2Vec2 b2Velocity::v [b2MouseJoint.cpp <164:28 164:28>]
 REFERENCE_USAGE void b2MouseJoint::InitVelocityConstraints(const b2SolverData &) -> b2Velocity * b2SolverData::velocities [b2MouseJoint.cpp <164:7 164:16>]
@@ -406,14 +348,12 @@ LOCAL_SYMBOL: b2MouseJoint.cpp<106:10> [b2MouseJoint.cpp <165:32 165:33>]
 SYMBOL_METHOD protected void b2MouseJoint::SolveVelocityConstraints(const b2SolverData &) [b2MouseJoint.cpp <168:1 <168:20 168:43> 191:1>]
 SYMBOL_FUNCTION void b2Joint::SolveVelocityConstraints(const b2SolverData &)
 REFERENCE_OVERRIDE void b2MouseJoint::SolveVelocityConstraints(const b2SolverData &) -> void b2Joint::SolveVelocityConstraints(const b2SolverData &) [b2MouseJoint.cpp <168:20 168:43>]
-SYMBOL_CLASS b2MouseJoint
-SYMBOL_BUILTIN_TYPE void
+QUALIFIER: b2MouseJoint [b2MouseJoint.cpp <168:6 168:17>]
 REFERENCE_TYPE_USAGE void b2MouseJoint::SolveVelocityConstraints(const b2SolverData &) -> void [b2MouseJoint.cpp <168:1 168:4>]
 LOCAL_SYMBOL: b2MouseJoint.cpp<168:65> [b2MouseJoint.cpp <168:65 168:68>]
 REFERENCE_TYPE_USAGE void b2MouseJoint::SolveVelocityConstraints(const b2SolverData &) -> b2SolverData [b2MouseJoint.cpp <168:51 168:62>]
 LOCAL_SYMBOL: b2MouseJoint.cpp<170:9> [b2MouseJoint.cpp <170:9 170:10>]
 REFERENCE_TYPE_USAGE void b2MouseJoint::SolveVelocityConstraints(const b2SolverData &) -> b2Vec2 [b2MouseJoint.cpp <170:2 170:7>]
-SYMBOL_FUNCTION void b2Vec2::b2Vec2(const b2Vec2 &)
 REFERENCE_CALL void b2MouseJoint::SolveVelocityConstraints(const b2SolverData &) -> void b2Vec2::b2Vec2(const b2Vec2 &) [b2MouseJoint.cpp <170:40 170:40>]
 REFERENCE_USAGE void b2MouseJoint::SolveVelocityConstraints(const b2SolverData &) -> b2Vec2 b2Velocity::v [b2MouseJoint.cpp <170:40 170:40>]
 REFERENCE_USAGE void b2MouseJoint::SolveVelocityConstraints(const b2SolverData &) -> b2Velocity * b2SolverData::velocities [b2MouseJoint.cpp <170:19 170:28>]
@@ -427,7 +367,6 @@ LOCAL_SYMBOL: b2MouseJoint.cpp<168:65> [b2MouseJoint.cpp <171:15 171:18>]
 REFERENCE_USAGE void b2MouseJoint::SolveVelocityConstraints(const b2SolverData &) -> int32 b2MouseJoint::m_indexB [b2MouseJoint.cpp <171:31 171:38>]
 LOCAL_SYMBOL: b2MouseJoint.cpp<174:9> [b2MouseJoint.cpp <174:9 174:12>]
 REFERENCE_TYPE_USAGE void b2MouseJoint::SolveVelocityConstraints(const b2SolverData &) -> b2Vec2 [b2MouseJoint.cpp <174:2 174:7>]
-SYMBOL_FUNCTION b2Vec2 operator+(const b2Vec2 &, const b2Vec2 &)
 REFERENCE_CALL void b2MouseJoint::SolveVelocityConstraints(const b2SolverData &) -> b2Vec2 operator+(const b2Vec2 &, const b2Vec2 &) [b2MouseJoint.cpp <174:19 174:19>]
 LOCAL_SYMBOL: b2MouseJoint.cpp<170:9> [b2MouseJoint.cpp <174:16 174:17>]
 SYMBOL_FUNCTION b2Vec2 b2Cross(float32, const b2Vec2 &)
@@ -441,22 +380,17 @@ REFERENCE_CALL void b2MouseJoint::SolveVelocityConstraints(const b2SolverData &)
 REFERENCE_USAGE void b2MouseJoint::SolveVelocityConstraints(const b2SolverData &) -> b2Mat22 b2MouseJoint::m_mass [b2MouseJoint.cpp <175:25 175:30>]
 SYMBOL_FUNCTION b2Vec2 b2Vec2::operator-() const
 REFERENCE_CALL void b2MouseJoint::SolveVelocityConstraints(const b2SolverData &) -> b2Vec2 b2Vec2::operator-() const [b2MouseJoint.cpp <175:33 175:33>]
-SYMBOL_FUNCTION b2Vec2 operator+(const b2Vec2 &, const b2Vec2 &)
 REFERENCE_CALL void b2MouseJoint::SolveVelocityConstraints(const b2SolverData &) -> b2Vec2 operator+(const b2Vec2 &, const b2Vec2 &) [b2MouseJoint.cpp <175:46 175:46>]
-SYMBOL_FUNCTION b2Vec2 operator+(const b2Vec2 &, const b2Vec2 &)
 REFERENCE_CALL void b2MouseJoint::SolveVelocityConstraints(const b2SolverData &) -> b2Vec2 operator+(const b2Vec2 &, const b2Vec2 &) [b2MouseJoint.cpp <175:40 175:40>]
 LOCAL_SYMBOL: b2MouseJoint.cpp<174:9> [b2MouseJoint.cpp <175:35 175:38>]
 REFERENCE_USAGE void b2MouseJoint::SolveVelocityConstraints(const b2SolverData &) -> b2Vec2 b2MouseJoint::m_C [b2MouseJoint.cpp <175:42 175:44>]
-SYMBOL_FUNCTION b2Vec2 operator*(float32, const b2Vec2 &)
 REFERENCE_CALL void b2MouseJoint::SolveVelocityConstraints(const b2SolverData &) -> b2Vec2 operator*(float32, const b2Vec2 &) [b2MouseJoint.cpp <175:56 175:56>]
 REFERENCE_USAGE void b2MouseJoint::SolveVelocityConstraints(const b2SolverData &) -> float32 b2MouseJoint::m_gamma [b2MouseJoint.cpp <175:48 175:54>]
 REFERENCE_USAGE void b2MouseJoint::SolveVelocityConstraints(const b2SolverData &) -> b2Vec2 b2MouseJoint::m_impulse [b2MouseJoint.cpp <175:58 175:66>]
 LOCAL_SYMBOL: b2MouseJoint.cpp<177:9> [b2MouseJoint.cpp <177:9 177:18>]
 REFERENCE_TYPE_USAGE void b2MouseJoint::SolveVelocityConstraints(const b2SolverData &) -> b2Vec2 [b2MouseJoint.cpp <177:2 177:7>]
-SYMBOL_FUNCTION void b2Vec2::b2Vec2(const b2Vec2 &)
 REFERENCE_CALL void b2MouseJoint::SolveVelocityConstraints(const b2SolverData &) -> void b2Vec2::b2Vec2(const b2Vec2 &) [b2MouseJoint.cpp <177:22 177:30>]
 REFERENCE_USAGE void b2MouseJoint::SolveVelocityConstraints(const b2SolverData &) -> b2Vec2 b2MouseJoint::m_impulse [b2MouseJoint.cpp <177:22 177:30>]
-SYMBOL_FUNCTION void b2Vec2::operator+=(const b2Vec2 &)
 REFERENCE_CALL void b2MouseJoint::SolveVelocityConstraints(const b2SolverData &) -> void b2Vec2::operator+=(const b2Vec2 &) [b2MouseJoint.cpp <178:12 178:13>]
 REFERENCE_USAGE void b2MouseJoint::SolveVelocityConstraints(const b2SolverData &) -> b2Vec2 b2MouseJoint::m_impulse [b2MouseJoint.cpp <178:2 178:10>]
 LOCAL_SYMBOL: b2MouseJoint.cpp<175:9> [b2MouseJoint.cpp <178:15 178:21>]
@@ -471,34 +405,27 @@ REFERENCE_CALL void b2MouseJoint::SolveVelocityConstraints(const b2SolverData &)
 REFERENCE_USAGE void b2MouseJoint::SolveVelocityConstraints(const b2SolverData &) -> b2Vec2 b2MouseJoint::m_impulse [b2MouseJoint.cpp <180:6 180:14>]
 LOCAL_SYMBOL: b2MouseJoint.cpp<179:10> [b2MouseJoint.cpp <180:34 180:43>]
 LOCAL_SYMBOL: b2MouseJoint.cpp<179:10> [b2MouseJoint.cpp <180:47 180:56>]
-SYMBOL_FUNCTION void b2Vec2::operator*=(float32)
 REFERENCE_CALL void b2MouseJoint::SolveVelocityConstraints(const b2SolverData &) -> void b2Vec2::operator*=(float32) [b2MouseJoint.cpp <182:13 182:14>]
 REFERENCE_USAGE void b2MouseJoint::SolveVelocityConstraints(const b2SolverData &) -> b2Vec2 b2MouseJoint::m_impulse [b2MouseJoint.cpp <182:3 182:11>]
 LOCAL_SYMBOL: b2MouseJoint.cpp<179:10> [b2MouseJoint.cpp <182:16 182:25>]
 SYMBOL_FUNCTION float32 b2Vec2::Length() const
 REFERENCE_CALL void b2MouseJoint::SolveVelocityConstraints(const b2SolverData &) -> float32 b2Vec2::Length() const [b2MouseJoint.cpp <182:39 182:44>]
 REFERENCE_USAGE void b2MouseJoint::SolveVelocityConstraints(const b2SolverData &) -> b2Vec2 b2MouseJoint::m_impulse [b2MouseJoint.cpp <182:29 182:37>]
-SYMBOL_FUNCTION b2Vec2 & b2Vec2::operator=(b2Vec2 &)
 REFERENCE_CALL void b2MouseJoint::SolveVelocityConstraints(const b2SolverData &) -> b2Vec2 & b2Vec2::operator=(b2Vec2 &) [b2MouseJoint.cpp <184:10 184:10>]
 LOCAL_SYMBOL: b2MouseJoint.cpp<175:9> [b2MouseJoint.cpp <184:2 184:8>]
-SYMBOL_FUNCTION b2Vec2 operator-(const b2Vec2 &, const b2Vec2 &)
 REFERENCE_CALL void b2MouseJoint::SolveVelocityConstraints(const b2SolverData &) -> b2Vec2 operator-(const b2Vec2 &, const b2Vec2 &) [b2MouseJoint.cpp <184:22 184:22>]
 REFERENCE_USAGE void b2MouseJoint::SolveVelocityConstraints(const b2SolverData &) -> b2Vec2 b2MouseJoint::m_impulse [b2MouseJoint.cpp <184:12 184:20>]
 LOCAL_SYMBOL: b2MouseJoint.cpp<177:9> [b2MouseJoint.cpp <184:24 184:33>]
-SYMBOL_FUNCTION void b2Vec2::operator+=(const b2Vec2 &)
 REFERENCE_CALL void b2MouseJoint::SolveVelocityConstraints(const b2SolverData &) -> void b2Vec2::operator+=(const b2Vec2 &) [b2MouseJoint.cpp <186:5 186:6>]
 LOCAL_SYMBOL: b2MouseJoint.cpp<170:9> [b2MouseJoint.cpp <186:2 186:3>]
-SYMBOL_FUNCTION b2Vec2 operator*(float32, const b2Vec2 &)
 REFERENCE_CALL void b2MouseJoint::SolveVelocityConstraints(const b2SolverData &) -> b2Vec2 operator*(float32, const b2Vec2 &) [b2MouseJoint.cpp <186:19 186:19>]
 REFERENCE_USAGE void b2MouseJoint::SolveVelocityConstraints(const b2SolverData &) -> float32 b2MouseJoint::m_invMassB [b2MouseJoint.cpp <186:8 186:17>]
 LOCAL_SYMBOL: b2MouseJoint.cpp<175:9> [b2MouseJoint.cpp <186:21 186:27>]
 LOCAL_SYMBOL: b2MouseJoint.cpp<171:10> [b2MouseJoint.cpp <187:2 187:3>]
 REFERENCE_USAGE void b2MouseJoint::SolveVelocityConstraints(const b2SolverData &) -> float32 b2MouseJoint::m_invIB [b2MouseJoint.cpp <187:8 187:14>]
-SYMBOL_FUNCTION float32 b2Cross(const b2Vec2 &, const b2Vec2 &)
 REFERENCE_CALL void b2MouseJoint::SolveVelocityConstraints(const b2SolverData &) -> float32 b2Cross(const b2Vec2 &, const b2Vec2 &) [b2MouseJoint.cpp <187:18 187:24>]
 REFERENCE_USAGE void b2MouseJoint::SolveVelocityConstraints(const b2SolverData &) -> b2Vec2 b2MouseJoint::m_rB [b2MouseJoint.cpp <187:26 187:29>]
 LOCAL_SYMBOL: b2MouseJoint.cpp<175:9> [b2MouseJoint.cpp <187:32 187:38>]
-SYMBOL_FUNCTION b2Vec2 & b2Vec2::operator=(const b2Vec2 &)
 REFERENCE_CALL void b2MouseJoint::SolveVelocityConstraints(const b2SolverData &) -> b2Vec2 & b2Vec2::operator=(const b2Vec2 &) [b2MouseJoint.cpp <189:30 189:30>]
 REFERENCE_USAGE void b2MouseJoint::SolveVelocityConstraints(const b2SolverData &) -> b2Vec2 b2Velocity::v [b2MouseJoint.cpp <189:28 189:28>]
 REFERENCE_USAGE void b2MouseJoint::SolveVelocityConstraints(const b2SolverData &) -> b2Velocity * b2SolverData::velocities [b2MouseJoint.cpp <189:7 189:16>]
@@ -513,7 +440,7 @@ LOCAL_SYMBOL: b2MouseJoint.cpp<171:10> [b2MouseJoint.cpp <190:32 190:33>]
 SYMBOL_METHOD protected bool b2MouseJoint::SolvePositionConstraints(const b2SolverData &) [b2MouseJoint.cpp <193:1 <193:20 193:43> 197:1>]
 SYMBOL_FUNCTION bool b2Joint::SolvePositionConstraints(const b2SolverData &)
 REFERENCE_OVERRIDE bool b2MouseJoint::SolvePositionConstraints(const b2SolverData &) -> bool b2Joint::SolvePositionConstraints(const b2SolverData &) [b2MouseJoint.cpp <193:20 193:43>]
-SYMBOL_CLASS b2MouseJoint
+QUALIFIER: b2MouseJoint [b2MouseJoint.cpp <193:6 193:17>]
 SYMBOL_BUILTIN_TYPE bool
 REFERENCE_TYPE_USAGE bool b2MouseJoint::SolvePositionConstraints(const b2SolverData &) -> bool [b2MouseJoint.cpp <193:1 193:4>]
 LOCAL_SYMBOL: b2MouseJoint.cpp<193:65> [b2MouseJoint.cpp <193:65 193:68>]
@@ -522,15 +449,14 @@ LOCAL_SYMBOL: b2MouseJoint.cpp<193:65> [b2MouseJoint.cpp <195:14 195:17>]
 SYMBOL_METHOD public b2Vec2 b2MouseJoint::GetAnchorA() const [b2MouseJoint.cpp <199:1 <199:22 199:31> 202:1>]
 SYMBOL_FUNCTION b2Vec2 b2Joint::GetAnchorA() const
 REFERENCE_OVERRIDE b2Vec2 b2MouseJoint::GetAnchorA() const -> b2Vec2 b2Joint::GetAnchorA() const [b2MouseJoint.cpp <199:22 199:31>]
-SYMBOL_CLASS b2MouseJoint
+QUALIFIER: b2MouseJoint [b2MouseJoint.cpp <199:8 199:19>]
 REFERENCE_TYPE_USAGE b2Vec2 b2MouseJoint::GetAnchorA() const -> b2Vec2 [b2MouseJoint.cpp <199:1 199:6>]
-SYMBOL_FUNCTION void b2Vec2::b2Vec2(const b2Vec2 &)
 REFERENCE_CALL b2Vec2 b2MouseJoint::GetAnchorA() const -> void b2Vec2::b2Vec2(const b2Vec2 &) [b2MouseJoint.cpp <201:9 201:17>]
 REFERENCE_USAGE b2Vec2 b2MouseJoint::GetAnchorA() const -> b2Vec2 b2MouseJoint::m_targetA [b2MouseJoint.cpp <201:9 201:17>]
 SYMBOL_METHOD public b2Vec2 b2MouseJoint::GetAnchorB() const [b2MouseJoint.cpp <204:1 <204:22 204:31> 207:1>]
 SYMBOL_FUNCTION b2Vec2 b2Joint::GetAnchorB() const
 REFERENCE_OVERRIDE b2Vec2 b2MouseJoint::GetAnchorB() const -> b2Vec2 b2Joint::GetAnchorB() const [b2MouseJoint.cpp <204:22 204:31>]
-SYMBOL_CLASS b2MouseJoint
+QUALIFIER: b2MouseJoint [b2MouseJoint.cpp <204:8 204:19>]
 REFERENCE_TYPE_USAGE b2Vec2 b2MouseJoint::GetAnchorB() const -> b2Vec2 [b2MouseJoint.cpp <204:1 204:6>]
 SYMBOL_FUNCTION b2Vec2 b2Body::GetWorldPoint(const b2Vec2 &) const
 REFERENCE_CALL b2Vec2 b2MouseJoint::GetAnchorB() const -> b2Vec2 b2Body::GetWorldPoint(const b2Vec2 &) const [b2MouseJoint.cpp <206:18 206:30>]
@@ -539,18 +465,17 @@ REFERENCE_USAGE b2Vec2 b2MouseJoint::GetAnchorB() const -> b2Vec2 b2MouseJoint::
 SYMBOL_METHOD public b2Vec2 b2MouseJoint::GetReactionForce(float32) const [b2MouseJoint.cpp <209:1 <209:22 209:37> 212:1>]
 SYMBOL_FUNCTION b2Vec2 b2Joint::GetReactionForce(float32) const
 REFERENCE_OVERRIDE b2Vec2 b2MouseJoint::GetReactionForce(float32) const -> b2Vec2 b2Joint::GetReactionForce(float32) const [b2MouseJoint.cpp <209:22 209:37>]
-SYMBOL_CLASS b2MouseJoint
+QUALIFIER: b2MouseJoint [b2MouseJoint.cpp <209:8 209:19>]
 REFERENCE_TYPE_USAGE b2Vec2 b2MouseJoint::GetReactionForce(float32) const -> b2Vec2 [b2MouseJoint.cpp <209:1 209:6>]
 LOCAL_SYMBOL: b2MouseJoint.cpp<209:47> [b2MouseJoint.cpp <209:47 209:52>]
 REFERENCE_TYPE_USAGE b2Vec2 b2MouseJoint::GetReactionForce(float32) const -> float32 [b2MouseJoint.cpp <209:39 209:45>]
-SYMBOL_FUNCTION b2Vec2 operator*(float32, const b2Vec2 &)
 REFERENCE_CALL b2Vec2 b2MouseJoint::GetReactionForce(float32) const -> b2Vec2 operator*(float32, const b2Vec2 &) [b2MouseJoint.cpp <211:16 211:16>]
 LOCAL_SYMBOL: b2MouseJoint.cpp<209:47> [b2MouseJoint.cpp <211:9 211:14>]
 REFERENCE_USAGE b2Vec2 b2MouseJoint::GetReactionForce(float32) const -> b2Vec2 b2MouseJoint::m_impulse [b2MouseJoint.cpp <211:18 211:26>]
 SYMBOL_METHOD public float32 b2MouseJoint::GetReactionTorque(float32) const [b2MouseJoint.cpp <214:1 <214:23 214:39> 217:1>]
 SYMBOL_FUNCTION float32 b2Joint::GetReactionTorque(float32) const
 REFERENCE_OVERRIDE float32 b2MouseJoint::GetReactionTorque(float32) const -> float32 b2Joint::GetReactionTorque(float32) const [b2MouseJoint.cpp <214:23 214:39>]
-SYMBOL_CLASS b2MouseJoint
+QUALIFIER: b2MouseJoint [b2MouseJoint.cpp <214:9 214:20>]
 REFERENCE_TYPE_USAGE float32 b2MouseJoint::GetReactionTorque(float32) const -> float32 [b2MouseJoint.cpp <214:1 214:7>]
 LOCAL_SYMBOL: b2MouseJoint.cpp<214:49> [b2MouseJoint.cpp <214:49 214:54>]
 REFERENCE_TYPE_USAGE float32 b2MouseJoint::GetReactionTorque(float32) const -> float32 [b2MouseJoint.cpp <214:41 214:47>]
@@ -558,8 +483,7 @@ LOCAL_SYMBOL: b2MouseJoint.cpp<214:49> [b2MouseJoint.cpp <216:9 216:14>]
 SYMBOL_METHOD public void b2MouseJoint::ShiftOrigin(const b2Vec2 &) [b2MouseJoint.cpp <219:1 <219:20 219:30> 222:1>]
 SYMBOL_FUNCTION void b2Joint::ShiftOrigin(const b2Vec2 &)
 REFERENCE_OVERRIDE void b2MouseJoint::ShiftOrigin(const b2Vec2 &) -> void b2Joint::ShiftOrigin(const b2Vec2 &) [b2MouseJoint.cpp <219:20 219:30>]
-SYMBOL_CLASS b2MouseJoint
-SYMBOL_BUILTIN_TYPE void
+QUALIFIER: b2MouseJoint [b2MouseJoint.cpp <219:6 219:17>]
 REFERENCE_TYPE_USAGE void b2MouseJoint::ShiftOrigin(const b2Vec2 &) -> void [b2MouseJoint.cpp <219:1 219:4>]
 LOCAL_SYMBOL: b2MouseJoint.cpp<219:46> [b2MouseJoint.cpp <219:46 219:54>]
 REFERENCE_TYPE_USAGE void b2MouseJoint::ShiftOrigin(const b2Vec2 &) -> b2Vec2 [b2MouseJoint.cpp <219:38 219:43>]

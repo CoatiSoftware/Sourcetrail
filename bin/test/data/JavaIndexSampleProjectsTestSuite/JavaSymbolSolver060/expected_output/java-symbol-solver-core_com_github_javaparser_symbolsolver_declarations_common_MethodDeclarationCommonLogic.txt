@@ -1,34 +1,93 @@
 FILE: MethodDeclarationCommonLogic.java
-SYMBOL_PACKAGE com.github.javaparser.symbolsolver.declarations.common [MethodDeclarationCommonLogic.java <17:9 17:62>]
+SYMBOL_PACKAGE com.github.javaparser.symbolsolver.declarations.common [MethodDeclarationCommonLogic.java <17:57 17:62>]
 SYMBOL_PACKAGE com.github.javaparser.symbolsolver.declarations
 SYMBOL_PACKAGE com.github.javaparser.symbolsolver
 SYMBOL_PACKAGE com.github.javaparser
 SYMBOL_PACKAGE com.github
 SYMBOL_PACKAGE com
-REFERENCE_IMPORT MethodDeclarationCommonLogic.java -> com.github.javaparser.symbolsolver.core.resolution.Context [MethodDeclarationCommonLogic.java <19:8 19:65>]
+QUALIFIER: com.github.javaparser.symbolsolver.declarations [MethodDeclarationCommonLogic.java <17:44 17:55>]
+QUALIFIER: com.github.javaparser.symbolsolver [MethodDeclarationCommonLogic.java <17:31 17:42>]
+QUALIFIER: com.github.javaparser [MethodDeclarationCommonLogic.java <17:20 17:29>]
+QUALIFIER: com.github [MethodDeclarationCommonLogic.java <17:13 17:18>]
+QUALIFIER: com [MethodDeclarationCommonLogic.java <17:9 17:11>]
+REFERENCE_IMPORT MethodDeclarationCommonLogic.java -> com.github.javaparser.symbolsolver.core.resolution.Context [MethodDeclarationCommonLogic.java <19:59 19:65>]
 SYMBOL_PACKAGE com.github.javaparser.symbolsolver.core.resolution
-REFERENCE_IMPORT MethodDeclarationCommonLogic.java -> com.github.javaparser.symbolsolver.logic.InferenceContext [MethodDeclarationCommonLogic.java <20:8 20:64>]
+QUALIFIER: com.github.javaparser.symbolsolver.core.resolution [MethodDeclarationCommonLogic.java <19:48 19:57>]
+QUALIFIER: com.github.javaparser.symbolsolver.core [MethodDeclarationCommonLogic.java <19:43 19:46>]
+QUALIFIER: com.github.javaparser.symbolsolver [MethodDeclarationCommonLogic.java <19:30 19:41>]
+QUALIFIER: com.github.javaparser [MethodDeclarationCommonLogic.java <19:19 19:28>]
+QUALIFIER: com.github [MethodDeclarationCommonLogic.java <19:12 19:17>]
+QUALIFIER: com [MethodDeclarationCommonLogic.java <19:8 19:10>]
+REFERENCE_IMPORT MethodDeclarationCommonLogic.java -> com.github.javaparser.symbolsolver.logic.InferenceContext [MethodDeclarationCommonLogic.java <20:49 20:64>]
 SYMBOL_PACKAGE com.github.javaparser.symbolsolver.logic
-REFERENCE_IMPORT MethodDeclarationCommonLogic.java -> com.github.javaparser.symbolsolver.model.declarations.MethodDeclaration [MethodDeclarationCommonLogic.java <21:8 21:78>]
+QUALIFIER: com.github.javaparser.symbolsolver.logic [MethodDeclarationCommonLogic.java <20:43 20:47>]
+QUALIFIER: com.github.javaparser.symbolsolver [MethodDeclarationCommonLogic.java <20:30 20:41>]
+QUALIFIER: com.github.javaparser [MethodDeclarationCommonLogic.java <20:19 20:28>]
+QUALIFIER: com.github [MethodDeclarationCommonLogic.java <20:12 20:17>]
+QUALIFIER: com [MethodDeclarationCommonLogic.java <20:8 20:10>]
+REFERENCE_IMPORT MethodDeclarationCommonLogic.java -> com.github.javaparser.symbolsolver.model.declarations.MethodDeclaration [MethodDeclarationCommonLogic.java <21:62 21:78>]
 SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model.declarations
-REFERENCE_IMPORT MethodDeclarationCommonLogic.java -> com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration [MethodDeclarationCommonLogic.java <22:8 22:85>]
-SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model.declarations
-REFERENCE_IMPORT MethodDeclarationCommonLogic.java -> com.github.javaparser.symbolsolver.model.methods.MethodUsage [MethodDeclarationCommonLogic.java <23:8 23:67>]
+QUALIFIER: com.github.javaparser.symbolsolver.model.declarations [MethodDeclarationCommonLogic.java <21:49 21:60>]
+QUALIFIER: com.github.javaparser.symbolsolver.model [MethodDeclarationCommonLogic.java <21:43 21:47>]
+QUALIFIER: com.github.javaparser.symbolsolver [MethodDeclarationCommonLogic.java <21:30 21:41>]
+QUALIFIER: com.github.javaparser [MethodDeclarationCommonLogic.java <21:19 21:28>]
+QUALIFIER: com.github [MethodDeclarationCommonLogic.java <21:12 21:17>]
+QUALIFIER: com [MethodDeclarationCommonLogic.java <21:8 21:10>]
+REFERENCE_IMPORT MethodDeclarationCommonLogic.java -> com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration [MethodDeclarationCommonLogic.java <22:62 22:85>]
+QUALIFIER: com.github.javaparser.symbolsolver.model.declarations [MethodDeclarationCommonLogic.java <22:49 22:60>]
+QUALIFIER: com.github.javaparser.symbolsolver.model [MethodDeclarationCommonLogic.java <22:43 22:47>]
+QUALIFIER: com.github.javaparser.symbolsolver [MethodDeclarationCommonLogic.java <22:30 22:41>]
+QUALIFIER: com.github.javaparser [MethodDeclarationCommonLogic.java <22:19 22:28>]
+QUALIFIER: com.github [MethodDeclarationCommonLogic.java <22:12 22:17>]
+QUALIFIER: com [MethodDeclarationCommonLogic.java <22:8 22:10>]
+REFERENCE_IMPORT MethodDeclarationCommonLogic.java -> com.github.javaparser.symbolsolver.model.methods.MethodUsage [MethodDeclarationCommonLogic.java <23:57 23:67>]
 SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model.methods
-REFERENCE_IMPORT MethodDeclarationCommonLogic.java -> com.github.javaparser.symbolsolver.model.resolution.TypeSolver [MethodDeclarationCommonLogic.java <24:8 24:69>]
+QUALIFIER: com.github.javaparser.symbolsolver.model.methods [MethodDeclarationCommonLogic.java <23:49 23:55>]
+QUALIFIER: com.github.javaparser.symbolsolver.model [MethodDeclarationCommonLogic.java <23:43 23:47>]
+QUALIFIER: com.github.javaparser.symbolsolver [MethodDeclarationCommonLogic.java <23:30 23:41>]
+QUALIFIER: com.github.javaparser [MethodDeclarationCommonLogic.java <23:19 23:28>]
+QUALIFIER: com.github [MethodDeclarationCommonLogic.java <23:12 23:17>]
+QUALIFIER: com [MethodDeclarationCommonLogic.java <23:8 23:10>]
+REFERENCE_IMPORT MethodDeclarationCommonLogic.java -> com.github.javaparser.symbolsolver.model.resolution.TypeSolver [MethodDeclarationCommonLogic.java <24:60 24:69>]
 SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model.resolution
-REFERENCE_IMPORT MethodDeclarationCommonLogic.java -> com.github.javaparser.symbolsolver.model.typesystem.Type [MethodDeclarationCommonLogic.java <25:8 25:63>]
+QUALIFIER: com.github.javaparser.symbolsolver.model.resolution [MethodDeclarationCommonLogic.java <24:49 24:58>]
+QUALIFIER: com.github.javaparser.symbolsolver.model [MethodDeclarationCommonLogic.java <24:43 24:47>]
+QUALIFIER: com.github.javaparser.symbolsolver [MethodDeclarationCommonLogic.java <24:30 24:41>]
+QUALIFIER: com.github.javaparser [MethodDeclarationCommonLogic.java <24:19 24:28>]
+QUALIFIER: com.github [MethodDeclarationCommonLogic.java <24:12 24:17>]
+QUALIFIER: com [MethodDeclarationCommonLogic.java <24:8 24:10>]
+REFERENCE_IMPORT MethodDeclarationCommonLogic.java -> com.github.javaparser.symbolsolver.model.typesystem.Type [MethodDeclarationCommonLogic.java <25:60 25:63>]
 SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model.typesystem
-REFERENCE_IMPORT MethodDeclarationCommonLogic.java -> com.github.javaparser.symbolsolver.model.typesystem.TypeVariable [MethodDeclarationCommonLogic.java <26:8 26:71>]
-SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model.typesystem
-REFERENCE_IMPORT MethodDeclarationCommonLogic.java -> com.github.javaparser.symbolsolver.reflectionmodel.MyObjectProvider [MethodDeclarationCommonLogic.java <27:8 27:74>]
+QUALIFIER: com.github.javaparser.symbolsolver.model.typesystem [MethodDeclarationCommonLogic.java <25:49 25:58>]
+QUALIFIER: com.github.javaparser.symbolsolver.model [MethodDeclarationCommonLogic.java <25:43 25:47>]
+QUALIFIER: com.github.javaparser.symbolsolver [MethodDeclarationCommonLogic.java <25:30 25:41>]
+QUALIFIER: com.github.javaparser [MethodDeclarationCommonLogic.java <25:19 25:28>]
+QUALIFIER: com.github [MethodDeclarationCommonLogic.java <25:12 25:17>]
+QUALIFIER: com [MethodDeclarationCommonLogic.java <25:8 25:10>]
+REFERENCE_IMPORT MethodDeclarationCommonLogic.java -> com.github.javaparser.symbolsolver.model.typesystem.TypeVariable [MethodDeclarationCommonLogic.java <26:60 26:71>]
+QUALIFIER: com.github.javaparser.symbolsolver.model.typesystem [MethodDeclarationCommonLogic.java <26:49 26:58>]
+QUALIFIER: com.github.javaparser.symbolsolver.model [MethodDeclarationCommonLogic.java <26:43 26:47>]
+QUALIFIER: com.github.javaparser.symbolsolver [MethodDeclarationCommonLogic.java <26:30 26:41>]
+QUALIFIER: com.github.javaparser [MethodDeclarationCommonLogic.java <26:19 26:28>]
+QUALIFIER: com.github [MethodDeclarationCommonLogic.java <26:12 26:17>]
+QUALIFIER: com [MethodDeclarationCommonLogic.java <26:8 26:10>]
+REFERENCE_IMPORT MethodDeclarationCommonLogic.java -> com.github.javaparser.symbolsolver.reflectionmodel.MyObjectProvider [MethodDeclarationCommonLogic.java <27:59 27:74>]
 SYMBOL_PACKAGE com.github.javaparser.symbolsolver.reflectionmodel
-REFERENCE_IMPORT MethodDeclarationCommonLogic.java -> java.util.ArrayList<E> [MethodDeclarationCommonLogic.java <29:8 29:26>]
+QUALIFIER: com.github.javaparser.symbolsolver.reflectionmodel [MethodDeclarationCommonLogic.java <27:43 27:57>]
+QUALIFIER: com.github.javaparser.symbolsolver [MethodDeclarationCommonLogic.java <27:30 27:41>]
+QUALIFIER: com.github.javaparser [MethodDeclarationCommonLogic.java <27:19 27:28>]
+QUALIFIER: com.github [MethodDeclarationCommonLogic.java <27:12 27:17>]
+QUALIFIER: com [MethodDeclarationCommonLogic.java <27:8 27:10>]
+REFERENCE_IMPORT MethodDeclarationCommonLogic.java -> java.util.ArrayList<E> [MethodDeclarationCommonLogic.java <29:18 29:26>]
 SYMBOL_PACKAGE java.util
-REFERENCE_IMPORT MethodDeclarationCommonLogic.java -> java.util.List<E> [MethodDeclarationCommonLogic.java <30:8 30:21>]
-SYMBOL_PACKAGE java.util
-REFERENCE_IMPORT MethodDeclarationCommonLogic.java -> java.util.Optional<T> [MethodDeclarationCommonLogic.java <31:8 31:25>]
-SYMBOL_PACKAGE java.util
+QUALIFIER: java.util [MethodDeclarationCommonLogic.java <29:13 29:16>]
+QUALIFIER: java [MethodDeclarationCommonLogic.java <29:8 29:11>]
+REFERENCE_IMPORT MethodDeclarationCommonLogic.java -> java.util.List<E> [MethodDeclarationCommonLogic.java <30:18 30:21>]
+QUALIFIER: java.util [MethodDeclarationCommonLogic.java <30:13 30:16>]
+QUALIFIER: java [MethodDeclarationCommonLogic.java <30:8 30:11>]
+REFERENCE_IMPORT MethodDeclarationCommonLogic.java -> java.util.Optional<T> [MethodDeclarationCommonLogic.java <31:18 31:25>]
+QUALIFIER: java.util [MethodDeclarationCommonLogic.java <31:13 31:16>]
+QUALIFIER: java [MethodDeclarationCommonLogic.java <31:8 31:11>]
 SYMBOL_CLASS public com.github.javaparser.symbolsolver.declarations.common.MethodDeclarationCommonLogic [MethodDeclarationCommonLogic.java <36:1 <36:14 36:41> 94:1>]
 LOCAL_SYMBOL: MethodDeclarationCommonLogic.java<36:43> [MethodDeclarationCommonLogic.java <36:43 36:43>]
 LOCAL_SYMBOL: MethodDeclarationCommonLogic.java<36:43> [MethodDeclarationCommonLogic.java <94:1 94:1>]
@@ -44,9 +103,11 @@ REFERENCE_TYPE_USAGE com.github.javaparser.symbolsolver.declarations.common.Meth
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.declarations.common.MethodDeclarationCommonLogic.MethodDeclarationCommonLogic<1> [MethodDeclarationCommonLogic.java <41:89 41:98>]
 LOCAL_SYMBOL: MethodDeclarationCommonLogic.java<41:101> [MethodDeclarationCommonLogic.java <41:101 41:101>]
 LOCAL_SYMBOL: MethodDeclarationCommonLogic.java<41:101> [MethodDeclarationCommonLogic.java <44:5 44:5>]
+QUALIFIER: com.github.javaparser.symbolsolver.declarations.common.MethodDeclarationCommonLogic [MethodDeclarationCommonLogic.java <42:9 42:12>]
 SYMBOL_FIELD com.github.javaparser.symbolsolver.model.declarations.MethodDeclaration com.github.javaparser.symbolsolver.declarations.common.MethodDeclarationCommonLogic.methodDeclaration
 REFERENCE_USAGE com.github.javaparser.symbolsolver.declarations.common.MethodDeclarationCommonLogic.MethodDeclarationCommonLogic(com.github.javaparser.symbolsolver.model.declarations.MethodDeclaration, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> com.github.javaparser.symbolsolver.model.declarations.MethodDeclaration com.github.javaparser.symbolsolver.declarations.common.MethodDeclarationCommonLogic.methodDeclaration [MethodDeclarationCommonLogic.java <42:14 42:30>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.declarations.common.MethodDeclarationCommonLogic.MethodDeclarationCommonLogic<0> [MethodDeclarationCommonLogic.java <42:34 42:50>]
+QUALIFIER: com.github.javaparser.symbolsolver.declarations.common.MethodDeclarationCommonLogic [MethodDeclarationCommonLogic.java <43:9 43:12>]
 SYMBOL_FIELD com.github.javaparser.symbolsolver.model.resolution.TypeSolver com.github.javaparser.symbolsolver.declarations.common.MethodDeclarationCommonLogic.typeSolver
 REFERENCE_USAGE com.github.javaparser.symbolsolver.declarations.common.MethodDeclarationCommonLogic.MethodDeclarationCommonLogic(com.github.javaparser.symbolsolver.model.declarations.MethodDeclaration, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> com.github.javaparser.symbolsolver.model.resolution.TypeSolver com.github.javaparser.symbolsolver.declarations.common.MethodDeclarationCommonLogic.typeSolver [MethodDeclarationCommonLogic.java <43:14 43:23>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.declarations.common.MethodDeclarationCommonLogic.MethodDeclarationCommonLogic<1> [MethodDeclarationCommonLogic.java <43:27 43:36>]
@@ -65,9 +126,7 @@ SYMBOL_METHOD com.github.javaparser.symbolsolver.model.typesystem.Type com.githu
 REFERENCE_CALL com.github.javaparser.symbolsolver.model.methods.MethodUsage com.github.javaparser.symbolsolver.declarations.common.MethodDeclarationCommonLogic.resolveTypeVariables(com.github.javaparser.symbolsolver.core.resolution.Context, java.util.List<com.github.javaparser.symbolsolver.model.typesystem.Type>) -> com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.declarations.common.MethodDeclarationCommonLogic.replaceTypeParams(com.github.javaparser.symbolsolver.model.typesystem.Type, com.github.javaparser.symbolsolver.model.resolution.TypeSolver, com.github.javaparser.symbolsolver.core.resolution.Context) [MethodDeclarationCommonLogic.java <47:27 47:43>]
 SYMBOL_METHOD com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.model.declarations.MethodDeclaration.getReturnType()
 REFERENCE_CALL com.github.javaparser.symbolsolver.model.methods.MethodUsage com.github.javaparser.symbolsolver.declarations.common.MethodDeclarationCommonLogic.resolveTypeVariables(com.github.javaparser.symbolsolver.core.resolution.Context, java.util.List<com.github.javaparser.symbolsolver.model.typesystem.Type>) -> com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.model.declarations.MethodDeclaration.getReturnType() [MethodDeclarationCommonLogic.java <47:63 47:75>]
-SYMBOL_FIELD com.github.javaparser.symbolsolver.model.declarations.MethodDeclaration com.github.javaparser.symbolsolver.declarations.common.MethodDeclarationCommonLogic.methodDeclaration
 REFERENCE_USAGE com.github.javaparser.symbolsolver.model.methods.MethodUsage com.github.javaparser.symbolsolver.declarations.common.MethodDeclarationCommonLogic.resolveTypeVariables(com.github.javaparser.symbolsolver.core.resolution.Context, java.util.List<com.github.javaparser.symbolsolver.model.typesystem.Type>) -> com.github.javaparser.symbolsolver.model.declarations.MethodDeclaration com.github.javaparser.symbolsolver.declarations.common.MethodDeclarationCommonLogic.methodDeclaration [MethodDeclarationCommonLogic.java <47:45 47:61>]
-SYMBOL_FIELD com.github.javaparser.symbolsolver.model.resolution.TypeSolver com.github.javaparser.symbolsolver.declarations.common.MethodDeclarationCommonLogic.typeSolver
 REFERENCE_USAGE com.github.javaparser.symbolsolver.model.methods.MethodUsage com.github.javaparser.symbolsolver.declarations.common.MethodDeclarationCommonLogic.resolveTypeVariables(com.github.javaparser.symbolsolver.core.resolution.Context, java.util.List<com.github.javaparser.symbolsolver.model.typesystem.Type>) -> com.github.javaparser.symbolsolver.model.resolution.TypeSolver com.github.javaparser.symbolsolver.declarations.common.MethodDeclarationCommonLogic.typeSolver [MethodDeclarationCommonLogic.java <47:80 47:89>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.declarations.common.MethodDeclarationCommonLogic.resolveTypeVariables<0> [MethodDeclarationCommonLogic.java <47:92 47:98>]
 REFERENCE_TYPE_USAGE com.github.javaparser.symbolsolver.model.methods.MethodUsage com.github.javaparser.symbolsolver.declarations.common.MethodDeclarationCommonLogic.resolveTypeVariables(com.github.javaparser.symbolsolver.core.resolution.Context, java.util.List<com.github.javaparser.symbolsolver.model.typesystem.Type>) -> java.util.List<E> [MethodDeclarationCommonLogic.java <48:9 48:12>]
@@ -82,23 +141,19 @@ LOCAL_SYMBOL: com.github.javaparser.symbolsolver.declarations.common.MethodDecla
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.declarations.common.MethodDeclarationCommonLogic.resolveTypeVariables<4> [MethodDeclarationCommonLogic.java <49:25 49:25>]
 SYMBOL_METHOD int com.github.javaparser.symbolsolver.model.declarations.MethodLikeDeclaration.getNumberOfParams()
 REFERENCE_CALL com.github.javaparser.symbolsolver.model.methods.MethodUsage com.github.javaparser.symbolsolver.declarations.common.MethodDeclarationCommonLogic.resolveTypeVariables(com.github.javaparser.symbolsolver.core.resolution.Context, java.util.List<com.github.javaparser.symbolsolver.model.typesystem.Type>) -> int com.github.javaparser.symbolsolver.model.declarations.MethodLikeDeclaration.getNumberOfParams() [MethodDeclarationCommonLogic.java <49:47 49:63>]
-SYMBOL_FIELD com.github.javaparser.symbolsolver.model.declarations.MethodDeclaration com.github.javaparser.symbolsolver.declarations.common.MethodDeclarationCommonLogic.methodDeclaration
 REFERENCE_USAGE com.github.javaparser.symbolsolver.model.methods.MethodUsage com.github.javaparser.symbolsolver.declarations.common.MethodDeclarationCommonLogic.resolveTypeVariables(com.github.javaparser.symbolsolver.core.resolution.Context, java.util.List<com.github.javaparser.symbolsolver.model.typesystem.Type>) -> com.github.javaparser.symbolsolver.model.declarations.MethodDeclaration com.github.javaparser.symbolsolver.declarations.common.MethodDeclarationCommonLogic.methodDeclaration [MethodDeclarationCommonLogic.java <49:29 49:45>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.declarations.common.MethodDeclarationCommonLogic.resolveTypeVariables<4> [MethodDeclarationCommonLogic.java <49:68 49:68>]
 LOCAL_SYMBOL: MethodDeclarationCommonLogic.java<49:73> [MethodDeclarationCommonLogic.java <49:73 49:73>]
 LOCAL_SYMBOL: MethodDeclarationCommonLogic.java<49:73> [MethodDeclarationCommonLogic.java <52:9 52:9>]
 REFERENCE_TYPE_USAGE com.github.javaparser.symbolsolver.model.methods.MethodUsage com.github.javaparser.symbolsolver.declarations.common.MethodDeclarationCommonLogic.resolveTypeVariables(com.github.javaparser.symbolsolver.core.resolution.Context, java.util.List<com.github.javaparser.symbolsolver.model.typesystem.Type>) -> com.github.javaparser.symbolsolver.model.typesystem.Type [MethodDeclarationCommonLogic.java <50:13 50:16>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.declarations.common.MethodDeclarationCommonLogic.resolveTypeVariables<5> [MethodDeclarationCommonLogic.java <50:18 50:25>]
-SYMBOL_METHOD com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.declarations.common.MethodDeclarationCommonLogic.replaceTypeParams(com.github.javaparser.symbolsolver.model.typesystem.Type, com.github.javaparser.symbolsolver.model.resolution.TypeSolver, com.github.javaparser.symbolsolver.core.resolution.Context)
 REFERENCE_CALL com.github.javaparser.symbolsolver.model.methods.MethodUsage com.github.javaparser.symbolsolver.declarations.common.MethodDeclarationCommonLogic.resolveTypeVariables(com.github.javaparser.symbolsolver.core.resolution.Context, java.util.List<com.github.javaparser.symbolsolver.model.typesystem.Type>) -> com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.declarations.common.MethodDeclarationCommonLogic.replaceTypeParams(com.github.javaparser.symbolsolver.model.typesystem.Type, com.github.javaparser.symbolsolver.model.resolution.TypeSolver, com.github.javaparser.symbolsolver.core.resolution.Context) [MethodDeclarationCommonLogic.java <50:29 50:45>]
 SYMBOL_METHOD com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.model.declarations.ValueDeclaration.getType()
 REFERENCE_CALL com.github.javaparser.symbolsolver.model.methods.MethodUsage com.github.javaparser.symbolsolver.declarations.common.MethodDeclarationCommonLogic.resolveTypeVariables(com.github.javaparser.symbolsolver.core.resolution.Context, java.util.List<com.github.javaparser.symbolsolver.model.typesystem.Type>) -> com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.model.declarations.ValueDeclaration.getType() [MethodDeclarationCommonLogic.java <50:77 50:83>]
 SYMBOL_METHOD com.github.javaparser.symbolsolver.model.declarations.ParameterDeclaration com.github.javaparser.symbolsolver.model.declarations.MethodLikeDeclaration.getParam(int)
 REFERENCE_CALL com.github.javaparser.symbolsolver.model.methods.MethodUsage com.github.javaparser.symbolsolver.declarations.common.MethodDeclarationCommonLogic.resolveTypeVariables(com.github.javaparser.symbolsolver.core.resolution.Context, java.util.List<com.github.javaparser.symbolsolver.model.typesystem.Type>) -> com.github.javaparser.symbolsolver.model.declarations.ParameterDeclaration com.github.javaparser.symbolsolver.model.declarations.MethodLikeDeclaration.getParam(int) [MethodDeclarationCommonLogic.java <50:65 50:72>]
-SYMBOL_FIELD com.github.javaparser.symbolsolver.model.declarations.MethodDeclaration com.github.javaparser.symbolsolver.declarations.common.MethodDeclarationCommonLogic.methodDeclaration
 REFERENCE_USAGE com.github.javaparser.symbolsolver.model.methods.MethodUsage com.github.javaparser.symbolsolver.declarations.common.MethodDeclarationCommonLogic.resolveTypeVariables(com.github.javaparser.symbolsolver.core.resolution.Context, java.util.List<com.github.javaparser.symbolsolver.model.typesystem.Type>) -> com.github.javaparser.symbolsolver.model.declarations.MethodDeclaration com.github.javaparser.symbolsolver.declarations.common.MethodDeclarationCommonLogic.methodDeclaration [MethodDeclarationCommonLogic.java <50:47 50:63>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.declarations.common.MethodDeclarationCommonLogic.resolveTypeVariables<4> [MethodDeclarationCommonLogic.java <50:74 50:74>]
-SYMBOL_FIELD com.github.javaparser.symbolsolver.model.resolution.TypeSolver com.github.javaparser.symbolsolver.declarations.common.MethodDeclarationCommonLogic.typeSolver
 REFERENCE_USAGE com.github.javaparser.symbolsolver.model.methods.MethodUsage com.github.javaparser.symbolsolver.declarations.common.MethodDeclarationCommonLogic.resolveTypeVariables(com.github.javaparser.symbolsolver.core.resolution.Context, java.util.List<com.github.javaparser.symbolsolver.model.typesystem.Type>) -> com.github.javaparser.symbolsolver.model.resolution.TypeSolver com.github.javaparser.symbolsolver.declarations.common.MethodDeclarationCommonLogic.typeSolver [MethodDeclarationCommonLogic.java <50:88 50:97>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.declarations.common.MethodDeclarationCommonLogic.resolveTypeVariables<0> [MethodDeclarationCommonLogic.java <50:100 50:106>]
 SYMBOL_METHOD boolean java.util.List<E>.add(java.util.List<E>.E)
@@ -110,30 +165,24 @@ LOCAL_SYMBOL: com.github.javaparser.symbolsolver.declarations.common.MethodDecla
 SYMBOL_METHOD com.github.javaparser.symbolsolver.logic.InferenceContext.InferenceContext(com.github.javaparser.symbolsolver.logic.ObjectProvider)
 REFERENCE_CALL com.github.javaparser.symbolsolver.model.methods.MethodUsage com.github.javaparser.symbolsolver.declarations.common.MethodDeclarationCommonLogic.resolveTypeVariables(com.github.javaparser.symbolsolver.core.resolution.Context, java.util.List<com.github.javaparser.symbolsolver.model.typesystem.Type>) -> com.github.javaparser.symbolsolver.logic.InferenceContext.InferenceContext(com.github.javaparser.symbolsolver.logic.ObjectProvider) [MethodDeclarationCommonLogic.java <57:49 57:64>]
 REFERENCE_TYPE_USAGE com.github.javaparser.symbolsolver.model.methods.MethodUsage com.github.javaparser.symbolsolver.declarations.common.MethodDeclarationCommonLogic.resolveTypeVariables(com.github.javaparser.symbolsolver.core.resolution.Context, java.util.List<com.github.javaparser.symbolsolver.model.typesystem.Type>) -> com.github.javaparser.symbolsolver.logic.InferenceContext [MethodDeclarationCommonLogic.java <57:49 57:64>]
+QUALIFIER: com.github.javaparser.symbolsolver.reflectionmodel.MyObjectProvider [MethodDeclarationCommonLogic.java <57:66 57:81>]
 SYMBOL_FIELD static com.github.javaparser.symbolsolver.reflectionmodel.MyObjectProvider com.github.javaparser.symbolsolver.reflectionmodel.MyObjectProvider.INSTANCE
 REFERENCE_USAGE com.github.javaparser.symbolsolver.model.methods.MethodUsage com.github.javaparser.symbolsolver.declarations.common.MethodDeclarationCommonLogic.resolveTypeVariables(com.github.javaparser.symbolsolver.core.resolution.Context, java.util.List<com.github.javaparser.symbolsolver.model.typesystem.Type>) -> static com.github.javaparser.symbolsolver.reflectionmodel.MyObjectProvider com.github.javaparser.symbolsolver.reflectionmodel.MyObjectProvider.INSTANCE [MethodDeclarationCommonLogic.java <57:83 57:90>]
-SYMBOL_BUILTIN_TYPE int
 REFERENCE_TYPE_USAGE com.github.javaparser.symbolsolver.model.methods.MethodUsage com.github.javaparser.symbolsolver.declarations.common.MethodDeclarationCommonLogic.resolveTypeVariables(com.github.javaparser.symbolsolver.core.resolution.Context, java.util.List<com.github.javaparser.symbolsolver.model.typesystem.Type>) -> int [MethodDeclarationCommonLogic.java <58:14 58:16>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.declarations.common.MethodDeclarationCommonLogic.resolveTypeVariables<7> [MethodDeclarationCommonLogic.java <58:18 58:18>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.declarations.common.MethodDeclarationCommonLogic.resolveTypeVariables<7> [MethodDeclarationCommonLogic.java <58:25 58:25>]
-SYMBOL_METHOD int com.github.javaparser.symbolsolver.model.declarations.MethodLikeDeclaration.getNumberOfParams()
 REFERENCE_CALL com.github.javaparser.symbolsolver.model.methods.MethodUsage com.github.javaparser.symbolsolver.declarations.common.MethodDeclarationCommonLogic.resolveTypeVariables(com.github.javaparser.symbolsolver.core.resolution.Context, java.util.List<com.github.javaparser.symbolsolver.model.typesystem.Type>) -> int com.github.javaparser.symbolsolver.model.declarations.MethodLikeDeclaration.getNumberOfParams() [MethodDeclarationCommonLogic.java <58:47 58:63>]
-SYMBOL_FIELD com.github.javaparser.symbolsolver.model.declarations.MethodDeclaration com.github.javaparser.symbolsolver.declarations.common.MethodDeclarationCommonLogic.methodDeclaration
 REFERENCE_USAGE com.github.javaparser.symbolsolver.model.methods.MethodUsage com.github.javaparser.symbolsolver.declarations.common.MethodDeclarationCommonLogic.resolveTypeVariables(com.github.javaparser.symbolsolver.core.resolution.Context, java.util.List<com.github.javaparser.symbolsolver.model.typesystem.Type>) -> com.github.javaparser.symbolsolver.model.declarations.MethodDeclaration com.github.javaparser.symbolsolver.declarations.common.MethodDeclarationCommonLogic.methodDeclaration [MethodDeclarationCommonLogic.java <58:29 58:45>]
 SYMBOL_METHOD boolean com.github.javaparser.symbolsolver.model.declarations.MethodLikeDeclaration.hasVariadicParameter()
 REFERENCE_CALL com.github.javaparser.symbolsolver.model.methods.MethodUsage com.github.javaparser.symbolsolver.declarations.common.MethodDeclarationCommonLogic.resolveTypeVariables(com.github.javaparser.symbolsolver.core.resolution.Context, java.util.List<com.github.javaparser.symbolsolver.model.typesystem.Type>) -> boolean com.github.javaparser.symbolsolver.model.declarations.MethodLikeDeclaration.hasVariadicParameter() [MethodDeclarationCommonLogic.java <58:88 58:107>]
-SYMBOL_FIELD com.github.javaparser.symbolsolver.model.declarations.MethodDeclaration com.github.javaparser.symbolsolver.declarations.common.MethodDeclarationCommonLogic.methodDeclaration
 REFERENCE_USAGE com.github.javaparser.symbolsolver.model.methods.MethodUsage com.github.javaparser.symbolsolver.declarations.common.MethodDeclarationCommonLogic.resolveTypeVariables(com.github.javaparser.symbolsolver.core.resolution.Context, java.util.List<com.github.javaparser.symbolsolver.model.typesystem.Type>) -> com.github.javaparser.symbolsolver.model.declarations.MethodDeclaration com.github.javaparser.symbolsolver.declarations.common.MethodDeclarationCommonLogic.methodDeclaration [MethodDeclarationCommonLogic.java <58:70 58:86>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.declarations.common.MethodDeclarationCommonLogic.resolveTypeVariables<7> [MethodDeclarationCommonLogic.java <58:121 58:121>]
 LOCAL_SYMBOL: MethodDeclarationCommonLogic.java<58:126> [MethodDeclarationCommonLogic.java <58:126 58:126>]
 LOCAL_SYMBOL: MethodDeclarationCommonLogic.java<58:126> [MethodDeclarationCommonLogic.java <62:9 62:9>]
 REFERENCE_TYPE_USAGE com.github.javaparser.symbolsolver.model.methods.MethodUsage com.github.javaparser.symbolsolver.declarations.common.MethodDeclarationCommonLogic.resolveTypeVariables(com.github.javaparser.symbolsolver.core.resolution.Context, java.util.List<com.github.javaparser.symbolsolver.model.typesystem.Type>) -> com.github.javaparser.symbolsolver.model.typesystem.Type [MethodDeclarationCommonLogic.java <59:13 59:16>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.declarations.common.MethodDeclarationCommonLogic.resolveTypeVariables<8> [MethodDeclarationCommonLogic.java <59:18 59:32>]
-SYMBOL_METHOD com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.model.declarations.ValueDeclaration.getType()
 REFERENCE_CALL com.github.javaparser.symbolsolver.model.methods.MethodUsage com.github.javaparser.symbolsolver.declarations.common.MethodDeclarationCommonLogic.resolveTypeVariables(com.github.javaparser.symbolsolver.core.resolution.Context, java.util.List<com.github.javaparser.symbolsolver.model.typesystem.Type>) -> com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.model.declarations.ValueDeclaration.getType() [MethodDeclarationCommonLogic.java <59:66 59:72>]
-SYMBOL_METHOD com.github.javaparser.symbolsolver.model.declarations.ParameterDeclaration com.github.javaparser.symbolsolver.model.declarations.MethodLikeDeclaration.getParam(int)
 REFERENCE_CALL com.github.javaparser.symbolsolver.model.methods.MethodUsage com.github.javaparser.symbolsolver.declarations.common.MethodDeclarationCommonLogic.resolveTypeVariables(com.github.javaparser.symbolsolver.core.resolution.Context, java.util.List<com.github.javaparser.symbolsolver.model.typesystem.Type>) -> com.github.javaparser.symbolsolver.model.declarations.ParameterDeclaration com.github.javaparser.symbolsolver.model.declarations.MethodLikeDeclaration.getParam(int) [MethodDeclarationCommonLogic.java <59:54 59:61>]
-SYMBOL_FIELD com.github.javaparser.symbolsolver.model.declarations.MethodDeclaration com.github.javaparser.symbolsolver.declarations.common.MethodDeclarationCommonLogic.methodDeclaration
 REFERENCE_USAGE com.github.javaparser.symbolsolver.model.methods.MethodUsage com.github.javaparser.symbolsolver.declarations.common.MethodDeclarationCommonLogic.resolveTypeVariables(com.github.javaparser.symbolsolver.core.resolution.Context, java.util.List<com.github.javaparser.symbolsolver.model.typesystem.Type>) -> com.github.javaparser.symbolsolver.model.declarations.MethodDeclaration com.github.javaparser.symbolsolver.declarations.common.MethodDeclarationCommonLogic.methodDeclaration [MethodDeclarationCommonLogic.java <59:36 59:52>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.declarations.common.MethodDeclarationCommonLogic.resolveTypeVariables<7> [MethodDeclarationCommonLogic.java <59:63 59:63>]
 REFERENCE_TYPE_USAGE com.github.javaparser.symbolsolver.model.methods.MethodUsage com.github.javaparser.symbolsolver.declarations.common.MethodDeclarationCommonLogic.resolveTypeVariables(com.github.javaparser.symbolsolver.core.resolution.Context, java.util.List<com.github.javaparser.symbolsolver.model.typesystem.Type>) -> com.github.javaparser.symbolsolver.model.typesystem.Type [MethodDeclarationCommonLogic.java <60:13 60:16>]
@@ -158,7 +207,6 @@ LOCAL_SYMBOL: com.github.javaparser.symbolsolver.declarations.common.MethodDecla
 SYMBOL_METHOD com.github.javaparser.symbolsolver.model.methods.MethodUsage.MethodUsage(com.github.javaparser.symbolsolver.model.declarations.MethodDeclaration, java.util.List<com.github.javaparser.symbolsolver.model.typesystem.Type>, com.github.javaparser.symbolsolver.model.typesystem.Type)
 REFERENCE_CALL com.github.javaparser.symbolsolver.model.methods.MethodUsage com.github.javaparser.symbolsolver.declarations.common.MethodDeclarationCommonLogic.resolveTypeVariables(com.github.javaparser.symbolsolver.core.resolution.Context, java.util.List<com.github.javaparser.symbolsolver.model.typesystem.Type>) -> com.github.javaparser.symbolsolver.model.methods.MethodUsage.MethodUsage(com.github.javaparser.symbolsolver.model.declarations.MethodDeclaration, java.util.List<com.github.javaparser.symbolsolver.model.typesystem.Type>, com.github.javaparser.symbolsolver.model.typesystem.Type) [MethodDeclarationCommonLogic.java <66:20 66:30>]
 REFERENCE_TYPE_USAGE com.github.javaparser.symbolsolver.model.methods.MethodUsage com.github.javaparser.symbolsolver.declarations.common.MethodDeclarationCommonLogic.resolveTypeVariables(com.github.javaparser.symbolsolver.core.resolution.Context, java.util.List<com.github.javaparser.symbolsolver.model.typesystem.Type>) -> com.github.javaparser.symbolsolver.model.methods.MethodUsage [MethodDeclarationCommonLogic.java <66:20 66:30>]
-SYMBOL_FIELD com.github.javaparser.symbolsolver.model.declarations.MethodDeclaration com.github.javaparser.symbolsolver.declarations.common.MethodDeclarationCommonLogic.methodDeclaration
 REFERENCE_USAGE com.github.javaparser.symbolsolver.model.methods.MethodUsage com.github.javaparser.symbolsolver.declarations.common.MethodDeclarationCommonLogic.resolveTypeVariables(com.github.javaparser.symbolsolver.core.resolution.Context, java.util.List<com.github.javaparser.symbolsolver.model.typesystem.Type>) -> com.github.javaparser.symbolsolver.model.declarations.MethodDeclaration com.github.javaparser.symbolsolver.declarations.common.MethodDeclarationCommonLogic.methodDeclaration [MethodDeclarationCommonLogic.java <66:32 66:48>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.declarations.common.MethodDeclarationCommonLogic.resolveTypeVariables<3> [MethodDeclarationCommonLogic.java <66:51 66:56>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.declarations.common.MethodDeclarationCommonLogic.resolveTypeVariables<2> [MethodDeclarationCommonLogic.java <66:59 66:68>]
@@ -217,7 +265,6 @@ SYMBOL_METHOD com.github.javaparser.symbolsolver.model.typesystem.ReferenceType 
 REFERENCE_CALL com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.declarations.common.MethodDeclarationCommonLogic.replaceTypeParams(com.github.javaparser.symbolsolver.model.typesystem.Type, com.github.javaparser.symbolsolver.model.resolution.TypeSolver, com.github.javaparser.symbolsolver.core.resolution.Context) -> com.github.javaparser.symbolsolver.model.typesystem.ReferenceType com.github.javaparser.symbolsolver.model.typesystem.Type.asReferenceType() [MethodDeclarationCommonLogic.java <81:18 81:32>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.declarations.common.MethodDeclarationCommonLogic.replaceTypeParams<0> [MethodDeclarationCommonLogic.java <81:13 81:16>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.model.typesystem.TypeTransformer.transform<6> [MethodDeclarationCommonLogic.java <81:60 81:61>]
-SYMBOL_METHOD com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.declarations.common.MethodDeclarationCommonLogic.replaceTypeParams(com.github.javaparser.symbolsolver.model.typesystem.Type, com.github.javaparser.symbolsolver.model.resolution.TypeSolver, com.github.javaparser.symbolsolver.core.resolution.Context)
 REFERENCE_CALL com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.declarations.common.MethodDeclarationCommonLogic.replaceTypeParams(com.github.javaparser.symbolsolver.model.typesystem.Type, com.github.javaparser.symbolsolver.model.resolution.TypeSolver, com.github.javaparser.symbolsolver.core.resolution.Context) -> com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.declarations.common.MethodDeclarationCommonLogic.replaceTypeParams(com.github.javaparser.symbolsolver.model.typesystem.Type, com.github.javaparser.symbolsolver.model.resolution.TypeSolver, com.github.javaparser.symbolsolver.core.resolution.Context) [MethodDeclarationCommonLogic.java <81:66 81:82>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.model.typesystem.TypeTransformer.transform<6> [MethodDeclarationCommonLogic.java <81:84 81:85>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.declarations.common.MethodDeclarationCommonLogic.replaceTypeParams<1> [MethodDeclarationCommonLogic.java <81:88 81:97>]
@@ -244,12 +291,10 @@ SYMBOL_METHOD java.util.stream.Stream<java.util.Collection<E>.E> java.util.Colle
 REFERENCE_CALL java.util.Optional<com.github.javaparser.symbolsolver.model.typesystem.Type> com.github.javaparser.symbolsolver.declarations.common.MethodDeclarationCommonLogic.typeParamByName(java.lang.String, com.github.javaparser.symbolsolver.model.resolution.TypeSolver, com.github.javaparser.symbolsolver.core.resolution.Context) -> java.util.stream.Stream<java.util.Collection<E>.E> java.util.Collection<E>.stream() [MethodDeclarationCommonLogic.java <88:54 88:59>]
 SYMBOL_METHOD java.util.List<com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration> com.github.javaparser.symbolsolver.model.declarations.TypeParametrizable.getTypeParameters()
 REFERENCE_CALL java.util.Optional<com.github.javaparser.symbolsolver.model.typesystem.Type> com.github.javaparser.symbolsolver.declarations.common.MethodDeclarationCommonLogic.typeParamByName(java.lang.String, com.github.javaparser.symbolsolver.model.resolution.TypeSolver, com.github.javaparser.symbolsolver.core.resolution.Context) -> java.util.List<com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration> com.github.javaparser.symbolsolver.model.declarations.TypeParametrizable.getTypeParameters() [MethodDeclarationCommonLogic.java <88:34 88:50>]
-SYMBOL_FIELD com.github.javaparser.symbolsolver.model.declarations.MethodDeclaration com.github.javaparser.symbolsolver.declarations.common.MethodDeclarationCommonLogic.methodDeclaration
 REFERENCE_USAGE java.util.Optional<com.github.javaparser.symbolsolver.model.typesystem.Type> com.github.javaparser.symbolsolver.declarations.common.MethodDeclarationCommonLogic.typeParamByName(java.lang.String, com.github.javaparser.symbolsolver.model.resolution.TypeSolver, com.github.javaparser.symbolsolver.core.resolution.Context) -> com.github.javaparser.symbolsolver.model.declarations.MethodDeclaration com.github.javaparser.symbolsolver.declarations.common.MethodDeclarationCommonLogic.methodDeclaration [MethodDeclarationCommonLogic.java <88:16 88:32>]
 LOCAL_SYMBOL: java.util.function.Predicate<T>.test<4> [MethodDeclarationCommonLogic.java <88:70 88:71>]
 SYMBOL_METHOD boolean java.lang.String.equals(java.lang.Object)
 REFERENCE_CALL java.util.Optional<com.github.javaparser.symbolsolver.model.typesystem.Type> com.github.javaparser.symbolsolver.declarations.common.MethodDeclarationCommonLogic.typeParamByName(java.lang.String, com.github.javaparser.symbolsolver.model.resolution.TypeSolver, com.github.javaparser.symbolsolver.core.resolution.Context) -> boolean java.lang.String.equals(java.lang.Object) [MethodDeclarationCommonLogic.java <88:89 88:94>]
-SYMBOL_METHOD java.lang.String com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration.getName()
 REFERENCE_CALL java.util.Optional<com.github.javaparser.symbolsolver.model.typesystem.Type> com.github.javaparser.symbolsolver.declarations.common.MethodDeclarationCommonLogic.typeParamByName(java.lang.String, com.github.javaparser.symbolsolver.model.resolution.TypeSolver, com.github.javaparser.symbolsolver.core.resolution.Context) -> java.lang.String com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration.getName() [MethodDeclarationCommonLogic.java <88:79 88:85>]
 LOCAL_SYMBOL: java.util.function.Predicate<T>.test<4> [MethodDeclarationCommonLogic.java <88:76 88:77>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.declarations.common.MethodDeclarationCommonLogic.typeParamByName<0> [MethodDeclarationCommonLogic.java <88:96 88:99>]

@@ -1,14 +1,22 @@
 FILE: TypeParametrizable.java
-SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model.declarations [TypeParametrizable.java <17:9 17:61>]
+SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model.declarations [TypeParametrizable.java <17:50 17:61>]
 SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model
 SYMBOL_PACKAGE com.github.javaparser.symbolsolver
 SYMBOL_PACKAGE com.github.javaparser
 SYMBOL_PACKAGE com.github
 SYMBOL_PACKAGE com
-REFERENCE_IMPORT TypeParametrizable.java -> java.util.List<E> [TypeParametrizable.java <19:8 19:21>]
+QUALIFIER: com.github.javaparser.symbolsolver.model [TypeParametrizable.java <17:44 17:48>]
+QUALIFIER: com.github.javaparser.symbolsolver [TypeParametrizable.java <17:31 17:42>]
+QUALIFIER: com.github.javaparser [TypeParametrizable.java <17:20 17:29>]
+QUALIFIER: com.github [TypeParametrizable.java <17:13 17:18>]
+QUALIFIER: com [TypeParametrizable.java <17:9 17:11>]
+REFERENCE_IMPORT TypeParametrizable.java -> java.util.List<E> [TypeParametrizable.java <19:18 19:21>]
 SYMBOL_PACKAGE java.util
-REFERENCE_IMPORT TypeParametrizable.java -> java.util.Optional<T> [TypeParametrizable.java <20:8 20:25>]
-SYMBOL_PACKAGE java.util
+QUALIFIER: java.util [TypeParametrizable.java <19:13 19:16>]
+QUALIFIER: java [TypeParametrizable.java <19:8 19:11>]
+REFERENCE_IMPORT TypeParametrizable.java -> java.util.Optional<T> [TypeParametrizable.java <20:18 20:25>]
+QUALIFIER: java.util [TypeParametrizable.java <20:13 20:16>]
+QUALIFIER: java [TypeParametrizable.java <20:8 20:11>]
 SYMBOL_INTERFACE public com.github.javaparser.symbolsolver.model.declarations.TypeParametrizable [TypeParametrizable.java <27:1 <27:18 27:35> 40:1>]
 LOCAL_SYMBOL: TypeParametrizable.java<27:37> [TypeParametrizable.java <27:37 27:37>]
 LOCAL_SYMBOL: TypeParametrizable.java<27:37> [TypeParametrizable.java <40:1 40:1>]

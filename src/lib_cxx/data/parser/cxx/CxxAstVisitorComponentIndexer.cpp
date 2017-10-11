@@ -40,26 +40,37 @@ void CxxAstVisitorComponentIndexer::beginTraverseNestedNameSpecifierLoc(const cl
 	case clang::NestedNameSpecifier::Identifier:
 		break;
 	case clang::NestedNameSpecifier::Namespace:
-		m_client->recordSymbol(
-			getAstVisitor()->getDeclNameCache()->getValue(loc.getNestedNameSpecifier()->getAsNamespace()),
-			SYMBOL_NAMESPACE,
-			ACCESS_NONE,
-			DEFINITION_NONE
-		);
+		{
+			const NameHierarchy symbolName = getAstVisitor()->getDeclNameCache()->getValue(loc.getNestedNameSpecifier()->getAsNamespace());
+			m_client->recordSymbol(
+				symbolName,
+				SYMBOL_NAMESPACE,
+				ACCESS_NONE,
+				DEFINITION_NONE
+			);
+
+			m_client->recordQualifierLocation(
+				symbolName,
+				getParseLocation(loc.getLocalBeginLoc())
+			);
+		}
 		break;
 	case clang::NestedNameSpecifier::NamespaceAlias:
-		m_client->recordSymbol(
-			getAstVisitor()->getDeclNameCache()->getValue(loc.getNestedNameSpecifier()->getAsNamespaceAlias()),
-			SYMBOL_NAMESPACE,
-			ACCESS_NONE,
-			DEFINITION_NONE
-		);
-		m_client->recordSymbol(
-			getAstVisitor()->getDeclNameCache()->getValue(loc.getNestedNameSpecifier()->getAsNamespaceAlias()->getAliasedNamespace()),
-			SYMBOL_NAMESPACE,
-			ACCESS_NONE,
-			DEFINITION_NONE
-		);
+		{
+			m_client->recordSymbol(
+				getAstVisitor()->getDeclNameCache()->getValue(loc.getNestedNameSpecifier()->getAsNamespaceAlias()),
+				SYMBOL_NAMESPACE,
+				ACCESS_NONE,
+				DEFINITION_NONE
+			);
+
+			m_client->recordSymbol(
+				getAstVisitor()->getDeclNameCache()->getValue(loc.getNestedNameSpecifier()->getAsNamespaceAlias()->getAliasedNamespace()),
+				SYMBOL_NAMESPACE,
+				ACCESS_NONE,
+				DEFINITION_NONE
+			);
+		}
 		break;
 	case clang::NestedNameSpecifier::Global:
 	case clang::NestedNameSpecifier::Super:
@@ -84,13 +95,26 @@ void CxxAstVisitorComponentIndexer::beginTraverseNestedNameSpecifierLoc(const cl
 
 			if (symbolKind != SYMBOL_KIND_MAX)
 			{
+				const NameHierarchy symbolName = getAstVisitor()->getDeclNameCache()->getValue(recordDecl);
 				m_client->recordSymbol(
-					getAstVisitor()->getDeclNameCache()->getValue(recordDecl),
+					symbolName,
 					symbolKind,
 					ACCESS_NONE,
 					DEFINITION_NONE
 				);
+
+				m_client->recordQualifierLocation(
+					symbolName,
+					getParseLocation(loc.getLocalBeginLoc())
+				);
 			}
+		}
+		else if (const clang::Type* type = loc.getNestedNameSpecifier()->getAsType())
+		{
+			m_client->recordQualifierLocation(
+				getAstVisitor()->getTypeNameCache()->getValue(type),
+				getParseLocation(loc.getLocalBeginLoc())
+			);
 		}
 	}
 }
@@ -380,6 +404,8 @@ void CxxAstVisitorComponentIndexer::visitNamespaceAliasDecl(clang::NamespaceAlia
 			getAstVisitor()->getDeclNameCache()->getValue(d),
 			getParseLocation(d->getTargetNameLoc())
 		);
+
+		// TODO: record other namespace as undefined
 	}
 }
 

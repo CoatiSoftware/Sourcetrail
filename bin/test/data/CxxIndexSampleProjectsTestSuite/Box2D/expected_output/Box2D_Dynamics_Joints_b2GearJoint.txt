@@ -1,11 +1,5 @@
 FILE: b2GearJoint.cpp
-FILE: b2GearJoint.cpp
 COMMENT: comment [b2GearJoint.cpp <1:1 17:3>]
-FILE: b2GearJoint.cpp
-FILE: b2GearJoint.cpp
-FILE: b2GearJoint.cpp
-FILE: b2GearJoint.cpp
-FILE: b2GearJoint.cpp
 COMMENT: comment [b2GearJoint.cpp <25:1 25:15>]
 COMMENT: comment [b2GearJoint.cpp <26:1 26:52>]
 COMMENT: comment [b2GearJoint.cpp <27:1 27:52>]
@@ -30,16 +24,8 @@ REFERENCE_MACRO_USAGE assert.h -> _CRT_WIDE [assert.h <34:23 34:31>]
 REFERENCE_MACRO_USAGE vcruntime.h -> _CRT_WIDE_ [vcruntime.h <95:22 95:31>]
 REFERENCE_MACRO_USAGE assert.h -> _CRT_WIDE [assert.h <34:47 34:55>]
 REFERENCE_MACRO_USAGE assert.h -> __FILE__ [assert.h <34:57 34:64>]
-REFERENCE_MACRO_USAGE vcruntime.h -> _CRT_WIDE_ [vcruntime.h <95:22 95:31>]
 REFERENCE_MACRO_USAGE assert.h -> __LINE__ [assert.h <34:79 34:86>]
 REFERENCE_MACRO_USAGE b2GearJoint.cpp -> b2Assert [b2GearJoint.cpp <54:2 54:9>]
-REFERENCE_MACRO_USAGE b2Settings.h -> assert [b2Settings.h <31:21 31:26>]
-REFERENCE_MACRO_USAGE assert.h -> _CRT_WIDE [assert.h <34:23 34:31>]
-REFERENCE_MACRO_USAGE vcruntime.h -> _CRT_WIDE_ [vcruntime.h <95:22 95:31>]
-REFERENCE_MACRO_USAGE assert.h -> _CRT_WIDE [assert.h <34:47 34:55>]
-REFERENCE_MACRO_USAGE assert.h -> __FILE__ [assert.h <34:57 34:64>]
-REFERENCE_MACRO_USAGE vcruntime.h -> _CRT_WIDE_ [vcruntime.h <95:22 95:31>]
-REFERENCE_MACRO_USAGE assert.h -> __LINE__ [assert.h <34:79 34:86>]
 COMMENT: comment [b2GearJoint.cpp <58:2 58:75>]
 COMMENT: comment [b2GearJoint.cpp <63:2 63:27>]
 COMMENT: comment [b2GearJoint.cpp <95:2 95:27>]
@@ -47,15 +33,9 @@ COMMENT: comment [b2GearJoint.cpp <206:2 206:28>]
 COMMENT: comment [b2GearJoint.cpp <366:2 366:30>]
 REFERENCE_MACRO_USAGE b2GearJoint.cpp -> b2_linearSlop [b2GearJoint.cpp <367:23 367:35>]
 REFERENCE_MACRO_USAGE b2GearJoint.cpp -> b2Assert [b2GearJoint.cpp <394:2 394:9>]
-REFERENCE_MACRO_USAGE b2Settings.h -> assert [b2Settings.h <31:21 31:26>]
-REFERENCE_MACRO_USAGE assert.h -> _CRT_WIDE [assert.h <34:23 34:31>]
-REFERENCE_MACRO_USAGE vcruntime.h -> _CRT_WIDE_ [vcruntime.h <95:22 95:31>]
-REFERENCE_MACRO_USAGE assert.h -> _CRT_WIDE [assert.h <34:47 34:55>]
-REFERENCE_MACRO_USAGE assert.h -> __FILE__ [assert.h <34:57 34:64>]
-REFERENCE_MACRO_USAGE vcruntime.h -> _CRT_WIDE_ [vcruntime.h <95:22 95:31>]
-REFERENCE_MACRO_USAGE assert.h -> __LINE__ [assert.h <34:79 34:86>]
 SYMBOL_METHOD protected void b2GearJoint::b2GearJoint(const b2GearJointDef *) [b2GearJoint.cpp <44:1 <44:14 44:24> 129:1>]
 SYMBOL_CLASS b2GearJoint
+QUALIFIER: b2GearJoint [b2GearJoint.cpp <44:1 44:11>]
 LOCAL_SYMBOL: b2GearJoint.cpp<44:48> [b2GearJoint.cpp <44:48 44:50>]
 REFERENCE_TYPE_USAGE void b2GearJoint::b2GearJoint(const b2GearJointDef *) -> b2GearJointDef [b2GearJoint.cpp <44:32 44:45>]
 REFERENCE_TYPE_USAGE void b2GearJoint::b2GearJoint(const b2GearJointDef *) -> b2Joint [b2GearJoint.cpp <45:3 45:9>]
@@ -66,38 +46,16 @@ REFERENCE_USAGE void b2GearJoint::b2GearJoint(const b2GearJointDef *) -> b2Vec2 
 SYMBOL_FUNCTION void b2Vec2::b2Vec2()
 REFERENCE_CALL void b2GearJoint::b2GearJoint(const b2GearJointDef *) -> void b2Vec2::b2Vec2() [b2GearJoint.cpp <44:14 44:24>]
 REFERENCE_USAGE void b2GearJoint::b2GearJoint(const b2GearJointDef *) -> b2Vec2 b2GearJoint::m_localAnchorB [b2GearJoint.cpp <44:14 44:24>]
-SYMBOL_FUNCTION void b2Vec2::b2Vec2()
-REFERENCE_CALL void b2GearJoint::b2GearJoint(const b2GearJointDef *) -> void b2Vec2::b2Vec2() [b2GearJoint.cpp <44:14 44:24>]
 REFERENCE_USAGE void b2GearJoint::b2GearJoint(const b2GearJointDef *) -> b2Vec2 b2GearJoint::m_localAnchorC [b2GearJoint.cpp <44:14 44:24>]
-SYMBOL_FUNCTION void b2Vec2::b2Vec2()
-REFERENCE_CALL void b2GearJoint::b2GearJoint(const b2GearJointDef *) -> void b2Vec2::b2Vec2() [b2GearJoint.cpp <44:14 44:24>]
 REFERENCE_USAGE void b2GearJoint::b2GearJoint(const b2GearJointDef *) -> b2Vec2 b2GearJoint::m_localAnchorD [b2GearJoint.cpp <44:14 44:24>]
-SYMBOL_FUNCTION void b2Vec2::b2Vec2()
-REFERENCE_CALL void b2GearJoint::b2GearJoint(const b2GearJointDef *) -> void b2Vec2::b2Vec2() [b2GearJoint.cpp <44:14 44:24>]
 REFERENCE_USAGE void b2GearJoint::b2GearJoint(const b2GearJointDef *) -> b2Vec2 b2GearJoint::m_localAxisC [b2GearJoint.cpp <44:14 44:24>]
-SYMBOL_FUNCTION void b2Vec2::b2Vec2()
-REFERENCE_CALL void b2GearJoint::b2GearJoint(const b2GearJointDef *) -> void b2Vec2::b2Vec2() [b2GearJoint.cpp <44:14 44:24>]
 REFERENCE_USAGE void b2GearJoint::b2GearJoint(const b2GearJointDef *) -> b2Vec2 b2GearJoint::m_localAxisD [b2GearJoint.cpp <44:14 44:24>]
-SYMBOL_FUNCTION void b2Vec2::b2Vec2()
-REFERENCE_CALL void b2GearJoint::b2GearJoint(const b2GearJointDef *) -> void b2Vec2::b2Vec2() [b2GearJoint.cpp <44:14 44:24>]
 REFERENCE_USAGE void b2GearJoint::b2GearJoint(const b2GearJointDef *) -> b2Vec2 b2GearJoint::m_lcA [b2GearJoint.cpp <44:14 44:24>]
-SYMBOL_FUNCTION void b2Vec2::b2Vec2()
-REFERENCE_CALL void b2GearJoint::b2GearJoint(const b2GearJointDef *) -> void b2Vec2::b2Vec2() [b2GearJoint.cpp <44:14 44:24>]
 REFERENCE_USAGE void b2GearJoint::b2GearJoint(const b2GearJointDef *) -> b2Vec2 b2GearJoint::m_lcB [b2GearJoint.cpp <44:14 44:24>]
-SYMBOL_FUNCTION void b2Vec2::b2Vec2()
-REFERENCE_CALL void b2GearJoint::b2GearJoint(const b2GearJointDef *) -> void b2Vec2::b2Vec2() [b2GearJoint.cpp <44:14 44:24>]
 REFERENCE_USAGE void b2GearJoint::b2GearJoint(const b2GearJointDef *) -> b2Vec2 b2GearJoint::m_lcC [b2GearJoint.cpp <44:14 44:24>]
-SYMBOL_FUNCTION void b2Vec2::b2Vec2()
-REFERENCE_CALL void b2GearJoint::b2GearJoint(const b2GearJointDef *) -> void b2Vec2::b2Vec2() [b2GearJoint.cpp <44:14 44:24>]
 REFERENCE_USAGE void b2GearJoint::b2GearJoint(const b2GearJointDef *) -> b2Vec2 b2GearJoint::m_lcD [b2GearJoint.cpp <44:14 44:24>]
-SYMBOL_FUNCTION void b2Vec2::b2Vec2()
-REFERENCE_CALL void b2GearJoint::b2GearJoint(const b2GearJointDef *) -> void b2Vec2::b2Vec2() [b2GearJoint.cpp <44:14 44:24>]
 REFERENCE_USAGE void b2GearJoint::b2GearJoint(const b2GearJointDef *) -> b2Vec2 b2GearJoint::m_JvAC [b2GearJoint.cpp <44:14 44:24>]
-SYMBOL_FUNCTION void b2Vec2::b2Vec2()
-REFERENCE_CALL void b2GearJoint::b2GearJoint(const b2GearJointDef *) -> void b2Vec2::b2Vec2() [b2GearJoint.cpp <44:14 44:24>]
 REFERENCE_USAGE void b2GearJoint::b2GearJoint(const b2GearJointDef *) -> b2Vec2 b2GearJoint::m_JvBD [b2GearJoint.cpp <44:14 44:24>]
-SYMBOL_FUNCTION void b2Vec2::b2Vec2()
-REFERENCE_CALL void b2GearJoint::b2GearJoint(const b2GearJointDef *) -> void b2Vec2::b2Vec2() [b2GearJoint.cpp <44:14 44:24>]
 REFERENCE_USAGE void b2GearJoint::b2GearJoint(const b2GearJointDef *) -> b2Joint * b2GearJoint::m_joint1 [b2GearJoint.cpp <47:2 47:9>]
 REFERENCE_USAGE void b2GearJoint::b2GearJoint(const b2GearJointDef *) -> b2Joint * b2GearJointDef::joint1 [b2GearJoint.cpp <47:18 47:23>]
 LOCAL_SYMBOL: b2GearJoint.cpp<44:48> [b2GearJoint.cpp <47:13 47:15>]
@@ -109,7 +67,6 @@ SYMBOL_FUNCTION b2JointType b2Joint::GetType() const
 REFERENCE_CALL void b2GearJoint::b2GearJoint(const b2GearJointDef *) -> b2JointType b2Joint::GetType() const [b2GearJoint.cpp <50:22 50:28>]
 REFERENCE_USAGE void b2GearJoint::b2GearJoint(const b2GearJointDef *) -> b2Joint * b2GearJoint::m_joint1 [b2GearJoint.cpp <50:12 50:19>]
 REFERENCE_USAGE void b2GearJoint::b2GearJoint(const b2GearJointDef *) -> b2JointType b2GearJoint::m_typeB [b2GearJoint.cpp <51:2 51:8>]
-SYMBOL_FUNCTION b2JointType b2Joint::GetType() const
 REFERENCE_CALL void b2GearJoint::b2GearJoint(const b2GearJointDef *) -> b2JointType b2Joint::GetType() const [b2GearJoint.cpp <51:22 51:28>]
 REFERENCE_USAGE void b2GearJoint::b2GearJoint(const b2GearJointDef *) -> b2Joint * b2GearJoint::m_joint2 [b2GearJoint.cpp <51:12 51:19>]
 REFERENCE_USAGE void b2GearJoint::b2GearJoint(const b2GearJointDef *) -> b2JointType b2GearJoint::m_typeA [b2GearJoint.cpp <53:11 53:17>]
@@ -123,7 +80,6 @@ REFERENCE_USAGE void b2GearJoint::b2GearJoint(const b2GearJointDef *) -> b2Joint
 LOCAL_SYMBOL: b2GearJoint.cpp<56:10> [b2GearJoint.cpp <56:10 56:20>]
 REFERENCE_TYPE_USAGE void b2GearJoint::b2GearJoint(const b2GearJointDef *) -> float32 [b2GearJoint.cpp <56:2 56:8>]
 LOCAL_SYMBOL: b2GearJoint.cpp<56:23> [b2GearJoint.cpp <56:23 56:33>]
-REFERENCE_TYPE_USAGE void b2GearJoint::b2GearJoint(const b2GearJointDef *) -> float32 [b2GearJoint.cpp <56:2 56:8>]
 REFERENCE_USAGE void b2GearJoint::b2GearJoint(const b2GearJointDef *) -> b2Body * b2GearJoint::m_bodyC [b2GearJoint.cpp <60:2 60:8>]
 SYMBOL_FUNCTION b2Body * b2Joint::GetBodyA()
 REFERENCE_CALL void b2GearJoint::b2GearJoint(const b2GearJointDef *) -> b2Body * b2Joint::GetBodyA() [b2GearJoint.cpp <60:22 60:29>]
@@ -145,7 +101,6 @@ REFERENCE_USAGE void b2GearJoint::b2GearJoint(const b2GearJointDef *) -> b2Sweep
 REFERENCE_USAGE void b2GearJoint::b2GearJoint(const b2GearJointDef *) -> b2Body * b2Joint::m_bodyA [b2GearJoint.cpp <65:15 65:21>]
 LOCAL_SYMBOL: b2GearJoint.cpp<66:14> [b2GearJoint.cpp <66:14 66:16>]
 REFERENCE_TYPE_USAGE void b2GearJoint::b2GearJoint(const b2GearJointDef *) -> b2Transform [b2GearJoint.cpp <66:2 66:12>]
-SYMBOL_FUNCTION void b2Transform::b2Transform(const b2Transform &)
 REFERENCE_CALL void b2GearJoint::b2GearJoint(const b2GearJointDef *) -> void b2Transform::b2Transform(const b2Transform &) [b2GearJoint.cpp <66:29 66:32>]
 REFERENCE_USAGE void b2GearJoint::b2GearJoint(const b2GearJointDef *) -> b2Transform b2Body::m_xf [b2GearJoint.cpp <66:29 66:32>]
 REFERENCE_USAGE void b2GearJoint::b2GearJoint(const b2GearJointDef *) -> b2Body * b2GearJoint::m_bodyC [b2GearJoint.cpp <66:20 66:26>]
@@ -166,7 +121,6 @@ REFERENCE_CALL void b2GearJoint::b2GearJoint(const b2GearJointDef *) -> b2Vec2 &
 REFERENCE_USAGE void b2GearJoint::b2GearJoint(const b2GearJointDef *) -> b2Vec2 b2GearJoint::m_localAnchorC [b2GearJoint.cpp <72:3 72:16>]
 REFERENCE_USAGE void b2GearJoint::b2GearJoint(const b2GearJointDef *) -> b2Vec2 b2RevoluteJoint::m_localAnchorA [b2GearJoint.cpp <72:30 72:43>]
 LOCAL_SYMBOL: b2GearJoint.cpp<71:20> [b2GearJoint.cpp <72:20 72:27>]
-SYMBOL_FUNCTION b2Vec2 & b2Vec2::operator=(const b2Vec2 &)
 REFERENCE_CALL void b2GearJoint::b2GearJoint(const b2GearJointDef *) -> b2Vec2 & b2Vec2::operator=(const b2Vec2 &) [b2GearJoint.cpp <73:18 73:18>]
 REFERENCE_USAGE void b2GearJoint::b2GearJoint(const b2GearJointDef *) -> b2Vec2 b2GearJoint::m_localAnchorA [b2GearJoint.cpp <73:3 73:16>]
 REFERENCE_USAGE void b2GearJoint::b2GearJoint(const b2GearJointDef *) -> b2Vec2 b2RevoluteJoint::m_localAnchorB [b2GearJoint.cpp <73:30 73:43>]
@@ -186,12 +140,10 @@ REFERENCE_TYPE_USAGE void b2GearJoint::b2GearJoint(const b2GearJointDef *) -> b2
 REFERENCE_TYPE_USAGE void b2GearJoint::b2GearJoint(const b2GearJointDef *) -> b2PrismaticJoint [b2GearJoint.cpp <81:34 81:49>]
 REFERENCE_USAGE void b2GearJoint::b2GearJoint(const b2GearJointDef *) -> b2Joint * b2GearJointDef::joint1 [b2GearJoint.cpp <81:57 81:62>]
 LOCAL_SYMBOL: b2GearJoint.cpp<44:48> [b2GearJoint.cpp <81:52 81:54>]
-SYMBOL_FUNCTION b2Vec2 & b2Vec2::operator=(const b2Vec2 &)
 REFERENCE_CALL void b2GearJoint::b2GearJoint(const b2GearJointDef *) -> b2Vec2 & b2Vec2::operator=(const b2Vec2 &) [b2GearJoint.cpp <82:18 82:18>]
 REFERENCE_USAGE void b2GearJoint::b2GearJoint(const b2GearJointDef *) -> b2Vec2 b2GearJoint::m_localAnchorC [b2GearJoint.cpp <82:3 82:16>]
 REFERENCE_USAGE void b2GearJoint::b2GearJoint(const b2GearJointDef *) -> b2Vec2 b2PrismaticJoint::m_localAnchorA [b2GearJoint.cpp <82:31 82:44>]
 LOCAL_SYMBOL: b2GearJoint.cpp<81:21> [b2GearJoint.cpp <82:20 82:28>]
-SYMBOL_FUNCTION b2Vec2 & b2Vec2::operator=(const b2Vec2 &)
 REFERENCE_CALL void b2GearJoint::b2GearJoint(const b2GearJointDef *) -> b2Vec2 & b2Vec2::operator=(const b2Vec2 &) [b2GearJoint.cpp <83:18 83:18>]
 REFERENCE_USAGE void b2GearJoint::b2GearJoint(const b2GearJointDef *) -> b2Vec2 b2GearJoint::m_localAnchorA [b2GearJoint.cpp <83:3 83:16>]
 REFERENCE_USAGE void b2GearJoint::b2GearJoint(const b2GearJointDef *) -> b2Vec2 b2PrismaticJoint::m_localAnchorB [b2GearJoint.cpp <83:31 83:44>]
@@ -199,7 +151,6 @@ LOCAL_SYMBOL: b2GearJoint.cpp<81:21> [b2GearJoint.cpp <83:20 83:28>]
 REFERENCE_USAGE void b2GearJoint::b2GearJoint(const b2GearJointDef *) -> float32 b2GearJoint::m_referenceAngleA [b2GearJoint.cpp <84:3 84:19>]
 REFERENCE_USAGE void b2GearJoint::b2GearJoint(const b2GearJointDef *) -> float32 b2PrismaticJoint::m_referenceAngle [b2GearJoint.cpp <84:34 84:49>]
 LOCAL_SYMBOL: b2GearJoint.cpp<81:21> [b2GearJoint.cpp <84:23 84:31>]
-SYMBOL_FUNCTION b2Vec2 & b2Vec2::operator=(const b2Vec2 &)
 REFERENCE_CALL void b2GearJoint::b2GearJoint(const b2GearJointDef *) -> b2Vec2 & b2Vec2::operator=(const b2Vec2 &) [b2GearJoint.cpp <85:16 85:16>]
 REFERENCE_USAGE void b2GearJoint::b2GearJoint(const b2GearJointDef *) -> b2Vec2 b2GearJoint::m_localAxisC [b2GearJoint.cpp <85:3 85:14>]
 REFERENCE_USAGE void b2GearJoint::b2GearJoint(const b2GearJointDef *) -> b2Vec2 b2PrismaticJoint::m_localXAxisA [b2GearJoint.cpp <85:29 85:41>]
@@ -231,22 +182,18 @@ LOCAL_SYMBOL: b2GearJoint.cpp<66:14> [b2GearJoint.cpp <88:69 88:71>]
 LOCAL_SYMBOL: b2GearJoint.cpp<56:10> [b2GearJoint.cpp <89:3 89:13>]
 SYMBOL_FUNCTION float32 b2Dot(const b2Vec2 &, const b2Vec2 &)
 REFERENCE_CALL void b2GearJoint::b2GearJoint(const b2GearJointDef *) -> float32 b2Dot(const b2Vec2 &, const b2Vec2 &) [b2GearJoint.cpp <89:17 89:21>]
-SYMBOL_FUNCTION b2Vec2 operator-(const b2Vec2 &, const b2Vec2 &)
 REFERENCE_CALL void b2GearJoint::b2GearJoint(const b2GearJointDef *) -> b2Vec2 operator-(const b2Vec2 &, const b2Vec2 &) [b2GearJoint.cpp <89:26 89:26>]
 LOCAL_SYMBOL: b2GearJoint.cpp<88:10> [b2GearJoint.cpp <89:23 89:24>]
 LOCAL_SYMBOL: b2GearJoint.cpp<87:10> [b2GearJoint.cpp <89:28 89:29>]
 REFERENCE_USAGE void b2GearJoint::b2GearJoint(const b2GearJointDef *) -> b2Vec2 b2GearJoint::m_localAxisC [b2GearJoint.cpp <89:32 89:43>]
 REFERENCE_USAGE void b2GearJoint::b2GearJoint(const b2GearJointDef *) -> b2Body * b2GearJoint::m_bodyD [b2GearJoint.cpp <92:2 92:8>]
-SYMBOL_FUNCTION b2Body * b2Joint::GetBodyA()
 REFERENCE_CALL void b2GearJoint::b2GearJoint(const b2GearJointDef *) -> b2Body * b2Joint::GetBodyA() [b2GearJoint.cpp <92:22 92:29>]
 REFERENCE_USAGE void b2GearJoint::b2GearJoint(const b2GearJointDef *) -> b2Joint * b2GearJoint::m_joint2 [b2GearJoint.cpp <92:12 92:19>]
 REFERENCE_USAGE void b2GearJoint::b2GearJoint(const b2GearJointDef *) -> b2Body * b2Joint::m_bodyB [b2GearJoint.cpp <93:2 93:8>]
-SYMBOL_FUNCTION b2Body * b2Joint::GetBodyB()
 REFERENCE_CALL void b2GearJoint::b2GearJoint(const b2GearJointDef *) -> b2Body * b2Joint::GetBodyB() [b2GearJoint.cpp <93:22 93:29>]
 REFERENCE_USAGE void b2GearJoint::b2GearJoint(const b2GearJointDef *) -> b2Joint * b2GearJoint::m_joint2 [b2GearJoint.cpp <93:12 93:19>]
 LOCAL_SYMBOL: b2GearJoint.cpp<96:14> [b2GearJoint.cpp <96:14 96:16>]
 REFERENCE_TYPE_USAGE void b2GearJoint::b2GearJoint(const b2GearJointDef *) -> b2Transform [b2GearJoint.cpp <96:2 96:12>]
-SYMBOL_FUNCTION void b2Transform::b2Transform(const b2Transform &)
 REFERENCE_CALL void b2GearJoint::b2GearJoint(const b2GearJointDef *) -> void b2Transform::b2Transform(const b2Transform &) [b2GearJoint.cpp <96:29 96:32>]
 REFERENCE_USAGE void b2GearJoint::b2GearJoint(const b2GearJointDef *) -> b2Transform b2Body::m_xf [b2GearJoint.cpp <96:29 96:32>]
 REFERENCE_USAGE void b2GearJoint::b2GearJoint(const b2GearJointDef *) -> b2Body * b2Joint::m_bodyB [b2GearJoint.cpp <96:20 96:26>]
@@ -257,7 +204,6 @@ REFERENCE_USAGE void b2GearJoint::b2GearJoint(const b2GearJointDef *) -> b2Sweep
 REFERENCE_USAGE void b2GearJoint::b2GearJoint(const b2GearJointDef *) -> b2Body * b2Joint::m_bodyB [b2GearJoint.cpp <97:15 97:21>]
 LOCAL_SYMBOL: b2GearJoint.cpp<98:14> [b2GearJoint.cpp <98:14 98:16>]
 REFERENCE_TYPE_USAGE void b2GearJoint::b2GearJoint(const b2GearJointDef *) -> b2Transform [b2GearJoint.cpp <98:2 98:12>]
-SYMBOL_FUNCTION void b2Transform::b2Transform(const b2Transform &)
 REFERENCE_CALL void b2GearJoint::b2GearJoint(const b2GearJointDef *) -> void b2Transform::b2Transform(const b2Transform &) [b2GearJoint.cpp <98:29 98:32>]
 REFERENCE_USAGE void b2GearJoint::b2GearJoint(const b2GearJointDef *) -> b2Transform b2Body::m_xf [b2GearJoint.cpp <98:29 98:32>]
 REFERENCE_USAGE void b2GearJoint::b2GearJoint(const b2GearJointDef *) -> b2Body * b2GearJoint::m_bodyD [b2GearJoint.cpp <98:20 98:26>]
@@ -273,12 +219,10 @@ REFERENCE_TYPE_USAGE void b2GearJoint::b2GearJoint(const b2GearJointDef *) -> b2
 REFERENCE_TYPE_USAGE void b2GearJoint::b2GearJoint(const b2GearJointDef *) -> b2RevoluteJoint [b2GearJoint.cpp <103:32 103:46>]
 REFERENCE_USAGE void b2GearJoint::b2GearJoint(const b2GearJointDef *) -> b2Joint * b2GearJointDef::joint2 [b2GearJoint.cpp <103:54 103:59>]
 LOCAL_SYMBOL: b2GearJoint.cpp<44:48> [b2GearJoint.cpp <103:49 103:51>]
-SYMBOL_FUNCTION b2Vec2 & b2Vec2::operator=(const b2Vec2 &)
 REFERENCE_CALL void b2GearJoint::b2GearJoint(const b2GearJointDef *) -> b2Vec2 & b2Vec2::operator=(const b2Vec2 &) [b2GearJoint.cpp <104:18 104:18>]
 REFERENCE_USAGE void b2GearJoint::b2GearJoint(const b2GearJointDef *) -> b2Vec2 b2GearJoint::m_localAnchorD [b2GearJoint.cpp <104:3 104:16>]
 REFERENCE_USAGE void b2GearJoint::b2GearJoint(const b2GearJointDef *) -> b2Vec2 b2RevoluteJoint::m_localAnchorA [b2GearJoint.cpp <104:30 104:43>]
 LOCAL_SYMBOL: b2GearJoint.cpp<103:20> [b2GearJoint.cpp <104:20 104:27>]
-SYMBOL_FUNCTION b2Vec2 & b2Vec2::operator=(const b2Vec2 &)
 REFERENCE_CALL void b2GearJoint::b2GearJoint(const b2GearJointDef *) -> b2Vec2 & b2Vec2::operator=(const b2Vec2 &) [b2GearJoint.cpp <105:18 105:18>]
 REFERENCE_USAGE void b2GearJoint::b2GearJoint(const b2GearJointDef *) -> b2Vec2 b2GearJoint::m_localAnchorB [b2GearJoint.cpp <105:3 105:16>]
 REFERENCE_USAGE void b2GearJoint::b2GearJoint(const b2GearJointDef *) -> b2Vec2 b2RevoluteJoint::m_localAnchorB [b2GearJoint.cpp <105:30 105:43>]
@@ -286,7 +230,6 @@ LOCAL_SYMBOL: b2GearJoint.cpp<103:20> [b2GearJoint.cpp <105:20 105:27>]
 REFERENCE_USAGE void b2GearJoint::b2GearJoint(const b2GearJointDef *) -> float32 b2GearJoint::m_referenceAngleB [b2GearJoint.cpp <106:3 106:19>]
 REFERENCE_USAGE void b2GearJoint::b2GearJoint(const b2GearJointDef *) -> float32 b2RevoluteJoint::m_referenceAngle [b2GearJoint.cpp <106:33 106:48>]
 LOCAL_SYMBOL: b2GearJoint.cpp<103:20> [b2GearJoint.cpp <106:23 106:30>]
-SYMBOL_FUNCTION void b2Vec2::SetZero()
 REFERENCE_CALL void b2GearJoint::b2GearJoint(const b2GearJointDef *) -> void b2Vec2::SetZero() [b2GearJoint.cpp <107:16 107:22>]
 REFERENCE_USAGE void b2GearJoint::b2GearJoint(const b2GearJointDef *) -> b2Vec2 b2GearJoint::m_localAxisD [b2GearJoint.cpp <107:3 107:14>]
 LOCAL_SYMBOL: b2GearJoint.cpp<56:23> [b2GearJoint.cpp <109:3 109:13>]
@@ -298,12 +241,10 @@ REFERENCE_TYPE_USAGE void b2GearJoint::b2GearJoint(const b2GearJointDef *) -> b2
 REFERENCE_TYPE_USAGE void b2GearJoint::b2GearJoint(const b2GearJointDef *) -> b2PrismaticJoint [b2GearJoint.cpp <113:34 113:49>]
 REFERENCE_USAGE void b2GearJoint::b2GearJoint(const b2GearJointDef *) -> b2Joint * b2GearJointDef::joint2 [b2GearJoint.cpp <113:57 113:62>]
 LOCAL_SYMBOL: b2GearJoint.cpp<44:48> [b2GearJoint.cpp <113:52 113:54>]
-SYMBOL_FUNCTION b2Vec2 & b2Vec2::operator=(const b2Vec2 &)
 REFERENCE_CALL void b2GearJoint::b2GearJoint(const b2GearJointDef *) -> b2Vec2 & b2Vec2::operator=(const b2Vec2 &) [b2GearJoint.cpp <114:18 114:18>]
 REFERENCE_USAGE void b2GearJoint::b2GearJoint(const b2GearJointDef *) -> b2Vec2 b2GearJoint::m_localAnchorD [b2GearJoint.cpp <114:3 114:16>]
 REFERENCE_USAGE void b2GearJoint::b2GearJoint(const b2GearJointDef *) -> b2Vec2 b2PrismaticJoint::m_localAnchorA [b2GearJoint.cpp <114:31 114:44>]
 LOCAL_SYMBOL: b2GearJoint.cpp<113:21> [b2GearJoint.cpp <114:20 114:28>]
-SYMBOL_FUNCTION b2Vec2 & b2Vec2::operator=(const b2Vec2 &)
 REFERENCE_CALL void b2GearJoint::b2GearJoint(const b2GearJointDef *) -> b2Vec2 & b2Vec2::operator=(const b2Vec2 &) [b2GearJoint.cpp <115:18 115:18>]
 REFERENCE_USAGE void b2GearJoint::b2GearJoint(const b2GearJointDef *) -> b2Vec2 b2GearJoint::m_localAnchorB [b2GearJoint.cpp <115:3 115:16>]
 REFERENCE_USAGE void b2GearJoint::b2GearJoint(const b2GearJointDef *) -> b2Vec2 b2PrismaticJoint::m_localAnchorB [b2GearJoint.cpp <115:31 115:44>]
@@ -311,39 +252,31 @@ LOCAL_SYMBOL: b2GearJoint.cpp<113:21> [b2GearJoint.cpp <115:20 115:28>]
 REFERENCE_USAGE void b2GearJoint::b2GearJoint(const b2GearJointDef *) -> float32 b2GearJoint::m_referenceAngleB [b2GearJoint.cpp <116:3 116:19>]
 REFERENCE_USAGE void b2GearJoint::b2GearJoint(const b2GearJointDef *) -> float32 b2PrismaticJoint::m_referenceAngle [b2GearJoint.cpp <116:34 116:49>]
 LOCAL_SYMBOL: b2GearJoint.cpp<113:21> [b2GearJoint.cpp <116:23 116:31>]
-SYMBOL_FUNCTION b2Vec2 & b2Vec2::operator=(const b2Vec2 &)
 REFERENCE_CALL void b2GearJoint::b2GearJoint(const b2GearJointDef *) -> b2Vec2 & b2Vec2::operator=(const b2Vec2 &) [b2GearJoint.cpp <117:16 117:16>]
 REFERENCE_USAGE void b2GearJoint::b2GearJoint(const b2GearJointDef *) -> b2Vec2 b2GearJoint::m_localAxisD [b2GearJoint.cpp <117:3 117:14>]
 REFERENCE_USAGE void b2GearJoint::b2GearJoint(const b2GearJointDef *) -> b2Vec2 b2PrismaticJoint::m_localXAxisA [b2GearJoint.cpp <117:29 117:41>]
 LOCAL_SYMBOL: b2GearJoint.cpp<113:21> [b2GearJoint.cpp <117:18 117:26>]
 LOCAL_SYMBOL: b2GearJoint.cpp<119:10> [b2GearJoint.cpp <119:10 119:11>]
 REFERENCE_TYPE_USAGE void b2GearJoint::b2GearJoint(const b2GearJointDef *) -> b2Vec2 [b2GearJoint.cpp <119:3 119:8>]
-SYMBOL_FUNCTION void b2Vec2::b2Vec2(const b2Vec2 &)
 REFERENCE_CALL void b2GearJoint::b2GearJoint(const b2GearJointDef *) -> void b2Vec2::b2Vec2(const b2Vec2 &) [b2GearJoint.cpp <119:15 119:28>]
 REFERENCE_USAGE void b2GearJoint::b2GearJoint(const b2GearJointDef *) -> b2Vec2 b2GearJoint::m_localAnchorD [b2GearJoint.cpp <119:15 119:28>]
 LOCAL_SYMBOL: b2GearJoint.cpp<120:10> [b2GearJoint.cpp <120:10 120:11>]
 REFERENCE_TYPE_USAGE void b2GearJoint::b2GearJoint(const b2GearJointDef *) -> b2Vec2 [b2GearJoint.cpp <120:3 120:8>]
-SYMBOL_FUNCTION b2Vec2 b2MulT(const b2Rot &, const b2Vec2 &)
 REFERENCE_CALL void b2GearJoint::b2GearJoint(const b2GearJointDef *) -> b2Vec2 b2MulT(const b2Rot &, const b2Vec2 &) [b2GearJoint.cpp <120:15 120:20>]
 REFERENCE_USAGE void b2GearJoint::b2GearJoint(const b2GearJointDef *) -> b2Rot b2Transform::q [b2GearJoint.cpp <120:26 120:26>]
 LOCAL_SYMBOL: b2GearJoint.cpp<98:14> [b2GearJoint.cpp <120:22 120:24>]
-SYMBOL_FUNCTION b2Vec2 operator+(const b2Vec2 &, const b2Vec2 &)
 REFERENCE_CALL void b2GearJoint::b2GearJoint(const b2GearJointDef *) -> b2Vec2 operator+(const b2Vec2 &, const b2Vec2 &) [b2GearJoint.cpp <120:58 120:58>]
-SYMBOL_FUNCTION b2Vec2 b2Mul(const b2Rot &, const b2Vec2 &)
 REFERENCE_CALL void b2GearJoint::b2GearJoint(const b2GearJointDef *) -> b2Vec2 b2Mul(const b2Rot &, const b2Vec2 &) [b2GearJoint.cpp <120:29 120:33>]
 REFERENCE_USAGE void b2GearJoint::b2GearJoint(const b2GearJointDef *) -> b2Rot b2Transform::q [b2GearJoint.cpp <120:39 120:39>]
 LOCAL_SYMBOL: b2GearJoint.cpp<96:14> [b2GearJoint.cpp <120:35 120:37>]
 REFERENCE_USAGE void b2GearJoint::b2GearJoint(const b2GearJointDef *) -> b2Vec2 b2GearJoint::m_localAnchorB [b2GearJoint.cpp <120:42 120:55>]
-SYMBOL_FUNCTION b2Vec2 operator-(const b2Vec2 &, const b2Vec2 &)
 REFERENCE_CALL void b2GearJoint::b2GearJoint(const b2GearJointDef *) -> b2Vec2 operator-(const b2Vec2 &, const b2Vec2 &) [b2GearJoint.cpp <120:67 120:67>]
 REFERENCE_USAGE void b2GearJoint::b2GearJoint(const b2GearJointDef *) -> b2Vec2 b2Transform::p [b2GearJoint.cpp <120:65 120:65>]
 LOCAL_SYMBOL: b2GearJoint.cpp<96:14> [b2GearJoint.cpp <120:61 120:63>]
 REFERENCE_USAGE void b2GearJoint::b2GearJoint(const b2GearJointDef *) -> b2Vec2 b2Transform::p [b2GearJoint.cpp <120:73 120:73>]
 LOCAL_SYMBOL: b2GearJoint.cpp<98:14> [b2GearJoint.cpp <120:69 120:71>]
 LOCAL_SYMBOL: b2GearJoint.cpp<56:23> [b2GearJoint.cpp <121:3 121:13>]
-SYMBOL_FUNCTION float32 b2Dot(const b2Vec2 &, const b2Vec2 &)
 REFERENCE_CALL void b2GearJoint::b2GearJoint(const b2GearJointDef *) -> float32 b2Dot(const b2Vec2 &, const b2Vec2 &) [b2GearJoint.cpp <121:17 121:21>]
-SYMBOL_FUNCTION b2Vec2 operator-(const b2Vec2 &, const b2Vec2 &)
 REFERENCE_CALL void b2GearJoint::b2GearJoint(const b2GearJointDef *) -> b2Vec2 operator-(const b2Vec2 &, const b2Vec2 &) [b2GearJoint.cpp <121:26 121:26>]
 LOCAL_SYMBOL: b2GearJoint.cpp<120:10> [b2GearJoint.cpp <121:23 121:24>]
 LOCAL_SYMBOL: b2GearJoint.cpp<119:10> [b2GearJoint.cpp <121:28 121:29>]
@@ -359,7 +292,7 @@ REFERENCE_USAGE void b2GearJoint::b2GearJoint(const b2GearJointDef *) -> float32
 SYMBOL_METHOD protected void b2GearJoint::InitVelocityConstraints(const b2SolverData &) [b2GearJoint.cpp <131:1 <131:19 131:41> 233:1>]
 SYMBOL_FUNCTION void b2Joint::InitVelocityConstraints(const b2SolverData &)
 REFERENCE_OVERRIDE void b2GearJoint::InitVelocityConstraints(const b2SolverData &) -> void b2Joint::InitVelocityConstraints(const b2SolverData &) [b2GearJoint.cpp <131:19 131:41>]
-SYMBOL_CLASS b2GearJoint
+QUALIFIER: b2GearJoint [b2GearJoint.cpp <131:6 131:16>]
 SYMBOL_BUILTIN_TYPE void
 REFERENCE_TYPE_USAGE void b2GearJoint::InitVelocityConstraints(const b2SolverData &) -> void [b2GearJoint.cpp <131:1 131:4>]
 LOCAL_SYMBOL: b2GearJoint.cpp<131:63> [b2GearJoint.cpp <131:63 131:66>]
@@ -376,25 +309,21 @@ REFERENCE_USAGE void b2GearJoint::InitVelocityConstraints(const b2SolverData &) 
 REFERENCE_USAGE void b2GearJoint::InitVelocityConstraints(const b2SolverData &) -> int32 b2GearJoint::m_indexD [b2GearJoint.cpp <136:2 136:9>]
 REFERENCE_USAGE void b2GearJoint::InitVelocityConstraints(const b2SolverData &) -> int32 b2Body::m_islandIndex [b2GearJoint.cpp <136:22 136:34>]
 REFERENCE_USAGE void b2GearJoint::InitVelocityConstraints(const b2SolverData &) -> b2Body * b2GearJoint::m_bodyD [b2GearJoint.cpp <136:13 136:19>]
-SYMBOL_FUNCTION b2Vec2 & b2Vec2::operator=(const b2Vec2 &)
 REFERENCE_CALL void b2GearJoint::InitVelocityConstraints(const b2SolverData &) -> b2Vec2 & b2Vec2::operator=(const b2Vec2 &) [b2GearJoint.cpp <137:8 137:8>]
 REFERENCE_USAGE void b2GearJoint::InitVelocityConstraints(const b2SolverData &) -> b2Vec2 b2GearJoint::m_lcA [b2GearJoint.cpp <137:2 137:6>]
 REFERENCE_USAGE void b2GearJoint::InitVelocityConstraints(const b2SolverData &) -> b2Vec2 b2Sweep::localCenter [b2GearJoint.cpp <137:27 137:37>]
 REFERENCE_USAGE void b2GearJoint::InitVelocityConstraints(const b2SolverData &) -> b2Sweep b2Body::m_sweep [b2GearJoint.cpp <137:19 137:25>]
 REFERENCE_USAGE void b2GearJoint::InitVelocityConstraints(const b2SolverData &) -> b2Body * b2Joint::m_bodyA [b2GearJoint.cpp <137:10 137:16>]
-SYMBOL_FUNCTION b2Vec2 & b2Vec2::operator=(const b2Vec2 &)
 REFERENCE_CALL void b2GearJoint::InitVelocityConstraints(const b2SolverData &) -> b2Vec2 & b2Vec2::operator=(const b2Vec2 &) [b2GearJoint.cpp <138:8 138:8>]
 REFERENCE_USAGE void b2GearJoint::InitVelocityConstraints(const b2SolverData &) -> b2Vec2 b2GearJoint::m_lcB [b2GearJoint.cpp <138:2 138:6>]
 REFERENCE_USAGE void b2GearJoint::InitVelocityConstraints(const b2SolverData &) -> b2Vec2 b2Sweep::localCenter [b2GearJoint.cpp <138:27 138:37>]
 REFERENCE_USAGE void b2GearJoint::InitVelocityConstraints(const b2SolverData &) -> b2Sweep b2Body::m_sweep [b2GearJoint.cpp <138:19 138:25>]
 REFERENCE_USAGE void b2GearJoint::InitVelocityConstraints(const b2SolverData &) -> b2Body * b2Joint::m_bodyB [b2GearJoint.cpp <138:10 138:16>]
-SYMBOL_FUNCTION b2Vec2 & b2Vec2::operator=(const b2Vec2 &)
 REFERENCE_CALL void b2GearJoint::InitVelocityConstraints(const b2SolverData &) -> b2Vec2 & b2Vec2::operator=(const b2Vec2 &) [b2GearJoint.cpp <139:8 139:8>]
 REFERENCE_USAGE void b2GearJoint::InitVelocityConstraints(const b2SolverData &) -> b2Vec2 b2GearJoint::m_lcC [b2GearJoint.cpp <139:2 139:6>]
 REFERENCE_USAGE void b2GearJoint::InitVelocityConstraints(const b2SolverData &) -> b2Vec2 b2Sweep::localCenter [b2GearJoint.cpp <139:27 139:37>]
 REFERENCE_USAGE void b2GearJoint::InitVelocityConstraints(const b2SolverData &) -> b2Sweep b2Body::m_sweep [b2GearJoint.cpp <139:19 139:25>]
 REFERENCE_USAGE void b2GearJoint::InitVelocityConstraints(const b2SolverData &) -> b2Body * b2GearJoint::m_bodyC [b2GearJoint.cpp <139:10 139:16>]
-SYMBOL_FUNCTION b2Vec2 & b2Vec2::operator=(const b2Vec2 &)
 REFERENCE_CALL void b2GearJoint::InitVelocityConstraints(const b2SolverData &) -> b2Vec2 & b2Vec2::operator=(const b2Vec2 &) [b2GearJoint.cpp <140:8 140:8>]
 REFERENCE_USAGE void b2GearJoint::InitVelocityConstraints(const b2SolverData &) -> b2Vec2 b2GearJoint::m_lcD [b2GearJoint.cpp <140:2 140:6>]
 REFERENCE_USAGE void b2GearJoint::InitVelocityConstraints(const b2SolverData &) -> b2Vec2 b2Sweep::localCenter [b2GearJoint.cpp <140:27 140:37>]
@@ -432,7 +361,6 @@ LOCAL_SYMBOL: b2GearJoint.cpp<131:63> [b2GearJoint.cpp <150:15 150:18>]
 REFERENCE_USAGE void b2GearJoint::InitVelocityConstraints(const b2SolverData &) -> int32 b2GearJoint::m_indexA [b2GearJoint.cpp <150:30 150:37>]
 LOCAL_SYMBOL: b2GearJoint.cpp<151:9> [b2GearJoint.cpp <151:9 151:10>]
 REFERENCE_TYPE_USAGE void b2GearJoint::InitVelocityConstraints(const b2SolverData &) -> b2Vec2 [b2GearJoint.cpp <151:2 151:7>]
-SYMBOL_FUNCTION void b2Vec2::b2Vec2(const b2Vec2 &)
 REFERENCE_CALL void b2GearJoint::InitVelocityConstraints(const b2SolverData &) -> void b2Vec2::b2Vec2(const b2Vec2 &) [b2GearJoint.cpp <151:40 151:40>]
 REFERENCE_USAGE void b2GearJoint::InitVelocityConstraints(const b2SolverData &) -> b2Vec2 b2Velocity::v [b2GearJoint.cpp <151:40 151:40>]
 REFERENCE_USAGE void b2GearJoint::InitVelocityConstraints(const b2SolverData &) -> b2Velocity * b2SolverData::velocities [b2GearJoint.cpp <151:19 151:28>]
@@ -452,7 +380,6 @@ LOCAL_SYMBOL: b2GearJoint.cpp<131:63> [b2GearJoint.cpp <154:15 154:18>]
 REFERENCE_USAGE void b2GearJoint::InitVelocityConstraints(const b2SolverData &) -> int32 b2GearJoint::m_indexB [b2GearJoint.cpp <154:30 154:37>]
 LOCAL_SYMBOL: b2GearJoint.cpp<155:9> [b2GearJoint.cpp <155:9 155:10>]
 REFERENCE_TYPE_USAGE void b2GearJoint::InitVelocityConstraints(const b2SolverData &) -> b2Vec2 [b2GearJoint.cpp <155:2 155:7>]
-SYMBOL_FUNCTION void b2Vec2::b2Vec2(const b2Vec2 &)
 REFERENCE_CALL void b2GearJoint::InitVelocityConstraints(const b2SolverData &) -> void b2Vec2::b2Vec2(const b2Vec2 &) [b2GearJoint.cpp <155:40 155:40>]
 REFERENCE_USAGE void b2GearJoint::InitVelocityConstraints(const b2SolverData &) -> b2Vec2 b2Velocity::v [b2GearJoint.cpp <155:40 155:40>]
 REFERENCE_USAGE void b2GearJoint::InitVelocityConstraints(const b2SolverData &) -> b2Velocity * b2SolverData::velocities [b2GearJoint.cpp <155:19 155:28>]
@@ -472,7 +399,6 @@ LOCAL_SYMBOL: b2GearJoint.cpp<131:63> [b2GearJoint.cpp <158:15 158:18>]
 REFERENCE_USAGE void b2GearJoint::InitVelocityConstraints(const b2SolverData &) -> int32 b2GearJoint::m_indexC [b2GearJoint.cpp <158:30 158:37>]
 LOCAL_SYMBOL: b2GearJoint.cpp<159:9> [b2GearJoint.cpp <159:9 159:10>]
 REFERENCE_TYPE_USAGE void b2GearJoint::InitVelocityConstraints(const b2SolverData &) -> b2Vec2 [b2GearJoint.cpp <159:2 159:7>]
-SYMBOL_FUNCTION void b2Vec2::b2Vec2(const b2Vec2 &)
 REFERENCE_CALL void b2GearJoint::InitVelocityConstraints(const b2SolverData &) -> void b2Vec2::b2Vec2(const b2Vec2 &) [b2GearJoint.cpp <159:40 159:40>]
 REFERENCE_USAGE void b2GearJoint::InitVelocityConstraints(const b2SolverData &) -> b2Vec2 b2Velocity::v [b2GearJoint.cpp <159:40 159:40>]
 REFERENCE_USAGE void b2GearJoint::InitVelocityConstraints(const b2SolverData &) -> b2Velocity * b2SolverData::velocities [b2GearJoint.cpp <159:19 159:28>]
@@ -492,7 +418,6 @@ LOCAL_SYMBOL: b2GearJoint.cpp<131:63> [b2GearJoint.cpp <162:15 162:18>]
 REFERENCE_USAGE void b2GearJoint::InitVelocityConstraints(const b2SolverData &) -> int32 b2GearJoint::m_indexD [b2GearJoint.cpp <162:30 162:37>]
 LOCAL_SYMBOL: b2GearJoint.cpp<163:9> [b2GearJoint.cpp <163:9 163:10>]
 REFERENCE_TYPE_USAGE void b2GearJoint::InitVelocityConstraints(const b2SolverData &) -> b2Vec2 [b2GearJoint.cpp <163:2 163:7>]
-SYMBOL_FUNCTION void b2Vec2::b2Vec2(const b2Vec2 &)
 REFERENCE_CALL void b2GearJoint::InitVelocityConstraints(const b2SolverData &) -> void b2Vec2::b2Vec2(const b2Vec2 &) [b2GearJoint.cpp <163:40 163:40>]
 REFERENCE_USAGE void b2GearJoint::InitVelocityConstraints(const b2SolverData &) -> b2Vec2 b2Velocity::v [b2GearJoint.cpp <163:40 163:40>]
 REFERENCE_USAGE void b2GearJoint::InitVelocityConstraints(const b2SolverData &) -> b2Velocity * b2SolverData::velocities [b2GearJoint.cpp <163:19 163:28>]
@@ -510,24 +435,17 @@ SYMBOL_FUNCTION void b2Rot::b2Rot(float32)
 REFERENCE_CALL void b2GearJoint::InitVelocityConstraints(const b2SolverData &) -> void b2Rot::b2Rot(float32) [b2GearJoint.cpp <166:8 166:9>]
 LOCAL_SYMBOL: b2GearJoint.cpp<150:10> [b2GearJoint.cpp <166:11 166:12>]
 LOCAL_SYMBOL: b2GearJoint.cpp<166:16> [b2GearJoint.cpp <166:16 166:17>]
-REFERENCE_TYPE_USAGE void b2GearJoint::InitVelocityConstraints(const b2SolverData &) -> b2Rot [b2GearJoint.cpp <166:2 166:6>]
-SYMBOL_FUNCTION void b2Rot::b2Rot(float32)
 REFERENCE_CALL void b2GearJoint::InitVelocityConstraints(const b2SolverData &) -> void b2Rot::b2Rot(float32) [b2GearJoint.cpp <166:16 166:17>]
 LOCAL_SYMBOL: b2GearJoint.cpp<154:10> [b2GearJoint.cpp <166:19 166:20>]
 LOCAL_SYMBOL: b2GearJoint.cpp<166:24> [b2GearJoint.cpp <166:24 166:25>]
-REFERENCE_TYPE_USAGE void b2GearJoint::InitVelocityConstraints(const b2SolverData &) -> b2Rot [b2GearJoint.cpp <166:2 166:6>]
-SYMBOL_FUNCTION void b2Rot::b2Rot(float32)
 REFERENCE_CALL void b2GearJoint::InitVelocityConstraints(const b2SolverData &) -> void b2Rot::b2Rot(float32) [b2GearJoint.cpp <166:24 166:25>]
 LOCAL_SYMBOL: b2GearJoint.cpp<158:10> [b2GearJoint.cpp <166:27 166:28>]
 LOCAL_SYMBOL: b2GearJoint.cpp<166:32> [b2GearJoint.cpp <166:32 166:33>]
-REFERENCE_TYPE_USAGE void b2GearJoint::InitVelocityConstraints(const b2SolverData &) -> b2Rot [b2GearJoint.cpp <166:2 166:6>]
-SYMBOL_FUNCTION void b2Rot::b2Rot(float32)
 REFERENCE_CALL void b2GearJoint::InitVelocityConstraints(const b2SolverData &) -> void b2Rot::b2Rot(float32) [b2GearJoint.cpp <166:32 166:33>]
 LOCAL_SYMBOL: b2GearJoint.cpp<162:10> [b2GearJoint.cpp <166:35 166:36>]
 REFERENCE_USAGE void b2GearJoint::InitVelocityConstraints(const b2SolverData &) -> float32 b2GearJoint::m_mass [b2GearJoint.cpp <168:2 168:7>]
 REFERENCE_USAGE void b2GearJoint::InitVelocityConstraints(const b2SolverData &) -> b2JointType b2GearJoint::m_typeA [b2GearJoint.cpp <170:6 170:12>]
 REFERENCE_USAGE void b2GearJoint::InitVelocityConstraints(const b2SolverData &) -> b2JointType::e_revoluteJoint [b2GearJoint.cpp <170:17 170:31>]
-SYMBOL_FUNCTION void b2Vec2::SetZero()
 REFERENCE_CALL void b2GearJoint::InitVelocityConstraints(const b2SolverData &) -> void b2Vec2::SetZero() [b2GearJoint.cpp <172:10 172:16>]
 REFERENCE_USAGE void b2GearJoint::InitVelocityConstraints(const b2SolverData &) -> b2Vec2 b2GearJoint::m_JvAC [b2GearJoint.cpp <172:3 172:8>]
 REFERENCE_USAGE void b2GearJoint::InitVelocityConstraints(const b2SolverData &) -> float32 b2GearJoint::m_JwA [b2GearJoint.cpp <173:3 173:7>]
@@ -537,29 +455,23 @@ REFERENCE_USAGE void b2GearJoint::InitVelocityConstraints(const b2SolverData &) 
 REFERENCE_USAGE void b2GearJoint::InitVelocityConstraints(const b2SolverData &) -> float32 b2GearJoint::m_iC [b2GearJoint.cpp <175:20 175:23>]
 LOCAL_SYMBOL: b2GearJoint.cpp<179:10> [b2GearJoint.cpp <179:10 179:10>]
 REFERENCE_TYPE_USAGE void b2GearJoint::InitVelocityConstraints(const b2SolverData &) -> b2Vec2 [b2GearJoint.cpp <179:3 179:8>]
-SYMBOL_FUNCTION b2Vec2 b2Mul(const b2Rot &, const b2Vec2 &)
 REFERENCE_CALL void b2GearJoint::InitVelocityConstraints(const b2SolverData &) -> b2Vec2 b2Mul(const b2Rot &, const b2Vec2 &) [b2GearJoint.cpp <179:14 179:18>]
 LOCAL_SYMBOL: b2GearJoint.cpp<166:24> [b2GearJoint.cpp <179:20 179:21>]
 REFERENCE_USAGE void b2GearJoint::InitVelocityConstraints(const b2SolverData &) -> b2Vec2 b2GearJoint::m_localAxisC [b2GearJoint.cpp <179:24 179:35>]
 LOCAL_SYMBOL: b2GearJoint.cpp<180:10> [b2GearJoint.cpp <180:10 180:11>]
 REFERENCE_TYPE_USAGE void b2GearJoint::InitVelocityConstraints(const b2SolverData &) -> b2Vec2 [b2GearJoint.cpp <180:3 180:8>]
-SYMBOL_FUNCTION b2Vec2 b2Mul(const b2Rot &, const b2Vec2 &)
 REFERENCE_CALL void b2GearJoint::InitVelocityConstraints(const b2SolverData &) -> b2Vec2 b2Mul(const b2Rot &, const b2Vec2 &) [b2GearJoint.cpp <180:15 180:19>]
 LOCAL_SYMBOL: b2GearJoint.cpp<166:24> [b2GearJoint.cpp <180:21 180:22>]
-SYMBOL_FUNCTION b2Vec2 operator-(const b2Vec2 &, const b2Vec2 &)
 REFERENCE_CALL void b2GearJoint::InitVelocityConstraints(const b2SolverData &) -> b2Vec2 operator-(const b2Vec2 &, const b2Vec2 &) [b2GearJoint.cpp <180:40 180:40>]
 REFERENCE_USAGE void b2GearJoint::InitVelocityConstraints(const b2SolverData &) -> b2Vec2 b2GearJoint::m_localAnchorC [b2GearJoint.cpp <180:25 180:38>]
 REFERENCE_USAGE void b2GearJoint::InitVelocityConstraints(const b2SolverData &) -> b2Vec2 b2GearJoint::m_lcC [b2GearJoint.cpp <180:42 180:46>]
 LOCAL_SYMBOL: b2GearJoint.cpp<181:10> [b2GearJoint.cpp <181:10 181:11>]
 REFERENCE_TYPE_USAGE void b2GearJoint::InitVelocityConstraints(const b2SolverData &) -> b2Vec2 [b2GearJoint.cpp <181:3 181:8>]
-SYMBOL_FUNCTION b2Vec2 b2Mul(const b2Rot &, const b2Vec2 &)
 REFERENCE_CALL void b2GearJoint::InitVelocityConstraints(const b2SolverData &) -> b2Vec2 b2Mul(const b2Rot &, const b2Vec2 &) [b2GearJoint.cpp <181:15 181:19>]
 LOCAL_SYMBOL: b2GearJoint.cpp<166:8> [b2GearJoint.cpp <181:21 181:22>]
-SYMBOL_FUNCTION b2Vec2 operator-(const b2Vec2 &, const b2Vec2 &)
 REFERENCE_CALL void b2GearJoint::InitVelocityConstraints(const b2SolverData &) -> b2Vec2 operator-(const b2Vec2 &, const b2Vec2 &) [b2GearJoint.cpp <181:40 181:40>]
 REFERENCE_USAGE void b2GearJoint::InitVelocityConstraints(const b2SolverData &) -> b2Vec2 b2GearJoint::m_localAnchorA [b2GearJoint.cpp <181:25 181:38>]
 REFERENCE_USAGE void b2GearJoint::InitVelocityConstraints(const b2SolverData &) -> b2Vec2 b2GearJoint::m_lcA [b2GearJoint.cpp <181:42 181:46>]
-SYMBOL_FUNCTION b2Vec2 & b2Vec2::operator=(const b2Vec2 &)
 REFERENCE_CALL void b2GearJoint::InitVelocityConstraints(const b2SolverData &) -> b2Vec2 & b2Vec2::operator=(const b2Vec2 &) [b2GearJoint.cpp <182:10 182:10>]
 REFERENCE_USAGE void b2GearJoint::InitVelocityConstraints(const b2SolverData &) -> b2Vec2 b2GearJoint::m_JvAC [b2GearJoint.cpp <182:3 182:8>]
 LOCAL_SYMBOL: b2GearJoint.cpp<179:10> [b2GearJoint.cpp <182:12 182:12>]
@@ -569,7 +481,6 @@ REFERENCE_CALL void b2GearJoint::InitVelocityConstraints(const b2SolverData &) -
 LOCAL_SYMBOL: b2GearJoint.cpp<180:10> [b2GearJoint.cpp <183:19 183:20>]
 LOCAL_SYMBOL: b2GearJoint.cpp<179:10> [b2GearJoint.cpp <183:23 183:23>]
 REFERENCE_USAGE void b2GearJoint::InitVelocityConstraints(const b2SolverData &) -> float32 b2GearJoint::m_JwA [b2GearJoint.cpp <184:3 184:7>]
-SYMBOL_FUNCTION float32 b2Cross(const b2Vec2 &, const b2Vec2 &)
 REFERENCE_CALL void b2GearJoint::InitVelocityConstraints(const b2SolverData &) -> float32 b2Cross(const b2Vec2 &, const b2Vec2 &) [b2GearJoint.cpp <184:11 184:17>]
 LOCAL_SYMBOL: b2GearJoint.cpp<181:10> [b2GearJoint.cpp <184:19 184:20>]
 LOCAL_SYMBOL: b2GearJoint.cpp<179:10> [b2GearJoint.cpp <184:23 184:23>]
@@ -584,7 +495,6 @@ REFERENCE_USAGE void b2GearJoint::InitVelocityConstraints(const b2SolverData &) 
 REFERENCE_USAGE void b2GearJoint::InitVelocityConstraints(const b2SolverData &) -> float32 b2GearJoint::m_JwA [b2GearJoint.cpp <185:65 185:69>]
 REFERENCE_USAGE void b2GearJoint::InitVelocityConstraints(const b2SolverData &) -> b2JointType b2GearJoint::m_typeB [b2GearJoint.cpp <188:6 188:12>]
 REFERENCE_USAGE void b2GearJoint::InitVelocityConstraints(const b2SolverData &) -> b2JointType::e_revoluteJoint [b2GearJoint.cpp <188:17 188:31>]
-SYMBOL_FUNCTION void b2Vec2::SetZero()
 REFERENCE_CALL void b2GearJoint::InitVelocityConstraints(const b2SolverData &) -> void b2Vec2::SetZero() [b2GearJoint.cpp <190:10 190:16>]
 REFERENCE_USAGE void b2GearJoint::InitVelocityConstraints(const b2SolverData &) -> b2Vec2 b2GearJoint::m_JvBD [b2GearJoint.cpp <190:3 190:8>]
 REFERENCE_USAGE void b2GearJoint::InitVelocityConstraints(const b2SolverData &) -> float32 b2GearJoint::m_JwB [b2GearJoint.cpp <191:3 191:7>]
@@ -598,25 +508,20 @@ REFERENCE_USAGE void b2GearJoint::InitVelocityConstraints(const b2SolverData &) 
 REFERENCE_USAGE void b2GearJoint::InitVelocityConstraints(const b2SolverData &) -> float32 b2GearJoint::m_iD [b2GearJoint.cpp <193:41 193:44>]
 LOCAL_SYMBOL: b2GearJoint.cpp<197:10> [b2GearJoint.cpp <197:10 197:10>]
 REFERENCE_TYPE_USAGE void b2GearJoint::InitVelocityConstraints(const b2SolverData &) -> b2Vec2 [b2GearJoint.cpp <197:3 197:8>]
-SYMBOL_FUNCTION b2Vec2 b2Mul(const b2Rot &, const b2Vec2 &)
 REFERENCE_CALL void b2GearJoint::InitVelocityConstraints(const b2SolverData &) -> b2Vec2 b2Mul(const b2Rot &, const b2Vec2 &) [b2GearJoint.cpp <197:14 197:18>]
 LOCAL_SYMBOL: b2GearJoint.cpp<166:32> [b2GearJoint.cpp <197:20 197:21>]
 REFERENCE_USAGE void b2GearJoint::InitVelocityConstraints(const b2SolverData &) -> b2Vec2 b2GearJoint::m_localAxisD [b2GearJoint.cpp <197:24 197:35>]
 LOCAL_SYMBOL: b2GearJoint.cpp<198:10> [b2GearJoint.cpp <198:10 198:11>]
 REFERENCE_TYPE_USAGE void b2GearJoint::InitVelocityConstraints(const b2SolverData &) -> b2Vec2 [b2GearJoint.cpp <198:3 198:8>]
-SYMBOL_FUNCTION b2Vec2 b2Mul(const b2Rot &, const b2Vec2 &)
 REFERENCE_CALL void b2GearJoint::InitVelocityConstraints(const b2SolverData &) -> b2Vec2 b2Mul(const b2Rot &, const b2Vec2 &) [b2GearJoint.cpp <198:15 198:19>]
 LOCAL_SYMBOL: b2GearJoint.cpp<166:32> [b2GearJoint.cpp <198:21 198:22>]
-SYMBOL_FUNCTION b2Vec2 operator-(const b2Vec2 &, const b2Vec2 &)
 REFERENCE_CALL void b2GearJoint::InitVelocityConstraints(const b2SolverData &) -> b2Vec2 operator-(const b2Vec2 &, const b2Vec2 &) [b2GearJoint.cpp <198:40 198:40>]
 REFERENCE_USAGE void b2GearJoint::InitVelocityConstraints(const b2SolverData &) -> b2Vec2 b2GearJoint::m_localAnchorD [b2GearJoint.cpp <198:25 198:38>]
 REFERENCE_USAGE void b2GearJoint::InitVelocityConstraints(const b2SolverData &) -> b2Vec2 b2GearJoint::m_lcD [b2GearJoint.cpp <198:42 198:46>]
 LOCAL_SYMBOL: b2GearJoint.cpp<199:10> [b2GearJoint.cpp <199:10 199:11>]
 REFERENCE_TYPE_USAGE void b2GearJoint::InitVelocityConstraints(const b2SolverData &) -> b2Vec2 [b2GearJoint.cpp <199:3 199:8>]
-SYMBOL_FUNCTION b2Vec2 b2Mul(const b2Rot &, const b2Vec2 &)
 REFERENCE_CALL void b2GearJoint::InitVelocityConstraints(const b2SolverData &) -> b2Vec2 b2Mul(const b2Rot &, const b2Vec2 &) [b2GearJoint.cpp <199:15 199:19>]
 LOCAL_SYMBOL: b2GearJoint.cpp<166:16> [b2GearJoint.cpp <199:21 199:22>]
-SYMBOL_FUNCTION b2Vec2 operator-(const b2Vec2 &, const b2Vec2 &)
 REFERENCE_CALL void b2GearJoint::InitVelocityConstraints(const b2SolverData &) -> b2Vec2 operator-(const b2Vec2 &, const b2Vec2 &) [b2GearJoint.cpp <199:40 199:40>]
 REFERENCE_USAGE void b2GearJoint::InitVelocityConstraints(const b2SolverData &) -> b2Vec2 b2GearJoint::m_localAnchorB [b2GearJoint.cpp <199:25 199:38>]
 REFERENCE_USAGE void b2GearJoint::InitVelocityConstraints(const b2SolverData &) -> b2Vec2 b2GearJoint::m_lcB [b2GearJoint.cpp <199:42 199:46>]
@@ -629,13 +534,11 @@ REFERENCE_USAGE void b2GearJoint::InitVelocityConstraints(const b2SolverData &) 
 LOCAL_SYMBOL: b2GearJoint.cpp<197:10> [b2GearJoint.cpp <200:22 200:22>]
 REFERENCE_USAGE void b2GearJoint::InitVelocityConstraints(const b2SolverData &) -> float32 b2GearJoint::m_JwD [b2GearJoint.cpp <201:3 201:7>]
 REFERENCE_USAGE void b2GearJoint::InitVelocityConstraints(const b2SolverData &) -> float32 b2GearJoint::m_ratio [b2GearJoint.cpp <201:11 201:17>]
-SYMBOL_FUNCTION float32 b2Cross(const b2Vec2 &, const b2Vec2 &)
 REFERENCE_CALL void b2GearJoint::InitVelocityConstraints(const b2SolverData &) -> float32 b2Cross(const b2Vec2 &, const b2Vec2 &) [b2GearJoint.cpp <201:21 201:27>]
 LOCAL_SYMBOL: b2GearJoint.cpp<198:10> [b2GearJoint.cpp <201:29 201:30>]
 LOCAL_SYMBOL: b2GearJoint.cpp<197:10> [b2GearJoint.cpp <201:33 201:33>]
 REFERENCE_USAGE void b2GearJoint::InitVelocityConstraints(const b2SolverData &) -> float32 b2GearJoint::m_JwB [b2GearJoint.cpp <202:3 202:7>]
 REFERENCE_USAGE void b2GearJoint::InitVelocityConstraints(const b2SolverData &) -> float32 b2GearJoint::m_ratio [b2GearJoint.cpp <202:11 202:17>]
-SYMBOL_FUNCTION float32 b2Cross(const b2Vec2 &, const b2Vec2 &)
 REFERENCE_CALL void b2GearJoint::InitVelocityConstraints(const b2SolverData &) -> float32 b2Cross(const b2Vec2 &, const b2Vec2 &) [b2GearJoint.cpp <202:21 202:27>]
 LOCAL_SYMBOL: b2GearJoint.cpp<199:10> [b2GearJoint.cpp <202:29 202:30>]
 LOCAL_SYMBOL: b2GearJoint.cpp<197:10> [b2GearJoint.cpp <202:33 202:33>]
@@ -659,7 +562,6 @@ LOCAL_SYMBOL: b2GearJoint.cpp<131:63> [b2GearJoint.cpp <209:6 209:9>]
 SYMBOL_FUNCTION void b2Vec2::operator+=(const b2Vec2 &)
 REFERENCE_CALL void b2GearJoint::InitVelocityConstraints(const b2SolverData &) -> void b2Vec2::operator+=(const b2Vec2 &) [b2GearJoint.cpp <211:6 211:7>]
 LOCAL_SYMBOL: b2GearJoint.cpp<151:9> [b2GearJoint.cpp <211:3 211:4>]
-SYMBOL_FUNCTION b2Vec2 operator*(float32, const b2Vec2 &)
 REFERENCE_CALL void b2GearJoint::InitVelocityConstraints(const b2SolverData &) -> b2Vec2 operator*(float32, const b2Vec2 &) [b2GearJoint.cpp <211:28 211:28>]
 REFERENCE_USAGE void b2GearJoint::InitVelocityConstraints(const b2SolverData &) -> float32 b2GearJoint::m_mA [b2GearJoint.cpp <211:10 211:13>]
 REFERENCE_USAGE void b2GearJoint::InitVelocityConstraints(const b2SolverData &) -> float32 b2GearJoint::m_impulse [b2GearJoint.cpp <211:17 211:25>]
@@ -668,10 +570,8 @@ LOCAL_SYMBOL: b2GearJoint.cpp<152:10> [b2GearJoint.cpp <212:3 212:4>]
 REFERENCE_USAGE void b2GearJoint::InitVelocityConstraints(const b2SolverData &) -> float32 b2GearJoint::m_iA [b2GearJoint.cpp <212:9 212:12>]
 REFERENCE_USAGE void b2GearJoint::InitVelocityConstraints(const b2SolverData &) -> float32 b2GearJoint::m_impulse [b2GearJoint.cpp <212:16 212:24>]
 REFERENCE_USAGE void b2GearJoint::InitVelocityConstraints(const b2SolverData &) -> float32 b2GearJoint::m_JwA [b2GearJoint.cpp <212:28 212:32>]
-SYMBOL_FUNCTION void b2Vec2::operator+=(const b2Vec2 &)
 REFERENCE_CALL void b2GearJoint::InitVelocityConstraints(const b2SolverData &) -> void b2Vec2::operator+=(const b2Vec2 &) [b2GearJoint.cpp <213:6 213:7>]
 LOCAL_SYMBOL: b2GearJoint.cpp<155:9> [b2GearJoint.cpp <213:3 213:4>]
-SYMBOL_FUNCTION b2Vec2 operator*(float32, const b2Vec2 &)
 REFERENCE_CALL void b2GearJoint::InitVelocityConstraints(const b2SolverData &) -> b2Vec2 operator*(float32, const b2Vec2 &) [b2GearJoint.cpp <213:28 213:28>]
 REFERENCE_USAGE void b2GearJoint::InitVelocityConstraints(const b2SolverData &) -> float32 b2GearJoint::m_mB [b2GearJoint.cpp <213:10 213:13>]
 REFERENCE_USAGE void b2GearJoint::InitVelocityConstraints(const b2SolverData &) -> float32 b2GearJoint::m_impulse [b2GearJoint.cpp <213:17 213:25>]
@@ -683,7 +583,6 @@ REFERENCE_USAGE void b2GearJoint::InitVelocityConstraints(const b2SolverData &) 
 SYMBOL_FUNCTION void b2Vec2::operator-=(const b2Vec2 &)
 REFERENCE_CALL void b2GearJoint::InitVelocityConstraints(const b2SolverData &) -> void b2Vec2::operator-=(const b2Vec2 &) [b2GearJoint.cpp <215:6 215:7>]
 LOCAL_SYMBOL: b2GearJoint.cpp<159:9> [b2GearJoint.cpp <215:3 215:4>]
-SYMBOL_FUNCTION b2Vec2 operator*(float32, const b2Vec2 &)
 REFERENCE_CALL void b2GearJoint::InitVelocityConstraints(const b2SolverData &) -> b2Vec2 operator*(float32, const b2Vec2 &) [b2GearJoint.cpp <215:28 215:28>]
 REFERENCE_USAGE void b2GearJoint::InitVelocityConstraints(const b2SolverData &) -> float32 b2GearJoint::m_mC [b2GearJoint.cpp <215:10 215:13>]
 REFERENCE_USAGE void b2GearJoint::InitVelocityConstraints(const b2SolverData &) -> float32 b2GearJoint::m_impulse [b2GearJoint.cpp <215:17 215:25>]
@@ -692,10 +591,8 @@ LOCAL_SYMBOL: b2GearJoint.cpp<160:10> [b2GearJoint.cpp <216:3 216:4>]
 REFERENCE_USAGE void b2GearJoint::InitVelocityConstraints(const b2SolverData &) -> float32 b2GearJoint::m_iC [b2GearJoint.cpp <216:9 216:12>]
 REFERENCE_USAGE void b2GearJoint::InitVelocityConstraints(const b2SolverData &) -> float32 b2GearJoint::m_impulse [b2GearJoint.cpp <216:16 216:24>]
 REFERENCE_USAGE void b2GearJoint::InitVelocityConstraints(const b2SolverData &) -> float32 b2GearJoint::m_JwC [b2GearJoint.cpp <216:28 216:32>]
-SYMBOL_FUNCTION void b2Vec2::operator-=(const b2Vec2 &)
 REFERENCE_CALL void b2GearJoint::InitVelocityConstraints(const b2SolverData &) -> void b2Vec2::operator-=(const b2Vec2 &) [b2GearJoint.cpp <217:6 217:7>]
 LOCAL_SYMBOL: b2GearJoint.cpp<163:9> [b2GearJoint.cpp <217:3 217:4>]
-SYMBOL_FUNCTION b2Vec2 operator*(float32, const b2Vec2 &)
 REFERENCE_CALL void b2GearJoint::InitVelocityConstraints(const b2SolverData &) -> b2Vec2 operator*(float32, const b2Vec2 &) [b2GearJoint.cpp <217:28 217:28>]
 REFERENCE_USAGE void b2GearJoint::InitVelocityConstraints(const b2SolverData &) -> float32 b2GearJoint::m_mD [b2GearJoint.cpp <217:10 217:13>]
 REFERENCE_USAGE void b2GearJoint::InitVelocityConstraints(const b2SolverData &) -> float32 b2GearJoint::m_impulse [b2GearJoint.cpp <217:17 217:25>]
@@ -705,7 +602,6 @@ REFERENCE_USAGE void b2GearJoint::InitVelocityConstraints(const b2SolverData &) 
 REFERENCE_USAGE void b2GearJoint::InitVelocityConstraints(const b2SolverData &) -> float32 b2GearJoint::m_impulse [b2GearJoint.cpp <218:16 218:24>]
 REFERENCE_USAGE void b2GearJoint::InitVelocityConstraints(const b2SolverData &) -> float32 b2GearJoint::m_JwD [b2GearJoint.cpp <218:28 218:32>]
 REFERENCE_USAGE void b2GearJoint::InitVelocityConstraints(const b2SolverData &) -> float32 b2GearJoint::m_impulse [b2GearJoint.cpp <222:3 222:11>]
-SYMBOL_FUNCTION b2Vec2 & b2Vec2::operator=(const b2Vec2 &)
 REFERENCE_CALL void b2GearJoint::InitVelocityConstraints(const b2SolverData &) -> b2Vec2 & b2Vec2::operator=(const b2Vec2 &) [b2GearJoint.cpp <225:30 225:30>]
 REFERENCE_USAGE void b2GearJoint::InitVelocityConstraints(const b2SolverData &) -> b2Vec2 b2Velocity::v [b2GearJoint.cpp <225:28 225:28>]
 REFERENCE_USAGE void b2GearJoint::InitVelocityConstraints(const b2SolverData &) -> b2Velocity * b2SolverData::velocities [b2GearJoint.cpp <225:7 225:16>]
@@ -717,7 +613,6 @@ REFERENCE_USAGE void b2GearJoint::InitVelocityConstraints(const b2SolverData &) 
 LOCAL_SYMBOL: b2GearJoint.cpp<131:63> [b2GearJoint.cpp <226:2 226:5>]
 REFERENCE_USAGE void b2GearJoint::InitVelocityConstraints(const b2SolverData &) -> int32 b2GearJoint::m_indexA [b2GearJoint.cpp <226:18 226:25>]
 LOCAL_SYMBOL: b2GearJoint.cpp<152:10> [b2GearJoint.cpp <226:32 226:33>]
-SYMBOL_FUNCTION b2Vec2 & b2Vec2::operator=(const b2Vec2 &)
 REFERENCE_CALL void b2GearJoint::InitVelocityConstraints(const b2SolverData &) -> b2Vec2 & b2Vec2::operator=(const b2Vec2 &) [b2GearJoint.cpp <227:30 227:30>]
 REFERENCE_USAGE void b2GearJoint::InitVelocityConstraints(const b2SolverData &) -> b2Vec2 b2Velocity::v [b2GearJoint.cpp <227:28 227:28>]
 REFERENCE_USAGE void b2GearJoint::InitVelocityConstraints(const b2SolverData &) -> b2Velocity * b2SolverData::velocities [b2GearJoint.cpp <227:7 227:16>]
@@ -729,7 +624,6 @@ REFERENCE_USAGE void b2GearJoint::InitVelocityConstraints(const b2SolverData &) 
 LOCAL_SYMBOL: b2GearJoint.cpp<131:63> [b2GearJoint.cpp <228:2 228:5>]
 REFERENCE_USAGE void b2GearJoint::InitVelocityConstraints(const b2SolverData &) -> int32 b2GearJoint::m_indexB [b2GearJoint.cpp <228:18 228:25>]
 LOCAL_SYMBOL: b2GearJoint.cpp<156:10> [b2GearJoint.cpp <228:32 228:33>]
-SYMBOL_FUNCTION b2Vec2 & b2Vec2::operator=(const b2Vec2 &)
 REFERENCE_CALL void b2GearJoint::InitVelocityConstraints(const b2SolverData &) -> b2Vec2 & b2Vec2::operator=(const b2Vec2 &) [b2GearJoint.cpp <229:30 229:30>]
 REFERENCE_USAGE void b2GearJoint::InitVelocityConstraints(const b2SolverData &) -> b2Vec2 b2Velocity::v [b2GearJoint.cpp <229:28 229:28>]
 REFERENCE_USAGE void b2GearJoint::InitVelocityConstraints(const b2SolverData &) -> b2Velocity * b2SolverData::velocities [b2GearJoint.cpp <229:7 229:16>]
@@ -741,7 +635,6 @@ REFERENCE_USAGE void b2GearJoint::InitVelocityConstraints(const b2SolverData &) 
 LOCAL_SYMBOL: b2GearJoint.cpp<131:63> [b2GearJoint.cpp <230:2 230:5>]
 REFERENCE_USAGE void b2GearJoint::InitVelocityConstraints(const b2SolverData &) -> int32 b2GearJoint::m_indexC [b2GearJoint.cpp <230:18 230:25>]
 LOCAL_SYMBOL: b2GearJoint.cpp<160:10> [b2GearJoint.cpp <230:32 230:33>]
-SYMBOL_FUNCTION b2Vec2 & b2Vec2::operator=(const b2Vec2 &)
 REFERENCE_CALL void b2GearJoint::InitVelocityConstraints(const b2SolverData &) -> b2Vec2 & b2Vec2::operator=(const b2Vec2 &) [b2GearJoint.cpp <231:30 231:30>]
 REFERENCE_USAGE void b2GearJoint::InitVelocityConstraints(const b2SolverData &) -> b2Vec2 b2Velocity::v [b2GearJoint.cpp <231:28 231:28>]
 REFERENCE_USAGE void b2GearJoint::InitVelocityConstraints(const b2SolverData &) -> b2Velocity * b2SolverData::velocities [b2GearJoint.cpp <231:7 231:16>]
@@ -756,14 +649,12 @@ LOCAL_SYMBOL: b2GearJoint.cpp<164:10> [b2GearJoint.cpp <232:32 232:33>]
 SYMBOL_METHOD protected void b2GearJoint::SolveVelocityConstraints(const b2SolverData &) [b2GearJoint.cpp <235:1 <235:19 235:42> 269:1>]
 SYMBOL_FUNCTION void b2Joint::SolveVelocityConstraints(const b2SolverData &)
 REFERENCE_OVERRIDE void b2GearJoint::SolveVelocityConstraints(const b2SolverData &) -> void b2Joint::SolveVelocityConstraints(const b2SolverData &) [b2GearJoint.cpp <235:19 235:42>]
-SYMBOL_CLASS b2GearJoint
-SYMBOL_BUILTIN_TYPE void
+QUALIFIER: b2GearJoint [b2GearJoint.cpp <235:6 235:16>]
 REFERENCE_TYPE_USAGE void b2GearJoint::SolveVelocityConstraints(const b2SolverData &) -> void [b2GearJoint.cpp <235:1 235:4>]
 LOCAL_SYMBOL: b2GearJoint.cpp<235:64> [b2GearJoint.cpp <235:64 235:67>]
 REFERENCE_TYPE_USAGE void b2GearJoint::SolveVelocityConstraints(const b2SolverData &) -> b2SolverData [b2GearJoint.cpp <235:50 235:61>]
 LOCAL_SYMBOL: b2GearJoint.cpp<237:9> [b2GearJoint.cpp <237:9 237:10>]
 REFERENCE_TYPE_USAGE void b2GearJoint::SolveVelocityConstraints(const b2SolverData &) -> b2Vec2 [b2GearJoint.cpp <237:2 237:7>]
-SYMBOL_FUNCTION void b2Vec2::b2Vec2(const b2Vec2 &)
 REFERENCE_CALL void b2GearJoint::SolveVelocityConstraints(const b2SolverData &) -> void b2Vec2::b2Vec2(const b2Vec2 &) [b2GearJoint.cpp <237:40 237:40>]
 REFERENCE_USAGE void b2GearJoint::SolveVelocityConstraints(const b2SolverData &) -> b2Vec2 b2Velocity::v [b2GearJoint.cpp <237:40 237:40>]
 REFERENCE_USAGE void b2GearJoint::SolveVelocityConstraints(const b2SolverData &) -> b2Velocity * b2SolverData::velocities [b2GearJoint.cpp <237:19 237:28>]
@@ -777,7 +668,6 @@ LOCAL_SYMBOL: b2GearJoint.cpp<235:64> [b2GearJoint.cpp <238:15 238:18>]
 REFERENCE_USAGE void b2GearJoint::SolveVelocityConstraints(const b2SolverData &) -> int32 b2GearJoint::m_indexA [b2GearJoint.cpp <238:31 238:38>]
 LOCAL_SYMBOL: b2GearJoint.cpp<239:9> [b2GearJoint.cpp <239:9 239:10>]
 REFERENCE_TYPE_USAGE void b2GearJoint::SolveVelocityConstraints(const b2SolverData &) -> b2Vec2 [b2GearJoint.cpp <239:2 239:7>]
-SYMBOL_FUNCTION void b2Vec2::b2Vec2(const b2Vec2 &)
 REFERENCE_CALL void b2GearJoint::SolveVelocityConstraints(const b2SolverData &) -> void b2Vec2::b2Vec2(const b2Vec2 &) [b2GearJoint.cpp <239:40 239:40>]
 REFERENCE_USAGE void b2GearJoint::SolveVelocityConstraints(const b2SolverData &) -> b2Vec2 b2Velocity::v [b2GearJoint.cpp <239:40 239:40>]
 REFERENCE_USAGE void b2GearJoint::SolveVelocityConstraints(const b2SolverData &) -> b2Velocity * b2SolverData::velocities [b2GearJoint.cpp <239:19 239:28>]
@@ -791,7 +681,6 @@ LOCAL_SYMBOL: b2GearJoint.cpp<235:64> [b2GearJoint.cpp <240:15 240:18>]
 REFERENCE_USAGE void b2GearJoint::SolveVelocityConstraints(const b2SolverData &) -> int32 b2GearJoint::m_indexB [b2GearJoint.cpp <240:31 240:38>]
 LOCAL_SYMBOL: b2GearJoint.cpp<241:9> [b2GearJoint.cpp <241:9 241:10>]
 REFERENCE_TYPE_USAGE void b2GearJoint::SolveVelocityConstraints(const b2SolverData &) -> b2Vec2 [b2GearJoint.cpp <241:2 241:7>]
-SYMBOL_FUNCTION void b2Vec2::b2Vec2(const b2Vec2 &)
 REFERENCE_CALL void b2GearJoint::SolveVelocityConstraints(const b2SolverData &) -> void b2Vec2::b2Vec2(const b2Vec2 &) [b2GearJoint.cpp <241:40 241:40>]
 REFERENCE_USAGE void b2GearJoint::SolveVelocityConstraints(const b2SolverData &) -> b2Vec2 b2Velocity::v [b2GearJoint.cpp <241:40 241:40>]
 REFERENCE_USAGE void b2GearJoint::SolveVelocityConstraints(const b2SolverData &) -> b2Velocity * b2SolverData::velocities [b2GearJoint.cpp <241:19 241:28>]
@@ -805,7 +694,6 @@ LOCAL_SYMBOL: b2GearJoint.cpp<235:64> [b2GearJoint.cpp <242:15 242:18>]
 REFERENCE_USAGE void b2GearJoint::SolveVelocityConstraints(const b2SolverData &) -> int32 b2GearJoint::m_indexC [b2GearJoint.cpp <242:31 242:38>]
 LOCAL_SYMBOL: b2GearJoint.cpp<243:9> [b2GearJoint.cpp <243:9 243:10>]
 REFERENCE_TYPE_USAGE void b2GearJoint::SolveVelocityConstraints(const b2SolverData &) -> b2Vec2 [b2GearJoint.cpp <243:2 243:7>]
-SYMBOL_FUNCTION void b2Vec2::b2Vec2(const b2Vec2 &)
 REFERENCE_CALL void b2GearJoint::SolveVelocityConstraints(const b2SolverData &) -> void b2Vec2::b2Vec2(const b2Vec2 &) [b2GearJoint.cpp <243:40 243:40>]
 REFERENCE_USAGE void b2GearJoint::SolveVelocityConstraints(const b2SolverData &) -> b2Vec2 b2Velocity::v [b2GearJoint.cpp <243:40 243:40>]
 REFERENCE_USAGE void b2GearJoint::SolveVelocityConstraints(const b2SolverData &) -> b2Velocity * b2SolverData::velocities [b2GearJoint.cpp <243:19 243:28>]
@@ -819,17 +707,13 @@ LOCAL_SYMBOL: b2GearJoint.cpp<235:64> [b2GearJoint.cpp <244:15 244:18>]
 REFERENCE_USAGE void b2GearJoint::SolveVelocityConstraints(const b2SolverData &) -> int32 b2GearJoint::m_indexD [b2GearJoint.cpp <244:31 244:38>]
 LOCAL_SYMBOL: b2GearJoint.cpp<246:10> [b2GearJoint.cpp <246:10 246:13>]
 REFERENCE_TYPE_USAGE void b2GearJoint::SolveVelocityConstraints(const b2SolverData &) -> float32 [b2GearJoint.cpp <246:2 246:8>]
-SYMBOL_FUNCTION float32 b2Dot(const b2Vec2 &, const b2Vec2 &)
 REFERENCE_CALL void b2GearJoint::SolveVelocityConstraints(const b2SolverData &) -> float32 b2Dot(const b2Vec2 &, const b2Vec2 &) [b2GearJoint.cpp <246:17 246:21>]
 REFERENCE_USAGE void b2GearJoint::SolveVelocityConstraints(const b2SolverData &) -> b2Vec2 b2GearJoint::m_JvAC [b2GearJoint.cpp <246:23 246:28>]
-SYMBOL_FUNCTION b2Vec2 operator-(const b2Vec2 &, const b2Vec2 &)
 REFERENCE_CALL void b2GearJoint::SolveVelocityConstraints(const b2SolverData &) -> b2Vec2 operator-(const b2Vec2 &, const b2Vec2 &) [b2GearJoint.cpp <246:34 246:34>]
 LOCAL_SYMBOL: b2GearJoint.cpp<237:9> [b2GearJoint.cpp <246:31 246:32>]
 LOCAL_SYMBOL: b2GearJoint.cpp<241:9> [b2GearJoint.cpp <246:36 246:37>]
-SYMBOL_FUNCTION float32 b2Dot(const b2Vec2 &, const b2Vec2 &)
 REFERENCE_CALL void b2GearJoint::SolveVelocityConstraints(const b2SolverData &) -> float32 b2Dot(const b2Vec2 &, const b2Vec2 &) [b2GearJoint.cpp <246:42 246:46>]
 REFERENCE_USAGE void b2GearJoint::SolveVelocityConstraints(const b2SolverData &) -> b2Vec2 b2GearJoint::m_JvBD [b2GearJoint.cpp <246:48 246:53>]
-SYMBOL_FUNCTION b2Vec2 operator-(const b2Vec2 &, const b2Vec2 &)
 REFERENCE_CALL void b2GearJoint::SolveVelocityConstraints(const b2SolverData &) -> b2Vec2 operator-(const b2Vec2 &, const b2Vec2 &) [b2GearJoint.cpp <246:59 246:59>]
 LOCAL_SYMBOL: b2GearJoint.cpp<239:9> [b2GearJoint.cpp <246:56 246:57>]
 LOCAL_SYMBOL: b2GearJoint.cpp<243:9> [b2GearJoint.cpp <246:61 246:62>]
@@ -848,10 +732,8 @@ REFERENCE_USAGE void b2GearJoint::SolveVelocityConstraints(const b2SolverData &)
 LOCAL_SYMBOL: b2GearJoint.cpp<246:10> [b2GearJoint.cpp <249:30 249:33>]
 REFERENCE_USAGE void b2GearJoint::SolveVelocityConstraints(const b2SolverData &) -> float32 b2GearJoint::m_impulse [b2GearJoint.cpp <250:2 250:10>]
 LOCAL_SYMBOL: b2GearJoint.cpp<249:10> [b2GearJoint.cpp <250:15 250:21>]
-SYMBOL_FUNCTION void b2Vec2::operator+=(const b2Vec2 &)
 REFERENCE_CALL void b2GearJoint::SolveVelocityConstraints(const b2SolverData &) -> void b2Vec2::operator+=(const b2Vec2 &) [b2GearJoint.cpp <252:5 252:6>]
 LOCAL_SYMBOL: b2GearJoint.cpp<237:9> [b2GearJoint.cpp <252:2 252:3>]
-SYMBOL_FUNCTION b2Vec2 operator*(float32, const b2Vec2 &)
 REFERENCE_CALL void b2GearJoint::SolveVelocityConstraints(const b2SolverData &) -> b2Vec2 operator*(float32, const b2Vec2 &) [b2GearJoint.cpp <252:25 252:25>]
 REFERENCE_USAGE void b2GearJoint::SolveVelocityConstraints(const b2SolverData &) -> float32 b2GearJoint::m_mA [b2GearJoint.cpp <252:9 252:12>]
 LOCAL_SYMBOL: b2GearJoint.cpp<249:10> [b2GearJoint.cpp <252:16 252:22>]
@@ -860,10 +742,8 @@ LOCAL_SYMBOL: b2GearJoint.cpp<238:10> [b2GearJoint.cpp <253:2 253:3>]
 REFERENCE_USAGE void b2GearJoint::SolveVelocityConstraints(const b2SolverData &) -> float32 b2GearJoint::m_iA [b2GearJoint.cpp <253:8 253:11>]
 LOCAL_SYMBOL: b2GearJoint.cpp<249:10> [b2GearJoint.cpp <253:15 253:21>]
 REFERENCE_USAGE void b2GearJoint::SolveVelocityConstraints(const b2SolverData &) -> float32 b2GearJoint::m_JwA [b2GearJoint.cpp <253:25 253:29>]
-SYMBOL_FUNCTION void b2Vec2::operator+=(const b2Vec2 &)
 REFERENCE_CALL void b2GearJoint::SolveVelocityConstraints(const b2SolverData &) -> void b2Vec2::operator+=(const b2Vec2 &) [b2GearJoint.cpp <254:5 254:6>]
 LOCAL_SYMBOL: b2GearJoint.cpp<239:9> [b2GearJoint.cpp <254:2 254:3>]
-SYMBOL_FUNCTION b2Vec2 operator*(float32, const b2Vec2 &)
 REFERENCE_CALL void b2GearJoint::SolveVelocityConstraints(const b2SolverData &) -> b2Vec2 operator*(float32, const b2Vec2 &) [b2GearJoint.cpp <254:25 254:25>]
 REFERENCE_USAGE void b2GearJoint::SolveVelocityConstraints(const b2SolverData &) -> float32 b2GearJoint::m_mB [b2GearJoint.cpp <254:9 254:12>]
 LOCAL_SYMBOL: b2GearJoint.cpp<249:10> [b2GearJoint.cpp <254:16 254:22>]
@@ -872,10 +752,8 @@ LOCAL_SYMBOL: b2GearJoint.cpp<240:10> [b2GearJoint.cpp <255:2 255:3>]
 REFERENCE_USAGE void b2GearJoint::SolveVelocityConstraints(const b2SolverData &) -> float32 b2GearJoint::m_iB [b2GearJoint.cpp <255:8 255:11>]
 LOCAL_SYMBOL: b2GearJoint.cpp<249:10> [b2GearJoint.cpp <255:15 255:21>]
 REFERENCE_USAGE void b2GearJoint::SolveVelocityConstraints(const b2SolverData &) -> float32 b2GearJoint::m_JwB [b2GearJoint.cpp <255:25 255:29>]
-SYMBOL_FUNCTION void b2Vec2::operator-=(const b2Vec2 &)
 REFERENCE_CALL void b2GearJoint::SolveVelocityConstraints(const b2SolverData &) -> void b2Vec2::operator-=(const b2Vec2 &) [b2GearJoint.cpp <256:5 256:6>]
 LOCAL_SYMBOL: b2GearJoint.cpp<241:9> [b2GearJoint.cpp <256:2 256:3>]
-SYMBOL_FUNCTION b2Vec2 operator*(float32, const b2Vec2 &)
 REFERENCE_CALL void b2GearJoint::SolveVelocityConstraints(const b2SolverData &) -> b2Vec2 operator*(float32, const b2Vec2 &) [b2GearJoint.cpp <256:25 256:25>]
 REFERENCE_USAGE void b2GearJoint::SolveVelocityConstraints(const b2SolverData &) -> float32 b2GearJoint::m_mC [b2GearJoint.cpp <256:9 256:12>]
 LOCAL_SYMBOL: b2GearJoint.cpp<249:10> [b2GearJoint.cpp <256:16 256:22>]
@@ -884,10 +762,8 @@ LOCAL_SYMBOL: b2GearJoint.cpp<242:10> [b2GearJoint.cpp <257:2 257:3>]
 REFERENCE_USAGE void b2GearJoint::SolveVelocityConstraints(const b2SolverData &) -> float32 b2GearJoint::m_iC [b2GearJoint.cpp <257:8 257:11>]
 LOCAL_SYMBOL: b2GearJoint.cpp<249:10> [b2GearJoint.cpp <257:15 257:21>]
 REFERENCE_USAGE void b2GearJoint::SolveVelocityConstraints(const b2SolverData &) -> float32 b2GearJoint::m_JwC [b2GearJoint.cpp <257:25 257:29>]
-SYMBOL_FUNCTION void b2Vec2::operator-=(const b2Vec2 &)
 REFERENCE_CALL void b2GearJoint::SolveVelocityConstraints(const b2SolverData &) -> void b2Vec2::operator-=(const b2Vec2 &) [b2GearJoint.cpp <258:5 258:6>]
 LOCAL_SYMBOL: b2GearJoint.cpp<243:9> [b2GearJoint.cpp <258:2 258:3>]
-SYMBOL_FUNCTION b2Vec2 operator*(float32, const b2Vec2 &)
 REFERENCE_CALL void b2GearJoint::SolveVelocityConstraints(const b2SolverData &) -> b2Vec2 operator*(float32, const b2Vec2 &) [b2GearJoint.cpp <258:25 258:25>]
 REFERENCE_USAGE void b2GearJoint::SolveVelocityConstraints(const b2SolverData &) -> float32 b2GearJoint::m_mD [b2GearJoint.cpp <258:9 258:12>]
 LOCAL_SYMBOL: b2GearJoint.cpp<249:10> [b2GearJoint.cpp <258:16 258:22>]
@@ -896,7 +772,6 @@ LOCAL_SYMBOL: b2GearJoint.cpp<244:10> [b2GearJoint.cpp <259:2 259:3>]
 REFERENCE_USAGE void b2GearJoint::SolveVelocityConstraints(const b2SolverData &) -> float32 b2GearJoint::m_iD [b2GearJoint.cpp <259:8 259:11>]
 LOCAL_SYMBOL: b2GearJoint.cpp<249:10> [b2GearJoint.cpp <259:15 259:21>]
 REFERENCE_USAGE void b2GearJoint::SolveVelocityConstraints(const b2SolverData &) -> float32 b2GearJoint::m_JwD [b2GearJoint.cpp <259:25 259:29>]
-SYMBOL_FUNCTION b2Vec2 & b2Vec2::operator=(const b2Vec2 &)
 REFERENCE_CALL void b2GearJoint::SolveVelocityConstraints(const b2SolverData &) -> b2Vec2 & b2Vec2::operator=(const b2Vec2 &) [b2GearJoint.cpp <261:30 261:30>]
 REFERENCE_USAGE void b2GearJoint::SolveVelocityConstraints(const b2SolverData &) -> b2Vec2 b2Velocity::v [b2GearJoint.cpp <261:28 261:28>]
 REFERENCE_USAGE void b2GearJoint::SolveVelocityConstraints(const b2SolverData &) -> b2Velocity * b2SolverData::velocities [b2GearJoint.cpp <261:7 261:16>]
@@ -908,7 +783,6 @@ REFERENCE_USAGE void b2GearJoint::SolveVelocityConstraints(const b2SolverData &)
 LOCAL_SYMBOL: b2GearJoint.cpp<235:64> [b2GearJoint.cpp <262:2 262:5>]
 REFERENCE_USAGE void b2GearJoint::SolveVelocityConstraints(const b2SolverData &) -> int32 b2GearJoint::m_indexA [b2GearJoint.cpp <262:18 262:25>]
 LOCAL_SYMBOL: b2GearJoint.cpp<238:10> [b2GearJoint.cpp <262:32 262:33>]
-SYMBOL_FUNCTION b2Vec2 & b2Vec2::operator=(const b2Vec2 &)
 REFERENCE_CALL void b2GearJoint::SolveVelocityConstraints(const b2SolverData &) -> b2Vec2 & b2Vec2::operator=(const b2Vec2 &) [b2GearJoint.cpp <263:30 263:30>]
 REFERENCE_USAGE void b2GearJoint::SolveVelocityConstraints(const b2SolverData &) -> b2Vec2 b2Velocity::v [b2GearJoint.cpp <263:28 263:28>]
 REFERENCE_USAGE void b2GearJoint::SolveVelocityConstraints(const b2SolverData &) -> b2Velocity * b2SolverData::velocities [b2GearJoint.cpp <263:7 263:16>]
@@ -920,7 +794,6 @@ REFERENCE_USAGE void b2GearJoint::SolveVelocityConstraints(const b2SolverData &)
 LOCAL_SYMBOL: b2GearJoint.cpp<235:64> [b2GearJoint.cpp <264:2 264:5>]
 REFERENCE_USAGE void b2GearJoint::SolveVelocityConstraints(const b2SolverData &) -> int32 b2GearJoint::m_indexB [b2GearJoint.cpp <264:18 264:25>]
 LOCAL_SYMBOL: b2GearJoint.cpp<240:10> [b2GearJoint.cpp <264:32 264:33>]
-SYMBOL_FUNCTION b2Vec2 & b2Vec2::operator=(const b2Vec2 &)
 REFERENCE_CALL void b2GearJoint::SolveVelocityConstraints(const b2SolverData &) -> b2Vec2 & b2Vec2::operator=(const b2Vec2 &) [b2GearJoint.cpp <265:30 265:30>]
 REFERENCE_USAGE void b2GearJoint::SolveVelocityConstraints(const b2SolverData &) -> b2Vec2 b2Velocity::v [b2GearJoint.cpp <265:28 265:28>]
 REFERENCE_USAGE void b2GearJoint::SolveVelocityConstraints(const b2SolverData &) -> b2Velocity * b2SolverData::velocities [b2GearJoint.cpp <265:7 265:16>]
@@ -932,7 +805,6 @@ REFERENCE_USAGE void b2GearJoint::SolveVelocityConstraints(const b2SolverData &)
 LOCAL_SYMBOL: b2GearJoint.cpp<235:64> [b2GearJoint.cpp <266:2 266:5>]
 REFERENCE_USAGE void b2GearJoint::SolveVelocityConstraints(const b2SolverData &) -> int32 b2GearJoint::m_indexC [b2GearJoint.cpp <266:18 266:25>]
 LOCAL_SYMBOL: b2GearJoint.cpp<242:10> [b2GearJoint.cpp <266:32 266:33>]
-SYMBOL_FUNCTION b2Vec2 & b2Vec2::operator=(const b2Vec2 &)
 REFERENCE_CALL void b2GearJoint::SolveVelocityConstraints(const b2SolverData &) -> b2Vec2 & b2Vec2::operator=(const b2Vec2 &) [b2GearJoint.cpp <267:30 267:30>]
 REFERENCE_USAGE void b2GearJoint::SolveVelocityConstraints(const b2SolverData &) -> b2Vec2 b2Velocity::v [b2GearJoint.cpp <267:28 267:28>]
 REFERENCE_USAGE void b2GearJoint::SolveVelocityConstraints(const b2SolverData &) -> b2Velocity * b2SolverData::velocities [b2GearJoint.cpp <267:7 267:16>]
@@ -947,14 +819,13 @@ LOCAL_SYMBOL: b2GearJoint.cpp<244:10> [b2GearJoint.cpp <268:32 268:33>]
 SYMBOL_METHOD protected bool b2GearJoint::SolvePositionConstraints(const b2SolverData &) [b2GearJoint.cpp <271:1 <271:19 271:42> 368:1>]
 SYMBOL_FUNCTION bool b2Joint::SolvePositionConstraints(const b2SolverData &)
 REFERENCE_OVERRIDE bool b2GearJoint::SolvePositionConstraints(const b2SolverData &) -> bool b2Joint::SolvePositionConstraints(const b2SolverData &) [b2GearJoint.cpp <271:19 271:42>]
-SYMBOL_CLASS b2GearJoint
+QUALIFIER: b2GearJoint [b2GearJoint.cpp <271:6 271:16>]
 SYMBOL_BUILTIN_TYPE bool
 REFERENCE_TYPE_USAGE bool b2GearJoint::SolvePositionConstraints(const b2SolverData &) -> bool [b2GearJoint.cpp <271:1 271:4>]
 LOCAL_SYMBOL: b2GearJoint.cpp<271:64> [b2GearJoint.cpp <271:64 271:67>]
 REFERENCE_TYPE_USAGE bool b2GearJoint::SolvePositionConstraints(const b2SolverData &) -> b2SolverData [b2GearJoint.cpp <271:50 271:61>]
 LOCAL_SYMBOL: b2GearJoint.cpp<273:9> [b2GearJoint.cpp <273:9 273:10>]
 REFERENCE_TYPE_USAGE bool b2GearJoint::SolvePositionConstraints(const b2SolverData &) -> b2Vec2 [b2GearJoint.cpp <273:2 273:7>]
-SYMBOL_FUNCTION void b2Vec2::b2Vec2(const b2Vec2 &)
 REFERENCE_CALL bool b2GearJoint::SolvePositionConstraints(const b2SolverData &) -> void b2Vec2::b2Vec2(const b2Vec2 &) [b2GearJoint.cpp <273:39 273:39>]
 REFERENCE_USAGE bool b2GearJoint::SolvePositionConstraints(const b2SolverData &) -> b2Vec2 b2Position::c [b2GearJoint.cpp <273:39 273:39>]
 REFERENCE_USAGE bool b2GearJoint::SolvePositionConstraints(const b2SolverData &) -> b2Position * b2SolverData::positions [b2GearJoint.cpp <273:19 273:27>]
@@ -968,7 +839,6 @@ LOCAL_SYMBOL: b2GearJoint.cpp<271:64> [b2GearJoint.cpp <274:15 274:18>]
 REFERENCE_USAGE bool b2GearJoint::SolvePositionConstraints(const b2SolverData &) -> int32 b2GearJoint::m_indexA [b2GearJoint.cpp <274:30 274:37>]
 LOCAL_SYMBOL: b2GearJoint.cpp<275:9> [b2GearJoint.cpp <275:9 275:10>]
 REFERENCE_TYPE_USAGE bool b2GearJoint::SolvePositionConstraints(const b2SolverData &) -> b2Vec2 [b2GearJoint.cpp <275:2 275:7>]
-SYMBOL_FUNCTION void b2Vec2::b2Vec2(const b2Vec2 &)
 REFERENCE_CALL bool b2GearJoint::SolvePositionConstraints(const b2SolverData &) -> void b2Vec2::b2Vec2(const b2Vec2 &) [b2GearJoint.cpp <275:39 275:39>]
 REFERENCE_USAGE bool b2GearJoint::SolvePositionConstraints(const b2SolverData &) -> b2Vec2 b2Position::c [b2GearJoint.cpp <275:39 275:39>]
 REFERENCE_USAGE bool b2GearJoint::SolvePositionConstraints(const b2SolverData &) -> b2Position * b2SolverData::positions [b2GearJoint.cpp <275:19 275:27>]
@@ -982,7 +852,6 @@ LOCAL_SYMBOL: b2GearJoint.cpp<271:64> [b2GearJoint.cpp <276:15 276:18>]
 REFERENCE_USAGE bool b2GearJoint::SolvePositionConstraints(const b2SolverData &) -> int32 b2GearJoint::m_indexB [b2GearJoint.cpp <276:30 276:37>]
 LOCAL_SYMBOL: b2GearJoint.cpp<277:9> [b2GearJoint.cpp <277:9 277:10>]
 REFERENCE_TYPE_USAGE bool b2GearJoint::SolvePositionConstraints(const b2SolverData &) -> b2Vec2 [b2GearJoint.cpp <277:2 277:7>]
-SYMBOL_FUNCTION void b2Vec2::b2Vec2(const b2Vec2 &)
 REFERENCE_CALL bool b2GearJoint::SolvePositionConstraints(const b2SolverData &) -> void b2Vec2::b2Vec2(const b2Vec2 &) [b2GearJoint.cpp <277:39 277:39>]
 REFERENCE_USAGE bool b2GearJoint::SolvePositionConstraints(const b2SolverData &) -> b2Vec2 b2Position::c [b2GearJoint.cpp <277:39 277:39>]
 REFERENCE_USAGE bool b2GearJoint::SolvePositionConstraints(const b2SolverData &) -> b2Position * b2SolverData::positions [b2GearJoint.cpp <277:19 277:27>]
@@ -996,7 +865,6 @@ LOCAL_SYMBOL: b2GearJoint.cpp<271:64> [b2GearJoint.cpp <278:15 278:18>]
 REFERENCE_USAGE bool b2GearJoint::SolvePositionConstraints(const b2SolverData &) -> int32 b2GearJoint::m_indexC [b2GearJoint.cpp <278:30 278:37>]
 LOCAL_SYMBOL: b2GearJoint.cpp<279:9> [b2GearJoint.cpp <279:9 279:10>]
 REFERENCE_TYPE_USAGE bool b2GearJoint::SolvePositionConstraints(const b2SolverData &) -> b2Vec2 [b2GearJoint.cpp <279:2 279:7>]
-SYMBOL_FUNCTION void b2Vec2::b2Vec2(const b2Vec2 &)
 REFERENCE_CALL bool b2GearJoint::SolvePositionConstraints(const b2SolverData &) -> void b2Vec2::b2Vec2(const b2Vec2 &) [b2GearJoint.cpp <279:39 279:39>]
 REFERENCE_USAGE bool b2GearJoint::SolvePositionConstraints(const b2SolverData &) -> b2Vec2 b2Position::c [b2GearJoint.cpp <279:39 279:39>]
 REFERENCE_USAGE bool b2GearJoint::SolvePositionConstraints(const b2SolverData &) -> b2Position * b2SolverData::positions [b2GearJoint.cpp <279:19 279:27>]
@@ -1010,22 +878,15 @@ LOCAL_SYMBOL: b2GearJoint.cpp<271:64> [b2GearJoint.cpp <280:15 280:18>]
 REFERENCE_USAGE bool b2GearJoint::SolvePositionConstraints(const b2SolverData &) -> int32 b2GearJoint::m_indexD [b2GearJoint.cpp <280:30 280:37>]
 LOCAL_SYMBOL: b2GearJoint.cpp<282:8> [b2GearJoint.cpp <282:8 282:9>]
 REFERENCE_TYPE_USAGE bool b2GearJoint::SolvePositionConstraints(const b2SolverData &) -> b2Rot [b2GearJoint.cpp <282:2 282:6>]
-SYMBOL_FUNCTION void b2Rot::b2Rot(float32)
 REFERENCE_CALL bool b2GearJoint::SolvePositionConstraints(const b2SolverData &) -> void b2Rot::b2Rot(float32) [b2GearJoint.cpp <282:8 282:9>]
 LOCAL_SYMBOL: b2GearJoint.cpp<274:10> [b2GearJoint.cpp <282:11 282:12>]
 LOCAL_SYMBOL: b2GearJoint.cpp<282:16> [b2GearJoint.cpp <282:16 282:17>]
-REFERENCE_TYPE_USAGE bool b2GearJoint::SolvePositionConstraints(const b2SolverData &) -> b2Rot [b2GearJoint.cpp <282:2 282:6>]
-SYMBOL_FUNCTION void b2Rot::b2Rot(float32)
 REFERENCE_CALL bool b2GearJoint::SolvePositionConstraints(const b2SolverData &) -> void b2Rot::b2Rot(float32) [b2GearJoint.cpp <282:16 282:17>]
 LOCAL_SYMBOL: b2GearJoint.cpp<276:10> [b2GearJoint.cpp <282:19 282:20>]
 LOCAL_SYMBOL: b2GearJoint.cpp<282:24> [b2GearJoint.cpp <282:24 282:25>]
-REFERENCE_TYPE_USAGE bool b2GearJoint::SolvePositionConstraints(const b2SolverData &) -> b2Rot [b2GearJoint.cpp <282:2 282:6>]
-SYMBOL_FUNCTION void b2Rot::b2Rot(float32)
 REFERENCE_CALL bool b2GearJoint::SolvePositionConstraints(const b2SolverData &) -> void b2Rot::b2Rot(float32) [b2GearJoint.cpp <282:24 282:25>]
 LOCAL_SYMBOL: b2GearJoint.cpp<278:10> [b2GearJoint.cpp <282:27 282:28>]
 LOCAL_SYMBOL: b2GearJoint.cpp<282:32> [b2GearJoint.cpp <282:32 282:33>]
-REFERENCE_TYPE_USAGE bool b2GearJoint::SolvePositionConstraints(const b2SolverData &) -> b2Rot [b2GearJoint.cpp <282:2 282:6>]
-SYMBOL_FUNCTION void b2Rot::b2Rot(float32)
 REFERENCE_CALL bool b2GearJoint::SolvePositionConstraints(const b2SolverData &) -> void b2Rot::b2Rot(float32) [b2GearJoint.cpp <282:32 282:33>]
 LOCAL_SYMBOL: b2GearJoint.cpp<280:10> [b2GearJoint.cpp <282:35 282:36>]
 LOCAL_SYMBOL: b2GearJoint.cpp<284:10> [b2GearJoint.cpp <284:10 284:20>]
@@ -1033,28 +894,20 @@ REFERENCE_TYPE_USAGE bool b2GearJoint::SolvePositionConstraints(const b2SolverDa
 LOCAL_SYMBOL: b2GearJoint.cpp<286:10> [b2GearJoint.cpp <286:10 286:20>]
 REFERENCE_TYPE_USAGE bool b2GearJoint::SolvePositionConstraints(const b2SolverData &) -> float32 [b2GearJoint.cpp <286:2 286:8>]
 LOCAL_SYMBOL: b2GearJoint.cpp<286:23> [b2GearJoint.cpp <286:23 286:33>]
-REFERENCE_TYPE_USAGE bool b2GearJoint::SolvePositionConstraints(const b2SolverData &) -> float32 [b2GearJoint.cpp <286:2 286:8>]
 LOCAL_SYMBOL: b2GearJoint.cpp<288:9> [b2GearJoint.cpp <288:9 288:12>]
 REFERENCE_TYPE_USAGE bool b2GearJoint::SolvePositionConstraints(const b2SolverData &) -> b2Vec2 [b2GearJoint.cpp <288:2 288:7>]
-SYMBOL_FUNCTION void b2Vec2::b2Vec2()
 REFERENCE_CALL bool b2GearJoint::SolvePositionConstraints(const b2SolverData &) -> void b2Vec2::b2Vec2() [b2GearJoint.cpp <288:9 288:12>]
 LOCAL_SYMBOL: b2GearJoint.cpp<288:15> [b2GearJoint.cpp <288:15 288:18>]
-REFERENCE_TYPE_USAGE bool b2GearJoint::SolvePositionConstraints(const b2SolverData &) -> b2Vec2 [b2GearJoint.cpp <288:2 288:7>]
-SYMBOL_FUNCTION void b2Vec2::b2Vec2()
 REFERENCE_CALL bool b2GearJoint::SolvePositionConstraints(const b2SolverData &) -> void b2Vec2::b2Vec2() [b2GearJoint.cpp <288:15 288:18>]
 LOCAL_SYMBOL: b2GearJoint.cpp<289:10> [b2GearJoint.cpp <289:10 289:12>]
 REFERENCE_TYPE_USAGE bool b2GearJoint::SolvePositionConstraints(const b2SolverData &) -> float32 [b2GearJoint.cpp <289:2 289:8>]
 LOCAL_SYMBOL: b2GearJoint.cpp<289:15> [b2GearJoint.cpp <289:15 289:17>]
-REFERENCE_TYPE_USAGE bool b2GearJoint::SolvePositionConstraints(const b2SolverData &) -> float32 [b2GearJoint.cpp <289:2 289:8>]
 LOCAL_SYMBOL: b2GearJoint.cpp<289:20> [b2GearJoint.cpp <289:20 289:22>]
-REFERENCE_TYPE_USAGE bool b2GearJoint::SolvePositionConstraints(const b2SolverData &) -> float32 [b2GearJoint.cpp <289:2 289:8>]
 LOCAL_SYMBOL: b2GearJoint.cpp<289:25> [b2GearJoint.cpp <289:25 289:27>]
-REFERENCE_TYPE_USAGE bool b2GearJoint::SolvePositionConstraints(const b2SolverData &) -> float32 [b2GearJoint.cpp <289:2 289:8>]
 LOCAL_SYMBOL: b2GearJoint.cpp<290:10> [b2GearJoint.cpp <290:10 290:13>]
 REFERENCE_TYPE_USAGE bool b2GearJoint::SolvePositionConstraints(const b2SolverData &) -> float32 [b2GearJoint.cpp <290:2 290:8>]
 REFERENCE_USAGE bool b2GearJoint::SolvePositionConstraints(const b2SolverData &) -> b2JointType b2GearJoint::m_typeA [b2GearJoint.cpp <292:6 292:12>]
 REFERENCE_USAGE bool b2GearJoint::SolvePositionConstraints(const b2SolverData &) -> b2JointType::e_revoluteJoint [b2GearJoint.cpp <292:17 292:31>]
-SYMBOL_FUNCTION void b2Vec2::SetZero()
 REFERENCE_CALL bool b2GearJoint::SolvePositionConstraints(const b2SolverData &) -> void b2Vec2::SetZero() [b2GearJoint.cpp <294:8 294:14>]
 LOCAL_SYMBOL: b2GearJoint.cpp<288:9> [b2GearJoint.cpp <294:3 294:6>]
 LOCAL_SYMBOL: b2GearJoint.cpp<289:10> [b2GearJoint.cpp <295:3 295:5>]
@@ -1068,39 +921,31 @@ LOCAL_SYMBOL: b2GearJoint.cpp<278:10> [b2GearJoint.cpp <299:22 299:23>]
 REFERENCE_USAGE bool b2GearJoint::SolvePositionConstraints(const b2SolverData &) -> float32 b2GearJoint::m_referenceAngleA [b2GearJoint.cpp <299:27 299:43>]
 LOCAL_SYMBOL: b2GearJoint.cpp<303:10> [b2GearJoint.cpp <303:10 303:10>]
 REFERENCE_TYPE_USAGE bool b2GearJoint::SolvePositionConstraints(const b2SolverData &) -> b2Vec2 [b2GearJoint.cpp <303:3 303:8>]
-SYMBOL_FUNCTION b2Vec2 b2Mul(const b2Rot &, const b2Vec2 &)
 REFERENCE_CALL bool b2GearJoint::SolvePositionConstraints(const b2SolverData &) -> b2Vec2 b2Mul(const b2Rot &, const b2Vec2 &) [b2GearJoint.cpp <303:14 303:18>]
 LOCAL_SYMBOL: b2GearJoint.cpp<282:24> [b2GearJoint.cpp <303:20 303:21>]
 REFERENCE_USAGE bool b2GearJoint::SolvePositionConstraints(const b2SolverData &) -> b2Vec2 b2GearJoint::m_localAxisC [b2GearJoint.cpp <303:24 303:35>]
 LOCAL_SYMBOL: b2GearJoint.cpp<304:10> [b2GearJoint.cpp <304:10 304:11>]
 REFERENCE_TYPE_USAGE bool b2GearJoint::SolvePositionConstraints(const b2SolverData &) -> b2Vec2 [b2GearJoint.cpp <304:3 304:8>]
-SYMBOL_FUNCTION b2Vec2 b2Mul(const b2Rot &, const b2Vec2 &)
 REFERENCE_CALL bool b2GearJoint::SolvePositionConstraints(const b2SolverData &) -> b2Vec2 b2Mul(const b2Rot &, const b2Vec2 &) [b2GearJoint.cpp <304:15 304:19>]
 LOCAL_SYMBOL: b2GearJoint.cpp<282:24> [b2GearJoint.cpp <304:21 304:22>]
-SYMBOL_FUNCTION b2Vec2 operator-(const b2Vec2 &, const b2Vec2 &)
 REFERENCE_CALL bool b2GearJoint::SolvePositionConstraints(const b2SolverData &) -> b2Vec2 operator-(const b2Vec2 &, const b2Vec2 &) [b2GearJoint.cpp <304:40 304:40>]
 REFERENCE_USAGE bool b2GearJoint::SolvePositionConstraints(const b2SolverData &) -> b2Vec2 b2GearJoint::m_localAnchorC [b2GearJoint.cpp <304:25 304:38>]
 REFERENCE_USAGE bool b2GearJoint::SolvePositionConstraints(const b2SolverData &) -> b2Vec2 b2GearJoint::m_lcC [b2GearJoint.cpp <304:42 304:46>]
 LOCAL_SYMBOL: b2GearJoint.cpp<305:10> [b2GearJoint.cpp <305:10 305:11>]
 REFERENCE_TYPE_USAGE bool b2GearJoint::SolvePositionConstraints(const b2SolverData &) -> b2Vec2 [b2GearJoint.cpp <305:3 305:8>]
-SYMBOL_FUNCTION b2Vec2 b2Mul(const b2Rot &, const b2Vec2 &)
 REFERENCE_CALL bool b2GearJoint::SolvePositionConstraints(const b2SolverData &) -> b2Vec2 b2Mul(const b2Rot &, const b2Vec2 &) [b2GearJoint.cpp <305:15 305:19>]
 LOCAL_SYMBOL: b2GearJoint.cpp<282:8> [b2GearJoint.cpp <305:21 305:22>]
-SYMBOL_FUNCTION b2Vec2 operator-(const b2Vec2 &, const b2Vec2 &)
 REFERENCE_CALL bool b2GearJoint::SolvePositionConstraints(const b2SolverData &) -> b2Vec2 operator-(const b2Vec2 &, const b2Vec2 &) [b2GearJoint.cpp <305:40 305:40>]
 REFERENCE_USAGE bool b2GearJoint::SolvePositionConstraints(const b2SolverData &) -> b2Vec2 b2GearJoint::m_localAnchorA [b2GearJoint.cpp <305:25 305:38>]
 REFERENCE_USAGE bool b2GearJoint::SolvePositionConstraints(const b2SolverData &) -> b2Vec2 b2GearJoint::m_lcA [b2GearJoint.cpp <305:42 305:46>]
-SYMBOL_FUNCTION b2Vec2 & b2Vec2::operator=(const b2Vec2 &)
 REFERENCE_CALL bool b2GearJoint::SolvePositionConstraints(const b2SolverData &) -> b2Vec2 & b2Vec2::operator=(const b2Vec2 &) [b2GearJoint.cpp <306:8 306:8>]
 LOCAL_SYMBOL: b2GearJoint.cpp<288:9> [b2GearJoint.cpp <306:3 306:6>]
 LOCAL_SYMBOL: b2GearJoint.cpp<303:10> [b2GearJoint.cpp <306:10 306:10>]
 LOCAL_SYMBOL: b2GearJoint.cpp<289:20> [b2GearJoint.cpp <307:3 307:5>]
-SYMBOL_FUNCTION float32 b2Cross(const b2Vec2 &, const b2Vec2 &)
 REFERENCE_CALL bool b2GearJoint::SolvePositionConstraints(const b2SolverData &) -> float32 b2Cross(const b2Vec2 &, const b2Vec2 &) [b2GearJoint.cpp <307:9 307:15>]
 LOCAL_SYMBOL: b2GearJoint.cpp<304:10> [b2GearJoint.cpp <307:17 307:18>]
 LOCAL_SYMBOL: b2GearJoint.cpp<303:10> [b2GearJoint.cpp <307:21 307:21>]
 LOCAL_SYMBOL: b2GearJoint.cpp<289:10> [b2GearJoint.cpp <308:3 308:5>]
-SYMBOL_FUNCTION float32 b2Cross(const b2Vec2 &, const b2Vec2 &)
 REFERENCE_CALL bool b2GearJoint::SolvePositionConstraints(const b2SolverData &) -> float32 b2Cross(const b2Vec2 &, const b2Vec2 &) [b2GearJoint.cpp <308:9 308:15>]
 LOCAL_SYMBOL: b2GearJoint.cpp<305:10> [b2GearJoint.cpp <308:17 308:18>]
 LOCAL_SYMBOL: b2GearJoint.cpp<303:10> [b2GearJoint.cpp <308:21 308:21>]
@@ -1115,33 +960,26 @@ LOCAL_SYMBOL: b2GearJoint.cpp<289:10> [b2GearJoint.cpp <309:51 309:53>]
 LOCAL_SYMBOL: b2GearJoint.cpp<289:10> [b2GearJoint.cpp <309:57 309:59>]
 LOCAL_SYMBOL: b2GearJoint.cpp<311:10> [b2GearJoint.cpp <311:10 311:11>]
 REFERENCE_TYPE_USAGE bool b2GearJoint::SolvePositionConstraints(const b2SolverData &) -> b2Vec2 [b2GearJoint.cpp <311:3 311:8>]
-SYMBOL_FUNCTION b2Vec2 operator-(const b2Vec2 &, const b2Vec2 &)
 REFERENCE_CALL bool b2GearJoint::SolvePositionConstraints(const b2SolverData &) -> b2Vec2 operator-(const b2Vec2 &, const b2Vec2 &) [b2GearJoint.cpp <311:30 311:30>]
 REFERENCE_USAGE bool b2GearJoint::SolvePositionConstraints(const b2SolverData &) -> b2Vec2 b2GearJoint::m_localAnchorC [b2GearJoint.cpp <311:15 311:28>]
 REFERENCE_USAGE bool b2GearJoint::SolvePositionConstraints(const b2SolverData &) -> b2Vec2 b2GearJoint::m_lcC [b2GearJoint.cpp <311:32 311:36>]
 LOCAL_SYMBOL: b2GearJoint.cpp<312:10> [b2GearJoint.cpp <312:10 312:11>]
 REFERENCE_TYPE_USAGE bool b2GearJoint::SolvePositionConstraints(const b2SolverData &) -> b2Vec2 [b2GearJoint.cpp <312:3 312:8>]
-SYMBOL_FUNCTION b2Vec2 b2MulT(const b2Rot &, const b2Vec2 &)
 REFERENCE_CALL bool b2GearJoint::SolvePositionConstraints(const b2SolverData &) -> b2Vec2 b2MulT(const b2Rot &, const b2Vec2 &) [b2GearJoint.cpp <312:15 312:20>]
 LOCAL_SYMBOL: b2GearJoint.cpp<282:24> [b2GearJoint.cpp <312:22 312:23>]
-SYMBOL_FUNCTION b2Vec2 operator+(const b2Vec2 &, const b2Vec2 &)
 REFERENCE_CALL bool b2GearJoint::SolvePositionConstraints(const b2SolverData &) -> b2Vec2 operator+(const b2Vec2 &, const b2Vec2 &) [b2GearJoint.cpp <312:29 312:29>]
 LOCAL_SYMBOL: b2GearJoint.cpp<305:10> [b2GearJoint.cpp <312:26 312:27>]
-SYMBOL_FUNCTION b2Vec2 operator-(const b2Vec2 &, const b2Vec2 &)
 REFERENCE_CALL bool b2GearJoint::SolvePositionConstraints(const b2SolverData &) -> b2Vec2 operator-(const b2Vec2 &, const b2Vec2 &) [b2GearJoint.cpp <312:35 312:35>]
 LOCAL_SYMBOL: b2GearJoint.cpp<273:9> [b2GearJoint.cpp <312:32 312:33>]
 LOCAL_SYMBOL: b2GearJoint.cpp<277:9> [b2GearJoint.cpp <312:37 312:38>]
 LOCAL_SYMBOL: b2GearJoint.cpp<286:10> [b2GearJoint.cpp <313:3 313:13>]
-SYMBOL_FUNCTION float32 b2Dot(const b2Vec2 &, const b2Vec2 &)
 REFERENCE_CALL bool b2GearJoint::SolvePositionConstraints(const b2SolverData &) -> float32 b2Dot(const b2Vec2 &, const b2Vec2 &) [b2GearJoint.cpp <313:17 313:21>]
-SYMBOL_FUNCTION b2Vec2 operator-(const b2Vec2 &, const b2Vec2 &)
 REFERENCE_CALL bool b2GearJoint::SolvePositionConstraints(const b2SolverData &) -> b2Vec2 operator-(const b2Vec2 &, const b2Vec2 &) [b2GearJoint.cpp <313:26 313:26>]
 LOCAL_SYMBOL: b2GearJoint.cpp<312:10> [b2GearJoint.cpp <313:23 313:24>]
 LOCAL_SYMBOL: b2GearJoint.cpp<311:10> [b2GearJoint.cpp <313:28 313:29>]
 REFERENCE_USAGE bool b2GearJoint::SolvePositionConstraints(const b2SolverData &) -> b2Vec2 b2GearJoint::m_localAxisC [b2GearJoint.cpp <313:32 313:43>]
 REFERENCE_USAGE bool b2GearJoint::SolvePositionConstraints(const b2SolverData &) -> b2JointType b2GearJoint::m_typeB [b2GearJoint.cpp <316:6 316:12>]
 REFERENCE_USAGE bool b2GearJoint::SolvePositionConstraints(const b2SolverData &) -> b2JointType::e_revoluteJoint [b2GearJoint.cpp <316:17 316:31>]
-SYMBOL_FUNCTION void b2Vec2::SetZero()
 REFERENCE_CALL bool b2GearJoint::SolvePositionConstraints(const b2SolverData &) -> void b2Vec2::SetZero() [b2GearJoint.cpp <318:8 318:14>]
 LOCAL_SYMBOL: b2GearJoint.cpp<288:15> [b2GearJoint.cpp <318:3 318:6>]
 LOCAL_SYMBOL: b2GearJoint.cpp<289:15> [b2GearJoint.cpp <319:3 319:5>]
@@ -1159,44 +997,35 @@ LOCAL_SYMBOL: b2GearJoint.cpp<280:10> [b2GearJoint.cpp <323:22 323:23>]
 REFERENCE_USAGE bool b2GearJoint::SolvePositionConstraints(const b2SolverData &) -> float32 b2GearJoint::m_referenceAngleB [b2GearJoint.cpp <323:27 323:43>]
 LOCAL_SYMBOL: b2GearJoint.cpp<327:10> [b2GearJoint.cpp <327:10 327:10>]
 REFERENCE_TYPE_USAGE bool b2GearJoint::SolvePositionConstraints(const b2SolverData &) -> b2Vec2 [b2GearJoint.cpp <327:3 327:8>]
-SYMBOL_FUNCTION b2Vec2 b2Mul(const b2Rot &, const b2Vec2 &)
 REFERENCE_CALL bool b2GearJoint::SolvePositionConstraints(const b2SolverData &) -> b2Vec2 b2Mul(const b2Rot &, const b2Vec2 &) [b2GearJoint.cpp <327:14 327:18>]
 LOCAL_SYMBOL: b2GearJoint.cpp<282:32> [b2GearJoint.cpp <327:20 327:21>]
 REFERENCE_USAGE bool b2GearJoint::SolvePositionConstraints(const b2SolverData &) -> b2Vec2 b2GearJoint::m_localAxisD [b2GearJoint.cpp <327:24 327:35>]
 LOCAL_SYMBOL: b2GearJoint.cpp<328:10> [b2GearJoint.cpp <328:10 328:11>]
 REFERENCE_TYPE_USAGE bool b2GearJoint::SolvePositionConstraints(const b2SolverData &) -> b2Vec2 [b2GearJoint.cpp <328:3 328:8>]
-SYMBOL_FUNCTION b2Vec2 b2Mul(const b2Rot &, const b2Vec2 &)
 REFERENCE_CALL bool b2GearJoint::SolvePositionConstraints(const b2SolverData &) -> b2Vec2 b2Mul(const b2Rot &, const b2Vec2 &) [b2GearJoint.cpp <328:15 328:19>]
 LOCAL_SYMBOL: b2GearJoint.cpp<282:32> [b2GearJoint.cpp <328:21 328:22>]
-SYMBOL_FUNCTION b2Vec2 operator-(const b2Vec2 &, const b2Vec2 &)
 REFERENCE_CALL bool b2GearJoint::SolvePositionConstraints(const b2SolverData &) -> b2Vec2 operator-(const b2Vec2 &, const b2Vec2 &) [b2GearJoint.cpp <328:40 328:40>]
 REFERENCE_USAGE bool b2GearJoint::SolvePositionConstraints(const b2SolverData &) -> b2Vec2 b2GearJoint::m_localAnchorD [b2GearJoint.cpp <328:25 328:38>]
 REFERENCE_USAGE bool b2GearJoint::SolvePositionConstraints(const b2SolverData &) -> b2Vec2 b2GearJoint::m_lcD [b2GearJoint.cpp <328:42 328:46>]
 LOCAL_SYMBOL: b2GearJoint.cpp<329:10> [b2GearJoint.cpp <329:10 329:11>]
 REFERENCE_TYPE_USAGE bool b2GearJoint::SolvePositionConstraints(const b2SolverData &) -> b2Vec2 [b2GearJoint.cpp <329:3 329:8>]
-SYMBOL_FUNCTION b2Vec2 b2Mul(const b2Rot &, const b2Vec2 &)
 REFERENCE_CALL bool b2GearJoint::SolvePositionConstraints(const b2SolverData &) -> b2Vec2 b2Mul(const b2Rot &, const b2Vec2 &) [b2GearJoint.cpp <329:15 329:19>]
 LOCAL_SYMBOL: b2GearJoint.cpp<282:16> [b2GearJoint.cpp <329:21 329:22>]
-SYMBOL_FUNCTION b2Vec2 operator-(const b2Vec2 &, const b2Vec2 &)
 REFERENCE_CALL bool b2GearJoint::SolvePositionConstraints(const b2SolverData &) -> b2Vec2 operator-(const b2Vec2 &, const b2Vec2 &) [b2GearJoint.cpp <329:40 329:40>]
 REFERENCE_USAGE bool b2GearJoint::SolvePositionConstraints(const b2SolverData &) -> b2Vec2 b2GearJoint::m_localAnchorB [b2GearJoint.cpp <329:25 329:38>]
 REFERENCE_USAGE bool b2GearJoint::SolvePositionConstraints(const b2SolverData &) -> b2Vec2 b2GearJoint::m_lcB [b2GearJoint.cpp <329:42 329:46>]
-SYMBOL_FUNCTION b2Vec2 & b2Vec2::operator=(b2Vec2 &)
 REFERENCE_CALL bool b2GearJoint::SolvePositionConstraints(const b2SolverData &) -> b2Vec2 & b2Vec2::operator=(b2Vec2 &) [b2GearJoint.cpp <330:8 330:8>]
 LOCAL_SYMBOL: b2GearJoint.cpp<288:15> [b2GearJoint.cpp <330:3 330:6>]
-SYMBOL_FUNCTION b2Vec2 operator*(float32, const b2Vec2 &)
 REFERENCE_CALL bool b2GearJoint::SolvePositionConstraints(const b2SolverData &) -> b2Vec2 operator*(float32, const b2Vec2 &) [b2GearJoint.cpp <330:18 330:18>]
 REFERENCE_USAGE bool b2GearJoint::SolvePositionConstraints(const b2SolverData &) -> float32 b2GearJoint::m_ratio [b2GearJoint.cpp <330:10 330:16>]
 LOCAL_SYMBOL: b2GearJoint.cpp<327:10> [b2GearJoint.cpp <330:20 330:20>]
 LOCAL_SYMBOL: b2GearJoint.cpp<289:25> [b2GearJoint.cpp <331:3 331:5>]
 REFERENCE_USAGE bool b2GearJoint::SolvePositionConstraints(const b2SolverData &) -> float32 b2GearJoint::m_ratio [b2GearJoint.cpp <331:9 331:15>]
-SYMBOL_FUNCTION float32 b2Cross(const b2Vec2 &, const b2Vec2 &)
 REFERENCE_CALL bool b2GearJoint::SolvePositionConstraints(const b2SolverData &) -> float32 b2Cross(const b2Vec2 &, const b2Vec2 &) [b2GearJoint.cpp <331:19 331:25>]
 LOCAL_SYMBOL: b2GearJoint.cpp<328:10> [b2GearJoint.cpp <331:27 331:28>]
 LOCAL_SYMBOL: b2GearJoint.cpp<327:10> [b2GearJoint.cpp <331:31 331:31>]
 LOCAL_SYMBOL: b2GearJoint.cpp<289:15> [b2GearJoint.cpp <332:3 332:5>]
 REFERENCE_USAGE bool b2GearJoint::SolvePositionConstraints(const b2SolverData &) -> float32 b2GearJoint::m_ratio [b2GearJoint.cpp <332:9 332:15>]
-SYMBOL_FUNCTION float32 b2Cross(const b2Vec2 &, const b2Vec2 &)
 REFERENCE_CALL bool b2GearJoint::SolvePositionConstraints(const b2SolverData &) -> float32 b2Cross(const b2Vec2 &, const b2Vec2 &) [b2GearJoint.cpp <332:19 332:25>]
 LOCAL_SYMBOL: b2GearJoint.cpp<329:10> [b2GearJoint.cpp <332:27 332:28>]
 LOCAL_SYMBOL: b2GearJoint.cpp<327:10> [b2GearJoint.cpp <332:31 332:31>]
@@ -1213,26 +1042,20 @@ LOCAL_SYMBOL: b2GearJoint.cpp<289:15> [b2GearJoint.cpp <333:73 333:75>]
 LOCAL_SYMBOL: b2GearJoint.cpp<289:15> [b2GearJoint.cpp <333:79 333:81>]
 LOCAL_SYMBOL: b2GearJoint.cpp<335:10> [b2GearJoint.cpp <335:10 335:11>]
 REFERENCE_TYPE_USAGE bool b2GearJoint::SolvePositionConstraints(const b2SolverData &) -> b2Vec2 [b2GearJoint.cpp <335:3 335:8>]
-SYMBOL_FUNCTION b2Vec2 operator-(const b2Vec2 &, const b2Vec2 &)
 REFERENCE_CALL bool b2GearJoint::SolvePositionConstraints(const b2SolverData &) -> b2Vec2 operator-(const b2Vec2 &, const b2Vec2 &) [b2GearJoint.cpp <335:30 335:30>]
 REFERENCE_USAGE bool b2GearJoint::SolvePositionConstraints(const b2SolverData &) -> b2Vec2 b2GearJoint::m_localAnchorD [b2GearJoint.cpp <335:15 335:28>]
 REFERENCE_USAGE bool b2GearJoint::SolvePositionConstraints(const b2SolverData &) -> b2Vec2 b2GearJoint::m_lcD [b2GearJoint.cpp <335:32 335:36>]
 LOCAL_SYMBOL: b2GearJoint.cpp<336:10> [b2GearJoint.cpp <336:10 336:11>]
 REFERENCE_TYPE_USAGE bool b2GearJoint::SolvePositionConstraints(const b2SolverData &) -> b2Vec2 [b2GearJoint.cpp <336:3 336:8>]
-SYMBOL_FUNCTION b2Vec2 b2MulT(const b2Rot &, const b2Vec2 &)
 REFERENCE_CALL bool b2GearJoint::SolvePositionConstraints(const b2SolverData &) -> b2Vec2 b2MulT(const b2Rot &, const b2Vec2 &) [b2GearJoint.cpp <336:15 336:20>]
 LOCAL_SYMBOL: b2GearJoint.cpp<282:32> [b2GearJoint.cpp <336:22 336:23>]
-SYMBOL_FUNCTION b2Vec2 operator+(const b2Vec2 &, const b2Vec2 &)
 REFERENCE_CALL bool b2GearJoint::SolvePositionConstraints(const b2SolverData &) -> b2Vec2 operator+(const b2Vec2 &, const b2Vec2 &) [b2GearJoint.cpp <336:29 336:29>]
 LOCAL_SYMBOL: b2GearJoint.cpp<329:10> [b2GearJoint.cpp <336:26 336:27>]
-SYMBOL_FUNCTION b2Vec2 operator-(const b2Vec2 &, const b2Vec2 &)
 REFERENCE_CALL bool b2GearJoint::SolvePositionConstraints(const b2SolverData &) -> b2Vec2 operator-(const b2Vec2 &, const b2Vec2 &) [b2GearJoint.cpp <336:35 336:35>]
 LOCAL_SYMBOL: b2GearJoint.cpp<275:9> [b2GearJoint.cpp <336:32 336:33>]
 LOCAL_SYMBOL: b2GearJoint.cpp<279:9> [b2GearJoint.cpp <336:37 336:38>]
 LOCAL_SYMBOL: b2GearJoint.cpp<286:23> [b2GearJoint.cpp <337:3 337:13>]
-SYMBOL_FUNCTION float32 b2Dot(const b2Vec2 &, const b2Vec2 &)
 REFERENCE_CALL bool b2GearJoint::SolvePositionConstraints(const b2SolverData &) -> float32 b2Dot(const b2Vec2 &, const b2Vec2 &) [b2GearJoint.cpp <337:17 337:21>]
-SYMBOL_FUNCTION b2Vec2 operator-(const b2Vec2 &, const b2Vec2 &)
 REFERENCE_CALL bool b2GearJoint::SolvePositionConstraints(const b2SolverData &) -> b2Vec2 operator-(const b2Vec2 &, const b2Vec2 &) [b2GearJoint.cpp <337:26 337:26>]
 LOCAL_SYMBOL: b2GearJoint.cpp<336:10> [b2GearJoint.cpp <337:23 337:24>]
 LOCAL_SYMBOL: b2GearJoint.cpp<335:10> [b2GearJoint.cpp <337:28 337:29>]
@@ -1249,10 +1072,8 @@ LOCAL_SYMBOL: b2GearJoint.cpp<290:10> [b2GearJoint.cpp <343:6 343:9>]
 LOCAL_SYMBOL: b2GearJoint.cpp<342:10> [b2GearJoint.cpp <345:3 345:9>]
 LOCAL_SYMBOL: b2GearJoint.cpp<340:10> [b2GearJoint.cpp <345:14 345:14>]
 LOCAL_SYMBOL: b2GearJoint.cpp<290:10> [b2GearJoint.cpp <345:18 345:21>]
-SYMBOL_FUNCTION void b2Vec2::operator+=(const b2Vec2 &)
 REFERENCE_CALL bool b2GearJoint::SolvePositionConstraints(const b2SolverData &) -> void b2Vec2::operator+=(const b2Vec2 &) [b2GearJoint.cpp <348:5 348:6>]
 LOCAL_SYMBOL: b2GearJoint.cpp<273:9> [b2GearJoint.cpp <348:2 348:3>]
-SYMBOL_FUNCTION b2Vec2 operator*(float32, const b2Vec2 &)
 REFERENCE_CALL bool b2GearJoint::SolvePositionConstraints(const b2SolverData &) -> b2Vec2 operator*(float32, const b2Vec2 &) [b2GearJoint.cpp <348:23 348:23>]
 REFERENCE_USAGE bool b2GearJoint::SolvePositionConstraints(const b2SolverData &) -> float32 b2GearJoint::m_mA [b2GearJoint.cpp <348:8 348:11>]
 LOCAL_SYMBOL: b2GearJoint.cpp<342:10> [b2GearJoint.cpp <348:15 348:21>]
@@ -1261,10 +1082,8 @@ LOCAL_SYMBOL: b2GearJoint.cpp<274:10> [b2GearJoint.cpp <349:2 349:3>]
 REFERENCE_USAGE bool b2GearJoint::SolvePositionConstraints(const b2SolverData &) -> float32 b2GearJoint::m_iA [b2GearJoint.cpp <349:8 349:11>]
 LOCAL_SYMBOL: b2GearJoint.cpp<342:10> [b2GearJoint.cpp <349:15 349:21>]
 LOCAL_SYMBOL: b2GearJoint.cpp<289:10> [b2GearJoint.cpp <349:25 349:27>]
-SYMBOL_FUNCTION void b2Vec2::operator+=(const b2Vec2 &)
 REFERENCE_CALL bool b2GearJoint::SolvePositionConstraints(const b2SolverData &) -> void b2Vec2::operator+=(const b2Vec2 &) [b2GearJoint.cpp <350:5 350:6>]
 LOCAL_SYMBOL: b2GearJoint.cpp<275:9> [b2GearJoint.cpp <350:2 350:3>]
-SYMBOL_FUNCTION b2Vec2 operator*(float32, const b2Vec2 &)
 REFERENCE_CALL bool b2GearJoint::SolvePositionConstraints(const b2SolverData &) -> b2Vec2 operator*(float32, const b2Vec2 &) [b2GearJoint.cpp <350:23 350:23>]
 REFERENCE_USAGE bool b2GearJoint::SolvePositionConstraints(const b2SolverData &) -> float32 b2GearJoint::m_mB [b2GearJoint.cpp <350:8 350:11>]
 LOCAL_SYMBOL: b2GearJoint.cpp<342:10> [b2GearJoint.cpp <350:15 350:21>]
@@ -1273,10 +1092,8 @@ LOCAL_SYMBOL: b2GearJoint.cpp<276:10> [b2GearJoint.cpp <351:2 351:3>]
 REFERENCE_USAGE bool b2GearJoint::SolvePositionConstraints(const b2SolverData &) -> float32 b2GearJoint::m_iB [b2GearJoint.cpp <351:8 351:11>]
 LOCAL_SYMBOL: b2GearJoint.cpp<342:10> [b2GearJoint.cpp <351:15 351:21>]
 LOCAL_SYMBOL: b2GearJoint.cpp<289:15> [b2GearJoint.cpp <351:25 351:27>]
-SYMBOL_FUNCTION void b2Vec2::operator-=(const b2Vec2 &)
 REFERENCE_CALL bool b2GearJoint::SolvePositionConstraints(const b2SolverData &) -> void b2Vec2::operator-=(const b2Vec2 &) [b2GearJoint.cpp <352:5 352:6>]
 LOCAL_SYMBOL: b2GearJoint.cpp<277:9> [b2GearJoint.cpp <352:2 352:3>]
-SYMBOL_FUNCTION b2Vec2 operator*(float32, const b2Vec2 &)
 REFERENCE_CALL bool b2GearJoint::SolvePositionConstraints(const b2SolverData &) -> b2Vec2 operator*(float32, const b2Vec2 &) [b2GearJoint.cpp <352:23 352:23>]
 REFERENCE_USAGE bool b2GearJoint::SolvePositionConstraints(const b2SolverData &) -> float32 b2GearJoint::m_mC [b2GearJoint.cpp <352:8 352:11>]
 LOCAL_SYMBOL: b2GearJoint.cpp<342:10> [b2GearJoint.cpp <352:15 352:21>]
@@ -1285,10 +1102,8 @@ LOCAL_SYMBOL: b2GearJoint.cpp<278:10> [b2GearJoint.cpp <353:2 353:3>]
 REFERENCE_USAGE bool b2GearJoint::SolvePositionConstraints(const b2SolverData &) -> float32 b2GearJoint::m_iC [b2GearJoint.cpp <353:8 353:11>]
 LOCAL_SYMBOL: b2GearJoint.cpp<342:10> [b2GearJoint.cpp <353:15 353:21>]
 LOCAL_SYMBOL: b2GearJoint.cpp<289:20> [b2GearJoint.cpp <353:25 353:27>]
-SYMBOL_FUNCTION void b2Vec2::operator-=(const b2Vec2 &)
 REFERENCE_CALL bool b2GearJoint::SolvePositionConstraints(const b2SolverData &) -> void b2Vec2::operator-=(const b2Vec2 &) [b2GearJoint.cpp <354:5 354:6>]
 LOCAL_SYMBOL: b2GearJoint.cpp<279:9> [b2GearJoint.cpp <354:2 354:3>]
-SYMBOL_FUNCTION b2Vec2 operator*(float32, const b2Vec2 &)
 REFERENCE_CALL bool b2GearJoint::SolvePositionConstraints(const b2SolverData &) -> b2Vec2 operator*(float32, const b2Vec2 &) [b2GearJoint.cpp <354:23 354:23>]
 REFERENCE_USAGE bool b2GearJoint::SolvePositionConstraints(const b2SolverData &) -> float32 b2GearJoint::m_mD [b2GearJoint.cpp <354:8 354:11>]
 LOCAL_SYMBOL: b2GearJoint.cpp<342:10> [b2GearJoint.cpp <354:15 354:21>]
@@ -1297,7 +1112,6 @@ LOCAL_SYMBOL: b2GearJoint.cpp<280:10> [b2GearJoint.cpp <355:2 355:3>]
 REFERENCE_USAGE bool b2GearJoint::SolvePositionConstraints(const b2SolverData &) -> float32 b2GearJoint::m_iD [b2GearJoint.cpp <355:8 355:11>]
 LOCAL_SYMBOL: b2GearJoint.cpp<342:10> [b2GearJoint.cpp <355:15 355:21>]
 LOCAL_SYMBOL: b2GearJoint.cpp<289:25> [b2GearJoint.cpp <355:25 355:27>]
-SYMBOL_FUNCTION b2Vec2 & b2Vec2::operator=(const b2Vec2 &)
 REFERENCE_CALL bool b2GearJoint::SolvePositionConstraints(const b2SolverData &) -> b2Vec2 & b2Vec2::operator=(const b2Vec2 &) [b2GearJoint.cpp <357:29 357:29>]
 REFERENCE_USAGE bool b2GearJoint::SolvePositionConstraints(const b2SolverData &) -> b2Vec2 b2Position::c [b2GearJoint.cpp <357:27 357:27>]
 REFERENCE_USAGE bool b2GearJoint::SolvePositionConstraints(const b2SolverData &) -> b2Position * b2SolverData::positions [b2GearJoint.cpp <357:7 357:15>]
@@ -1309,7 +1123,6 @@ REFERENCE_USAGE bool b2GearJoint::SolvePositionConstraints(const b2SolverData &)
 LOCAL_SYMBOL: b2GearJoint.cpp<271:64> [b2GearJoint.cpp <358:2 358:5>]
 REFERENCE_USAGE bool b2GearJoint::SolvePositionConstraints(const b2SolverData &) -> int32 b2GearJoint::m_indexA [b2GearJoint.cpp <358:17 358:24>]
 LOCAL_SYMBOL: b2GearJoint.cpp<274:10> [b2GearJoint.cpp <358:31 358:32>]
-SYMBOL_FUNCTION b2Vec2 & b2Vec2::operator=(const b2Vec2 &)
 REFERENCE_CALL bool b2GearJoint::SolvePositionConstraints(const b2SolverData &) -> b2Vec2 & b2Vec2::operator=(const b2Vec2 &) [b2GearJoint.cpp <359:29 359:29>]
 REFERENCE_USAGE bool b2GearJoint::SolvePositionConstraints(const b2SolverData &) -> b2Vec2 b2Position::c [b2GearJoint.cpp <359:27 359:27>]
 REFERENCE_USAGE bool b2GearJoint::SolvePositionConstraints(const b2SolverData &) -> b2Position * b2SolverData::positions [b2GearJoint.cpp <359:7 359:15>]
@@ -1321,7 +1134,6 @@ REFERENCE_USAGE bool b2GearJoint::SolvePositionConstraints(const b2SolverData &)
 LOCAL_SYMBOL: b2GearJoint.cpp<271:64> [b2GearJoint.cpp <360:2 360:5>]
 REFERENCE_USAGE bool b2GearJoint::SolvePositionConstraints(const b2SolverData &) -> int32 b2GearJoint::m_indexB [b2GearJoint.cpp <360:17 360:24>]
 LOCAL_SYMBOL: b2GearJoint.cpp<276:10> [b2GearJoint.cpp <360:31 360:32>]
-SYMBOL_FUNCTION b2Vec2 & b2Vec2::operator=(const b2Vec2 &)
 REFERENCE_CALL bool b2GearJoint::SolvePositionConstraints(const b2SolverData &) -> b2Vec2 & b2Vec2::operator=(const b2Vec2 &) [b2GearJoint.cpp <361:29 361:29>]
 REFERENCE_USAGE bool b2GearJoint::SolvePositionConstraints(const b2SolverData &) -> b2Vec2 b2Position::c [b2GearJoint.cpp <361:27 361:27>]
 REFERENCE_USAGE bool b2GearJoint::SolvePositionConstraints(const b2SolverData &) -> b2Position * b2SolverData::positions [b2GearJoint.cpp <361:7 361:15>]
@@ -1333,7 +1145,6 @@ REFERENCE_USAGE bool b2GearJoint::SolvePositionConstraints(const b2SolverData &)
 LOCAL_SYMBOL: b2GearJoint.cpp<271:64> [b2GearJoint.cpp <362:2 362:5>]
 REFERENCE_USAGE bool b2GearJoint::SolvePositionConstraints(const b2SolverData &) -> int32 b2GearJoint::m_indexC [b2GearJoint.cpp <362:17 362:24>]
 LOCAL_SYMBOL: b2GearJoint.cpp<278:10> [b2GearJoint.cpp <362:31 362:32>]
-SYMBOL_FUNCTION b2Vec2 & b2Vec2::operator=(const b2Vec2 &)
 REFERENCE_CALL bool b2GearJoint::SolvePositionConstraints(const b2SolverData &) -> b2Vec2 & b2Vec2::operator=(const b2Vec2 &) [b2GearJoint.cpp <363:29 363:29>]
 REFERENCE_USAGE bool b2GearJoint::SolvePositionConstraints(const b2SolverData &) -> b2Vec2 b2Position::c [b2GearJoint.cpp <363:27 363:27>]
 REFERENCE_USAGE bool b2GearJoint::SolvePositionConstraints(const b2SolverData &) -> b2Position * b2SolverData::positions [b2GearJoint.cpp <363:7 363:15>]
@@ -1349,7 +1160,7 @@ LOCAL_SYMBOL: b2GearJoint.cpp<284:10> [b2GearJoint.cpp <367:9 367:19>]
 SYMBOL_METHOD public b2Vec2 b2GearJoint::GetAnchorA() const [b2GearJoint.cpp <370:1 <370:21 370:30> 373:1>]
 SYMBOL_FUNCTION b2Vec2 b2Joint::GetAnchorA() const
 REFERENCE_OVERRIDE b2Vec2 b2GearJoint::GetAnchorA() const -> b2Vec2 b2Joint::GetAnchorA() const [b2GearJoint.cpp <370:21 370:30>]
-SYMBOL_CLASS b2GearJoint
+QUALIFIER: b2GearJoint [b2GearJoint.cpp <370:8 370:18>]
 REFERENCE_TYPE_USAGE b2Vec2 b2GearJoint::GetAnchorA() const -> b2Vec2 [b2GearJoint.cpp <370:1 370:6>]
 SYMBOL_FUNCTION b2Vec2 b2Body::GetWorldPoint(const b2Vec2 &) const
 REFERENCE_CALL b2Vec2 b2GearJoint::GetAnchorA() const -> b2Vec2 b2Body::GetWorldPoint(const b2Vec2 &) const [b2GearJoint.cpp <372:18 372:30>]
@@ -1358,33 +1169,30 @@ REFERENCE_USAGE b2Vec2 b2GearJoint::GetAnchorA() const -> b2Vec2 b2GearJoint::m_
 SYMBOL_METHOD public b2Vec2 b2GearJoint::GetAnchorB() const [b2GearJoint.cpp <375:1 <375:21 375:30> 378:1>]
 SYMBOL_FUNCTION b2Vec2 b2Joint::GetAnchorB() const
 REFERENCE_OVERRIDE b2Vec2 b2GearJoint::GetAnchorB() const -> b2Vec2 b2Joint::GetAnchorB() const [b2GearJoint.cpp <375:21 375:30>]
-SYMBOL_CLASS b2GearJoint
+QUALIFIER: b2GearJoint [b2GearJoint.cpp <375:8 375:18>]
 REFERENCE_TYPE_USAGE b2Vec2 b2GearJoint::GetAnchorB() const -> b2Vec2 [b2GearJoint.cpp <375:1 375:6>]
-SYMBOL_FUNCTION b2Vec2 b2Body::GetWorldPoint(const b2Vec2 &) const
 REFERENCE_CALL b2Vec2 b2GearJoint::GetAnchorB() const -> b2Vec2 b2Body::GetWorldPoint(const b2Vec2 &) const [b2GearJoint.cpp <377:18 377:30>]
 REFERENCE_USAGE b2Vec2 b2GearJoint::GetAnchorB() const -> b2Body * b2Joint::m_bodyB [b2GearJoint.cpp <377:9 377:15>]
 REFERENCE_USAGE b2Vec2 b2GearJoint::GetAnchorB() const -> b2Vec2 b2GearJoint::m_localAnchorB [b2GearJoint.cpp <377:32 377:45>]
 SYMBOL_METHOD public b2Vec2 b2GearJoint::GetReactionForce(float32) const [b2GearJoint.cpp <380:1 <380:21 380:36> 384:1>]
 SYMBOL_FUNCTION b2Vec2 b2Joint::GetReactionForce(float32) const
 REFERENCE_OVERRIDE b2Vec2 b2GearJoint::GetReactionForce(float32) const -> b2Vec2 b2Joint::GetReactionForce(float32) const [b2GearJoint.cpp <380:21 380:36>]
-SYMBOL_CLASS b2GearJoint
+QUALIFIER: b2GearJoint [b2GearJoint.cpp <380:8 380:18>]
 REFERENCE_TYPE_USAGE b2Vec2 b2GearJoint::GetReactionForce(float32) const -> b2Vec2 [b2GearJoint.cpp <380:1 380:6>]
 LOCAL_SYMBOL: b2GearJoint.cpp<380:46> [b2GearJoint.cpp <380:46 380:51>]
 REFERENCE_TYPE_USAGE b2Vec2 b2GearJoint::GetReactionForce(float32) const -> float32 [b2GearJoint.cpp <380:38 380:44>]
 LOCAL_SYMBOL: b2GearJoint.cpp<382:9> [b2GearJoint.cpp <382:9 382:9>]
 REFERENCE_TYPE_USAGE b2Vec2 b2GearJoint::GetReactionForce(float32) const -> b2Vec2 [b2GearJoint.cpp <382:2 382:7>]
-SYMBOL_FUNCTION b2Vec2 operator*(float32, const b2Vec2 &)
 REFERENCE_CALL b2Vec2 b2GearJoint::GetReactionForce(float32) const -> b2Vec2 operator*(float32, const b2Vec2 &) [b2GearJoint.cpp <382:23 382:23>]
 REFERENCE_USAGE b2Vec2 b2GearJoint::GetReactionForce(float32) const -> float32 b2GearJoint::m_impulse [b2GearJoint.cpp <382:13 382:21>]
 REFERENCE_USAGE b2Vec2 b2GearJoint::GetReactionForce(float32) const -> b2Vec2 b2GearJoint::m_JvAC [b2GearJoint.cpp <382:25 382:30>]
-SYMBOL_FUNCTION b2Vec2 operator*(float32, const b2Vec2 &)
 REFERENCE_CALL b2Vec2 b2GearJoint::GetReactionForce(float32) const -> b2Vec2 operator*(float32, const b2Vec2 &) [b2GearJoint.cpp <383:16 383:16>]
 LOCAL_SYMBOL: b2GearJoint.cpp<380:46> [b2GearJoint.cpp <383:9 383:14>]
 LOCAL_SYMBOL: b2GearJoint.cpp<382:9> [b2GearJoint.cpp <383:18 383:18>]
 SYMBOL_METHOD public float32 b2GearJoint::GetReactionTorque(float32) const [b2GearJoint.cpp <386:1 <386:22 386:38> 390:1>]
 SYMBOL_FUNCTION float32 b2Joint::GetReactionTorque(float32) const
 REFERENCE_OVERRIDE float32 b2GearJoint::GetReactionTorque(float32) const -> float32 b2Joint::GetReactionTorque(float32) const [b2GearJoint.cpp <386:22 386:38>]
-SYMBOL_CLASS b2GearJoint
+QUALIFIER: b2GearJoint [b2GearJoint.cpp <386:9 386:19>]
 REFERENCE_TYPE_USAGE float32 b2GearJoint::GetReactionTorque(float32) const -> float32 [b2GearJoint.cpp <386:1 386:7>]
 LOCAL_SYMBOL: b2GearJoint.cpp<386:48> [b2GearJoint.cpp <386:48 386:53>]
 REFERENCE_TYPE_USAGE float32 b2GearJoint::GetReactionTorque(float32) const -> float32 [b2GearJoint.cpp <386:40 386:46>]
@@ -1395,8 +1203,7 @@ REFERENCE_USAGE float32 b2GearJoint::GetReactionTorque(float32) const -> float32
 LOCAL_SYMBOL: b2GearJoint.cpp<386:48> [b2GearJoint.cpp <389:9 389:14>]
 LOCAL_SYMBOL: b2GearJoint.cpp<388:10> [b2GearJoint.cpp <389:18 389:18>]
 SYMBOL_METHOD public void b2GearJoint::SetRatio(float32) [b2GearJoint.cpp <392:1 <392:19 392:26> 396:1>]
-SYMBOL_CLASS b2GearJoint
-SYMBOL_BUILTIN_TYPE void
+QUALIFIER: b2GearJoint [b2GearJoint.cpp <392:6 392:16>]
 REFERENCE_TYPE_USAGE void b2GearJoint::SetRatio(float32) -> void [b2GearJoint.cpp <392:1 392:4>]
 LOCAL_SYMBOL: b2GearJoint.cpp<392:36> [b2GearJoint.cpp <392:36 392:40>]
 REFERENCE_TYPE_USAGE void b2GearJoint::SetRatio(float32) -> float32 [b2GearJoint.cpp <392:28 392:34>]
@@ -1406,14 +1213,13 @@ LOCAL_SYMBOL: b2GearJoint.cpp<392:36> [b2GearJoint.cpp <394:21 394:25>]
 REFERENCE_USAGE void b2GearJoint::SetRatio(float32) -> float32 b2GearJoint::m_ratio [b2GearJoint.cpp <395:2 395:8>]
 LOCAL_SYMBOL: b2GearJoint.cpp<392:36> [b2GearJoint.cpp <395:12 395:16>]
 SYMBOL_METHOD public float32 b2GearJoint::GetRatio() const [b2GearJoint.cpp <398:1 <398:22 398:29> 401:1>]
-SYMBOL_CLASS b2GearJoint
+QUALIFIER: b2GearJoint [b2GearJoint.cpp <398:9 398:19>]
 REFERENCE_TYPE_USAGE float32 b2GearJoint::GetRatio() const -> float32 [b2GearJoint.cpp <398:1 398:7>]
 REFERENCE_USAGE float32 b2GearJoint::GetRatio() const -> float32 b2GearJoint::m_ratio [b2GearJoint.cpp <400:9 400:15>]
 SYMBOL_METHOD public void b2GearJoint::Dump() [b2GearJoint.cpp <403:1 <403:19 403:22> 419:1>]
 SYMBOL_FUNCTION void b2Joint::Dump()
 REFERENCE_OVERRIDE void b2GearJoint::Dump() -> void b2Joint::Dump() [b2GearJoint.cpp <403:19 403:22>]
-SYMBOL_CLASS b2GearJoint
-SYMBOL_BUILTIN_TYPE void
+QUALIFIER: b2GearJoint [b2GearJoint.cpp <403:6 403:16>]
 REFERENCE_TYPE_USAGE void b2GearJoint::Dump() -> void [b2GearJoint.cpp <403:1 403:4>]
 LOCAL_SYMBOL: b2GearJoint.cpp<405:8> [b2GearJoint.cpp <405:8 405:13>]
 REFERENCE_TYPE_USAGE void b2GearJoint::Dump() -> int32 [b2GearJoint.cpp <405:2 405:6>]
@@ -1433,24 +1239,17 @@ REFERENCE_USAGE void b2GearJoint::Dump() -> int32 b2Joint::m_index [b2GearJoint.
 REFERENCE_USAGE void b2GearJoint::Dump() -> b2Joint * b2GearJoint::m_joint2 [b2GearJoint.cpp <409:17 409:24>]
 SYMBOL_FUNCTION void b2Log(const char *)
 REFERENCE_CALL void b2GearJoint::Dump() -> void b2Log(const char *) [b2GearJoint.cpp <411:2 411:6>]
-SYMBOL_FUNCTION void b2Log(const char *)
 REFERENCE_CALL void b2GearJoint::Dump() -> void b2Log(const char *) [b2GearJoint.cpp <412:2 412:6>]
 LOCAL_SYMBOL: b2GearJoint.cpp<405:8> [b2GearJoint.cpp <412:38 412:43>]
-SYMBOL_FUNCTION void b2Log(const char *)
 REFERENCE_CALL void b2GearJoint::Dump() -> void b2Log(const char *) [b2GearJoint.cpp <413:2 413:6>]
 LOCAL_SYMBOL: b2GearJoint.cpp<406:8> [b2GearJoint.cpp <413:38 413:43>]
-SYMBOL_FUNCTION void b2Log(const char *)
 REFERENCE_CALL void b2GearJoint::Dump() -> void b2Log(const char *) [b2GearJoint.cpp <414:2 414:6>]
 REFERENCE_USAGE void b2GearJoint::Dump() -> bool b2Joint::m_collideConnected [b2GearJoint.cpp <414:47 414:64>]
-SYMBOL_FUNCTION void b2Log(const char *)
 REFERENCE_CALL void b2GearJoint::Dump() -> void b2Log(const char *) [b2GearJoint.cpp <415:2 415:6>]
 LOCAL_SYMBOL: b2GearJoint.cpp<408:8> [b2GearJoint.cpp <415:39 415:44>]
-SYMBOL_FUNCTION void b2Log(const char *)
 REFERENCE_CALL void b2GearJoint::Dump() -> void b2Log(const char *) [b2GearJoint.cpp <416:2 416:6>]
 LOCAL_SYMBOL: b2GearJoint.cpp<409:8> [b2GearJoint.cpp <416:39 416:44>]
-SYMBOL_FUNCTION void b2Log(const char *)
 REFERENCE_CALL void b2GearJoint::Dump() -> void b2Log(const char *) [b2GearJoint.cpp <417:2 417:6>]
 REFERENCE_USAGE void b2GearJoint::Dump() -> float32 b2GearJoint::m_ratio [b2GearJoint.cpp <417:35 417:41>]
-SYMBOL_FUNCTION void b2Log(const char *)
 REFERENCE_CALL void b2GearJoint::Dump() -> void b2Log(const char *) [b2GearJoint.cpp <418:2 418:6>]
 REFERENCE_USAGE void b2GearJoint::Dump() -> int32 b2Joint::m_index [b2GearJoint.cpp <418:55 418:61>]

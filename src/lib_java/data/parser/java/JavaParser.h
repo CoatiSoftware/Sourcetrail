@@ -128,7 +128,7 @@ private:
 			LOG_ERROR("parser with id " + std::to_string(parserId) + " not found");		\
 		}																				\
 	}
-
+	
 	DEF_RELAYING_METHOD_1(LogInfo, jstring)
 	DEF_RELAYING_METHOD_1(LogWarning, jstring)
 	DEF_RELAYING_METHOD_1(LogError, jstring)
@@ -136,6 +136,7 @@ private:
 	DEF_RELAYING_METHOD_8(RecordSymbolWithLocation, jstring, jint, jint, jint, jint, jint, jint, jint)
 	DEF_RELAYING_METHOD_12(RecordSymbolWithLocationAndScope, jstring, jint, jint, jint, jint, jint, jint, jint, jint, jint, jint, jint)
 	DEF_RELAYING_METHOD_7(RecordReference, jint, jstring, jstring, jint, jint, jint, jint)
+	DEF_RELAYING_METHOD_5(RecordQualifierLocation, jstring, jint, jint, jint, jint)
 	DEF_RELAYING_METHOD_5(RecordLocalSymbol, jstring, jint, jint, jint, jint)
 	DEF_RELAYING_METHOD_4(RecordComment, jint, jint, jint, jint)
 	DEF_RELAYING_METHOD_7(RecordError, jstring, jint, jint, jint, jint, jint, jint)
@@ -188,6 +189,7 @@ private:
 	);
 
 	void doRecordReference(jint jRefType, jstring jReferencedName, jstring jContextName, jint beginLine, jint beginColumn, jint endLine, jint endColumn);
+	void doRecordQualifierLocation(jstring jQualifierName, jint beginLine, jint beginColumn, jint endLine, jint endColumn);
 	void doRecordLocalSymbol(jstring jSymbolName, jint beginLine, jint beginColumn, jint endLine, jint endColumn);
 	void doRecordComment(jint beginLine, jint beginColumn, jint endLine, jint endColumn);
 	void doRecordError(jstring jMessage, jint jFatal, jint jIndexed, jint beginLine, jint beginColumn, jint endLine, jint endColumn);

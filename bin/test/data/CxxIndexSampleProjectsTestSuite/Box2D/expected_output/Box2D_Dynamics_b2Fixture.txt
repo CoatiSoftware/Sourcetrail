@@ -1,13 +1,5 @@
 FILE: b2Fixture.cpp
-FILE: b2Fixture.cpp
 COMMENT: comment [b2Fixture.cpp <1:1 17:3>]
-FILE: b2Fixture.cpp
-FILE: b2Fixture.cpp
-FILE: b2Fixture.cpp
-FILE: b2Fixture.cpp
-FILE: b2Fixture.cpp
-FILE: b2Fixture.cpp
-FILE: b2Fixture.cpp
 COMMENT: comment [b2Fixture.cpp <56:2 56:24>]
 COMMENT: comment [b2Fixture.cpp <71:2 71:55>]
 REFERENCE_MACRO_USAGE b2Fixture.cpp -> b2Assert [b2Fixture.cpp <72:2 72:9>]
@@ -16,26 +8,11 @@ REFERENCE_MACRO_USAGE assert.h -> _CRT_WIDE [assert.h <34:23 34:31>]
 REFERENCE_MACRO_USAGE vcruntime.h -> _CRT_WIDE_ [vcruntime.h <95:22 95:31>]
 REFERENCE_MACRO_USAGE assert.h -> _CRT_WIDE [assert.h <34:47 34:55>]
 REFERENCE_MACRO_USAGE assert.h -> __FILE__ [assert.h <34:57 34:64>]
-REFERENCE_MACRO_USAGE vcruntime.h -> _CRT_WIDE_ [vcruntime.h <95:22 95:31>]
 REFERENCE_MACRO_USAGE assert.h -> __LINE__ [assert.h <34:79 34:86>]
 COMMENT: comment [b2Fixture.cpp <74:2 74:26>]
 COMMENT: comment [b2Fixture.cpp <79:2 79:26>]
 REFERENCE_MACRO_USAGE b2Fixture.cpp -> b2Assert [b2Fixture.cpp <115:3 115:10>]
-REFERENCE_MACRO_USAGE b2Settings.h -> assert [b2Settings.h <31:21 31:26>]
-REFERENCE_MACRO_USAGE assert.h -> _CRT_WIDE [assert.h <34:23 34:31>]
-REFERENCE_MACRO_USAGE vcruntime.h -> _CRT_WIDE_ [vcruntime.h <95:22 95:31>]
-REFERENCE_MACRO_USAGE assert.h -> _CRT_WIDE [assert.h <34:47 34:55>]
-REFERENCE_MACRO_USAGE assert.h -> __FILE__ [assert.h <34:57 34:64>]
-REFERENCE_MACRO_USAGE vcruntime.h -> _CRT_WIDE_ [vcruntime.h <95:22 95:31>]
-REFERENCE_MACRO_USAGE assert.h -> __LINE__ [assert.h <34:79 34:86>]
 REFERENCE_MACRO_USAGE b2Fixture.cpp -> b2Assert [b2Fixture.cpp <124:2 124:9>]
-REFERENCE_MACRO_USAGE b2Settings.h -> assert [b2Settings.h <31:21 31:26>]
-REFERENCE_MACRO_USAGE assert.h -> _CRT_WIDE [assert.h <34:23 34:31>]
-REFERENCE_MACRO_USAGE vcruntime.h -> _CRT_WIDE_ [vcruntime.h <95:22 95:31>]
-REFERENCE_MACRO_USAGE assert.h -> _CRT_WIDE [assert.h <34:47 34:55>]
-REFERENCE_MACRO_USAGE assert.h -> __FILE__ [assert.h <34:57 34:64>]
-REFERENCE_MACRO_USAGE vcruntime.h -> _CRT_WIDE_ [vcruntime.h <95:22 95:31>]
-REFERENCE_MACRO_USAGE assert.h -> __LINE__ [assert.h <34:79 34:86>]
 COMMENT: comment [b2Fixture.cpp <126:2 126:39>]
 COMMENT: comment [b2Fixture.cpp <141:2 141:40>]
 COMMENT: comment [b2Fixture.cpp <163:3 163:82>]
@@ -44,6 +21,7 @@ COMMENT: comment [b2Fixture.cpp <212:2 212:54>]
 REFERENCE_MACRO_USAGE b2Fixture.cpp -> b2_maxPolygonVertices [b2Fixture.cpp <269:34 269:54>]
 SYMBOL_METHOD protected void b2Fixture::b2Fixture() [b2Fixture.cpp <30:1 <30:12 30:20> 39:1>]
 SYMBOL_CLASS b2Fixture
+QUALIFIER: b2Fixture [b2Fixture.cpp <30:1 30:9>]
 REFERENCE_USAGE void b2Fixture::b2Fixture() -> b2Filter b2Fixture::m_filter [b2Fixture.cpp <30:12 30:20>]
 SYMBOL_FUNCTION void b2Filter::b2Filter()
 REFERENCE_CALL void b2Fixture::b2Fixture() -> void b2Filter::b2Filter() [b2Fixture.cpp <30:12 30:20>]
@@ -55,7 +33,7 @@ REFERENCE_USAGE void b2Fixture::b2Fixture() -> int32 b2Fixture::m_proxyCount [b2
 REFERENCE_USAGE void b2Fixture::b2Fixture() -> b2Shape * b2Fixture::m_shape [b2Fixture.cpp <37:2 37:8>]
 REFERENCE_USAGE void b2Fixture::b2Fixture() -> float32 b2Fixture::m_density [b2Fixture.cpp <38:2 38:10>]
 SYMBOL_METHOD protected void b2Fixture::Create(b2BlockAllocator *, b2Body *, const b2FixtureDef *) [b2Fixture.cpp <41:1 <41:17 41:22> 67:1>]
-SYMBOL_CLASS b2Fixture
+QUALIFIER: b2Fixture [b2Fixture.cpp <41:6 41:14>]
 SYMBOL_BUILTIN_TYPE void
 REFERENCE_TYPE_USAGE void b2Fixture::Create(b2BlockAllocator *, b2Body *, const b2FixtureDef *) -> void [b2Fixture.cpp <41:1 41:4>]
 LOCAL_SYMBOL: b2Fixture.cpp<41:42> [b2Fixture.cpp <41:42 41:50>]
@@ -115,20 +93,19 @@ REFERENCE_USAGE void b2Fixture::Create(b2BlockAllocator *, b2Body *, const b2Fix
 LOCAL_SYMBOL: b2Fixture.cpp<59:13> [b2Fixture.cpp <62:13 62:13>]
 REFERENCE_USAGE void b2Fixture::Create(b2BlockAllocator *, b2Body *, const b2FixtureDef *) -> b2BroadPhase::anonymous enum (b2BroadPhase.h<40:2>)::e_nullProxy [b2Fixture.cpp <62:40 62:50>]
 SYMBOL_CLASS b2BroadPhase
+QUALIFIER: b2BroadPhase [b2Fixture.cpp <62:26 62:37>]
 REFERENCE_USAGE void b2Fixture::Create(b2BlockAllocator *, b2Body *, const b2FixtureDef *) -> int32 b2Fixture::m_proxyCount [b2Fixture.cpp <64:2 64:13>]
 REFERENCE_USAGE void b2Fixture::Create(b2BlockAllocator *, b2Body *, const b2FixtureDef *) -> float32 b2Fixture::m_density [b2Fixture.cpp <66:2 66:10>]
 REFERENCE_USAGE void b2Fixture::Create(b2BlockAllocator *, b2Body *, const b2FixtureDef *) -> float32 b2FixtureDef::density [b2Fixture.cpp <66:19 66:25>]
 LOCAL_SYMBOL: b2Fixture.cpp<41:87> [b2Fixture.cpp <66:14 66:16>]
 SYMBOL_METHOD protected void b2Fixture::Destroy(b2BlockAllocator *) [b2Fixture.cpp <69:1 <69:17 69:23> 120:1>]
-SYMBOL_CLASS b2Fixture
-SYMBOL_BUILTIN_TYPE void
+QUALIFIER: b2Fixture [b2Fixture.cpp <69:6 69:14>]
 REFERENCE_TYPE_USAGE void b2Fixture::Destroy(b2BlockAllocator *) -> void [b2Fixture.cpp <69:1 69:4>]
 LOCAL_SYMBOL: b2Fixture.cpp<69:43> [b2Fixture.cpp <69:43 69:51>]
 REFERENCE_TYPE_USAGE void b2Fixture::Destroy(b2BlockAllocator *) -> b2BlockAllocator [b2Fixture.cpp <69:25 69:40>]
 REFERENCE_USAGE void b2Fixture::Destroy(b2BlockAllocator *) -> int32 b2Fixture::m_proxyCount [b2Fixture.cpp <72:11 72:22>]
 LOCAL_SYMBOL: b2Fixture.cpp<75:8> [b2Fixture.cpp <75:8 75:17>]
 REFERENCE_TYPE_USAGE void b2Fixture::Destroy(b2BlockAllocator *) -> int32 [b2Fixture.cpp <75:2 75:6>]
-SYMBOL_FUNCTION int32 b2Shape::GetChildCount() const
 REFERENCE_CALL void b2Fixture::Destroy(b2BlockAllocator *) -> int32 b2Shape::GetChildCount() const [b2Fixture.cpp <75:30 75:42>]
 REFERENCE_USAGE void b2Fixture::Destroy(b2BlockAllocator *) -> b2Shape * b2Fixture::m_shape [b2Fixture.cpp <75:21 75:27>]
 SYMBOL_FUNCTION void b2BlockAllocator::Free(void *, int32)
@@ -142,6 +119,7 @@ REFERENCE_USAGE void b2Fixture::Destroy(b2BlockAllocator *) -> b2Shape::Type b2S
 REFERENCE_USAGE void b2Fixture::Destroy(b2BlockAllocator *) -> b2Shape * b2Fixture::m_shape [b2Fixture.cpp <80:10 80:16>]
 REFERENCE_USAGE void b2Fixture::Destroy(b2BlockAllocator *) -> b2Shape::Type::e_circle [b2Fixture.cpp <82:16 82:23>]
 SYMBOL_CLASS b2Shape
+QUALIFIER: b2Shape [b2Fixture.cpp <82:7 82:13>]
 LOCAL_SYMBOL: b2Fixture.cpp<84:19> [b2Fixture.cpp <84:19 84:19>]
 REFERENCE_TYPE_USAGE void b2Fixture::Destroy(b2BlockAllocator *) -> b2CircleShape [b2Fixture.cpp <84:4 84:16>]
 REFERENCE_TYPE_USAGE void b2Fixture::Destroy(b2BlockAllocator *) -> b2CircleShape [b2Fixture.cpp <84:24 84:36>]
@@ -149,13 +127,12 @@ REFERENCE_USAGE void b2Fixture::Destroy(b2BlockAllocator *) -> b2Shape * b2Fixtu
 SYMBOL_FUNCTION void b2CircleShape::~b2CircleShape()
 REFERENCE_CALL void b2Fixture::Destroy(b2BlockAllocator *) -> void b2CircleShape::~b2CircleShape() [b2Fixture.cpp <85:7 85:7>]
 LOCAL_SYMBOL: b2Fixture.cpp<84:19> [b2Fixture.cpp <85:4 85:4>]
-SYMBOL_FUNCTION void b2BlockAllocator::Free(void *, int32)
 REFERENCE_CALL void b2Fixture::Destroy(b2BlockAllocator *) -> void b2BlockAllocator::Free(void *, int32) [b2Fixture.cpp <86:15 86:18>]
 LOCAL_SYMBOL: b2Fixture.cpp<69:43> [b2Fixture.cpp <86:4 86:12>]
 LOCAL_SYMBOL: b2Fixture.cpp<84:19> [b2Fixture.cpp <86:20 86:20>]
 REFERENCE_TYPE_USAGE void b2Fixture::Destroy(b2BlockAllocator *) -> b2CircleShape [b2Fixture.cpp <86:30 86:42>]
 REFERENCE_USAGE void b2Fixture::Destroy(b2BlockAllocator *) -> b2Shape::Type::e_edge [b2Fixture.cpp <90:16 90:21>]
-SYMBOL_CLASS b2Shape
+QUALIFIER: b2Shape [b2Fixture.cpp <90:7 90:13>]
 LOCAL_SYMBOL: b2Fixture.cpp<92:17> [b2Fixture.cpp <92:17 92:17>]
 REFERENCE_TYPE_USAGE void b2Fixture::Destroy(b2BlockAllocator *) -> b2EdgeShape [b2Fixture.cpp <92:4 92:14>]
 REFERENCE_TYPE_USAGE void b2Fixture::Destroy(b2BlockAllocator *) -> b2EdgeShape [b2Fixture.cpp <92:22 92:32>]
@@ -163,13 +140,12 @@ REFERENCE_USAGE void b2Fixture::Destroy(b2BlockAllocator *) -> b2Shape * b2Fixtu
 SYMBOL_FUNCTION void b2EdgeShape::~b2EdgeShape()
 REFERENCE_CALL void b2Fixture::Destroy(b2BlockAllocator *) -> void b2EdgeShape::~b2EdgeShape() [b2Fixture.cpp <93:7 93:7>]
 LOCAL_SYMBOL: b2Fixture.cpp<92:17> [b2Fixture.cpp <93:4 93:4>]
-SYMBOL_FUNCTION void b2BlockAllocator::Free(void *, int32)
 REFERENCE_CALL void b2Fixture::Destroy(b2BlockAllocator *) -> void b2BlockAllocator::Free(void *, int32) [b2Fixture.cpp <94:15 94:18>]
 LOCAL_SYMBOL: b2Fixture.cpp<69:43> [b2Fixture.cpp <94:4 94:12>]
 LOCAL_SYMBOL: b2Fixture.cpp<92:17> [b2Fixture.cpp <94:20 94:20>]
 REFERENCE_TYPE_USAGE void b2Fixture::Destroy(b2BlockAllocator *) -> b2EdgeShape [b2Fixture.cpp <94:30 94:40>]
 REFERENCE_USAGE void b2Fixture::Destroy(b2BlockAllocator *) -> b2Shape::Type::e_polygon [b2Fixture.cpp <98:16 98:24>]
-SYMBOL_CLASS b2Shape
+QUALIFIER: b2Shape [b2Fixture.cpp <98:7 98:13>]
 LOCAL_SYMBOL: b2Fixture.cpp<100:20> [b2Fixture.cpp <100:20 100:20>]
 REFERENCE_TYPE_USAGE void b2Fixture::Destroy(b2BlockAllocator *) -> b2PolygonShape [b2Fixture.cpp <100:4 100:17>]
 REFERENCE_TYPE_USAGE void b2Fixture::Destroy(b2BlockAllocator *) -> b2PolygonShape [b2Fixture.cpp <100:25 100:38>]
@@ -177,13 +153,12 @@ REFERENCE_USAGE void b2Fixture::Destroy(b2BlockAllocator *) -> b2Shape * b2Fixtu
 SYMBOL_FUNCTION void b2PolygonShape::~b2PolygonShape()
 REFERENCE_CALL void b2Fixture::Destroy(b2BlockAllocator *) -> void b2PolygonShape::~b2PolygonShape() [b2Fixture.cpp <101:7 101:7>]
 LOCAL_SYMBOL: b2Fixture.cpp<100:20> [b2Fixture.cpp <101:4 101:4>]
-SYMBOL_FUNCTION void b2BlockAllocator::Free(void *, int32)
 REFERENCE_CALL void b2Fixture::Destroy(b2BlockAllocator *) -> void b2BlockAllocator::Free(void *, int32) [b2Fixture.cpp <102:15 102:18>]
 LOCAL_SYMBOL: b2Fixture.cpp<69:43> [b2Fixture.cpp <102:4 102:12>]
 LOCAL_SYMBOL: b2Fixture.cpp<100:20> [b2Fixture.cpp <102:20 102:20>]
 REFERENCE_TYPE_USAGE void b2Fixture::Destroy(b2BlockAllocator *) -> b2PolygonShape [b2Fixture.cpp <102:30 102:43>]
 REFERENCE_USAGE void b2Fixture::Destroy(b2BlockAllocator *) -> b2Shape::Type::e_chain [b2Fixture.cpp <106:16 106:22>]
-SYMBOL_CLASS b2Shape
+QUALIFIER: b2Shape [b2Fixture.cpp <106:7 106:13>]
 LOCAL_SYMBOL: b2Fixture.cpp<108:18> [b2Fixture.cpp <108:18 108:18>]
 REFERENCE_TYPE_USAGE void b2Fixture::Destroy(b2BlockAllocator *) -> b2ChainShape [b2Fixture.cpp <108:4 108:15>]
 REFERENCE_TYPE_USAGE void b2Fixture::Destroy(b2BlockAllocator *) -> b2ChainShape [b2Fixture.cpp <108:23 108:34>]
@@ -191,15 +166,13 @@ REFERENCE_USAGE void b2Fixture::Destroy(b2BlockAllocator *) -> b2Shape * b2Fixtu
 SYMBOL_FUNCTION void b2ChainShape::~b2ChainShape()
 REFERENCE_CALL void b2Fixture::Destroy(b2BlockAllocator *) -> void b2ChainShape::~b2ChainShape() [b2Fixture.cpp <109:7 109:7>]
 LOCAL_SYMBOL: b2Fixture.cpp<108:18> [b2Fixture.cpp <109:4 109:4>]
-SYMBOL_FUNCTION void b2BlockAllocator::Free(void *, int32)
 REFERENCE_CALL void b2Fixture::Destroy(b2BlockAllocator *) -> void b2BlockAllocator::Free(void *, int32) [b2Fixture.cpp <110:15 110:18>]
 LOCAL_SYMBOL: b2Fixture.cpp<69:43> [b2Fixture.cpp <110:4 110:12>]
 LOCAL_SYMBOL: b2Fixture.cpp<108:18> [b2Fixture.cpp <110:20 110:20>]
 REFERENCE_TYPE_USAGE void b2Fixture::Destroy(b2BlockAllocator *) -> b2ChainShape [b2Fixture.cpp <110:30 110:41>]
 REFERENCE_USAGE void b2Fixture::Destroy(b2BlockAllocator *) -> b2Shape * b2Fixture::m_shape [b2Fixture.cpp <119:2 119:8>]
 SYMBOL_METHOD protected void b2Fixture::CreateProxies(b2BroadPhase *, const b2Transform &) [b2Fixture.cpp <122:1 <122:17 122:29> 137:1>]
-SYMBOL_CLASS b2Fixture
-SYMBOL_BUILTIN_TYPE void
+QUALIFIER: b2Fixture [b2Fixture.cpp <122:6 122:14>]
 REFERENCE_TYPE_USAGE void b2Fixture::CreateProxies(b2BroadPhase *, const b2Transform &) -> void [b2Fixture.cpp <122:1 122:4>]
 LOCAL_SYMBOL: b2Fixture.cpp<122:45> [b2Fixture.cpp <122:45 122:54>]
 REFERENCE_TYPE_USAGE void b2Fixture::CreateProxies(b2BroadPhase *, const b2Transform &) -> b2BroadPhase [b2Fixture.cpp <122:31 122:42>]
@@ -207,7 +180,6 @@ LOCAL_SYMBOL: b2Fixture.cpp<122:76> [b2Fixture.cpp <122:76 122:77>]
 REFERENCE_TYPE_USAGE void b2Fixture::CreateProxies(b2BroadPhase *, const b2Transform &) -> b2Transform [b2Fixture.cpp <122:63 122:73>]
 REFERENCE_USAGE void b2Fixture::CreateProxies(b2BroadPhase *, const b2Transform &) -> int32 b2Fixture::m_proxyCount [b2Fixture.cpp <124:11 124:22>]
 REFERENCE_USAGE void b2Fixture::CreateProxies(b2BroadPhase *, const b2Transform &) -> int32 b2Fixture::m_proxyCount [b2Fixture.cpp <127:2 127:13>]
-SYMBOL_FUNCTION int32 b2Shape::GetChildCount() const
 REFERENCE_CALL void b2Fixture::CreateProxies(b2BroadPhase *, const b2Transform &) -> int32 b2Shape::GetChildCount() const [b2Fixture.cpp <127:26 127:38>]
 REFERENCE_USAGE void b2Fixture::CreateProxies(b2BroadPhase *, const b2Transform &) -> b2Shape * b2Fixture::m_shape [b2Fixture.cpp <127:17 127:23>]
 LOCAL_SYMBOL: b2Fixture.cpp<129:13> [b2Fixture.cpp <129:13 129:13>]
@@ -240,8 +212,7 @@ REFERENCE_USAGE void b2Fixture::CreateProxies(b2BroadPhase *, const b2Transform 
 LOCAL_SYMBOL: b2Fixture.cpp<131:19> [b2Fixture.cpp <135:3 135:7>]
 LOCAL_SYMBOL: b2Fixture.cpp<129:13> [b2Fixture.cpp <135:23 135:23>]
 SYMBOL_METHOD protected void b2Fixture::DestroyProxies(b2BroadPhase *) [b2Fixture.cpp <139:1 <139:17 139:30> 150:1>]
-SYMBOL_CLASS b2Fixture
-SYMBOL_BUILTIN_TYPE void
+QUALIFIER: b2Fixture [b2Fixture.cpp <139:6 139:14>]
 REFERENCE_TYPE_USAGE void b2Fixture::DestroyProxies(b2BroadPhase *) -> void [b2Fixture.cpp <139:1 139:4>]
 LOCAL_SYMBOL: b2Fixture.cpp<139:46> [b2Fixture.cpp <139:46 139:55>]
 REFERENCE_TYPE_USAGE void b2Fixture::DestroyProxies(b2BroadPhase *) -> b2BroadPhase [b2Fixture.cpp <139:32 139:43>]
@@ -262,11 +233,10 @@ LOCAL_SYMBOL: b2Fixture.cpp<144:19> [b2Fixture.cpp <145:28 145:32>]
 REFERENCE_USAGE void b2Fixture::DestroyProxies(b2BroadPhase *) -> int32 b2FixtureProxy::proxyId [b2Fixture.cpp <146:10 146:16>]
 LOCAL_SYMBOL: b2Fixture.cpp<144:19> [b2Fixture.cpp <146:3 146:7>]
 REFERENCE_USAGE void b2Fixture::DestroyProxies(b2BroadPhase *) -> b2BroadPhase::anonymous enum (b2BroadPhase.h<40:2>)::e_nullProxy [b2Fixture.cpp <146:34 146:44>]
-SYMBOL_CLASS b2BroadPhase
+QUALIFIER: b2BroadPhase [b2Fixture.cpp <146:20 146:31>]
 REFERENCE_USAGE void b2Fixture::DestroyProxies(b2BroadPhase *) -> int32 b2Fixture::m_proxyCount [b2Fixture.cpp <149:2 149:13>]
 SYMBOL_METHOD protected void b2Fixture::Synchronize(b2BroadPhase *, const b2Transform &, const b2Transform &) [b2Fixture.cpp <152:1 <152:17 152:27> 174:1>]
-SYMBOL_CLASS b2Fixture
-SYMBOL_BUILTIN_TYPE void
+QUALIFIER: b2Fixture [b2Fixture.cpp <152:6 152:14>]
 REFERENCE_TYPE_USAGE void b2Fixture::Synchronize(b2BroadPhase *, const b2Transform &, const b2Transform &) -> void [b2Fixture.cpp <152:1 152:4>]
 LOCAL_SYMBOL: b2Fixture.cpp<152:43> [b2Fixture.cpp <152:43 152:52>]
 REFERENCE_TYPE_USAGE void b2Fixture::Synchronize(b2BroadPhase *, const b2Transform &, const b2Transform &) -> b2BroadPhase [b2Fixture.cpp <152:29 152:40>]
@@ -289,17 +259,13 @@ REFERENCE_TYPE_USAGE void b2Fixture::Synchronize(b2BroadPhase *, const b2Transfo
 SYMBOL_FUNCTION void b2AABB::b2AABB()
 REFERENCE_CALL void b2Fixture::Synchronize(b2BroadPhase *, const b2Transform &, const b2Transform &) -> void b2AABB::b2AABB() [b2Fixture.cpp <164:10 164:14>]
 LOCAL_SYMBOL: b2Fixture.cpp<164:17> [b2Fixture.cpp <164:17 164:21>]
-REFERENCE_TYPE_USAGE void b2Fixture::Synchronize(b2BroadPhase *, const b2Transform &, const b2Transform &) -> b2AABB [b2Fixture.cpp <164:3 164:8>]
-SYMBOL_FUNCTION void b2AABB::b2AABB()
 REFERENCE_CALL void b2Fixture::Synchronize(b2BroadPhase *, const b2Transform &, const b2Transform &) -> void b2AABB::b2AABB() [b2Fixture.cpp <164:17 164:21>]
-SYMBOL_FUNCTION void b2Shape::ComputeAABB(b2AABB *, const b2Transform &, int32) const
 REFERENCE_CALL void b2Fixture::Synchronize(b2BroadPhase *, const b2Transform &, const b2Transform &) -> void b2Shape::ComputeAABB(b2AABB *, const b2Transform &, int32) const [b2Fixture.cpp <165:12 165:22>]
 REFERENCE_USAGE void b2Fixture::Synchronize(b2BroadPhase *, const b2Transform &, const b2Transform &) -> b2Shape * b2Fixture::m_shape [b2Fixture.cpp <165:3 165:9>]
 LOCAL_SYMBOL: b2Fixture.cpp<164:10> [b2Fixture.cpp <165:25 165:29>]
 LOCAL_SYMBOL: b2Fixture.cpp<152:74> [b2Fixture.cpp <165:32 165:41>]
 REFERENCE_USAGE void b2Fixture::Synchronize(b2BroadPhase *, const b2Transform &, const b2Transform &) -> int32 b2FixtureProxy::childIndex [b2Fixture.cpp <165:51 165:60>]
 LOCAL_SYMBOL: b2Fixture.cpp<161:19> [b2Fixture.cpp <165:44 165:48>]
-SYMBOL_FUNCTION void b2Shape::ComputeAABB(b2AABB *, const b2Transform &, int32) const
 REFERENCE_CALL void b2Fixture::Synchronize(b2BroadPhase *, const b2Transform &, const b2Transform &) -> void b2Shape::ComputeAABB(b2AABB *, const b2Transform &, int32) const [b2Fixture.cpp <166:12 166:22>]
 REFERENCE_USAGE void b2Fixture::Synchronize(b2BroadPhase *, const b2Transform &, const b2Transform &) -> b2Shape * b2Fixture::m_shape [b2Fixture.cpp <166:3 166:9>]
 LOCAL_SYMBOL: b2Fixture.cpp<164:17> [b2Fixture.cpp <166:25 166:29>]
@@ -329,20 +295,17 @@ REFERENCE_USAGE void b2Fixture::Synchronize(b2BroadPhase *, const b2Transform &,
 LOCAL_SYMBOL: b2Fixture.cpp<161:19> [b2Fixture.cpp <172:41 172:45>]
 LOCAL_SYMBOL: b2Fixture.cpp<170:10> [b2Fixture.cpp <172:54 172:65>]
 SYMBOL_METHOD public void b2Fixture::SetFilterData(const b2Filter &) [b2Fixture.cpp <176:1 <176:17 176:29> 181:1>]
-SYMBOL_CLASS b2Fixture
-SYMBOL_BUILTIN_TYPE void
+QUALIFIER: b2Fixture [b2Fixture.cpp <176:6 176:14>]
 REFERENCE_TYPE_USAGE void b2Fixture::SetFilterData(const b2Filter &) -> void [b2Fixture.cpp <176:1 176:4>]
 LOCAL_SYMBOL: b2Fixture.cpp<176:47> [b2Fixture.cpp <176:47 176:52>]
 REFERENCE_TYPE_USAGE void b2Fixture::SetFilterData(const b2Filter &) -> b2Filter [b2Fixture.cpp <176:37 176:44>]
-SYMBOL_FUNCTION b2Filter & b2Filter::operator=(const b2Filter &)
 REFERENCE_CALL void b2Fixture::SetFilterData(const b2Filter &) -> b2Filter & b2Filter::operator=(const b2Filter &) [b2Fixture.cpp <178:11 178:11>]
 REFERENCE_USAGE void b2Fixture::SetFilterData(const b2Filter &) -> b2Filter b2Fixture::m_filter [b2Fixture.cpp <178:2 178:9>]
 LOCAL_SYMBOL: b2Fixture.cpp<176:47> [b2Fixture.cpp <178:13 178:18>]
 SYMBOL_FUNCTION void b2Fixture::Refilter()
 REFERENCE_CALL void b2Fixture::SetFilterData(const b2Filter &) -> void b2Fixture::Refilter() [b2Fixture.cpp <180:2 180:9>]
 SYMBOL_METHOD public void b2Fixture::Refilter() [b2Fixture.cpp <183:1 <183:17 183:24> 218:1>]
-SYMBOL_CLASS b2Fixture
-SYMBOL_BUILTIN_TYPE void
+QUALIFIER: b2Fixture [b2Fixture.cpp <183:6 183:14>]
 REFERENCE_TYPE_USAGE void b2Fixture::Refilter() -> void [b2Fixture.cpp <183:1 183:4>]
 REFERENCE_USAGE void b2Fixture::Refilter() -> b2Body * b2Fixture::m_body [b2Fixture.cpp <185:6 185:11>]
 LOCAL_SYMBOL: b2Fixture.cpp<191:17> [b2Fixture.cpp <191:17 191:20>]
@@ -396,8 +359,7 @@ REFERENCE_USAGE void b2Fixture::Refilter() -> int32 b2FixtureProxy::proxyId [b2F
 REFERENCE_USAGE void b2Fixture::Refilter() -> b2FixtureProxy * b2Fixture::m_proxies [b2Fixture.cpp <216:26 216:34>]
 LOCAL_SYMBOL: b2Fixture.cpp<214:13> [b2Fixture.cpp <216:36 216:36>]
 SYMBOL_METHOD public void b2Fixture::SetSensor(bool) [b2Fixture.cpp <220:1 <220:17 220:25> 227:1>]
-SYMBOL_CLASS b2Fixture
-SYMBOL_BUILTIN_TYPE void
+QUALIFIER: b2Fixture [b2Fixture.cpp <220:6 220:14>]
 REFERENCE_TYPE_USAGE void b2Fixture::SetSensor(bool) -> void [b2Fixture.cpp <220:1 220:4>]
 LOCAL_SYMBOL: b2Fixture.cpp<220:32> [b2Fixture.cpp <220:32 220:37>]
 SYMBOL_BUILTIN_TYPE bool
@@ -410,52 +372,41 @@ REFERENCE_USAGE void b2Fixture::SetSensor(bool) -> b2Body * b2Fixture::m_body [b
 REFERENCE_USAGE void b2Fixture::SetSensor(bool) -> bool b2Fixture::m_isSensor [b2Fixture.cpp <225:3 225:12>]
 LOCAL_SYMBOL: b2Fixture.cpp<220:32> [b2Fixture.cpp <225:16 225:21>]
 SYMBOL_METHOD public void b2Fixture::Dump(int32) [b2Fixture.cpp <229:1 <229:17 229:20> 303:1>]
-SYMBOL_CLASS b2Fixture
-SYMBOL_BUILTIN_TYPE void
+QUALIFIER: b2Fixture [b2Fixture.cpp <229:6 229:14>]
 REFERENCE_TYPE_USAGE void b2Fixture::Dump(int32) -> void [b2Fixture.cpp <229:1 229:4>]
 LOCAL_SYMBOL: b2Fixture.cpp<229:28> [b2Fixture.cpp <229:28 229:36>]
 REFERENCE_TYPE_USAGE void b2Fixture::Dump(int32) -> int32 [b2Fixture.cpp <229:22 229:26>]
 SYMBOL_FUNCTION void b2Log(const char *)
 REFERENCE_CALL void b2Fixture::Dump(int32) -> void b2Log(const char *) [b2Fixture.cpp <231:2 231:6>]
-SYMBOL_FUNCTION void b2Log(const char *)
 REFERENCE_CALL void b2Fixture::Dump(int32) -> void b2Log(const char *) [b2Fixture.cpp <232:2 232:6>]
 REFERENCE_USAGE void b2Fixture::Dump(int32) -> float32 b2Fixture::m_friction [b2Fixture.cpp <232:40 232:49>]
-SYMBOL_FUNCTION void b2Log(const char *)
 REFERENCE_CALL void b2Fixture::Dump(int32) -> void b2Log(const char *) [b2Fixture.cpp <233:2 233:6>]
 REFERENCE_USAGE void b2Fixture::Dump(int32) -> float32 b2Fixture::m_restitution [b2Fixture.cpp <233:43 233:55>]
-SYMBOL_FUNCTION void b2Log(const char *)
 REFERENCE_CALL void b2Fixture::Dump(int32) -> void b2Log(const char *) [b2Fixture.cpp <234:2 234:6>]
 REFERENCE_USAGE void b2Fixture::Dump(int32) -> float32 b2Fixture::m_density [b2Fixture.cpp <234:39 234:47>]
-SYMBOL_FUNCTION void b2Log(const char *)
 REFERENCE_CALL void b2Fixture::Dump(int32) -> void b2Log(const char *) [b2Fixture.cpp <235:2 235:6>]
 REFERENCE_USAGE void b2Fixture::Dump(int32) -> bool b2Fixture::m_isSensor [b2Fixture.cpp <235:41 235:50>]
-SYMBOL_FUNCTION void b2Log(const char *)
 REFERENCE_CALL void b2Fixture::Dump(int32) -> void b2Log(const char *) [b2Fixture.cpp <236:2 236:6>]
 REFERENCE_USAGE void b2Fixture::Dump(int32) -> uint16 b2Filter::categoryBits [b2Fixture.cpp <236:63 236:74>]
 REFERENCE_USAGE void b2Fixture::Dump(int32) -> b2Filter b2Fixture::m_filter [b2Fixture.cpp <236:54 236:61>]
-SYMBOL_FUNCTION void b2Log(const char *)
 REFERENCE_CALL void b2Fixture::Dump(int32) -> void b2Log(const char *) [b2Fixture.cpp <237:2 237:6>]
 REFERENCE_USAGE void b2Fixture::Dump(int32) -> uint16 b2Filter::maskBits [b2Fixture.cpp <237:59 237:66>]
 REFERENCE_USAGE void b2Fixture::Dump(int32) -> b2Filter b2Fixture::m_filter [b2Fixture.cpp <237:50 237:57>]
-SYMBOL_FUNCTION void b2Log(const char *)
 REFERENCE_CALL void b2Fixture::Dump(int32) -> void b2Log(const char *) [b2Fixture.cpp <238:2 238:6>]
 REFERENCE_USAGE void b2Fixture::Dump(int32) -> int16 b2Filter::groupIndex [b2Fixture.cpp <238:60 238:69>]
 REFERENCE_USAGE void b2Fixture::Dump(int32) -> b2Filter b2Fixture::m_filter [b2Fixture.cpp <238:51 238:58>]
 REFERENCE_USAGE void b2Fixture::Dump(int32) -> b2Shape::Type b2Shape::m_type [b2Fixture.cpp <240:19 240:24>]
 REFERENCE_USAGE void b2Fixture::Dump(int32) -> b2Shape * b2Fixture::m_shape [b2Fixture.cpp <240:10 240:16>]
 REFERENCE_USAGE void b2Fixture::Dump(int32) -> b2Shape::Type::e_circle [b2Fixture.cpp <242:16 242:23>]
-SYMBOL_CLASS b2Shape
+QUALIFIER: b2Shape [b2Fixture.cpp <242:7 242:13>]
 LOCAL_SYMBOL: b2Fixture.cpp<244:19> [b2Fixture.cpp <244:19 244:19>]
 REFERENCE_TYPE_USAGE void b2Fixture::Dump(int32) -> b2CircleShape [b2Fixture.cpp <244:4 244:16>]
 REFERENCE_TYPE_USAGE void b2Fixture::Dump(int32) -> b2CircleShape [b2Fixture.cpp <244:24 244:36>]
 REFERENCE_USAGE void b2Fixture::Dump(int32) -> b2Shape * b2Fixture::m_shape [b2Fixture.cpp <244:39 244:45>]
-SYMBOL_FUNCTION void b2Log(const char *)
 REFERENCE_CALL void b2Fixture::Dump(int32) -> void b2Log(const char *) [b2Fixture.cpp <245:4 245:8>]
-SYMBOL_FUNCTION void b2Log(const char *)
 REFERENCE_CALL void b2Fixture::Dump(int32) -> void b2Log(const char *) [b2Fixture.cpp <246:4 246:8>]
 REFERENCE_USAGE void b2Fixture::Dump(int32) -> float32 b2Shape::m_radius [b2Fixture.cpp <246:48 246:55>]
 LOCAL_SYMBOL: b2Fixture.cpp<244:19> [b2Fixture.cpp <246:45 246:45>]
-SYMBOL_FUNCTION void b2Log(const char *)
 REFERENCE_CALL void b2Fixture::Dump(int32) -> void b2Log(const char *) [b2Fixture.cpp <247:4 247:8>]
 REFERENCE_USAGE void b2Fixture::Dump(int32) -> float32 b2Vec2::x [b2Fixture.cpp <247:59 247:59>]
 REFERENCE_USAGE void b2Fixture::Dump(int32) -> b2Vec2 b2CircleShape::m_p [b2Fixture.cpp <247:55 247:57>]
@@ -464,18 +415,15 @@ REFERENCE_USAGE void b2Fixture::Dump(int32) -> float32 b2Vec2::y [b2Fixture.cpp 
 REFERENCE_USAGE void b2Fixture::Dump(int32) -> b2Vec2 b2CircleShape::m_p [b2Fixture.cpp <247:65 247:67>]
 LOCAL_SYMBOL: b2Fixture.cpp<244:19> [b2Fixture.cpp <247:62 247:62>]
 REFERENCE_USAGE void b2Fixture::Dump(int32) -> b2Shape::Type::e_edge [b2Fixture.cpp <251:16 251:21>]
-SYMBOL_CLASS b2Shape
+QUALIFIER: b2Shape [b2Fixture.cpp <251:7 251:13>]
 LOCAL_SYMBOL: b2Fixture.cpp<253:17> [b2Fixture.cpp <253:17 253:17>]
 REFERENCE_TYPE_USAGE void b2Fixture::Dump(int32) -> b2EdgeShape [b2Fixture.cpp <253:4 253:14>]
 REFERENCE_TYPE_USAGE void b2Fixture::Dump(int32) -> b2EdgeShape [b2Fixture.cpp <253:22 253:32>]
 REFERENCE_USAGE void b2Fixture::Dump(int32) -> b2Shape * b2Fixture::m_shape [b2Fixture.cpp <253:35 253:41>]
-SYMBOL_FUNCTION void b2Log(const char *)
 REFERENCE_CALL void b2Fixture::Dump(int32) -> void b2Log(const char *) [b2Fixture.cpp <254:4 254:8>]
-SYMBOL_FUNCTION void b2Log(const char *)
 REFERENCE_CALL void b2Fixture::Dump(int32) -> void b2Log(const char *) [b2Fixture.cpp <255:4 255:8>]
 REFERENCE_USAGE void b2Fixture::Dump(int32) -> float32 b2Shape::m_radius [b2Fixture.cpp <255:48 255:55>]
 LOCAL_SYMBOL: b2Fixture.cpp<253:17> [b2Fixture.cpp <255:45 255:45>]
-SYMBOL_FUNCTION void b2Log(const char *)
 REFERENCE_CALL void b2Fixture::Dump(int32) -> void b2Log(const char *) [b2Fixture.cpp <256:4 256:8>]
 REFERENCE_USAGE void b2Fixture::Dump(int32) -> float32 b2Vec2::x [b2Fixture.cpp <256:71 256:71>]
 REFERENCE_USAGE void b2Fixture::Dump(int32) -> b2Vec2 b2EdgeShape::m_vertex0 [b2Fixture.cpp <256:61 256:69>]
@@ -483,7 +431,6 @@ LOCAL_SYMBOL: b2Fixture.cpp<253:17> [b2Fixture.cpp <256:58 256:58>]
 REFERENCE_USAGE void b2Fixture::Dump(int32) -> float32 b2Vec2::y [b2Fixture.cpp <256:87 256:87>]
 REFERENCE_USAGE void b2Fixture::Dump(int32) -> b2Vec2 b2EdgeShape::m_vertex0 [b2Fixture.cpp <256:77 256:85>]
 LOCAL_SYMBOL: b2Fixture.cpp<253:17> [b2Fixture.cpp <256:74 256:74>]
-SYMBOL_FUNCTION void b2Log(const char *)
 REFERENCE_CALL void b2Fixture::Dump(int32) -> void b2Log(const char *) [b2Fixture.cpp <257:4 257:8>]
 REFERENCE_USAGE void b2Fixture::Dump(int32) -> float32 b2Vec2::x [b2Fixture.cpp <257:71 257:71>]
 REFERENCE_USAGE void b2Fixture::Dump(int32) -> b2Vec2 b2EdgeShape::m_vertex1 [b2Fixture.cpp <257:61 257:69>]
@@ -491,7 +438,6 @@ LOCAL_SYMBOL: b2Fixture.cpp<253:17> [b2Fixture.cpp <257:58 257:58>]
 REFERENCE_USAGE void b2Fixture::Dump(int32) -> float32 b2Vec2::y [b2Fixture.cpp <257:87 257:87>]
 REFERENCE_USAGE void b2Fixture::Dump(int32) -> b2Vec2 b2EdgeShape::m_vertex1 [b2Fixture.cpp <257:77 257:85>]
 LOCAL_SYMBOL: b2Fixture.cpp<253:17> [b2Fixture.cpp <257:74 257:74>]
-SYMBOL_FUNCTION void b2Log(const char *)
 REFERENCE_CALL void b2Fixture::Dump(int32) -> void b2Log(const char *) [b2Fixture.cpp <258:4 258:8>]
 REFERENCE_USAGE void b2Fixture::Dump(int32) -> float32 b2Vec2::x [b2Fixture.cpp <258:71 258:71>]
 REFERENCE_USAGE void b2Fixture::Dump(int32) -> b2Vec2 b2EdgeShape::m_vertex2 [b2Fixture.cpp <258:61 258:69>]
@@ -499,7 +445,6 @@ LOCAL_SYMBOL: b2Fixture.cpp<253:17> [b2Fixture.cpp <258:58 258:58>]
 REFERENCE_USAGE void b2Fixture::Dump(int32) -> float32 b2Vec2::y [b2Fixture.cpp <258:87 258:87>]
 REFERENCE_USAGE void b2Fixture::Dump(int32) -> b2Vec2 b2EdgeShape::m_vertex2 [b2Fixture.cpp <258:77 258:85>]
 LOCAL_SYMBOL: b2Fixture.cpp<253:17> [b2Fixture.cpp <258:74 258:74>]
-SYMBOL_FUNCTION void b2Log(const char *)
 REFERENCE_CALL void b2Fixture::Dump(int32) -> void b2Log(const char *) [b2Fixture.cpp <259:4 259:8>]
 REFERENCE_USAGE void b2Fixture::Dump(int32) -> float32 b2Vec2::x [b2Fixture.cpp <259:71 259:71>]
 REFERENCE_USAGE void b2Fixture::Dump(int32) -> b2Vec2 b2EdgeShape::m_vertex3 [b2Fixture.cpp <259:61 259:69>]
@@ -507,23 +452,19 @@ LOCAL_SYMBOL: b2Fixture.cpp<253:17> [b2Fixture.cpp <259:58 259:58>]
 REFERENCE_USAGE void b2Fixture::Dump(int32) -> float32 b2Vec2::y [b2Fixture.cpp <259:87 259:87>]
 REFERENCE_USAGE void b2Fixture::Dump(int32) -> b2Vec2 b2EdgeShape::m_vertex3 [b2Fixture.cpp <259:77 259:85>]
 LOCAL_SYMBOL: b2Fixture.cpp<253:17> [b2Fixture.cpp <259:74 259:74>]
-SYMBOL_FUNCTION void b2Log(const char *)
 REFERENCE_CALL void b2Fixture::Dump(int32) -> void b2Log(const char *) [b2Fixture.cpp <260:4 260:8>]
 REFERENCE_USAGE void b2Fixture::Dump(int32) -> bool b2EdgeShape::m_hasVertex0 [b2Fixture.cpp <260:53 260:64>]
 LOCAL_SYMBOL: b2Fixture.cpp<253:17> [b2Fixture.cpp <260:50 260:50>]
-SYMBOL_FUNCTION void b2Log(const char *)
 REFERENCE_CALL void b2Fixture::Dump(int32) -> void b2Log(const char *) [b2Fixture.cpp <261:4 261:8>]
 REFERENCE_USAGE void b2Fixture::Dump(int32) -> bool b2EdgeShape::m_hasVertex3 [b2Fixture.cpp <261:53 261:64>]
 LOCAL_SYMBOL: b2Fixture.cpp<253:17> [b2Fixture.cpp <261:50 261:50>]
 REFERENCE_USAGE void b2Fixture::Dump(int32) -> b2Shape::Type::e_polygon [b2Fixture.cpp <265:16 265:24>]
-SYMBOL_CLASS b2Shape
+QUALIFIER: b2Shape [b2Fixture.cpp <265:7 265:13>]
 LOCAL_SYMBOL: b2Fixture.cpp<267:20> [b2Fixture.cpp <267:20 267:20>]
 REFERENCE_TYPE_USAGE void b2Fixture::Dump(int32) -> b2PolygonShape [b2Fixture.cpp <267:4 267:17>]
 REFERENCE_TYPE_USAGE void b2Fixture::Dump(int32) -> b2PolygonShape [b2Fixture.cpp <267:25 267:38>]
 REFERENCE_USAGE void b2Fixture::Dump(int32) -> b2Shape * b2Fixture::m_shape [b2Fixture.cpp <267:41 267:47>]
-SYMBOL_FUNCTION void b2Log(const char *)
 REFERENCE_CALL void b2Fixture::Dump(int32) -> void b2Log(const char *) [b2Fixture.cpp <268:4 268:8>]
-SYMBOL_FUNCTION void b2Log(const char *)
 REFERENCE_CALL void b2Fixture::Dump(int32) -> void b2Log(const char *) [b2Fixture.cpp <269:4 269:8>]
 LOCAL_SYMBOL: b2Fixture.cpp<270:15> [b2Fixture.cpp <270:15 270:15>]
 REFERENCE_TYPE_USAGE void b2Fixture::Dump(int32) -> int32 [b2Fixture.cpp <270:9 270:13>]
@@ -531,7 +472,6 @@ LOCAL_SYMBOL: b2Fixture.cpp<270:15> [b2Fixture.cpp <270:22 270:22>]
 REFERENCE_USAGE void b2Fixture::Dump(int32) -> int32 b2PolygonShape::m_count [b2Fixture.cpp <270:29 270:35>]
 LOCAL_SYMBOL: b2Fixture.cpp<267:20> [b2Fixture.cpp <270:26 270:26>]
 LOCAL_SYMBOL: b2Fixture.cpp<270:15> [b2Fixture.cpp <270:40 270:40>]
-SYMBOL_FUNCTION void b2Log(const char *)
 REFERENCE_CALL void b2Fixture::Dump(int32) -> void b2Log(const char *) [b2Fixture.cpp <272:5 272:9>]
 LOCAL_SYMBOL: b2Fixture.cpp<270:15> [b2Fixture.cpp <272:50 272:50>]
 REFERENCE_USAGE void b2Fixture::Dump(int32) -> float32 b2Vec2::x [b2Fixture.cpp <272:70 272:70>]
@@ -542,19 +482,16 @@ REFERENCE_USAGE void b2Fixture::Dump(int32) -> float32 b2Vec2::y [b2Fixture.cpp 
 REFERENCE_USAGE void b2Fixture::Dump(int32) -> b2Vec2 [] b2PolygonShape::m_vertices [b2Fixture.cpp <272:76 272:85>]
 LOCAL_SYMBOL: b2Fixture.cpp<267:20> [b2Fixture.cpp <272:73 272:73>]
 LOCAL_SYMBOL: b2Fixture.cpp<270:15> [b2Fixture.cpp <272:87 272:87>]
-SYMBOL_FUNCTION void b2Log(const char *)
 REFERENCE_CALL void b2Fixture::Dump(int32) -> void b2Log(const char *) [b2Fixture.cpp <274:4 274:8>]
 REFERENCE_USAGE void b2Fixture::Dump(int32) -> int32 b2PolygonShape::m_count [b2Fixture.cpp <274:41 274:47>]
 LOCAL_SYMBOL: b2Fixture.cpp<267:20> [b2Fixture.cpp <274:38 274:38>]
 REFERENCE_USAGE void b2Fixture::Dump(int32) -> b2Shape::Type::e_chain [b2Fixture.cpp <278:16 278:22>]
-SYMBOL_CLASS b2Shape
+QUALIFIER: b2Shape [b2Fixture.cpp <278:7 278:13>]
 LOCAL_SYMBOL: b2Fixture.cpp<280:18> [b2Fixture.cpp <280:18 280:18>]
 REFERENCE_TYPE_USAGE void b2Fixture::Dump(int32) -> b2ChainShape [b2Fixture.cpp <280:4 280:15>]
 REFERENCE_TYPE_USAGE void b2Fixture::Dump(int32) -> b2ChainShape [b2Fixture.cpp <280:23 280:34>]
 REFERENCE_USAGE void b2Fixture::Dump(int32) -> b2Shape * b2Fixture::m_shape [b2Fixture.cpp <280:37 280:43>]
-SYMBOL_FUNCTION void b2Log(const char *)
 REFERENCE_CALL void b2Fixture::Dump(int32) -> void b2Log(const char *) [b2Fixture.cpp <281:4 281:8>]
-SYMBOL_FUNCTION void b2Log(const char *)
 REFERENCE_CALL void b2Fixture::Dump(int32) -> void b2Log(const char *) [b2Fixture.cpp <282:4 282:8>]
 REFERENCE_USAGE void b2Fixture::Dump(int32) -> int32 b2ChainShape::m_count [b2Fixture.cpp <282:37 282:43>]
 LOCAL_SYMBOL: b2Fixture.cpp<280:18> [b2Fixture.cpp <282:34 282:34>]
@@ -564,7 +501,6 @@ LOCAL_SYMBOL: b2Fixture.cpp<283:15> [b2Fixture.cpp <283:22 283:22>]
 REFERENCE_USAGE void b2Fixture::Dump(int32) -> int32 b2ChainShape::m_count [b2Fixture.cpp <283:29 283:35>]
 LOCAL_SYMBOL: b2Fixture.cpp<280:18> [b2Fixture.cpp <283:26 283:26>]
 LOCAL_SYMBOL: b2Fixture.cpp<283:15> [b2Fixture.cpp <283:40 283:40>]
-SYMBOL_FUNCTION void b2Log(const char *)
 REFERENCE_CALL void b2Fixture::Dump(int32) -> void b2Log(const char *) [b2Fixture.cpp <285:5 285:9>]
 LOCAL_SYMBOL: b2Fixture.cpp<283:15> [b2Fixture.cpp <285:50 285:50>]
 REFERENCE_USAGE void b2Fixture::Dump(int32) -> float32 b2Vec2::x [b2Fixture.cpp <285:70 285:70>]
@@ -575,11 +511,9 @@ REFERENCE_USAGE void b2Fixture::Dump(int32) -> float32 b2Vec2::y [b2Fixture.cpp 
 REFERENCE_USAGE void b2Fixture::Dump(int32) -> b2Vec2 * b2ChainShape::m_vertices [b2Fixture.cpp <285:76 285:85>]
 LOCAL_SYMBOL: b2Fixture.cpp<280:18> [b2Fixture.cpp <285:73 285:73>]
 LOCAL_SYMBOL: b2Fixture.cpp<283:15> [b2Fixture.cpp <285:87 285:87>]
-SYMBOL_FUNCTION void b2Log(const char *)
 REFERENCE_CALL void b2Fixture::Dump(int32) -> void b2Log(const char *) [b2Fixture.cpp <287:4 287:8>]
 REFERENCE_USAGE void b2Fixture::Dump(int32) -> int32 b2ChainShape::m_count [b2Fixture.cpp <287:49 287:55>]
 LOCAL_SYMBOL: b2Fixture.cpp<280:18> [b2Fixture.cpp <287:46 287:46>]
-SYMBOL_FUNCTION void b2Log(const char *)
 REFERENCE_CALL void b2Fixture::Dump(int32) -> void b2Log(const char *) [b2Fixture.cpp <288:4 288:8>]
 REFERENCE_USAGE void b2Fixture::Dump(int32) -> float32 b2Vec2::x [b2Fixture.cpp <288:77 288:77>]
 REFERENCE_USAGE void b2Fixture::Dump(int32) -> b2Vec2 b2ChainShape::m_prevVertex [b2Fixture.cpp <288:64 288:75>]
@@ -587,7 +521,6 @@ LOCAL_SYMBOL: b2Fixture.cpp<280:18> [b2Fixture.cpp <288:61 288:61>]
 REFERENCE_USAGE void b2Fixture::Dump(int32) -> float32 b2Vec2::y [b2Fixture.cpp <288:96 288:96>]
 REFERENCE_USAGE void b2Fixture::Dump(int32) -> b2Vec2 b2ChainShape::m_prevVertex [b2Fixture.cpp <288:83 288:94>]
 LOCAL_SYMBOL: b2Fixture.cpp<280:18> [b2Fixture.cpp <288:80 288:80>]
-SYMBOL_FUNCTION void b2Log(const char *)
 REFERENCE_CALL void b2Fixture::Dump(int32) -> void b2Log(const char *) [b2Fixture.cpp <289:4 289:8>]
 REFERENCE_USAGE void b2Fixture::Dump(int32) -> float32 b2Vec2::x [b2Fixture.cpp <289:77 289:77>]
 REFERENCE_USAGE void b2Fixture::Dump(int32) -> b2Vec2 b2ChainShape::m_nextVertex [b2Fixture.cpp <289:64 289:75>]
@@ -595,20 +528,14 @@ LOCAL_SYMBOL: b2Fixture.cpp<280:18> [b2Fixture.cpp <289:61 289:61>]
 REFERENCE_USAGE void b2Fixture::Dump(int32) -> float32 b2Vec2::y [b2Fixture.cpp <289:96 289:96>]
 REFERENCE_USAGE void b2Fixture::Dump(int32) -> b2Vec2 b2ChainShape::m_nextVertex [b2Fixture.cpp <289:83 289:94>]
 LOCAL_SYMBOL: b2Fixture.cpp<280:18> [b2Fixture.cpp <289:80 289:80>]
-SYMBOL_FUNCTION void b2Log(const char *)
 REFERENCE_CALL void b2Fixture::Dump(int32) -> void b2Log(const char *) [b2Fixture.cpp <290:4 290:8>]
 REFERENCE_USAGE void b2Fixture::Dump(int32) -> bool b2ChainShape::m_hasPrevVertex [b2Fixture.cpp <290:56 290:70>]
 LOCAL_SYMBOL: b2Fixture.cpp<280:18> [b2Fixture.cpp <290:53 290:53>]
-SYMBOL_FUNCTION void b2Log(const char *)
 REFERENCE_CALL void b2Fixture::Dump(int32) -> void b2Log(const char *) [b2Fixture.cpp <291:4 291:8>]
 REFERENCE_USAGE void b2Fixture::Dump(int32) -> bool b2ChainShape::m_hasNextVertex [b2Fixture.cpp <291:56 291:70>]
 LOCAL_SYMBOL: b2Fixture.cpp<280:18> [b2Fixture.cpp <291:53 291:53>]
-SYMBOL_FUNCTION void b2Log(const char *)
 REFERENCE_CALL void b2Fixture::Dump(int32) -> void b2Log(const char *) [b2Fixture.cpp <299:2 299:6>]
-SYMBOL_FUNCTION void b2Log(const char *)
 REFERENCE_CALL void b2Fixture::Dump(int32) -> void b2Log(const char *) [b2Fixture.cpp <300:2 300:6>]
-SYMBOL_FUNCTION void b2Log(const char *)
 REFERENCE_CALL void b2Fixture::Dump(int32) -> void b2Log(const char *) [b2Fixture.cpp <301:2 301:6>]
-SYMBOL_FUNCTION void b2Log(const char *)
 REFERENCE_CALL void b2Fixture::Dump(int32) -> void b2Log(const char *) [b2Fixture.cpp <302:2 302:6>]
 LOCAL_SYMBOL: b2Fixture.cpp<229:28> [b2Fixture.cpp <302:49 302:57>]

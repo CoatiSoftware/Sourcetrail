@@ -1,10 +1,15 @@
 FILE: AnnotationDeclaration.java
-SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model.declarations [AnnotationDeclaration.java <1:9 1:61>]
+SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model.declarations [AnnotationDeclaration.java <1:50 1:61>]
 SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model
 SYMBOL_PACKAGE com.github.javaparser.symbolsolver
 SYMBOL_PACKAGE com.github.javaparser
 SYMBOL_PACKAGE com.github
 SYMBOL_PACKAGE com
+QUALIFIER: com.github.javaparser.symbolsolver.model [AnnotationDeclaration.java <1:44 1:48>]
+QUALIFIER: com.github.javaparser.symbolsolver [AnnotationDeclaration.java <1:31 1:42>]
+QUALIFIER: com.github.javaparser [AnnotationDeclaration.java <1:20 1:29>]
+QUALIFIER: com.github [AnnotationDeclaration.java <1:13 1:18>]
+QUALIFIER: com [AnnotationDeclaration.java <1:9 1:11>]
 SYMBOL_INTERFACE public com.github.javaparser.symbolsolver.model.declarations.AnnotationDeclaration [AnnotationDeclaration.java <6:1 <6:18 6:38> 7:1>]
 LOCAL_SYMBOL: AnnotationDeclaration.java<6:73> [AnnotationDeclaration.java <6:73 6:73>]
 LOCAL_SYMBOL: AnnotationDeclaration.java<6:73> [AnnotationDeclaration.java <7:1 7:1>]

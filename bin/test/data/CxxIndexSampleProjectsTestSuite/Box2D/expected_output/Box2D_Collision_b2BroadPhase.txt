@@ -1,12 +1,11 @@
 FILE: b2BroadPhase.cpp
-FILE: b2BroadPhase.cpp
 COMMENT: comment [b2BroadPhase.cpp <1:1 17:3>]
-FILE: b2BroadPhase.cpp
 COMMENT: comment [b2BroadPhase.cpp <95:1 95:73>]
 COMMENT: comment [b2BroadPhase.cpp <98:2 98:44>]
 COMMENT: comment [b2BroadPhase.cpp <104:2 104:36>]
 SYMBOL_METHOD public void b2BroadPhase::b2BroadPhase() [b2BroadPhase.cpp <21:1 <21:15 21:26> 32:1>]
 SYMBOL_CLASS b2BroadPhase
+QUALIFIER: b2BroadPhase [b2BroadPhase.cpp <21:1 21:12>]
 REFERENCE_USAGE void b2BroadPhase::b2BroadPhase() -> b2DynamicTree b2BroadPhase::m_tree [b2BroadPhase.cpp <21:15 21:26>]
 SYMBOL_FUNCTION void b2DynamicTree::b2DynamicTree()
 REFERENCE_CALL void b2BroadPhase::b2BroadPhase() -> void b2DynamicTree::b2DynamicTree() [b2BroadPhase.cpp <21:15 21:26>]
@@ -23,20 +22,18 @@ REFERENCE_USAGE void b2BroadPhase::b2BroadPhase() -> int32 b2BroadPhase::m_moveC
 REFERENCE_USAGE void b2BroadPhase::b2BroadPhase() -> int32 b2BroadPhase::m_moveCount [b2BroadPhase.cpp <30:2 30:12>]
 REFERENCE_USAGE void b2BroadPhase::b2BroadPhase() -> int32 * b2BroadPhase::m_moveBuffer [b2BroadPhase.cpp <31:2 31:13>]
 REFERENCE_TYPE_USAGE void b2BroadPhase::b2BroadPhase() -> int32 [b2BroadPhase.cpp <31:18 31:22>]
-SYMBOL_FUNCTION void * b2Alloc(int32)
 REFERENCE_CALL void b2BroadPhase::b2BroadPhase() -> void * b2Alloc(int32) [b2BroadPhase.cpp <31:25 31:31>]
 REFERENCE_USAGE void b2BroadPhase::b2BroadPhase() -> int32 b2BroadPhase::m_moveCapacity [b2BroadPhase.cpp <31:33 31:46>]
 REFERENCE_TYPE_USAGE void b2BroadPhase::b2BroadPhase() -> int32 [b2BroadPhase.cpp <31:57 31:61>]
 SYMBOL_METHOD public void b2BroadPhase::~b2BroadPhase() [b2BroadPhase.cpp <34:1 <34:15 34:27> 38:1>]
-SYMBOL_CLASS b2BroadPhase
+QUALIFIER: b2BroadPhase [b2BroadPhase.cpp <34:1 34:12>]
 SYMBOL_FUNCTION void b2Free(void *)
 REFERENCE_CALL void b2BroadPhase::~b2BroadPhase() -> void b2Free(void *) [b2BroadPhase.cpp <36:2 36:7>]
 REFERENCE_USAGE void b2BroadPhase::~b2BroadPhase() -> int32 * b2BroadPhase::m_moveBuffer [b2BroadPhase.cpp <36:9 36:20>]
-SYMBOL_FUNCTION void b2Free(void *)
 REFERENCE_CALL void b2BroadPhase::~b2BroadPhase() -> void b2Free(void *) [b2BroadPhase.cpp <37:2 37:7>]
 REFERENCE_USAGE void b2BroadPhase::~b2BroadPhase() -> b2Pair * b2BroadPhase::m_pairBuffer [b2BroadPhase.cpp <37:9 37:20>]
 SYMBOL_METHOD public int32 b2BroadPhase::CreateProxy(const b2AABB &, void *) [b2BroadPhase.cpp <40:1 <40:21 40:31> 46:1>]
-SYMBOL_CLASS b2BroadPhase
+QUALIFIER: b2BroadPhase [b2BroadPhase.cpp <40:7 40:18>]
 REFERENCE_TYPE_USAGE int32 b2BroadPhase::CreateProxy(const b2AABB &, void *) -> int32 [b2BroadPhase.cpp <40:1 40:5>]
 LOCAL_SYMBOL: b2BroadPhase.cpp<40:47> [b2BroadPhase.cpp <40:47 40:50>]
 REFERENCE_TYPE_USAGE int32 b2BroadPhase::CreateProxy(const b2AABB &, void *) -> b2AABB [b2BroadPhase.cpp <40:39 40:44>]
@@ -56,8 +53,7 @@ REFERENCE_CALL int32 b2BroadPhase::CreateProxy(const b2AABB &, void *) -> void b
 LOCAL_SYMBOL: b2BroadPhase.cpp<42:8> [b2BroadPhase.cpp <44:13 44:19>]
 LOCAL_SYMBOL: b2BroadPhase.cpp<42:8> [b2BroadPhase.cpp <45:9 45:15>]
 SYMBOL_METHOD public void b2BroadPhase::DestroyProxy(int32) [b2BroadPhase.cpp <48:1 <48:20 48:31> 53:1>]
-SYMBOL_CLASS b2BroadPhase
-SYMBOL_BUILTIN_TYPE void
+QUALIFIER: b2BroadPhase [b2BroadPhase.cpp <48:6 48:17>]
 REFERENCE_TYPE_USAGE void b2BroadPhase::DestroyProxy(int32) -> void [b2BroadPhase.cpp <48:1 48:4>]
 LOCAL_SYMBOL: b2BroadPhase.cpp<48:39> [b2BroadPhase.cpp <48:39 48:45>]
 REFERENCE_TYPE_USAGE void b2BroadPhase::DestroyProxy(int32) -> int32 [b2BroadPhase.cpp <48:33 48:37>]
@@ -70,8 +66,7 @@ REFERENCE_CALL void b2BroadPhase::DestroyProxy(int32) -> void b2DynamicTree::Des
 REFERENCE_USAGE void b2BroadPhase::DestroyProxy(int32) -> b2DynamicTree b2BroadPhase::m_tree [b2BroadPhase.cpp <52:2 52:7>]
 LOCAL_SYMBOL: b2BroadPhase.cpp<48:39> [b2BroadPhase.cpp <52:22 52:28>]
 SYMBOL_METHOD public void b2BroadPhase::MoveProxy(int32, const b2AABB &, const b2Vec2 &) [b2BroadPhase.cpp <55:1 <55:20 55:28> 62:1>]
-SYMBOL_CLASS b2BroadPhase
-SYMBOL_BUILTIN_TYPE void
+QUALIFIER: b2BroadPhase [b2BroadPhase.cpp <55:6 55:17>]
 REFERENCE_TYPE_USAGE void b2BroadPhase::MoveProxy(int32, const b2AABB &, const b2Vec2 &) -> void [b2BroadPhase.cpp <55:1 55:4>]
 LOCAL_SYMBOL: b2BroadPhase.cpp<55:36> [b2BroadPhase.cpp <55:36 55:42>]
 REFERENCE_TYPE_USAGE void b2BroadPhase::MoveProxy(int32, const b2AABB &, const b2Vec2 &) -> int32 [b2BroadPhase.cpp <55:30 55:34>]
@@ -89,21 +84,17 @@ LOCAL_SYMBOL: b2BroadPhase.cpp<55:36> [b2BroadPhase.cpp <57:33 57:39>]
 LOCAL_SYMBOL: b2BroadPhase.cpp<55:59> [b2BroadPhase.cpp <57:42 57:45>]
 LOCAL_SYMBOL: b2BroadPhase.cpp<55:79> [b2BroadPhase.cpp <57:48 57:59>]
 LOCAL_SYMBOL: b2BroadPhase.cpp<57:7> [b2BroadPhase.cpp <58:6 58:11>]
-SYMBOL_FUNCTION void b2BroadPhase::BufferMove(int32)
 REFERENCE_CALL void b2BroadPhase::MoveProxy(int32, const b2AABB &, const b2Vec2 &) -> void b2BroadPhase::BufferMove(int32) [b2BroadPhase.cpp <60:3 60:12>]
 LOCAL_SYMBOL: b2BroadPhase.cpp<55:36> [b2BroadPhase.cpp <60:14 60:20>]
 SYMBOL_METHOD public void b2BroadPhase::TouchProxy(int32) [b2BroadPhase.cpp <64:1 <64:20 64:29> 67:1>]
-SYMBOL_CLASS b2BroadPhase
-SYMBOL_BUILTIN_TYPE void
+QUALIFIER: b2BroadPhase [b2BroadPhase.cpp <64:6 64:17>]
 REFERENCE_TYPE_USAGE void b2BroadPhase::TouchProxy(int32) -> void [b2BroadPhase.cpp <64:1 64:4>]
 LOCAL_SYMBOL: b2BroadPhase.cpp<64:37> [b2BroadPhase.cpp <64:37 64:43>]
 REFERENCE_TYPE_USAGE void b2BroadPhase::TouchProxy(int32) -> int32 [b2BroadPhase.cpp <64:31 64:35>]
-SYMBOL_FUNCTION void b2BroadPhase::BufferMove(int32)
 REFERENCE_CALL void b2BroadPhase::TouchProxy(int32) -> void b2BroadPhase::BufferMove(int32) [b2BroadPhase.cpp <66:2 66:11>]
 LOCAL_SYMBOL: b2BroadPhase.cpp<64:37> [b2BroadPhase.cpp <66:13 66:19>]
 SYMBOL_METHOD private void b2BroadPhase::BufferMove(int32) [b2BroadPhase.cpp <69:1 <69:20 69:29> 82:1>]
-SYMBOL_CLASS b2BroadPhase
-SYMBOL_BUILTIN_TYPE void
+QUALIFIER: b2BroadPhase [b2BroadPhase.cpp <69:6 69:17>]
 REFERENCE_TYPE_USAGE void b2BroadPhase::BufferMove(int32) -> void [b2BroadPhase.cpp <69:1 69:4>]
 LOCAL_SYMBOL: b2BroadPhase.cpp<69:37> [b2BroadPhase.cpp <69:37 69:43>]
 REFERENCE_TYPE_USAGE void b2BroadPhase::BufferMove(int32) -> int32 [b2BroadPhase.cpp <69:31 69:35>]
@@ -115,7 +106,6 @@ REFERENCE_USAGE void b2BroadPhase::BufferMove(int32) -> int32 * b2BroadPhase::m_
 REFERENCE_USAGE void b2BroadPhase::BufferMove(int32) -> int32 b2BroadPhase::m_moveCapacity [b2BroadPhase.cpp <74:3 74:16>]
 REFERENCE_USAGE void b2BroadPhase::BufferMove(int32) -> int32 * b2BroadPhase::m_moveBuffer [b2BroadPhase.cpp <75:3 75:14>]
 REFERENCE_TYPE_USAGE void b2BroadPhase::BufferMove(int32) -> int32 [b2BroadPhase.cpp <75:19 75:23>]
-SYMBOL_FUNCTION void * b2Alloc(int32)
 REFERENCE_CALL void b2BroadPhase::BufferMove(int32) -> void * b2Alloc(int32) [b2BroadPhase.cpp <75:26 75:32>]
 REFERENCE_USAGE void b2BroadPhase::BufferMove(int32) -> int32 b2BroadPhase::m_moveCapacity [b2BroadPhase.cpp <75:34 75:47>]
 REFERENCE_TYPE_USAGE void b2BroadPhase::BufferMove(int32) -> int32 [b2BroadPhase.cpp <75:58 75:62>]
@@ -125,7 +115,6 @@ REFERENCE_USAGE void b2BroadPhase::BufferMove(int32) -> int32 * b2BroadPhase::m_
 LOCAL_SYMBOL: b2BroadPhase.cpp<73:10> [b2BroadPhase.cpp <76:24 76:32>]
 REFERENCE_USAGE void b2BroadPhase::BufferMove(int32) -> int32 b2BroadPhase::m_moveCount [b2BroadPhase.cpp <76:35 76:45>]
 REFERENCE_TYPE_USAGE void b2BroadPhase::BufferMove(int32) -> int32 [b2BroadPhase.cpp <76:56 76:60>]
-SYMBOL_FUNCTION void b2Free(void *)
 REFERENCE_CALL void b2BroadPhase::BufferMove(int32) -> void b2Free(void *) [b2BroadPhase.cpp <77:3 77:8>]
 LOCAL_SYMBOL: b2BroadPhase.cpp<73:10> [b2BroadPhase.cpp <77:10 77:18>]
 REFERENCE_USAGE void b2BroadPhase::BufferMove(int32) -> int32 * b2BroadPhase::m_moveBuffer [b2BroadPhase.cpp <80:2 80:13>]
@@ -133,8 +122,7 @@ REFERENCE_USAGE void b2BroadPhase::BufferMove(int32) -> int32 b2BroadPhase::m_mo
 LOCAL_SYMBOL: b2BroadPhase.cpp<69:37> [b2BroadPhase.cpp <80:30 80:36>]
 REFERENCE_USAGE void b2BroadPhase::BufferMove(int32) -> int32 b2BroadPhase::m_moveCount [b2BroadPhase.cpp <81:4 81:14>]
 SYMBOL_METHOD private void b2BroadPhase::UnBufferMove(int32) [b2BroadPhase.cpp <84:1 <84:20 84:31> 93:1>]
-SYMBOL_CLASS b2BroadPhase
-SYMBOL_BUILTIN_TYPE void
+QUALIFIER: b2BroadPhase [b2BroadPhase.cpp <84:6 84:17>]
 REFERENCE_TYPE_USAGE void b2BroadPhase::UnBufferMove(int32) -> void [b2BroadPhase.cpp <84:1 84:4>]
 LOCAL_SYMBOL: b2BroadPhase.cpp<84:39> [b2BroadPhase.cpp <84:39 84:45>]
 REFERENCE_TYPE_USAGE void b2BroadPhase::UnBufferMove(int32) -> int32 [b2BroadPhase.cpp <84:33 84:37>]
@@ -150,8 +138,7 @@ REFERENCE_USAGE void b2BroadPhase::UnBufferMove(int32) -> int32 * b2BroadPhase::
 LOCAL_SYMBOL: b2BroadPhase.cpp<86:13> [b2BroadPhase.cpp <90:17 90:17>]
 REFERENCE_USAGE void b2BroadPhase::UnBufferMove(int32) -> b2BroadPhase::anonymous enum (b2BroadPhase.h<40:2>)::e_nullProxy [b2BroadPhase.cpp <90:22 90:32>]
 SYMBOL_METHOD private bool b2BroadPhase::QueryCallback(int32) [b2BroadPhase.cpp <96:1 <96:20 96:32> 119:1>]
-SYMBOL_CLASS b2BroadPhase
-SYMBOL_BUILTIN_TYPE bool
+QUALIFIER: b2BroadPhase [b2BroadPhase.cpp <96:6 96:17>]
 REFERENCE_TYPE_USAGE bool b2BroadPhase::QueryCallback(int32) -> bool [b2BroadPhase.cpp <96:1 96:4>]
 LOCAL_SYMBOL: b2BroadPhase.cpp<96:40> [b2BroadPhase.cpp <96:40 96:46>]
 REFERENCE_TYPE_USAGE bool b2BroadPhase::QueryCallback(int32) -> int32 [b2BroadPhase.cpp <96:34 96:38>]
@@ -165,17 +152,14 @@ REFERENCE_USAGE bool b2BroadPhase::QueryCallback(int32) -> b2Pair * b2BroadPhase
 REFERENCE_USAGE bool b2BroadPhase::QueryCallback(int32) -> int32 b2BroadPhase::m_pairCapacity [b2BroadPhase.cpp <108:3 108:16>]
 REFERENCE_USAGE bool b2BroadPhase::QueryCallback(int32) -> b2Pair * b2BroadPhase::m_pairBuffer [b2BroadPhase.cpp <109:3 109:14>]
 REFERENCE_TYPE_USAGE bool b2BroadPhase::QueryCallback(int32) -> b2Pair [b2BroadPhase.cpp <109:19 109:24>]
-SYMBOL_FUNCTION void * b2Alloc(int32)
 REFERENCE_CALL bool b2BroadPhase::QueryCallback(int32) -> void * b2Alloc(int32) [b2BroadPhase.cpp <109:27 109:33>]
 REFERENCE_USAGE bool b2BroadPhase::QueryCallback(int32) -> int32 b2BroadPhase::m_pairCapacity [b2BroadPhase.cpp <109:35 109:48>]
 REFERENCE_TYPE_USAGE bool b2BroadPhase::QueryCallback(int32) -> b2Pair [b2BroadPhase.cpp <109:59 109:64>]
-SYMBOL_FUNCTION void * memcpy(void *, const void *, size_t)
 REFERENCE_CALL bool b2BroadPhase::QueryCallback(int32) -> void * memcpy(void *, const void *, size_t) [b2BroadPhase.cpp <110:3 110:8>]
 REFERENCE_USAGE bool b2BroadPhase::QueryCallback(int32) -> b2Pair * b2BroadPhase::m_pairBuffer [b2BroadPhase.cpp <110:10 110:21>]
 LOCAL_SYMBOL: b2BroadPhase.cpp<107:11> [b2BroadPhase.cpp <110:24 110:32>]
 REFERENCE_USAGE bool b2BroadPhase::QueryCallback(int32) -> int32 b2BroadPhase::m_pairCount [b2BroadPhase.cpp <110:35 110:45>]
 REFERENCE_TYPE_USAGE bool b2BroadPhase::QueryCallback(int32) -> b2Pair [b2BroadPhase.cpp <110:56 110:61>]
-SYMBOL_FUNCTION void b2Free(void *)
 REFERENCE_CALL bool b2BroadPhase::QueryCallback(int32) -> void b2Free(void *) [b2BroadPhase.cpp <111:3 111:8>]
 LOCAL_SYMBOL: b2BroadPhase.cpp<107:11> [b2BroadPhase.cpp <111:10 111:18>]
 REFERENCE_USAGE bool b2BroadPhase::QueryCallback(int32) -> int32 b2Pair::proxyIdA [b2BroadPhase.cpp <114:28 114:35>]

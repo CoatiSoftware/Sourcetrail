@@ -1,36 +1,98 @@
 FILE: ReferenceTypeImpl.java
-SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model.typesystem [ReferenceTypeImpl.java <17:9 17:59>]
+SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model.typesystem [ReferenceTypeImpl.java <17:50 17:59>]
 SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model
 SYMBOL_PACKAGE com.github.javaparser.symbolsolver
 SYMBOL_PACKAGE com.github.javaparser
 SYMBOL_PACKAGE com.github
 SYMBOL_PACKAGE com
-REFERENCE_IMPORT ReferenceTypeImpl.java -> com.github.javaparser.symbolsolver.javaparsermodel.LambdaArgumentTypePlaceholder [ReferenceTypeImpl.java <19:8 19:87>]
+QUALIFIER: com.github.javaparser.symbolsolver.model [ReferenceTypeImpl.java <17:44 17:48>]
+QUALIFIER: com.github.javaparser.symbolsolver [ReferenceTypeImpl.java <17:31 17:42>]
+QUALIFIER: com.github.javaparser [ReferenceTypeImpl.java <17:20 17:29>]
+QUALIFIER: com.github [ReferenceTypeImpl.java <17:13 17:18>]
+QUALIFIER: com [ReferenceTypeImpl.java <17:9 17:11>]
+REFERENCE_IMPORT ReferenceTypeImpl.java -> com.github.javaparser.symbolsolver.javaparsermodel.LambdaArgumentTypePlaceholder [ReferenceTypeImpl.java <19:59 19:87>]
 SYMBOL_PACKAGE com.github.javaparser.symbolsolver.javaparsermodel
-REFERENCE_IMPORT ReferenceTypeImpl.java -> com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserTypeVariableDeclaration [ReferenceTypeImpl.java <20:8 20:104>]
+QUALIFIER: com.github.javaparser.symbolsolver.javaparsermodel [ReferenceTypeImpl.java <19:43 19:57>]
+QUALIFIER: com.github.javaparser.symbolsolver [ReferenceTypeImpl.java <19:30 19:41>]
+QUALIFIER: com.github.javaparser [ReferenceTypeImpl.java <19:19 19:28>]
+QUALIFIER: com.github [ReferenceTypeImpl.java <19:12 19:17>]
+QUALIFIER: com [ReferenceTypeImpl.java <19:8 19:10>]
+REFERENCE_IMPORT ReferenceTypeImpl.java -> com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserTypeVariableDeclaration [ReferenceTypeImpl.java <20:72 20:104>]
 SYMBOL_PACKAGE com.github.javaparser.symbolsolver.javaparsermodel.declarations
-REFERENCE_IMPORT ReferenceTypeImpl.java -> com.github.javaparser.symbolsolver.model.declarations.MethodDeclaration [ReferenceTypeImpl.java <21:8 21:78>]
+QUALIFIER: com.github.javaparser.symbolsolver.javaparsermodel.declarations [ReferenceTypeImpl.java <20:59 20:70>]
+QUALIFIER: com.github.javaparser.symbolsolver.javaparsermodel [ReferenceTypeImpl.java <20:43 20:57>]
+QUALIFIER: com.github.javaparser.symbolsolver [ReferenceTypeImpl.java <20:30 20:41>]
+QUALIFIER: com.github.javaparser [ReferenceTypeImpl.java <20:19 20:28>]
+QUALIFIER: com.github [ReferenceTypeImpl.java <20:12 20:17>]
+QUALIFIER: com [ReferenceTypeImpl.java <20:8 20:10>]
+REFERENCE_IMPORT ReferenceTypeImpl.java -> com.github.javaparser.symbolsolver.model.declarations.MethodDeclaration [ReferenceTypeImpl.java <21:62 21:78>]
 SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model.declarations
-REFERENCE_IMPORT ReferenceTypeImpl.java -> com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration [ReferenceTypeImpl.java <22:8 22:85>]
-SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model.declarations
-REFERENCE_IMPORT ReferenceTypeImpl.java -> com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration [ReferenceTypeImpl.java <23:8 23:85>]
-SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model.declarations
-REFERENCE_IMPORT ReferenceTypeImpl.java -> com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration.Bound [ReferenceTypeImpl.java <24:8 24:91>]
-SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model.declarations
-REFERENCE_IMPORT ReferenceTypeImpl.java -> com.github.javaparser.symbolsolver.model.methods.MethodUsage [ReferenceTypeImpl.java <25:8 25:67>]
+QUALIFIER: com.github.javaparser.symbolsolver.model.declarations [ReferenceTypeImpl.java <21:49 21:60>]
+QUALIFIER: com.github.javaparser.symbolsolver.model [ReferenceTypeImpl.java <21:43 21:47>]
+QUALIFIER: com.github.javaparser.symbolsolver [ReferenceTypeImpl.java <21:30 21:41>]
+QUALIFIER: com.github.javaparser [ReferenceTypeImpl.java <21:19 21:28>]
+QUALIFIER: com.github [ReferenceTypeImpl.java <21:12 21:17>]
+QUALIFIER: com [ReferenceTypeImpl.java <21:8 21:10>]
+REFERENCE_IMPORT ReferenceTypeImpl.java -> com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration [ReferenceTypeImpl.java <22:62 22:85>]
+QUALIFIER: com.github.javaparser.symbolsolver.model.declarations [ReferenceTypeImpl.java <22:49 22:60>]
+QUALIFIER: com.github.javaparser.symbolsolver.model [ReferenceTypeImpl.java <22:43 22:47>]
+QUALIFIER: com.github.javaparser.symbolsolver [ReferenceTypeImpl.java <22:30 22:41>]
+QUALIFIER: com.github.javaparser [ReferenceTypeImpl.java <22:19 22:28>]
+QUALIFIER: com.github [ReferenceTypeImpl.java <22:12 22:17>]
+QUALIFIER: com [ReferenceTypeImpl.java <22:8 22:10>]
+REFERENCE_IMPORT ReferenceTypeImpl.java -> com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration [ReferenceTypeImpl.java <23:62 23:85>]
+QUALIFIER: com.github.javaparser.symbolsolver.model.declarations [ReferenceTypeImpl.java <23:49 23:60>]
+QUALIFIER: com.github.javaparser.symbolsolver.model [ReferenceTypeImpl.java <23:43 23:47>]
+QUALIFIER: com.github.javaparser.symbolsolver [ReferenceTypeImpl.java <23:30 23:41>]
+QUALIFIER: com.github.javaparser [ReferenceTypeImpl.java <23:19 23:28>]
+QUALIFIER: com.github [ReferenceTypeImpl.java <23:12 23:17>]
+QUALIFIER: com [ReferenceTypeImpl.java <23:8 23:10>]
+REFERENCE_IMPORT ReferenceTypeImpl.java -> com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration.Bound [ReferenceTypeImpl.java <24:87 24:91>]
+QUALIFIER: com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration [ReferenceTypeImpl.java <24:62 24:85>]
+QUALIFIER: com.github.javaparser.symbolsolver.model.declarations [ReferenceTypeImpl.java <24:49 24:60>]
+QUALIFIER: com.github.javaparser.symbolsolver.model [ReferenceTypeImpl.java <24:43 24:47>]
+QUALIFIER: com.github.javaparser.symbolsolver [ReferenceTypeImpl.java <24:30 24:41>]
+QUALIFIER: com.github.javaparser [ReferenceTypeImpl.java <24:19 24:28>]
+QUALIFIER: com.github [ReferenceTypeImpl.java <24:12 24:17>]
+QUALIFIER: com [ReferenceTypeImpl.java <24:8 24:10>]
+REFERENCE_IMPORT ReferenceTypeImpl.java -> com.github.javaparser.symbolsolver.model.methods.MethodUsage [ReferenceTypeImpl.java <25:57 25:67>]
 SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model.methods
-REFERENCE_IMPORT ReferenceTypeImpl.java -> com.github.javaparser.symbolsolver.model.resolution.SymbolReference<S> [ReferenceTypeImpl.java <26:8 26:74>]
+QUALIFIER: com.github.javaparser.symbolsolver.model.methods [ReferenceTypeImpl.java <25:49 25:55>]
+QUALIFIER: com.github.javaparser.symbolsolver.model [ReferenceTypeImpl.java <25:43 25:47>]
+QUALIFIER: com.github.javaparser.symbolsolver [ReferenceTypeImpl.java <25:30 25:41>]
+QUALIFIER: com.github.javaparser [ReferenceTypeImpl.java <25:19 25:28>]
+QUALIFIER: com.github [ReferenceTypeImpl.java <25:12 25:17>]
+QUALIFIER: com [ReferenceTypeImpl.java <25:8 25:10>]
+REFERENCE_IMPORT ReferenceTypeImpl.java -> com.github.javaparser.symbolsolver.model.resolution.SymbolReference<S> [ReferenceTypeImpl.java <26:60 26:74>]
 SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model.resolution
-REFERENCE_IMPORT ReferenceTypeImpl.java -> com.github.javaparser.symbolsolver.model.resolution.TypeSolver [ReferenceTypeImpl.java <27:8 27:69>]
-SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model.resolution
-REFERENCE_IMPORT ReferenceTypeImpl.java -> java.util.HashSet<E> [ReferenceTypeImpl.java <29:8 29:24>]
+QUALIFIER: com.github.javaparser.symbolsolver.model.resolution [ReferenceTypeImpl.java <26:49 26:58>]
+QUALIFIER: com.github.javaparser.symbolsolver.model [ReferenceTypeImpl.java <26:43 26:47>]
+QUALIFIER: com.github.javaparser.symbolsolver [ReferenceTypeImpl.java <26:30 26:41>]
+QUALIFIER: com.github.javaparser [ReferenceTypeImpl.java <26:19 26:28>]
+QUALIFIER: com.github [ReferenceTypeImpl.java <26:12 26:17>]
+QUALIFIER: com [ReferenceTypeImpl.java <26:8 26:10>]
+REFERENCE_IMPORT ReferenceTypeImpl.java -> com.github.javaparser.symbolsolver.model.resolution.TypeSolver [ReferenceTypeImpl.java <27:60 27:69>]
+QUALIFIER: com.github.javaparser.symbolsolver.model.resolution [ReferenceTypeImpl.java <27:49 27:58>]
+QUALIFIER: com.github.javaparser.symbolsolver.model [ReferenceTypeImpl.java <27:43 27:47>]
+QUALIFIER: com.github.javaparser.symbolsolver [ReferenceTypeImpl.java <27:30 27:41>]
+QUALIFIER: com.github.javaparser [ReferenceTypeImpl.java <27:19 27:28>]
+QUALIFIER: com.github [ReferenceTypeImpl.java <27:12 27:17>]
+QUALIFIER: com [ReferenceTypeImpl.java <27:8 27:10>]
+REFERENCE_IMPORT ReferenceTypeImpl.java -> java.util.HashSet<E> [ReferenceTypeImpl.java <29:18 29:24>]
 SYMBOL_PACKAGE java.util
-REFERENCE_IMPORT ReferenceTypeImpl.java -> java.util.List<E> [ReferenceTypeImpl.java <30:8 30:21>]
-SYMBOL_PACKAGE java.util
-REFERENCE_IMPORT ReferenceTypeImpl.java -> java.util.Set<E> [ReferenceTypeImpl.java <31:8 31:20>]
-SYMBOL_PACKAGE java.util
-REFERENCE_IMPORT ReferenceTypeImpl.java -> java.util.stream.Collectors [ReferenceTypeImpl.java <32:8 32:34>]
+QUALIFIER: java.util [ReferenceTypeImpl.java <29:13 29:16>]
+QUALIFIER: java [ReferenceTypeImpl.java <29:8 29:11>]
+REFERENCE_IMPORT ReferenceTypeImpl.java -> java.util.List<E> [ReferenceTypeImpl.java <30:18 30:21>]
+QUALIFIER: java.util [ReferenceTypeImpl.java <30:13 30:16>]
+QUALIFIER: java [ReferenceTypeImpl.java <30:8 30:11>]
+REFERENCE_IMPORT ReferenceTypeImpl.java -> java.util.Set<E> [ReferenceTypeImpl.java <31:18 31:20>]
+QUALIFIER: java.util [ReferenceTypeImpl.java <31:13 31:16>]
+QUALIFIER: java [ReferenceTypeImpl.java <31:8 31:11>]
+REFERENCE_IMPORT ReferenceTypeImpl.java -> java.util.stream.Collectors [ReferenceTypeImpl.java <32:25 32:34>]
 SYMBOL_PACKAGE java.util.stream
+QUALIFIER: java.util.stream [ReferenceTypeImpl.java <32:18 32:23>]
+QUALIFIER: java.util [ReferenceTypeImpl.java <32:13 32:16>]
+QUALIFIER: java [ReferenceTypeImpl.java <32:8 32:11>]
 SYMBOL_CLASS public com.github.javaparser.symbolsolver.model.typesystem.ReferenceTypeImpl [ReferenceTypeImpl.java <37:1 <39:14 39:30> 148:1>]
 LOCAL_SYMBOL: ReferenceTypeImpl.java<39:54> [ReferenceTypeImpl.java <39:54 39:54>]
 LOCAL_SYMBOL: ReferenceTypeImpl.java<39:54> [ReferenceTypeImpl.java <148:1 148:1>]
@@ -64,6 +126,7 @@ REFERENCE_TYPE_USAGE static com.github.javaparser.symbolsolver.model.typesystem.
 LOCAL_SYMBOL: java.util.function.Function<T, R>.apply<3> [ReferenceTypeImpl.java <43:40 43:41>]
 SYMBOL_METHOD static java.util.stream.Collector<T, ?, java.util.List<T>> java.util.stream.Collectors.toList<T>()
 REFERENCE_CALL static com.github.javaparser.symbolsolver.model.typesystem.ReferenceType com.github.javaparser.symbolsolver.model.typesystem.ReferenceTypeImpl.undeterminedParameters(com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> static java.util.stream.Collector<T, ?, java.util.List<T>> java.util.stream.Collectors.toList<T>() [ReferenceTypeImpl.java <44:30 44:35>]
+QUALIFIER: java.util.stream.Collectors [ReferenceTypeImpl.java <44:19 44:28>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.model.typesystem.ReferenceTypeImpl.undeterminedParameters<1> [ReferenceTypeImpl.java <44:41 44:50>]
 SYMBOL_METHOD protected com.github.javaparser.symbolsolver.model.typesystem.ReferenceType com.github.javaparser.symbolsolver.model.typesystem.ReferenceTypeImpl.create(com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration, java.util.List<com.github.javaparser.symbolsolver.model.typesystem.Type>, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) [ReferenceTypeImpl.java <47:5 <48:29 48:34> 50:5>]
 SYMBOL_METHOD com.github.javaparser.symbolsolver.model.typesystem.ReferenceType com.github.javaparser.symbolsolver.model.typesystem.ReferenceType.create(com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration, java.util.List<com.github.javaparser.symbolsolver.model.typesystem.Type>, com.github.javaparser.symbolsolver.model.resolution.TypeSolver)
@@ -78,7 +141,6 @@ REFERENCE_TYPE_USAGE com.github.javaparser.symbolsolver.model.typesystem.Referen
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.model.typesystem.ReferenceTypeImpl.create<2> [ReferenceTypeImpl.java <48:125 48:134>]
 LOCAL_SYMBOL: ReferenceTypeImpl.java<48:137> [ReferenceTypeImpl.java <48:137 48:137>]
 LOCAL_SYMBOL: ReferenceTypeImpl.java<48:137> [ReferenceTypeImpl.java <50:5 50:5>]
-SYMBOL_METHOD com.github.javaparser.symbolsolver.model.typesystem.ReferenceTypeImpl.ReferenceTypeImpl(com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration, java.util.List<com.github.javaparser.symbolsolver.model.typesystem.Type>, com.github.javaparser.symbolsolver.model.resolution.TypeSolver)
 REFERENCE_CALL com.github.javaparser.symbolsolver.model.typesystem.ReferenceType com.github.javaparser.symbolsolver.model.typesystem.ReferenceTypeImpl.create(com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration, java.util.List<com.github.javaparser.symbolsolver.model.typesystem.Type>, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> com.github.javaparser.symbolsolver.model.typesystem.ReferenceTypeImpl.ReferenceTypeImpl(com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration, java.util.List<com.github.javaparser.symbolsolver.model.typesystem.Type>, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) [ReferenceTypeImpl.java <49:20 49:36>]
 REFERENCE_TYPE_USAGE com.github.javaparser.symbolsolver.model.typesystem.ReferenceType com.github.javaparser.symbolsolver.model.typesystem.ReferenceTypeImpl.create(com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration, java.util.List<com.github.javaparser.symbolsolver.model.typesystem.Type>, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> com.github.javaparser.symbolsolver.model.typesystem.ReferenceTypeImpl [ReferenceTypeImpl.java <49:20 49:36>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.model.typesystem.ReferenceTypeImpl.create<0> [ReferenceTypeImpl.java <49:38 49:52>]
@@ -108,7 +170,6 @@ REFERENCE_TYPE_USAGE com.github.javaparser.symbolsolver.model.typesystem.Referen
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.model.typesystem.ReferenceTypeImpl.ReferenceTypeImpl<1> [ReferenceTypeImpl.java <57:83 57:92>]
 LOCAL_SYMBOL: ReferenceTypeImpl.java<57:95> [ReferenceTypeImpl.java <57:95 57:95>]
 LOCAL_SYMBOL: ReferenceTypeImpl.java<57:95> [ReferenceTypeImpl.java <59:5 59:5>]
-SYMBOL_METHOD com.github.javaparser.symbolsolver.model.typesystem.ReferenceType.ReferenceType(com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration, com.github.javaparser.symbolsolver.model.resolution.TypeSolver)
 REFERENCE_CALL com.github.javaparser.symbolsolver.model.typesystem.ReferenceTypeImpl.ReferenceTypeImpl(com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> com.github.javaparser.symbolsolver.model.typesystem.ReferenceType.ReferenceType(com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) [ReferenceTypeImpl.java <58:9 58:13>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.model.typesystem.ReferenceTypeImpl.ReferenceTypeImpl<0> [ReferenceTypeImpl.java <58:15 58:29>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.model.typesystem.ReferenceTypeImpl.ReferenceTypeImpl<1> [ReferenceTypeImpl.java <58:32 58:41>]
@@ -124,7 +185,6 @@ REFERENCE_TYPE_USAGE com.github.javaparser.symbolsolver.model.typesystem.Referen
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.model.typesystem.ReferenceTypeImpl.ReferenceTypeImpl<2> [ReferenceTypeImpl.java <61:110 61:119>]
 LOCAL_SYMBOL: ReferenceTypeImpl.java<61:122> [ReferenceTypeImpl.java <61:122 61:122>]
 LOCAL_SYMBOL: ReferenceTypeImpl.java<61:122> [ReferenceTypeImpl.java <63:5 63:5>]
-SYMBOL_METHOD com.github.javaparser.symbolsolver.model.typesystem.ReferenceType.ReferenceType(com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration, java.util.List<com.github.javaparser.symbolsolver.model.typesystem.Type>, com.github.javaparser.symbolsolver.model.resolution.TypeSolver)
 REFERENCE_CALL com.github.javaparser.symbolsolver.model.typesystem.ReferenceTypeImpl.ReferenceTypeImpl(com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration, java.util.List<com.github.javaparser.symbolsolver.model.typesystem.Type>, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> com.github.javaparser.symbolsolver.model.typesystem.ReferenceType.ReferenceType(com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration, java.util.List<com.github.javaparser.symbolsolver.model.typesystem.Type>, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) [ReferenceTypeImpl.java <62:9 62:13>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.model.typesystem.ReferenceTypeImpl.ReferenceTypeImpl<0> [ReferenceTypeImpl.java <62:15 62:29>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.model.typesystem.ReferenceTypeImpl.ReferenceTypeImpl<1> [ReferenceTypeImpl.java <62:32 62:45>]
@@ -135,6 +195,7 @@ REFERENCE_OVERRIDE com.github.javaparser.symbolsolver.model.declarations.TypePar
 REFERENCE_TYPE_USAGE com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration com.github.javaparser.symbolsolver.model.typesystem.ReferenceTypeImpl.asTypeParameter() -> com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration [ReferenceTypeImpl.java <66:12 66:35>]
 LOCAL_SYMBOL: ReferenceTypeImpl.java<66:55> [ReferenceTypeImpl.java <66:55 66:55>]
 LOCAL_SYMBOL: ReferenceTypeImpl.java<66:55> [ReferenceTypeImpl.java <72:5 72:5>]
+QUALIFIER: com.github.javaparser.symbolsolver.model.typesystem.ReferenceTypeImpl [ReferenceTypeImpl.java <67:13 67:16>]
 SYMBOL_FIELD com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration com.github.javaparser.symbolsolver.model.typesystem.ReferenceType.typeDeclaration
 REFERENCE_USAGE com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration com.github.javaparser.symbolsolver.model.typesystem.ReferenceTypeImpl.asTypeParameter() -> com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration com.github.javaparser.symbolsolver.model.typesystem.ReferenceType.typeDeclaration [ReferenceTypeImpl.java <67:18 67:32>]
 REFERENCE_TYPE_USAGE com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration com.github.javaparser.symbolsolver.model.typesystem.ReferenceTypeImpl.asTypeParameter() -> com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserTypeVariableDeclaration [ReferenceTypeImpl.java <67:45 67:77>]
@@ -143,7 +204,7 @@ LOCAL_SYMBOL: ReferenceTypeImpl.java<67:80> [ReferenceTypeImpl.java <70:9 70:9>]
 REFERENCE_TYPE_USAGE com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration com.github.javaparser.symbolsolver.model.typesystem.ReferenceTypeImpl.asTypeParameter() -> com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserTypeVariableDeclaration [ReferenceTypeImpl.java <68:13 68:45>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.model.typesystem.ReferenceTypeImpl.asTypeParameter<0> [ReferenceTypeImpl.java <68:47 68:79>]
 REFERENCE_TYPE_USAGE com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration com.github.javaparser.symbolsolver.model.typesystem.ReferenceTypeImpl.asTypeParameter() -> com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserTypeVariableDeclaration [ReferenceTypeImpl.java <68:84 68:116>]
-SYMBOL_FIELD com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration com.github.javaparser.symbolsolver.model.typesystem.ReferenceType.typeDeclaration
+QUALIFIER: com.github.javaparser.symbolsolver.model.typesystem.ReferenceTypeImpl [ReferenceTypeImpl.java <68:119 68:122>]
 REFERENCE_USAGE com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration com.github.javaparser.symbolsolver.model.typesystem.ReferenceTypeImpl.asTypeParameter() -> com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration com.github.javaparser.symbolsolver.model.typesystem.ReferenceType.typeDeclaration [ReferenceTypeImpl.java <68:124 68:138>]
 SYMBOL_METHOD com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserTypeVariableDeclaration.asTypeParameter()
 REFERENCE_CALL com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration com.github.javaparser.symbolsolver.model.typesystem.ReferenceTypeImpl.asTypeParameter() -> com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserTypeVariableDeclaration.asTypeParameter() [ReferenceTypeImpl.java <69:54 69:68>]
@@ -155,7 +216,7 @@ SYMBOL_METHOD java.lang.String java.lang.Class<T>.getCanonicalName()
 REFERENCE_CALL com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration com.github.javaparser.symbolsolver.model.typesystem.ReferenceTypeImpl.asTypeParameter() -> java.lang.String java.lang.Class<T>.getCanonicalName() [ReferenceTypeImpl.java <71:81 71:96>]
 SYMBOL_METHOD java.lang.Class<?> java.lang.Object.getClass()
 REFERENCE_CALL com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration com.github.javaparser.symbolsolver.model.typesystem.ReferenceTypeImpl.asTypeParameter() -> java.lang.Class<?> java.lang.Object.getClass() [ReferenceTypeImpl.java <71:70 71:77>]
-SYMBOL_FIELD com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration com.github.javaparser.symbolsolver.model.typesystem.ReferenceType.typeDeclaration
+QUALIFIER: com.github.javaparser.symbolsolver.model.typesystem.ReferenceTypeImpl [ReferenceTypeImpl.java <71:49 71:52>]
 REFERENCE_USAGE com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration com.github.javaparser.symbolsolver.model.typesystem.ReferenceTypeImpl.asTypeParameter() -> com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration com.github.javaparser.symbolsolver.model.typesystem.ReferenceType.typeDeclaration [ReferenceTypeImpl.java <71:54 71:68>]
 SYMBOL_METHOD public boolean com.github.javaparser.symbolsolver.model.typesystem.ReferenceTypeImpl.isAssignableBy(com.github.javaparser.symbolsolver.model.typesystem.Type) [ReferenceTypeImpl.java <77:1 <78:20 78:33> 134:5>]
 SYMBOL_METHOD boolean com.github.javaparser.symbolsolver.model.typesystem.ReferenceType.isAssignableBy(com.github.javaparser.symbolsolver.model.typesystem.Type)
@@ -173,6 +234,7 @@ LOCAL_SYMBOL: ReferenceTypeImpl.java<79:40> [ReferenceTypeImpl.java <79:40 79:40
 LOCAL_SYMBOL: ReferenceTypeImpl.java<79:40> [ReferenceTypeImpl.java <81:9 81:9>]
 SYMBOL_METHOD boolean com.github.javaparser.symbolsolver.model.typesystem.Type.isPrimitive()
 REFERENCE_CALL boolean com.github.javaparser.symbolsolver.model.typesystem.ReferenceTypeImpl.isAssignableBy(com.github.javaparser.symbolsolver.model.typesystem.Type) -> boolean com.github.javaparser.symbolsolver.model.typesystem.Type.isPrimitive() [ReferenceTypeImpl.java <80:26 80:36>]
+QUALIFIER: com.github.javaparser.symbolsolver.model.typesystem.ReferenceTypeImpl [ReferenceTypeImpl.java <80:21 80:24>]
 SYMBOL_METHOD boolean com.github.javaparser.symbolsolver.model.typesystem.Type.isVoid()
 REFERENCE_CALL boolean com.github.javaparser.symbolsolver.model.typesystem.ReferenceTypeImpl.isAssignableBy(com.github.javaparser.symbolsolver.model.typesystem.Type) -> boolean com.github.javaparser.symbolsolver.model.typesystem.Type.isVoid() [ReferenceTypeImpl.java <83:20 83:25>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.model.typesystem.ReferenceTypeImpl.isAssignableBy<0> [ReferenceTypeImpl.java <83:14 83:18>]
@@ -180,21 +242,18 @@ SYMBOL_METHOD boolean java.lang.String.equals(java.lang.Object)
 REFERENCE_CALL boolean com.github.javaparser.symbolsolver.model.typesystem.ReferenceTypeImpl.isAssignableBy(com.github.javaparser.symbolsolver.model.typesystem.Type) -> boolean java.lang.String.equals(java.lang.Object) [ReferenceTypeImpl.java <83:56 83:61>]
 SYMBOL_METHOD java.lang.String com.github.javaparser.symbolsolver.model.typesystem.ReferenceType.getQualifiedName()
 REFERENCE_CALL boolean com.github.javaparser.symbolsolver.model.typesystem.ReferenceTypeImpl.isAssignableBy(com.github.javaparser.symbolsolver.model.typesystem.Type) -> java.lang.String com.github.javaparser.symbolsolver.model.typesystem.ReferenceType.getQualifiedName() [ReferenceTypeImpl.java <83:37 83:52>]
-SYMBOL_METHOD java.lang.String java.lang.Class<T>.getCanonicalName()
+QUALIFIER: com.github.javaparser.symbolsolver.model.typesystem.ReferenceTypeImpl [ReferenceTypeImpl.java <83:32 83:35>]
 REFERENCE_CALL boolean com.github.javaparser.symbolsolver.model.typesystem.ReferenceTypeImpl.isAssignableBy(com.github.javaparser.symbolsolver.model.typesystem.Type) -> java.lang.String java.lang.Class<T>.getCanonicalName() [ReferenceTypeImpl.java <83:76 83:91>]
 REFERENCE_TYPE_USAGE boolean com.github.javaparser.symbolsolver.model.typesystem.ReferenceTypeImpl.isAssignableBy(com.github.javaparser.symbolsolver.model.typesystem.Type) -> java.lang.Object [ReferenceTypeImpl.java <83:63 83:68>]
 LOCAL_SYMBOL: ReferenceTypeImpl.java<83:97> [ReferenceTypeImpl.java <83:97 83:97>]
 LOCAL_SYMBOL: ReferenceTypeImpl.java<83:97> [ReferenceTypeImpl.java <85:9 85:9>]
-SYMBOL_METHOD boolean com.github.javaparser.symbolsolver.model.typesystem.Type.isPrimitive()
 REFERENCE_CALL boolean com.github.javaparser.symbolsolver.model.typesystem.ReferenceTypeImpl.isAssignableBy(com.github.javaparser.symbolsolver.model.typesystem.Type) -> boolean com.github.javaparser.symbolsolver.model.typesystem.Type.isPrimitive() [ReferenceTypeImpl.java <87:19 87:29>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.model.typesystem.ReferenceTypeImpl.isAssignableBy<0> [ReferenceTypeImpl.java <87:13 87:17>]
 LOCAL_SYMBOL: ReferenceTypeImpl.java<87:34> [ReferenceTypeImpl.java <87:34 87:34>]
 LOCAL_SYMBOL: ReferenceTypeImpl.java<87:34> [ReferenceTypeImpl.java <98:9 98:9>]
-SYMBOL_METHOD boolean java.lang.String.equals(java.lang.Object)
 REFERENCE_CALL boolean com.github.javaparser.symbolsolver.model.typesystem.ReferenceTypeImpl.isAssignableBy(com.github.javaparser.symbolsolver.model.typesystem.Type) -> boolean java.lang.String.equals(java.lang.Object) [ReferenceTypeImpl.java <88:41 88:46>]
-SYMBOL_METHOD java.lang.String com.github.javaparser.symbolsolver.model.typesystem.ReferenceType.getQualifiedName()
 REFERENCE_CALL boolean com.github.javaparser.symbolsolver.model.typesystem.ReferenceTypeImpl.isAssignableBy(com.github.javaparser.symbolsolver.model.typesystem.Type) -> java.lang.String com.github.javaparser.symbolsolver.model.typesystem.ReferenceType.getQualifiedName() [ReferenceTypeImpl.java <88:22 88:37>]
-SYMBOL_METHOD java.lang.String java.lang.Class<T>.getCanonicalName()
+QUALIFIER: com.github.javaparser.symbolsolver.model.typesystem.ReferenceTypeImpl [ReferenceTypeImpl.java <88:17 88:20>]
 REFERENCE_CALL boolean com.github.javaparser.symbolsolver.model.typesystem.ReferenceTypeImpl.isAssignableBy(com.github.javaparser.symbolsolver.model.typesystem.Type) -> java.lang.String java.lang.Class<T>.getCanonicalName() [ReferenceTypeImpl.java <88:61 88:76>]
 REFERENCE_TYPE_USAGE boolean com.github.javaparser.symbolsolver.model.typesystem.ReferenceTypeImpl.isAssignableBy(com.github.javaparser.symbolsolver.model.typesystem.Type) -> java.lang.Object [ReferenceTypeImpl.java <88:48 88:53>]
 LOCAL_SYMBOL: ReferenceTypeImpl.java<88:82> [ReferenceTypeImpl.java <88:82 88:82>]
@@ -223,7 +282,7 @@ REFERENCE_CALL boolean com.github.javaparser.symbolsolver.model.typesystem.Refer
 SYMBOL_METHOD com.github.javaparser.symbolsolver.model.resolution.SymbolReference<S>.S com.github.javaparser.symbolsolver.model.resolution.SymbolReference<S>.getCorrespondingDeclaration()
 REFERENCE_CALL boolean com.github.javaparser.symbolsolver.model.typesystem.ReferenceTypeImpl.isAssignableBy(com.github.javaparser.symbolsolver.model.typesystem.Type) -> com.github.javaparser.symbolsolver.model.resolution.SymbolReference<S>.S com.github.javaparser.symbolsolver.model.resolution.SymbolReference<S>.getCorrespondingDeclaration() [ReferenceTypeImpl.java <96:29 96:55>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.model.typesystem.ReferenceTypeImpl.isAssignableBy<1> [ReferenceTypeImpl.java <96:24 96:27>]
-SYMBOL_FIELD com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration com.github.javaparser.symbolsolver.model.typesystem.ReferenceType.typeDeclaration
+QUALIFIER: com.github.javaparser.symbolsolver.model.typesystem.ReferenceType [ReferenceTypeImpl.java <96:75 96:79>]
 REFERENCE_USAGE boolean com.github.javaparser.symbolsolver.model.typesystem.ReferenceTypeImpl.isAssignableBy(com.github.javaparser.symbolsolver.model.typesystem.Type) -> com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration com.github.javaparser.symbolsolver.model.typesystem.ReferenceType.typeDeclaration [ReferenceTypeImpl.java <96:81 96:95>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.model.typesystem.ReferenceTypeImpl.isAssignableBy<0> [ReferenceTypeImpl.java <99:13 99:17>]
 REFERENCE_TYPE_USAGE boolean com.github.javaparser.symbolsolver.model.typesystem.ReferenceTypeImpl.isAssignableBy(com.github.javaparser.symbolsolver.model.typesystem.Type) -> com.github.javaparser.symbolsolver.javaparsermodel.LambdaArgumentTypePlaceholder [ReferenceTypeImpl.java <99:30 99:58>]
@@ -233,7 +292,7 @@ SYMBOL_METHOD boolean com.github.javaparser.symbolsolver.model.declarations.Refe
 REFERENCE_CALL boolean com.github.javaparser.symbolsolver.model.typesystem.ReferenceTypeImpl.isAssignableBy(com.github.javaparser.symbolsolver.model.typesystem.Type) -> boolean com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration.hasAnnotation(java.lang.String) [ReferenceTypeImpl.java <100:46 100:58>]
 SYMBOL_METHOD com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration com.github.javaparser.symbolsolver.model.typesystem.ReferenceType.getTypeDeclaration()
 REFERENCE_CALL boolean com.github.javaparser.symbolsolver.model.typesystem.ReferenceTypeImpl.isAssignableBy(com.github.javaparser.symbolsolver.model.typesystem.Type) -> com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration com.github.javaparser.symbolsolver.model.typesystem.ReferenceType.getTypeDeclaration() [ReferenceTypeImpl.java <100:25 100:42>]
-SYMBOL_METHOD java.lang.String java.lang.Class<T>.getCanonicalName()
+QUALIFIER: com.github.javaparser.symbolsolver.model.typesystem.ReferenceTypeImpl [ReferenceTypeImpl.java <100:20 100:23>]
 REFERENCE_CALL boolean com.github.javaparser.symbolsolver.model.typesystem.ReferenceTypeImpl.isAssignableBy(com.github.javaparser.symbolsolver.model.typesystem.Type) -> java.lang.String java.lang.Class<T>.getCanonicalName() [ReferenceTypeImpl.java <100:86 100:101>]
 REFERENCE_TYPE_USAGE boolean com.github.javaparser.symbolsolver.model.typesystem.ReferenceTypeImpl.isAssignableBy(com.github.javaparser.symbolsolver.model.typesystem.Type) -> java.lang.FunctionalInterface [ReferenceTypeImpl.java <100:60 100:78>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.model.typesystem.ReferenceTypeImpl.isAssignableBy<0> [ReferenceTypeImpl.java <101:20 101:24>]
@@ -256,7 +315,6 @@ REFERENCE_CALL boolean com.github.javaparser.symbolsolver.model.typesystem.Refer
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.model.typesystem.ReferenceTypeImpl.isAssignableBy<2> [ReferenceTypeImpl.java <106:48 106:55>]
 LOCAL_SYMBOL: ReferenceTypeImpl.java<106:76> [ReferenceTypeImpl.java <106:76 106:76>]
 LOCAL_SYMBOL: ReferenceTypeImpl.java<106:76> [ReferenceTypeImpl.java <110:13 110:13>]
-SYMBOL_METHOD boolean com.github.javaparser.symbolsolver.model.typesystem.ReferenceType.compareConsideringTypeParameters(com.github.javaparser.symbolsolver.model.typesystem.ReferenceType)
 REFERENCE_CALL boolean com.github.javaparser.symbolsolver.model.typesystem.ReferenceTypeImpl.isAssignableBy(com.github.javaparser.symbolsolver.model.typesystem.Type) -> boolean com.github.javaparser.symbolsolver.model.typesystem.ReferenceType.compareConsideringTypeParameters(com.github.javaparser.symbolsolver.model.typesystem.ReferenceType) [ReferenceTypeImpl.java <107:21 107:52>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.model.typesystem.ReferenceTypeImpl.isAssignableBy<3> [ReferenceTypeImpl.java <107:54 107:66>]
 LOCAL_SYMBOL: ReferenceTypeImpl.java<107:70> [ReferenceTypeImpl.java <107:70 107:70>]
@@ -275,7 +333,6 @@ REFERENCE_CALL boolean com.github.javaparser.symbolsolver.model.typesystem.Refer
 SYMBOL_METHOD com.github.javaparser.symbolsolver.model.typesystem.TypeVariable com.github.javaparser.symbolsolver.model.typesystem.Type.asTypeVariable()
 REFERENCE_CALL boolean com.github.javaparser.symbolsolver.model.typesystem.ReferenceTypeImpl.isAssignableBy(com.github.javaparser.symbolsolver.model.typesystem.Type) -> com.github.javaparser.symbolsolver.model.typesystem.TypeVariable com.github.javaparser.symbolsolver.model.typesystem.Type.asTypeVariable() [ReferenceTypeImpl.java <113:38 113:51>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.model.typesystem.ReferenceTypeImpl.isAssignableBy<0> [ReferenceTypeImpl.java <113:32 113:36>]
-SYMBOL_FIELD com.github.javaparser.symbolsolver.model.resolution.TypeSolver com.github.javaparser.symbolsolver.model.typesystem.ReferenceType.typeSolver
 REFERENCE_USAGE boolean com.github.javaparser.symbolsolver.model.typesystem.ReferenceTypeImpl.isAssignableBy(com.github.javaparser.symbolsolver.model.typesystem.Type) -> com.github.javaparser.symbolsolver.model.resolution.TypeSolver com.github.javaparser.symbolsolver.model.typesystem.ReferenceType.typeSolver [ReferenceTypeImpl.java <113:83 113:92>]
 LOCAL_SYMBOL: ReferenceTypeImpl.java<113:96> [ReferenceTypeImpl.java <113:96 113:96>]
 LOCAL_SYMBOL: ReferenceTypeImpl.java<113:96> [ReferenceTypeImpl.java <119:13 119:13>]
@@ -286,6 +343,7 @@ LOCAL_SYMBOL: ReferenceTypeImpl.java<114:40> [ReferenceTypeImpl.java <114:40 114
 LOCAL_SYMBOL: ReferenceTypeImpl.java<114:40> [ReferenceTypeImpl.java <118:17 118:17>]
 SYMBOL_METHOD boolean com.github.javaparser.symbolsolver.model.typesystem.ReferenceTypeImpl.isAssignableBy(com.github.javaparser.symbolsolver.model.typesystem.Type)
 REFERENCE_CALL boolean com.github.javaparser.symbolsolver.model.typesystem.ReferenceTypeImpl.isAssignableBy(com.github.javaparser.symbolsolver.model.typesystem.Type) -> boolean com.github.javaparser.symbolsolver.model.typesystem.ReferenceTypeImpl.isAssignableBy(com.github.javaparser.symbolsolver.model.typesystem.Type) [ReferenceTypeImpl.java <115:30 115:43>]
+QUALIFIER: com.github.javaparser.symbolsolver.model.typesystem.ReferenceTypeImpl [ReferenceTypeImpl.java <115:25 115:28>]
 SYMBOL_METHOD com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration.Bound.getType()
 REFERENCE_CALL boolean com.github.javaparser.symbolsolver.model.typesystem.ReferenceTypeImpl.isAssignableBy(com.github.javaparser.symbolsolver.model.typesystem.Type) -> com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration.Bound.getType() [ReferenceTypeImpl.java <115:51 115:57>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.model.typesystem.ReferenceTypeImpl.isAssignableBy<5> [ReferenceTypeImpl.java <115:45 115:49>]
@@ -296,7 +354,6 @@ REFERENCE_CALL boolean com.github.javaparser.symbolsolver.model.typesystem.Refer
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.model.typesystem.ReferenceTypeImpl.isAssignableBy<0> [ReferenceTypeImpl.java <121:20 121:24>]
 LOCAL_SYMBOL: ReferenceTypeImpl.java<121:41> [ReferenceTypeImpl.java <121:41 121:41>]
 LOCAL_SYMBOL: ReferenceTypeImpl.java<121:41> [ReferenceTypeImpl.java <123:9 123:9>]
-SYMBOL_METHOD boolean com.github.javaparser.symbolsolver.model.typesystem.ReferenceTypeImpl.isAssignableBy(com.github.javaparser.symbolsolver.model.typesystem.Type)
 REFERENCE_CALL boolean com.github.javaparser.symbolsolver.model.typesystem.ReferenceTypeImpl.isAssignableBy(com.github.javaparser.symbolsolver.model.typesystem.Type) -> boolean com.github.javaparser.symbolsolver.model.typesystem.ReferenceTypeImpl.isAssignableBy(com.github.javaparser.symbolsolver.model.typesystem.Type) [ReferenceTypeImpl.java <122:20 122:33>]
 SYMBOL_METHOD com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.model.typesystem.LambdaConstraintType.getBound()
 REFERENCE_CALL boolean com.github.javaparser.symbolsolver.model.typesystem.ReferenceTypeImpl.isAssignableBy(com.github.javaparser.symbolsolver.model.typesystem.Type) -> com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.model.typesystem.LambdaConstraintType.getBound() [ReferenceTypeImpl.java <122:60 122:67>]
@@ -308,11 +365,9 @@ REFERENCE_CALL boolean com.github.javaparser.symbolsolver.model.typesystem.Refer
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.model.typesystem.ReferenceTypeImpl.isAssignableBy<0> [ReferenceTypeImpl.java <123:20 123:24>]
 LOCAL_SYMBOL: ReferenceTypeImpl.java<123:40> [ReferenceTypeImpl.java <123:40 123:40>]
 LOCAL_SYMBOL: ReferenceTypeImpl.java<123:40> [ReferenceTypeImpl.java <131:9 131:9>]
-SYMBOL_METHOD boolean java.lang.String.equals(java.lang.Object)
 REFERENCE_CALL boolean com.github.javaparser.symbolsolver.model.typesystem.ReferenceTypeImpl.isAssignableBy(com.github.javaparser.symbolsolver.model.typesystem.Type) -> boolean java.lang.String.equals(java.lang.Object) [ReferenceTypeImpl.java <124:41 124:46>]
-SYMBOL_METHOD java.lang.String com.github.javaparser.symbolsolver.model.typesystem.ReferenceType.getQualifiedName()
 REFERENCE_CALL boolean com.github.javaparser.symbolsolver.model.typesystem.ReferenceTypeImpl.isAssignableBy(com.github.javaparser.symbolsolver.model.typesystem.Type) -> java.lang.String com.github.javaparser.symbolsolver.model.typesystem.ReferenceType.getQualifiedName() [ReferenceTypeImpl.java <124:22 124:37>]
-SYMBOL_METHOD java.lang.String java.lang.Class<T>.getCanonicalName()
+QUALIFIER: com.github.javaparser.symbolsolver.model.typesystem.ReferenceTypeImpl [ReferenceTypeImpl.java <124:17 124:20>]
 REFERENCE_CALL boolean com.github.javaparser.symbolsolver.model.typesystem.ReferenceTypeImpl.isAssignableBy(com.github.javaparser.symbolsolver.model.typesystem.Type) -> java.lang.String java.lang.Class<T>.getCanonicalName() [ReferenceTypeImpl.java <124:61 124:76>]
 REFERENCE_TYPE_USAGE boolean com.github.javaparser.symbolsolver.model.typesystem.ReferenceTypeImpl.isAssignableBy(com.github.javaparser.symbolsolver.model.typesystem.Type) -> java.lang.Object [ReferenceTypeImpl.java <124:48 124:53>]
 LOCAL_SYMBOL: ReferenceTypeImpl.java<124:82> [ReferenceTypeImpl.java <124:82 124:82>]
@@ -324,11 +379,9 @@ REFERENCE_CALL boolean com.github.javaparser.symbolsolver.model.typesystem.Refer
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.model.typesystem.ReferenceTypeImpl.isAssignableBy<0> [ReferenceTypeImpl.java <126:24 126:28>]
 LOCAL_SYMBOL: ReferenceTypeImpl.java<126:56> [ReferenceTypeImpl.java <126:56 126:56>]
 LOCAL_SYMBOL: ReferenceTypeImpl.java<126:56> [ReferenceTypeImpl.java <128:13 128:13>]
-SYMBOL_METHOD boolean com.github.javaparser.symbolsolver.model.typesystem.ReferenceTypeImpl.isAssignableBy(com.github.javaparser.symbolsolver.model.typesystem.Type)
 REFERENCE_CALL boolean com.github.javaparser.symbolsolver.model.typesystem.ReferenceTypeImpl.isAssignableBy(com.github.javaparser.symbolsolver.model.typesystem.Type) -> boolean com.github.javaparser.symbolsolver.model.typesystem.ReferenceTypeImpl.isAssignableBy(com.github.javaparser.symbolsolver.model.typesystem.Type) [ReferenceTypeImpl.java <127:24 127:37>]
 SYMBOL_METHOD com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.model.typesystem.Wildcard.getBoundedType()
 REFERENCE_CALL boolean com.github.javaparser.symbolsolver.model.typesystem.ReferenceTypeImpl.isAssignableBy(com.github.javaparser.symbolsolver.model.typesystem.Type) -> com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.model.typesystem.Wildcard.getBoundedType() [ReferenceTypeImpl.java <127:58 127:71>]
-SYMBOL_METHOD com.github.javaparser.symbolsolver.model.typesystem.Wildcard com.github.javaparser.symbolsolver.model.typesystem.Type.asWildcard()
 REFERENCE_CALL boolean com.github.javaparser.symbolsolver.model.typesystem.ReferenceTypeImpl.isAssignableBy(com.github.javaparser.symbolsolver.model.typesystem.Type) -> com.github.javaparser.symbolsolver.model.typesystem.Wildcard com.github.javaparser.symbolsolver.model.typesystem.Type.asWildcard() [ReferenceTypeImpl.java <127:45 127:54>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.model.typesystem.ReferenceTypeImpl.isAssignableBy<0> [ReferenceTypeImpl.java <127:39 127:43>]
 LOCAL_SYMBOL: ReferenceTypeImpl.java<128:20> [ReferenceTypeImpl.java <128:20 128:20>]
@@ -352,7 +405,6 @@ REFERENCE_TYPE_USAGE java.util.Set<com.github.javaparser.symbolsolver.model.meth
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.model.typesystem.ReferenceTypeImpl.getDeclaredMethods<1> [ReferenceTypeImpl.java <140:32 140:48>]
 SYMBOL_METHOD java.util.Set<com.github.javaparser.symbolsolver.model.declarations.MethodDeclaration> com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration.getDeclaredMethods()
 REFERENCE_CALL java.util.Set<com.github.javaparser.symbolsolver.model.methods.MethodUsage> com.github.javaparser.symbolsolver.model.typesystem.ReferenceTypeImpl.getDeclaredMethods() -> java.util.Set<com.github.javaparser.symbolsolver.model.declarations.MethodDeclaration> com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration.getDeclaredMethods() [ReferenceTypeImpl.java <140:73 140:90>]
-SYMBOL_METHOD com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration com.github.javaparser.symbolsolver.model.typesystem.ReferenceType.getTypeDeclaration()
 REFERENCE_CALL java.util.Set<com.github.javaparser.symbolsolver.model.methods.MethodUsage> com.github.javaparser.symbolsolver.model.typesystem.ReferenceTypeImpl.getDeclaredMethods() -> com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration com.github.javaparser.symbolsolver.model.typesystem.ReferenceType.getTypeDeclaration() [ReferenceTypeImpl.java <140:52 140:69>]
 LOCAL_SYMBOL: ReferenceTypeImpl.java<140:95> [ReferenceTypeImpl.java <140:95 140:95>]
 LOCAL_SYMBOL: ReferenceTypeImpl.java<140:95> [ReferenceTypeImpl.java <143:9 143:9>]

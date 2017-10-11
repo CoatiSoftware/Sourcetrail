@@ -1,25 +1,61 @@
 FILE: JavassistFieldDeclaration.java
-SYMBOL_PACKAGE com.github.javaparser.symbolsolver.javassistmodel [JavassistFieldDeclaration.java <17:9 17:57>]
+SYMBOL_PACKAGE com.github.javaparser.symbolsolver.javassistmodel [JavassistFieldDeclaration.java <17:44 17:57>]
 SYMBOL_PACKAGE com.github.javaparser.symbolsolver
 SYMBOL_PACKAGE com.github.javaparser
 SYMBOL_PACKAGE com.github
 SYMBOL_PACKAGE com
-REFERENCE_IMPORT JavassistFieldDeclaration.java -> com.github.javaparser.symbolsolver.model.declarations.AccessLevel [JavassistFieldDeclaration.java <19:8 19:72>]
+QUALIFIER: com.github.javaparser.symbolsolver [JavassistFieldDeclaration.java <17:31 17:42>]
+QUALIFIER: com.github.javaparser [JavassistFieldDeclaration.java <17:20 17:29>]
+QUALIFIER: com.github [JavassistFieldDeclaration.java <17:13 17:18>]
+QUALIFIER: com [JavassistFieldDeclaration.java <17:9 17:11>]
+REFERENCE_IMPORT JavassistFieldDeclaration.java -> com.github.javaparser.symbolsolver.model.declarations.AccessLevel [JavassistFieldDeclaration.java <19:62 19:72>]
 SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model.declarations
-REFERENCE_IMPORT JavassistFieldDeclaration.java -> com.github.javaparser.symbolsolver.model.declarations.FieldDeclaration [JavassistFieldDeclaration.java <20:8 20:77>]
-SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model.declarations
-REFERENCE_IMPORT JavassistFieldDeclaration.java -> com.github.javaparser.symbolsolver.model.declarations.TypeDeclaration [JavassistFieldDeclaration.java <21:8 21:76>]
-SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model.declarations
-REFERENCE_IMPORT JavassistFieldDeclaration.java -> com.github.javaparser.symbolsolver.model.resolution.TypeSolver [JavassistFieldDeclaration.java <22:8 22:69>]
+QUALIFIER: com.github.javaparser.symbolsolver.model.declarations [JavassistFieldDeclaration.java <19:49 19:60>]
+QUALIFIER: com.github.javaparser.symbolsolver.model [JavassistFieldDeclaration.java <19:43 19:47>]
+QUALIFIER: com.github.javaparser.symbolsolver [JavassistFieldDeclaration.java <19:30 19:41>]
+QUALIFIER: com.github.javaparser [JavassistFieldDeclaration.java <19:19 19:28>]
+QUALIFIER: com.github [JavassistFieldDeclaration.java <19:12 19:17>]
+QUALIFIER: com [JavassistFieldDeclaration.java <19:8 19:10>]
+REFERENCE_IMPORT JavassistFieldDeclaration.java -> com.github.javaparser.symbolsolver.model.declarations.FieldDeclaration [JavassistFieldDeclaration.java <20:62 20:77>]
+QUALIFIER: com.github.javaparser.symbolsolver.model.declarations [JavassistFieldDeclaration.java <20:49 20:60>]
+QUALIFIER: com.github.javaparser.symbolsolver.model [JavassistFieldDeclaration.java <20:43 20:47>]
+QUALIFIER: com.github.javaparser.symbolsolver [JavassistFieldDeclaration.java <20:30 20:41>]
+QUALIFIER: com.github.javaparser [JavassistFieldDeclaration.java <20:19 20:28>]
+QUALIFIER: com.github [JavassistFieldDeclaration.java <20:12 20:17>]
+QUALIFIER: com [JavassistFieldDeclaration.java <20:8 20:10>]
+REFERENCE_IMPORT JavassistFieldDeclaration.java -> com.github.javaparser.symbolsolver.model.declarations.TypeDeclaration [JavassistFieldDeclaration.java <21:62 21:76>]
+QUALIFIER: com.github.javaparser.symbolsolver.model.declarations [JavassistFieldDeclaration.java <21:49 21:60>]
+QUALIFIER: com.github.javaparser.symbolsolver.model [JavassistFieldDeclaration.java <21:43 21:47>]
+QUALIFIER: com.github.javaparser.symbolsolver [JavassistFieldDeclaration.java <21:30 21:41>]
+QUALIFIER: com.github.javaparser [JavassistFieldDeclaration.java <21:19 21:28>]
+QUALIFIER: com.github [JavassistFieldDeclaration.java <21:12 21:17>]
+QUALIFIER: com [JavassistFieldDeclaration.java <21:8 21:10>]
+REFERENCE_IMPORT JavassistFieldDeclaration.java -> com.github.javaparser.symbolsolver.model.resolution.TypeSolver [JavassistFieldDeclaration.java <22:60 22:69>]
 SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model.resolution
-REFERENCE_IMPORT JavassistFieldDeclaration.java -> com.github.javaparser.symbolsolver.model.typesystem.Type [JavassistFieldDeclaration.java <23:8 23:63>]
+QUALIFIER: com.github.javaparser.symbolsolver.model.resolution [JavassistFieldDeclaration.java <22:49 22:58>]
+QUALIFIER: com.github.javaparser.symbolsolver.model [JavassistFieldDeclaration.java <22:43 22:47>]
+QUALIFIER: com.github.javaparser.symbolsolver [JavassistFieldDeclaration.java <22:30 22:41>]
+QUALIFIER: com.github.javaparser [JavassistFieldDeclaration.java <22:19 22:28>]
+QUALIFIER: com.github [JavassistFieldDeclaration.java <22:12 22:17>]
+QUALIFIER: com [JavassistFieldDeclaration.java <22:8 22:10>]
+REFERENCE_IMPORT JavassistFieldDeclaration.java -> com.github.javaparser.symbolsolver.model.typesystem.Type [JavassistFieldDeclaration.java <23:60 23:63>]
 SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model.typesystem
-REFERENCE_IMPORT JavassistFieldDeclaration.java -> javassist.CtField [JavassistFieldDeclaration.java <24:8 24:24>]
+QUALIFIER: com.github.javaparser.symbolsolver.model.typesystem [JavassistFieldDeclaration.java <23:49 23:58>]
+QUALIFIER: com.github.javaparser.symbolsolver.model [JavassistFieldDeclaration.java <23:43 23:47>]
+QUALIFIER: com.github.javaparser.symbolsolver [JavassistFieldDeclaration.java <23:30 23:41>]
+QUALIFIER: com.github.javaparser [JavassistFieldDeclaration.java <23:19 23:28>]
+QUALIFIER: com.github [JavassistFieldDeclaration.java <23:12 23:17>]
+QUALIFIER: com [JavassistFieldDeclaration.java <23:8 23:10>]
+REFERENCE_IMPORT JavassistFieldDeclaration.java -> javassist.CtField [JavassistFieldDeclaration.java <24:18 24:24>]
 SYMBOL_PACKAGE javassist
-REFERENCE_IMPORT JavassistFieldDeclaration.java -> javassist.NotFoundException [JavassistFieldDeclaration.java <25:8 25:34>]
-SYMBOL_PACKAGE javassist
-REFERENCE_IMPORT JavassistFieldDeclaration.java -> java.lang.reflect.Modifier [JavassistFieldDeclaration.java <27:8 27:33>]
+QUALIFIER: javassist [JavassistFieldDeclaration.java <24:8 24:16>]
+REFERENCE_IMPORT JavassistFieldDeclaration.java -> javassist.NotFoundException [JavassistFieldDeclaration.java <25:18 25:34>]
+QUALIFIER: javassist [JavassistFieldDeclaration.java <25:8 25:16>]
+REFERENCE_IMPORT JavassistFieldDeclaration.java -> java.lang.reflect.Modifier [JavassistFieldDeclaration.java <27:26 27:33>]
 SYMBOL_PACKAGE java.lang.reflect
+QUALIFIER: java.lang.reflect [JavassistFieldDeclaration.java <27:18 27:24>]
+QUALIFIER: java.lang [JavassistFieldDeclaration.java <27:13 27:16>]
+QUALIFIER: java [JavassistFieldDeclaration.java <27:8 27:11>]
 SYMBOL_CLASS public com.github.javaparser.symbolsolver.javassistmodel.JavassistFieldDeclaration [JavassistFieldDeclaration.java <32:1 <32:14 32:38> 84:1>]
 LOCAL_SYMBOL: JavassistFieldDeclaration.java<32:68> [JavassistFieldDeclaration.java <32:68 32:68>]
 LOCAL_SYMBOL: JavassistFieldDeclaration.java<32:68> [JavassistFieldDeclaration.java <84:1 84:1>]
@@ -36,9 +72,11 @@ REFERENCE_TYPE_USAGE com.github.javaparser.symbolsolver.javassistmodel.Javassist
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javassistmodel.JavassistFieldDeclaration.JavassistFieldDeclaration<1> [JavassistFieldDeclaration.java <36:66 36:75>]
 LOCAL_SYMBOL: JavassistFieldDeclaration.java<36:78> [JavassistFieldDeclaration.java <36:78 36:78>]
 LOCAL_SYMBOL: JavassistFieldDeclaration.java<36:78> [JavassistFieldDeclaration.java <39:5 39:5>]
+QUALIFIER: com.github.javaparser.symbolsolver.javassistmodel.JavassistFieldDeclaration [JavassistFieldDeclaration.java <37:9 37:12>]
 SYMBOL_FIELD javassist.CtField com.github.javaparser.symbolsolver.javassistmodel.JavassistFieldDeclaration.ctField
 REFERENCE_USAGE com.github.javaparser.symbolsolver.javassistmodel.JavassistFieldDeclaration.JavassistFieldDeclaration(javassist.CtField, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> javassist.CtField com.github.javaparser.symbolsolver.javassistmodel.JavassistFieldDeclaration.ctField [JavassistFieldDeclaration.java <37:14 37:20>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javassistmodel.JavassistFieldDeclaration.JavassistFieldDeclaration<0> [JavassistFieldDeclaration.java <37:24 37:30>]
+QUALIFIER: com.github.javaparser.symbolsolver.javassistmodel.JavassistFieldDeclaration [JavassistFieldDeclaration.java <38:9 38:12>]
 SYMBOL_FIELD com.github.javaparser.symbolsolver.model.resolution.TypeSolver com.github.javaparser.symbolsolver.javassistmodel.JavassistFieldDeclaration.typeSolver
 REFERENCE_USAGE com.github.javaparser.symbolsolver.javassistmodel.JavassistFieldDeclaration.JavassistFieldDeclaration(javassist.CtField, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> com.github.javaparser.symbolsolver.model.resolution.TypeSolver com.github.javaparser.symbolsolver.javassistmodel.JavassistFieldDeclaration.typeSolver [JavassistFieldDeclaration.java <38:14 38:23>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javassistmodel.JavassistFieldDeclaration.JavassistFieldDeclaration<1> [JavassistFieldDeclaration.java <38:27 38:36>]
@@ -52,11 +90,10 @@ LOCAL_SYMBOL: JavassistFieldDeclaration.java<43:13> [JavassistFieldDeclaration.j
 LOCAL_SYMBOL: JavassistFieldDeclaration.java<43:13> [JavassistFieldDeclaration.java <45:9 45:9>]
 SYMBOL_METHOD static com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.javassistmodel.JavassistFactory.typeUsageFor(javassist.CtClass, com.github.javaparser.symbolsolver.model.resolution.TypeSolver)
 REFERENCE_CALL com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.javassistmodel.JavassistFieldDeclaration.getType() -> static com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.javassistmodel.JavassistFactory.typeUsageFor(javassist.CtClass, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) [JavassistFieldDeclaration.java <44:37 44:48>]
+QUALIFIER: com.github.javaparser.symbolsolver.javassistmodel.JavassistFactory [JavassistFieldDeclaration.java <44:20 44:35>]
 SYMBOL_METHOD javassist.CtClass javassist.CtField.getType()
 REFERENCE_CALL com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.javassistmodel.JavassistFieldDeclaration.getType() -> javassist.CtClass javassist.CtField.getType() [JavassistFieldDeclaration.java <44:58 44:64>]
-SYMBOL_FIELD javassist.CtField com.github.javaparser.symbolsolver.javassistmodel.JavassistFieldDeclaration.ctField
 REFERENCE_USAGE com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.javassistmodel.JavassistFieldDeclaration.getType() -> javassist.CtField com.github.javaparser.symbolsolver.javassistmodel.JavassistFieldDeclaration.ctField [JavassistFieldDeclaration.java <44:50 44:56>]
-SYMBOL_FIELD com.github.javaparser.symbolsolver.model.resolution.TypeSolver com.github.javaparser.symbolsolver.javassistmodel.JavassistFieldDeclaration.typeSolver
 REFERENCE_USAGE com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.javassistmodel.JavassistFieldDeclaration.getType() -> com.github.javaparser.symbolsolver.model.resolution.TypeSolver com.github.javaparser.symbolsolver.javassistmodel.JavassistFieldDeclaration.typeSolver [JavassistFieldDeclaration.java <44:69 44:78>]
 REFERENCE_TYPE_USAGE com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.javassistmodel.JavassistFieldDeclaration.getType() -> javassist.NotFoundException [JavassistFieldDeclaration.java <45:18 45:34>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javassistmodel.JavassistFieldDeclaration.getType<0> [JavassistFieldDeclaration.java <45:36 45:36>]
@@ -75,9 +112,9 @@ LOCAL_SYMBOL: JavassistFieldDeclaration.java<51:31> [JavassistFieldDeclaration.j
 LOCAL_SYMBOL: JavassistFieldDeclaration.java<51:31> [JavassistFieldDeclaration.java <53:5 53:5>]
 SYMBOL_METHOD static boolean java.lang.reflect.Modifier.isStatic(int)
 REFERENCE_CALL boolean com.github.javaparser.symbolsolver.javassistmodel.JavassistFieldDeclaration.isStatic() -> static boolean java.lang.reflect.Modifier.isStatic(int) [JavassistFieldDeclaration.java <52:25 52:32>]
+QUALIFIER: java.lang.reflect.Modifier [JavassistFieldDeclaration.java <52:16 52:23>]
 SYMBOL_METHOD int javassist.CtField.getModifiers()
 REFERENCE_CALL boolean com.github.javaparser.symbolsolver.javassistmodel.JavassistFieldDeclaration.isStatic() -> int javassist.CtField.getModifiers() [JavassistFieldDeclaration.java <52:42 52:53>]
-SYMBOL_FIELD javassist.CtField com.github.javaparser.symbolsolver.javassistmodel.JavassistFieldDeclaration.ctField
 REFERENCE_USAGE boolean com.github.javaparser.symbolsolver.javassistmodel.JavassistFieldDeclaration.isStatic() -> javassist.CtField com.github.javaparser.symbolsolver.javassistmodel.JavassistFieldDeclaration.ctField [JavassistFieldDeclaration.java <52:34 52:40>]
 SYMBOL_METHOD public java.lang.String com.github.javaparser.symbolsolver.javassistmodel.JavassistFieldDeclaration.getName() [JavassistFieldDeclaration.java <55:5 <56:19 56:25> 58:5>]
 SYMBOL_METHOD java.lang.String com.github.javaparser.symbolsolver.model.declarations.Declaration.getName()
@@ -87,26 +124,22 @@ LOCAL_SYMBOL: JavassistFieldDeclaration.java<56:29> [JavassistFieldDeclaration.j
 LOCAL_SYMBOL: JavassistFieldDeclaration.java<56:29> [JavassistFieldDeclaration.java <58:5 58:5>]
 SYMBOL_METHOD java.lang.String javassist.CtField.getName()
 REFERENCE_CALL java.lang.String com.github.javaparser.symbolsolver.javassistmodel.JavassistFieldDeclaration.getName() -> java.lang.String javassist.CtField.getName() [JavassistFieldDeclaration.java <57:24 57:30>]
-SYMBOL_FIELD javassist.CtField com.github.javaparser.symbolsolver.javassistmodel.JavassistFieldDeclaration.ctField
 REFERENCE_USAGE java.lang.String com.github.javaparser.symbolsolver.javassistmodel.JavassistFieldDeclaration.getName() -> javassist.CtField com.github.javaparser.symbolsolver.javassistmodel.JavassistFieldDeclaration.ctField [JavassistFieldDeclaration.java <57:16 57:22>]
 SYMBOL_METHOD public boolean com.github.javaparser.symbolsolver.javassistmodel.JavassistFieldDeclaration.isField() [JavassistFieldDeclaration.java <60:5 <61:20 61:26> 63:5>]
 SYMBOL_METHOD boolean com.github.javaparser.symbolsolver.model.declarations.FieldDeclaration.isField()
 REFERENCE_OVERRIDE boolean com.github.javaparser.symbolsolver.javassistmodel.JavassistFieldDeclaration.isField() -> boolean com.github.javaparser.symbolsolver.model.declarations.FieldDeclaration.isField() [JavassistFieldDeclaration.java <61:20 61:26>]
-SYMBOL_BUILTIN_TYPE boolean
 REFERENCE_TYPE_USAGE boolean com.github.javaparser.symbolsolver.javassistmodel.JavassistFieldDeclaration.isField() -> boolean [JavassistFieldDeclaration.java <61:12 61:18>]
 LOCAL_SYMBOL: JavassistFieldDeclaration.java<61:30> [JavassistFieldDeclaration.java <61:30 61:30>]
 LOCAL_SYMBOL: JavassistFieldDeclaration.java<61:30> [JavassistFieldDeclaration.java <63:5 63:5>]
 SYMBOL_METHOD public boolean com.github.javaparser.symbolsolver.javassistmodel.JavassistFieldDeclaration.isParameter() [JavassistFieldDeclaration.java <65:5 <66:20 66:30> 68:5>]
 SYMBOL_METHOD boolean com.github.javaparser.symbolsolver.model.declarations.Declaration.isParameter()
 REFERENCE_OVERRIDE boolean com.github.javaparser.symbolsolver.javassistmodel.JavassistFieldDeclaration.isParameter() -> boolean com.github.javaparser.symbolsolver.model.declarations.Declaration.isParameter() [JavassistFieldDeclaration.java <66:20 66:30>]
-SYMBOL_BUILTIN_TYPE boolean
 REFERENCE_TYPE_USAGE boolean com.github.javaparser.symbolsolver.javassistmodel.JavassistFieldDeclaration.isParameter() -> boolean [JavassistFieldDeclaration.java <66:12 66:18>]
 LOCAL_SYMBOL: JavassistFieldDeclaration.java<66:34> [JavassistFieldDeclaration.java <66:34 66:34>]
 LOCAL_SYMBOL: JavassistFieldDeclaration.java<66:34> [JavassistFieldDeclaration.java <68:5 68:5>]
 SYMBOL_METHOD public boolean com.github.javaparser.symbolsolver.javassistmodel.JavassistFieldDeclaration.isType() [JavassistFieldDeclaration.java <70:5 <71:20 71:25> 73:5>]
 SYMBOL_METHOD boolean com.github.javaparser.symbolsolver.model.declarations.Declaration.isType()
 REFERENCE_OVERRIDE boolean com.github.javaparser.symbolsolver.javassistmodel.JavassistFieldDeclaration.isType() -> boolean com.github.javaparser.symbolsolver.model.declarations.Declaration.isType() [JavassistFieldDeclaration.java <71:20 71:25>]
-SYMBOL_BUILTIN_TYPE boolean
 REFERENCE_TYPE_USAGE boolean com.github.javaparser.symbolsolver.javassistmodel.JavassistFieldDeclaration.isType() -> boolean [JavassistFieldDeclaration.java <71:12 71:18>]
 LOCAL_SYMBOL: JavassistFieldDeclaration.java<71:29> [JavassistFieldDeclaration.java <71:29 71:29>]
 LOCAL_SYMBOL: JavassistFieldDeclaration.java<71:29> [JavassistFieldDeclaration.java <73:5 73:5>]
@@ -118,9 +151,8 @@ LOCAL_SYMBOL: JavassistFieldDeclaration.java<76:38> [JavassistFieldDeclaration.j
 LOCAL_SYMBOL: JavassistFieldDeclaration.java<76:38> [JavassistFieldDeclaration.java <78:5 78:5>]
 SYMBOL_METHOD static com.github.javaparser.symbolsolver.model.declarations.AccessLevel com.github.javaparser.symbolsolver.javassistmodel.JavassistFactory.modifiersToAccessLevel(int)
 REFERENCE_CALL com.github.javaparser.symbolsolver.model.declarations.AccessLevel com.github.javaparser.symbolsolver.javassistmodel.JavassistFieldDeclaration.accessLevel() -> static com.github.javaparser.symbolsolver.model.declarations.AccessLevel com.github.javaparser.symbolsolver.javassistmodel.JavassistFactory.modifiersToAccessLevel(int) [JavassistFieldDeclaration.java <77:33 77:54>]
-SYMBOL_METHOD int javassist.CtField.getModifiers()
+QUALIFIER: com.github.javaparser.symbolsolver.javassistmodel.JavassistFactory [JavassistFieldDeclaration.java <77:16 77:31>]
 REFERENCE_CALL com.github.javaparser.symbolsolver.model.declarations.AccessLevel com.github.javaparser.symbolsolver.javassistmodel.JavassistFieldDeclaration.accessLevel() -> int javassist.CtField.getModifiers() [JavassistFieldDeclaration.java <77:64 77:75>]
-SYMBOL_FIELD javassist.CtField com.github.javaparser.symbolsolver.javassistmodel.JavassistFieldDeclaration.ctField
 REFERENCE_USAGE com.github.javaparser.symbolsolver.model.declarations.AccessLevel com.github.javaparser.symbolsolver.javassistmodel.JavassistFieldDeclaration.accessLevel() -> javassist.CtField com.github.javaparser.symbolsolver.javassistmodel.JavassistFieldDeclaration.ctField [JavassistFieldDeclaration.java <77:56 77:62>]
 SYMBOL_METHOD public com.github.javaparser.symbolsolver.model.declarations.TypeDeclaration com.github.javaparser.symbolsolver.javassistmodel.JavassistFieldDeclaration.declaringType() [JavassistFieldDeclaration.java <80:5 <81:28 81:40> 83:5>]
 SYMBOL_METHOD com.github.javaparser.symbolsolver.model.declarations.TypeDeclaration com.github.javaparser.symbolsolver.model.declarations.FieldDeclaration.declaringType()
@@ -130,10 +162,9 @@ LOCAL_SYMBOL: JavassistFieldDeclaration.java<81:44> [JavassistFieldDeclaration.j
 LOCAL_SYMBOL: JavassistFieldDeclaration.java<81:44> [JavassistFieldDeclaration.java <83:5 83:5>]
 SYMBOL_METHOD static com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration com.github.javaparser.symbolsolver.javassistmodel.JavassistFactory.toTypeDeclaration(javassist.CtClass, com.github.javaparser.symbolsolver.model.resolution.TypeSolver)
 REFERENCE_CALL com.github.javaparser.symbolsolver.model.declarations.TypeDeclaration com.github.javaparser.symbolsolver.javassistmodel.JavassistFieldDeclaration.declaringType() -> static com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration com.github.javaparser.symbolsolver.javassistmodel.JavassistFactory.toTypeDeclaration(javassist.CtClass, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) [JavassistFieldDeclaration.java <82:33 82:49>]
+QUALIFIER: com.github.javaparser.symbolsolver.javassistmodel.JavassistFactory [JavassistFieldDeclaration.java <82:16 82:31>]
 SYMBOL_METHOD javassist.CtClass javassist.CtField.getDeclaringClass()
 REFERENCE_CALL com.github.javaparser.symbolsolver.model.declarations.TypeDeclaration com.github.javaparser.symbolsolver.javassistmodel.JavassistFieldDeclaration.declaringType() -> javassist.CtClass javassist.CtField.getDeclaringClass() [JavassistFieldDeclaration.java <82:59 82:75>]
-SYMBOL_FIELD javassist.CtField com.github.javaparser.symbolsolver.javassistmodel.JavassistFieldDeclaration.ctField
 REFERENCE_USAGE com.github.javaparser.symbolsolver.model.declarations.TypeDeclaration com.github.javaparser.symbolsolver.javassistmodel.JavassistFieldDeclaration.declaringType() -> javassist.CtField com.github.javaparser.symbolsolver.javassistmodel.JavassistFieldDeclaration.ctField [JavassistFieldDeclaration.java <82:51 82:57>]
-SYMBOL_FIELD com.github.javaparser.symbolsolver.model.resolution.TypeSolver com.github.javaparser.symbolsolver.javassistmodel.JavassistFieldDeclaration.typeSolver
 REFERENCE_USAGE com.github.javaparser.symbolsolver.model.declarations.TypeDeclaration com.github.javaparser.symbolsolver.javassistmodel.JavassistFieldDeclaration.declaringType() -> com.github.javaparser.symbolsolver.model.resolution.TypeSolver com.github.javaparser.symbolsolver.javassistmodel.JavassistFieldDeclaration.typeSolver [JavassistFieldDeclaration.java <82:80 82:89>]
 COMMENT: comment [JavassistFieldDeclaration.java <1:1 15:3>]

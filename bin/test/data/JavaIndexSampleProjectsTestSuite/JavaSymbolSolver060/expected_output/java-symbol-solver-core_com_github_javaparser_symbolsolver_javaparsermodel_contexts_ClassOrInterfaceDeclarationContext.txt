@@ -1,32 +1,87 @@
 FILE: ClassOrInterfaceDeclarationContext.java
-SYMBOL_PACKAGE com.github.javaparser.symbolsolver.javaparsermodel.contexts [ClassOrInterfaceDeclarationContext.java <17:9 17:67>]
+SYMBOL_PACKAGE com.github.javaparser.symbolsolver.javaparsermodel.contexts [ClassOrInterfaceDeclarationContext.java <17:60 17:67>]
 SYMBOL_PACKAGE com.github.javaparser.symbolsolver.javaparsermodel
 SYMBOL_PACKAGE com.github.javaparser.symbolsolver
 SYMBOL_PACKAGE com.github.javaparser
 SYMBOL_PACKAGE com.github
 SYMBOL_PACKAGE com
-REFERENCE_IMPORT ClassOrInterfaceDeclarationContext.java -> com.github.javaparser.ast.body.ClassOrInterfaceDeclaration [ClassOrInterfaceDeclarationContext.java <19:8 19:65>]
+QUALIFIER: com.github.javaparser.symbolsolver.javaparsermodel [ClassOrInterfaceDeclarationContext.java <17:44 17:58>]
+QUALIFIER: com.github.javaparser.symbolsolver [ClassOrInterfaceDeclarationContext.java <17:31 17:42>]
+QUALIFIER: com.github.javaparser [ClassOrInterfaceDeclarationContext.java <17:20 17:29>]
+QUALIFIER: com.github [ClassOrInterfaceDeclarationContext.java <17:13 17:18>]
+QUALIFIER: com [ClassOrInterfaceDeclarationContext.java <17:9 17:11>]
+REFERENCE_IMPORT ClassOrInterfaceDeclarationContext.java -> com.github.javaparser.ast.body.ClassOrInterfaceDeclaration [ClassOrInterfaceDeclarationContext.java <19:39 19:65>]
 SYMBOL_PACKAGE com.github.javaparser.ast.body
-REFERENCE_IMPORT ClassOrInterfaceDeclarationContext.java -> com.github.javaparser.symbolsolver.javaparsermodel.JavaParserFacade [ClassOrInterfaceDeclarationContext.java <20:8 20:74>]
-SYMBOL_PACKAGE com.github.javaparser.symbolsolver.javaparsermodel
-REFERENCE_IMPORT ClassOrInterfaceDeclarationContext.java -> com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserTypeParameter [ClassOrInterfaceDeclarationContext.java <21:8 21:94>]
+QUALIFIER: com.github.javaparser.ast.body [ClassOrInterfaceDeclarationContext.java <19:34 19:37>]
+QUALIFIER: com.github.javaparser.ast [ClassOrInterfaceDeclarationContext.java <19:30 19:32>]
+QUALIFIER: com.github.javaparser [ClassOrInterfaceDeclarationContext.java <19:19 19:28>]
+QUALIFIER: com.github [ClassOrInterfaceDeclarationContext.java <19:12 19:17>]
+QUALIFIER: com [ClassOrInterfaceDeclarationContext.java <19:8 19:10>]
+REFERENCE_IMPORT ClassOrInterfaceDeclarationContext.java -> com.github.javaparser.symbolsolver.javaparsermodel.JavaParserFacade [ClassOrInterfaceDeclarationContext.java <20:59 20:74>]
+QUALIFIER: com.github.javaparser.symbolsolver.javaparsermodel [ClassOrInterfaceDeclarationContext.java <20:43 20:57>]
+QUALIFIER: com.github.javaparser.symbolsolver [ClassOrInterfaceDeclarationContext.java <20:30 20:41>]
+QUALIFIER: com.github.javaparser [ClassOrInterfaceDeclarationContext.java <20:19 20:28>]
+QUALIFIER: com.github [ClassOrInterfaceDeclarationContext.java <20:12 20:17>]
+QUALIFIER: com [ClassOrInterfaceDeclarationContext.java <20:8 20:10>]
+REFERENCE_IMPORT ClassOrInterfaceDeclarationContext.java -> com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserTypeParameter [ClassOrInterfaceDeclarationContext.java <21:72 21:94>]
 SYMBOL_PACKAGE com.github.javaparser.symbolsolver.javaparsermodel.declarations
-REFERENCE_IMPORT ClassOrInterfaceDeclarationContext.java -> com.github.javaparser.symbolsolver.model.declarations [ClassOrInterfaceDeclarationContext.java <22:8 22:60>]
+QUALIFIER: com.github.javaparser.symbolsolver.javaparsermodel.declarations [ClassOrInterfaceDeclarationContext.java <21:59 21:70>]
+QUALIFIER: com.github.javaparser.symbolsolver.javaparsermodel [ClassOrInterfaceDeclarationContext.java <21:43 21:57>]
+QUALIFIER: com.github.javaparser.symbolsolver [ClassOrInterfaceDeclarationContext.java <21:30 21:41>]
+QUALIFIER: com.github.javaparser [ClassOrInterfaceDeclarationContext.java <21:19 21:28>]
+QUALIFIER: com.github [ClassOrInterfaceDeclarationContext.java <21:12 21:17>]
+QUALIFIER: com [ClassOrInterfaceDeclarationContext.java <21:8 21:10>]
+REFERENCE_IMPORT ClassOrInterfaceDeclarationContext.java -> com.github.javaparser.symbolsolver.model.declarations [ClassOrInterfaceDeclarationContext.java <22:49 22:60>]
 SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model.declarations
-REFERENCE_IMPORT ClassOrInterfaceDeclarationContext.java -> com.github.javaparser.symbolsolver.model.resolution.SymbolReference<S> [ClassOrInterfaceDeclarationContext.java <23:8 23:74>]
+QUALIFIER: com.github.javaparser.symbolsolver.model [ClassOrInterfaceDeclarationContext.java <22:43 22:47>]
+QUALIFIER: com.github.javaparser.symbolsolver [ClassOrInterfaceDeclarationContext.java <22:30 22:41>]
+QUALIFIER: com.github.javaparser [ClassOrInterfaceDeclarationContext.java <22:19 22:28>]
+QUALIFIER: com.github [ClassOrInterfaceDeclarationContext.java <22:12 22:17>]
+QUALIFIER: com [ClassOrInterfaceDeclarationContext.java <22:8 22:10>]
+REFERENCE_IMPORT ClassOrInterfaceDeclarationContext.java -> com.github.javaparser.symbolsolver.model.resolution.SymbolReference<S> [ClassOrInterfaceDeclarationContext.java <23:60 23:74>]
 SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model.resolution
-REFERENCE_IMPORT ClassOrInterfaceDeclarationContext.java -> com.github.javaparser.symbolsolver.model.resolution.TypeSolver [ClassOrInterfaceDeclarationContext.java <24:8 24:69>]
-SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model.resolution
-REFERENCE_IMPORT ClassOrInterfaceDeclarationContext.java -> com.github.javaparser.symbolsolver.model.resolution.Value [ClassOrInterfaceDeclarationContext.java <25:8 25:64>]
-SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model.resolution
-REFERENCE_IMPORT ClassOrInterfaceDeclarationContext.java -> com.github.javaparser.symbolsolver.model.typesystem.Type [ClassOrInterfaceDeclarationContext.java <26:8 26:63>]
+QUALIFIER: com.github.javaparser.symbolsolver.model.resolution [ClassOrInterfaceDeclarationContext.java <23:49 23:58>]
+QUALIFIER: com.github.javaparser.symbolsolver.model [ClassOrInterfaceDeclarationContext.java <23:43 23:47>]
+QUALIFIER: com.github.javaparser.symbolsolver [ClassOrInterfaceDeclarationContext.java <23:30 23:41>]
+QUALIFIER: com.github.javaparser [ClassOrInterfaceDeclarationContext.java <23:19 23:28>]
+QUALIFIER: com.github [ClassOrInterfaceDeclarationContext.java <23:12 23:17>]
+QUALIFIER: com [ClassOrInterfaceDeclarationContext.java <23:8 23:10>]
+REFERENCE_IMPORT ClassOrInterfaceDeclarationContext.java -> com.github.javaparser.symbolsolver.model.resolution.TypeSolver [ClassOrInterfaceDeclarationContext.java <24:60 24:69>]
+QUALIFIER: com.github.javaparser.symbolsolver.model.resolution [ClassOrInterfaceDeclarationContext.java <24:49 24:58>]
+QUALIFIER: com.github.javaparser.symbolsolver.model [ClassOrInterfaceDeclarationContext.java <24:43 24:47>]
+QUALIFIER: com.github.javaparser.symbolsolver [ClassOrInterfaceDeclarationContext.java <24:30 24:41>]
+QUALIFIER: com.github.javaparser [ClassOrInterfaceDeclarationContext.java <24:19 24:28>]
+QUALIFIER: com.github [ClassOrInterfaceDeclarationContext.java <24:12 24:17>]
+QUALIFIER: com [ClassOrInterfaceDeclarationContext.java <24:8 24:10>]
+REFERENCE_IMPORT ClassOrInterfaceDeclarationContext.java -> com.github.javaparser.symbolsolver.model.resolution.Value [ClassOrInterfaceDeclarationContext.java <25:60 25:64>]
+QUALIFIER: com.github.javaparser.symbolsolver.model.resolution [ClassOrInterfaceDeclarationContext.java <25:49 25:58>]
+QUALIFIER: com.github.javaparser.symbolsolver.model [ClassOrInterfaceDeclarationContext.java <25:43 25:47>]
+QUALIFIER: com.github.javaparser.symbolsolver [ClassOrInterfaceDeclarationContext.java <25:30 25:41>]
+QUALIFIER: com.github.javaparser [ClassOrInterfaceDeclarationContext.java <25:19 25:28>]
+QUALIFIER: com.github [ClassOrInterfaceDeclarationContext.java <25:12 25:17>]
+QUALIFIER: com [ClassOrInterfaceDeclarationContext.java <25:8 25:10>]
+REFERENCE_IMPORT ClassOrInterfaceDeclarationContext.java -> com.github.javaparser.symbolsolver.model.typesystem.Type [ClassOrInterfaceDeclarationContext.java <26:60 26:63>]
 SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model.typesystem
-REFERENCE_IMPORT ClassOrInterfaceDeclarationContext.java -> com.github.javaparser.symbolsolver.model.typesystem.TypeVariable [ClassOrInterfaceDeclarationContext.java <27:8 27:71>]
-SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model.typesystem
-REFERENCE_IMPORT ClassOrInterfaceDeclarationContext.java -> java.util.List<E> [ClassOrInterfaceDeclarationContext.java <29:8 29:21>]
+QUALIFIER: com.github.javaparser.symbolsolver.model.typesystem [ClassOrInterfaceDeclarationContext.java <26:49 26:58>]
+QUALIFIER: com.github.javaparser.symbolsolver.model [ClassOrInterfaceDeclarationContext.java <26:43 26:47>]
+QUALIFIER: com.github.javaparser.symbolsolver [ClassOrInterfaceDeclarationContext.java <26:30 26:41>]
+QUALIFIER: com.github.javaparser [ClassOrInterfaceDeclarationContext.java <26:19 26:28>]
+QUALIFIER: com.github [ClassOrInterfaceDeclarationContext.java <26:12 26:17>]
+QUALIFIER: com [ClassOrInterfaceDeclarationContext.java <26:8 26:10>]
+REFERENCE_IMPORT ClassOrInterfaceDeclarationContext.java -> com.github.javaparser.symbolsolver.model.typesystem.TypeVariable [ClassOrInterfaceDeclarationContext.java <27:60 27:71>]
+QUALIFIER: com.github.javaparser.symbolsolver.model.typesystem [ClassOrInterfaceDeclarationContext.java <27:49 27:58>]
+QUALIFIER: com.github.javaparser.symbolsolver.model [ClassOrInterfaceDeclarationContext.java <27:43 27:47>]
+QUALIFIER: com.github.javaparser.symbolsolver [ClassOrInterfaceDeclarationContext.java <27:30 27:41>]
+QUALIFIER: com.github.javaparser [ClassOrInterfaceDeclarationContext.java <27:19 27:28>]
+QUALIFIER: com.github [ClassOrInterfaceDeclarationContext.java <27:12 27:17>]
+QUALIFIER: com [ClassOrInterfaceDeclarationContext.java <27:8 27:10>]
+REFERENCE_IMPORT ClassOrInterfaceDeclarationContext.java -> java.util.List<E> [ClassOrInterfaceDeclarationContext.java <29:18 29:21>]
 SYMBOL_PACKAGE java.util
-REFERENCE_IMPORT ClassOrInterfaceDeclarationContext.java -> java.util.Optional<T> [ClassOrInterfaceDeclarationContext.java <30:8 30:25>]
-SYMBOL_PACKAGE java.util
+QUALIFIER: java.util [ClassOrInterfaceDeclarationContext.java <29:13 29:16>]
+QUALIFIER: java [ClassOrInterfaceDeclarationContext.java <29:8 29:11>]
+REFERENCE_IMPORT ClassOrInterfaceDeclarationContext.java -> java.util.Optional<T> [ClassOrInterfaceDeclarationContext.java <30:18 30:25>]
+QUALIFIER: java.util [ClassOrInterfaceDeclarationContext.java <30:13 30:16>]
+QUALIFIER: java [ClassOrInterfaceDeclarationContext.java <30:8 30:11>]
 SYMBOL_CLASS public com.github.javaparser.symbolsolver.javaparsermodel.contexts.ClassOrInterfaceDeclarationContext [ClassOrInterfaceDeclarationContext.java <35:1 <35:14 35:47> 108:1>]
 LOCAL_SYMBOL: ClassOrInterfaceDeclarationContext.java<35:112> [ClassOrInterfaceDeclarationContext.java <35:112 35:112>]
 LOCAL_SYMBOL: ClassOrInterfaceDeclarationContext.java<35:112> [ClassOrInterfaceDeclarationContext.java <108:1 108:1>]
@@ -44,10 +99,10 @@ REFERENCE_TYPE_USAGE com.github.javaparser.symbolsolver.javaparsermodel.contexts
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javaparsermodel.contexts.ClassOrInterfaceDeclarationContext.ClassOrInterfaceDeclarationContext<1> [ClassOrInterfaceDeclarationContext.java <43:99 43:108>]
 LOCAL_SYMBOL: ClassOrInterfaceDeclarationContext.java<43:111> [ClassOrInterfaceDeclarationContext.java <43:111 43:111>]
 LOCAL_SYMBOL: ClassOrInterfaceDeclarationContext.java<43:111> [ClassOrInterfaceDeclarationContext.java <47:5 47:5>]
-SYMBOL_METHOD com.github.javaparser.symbolsolver.javaparsermodel.contexts.AbstractJavaParserContext<N>.AbstractJavaParserContext(com.github.javaparser.symbolsolver.javaparsermodel.contexts.AbstractJavaParserContext<N>.N, com.github.javaparser.symbolsolver.model.resolution.TypeSolver)
 REFERENCE_CALL com.github.javaparser.symbolsolver.javaparsermodel.contexts.ClassOrInterfaceDeclarationContext.ClassOrInterfaceDeclarationContext(com.github.javaparser.ast.body.ClassOrInterfaceDeclaration, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> com.github.javaparser.symbolsolver.javaparsermodel.contexts.AbstractJavaParserContext<N>.AbstractJavaParserContext(com.github.javaparser.symbolsolver.javaparsermodel.contexts.AbstractJavaParserContext<N>.N, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) [ClassOrInterfaceDeclarationContext.java <44:9 44:13>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javaparsermodel.contexts.ClassOrInterfaceDeclarationContext.ClassOrInterfaceDeclarationContext<0> [ClassOrInterfaceDeclarationContext.java <44:15 44:25>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javaparsermodel.contexts.ClassOrInterfaceDeclarationContext.ClassOrInterfaceDeclarationContext<1> [ClassOrInterfaceDeclarationContext.java <44:28 44:37>]
+QUALIFIER: com.github.javaparser.symbolsolver.javaparsermodel.contexts.ClassOrInterfaceDeclarationContext [ClassOrInterfaceDeclarationContext.java <45:9 45:12>]
 SYMBOL_FIELD com.github.javaparser.symbolsolver.javaparsermodel.contexts.JavaParserTypeDeclarationAdapter com.github.javaparser.symbolsolver.javaparsermodel.contexts.ClassOrInterfaceDeclarationContext.javaParserTypeDeclarationAdapter
 REFERENCE_USAGE com.github.javaparser.symbolsolver.javaparsermodel.contexts.ClassOrInterfaceDeclarationContext.ClassOrInterfaceDeclarationContext(com.github.javaparser.ast.body.ClassOrInterfaceDeclaration, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> com.github.javaparser.symbolsolver.javaparsermodel.contexts.JavaParserTypeDeclarationAdapter com.github.javaparser.symbolsolver.javaparsermodel.contexts.ClassOrInterfaceDeclarationContext.javaParserTypeDeclarationAdapter [ClassOrInterfaceDeclarationContext.java <45:14 45:45>]
 SYMBOL_METHOD com.github.javaparser.symbolsolver.javaparsermodel.contexts.JavaParserTypeDeclarationAdapter.JavaParserTypeDeclarationAdapter(com.github.javaparser.ast.body.TypeDeclaration<?>, com.github.javaparser.symbolsolver.model.resolution.TypeSolver, com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration, com.github.javaparser.symbolsolver.core.resolution.Context)
@@ -74,19 +129,19 @@ REFERENCE_CALL com.github.javaparser.symbolsolver.model.resolution.SymbolReferen
 REFERENCE_TYPE_USAGE com.github.javaparser.symbolsolver.model.resolution.SymbolReference<? extends ValueDeclaration> com.github.javaparser.symbolsolver.javaparsermodel.contexts.ClassOrInterfaceDeclarationContext.solveSymbol(java.lang.String, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> java.lang.IllegalArgumentException [ClassOrInterfaceDeclarationContext.java <55:43 55:66>]
 SYMBOL_METHOD boolean com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration.hasVisibleField(java.lang.String)
 REFERENCE_CALL com.github.javaparser.symbolsolver.model.resolution.SymbolReference<? extends ValueDeclaration> com.github.javaparser.symbolsolver.javaparsermodel.contexts.ClassOrInterfaceDeclarationContext.solveSymbol(java.lang.String, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> boolean com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration.hasVisibleField(java.lang.String) [ClassOrInterfaceDeclarationContext.java <57:35 57:49>]
-SYMBOL_METHOD com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration com.github.javaparser.symbolsolver.javaparsermodel.contexts.ClassOrInterfaceDeclarationContext.getDeclaration()
 REFERENCE_CALL com.github.javaparser.symbolsolver.model.resolution.SymbolReference<? extends ValueDeclaration> com.github.javaparser.symbolsolver.javaparsermodel.contexts.ClassOrInterfaceDeclarationContext.solveSymbol(java.lang.String, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration com.github.javaparser.symbolsolver.javaparsermodel.contexts.ClassOrInterfaceDeclarationContext.getDeclaration() [ClassOrInterfaceDeclarationContext.java <57:18 57:31>]
+QUALIFIER: com.github.javaparser.symbolsolver.javaparsermodel.contexts.ClassOrInterfaceDeclarationContext [ClassOrInterfaceDeclarationContext.java <57:13 57:16>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javaparsermodel.contexts.ClassOrInterfaceDeclarationContext.solveSymbol<0> [ClassOrInterfaceDeclarationContext.java <57:51 57:54>]
 LOCAL_SYMBOL: ClassOrInterfaceDeclarationContext.java<57:58> [ClassOrInterfaceDeclarationContext.java <57:58 57:58>]
 LOCAL_SYMBOL: ClassOrInterfaceDeclarationContext.java<57:58> [ClassOrInterfaceDeclarationContext.java <59:9 59:9>]
 SYMBOL_METHOD static com.github.javaparser.symbolsolver.model.resolution.SymbolReference<S> com.github.javaparser.symbolsolver.model.resolution.SymbolReference<S>.solved<S, S2>(S2)
 REFERENCE_CALL com.github.javaparser.symbolsolver.model.resolution.SymbolReference<? extends ValueDeclaration> com.github.javaparser.symbolsolver.javaparsermodel.contexts.ClassOrInterfaceDeclarationContext.solveSymbol(java.lang.String, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> static com.github.javaparser.symbolsolver.model.resolution.SymbolReference<S> com.github.javaparser.symbolsolver.model.resolution.SymbolReference<S>.solved<S, S2>(S2) [ClassOrInterfaceDeclarationContext.java <58:36 58:41>]
+QUALIFIER: com.github.javaparser.symbolsolver.model.resolution.SymbolReference [ClassOrInterfaceDeclarationContext.java <58:20 58:34>]
 SYMBOL_METHOD com.github.javaparser.symbolsolver.model.declarations.FieldDeclaration com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration.getVisibleField(java.lang.String)
 REFERENCE_CALL com.github.javaparser.symbolsolver.model.resolution.SymbolReference<? extends ValueDeclaration> com.github.javaparser.symbolsolver.javaparsermodel.contexts.ClassOrInterfaceDeclarationContext.solveSymbol(java.lang.String, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> com.github.javaparser.symbolsolver.model.declarations.FieldDeclaration com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration.getVisibleField(java.lang.String) [ClassOrInterfaceDeclarationContext.java <58:65 58:79>]
-SYMBOL_METHOD com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration com.github.javaparser.symbolsolver.javaparsermodel.contexts.ClassOrInterfaceDeclarationContext.getDeclaration()
 REFERENCE_CALL com.github.javaparser.symbolsolver.model.resolution.SymbolReference<? extends ValueDeclaration> com.github.javaparser.symbolsolver.javaparsermodel.contexts.ClassOrInterfaceDeclarationContext.solveSymbol(java.lang.String, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration com.github.javaparser.symbolsolver.javaparsermodel.contexts.ClassOrInterfaceDeclarationContext.getDeclaration() [ClassOrInterfaceDeclarationContext.java <58:48 58:61>]
+QUALIFIER: com.github.javaparser.symbolsolver.javaparsermodel.contexts.ClassOrInterfaceDeclarationContext [ClassOrInterfaceDeclarationContext.java <58:43 58:46>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javaparsermodel.contexts.ClassOrInterfaceDeclarationContext.solveSymbol<0> [ClassOrInterfaceDeclarationContext.java <58:81 58:84>]
-SYMBOL_METHOD com.github.javaparser.symbolsolver.model.resolution.SymbolReference<? extends ValueDeclaration> com.github.javaparser.symbolsolver.core.resolution.Context.solveSymbol(java.lang.String, com.github.javaparser.symbolsolver.model.resolution.TypeSolver)
 REFERENCE_CALL com.github.javaparser.symbolsolver.model.resolution.SymbolReference<? extends ValueDeclaration> com.github.javaparser.symbolsolver.javaparsermodel.contexts.ClassOrInterfaceDeclarationContext.solveSymbol(java.lang.String, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> com.github.javaparser.symbolsolver.model.resolution.SymbolReference<? extends ValueDeclaration> com.github.javaparser.symbolsolver.core.resolution.Context.solveSymbol(java.lang.String, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) [ClassOrInterfaceDeclarationContext.java <62:28 62:38>]
 SYMBOL_METHOD com.github.javaparser.symbolsolver.core.resolution.Context com.github.javaparser.symbolsolver.javaparsermodel.contexts.AbstractJavaParserContext<N>.getParent()
 REFERENCE_CALL com.github.javaparser.symbolsolver.model.resolution.SymbolReference<? extends ValueDeclaration> com.github.javaparser.symbolsolver.javaparsermodel.contexts.ClassOrInterfaceDeclarationContext.solveSymbol(java.lang.String, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> com.github.javaparser.symbolsolver.core.resolution.Context com.github.javaparser.symbolsolver.javaparsermodel.contexts.AbstractJavaParserContext<N>.getParent() [ClassOrInterfaceDeclarationContext.java <62:16 62:24>]
@@ -104,28 +159,25 @@ LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javaparsermodel.contexts.ClassO
 LOCAL_SYMBOL: ClassOrInterfaceDeclarationContext.java<66:83> [ClassOrInterfaceDeclarationContext.java <66:83 66:83>]
 LOCAL_SYMBOL: ClassOrInterfaceDeclarationContext.java<66:83> [ClassOrInterfaceDeclarationContext.java <75:5 75:5>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javaparsermodel.contexts.ClassOrInterfaceDeclarationContext.solveSymbolAsValue<1> [ClassOrInterfaceDeclarationContext.java <67:13 67:22>]
-SYMBOL_METHOD java.lang.IllegalArgumentException.IllegalArgumentException()
 REFERENCE_CALL java.util.Optional<com.github.javaparser.symbolsolver.model.resolution.Value> com.github.javaparser.symbolsolver.javaparsermodel.contexts.ClassOrInterfaceDeclarationContext.solveSymbolAsValue(java.lang.String, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> java.lang.IllegalArgumentException.IllegalArgumentException() [ClassOrInterfaceDeclarationContext.java <67:43 67:66>]
 REFERENCE_TYPE_USAGE java.util.Optional<com.github.javaparser.symbolsolver.model.resolution.Value> com.github.javaparser.symbolsolver.javaparsermodel.contexts.ClassOrInterfaceDeclarationContext.solveSymbolAsValue(java.lang.String, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> java.lang.IllegalArgumentException [ClassOrInterfaceDeclarationContext.java <67:43 67:66>]
-SYMBOL_METHOD boolean com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration.hasVisibleField(java.lang.String)
 REFERENCE_CALL java.util.Optional<com.github.javaparser.symbolsolver.model.resolution.Value> com.github.javaparser.symbolsolver.javaparsermodel.contexts.ClassOrInterfaceDeclarationContext.solveSymbolAsValue(java.lang.String, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> boolean com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration.hasVisibleField(java.lang.String) [ClassOrInterfaceDeclarationContext.java <69:35 69:49>]
-SYMBOL_METHOD com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration com.github.javaparser.symbolsolver.javaparsermodel.contexts.ClassOrInterfaceDeclarationContext.getDeclaration()
 REFERENCE_CALL java.util.Optional<com.github.javaparser.symbolsolver.model.resolution.Value> com.github.javaparser.symbolsolver.javaparsermodel.contexts.ClassOrInterfaceDeclarationContext.solveSymbolAsValue(java.lang.String, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration com.github.javaparser.symbolsolver.javaparsermodel.contexts.ClassOrInterfaceDeclarationContext.getDeclaration() [ClassOrInterfaceDeclarationContext.java <69:18 69:31>]
+QUALIFIER: com.github.javaparser.symbolsolver.javaparsermodel.contexts.ClassOrInterfaceDeclarationContext [ClassOrInterfaceDeclarationContext.java <69:13 69:16>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javaparsermodel.contexts.ClassOrInterfaceDeclarationContext.solveSymbolAsValue<0> [ClassOrInterfaceDeclarationContext.java <69:51 69:54>]
 LOCAL_SYMBOL: ClassOrInterfaceDeclarationContext.java<69:58> [ClassOrInterfaceDeclarationContext.java <69:58 69:58>]
 LOCAL_SYMBOL: ClassOrInterfaceDeclarationContext.java<69:58> [ClassOrInterfaceDeclarationContext.java <71:9 71:9>]
 SYMBOL_METHOD static java.util.Optional<T> java.util.Optional<T>.of<T>(T)
 REFERENCE_CALL java.util.Optional<com.github.javaparser.symbolsolver.model.resolution.Value> com.github.javaparser.symbolsolver.javaparsermodel.contexts.ClassOrInterfaceDeclarationContext.solveSymbolAsValue(java.lang.String, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> static java.util.Optional<T> java.util.Optional<T>.of<T>(T) [ClassOrInterfaceDeclarationContext.java <70:29 70:30>]
+QUALIFIER: java.util.Optional [ClassOrInterfaceDeclarationContext.java <70:20 70:27>]
 SYMBOL_METHOD static com.github.javaparser.symbolsolver.model.resolution.Value com.github.javaparser.symbolsolver.model.resolution.Value.from(com.github.javaparser.symbolsolver.model.declarations.ValueDeclaration)
 REFERENCE_CALL java.util.Optional<com.github.javaparser.symbolsolver.model.resolution.Value> com.github.javaparser.symbolsolver.javaparsermodel.contexts.ClassOrInterfaceDeclarationContext.solveSymbolAsValue(java.lang.String, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> static com.github.javaparser.symbolsolver.model.resolution.Value com.github.javaparser.symbolsolver.model.resolution.Value.from(com.github.javaparser.symbolsolver.model.declarations.ValueDeclaration) [ClassOrInterfaceDeclarationContext.java <70:38 70:41>]
-SYMBOL_METHOD com.github.javaparser.symbolsolver.model.declarations.FieldDeclaration com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration.getVisibleField(java.lang.String)
+QUALIFIER: com.github.javaparser.symbolsolver.model.resolution.Value [ClassOrInterfaceDeclarationContext.java <70:32 70:36>]
 REFERENCE_CALL java.util.Optional<com.github.javaparser.symbolsolver.model.resolution.Value> com.github.javaparser.symbolsolver.javaparsermodel.contexts.ClassOrInterfaceDeclarationContext.solveSymbolAsValue(java.lang.String, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> com.github.javaparser.symbolsolver.model.declarations.FieldDeclaration com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration.getVisibleField(java.lang.String) [ClassOrInterfaceDeclarationContext.java <70:65 70:79>]
-SYMBOL_METHOD com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration com.github.javaparser.symbolsolver.javaparsermodel.contexts.ClassOrInterfaceDeclarationContext.getDeclaration()
 REFERENCE_CALL java.util.Optional<com.github.javaparser.symbolsolver.model.resolution.Value> com.github.javaparser.symbolsolver.javaparsermodel.contexts.ClassOrInterfaceDeclarationContext.solveSymbolAsValue(java.lang.String, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration com.github.javaparser.symbolsolver.javaparsermodel.contexts.ClassOrInterfaceDeclarationContext.getDeclaration() [ClassOrInterfaceDeclarationContext.java <70:48 70:61>]
+QUALIFIER: com.github.javaparser.symbolsolver.javaparsermodel.contexts.ClassOrInterfaceDeclarationContext [ClassOrInterfaceDeclarationContext.java <70:43 70:46>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javaparsermodel.contexts.ClassOrInterfaceDeclarationContext.solveSymbolAsValue<0> [ClassOrInterfaceDeclarationContext.java <70:81 70:84>]
-SYMBOL_METHOD java.util.Optional<com.github.javaparser.symbolsolver.model.resolution.Value> com.github.javaparser.symbolsolver.core.resolution.Context.solveSymbolAsValue(java.lang.String, com.github.javaparser.symbolsolver.model.resolution.TypeSolver)
 REFERENCE_CALL java.util.Optional<com.github.javaparser.symbolsolver.model.resolution.Value> com.github.javaparser.symbolsolver.javaparsermodel.contexts.ClassOrInterfaceDeclarationContext.solveSymbolAsValue(java.lang.String, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> java.util.Optional<com.github.javaparser.symbolsolver.model.resolution.Value> com.github.javaparser.symbolsolver.core.resolution.Context.solveSymbolAsValue(java.lang.String, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) [ClassOrInterfaceDeclarationContext.java <74:28 74:45>]
-SYMBOL_METHOD com.github.javaparser.symbolsolver.core.resolution.Context com.github.javaparser.symbolsolver.javaparsermodel.contexts.AbstractJavaParserContext<N>.getParent()
 REFERENCE_CALL java.util.Optional<com.github.javaparser.symbolsolver.model.resolution.Value> com.github.javaparser.symbolsolver.javaparsermodel.contexts.ClassOrInterfaceDeclarationContext.solveSymbolAsValue(java.lang.String, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> com.github.javaparser.symbolsolver.core.resolution.Context com.github.javaparser.symbolsolver.javaparsermodel.contexts.AbstractJavaParserContext<N>.getParent() [ClassOrInterfaceDeclarationContext.java <74:16 74:24>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javaparsermodel.contexts.ClassOrInterfaceDeclarationContext.solveSymbolAsValue<0> [ClassOrInterfaceDeclarationContext.java <74:47 74:50>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javaparsermodel.contexts.ClassOrInterfaceDeclarationContext.solveSymbolAsValue<1> [ClassOrInterfaceDeclarationContext.java <74:53 74:62>]
@@ -140,7 +192,12 @@ REFERENCE_TYPE_USAGE java.util.Optional<com.github.javaparser.symbolsolver.model
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javaparsermodel.contexts.ClassOrInterfaceDeclarationContext.solveGenericType<1> [ClassOrInterfaceDeclarationContext.java <78:68 78:77>]
 LOCAL_SYMBOL: ClassOrInterfaceDeclarationContext.java<78:80> [ClassOrInterfaceDeclarationContext.java <78:80 78:80>]
 LOCAL_SYMBOL: ClassOrInterfaceDeclarationContext.java<78:80> [ClassOrInterfaceDeclarationContext.java <85:5 85:5>]
-REFERENCE_TYPE_USAGE java.util.Optional<com.github.javaparser.symbolsolver.model.typesystem.Type> com.github.javaparser.symbolsolver.javaparsermodel.contexts.ClassOrInterfaceDeclarationContext.solveGenericType(java.lang.String, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> com.github.javaparser.ast.type.TypeParameter [ClassOrInterfaceDeclarationContext.java <79:14 79:57>]
+REFERENCE_TYPE_USAGE java.util.Optional<com.github.javaparser.symbolsolver.model.typesystem.Type> com.github.javaparser.symbolsolver.javaparsermodel.contexts.ClassOrInterfaceDeclarationContext.solveGenericType(java.lang.String, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> com.github.javaparser.ast.type.TypeParameter [ClassOrInterfaceDeclarationContext.java <79:45 79:57>]
+QUALIFIER: com.github.javaparser.ast.type [ClassOrInterfaceDeclarationContext.java <79:40 79:43>]
+QUALIFIER: com.github.javaparser.ast [ClassOrInterfaceDeclarationContext.java <79:36 79:38>]
+QUALIFIER: com.github.javaparser [ClassOrInterfaceDeclarationContext.java <79:25 79:34>]
+QUALIFIER: com.github [ClassOrInterfaceDeclarationContext.java <79:18 79:23>]
+QUALIFIER: com [ClassOrInterfaceDeclarationContext.java <79:14 79:16>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javaparsermodel.contexts.ClassOrInterfaceDeclarationContext.solveGenericType<2> [ClassOrInterfaceDeclarationContext.java <79:59 79:60>]
 SYMBOL_METHOD com.github.javaparser.ast.NodeList<com.github.javaparser.ast.type.TypeParameter> com.github.javaparser.ast.body.ClassOrInterfaceDeclaration.getTypeParameters()
 REFERENCE_CALL java.util.Optional<com.github.javaparser.symbolsolver.model.typesystem.Type> com.github.javaparser.symbolsolver.javaparsermodel.contexts.ClassOrInterfaceDeclarationContext.solveGenericType(java.lang.String, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> com.github.javaparser.ast.NodeList<com.github.javaparser.ast.type.TypeParameter> com.github.javaparser.ast.body.ClassOrInterfaceDeclaration.getTypeParameters() [ClassOrInterfaceDeclarationContext.java <79:76 79:92>]
@@ -158,8 +215,8 @@ LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javaparsermodel.contexts.ClassO
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javaparsermodel.contexts.ClassOrInterfaceDeclarationContext.solveGenericType<0> [ClassOrInterfaceDeclarationContext.java <80:45 80:48>]
 LOCAL_SYMBOL: ClassOrInterfaceDeclarationContext.java<80:52> [ClassOrInterfaceDeclarationContext.java <80:52 80:52>]
 LOCAL_SYMBOL: ClassOrInterfaceDeclarationContext.java<80:52> [ClassOrInterfaceDeclarationContext.java <82:13 82:13>]
-SYMBOL_METHOD static java.util.Optional<T> java.util.Optional<T>.of<T>(T)
 REFERENCE_CALL java.util.Optional<com.github.javaparser.symbolsolver.model.typesystem.Type> com.github.javaparser.symbolsolver.javaparsermodel.contexts.ClassOrInterfaceDeclarationContext.solveGenericType(java.lang.String, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> static java.util.Optional<T> java.util.Optional<T>.of<T>(T) [ClassOrInterfaceDeclarationContext.java <81:33 81:34>]
+QUALIFIER: java.util.Optional [ClassOrInterfaceDeclarationContext.java <81:24 81:31>]
 SYMBOL_METHOD com.github.javaparser.symbolsolver.model.typesystem.TypeVariable.TypeVariable(com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration)
 REFERENCE_CALL java.util.Optional<com.github.javaparser.symbolsolver.model.typesystem.Type> com.github.javaparser.symbolsolver.javaparsermodel.contexts.ClassOrInterfaceDeclarationContext.solveGenericType(java.lang.String, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> com.github.javaparser.symbolsolver.model.typesystem.TypeVariable.TypeVariable(com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration) [ClassOrInterfaceDeclarationContext.java <81:40 81:51>]
 REFERENCE_TYPE_USAGE java.util.Optional<com.github.javaparser.symbolsolver.model.typesystem.Type> com.github.javaparser.symbolsolver.javaparsermodel.contexts.ClassOrInterfaceDeclarationContext.solveGenericType(java.lang.String, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> com.github.javaparser.symbolsolver.model.typesystem.TypeVariable [ClassOrInterfaceDeclarationContext.java <81:40 81:51>]
@@ -170,7 +227,6 @@ LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javaparsermodel.contexts.ClassO
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javaparsermodel.contexts.ClassOrInterfaceDeclarationContext.solveGenericType<1> [ClassOrInterfaceDeclarationContext.java <81:85 81:94>]
 SYMBOL_METHOD java.util.Optional<com.github.javaparser.symbolsolver.model.typesystem.Type> com.github.javaparser.symbolsolver.core.resolution.Context.solveGenericType(java.lang.String, com.github.javaparser.symbolsolver.model.resolution.TypeSolver)
 REFERENCE_CALL java.util.Optional<com.github.javaparser.symbolsolver.model.typesystem.Type> com.github.javaparser.symbolsolver.javaparsermodel.contexts.ClassOrInterfaceDeclarationContext.solveGenericType(java.lang.String, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> java.util.Optional<com.github.javaparser.symbolsolver.model.typesystem.Type> com.github.javaparser.symbolsolver.core.resolution.Context.solveGenericType(java.lang.String, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) [ClassOrInterfaceDeclarationContext.java <84:28 84:43>]
-SYMBOL_METHOD com.github.javaparser.symbolsolver.core.resolution.Context com.github.javaparser.symbolsolver.javaparsermodel.contexts.AbstractJavaParserContext<N>.getParent()
 REFERENCE_CALL java.util.Optional<com.github.javaparser.symbolsolver.model.typesystem.Type> com.github.javaparser.symbolsolver.javaparsermodel.contexts.ClassOrInterfaceDeclarationContext.solveGenericType(java.lang.String, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> com.github.javaparser.symbolsolver.core.resolution.Context com.github.javaparser.symbolsolver.javaparsermodel.contexts.AbstractJavaParserContext<N>.getParent() [ClassOrInterfaceDeclarationContext.java <84:16 84:24>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javaparsermodel.contexts.ClassOrInterfaceDeclarationContext.solveGenericType<0> [ClassOrInterfaceDeclarationContext.java <84:45 84:48>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javaparsermodel.contexts.ClassOrInterfaceDeclarationContext.solveGenericType<1> [ClassOrInterfaceDeclarationContext.java <84:51 84:60>]
@@ -187,7 +243,6 @@ LOCAL_SYMBOL: ClassOrInterfaceDeclarationContext.java<88:91> [ClassOrInterfaceDe
 LOCAL_SYMBOL: ClassOrInterfaceDeclarationContext.java<88:91> [ClassOrInterfaceDeclarationContext.java <90:5 90:5>]
 SYMBOL_METHOD com.github.javaparser.symbolsolver.model.resolution.SymbolReference<com.github.javaparser.symbolsolver.model.declarations.TypeDeclaration> com.github.javaparser.symbolsolver.javaparsermodel.contexts.JavaParserTypeDeclarationAdapter.solveType(java.lang.String, com.github.javaparser.symbolsolver.model.resolution.TypeSolver)
 REFERENCE_CALL com.github.javaparser.symbolsolver.model.resolution.SymbolReference<com.github.javaparser.symbolsolver.model.declarations.TypeDeclaration> com.github.javaparser.symbolsolver.javaparsermodel.contexts.ClassOrInterfaceDeclarationContext.solveType(java.lang.String, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> com.github.javaparser.symbolsolver.model.resolution.SymbolReference<com.github.javaparser.symbolsolver.model.declarations.TypeDeclaration> com.github.javaparser.symbolsolver.javaparsermodel.contexts.JavaParserTypeDeclarationAdapter.solveType(java.lang.String, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) [ClassOrInterfaceDeclarationContext.java <89:49 89:57>]
-SYMBOL_FIELD com.github.javaparser.symbolsolver.javaparsermodel.contexts.JavaParserTypeDeclarationAdapter com.github.javaparser.symbolsolver.javaparsermodel.contexts.ClassOrInterfaceDeclarationContext.javaParserTypeDeclarationAdapter
 REFERENCE_USAGE com.github.javaparser.symbolsolver.model.resolution.SymbolReference<com.github.javaparser.symbolsolver.model.declarations.TypeDeclaration> com.github.javaparser.symbolsolver.javaparsermodel.contexts.ClassOrInterfaceDeclarationContext.solveType(java.lang.String, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> com.github.javaparser.symbolsolver.javaparsermodel.contexts.JavaParserTypeDeclarationAdapter com.github.javaparser.symbolsolver.javaparsermodel.contexts.ClassOrInterfaceDeclarationContext.javaParserTypeDeclarationAdapter [ClassOrInterfaceDeclarationContext.java <89:16 89:47>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javaparsermodel.contexts.ClassOrInterfaceDeclarationContext.solveType<0> [ClassOrInterfaceDeclarationContext.java <89:59 89:62>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javaparsermodel.contexts.ClassOrInterfaceDeclarationContext.solveType<1> [ClassOrInterfaceDeclarationContext.java <89:65 89:74>]
@@ -210,7 +265,6 @@ LOCAL_SYMBOL: ClassOrInterfaceDeclarationContext.java<93:142> [ClassOrInterfaceD
 LOCAL_SYMBOL: ClassOrInterfaceDeclarationContext.java<93:142> [ClassOrInterfaceDeclarationContext.java <95:5 95:5>]
 SYMBOL_METHOD com.github.javaparser.symbolsolver.model.resolution.SymbolReference<com.github.javaparser.symbolsolver.model.declarations.MethodDeclaration> com.github.javaparser.symbolsolver.javaparsermodel.contexts.JavaParserTypeDeclarationAdapter.solveMethod(java.lang.String, java.util.List<com.github.javaparser.symbolsolver.model.typesystem.Type>, boolean, com.github.javaparser.symbolsolver.model.resolution.TypeSolver)
 REFERENCE_CALL com.github.javaparser.symbolsolver.model.resolution.SymbolReference<com.github.javaparser.symbolsolver.model.declarations.MethodDeclaration> com.github.javaparser.symbolsolver.javaparsermodel.contexts.ClassOrInterfaceDeclarationContext.solveMethod(java.lang.String, java.util.List<com.github.javaparser.symbolsolver.model.typesystem.Type>, boolean, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> com.github.javaparser.symbolsolver.model.resolution.SymbolReference<com.github.javaparser.symbolsolver.model.declarations.MethodDeclaration> com.github.javaparser.symbolsolver.javaparsermodel.contexts.JavaParserTypeDeclarationAdapter.solveMethod(java.lang.String, java.util.List<com.github.javaparser.symbolsolver.model.typesystem.Type>, boolean, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) [ClassOrInterfaceDeclarationContext.java <94:49 94:59>]
-SYMBOL_FIELD com.github.javaparser.symbolsolver.javaparsermodel.contexts.JavaParserTypeDeclarationAdapter com.github.javaparser.symbolsolver.javaparsermodel.contexts.ClassOrInterfaceDeclarationContext.javaParserTypeDeclarationAdapter
 REFERENCE_USAGE com.github.javaparser.symbolsolver.model.resolution.SymbolReference<com.github.javaparser.symbolsolver.model.declarations.MethodDeclaration> com.github.javaparser.symbolsolver.javaparsermodel.contexts.ClassOrInterfaceDeclarationContext.solveMethod(java.lang.String, java.util.List<com.github.javaparser.symbolsolver.model.typesystem.Type>, boolean, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> com.github.javaparser.symbolsolver.javaparsermodel.contexts.JavaParserTypeDeclarationAdapter com.github.javaparser.symbolsolver.javaparsermodel.contexts.ClassOrInterfaceDeclarationContext.javaParserTypeDeclarationAdapter [ClassOrInterfaceDeclarationContext.java <94:16 94:47>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javaparsermodel.contexts.ClassOrInterfaceDeclarationContext.solveMethod<0> [ClassOrInterfaceDeclarationContext.java <94:61 94:64>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javaparsermodel.contexts.ClassOrInterfaceDeclarationContext.solveMethod<1> [ClassOrInterfaceDeclarationContext.java <94:67 94:80>]
@@ -230,7 +284,6 @@ LOCAL_SYMBOL: ClassOrInterfaceDeclarationContext.java<97:119> [ClassOrInterfaceD
 LOCAL_SYMBOL: ClassOrInterfaceDeclarationContext.java<97:119> [ClassOrInterfaceDeclarationContext.java <99:5 99:5>]
 SYMBOL_METHOD com.github.javaparser.symbolsolver.model.resolution.SymbolReference<com.github.javaparser.symbolsolver.model.declarations.ConstructorDeclaration> com.github.javaparser.symbolsolver.javaparsermodel.contexts.JavaParserTypeDeclarationAdapter.solveConstructor(java.util.List<com.github.javaparser.symbolsolver.model.typesystem.Type>, com.github.javaparser.symbolsolver.model.resolution.TypeSolver)
 REFERENCE_CALL com.github.javaparser.symbolsolver.model.resolution.SymbolReference<com.github.javaparser.symbolsolver.model.declarations.ConstructorDeclaration> com.github.javaparser.symbolsolver.javaparsermodel.contexts.ClassOrInterfaceDeclarationContext.solveConstructor(java.util.List<com.github.javaparser.symbolsolver.model.typesystem.Type>, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> com.github.javaparser.symbolsolver.model.resolution.SymbolReference<com.github.javaparser.symbolsolver.model.declarations.ConstructorDeclaration> com.github.javaparser.symbolsolver.javaparsermodel.contexts.JavaParserTypeDeclarationAdapter.solveConstructor(java.util.List<com.github.javaparser.symbolsolver.model.typesystem.Type>, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) [ClassOrInterfaceDeclarationContext.java <98:49 98:64>]
-SYMBOL_FIELD com.github.javaparser.symbolsolver.javaparsermodel.contexts.JavaParserTypeDeclarationAdapter com.github.javaparser.symbolsolver.javaparsermodel.contexts.ClassOrInterfaceDeclarationContext.javaParserTypeDeclarationAdapter
 REFERENCE_USAGE com.github.javaparser.symbolsolver.model.resolution.SymbolReference<com.github.javaparser.symbolsolver.model.declarations.ConstructorDeclaration> com.github.javaparser.symbolsolver.javaparsermodel.contexts.ClassOrInterfaceDeclarationContext.solveConstructor(java.util.List<com.github.javaparser.symbolsolver.model.typesystem.Type>, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> com.github.javaparser.symbolsolver.javaparsermodel.contexts.JavaParserTypeDeclarationAdapter com.github.javaparser.symbolsolver.javaparsermodel.contexts.ClassOrInterfaceDeclarationContext.javaParserTypeDeclarationAdapter [ClassOrInterfaceDeclarationContext.java <98:16 98:47>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javaparsermodel.contexts.ClassOrInterfaceDeclarationContext.solveConstructor<0> [ClassOrInterfaceDeclarationContext.java <98:66 98:79>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javaparsermodel.contexts.ClassOrInterfaceDeclarationContext.solveConstructor<1> [ClassOrInterfaceDeclarationContext.java <98:82 98:91>]
@@ -242,9 +295,10 @@ SYMBOL_METHOD com.github.javaparser.symbolsolver.model.declarations.ReferenceTyp
 REFERENCE_CALL com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration com.github.javaparser.symbolsolver.javaparsermodel.contexts.ClassOrInterfaceDeclarationContext.getDeclaration() -> com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration com.github.javaparser.symbolsolver.javaparsermodel.JavaParserFacade.getTypeDeclaration(com.github.javaparser.ast.body.ClassOrInterfaceDeclaration) [ClassOrInterfaceDeclarationContext.java <106:49 106:66>]
 SYMBOL_METHOD static com.github.javaparser.symbolsolver.javaparsermodel.JavaParserFacade com.github.javaparser.symbolsolver.javaparsermodel.JavaParserFacade.get(com.github.javaparser.symbolsolver.model.resolution.TypeSolver)
 REFERENCE_CALL com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration com.github.javaparser.symbolsolver.javaparsermodel.contexts.ClassOrInterfaceDeclarationContext.getDeclaration() -> static com.github.javaparser.symbolsolver.javaparsermodel.JavaParserFacade com.github.javaparser.symbolsolver.javaparsermodel.JavaParserFacade.get(com.github.javaparser.symbolsolver.model.resolution.TypeSolver) [ClassOrInterfaceDeclarationContext.java <106:33 106:35>]
+QUALIFIER: com.github.javaparser.symbolsolver.javaparsermodel.JavaParserFacade [ClassOrInterfaceDeclarationContext.java <106:16 106:31>]
 SYMBOL_FIELD com.github.javaparser.symbolsolver.model.resolution.TypeSolver com.github.javaparser.symbolsolver.javaparsermodel.contexts.AbstractJavaParserContext<N>.typeSolver
 REFERENCE_USAGE com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration com.github.javaparser.symbolsolver.javaparsermodel.contexts.ClassOrInterfaceDeclarationContext.getDeclaration() -> com.github.javaparser.symbolsolver.model.resolution.TypeSolver com.github.javaparser.symbolsolver.javaparsermodel.contexts.AbstractJavaParserContext<N>.typeSolver [ClassOrInterfaceDeclarationContext.java <106:37 106:46>]
-SYMBOL_FIELD com.github.javaparser.symbolsolver.javaparsermodel.contexts.AbstractJavaParserContext<N>.N com.github.javaparser.symbolsolver.javaparsermodel.contexts.AbstractJavaParserContext<N>.wrappedNode
+QUALIFIER: com.github.javaparser.symbolsolver.javaparsermodel.contexts.ClassOrInterfaceDeclarationContext [ClassOrInterfaceDeclarationContext.java <106:68 106:71>]
 REFERENCE_USAGE com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration com.github.javaparser.symbolsolver.javaparsermodel.contexts.ClassOrInterfaceDeclarationContext.getDeclaration() -> com.github.javaparser.symbolsolver.javaparsermodel.contexts.AbstractJavaParserContext<N>.N com.github.javaparser.symbolsolver.javaparsermodel.contexts.AbstractJavaParserContext<N>.wrappedNode [ClassOrInterfaceDeclarationContext.java <106:73 106:83>]
 COMMENT: comment [ClassOrInterfaceDeclarationContext.java <1:1 15:3>]
 COMMENT: comment [ClassOrInterfaceDeclarationContext.java <39:5 39:7>]

@@ -1,73 +1,18 @@
 FILE: b2Contact.cpp
-FILE: b2Contact.cpp
 COMMENT: comment [b2Contact.cpp <1:1 17:3>]
-FILE: b2Contact.cpp
-FILE: b2Contact.cpp
-FILE: b2Contact.cpp
-FILE: b2Contact.cpp
-FILE: b2Contact.cpp
-FILE: b2Contact.cpp
-FILE: b2Contact.cpp
-FILE: b2Contact.cpp
-FILE: b2Contact.cpp
-FILE: b2Contact.cpp
-FILE: b2Contact.cpp
 REFERENCE_MACRO_USAGE b2Contact.cpp -> b2Assert [b2Contact.cpp <54:2 54:9>]
 REFERENCE_MACRO_USAGE b2Settings.h -> assert [b2Settings.h <31:21 31:26>]
 REFERENCE_MACRO_USAGE assert.h -> _CRT_WIDE [assert.h <34:23 34:31>]
 REFERENCE_MACRO_USAGE vcruntime.h -> _CRT_WIDE_ [vcruntime.h <95:22 95:31>]
 REFERENCE_MACRO_USAGE assert.h -> _CRT_WIDE [assert.h <34:47 34:55>]
 REFERENCE_MACRO_USAGE assert.h -> __FILE__ [assert.h <34:57 34:64>]
-REFERENCE_MACRO_USAGE vcruntime.h -> _CRT_WIDE_ [vcruntime.h <95:22 95:31>]
 REFERENCE_MACRO_USAGE assert.h -> __LINE__ [assert.h <34:79 34:86>]
 REFERENCE_MACRO_USAGE b2Contact.cpp -> b2Assert [b2Contact.cpp <55:2 55:9>]
-REFERENCE_MACRO_USAGE b2Settings.h -> assert [b2Settings.h <31:21 31:26>]
-REFERENCE_MACRO_USAGE assert.h -> _CRT_WIDE [assert.h <34:23 34:31>]
-REFERENCE_MACRO_USAGE vcruntime.h -> _CRT_WIDE_ [vcruntime.h <95:22 95:31>]
-REFERENCE_MACRO_USAGE assert.h -> _CRT_WIDE [assert.h <34:47 34:55>]
-REFERENCE_MACRO_USAGE assert.h -> __FILE__ [assert.h <34:57 34:64>]
-REFERENCE_MACRO_USAGE vcruntime.h -> _CRT_WIDE_ [vcruntime.h <95:22 95:31>]
-REFERENCE_MACRO_USAGE assert.h -> __LINE__ [assert.h <34:79 34:86>]
 REFERENCE_MACRO_USAGE b2Contact.cpp -> b2Assert [b2Contact.cpp <80:2 80:9>]
-REFERENCE_MACRO_USAGE b2Settings.h -> assert [b2Settings.h <31:21 31:26>]
-REFERENCE_MACRO_USAGE assert.h -> _CRT_WIDE [assert.h <34:23 34:31>]
-REFERENCE_MACRO_USAGE vcruntime.h -> _CRT_WIDE_ [vcruntime.h <95:22 95:31>]
-REFERENCE_MACRO_USAGE assert.h -> _CRT_WIDE [assert.h <34:47 34:55>]
-REFERENCE_MACRO_USAGE assert.h -> __FILE__ [assert.h <34:57 34:64>]
-REFERENCE_MACRO_USAGE vcruntime.h -> _CRT_WIDE_ [vcruntime.h <95:22 95:31>]
-REFERENCE_MACRO_USAGE assert.h -> __LINE__ [assert.h <34:79 34:86>]
 REFERENCE_MACRO_USAGE b2Contact.cpp -> b2Assert [b2Contact.cpp <81:2 81:9>]
-REFERENCE_MACRO_USAGE b2Settings.h -> assert [b2Settings.h <31:21 31:26>]
-REFERENCE_MACRO_USAGE assert.h -> _CRT_WIDE [assert.h <34:23 34:31>]
-REFERENCE_MACRO_USAGE vcruntime.h -> _CRT_WIDE_ [vcruntime.h <95:22 95:31>]
-REFERENCE_MACRO_USAGE assert.h -> _CRT_WIDE [assert.h <34:47 34:55>]
-REFERENCE_MACRO_USAGE assert.h -> __FILE__ [assert.h <34:57 34:64>]
-REFERENCE_MACRO_USAGE vcruntime.h -> _CRT_WIDE_ [vcruntime.h <95:22 95:31>]
-REFERENCE_MACRO_USAGE assert.h -> __LINE__ [assert.h <34:79 34:86>]
 REFERENCE_MACRO_USAGE b2Contact.cpp -> b2Assert [b2Contact.cpp <103:2 103:9>]
-REFERENCE_MACRO_USAGE b2Settings.h -> assert [b2Settings.h <31:21 31:26>]
-REFERENCE_MACRO_USAGE assert.h -> _CRT_WIDE [assert.h <34:23 34:31>]
-REFERENCE_MACRO_USAGE vcruntime.h -> _CRT_WIDE_ [vcruntime.h <95:22 95:31>]
-REFERENCE_MACRO_USAGE assert.h -> _CRT_WIDE [assert.h <34:47 34:55>]
-REFERENCE_MACRO_USAGE assert.h -> __FILE__ [assert.h <34:57 34:64>]
-REFERENCE_MACRO_USAGE vcruntime.h -> _CRT_WIDE_ [vcruntime.h <95:22 95:31>]
-REFERENCE_MACRO_USAGE assert.h -> __LINE__ [assert.h <34:79 34:86>]
 REFERENCE_MACRO_USAGE b2Contact.cpp -> b2Assert [b2Contact.cpp <119:2 119:9>]
-REFERENCE_MACRO_USAGE b2Settings.h -> assert [b2Settings.h <31:21 31:26>]
-REFERENCE_MACRO_USAGE assert.h -> _CRT_WIDE [assert.h <34:23 34:31>]
-REFERENCE_MACRO_USAGE vcruntime.h -> _CRT_WIDE_ [vcruntime.h <95:22 95:31>]
-REFERENCE_MACRO_USAGE assert.h -> _CRT_WIDE [assert.h <34:47 34:55>]
-REFERENCE_MACRO_USAGE assert.h -> __FILE__ [assert.h <34:57 34:64>]
-REFERENCE_MACRO_USAGE vcruntime.h -> _CRT_WIDE_ [vcruntime.h <95:22 95:31>]
-REFERENCE_MACRO_USAGE assert.h -> __LINE__ [assert.h <34:79 34:86>]
 REFERENCE_MACRO_USAGE b2Contact.cpp -> b2Assert [b2Contact.cpp <120:2 120:9>]
-REFERENCE_MACRO_USAGE b2Settings.h -> assert [b2Settings.h <31:21 31:26>]
-REFERENCE_MACRO_USAGE assert.h -> _CRT_WIDE [assert.h <34:23 34:31>]
-REFERENCE_MACRO_USAGE vcruntime.h -> _CRT_WIDE_ [vcruntime.h <95:22 95:31>]
-REFERENCE_MACRO_USAGE assert.h -> _CRT_WIDE [assert.h <34:47 34:55>]
-REFERENCE_MACRO_USAGE assert.h -> __FILE__ [assert.h <34:57 34:64>]
-REFERENCE_MACRO_USAGE vcruntime.h -> _CRT_WIDE_ [vcruntime.h <95:22 95:31>]
-REFERENCE_MACRO_USAGE assert.h -> __LINE__ [assert.h <34:79 34:86>]
 COMMENT: comment [b2Contact.cpp <159:1 159:52>]
 COMMENT: comment [b2Contact.cpp <160:1 160:71>]
 COMMENT: comment [b2Contact.cpp <165:2 165:28>]
@@ -77,113 +22,115 @@ COMMENT: comment [b2Contact.cpp <195:3 195:59>]
 COMMENT: comment [b2Contact.cpp <196:3 196:47>]
 SYMBOL_FIELD protected static b2ContactRegister [] [] b2Contact::s_registers [b2Contact.cpp <37:30 37:40>]
 SYMBOL_CLASS b2Contact
+QUALIFIER: b2Contact [b2Contact.cpp <37:19 37:27>]
 REFERENCE_TYPE_USAGE static b2ContactRegister [] [] b2Contact::s_registers -> b2ContactRegister [b2Contact.cpp <37:1 37:17>]
 REFERENCE_USAGE static b2ContactRegister [] [] b2Contact::s_registers -> b2Shape::Type::e_typeCount [b2Contact.cpp <37:73 37:83>]
 SYMBOL_CLASS b2Shape
+QUALIFIER: b2Shape [b2Contact.cpp <37:64 37:70>]
 REFERENCE_USAGE static b2ContactRegister [] [] b2Contact::s_registers -> b2Shape::Type::e_typeCount [b2Contact.cpp <37:51 37:61>]
-SYMBOL_CLASS b2Shape
+QUALIFIER: b2Shape [b2Contact.cpp <37:42 37:48>]
 SYMBOL_FUNCTION void b2ContactRegister::b2ContactRegister()
 REFERENCE_CALL static b2ContactRegister [] [] b2Contact::s_registers -> void b2ContactRegister::b2ContactRegister() [b2Contact.cpp <37:30 37:40>]
 SYMBOL_FIELD protected static bool b2Contact::s_initialized [b2Contact.cpp <38:17 38:29>]
-SYMBOL_CLASS b2Contact
+QUALIFIER: b2Contact [b2Contact.cpp <38:6 38:14>]
 SYMBOL_BUILTIN_TYPE bool
 REFERENCE_TYPE_USAGE static bool b2Contact::s_initialized -> bool [b2Contact.cpp <38:1 38:4>]
 SYMBOL_METHOD protected static void b2Contact::InitializeRegisters() [b2Contact.cpp <40:1 <40:17 40:35> 49:1>]
-SYMBOL_CLASS b2Contact
+QUALIFIER: b2Contact [b2Contact.cpp <40:6 40:14>]
 SYMBOL_BUILTIN_TYPE void
 REFERENCE_TYPE_USAGE static void b2Contact::InitializeRegisters() -> void [b2Contact.cpp <40:1 40:4>]
 SYMBOL_FUNCTION static void b2Contact::AddType(b2ContactCreateFcn *, b2ContactDestroyFcn *, b2Shape::Type, b2Shape::Type)
 REFERENCE_CALL static void b2Contact::InitializeRegisters() -> static void b2Contact::AddType(b2ContactCreateFcn *, b2ContactDestroyFcn *, b2Shape::Type, b2Shape::Type) [b2Contact.cpp <42:2 42:8>]
 REFERENCE_USAGE static void b2Contact::InitializeRegisters() -> static b2Contact * b2CircleContact::Create(b2Fixture *, int32, b2Fixture *, int32, b2BlockAllocator *) [b2Contact.cpp <42:27 42:32>]
 SYMBOL_CLASS b2CircleContact
+QUALIFIER: b2CircleContact [b2Contact.cpp <42:10 42:24>]
 REFERENCE_USAGE static void b2Contact::InitializeRegisters() -> static void b2CircleContact::Destroy(b2Contact *, b2BlockAllocator *) [b2Contact.cpp <42:52 42:58>]
-SYMBOL_CLASS b2CircleContact
+QUALIFIER: b2CircleContact [b2Contact.cpp <42:35 42:49>]
 REFERENCE_USAGE static void b2Contact::InitializeRegisters() -> b2Shape::Type::e_circle [b2Contact.cpp <42:70 42:77>]
-SYMBOL_CLASS b2Shape
+QUALIFIER: b2Shape [b2Contact.cpp <42:61 42:67>]
 REFERENCE_USAGE static void b2Contact::InitializeRegisters() -> b2Shape::Type::e_circle [b2Contact.cpp <42:89 42:96>]
-SYMBOL_CLASS b2Shape
-SYMBOL_FUNCTION static void b2Contact::AddType(b2ContactCreateFcn *, b2ContactDestroyFcn *, b2Shape::Type, b2Shape::Type)
+QUALIFIER: b2Shape [b2Contact.cpp <42:80 42:86>]
 REFERENCE_CALL static void b2Contact::InitializeRegisters() -> static void b2Contact::AddType(b2ContactCreateFcn *, b2ContactDestroyFcn *, b2Shape::Type, b2Shape::Type) [b2Contact.cpp <43:2 43:8>]
 REFERENCE_USAGE static void b2Contact::InitializeRegisters() -> static b2Contact * b2PolygonAndCircleContact::Create(b2Fixture *, int32, b2Fixture *, int32, b2BlockAllocator *) [b2Contact.cpp <43:37 43:42>]
 SYMBOL_CLASS b2PolygonAndCircleContact
+QUALIFIER: b2PolygonAndCircleContact [b2Contact.cpp <43:10 43:34>]
 REFERENCE_USAGE static void b2Contact::InitializeRegisters() -> static void b2PolygonAndCircleContact::Destroy(b2Contact *, b2BlockAllocator *) [b2Contact.cpp <43:72 43:78>]
-SYMBOL_CLASS b2PolygonAndCircleContact
+QUALIFIER: b2PolygonAndCircleContact [b2Contact.cpp <43:45 43:69>]
 REFERENCE_USAGE static void b2Contact::InitializeRegisters() -> b2Shape::Type::e_polygon [b2Contact.cpp <43:90 43:98>]
-SYMBOL_CLASS b2Shape
+QUALIFIER: b2Shape [b2Contact.cpp <43:81 43:87>]
 REFERENCE_USAGE static void b2Contact::InitializeRegisters() -> b2Shape::Type::e_circle [b2Contact.cpp <43:110 43:117>]
-SYMBOL_CLASS b2Shape
-SYMBOL_FUNCTION static void b2Contact::AddType(b2ContactCreateFcn *, b2ContactDestroyFcn *, b2Shape::Type, b2Shape::Type)
+QUALIFIER: b2Shape [b2Contact.cpp <43:101 43:107>]
 REFERENCE_CALL static void b2Contact::InitializeRegisters() -> static void b2Contact::AddType(b2ContactCreateFcn *, b2ContactDestroyFcn *, b2Shape::Type, b2Shape::Type) [b2Contact.cpp <44:2 44:8>]
 REFERENCE_USAGE static void b2Contact::InitializeRegisters() -> static b2Contact * b2PolygonContact::Create(b2Fixture *, int32, b2Fixture *, int32, b2BlockAllocator *) [b2Contact.cpp <44:28 44:33>]
 SYMBOL_CLASS b2PolygonContact
+QUALIFIER: b2PolygonContact [b2Contact.cpp <44:10 44:25>]
 REFERENCE_USAGE static void b2Contact::InitializeRegisters() -> static void b2PolygonContact::Destroy(b2Contact *, b2BlockAllocator *) [b2Contact.cpp <44:54 44:60>]
-SYMBOL_CLASS b2PolygonContact
+QUALIFIER: b2PolygonContact [b2Contact.cpp <44:36 44:51>]
 REFERENCE_USAGE static void b2Contact::InitializeRegisters() -> b2Shape::Type::e_polygon [b2Contact.cpp <44:72 44:80>]
-SYMBOL_CLASS b2Shape
+QUALIFIER: b2Shape [b2Contact.cpp <44:63 44:69>]
 REFERENCE_USAGE static void b2Contact::InitializeRegisters() -> b2Shape::Type::e_polygon [b2Contact.cpp <44:92 44:100>]
-SYMBOL_CLASS b2Shape
-SYMBOL_FUNCTION static void b2Contact::AddType(b2ContactCreateFcn *, b2ContactDestroyFcn *, b2Shape::Type, b2Shape::Type)
+QUALIFIER: b2Shape [b2Contact.cpp <44:83 44:89>]
 REFERENCE_CALL static void b2Contact::InitializeRegisters() -> static void b2Contact::AddType(b2ContactCreateFcn *, b2ContactDestroyFcn *, b2Shape::Type, b2Shape::Type) [b2Contact.cpp <45:2 45:8>]
 REFERENCE_USAGE static void b2Contact::InitializeRegisters() -> static b2Contact * b2EdgeAndCircleContact::Create(b2Fixture *, int32, b2Fixture *, int32, b2BlockAllocator *) [b2Contact.cpp <45:34 45:39>]
 SYMBOL_CLASS b2EdgeAndCircleContact
+QUALIFIER: b2EdgeAndCircleContact [b2Contact.cpp <45:10 45:31>]
 REFERENCE_USAGE static void b2Contact::InitializeRegisters() -> static void b2EdgeAndCircleContact::Destroy(b2Contact *, b2BlockAllocator *) [b2Contact.cpp <45:66 45:72>]
-SYMBOL_CLASS b2EdgeAndCircleContact
+QUALIFIER: b2EdgeAndCircleContact [b2Contact.cpp <45:42 45:63>]
 REFERENCE_USAGE static void b2Contact::InitializeRegisters() -> b2Shape::Type::e_edge [b2Contact.cpp <45:84 45:89>]
-SYMBOL_CLASS b2Shape
+QUALIFIER: b2Shape [b2Contact.cpp <45:75 45:81>]
 REFERENCE_USAGE static void b2Contact::InitializeRegisters() -> b2Shape::Type::e_circle [b2Contact.cpp <45:101 45:108>]
-SYMBOL_CLASS b2Shape
-SYMBOL_FUNCTION static void b2Contact::AddType(b2ContactCreateFcn *, b2ContactDestroyFcn *, b2Shape::Type, b2Shape::Type)
+QUALIFIER: b2Shape [b2Contact.cpp <45:92 45:98>]
 REFERENCE_CALL static void b2Contact::InitializeRegisters() -> static void b2Contact::AddType(b2ContactCreateFcn *, b2ContactDestroyFcn *, b2Shape::Type, b2Shape::Type) [b2Contact.cpp <46:2 46:8>]
 REFERENCE_USAGE static void b2Contact::InitializeRegisters() -> static b2Contact * b2EdgeAndPolygonContact::Create(b2Fixture *, int32, b2Fixture *, int32, b2BlockAllocator *) [b2Contact.cpp <46:35 46:40>]
 SYMBOL_CLASS b2EdgeAndPolygonContact
+QUALIFIER: b2EdgeAndPolygonContact [b2Contact.cpp <46:10 46:32>]
 REFERENCE_USAGE static void b2Contact::InitializeRegisters() -> static void b2EdgeAndPolygonContact::Destroy(b2Contact *, b2BlockAllocator *) [b2Contact.cpp <46:68 46:74>]
-SYMBOL_CLASS b2EdgeAndPolygonContact
+QUALIFIER: b2EdgeAndPolygonContact [b2Contact.cpp <46:43 46:65>]
 REFERENCE_USAGE static void b2Contact::InitializeRegisters() -> b2Shape::Type::e_edge [b2Contact.cpp <46:86 46:91>]
-SYMBOL_CLASS b2Shape
+QUALIFIER: b2Shape [b2Contact.cpp <46:77 46:83>]
 REFERENCE_USAGE static void b2Contact::InitializeRegisters() -> b2Shape::Type::e_polygon [b2Contact.cpp <46:103 46:111>]
-SYMBOL_CLASS b2Shape
-SYMBOL_FUNCTION static void b2Contact::AddType(b2ContactCreateFcn *, b2ContactDestroyFcn *, b2Shape::Type, b2Shape::Type)
+QUALIFIER: b2Shape [b2Contact.cpp <46:94 46:100>]
 REFERENCE_CALL static void b2Contact::InitializeRegisters() -> static void b2Contact::AddType(b2ContactCreateFcn *, b2ContactDestroyFcn *, b2Shape::Type, b2Shape::Type) [b2Contact.cpp <47:2 47:8>]
 REFERENCE_USAGE static void b2Contact::InitializeRegisters() -> static b2Contact * b2ChainAndCircleContact::Create(b2Fixture *, int32, b2Fixture *, int32, b2BlockAllocator *) [b2Contact.cpp <47:35 47:40>]
 SYMBOL_CLASS b2ChainAndCircleContact
+QUALIFIER: b2ChainAndCircleContact [b2Contact.cpp <47:10 47:32>]
 REFERENCE_USAGE static void b2Contact::InitializeRegisters() -> static void b2ChainAndCircleContact::Destroy(b2Contact *, b2BlockAllocator *) [b2Contact.cpp <47:68 47:74>]
-SYMBOL_CLASS b2ChainAndCircleContact
+QUALIFIER: b2ChainAndCircleContact [b2Contact.cpp <47:43 47:65>]
 REFERENCE_USAGE static void b2Contact::InitializeRegisters() -> b2Shape::Type::e_chain [b2Contact.cpp <47:86 47:92>]
-SYMBOL_CLASS b2Shape
+QUALIFIER: b2Shape [b2Contact.cpp <47:77 47:83>]
 REFERENCE_USAGE static void b2Contact::InitializeRegisters() -> b2Shape::Type::e_circle [b2Contact.cpp <47:104 47:111>]
-SYMBOL_CLASS b2Shape
-SYMBOL_FUNCTION static void b2Contact::AddType(b2ContactCreateFcn *, b2ContactDestroyFcn *, b2Shape::Type, b2Shape::Type)
+QUALIFIER: b2Shape [b2Contact.cpp <47:95 47:101>]
 REFERENCE_CALL static void b2Contact::InitializeRegisters() -> static void b2Contact::AddType(b2ContactCreateFcn *, b2ContactDestroyFcn *, b2Shape::Type, b2Shape::Type) [b2Contact.cpp <48:2 48:8>]
 REFERENCE_USAGE static void b2Contact::InitializeRegisters() -> static b2Contact * b2ChainAndPolygonContact::Create(b2Fixture *, int32, b2Fixture *, int32, b2BlockAllocator *) [b2Contact.cpp <48:36 48:41>]
 SYMBOL_CLASS b2ChainAndPolygonContact
+QUALIFIER: b2ChainAndPolygonContact [b2Contact.cpp <48:10 48:33>]
 REFERENCE_USAGE static void b2Contact::InitializeRegisters() -> static void b2ChainAndPolygonContact::Destroy(b2Contact *, b2BlockAllocator *) [b2Contact.cpp <48:70 48:76>]
-SYMBOL_CLASS b2ChainAndPolygonContact
+QUALIFIER: b2ChainAndPolygonContact [b2Contact.cpp <48:44 48:67>]
 REFERENCE_USAGE static void b2Contact::InitializeRegisters() -> b2Shape::Type::e_chain [b2Contact.cpp <48:88 48:94>]
-SYMBOL_CLASS b2Shape
+QUALIFIER: b2Shape [b2Contact.cpp <48:79 48:85>]
 REFERENCE_USAGE static void b2Contact::InitializeRegisters() -> b2Shape::Type::e_polygon [b2Contact.cpp <48:106 48:114>]
-SYMBOL_CLASS b2Shape
+QUALIFIER: b2Shape [b2Contact.cpp <48:97 48:103>]
 SYMBOL_METHOD protected static void b2Contact::AddType(b2ContactCreateFcn *, b2ContactDestroyFcn *, b2Shape::Type, b2Shape::Type) [b2Contact.cpp <51:1 <51:17 51:23> 67:1>]
-SYMBOL_CLASS b2Contact
-SYMBOL_BUILTIN_TYPE void
+QUALIFIER: b2Contact [b2Contact.cpp <51:6 51:14>]
 REFERENCE_TYPE_USAGE static void b2Contact::AddType(b2ContactCreateFcn *, b2ContactDestroyFcn *, b2Shape::Type, b2Shape::Type) -> void [b2Contact.cpp <51:1 51:4>]
 LOCAL_SYMBOL: b2Contact.cpp<51:45> [b2Contact.cpp <51:45 51:53>]
 REFERENCE_TYPE_USAGE static void b2Contact::AddType(b2ContactCreateFcn *, b2ContactDestroyFcn *, b2Shape::Type, b2Shape::Type) -> b2ContactCreateFcn [b2Contact.cpp <51:25 51:42>]
 LOCAL_SYMBOL: b2Contact.cpp<51:77> [b2Contact.cpp <51:77 51:86>]
 REFERENCE_TYPE_USAGE static void b2Contact::AddType(b2ContactCreateFcn *, b2ContactDestroyFcn *, b2Shape::Type, b2Shape::Type) -> b2ContactDestroyFcn [b2Contact.cpp <51:56 51:74>]
 LOCAL_SYMBOL: b2Contact.cpp<52:21> [b2Contact.cpp <52:21 52:25>]
-SYMBOL_CLASS b2Shape
+QUALIFIER: b2Shape [b2Contact.cpp <52:7 52:13>]
 REFERENCE_TYPE_USAGE static void b2Contact::AddType(b2ContactCreateFcn *, b2ContactDestroyFcn *, b2Shape::Type, b2Shape::Type) -> b2Shape::Type [b2Contact.cpp <52:16 52:19>]
 LOCAL_SYMBOL: b2Contact.cpp<52:42> [b2Contact.cpp <52:42 52:46>]
-SYMBOL_CLASS b2Shape
+QUALIFIER: b2Shape [b2Contact.cpp <52:28 52:34>]
 REFERENCE_TYPE_USAGE static void b2Contact::AddType(b2ContactCreateFcn *, b2ContactDestroyFcn *, b2Shape::Type, b2Shape::Type) -> b2Shape::Type [b2Contact.cpp <52:37 52:40>]
 LOCAL_SYMBOL: b2Contact.cpp<52:21> [b2Contact.cpp <54:16 54:20>]
 LOCAL_SYMBOL: b2Contact.cpp<52:21> [b2Contact.cpp <54:25 54:29>]
 REFERENCE_USAGE static void b2Contact::AddType(b2ContactCreateFcn *, b2ContactDestroyFcn *, b2Shape::Type, b2Shape::Type) -> b2Shape::Type::e_typeCount [b2Contact.cpp <54:42 54:52>]
-SYMBOL_CLASS b2Shape
+QUALIFIER: b2Shape [b2Contact.cpp <54:33 54:39>]
 LOCAL_SYMBOL: b2Contact.cpp<52:42> [b2Contact.cpp <55:16 55:20>]
 LOCAL_SYMBOL: b2Contact.cpp<52:42> [b2Contact.cpp <55:25 55:29>]
 REFERENCE_USAGE static void b2Contact::AddType(b2ContactCreateFcn *, b2ContactDestroyFcn *, b2Shape::Type, b2Shape::Type) -> b2Shape::Type::e_typeCount [b2Contact.cpp <55:42 55:52>]
-SYMBOL_CLASS b2Shape
+QUALIFIER: b2Shape [b2Contact.cpp <55:33 55:39>]
 REFERENCE_USAGE static void b2Contact::AddType(b2ContactCreateFcn *, b2ContactDestroyFcn *, b2Shape::Type, b2Shape::Type) -> b2ContactCreateFcn * b2ContactRegister::createFcn [b2Contact.cpp <57:28 57:36>]
 REFERENCE_USAGE static void b2Contact::AddType(b2ContactCreateFcn *, b2ContactDestroyFcn *, b2Shape::Type, b2Shape::Type) -> static b2ContactRegister [] [] b2Contact::s_registers [b2Contact.cpp <57:2 57:12>]
 LOCAL_SYMBOL: b2Contact.cpp<52:21> [b2Contact.cpp <57:14 57:18>]
@@ -215,7 +162,7 @@ REFERENCE_USAGE static void b2Contact::AddType(b2ContactCreateFcn *, b2ContactDe
 LOCAL_SYMBOL: b2Contact.cpp<52:42> [b2Contact.cpp <65:15 65:19>]
 LOCAL_SYMBOL: b2Contact.cpp<52:21> [b2Contact.cpp <65:22 65:26>]
 SYMBOL_METHOD protected static b2Contact * b2Contact::Create(b2Fixture *, int32, b2Fixture *, int32, b2BlockAllocator *) [b2Contact.cpp <69:1 <69:23 69:28> 99:1>]
-SYMBOL_CLASS b2Contact
+QUALIFIER: b2Contact [b2Contact.cpp <69:12 69:20>]
 REFERENCE_TYPE_USAGE static b2Contact * b2Contact::Create(b2Fixture *, int32, b2Fixture *, int32, b2BlockAllocator *) -> b2Contact [b2Contact.cpp <69:1 69:9>]
 LOCAL_SYMBOL: b2Contact.cpp<69:41> [b2Contact.cpp <69:41 69:48>]
 REFERENCE_TYPE_USAGE static b2Contact * b2Contact::Create(b2Fixture *, int32, b2Fixture *, int32, b2BlockAllocator *) -> b2Fixture [b2Contact.cpp <69:30 69:38>]
@@ -232,25 +179,24 @@ SYMBOL_FUNCTION static void b2Contact::InitializeRegisters()
 REFERENCE_CALL static b2Contact * b2Contact::Create(b2Fixture *, int32, b2Fixture *, int32, b2BlockAllocator *) -> static void b2Contact::InitializeRegisters() [b2Contact.cpp <73:3 73:21>]
 REFERENCE_USAGE static b2Contact * b2Contact::Create(b2Fixture *, int32, b2Fixture *, int32, b2BlockAllocator *) -> static bool b2Contact::s_initialized [b2Contact.cpp <74:3 74:15>]
 LOCAL_SYMBOL: b2Contact.cpp<77:16> [b2Contact.cpp <77:16 77:20>]
-SYMBOL_CLASS b2Shape
+QUALIFIER: b2Shape [b2Contact.cpp <77:2 77:8>]
 REFERENCE_TYPE_USAGE static b2Contact * b2Contact::Create(b2Fixture *, int32, b2Fixture *, int32, b2BlockAllocator *) -> b2Shape::Type [b2Contact.cpp <77:11 77:14>]
 SYMBOL_FUNCTION b2Shape::Type b2Fixture::GetType() const
 REFERENCE_CALL static b2Contact * b2Contact::Create(b2Fixture *, int32, b2Fixture *, int32, b2BlockAllocator *) -> b2Shape::Type b2Fixture::GetType() const [b2Contact.cpp <77:34 77:40>]
 LOCAL_SYMBOL: b2Contact.cpp<69:41> [b2Contact.cpp <77:24 77:31>]
 LOCAL_SYMBOL: b2Contact.cpp<78:16> [b2Contact.cpp <78:16 78:20>]
-SYMBOL_CLASS b2Shape
+QUALIFIER: b2Shape [b2Contact.cpp <78:2 78:8>]
 REFERENCE_TYPE_USAGE static b2Contact * b2Contact::Create(b2Fixture *, int32, b2Fixture *, int32, b2BlockAllocator *) -> b2Shape::Type [b2Contact.cpp <78:11 78:14>]
-SYMBOL_FUNCTION b2Shape::Type b2Fixture::GetType() const
 REFERENCE_CALL static b2Contact * b2Contact::Create(b2Fixture *, int32, b2Fixture *, int32, b2BlockAllocator *) -> b2Shape::Type b2Fixture::GetType() const [b2Contact.cpp <78:34 78:40>]
 LOCAL_SYMBOL: b2Contact.cpp<69:76> [b2Contact.cpp <78:24 78:31>]
 LOCAL_SYMBOL: b2Contact.cpp<77:16> [b2Contact.cpp <80:16 80:20>]
 LOCAL_SYMBOL: b2Contact.cpp<77:16> [b2Contact.cpp <80:25 80:29>]
 REFERENCE_USAGE static b2Contact * b2Contact::Create(b2Fixture *, int32, b2Fixture *, int32, b2BlockAllocator *) -> b2Shape::Type::e_typeCount [b2Contact.cpp <80:42 80:52>]
-SYMBOL_CLASS b2Shape
+QUALIFIER: b2Shape [b2Contact.cpp <80:33 80:39>]
 LOCAL_SYMBOL: b2Contact.cpp<78:16> [b2Contact.cpp <81:16 81:20>]
 LOCAL_SYMBOL: b2Contact.cpp<78:16> [b2Contact.cpp <81:25 81:29>]
 REFERENCE_USAGE static b2Contact * b2Contact::Create(b2Fixture *, int32, b2Fixture *, int32, b2BlockAllocator *) -> b2Shape::Type::e_typeCount [b2Contact.cpp <81:42 81:52>]
-SYMBOL_CLASS b2Shape
+QUALIFIER: b2Shape [b2Contact.cpp <81:33 81:39>]
 LOCAL_SYMBOL: b2Contact.cpp<83:22> [b2Contact.cpp <83:22 83:30>]
 REFERENCE_TYPE_USAGE static b2Contact * b2Contact::Create(b2Fixture *, int32, b2Fixture *, int32, b2BlockAllocator *) -> b2ContactCreateFcn [b2Contact.cpp <83:2 83:19>]
 REFERENCE_USAGE static b2Contact * b2Contact::Create(b2Fixture *, int32, b2Fixture *, int32, b2BlockAllocator *) -> b2ContactCreateFcn * b2ContactRegister::createFcn [b2Contact.cpp <83:60 83:68>]
@@ -275,8 +221,7 @@ LOCAL_SYMBOL: b2Contact.cpp<69:41> [b2Contact.cpp <92:39 92:46>]
 LOCAL_SYMBOL: b2Contact.cpp<69:57> [b2Contact.cpp <92:49 92:54>]
 LOCAL_SYMBOL: b2Contact.cpp<69:118> [b2Contact.cpp <92:57 92:65>]
 SYMBOL_METHOD protected static void b2Contact::Destroy(b2Contact *, b2BlockAllocator *) [b2Contact.cpp <101:1 <101:17 101:23> 124:1>]
-SYMBOL_CLASS b2Contact
-SYMBOL_BUILTIN_TYPE void
+QUALIFIER: b2Contact [b2Contact.cpp <101:6 101:14>]
 REFERENCE_TYPE_USAGE static void b2Contact::Destroy(b2Contact *, b2BlockAllocator *) -> void [b2Contact.cpp <101:1 101:4>]
 LOCAL_SYMBOL: b2Contact.cpp<101:36> [b2Contact.cpp <101:36 101:42>]
 REFERENCE_TYPE_USAGE static void b2Contact::Destroy(b2Contact *, b2BlockAllocator *) -> b2Contact [b2Contact.cpp <101:25 101:33>]
@@ -297,7 +242,6 @@ LOCAL_SYMBOL: b2Contact.cpp<101:36> [b2Contact.cpp <108:6 108:12>]
 SYMBOL_FUNCTION bool b2Fixture::IsSensor() const
 REFERENCE_CALL static void b2Contact::Destroy(b2Contact *, b2BlockAllocator *) -> bool b2Fixture::IsSensor() const [b2Contact.cpp <109:13 109:20>]
 LOCAL_SYMBOL: b2Contact.cpp<105:13> [b2Contact.cpp <109:3 109:10>]
-SYMBOL_FUNCTION bool b2Fixture::IsSensor() const
 REFERENCE_CALL static void b2Contact::Destroy(b2Contact *, b2BlockAllocator *) -> bool b2Fixture::IsSensor() const [b2Contact.cpp <110:13 110:20>]
 LOCAL_SYMBOL: b2Contact.cpp<106:13> [b2Contact.cpp <110:3 110:10>]
 SYMBOL_FUNCTION void b2Body::SetAwake(bool)
@@ -305,31 +249,27 @@ REFERENCE_CALL static void b2Contact::Destroy(b2Contact *, b2BlockAllocator *) -
 SYMBOL_FUNCTION b2Body * b2Fixture::GetBody()
 REFERENCE_CALL static void b2Contact::Destroy(b2Contact *, b2BlockAllocator *) -> b2Body * b2Fixture::GetBody() [b2Contact.cpp <112:13 112:19>]
 LOCAL_SYMBOL: b2Contact.cpp<105:13> [b2Contact.cpp <112:3 112:10>]
-SYMBOL_FUNCTION void b2Body::SetAwake(bool)
 REFERENCE_CALL static void b2Contact::Destroy(b2Contact *, b2BlockAllocator *) -> void b2Body::SetAwake(bool) [b2Contact.cpp <113:24 113:31>]
-SYMBOL_FUNCTION b2Body * b2Fixture::GetBody()
 REFERENCE_CALL static void b2Contact::Destroy(b2Contact *, b2BlockAllocator *) -> b2Body * b2Fixture::GetBody() [b2Contact.cpp <113:13 113:19>]
 LOCAL_SYMBOL: b2Contact.cpp<106:13> [b2Contact.cpp <113:3 113:10>]
 LOCAL_SYMBOL: b2Contact.cpp<116:16> [b2Contact.cpp <116:16 116:20>]
-SYMBOL_CLASS b2Shape
+QUALIFIER: b2Shape [b2Contact.cpp <116:2 116:8>]
 REFERENCE_TYPE_USAGE static void b2Contact::Destroy(b2Contact *, b2BlockAllocator *) -> b2Shape::Type [b2Contact.cpp <116:11 116:14>]
-SYMBOL_FUNCTION b2Shape::Type b2Fixture::GetType() const
 REFERENCE_CALL static void b2Contact::Destroy(b2Contact *, b2BlockAllocator *) -> b2Shape::Type b2Fixture::GetType() const [b2Contact.cpp <116:34 116:40>]
 LOCAL_SYMBOL: b2Contact.cpp<105:13> [b2Contact.cpp <116:24 116:31>]
 LOCAL_SYMBOL: b2Contact.cpp<117:16> [b2Contact.cpp <117:16 117:20>]
-SYMBOL_CLASS b2Shape
+QUALIFIER: b2Shape [b2Contact.cpp <117:2 117:8>]
 REFERENCE_TYPE_USAGE static void b2Contact::Destroy(b2Contact *, b2BlockAllocator *) -> b2Shape::Type [b2Contact.cpp <117:11 117:14>]
-SYMBOL_FUNCTION b2Shape::Type b2Fixture::GetType() const
 REFERENCE_CALL static void b2Contact::Destroy(b2Contact *, b2BlockAllocator *) -> b2Shape::Type b2Fixture::GetType() const [b2Contact.cpp <117:34 117:40>]
 LOCAL_SYMBOL: b2Contact.cpp<106:13> [b2Contact.cpp <117:24 117:31>]
 LOCAL_SYMBOL: b2Contact.cpp<116:16> [b2Contact.cpp <119:16 119:20>]
 LOCAL_SYMBOL: b2Contact.cpp<117:16> [b2Contact.cpp <119:25 119:29>]
 REFERENCE_USAGE static void b2Contact::Destroy(b2Contact *, b2BlockAllocator *) -> b2Shape::Type::e_typeCount [b2Contact.cpp <119:42 119:52>]
-SYMBOL_CLASS b2Shape
+QUALIFIER: b2Shape [b2Contact.cpp <119:33 119:39>]
 LOCAL_SYMBOL: b2Contact.cpp<116:16> [b2Contact.cpp <120:16 120:20>]
 LOCAL_SYMBOL: b2Contact.cpp<117:16> [b2Contact.cpp <120:25 120:29>]
 REFERENCE_USAGE static void b2Contact::Destroy(b2Contact *, b2BlockAllocator *) -> b2Shape::Type::e_typeCount [b2Contact.cpp <120:42 120:52>]
-SYMBOL_CLASS b2Shape
+QUALIFIER: b2Shape [b2Contact.cpp <120:33 120:39>]
 LOCAL_SYMBOL: b2Contact.cpp<122:23> [b2Contact.cpp <122:23 122:32>]
 REFERENCE_TYPE_USAGE static void b2Contact::Destroy(b2Contact *, b2BlockAllocator *) -> b2ContactDestroyFcn [b2Contact.cpp <122:2 122:20>]
 REFERENCE_USAGE static void b2Contact::Destroy(b2Contact *, b2BlockAllocator *) -> b2ContactDestroyFcn * b2ContactRegister::destroyFcn [b2Contact.cpp <122:62 122:71>]
@@ -340,7 +280,7 @@ LOCAL_SYMBOL: b2Contact.cpp<122:23> [b2Contact.cpp <123:2 123:11>]
 LOCAL_SYMBOL: b2Contact.cpp<101:36> [b2Contact.cpp <123:13 123:19>]
 LOCAL_SYMBOL: b2Contact.cpp<101:63> [b2Contact.cpp <123:22 123:30>]
 SYMBOL_METHOD protected void b2Contact::b2Contact(b2Fixture *, int32, b2Fixture *, int32) [b2Contact.cpp <126:1 <126:12 126:20> 157:1>]
-SYMBOL_CLASS b2Contact
+QUALIFIER: b2Contact [b2Contact.cpp <126:1 126:9>]
 LOCAL_SYMBOL: b2Contact.cpp<126:33> [b2Contact.cpp <126:33 126:34>]
 REFERENCE_TYPE_USAGE void b2Contact::b2Contact(b2Fixture *, int32, b2Fixture *, int32) -> b2Fixture [b2Contact.cpp <126:22 126:30>]
 LOCAL_SYMBOL: b2Contact.cpp<126:43> [b2Contact.cpp <126:43 126:48>]
@@ -353,8 +293,6 @@ REFERENCE_USAGE void b2Contact::b2Contact(b2Fixture *, int32, b2Fixture *, int32
 SYMBOL_FUNCTION void b2ContactEdge::b2ContactEdge()
 REFERENCE_CALL void b2Contact::b2Contact(b2Fixture *, int32, b2Fixture *, int32) -> void b2ContactEdge::b2ContactEdge() [b2Contact.cpp <126:12 126:20>]
 REFERENCE_USAGE void b2Contact::b2Contact(b2Fixture *, int32, b2Fixture *, int32) -> b2ContactEdge b2Contact::m_nodeB [b2Contact.cpp <126:12 126:20>]
-SYMBOL_FUNCTION void b2ContactEdge::b2ContactEdge()
-REFERENCE_CALL void b2Contact::b2Contact(b2Fixture *, int32, b2Fixture *, int32) -> void b2ContactEdge::b2ContactEdge() [b2Contact.cpp <126:12 126:20>]
 REFERENCE_USAGE void b2Contact::b2Contact(b2Fixture *, int32, b2Fixture *, int32) -> b2Manifold b2Contact::m_manifold [b2Contact.cpp <126:12 126:20>]
 SYMBOL_FUNCTION void b2Manifold::b2Manifold()
 REFERENCE_CALL void b2Contact::b2Contact(b2Fixture *, int32, b2Fixture *, int32) -> void b2Manifold::b2Manifold() [b2Contact.cpp <126:12 126:20>]
@@ -405,8 +343,7 @@ REFERENCE_USAGE void b2Contact::b2Contact(b2Fixture *, int32, b2Fixture *, int32
 REFERENCE_USAGE void b2Contact::b2Contact(b2Fixture *, int32, b2Fixture *, int32) -> b2Fixture * b2Contact::m_fixtureB [b2Contact.cpp <154:62 154:71>]
 REFERENCE_USAGE void b2Contact::b2Contact(b2Fixture *, int32, b2Fixture *, int32) -> float32 b2Contact::m_tangentSpeed [b2Contact.cpp <156:2 156:15>]
 SYMBOL_METHOD protected void b2Contact::Update(b2ContactListener *) [b2Contact.cpp <161:1 <161:17 161:22> 247:1>]
-SYMBOL_CLASS b2Contact
-SYMBOL_BUILTIN_TYPE void
+QUALIFIER: b2Contact [b2Contact.cpp <161:6 161:14>]
 REFERENCE_TYPE_USAGE void b2Contact::Update(b2ContactListener *) -> void [b2Contact.cpp <161:1 161:4>]
 LOCAL_SYMBOL: b2Contact.cpp<161:43> [b2Contact.cpp <161:43 161:50>]
 REFERENCE_TYPE_USAGE void b2Contact::Update(b2ContactListener *) -> b2ContactListener [b2Contact.cpp <161:24 161:40>]
@@ -418,39 +355,30 @@ REFERENCE_USAGE void b2Contact::Update(b2ContactListener *) -> b2Manifold b2Cont
 REFERENCE_USAGE void b2Contact::Update(b2ContactListener *) -> uint32 b2Contact::m_flags [b2Contact.cpp <166:2 166:8>]
 REFERENCE_USAGE void b2Contact::Update(b2ContactListener *) -> b2Contact::anonymous enum (b2Contact.h<155:2>)::e_enabledFlag [b2Contact.cpp <166:13 166:25>]
 LOCAL_SYMBOL: b2Contact.cpp<168:7> [b2Contact.cpp <168:7 168:14>]
-SYMBOL_BUILTIN_TYPE bool
 REFERENCE_TYPE_USAGE void b2Contact::Update(b2ContactListener *) -> bool [b2Contact.cpp <168:2 168:5>]
 LOCAL_SYMBOL: b2Contact.cpp<169:7> [b2Contact.cpp <169:7 169:17>]
-SYMBOL_BUILTIN_TYPE bool
 REFERENCE_TYPE_USAGE void b2Contact::Update(b2ContactListener *) -> bool [b2Contact.cpp <169:2 169:5>]
 REFERENCE_USAGE void b2Contact::Update(b2ContactListener *) -> uint32 b2Contact::m_flags [b2Contact.cpp <169:22 169:28>]
 REFERENCE_USAGE void b2Contact::Update(b2ContactListener *) -> b2Contact::anonymous enum (b2Contact.h<155:2>)::e_touchingFlag [b2Contact.cpp <169:32 169:45>]
 REFERENCE_USAGE void b2Contact::Update(b2ContactListener *) -> b2Contact::anonymous enum (b2Contact.h<155:2>)::e_touchingFlag [b2Contact.cpp <169:51 169:64>]
 LOCAL_SYMBOL: b2Contact.cpp<171:7> [b2Contact.cpp <171:7 171:13>]
-SYMBOL_BUILTIN_TYPE bool
 REFERENCE_TYPE_USAGE void b2Contact::Update(b2ContactListener *) -> bool [b2Contact.cpp <171:2 171:5>]
-SYMBOL_FUNCTION bool b2Fixture::IsSensor() const
 REFERENCE_CALL void b2Contact::Update(b2ContactListener *) -> bool b2Fixture::IsSensor() const [b2Contact.cpp <171:29 171:36>]
 REFERENCE_USAGE void b2Contact::Update(b2ContactListener *) -> b2Fixture * b2Contact::m_fixtureA [b2Contact.cpp <171:17 171:26>]
 LOCAL_SYMBOL: b2Contact.cpp<172:7> [b2Contact.cpp <172:7 172:13>]
-SYMBOL_BUILTIN_TYPE bool
 REFERENCE_TYPE_USAGE void b2Contact::Update(b2ContactListener *) -> bool [b2Contact.cpp <172:2 172:5>]
-SYMBOL_FUNCTION bool b2Fixture::IsSensor() const
 REFERENCE_CALL void b2Contact::Update(b2ContactListener *) -> bool b2Fixture::IsSensor() const [b2Contact.cpp <172:29 172:36>]
 REFERENCE_USAGE void b2Contact::Update(b2ContactListener *) -> b2Fixture * b2Contact::m_fixtureB [b2Contact.cpp <172:17 172:26>]
 LOCAL_SYMBOL: b2Contact.cpp<173:7> [b2Contact.cpp <173:7 173:12>]
-SYMBOL_BUILTIN_TYPE bool
 REFERENCE_TYPE_USAGE void b2Contact::Update(b2ContactListener *) -> bool [b2Contact.cpp <173:2 173:5>]
 LOCAL_SYMBOL: b2Contact.cpp<171:7> [b2Contact.cpp <173:16 173:22>]
 LOCAL_SYMBOL: b2Contact.cpp<172:7> [b2Contact.cpp <173:27 173:33>]
 LOCAL_SYMBOL: b2Contact.cpp<175:10> [b2Contact.cpp <175:10 175:14>]
 REFERENCE_TYPE_USAGE void b2Contact::Update(b2ContactListener *) -> b2Body [b2Contact.cpp <175:2 175:7>]
-SYMBOL_FUNCTION b2Body * b2Fixture::GetBody()
 REFERENCE_CALL void b2Contact::Update(b2ContactListener *) -> b2Body * b2Fixture::GetBody() [b2Contact.cpp <175:30 175:36>]
 REFERENCE_USAGE void b2Contact::Update(b2ContactListener *) -> b2Fixture * b2Contact::m_fixtureA [b2Contact.cpp <175:18 175:27>]
 LOCAL_SYMBOL: b2Contact.cpp<176:10> [b2Contact.cpp <176:10 176:14>]
 REFERENCE_TYPE_USAGE void b2Contact::Update(b2ContactListener *) -> b2Body [b2Contact.cpp <176:2 176:7>]
-SYMBOL_FUNCTION b2Body * b2Fixture::GetBody()
 REFERENCE_CALL void b2Contact::Update(b2ContactListener *) -> b2Body * b2Fixture::GetBody() [b2Contact.cpp <176:30 176:36>]
 REFERENCE_USAGE void b2Contact::Update(b2ContactListener *) -> b2Fixture * b2Contact::m_fixtureB [b2Contact.cpp <176:18 176:27>]
 LOCAL_SYMBOL: b2Contact.cpp<177:21> [b2Contact.cpp <177:21 177:23>]
@@ -460,7 +388,6 @@ REFERENCE_CALL void b2Contact::Update(b2ContactListener *) -> const b2Transform 
 LOCAL_SYMBOL: b2Contact.cpp<175:10> [b2Contact.cpp <177:27 177:31>]
 LOCAL_SYMBOL: b2Contact.cpp<178:21> [b2Contact.cpp <178:21 178:23>]
 REFERENCE_TYPE_USAGE void b2Contact::Update(b2ContactListener *) -> b2Transform [b2Contact.cpp <178:8 178:18>]
-SYMBOL_FUNCTION const b2Transform & b2Body::GetTransform() const
 REFERENCE_CALL void b2Contact::Update(b2ContactListener *) -> const b2Transform & b2Body::GetTransform() const [b2Contact.cpp <178:34 178:45>]
 LOCAL_SYMBOL: b2Contact.cpp<176:10> [b2Contact.cpp <178:27 178:31>]
 LOCAL_SYMBOL: b2Contact.cpp<173:7> [b2Contact.cpp <181:6 181:11>]
@@ -471,7 +398,6 @@ REFERENCE_CALL void b2Contact::Update(b2ContactListener *) -> b2Shape * b2Fixtur
 REFERENCE_USAGE void b2Contact::Update(b2ContactListener *) -> b2Fixture * b2Contact::m_fixtureA [b2Contact.cpp <183:27 183:36>]
 LOCAL_SYMBOL: b2Contact.cpp<184:18> [b2Contact.cpp <184:18 184:23>]
 REFERENCE_TYPE_USAGE void b2Contact::Update(b2ContactListener *) -> b2Shape [b2Contact.cpp <184:9 184:15>]
-SYMBOL_FUNCTION b2Shape * b2Fixture::GetShape()
 REFERENCE_CALL void b2Contact::Update(b2ContactListener *) -> b2Shape * b2Fixture::GetShape() [b2Contact.cpp <184:39 184:46>]
 REFERENCE_USAGE void b2Contact::Update(b2ContactListener *) -> b2Fixture * b2Contact::m_fixtureB [b2Contact.cpp <184:27 184:36>]
 LOCAL_SYMBOL: b2Contact.cpp<168:7> [b2Contact.cpp <185:3 185:10>]
@@ -540,10 +466,8 @@ REFERENCE_USAGE void b2Contact::Update(b2ContactListener *) -> float32 b2Manifol
 LOCAL_SYMBOL: b2Contact.cpp<206:22> [b2Contact.cpp <211:28 211:30>]
 LOCAL_SYMBOL: b2Contact.cpp<168:7> [b2Contact.cpp <217:7 217:14>]
 LOCAL_SYMBOL: b2Contact.cpp<169:7> [b2Contact.cpp <217:19 217:29>]
-SYMBOL_FUNCTION void b2Body::SetAwake(bool)
 REFERENCE_CALL void b2Contact::Update(b2ContactListener *) -> void b2Body::SetAwake(bool) [b2Contact.cpp <219:11 219:18>]
 LOCAL_SYMBOL: b2Contact.cpp<175:10> [b2Contact.cpp <219:4 219:8>]
-SYMBOL_FUNCTION void b2Body::SetAwake(bool)
 REFERENCE_CALL void b2Contact::Update(b2ContactListener *) -> void b2Body::SetAwake(bool) [b2Contact.cpp <220:11 220:18>]
 LOCAL_SYMBOL: b2Contact.cpp<176:10> [b2Contact.cpp <220:4 220:8>]
 LOCAL_SYMBOL: b2Contact.cpp<168:7> [b2Contact.cpp <224:6 224:13>]

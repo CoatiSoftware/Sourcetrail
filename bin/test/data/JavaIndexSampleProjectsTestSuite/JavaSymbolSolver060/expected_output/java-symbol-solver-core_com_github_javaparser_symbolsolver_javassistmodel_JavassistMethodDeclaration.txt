@@ -1,41 +1,98 @@
 FILE: JavassistMethodDeclaration.java
-SYMBOL_PACKAGE com.github.javaparser.symbolsolver.javassistmodel [JavassistMethodDeclaration.java <17:9 17:57>]
+SYMBOL_PACKAGE com.github.javaparser.symbolsolver.javassistmodel [JavassistMethodDeclaration.java <17:44 17:57>]
 SYMBOL_PACKAGE com.github.javaparser.symbolsolver
 SYMBOL_PACKAGE com.github.javaparser
 SYMBOL_PACKAGE com.github
 SYMBOL_PACKAGE com
-REFERENCE_IMPORT JavassistMethodDeclaration.java -> com.github.javaparser.ast.Node [JavassistMethodDeclaration.java <19:8 19:37>]
+QUALIFIER: com.github.javaparser.symbolsolver [JavassistMethodDeclaration.java <17:31 17:42>]
+QUALIFIER: com.github.javaparser [JavassistMethodDeclaration.java <17:20 17:29>]
+QUALIFIER: com.github [JavassistMethodDeclaration.java <17:13 17:18>]
+QUALIFIER: com [JavassistMethodDeclaration.java <17:9 17:11>]
+REFERENCE_IMPORT JavassistMethodDeclaration.java -> com.github.javaparser.ast.Node [JavassistMethodDeclaration.java <19:34 19:37>]
 SYMBOL_PACKAGE com.github.javaparser.ast
-REFERENCE_IMPORT JavassistMethodDeclaration.java -> com.github.javaparser.symbolsolver.core.resolution.Context [JavassistMethodDeclaration.java <20:8 20:65>]
+QUALIFIER: com.github.javaparser.ast [JavassistMethodDeclaration.java <19:30 19:32>]
+QUALIFIER: com.github.javaparser [JavassistMethodDeclaration.java <19:19 19:28>]
+QUALIFIER: com.github [JavassistMethodDeclaration.java <19:12 19:17>]
+QUALIFIER: com [JavassistMethodDeclaration.java <19:8 19:10>]
+REFERENCE_IMPORT JavassistMethodDeclaration.java -> com.github.javaparser.symbolsolver.core.resolution.Context [JavassistMethodDeclaration.java <20:59 20:65>]
 SYMBOL_PACKAGE com.github.javaparser.symbolsolver.core.resolution
-REFERENCE_IMPORT JavassistMethodDeclaration.java -> com.github.javaparser.symbolsolver.declarations.common.MethodDeclarationCommonLogic [JavassistMethodDeclaration.java <21:8 21:90>]
+QUALIFIER: com.github.javaparser.symbolsolver.core.resolution [JavassistMethodDeclaration.java <20:48 20:57>]
+QUALIFIER: com.github.javaparser.symbolsolver.core [JavassistMethodDeclaration.java <20:43 20:46>]
+QUALIFIER: com.github.javaparser.symbolsolver [JavassistMethodDeclaration.java <20:30 20:41>]
+QUALIFIER: com.github.javaparser [JavassistMethodDeclaration.java <20:19 20:28>]
+QUALIFIER: com.github [JavassistMethodDeclaration.java <20:12 20:17>]
+QUALIFIER: com [JavassistMethodDeclaration.java <20:8 20:10>]
+REFERENCE_IMPORT JavassistMethodDeclaration.java -> com.github.javaparser.symbolsolver.declarations.common.MethodDeclarationCommonLogic [JavassistMethodDeclaration.java <21:63 21:90>]
 SYMBOL_PACKAGE com.github.javaparser.symbolsolver.declarations.common
-REFERENCE_IMPORT JavassistMethodDeclaration.java -> com.github.javaparser.symbolsolver.model.declarations [JavassistMethodDeclaration.java <22:8 22:60>]
+QUALIFIER: com.github.javaparser.symbolsolver.declarations.common [JavassistMethodDeclaration.java <21:56 21:61>]
+QUALIFIER: com.github.javaparser.symbolsolver.declarations [JavassistMethodDeclaration.java <21:43 21:54>]
+QUALIFIER: com.github.javaparser.symbolsolver [JavassistMethodDeclaration.java <21:30 21:41>]
+QUALIFIER: com.github.javaparser [JavassistMethodDeclaration.java <21:19 21:28>]
+QUALIFIER: com.github [JavassistMethodDeclaration.java <21:12 21:17>]
+QUALIFIER: com [JavassistMethodDeclaration.java <21:8 21:10>]
+REFERENCE_IMPORT JavassistMethodDeclaration.java -> com.github.javaparser.symbolsolver.model.declarations [JavassistMethodDeclaration.java <22:49 22:60>]
 SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model.declarations
-REFERENCE_IMPORT JavassistMethodDeclaration.java -> com.github.javaparser.symbolsolver.model.methods.MethodUsage [JavassistMethodDeclaration.java <23:8 23:67>]
+QUALIFIER: com.github.javaparser.symbolsolver.model [JavassistMethodDeclaration.java <22:43 22:47>]
+QUALIFIER: com.github.javaparser.symbolsolver [JavassistMethodDeclaration.java <22:30 22:41>]
+QUALIFIER: com.github.javaparser [JavassistMethodDeclaration.java <22:19 22:28>]
+QUALIFIER: com.github [JavassistMethodDeclaration.java <22:12 22:17>]
+QUALIFIER: com [JavassistMethodDeclaration.java <22:8 22:10>]
+REFERENCE_IMPORT JavassistMethodDeclaration.java -> com.github.javaparser.symbolsolver.model.methods.MethodUsage [JavassistMethodDeclaration.java <23:57 23:67>]
 SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model.methods
-REFERENCE_IMPORT JavassistMethodDeclaration.java -> com.github.javaparser.symbolsolver.model.resolution.TypeSolver [JavassistMethodDeclaration.java <24:8 24:69>]
+QUALIFIER: com.github.javaparser.symbolsolver.model.methods [JavassistMethodDeclaration.java <23:49 23:55>]
+QUALIFIER: com.github.javaparser.symbolsolver.model [JavassistMethodDeclaration.java <23:43 23:47>]
+QUALIFIER: com.github.javaparser.symbolsolver [JavassistMethodDeclaration.java <23:30 23:41>]
+QUALIFIER: com.github.javaparser [JavassistMethodDeclaration.java <23:19 23:28>]
+QUALIFIER: com.github [JavassistMethodDeclaration.java <23:12 23:17>]
+QUALIFIER: com [JavassistMethodDeclaration.java <23:8 23:10>]
+REFERENCE_IMPORT JavassistMethodDeclaration.java -> com.github.javaparser.symbolsolver.model.resolution.TypeSolver [JavassistMethodDeclaration.java <24:60 24:69>]
 SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model.resolution
-REFERENCE_IMPORT JavassistMethodDeclaration.java -> com.github.javaparser.symbolsolver.model.typesystem.Type [JavassistMethodDeclaration.java <25:8 25:63>]
+QUALIFIER: com.github.javaparser.symbolsolver.model.resolution [JavassistMethodDeclaration.java <24:49 24:58>]
+QUALIFIER: com.github.javaparser.symbolsolver.model [JavassistMethodDeclaration.java <24:43 24:47>]
+QUALIFIER: com.github.javaparser.symbolsolver [JavassistMethodDeclaration.java <24:30 24:41>]
+QUALIFIER: com.github.javaparser [JavassistMethodDeclaration.java <24:19 24:28>]
+QUALIFIER: com.github [JavassistMethodDeclaration.java <24:12 24:17>]
+QUALIFIER: com [JavassistMethodDeclaration.java <24:8 24:10>]
+REFERENCE_IMPORT JavassistMethodDeclaration.java -> com.github.javaparser.symbolsolver.model.typesystem.Type [JavassistMethodDeclaration.java <25:60 25:63>]
 SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model.typesystem
-REFERENCE_IMPORT JavassistMethodDeclaration.java -> javassist.CtMethod [JavassistMethodDeclaration.java <26:8 26:25>]
+QUALIFIER: com.github.javaparser.symbolsolver.model.typesystem [JavassistMethodDeclaration.java <25:49 25:58>]
+QUALIFIER: com.github.javaparser.symbolsolver.model [JavassistMethodDeclaration.java <25:43 25:47>]
+QUALIFIER: com.github.javaparser.symbolsolver [JavassistMethodDeclaration.java <25:30 25:41>]
+QUALIFIER: com.github.javaparser [JavassistMethodDeclaration.java <25:19 25:28>]
+QUALIFIER: com.github [JavassistMethodDeclaration.java <25:12 25:17>]
+QUALIFIER: com [JavassistMethodDeclaration.java <25:8 25:10>]
+REFERENCE_IMPORT JavassistMethodDeclaration.java -> javassist.CtMethod [JavassistMethodDeclaration.java <26:18 26:25>]
 SYMBOL_PACKAGE javassist
-REFERENCE_IMPORT JavassistMethodDeclaration.java -> javassist.NotFoundException [JavassistMethodDeclaration.java <27:8 27:34>]
-SYMBOL_PACKAGE javassist
-REFERENCE_IMPORT JavassistMethodDeclaration.java -> javassist.bytecode.BadBytecode [JavassistMethodDeclaration.java <28:8 28:37>]
+QUALIFIER: javassist [JavassistMethodDeclaration.java <26:8 26:16>]
+REFERENCE_IMPORT JavassistMethodDeclaration.java -> javassist.NotFoundException [JavassistMethodDeclaration.java <27:18 27:34>]
+QUALIFIER: javassist [JavassistMethodDeclaration.java <27:8 27:16>]
+REFERENCE_IMPORT JavassistMethodDeclaration.java -> javassist.bytecode.BadBytecode [JavassistMethodDeclaration.java <28:27 28:37>]
 SYMBOL_PACKAGE javassist.bytecode
-REFERENCE_IMPORT JavassistMethodDeclaration.java -> javassist.bytecode.SignatureAttribute [JavassistMethodDeclaration.java <29:8 29:44>]
-SYMBOL_PACKAGE javassist.bytecode
-REFERENCE_IMPORT JavassistMethodDeclaration.java -> java.lang.reflect.Modifier [JavassistMethodDeclaration.java <31:8 31:33>]
+QUALIFIER: javassist.bytecode [JavassistMethodDeclaration.java <28:18 28:25>]
+QUALIFIER: javassist [JavassistMethodDeclaration.java <28:8 28:16>]
+REFERENCE_IMPORT JavassistMethodDeclaration.java -> javassist.bytecode.SignatureAttribute [JavassistMethodDeclaration.java <29:27 29:44>]
+QUALIFIER: javassist.bytecode [JavassistMethodDeclaration.java <29:18 29:25>]
+QUALIFIER: javassist [JavassistMethodDeclaration.java <29:8 29:16>]
+REFERENCE_IMPORT JavassistMethodDeclaration.java -> java.lang.reflect.Modifier [JavassistMethodDeclaration.java <31:26 31:33>]
 SYMBOL_PACKAGE java.lang.reflect
-REFERENCE_IMPORT JavassistMethodDeclaration.java -> java.util.Arrays [JavassistMethodDeclaration.java <32:8 32:23>]
+QUALIFIER: java.lang.reflect [JavassistMethodDeclaration.java <31:18 31:24>]
+QUALIFIER: java.lang [JavassistMethodDeclaration.java <31:13 31:16>]
+QUALIFIER: java [JavassistMethodDeclaration.java <31:8 31:11>]
+REFERENCE_IMPORT JavassistMethodDeclaration.java -> java.util.Arrays [JavassistMethodDeclaration.java <32:18 32:23>]
 SYMBOL_PACKAGE java.util
-REFERENCE_IMPORT JavassistMethodDeclaration.java -> java.util.Collections [JavassistMethodDeclaration.java <33:8 33:28>]
-SYMBOL_PACKAGE java.util
-REFERENCE_IMPORT JavassistMethodDeclaration.java -> java.util.List<E> [JavassistMethodDeclaration.java <34:8 34:21>]
-SYMBOL_PACKAGE java.util
-REFERENCE_IMPORT JavassistMethodDeclaration.java -> java.util.stream.Collectors [JavassistMethodDeclaration.java <35:8 35:34>]
+QUALIFIER: java.util [JavassistMethodDeclaration.java <32:13 32:16>]
+QUALIFIER: java [JavassistMethodDeclaration.java <32:8 32:11>]
+REFERENCE_IMPORT JavassistMethodDeclaration.java -> java.util.Collections [JavassistMethodDeclaration.java <33:18 33:28>]
+QUALIFIER: java.util [JavassistMethodDeclaration.java <33:13 33:16>]
+QUALIFIER: java [JavassistMethodDeclaration.java <33:8 33:11>]
+REFERENCE_IMPORT JavassistMethodDeclaration.java -> java.util.List<E> [JavassistMethodDeclaration.java <34:18 34:21>]
+QUALIFIER: java.util [JavassistMethodDeclaration.java <34:13 34:16>]
+QUALIFIER: java [JavassistMethodDeclaration.java <34:8 34:11>]
+REFERENCE_IMPORT JavassistMethodDeclaration.java -> java.util.stream.Collectors [JavassistMethodDeclaration.java <35:25 35:34>]
 SYMBOL_PACKAGE java.util.stream
+QUALIFIER: java.util.stream [JavassistMethodDeclaration.java <35:18 35:23>]
+QUALIFIER: java.util [JavassistMethodDeclaration.java <35:13 35:16>]
+QUALIFIER: java [JavassistMethodDeclaration.java <35:8 35:11>]
 SYMBOL_CLASS public com.github.javaparser.symbolsolver.javassistmodel.JavassistMethodDeclaration [JavassistMethodDeclaration.java <40:1 <40:14 40:39> 165:1>]
 LOCAL_SYMBOL: JavassistMethodDeclaration.java<40:70> [JavassistMethodDeclaration.java <40:70 40:70>]
 LOCAL_SYMBOL: JavassistMethodDeclaration.java<40:70> [JavassistMethodDeclaration.java <165:1 165:1>]
@@ -52,9 +109,11 @@ REFERENCE_TYPE_USAGE com.github.javaparser.symbolsolver.javassistmodel.Javassist
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javassistmodel.JavassistMethodDeclaration.JavassistMethodDeclaration<1> [JavassistMethodDeclaration.java <44:69 44:78>]
 LOCAL_SYMBOL: JavassistMethodDeclaration.java<44:81> [JavassistMethodDeclaration.java <44:81 44:81>]
 LOCAL_SYMBOL: JavassistMethodDeclaration.java<44:81> [JavassistMethodDeclaration.java <47:5 47:5>]
+QUALIFIER: com.github.javaparser.symbolsolver.javassistmodel.JavassistMethodDeclaration [JavassistMethodDeclaration.java <45:9 45:12>]
 SYMBOL_FIELD javassist.CtMethod com.github.javaparser.symbolsolver.javassistmodel.JavassistMethodDeclaration.ctMethod
 REFERENCE_USAGE com.github.javaparser.symbolsolver.javassistmodel.JavassistMethodDeclaration.JavassistMethodDeclaration(javassist.CtMethod, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> javassist.CtMethod com.github.javaparser.symbolsolver.javassistmodel.JavassistMethodDeclaration.ctMethod [JavassistMethodDeclaration.java <45:14 45:21>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javassistmodel.JavassistMethodDeclaration.JavassistMethodDeclaration<0> [JavassistMethodDeclaration.java <45:25 45:32>]
+QUALIFIER: com.github.javaparser.symbolsolver.javassistmodel.JavassistMethodDeclaration [JavassistMethodDeclaration.java <46:9 46:12>]
 SYMBOL_FIELD com.github.javaparser.symbolsolver.model.resolution.TypeSolver com.github.javaparser.symbolsolver.javassistmodel.JavassistMethodDeclaration.typeSolver
 REFERENCE_USAGE com.github.javaparser.symbolsolver.javassistmodel.JavassistMethodDeclaration.JavassistMethodDeclaration(javassist.CtMethod, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> com.github.javaparser.symbolsolver.model.resolution.TypeSolver com.github.javaparser.symbolsolver.javassistmodel.JavassistMethodDeclaration.typeSolver [JavassistMethodDeclaration.java <46:14 46:23>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javassistmodel.JavassistMethodDeclaration.JavassistMethodDeclaration<1> [JavassistMethodDeclaration.java <46:27 46:36>]
@@ -69,22 +128,20 @@ SYMBOL_METHOD boolean javassist.CtClass.isInterface()
 REFERENCE_CALL boolean com.github.javaparser.symbolsolver.javassistmodel.JavassistMethodDeclaration.isDefaultMethod() -> boolean javassist.CtClass.isInterface() [JavassistMethodDeclaration.java <51:45 51:55>]
 SYMBOL_METHOD javassist.CtClass javassist.CtMember.getDeclaringClass()
 REFERENCE_CALL boolean com.github.javaparser.symbolsolver.javassistmodel.JavassistMethodDeclaration.isDefaultMethod() -> javassist.CtClass javassist.CtMember.getDeclaringClass() [JavassistMethodDeclaration.java <51:25 51:41>]
-SYMBOL_FIELD javassist.CtMethod com.github.javaparser.symbolsolver.javassistmodel.JavassistMethodDeclaration.ctMethod
 REFERENCE_USAGE boolean com.github.javaparser.symbolsolver.javassistmodel.JavassistMethodDeclaration.isDefaultMethod() -> javassist.CtMethod com.github.javaparser.symbolsolver.javassistmodel.JavassistMethodDeclaration.ctMethod [JavassistMethodDeclaration.java <51:16 51:23>]
 SYMBOL_METHOD boolean com.github.javaparser.symbolsolver.javassistmodel.JavassistMethodDeclaration.isAbstract()
 REFERENCE_CALL boolean com.github.javaparser.symbolsolver.javassistmodel.JavassistMethodDeclaration.isDefaultMethod() -> boolean com.github.javaparser.symbolsolver.javassistmodel.JavassistMethodDeclaration.isAbstract() [JavassistMethodDeclaration.java <51:63 51:72>]
 SYMBOL_METHOD public boolean com.github.javaparser.symbolsolver.javassistmodel.JavassistMethodDeclaration.isStatic() [JavassistMethodDeclaration.java <54:5 <55:20 55:27> 57:5>]
 SYMBOL_METHOD boolean com.github.javaparser.symbolsolver.model.declarations.MethodDeclaration.isStatic()
 REFERENCE_OVERRIDE boolean com.github.javaparser.symbolsolver.javassistmodel.JavassistMethodDeclaration.isStatic() -> boolean com.github.javaparser.symbolsolver.model.declarations.MethodDeclaration.isStatic() [JavassistMethodDeclaration.java <55:20 55:27>]
-SYMBOL_BUILTIN_TYPE boolean
 REFERENCE_TYPE_USAGE boolean com.github.javaparser.symbolsolver.javassistmodel.JavassistMethodDeclaration.isStatic() -> boolean [JavassistMethodDeclaration.java <55:12 55:18>]
 LOCAL_SYMBOL: JavassistMethodDeclaration.java<55:31> [JavassistMethodDeclaration.java <55:31 55:31>]
 LOCAL_SYMBOL: JavassistMethodDeclaration.java<55:31> [JavassistMethodDeclaration.java <57:5 57:5>]
 SYMBOL_METHOD static boolean java.lang.reflect.Modifier.isStatic(int)
 REFERENCE_CALL boolean com.github.javaparser.symbolsolver.javassistmodel.JavassistMethodDeclaration.isStatic() -> static boolean java.lang.reflect.Modifier.isStatic(int) [JavassistMethodDeclaration.java <56:25 56:32>]
+QUALIFIER: java.lang.reflect.Modifier [JavassistMethodDeclaration.java <56:16 56:23>]
 SYMBOL_METHOD int javassist.CtBehavior.getModifiers()
 REFERENCE_CALL boolean com.github.javaparser.symbolsolver.javassistmodel.JavassistMethodDeclaration.isStatic() -> int javassist.CtBehavior.getModifiers() [JavassistMethodDeclaration.java <56:43 56:54>]
-SYMBOL_FIELD javassist.CtMethod com.github.javaparser.symbolsolver.javassistmodel.JavassistMethodDeclaration.ctMethod
 REFERENCE_USAGE boolean com.github.javaparser.symbolsolver.javassistmodel.JavassistMethodDeclaration.isStatic() -> javassist.CtMethod com.github.javaparser.symbolsolver.javassistmodel.JavassistMethodDeclaration.ctMethod [JavassistMethodDeclaration.java <56:34 56:41>]
 SYMBOL_METHOD public java.lang.String com.github.javaparser.symbolsolver.javassistmodel.JavassistMethodDeclaration.toString() [JavassistMethodDeclaration.java <59:5 <60:19 60:26> 64:5>]
 SYMBOL_METHOD java.lang.String java.lang.Object.toString()
@@ -92,7 +149,6 @@ REFERENCE_OVERRIDE java.lang.String com.github.javaparser.symbolsolver.javassist
 REFERENCE_TYPE_USAGE java.lang.String com.github.javaparser.symbolsolver.javassistmodel.JavassistMethodDeclaration.toString() -> java.lang.String [JavassistMethodDeclaration.java <60:12 60:17>]
 LOCAL_SYMBOL: JavassistMethodDeclaration.java<60:30> [JavassistMethodDeclaration.java <60:30 60:30>]
 LOCAL_SYMBOL: JavassistMethodDeclaration.java<60:30> [JavassistMethodDeclaration.java <64:5 64:5>]
-SYMBOL_FIELD javassist.CtMethod com.github.javaparser.symbolsolver.javassistmodel.JavassistMethodDeclaration.ctMethod
 REFERENCE_USAGE java.lang.String com.github.javaparser.symbolsolver.javassistmodel.JavassistMethodDeclaration.toString() -> javassist.CtMethod com.github.javaparser.symbolsolver.javassistmodel.JavassistMethodDeclaration.ctMethod [JavassistMethodDeclaration.java <62:31 62:38>]
 SYMBOL_METHOD public java.lang.String com.github.javaparser.symbolsolver.javassistmodel.JavassistMethodDeclaration.getName() [JavassistMethodDeclaration.java <66:5 <67:19 67:25> 69:5>]
 SYMBOL_METHOD java.lang.String com.github.javaparser.symbolsolver.model.declarations.Declaration.getName()
@@ -102,26 +158,22 @@ LOCAL_SYMBOL: JavassistMethodDeclaration.java<67:29> [JavassistMethodDeclaration
 LOCAL_SYMBOL: JavassistMethodDeclaration.java<67:29> [JavassistMethodDeclaration.java <69:5 69:5>]
 SYMBOL_METHOD java.lang.String javassist.CtMethod.getName()
 REFERENCE_CALL java.lang.String com.github.javaparser.symbolsolver.javassistmodel.JavassistMethodDeclaration.getName() -> java.lang.String javassist.CtMethod.getName() [JavassistMethodDeclaration.java <68:25 68:31>]
-SYMBOL_FIELD javassist.CtMethod com.github.javaparser.symbolsolver.javassistmodel.JavassistMethodDeclaration.ctMethod
 REFERENCE_USAGE java.lang.String com.github.javaparser.symbolsolver.javassistmodel.JavassistMethodDeclaration.getName() -> javassist.CtMethod com.github.javaparser.symbolsolver.javassistmodel.JavassistMethodDeclaration.ctMethod [JavassistMethodDeclaration.java <68:16 68:23>]
 SYMBOL_METHOD public boolean com.github.javaparser.symbolsolver.javassistmodel.JavassistMethodDeclaration.isField() [JavassistMethodDeclaration.java <71:5 <72:20 72:26> 74:5>]
 SYMBOL_METHOD boolean com.github.javaparser.symbolsolver.model.declarations.Declaration.isField()
 REFERENCE_OVERRIDE boolean com.github.javaparser.symbolsolver.javassistmodel.JavassistMethodDeclaration.isField() -> boolean com.github.javaparser.symbolsolver.model.declarations.Declaration.isField() [JavassistMethodDeclaration.java <72:20 72:26>]
-SYMBOL_BUILTIN_TYPE boolean
 REFERENCE_TYPE_USAGE boolean com.github.javaparser.symbolsolver.javassistmodel.JavassistMethodDeclaration.isField() -> boolean [JavassistMethodDeclaration.java <72:12 72:18>]
 LOCAL_SYMBOL: JavassistMethodDeclaration.java<72:30> [JavassistMethodDeclaration.java <72:30 72:30>]
 LOCAL_SYMBOL: JavassistMethodDeclaration.java<72:30> [JavassistMethodDeclaration.java <74:5 74:5>]
 SYMBOL_METHOD public boolean com.github.javaparser.symbolsolver.javassistmodel.JavassistMethodDeclaration.isParameter() [JavassistMethodDeclaration.java <76:5 <77:20 77:30> 79:5>]
 SYMBOL_METHOD boolean com.github.javaparser.symbolsolver.model.declarations.Declaration.isParameter()
 REFERENCE_OVERRIDE boolean com.github.javaparser.symbolsolver.javassistmodel.JavassistMethodDeclaration.isParameter() -> boolean com.github.javaparser.symbolsolver.model.declarations.Declaration.isParameter() [JavassistMethodDeclaration.java <77:20 77:30>]
-SYMBOL_BUILTIN_TYPE boolean
 REFERENCE_TYPE_USAGE boolean com.github.javaparser.symbolsolver.javassistmodel.JavassistMethodDeclaration.isParameter() -> boolean [JavassistMethodDeclaration.java <77:12 77:18>]
 LOCAL_SYMBOL: JavassistMethodDeclaration.java<77:34> [JavassistMethodDeclaration.java <77:34 77:34>]
 LOCAL_SYMBOL: JavassistMethodDeclaration.java<77:34> [JavassistMethodDeclaration.java <79:5 79:5>]
 SYMBOL_METHOD public boolean com.github.javaparser.symbolsolver.javassistmodel.JavassistMethodDeclaration.isType() [JavassistMethodDeclaration.java <81:5 <82:20 82:25> 84:5>]
 SYMBOL_METHOD boolean com.github.javaparser.symbolsolver.model.declarations.Declaration.isType()
 REFERENCE_OVERRIDE boolean com.github.javaparser.symbolsolver.javassistmodel.JavassistMethodDeclaration.isType() -> boolean com.github.javaparser.symbolsolver.model.declarations.Declaration.isType() [JavassistMethodDeclaration.java <82:20 82:25>]
-SYMBOL_BUILTIN_TYPE boolean
 REFERENCE_TYPE_USAGE boolean com.github.javaparser.symbolsolver.javassistmodel.JavassistMethodDeclaration.isType() -> boolean [JavassistMethodDeclaration.java <82:12 82:18>]
 LOCAL_SYMBOL: JavassistMethodDeclaration.java<82:29> [JavassistMethodDeclaration.java <82:29 82:29>]
 LOCAL_SYMBOL: JavassistMethodDeclaration.java<82:29> [JavassistMethodDeclaration.java <84:5 84:5>]
@@ -131,33 +183,24 @@ REFERENCE_OVERRIDE com.github.javaparser.symbolsolver.model.declarations.Referen
 REFERENCE_TYPE_USAGE com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration com.github.javaparser.symbolsolver.javassistmodel.JavassistMethodDeclaration.declaringType() -> com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration [JavassistMethodDeclaration.java <87:12 87:35>]
 LOCAL_SYMBOL: JavassistMethodDeclaration.java<87:53> [JavassistMethodDeclaration.java <87:53 87:53>]
 LOCAL_SYMBOL: JavassistMethodDeclaration.java<87:53> [JavassistMethodDeclaration.java <93:5 93:5>]
-SYMBOL_METHOD boolean javassist.CtClass.isInterface()
 REFERENCE_CALL com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration com.github.javaparser.symbolsolver.javassistmodel.JavassistMethodDeclaration.declaringType() -> boolean javassist.CtClass.isInterface() [JavassistMethodDeclaration.java <88:42 88:52>]
-SYMBOL_METHOD javassist.CtClass javassist.CtMember.getDeclaringClass()
 REFERENCE_CALL com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration com.github.javaparser.symbolsolver.javassistmodel.JavassistMethodDeclaration.declaringType() -> javassist.CtClass javassist.CtMember.getDeclaringClass() [JavassistMethodDeclaration.java <88:22 88:38>]
-SYMBOL_FIELD javassist.CtMethod com.github.javaparser.symbolsolver.javassistmodel.JavassistMethodDeclaration.ctMethod
 REFERENCE_USAGE com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration com.github.javaparser.symbolsolver.javassistmodel.JavassistMethodDeclaration.declaringType() -> javassist.CtMethod com.github.javaparser.symbolsolver.javassistmodel.JavassistMethodDeclaration.ctMethod [JavassistMethodDeclaration.java <88:13 88:20>]
 LOCAL_SYMBOL: JavassistMethodDeclaration.java<88:57> [JavassistMethodDeclaration.java <88:57 88:57>]
 LOCAL_SYMBOL: JavassistMethodDeclaration.java<88:57> [JavassistMethodDeclaration.java <90:9 90:9>]
 SYMBOL_METHOD com.github.javaparser.symbolsolver.javassistmodel.JavassistInterfaceDeclaration.JavassistInterfaceDeclaration(javassist.CtClass, com.github.javaparser.symbolsolver.model.resolution.TypeSolver)
 REFERENCE_CALL com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration com.github.javaparser.symbolsolver.javassistmodel.JavassistMethodDeclaration.declaringType() -> com.github.javaparser.symbolsolver.javassistmodel.JavassistInterfaceDeclaration.JavassistInterfaceDeclaration(javassist.CtClass, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) [JavassistMethodDeclaration.java <89:24 89:52>]
 REFERENCE_TYPE_USAGE com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration com.github.javaparser.symbolsolver.javassistmodel.JavassistMethodDeclaration.declaringType() -> com.github.javaparser.symbolsolver.javassistmodel.JavassistInterfaceDeclaration [JavassistMethodDeclaration.java <89:24 89:52>]
-SYMBOL_METHOD javassist.CtClass javassist.CtMember.getDeclaringClass()
 REFERENCE_CALL com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration com.github.javaparser.symbolsolver.javassistmodel.JavassistMethodDeclaration.declaringType() -> javassist.CtClass javassist.CtMember.getDeclaringClass() [JavassistMethodDeclaration.java <89:63 89:79>]
-SYMBOL_FIELD javassist.CtMethod com.github.javaparser.symbolsolver.javassistmodel.JavassistMethodDeclaration.ctMethod
 REFERENCE_USAGE com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration com.github.javaparser.symbolsolver.javassistmodel.JavassistMethodDeclaration.declaringType() -> javassist.CtMethod com.github.javaparser.symbolsolver.javassistmodel.JavassistMethodDeclaration.ctMethod [JavassistMethodDeclaration.java <89:54 89:61>]
-SYMBOL_FIELD com.github.javaparser.symbolsolver.model.resolution.TypeSolver com.github.javaparser.symbolsolver.javassistmodel.JavassistMethodDeclaration.typeSolver
 REFERENCE_USAGE com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration com.github.javaparser.symbolsolver.javassistmodel.JavassistMethodDeclaration.declaringType() -> com.github.javaparser.symbolsolver.model.resolution.TypeSolver com.github.javaparser.symbolsolver.javassistmodel.JavassistMethodDeclaration.typeSolver [JavassistMethodDeclaration.java <89:84 89:93>]
 LOCAL_SYMBOL: JavassistMethodDeclaration.java<90:16> [JavassistMethodDeclaration.java <90:16 90:16>]
 LOCAL_SYMBOL: JavassistMethodDeclaration.java<90:16> [JavassistMethodDeclaration.java <92:9 92:9>]
 SYMBOL_METHOD com.github.javaparser.symbolsolver.javassistmodel.JavassistClassDeclaration.JavassistClassDeclaration(javassist.CtClass, com.github.javaparser.symbolsolver.model.resolution.TypeSolver)
 REFERENCE_CALL com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration com.github.javaparser.symbolsolver.javassistmodel.JavassistMethodDeclaration.declaringType() -> com.github.javaparser.symbolsolver.javassistmodel.JavassistClassDeclaration.JavassistClassDeclaration(javassist.CtClass, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) [JavassistMethodDeclaration.java <91:24 91:48>]
 REFERENCE_TYPE_USAGE com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration com.github.javaparser.symbolsolver.javassistmodel.JavassistMethodDeclaration.declaringType() -> com.github.javaparser.symbolsolver.javassistmodel.JavassistClassDeclaration [JavassistMethodDeclaration.java <91:24 91:48>]
-SYMBOL_METHOD javassist.CtClass javassist.CtMember.getDeclaringClass()
 REFERENCE_CALL com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration com.github.javaparser.symbolsolver.javassistmodel.JavassistMethodDeclaration.declaringType() -> javassist.CtClass javassist.CtMember.getDeclaringClass() [JavassistMethodDeclaration.java <91:59 91:75>]
-SYMBOL_FIELD javassist.CtMethod com.github.javaparser.symbolsolver.javassistmodel.JavassistMethodDeclaration.ctMethod
 REFERENCE_USAGE com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration com.github.javaparser.symbolsolver.javassistmodel.JavassistMethodDeclaration.declaringType() -> javassist.CtMethod com.github.javaparser.symbolsolver.javassistmodel.JavassistMethodDeclaration.ctMethod [JavassistMethodDeclaration.java <91:50 91:57>]
-SYMBOL_FIELD com.github.javaparser.symbolsolver.model.resolution.TypeSolver com.github.javaparser.symbolsolver.javassistmodel.JavassistMethodDeclaration.typeSolver
 REFERENCE_USAGE com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration com.github.javaparser.symbolsolver.javassistmodel.JavassistMethodDeclaration.declaringType() -> com.github.javaparser.symbolsolver.model.resolution.TypeSolver com.github.javaparser.symbolsolver.javassistmodel.JavassistMethodDeclaration.typeSolver [JavassistMethodDeclaration.java <91:80 91:89>]
 SYMBOL_METHOD public com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.javassistmodel.JavassistMethodDeclaration.getReturnType() [JavassistMethodDeclaration.java <95:5 <96:17 96:29> 102:5>]
 SYMBOL_METHOD com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.model.declarations.MethodDeclaration.getReturnType()
@@ -169,11 +212,10 @@ LOCAL_SYMBOL: JavassistMethodDeclaration.java<97:13> [JavassistMethodDeclaration
 LOCAL_SYMBOL: JavassistMethodDeclaration.java<97:13> [JavassistMethodDeclaration.java <99:9 99:9>]
 SYMBOL_METHOD static com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.javassistmodel.JavassistFactory.typeUsageFor(javassist.CtClass, com.github.javaparser.symbolsolver.model.resolution.TypeSolver)
 REFERENCE_CALL com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.javassistmodel.JavassistMethodDeclaration.getReturnType() -> static com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.javassistmodel.JavassistFactory.typeUsageFor(javassist.CtClass, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) [JavassistMethodDeclaration.java <98:37 98:48>]
+QUALIFIER: com.github.javaparser.symbolsolver.javassistmodel.JavassistFactory [JavassistMethodDeclaration.java <98:20 98:35>]
 SYMBOL_METHOD javassist.CtClass javassist.CtMethod.getReturnType()
 REFERENCE_CALL com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.javassistmodel.JavassistMethodDeclaration.getReturnType() -> javassist.CtClass javassist.CtMethod.getReturnType() [JavassistMethodDeclaration.java <98:59 98:71>]
-SYMBOL_FIELD javassist.CtMethod com.github.javaparser.symbolsolver.javassistmodel.JavassistMethodDeclaration.ctMethod
 REFERENCE_USAGE com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.javassistmodel.JavassistMethodDeclaration.getReturnType() -> javassist.CtMethod com.github.javaparser.symbolsolver.javassistmodel.JavassistMethodDeclaration.ctMethod [JavassistMethodDeclaration.java <98:50 98:57>]
-SYMBOL_FIELD com.github.javaparser.symbolsolver.model.resolution.TypeSolver com.github.javaparser.symbolsolver.javassistmodel.JavassistMethodDeclaration.typeSolver
 REFERENCE_USAGE com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.javassistmodel.JavassistMethodDeclaration.getReturnType() -> com.github.javaparser.symbolsolver.model.resolution.TypeSolver com.github.javaparser.symbolsolver.javassistmodel.JavassistMethodDeclaration.typeSolver [JavassistMethodDeclaration.java <98:76 98:85>]
 REFERENCE_TYPE_USAGE com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.javassistmodel.JavassistMethodDeclaration.getReturnType() -> javassist.NotFoundException [JavassistMethodDeclaration.java <99:18 99:34>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javassistmodel.JavassistMethodDeclaration.getReturnType<0> [JavassistMethodDeclaration.java <99:36 99:36>]
@@ -194,7 +236,6 @@ LOCAL_SYMBOL: JavassistMethodDeclaration.java<107:13> [JavassistMethodDeclaratio
 LOCAL_SYMBOL: JavassistMethodDeclaration.java<107:13> [JavassistMethodDeclaration.java <109:9 109:9>]
 SYMBOL_METHOD javassist.CtClass javassist.CtBehavior.getParameterTypes()
 REFERENCE_CALL int com.github.javaparser.symbolsolver.javassistmodel.JavassistMethodDeclaration.getNumberOfParams() -> javassist.CtClass javassist.CtBehavior.getParameterTypes() [JavassistMethodDeclaration.java <108:29 108:45>]
-SYMBOL_FIELD javassist.CtMethod com.github.javaparser.symbolsolver.javassistmodel.JavassistMethodDeclaration.ctMethod
 REFERENCE_USAGE int com.github.javaparser.symbolsolver.javassistmodel.JavassistMethodDeclaration.getNumberOfParams() -> javassist.CtMethod com.github.javaparser.symbolsolver.javassistmodel.JavassistMethodDeclaration.ctMethod [JavassistMethodDeclaration.java <108:20 108:27>]
 SYMBOL_FIELD int length
 REFERENCE_USAGE int com.github.javaparser.symbolsolver.javassistmodel.JavassistMethodDeclaration.getNumberOfParams() -> int length [JavassistMethodDeclaration.java <108:49 108:54>]
@@ -202,7 +243,6 @@ REFERENCE_TYPE_USAGE int com.github.javaparser.symbolsolver.javassistmodel.Javas
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javassistmodel.JavassistMethodDeclaration.getNumberOfParams<0> [JavassistMethodDeclaration.java <109:36 109:36>]
 LOCAL_SYMBOL: JavassistMethodDeclaration.java<109:39> [JavassistMethodDeclaration.java <109:39 109:39>]
 LOCAL_SYMBOL: JavassistMethodDeclaration.java<109:39> [JavassistMethodDeclaration.java <111:9 111:9>]
-SYMBOL_METHOD java.lang.RuntimeException.RuntimeException(java.lang.Throwable)
 REFERENCE_CALL int com.github.javaparser.symbolsolver.javassistmodel.JavassistMethodDeclaration.getNumberOfParams() -> java.lang.RuntimeException.RuntimeException(java.lang.Throwable) [JavassistMethodDeclaration.java <110:23 110:38>]
 REFERENCE_TYPE_USAGE int com.github.javaparser.symbolsolver.javassistmodel.JavassistMethodDeclaration.getNumberOfParams() -> java.lang.RuntimeException [JavassistMethodDeclaration.java <110:23 110:38>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javassistmodel.JavassistMethodDeclaration.getNumberOfParams<0> [JavassistMethodDeclaration.java <110:40 110:40>]
@@ -210,47 +250,42 @@ SYMBOL_METHOD public com.github.javaparser.symbolsolver.model.declarations.Param
 SYMBOL_METHOD com.github.javaparser.symbolsolver.model.declarations.ParameterDeclaration com.github.javaparser.symbolsolver.model.declarations.MethodLikeDeclaration.getParam(int)
 REFERENCE_OVERRIDE com.github.javaparser.symbolsolver.model.declarations.ParameterDeclaration com.github.javaparser.symbolsolver.javassistmodel.JavassistMethodDeclaration.getParam(int) -> com.github.javaparser.symbolsolver.model.declarations.ParameterDeclaration com.github.javaparser.symbolsolver.model.declarations.MethodLikeDeclaration.getParam(int) [JavassistMethodDeclaration.java <115:33 115:40>]
 REFERENCE_TYPE_USAGE com.github.javaparser.symbolsolver.model.declarations.ParameterDeclaration com.github.javaparser.symbolsolver.javassistmodel.JavassistMethodDeclaration.getParam(int) -> com.github.javaparser.symbolsolver.model.declarations.ParameterDeclaration [JavassistMethodDeclaration.java <115:12 115:31>]
-SYMBOL_BUILTIN_TYPE int
 REFERENCE_TYPE_USAGE com.github.javaparser.symbolsolver.model.declarations.ParameterDeclaration com.github.javaparser.symbolsolver.javassistmodel.JavassistMethodDeclaration.getParam(int) -> int [JavassistMethodDeclaration.java <115:42 115:44>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javassistmodel.JavassistMethodDeclaration.getParam<0> [JavassistMethodDeclaration.java <115:46 115:46>]
 LOCAL_SYMBOL: JavassistMethodDeclaration.java<115:49> [JavassistMethodDeclaration.java <115:49 115:49>]
 LOCAL_SYMBOL: JavassistMethodDeclaration.java<115:49> [JavassistMethodDeclaration.java <133:5 133:5>]
 LOCAL_SYMBOL: JavassistMethodDeclaration.java<116:13> [JavassistMethodDeclaration.java <116:13 116:13>]
 LOCAL_SYMBOL: JavassistMethodDeclaration.java<116:13> [JavassistMethodDeclaration.java <128:9 128:9>]
-SYMBOL_BUILTIN_TYPE boolean
 REFERENCE_TYPE_USAGE com.github.javaparser.symbolsolver.model.declarations.ParameterDeclaration com.github.javaparser.symbolsolver.javassistmodel.JavassistMethodDeclaration.getParam(int) -> boolean [JavassistMethodDeclaration.java <117:13 117:19>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javassistmodel.JavassistMethodDeclaration.getParam<1> [JavassistMethodDeclaration.java <117:21 117:28>]
-SYMBOL_METHOD int javassist.CtBehavior.getModifiers()
 REFERENCE_CALL com.github.javaparser.symbolsolver.model.declarations.ParameterDeclaration com.github.javaparser.symbolsolver.javassistmodel.JavassistMethodDeclaration.getParam(int) -> int javassist.CtBehavior.getModifiers() [JavassistMethodDeclaration.java <118:27 118:38>]
-SYMBOL_FIELD javassist.CtMethod com.github.javaparser.symbolsolver.javassistmodel.JavassistMethodDeclaration.ctMethod
 REFERENCE_USAGE com.github.javaparser.symbolsolver.model.declarations.ParameterDeclaration com.github.javaparser.symbolsolver.javassistmodel.JavassistMethodDeclaration.getParam(int) -> javassist.CtMethod com.github.javaparser.symbolsolver.javassistmodel.JavassistMethodDeclaration.ctMethod [JavassistMethodDeclaration.java <118:18 118:25>]
+QUALIFIER: javassist.Modifier [JavassistMethodDeclaration.java <118:54 118:61>]
+QUALIFIER: javassist [JavassistMethodDeclaration.java <118:44 118:52>]
 SYMBOL_FIELD static int javassist.Modifier.VARARGS
 REFERENCE_USAGE com.github.javaparser.symbolsolver.model.declarations.ParameterDeclaration com.github.javaparser.symbolsolver.javassistmodel.JavassistMethodDeclaration.getParam(int) -> static int javassist.Modifier.VARARGS [JavassistMethodDeclaration.java <118:63 118:69>]
 LOCAL_SYMBOL: JavassistMethodDeclaration.java<118:77> [JavassistMethodDeclaration.java <118:77 118:77>]
 LOCAL_SYMBOL: JavassistMethodDeclaration.java<118:77> [JavassistMethodDeclaration.java <120:13 120:13>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javassistmodel.JavassistMethodDeclaration.getParam<1> [JavassistMethodDeclaration.java <119:17 119:24>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javassistmodel.JavassistMethodDeclaration.getParam<0> [JavassistMethodDeclaration.java <119:28 119:28>]
-SYMBOL_METHOD javassist.CtClass javassist.CtBehavior.getParameterTypes()
 REFERENCE_CALL com.github.javaparser.symbolsolver.model.declarations.ParameterDeclaration com.github.javaparser.symbolsolver.javassistmodel.JavassistMethodDeclaration.getParam(int) -> javassist.CtClass javassist.CtBehavior.getParameterTypes() [JavassistMethodDeclaration.java <119:43 119:59>]
-SYMBOL_FIELD javassist.CtMethod com.github.javaparser.symbolsolver.javassistmodel.JavassistMethodDeclaration.ctMethod
 REFERENCE_USAGE com.github.javaparser.symbolsolver.model.declarations.ParameterDeclaration com.github.javaparser.symbolsolver.javassistmodel.JavassistMethodDeclaration.getParam(int) -> javassist.CtMethod com.github.javaparser.symbolsolver.javassistmodel.JavassistMethodDeclaration.ctMethod [JavassistMethodDeclaration.java <119:34 119:41>]
-SYMBOL_FIELD int length
 REFERENCE_USAGE com.github.javaparser.symbolsolver.model.declarations.ParameterDeclaration com.github.javaparser.symbolsolver.javassistmodel.JavassistMethodDeclaration.getParam(int) -> int length [JavassistMethodDeclaration.java <119:63 119:68>]
 SYMBOL_METHOD java.lang.String javassist.CtBehavior.getGenericSignature()
 REFERENCE_CALL com.github.javaparser.symbolsolver.model.declarations.ParameterDeclaration com.github.javaparser.symbolsolver.javassistmodel.JavassistMethodDeclaration.getParam(int) -> java.lang.String javassist.CtBehavior.getGenericSignature() [JavassistMethodDeclaration.java <121:26 121:44>]
-SYMBOL_FIELD javassist.CtMethod com.github.javaparser.symbolsolver.javassistmodel.JavassistMethodDeclaration.ctMethod
 REFERENCE_USAGE com.github.javaparser.symbolsolver.model.declarations.ParameterDeclaration com.github.javaparser.symbolsolver.javassistmodel.JavassistMethodDeclaration.getParam(int) -> javassist.CtMethod com.github.javaparser.symbolsolver.javassistmodel.JavassistMethodDeclaration.ctMethod [JavassistMethodDeclaration.java <121:17 121:24>]
 LOCAL_SYMBOL: JavassistMethodDeclaration.java<121:57> [JavassistMethodDeclaration.java <121:57 121:57>]
 LOCAL_SYMBOL: JavassistMethodDeclaration.java<121:57> [JavassistMethodDeclaration.java <125:13 125:13>]
-REFERENCE_TYPE_USAGE com.github.javaparser.symbolsolver.model.declarations.ParameterDeclaration com.github.javaparser.symbolsolver.javassistmodel.JavassistMethodDeclaration.getParam(int) -> javassist.bytecode.SignatureAttribute.MethodSignature [JavassistMethodDeclaration.java <122:17 122:50>]
+REFERENCE_TYPE_USAGE com.github.javaparser.symbolsolver.model.declarations.ParameterDeclaration com.github.javaparser.symbolsolver.javassistmodel.JavassistMethodDeclaration.getParam(int) -> javassist.bytecode.SignatureAttribute.MethodSignature [JavassistMethodDeclaration.java <122:36 122:50>]
+QUALIFIER: javassist.bytecode.SignatureAttribute [JavassistMethodDeclaration.java <122:17 122:34>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javassistmodel.JavassistMethodDeclaration.getParam<2> [JavassistMethodDeclaration.java <122:52 122:66>]
 SYMBOL_METHOD static javassist.bytecode.SignatureAttribute.MethodSignature javassist.bytecode.SignatureAttribute.toMethodSignature(java.lang.String)
 REFERENCE_CALL com.github.javaparser.symbolsolver.model.declarations.ParameterDeclaration com.github.javaparser.symbolsolver.javassistmodel.JavassistMethodDeclaration.getParam(int) -> static javassist.bytecode.SignatureAttribute.MethodSignature javassist.bytecode.SignatureAttribute.toMethodSignature(java.lang.String) [JavassistMethodDeclaration.java <122:89 122:105>]
-SYMBOL_METHOD java.lang.String javassist.CtBehavior.getGenericSignature()
+QUALIFIER: javassist.bytecode.SignatureAttribute [JavassistMethodDeclaration.java <122:70 122:87>]
 REFERENCE_CALL com.github.javaparser.symbolsolver.model.declarations.ParameterDeclaration com.github.javaparser.symbolsolver.javassistmodel.JavassistMethodDeclaration.getParam(int) -> java.lang.String javassist.CtBehavior.getGenericSignature() [JavassistMethodDeclaration.java <122:116 122:134>]
-SYMBOL_FIELD javassist.CtMethod com.github.javaparser.symbolsolver.javassistmodel.JavassistMethodDeclaration.ctMethod
 REFERENCE_USAGE com.github.javaparser.symbolsolver.model.declarations.ParameterDeclaration com.github.javaparser.symbolsolver.javassistmodel.JavassistMethodDeclaration.getParam(int) -> javassist.CtMethod com.github.javaparser.symbolsolver.javassistmodel.JavassistMethodDeclaration.ctMethod [JavassistMethodDeclaration.java <122:107 122:114>]
-REFERENCE_TYPE_USAGE com.github.javaparser.symbolsolver.model.declarations.ParameterDeclaration com.github.javaparser.symbolsolver.javassistmodel.JavassistMethodDeclaration.getParam(int) -> javassist.bytecode.SignatureAttribute.Type [JavassistMethodDeclaration.java <123:17 123:39>]
+REFERENCE_TYPE_USAGE com.github.javaparser.symbolsolver.model.declarations.ParameterDeclaration com.github.javaparser.symbolsolver.javassistmodel.JavassistMethodDeclaration.getParam(int) -> javassist.bytecode.SignatureAttribute.Type [JavassistMethodDeclaration.java <123:36 123:39>]
+QUALIFIER: javassist.bytecode.SignatureAttribute [JavassistMethodDeclaration.java <123:17 123:34>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javassistmodel.JavassistMethodDeclaration.getParam<3> [JavassistMethodDeclaration.java <123:41 123:53>]
 SYMBOL_METHOD javassist.bytecode.SignatureAttribute.Type javassist.bytecode.SignatureAttribute.MethodSignature.getParameterTypes()
 REFERENCE_CALL com.github.javaparser.symbolsolver.model.declarations.ParameterDeclaration com.github.javaparser.symbolsolver.javassistmodel.JavassistMethodDeclaration.getParam(int) -> javassist.bytecode.SignatureAttribute.Type javassist.bytecode.SignatureAttribute.MethodSignature.getParameterTypes() [JavassistMethodDeclaration.java <123:73 123:89>]
@@ -261,10 +296,9 @@ REFERENCE_CALL com.github.javaparser.symbolsolver.model.declarations.ParameterDe
 REFERENCE_TYPE_USAGE com.github.javaparser.symbolsolver.model.declarations.ParameterDeclaration com.github.javaparser.symbolsolver.javassistmodel.JavassistMethodDeclaration.getParam(int) -> com.github.javaparser.symbolsolver.javassistmodel.JavassistParameterDeclaration [JavassistMethodDeclaration.java <124:28 124:56>]
 SYMBOL_METHOD static com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.javassistmodel.JavassistUtils.signatureTypeToType(javassist.bytecode.SignatureAttribute.Type, com.github.javaparser.symbolsolver.model.resolution.TypeSolver, com.github.javaparser.symbolsolver.model.declarations.TypeParametrizable)
 REFERENCE_CALL com.github.javaparser.symbolsolver.model.declarations.ParameterDeclaration com.github.javaparser.symbolsolver.javassistmodel.JavassistMethodDeclaration.getParam(int) -> static com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.javassistmodel.JavassistUtils.signatureTypeToType(javassist.bytecode.SignatureAttribute.Type, com.github.javaparser.symbolsolver.model.resolution.TypeSolver, com.github.javaparser.symbolsolver.model.declarations.TypeParametrizable) [JavassistMethodDeclaration.java <124:73 124:91>]
+QUALIFIER: com.github.javaparser.symbolsolver.javassistmodel.JavassistUtils [JavassistMethodDeclaration.java <124:58 124:71>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javassistmodel.JavassistMethodDeclaration.getParam<3> [JavassistMethodDeclaration.java <124:93 124:105>]
-SYMBOL_FIELD com.github.javaparser.symbolsolver.model.resolution.TypeSolver com.github.javaparser.symbolsolver.javassistmodel.JavassistMethodDeclaration.typeSolver
 REFERENCE_USAGE com.github.javaparser.symbolsolver.model.declarations.ParameterDeclaration com.github.javaparser.symbolsolver.javassistmodel.JavassistMethodDeclaration.getParam(int) -> com.github.javaparser.symbolsolver.model.resolution.TypeSolver com.github.javaparser.symbolsolver.javassistmodel.JavassistMethodDeclaration.typeSolver [JavassistMethodDeclaration.java <124:108 124:117>]
-SYMBOL_FIELD com.github.javaparser.symbolsolver.model.resolution.TypeSolver com.github.javaparser.symbolsolver.javassistmodel.JavassistMethodDeclaration.typeSolver
 REFERENCE_USAGE com.github.javaparser.symbolsolver.model.declarations.ParameterDeclaration com.github.javaparser.symbolsolver.javassistmodel.JavassistMethodDeclaration.getParam(int) -> com.github.javaparser.symbolsolver.model.resolution.TypeSolver com.github.javaparser.symbolsolver.javassistmodel.JavassistMethodDeclaration.typeSolver [JavassistMethodDeclaration.java <124:127 124:136>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javassistmodel.JavassistMethodDeclaration.getParam<1> [JavassistMethodDeclaration.java <124:139 124:146>]
 LOCAL_SYMBOL: JavassistMethodDeclaration.java<125:20> [JavassistMethodDeclaration.java <125:20 125:20>]
@@ -272,19 +306,15 @@ LOCAL_SYMBOL: JavassistMethodDeclaration.java<125:20> [JavassistMethodDeclaratio
 SYMBOL_METHOD com.github.javaparser.symbolsolver.javassistmodel.JavassistParameterDeclaration.JavassistParameterDeclaration(javassist.CtClass, com.github.javaparser.symbolsolver.model.resolution.TypeSolver, boolean)
 REFERENCE_CALL com.github.javaparser.symbolsolver.model.declarations.ParameterDeclaration com.github.javaparser.symbolsolver.javassistmodel.JavassistMethodDeclaration.getParam(int) -> com.github.javaparser.symbolsolver.javassistmodel.JavassistParameterDeclaration.JavassistParameterDeclaration(javassist.CtClass, com.github.javaparser.symbolsolver.model.resolution.TypeSolver, boolean) [JavassistMethodDeclaration.java <126:28 126:56>]
 REFERENCE_TYPE_USAGE com.github.javaparser.symbolsolver.model.declarations.ParameterDeclaration com.github.javaparser.symbolsolver.javassistmodel.JavassistMethodDeclaration.getParam(int) -> com.github.javaparser.symbolsolver.javassistmodel.JavassistParameterDeclaration [JavassistMethodDeclaration.java <126:28 126:56>]
-SYMBOL_METHOD javassist.CtClass javassist.CtBehavior.getParameterTypes()
 REFERENCE_CALL com.github.javaparser.symbolsolver.model.declarations.ParameterDeclaration com.github.javaparser.symbolsolver.javassistmodel.JavassistMethodDeclaration.getParam(int) -> javassist.CtClass javassist.CtBehavior.getParameterTypes() [JavassistMethodDeclaration.java <126:67 126:83>]
-SYMBOL_FIELD javassist.CtMethod com.github.javaparser.symbolsolver.javassistmodel.JavassistMethodDeclaration.ctMethod
 REFERENCE_USAGE com.github.javaparser.symbolsolver.model.declarations.ParameterDeclaration com.github.javaparser.symbolsolver.javassistmodel.JavassistMethodDeclaration.getParam(int) -> javassist.CtMethod com.github.javaparser.symbolsolver.javassistmodel.JavassistMethodDeclaration.ctMethod [JavassistMethodDeclaration.java <126:58 126:65>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javassistmodel.JavassistMethodDeclaration.getParam<0> [JavassistMethodDeclaration.java <126:87 126:87>]
-SYMBOL_FIELD com.github.javaparser.symbolsolver.model.resolution.TypeSolver com.github.javaparser.symbolsolver.javassistmodel.JavassistMethodDeclaration.typeSolver
 REFERENCE_USAGE com.github.javaparser.symbolsolver.model.declarations.ParameterDeclaration com.github.javaparser.symbolsolver.javassistmodel.JavassistMethodDeclaration.getParam(int) -> com.github.javaparser.symbolsolver.model.resolution.TypeSolver com.github.javaparser.symbolsolver.javassistmodel.JavassistMethodDeclaration.typeSolver [JavassistMethodDeclaration.java <126:91 126:100>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javassistmodel.JavassistMethodDeclaration.getParam<1> [JavassistMethodDeclaration.java <126:103 126:110>]
 REFERENCE_TYPE_USAGE com.github.javaparser.symbolsolver.model.declarations.ParameterDeclaration com.github.javaparser.symbolsolver.javassistmodel.JavassistMethodDeclaration.getParam(int) -> javassist.NotFoundException [JavassistMethodDeclaration.java <128:18 128:34>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javassistmodel.JavassistMethodDeclaration.getParam<4> [JavassistMethodDeclaration.java <128:36 128:36>]
 LOCAL_SYMBOL: JavassistMethodDeclaration.java<128:39> [JavassistMethodDeclaration.java <128:39 128:39>]
 LOCAL_SYMBOL: JavassistMethodDeclaration.java<128:39> [JavassistMethodDeclaration.java <130:9 130:9>]
-SYMBOL_METHOD java.lang.RuntimeException.RuntimeException(java.lang.Throwable)
 REFERENCE_CALL com.github.javaparser.symbolsolver.model.declarations.ParameterDeclaration com.github.javaparser.symbolsolver.javassistmodel.JavassistMethodDeclaration.getParam(int) -> java.lang.RuntimeException.RuntimeException(java.lang.Throwable) [JavassistMethodDeclaration.java <129:23 129:38>]
 REFERENCE_TYPE_USAGE com.github.javaparser.symbolsolver.model.declarations.ParameterDeclaration com.github.javaparser.symbolsolver.javassistmodel.JavassistMethodDeclaration.getParam(int) -> java.lang.RuntimeException [JavassistMethodDeclaration.java <129:23 129:38>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javassistmodel.JavassistMethodDeclaration.getParam<4> [JavassistMethodDeclaration.java <129:40 129:40>]
@@ -292,7 +322,6 @@ REFERENCE_TYPE_USAGE com.github.javaparser.symbolsolver.model.declarations.Param
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javassistmodel.JavassistMethodDeclaration.getParam<5> [JavassistMethodDeclaration.java <130:30 130:40>]
 LOCAL_SYMBOL: JavassistMethodDeclaration.java<130:43> [JavassistMethodDeclaration.java <130:43 130:43>]
 LOCAL_SYMBOL: JavassistMethodDeclaration.java<130:43> [JavassistMethodDeclaration.java <132:9 132:9>]
-SYMBOL_METHOD java.lang.RuntimeException.RuntimeException(java.lang.Throwable)
 REFERENCE_CALL com.github.javaparser.symbolsolver.model.declarations.ParameterDeclaration com.github.javaparser.symbolsolver.javassistmodel.JavassistMethodDeclaration.getParam(int) -> java.lang.RuntimeException.RuntimeException(java.lang.Throwable) [JavassistMethodDeclaration.java <131:23 131:38>]
 REFERENCE_TYPE_USAGE com.github.javaparser.symbolsolver.model.declarations.ParameterDeclaration com.github.javaparser.symbolsolver.javassistmodel.JavassistMethodDeclaration.getParam(int) -> java.lang.RuntimeException [JavassistMethodDeclaration.java <131:23 131:38>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javassistmodel.JavassistMethodDeclaration.getParam<5> [JavassistMethodDeclaration.java <131:40 131:50>]
@@ -319,22 +348,19 @@ REFERENCE_CALL com.github.javaparser.symbolsolver.model.methods.MethodUsage com.
 SYMBOL_METHOD com.github.javaparser.symbolsolver.declarations.common.MethodDeclarationCommonLogic.MethodDeclarationCommonLogic(com.github.javaparser.symbolsolver.model.declarations.MethodDeclaration, com.github.javaparser.symbolsolver.model.resolution.TypeSolver)
 REFERENCE_CALL com.github.javaparser.symbolsolver.model.methods.MethodUsage com.github.javaparser.symbolsolver.javassistmodel.JavassistMethodDeclaration.resolveTypeVariables(com.github.javaparser.symbolsolver.core.resolution.Context, java.util.List<com.github.javaparser.symbolsolver.model.typesystem.Type>) -> com.github.javaparser.symbolsolver.declarations.common.MethodDeclarationCommonLogic.MethodDeclarationCommonLogic(com.github.javaparser.symbolsolver.model.declarations.MethodDeclaration, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) [JavassistMethodDeclaration.java <140:20 140:47>]
 REFERENCE_TYPE_USAGE com.github.javaparser.symbolsolver.model.methods.MethodUsage com.github.javaparser.symbolsolver.javassistmodel.JavassistMethodDeclaration.resolveTypeVariables(com.github.javaparser.symbolsolver.core.resolution.Context, java.util.List<com.github.javaparser.symbolsolver.model.typesystem.Type>) -> com.github.javaparser.symbolsolver.declarations.common.MethodDeclarationCommonLogic [JavassistMethodDeclaration.java <140:20 140:47>]
-SYMBOL_FIELD com.github.javaparser.symbolsolver.model.resolution.TypeSolver com.github.javaparser.symbolsolver.javassistmodel.JavassistMethodDeclaration.typeSolver
 REFERENCE_USAGE com.github.javaparser.symbolsolver.model.methods.MethodUsage com.github.javaparser.symbolsolver.javassistmodel.JavassistMethodDeclaration.resolveTypeVariables(com.github.javaparser.symbolsolver.core.resolution.Context, java.util.List<com.github.javaparser.symbolsolver.model.typesystem.Type>) -> com.github.javaparser.symbolsolver.model.resolution.TypeSolver com.github.javaparser.symbolsolver.javassistmodel.JavassistMethodDeclaration.typeSolver [JavassistMethodDeclaration.java <140:55 140:64>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javassistmodel.JavassistMethodDeclaration.resolveTypeVariables<0> [JavassistMethodDeclaration.java <140:88 140:94>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javassistmodel.JavassistMethodDeclaration.resolveTypeVariables<1> [JavassistMethodDeclaration.java <140:97 140:110>]
 SYMBOL_METHOD public boolean com.github.javaparser.symbolsolver.javassistmodel.JavassistMethodDeclaration.isAbstract() [JavassistMethodDeclaration.java <143:5 <144:20 144:29> 146:5>]
 SYMBOL_METHOD boolean com.github.javaparser.symbolsolver.model.declarations.MethodDeclaration.isAbstract()
 REFERENCE_OVERRIDE boolean com.github.javaparser.symbolsolver.javassistmodel.JavassistMethodDeclaration.isAbstract() -> boolean com.github.javaparser.symbolsolver.model.declarations.MethodDeclaration.isAbstract() [JavassistMethodDeclaration.java <144:20 144:29>]
-SYMBOL_BUILTIN_TYPE boolean
 REFERENCE_TYPE_USAGE boolean com.github.javaparser.symbolsolver.javassistmodel.JavassistMethodDeclaration.isAbstract() -> boolean [JavassistMethodDeclaration.java <144:12 144:18>]
 LOCAL_SYMBOL: JavassistMethodDeclaration.java<144:33> [JavassistMethodDeclaration.java <144:33 144:33>]
 LOCAL_SYMBOL: JavassistMethodDeclaration.java<144:33> [JavassistMethodDeclaration.java <146:5 146:5>]
 SYMBOL_METHOD static boolean java.lang.reflect.Modifier.isAbstract(int)
 REFERENCE_CALL boolean com.github.javaparser.symbolsolver.javassistmodel.JavassistMethodDeclaration.isAbstract() -> static boolean java.lang.reflect.Modifier.isAbstract(int) [JavassistMethodDeclaration.java <145:25 145:34>]
-SYMBOL_METHOD int javassist.CtBehavior.getModifiers()
+QUALIFIER: java.lang.reflect.Modifier [JavassistMethodDeclaration.java <145:16 145:23>]
 REFERENCE_CALL boolean com.github.javaparser.symbolsolver.javassistmodel.JavassistMethodDeclaration.isAbstract() -> int javassist.CtBehavior.getModifiers() [JavassistMethodDeclaration.java <145:45 145:56>]
-SYMBOL_FIELD javassist.CtMethod com.github.javaparser.symbolsolver.javassistmodel.JavassistMethodDeclaration.ctMethod
 REFERENCE_USAGE boolean com.github.javaparser.symbolsolver.javassistmodel.JavassistMethodDeclaration.isAbstract() -> javassist.CtMethod com.github.javaparser.symbolsolver.javassistmodel.JavassistMethodDeclaration.ctMethod [JavassistMethodDeclaration.java <145:36 145:43>]
 SYMBOL_METHOD public java.util.List<com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration> com.github.javaparser.symbolsolver.javassistmodel.JavassistMethodDeclaration.getTypeParameters() [JavassistMethodDeclaration.java <148:5 <149:43 149:59> 159:5>]
 SYMBOL_METHOD java.util.List<com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration> com.github.javaparser.symbolsolver.model.declarations.TypeParametrizable.getTypeParameters()
@@ -345,21 +371,19 @@ LOCAL_SYMBOL: JavassistMethodDeclaration.java<149:63> [JavassistMethodDeclaratio
 LOCAL_SYMBOL: JavassistMethodDeclaration.java<149:63> [JavassistMethodDeclaration.java <159:5 159:5>]
 LOCAL_SYMBOL: JavassistMethodDeclaration.java<150:13> [JavassistMethodDeclaration.java <150:13 150:13>]
 LOCAL_SYMBOL: JavassistMethodDeclaration.java<150:13> [JavassistMethodDeclaration.java <156:9 156:9>]
-SYMBOL_METHOD java.lang.String javassist.CtBehavior.getGenericSignature()
 REFERENCE_CALL java.util.List<com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration> com.github.javaparser.symbolsolver.javassistmodel.JavassistMethodDeclaration.getTypeParameters() -> java.lang.String javassist.CtBehavior.getGenericSignature() [JavassistMethodDeclaration.java <151:26 151:44>]
-SYMBOL_FIELD javassist.CtMethod com.github.javaparser.symbolsolver.javassistmodel.JavassistMethodDeclaration.ctMethod
 REFERENCE_USAGE java.util.List<com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration> com.github.javaparser.symbolsolver.javassistmodel.JavassistMethodDeclaration.getTypeParameters() -> javassist.CtMethod com.github.javaparser.symbolsolver.javassistmodel.JavassistMethodDeclaration.ctMethod [JavassistMethodDeclaration.java <151:17 151:24>]
 LOCAL_SYMBOL: JavassistMethodDeclaration.java<151:57> [JavassistMethodDeclaration.java <151:57 151:57>]
 LOCAL_SYMBOL: JavassistMethodDeclaration.java<151:57> [JavassistMethodDeclaration.java <153:13 153:13>]
 SYMBOL_METHOD static java.util.List<T> java.util.Collections.emptyList<T>()
 REFERENCE_CALL java.util.List<com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration> com.github.javaparser.symbolsolver.javassistmodel.JavassistMethodDeclaration.getTypeParameters() -> static java.util.List<T> java.util.Collections.emptyList<T>() [JavassistMethodDeclaration.java <152:36 152:44>]
-REFERENCE_TYPE_USAGE java.util.List<com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration> com.github.javaparser.symbolsolver.javassistmodel.JavassistMethodDeclaration.getTypeParameters() -> javassist.bytecode.SignatureAttribute.MethodSignature [JavassistMethodDeclaration.java <154:13 154:46>]
+QUALIFIER: java.util.Collections [JavassistMethodDeclaration.java <152:24 152:34>]
+REFERENCE_TYPE_USAGE java.util.List<com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration> com.github.javaparser.symbolsolver.javassistmodel.JavassistMethodDeclaration.getTypeParameters() -> javassist.bytecode.SignatureAttribute.MethodSignature [JavassistMethodDeclaration.java <154:32 154:46>]
+QUALIFIER: javassist.bytecode.SignatureAttribute [JavassistMethodDeclaration.java <154:13 154:30>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javassistmodel.JavassistMethodDeclaration.getTypeParameters<0> [JavassistMethodDeclaration.java <154:48 154:62>]
-SYMBOL_METHOD static javassist.bytecode.SignatureAttribute.MethodSignature javassist.bytecode.SignatureAttribute.toMethodSignature(java.lang.String)
 REFERENCE_CALL java.util.List<com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration> com.github.javaparser.symbolsolver.javassistmodel.JavassistMethodDeclaration.getTypeParameters() -> static javassist.bytecode.SignatureAttribute.MethodSignature javassist.bytecode.SignatureAttribute.toMethodSignature(java.lang.String) [JavassistMethodDeclaration.java <154:85 154:101>]
-SYMBOL_METHOD java.lang.String javassist.CtBehavior.getGenericSignature()
+QUALIFIER: javassist.bytecode.SignatureAttribute [JavassistMethodDeclaration.java <154:66 154:83>]
 REFERENCE_CALL java.util.List<com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration> com.github.javaparser.symbolsolver.javassistmodel.JavassistMethodDeclaration.getTypeParameters() -> java.lang.String javassist.CtBehavior.getGenericSignature() [JavassistMethodDeclaration.java <154:112 154:130>]
-SYMBOL_FIELD javassist.CtMethod com.github.javaparser.symbolsolver.javassistmodel.JavassistMethodDeclaration.ctMethod
 REFERENCE_USAGE java.util.List<com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration> com.github.javaparser.symbolsolver.javassistmodel.JavassistMethodDeclaration.getTypeParameters() -> javassist.CtMethod com.github.javaparser.symbolsolver.javassistmodel.JavassistMethodDeclaration.ctMethod [JavassistMethodDeclaration.java <154:103 154:110>]
 SYMBOL_METHOD R java.util.stream.Stream<T>.collect<R, A>(java.util.stream.Collector<? super T, A, R>)
 REFERENCE_CALL java.util.List<com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration> com.github.javaparser.symbolsolver.javassistmodel.JavassistMethodDeclaration.getTypeParameters() -> R java.util.stream.Stream<T>.collect<R, A>(java.util.stream.Collector<? super T, A, R>) [JavassistMethodDeclaration.java <155:139 155:145>]
@@ -367,6 +391,7 @@ SYMBOL_METHOD java.util.stream.Stream<R> java.util.stream.Stream<T>.map<R>(java.
 REFERENCE_CALL java.util.List<com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration> com.github.javaparser.symbolsolver.javassistmodel.JavassistMethodDeclaration.getTypeParameters() -> java.util.stream.Stream<R> java.util.stream.Stream<T>.map<R>(java.util.function.Function<? super T, ? extends R>) [JavassistMethodDeclaration.java <155:71 155:73>]
 SYMBOL_METHOD static java.util.stream.Stream<T> java.util.Arrays.stream<T>(T)
 REFERENCE_CALL java.util.List<com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration> com.github.javaparser.symbolsolver.javassistmodel.JavassistMethodDeclaration.getTypeParameters() -> static java.util.stream.Stream<T> java.util.Arrays.stream<T>(T) [JavassistMethodDeclaration.java <155:27 155:32>]
+QUALIFIER: java.util.Arrays [JavassistMethodDeclaration.java <155:20 155:25>]
 SYMBOL_METHOD javassist.bytecode.SignatureAttribute.TypeParameter javassist.bytecode.SignatureAttribute.MethodSignature.getTypeParameters()
 REFERENCE_CALL java.util.List<com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration> com.github.javaparser.symbolsolver.javassistmodel.JavassistMethodDeclaration.getTypeParameters() -> javassist.bytecode.SignatureAttribute.TypeParameter javassist.bytecode.SignatureAttribute.MethodSignature.getTypeParameters() [JavassistMethodDeclaration.java <155:50 155:66>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javassistmodel.JavassistMethodDeclaration.getTypeParameters<0> [JavassistMethodDeclaration.java <155:34 155:48>]
@@ -375,15 +400,14 @@ SYMBOL_METHOD com.github.javaparser.symbolsolver.javassistmodel.JavassistTypePar
 REFERENCE_CALL java.util.List<com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration> com.github.javaparser.symbolsolver.javassistmodel.JavassistMethodDeclaration.getTypeParameters() -> com.github.javaparser.symbolsolver.javassistmodel.JavassistTypeParameter.JavassistTypeParameter(javassist.bytecode.SignatureAttribute.TypeParameter, com.github.javaparser.symbolsolver.model.declarations.TypeParametrizable, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) [JavassistMethodDeclaration.java <155:90 155:111>]
 REFERENCE_TYPE_USAGE java.util.List<com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration> com.github.javaparser.symbolsolver.javassistmodel.JavassistMethodDeclaration.getTypeParameters() -> com.github.javaparser.symbolsolver.javassistmodel.JavassistTypeParameter [JavassistMethodDeclaration.java <155:90 155:111>]
 LOCAL_SYMBOL: java.util.function.Function<T, R>.apply<2> [JavassistMethodDeclaration.java <155:113 155:117>]
-SYMBOL_FIELD com.github.javaparser.symbolsolver.model.resolution.TypeSolver com.github.javaparser.symbolsolver.javassistmodel.JavassistMethodDeclaration.typeSolver
 REFERENCE_USAGE java.util.List<com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration> com.github.javaparser.symbolsolver.javassistmodel.JavassistMethodDeclaration.getTypeParameters() -> com.github.javaparser.symbolsolver.model.resolution.TypeSolver com.github.javaparser.symbolsolver.javassistmodel.JavassistMethodDeclaration.typeSolver [JavassistMethodDeclaration.java <155:126 155:135>]
 SYMBOL_METHOD static java.util.stream.Collector<T, ?, java.util.List<T>> java.util.stream.Collectors.toList<T>()
 REFERENCE_CALL java.util.List<com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration> com.github.javaparser.symbolsolver.javassistmodel.JavassistMethodDeclaration.getTypeParameters() -> static java.util.stream.Collector<T, ?, java.util.List<T>> java.util.stream.Collectors.toList<T>() [JavassistMethodDeclaration.java <155:158 155:163>]
+QUALIFIER: java.util.stream.Collectors [JavassistMethodDeclaration.java <155:147 155:156>]
 REFERENCE_TYPE_USAGE java.util.List<com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration> com.github.javaparser.symbolsolver.javassistmodel.JavassistMethodDeclaration.getTypeParameters() -> javassist.bytecode.BadBytecode [JavassistMethodDeclaration.java <156:18 156:28>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javassistmodel.JavassistMethodDeclaration.getTypeParameters<3> [JavassistMethodDeclaration.java <156:30 156:40>]
 LOCAL_SYMBOL: JavassistMethodDeclaration.java<156:43> [JavassistMethodDeclaration.java <156:43 156:43>]
 LOCAL_SYMBOL: JavassistMethodDeclaration.java<156:43> [JavassistMethodDeclaration.java <158:9 158:9>]
-SYMBOL_METHOD java.lang.RuntimeException.RuntimeException(java.lang.Throwable)
 REFERENCE_CALL java.util.List<com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration> com.github.javaparser.symbolsolver.javassistmodel.JavassistMethodDeclaration.getTypeParameters() -> java.lang.RuntimeException.RuntimeException(java.lang.Throwable) [JavassistMethodDeclaration.java <157:23 157:38>]
 REFERENCE_TYPE_USAGE java.util.List<com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration> com.github.javaparser.symbolsolver.javassistmodel.JavassistMethodDeclaration.getTypeParameters() -> java.lang.RuntimeException [JavassistMethodDeclaration.java <157:23 157:38>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javassistmodel.JavassistMethodDeclaration.getTypeParameters<3> [JavassistMethodDeclaration.java <157:40 157:50>]
@@ -393,7 +417,6 @@ REFERENCE_OVERRIDE com.github.javaparser.symbolsolver.model.declarations.AccessL
 REFERENCE_TYPE_USAGE com.github.javaparser.symbolsolver.model.declarations.AccessLevel com.github.javaparser.symbolsolver.javassistmodel.JavassistMethodDeclaration.accessLevel() -> com.github.javaparser.symbolsolver.model.declarations.AccessLevel [JavassistMethodDeclaration.java <162:12 162:22>]
 LOCAL_SYMBOL: JavassistMethodDeclaration.java<162:38> [JavassistMethodDeclaration.java <162:38 162:38>]
 LOCAL_SYMBOL: JavassistMethodDeclaration.java<162:38> [JavassistMethodDeclaration.java <164:5 164:5>]
-SYMBOL_METHOD java.lang.UnsupportedOperationException.UnsupportedOperationException()
 REFERENCE_CALL com.github.javaparser.symbolsolver.model.declarations.AccessLevel com.github.javaparser.symbolsolver.javassistmodel.JavassistMethodDeclaration.accessLevel() -> java.lang.UnsupportedOperationException.UnsupportedOperationException() [JavassistMethodDeclaration.java <163:19 163:47>]
 REFERENCE_TYPE_USAGE com.github.javaparser.symbolsolver.model.declarations.AccessLevel com.github.javaparser.symbolsolver.javassistmodel.JavassistMethodDeclaration.accessLevel() -> java.lang.UnsupportedOperationException [JavassistMethodDeclaration.java <163:19 163:47>]
 COMMENT: comment [JavassistMethodDeclaration.java <1:1 15:3>]

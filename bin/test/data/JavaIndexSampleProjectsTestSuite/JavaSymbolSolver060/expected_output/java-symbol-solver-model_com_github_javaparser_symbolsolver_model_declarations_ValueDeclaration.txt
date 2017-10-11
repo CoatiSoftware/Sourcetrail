@@ -1,12 +1,23 @@
 FILE: ValueDeclaration.java
-SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model.declarations [ValueDeclaration.java <17:9 17:61>]
+SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model.declarations [ValueDeclaration.java <17:50 17:61>]
 SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model
 SYMBOL_PACKAGE com.github.javaparser.symbolsolver
 SYMBOL_PACKAGE com.github.javaparser
 SYMBOL_PACKAGE com.github
 SYMBOL_PACKAGE com
-REFERENCE_IMPORT ValueDeclaration.java -> com.github.javaparser.symbolsolver.model.typesystem.Type [ValueDeclaration.java <19:8 19:63>]
+QUALIFIER: com.github.javaparser.symbolsolver.model [ValueDeclaration.java <17:44 17:48>]
+QUALIFIER: com.github.javaparser.symbolsolver [ValueDeclaration.java <17:31 17:42>]
+QUALIFIER: com.github.javaparser [ValueDeclaration.java <17:20 17:29>]
+QUALIFIER: com.github [ValueDeclaration.java <17:13 17:18>]
+QUALIFIER: com [ValueDeclaration.java <17:9 17:11>]
+REFERENCE_IMPORT ValueDeclaration.java -> com.github.javaparser.symbolsolver.model.typesystem.Type [ValueDeclaration.java <19:60 19:63>]
 SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model.typesystem
+QUALIFIER: com.github.javaparser.symbolsolver.model.typesystem [ValueDeclaration.java <19:49 19:58>]
+QUALIFIER: com.github.javaparser.symbolsolver.model [ValueDeclaration.java <19:43 19:47>]
+QUALIFIER: com.github.javaparser.symbolsolver [ValueDeclaration.java <19:30 19:41>]
+QUALIFIER: com.github.javaparser [ValueDeclaration.java <19:19 19:28>]
+QUALIFIER: com.github [ValueDeclaration.java <19:12 19:17>]
+QUALIFIER: com [ValueDeclaration.java <19:8 19:10>]
 SYMBOL_INTERFACE public com.github.javaparser.symbolsolver.model.declarations.ValueDeclaration [ValueDeclaration.java <26:1 <26:18 26:33> 33:1>]
 LOCAL_SYMBOL: ValueDeclaration.java<26:55> [ValueDeclaration.java <26:55 26:55>]
 LOCAL_SYMBOL: ValueDeclaration.java<26:55> [ValueDeclaration.java <33:1 33:1>]

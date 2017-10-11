@@ -1,9 +1,5 @@
 FILE: b2MotorJoint.cpp
-FILE: b2MotorJoint.cpp
 COMMENT: comment [b2MotorJoint.cpp <1:1 17:3>]
-FILE: b2MotorJoint.cpp
-FILE: b2MotorJoint.cpp
-FILE: b2MotorJoint.cpp
 COMMENT: comment [b2MotorJoint.cpp <23:1 23:29>]
 COMMENT: comment [b2MotorJoint.cpp <24:1 24:18>]
 COMMENT: comment [b2MotorJoint.cpp <25:1 25:50>]
@@ -32,26 +28,12 @@ REFERENCE_MACRO_USAGE assert.h -> _CRT_WIDE [assert.h <34:23 34:31>]
 REFERENCE_MACRO_USAGE vcruntime.h -> _CRT_WIDE_ [vcruntime.h <95:22 95:31>]
 REFERENCE_MACRO_USAGE assert.h -> _CRT_WIDE [assert.h <34:47 34:55>]
 REFERENCE_MACRO_USAGE assert.h -> __FILE__ [assert.h <34:57 34:64>]
-REFERENCE_MACRO_USAGE vcruntime.h -> _CRT_WIDE_ [vcruntime.h <95:22 95:31>]
 REFERENCE_MACRO_USAGE assert.h -> __LINE__ [assert.h <34:79 34:86>]
 REFERENCE_MACRO_USAGE b2MotorJoint.cpp -> b2Assert [b2MotorJoint.cpp <239:2 239:9>]
-REFERENCE_MACRO_USAGE b2Settings.h -> assert [b2Settings.h <31:21 31:26>]
-REFERENCE_MACRO_USAGE assert.h -> _CRT_WIDE [assert.h <34:23 34:31>]
-REFERENCE_MACRO_USAGE vcruntime.h -> _CRT_WIDE_ [vcruntime.h <95:22 95:31>]
-REFERENCE_MACRO_USAGE assert.h -> _CRT_WIDE [assert.h <34:47 34:55>]
-REFERENCE_MACRO_USAGE assert.h -> __FILE__ [assert.h <34:57 34:64>]
-REFERENCE_MACRO_USAGE vcruntime.h -> _CRT_WIDE_ [vcruntime.h <95:22 95:31>]
-REFERENCE_MACRO_USAGE assert.h -> __LINE__ [assert.h <34:79 34:86>]
 REFERENCE_MACRO_USAGE b2MotorJoint.cpp -> b2Assert [b2MotorJoint.cpp <250:2 250:9>]
-REFERENCE_MACRO_USAGE b2Settings.h -> assert [b2Settings.h <31:21 31:26>]
-REFERENCE_MACRO_USAGE assert.h -> _CRT_WIDE [assert.h <34:23 34:31>]
-REFERENCE_MACRO_USAGE vcruntime.h -> _CRT_WIDE_ [vcruntime.h <95:22 95:31>]
-REFERENCE_MACRO_USAGE assert.h -> _CRT_WIDE [assert.h <34:47 34:55>]
-REFERENCE_MACRO_USAGE assert.h -> __FILE__ [assert.h <34:57 34:64>]
-REFERENCE_MACRO_USAGE vcruntime.h -> _CRT_WIDE_ [vcruntime.h <95:22 95:31>]
-REFERENCE_MACRO_USAGE assert.h -> __LINE__ [assert.h <34:79 34:86>]
 SYMBOL_METHOD public void b2MotorJointDef::Initialize(b2Body *, b2Body *) [b2MotorJoint.cpp <35:1 <35:23 35:32> 45:1>]
 SYMBOL_STRUCT b2MotorJointDef
+QUALIFIER: b2MotorJointDef [b2MotorJoint.cpp <35:6 35:20>]
 SYMBOL_BUILTIN_TYPE void
 REFERENCE_TYPE_USAGE void b2MotorJointDef::Initialize(b2Body *, b2Body *) -> void [b2MotorJoint.cpp <35:1 35:4>]
 LOCAL_SYMBOL: b2MotorJoint.cpp<35:42> [b2MotorJoint.cpp <35:42 35:43>]
@@ -83,7 +65,6 @@ REFERENCE_CALL void b2MotorJointDef::Initialize(b2Body *, b2Body *) -> float32 b
 REFERENCE_USAGE void b2MotorJointDef::Initialize(b2Body *, b2Body *) -> b2Body * b2JointDef::bodyA [b2MotorJoint.cpp <42:19 42:23>]
 LOCAL_SYMBOL: b2MotorJoint.cpp<43:10> [b2MotorJoint.cpp <43:10 43:15>]
 REFERENCE_TYPE_USAGE void b2MotorJointDef::Initialize(b2Body *, b2Body *) -> float32 [b2MotorJoint.cpp <43:2 43:8>]
-SYMBOL_FUNCTION float32 b2Body::GetAngle() const
 REFERENCE_CALL void b2MotorJointDef::Initialize(b2Body *, b2Body *) -> float32 b2Body::GetAngle() const [b2MotorJoint.cpp <43:26 43:33>]
 REFERENCE_USAGE void b2MotorJointDef::Initialize(b2Body *, b2Body *) -> b2Body * b2JointDef::bodyB [b2MotorJoint.cpp <43:19 43:23>]
 REFERENCE_USAGE void b2MotorJointDef::Initialize(b2Body *, b2Body *) -> float32 b2MotorJointDef::angularOffset [b2MotorJoint.cpp <44:2 44:14>]
@@ -91,6 +72,7 @@ LOCAL_SYMBOL: b2MotorJoint.cpp<43:10> [b2MotorJoint.cpp <44:18 44:23>]
 LOCAL_SYMBOL: b2MotorJoint.cpp<42:10> [b2MotorJoint.cpp <44:27 44:32>]
 SYMBOL_METHOD protected void b2MotorJoint::b2MotorJoint(const b2MotorJointDef *) [b2MotorJoint.cpp <47:1 <47:15 47:26> 59:1>]
 SYMBOL_CLASS b2MotorJoint
+QUALIFIER: b2MotorJoint [b2MotorJoint.cpp <47:1 47:12>]
 LOCAL_SYMBOL: b2MotorJoint.cpp<47:51> [b2MotorJoint.cpp <47:51 47:53>]
 REFERENCE_TYPE_USAGE void b2MotorJoint::b2MotorJoint(const b2MotorJointDef *) -> b2MotorJointDef [b2MotorJoint.cpp <47:34 47:48>]
 REFERENCE_TYPE_USAGE void b2MotorJoint::b2MotorJoint(const b2MotorJointDef *) -> b2Joint [b2MotorJoint.cpp <48:3 48:9>]
@@ -101,23 +83,11 @@ REFERENCE_USAGE void b2MotorJoint::b2MotorJoint(const b2MotorJointDef *) -> b2Ve
 SYMBOL_FUNCTION void b2Vec2::b2Vec2()
 REFERENCE_CALL void b2MotorJoint::b2MotorJoint(const b2MotorJointDef *) -> void b2Vec2::b2Vec2() [b2MotorJoint.cpp <47:15 47:26>]
 REFERENCE_USAGE void b2MotorJoint::b2MotorJoint(const b2MotorJointDef *) -> b2Vec2 b2MotorJoint::m_linearImpulse [b2MotorJoint.cpp <47:15 47:26>]
-SYMBOL_FUNCTION void b2Vec2::b2Vec2()
-REFERENCE_CALL void b2MotorJoint::b2MotorJoint(const b2MotorJointDef *) -> void b2Vec2::b2Vec2() [b2MotorJoint.cpp <47:15 47:26>]
 REFERENCE_USAGE void b2MotorJoint::b2MotorJoint(const b2MotorJointDef *) -> b2Vec2 b2MotorJoint::m_rA [b2MotorJoint.cpp <47:15 47:26>]
-SYMBOL_FUNCTION void b2Vec2::b2Vec2()
-REFERENCE_CALL void b2MotorJoint::b2MotorJoint(const b2MotorJointDef *) -> void b2Vec2::b2Vec2() [b2MotorJoint.cpp <47:15 47:26>]
 REFERENCE_USAGE void b2MotorJoint::b2MotorJoint(const b2MotorJointDef *) -> b2Vec2 b2MotorJoint::m_rB [b2MotorJoint.cpp <47:15 47:26>]
-SYMBOL_FUNCTION void b2Vec2::b2Vec2()
-REFERENCE_CALL void b2MotorJoint::b2MotorJoint(const b2MotorJointDef *) -> void b2Vec2::b2Vec2() [b2MotorJoint.cpp <47:15 47:26>]
 REFERENCE_USAGE void b2MotorJoint::b2MotorJoint(const b2MotorJointDef *) -> b2Vec2 b2MotorJoint::m_localCenterA [b2MotorJoint.cpp <47:15 47:26>]
-SYMBOL_FUNCTION void b2Vec2::b2Vec2()
-REFERENCE_CALL void b2MotorJoint::b2MotorJoint(const b2MotorJointDef *) -> void b2Vec2::b2Vec2() [b2MotorJoint.cpp <47:15 47:26>]
 REFERENCE_USAGE void b2MotorJoint::b2MotorJoint(const b2MotorJointDef *) -> b2Vec2 b2MotorJoint::m_localCenterB [b2MotorJoint.cpp <47:15 47:26>]
-SYMBOL_FUNCTION void b2Vec2::b2Vec2()
-REFERENCE_CALL void b2MotorJoint::b2MotorJoint(const b2MotorJointDef *) -> void b2Vec2::b2Vec2() [b2MotorJoint.cpp <47:15 47:26>]
 REFERENCE_USAGE void b2MotorJoint::b2MotorJoint(const b2MotorJointDef *) -> b2Vec2 b2MotorJoint::m_linearError [b2MotorJoint.cpp <47:15 47:26>]
-SYMBOL_FUNCTION void b2Vec2::b2Vec2()
-REFERENCE_CALL void b2MotorJoint::b2MotorJoint(const b2MotorJointDef *) -> void b2Vec2::b2Vec2() [b2MotorJoint.cpp <47:15 47:26>]
 REFERENCE_USAGE void b2MotorJoint::b2MotorJoint(const b2MotorJointDef *) -> b2Mat22 b2MotorJoint::m_linearMass [b2MotorJoint.cpp <47:15 47:26>]
 SYMBOL_FUNCTION void b2Mat22::b2Mat22()
 REFERENCE_CALL void b2MotorJoint::b2MotorJoint(const b2MotorJointDef *) -> void b2Mat22::b2Mat22() [b2MotorJoint.cpp <47:15 47:26>]
@@ -145,8 +115,7 @@ LOCAL_SYMBOL: b2MotorJoint.cpp<47:51> [b2MotorJoint.cpp <58:23 58:25>]
 SYMBOL_METHOD protected void b2MotorJoint::InitVelocityConstraints(const b2SolverData &) [b2MotorJoint.cpp <61:1 <61:20 61:42> 139:1>]
 SYMBOL_FUNCTION void b2Joint::InitVelocityConstraints(const b2SolverData &)
 REFERENCE_OVERRIDE void b2MotorJoint::InitVelocityConstraints(const b2SolverData &) -> void b2Joint::InitVelocityConstraints(const b2SolverData &) [b2MotorJoint.cpp <61:20 61:42>]
-SYMBOL_CLASS b2MotorJoint
-SYMBOL_BUILTIN_TYPE void
+QUALIFIER: b2MotorJoint [b2MotorJoint.cpp <61:6 61:17>]
 REFERENCE_TYPE_USAGE void b2MotorJoint::InitVelocityConstraints(const b2SolverData &) -> void [b2MotorJoint.cpp <61:1 61:4>]
 LOCAL_SYMBOL: b2MotorJoint.cpp<61:64> [b2MotorJoint.cpp <61:64 61:67>]
 REFERENCE_TYPE_USAGE void b2MotorJoint::InitVelocityConstraints(const b2SolverData &) -> b2SolverData [b2MotorJoint.cpp <61:50 61:61>]
@@ -156,13 +125,11 @@ REFERENCE_USAGE void b2MotorJoint::InitVelocityConstraints(const b2SolverData &)
 REFERENCE_USAGE void b2MotorJoint::InitVelocityConstraints(const b2SolverData &) -> int32 b2MotorJoint::m_indexB [b2MotorJoint.cpp <64:2 64:9>]
 REFERENCE_USAGE void b2MotorJoint::InitVelocityConstraints(const b2SolverData &) -> int32 b2Body::m_islandIndex [b2MotorJoint.cpp <64:22 64:34>]
 REFERENCE_USAGE void b2MotorJoint::InitVelocityConstraints(const b2SolverData &) -> b2Body * b2Joint::m_bodyB [b2MotorJoint.cpp <64:13 64:19>]
-SYMBOL_FUNCTION b2Vec2 & b2Vec2::operator=(const b2Vec2 &)
 REFERENCE_CALL void b2MotorJoint::InitVelocityConstraints(const b2SolverData &) -> b2Vec2 & b2Vec2::operator=(const b2Vec2 &) [b2MotorJoint.cpp <65:17 65:17>]
 REFERENCE_USAGE void b2MotorJoint::InitVelocityConstraints(const b2SolverData &) -> b2Vec2 b2MotorJoint::m_localCenterA [b2MotorJoint.cpp <65:2 65:15>]
 REFERENCE_USAGE void b2MotorJoint::InitVelocityConstraints(const b2SolverData &) -> b2Vec2 b2Sweep::localCenter [b2MotorJoint.cpp <65:36 65:46>]
 REFERENCE_USAGE void b2MotorJoint::InitVelocityConstraints(const b2SolverData &) -> b2Sweep b2Body::m_sweep [b2MotorJoint.cpp <65:28 65:34>]
 REFERENCE_USAGE void b2MotorJoint::InitVelocityConstraints(const b2SolverData &) -> b2Body * b2Joint::m_bodyA [b2MotorJoint.cpp <65:19 65:25>]
-SYMBOL_FUNCTION b2Vec2 & b2Vec2::operator=(const b2Vec2 &)
 REFERENCE_CALL void b2MotorJoint::InitVelocityConstraints(const b2SolverData &) -> b2Vec2 & b2Vec2::operator=(const b2Vec2 &) [b2MotorJoint.cpp <66:17 66:17>]
 REFERENCE_USAGE void b2MotorJoint::InitVelocityConstraints(const b2SolverData &) -> b2Vec2 b2MotorJoint::m_localCenterB [b2MotorJoint.cpp <66:2 66:15>]
 REFERENCE_USAGE void b2MotorJoint::InitVelocityConstraints(const b2SolverData &) -> b2Vec2 b2Sweep::localCenter [b2MotorJoint.cpp <66:36 66:46>]
@@ -182,7 +149,6 @@ REFERENCE_USAGE void b2MotorJoint::InitVelocityConstraints(const b2SolverData &)
 REFERENCE_USAGE void b2MotorJoint::InitVelocityConstraints(const b2SolverData &) -> b2Body * b2Joint::m_bodyB [b2MotorJoint.cpp <70:12 70:18>]
 LOCAL_SYMBOL: b2MotorJoint.cpp<72:9> [b2MotorJoint.cpp <72:9 72:10>]
 REFERENCE_TYPE_USAGE void b2MotorJoint::InitVelocityConstraints(const b2SolverData &) -> b2Vec2 [b2MotorJoint.cpp <72:2 72:7>]
-SYMBOL_FUNCTION void b2Vec2::b2Vec2(const b2Vec2 &)
 REFERENCE_CALL void b2MotorJoint::InitVelocityConstraints(const b2SolverData &) -> void b2Vec2::b2Vec2(const b2Vec2 &) [b2MotorJoint.cpp <72:39 72:39>]
 REFERENCE_USAGE void b2MotorJoint::InitVelocityConstraints(const b2SolverData &) -> b2Vec2 b2Position::c [b2MotorJoint.cpp <72:39 72:39>]
 REFERENCE_USAGE void b2MotorJoint::InitVelocityConstraints(const b2SolverData &) -> b2Position * b2SolverData::positions [b2MotorJoint.cpp <72:19 72:27>]
@@ -196,7 +162,6 @@ LOCAL_SYMBOL: b2MotorJoint.cpp<61:64> [b2MotorJoint.cpp <73:15 73:18>]
 REFERENCE_USAGE void b2MotorJoint::InitVelocityConstraints(const b2SolverData &) -> int32 b2MotorJoint::m_indexA [b2MotorJoint.cpp <73:30 73:37>]
 LOCAL_SYMBOL: b2MotorJoint.cpp<74:9> [b2MotorJoint.cpp <74:9 74:10>]
 REFERENCE_TYPE_USAGE void b2MotorJoint::InitVelocityConstraints(const b2SolverData &) -> b2Vec2 [b2MotorJoint.cpp <74:2 74:7>]
-SYMBOL_FUNCTION void b2Vec2::b2Vec2(const b2Vec2 &)
 REFERENCE_CALL void b2MotorJoint::InitVelocityConstraints(const b2SolverData &) -> void b2Vec2::b2Vec2(const b2Vec2 &) [b2MotorJoint.cpp <74:40 74:40>]
 REFERENCE_USAGE void b2MotorJoint::InitVelocityConstraints(const b2SolverData &) -> b2Vec2 b2Velocity::v [b2MotorJoint.cpp <74:40 74:40>]
 REFERENCE_USAGE void b2MotorJoint::InitVelocityConstraints(const b2SolverData &) -> b2Velocity * b2SolverData::velocities [b2MotorJoint.cpp <74:19 74:28>]
@@ -210,7 +175,6 @@ LOCAL_SYMBOL: b2MotorJoint.cpp<61:64> [b2MotorJoint.cpp <75:15 75:18>]
 REFERENCE_USAGE void b2MotorJoint::InitVelocityConstraints(const b2SolverData &) -> int32 b2MotorJoint::m_indexA [b2MotorJoint.cpp <75:31 75:38>]
 LOCAL_SYMBOL: b2MotorJoint.cpp<77:9> [b2MotorJoint.cpp <77:9 77:10>]
 REFERENCE_TYPE_USAGE void b2MotorJoint::InitVelocityConstraints(const b2SolverData &) -> b2Vec2 [b2MotorJoint.cpp <77:2 77:7>]
-SYMBOL_FUNCTION void b2Vec2::b2Vec2(const b2Vec2 &)
 REFERENCE_CALL void b2MotorJoint::InitVelocityConstraints(const b2SolverData &) -> void b2Vec2::b2Vec2(const b2Vec2 &) [b2MotorJoint.cpp <77:39 77:39>]
 REFERENCE_USAGE void b2MotorJoint::InitVelocityConstraints(const b2SolverData &) -> b2Vec2 b2Position::c [b2MotorJoint.cpp <77:39 77:39>]
 REFERENCE_USAGE void b2MotorJoint::InitVelocityConstraints(const b2SolverData &) -> b2Position * b2SolverData::positions [b2MotorJoint.cpp <77:19 77:27>]
@@ -224,7 +188,6 @@ LOCAL_SYMBOL: b2MotorJoint.cpp<61:64> [b2MotorJoint.cpp <78:15 78:18>]
 REFERENCE_USAGE void b2MotorJoint::InitVelocityConstraints(const b2SolverData &) -> int32 b2MotorJoint::m_indexB [b2MotorJoint.cpp <78:30 78:37>]
 LOCAL_SYMBOL: b2MotorJoint.cpp<79:9> [b2MotorJoint.cpp <79:9 79:10>]
 REFERENCE_TYPE_USAGE void b2MotorJoint::InitVelocityConstraints(const b2SolverData &) -> b2Vec2 [b2MotorJoint.cpp <79:2 79:7>]
-SYMBOL_FUNCTION void b2Vec2::b2Vec2(const b2Vec2 &)
 REFERENCE_CALL void b2MotorJoint::InitVelocityConstraints(const b2SolverData &) -> void b2Vec2::b2Vec2(const b2Vec2 &) [b2MotorJoint.cpp <79:40 79:40>]
 REFERENCE_USAGE void b2MotorJoint::InitVelocityConstraints(const b2SolverData &) -> b2Vec2 b2Velocity::v [b2MotorJoint.cpp <79:40 79:40>]
 REFERENCE_USAGE void b2MotorJoint::InitVelocityConstraints(const b2SolverData &) -> b2Velocity * b2SolverData::velocities [b2MotorJoint.cpp <79:19 79:28>]
@@ -242,11 +205,8 @@ SYMBOL_FUNCTION void b2Rot::b2Rot(float32)
 REFERENCE_CALL void b2MotorJoint::InitVelocityConstraints(const b2SolverData &) -> void b2Rot::b2Rot(float32) [b2MotorJoint.cpp <82:8 82:9>]
 LOCAL_SYMBOL: b2MotorJoint.cpp<73:10> [b2MotorJoint.cpp <82:11 82:12>]
 LOCAL_SYMBOL: b2MotorJoint.cpp<82:16> [b2MotorJoint.cpp <82:16 82:17>]
-REFERENCE_TYPE_USAGE void b2MotorJoint::InitVelocityConstraints(const b2SolverData &) -> b2Rot [b2MotorJoint.cpp <82:2 82:6>]
-SYMBOL_FUNCTION void b2Rot::b2Rot(float32)
 REFERENCE_CALL void b2MotorJoint::InitVelocityConstraints(const b2SolverData &) -> void b2Rot::b2Rot(float32) [b2MotorJoint.cpp <82:16 82:17>]
 LOCAL_SYMBOL: b2MotorJoint.cpp<78:10> [b2MotorJoint.cpp <82:19 82:20>]
-SYMBOL_FUNCTION b2Vec2 & b2Vec2::operator=(b2Vec2 &)
 REFERENCE_CALL void b2MotorJoint::InitVelocityConstraints(const b2SolverData &) -> b2Vec2 & b2Vec2::operator=(b2Vec2 &) [b2MotorJoint.cpp <85:7 85:7>]
 REFERENCE_USAGE void b2MotorJoint::InitVelocityConstraints(const b2SolverData &) -> b2Vec2 b2MotorJoint::m_rA [b2MotorJoint.cpp <85:2 85:5>]
 SYMBOL_FUNCTION b2Vec2 b2Mul(const b2Rot &, const b2Vec2 &)
@@ -255,30 +215,24 @@ LOCAL_SYMBOL: b2MotorJoint.cpp<82:8> [b2MotorJoint.cpp <85:15 85:16>]
 SYMBOL_FUNCTION b2Vec2 b2Vec2::operator-() const
 REFERENCE_CALL void b2MotorJoint::InitVelocityConstraints(const b2SolverData &) -> b2Vec2 b2Vec2::operator-() const [b2MotorJoint.cpp <85:19 85:19>]
 REFERENCE_USAGE void b2MotorJoint::InitVelocityConstraints(const b2SolverData &) -> b2Vec2 b2MotorJoint::m_localCenterA [b2MotorJoint.cpp <85:20 85:33>]
-SYMBOL_FUNCTION b2Vec2 & b2Vec2::operator=(b2Vec2 &)
 REFERENCE_CALL void b2MotorJoint::InitVelocityConstraints(const b2SolverData &) -> b2Vec2 & b2Vec2::operator=(b2Vec2 &) [b2MotorJoint.cpp <86:7 86:7>]
 REFERENCE_USAGE void b2MotorJoint::InitVelocityConstraints(const b2SolverData &) -> b2Vec2 b2MotorJoint::m_rB [b2MotorJoint.cpp <86:2 86:5>]
-SYMBOL_FUNCTION b2Vec2 b2Mul(const b2Rot &, const b2Vec2 &)
 REFERENCE_CALL void b2MotorJoint::InitVelocityConstraints(const b2SolverData &) -> b2Vec2 b2Mul(const b2Rot &, const b2Vec2 &) [b2MotorJoint.cpp <86:9 86:13>]
 LOCAL_SYMBOL: b2MotorJoint.cpp<82:16> [b2MotorJoint.cpp <86:15 86:16>]
-SYMBOL_FUNCTION b2Vec2 b2Vec2::operator-() const
 REFERENCE_CALL void b2MotorJoint::InitVelocityConstraints(const b2SolverData &) -> b2Vec2 b2Vec2::operator-() const [b2MotorJoint.cpp <86:19 86:19>]
 REFERENCE_USAGE void b2MotorJoint::InitVelocityConstraints(const b2SolverData &) -> b2Vec2 b2MotorJoint::m_localCenterB [b2MotorJoint.cpp <86:20 86:33>]
 LOCAL_SYMBOL: b2MotorJoint.cpp<97:10> [b2MotorJoint.cpp <97:10 97:11>]
 REFERENCE_TYPE_USAGE void b2MotorJoint::InitVelocityConstraints(const b2SolverData &) -> float32 [b2MotorJoint.cpp <97:2 97:8>]
 REFERENCE_USAGE void b2MotorJoint::InitVelocityConstraints(const b2SolverData &) -> float32 b2MotorJoint::m_invMassA [b2MotorJoint.cpp <97:15 97:24>]
 LOCAL_SYMBOL: b2MotorJoint.cpp<97:27> [b2MotorJoint.cpp <97:27 97:28>]
-REFERENCE_TYPE_USAGE void b2MotorJoint::InitVelocityConstraints(const b2SolverData &) -> float32 [b2MotorJoint.cpp <97:2 97:8>]
 REFERENCE_USAGE void b2MotorJoint::InitVelocityConstraints(const b2SolverData &) -> float32 b2MotorJoint::m_invMassB [b2MotorJoint.cpp <97:32 97:41>]
 LOCAL_SYMBOL: b2MotorJoint.cpp<98:10> [b2MotorJoint.cpp <98:10 98:11>]
 REFERENCE_TYPE_USAGE void b2MotorJoint::InitVelocityConstraints(const b2SolverData &) -> float32 [b2MotorJoint.cpp <98:2 98:8>]
 REFERENCE_USAGE void b2MotorJoint::InitVelocityConstraints(const b2SolverData &) -> float32 b2MotorJoint::m_invIA [b2MotorJoint.cpp <98:15 98:21>]
 LOCAL_SYMBOL: b2MotorJoint.cpp<98:24> [b2MotorJoint.cpp <98:24 98:25>]
-REFERENCE_TYPE_USAGE void b2MotorJoint::InitVelocityConstraints(const b2SolverData &) -> float32 [b2MotorJoint.cpp <98:2 98:8>]
 REFERENCE_USAGE void b2MotorJoint::InitVelocityConstraints(const b2SolverData &) -> float32 b2MotorJoint::m_invIB [b2MotorJoint.cpp <98:29 98:35>]
 LOCAL_SYMBOL: b2MotorJoint.cpp<100:10> [b2MotorJoint.cpp <100:10 100:10>]
 REFERENCE_TYPE_USAGE void b2MotorJoint::InitVelocityConstraints(const b2SolverData &) -> b2Mat22 [b2MotorJoint.cpp <100:2 100:8>]
-SYMBOL_FUNCTION void b2Mat22::b2Mat22()
 REFERENCE_CALL void b2MotorJoint::InitVelocityConstraints(const b2SolverData &) -> void b2Mat22::b2Mat22() [b2MotorJoint.cpp <100:10 100:10>]
 REFERENCE_USAGE void b2MotorJoint::InitVelocityConstraints(const b2SolverData &) -> float32 b2Vec2::x [b2MotorJoint.cpp <101:7 101:7>]
 REFERENCE_USAGE void b2MotorJoint::InitVelocityConstraints(const b2SolverData &) -> b2Vec2 b2Mat22::ex [b2MotorJoint.cpp <101:4 101:5>]
@@ -341,14 +295,11 @@ LOCAL_SYMBOL: b2MotorJoint.cpp<98:24> [b2MotorJoint.cpp <108:23 108:24>]
 REFERENCE_USAGE void b2MotorJoint::InitVelocityConstraints(const b2SolverData &) -> float32 b2MotorJoint::m_angularMass [b2MotorJoint.cpp <109:6 109:18>]
 REFERENCE_USAGE void b2MotorJoint::InitVelocityConstraints(const b2SolverData &) -> float32 b2MotorJoint::m_angularMass [b2MotorJoint.cpp <111:3 111:15>]
 REFERENCE_USAGE void b2MotorJoint::InitVelocityConstraints(const b2SolverData &) -> float32 b2MotorJoint::m_angularMass [b2MotorJoint.cpp <111:26 111:38>]
-SYMBOL_FUNCTION b2Vec2 & b2Vec2::operator=(b2Vec2 &)
 REFERENCE_CALL void b2MotorJoint::InitVelocityConstraints(const b2SolverData &) -> b2Vec2 & b2Vec2::operator=(b2Vec2 &) [b2MotorJoint.cpp <114:16 114:16>]
 REFERENCE_USAGE void b2MotorJoint::InitVelocityConstraints(const b2SolverData &) -> b2Vec2 b2MotorJoint::m_linearError [b2MotorJoint.cpp <114:2 114:14>]
 SYMBOL_FUNCTION b2Vec2 operator-(const b2Vec2 &, const b2Vec2 &)
 REFERENCE_CALL void b2MotorJoint::InitVelocityConstraints(const b2SolverData &) -> b2Vec2 operator-(const b2Vec2 &, const b2Vec2 &) [b2MotorJoint.cpp <114:40 114:40>]
-SYMBOL_FUNCTION b2Vec2 operator-(const b2Vec2 &, const b2Vec2 &)
 REFERENCE_CALL void b2MotorJoint::InitVelocityConstraints(const b2SolverData &) -> b2Vec2 operator-(const b2Vec2 &, const b2Vec2 &) [b2MotorJoint.cpp <114:33 114:33>]
-SYMBOL_FUNCTION b2Vec2 operator-(const b2Vec2 &, const b2Vec2 &)
 REFERENCE_CALL void b2MotorJoint::InitVelocityConstraints(const b2SolverData &) -> b2Vec2 operator-(const b2Vec2 &, const b2Vec2 &) [b2MotorJoint.cpp <114:28 114:28>]
 SYMBOL_FUNCTION b2Vec2 operator+(const b2Vec2 &, const b2Vec2 &)
 REFERENCE_CALL void b2MotorJoint::InitVelocityConstraints(const b2SolverData &) -> b2Vec2 operator+(const b2Vec2 &, const b2Vec2 &) [b2MotorJoint.cpp <114:21 114:21>]
@@ -356,7 +307,6 @@ LOCAL_SYMBOL: b2MotorJoint.cpp<77:9> [b2MotorJoint.cpp <114:18 114:19>]
 REFERENCE_USAGE void b2MotorJoint::InitVelocityConstraints(const b2SolverData &) -> b2Vec2 b2MotorJoint::m_rB [b2MotorJoint.cpp <114:23 114:26>]
 LOCAL_SYMBOL: b2MotorJoint.cpp<72:9> [b2MotorJoint.cpp <114:30 114:31>]
 REFERENCE_USAGE void b2MotorJoint::InitVelocityConstraints(const b2SolverData &) -> b2Vec2 b2MotorJoint::m_rA [b2MotorJoint.cpp <114:35 114:38>]
-SYMBOL_FUNCTION b2Vec2 b2Mul(const b2Rot &, const b2Vec2 &)
 REFERENCE_CALL void b2MotorJoint::InitVelocityConstraints(const b2SolverData &) -> b2Vec2 b2Mul(const b2Rot &, const b2Vec2 &) [b2MotorJoint.cpp <114:42 114:46>]
 LOCAL_SYMBOL: b2MotorJoint.cpp<82:8> [b2MotorJoint.cpp <114:48 114:49>]
 REFERENCE_USAGE void b2MotorJoint::InitVelocityConstraints(const b2SolverData &) -> b2Vec2 b2MotorJoint::m_linearOffset [b2MotorJoint.cpp <114:52 114:65>]
@@ -402,22 +352,18 @@ REFERENCE_USAGE void b2MotorJoint::InitVelocityConstraints(const b2SolverData &)
 SYMBOL_FUNCTION void b2Vec2::operator+=(const b2Vec2 &)
 REFERENCE_CALL void b2MotorJoint::InitVelocityConstraints(const b2SolverData &) -> void b2Vec2::operator+=(const b2Vec2 &) [b2MotorJoint.cpp <126:6 126:7>]
 LOCAL_SYMBOL: b2MotorJoint.cpp<79:9> [b2MotorJoint.cpp <126:3 126:4>]
-SYMBOL_FUNCTION b2Vec2 operator*(float32, const b2Vec2 &)
 REFERENCE_CALL void b2MotorJoint::InitVelocityConstraints(const b2SolverData &) -> b2Vec2 operator*(float32, const b2Vec2 &) [b2MotorJoint.cpp <126:12 126:12>]
 LOCAL_SYMBOL: b2MotorJoint.cpp<97:27> [b2MotorJoint.cpp <126:9 126:10>]
 LOCAL_SYMBOL: b2MotorJoint.cpp<123:10> [b2MotorJoint.cpp <126:14 126:14>]
 LOCAL_SYMBOL: b2MotorJoint.cpp<80:10> [b2MotorJoint.cpp <127:3 127:4>]
 LOCAL_SYMBOL: b2MotorJoint.cpp<98:24> [b2MotorJoint.cpp <127:9 127:10>]
-SYMBOL_FUNCTION float32 b2Cross(const b2Vec2 &, const b2Vec2 &)
 REFERENCE_CALL void b2MotorJoint::InitVelocityConstraints(const b2SolverData &) -> float32 b2Cross(const b2Vec2 &, const b2Vec2 &) [b2MotorJoint.cpp <127:15 127:21>]
 REFERENCE_USAGE void b2MotorJoint::InitVelocityConstraints(const b2SolverData &) -> b2Vec2 b2MotorJoint::m_rB [b2MotorJoint.cpp <127:23 127:26>]
 LOCAL_SYMBOL: b2MotorJoint.cpp<123:10> [b2MotorJoint.cpp <127:29 127:29>]
 REFERENCE_USAGE void b2MotorJoint::InitVelocityConstraints(const b2SolverData &) -> float32 b2MotorJoint::m_angularImpulse [b2MotorJoint.cpp <127:34 127:49>]
-SYMBOL_FUNCTION void b2Vec2::SetZero()
 REFERENCE_CALL void b2MotorJoint::InitVelocityConstraints(const b2SolverData &) -> void b2Vec2::SetZero() [b2MotorJoint.cpp <131:19 131:25>]
 REFERENCE_USAGE void b2MotorJoint::InitVelocityConstraints(const b2SolverData &) -> b2Vec2 b2MotorJoint::m_linearImpulse [b2MotorJoint.cpp <131:3 131:17>]
 REFERENCE_USAGE void b2MotorJoint::InitVelocityConstraints(const b2SolverData &) -> float32 b2MotorJoint::m_angularImpulse [b2MotorJoint.cpp <132:3 132:18>]
-SYMBOL_FUNCTION b2Vec2 & b2Vec2::operator=(const b2Vec2 &)
 REFERENCE_CALL void b2MotorJoint::InitVelocityConstraints(const b2SolverData &) -> b2Vec2 & b2Vec2::operator=(const b2Vec2 &) [b2MotorJoint.cpp <135:30 135:30>]
 REFERENCE_USAGE void b2MotorJoint::InitVelocityConstraints(const b2SolverData &) -> b2Vec2 b2Velocity::v [b2MotorJoint.cpp <135:28 135:28>]
 REFERENCE_USAGE void b2MotorJoint::InitVelocityConstraints(const b2SolverData &) -> b2Velocity * b2SolverData::velocities [b2MotorJoint.cpp <135:7 135:16>]
@@ -429,7 +375,6 @@ REFERENCE_USAGE void b2MotorJoint::InitVelocityConstraints(const b2SolverData &)
 LOCAL_SYMBOL: b2MotorJoint.cpp<61:64> [b2MotorJoint.cpp <136:2 136:5>]
 REFERENCE_USAGE void b2MotorJoint::InitVelocityConstraints(const b2SolverData &) -> int32 b2MotorJoint::m_indexA [b2MotorJoint.cpp <136:18 136:25>]
 LOCAL_SYMBOL: b2MotorJoint.cpp<75:10> [b2MotorJoint.cpp <136:32 136:33>]
-SYMBOL_FUNCTION b2Vec2 & b2Vec2::operator=(const b2Vec2 &)
 REFERENCE_CALL void b2MotorJoint::InitVelocityConstraints(const b2SolverData &) -> b2Vec2 & b2Vec2::operator=(const b2Vec2 &) [b2MotorJoint.cpp <137:30 137:30>]
 REFERENCE_USAGE void b2MotorJoint::InitVelocityConstraints(const b2SolverData &) -> b2Vec2 b2Velocity::v [b2MotorJoint.cpp <137:28 137:28>]
 REFERENCE_USAGE void b2MotorJoint::InitVelocityConstraints(const b2SolverData &) -> b2Velocity * b2SolverData::velocities [b2MotorJoint.cpp <137:7 137:16>]
@@ -444,14 +389,12 @@ LOCAL_SYMBOL: b2MotorJoint.cpp<80:10> [b2MotorJoint.cpp <138:32 138:33>]
 SYMBOL_METHOD protected void b2MotorJoint::SolveVelocityConstraints(const b2SolverData &) [b2MotorJoint.cpp <141:1 <141:20 141:43> 197:1>]
 SYMBOL_FUNCTION void b2Joint::SolveVelocityConstraints(const b2SolverData &)
 REFERENCE_OVERRIDE void b2MotorJoint::SolveVelocityConstraints(const b2SolverData &) -> void b2Joint::SolveVelocityConstraints(const b2SolverData &) [b2MotorJoint.cpp <141:20 141:43>]
-SYMBOL_CLASS b2MotorJoint
-SYMBOL_BUILTIN_TYPE void
+QUALIFIER: b2MotorJoint [b2MotorJoint.cpp <141:6 141:17>]
 REFERENCE_TYPE_USAGE void b2MotorJoint::SolveVelocityConstraints(const b2SolverData &) -> void [b2MotorJoint.cpp <141:1 141:4>]
 LOCAL_SYMBOL: b2MotorJoint.cpp<141:65> [b2MotorJoint.cpp <141:65 141:68>]
 REFERENCE_TYPE_USAGE void b2MotorJoint::SolveVelocityConstraints(const b2SolverData &) -> b2SolverData [b2MotorJoint.cpp <141:51 141:62>]
 LOCAL_SYMBOL: b2MotorJoint.cpp<143:9> [b2MotorJoint.cpp <143:9 143:10>]
 REFERENCE_TYPE_USAGE void b2MotorJoint::SolveVelocityConstraints(const b2SolverData &) -> b2Vec2 [b2MotorJoint.cpp <143:2 143:7>]
-SYMBOL_FUNCTION void b2Vec2::b2Vec2(const b2Vec2 &)
 REFERENCE_CALL void b2MotorJoint::SolveVelocityConstraints(const b2SolverData &) -> void b2Vec2::b2Vec2(const b2Vec2 &) [b2MotorJoint.cpp <143:40 143:40>]
 REFERENCE_USAGE void b2MotorJoint::SolveVelocityConstraints(const b2SolverData &) -> b2Vec2 b2Velocity::v [b2MotorJoint.cpp <143:40 143:40>]
 REFERENCE_USAGE void b2MotorJoint::SolveVelocityConstraints(const b2SolverData &) -> b2Velocity * b2SolverData::velocities [b2MotorJoint.cpp <143:19 143:28>]
@@ -465,7 +408,6 @@ LOCAL_SYMBOL: b2MotorJoint.cpp<141:65> [b2MotorJoint.cpp <144:15 144:18>]
 REFERENCE_USAGE void b2MotorJoint::SolveVelocityConstraints(const b2SolverData &) -> int32 b2MotorJoint::m_indexA [b2MotorJoint.cpp <144:31 144:38>]
 LOCAL_SYMBOL: b2MotorJoint.cpp<145:9> [b2MotorJoint.cpp <145:9 145:10>]
 REFERENCE_TYPE_USAGE void b2MotorJoint::SolveVelocityConstraints(const b2SolverData &) -> b2Vec2 [b2MotorJoint.cpp <145:2 145:7>]
-SYMBOL_FUNCTION void b2Vec2::b2Vec2(const b2Vec2 &)
 REFERENCE_CALL void b2MotorJoint::SolveVelocityConstraints(const b2SolverData &) -> void b2Vec2::b2Vec2(const b2Vec2 &) [b2MotorJoint.cpp <145:40 145:40>]
 REFERENCE_USAGE void b2MotorJoint::SolveVelocityConstraints(const b2SolverData &) -> b2Vec2 b2Velocity::v [b2MotorJoint.cpp <145:40 145:40>]
 REFERENCE_USAGE void b2MotorJoint::SolveVelocityConstraints(const b2SolverData &) -> b2Velocity * b2SolverData::velocities [b2MotorJoint.cpp <145:19 145:28>]
@@ -481,13 +423,11 @@ LOCAL_SYMBOL: b2MotorJoint.cpp<148:10> [b2MotorJoint.cpp <148:10 148:11>]
 REFERENCE_TYPE_USAGE void b2MotorJoint::SolveVelocityConstraints(const b2SolverData &) -> float32 [b2MotorJoint.cpp <148:2 148:8>]
 REFERENCE_USAGE void b2MotorJoint::SolveVelocityConstraints(const b2SolverData &) -> float32 b2MotorJoint::m_invMassA [b2MotorJoint.cpp <148:15 148:24>]
 LOCAL_SYMBOL: b2MotorJoint.cpp<148:27> [b2MotorJoint.cpp <148:27 148:28>]
-REFERENCE_TYPE_USAGE void b2MotorJoint::SolveVelocityConstraints(const b2SolverData &) -> float32 [b2MotorJoint.cpp <148:2 148:8>]
 REFERENCE_USAGE void b2MotorJoint::SolveVelocityConstraints(const b2SolverData &) -> float32 b2MotorJoint::m_invMassB [b2MotorJoint.cpp <148:32 148:41>]
 LOCAL_SYMBOL: b2MotorJoint.cpp<149:10> [b2MotorJoint.cpp <149:10 149:11>]
 REFERENCE_TYPE_USAGE void b2MotorJoint::SolveVelocityConstraints(const b2SolverData &) -> float32 [b2MotorJoint.cpp <149:2 149:8>]
 REFERENCE_USAGE void b2MotorJoint::SolveVelocityConstraints(const b2SolverData &) -> float32 b2MotorJoint::m_invIA [b2MotorJoint.cpp <149:15 149:21>]
 LOCAL_SYMBOL: b2MotorJoint.cpp<149:24> [b2MotorJoint.cpp <149:24 149:25>]
-REFERENCE_TYPE_USAGE void b2MotorJoint::SolveVelocityConstraints(const b2SolverData &) -> float32 [b2MotorJoint.cpp <149:2 149:8>]
 REFERENCE_USAGE void b2MotorJoint::SolveVelocityConstraints(const b2SolverData &) -> float32 b2MotorJoint::m_invIB [b2MotorJoint.cpp <149:29 149:35>]
 LOCAL_SYMBOL: b2MotorJoint.cpp<151:10> [b2MotorJoint.cpp <151:10 151:10>]
 REFERENCE_TYPE_USAGE void b2MotorJoint::SolveVelocityConstraints(const b2SolverData &) -> float32 [b2MotorJoint.cpp <151:2 151:8>]
@@ -535,13 +475,9 @@ LOCAL_SYMBOL: b2MotorJoint.cpp<149:24> [b2MotorJoint.cpp <165:9 165:10>]
 LOCAL_SYMBOL: b2MotorJoint.cpp<157:11> [b2MotorJoint.cpp <165:14 165:20>]
 LOCAL_SYMBOL: b2MotorJoint.cpp<170:10> [b2MotorJoint.cpp <170:10 170:13>]
 REFERENCE_TYPE_USAGE void b2MotorJoint::SolveVelocityConstraints(const b2SolverData &) -> b2Vec2 [b2MotorJoint.cpp <170:3 170:8>]
-SYMBOL_FUNCTION b2Vec2 operator+(const b2Vec2 &, const b2Vec2 &)
 REFERENCE_CALL void b2MotorJoint::SolveVelocityConstraints(const b2SolverData &) -> b2Vec2 operator+(const b2Vec2 &, const b2Vec2 &) [b2MotorJoint.cpp <170:65 170:65>]
-SYMBOL_FUNCTION b2Vec2 operator-(const b2Vec2 &, const b2Vec2 &)
 REFERENCE_CALL void b2MotorJoint::SolveVelocityConstraints(const b2SolverData &) -> b2Vec2 operator-(const b2Vec2 &, const b2Vec2 &) [b2MotorJoint.cpp <170:45 170:45>]
-SYMBOL_FUNCTION b2Vec2 operator-(const b2Vec2 &, const b2Vec2 &)
 REFERENCE_CALL void b2MotorJoint::SolveVelocityConstraints(const b2SolverData &) -> b2Vec2 operator-(const b2Vec2 &, const b2Vec2 &) [b2MotorJoint.cpp <170:40 170:40>]
-SYMBOL_FUNCTION b2Vec2 operator+(const b2Vec2 &, const b2Vec2 &)
 REFERENCE_CALL void b2MotorJoint::SolveVelocityConstraints(const b2SolverData &) -> b2Vec2 operator+(const b2Vec2 &, const b2Vec2 &) [b2MotorJoint.cpp <170:20 170:20>]
 LOCAL_SYMBOL: b2MotorJoint.cpp<145:9> [b2MotorJoint.cpp <170:17 170:18>]
 SYMBOL_FUNCTION b2Vec2 b2Cross(float32, const b2Vec2 &)
@@ -549,18 +485,15 @@ REFERENCE_CALL void b2MotorJoint::SolveVelocityConstraints(const b2SolverData &)
 LOCAL_SYMBOL: b2MotorJoint.cpp<146:10> [b2MotorJoint.cpp <170:30 170:31>]
 REFERENCE_USAGE void b2MotorJoint::SolveVelocityConstraints(const b2SolverData &) -> b2Vec2 b2MotorJoint::m_rB [b2MotorJoint.cpp <170:34 170:37>]
 LOCAL_SYMBOL: b2MotorJoint.cpp<143:9> [b2MotorJoint.cpp <170:42 170:43>]
-SYMBOL_FUNCTION b2Vec2 b2Cross(float32, const b2Vec2 &)
 REFERENCE_CALL void b2MotorJoint::SolveVelocityConstraints(const b2SolverData &) -> b2Vec2 b2Cross(float32, const b2Vec2 &) [b2MotorJoint.cpp <170:47 170:53>]
 LOCAL_SYMBOL: b2MotorJoint.cpp<144:10> [b2MotorJoint.cpp <170:55 170:56>]
 REFERENCE_USAGE void b2MotorJoint::SolveVelocityConstraints(const b2SolverData &) -> b2Vec2 b2MotorJoint::m_rA [b2MotorJoint.cpp <170:59 170:62>]
-SYMBOL_FUNCTION b2Vec2 operator*(float32, const b2Vec2 &)
 REFERENCE_CALL void b2MotorJoint::SolveVelocityConstraints(const b2SolverData &) -> b2Vec2 operator*(float32, const b2Vec2 &) [b2MotorJoint.cpp <170:94 170:94>]
 LOCAL_SYMBOL: b2MotorJoint.cpp<152:10> [b2MotorJoint.cpp <170:67 170:71>]
 REFERENCE_USAGE void b2MotorJoint::SolveVelocityConstraints(const b2SolverData &) -> float32 b2MotorJoint::m_correctionFactor [b2MotorJoint.cpp <170:75 170:92>]
 REFERENCE_USAGE void b2MotorJoint::SolveVelocityConstraints(const b2SolverData &) -> b2Vec2 b2MotorJoint::m_linearError [b2MotorJoint.cpp <170:96 170:108>]
 LOCAL_SYMBOL: b2MotorJoint.cpp<172:10> [b2MotorJoint.cpp <172:10 172:16>]
 REFERENCE_TYPE_USAGE void b2MotorJoint::SolveVelocityConstraints(const b2SolverData &) -> b2Vec2 [b2MotorJoint.cpp <172:3 172:8>]
-SYMBOL_FUNCTION b2Vec2 b2Vec2::operator-() const
 REFERENCE_CALL void b2MotorJoint::SolveVelocityConstraints(const b2SolverData &) -> b2Vec2 b2Vec2::operator-() const [b2MotorJoint.cpp <172:20 172:20>]
 SYMBOL_FUNCTION b2Vec2 b2Mul(const b2Mat22 &, const b2Vec2 &)
 REFERENCE_CALL void b2MotorJoint::SolveVelocityConstraints(const b2SolverData &) -> b2Vec2 b2Mul(const b2Mat22 &, const b2Vec2 &) [b2MotorJoint.cpp <172:21 172:25>]
@@ -568,10 +501,8 @@ REFERENCE_USAGE void b2MotorJoint::SolveVelocityConstraints(const b2SolverData &
 LOCAL_SYMBOL: b2MotorJoint.cpp<170:10> [b2MotorJoint.cpp <172:41 172:44>]
 LOCAL_SYMBOL: b2MotorJoint.cpp<173:10> [b2MotorJoint.cpp <173:10 173:19>]
 REFERENCE_TYPE_USAGE void b2MotorJoint::SolveVelocityConstraints(const b2SolverData &) -> b2Vec2 [b2MotorJoint.cpp <173:3 173:8>]
-SYMBOL_FUNCTION void b2Vec2::b2Vec2(const b2Vec2 &)
 REFERENCE_CALL void b2MotorJoint::SolveVelocityConstraints(const b2SolverData &) -> void b2Vec2::b2Vec2(const b2Vec2 &) [b2MotorJoint.cpp <173:23 173:37>]
 REFERENCE_USAGE void b2MotorJoint::SolveVelocityConstraints(const b2SolverData &) -> b2Vec2 b2MotorJoint::m_linearImpulse [b2MotorJoint.cpp <173:23 173:37>]
-SYMBOL_FUNCTION void b2Vec2::operator+=(const b2Vec2 &)
 REFERENCE_CALL void b2MotorJoint::SolveVelocityConstraints(const b2SolverData &) -> void b2Vec2::operator+=(const b2Vec2 &) [b2MotorJoint.cpp <174:19 174:20>]
 REFERENCE_USAGE void b2MotorJoint::SolveVelocityConstraints(const b2SolverData &) -> b2Vec2 b2MotorJoint::m_linearImpulse [b2MotorJoint.cpp <174:3 174:17>]
 LOCAL_SYMBOL: b2MotorJoint.cpp<172:10> [b2MotorJoint.cpp <174:22 174:28>]
@@ -587,44 +518,34 @@ LOCAL_SYMBOL: b2MotorJoint.cpp<176:11> [b2MotorJoint.cpp <178:54 178:63>]
 SYMBOL_FUNCTION float32 b2Vec2::Normalize()
 REFERENCE_CALL void b2MotorJoint::SolveVelocityConstraints(const b2SolverData &) -> float32 b2Vec2::Normalize() [b2MotorJoint.cpp <180:20 180:28>]
 REFERENCE_USAGE void b2MotorJoint::SolveVelocityConstraints(const b2SolverData &) -> b2Vec2 b2MotorJoint::m_linearImpulse [b2MotorJoint.cpp <180:4 180:18>]
-SYMBOL_FUNCTION void b2Vec2::operator*=(float32)
 REFERENCE_CALL void b2MotorJoint::SolveVelocityConstraints(const b2SolverData &) -> void b2Vec2::operator*=(float32) [b2MotorJoint.cpp <181:20 181:21>]
 REFERENCE_USAGE void b2MotorJoint::SolveVelocityConstraints(const b2SolverData &) -> b2Vec2 b2MotorJoint::m_linearImpulse [b2MotorJoint.cpp <181:4 181:18>]
 LOCAL_SYMBOL: b2MotorJoint.cpp<176:11> [b2MotorJoint.cpp <181:23 181:32>]
-SYMBOL_FUNCTION b2Vec2 & b2Vec2::operator=(b2Vec2 &)
 REFERENCE_CALL void b2MotorJoint::SolveVelocityConstraints(const b2SolverData &) -> b2Vec2 & b2Vec2::operator=(b2Vec2 &) [b2MotorJoint.cpp <184:11 184:11>]
 LOCAL_SYMBOL: b2MotorJoint.cpp<172:10> [b2MotorJoint.cpp <184:3 184:9>]
-SYMBOL_FUNCTION b2Vec2 operator-(const b2Vec2 &, const b2Vec2 &)
 REFERENCE_CALL void b2MotorJoint::SolveVelocityConstraints(const b2SolverData &) -> b2Vec2 operator-(const b2Vec2 &, const b2Vec2 &) [b2MotorJoint.cpp <184:29 184:29>]
 REFERENCE_USAGE void b2MotorJoint::SolveVelocityConstraints(const b2SolverData &) -> b2Vec2 b2MotorJoint::m_linearImpulse [b2MotorJoint.cpp <184:13 184:27>]
 LOCAL_SYMBOL: b2MotorJoint.cpp<173:10> [b2MotorJoint.cpp <184:31 184:40>]
-SYMBOL_FUNCTION void b2Vec2::operator-=(const b2Vec2 &)
 REFERENCE_CALL void b2MotorJoint::SolveVelocityConstraints(const b2SolverData &) -> void b2Vec2::operator-=(const b2Vec2 &) [b2MotorJoint.cpp <186:6 186:7>]
 LOCAL_SYMBOL: b2MotorJoint.cpp<143:9> [b2MotorJoint.cpp <186:3 186:4>]
-SYMBOL_FUNCTION b2Vec2 operator*(float32, const b2Vec2 &)
 REFERENCE_CALL void b2MotorJoint::SolveVelocityConstraints(const b2SolverData &) -> b2Vec2 operator*(float32, const b2Vec2 &) [b2MotorJoint.cpp <186:12 186:12>]
 LOCAL_SYMBOL: b2MotorJoint.cpp<148:10> [b2MotorJoint.cpp <186:9 186:10>]
 LOCAL_SYMBOL: b2MotorJoint.cpp<172:10> [b2MotorJoint.cpp <186:14 186:20>]
 LOCAL_SYMBOL: b2MotorJoint.cpp<144:10> [b2MotorJoint.cpp <187:3 187:4>]
 LOCAL_SYMBOL: b2MotorJoint.cpp<149:10> [b2MotorJoint.cpp <187:9 187:10>]
-SYMBOL_FUNCTION float32 b2Cross(const b2Vec2 &, const b2Vec2 &)
 REFERENCE_CALL void b2MotorJoint::SolveVelocityConstraints(const b2SolverData &) -> float32 b2Cross(const b2Vec2 &, const b2Vec2 &) [b2MotorJoint.cpp <187:14 187:20>]
 REFERENCE_USAGE void b2MotorJoint::SolveVelocityConstraints(const b2SolverData &) -> b2Vec2 b2MotorJoint::m_rA [b2MotorJoint.cpp <187:22 187:25>]
 LOCAL_SYMBOL: b2MotorJoint.cpp<172:10> [b2MotorJoint.cpp <187:28 187:34>]
-SYMBOL_FUNCTION void b2Vec2::operator+=(const b2Vec2 &)
 REFERENCE_CALL void b2MotorJoint::SolveVelocityConstraints(const b2SolverData &) -> void b2Vec2::operator+=(const b2Vec2 &) [b2MotorJoint.cpp <189:6 189:7>]
 LOCAL_SYMBOL: b2MotorJoint.cpp<145:9> [b2MotorJoint.cpp <189:3 189:4>]
-SYMBOL_FUNCTION b2Vec2 operator*(float32, const b2Vec2 &)
 REFERENCE_CALL void b2MotorJoint::SolveVelocityConstraints(const b2SolverData &) -> b2Vec2 operator*(float32, const b2Vec2 &) [b2MotorJoint.cpp <189:12 189:12>]
 LOCAL_SYMBOL: b2MotorJoint.cpp<148:27> [b2MotorJoint.cpp <189:9 189:10>]
 LOCAL_SYMBOL: b2MotorJoint.cpp<172:10> [b2MotorJoint.cpp <189:14 189:20>]
 LOCAL_SYMBOL: b2MotorJoint.cpp<146:10> [b2MotorJoint.cpp <190:3 190:4>]
 LOCAL_SYMBOL: b2MotorJoint.cpp<149:24> [b2MotorJoint.cpp <190:9 190:10>]
-SYMBOL_FUNCTION float32 b2Cross(const b2Vec2 &, const b2Vec2 &)
 REFERENCE_CALL void b2MotorJoint::SolveVelocityConstraints(const b2SolverData &) -> float32 b2Cross(const b2Vec2 &, const b2Vec2 &) [b2MotorJoint.cpp <190:14 190:20>]
 REFERENCE_USAGE void b2MotorJoint::SolveVelocityConstraints(const b2SolverData &) -> b2Vec2 b2MotorJoint::m_rB [b2MotorJoint.cpp <190:22 190:25>]
 LOCAL_SYMBOL: b2MotorJoint.cpp<172:10> [b2MotorJoint.cpp <190:28 190:34>]
-SYMBOL_FUNCTION b2Vec2 & b2Vec2::operator=(const b2Vec2 &)
 REFERENCE_CALL void b2MotorJoint::SolveVelocityConstraints(const b2SolverData &) -> b2Vec2 & b2Vec2::operator=(const b2Vec2 &) [b2MotorJoint.cpp <193:30 193:30>]
 REFERENCE_USAGE void b2MotorJoint::SolveVelocityConstraints(const b2SolverData &) -> b2Vec2 b2Velocity::v [b2MotorJoint.cpp <193:28 193:28>]
 REFERENCE_USAGE void b2MotorJoint::SolveVelocityConstraints(const b2SolverData &) -> b2Velocity * b2SolverData::velocities [b2MotorJoint.cpp <193:7 193:16>]
@@ -636,7 +557,6 @@ REFERENCE_USAGE void b2MotorJoint::SolveVelocityConstraints(const b2SolverData &
 LOCAL_SYMBOL: b2MotorJoint.cpp<141:65> [b2MotorJoint.cpp <194:2 194:5>]
 REFERENCE_USAGE void b2MotorJoint::SolveVelocityConstraints(const b2SolverData &) -> int32 b2MotorJoint::m_indexA [b2MotorJoint.cpp <194:18 194:25>]
 LOCAL_SYMBOL: b2MotorJoint.cpp<144:10> [b2MotorJoint.cpp <194:32 194:33>]
-SYMBOL_FUNCTION b2Vec2 & b2Vec2::operator=(const b2Vec2 &)
 REFERENCE_CALL void b2MotorJoint::SolveVelocityConstraints(const b2SolverData &) -> b2Vec2 & b2Vec2::operator=(const b2Vec2 &) [b2MotorJoint.cpp <195:30 195:30>]
 REFERENCE_USAGE void b2MotorJoint::SolveVelocityConstraints(const b2SolverData &) -> b2Vec2 b2Velocity::v [b2MotorJoint.cpp <195:28 195:28>]
 REFERENCE_USAGE void b2MotorJoint::SolveVelocityConstraints(const b2SolverData &) -> b2Velocity * b2SolverData::velocities [b2MotorJoint.cpp <195:7 195:16>]
@@ -651,7 +571,7 @@ LOCAL_SYMBOL: b2MotorJoint.cpp<146:10> [b2MotorJoint.cpp <196:32 196:33>]
 SYMBOL_METHOD protected bool b2MotorJoint::SolvePositionConstraints(const b2SolverData &) [b2MotorJoint.cpp <199:1 <199:20 199:43> 204:1>]
 SYMBOL_FUNCTION bool b2Joint::SolvePositionConstraints(const b2SolverData &)
 REFERENCE_OVERRIDE bool b2MotorJoint::SolvePositionConstraints(const b2SolverData &) -> bool b2Joint::SolvePositionConstraints(const b2SolverData &) [b2MotorJoint.cpp <199:20 199:43>]
-SYMBOL_CLASS b2MotorJoint
+QUALIFIER: b2MotorJoint [b2MotorJoint.cpp <199:6 199:17>]
 SYMBOL_BUILTIN_TYPE bool
 REFERENCE_TYPE_USAGE bool b2MotorJoint::SolvePositionConstraints(const b2SolverData &) -> bool [b2MotorJoint.cpp <199:1 199:4>]
 LOCAL_SYMBOL: b2MotorJoint.cpp<199:65> [b2MotorJoint.cpp <199:65 199:68>]
@@ -660,46 +580,40 @@ LOCAL_SYMBOL: b2MotorJoint.cpp<199:65> [b2MotorJoint.cpp <201:14 201:17>]
 SYMBOL_METHOD public b2Vec2 b2MotorJoint::GetAnchorA() const [b2MotorJoint.cpp <206:1 <206:22 206:31> 209:1>]
 SYMBOL_FUNCTION b2Vec2 b2Joint::GetAnchorA() const
 REFERENCE_OVERRIDE b2Vec2 b2MotorJoint::GetAnchorA() const -> b2Vec2 b2Joint::GetAnchorA() const [b2MotorJoint.cpp <206:22 206:31>]
-SYMBOL_CLASS b2MotorJoint
+QUALIFIER: b2MotorJoint [b2MotorJoint.cpp <206:8 206:19>]
 REFERENCE_TYPE_USAGE b2Vec2 b2MotorJoint::GetAnchorA() const -> b2Vec2 [b2MotorJoint.cpp <206:1 206:6>]
-SYMBOL_FUNCTION void b2Vec2::b2Vec2(const b2Vec2 &)
 REFERENCE_CALL b2Vec2 b2MotorJoint::GetAnchorA() const -> void b2Vec2::b2Vec2(const b2Vec2 &) [b2MotorJoint.cpp <208:30 208:30>]
-SYMBOL_FUNCTION const b2Vec2 & b2Body::GetPosition() const
 REFERENCE_CALL b2Vec2 b2MotorJoint::GetAnchorA() const -> const b2Vec2 & b2Body::GetPosition() const [b2MotorJoint.cpp <208:18 208:28>]
 REFERENCE_USAGE b2Vec2 b2MotorJoint::GetAnchorA() const -> b2Body * b2Joint::m_bodyA [b2MotorJoint.cpp <208:9 208:15>]
 SYMBOL_METHOD public b2Vec2 b2MotorJoint::GetAnchorB() const [b2MotorJoint.cpp <211:1 <211:22 211:31> 214:1>]
 SYMBOL_FUNCTION b2Vec2 b2Joint::GetAnchorB() const
 REFERENCE_OVERRIDE b2Vec2 b2MotorJoint::GetAnchorB() const -> b2Vec2 b2Joint::GetAnchorB() const [b2MotorJoint.cpp <211:22 211:31>]
-SYMBOL_CLASS b2MotorJoint
+QUALIFIER: b2MotorJoint [b2MotorJoint.cpp <211:8 211:19>]
 REFERENCE_TYPE_USAGE b2Vec2 b2MotorJoint::GetAnchorB() const -> b2Vec2 [b2MotorJoint.cpp <211:1 211:6>]
-SYMBOL_FUNCTION void b2Vec2::b2Vec2(const b2Vec2 &)
 REFERENCE_CALL b2Vec2 b2MotorJoint::GetAnchorB() const -> void b2Vec2::b2Vec2(const b2Vec2 &) [b2MotorJoint.cpp <213:30 213:30>]
-SYMBOL_FUNCTION const b2Vec2 & b2Body::GetPosition() const
 REFERENCE_CALL b2Vec2 b2MotorJoint::GetAnchorB() const -> const b2Vec2 & b2Body::GetPosition() const [b2MotorJoint.cpp <213:18 213:28>]
 REFERENCE_USAGE b2Vec2 b2MotorJoint::GetAnchorB() const -> b2Body * b2Joint::m_bodyB [b2MotorJoint.cpp <213:9 213:15>]
 SYMBOL_METHOD public b2Vec2 b2MotorJoint::GetReactionForce(float32) const [b2MotorJoint.cpp <216:1 <216:22 216:37> 219:1>]
 SYMBOL_FUNCTION b2Vec2 b2Joint::GetReactionForce(float32) const
 REFERENCE_OVERRIDE b2Vec2 b2MotorJoint::GetReactionForce(float32) const -> b2Vec2 b2Joint::GetReactionForce(float32) const [b2MotorJoint.cpp <216:22 216:37>]
-SYMBOL_CLASS b2MotorJoint
+QUALIFIER: b2MotorJoint [b2MotorJoint.cpp <216:8 216:19>]
 REFERENCE_TYPE_USAGE b2Vec2 b2MotorJoint::GetReactionForce(float32) const -> b2Vec2 [b2MotorJoint.cpp <216:1 216:6>]
 LOCAL_SYMBOL: b2MotorJoint.cpp<216:47> [b2MotorJoint.cpp <216:47 216:52>]
 REFERENCE_TYPE_USAGE b2Vec2 b2MotorJoint::GetReactionForce(float32) const -> float32 [b2MotorJoint.cpp <216:39 216:45>]
-SYMBOL_FUNCTION b2Vec2 operator*(float32, const b2Vec2 &)
 REFERENCE_CALL b2Vec2 b2MotorJoint::GetReactionForce(float32) const -> b2Vec2 operator*(float32, const b2Vec2 &) [b2MotorJoint.cpp <218:16 218:16>]
 LOCAL_SYMBOL: b2MotorJoint.cpp<216:47> [b2MotorJoint.cpp <218:9 218:14>]
 REFERENCE_USAGE b2Vec2 b2MotorJoint::GetReactionForce(float32) const -> b2Vec2 b2MotorJoint::m_linearImpulse [b2MotorJoint.cpp <218:18 218:32>]
 SYMBOL_METHOD public float32 b2MotorJoint::GetReactionTorque(float32) const [b2MotorJoint.cpp <221:1 <221:23 221:39> 224:1>]
 SYMBOL_FUNCTION float32 b2Joint::GetReactionTorque(float32) const
 REFERENCE_OVERRIDE float32 b2MotorJoint::GetReactionTorque(float32) const -> float32 b2Joint::GetReactionTorque(float32) const [b2MotorJoint.cpp <221:23 221:39>]
-SYMBOL_CLASS b2MotorJoint
+QUALIFIER: b2MotorJoint [b2MotorJoint.cpp <221:9 221:20>]
 REFERENCE_TYPE_USAGE float32 b2MotorJoint::GetReactionTorque(float32) const -> float32 [b2MotorJoint.cpp <221:1 221:7>]
 LOCAL_SYMBOL: b2MotorJoint.cpp<221:49> [b2MotorJoint.cpp <221:49 221:54>]
 REFERENCE_TYPE_USAGE float32 b2MotorJoint::GetReactionTorque(float32) const -> float32 [b2MotorJoint.cpp <221:41 221:47>]
 LOCAL_SYMBOL: b2MotorJoint.cpp<221:49> [b2MotorJoint.cpp <223:9 223:14>]
 REFERENCE_USAGE float32 b2MotorJoint::GetReactionTorque(float32) const -> float32 b2MotorJoint::m_angularImpulse [b2MotorJoint.cpp <223:18 223:33>]
 SYMBOL_METHOD public void b2MotorJoint::SetMaxForce(float32) [b2MotorJoint.cpp <226:1 <226:20 226:30> 230:1>]
-SYMBOL_CLASS b2MotorJoint
-SYMBOL_BUILTIN_TYPE void
+QUALIFIER: b2MotorJoint [b2MotorJoint.cpp <226:6 226:17>]
 REFERENCE_TYPE_USAGE void b2MotorJoint::SetMaxForce(float32) -> void [b2MotorJoint.cpp <226:1 226:4>]
 LOCAL_SYMBOL: b2MotorJoint.cpp<226:40> [b2MotorJoint.cpp <226:40 226:44>]
 REFERENCE_TYPE_USAGE void b2MotorJoint::SetMaxForce(float32) -> float32 [b2MotorJoint.cpp <226:32 226:38>]
@@ -710,32 +624,28 @@ LOCAL_SYMBOL: b2MotorJoint.cpp<226:40> [b2MotorJoint.cpp <228:31 228:35>]
 REFERENCE_USAGE void b2MotorJoint::SetMaxForce(float32) -> float32 b2MotorJoint::m_maxForce [b2MotorJoint.cpp <229:2 229:11>]
 LOCAL_SYMBOL: b2MotorJoint.cpp<226:40> [b2MotorJoint.cpp <229:15 229:19>]
 SYMBOL_METHOD public float32 b2MotorJoint::GetMaxForce() const [b2MotorJoint.cpp <232:1 <232:23 232:33> 235:1>]
-SYMBOL_CLASS b2MotorJoint
+QUALIFIER: b2MotorJoint [b2MotorJoint.cpp <232:9 232:20>]
 REFERENCE_TYPE_USAGE float32 b2MotorJoint::GetMaxForce() const -> float32 [b2MotorJoint.cpp <232:1 232:7>]
 REFERENCE_USAGE float32 b2MotorJoint::GetMaxForce() const -> float32 b2MotorJoint::m_maxForce [b2MotorJoint.cpp <234:9 234:18>]
 SYMBOL_METHOD public void b2MotorJoint::SetMaxTorque(float32) [b2MotorJoint.cpp <237:1 <237:20 237:31> 241:1>]
-SYMBOL_CLASS b2MotorJoint
-SYMBOL_BUILTIN_TYPE void
+QUALIFIER: b2MotorJoint [b2MotorJoint.cpp <237:6 237:17>]
 REFERENCE_TYPE_USAGE void b2MotorJoint::SetMaxTorque(float32) -> void [b2MotorJoint.cpp <237:1 237:4>]
 LOCAL_SYMBOL: b2MotorJoint.cpp<237:41> [b2MotorJoint.cpp <237:41 237:46>]
 REFERENCE_TYPE_USAGE void b2MotorJoint::SetMaxTorque(float32) -> float32 [b2MotorJoint.cpp <237:33 237:39>]
-SYMBOL_FUNCTION bool b2IsValid(float32)
 REFERENCE_CALL void b2MotorJoint::SetMaxTorque(float32) -> bool b2IsValid(float32) [b2MotorJoint.cpp <239:11 239:19>]
 LOCAL_SYMBOL: b2MotorJoint.cpp<237:41> [b2MotorJoint.cpp <239:21 239:26>]
 LOCAL_SYMBOL: b2MotorJoint.cpp<237:41> [b2MotorJoint.cpp <239:32 239:37>]
 REFERENCE_USAGE void b2MotorJoint::SetMaxTorque(float32) -> float32 b2MotorJoint::m_maxTorque [b2MotorJoint.cpp <240:2 240:12>]
 LOCAL_SYMBOL: b2MotorJoint.cpp<237:41> [b2MotorJoint.cpp <240:16 240:21>]
 SYMBOL_METHOD public float32 b2MotorJoint::GetMaxTorque() const [b2MotorJoint.cpp <243:1 <243:23 243:34> 246:1>]
-SYMBOL_CLASS b2MotorJoint
+QUALIFIER: b2MotorJoint [b2MotorJoint.cpp <243:9 243:20>]
 REFERENCE_TYPE_USAGE float32 b2MotorJoint::GetMaxTorque() const -> float32 [b2MotorJoint.cpp <243:1 243:7>]
 REFERENCE_USAGE float32 b2MotorJoint::GetMaxTorque() const -> float32 b2MotorJoint::m_maxTorque [b2MotorJoint.cpp <245:9 245:19>]
 SYMBOL_METHOD public void b2MotorJoint::SetCorrectionFactor(float32) [b2MotorJoint.cpp <248:1 <248:20 248:38> 252:1>]
-SYMBOL_CLASS b2MotorJoint
-SYMBOL_BUILTIN_TYPE void
+QUALIFIER: b2MotorJoint [b2MotorJoint.cpp <248:6 248:17>]
 REFERENCE_TYPE_USAGE void b2MotorJoint::SetCorrectionFactor(float32) -> void [b2MotorJoint.cpp <248:1 248:4>]
 LOCAL_SYMBOL: b2MotorJoint.cpp<248:48> [b2MotorJoint.cpp <248:48 248:53>]
 REFERENCE_TYPE_USAGE void b2MotorJoint::SetCorrectionFactor(float32) -> float32 [b2MotorJoint.cpp <248:40 248:46>]
-SYMBOL_FUNCTION bool b2IsValid(float32)
 REFERENCE_CALL void b2MotorJoint::SetCorrectionFactor(float32) -> bool b2IsValid(float32) [b2MotorJoint.cpp <250:11 250:19>]
 LOCAL_SYMBOL: b2MotorJoint.cpp<248:48> [b2MotorJoint.cpp <250:21 250:26>]
 LOCAL_SYMBOL: b2MotorJoint.cpp<248:48> [b2MotorJoint.cpp <250:40 250:45>]
@@ -743,12 +653,11 @@ LOCAL_SYMBOL: b2MotorJoint.cpp<248:48> [b2MotorJoint.cpp <250:50 250:55>]
 REFERENCE_USAGE void b2MotorJoint::SetCorrectionFactor(float32) -> float32 b2MotorJoint::m_correctionFactor [b2MotorJoint.cpp <251:2 251:19>]
 LOCAL_SYMBOL: b2MotorJoint.cpp<248:48> [b2MotorJoint.cpp <251:23 251:28>]
 SYMBOL_METHOD public float32 b2MotorJoint::GetCorrectionFactor() const [b2MotorJoint.cpp <254:1 <254:23 254:41> 257:1>]
-SYMBOL_CLASS b2MotorJoint
+QUALIFIER: b2MotorJoint [b2MotorJoint.cpp <254:9 254:20>]
 REFERENCE_TYPE_USAGE float32 b2MotorJoint::GetCorrectionFactor() const -> float32 [b2MotorJoint.cpp <254:1 254:7>]
 REFERENCE_USAGE float32 b2MotorJoint::GetCorrectionFactor() const -> float32 b2MotorJoint::m_correctionFactor [b2MotorJoint.cpp <256:9 256:26>]
 SYMBOL_METHOD public void b2MotorJoint::SetLinearOffset(const b2Vec2 &) [b2MotorJoint.cpp <259:1 <259:20 259:34> 267:1>]
-SYMBOL_CLASS b2MotorJoint
-SYMBOL_BUILTIN_TYPE void
+QUALIFIER: b2MotorJoint [b2MotorJoint.cpp <259:6 259:17>]
 REFERENCE_TYPE_USAGE void b2MotorJoint::SetLinearOffset(const b2Vec2 &) -> void [b2MotorJoint.cpp <259:1 259:4>]
 LOCAL_SYMBOL: b2MotorJoint.cpp<259:50> [b2MotorJoint.cpp <259:50 259:61>]
 REFERENCE_TYPE_USAGE void b2MotorJoint::SetLinearOffset(const b2Vec2 &) -> b2Vec2 [b2MotorJoint.cpp <259:42 259:47>]
@@ -763,42 +672,36 @@ REFERENCE_USAGE void b2MotorJoint::SetLinearOffset(const b2Vec2 &) -> b2Vec2 b2M
 SYMBOL_FUNCTION void b2Body::SetAwake(bool)
 REFERENCE_CALL void b2MotorJoint::SetLinearOffset(const b2Vec2 &) -> void b2Body::SetAwake(bool) [b2MotorJoint.cpp <263:12 263:19>]
 REFERENCE_USAGE void b2MotorJoint::SetLinearOffset(const b2Vec2 &) -> b2Body * b2Joint::m_bodyA [b2MotorJoint.cpp <263:3 263:9>]
-SYMBOL_FUNCTION void b2Body::SetAwake(bool)
 REFERENCE_CALL void b2MotorJoint::SetLinearOffset(const b2Vec2 &) -> void b2Body::SetAwake(bool) [b2MotorJoint.cpp <264:12 264:19>]
 REFERENCE_USAGE void b2MotorJoint::SetLinearOffset(const b2Vec2 &) -> b2Body * b2Joint::m_bodyB [b2MotorJoint.cpp <264:3 264:9>]
-SYMBOL_FUNCTION b2Vec2 & b2Vec2::operator=(const b2Vec2 &)
 REFERENCE_CALL void b2MotorJoint::SetLinearOffset(const b2Vec2 &) -> b2Vec2 & b2Vec2::operator=(const b2Vec2 &) [b2MotorJoint.cpp <265:18 265:18>]
 REFERENCE_USAGE void b2MotorJoint::SetLinearOffset(const b2Vec2 &) -> b2Vec2 b2MotorJoint::m_linearOffset [b2MotorJoint.cpp <265:3 265:16>]
 LOCAL_SYMBOL: b2MotorJoint.cpp<259:50> [b2MotorJoint.cpp <265:20 265:31>]
 SYMBOL_METHOD public const b2Vec2 & b2MotorJoint::GetLinearOffset() const [b2MotorJoint.cpp <269:1 <269:29 269:43> 272:1>]
-SYMBOL_CLASS b2MotorJoint
+QUALIFIER: b2MotorJoint [b2MotorJoint.cpp <269:15 269:26>]
 REFERENCE_TYPE_USAGE const b2Vec2 & b2MotorJoint::GetLinearOffset() const -> b2Vec2 [b2MotorJoint.cpp <269:7 269:12>]
 REFERENCE_USAGE const b2Vec2 & b2MotorJoint::GetLinearOffset() const -> b2Vec2 b2MotorJoint::m_linearOffset [b2MotorJoint.cpp <271:9 271:22>]
 SYMBOL_METHOD public void b2MotorJoint::SetAngularOffset(float32) [b2MotorJoint.cpp <274:1 <274:20 274:35> 282:1>]
-SYMBOL_CLASS b2MotorJoint
-SYMBOL_BUILTIN_TYPE void
+QUALIFIER: b2MotorJoint [b2MotorJoint.cpp <274:6 274:17>]
 REFERENCE_TYPE_USAGE void b2MotorJoint::SetAngularOffset(float32) -> void [b2MotorJoint.cpp <274:1 274:4>]
 LOCAL_SYMBOL: b2MotorJoint.cpp<274:45> [b2MotorJoint.cpp <274:45 274:57>]
 REFERENCE_TYPE_USAGE void b2MotorJoint::SetAngularOffset(float32) -> float32 [b2MotorJoint.cpp <274:37 274:43>]
 LOCAL_SYMBOL: b2MotorJoint.cpp<274:45> [b2MotorJoint.cpp <276:6 276:18>]
 REFERENCE_USAGE void b2MotorJoint::SetAngularOffset(float32) -> float32 b2MotorJoint::m_angularOffset [b2MotorJoint.cpp <276:23 276:37>]
-SYMBOL_FUNCTION void b2Body::SetAwake(bool)
 REFERENCE_CALL void b2MotorJoint::SetAngularOffset(float32) -> void b2Body::SetAwake(bool) [b2MotorJoint.cpp <278:12 278:19>]
 REFERENCE_USAGE void b2MotorJoint::SetAngularOffset(float32) -> b2Body * b2Joint::m_bodyA [b2MotorJoint.cpp <278:3 278:9>]
-SYMBOL_FUNCTION void b2Body::SetAwake(bool)
 REFERENCE_CALL void b2MotorJoint::SetAngularOffset(float32) -> void b2Body::SetAwake(bool) [b2MotorJoint.cpp <279:12 279:19>]
 REFERENCE_USAGE void b2MotorJoint::SetAngularOffset(float32) -> b2Body * b2Joint::m_bodyB [b2MotorJoint.cpp <279:3 279:9>]
 REFERENCE_USAGE void b2MotorJoint::SetAngularOffset(float32) -> float32 b2MotorJoint::m_angularOffset [b2MotorJoint.cpp <280:3 280:17>]
 LOCAL_SYMBOL: b2MotorJoint.cpp<274:45> [b2MotorJoint.cpp <280:21 280:33>]
 SYMBOL_METHOD public float32 b2MotorJoint::GetAngularOffset() const [b2MotorJoint.cpp <284:1 <284:23 284:38> 287:1>]
-SYMBOL_CLASS b2MotorJoint
+QUALIFIER: b2MotorJoint [b2MotorJoint.cpp <284:9 284:20>]
 REFERENCE_TYPE_USAGE float32 b2MotorJoint::GetAngularOffset() const -> float32 [b2MotorJoint.cpp <284:1 284:7>]
 REFERENCE_USAGE float32 b2MotorJoint::GetAngularOffset() const -> float32 b2MotorJoint::m_angularOffset [b2MotorJoint.cpp <286:9 286:23>]
 SYMBOL_METHOD public void b2MotorJoint::Dump() [b2MotorJoint.cpp <289:1 <289:20 289:23> 304:1>]
 SYMBOL_FUNCTION void b2Joint::Dump()
 REFERENCE_OVERRIDE void b2MotorJoint::Dump() -> void b2Joint::Dump() [b2MotorJoint.cpp <289:20 289:23>]
-SYMBOL_CLASS b2MotorJoint
-SYMBOL_BUILTIN_TYPE void
+QUALIFIER: b2MotorJoint [b2MotorJoint.cpp <289:6 289:17>]
 REFERENCE_TYPE_USAGE void b2MotorJoint::Dump() -> void [b2MotorJoint.cpp <289:1 289:4>]
 LOCAL_SYMBOL: b2MotorJoint.cpp<291:8> [b2MotorJoint.cpp <291:8 291:13>]
 REFERENCE_TYPE_USAGE void b2MotorJoint::Dump() -> int32 [b2MotorJoint.cpp <291:2 291:6>]
@@ -810,33 +713,24 @@ REFERENCE_USAGE void b2MotorJoint::Dump() -> int32 b2Body::m_islandIndex [b2Moto
 REFERENCE_USAGE void b2MotorJoint::Dump() -> b2Body * b2Joint::m_bodyB [b2MotorJoint.cpp <292:17 292:23>]
 SYMBOL_FUNCTION void b2Log(const char *)
 REFERENCE_CALL void b2MotorJoint::Dump() -> void b2Log(const char *) [b2MotorJoint.cpp <294:2 294:6>]
-SYMBOL_FUNCTION void b2Log(const char *)
 REFERENCE_CALL void b2MotorJoint::Dump() -> void b2Log(const char *) [b2MotorJoint.cpp <295:2 295:6>]
 LOCAL_SYMBOL: b2MotorJoint.cpp<291:8> [b2MotorJoint.cpp <295:38 295:43>]
-SYMBOL_FUNCTION void b2Log(const char *)
 REFERENCE_CALL void b2MotorJoint::Dump() -> void b2Log(const char *) [b2MotorJoint.cpp <296:2 296:6>]
 LOCAL_SYMBOL: b2MotorJoint.cpp<292:8> [b2MotorJoint.cpp <296:38 296:43>]
-SYMBOL_FUNCTION void b2Log(const char *)
 REFERENCE_CALL void b2MotorJoint::Dump() -> void b2Log(const char *) [b2MotorJoint.cpp <297:2 297:6>]
 REFERENCE_USAGE void b2MotorJoint::Dump() -> bool b2Joint::m_collideConnected [b2MotorJoint.cpp <297:47 297:64>]
-SYMBOL_FUNCTION void b2Log(const char *)
 REFERENCE_CALL void b2MotorJoint::Dump() -> void b2Log(const char *) [b2MotorJoint.cpp <298:2 298:6>]
 REFERENCE_USAGE void b2MotorJoint::Dump() -> float32 b2Vec2::x [b2MotorJoint.cpp <298:69 298:69>]
 REFERENCE_USAGE void b2MotorJoint::Dump() -> b2Vec2 b2MotorJoint::m_linearOffset [b2MotorJoint.cpp <298:54 298:67>]
 REFERENCE_USAGE void b2MotorJoint::Dump() -> float32 b2Vec2::y [b2MotorJoint.cpp <298:87 298:87>]
 REFERENCE_USAGE void b2MotorJoint::Dump() -> b2Vec2 b2MotorJoint::m_linearOffset [b2MotorJoint.cpp <298:72 298:85>]
-SYMBOL_FUNCTION void b2Log(const char *)
 REFERENCE_CALL void b2MotorJoint::Dump() -> void b2Log(const char *) [b2MotorJoint.cpp <299:2 299:6>]
 REFERENCE_USAGE void b2MotorJoint::Dump() -> float32 b2MotorJoint::m_angularOffset [b2MotorJoint.cpp <299:43 299:57>]
-SYMBOL_FUNCTION void b2Log(const char *)
 REFERENCE_CALL void b2MotorJoint::Dump() -> void b2Log(const char *) [b2MotorJoint.cpp <300:2 300:6>]
 REFERENCE_USAGE void b2MotorJoint::Dump() -> float32 b2MotorJoint::m_maxForce [b2MotorJoint.cpp <300:38 300:47>]
-SYMBOL_FUNCTION void b2Log(const char *)
 REFERENCE_CALL void b2MotorJoint::Dump() -> void b2Log(const char *) [b2MotorJoint.cpp <301:2 301:6>]
 REFERENCE_USAGE void b2MotorJoint::Dump() -> float32 b2MotorJoint::m_maxTorque [b2MotorJoint.cpp <301:39 301:49>]
-SYMBOL_FUNCTION void b2Log(const char *)
 REFERENCE_CALL void b2MotorJoint::Dump() -> void b2Log(const char *) [b2MotorJoint.cpp <302:2 302:6>]
 REFERENCE_USAGE void b2MotorJoint::Dump() -> float32 b2MotorJoint::m_correctionFactor [b2MotorJoint.cpp <302:46 302:63>]
-SYMBOL_FUNCTION void b2Log(const char *)
 REFERENCE_CALL void b2MotorJoint::Dump() -> void b2Log(const char *) [b2MotorJoint.cpp <303:2 303:6>]
 REFERENCE_USAGE void b2MotorJoint::Dump() -> int32 b2Joint::m_index [b2MotorJoint.cpp <303:55 303:61>]

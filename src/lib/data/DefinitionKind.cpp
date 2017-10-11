@@ -9,11 +9,11 @@ DefinitionKind intToDefinitionKind(int definitionKind)
 {
 	switch (definitionKind)
 	{
-	case 0:
+	case DEFINITION_NONE:
 		return DEFINITION_NONE;
-	case 1:
+	case DEFINITION_IMPLICIT:
 		return DEFINITION_IMPLICIT;
-	case 2:
+	case DEFINITION_EXPLICIT:
 		return DEFINITION_EXPLICIT;
 	}
 	return DEFINITION_NONE;

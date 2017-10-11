@@ -1,7 +1,5 @@
 FILE: b3AlignedAllocator.cpp
-FILE: b3AlignedAllocator.cpp
 COMMENT: comment [b3AlignedAllocator.cpp <1:1 14:3>]
-FILE: b3AlignedAllocator.cpp
 COMMENT: comment [b3AlignedAllocator.cpp <20:37 20:58>]
 REFERENCE_MACRO_USAGE b3AlignedAllocator.cpp -> B3_HAS_ALIGNED_ALLOCATOR [b3AlignedAllocator.cpp <37:14 37:37>]
 REFERENCE_MACRO_USAGE b3AlignedAllocator.cpp -> __CELLOS_LV2__ [b3AlignedAllocator.cpp <48:15 48:28>]
@@ -14,10 +12,8 @@ SYMBOL_GLOBAL_VARIABLE int b3g_numAlignedAllocs [b3AlignedAllocator.cpp <18:5 18
 SYMBOL_BUILTIN_TYPE int
 REFERENCE_TYPE_USAGE int b3g_numAlignedAllocs -> int [b3AlignedAllocator.cpp <18:1 18:3>]
 SYMBOL_GLOBAL_VARIABLE int b3g_numAlignedFree [b3AlignedAllocator.cpp <19:5 19:22>]
-SYMBOL_BUILTIN_TYPE int
 REFERENCE_TYPE_USAGE int b3g_numAlignedFree -> int [b3AlignedAllocator.cpp <19:1 19:3>]
 SYMBOL_GLOBAL_VARIABLE int b3g_totalBytesAlignedAllocs [b3AlignedAllocator.cpp <20:5 20:31>]
-SYMBOL_BUILTIN_TYPE int
 REFERENCE_TYPE_USAGE int b3g_totalBytesAlignedAllocs -> int [b3AlignedAllocator.cpp <20:1 20:3>]
 SYMBOL_FUNCTION static void * b3AllocDefault(size_t) [b3AlignedAllocator.cpp <22:1 <22:14 22:27> 25:1>]
 SYMBOL_BUILTIN_TYPE void
@@ -28,10 +24,8 @@ SYMBOL_FUNCTION void * malloc(size_t)
 REFERENCE_CALL static void * b3AllocDefault(size_t) -> void * malloc(size_t) [b3AlignedAllocator.cpp <24:9 24:14>]
 LOCAL_SYMBOL: b3AlignedAllocator.cpp<22:36> [b3AlignedAllocator.cpp <24:16 24:19>]
 SYMBOL_FUNCTION static void b3FreeDefault(void *) [b3AlignedAllocator.cpp <27:1 <27:13 27:25> 30:1>]
-SYMBOL_BUILTIN_TYPE void
 REFERENCE_TYPE_USAGE static void b3FreeDefault(void *) -> void [b3AlignedAllocator.cpp <27:8 27:11>]
 LOCAL_SYMBOL: b3AlignedAllocator.cpp<27:33> [b3AlignedAllocator.cpp <27:33 27:35>]
-SYMBOL_BUILTIN_TYPE void
 REFERENCE_TYPE_USAGE static void b3FreeDefault(void *) -> void [b3AlignedAllocator.cpp <27:27 27:30>]
 SYMBOL_FUNCTION void free(void *)
 REFERENCE_CALL static void b3FreeDefault(void *) -> void free(void *) [b3AlignedAllocator.cpp <29:2 29:5>]
@@ -43,25 +37,20 @@ SYMBOL_GLOBAL_VARIABLE b3FreeFunc * b3s_freeFunc [b3AlignedAllocator.cpp <33:20 
 REFERENCE_TYPE_USAGE b3FreeFunc * b3s_freeFunc -> b3FreeFunc [b3AlignedAllocator.cpp <33:8 33:17>]
 REFERENCE_USAGE b3FreeFunc * b3s_freeFunc -> static void b3FreeDefault(void *) [b3AlignedAllocator.cpp <33:35 33:47>]
 SYMBOL_FUNCTION static void * b3AlignedAllocDefault(size_t, int) [b3AlignedAllocator.cpp <66:1 <66:21 66:41> 78:1>]
-SYMBOL_BUILTIN_TYPE void
 REFERENCE_TYPE_USAGE static void * b3AlignedAllocDefault(size_t, int) -> void [b3AlignedAllocator.cpp <66:15 66:18>]
 LOCAL_SYMBOL: b3AlignedAllocator.cpp<66:50> [b3AlignedAllocator.cpp <66:50 66:53>]
 REFERENCE_TYPE_USAGE static void * b3AlignedAllocDefault(size_t, int) -> size_t [b3AlignedAllocator.cpp <66:43 66:48>]
 LOCAL_SYMBOL: b3AlignedAllocator.cpp<66:60> [b3AlignedAllocator.cpp <66:60 66:68>]
-SYMBOL_BUILTIN_TYPE int
 REFERENCE_TYPE_USAGE static void * b3AlignedAllocDefault(size_t, int) -> int [b3AlignedAllocator.cpp <66:56 66:58>]
 LOCAL_SYMBOL: b3AlignedAllocator.cpp<68:9> [b3AlignedAllocator.cpp <68:9 68:11>]
-SYMBOL_BUILTIN_TYPE void
 REFERENCE_TYPE_USAGE static void * b3AlignedAllocDefault(size_t, int) -> void [b3AlignedAllocator.cpp <68:3 68:6>]
 LOCAL_SYMBOL: b3AlignedAllocator.cpp<69:9> [b3AlignedAllocator.cpp <69:9 69:12>]
 SYMBOL_BUILTIN_TYPE char
 REFERENCE_TYPE_USAGE static void * b3AlignedAllocDefault(size_t, int) -> char [b3AlignedAllocator.cpp <69:3 69:6>]
 LOCAL_SYMBOL: b3AlignedAllocator.cpp<69:9> [b3AlignedAllocator.cpp <70:3 70:6>]
-SYMBOL_BUILTIN_TYPE char
 REFERENCE_TYPE_USAGE static void * b3AlignedAllocDefault(size_t, int) -> char [b3AlignedAllocator.cpp <70:11 70:14>]
 REFERENCE_USAGE static void * b3AlignedAllocDefault(size_t, int) -> b3AllocFunc * b3s_allocFunc [b3AlignedAllocator.cpp <70:18 70:30>]
 LOCAL_SYMBOL: b3AlignedAllocator.cpp<66:50> [b3AlignedAllocator.cpp <70:32 70:35>]
-SYMBOL_BUILTIN_TYPE void
 REFERENCE_TYPE_USAGE static void * b3AlignedAllocDefault(size_t, int) -> void [b3AlignedAllocator.cpp <70:46 70:49>]
 LOCAL_SYMBOL: b3AlignedAllocator.cpp<66:60> [b3AlignedAllocator.cpp <70:57 70:65>]
 LOCAL_SYMBOL: b3AlignedAllocator.cpp<69:9> [b3AlignedAllocator.cpp <71:7 71:10>]
@@ -69,32 +58,24 @@ LOCAL_SYMBOL: b3AlignedAllocator.cpp<68:9> [b3AlignedAllocator.cpp <72:2 72:4>]
 SYMBOL_FUNCTION char * b3AlignPointer<char>(char *, size_t)
 REFERENCE_CALL static void * b3AlignedAllocDefault(size_t, int) -> char * b3AlignPointer<char>(char *, size_t) [b3AlignedAllocator.cpp <72:8 72:21>]
 LOCAL_SYMBOL: b3AlignedAllocator.cpp<69:9> [b3AlignedAllocator.cpp <72:23 72:26>]
-SYMBOL_BUILTIN_TYPE void
 REFERENCE_TYPE_USAGE static void * b3AlignedAllocDefault(size_t, int) -> void [b3AlignedAllocator.cpp <72:37 72:40>]
 LOCAL_SYMBOL: b3AlignedAllocator.cpp<66:60> [b3AlignedAllocator.cpp <72:45 72:53>]
-SYMBOL_BUILTIN_TYPE void
 REFERENCE_TYPE_USAGE static void * b3AlignedAllocDefault(size_t, int) -> void [b3AlignedAllocator.cpp <73:8 73:11>]
 LOCAL_SYMBOL: b3AlignedAllocator.cpp<68:9> [b3AlignedAllocator.cpp <73:17 73:19>]
-SYMBOL_BUILTIN_TYPE void
 REFERENCE_TYPE_USAGE static void * b3AlignedAllocDefault(size_t, int) -> void [b3AlignedAllocator.cpp <73:28 73:31>]
 LOCAL_SYMBOL: b3AlignedAllocator.cpp<69:9> [b3AlignedAllocator.cpp <73:36 73:39>]
 LOCAL_SYMBOL: b3AlignedAllocator.cpp<68:9> [b3AlignedAllocator.cpp <75:5 75:7>]
-SYMBOL_BUILTIN_TYPE void
 REFERENCE_TYPE_USAGE static void * b3AlignedAllocDefault(size_t, int) -> void [b3AlignedAllocator.cpp <75:12 75:15>]
 LOCAL_SYMBOL: b3AlignedAllocator.cpp<69:9> [b3AlignedAllocator.cpp <75:20 75:23>]
 LOCAL_SYMBOL: b3AlignedAllocator.cpp<68:9> [b3AlignedAllocator.cpp <77:11 77:13>]
 SYMBOL_FUNCTION static void b3AlignedFreeDefault(void *) [b3AlignedAllocator.cpp <80:1 <80:20 80:39> 88:1>]
-SYMBOL_BUILTIN_TYPE void
 REFERENCE_TYPE_USAGE static void b3AlignedFreeDefault(void *) -> void [b3AlignedAllocator.cpp <80:15 80:18>]
 LOCAL_SYMBOL: b3AlignedAllocator.cpp<80:47> [b3AlignedAllocator.cpp <80:47 80:49>]
-SYMBOL_BUILTIN_TYPE void
 REFERENCE_TYPE_USAGE static void b3AlignedFreeDefault(void *) -> void [b3AlignedAllocator.cpp <80:41 80:44>]
 LOCAL_SYMBOL: b3AlignedAllocator.cpp<82:9> [b3AlignedAllocator.cpp <82:9 82:12>]
-SYMBOL_BUILTIN_TYPE void
 REFERENCE_TYPE_USAGE static void b3AlignedFreeDefault(void *) -> void [b3AlignedAllocator.cpp <82:3 82:6>]
 LOCAL_SYMBOL: b3AlignedAllocator.cpp<80:47> [b3AlignedAllocator.cpp <84:7 84:9>]
 LOCAL_SYMBOL: b3AlignedAllocator.cpp<82:9> [b3AlignedAllocator.cpp <85:5 85:8>]
-SYMBOL_BUILTIN_TYPE void
 REFERENCE_TYPE_USAGE static void b3AlignedFreeDefault(void *) -> void [b3AlignedAllocator.cpp <85:15 85:18>]
 LOCAL_SYMBOL: b3AlignedAllocator.cpp<80:47> [b3AlignedAllocator.cpp <85:24 85:26>]
 REFERENCE_USAGE static void b3AlignedFreeDefault(void *) -> b3FreeFunc * b3s_freeFunc [b3AlignedAllocator.cpp <86:5 86:16>]
@@ -106,7 +87,6 @@ SYMBOL_GLOBAL_VARIABLE b3AlignedFreeFunc * b3s_alignedFreeFunc [b3AlignedAllocat
 REFERENCE_TYPE_USAGE b3AlignedFreeFunc * b3s_alignedFreeFunc -> b3AlignedFreeFunc [b3AlignedAllocator.cpp <93:8 93:24>]
 REFERENCE_USAGE b3AlignedFreeFunc * b3s_alignedFreeFunc -> static void b3AlignedFreeDefault(void *) [b3AlignedAllocator.cpp <93:49 93:68>]
 SYMBOL_FUNCTION void b3AlignedAllocSetCustomAligned(b3AlignedAllocFunc *, b3AlignedFreeFunc *) [b3AlignedAllocator.cpp <95:1 <95:6 95:35> 99:1>]
-SYMBOL_BUILTIN_TYPE void
 REFERENCE_TYPE_USAGE void b3AlignedAllocSetCustomAligned(b3AlignedAllocFunc *, b3AlignedFreeFunc *) -> void [b3AlignedAllocator.cpp <95:1 95:4>]
 LOCAL_SYMBOL: b3AlignedAllocator.cpp<95:57> [b3AlignedAllocator.cpp <95:57 95:65>]
 REFERENCE_TYPE_USAGE void b3AlignedAllocSetCustomAligned(b3AlignedAllocFunc *, b3AlignedFreeFunc *) -> b3AlignedAllocFunc [b3AlignedAllocator.cpp <95:37 95:54>]
@@ -121,7 +101,6 @@ LOCAL_SYMBOL: b3AlignedAllocator.cpp<95:87> [b3AlignedAllocator.cpp <98:25 98:32
 LOCAL_SYMBOL: b3AlignedAllocator.cpp<95:87> [b3AlignedAllocator.cpp <98:36 98:43>]
 REFERENCE_USAGE void b3AlignedAllocSetCustomAligned(b3AlignedAllocFunc *, b3AlignedFreeFunc *) -> static void b3AlignedFreeDefault(void *) [b3AlignedAllocator.cpp <98:47 98:66>]
 SYMBOL_FUNCTION void b3AlignedAllocSetCustom(b3AllocFunc *, b3FreeFunc *) [b3AlignedAllocator.cpp <101:1 <101:6 101:28> 105:1>]
-SYMBOL_BUILTIN_TYPE void
 REFERENCE_TYPE_USAGE void b3AlignedAllocSetCustom(b3AllocFunc *, b3FreeFunc *) -> void [b3AlignedAllocator.cpp <101:1 101:4>]
 LOCAL_SYMBOL: b3AlignedAllocator.cpp<101:43> [b3AlignedAllocator.cpp <101:43 101:51>]
 REFERENCE_TYPE_USAGE void b3AlignedAllocSetCustom(b3AllocFunc *, b3FreeFunc *) -> b3AllocFunc [b3AlignedAllocator.cpp <101:30 101:40>]
@@ -136,16 +115,13 @@ LOCAL_SYMBOL: b3AlignedAllocator.cpp<101:66> [b3AlignedAllocator.cpp <104:18 104
 LOCAL_SYMBOL: b3AlignedAllocator.cpp<101:66> [b3AlignedAllocator.cpp <104:29 104:36>]
 REFERENCE_USAGE void b3AlignedAllocSetCustom(b3AllocFunc *, b3FreeFunc *) -> static void b3FreeDefault(void *) [b3AlignedAllocator.cpp <104:40 104:52>]
 SYMBOL_FUNCTION void * b3AlignedAllocInternal(size_t, int) [b3AlignedAllocator.cpp <159:1 <159:7 159:28> 166:1>]
-SYMBOL_BUILTIN_TYPE void
 REFERENCE_TYPE_USAGE void * b3AlignedAllocInternal(size_t, int) -> void [b3AlignedAllocator.cpp <159:1 159:4>]
 LOCAL_SYMBOL: b3AlignedAllocator.cpp<159:38> [b3AlignedAllocator.cpp <159:38 159:41>]
 REFERENCE_TYPE_USAGE void * b3AlignedAllocInternal(size_t, int) -> size_t [b3AlignedAllocator.cpp <159:31 159:36>]
 LOCAL_SYMBOL: b3AlignedAllocator.cpp<159:48> [b3AlignedAllocator.cpp <159:48 159:56>]
-SYMBOL_BUILTIN_TYPE int
 REFERENCE_TYPE_USAGE void * b3AlignedAllocInternal(size_t, int) -> int [b3AlignedAllocator.cpp <159:44 159:46>]
 REFERENCE_USAGE void * b3AlignedAllocInternal(size_t, int) -> int b3g_numAlignedAllocs [b3AlignedAllocator.cpp <161:2 161:21>]
 LOCAL_SYMBOL: b3AlignedAllocator.cpp<162:8> [b3AlignedAllocator.cpp <162:8 162:10>]
-SYMBOL_BUILTIN_TYPE void
 REFERENCE_TYPE_USAGE void * b3AlignedAllocInternal(size_t, int) -> void [b3AlignedAllocator.cpp <162:2 162:5>]
 LOCAL_SYMBOL: b3AlignedAllocator.cpp<162:8> [b3AlignedAllocator.cpp <163:2 163:4>]
 REFERENCE_USAGE void * b3AlignedAllocInternal(size_t, int) -> b3AlignedAllocFunc * b3s_alignedAllocFunc [b3AlignedAllocator.cpp <163:8 163:27>]
@@ -153,10 +129,8 @@ LOCAL_SYMBOL: b3AlignedAllocator.cpp<159:38> [b3AlignedAllocator.cpp <163:29 163
 LOCAL_SYMBOL: b3AlignedAllocator.cpp<159:48> [b3AlignedAllocator.cpp <163:35 163:43>]
 LOCAL_SYMBOL: b3AlignedAllocator.cpp<162:8> [b3AlignedAllocator.cpp <165:9 165:11>]
 SYMBOL_FUNCTION void b3AlignedFreeInternal(void *) [b3AlignedAllocator.cpp <168:1 <168:6 168:26> 178:1>]
-SYMBOL_BUILTIN_TYPE void
 REFERENCE_TYPE_USAGE void b3AlignedFreeInternal(void *) -> void [b3AlignedAllocator.cpp <168:1 168:4>]
 LOCAL_SYMBOL: b3AlignedAllocator.cpp<168:35> [b3AlignedAllocator.cpp <168:35 168:37>]
-SYMBOL_BUILTIN_TYPE void
 REFERENCE_TYPE_USAGE void b3AlignedFreeInternal(void *) -> void [b3AlignedAllocator.cpp <168:29 168:32>]
 LOCAL_SYMBOL: b3AlignedAllocator.cpp<168:35> [b3AlignedAllocator.cpp <170:7 170:9>]
 REFERENCE_USAGE void b3AlignedFreeInternal(void *) -> int b3g_numAlignedFree [b3AlignedAllocator.cpp <175:2 175:19>]

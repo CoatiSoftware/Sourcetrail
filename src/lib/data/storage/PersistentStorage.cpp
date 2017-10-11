@@ -1264,6 +1264,12 @@ std::shared_ptr<SourceLocationCollection> PersistentStorage::getSourceLocationsF
 			auto it = locationIdToElementIdMap.find(sourceLocation.id);
 			if (it != locationIdToElementIdMap.end())
 			{
+				LocationType type = intToLocationType(sourceLocation.type);
+				if (type == LOCATION_QUALIFIER)
+				{
+					continue;
+				}
+
 				FilePath path = getFileNodePath(sourceLocation.fileNodeId);
 				if (path.empty())
 				{
@@ -1281,7 +1287,7 @@ std::shared_ptr<SourceLocationCollection> PersistentStorage::getSourceLocationsF
 				if (!path.empty())
 				{
 					collection->addSourceLocation(
-						intToLocationType(sourceLocation.type),
+						type,
 						sourceLocation.id,
 						std::vector<Id>(1, it->second),
 						path,

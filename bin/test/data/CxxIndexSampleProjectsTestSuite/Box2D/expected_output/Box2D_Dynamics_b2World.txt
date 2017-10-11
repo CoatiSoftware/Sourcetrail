@@ -1,20 +1,5 @@
 FILE: b2World.cpp
-FILE: b2World.cpp
 COMMENT: comment [b2World.cpp <1:1 17:3>]
-FILE: b2World.cpp
-FILE: b2World.cpp
-FILE: b2World.cpp
-FILE: b2World.cpp
-FILE: b2World.cpp
-FILE: b2World.cpp
-FILE: b2World.cpp
-FILE: b2World.cpp
-FILE: b2World.cpp
-FILE: b2World.cpp
-FILE: b2World.cpp
-FILE: b2World.cpp
-FILE: b2World.cpp
-FILE: b2World.cpp
 COMMENT: comment [b2World.cpp <68:2 68:40>]
 REFERENCE_MACRO_USAGE b2World.cpp -> b2Assert [b2World.cpp <109:2 109:9>]
 REFERENCE_MACRO_USAGE b2Settings.h -> assert [b2Settings.h <31:21 31:26>]
@@ -22,37 +7,15 @@ REFERENCE_MACRO_USAGE assert.h -> _CRT_WIDE [assert.h <34:23 34:31>]
 REFERENCE_MACRO_USAGE vcruntime.h -> _CRT_WIDE_ [vcruntime.h <95:22 95:31>]
 REFERENCE_MACRO_USAGE assert.h -> _CRT_WIDE [assert.h <34:47 34:55>]
 REFERENCE_MACRO_USAGE assert.h -> __FILE__ [assert.h <34:57 34:64>]
-REFERENCE_MACRO_USAGE vcruntime.h -> _CRT_WIDE_ [vcruntime.h <95:22 95:31>]
 REFERENCE_MACRO_USAGE assert.h -> __LINE__ [assert.h <34:79 34:86>]
 COMMENT: comment [b2World.cpp <118:2 118:37>]
 REFERENCE_MACRO_USAGE b2World.cpp -> b2Assert [b2World.cpp <133:2 133:9>]
-REFERENCE_MACRO_USAGE b2Settings.h -> assert [b2Settings.h <31:21 31:26>]
-REFERENCE_MACRO_USAGE assert.h -> _CRT_WIDE [assert.h <34:23 34:31>]
-REFERENCE_MACRO_USAGE vcruntime.h -> _CRT_WIDE_ [vcruntime.h <95:22 95:31>]
-REFERENCE_MACRO_USAGE assert.h -> _CRT_WIDE [assert.h <34:47 34:55>]
-REFERENCE_MACRO_USAGE assert.h -> __FILE__ [assert.h <34:57 34:64>]
-REFERENCE_MACRO_USAGE vcruntime.h -> _CRT_WIDE_ [vcruntime.h <95:22 95:31>]
-REFERENCE_MACRO_USAGE assert.h -> __LINE__ [assert.h <34:79 34:86>]
 REFERENCE_MACRO_USAGE b2World.cpp -> b2Assert [b2World.cpp <134:2 134:9>]
-REFERENCE_MACRO_USAGE b2Settings.h -> assert [b2Settings.h <31:21 31:26>]
-REFERENCE_MACRO_USAGE assert.h -> _CRT_WIDE [assert.h <34:23 34:31>]
-REFERENCE_MACRO_USAGE vcruntime.h -> _CRT_WIDE_ [vcruntime.h <95:22 95:31>]
-REFERENCE_MACRO_USAGE assert.h -> _CRT_WIDE [assert.h <34:47 34:55>]
-REFERENCE_MACRO_USAGE assert.h -> __FILE__ [assert.h <34:57 34:64>]
-REFERENCE_MACRO_USAGE vcruntime.h -> _CRT_WIDE_ [vcruntime.h <95:22 95:31>]
-REFERENCE_MACRO_USAGE assert.h -> __LINE__ [assert.h <34:79 34:86>]
 COMMENT: comment [b2World.cpp <140:2 140:32>]
 COMMENT: comment [b2World.cpp <158:2 158:34>]
 COMMENT: comment [b2World.cpp <168:2 168:69>]
 COMMENT: comment [b2World.cpp <191:2 191:28>]
 REFERENCE_MACRO_USAGE b2World.cpp -> b2Assert [b2World.cpp <214:2 214:9>]
-REFERENCE_MACRO_USAGE b2Settings.h -> assert [b2Settings.h <31:21 31:26>]
-REFERENCE_MACRO_USAGE assert.h -> _CRT_WIDE [assert.h <34:23 34:31>]
-REFERENCE_MACRO_USAGE vcruntime.h -> _CRT_WIDE_ [vcruntime.h <95:22 95:31>]
-REFERENCE_MACRO_USAGE assert.h -> _CRT_WIDE [assert.h <34:47 34:55>]
-REFERENCE_MACRO_USAGE assert.h -> __FILE__ [assert.h <34:57 34:64>]
-REFERENCE_MACRO_USAGE vcruntime.h -> _CRT_WIDE_ [vcruntime.h <95:22 95:31>]
-REFERENCE_MACRO_USAGE assert.h -> __LINE__ [assert.h <34:79 34:86>]
 COMMENT: comment [b2World.cpp <222:2 222:31>]
 COMMENT: comment [b2World.cpp <232:2 232:48>]
 COMMENT: comment [b2World.cpp <250:2 250:76>]
@@ -60,26 +23,12 @@ COMMENT: comment [b2World.cpp <258:5 258:74>]
 COMMENT: comment [b2World.cpp <259:5 259:23>]
 COMMENT: comment [b2World.cpp <267:2 267:52>]
 REFERENCE_MACRO_USAGE b2World.cpp -> b2Assert [b2World.cpp <274:2 274:9>]
-REFERENCE_MACRO_USAGE b2Settings.h -> assert [b2Settings.h <31:21 31:26>]
-REFERENCE_MACRO_USAGE assert.h -> _CRT_WIDE [assert.h <34:23 34:31>]
-REFERENCE_MACRO_USAGE vcruntime.h -> _CRT_WIDE_ [vcruntime.h <95:22 95:31>]
-REFERENCE_MACRO_USAGE assert.h -> _CRT_WIDE [assert.h <34:47 34:55>]
-REFERENCE_MACRO_USAGE assert.h -> __FILE__ [assert.h <34:57 34:64>]
-REFERENCE_MACRO_USAGE vcruntime.h -> _CRT_WIDE_ [vcruntime.h <95:22 95:31>]
-REFERENCE_MACRO_USAGE assert.h -> __LINE__ [assert.h <34:79 34:86>]
 COMMENT: comment [b2World.cpp <282:2 282:40>]
 COMMENT: comment [b2World.cpp <298:2 298:34>]
 COMMENT: comment [b2World.cpp <302:2 302:30>]
 COMMENT: comment [b2World.cpp <306:2 306:24>]
 COMMENT: comment [b2World.cpp <325:2 325:23>]
 REFERENCE_MACRO_USAGE b2World.cpp -> b2Assert [b2World.cpp <346:2 346:9>]
-REFERENCE_MACRO_USAGE b2Settings.h -> assert [b2Settings.h <31:21 31:26>]
-REFERENCE_MACRO_USAGE assert.h -> _CRT_WIDE [assert.h <34:23 34:31>]
-REFERENCE_MACRO_USAGE vcruntime.h -> _CRT_WIDE_ [vcruntime.h <95:22 95:31>]
-REFERENCE_MACRO_USAGE assert.h -> _CRT_WIDE [assert.h <34:47 34:55>]
-REFERENCE_MACRO_USAGE assert.h -> __FILE__ [assert.h <34:57 34:64>]
-REFERENCE_MACRO_USAGE vcruntime.h -> _CRT_WIDE_ [vcruntime.h <95:22 95:31>]
-REFERENCE_MACRO_USAGE assert.h -> __LINE__ [assert.h <34:79 34:86>]
 COMMENT: comment [b2World.cpp <349:2 349:76>]
 COMMENT: comment [b2World.cpp <357:5 357:74>]
 COMMENT: comment [b2World.cpp <358:5 358:23>]
@@ -93,13 +42,6 @@ COMMENT: comment [b2World.cpp <434:3 434:29>]
 COMMENT: comment [b2World.cpp <440:3 440:65>]
 COMMENT: comment [b2World.cpp <443:4 443:65>]
 REFERENCE_MACRO_USAGE b2World.cpp -> b2Assert [b2World.cpp <445:4 445:11>]
-REFERENCE_MACRO_USAGE b2Settings.h -> assert [b2Settings.h <31:21 31:26>]
-REFERENCE_MACRO_USAGE assert.h -> _CRT_WIDE [assert.h <34:23 34:31>]
-REFERENCE_MACRO_USAGE vcruntime.h -> _CRT_WIDE_ [vcruntime.h <95:22 95:31>]
-REFERENCE_MACRO_USAGE assert.h -> _CRT_WIDE [assert.h <34:47 34:55>]
-REFERENCE_MACRO_USAGE assert.h -> __FILE__ [assert.h <34:57 34:64>]
-REFERENCE_MACRO_USAGE vcruntime.h -> _CRT_WIDE_ [vcruntime.h <95:22 95:31>]
-REFERENCE_MACRO_USAGE assert.h -> __LINE__ [assert.h <34:79 34:86>]
 COMMENT: comment [b2World.cpp <448:4 448:67>]
 COMMENT: comment [b2World.cpp <451:4 451:53>]
 COMMENT: comment [b2World.cpp <452:4 452:46>]
@@ -109,23 +51,9 @@ COMMENT: comment [b2World.cpp <469:5 469:43>]
 COMMENT: comment [b2World.cpp <476:5 476:21>]
 COMMENT: comment [b2World.cpp <489:5 489:56>]
 REFERENCE_MACRO_USAGE b2World.cpp -> b2Assert [b2World.cpp <495:5 495:12>]
-REFERENCE_MACRO_USAGE b2Settings.h -> assert [b2Settings.h <31:21 31:26>]
-REFERENCE_MACRO_USAGE assert.h -> _CRT_WIDE [assert.h <34:23 34:31>]
-REFERENCE_MACRO_USAGE vcruntime.h -> _CRT_WIDE_ [vcruntime.h <95:22 95:31>]
-REFERENCE_MACRO_USAGE assert.h -> _CRT_WIDE [assert.h <34:47 34:55>]
-REFERENCE_MACRO_USAGE assert.h -> __FILE__ [assert.h <34:57 34:64>]
-REFERENCE_MACRO_USAGE vcruntime.h -> _CRT_WIDE_ [vcruntime.h <95:22 95:31>]
-REFERENCE_MACRO_USAGE assert.h -> __LINE__ [assert.h <34:79 34:86>]
 COMMENT: comment [b2World.cpp <500:4 500:46>]
 COMMENT: comment [b2World.cpp <510:5 510:59>]
 REFERENCE_MACRO_USAGE b2World.cpp -> b2Assert [b2World.cpp <524:5 524:12>]
-REFERENCE_MACRO_USAGE b2Settings.h -> assert [b2Settings.h <31:21 31:26>]
-REFERENCE_MACRO_USAGE assert.h -> _CRT_WIDE [assert.h <34:23 34:31>]
-REFERENCE_MACRO_USAGE vcruntime.h -> _CRT_WIDE_ [vcruntime.h <95:22 95:31>]
-REFERENCE_MACRO_USAGE assert.h -> _CRT_WIDE [assert.h <34:47 34:55>]
-REFERENCE_MACRO_USAGE assert.h -> __FILE__ [assert.h <34:57 34:64>]
-REFERENCE_MACRO_USAGE vcruntime.h -> _CRT_WIDE_ [vcruntime.h <95:22 95:31>]
-REFERENCE_MACRO_USAGE assert.h -> __LINE__ [assert.h <34:79 34:86>]
 COMMENT: comment [b2World.cpp <536:3 536:25>]
 COMMENT: comment [b2World.cpp <539:4 539:59>]
 COMMENT: comment [b2World.cpp <552:3 552:58>]
@@ -144,25 +72,11 @@ REFERENCE_MACRO_USAGE b2World.cpp -> b2_maxSubSteps [b2World.cpp <614:24 614:37>
 COMMENT: comment [b2World.cpp <622:5 622:44>]
 COMMENT: comment [b2World.cpp <630:5 630:26>]
 REFERENCE_MACRO_USAGE b2World.cpp -> b2Assert [b2World.cpp <641:5 641:12>]
-REFERENCE_MACRO_USAGE b2Settings.h -> assert [b2Settings.h <31:21 31:26>]
-REFERENCE_MACRO_USAGE assert.h -> _CRT_WIDE [assert.h <34:23 34:31>]
-REFERENCE_MACRO_USAGE vcruntime.h -> _CRT_WIDE_ [vcruntime.h <95:22 95:31>]
-REFERENCE_MACRO_USAGE assert.h -> _CRT_WIDE [assert.h <34:47 34:55>]
-REFERENCE_MACRO_USAGE assert.h -> __FILE__ [assert.h <34:57 34:64>]
-REFERENCE_MACRO_USAGE vcruntime.h -> _CRT_WIDE_ [vcruntime.h <95:22 95:31>]
-REFERENCE_MACRO_USAGE assert.h -> __LINE__ [assert.h <34:79 34:86>]
 COMMENT: comment [b2World.cpp <646:5 646:69>]
 COMMENT: comment [b2World.cpp <655:5 655:48>]
 COMMENT: comment [b2World.cpp <661:5 661:41>]
 COMMENT: comment [b2World.cpp <662:5 662:51>]
 REFERENCE_MACRO_USAGE b2World.cpp -> b2Assert [b2World.cpp <676:5 676:12>]
-REFERENCE_MACRO_USAGE b2Settings.h -> assert [b2Settings.h <31:21 31:26>]
-REFERENCE_MACRO_USAGE assert.h -> _CRT_WIDE [assert.h <34:23 34:31>]
-REFERENCE_MACRO_USAGE vcruntime.h -> _CRT_WIDE_ [vcruntime.h <95:22 95:31>]
-REFERENCE_MACRO_USAGE assert.h -> _CRT_WIDE [assert.h <34:47 34:55>]
-REFERENCE_MACRO_USAGE assert.h -> __FILE__ [assert.h <34:57 34:64>]
-REFERENCE_MACRO_USAGE vcruntime.h -> _CRT_WIDE_ [vcruntime.h <95:22 95:31>]
-REFERENCE_MACRO_USAGE assert.h -> __LINE__ [assert.h <34:79 34:86>]
 COMMENT: comment [b2World.cpp <681:5 681:58>]
 COMMENT: comment [b2World.cpp <692:5 692:62>]
 COMMENT: comment [b2World.cpp <709:5 709:45>]
@@ -195,13 +109,6 @@ COMMENT: comment [b2World.cpp <934:2 934:79>]
 COMMENT: comment [b2World.cpp <942:2 942:23>]
 REFERENCE_MACRO_USAGE b2World.cpp -> b2Assert [b2World.cpp <1095:4 1095:11>]
 REFERENCE_MACRO_USAGE b2World.cpp -> b2_maxPolygonVertices [b2World.cpp <1095:28 1095:48>]
-REFERENCE_MACRO_USAGE b2Settings.h -> assert [b2Settings.h <31:21 31:26>]
-REFERENCE_MACRO_USAGE assert.h -> _CRT_WIDE [assert.h <34:23 34:31>]
-REFERENCE_MACRO_USAGE vcruntime.h -> _CRT_WIDE_ [vcruntime.h <95:22 95:31>]
-REFERENCE_MACRO_USAGE assert.h -> _CRT_WIDE [assert.h <34:47 34:55>]
-REFERENCE_MACRO_USAGE assert.h -> __FILE__ [assert.h <34:57 34:64>]
-REFERENCE_MACRO_USAGE vcruntime.h -> _CRT_WIDE_ [vcruntime.h <95:22 95:31>]
-REFERENCE_MACRO_USAGE assert.h -> __LINE__ [assert.h <34:79 34:86>]
 REFERENCE_MACRO_USAGE b2World.cpp -> b2_maxPolygonVertices [b2World.cpp <1096:20 1096:40>]
 COMMENT: comment [b2World.cpp <1143:3 1143:21>]
 COMMENT: comment [b2World.cpp <1206:4 1206:45>]
@@ -210,17 +117,11 @@ COMMENT: comment [b2World.cpp <1209:4 1209:50>]
 COMMENT: comment [b2World.cpp <1210:4 1210:50>]
 COMMENT: comment [b2World.cpp <1212:4 1212:46>]
 REFERENCE_MACRO_USAGE b2World.cpp -> b2Assert [b2World.cpp <1279:2 1279:9>]
-REFERENCE_MACRO_USAGE b2Settings.h -> assert [b2Settings.h <31:21 31:26>]
-REFERENCE_MACRO_USAGE assert.h -> _CRT_WIDE [assert.h <34:23 34:31>]
-REFERENCE_MACRO_USAGE vcruntime.h -> _CRT_WIDE_ [vcruntime.h <95:22 95:31>]
-REFERENCE_MACRO_USAGE assert.h -> _CRT_WIDE [assert.h <34:47 34:55>]
-REFERENCE_MACRO_USAGE assert.h -> __FILE__ [assert.h <34:57 34:64>]
-REFERENCE_MACRO_USAGE vcruntime.h -> _CRT_WIDE_ [vcruntime.h <95:22 95:31>]
-REFERENCE_MACRO_USAGE assert.h -> __LINE__ [assert.h <34:79 34:86>]
 COMMENT: comment [b2World.cpp <1327:2 1327:44>]
 COMMENT: comment [b2World.cpp <1340:2 1340:45>]
 SYMBOL_METHOD public void b2World::b2World(const b2Vec2 &) [b2World.cpp <37:1 <37:10 37:16> 64:1>]
 SYMBOL_CLASS b2World
+QUALIFIER: b2World [b2World.cpp <37:1 37:7>]
 LOCAL_SYMBOL: b2World.cpp<37:32> [b2World.cpp <37:32 37:38>]
 REFERENCE_TYPE_USAGE void b2World::b2World(const b2Vec2 &) -> b2Vec2 [b2World.cpp <37:24 37:29>]
 REFERENCE_USAGE void b2World::b2World(const b2Vec2 &) -> b2BlockAllocator b2World::m_blockAllocator [b2World.cpp <37:10 37:16>]
@@ -264,7 +165,7 @@ REFERENCE_CALL void b2World::b2World(const b2Vec2 &) -> void * memset(void *, in
 REFERENCE_USAGE void b2World::b2World(const b2Vec2 &) -> b2Profile b2World::m_profile [b2World.cpp <63:10 63:18>]
 REFERENCE_TYPE_USAGE void b2World::b2World(const b2Vec2 &) -> b2Profile [b2World.cpp <63:31 63:39>]
 SYMBOL_METHOD public void b2World::~b2World() [b2World.cpp <66:1 <66:10 66:17> 85:1>]
-SYMBOL_CLASS b2World
+QUALIFIER: b2World [b2World.cpp <66:1 66:7>]
 LOCAL_SYMBOL: b2World.cpp<69:10> [b2World.cpp <69:10 69:10>]
 REFERENCE_TYPE_USAGE void b2World::~b2World() -> b2Body [b2World.cpp <69:2 69:7>]
 REFERENCE_USAGE void b2World::~b2World() -> b2Body * b2World::m_bodyList [b2World.cpp <69:14 69:23>]
@@ -293,7 +194,7 @@ LOCAL_SYMBOL: b2World.cpp<77:15> [b2World.cpp <80:8 80:12>]
 LOCAL_SYMBOL: b2World.cpp<69:10> [b2World.cpp <83:3 83:3>]
 LOCAL_SYMBOL: b2World.cpp<72:11> [b2World.cpp <83:7 83:11>]
 SYMBOL_METHOD public void b2World::SetDestructionListener(b2DestructionListener *) [b2World.cpp <87:1 <87:15 87:36> 90:1>]
-SYMBOL_CLASS b2World
+QUALIFIER: b2World [b2World.cpp <87:6 87:12>]
 SYMBOL_BUILTIN_TYPE void
 REFERENCE_TYPE_USAGE void b2World::SetDestructionListener(b2DestructionListener *) -> void [b2World.cpp <87:1 87:4>]
 LOCAL_SYMBOL: b2World.cpp<87:61> [b2World.cpp <87:61 87:68>]
@@ -301,8 +202,7 @@ REFERENCE_TYPE_USAGE void b2World::SetDestructionListener(b2DestructionListener 
 REFERENCE_USAGE void b2World::SetDestructionListener(b2DestructionListener *) -> b2DestructionListener * b2World::m_destructionListener [b2World.cpp <89:2 89:22>]
 LOCAL_SYMBOL: b2World.cpp<87:61> [b2World.cpp <89:26 89:33>]
 SYMBOL_METHOD public void b2World::SetContactFilter(b2ContactFilter *) [b2World.cpp <92:1 <92:15 92:30> 95:1>]
-SYMBOL_CLASS b2World
-SYMBOL_BUILTIN_TYPE void
+QUALIFIER: b2World [b2World.cpp <92:6 92:12>]
 REFERENCE_TYPE_USAGE void b2World::SetContactFilter(b2ContactFilter *) -> void [b2World.cpp <92:1 92:4>]
 LOCAL_SYMBOL: b2World.cpp<92:49> [b2World.cpp <92:49 92:54>]
 REFERENCE_TYPE_USAGE void b2World::SetContactFilter(b2ContactFilter *) -> b2ContactFilter [b2World.cpp <92:32 92:46>]
@@ -310,8 +210,7 @@ REFERENCE_USAGE void b2World::SetContactFilter(b2ContactFilter *) -> b2ContactFi
 REFERENCE_USAGE void b2World::SetContactFilter(b2ContactFilter *) -> b2ContactManager b2World::m_contactManager [b2World.cpp <94:2 94:17>]
 LOCAL_SYMBOL: b2World.cpp<92:49> [b2World.cpp <94:37 94:42>]
 SYMBOL_METHOD public void b2World::SetContactListener(b2ContactListener *) [b2World.cpp <97:1 <97:15 97:32> 100:1>]
-SYMBOL_CLASS b2World
-SYMBOL_BUILTIN_TYPE void
+QUALIFIER: b2World [b2World.cpp <97:6 97:12>]
 REFERENCE_TYPE_USAGE void b2World::SetContactListener(b2ContactListener *) -> void [b2World.cpp <97:1 97:4>]
 LOCAL_SYMBOL: b2World.cpp<97:53> [b2World.cpp <97:53 97:60>]
 REFERENCE_TYPE_USAGE void b2World::SetContactListener(b2ContactListener *) -> b2ContactListener [b2World.cpp <97:34 97:50>]
@@ -319,24 +218,21 @@ REFERENCE_USAGE void b2World::SetContactListener(b2ContactListener *) -> b2Conta
 REFERENCE_USAGE void b2World::SetContactListener(b2ContactListener *) -> b2ContactManager b2World::m_contactManager [b2World.cpp <99:2 99:17>]
 LOCAL_SYMBOL: b2World.cpp<97:53> [b2World.cpp <99:39 99:46>]
 SYMBOL_METHOD public void b2World::SetDebugDraw(b2Draw *) [b2World.cpp <102:1 <102:15 102:26> 105:1>]
-SYMBOL_CLASS b2World
-SYMBOL_BUILTIN_TYPE void
+QUALIFIER: b2World [b2World.cpp <102:6 102:12>]
 REFERENCE_TYPE_USAGE void b2World::SetDebugDraw(b2Draw *) -> void [b2World.cpp <102:1 102:4>]
 LOCAL_SYMBOL: b2World.cpp<102:36> [b2World.cpp <102:36 102:44>]
 REFERENCE_TYPE_USAGE void b2World::SetDebugDraw(b2Draw *) -> b2Draw [b2World.cpp <102:28 102:33>]
 REFERENCE_USAGE void b2World::SetDebugDraw(b2Draw *) -> b2Draw * b2World::g_debugDraw [b2World.cpp <104:2 104:12>]
 LOCAL_SYMBOL: b2World.cpp<102:36> [b2World.cpp <104:16 104:24>]
 SYMBOL_METHOD public b2Body * b2World::CreateBody(const b2BodyDef *) [b2World.cpp <107:1 <107:18 107:27> 129:1>]
-SYMBOL_CLASS b2World
+QUALIFIER: b2World [b2World.cpp <107:9 107:15>]
 REFERENCE_TYPE_USAGE b2Body * b2World::CreateBody(const b2BodyDef *) -> b2Body [b2World.cpp <107:1 107:6>]
 LOCAL_SYMBOL: b2World.cpp<107:46> [b2World.cpp <107:46 107:48>]
 REFERENCE_TYPE_USAGE b2Body * b2World::CreateBody(const b2BodyDef *) -> b2BodyDef [b2World.cpp <107:35 107:43>]
 SYMBOL_FUNCTION bool b2World::IsLocked() const
 REFERENCE_CALL b2Body * b2World::CreateBody(const b2BodyDef *) -> bool b2World::IsLocked() const [b2World.cpp <109:11 109:18>]
-SYMBOL_FUNCTION bool b2World::IsLocked() const
 REFERENCE_CALL b2Body * b2World::CreateBody(const b2BodyDef *) -> bool b2World::IsLocked() const [b2World.cpp <110:6 110:13>]
 LOCAL_SYMBOL: b2World.cpp<115:8> [b2World.cpp <115:8 115:10>]
-SYMBOL_BUILTIN_TYPE void
 REFERENCE_TYPE_USAGE b2Body * b2World::CreateBody(const b2BodyDef *) -> void [b2World.cpp <115:2 115:5>]
 SYMBOL_FUNCTION void * b2BlockAllocator::Allocate(int32)
 REFERENCE_CALL b2Body * b2World::CreateBody(const b2BodyDef *) -> void * b2BlockAllocator::Allocate(int32) [b2World.cpp <115:31 115:38>]
@@ -363,15 +259,12 @@ LOCAL_SYMBOL: b2World.cpp<116:10> [b2World.cpp <125:15 125:15>]
 REFERENCE_USAGE b2Body * b2World::CreateBody(const b2BodyDef *) -> int32 b2World::m_bodyCount [b2World.cpp <126:4 126:14>]
 LOCAL_SYMBOL: b2World.cpp<116:10> [b2World.cpp <128:9 128:9>]
 SYMBOL_METHOD public void b2World::DestroyBody(b2Body *) [b2World.cpp <131:1 <131:15 131:25> 210:1>]
-SYMBOL_CLASS b2World
-SYMBOL_BUILTIN_TYPE void
+QUALIFIER: b2World [b2World.cpp <131:6 131:12>]
 REFERENCE_TYPE_USAGE void b2World::DestroyBody(b2Body *) -> void [b2World.cpp <131:1 131:4>]
 LOCAL_SYMBOL: b2World.cpp<131:35> [b2World.cpp <131:35 131:35>]
 REFERENCE_TYPE_USAGE void b2World::DestroyBody(b2Body *) -> b2Body [b2World.cpp <131:27 131:32>]
 REFERENCE_USAGE void b2World::DestroyBody(b2Body *) -> int32 b2World::m_bodyCount [b2World.cpp <133:11 133:21>]
-SYMBOL_FUNCTION bool b2World::IsLocked() const
 REFERENCE_CALL void b2World::DestroyBody(b2Body *) -> bool b2World::IsLocked() const [b2World.cpp <134:11 134:18>]
-SYMBOL_FUNCTION bool b2World::IsLocked() const
 REFERENCE_CALL void b2World::DestroyBody(b2Body *) -> bool b2World::IsLocked() const [b2World.cpp <135:6 135:13>]
 LOCAL_SYMBOL: b2World.cpp<141:15> [b2World.cpp <141:15 141:16>]
 REFERENCE_TYPE_USAGE void b2World::DestroyBody(b2Body *) -> b2JointEdge [b2World.cpp <141:2 141:12>]
@@ -438,7 +331,6 @@ REFERENCE_CALL void b2World::DestroyBody(b2Body *) -> void b2Fixture::DestroyPro
 LOCAL_SYMBOL: b2World.cpp<172:14> [b2World.cpp <180:3 180:4>]
 REFERENCE_USAGE void b2World::DestroyBody(b2Body *) -> b2BroadPhase b2ContactManager::m_broadPhase [b2World.cpp <180:40 180:51>]
 REFERENCE_USAGE void b2World::DestroyBody(b2Body *) -> b2ContactManager b2World::m_contactManager [b2World.cpp <180:23 180:38>]
-SYMBOL_FUNCTION void b2Fixture::Destroy(b2BlockAllocator *)
 REFERENCE_CALL void b2World::DestroyBody(b2Body *) -> void b2Fixture::Destroy(b2BlockAllocator *) [b2World.cpp <181:7 181:13>]
 LOCAL_SYMBOL: b2World.cpp<172:14> [b2World.cpp <181:3 181:4>]
 REFERENCE_USAGE void b2World::DestroyBody(b2Body *) -> b2BlockAllocator b2World::m_blockAllocator [b2World.cpp <181:16 181:31>]
@@ -482,25 +374,23 @@ REFERENCE_USAGE void b2World::DestroyBody(b2Body *) -> int32 b2World::m_bodyCoun
 SYMBOL_FUNCTION void b2Body::~b2Body()
 REFERENCE_CALL void b2World::DestroyBody(b2Body *) -> void b2Body::~b2Body() [b2World.cpp <208:5 208:5>]
 LOCAL_SYMBOL: b2World.cpp<131:35> [b2World.cpp <208:2 208:2>]
-SYMBOL_FUNCTION void b2BlockAllocator::Free(void *, int32)
 REFERENCE_CALL void b2World::DestroyBody(b2Body *) -> void b2BlockAllocator::Free(void *, int32) [b2World.cpp <209:19 209:22>]
 REFERENCE_USAGE void b2World::DestroyBody(b2Body *) -> b2BlockAllocator b2World::m_blockAllocator [b2World.cpp <209:2 209:17>]
 LOCAL_SYMBOL: b2World.cpp<131:35> [b2World.cpp <209:24 209:24>]
 REFERENCE_TYPE_USAGE void b2World::DestroyBody(b2Body *) -> b2Body [b2World.cpp <209:34 209:39>]
 SYMBOL_METHOD public b2Joint * b2World::CreateJoint(const b2JointDef *) [b2World.cpp <212:1 <212:19 212:29> 270:1>]
-SYMBOL_CLASS b2World
+QUALIFIER: b2World [b2World.cpp <212:10 212:16>]
 REFERENCE_TYPE_USAGE b2Joint * b2World::CreateJoint(const b2JointDef *) -> b2Joint [b2World.cpp <212:1 212:7>]
 LOCAL_SYMBOL: b2World.cpp<212:49> [b2World.cpp <212:49 212:51>]
 REFERENCE_TYPE_USAGE b2Joint * b2World::CreateJoint(const b2JointDef *) -> b2JointDef [b2World.cpp <212:37 212:46>]
-SYMBOL_FUNCTION bool b2World::IsLocked() const
 REFERENCE_CALL b2Joint * b2World::CreateJoint(const b2JointDef *) -> bool b2World::IsLocked() const [b2World.cpp <214:11 214:18>]
-SYMBOL_FUNCTION bool b2World::IsLocked() const
 REFERENCE_CALL b2Joint * b2World::CreateJoint(const b2JointDef *) -> bool b2World::IsLocked() const [b2World.cpp <215:6 215:13>]
 LOCAL_SYMBOL: b2World.cpp<220:11> [b2World.cpp <220:11 220:11>]
 REFERENCE_TYPE_USAGE b2Joint * b2World::CreateJoint(const b2JointDef *) -> b2Joint [b2World.cpp <220:2 220:8>]
 SYMBOL_FUNCTION static b2Joint * b2Joint::Create(const b2JointDef *, b2BlockAllocator *)
 REFERENCE_CALL b2Joint * b2World::CreateJoint(const b2JointDef *) -> static b2Joint * b2Joint::Create(const b2JointDef *, b2BlockAllocator *) [b2World.cpp <220:24 220:29>]
 SYMBOL_CLASS b2Joint
+QUALIFIER: b2Joint [b2World.cpp <220:15 220:21>]
 LOCAL_SYMBOL: b2World.cpp<212:49> [b2World.cpp <220:31 220:33>]
 REFERENCE_USAGE b2Joint * b2World::CreateJoint(const b2JointDef *) -> b2BlockAllocator b2World::m_blockAllocator [b2World.cpp <220:37 220:52>]
 REFERENCE_USAGE b2Joint * b2World::CreateJoint(const b2JointDef *) -> b2Joint * b2Joint::m_prev [b2World.cpp <223:5 223:10>]
@@ -607,14 +497,11 @@ REFERENCE_USAGE b2Joint * b2World::CreateJoint(const b2JointDef *) -> b2ContactE
 LOCAL_SYMBOL: b2World.cpp<253:18> [b2World.cpp <263:11 263:14>]
 LOCAL_SYMBOL: b2World.cpp<220:11> [b2World.cpp <269:9 269:9>]
 SYMBOL_METHOD public void b2World::DestroyJoint(b2Joint *) [b2World.cpp <272:1 <272:15 272:26> 365:1>]
-SYMBOL_CLASS b2World
-SYMBOL_BUILTIN_TYPE void
+QUALIFIER: b2World [b2World.cpp <272:6 272:12>]
 REFERENCE_TYPE_USAGE void b2World::DestroyJoint(b2Joint *) -> void [b2World.cpp <272:1 272:4>]
 LOCAL_SYMBOL: b2World.cpp<272:37> [b2World.cpp <272:37 272:37>]
 REFERENCE_TYPE_USAGE void b2World::DestroyJoint(b2Joint *) -> b2Joint [b2World.cpp <272:28 272:34>]
-SYMBOL_FUNCTION bool b2World::IsLocked() const
 REFERENCE_CALL void b2World::DestroyJoint(b2Joint *) -> bool b2World::IsLocked() const [b2World.cpp <274:11 274:18>]
-SYMBOL_FUNCTION bool b2World::IsLocked() const
 REFERENCE_CALL void b2World::DestroyJoint(b2Joint *) -> bool b2World::IsLocked() const [b2World.cpp <275:6 275:13>]
 LOCAL_SYMBOL: b2World.cpp<280:7> [b2World.cpp <280:7 280:22>]
 SYMBOL_BUILTIN_TYPE bool
@@ -651,7 +538,6 @@ LOCAL_SYMBOL: b2World.cpp<272:37> [b2World.cpp <300:18 300:18>]
 SYMBOL_FUNCTION void b2Body::SetAwake(bool)
 REFERENCE_CALL void b2World::DestroyJoint(b2Joint *) -> void b2Body::SetAwake(bool) [b2World.cpp <303:9 303:16>]
 LOCAL_SYMBOL: b2World.cpp<299:10> [b2World.cpp <303:2 303:6>]
-SYMBOL_FUNCTION void b2Body::SetAwake(bool)
 REFERENCE_CALL void b2World::DestroyJoint(b2Joint *) -> void b2Body::SetAwake(bool) [b2World.cpp <304:9 304:16>]
 LOCAL_SYMBOL: b2World.cpp<300:10> [b2World.cpp <304:2 304:6>]
 REFERENCE_USAGE void b2World::DestroyJoint(b2Joint *) -> b2JointEdge * b2JointEdge::prev [b2World.cpp <307:17 307:20>]
@@ -726,7 +612,7 @@ REFERENCE_USAGE void b2World::DestroyJoint(b2Joint *) -> b2JointEdge b2Joint::m_
 LOCAL_SYMBOL: b2World.cpp<272:37> [b2World.cpp <342:2 342:2>]
 SYMBOL_FUNCTION static void b2Joint::Destroy(b2Joint *, b2BlockAllocator *)
 REFERENCE_CALL void b2World::DestroyJoint(b2Joint *) -> static void b2Joint::Destroy(b2Joint *, b2BlockAllocator *) [b2World.cpp <344:11 344:17>]
-SYMBOL_CLASS b2Joint
+QUALIFIER: b2Joint [b2World.cpp <344:2 344:8>]
 LOCAL_SYMBOL: b2World.cpp<272:37> [b2World.cpp <344:19 344:19>]
 REFERENCE_USAGE void b2World::DestroyJoint(b2Joint *) -> b2BlockAllocator b2World::m_blockAllocator [b2World.cpp <344:23 344:38>]
 REFERENCE_USAGE void b2World::DestroyJoint(b2Joint *) -> int32 b2World::m_jointCount [b2World.cpp <346:11 346:22>]
@@ -734,14 +620,12 @@ REFERENCE_USAGE void b2World::DestroyJoint(b2Joint *) -> int32 b2World::m_jointC
 LOCAL_SYMBOL: b2World.cpp<280:7> [b2World.cpp <350:6 350:21>]
 LOCAL_SYMBOL: b2World.cpp<352:18> [b2World.cpp <352:18 352:21>]
 REFERENCE_TYPE_USAGE void b2World::DestroyJoint(b2Joint *) -> b2ContactEdge [b2World.cpp <352:3 352:15>]
-SYMBOL_FUNCTION b2ContactEdge * b2Body::GetContactList()
 REFERENCE_CALL void b2World::DestroyJoint(b2Joint *) -> b2ContactEdge * b2Body::GetContactList() [b2World.cpp <352:32 352:45>]
 LOCAL_SYMBOL: b2World.cpp<300:10> [b2World.cpp <352:25 352:29>]
 LOCAL_SYMBOL: b2World.cpp<352:18> [b2World.cpp <353:10 353:13>]
 REFERENCE_USAGE void b2World::DestroyJoint(b2Joint *) -> b2Body * b2ContactEdge::other [b2World.cpp <355:14 355:18>]
 LOCAL_SYMBOL: b2World.cpp<352:18> [b2World.cpp <355:8 355:11>]
 LOCAL_SYMBOL: b2World.cpp<299:10> [b2World.cpp <355:23 355:27>]
-SYMBOL_FUNCTION void b2Contact::FlagForFiltering()
 REFERENCE_CALL void b2World::DestroyJoint(b2Joint *) -> void b2Contact::FlagForFiltering() [b2World.cpp <359:20 359:35>]
 REFERENCE_USAGE void b2World::DestroyJoint(b2Joint *) -> b2Contact * b2ContactEdge::contact [b2World.cpp <359:11 359:17>]
 LOCAL_SYMBOL: b2World.cpp<352:18> [b2World.cpp <359:5 359:8>]
@@ -749,11 +633,9 @@ LOCAL_SYMBOL: b2World.cpp<352:18> [b2World.cpp <362:4 362:7>]
 REFERENCE_USAGE void b2World::DestroyJoint(b2Joint *) -> b2ContactEdge * b2ContactEdge::next [b2World.cpp <362:17 362:20>]
 LOCAL_SYMBOL: b2World.cpp<352:18> [b2World.cpp <362:11 362:14>]
 SYMBOL_METHOD public void b2World::SetAllowSleeping(bool) [b2World.cpp <368:1 <368:15 368:30> 383:1>]
-SYMBOL_CLASS b2World
-SYMBOL_BUILTIN_TYPE void
+QUALIFIER: b2World [b2World.cpp <368:6 368:12>]
 REFERENCE_TYPE_USAGE void b2World::SetAllowSleeping(bool) -> void [b2World.cpp <368:1 368:4>]
 LOCAL_SYMBOL: b2World.cpp<368:37> [b2World.cpp <368:37 368:40>]
-SYMBOL_BUILTIN_TYPE bool
 REFERENCE_TYPE_USAGE void b2World::SetAllowSleeping(bool) -> bool [b2World.cpp <368:32 368:35>]
 LOCAL_SYMBOL: b2World.cpp<368:37> [b2World.cpp <370:6 370:9>]
 REFERENCE_USAGE void b2World::SetAllowSleeping(bool) -> bool b2World::m_allowSleep [b2World.cpp <370:14 370:25>]
@@ -767,12 +649,10 @@ LOCAL_SYMBOL: b2World.cpp<378:16> [b2World.cpp <378:32 378:32>]
 LOCAL_SYMBOL: b2World.cpp<378:16> [b2World.cpp <378:35 378:35>]
 REFERENCE_USAGE void b2World::SetAllowSleeping(bool) -> b2Body * b2Body::m_next [b2World.cpp <378:42 378:47>]
 LOCAL_SYMBOL: b2World.cpp<378:16> [b2World.cpp <378:39 378:39>]
-SYMBOL_FUNCTION void b2Body::SetAwake(bool)
 REFERENCE_CALL void b2World::SetAllowSleeping(bool) -> void b2Body::SetAwake(bool) [b2World.cpp <380:7 380:14>]
 LOCAL_SYMBOL: b2World.cpp<378:16> [b2World.cpp <380:4 380:4>]
 SYMBOL_METHOD private void b2World::Solve(const b2TimeStep &) [b2World.cpp <386:1 <386:15 386:19> 574:1>]
-SYMBOL_CLASS b2World
-SYMBOL_BUILTIN_TYPE void
+QUALIFIER: b2World [b2World.cpp <386:6 386:12>]
 REFERENCE_TYPE_USAGE void b2World::Solve(const b2TimeStep &) -> void [b2World.cpp <386:1 386:4>]
 LOCAL_SYMBOL: b2World.cpp<386:39> [b2World.cpp <386:39 386:42>]
 REFERENCE_TYPE_USAGE void b2World::Solve(const b2TimeStep &) -> b2TimeStep [b2World.cpp <386:27 386:36>]
@@ -804,6 +684,7 @@ REFERENCE_USAGE void b2World::Solve(const b2TimeStep &) -> uint16 b2Body::m_flag
 LOCAL_SYMBOL: b2World.cpp<400:15> [b2World.cpp <402:3 402:3>]
 REFERENCE_USAGE void b2World::Solve(const b2TimeStep &) -> b2Body::anonymous enum (b2Body.h<413:2>)::e_islandFlag [b2World.cpp <402:26 402:37>]
 SYMBOL_CLASS b2Body
+QUALIFIER: b2Body [b2World.cpp <402:18 402:23>]
 LOCAL_SYMBOL: b2World.cpp<404:18> [b2World.cpp <404:18 404:18>]
 REFERENCE_TYPE_USAGE void b2World::Solve(const b2TimeStep &) -> b2Contact [b2World.cpp <404:7 404:15>]
 REFERENCE_USAGE void b2World::Solve(const b2TimeStep &) -> b2Contact * b2ContactManager::m_contactList [b2World.cpp <404:39 404:51>]
@@ -816,6 +697,7 @@ REFERENCE_USAGE void b2World::Solve(const b2TimeStep &) -> uint32 b2Contact::m_f
 LOCAL_SYMBOL: b2World.cpp<404:18> [b2World.cpp <406:3 406:3>]
 REFERENCE_USAGE void b2World::Solve(const b2TimeStep &) -> b2Contact::anonymous enum (b2Contact.h<155:2>)::e_islandFlag [b2World.cpp <406:29 406:40>]
 SYMBOL_CLASS b2Contact
+QUALIFIER: b2Contact [b2World.cpp <406:18 406:26>]
 LOCAL_SYMBOL: b2World.cpp<408:16> [b2World.cpp <408:16 408:16>]
 REFERENCE_TYPE_USAGE void b2World::Solve(const b2TimeStep &) -> b2Joint [b2World.cpp <408:7 408:13>]
 REFERENCE_USAGE void b2World::Solve(const b2TimeStep &) -> b2Joint * b2World::m_jointList [b2World.cpp <408:20 408:30>]
@@ -846,7 +728,7 @@ LOCAL_SYMBOL: b2World.cpp<416:15> [b2World.cpp <416:47 416:50>]
 REFERENCE_USAGE void b2World::Solve(const b2TimeStep &) -> uint16 b2Body::m_flags [b2World.cpp <418:13 418:19>]
 LOCAL_SYMBOL: b2World.cpp<416:15> [b2World.cpp <418:7 418:10>]
 REFERENCE_USAGE void b2World::Solve(const b2TimeStep &) -> b2Body::anonymous enum (b2Body.h<413:2>)::e_islandFlag [b2World.cpp <418:31 418:42>]
-SYMBOL_CLASS b2Body
+QUALIFIER: b2Body [b2World.cpp <418:23 418:28>]
 SYMBOL_FUNCTION bool b2Body::IsAwake() const
 REFERENCE_CALL void b2World::Solve(const b2TimeStep &) -> bool b2Body::IsAwake() const [b2World.cpp <423:13 423:19>]
 LOCAL_SYMBOL: b2World.cpp<416:15> [b2World.cpp <423:7 423:10>]
@@ -868,13 +750,12 @@ LOCAL_SYMBOL: b2World.cpp<416:15> [b2World.cpp <437:25 437:28>]
 REFERENCE_USAGE void b2World::Solve(const b2TimeStep &) -> uint16 b2Body::m_flags [b2World.cpp <438:9 438:15>]
 LOCAL_SYMBOL: b2World.cpp<416:15> [b2World.cpp <438:3 438:6>]
 REFERENCE_USAGE void b2World::Solve(const b2TimeStep &) -> b2Body::anonymous enum (b2Body.h<413:2>)::e_islandFlag [b2World.cpp <438:28 438:39>]
-SYMBOL_CLASS b2Body
+QUALIFIER: b2Body [b2World.cpp <438:20 438:25>]
 LOCAL_SYMBOL: b2World.cpp<436:9> [b2World.cpp <441:10 441:19>]
 LOCAL_SYMBOL: b2World.cpp<444:12> [b2World.cpp <444:12 444:12>]
 REFERENCE_TYPE_USAGE void b2World::Solve(const b2TimeStep &) -> b2Body [b2World.cpp <444:4 444:9>]
 LOCAL_SYMBOL: b2World.cpp<415:11> [b2World.cpp <444:16 444:20>]
 LOCAL_SYMBOL: b2World.cpp<436:9> [b2World.cpp <444:24 444:33>]
-SYMBOL_FUNCTION bool b2Body::IsActive() const
 REFERENCE_CALL void b2World::Solve(const b2TimeStep &) -> bool b2Body::IsActive() const [b2World.cpp <445:16 445:23>]
 LOCAL_SYMBOL: b2World.cpp<444:12> [b2World.cpp <445:13 445:13>]
 SYMBOL_FUNCTION void b2Island::Add(b2Body *)
@@ -884,8 +765,7 @@ LOCAL_SYMBOL: b2World.cpp<444:12> [b2World.cpp <446:15 446:15>]
 REFERENCE_USAGE void b2World::Solve(const b2TimeStep &) -> uint16 b2Body::m_flags [b2World.cpp <449:7 449:13>]
 LOCAL_SYMBOL: b2World.cpp<444:12> [b2World.cpp <449:4 449:4>]
 REFERENCE_USAGE void b2World::Solve(const b2TimeStep &) -> b2Body::anonymous enum (b2Body.h<413:2>)::e_awakeFlag [b2World.cpp <449:26 449:36>]
-SYMBOL_CLASS b2Body
-SYMBOL_FUNCTION b2BodyType b2Body::GetType() const
+QUALIFIER: b2Body [b2World.cpp <449:18 449:23>]
 REFERENCE_CALL void b2World::Solve(const b2TimeStep &) -> b2BodyType b2Body::GetType() const [b2World.cpp <453:11 453:17>]
 LOCAL_SYMBOL: b2World.cpp<444:12> [b2World.cpp <453:8 453:8>]
 REFERENCE_USAGE void b2World::Solve(const b2TimeStep &) -> b2BodyType::b2_staticBody [b2World.cpp <453:24 453:36>]
@@ -904,7 +784,7 @@ LOCAL_SYMBOL: b2World.cpp<459:24> [b2World.cpp <461:26 461:27>]
 REFERENCE_USAGE void b2World::Solve(const b2TimeStep &) -> uint32 b2Contact::m_flags [b2World.cpp <464:18 464:24>]
 LOCAL_SYMBOL: b2World.cpp<461:16> [b2World.cpp <464:9 464:15>]
 REFERENCE_USAGE void b2World::Solve(const b2TimeStep &) -> b2Contact::anonymous enum (b2Contact.h<155:2>)::e_islandFlag [b2World.cpp <464:39 464:50>]
-SYMBOL_CLASS b2Contact
+QUALIFIER: b2Contact [b2World.cpp <464:28 464:36>]
 SYMBOL_FUNCTION bool b2Contact::IsEnabled() const
 REFERENCE_CALL void b2World::Solve(const b2TimeStep &) -> bool b2Contact::IsEnabled() const [b2World.cpp <470:18 470:26>]
 LOCAL_SYMBOL: b2World.cpp<461:16> [b2World.cpp <470:9 470:15>]
@@ -912,13 +792,11 @@ SYMBOL_FUNCTION bool b2Contact::IsTouching() const
 REFERENCE_CALL void b2World::Solve(const b2TimeStep &) -> bool b2Contact::IsTouching() const [b2World.cpp <471:15 471:24>]
 LOCAL_SYMBOL: b2World.cpp<461:16> [b2World.cpp <471:6 471:12>]
 LOCAL_SYMBOL: b2World.cpp<477:10> [b2World.cpp <477:10 477:16>]
-SYMBOL_BUILTIN_TYPE bool
 REFERENCE_TYPE_USAGE void b2World::Solve(const b2TimeStep &) -> bool [b2World.cpp <477:5 477:8>]
 REFERENCE_USAGE void b2World::Solve(const b2TimeStep &) -> bool b2Fixture::m_isSensor [b2World.cpp <477:41 477:50>]
 REFERENCE_USAGE void b2World::Solve(const b2TimeStep &) -> b2Fixture * b2Contact::m_fixtureA [b2World.cpp <477:29 477:38>]
 LOCAL_SYMBOL: b2World.cpp<461:16> [b2World.cpp <477:20 477:26>]
 LOCAL_SYMBOL: b2World.cpp<478:10> [b2World.cpp <478:10 478:16>]
-SYMBOL_BUILTIN_TYPE bool
 REFERENCE_TYPE_USAGE void b2World::Solve(const b2TimeStep &) -> bool [b2World.cpp <478:5 478:8>]
 REFERENCE_USAGE void b2World::Solve(const b2TimeStep &) -> bool b2Fixture::m_isSensor [b2World.cpp <478:41 478:50>]
 REFERENCE_USAGE void b2World::Solve(const b2TimeStep &) -> b2Fixture * b2Contact::m_fixtureB [b2World.cpp <478:29 478:38>]
@@ -932,7 +810,7 @@ LOCAL_SYMBOL: b2World.cpp<461:16> [b2World.cpp <484:16 484:22>]
 REFERENCE_USAGE void b2World::Solve(const b2TimeStep &) -> uint32 b2Contact::m_flags [b2World.cpp <485:14 485:20>]
 LOCAL_SYMBOL: b2World.cpp<461:16> [b2World.cpp <485:5 485:11>]
 REFERENCE_USAGE void b2World::Solve(const b2TimeStep &) -> b2Contact::anonymous enum (b2Contact.h<155:2>)::e_islandFlag [b2World.cpp <485:36 485:47>]
-SYMBOL_CLASS b2Contact
+QUALIFIER: b2Contact [b2World.cpp <485:25 485:33>]
 LOCAL_SYMBOL: b2World.cpp<487:13> [b2World.cpp <487:13 487:17>]
 REFERENCE_TYPE_USAGE void b2World::Solve(const b2TimeStep &) -> b2Body [b2World.cpp <487:5 487:10>]
 REFERENCE_USAGE void b2World::Solve(const b2TimeStep &) -> b2Body * b2ContactEdge::other [b2World.cpp <487:25 487:29>]
@@ -940,7 +818,7 @@ LOCAL_SYMBOL: b2World.cpp<459:24> [b2World.cpp <487:21 487:22>]
 REFERENCE_USAGE void b2World::Solve(const b2TimeStep &) -> uint16 b2Body::m_flags [b2World.cpp <490:16 490:22>]
 LOCAL_SYMBOL: b2World.cpp<487:13> [b2World.cpp <490:9 490:13>]
 REFERENCE_USAGE void b2World::Solve(const b2TimeStep &) -> b2Body::anonymous enum (b2Body.h<413:2>)::e_islandFlag [b2World.cpp <490:34 490:45>]
-SYMBOL_CLASS b2Body
+QUALIFIER: b2Body [b2World.cpp <490:26 490:31>]
 LOCAL_SYMBOL: b2World.cpp<436:9> [b2World.cpp <495:14 495:23>]
 LOCAL_SYMBOL: b2World.cpp<414:8> [b2World.cpp <495:27 495:35>]
 LOCAL_SYMBOL: b2World.cpp<415:11> [b2World.cpp <496:5 496:9>]
@@ -949,7 +827,7 @@ LOCAL_SYMBOL: b2World.cpp<487:13> [b2World.cpp <496:27 496:31>]
 REFERENCE_USAGE void b2World::Solve(const b2TimeStep &) -> uint16 b2Body::m_flags [b2World.cpp <497:12 497:18>]
 LOCAL_SYMBOL: b2World.cpp<487:13> [b2World.cpp <497:5 497:9>]
 REFERENCE_USAGE void b2World::Solve(const b2TimeStep &) -> b2Body::anonymous enum (b2Body.h<413:2>)::e_islandFlag [b2World.cpp <497:31 497:42>]
-SYMBOL_CLASS b2Body
+QUALIFIER: b2Body [b2World.cpp <497:23 497:28>]
 LOCAL_SYMBOL: b2World.cpp<501:22> [b2World.cpp <501:22 501:23>]
 REFERENCE_TYPE_USAGE void b2World::Solve(const b2TimeStep &) -> b2JointEdge [b2World.cpp <501:9 501:19>]
 REFERENCE_USAGE void b2World::Solve(const b2TimeStep &) -> b2JointEdge * b2Body::m_jointList [b2World.cpp <501:30 501:40>]
@@ -965,7 +843,6 @@ LOCAL_SYMBOL: b2World.cpp<508:13> [b2World.cpp <508:13 508:17>]
 REFERENCE_TYPE_USAGE void b2World::Solve(const b2TimeStep &) -> b2Body [b2World.cpp <508:5 508:10>]
 REFERENCE_USAGE void b2World::Solve(const b2TimeStep &) -> b2Body * b2JointEdge::other [b2World.cpp <508:25 508:29>]
 LOCAL_SYMBOL: b2World.cpp<501:22> [b2World.cpp <508:21 508:22>]
-SYMBOL_FUNCTION bool b2Body::IsActive() const
 REFERENCE_CALL void b2World::Solve(const b2TimeStep &) -> bool b2Body::IsActive() const [b2World.cpp <511:16 511:23>]
 LOCAL_SYMBOL: b2World.cpp<508:13> [b2World.cpp <511:9 511:13>]
 SYMBOL_FUNCTION void b2Island::Add(b2Joint *)
@@ -979,7 +856,7 @@ LOCAL_SYMBOL: b2World.cpp<501:22> [b2World.cpp <517:5 517:6>]
 REFERENCE_USAGE void b2World::Solve(const b2TimeStep &) -> uint16 b2Body::m_flags [b2World.cpp <519:16 519:22>]
 LOCAL_SYMBOL: b2World.cpp<508:13> [b2World.cpp <519:9 519:13>]
 REFERENCE_USAGE void b2World::Solve(const b2TimeStep &) -> b2Body::anonymous enum (b2Body.h<413:2>)::e_islandFlag [b2World.cpp <519:34 519:45>]
-SYMBOL_CLASS b2Body
+QUALIFIER: b2Body [b2World.cpp <519:26 519:31>]
 LOCAL_SYMBOL: b2World.cpp<436:9> [b2World.cpp <524:14 524:23>]
 LOCAL_SYMBOL: b2World.cpp<414:8> [b2World.cpp <524:27 524:35>]
 LOCAL_SYMBOL: b2World.cpp<415:11> [b2World.cpp <525:5 525:9>]
@@ -988,10 +865,9 @@ LOCAL_SYMBOL: b2World.cpp<508:13> [b2World.cpp <525:27 525:31>]
 REFERENCE_USAGE void b2World::Solve(const b2TimeStep &) -> uint16 b2Body::m_flags [b2World.cpp <526:12 526:18>]
 LOCAL_SYMBOL: b2World.cpp<508:13> [b2World.cpp <526:5 526:9>]
 REFERENCE_USAGE void b2World::Solve(const b2TimeStep &) -> b2Body::anonymous enum (b2Body.h<413:2>)::e_islandFlag [b2World.cpp <526:31 526:42>]
-SYMBOL_CLASS b2Body
+QUALIFIER: b2Body [b2World.cpp <526:23 526:28>]
 LOCAL_SYMBOL: b2World.cpp<530:13> [b2World.cpp <530:13 530:19>]
 REFERENCE_TYPE_USAGE void b2World::Solve(const b2TimeStep &) -> b2Profile [b2World.cpp <530:3 530:11>]
-SYMBOL_FUNCTION void b2Profile::b2Profile()
 REFERENCE_CALL void b2World::Solve(const b2TimeStep &) -> void b2Profile::b2Profile() [b2World.cpp <530:13 530:19>]
 SYMBOL_FUNCTION void b2Island::Solve(b2Profile *, const b2TimeStep &, const b2Vec2 &, bool)
 REFERENCE_CALL void b2World::Solve(const b2TimeStep &) -> void b2Island::Solve(b2Profile *, const b2TimeStep &, const b2Vec2 &, bool) [b2World.cpp <531:10 531:14>]
@@ -1023,14 +899,13 @@ REFERENCE_TYPE_USAGE void b2World::Solve(const b2TimeStep &) -> b2Body [b2World.
 REFERENCE_USAGE void b2World::Solve(const b2TimeStep &) -> b2Body * * b2Island::m_bodies [b2World.cpp <540:23 540:30>]
 LOCAL_SYMBOL: b2World.cpp<393:11> [b2World.cpp <540:16 540:21>]
 LOCAL_SYMBOL: b2World.cpp<537:14> [b2World.cpp <540:32 540:32>]
-SYMBOL_FUNCTION b2BodyType b2Body::GetType() const
 REFERENCE_CALL void b2World::Solve(const b2TimeStep &) -> b2BodyType b2Body::GetType() const [b2World.cpp <541:11 541:17>]
 LOCAL_SYMBOL: b2World.cpp<540:12> [b2World.cpp <541:8 541:8>]
 REFERENCE_USAGE void b2World::Solve(const b2TimeStep &) -> b2BodyType::b2_staticBody [b2World.cpp <541:24 541:36>]
 REFERENCE_USAGE void b2World::Solve(const b2TimeStep &) -> uint16 b2Body::m_flags [b2World.cpp <543:8 543:14>]
 LOCAL_SYMBOL: b2World.cpp<540:12> [b2World.cpp <543:5 543:5>]
 REFERENCE_USAGE void b2World::Solve(const b2TimeStep &) -> b2Body::anonymous enum (b2Body.h<413:2>)::e_islandFlag [b2World.cpp <543:28 543:39>]
-SYMBOL_CLASS b2Body
+QUALIFIER: b2Body [b2World.cpp <543:20 543:25>]
 SYMBOL_FUNCTION void b2StackAllocator::Free(void *)
 REFERENCE_CALL void b2World::Solve(const b2TimeStep &) -> void b2StackAllocator::Free(void *) [b2World.cpp <548:19 548:22>]
 REFERENCE_USAGE void b2World::Solve(const b2TimeStep &) -> b2StackAllocator b2World::m_stackAllocator [b2World.cpp <548:2 548:17>]
@@ -1050,8 +925,7 @@ LOCAL_SYMBOL: b2World.cpp<553:16> [b2World.cpp <553:39 553:39>]
 REFERENCE_USAGE void b2World::Solve(const b2TimeStep &) -> uint16 b2Body::m_flags [b2World.cpp <556:12 556:18>]
 LOCAL_SYMBOL: b2World.cpp<553:16> [b2World.cpp <556:9 556:9>]
 REFERENCE_USAGE void b2World::Solve(const b2TimeStep &) -> b2Body::anonymous enum (b2Body.h<413:2>)::e_islandFlag [b2World.cpp <556:30 556:41>]
-SYMBOL_CLASS b2Body
-SYMBOL_FUNCTION b2BodyType b2Body::GetType() const
+QUALIFIER: b2Body [b2World.cpp <556:22 556:27>]
 REFERENCE_CALL void b2World::Solve(const b2TimeStep &) -> b2BodyType b2Body::GetType() const [b2World.cpp <561:11 561:17>]
 LOCAL_SYMBOL: b2World.cpp<553:16> [b2World.cpp <561:8 561:8>]
 REFERENCE_USAGE void b2World::Solve(const b2TimeStep &) -> b2BodyType::b2_staticBody [b2World.cpp <561:24 561:36>]
@@ -1067,14 +941,12 @@ SYMBOL_FUNCTION float32 b2Timer::GetMilliseconds() const
 REFERENCE_CALL void b2World::Solve(const b2TimeStep &) -> float32 b2Timer::GetMilliseconds() const [b2World.cpp <572:32 572:46>]
 LOCAL_SYMBOL: b2World.cpp<551:11> [b2World.cpp <572:26 572:30>]
 SYMBOL_METHOD private void b2World::SolveTOI(const b2TimeStep &) [b2World.cpp <577:1 <577:15 577:22> 895:1>]
-SYMBOL_CLASS b2World
-SYMBOL_BUILTIN_TYPE void
+QUALIFIER: b2World [b2World.cpp <577:6 577:12>]
 REFERENCE_TYPE_USAGE void b2World::SolveTOI(const b2TimeStep &) -> void [b2World.cpp <577:1 577:4>]
 LOCAL_SYMBOL: b2World.cpp<577:42> [b2World.cpp <577:42 577:45>]
 REFERENCE_TYPE_USAGE void b2World::SolveTOI(const b2TimeStep &) -> b2TimeStep [b2World.cpp <577:30 577:39>]
 LOCAL_SYMBOL: b2World.cpp<579:11> [b2World.cpp <579:11 579:16>]
 REFERENCE_TYPE_USAGE void b2World::SolveTOI(const b2TimeStep &) -> b2Island [b2World.cpp <579:2 579:9>]
-SYMBOL_FUNCTION void b2Island::b2Island(int32, int32, int32, b2StackAllocator *, b2ContactListener *)
 REFERENCE_CALL void b2World::SolveTOI(const b2TimeStep &) -> void b2Island::b2Island(int32, int32, int32, b2StackAllocator *, b2ContactListener *) [b2World.cpp <579:11 579:16>]
 REFERENCE_USAGE void b2World::SolveTOI(const b2TimeStep &) -> b2StackAllocator b2World::m_stackAllocator [b2World.cpp <579:64 579:79>]
 REFERENCE_USAGE void b2World::SolveTOI(const b2TimeStep &) -> b2ContactListener * b2ContactManager::m_contactListener [b2World.cpp <579:99 579:115>]
@@ -1090,7 +962,7 @@ LOCAL_SYMBOL: b2World.cpp<583:16> [b2World.cpp <583:39 583:39>]
 REFERENCE_USAGE void b2World::SolveTOI(const b2TimeStep &) -> uint16 b2Body::m_flags [b2World.cpp <585:7 585:13>]
 LOCAL_SYMBOL: b2World.cpp<583:16> [b2World.cpp <585:4 585:4>]
 REFERENCE_USAGE void b2World::SolveTOI(const b2TimeStep &) -> b2Body::anonymous enum (b2Body.h<413:2>)::e_islandFlag [b2World.cpp <585:27 585:38>]
-SYMBOL_CLASS b2Body
+QUALIFIER: b2Body [b2World.cpp <585:19 585:24>]
 REFERENCE_USAGE void b2World::SolveTOI(const b2TimeStep &) -> float32 b2Sweep::alpha0 [b2World.cpp <586:15 586:20>]
 REFERENCE_USAGE void b2World::SolveTOI(const b2TimeStep &) -> b2Sweep b2Body::m_sweep [b2World.cpp <586:7 586:13>]
 LOCAL_SYMBOL: b2World.cpp<583:16> [b2World.cpp <586:4 586:4>]
@@ -1105,9 +977,9 @@ LOCAL_SYMBOL: b2World.cpp<589:19> [b2World.cpp <589:62 589:62>]
 REFERENCE_USAGE void b2World::SolveTOI(const b2TimeStep &) -> uint32 b2Contact::m_flags [b2World.cpp <592:7 592:13>]
 LOCAL_SYMBOL: b2World.cpp<589:19> [b2World.cpp <592:4 592:4>]
 REFERENCE_USAGE void b2World::SolveTOI(const b2TimeStep &) -> b2Contact::anonymous enum (b2Contact.h<155:2>)::e_toiFlag [b2World.cpp <592:31 592:39>]
-SYMBOL_CLASS b2Contact
+QUALIFIER: b2Contact [b2World.cpp <592:20 592:28>]
 REFERENCE_USAGE void b2World::SolveTOI(const b2TimeStep &) -> b2Contact::anonymous enum (b2Contact.h<155:2>)::e_islandFlag [b2World.cpp <592:54 592:65>]
-SYMBOL_CLASS b2Contact
+QUALIFIER: b2Contact [b2World.cpp <592:43 592:51>]
 REFERENCE_USAGE void b2World::SolveTOI(const b2TimeStep &) -> int32 b2Contact::m_toiCount [b2World.cpp <593:7 593:16>]
 LOCAL_SYMBOL: b2World.cpp<589:19> [b2World.cpp <593:4 593:4>]
 REFERENCE_USAGE void b2World::SolveTOI(const b2TimeStep &) -> float32 b2Contact::m_toi [b2World.cpp <594:7 594:11>]
@@ -1124,7 +996,6 @@ LOCAL_SYMBOL: b2World.cpp<605:19> [b2World.cpp <605:55 605:55>]
 LOCAL_SYMBOL: b2World.cpp<605:19> [b2World.cpp <605:58 605:58>]
 REFERENCE_USAGE void b2World::SolveTOI(const b2TimeStep &) -> b2Contact * b2Contact::m_next [b2World.cpp <605:65 605:70>]
 LOCAL_SYMBOL: b2World.cpp<605:19> [b2World.cpp <605:62 605:62>]
-SYMBOL_FUNCTION bool b2Contact::IsEnabled() const
 REFERENCE_CALL void b2World::SolveTOI(const b2TimeStep &) -> bool b2Contact::IsEnabled() const [b2World.cpp <608:11 608:19>]
 LOCAL_SYMBOL: b2World.cpp<605:19> [b2World.cpp <608:8 608:8>]
 REFERENCE_USAGE void b2World::SolveTOI(const b2TimeStep &) -> int32 b2Contact::m_toiCount [b2World.cpp <614:11 614:20>]
@@ -1134,7 +1005,7 @@ REFERENCE_TYPE_USAGE void b2World::SolveTOI(const b2TimeStep &) -> float32 [b2Wo
 REFERENCE_USAGE void b2World::SolveTOI(const b2TimeStep &) -> uint32 b2Contact::m_flags [b2World.cpp <620:11 620:17>]
 LOCAL_SYMBOL: b2World.cpp<605:19> [b2World.cpp <620:8 620:8>]
 REFERENCE_USAGE void b2World::SolveTOI(const b2TimeStep &) -> b2Contact::anonymous enum (b2Contact.h<155:2>)::e_toiFlag [b2World.cpp <620:32 620:40>]
-SYMBOL_CLASS b2Contact
+QUALIFIER: b2Contact [b2World.cpp <620:21 620:29>]
 LOCAL_SYMBOL: b2World.cpp<619:12> [b2World.cpp <623:5 623:9>]
 REFERENCE_USAGE void b2World::SolveTOI(const b2TimeStep &) -> float32 b2Contact::m_toi [b2World.cpp <623:16 623:20>]
 LOCAL_SYMBOL: b2World.cpp<605:19> [b2World.cpp <623:13 623:13>]
@@ -1151,7 +1022,6 @@ LOCAL_SYMBOL: b2World.cpp<605:19> [b2World.cpp <628:21 628:21>]
 SYMBOL_FUNCTION bool b2Fixture::IsSensor() const
 REFERENCE_CALL void b2World::SolveTOI(const b2TimeStep &) -> bool b2Fixture::IsSensor() const [b2World.cpp <631:13 631:20>]
 LOCAL_SYMBOL: b2World.cpp<627:16> [b2World.cpp <631:9 631:10>]
-SYMBOL_FUNCTION bool b2Fixture::IsSensor() const
 REFERENCE_CALL void b2World::SolveTOI(const b2TimeStep &) -> bool b2Fixture::IsSensor() const [b2World.cpp <631:31 631:38>]
 LOCAL_SYMBOL: b2World.cpp<628:16> [b2World.cpp <631:27 631:28>]
 LOCAL_SYMBOL: b2World.cpp<636:13> [b2World.cpp <636:13 636:14>]
@@ -1161,7 +1031,6 @@ REFERENCE_CALL void b2World::SolveTOI(const b2TimeStep &) -> b2Body * b2Fixture:
 LOCAL_SYMBOL: b2World.cpp<627:16> [b2World.cpp <636:18 636:19>]
 LOCAL_SYMBOL: b2World.cpp<637:13> [b2World.cpp <637:13 637:14>]
 REFERENCE_TYPE_USAGE void b2World::SolveTOI(const b2TimeStep &) -> b2Body [b2World.cpp <637:5 637:10>]
-SYMBOL_FUNCTION b2Body * b2Fixture::GetBody()
 REFERENCE_CALL void b2World::SolveTOI(const b2TimeStep &) -> b2Body * b2Fixture::GetBody() [b2World.cpp <637:22 637:28>]
 LOCAL_SYMBOL: b2World.cpp<628:16> [b2World.cpp <637:18 637:19>]
 LOCAL_SYMBOL: b2World.cpp<639:16> [b2World.cpp <639:16 639:20>]
@@ -1177,17 +1046,13 @@ REFERENCE_USAGE void b2World::SolveTOI(const b2TimeStep &) -> b2BodyType::b2_dyn
 LOCAL_SYMBOL: b2World.cpp<640:16> [b2World.cpp <641:41 641:45>]
 REFERENCE_USAGE void b2World::SolveTOI(const b2TimeStep &) -> b2BodyType::b2_dynamicBody [b2World.cpp <641:50 641:63>]
 LOCAL_SYMBOL: b2World.cpp<643:10> [b2World.cpp <643:10 643:16>]
-SYMBOL_BUILTIN_TYPE bool
 REFERENCE_TYPE_USAGE void b2World::SolveTOI(const b2TimeStep &) -> bool [b2World.cpp <643:5 643:8>]
-SYMBOL_FUNCTION bool b2Body::IsAwake() const
 REFERENCE_CALL void b2World::SolveTOI(const b2TimeStep &) -> bool b2Body::IsAwake() const [b2World.cpp <643:24 643:30>]
 LOCAL_SYMBOL: b2World.cpp<636:13> [b2World.cpp <643:20 643:21>]
 LOCAL_SYMBOL: b2World.cpp<639:16> [b2World.cpp <643:37 643:41>]
 REFERENCE_USAGE void b2World::SolveTOI(const b2TimeStep &) -> b2BodyType::b2_staticBody [b2World.cpp <643:46 643:58>]
 LOCAL_SYMBOL: b2World.cpp<644:10> [b2World.cpp <644:10 644:16>]
-SYMBOL_BUILTIN_TYPE bool
 REFERENCE_TYPE_USAGE void b2World::SolveTOI(const b2TimeStep &) -> bool [b2World.cpp <644:5 644:8>]
-SYMBOL_FUNCTION bool b2Body::IsAwake() const
 REFERENCE_CALL void b2World::SolveTOI(const b2TimeStep &) -> bool b2Body::IsAwake() const [b2World.cpp <644:24 644:30>]
 LOCAL_SYMBOL: b2World.cpp<637:13> [b2World.cpp <644:20 644:21>]
 LOCAL_SYMBOL: b2World.cpp<640:16> [b2World.cpp <644:37 644:41>]
@@ -1195,7 +1060,6 @@ REFERENCE_USAGE void b2World::SolveTOI(const b2TimeStep &) -> b2BodyType::b2_sta
 LOCAL_SYMBOL: b2World.cpp<643:10> [b2World.cpp <647:9 647:15>]
 LOCAL_SYMBOL: b2World.cpp<644:10> [b2World.cpp <647:29 647:35>]
 LOCAL_SYMBOL: b2World.cpp<652:10> [b2World.cpp <652:10 652:17>]
-SYMBOL_BUILTIN_TYPE bool
 REFERENCE_TYPE_USAGE void b2World::SolveTOI(const b2TimeStep &) -> bool [b2World.cpp <652:5 652:8>]
 SYMBOL_FUNCTION bool b2Body::IsBullet() const
 REFERENCE_CALL void b2World::SolveTOI(const b2TimeStep &) -> bool b2Body::IsBullet() const [b2World.cpp <652:25 652:32>]
@@ -1203,9 +1067,7 @@ LOCAL_SYMBOL: b2World.cpp<636:13> [b2World.cpp <652:21 652:22>]
 LOCAL_SYMBOL: b2World.cpp<639:16> [b2World.cpp <652:39 652:43>]
 REFERENCE_USAGE void b2World::SolveTOI(const b2TimeStep &) -> b2BodyType::b2_dynamicBody [b2World.cpp <652:48 652:61>]
 LOCAL_SYMBOL: b2World.cpp<653:10> [b2World.cpp <653:10 653:17>]
-SYMBOL_BUILTIN_TYPE bool
 REFERENCE_TYPE_USAGE void b2World::SolveTOI(const b2TimeStep &) -> bool [b2World.cpp <653:5 653:8>]
-SYMBOL_FUNCTION bool b2Body::IsBullet() const
 REFERENCE_CALL void b2World::SolveTOI(const b2TimeStep &) -> bool b2Body::IsBullet() const [b2World.cpp <653:25 653:32>]
 LOCAL_SYMBOL: b2World.cpp<637:13> [b2World.cpp <653:21 653:22>]
 LOCAL_SYMBOL: b2World.cpp<640:16> [b2World.cpp <653:39 653:43>]
@@ -1242,7 +1104,6 @@ LOCAL_SYMBOL: b2World.cpp<663:13> [b2World.cpp <672:6 672:11>]
 REFERENCE_USAGE void b2World::SolveTOI(const b2TimeStep &) -> float32 b2Sweep::alpha0 [b2World.cpp <672:27 672:32>]
 REFERENCE_USAGE void b2World::SolveTOI(const b2TimeStep &) -> b2Sweep b2Body::m_sweep [b2World.cpp <672:19 672:25>]
 LOCAL_SYMBOL: b2World.cpp<636:13> [b2World.cpp <672:15 672:16>]
-SYMBOL_FUNCTION void b2Sweep::Advance(float32)
 REFERENCE_CALL void b2World::SolveTOI(const b2TimeStep &) -> void b2Sweep::Advance(float32) [b2World.cpp <673:18 673:24>]
 REFERENCE_USAGE void b2World::SolveTOI(const b2TimeStep &) -> b2Sweep b2Body::m_sweep [b2World.cpp <673:10 673:16>]
 LOCAL_SYMBOL: b2World.cpp<637:13> [b2World.cpp <673:6 673:7>]
@@ -1270,11 +1131,9 @@ SYMBOL_FUNCTION b2Shape * b2Fixture::GetShape()
 REFERENCE_CALL void b2World::SolveTOI(const b2TimeStep &) -> b2Shape * b2Fixture::GetShape() [b2World.cpp <683:26 683:33>]
 LOCAL_SYMBOL: b2World.cpp<627:16> [b2World.cpp <683:22 683:23>]
 LOCAL_SYMBOL: b2World.cpp<678:11> [b2World.cpp <683:38 683:43>]
-SYMBOL_FUNCTION void b2DistanceProxy::Set(const b2Shape *, int32)
 REFERENCE_CALL void b2World::SolveTOI(const b2TimeStep &) -> void b2DistanceProxy::Set(const b2Shape *, int32) [b2World.cpp <684:18 684:20>]
 REFERENCE_USAGE void b2World::SolveTOI(const b2TimeStep &) -> b2DistanceProxy b2TOIInput::proxyB [b2World.cpp <684:11 684:16>]
 LOCAL_SYMBOL: b2World.cpp<682:16> [b2World.cpp <684:5 684:9>]
-SYMBOL_FUNCTION b2Shape * b2Fixture::GetShape()
 REFERENCE_CALL void b2World::SolveTOI(const b2TimeStep &) -> b2Shape * b2Fixture::GetShape() [b2World.cpp <684:26 684:33>]
 LOCAL_SYMBOL: b2World.cpp<628:16> [b2World.cpp <684:22 684:23>]
 LOCAL_SYMBOL: b2World.cpp<679:11> [b2World.cpp <684:38 684:43>]
@@ -1284,7 +1143,6 @@ REFERENCE_USAGE void b2World::SolveTOI(const b2TimeStep &) -> b2Sweep b2TOIInput
 LOCAL_SYMBOL: b2World.cpp<682:16> [b2World.cpp <685:5 685:9>]
 REFERENCE_USAGE void b2World::SolveTOI(const b2TimeStep &) -> b2Sweep b2Body::m_sweep [b2World.cpp <685:24 685:30>]
 LOCAL_SYMBOL: b2World.cpp<636:13> [b2World.cpp <685:20 685:21>]
-SYMBOL_FUNCTION b2Sweep & b2Sweep::operator=(const b2Sweep &)
 REFERENCE_CALL void b2World::SolveTOI(const b2TimeStep &) -> b2Sweep & b2Sweep::operator=(const b2Sweep &) [b2World.cpp <686:18 686:18>]
 REFERENCE_USAGE void b2World::SolveTOI(const b2TimeStep &) -> b2Sweep b2TOIInput::sweepB [b2World.cpp <686:11 686:16>]
 LOCAL_SYMBOL: b2World.cpp<682:16> [b2World.cpp <686:5 686:9>]
@@ -1308,6 +1166,7 @@ REFERENCE_USAGE void b2World::SolveTOI(const b2TimeStep &) -> b2TOIOutput::State
 LOCAL_SYMBOL: b2World.cpp<689:17> [b2World.cpp <694:9 694:14>]
 REFERENCE_USAGE void b2World::SolveTOI(const b2TimeStep &) -> b2TOIOutput::State::e_touching [b2World.cpp <694:38 694:47>]
 SYMBOL_STRUCT b2TOIOutput
+QUALIFIER: b2TOIOutput [b2World.cpp <694:25 694:35>]
 LOCAL_SYMBOL: b2World.cpp<619:12> [b2World.cpp <696:6 696:10>]
 SYMBOL_FUNCTION float b2Min<float>(float, float)
 REFERENCE_CALL void b2World::SolveTOI(const b2TimeStep &) -> float b2Min<float>(float, float) [b2World.cpp <696:14 696:18>]
@@ -1321,7 +1180,7 @@ LOCAL_SYMBOL: b2World.cpp<619:12> [b2World.cpp <703:16 703:20>]
 REFERENCE_USAGE void b2World::SolveTOI(const b2TimeStep &) -> uint32 b2Contact::m_flags [b2World.cpp <704:8 704:14>]
 LOCAL_SYMBOL: b2World.cpp<605:19> [b2World.cpp <704:5 704:5>]
 REFERENCE_USAGE void b2World::SolveTOI(const b2TimeStep &) -> b2Contact::anonymous enum (b2Contact.h<155:2>)::e_toiFlag [b2World.cpp <704:30 704:38>]
-SYMBOL_CLASS b2Contact
+QUALIFIER: b2Contact [b2World.cpp <704:19 704:27>]
 LOCAL_SYMBOL: b2World.cpp<619:12> [b2World.cpp <707:8 707:12>]
 LOCAL_SYMBOL: b2World.cpp<603:11> [b2World.cpp <707:16 707:23>]
 LOCAL_SYMBOL: b2World.cpp<602:14> [b2World.cpp <710:5 710:14>]
@@ -1333,22 +1192,18 @@ LOCAL_SYMBOL: b2World.cpp<603:11> [b2World.cpp <715:60 715:67>]
 REFERENCE_USAGE void b2World::SolveTOI(const b2TimeStep &) -> bool b2World::m_stepComplete [b2World.cpp <718:4 718:17>]
 LOCAL_SYMBOL: b2World.cpp<723:14> [b2World.cpp <723:14 723:15>]
 REFERENCE_TYPE_USAGE void b2World::SolveTOI(const b2TimeStep &) -> b2Fixture [b2World.cpp <723:3 723:11>]
-SYMBOL_FUNCTION b2Fixture * b2Contact::GetFixtureA()
 REFERENCE_CALL void b2World::SolveTOI(const b2TimeStep &) -> b2Fixture * b2Contact::GetFixtureA() [b2World.cpp <723:31 723:41>]
 LOCAL_SYMBOL: b2World.cpp<602:14> [b2World.cpp <723:19 723:28>]
 LOCAL_SYMBOL: b2World.cpp<724:14> [b2World.cpp <724:14 724:15>]
 REFERENCE_TYPE_USAGE void b2World::SolveTOI(const b2TimeStep &) -> b2Fixture [b2World.cpp <724:3 724:11>]
-SYMBOL_FUNCTION b2Fixture * b2Contact::GetFixtureB()
 REFERENCE_CALL void b2World::SolveTOI(const b2TimeStep &) -> b2Fixture * b2Contact::GetFixtureB() [b2World.cpp <724:31 724:41>]
 LOCAL_SYMBOL: b2World.cpp<602:14> [b2World.cpp <724:19 724:28>]
 LOCAL_SYMBOL: b2World.cpp<725:11> [b2World.cpp <725:11 725:12>]
 REFERENCE_TYPE_USAGE void b2World::SolveTOI(const b2TimeStep &) -> b2Body [b2World.cpp <725:3 725:8>]
-SYMBOL_FUNCTION b2Body * b2Fixture::GetBody()
 REFERENCE_CALL void b2World::SolveTOI(const b2TimeStep &) -> b2Body * b2Fixture::GetBody() [b2World.cpp <725:20 725:26>]
 LOCAL_SYMBOL: b2World.cpp<723:14> [b2World.cpp <725:16 725:17>]
 LOCAL_SYMBOL: b2World.cpp<726:11> [b2World.cpp <726:11 726:12>]
 REFERENCE_TYPE_USAGE void b2World::SolveTOI(const b2TimeStep &) -> b2Body [b2World.cpp <726:3 726:8>]
-SYMBOL_FUNCTION b2Body * b2Fixture::GetBody()
 REFERENCE_CALL void b2World::SolveTOI(const b2TimeStep &) -> b2Body * b2Fixture::GetBody() [b2World.cpp <726:20 726:26>]
 LOCAL_SYMBOL: b2World.cpp<724:14> [b2World.cpp <726:16 726:17>]
 LOCAL_SYMBOL: b2World.cpp<728:11> [b2World.cpp <728:11 728:17>]
@@ -1359,7 +1214,6 @@ REFERENCE_USAGE void b2World::SolveTOI(const b2TimeStep &) -> b2Sweep b2Body::m_
 LOCAL_SYMBOL: b2World.cpp<725:11> [b2World.cpp <728:21 728:22>]
 LOCAL_SYMBOL: b2World.cpp<729:11> [b2World.cpp <729:11 729:17>]
 REFERENCE_TYPE_USAGE void b2World::SolveTOI(const b2TimeStep &) -> b2Sweep [b2World.cpp <729:3 729:9>]
-SYMBOL_FUNCTION void b2Sweep::b2Sweep(const b2Sweep &)
 REFERENCE_CALL void b2World::SolveTOI(const b2TimeStep &) -> void b2Sweep::b2Sweep(const b2Sweep &) [b2World.cpp <729:25 729:31>]
 REFERENCE_USAGE void b2World::SolveTOI(const b2TimeStep &) -> b2Sweep b2Body::m_sweep [b2World.cpp <729:25 729:31>]
 LOCAL_SYMBOL: b2World.cpp<726:11> [b2World.cpp <729:21 729:22>]
@@ -1367,7 +1221,6 @@ SYMBOL_FUNCTION void b2Body::Advance(float32)
 REFERENCE_CALL void b2World::SolveTOI(const b2TimeStep &) -> void b2Body::Advance(float32) [b2World.cpp <731:7 731:13>]
 LOCAL_SYMBOL: b2World.cpp<725:11> [b2World.cpp <731:3 731:4>]
 LOCAL_SYMBOL: b2World.cpp<603:11> [b2World.cpp <731:15 731:22>]
-SYMBOL_FUNCTION void b2Body::Advance(float32)
 REFERENCE_CALL void b2World::SolveTOI(const b2TimeStep &) -> void b2Body::Advance(float32) [b2World.cpp <732:7 732:13>]
 LOCAL_SYMBOL: b2World.cpp<726:11> [b2World.cpp <732:3 732:4>]
 LOCAL_SYMBOL: b2World.cpp<603:11> [b2World.cpp <732:15 732:22>]
@@ -1379,24 +1232,20 @@ REFERENCE_USAGE void b2World::SolveTOI(const b2TimeStep &) -> b2ContactManager b
 REFERENCE_USAGE void b2World::SolveTOI(const b2TimeStep &) -> uint32 b2Contact::m_flags [b2World.cpp <736:15 736:21>]
 LOCAL_SYMBOL: b2World.cpp<602:14> [b2World.cpp <736:3 736:12>]
 REFERENCE_USAGE void b2World::SolveTOI(const b2TimeStep &) -> b2Contact::anonymous enum (b2Contact.h<155:2>)::e_toiFlag [b2World.cpp <736:38 736:46>]
-SYMBOL_CLASS b2Contact
+QUALIFIER: b2Contact [b2World.cpp <736:27 736:35>]
 REFERENCE_USAGE void b2World::SolveTOI(const b2TimeStep &) -> int32 b2Contact::m_toiCount [b2World.cpp <737:17 737:26>]
 LOCAL_SYMBOL: b2World.cpp<602:14> [b2World.cpp <737:5 737:14>]
-SYMBOL_FUNCTION bool b2Contact::IsEnabled() const
 REFERENCE_CALL void b2World::SolveTOI(const b2TimeStep &) -> bool b2Contact::IsEnabled() const [b2World.cpp <740:19 740:27>]
 LOCAL_SYMBOL: b2World.cpp<602:14> [b2World.cpp <740:7 740:16>]
-SYMBOL_FUNCTION bool b2Contact::IsTouching() const
 REFERENCE_CALL void b2World::SolveTOI(const b2TimeStep &) -> bool b2Contact::IsTouching() const [b2World.cpp <740:55 740:64>]
 LOCAL_SYMBOL: b2World.cpp<602:14> [b2World.cpp <740:43 740:52>]
 SYMBOL_FUNCTION void b2Contact::SetEnabled(bool)
 REFERENCE_CALL void b2World::SolveTOI(const b2TimeStep &) -> void b2Contact::SetEnabled(bool) [b2World.cpp <743:16 743:25>]
 LOCAL_SYMBOL: b2World.cpp<602:14> [b2World.cpp <743:4 743:13>]
-SYMBOL_FUNCTION b2Sweep & b2Sweep::operator=(const b2Sweep &)
 REFERENCE_CALL void b2World::SolveTOI(const b2TimeStep &) -> b2Sweep & b2Sweep::operator=(const b2Sweep &) [b2World.cpp <744:16 744:16>]
 REFERENCE_USAGE void b2World::SolveTOI(const b2TimeStep &) -> b2Sweep b2Body::m_sweep [b2World.cpp <744:8 744:14>]
 LOCAL_SYMBOL: b2World.cpp<725:11> [b2World.cpp <744:4 744:5>]
 LOCAL_SYMBOL: b2World.cpp<728:11> [b2World.cpp <744:18 744:24>]
-SYMBOL_FUNCTION b2Sweep & b2Sweep::operator=(const b2Sweep &)
 REFERENCE_CALL void b2World::SolveTOI(const b2TimeStep &) -> b2Sweep & b2Sweep::operator=(const b2Sweep &) [b2World.cpp <745:16 745:16>]
 REFERENCE_USAGE void b2World::SolveTOI(const b2TimeStep &) -> b2Sweep b2Body::m_sweep [b2World.cpp <745:8 745:14>]
 LOCAL_SYMBOL: b2World.cpp<726:11> [b2World.cpp <745:4 745:5>]
@@ -1404,46 +1253,37 @@ LOCAL_SYMBOL: b2World.cpp<729:11> [b2World.cpp <745:18 745:24>]
 SYMBOL_FUNCTION void b2Body::SynchronizeTransform()
 REFERENCE_CALL void b2World::SolveTOI(const b2TimeStep &) -> void b2Body::SynchronizeTransform() [b2World.cpp <746:8 746:27>]
 LOCAL_SYMBOL: b2World.cpp<725:11> [b2World.cpp <746:4 746:5>]
-SYMBOL_FUNCTION void b2Body::SynchronizeTransform()
 REFERENCE_CALL void b2World::SolveTOI(const b2TimeStep &) -> void b2Body::SynchronizeTransform() [b2World.cpp <747:8 747:27>]
 LOCAL_SYMBOL: b2World.cpp<726:11> [b2World.cpp <747:4 747:5>]
-SYMBOL_FUNCTION void b2Body::SetAwake(bool)
 REFERENCE_CALL void b2World::SolveTOI(const b2TimeStep &) -> void b2Body::SetAwake(bool) [b2World.cpp <751:7 751:14>]
 LOCAL_SYMBOL: b2World.cpp<725:11> [b2World.cpp <751:3 751:4>]
-SYMBOL_FUNCTION void b2Body::SetAwake(bool)
 REFERENCE_CALL void b2World::SolveTOI(const b2TimeStep &) -> void b2Body::SetAwake(bool) [b2World.cpp <752:7 752:14>]
 LOCAL_SYMBOL: b2World.cpp<726:11> [b2World.cpp <752:3 752:4>]
-SYMBOL_FUNCTION void b2Island::Clear()
 REFERENCE_CALL void b2World::SolveTOI(const b2TimeStep &) -> void b2Island::Clear() [b2World.cpp <755:10 755:14>]
 LOCAL_SYMBOL: b2World.cpp<579:11> [b2World.cpp <755:3 755:8>]
-SYMBOL_FUNCTION void b2Island::Add(b2Body *)
 REFERENCE_CALL void b2World::SolveTOI(const b2TimeStep &) -> void b2Island::Add(b2Body *) [b2World.cpp <756:10 756:12>]
 LOCAL_SYMBOL: b2World.cpp<579:11> [b2World.cpp <756:3 756:8>]
 LOCAL_SYMBOL: b2World.cpp<725:11> [b2World.cpp <756:14 756:15>]
-SYMBOL_FUNCTION void b2Island::Add(b2Body *)
 REFERENCE_CALL void b2World::SolveTOI(const b2TimeStep &) -> void b2Island::Add(b2Body *) [b2World.cpp <757:10 757:12>]
 LOCAL_SYMBOL: b2World.cpp<579:11> [b2World.cpp <757:3 757:8>]
 LOCAL_SYMBOL: b2World.cpp<726:11> [b2World.cpp <757:14 757:15>]
-SYMBOL_FUNCTION void b2Island::Add(b2Contact *)
 REFERENCE_CALL void b2World::SolveTOI(const b2TimeStep &) -> void b2Island::Add(b2Contact *) [b2World.cpp <758:10 758:12>]
 LOCAL_SYMBOL: b2World.cpp<579:11> [b2World.cpp <758:3 758:8>]
 LOCAL_SYMBOL: b2World.cpp<602:14> [b2World.cpp <758:14 758:23>]
 REFERENCE_USAGE void b2World::SolveTOI(const b2TimeStep &) -> uint16 b2Body::m_flags [b2World.cpp <760:7 760:13>]
 LOCAL_SYMBOL: b2World.cpp<725:11> [b2World.cpp <760:3 760:4>]
 REFERENCE_USAGE void b2World::SolveTOI(const b2TimeStep &) -> b2Body::anonymous enum (b2Body.h<413:2>)::e_islandFlag [b2World.cpp <760:26 760:37>]
-SYMBOL_CLASS b2Body
+QUALIFIER: b2Body [b2World.cpp <760:18 760:23>]
 REFERENCE_USAGE void b2World::SolveTOI(const b2TimeStep &) -> uint16 b2Body::m_flags [b2World.cpp <761:7 761:13>]
 LOCAL_SYMBOL: b2World.cpp<726:11> [b2World.cpp <761:3 761:4>]
 REFERENCE_USAGE void b2World::SolveTOI(const b2TimeStep &) -> b2Body::anonymous enum (b2Body.h<413:2>)::e_islandFlag [b2World.cpp <761:26 761:37>]
-SYMBOL_CLASS b2Body
+QUALIFIER: b2Body [b2World.cpp <761:18 761:23>]
 REFERENCE_USAGE void b2World::SolveTOI(const b2TimeStep &) -> uint32 b2Contact::m_flags [b2World.cpp <762:15 762:21>]
 LOCAL_SYMBOL: b2World.cpp<602:14> [b2World.cpp <762:3 762:12>]
 REFERENCE_USAGE void b2World::SolveTOI(const b2TimeStep &) -> b2Contact::anonymous enum (b2Contact.h<155:2>)::e_islandFlag [b2World.cpp <762:37 762:48>]
-SYMBOL_CLASS b2Contact
+QUALIFIER: b2Contact [b2World.cpp <762:26 762:34>]
 LOCAL_SYMBOL: b2World.cpp<765:11> [b2World.cpp <765:11 765:16>]
 REFERENCE_TYPE_USAGE void b2World::SolveTOI(const b2TimeStep &) -> b2Body [b2World.cpp <765:3 765:8>]
-LOCAL_SYMBOL: b2World.cpp<725:11> [b2World.cpp <765:24 765:25>]
-LOCAL_SYMBOL: b2World.cpp<726:11> [b2World.cpp <765:28 765:29>]
 LOCAL_SYMBOL: b2World.cpp<725:11> [b2World.cpp <765:24 765:25>]
 LOCAL_SYMBOL: b2World.cpp<726:11> [b2World.cpp <765:28 765:29>]
 LOCAL_SYMBOL: b2World.cpp<766:14> [b2World.cpp <766:14 766:14>]
@@ -1480,7 +1320,7 @@ LOCAL_SYMBOL: b2World.cpp<771:25> [b2World.cpp <783:27 783:28>]
 REFERENCE_USAGE void b2World::SolveTOI(const b2TimeStep &) -> uint32 b2Contact::m_flags [b2World.cpp <786:19 786:25>]
 LOCAL_SYMBOL: b2World.cpp<783:17> [b2World.cpp <786:10 786:16>]
 REFERENCE_USAGE void b2World::SolveTOI(const b2TimeStep &) -> b2Contact::anonymous enum (b2Contact.h<155:2>)::e_islandFlag [b2World.cpp <786:40 786:51>]
-SYMBOL_CLASS b2Contact
+QUALIFIER: b2Contact [b2World.cpp <786:29 786:37>]
 LOCAL_SYMBOL: b2World.cpp<792:14> [b2World.cpp <792:14 792:18>]
 REFERENCE_TYPE_USAGE void b2World::SolveTOI(const b2TimeStep &) -> b2Body [b2World.cpp <792:6 792:11>]
 REFERENCE_USAGE void b2World::SolveTOI(const b2TimeStep &) -> b2Body * b2ContactEdge::other [b2World.cpp <792:26 792:30>]
@@ -1488,20 +1328,16 @@ LOCAL_SYMBOL: b2World.cpp<771:25> [b2World.cpp <792:22 792:23>]
 REFERENCE_USAGE void b2World::SolveTOI(const b2TimeStep &) -> b2BodyType b2Body::m_type [b2World.cpp <793:17 793:22>]
 LOCAL_SYMBOL: b2World.cpp<792:14> [b2World.cpp <793:10 793:14>]
 REFERENCE_USAGE void b2World::SolveTOI(const b2TimeStep &) -> b2BodyType::b2_dynamicBody [b2World.cpp <793:27 793:40>]
-SYMBOL_FUNCTION bool b2Body::IsBullet() const
 REFERENCE_CALL void b2World::SolveTOI(const b2TimeStep &) -> bool b2Body::IsBullet() const [b2World.cpp <794:13 794:20>]
 LOCAL_SYMBOL: b2World.cpp<768:12> [b2World.cpp <794:7 794:10>]
-SYMBOL_FUNCTION bool b2Body::IsBullet() const
 REFERENCE_CALL void b2World::SolveTOI(const b2TimeStep &) -> bool b2Body::IsBullet() const [b2World.cpp <794:43 794:50>]
 LOCAL_SYMBOL: b2World.cpp<792:14> [b2World.cpp <794:36 794:40>]
 LOCAL_SYMBOL: b2World.cpp<800:11> [b2World.cpp <800:11 800:17>]
-SYMBOL_BUILTIN_TYPE bool
 REFERENCE_TYPE_USAGE void b2World::SolveTOI(const b2TimeStep &) -> bool [b2World.cpp <800:6 800:9>]
 REFERENCE_USAGE void b2World::SolveTOI(const b2TimeStep &) -> bool b2Fixture::m_isSensor [b2World.cpp <800:42 800:51>]
 REFERENCE_USAGE void b2World::SolveTOI(const b2TimeStep &) -> b2Fixture * b2Contact::m_fixtureA [b2World.cpp <800:30 800:39>]
 LOCAL_SYMBOL: b2World.cpp<783:17> [b2World.cpp <800:21 800:27>]
 LOCAL_SYMBOL: b2World.cpp<801:11> [b2World.cpp <801:11 801:17>]
-SYMBOL_BUILTIN_TYPE bool
 REFERENCE_TYPE_USAGE void b2World::SolveTOI(const b2TimeStep &) -> bool [b2World.cpp <801:6 801:9>]
 REFERENCE_USAGE void b2World::SolveTOI(const b2TimeStep &) -> bool b2Fixture::m_isSensor [b2World.cpp <801:42 801:51>]
 REFERENCE_USAGE void b2World::SolveTOI(const b2TimeStep &) -> b2Fixture * b2Contact::m_fixtureB [b2World.cpp <801:30 801:39>]
@@ -1510,68 +1346,56 @@ LOCAL_SYMBOL: b2World.cpp<800:11> [b2World.cpp <802:10 802:16>]
 LOCAL_SYMBOL: b2World.cpp<801:11> [b2World.cpp <802:21 802:27>]
 LOCAL_SYMBOL: b2World.cpp<808:14> [b2World.cpp <808:14 808:19>]
 REFERENCE_TYPE_USAGE void b2World::SolveTOI(const b2TimeStep &) -> b2Sweep [b2World.cpp <808:6 808:12>]
-SYMBOL_FUNCTION void b2Sweep::b2Sweep(const b2Sweep &)
 REFERENCE_CALL void b2World::SolveTOI(const b2TimeStep &) -> void b2Sweep::b2Sweep(const b2Sweep &) [b2World.cpp <808:30 808:36>]
 REFERENCE_USAGE void b2World::SolveTOI(const b2TimeStep &) -> b2Sweep b2Body::m_sweep [b2World.cpp <808:30 808:36>]
 LOCAL_SYMBOL: b2World.cpp<792:14> [b2World.cpp <808:23 808:27>]
 REFERENCE_USAGE void b2World::SolveTOI(const b2TimeStep &) -> uint16 b2Body::m_flags [b2World.cpp <809:18 809:24>]
 LOCAL_SYMBOL: b2World.cpp<792:14> [b2World.cpp <809:11 809:15>]
 REFERENCE_USAGE void b2World::SolveTOI(const b2TimeStep &) -> b2Body::anonymous enum (b2Body.h<413:2>)::e_islandFlag [b2World.cpp <809:36 809:47>]
-SYMBOL_CLASS b2Body
-SYMBOL_FUNCTION void b2Body::Advance(float32)
+QUALIFIER: b2Body [b2World.cpp <809:28 809:33>]
 REFERENCE_CALL void b2World::SolveTOI(const b2TimeStep &) -> void b2Body::Advance(float32) [b2World.cpp <811:14 811:20>]
 LOCAL_SYMBOL: b2World.cpp<792:14> [b2World.cpp <811:7 811:11>]
 LOCAL_SYMBOL: b2World.cpp<603:11> [b2World.cpp <811:22 811:29>]
-SYMBOL_FUNCTION void b2Contact::Update(b2ContactListener *)
 REFERENCE_CALL void b2World::SolveTOI(const b2TimeStep &) -> void b2Contact::Update(b2ContactListener *) [b2World.cpp <815:15 815:20>]
 LOCAL_SYMBOL: b2World.cpp<783:17> [b2World.cpp <815:6 815:12>]
 REFERENCE_USAGE void b2World::SolveTOI(const b2TimeStep &) -> b2ContactListener * b2ContactManager::m_contactListener [b2World.cpp <815:39 815:55>]
 REFERENCE_USAGE void b2World::SolveTOI(const b2TimeStep &) -> b2ContactManager b2World::m_contactManager [b2World.cpp <815:22 815:37>]
-SYMBOL_FUNCTION bool b2Contact::IsEnabled() const
 REFERENCE_CALL void b2World::SolveTOI(const b2TimeStep &) -> bool b2Contact::IsEnabled() const [b2World.cpp <818:19 818:27>]
 LOCAL_SYMBOL: b2World.cpp<783:17> [b2World.cpp <818:10 818:16>]
-SYMBOL_FUNCTION b2Sweep & b2Sweep::operator=(const b2Sweep &)
 REFERENCE_CALL void b2World::SolveTOI(const b2TimeStep &) -> b2Sweep & b2Sweep::operator=(const b2Sweep &) [b2World.cpp <820:22 820:22>]
 REFERENCE_USAGE void b2World::SolveTOI(const b2TimeStep &) -> b2Sweep b2Body::m_sweep [b2World.cpp <820:14 820:20>]
 LOCAL_SYMBOL: b2World.cpp<792:14> [b2World.cpp <820:7 820:11>]
 LOCAL_SYMBOL: b2World.cpp<808:14> [b2World.cpp <820:24 820:29>]
-SYMBOL_FUNCTION void b2Body::SynchronizeTransform()
 REFERENCE_CALL void b2World::SolveTOI(const b2TimeStep &) -> void b2Body::SynchronizeTransform() [b2World.cpp <821:14 821:33>]
 LOCAL_SYMBOL: b2World.cpp<792:14> [b2World.cpp <821:7 821:11>]
-SYMBOL_FUNCTION bool b2Contact::IsTouching() const
 REFERENCE_CALL void b2World::SolveTOI(const b2TimeStep &) -> bool b2Contact::IsTouching() const [b2World.cpp <826:19 826:28>]
 LOCAL_SYMBOL: b2World.cpp<783:17> [b2World.cpp <826:10 826:16>]
-SYMBOL_FUNCTION b2Sweep & b2Sweep::operator=(const b2Sweep &)
 REFERENCE_CALL void b2World::SolveTOI(const b2TimeStep &) -> b2Sweep & b2Sweep::operator=(const b2Sweep &) [b2World.cpp <828:22 828:22>]
 REFERENCE_USAGE void b2World::SolveTOI(const b2TimeStep &) -> b2Sweep b2Body::m_sweep [b2World.cpp <828:14 828:20>]
 LOCAL_SYMBOL: b2World.cpp<792:14> [b2World.cpp <828:7 828:11>]
 LOCAL_SYMBOL: b2World.cpp<808:14> [b2World.cpp <828:24 828:29>]
-SYMBOL_FUNCTION void b2Body::SynchronizeTransform()
 REFERENCE_CALL void b2World::SolveTOI(const b2TimeStep &) -> void b2Body::SynchronizeTransform() [b2World.cpp <829:14 829:33>]
 LOCAL_SYMBOL: b2World.cpp<792:14> [b2World.cpp <829:7 829:11>]
 REFERENCE_USAGE void b2World::SolveTOI(const b2TimeStep &) -> uint32 b2Contact::m_flags [b2World.cpp <834:15 834:21>]
 LOCAL_SYMBOL: b2World.cpp<783:17> [b2World.cpp <834:6 834:12>]
 REFERENCE_USAGE void b2World::SolveTOI(const b2TimeStep &) -> b2Contact::anonymous enum (b2Contact.h<155:2>)::e_islandFlag [b2World.cpp <834:37 834:48>]
-SYMBOL_CLASS b2Contact
-SYMBOL_FUNCTION void b2Island::Add(b2Contact *)
+QUALIFIER: b2Contact [b2World.cpp <834:26 834:34>]
 REFERENCE_CALL void b2World::SolveTOI(const b2TimeStep &) -> void b2Island::Add(b2Contact *) [b2World.cpp <835:13 835:15>]
 LOCAL_SYMBOL: b2World.cpp<579:11> [b2World.cpp <835:6 835:11>]
 LOCAL_SYMBOL: b2World.cpp<783:17> [b2World.cpp <835:17 835:23>]
 REFERENCE_USAGE void b2World::SolveTOI(const b2TimeStep &) -> uint16 b2Body::m_flags [b2World.cpp <838:17 838:23>]
 LOCAL_SYMBOL: b2World.cpp<792:14> [b2World.cpp <838:10 838:14>]
 REFERENCE_USAGE void b2World::SolveTOI(const b2TimeStep &) -> b2Body::anonymous enum (b2Body.h<413:2>)::e_islandFlag [b2World.cpp <838:35 838:46>]
-SYMBOL_CLASS b2Body
+QUALIFIER: b2Body [b2World.cpp <838:27 838:32>]
 REFERENCE_USAGE void b2World::SolveTOI(const b2TimeStep &) -> uint16 b2Body::m_flags [b2World.cpp <844:13 844:19>]
 LOCAL_SYMBOL: b2World.cpp<792:14> [b2World.cpp <844:6 844:10>]
 REFERENCE_USAGE void b2World::SolveTOI(const b2TimeStep &) -> b2Body::anonymous enum (b2Body.h<413:2>)::e_islandFlag [b2World.cpp <844:32 844:43>]
-SYMBOL_CLASS b2Body
+QUALIFIER: b2Body [b2World.cpp <844:24 844:29>]
 REFERENCE_USAGE void b2World::SolveTOI(const b2TimeStep &) -> b2BodyType b2Body::m_type [b2World.cpp <846:17 846:22>]
 LOCAL_SYMBOL: b2World.cpp<792:14> [b2World.cpp <846:10 846:14>]
 REFERENCE_USAGE void b2World::SolveTOI(const b2TimeStep &) -> b2BodyType::b2_staticBody [b2World.cpp <846:27 846:39>]
-SYMBOL_FUNCTION void b2Body::SetAwake(bool)
 REFERENCE_CALL void b2World::SolveTOI(const b2TimeStep &) -> void b2Body::SetAwake(bool) [b2World.cpp <848:14 848:21>]
 LOCAL_SYMBOL: b2World.cpp<792:14> [b2World.cpp <848:7 848:11>]
-SYMBOL_FUNCTION void b2Island::Add(b2Body *)
 REFERENCE_CALL void b2World::SolveTOI(const b2TimeStep &) -> void b2Island::Add(b2Body *) [b2World.cpp <851:13 851:15>]
 LOCAL_SYMBOL: b2World.cpp<579:11> [b2World.cpp <851:6 851:11>]
 LOCAL_SYMBOL: b2World.cpp<792:14> [b2World.cpp <851:17 851:21>]
@@ -1620,11 +1444,10 @@ LOCAL_SYMBOL: b2World.cpp<866:14> [b2World.cpp <868:35 868:35>]
 REFERENCE_USAGE void b2World::SolveTOI(const b2TimeStep &) -> uint16 b2Body::m_flags [b2World.cpp <869:10 869:16>]
 LOCAL_SYMBOL: b2World.cpp<868:12> [b2World.cpp <869:4 869:7>]
 REFERENCE_USAGE void b2World::SolveTOI(const b2TimeStep &) -> b2Body::anonymous enum (b2Body.h<413:2>)::e_islandFlag [b2World.cpp <869:30 869:41>]
-SYMBOL_CLASS b2Body
+QUALIFIER: b2Body [b2World.cpp <869:22 869:27>]
 REFERENCE_USAGE void b2World::SolveTOI(const b2TimeStep &) -> b2BodyType b2Body::m_type [b2World.cpp <871:14 871:19>]
 LOCAL_SYMBOL: b2World.cpp<868:12> [b2World.cpp <871:8 871:11>]
 REFERENCE_USAGE void b2World::SolveTOI(const b2TimeStep &) -> b2BodyType::b2_dynamicBody [b2World.cpp <871:24 871:37>]
-SYMBOL_FUNCTION void b2Body::SynchronizeFixtures()
 REFERENCE_CALL void b2World::SolveTOI(const b2TimeStep &) -> void b2Body::SynchronizeFixtures() [b2World.cpp <876:10 876:28>]
 LOCAL_SYMBOL: b2World.cpp<868:12> [b2World.cpp <876:4 876:7>]
 LOCAL_SYMBOL: b2World.cpp<879:24> [b2World.cpp <879:24 879:25>]
@@ -1639,17 +1462,15 @@ REFERENCE_USAGE void b2World::SolveTOI(const b2TimeStep &) -> uint32 b2Contact::
 REFERENCE_USAGE void b2World::SolveTOI(const b2TimeStep &) -> b2Contact * b2ContactEdge::contact [b2World.cpp <881:9 881:15>]
 LOCAL_SYMBOL: b2World.cpp<879:24> [b2World.cpp <881:5 881:6>]
 REFERENCE_USAGE void b2World::SolveTOI(const b2TimeStep &) -> b2Contact::anonymous enum (b2Contact.h<155:2>)::e_toiFlag [b2World.cpp <881:42 881:50>]
-SYMBOL_CLASS b2Contact
+QUALIFIER: b2Contact [b2World.cpp <881:31 881:39>]
 REFERENCE_USAGE void b2World::SolveTOI(const b2TimeStep &) -> b2Contact::anonymous enum (b2Contact.h<155:2>)::e_islandFlag [b2World.cpp <881:65 881:76>]
-SYMBOL_CLASS b2Contact
-SYMBOL_FUNCTION void b2ContactManager::FindNewContacts()
+QUALIFIER: b2Contact [b2World.cpp <881:54 881:62>]
 REFERENCE_CALL void b2World::SolveTOI(const b2TimeStep &) -> void b2ContactManager::FindNewContacts() [b2World.cpp <887:20 887:34>]
 REFERENCE_USAGE void b2World::SolveTOI(const b2TimeStep &) -> b2ContactManager b2World::m_contactManager [b2World.cpp <887:3 887:18>]
 REFERENCE_USAGE void b2World::SolveTOI(const b2TimeStep &) -> bool b2World::m_subStepping [b2World.cpp <889:7 889:19>]
 REFERENCE_USAGE void b2World::SolveTOI(const b2TimeStep &) -> bool b2World::m_stepComplete [b2World.cpp <891:4 891:17>]
 SYMBOL_METHOD public void b2World::Step(float32, int32, int32) [b2World.cpp <897:1 <897:15 897:18> 963:1>]
-SYMBOL_CLASS b2World
-SYMBOL_BUILTIN_TYPE void
+QUALIFIER: b2World [b2World.cpp <897:6 897:12>]
 REFERENCE_TYPE_USAGE void b2World::Step(float32, int32, int32) -> void [b2World.cpp <897:1 897:4>]
 LOCAL_SYMBOL: b2World.cpp<897:28> [b2World.cpp <897:28 897:29>]
 REFERENCE_TYPE_USAGE void b2World::Step(float32, int32, int32) -> float32 [b2World.cpp <897:20 897:26>]
@@ -1659,11 +1480,9 @@ LOCAL_SYMBOL: b2World.cpp<897:64> [b2World.cpp <897:64 897:81>]
 REFERENCE_TYPE_USAGE void b2World::Step(float32, int32, int32) -> int32 [b2World.cpp <897:58 897:62>]
 LOCAL_SYMBOL: b2World.cpp<899:10> [b2World.cpp <899:10 899:18>]
 REFERENCE_TYPE_USAGE void b2World::Step(float32, int32, int32) -> b2Timer [b2World.cpp <899:2 899:8>]
-SYMBOL_FUNCTION void b2Timer::b2Timer()
 REFERENCE_CALL void b2World::Step(float32, int32, int32) -> void b2Timer::b2Timer() [b2World.cpp <899:10 899:18>]
 REFERENCE_USAGE void b2World::Step(float32, int32, int32) -> int32 b2World::m_flags [b2World.cpp <902:6 902:12>]
 REFERENCE_USAGE void b2World::Step(float32, int32, int32) -> b2World::anonymous enum (b2World.h<215:2>)::e_newFixture [b2World.cpp <902:16 902:27>]
-SYMBOL_FUNCTION void b2ContactManager::FindNewContacts()
 REFERENCE_CALL void b2World::Step(float32, int32, int32) -> void b2ContactManager::FindNewContacts() [b2World.cpp <904:20 904:34>]
 REFERENCE_USAGE void b2World::Step(float32, int32, int32) -> b2ContactManager b2World::m_contactManager [b2World.cpp <904:3 904:18>]
 REFERENCE_USAGE void b2World::Step(float32, int32, int32) -> int32 b2World::m_flags [b2World.cpp <905:3 905:9>]
@@ -1672,7 +1491,6 @@ REFERENCE_USAGE void b2World::Step(float32, int32, int32) -> int32 b2World::m_fl
 REFERENCE_USAGE void b2World::Step(float32, int32, int32) -> b2World::anonymous enum (b2World.h<215:2>)::e_locked [b2World.cpp <908:13 908:20>]
 LOCAL_SYMBOL: b2World.cpp<910:13> [b2World.cpp <910:13 910:16>]
 REFERENCE_TYPE_USAGE void b2World::Step(float32, int32, int32) -> b2TimeStep [b2World.cpp <910:2 910:11>]
-SYMBOL_FUNCTION void b2TimeStep::b2TimeStep()
 REFERENCE_CALL void b2World::Step(float32, int32, int32) -> void b2TimeStep::b2TimeStep() [b2World.cpp <910:13 910:16>]
 REFERENCE_USAGE void b2World::Step(float32, int32, int32) -> float32 b2TimeStep::dt [b2World.cpp <911:7 911:8>]
 LOCAL_SYMBOL: b2World.cpp<910:13> [b2World.cpp <911:2 911:5>]
@@ -1698,14 +1516,12 @@ LOCAL_SYMBOL: b2World.cpp<910:13> [b2World.cpp <925:2 925:5>]
 REFERENCE_USAGE void b2World::Step(float32, int32, int32) -> bool b2World::m_warmStarting [b2World.cpp <925:22 925:35>]
 LOCAL_SYMBOL: b2World.cpp<929:11> [b2World.cpp <929:11 929:15>]
 REFERENCE_TYPE_USAGE void b2World::Step(float32, int32, int32) -> b2Timer [b2World.cpp <929:3 929:9>]
-SYMBOL_FUNCTION void b2Timer::b2Timer()
 REFERENCE_CALL void b2World::Step(float32, int32, int32) -> void b2Timer::b2Timer() [b2World.cpp <929:11 929:15>]
 SYMBOL_FUNCTION void b2ContactManager::Collide()
 REFERENCE_CALL void b2World::Step(float32, int32, int32) -> void b2ContactManager::Collide() [b2World.cpp <930:20 930:26>]
 REFERENCE_USAGE void b2World::Step(float32, int32, int32) -> b2ContactManager b2World::m_contactManager [b2World.cpp <930:3 930:18>]
 REFERENCE_USAGE void b2World::Step(float32, int32, int32) -> float32 b2Profile::collide [b2World.cpp <931:13 931:19>]
 REFERENCE_USAGE void b2World::Step(float32, int32, int32) -> b2Profile b2World::m_profile [b2World.cpp <931:3 931:11>]
-SYMBOL_FUNCTION float32 b2Timer::GetMilliseconds() const
 REFERENCE_CALL void b2World::Step(float32, int32, int32) -> float32 b2Timer::GetMilliseconds() const [b2World.cpp <931:29 931:43>]
 LOCAL_SYMBOL: b2World.cpp<929:11> [b2World.cpp <931:23 931:27>]
 REFERENCE_USAGE void b2World::Step(float32, int32, int32) -> bool b2World::m_stepComplete [b2World.cpp <935:6 935:19>]
@@ -1713,14 +1529,12 @@ REFERENCE_USAGE void b2World::Step(float32, int32, int32) -> float32 b2TimeStep:
 LOCAL_SYMBOL: b2World.cpp<910:13> [b2World.cpp <935:24 935:27>]
 LOCAL_SYMBOL: b2World.cpp<937:11> [b2World.cpp <937:11 937:15>]
 REFERENCE_TYPE_USAGE void b2World::Step(float32, int32, int32) -> b2Timer [b2World.cpp <937:3 937:9>]
-SYMBOL_FUNCTION void b2Timer::b2Timer()
 REFERENCE_CALL void b2World::Step(float32, int32, int32) -> void b2Timer::b2Timer() [b2World.cpp <937:11 937:15>]
 SYMBOL_FUNCTION void b2World::Solve(const b2TimeStep &)
 REFERENCE_CALL void b2World::Step(float32, int32, int32) -> void b2World::Solve(const b2TimeStep &) [b2World.cpp <938:3 938:7>]
 LOCAL_SYMBOL: b2World.cpp<910:13> [b2World.cpp <938:9 938:12>]
 REFERENCE_USAGE void b2World::Step(float32, int32, int32) -> float32 b2Profile::solve [b2World.cpp <939:13 939:17>]
 REFERENCE_USAGE void b2World::Step(float32, int32, int32) -> b2Profile b2World::m_profile [b2World.cpp <939:3 939:11>]
-SYMBOL_FUNCTION float32 b2Timer::GetMilliseconds() const
 REFERENCE_CALL void b2World::Step(float32, int32, int32) -> float32 b2Timer::GetMilliseconds() const [b2World.cpp <939:27 939:41>]
 LOCAL_SYMBOL: b2World.cpp<937:11> [b2World.cpp <939:21 939:25>]
 REFERENCE_USAGE void b2World::Step(float32, int32, int32) -> bool b2World::m_continuousPhysics [b2World.cpp <943:6 943:24>]
@@ -1728,14 +1542,12 @@ REFERENCE_USAGE void b2World::Step(float32, int32, int32) -> float32 b2TimeStep:
 LOCAL_SYMBOL: b2World.cpp<910:13> [b2World.cpp <943:29 943:32>]
 LOCAL_SYMBOL: b2World.cpp<945:11> [b2World.cpp <945:11 945:15>]
 REFERENCE_TYPE_USAGE void b2World::Step(float32, int32, int32) -> b2Timer [b2World.cpp <945:3 945:9>]
-SYMBOL_FUNCTION void b2Timer::b2Timer()
 REFERENCE_CALL void b2World::Step(float32, int32, int32) -> void b2Timer::b2Timer() [b2World.cpp <945:11 945:15>]
 SYMBOL_FUNCTION void b2World::SolveTOI(const b2TimeStep &)
 REFERENCE_CALL void b2World::Step(float32, int32, int32) -> void b2World::SolveTOI(const b2TimeStep &) [b2World.cpp <946:3 946:10>]
 LOCAL_SYMBOL: b2World.cpp<910:13> [b2World.cpp <946:12 946:15>]
 REFERENCE_USAGE void b2World::Step(float32, int32, int32) -> float32 b2Profile::solveTOI [b2World.cpp <947:13 947:20>]
 REFERENCE_USAGE void b2World::Step(float32, int32, int32) -> b2Profile b2World::m_profile [b2World.cpp <947:3 947:11>]
-SYMBOL_FUNCTION float32 b2Timer::GetMilliseconds() const
 REFERENCE_CALL void b2World::Step(float32, int32, int32) -> float32 b2Timer::GetMilliseconds() const [b2World.cpp <947:30 947:44>]
 LOCAL_SYMBOL: b2World.cpp<945:11> [b2World.cpp <947:24 947:28>]
 REFERENCE_USAGE void b2World::Step(float32, int32, int32) -> float32 b2TimeStep::dt [b2World.cpp <950:11 950:12>]
@@ -1751,19 +1563,16 @@ REFERENCE_USAGE void b2World::Step(float32, int32, int32) -> int32 b2World::m_fl
 REFERENCE_USAGE void b2World::Step(float32, int32, int32) -> b2World::anonymous enum (b2World.h<215:2>)::e_locked [b2World.cpp <960:14 960:21>]
 REFERENCE_USAGE void b2World::Step(float32, int32, int32) -> float32 b2Profile::step [b2World.cpp <962:12 962:15>]
 REFERENCE_USAGE void b2World::Step(float32, int32, int32) -> b2Profile b2World::m_profile [b2World.cpp <962:2 962:10>]
-SYMBOL_FUNCTION float32 b2Timer::GetMilliseconds() const
 REFERENCE_CALL void b2World::Step(float32, int32, int32) -> float32 b2Timer::GetMilliseconds() const [b2World.cpp <962:29 962:43>]
 LOCAL_SYMBOL: b2World.cpp<899:10> [b2World.cpp <962:19 962:27>]
 SYMBOL_METHOD public void b2World::ClearForces() [b2World.cpp <965:1 <965:15 965:25> 972:1>]
-SYMBOL_CLASS b2World
-SYMBOL_BUILTIN_TYPE void
+QUALIFIER: b2World [b2World.cpp <965:6 965:12>]
 REFERENCE_TYPE_USAGE void b2World::ClearForces() -> void [b2World.cpp <965:1 965:4>]
 LOCAL_SYMBOL: b2World.cpp<967:15> [b2World.cpp <967:15 967:18>]
 REFERENCE_TYPE_USAGE void b2World::ClearForces() -> b2Body [b2World.cpp <967:7 967:12>]
 REFERENCE_USAGE void b2World::ClearForces() -> b2Body * b2World::m_bodyList [b2World.cpp <967:22 967:31>]
 LOCAL_SYMBOL: b2World.cpp<967:15> [b2World.cpp <967:34 967:37>]
 LOCAL_SYMBOL: b2World.cpp<967:15> [b2World.cpp <967:40 967:43>]
-SYMBOL_FUNCTION b2Body * b2Body::GetNext()
 REFERENCE_CALL void b2World::ClearForces() -> b2Body * b2Body::GetNext() [b2World.cpp <967:53 967:59>]
 LOCAL_SYMBOL: b2World.cpp<967:15> [b2World.cpp <967:47 967:50>]
 SYMBOL_FUNCTION void b2Vec2::SetZero()
@@ -1774,7 +1583,6 @@ REFERENCE_USAGE void b2World::ClearForces() -> float32 b2Body::m_torque [b2World
 LOCAL_SYMBOL: b2World.cpp<967:15> [b2World.cpp <970:3 970:6>]
 SYMBOL_STRUCT b2WorldQueryWrapper [b2World.cpp <974:1 <974:8 974:26> 984:1>]
 SYMBOL_METHOD public bool b2WorldQueryWrapper::QueryCallback(int32) [b2World.cpp <976:2 <976:7 976:19> 980:2>]
-SYMBOL_BUILTIN_TYPE bool
 REFERENCE_TYPE_USAGE bool b2WorldQueryWrapper::QueryCallback(int32) -> bool [b2World.cpp <976:2 976:5>]
 LOCAL_SYMBOL: b2World.cpp<976:27> [b2World.cpp <976:27 976:33>]
 REFERENCE_TYPE_USAGE bool b2WorldQueryWrapper::QueryCallback(int32) -> int32 [b2World.cpp <976:21 976:25>]
@@ -1798,8 +1606,7 @@ SYMBOL_METHOD public void b2WorldQueryWrapper::b2WorldQueryWrapper() [b2World.cp
 SYMBOL_METHOD public void b2WorldQueryWrapper::b2WorldQueryWrapper(const b2WorldQueryWrapper &) [b2World.cpp <974:8 974:26>]
 SYMBOL_METHOD public void b2WorldQueryWrapper::b2WorldQueryWrapper(b2WorldQueryWrapper &) [b2World.cpp <974:8 974:26>]
 SYMBOL_METHOD public void b2World::QueryAABB(b2QueryCallback *, const b2AABB &) const [b2World.cpp <986:1 <986:15 986:23> 992:1>]
-SYMBOL_CLASS b2World
-SYMBOL_BUILTIN_TYPE void
+QUALIFIER: b2World [b2World.cpp <986:6 986:12>]
 REFERENCE_TYPE_USAGE void b2World::QueryAABB(b2QueryCallback *, const b2AABB &) const -> void [b2World.cpp <986:1 986:4>]
 LOCAL_SYMBOL: b2World.cpp<986:42> [b2World.cpp <986:42 986:49>]
 REFERENCE_TYPE_USAGE void b2World::QueryAABB(b2QueryCallback *, const b2AABB &) const -> b2QueryCallback [b2World.cpp <986:25 986:39>]
@@ -1830,9 +1637,7 @@ REFERENCE_TYPE_USAGE float32 b2WorldRayCastWrapper::RayCastCallback(const b2RayC
 LOCAL_SYMBOL: b2World.cpp<996:61> [b2World.cpp <996:61 996:67>]
 REFERENCE_TYPE_USAGE float32 b2WorldRayCastWrapper::RayCastCallback(const b2RayCastInput &, int32) -> int32 [b2World.cpp <996:55 996:59>]
 LOCAL_SYMBOL: b2World.cpp<998:9> [b2World.cpp <998:9 998:16>]
-SYMBOL_BUILTIN_TYPE void
 REFERENCE_TYPE_USAGE float32 b2WorldRayCastWrapper::RayCastCallback(const b2RayCastInput &, int32) -> void [b2World.cpp <998:3 998:6>]
-SYMBOL_FUNCTION void * b2BroadPhase::GetUserData(int32) const
 REFERENCE_CALL float32 b2WorldRayCastWrapper::RayCastCallback(const b2RayCastInput &, int32) -> void * b2BroadPhase::GetUserData(int32) const [b2World.cpp <998:32 998:42>]
 REFERENCE_USAGE float32 b2WorldRayCastWrapper::RayCastCallback(const b2RayCastInput &, int32) -> const b2BroadPhase * b2WorldRayCastWrapper::broadPhase [b2World.cpp <998:20 998:29>]
 LOCAL_SYMBOL: b2World.cpp<996:61> [b2World.cpp <998:44 998:50>]
@@ -1853,7 +1658,6 @@ REFERENCE_TYPE_USAGE float32 b2WorldRayCastWrapper::RayCastCallback(const b2RayC
 SYMBOL_FUNCTION void b2RayCastOutput::b2RayCastOutput()
 REFERENCE_CALL float32 b2WorldRayCastWrapper::RayCastCallback(const b2RayCastInput &, int32) -> void b2RayCastOutput::b2RayCastOutput() [b2World.cpp <1002:19 1002:24>]
 LOCAL_SYMBOL: b2World.cpp<1003:8> [b2World.cpp <1003:8 1003:10>]
-SYMBOL_BUILTIN_TYPE bool
 REFERENCE_TYPE_USAGE float32 b2WorldRayCastWrapper::RayCastCallback(const b2RayCastInput &, int32) -> bool [b2World.cpp <1003:3 1003:6>]
 SYMBOL_FUNCTION bool b2Fixture::RayCast(b2RayCastOutput *, const b2RayCastInput &, int32) const
 REFERENCE_CALL float32 b2WorldRayCastWrapper::RayCastCallback(const b2RayCastInput &, int32) -> bool b2Fixture::RayCast(b2RayCastOutput *, const b2RayCastInput &, int32) const [b2World.cpp <1003:23 1003:29>]
@@ -1875,7 +1679,6 @@ REFERENCE_CALL float32 b2WorldRayCastWrapper::RayCastCallback(const b2RayCastInp
 LOCAL_SYMBOL: b2World.cpp<1007:12> [b2World.cpp <1008:27 1008:34>]
 REFERENCE_USAGE float32 b2WorldRayCastWrapper::RayCastCallback(const b2RayCastInput &, int32) -> b2Vec2 b2RayCastInput::p1 [b2World.cpp <1008:45 1008:46>]
 LOCAL_SYMBOL: b2World.cpp<996:48> [b2World.cpp <1008:39 1008:43>]
-SYMBOL_FUNCTION b2Vec2 operator*(float32, const b2Vec2 &)
 REFERENCE_CALL float32 b2WorldRayCastWrapper::RayCastCallback(const b2RayCastInput &, int32) -> b2Vec2 operator*(float32, const b2Vec2 &) [b2World.cpp <1008:59 1008:59>]
 LOCAL_SYMBOL: b2World.cpp<1007:12> [b2World.cpp <1008:50 1008:57>]
 REFERENCE_USAGE float32 b2WorldRayCastWrapper::RayCastCallback(const b2RayCastInput &, int32) -> b2Vec2 b2RayCastInput::p2 [b2World.cpp <1008:67 1008:68>]
@@ -1898,8 +1701,7 @@ SYMBOL_METHOD public void b2WorldRayCastWrapper::b2WorldRayCastWrapper() [b2Worl
 SYMBOL_METHOD public void b2WorldRayCastWrapper::b2WorldRayCastWrapper(const b2WorldRayCastWrapper &) [b2World.cpp <994:8 994:28>]
 SYMBOL_METHOD public void b2WorldRayCastWrapper::b2WorldRayCastWrapper(b2WorldRayCastWrapper &) [b2World.cpp <994:8 994:28>]
 SYMBOL_METHOD public void b2World::RayCast(b2RayCastCallback *, const b2Vec2 &, const b2Vec2 &) const [b2World.cpp <1019:1 <1019:15 1019:21> 1029:1>]
-SYMBOL_CLASS b2World
-SYMBOL_BUILTIN_TYPE void
+QUALIFIER: b2World [b2World.cpp <1019:6 1019:12>]
 REFERENCE_TYPE_USAGE void b2World::RayCast(b2RayCastCallback *, const b2Vec2 &, const b2Vec2 &) const -> void [b2World.cpp <1019:1 1019:4>]
 LOCAL_SYMBOL: b2World.cpp<1019:42> [b2World.cpp <1019:42 1019:49>]
 REFERENCE_TYPE_USAGE void b2World::RayCast(b2RayCastCallback *, const b2Vec2 &, const b2Vec2 &) const -> b2RayCastCallback [b2World.cpp <1019:23 1019:39>]
@@ -1924,12 +1726,10 @@ SYMBOL_FUNCTION void b2RayCastInput::b2RayCastInput()
 REFERENCE_CALL void b2World::RayCast(b2RayCastCallback *, const b2Vec2 &, const b2Vec2 &) const -> void b2RayCastInput::b2RayCastInput() [b2World.cpp <1024:17 1024:21>]
 REFERENCE_USAGE void b2World::RayCast(b2RayCastCallback *, const b2Vec2 &, const b2Vec2 &) const -> float32 b2RayCastInput::maxFraction [b2World.cpp <1025:8 1025:18>]
 LOCAL_SYMBOL: b2World.cpp<1024:17> [b2World.cpp <1025:2 1025:6>]
-SYMBOL_FUNCTION b2Vec2 & b2Vec2::operator=(const b2Vec2 &)
 REFERENCE_CALL void b2World::RayCast(b2RayCastCallback *, const b2Vec2 &, const b2Vec2 &) const -> b2Vec2 & b2Vec2::operator=(const b2Vec2 &) [b2World.cpp <1026:11 1026:11>]
 REFERENCE_USAGE void b2World::RayCast(b2RayCastCallback *, const b2Vec2 &, const b2Vec2 &) const -> b2Vec2 b2RayCastInput::p1 [b2World.cpp <1026:8 1026:9>]
 LOCAL_SYMBOL: b2World.cpp<1024:17> [b2World.cpp <1026:2 1026:6>]
 LOCAL_SYMBOL: b2World.cpp<1019:66> [b2World.cpp <1026:13 1026:18>]
-SYMBOL_FUNCTION b2Vec2 & b2Vec2::operator=(const b2Vec2 &)
 REFERENCE_CALL void b2World::RayCast(b2RayCastCallback *, const b2Vec2 &, const b2Vec2 &) const -> b2Vec2 & b2Vec2::operator=(const b2Vec2 &) [b2World.cpp <1027:11 1027:11>]
 REFERENCE_USAGE void b2World::RayCast(b2RayCastCallback *, const b2Vec2 &, const b2Vec2 &) const -> b2Vec2 b2RayCastInput::p2 [b2World.cpp <1027:8 1027:9>]
 LOCAL_SYMBOL: b2World.cpp<1024:17> [b2World.cpp <1027:2 1027:6>]
@@ -1941,8 +1741,7 @@ REFERENCE_USAGE void b2World::RayCast(b2RayCastCallback *, const b2Vec2 &, const
 LOCAL_SYMBOL: b2World.cpp<1021:24> [b2World.cpp <1028:41 1028:47>]
 LOCAL_SYMBOL: b2World.cpp<1024:17> [b2World.cpp <1028:50 1028:54>]
 SYMBOL_METHOD private void b2World::DrawShape(b2Fixture *, const b2Transform &, const b2Color &) [b2World.cpp <1031:1 <1031:15 1031:23> 1110:1>]
-SYMBOL_CLASS b2World
-SYMBOL_BUILTIN_TYPE void
+QUALIFIER: b2World [b2World.cpp <1031:6 1031:12>]
 REFERENCE_TYPE_USAGE void b2World::DrawShape(b2Fixture *, const b2Transform &, const b2Color &) -> void [b2World.cpp <1031:1 1031:4>]
 LOCAL_SYMBOL: b2World.cpp<1031:36> [b2World.cpp <1031:36 1031:42>]
 REFERENCE_TYPE_USAGE void b2World::DrawShape(b2Fixture *, const b2Transform &, const b2Color &) -> b2Fixture [b2World.cpp <1031:25 1031:33>]
@@ -1955,10 +1754,10 @@ REFERENCE_CALL void b2World::DrawShape(b2Fixture *, const b2Transform &, const b
 LOCAL_SYMBOL: b2World.cpp<1031:36> [b2World.cpp <1033:10 1033:16>]
 REFERENCE_USAGE void b2World::DrawShape(b2Fixture *, const b2Transform &, const b2Color &) -> b2Shape::Type::e_circle [b2World.cpp <1035:16 1035:23>]
 SYMBOL_CLASS b2Shape
+QUALIFIER: b2Shape [b2World.cpp <1035:7 1035:13>]
 LOCAL_SYMBOL: b2World.cpp<1037:19> [b2World.cpp <1037:19 1037:24>]
 REFERENCE_TYPE_USAGE void b2World::DrawShape(b2Fixture *, const b2Transform &, const b2Color &) -> b2CircleShape [b2World.cpp <1037:4 1037:16>]
 REFERENCE_TYPE_USAGE void b2World::DrawShape(b2Fixture *, const b2Transform &, const b2Color &) -> b2CircleShape [b2World.cpp <1037:29 1037:41>]
-SYMBOL_FUNCTION b2Shape * b2Fixture::GetShape()
 REFERENCE_CALL void b2World::DrawShape(b2Fixture *, const b2Transform &, const b2Color &) -> b2Shape * b2Fixture::GetShape() [b2World.cpp <1037:53 1037:60>]
 LOCAL_SYMBOL: b2World.cpp<1031:36> [b2World.cpp <1037:44 1037:50>]
 LOCAL_SYMBOL: b2World.cpp<1039:11> [b2World.cpp <1039:11 1039:16>]
@@ -1989,23 +1788,20 @@ LOCAL_SYMBOL: b2World.cpp<1040:12> [b2World.cpp <1043:41 1043:46>]
 LOCAL_SYMBOL: b2World.cpp<1041:11> [b2World.cpp <1043:49 1043:52>]
 LOCAL_SYMBOL: b2World.cpp<1031:83> [b2World.cpp <1043:55 1043:59>]
 REFERENCE_USAGE void b2World::DrawShape(b2Fixture *, const b2Transform &, const b2Color &) -> b2Shape::Type::e_edge [b2World.cpp <1047:16 1047:21>]
-SYMBOL_CLASS b2Shape
+QUALIFIER: b2Shape [b2World.cpp <1047:7 1047:13>]
 LOCAL_SYMBOL: b2World.cpp<1049:17> [b2World.cpp <1049:17 1049:20>]
 REFERENCE_TYPE_USAGE void b2World::DrawShape(b2Fixture *, const b2Transform &, const b2Color &) -> b2EdgeShape [b2World.cpp <1049:4 1049:14>]
 REFERENCE_TYPE_USAGE void b2World::DrawShape(b2Fixture *, const b2Transform &, const b2Color &) -> b2EdgeShape [b2World.cpp <1049:25 1049:35>]
-SYMBOL_FUNCTION b2Shape * b2Fixture::GetShape()
 REFERENCE_CALL void b2World::DrawShape(b2Fixture *, const b2Transform &, const b2Color &) -> b2Shape * b2Fixture::GetShape() [b2World.cpp <1049:47 1049:54>]
 LOCAL_SYMBOL: b2World.cpp<1031:36> [b2World.cpp <1049:38 1049:44>]
 LOCAL_SYMBOL: b2World.cpp<1050:11> [b2World.cpp <1050:11 1050:12>]
 REFERENCE_TYPE_USAGE void b2World::DrawShape(b2Fixture *, const b2Transform &, const b2Color &) -> b2Vec2 [b2World.cpp <1050:4 1050:9>]
-SYMBOL_FUNCTION b2Vec2 b2Mul(const b2Transform &, const b2Vec2 &)
 REFERENCE_CALL void b2World::DrawShape(b2Fixture *, const b2Transform &, const b2Color &) -> b2Vec2 b2Mul(const b2Transform &, const b2Vec2 &) [b2World.cpp <1050:16 1050:20>]
 LOCAL_SYMBOL: b2World.cpp<1031:64> [b2World.cpp <1050:22 1050:23>]
 REFERENCE_USAGE void b2World::DrawShape(b2Fixture *, const b2Transform &, const b2Color &) -> b2Vec2 b2EdgeShape::m_vertex1 [b2World.cpp <1050:32 1050:40>]
 LOCAL_SYMBOL: b2World.cpp<1049:17> [b2World.cpp <1050:26 1050:29>]
 LOCAL_SYMBOL: b2World.cpp<1051:11> [b2World.cpp <1051:11 1051:12>]
 REFERENCE_TYPE_USAGE void b2World::DrawShape(b2Fixture *, const b2Transform &, const b2Color &) -> b2Vec2 [b2World.cpp <1051:4 1051:9>]
-SYMBOL_FUNCTION b2Vec2 b2Mul(const b2Transform &, const b2Vec2 &)
 REFERENCE_CALL void b2World::DrawShape(b2Fixture *, const b2Transform &, const b2Color &) -> b2Vec2 b2Mul(const b2Transform &, const b2Vec2 &) [b2World.cpp <1051:16 1051:20>]
 LOCAL_SYMBOL: b2World.cpp<1031:64> [b2World.cpp <1051:22 1051:23>]
 REFERENCE_USAGE void b2World::DrawShape(b2Fixture *, const b2Transform &, const b2Color &) -> b2Vec2 b2EdgeShape::m_vertex2 [b2World.cpp <1051:32 1051:40>]
@@ -2017,11 +1813,10 @@ LOCAL_SYMBOL: b2World.cpp<1050:11> [b2World.cpp <1052:29 1052:30>]
 LOCAL_SYMBOL: b2World.cpp<1051:11> [b2World.cpp <1052:33 1052:34>]
 LOCAL_SYMBOL: b2World.cpp<1031:83> [b2World.cpp <1052:37 1052:41>]
 REFERENCE_USAGE void b2World::DrawShape(b2Fixture *, const b2Transform &, const b2Color &) -> b2Shape::Type::e_chain [b2World.cpp <1056:16 1056:22>]
-SYMBOL_CLASS b2Shape
+QUALIFIER: b2Shape [b2World.cpp <1056:7 1056:13>]
 LOCAL_SYMBOL: b2World.cpp<1058:18> [b2World.cpp <1058:18 1058:22>]
 REFERENCE_TYPE_USAGE void b2World::DrawShape(b2Fixture *, const b2Transform &, const b2Color &) -> b2ChainShape [b2World.cpp <1058:4 1058:15>]
 REFERENCE_TYPE_USAGE void b2World::DrawShape(b2Fixture *, const b2Transform &, const b2Color &) -> b2ChainShape [b2World.cpp <1058:27 1058:38>]
-SYMBOL_FUNCTION b2Shape * b2Fixture::GetShape()
 REFERENCE_CALL void b2World::DrawShape(b2Fixture *, const b2Transform &, const b2Color &) -> b2Shape * b2Fixture::GetShape() [b2World.cpp <1058:50 1058:57>]
 LOCAL_SYMBOL: b2World.cpp<1031:36> [b2World.cpp <1058:41 1058:47>]
 LOCAL_SYMBOL: b2World.cpp<1059:10> [b2World.cpp <1059:10 1059:14>]
@@ -2046,7 +1841,6 @@ REFERENCE_USAGE void b2World::DrawShape(b2Fixture *, const b2Transform &, const 
 LOCAL_SYMBOL: b2World.cpp<1031:83> [b2World.cpp <1062:74 1062:78>]
 LOCAL_SYMBOL: b2World.cpp<1064:11> [b2World.cpp <1064:11 1064:12>]
 REFERENCE_TYPE_USAGE void b2World::DrawShape(b2Fixture *, const b2Transform &, const b2Color &) -> b2Vec2 [b2World.cpp <1064:4 1064:9>]
-SYMBOL_FUNCTION b2Vec2 b2Mul(const b2Transform &, const b2Vec2 &)
 REFERENCE_CALL void b2World::DrawShape(b2Fixture *, const b2Transform &, const b2Color &) -> b2Vec2 b2Mul(const b2Transform &, const b2Vec2 &) [b2World.cpp <1064:16 1064:20>]
 LOCAL_SYMBOL: b2World.cpp<1031:64> [b2World.cpp <1064:22 1064:23>]
 LOCAL_SYMBOL: b2World.cpp<1060:18> [b2World.cpp <1064:26 1064:33>]
@@ -2059,12 +1853,10 @@ REFERENCE_USAGE void b2World::DrawShape(b2Fixture *, const b2Transform &, const 
 LOCAL_SYMBOL: b2World.cpp<1058:18> [b2World.cpp <1067:8 1067:12>]
 LOCAL_SYMBOL: b2World.cpp<1069:12> [b2World.cpp <1069:12 1069:13>]
 REFERENCE_TYPE_USAGE void b2World::DrawShape(b2Fixture *, const b2Transform &, const b2Color &) -> b2Vec2 [b2World.cpp <1069:5 1069:10>]
-SYMBOL_FUNCTION b2Vec2 b2Mul(const b2Transform &, const b2Vec2 &)
 REFERENCE_CALL void b2World::DrawShape(b2Fixture *, const b2Transform &, const b2Color &) -> b2Vec2 b2Mul(const b2Transform &, const b2Vec2 &) [b2World.cpp <1069:17 1069:21>]
 LOCAL_SYMBOL: b2World.cpp<1031:64> [b2World.cpp <1069:23 1069:24>]
 REFERENCE_USAGE void b2World::DrawShape(b2Fixture *, const b2Transform &, const b2Color &) -> b2Vec2 b2ChainShape::m_prevVertex [b2World.cpp <1069:34 1069:45>]
 LOCAL_SYMBOL: b2World.cpp<1058:18> [b2World.cpp <1069:27 1069:31>]
-SYMBOL_FUNCTION void b2Draw::DrawSegment(const b2Vec2 &, const b2Vec2 &, const b2Color &)
 REFERENCE_CALL void b2World::DrawShape(b2Fixture *, const b2Transform &, const b2Color &) -> void b2Draw::DrawSegment(const b2Vec2 &, const b2Vec2 &, const b2Color &) [b2World.cpp <1070:18 1070:28>]
 REFERENCE_USAGE void b2World::DrawShape(b2Fixture *, const b2Transform &, const b2Color &) -> b2Draw * b2World::g_debugDraw [b2World.cpp <1070:5 1070:15>]
 LOCAL_SYMBOL: b2World.cpp<1069:12> [b2World.cpp <1070:30 1070:31>]
@@ -2082,23 +1874,19 @@ LOCAL_SYMBOL: b2World.cpp<1059:10> [b2World.cpp <1074:26 1074:30>]
 LOCAL_SYMBOL: b2World.cpp<1074:15> [b2World.cpp <1074:35 1074:35>]
 LOCAL_SYMBOL: b2World.cpp<1076:12> [b2World.cpp <1076:12 1076:13>]
 REFERENCE_TYPE_USAGE void b2World::DrawShape(b2Fixture *, const b2Transform &, const b2Color &) -> b2Vec2 [b2World.cpp <1076:5 1076:10>]
-SYMBOL_FUNCTION b2Vec2 b2Mul(const b2Transform &, const b2Vec2 &)
 REFERENCE_CALL void b2World::DrawShape(b2Fixture *, const b2Transform &, const b2Color &) -> b2Vec2 b2Mul(const b2Transform &, const b2Vec2 &) [b2World.cpp <1076:17 1076:21>]
 LOCAL_SYMBOL: b2World.cpp<1031:64> [b2World.cpp <1076:23 1076:24>]
 LOCAL_SYMBOL: b2World.cpp<1060:18> [b2World.cpp <1076:27 1076:34>]
 LOCAL_SYMBOL: b2World.cpp<1074:15> [b2World.cpp <1076:36 1076:36>]
-SYMBOL_FUNCTION void b2Draw::DrawSegment(const b2Vec2 &, const b2Vec2 &, const b2Color &)
 REFERENCE_CALL void b2World::DrawShape(b2Fixture *, const b2Transform &, const b2Color &) -> void b2Draw::DrawSegment(const b2Vec2 &, const b2Vec2 &, const b2Color &) [b2World.cpp <1077:18 1077:28>]
 REFERENCE_USAGE void b2World::DrawShape(b2Fixture *, const b2Transform &, const b2Color &) -> b2Draw * b2World::g_debugDraw [b2World.cpp <1077:5 1077:15>]
 LOCAL_SYMBOL: b2World.cpp<1064:11> [b2World.cpp <1077:30 1077:31>]
 LOCAL_SYMBOL: b2World.cpp<1076:12> [b2World.cpp <1077:34 1077:35>]
 LOCAL_SYMBOL: b2World.cpp<1031:83> [b2World.cpp <1077:38 1077:42>]
-SYMBOL_FUNCTION void b2Draw::DrawPoint(const b2Vec2 &, float32, const b2Color &)
 REFERENCE_CALL void b2World::DrawShape(b2Fixture *, const b2Transform &, const b2Color &) -> void b2Draw::DrawPoint(const b2Vec2 &, float32, const b2Color &) [b2World.cpp <1078:18 1078:26>]
 REFERENCE_USAGE void b2World::DrawShape(b2Fixture *, const b2Transform &, const b2Color &) -> b2Draw * b2World::g_debugDraw [b2World.cpp <1078:5 1078:15>]
 LOCAL_SYMBOL: b2World.cpp<1076:12> [b2World.cpp <1078:28 1078:29>]
 LOCAL_SYMBOL: b2World.cpp<1031:83> [b2World.cpp <1078:38 1078:42>]
-SYMBOL_FUNCTION b2Vec2 & b2Vec2::operator=(const b2Vec2 &)
 REFERENCE_CALL void b2World::DrawShape(b2Fixture *, const b2Transform &, const b2Color &) -> b2Vec2 & b2Vec2::operator=(const b2Vec2 &) [b2World.cpp <1079:8 1079:8>]
 LOCAL_SYMBOL: b2World.cpp<1064:11> [b2World.cpp <1079:5 1079:6>]
 LOCAL_SYMBOL: b2World.cpp<1076:12> [b2World.cpp <1079:10 1079:11>]
@@ -2106,28 +1894,24 @@ REFERENCE_USAGE void b2World::DrawShape(b2Fixture *, const b2Transform &, const 
 LOCAL_SYMBOL: b2World.cpp<1058:18> [b2World.cpp <1082:8 1082:12>]
 LOCAL_SYMBOL: b2World.cpp<1084:12> [b2World.cpp <1084:12 1084:13>]
 REFERENCE_TYPE_USAGE void b2World::DrawShape(b2Fixture *, const b2Transform &, const b2Color &) -> b2Vec2 [b2World.cpp <1084:5 1084:10>]
-SYMBOL_FUNCTION b2Vec2 b2Mul(const b2Transform &, const b2Vec2 &)
 REFERENCE_CALL void b2World::DrawShape(b2Fixture *, const b2Transform &, const b2Color &) -> b2Vec2 b2Mul(const b2Transform &, const b2Vec2 &) [b2World.cpp <1084:17 1084:21>]
 LOCAL_SYMBOL: b2World.cpp<1031:64> [b2World.cpp <1084:23 1084:24>]
 REFERENCE_USAGE void b2World::DrawShape(b2Fixture *, const b2Transform &, const b2Color &) -> b2Vec2 b2ChainShape::m_nextVertex [b2World.cpp <1084:34 1084:45>]
 LOCAL_SYMBOL: b2World.cpp<1058:18> [b2World.cpp <1084:27 1084:31>]
-SYMBOL_FUNCTION void b2Draw::DrawSegment(const b2Vec2 &, const b2Vec2 &, const b2Color &)
 REFERENCE_CALL void b2World::DrawShape(b2Fixture *, const b2Transform &, const b2Color &) -> void b2Draw::DrawSegment(const b2Vec2 &, const b2Vec2 &, const b2Color &) [b2World.cpp <1085:18 1085:28>]
 REFERENCE_USAGE void b2World::DrawShape(b2Fixture *, const b2Transform &, const b2Color &) -> b2Draw * b2World::g_debugDraw [b2World.cpp <1085:5 1085:15>]
 LOCAL_SYMBOL: b2World.cpp<1064:11> [b2World.cpp <1085:30 1085:31>]
 LOCAL_SYMBOL: b2World.cpp<1084:12> [b2World.cpp <1085:34 1085:35>]
 LOCAL_SYMBOL: b2World.cpp<1062:12> [b2World.cpp <1085:38 1085:47>]
-SYMBOL_FUNCTION void b2Draw::DrawCircle(const b2Vec2 &, float32, const b2Color &)
 REFERENCE_CALL void b2World::DrawShape(b2Fixture *, const b2Transform &, const b2Color &) -> void b2Draw::DrawCircle(const b2Vec2 &, float32, const b2Color &) [b2World.cpp <1086:18 1086:27>]
 REFERENCE_USAGE void b2World::DrawShape(b2Fixture *, const b2Transform &, const b2Color &) -> b2Draw * b2World::g_debugDraw [b2World.cpp <1086:5 1086:15>]
 LOCAL_SYMBOL: b2World.cpp<1084:12> [b2World.cpp <1086:29 1086:30>]
 LOCAL_SYMBOL: b2World.cpp<1062:12> [b2World.cpp <1086:39 1086:48>]
 REFERENCE_USAGE void b2World::DrawShape(b2Fixture *, const b2Transform &, const b2Color &) -> b2Shape::Type::e_polygon [b2World.cpp <1091:16 1091:24>]
-SYMBOL_CLASS b2Shape
+QUALIFIER: b2Shape [b2World.cpp <1091:7 1091:13>]
 LOCAL_SYMBOL: b2World.cpp<1093:20> [b2World.cpp <1093:20 1093:23>]
 REFERENCE_TYPE_USAGE void b2World::DrawShape(b2Fixture *, const b2Transform &, const b2Color &) -> b2PolygonShape [b2World.cpp <1093:4 1093:17>]
 REFERENCE_TYPE_USAGE void b2World::DrawShape(b2Fixture *, const b2Transform &, const b2Color &) -> b2PolygonShape [b2World.cpp <1093:28 1093:41>]
-SYMBOL_FUNCTION b2Shape * b2Fixture::GetShape()
 REFERENCE_CALL void b2World::DrawShape(b2Fixture *, const b2Transform &, const b2Color &) -> b2Shape * b2Fixture::GetShape() [b2World.cpp <1093:53 1093:60>]
 LOCAL_SYMBOL: b2World.cpp<1031:36> [b2World.cpp <1093:44 1093:50>]
 LOCAL_SYMBOL: b2World.cpp<1094:10> [b2World.cpp <1094:10 1094:20>]
@@ -2137,7 +1921,6 @@ LOCAL_SYMBOL: b2World.cpp<1093:20> [b2World.cpp <1094:24 1094:27>]
 LOCAL_SYMBOL: b2World.cpp<1094:10> [b2World.cpp <1095:13 1095:23>]
 LOCAL_SYMBOL: b2World.cpp<1096:11> [b2World.cpp <1096:11 1096:18>]
 REFERENCE_TYPE_USAGE void b2World::DrawShape(b2Fixture *, const b2Transform &, const b2Color &) -> b2Vec2 [b2World.cpp <1096:4 1096:9>]
-SYMBOL_FUNCTION void b2Vec2::b2Vec2()
 REFERENCE_CALL void b2World::DrawShape(b2Fixture *, const b2Transform &, const b2Color &) -> void b2Vec2::b2Vec2() [b2World.cpp <1096:11 1096:18>]
 LOCAL_SYMBOL: b2World.cpp<1098:15> [b2World.cpp <1098:15 1098:15>]
 REFERENCE_TYPE_USAGE void b2World::DrawShape(b2Fixture *, const b2Transform &, const b2Color &) -> int32 [b2World.cpp <1098:9 1098:13>]
@@ -2148,7 +1931,6 @@ SYMBOL_FUNCTION b2Vec2 & b2Vec2::operator=(b2Vec2 &)
 REFERENCE_CALL void b2World::DrawShape(b2Fixture *, const b2Transform &, const b2Color &) -> b2Vec2 & b2Vec2::operator=(b2Vec2 &) [b2World.cpp <1100:17 1100:17>]
 LOCAL_SYMBOL: b2World.cpp<1096:11> [b2World.cpp <1100:5 1100:12>]
 LOCAL_SYMBOL: b2World.cpp<1098:15> [b2World.cpp <1100:14 1100:14>]
-SYMBOL_FUNCTION b2Vec2 b2Mul(const b2Transform &, const b2Vec2 &)
 REFERENCE_CALL void b2World::DrawShape(b2Fixture *, const b2Transform &, const b2Color &) -> b2Vec2 b2Mul(const b2Transform &, const b2Vec2 &) [b2World.cpp <1100:19 1100:23>]
 LOCAL_SYMBOL: b2World.cpp<1031:64> [b2World.cpp <1100:25 1100:26>]
 REFERENCE_USAGE void b2World::DrawShape(b2Fixture *, const b2Transform &, const b2Color &) -> b2Vec2 [] b2PolygonShape::m_vertices [b2World.cpp <1100:35 1100:44>]
@@ -2161,8 +1943,7 @@ LOCAL_SYMBOL: b2World.cpp<1096:11> [b2World.cpp <1103:34 1103:41>]
 LOCAL_SYMBOL: b2World.cpp<1094:10> [b2World.cpp <1103:44 1103:54>]
 LOCAL_SYMBOL: b2World.cpp<1031:83> [b2World.cpp <1103:57 1103:61>]
 SYMBOL_METHOD private void b2World::DrawJoint(b2Joint *) [b2World.cpp <1112:1 <1112:15 1112:23> 1151:1>]
-SYMBOL_CLASS b2World
-SYMBOL_BUILTIN_TYPE void
+QUALIFIER: b2World [b2World.cpp <1112:6 1112:12>]
 REFERENCE_TYPE_USAGE void b2World::DrawJoint(b2Joint *) -> void [b2World.cpp <1112:1 1112:4>]
 LOCAL_SYMBOL: b2World.cpp<1112:34> [b2World.cpp <1112:34 1112:38>]
 REFERENCE_TYPE_USAGE void b2World::DrawJoint(b2Joint *) -> b2Joint [b2World.cpp <1112:25 1112:31>]
@@ -2183,7 +1964,6 @@ REFERENCE_CALL void b2World::DrawJoint(b2Joint *) -> const b2Transform & b2Body:
 LOCAL_SYMBOL: b2World.cpp<1114:10> [b2World.cpp <1116:27 1116:31>]
 LOCAL_SYMBOL: b2World.cpp<1117:21> [b2World.cpp <1117:21 1117:23>]
 REFERENCE_TYPE_USAGE void b2World::DrawJoint(b2Joint *) -> b2Transform [b2World.cpp <1117:8 1117:18>]
-SYMBOL_FUNCTION const b2Transform & b2Body::GetTransform() const
 REFERENCE_CALL void b2World::DrawJoint(b2Joint *) -> const b2Transform & b2Body::GetTransform() const [b2World.cpp <1117:34 1117:45>]
 LOCAL_SYMBOL: b2World.cpp<1115:10> [b2World.cpp <1117:27 1117:31>]
 LOCAL_SYMBOL: b2World.cpp<1118:9> [b2World.cpp <1118:9 1118:10>]
@@ -2194,7 +1974,6 @@ REFERENCE_USAGE void b2World::DrawJoint(b2Joint *) -> b2Vec2 b2Transform::p [b2W
 LOCAL_SYMBOL: b2World.cpp<1116:21> [b2World.cpp <1118:14 1118:16>]
 LOCAL_SYMBOL: b2World.cpp<1119:9> [b2World.cpp <1119:9 1119:10>]
 REFERENCE_TYPE_USAGE void b2World::DrawJoint(b2Joint *) -> b2Vec2 [b2World.cpp <1119:2 1119:7>]
-SYMBOL_FUNCTION void b2Vec2::b2Vec2(const b2Vec2 &)
 REFERENCE_CALL void b2World::DrawJoint(b2Joint *) -> void b2Vec2::b2Vec2(const b2Vec2 &) [b2World.cpp <1119:18 1119:18>]
 REFERENCE_USAGE void b2World::DrawJoint(b2Joint *) -> b2Vec2 b2Transform::p [b2World.cpp <1119:18 1119:18>]
 LOCAL_SYMBOL: b2World.cpp<1117:21> [b2World.cpp <1119:14 1119:16>]
@@ -2210,13 +1989,11 @@ REFERENCE_CALL void b2World::DrawJoint(b2Joint *) -> b2Vec2 b2Joint::GetAnchorB(
 LOCAL_SYMBOL: b2World.cpp<1112:34> [b2World.cpp <1121:14 1121:18>]
 LOCAL_SYMBOL: b2World.cpp<1123:10> [b2World.cpp <1123:10 1123:14>]
 REFERENCE_TYPE_USAGE void b2World::DrawJoint(b2Joint *) -> b2Color [b2World.cpp <1123:2 1123:8>]
-SYMBOL_FUNCTION void b2Color::b2Color(float32, float32, float32, float32)
 REFERENCE_CALL void b2World::DrawJoint(b2Joint *) -> void b2Color::b2Color(float32, float32, float32, float32) [b2World.cpp <1123:10 1123:14>]
 SYMBOL_FUNCTION b2JointType b2Joint::GetType() const
 REFERENCE_CALL void b2World::DrawJoint(b2Joint *) -> b2JointType b2Joint::GetType() const [b2World.cpp <1125:17 1125:23>]
 LOCAL_SYMBOL: b2World.cpp<1112:34> [b2World.cpp <1125:10 1125:14>]
 REFERENCE_USAGE void b2World::DrawJoint(b2Joint *) -> b2JointType::e_distanceJoint [b2World.cpp <1127:7 1127:21>]
-SYMBOL_FUNCTION void b2Draw::DrawSegment(const b2Vec2 &, const b2Vec2 &, const b2Color &)
 REFERENCE_CALL void b2World::DrawJoint(b2Joint *) -> void b2Draw::DrawSegment(const b2Vec2 &, const b2Vec2 &, const b2Color &) [b2World.cpp <1128:16 1128:26>]
 REFERENCE_USAGE void b2World::DrawJoint(b2Joint *) -> b2Draw * b2World::g_debugDraw [b2World.cpp <1128:3 1128:13>]
 LOCAL_SYMBOL: b2World.cpp<1120:9> [b2World.cpp <1128:28 1128:29>]
@@ -2237,46 +2014,39 @@ REFERENCE_TYPE_USAGE void b2World::DrawJoint(b2Joint *) -> b2Vec2 [b2World.cpp <
 SYMBOL_FUNCTION b2Vec2 b2PulleyJoint::GetGroundAnchorB() const
 REFERENCE_CALL void b2World::DrawJoint(b2Joint *) -> b2Vec2 b2PulleyJoint::GetGroundAnchorB() const [b2World.cpp <1135:24 1135:39>]
 LOCAL_SYMBOL: b2World.cpp<1133:19> [b2World.cpp <1135:16 1135:21>]
-SYMBOL_FUNCTION void b2Draw::DrawSegment(const b2Vec2 &, const b2Vec2 &, const b2Color &)
 REFERENCE_CALL void b2World::DrawJoint(b2Joint *) -> void b2Draw::DrawSegment(const b2Vec2 &, const b2Vec2 &, const b2Color &) [b2World.cpp <1136:17 1136:27>]
 REFERENCE_USAGE void b2World::DrawJoint(b2Joint *) -> b2Draw * b2World::g_debugDraw [b2World.cpp <1136:4 1136:14>]
 LOCAL_SYMBOL: b2World.cpp<1134:11> [b2World.cpp <1136:29 1136:30>]
 LOCAL_SYMBOL: b2World.cpp<1120:9> [b2World.cpp <1136:33 1136:34>]
 LOCAL_SYMBOL: b2World.cpp<1123:10> [b2World.cpp <1136:37 1136:41>]
-SYMBOL_FUNCTION void b2Draw::DrawSegment(const b2Vec2 &, const b2Vec2 &, const b2Color &)
 REFERENCE_CALL void b2World::DrawJoint(b2Joint *) -> void b2Draw::DrawSegment(const b2Vec2 &, const b2Vec2 &, const b2Color &) [b2World.cpp <1137:17 1137:27>]
 REFERENCE_USAGE void b2World::DrawJoint(b2Joint *) -> b2Draw * b2World::g_debugDraw [b2World.cpp <1137:4 1137:14>]
 LOCAL_SYMBOL: b2World.cpp<1135:11> [b2World.cpp <1137:29 1137:30>]
 LOCAL_SYMBOL: b2World.cpp<1121:9> [b2World.cpp <1137:33 1137:34>]
 LOCAL_SYMBOL: b2World.cpp<1123:10> [b2World.cpp <1137:37 1137:41>]
-SYMBOL_FUNCTION void b2Draw::DrawSegment(const b2Vec2 &, const b2Vec2 &, const b2Color &)
 REFERENCE_CALL void b2World::DrawJoint(b2Joint *) -> void b2Draw::DrawSegment(const b2Vec2 &, const b2Vec2 &, const b2Color &) [b2World.cpp <1138:17 1138:27>]
 REFERENCE_USAGE void b2World::DrawJoint(b2Joint *) -> b2Draw * b2World::g_debugDraw [b2World.cpp <1138:4 1138:14>]
 LOCAL_SYMBOL: b2World.cpp<1134:11> [b2World.cpp <1138:29 1138:30>]
 LOCAL_SYMBOL: b2World.cpp<1135:11> [b2World.cpp <1138:33 1138:34>]
 LOCAL_SYMBOL: b2World.cpp<1123:10> [b2World.cpp <1138:37 1138:41>]
 REFERENCE_USAGE void b2World::DrawJoint(b2Joint *) -> b2JointType::e_mouseJoint [b2World.cpp <1142:7 1142:18>]
-SYMBOL_FUNCTION void b2Draw::DrawSegment(const b2Vec2 &, const b2Vec2 &, const b2Color &)
 REFERENCE_CALL void b2World::DrawJoint(b2Joint *) -> void b2Draw::DrawSegment(const b2Vec2 &, const b2Vec2 &, const b2Color &) [b2World.cpp <1147:16 1147:26>]
 REFERENCE_USAGE void b2World::DrawJoint(b2Joint *) -> b2Draw * b2World::g_debugDraw [b2World.cpp <1147:3 1147:13>]
 LOCAL_SYMBOL: b2World.cpp<1118:9> [b2World.cpp <1147:28 1147:29>]
 LOCAL_SYMBOL: b2World.cpp<1120:9> [b2World.cpp <1147:32 1147:33>]
 LOCAL_SYMBOL: b2World.cpp<1123:10> [b2World.cpp <1147:36 1147:40>]
-SYMBOL_FUNCTION void b2Draw::DrawSegment(const b2Vec2 &, const b2Vec2 &, const b2Color &)
 REFERENCE_CALL void b2World::DrawJoint(b2Joint *) -> void b2Draw::DrawSegment(const b2Vec2 &, const b2Vec2 &, const b2Color &) [b2World.cpp <1148:16 1148:26>]
 REFERENCE_USAGE void b2World::DrawJoint(b2Joint *) -> b2Draw * b2World::g_debugDraw [b2World.cpp <1148:3 1148:13>]
 LOCAL_SYMBOL: b2World.cpp<1120:9> [b2World.cpp <1148:28 1148:29>]
 LOCAL_SYMBOL: b2World.cpp<1121:9> [b2World.cpp <1148:32 1148:33>]
 LOCAL_SYMBOL: b2World.cpp<1123:10> [b2World.cpp <1148:36 1148:40>]
-SYMBOL_FUNCTION void b2Draw::DrawSegment(const b2Vec2 &, const b2Vec2 &, const b2Color &)
 REFERENCE_CALL void b2World::DrawJoint(b2Joint *) -> void b2Draw::DrawSegment(const b2Vec2 &, const b2Vec2 &, const b2Color &) [b2World.cpp <1149:16 1149:26>]
 REFERENCE_USAGE void b2World::DrawJoint(b2Joint *) -> b2Draw * b2World::g_debugDraw [b2World.cpp <1149:3 1149:13>]
 LOCAL_SYMBOL: b2World.cpp<1119:9> [b2World.cpp <1149:28 1149:29>]
 LOCAL_SYMBOL: b2World.cpp<1121:9> [b2World.cpp <1149:32 1149:33>]
 LOCAL_SYMBOL: b2World.cpp<1123:10> [b2World.cpp <1149:36 1149:40>]
 SYMBOL_METHOD public void b2World::DrawDebugData() [b2World.cpp <1153:1 <1153:15 1153:27> 1255:1>]
-SYMBOL_CLASS b2World
-SYMBOL_BUILTIN_TYPE void
+QUALIFIER: b2World [b2World.cpp <1153:6 1153:12>]
 REFERENCE_TYPE_USAGE void b2World::DrawDebugData() -> void [b2World.cpp <1153:1 1153:4>]
 REFERENCE_USAGE void b2World::DrawDebugData() -> b2Draw * b2World::g_debugDraw [b2World.cpp <1155:6 1155:16>]
 LOCAL_SYMBOL: b2World.cpp<1160:9> [b2World.cpp <1160:9 1160:13>]
@@ -2287,17 +2057,16 @@ REFERENCE_USAGE void b2World::DrawDebugData() -> b2Draw * b2World::g_debugDraw [
 LOCAL_SYMBOL: b2World.cpp<1160:9> [b2World.cpp <1162:6 1162:10>]
 REFERENCE_USAGE void b2World::DrawDebugData() -> b2Draw::anonymous enum (b2Draw.h<50:2>)::e_shapeBit [b2World.cpp <1162:22 1162:31>]
 SYMBOL_CLASS b2Draw
+QUALIFIER: b2Draw [b2World.cpp <1162:14 1162:19>]
 LOCAL_SYMBOL: b2World.cpp<1164:16> [b2World.cpp <1164:16 1164:16>]
 REFERENCE_TYPE_USAGE void b2World::DrawDebugData() -> b2Body [b2World.cpp <1164:8 1164:13>]
 REFERENCE_USAGE void b2World::DrawDebugData() -> b2Body * b2World::m_bodyList [b2World.cpp <1164:20 1164:29>]
 LOCAL_SYMBOL: b2World.cpp<1164:16> [b2World.cpp <1164:32 1164:32>]
 LOCAL_SYMBOL: b2World.cpp<1164:16> [b2World.cpp <1164:35 1164:35>]
-SYMBOL_FUNCTION b2Body * b2Body::GetNext()
 REFERENCE_CALL void b2World::DrawDebugData() -> b2Body * b2Body::GetNext() [b2World.cpp <1164:42 1164:48>]
 LOCAL_SYMBOL: b2World.cpp<1164:16> [b2World.cpp <1164:39 1164:39>]
 LOCAL_SYMBOL: b2World.cpp<1166:23> [b2World.cpp <1166:23 1166:24>]
 REFERENCE_TYPE_USAGE void b2World::DrawDebugData() -> b2Transform [b2World.cpp <1166:10 1166:20>]
-SYMBOL_FUNCTION const b2Transform & b2Body::GetTransform() const
 REFERENCE_CALL void b2World::DrawDebugData() -> const b2Transform & b2Body::GetTransform() const [b2World.cpp <1166:31 1166:42>]
 LOCAL_SYMBOL: b2World.cpp<1164:16> [b2World.cpp <1166:28 1166:28>]
 LOCAL_SYMBOL: b2World.cpp<1167:20> [b2World.cpp <1167:20 1167:20>]
@@ -2310,58 +2079,45 @@ LOCAL_SYMBOL: b2World.cpp<1167:20> [b2World.cpp <1167:48 1167:48>]
 SYMBOL_FUNCTION b2Fixture * b2Fixture::GetNext()
 REFERENCE_CALL void b2World::DrawDebugData() -> b2Fixture * b2Fixture::GetNext() [b2World.cpp <1167:55 1167:61>]
 LOCAL_SYMBOL: b2World.cpp<1167:20> [b2World.cpp <1167:52 1167:52>]
-SYMBOL_FUNCTION bool b2Body::IsActive() const
 REFERENCE_CALL void b2World::DrawDebugData() -> bool b2Body::IsActive() const [b2World.cpp <1169:12 1169:19>]
 LOCAL_SYMBOL: b2World.cpp<1164:16> [b2World.cpp <1169:9 1169:9>]
 SYMBOL_FUNCTION void b2World::DrawShape(b2Fixture *, const b2Transform &, const b2Color &)
 REFERENCE_CALL void b2World::DrawDebugData() -> void b2World::DrawShape(b2Fixture *, const b2Transform &, const b2Color &) [b2World.cpp <1171:6 1171:14>]
 LOCAL_SYMBOL: b2World.cpp<1167:20> [b2World.cpp <1171:16 1171:16>]
 LOCAL_SYMBOL: b2World.cpp<1166:23> [b2World.cpp <1171:19 1171:20>]
-SYMBOL_FUNCTION void b2Color::b2Color(float32, float32, float32, float32)
 REFERENCE_CALL void b2World::DrawDebugData() -> void b2Color::b2Color(float32, float32, float32, float32) [b2World.cpp <1171:23 1171:29>]
 REFERENCE_TYPE_USAGE void b2World::DrawDebugData() -> b2Color [b2World.cpp <1171:23 1171:29>]
-SYMBOL_FUNCTION b2BodyType b2Body::GetType() const
 REFERENCE_CALL void b2World::DrawDebugData() -> b2BodyType b2Body::GetType() const [b2World.cpp <1173:17 1173:23>]
 LOCAL_SYMBOL: b2World.cpp<1164:16> [b2World.cpp <1173:14 1173:14>]
 REFERENCE_USAGE void b2World::DrawDebugData() -> b2BodyType::b2_staticBody [b2World.cpp <1173:30 1173:42>]
-SYMBOL_FUNCTION void b2World::DrawShape(b2Fixture *, const b2Transform &, const b2Color &)
 REFERENCE_CALL void b2World::DrawDebugData() -> void b2World::DrawShape(b2Fixture *, const b2Transform &, const b2Color &) [b2World.cpp <1175:6 1175:14>]
 LOCAL_SYMBOL: b2World.cpp<1167:20> [b2World.cpp <1175:16 1175:16>]
 LOCAL_SYMBOL: b2World.cpp<1166:23> [b2World.cpp <1175:19 1175:20>]
-SYMBOL_FUNCTION void b2Color::b2Color(float32, float32, float32, float32)
 REFERENCE_CALL void b2World::DrawDebugData() -> void b2Color::b2Color(float32, float32, float32, float32) [b2World.cpp <1175:23 1175:29>]
 REFERENCE_TYPE_USAGE void b2World::DrawDebugData() -> b2Color [b2World.cpp <1175:23 1175:29>]
-SYMBOL_FUNCTION b2BodyType b2Body::GetType() const
 REFERENCE_CALL void b2World::DrawDebugData() -> b2BodyType b2Body::GetType() const [b2World.cpp <1177:17 1177:23>]
 LOCAL_SYMBOL: b2World.cpp<1164:16> [b2World.cpp <1177:14 1177:14>]
 REFERENCE_USAGE void b2World::DrawDebugData() -> b2BodyType::b2_kinematicBody [b2World.cpp <1177:30 1177:45>]
-SYMBOL_FUNCTION void b2World::DrawShape(b2Fixture *, const b2Transform &, const b2Color &)
 REFERENCE_CALL void b2World::DrawDebugData() -> void b2World::DrawShape(b2Fixture *, const b2Transform &, const b2Color &) [b2World.cpp <1179:6 1179:14>]
 LOCAL_SYMBOL: b2World.cpp<1167:20> [b2World.cpp <1179:16 1179:16>]
 LOCAL_SYMBOL: b2World.cpp<1166:23> [b2World.cpp <1179:19 1179:20>]
-SYMBOL_FUNCTION void b2Color::b2Color(float32, float32, float32, float32)
 REFERENCE_CALL void b2World::DrawDebugData() -> void b2Color::b2Color(float32, float32, float32, float32) [b2World.cpp <1179:23 1179:29>]
 REFERENCE_TYPE_USAGE void b2World::DrawDebugData() -> b2Color [b2World.cpp <1179:23 1179:29>]
-SYMBOL_FUNCTION bool b2Body::IsAwake() const
 REFERENCE_CALL void b2World::DrawDebugData() -> bool b2Body::IsAwake() const [b2World.cpp <1181:17 1181:23>]
 LOCAL_SYMBOL: b2World.cpp<1164:16> [b2World.cpp <1181:14 1181:14>]
-SYMBOL_FUNCTION void b2World::DrawShape(b2Fixture *, const b2Transform &, const b2Color &)
 REFERENCE_CALL void b2World::DrawDebugData() -> void b2World::DrawShape(b2Fixture *, const b2Transform &, const b2Color &) [b2World.cpp <1183:6 1183:14>]
 LOCAL_SYMBOL: b2World.cpp<1167:20> [b2World.cpp <1183:16 1183:16>]
 LOCAL_SYMBOL: b2World.cpp<1166:23> [b2World.cpp <1183:19 1183:20>]
-SYMBOL_FUNCTION void b2Color::b2Color(float32, float32, float32, float32)
 REFERENCE_CALL void b2World::DrawDebugData() -> void b2Color::b2Color(float32, float32, float32, float32) [b2World.cpp <1183:23 1183:29>]
 REFERENCE_TYPE_USAGE void b2World::DrawDebugData() -> b2Color [b2World.cpp <1183:23 1183:29>]
-SYMBOL_FUNCTION void b2World::DrawShape(b2Fixture *, const b2Transform &, const b2Color &)
 REFERENCE_CALL void b2World::DrawDebugData() -> void b2World::DrawShape(b2Fixture *, const b2Transform &, const b2Color &) [b2World.cpp <1187:6 1187:14>]
 LOCAL_SYMBOL: b2World.cpp<1167:20> [b2World.cpp <1187:16 1187:16>]
 LOCAL_SYMBOL: b2World.cpp<1166:23> [b2World.cpp <1187:19 1187:20>]
-SYMBOL_FUNCTION void b2Color::b2Color(float32, float32, float32, float32)
 REFERENCE_CALL void b2World::DrawDebugData() -> void b2Color::b2Color(float32, float32, float32, float32) [b2World.cpp <1187:23 1187:29>]
 REFERENCE_TYPE_USAGE void b2World::DrawDebugData() -> b2Color [b2World.cpp <1187:23 1187:29>]
 LOCAL_SYMBOL: b2World.cpp<1160:9> [b2World.cpp <1193:6 1193:10>]
 REFERENCE_USAGE void b2World::DrawDebugData() -> b2Draw::anonymous enum (b2Draw.h<50:2>)::e_jointBit [b2World.cpp <1193:22 1193:31>]
-SYMBOL_CLASS b2Draw
+QUALIFIER: b2Draw [b2World.cpp <1193:14 1193:19>]
 LOCAL_SYMBOL: b2World.cpp<1195:17> [b2World.cpp <1195:17 1195:17>]
 REFERENCE_TYPE_USAGE void b2World::DrawDebugData() -> b2Joint [b2World.cpp <1195:8 1195:14>]
 REFERENCE_USAGE void b2World::DrawDebugData() -> b2Joint * b2World::m_jointList [b2World.cpp <1195:21 1195:31>]
@@ -2375,10 +2131,9 @@ REFERENCE_CALL void b2World::DrawDebugData() -> void b2World::DrawJoint(b2Joint 
 LOCAL_SYMBOL: b2World.cpp<1195:17> [b2World.cpp <1197:14 1197:14>]
 LOCAL_SYMBOL: b2World.cpp<1160:9> [b2World.cpp <1201:6 1201:10>]
 REFERENCE_USAGE void b2World::DrawDebugData() -> b2Draw::anonymous enum (b2Draw.h<50:2>)::e_pairBit [b2World.cpp <1201:22 1201:30>]
-SYMBOL_CLASS b2Draw
+QUALIFIER: b2Draw [b2World.cpp <1201:14 1201:19>]
 LOCAL_SYMBOL: b2World.cpp<1203:11> [b2World.cpp <1203:11 1203:15>]
 REFERENCE_TYPE_USAGE void b2World::DrawDebugData() -> b2Color [b2World.cpp <1203:3 1203:9>]
-SYMBOL_FUNCTION void b2Color::b2Color(float32, float32, float32, float32)
 REFERENCE_CALL void b2World::DrawDebugData() -> void b2Color::b2Color(float32, float32, float32, float32) [b2World.cpp <1203:11 1203:15>]
 LOCAL_SYMBOL: b2World.cpp<1204:19> [b2World.cpp <1204:19 1204:19>]
 REFERENCE_TYPE_USAGE void b2World::DrawDebugData() -> b2Contact [b2World.cpp <1204:8 1204:16>]
@@ -2391,10 +2146,9 @@ REFERENCE_CALL void b2World::DrawDebugData() -> b2Contact * b2Contact::GetNext()
 LOCAL_SYMBOL: b2World.cpp<1204:19> [b2World.cpp <1204:62 1204:62>]
 LOCAL_SYMBOL: b2World.cpp<1160:9> [b2World.cpp <1216:6 1216:10>]
 REFERENCE_USAGE void b2World::DrawDebugData() -> b2Draw::anonymous enum (b2Draw.h<50:2>)::e_aabbBit [b2World.cpp <1216:22 1216:30>]
-SYMBOL_CLASS b2Draw
+QUALIFIER: b2Draw [b2World.cpp <1216:14 1216:19>]
 LOCAL_SYMBOL: b2World.cpp<1218:11> [b2World.cpp <1218:11 1218:15>]
 REFERENCE_TYPE_USAGE void b2World::DrawDebugData() -> b2Color [b2World.cpp <1218:3 1218:9>]
-SYMBOL_FUNCTION void b2Color::b2Color(float32, float32, float32, float32)
 REFERENCE_CALL void b2World::DrawDebugData() -> void b2Color::b2Color(float32, float32, float32, float32) [b2World.cpp <1218:11 1218:15>]
 LOCAL_SYMBOL: b2World.cpp<1219:17> [b2World.cpp <1219:17 1219:18>]
 REFERENCE_TYPE_USAGE void b2World::DrawDebugData() -> b2BroadPhase [b2World.cpp <1219:3 1219:14>]
@@ -2405,20 +2159,16 @@ REFERENCE_TYPE_USAGE void b2World::DrawDebugData() -> b2Body [b2World.cpp <1221:
 REFERENCE_USAGE void b2World::DrawDebugData() -> b2Body * b2World::m_bodyList [b2World.cpp <1221:20 1221:29>]
 LOCAL_SYMBOL: b2World.cpp<1221:16> [b2World.cpp <1221:32 1221:32>]
 LOCAL_SYMBOL: b2World.cpp<1221:16> [b2World.cpp <1221:35 1221:35>]
-SYMBOL_FUNCTION b2Body * b2Body::GetNext()
 REFERENCE_CALL void b2World::DrawDebugData() -> b2Body * b2Body::GetNext() [b2World.cpp <1221:42 1221:48>]
 LOCAL_SYMBOL: b2World.cpp<1221:16> [b2World.cpp <1221:39 1221:39>]
-SYMBOL_FUNCTION bool b2Body::IsActive() const
 REFERENCE_CALL void b2World::DrawDebugData() -> bool b2Body::IsActive() const [b2World.cpp <1223:11 1223:18>]
 LOCAL_SYMBOL: b2World.cpp<1221:16> [b2World.cpp <1223:8 1223:8>]
 LOCAL_SYMBOL: b2World.cpp<1228:20> [b2World.cpp <1228:20 1228:20>]
 REFERENCE_TYPE_USAGE void b2World::DrawDebugData() -> b2Fixture [b2World.cpp <1228:9 1228:17>]
-SYMBOL_FUNCTION b2Fixture * b2Body::GetFixtureList()
 REFERENCE_CALL void b2World::DrawDebugData() -> b2Fixture * b2Body::GetFixtureList() [b2World.cpp <1228:27 1228:40>]
 LOCAL_SYMBOL: b2World.cpp<1221:16> [b2World.cpp <1228:24 1228:24>]
 LOCAL_SYMBOL: b2World.cpp<1228:20> [b2World.cpp <1228:45 1228:45>]
 LOCAL_SYMBOL: b2World.cpp<1228:20> [b2World.cpp <1228:48 1228:48>]
-SYMBOL_FUNCTION b2Fixture * b2Fixture::GetNext()
 REFERENCE_CALL void b2World::DrawDebugData() -> b2Fixture * b2Fixture::GetNext() [b2World.cpp <1228:55 1228:61>]
 LOCAL_SYMBOL: b2World.cpp<1228:20> [b2World.cpp <1228:52 1228:52>]
 LOCAL_SYMBOL: b2World.cpp<1230:16> [b2World.cpp <1230:16 1230:16>]
@@ -2443,7 +2193,6 @@ REFERENCE_USAGE void b2World::DrawDebugData() -> int32 b2FixtureProxy::proxyId [
 LOCAL_SYMBOL: b2World.cpp<1232:22> [b2World.cpp <1233:35 1233:39>]
 LOCAL_SYMBOL: b2World.cpp<1234:13> [b2World.cpp <1234:13 1234:14>]
 REFERENCE_TYPE_USAGE void b2World::DrawDebugData() -> b2Vec2 [b2World.cpp <1234:6 1234:11>]
-SYMBOL_FUNCTION void b2Vec2::b2Vec2()
 REFERENCE_CALL void b2World::DrawDebugData() -> void b2Vec2::b2Vec2() [b2World.cpp <1234:13 1234:14>]
 SYMBOL_FUNCTION void b2Vec2::Set(float32, float32)
 REFERENCE_CALL void b2World::DrawDebugData() -> void b2Vec2::Set(float32, float32) [b2World.cpp <1235:12 1235:14>]
@@ -2454,7 +2203,6 @@ LOCAL_SYMBOL: b2World.cpp<1233:13> [b2World.cpp <1235:16 1235:19>]
 REFERENCE_USAGE void b2World::DrawDebugData() -> float32 b2Vec2::y [b2World.cpp <1235:51 1235:51>]
 REFERENCE_USAGE void b2World::DrawDebugData() -> b2Vec2 b2AABB::lowerBound [b2World.cpp <1235:40 1235:49>]
 LOCAL_SYMBOL: b2World.cpp<1233:13> [b2World.cpp <1235:35 1235:38>]
-SYMBOL_FUNCTION void b2Vec2::Set(float32, float32)
 REFERENCE_CALL void b2World::DrawDebugData() -> void b2Vec2::Set(float32, float32) [b2World.cpp <1236:12 1236:14>]
 LOCAL_SYMBOL: b2World.cpp<1234:13> [b2World.cpp <1236:6 1236:7>]
 REFERENCE_USAGE void b2World::DrawDebugData() -> float32 b2Vec2::x [b2World.cpp <1236:32 1236:32>]
@@ -2463,7 +2211,6 @@ LOCAL_SYMBOL: b2World.cpp<1233:13> [b2World.cpp <1236:16 1236:19>]
 REFERENCE_USAGE void b2World::DrawDebugData() -> float32 b2Vec2::y [b2World.cpp <1236:51 1236:51>]
 REFERENCE_USAGE void b2World::DrawDebugData() -> b2Vec2 b2AABB::lowerBound [b2World.cpp <1236:40 1236:49>]
 LOCAL_SYMBOL: b2World.cpp<1233:13> [b2World.cpp <1236:35 1236:38>]
-SYMBOL_FUNCTION void b2Vec2::Set(float32, float32)
 REFERENCE_CALL void b2World::DrawDebugData() -> void b2Vec2::Set(float32, float32) [b2World.cpp <1237:12 1237:14>]
 LOCAL_SYMBOL: b2World.cpp<1234:13> [b2World.cpp <1237:6 1237:7>]
 REFERENCE_USAGE void b2World::DrawDebugData() -> float32 b2Vec2::x [b2World.cpp <1237:32 1237:32>]
@@ -2472,7 +2219,6 @@ LOCAL_SYMBOL: b2World.cpp<1233:13> [b2World.cpp <1237:16 1237:19>]
 REFERENCE_USAGE void b2World::DrawDebugData() -> float32 b2Vec2::y [b2World.cpp <1237:51 1237:51>]
 REFERENCE_USAGE void b2World::DrawDebugData() -> b2Vec2 b2AABB::upperBound [b2World.cpp <1237:40 1237:49>]
 LOCAL_SYMBOL: b2World.cpp<1233:13> [b2World.cpp <1237:35 1237:38>]
-SYMBOL_FUNCTION void b2Vec2::Set(float32, float32)
 REFERENCE_CALL void b2World::DrawDebugData() -> void b2Vec2::Set(float32, float32) [b2World.cpp <1238:12 1238:14>]
 LOCAL_SYMBOL: b2World.cpp<1234:13> [b2World.cpp <1238:6 1238:7>]
 REFERENCE_USAGE void b2World::DrawDebugData() -> float32 b2Vec2::x [b2World.cpp <1238:32 1238:32>]
@@ -2488,23 +2234,20 @@ LOCAL_SYMBOL: b2World.cpp<1234:13> [b2World.cpp <1240:31 1240:32>]
 LOCAL_SYMBOL: b2World.cpp<1218:11> [b2World.cpp <1240:38 1240:42>]
 LOCAL_SYMBOL: b2World.cpp<1160:9> [b2World.cpp <1246:6 1246:10>]
 REFERENCE_USAGE void b2World::DrawDebugData() -> b2Draw::anonymous enum (b2Draw.h<50:2>)::e_centerOfMassBit [b2World.cpp <1246:22 1246:38>]
-SYMBOL_CLASS b2Draw
+QUALIFIER: b2Draw [b2World.cpp <1246:14 1246:19>]
 LOCAL_SYMBOL: b2World.cpp<1248:16> [b2World.cpp <1248:16 1248:16>]
 REFERENCE_TYPE_USAGE void b2World::DrawDebugData() -> b2Body [b2World.cpp <1248:8 1248:13>]
 REFERENCE_USAGE void b2World::DrawDebugData() -> b2Body * b2World::m_bodyList [b2World.cpp <1248:20 1248:29>]
 LOCAL_SYMBOL: b2World.cpp<1248:16> [b2World.cpp <1248:32 1248:32>]
 LOCAL_SYMBOL: b2World.cpp<1248:16> [b2World.cpp <1248:35 1248:35>]
-SYMBOL_FUNCTION b2Body * b2Body::GetNext()
 REFERENCE_CALL void b2World::DrawDebugData() -> b2Body * b2Body::GetNext() [b2World.cpp <1248:42 1248:48>]
 LOCAL_SYMBOL: b2World.cpp<1248:16> [b2World.cpp <1248:39 1248:39>]
 LOCAL_SYMBOL: b2World.cpp<1250:16> [b2World.cpp <1250:16 1250:17>]
 REFERENCE_TYPE_USAGE void b2World::DrawDebugData() -> b2Transform [b2World.cpp <1250:4 1250:14>]
 SYMBOL_FUNCTION void b2Transform::b2Transform(const b2Transform &)
 REFERENCE_CALL void b2World::DrawDebugData() -> void b2Transform::b2Transform(const b2Transform &) [b2World.cpp <1250:37 1250:37>]
-SYMBOL_FUNCTION const b2Transform & b2Body::GetTransform() const
 REFERENCE_CALL void b2World::DrawDebugData() -> const b2Transform & b2Body::GetTransform() const [b2World.cpp <1250:24 1250:35>]
 LOCAL_SYMBOL: b2World.cpp<1248:16> [b2World.cpp <1250:21 1250:21>]
-SYMBOL_FUNCTION b2Vec2 & b2Vec2::operator=(const b2Vec2 &)
 REFERENCE_CALL void b2World::DrawDebugData() -> b2Vec2 & b2Vec2::operator=(const b2Vec2 &) [b2World.cpp <1251:9 1251:9>]
 REFERENCE_USAGE void b2World::DrawDebugData() -> b2Vec2 b2Transform::p [b2World.cpp <1251:7 1251:7>]
 LOCAL_SYMBOL: b2World.cpp<1250:16> [b2World.cpp <1251:4 1251:5>]
@@ -2516,36 +2259,35 @@ REFERENCE_CALL void b2World::DrawDebugData() -> void b2Draw::DrawTransform(const
 REFERENCE_USAGE void b2World::DrawDebugData() -> b2Draw * b2World::g_debugDraw [b2World.cpp <1252:4 1252:14>]
 LOCAL_SYMBOL: b2World.cpp<1250:16> [b2World.cpp <1252:31 1252:32>]
 SYMBOL_METHOD public int32 b2World::GetProxyCount() const [b2World.cpp <1257:1 <1257:16 1257:28> 1260:1>]
-SYMBOL_CLASS b2World
+QUALIFIER: b2World [b2World.cpp <1257:7 1257:13>]
 REFERENCE_TYPE_USAGE int32 b2World::GetProxyCount() const -> int32 [b2World.cpp <1257:1 1257:5>]
 SYMBOL_FUNCTION int32 b2BroadPhase::GetProxyCount() const
 REFERENCE_CALL int32 b2World::GetProxyCount() const -> int32 b2BroadPhase::GetProxyCount() const [b2World.cpp <1259:39 1259:51>]
 REFERENCE_USAGE int32 b2World::GetProxyCount() const -> b2BroadPhase b2ContactManager::m_broadPhase [b2World.cpp <1259:26 1259:37>]
 REFERENCE_USAGE int32 b2World::GetProxyCount() const -> b2ContactManager b2World::m_contactManager [b2World.cpp <1259:9 1259:24>]
 SYMBOL_METHOD public int32 b2World::GetTreeHeight() const [b2World.cpp <1262:1 <1262:16 1262:28> 1265:1>]
-SYMBOL_CLASS b2World
+QUALIFIER: b2World [b2World.cpp <1262:7 1262:13>]
 REFERENCE_TYPE_USAGE int32 b2World::GetTreeHeight() const -> int32 [b2World.cpp <1262:1 1262:5>]
 SYMBOL_FUNCTION int32 b2BroadPhase::GetTreeHeight() const
 REFERENCE_CALL int32 b2World::GetTreeHeight() const -> int32 b2BroadPhase::GetTreeHeight() const [b2World.cpp <1264:39 1264:51>]
 REFERENCE_USAGE int32 b2World::GetTreeHeight() const -> b2BroadPhase b2ContactManager::m_broadPhase [b2World.cpp <1264:26 1264:37>]
 REFERENCE_USAGE int32 b2World::GetTreeHeight() const -> b2ContactManager b2World::m_contactManager [b2World.cpp <1264:9 1264:24>]
 SYMBOL_METHOD public int32 b2World::GetTreeBalance() const [b2World.cpp <1267:1 <1267:16 1267:29> 1270:1>]
-SYMBOL_CLASS b2World
+QUALIFIER: b2World [b2World.cpp <1267:7 1267:13>]
 REFERENCE_TYPE_USAGE int32 b2World::GetTreeBalance() const -> int32 [b2World.cpp <1267:1 1267:5>]
 SYMBOL_FUNCTION int32 b2BroadPhase::GetTreeBalance() const
 REFERENCE_CALL int32 b2World::GetTreeBalance() const -> int32 b2BroadPhase::GetTreeBalance() const [b2World.cpp <1269:39 1269:52>]
 REFERENCE_USAGE int32 b2World::GetTreeBalance() const -> b2BroadPhase b2ContactManager::m_broadPhase [b2World.cpp <1269:26 1269:37>]
 REFERENCE_USAGE int32 b2World::GetTreeBalance() const -> b2ContactManager b2World::m_contactManager [b2World.cpp <1269:9 1269:24>]
 SYMBOL_METHOD public float32 b2World::GetTreeQuality() const [b2World.cpp <1272:1 <1272:18 1272:31> 1275:1>]
-SYMBOL_CLASS b2World
+QUALIFIER: b2World [b2World.cpp <1272:9 1272:15>]
 REFERENCE_TYPE_USAGE float32 b2World::GetTreeQuality() const -> float32 [b2World.cpp <1272:1 1272:7>]
 SYMBOL_FUNCTION float32 b2BroadPhase::GetTreeQuality() const
 REFERENCE_CALL float32 b2World::GetTreeQuality() const -> float32 b2BroadPhase::GetTreeQuality() const [b2World.cpp <1274:39 1274:52>]
 REFERENCE_USAGE float32 b2World::GetTreeQuality() const -> b2BroadPhase b2ContactManager::m_broadPhase [b2World.cpp <1274:26 1274:37>]
 REFERENCE_USAGE float32 b2World::GetTreeQuality() const -> b2ContactManager b2World::m_contactManager [b2World.cpp <1274:9 1274:24>]
 SYMBOL_METHOD public void b2World::ShiftOrigin(const b2Vec2 &) [b2World.cpp <1277:1 <1277:15 1277:25> 1298:1>]
-SYMBOL_CLASS b2World
-SYMBOL_BUILTIN_TYPE void
+QUALIFIER: b2World [b2World.cpp <1277:6 1277:12>]
 REFERENCE_TYPE_USAGE void b2World::ShiftOrigin(const b2Vec2 &) -> void [b2World.cpp <1277:1 1277:4>]
 LOCAL_SYMBOL: b2World.cpp<1277:41> [b2World.cpp <1277:41 1277:49>]
 REFERENCE_TYPE_USAGE void b2World::ShiftOrigin(const b2Vec2 &) -> b2Vec2 [b2World.cpp <1277:33 1277:38>]
@@ -2567,13 +2309,11 @@ REFERENCE_USAGE void b2World::ShiftOrigin(const b2Vec2 &) -> b2Vec2 b2Transform:
 REFERENCE_USAGE void b2World::ShiftOrigin(const b2Vec2 &) -> b2Transform b2Body::m_xf [b2World.cpp <1287:6 1287:9>]
 LOCAL_SYMBOL: b2World.cpp<1285:15> [b2World.cpp <1287:3 1287:3>]
 LOCAL_SYMBOL: b2World.cpp<1277:41> [b2World.cpp <1287:16 1287:24>]
-SYMBOL_FUNCTION void b2Vec2::operator-=(const b2Vec2 &)
 REFERENCE_CALL void b2World::ShiftOrigin(const b2Vec2 &) -> void b2Vec2::operator-=(const b2Vec2 &) [b2World.cpp <1288:17 1288:18>]
 REFERENCE_USAGE void b2World::ShiftOrigin(const b2Vec2 &) -> b2Vec2 b2Sweep::c0 [b2World.cpp <1288:14 1288:15>]
 REFERENCE_USAGE void b2World::ShiftOrigin(const b2Vec2 &) -> b2Sweep b2Body::m_sweep [b2World.cpp <1288:6 1288:12>]
 LOCAL_SYMBOL: b2World.cpp<1285:15> [b2World.cpp <1288:3 1288:3>]
 LOCAL_SYMBOL: b2World.cpp<1277:41> [b2World.cpp <1288:20 1288:28>]
-SYMBOL_FUNCTION void b2Vec2::operator-=(const b2Vec2 &)
 REFERENCE_CALL void b2World::ShiftOrigin(const b2Vec2 &) -> void b2Vec2::operator-=(const b2Vec2 &) [b2World.cpp <1289:16 1289:17>]
 REFERENCE_USAGE void b2World::ShiftOrigin(const b2Vec2 &) -> b2Vec2 b2Sweep::c [b2World.cpp <1289:14 1289:14>]
 REFERENCE_USAGE void b2World::ShiftOrigin(const b2Vec2 &) -> b2Sweep b2Body::m_sweep [b2World.cpp <1289:6 1289:12>]
@@ -2596,8 +2336,7 @@ REFERENCE_USAGE void b2World::ShiftOrigin(const b2Vec2 &) -> b2BroadPhase b2Cont
 REFERENCE_USAGE void b2World::ShiftOrigin(const b2Vec2 &) -> b2ContactManager b2World::m_contactManager [b2World.cpp <1297:2 1297:17>]
 LOCAL_SYMBOL: b2World.cpp<1277:41> [b2World.cpp <1297:44 1297:52>]
 SYMBOL_METHOD public void b2World::Dump() [b2World.cpp <1300:1 <1300:15 1300:18> 1357:1>]
-SYMBOL_CLASS b2World
-SYMBOL_BUILTIN_TYPE void
+QUALIFIER: b2World [b2World.cpp <1300:6 1300:12>]
 REFERENCE_TYPE_USAGE void b2World::Dump() -> void [b2World.cpp <1300:1 1300:4>]
 REFERENCE_USAGE void b2World::Dump() -> int32 b2World::m_flags [b2World.cpp <1302:7 1302:13>]
 REFERENCE_USAGE void b2World::Dump() -> b2World::anonymous enum (b2World.h<215:2>)::e_locked [b2World.cpp <1302:17 1302:24>]
@@ -2608,12 +2347,9 @@ REFERENCE_USAGE void b2World::Dump() -> float32 b2Vec2::x [b2World.cpp <1307:51 
 REFERENCE_USAGE void b2World::Dump() -> b2Vec2 b2World::m_gravity [b2World.cpp <1307:41 1307:49>]
 REFERENCE_USAGE void b2World::Dump() -> float32 b2Vec2::y [b2World.cpp <1307:64 1307:64>]
 REFERENCE_USAGE void b2World::Dump() -> b2Vec2 b2World::m_gravity [b2World.cpp <1307:54 1307:62>]
-SYMBOL_FUNCTION void b2Log(const char *)
 REFERENCE_CALL void b2World::Dump() -> void b2Log(const char *) [b2World.cpp <1308:2 1308:6>]
-SYMBOL_FUNCTION void b2Log(const char *)
 REFERENCE_CALL void b2World::Dump() -> void b2Log(const char *) [b2World.cpp <1310:2 1310:6>]
 REFERENCE_USAGE void b2World::Dump() -> int32 b2World::m_bodyCount [b2World.cpp <1310:72 1310:82>]
-SYMBOL_FUNCTION void b2Log(const char *)
 REFERENCE_CALL void b2World::Dump() -> void b2Log(const char *) [b2World.cpp <1311:2 1311:6>]
 REFERENCE_USAGE void b2World::Dump() -> int32 b2World::m_jointCount [b2World.cpp <1311:75 1311:86>]
 LOCAL_SYMBOL: b2World.cpp<1312:8> [b2World.cpp <1312:8 1312:8>]
@@ -2654,12 +2390,10 @@ LOCAL_SYMBOL: b2World.cpp<1328:16> [b2World.cpp <1328:40 1328:40>]
 REFERENCE_USAGE void b2World::Dump() -> b2JointType b2Joint::m_type [b2World.cpp <1330:10 1330:15>]
 LOCAL_SYMBOL: b2World.cpp<1328:16> [b2World.cpp <1330:7 1330:7>]
 REFERENCE_USAGE void b2World::Dump() -> b2JointType::e_gearJoint [b2World.cpp <1330:20 1330:30>]
-SYMBOL_FUNCTION void b2Log(const char *)
 REFERENCE_CALL void b2World::Dump() -> void b2Log(const char *) [b2World.cpp <1335:3 1335:7>]
 SYMBOL_FUNCTION void b2Joint::Dump()
 REFERENCE_CALL void b2World::Dump() -> void b2Joint::Dump() [b2World.cpp <1336:6 1336:9>]
 LOCAL_SYMBOL: b2World.cpp<1328:16> [b2World.cpp <1336:3 1336:3>]
-SYMBOL_FUNCTION void b2Log(const char *)
 REFERENCE_CALL void b2World::Dump() -> void b2Log(const char *) [b2World.cpp <1337:3 1337:7>]
 LOCAL_SYMBOL: b2World.cpp<1341:16> [b2World.cpp <1341:16 1341:16>]
 REFERENCE_TYPE_USAGE void b2World::Dump() -> b2Joint [b2World.cpp <1341:7 1341:13>]
@@ -2671,18 +2405,11 @@ LOCAL_SYMBOL: b2World.cpp<1341:16> [b2World.cpp <1341:40 1341:40>]
 REFERENCE_USAGE void b2World::Dump() -> b2JointType b2Joint::m_type [b2World.cpp <1343:10 1343:15>]
 LOCAL_SYMBOL: b2World.cpp<1341:16> [b2World.cpp <1343:7 1343:7>]
 REFERENCE_USAGE void b2World::Dump() -> b2JointType::e_gearJoint [b2World.cpp <1343:20 1343:30>]
-SYMBOL_FUNCTION void b2Log(const char *)
 REFERENCE_CALL void b2World::Dump() -> void b2Log(const char *) [b2World.cpp <1348:3 1348:7>]
-SYMBOL_FUNCTION void b2Joint::Dump()
 REFERENCE_CALL void b2World::Dump() -> void b2Joint::Dump() [b2World.cpp <1349:6 1349:9>]
 LOCAL_SYMBOL: b2World.cpp<1341:16> [b2World.cpp <1349:3 1349:3>]
-SYMBOL_FUNCTION void b2Log(const char *)
 REFERENCE_CALL void b2World::Dump() -> void b2Log(const char *) [b2World.cpp <1350:3 1350:7>]
-SYMBOL_FUNCTION void b2Log(const char *)
 REFERENCE_CALL void b2World::Dump() -> void b2Log(const char *) [b2World.cpp <1353:2 1353:6>]
-SYMBOL_FUNCTION void b2Log(const char *)
 REFERENCE_CALL void b2World::Dump() -> void b2Log(const char *) [b2World.cpp <1354:2 1354:6>]
-SYMBOL_FUNCTION void b2Log(const char *)
 REFERENCE_CALL void b2World::Dump() -> void b2Log(const char *) [b2World.cpp <1355:2 1355:6>]
-SYMBOL_FUNCTION void b2Log(const char *)
 REFERENCE_CALL void b2World::Dump() -> void b2Log(const char *) [b2World.cpp <1356:2 1356:6>]

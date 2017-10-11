@@ -1,20 +1,44 @@
 FILE: NoSymbolDeclarator.java
-SYMBOL_PACKAGE com.github.javaparser.symbolsolver.javaparsermodel.declarators [NoSymbolDeclarator.java <17:9 17:70>]
+SYMBOL_PACKAGE com.github.javaparser.symbolsolver.javaparsermodel.declarators [NoSymbolDeclarator.java <17:60 17:70>]
 SYMBOL_PACKAGE com.github.javaparser.symbolsolver.javaparsermodel
 SYMBOL_PACKAGE com.github.javaparser.symbolsolver
 SYMBOL_PACKAGE com.github.javaparser
 SYMBOL_PACKAGE com.github
 SYMBOL_PACKAGE com
-REFERENCE_IMPORT NoSymbolDeclarator.java -> com.github.javaparser.ast.Node [NoSymbolDeclarator.java <19:8 19:37>]
+QUALIFIER: com.github.javaparser.symbolsolver.javaparsermodel [NoSymbolDeclarator.java <17:44 17:58>]
+QUALIFIER: com.github.javaparser.symbolsolver [NoSymbolDeclarator.java <17:31 17:42>]
+QUALIFIER: com.github.javaparser [NoSymbolDeclarator.java <17:20 17:29>]
+QUALIFIER: com.github [NoSymbolDeclarator.java <17:13 17:18>]
+QUALIFIER: com [NoSymbolDeclarator.java <17:9 17:11>]
+REFERENCE_IMPORT NoSymbolDeclarator.java -> com.github.javaparser.ast.Node [NoSymbolDeclarator.java <19:34 19:37>]
 SYMBOL_PACKAGE com.github.javaparser.ast
-REFERENCE_IMPORT NoSymbolDeclarator.java -> com.github.javaparser.symbolsolver.model.declarations.ValueDeclaration [NoSymbolDeclarator.java <20:8 20:77>]
+QUALIFIER: com.github.javaparser.ast [NoSymbolDeclarator.java <19:30 19:32>]
+QUALIFIER: com.github.javaparser [NoSymbolDeclarator.java <19:19 19:28>]
+QUALIFIER: com.github [NoSymbolDeclarator.java <19:12 19:17>]
+QUALIFIER: com [NoSymbolDeclarator.java <19:8 19:10>]
+REFERENCE_IMPORT NoSymbolDeclarator.java -> com.github.javaparser.symbolsolver.model.declarations.ValueDeclaration [NoSymbolDeclarator.java <20:62 20:77>]
 SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model.declarations
-REFERENCE_IMPORT NoSymbolDeclarator.java -> com.github.javaparser.symbolsolver.model.resolution.TypeSolver [NoSymbolDeclarator.java <21:8 21:69>]
+QUALIFIER: com.github.javaparser.symbolsolver.model.declarations [NoSymbolDeclarator.java <20:49 20:60>]
+QUALIFIER: com.github.javaparser.symbolsolver.model [NoSymbolDeclarator.java <20:43 20:47>]
+QUALIFIER: com.github.javaparser.symbolsolver [NoSymbolDeclarator.java <20:30 20:41>]
+QUALIFIER: com.github.javaparser [NoSymbolDeclarator.java <20:19 20:28>]
+QUALIFIER: com.github [NoSymbolDeclarator.java <20:12 20:17>]
+QUALIFIER: com [NoSymbolDeclarator.java <20:8 20:10>]
+REFERENCE_IMPORT NoSymbolDeclarator.java -> com.github.javaparser.symbolsolver.model.resolution.TypeSolver [NoSymbolDeclarator.java <21:60 21:69>]
 SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model.resolution
-REFERENCE_IMPORT NoSymbolDeclarator.java -> java.util.Collections [NoSymbolDeclarator.java <23:8 23:28>]
+QUALIFIER: com.github.javaparser.symbolsolver.model.resolution [NoSymbolDeclarator.java <21:49 21:58>]
+QUALIFIER: com.github.javaparser.symbolsolver.model [NoSymbolDeclarator.java <21:43 21:47>]
+QUALIFIER: com.github.javaparser.symbolsolver [NoSymbolDeclarator.java <21:30 21:41>]
+QUALIFIER: com.github.javaparser [NoSymbolDeclarator.java <21:19 21:28>]
+QUALIFIER: com.github [NoSymbolDeclarator.java <21:12 21:17>]
+QUALIFIER: com [NoSymbolDeclarator.java <21:8 21:10>]
+REFERENCE_IMPORT NoSymbolDeclarator.java -> java.util.Collections [NoSymbolDeclarator.java <23:18 23:28>]
 SYMBOL_PACKAGE java.util
-REFERENCE_IMPORT NoSymbolDeclarator.java -> java.util.List<E> [NoSymbolDeclarator.java <24:8 24:21>]
-SYMBOL_PACKAGE java.util
+QUALIFIER: java.util [NoSymbolDeclarator.java <23:13 23:16>]
+QUALIFIER: java [NoSymbolDeclarator.java <23:8 23:11>]
+REFERENCE_IMPORT NoSymbolDeclarator.java -> java.util.List<E> [NoSymbolDeclarator.java <24:18 24:21>]
+QUALIFIER: java.util [NoSymbolDeclarator.java <24:13 24:16>]
+QUALIFIER: java [NoSymbolDeclarator.java <24:8 24:11>]
 SYMBOL_CLASS public com.github.javaparser.symbolsolver.javaparsermodel.declarators.NoSymbolDeclarator<N> [NoSymbolDeclarator.java <29:1 <29:14 29:31> 40:1>]
 LOCAL_SYMBOL: NoSymbolDeclarator.java<29:85> [NoSymbolDeclarator.java <29:85 29:85>]
 LOCAL_SYMBOL: NoSymbolDeclarator.java<29:85> [NoSymbolDeclarator.java <40:1 40:1>]
@@ -32,7 +56,6 @@ REFERENCE_TYPE_USAGE com.github.javaparser.symbolsolver.javaparsermodel.declarat
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javaparsermodel.declarators.NoSymbolDeclarator<N>.NoSymbolDeclarator<1> [NoSymbolDeclarator.java <31:57 31:66>]
 LOCAL_SYMBOL: NoSymbolDeclarator.java<31:69> [NoSymbolDeclarator.java <31:69 31:69>]
 LOCAL_SYMBOL: NoSymbolDeclarator.java<31:69> [NoSymbolDeclarator.java <33:5 33:5>]
-SYMBOL_METHOD com.github.javaparser.symbolsolver.javaparsermodel.declarators.AbstractSymbolDeclarator<N>.AbstractSymbolDeclarator(com.github.javaparser.symbolsolver.javaparsermodel.declarators.AbstractSymbolDeclarator<N>.N, com.github.javaparser.symbolsolver.model.resolution.TypeSolver)
 REFERENCE_CALL com.github.javaparser.symbolsolver.javaparsermodel.declarators.NoSymbolDeclarator<N>.NoSymbolDeclarator(com.github.javaparser.symbolsolver.javaparsermodel.declarators.NoSymbolDeclarator<N>.N, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> com.github.javaparser.symbolsolver.javaparsermodel.declarators.AbstractSymbolDeclarator<N>.AbstractSymbolDeclarator(com.github.javaparser.symbolsolver.javaparsermodel.declarators.AbstractSymbolDeclarator<N>.N, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) [NoSymbolDeclarator.java <32:9 32:13>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javaparsermodel.declarators.NoSymbolDeclarator<N>.NoSymbolDeclarator<0> [NoSymbolDeclarator.java <32:15 32:25>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javaparsermodel.declarators.NoSymbolDeclarator<N>.NoSymbolDeclarator<1> [NoSymbolDeclarator.java <32:28 32:37>]
@@ -45,4 +68,5 @@ LOCAL_SYMBOL: NoSymbolDeclarator.java<36:59> [NoSymbolDeclarator.java <36:59 36:
 LOCAL_SYMBOL: NoSymbolDeclarator.java<36:59> [NoSymbolDeclarator.java <38:5 38:5>]
 SYMBOL_METHOD static java.util.List<T> java.util.Collections.emptyList<T>()
 REFERENCE_CALL java.util.List<com.github.javaparser.symbolsolver.model.declarations.ValueDeclaration> com.github.javaparser.symbolsolver.javaparsermodel.declarators.NoSymbolDeclarator<N>.getSymbolDeclarations() -> static java.util.List<T> java.util.Collections.emptyList<T>() [NoSymbolDeclarator.java <37:28 37:36>]
+QUALIFIER: java.util.Collections [NoSymbolDeclarator.java <37:16 37:26>]
 COMMENT: comment [NoSymbolDeclarator.java <1:1 15:3>]

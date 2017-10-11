@@ -1,40 +1,85 @@
 FILE: JarTypeSolver.java
-SYMBOL_PACKAGE com.github.javaparser.symbolsolver.resolution.typesolvers [JarTypeSolver.java <15:9 15:65>]
+SYMBOL_PACKAGE com.github.javaparser.symbolsolver.resolution.typesolvers [JarTypeSolver.java <15:55 15:65>]
 SYMBOL_PACKAGE com.github.javaparser.symbolsolver.resolution
 SYMBOL_PACKAGE com.github.javaparser.symbolsolver
 SYMBOL_PACKAGE com.github.javaparser
 SYMBOL_PACKAGE com.github
 SYMBOL_PACKAGE com
-REFERENCE_IMPORT JarTypeSolver.java -> com.github.javaparser.symbolsolver.javassistmodel.JavassistFactory [JarTypeSolver.java <17:8 17:73>]
+QUALIFIER: com.github.javaparser.symbolsolver.resolution [JarTypeSolver.java <15:44 15:53>]
+QUALIFIER: com.github.javaparser.symbolsolver [JarTypeSolver.java <15:31 15:42>]
+QUALIFIER: com.github.javaparser [JarTypeSolver.java <15:20 15:29>]
+QUALIFIER: com.github [JarTypeSolver.java <15:13 15:18>]
+QUALIFIER: com [JarTypeSolver.java <15:9 15:11>]
+REFERENCE_IMPORT JarTypeSolver.java -> com.github.javaparser.symbolsolver.javassistmodel.JavassistFactory [JarTypeSolver.java <17:58 17:73>]
 SYMBOL_PACKAGE com.github.javaparser.symbolsolver.javassistmodel
-REFERENCE_IMPORT JarTypeSolver.java -> com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration [JarTypeSolver.java <18:8 18:85>]
+QUALIFIER: com.github.javaparser.symbolsolver.javassistmodel [JarTypeSolver.java <17:43 17:56>]
+QUALIFIER: com.github.javaparser.symbolsolver [JarTypeSolver.java <17:30 17:41>]
+QUALIFIER: com.github.javaparser [JarTypeSolver.java <17:19 17:28>]
+QUALIFIER: com.github [JarTypeSolver.java <17:12 17:17>]
+QUALIFIER: com [JarTypeSolver.java <17:8 17:10>]
+REFERENCE_IMPORT JarTypeSolver.java -> com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration [JarTypeSolver.java <18:62 18:85>]
 SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model.declarations
-REFERENCE_IMPORT JarTypeSolver.java -> com.github.javaparser.symbolsolver.model.resolution.SymbolReference<S> [JarTypeSolver.java <19:8 19:74>]
+QUALIFIER: com.github.javaparser.symbolsolver.model.declarations [JarTypeSolver.java <18:49 18:60>]
+QUALIFIER: com.github.javaparser.symbolsolver.model [JarTypeSolver.java <18:43 18:47>]
+QUALIFIER: com.github.javaparser.symbolsolver [JarTypeSolver.java <18:30 18:41>]
+QUALIFIER: com.github.javaparser [JarTypeSolver.java <18:19 18:28>]
+QUALIFIER: com.github [JarTypeSolver.java <18:12 18:17>]
+QUALIFIER: com [JarTypeSolver.java <18:8 18:10>]
+REFERENCE_IMPORT JarTypeSolver.java -> com.github.javaparser.symbolsolver.model.resolution.SymbolReference<S> [JarTypeSolver.java <19:60 19:74>]
 SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model.resolution
-REFERENCE_IMPORT JarTypeSolver.java -> com.github.javaparser.symbolsolver.model.resolution.TypeSolver [JarTypeSolver.java <20:8 20:69>]
-SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model.resolution
-REFERENCE_IMPORT JarTypeSolver.java -> com.github.javaparser.symbolsolver.model.resolution.UnsolvedSymbolException [JarTypeSolver.java <21:8 21:82>]
-SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model.resolution
-REFERENCE_IMPORT JarTypeSolver.java -> javassist.ClassPool [JarTypeSolver.java <22:8 22:26>]
+QUALIFIER: com.github.javaparser.symbolsolver.model.resolution [JarTypeSolver.java <19:49 19:58>]
+QUALIFIER: com.github.javaparser.symbolsolver.model [JarTypeSolver.java <19:43 19:47>]
+QUALIFIER: com.github.javaparser.symbolsolver [JarTypeSolver.java <19:30 19:41>]
+QUALIFIER: com.github.javaparser [JarTypeSolver.java <19:19 19:28>]
+QUALIFIER: com.github [JarTypeSolver.java <19:12 19:17>]
+QUALIFIER: com [JarTypeSolver.java <19:8 19:10>]
+REFERENCE_IMPORT JarTypeSolver.java -> com.github.javaparser.symbolsolver.model.resolution.TypeSolver [JarTypeSolver.java <20:60 20:69>]
+QUALIFIER: com.github.javaparser.symbolsolver.model.resolution [JarTypeSolver.java <20:49 20:58>]
+QUALIFIER: com.github.javaparser.symbolsolver.model [JarTypeSolver.java <20:43 20:47>]
+QUALIFIER: com.github.javaparser.symbolsolver [JarTypeSolver.java <20:30 20:41>]
+QUALIFIER: com.github.javaparser [JarTypeSolver.java <20:19 20:28>]
+QUALIFIER: com.github [JarTypeSolver.java <20:12 20:17>]
+QUALIFIER: com [JarTypeSolver.java <20:8 20:10>]
+REFERENCE_IMPORT JarTypeSolver.java -> com.github.javaparser.symbolsolver.model.resolution.UnsolvedSymbolException [JarTypeSolver.java <21:60 21:82>]
+QUALIFIER: com.github.javaparser.symbolsolver.model.resolution [JarTypeSolver.java <21:49 21:58>]
+QUALIFIER: com.github.javaparser.symbolsolver.model [JarTypeSolver.java <21:43 21:47>]
+QUALIFIER: com.github.javaparser.symbolsolver [JarTypeSolver.java <21:30 21:41>]
+QUALIFIER: com.github.javaparser [JarTypeSolver.java <21:19 21:28>]
+QUALIFIER: com.github [JarTypeSolver.java <21:12 21:17>]
+QUALIFIER: com [JarTypeSolver.java <21:8 21:10>]
+REFERENCE_IMPORT JarTypeSolver.java -> javassist.ClassPool [JarTypeSolver.java <22:18 22:26>]
 SYMBOL_PACKAGE javassist
-REFERENCE_IMPORT JarTypeSolver.java -> javassist.CtClass [JarTypeSolver.java <23:8 23:24>]
-SYMBOL_PACKAGE javassist
-REFERENCE_IMPORT JarTypeSolver.java -> javassist.NotFoundException [JarTypeSolver.java <24:8 24:34>]
-SYMBOL_PACKAGE javassist
-REFERENCE_IMPORT JarTypeSolver.java -> java.io.IOException [JarTypeSolver.java <26:8 26:26>]
+QUALIFIER: javassist [JarTypeSolver.java <22:8 22:16>]
+REFERENCE_IMPORT JarTypeSolver.java -> javassist.CtClass [JarTypeSolver.java <23:18 23:24>]
+QUALIFIER: javassist [JarTypeSolver.java <23:8 23:16>]
+REFERENCE_IMPORT JarTypeSolver.java -> javassist.NotFoundException [JarTypeSolver.java <24:18 24:34>]
+QUALIFIER: javassist [JarTypeSolver.java <24:8 24:16>]
+REFERENCE_IMPORT JarTypeSolver.java -> java.io.IOException [JarTypeSolver.java <26:16 26:26>]
 SYMBOL_PACKAGE java.io
-REFERENCE_IMPORT JarTypeSolver.java -> java.io.InputStream [JarTypeSolver.java <27:8 27:26>]
-SYMBOL_PACKAGE java.io
-REFERENCE_IMPORT JarTypeSolver.java -> java.util.Enumeration<E> [JarTypeSolver.java <28:8 28:28>]
+QUALIFIER: java.io [JarTypeSolver.java <26:13 26:14>]
+QUALIFIER: java [JarTypeSolver.java <26:8 26:11>]
+REFERENCE_IMPORT JarTypeSolver.java -> java.io.InputStream [JarTypeSolver.java <27:16 27:26>]
+QUALIFIER: java.io [JarTypeSolver.java <27:13 27:14>]
+QUALIFIER: java [JarTypeSolver.java <27:8 27:11>]
+REFERENCE_IMPORT JarTypeSolver.java -> java.util.Enumeration<E> [JarTypeSolver.java <28:18 28:28>]
 SYMBOL_PACKAGE java.util
-REFERENCE_IMPORT JarTypeSolver.java -> java.util.HashMap<K, V> [JarTypeSolver.java <29:8 29:24>]
-SYMBOL_PACKAGE java.util
-REFERENCE_IMPORT JarTypeSolver.java -> java.util.Map<K, V> [JarTypeSolver.java <30:8 30:20>]
-SYMBOL_PACKAGE java.util
-REFERENCE_IMPORT JarTypeSolver.java -> java.util.jar.JarEntry [JarTypeSolver.java <31:8 31:29>]
+QUALIFIER: java.util [JarTypeSolver.java <28:13 28:16>]
+QUALIFIER: java [JarTypeSolver.java <28:8 28:11>]
+REFERENCE_IMPORT JarTypeSolver.java -> java.util.HashMap<K, V> [JarTypeSolver.java <29:18 29:24>]
+QUALIFIER: java.util [JarTypeSolver.java <29:13 29:16>]
+QUALIFIER: java [JarTypeSolver.java <29:8 29:11>]
+REFERENCE_IMPORT JarTypeSolver.java -> java.util.Map<K, V> [JarTypeSolver.java <30:18 30:20>]
+QUALIFIER: java.util [JarTypeSolver.java <30:13 30:16>]
+QUALIFIER: java [JarTypeSolver.java <30:8 30:11>]
+REFERENCE_IMPORT JarTypeSolver.java -> java.util.jar.JarEntry [JarTypeSolver.java <31:22 31:29>]
 SYMBOL_PACKAGE java.util.jar
-REFERENCE_IMPORT JarTypeSolver.java -> java.util.jar.JarFile [JarTypeSolver.java <32:8 32:28>]
-SYMBOL_PACKAGE java.util.jar
+QUALIFIER: java.util.jar [JarTypeSolver.java <31:18 31:20>]
+QUALIFIER: java.util [JarTypeSolver.java <31:13 31:16>]
+QUALIFIER: java [JarTypeSolver.java <31:8 31:11>]
+REFERENCE_IMPORT JarTypeSolver.java -> java.util.jar.JarFile [JarTypeSolver.java <32:22 32:28>]
+QUALIFIER: java.util.jar [JarTypeSolver.java <32:18 32:20>]
+QUALIFIER: java.util [JarTypeSolver.java <32:13 32:16>]
+QUALIFIER: java [JarTypeSolver.java <32:8 32:11>]
 SYMBOL_CLASS public com.github.javaparser.symbolsolver.resolution.typesolvers.JarTypeSolver [JarTypeSolver.java <37:1 <37:14 37:26> 138:1>]
 LOCAL_SYMBOL: JarTypeSolver.java<37:50> [JarTypeSolver.java <37:50 37:50>]
 LOCAL_SYMBOL: JarTypeSolver.java<37:50> [JarTypeSolver.java <138:1 138:1>]
@@ -76,7 +121,6 @@ SYMBOL_FIELD static com.github.javaparser.symbolsolver.resolution.typesolvers.Ja
 REFERENCE_USAGE static com.github.javaparser.symbolsolver.resolution.typesolvers.JarTypeSolver com.github.javaparser.symbolsolver.resolution.typesolvers.JarTypeSolver.getJarTypeSolver(java.lang.String) -> static com.github.javaparser.symbolsolver.resolution.typesolvers.JarTypeSolver com.github.javaparser.symbolsolver.resolution.typesolvers.JarTypeSolver.instance [JarTypeSolver.java <50:13 50:20>]
 LOCAL_SYMBOL: JarTypeSolver.java<50:31> [JarTypeSolver.java <50:31 50:31>]
 LOCAL_SYMBOL: JarTypeSolver.java<50:31> [JarTypeSolver.java <52:9 52:9>]
-SYMBOL_FIELD static com.github.javaparser.symbolsolver.resolution.typesolvers.JarTypeSolver com.github.javaparser.symbolsolver.resolution.typesolvers.JarTypeSolver.instance
 REFERENCE_USAGE static com.github.javaparser.symbolsolver.resolution.typesolvers.JarTypeSolver com.github.javaparser.symbolsolver.resolution.typesolvers.JarTypeSolver.getJarTypeSolver(java.lang.String) -> static com.github.javaparser.symbolsolver.resolution.typesolvers.JarTypeSolver com.github.javaparser.symbolsolver.resolution.typesolvers.JarTypeSolver.instance [JarTypeSolver.java <51:13 51:20>]
 SYMBOL_METHOD com.github.javaparser.symbolsolver.resolution.typesolvers.JarTypeSolver.JarTypeSolver(java.lang.String)
 REFERENCE_CALL static com.github.javaparser.symbolsolver.resolution.typesolvers.JarTypeSolver com.github.javaparser.symbolsolver.resolution.typesolvers.JarTypeSolver.getJarTypeSolver(java.lang.String) -> com.github.javaparser.symbolsolver.resolution.typesolvers.JarTypeSolver.JarTypeSolver(java.lang.String) [JarTypeSolver.java <51:28 51:40>]
@@ -84,12 +128,9 @@ REFERENCE_TYPE_USAGE static com.github.javaparser.symbolsolver.resolution.typeso
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.resolution.typesolvers.JarTypeSolver.getJarTypeSolver<0> [JarTypeSolver.java <51:42 51:50>]
 LOCAL_SYMBOL: JarTypeSolver.java<52:16> [JarTypeSolver.java <52:16 52:16>]
 LOCAL_SYMBOL: JarTypeSolver.java<52:16> [JarTypeSolver.java <54:9 54:9>]
-SYMBOL_METHOD void com.github.javaparser.symbolsolver.resolution.typesolvers.JarTypeSolver.addPathToJar(java.lang.String)
 REFERENCE_CALL static com.github.javaparser.symbolsolver.resolution.typesolvers.JarTypeSolver com.github.javaparser.symbolsolver.resolution.typesolvers.JarTypeSolver.getJarTypeSolver(java.lang.String) -> void com.github.javaparser.symbolsolver.resolution.typesolvers.JarTypeSolver.addPathToJar(java.lang.String) [JarTypeSolver.java <53:22 53:33>]
-SYMBOL_FIELD static com.github.javaparser.symbolsolver.resolution.typesolvers.JarTypeSolver com.github.javaparser.symbolsolver.resolution.typesolvers.JarTypeSolver.instance
 REFERENCE_USAGE static com.github.javaparser.symbolsolver.resolution.typesolvers.JarTypeSolver com.github.javaparser.symbolsolver.resolution.typesolvers.JarTypeSolver.getJarTypeSolver(java.lang.String) -> static com.github.javaparser.symbolsolver.resolution.typesolvers.JarTypeSolver com.github.javaparser.symbolsolver.resolution.typesolvers.JarTypeSolver.instance [JarTypeSolver.java <53:13 53:20>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.resolution.typesolvers.JarTypeSolver.getJarTypeSolver<0> [JarTypeSolver.java <53:35 53:43>]
-SYMBOL_FIELD static com.github.javaparser.symbolsolver.resolution.typesolvers.JarTypeSolver com.github.javaparser.symbolsolver.resolution.typesolvers.JarTypeSolver.instance
 REFERENCE_USAGE static com.github.javaparser.symbolsolver.resolution.typesolvers.JarTypeSolver com.github.javaparser.symbolsolver.resolution.typesolvers.JarTypeSolver.getJarTypeSolver(java.lang.String) -> static com.github.javaparser.symbolsolver.resolution.typesolvers.JarTypeSolver com.github.javaparser.symbolsolver.resolution.typesolvers.JarTypeSolver.instance [JarTypeSolver.java <55:16 55:23>]
 SYMBOL_METHOD private void com.github.javaparser.symbolsolver.resolution.typesolvers.JarTypeSolver.addPathToJar(java.lang.String) [JarTypeSolver.java <58:5 <58:18 58:29> 75:5>]
 SYMBOL_BUILTIN_TYPE void
@@ -108,7 +149,6 @@ REFERENCE_USAGE void com.github.javaparser.symbolsolver.resolution.typesolvers.J
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.resolution.typesolvers.JarTypeSolver.addPathToJar<0> [JarTypeSolver.java <60:39 60:47>]
 SYMBOL_METHOD javassist.ClassPath javassist.ClassPool.appendSystemPath()
 REFERENCE_CALL void com.github.javaparser.symbolsolver.resolution.typesolvers.JarTypeSolver.addPathToJar(java.lang.String) -> javassist.ClassPath javassist.ClassPool.appendSystemPath() [JarTypeSolver.java <61:23 61:38>]
-SYMBOL_FIELD javassist.ClassPool com.github.javaparser.symbolsolver.resolution.typesolvers.JarTypeSolver.classPool
 REFERENCE_USAGE void com.github.javaparser.symbolsolver.resolution.typesolvers.JarTypeSolver.addPathToJar(java.lang.String) -> javassist.ClassPool com.github.javaparser.symbolsolver.resolution.typesolvers.JarTypeSolver.classPool [JarTypeSolver.java <61:13 61:21>]
 REFERENCE_TYPE_USAGE void com.github.javaparser.symbolsolver.resolution.typesolvers.JarTypeSolver.addPathToJar(java.lang.String) -> javassist.NotFoundException [JarTypeSolver.java <62:18 62:34>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.resolution.typesolvers.JarTypeSolver.addPathToJar<1> [JarTypeSolver.java <62:36 62:36>]
@@ -156,7 +196,6 @@ REFERENCE_TYPE_USAGE void com.github.javaparser.symbolsolver.resolution.typesolv
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.resolution.typesolvers.JarTypeSolver.addPathToJar<5> [JarTypeSolver.java <71:24 71:27>]
 SYMBOL_METHOD java.lang.String com.github.javaparser.symbolsolver.resolution.typesolvers.JarTypeSolver.entryPathToClassName(java.lang.String)
 REFERENCE_CALL void com.github.javaparser.symbolsolver.resolution.typesolvers.JarTypeSolver.addPathToJar(java.lang.String) -> java.lang.String com.github.javaparser.symbolsolver.resolution.typesolvers.JarTypeSolver.entryPathToClassName(java.lang.String) [JarTypeSolver.java <71:31 71:50>]
-SYMBOL_METHOD java.lang.String java.util.zip.ZipEntry.getName()
 REFERENCE_CALL void com.github.javaparser.symbolsolver.resolution.typesolvers.JarTypeSolver.addPathToJar(java.lang.String) -> java.lang.String java.util.zip.ZipEntry.getName() [JarTypeSolver.java <71:58 71:64>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.resolution.typesolvers.JarTypeSolver.addPathToJar<3> [JarTypeSolver.java <71:52 71:56>]
 SYMBOL_METHOD java.util.Map<K, V>.V java.util.Map<K, V>.put(java.util.Map<K, V>.K, java.util.Map<K, V>.V)
@@ -181,13 +220,12 @@ REFERENCE_USAGE com.github.javaparser.symbolsolver.model.resolution.TypeSolver c
 SYMBOL_METHOD public void com.github.javaparser.symbolsolver.resolution.typesolvers.JarTypeSolver.setParent(com.github.javaparser.symbolsolver.model.resolution.TypeSolver) [JarTypeSolver.java <82:5 <83:17 83:25> 85:5>]
 SYMBOL_METHOD void com.github.javaparser.symbolsolver.model.resolution.TypeSolver.setParent(com.github.javaparser.symbolsolver.model.resolution.TypeSolver)
 REFERENCE_OVERRIDE void com.github.javaparser.symbolsolver.resolution.typesolvers.JarTypeSolver.setParent(com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> void com.github.javaparser.symbolsolver.model.resolution.TypeSolver.setParent(com.github.javaparser.symbolsolver.model.resolution.TypeSolver) [JarTypeSolver.java <83:17 83:25>]
-SYMBOL_BUILTIN_TYPE void
 REFERENCE_TYPE_USAGE void com.github.javaparser.symbolsolver.resolution.typesolvers.JarTypeSolver.setParent(com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> void [JarTypeSolver.java <83:12 83:15>]
 REFERENCE_TYPE_USAGE void com.github.javaparser.symbolsolver.resolution.typesolvers.JarTypeSolver.setParent(com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> com.github.javaparser.symbolsolver.model.resolution.TypeSolver [JarTypeSolver.java <83:27 83:36>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.resolution.typesolvers.JarTypeSolver.setParent<0> [JarTypeSolver.java <83:38 83:43>]
 LOCAL_SYMBOL: JarTypeSolver.java<83:46> [JarTypeSolver.java <83:46 83:46>]
 LOCAL_SYMBOL: JarTypeSolver.java<83:46> [JarTypeSolver.java <85:5 85:5>]
-SYMBOL_FIELD com.github.javaparser.symbolsolver.model.resolution.TypeSolver com.github.javaparser.symbolsolver.resolution.typesolvers.JarTypeSolver.parent
+QUALIFIER: com.github.javaparser.symbolsolver.resolution.typesolvers.JarTypeSolver [JarTypeSolver.java <84:9 84:12>]
 REFERENCE_USAGE void com.github.javaparser.symbolsolver.resolution.typesolvers.JarTypeSolver.setParent(com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> com.github.javaparser.symbolsolver.model.resolution.TypeSolver com.github.javaparser.symbolsolver.resolution.typesolvers.JarTypeSolver.parent [JarTypeSolver.java <84:14 84:19>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.resolution.typesolvers.JarTypeSolver.setParent<0> [JarTypeSolver.java <84:23 84:28>]
 SYMBOL_METHOD private java.lang.String com.github.javaparser.symbolsolver.resolution.typesolvers.JarTypeSolver.entryPathToClassName(java.lang.String) [JarTypeSolver.java <87:5 <87:20 87:39> 95:5>]
@@ -196,7 +234,6 @@ REFERENCE_TYPE_USAGE java.lang.String com.github.javaparser.symbolsolver.resolut
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.resolution.typesolvers.JarTypeSolver.entryPathToClassName<0> [JarTypeSolver.java <87:48 87:56>]
 LOCAL_SYMBOL: JarTypeSolver.java<87:59> [JarTypeSolver.java <87:59 87:59>]
 LOCAL_SYMBOL: JarTypeSolver.java<87:59> [JarTypeSolver.java <95:5 95:5>]
-SYMBOL_METHOD boolean java.lang.String.endsWith(java.lang.String)
 REFERENCE_CALL java.lang.String com.github.javaparser.symbolsolver.resolution.typesolvers.JarTypeSolver.entryPathToClassName(java.lang.String) -> boolean java.lang.String.endsWith(java.lang.String) [JarTypeSolver.java <88:24 88:31>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.resolution.typesolvers.JarTypeSolver.entryPathToClassName<0> [JarTypeSolver.java <88:14 88:22>]
 LOCAL_SYMBOL: JarTypeSolver.java<88:44> [JarTypeSolver.java <88:44 88:44>]
@@ -212,14 +249,12 @@ LOCAL_SYMBOL: com.github.javaparser.symbolsolver.resolution.typesolvers.JarTypeS
 SYMBOL_METHOD int java.lang.String.length()
 REFERENCE_CALL java.lang.String com.github.javaparser.symbolsolver.resolution.typesolvers.JarTypeSolver.entryPathToClassName(java.lang.String) -> int java.lang.String.length() [JarTypeSolver.java <91:61 91:66>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.resolution.typesolvers.JarTypeSolver.entryPathToClassName<0> [JarTypeSolver.java <91:51 91:59>]
-SYMBOL_METHOD int java.lang.String.length()
 REFERENCE_CALL java.lang.String com.github.javaparser.symbolsolver.resolution.typesolvers.JarTypeSolver.entryPathToClassName(java.lang.String) -> int java.lang.String.length() [JarTypeSolver.java <91:81 91:86>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.resolution.typesolvers.JarTypeSolver.entryPathToClassName<1> [JarTypeSolver.java <92:9 92:17>]
 SYMBOL_METHOD java.lang.String java.lang.String.replace(char, char)
 REFERENCE_CALL java.lang.String com.github.javaparser.symbolsolver.resolution.typesolvers.JarTypeSolver.entryPathToClassName(java.lang.String) -> java.lang.String java.lang.String.replace(char, char) [JarTypeSolver.java <92:31 92:37>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.resolution.typesolvers.JarTypeSolver.entryPathToClassName<1> [JarTypeSolver.java <92:21 92:29>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.resolution.typesolvers.JarTypeSolver.entryPathToClassName<1> [JarTypeSolver.java <93:9 93:17>]
-SYMBOL_METHOD java.lang.String java.lang.String.replace(char, char)
 REFERENCE_CALL java.lang.String com.github.javaparser.symbolsolver.resolution.typesolvers.JarTypeSolver.entryPathToClassName(java.lang.String) -> java.lang.String java.lang.String.replace(char, char) [JarTypeSolver.java <93:31 93:37>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.resolution.typesolvers.JarTypeSolver.entryPathToClassName<1> [JarTypeSolver.java <93:21 93:29>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.resolution.typesolvers.JarTypeSolver.entryPathToClassName<1> [JarTypeSolver.java <94:16 94:24>]
@@ -236,20 +271,20 @@ LOCAL_SYMBOL: JarTypeSolver.java<99:13> [JarTypeSolver.java <99:13 99:13>]
 LOCAL_SYMBOL: JarTypeSolver.java<99:13> [JarTypeSolver.java <106:9 106:9>]
 SYMBOL_METHOD boolean java.util.Map<K, V>.containsKey(java.lang.Object)
 REFERENCE_CALL com.github.javaparser.symbolsolver.model.resolution.SymbolReference<com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration> com.github.javaparser.symbolsolver.resolution.typesolvers.JarTypeSolver.tryToSolveType(java.lang.String) -> boolean java.util.Map<K, V>.containsKey(java.lang.Object) [JarTypeSolver.java <100:35 100:45>]
-SYMBOL_FIELD java.util.Map<java.lang.String, com.github.javaparser.symbolsolver.resolution.typesolvers.JarTypeSolver.ClasspathElement> com.github.javaparser.symbolsolver.resolution.typesolvers.JarTypeSolver.classpathElements
 REFERENCE_USAGE com.github.javaparser.symbolsolver.model.resolution.SymbolReference<com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration> com.github.javaparser.symbolsolver.resolution.typesolvers.JarTypeSolver.tryToSolveType(java.lang.String) -> java.util.Map<java.lang.String, com.github.javaparser.symbolsolver.resolution.typesolvers.JarTypeSolver.ClasspathElement> com.github.javaparser.symbolsolver.resolution.typesolvers.JarTypeSolver.classpathElements [JarTypeSolver.java <100:17 100:33>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.resolution.typesolvers.JarTypeSolver.tryToSolveType<0> [JarTypeSolver.java <100:47 100:50>]
 LOCAL_SYMBOL: JarTypeSolver.java<100:54> [JarTypeSolver.java <100:54 100:54>]
 LOCAL_SYMBOL: JarTypeSolver.java<100:54> [JarTypeSolver.java <103:13 103:13>]
 SYMBOL_METHOD static com.github.javaparser.symbolsolver.model.resolution.SymbolReference<S> com.github.javaparser.symbolsolver.model.resolution.SymbolReference<S>.solved<S, S2>(S2)
 REFERENCE_CALL com.github.javaparser.symbolsolver.model.resolution.SymbolReference<com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration> com.github.javaparser.symbolsolver.resolution.typesolvers.JarTypeSolver.tryToSolveType(java.lang.String) -> static com.github.javaparser.symbolsolver.model.resolution.SymbolReference<S> com.github.javaparser.symbolsolver.model.resolution.SymbolReference<S>.solved<S, S2>(S2) [JarTypeSolver.java <101:40 101:45>]
+QUALIFIER: com.github.javaparser.symbolsolver.model.resolution.SymbolReference [JarTypeSolver.java <101:24 101:38>]
 SYMBOL_METHOD static com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration com.github.javaparser.symbolsolver.javassistmodel.JavassistFactory.toTypeDeclaration(javassist.CtClass, com.github.javaparser.symbolsolver.model.resolution.TypeSolver)
 REFERENCE_CALL com.github.javaparser.symbolsolver.model.resolution.SymbolReference<com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration> com.github.javaparser.symbolsolver.resolution.typesolvers.JarTypeSolver.tryToSolveType(java.lang.String) -> static com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration com.github.javaparser.symbolsolver.javassistmodel.JavassistFactory.toTypeDeclaration(javassist.CtClass, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) [JarTypeSolver.java <102:42 102:58>]
+QUALIFIER: com.github.javaparser.symbolsolver.javassistmodel.JavassistFactory [JarTypeSolver.java <102:25 102:40>]
 SYMBOL_METHOD javassist.CtClass com.github.javaparser.symbolsolver.resolution.typesolvers.JarTypeSolver.ClasspathElement.toCtClass()
 REFERENCE_CALL com.github.javaparser.symbolsolver.model.resolution.SymbolReference<com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration> com.github.javaparser.symbolsolver.resolution.typesolvers.JarTypeSolver.tryToSolveType(java.lang.String) -> javassist.CtClass com.github.javaparser.symbolsolver.resolution.typesolvers.JarTypeSolver.ClasspathElement.toCtClass() [JarTypeSolver.java <102:88 102:96>]
 SYMBOL_METHOD java.util.Map<K, V>.V java.util.Map<K, V>.get(java.lang.Object)
 REFERENCE_CALL com.github.javaparser.symbolsolver.model.resolution.SymbolReference<com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration> com.github.javaparser.symbolsolver.resolution.typesolvers.JarTypeSolver.tryToSolveType(java.lang.String) -> java.util.Map<K, V>.V java.util.Map<K, V>.get(java.lang.Object) [JarTypeSolver.java <102:78 102:80>]
-SYMBOL_FIELD java.util.Map<java.lang.String, com.github.javaparser.symbolsolver.resolution.typesolvers.JarTypeSolver.ClasspathElement> com.github.javaparser.symbolsolver.resolution.typesolvers.JarTypeSolver.classpathElements
 REFERENCE_USAGE com.github.javaparser.symbolsolver.model.resolution.SymbolReference<com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration> com.github.javaparser.symbolsolver.resolution.typesolvers.JarTypeSolver.tryToSolveType(java.lang.String) -> java.util.Map<java.lang.String, com.github.javaparser.symbolsolver.resolution.typesolvers.JarTypeSolver.ClasspathElement> com.github.javaparser.symbolsolver.resolution.typesolvers.JarTypeSolver.classpathElements [JarTypeSolver.java <102:60 102:76>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.resolution.typesolvers.JarTypeSolver.tryToSolveType<0> [JarTypeSolver.java <102:82 102:85>]
 SYMBOL_METHOD com.github.javaparser.symbolsolver.model.resolution.TypeSolver com.github.javaparser.symbolsolver.model.resolution.TypeSolver.getRoot()
@@ -258,12 +293,12 @@ LOCAL_SYMBOL: JarTypeSolver.java<103:20> [JarTypeSolver.java <103:20 103:20>]
 LOCAL_SYMBOL: JarTypeSolver.java<103:20> [JarTypeSolver.java <105:13 105:13>]
 SYMBOL_METHOD static com.github.javaparser.symbolsolver.model.resolution.SymbolReference<S> com.github.javaparser.symbolsolver.model.resolution.SymbolReference<S>.unsolved<S, S2>(java.lang.Class<S2>)
 REFERENCE_CALL com.github.javaparser.symbolsolver.model.resolution.SymbolReference<com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration> com.github.javaparser.symbolsolver.resolution.typesolvers.JarTypeSolver.tryToSolveType(java.lang.String) -> static com.github.javaparser.symbolsolver.model.resolution.SymbolReference<S> com.github.javaparser.symbolsolver.model.resolution.SymbolReference<S>.unsolved<S, S2>(java.lang.Class<S2>) [JarTypeSolver.java <104:40 104:47>]
+QUALIFIER: com.github.javaparser.symbolsolver.model.resolution.SymbolReference [JarTypeSolver.java <104:24 104:38>]
 REFERENCE_TYPE_USAGE com.github.javaparser.symbolsolver.model.resolution.SymbolReference<com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration> com.github.javaparser.symbolsolver.resolution.typesolvers.JarTypeSolver.tryToSolveType(java.lang.String) -> com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration [JarTypeSolver.java <104:49 104:72>]
 REFERENCE_TYPE_USAGE com.github.javaparser.symbolsolver.model.resolution.SymbolReference<com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration> com.github.javaparser.symbolsolver.resolution.typesolvers.JarTypeSolver.tryToSolveType(java.lang.String) -> java.io.IOException [JarTypeSolver.java <106:18 106:28>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.resolution.typesolvers.JarTypeSolver.tryToSolveType<1> [JarTypeSolver.java <106:30 106:30>]
 LOCAL_SYMBOL: JarTypeSolver.java<106:33> [JarTypeSolver.java <106:33 106:33>]
 LOCAL_SYMBOL: JarTypeSolver.java<106:33> [JarTypeSolver.java <108:9 108:9>]
-SYMBOL_METHOD java.lang.RuntimeException.RuntimeException(java.lang.Throwable)
 REFERENCE_CALL com.github.javaparser.symbolsolver.model.resolution.SymbolReference<com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration> com.github.javaparser.symbolsolver.resolution.typesolvers.JarTypeSolver.tryToSolveType(java.lang.String) -> java.lang.RuntimeException.RuntimeException(java.lang.Throwable) [JarTypeSolver.java <107:23 107:38>]
 REFERENCE_TYPE_USAGE com.github.javaparser.symbolsolver.model.resolution.SymbolReference<com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration> com.github.javaparser.symbolsolver.resolution.typesolvers.JarTypeSolver.tryToSolveType(java.lang.String) -> java.lang.RuntimeException [JarTypeSolver.java <107:23 107:38>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.resolution.typesolvers.JarTypeSolver.tryToSolveType<1> [JarTypeSolver.java <107:40 107:40>]
@@ -314,12 +349,15 @@ REFERENCE_TYPE_USAGE com.github.javaparser.symbolsolver.resolution.typesolvers.J
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.resolution.typesolvers.JarTypeSolver.ClasspathElement.ClasspathElement<2> [JarTypeSolver.java <126:66 126:69>]
 LOCAL_SYMBOL: JarTypeSolver.java<126:72> [JarTypeSolver.java <126:72 126:72>]
 LOCAL_SYMBOL: JarTypeSolver.java<126:72> [JarTypeSolver.java <130:9 130:9>]
+QUALIFIER: com.github.javaparser.symbolsolver.resolution.typesolvers.JarTypeSolver.ClasspathElement [JarTypeSolver.java <127:13 127:16>]
 SYMBOL_FIELD java.util.jar.JarFile com.github.javaparser.symbolsolver.resolution.typesolvers.JarTypeSolver.ClasspathElement.jarFile
 REFERENCE_USAGE com.github.javaparser.symbolsolver.resolution.typesolvers.JarTypeSolver.ClasspathElement.ClasspathElement(java.util.jar.JarFile, java.util.jar.JarEntry, java.lang.String) -> java.util.jar.JarFile com.github.javaparser.symbolsolver.resolution.typesolvers.JarTypeSolver.ClasspathElement.jarFile [JarTypeSolver.java <127:18 127:24>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.resolution.typesolvers.JarTypeSolver.ClasspathElement.ClasspathElement<0> [JarTypeSolver.java <127:28 127:34>]
+QUALIFIER: com.github.javaparser.symbolsolver.resolution.typesolvers.JarTypeSolver.ClasspathElement [JarTypeSolver.java <128:13 128:16>]
 SYMBOL_FIELD java.util.jar.JarEntry com.github.javaparser.symbolsolver.resolution.typesolvers.JarTypeSolver.ClasspathElement.entry
 REFERENCE_USAGE com.github.javaparser.symbolsolver.resolution.typesolvers.JarTypeSolver.ClasspathElement.ClasspathElement(java.util.jar.JarFile, java.util.jar.JarEntry, java.lang.String) -> java.util.jar.JarEntry com.github.javaparser.symbolsolver.resolution.typesolvers.JarTypeSolver.ClasspathElement.entry [JarTypeSolver.java <128:18 128:22>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.resolution.typesolvers.JarTypeSolver.ClasspathElement.ClasspathElement<1> [JarTypeSolver.java <128:26 128:30>]
+QUALIFIER: com.github.javaparser.symbolsolver.resolution.typesolvers.JarTypeSolver.ClasspathElement [JarTypeSolver.java <129:13 129:16>]
 SYMBOL_FIELD java.lang.String com.github.javaparser.symbolsolver.resolution.typesolvers.JarTypeSolver.ClasspathElement.path
 REFERENCE_USAGE com.github.javaparser.symbolsolver.resolution.typesolvers.JarTypeSolver.ClasspathElement.ClasspathElement(java.util.jar.JarFile, java.util.jar.JarEntry, java.lang.String) -> java.lang.String com.github.javaparser.symbolsolver.resolution.typesolvers.JarTypeSolver.ClasspathElement.path [JarTypeSolver.java <129:18 129:21>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.resolution.typesolvers.JarTypeSolver.ClasspathElement.ClasspathElement<2> [JarTypeSolver.java <129:25 129:28>]
@@ -332,15 +370,12 @@ REFERENCE_TYPE_USAGE javassist.CtClass com.github.javaparser.symbolsolver.resolu
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.resolution.typesolvers.JarTypeSolver.ClasspathElement.toCtClass<2> [JarTypeSolver.java <133:30 133:31>]
 SYMBOL_METHOD java.io.InputStream java.util.jar.JarFile.getInputStream(java.util.zip.ZipEntry)
 REFERENCE_CALL javassist.CtClass com.github.javaparser.symbolsolver.resolution.typesolvers.JarTypeSolver.ClasspathElement.toCtClass() -> java.io.InputStream java.util.jar.JarFile.getInputStream(java.util.zip.ZipEntry) [JarTypeSolver.java <133:43 133:56>]
-SYMBOL_FIELD java.util.jar.JarFile com.github.javaparser.symbolsolver.resolution.typesolvers.JarTypeSolver.ClasspathElement.jarFile
 REFERENCE_USAGE javassist.CtClass com.github.javaparser.symbolsolver.resolution.typesolvers.JarTypeSolver.ClasspathElement.toCtClass() -> java.util.jar.JarFile com.github.javaparser.symbolsolver.resolution.typesolvers.JarTypeSolver.ClasspathElement.jarFile [JarTypeSolver.java <133:35 133:41>]
-SYMBOL_FIELD java.util.jar.JarEntry com.github.javaparser.symbolsolver.resolution.typesolvers.JarTypeSolver.ClasspathElement.entry
 REFERENCE_USAGE javassist.CtClass com.github.javaparser.symbolsolver.resolution.typesolvers.JarTypeSolver.ClasspathElement.toCtClass() -> java.util.jar.JarEntry com.github.javaparser.symbolsolver.resolution.typesolvers.JarTypeSolver.ClasspathElement.entry [JarTypeSolver.java <133:58 133:62>]
 LOCAL_SYMBOL: JarTypeSolver.java<133:66> [JarTypeSolver.java <133:66 133:66>]
 LOCAL_SYMBOL: JarTypeSolver.java<133:66> [JarTypeSolver.java <135:13 135:13>]
 SYMBOL_METHOD javassist.CtClass javassist.ClassPool.makeClass(java.io.InputStream)
 REFERENCE_CALL javassist.CtClass com.github.javaparser.symbolsolver.resolution.typesolvers.JarTypeSolver.ClasspathElement.toCtClass() -> javassist.CtClass javassist.ClassPool.makeClass(java.io.InputStream) [JarTypeSolver.java <134:34 134:42>]
-SYMBOL_FIELD javassist.ClassPool com.github.javaparser.symbolsolver.resolution.typesolvers.JarTypeSolver.classPool
 REFERENCE_USAGE javassist.CtClass com.github.javaparser.symbolsolver.resolution.typesolvers.JarTypeSolver.ClasspathElement.toCtClass() -> javassist.ClassPool com.github.javaparser.symbolsolver.resolution.typesolvers.JarTypeSolver.classPool [JarTypeSolver.java <134:24 134:32>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.resolution.typesolvers.JarTypeSolver.ClasspathElement.toCtClass<2> [JarTypeSolver.java <134:44 134:45>]
 COMMENT: comment [JarTypeSolver.java <1:1 13:3>]

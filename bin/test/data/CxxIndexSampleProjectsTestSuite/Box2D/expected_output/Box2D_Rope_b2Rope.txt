@@ -1,15 +1,11 @@
 FILE: b2Rope.cpp
-FILE: b2Rope.cpp
 COMMENT: comment [b2Rope.cpp <1:1 17:3>]
-FILE: b2Rope.cpp
-FILE: b2Rope.cpp
 REFERENCE_MACRO_USAGE b2Rope.cpp -> b2Assert [b2Rope.cpp <48:2 48:9>]
 REFERENCE_MACRO_USAGE b2Settings.h -> assert [b2Settings.h <31:21 31:26>]
 REFERENCE_MACRO_USAGE assert.h -> _CRT_WIDE [assert.h <34:23 34:31>]
 REFERENCE_MACRO_USAGE vcruntime.h -> _CRT_WIDE_ [vcruntime.h <95:22 95:31>]
 REFERENCE_MACRO_USAGE assert.h -> _CRT_WIDE [assert.h <34:47 34:55>]
 REFERENCE_MACRO_USAGE assert.h -> __FILE__ [assert.h <34:57 34:64>]
-REFERENCE_MACRO_USAGE vcruntime.h -> _CRT_WIDE_ [vcruntime.h <95:22 95:31>]
 REFERENCE_MACRO_USAGE assert.h -> __LINE__ [assert.h <34:79 34:86>]
 REFERENCE_MACRO_USAGE b2Rope.cpp -> b2Atan2 [b2Rope.cpp <96:13 96:19>]
 REFERENCE_MACRO_USAGE b2Rope.cpp -> b2Atan2 [b2Rope.cpp <208:19 208:25>]
@@ -19,6 +15,7 @@ REFERENCE_MACRO_USAGE b2Rope.cpp -> b2_pi [b2Rope.cpp <233:15 233:19>]
 REFERENCE_MACRO_USAGE b2Rope.cpp -> b2_pi [b2Rope.cpp <235:20 235:24>]
 SYMBOL_METHOD public void b2Rope::b2Rope() [b2Rope.cpp <22:1 <22:9 22:14> 34:1>]
 SYMBOL_CLASS b2Rope
+QUALIFIER: b2Rope [b2Rope.cpp <22:1 22:6>]
 REFERENCE_USAGE void b2Rope::b2Rope() -> b2Vec2 b2Rope::m_gravity [b2Rope.cpp <22:9 22:14>]
 SYMBOL_FUNCTION void b2Vec2::b2Vec2()
 REFERENCE_CALL void b2Rope::b2Rope() -> void b2Vec2::b2Vec2() [b2Rope.cpp <22:9 22:14>]
@@ -35,27 +32,22 @@ REFERENCE_USAGE void b2Rope::b2Rope() -> b2Vec2 b2Rope::m_gravity [b2Rope.cpp <3
 REFERENCE_USAGE void b2Rope::b2Rope() -> float32 b2Rope::m_k2 [b2Rope.cpp <32:2 32:5>]
 REFERENCE_USAGE void b2Rope::b2Rope() -> float32 b2Rope::m_k3 [b2Rope.cpp <33:2 33:5>]
 SYMBOL_METHOD public void b2Rope::~b2Rope() [b2Rope.cpp <36:1 <36:9 36:15> 44:1>]
-SYMBOL_CLASS b2Rope
+QUALIFIER: b2Rope [b2Rope.cpp <36:1 36:6>]
 SYMBOL_FUNCTION void b2Free(void *)
 REFERENCE_CALL void b2Rope::~b2Rope() -> void b2Free(void *) [b2Rope.cpp <38:2 38:7>]
 REFERENCE_USAGE void b2Rope::~b2Rope() -> b2Vec2 * b2Rope::m_ps [b2Rope.cpp <38:9 38:12>]
-SYMBOL_FUNCTION void b2Free(void *)
 REFERENCE_CALL void b2Rope::~b2Rope() -> void b2Free(void *) [b2Rope.cpp <39:2 39:7>]
 REFERENCE_USAGE void b2Rope::~b2Rope() -> b2Vec2 * b2Rope::m_p0s [b2Rope.cpp <39:9 39:13>]
-SYMBOL_FUNCTION void b2Free(void *)
 REFERENCE_CALL void b2Rope::~b2Rope() -> void b2Free(void *) [b2Rope.cpp <40:2 40:7>]
 REFERENCE_USAGE void b2Rope::~b2Rope() -> b2Vec2 * b2Rope::m_vs [b2Rope.cpp <40:9 40:12>]
-SYMBOL_FUNCTION void b2Free(void *)
 REFERENCE_CALL void b2Rope::~b2Rope() -> void b2Free(void *) [b2Rope.cpp <41:2 41:7>]
 REFERENCE_USAGE void b2Rope::~b2Rope() -> float32 * b2Rope::m_ims [b2Rope.cpp <41:9 41:13>]
-SYMBOL_FUNCTION void b2Free(void *)
 REFERENCE_CALL void b2Rope::~b2Rope() -> void b2Free(void *) [b2Rope.cpp <42:2 42:7>]
 REFERENCE_USAGE void b2Rope::~b2Rope() -> float32 * b2Rope::m_Ls [b2Rope.cpp <42:9 42:12>]
-SYMBOL_FUNCTION void b2Free(void *)
 REFERENCE_CALL void b2Rope::~b2Rope() -> void b2Free(void *) [b2Rope.cpp <43:2 43:7>]
 REFERENCE_USAGE void b2Rope::~b2Rope() -> float32 * b2Rope::m_as [b2Rope.cpp <43:9 43:12>]
 SYMBOL_METHOD public void b2Rope::Initialize(const b2RopeDef *) [b2Rope.cpp <46:1 <46:14 46:23> 103:1>]
-SYMBOL_CLASS b2Rope
+QUALIFIER: b2Rope [b2Rope.cpp <46:6 46:11>]
 SYMBOL_BUILTIN_TYPE void
 REFERENCE_TYPE_USAGE void b2Rope::Initialize(const b2RopeDef *) -> void [b2Rope.cpp <46:1 46:4>]
 LOCAL_SYMBOL: b2Rope.cpp<46:42> [b2Rope.cpp <46:42 46:44>]
@@ -73,19 +65,16 @@ REFERENCE_USAGE void b2Rope::Initialize(const b2RopeDef *) -> int32 b2Rope::m_co
 REFERENCE_TYPE_USAGE void b2Rope::Initialize(const b2RopeDef *) -> b2Vec2 [b2Rope.cpp <50:43 50:48>]
 REFERENCE_USAGE void b2Rope::Initialize(const b2RopeDef *) -> b2Vec2 * b2Rope::m_p0s [b2Rope.cpp <51:2 51:6>]
 REFERENCE_TYPE_USAGE void b2Rope::Initialize(const b2RopeDef *) -> b2Vec2 [b2Rope.cpp <51:11 51:16>]
-SYMBOL_FUNCTION void * b2Alloc(int32)
 REFERENCE_CALL void b2Rope::Initialize(const b2RopeDef *) -> void * b2Alloc(int32) [b2Rope.cpp <51:19 51:25>]
 REFERENCE_USAGE void b2Rope::Initialize(const b2RopeDef *) -> int32 b2Rope::m_count [b2Rope.cpp <51:27 51:33>]
 REFERENCE_TYPE_USAGE void b2Rope::Initialize(const b2RopeDef *) -> b2Vec2 [b2Rope.cpp <51:44 51:49>]
 REFERENCE_USAGE void b2Rope::Initialize(const b2RopeDef *) -> b2Vec2 * b2Rope::m_vs [b2Rope.cpp <52:2 52:5>]
 REFERENCE_TYPE_USAGE void b2Rope::Initialize(const b2RopeDef *) -> b2Vec2 [b2Rope.cpp <52:10 52:15>]
-SYMBOL_FUNCTION void * b2Alloc(int32)
 REFERENCE_CALL void b2Rope::Initialize(const b2RopeDef *) -> void * b2Alloc(int32) [b2Rope.cpp <52:18 52:24>]
 REFERENCE_USAGE void b2Rope::Initialize(const b2RopeDef *) -> int32 b2Rope::m_count [b2Rope.cpp <52:26 52:32>]
 REFERENCE_TYPE_USAGE void b2Rope::Initialize(const b2RopeDef *) -> b2Vec2 [b2Rope.cpp <52:43 52:48>]
 REFERENCE_USAGE void b2Rope::Initialize(const b2RopeDef *) -> float32 * b2Rope::m_ims [b2Rope.cpp <53:2 53:6>]
 REFERENCE_TYPE_USAGE void b2Rope::Initialize(const b2RopeDef *) -> float32 [b2Rope.cpp <53:11 53:17>]
-SYMBOL_FUNCTION void * b2Alloc(int32)
 REFERENCE_CALL void b2Rope::Initialize(const b2RopeDef *) -> void * b2Alloc(int32) [b2Rope.cpp <53:20 53:26>]
 REFERENCE_USAGE void b2Rope::Initialize(const b2RopeDef *) -> int32 b2Rope::m_count [b2Rope.cpp <53:28 53:34>]
 REFERENCE_TYPE_USAGE void b2Rope::Initialize(const b2RopeDef *) -> float32 [b2Rope.cpp <53:45 53:51>]
@@ -101,14 +90,12 @@ LOCAL_SYMBOL: b2Rope.cpp<55:13> [b2Rope.cpp <57:8 57:8>]
 REFERENCE_USAGE void b2Rope::Initialize(const b2RopeDef *) -> b2Vec2 * b2RopeDef::vertices [b2Rope.cpp <57:18 57:25>]
 LOCAL_SYMBOL: b2Rope.cpp<46:42> [b2Rope.cpp <57:13 57:15>]
 LOCAL_SYMBOL: b2Rope.cpp<55:13> [b2Rope.cpp <57:27 57:27>]
-SYMBOL_FUNCTION b2Vec2 & b2Vec2::operator=(const b2Vec2 &)
 REFERENCE_CALL void b2Rope::Initialize(const b2RopeDef *) -> b2Vec2 & b2Vec2::operator=(const b2Vec2 &) [b2Rope.cpp <58:12 58:12>]
 REFERENCE_USAGE void b2Rope::Initialize(const b2RopeDef *) -> b2Vec2 * b2Rope::m_p0s [b2Rope.cpp <58:3 58:7>]
 LOCAL_SYMBOL: b2Rope.cpp<55:13> [b2Rope.cpp <58:9 58:9>]
 REFERENCE_USAGE void b2Rope::Initialize(const b2RopeDef *) -> b2Vec2 * b2RopeDef::vertices [b2Rope.cpp <58:19 58:26>]
 LOCAL_SYMBOL: b2Rope.cpp<46:42> [b2Rope.cpp <58:14 58:16>]
 LOCAL_SYMBOL: b2Rope.cpp<55:13> [b2Rope.cpp <58:28 58:28>]
-SYMBOL_FUNCTION void b2Vec2::SetZero()
 REFERENCE_CALL void b2Rope::Initialize(const b2RopeDef *) -> void b2Vec2::SetZero() [b2Rope.cpp <59:11 59:17>]
 REFERENCE_USAGE void b2Rope::Initialize(const b2RopeDef *) -> b2Vec2 * b2Rope::m_vs [b2Rope.cpp <59:3 59:6>]
 LOCAL_SYMBOL: b2Rope.cpp<55:13> [b2Rope.cpp <59:8 59:8>]
@@ -131,13 +118,11 @@ REFERENCE_TYPE_USAGE void b2Rope::Initialize(const b2RopeDef *) -> int32 [b2Rope
 REFERENCE_USAGE void b2Rope::Initialize(const b2RopeDef *) -> int32 b2Rope::m_count [b2Rope.cpp <73:17 73:23>]
 REFERENCE_USAGE void b2Rope::Initialize(const b2RopeDef *) -> float32 * b2Rope::m_Ls [b2Rope.cpp <74:2 74:5>]
 REFERENCE_TYPE_USAGE void b2Rope::Initialize(const b2RopeDef *) -> float32 [b2Rope.cpp <74:10 74:16>]
-SYMBOL_FUNCTION void * b2Alloc(int32)
 REFERENCE_CALL void b2Rope::Initialize(const b2RopeDef *) -> void * b2Alloc(int32) [b2Rope.cpp <74:19 74:25>]
 LOCAL_SYMBOL: b2Rope.cpp<72:8> [b2Rope.cpp <74:27 74:32>]
 REFERENCE_TYPE_USAGE void b2Rope::Initialize(const b2RopeDef *) -> float32 [b2Rope.cpp <74:43 74:49>]
 REFERENCE_USAGE void b2Rope::Initialize(const b2RopeDef *) -> float32 * b2Rope::m_as [b2Rope.cpp <75:2 75:5>]
 REFERENCE_TYPE_USAGE void b2Rope::Initialize(const b2RopeDef *) -> float32 [b2Rope.cpp <75:10 75:16>]
-SYMBOL_FUNCTION void * b2Alloc(int32)
 REFERENCE_CALL void b2Rope::Initialize(const b2RopeDef *) -> void * b2Alloc(int32) [b2Rope.cpp <75:19 75:25>]
 LOCAL_SYMBOL: b2Rope.cpp<73:8> [b2Rope.cpp <75:27 75:32>]
 REFERENCE_TYPE_USAGE void b2Rope::Initialize(const b2RopeDef *) -> float32 [b2Rope.cpp <75:43 75:49>]
@@ -154,7 +139,6 @@ REFERENCE_USAGE void b2Rope::Initialize(const b2RopeDef *) -> b2Vec2 * b2Rope::m
 LOCAL_SYMBOL: b2Rope.cpp<77:13> [b2Rope.cpp <79:20 79:20>]
 LOCAL_SYMBOL: b2Rope.cpp<80:10> [b2Rope.cpp <80:10 80:11>]
 REFERENCE_TYPE_USAGE void b2Rope::Initialize(const b2RopeDef *) -> b2Vec2 [b2Rope.cpp <80:3 80:8>]
-SYMBOL_FUNCTION void b2Vec2::b2Vec2(const b2Vec2 &)
 REFERENCE_CALL void b2Rope::Initialize(const b2RopeDef *) -> void b2Vec2::b2Vec2(const b2Vec2 &) [b2Rope.cpp <80:23 80:23>]
 REFERENCE_USAGE void b2Rope::Initialize(const b2RopeDef *) -> b2Vec2 * b2Rope::m_ps [b2Rope.cpp <80:15 80:18>]
 LOCAL_SYMBOL: b2Rope.cpp<77:13> [b2Rope.cpp <80:20 80:20>]
@@ -171,19 +155,16 @@ LOCAL_SYMBOL: b2Rope.cpp<73:8> [b2Rope.cpp <84:24 84:29>]
 LOCAL_SYMBOL: b2Rope.cpp<84:13> [b2Rope.cpp <84:34 84:34>]
 LOCAL_SYMBOL: b2Rope.cpp<86:10> [b2Rope.cpp <86:10 86:11>]
 REFERENCE_TYPE_USAGE void b2Rope::Initialize(const b2RopeDef *) -> b2Vec2 [b2Rope.cpp <86:3 86:8>]
-SYMBOL_FUNCTION void b2Vec2::b2Vec2(const b2Vec2 &)
 REFERENCE_CALL void b2Rope::Initialize(const b2RopeDef *) -> void b2Vec2::b2Vec2(const b2Vec2 &) [b2Rope.cpp <86:21 86:21>]
 REFERENCE_USAGE void b2Rope::Initialize(const b2RopeDef *) -> b2Vec2 * b2Rope::m_ps [b2Rope.cpp <86:15 86:18>]
 LOCAL_SYMBOL: b2Rope.cpp<84:13> [b2Rope.cpp <86:20 86:20>]
 LOCAL_SYMBOL: b2Rope.cpp<87:10> [b2Rope.cpp <87:10 87:11>]
 REFERENCE_TYPE_USAGE void b2Rope::Initialize(const b2RopeDef *) -> b2Vec2 [b2Rope.cpp <87:3 87:8>]
-SYMBOL_FUNCTION void b2Vec2::b2Vec2(const b2Vec2 &)
 REFERENCE_CALL void b2Rope::Initialize(const b2RopeDef *) -> void b2Vec2::b2Vec2(const b2Vec2 &) [b2Rope.cpp <87:25 87:25>]
 REFERENCE_USAGE void b2Rope::Initialize(const b2RopeDef *) -> b2Vec2 * b2Rope::m_ps [b2Rope.cpp <87:15 87:18>]
 LOCAL_SYMBOL: b2Rope.cpp<84:13> [b2Rope.cpp <87:20 87:20>]
 LOCAL_SYMBOL: b2Rope.cpp<88:10> [b2Rope.cpp <88:10 88:11>]
 REFERENCE_TYPE_USAGE void b2Rope::Initialize(const b2RopeDef *) -> b2Vec2 [b2Rope.cpp <88:3 88:8>]
-SYMBOL_FUNCTION void b2Vec2::b2Vec2(const b2Vec2 &)
 REFERENCE_CALL void b2Rope::Initialize(const b2RopeDef *) -> void b2Vec2::b2Vec2(const b2Vec2 &) [b2Rope.cpp <88:25 88:25>]
 REFERENCE_USAGE void b2Rope::Initialize(const b2RopeDef *) -> b2Vec2 * b2Rope::m_ps [b2Rope.cpp <88:15 88:18>]
 LOCAL_SYMBOL: b2Rope.cpp<84:13> [b2Rope.cpp <88:20 88:20>]
@@ -195,7 +176,6 @@ LOCAL_SYMBOL: b2Rope.cpp<87:10> [b2Rope.cpp <90:15 90:16>]
 LOCAL_SYMBOL: b2Rope.cpp<86:10> [b2Rope.cpp <90:20 90:21>]
 LOCAL_SYMBOL: b2Rope.cpp<91:10> [b2Rope.cpp <91:10 91:11>]
 REFERENCE_TYPE_USAGE void b2Rope::Initialize(const b2RopeDef *) -> b2Vec2 [b2Rope.cpp <91:3 91:8>]
-SYMBOL_FUNCTION b2Vec2 operator-(const b2Vec2 &, const b2Vec2 &)
 REFERENCE_CALL void b2Rope::Initialize(const b2RopeDef *) -> b2Vec2 operator-(const b2Vec2 &, const b2Vec2 &) [b2Rope.cpp <91:18 91:18>]
 LOCAL_SYMBOL: b2Rope.cpp<88:10> [b2Rope.cpp <91:15 91:16>]
 LOCAL_SYMBOL: b2Rope.cpp<87:10> [b2Rope.cpp <91:20 91:21>]
@@ -215,7 +195,6 @@ REFERENCE_USAGE void b2Rope::Initialize(const b2RopeDef *) -> float32 * b2Rope::
 LOCAL_SYMBOL: b2Rope.cpp<84:13> [b2Rope.cpp <96:8 96:8>]
 LOCAL_SYMBOL: b2Rope.cpp<93:11> [b2Rope.cpp <96:21 96:21>]
 LOCAL_SYMBOL: b2Rope.cpp<94:11> [b2Rope.cpp <96:24 96:24>]
-SYMBOL_FUNCTION b2Vec2 & b2Vec2::operator=(const b2Vec2 &)
 REFERENCE_CALL void b2Rope::Initialize(const b2RopeDef *) -> b2Vec2 & b2Vec2::operator=(const b2Vec2 &) [b2Rope.cpp <99:12 99:12>]
 REFERENCE_USAGE void b2Rope::Initialize(const b2RopeDef *) -> b2Vec2 b2Rope::m_gravity [b2Rope.cpp <99:2 99:10>]
 REFERENCE_USAGE void b2Rope::Initialize(const b2RopeDef *) -> b2Vec2 b2RopeDef::gravity [b2Rope.cpp <99:19 99:25>]
@@ -230,8 +209,7 @@ REFERENCE_USAGE void b2Rope::Initialize(const b2RopeDef *) -> float32 b2Rope::m_
 REFERENCE_USAGE void b2Rope::Initialize(const b2RopeDef *) -> float32 b2RopeDef::k3 [b2Rope.cpp <102:14 102:15>]
 LOCAL_SYMBOL: b2Rope.cpp<46:42> [b2Rope.cpp <102:9 102:11>]
 SYMBOL_METHOD public void b2Rope::Step(float32, int32) [b2Rope.cpp <105:1 <105:14 105:17> 138:1>]
-SYMBOL_CLASS b2Rope
-SYMBOL_BUILTIN_TYPE void
+QUALIFIER: b2Rope [b2Rope.cpp <105:6 105:11>]
 REFERENCE_TYPE_USAGE void b2Rope::Step(float32, int32) -> void [b2Rope.cpp <105:1 105:4>]
 LOCAL_SYMBOL: b2Rope.cpp<105:27> [b2Rope.cpp <105:27 105:27>]
 REFERENCE_TYPE_USAGE void b2Rope::Step(float32, int32) -> float32 [b2Rope.cpp <105:19 105:25>]
@@ -249,7 +227,6 @@ REFERENCE_TYPE_USAGE void b2Rope::Step(float32, int32) -> int32 [b2Rope.cpp <114
 LOCAL_SYMBOL: b2Rope.cpp<114:13> [b2Rope.cpp <114:20 114:20>]
 REFERENCE_USAGE void b2Rope::Step(float32, int32) -> int32 b2Rope::m_count [b2Rope.cpp <114:24 114:30>]
 LOCAL_SYMBOL: b2Rope.cpp<114:13> [b2Rope.cpp <114:35 114:35>]
-SYMBOL_FUNCTION b2Vec2 & b2Vec2::operator=(const b2Vec2 &)
 REFERENCE_CALL void b2Rope::Step(float32, int32) -> b2Vec2 & b2Vec2::operator=(const b2Vec2 &) [b2Rope.cpp <116:12 116:12>]
 REFERENCE_USAGE void b2Rope::Step(float32, int32) -> b2Vec2 * b2Rope::m_p0s [b2Rope.cpp <116:3 116:7>]
 LOCAL_SYMBOL: b2Rope.cpp<114:13> [b2Rope.cpp <116:9 116:9>]
@@ -270,11 +247,9 @@ REFERENCE_CALL void b2Rope::Step(float32, int32) -> void b2Vec2::operator*=(floa
 REFERENCE_USAGE void b2Rope::Step(float32, int32) -> b2Vec2 * b2Rope::m_vs [b2Rope.cpp <121:3 121:6>]
 LOCAL_SYMBOL: b2Rope.cpp<114:13> [b2Rope.cpp <121:8 121:8>]
 LOCAL_SYMBOL: b2Rope.cpp<112:10> [b2Rope.cpp <121:14 121:14>]
-SYMBOL_FUNCTION void b2Vec2::operator+=(const b2Vec2 &)
 REFERENCE_CALL void b2Rope::Step(float32, int32) -> void b2Vec2::operator+=(const b2Vec2 &) [b2Rope.cpp <122:11 122:12>]
 REFERENCE_USAGE void b2Rope::Step(float32, int32) -> b2Vec2 * b2Rope::m_ps [b2Rope.cpp <122:3 122:6>]
 LOCAL_SYMBOL: b2Rope.cpp<114:13> [b2Rope.cpp <122:8 122:8>]
-SYMBOL_FUNCTION b2Vec2 operator*(float32, const b2Vec2 &)
 REFERENCE_CALL void b2Rope::Step(float32, int32) -> b2Vec2 operator*(float32, const b2Vec2 &) [b2Rope.cpp <122:16 122:16>]
 LOCAL_SYMBOL: b2Rope.cpp<105:27> [b2Rope.cpp <122:14 122:14>]
 REFERENCE_USAGE void b2Rope::Step(float32, int32) -> b2Vec2 * b2Rope::m_vs [b2Rope.cpp <122:18 122:21>]
@@ -288,7 +263,6 @@ SYMBOL_FUNCTION void b2Rope::SolveC2()
 REFERENCE_CALL void b2Rope::Step(float32, int32) -> void b2Rope::SolveC2() [b2Rope.cpp <128:3 128:9>]
 SYMBOL_FUNCTION void b2Rope::SolveC3()
 REFERENCE_CALL void b2Rope::Step(float32, int32) -> void b2Rope::SolveC3() [b2Rope.cpp <129:3 129:9>]
-SYMBOL_FUNCTION void b2Rope::SolveC2()
 REFERENCE_CALL void b2Rope::Step(float32, int32) -> void b2Rope::SolveC2() [b2Rope.cpp <130:3 130:9>]
 LOCAL_SYMBOL: b2Rope.cpp<133:10> [b2Rope.cpp <133:10 133:14>]
 REFERENCE_TYPE_USAGE void b2Rope::Step(float32, int32) -> float32 [b2Rope.cpp <133:2 133:8>]
@@ -302,18 +276,15 @@ SYMBOL_FUNCTION b2Vec2 & b2Vec2::operator=(b2Vec2 &)
 REFERENCE_CALL void b2Rope::Step(float32, int32) -> b2Vec2 & b2Vec2::operator=(b2Vec2 &) [b2Rope.cpp <136:11 136:11>]
 REFERENCE_USAGE void b2Rope::Step(float32, int32) -> b2Vec2 * b2Rope::m_vs [b2Rope.cpp <136:3 136:6>]
 LOCAL_SYMBOL: b2Rope.cpp<134:13> [b2Rope.cpp <136:8 136:8>]
-SYMBOL_FUNCTION b2Vec2 operator*(float32, const b2Vec2 &)
 REFERENCE_CALL void b2Rope::Step(float32, int32) -> b2Vec2 operator*(float32, const b2Vec2 &) [b2Rope.cpp <136:19 136:19>]
 LOCAL_SYMBOL: b2Rope.cpp<133:10> [b2Rope.cpp <136:13 136:17>]
-SYMBOL_FUNCTION b2Vec2 operator-(const b2Vec2 &, const b2Vec2 &)
 REFERENCE_CALL void b2Rope::Step(float32, int32) -> b2Vec2 operator-(const b2Vec2 &, const b2Vec2 &) [b2Rope.cpp <136:30 136:30>]
 REFERENCE_USAGE void b2Rope::Step(float32, int32) -> b2Vec2 * b2Rope::m_ps [b2Rope.cpp <136:22 136:25>]
 LOCAL_SYMBOL: b2Rope.cpp<134:13> [b2Rope.cpp <136:27 136:27>]
 REFERENCE_USAGE void b2Rope::Step(float32, int32) -> b2Vec2 * b2Rope::m_p0s [b2Rope.cpp <136:32 136:36>]
 LOCAL_SYMBOL: b2Rope.cpp<134:13> [b2Rope.cpp <136:38 136:38>]
 SYMBOL_METHOD private void b2Rope::SolveC2() [b2Rope.cpp <140:1 <140:14 140:20> 169:1>]
-SYMBOL_CLASS b2Rope
-SYMBOL_BUILTIN_TYPE void
+QUALIFIER: b2Rope [b2Rope.cpp <140:6 140:11>]
 REFERENCE_TYPE_USAGE void b2Rope::SolveC2() -> void [b2Rope.cpp <140:1 140:4>]
 LOCAL_SYMBOL: b2Rope.cpp<142:8> [b2Rope.cpp <142:8 142:13>]
 REFERENCE_TYPE_USAGE void b2Rope::SolveC2() -> int32 [b2Rope.cpp <142:2 142:6>]
@@ -325,19 +296,16 @@ LOCAL_SYMBOL: b2Rope.cpp<142:8> [b2Rope.cpp <144:24 144:29>]
 LOCAL_SYMBOL: b2Rope.cpp<144:13> [b2Rope.cpp <144:34 144:34>]
 LOCAL_SYMBOL: b2Rope.cpp<146:10> [b2Rope.cpp <146:10 146:11>]
 REFERENCE_TYPE_USAGE void b2Rope::SolveC2() -> b2Vec2 [b2Rope.cpp <146:3 146:8>]
-SYMBOL_FUNCTION void b2Vec2::b2Vec2(const b2Vec2 &)
 REFERENCE_CALL void b2Rope::SolveC2() -> void b2Vec2::b2Vec2(const b2Vec2 &) [b2Rope.cpp <146:21 146:21>]
 REFERENCE_USAGE void b2Rope::SolveC2() -> b2Vec2 * b2Rope::m_ps [b2Rope.cpp <146:15 146:18>]
 LOCAL_SYMBOL: b2Rope.cpp<144:13> [b2Rope.cpp <146:20 146:20>]
 LOCAL_SYMBOL: b2Rope.cpp<147:10> [b2Rope.cpp <147:10 147:11>]
 REFERENCE_TYPE_USAGE void b2Rope::SolveC2() -> b2Vec2 [b2Rope.cpp <147:3 147:8>]
-SYMBOL_FUNCTION void b2Vec2::b2Vec2(const b2Vec2 &)
 REFERENCE_CALL void b2Rope::SolveC2() -> void b2Vec2::b2Vec2(const b2Vec2 &) [b2Rope.cpp <147:25 147:25>]
 REFERENCE_USAGE void b2Rope::SolveC2() -> b2Vec2 * b2Rope::m_ps [b2Rope.cpp <147:15 147:18>]
 LOCAL_SYMBOL: b2Rope.cpp<144:13> [b2Rope.cpp <147:20 147:20>]
 LOCAL_SYMBOL: b2Rope.cpp<149:10> [b2Rope.cpp <149:10 149:10>]
 REFERENCE_TYPE_USAGE void b2Rope::SolveC2() -> b2Vec2 [b2Rope.cpp <149:3 149:8>]
-SYMBOL_FUNCTION b2Vec2 operator-(const b2Vec2 &, const b2Vec2 &)
 REFERENCE_CALL void b2Rope::SolveC2() -> b2Vec2 operator-(const b2Vec2 &, const b2Vec2 &) [b2Rope.cpp <149:17 149:17>]
 LOCAL_SYMBOL: b2Rope.cpp<147:10> [b2Rope.cpp <149:14 149:15>]
 LOCAL_SYMBOL: b2Rope.cpp<146:10> [b2Rope.cpp <149:19 149:20>]
@@ -369,7 +337,6 @@ LOCAL_SYMBOL: b2Rope.cpp<153:11> [b2Rope.cpp <161:29 161:31>]
 SYMBOL_FUNCTION void b2Vec2::operator-=(const b2Vec2 &)
 REFERENCE_CALL void b2Rope::SolveC2() -> void b2Vec2::operator-=(const b2Vec2 &) [b2Rope.cpp <163:6 163:7>]
 LOCAL_SYMBOL: b2Rope.cpp<146:10> [b2Rope.cpp <163:3 163:4>]
-SYMBOL_FUNCTION b2Vec2 operator*(float32, const b2Vec2 &)
 REFERENCE_CALL void b2Rope::SolveC2() -> b2Vec2 operator*(float32, const b2Vec2 &) [b2Rope.cpp <163:35 163:35>]
 REFERENCE_USAGE void b2Rope::SolveC2() -> float32 b2Rope::m_k2 [b2Rope.cpp <163:9 163:12>]
 LOCAL_SYMBOL: b2Rope.cpp<160:11> [b2Rope.cpp <163:16 163:17>]
@@ -377,10 +344,8 @@ REFERENCE_USAGE void b2Rope::SolveC2() -> float32 * b2Rope::m_Ls [b2Rope.cpp <16
 LOCAL_SYMBOL: b2Rope.cpp<144:13> [b2Rope.cpp <163:27 163:27>]
 LOCAL_SYMBOL: b2Rope.cpp<150:11> [b2Rope.cpp <163:32 163:32>]
 LOCAL_SYMBOL: b2Rope.cpp<149:10> [b2Rope.cpp <163:37 163:37>]
-SYMBOL_FUNCTION void b2Vec2::operator+=(const b2Vec2 &)
 REFERENCE_CALL void b2Rope::SolveC2() -> void b2Vec2::operator+=(const b2Vec2 &) [b2Rope.cpp <164:6 164:7>]
 LOCAL_SYMBOL: b2Rope.cpp<147:10> [b2Rope.cpp <164:3 164:4>]
-SYMBOL_FUNCTION b2Vec2 operator*(float32, const b2Vec2 &)
 REFERENCE_CALL void b2Rope::SolveC2() -> b2Vec2 operator*(float32, const b2Vec2 &) [b2Rope.cpp <164:35 164:35>]
 REFERENCE_USAGE void b2Rope::SolveC2() -> float32 b2Rope::m_k2 [b2Rope.cpp <164:9 164:12>]
 LOCAL_SYMBOL: b2Rope.cpp<161:11> [b2Rope.cpp <164:16 164:17>]
@@ -388,19 +353,16 @@ REFERENCE_USAGE void b2Rope::SolveC2() -> float32 * b2Rope::m_Ls [b2Rope.cpp <16
 LOCAL_SYMBOL: b2Rope.cpp<144:13> [b2Rope.cpp <164:27 164:27>]
 LOCAL_SYMBOL: b2Rope.cpp<150:11> [b2Rope.cpp <164:32 164:32>]
 LOCAL_SYMBOL: b2Rope.cpp<149:10> [b2Rope.cpp <164:37 164:37>]
-SYMBOL_FUNCTION b2Vec2 & b2Vec2::operator=(const b2Vec2 &)
 REFERENCE_CALL void b2Rope::SolveC2() -> b2Vec2 & b2Vec2::operator=(const b2Vec2 &) [b2Rope.cpp <166:11 166:11>]
 REFERENCE_USAGE void b2Rope::SolveC2() -> b2Vec2 * b2Rope::m_ps [b2Rope.cpp <166:3 166:6>]
 LOCAL_SYMBOL: b2Rope.cpp<144:13> [b2Rope.cpp <166:8 166:8>]
 LOCAL_SYMBOL: b2Rope.cpp<146:10> [b2Rope.cpp <166:13 166:14>]
-SYMBOL_FUNCTION b2Vec2 & b2Vec2::operator=(const b2Vec2 &)
 REFERENCE_CALL void b2Rope::SolveC2() -> b2Vec2 & b2Vec2::operator=(const b2Vec2 &) [b2Rope.cpp <167:15 167:15>]
 REFERENCE_USAGE void b2Rope::SolveC2() -> b2Vec2 * b2Rope::m_ps [b2Rope.cpp <167:3 167:6>]
 LOCAL_SYMBOL: b2Rope.cpp<144:13> [b2Rope.cpp <167:8 167:8>]
 LOCAL_SYMBOL: b2Rope.cpp<147:10> [b2Rope.cpp <167:17 167:18>]
 SYMBOL_METHOD public void b2Rope::SetAngle(float32) [b2Rope.cpp <171:1 <171:14 171:21> 178:1>]
-SYMBOL_CLASS b2Rope
-SYMBOL_BUILTIN_TYPE void
+QUALIFIER: b2Rope [b2Rope.cpp <171:6 171:11>]
 REFERENCE_TYPE_USAGE void b2Rope::SetAngle(float32) -> void [b2Rope.cpp <171:1 171:4>]
 LOCAL_SYMBOL: b2Rope.cpp<171:31> [b2Rope.cpp <171:31 171:35>]
 REFERENCE_TYPE_USAGE void b2Rope::SetAngle(float32) -> float32 [b2Rope.cpp <171:23 171:29>]
@@ -416,8 +378,7 @@ REFERENCE_USAGE void b2Rope::SetAngle(float32) -> float32 * b2Rope::m_as [b2Rope
 LOCAL_SYMBOL: b2Rope.cpp<174:13> [b2Rope.cpp <176:8 176:8>]
 LOCAL_SYMBOL: b2Rope.cpp<171:31> [b2Rope.cpp <176:13 176:17>]
 SYMBOL_METHOD private void b2Rope::SolveC3() [b2Rope.cpp <180:1 <180:14 180:20> 249:1>]
-SYMBOL_CLASS b2Rope
-SYMBOL_BUILTIN_TYPE void
+QUALIFIER: b2Rope [b2Rope.cpp <180:6 180:11>]
 REFERENCE_TYPE_USAGE void b2Rope::SolveC3() -> void [b2Rope.cpp <180:1 180:4>]
 LOCAL_SYMBOL: b2Rope.cpp<182:8> [b2Rope.cpp <182:8 182:13>]
 REFERENCE_TYPE_USAGE void b2Rope::SolveC3() -> int32 [b2Rope.cpp <182:2 182:6>]
@@ -429,19 +390,16 @@ LOCAL_SYMBOL: b2Rope.cpp<182:8> [b2Rope.cpp <184:24 184:29>]
 LOCAL_SYMBOL: b2Rope.cpp<184:13> [b2Rope.cpp <184:34 184:34>]
 LOCAL_SYMBOL: b2Rope.cpp<186:10> [b2Rope.cpp <186:10 186:11>]
 REFERENCE_TYPE_USAGE void b2Rope::SolveC3() -> b2Vec2 [b2Rope.cpp <186:3 186:8>]
-SYMBOL_FUNCTION void b2Vec2::b2Vec2(const b2Vec2 &)
 REFERENCE_CALL void b2Rope::SolveC3() -> void b2Vec2::b2Vec2(const b2Vec2 &) [b2Rope.cpp <186:21 186:21>]
 REFERENCE_USAGE void b2Rope::SolveC3() -> b2Vec2 * b2Rope::m_ps [b2Rope.cpp <186:15 186:18>]
 LOCAL_SYMBOL: b2Rope.cpp<184:13> [b2Rope.cpp <186:20 186:20>]
 LOCAL_SYMBOL: b2Rope.cpp<187:10> [b2Rope.cpp <187:10 187:11>]
 REFERENCE_TYPE_USAGE void b2Rope::SolveC3() -> b2Vec2 [b2Rope.cpp <187:3 187:8>]
-SYMBOL_FUNCTION void b2Vec2::b2Vec2(const b2Vec2 &)
 REFERENCE_CALL void b2Rope::SolveC3() -> void b2Vec2::b2Vec2(const b2Vec2 &) [b2Rope.cpp <187:25 187:25>]
 REFERENCE_USAGE void b2Rope::SolveC3() -> b2Vec2 * b2Rope::m_ps [b2Rope.cpp <187:15 187:18>]
 LOCAL_SYMBOL: b2Rope.cpp<184:13> [b2Rope.cpp <187:20 187:20>]
 LOCAL_SYMBOL: b2Rope.cpp<188:10> [b2Rope.cpp <188:10 188:11>]
 REFERENCE_TYPE_USAGE void b2Rope::SolveC3() -> b2Vec2 [b2Rope.cpp <188:3 188:8>]
-SYMBOL_FUNCTION void b2Vec2::b2Vec2(const b2Vec2 &)
 REFERENCE_CALL void b2Rope::SolveC3() -> void b2Vec2::b2Vec2(const b2Vec2 &) [b2Rope.cpp <188:25 188:25>]
 REFERENCE_USAGE void b2Rope::SolveC3() -> b2Vec2 * b2Rope::m_ps [b2Rope.cpp <188:15 188:18>]
 LOCAL_SYMBOL: b2Rope.cpp<184:13> [b2Rope.cpp <188:20 188:20>]
@@ -459,13 +417,11 @@ REFERENCE_USAGE void b2Rope::SolveC3() -> float32 * b2Rope::m_ims [b2Rope.cpp <1
 LOCAL_SYMBOL: b2Rope.cpp<184:13> [b2Rope.cpp <192:22 192:22>]
 LOCAL_SYMBOL: b2Rope.cpp<194:10> [b2Rope.cpp <194:10 194:11>]
 REFERENCE_TYPE_USAGE void b2Rope::SolveC3() -> b2Vec2 [b2Rope.cpp <194:3 194:8>]
-SYMBOL_FUNCTION b2Vec2 operator-(const b2Vec2 &, const b2Vec2 &)
 REFERENCE_CALL void b2Rope::SolveC3() -> b2Vec2 operator-(const b2Vec2 &, const b2Vec2 &) [b2Rope.cpp <194:18 194:18>]
 LOCAL_SYMBOL: b2Rope.cpp<187:10> [b2Rope.cpp <194:15 194:16>]
 LOCAL_SYMBOL: b2Rope.cpp<186:10> [b2Rope.cpp <194:20 194:21>]
 LOCAL_SYMBOL: b2Rope.cpp<195:10> [b2Rope.cpp <195:10 195:11>]
 REFERENCE_TYPE_USAGE void b2Rope::SolveC3() -> b2Vec2 [b2Rope.cpp <195:3 195:8>]
-SYMBOL_FUNCTION b2Vec2 operator-(const b2Vec2 &, const b2Vec2 &)
 REFERENCE_CALL void b2Rope::SolveC3() -> b2Vec2 operator-(const b2Vec2 &, const b2Vec2 &) [b2Rope.cpp <195:18 195:18>]
 LOCAL_SYMBOL: b2Rope.cpp<188:10> [b2Rope.cpp <195:15 195:16>]
 LOCAL_SYMBOL: b2Rope.cpp<187:10> [b2Rope.cpp <195:20 195:21>]
@@ -476,20 +432,17 @@ REFERENCE_CALL void b2Rope::SolveC3() -> float32 b2Vec2::LengthSquared() const [
 LOCAL_SYMBOL: b2Rope.cpp<194:10> [b2Rope.cpp <197:19 197:20>]
 LOCAL_SYMBOL: b2Rope.cpp<198:11> [b2Rope.cpp <198:11 198:15>]
 REFERENCE_TYPE_USAGE void b2Rope::SolveC3() -> float32 [b2Rope.cpp <198:3 198:9>]
-SYMBOL_FUNCTION float32 b2Vec2::LengthSquared() const
 REFERENCE_CALL void b2Rope::SolveC3() -> float32 b2Vec2::LengthSquared() const [b2Rope.cpp <198:22 198:34>]
 LOCAL_SYMBOL: b2Rope.cpp<195:10> [b2Rope.cpp <198:19 198:20>]
 LOCAL_SYMBOL: b2Rope.cpp<197:11> [b2Rope.cpp <200:7 200:11>]
 LOCAL_SYMBOL: b2Rope.cpp<198:11> [b2Rope.cpp <200:15 200:19>]
 LOCAL_SYMBOL: b2Rope.cpp<205:11> [b2Rope.cpp <205:11 205:11>]
 REFERENCE_TYPE_USAGE void b2Rope::SolveC3() -> float32 [b2Rope.cpp <205:3 205:9>]
-SYMBOL_FUNCTION float32 b2Cross(const b2Vec2 &, const b2Vec2 &)
 REFERENCE_CALL void b2Rope::SolveC3() -> float32 b2Cross(const b2Vec2 &, const b2Vec2 &) [b2Rope.cpp <205:15 205:21>]
 LOCAL_SYMBOL: b2Rope.cpp<194:10> [b2Rope.cpp <205:23 205:24>]
 LOCAL_SYMBOL: b2Rope.cpp<195:10> [b2Rope.cpp <205:27 205:28>]
 LOCAL_SYMBOL: b2Rope.cpp<206:11> [b2Rope.cpp <206:11 206:11>]
 REFERENCE_TYPE_USAGE void b2Rope::SolveC3() -> float32 [b2Rope.cpp <206:3 206:9>]
-SYMBOL_FUNCTION float32 b2Dot(const b2Vec2 &, const b2Vec2 &)
 REFERENCE_CALL void b2Rope::SolveC3() -> float32 b2Dot(const b2Vec2 &, const b2Vec2 &) [b2Rope.cpp <206:15 206:19>]
 LOCAL_SYMBOL: b2Rope.cpp<194:10> [b2Rope.cpp <206:21 206:22>]
 LOCAL_SYMBOL: b2Rope.cpp<195:10> [b2Rope.cpp <206:25 206:26>]
@@ -499,7 +452,6 @@ LOCAL_SYMBOL: b2Rope.cpp<205:11> [b2Rope.cpp <208:27 208:27>]
 LOCAL_SYMBOL: b2Rope.cpp<206:11> [b2Rope.cpp <208:30 208:30>]
 LOCAL_SYMBOL: b2Rope.cpp<210:10> [b2Rope.cpp <210:10 210:12>]
 REFERENCE_TYPE_USAGE void b2Rope::SolveC3() -> b2Vec2 [b2Rope.cpp <210:3 210:8>]
-SYMBOL_FUNCTION b2Vec2 operator*(float32, const b2Vec2 &)
 REFERENCE_CALL void b2Rope::SolveC3() -> b2Vec2 operator*(float32, const b2Vec2 &) [b2Rope.cpp <210:32 210:32>]
 LOCAL_SYMBOL: b2Rope.cpp<197:11> [b2Rope.cpp <210:25 210:29>]
 SYMBOL_FUNCTION b2Vec2 b2Vec2::Skew() const
@@ -507,10 +459,8 @@ REFERENCE_CALL void b2Rope::SolveC3() -> b2Vec2 b2Vec2::Skew() const [b2Rope.cpp
 LOCAL_SYMBOL: b2Rope.cpp<194:10> [b2Rope.cpp <210:34 210:35>]
 LOCAL_SYMBOL: b2Rope.cpp<211:10> [b2Rope.cpp <211:10 211:12>]
 REFERENCE_TYPE_USAGE void b2Rope::SolveC3() -> b2Vec2 [b2Rope.cpp <211:3 211:8>]
-SYMBOL_FUNCTION b2Vec2 operator*(float32, const b2Vec2 &)
 REFERENCE_CALL void b2Rope::SolveC3() -> b2Vec2 operator*(float32, const b2Vec2 &) [b2Rope.cpp <211:31 211:31>]
 LOCAL_SYMBOL: b2Rope.cpp<198:11> [b2Rope.cpp <211:24 211:28>]
-SYMBOL_FUNCTION b2Vec2 b2Vec2::Skew() const
 REFERENCE_CALL void b2Rope::SolveC3() -> b2Vec2 b2Vec2::Skew() const [b2Rope.cpp <211:36 211:39>]
 LOCAL_SYMBOL: b2Rope.cpp<195:10> [b2Rope.cpp <211:33 211:34>]
 LOCAL_SYMBOL: b2Rope.cpp<213:10> [b2Rope.cpp <213:10 213:11>]
@@ -520,29 +470,24 @@ REFERENCE_CALL void b2Rope::SolveC3() -> b2Vec2 b2Vec2::operator-() const [b2Rop
 LOCAL_SYMBOL: b2Rope.cpp<210:10> [b2Rope.cpp <213:16 213:18>]
 LOCAL_SYMBOL: b2Rope.cpp<214:10> [b2Rope.cpp <214:10 214:11>]
 REFERENCE_TYPE_USAGE void b2Rope::SolveC3() -> b2Vec2 [b2Rope.cpp <214:3 214:8>]
-SYMBOL_FUNCTION b2Vec2 operator-(const b2Vec2 &, const b2Vec2 &)
 REFERENCE_CALL void b2Rope::SolveC3() -> b2Vec2 operator-(const b2Vec2 &, const b2Vec2 &) [b2Rope.cpp <214:19 214:19>]
 LOCAL_SYMBOL: b2Rope.cpp<210:10> [b2Rope.cpp <214:15 214:17>]
 LOCAL_SYMBOL: b2Rope.cpp<211:10> [b2Rope.cpp <214:21 214:23>]
 LOCAL_SYMBOL: b2Rope.cpp<215:10> [b2Rope.cpp <215:10 215:11>]
 REFERENCE_TYPE_USAGE void b2Rope::SolveC3() -> b2Vec2 [b2Rope.cpp <215:3 215:8>]
-SYMBOL_FUNCTION void b2Vec2::b2Vec2(const b2Vec2 &)
 REFERENCE_CALL void b2Rope::SolveC3() -> void b2Vec2::b2Vec2(const b2Vec2 &) [b2Rope.cpp <215:15 215:17>]
 LOCAL_SYMBOL: b2Rope.cpp<211:10> [b2Rope.cpp <215:15 215:17>]
 LOCAL_SYMBOL: b2Rope.cpp<217:11> [b2Rope.cpp <217:11 217:14>]
 REFERENCE_TYPE_USAGE void b2Rope::SolveC3() -> float32 [b2Rope.cpp <217:3 217:9>]
 LOCAL_SYMBOL: b2Rope.cpp<190:11> [b2Rope.cpp <217:18 217:19>]
-SYMBOL_FUNCTION float32 b2Dot(const b2Vec2 &, const b2Vec2 &)
 REFERENCE_CALL void b2Rope::SolveC3() -> float32 b2Dot(const b2Vec2 &, const b2Vec2 &) [b2Rope.cpp <217:23 217:27>]
 LOCAL_SYMBOL: b2Rope.cpp<213:10> [b2Rope.cpp <217:29 217:30>]
 LOCAL_SYMBOL: b2Rope.cpp<213:10> [b2Rope.cpp <217:33 217:34>]
 LOCAL_SYMBOL: b2Rope.cpp<191:11> [b2Rope.cpp <217:39 217:40>]
-SYMBOL_FUNCTION float32 b2Dot(const b2Vec2 &, const b2Vec2 &)
 REFERENCE_CALL void b2Rope::SolveC3() -> float32 b2Dot(const b2Vec2 &, const b2Vec2 &) [b2Rope.cpp <217:44 217:48>]
 LOCAL_SYMBOL: b2Rope.cpp<214:10> [b2Rope.cpp <217:50 217:51>]
 LOCAL_SYMBOL: b2Rope.cpp<214:10> [b2Rope.cpp <217:54 217:55>]
 LOCAL_SYMBOL: b2Rope.cpp<192:11> [b2Rope.cpp <217:60 217:61>]
-SYMBOL_FUNCTION float32 b2Dot(const b2Vec2 &, const b2Vec2 &)
 REFERENCE_CALL void b2Rope::SolveC3() -> float32 b2Dot(const b2Vec2 &, const b2Vec2 &) [b2Rope.cpp <217:65 217:69>]
 LOCAL_SYMBOL: b2Rope.cpp<215:10> [b2Rope.cpp <217:71 217:72>]
 LOCAL_SYMBOL: b2Rope.cpp<215:10> [b2Rope.cpp <217:75 217:76>]
@@ -571,48 +516,38 @@ REFERENCE_TYPE_USAGE void b2Rope::SolveC3() -> float32 [b2Rope.cpp <239:3 239:9>
 REFERENCE_USAGE void b2Rope::SolveC3() -> float32 b2Rope::m_k3 [b2Rope.cpp <239:23 239:26>]
 LOCAL_SYMBOL: b2Rope.cpp<217:11> [b2Rope.cpp <239:30 239:33>]
 LOCAL_SYMBOL: b2Rope.cpp<225:11> [b2Rope.cpp <239:37 239:37>]
-SYMBOL_FUNCTION void b2Vec2::operator+=(const b2Vec2 &)
 REFERENCE_CALL void b2Rope::SolveC3() -> void b2Vec2::operator+=(const b2Vec2 &) [b2Rope.cpp <241:6 241:7>]
 LOCAL_SYMBOL: b2Rope.cpp<186:10> [b2Rope.cpp <241:3 241:4>]
-SYMBOL_FUNCTION b2Vec2 operator*(float32, const b2Vec2 &)
 REFERENCE_CALL void b2Rope::SolveC3() -> b2Vec2 operator*(float32, const b2Vec2 &) [b2Rope.cpp <241:24 241:24>]
 LOCAL_SYMBOL: b2Rope.cpp<190:11> [b2Rope.cpp <241:10 241:11>]
 LOCAL_SYMBOL: b2Rope.cpp<239:11> [b2Rope.cpp <241:15 241:21>]
 LOCAL_SYMBOL: b2Rope.cpp<213:10> [b2Rope.cpp <241:26 241:27>]
-SYMBOL_FUNCTION void b2Vec2::operator+=(const b2Vec2 &)
 REFERENCE_CALL void b2Rope::SolveC3() -> void b2Vec2::operator+=(const b2Vec2 &) [b2Rope.cpp <242:6 242:7>]
 LOCAL_SYMBOL: b2Rope.cpp<187:10> [b2Rope.cpp <242:3 242:4>]
-SYMBOL_FUNCTION b2Vec2 operator*(float32, const b2Vec2 &)
 REFERENCE_CALL void b2Rope::SolveC3() -> b2Vec2 operator*(float32, const b2Vec2 &) [b2Rope.cpp <242:24 242:24>]
 LOCAL_SYMBOL: b2Rope.cpp<191:11> [b2Rope.cpp <242:10 242:11>]
 LOCAL_SYMBOL: b2Rope.cpp<239:11> [b2Rope.cpp <242:15 242:21>]
 LOCAL_SYMBOL: b2Rope.cpp<214:10> [b2Rope.cpp <242:26 242:27>]
-SYMBOL_FUNCTION void b2Vec2::operator+=(const b2Vec2 &)
 REFERENCE_CALL void b2Rope::SolveC3() -> void b2Vec2::operator+=(const b2Vec2 &) [b2Rope.cpp <243:6 243:7>]
 LOCAL_SYMBOL: b2Rope.cpp<188:10> [b2Rope.cpp <243:3 243:4>]
-SYMBOL_FUNCTION b2Vec2 operator*(float32, const b2Vec2 &)
 REFERENCE_CALL void b2Rope::SolveC3() -> b2Vec2 operator*(float32, const b2Vec2 &) [b2Rope.cpp <243:24 243:24>]
 LOCAL_SYMBOL: b2Rope.cpp<192:11> [b2Rope.cpp <243:10 243:11>]
 LOCAL_SYMBOL: b2Rope.cpp<239:11> [b2Rope.cpp <243:15 243:21>]
 LOCAL_SYMBOL: b2Rope.cpp<215:10> [b2Rope.cpp <243:26 243:27>]
-SYMBOL_FUNCTION b2Vec2 & b2Vec2::operator=(const b2Vec2 &)
 REFERENCE_CALL void b2Rope::SolveC3() -> b2Vec2 & b2Vec2::operator=(const b2Vec2 &) [b2Rope.cpp <245:11 245:11>]
 REFERENCE_USAGE void b2Rope::SolveC3() -> b2Vec2 * b2Rope::m_ps [b2Rope.cpp <245:3 245:6>]
 LOCAL_SYMBOL: b2Rope.cpp<184:13> [b2Rope.cpp <245:8 245:8>]
 LOCAL_SYMBOL: b2Rope.cpp<186:10> [b2Rope.cpp <245:13 245:14>]
-SYMBOL_FUNCTION b2Vec2 & b2Vec2::operator=(const b2Vec2 &)
 REFERENCE_CALL void b2Rope::SolveC3() -> b2Vec2 & b2Vec2::operator=(const b2Vec2 &) [b2Rope.cpp <246:15 246:15>]
 REFERENCE_USAGE void b2Rope::SolveC3() -> b2Vec2 * b2Rope::m_ps [b2Rope.cpp <246:3 246:6>]
 LOCAL_SYMBOL: b2Rope.cpp<184:13> [b2Rope.cpp <246:8 246:8>]
 LOCAL_SYMBOL: b2Rope.cpp<187:10> [b2Rope.cpp <246:17 246:18>]
-SYMBOL_FUNCTION b2Vec2 & b2Vec2::operator=(const b2Vec2 &)
 REFERENCE_CALL void b2Rope::SolveC3() -> b2Vec2 & b2Vec2::operator=(const b2Vec2 &) [b2Rope.cpp <247:15 247:15>]
 REFERENCE_USAGE void b2Rope::SolveC3() -> b2Vec2 * b2Rope::m_ps [b2Rope.cpp <247:3 247:6>]
 LOCAL_SYMBOL: b2Rope.cpp<184:13> [b2Rope.cpp <247:8 247:8>]
 LOCAL_SYMBOL: b2Rope.cpp<188:10> [b2Rope.cpp <247:17 247:18>]
 SYMBOL_METHOD public void b2Rope::Draw(b2Draw *) const [b2Rope.cpp <251:1 <251:14 251:17> 259:1>]
-SYMBOL_CLASS b2Rope
-SYMBOL_BUILTIN_TYPE void
+QUALIFIER: b2Rope [b2Rope.cpp <251:6 251:11>]
 REFERENCE_TYPE_USAGE void b2Rope::Draw(b2Draw *) const -> void [b2Rope.cpp <251:1 251:4>]
 LOCAL_SYMBOL: b2Rope.cpp<251:27> [b2Rope.cpp <251:27 251:30>]
 REFERENCE_TYPE_USAGE void b2Rope::Draw(b2Draw *) const -> b2Draw [b2Rope.cpp <251:19 251:24>]

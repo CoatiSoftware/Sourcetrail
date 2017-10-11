@@ -1,12 +1,23 @@
 FILE: TypeSolver.java
-SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model.resolution [TypeSolver.java <17:9 17:59>]
+SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model.resolution [TypeSolver.java <17:50 17:59>]
 SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model
 SYMBOL_PACKAGE com.github.javaparser.symbolsolver
 SYMBOL_PACKAGE com.github.javaparser
 SYMBOL_PACKAGE com.github
 SYMBOL_PACKAGE com
-REFERENCE_IMPORT TypeSolver.java -> com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration [TypeSolver.java <19:8 19:85>]
+QUALIFIER: com.github.javaparser.symbolsolver.model [TypeSolver.java <17:44 17:48>]
+QUALIFIER: com.github.javaparser.symbolsolver [TypeSolver.java <17:31 17:42>]
+QUALIFIER: com.github.javaparser [TypeSolver.java <17:20 17:29>]
+QUALIFIER: com.github [TypeSolver.java <17:13 17:18>]
+QUALIFIER: com [TypeSolver.java <17:9 17:11>]
+REFERENCE_IMPORT TypeSolver.java -> com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration [TypeSolver.java <19:62 19:85>]
 SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model.declarations
+QUALIFIER: com.github.javaparser.symbolsolver.model.declarations [TypeSolver.java <19:49 19:60>]
+QUALIFIER: com.github.javaparser.symbolsolver.model [TypeSolver.java <19:43 19:47>]
+QUALIFIER: com.github.javaparser.symbolsolver [TypeSolver.java <19:30 19:41>]
+QUALIFIER: com.github.javaparser [TypeSolver.java <19:19 19:28>]
+QUALIFIER: com.github [TypeSolver.java <19:12 19:17>]
+QUALIFIER: com [TypeSolver.java <19:8 19:10>]
 SYMBOL_INTERFACE public com.github.javaparser.symbolsolver.model.resolution.TypeSolver [TypeSolver.java <27:1 <27:18 27:27> 68:1>]
 LOCAL_SYMBOL: TypeSolver.java<27:29> [TypeSolver.java <27:29 27:29>]
 LOCAL_SYMBOL: TypeSolver.java<27:29> [TypeSolver.java <68:1 68:1>]
@@ -24,7 +35,6 @@ LOCAL_SYMBOL: TypeSolver.java<35:16> [TypeSolver.java <35:16 35:16>]
 LOCAL_SYMBOL: TypeSolver.java<35:16> [TypeSolver.java <37:9 37:9>]
 SYMBOL_METHOD com.github.javaparser.symbolsolver.model.resolution.TypeSolver com.github.javaparser.symbolsolver.model.resolution.TypeSolver.getRoot()
 REFERENCE_CALL com.github.javaparser.symbolsolver.model.resolution.TypeSolver com.github.javaparser.symbolsolver.model.resolution.TypeSolver.getRoot() -> com.github.javaparser.symbolsolver.model.resolution.TypeSolver com.github.javaparser.symbolsolver.model.resolution.TypeSolver.getRoot() [TypeSolver.java <36:32 36:38>]
-SYMBOL_METHOD com.github.javaparser.symbolsolver.model.resolution.TypeSolver com.github.javaparser.symbolsolver.model.resolution.TypeSolver.getParent()
 REFERENCE_CALL com.github.javaparser.symbolsolver.model.resolution.TypeSolver com.github.javaparser.symbolsolver.model.resolution.TypeSolver.getRoot() -> com.github.javaparser.symbolsolver.model.resolution.TypeSolver com.github.javaparser.symbolsolver.model.resolution.TypeSolver.getParent() [TypeSolver.java <36:20 36:28>]
 SYMBOL_METHOD default com.github.javaparser.symbolsolver.model.resolution.TypeSolver com.github.javaparser.symbolsolver.model.resolution.TypeSolver.getParent() [TypeSolver.java <43:1 <43:16 43:24> 43:27>]
 COMMENT: comment [TypeSolver.java <40:5 42:7>]

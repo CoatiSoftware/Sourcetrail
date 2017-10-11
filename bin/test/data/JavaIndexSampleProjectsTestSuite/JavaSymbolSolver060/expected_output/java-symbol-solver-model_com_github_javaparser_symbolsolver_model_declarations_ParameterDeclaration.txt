@@ -1,10 +1,15 @@
 FILE: ParameterDeclaration.java
-SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model.declarations [ParameterDeclaration.java <17:9 17:61>]
+SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model.declarations [ParameterDeclaration.java <17:50 17:61>]
 SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model
 SYMBOL_PACKAGE com.github.javaparser.symbolsolver
 SYMBOL_PACKAGE com.github.javaparser
 SYMBOL_PACKAGE com.github
 SYMBOL_PACKAGE com
+QUALIFIER: com.github.javaparser.symbolsolver.model [ParameterDeclaration.java <17:44 17:48>]
+QUALIFIER: com.github.javaparser.symbolsolver [ParameterDeclaration.java <17:31 17:42>]
+QUALIFIER: com.github.javaparser [ParameterDeclaration.java <17:20 17:29>]
+QUALIFIER: com.github [ParameterDeclaration.java <17:13 17:18>]
+QUALIFIER: com [ParameterDeclaration.java <17:9 17:11>]
 SYMBOL_INTERFACE public com.github.javaparser.symbolsolver.model.declarations.ParameterDeclaration [ParameterDeclaration.java <24:1 <24:18 24:37> 52:1>]
 LOCAL_SYMBOL: ParameterDeclaration.java<24:64> [ParameterDeclaration.java <24:64 24:64>]
 LOCAL_SYMBOL: ParameterDeclaration.java<24:64> [ParameterDeclaration.java <52:1 52:1>]
@@ -25,7 +30,6 @@ LOCAL_SYMBOL: ParameterDeclaration.java<32:48> [ParameterDeclaration.java <32:48
 LOCAL_SYMBOL: ParameterDeclaration.java<32:48> [ParameterDeclaration.java <34:5 34:5>]
 SYMBOL_METHOD default boolean com.github.javaparser.symbolsolver.model.declarations.ParameterDeclaration.isVariadic() [ParameterDeclaration.java <39:1 <39:13 39:22> 39:25>]
 COMMENT: comment [ParameterDeclaration.java <36:5 38:7>]
-SYMBOL_BUILTIN_TYPE boolean
 REFERENCE_TYPE_USAGE boolean com.github.javaparser.symbolsolver.model.declarations.ParameterDeclaration.isVariadic() -> boolean [ParameterDeclaration.java <39:5 39:11>]
 SYMBOL_METHOD default java.lang.String com.github.javaparser.symbolsolver.model.declarations.ParameterDeclaration.describeType() [ParameterDeclaration.java <45:1 <45:20 45:31> 51:5>]
 COMMENT: comment [ParameterDeclaration.java <41:5 44:7>]
@@ -46,8 +50,6 @@ SYMBOL_METHOD com.github.javaparser.symbolsolver.model.typesystem.Type com.githu
 REFERENCE_CALL java.lang.String com.github.javaparser.symbolsolver.model.declarations.ParameterDeclaration.describeType() -> com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.model.declarations.ValueDeclaration.getType() [ParameterDeclaration.java <47:20 47:26>]
 LOCAL_SYMBOL: ParameterDeclaration.java<48:16> [ParameterDeclaration.java <48:16 48:16>]
 LOCAL_SYMBOL: ParameterDeclaration.java<48:16> [ParameterDeclaration.java <50:9 50:9>]
-SYMBOL_METHOD java.lang.String com.github.javaparser.symbolsolver.model.typesystem.Type.describe()
 REFERENCE_CALL java.lang.String com.github.javaparser.symbolsolver.model.declarations.ParameterDeclaration.describeType() -> java.lang.String com.github.javaparser.symbolsolver.model.typesystem.Type.describe() [ParameterDeclaration.java <49:30 49:37>]
-SYMBOL_METHOD com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.model.declarations.ValueDeclaration.getType()
 REFERENCE_CALL java.lang.String com.github.javaparser.symbolsolver.model.declarations.ParameterDeclaration.describeType() -> com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.model.declarations.ValueDeclaration.getType() [ParameterDeclaration.java <49:20 49:26>]
 COMMENT: comment [ParameterDeclaration.java <1:1 15:3>]

@@ -1,11 +1,21 @@
 FILE: ObjectProvider.java
-SYMBOL_PACKAGE com.github.javaparser.symbolsolver.logic [ObjectProvider.java <17:9 17:48>]
+SYMBOL_PACKAGE com.github.javaparser.symbolsolver.logic [ObjectProvider.java <17:44 17:48>]
 SYMBOL_PACKAGE com.github.javaparser.symbolsolver
 SYMBOL_PACKAGE com.github.javaparser
 SYMBOL_PACKAGE com.github
 SYMBOL_PACKAGE com
-REFERENCE_IMPORT ObjectProvider.java -> com.github.javaparser.symbolsolver.model.typesystem.ReferenceType [ObjectProvider.java <19:8 19:72>]
+QUALIFIER: com.github.javaparser.symbolsolver [ObjectProvider.java <17:31 17:42>]
+QUALIFIER: com.github.javaparser [ObjectProvider.java <17:20 17:29>]
+QUALIFIER: com.github [ObjectProvider.java <17:13 17:18>]
+QUALIFIER: com [ObjectProvider.java <17:9 17:11>]
+REFERENCE_IMPORT ObjectProvider.java -> com.github.javaparser.symbolsolver.model.typesystem.ReferenceType [ObjectProvider.java <19:60 19:72>]
 SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model.typesystem
+QUALIFIER: com.github.javaparser.symbolsolver.model.typesystem [ObjectProvider.java <19:49 19:58>]
+QUALIFIER: com.github.javaparser.symbolsolver.model [ObjectProvider.java <19:43 19:47>]
+QUALIFIER: com.github.javaparser.symbolsolver [ObjectProvider.java <19:30 19:41>]
+QUALIFIER: com.github.javaparser [ObjectProvider.java <19:19 19:28>]
+QUALIFIER: com.github [ObjectProvider.java <19:12 19:17>]
+QUALIFIER: com [ObjectProvider.java <19:8 19:10>]
 SYMBOL_INTERFACE public com.github.javaparser.symbolsolver.logic.ObjectProvider [ObjectProvider.java <24:1 <24:18 24:31> 27:1>]
 LOCAL_SYMBOL: ObjectProvider.java<24:33> [ObjectProvider.java <24:33 24:33>]
 LOCAL_SYMBOL: ObjectProvider.java<24:33> [ObjectProvider.java <27:1 27:1>]

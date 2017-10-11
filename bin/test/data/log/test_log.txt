@@ -101,6 +101,19 @@ TextAccess.cpp WARNING: Line numbers start with one, is 0
  INFO: Indexer - indexing source file: input.cc
  INFO: Indexer - indexing source file: input.cc
  INFO: Indexer - indexing source file: input.cc
+ INFO: Indexer - indexing source file: input.cc
+ INFO: Indexer - indexing source file: input.cc
+ INFO: Indexer - indexing source file: input.cc
+ INFO: Indexer - indexing source file: input.cc
+ INFO: Indexer - indexing source file: input.cc
+ INFO: Indexer - indexing source file: input.cc
+ INFO: Indexer - indexing source file: input.cc
+ INFO: Indexer - indexing source file: input.cc
+ INFO: Indexer - indexing source file: input.cc
+ INFO: Indexer - indexing source file: input.cc
+ INFO: Indexer - indexing source file: input.cc
+ INFO: Indexer - indexing source file: input.cc
+ INFO: Indexer - indexing source file: input.cc
  INFO: Indexer - indexing source file: data/JavaIndexSampleProjectsTestSuite/JavaSymbolSolver060/src/java-symbol-solver-core/com/github/javaparser/symbolsolver/SourceFileInfoExtractor.java
  INFO: Indexer - indexing source file: data/JavaIndexSampleProjectsTestSuite/JavaSymbolSolver060/src/java-symbol-solver-core/com/github/javaparser/symbolsolver/core/resolution/Context.java
  INFO: Indexer - indexing source file: data/JavaIndexSampleProjectsTestSuite/JavaSymbolSolver060/src/java-symbol-solver-core/com/github/javaparser/symbolsolver/core/resolution/ContextHelper.java

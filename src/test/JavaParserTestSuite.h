@@ -463,6 +463,311 @@ public:
 
 
 ///////////////////////////////////////////////////////////////////////////////
+// test finding qualifier locations
+
+	void test_java_parser_finds_no_qualifier_location_of_standalone_this_expression()
+	{
+		std::shared_ptr<TestParserClient> client = parseCode(
+			"package foo;\n"
+			"public class X\n"
+			"{\n"
+			"	public void bar()\n"
+			"	{\n"
+			"		X x = this;\n"
+			"	}\n"
+			"}\n"
+		);
+
+		TS_ASSERT_EQUALS(client->qualifiers.size(), 0);
+	}
+
+	void test_java_parser_finds_qualifier_location_of_import_declaration()
+	{
+		std::shared_ptr<TestParserClient> client = parseCode(
+			"import foo.bar;\n"
+		);
+
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->qualifiers, "foo <1:8 1:10>"
+		));
+	}
+
+	void test_java_parser_finds_qualifier_location_of_simple_type()
+	{
+		std::shared_ptr<TestParserClient> client = parseCode(
+			"package foo.bar;\n"
+			"public class A\n"
+			"{\n"
+			"	public void bar(int i)\n"
+			"	{\n"
+			"		foo.bar.A a;\n"
+			"	};\n"
+			"};\n"
+		);
+
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->qualifiers, "foo <6:3 6:5>"
+			));
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->qualifiers, "foo.bar <6:7 6:9>"
+			));
+	}
+
+	void test_java_parser_finds_qualifier_location_of_field_access()
+	{
+		std::shared_ptr<TestParserClient> client = parseCode(
+			"package foo;\n"
+			"public class X\n"
+			"{\n"
+			"	public int i;\n"
+			"	\n"
+			"	public void bar()\n"
+			"	{\n"
+			"		this.i = 9;\n"
+			"	}\n"
+			"}\n"
+		);
+
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->qualifiers, "foo.X <8:3 8:6>"
+		));
+	}
+
+	void test_java_parser_finds_qualifier_location_of_super_field_access()
+	{
+		std::shared_ptr<TestParserClient> client = parseCode(
+			"package foo;\n"
+			"class A\n"
+			"{\n"
+			"	int a;\n"
+			"}\n"
+			"\n"
+			"class B extends A\n"
+			"{\n"
+			"	void foo()\n"
+			"	{\n"
+			"		B.super.a = 0;\n"
+			"	}\n"
+			"}\n"
+		);
+
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->qualifiers, "foo.B <11:3 11:3>"
+		));
+
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->qualifiers, "foo.A <11:5 11:9>"
+		));
+	}
+
+	void test_java_parser_finds_qualifier_location_of_this_expression()
+	{
+		std::shared_ptr<TestParserClient> client = parseCode(
+			"package foo;\n"
+			"class A\n"
+			"{\n"
+			"	int a;\n"
+			"	\n"
+			"	void foo()\n"
+			"	{\n"
+			"		A a = A.this;"
+			"	}\n"
+			"}\n"
+		);
+
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->qualifiers, "foo.A <8:9 8:9>"
+		));
+	}
+
+	void test_java_parser_finds_qualifier_location_of_method_invocation()
+	{
+		std::shared_ptr<TestParserClient> client = parseCode(
+			"package foo;\n"
+			"public class X\n"
+			"{\n"
+			"	public static void bar()\n"
+			"	{\n"
+			"		foo.X.bar();\n"
+			"	}\n"
+			"}\n"
+		);
+
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->qualifiers, "foo <6:3 6:5>"
+		));
+
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->qualifiers, "foo.X <6:7 6:7>"
+		));
+	}
+
+	void test_java_parser_finds_qualifier_location_of_method_invocation_on_this()
+	{
+		std::shared_ptr<TestParserClient> client = parseCode(
+			"package foo;\n"
+			"public class X\n"
+			"{\n"
+			"	public void bar()\n"
+			"	{\n"
+			"		this.bar();\n"
+			"	}\n"
+			"}\n"
+		);
+
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->qualifiers, "foo.X <6:3 6:6>"
+		));
+	}
+
+	void test_java_parser_finds_qualifier_location_of_super_method_invocation()
+	{
+		std::shared_ptr<TestParserClient> client = parseCode(
+			"package foo;\n"
+			"public class X\n"
+			"{\n"
+			"	public class A\n"
+			"	{\n"
+			"		void bar()\n"
+			"		{\n"
+			"		}\n"
+			"	}\n"
+			"	\n"
+			"	public class B extends A\n"
+			"	{\n"
+			"		void bar()\n"
+			"		{\n"
+			"			foo.X.B.super.bar();\n"
+			"		}\n"
+			"	}\n"
+			"}\n"
+		);
+
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->qualifiers, "foo <15:4 15:6>"
+		));
+
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->qualifiers, "foo.X <15:8 15:8>"
+		));
+
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->qualifiers, "foo.X.B <15:10 15:10>"
+		));
+
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->qualifiers, "foo.X.A <15:12 15:16>"
+		));
+	}
+
+	void test_java_parser_finds_qualifier_location_of_creation_reference()
+	{
+		std::shared_ptr<TestParserClient> client = parseCode(
+			"public class A\n"
+			"{\n"
+			"	public interface Functor\n"
+			"	{\n"
+			"		public void doSomething();\n"
+			"	}\n"
+			"	\n"
+			"	public class Bar\n"
+			"	{\n"
+			"	}\n"
+			"	\n"
+			"	void foo()\n"
+			"	{\n"
+			"		Functor method = A.Bar::new;\n"
+			"	}\n"
+			"}\n"
+		);
+
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->qualifiers, "A <14:20 14:20>"
+		));
+
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->qualifiers, "A.Bar <14:22 14:24>"
+		));
+	}
+
+	void test_java_parser_finds_qualifier_location_of_expression_method_reference()
+	{
+		std::shared_ptr<TestParserClient> client = parseCode(
+			"public class A\n"
+			"{\n"
+			"	public interface Functor\n"
+			"	{\n"
+			"		public void doSomething();\n"
+			"	}\n"
+			"\n"
+			"	public class B\n"
+			"	{\n"
+			"		void bar()\n"
+			"		{\n"
+			"		}\n"
+			"	}\n"
+			"\n"
+			"	void foo()\n"
+			"	{\n"
+			"		Functor method = B::bar;\n"
+			"	}\n"
+			"}\n"
+		);
+
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->qualifiers, "A.B <17:20 17:20>"
+		));
+	}
+	
+	void test_java_parser_finds_qualifier_location_of_super_method_reference()
+	{
+		std::shared_ptr<TestParserClient> client = parseCode(
+			"public class A {\n"
+			"	public interface Functor {\n"
+			"		public void doSomething();\n"
+			"	}\n"
+			"\n"
+			"	public class B {\n"
+			"		void bar() {\n"
+			"		}\n"
+			"	}\n"
+			"\n"
+			"	public class C extends B {\n"
+			"		void foo() {\n"
+			"			Functor method = super::bar;\n"
+			"		}\n"
+			"	}\n"
+			"}\n"
+		);
+
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->qualifiers, "A.B <13:21 13:25>"
+		));
+	}
+
+	void test_java_parser_finds_qualifier_location_of_class_instance_creation()
+	{
+		std::shared_ptr<TestParserClient> client = parseCode(
+			"public class A {\n"
+			"	public interface Functor {\n"
+			"		public void doSomething();\n"
+			"	}\n"
+			"\n"
+			"	public class B {\n"
+			"		void bar() {\n"
+			"			B b = new A.B();"
+			"		}\n"
+			"	}\n"
+			"}\n"
+		);
+
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->qualifiers, "A <8:14 8:14>"
+		));
+	}
+
+
+///////////////////////////////////////////////////////////////////////////////
 // test finding usages of symbols
 
 	void test_java_parser_finds_inheritance_using_extends_keyword()
@@ -578,7 +883,7 @@ public:
 		);
 
 		TS_ASSERT(utility::containsElement<std::string>(
-			client->typeUses, "void A.bar() -> A.B <8:3 8:5>"
+			client->typeUses, "void A.bar() -> A.B <8:5 8:5>"
 		));
 	}
 

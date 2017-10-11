@@ -1,9 +1,5 @@
 FILE: b2CollideCircle.cpp
-FILE: b2CollideCircle.cpp
 COMMENT: comment [b2CollideCircle.cpp <1:1 17:3>]
-FILE: b2CollideCircle.cpp
-FILE: b2CollideCircle.cpp
-FILE: b2CollideCircle.cpp
 COMMENT: comment [b2CollideCircle.cpp <58:2 58:57>]
 COMMENT: comment [b2CollideCircle.cpp <62:2 62:34>]
 REFERENCE_MACRO_USAGE b2CollideCircle.cpp -> b2_maxFloat [b2CollideCircle.cpp <64:24 64:34>]
@@ -38,7 +34,6 @@ REFERENCE_USAGE void b2CollideCircles(b2Manifold *, const b2CircleShape *, const
 LOCAL_SYMBOL: b2CollideCircle.cpp<25:23> [b2CollideCircle.cpp <30:25 30:31>]
 LOCAL_SYMBOL: b2CollideCircle.cpp<31:9> [b2CollideCircle.cpp <31:9 31:10>]
 REFERENCE_TYPE_USAGE void b2CollideCircles(b2Manifold *, const b2CircleShape *, const b2Transform &, const b2CircleShape *, const b2Transform &) -> b2Vec2 [b2CollideCircle.cpp <31:2 31:7>]
-SYMBOL_FUNCTION b2Vec2 b2Mul(const b2Transform &, const b2Vec2 &)
 REFERENCE_CALL void b2CollideCircles(b2Manifold *, const b2CircleShape *, const b2Transform &, const b2CircleShape *, const b2Transform &) -> b2Vec2 b2Mul(const b2Transform &, const b2Vec2 &) [b2CollideCircle.cpp <31:14 31:18>]
 LOCAL_SYMBOL: b2CollideCircle.cpp<26:51> [b2CollideCircle.cpp <31:20 31:22>]
 REFERENCE_USAGE void b2CollideCircles(b2Manifold *, const b2CircleShape *, const b2Transform &, const b2CircleShape *, const b2Transform &) -> b2Vec2 b2CircleShape::m_p [b2CollideCircle.cpp <31:34 31:36>]
@@ -60,7 +55,6 @@ REFERENCE_TYPE_USAGE void b2CollideCircles(b2Manifold *, const b2CircleShape *, 
 REFERENCE_USAGE void b2CollideCircles(b2Manifold *, const b2CircleShape *, const b2Transform &, const b2CircleShape *, const b2Transform &) -> float32 b2Shape::m_radius [b2CollideCircle.cpp <35:24 35:31>]
 LOCAL_SYMBOL: b2CollideCircle.cpp<25:23> [b2CollideCircle.cpp <35:15 35:21>]
 LOCAL_SYMBOL: b2CollideCircle.cpp<35:34> [b2CollideCircle.cpp <35:34 35:35>]
-REFERENCE_TYPE_USAGE void b2CollideCircles(b2Manifold *, const b2CircleShape *, const b2Transform &, const b2CircleShape *, const b2Transform &) -> float32 [b2CollideCircle.cpp <35:2 35:8>]
 REFERENCE_USAGE void b2CollideCircles(b2Manifold *, const b2CircleShape *, const b2Transform &, const b2CircleShape *, const b2Transform &) -> float32 b2Shape::m_radius [b2CollideCircle.cpp <35:48 35:55>]
 LOCAL_SYMBOL: b2CollideCircle.cpp<26:23> [b2CollideCircle.cpp <35:39 35:45>]
 LOCAL_SYMBOL: b2CollideCircle.cpp<36:10> [b2CollideCircle.cpp <36:10 36:15>]
@@ -74,6 +68,7 @@ REFERENCE_USAGE void b2CollideCircles(b2Manifold *, const b2CircleShape *, const
 LOCAL_SYMBOL: b2CollideCircle.cpp<24:14> [b2CollideCircle.cpp <42:2 42:9>]
 REFERENCE_USAGE void b2CollideCircles(b2Manifold *, const b2CircleShape *, const b2Transform &, const b2CircleShape *, const b2Transform &) -> b2Manifold::Type::e_circles [b2CollideCircle.cpp <42:31 42:39>]
 SYMBOL_STRUCT b2Manifold
+QUALIFIER: b2Manifold [b2CollideCircle.cpp <42:19 42:28>]
 SYMBOL_FUNCTION b2Vec2 & b2Vec2::operator=(const b2Vec2 &)
 REFERENCE_CALL void b2CollideCircles(b2Manifold *, const b2CircleShape *, const b2Transform &, const b2CircleShape *, const b2Transform &) -> b2Vec2 & b2Vec2::operator=(const b2Vec2 &) [b2CollideCircle.cpp <43:23 43:23>]
 REFERENCE_USAGE void b2CollideCircles(b2Manifold *, const b2CircleShape *, const b2Transform &, const b2CircleShape *, const b2Transform &) -> b2Vec2 b2Manifold::localPoint [b2CollideCircle.cpp <43:12 43:21>]
@@ -86,7 +81,6 @@ REFERENCE_USAGE void b2CollideCircles(b2Manifold *, const b2CircleShape *, const
 LOCAL_SYMBOL: b2CollideCircle.cpp<24:14> [b2CollideCircle.cpp <44:2 44:9>]
 REFERENCE_USAGE void b2CollideCircles(b2Manifold *, const b2CircleShape *, const b2Transform &, const b2CircleShape *, const b2Transform &) -> int32 b2Manifold::pointCount [b2CollideCircle.cpp <45:12 45:21>]
 LOCAL_SYMBOL: b2CollideCircle.cpp<24:14> [b2CollideCircle.cpp <45:2 45:9>]
-SYMBOL_FUNCTION b2Vec2 & b2Vec2::operator=(const b2Vec2 &)
 REFERENCE_CALL void b2CollideCircles(b2Manifold *, const b2CircleShape *, const b2Transform &, const b2CircleShape *, const b2Transform &) -> b2Vec2 & b2Vec2::operator=(const b2Vec2 &) [b2CollideCircle.cpp <47:33 47:33>]
 REFERENCE_USAGE void b2CollideCircles(b2Manifold *, const b2CircleShape *, const b2Transform &, const b2CircleShape *, const b2Transform &) -> b2Vec2 b2ManifoldPoint::localPoint [b2CollideCircle.cpp <47:22 47:31>]
 REFERENCE_USAGE void b2CollideCircles(b2Manifold *, const b2CircleShape *, const b2Transform &, const b2CircleShape *, const b2Transform &) -> b2ManifoldPoint [] b2Manifold::points [b2CollideCircle.cpp <47:12 47:17>]
@@ -98,7 +92,6 @@ REFERENCE_USAGE void b2CollideCircles(b2Manifold *, const b2CircleShape *, const
 REFERENCE_USAGE void b2CollideCircles(b2Manifold *, const b2CircleShape *, const b2Transform &, const b2CircleShape *, const b2Transform &) -> b2ManifoldPoint [] b2Manifold::points [b2CollideCircle.cpp <48:12 48:17>]
 LOCAL_SYMBOL: b2CollideCircle.cpp<24:14> [b2CollideCircle.cpp <48:2 48:9>]
 SYMBOL_FUNCTION void b2CollidePolygonAndCircle(b2Manifold *, const b2PolygonShape *, const b2Transform &, const b2CircleShape *, const b2Transform &) [b2CollideCircle.cpp <51:1 <51:6 51:30> 154:1>]
-SYMBOL_BUILTIN_TYPE void
 REFERENCE_TYPE_USAGE void b2CollidePolygonAndCircle(b2Manifold *, const b2PolygonShape *, const b2Transform &, const b2CircleShape *, const b2Transform &) -> void [b2CollideCircle.cpp <51:1 51:4>]
 LOCAL_SYMBOL: b2CollideCircle.cpp<52:14> [b2CollideCircle.cpp <52:14 52:21>]
 REFERENCE_TYPE_USAGE void b2CollidePolygonAndCircle(b2Manifold *, const b2PolygonShape *, const b2Transform &, const b2CircleShape *, const b2Transform &) -> b2Manifold [b2CollideCircle.cpp <52:2 52:11>]
@@ -114,7 +107,6 @@ REFERENCE_USAGE void b2CollidePolygonAndCircle(b2Manifold *, const b2PolygonShap
 LOCAL_SYMBOL: b2CollideCircle.cpp<52:14> [b2CollideCircle.cpp <56:2 56:9>]
 LOCAL_SYMBOL: b2CollideCircle.cpp<59:9> [b2CollideCircle.cpp <59:9 59:9>]
 REFERENCE_TYPE_USAGE void b2CollidePolygonAndCircle(b2Manifold *, const b2PolygonShape *, const b2Transform &, const b2CircleShape *, const b2Transform &) -> b2Vec2 [b2CollideCircle.cpp <59:2 59:7>]
-SYMBOL_FUNCTION b2Vec2 b2Mul(const b2Transform &, const b2Vec2 &)
 REFERENCE_CALL void b2CollidePolygonAndCircle(b2Manifold *, const b2PolygonShape *, const b2Transform &, const b2CircleShape *, const b2Transform &) -> b2Vec2 b2Mul(const b2Transform &, const b2Vec2 &) [b2CollideCircle.cpp <59:13 59:17>]
 LOCAL_SYMBOL: b2CollideCircle.cpp<54:51> [b2CollideCircle.cpp <59:19 59:21>]
 REFERENCE_USAGE void b2CollidePolygonAndCircle(b2Manifold *, const b2PolygonShape *, const b2Transform &, const b2CircleShape *, const b2Transform &) -> b2Vec2 b2CircleShape::m_p [b2CollideCircle.cpp <59:33 59:35>]
@@ -154,11 +146,9 @@ LOCAL_SYMBOL: b2CollideCircle.cpp<66:8> [b2CollideCircle.cpp <70:24 70:34>]
 LOCAL_SYMBOL: b2CollideCircle.cpp<70:13> [b2CollideCircle.cpp <70:39 70:39>]
 LOCAL_SYMBOL: b2CollideCircle.cpp<72:11> [b2CollideCircle.cpp <72:11 72:11>]
 REFERENCE_TYPE_USAGE void b2CollidePolygonAndCircle(b2Manifold *, const b2PolygonShape *, const b2Transform &, const b2CircleShape *, const b2Transform &) -> float32 [b2CollideCircle.cpp <72:3 72:9>]
-SYMBOL_FUNCTION float32 b2Dot(const b2Vec2 &, const b2Vec2 &)
 REFERENCE_CALL void b2CollidePolygonAndCircle(b2Manifold *, const b2PolygonShape *, const b2Transform &, const b2CircleShape *, const b2Transform &) -> float32 b2Dot(const b2Vec2 &, const b2Vec2 &) [b2CollideCircle.cpp <72:15 72:19>]
 LOCAL_SYMBOL: b2CollideCircle.cpp<68:16> [b2CollideCircle.cpp <72:21 72:27>]
 LOCAL_SYMBOL: b2CollideCircle.cpp<70:13> [b2CollideCircle.cpp <72:29 72:29>]
-SYMBOL_FUNCTION b2Vec2 operator-(const b2Vec2 &, const b2Vec2 &)
 REFERENCE_CALL void b2CollidePolygonAndCircle(b2Manifold *, const b2PolygonShape *, const b2Transform &, const b2CircleShape *, const b2Transform &) -> b2Vec2 operator-(const b2Vec2 &, const b2Vec2 &) [b2CollideCircle.cpp <72:40 72:40>]
 LOCAL_SYMBOL: b2CollideCircle.cpp<60:9> [b2CollideCircle.cpp <72:33 72:38>]
 LOCAL_SYMBOL: b2CollideCircle.cpp<67:16> [b2CollideCircle.cpp <72:42 72:49>]
@@ -187,7 +177,6 @@ LOCAL_SYMBOL: b2CollideCircle.cpp<67:16> [b2CollideCircle.cpp <90:14 90:21>]
 LOCAL_SYMBOL: b2CollideCircle.cpp<88:8> [b2CollideCircle.cpp <90:23 90:32>]
 LOCAL_SYMBOL: b2CollideCircle.cpp<91:9> [b2CollideCircle.cpp <91:9 91:10>]
 REFERENCE_TYPE_USAGE void b2CollidePolygonAndCircle(b2Manifold *, const b2PolygonShape *, const b2Transform &, const b2CircleShape *, const b2Transform &) -> b2Vec2 [b2CollideCircle.cpp <91:2 91:7>]
-SYMBOL_FUNCTION void b2Vec2::b2Vec2(const b2Vec2 &)
 REFERENCE_CALL void b2CollidePolygonAndCircle(b2Manifold *, const b2PolygonShape *, const b2Transform &, const b2CircleShape *, const b2Transform &) -> void b2Vec2::b2Vec2(const b2Vec2 &) [b2CollideCircle.cpp <91:33 91:33>]
 LOCAL_SYMBOL: b2CollideCircle.cpp<67:16> [b2CollideCircle.cpp <91:14 91:21>]
 LOCAL_SYMBOL: b2CollideCircle.cpp<89:8> [b2CollideCircle.cpp <91:23 91:32>]
@@ -197,8 +186,7 @@ LOCAL_SYMBOL: b2CollideCircle.cpp<52:14> [b2CollideCircle.cpp <96:3 96:10>]
 REFERENCE_USAGE void b2CollidePolygonAndCircle(b2Manifold *, const b2PolygonShape *, const b2Transform &, const b2CircleShape *, const b2Transform &) -> b2Manifold::Type b2Manifold::type [b2CollideCircle.cpp <97:13 97:16>]
 LOCAL_SYMBOL: b2CollideCircle.cpp<52:14> [b2CollideCircle.cpp <97:3 97:10>]
 REFERENCE_USAGE void b2CollidePolygonAndCircle(b2Manifold *, const b2PolygonShape *, const b2Transform &, const b2CircleShape *, const b2Transform &) -> b2Manifold::Type::e_faceA [b2CollideCircle.cpp <97:32 97:38>]
-SYMBOL_STRUCT b2Manifold
-SYMBOL_FUNCTION b2Vec2 & b2Vec2::operator=(const b2Vec2 &)
+QUALIFIER: b2Manifold [b2CollideCircle.cpp <97:20 97:29>]
 REFERENCE_CALL void b2CollidePolygonAndCircle(b2Manifold *, const b2PolygonShape *, const b2Transform &, const b2CircleShape *, const b2Transform &) -> b2Vec2 & b2Vec2::operator=(const b2Vec2 &) [b2CollideCircle.cpp <98:25 98:25>]
 REFERENCE_USAGE void b2CollidePolygonAndCircle(b2Manifold *, const b2PolygonShape *, const b2Transform &, const b2CircleShape *, const b2Transform &) -> b2Vec2 b2Manifold::localNormal [b2CollideCircle.cpp <98:13 98:23>]
 LOCAL_SYMBOL: b2CollideCircle.cpp<52:14> [b2CollideCircle.cpp <98:3 98:10>]
@@ -214,7 +202,6 @@ SYMBOL_FUNCTION b2Vec2 operator+(const b2Vec2 &, const b2Vec2 &)
 REFERENCE_CALL void b2CollidePolygonAndCircle(b2Manifold *, const b2PolygonShape *, const b2Transform &, const b2CircleShape *, const b2Transform &) -> b2Vec2 operator+(const b2Vec2 &, const b2Vec2 &) [b2CollideCircle.cpp <99:37 99:37>]
 LOCAL_SYMBOL: b2CollideCircle.cpp<90:9> [b2CollideCircle.cpp <99:34 99:35>]
 LOCAL_SYMBOL: b2CollideCircle.cpp<91:9> [b2CollideCircle.cpp <99:39 99:40>]
-SYMBOL_FUNCTION b2Vec2 & b2Vec2::operator=(const b2Vec2 &)
 REFERENCE_CALL void b2CollidePolygonAndCircle(b2Manifold *, const b2PolygonShape *, const b2Transform &, const b2CircleShape *, const b2Transform &) -> b2Vec2 & b2Vec2::operator=(const b2Vec2 &) [b2CollideCircle.cpp <100:34 100:34>]
 REFERENCE_USAGE void b2CollidePolygonAndCircle(b2Manifold *, const b2PolygonShape *, const b2Transform &, const b2CircleShape *, const b2Transform &) -> b2Vec2 b2ManifoldPoint::localPoint [b2CollideCircle.cpp <100:23 100:32>]
 REFERENCE_USAGE void b2CollidePolygonAndCircle(b2Manifold *, const b2PolygonShape *, const b2Transform &, const b2CircleShape *, const b2Transform &) -> b2ManifoldPoint [] b2Manifold::points [b2CollideCircle.cpp <100:13 100:18>]
@@ -227,25 +214,19 @@ REFERENCE_USAGE void b2CollidePolygonAndCircle(b2Manifold *, const b2PolygonShap
 LOCAL_SYMBOL: b2CollideCircle.cpp<52:14> [b2CollideCircle.cpp <101:3 101:10>]
 LOCAL_SYMBOL: b2CollideCircle.cpp<106:10> [b2CollideCircle.cpp <106:10 106:11>]
 REFERENCE_TYPE_USAGE void b2CollidePolygonAndCircle(b2Manifold *, const b2PolygonShape *, const b2Transform &, const b2CircleShape *, const b2Transform &) -> float32 [b2CollideCircle.cpp <106:2 106:8>]
-SYMBOL_FUNCTION float32 b2Dot(const b2Vec2 &, const b2Vec2 &)
 REFERENCE_CALL void b2CollidePolygonAndCircle(b2Manifold *, const b2PolygonShape *, const b2Transform &, const b2CircleShape *, const b2Transform &) -> float32 b2Dot(const b2Vec2 &, const b2Vec2 &) [b2CollideCircle.cpp <106:15 106:19>]
-SYMBOL_FUNCTION b2Vec2 operator-(const b2Vec2 &, const b2Vec2 &)
 REFERENCE_CALL void b2CollidePolygonAndCircle(b2Manifold *, const b2PolygonShape *, const b2Transform &, const b2CircleShape *, const b2Transform &) -> b2Vec2 operator-(const b2Vec2 &, const b2Vec2 &) [b2CollideCircle.cpp <106:28 106:28>]
 LOCAL_SYMBOL: b2CollideCircle.cpp<60:9> [b2CollideCircle.cpp <106:21 106:26>]
 LOCAL_SYMBOL: b2CollideCircle.cpp<90:9> [b2CollideCircle.cpp <106:30 106:31>]
-SYMBOL_FUNCTION b2Vec2 operator-(const b2Vec2 &, const b2Vec2 &)
 REFERENCE_CALL void b2CollidePolygonAndCircle(b2Manifold *, const b2PolygonShape *, const b2Transform &, const b2CircleShape *, const b2Transform &) -> b2Vec2 operator-(const b2Vec2 &, const b2Vec2 &) [b2CollideCircle.cpp <106:37 106:37>]
 LOCAL_SYMBOL: b2CollideCircle.cpp<91:9> [b2CollideCircle.cpp <106:34 106:35>]
 LOCAL_SYMBOL: b2CollideCircle.cpp<90:9> [b2CollideCircle.cpp <106:39 106:40>]
 LOCAL_SYMBOL: b2CollideCircle.cpp<107:10> [b2CollideCircle.cpp <107:10 107:11>]
 REFERENCE_TYPE_USAGE void b2CollidePolygonAndCircle(b2Manifold *, const b2PolygonShape *, const b2Transform &, const b2CircleShape *, const b2Transform &) -> float32 [b2CollideCircle.cpp <107:2 107:8>]
-SYMBOL_FUNCTION float32 b2Dot(const b2Vec2 &, const b2Vec2 &)
 REFERENCE_CALL void b2CollidePolygonAndCircle(b2Manifold *, const b2PolygonShape *, const b2Transform &, const b2CircleShape *, const b2Transform &) -> float32 b2Dot(const b2Vec2 &, const b2Vec2 &) [b2CollideCircle.cpp <107:15 107:19>]
-SYMBOL_FUNCTION b2Vec2 operator-(const b2Vec2 &, const b2Vec2 &)
 REFERENCE_CALL void b2CollidePolygonAndCircle(b2Manifold *, const b2PolygonShape *, const b2Transform &, const b2CircleShape *, const b2Transform &) -> b2Vec2 operator-(const b2Vec2 &, const b2Vec2 &) [b2CollideCircle.cpp <107:28 107:28>]
 LOCAL_SYMBOL: b2CollideCircle.cpp<60:9> [b2CollideCircle.cpp <107:21 107:26>]
 LOCAL_SYMBOL: b2CollideCircle.cpp<91:9> [b2CollideCircle.cpp <107:30 107:31>]
-SYMBOL_FUNCTION b2Vec2 operator-(const b2Vec2 &, const b2Vec2 &)
 REFERENCE_CALL void b2CollidePolygonAndCircle(b2Manifold *, const b2PolygonShape *, const b2Transform &, const b2CircleShape *, const b2Transform &) -> b2Vec2 operator-(const b2Vec2 &, const b2Vec2 &) [b2CollideCircle.cpp <107:37 107:37>]
 LOCAL_SYMBOL: b2CollideCircle.cpp<90:9> [b2CollideCircle.cpp <107:34 107:35>]
 LOCAL_SYMBOL: b2CollideCircle.cpp<91:9> [b2CollideCircle.cpp <107:39 107:40>]
@@ -261,12 +242,10 @@ LOCAL_SYMBOL: b2CollideCircle.cpp<52:14> [b2CollideCircle.cpp <115:3 115:10>]
 REFERENCE_USAGE void b2CollidePolygonAndCircle(b2Manifold *, const b2PolygonShape *, const b2Transform &, const b2CircleShape *, const b2Transform &) -> b2Manifold::Type b2Manifold::type [b2CollideCircle.cpp <116:13 116:16>]
 LOCAL_SYMBOL: b2CollideCircle.cpp<52:14> [b2CollideCircle.cpp <116:3 116:10>]
 REFERENCE_USAGE void b2CollidePolygonAndCircle(b2Manifold *, const b2PolygonShape *, const b2Transform &, const b2CircleShape *, const b2Transform &) -> b2Manifold::Type::e_faceA [b2CollideCircle.cpp <116:32 116:38>]
-SYMBOL_STRUCT b2Manifold
-SYMBOL_FUNCTION b2Vec2 & b2Vec2::operator=(b2Vec2 &)
+QUALIFIER: b2Manifold [b2CollideCircle.cpp <116:20 116:29>]
 REFERENCE_CALL void b2CollidePolygonAndCircle(b2Manifold *, const b2PolygonShape *, const b2Transform &, const b2CircleShape *, const b2Transform &) -> b2Vec2 & b2Vec2::operator=(b2Vec2 &) [b2CollideCircle.cpp <117:25 117:25>]
 REFERENCE_USAGE void b2CollidePolygonAndCircle(b2Manifold *, const b2PolygonShape *, const b2Transform &, const b2CircleShape *, const b2Transform &) -> b2Vec2 b2Manifold::localNormal [b2CollideCircle.cpp <117:13 117:23>]
 LOCAL_SYMBOL: b2CollideCircle.cpp<52:14> [b2CollideCircle.cpp <117:3 117:10>]
-SYMBOL_FUNCTION b2Vec2 operator-(const b2Vec2 &, const b2Vec2 &)
 REFERENCE_CALL void b2CollidePolygonAndCircle(b2Manifold *, const b2PolygonShape *, const b2Transform &, const b2CircleShape *, const b2Transform &) -> b2Vec2 operator-(const b2Vec2 &, const b2Vec2 &) [b2CollideCircle.cpp <117:34 117:34>]
 LOCAL_SYMBOL: b2CollideCircle.cpp<60:9> [b2CollideCircle.cpp <117:27 117:32>]
 LOCAL_SYMBOL: b2CollideCircle.cpp<90:9> [b2CollideCircle.cpp <117:36 117:37>]
@@ -274,12 +253,10 @@ SYMBOL_FUNCTION float32 b2Vec2::Normalize()
 REFERENCE_CALL void b2CollidePolygonAndCircle(b2Manifold *, const b2PolygonShape *, const b2Transform &, const b2CircleShape *, const b2Transform &) -> float32 b2Vec2::Normalize() [b2CollideCircle.cpp <118:25 118:33>]
 REFERENCE_USAGE void b2CollidePolygonAndCircle(b2Manifold *, const b2PolygonShape *, const b2Transform &, const b2CircleShape *, const b2Transform &) -> b2Vec2 b2Manifold::localNormal [b2CollideCircle.cpp <118:13 118:23>]
 LOCAL_SYMBOL: b2CollideCircle.cpp<52:14> [b2CollideCircle.cpp <118:3 118:10>]
-SYMBOL_FUNCTION b2Vec2 & b2Vec2::operator=(const b2Vec2 &)
 REFERENCE_CALL void b2CollidePolygonAndCircle(b2Manifold *, const b2PolygonShape *, const b2Transform &, const b2CircleShape *, const b2Transform &) -> b2Vec2 & b2Vec2::operator=(const b2Vec2 &) [b2CollideCircle.cpp <119:24 119:24>]
 REFERENCE_USAGE void b2CollidePolygonAndCircle(b2Manifold *, const b2PolygonShape *, const b2Transform &, const b2CircleShape *, const b2Transform &) -> b2Vec2 b2Manifold::localPoint [b2CollideCircle.cpp <119:13 119:22>]
 LOCAL_SYMBOL: b2CollideCircle.cpp<52:14> [b2CollideCircle.cpp <119:3 119:10>]
 LOCAL_SYMBOL: b2CollideCircle.cpp<90:9> [b2CollideCircle.cpp <119:26 119:27>]
-SYMBOL_FUNCTION b2Vec2 & b2Vec2::operator=(const b2Vec2 &)
 REFERENCE_CALL void b2CollidePolygonAndCircle(b2Manifold *, const b2PolygonShape *, const b2Transform &, const b2CircleShape *, const b2Transform &) -> b2Vec2 & b2Vec2::operator=(const b2Vec2 &) [b2CollideCircle.cpp <120:34 120:34>]
 REFERENCE_USAGE void b2CollidePolygonAndCircle(b2Manifold *, const b2PolygonShape *, const b2Transform &, const b2CircleShape *, const b2Transform &) -> b2Vec2 b2ManifoldPoint::localPoint [b2CollideCircle.cpp <120:23 120:32>]
 REFERENCE_USAGE void b2CollidePolygonAndCircle(b2Manifold *, const b2PolygonShape *, const b2Transform &, const b2CircleShape *, const b2Transform &) -> b2ManifoldPoint [] b2Manifold::points [b2CollideCircle.cpp <120:13 120:18>]
@@ -291,7 +268,6 @@ REFERENCE_USAGE void b2CollidePolygonAndCircle(b2Manifold *, const b2PolygonShap
 REFERENCE_USAGE void b2CollidePolygonAndCircle(b2Manifold *, const b2PolygonShape *, const b2Transform &, const b2CircleShape *, const b2Transform &) -> b2ManifoldPoint [] b2Manifold::points [b2CollideCircle.cpp <121:13 121:18>]
 LOCAL_SYMBOL: b2CollideCircle.cpp<52:14> [b2CollideCircle.cpp <121:3 121:10>]
 LOCAL_SYMBOL: b2CollideCircle.cpp<107:10> [b2CollideCircle.cpp <123:11 123:12>]
-SYMBOL_FUNCTION float32 b2DistanceSquared(const b2Vec2 &, const b2Vec2 &)
 REFERENCE_CALL void b2CollidePolygonAndCircle(b2Manifold *, const b2PolygonShape *, const b2Transform &, const b2CircleShape *, const b2Transform &) -> float32 b2DistanceSquared(const b2Vec2 &, const b2Vec2 &) [b2CollideCircle.cpp <125:7 125:23>]
 LOCAL_SYMBOL: b2CollideCircle.cpp<60:9> [b2CollideCircle.cpp <125:25 125:30>]
 LOCAL_SYMBOL: b2CollideCircle.cpp<91:9> [b2CollideCircle.cpp <125:33 125:34>]
@@ -302,25 +278,20 @@ LOCAL_SYMBOL: b2CollideCircle.cpp<52:14> [b2CollideCircle.cpp <130:3 130:10>]
 REFERENCE_USAGE void b2CollidePolygonAndCircle(b2Manifold *, const b2PolygonShape *, const b2Transform &, const b2CircleShape *, const b2Transform &) -> b2Manifold::Type b2Manifold::type [b2CollideCircle.cpp <131:13 131:16>]
 LOCAL_SYMBOL: b2CollideCircle.cpp<52:14> [b2CollideCircle.cpp <131:3 131:10>]
 REFERENCE_USAGE void b2CollidePolygonAndCircle(b2Manifold *, const b2PolygonShape *, const b2Transform &, const b2CircleShape *, const b2Transform &) -> b2Manifold::Type::e_faceA [b2CollideCircle.cpp <131:32 131:38>]
-SYMBOL_STRUCT b2Manifold
-SYMBOL_FUNCTION b2Vec2 & b2Vec2::operator=(b2Vec2 &)
+QUALIFIER: b2Manifold [b2CollideCircle.cpp <131:20 131:29>]
 REFERENCE_CALL void b2CollidePolygonAndCircle(b2Manifold *, const b2PolygonShape *, const b2Transform &, const b2CircleShape *, const b2Transform &) -> b2Vec2 & b2Vec2::operator=(b2Vec2 &) [b2CollideCircle.cpp <132:25 132:25>]
 REFERENCE_USAGE void b2CollidePolygonAndCircle(b2Manifold *, const b2PolygonShape *, const b2Transform &, const b2CircleShape *, const b2Transform &) -> b2Vec2 b2Manifold::localNormal [b2CollideCircle.cpp <132:13 132:23>]
 LOCAL_SYMBOL: b2CollideCircle.cpp<52:14> [b2CollideCircle.cpp <132:3 132:10>]
-SYMBOL_FUNCTION b2Vec2 operator-(const b2Vec2 &, const b2Vec2 &)
 REFERENCE_CALL void b2CollidePolygonAndCircle(b2Manifold *, const b2PolygonShape *, const b2Transform &, const b2CircleShape *, const b2Transform &) -> b2Vec2 operator-(const b2Vec2 &, const b2Vec2 &) [b2CollideCircle.cpp <132:34 132:34>]
 LOCAL_SYMBOL: b2CollideCircle.cpp<60:9> [b2CollideCircle.cpp <132:27 132:32>]
 LOCAL_SYMBOL: b2CollideCircle.cpp<91:9> [b2CollideCircle.cpp <132:36 132:37>]
-SYMBOL_FUNCTION float32 b2Vec2::Normalize()
 REFERENCE_CALL void b2CollidePolygonAndCircle(b2Manifold *, const b2PolygonShape *, const b2Transform &, const b2CircleShape *, const b2Transform &) -> float32 b2Vec2::Normalize() [b2CollideCircle.cpp <133:25 133:33>]
 REFERENCE_USAGE void b2CollidePolygonAndCircle(b2Manifold *, const b2PolygonShape *, const b2Transform &, const b2CircleShape *, const b2Transform &) -> b2Vec2 b2Manifold::localNormal [b2CollideCircle.cpp <133:13 133:23>]
 LOCAL_SYMBOL: b2CollideCircle.cpp<52:14> [b2CollideCircle.cpp <133:3 133:10>]
-SYMBOL_FUNCTION b2Vec2 & b2Vec2::operator=(const b2Vec2 &)
 REFERENCE_CALL void b2CollidePolygonAndCircle(b2Manifold *, const b2PolygonShape *, const b2Transform &, const b2CircleShape *, const b2Transform &) -> b2Vec2 & b2Vec2::operator=(const b2Vec2 &) [b2CollideCircle.cpp <134:24 134:24>]
 REFERENCE_USAGE void b2CollidePolygonAndCircle(b2Manifold *, const b2PolygonShape *, const b2Transform &, const b2CircleShape *, const b2Transform &) -> b2Vec2 b2Manifold::localPoint [b2CollideCircle.cpp <134:13 134:22>]
 LOCAL_SYMBOL: b2CollideCircle.cpp<52:14> [b2CollideCircle.cpp <134:3 134:10>]
 LOCAL_SYMBOL: b2CollideCircle.cpp<91:9> [b2CollideCircle.cpp <134:26 134:27>]
-SYMBOL_FUNCTION b2Vec2 & b2Vec2::operator=(const b2Vec2 &)
 REFERENCE_CALL void b2CollidePolygonAndCircle(b2Manifold *, const b2PolygonShape *, const b2Transform &, const b2CircleShape *, const b2Transform &) -> b2Vec2 & b2Vec2::operator=(const b2Vec2 &) [b2CollideCircle.cpp <135:34 135:34>]
 REFERENCE_USAGE void b2CollidePolygonAndCircle(b2Manifold *, const b2PolygonShape *, const b2Transform &, const b2CircleShape *, const b2Transform &) -> b2Vec2 b2ManifoldPoint::localPoint [b2CollideCircle.cpp <135:23 135:32>]
 REFERENCE_USAGE void b2CollidePolygonAndCircle(b2Manifold *, const b2PolygonShape *, const b2Transform &, const b2CircleShape *, const b2Transform &) -> b2ManifoldPoint [] b2Manifold::points [b2CollideCircle.cpp <135:13 135:18>]
@@ -333,17 +304,13 @@ REFERENCE_USAGE void b2CollidePolygonAndCircle(b2Manifold *, const b2PolygonShap
 LOCAL_SYMBOL: b2CollideCircle.cpp<52:14> [b2CollideCircle.cpp <136:3 136:10>]
 LOCAL_SYMBOL: b2CollideCircle.cpp<140:10> [b2CollideCircle.cpp <140:10 140:19>]
 REFERENCE_TYPE_USAGE void b2CollidePolygonAndCircle(b2Manifold *, const b2PolygonShape *, const b2Transform &, const b2CircleShape *, const b2Transform &) -> b2Vec2 [b2CollideCircle.cpp <140:3 140:8>]
-SYMBOL_FUNCTION b2Vec2 operator*(float32, const b2Vec2 &)
 REFERENCE_CALL void b2CollidePolygonAndCircle(b2Manifold *, const b2PolygonShape *, const b2Transform &, const b2CircleShape *, const b2Transform &) -> b2Vec2 operator*(float32, const b2Vec2 &) [b2CollideCircle.cpp <140:28 140:28>]
-SYMBOL_FUNCTION b2Vec2 operator+(const b2Vec2 &, const b2Vec2 &)
 REFERENCE_CALL void b2CollidePolygonAndCircle(b2Manifold *, const b2PolygonShape *, const b2Transform &, const b2CircleShape *, const b2Transform &) -> b2Vec2 operator+(const b2Vec2 &, const b2Vec2 &) [b2CollideCircle.cpp <140:34 140:34>]
 LOCAL_SYMBOL: b2CollideCircle.cpp<90:9> [b2CollideCircle.cpp <140:31 140:32>]
 LOCAL_SYMBOL: b2CollideCircle.cpp<91:9> [b2CollideCircle.cpp <140:36 140:37>]
 LOCAL_SYMBOL: b2CollideCircle.cpp<141:11> [b2CollideCircle.cpp <141:11 141:11>]
 REFERENCE_TYPE_USAGE void b2CollidePolygonAndCircle(b2Manifold *, const b2PolygonShape *, const b2Transform &, const b2CircleShape *, const b2Transform &) -> float32 [b2CollideCircle.cpp <141:3 141:9>]
-SYMBOL_FUNCTION float32 b2Dot(const b2Vec2 &, const b2Vec2 &)
 REFERENCE_CALL void b2CollidePolygonAndCircle(b2Manifold *, const b2PolygonShape *, const b2Transform &, const b2CircleShape *, const b2Transform &) -> float32 b2Dot(const b2Vec2 &, const b2Vec2 &) [b2CollideCircle.cpp <141:15 141:19>]
-SYMBOL_FUNCTION b2Vec2 operator-(const b2Vec2 &, const b2Vec2 &)
 REFERENCE_CALL void b2CollidePolygonAndCircle(b2Manifold *, const b2PolygonShape *, const b2Transform &, const b2CircleShape *, const b2Transform &) -> b2Vec2 operator-(const b2Vec2 &, const b2Vec2 &) [b2CollideCircle.cpp <141:28 141:28>]
 LOCAL_SYMBOL: b2CollideCircle.cpp<60:9> [b2CollideCircle.cpp <141:21 141:26>]
 LOCAL_SYMBOL: b2CollideCircle.cpp<140:10> [b2CollideCircle.cpp <141:30 141:39>]
@@ -356,19 +323,16 @@ LOCAL_SYMBOL: b2CollideCircle.cpp<52:14> [b2CollideCircle.cpp <147:3 147:10>]
 REFERENCE_USAGE void b2CollidePolygonAndCircle(b2Manifold *, const b2PolygonShape *, const b2Transform &, const b2CircleShape *, const b2Transform &) -> b2Manifold::Type b2Manifold::type [b2CollideCircle.cpp <148:13 148:16>]
 LOCAL_SYMBOL: b2CollideCircle.cpp<52:14> [b2CollideCircle.cpp <148:3 148:10>]
 REFERENCE_USAGE void b2CollidePolygonAndCircle(b2Manifold *, const b2PolygonShape *, const b2Transform &, const b2CircleShape *, const b2Transform &) -> b2Manifold::Type::e_faceA [b2CollideCircle.cpp <148:32 148:38>]
-SYMBOL_STRUCT b2Manifold
-SYMBOL_FUNCTION b2Vec2 & b2Vec2::operator=(const b2Vec2 &)
+QUALIFIER: b2Manifold [b2CollideCircle.cpp <148:20 148:29>]
 REFERENCE_CALL void b2CollidePolygonAndCircle(b2Manifold *, const b2PolygonShape *, const b2Transform &, const b2CircleShape *, const b2Transform &) -> b2Vec2 & b2Vec2::operator=(const b2Vec2 &) [b2CollideCircle.cpp <149:25 149:25>]
 REFERENCE_USAGE void b2CollidePolygonAndCircle(b2Manifold *, const b2PolygonShape *, const b2Transform &, const b2CircleShape *, const b2Transform &) -> b2Vec2 b2Manifold::localNormal [b2CollideCircle.cpp <149:13 149:23>]
 LOCAL_SYMBOL: b2CollideCircle.cpp<52:14> [b2CollideCircle.cpp <149:3 149:10>]
 LOCAL_SYMBOL: b2CollideCircle.cpp<68:16> [b2CollideCircle.cpp <149:27 149:33>]
 LOCAL_SYMBOL: b2CollideCircle.cpp<88:8> [b2CollideCircle.cpp <149:35 149:44>]
-SYMBOL_FUNCTION b2Vec2 & b2Vec2::operator=(const b2Vec2 &)
 REFERENCE_CALL void b2CollidePolygonAndCircle(b2Manifold *, const b2PolygonShape *, const b2Transform &, const b2CircleShape *, const b2Transform &) -> b2Vec2 & b2Vec2::operator=(const b2Vec2 &) [b2CollideCircle.cpp <150:24 150:24>]
 REFERENCE_USAGE void b2CollidePolygonAndCircle(b2Manifold *, const b2PolygonShape *, const b2Transform &, const b2CircleShape *, const b2Transform &) -> b2Vec2 b2Manifold::localPoint [b2CollideCircle.cpp <150:13 150:22>]
 LOCAL_SYMBOL: b2CollideCircle.cpp<52:14> [b2CollideCircle.cpp <150:3 150:10>]
 LOCAL_SYMBOL: b2CollideCircle.cpp<140:10> [b2CollideCircle.cpp <150:26 150:35>]
-SYMBOL_FUNCTION b2Vec2 & b2Vec2::operator=(const b2Vec2 &)
 REFERENCE_CALL void b2CollidePolygonAndCircle(b2Manifold *, const b2PolygonShape *, const b2Transform &, const b2CircleShape *, const b2Transform &) -> b2Vec2 & b2Vec2::operator=(const b2Vec2 &) [b2CollideCircle.cpp <151:34 151:34>]
 REFERENCE_USAGE void b2CollidePolygonAndCircle(b2Manifold *, const b2PolygonShape *, const b2Transform &, const b2CircleShape *, const b2Transform &) -> b2Vec2 b2ManifoldPoint::localPoint [b2CollideCircle.cpp <151:23 151:32>]
 REFERENCE_USAGE void b2CollidePolygonAndCircle(b2Manifold *, const b2PolygonShape *, const b2Transform &, const b2CircleShape *, const b2Transform &) -> b2ManifoldPoint [] b2Manifold::points [b2CollideCircle.cpp <151:13 151:18>]

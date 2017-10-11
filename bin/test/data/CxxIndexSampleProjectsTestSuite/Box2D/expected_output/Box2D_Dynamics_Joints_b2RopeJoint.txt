@@ -1,9 +1,5 @@
 FILE: b2RopeJoint.cpp
-FILE: b2RopeJoint.cpp
 COMMENT: comment [b2RopeJoint.cpp <1:1 17:3>]
-FILE: b2RopeJoint.cpp
-FILE: b2RopeJoint.cpp
-FILE: b2RopeJoint.cpp
 COMMENT: comment [b2RopeJoint.cpp <24:1 24:10>]
 COMMENT: comment [b2RopeJoint.cpp <25:1 25:25>]
 COMMENT: comment [b2RopeJoint.cpp <26:1 26:33>]
@@ -21,6 +17,7 @@ REFERENCE_MACRO_USAGE b2RopeJoint.cpp -> b2_linearSlop [b2RopeJoint.cpp <193:32 
 REFERENCE_MACRO_USAGE b2RopeJoint.cpp -> B2_NOT_USED [b2RopeJoint.cpp <214:2 214:12>]
 SYMBOL_METHOD protected void b2RopeJoint::b2RopeJoint(const b2RopeJointDef *) [b2RopeJoint.cpp <32:1 <32:14 32:24> 44:1>]
 SYMBOL_CLASS b2RopeJoint
+QUALIFIER: b2RopeJoint [b2RopeJoint.cpp <32:1 32:11>]
 LOCAL_SYMBOL: b2RopeJoint.cpp<32:48> [b2RopeJoint.cpp <32:48 32:50>]
 REFERENCE_TYPE_USAGE void b2RopeJoint::b2RopeJoint(const b2RopeJointDef *) -> b2RopeJointDef [b2RopeJoint.cpp <32:32 32:45>]
 REFERENCE_TYPE_USAGE void b2RopeJoint::b2RopeJoint(const b2RopeJointDef *) -> b2Joint [b2RopeJoint.cpp <33:3 33:9>]
@@ -31,29 +28,16 @@ REFERENCE_USAGE void b2RopeJoint::b2RopeJoint(const b2RopeJointDef *) -> b2Vec2 
 SYMBOL_FUNCTION void b2Vec2::b2Vec2()
 REFERENCE_CALL void b2RopeJoint::b2RopeJoint(const b2RopeJointDef *) -> void b2Vec2::b2Vec2() [b2RopeJoint.cpp <32:14 32:24>]
 REFERENCE_USAGE void b2RopeJoint::b2RopeJoint(const b2RopeJointDef *) -> b2Vec2 b2RopeJoint::m_localAnchorB [b2RopeJoint.cpp <32:14 32:24>]
-SYMBOL_FUNCTION void b2Vec2::b2Vec2()
-REFERENCE_CALL void b2RopeJoint::b2RopeJoint(const b2RopeJointDef *) -> void b2Vec2::b2Vec2() [b2RopeJoint.cpp <32:14 32:24>]
 REFERENCE_USAGE void b2RopeJoint::b2RopeJoint(const b2RopeJointDef *) -> b2Vec2 b2RopeJoint::m_u [b2RopeJoint.cpp <32:14 32:24>]
-SYMBOL_FUNCTION void b2Vec2::b2Vec2()
-REFERENCE_CALL void b2RopeJoint::b2RopeJoint(const b2RopeJointDef *) -> void b2Vec2::b2Vec2() [b2RopeJoint.cpp <32:14 32:24>]
 REFERENCE_USAGE void b2RopeJoint::b2RopeJoint(const b2RopeJointDef *) -> b2Vec2 b2RopeJoint::m_rA [b2RopeJoint.cpp <32:14 32:24>]
-SYMBOL_FUNCTION void b2Vec2::b2Vec2()
-REFERENCE_CALL void b2RopeJoint::b2RopeJoint(const b2RopeJointDef *) -> void b2Vec2::b2Vec2() [b2RopeJoint.cpp <32:14 32:24>]
 REFERENCE_USAGE void b2RopeJoint::b2RopeJoint(const b2RopeJointDef *) -> b2Vec2 b2RopeJoint::m_rB [b2RopeJoint.cpp <32:14 32:24>]
-SYMBOL_FUNCTION void b2Vec2::b2Vec2()
-REFERENCE_CALL void b2RopeJoint::b2RopeJoint(const b2RopeJointDef *) -> void b2Vec2::b2Vec2() [b2RopeJoint.cpp <32:14 32:24>]
 REFERENCE_USAGE void b2RopeJoint::b2RopeJoint(const b2RopeJointDef *) -> b2Vec2 b2RopeJoint::m_localCenterA [b2RopeJoint.cpp <32:14 32:24>]
-SYMBOL_FUNCTION void b2Vec2::b2Vec2()
-REFERENCE_CALL void b2RopeJoint::b2RopeJoint(const b2RopeJointDef *) -> void b2Vec2::b2Vec2() [b2RopeJoint.cpp <32:14 32:24>]
 REFERENCE_USAGE void b2RopeJoint::b2RopeJoint(const b2RopeJointDef *) -> b2Vec2 b2RopeJoint::m_localCenterB [b2RopeJoint.cpp <32:14 32:24>]
-SYMBOL_FUNCTION void b2Vec2::b2Vec2()
-REFERENCE_CALL void b2RopeJoint::b2RopeJoint(const b2RopeJointDef *) -> void b2Vec2::b2Vec2() [b2RopeJoint.cpp <32:14 32:24>]
 SYMBOL_FUNCTION b2Vec2 & b2Vec2::operator=(const b2Vec2 &)
 REFERENCE_CALL void b2RopeJoint::b2RopeJoint(const b2RopeJointDef *) -> b2Vec2 & b2Vec2::operator=(const b2Vec2 &) [b2RopeJoint.cpp <35:17 35:17>]
 REFERENCE_USAGE void b2RopeJoint::b2RopeJoint(const b2RopeJointDef *) -> b2Vec2 b2RopeJoint::m_localAnchorA [b2RopeJoint.cpp <35:2 35:15>]
 REFERENCE_USAGE void b2RopeJoint::b2RopeJoint(const b2RopeJointDef *) -> b2Vec2 b2RopeJointDef::localAnchorA [b2RopeJoint.cpp <35:24 35:35>]
 LOCAL_SYMBOL: b2RopeJoint.cpp<32:48> [b2RopeJoint.cpp <35:19 35:21>]
-SYMBOL_FUNCTION b2Vec2 & b2Vec2::operator=(const b2Vec2 &)
 REFERENCE_CALL void b2RopeJoint::b2RopeJoint(const b2RopeJointDef *) -> b2Vec2 & b2Vec2::operator=(const b2Vec2 &) [b2RopeJoint.cpp <36:17 36:17>]
 REFERENCE_USAGE void b2RopeJoint::b2RopeJoint(const b2RopeJointDef *) -> b2Vec2 b2RopeJoint::m_localAnchorB [b2RopeJoint.cpp <36:2 36:15>]
 REFERENCE_USAGE void b2RopeJoint::b2RopeJoint(const b2RopeJointDef *) -> b2Vec2 b2RopeJointDef::localAnchorB [b2RopeJoint.cpp <36:24 36:35>]
@@ -69,7 +53,7 @@ REFERENCE_USAGE void b2RopeJoint::b2RopeJoint(const b2RopeJointDef *) -> float32
 SYMBOL_METHOD protected void b2RopeJoint::InitVelocityConstraints(const b2SolverData &) [b2RopeJoint.cpp <46:1 <46:19 46:41> 124:1>]
 SYMBOL_FUNCTION void b2Joint::InitVelocityConstraints(const b2SolverData &)
 REFERENCE_OVERRIDE void b2RopeJoint::InitVelocityConstraints(const b2SolverData &) -> void b2Joint::InitVelocityConstraints(const b2SolverData &) [b2RopeJoint.cpp <46:19 46:41>]
-SYMBOL_CLASS b2RopeJoint
+QUALIFIER: b2RopeJoint [b2RopeJoint.cpp <46:6 46:16>]
 SYMBOL_BUILTIN_TYPE void
 REFERENCE_TYPE_USAGE void b2RopeJoint::InitVelocityConstraints(const b2SolverData &) -> void [b2RopeJoint.cpp <46:1 46:4>]
 LOCAL_SYMBOL: b2RopeJoint.cpp<46:63> [b2RopeJoint.cpp <46:63 46:66>]
@@ -80,13 +64,11 @@ REFERENCE_USAGE void b2RopeJoint::InitVelocityConstraints(const b2SolverData &) 
 REFERENCE_USAGE void b2RopeJoint::InitVelocityConstraints(const b2SolverData &) -> int32 b2RopeJoint::m_indexB [b2RopeJoint.cpp <49:2 49:9>]
 REFERENCE_USAGE void b2RopeJoint::InitVelocityConstraints(const b2SolverData &) -> int32 b2Body::m_islandIndex [b2RopeJoint.cpp <49:22 49:34>]
 REFERENCE_USAGE void b2RopeJoint::InitVelocityConstraints(const b2SolverData &) -> b2Body * b2Joint::m_bodyB [b2RopeJoint.cpp <49:13 49:19>]
-SYMBOL_FUNCTION b2Vec2 & b2Vec2::operator=(const b2Vec2 &)
 REFERENCE_CALL void b2RopeJoint::InitVelocityConstraints(const b2SolverData &) -> b2Vec2 & b2Vec2::operator=(const b2Vec2 &) [b2RopeJoint.cpp <50:17 50:17>]
 REFERENCE_USAGE void b2RopeJoint::InitVelocityConstraints(const b2SolverData &) -> b2Vec2 b2RopeJoint::m_localCenterA [b2RopeJoint.cpp <50:2 50:15>]
 REFERENCE_USAGE void b2RopeJoint::InitVelocityConstraints(const b2SolverData &) -> b2Vec2 b2Sweep::localCenter [b2RopeJoint.cpp <50:36 50:46>]
 REFERENCE_USAGE void b2RopeJoint::InitVelocityConstraints(const b2SolverData &) -> b2Sweep b2Body::m_sweep [b2RopeJoint.cpp <50:28 50:34>]
 REFERENCE_USAGE void b2RopeJoint::InitVelocityConstraints(const b2SolverData &) -> b2Body * b2Joint::m_bodyA [b2RopeJoint.cpp <50:19 50:25>]
-SYMBOL_FUNCTION b2Vec2 & b2Vec2::operator=(const b2Vec2 &)
 REFERENCE_CALL void b2RopeJoint::InitVelocityConstraints(const b2SolverData &) -> b2Vec2 & b2Vec2::operator=(const b2Vec2 &) [b2RopeJoint.cpp <51:17 51:17>]
 REFERENCE_USAGE void b2RopeJoint::InitVelocityConstraints(const b2SolverData &) -> b2Vec2 b2RopeJoint::m_localCenterB [b2RopeJoint.cpp <51:2 51:15>]
 REFERENCE_USAGE void b2RopeJoint::InitVelocityConstraints(const b2SolverData &) -> b2Vec2 b2Sweep::localCenter [b2RopeJoint.cpp <51:36 51:46>]
@@ -120,7 +102,6 @@ LOCAL_SYMBOL: b2RopeJoint.cpp<46:63> [b2RopeJoint.cpp <58:15 58:18>]
 REFERENCE_USAGE void b2RopeJoint::InitVelocityConstraints(const b2SolverData &) -> int32 b2RopeJoint::m_indexA [b2RopeJoint.cpp <58:30 58:37>]
 LOCAL_SYMBOL: b2RopeJoint.cpp<59:9> [b2RopeJoint.cpp <59:9 59:10>]
 REFERENCE_TYPE_USAGE void b2RopeJoint::InitVelocityConstraints(const b2SolverData &) -> b2Vec2 [b2RopeJoint.cpp <59:2 59:7>]
-SYMBOL_FUNCTION void b2Vec2::b2Vec2(const b2Vec2 &)
 REFERENCE_CALL void b2RopeJoint::InitVelocityConstraints(const b2SolverData &) -> void b2Vec2::b2Vec2(const b2Vec2 &) [b2RopeJoint.cpp <59:40 59:40>]
 REFERENCE_USAGE void b2RopeJoint::InitVelocityConstraints(const b2SolverData &) -> b2Vec2 b2Velocity::v [b2RopeJoint.cpp <59:40 59:40>]
 REFERENCE_USAGE void b2RopeJoint::InitVelocityConstraints(const b2SolverData &) -> b2Velocity * b2SolverData::velocities [b2RopeJoint.cpp <59:19 59:28>]
@@ -134,7 +115,6 @@ LOCAL_SYMBOL: b2RopeJoint.cpp<46:63> [b2RopeJoint.cpp <60:15 60:18>]
 REFERENCE_USAGE void b2RopeJoint::InitVelocityConstraints(const b2SolverData &) -> int32 b2RopeJoint::m_indexA [b2RopeJoint.cpp <60:31 60:38>]
 LOCAL_SYMBOL: b2RopeJoint.cpp<62:9> [b2RopeJoint.cpp <62:9 62:10>]
 REFERENCE_TYPE_USAGE void b2RopeJoint::InitVelocityConstraints(const b2SolverData &) -> b2Vec2 [b2RopeJoint.cpp <62:2 62:7>]
-SYMBOL_FUNCTION void b2Vec2::b2Vec2(const b2Vec2 &)
 REFERENCE_CALL void b2RopeJoint::InitVelocityConstraints(const b2SolverData &) -> void b2Vec2::b2Vec2(const b2Vec2 &) [b2RopeJoint.cpp <62:39 62:39>]
 REFERENCE_USAGE void b2RopeJoint::InitVelocityConstraints(const b2SolverData &) -> b2Vec2 b2Position::c [b2RopeJoint.cpp <62:39 62:39>]
 REFERENCE_USAGE void b2RopeJoint::InitVelocityConstraints(const b2SolverData &) -> b2Position * b2SolverData::positions [b2RopeJoint.cpp <62:19 62:27>]
@@ -148,7 +128,6 @@ LOCAL_SYMBOL: b2RopeJoint.cpp<46:63> [b2RopeJoint.cpp <63:15 63:18>]
 REFERENCE_USAGE void b2RopeJoint::InitVelocityConstraints(const b2SolverData &) -> int32 b2RopeJoint::m_indexB [b2RopeJoint.cpp <63:30 63:37>]
 LOCAL_SYMBOL: b2RopeJoint.cpp<64:9> [b2RopeJoint.cpp <64:9 64:10>]
 REFERENCE_TYPE_USAGE void b2RopeJoint::InitVelocityConstraints(const b2SolverData &) -> b2Vec2 [b2RopeJoint.cpp <64:2 64:7>]
-SYMBOL_FUNCTION void b2Vec2::b2Vec2(const b2Vec2 &)
 REFERENCE_CALL void b2RopeJoint::InitVelocityConstraints(const b2SolverData &) -> void b2Vec2::b2Vec2(const b2Vec2 &) [b2RopeJoint.cpp <64:40 64:40>]
 REFERENCE_USAGE void b2RopeJoint::InitVelocityConstraints(const b2SolverData &) -> b2Vec2 b2Velocity::v [b2RopeJoint.cpp <64:40 64:40>]
 REFERENCE_USAGE void b2RopeJoint::InitVelocityConstraints(const b2SolverData &) -> b2Velocity * b2SolverData::velocities [b2RopeJoint.cpp <64:19 64:28>]
@@ -166,8 +145,6 @@ SYMBOL_FUNCTION void b2Rot::b2Rot(float32)
 REFERENCE_CALL void b2RopeJoint::InitVelocityConstraints(const b2SolverData &) -> void b2Rot::b2Rot(float32) [b2RopeJoint.cpp <67:8 67:9>]
 LOCAL_SYMBOL: b2RopeJoint.cpp<58:10> [b2RopeJoint.cpp <67:11 67:12>]
 LOCAL_SYMBOL: b2RopeJoint.cpp<67:16> [b2RopeJoint.cpp <67:16 67:17>]
-REFERENCE_TYPE_USAGE void b2RopeJoint::InitVelocityConstraints(const b2SolverData &) -> b2Rot [b2RopeJoint.cpp <67:2 67:6>]
-SYMBOL_FUNCTION void b2Rot::b2Rot(float32)
 REFERENCE_CALL void b2RopeJoint::InitVelocityConstraints(const b2SolverData &) -> void b2Rot::b2Rot(float32) [b2RopeJoint.cpp <67:16 67:17>]
 LOCAL_SYMBOL: b2RopeJoint.cpp<63:10> [b2RopeJoint.cpp <67:19 67:20>]
 SYMBOL_FUNCTION b2Vec2 & b2Vec2::operator=(b2Vec2 &)
@@ -180,22 +157,16 @@ SYMBOL_FUNCTION b2Vec2 operator-(const b2Vec2 &, const b2Vec2 &)
 REFERENCE_CALL void b2RopeJoint::InitVelocityConstraints(const b2SolverData &) -> b2Vec2 operator-(const b2Vec2 &, const b2Vec2 &) [b2RopeJoint.cpp <69:34 69:34>]
 REFERENCE_USAGE void b2RopeJoint::InitVelocityConstraints(const b2SolverData &) -> b2Vec2 b2RopeJoint::m_localAnchorA [b2RopeJoint.cpp <69:19 69:32>]
 REFERENCE_USAGE void b2RopeJoint::InitVelocityConstraints(const b2SolverData &) -> b2Vec2 b2RopeJoint::m_localCenterA [b2RopeJoint.cpp <69:36 69:49>]
-SYMBOL_FUNCTION b2Vec2 & b2Vec2::operator=(b2Vec2 &)
 REFERENCE_CALL void b2RopeJoint::InitVelocityConstraints(const b2SolverData &) -> b2Vec2 & b2Vec2::operator=(b2Vec2 &) [b2RopeJoint.cpp <70:7 70:7>]
 REFERENCE_USAGE void b2RopeJoint::InitVelocityConstraints(const b2SolverData &) -> b2Vec2 b2RopeJoint::m_rB [b2RopeJoint.cpp <70:2 70:5>]
-SYMBOL_FUNCTION b2Vec2 b2Mul(const b2Rot &, const b2Vec2 &)
 REFERENCE_CALL void b2RopeJoint::InitVelocityConstraints(const b2SolverData &) -> b2Vec2 b2Mul(const b2Rot &, const b2Vec2 &) [b2RopeJoint.cpp <70:9 70:13>]
 LOCAL_SYMBOL: b2RopeJoint.cpp<67:16> [b2RopeJoint.cpp <70:15 70:16>]
-SYMBOL_FUNCTION b2Vec2 operator-(const b2Vec2 &, const b2Vec2 &)
 REFERENCE_CALL void b2RopeJoint::InitVelocityConstraints(const b2SolverData &) -> b2Vec2 operator-(const b2Vec2 &, const b2Vec2 &) [b2RopeJoint.cpp <70:34 70:34>]
 REFERENCE_USAGE void b2RopeJoint::InitVelocityConstraints(const b2SolverData &) -> b2Vec2 b2RopeJoint::m_localAnchorB [b2RopeJoint.cpp <70:19 70:32>]
 REFERENCE_USAGE void b2RopeJoint::InitVelocityConstraints(const b2SolverData &) -> b2Vec2 b2RopeJoint::m_localCenterB [b2RopeJoint.cpp <70:36 70:49>]
-SYMBOL_FUNCTION b2Vec2 & b2Vec2::operator=(b2Vec2 &)
 REFERENCE_CALL void b2RopeJoint::InitVelocityConstraints(const b2SolverData &) -> b2Vec2 & b2Vec2::operator=(b2Vec2 &) [b2RopeJoint.cpp <71:6 71:6>]
 REFERENCE_USAGE void b2RopeJoint::InitVelocityConstraints(const b2SolverData &) -> b2Vec2 b2RopeJoint::m_u [b2RopeJoint.cpp <71:2 71:4>]
-SYMBOL_FUNCTION b2Vec2 operator-(const b2Vec2 &, const b2Vec2 &)
 REFERENCE_CALL void b2RopeJoint::InitVelocityConstraints(const b2SolverData &) -> b2Vec2 operator-(const b2Vec2 &, const b2Vec2 &) [b2RopeJoint.cpp <71:23 71:23>]
-SYMBOL_FUNCTION b2Vec2 operator-(const b2Vec2 &, const b2Vec2 &)
 REFERENCE_CALL void b2RopeJoint::InitVelocityConstraints(const b2SolverData &) -> b2Vec2 operator-(const b2Vec2 &, const b2Vec2 &) [b2RopeJoint.cpp <71:18 71:18>]
 SYMBOL_FUNCTION b2Vec2 operator+(const b2Vec2 &, const b2Vec2 &)
 REFERENCE_CALL void b2RopeJoint::InitVelocityConstraints(const b2SolverData &) -> b2Vec2 operator+(const b2Vec2 &, const b2Vec2 &) [b2RopeJoint.cpp <71:11 71:11>]
@@ -234,7 +205,6 @@ REFERENCE_USAGE void b2RopeJoint::InitVelocityConstraints(const b2SolverData &) 
 REFERENCE_USAGE void b2RopeJoint::InitVelocityConstraints(const b2SolverData &) -> b2Vec2 b2RopeJoint::m_u [b2RopeJoint.cpp <98:30 98:32>]
 LOCAL_SYMBOL: b2RopeJoint.cpp<99:10> [b2RopeJoint.cpp <99:10 99:12>]
 REFERENCE_TYPE_USAGE void b2RopeJoint::InitVelocityConstraints(const b2SolverData &) -> float32 [b2RopeJoint.cpp <99:2 99:8>]
-SYMBOL_FUNCTION float32 b2Cross(const b2Vec2 &, const b2Vec2 &)
 REFERENCE_CALL void b2RopeJoint::InitVelocityConstraints(const b2SolverData &) -> float32 b2Cross(const b2Vec2 &, const b2Vec2 &) [b2RopeJoint.cpp <99:16 99:22>]
 REFERENCE_USAGE void b2RopeJoint::InitVelocityConstraints(const b2SolverData &) -> b2Vec2 b2RopeJoint::m_rB [b2RopeJoint.cpp <99:24 99:27>]
 REFERENCE_USAGE void b2RopeJoint::InitVelocityConstraints(const b2SolverData &) -> b2Vec2 b2RopeJoint::m_u [b2RopeJoint.cpp <99:30 99:32>]
@@ -267,31 +237,26 @@ REFERENCE_USAGE void b2RopeJoint::InitVelocityConstraints(const b2SolverData &) 
 SYMBOL_FUNCTION void b2Vec2::operator-=(const b2Vec2 &)
 REFERENCE_CALL void b2RopeJoint::InitVelocityConstraints(const b2SolverData &) -> void b2Vec2::operator-=(const b2Vec2 &) [b2RopeJoint.cpp <110:6 110:7>]
 LOCAL_SYMBOL: b2RopeJoint.cpp<59:9> [b2RopeJoint.cpp <110:3 110:4>]
-SYMBOL_FUNCTION b2Vec2 operator*(float32, const b2Vec2 &)
 REFERENCE_CALL void b2RopeJoint::InitVelocityConstraints(const b2SolverData &) -> b2Vec2 operator*(float32, const b2Vec2 &) [b2RopeJoint.cpp <110:20 110:20>]
 REFERENCE_USAGE void b2RopeJoint::InitVelocityConstraints(const b2SolverData &) -> float32 b2RopeJoint::m_invMassA [b2RopeJoint.cpp <110:9 110:18>]
 LOCAL_SYMBOL: b2RopeJoint.cpp<109:10> [b2RopeJoint.cpp <110:22 110:22>]
 LOCAL_SYMBOL: b2RopeJoint.cpp<60:10> [b2RopeJoint.cpp <111:3 111:4>]
 REFERENCE_USAGE void b2RopeJoint::InitVelocityConstraints(const b2SolverData &) -> float32 b2RopeJoint::m_invIA [b2RopeJoint.cpp <111:9 111:15>]
-SYMBOL_FUNCTION float32 b2Cross(const b2Vec2 &, const b2Vec2 &)
 REFERENCE_CALL void b2RopeJoint::InitVelocityConstraints(const b2SolverData &) -> float32 b2Cross(const b2Vec2 &, const b2Vec2 &) [b2RopeJoint.cpp <111:19 111:25>]
 REFERENCE_USAGE void b2RopeJoint::InitVelocityConstraints(const b2SolverData &) -> b2Vec2 b2RopeJoint::m_rA [b2RopeJoint.cpp <111:27 111:30>]
 LOCAL_SYMBOL: b2RopeJoint.cpp<109:10> [b2RopeJoint.cpp <111:33 111:33>]
 SYMBOL_FUNCTION void b2Vec2::operator+=(const b2Vec2 &)
 REFERENCE_CALL void b2RopeJoint::InitVelocityConstraints(const b2SolverData &) -> void b2Vec2::operator+=(const b2Vec2 &) [b2RopeJoint.cpp <112:6 112:7>]
 LOCAL_SYMBOL: b2RopeJoint.cpp<64:9> [b2RopeJoint.cpp <112:3 112:4>]
-SYMBOL_FUNCTION b2Vec2 operator*(float32, const b2Vec2 &)
 REFERENCE_CALL void b2RopeJoint::InitVelocityConstraints(const b2SolverData &) -> b2Vec2 operator*(float32, const b2Vec2 &) [b2RopeJoint.cpp <112:20 112:20>]
 REFERENCE_USAGE void b2RopeJoint::InitVelocityConstraints(const b2SolverData &) -> float32 b2RopeJoint::m_invMassB [b2RopeJoint.cpp <112:9 112:18>]
 LOCAL_SYMBOL: b2RopeJoint.cpp<109:10> [b2RopeJoint.cpp <112:22 112:22>]
 LOCAL_SYMBOL: b2RopeJoint.cpp<65:10> [b2RopeJoint.cpp <113:3 113:4>]
 REFERENCE_USAGE void b2RopeJoint::InitVelocityConstraints(const b2SolverData &) -> float32 b2RopeJoint::m_invIB [b2RopeJoint.cpp <113:9 113:15>]
-SYMBOL_FUNCTION float32 b2Cross(const b2Vec2 &, const b2Vec2 &)
 REFERENCE_CALL void b2RopeJoint::InitVelocityConstraints(const b2SolverData &) -> float32 b2Cross(const b2Vec2 &, const b2Vec2 &) [b2RopeJoint.cpp <113:19 113:25>]
 REFERENCE_USAGE void b2RopeJoint::InitVelocityConstraints(const b2SolverData &) -> b2Vec2 b2RopeJoint::m_rB [b2RopeJoint.cpp <113:27 113:30>]
 LOCAL_SYMBOL: b2RopeJoint.cpp<109:10> [b2RopeJoint.cpp <113:33 113:33>]
 REFERENCE_USAGE void b2RopeJoint::InitVelocityConstraints(const b2SolverData &) -> float32 b2RopeJoint::m_impulse [b2RopeJoint.cpp <117:3 117:11>]
-SYMBOL_FUNCTION b2Vec2 & b2Vec2::operator=(const b2Vec2 &)
 REFERENCE_CALL void b2RopeJoint::InitVelocityConstraints(const b2SolverData &) -> b2Vec2 & b2Vec2::operator=(const b2Vec2 &) [b2RopeJoint.cpp <120:30 120:30>]
 REFERENCE_USAGE void b2RopeJoint::InitVelocityConstraints(const b2SolverData &) -> b2Vec2 b2Velocity::v [b2RopeJoint.cpp <120:28 120:28>]
 REFERENCE_USAGE void b2RopeJoint::InitVelocityConstraints(const b2SolverData &) -> b2Velocity * b2SolverData::velocities [b2RopeJoint.cpp <120:7 120:16>]
@@ -303,7 +268,6 @@ REFERENCE_USAGE void b2RopeJoint::InitVelocityConstraints(const b2SolverData &) 
 LOCAL_SYMBOL: b2RopeJoint.cpp<46:63> [b2RopeJoint.cpp <121:2 121:5>]
 REFERENCE_USAGE void b2RopeJoint::InitVelocityConstraints(const b2SolverData &) -> int32 b2RopeJoint::m_indexA [b2RopeJoint.cpp <121:18 121:25>]
 LOCAL_SYMBOL: b2RopeJoint.cpp<60:10> [b2RopeJoint.cpp <121:32 121:33>]
-SYMBOL_FUNCTION b2Vec2 & b2Vec2::operator=(const b2Vec2 &)
 REFERENCE_CALL void b2RopeJoint::InitVelocityConstraints(const b2SolverData &) -> b2Vec2 & b2Vec2::operator=(const b2Vec2 &) [b2RopeJoint.cpp <122:30 122:30>]
 REFERENCE_USAGE void b2RopeJoint::InitVelocityConstraints(const b2SolverData &) -> b2Vec2 b2Velocity::v [b2RopeJoint.cpp <122:28 122:28>]
 REFERENCE_USAGE void b2RopeJoint::InitVelocityConstraints(const b2SolverData &) -> b2Velocity * b2SolverData::velocities [b2RopeJoint.cpp <122:7 122:16>]
@@ -318,14 +282,12 @@ LOCAL_SYMBOL: b2RopeJoint.cpp<65:10> [b2RopeJoint.cpp <123:32 123:33>]
 SYMBOL_METHOD protected void b2RopeJoint::SolveVelocityConstraints(const b2SolverData &) [b2RopeJoint.cpp <126:1 <126:19 126:42> 160:1>]
 SYMBOL_FUNCTION void b2Joint::SolveVelocityConstraints(const b2SolverData &)
 REFERENCE_OVERRIDE void b2RopeJoint::SolveVelocityConstraints(const b2SolverData &) -> void b2Joint::SolveVelocityConstraints(const b2SolverData &) [b2RopeJoint.cpp <126:19 126:42>]
-SYMBOL_CLASS b2RopeJoint
-SYMBOL_BUILTIN_TYPE void
+QUALIFIER: b2RopeJoint [b2RopeJoint.cpp <126:6 126:16>]
 REFERENCE_TYPE_USAGE void b2RopeJoint::SolveVelocityConstraints(const b2SolverData &) -> void [b2RopeJoint.cpp <126:1 126:4>]
 LOCAL_SYMBOL: b2RopeJoint.cpp<126:64> [b2RopeJoint.cpp <126:64 126:67>]
 REFERENCE_TYPE_USAGE void b2RopeJoint::SolveVelocityConstraints(const b2SolverData &) -> b2SolverData [b2RopeJoint.cpp <126:50 126:61>]
 LOCAL_SYMBOL: b2RopeJoint.cpp<128:9> [b2RopeJoint.cpp <128:9 128:10>]
 REFERENCE_TYPE_USAGE void b2RopeJoint::SolveVelocityConstraints(const b2SolverData &) -> b2Vec2 [b2RopeJoint.cpp <128:2 128:7>]
-SYMBOL_FUNCTION void b2Vec2::b2Vec2(const b2Vec2 &)
 REFERENCE_CALL void b2RopeJoint::SolveVelocityConstraints(const b2SolverData &) -> void b2Vec2::b2Vec2(const b2Vec2 &) [b2RopeJoint.cpp <128:40 128:40>]
 REFERENCE_USAGE void b2RopeJoint::SolveVelocityConstraints(const b2SolverData &) -> b2Vec2 b2Velocity::v [b2RopeJoint.cpp <128:40 128:40>]
 REFERENCE_USAGE void b2RopeJoint::SolveVelocityConstraints(const b2SolverData &) -> b2Velocity * b2SolverData::velocities [b2RopeJoint.cpp <128:19 128:28>]
@@ -339,7 +301,6 @@ LOCAL_SYMBOL: b2RopeJoint.cpp<126:64> [b2RopeJoint.cpp <129:15 129:18>]
 REFERENCE_USAGE void b2RopeJoint::SolveVelocityConstraints(const b2SolverData &) -> int32 b2RopeJoint::m_indexA [b2RopeJoint.cpp <129:31 129:38>]
 LOCAL_SYMBOL: b2RopeJoint.cpp<130:9> [b2RopeJoint.cpp <130:9 130:10>]
 REFERENCE_TYPE_USAGE void b2RopeJoint::SolveVelocityConstraints(const b2SolverData &) -> b2Vec2 [b2RopeJoint.cpp <130:2 130:7>]
-SYMBOL_FUNCTION void b2Vec2::b2Vec2(const b2Vec2 &)
 REFERENCE_CALL void b2RopeJoint::SolveVelocityConstraints(const b2SolverData &) -> void b2Vec2::b2Vec2(const b2Vec2 &) [b2RopeJoint.cpp <130:40 130:40>]
 REFERENCE_USAGE void b2RopeJoint::SolveVelocityConstraints(const b2SolverData &) -> b2Vec2 b2Velocity::v [b2RopeJoint.cpp <130:40 130:40>]
 REFERENCE_USAGE void b2RopeJoint::SolveVelocityConstraints(const b2SolverData &) -> b2Velocity * b2SolverData::velocities [b2RopeJoint.cpp <130:19 130:28>]
@@ -353,7 +314,6 @@ LOCAL_SYMBOL: b2RopeJoint.cpp<126:64> [b2RopeJoint.cpp <131:15 131:18>]
 REFERENCE_USAGE void b2RopeJoint::SolveVelocityConstraints(const b2SolverData &) -> int32 b2RopeJoint::m_indexB [b2RopeJoint.cpp <131:31 131:38>]
 LOCAL_SYMBOL: b2RopeJoint.cpp<134:9> [b2RopeJoint.cpp <134:9 134:11>]
 REFERENCE_TYPE_USAGE void b2RopeJoint::SolveVelocityConstraints(const b2SolverData &) -> b2Vec2 [b2RopeJoint.cpp <134:2 134:7>]
-SYMBOL_FUNCTION b2Vec2 operator+(const b2Vec2 &, const b2Vec2 &)
 REFERENCE_CALL void b2RopeJoint::SolveVelocityConstraints(const b2SolverData &) -> b2Vec2 operator+(const b2Vec2 &, const b2Vec2 &) [b2RopeJoint.cpp <134:18 134:18>]
 LOCAL_SYMBOL: b2RopeJoint.cpp<128:9> [b2RopeJoint.cpp <134:15 134:16>]
 SYMBOL_FUNCTION b2Vec2 b2Cross(float32, const b2Vec2 &)
@@ -362,10 +322,8 @@ LOCAL_SYMBOL: b2RopeJoint.cpp<129:10> [b2RopeJoint.cpp <134:28 134:29>]
 REFERENCE_USAGE void b2RopeJoint::SolveVelocityConstraints(const b2SolverData &) -> b2Vec2 b2RopeJoint::m_rA [b2RopeJoint.cpp <134:32 134:35>]
 LOCAL_SYMBOL: b2RopeJoint.cpp<135:9> [b2RopeJoint.cpp <135:9 135:11>]
 REFERENCE_TYPE_USAGE void b2RopeJoint::SolveVelocityConstraints(const b2SolverData &) -> b2Vec2 [b2RopeJoint.cpp <135:2 135:7>]
-SYMBOL_FUNCTION b2Vec2 operator+(const b2Vec2 &, const b2Vec2 &)
 REFERENCE_CALL void b2RopeJoint::SolveVelocityConstraints(const b2SolverData &) -> b2Vec2 operator+(const b2Vec2 &, const b2Vec2 &) [b2RopeJoint.cpp <135:18 135:18>]
 LOCAL_SYMBOL: b2RopeJoint.cpp<130:9> [b2RopeJoint.cpp <135:15 135:16>]
-SYMBOL_FUNCTION b2Vec2 b2Cross(float32, const b2Vec2 &)
 REFERENCE_CALL void b2RopeJoint::SolveVelocityConstraints(const b2SolverData &) -> b2Vec2 b2Cross(float32, const b2Vec2 &) [b2RopeJoint.cpp <135:20 135:26>]
 LOCAL_SYMBOL: b2RopeJoint.cpp<131:10> [b2RopeJoint.cpp <135:28 135:29>]
 REFERENCE_USAGE void b2RopeJoint::SolveVelocityConstraints(const b2SolverData &) -> b2Vec2 b2RopeJoint::m_rB [b2RopeJoint.cpp <135:32 135:35>]
@@ -378,7 +336,6 @@ REFERENCE_TYPE_USAGE void b2RopeJoint::SolveVelocityConstraints(const b2SolverDa
 SYMBOL_FUNCTION float32 b2Dot(const b2Vec2 &, const b2Vec2 &)
 REFERENCE_CALL void b2RopeJoint::SolveVelocityConstraints(const b2SolverData &) -> float32 b2Dot(const b2Vec2 &, const b2Vec2 &) [b2RopeJoint.cpp <137:17 137:21>]
 REFERENCE_USAGE void b2RopeJoint::SolveVelocityConstraints(const b2SolverData &) -> b2Vec2 b2RopeJoint::m_u [b2RopeJoint.cpp <137:23 137:25>]
-SYMBOL_FUNCTION b2Vec2 operator-(const b2Vec2 &, const b2Vec2 &)
 REFERENCE_CALL void b2RopeJoint::SolveVelocityConstraints(const b2SolverData &) -> b2Vec2 operator-(const b2Vec2 &, const b2Vec2 &) [b2RopeJoint.cpp <137:32 137:32>]
 LOCAL_SYMBOL: b2RopeJoint.cpp<135:9> [b2RopeJoint.cpp <137:28 137:30>]
 LOCAL_SYMBOL: b2RopeJoint.cpp<134:9> [b2RopeJoint.cpp <137:34 137:36>]
@@ -405,37 +362,29 @@ REFERENCE_USAGE void b2RopeJoint::SolveVelocityConstraints(const b2SolverData &)
 LOCAL_SYMBOL: b2RopeJoint.cpp<146:10> [b2RopeJoint.cpp <148:24 148:33>]
 LOCAL_SYMBOL: b2RopeJoint.cpp<150:9> [b2RopeJoint.cpp <150:9 150:9>]
 REFERENCE_TYPE_USAGE void b2RopeJoint::SolveVelocityConstraints(const b2SolverData &) -> b2Vec2 [b2RopeJoint.cpp <150:2 150:7>]
-SYMBOL_FUNCTION b2Vec2 operator*(float32, const b2Vec2 &)
 REFERENCE_CALL void b2RopeJoint::SolveVelocityConstraints(const b2SolverData &) -> b2Vec2 operator*(float32, const b2Vec2 &) [b2RopeJoint.cpp <150:21 150:21>]
 LOCAL_SYMBOL: b2RopeJoint.cpp<145:10> [b2RopeJoint.cpp <150:13 150:19>]
 REFERENCE_USAGE void b2RopeJoint::SolveVelocityConstraints(const b2SolverData &) -> b2Vec2 b2RopeJoint::m_u [b2RopeJoint.cpp <150:23 150:25>]
-SYMBOL_FUNCTION void b2Vec2::operator-=(const b2Vec2 &)
 REFERENCE_CALL void b2RopeJoint::SolveVelocityConstraints(const b2SolverData &) -> void b2Vec2::operator-=(const b2Vec2 &) [b2RopeJoint.cpp <151:5 151:6>]
 LOCAL_SYMBOL: b2RopeJoint.cpp<128:9> [b2RopeJoint.cpp <151:2 151:3>]
-SYMBOL_FUNCTION b2Vec2 operator*(float32, const b2Vec2 &)
 REFERENCE_CALL void b2RopeJoint::SolveVelocityConstraints(const b2SolverData &) -> b2Vec2 operator*(float32, const b2Vec2 &) [b2RopeJoint.cpp <151:19 151:19>]
 REFERENCE_USAGE void b2RopeJoint::SolveVelocityConstraints(const b2SolverData &) -> float32 b2RopeJoint::m_invMassA [b2RopeJoint.cpp <151:8 151:17>]
 LOCAL_SYMBOL: b2RopeJoint.cpp<150:9> [b2RopeJoint.cpp <151:21 151:21>]
 LOCAL_SYMBOL: b2RopeJoint.cpp<129:10> [b2RopeJoint.cpp <152:2 152:3>]
 REFERENCE_USAGE void b2RopeJoint::SolveVelocityConstraints(const b2SolverData &) -> float32 b2RopeJoint::m_invIA [b2RopeJoint.cpp <152:8 152:14>]
-SYMBOL_FUNCTION float32 b2Cross(const b2Vec2 &, const b2Vec2 &)
 REFERENCE_CALL void b2RopeJoint::SolveVelocityConstraints(const b2SolverData &) -> float32 b2Cross(const b2Vec2 &, const b2Vec2 &) [b2RopeJoint.cpp <152:18 152:24>]
 REFERENCE_USAGE void b2RopeJoint::SolveVelocityConstraints(const b2SolverData &) -> b2Vec2 b2RopeJoint::m_rA [b2RopeJoint.cpp <152:26 152:29>]
 LOCAL_SYMBOL: b2RopeJoint.cpp<150:9> [b2RopeJoint.cpp <152:32 152:32>]
-SYMBOL_FUNCTION void b2Vec2::operator+=(const b2Vec2 &)
 REFERENCE_CALL void b2RopeJoint::SolveVelocityConstraints(const b2SolverData &) -> void b2Vec2::operator+=(const b2Vec2 &) [b2RopeJoint.cpp <153:5 153:6>]
 LOCAL_SYMBOL: b2RopeJoint.cpp<130:9> [b2RopeJoint.cpp <153:2 153:3>]
-SYMBOL_FUNCTION b2Vec2 operator*(float32, const b2Vec2 &)
 REFERENCE_CALL void b2RopeJoint::SolveVelocityConstraints(const b2SolverData &) -> b2Vec2 operator*(float32, const b2Vec2 &) [b2RopeJoint.cpp <153:19 153:19>]
 REFERENCE_USAGE void b2RopeJoint::SolveVelocityConstraints(const b2SolverData &) -> float32 b2RopeJoint::m_invMassB [b2RopeJoint.cpp <153:8 153:17>]
 LOCAL_SYMBOL: b2RopeJoint.cpp<150:9> [b2RopeJoint.cpp <153:21 153:21>]
 LOCAL_SYMBOL: b2RopeJoint.cpp<131:10> [b2RopeJoint.cpp <154:2 154:3>]
 REFERENCE_USAGE void b2RopeJoint::SolveVelocityConstraints(const b2SolverData &) -> float32 b2RopeJoint::m_invIB [b2RopeJoint.cpp <154:8 154:14>]
-SYMBOL_FUNCTION float32 b2Cross(const b2Vec2 &, const b2Vec2 &)
 REFERENCE_CALL void b2RopeJoint::SolveVelocityConstraints(const b2SolverData &) -> float32 b2Cross(const b2Vec2 &, const b2Vec2 &) [b2RopeJoint.cpp <154:18 154:24>]
 REFERENCE_USAGE void b2RopeJoint::SolveVelocityConstraints(const b2SolverData &) -> b2Vec2 b2RopeJoint::m_rB [b2RopeJoint.cpp <154:26 154:29>]
 LOCAL_SYMBOL: b2RopeJoint.cpp<150:9> [b2RopeJoint.cpp <154:32 154:32>]
-SYMBOL_FUNCTION b2Vec2 & b2Vec2::operator=(const b2Vec2 &)
 REFERENCE_CALL void b2RopeJoint::SolveVelocityConstraints(const b2SolverData &) -> b2Vec2 & b2Vec2::operator=(const b2Vec2 &) [b2RopeJoint.cpp <156:30 156:30>]
 REFERENCE_USAGE void b2RopeJoint::SolveVelocityConstraints(const b2SolverData &) -> b2Vec2 b2Velocity::v [b2RopeJoint.cpp <156:28 156:28>]
 REFERENCE_USAGE void b2RopeJoint::SolveVelocityConstraints(const b2SolverData &) -> b2Velocity * b2SolverData::velocities [b2RopeJoint.cpp <156:7 156:16>]
@@ -447,7 +396,6 @@ REFERENCE_USAGE void b2RopeJoint::SolveVelocityConstraints(const b2SolverData &)
 LOCAL_SYMBOL: b2RopeJoint.cpp<126:64> [b2RopeJoint.cpp <157:2 157:5>]
 REFERENCE_USAGE void b2RopeJoint::SolveVelocityConstraints(const b2SolverData &) -> int32 b2RopeJoint::m_indexA [b2RopeJoint.cpp <157:18 157:25>]
 LOCAL_SYMBOL: b2RopeJoint.cpp<129:10> [b2RopeJoint.cpp <157:32 157:33>]
-SYMBOL_FUNCTION b2Vec2 & b2Vec2::operator=(const b2Vec2 &)
 REFERENCE_CALL void b2RopeJoint::SolveVelocityConstraints(const b2SolverData &) -> b2Vec2 & b2Vec2::operator=(const b2Vec2 &) [b2RopeJoint.cpp <158:30 158:30>]
 REFERENCE_USAGE void b2RopeJoint::SolveVelocityConstraints(const b2SolverData &) -> b2Vec2 b2Velocity::v [b2RopeJoint.cpp <158:28 158:28>]
 REFERENCE_USAGE void b2RopeJoint::SolveVelocityConstraints(const b2SolverData &) -> b2Velocity * b2SolverData::velocities [b2RopeJoint.cpp <158:7 158:16>]
@@ -462,14 +410,13 @@ LOCAL_SYMBOL: b2RopeJoint.cpp<131:10> [b2RopeJoint.cpp <159:32 159:33>]
 SYMBOL_METHOD protected bool b2RopeJoint::SolvePositionConstraints(const b2SolverData &) [b2RopeJoint.cpp <162:1 <162:19 162:42> 194:1>]
 SYMBOL_FUNCTION bool b2Joint::SolvePositionConstraints(const b2SolverData &)
 REFERENCE_OVERRIDE bool b2RopeJoint::SolvePositionConstraints(const b2SolverData &) -> bool b2Joint::SolvePositionConstraints(const b2SolverData &) [b2RopeJoint.cpp <162:19 162:42>]
-SYMBOL_CLASS b2RopeJoint
+QUALIFIER: b2RopeJoint [b2RopeJoint.cpp <162:6 162:16>]
 SYMBOL_BUILTIN_TYPE bool
 REFERENCE_TYPE_USAGE bool b2RopeJoint::SolvePositionConstraints(const b2SolverData &) -> bool [b2RopeJoint.cpp <162:1 162:4>]
 LOCAL_SYMBOL: b2RopeJoint.cpp<162:64> [b2RopeJoint.cpp <162:64 162:67>]
 REFERENCE_TYPE_USAGE bool b2RopeJoint::SolvePositionConstraints(const b2SolverData &) -> b2SolverData [b2RopeJoint.cpp <162:50 162:61>]
 LOCAL_SYMBOL: b2RopeJoint.cpp<164:9> [b2RopeJoint.cpp <164:9 164:10>]
 REFERENCE_TYPE_USAGE bool b2RopeJoint::SolvePositionConstraints(const b2SolverData &) -> b2Vec2 [b2RopeJoint.cpp <164:2 164:7>]
-SYMBOL_FUNCTION void b2Vec2::b2Vec2(const b2Vec2 &)
 REFERENCE_CALL bool b2RopeJoint::SolvePositionConstraints(const b2SolverData &) -> void b2Vec2::b2Vec2(const b2Vec2 &) [b2RopeJoint.cpp <164:39 164:39>]
 REFERENCE_USAGE bool b2RopeJoint::SolvePositionConstraints(const b2SolverData &) -> b2Vec2 b2Position::c [b2RopeJoint.cpp <164:39 164:39>]
 REFERENCE_USAGE bool b2RopeJoint::SolvePositionConstraints(const b2SolverData &) -> b2Position * b2SolverData::positions [b2RopeJoint.cpp <164:19 164:27>]
@@ -483,7 +430,6 @@ LOCAL_SYMBOL: b2RopeJoint.cpp<162:64> [b2RopeJoint.cpp <165:15 165:18>]
 REFERENCE_USAGE bool b2RopeJoint::SolvePositionConstraints(const b2SolverData &) -> int32 b2RopeJoint::m_indexA [b2RopeJoint.cpp <165:30 165:37>]
 LOCAL_SYMBOL: b2RopeJoint.cpp<166:9> [b2RopeJoint.cpp <166:9 166:10>]
 REFERENCE_TYPE_USAGE bool b2RopeJoint::SolvePositionConstraints(const b2SolverData &) -> b2Vec2 [b2RopeJoint.cpp <166:2 166:7>]
-SYMBOL_FUNCTION void b2Vec2::b2Vec2(const b2Vec2 &)
 REFERENCE_CALL bool b2RopeJoint::SolvePositionConstraints(const b2SolverData &) -> void b2Vec2::b2Vec2(const b2Vec2 &) [b2RopeJoint.cpp <166:39 166:39>]
 REFERENCE_USAGE bool b2RopeJoint::SolvePositionConstraints(const b2SolverData &) -> b2Vec2 b2Position::c [b2RopeJoint.cpp <166:39 166:39>]
 REFERENCE_USAGE bool b2RopeJoint::SolvePositionConstraints(const b2SolverData &) -> b2Position * b2SolverData::positions [b2RopeJoint.cpp <166:19 166:27>]
@@ -497,39 +443,29 @@ LOCAL_SYMBOL: b2RopeJoint.cpp<162:64> [b2RopeJoint.cpp <167:15 167:18>]
 REFERENCE_USAGE bool b2RopeJoint::SolvePositionConstraints(const b2SolverData &) -> int32 b2RopeJoint::m_indexB [b2RopeJoint.cpp <167:30 167:37>]
 LOCAL_SYMBOL: b2RopeJoint.cpp<169:8> [b2RopeJoint.cpp <169:8 169:9>]
 REFERENCE_TYPE_USAGE bool b2RopeJoint::SolvePositionConstraints(const b2SolverData &) -> b2Rot [b2RopeJoint.cpp <169:2 169:6>]
-SYMBOL_FUNCTION void b2Rot::b2Rot(float32)
 REFERENCE_CALL bool b2RopeJoint::SolvePositionConstraints(const b2SolverData &) -> void b2Rot::b2Rot(float32) [b2RopeJoint.cpp <169:8 169:9>]
 LOCAL_SYMBOL: b2RopeJoint.cpp<165:10> [b2RopeJoint.cpp <169:11 169:12>]
 LOCAL_SYMBOL: b2RopeJoint.cpp<169:16> [b2RopeJoint.cpp <169:16 169:17>]
-REFERENCE_TYPE_USAGE bool b2RopeJoint::SolvePositionConstraints(const b2SolverData &) -> b2Rot [b2RopeJoint.cpp <169:2 169:6>]
-SYMBOL_FUNCTION void b2Rot::b2Rot(float32)
 REFERENCE_CALL bool b2RopeJoint::SolvePositionConstraints(const b2SolverData &) -> void b2Rot::b2Rot(float32) [b2RopeJoint.cpp <169:16 169:17>]
 LOCAL_SYMBOL: b2RopeJoint.cpp<167:10> [b2RopeJoint.cpp <169:19 169:20>]
 LOCAL_SYMBOL: b2RopeJoint.cpp<171:9> [b2RopeJoint.cpp <171:9 171:10>]
 REFERENCE_TYPE_USAGE bool b2RopeJoint::SolvePositionConstraints(const b2SolverData &) -> b2Vec2 [b2RopeJoint.cpp <171:2 171:7>]
-SYMBOL_FUNCTION b2Vec2 b2Mul(const b2Rot &, const b2Vec2 &)
 REFERENCE_CALL bool b2RopeJoint::SolvePositionConstraints(const b2SolverData &) -> b2Vec2 b2Mul(const b2Rot &, const b2Vec2 &) [b2RopeJoint.cpp <171:14 171:18>]
 LOCAL_SYMBOL: b2RopeJoint.cpp<169:8> [b2RopeJoint.cpp <171:20 171:21>]
-SYMBOL_FUNCTION b2Vec2 operator-(const b2Vec2 &, const b2Vec2 &)
 REFERENCE_CALL bool b2RopeJoint::SolvePositionConstraints(const b2SolverData &) -> b2Vec2 operator-(const b2Vec2 &, const b2Vec2 &) [b2RopeJoint.cpp <171:39 171:39>]
 REFERENCE_USAGE bool b2RopeJoint::SolvePositionConstraints(const b2SolverData &) -> b2Vec2 b2RopeJoint::m_localAnchorA [b2RopeJoint.cpp <171:24 171:37>]
 REFERENCE_USAGE bool b2RopeJoint::SolvePositionConstraints(const b2SolverData &) -> b2Vec2 b2RopeJoint::m_localCenterA [b2RopeJoint.cpp <171:41 171:54>]
 LOCAL_SYMBOL: b2RopeJoint.cpp<172:9> [b2RopeJoint.cpp <172:9 172:10>]
 REFERENCE_TYPE_USAGE bool b2RopeJoint::SolvePositionConstraints(const b2SolverData &) -> b2Vec2 [b2RopeJoint.cpp <172:2 172:7>]
-SYMBOL_FUNCTION b2Vec2 b2Mul(const b2Rot &, const b2Vec2 &)
 REFERENCE_CALL bool b2RopeJoint::SolvePositionConstraints(const b2SolverData &) -> b2Vec2 b2Mul(const b2Rot &, const b2Vec2 &) [b2RopeJoint.cpp <172:14 172:18>]
 LOCAL_SYMBOL: b2RopeJoint.cpp<169:16> [b2RopeJoint.cpp <172:20 172:21>]
-SYMBOL_FUNCTION b2Vec2 operator-(const b2Vec2 &, const b2Vec2 &)
 REFERENCE_CALL bool b2RopeJoint::SolvePositionConstraints(const b2SolverData &) -> b2Vec2 operator-(const b2Vec2 &, const b2Vec2 &) [b2RopeJoint.cpp <172:39 172:39>]
 REFERENCE_USAGE bool b2RopeJoint::SolvePositionConstraints(const b2SolverData &) -> b2Vec2 b2RopeJoint::m_localAnchorB [b2RopeJoint.cpp <172:24 172:37>]
 REFERENCE_USAGE bool b2RopeJoint::SolvePositionConstraints(const b2SolverData &) -> b2Vec2 b2RopeJoint::m_localCenterB [b2RopeJoint.cpp <172:41 172:54>]
 LOCAL_SYMBOL: b2RopeJoint.cpp<173:9> [b2RopeJoint.cpp <173:9 173:9>]
 REFERENCE_TYPE_USAGE bool b2RopeJoint::SolvePositionConstraints(const b2SolverData &) -> b2Vec2 [b2RopeJoint.cpp <173:2 173:7>]
-SYMBOL_FUNCTION b2Vec2 operator-(const b2Vec2 &, const b2Vec2 &)
 REFERENCE_CALL bool b2RopeJoint::SolvePositionConstraints(const b2SolverData &) -> b2Vec2 operator-(const b2Vec2 &, const b2Vec2 &) [b2RopeJoint.cpp <173:26 173:26>]
-SYMBOL_FUNCTION b2Vec2 operator-(const b2Vec2 &, const b2Vec2 &)
 REFERENCE_CALL bool b2RopeJoint::SolvePositionConstraints(const b2SolverData &) -> b2Vec2 operator-(const b2Vec2 &, const b2Vec2 &) [b2RopeJoint.cpp <173:21 173:21>]
-SYMBOL_FUNCTION b2Vec2 operator+(const b2Vec2 &, const b2Vec2 &)
 REFERENCE_CALL bool b2RopeJoint::SolvePositionConstraints(const b2SolverData &) -> b2Vec2 operator+(const b2Vec2 &, const b2Vec2 &) [b2RopeJoint.cpp <173:16 173:16>]
 LOCAL_SYMBOL: b2RopeJoint.cpp<166:9> [b2RopeJoint.cpp <173:13 173:14>]
 LOCAL_SYMBOL: b2RopeJoint.cpp<172:9> [b2RopeJoint.cpp <173:18 173:19>]
@@ -554,37 +490,29 @@ REFERENCE_USAGE bool b2RopeJoint::SolvePositionConstraints(const b2SolverData &)
 LOCAL_SYMBOL: b2RopeJoint.cpp<176:10> [b2RopeJoint.cpp <180:30 180:30>]
 LOCAL_SYMBOL: b2RopeJoint.cpp<181:9> [b2RopeJoint.cpp <181:9 181:9>]
 REFERENCE_TYPE_USAGE bool b2RopeJoint::SolvePositionConstraints(const b2SolverData &) -> b2Vec2 [b2RopeJoint.cpp <181:2 181:7>]
-SYMBOL_FUNCTION b2Vec2 operator*(float32, const b2Vec2 &)
 REFERENCE_CALL bool b2RopeJoint::SolvePositionConstraints(const b2SolverData &) -> b2Vec2 operator*(float32, const b2Vec2 &) [b2RopeJoint.cpp <181:21 181:21>]
 LOCAL_SYMBOL: b2RopeJoint.cpp<180:10> [b2RopeJoint.cpp <181:13 181:19>]
 LOCAL_SYMBOL: b2RopeJoint.cpp<173:9> [b2RopeJoint.cpp <181:23 181:23>]
-SYMBOL_FUNCTION void b2Vec2::operator-=(const b2Vec2 &)
 REFERENCE_CALL bool b2RopeJoint::SolvePositionConstraints(const b2SolverData &) -> void b2Vec2::operator-=(const b2Vec2 &) [b2RopeJoint.cpp <183:5 183:6>]
 LOCAL_SYMBOL: b2RopeJoint.cpp<164:9> [b2RopeJoint.cpp <183:2 183:3>]
-SYMBOL_FUNCTION b2Vec2 operator*(float32, const b2Vec2 &)
 REFERENCE_CALL bool b2RopeJoint::SolvePositionConstraints(const b2SolverData &) -> b2Vec2 operator*(float32, const b2Vec2 &) [b2RopeJoint.cpp <183:19 183:19>]
 REFERENCE_USAGE bool b2RopeJoint::SolvePositionConstraints(const b2SolverData &) -> float32 b2RopeJoint::m_invMassA [b2RopeJoint.cpp <183:8 183:17>]
 LOCAL_SYMBOL: b2RopeJoint.cpp<181:9> [b2RopeJoint.cpp <183:21 183:21>]
 LOCAL_SYMBOL: b2RopeJoint.cpp<165:10> [b2RopeJoint.cpp <184:2 184:3>]
 REFERENCE_USAGE bool b2RopeJoint::SolvePositionConstraints(const b2SolverData &) -> float32 b2RopeJoint::m_invIA [b2RopeJoint.cpp <184:8 184:14>]
-SYMBOL_FUNCTION float32 b2Cross(const b2Vec2 &, const b2Vec2 &)
 REFERENCE_CALL bool b2RopeJoint::SolvePositionConstraints(const b2SolverData &) -> float32 b2Cross(const b2Vec2 &, const b2Vec2 &) [b2RopeJoint.cpp <184:18 184:24>]
 LOCAL_SYMBOL: b2RopeJoint.cpp<171:9> [b2RopeJoint.cpp <184:26 184:27>]
 LOCAL_SYMBOL: b2RopeJoint.cpp<181:9> [b2RopeJoint.cpp <184:30 184:30>]
-SYMBOL_FUNCTION void b2Vec2::operator+=(const b2Vec2 &)
 REFERENCE_CALL bool b2RopeJoint::SolvePositionConstraints(const b2SolverData &) -> void b2Vec2::operator+=(const b2Vec2 &) [b2RopeJoint.cpp <185:5 185:6>]
 LOCAL_SYMBOL: b2RopeJoint.cpp<166:9> [b2RopeJoint.cpp <185:2 185:3>]
-SYMBOL_FUNCTION b2Vec2 operator*(float32, const b2Vec2 &)
 REFERENCE_CALL bool b2RopeJoint::SolvePositionConstraints(const b2SolverData &) -> b2Vec2 operator*(float32, const b2Vec2 &) [b2RopeJoint.cpp <185:19 185:19>]
 REFERENCE_USAGE bool b2RopeJoint::SolvePositionConstraints(const b2SolverData &) -> float32 b2RopeJoint::m_invMassB [b2RopeJoint.cpp <185:8 185:17>]
 LOCAL_SYMBOL: b2RopeJoint.cpp<181:9> [b2RopeJoint.cpp <185:21 185:21>]
 LOCAL_SYMBOL: b2RopeJoint.cpp<167:10> [b2RopeJoint.cpp <186:2 186:3>]
 REFERENCE_USAGE bool b2RopeJoint::SolvePositionConstraints(const b2SolverData &) -> float32 b2RopeJoint::m_invIB [b2RopeJoint.cpp <186:8 186:14>]
-SYMBOL_FUNCTION float32 b2Cross(const b2Vec2 &, const b2Vec2 &)
 REFERENCE_CALL bool b2RopeJoint::SolvePositionConstraints(const b2SolverData &) -> float32 b2Cross(const b2Vec2 &, const b2Vec2 &) [b2RopeJoint.cpp <186:18 186:24>]
 LOCAL_SYMBOL: b2RopeJoint.cpp<172:9> [b2RopeJoint.cpp <186:26 186:27>]
 LOCAL_SYMBOL: b2RopeJoint.cpp<181:9> [b2RopeJoint.cpp <186:30 186:30>]
-SYMBOL_FUNCTION b2Vec2 & b2Vec2::operator=(const b2Vec2 &)
 REFERENCE_CALL bool b2RopeJoint::SolvePositionConstraints(const b2SolverData &) -> b2Vec2 & b2Vec2::operator=(const b2Vec2 &) [b2RopeJoint.cpp <188:29 188:29>]
 REFERENCE_USAGE bool b2RopeJoint::SolvePositionConstraints(const b2SolverData &) -> b2Vec2 b2Position::c [b2RopeJoint.cpp <188:27 188:27>]
 REFERENCE_USAGE bool b2RopeJoint::SolvePositionConstraints(const b2SolverData &) -> b2Position * b2SolverData::positions [b2RopeJoint.cpp <188:7 188:15>]
@@ -596,7 +524,6 @@ REFERENCE_USAGE bool b2RopeJoint::SolvePositionConstraints(const b2SolverData &)
 LOCAL_SYMBOL: b2RopeJoint.cpp<162:64> [b2RopeJoint.cpp <189:2 189:5>]
 REFERENCE_USAGE bool b2RopeJoint::SolvePositionConstraints(const b2SolverData &) -> int32 b2RopeJoint::m_indexA [b2RopeJoint.cpp <189:17 189:24>]
 LOCAL_SYMBOL: b2RopeJoint.cpp<165:10> [b2RopeJoint.cpp <189:31 189:32>]
-SYMBOL_FUNCTION b2Vec2 & b2Vec2::operator=(const b2Vec2 &)
 REFERENCE_CALL bool b2RopeJoint::SolvePositionConstraints(const b2SolverData &) -> b2Vec2 & b2Vec2::operator=(const b2Vec2 &) [b2RopeJoint.cpp <190:29 190:29>]
 REFERENCE_USAGE bool b2RopeJoint::SolvePositionConstraints(const b2SolverData &) -> b2Vec2 b2Position::c [b2RopeJoint.cpp <190:27 190:27>]
 REFERENCE_USAGE bool b2RopeJoint::SolvePositionConstraints(const b2SolverData &) -> b2Position * b2SolverData::positions [b2RopeJoint.cpp <190:7 190:15>]
@@ -613,7 +540,7 @@ REFERENCE_USAGE bool b2RopeJoint::SolvePositionConstraints(const b2SolverData &)
 SYMBOL_METHOD public b2Vec2 b2RopeJoint::GetAnchorA() const [b2RopeJoint.cpp <196:1 <196:21 196:30> 199:1>]
 SYMBOL_FUNCTION b2Vec2 b2Joint::GetAnchorA() const
 REFERENCE_OVERRIDE b2Vec2 b2RopeJoint::GetAnchorA() const -> b2Vec2 b2Joint::GetAnchorA() const [b2RopeJoint.cpp <196:21 196:30>]
-SYMBOL_CLASS b2RopeJoint
+QUALIFIER: b2RopeJoint [b2RopeJoint.cpp <196:8 196:18>]
 REFERENCE_TYPE_USAGE b2Vec2 b2RopeJoint::GetAnchorA() const -> b2Vec2 [b2RopeJoint.cpp <196:1 196:6>]
 SYMBOL_FUNCTION b2Vec2 b2Body::GetWorldPoint(const b2Vec2 &) const
 REFERENCE_CALL b2Vec2 b2RopeJoint::GetAnchorA() const -> b2Vec2 b2Body::GetWorldPoint(const b2Vec2 &) const [b2RopeJoint.cpp <198:18 198:30>]
@@ -622,22 +549,20 @@ REFERENCE_USAGE b2Vec2 b2RopeJoint::GetAnchorA() const -> b2Vec2 b2RopeJoint::m_
 SYMBOL_METHOD public b2Vec2 b2RopeJoint::GetAnchorB() const [b2RopeJoint.cpp <201:1 <201:21 201:30> 204:1>]
 SYMBOL_FUNCTION b2Vec2 b2Joint::GetAnchorB() const
 REFERENCE_OVERRIDE b2Vec2 b2RopeJoint::GetAnchorB() const -> b2Vec2 b2Joint::GetAnchorB() const [b2RopeJoint.cpp <201:21 201:30>]
-SYMBOL_CLASS b2RopeJoint
+QUALIFIER: b2RopeJoint [b2RopeJoint.cpp <201:8 201:18>]
 REFERENCE_TYPE_USAGE b2Vec2 b2RopeJoint::GetAnchorB() const -> b2Vec2 [b2RopeJoint.cpp <201:1 201:6>]
-SYMBOL_FUNCTION b2Vec2 b2Body::GetWorldPoint(const b2Vec2 &) const
 REFERENCE_CALL b2Vec2 b2RopeJoint::GetAnchorB() const -> b2Vec2 b2Body::GetWorldPoint(const b2Vec2 &) const [b2RopeJoint.cpp <203:18 203:30>]
 REFERENCE_USAGE b2Vec2 b2RopeJoint::GetAnchorB() const -> b2Body * b2Joint::m_bodyB [b2RopeJoint.cpp <203:9 203:15>]
 REFERENCE_USAGE b2Vec2 b2RopeJoint::GetAnchorB() const -> b2Vec2 b2RopeJoint::m_localAnchorB [b2RopeJoint.cpp <203:32 203:45>]
 SYMBOL_METHOD public b2Vec2 b2RopeJoint::GetReactionForce(float32) const [b2RopeJoint.cpp <206:1 <206:21 206:36> 210:1>]
 SYMBOL_FUNCTION b2Vec2 b2Joint::GetReactionForce(float32) const
 REFERENCE_OVERRIDE b2Vec2 b2RopeJoint::GetReactionForce(float32) const -> b2Vec2 b2Joint::GetReactionForce(float32) const [b2RopeJoint.cpp <206:21 206:36>]
-SYMBOL_CLASS b2RopeJoint
+QUALIFIER: b2RopeJoint [b2RopeJoint.cpp <206:8 206:18>]
 REFERENCE_TYPE_USAGE b2Vec2 b2RopeJoint::GetReactionForce(float32) const -> b2Vec2 [b2RopeJoint.cpp <206:1 206:6>]
 LOCAL_SYMBOL: b2RopeJoint.cpp<206:46> [b2RopeJoint.cpp <206:46 206:51>]
 REFERENCE_TYPE_USAGE b2Vec2 b2RopeJoint::GetReactionForce(float32) const -> float32 [b2RopeJoint.cpp <206:38 206:44>]
 LOCAL_SYMBOL: b2RopeJoint.cpp<208:9> [b2RopeJoint.cpp <208:9 208:9>]
 REFERENCE_TYPE_USAGE b2Vec2 b2RopeJoint::GetReactionForce(float32) const -> b2Vec2 [b2RopeJoint.cpp <208:2 208:7>]
-SYMBOL_FUNCTION b2Vec2 operator*(float32, const b2Vec2 &)
 REFERENCE_CALL b2Vec2 b2RopeJoint::GetReactionForce(float32) const -> b2Vec2 operator*(float32, const b2Vec2 &) [b2RopeJoint.cpp <208:34 208:34>]
 LOCAL_SYMBOL: b2RopeJoint.cpp<206:46> [b2RopeJoint.cpp <208:14 208:19>]
 REFERENCE_USAGE b2Vec2 b2RopeJoint::GetReactionForce(float32) const -> float32 b2RopeJoint::m_impulse [b2RopeJoint.cpp <208:23 208:31>]
@@ -648,24 +573,23 @@ LOCAL_SYMBOL: b2RopeJoint.cpp<208:9> [b2RopeJoint.cpp <209:9 209:9>]
 SYMBOL_METHOD public float32 b2RopeJoint::GetReactionTorque(float32) const [b2RopeJoint.cpp <212:1 <212:22 212:38> 216:1>]
 SYMBOL_FUNCTION float32 b2Joint::GetReactionTorque(float32) const
 REFERENCE_OVERRIDE float32 b2RopeJoint::GetReactionTorque(float32) const -> float32 b2Joint::GetReactionTorque(float32) const [b2RopeJoint.cpp <212:22 212:38>]
-SYMBOL_CLASS b2RopeJoint
+QUALIFIER: b2RopeJoint [b2RopeJoint.cpp <212:9 212:19>]
 REFERENCE_TYPE_USAGE float32 b2RopeJoint::GetReactionTorque(float32) const -> float32 [b2RopeJoint.cpp <212:1 212:7>]
 LOCAL_SYMBOL: b2RopeJoint.cpp<212:48> [b2RopeJoint.cpp <212:48 212:53>]
 REFERENCE_TYPE_USAGE float32 b2RopeJoint::GetReactionTorque(float32) const -> float32 [b2RopeJoint.cpp <212:40 212:46>]
 LOCAL_SYMBOL: b2RopeJoint.cpp<212:48> [b2RopeJoint.cpp <214:14 214:19>]
 SYMBOL_METHOD public float32 b2RopeJoint::GetMaxLength() const [b2RopeJoint.cpp <218:1 <218:22 218:33> 221:1>]
-SYMBOL_CLASS b2RopeJoint
+QUALIFIER: b2RopeJoint [b2RopeJoint.cpp <218:9 218:19>]
 REFERENCE_TYPE_USAGE float32 b2RopeJoint::GetMaxLength() const -> float32 [b2RopeJoint.cpp <218:1 218:7>]
 REFERENCE_USAGE float32 b2RopeJoint::GetMaxLength() const -> float32 b2RopeJoint::m_maxLength [b2RopeJoint.cpp <220:9 220:19>]
 SYMBOL_METHOD public b2LimitState b2RopeJoint::GetLimitState() const [b2RopeJoint.cpp <223:1 <223:27 223:39> 226:1>]
-SYMBOL_CLASS b2RopeJoint
+QUALIFIER: b2RopeJoint [b2RopeJoint.cpp <223:14 223:24>]
 REFERENCE_TYPE_USAGE b2LimitState b2RopeJoint::GetLimitState() const -> b2LimitState [b2RopeJoint.cpp <223:1 223:12>]
 REFERENCE_USAGE b2LimitState b2RopeJoint::GetLimitState() const -> b2LimitState b2RopeJoint::m_state [b2RopeJoint.cpp <225:9 225:15>]
 SYMBOL_METHOD public void b2RopeJoint::Dump() [b2RopeJoint.cpp <228:1 <228:19 228:22> 241:1>]
 SYMBOL_FUNCTION void b2Joint::Dump()
 REFERENCE_OVERRIDE void b2RopeJoint::Dump() -> void b2Joint::Dump() [b2RopeJoint.cpp <228:19 228:22>]
-SYMBOL_CLASS b2RopeJoint
-SYMBOL_BUILTIN_TYPE void
+QUALIFIER: b2RopeJoint [b2RopeJoint.cpp <228:6 228:16>]
 REFERENCE_TYPE_USAGE void b2RopeJoint::Dump() -> void [b2RopeJoint.cpp <228:1 228:4>]
 LOCAL_SYMBOL: b2RopeJoint.cpp<230:8> [b2RopeJoint.cpp <230:8 230:13>]
 REFERENCE_TYPE_USAGE void b2RopeJoint::Dump() -> int32 [b2RopeJoint.cpp <230:2 230:6>]
@@ -677,30 +601,23 @@ REFERENCE_USAGE void b2RopeJoint::Dump() -> int32 b2Body::m_islandIndex [b2RopeJ
 REFERENCE_USAGE void b2RopeJoint::Dump() -> b2Body * b2Joint::m_bodyB [b2RopeJoint.cpp <231:17 231:23>]
 SYMBOL_FUNCTION void b2Log(const char *)
 REFERENCE_CALL void b2RopeJoint::Dump() -> void b2Log(const char *) [b2RopeJoint.cpp <233:2 233:6>]
-SYMBOL_FUNCTION void b2Log(const char *)
 REFERENCE_CALL void b2RopeJoint::Dump() -> void b2Log(const char *) [b2RopeJoint.cpp <234:2 234:6>]
 LOCAL_SYMBOL: b2RopeJoint.cpp<230:8> [b2RopeJoint.cpp <234:38 234:43>]
-SYMBOL_FUNCTION void b2Log(const char *)
 REFERENCE_CALL void b2RopeJoint::Dump() -> void b2Log(const char *) [b2RopeJoint.cpp <235:2 235:6>]
 LOCAL_SYMBOL: b2RopeJoint.cpp<231:8> [b2RopeJoint.cpp <235:38 235:43>]
-SYMBOL_FUNCTION void b2Log(const char *)
 REFERENCE_CALL void b2RopeJoint::Dump() -> void b2Log(const char *) [b2RopeJoint.cpp <236:2 236:6>]
 REFERENCE_USAGE void b2RopeJoint::Dump() -> bool b2Joint::m_collideConnected [b2RopeJoint.cpp <236:47 236:64>]
-SYMBOL_FUNCTION void b2Log(const char *)
 REFERENCE_CALL void b2RopeJoint::Dump() -> void b2Log(const char *) [b2RopeJoint.cpp <237:2 237:6>]
 REFERENCE_USAGE void b2RopeJoint::Dump() -> float32 b2Vec2::x [b2RopeJoint.cpp <237:69 237:69>]
 REFERENCE_USAGE void b2RopeJoint::Dump() -> b2Vec2 b2RopeJoint::m_localAnchorA [b2RopeJoint.cpp <237:54 237:67>]
 REFERENCE_USAGE void b2RopeJoint::Dump() -> float32 b2Vec2::y [b2RopeJoint.cpp <237:87 237:87>]
 REFERENCE_USAGE void b2RopeJoint::Dump() -> b2Vec2 b2RopeJoint::m_localAnchorA [b2RopeJoint.cpp <237:72 237:85>]
-SYMBOL_FUNCTION void b2Log(const char *)
 REFERENCE_CALL void b2RopeJoint::Dump() -> void b2Log(const char *) [b2RopeJoint.cpp <238:2 238:6>]
 REFERENCE_USAGE void b2RopeJoint::Dump() -> float32 b2Vec2::x [b2RopeJoint.cpp <238:69 238:69>]
 REFERENCE_USAGE void b2RopeJoint::Dump() -> b2Vec2 b2RopeJoint::m_localAnchorB [b2RopeJoint.cpp <238:54 238:67>]
 REFERENCE_USAGE void b2RopeJoint::Dump() -> float32 b2Vec2::y [b2RopeJoint.cpp <238:87 238:87>]
 REFERENCE_USAGE void b2RopeJoint::Dump() -> b2Vec2 b2RopeJoint::m_localAnchorB [b2RopeJoint.cpp <238:72 238:85>]
-SYMBOL_FUNCTION void b2Log(const char *)
 REFERENCE_CALL void b2RopeJoint::Dump() -> void b2Log(const char *) [b2RopeJoint.cpp <239:2 239:6>]
 REFERENCE_USAGE void b2RopeJoint::Dump() -> float32 b2RopeJoint::m_maxLength [b2RopeJoint.cpp <239:39 239:49>]
-SYMBOL_FUNCTION void b2Log(const char *)
 REFERENCE_CALL void b2RopeJoint::Dump() -> void b2Log(const char *) [b2RopeJoint.cpp <240:2 240:6>]
 REFERENCE_USAGE void b2RopeJoint::Dump() -> int32 b2Joint::m_index [b2RopeJoint.cpp <240:55 240:61>]

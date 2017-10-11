@@ -1,14 +1,25 @@
 FILE: PrimitiveType.java
-SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model.typesystem [PrimitiveType.java <17:9 17:59>]
+SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model.typesystem [PrimitiveType.java <17:50 17:59>]
 SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model
 SYMBOL_PACKAGE com.github.javaparser.symbolsolver
 SYMBOL_PACKAGE com.github.javaparser
 SYMBOL_PACKAGE com.github
 SYMBOL_PACKAGE com
-REFERENCE_IMPORT PrimitiveType.java -> com.google.common.collect.ImmutableList<E> [PrimitiveType.java <19:8 19:46>]
+QUALIFIER: com.github.javaparser.symbolsolver.model [PrimitiveType.java <17:44 17:48>]
+QUALIFIER: com.github.javaparser.symbolsolver [PrimitiveType.java <17:31 17:42>]
+QUALIFIER: com.github.javaparser [PrimitiveType.java <17:20 17:29>]
+QUALIFIER: com.github [PrimitiveType.java <17:13 17:18>]
+QUALIFIER: com [PrimitiveType.java <17:9 17:11>]
+REFERENCE_IMPORT PrimitiveType.java -> com.google.common.collect.ImmutableList<E> [PrimitiveType.java <19:34 19:46>]
 SYMBOL_PACKAGE com.google.common.collect
-REFERENCE_IMPORT PrimitiveType.java -> java.util.List<E> [PrimitiveType.java <21:8 21:21>]
+QUALIFIER: com.google.common.collect [PrimitiveType.java <19:26 19:32>]
+QUALIFIER: com.google.common [PrimitiveType.java <19:19 19:24>]
+QUALIFIER: com.google [PrimitiveType.java <19:12 19:17>]
+QUALIFIER: com [PrimitiveType.java <19:8 19:10>]
+REFERENCE_IMPORT PrimitiveType.java -> java.util.List<E> [PrimitiveType.java <21:18 21:21>]
 SYMBOL_PACKAGE java.util
+QUALIFIER: java.util [PrimitiveType.java <21:13 21:16>]
+QUALIFIER: java [PrimitiveType.java <21:8 21:11>]
 SYMBOL_CLASS public com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType [PrimitiveType.java <26:1 <26:14 26:26> 127:1>]
 LOCAL_SYMBOL: PrimitiveType.java<26:44> [PrimitiveType.java <26:44 26:44>]
 LOCAL_SYMBOL: PrimitiveType.java<26:44> [PrimitiveType.java <127:1 127:1>]
@@ -24,39 +35,35 @@ REFERENCE_CALL static com.github.javaparser.symbolsolver.model.typesystem.Primit
 REFERENCE_TYPE_USAGE static com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType.BYTE -> java.lang.Byte [PrimitiveType.java <32:72 32:75>]
 SYMBOL_METHOD static com.google.common.collect.ImmutableList<E> com.google.common.collect.ImmutableList<E>.of<E>()
 REFERENCE_CALL static com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType.BYTE -> static com.google.common.collect.ImmutableList<E> com.google.common.collect.ImmutableList<E>.of<E>() [PrimitiveType.java <32:117 32:118>]
+QUALIFIER: com.google.common.collect.ImmutableList [PrimitiveType.java <32:103 32:115>]
 SYMBOL_FIELD public static com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType.SHORT [PrimitiveType.java <33:39 33:43>]
 REFERENCE_TYPE_USAGE static com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType.SHORT -> com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType [PrimitiveType.java <33:25 33:37>]
-SYMBOL_METHOD com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType.PrimitiveType(java.lang.String, java.lang.String, java.util.List<com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType>)
 REFERENCE_CALL static com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType.SHORT -> com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType.PrimitiveType(java.lang.String, java.lang.String, java.util.List<com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType>) [PrimitiveType.java <33:51 33:63>]
 REFERENCE_TYPE_USAGE static com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType.SHORT -> com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType [PrimitiveType.java <33:51 33:63>]
-SYMBOL_METHOD java.lang.String java.lang.Class<T>.getCanonicalName()
 REFERENCE_CALL static com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType.SHORT -> java.lang.String java.lang.Class<T>.getCanonicalName() [PrimitiveType.java <33:86 33:101>]
 REFERENCE_TYPE_USAGE static com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType.SHORT -> java.lang.Short [PrimitiveType.java <33:74 33:78>]
 SYMBOL_METHOD static com.google.common.collect.ImmutableList<E> com.google.common.collect.ImmutableList<E>.of<E>(E)
 REFERENCE_CALL static com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType.SHORT -> static com.google.common.collect.ImmutableList<E> com.google.common.collect.ImmutableList<E>.of<E>(E) [PrimitiveType.java <33:120 33:121>]
+QUALIFIER: com.google.common.collect.ImmutableList [PrimitiveType.java <33:106 33:118>]
 SYMBOL_FIELD static com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType.BYTE
 REFERENCE_USAGE static com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType.SHORT -> static com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType.BYTE [PrimitiveType.java <33:123 33:126>]
 SYMBOL_FIELD public static com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType.CHAR [PrimitiveType.java <34:39 34:42>]
 REFERENCE_TYPE_USAGE static com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType.CHAR -> com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType [PrimitiveType.java <34:25 34:37>]
-SYMBOL_METHOD com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType.PrimitiveType(java.lang.String, java.lang.String, java.util.List<com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType>)
 REFERENCE_CALL static com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType.CHAR -> com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType.PrimitiveType(java.lang.String, java.lang.String, java.util.List<com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType>) [PrimitiveType.java <34:50 34:62>]
 REFERENCE_TYPE_USAGE static com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType.CHAR -> com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType [PrimitiveType.java <34:50 34:62>]
-SYMBOL_METHOD java.lang.String java.lang.Class<T>.getCanonicalName()
 REFERENCE_CALL static com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType.CHAR -> java.lang.String java.lang.Class<T>.getCanonicalName() [PrimitiveType.java <34:88 34:103>]
 REFERENCE_TYPE_USAGE static com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType.CHAR -> java.lang.Character [PrimitiveType.java <34:72 34:80>]
-SYMBOL_METHOD static com.google.common.collect.ImmutableList<E> com.google.common.collect.ImmutableList<E>.of<E>()
 REFERENCE_CALL static com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType.CHAR -> static com.google.common.collect.ImmutableList<E> com.google.common.collect.ImmutableList<E>.of<E>() [PrimitiveType.java <34:122 34:123>]
+QUALIFIER: com.google.common.collect.ImmutableList [PrimitiveType.java <34:108 34:120>]
 SYMBOL_FIELD public static com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType.INT [PrimitiveType.java <35:39 35:41>]
 REFERENCE_TYPE_USAGE static com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType.INT -> com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType [PrimitiveType.java <35:25 35:37>]
-SYMBOL_METHOD com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType.PrimitiveType(java.lang.String, java.lang.String, java.util.List<com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType>)
 REFERENCE_CALL static com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType.INT -> com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType.PrimitiveType(java.lang.String, java.lang.String, java.util.List<com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType>) [PrimitiveType.java <35:49 35:61>]
 REFERENCE_TYPE_USAGE static com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType.INT -> com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType [PrimitiveType.java <35:49 35:61>]
-SYMBOL_METHOD java.lang.String java.lang.Class<T>.getCanonicalName()
 REFERENCE_CALL static com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType.INT -> java.lang.String java.lang.Class<T>.getCanonicalName() [PrimitiveType.java <35:84 35:99>]
 REFERENCE_TYPE_USAGE static com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType.INT -> java.lang.Integer [PrimitiveType.java <35:70 35:76>]
 SYMBOL_METHOD static com.google.common.collect.ImmutableList<E> com.google.common.collect.ImmutableList<E>.of<E>(E, E, E)
 REFERENCE_CALL static com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType.INT -> static com.google.common.collect.ImmutableList<E> com.google.common.collect.ImmutableList<E>.of<E>(E, E, E) [PrimitiveType.java <35:118 35:119>]
-SYMBOL_FIELD static com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType.BYTE
+QUALIFIER: com.google.common.collect.ImmutableList [PrimitiveType.java <35:104 35:116>]
 REFERENCE_USAGE static com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType.INT -> static com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType.BYTE [PrimitiveType.java <35:121 35:124>]
 SYMBOL_FIELD static com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType.SHORT
 REFERENCE_USAGE static com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType.INT -> static com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType.SHORT [PrimitiveType.java <35:127 35:131>]
@@ -64,94 +71,72 @@ SYMBOL_FIELD static com.github.javaparser.symbolsolver.model.typesystem.Primitiv
 REFERENCE_USAGE static com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType.INT -> static com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType.CHAR [PrimitiveType.java <35:134 35:137>]
 SYMBOL_FIELD public static com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType.LONG [PrimitiveType.java <36:39 36:42>]
 REFERENCE_TYPE_USAGE static com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType.LONG -> com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType [PrimitiveType.java <36:25 36:37>]
-SYMBOL_METHOD com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType.PrimitiveType(java.lang.String, java.lang.String, java.util.List<com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType>)
 REFERENCE_CALL static com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType.LONG -> com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType.PrimitiveType(java.lang.String, java.lang.String, java.util.List<com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType>) [PrimitiveType.java <36:50 36:62>]
 REFERENCE_TYPE_USAGE static com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType.LONG -> com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType [PrimitiveType.java <36:50 36:62>]
-SYMBOL_METHOD java.lang.String java.lang.Class<T>.getCanonicalName()
 REFERENCE_CALL static com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType.LONG -> java.lang.String java.lang.Class<T>.getCanonicalName() [PrimitiveType.java <36:83 36:98>]
 REFERENCE_TYPE_USAGE static com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType.LONG -> java.lang.Long [PrimitiveType.java <36:72 36:75>]
 SYMBOL_METHOD static com.google.common.collect.ImmutableList<E> com.google.common.collect.ImmutableList<E>.of<E>(E, E, E, E)
 REFERENCE_CALL static com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType.LONG -> static com.google.common.collect.ImmutableList<E> com.google.common.collect.ImmutableList<E>.of<E>(E, E, E, E) [PrimitiveType.java <36:117 36:118>]
-SYMBOL_FIELD static com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType.BYTE
+QUALIFIER: com.google.common.collect.ImmutableList [PrimitiveType.java <36:103 36:115>]
 REFERENCE_USAGE static com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType.LONG -> static com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType.BYTE [PrimitiveType.java <36:120 36:123>]
-SYMBOL_FIELD static com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType.SHORT
 REFERENCE_USAGE static com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType.LONG -> static com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType.SHORT [PrimitiveType.java <36:126 36:130>]
 SYMBOL_FIELD static com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType.INT
 REFERENCE_USAGE static com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType.LONG -> static com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType.INT [PrimitiveType.java <36:133 36:135>]
-SYMBOL_FIELD static com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType.CHAR
 REFERENCE_USAGE static com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType.LONG -> static com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType.CHAR [PrimitiveType.java <36:138 36:141>]
 SYMBOL_FIELD public static com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType.BOOLEAN [PrimitiveType.java <37:39 37:45>]
 REFERENCE_TYPE_USAGE static com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType.BOOLEAN -> com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType [PrimitiveType.java <37:25 37:37>]
-SYMBOL_METHOD com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType.PrimitiveType(java.lang.String, java.lang.String, java.util.List<com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType>)
 REFERENCE_CALL static com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType.BOOLEAN -> com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType.PrimitiveType(java.lang.String, java.lang.String, java.util.List<com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType>) [PrimitiveType.java <37:53 37:65>]
 REFERENCE_TYPE_USAGE static com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType.BOOLEAN -> com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType [PrimitiveType.java <37:53 37:65>]
-SYMBOL_METHOD java.lang.String java.lang.Class<T>.getCanonicalName()
 REFERENCE_CALL static com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType.BOOLEAN -> java.lang.String java.lang.Class<T>.getCanonicalName() [PrimitiveType.java <37:92 37:107>]
 REFERENCE_TYPE_USAGE static com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType.BOOLEAN -> java.lang.Boolean [PrimitiveType.java <37:78 37:84>]
-SYMBOL_METHOD static com.google.common.collect.ImmutableList<E> com.google.common.collect.ImmutableList<E>.of<E>()
 REFERENCE_CALL static com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType.BOOLEAN -> static com.google.common.collect.ImmutableList<E> com.google.common.collect.ImmutableList<E>.of<E>() [PrimitiveType.java <37:126 37:127>]
+QUALIFIER: com.google.common.collect.ImmutableList [PrimitiveType.java <37:112 37:124>]
 SYMBOL_FIELD public static com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType.FLOAT [PrimitiveType.java <38:39 38:43>]
 REFERENCE_TYPE_USAGE static com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType.FLOAT -> com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType [PrimitiveType.java <38:25 38:37>]
-SYMBOL_METHOD com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType.PrimitiveType(java.lang.String, java.lang.String, java.util.List<com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType>)
 REFERENCE_CALL static com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType.FLOAT -> com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType.PrimitiveType(java.lang.String, java.lang.String, java.util.List<com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType>) [PrimitiveType.java <38:51 38:63>]
 REFERENCE_TYPE_USAGE static com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType.FLOAT -> com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType [PrimitiveType.java <38:51 38:63>]
-SYMBOL_METHOD java.lang.String java.lang.Class<T>.getCanonicalName()
 REFERENCE_CALL static com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType.FLOAT -> java.lang.String java.lang.Class<T>.getCanonicalName() [PrimitiveType.java <38:86 38:101>]
 REFERENCE_TYPE_USAGE static com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType.FLOAT -> java.lang.Float [PrimitiveType.java <38:74 38:78>]
 SYMBOL_METHOD static com.google.common.collect.ImmutableList<E> com.google.common.collect.ImmutableList<E>.of<E>(E, E, E, E, E)
 REFERENCE_CALL static com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType.FLOAT -> static com.google.common.collect.ImmutableList<E> com.google.common.collect.ImmutableList<E>.of<E>(E, E, E, E, E) [PrimitiveType.java <38:120 38:121>]
+QUALIFIER: com.google.common.collect.ImmutableList [PrimitiveType.java <38:106 38:118>]
 SYMBOL_FIELD static com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType.LONG
 REFERENCE_USAGE static com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType.FLOAT -> static com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType.LONG [PrimitiveType.java <38:123 38:126>]
-SYMBOL_FIELD static com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType.INT
 REFERENCE_USAGE static com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType.FLOAT -> static com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType.INT [PrimitiveType.java <38:129 38:131>]
-SYMBOL_FIELD static com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType.SHORT
 REFERENCE_USAGE static com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType.FLOAT -> static com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType.SHORT [PrimitiveType.java <38:134 38:138>]
-SYMBOL_FIELD static com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType.BYTE
 REFERENCE_USAGE static com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType.FLOAT -> static com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType.BYTE [PrimitiveType.java <38:141 38:144>]
-SYMBOL_FIELD static com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType.CHAR
 REFERENCE_USAGE static com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType.FLOAT -> static com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType.CHAR [PrimitiveType.java <38:147 38:150>]
 SYMBOL_FIELD public static com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType.DOUBLE [PrimitiveType.java <39:39 39:44>]
 REFERENCE_TYPE_USAGE static com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType.DOUBLE -> com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType [PrimitiveType.java <39:25 39:37>]
-SYMBOL_METHOD com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType.PrimitiveType(java.lang.String, java.lang.String, java.util.List<com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType>)
 REFERENCE_CALL static com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType.DOUBLE -> com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType.PrimitiveType(java.lang.String, java.lang.String, java.util.List<com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType>) [PrimitiveType.java <39:52 39:64>]
 REFERENCE_TYPE_USAGE static com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType.DOUBLE -> com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType [PrimitiveType.java <39:52 39:64>]
-SYMBOL_METHOD java.lang.String java.lang.Class<T>.getCanonicalName()
 REFERENCE_CALL static com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType.DOUBLE -> java.lang.String java.lang.Class<T>.getCanonicalName() [PrimitiveType.java <39:89 39:104>]
 REFERENCE_TYPE_USAGE static com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType.DOUBLE -> java.lang.Double [PrimitiveType.java <39:76 39:81>]
 SYMBOL_METHOD static com.google.common.collect.ImmutableList<E> com.google.common.collect.ImmutableList<E>.of<E>(E, E, E, E, E, E)
 REFERENCE_CALL static com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType.DOUBLE -> static com.google.common.collect.ImmutableList<E> com.google.common.collect.ImmutableList<E>.of<E>(E, E, E, E, E, E) [PrimitiveType.java <39:123 39:124>]
+QUALIFIER: com.google.common.collect.ImmutableList [PrimitiveType.java <39:109 39:121>]
 SYMBOL_FIELD static com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType.FLOAT
 REFERENCE_USAGE static com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType.DOUBLE -> static com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType.FLOAT [PrimitiveType.java <39:126 39:130>]
-SYMBOL_FIELD static com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType.LONG
 REFERENCE_USAGE static com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType.DOUBLE -> static com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType.LONG [PrimitiveType.java <39:133 39:136>]
-SYMBOL_FIELD static com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType.INT
 REFERENCE_USAGE static com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType.DOUBLE -> static com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType.INT [PrimitiveType.java <39:139 39:141>]
-SYMBOL_FIELD static com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType.SHORT
 REFERENCE_USAGE static com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType.DOUBLE -> static com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType.SHORT [PrimitiveType.java <39:144 39:148>]
-SYMBOL_FIELD static com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType.BYTE
 REFERENCE_USAGE static com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType.DOUBLE -> static com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType.BYTE [PrimitiveType.java <39:151 39:154>]
-SYMBOL_FIELD static com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType.CHAR
 REFERENCE_USAGE static com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType.DOUBLE -> static com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType.CHAR [PrimitiveType.java <39:157 39:160>]
 SYMBOL_FIELD public static java.util.List<com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType> com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType.ALL [PrimitiveType.java <40:45 40:47>]
 REFERENCE_TYPE_USAGE static java.util.List<com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType> com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType.ALL -> java.util.List<E> [PrimitiveType.java <40:25 40:28>]
 REFERENCE_TYPE_ARGUMENT static java.util.List<com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType> com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType.ALL -> com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType [PrimitiveType.java <40:30 40:42>]
 SYMBOL_METHOD static com.google.common.collect.ImmutableList<E> com.google.common.collect.ImmutableList<E>.of<E>(E, E, E, E, E, E, E, E)
 REFERENCE_CALL static java.util.List<com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType> com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType.ALL -> static com.google.common.collect.ImmutableList<E> com.google.common.collect.ImmutableList<E>.of<E>(E, E, E, E, E, E, E, E) [PrimitiveType.java <40:65 40:66>]
-SYMBOL_FIELD static com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType.INT
+QUALIFIER: com.google.common.collect.ImmutableList [PrimitiveType.java <40:51 40:63>]
 REFERENCE_USAGE static java.util.List<com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType> com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType.ALL -> static com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType.INT [PrimitiveType.java <40:68 40:70>]
 SYMBOL_FIELD static com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType.BOOLEAN
 REFERENCE_USAGE static java.util.List<com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType> com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType.ALL -> static com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType.BOOLEAN [PrimitiveType.java <40:73 40:79>]
-SYMBOL_FIELD static com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType.LONG
 REFERENCE_USAGE static java.util.List<com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType> com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType.ALL -> static com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType.LONG [PrimitiveType.java <40:82 40:85>]
-SYMBOL_FIELD static com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType.CHAR
 REFERENCE_USAGE static java.util.List<com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType> com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType.ALL -> static com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType.CHAR [PrimitiveType.java <40:88 40:91>]
-SYMBOL_FIELD static com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType.FLOAT
 REFERENCE_USAGE static java.util.List<com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType> com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType.ALL -> static com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType.FLOAT [PrimitiveType.java <40:94 40:98>]
 SYMBOL_FIELD static com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType.DOUBLE
 REFERENCE_USAGE static java.util.List<com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType> com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType.ALL -> static com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType.DOUBLE [PrimitiveType.java <40:101 40:106>]
-SYMBOL_FIELD static com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType.SHORT
 REFERENCE_USAGE static java.util.List<com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType> com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType.ALL -> static com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType.SHORT [PrimitiveType.java <40:109 40:113>]
-SYMBOL_FIELD static com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType.BYTE
 REFERENCE_USAGE static java.util.List<com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType> com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType.ALL -> static com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType.BYTE [PrimitiveType.java <40:116 40:119>]
 SYMBOL_FIELD private java.lang.String com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType.name [PrimitiveType.java <46:20 46:23>]
 REFERENCE_TYPE_USAGE java.lang.String com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType.name -> java.lang.String [PrimitiveType.java <46:13 46:18>]
@@ -170,12 +155,15 @@ REFERENCE_TYPE_ARGUMENT com.github.javaparser.symbolsolver.model.typesystem.Prim
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType.PrimitiveType<2> [PrimitiveType.java <50:81 50:94>]
 LOCAL_SYMBOL: PrimitiveType.java<50:97> [PrimitiveType.java <50:97 50:97>]
 LOCAL_SYMBOL: PrimitiveType.java<50:97> [PrimitiveType.java <54:5 54:5>]
+QUALIFIER: com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType [PrimitiveType.java <51:9 51:12>]
 SYMBOL_FIELD java.lang.String com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType.name
 REFERENCE_USAGE com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType.PrimitiveType(java.lang.String, java.lang.String, java.util.List<com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType>) -> java.lang.String com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType.name [PrimitiveType.java <51:14 51:17>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType.PrimitiveType<0> [PrimitiveType.java <51:21 51:24>]
+QUALIFIER: com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType [PrimitiveType.java <52:9 52:12>]
 SYMBOL_FIELD java.lang.String com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType.boxTypeQName
 REFERENCE_USAGE com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType.PrimitiveType(java.lang.String, java.lang.String, java.util.List<com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType>) -> java.lang.String com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType.boxTypeQName [PrimitiveType.java <52:14 52:25>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType.PrimitiveType<1> [PrimitiveType.java <52:29 52:40>]
+QUALIFIER: com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType [PrimitiveType.java <53:9 53:12>]
 SYMBOL_FIELD java.util.List<com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType> com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType.promotionTypes
 REFERENCE_USAGE com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType.PrimitiveType(java.lang.String, java.lang.String, java.util.List<com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType>) -> java.util.List<com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType> com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType.promotionTypes [PrimitiveType.java <53:14 53:27>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType.PrimitiveType<2> [PrimitiveType.java <53:31 53:44>]
@@ -214,7 +202,6 @@ REFERENCE_OVERRIDE java.lang.String com.github.javaparser.symbolsolver.model.typ
 REFERENCE_TYPE_USAGE java.lang.String com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType.toString() -> java.lang.String [PrimitiveType.java <67:12 67:17>]
 LOCAL_SYMBOL: PrimitiveType.java<67:30> [PrimitiveType.java <67:30 67:30>]
 LOCAL_SYMBOL: PrimitiveType.java<67:30> [PrimitiveType.java <71:5 71:5>]
-SYMBOL_FIELD java.lang.String com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType.name
 REFERENCE_USAGE java.lang.String com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType.toString() -> java.lang.String com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType.name [PrimitiveType.java <69:28 69:31>]
 SYMBOL_METHOD public com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType.asPrimitive() [PrimitiveType.java <73:5 <73:26 73:36> 75:5>]
 SYMBOL_METHOD com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType com.github.javaparser.symbolsolver.model.typesystem.Type.asPrimitive()
@@ -232,14 +219,12 @@ LOCAL_SYMBOL: PrimitiveType.java<78:30> [PrimitiveType.java <80:5 80:5>]
 SYMBOL_METHOD public boolean com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType.isPrimitive() [PrimitiveType.java <82:5 <83:20 83:30> 85:5>]
 SYMBOL_METHOD boolean com.github.javaparser.symbolsolver.model.typesystem.Type.isPrimitive()
 REFERENCE_OVERRIDE boolean com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType.isPrimitive() -> boolean com.github.javaparser.symbolsolver.model.typesystem.Type.isPrimitive() [PrimitiveType.java <83:20 83:30>]
-SYMBOL_BUILTIN_TYPE boolean
 REFERENCE_TYPE_USAGE boolean com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType.isPrimitive() -> boolean [PrimitiveType.java <83:12 83:18>]
 LOCAL_SYMBOL: PrimitiveType.java<83:34> [PrimitiveType.java <83:34 83:34>]
 LOCAL_SYMBOL: PrimitiveType.java<83:34> [PrimitiveType.java <85:5 85:5>]
 SYMBOL_METHOD public boolean com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType.isReferenceType() [PrimitiveType.java <87:5 <88:20 88:34> 90:5>]
 SYMBOL_METHOD boolean com.github.javaparser.symbolsolver.model.typesystem.Type.isReferenceType()
 REFERENCE_OVERRIDE boolean com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType.isReferenceType() -> boolean com.github.javaparser.symbolsolver.model.typesystem.Type.isReferenceType() [PrimitiveType.java <88:20 88:34>]
-SYMBOL_BUILTIN_TYPE boolean
 REFERENCE_TYPE_USAGE boolean com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType.isReferenceType() -> boolean [PrimitiveType.java <88:12 88:18>]
 LOCAL_SYMBOL: PrimitiveType.java<88:38> [PrimitiveType.java <88:38 88:38>]
 LOCAL_SYMBOL: PrimitiveType.java<88:38> [PrimitiveType.java <90:5 90:5>]
@@ -249,25 +234,21 @@ REFERENCE_OVERRIDE java.lang.String com.github.javaparser.symbolsolver.model.typ
 REFERENCE_TYPE_USAGE java.lang.String com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType.describe() -> java.lang.String [PrimitiveType.java <93:12 93:17>]
 LOCAL_SYMBOL: PrimitiveType.java<93:30> [PrimitiveType.java <93:30 93:30>]
 LOCAL_SYMBOL: PrimitiveType.java<93:30> [PrimitiveType.java <95:5 95:5>]
-SYMBOL_FIELD java.lang.String com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType.name
 REFERENCE_USAGE java.lang.String com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType.describe() -> java.lang.String com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType.name [PrimitiveType.java <94:16 94:19>]
 SYMBOL_METHOD public boolean com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType.isTypeVariable() [PrimitiveType.java <97:5 <98:20 98:33> 100:5>]
 SYMBOL_METHOD boolean com.github.javaparser.symbolsolver.model.typesystem.Type.isTypeVariable()
 REFERENCE_OVERRIDE boolean com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType.isTypeVariable() -> boolean com.github.javaparser.symbolsolver.model.typesystem.Type.isTypeVariable() [PrimitiveType.java <98:20 98:33>]
-SYMBOL_BUILTIN_TYPE boolean
 REFERENCE_TYPE_USAGE boolean com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType.isTypeVariable() -> boolean [PrimitiveType.java <98:12 98:18>]
 LOCAL_SYMBOL: PrimitiveType.java<98:37> [PrimitiveType.java <98:37 98:37>]
 LOCAL_SYMBOL: PrimitiveType.java<98:37> [PrimitiveType.java <100:5 100:5>]
 SYMBOL_METHOD public boolean com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType.isAssignableBy(com.github.javaparser.symbolsolver.model.typesystem.Type) [PrimitiveType.java <102:5 <103:20 103:33> 121:5>]
 SYMBOL_METHOD boolean com.github.javaparser.symbolsolver.model.typesystem.Type.isAssignableBy(com.github.javaparser.symbolsolver.model.typesystem.Type)
 REFERENCE_OVERRIDE boolean com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType.isAssignableBy(com.github.javaparser.symbolsolver.model.typesystem.Type) -> boolean com.github.javaparser.symbolsolver.model.typesystem.Type.isAssignableBy(com.github.javaparser.symbolsolver.model.typesystem.Type) [PrimitiveType.java <103:20 103:33>]
-SYMBOL_BUILTIN_TYPE boolean
 REFERENCE_TYPE_USAGE boolean com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType.isAssignableBy(com.github.javaparser.symbolsolver.model.typesystem.Type) -> boolean [PrimitiveType.java <103:12 103:18>]
 REFERENCE_TYPE_USAGE boolean com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType.isAssignableBy(com.github.javaparser.symbolsolver.model.typesystem.Type) -> com.github.javaparser.symbolsolver.model.typesystem.Type [PrimitiveType.java <103:35 103:38>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType.isAssignableBy<0> [PrimitiveType.java <103:40 103:44>]
 LOCAL_SYMBOL: PrimitiveType.java<103:47> [PrimitiveType.java <103:47 103:47>]
 LOCAL_SYMBOL: PrimitiveType.java<103:47> [PrimitiveType.java <121:5 121:5>]
-SYMBOL_METHOD boolean com.github.javaparser.symbolsolver.model.typesystem.Type.isPrimitive()
 REFERENCE_CALL boolean com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType.isAssignableBy(com.github.javaparser.symbolsolver.model.typesystem.Type) -> boolean com.github.javaparser.symbolsolver.model.typesystem.Type.isPrimitive() [PrimitiveType.java <104:19 104:29>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType.isAssignableBy<0> [PrimitiveType.java <104:13 104:17>]
 LOCAL_SYMBOL: PrimitiveType.java<104:34> [PrimitiveType.java <104:34 104:34>]
@@ -275,40 +256,31 @@ LOCAL_SYMBOL: PrimitiveType.java<104:34> [PrimitiveType.java <106:9 106:9>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType.isAssignableBy<0> [PrimitiveType.java <105:28 105:32>]
 SYMBOL_METHOD boolean java.util.List<E>.contains(java.lang.Object)
 REFERENCE_CALL boolean com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType.isAssignableBy(com.github.javaparser.symbolsolver.model.typesystem.Type) -> boolean java.util.List<E>.contains(java.lang.Object) [PrimitiveType.java <105:52 105:59>]
-SYMBOL_FIELD java.util.List<com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType> com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType.promotionTypes
 REFERENCE_USAGE boolean com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType.isAssignableBy(com.github.javaparser.symbolsolver.model.typesystem.Type) -> java.util.List<com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType> com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType.promotionTypes [PrimitiveType.java <105:37 105:50>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType.isAssignableBy<0> [PrimitiveType.java <105:61 105:65>]
-SYMBOL_METHOD boolean com.github.javaparser.symbolsolver.model.typesystem.Type.isReferenceType()
 REFERENCE_CALL boolean com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType.isAssignableBy(com.github.javaparser.symbolsolver.model.typesystem.Type) -> boolean com.github.javaparser.symbolsolver.model.typesystem.Type.isReferenceType() [PrimitiveType.java <106:26 106:40>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType.isAssignableBy<0> [PrimitiveType.java <106:20 106:24>]
 LOCAL_SYMBOL: PrimitiveType.java<106:45> [PrimitiveType.java <106:45 106:45>]
 LOCAL_SYMBOL: PrimitiveType.java<106:45> [PrimitiveType.java <116:9 116:9>]
-SYMBOL_METHOD boolean java.lang.String.equals(java.lang.Object)
 REFERENCE_CALL boolean com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType.isAssignableBy(com.github.javaparser.symbolsolver.model.typesystem.Type) -> boolean java.lang.String.equals(java.lang.Object) [PrimitiveType.java <107:60 107:65>]
 SYMBOL_METHOD java.lang.String com.github.javaparser.symbolsolver.model.typesystem.ReferenceType.getQualifiedName()
 REFERENCE_CALL boolean com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType.isAssignableBy(com.github.javaparser.symbolsolver.model.typesystem.Type) -> java.lang.String com.github.javaparser.symbolsolver.model.typesystem.ReferenceType.getQualifiedName() [PrimitiveType.java <107:41 107:56>]
 SYMBOL_METHOD com.github.javaparser.symbolsolver.model.typesystem.ReferenceType com.github.javaparser.symbolsolver.model.typesystem.Type.asReferenceType()
 REFERENCE_CALL boolean com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType.isAssignableBy(com.github.javaparser.symbolsolver.model.typesystem.Type) -> com.github.javaparser.symbolsolver.model.typesystem.ReferenceType com.github.javaparser.symbolsolver.model.typesystem.Type.asReferenceType() [PrimitiveType.java <107:23 107:37>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType.isAssignableBy<0> [PrimitiveType.java <107:17 107:21>]
-SYMBOL_FIELD java.lang.String com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType.boxTypeQName
 REFERENCE_USAGE boolean com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType.isAssignableBy(com.github.javaparser.symbolsolver.model.typesystem.Type) -> java.lang.String com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType.boxTypeQName [PrimitiveType.java <107:67 107:78>]
 LOCAL_SYMBOL: PrimitiveType.java<107:82> [PrimitiveType.java <107:82 107:82>]
 LOCAL_SYMBOL: PrimitiveType.java<107:82> [PrimitiveType.java <109:13 109:13>]
 REFERENCE_TYPE_USAGE boolean com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType.isAssignableBy(com.github.javaparser.symbolsolver.model.typesystem.Type) -> com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType [PrimitiveType.java <110:18 110:30>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType.isAssignableBy<1> [PrimitiveType.java <110:32 110:40>]
-SYMBOL_FIELD java.util.List<com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType> com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType.promotionTypes
 REFERENCE_USAGE boolean com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType.isAssignableBy(com.github.javaparser.symbolsolver.model.typesystem.Type) -> java.util.List<com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType> com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType.promotionTypes [PrimitiveType.java <110:44 110:57>]
 LOCAL_SYMBOL: PrimitiveType.java<110:60> [PrimitiveType.java <110:60 110:60>]
 LOCAL_SYMBOL: PrimitiveType.java<110:60> [PrimitiveType.java <114:13 114:13>]
-SYMBOL_METHOD boolean java.lang.String.equals(java.lang.Object)
 REFERENCE_CALL boolean com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType.isAssignableBy(com.github.javaparser.symbolsolver.model.typesystem.Type) -> boolean java.lang.String.equals(java.lang.Object) [PrimitiveType.java <111:64 111:69>]
-SYMBOL_METHOD java.lang.String com.github.javaparser.symbolsolver.model.typesystem.ReferenceType.getQualifiedName()
 REFERENCE_CALL boolean com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType.isAssignableBy(com.github.javaparser.symbolsolver.model.typesystem.Type) -> java.lang.String com.github.javaparser.symbolsolver.model.typesystem.ReferenceType.getQualifiedName() [PrimitiveType.java <111:45 111:60>]
-SYMBOL_METHOD com.github.javaparser.symbolsolver.model.typesystem.ReferenceType com.github.javaparser.symbolsolver.model.typesystem.Type.asReferenceType()
 REFERENCE_CALL boolean com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType.isAssignableBy(com.github.javaparser.symbolsolver.model.typesystem.Type) -> com.github.javaparser.symbolsolver.model.typesystem.ReferenceType com.github.javaparser.symbolsolver.model.typesystem.Type.asReferenceType() [PrimitiveType.java <111:27 111:41>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType.isAssignableBy<0> [PrimitiveType.java <111:21 111:25>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType.isAssignableBy<1> [PrimitiveType.java <111:71 111:79>]
-SYMBOL_FIELD java.lang.String com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType.boxTypeQName
 REFERENCE_USAGE boolean com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType.isAssignableBy(com.github.javaparser.symbolsolver.model.typesystem.Type) -> java.lang.String com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType.boxTypeQName [PrimitiveType.java <111:81 111:92>]
 LOCAL_SYMBOL: PrimitiveType.java<111:96> [PrimitiveType.java <111:96 111:96>]
 LOCAL_SYMBOL: PrimitiveType.java<111:96> [PrimitiveType.java <113:17 113:17>]
@@ -319,6 +291,7 @@ LOCAL_SYMBOL: PrimitiveType.java<116:41> [PrimitiveType.java <116:41 116:41>]
 LOCAL_SYMBOL: PrimitiveType.java<116:41> [PrimitiveType.java <118:9 118:9>]
 SYMBOL_METHOD boolean com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType.isAssignableBy(com.github.javaparser.symbolsolver.model.typesystem.Type)
 REFERENCE_CALL boolean com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType.isAssignableBy(com.github.javaparser.symbolsolver.model.typesystem.Type) -> boolean com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType.isAssignableBy(com.github.javaparser.symbolsolver.model.typesystem.Type) [PrimitiveType.java <117:25 117:38>]
+QUALIFIER: com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType [PrimitiveType.java <117:20 117:23>]
 SYMBOL_METHOD com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.model.typesystem.LambdaConstraintType.getBound()
 REFERENCE_CALL boolean com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType.isAssignableBy(com.github.javaparser.symbolsolver.model.typesystem.Type) -> com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.model.typesystem.LambdaConstraintType.getBound() [PrimitiveType.java <117:65 117:72>]
 SYMBOL_METHOD com.github.javaparser.symbolsolver.model.typesystem.LambdaConstraintType com.github.javaparser.symbolsolver.model.typesystem.Type.asConstraintType()
@@ -330,7 +303,6 @@ SYMBOL_METHOD public java.lang.String com.github.javaparser.symbolsolver.model.t
 REFERENCE_TYPE_USAGE java.lang.String com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType.getBoxTypeQName() -> java.lang.String [PrimitiveType.java <123:12 123:17>]
 LOCAL_SYMBOL: PrimitiveType.java<123:37> [PrimitiveType.java <123:37 123:37>]
 LOCAL_SYMBOL: PrimitiveType.java<123:37> [PrimitiveType.java <125:5 125:5>]
-SYMBOL_FIELD java.lang.String com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType.boxTypeQName
 REFERENCE_USAGE java.lang.String com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType.getBoxTypeQName() -> java.lang.String com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType.boxTypeQName [PrimitiveType.java <124:16 124:27>]
 COMMENT: comment [PrimitiveType.java <1:1 15:3>]
 COMMENT: comment [PrimitiveType.java <28:5 28:7>]

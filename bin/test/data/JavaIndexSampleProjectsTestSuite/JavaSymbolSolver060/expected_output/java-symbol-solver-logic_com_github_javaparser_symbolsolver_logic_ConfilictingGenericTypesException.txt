@@ -1,11 +1,21 @@
 FILE: ConfilictingGenericTypesException.java
-SYMBOL_PACKAGE com.github.javaparser.symbolsolver.logic [ConfilictingGenericTypesException.java <1:9 1:48>]
+SYMBOL_PACKAGE com.github.javaparser.symbolsolver.logic [ConfilictingGenericTypesException.java <1:44 1:48>]
 SYMBOL_PACKAGE com.github.javaparser.symbolsolver
 SYMBOL_PACKAGE com.github.javaparser
 SYMBOL_PACKAGE com.github
 SYMBOL_PACKAGE com
-REFERENCE_IMPORT ConfilictingGenericTypesException.java -> com.github.javaparser.symbolsolver.model.typesystem.Type [ConfilictingGenericTypesException.java <3:8 3:63>]
+QUALIFIER: com.github.javaparser.symbolsolver [ConfilictingGenericTypesException.java <1:31 1:42>]
+QUALIFIER: com.github.javaparser [ConfilictingGenericTypesException.java <1:20 1:29>]
+QUALIFIER: com.github [ConfilictingGenericTypesException.java <1:13 1:18>]
+QUALIFIER: com [ConfilictingGenericTypesException.java <1:9 1:11>]
+REFERENCE_IMPORT ConfilictingGenericTypesException.java -> com.github.javaparser.symbolsolver.model.typesystem.Type [ConfilictingGenericTypesException.java <3:60 3:63>]
 SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model.typesystem
+QUALIFIER: com.github.javaparser.symbolsolver.model.typesystem [ConfilictingGenericTypesException.java <3:49 3:58>]
+QUALIFIER: com.github.javaparser.symbolsolver.model [ConfilictingGenericTypesException.java <3:43 3:47>]
+QUALIFIER: com.github.javaparser.symbolsolver [ConfilictingGenericTypesException.java <3:30 3:41>]
+QUALIFIER: com.github.javaparser [ConfilictingGenericTypesException.java <3:19 3:28>]
+QUALIFIER: com.github [ConfilictingGenericTypesException.java <3:12 3:17>]
+QUALIFIER: com [ConfilictingGenericTypesException.java <3:8 3:10>]
 SYMBOL_CLASS public com.github.javaparser.symbolsolver.logic.ConfilictingGenericTypesException [ConfilictingGenericTypesException.java <8:1 <8:14 8:46> 13:1>]
 LOCAL_SYMBOL: ConfilictingGenericTypesException.java<8:73> [ConfilictingGenericTypesException.java <8:73 8:73>]
 LOCAL_SYMBOL: ConfilictingGenericTypesException.java<8:73> [ConfilictingGenericTypesException.java <13:1 13:1>]
@@ -22,5 +32,6 @@ SYMBOL_METHOD java.lang.RuntimeException.RuntimeException(java.lang.String)
 REFERENCE_CALL com.github.javaparser.symbolsolver.logic.ConfilictingGenericTypesException.ConfilictingGenericTypesException(com.github.javaparser.symbolsolver.model.typesystem.Type, com.github.javaparser.symbolsolver.model.typesystem.Type) -> java.lang.RuntimeException.RuntimeException(java.lang.String) [ConfilictingGenericTypesException.java <11:9 11:13>]
 SYMBOL_METHOD static java.lang.String java.lang.String.format(java.lang.String, java.lang.Object)
 REFERENCE_CALL com.github.javaparser.symbolsolver.logic.ConfilictingGenericTypesException.ConfilictingGenericTypesException(com.github.javaparser.symbolsolver.model.typesystem.Type, com.github.javaparser.symbolsolver.model.typesystem.Type) -> static java.lang.String java.lang.String.format(java.lang.String, java.lang.Object) [ConfilictingGenericTypesException.java <11:22 11:27>]
+QUALIFIER: java.lang.String [ConfilictingGenericTypesException.java <11:15 11:20>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.logic.ConfilictingGenericTypesException.ConfilictingGenericTypesException<0> [ConfilictingGenericTypesException.java <11:80 11:89>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.logic.ConfilictingGenericTypesException.ConfilictingGenericTypesException<1> [ConfilictingGenericTypesException.java <11:92 11:101>]

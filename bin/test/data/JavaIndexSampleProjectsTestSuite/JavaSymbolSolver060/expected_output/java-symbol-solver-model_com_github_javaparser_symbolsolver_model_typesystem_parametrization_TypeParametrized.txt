@@ -1,11 +1,17 @@
 FILE: TypeParametrized.java
-SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model.typesystem.parametrization [TypeParametrized.java <17:9 17:75>]
+SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model.typesystem.parametrization [TypeParametrized.java <17:61 17:75>]
 SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model.typesystem
 SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model
 SYMBOL_PACKAGE com.github.javaparser.symbolsolver
 SYMBOL_PACKAGE com.github.javaparser
 SYMBOL_PACKAGE com.github
 SYMBOL_PACKAGE com
+QUALIFIER: com.github.javaparser.symbolsolver.model.typesystem [TypeParametrized.java <17:50 17:59>]
+QUALIFIER: com.github.javaparser.symbolsolver.model [TypeParametrized.java <17:44 17:48>]
+QUALIFIER: com.github.javaparser.symbolsolver [TypeParametrized.java <17:31 17:42>]
+QUALIFIER: com.github.javaparser [TypeParametrized.java <17:20 17:29>]
+QUALIFIER: com.github [TypeParametrized.java <17:13 17:18>]
+QUALIFIER: com [TypeParametrized.java <17:9 17:11>]
 SYMBOL_INTERFACE public com.github.javaparser.symbolsolver.model.typesystem.parametrization.TypeParametrized [TypeParametrized.java <24:1 <24:18 24:33> 26:1>]
 LOCAL_SYMBOL: TypeParametrized.java<24:35> [TypeParametrized.java <24:35 24:35>]
 LOCAL_SYMBOL: TypeParametrized.java<24:35> [TypeParametrized.java <26:1 26:1>]

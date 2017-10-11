@@ -1,14 +1,24 @@
 FILE: ParameterComparator.java
-SYMBOL_PACKAGE com.github.javaparser.symbolsolver.reflectionmodel.comparators [ParameterComparator.java <1:9 1:70>]
+SYMBOL_PACKAGE com.github.javaparser.symbolsolver.reflectionmodel.comparators [ParameterComparator.java <1:60 1:70>]
 SYMBOL_PACKAGE com.github.javaparser.symbolsolver.reflectionmodel
 SYMBOL_PACKAGE com.github.javaparser.symbolsolver
 SYMBOL_PACKAGE com.github.javaparser
 SYMBOL_PACKAGE com.github
 SYMBOL_PACKAGE com
-REFERENCE_IMPORT ParameterComparator.java -> java.lang.reflect.Parameter [ParameterComparator.java <3:8 3:34>]
+QUALIFIER: com.github.javaparser.symbolsolver.reflectionmodel [ParameterComparator.java <1:44 1:58>]
+QUALIFIER: com.github.javaparser.symbolsolver [ParameterComparator.java <1:31 1:42>]
+QUALIFIER: com.github.javaparser [ParameterComparator.java <1:20 1:29>]
+QUALIFIER: com.github [ParameterComparator.java <1:13 1:18>]
+QUALIFIER: com [ParameterComparator.java <1:9 1:11>]
+REFERENCE_IMPORT ParameterComparator.java -> java.lang.reflect.Parameter [ParameterComparator.java <3:26 3:34>]
 SYMBOL_PACKAGE java.lang.reflect
-REFERENCE_IMPORT ParameterComparator.java -> java.util.Comparator<T> [ParameterComparator.java <4:8 4:27>]
+QUALIFIER: java.lang.reflect [ParameterComparator.java <3:18 3:24>]
+QUALIFIER: java.lang [ParameterComparator.java <3:13 3:16>]
+QUALIFIER: java [ParameterComparator.java <3:8 3:11>]
+REFERENCE_IMPORT ParameterComparator.java -> java.util.Comparator<T> [ParameterComparator.java <4:18 4:27>]
 SYMBOL_PACKAGE java.util
+QUALIFIER: java.util [ParameterComparator.java <4:13 4:16>]
+QUALIFIER: java [ParameterComparator.java <4:8 4:11>]
 SYMBOL_CLASS public com.github.javaparser.symbolsolver.reflectionmodel.comparators.ParameterComparator [ParameterComparator.java <9:1 <9:14 9:32> 19:1>]
 LOCAL_SYMBOL: ParameterComparator.java<9:67> [ParameterComparator.java <9:67 9:67>]
 LOCAL_SYMBOL: ParameterComparator.java<9:67> [ParameterComparator.java <19:1 19:1>]
@@ -26,7 +36,6 @@ REFERENCE_TYPE_USAGE int com.github.javaparser.symbolsolver.reflectionmodel.comp
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.reflectionmodel.comparators.ParameterComparator.compare<1> [ParameterComparator.java <12:48 12:49>]
 LOCAL_SYMBOL: ParameterComparator.java<12:52> [ParameterComparator.java <12:52 12:52>]
 LOCAL_SYMBOL: ParameterComparator.java<12:52> [ParameterComparator.java <18:5 18:5>]
-SYMBOL_BUILTIN_TYPE int
 REFERENCE_TYPE_USAGE int com.github.javaparser.symbolsolver.reflectionmodel.comparators.ParameterComparator.compare(java.lang.reflect.Parameter, java.lang.reflect.Parameter) -> int [ParameterComparator.java <13:9 13:11>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.reflectionmodel.comparators.ParameterComparator.compare<2> [ParameterComparator.java <13:13 13:23>]
 SYMBOL_METHOD int java.lang.String.compareTo(java.lang.String)
@@ -34,12 +43,10 @@ REFERENCE_CALL int com.github.javaparser.symbolsolver.reflectionmodel.comparator
 SYMBOL_METHOD java.lang.String java.lang.reflect.Parameter.getName()
 REFERENCE_CALL int com.github.javaparser.symbolsolver.reflectionmodel.comparators.ParameterComparator.compare(java.lang.reflect.Parameter, java.lang.reflect.Parameter) -> java.lang.String java.lang.reflect.Parameter.getName() [ParameterComparator.java <13:30 13:36>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.reflectionmodel.comparators.ParameterComparator.compare<0> [ParameterComparator.java <13:27 13:28>]
-SYMBOL_METHOD java.lang.String java.lang.reflect.Parameter.getName()
 REFERENCE_CALL int com.github.javaparser.symbolsolver.reflectionmodel.comparators.ParameterComparator.compare(java.lang.reflect.Parameter, java.lang.reflect.Parameter) -> java.lang.String java.lang.reflect.Parameter.getName() [ParameterComparator.java <13:53 13:59>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.reflectionmodel.comparators.ParameterComparator.compare<1> [ParameterComparator.java <13:50 13:51>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.reflectionmodel.comparators.ParameterComparator.compare<2> [ParameterComparator.java <14:13 14:23>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.reflectionmodel.comparators.ParameterComparator.compare<2> [ParameterComparator.java <14:38 14:48>]
-SYMBOL_BUILTIN_TYPE int
 REFERENCE_TYPE_USAGE int com.github.javaparser.symbolsolver.reflectionmodel.comparators.ParameterComparator.compare(java.lang.reflect.Parameter, java.lang.reflect.Parameter) -> int [ParameterComparator.java <15:9 15:11>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.reflectionmodel.comparators.ParameterComparator.compare<3> [ParameterComparator.java <15:13 15:23>]
 SYMBOL_METHOD int com.github.javaparser.symbolsolver.reflectionmodel.comparators.ClassComparator.compare(java.lang.Class<?>, java.lang.Class<?>)
@@ -50,7 +57,6 @@ REFERENCE_TYPE_USAGE int com.github.javaparser.symbolsolver.reflectionmodel.comp
 SYMBOL_METHOD java.lang.Class<?> java.lang.reflect.Parameter.getType()
 REFERENCE_CALL int com.github.javaparser.symbolsolver.reflectionmodel.comparators.ParameterComparator.compare(java.lang.reflect.Parameter, java.lang.reflect.Parameter) -> java.lang.Class<?> java.lang.reflect.Parameter.getType() [ParameterComparator.java <15:60 15:66>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.reflectionmodel.comparators.ParameterComparator.compare<0> [ParameterComparator.java <15:57 15:58>]
-SYMBOL_METHOD java.lang.Class<?> java.lang.reflect.Parameter.getType()
 REFERENCE_CALL int com.github.javaparser.symbolsolver.reflectionmodel.comparators.ParameterComparator.compare(java.lang.reflect.Parameter, java.lang.reflect.Parameter) -> java.lang.Class<?> java.lang.reflect.Parameter.getType() [ParameterComparator.java <15:74 15:80>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.reflectionmodel.comparators.ParameterComparator.compare<1> [ParameterComparator.java <15:71 15:72>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.reflectionmodel.comparators.ParameterComparator.compare<3> [ParameterComparator.java <16:13 16:23>]

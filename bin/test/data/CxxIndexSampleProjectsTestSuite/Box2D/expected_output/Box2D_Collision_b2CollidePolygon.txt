@@ -1,27 +1,21 @@
 FILE: b2CollidePolygon.cpp
-FILE: b2CollidePolygon.cpp
 COMMENT: comment [b2CollidePolygon.cpp <1:1 17:3>]
-FILE: b2CollidePolygon.cpp
-FILE: b2CollidePolygon.cpp
 COMMENT: comment [b2CollidePolygon.cpp <22:1 22:82>]
 REFERENCE_MACRO_USAGE b2CollidePolygon.cpp -> b2_maxFloat [b2CollidePolygon.cpp <35:27 35:37>]
 REFERENCE_MACRO_USAGE b2Settings.h -> FLT_MAX [b2Settings.h <42:22 42:28>]
 COMMENT: comment [b2CollidePolygon.cpp <38:3 38:33>]
 COMMENT: comment [b2CollidePolygon.cpp <42:3 42:38>]
 REFERENCE_MACRO_USAGE b2CollidePolygon.cpp -> b2_maxFloat [b2CollidePolygon.cpp <43:16 43:26>]
-REFERENCE_MACRO_USAGE b2Settings.h -> FLT_MAX [b2Settings.h <42:22 42:28>]
 REFERENCE_MACRO_USAGE b2CollidePolygon.cpp -> b2Assert [b2CollidePolygon.cpp <74:2 74:9>]
 REFERENCE_MACRO_USAGE b2Settings.h -> assert [b2Settings.h <31:21 31:26>]
 REFERENCE_MACRO_USAGE assert.h -> _CRT_WIDE [assert.h <34:23 34:31>]
 REFERENCE_MACRO_USAGE vcruntime.h -> _CRT_WIDE_ [vcruntime.h <95:22 95:31>]
 REFERENCE_MACRO_USAGE assert.h -> _CRT_WIDE [assert.h <34:47 34:55>]
 REFERENCE_MACRO_USAGE assert.h -> __FILE__ [assert.h <34:57 34:64>]
-REFERENCE_MACRO_USAGE vcruntime.h -> _CRT_WIDE_ [vcruntime.h <95:22 95:31>]
 REFERENCE_MACRO_USAGE assert.h -> __LINE__ [assert.h <34:79 34:86>]
 COMMENT: comment [b2CollidePolygon.cpp <76:2 76:59>]
 COMMENT: comment [b2CollidePolygon.cpp <79:2 79:37>]
 REFERENCE_MACRO_USAGE b2CollidePolygon.cpp -> b2_maxFloat [b2CollidePolygon.cpp <81:19 81:29>]
-REFERENCE_MACRO_USAGE b2Settings.h -> FLT_MAX [b2Settings.h <42:22 42:28>]
 COMMENT: comment [b2CollidePolygon.cpp <92:2 92:51>]
 COMMENT: comment [b2CollidePolygon.cpp <109:1 109:80>]
 COMMENT: comment [b2CollidePolygon.cpp <110:1 110:80>]
@@ -174,7 +168,6 @@ SYMBOL_FUNCTION b2Vec2 b2MulT(const b2Rot &, const b2Vec2 &)
 REFERENCE_CALL static void b2FindIncidentEdge(b2ClipVertex [], const b2PolygonShape *, const b2Transform &, int32, const b2PolygonShape *, const b2Transform &) -> b2Vec2 b2MulT(const b2Rot &, const b2Vec2 &) [b2CollidePolygon.cpp <77:19 77:24>]
 REFERENCE_USAGE static void b2FindIncidentEdge(b2ClipVertex [], const b2PolygonShape *, const b2Transform &, int32, const b2PolygonShape *, const b2Transform &) -> b2Rot b2Transform::q [b2CollidePolygon.cpp <77:30 77:30>]
 LOCAL_SYMBOL: b2CollidePolygon.cpp<66:57> [b2CollidePolygon.cpp <77:26 77:28>]
-SYMBOL_FUNCTION b2Vec2 b2Mul(const b2Rot &, const b2Vec2 &)
 REFERENCE_CALL static void b2FindIncidentEdge(b2ClipVertex [], const b2PolygonShape *, const b2Transform &, int32, const b2PolygonShape *, const b2Transform &) -> b2Vec2 b2Mul(const b2Rot &, const b2Vec2 &) [b2CollidePolygon.cpp <77:33 77:37>]
 REFERENCE_USAGE static void b2FindIncidentEdge(b2ClipVertex [], const b2PolygonShape *, const b2Transform &, int32, const b2PolygonShape *, const b2Transform &) -> b2Rot b2Transform::q [b2CollidePolygon.cpp <77:43 77:43>]
 LOCAL_SYMBOL: b2CollidePolygon.cpp<65:57> [b2CollidePolygon.cpp <77:39 77:41>]
@@ -191,7 +184,6 @@ LOCAL_SYMBOL: b2CollidePolygon.cpp<70:8> [b2CollidePolygon.cpp <82:24 82:29>]
 LOCAL_SYMBOL: b2CollidePolygon.cpp<82:13> [b2CollidePolygon.cpp <82:34 82:34>]
 LOCAL_SYMBOL: b2CollidePolygon.cpp<84:11> [b2CollidePolygon.cpp <84:11 84:13>]
 REFERENCE_TYPE_USAGE static void b2FindIncidentEdge(b2ClipVertex [], const b2PolygonShape *, const b2Transform &, int32, const b2PolygonShape *, const b2Transform &) -> float32 [b2CollidePolygon.cpp <84:3 84:9>]
-SYMBOL_FUNCTION float32 b2Dot(const b2Vec2 &, const b2Vec2 &)
 REFERENCE_CALL static void b2FindIncidentEdge(b2ClipVertex [], const b2PolygonShape *, const b2Transform &, int32, const b2PolygonShape *, const b2Transform &) -> float32 b2Dot(const b2Vec2 &, const b2Vec2 &) [b2CollidePolygon.cpp <84:17 84:21>]
 LOCAL_SYMBOL: b2CollidePolygon.cpp<77:9> [b2CollidePolygon.cpp <84:23 84:29>]
 LOCAL_SYMBOL: b2CollidePolygon.cpp<72:16> [b2CollidePolygon.cpp <84:32 84:39>]
@@ -214,7 +206,6 @@ SYMBOL_FUNCTION b2Vec2 & b2Vec2::operator=(b2Vec2 &)
 REFERENCE_CALL static void b2FindIncidentEdge(b2ClipVertex [], const b2PolygonShape *, const b2Transform &, int32, const b2PolygonShape *, const b2Transform &) -> b2Vec2 & b2Vec2::operator=(b2Vec2 &) [b2CollidePolygon.cpp <96:9 96:9>]
 REFERENCE_USAGE static void b2FindIncidentEdge(b2ClipVertex [], const b2PolygonShape *, const b2Transform &, int32, const b2PolygonShape *, const b2Transform &) -> b2Vec2 b2ClipVertex::v [b2CollidePolygon.cpp <96:7 96:7>]
 LOCAL_SYMBOL: b2CollidePolygon.cpp<64:45> [b2CollidePolygon.cpp <96:2 96:2>]
-SYMBOL_FUNCTION b2Vec2 b2Mul(const b2Transform &, const b2Vec2 &)
 REFERENCE_CALL static void b2FindIncidentEdge(b2ClipVertex [], const b2PolygonShape *, const b2Transform &, int32, const b2PolygonShape *, const b2Transform &) -> b2Vec2 b2Mul(const b2Transform &, const b2Vec2 &) [b2CollidePolygon.cpp <96:11 96:15>]
 LOCAL_SYMBOL: b2CollidePolygon.cpp<66:57> [b2CollidePolygon.cpp <96:17 96:19>]
 LOCAL_SYMBOL: b2CollidePolygon.cpp<71:16> [b2CollidePolygon.cpp <96:22 96:30>]
@@ -237,17 +228,16 @@ REFERENCE_USAGE static void b2FindIncidentEdge(b2ClipVertex [], const b2PolygonS
 LOCAL_SYMBOL: b2CollidePolygon.cpp<64:45> [b2CollidePolygon.cpp <99:2 99:2>]
 REFERENCE_USAGE static void b2FindIncidentEdge(b2ClipVertex [], const b2PolygonShape *, const b2Transform &, int32, const b2PolygonShape *, const b2Transform &) -> b2ContactFeature::Type::e_face [b2CollidePolygon.cpp <99:39 99:44>]
 SYMBOL_STRUCT b2ContactFeature
+QUALIFIER: b2ContactFeature [b2CollidePolygon.cpp <99:21 99:36>]
 REFERENCE_USAGE static void b2FindIncidentEdge(b2ClipVertex [], const b2PolygonShape *, const b2Transform &, int32, const b2PolygonShape *, const b2Transform &) -> uint8 b2ContactFeature::typeB [b2CollidePolygon.cpp <100:13 100:17>]
 REFERENCE_USAGE static void b2FindIncidentEdge(b2ClipVertex [], const b2PolygonShape *, const b2Transform &, int32, const b2PolygonShape *, const b2Transform &) -> b2ContactFeature b2ContactID::cf [b2CollidePolygon.cpp <100:10 100:11>]
 REFERENCE_USAGE static void b2FindIncidentEdge(b2ClipVertex [], const b2PolygonShape *, const b2Transform &, int32, const b2PolygonShape *, const b2Transform &) -> b2ContactID b2ClipVertex::id [b2CollidePolygon.cpp <100:7 100:8>]
 LOCAL_SYMBOL: b2CollidePolygon.cpp<64:45> [b2CollidePolygon.cpp <100:2 100:2>]
 REFERENCE_USAGE static void b2FindIncidentEdge(b2ClipVertex [], const b2PolygonShape *, const b2Transform &, int32, const b2PolygonShape *, const b2Transform &) -> b2ContactFeature::Type::e_vertex [b2CollidePolygon.cpp <100:39 100:46>]
-SYMBOL_STRUCT b2ContactFeature
-SYMBOL_FUNCTION b2Vec2 & b2Vec2::operator=(b2Vec2 &)
+QUALIFIER: b2ContactFeature [b2CollidePolygon.cpp <100:21 100:36>]
 REFERENCE_CALL static void b2FindIncidentEdge(b2ClipVertex [], const b2PolygonShape *, const b2Transform &, int32, const b2PolygonShape *, const b2Transform &) -> b2Vec2 & b2Vec2::operator=(b2Vec2 &) [b2CollidePolygon.cpp <102:9 102:9>]
 REFERENCE_USAGE static void b2FindIncidentEdge(b2ClipVertex [], const b2PolygonShape *, const b2Transform &, int32, const b2PolygonShape *, const b2Transform &) -> b2Vec2 b2ClipVertex::v [b2CollidePolygon.cpp <102:7 102:7>]
 LOCAL_SYMBOL: b2CollidePolygon.cpp<64:45> [b2CollidePolygon.cpp <102:2 102:2>]
-SYMBOL_FUNCTION b2Vec2 b2Mul(const b2Transform &, const b2Vec2 &)
 REFERENCE_CALL static void b2FindIncidentEdge(b2ClipVertex [], const b2PolygonShape *, const b2Transform &, int32, const b2PolygonShape *, const b2Transform &) -> b2Vec2 b2Mul(const b2Transform &, const b2Vec2 &) [b2CollidePolygon.cpp <102:11 102:15>]
 LOCAL_SYMBOL: b2CollidePolygon.cpp<66:57> [b2CollidePolygon.cpp <102:17 102:19>]
 LOCAL_SYMBOL: b2CollidePolygon.cpp<71:16> [b2CollidePolygon.cpp <102:22 102:30>]
@@ -269,15 +259,14 @@ REFERENCE_USAGE static void b2FindIncidentEdge(b2ClipVertex [], const b2PolygonS
 REFERENCE_USAGE static void b2FindIncidentEdge(b2ClipVertex [], const b2PolygonShape *, const b2Transform &, int32, const b2PolygonShape *, const b2Transform &) -> b2ContactID b2ClipVertex::id [b2CollidePolygon.cpp <105:7 105:8>]
 LOCAL_SYMBOL: b2CollidePolygon.cpp<64:45> [b2CollidePolygon.cpp <105:2 105:2>]
 REFERENCE_USAGE static void b2FindIncidentEdge(b2ClipVertex [], const b2PolygonShape *, const b2Transform &, int32, const b2PolygonShape *, const b2Transform &) -> b2ContactFeature::Type::e_face [b2CollidePolygon.cpp <105:39 105:44>]
-SYMBOL_STRUCT b2ContactFeature
+QUALIFIER: b2ContactFeature [b2CollidePolygon.cpp <105:21 105:36>]
 REFERENCE_USAGE static void b2FindIncidentEdge(b2ClipVertex [], const b2PolygonShape *, const b2Transform &, int32, const b2PolygonShape *, const b2Transform &) -> uint8 b2ContactFeature::typeB [b2CollidePolygon.cpp <106:13 106:17>]
 REFERENCE_USAGE static void b2FindIncidentEdge(b2ClipVertex [], const b2PolygonShape *, const b2Transform &, int32, const b2PolygonShape *, const b2Transform &) -> b2ContactFeature b2ContactID::cf [b2CollidePolygon.cpp <106:10 106:11>]
 REFERENCE_USAGE static void b2FindIncidentEdge(b2ClipVertex [], const b2PolygonShape *, const b2Transform &, int32, const b2PolygonShape *, const b2Transform &) -> b2ContactID b2ClipVertex::id [b2CollidePolygon.cpp <106:7 106:8>]
 LOCAL_SYMBOL: b2CollidePolygon.cpp<64:45> [b2CollidePolygon.cpp <106:2 106:2>]
 REFERENCE_USAGE static void b2FindIncidentEdge(b2ClipVertex [], const b2PolygonShape *, const b2Transform &, int32, const b2PolygonShape *, const b2Transform &) -> b2ContactFeature::Type::e_vertex [b2CollidePolygon.cpp <106:39 106:46>]
-SYMBOL_STRUCT b2ContactFeature
+QUALIFIER: b2ContactFeature [b2CollidePolygon.cpp <106:21 106:36>]
 SYMBOL_FUNCTION void b2CollidePolygons(b2Manifold *, const b2PolygonShape *, const b2Transform &, const b2PolygonShape *, const b2Transform &) [b2CollidePolygon.cpp <116:1 <116:6 116:22> 239:1>]
-SYMBOL_BUILTIN_TYPE void
 REFERENCE_TYPE_USAGE void b2CollidePolygons(b2Manifold *, const b2PolygonShape *, const b2Transform &, const b2PolygonShape *, const b2Transform &) -> void [b2CollidePolygon.cpp <116:1 116:4>]
 LOCAL_SYMBOL: b2CollidePolygon.cpp<116:36> [b2CollidePolygon.cpp <116:36 116:43>]
 REFERENCE_TYPE_USAGE void b2CollidePolygons(b2Manifold *, const b2PolygonShape *, const b2Transform &, const b2PolygonShape *, const b2Transform &) -> b2Manifold [b2CollidePolygon.cpp <116:24 116:33>]
@@ -314,7 +303,6 @@ LOCAL_SYMBOL: b2CollidePolygon.cpp<128:8> [b2CollidePolygon.cpp <128:8 128:12>]
 REFERENCE_TYPE_USAGE void b2CollidePolygons(b2Manifold *, const b2PolygonShape *, const b2Transform &, const b2PolygonShape *, const b2Transform &) -> int32 [b2CollidePolygon.cpp <128:2 128:6>]
 LOCAL_SYMBOL: b2CollidePolygon.cpp<129:10> [b2CollidePolygon.cpp <129:10 129:20>]
 REFERENCE_TYPE_USAGE void b2CollidePolygons(b2Manifold *, const b2PolygonShape *, const b2Transform &, const b2PolygonShape *, const b2Transform &) -> float32 [b2CollidePolygon.cpp <129:2 129:8>]
-SYMBOL_FUNCTION static float32 b2FindMaxSeparation(int32 *, const b2PolygonShape *, const b2Transform &, const b2PolygonShape *, const b2Transform &)
 REFERENCE_CALL void b2CollidePolygons(b2Manifold *, const b2PolygonShape *, const b2Transform &, const b2PolygonShape *, const b2Transform &) -> static float32 b2FindMaxSeparation(int32 *, const b2PolygonShape *, const b2Transform &, const b2PolygonShape *, const b2Transform &) [b2CollidePolygon.cpp <129:24 129:42>]
 LOCAL_SYMBOL: b2CollidePolygon.cpp<128:8> [b2CollidePolygon.cpp <129:45 129:49>]
 LOCAL_SYMBOL: b2CollidePolygon.cpp<118:30> [b2CollidePolygon.cpp <129:52 129:56>]
@@ -332,8 +320,6 @@ REFERENCE_TYPE_USAGE void b2CollidePolygons(b2Manifold *, const b2PolygonShape *
 SYMBOL_FUNCTION void b2Transform::b2Transform()
 REFERENCE_CALL void b2CollidePolygons(b2Manifold *, const b2PolygonShape *, const b2Transform &, const b2PolygonShape *, const b2Transform &) -> void b2Transform::b2Transform() [b2CollidePolygon.cpp <135:14 135:16>]
 LOCAL_SYMBOL: b2CollidePolygon.cpp<135:19> [b2CollidePolygon.cpp <135:19 135:21>]
-REFERENCE_TYPE_USAGE void b2CollidePolygons(b2Manifold *, const b2PolygonShape *, const b2Transform &, const b2PolygonShape *, const b2Transform &) -> b2Transform [b2CollidePolygon.cpp <135:2 135:12>]
-SYMBOL_FUNCTION void b2Transform::b2Transform()
 REFERENCE_CALL void b2CollidePolygons(b2Manifold *, const b2PolygonShape *, const b2Transform &, const b2PolygonShape *, const b2Transform &) -> void b2Transform::b2Transform() [b2CollidePolygon.cpp <135:19 135:21>]
 LOCAL_SYMBOL: b2CollidePolygon.cpp<136:8> [b2CollidePolygon.cpp <136:8 136:12>]
 REFERENCE_TYPE_USAGE void b2CollidePolygons(b2Manifold *, const b2PolygonShape *, const b2Transform &, const b2PolygonShape *, const b2Transform &) -> int32 [b2CollidePolygon.cpp <136:2 136:6>]
@@ -352,7 +338,6 @@ SYMBOL_FUNCTION b2Transform & b2Transform::operator=(const b2Transform &)
 REFERENCE_CALL void b2CollidePolygons(b2Manifold *, const b2PolygonShape *, const b2Transform &, const b2PolygonShape *, const b2Transform &) -> b2Transform & b2Transform::operator=(const b2Transform &) [b2CollidePolygon.cpp <144:7 144:7>]
 LOCAL_SYMBOL: b2CollidePolygon.cpp<135:14> [b2CollidePolygon.cpp <144:3 144:5>]
 LOCAL_SYMBOL: b2CollidePolygon.cpp<118:56> [b2CollidePolygon.cpp <144:9 144:11>]
-SYMBOL_FUNCTION b2Transform & b2Transform::operator=(const b2Transform &)
 REFERENCE_CALL void b2CollidePolygons(b2Manifold *, const b2PolygonShape *, const b2Transform &, const b2PolygonShape *, const b2Transform &) -> b2Transform & b2Transform::operator=(const b2Transform &) [b2CollidePolygon.cpp <145:7 145:7>]
 LOCAL_SYMBOL: b2CollidePolygon.cpp<135:19> [b2CollidePolygon.cpp <145:3 145:5>]
 LOCAL_SYMBOL: b2CollidePolygon.cpp<117:56> [b2CollidePolygon.cpp <145:9 145:11>]
@@ -362,16 +347,15 @@ REFERENCE_USAGE void b2CollidePolygons(b2Manifold *, const b2PolygonShape *, con
 LOCAL_SYMBOL: b2CollidePolygon.cpp<116:36> [b2CollidePolygon.cpp <147:3 147:10>]
 REFERENCE_USAGE void b2CollidePolygons(b2Manifold *, const b2PolygonShape *, const b2Transform &, const b2PolygonShape *, const b2Transform &) -> b2Manifold::Type::e_faceB [b2CollidePolygon.cpp <147:32 147:38>]
 SYMBOL_STRUCT b2Manifold
+QUALIFIER: b2Manifold [b2CollidePolygon.cpp <147:20 147:29>]
 LOCAL_SYMBOL: b2CollidePolygon.cpp<137:8> [b2CollidePolygon.cpp <148:3 148:6>]
 LOCAL_SYMBOL: b2CollidePolygon.cpp<133:24> [b2CollidePolygon.cpp <152:3 152:7>]
 LOCAL_SYMBOL: b2CollidePolygon.cpp<117:30> [b2CollidePolygon.cpp <152:11 152:15>]
 LOCAL_SYMBOL: b2CollidePolygon.cpp<134:24> [b2CollidePolygon.cpp <153:3 153:7>]
 LOCAL_SYMBOL: b2CollidePolygon.cpp<118:30> [b2CollidePolygon.cpp <153:11 153:15>]
-SYMBOL_FUNCTION b2Transform & b2Transform::operator=(const b2Transform &)
 REFERENCE_CALL void b2CollidePolygons(b2Manifold *, const b2PolygonShape *, const b2Transform &, const b2PolygonShape *, const b2Transform &) -> b2Transform & b2Transform::operator=(const b2Transform &) [b2CollidePolygon.cpp <154:7 154:7>]
 LOCAL_SYMBOL: b2CollidePolygon.cpp<135:14> [b2CollidePolygon.cpp <154:3 154:5>]
 LOCAL_SYMBOL: b2CollidePolygon.cpp<117:56> [b2CollidePolygon.cpp <154:9 154:11>]
-SYMBOL_FUNCTION b2Transform & b2Transform::operator=(const b2Transform &)
 REFERENCE_CALL void b2CollidePolygons(b2Manifold *, const b2PolygonShape *, const b2Transform &, const b2PolygonShape *, const b2Transform &) -> b2Transform & b2Transform::operator=(const b2Transform &) [b2CollidePolygon.cpp <155:7 155:7>]
 LOCAL_SYMBOL: b2CollidePolygon.cpp<135:19> [b2CollidePolygon.cpp <155:3 155:5>]
 LOCAL_SYMBOL: b2CollidePolygon.cpp<118:56> [b2CollidePolygon.cpp <155:9 155:11>]
@@ -380,7 +364,7 @@ LOCAL_SYMBOL: b2CollidePolygon.cpp<123:8> [b2CollidePolygon.cpp <156:11 156:15>]
 REFERENCE_USAGE void b2CollidePolygons(b2Manifold *, const b2PolygonShape *, const b2Transform &, const b2PolygonShape *, const b2Transform &) -> b2Manifold::Type b2Manifold::type [b2CollidePolygon.cpp <157:13 157:16>]
 LOCAL_SYMBOL: b2CollidePolygon.cpp<116:36> [b2CollidePolygon.cpp <157:3 157:10>]
 REFERENCE_USAGE void b2CollidePolygons(b2Manifold *, const b2PolygonShape *, const b2Transform &, const b2PolygonShape *, const b2Transform &) -> b2Manifold::Type::e_faceA [b2CollidePolygon.cpp <157:32 157:38>]
-SYMBOL_STRUCT b2Manifold
+QUALIFIER: b2Manifold [b2CollidePolygon.cpp <157:20 157:29>]
 LOCAL_SYMBOL: b2CollidePolygon.cpp<137:8> [b2CollidePolygon.cpp <158:3 158:6>]
 LOCAL_SYMBOL: b2CollidePolygon.cpp<161:15> [b2CollidePolygon.cpp <161:15 161:26>]
 REFERENCE_TYPE_USAGE void b2CollidePolygons(b2Manifold *, const b2PolygonShape *, const b2Transform &, const b2PolygonShape *, const b2Transform &) -> b2ClipVertex [b2CollidePolygon.cpp <161:2 161:13>]
@@ -418,13 +402,11 @@ LOCAL_SYMBOL: b2CollidePolygon.cpp<165:16> [b2CollidePolygon.cpp <170:15 170:23>
 LOCAL_SYMBOL: b2CollidePolygon.cpp<167:8> [b2CollidePolygon.cpp <170:25 170:27>]
 LOCAL_SYMBOL: b2CollidePolygon.cpp<171:9> [b2CollidePolygon.cpp <171:9 171:11>]
 REFERENCE_TYPE_USAGE void b2CollidePolygons(b2Manifold *, const b2PolygonShape *, const b2Transform &, const b2PolygonShape *, const b2Transform &) -> b2Vec2 [b2CollidePolygon.cpp <171:2 171:7>]
-SYMBOL_FUNCTION void b2Vec2::b2Vec2(const b2Vec2 &)
 REFERENCE_CALL void b2CollidePolygons(b2Manifold *, const b2PolygonShape *, const b2Transform &, const b2PolygonShape *, const b2Transform &) -> void b2Vec2::b2Vec2(const b2Vec2 &) [b2CollidePolygon.cpp <171:28 171:28>]
 LOCAL_SYMBOL: b2CollidePolygon.cpp<165:16> [b2CollidePolygon.cpp <171:15 171:23>]
 LOCAL_SYMBOL: b2CollidePolygon.cpp<168:8> [b2CollidePolygon.cpp <171:25 171:27>]
 LOCAL_SYMBOL: b2CollidePolygon.cpp<173:9> [b2CollidePolygon.cpp <173:9 173:20>]
 REFERENCE_TYPE_USAGE void b2CollidePolygons(b2Manifold *, const b2PolygonShape *, const b2Transform &, const b2PolygonShape *, const b2Transform &) -> b2Vec2 [b2CollidePolygon.cpp <173:2 173:7>]
-SYMBOL_FUNCTION b2Vec2 operator-(const b2Vec2 &, const b2Vec2 &)
 REFERENCE_CALL void b2CollidePolygons(b2Manifold *, const b2PolygonShape *, const b2Transform &, const b2PolygonShape *, const b2Transform &) -> b2Vec2 operator-(const b2Vec2 &, const b2Vec2 &) [b2CollidePolygon.cpp <173:28 173:28>]
 LOCAL_SYMBOL: b2CollidePolygon.cpp<171:9> [b2CollidePolygon.cpp <173:24 173:26>]
 LOCAL_SYMBOL: b2CollidePolygon.cpp<170:9> [b2CollidePolygon.cpp <173:30 173:32>]
@@ -446,57 +428,46 @@ LOCAL_SYMBOL: b2CollidePolygon.cpp<170:9> [b2CollidePolygon.cpp <177:30 177:32>]
 LOCAL_SYMBOL: b2CollidePolygon.cpp<171:9> [b2CollidePolygon.cpp <177:36 177:38>]
 LOCAL_SYMBOL: b2CollidePolygon.cpp<179:9> [b2CollidePolygon.cpp <179:9 179:15>]
 REFERENCE_TYPE_USAGE void b2CollidePolygons(b2Manifold *, const b2PolygonShape *, const b2Transform &, const b2PolygonShape *, const b2Transform &) -> b2Vec2 [b2CollidePolygon.cpp <179:2 179:7>]
-SYMBOL_FUNCTION b2Vec2 b2Mul(const b2Rot &, const b2Vec2 &)
 REFERENCE_CALL void b2CollidePolygons(b2Manifold *, const b2PolygonShape *, const b2Transform &, const b2PolygonShape *, const b2Transform &) -> b2Vec2 b2Mul(const b2Rot &, const b2Vec2 &) [b2CollidePolygon.cpp <179:19 179:23>]
 REFERENCE_USAGE void b2CollidePolygons(b2Manifold *, const b2PolygonShape *, const b2Transform &, const b2PolygonShape *, const b2Transform &) -> b2Rot b2Transform::q [b2CollidePolygon.cpp <179:29 179:29>]
 LOCAL_SYMBOL: b2CollidePolygon.cpp<135:14> [b2CollidePolygon.cpp <179:25 179:27>]
 LOCAL_SYMBOL: b2CollidePolygon.cpp<173:9> [b2CollidePolygon.cpp <179:32 179:43>]
 LOCAL_SYMBOL: b2CollidePolygon.cpp<180:9> [b2CollidePolygon.cpp <180:9 180:14>]
 REFERENCE_TYPE_USAGE void b2CollidePolygons(b2Manifold *, const b2PolygonShape *, const b2Transform &, const b2PolygonShape *, const b2Transform &) -> b2Vec2 [b2CollidePolygon.cpp <180:2 180:7>]
-SYMBOL_FUNCTION b2Vec2 b2Cross(const b2Vec2 &, float32)
 REFERENCE_CALL void b2CollidePolygons(b2Manifold *, const b2PolygonShape *, const b2Transform &, const b2PolygonShape *, const b2Transform &) -> b2Vec2 b2Cross(const b2Vec2 &, float32) [b2CollidePolygon.cpp <180:18 180:24>]
 LOCAL_SYMBOL: b2CollidePolygon.cpp<179:9> [b2CollidePolygon.cpp <180:26 180:32>]
-SYMBOL_FUNCTION b2Vec2 & b2Vec2::operator=(b2Vec2 &)
 REFERENCE_CALL void b2CollidePolygons(b2Manifold *, const b2PolygonShape *, const b2Transform &, const b2PolygonShape *, const b2Transform &) -> b2Vec2 & b2Vec2::operator=(b2Vec2 &) [b2CollidePolygon.cpp <182:6 182:6>]
 LOCAL_SYMBOL: b2CollidePolygon.cpp<170:9> [b2CollidePolygon.cpp <182:2 182:4>]
-SYMBOL_FUNCTION b2Vec2 b2Mul(const b2Transform &, const b2Vec2 &)
 REFERENCE_CALL void b2CollidePolygons(b2Manifold *, const b2PolygonShape *, const b2Transform &, const b2PolygonShape *, const b2Transform &) -> b2Vec2 b2Mul(const b2Transform &, const b2Vec2 &) [b2CollidePolygon.cpp <182:8 182:12>]
 LOCAL_SYMBOL: b2CollidePolygon.cpp<135:14> [b2CollidePolygon.cpp <182:14 182:16>]
 LOCAL_SYMBOL: b2CollidePolygon.cpp<170:9> [b2CollidePolygon.cpp <182:19 182:21>]
-SYMBOL_FUNCTION b2Vec2 & b2Vec2::operator=(b2Vec2 &)
 REFERENCE_CALL void b2CollidePolygons(b2Manifold *, const b2PolygonShape *, const b2Transform &, const b2PolygonShape *, const b2Transform &) -> b2Vec2 & b2Vec2::operator=(b2Vec2 &) [b2CollidePolygon.cpp <183:6 183:6>]
 LOCAL_SYMBOL: b2CollidePolygon.cpp<171:9> [b2CollidePolygon.cpp <183:2 183:4>]
-SYMBOL_FUNCTION b2Vec2 b2Mul(const b2Transform &, const b2Vec2 &)
 REFERENCE_CALL void b2CollidePolygons(b2Manifold *, const b2PolygonShape *, const b2Transform &, const b2PolygonShape *, const b2Transform &) -> b2Vec2 b2Mul(const b2Transform &, const b2Vec2 &) [b2CollidePolygon.cpp <183:8 183:12>]
 LOCAL_SYMBOL: b2CollidePolygon.cpp<135:14> [b2CollidePolygon.cpp <183:14 183:16>]
 LOCAL_SYMBOL: b2CollidePolygon.cpp<171:9> [b2CollidePolygon.cpp <183:19 183:21>]
 LOCAL_SYMBOL: b2CollidePolygon.cpp<186:10> [b2CollidePolygon.cpp <186:10 186:20>]
 REFERENCE_TYPE_USAGE void b2CollidePolygons(b2Manifold *, const b2PolygonShape *, const b2Transform &, const b2PolygonShape *, const b2Transform &) -> float32 [b2CollidePolygon.cpp <186:2 186:8>]
-SYMBOL_FUNCTION float32 b2Dot(const b2Vec2 &, const b2Vec2 &)
 REFERENCE_CALL void b2CollidePolygons(b2Manifold *, const b2PolygonShape *, const b2Transform &, const b2PolygonShape *, const b2Transform &) -> float32 b2Dot(const b2Vec2 &, const b2Vec2 &) [b2CollidePolygon.cpp <186:24 186:28>]
 LOCAL_SYMBOL: b2CollidePolygon.cpp<180:9> [b2CollidePolygon.cpp <186:30 186:35>]
 LOCAL_SYMBOL: b2CollidePolygon.cpp<170:9> [b2CollidePolygon.cpp <186:38 186:40>]
 LOCAL_SYMBOL: b2CollidePolygon.cpp<189:10> [b2CollidePolygon.cpp <189:10 189:20>]
 REFERENCE_TYPE_USAGE void b2CollidePolygons(b2Manifold *, const b2PolygonShape *, const b2Transform &, const b2PolygonShape *, const b2Transform &) -> float32 [b2CollidePolygon.cpp <189:2 189:8>]
-SYMBOL_FUNCTION float32 b2Dot(const b2Vec2 &, const b2Vec2 &)
 REFERENCE_CALL void b2CollidePolygons(b2Manifold *, const b2PolygonShape *, const b2Transform &, const b2PolygonShape *, const b2Transform &) -> float32 b2Dot(const b2Vec2 &, const b2Vec2 &) [b2CollidePolygon.cpp <189:25 189:29>]
 LOCAL_SYMBOL: b2CollidePolygon.cpp<179:9> [b2CollidePolygon.cpp <189:31 189:37>]
 LOCAL_SYMBOL: b2CollidePolygon.cpp<170:9> [b2CollidePolygon.cpp <189:40 189:42>]
 LOCAL_SYMBOL: b2CollidePolygon.cpp<121:10> [b2CollidePolygon.cpp <189:47 189:57>]
 LOCAL_SYMBOL: b2CollidePolygon.cpp<190:10> [b2CollidePolygon.cpp <190:10 190:20>]
 REFERENCE_TYPE_USAGE void b2CollidePolygons(b2Manifold *, const b2PolygonShape *, const b2Transform &, const b2PolygonShape *, const b2Transform &) -> float32 [b2CollidePolygon.cpp <190:2 190:8>]
-SYMBOL_FUNCTION float32 b2Dot(const b2Vec2 &, const b2Vec2 &)
 REFERENCE_CALL void b2CollidePolygons(b2Manifold *, const b2PolygonShape *, const b2Transform &, const b2PolygonShape *, const b2Transform &) -> float32 b2Dot(const b2Vec2 &, const b2Vec2 &) [b2CollidePolygon.cpp <190:24 190:28>]
 LOCAL_SYMBOL: b2CollidePolygon.cpp<179:9> [b2CollidePolygon.cpp <190:30 190:36>]
 LOCAL_SYMBOL: b2CollidePolygon.cpp<171:9> [b2CollidePolygon.cpp <190:39 190:41>]
 LOCAL_SYMBOL: b2CollidePolygon.cpp<121:10> [b2CollidePolygon.cpp <190:46 190:56>]
 LOCAL_SYMBOL: b2CollidePolygon.cpp<193:15> [b2CollidePolygon.cpp <193:15 193:25>]
 REFERENCE_TYPE_USAGE void b2CollidePolygons(b2Manifold *, const b2PolygonShape *, const b2Transform &, const b2PolygonShape *, const b2Transform &) -> b2ClipVertex [b2CollidePolygon.cpp <193:2 193:13>]
-SYMBOL_FUNCTION void b2ClipVertex::b2ClipVertex()
 REFERENCE_CALL void b2CollidePolygons(b2Manifold *, const b2PolygonShape *, const b2Transform &, const b2PolygonShape *, const b2Transform &) -> void b2ClipVertex::b2ClipVertex() [b2CollidePolygon.cpp <193:15 193:25>]
 LOCAL_SYMBOL: b2CollidePolygon.cpp<194:15> [b2CollidePolygon.cpp <194:15 194:25>]
 REFERENCE_TYPE_USAGE void b2CollidePolygons(b2Manifold *, const b2PolygonShape *, const b2Transform &, const b2PolygonShape *, const b2Transform &) -> b2ClipVertex [b2CollidePolygon.cpp <194:2 194:13>]
-SYMBOL_FUNCTION void b2ClipVertex::b2ClipVertex()
 REFERENCE_CALL void b2CollidePolygons(b2Manifold *, const b2PolygonShape *, const b2Transform &, const b2PolygonShape *, const b2Transform &) -> void b2ClipVertex::b2ClipVertex() [b2CollidePolygon.cpp <194:15 194:25>]
 LOCAL_SYMBOL: b2CollidePolygon.cpp<195:6> [b2CollidePolygon.cpp <195:6 195:7>]
 SYMBOL_BUILTIN_TYPE int
@@ -513,7 +484,6 @@ LOCAL_SYMBOL: b2CollidePolygon.cpp<189:10> [b2CollidePolygon.cpp <198:64 198:74>
 LOCAL_SYMBOL: b2CollidePolygon.cpp<167:8> [b2CollidePolygon.cpp <198:77 198:79>]
 LOCAL_SYMBOL: b2CollidePolygon.cpp<195:6> [b2CollidePolygon.cpp <200:6 200:7>]
 LOCAL_SYMBOL: b2CollidePolygon.cpp<195:6> [b2CollidePolygon.cpp <204:2 204:3>]
-SYMBOL_FUNCTION int32 b2ClipSegmentToLine(b2ClipVertex [], const b2ClipVertex [] const, const b2Vec2 &, float32, int32)
 REFERENCE_CALL void b2CollidePolygons(b2Manifold *, const b2PolygonShape *, const b2Transform &, const b2PolygonShape *, const b2Transform &) -> int32 b2ClipSegmentToLine(b2ClipVertex [], const b2ClipVertex [] const, const b2Vec2 &, float32, int32) [b2CollidePolygon.cpp <204:7 204:25>]
 LOCAL_SYMBOL: b2CollidePolygon.cpp<194:15> [b2CollidePolygon.cpp <204:27 204:37>]
 LOCAL_SYMBOL: b2CollidePolygon.cpp<193:15> [b2CollidePolygon.cpp <204:40 204:50>]
@@ -526,7 +496,6 @@ REFERENCE_CALL void b2CollidePolygons(b2Manifold *, const b2PolygonShape *, cons
 REFERENCE_USAGE void b2CollidePolygons(b2Manifold *, const b2PolygonShape *, const b2Transform &, const b2PolygonShape *, const b2Transform &) -> b2Vec2 b2Manifold::localNormal [b2CollidePolygon.cpp <212:12 212:22>]
 LOCAL_SYMBOL: b2CollidePolygon.cpp<116:36> [b2CollidePolygon.cpp <212:2 212:9>]
 LOCAL_SYMBOL: b2CollidePolygon.cpp<176:9> [b2CollidePolygon.cpp <212:26 212:36>]
-SYMBOL_FUNCTION b2Vec2 & b2Vec2::operator=(const b2Vec2 &)
 REFERENCE_CALL void b2CollidePolygons(b2Manifold *, const b2PolygonShape *, const b2Transform &, const b2PolygonShape *, const b2Transform &) -> b2Vec2 & b2Vec2::operator=(const b2Vec2 &) [b2CollidePolygon.cpp <213:23 213:23>]
 REFERENCE_USAGE void b2CollidePolygons(b2Manifold *, const b2PolygonShape *, const b2Transform &, const b2PolygonShape *, const b2Transform &) -> b2Vec2 b2Manifold::localPoint [b2CollidePolygon.cpp <213:12 213:21>]
 LOCAL_SYMBOL: b2CollidePolygon.cpp<116:36> [b2CollidePolygon.cpp <213:2 213:9>]
@@ -539,7 +508,6 @@ LOCAL_SYMBOL: b2CollidePolygon.cpp<216:13> [b2CollidePolygon.cpp <216:20 216:20>
 LOCAL_SYMBOL: b2CollidePolygon.cpp<216:13> [b2CollidePolygon.cpp <216:48 216:48>]
 LOCAL_SYMBOL: b2CollidePolygon.cpp<218:11> [b2CollidePolygon.cpp <218:11 218:20>]
 REFERENCE_TYPE_USAGE void b2CollidePolygons(b2Manifold *, const b2PolygonShape *, const b2Transform &, const b2PolygonShape *, const b2Transform &) -> float32 [b2CollidePolygon.cpp <218:3 218:9>]
-SYMBOL_FUNCTION float32 b2Dot(const b2Vec2 &, const b2Vec2 &)
 REFERENCE_CALL void b2CollidePolygons(b2Manifold *, const b2PolygonShape *, const b2Transform &, const b2PolygonShape *, const b2Transform &) -> float32 b2Dot(const b2Vec2 &, const b2Vec2 &) [b2CollidePolygon.cpp <218:24 218:28>]
 LOCAL_SYMBOL: b2CollidePolygon.cpp<180:9> [b2CollidePolygon.cpp <218:30 218:35>]
 REFERENCE_USAGE void b2CollidePolygons(b2Manifold *, const b2PolygonShape *, const b2Transform &, const b2PolygonShape *, const b2Transform &) -> b2Vec2 b2ClipVertex::v [b2CollidePolygon.cpp <218:53 218:53>]
@@ -553,7 +521,6 @@ REFERENCE_TYPE_USAGE void b2CollidePolygons(b2Manifold *, const b2PolygonShape *
 REFERENCE_USAGE void b2CollidePolygons(b2Manifold *, const b2PolygonShape *, const b2Transform &, const b2PolygonShape *, const b2Transform &) -> b2ManifoldPoint [] b2Manifold::points [b2CollidePolygon.cpp <222:36 222:41>]
 LOCAL_SYMBOL: b2CollidePolygon.cpp<116:36> [b2CollidePolygon.cpp <222:26 222:33>]
 LOCAL_SYMBOL: b2CollidePolygon.cpp<215:8> [b2CollidePolygon.cpp <222:45 222:54>]
-SYMBOL_FUNCTION b2Vec2 & b2Vec2::operator=(b2Vec2 &)
 REFERENCE_CALL void b2CollidePolygons(b2Manifold *, const b2PolygonShape *, const b2Transform &, const b2PolygonShape *, const b2Transform &) -> b2Vec2 & b2Vec2::operator=(b2Vec2 &) [b2CollidePolygon.cpp <223:19 223:19>]
 REFERENCE_USAGE void b2CollidePolygons(b2Manifold *, const b2PolygonShape *, const b2Transform &, const b2PolygonShape *, const b2Transform &) -> b2Vec2 b2ManifoldPoint::localPoint [b2CollidePolygon.cpp <223:8 223:17>]
 LOCAL_SYMBOL: b2CollidePolygon.cpp<222:21> [b2CollidePolygon.cpp <223:4 223:5>]

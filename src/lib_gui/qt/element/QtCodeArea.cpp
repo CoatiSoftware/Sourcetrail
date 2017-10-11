@@ -688,6 +688,10 @@ void QtCodeArea::annotateText()
 	const std::set<Id>& activeLocationIds = m_navigator->getCurrentActiveLocationIds();
 
 	std::set<Id> focusedSymbolIds = m_navigator->getActiveTokenIds();
+	for (Id currentActiveId : activeSymbolIds)
+	{
+		focusedSymbolIds.erase(currentActiveId);
+	}
 	utility::append(focusedSymbolIds, m_navigator->getFocusedTokenIds());
 
 	bool needsUpdate = QtCodeField::annotateText(activeSymbolIds, activeLocationIds, focusedSymbolIds);

@@ -147,9 +147,12 @@ public class JavaIndexer
 			int scopeBeginLine, int scopeBeginColumn, int scopeEndLine, int scopeEndColumn,
 			int access, int definitionKind
 	);
-	
+
 	static public native void recordReference(
 			int address, int referenceKind, String referencedName, String contextName, int beginLine, int beginColumn, int endLine, int endColumn);
+
+	static public native void recordQualifierLocation(
+			int address, String qualifierName, int beginLine, int beginColumn, int endLine, int endColumn);
 	
 	static public native void recordLocalSymbol(
 			int address, String symbolName, int beginLine, int beginColumn, int endLine, int endColumn);

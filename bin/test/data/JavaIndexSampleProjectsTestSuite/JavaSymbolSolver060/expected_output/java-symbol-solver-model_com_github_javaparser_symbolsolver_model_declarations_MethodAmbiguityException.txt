@@ -1,10 +1,15 @@
 FILE: MethodAmbiguityException.java
-SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model.declarations [MethodAmbiguityException.java <17:9 17:61>]
+SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model.declarations [MethodAmbiguityException.java <17:50 17:61>]
 SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model
 SYMBOL_PACKAGE com.github.javaparser.symbolsolver
 SYMBOL_PACKAGE com.github.javaparser
 SYMBOL_PACKAGE com.github
 SYMBOL_PACKAGE com
+QUALIFIER: com.github.javaparser.symbolsolver.model [MethodAmbiguityException.java <17:44 17:48>]
+QUALIFIER: com.github.javaparser.symbolsolver [MethodAmbiguityException.java <17:31 17:42>]
+QUALIFIER: com.github.javaparser [MethodAmbiguityException.java <17:20 17:29>]
+QUALIFIER: com.github [MethodAmbiguityException.java <17:13 17:18>]
+QUALIFIER: com [MethodAmbiguityException.java <17:9 17:11>]
 SYMBOL_CLASS public com.github.javaparser.symbolsolver.model.declarations.MethodAmbiguityException [MethodAmbiguityException.java <24:1 <24:14 24:37> 33:1>]
 LOCAL_SYMBOL: MethodAmbiguityException.java<24:64> [MethodAmbiguityException.java <24:64 24:64>]
 LOCAL_SYMBOL: MethodAmbiguityException.java<24:64> [MethodAmbiguityException.java <33:1 33:1>]
@@ -18,7 +23,6 @@ REFERENCE_TYPE_USAGE com.github.javaparser.symbolsolver.model.declarations.Metho
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.model.declarations.MethodAmbiguityException.MethodAmbiguityException<0> [MethodAmbiguityException.java <29:44 29:54>]
 LOCAL_SYMBOL: MethodAmbiguityException.java<29:57> [MethodAmbiguityException.java <29:57 29:57>]
 LOCAL_SYMBOL: MethodAmbiguityException.java<29:57> [MethodAmbiguityException.java <31:5 31:5>]
-SYMBOL_METHOD java.lang.RuntimeException.RuntimeException(java.lang.String)
 REFERENCE_CALL com.github.javaparser.symbolsolver.model.declarations.MethodAmbiguityException.MethodAmbiguityException(java.lang.String) -> java.lang.RuntimeException.RuntimeException(java.lang.String) [MethodAmbiguityException.java <30:9 30:13>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.model.declarations.MethodAmbiguityException.MethodAmbiguityException<0> [MethodAmbiguityException.java <30:15 30:25>]
 COMMENT: comment [MethodAmbiguityException.java <1:1 15:3>]

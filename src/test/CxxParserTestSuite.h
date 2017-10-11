@@ -1281,6 +1281,94 @@ public:
 	}
 
 ///////////////////////////////////////////////////////////////////////////////
+// test qualifier locations
+	
+	void test_cxx_parser_finds_qualifier_of_access_to_global_variable_defined_in_namespace()
+	{
+		std::shared_ptr<TestParserClient> client = parseCode(
+			"namespace foo {\n"
+			"	namespace bar {\n"
+			"		int x;\n"
+			"	}\n"
+			"}\n"
+			"void f() {\n"
+			"	foo::bar::x = 9;\n"
+			"}\n"
+		);
+
+		TS_ASSERT(utility::containsElement<std::string>(client->qualifiers, "foo <7:2 7:4>"));
+		TS_ASSERT(utility::containsElement<std::string>(client->qualifiers, "foo::bar <7:7 7:9>"));
+	}
+
+	void test_cxx_parser_finds_qualifier_of_access_to_static_field()
+	{
+		std::shared_ptr<TestParserClient> client = parseCode(
+			"class Foo {\n"
+			"public:\n"
+			"	struct Bar {\n"
+			"	public:\n"
+			"		static int x;\n"
+			"	};\n"
+			"};\n"
+			"void f() {\n"
+			"	Foo::Bar::x = 9;\n"
+			"}\n"
+		);
+
+		TS_ASSERT(utility::containsElement<std::string>(client->qualifiers, "Foo <9:2 9:4>"));
+		TS_ASSERT(utility::containsElement<std::string>(client->qualifiers, "Foo::Bar <9:7 9:9>"));
+	}
+
+	void test_cxx_parser_finds_qualifier_of_access_to_enum_constant()
+	{
+		std::shared_ptr<TestParserClient> client = parseCode(
+			"enum Foo {\n"
+			"	FOO_V\n"
+			"};\n"
+			"void f() {\n"
+			"	Foo v = Foo::FOO_V;\n"
+			"}\n"
+		);
+
+		TS_ASSERT(utility::containsElement<std::string>(client->qualifiers, "Foo <5:10 5:12>"));
+	}
+
+	void test_cxx_parser_finds_qualifier_of_reference_to_method()
+	{
+		std::shared_ptr<TestParserClient> client = parseCode(
+			"class Foo {\n"
+			"public:\n"
+			"	static void my_int_func(int x) {\n"
+			"	}\n"
+			"};\n"
+			"\n"
+			"void test() {\n"
+			"	void(*foo)(int);\n"
+			"	foo = &Foo::my_int_func;\n"
+			"}\n"
+		);
+
+		TS_ASSERT(utility::containsElement<std::string>(client->qualifiers, "Foo <9:9 9:11>"));
+	}
+
+	void test_cxx_parser_finds_qualifier_of_constructor_call()
+	{
+		std::shared_ptr<TestParserClient> client = parseCode(
+			"class Foo {\n"
+			"public:\n"
+			"	Foo(int i) {}\n"
+			"};\n"
+			"\n"
+			"class Bar : public Foo {\n"
+			"public:\n"
+			"	Bar() : Foo::Foo(4) {}\n"
+			"};\n"
+		);
+
+		TS_ASSERT(utility::containsElement<std::string>(client->qualifiers, "Foo <8:10 8:12>"));
+	}
+
+///////////////////////////////////////////////////////////////////////////////
 // test implicit symbols
 
 	void test_cxx_parser_finds_builtin_types()

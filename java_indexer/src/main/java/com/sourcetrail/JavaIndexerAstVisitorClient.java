@@ -79,6 +79,16 @@ public class JavaIndexerAstVisitorClient extends AstVisitorClient
 	}
 
 	@Override
+	public void recordQualifierLocation(
+			NameHierarchy qualifierName, 
+			Range range)
+	{
+		JavaIndexer.recordQualifierLocation(
+				m_address, qualifierName.serialize(), 
+				range.begin.line, range.begin.column, range.end.line, range.end.column);
+	}
+
+	@Override
 	public void recordLocalSymbol(NameHierarchy symbolName, Range range) 
 	{
 		JavaIndexer.recordLocalSymbol(

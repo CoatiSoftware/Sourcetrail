@@ -1,13 +1,8 @@
 FILE: b3Logging.cpp
-FILE: b3Logging.cpp
 COMMENT: comment [b3Logging.cpp <1:1 13:3>]
 COMMENT: comment [b3Logging.cpp <14:1 14:38>]
-FILE: b3Logging.cpp
-FILE: b3Logging.cpp
-FILE: b3Logging.cpp
 REFERENCE_MACRO_USAGE b3Logging.cpp -> _WIN32 [b3Logging.cpp <21:8 21:13>]
 ERROR: unknown type name 'IUnknown' [ObjBase.h <239:21 239:21>]
-FILE: b3Logging.cpp
 COMMENT: comment [b3Logging.cpp <23:8 23:16>]
 REFERENCE_MACRO_USAGE b3Logging.cpp -> _WIN32 [b3Logging.cpp <28:8 28:13>]
 COMMENT: comment [b3Logging.cpp <32:5 32:24>]
@@ -31,20 +26,14 @@ REFERENCE_MACRO_USAGE b3Logging.cpp -> va_end [b3Logging.cpp <96:5 96:10>]
 REFERENCE_MACRO_USAGE stdarg.h -> __crt_va_end [stdarg.h <19:18 19:29>]
 REFERENCE_MACRO_USAGE b3Logging.cpp -> B3_MAX_DEBUG_STRING_LENGTH [b3Logging.cpp <100:19 100:44>]
 REFERENCE_MACRO_USAGE b3Logging.cpp -> va_start [b3Logging.cpp <102:5 102:12>]
-REFERENCE_MACRO_USAGE stdarg.h -> __crt_va_start [stdarg.h <17:18 17:31>]
-REFERENCE_MACRO_USAGE vadefs.h -> __crt_va_start_a [vadefs.h <149:96 149:111>]
 REFERENCE_MACRO_USAGE b3Logging.cpp -> _MSC_VER [b3Logging.cpp <103:8 103:15>]
 REFERENCE_MACRO_USAGE b3Logging.cpp -> B3_MAX_DEBUG_STRING_LENGTH [b3Logging.cpp <104:25 104:50>]
 REFERENCE_MACRO_USAGE b3Logging.cpp -> va_end [b3Logging.cpp <109:5 109:10>]
-REFERENCE_MACRO_USAGE stdarg.h -> __crt_va_end [stdarg.h <19:18 19:29>]
 REFERENCE_MACRO_USAGE b3Logging.cpp -> B3_MAX_DEBUG_STRING_LENGTH [b3Logging.cpp <114:19 114:44>]
 REFERENCE_MACRO_USAGE b3Logging.cpp -> va_start [b3Logging.cpp <116:5 116:12>]
-REFERENCE_MACRO_USAGE stdarg.h -> __crt_va_start [stdarg.h <17:18 17:31>]
-REFERENCE_MACRO_USAGE vadefs.h -> __crt_va_start_a [vadefs.h <149:96 149:111>]
 REFERENCE_MACRO_USAGE b3Logging.cpp -> _MSC_VER [b3Logging.cpp <117:8 117:15>]
 REFERENCE_MACRO_USAGE b3Logging.cpp -> B3_MAX_DEBUG_STRING_LENGTH [b3Logging.cpp <118:25 118:50>]
 REFERENCE_MACRO_USAGE b3Logging.cpp -> va_end [b3Logging.cpp <123:5 123:10>]
-REFERENCE_MACRO_USAGE stdarg.h -> __crt_va_end [stdarg.h <19:18 19:29>]
 REFERENCE_MACRO_USAGE b3Logging.cpp -> _MSC_VER [b3Logging.cpp <157:9 157:16>]
 SYMBOL_FUNCTION void b3PrintfFuncDefault(const char *) [b3Logging.cpp <26:1 <26:6 26:24> 34:1>]
 SYMBOL_BUILTIN_TYPE void
@@ -61,32 +50,22 @@ LOCAL_SYMBOL: b3Logging.cpp<26:38> [b3Logging.cpp <31:14 31:16>]
 SYMBOL_FUNCTION int fflush(FILE *)
 REFERENCE_CALL void b3PrintfFuncDefault(const char *) -> int fflush(FILE *) [b3Logging.cpp <33:5 33:10>]
 SYMBOL_FUNCTION void b3WarningMessageFuncDefault(const char *) [b3Logging.cpp <36:1 <36:6 36:32> 45:1>]
-SYMBOL_BUILTIN_TYPE void
 REFERENCE_TYPE_USAGE void b3WarningMessageFuncDefault(const char *) -> void [b3Logging.cpp <36:1 36:4>]
 LOCAL_SYMBOL: b3Logging.cpp<36:46> [b3Logging.cpp <36:46 36:48>]
-SYMBOL_BUILTIN_TYPE char
 REFERENCE_TYPE_USAGE void b3WarningMessageFuncDefault(const char *) -> char [b3Logging.cpp <36:40 36:43>]
-SYMBOL_FUNCTION void OutputDebugStringA(LPCSTR)
 REFERENCE_CALL void b3WarningMessageFuncDefault(const char *) -> void OutputDebugStringA(LPCSTR) [b3Logging.cpp <39:2 39:19>]
 LOCAL_SYMBOL: b3Logging.cpp<36:46> [b3Logging.cpp <39:21 39:23>]
-SYMBOL_FUNCTION int printf(const char * const)
 REFERENCE_CALL void b3WarningMessageFuncDefault(const char *) -> int printf(const char * const) [b3Logging.cpp <41:2 41:7>]
 LOCAL_SYMBOL: b3Logging.cpp<36:46> [b3Logging.cpp <41:14 41:16>]
-SYMBOL_FUNCTION int fflush(FILE *)
 REFERENCE_CALL void b3WarningMessageFuncDefault(const char *) -> int fflush(FILE *) [b3Logging.cpp <43:5 43:10>]
 SYMBOL_FUNCTION void b3ErrorMessageFuncDefault(const char *) [b3Logging.cpp <48:1 <48:6 48:30> 58:1>]
-SYMBOL_BUILTIN_TYPE void
 REFERENCE_TYPE_USAGE void b3ErrorMessageFuncDefault(const char *) -> void [b3Logging.cpp <48:1 48:4>]
 LOCAL_SYMBOL: b3Logging.cpp<48:44> [b3Logging.cpp <48:44 48:46>]
-SYMBOL_BUILTIN_TYPE char
 REFERENCE_TYPE_USAGE void b3ErrorMessageFuncDefault(const char *) -> char [b3Logging.cpp <48:38 48:41>]
-SYMBOL_FUNCTION void OutputDebugStringA(LPCSTR)
 REFERENCE_CALL void b3ErrorMessageFuncDefault(const char *) -> void OutputDebugStringA(LPCSTR) [b3Logging.cpp <51:2 51:19>]
 LOCAL_SYMBOL: b3Logging.cpp<48:44> [b3Logging.cpp <51:21 51:23>]
-SYMBOL_FUNCTION int printf(const char * const)
 REFERENCE_CALL void b3ErrorMessageFuncDefault(const char *) -> int printf(const char * const) [b3Logging.cpp <53:2 53:7>]
 LOCAL_SYMBOL: b3Logging.cpp<48:44> [b3Logging.cpp <53:14 53:16>]
-SYMBOL_FUNCTION int fflush(FILE *)
 REFERENCE_CALL void b3ErrorMessageFuncDefault(const char *) -> int fflush(FILE *) [b3Logging.cpp <56:5 56:10>]
 SYMBOL_GLOBAL_VARIABLE b3PrintfFunc * b3s_printfFunc [b3Logging.cpp <62:22 62:35>]
 REFERENCE_TYPE_USAGE b3PrintfFunc * b3s_printfFunc -> b3PrintfFunc [b3Logging.cpp <62:8 62:19>]
@@ -98,40 +77,33 @@ SYMBOL_GLOBAL_VARIABLE b3ErrorMessageFunc * b3s_errorMessageFunc [b3Logging.cpp 
 REFERENCE_TYPE_USAGE b3ErrorMessageFunc * b3s_errorMessageFunc -> b3ErrorMessageFunc [b3Logging.cpp <64:8 64:25>]
 REFERENCE_USAGE b3ErrorMessageFunc * b3s_errorMessageFunc -> void b3ErrorMessageFuncDefault(const char *) [b3Logging.cpp <64:51 64:75>]
 SYMBOL_FUNCTION void b3SetCustomPrintfFunc(b3PrintfFunc *) [b3Logging.cpp <68:1 <68:6 68:26> 71:1>]
-SYMBOL_BUILTIN_TYPE void
 REFERENCE_TYPE_USAGE void b3SetCustomPrintfFunc(b3PrintfFunc *) -> void [b3Logging.cpp <68:1 68:4>]
 LOCAL_SYMBOL: b3Logging.cpp<68:42> [b3Logging.cpp <68:42 68:51>]
 REFERENCE_TYPE_USAGE void b3SetCustomPrintfFunc(b3PrintfFunc *) -> b3PrintfFunc [b3Logging.cpp <68:28 68:39>]
 REFERENCE_USAGE void b3SetCustomPrintfFunc(b3PrintfFunc *) -> b3PrintfFunc * b3s_printfFunc [b3Logging.cpp <70:2 70:15>]
 LOCAL_SYMBOL: b3Logging.cpp<68:42> [b3Logging.cpp <70:19 70:28>]
 SYMBOL_FUNCTION void b3SetCustomWarningMessageFunc(b3WarningMessageFunc *) [b3Logging.cpp <72:1 <72:6 72:34> 75:1>]
-SYMBOL_BUILTIN_TYPE void
 REFERENCE_TYPE_USAGE void b3SetCustomWarningMessageFunc(b3WarningMessageFunc *) -> void [b3Logging.cpp <72:1 72:4>]
 LOCAL_SYMBOL: b3Logging.cpp<72:50> [b3Logging.cpp <72:50 72:67>]
 REFERENCE_TYPE_USAGE void b3SetCustomWarningMessageFunc(b3WarningMessageFunc *) -> b3PrintfFunc [b3Logging.cpp <72:36 72:47>]
 REFERENCE_USAGE void b3SetCustomWarningMessageFunc(b3WarningMessageFunc *) -> b3WarningMessageFunc * b3s_warningMessageFunc [b3Logging.cpp <74:2 74:23>]
 LOCAL_SYMBOL: b3Logging.cpp<72:50> [b3Logging.cpp <74:27 74:44>]
 SYMBOL_FUNCTION void b3SetCustomErrorMessageFunc(b3ErrorMessageFunc *) [b3Logging.cpp <76:1 <76:6 76:32> 79:1>]
-SYMBOL_BUILTIN_TYPE void
 REFERENCE_TYPE_USAGE void b3SetCustomErrorMessageFunc(b3ErrorMessageFunc *) -> void [b3Logging.cpp <76:1 76:4>]
 LOCAL_SYMBOL: b3Logging.cpp<76:48> [b3Logging.cpp <76:48 76:63>]
 REFERENCE_TYPE_USAGE void b3SetCustomErrorMessageFunc(b3ErrorMessageFunc *) -> b3PrintfFunc [b3Logging.cpp <76:34 76:45>]
 REFERENCE_USAGE void b3SetCustomErrorMessageFunc(b3ErrorMessageFunc *) -> b3ErrorMessageFunc * b3s_errorMessageFunc [b3Logging.cpp <78:2 78:21>]
 LOCAL_SYMBOL: b3Logging.cpp<76:48> [b3Logging.cpp <78:25 78:40>]
 SYMBOL_FUNCTION void b3OutputPrintfVarArgsInternal(const char *) [b3Logging.cpp <85:1 <85:6 85:34> 97:1>]
-SYMBOL_BUILTIN_TYPE void
 REFERENCE_TYPE_USAGE void b3OutputPrintfVarArgsInternal(const char *) -> void [b3Logging.cpp <85:1 85:4>]
 LOCAL_SYMBOL: b3Logging.cpp<85:48> [b3Logging.cpp <85:48 85:50>]
-SYMBOL_BUILTIN_TYPE char
 REFERENCE_TYPE_USAGE void b3OutputPrintfVarArgsInternal(const char *) -> char [b3Logging.cpp <85:42 85:45>]
 LOCAL_SYMBOL: b3Logging.cpp<87:10> [b3Logging.cpp <87:10 87:17>]
-SYMBOL_BUILTIN_TYPE char
 REFERENCE_TYPE_USAGE void b3OutputPrintfVarArgsInternal(const char *) -> char [b3Logging.cpp <87:5 87:8>]
 LOCAL_SYMBOL: b3Logging.cpp<88:13> [b3Logging.cpp <88:13 88:19>]
 REFERENCE_TYPE_USAGE void b3OutputPrintfVarArgsInternal(const char *) -> va_list [b3Logging.cpp <88:5 88:11>]
 LOCAL_SYMBOL: b3Logging.cpp<85:48> [b3Logging.cpp <89:23 89:25>]
 LOCAL_SYMBOL: b3Logging.cpp<88:13> [b3Logging.cpp <89:14 89:20>]
-LOCAL_SYMBOL: b3Logging.cpp<85:48> [b3Logging.cpp <89:23 89:25>]
 SYMBOL_FUNCTION int vsprintf_s(char * const, const size_t, const char * const, va_list)
 REFERENCE_CALL void b3OutputPrintfVarArgsInternal(const char *) -> int vsprintf_s(char * const, const size_t, const char * const, va_list) [b3Logging.cpp <91:5 91:14>]
 LOCAL_SYMBOL: b3Logging.cpp<87:10> [b3Logging.cpp <91:16 91:23>]
@@ -141,20 +113,15 @@ REFERENCE_USAGE void b3OutputPrintfVarArgsInternal(const char *) -> b3PrintfFunc
 LOCAL_SYMBOL: b3Logging.cpp<87:10> [b3Logging.cpp <95:26 95:33>]
 LOCAL_SYMBOL: b3Logging.cpp<88:13> [b3Logging.cpp <96:12 96:18>]
 SYMBOL_FUNCTION void b3OutputWarningMessageVarArgsInternal(const char *) [b3Logging.cpp <98:1 <98:6 98:42> 110:1>]
-SYMBOL_BUILTIN_TYPE void
 REFERENCE_TYPE_USAGE void b3OutputWarningMessageVarArgsInternal(const char *) -> void [b3Logging.cpp <98:1 98:4>]
 LOCAL_SYMBOL: b3Logging.cpp<98:56> [b3Logging.cpp <98:56 98:58>]
-SYMBOL_BUILTIN_TYPE char
 REFERENCE_TYPE_USAGE void b3OutputWarningMessageVarArgsInternal(const char *) -> char [b3Logging.cpp <98:50 98:53>]
 LOCAL_SYMBOL: b3Logging.cpp<100:10> [b3Logging.cpp <100:10 100:17>]
-SYMBOL_BUILTIN_TYPE char
 REFERENCE_TYPE_USAGE void b3OutputWarningMessageVarArgsInternal(const char *) -> char [b3Logging.cpp <100:5 100:8>]
 LOCAL_SYMBOL: b3Logging.cpp<101:13> [b3Logging.cpp <101:13 101:19>]
 REFERENCE_TYPE_USAGE void b3OutputWarningMessageVarArgsInternal(const char *) -> va_list [b3Logging.cpp <101:5 101:11>]
 LOCAL_SYMBOL: b3Logging.cpp<98:56> [b3Logging.cpp <102:23 102:25>]
 LOCAL_SYMBOL: b3Logging.cpp<101:13> [b3Logging.cpp <102:14 102:20>]
-LOCAL_SYMBOL: b3Logging.cpp<98:56> [b3Logging.cpp <102:23 102:25>]
-SYMBOL_FUNCTION int vsprintf_s(char * const, const size_t, const char * const, va_list)
 REFERENCE_CALL void b3OutputWarningMessageVarArgsInternal(const char *) -> int vsprintf_s(char * const, const size_t, const char * const, va_list) [b3Logging.cpp <104:5 104:14>]
 LOCAL_SYMBOL: b3Logging.cpp<100:10> [b3Logging.cpp <104:16 104:23>]
 LOCAL_SYMBOL: b3Logging.cpp<98:56> [b3Logging.cpp <104:52 104:54>]
@@ -163,20 +130,15 @@ REFERENCE_USAGE void b3OutputWarningMessageVarArgsInternal(const char *) -> b3Wa
 LOCAL_SYMBOL: b3Logging.cpp<100:10> [b3Logging.cpp <108:34 108:41>]
 LOCAL_SYMBOL: b3Logging.cpp<101:13> [b3Logging.cpp <109:12 109:18>]
 SYMBOL_FUNCTION void b3OutputErrorMessageVarArgsInternal(const char *) [b3Logging.cpp <111:1 <111:6 111:40> 125:1>]
-SYMBOL_BUILTIN_TYPE void
 REFERENCE_TYPE_USAGE void b3OutputErrorMessageVarArgsInternal(const char *) -> void [b3Logging.cpp <111:1 111:4>]
 LOCAL_SYMBOL: b3Logging.cpp<111:54> [b3Logging.cpp <111:54 111:56>]
-SYMBOL_BUILTIN_TYPE char
 REFERENCE_TYPE_USAGE void b3OutputErrorMessageVarArgsInternal(const char *) -> char [b3Logging.cpp <111:48 111:51>]
 LOCAL_SYMBOL: b3Logging.cpp<114:10> [b3Logging.cpp <114:10 114:17>]
-SYMBOL_BUILTIN_TYPE char
 REFERENCE_TYPE_USAGE void b3OutputErrorMessageVarArgsInternal(const char *) -> char [b3Logging.cpp <114:5 114:8>]
 LOCAL_SYMBOL: b3Logging.cpp<115:13> [b3Logging.cpp <115:13 115:19>]
 REFERENCE_TYPE_USAGE void b3OutputErrorMessageVarArgsInternal(const char *) -> va_list [b3Logging.cpp <115:5 115:11>]
 LOCAL_SYMBOL: b3Logging.cpp<111:54> [b3Logging.cpp <116:23 116:25>]
 LOCAL_SYMBOL: b3Logging.cpp<115:13> [b3Logging.cpp <116:14 116:20>]
-LOCAL_SYMBOL: b3Logging.cpp<111:54> [b3Logging.cpp <116:23 116:25>]
-SYMBOL_FUNCTION int vsprintf_s(char * const, const size_t, const char * const, va_list)
 REFERENCE_CALL void b3OutputErrorMessageVarArgsInternal(const char *) -> int vsprintf_s(char * const, const size_t, const char * const, va_list) [b3Logging.cpp <118:5 118:14>]
 LOCAL_SYMBOL: b3Logging.cpp<114:10> [b3Logging.cpp <118:16 118:23>]
 LOCAL_SYMBOL: b3Logging.cpp<111:54> [b3Logging.cpp <118:52 118:54>]
@@ -185,13 +147,10 @@ REFERENCE_USAGE void b3OutputErrorMessageVarArgsInternal(const char *) -> b3Erro
 LOCAL_SYMBOL: b3Logging.cpp<114:10> [b3Logging.cpp <122:32 122:39>]
 LOCAL_SYMBOL: b3Logging.cpp<115:13> [b3Logging.cpp <123:12 123:18>]
 SYMBOL_FUNCTION void b3EnterProfileZoneDefault(const char *) [b3Logging.cpp <128:1 <128:6 128:30> 130:1>]
-SYMBOL_BUILTIN_TYPE void
 REFERENCE_TYPE_USAGE void b3EnterProfileZoneDefault(const char *) -> void [b3Logging.cpp <128:1 128:4>]
 LOCAL_SYMBOL: b3Logging.cpp<128:44> [b3Logging.cpp <128:44 128:47>]
-SYMBOL_BUILTIN_TYPE char
 REFERENCE_TYPE_USAGE void b3EnterProfileZoneDefault(const char *) -> char [b3Logging.cpp <128:38 128:41>]
 SYMBOL_FUNCTION void b3LeaveProfileZoneDefault() [b3Logging.cpp <131:1 <131:6 131:30> 133:1>]
-SYMBOL_BUILTIN_TYPE void
 REFERENCE_TYPE_USAGE void b3LeaveProfileZoneDefault() -> void [b3Logging.cpp <131:1 131:4>]
 SYMBOL_GLOBAL_VARIABLE b3EnterProfileZoneFunc * b3s_enterFunc [b3Logging.cpp <134:32 134:44>]
 REFERENCE_TYPE_USAGE b3EnterProfileZoneFunc * b3s_enterFunc -> b3EnterProfileZoneFunc [b3Logging.cpp <134:8 134:29>]
@@ -200,26 +159,21 @@ SYMBOL_GLOBAL_VARIABLE b3LeaveProfileZoneFunc * b3s_leaveFunc [b3Logging.cpp <13
 REFERENCE_TYPE_USAGE b3LeaveProfileZoneFunc * b3s_leaveFunc -> b3LeaveProfileZoneFunc [b3Logging.cpp <135:8 135:29>]
 REFERENCE_USAGE b3LeaveProfileZoneFunc * b3s_leaveFunc -> void b3LeaveProfileZoneDefault() [b3Logging.cpp <135:48 135:72>]
 SYMBOL_FUNCTION void b3EnterProfileZone(const char *) [b3Logging.cpp <136:1 <136:6 136:23> 139:1>]
-SYMBOL_BUILTIN_TYPE void
 REFERENCE_TYPE_USAGE void b3EnterProfileZone(const char *) -> void [b3Logging.cpp <136:1 136:4>]
 LOCAL_SYMBOL: b3Logging.cpp<136:37> [b3Logging.cpp <136:37 136:40>]
-SYMBOL_BUILTIN_TYPE char
 REFERENCE_TYPE_USAGE void b3EnterProfileZone(const char *) -> char [b3Logging.cpp <136:31 136:34>]
 REFERENCE_USAGE void b3EnterProfileZone(const char *) -> b3EnterProfileZoneFunc * b3s_enterFunc [b3Logging.cpp <138:3 138:15>]
 LOCAL_SYMBOL: b3Logging.cpp<136:37> [b3Logging.cpp <138:18 138:21>]
 SYMBOL_FUNCTION void b3LeaveProfileZone() [b3Logging.cpp <140:1 <140:6 140:23> 143:1>]
-SYMBOL_BUILTIN_TYPE void
 REFERENCE_TYPE_USAGE void b3LeaveProfileZone() -> void [b3Logging.cpp <140:1 140:4>]
 REFERENCE_USAGE void b3LeaveProfileZone() -> b3LeaveProfileZoneFunc * b3s_leaveFunc [b3Logging.cpp <142:3 142:15>]
 SYMBOL_FUNCTION void b3SetCustomEnterProfileZoneFunc(b3EnterProfileZoneFunc *) [b3Logging.cpp <145:1 <145:6 145:36> 148:1>]
-SYMBOL_BUILTIN_TYPE void
 REFERENCE_TYPE_USAGE void b3SetCustomEnterProfileZoneFunc(b3EnterProfileZoneFunc *) -> void [b3Logging.cpp <145:1 145:4>]
 LOCAL_SYMBOL: b3Logging.cpp<145:62> [b3Logging.cpp <145:62 145:70>]
 REFERENCE_TYPE_USAGE void b3SetCustomEnterProfileZoneFunc(b3EnterProfileZoneFunc *) -> b3EnterProfileZoneFunc [b3Logging.cpp <145:38 145:59>]
 REFERENCE_USAGE void b3SetCustomEnterProfileZoneFunc(b3EnterProfileZoneFunc *) -> b3EnterProfileZoneFunc * b3s_enterFunc [b3Logging.cpp <147:2 147:14>]
 LOCAL_SYMBOL: b3Logging.cpp<145:62> [b3Logging.cpp <147:18 147:26>]
 SYMBOL_FUNCTION void b3SetCustomLeaveProfileZoneFunc(b3LeaveProfileZoneFunc *) [b3Logging.cpp <149:1 <149:6 149:36> 152:1>]
-SYMBOL_BUILTIN_TYPE void
 REFERENCE_TYPE_USAGE void b3SetCustomLeaveProfileZoneFunc(b3LeaveProfileZoneFunc *) -> void [b3Logging.cpp <149:1 149:4>]
 LOCAL_SYMBOL: b3Logging.cpp<149:62> [b3Logging.cpp <149:62 149:70>]
 REFERENCE_TYPE_USAGE void b3SetCustomLeaveProfileZoneFunc(b3LeaveProfileZoneFunc *) -> b3LeaveProfileZoneFunc [b3Logging.cpp <149:38 149:59>]

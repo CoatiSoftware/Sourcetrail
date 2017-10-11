@@ -1,10 +1,15 @@
 FILE: AccessLevel.java
-SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model.declarations [AccessLevel.java <17:9 17:61>]
+SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model.declarations [AccessLevel.java <17:50 17:61>]
 SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model
 SYMBOL_PACKAGE com.github.javaparser.symbolsolver
 SYMBOL_PACKAGE com.github.javaparser
 SYMBOL_PACKAGE com.github
 SYMBOL_PACKAGE com
+QUALIFIER: com.github.javaparser.symbolsolver.model [AccessLevel.java <17:44 17:48>]
+QUALIFIER: com.github.javaparser.symbolsolver [AccessLevel.java <17:31 17:42>]
+QUALIFIER: com.github.javaparser [AccessLevel.java <17:20 17:29>]
+QUALIFIER: com.github [AccessLevel.java <17:13 17:18>]
+QUALIFIER: com [AccessLevel.java <17:9 17:11>]
 SYMBOL_ENUM public com.github.javaparser.symbolsolver.model.declarations.AccessLevel [AccessLevel.java <22:1 <22:13 22:23> 27:1>]
 LOCAL_SYMBOL: AccessLevel.java<22:25> [AccessLevel.java <22:25 22:25>]
 LOCAL_SYMBOL: AccessLevel.java<22:25> [AccessLevel.java <27:1 27:1>]

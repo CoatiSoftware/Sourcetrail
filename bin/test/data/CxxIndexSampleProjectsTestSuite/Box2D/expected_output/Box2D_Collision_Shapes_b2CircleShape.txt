@@ -1,8 +1,5 @@
 FILE: b2CircleShape.cpp
-FILE: b2CircleShape.cpp
 COMMENT: comment [b2CircleShape.cpp <1:1 17:3>]
-FILE: b2CircleShape.cpp
-FILE: b2CircleShape.cpp
 COMMENT: comment [b2CircleShape.cpp <42:1 42:77>]
 COMMENT: comment [b2CircleShape.cpp <43:1 43:22>]
 COMMENT: comment [b2CircleShape.cpp <44:1 44:17>]
@@ -22,6 +19,7 @@ SYMBOL_METHOD public b2Shape * b2CircleShape::Clone(b2BlockAllocator *) const [b
 SYMBOL_FUNCTION b2Shape * b2Shape::Clone(b2BlockAllocator *) const
 REFERENCE_OVERRIDE b2Shape * b2CircleShape::Clone(b2BlockAllocator *) const -> b2Shape * b2Shape::Clone(b2BlockAllocator *) const [b2CircleShape.cpp <22:25 22:29>]
 SYMBOL_CLASS b2CircleShape
+QUALIFIER: b2CircleShape [b2CircleShape.cpp <22:10 22:22>]
 REFERENCE_TYPE_USAGE b2Shape * b2CircleShape::Clone(b2BlockAllocator *) const -> b2Shape [b2CircleShape.cpp <22:1 22:7>]
 LOCAL_SYMBOL: b2CircleShape.cpp<22:49> [b2CircleShape.cpp <22:49 22:57>]
 REFERENCE_TYPE_USAGE b2Shape * b2CircleShape::Clone(b2BlockAllocator *) const -> b2BlockAllocator [b2CircleShape.cpp <22:31 22:46>]
@@ -45,12 +43,12 @@ LOCAL_SYMBOL: b2CircleShape.cpp<25:17> [b2CircleShape.cpp <27:9 27:13>]
 SYMBOL_METHOD public int32 b2CircleShape::GetChildCount() const [b2CircleShape.cpp <30:1 <30:22 30:34> 33:1>]
 SYMBOL_FUNCTION int32 b2Shape::GetChildCount() const
 REFERENCE_OVERRIDE int32 b2CircleShape::GetChildCount() const -> int32 b2Shape::GetChildCount() const [b2CircleShape.cpp <30:22 30:34>]
-SYMBOL_CLASS b2CircleShape
+QUALIFIER: b2CircleShape [b2CircleShape.cpp <30:7 30:19>]
 REFERENCE_TYPE_USAGE int32 b2CircleShape::GetChildCount() const -> int32 [b2CircleShape.cpp <30:1 30:5>]
 SYMBOL_METHOD public bool b2CircleShape::TestPoint(const b2Transform &, const b2Vec2 &) const [b2CircleShape.cpp <35:1 <35:21 35:29> 40:1>]
 SYMBOL_FUNCTION bool b2Shape::TestPoint(const b2Transform &, const b2Vec2 &) const
 REFERENCE_OVERRIDE bool b2CircleShape::TestPoint(const b2Transform &, const b2Vec2 &) const -> bool b2Shape::TestPoint(const b2Transform &, const b2Vec2 &) const [b2CircleShape.cpp <35:21 35:29>]
-SYMBOL_CLASS b2CircleShape
+QUALIFIER: b2CircleShape [b2CircleShape.cpp <35:6 35:18>]
 SYMBOL_BUILTIN_TYPE bool
 REFERENCE_TYPE_USAGE bool b2CircleShape::TestPoint(const b2Transform &, const b2Vec2 &) const -> bool [b2CircleShape.cpp <35:1 35:4>]
 LOCAL_SYMBOL: b2CircleShape.cpp<35:50> [b2CircleShape.cpp <35:50 35:58>]
@@ -83,8 +81,7 @@ REFERENCE_USAGE bool b2CircleShape::TestPoint(const b2Transform &, const b2Vec2 
 SYMBOL_METHOD public bool b2CircleShape::RayCast(b2RayCastOutput *, const b2RayCastInput &, const b2Transform &, int32) const [b2CircleShape.cpp <46:1 <46:21 46:27> 81:1>]
 SYMBOL_FUNCTION bool b2Shape::RayCast(b2RayCastOutput *, const b2RayCastInput &, const b2Transform &, int32) const
 REFERENCE_OVERRIDE bool b2CircleShape::RayCast(b2RayCastOutput *, const b2RayCastInput &, const b2Transform &, int32) const -> bool b2Shape::RayCast(b2RayCastOutput *, const b2RayCastInput &, const b2Transform &, int32) const [b2CircleShape.cpp <46:21 46:27>]
-SYMBOL_CLASS b2CircleShape
-SYMBOL_BUILTIN_TYPE bool
+QUALIFIER: b2CircleShape [b2CircleShape.cpp <46:6 46:18>]
 REFERENCE_TYPE_USAGE bool b2CircleShape::RayCast(b2RayCastOutput *, const b2RayCastInput &, const b2Transform &, int32) const -> bool [b2CircleShape.cpp <46:1 46:4>]
 LOCAL_SYMBOL: b2CircleShape.cpp<46:46> [b2CircleShape.cpp <46:46 46:51>]
 REFERENCE_TYPE_USAGE bool b2CircleShape::RayCast(b2RayCastOutput *, const b2RayCastInput &, const b2Transform &, int32) const -> b2RayCastOutput [b2CircleShape.cpp <46:29 46:43>]
@@ -97,25 +94,21 @@ REFERENCE_TYPE_USAGE bool b2CircleShape::RayCast(b2RayCastOutput *, const b2RayC
 LOCAL_SYMBOL: b2CircleShape.cpp<47:44> [b2CircleShape.cpp <49:14 49:23>]
 LOCAL_SYMBOL: b2CircleShape.cpp<51:9> [b2CircleShape.cpp <51:9 51:16>]
 REFERENCE_TYPE_USAGE bool b2CircleShape::RayCast(b2RayCastOutput *, const b2RayCastInput &, const b2Transform &, int32) const -> b2Vec2 [b2CircleShape.cpp <51:2 51:7>]
-SYMBOL_FUNCTION b2Vec2 operator+(const b2Vec2 &, const b2Vec2 &)
 REFERENCE_CALL bool b2CircleShape::RayCast(b2RayCastOutput *, const b2RayCastInput &, const b2Transform &, int32) const -> b2Vec2 operator+(const b2Vec2 &, const b2Vec2 &) [b2CircleShape.cpp <51:32 51:32>]
 REFERENCE_USAGE bool b2CircleShape::RayCast(b2RayCastOutput *, const b2RayCastInput &, const b2Transform &, int32) const -> b2Vec2 b2Transform::p [b2CircleShape.cpp <51:30 51:30>]
 LOCAL_SYMBOL: b2CircleShape.cpp<47:27> [b2CircleShape.cpp <51:20 51:28>]
-SYMBOL_FUNCTION b2Vec2 b2Mul(const b2Rot &, const b2Vec2 &)
 REFERENCE_CALL bool b2CircleShape::RayCast(b2RayCastOutput *, const b2RayCastInput &, const b2Transform &, int32) const -> b2Vec2 b2Mul(const b2Rot &, const b2Vec2 &) [b2CircleShape.cpp <51:34 51:38>]
 REFERENCE_USAGE bool b2CircleShape::RayCast(b2RayCastOutput *, const b2RayCastInput &, const b2Transform &, int32) const -> b2Rot b2Transform::q [b2CircleShape.cpp <51:50 51:50>]
 LOCAL_SYMBOL: b2CircleShape.cpp<47:27> [b2CircleShape.cpp <51:40 51:48>]
 REFERENCE_USAGE bool b2CircleShape::RayCast(b2RayCastOutput *, const b2RayCastInput &, const b2Transform &, int32) const -> b2Vec2 b2CircleShape::m_p [b2CircleShape.cpp <51:53 51:55>]
 LOCAL_SYMBOL: b2CircleShape.cpp<52:9> [b2CircleShape.cpp <52:9 52:9>]
 REFERENCE_TYPE_USAGE bool b2CircleShape::RayCast(b2RayCastOutput *, const b2RayCastInput &, const b2Transform &, int32) const -> b2Vec2 [b2CircleShape.cpp <52:2 52:7>]
-SYMBOL_FUNCTION b2Vec2 operator-(const b2Vec2 &, const b2Vec2 &)
 REFERENCE_CALL bool b2CircleShape::RayCast(b2RayCastOutput *, const b2RayCastInput &, const b2Transform &, int32) const -> b2Vec2 operator-(const b2Vec2 &, const b2Vec2 &) [b2CircleShape.cpp <52:22 52:22>]
 REFERENCE_USAGE bool b2CircleShape::RayCast(b2RayCastOutput *, const b2RayCastInput &, const b2Transform &, int32) const -> b2Vec2 b2RayCastInput::p1 [b2CircleShape.cpp <52:19 52:20>]
 LOCAL_SYMBOL: b2CircleShape.cpp<46:76> [b2CircleShape.cpp <52:13 52:17>]
 LOCAL_SYMBOL: b2CircleShape.cpp<51:9> [b2CircleShape.cpp <52:24 52:31>]
 LOCAL_SYMBOL: b2CircleShape.cpp<53:10> [b2CircleShape.cpp <53:10 53:10>]
 REFERENCE_TYPE_USAGE bool b2CircleShape::RayCast(b2RayCastOutput *, const b2RayCastInput &, const b2Transform &, int32) const -> float32 [b2CircleShape.cpp <53:2 53:8>]
-SYMBOL_FUNCTION float32 b2Dot(const b2Vec2 &, const b2Vec2 &)
 REFERENCE_CALL bool b2CircleShape::RayCast(b2RayCastOutput *, const b2RayCastInput &, const b2Transform &, int32) const -> float32 b2Dot(const b2Vec2 &, const b2Vec2 &) [b2CircleShape.cpp <53:14 53:18>]
 LOCAL_SYMBOL: b2CircleShape.cpp<52:9> [b2CircleShape.cpp <53:20 53:20>]
 LOCAL_SYMBOL: b2CircleShape.cpp<52:9> [b2CircleShape.cpp <53:23 53:23>]
@@ -123,7 +116,6 @@ REFERENCE_USAGE bool b2CircleShape::RayCast(b2RayCastOutput *, const b2RayCastIn
 REFERENCE_USAGE bool b2CircleShape::RayCast(b2RayCastOutput *, const b2RayCastInput &, const b2Transform &, int32) const -> float32 b2Shape::m_radius [b2CircleShape.cpp <53:39 53:46>]
 LOCAL_SYMBOL: b2CircleShape.cpp<56:9> [b2CircleShape.cpp <56:9 56:9>]
 REFERENCE_TYPE_USAGE bool b2CircleShape::RayCast(b2RayCastOutput *, const b2RayCastInput &, const b2Transform &, int32) const -> b2Vec2 [b2CircleShape.cpp <56:2 56:7>]
-SYMBOL_FUNCTION b2Vec2 operator-(const b2Vec2 &, const b2Vec2 &)
 REFERENCE_CALL bool b2CircleShape::RayCast(b2RayCastOutput *, const b2RayCastInput &, const b2Transform &, int32) const -> b2Vec2 operator-(const b2Vec2 &, const b2Vec2 &) [b2CircleShape.cpp <56:22 56:22>]
 REFERENCE_USAGE bool b2CircleShape::RayCast(b2RayCastOutput *, const b2RayCastInput &, const b2Transform &, int32) const -> b2Vec2 b2RayCastInput::p2 [b2CircleShape.cpp <56:19 56:20>]
 LOCAL_SYMBOL: b2CircleShape.cpp<46:76> [b2CircleShape.cpp <56:13 56:17>]
@@ -131,13 +123,11 @@ REFERENCE_USAGE bool b2CircleShape::RayCast(b2RayCastOutput *, const b2RayCastIn
 LOCAL_SYMBOL: b2CircleShape.cpp<46:76> [b2CircleShape.cpp <56:24 56:28>]
 LOCAL_SYMBOL: b2CircleShape.cpp<57:10> [b2CircleShape.cpp <57:10 57:10>]
 REFERENCE_TYPE_USAGE bool b2CircleShape::RayCast(b2RayCastOutput *, const b2RayCastInput &, const b2Transform &, int32) const -> float32 [b2CircleShape.cpp <57:2 57:8>]
-SYMBOL_FUNCTION float32 b2Dot(const b2Vec2 &, const b2Vec2 &)
 REFERENCE_CALL bool b2CircleShape::RayCast(b2RayCastOutput *, const b2RayCastInput &, const b2Transform &, int32) const -> float32 b2Dot(const b2Vec2 &, const b2Vec2 &) [b2CircleShape.cpp <57:15 57:19>]
 LOCAL_SYMBOL: b2CircleShape.cpp<52:9> [b2CircleShape.cpp <57:21 57:21>]
 LOCAL_SYMBOL: b2CircleShape.cpp<56:9> [b2CircleShape.cpp <57:24 57:24>]
 LOCAL_SYMBOL: b2CircleShape.cpp<58:10> [b2CircleShape.cpp <58:10 58:11>]
 REFERENCE_TYPE_USAGE bool b2CircleShape::RayCast(b2RayCastOutput *, const b2RayCastInput &, const b2Transform &, int32) const -> float32 [b2CircleShape.cpp <58:2 58:8>]
-SYMBOL_FUNCTION float32 b2Dot(const b2Vec2 &, const b2Vec2 &)
 REFERENCE_CALL bool b2CircleShape::RayCast(b2RayCastOutput *, const b2RayCastInput &, const b2Transform &, int32) const -> float32 b2Dot(const b2Vec2 &, const b2Vec2 &) [b2CircleShape.cpp <58:15 58:19>]
 LOCAL_SYMBOL: b2CircleShape.cpp<56:9> [b2CircleShape.cpp <58:21 58:21>]
 LOCAL_SYMBOL: b2CircleShape.cpp<56:9> [b2CircleShape.cpp <58:24 58:24>]
@@ -167,7 +157,6 @@ SYMBOL_FUNCTION b2Vec2 & b2Vec2::operator=(b2Vec2 &)
 REFERENCE_CALL bool b2CircleShape::RayCast(b2RayCastOutput *, const b2RayCastInput &, const b2Transform &, int32) const -> b2Vec2 & b2Vec2::operator=(b2Vec2 &) [b2CircleShape.cpp <75:18 75:18>]
 REFERENCE_USAGE bool b2CircleShape::RayCast(b2RayCastOutput *, const b2RayCastInput &, const b2Transform &, int32) const -> b2Vec2 b2RayCastOutput::normal [b2CircleShape.cpp <75:11 75:16>]
 LOCAL_SYMBOL: b2CircleShape.cpp<46:46> [b2CircleShape.cpp <75:3 75:8>]
-SYMBOL_FUNCTION b2Vec2 operator+(const b2Vec2 &, const b2Vec2 &)
 REFERENCE_CALL bool b2CircleShape::RayCast(b2RayCastOutput *, const b2RayCastInput &, const b2Transform &, int32) const -> b2Vec2 operator+(const b2Vec2 &, const b2Vec2 &) [b2CircleShape.cpp <75:22 75:22>]
 LOCAL_SYMBOL: b2CircleShape.cpp<52:9> [b2CircleShape.cpp <75:20 75:20>]
 SYMBOL_FUNCTION b2Vec2 operator*(float32, const b2Vec2 &)
@@ -181,8 +170,7 @@ LOCAL_SYMBOL: b2CircleShape.cpp<46:46> [b2CircleShape.cpp <76:3 76:8>]
 SYMBOL_METHOD public void b2CircleShape::ComputeAABB(b2AABB *, const b2Transform &, int32) const [b2CircleShape.cpp <83:1 <83:21 83:31> 90:1>]
 SYMBOL_FUNCTION void b2Shape::ComputeAABB(b2AABB *, const b2Transform &, int32) const
 REFERENCE_OVERRIDE void b2CircleShape::ComputeAABB(b2AABB *, const b2Transform &, int32) const -> void b2Shape::ComputeAABB(b2AABB *, const b2Transform &, int32) const [b2CircleShape.cpp <83:21 83:31>]
-SYMBOL_CLASS b2CircleShape
-SYMBOL_BUILTIN_TYPE void
+QUALIFIER: b2CircleShape [b2CircleShape.cpp <83:6 83:18>]
 REFERENCE_TYPE_USAGE void b2CircleShape::ComputeAABB(b2AABB *, const b2Transform &, int32) const -> void [b2CircleShape.cpp <83:1 83:4>]
 LOCAL_SYMBOL: b2CircleShape.cpp<83:41> [b2CircleShape.cpp <83:41 83:44>]
 REFERENCE_TYPE_USAGE void b2CircleShape::ComputeAABB(b2AABB *, const b2Transform &, int32) const -> b2AABB [b2CircleShape.cpp <83:33 83:38>]
@@ -193,11 +181,9 @@ REFERENCE_TYPE_USAGE void b2CircleShape::ComputeAABB(b2AABB *, const b2Transform
 LOCAL_SYMBOL: b2CircleShape.cpp<83:83> [b2CircleShape.cpp <85:14 85:23>]
 LOCAL_SYMBOL: b2CircleShape.cpp<87:9> [b2CircleShape.cpp <87:9 87:9>]
 REFERENCE_TYPE_USAGE void b2CircleShape::ComputeAABB(b2AABB *, const b2Transform &, int32) const -> b2Vec2 [b2CircleShape.cpp <87:2 87:7>]
-SYMBOL_FUNCTION b2Vec2 operator+(const b2Vec2 &, const b2Vec2 &)
 REFERENCE_CALL void b2CircleShape::ComputeAABB(b2AABB *, const b2Transform &, int32) const -> b2Vec2 operator+(const b2Vec2 &, const b2Vec2 &) [b2CircleShape.cpp <87:25 87:25>]
 REFERENCE_USAGE void b2CircleShape::ComputeAABB(b2AABB *, const b2Transform &, int32) const -> b2Vec2 b2Transform::p [b2CircleShape.cpp <87:23 87:23>]
 LOCAL_SYMBOL: b2CircleShape.cpp<83:66> [b2CircleShape.cpp <87:13 87:21>]
-SYMBOL_FUNCTION b2Vec2 b2Mul(const b2Rot &, const b2Vec2 &)
 REFERENCE_CALL void b2CircleShape::ComputeAABB(b2AABB *, const b2Transform &, int32) const -> b2Vec2 b2Mul(const b2Rot &, const b2Vec2 &) [b2CircleShape.cpp <87:27 87:31>]
 REFERENCE_USAGE void b2CircleShape::ComputeAABB(b2AABB *, const b2Transform &, int32) const -> b2Rot b2Transform::q [b2CircleShape.cpp <87:43 87:43>]
 LOCAL_SYMBOL: b2CircleShape.cpp<83:66> [b2CircleShape.cpp <87:33 87:41>]
@@ -212,7 +198,6 @@ REFERENCE_USAGE void b2CircleShape::ComputeAABB(b2AABB *, const b2Transform &, i
 REFERENCE_USAGE void b2CircleShape::ComputeAABB(b2AABB *, const b2Transform &, int32) const -> float32 b2Vec2::y [b2CircleShape.cpp <88:41 88:41>]
 LOCAL_SYMBOL: b2CircleShape.cpp<87:9> [b2CircleShape.cpp <88:39 88:39>]
 REFERENCE_USAGE void b2CircleShape::ComputeAABB(b2AABB *, const b2Transform &, int32) const -> float32 b2Shape::m_radius [b2CircleShape.cpp <88:45 88:52>]
-SYMBOL_FUNCTION void b2Vec2::Set(float32, float32)
 REFERENCE_CALL void b2CircleShape::ComputeAABB(b2AABB *, const b2Transform &, int32) const -> void b2Vec2::Set(float32, float32) [b2CircleShape.cpp <89:19 89:21>]
 REFERENCE_USAGE void b2CircleShape::ComputeAABB(b2AABB *, const b2Transform &, int32) const -> b2Vec2 b2AABB::upperBound [b2CircleShape.cpp <89:8 89:17>]
 LOCAL_SYMBOL: b2CircleShape.cpp<83:41> [b2CircleShape.cpp <89:2 89:5>]
@@ -225,8 +210,7 @@ REFERENCE_USAGE void b2CircleShape::ComputeAABB(b2AABB *, const b2Transform &, i
 SYMBOL_METHOD public void b2CircleShape::ComputeMass(b2MassData *, float32) const [b2CircleShape.cpp <92:1 <92:21 92:31> 99:1>]
 SYMBOL_FUNCTION void b2Shape::ComputeMass(b2MassData *, float32) const
 REFERENCE_OVERRIDE void b2CircleShape::ComputeMass(b2MassData *, float32) const -> void b2Shape::ComputeMass(b2MassData *, float32) const [b2CircleShape.cpp <92:21 92:31>]
-SYMBOL_CLASS b2CircleShape
-SYMBOL_BUILTIN_TYPE void
+QUALIFIER: b2CircleShape [b2CircleShape.cpp <92:6 92:18>]
 REFERENCE_TYPE_USAGE void b2CircleShape::ComputeMass(b2MassData *, float32) const -> void [b2CircleShape.cpp <92:1 92:4>]
 LOCAL_SYMBOL: b2CircleShape.cpp<92:45> [b2CircleShape.cpp <92:45 92:52>]
 REFERENCE_TYPE_USAGE void b2CircleShape::ComputeMass(b2MassData *, float32) const -> b2MassData [b2CircleShape.cpp <92:33 92:42>]
@@ -248,7 +232,6 @@ REFERENCE_USAGE void b2CircleShape::ComputeMass(b2MassData *, float32) const -> 
 LOCAL_SYMBOL: b2CircleShape.cpp<92:45> [b2CircleShape.cpp <98:16 98:23>]
 REFERENCE_USAGE void b2CircleShape::ComputeMass(b2MassData *, float32) const -> float32 b2Shape::m_radius [b2CircleShape.cpp <98:41 98:48>]
 REFERENCE_USAGE void b2CircleShape::ComputeMass(b2MassData *, float32) const -> float32 b2Shape::m_radius [b2CircleShape.cpp <98:52 98:59>]
-SYMBOL_FUNCTION float32 b2Dot(const b2Vec2 &, const b2Vec2 &)
 REFERENCE_CALL void b2CircleShape::ComputeMass(b2MassData *, float32) const -> float32 b2Dot(const b2Vec2 &, const b2Vec2 &) [b2CircleShape.cpp <98:63 98:67>]
 REFERENCE_USAGE void b2CircleShape::ComputeMass(b2MassData *, float32) const -> b2Vec2 b2CircleShape::m_p [b2CircleShape.cpp <98:69 98:71>]
 REFERENCE_USAGE void b2CircleShape::ComputeMass(b2MassData *, float32) const -> b2Vec2 b2CircleShape::m_p [b2CircleShape.cpp <98:74 98:76>]

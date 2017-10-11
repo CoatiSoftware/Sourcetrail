@@ -55,6 +55,7 @@ JavaParser::JavaParser(std::shared_ptr<ParserClient> client, std::shared_ptr<Fil
 		methods.push_back({"recordSymbolWithLocation", "(ILjava/lang/String;IIIIIII)V", (void*)&JavaParser::RecordSymbolWithLocation});
 		methods.push_back({"recordSymbolWithLocationAndScope", "(ILjava/lang/String;IIIIIIIIIII)V", (void*)&JavaParser::RecordSymbolWithLocationAndScope});
 		methods.push_back({"recordReference", "(IILjava/lang/String;Ljava/lang/String;IIII)V", (void*)&JavaParser::RecordReference});
+		methods.push_back({"recordQualifierLocation", "(ILjava/lang/String;IIII)V", (void*)&JavaParser::RecordQualifierLocation});
 		methods.push_back({"recordLocalSymbol", "(ILjava/lang/String;IIII)V", (void*)&JavaParser::RecordLocalSymbol});
 		methods.push_back({"recordComment", "(IIIII)V", (void*)&JavaParser::RecordComment});
 		methods.push_back({"recordError", "(ILjava/lang/String;IIIIII)V", (void*)&JavaParser::RecordError});
@@ -218,6 +219,17 @@ void JavaParser::doRecordReference(
 		intToReferenceKind(jReferenceKind),
 		NameHierarchy::deserialize(m_javaEnvironment->toStdString(jReferencedName)),
 		NameHierarchy::deserialize(m_javaEnvironment->toStdString(jContextName)),
+		ParseLocation(m_currentFilePath, beginLine, beginColumn, endLine, endColumn)
+	);
+}
+
+void JavaParser::doRecordQualifierLocation(
+	jstring jQualifierName,
+	jint beginLine, jint beginColumn, jint endLine, jint endColumn
+)
+{
+	m_client->recordQualifierLocation(
+		NameHierarchy::deserialize(m_javaEnvironment->toStdString(jQualifierName)),
 		ParseLocation(m_currentFilePath, beginLine, beginColumn, endLine, endColumn)
 	);
 }

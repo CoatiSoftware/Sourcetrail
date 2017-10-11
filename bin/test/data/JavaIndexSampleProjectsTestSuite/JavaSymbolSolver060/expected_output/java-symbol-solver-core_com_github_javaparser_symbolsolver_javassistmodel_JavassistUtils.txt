@@ -1,41 +1,102 @@
 FILE: JavassistUtils.java
-SYMBOL_PACKAGE com.github.javaparser.symbolsolver.javassistmodel [JavassistUtils.java <17:9 17:57>]
+SYMBOL_PACKAGE com.github.javaparser.symbolsolver.javassistmodel [JavassistUtils.java <17:44 17:57>]
 SYMBOL_PACKAGE com.github.javaparser.symbolsolver
 SYMBOL_PACKAGE com.github.javaparser
 SYMBOL_PACKAGE com.github
 SYMBOL_PACKAGE com
-REFERENCE_IMPORT JavassistUtils.java -> com.github.javaparser.symbolsolver.core.resolution.Context [JavassistUtils.java <19:8 19:65>]
+QUALIFIER: com.github.javaparser.symbolsolver [JavassistUtils.java <17:31 17:42>]
+QUALIFIER: com.github.javaparser [JavassistUtils.java <17:20 17:29>]
+QUALIFIER: com.github [JavassistUtils.java <17:13 17:18>]
+QUALIFIER: com [JavassistUtils.java <17:9 17:11>]
+REFERENCE_IMPORT JavassistUtils.java -> com.github.javaparser.symbolsolver.core.resolution.Context [JavassistUtils.java <19:59 19:65>]
 SYMBOL_PACKAGE com.github.javaparser.symbolsolver.core.resolution
-REFERENCE_IMPORT JavassistUtils.java -> com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration [JavassistUtils.java <20:8 20:85>]
+QUALIFIER: com.github.javaparser.symbolsolver.core.resolution [JavassistUtils.java <19:48 19:57>]
+QUALIFIER: com.github.javaparser.symbolsolver.core [JavassistUtils.java <19:43 19:46>]
+QUALIFIER: com.github.javaparser.symbolsolver [JavassistUtils.java <19:30 19:41>]
+QUALIFIER: com.github.javaparser [JavassistUtils.java <19:19 19:28>]
+QUALIFIER: com.github [JavassistUtils.java <19:12 19:17>]
+QUALIFIER: com [JavassistUtils.java <19:8 19:10>]
+REFERENCE_IMPORT JavassistUtils.java -> com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration [JavassistUtils.java <20:62 20:85>]
 SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model.declarations
-REFERENCE_IMPORT JavassistUtils.java -> com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration [JavassistUtils.java <21:8 21:85>]
-SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model.declarations
-REFERENCE_IMPORT JavassistUtils.java -> com.github.javaparser.symbolsolver.model.declarations.TypeParametrizable [JavassistUtils.java <22:8 22:79>]
-SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model.declarations
-REFERENCE_IMPORT JavassistUtils.java -> com.github.javaparser.symbolsolver.model.methods.MethodUsage [JavassistUtils.java <23:8 23:67>]
+QUALIFIER: com.github.javaparser.symbolsolver.model.declarations [JavassistUtils.java <20:49 20:60>]
+QUALIFIER: com.github.javaparser.symbolsolver.model [JavassistUtils.java <20:43 20:47>]
+QUALIFIER: com.github.javaparser.symbolsolver [JavassistUtils.java <20:30 20:41>]
+QUALIFIER: com.github.javaparser [JavassistUtils.java <20:19 20:28>]
+QUALIFIER: com.github [JavassistUtils.java <20:12 20:17>]
+QUALIFIER: com [JavassistUtils.java <20:8 20:10>]
+REFERENCE_IMPORT JavassistUtils.java -> com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration [JavassistUtils.java <21:62 21:85>]
+QUALIFIER: com.github.javaparser.symbolsolver.model.declarations [JavassistUtils.java <21:49 21:60>]
+QUALIFIER: com.github.javaparser.symbolsolver.model [JavassistUtils.java <21:43 21:47>]
+QUALIFIER: com.github.javaparser.symbolsolver [JavassistUtils.java <21:30 21:41>]
+QUALIFIER: com.github.javaparser [JavassistUtils.java <21:19 21:28>]
+QUALIFIER: com.github [JavassistUtils.java <21:12 21:17>]
+QUALIFIER: com [JavassistUtils.java <21:8 21:10>]
+REFERENCE_IMPORT JavassistUtils.java -> com.github.javaparser.symbolsolver.model.declarations.TypeParametrizable [JavassistUtils.java <22:62 22:79>]
+QUALIFIER: com.github.javaparser.symbolsolver.model.declarations [JavassistUtils.java <22:49 22:60>]
+QUALIFIER: com.github.javaparser.symbolsolver.model [JavassistUtils.java <22:43 22:47>]
+QUALIFIER: com.github.javaparser.symbolsolver [JavassistUtils.java <22:30 22:41>]
+QUALIFIER: com.github.javaparser [JavassistUtils.java <22:19 22:28>]
+QUALIFIER: com.github [JavassistUtils.java <22:12 22:17>]
+QUALIFIER: com [JavassistUtils.java <22:8 22:10>]
+REFERENCE_IMPORT JavassistUtils.java -> com.github.javaparser.symbolsolver.model.methods.MethodUsage [JavassistUtils.java <23:57 23:67>]
 SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model.methods
-REFERENCE_IMPORT JavassistUtils.java -> com.github.javaparser.symbolsolver.model.resolution.TypeSolver [JavassistUtils.java <24:8 24:69>]
+QUALIFIER: com.github.javaparser.symbolsolver.model.methods [JavassistUtils.java <23:49 23:55>]
+QUALIFIER: com.github.javaparser.symbolsolver.model [JavassistUtils.java <23:43 23:47>]
+QUALIFIER: com.github.javaparser.symbolsolver [JavassistUtils.java <23:30 23:41>]
+QUALIFIER: com.github.javaparser [JavassistUtils.java <23:19 23:28>]
+QUALIFIER: com.github [JavassistUtils.java <23:12 23:17>]
+QUALIFIER: com [JavassistUtils.java <23:8 23:10>]
+REFERENCE_IMPORT JavassistUtils.java -> com.github.javaparser.symbolsolver.model.resolution.TypeSolver [JavassistUtils.java <24:60 24:69>]
 SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model.resolution
-REFERENCE_IMPORT JavassistUtils.java -> com.github.javaparser.symbolsolver.model.resolution.UnsolvedSymbolException [JavassistUtils.java <25:8 25:82>]
-SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model.resolution
-REFERENCE_IMPORT JavassistUtils.java -> com.github.javaparser.symbolsolver.model.typesystem [JavassistUtils.java <26:8 26:58>]
+QUALIFIER: com.github.javaparser.symbolsolver.model.resolution [JavassistUtils.java <24:49 24:58>]
+QUALIFIER: com.github.javaparser.symbolsolver.model [JavassistUtils.java <24:43 24:47>]
+QUALIFIER: com.github.javaparser.symbolsolver [JavassistUtils.java <24:30 24:41>]
+QUALIFIER: com.github.javaparser [JavassistUtils.java <24:19 24:28>]
+QUALIFIER: com.github [JavassistUtils.java <24:12 24:17>]
+QUALIFIER: com [JavassistUtils.java <24:8 24:10>]
+REFERENCE_IMPORT JavassistUtils.java -> com.github.javaparser.symbolsolver.model.resolution.UnsolvedSymbolException [JavassistUtils.java <25:60 25:82>]
+QUALIFIER: com.github.javaparser.symbolsolver.model.resolution [JavassistUtils.java <25:49 25:58>]
+QUALIFIER: com.github.javaparser.symbolsolver.model [JavassistUtils.java <25:43 25:47>]
+QUALIFIER: com.github.javaparser.symbolsolver [JavassistUtils.java <25:30 25:41>]
+QUALIFIER: com.github.javaparser [JavassistUtils.java <25:19 25:28>]
+QUALIFIER: com.github [JavassistUtils.java <25:12 25:17>]
+QUALIFIER: com [JavassistUtils.java <25:8 25:10>]
+REFERENCE_IMPORT JavassistUtils.java -> com.github.javaparser.symbolsolver.model.typesystem [JavassistUtils.java <26:49 26:58>]
 SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model.typesystem
-REFERENCE_IMPORT JavassistUtils.java -> com.github.javaparser.symbolsolver.resolution.SymbolSolver [JavassistUtils.java <27:8 27:65>]
+QUALIFIER: com.github.javaparser.symbolsolver.model [JavassistUtils.java <26:43 26:47>]
+QUALIFIER: com.github.javaparser.symbolsolver [JavassistUtils.java <26:30 26:41>]
+QUALIFIER: com.github.javaparser [JavassistUtils.java <26:19 26:28>]
+QUALIFIER: com.github [JavassistUtils.java <26:12 26:17>]
+QUALIFIER: com [JavassistUtils.java <26:8 26:10>]
+REFERENCE_IMPORT JavassistUtils.java -> com.github.javaparser.symbolsolver.resolution.SymbolSolver [JavassistUtils.java <27:54 27:65>]
 SYMBOL_PACKAGE com.github.javaparser.symbolsolver.resolution
-REFERENCE_IMPORT JavassistUtils.java -> javassist.CtClass [JavassistUtils.java <28:8 28:24>]
+QUALIFIER: com.github.javaparser.symbolsolver.resolution [JavassistUtils.java <27:43 27:52>]
+QUALIFIER: com.github.javaparser.symbolsolver [JavassistUtils.java <27:30 27:41>]
+QUALIFIER: com.github.javaparser [JavassistUtils.java <27:19 27:28>]
+QUALIFIER: com.github [JavassistUtils.java <27:12 27:17>]
+QUALIFIER: com [JavassistUtils.java <27:8 27:10>]
+REFERENCE_IMPORT JavassistUtils.java -> javassist.CtClass [JavassistUtils.java <28:18 28:24>]
 SYMBOL_PACKAGE javassist
-REFERENCE_IMPORT JavassistUtils.java -> javassist.CtMethod [JavassistUtils.java <29:8 29:25>]
-SYMBOL_PACKAGE javassist
-REFERENCE_IMPORT JavassistUtils.java -> javassist.NotFoundException [JavassistUtils.java <30:8 30:34>]
-SYMBOL_PACKAGE javassist
-REFERENCE_IMPORT JavassistUtils.java -> javassist.bytecode.BadBytecode [JavassistUtils.java <31:8 31:37>]
+QUALIFIER: javassist [JavassistUtils.java <28:8 28:16>]
+REFERENCE_IMPORT JavassistUtils.java -> javassist.CtMethod [JavassistUtils.java <29:18 29:25>]
+QUALIFIER: javassist [JavassistUtils.java <29:8 29:16>]
+REFERENCE_IMPORT JavassistUtils.java -> javassist.NotFoundException [JavassistUtils.java <30:18 30:34>]
+QUALIFIER: javassist [JavassistUtils.java <30:8 30:16>]
+REFERENCE_IMPORT JavassistUtils.java -> javassist.bytecode.BadBytecode [JavassistUtils.java <31:27 31:37>]
 SYMBOL_PACKAGE javassist.bytecode
-REFERENCE_IMPORT JavassistUtils.java -> javassist.bytecode.SignatureAttribute [JavassistUtils.java <32:8 32:44>]
-SYMBOL_PACKAGE javassist.bytecode
-REFERENCE_IMPORT JavassistUtils.java -> java.util [JavassistUtils.java <34:8 34:16>]
+QUALIFIER: javassist.bytecode [JavassistUtils.java <31:18 31:25>]
+QUALIFIER: javassist [JavassistUtils.java <31:8 31:16>]
+REFERENCE_IMPORT JavassistUtils.java -> javassist.bytecode.SignatureAttribute [JavassistUtils.java <32:27 32:44>]
+QUALIFIER: javassist.bytecode [JavassistUtils.java <32:18 32:25>]
+QUALIFIER: javassist [JavassistUtils.java <32:8 32:16>]
+REFERENCE_IMPORT JavassistUtils.java -> java.util [JavassistUtils.java <34:13 34:16>]
 SYMBOL_PACKAGE java.util
-REFERENCE_IMPORT JavassistUtils.java -> java.util.stream.Collectors [JavassistUtils.java <35:8 35:34>]
+QUALIFIER: java [JavassistUtils.java <34:8 34:11>]
+REFERENCE_IMPORT JavassistUtils.java -> java.util.stream.Collectors [JavassistUtils.java <35:25 35:34>]
 SYMBOL_PACKAGE java.util.stream
+QUALIFIER: java.util.stream [JavassistUtils.java <35:18 35:23>]
+QUALIFIER: java.util [JavassistUtils.java <35:13 35:16>]
+QUALIFIER: java [JavassistUtils.java <35:8 35:11>]
 SYMBOL_CLASS default com.github.javaparser.symbolsolver.javassistmodel.JavassistUtils [JavassistUtils.java <40:1 <40:7 40:20> 177:1>]
 LOCAL_SYMBOL: JavassistUtils.java<40:22> [JavassistUtils.java <40:22 40:22>]
 LOCAL_SYMBOL: JavassistUtils.java<40:22> [JavassistUtils.java <177:1 177:1>]
@@ -96,11 +157,12 @@ REFERENCE_CALL static java.util.Optional<com.github.javaparser.symbolsolver.mode
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javassistmodel.JavassistUtils.getMethodUsage<5> [JavassistUtils.java <53:25 53:30>]
 LOCAL_SYMBOL: JavassistUtils.java<53:63> [JavassistUtils.java <53:63 53:63>]
 LOCAL_SYMBOL: JavassistUtils.java<53:63> [JavassistUtils.java <62:21 62:21>]
-REFERENCE_TYPE_USAGE static java.util.Optional<com.github.javaparser.symbolsolver.model.methods.MethodUsage> com.github.javaparser.symbolsolver.javassistmodel.JavassistUtils.getMethodUsage(javassist.CtClass, java.lang.String, java.util.List<com.github.javaparser.symbolsolver.model.typesystem.Type>, com.github.javaparser.symbolsolver.model.resolution.TypeSolver, com.github.javaparser.symbolsolver.core.resolution.Context) -> javassist.bytecode.SignatureAttribute.MethodSignature [JavassistUtils.java <54:25 54:58>]
+REFERENCE_TYPE_USAGE static java.util.Optional<com.github.javaparser.symbolsolver.model.methods.MethodUsage> com.github.javaparser.symbolsolver.javassistmodel.JavassistUtils.getMethodUsage(javassist.CtClass, java.lang.String, java.util.List<com.github.javaparser.symbolsolver.model.typesystem.Type>, com.github.javaparser.symbolsolver.model.resolution.TypeSolver, com.github.javaparser.symbolsolver.core.resolution.Context) -> javassist.bytecode.SignatureAttribute.MethodSignature [JavassistUtils.java <54:44 54:58>]
+QUALIFIER: javassist.bytecode.SignatureAttribute [JavassistUtils.java <54:25 54:42>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javassistmodel.JavassistUtils.getMethodUsage<10> [JavassistUtils.java <54:60 54:73>]
 SYMBOL_METHOD static javassist.bytecode.SignatureAttribute.MethodSignature javassist.bytecode.SignatureAttribute.toMethodSignature(java.lang.String)
 REFERENCE_CALL static java.util.Optional<com.github.javaparser.symbolsolver.model.methods.MethodUsage> com.github.javaparser.symbolsolver.javassistmodel.JavassistUtils.getMethodUsage(javassist.CtClass, java.lang.String, java.util.List<com.github.javaparser.symbolsolver.model.typesystem.Type>, com.github.javaparser.symbolsolver.model.resolution.TypeSolver, com.github.javaparser.symbolsolver.core.resolution.Context) -> static javassist.bytecode.SignatureAttribute.MethodSignature javassist.bytecode.SignatureAttribute.toMethodSignature(java.lang.String) [JavassistUtils.java <54:96 54:112>]
-SYMBOL_METHOD java.lang.String javassist.CtBehavior.getGenericSignature()
+QUALIFIER: javassist.bytecode.SignatureAttribute [JavassistUtils.java <54:77 54:94>]
 REFERENCE_CALL static java.util.Optional<com.github.javaparser.symbolsolver.model.methods.MethodUsage> com.github.javaparser.symbolsolver.javassistmodel.JavassistUtils.getMethodUsage(javassist.CtClass, java.lang.String, java.util.List<com.github.javaparser.symbolsolver.model.typesystem.Type>, com.github.javaparser.symbolsolver.model.resolution.TypeSolver, com.github.javaparser.symbolsolver.core.resolution.Context) -> java.lang.String javassist.CtBehavior.getGenericSignature() [JavassistUtils.java <54:121 54:139>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javassistmodel.JavassistUtils.getMethodUsage<5> [JavassistUtils.java <54:114 54:119>]
 REFERENCE_TYPE_USAGE static java.util.Optional<com.github.javaparser.symbolsolver.model.methods.MethodUsage> com.github.javaparser.symbolsolver.javassistmodel.JavassistUtils.getMethodUsage(javassist.CtClass, java.lang.String, java.util.List<com.github.javaparser.symbolsolver.model.typesystem.Type>, com.github.javaparser.symbolsolver.model.resolution.TypeSolver, com.github.javaparser.symbolsolver.core.resolution.Context) -> java.util.List<E> [JavassistUtils.java <55:25 55:28>]
@@ -141,6 +203,7 @@ LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javassistmodel.JavassistUtils.g
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javassistmodel.JavassistUtils.getMethodUsage<12> [JavassistUtils.java <61:69 61:81>]
 SYMBOL_METHOD static java.util.Optional<T> java.util.Optional<T>.of<T>(T)
 REFERENCE_CALL static java.util.Optional<com.github.javaparser.symbolsolver.model.methods.MethodUsage> com.github.javaparser.symbolsolver.javassistmodel.JavassistUtils.getMethodUsage(javassist.CtClass, java.lang.String, java.util.List<com.github.javaparser.symbolsolver.model.typesystem.Type>, com.github.javaparser.symbolsolver.model.resolution.TypeSolver, com.github.javaparser.symbolsolver.core.resolution.Context) -> static java.util.Optional<T> java.util.Optional<T>.of<T>(T) [JavassistUtils.java <63:37 63:38>]
+QUALIFIER: java.util.Optional [JavassistUtils.java <63:28 63:35>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javassistmodel.JavassistUtils.getMethodUsage<9> [JavassistUtils.java <63:40 63:50>]
 REFERENCE_TYPE_USAGE static java.util.Optional<com.github.javaparser.symbolsolver.model.methods.MethodUsage> com.github.javaparser.symbolsolver.javassistmodel.JavassistUtils.getMethodUsage(javassist.CtClass, java.lang.String, java.util.List<com.github.javaparser.symbolsolver.model.typesystem.Type>, com.github.javaparser.symbolsolver.model.resolution.TypeSolver, com.github.javaparser.symbolsolver.core.resolution.Context) -> javassist.bytecode.BadBytecode [JavassistUtils.java <64:26 64:36>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javassistmodel.JavassistUtils.getMethodUsage<15> [JavassistUtils.java <64:38 64:38>]
@@ -184,7 +247,6 @@ REFERENCE_TYPE_USAGE static java.util.Optional<com.github.javaparser.symbolsolve
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javassistmodel.JavassistUtils.getMethodUsage<18> [JavassistUtils.java <78:36 78:36>]
 LOCAL_SYMBOL: JavassistUtils.java<78:39> [JavassistUtils.java <78:39 78:39>]
 LOCAL_SYMBOL: JavassistUtils.java<78:39> [JavassistUtils.java <80:9 80:9>]
-SYMBOL_METHOD java.lang.RuntimeException.RuntimeException(java.lang.Throwable)
 REFERENCE_CALL static java.util.Optional<com.github.javaparser.symbolsolver.model.methods.MethodUsage> com.github.javaparser.symbolsolver.javassistmodel.JavassistUtils.getMethodUsage(javassist.CtClass, java.lang.String, java.util.List<com.github.javaparser.symbolsolver.model.typesystem.Type>, com.github.javaparser.symbolsolver.model.resolution.TypeSolver, com.github.javaparser.symbolsolver.core.resolution.Context) -> java.lang.RuntimeException.RuntimeException(java.lang.Throwable) [JavassistUtils.java <79:23 79:38>]
 REFERENCE_TYPE_USAGE static java.util.Optional<com.github.javaparser.symbolsolver.model.methods.MethodUsage> com.github.javaparser.symbolsolver.javassistmodel.JavassistUtils.getMethodUsage(javassist.CtClass, java.lang.String, java.util.List<com.github.javaparser.symbolsolver.model.typesystem.Type>, com.github.javaparser.symbolsolver.model.resolution.TypeSolver, com.github.javaparser.symbolsolver.core.resolution.Context) -> java.lang.RuntimeException [JavassistUtils.java <79:23 79:38>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javassistmodel.JavassistUtils.getMethodUsage<18> [JavassistUtils.java <79:40 79:40>]
@@ -211,7 +273,6 @@ LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javassistmodel.JavassistUtils.g
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javassistmodel.JavassistUtils.getMethodUsage<2> [JavassistUtils.java <84:127 84:140>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javassistmodel.JavassistUtils.getMethodUsage<3> [JavassistUtils.java <84:143 84:152>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javassistmodel.JavassistUtils.getMethodUsage<4> [JavassistUtils.java <84:155 84:171>]
-SYMBOL_METHOD boolean java.util.Optional<T>.isPresent()
 REFERENCE_CALL static java.util.Optional<com.github.javaparser.symbolsolver.model.methods.MethodUsage> com.github.javaparser.symbolsolver.javassistmodel.JavassistUtils.getMethodUsage(javassist.CtClass, java.lang.String, java.util.List<com.github.javaparser.symbolsolver.model.typesystem.Type>, com.github.javaparser.symbolsolver.model.resolution.TypeSolver, com.github.javaparser.symbolsolver.core.resolution.Context) -> boolean java.util.Optional<T>.isPresent() [JavassistUtils.java <85:25 85:33>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javassistmodel.JavassistUtils.getMethodUsage<23> [JavassistUtils.java <85:21 85:23>]
 LOCAL_SYMBOL: JavassistUtils.java<85:38> [JavassistUtils.java <85:38 85:38>]
@@ -221,12 +282,12 @@ REFERENCE_TYPE_USAGE static java.util.Optional<com.github.javaparser.symbolsolve
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javassistmodel.JavassistUtils.getMethodUsage<24> [JavassistUtils.java <89:36 89:36>]
 LOCAL_SYMBOL: JavassistUtils.java<89:39> [JavassistUtils.java <89:39 89:39>]
 LOCAL_SYMBOL: JavassistUtils.java<89:39> [JavassistUtils.java <91:9 91:9>]
-SYMBOL_METHOD java.lang.RuntimeException.RuntimeException(java.lang.Throwable)
 REFERENCE_CALL static java.util.Optional<com.github.javaparser.symbolsolver.model.methods.MethodUsage> com.github.javaparser.symbolsolver.javassistmodel.JavassistUtils.getMethodUsage(javassist.CtClass, java.lang.String, java.util.List<com.github.javaparser.symbolsolver.model.typesystem.Type>, com.github.javaparser.symbolsolver.model.resolution.TypeSolver, com.github.javaparser.symbolsolver.core.resolution.Context) -> java.lang.RuntimeException.RuntimeException(java.lang.Throwable) [JavassistUtils.java <90:23 90:38>]
 REFERENCE_TYPE_USAGE static java.util.Optional<com.github.javaparser.symbolsolver.model.methods.MethodUsage> com.github.javaparser.symbolsolver.javassistmodel.JavassistUtils.getMethodUsage(javassist.CtClass, java.lang.String, java.util.List<com.github.javaparser.symbolsolver.model.typesystem.Type>, com.github.javaparser.symbolsolver.model.resolution.TypeSolver, com.github.javaparser.symbolsolver.core.resolution.Context) -> java.lang.RuntimeException [JavassistUtils.java <90:23 90:38>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javassistmodel.JavassistUtils.getMethodUsage<24> [JavassistUtils.java <90:40 90:40>]
 SYMBOL_METHOD static java.util.Optional<T> java.util.Optional<T>.empty<T>()
 REFERENCE_CALL static java.util.Optional<com.github.javaparser.symbolsolver.model.methods.MethodUsage> com.github.javaparser.symbolsolver.javassistmodel.JavassistUtils.getMethodUsage(javassist.CtClass, java.lang.String, java.util.List<com.github.javaparser.symbolsolver.model.typesystem.Type>, com.github.javaparser.symbolsolver.model.resolution.TypeSolver, com.github.javaparser.symbolsolver.core.resolution.Context) -> static java.util.Optional<T> java.util.Optional<T>.empty<T>() [JavassistUtils.java <93:25 93:29>]
+QUALIFIER: java.util.Optional [JavassistUtils.java <93:16 93:23>]
 SYMBOL_METHOD private static java.util.List<com.github.javaparser.symbolsolver.model.typesystem.Type> com.github.javaparser.symbolsolver.javassistmodel.JavassistUtils.parseTypeParameters(java.lang.String, com.github.javaparser.symbolsolver.model.resolution.TypeSolver, com.github.javaparser.symbolsolver.core.resolution.Context) [JavassistUtils.java <96:5 <96:31 96:49> 119:5>]
 REFERENCE_TYPE_USAGE static java.util.List<com.github.javaparser.symbolsolver.model.typesystem.Type> com.github.javaparser.symbolsolver.javassistmodel.JavassistUtils.parseTypeParameters(java.lang.String, com.github.javaparser.symbolsolver.model.resolution.TypeSolver, com.github.javaparser.symbolsolver.core.resolution.Context) -> java.util.List<E> [JavassistUtils.java <96:20 96:23>]
 REFERENCE_TYPE_ARGUMENT static java.util.List<com.github.javaparser.symbolsolver.model.typesystem.Type> com.github.javaparser.symbolsolver.javassistmodel.JavassistUtils.parseTypeParameters(java.lang.String, com.github.javaparser.symbolsolver.model.resolution.TypeSolver, com.github.javaparser.symbolsolver.core.resolution.Context) -> com.github.javaparser.symbolsolver.model.typesystem.Type [JavassistUtils.java <96:25 96:28>]
@@ -268,7 +329,6 @@ LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javassistmodel.JavassistUtils.p
 SYMBOL_METHOD int java.lang.String.length()
 REFERENCE_CALL static java.util.List<com.github.javaparser.symbolsolver.model.typesystem.Type> com.github.javaparser.symbolsolver.javassistmodel.JavassistUtils.parseTypeParameters(java.lang.String, com.github.javaparser.symbolsolver.model.resolution.TypeSolver, com.github.javaparser.symbolsolver.core.resolution.Context) -> int java.lang.String.length() [JavassistUtils.java <103:58 103:63>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javassistmodel.JavassistUtils.parseTypeParameters<0> [JavassistUtils.java <103:48 103:56>]
-SYMBOL_METHOD boolean java.lang.String.contains(java.lang.CharSequence)
 REFERENCE_CALL static java.util.List<com.github.javaparser.symbolsolver.model.typesystem.Type> com.github.javaparser.symbolsolver.javassistmodel.JavassistUtils.parseTypeParameters(java.lang.String, com.github.javaparser.symbolsolver.model.resolution.TypeSolver, com.github.javaparser.symbolsolver.core.resolution.Context) -> boolean java.lang.String.contains(java.lang.CharSequence) [JavassistUtils.java <104:27 104:34>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javassistmodel.JavassistUtils.parseTypeParameters<0> [JavassistUtils.java <104:17 104:25>]
 LOCAL_SYMBOL: JavassistUtils.java<104:42> [JavassistUtils.java <104:42 104:42>]
@@ -276,7 +336,6 @@ LOCAL_SYMBOL: JavassistUtils.java<104:42> [JavassistUtils.java <106:13 106:13>]
 SYMBOL_METHOD java.lang.UnsupportedOperationException.UnsupportedOperationException()
 REFERENCE_CALL static java.util.List<com.github.javaparser.symbolsolver.model.typesystem.Type> com.github.javaparser.symbolsolver.javassistmodel.JavassistUtils.parseTypeParameters(java.lang.String, com.github.javaparser.symbolsolver.model.resolution.TypeSolver, com.github.javaparser.symbolsolver.core.resolution.Context) -> java.lang.UnsupportedOperationException.UnsupportedOperationException() [JavassistUtils.java <105:27 105:55>]
 REFERENCE_TYPE_USAGE static java.util.List<com.github.javaparser.symbolsolver.model.typesystem.Type> com.github.javaparser.symbolsolver.javassistmodel.JavassistUtils.parseTypeParameters(java.lang.String, com.github.javaparser.symbolsolver.model.resolution.TypeSolver, com.github.javaparser.symbolsolver.core.resolution.Context) -> java.lang.UnsupportedOperationException [JavassistUtils.java <105:27 105:55>]
-SYMBOL_METHOD boolean java.lang.String.contains(java.lang.CharSequence)
 REFERENCE_CALL static java.util.List<com.github.javaparser.symbolsolver.model.typesystem.Type> com.github.javaparser.symbolsolver.javassistmodel.JavassistUtils.parseTypeParameters(java.lang.String, com.github.javaparser.symbolsolver.model.resolution.TypeSolver, com.github.javaparser.symbolsolver.core.resolution.Context) -> boolean java.lang.String.contains(java.lang.CharSequence) [JavassistUtils.java <107:27 107:34>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javassistmodel.JavassistUtils.parseTypeParameters<0> [JavassistUtils.java <107:17 107:25>]
 LOCAL_SYMBOL: JavassistUtils.java<107:42> [JavassistUtils.java <107:42 107:42>]
@@ -285,12 +344,10 @@ SYMBOL_METHOD java.lang.UnsupportedOperationException.UnsupportedOperationExcept
 REFERENCE_CALL static java.util.List<com.github.javaparser.symbolsolver.model.typesystem.Type> com.github.javaparser.symbolsolver.javassistmodel.JavassistUtils.parseTypeParameters(java.lang.String, com.github.javaparser.symbolsolver.model.resolution.TypeSolver, com.github.javaparser.symbolsolver.core.resolution.Context) -> java.lang.UnsupportedOperationException.UnsupportedOperationException(java.lang.String) [JavassistUtils.java <108:27 108:55>]
 REFERENCE_TYPE_USAGE static java.util.List<com.github.javaparser.symbolsolver.model.typesystem.Type> com.github.javaparser.symbolsolver.javassistmodel.JavassistUtils.parseTypeParameters(java.lang.String, com.github.javaparser.symbolsolver.model.resolution.TypeSolver, com.github.javaparser.symbolsolver.core.resolution.Context) -> java.lang.UnsupportedOperationException [JavassistUtils.java <108:27 108:55>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javassistmodel.JavassistUtils.parseTypeParameters<3> [JavassistUtils.java <108:57 108:73>]
-SYMBOL_METHOD boolean java.lang.String.contains(java.lang.CharSequence)
 REFERENCE_CALL static java.util.List<com.github.javaparser.symbolsolver.model.typesystem.Type> com.github.javaparser.symbolsolver.javassistmodel.JavassistUtils.parseTypeParameters(java.lang.String, com.github.javaparser.symbolsolver.model.resolution.TypeSolver, com.github.javaparser.symbolsolver.core.resolution.Context) -> boolean java.lang.String.contains(java.lang.CharSequence) [JavassistUtils.java <110:27 110:34>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javassistmodel.JavassistUtils.parseTypeParameters<0> [JavassistUtils.java <110:17 110:25>]
 LOCAL_SYMBOL: JavassistUtils.java<110:42> [JavassistUtils.java <110:42 110:42>]
 LOCAL_SYMBOL: JavassistUtils.java<110:42> [JavassistUtils.java <112:13 112:13>]
-SYMBOL_METHOD java.lang.UnsupportedOperationException.UnsupportedOperationException()
 REFERENCE_CALL static java.util.List<com.github.javaparser.symbolsolver.model.typesystem.Type> com.github.javaparser.symbolsolver.javassistmodel.JavassistUtils.parseTypeParameters(java.lang.String, com.github.javaparser.symbolsolver.model.resolution.TypeSolver, com.github.javaparser.symbolsolver.core.resolution.Context) -> java.lang.UnsupportedOperationException.UnsupportedOperationException() [JavassistUtils.java <111:27 111:55>]
 REFERENCE_TYPE_USAGE static java.util.List<com.github.javaparser.symbolsolver.model.typesystem.Type> com.github.javaparser.symbolsolver.javassistmodel.JavassistUtils.parseTypeParameters(java.lang.String, com.github.javaparser.symbolsolver.model.resolution.TypeSolver, com.github.javaparser.symbolsolver.core.resolution.Context) -> java.lang.UnsupportedOperationException [JavassistUtils.java <111:27 111:55>]
 REFERENCE_TYPE_USAGE static java.util.List<com.github.javaparser.symbolsolver.model.typesystem.Type> com.github.javaparser.symbolsolver.javassistmodel.JavassistUtils.parseTypeParameters(java.lang.String, com.github.javaparser.symbolsolver.model.resolution.TypeSolver, com.github.javaparser.symbolsolver.core.resolution.Context) -> java.util.List<E> [JavassistUtils.java <113:13 113:16>]
@@ -315,9 +372,11 @@ LOCAL_SYMBOL: JavassistUtils.java<116:16> [JavassistUtils.java <116:16 116:16>]
 LOCAL_SYMBOL: JavassistUtils.java<116:16> [JavassistUtils.java <118:9 118:9>]
 SYMBOL_METHOD static java.util.List<T> java.util.Collections.emptyList<T>()
 REFERENCE_CALL static java.util.List<com.github.javaparser.symbolsolver.model.typesystem.Type> com.github.javaparser.symbolsolver.javassistmodel.JavassistUtils.parseTypeParameters(java.lang.String, com.github.javaparser.symbolsolver.model.resolution.TypeSolver, com.github.javaparser.symbolsolver.core.resolution.Context) -> static java.util.List<T> java.util.Collections.emptyList<T>() [JavassistUtils.java <117:32 117:40>]
+QUALIFIER: java.util.Collections [JavassistUtils.java <117:20 117:30>]
 SYMBOL_METHOD default static com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.javassistmodel.JavassistUtils.signatureTypeToType(javassist.bytecode.SignatureAttribute.Type, com.github.javaparser.symbolsolver.model.resolution.TypeSolver, com.github.javaparser.symbolsolver.model.declarations.TypeParametrizable) [JavassistUtils.java <121:5 <121:17 121:35> 143:5>]
 REFERENCE_TYPE_USAGE static com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.javassistmodel.JavassistUtils.signatureTypeToType(javassist.bytecode.SignatureAttribute.Type, com.github.javaparser.symbolsolver.model.resolution.TypeSolver, com.github.javaparser.symbolsolver.model.declarations.TypeParametrizable) -> com.github.javaparser.symbolsolver.model.typesystem.Type [JavassistUtils.java <121:12 121:15>]
-REFERENCE_TYPE_USAGE static com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.javassistmodel.JavassistUtils.signatureTypeToType(javassist.bytecode.SignatureAttribute.Type, com.github.javaparser.symbolsolver.model.resolution.TypeSolver, com.github.javaparser.symbolsolver.model.declarations.TypeParametrizable) -> javassist.bytecode.SignatureAttribute.Type [JavassistUtils.java <121:37 121:59>]
+REFERENCE_TYPE_USAGE static com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.javassistmodel.JavassistUtils.signatureTypeToType(javassist.bytecode.SignatureAttribute.Type, com.github.javaparser.symbolsolver.model.resolution.TypeSolver, com.github.javaparser.symbolsolver.model.declarations.TypeParametrizable) -> javassist.bytecode.SignatureAttribute.Type [JavassistUtils.java <121:56 121:59>]
+QUALIFIER: javassist.bytecode.SignatureAttribute [JavassistUtils.java <121:37 121:54>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javassistmodel.JavassistUtils.signatureTypeToType<0> [JavassistUtils.java <121:61 121:73>]
 REFERENCE_TYPE_USAGE static com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.javassistmodel.JavassistUtils.signatureTypeToType(javassist.bytecode.SignatureAttribute.Type, com.github.javaparser.symbolsolver.model.resolution.TypeSolver, com.github.javaparser.symbolsolver.model.declarations.TypeParametrizable) -> com.github.javaparser.symbolsolver.model.resolution.TypeSolver [JavassistUtils.java <121:76 121:85>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javassistmodel.JavassistUtils.signatureTypeToType<1> [JavassistUtils.java <121:87 121:96>]
@@ -326,12 +385,15 @@ LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javassistmodel.JavassistUtils.s
 LOCAL_SYMBOL: JavassistUtils.java<121:138> [JavassistUtils.java <121:138 121:138>]
 LOCAL_SYMBOL: JavassistUtils.java<121:138> [JavassistUtils.java <143:5 143:5>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javassistmodel.JavassistUtils.signatureTypeToType<0> [JavassistUtils.java <122:13 122:25>]
-REFERENCE_TYPE_USAGE static com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.javassistmodel.JavassistUtils.signatureTypeToType(javassist.bytecode.SignatureAttribute.Type, com.github.javaparser.symbolsolver.model.resolution.TypeSolver, com.github.javaparser.symbolsolver.model.declarations.TypeParametrizable) -> javassist.bytecode.SignatureAttribute.ClassType [JavassistUtils.java <122:38 122:65>]
+REFERENCE_TYPE_USAGE static com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.javassistmodel.JavassistUtils.signatureTypeToType(javassist.bytecode.SignatureAttribute.Type, com.github.javaparser.symbolsolver.model.resolution.TypeSolver, com.github.javaparser.symbolsolver.model.declarations.TypeParametrizable) -> javassist.bytecode.SignatureAttribute.ClassType [JavassistUtils.java <122:57 122:65>]
+QUALIFIER: javassist.bytecode.SignatureAttribute [JavassistUtils.java <122:38 122:55>]
 LOCAL_SYMBOL: JavassistUtils.java<122:68> [JavassistUtils.java <122:68 122:68>]
 LOCAL_SYMBOL: JavassistUtils.java<122:68> [JavassistUtils.java <132:9 132:9>]
-REFERENCE_TYPE_USAGE static com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.javassistmodel.JavassistUtils.signatureTypeToType(javassist.bytecode.SignatureAttribute.Type, com.github.javaparser.symbolsolver.model.resolution.TypeSolver, com.github.javaparser.symbolsolver.model.declarations.TypeParametrizable) -> javassist.bytecode.SignatureAttribute.ClassType [JavassistUtils.java <123:13 123:40>]
+REFERENCE_TYPE_USAGE static com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.javassistmodel.JavassistUtils.signatureTypeToType(javassist.bytecode.SignatureAttribute.Type, com.github.javaparser.symbolsolver.model.resolution.TypeSolver, com.github.javaparser.symbolsolver.model.declarations.TypeParametrizable) -> javassist.bytecode.SignatureAttribute.ClassType [JavassistUtils.java <123:32 123:40>]
+QUALIFIER: javassist.bytecode.SignatureAttribute [JavassistUtils.java <123:13 123:30>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javassistmodel.JavassistUtils.signatureTypeToType<3> [JavassistUtils.java <123:42 123:50>]
-REFERENCE_TYPE_USAGE static com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.javassistmodel.JavassistUtils.signatureTypeToType(javassist.bytecode.SignatureAttribute.Type, com.github.javaparser.symbolsolver.model.resolution.TypeSolver, com.github.javaparser.symbolsolver.model.declarations.TypeParametrizable) -> javassist.bytecode.SignatureAttribute.ClassType [JavassistUtils.java <123:55 123:82>]
+REFERENCE_TYPE_USAGE static com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.javassistmodel.JavassistUtils.signatureTypeToType(javassist.bytecode.SignatureAttribute.Type, com.github.javaparser.symbolsolver.model.resolution.TypeSolver, com.github.javaparser.symbolsolver.model.declarations.TypeParametrizable) -> javassist.bytecode.SignatureAttribute.ClassType [JavassistUtils.java <123:74 123:82>]
+QUALIFIER: javassist.bytecode.SignatureAttribute [JavassistUtils.java <123:55 123:72>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javassistmodel.JavassistUtils.signatureTypeToType<0> [JavassistUtils.java <123:85 123:97>]
 REFERENCE_TYPE_USAGE static com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.javassistmodel.JavassistUtils.signatureTypeToType(javassist.bytecode.SignatureAttribute.Type, com.github.javaparser.symbolsolver.model.resolution.TypeSolver, com.github.javaparser.symbolsolver.model.declarations.TypeParametrizable) -> java.util.List<E> [JavassistUtils.java <124:13 124:16>]
 REFERENCE_TYPE_ARGUMENT static com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.javassistmodel.JavassistUtils.signatureTypeToType(javassist.bytecode.SignatureAttribute.Type, com.github.javaparser.symbolsolver.model.resolution.TypeSolver, com.github.javaparser.symbolsolver.model.declarations.TypeParametrizable) -> com.github.javaparser.symbolsolver.model.typesystem.Type [JavassistUtils.java <124:18 124:21>]
@@ -339,15 +401,15 @@ LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javassistmodel.JavassistUtils.s
 SYMBOL_METHOD javassist.bytecode.SignatureAttribute.TypeArgument javassist.bytecode.SignatureAttribute.ClassType.getTypeArguments()
 REFERENCE_CALL static com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.javassistmodel.JavassistUtils.signatureTypeToType(javassist.bytecode.SignatureAttribute.Type, com.github.javaparser.symbolsolver.model.resolution.TypeSolver, com.github.javaparser.symbolsolver.model.declarations.TypeParametrizable) -> javassist.bytecode.SignatureAttribute.TypeArgument javassist.bytecode.SignatureAttribute.ClassType.getTypeArguments() [JavassistUtils.java <124:51 124:66>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javassistmodel.JavassistUtils.signatureTypeToType<3> [JavassistUtils.java <124:41 124:49>]
-SYMBOL_METHOD static java.util.List<T> java.util.Collections.emptyList<T>()
 REFERENCE_CALL static com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.javassistmodel.JavassistUtils.signatureTypeToType(javassist.bytecode.SignatureAttribute.Type, com.github.javaparser.symbolsolver.model.resolution.TypeSolver, com.github.javaparser.symbolsolver.model.declarations.TypeParametrizable) -> static java.util.List<T> java.util.Collections.emptyList<T>() [JavassistUtils.java <124:92 124:100>]
+QUALIFIER: java.util.Collections [JavassistUtils.java <124:80 124:90>]
 SYMBOL_METHOD R java.util.stream.Stream<T>.collect<R, A>(java.util.stream.Collector<? super T, A, R>)
 REFERENCE_CALL static com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.javassistmodel.JavassistUtils.signatureTypeToType(javassist.bytecode.SignatureAttribute.Type, com.github.javaparser.symbolsolver.model.resolution.TypeSolver, com.github.javaparser.symbolsolver.model.declarations.TypeParametrizable) -> R java.util.stream.Stream<T>.collect<R, A>(java.util.stream.Collector<? super T, A, R>) [JavassistUtils.java <124:216 124:222>]
 SYMBOL_METHOD java.util.stream.Stream<R> java.util.stream.Stream<T>.map<R>(java.util.function.Function<? super T, ? extends R>)
 REFERENCE_CALL static com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.javassistmodel.JavassistUtils.signatureTypeToType(javassist.bytecode.SignatureAttribute.Type, com.github.javaparser.symbolsolver.model.resolution.TypeSolver, com.github.javaparser.symbolsolver.model.declarations.TypeParametrizable) -> java.util.stream.Stream<R> java.util.stream.Stream<T>.map<R>(java.util.function.Function<? super T, ? extends R>) [JavassistUtils.java <124:150 124:152>]
 SYMBOL_METHOD static java.util.stream.Stream<T> java.util.Arrays.stream<T>(T)
 REFERENCE_CALL static com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.javassistmodel.JavassistUtils.signatureTypeToType(javassist.bytecode.SignatureAttribute.Type, com.github.javaparser.symbolsolver.model.resolution.TypeSolver, com.github.javaparser.symbolsolver.model.declarations.TypeParametrizable) -> static java.util.stream.Stream<T> java.util.Arrays.stream<T>(T) [JavassistUtils.java <124:113 124:118>]
-SYMBOL_METHOD javassist.bytecode.SignatureAttribute.TypeArgument javassist.bytecode.SignatureAttribute.ClassType.getTypeArguments()
+QUALIFIER: java.util.Arrays [JavassistUtils.java <124:106 124:111>]
 REFERENCE_CALL static com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.javassistmodel.JavassistUtils.signatureTypeToType(javassist.bytecode.SignatureAttribute.Type, com.github.javaparser.symbolsolver.model.resolution.TypeSolver, com.github.javaparser.symbolsolver.model.declarations.TypeParametrizable) -> javassist.bytecode.SignatureAttribute.TypeArgument javassist.bytecode.SignatureAttribute.ClassType.getTypeArguments() [JavassistUtils.java <124:130 124:145>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javassistmodel.JavassistUtils.signatureTypeToType<3> [JavassistUtils.java <124:120 124:128>]
 LOCAL_SYMBOL: java.util.function.Function<T, R>.apply<6> [JavassistUtils.java <124:154 124:155>]
@@ -358,6 +420,7 @@ LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javassistmodel.JavassistUtils.s
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javassistmodel.JavassistUtils.signatureTypeToType<2> [JavassistUtils.java <124:195 124:212>]
 SYMBOL_METHOD static java.util.stream.Collector<T, ?, java.util.List<T>> java.util.stream.Collectors.toList<T>()
 REFERENCE_CALL static com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.javassistmodel.JavassistUtils.signatureTypeToType(javassist.bytecode.SignatureAttribute.Type, com.github.javaparser.symbolsolver.model.resolution.TypeSolver, com.github.javaparser.symbolsolver.model.declarations.TypeParametrizable) -> static java.util.stream.Collector<T, ?, java.util.List<T>> java.util.stream.Collectors.toList<T>() [JavassistUtils.java <124:235 124:240>]
+QUALIFIER: java.util.stream.Collectors [JavassistUtils.java <124:224 124:233>]
 REFERENCE_TYPE_USAGE static com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.javassistmodel.JavassistUtils.signatureTypeToType(javassist.bytecode.SignatureAttribute.Type, com.github.javaparser.symbolsolver.model.resolution.TypeSolver, com.github.javaparser.symbolsolver.model.declarations.TypeParametrizable) -> java.lang.String [JavassistUtils.java <125:19 125:24>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javassistmodel.JavassistUtils.signatureTypeToType<7> [JavassistUtils.java <125:26 125:33>]
 SYMBOL_METHOD javassist.bytecode.SignatureAttribute.ClassType javassist.bytecode.SignatureAttribute.ClassType.getDeclaringClass()
@@ -365,13 +428,10 @@ REFERENCE_CALL static com.github.javaparser.symbolsolver.model.typesystem.Type c
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javassistmodel.JavassistUtils.signatureTypeToType<3> [JavassistUtils.java <126:21 126:29>]
 SYMBOL_METHOD java.lang.String javassist.bytecode.SignatureAttribute.ClassType.getName()
 REFERENCE_CALL static com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.javassistmodel.JavassistUtils.signatureTypeToType(javassist.bytecode.SignatureAttribute.Type, com.github.javaparser.symbolsolver.model.resolution.TypeSolver, com.github.javaparser.symbolsolver.model.declarations.TypeParametrizable) -> java.lang.String javassist.bytecode.SignatureAttribute.ClassType.getName() [JavassistUtils.java <127:59 127:65>]
-SYMBOL_METHOD javassist.bytecode.SignatureAttribute.ClassType javassist.bytecode.SignatureAttribute.ClassType.getDeclaringClass()
 REFERENCE_CALL static com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.javassistmodel.JavassistUtils.signatureTypeToType(javassist.bytecode.SignatureAttribute.Type, com.github.javaparser.symbolsolver.model.resolution.TypeSolver, com.github.javaparser.symbolsolver.model.declarations.TypeParametrizable) -> javassist.bytecode.SignatureAttribute.ClassType javassist.bytecode.SignatureAttribute.ClassType.getDeclaringClass() [JavassistUtils.java <127:39 127:55>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javassistmodel.JavassistUtils.signatureTypeToType<3> [JavassistUtils.java <127:29 127:37>]
-SYMBOL_METHOD java.lang.String javassist.bytecode.SignatureAttribute.ClassType.getName()
 REFERENCE_CALL static com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.javassistmodel.JavassistUtils.signatureTypeToType(javassist.bytecode.SignatureAttribute.Type, com.github.javaparser.symbolsolver.model.resolution.TypeSolver, com.github.javaparser.symbolsolver.model.declarations.TypeParametrizable) -> java.lang.String javassist.bytecode.SignatureAttribute.ClassType.getName() [JavassistUtils.java <127:87 127:93>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javassistmodel.JavassistUtils.signatureTypeToType<3> [JavassistUtils.java <127:77 127:85>]
-SYMBOL_METHOD java.lang.String javassist.bytecode.SignatureAttribute.ClassType.getName()
 REFERENCE_CALL static com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.javassistmodel.JavassistUtils.signatureTypeToType(javassist.bytecode.SignatureAttribute.Type, com.github.javaparser.symbolsolver.model.resolution.TypeSolver, com.github.javaparser.symbolsolver.model.declarations.TypeParametrizable) -> java.lang.String javassist.bytecode.SignatureAttribute.ClassType.getName() [JavassistUtils.java <128:39 128:45>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javassistmodel.JavassistUtils.signatureTypeToType<3> [JavassistUtils.java <128:29 128:37>]
 REFERENCE_TYPE_USAGE static com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.javassistmodel.JavassistUtils.signatureTypeToType(javassist.bytecode.SignatureAttribute.Type, com.github.javaparser.symbolsolver.model.resolution.TypeSolver, com.github.javaparser.symbolsolver.model.declarations.TypeParametrizable) -> com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration [JavassistUtils.java <129:13 129:36>]
@@ -389,12 +449,15 @@ LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javassistmodel.JavassistUtils.s
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javassistmodel.JavassistUtils.signatureTypeToType<4> [JavassistUtils.java <131:59 131:72>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javassistmodel.JavassistUtils.signatureTypeToType<1> [JavassistUtils.java <131:75 131:84>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javassistmodel.JavassistUtils.signatureTypeToType<0> [JavassistUtils.java <132:20 132:32>]
-REFERENCE_TYPE_USAGE static com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.javassistmodel.JavassistUtils.signatureTypeToType(javassist.bytecode.SignatureAttribute.Type, com.github.javaparser.symbolsolver.model.resolution.TypeSolver, com.github.javaparser.symbolsolver.model.declarations.TypeParametrizable) -> javassist.bytecode.SignatureAttribute.TypeVariable [JavassistUtils.java <132:45 132:75>]
+REFERENCE_TYPE_USAGE static com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.javassistmodel.JavassistUtils.signatureTypeToType(javassist.bytecode.SignatureAttribute.Type, com.github.javaparser.symbolsolver.model.resolution.TypeSolver, com.github.javaparser.symbolsolver.model.declarations.TypeParametrizable) -> javassist.bytecode.SignatureAttribute.TypeVariable [JavassistUtils.java <132:64 132:75>]
+QUALIFIER: javassist.bytecode.SignatureAttribute [JavassistUtils.java <132:45 132:62>]
 LOCAL_SYMBOL: JavassistUtils.java<132:78> [JavassistUtils.java <132:78 132:78>]
 LOCAL_SYMBOL: JavassistUtils.java<132:78> [JavassistUtils.java <140:9 140:9>]
-REFERENCE_TYPE_USAGE static com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.javassistmodel.JavassistUtils.signatureTypeToType(javassist.bytecode.SignatureAttribute.Type, com.github.javaparser.symbolsolver.model.resolution.TypeSolver, com.github.javaparser.symbolsolver.model.declarations.TypeParametrizable) -> javassist.bytecode.SignatureAttribute.TypeVariable [JavassistUtils.java <133:13 133:43>]
+REFERENCE_TYPE_USAGE static com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.javassistmodel.JavassistUtils.signatureTypeToType(javassist.bytecode.SignatureAttribute.Type, com.github.javaparser.symbolsolver.model.resolution.TypeSolver, com.github.javaparser.symbolsolver.model.declarations.TypeParametrizable) -> javassist.bytecode.SignatureAttribute.TypeVariable [JavassistUtils.java <133:32 133:43>]
+QUALIFIER: javassist.bytecode.SignatureAttribute [JavassistUtils.java <133:13 133:30>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javassistmodel.JavassistUtils.signatureTypeToType<9> [JavassistUtils.java <133:45 133:65>]
-REFERENCE_TYPE_USAGE static com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.javassistmodel.JavassistUtils.signatureTypeToType(javassist.bytecode.SignatureAttribute.Type, com.github.javaparser.symbolsolver.model.resolution.TypeSolver, com.github.javaparser.symbolsolver.model.declarations.TypeParametrizable) -> javassist.bytecode.SignatureAttribute.TypeVariable [JavassistUtils.java <133:70 133:100>]
+REFERENCE_TYPE_USAGE static com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.javassistmodel.JavassistUtils.signatureTypeToType(javassist.bytecode.SignatureAttribute.Type, com.github.javaparser.symbolsolver.model.resolution.TypeSolver, com.github.javaparser.symbolsolver.model.declarations.TypeParametrizable) -> javassist.bytecode.SignatureAttribute.TypeVariable [JavassistUtils.java <133:89 133:100>]
+QUALIFIER: javassist.bytecode.SignatureAttribute [JavassistUtils.java <133:70 133:87>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javassistmodel.JavassistUtils.signatureTypeToType<0> [JavassistUtils.java <133:102 133:114>]
 REFERENCE_TYPE_USAGE static com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.javassistmodel.JavassistUtils.signatureTypeToType(javassist.bytecode.SignatureAttribute.Type, com.github.javaparser.symbolsolver.model.resolution.TypeSolver, com.github.javaparser.symbolsolver.model.declarations.TypeParametrizable) -> java.util.Optional<T> [JavassistUtils.java <134:13 134:20>]
 REFERENCE_TYPE_ARGUMENT static com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.javassistmodel.JavassistUtils.signatureTypeToType(javassist.bytecode.SignatureAttribute.Type, com.github.javaparser.symbolsolver.model.resolution.TypeSolver, com.github.javaparser.symbolsolver.model.declarations.TypeParametrizable) -> com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration [JavassistUtils.java <134:22 134:45>]
@@ -405,7 +468,6 @@ LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javassistmodel.JavassistUtils.s
 SYMBOL_METHOD java.lang.String javassist.bytecode.SignatureAttribute.TypeVariable.getName()
 REFERENCE_CALL static com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.javassistmodel.JavassistUtils.signatureTypeToType(javassist.bytecode.SignatureAttribute.Type, com.github.javaparser.symbolsolver.model.resolution.TypeSolver, com.github.javaparser.symbolsolver.model.declarations.TypeParametrizable) -> java.lang.String javassist.bytecode.SignatureAttribute.TypeVariable.getName() [JavassistUtils.java <134:137 134:143>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javassistmodel.JavassistUtils.signatureTypeToType<9> [JavassistUtils.java <134:115 134:135>]
-SYMBOL_METHOD boolean java.util.Optional<T>.isPresent()
 REFERENCE_CALL static com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.javassistmodel.JavassistUtils.signatureTypeToType(javassist.bytecode.SignatureAttribute.Type, com.github.javaparser.symbolsolver.model.resolution.TypeSolver, com.github.javaparser.symbolsolver.model.declarations.TypeParametrizable) -> boolean java.util.Optional<T>.isPresent() [JavassistUtils.java <135:46 135:54>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javassistmodel.JavassistUtils.signatureTypeToType<10> [JavassistUtils.java <135:18 135:44>]
 LOCAL_SYMBOL: JavassistUtils.java<135:59> [JavassistUtils.java <135:59 135:59>]
@@ -444,7 +506,8 @@ REFERENCE_CALL static java.lang.String com.github.javaparser.symbolsolver.javass
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javassistmodel.JavassistUtils.internalNameToCanonicalName<0> [JavassistUtils.java <146:16 146:23>]
 SYMBOL_METHOD private static com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.javassistmodel.JavassistUtils.objectTypeArgumentToType(javassist.bytecode.SignatureAttribute.ObjectType, com.github.javaparser.symbolsolver.model.resolution.TypeSolver, com.github.javaparser.symbolsolver.model.declarations.TypeParametrizable) [JavassistUtils.java <149:5 <149:25 149:48> 155:5>]
 REFERENCE_TYPE_USAGE static com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.javassistmodel.JavassistUtils.objectTypeArgumentToType(javassist.bytecode.SignatureAttribute.ObjectType, com.github.javaparser.symbolsolver.model.resolution.TypeSolver, com.github.javaparser.symbolsolver.model.declarations.TypeParametrizable) -> com.github.javaparser.symbolsolver.model.typesystem.Type [JavassistUtils.java <149:20 149:23>]
-REFERENCE_TYPE_USAGE static com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.javassistmodel.JavassistUtils.objectTypeArgumentToType(javassist.bytecode.SignatureAttribute.ObjectType, com.github.javaparser.symbolsolver.model.resolution.TypeSolver, com.github.javaparser.symbolsolver.model.declarations.TypeParametrizable) -> javassist.bytecode.SignatureAttribute.ObjectType [JavassistUtils.java <149:50 149:78>]
+REFERENCE_TYPE_USAGE static com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.javassistmodel.JavassistUtils.objectTypeArgumentToType(javassist.bytecode.SignatureAttribute.ObjectType, com.github.javaparser.symbolsolver.model.resolution.TypeSolver, com.github.javaparser.symbolsolver.model.declarations.TypeParametrizable) -> javassist.bytecode.SignatureAttribute.ObjectType [JavassistUtils.java <149:69 149:78>]
+QUALIFIER: javassist.bytecode.SignatureAttribute [JavassistUtils.java <149:50 149:67>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javassistmodel.JavassistUtils.objectTypeArgumentToType<0> [JavassistUtils.java <149:80 149:91>]
 REFERENCE_TYPE_USAGE static com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.javassistmodel.JavassistUtils.objectTypeArgumentToType(javassist.bytecode.SignatureAttribute.ObjectType, com.github.javaparser.symbolsolver.model.resolution.TypeSolver, com.github.javaparser.symbolsolver.model.declarations.TypeParametrizable) -> com.github.javaparser.symbolsolver.model.resolution.TypeSolver [JavassistUtils.java <149:94 149:103>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javassistmodel.JavassistUtils.objectTypeArgumentToType<1> [JavassistUtils.java <149:105 149:114>]
@@ -470,10 +533,8 @@ LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javassistmodel.JavassistUtils.o
 SYMBOL_METHOD com.github.javaparser.symbolsolver.model.typesystem.ReferenceTypeImpl.ReferenceTypeImpl(com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration, com.github.javaparser.symbolsolver.model.resolution.TypeSolver)
 REFERENCE_CALL static com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.javassistmodel.JavassistUtils.objectTypeArgumentToType(javassist.bytecode.SignatureAttribute.ObjectType, com.github.javaparser.symbolsolver.model.resolution.TypeSolver, com.github.javaparser.symbolsolver.model.declarations.TypeParametrizable) -> com.github.javaparser.symbolsolver.model.typesystem.ReferenceTypeImpl.ReferenceTypeImpl(com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) [JavassistUtils.java <152:41 152:57>]
 REFERENCE_TYPE_USAGE static com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.javassistmodel.JavassistUtils.objectTypeArgumentToType(javassist.bytecode.SignatureAttribute.ObjectType, com.github.javaparser.symbolsolver.model.resolution.TypeSolver, com.github.javaparser.symbolsolver.model.declarations.TypeParametrizable) -> com.github.javaparser.symbolsolver.model.typesystem.ReferenceTypeImpl [JavassistUtils.java <152:41 152:57>]
-SYMBOL_METHOD com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration com.github.javaparser.symbolsolver.model.resolution.TypeSolver.solveType(java.lang.String)
 REFERENCE_CALL static com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.javassistmodel.JavassistUtils.objectTypeArgumentToType(javassist.bytecode.SignatureAttribute.ObjectType, com.github.javaparser.symbolsolver.model.resolution.TypeSolver, com.github.javaparser.symbolsolver.model.declarations.TypeParametrizable) -> com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration com.github.javaparser.symbolsolver.model.resolution.TypeSolver.solveType(java.lang.String) [JavassistUtils.java <153:24 153:32>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javassistmodel.JavassistUtils.objectTypeArgumentToType<1> [JavassistUtils.java <153:13 153:22>]
-SYMBOL_METHOD static java.lang.String com.github.javaparser.symbolsolver.javassistmodel.JavassistUtils.internalNameToCanonicalName(java.lang.String)
 REFERENCE_CALL static com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.javassistmodel.JavassistUtils.objectTypeArgumentToType(javassist.bytecode.SignatureAttribute.ObjectType, com.github.javaparser.symbolsolver.model.resolution.TypeSolver, com.github.javaparser.symbolsolver.model.declarations.TypeParametrizable) -> static java.lang.String com.github.javaparser.symbolsolver.javassistmodel.JavassistUtils.internalNameToCanonicalName(java.lang.String) [JavassistUtils.java <153:34 153:60>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javassistmodel.JavassistUtils.objectTypeArgumentToType<3> [JavassistUtils.java <153:62 153:69>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javassistmodel.JavassistUtils.objectTypeArgumentToType<1> [JavassistUtils.java <154:13 154:22>]
@@ -489,18 +550,18 @@ LOCAL_SYMBOL: JavassistUtils.java<157:117> [JavassistUtils.java <160:5 160:5>]
 REFERENCE_TYPE_USAGE static java.util.Optional<com.github.javaparser.symbolsolver.model.typesystem.Type> com.github.javaparser.symbolsolver.javassistmodel.JavassistUtils.getGenericParameterByName(java.lang.String, com.github.javaparser.symbolsolver.model.declarations.TypeParametrizable) -> java.util.Optional<T> [JavassistUtils.java <158:9 158:16>]
 REFERENCE_TYPE_ARGUMENT static java.util.Optional<com.github.javaparser.symbolsolver.model.typesystem.Type> com.github.javaparser.symbolsolver.javassistmodel.JavassistUtils.getGenericParameterByName(java.lang.String, com.github.javaparser.symbolsolver.model.declarations.TypeParametrizable) -> com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration [JavassistUtils.java <158:18 158:41>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javassistmodel.JavassistUtils.getGenericParameterByName<2> [JavassistUtils.java <158:44 158:45>]
-SYMBOL_METHOD java.util.Optional<com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration> com.github.javaparser.symbolsolver.model.declarations.TypeParametrizable.findTypeParameter(java.lang.String)
 REFERENCE_CALL static java.util.Optional<com.github.javaparser.symbolsolver.model.typesystem.Type> com.github.javaparser.symbolsolver.javassistmodel.JavassistUtils.getGenericParameterByName(java.lang.String, com.github.javaparser.symbolsolver.model.declarations.TypeParametrizable) -> java.util.Optional<com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration> com.github.javaparser.symbolsolver.model.declarations.TypeParametrizable.findTypeParameter(java.lang.String) [JavassistUtils.java <158:68 158:84>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javassistmodel.JavassistUtils.getGenericParameterByName<1> [JavassistUtils.java <158:49 158:66>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javassistmodel.JavassistUtils.getGenericParameterByName<0> [JavassistUtils.java <158:86 158:93>]
 SYMBOL_METHOD java.util.Optional<U> java.util.Optional<T>.map<U>(java.util.function.Function<? super T, ? extends U>)
 REFERENCE_CALL static java.util.Optional<com.github.javaparser.symbolsolver.model.typesystem.Type> com.github.javaparser.symbolsolver.javassistmodel.JavassistUtils.getGenericParameterByName(java.lang.String, com.github.javaparser.symbolsolver.model.declarations.TypeParametrizable) -> java.util.Optional<U> java.util.Optional<T>.map<U>(java.util.function.Function<? super T, ? extends U>) [JavassistUtils.java <159:19 159:21>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javassistmodel.JavassistUtils.getGenericParameterByName<2> [JavassistUtils.java <159:16 159:17>]
-SYMBOL_METHOD com.github.javaparser.symbolsolver.model.typesystem.TypeVariable.TypeVariable(com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration)
 REFERENCE_USAGE static java.util.Optional<com.github.javaparser.symbolsolver.model.typesystem.Type> com.github.javaparser.symbolsolver.javassistmodel.JavassistUtils.getGenericParameterByName(java.lang.String, com.github.javaparser.symbolsolver.model.declarations.TypeParametrizable) -> com.github.javaparser.symbolsolver.model.typesystem.TypeVariable.TypeVariable(com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration) [JavassistUtils.java <159:37 159:39>]
+QUALIFIER: com.github.javaparser.symbolsolver.model.typesystem.TypeVariable [JavassistUtils.java <159:23 159:34>]
 SYMBOL_METHOD private static com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.javassistmodel.JavassistUtils.typeArgumentToType(javassist.bytecode.SignatureAttribute.TypeArgument, com.github.javaparser.symbolsolver.model.resolution.TypeSolver, com.github.javaparser.symbolsolver.model.declarations.TypeParametrizable) [JavassistUtils.java <162:5 <162:25 162:42> 176:5>]
 REFERENCE_TYPE_USAGE static com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.javassistmodel.JavassistUtils.typeArgumentToType(javassist.bytecode.SignatureAttribute.TypeArgument, com.github.javaparser.symbolsolver.model.resolution.TypeSolver, com.github.javaparser.symbolsolver.model.declarations.TypeParametrizable) -> com.github.javaparser.symbolsolver.model.typesystem.Type [JavassistUtils.java <162:20 162:23>]
-REFERENCE_TYPE_USAGE static com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.javassistmodel.JavassistUtils.typeArgumentToType(javassist.bytecode.SignatureAttribute.TypeArgument, com.github.javaparser.symbolsolver.model.resolution.TypeSolver, com.github.javaparser.symbolsolver.model.declarations.TypeParametrizable) -> javassist.bytecode.SignatureAttribute.TypeArgument [JavassistUtils.java <162:44 162:74>]
+REFERENCE_TYPE_USAGE static com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.javassistmodel.JavassistUtils.typeArgumentToType(javassist.bytecode.SignatureAttribute.TypeArgument, com.github.javaparser.symbolsolver.model.resolution.TypeSolver, com.github.javaparser.symbolsolver.model.declarations.TypeParametrizable) -> javassist.bytecode.SignatureAttribute.TypeArgument [JavassistUtils.java <162:63 162:74>]
+QUALIFIER: javassist.bytecode.SignatureAttribute [JavassistUtils.java <162:44 162:61>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javassistmodel.JavassistUtils.typeArgumentToType<0> [JavassistUtils.java <162:76 162:87>]
 REFERENCE_TYPE_USAGE static com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.javassistmodel.JavassistUtils.typeArgumentToType(javassist.bytecode.SignatureAttribute.TypeArgument, com.github.javaparser.symbolsolver.model.resolution.TypeSolver, com.github.javaparser.symbolsolver.model.declarations.TypeParametrizable) -> com.github.javaparser.symbolsolver.model.resolution.TypeSolver [JavassistUtils.java <162:90 162:99>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javassistmodel.JavassistUtils.typeArgumentToType<1> [JavassistUtils.java <162:101 162:110>]
@@ -518,6 +579,7 @@ REFERENCE_CALL static com.github.javaparser.symbolsolver.model.typesystem.Type c
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javassistmodel.JavassistUtils.typeArgumentToType<0> [JavassistUtils.java <164:17 164:28>]
 LOCAL_SYMBOL: JavassistUtils.java<164:49> [JavassistUtils.java <164:49 164:49>]
 LOCAL_SYMBOL: JavassistUtils.java<164:49> [JavassistUtils.java <166:13 166:13>]
+QUALIFIER: com.github.javaparser.symbolsolver.model.typesystem.Wildcard [JavassistUtils.java <165:24 165:31>]
 SYMBOL_FIELD static com.github.javaparser.symbolsolver.model.typesystem.Wildcard com.github.javaparser.symbolsolver.model.typesystem.Wildcard.UNBOUNDED
 REFERENCE_USAGE static com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.javassistmodel.JavassistUtils.typeArgumentToType(javassist.bytecode.SignatureAttribute.TypeArgument, com.github.javaparser.symbolsolver.model.resolution.TypeSolver, com.github.javaparser.symbolsolver.model.declarations.TypeParametrizable) -> static com.github.javaparser.symbolsolver.model.typesystem.Wildcard com.github.javaparser.symbolsolver.model.typesystem.Wildcard.UNBOUNDED [JavassistUtils.java <165:33 165:41>]
 SYMBOL_METHOD char javassist.bytecode.SignatureAttribute.TypeArgument.getKind()
@@ -527,37 +589,32 @@ LOCAL_SYMBOL: JavassistUtils.java<166:55> [JavassistUtils.java <166:55 166:55>]
 LOCAL_SYMBOL: JavassistUtils.java<166:55> [JavassistUtils.java <168:13 168:13>]
 SYMBOL_METHOD static com.github.javaparser.symbolsolver.model.typesystem.Wildcard com.github.javaparser.symbolsolver.model.typesystem.Wildcard.extendsBound(com.github.javaparser.symbolsolver.model.typesystem.Type)
 REFERENCE_CALL static com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.javassistmodel.JavassistUtils.typeArgumentToType(javassist.bytecode.SignatureAttribute.TypeArgument, com.github.javaparser.symbolsolver.model.resolution.TypeSolver, com.github.javaparser.symbolsolver.model.declarations.TypeParametrizable) -> static com.github.javaparser.symbolsolver.model.typesystem.Wildcard com.github.javaparser.symbolsolver.model.typesystem.Wildcard.extendsBound(com.github.javaparser.symbolsolver.model.typesystem.Type) [JavassistUtils.java <167:33 167:44>]
+QUALIFIER: com.github.javaparser.symbolsolver.model.typesystem.Wildcard [JavassistUtils.java <167:24 167:31>]
 SYMBOL_METHOD static com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.javassistmodel.JavassistUtils.objectTypeArgumentToType(javassist.bytecode.SignatureAttribute.ObjectType, com.github.javaparser.symbolsolver.model.resolution.TypeSolver, com.github.javaparser.symbolsolver.model.declarations.TypeParametrizable)
 REFERENCE_CALL static com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.javassistmodel.JavassistUtils.typeArgumentToType(javassist.bytecode.SignatureAttribute.TypeArgument, com.github.javaparser.symbolsolver.model.resolution.TypeSolver, com.github.javaparser.symbolsolver.model.declarations.TypeParametrizable) -> static com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.javassistmodel.JavassistUtils.objectTypeArgumentToType(javassist.bytecode.SignatureAttribute.ObjectType, com.github.javaparser.symbolsolver.model.resolution.TypeSolver, com.github.javaparser.symbolsolver.model.declarations.TypeParametrizable) [JavassistUtils.java <167:46 167:69>]
-SYMBOL_METHOD javassist.bytecode.SignatureAttribute.ObjectType javassist.bytecode.SignatureAttribute.TypeArgument.getType()
 REFERENCE_CALL static com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.javassistmodel.JavassistUtils.typeArgumentToType(javassist.bytecode.SignatureAttribute.TypeArgument, com.github.javaparser.symbolsolver.model.resolution.TypeSolver, com.github.javaparser.symbolsolver.model.declarations.TypeParametrizable) -> javassist.bytecode.SignatureAttribute.ObjectType javassist.bytecode.SignatureAttribute.TypeArgument.getType() [JavassistUtils.java <167:84 167:90>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javassistmodel.JavassistUtils.typeArgumentToType<0> [JavassistUtils.java <167:71 167:82>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javassistmodel.JavassistUtils.typeArgumentToType<1> [JavassistUtils.java <167:95 167:104>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javassistmodel.JavassistUtils.typeArgumentToType<2> [JavassistUtils.java <167:107 167:124>]
-SYMBOL_METHOD char javassist.bytecode.SignatureAttribute.TypeArgument.getKind()
 REFERENCE_CALL static com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.javassistmodel.JavassistUtils.typeArgumentToType(javassist.bytecode.SignatureAttribute.TypeArgument, com.github.javaparser.symbolsolver.model.resolution.TypeSolver, com.github.javaparser.symbolsolver.model.declarations.TypeParametrizable) -> char javassist.bytecode.SignatureAttribute.TypeArgument.getKind() [JavassistUtils.java <168:37 168:43>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javassistmodel.JavassistUtils.typeArgumentToType<0> [JavassistUtils.java <168:24 168:35>]
 LOCAL_SYMBOL: JavassistUtils.java<168:55> [JavassistUtils.java <168:55 168:55>]
 LOCAL_SYMBOL: JavassistUtils.java<168:55> [JavassistUtils.java <170:13 170:13>]
 SYMBOL_METHOD static com.github.javaparser.symbolsolver.model.typesystem.Wildcard com.github.javaparser.symbolsolver.model.typesystem.Wildcard.superBound(com.github.javaparser.symbolsolver.model.typesystem.Type)
 REFERENCE_CALL static com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.javassistmodel.JavassistUtils.typeArgumentToType(javassist.bytecode.SignatureAttribute.TypeArgument, com.github.javaparser.symbolsolver.model.resolution.TypeSolver, com.github.javaparser.symbolsolver.model.declarations.TypeParametrizable) -> static com.github.javaparser.symbolsolver.model.typesystem.Wildcard com.github.javaparser.symbolsolver.model.typesystem.Wildcard.superBound(com.github.javaparser.symbolsolver.model.typesystem.Type) [JavassistUtils.java <169:33 169:42>]
-SYMBOL_METHOD static com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.javassistmodel.JavassistUtils.objectTypeArgumentToType(javassist.bytecode.SignatureAttribute.ObjectType, com.github.javaparser.symbolsolver.model.resolution.TypeSolver, com.github.javaparser.symbolsolver.model.declarations.TypeParametrizable)
+QUALIFIER: com.github.javaparser.symbolsolver.model.typesystem.Wildcard [JavassistUtils.java <169:24 169:31>]
 REFERENCE_CALL static com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.javassistmodel.JavassistUtils.typeArgumentToType(javassist.bytecode.SignatureAttribute.TypeArgument, com.github.javaparser.symbolsolver.model.resolution.TypeSolver, com.github.javaparser.symbolsolver.model.declarations.TypeParametrizable) -> static com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.javassistmodel.JavassistUtils.objectTypeArgumentToType(javassist.bytecode.SignatureAttribute.ObjectType, com.github.javaparser.symbolsolver.model.resolution.TypeSolver, com.github.javaparser.symbolsolver.model.declarations.TypeParametrizable) [JavassistUtils.java <169:44 169:67>]
-SYMBOL_METHOD javassist.bytecode.SignatureAttribute.ObjectType javassist.bytecode.SignatureAttribute.TypeArgument.getType()
 REFERENCE_CALL static com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.javassistmodel.JavassistUtils.typeArgumentToType(javassist.bytecode.SignatureAttribute.TypeArgument, com.github.javaparser.symbolsolver.model.resolution.TypeSolver, com.github.javaparser.symbolsolver.model.declarations.TypeParametrizable) -> javassist.bytecode.SignatureAttribute.ObjectType javassist.bytecode.SignatureAttribute.TypeArgument.getType() [JavassistUtils.java <169:82 169:88>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javassistmodel.JavassistUtils.typeArgumentToType<0> [JavassistUtils.java <169:69 169:80>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javassistmodel.JavassistUtils.typeArgumentToType<1> [JavassistUtils.java <169:93 169:102>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javassistmodel.JavassistUtils.typeArgumentToType<2> [JavassistUtils.java <169:105 169:122>]
 LOCAL_SYMBOL: JavassistUtils.java<170:20> [JavassistUtils.java <170:20 170:20>]
 LOCAL_SYMBOL: JavassistUtils.java<170:20> [JavassistUtils.java <172:13 172:13>]
-SYMBOL_METHOD java.lang.UnsupportedOperationException.UnsupportedOperationException()
 REFERENCE_CALL static com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.javassistmodel.JavassistUtils.typeArgumentToType(javassist.bytecode.SignatureAttribute.TypeArgument, com.github.javaparser.symbolsolver.model.resolution.TypeSolver, com.github.javaparser.symbolsolver.model.declarations.TypeParametrizable) -> java.lang.UnsupportedOperationException.UnsupportedOperationException() [JavassistUtils.java <171:27 171:55>]
 REFERENCE_TYPE_USAGE static com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.javassistmodel.JavassistUtils.typeArgumentToType(javassist.bytecode.SignatureAttribute.TypeArgument, com.github.javaparser.symbolsolver.model.resolution.TypeSolver, com.github.javaparser.symbolsolver.model.declarations.TypeParametrizable) -> java.lang.UnsupportedOperationException [JavassistUtils.java <171:27 171:55>]
 LOCAL_SYMBOL: JavassistUtils.java<173:16> [JavassistUtils.java <173:16 173:16>]
 LOCAL_SYMBOL: JavassistUtils.java<173:16> [JavassistUtils.java <175:9 175:9>]
-SYMBOL_METHOD static com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.javassistmodel.JavassistUtils.objectTypeArgumentToType(javassist.bytecode.SignatureAttribute.ObjectType, com.github.javaparser.symbolsolver.model.resolution.TypeSolver, com.github.javaparser.symbolsolver.model.declarations.TypeParametrizable)
 REFERENCE_CALL static com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.javassistmodel.JavassistUtils.typeArgumentToType(javassist.bytecode.SignatureAttribute.TypeArgument, com.github.javaparser.symbolsolver.model.resolution.TypeSolver, com.github.javaparser.symbolsolver.model.declarations.TypeParametrizable) -> static com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.javassistmodel.JavassistUtils.objectTypeArgumentToType(javassist.bytecode.SignatureAttribute.ObjectType, com.github.javaparser.symbolsolver.model.resolution.TypeSolver, com.github.javaparser.symbolsolver.model.declarations.TypeParametrizable) [JavassistUtils.java <174:20 174:43>]
-SYMBOL_METHOD javassist.bytecode.SignatureAttribute.ObjectType javassist.bytecode.SignatureAttribute.TypeArgument.getType()
 REFERENCE_CALL static com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.javassistmodel.JavassistUtils.typeArgumentToType(javassist.bytecode.SignatureAttribute.TypeArgument, com.github.javaparser.symbolsolver.model.resolution.TypeSolver, com.github.javaparser.symbolsolver.model.declarations.TypeParametrizable) -> javassist.bytecode.SignatureAttribute.ObjectType javassist.bytecode.SignatureAttribute.TypeArgument.getType() [JavassistUtils.java <174:58 174:64>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javassistmodel.JavassistUtils.typeArgumentToType<0> [JavassistUtils.java <174:45 174:56>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javassistmodel.JavassistUtils.typeArgumentToType<1> [JavassistUtils.java <174:69 174:78>]

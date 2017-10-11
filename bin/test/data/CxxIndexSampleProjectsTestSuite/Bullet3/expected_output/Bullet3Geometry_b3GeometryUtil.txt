@@ -1,7 +1,5 @@
 FILE: b3GeometryUtil.cpp
-FILE: b3GeometryUtil.cpp
 COMMENT: comment [b3GeometryUtil.cpp <1:1 13:3>]
-FILE: b3GeometryUtil.cpp
 COMMENT: comment [b3GeometryUtil.cpp <20:1 24:3>]
 COMMENT: comment [b3GeometryUtil.cpp <84:2 84:17>]
 COMMENT: comment [b3GeometryUtil.cpp <113:9 113:69>]
@@ -15,10 +13,10 @@ SYMBOL_FUNCTION void b3BulletMathProbe() [b3GeometryUtil.cpp <27:7 27:23>]
 SYMBOL_BUILTIN_TYPE void
 REFERENCE_TYPE_USAGE void b3BulletMathProbe() -> void [b3GeometryUtil.cpp <27:2 27:5>]
 SYMBOL_FUNCTION void b3BulletMathProbe() [b3GeometryUtil.cpp <29:2 <29:7 29:23> 29:29>]
-SYMBOL_BUILTIN_TYPE void
 REFERENCE_TYPE_USAGE void b3BulletMathProbe() -> void [b3GeometryUtil.cpp <29:2 29:5>]
 SYMBOL_METHOD public static bool b3GeometryUtil::isPointInsidePlanes(const b3AlignedObjectArray<b3Vector3> &, const b3Vector3 &, b3Scalar) [b3GeometryUtil.cpp <33:1 <33:22 33:40> 47:1>]
 SYMBOL_CLASS b3GeometryUtil
+QUALIFIER: b3GeometryUtil [b3GeometryUtil.cpp <33:6 33:19>]
 SYMBOL_BUILTIN_TYPE bool
 REFERENCE_TYPE_USAGE static bool b3GeometryUtil::isPointInsidePlanes(const b3AlignedObjectArray<b3Vector3> &, const b3Vector3 &, b3Scalar) -> bool [b3GeometryUtil.cpp <33:1 33:4>]
 LOCAL_SYMBOL: b3GeometryUtil.cpp<33:81> [b3GeometryUtil.cpp <33:81 33:94>]
@@ -35,7 +33,6 @@ SYMBOL_FUNCTION int b3AlignedObjectArray<b3Vector3>::size() const
 REFERENCE_CALL static bool b3GeometryUtil::isPointInsidePlanes(const b3AlignedObjectArray<b3Vector3> &, const b3Vector3 &, b3Scalar) -> int b3AlignedObjectArray<b3Vector3>::size() const [b3GeometryUtil.cpp <35:34 35:37>]
 LOCAL_SYMBOL: b3GeometryUtil.cpp<33:81> [b3GeometryUtil.cpp <35:19 35:32>]
 LOCAL_SYMBOL: b3GeometryUtil.cpp<36:11> [b3GeometryUtil.cpp <36:11 36:11>]
-SYMBOL_BUILTIN_TYPE int
 REFERENCE_TYPE_USAGE static bool b3GeometryUtil::isPointInsidePlanes(const b3AlignedObjectArray<b3Vector3> &, const b3Vector3 &, b3Scalar) -> int [b3GeometryUtil.cpp <36:7 36:9>]
 LOCAL_SYMBOL: b3GeometryUtil.cpp<36:11> [b3GeometryUtil.cpp <36:15 36:15>]
 LOCAL_SYMBOL: b3GeometryUtil.cpp<35:6> [b3GeometryUtil.cpp <36:17 36:26>]
@@ -59,8 +56,7 @@ LOCAL_SYMBOL: b3GeometryUtil.cpp<33:130> [b3GeometryUtil.cpp <39:59 39:64>]
 LOCAL_SYMBOL: b3GeometryUtil.cpp<39:12> [b3GeometryUtil.cpp <40:7 40:10>]
 REFERENCE_TYPE_USAGE static bool b3GeometryUtil::isPointInsidePlanes(const b3AlignedObjectArray<b3Vector3> &, const b3Vector3 &, b3Scalar) -> b3Scalar [b3GeometryUtil.cpp <40:12 40:19>]
 SYMBOL_METHOD public static bool b3GeometryUtil::areVerticesBehindPlane(const b3Vector3 &, const b3AlignedObjectArray<b3Vector3> &, b3Scalar) [b3GeometryUtil.cpp <50:1 <50:22 50:43> 63:1>]
-SYMBOL_CLASS b3GeometryUtil
-SYMBOL_BUILTIN_TYPE bool
+QUALIFIER: b3GeometryUtil [b3GeometryUtil.cpp <50:6 50:19>]
 REFERENCE_TYPE_USAGE static bool b3GeometryUtil::areVerticesBehindPlane(const b3Vector3 &, const b3AlignedObjectArray<b3Vector3> &, b3Scalar) -> bool [b3GeometryUtil.cpp <50:1 50:4>]
 LOCAL_SYMBOL: b3GeometryUtil.cpp<50:62> [b3GeometryUtil.cpp <50:62 50:72>]
 REFERENCE_TYPE_USAGE static bool b3GeometryUtil::areVerticesBehindPlane(const b3Vector3 &, const b3AlignedObjectArray<b3Vector3> &, b3Scalar) -> b3Vector3 [b3GeometryUtil.cpp <50:51 50:59>]
@@ -70,27 +66,22 @@ REFERENCE_TEMPLATE_ARGUMENT b3AlignedObjectArray<b3Vector3> -> b3Vector3 [b3Geom
 LOCAL_SYMBOL: b3GeometryUtil.cpp<50:133> [b3GeometryUtil.cpp <50:133 50:138>]
 REFERENCE_TYPE_USAGE static bool b3GeometryUtil::areVerticesBehindPlane(const b3Vector3 &, const b3AlignedObjectArray<b3Vector3> &, b3Scalar) -> b3Scalar [b3GeometryUtil.cpp <50:124 50:131>]
 LOCAL_SYMBOL: b3GeometryUtil.cpp<52:6> [b3GeometryUtil.cpp <52:6 52:16>]
-SYMBOL_BUILTIN_TYPE int
 REFERENCE_TYPE_USAGE static bool b3GeometryUtil::areVerticesBehindPlane(const b3Vector3 &, const b3AlignedObjectArray<b3Vector3> &, b3Scalar) -> int [b3GeometryUtil.cpp <52:2 52:4>]
-SYMBOL_FUNCTION int b3AlignedObjectArray<b3Vector3>::size() const
 REFERENCE_CALL static bool b3GeometryUtil::areVerticesBehindPlane(const b3Vector3 &, const b3AlignedObjectArray<b3Vector3> &, b3Scalar) -> int b3AlignedObjectArray<b3Vector3>::size() const [b3GeometryUtil.cpp <52:29 52:32>]
 LOCAL_SYMBOL: b3GeometryUtil.cpp<50:114> [b3GeometryUtil.cpp <52:20 52:27>]
 LOCAL_SYMBOL: b3GeometryUtil.cpp<53:11> [b3GeometryUtil.cpp <53:11 53:11>]
-SYMBOL_BUILTIN_TYPE int
 REFERENCE_TYPE_USAGE static bool b3GeometryUtil::areVerticesBehindPlane(const b3Vector3 &, const b3AlignedObjectArray<b3Vector3> &, b3Scalar) -> int [b3GeometryUtil.cpp <53:7 53:9>]
 LOCAL_SYMBOL: b3GeometryUtil.cpp<53:11> [b3GeometryUtil.cpp <53:15 53:15>]
 LOCAL_SYMBOL: b3GeometryUtil.cpp<52:6> [b3GeometryUtil.cpp <53:17 53:27>]
 LOCAL_SYMBOL: b3GeometryUtil.cpp<53:11> [b3GeometryUtil.cpp <53:29 53:29>]
 LOCAL_SYMBOL: b3GeometryUtil.cpp<55:20> [b3GeometryUtil.cpp <55:20 55:21>]
 REFERENCE_TYPE_USAGE static bool b3GeometryUtil::areVerticesBehindPlane(const b3Vector3 &, const b3AlignedObjectArray<b3Vector3> &, b3Scalar) -> b3Vector3 [b3GeometryUtil.cpp <55:9 55:17>]
-SYMBOL_FUNCTION const b3Vector3 & b3AlignedObjectArray<b3Vector3>::operator[](int) const
 REFERENCE_CALL static bool b3GeometryUtil::areVerticesBehindPlane(const b3Vector3 &, const b3AlignedObjectArray<b3Vector3> &, b3Scalar) -> const b3Vector3 & b3AlignedObjectArray<b3Vector3>::operator[](int) const [b3GeometryUtil.cpp <55:33 55:33>]
 LOCAL_SYMBOL: b3GeometryUtil.cpp<50:114> [b3GeometryUtil.cpp <55:25 55:32>]
 LOCAL_SYMBOL: b3GeometryUtil.cpp<53:11> [b3GeometryUtil.cpp <55:34 55:34>]
 LOCAL_SYMBOL: b3GeometryUtil.cpp<56:12> [b3GeometryUtil.cpp <56:12 56:15>]
 REFERENCE_TYPE_USAGE static bool b3GeometryUtil::areVerticesBehindPlane(const b3Vector3 &, const b3AlignedObjectArray<b3Vector3> &, b3Scalar) -> b3Scalar [b3GeometryUtil.cpp <56:3 56:10>]
 REFERENCE_TYPE_USAGE static bool b3GeometryUtil::areVerticesBehindPlane(const b3Vector3 &, const b3AlignedObjectArray<b3Vector3> &, b3Scalar) -> b3Scalar [b3GeometryUtil.cpp <56:19 56:26>]
-SYMBOL_FUNCTION b3Scalar b3Vector3::dot(const b3Vector3 &) const
 REFERENCE_CALL static bool b3GeometryUtil::areVerticesBehindPlane(const b3Vector3 &, const b3AlignedObjectArray<b3Vector3> &, b3Scalar) -> b3Scalar b3Vector3::dot(const b3Vector3 &) const [b3GeometryUtil.cpp <56:40 56:42>]
 LOCAL_SYMBOL: b3GeometryUtil.cpp<50:62> [b3GeometryUtil.cpp <56:28 56:38>]
 LOCAL_SYMBOL: b3GeometryUtil.cpp<55:20> [b3GeometryUtil.cpp <56:44 56:45>]
@@ -100,7 +91,6 @@ LOCAL_SYMBOL: b3GeometryUtil.cpp<50:133> [b3GeometryUtil.cpp <56:74 56:79>]
 LOCAL_SYMBOL: b3GeometryUtil.cpp<56:12> [b3GeometryUtil.cpp <57:7 57:10>]
 REFERENCE_TYPE_USAGE static bool b3GeometryUtil::areVerticesBehindPlane(const b3Vector3 &, const b3AlignedObjectArray<b3Vector3> &, b3Scalar) -> b3Scalar [b3GeometryUtil.cpp <57:12 57:19>]
 SYMBOL_FUNCTION bool notExist(const b3Vector3 &, const b3AlignedObjectArray<b3Vector3> &) [b3GeometryUtil.cpp <65:6 65:13>]
-SYMBOL_BUILTIN_TYPE bool
 REFERENCE_TYPE_USAGE bool notExist(const b3Vector3 &, const b3AlignedObjectArray<b3Vector3> &) -> bool [b3GeometryUtil.cpp <65:1 65:4>]
 LOCAL_SYMBOL: b3GeometryUtil.cpp<65:32> [b3GeometryUtil.cpp <65:32 65:44>]
 REFERENCE_TYPE_USAGE bool notExist(const b3Vector3 &, const b3AlignedObjectArray<b3Vector3> &) -> b3Vector3 [b3GeometryUtil.cpp <65:21 65:29>]
@@ -108,7 +98,6 @@ LOCAL_SYMBOL: b3GeometryUtil.cpp<65:85> [b3GeometryUtil.cpp <65:85 65:98>]
 REFERENCE_TYPE_USAGE bool notExist(const b3Vector3 &, const b3AlignedObjectArray<b3Vector3> &) -> b3AlignedObjectArray<b3Vector3> [b3GeometryUtil.cpp <65:52 65:71>]
 REFERENCE_TEMPLATE_ARGUMENT b3AlignedObjectArray<b3Vector3> -> b3Vector3 [b3GeometryUtil.cpp <65:73 65:81>]
 SYMBOL_FUNCTION bool notExist(const b3Vector3 &, const b3AlignedObjectArray<b3Vector3> &) [b3GeometryUtil.cpp <67:1 <67:6 67:13> 79:1>]
-SYMBOL_BUILTIN_TYPE bool
 REFERENCE_TYPE_USAGE bool notExist(const b3Vector3 &, const b3AlignedObjectArray<b3Vector3> &) -> bool [b3GeometryUtil.cpp <67:1 67:4>]
 LOCAL_SYMBOL: b3GeometryUtil.cpp<67:32> [b3GeometryUtil.cpp <67:32 67:44>]
 REFERENCE_TYPE_USAGE bool notExist(const b3Vector3 &, const b3AlignedObjectArray<b3Vector3> &) -> b3Vector3 [b3GeometryUtil.cpp <67:21 67:29>]
@@ -116,31 +105,25 @@ LOCAL_SYMBOL: b3GeometryUtil.cpp<67:85> [b3GeometryUtil.cpp <67:85 67:98>]
 REFERENCE_TYPE_USAGE bool notExist(const b3Vector3 &, const b3AlignedObjectArray<b3Vector3> &) -> b3AlignedObjectArray<b3Vector3> [b3GeometryUtil.cpp <67:52 67:71>]
 REFERENCE_TEMPLATE_ARGUMENT b3AlignedObjectArray<b3Vector3> -> b3Vector3 [b3GeometryUtil.cpp <67:73 67:81>]
 LOCAL_SYMBOL: b3GeometryUtil.cpp<69:6> [b3GeometryUtil.cpp <69:6 69:15>]
-SYMBOL_BUILTIN_TYPE int
 REFERENCE_TYPE_USAGE bool notExist(const b3Vector3 &, const b3AlignedObjectArray<b3Vector3> &) -> int [b3GeometryUtil.cpp <69:2 69:4>]
-SYMBOL_FUNCTION int b3AlignedObjectArray<b3Vector3>::size() const
 REFERENCE_CALL bool notExist(const b3Vector3 &, const b3AlignedObjectArray<b3Vector3> &) -> int b3AlignedObjectArray<b3Vector3>::size() const [b3GeometryUtil.cpp <69:34 69:37>]
 LOCAL_SYMBOL: b3GeometryUtil.cpp<67:85> [b3GeometryUtil.cpp <69:19 69:32>]
 LOCAL_SYMBOL: b3GeometryUtil.cpp<70:11> [b3GeometryUtil.cpp <70:11 70:11>]
-SYMBOL_BUILTIN_TYPE int
 REFERENCE_TYPE_USAGE bool notExist(const b3Vector3 &, const b3AlignedObjectArray<b3Vector3> &) -> int [b3GeometryUtil.cpp <70:7 70:9>]
 LOCAL_SYMBOL: b3GeometryUtil.cpp<70:11> [b3GeometryUtil.cpp <70:15 70:15>]
 LOCAL_SYMBOL: b3GeometryUtil.cpp<69:6> [b3GeometryUtil.cpp <70:17 70:26>]
 LOCAL_SYMBOL: b3GeometryUtil.cpp<70:11> [b3GeometryUtil.cpp <70:28 70:28>]
 LOCAL_SYMBOL: b3GeometryUtil.cpp<72:20> [b3GeometryUtil.cpp <72:20 72:21>]
 REFERENCE_TYPE_USAGE bool notExist(const b3Vector3 &, const b3AlignedObjectArray<b3Vector3> &) -> b3Vector3 [b3GeometryUtil.cpp <72:9 72:17>]
-SYMBOL_FUNCTION const b3Vector3 & b3AlignedObjectArray<b3Vector3>::operator[](int) const
 REFERENCE_CALL bool notExist(const b3Vector3 &, const b3AlignedObjectArray<b3Vector3> &) -> const b3Vector3 & b3AlignedObjectArray<b3Vector3>::operator[](int) const [b3GeometryUtil.cpp <72:39 72:39>]
 LOCAL_SYMBOL: b3GeometryUtil.cpp<67:85> [b3GeometryUtil.cpp <72:25 72:38>]
 LOCAL_SYMBOL: b3GeometryUtil.cpp<70:11> [b3GeometryUtil.cpp <72:40 72:40>]
-SYMBOL_FUNCTION b3Scalar b3Vector3::dot(const b3Vector3 &) const
 REFERENCE_CALL bool notExist(const b3Vector3 &, const b3AlignedObjectArray<b3Vector3> &) -> b3Scalar b3Vector3::dot(const b3Vector3 &) const [b3GeometryUtil.cpp <73:21 73:23>]
 LOCAL_SYMBOL: b3GeometryUtil.cpp<67:32> [b3GeometryUtil.cpp <73:7 73:19>]
 LOCAL_SYMBOL: b3GeometryUtil.cpp<72:20> [b3GeometryUtil.cpp <73:25 73:26>]
 REFERENCE_TYPE_USAGE bool notExist(const b3Vector3 &, const b3AlignedObjectArray<b3Vector3> &) -> b3Scalar [b3GeometryUtil.cpp <73:31 73:38>]
 SYMBOL_METHOD public static void b3GeometryUtil::getPlaneEquationsFromVertices(b3AlignedObjectArray<b3Vector3> &, b3AlignedObjectArray<b3Vector3> &) [b3GeometryUtil.cpp <81:1 <81:22 81:50> 127:1>]
-SYMBOL_CLASS b3GeometryUtil
-SYMBOL_BUILTIN_TYPE void
+QUALIFIER: b3GeometryUtil [b3GeometryUtil.cpp <81:6 81:19>]
 REFERENCE_TYPE_USAGE static void b3GeometryUtil::getPlaneEquationsFromVertices(b3AlignedObjectArray<b3Vector3> &, b3AlignedObjectArray<b3Vector3> &) -> void [b3GeometryUtil.cpp <81:1 81:4>]
 LOCAL_SYMBOL: b3GeometryUtil.cpp<81:85> [b3GeometryUtil.cpp <81:85 81:92>]
 REFERENCE_TYPE_USAGE static void b3GeometryUtil::getPlaneEquationsFromVertices(b3AlignedObjectArray<b3Vector3> &, b3AlignedObjectArray<b3Vector3> &) -> b3AlignedObjectArray<b3Vector3> [b3GeometryUtil.cpp <81:52 81:71>]
@@ -149,13 +132,10 @@ LOCAL_SYMBOL: b3GeometryUtil.cpp<81:128> [b3GeometryUtil.cpp <81:128 81:144>]
 REFERENCE_TYPE_USAGE static void b3GeometryUtil::getPlaneEquationsFromVertices(b3AlignedObjectArray<b3Vector3> &, b3AlignedObjectArray<b3Vector3> &) -> b3AlignedObjectArray<b3Vector3> [b3GeometryUtil.cpp <81:95 81:114>]
 REFERENCE_TEMPLATE_ARGUMENT b3AlignedObjectArray<b3Vector3> -> b3Vector3 [b3GeometryUtil.cpp <81:116 81:124>]
 LOCAL_SYMBOL: b3GeometryUtil.cpp<83:13> [b3GeometryUtil.cpp <83:13 83:23>]
-SYMBOL_BUILTIN_TYPE int
 REFERENCE_TYPE_USAGE static void b3GeometryUtil::getPlaneEquationsFromVertices(b3AlignedObjectArray<b3Vector3> &, b3AlignedObjectArray<b3Vector3> &) -> int [b3GeometryUtil.cpp <83:9 83:11>]
-SYMBOL_FUNCTION int b3AlignedObjectArray<b3Vector3>::size() const
 REFERENCE_CALL static void b3GeometryUtil::getPlaneEquationsFromVertices(b3AlignedObjectArray<b3Vector3> &, b3AlignedObjectArray<b3Vector3> &) -> int b3AlignedObjectArray<b3Vector3>::size() const [b3GeometryUtil.cpp <83:36 83:39>]
 LOCAL_SYMBOL: b3GeometryUtil.cpp<81:85> [b3GeometryUtil.cpp <83:27 83:34>]
 LOCAL_SYMBOL: b3GeometryUtil.cpp<85:11> [b3GeometryUtil.cpp <85:11 85:11>]
-SYMBOL_BUILTIN_TYPE int
 REFERENCE_TYPE_USAGE static void b3GeometryUtil::getPlaneEquationsFromVertices(b3AlignedObjectArray<b3Vector3> &, b3AlignedObjectArray<b3Vector3> &) -> int [b3GeometryUtil.cpp <85:7 85:9>]
 LOCAL_SYMBOL: b3GeometryUtil.cpp<85:11> [b3GeometryUtil.cpp <85:15 85:15>]
 LOCAL_SYMBOL: b3GeometryUtil.cpp<83:13> [b3GeometryUtil.cpp <85:17 85:27>]
@@ -167,7 +147,6 @@ REFERENCE_CALL static void b3GeometryUtil::getPlaneEquationsFromVertices(b3Align
 LOCAL_SYMBOL: b3GeometryUtil.cpp<81:85> [b3GeometryUtil.cpp <87:25 87:32>]
 LOCAL_SYMBOL: b3GeometryUtil.cpp<85:11> [b3GeometryUtil.cpp <87:34 87:34>]
 LOCAL_SYMBOL: b3GeometryUtil.cpp<90:12> [b3GeometryUtil.cpp <90:12 90:12>]
-SYMBOL_BUILTIN_TYPE int
 REFERENCE_TYPE_USAGE static void b3GeometryUtil::getPlaneEquationsFromVertices(b3AlignedObjectArray<b3Vector3> &, b3AlignedObjectArray<b3Vector3> &) -> int [b3GeometryUtil.cpp <90:8 90:10>]
 LOCAL_SYMBOL: b3GeometryUtil.cpp<85:11> [b3GeometryUtil.cpp <90:14 90:14>]
 LOCAL_SYMBOL: b3GeometryUtil.cpp<90:12> [b3GeometryUtil.cpp <90:18 90:18>]
@@ -175,12 +154,10 @@ LOCAL_SYMBOL: b3GeometryUtil.cpp<83:13> [b3GeometryUtil.cpp <90:20 90:30>]
 LOCAL_SYMBOL: b3GeometryUtil.cpp<90:12> [b3GeometryUtil.cpp <90:32 90:32>]
 LOCAL_SYMBOL: b3GeometryUtil.cpp<92:21> [b3GeometryUtil.cpp <92:21 92:22>]
 REFERENCE_TYPE_USAGE static void b3GeometryUtil::getPlaneEquationsFromVertices(b3AlignedObjectArray<b3Vector3> &, b3AlignedObjectArray<b3Vector3> &) -> b3Vector3 [b3GeometryUtil.cpp <92:10 92:18>]
-SYMBOL_FUNCTION b3Vector3 & b3AlignedObjectArray<b3Vector3>::operator[](int)
 REFERENCE_CALL static void b3GeometryUtil::getPlaneEquationsFromVertices(b3AlignedObjectArray<b3Vector3> &, b3AlignedObjectArray<b3Vector3> &) -> b3Vector3 & b3AlignedObjectArray<b3Vector3>::operator[](int) [b3GeometryUtil.cpp <92:34 92:34>]
 LOCAL_SYMBOL: b3GeometryUtil.cpp<81:85> [b3GeometryUtil.cpp <92:26 92:33>]
 LOCAL_SYMBOL: b3GeometryUtil.cpp<90:12> [b3GeometryUtil.cpp <92:35 92:35>]
 LOCAL_SYMBOL: b3GeometryUtil.cpp<94:13> [b3GeometryUtil.cpp <94:13 94:13>]
-SYMBOL_BUILTIN_TYPE int
 REFERENCE_TYPE_USAGE static void b3GeometryUtil::getPlaneEquationsFromVertices(b3AlignedObjectArray<b3Vector3> &, b3AlignedObjectArray<b3Vector3> &) -> int [b3GeometryUtil.cpp <94:9 94:11>]
 LOCAL_SYMBOL: b3GeometryUtil.cpp<90:12> [b3GeometryUtil.cpp <94:15 94:15>]
 LOCAL_SYMBOL: b3GeometryUtil.cpp<94:13> [b3GeometryUtil.cpp <94:19 94:19>]
@@ -188,7 +165,6 @@ LOCAL_SYMBOL: b3GeometryUtil.cpp<83:13> [b3GeometryUtil.cpp <94:21 94:31>]
 LOCAL_SYMBOL: b3GeometryUtil.cpp<94:13> [b3GeometryUtil.cpp <94:33 94:33>]
 LOCAL_SYMBOL: b3GeometryUtil.cpp<97:22> [b3GeometryUtil.cpp <97:22 97:23>]
 REFERENCE_TYPE_USAGE static void b3GeometryUtil::getPlaneEquationsFromVertices(b3AlignedObjectArray<b3Vector3> &, b3AlignedObjectArray<b3Vector3> &) -> b3Vector3 [b3GeometryUtil.cpp <97:11 97:19>]
-SYMBOL_FUNCTION b3Vector3 & b3AlignedObjectArray<b3Vector3>::operator[](int)
 REFERENCE_CALL static void b3GeometryUtil::getPlaneEquationsFromVertices(b3AlignedObjectArray<b3Vector3> &, b3AlignedObjectArray<b3Vector3> &) -> b3Vector3 & b3AlignedObjectArray<b3Vector3>::operator[](int) [b3GeometryUtil.cpp <97:35 97:35>]
 LOCAL_SYMBOL: b3GeometryUtil.cpp<81:85> [b3GeometryUtil.cpp <97:27 97:34>]
 LOCAL_SYMBOL: b3GeometryUtil.cpp<94:13> [b3GeometryUtil.cpp <97:36 97:36>]
@@ -197,12 +173,8 @@ REFERENCE_TYPE_USAGE static void b3GeometryUtil::getPlaneEquationsFromVertices(b
 SYMBOL_FUNCTION void b3Vector3::b3Vector3()
 REFERENCE_CALL static void b3GeometryUtil::getPlaneEquationsFromVertices(b3AlignedObjectArray<b3Vector3> &, b3AlignedObjectArray<b3Vector3> &) -> void b3Vector3::b3Vector3() [b3GeometryUtil.cpp <99:15 99:27>]
 LOCAL_SYMBOL: b3GeometryUtil.cpp<99:29> [b3GeometryUtil.cpp <99:29 99:33>]
-REFERENCE_TYPE_USAGE static void b3GeometryUtil::getPlaneEquationsFromVertices(b3AlignedObjectArray<b3Vector3> &, b3AlignedObjectArray<b3Vector3> &) -> b3Vector3 [b3GeometryUtil.cpp <99:5 99:13>]
-SYMBOL_FUNCTION void b3Vector3::b3Vector3()
 REFERENCE_CALL static void b3GeometryUtil::getPlaneEquationsFromVertices(b3AlignedObjectArray<b3Vector3> &, b3AlignedObjectArray<b3Vector3> &) -> void b3Vector3::b3Vector3() [b3GeometryUtil.cpp <99:29 99:33>]
 LOCAL_SYMBOL: b3GeometryUtil.cpp<99:35> [b3GeometryUtil.cpp <99:35 99:39>]
-REFERENCE_TYPE_USAGE static void b3GeometryUtil::getPlaneEquationsFromVertices(b3AlignedObjectArray<b3Vector3> &, b3AlignedObjectArray<b3Vector3> &) -> b3Vector3 [b3GeometryUtil.cpp <99:5 99:13>]
-SYMBOL_FUNCTION void b3Vector3::b3Vector3()
 REFERENCE_CALL static void b3GeometryUtil::getPlaneEquationsFromVertices(b3AlignedObjectArray<b3Vector3> &, b3AlignedObjectArray<b3Vector3> &) -> void b3Vector3::b3Vector3() [b3GeometryUtil.cpp <99:35 99:39>]
 SYMBOL_FUNCTION b3Vector3 & b3Vector3::operator=(b3Vector3 &)
 REFERENCE_CALL static void b3GeometryUtil::getPlaneEquationsFromVertices(b3AlignedObjectArray<b3Vector3> &, b3AlignedObjectArray<b3Vector3> &) -> b3Vector3 & b3Vector3::operator=(b3Vector3 &) [b3GeometryUtil.cpp <100:11 100:11>]
@@ -211,10 +183,8 @@ SYMBOL_FUNCTION b3Vector3 operator-(const b3Vector3 &, const b3Vector3 &)
 REFERENCE_CALL static void b3GeometryUtil::getPlaneEquationsFromVertices(b3AlignedObjectArray<b3Vector3> &, b3AlignedObjectArray<b3Vector3> &) -> b3Vector3 operator-(const b3Vector3 &, const b3Vector3 &) [b3GeometryUtil.cpp <100:15 100:15>]
 LOCAL_SYMBOL: b3GeometryUtil.cpp<92:21> [b3GeometryUtil.cpp <100:13 100:14>]
 LOCAL_SYMBOL: b3GeometryUtil.cpp<87:20> [b3GeometryUtil.cpp <100:16 100:17>]
-SYMBOL_FUNCTION b3Vector3 & b3Vector3::operator=(b3Vector3 &)
 REFERENCE_CALL static void b3GeometryUtil::getPlaneEquationsFromVertices(b3AlignedObjectArray<b3Vector3> &, b3AlignedObjectArray<b3Vector3> &) -> b3Vector3 & b3Vector3::operator=(b3Vector3 &) [b3GeometryUtil.cpp <101:11 101:11>]
 LOCAL_SYMBOL: b3GeometryUtil.cpp<99:35> [b3GeometryUtil.cpp <101:5 101:9>]
-SYMBOL_FUNCTION b3Vector3 operator-(const b3Vector3 &, const b3Vector3 &)
 REFERENCE_CALL static void b3GeometryUtil::getPlaneEquationsFromVertices(b3AlignedObjectArray<b3Vector3> &, b3AlignedObjectArray<b3Vector3> &) -> b3Vector3 operator-(const b3Vector3 &, const b3Vector3 &) [b3GeometryUtil.cpp <101:15 101:15>]
 LOCAL_SYMBOL: b3GeometryUtil.cpp<97:22> [b3GeometryUtil.cpp <101:13 101:14>]
 LOCAL_SYMBOL: b3GeometryUtil.cpp<87:20> [b3GeometryUtil.cpp <101:16 101:17>]
@@ -222,11 +192,9 @@ LOCAL_SYMBOL: b3GeometryUtil.cpp<102:14> [b3GeometryUtil.cpp <102:14 102:23>]
 REFERENCE_TYPE_USAGE static void b3GeometryUtil::getPlaneEquationsFromVertices(b3AlignedObjectArray<b3Vector3> &, b3AlignedObjectArray<b3Vector3> &) -> b3Scalar [b3GeometryUtil.cpp <102:5 102:12>]
 REFERENCE_TYPE_USAGE static void b3GeometryUtil::getPlaneEquationsFromVertices(b3AlignedObjectArray<b3Vector3> &, b3AlignedObjectArray<b3Vector3> &) -> b3Scalar [b3GeometryUtil.cpp <102:27 102:34>]
 LOCAL_SYMBOL: b3GeometryUtil.cpp<103:14> [b3GeometryUtil.cpp <103:14 103:15>]
-SYMBOL_BUILTIN_TYPE int
 REFERENCE_TYPE_USAGE static void b3GeometryUtil::getPlaneEquationsFromVertices(b3AlignedObjectArray<b3Vector3> &, b3AlignedObjectArray<b3Vector3> &) -> int [b3GeometryUtil.cpp <103:10 103:12>]
 LOCAL_SYMBOL: b3GeometryUtil.cpp<103:14> [b3GeometryUtil.cpp <103:19 103:20>]
 LOCAL_SYMBOL: b3GeometryUtil.cpp<103:14> [b3GeometryUtil.cpp <103:24 103:25>]
-SYMBOL_FUNCTION b3Vector3 & b3Vector3::operator=(b3Vector3 &)
 REFERENCE_CALL static void b3GeometryUtil::getPlaneEquationsFromVertices(b3AlignedObjectArray<b3Vector3> &, b3AlignedObjectArray<b3Vector3> &) -> b3Vector3 & b3Vector3::operator=(b3Vector3 &) [b3GeometryUtil.cpp <105:20 105:20>]
 LOCAL_SYMBOL: b3GeometryUtil.cpp<99:15> [b3GeometryUtil.cpp <105:6 105:18>]
 SYMBOL_FUNCTION b3Vector3 operator*(const b3Scalar &, const b3Vector3 &)
@@ -248,7 +216,6 @@ REFERENCE_CALL static void b3GeometryUtil::getPlaneEquationsFromVertices(b3Align
 LOCAL_SYMBOL: b3GeometryUtil.cpp<99:15> [b3GeometryUtil.cpp <109:20 109:32>]
 LOCAL_SYMBOL: b3GeometryUtil.cpp<81:128> [b3GeometryUtil.cpp <109:34 109:50>]
 LOCAL_SYMBOL: b3GeometryUtil.cpp<99:15> [b3GeometryUtil.cpp <111:8 111:20>]
-SYMBOL_FUNCTION b3Scalar b3Vector3::dot(const b3Vector3 &) const
 REFERENCE_CALL static void b3GeometryUtil::getPlaneEquationsFromVertices(b3AlignedObjectArray<b3Vector3> &, b3AlignedObjectArray<b3Vector3> &) -> b3Scalar b3Vector3::dot(const b3Vector3 &) const [b3GeometryUtil.cpp <111:42 111:44>]
 LOCAL_SYMBOL: b3GeometryUtil.cpp<99:15> [b3GeometryUtil.cpp <111:28 111:40>]
 LOCAL_SYMBOL: b3GeometryUtil.cpp<87:20> [b3GeometryUtil.cpp <111:46 111:47>]
@@ -264,8 +231,7 @@ LOCAL_SYMBOL: b3GeometryUtil.cpp<99:15> [b3GeometryUtil.cpp <116:38 116:50>]
 LOCAL_SYMBOL: b3GeometryUtil.cpp<102:14> [b3GeometryUtil.cpp <120:6 120:15>]
 REFERENCE_TYPE_USAGE static void b3GeometryUtil::getPlaneEquationsFromVertices(b3AlignedObjectArray<b3Vector3> &, b3AlignedObjectArray<b3Vector3> &) -> b3Scalar [b3GeometryUtil.cpp <120:19 120:26>]
 SYMBOL_METHOD public static void b3GeometryUtil::getVerticesFromPlaneEquations(const b3AlignedObjectArray<b3Vector3> &, b3AlignedObjectArray<b3Vector3> &) [b3GeometryUtil.cpp <129:1 <129:22 129:50> 184:1>]
-SYMBOL_CLASS b3GeometryUtil
-SYMBOL_BUILTIN_TYPE void
+QUALIFIER: b3GeometryUtil [b3GeometryUtil.cpp <129:6 129:19>]
 REFERENCE_TYPE_USAGE static void b3GeometryUtil::getVerticesFromPlaneEquations(const b3AlignedObjectArray<b3Vector3> &, b3AlignedObjectArray<b3Vector3> &) -> void [b3GeometryUtil.cpp <129:1 129:4>]
 LOCAL_SYMBOL: b3GeometryUtil.cpp<129:91> [b3GeometryUtil.cpp <129:91 129:104>]
 REFERENCE_TYPE_USAGE static void b3GeometryUtil::getVerticesFromPlaneEquations(const b3AlignedObjectArray<b3Vector3> &, b3AlignedObjectArray<b3Vector3> &) -> b3AlignedObjectArray<b3Vector3> [b3GeometryUtil.cpp <129:58 129:77>]
@@ -274,25 +240,20 @@ LOCAL_SYMBOL: b3GeometryUtil.cpp<129:141> [b3GeometryUtil.cpp <129:141 129:151>]
 REFERENCE_TYPE_USAGE static void b3GeometryUtil::getVerticesFromPlaneEquations(const b3AlignedObjectArray<b3Vector3> &, b3AlignedObjectArray<b3Vector3> &) -> b3AlignedObjectArray<b3Vector3> [b3GeometryUtil.cpp <129:108 129:127>]
 REFERENCE_TEMPLATE_ARGUMENT b3AlignedObjectArray<b3Vector3> -> b3Vector3 [b3GeometryUtil.cpp <129:129 129:137>]
 LOCAL_SYMBOL: b3GeometryUtil.cpp<131:12> [b3GeometryUtil.cpp <131:12 131:21>]
-SYMBOL_BUILTIN_TYPE int
 REFERENCE_TYPE_USAGE static void b3GeometryUtil::getVerticesFromPlaneEquations(const b3AlignedObjectArray<b3Vector3> &, b3AlignedObjectArray<b3Vector3> &) -> int [b3GeometryUtil.cpp <131:8 131:10>]
-SYMBOL_FUNCTION int b3AlignedObjectArray<b3Vector3>::size() const
 REFERENCE_CALL static void b3GeometryUtil::getVerticesFromPlaneEquations(const b3AlignedObjectArray<b3Vector3> &, b3AlignedObjectArray<b3Vector3> &) -> int b3AlignedObjectArray<b3Vector3>::size() const [b3GeometryUtil.cpp <131:40 131:43>]
 LOCAL_SYMBOL: b3GeometryUtil.cpp<129:91> [b3GeometryUtil.cpp <131:25 131:38>]
 LOCAL_SYMBOL: b3GeometryUtil.cpp<133:11> [b3GeometryUtil.cpp <133:11 133:11>]
-SYMBOL_BUILTIN_TYPE int
 REFERENCE_TYPE_USAGE static void b3GeometryUtil::getVerticesFromPlaneEquations(const b3AlignedObjectArray<b3Vector3> &, b3AlignedObjectArray<b3Vector3> &) -> int [b3GeometryUtil.cpp <133:7 133:9>]
 LOCAL_SYMBOL: b3GeometryUtil.cpp<133:11> [b3GeometryUtil.cpp <133:15 133:15>]
 LOCAL_SYMBOL: b3GeometryUtil.cpp<131:12> [b3GeometryUtil.cpp <133:17 133:26>]
 LOCAL_SYMBOL: b3GeometryUtil.cpp<133:11> [b3GeometryUtil.cpp <133:28 133:28>]
 LOCAL_SYMBOL: b3GeometryUtil.cpp<135:20> [b3GeometryUtil.cpp <135:20 135:21>]
 REFERENCE_TYPE_USAGE static void b3GeometryUtil::getVerticesFromPlaneEquations(const b3AlignedObjectArray<b3Vector3> &, b3AlignedObjectArray<b3Vector3> &) -> b3Vector3 [b3GeometryUtil.cpp <135:9 135:17>]
-SYMBOL_FUNCTION const b3Vector3 & b3AlignedObjectArray<b3Vector3>::operator[](int) const
 REFERENCE_CALL static void b3GeometryUtil::getVerticesFromPlaneEquations(const b3AlignedObjectArray<b3Vector3> &, b3AlignedObjectArray<b3Vector3> &) -> const b3Vector3 & b3AlignedObjectArray<b3Vector3>::operator[](int) const [b3GeometryUtil.cpp <135:39 135:39>]
 LOCAL_SYMBOL: b3GeometryUtil.cpp<129:91> [b3GeometryUtil.cpp <135:25 135:38>]
 LOCAL_SYMBOL: b3GeometryUtil.cpp<133:11> [b3GeometryUtil.cpp <135:40 135:40>]
 LOCAL_SYMBOL: b3GeometryUtil.cpp<138:12> [b3GeometryUtil.cpp <138:12 138:12>]
-SYMBOL_BUILTIN_TYPE int
 REFERENCE_TYPE_USAGE static void b3GeometryUtil::getVerticesFromPlaneEquations(const b3AlignedObjectArray<b3Vector3> &, b3AlignedObjectArray<b3Vector3> &) -> int [b3GeometryUtil.cpp <138:8 138:10>]
 LOCAL_SYMBOL: b3GeometryUtil.cpp<133:11> [b3GeometryUtil.cpp <138:14 138:14>]
 LOCAL_SYMBOL: b3GeometryUtil.cpp<138:12> [b3GeometryUtil.cpp <138:18 138:18>]
@@ -300,12 +261,10 @@ LOCAL_SYMBOL: b3GeometryUtil.cpp<131:12> [b3GeometryUtil.cpp <138:20 138:29>]
 LOCAL_SYMBOL: b3GeometryUtil.cpp<138:12> [b3GeometryUtil.cpp <138:31 138:31>]
 LOCAL_SYMBOL: b3GeometryUtil.cpp<140:21> [b3GeometryUtil.cpp <140:21 140:22>]
 REFERENCE_TYPE_USAGE static void b3GeometryUtil::getVerticesFromPlaneEquations(const b3AlignedObjectArray<b3Vector3> &, b3AlignedObjectArray<b3Vector3> &) -> b3Vector3 [b3GeometryUtil.cpp <140:10 140:18>]
-SYMBOL_FUNCTION const b3Vector3 & b3AlignedObjectArray<b3Vector3>::operator[](int) const
 REFERENCE_CALL static void b3GeometryUtil::getVerticesFromPlaneEquations(const b3AlignedObjectArray<b3Vector3> &, b3AlignedObjectArray<b3Vector3> &) -> const b3Vector3 & b3AlignedObjectArray<b3Vector3>::operator[](int) const [b3GeometryUtil.cpp <140:40 140:40>]
 LOCAL_SYMBOL: b3GeometryUtil.cpp<129:91> [b3GeometryUtil.cpp <140:26 140:39>]
 LOCAL_SYMBOL: b3GeometryUtil.cpp<138:12> [b3GeometryUtil.cpp <140:41 140:41>]
 LOCAL_SYMBOL: b3GeometryUtil.cpp<142:13> [b3GeometryUtil.cpp <142:13 142:13>]
-SYMBOL_BUILTIN_TYPE int
 REFERENCE_TYPE_USAGE static void b3GeometryUtil::getVerticesFromPlaneEquations(const b3AlignedObjectArray<b3Vector3> &, b3AlignedObjectArray<b3Vector3> &) -> int [b3GeometryUtil.cpp <142:9 142:11>]
 LOCAL_SYMBOL: b3GeometryUtil.cpp<138:12> [b3GeometryUtil.cpp <142:15 142:15>]
 LOCAL_SYMBOL: b3GeometryUtil.cpp<142:13> [b3GeometryUtil.cpp <142:19 142:19>]
@@ -313,58 +272,44 @@ LOCAL_SYMBOL: b3GeometryUtil.cpp<131:12> [b3GeometryUtil.cpp <142:21 142:30>]
 LOCAL_SYMBOL: b3GeometryUtil.cpp<142:13> [b3GeometryUtil.cpp <142:32 142:32>]
 LOCAL_SYMBOL: b3GeometryUtil.cpp<145:22> [b3GeometryUtil.cpp <145:22 145:23>]
 REFERENCE_TYPE_USAGE static void b3GeometryUtil::getVerticesFromPlaneEquations(const b3AlignedObjectArray<b3Vector3> &, b3AlignedObjectArray<b3Vector3> &) -> b3Vector3 [b3GeometryUtil.cpp <145:11 145:19>]
-SYMBOL_FUNCTION const b3Vector3 & b3AlignedObjectArray<b3Vector3>::operator[](int) const
 REFERENCE_CALL static void b3GeometryUtil::getVerticesFromPlaneEquations(const b3AlignedObjectArray<b3Vector3> &, b3AlignedObjectArray<b3Vector3> &) -> const b3Vector3 & b3AlignedObjectArray<b3Vector3>::operator[](int) const [b3GeometryUtil.cpp <145:41 145:41>]
 LOCAL_SYMBOL: b3GeometryUtil.cpp<129:91> [b3GeometryUtil.cpp <145:27 145:40>]
 LOCAL_SYMBOL: b3GeometryUtil.cpp<142:13> [b3GeometryUtil.cpp <145:42 145:42>]
 LOCAL_SYMBOL: b3GeometryUtil.cpp<147:15> [b3GeometryUtil.cpp <147:15 147:18>]
 REFERENCE_TYPE_USAGE static void b3GeometryUtil::getVerticesFromPlaneEquations(const b3AlignedObjectArray<b3Vector3> &, b3AlignedObjectArray<b3Vector3> &) -> b3Vector3 [b3GeometryUtil.cpp <147:5 147:13>]
-SYMBOL_FUNCTION void b3Vector3::b3Vector3()
 REFERENCE_CALL static void b3GeometryUtil::getVerticesFromPlaneEquations(const b3AlignedObjectArray<b3Vector3> &, b3AlignedObjectArray<b3Vector3> &) -> void b3Vector3::b3Vector3() [b3GeometryUtil.cpp <147:15 147:18>]
-SYMBOL_FUNCTION b3Vector3 & b3Vector3::operator=(b3Vector3 &)
 REFERENCE_CALL static void b3GeometryUtil::getVerticesFromPlaneEquations(const b3AlignedObjectArray<b3Vector3> &, b3AlignedObjectArray<b3Vector3> &) -> b3Vector3 & b3Vector3::operator=(b3Vector3 &) [b3GeometryUtil.cpp <147:26 147:26>]
 LOCAL_SYMBOL: b3GeometryUtil.cpp<147:15> [b3GeometryUtil.cpp <147:21 147:24>]
-SYMBOL_FUNCTION b3Vector3 b3Vector3::cross(const b3Vector3 &) const
 REFERENCE_CALL static void b3GeometryUtil::getVerticesFromPlaneEquations(const b3AlignedObjectArray<b3Vector3> &, b3AlignedObjectArray<b3Vector3> &) -> b3Vector3 b3Vector3::cross(const b3Vector3 &) const [b3GeometryUtil.cpp <147:31 147:35>]
 LOCAL_SYMBOL: b3GeometryUtil.cpp<140:21> [b3GeometryUtil.cpp <147:28 147:29>]
 LOCAL_SYMBOL: b3GeometryUtil.cpp<145:22> [b3GeometryUtil.cpp <147:37 147:38>]
 LOCAL_SYMBOL: b3GeometryUtil.cpp<148:15> [b3GeometryUtil.cpp <148:15 148:18>]
 REFERENCE_TYPE_USAGE static void b3GeometryUtil::getVerticesFromPlaneEquations(const b3AlignedObjectArray<b3Vector3> &, b3AlignedObjectArray<b3Vector3> &) -> b3Vector3 [b3GeometryUtil.cpp <148:5 148:13>]
-SYMBOL_FUNCTION void b3Vector3::b3Vector3()
 REFERENCE_CALL static void b3GeometryUtil::getVerticesFromPlaneEquations(const b3AlignedObjectArray<b3Vector3> &, b3AlignedObjectArray<b3Vector3> &) -> void b3Vector3::b3Vector3() [b3GeometryUtil.cpp <148:15 148:18>]
-SYMBOL_FUNCTION b3Vector3 & b3Vector3::operator=(b3Vector3 &)
 REFERENCE_CALL static void b3GeometryUtil::getVerticesFromPlaneEquations(const b3AlignedObjectArray<b3Vector3> &, b3AlignedObjectArray<b3Vector3> &) -> b3Vector3 & b3Vector3::operator=(b3Vector3 &) [b3GeometryUtil.cpp <148:26 148:26>]
 LOCAL_SYMBOL: b3GeometryUtil.cpp<148:15> [b3GeometryUtil.cpp <148:21 148:24>]
-SYMBOL_FUNCTION b3Vector3 b3Vector3::cross(const b3Vector3 &) const
 REFERENCE_CALL static void b3GeometryUtil::getVerticesFromPlaneEquations(const b3AlignedObjectArray<b3Vector3> &, b3AlignedObjectArray<b3Vector3> &) -> b3Vector3 b3Vector3::cross(const b3Vector3 &) const [b3GeometryUtil.cpp <148:31 148:35>]
 LOCAL_SYMBOL: b3GeometryUtil.cpp<145:22> [b3GeometryUtil.cpp <148:28 148:29>]
 LOCAL_SYMBOL: b3GeometryUtil.cpp<135:20> [b3GeometryUtil.cpp <148:37 148:38>]
 LOCAL_SYMBOL: b3GeometryUtil.cpp<149:15> [b3GeometryUtil.cpp <149:15 149:18>]
 REFERENCE_TYPE_USAGE static void b3GeometryUtil::getVerticesFromPlaneEquations(const b3AlignedObjectArray<b3Vector3> &, b3AlignedObjectArray<b3Vector3> &) -> b3Vector3 [b3GeometryUtil.cpp <149:5 149:13>]
-SYMBOL_FUNCTION void b3Vector3::b3Vector3()
 REFERENCE_CALL static void b3GeometryUtil::getVerticesFromPlaneEquations(const b3AlignedObjectArray<b3Vector3> &, b3AlignedObjectArray<b3Vector3> &) -> void b3Vector3::b3Vector3() [b3GeometryUtil.cpp <149:15 149:18>]
-SYMBOL_FUNCTION b3Vector3 & b3Vector3::operator=(b3Vector3 &)
 REFERENCE_CALL static void b3GeometryUtil::getVerticesFromPlaneEquations(const b3AlignedObjectArray<b3Vector3> &, b3AlignedObjectArray<b3Vector3> &) -> b3Vector3 & b3Vector3::operator=(b3Vector3 &) [b3GeometryUtil.cpp <149:26 149:26>]
 LOCAL_SYMBOL: b3GeometryUtil.cpp<149:15> [b3GeometryUtil.cpp <149:21 149:24>]
-SYMBOL_FUNCTION b3Vector3 b3Vector3::cross(const b3Vector3 &) const
 REFERENCE_CALL static void b3GeometryUtil::getVerticesFromPlaneEquations(const b3AlignedObjectArray<b3Vector3> &, b3AlignedObjectArray<b3Vector3> &) -> b3Vector3 b3Vector3::cross(const b3Vector3 &) const [b3GeometryUtil.cpp <149:31 149:35>]
 LOCAL_SYMBOL: b3GeometryUtil.cpp<135:20> [b3GeometryUtil.cpp <149:28 149:29>]
 LOCAL_SYMBOL: b3GeometryUtil.cpp<140:21> [b3GeometryUtil.cpp <149:37 149:38>]
-SYMBOL_FUNCTION b3Scalar b3Vector3::length2() const
 REFERENCE_CALL static void b3GeometryUtil::getVerticesFromPlaneEquations(const b3AlignedObjectArray<b3Vector3> &, b3AlignedObjectArray<b3Vector3> &) -> b3Scalar b3Vector3::length2() const [b3GeometryUtil.cpp <151:17 151:23>]
 LOCAL_SYMBOL: b3GeometryUtil.cpp<147:15> [b3GeometryUtil.cpp <151:12 151:15>]
 REFERENCE_TYPE_USAGE static void b3GeometryUtil::getVerticesFromPlaneEquations(const b3AlignedObjectArray<b3Vector3> &, b3AlignedObjectArray<b3Vector3> &) -> b3Scalar [b3GeometryUtil.cpp <151:29 151:36>]
-SYMBOL_FUNCTION b3Scalar b3Vector3::length2() const
 REFERENCE_CALL static void b3GeometryUtil::getVerticesFromPlaneEquations(const b3AlignedObjectArray<b3Vector3> &, b3AlignedObjectArray<b3Vector3> &) -> b3Scalar b3Vector3::length2() const [b3GeometryUtil.cpp <152:14 152:20>]
 LOCAL_SYMBOL: b3GeometryUtil.cpp<148:15> [b3GeometryUtil.cpp <152:9 152:12>]
 REFERENCE_TYPE_USAGE static void b3GeometryUtil::getVerticesFromPlaneEquations(const b3AlignedObjectArray<b3Vector3> &, b3AlignedObjectArray<b3Vector3> &) -> b3Scalar [b3GeometryUtil.cpp <152:26 152:33>]
-SYMBOL_FUNCTION b3Scalar b3Vector3::length2() const
 REFERENCE_CALL static void b3GeometryUtil::getVerticesFromPlaneEquations(const b3AlignedObjectArray<b3Vector3> &, b3AlignedObjectArray<b3Vector3> &) -> b3Scalar b3Vector3::length2() const [b3GeometryUtil.cpp <153:14 153:20>]
 LOCAL_SYMBOL: b3GeometryUtil.cpp<149:15> [b3GeometryUtil.cpp <153:9 153:12>]
 REFERENCE_TYPE_USAGE static void b3GeometryUtil::getVerticesFromPlaneEquations(const b3AlignedObjectArray<b3Vector3> &, b3AlignedObjectArray<b3Vector3> &) -> b3Scalar [b3GeometryUtil.cpp <153:26 153:33>]
 LOCAL_SYMBOL: b3GeometryUtil.cpp<162:15> [b3GeometryUtil.cpp <162:15 162:22>]
 REFERENCE_TYPE_USAGE static void b3GeometryUtil::getVerticesFromPlaneEquations(const b3AlignedObjectArray<b3Vector3> &, b3AlignedObjectArray<b3Vector3> &) -> b3Scalar [b3GeometryUtil.cpp <162:6 162:13>]
-SYMBOL_FUNCTION b3Scalar b3Vector3::dot(const b3Vector3 &) const
 REFERENCE_CALL static void b3GeometryUtil::getVerticesFromPlaneEquations(const b3AlignedObjectArray<b3Vector3> &, b3AlignedObjectArray<b3Vector3> &) -> b3Scalar b3Vector3::dot(const b3Vector3 &) const [b3GeometryUtil.cpp <162:30 162:32>]
 LOCAL_SYMBOL: b3GeometryUtil.cpp<135:20> [b3GeometryUtil.cpp <162:27 162:28>]
 LOCAL_SYMBOL: b3GeometryUtil.cpp<147:15> [b3GeometryUtil.cpp <162:34 162:37>]
@@ -379,11 +324,9 @@ SYMBOL_FUNCTION b3Vector3 & b3Vector3::operator*=(const b3Scalar &)
 REFERENCE_CALL static void b3GeometryUtil::getVerticesFromPlaneEquations(const b3AlignedObjectArray<b3Vector3> &, b3AlignedObjectArray<b3Vector3> &) -> b3Vector3 & b3Vector3::operator*=(const b3Scalar &) [b3GeometryUtil.cpp <166:12 166:13>]
 LOCAL_SYMBOL: b3GeometryUtil.cpp<147:15> [b3GeometryUtil.cpp <166:7 166:10>]
 LOCAL_SYMBOL: b3GeometryUtil.cpp<135:20> [b3GeometryUtil.cpp <166:15 166:16>]
-SYMBOL_FUNCTION b3Vector3 & b3Vector3::operator*=(const b3Scalar &)
 REFERENCE_CALL static void b3GeometryUtil::getVerticesFromPlaneEquations(const b3AlignedObjectArray<b3Vector3> &, b3AlignedObjectArray<b3Vector3> &) -> b3Vector3 & b3Vector3::operator*=(const b3Scalar &) [b3GeometryUtil.cpp <167:12 167:13>]
 LOCAL_SYMBOL: b3GeometryUtil.cpp<148:15> [b3GeometryUtil.cpp <167:7 167:10>]
 LOCAL_SYMBOL: b3GeometryUtil.cpp<140:21> [b3GeometryUtil.cpp <167:15 167:16>]
-SYMBOL_FUNCTION b3Vector3 & b3Vector3::operator*=(const b3Scalar &)
 REFERENCE_CALL static void b3GeometryUtil::getVerticesFromPlaneEquations(const b3AlignedObjectArray<b3Vector3> &, b3AlignedObjectArray<b3Vector3> &) -> b3Vector3 & b3Vector3::operator*=(const b3Scalar &) [b3GeometryUtil.cpp <168:12 168:13>]
 LOCAL_SYMBOL: b3GeometryUtil.cpp<149:15> [b3GeometryUtil.cpp <168:7 168:10>]
 LOCAL_SYMBOL: b3GeometryUtil.cpp<145:22> [b3GeometryUtil.cpp <168:15 168:16>]
@@ -396,11 +339,9 @@ SYMBOL_FUNCTION b3Vector3 & b3Vector3::operator+=(const b3Vector3 &)
 REFERENCE_CALL static void b3GeometryUtil::getVerticesFromPlaneEquations(const b3AlignedObjectArray<b3Vector3> &, b3AlignedObjectArray<b3Vector3> &) -> b3Vector3 & b3Vector3::operator+=(const b3Vector3 &) [b3GeometryUtil.cpp <170:23 170:24>]
 LOCAL_SYMBOL: b3GeometryUtil.cpp<169:17> [b3GeometryUtil.cpp <170:7 170:21>]
 LOCAL_SYMBOL: b3GeometryUtil.cpp<148:15> [b3GeometryUtil.cpp <170:26 170:29>]
-SYMBOL_FUNCTION b3Vector3 & b3Vector3::operator+=(const b3Vector3 &)
 REFERENCE_CALL static void b3GeometryUtil::getVerticesFromPlaneEquations(const b3AlignedObjectArray<b3Vector3> &, b3AlignedObjectArray<b3Vector3> &) -> b3Vector3 & b3Vector3::operator+=(const b3Vector3 &) [b3GeometryUtil.cpp <171:23 171:24>]
 LOCAL_SYMBOL: b3GeometryUtil.cpp<169:17> [b3GeometryUtil.cpp <171:7 171:21>]
 LOCAL_SYMBOL: b3GeometryUtil.cpp<149:15> [b3GeometryUtil.cpp <171:26 171:29>]
-SYMBOL_FUNCTION b3Vector3 & b3Vector3::operator*=(const b3Scalar &)
 REFERENCE_CALL static void b3GeometryUtil::getVerticesFromPlaneEquations(const b3AlignedObjectArray<b3Vector3> &, b3AlignedObjectArray<b3Vector3> &) -> b3Vector3 & b3Vector3::operator*=(const b3Scalar &) [b3GeometryUtil.cpp <172:23 172:24>]
 LOCAL_SYMBOL: b3GeometryUtil.cpp<169:17> [b3GeometryUtil.cpp <172:7 172:21>]
 LOCAL_SYMBOL: b3GeometryUtil.cpp<162:15> [b3GeometryUtil.cpp <172:26 172:33>]
@@ -409,7 +350,6 @@ REFERENCE_CALL static void b3GeometryUtil::getVerticesFromPlaneEquations(const b
 LOCAL_SYMBOL: b3GeometryUtil.cpp<129:91> [b3GeometryUtil.cpp <175:31 175:44>]
 LOCAL_SYMBOL: b3GeometryUtil.cpp<169:17> [b3GeometryUtil.cpp <175:46 175:60>]
 REFERENCE_TYPE_USAGE static void b3GeometryUtil::getVerticesFromPlaneEquations(const b3AlignedObjectArray<b3Vector3> &, b3AlignedObjectArray<b3Vector3> &) -> b3Scalar [b3GeometryUtil.cpp <175:62 175:69>]
-SYMBOL_FUNCTION void b3AlignedObjectArray<b3Vector3>::push_back(const b3Vector3 &)
 REFERENCE_CALL static void b3GeometryUtil::getVerticesFromPlaneEquations(const b3AlignedObjectArray<b3Vector3> &, b3AlignedObjectArray<b3Vector3> &) -> void b3AlignedObjectArray<b3Vector3>::push_back(const b3Vector3 &) [b3GeometryUtil.cpp <177:20 177:28>]
 LOCAL_SYMBOL: b3GeometryUtil.cpp<129:141> [b3GeometryUtil.cpp <177:8 177:18>]
 LOCAL_SYMBOL: b3GeometryUtil.cpp<169:17> [b3GeometryUtil.cpp <177:30 177:44>]

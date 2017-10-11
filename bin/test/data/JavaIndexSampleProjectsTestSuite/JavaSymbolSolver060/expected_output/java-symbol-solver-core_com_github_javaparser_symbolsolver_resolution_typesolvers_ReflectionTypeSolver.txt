@@ -1,20 +1,49 @@
 FILE: ReflectionTypeSolver.java
-SYMBOL_PACKAGE com.github.javaparser.symbolsolver.resolution.typesolvers [ReflectionTypeSolver.java <17:9 17:65>]
+SYMBOL_PACKAGE com.github.javaparser.symbolsolver.resolution.typesolvers [ReflectionTypeSolver.java <17:55 17:65>]
 SYMBOL_PACKAGE com.github.javaparser.symbolsolver.resolution
 SYMBOL_PACKAGE com.github.javaparser.symbolsolver
 SYMBOL_PACKAGE com.github.javaparser
 SYMBOL_PACKAGE com.github
 SYMBOL_PACKAGE com
-REFERENCE_IMPORT ReflectionTypeSolver.java -> com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration [ReflectionTypeSolver.java <19:8 19:85>]
+QUALIFIER: com.github.javaparser.symbolsolver.resolution [ReflectionTypeSolver.java <17:44 17:53>]
+QUALIFIER: com.github.javaparser.symbolsolver [ReflectionTypeSolver.java <17:31 17:42>]
+QUALIFIER: com.github.javaparser [ReflectionTypeSolver.java <17:20 17:29>]
+QUALIFIER: com.github [ReflectionTypeSolver.java <17:13 17:18>]
+QUALIFIER: com [ReflectionTypeSolver.java <17:9 17:11>]
+REFERENCE_IMPORT ReflectionTypeSolver.java -> com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration [ReflectionTypeSolver.java <19:62 19:85>]
 SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model.declarations
-REFERENCE_IMPORT ReflectionTypeSolver.java -> com.github.javaparser.symbolsolver.model.resolution.SymbolReference<S> [ReflectionTypeSolver.java <20:8 20:74>]
+QUALIFIER: com.github.javaparser.symbolsolver.model.declarations [ReflectionTypeSolver.java <19:49 19:60>]
+QUALIFIER: com.github.javaparser.symbolsolver.model [ReflectionTypeSolver.java <19:43 19:47>]
+QUALIFIER: com.github.javaparser.symbolsolver [ReflectionTypeSolver.java <19:30 19:41>]
+QUALIFIER: com.github.javaparser [ReflectionTypeSolver.java <19:19 19:28>]
+QUALIFIER: com.github [ReflectionTypeSolver.java <19:12 19:17>]
+QUALIFIER: com [ReflectionTypeSolver.java <19:8 19:10>]
+REFERENCE_IMPORT ReflectionTypeSolver.java -> com.github.javaparser.symbolsolver.model.resolution.SymbolReference<S> [ReflectionTypeSolver.java <20:60 20:74>]
 SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model.resolution
-REFERENCE_IMPORT ReflectionTypeSolver.java -> com.github.javaparser.symbolsolver.model.resolution.TypeSolver [ReflectionTypeSolver.java <21:8 21:69>]
-SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model.resolution
-REFERENCE_IMPORT ReflectionTypeSolver.java -> com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFactory [ReflectionTypeSolver.java <22:8 22:75>]
+QUALIFIER: com.github.javaparser.symbolsolver.model.resolution [ReflectionTypeSolver.java <20:49 20:58>]
+QUALIFIER: com.github.javaparser.symbolsolver.model [ReflectionTypeSolver.java <20:43 20:47>]
+QUALIFIER: com.github.javaparser.symbolsolver [ReflectionTypeSolver.java <20:30 20:41>]
+QUALIFIER: com.github.javaparser [ReflectionTypeSolver.java <20:19 20:28>]
+QUALIFIER: com.github [ReflectionTypeSolver.java <20:12 20:17>]
+QUALIFIER: com [ReflectionTypeSolver.java <20:8 20:10>]
+REFERENCE_IMPORT ReflectionTypeSolver.java -> com.github.javaparser.symbolsolver.model.resolution.TypeSolver [ReflectionTypeSolver.java <21:60 21:69>]
+QUALIFIER: com.github.javaparser.symbolsolver.model.resolution [ReflectionTypeSolver.java <21:49 21:58>]
+QUALIFIER: com.github.javaparser.symbolsolver.model [ReflectionTypeSolver.java <21:43 21:47>]
+QUALIFIER: com.github.javaparser.symbolsolver [ReflectionTypeSolver.java <21:30 21:41>]
+QUALIFIER: com.github.javaparser [ReflectionTypeSolver.java <21:19 21:28>]
+QUALIFIER: com.github [ReflectionTypeSolver.java <21:12 21:17>]
+QUALIFIER: com [ReflectionTypeSolver.java <21:8 21:10>]
+REFERENCE_IMPORT ReflectionTypeSolver.java -> com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFactory [ReflectionTypeSolver.java <22:59 22:75>]
 SYMBOL_PACKAGE com.github.javaparser.symbolsolver.reflectionmodel
-REFERENCE_IMPORT ReflectionTypeSolver.java -> java.util.Optional<T> [ReflectionTypeSolver.java <24:8 24:25>]
+QUALIFIER: com.github.javaparser.symbolsolver.reflectionmodel [ReflectionTypeSolver.java <22:43 22:57>]
+QUALIFIER: com.github.javaparser.symbolsolver [ReflectionTypeSolver.java <22:30 22:41>]
+QUALIFIER: com.github.javaparser [ReflectionTypeSolver.java <22:19 22:28>]
+QUALIFIER: com.github [ReflectionTypeSolver.java <22:12 22:17>]
+QUALIFIER: com [ReflectionTypeSolver.java <22:8 22:10>]
+REFERENCE_IMPORT ReflectionTypeSolver.java -> java.util.Optional<T> [ReflectionTypeSolver.java <24:18 24:25>]
 SYMBOL_PACKAGE java.util
+QUALIFIER: java.util [ReflectionTypeSolver.java <24:13 24:16>]
+QUALIFIER: java [ReflectionTypeSolver.java <24:8 24:11>]
 SYMBOL_CLASS public com.github.javaparser.symbolsolver.resolution.typesolvers.ReflectionTypeSolver [ReflectionTypeSolver.java <29:1 <29:14 29:33> 94:1>]
 LOCAL_SYMBOL: ReflectionTypeSolver.java<29:57> [ReflectionTypeSolver.java <29:57 29:57>]
 LOCAL_SYMBOL: ReflectionTypeSolver.java<29:57> [ReflectionTypeSolver.java <94:1 94:1>]
@@ -28,6 +57,7 @@ REFERENCE_TYPE_USAGE com.github.javaparser.symbolsolver.resolution.typesolvers.R
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.resolution.typesolvers.ReflectionTypeSolver.ReflectionTypeSolver<0> [ReflectionTypeSolver.java <33:41 33:47>]
 LOCAL_SYMBOL: ReflectionTypeSolver.java<33:50> [ReflectionTypeSolver.java <33:50 33:50>]
 LOCAL_SYMBOL: ReflectionTypeSolver.java<33:50> [ReflectionTypeSolver.java <35:5 35:5>]
+QUALIFIER: com.github.javaparser.symbolsolver.resolution.typesolvers.ReflectionTypeSolver [ReflectionTypeSolver.java <34:9 34:12>]
 SYMBOL_FIELD boolean com.github.javaparser.symbolsolver.resolution.typesolvers.ReflectionTypeSolver.jreOnly
 REFERENCE_USAGE com.github.javaparser.symbolsolver.resolution.typesolvers.ReflectionTypeSolver.ReflectionTypeSolver(boolean) -> boolean com.github.javaparser.symbolsolver.resolution.typesolvers.ReflectionTypeSolver.jreOnly [ReflectionTypeSolver.java <34:14 34:20>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.resolution.typesolvers.ReflectionTypeSolver.ReflectionTypeSolver<0> [ReflectionTypeSolver.java <34:24 34:30>]
@@ -39,7 +69,6 @@ LOCAL_SYMBOL: ReflectionTypeSolver.java<37:35> [ReflectionTypeSolver.java <39:5 
 SYMBOL_METHOD com.github.javaparser.symbolsolver.resolution.typesolvers.ReflectionTypeSolver.ReflectionTypeSolver(boolean)
 REFERENCE_CALL com.github.javaparser.symbolsolver.resolution.typesolvers.ReflectionTypeSolver.ReflectionTypeSolver() -> com.github.javaparser.symbolsolver.resolution.typesolvers.ReflectionTypeSolver.ReflectionTypeSolver(boolean) [ReflectionTypeSolver.java <38:9 38:12>]
 SYMBOL_FIELD private boolean com.github.javaparser.symbolsolver.resolution.typesolvers.ReflectionTypeSolver.jreOnly [ReflectionTypeSolver.java <41:21 41:27>]
-SYMBOL_BUILTIN_TYPE boolean
 REFERENCE_TYPE_USAGE boolean com.github.javaparser.symbolsolver.resolution.typesolvers.ReflectionTypeSolver.jreOnly -> boolean [ReflectionTypeSolver.java <41:13 41:19>]
 SYMBOL_METHOD public com.github.javaparser.symbolsolver.model.resolution.TypeSolver com.github.javaparser.symbolsolver.resolution.typesolvers.ReflectionTypeSolver.getParent() [ReflectionTypeSolver.java <43:5 <44:23 44:31> 46:5>]
 SYMBOL_METHOD com.github.javaparser.symbolsolver.model.resolution.TypeSolver com.github.javaparser.symbolsolver.model.resolution.TypeSolver.getParent()
@@ -58,7 +87,7 @@ REFERENCE_TYPE_USAGE void com.github.javaparser.symbolsolver.resolution.typesolv
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.resolution.typesolvers.ReflectionTypeSolver.setParent<0> [ReflectionTypeSolver.java <49:38 49:43>]
 LOCAL_SYMBOL: ReflectionTypeSolver.java<49:46> [ReflectionTypeSolver.java <49:46 49:46>]
 LOCAL_SYMBOL: ReflectionTypeSolver.java<49:46> [ReflectionTypeSolver.java <51:5 51:5>]
-SYMBOL_FIELD com.github.javaparser.symbolsolver.model.resolution.TypeSolver com.github.javaparser.symbolsolver.resolution.typesolvers.ReflectionTypeSolver.parent
+QUALIFIER: com.github.javaparser.symbolsolver.resolution.typesolvers.ReflectionTypeSolver [ReflectionTypeSolver.java <50:9 50:12>]
 REFERENCE_USAGE void com.github.javaparser.symbolsolver.resolution.typesolvers.ReflectionTypeSolver.setParent(com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> com.github.javaparser.symbolsolver.model.resolution.TypeSolver com.github.javaparser.symbolsolver.resolution.typesolvers.ReflectionTypeSolver.parent [ReflectionTypeSolver.java <50:14 50:19>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.resolution.typesolvers.ReflectionTypeSolver.setParent<0> [ReflectionTypeSolver.java <50:23 50:28>]
 SYMBOL_METHOD public com.github.javaparser.symbolsolver.model.resolution.SymbolReference<com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration> com.github.javaparser.symbolsolver.resolution.typesolvers.ReflectionTypeSolver.tryToSolveType(java.lang.String) [ReflectionTypeSolver.java <53:5 <54:54 54:67> 92:5>]
@@ -70,12 +99,10 @@ REFERENCE_TYPE_USAGE com.github.javaparser.symbolsolver.model.resolution.SymbolR
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.resolution.typesolvers.ReflectionTypeSolver.tryToSolveType<0> [ReflectionTypeSolver.java <54:76 54:79>]
 LOCAL_SYMBOL: ReflectionTypeSolver.java<54:82> [ReflectionTypeSolver.java <54:82 54:82>]
 LOCAL_SYMBOL: ReflectionTypeSolver.java<54:82> [ReflectionTypeSolver.java <92:5 92:5>]
-SYMBOL_FIELD boolean com.github.javaparser.symbolsolver.resolution.typesolvers.ReflectionTypeSolver.jreOnly
 REFERENCE_USAGE com.github.javaparser.symbolsolver.model.resolution.SymbolReference<com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration> com.github.javaparser.symbolsolver.resolution.typesolvers.ReflectionTypeSolver.tryToSolveType(java.lang.String) -> boolean com.github.javaparser.symbolsolver.resolution.typesolvers.ReflectionTypeSolver.jreOnly [ReflectionTypeSolver.java <55:14 55:20>]
 SYMBOL_METHOD boolean java.lang.String.startsWith(java.lang.String)
 REFERENCE_CALL com.github.javaparser.symbolsolver.model.resolution.SymbolReference<com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration> com.github.javaparser.symbolsolver.resolution.typesolvers.ReflectionTypeSolver.tryToSolveType(java.lang.String) -> boolean java.lang.String.startsWith(java.lang.String) [ReflectionTypeSolver.java <55:31 55:40>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.resolution.typesolvers.ReflectionTypeSolver.tryToSolveType<0> [ReflectionTypeSolver.java <55:26 55:29>]
-SYMBOL_METHOD boolean java.lang.String.startsWith(java.lang.String)
 REFERENCE_CALL com.github.javaparser.symbolsolver.model.resolution.SymbolReference<com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration> com.github.javaparser.symbolsolver.resolution.typesolvers.ReflectionTypeSolver.tryToSolveType(java.lang.String) -> boolean java.lang.String.startsWith(java.lang.String) [ReflectionTypeSolver.java <55:59 55:68>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.resolution.typesolvers.ReflectionTypeSolver.tryToSolveType<0> [ReflectionTypeSolver.java <55:54 55:57>]
 LOCAL_SYMBOL: ReflectionTypeSolver.java<55:82> [ReflectionTypeSolver.java <55:82 55:82>]
@@ -101,8 +128,10 @@ LOCAL_SYMBOL: com.github.javaparser.symbolsolver.resolution.typesolvers.Reflecti
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.resolution.typesolvers.ReflectionTypeSolver.tryToSolveType<0> [ReflectionTypeSolver.java <65:56 65:59>]
 SYMBOL_METHOD static com.github.javaparser.symbolsolver.model.resolution.SymbolReference<S> com.github.javaparser.symbolsolver.model.resolution.SymbolReference<S>.solved<S, S2>(S2)
 REFERENCE_CALL com.github.javaparser.symbolsolver.model.resolution.SymbolReference<com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration> com.github.javaparser.symbolsolver.resolution.typesolvers.ReflectionTypeSolver.tryToSolveType(java.lang.String) -> static com.github.javaparser.symbolsolver.model.resolution.SymbolReference<S> com.github.javaparser.symbolsolver.model.resolution.SymbolReference<S>.solved<S, S2>(S2) [ReflectionTypeSolver.java <66:40 66:45>]
+QUALIFIER: com.github.javaparser.symbolsolver.model.resolution.SymbolReference [ReflectionTypeSolver.java <66:24 66:38>]
 SYMBOL_METHOD static com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFactory.typeDeclarationFor(java.lang.Class<?>, com.github.javaparser.symbolsolver.model.resolution.TypeSolver)
 REFERENCE_CALL com.github.javaparser.symbolsolver.model.resolution.SymbolReference<com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration> com.github.javaparser.symbolsolver.resolution.typesolvers.ReflectionTypeSolver.tryToSolveType(java.lang.String) -> static com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFactory.typeDeclarationFor(java.lang.Class<?>, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) [ReflectionTypeSolver.java <66:65 66:82>]
+QUALIFIER: com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFactory [ReflectionTypeSolver.java <66:47 66:63>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.resolution.typesolvers.ReflectionTypeSolver.tryToSolveType<2> [ReflectionTypeSolver.java <66:84 66:88>]
 SYMBOL_METHOD com.github.javaparser.symbolsolver.model.resolution.TypeSolver com.github.javaparser.symbolsolver.model.resolution.TypeSolver.getRoot()
 REFERENCE_CALL com.github.javaparser.symbolsolver.model.resolution.SymbolReference<com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration> com.github.javaparser.symbolsolver.resolution.typesolvers.ReflectionTypeSolver.tryToSolveType(java.lang.String) -> com.github.javaparser.symbolsolver.model.resolution.TypeSolver com.github.javaparser.symbolsolver.model.resolution.TypeSolver.getRoot() [ReflectionTypeSolver.java <66:91 66:97>]
@@ -121,6 +150,7 @@ LOCAL_SYMBOL: ReflectionTypeSolver.java<70:36> [ReflectionTypeSolver.java <70:36
 LOCAL_SYMBOL: ReflectionTypeSolver.java<70:36> [ReflectionTypeSolver.java <72:17 72:17>]
 SYMBOL_METHOD static com.github.javaparser.symbolsolver.model.resolution.SymbolReference<S> com.github.javaparser.symbolsolver.model.resolution.SymbolReference<S>.unsolved<S, S2>(java.lang.Class<S2>)
 REFERENCE_CALL com.github.javaparser.symbolsolver.model.resolution.SymbolReference<com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration> com.github.javaparser.symbolsolver.resolution.typesolvers.ReflectionTypeSolver.tryToSolveType(java.lang.String) -> static com.github.javaparser.symbolsolver.model.resolution.SymbolReference<S> com.github.javaparser.symbolsolver.model.resolution.SymbolReference<S>.unsolved<S, S2>(java.lang.Class<S2>) [ReflectionTypeSolver.java <71:44 71:51>]
+QUALIFIER: com.github.javaparser.symbolsolver.model.resolution.SymbolReference [ReflectionTypeSolver.java <71:28 71:42>]
 REFERENCE_TYPE_USAGE com.github.javaparser.symbolsolver.model.resolution.SymbolReference<com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration> com.github.javaparser.symbolsolver.resolution.typesolvers.ReflectionTypeSolver.tryToSolveType(java.lang.String) -> com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration [ReflectionTypeSolver.java <71:53 71:76>]
 LOCAL_SYMBOL: ReflectionTypeSolver.java<72:24> [ReflectionTypeSolver.java <72:24 72:24>]
 LOCAL_SYMBOL: ReflectionTypeSolver.java<72:24> [ReflectionTypeSolver.java <87:17 87:17>]
@@ -173,25 +203,25 @@ REFERENCE_CALL com.github.javaparser.symbolsolver.model.resolution.SymbolReferen
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.resolution.typesolvers.ReflectionTypeSolver.tryToSolveType<8> [ReflectionTypeSolver.java <79:29 79:38>]
 LOCAL_SYMBOL: ReflectionTypeSolver.java<79:53> [ReflectionTypeSolver.java <79:53 79:53>]
 LOCAL_SYMBOL: ReflectionTypeSolver.java<79:53> [ReflectionTypeSolver.java <81:25 81:25>]
-SYMBOL_METHOD static com.github.javaparser.symbolsolver.model.resolution.SymbolReference<S> com.github.javaparser.symbolsolver.model.resolution.SymbolReference<S>.solved<S, S2>(S2)
 REFERENCE_CALL com.github.javaparser.symbolsolver.model.resolution.SymbolReference<com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration> com.github.javaparser.symbolsolver.resolution.typesolvers.ReflectionTypeSolver.tryToSolveType(java.lang.String) -> static com.github.javaparser.symbolsolver.model.resolution.SymbolReference<S> com.github.javaparser.symbolsolver.model.resolution.SymbolReference<S>.solved<S, S2>(S2) [ReflectionTypeSolver.java <80:52 80:57>]
+QUALIFIER: com.github.javaparser.symbolsolver.model.resolution.SymbolReference [ReflectionTypeSolver.java <80:36 80:50>]
 SYMBOL_METHOD java.util.Optional<T>.T java.util.Optional<T>.get()
 REFERENCE_CALL com.github.javaparser.symbolsolver.model.resolution.SymbolReference<com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration> com.github.javaparser.symbolsolver.resolution.typesolvers.ReflectionTypeSolver.tryToSolveType(java.lang.String) -> java.util.Optional<T>.T java.util.Optional<T>.get() [ReflectionTypeSolver.java <80:70 80:72>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.resolution.typesolvers.ReflectionTypeSolver.tryToSolveType<8> [ReflectionTypeSolver.java <80:59 80:68>]
 LOCAL_SYMBOL: ReflectionTypeSolver.java<81:32> [ReflectionTypeSolver.java <81:32 81:32>]
 LOCAL_SYMBOL: ReflectionTypeSolver.java<81:32> [ReflectionTypeSolver.java <83:25 83:25>]
-SYMBOL_METHOD static com.github.javaparser.symbolsolver.model.resolution.SymbolReference<S> com.github.javaparser.symbolsolver.model.resolution.SymbolReference<S>.unsolved<S, S2>(java.lang.Class<S2>)
 REFERENCE_CALL com.github.javaparser.symbolsolver.model.resolution.SymbolReference<com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration> com.github.javaparser.symbolsolver.resolution.typesolvers.ReflectionTypeSolver.tryToSolveType(java.lang.String) -> static com.github.javaparser.symbolsolver.model.resolution.SymbolReference<S> com.github.javaparser.symbolsolver.model.resolution.SymbolReference<S>.unsolved<S, S2>(java.lang.Class<S2>) [ReflectionTypeSolver.java <82:52 82:59>]
+QUALIFIER: com.github.javaparser.symbolsolver.model.resolution.SymbolReference [ReflectionTypeSolver.java <82:36 82:50>]
 REFERENCE_TYPE_USAGE com.github.javaparser.symbolsolver.model.resolution.SymbolReference<com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration> com.github.javaparser.symbolsolver.resolution.typesolvers.ReflectionTypeSolver.tryToSolveType(java.lang.String) -> com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration [ReflectionTypeSolver.java <82:61 82:84>]
 LOCAL_SYMBOL: ReflectionTypeSolver.java<84:28> [ReflectionTypeSolver.java <84:28 84:28>]
 LOCAL_SYMBOL: ReflectionTypeSolver.java<84:28> [ReflectionTypeSolver.java <86:21 86:21>]
-SYMBOL_METHOD static com.github.javaparser.symbolsolver.model.resolution.SymbolReference<S> com.github.javaparser.symbolsolver.model.resolution.SymbolReference<S>.unsolved<S, S2>(java.lang.Class<S2>)
 REFERENCE_CALL com.github.javaparser.symbolsolver.model.resolution.SymbolReference<com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration> com.github.javaparser.symbolsolver.resolution.typesolvers.ReflectionTypeSolver.tryToSolveType(java.lang.String) -> static com.github.javaparser.symbolsolver.model.resolution.SymbolReference<S> com.github.javaparser.symbolsolver.model.resolution.SymbolReference<S>.unsolved<S, S2>(java.lang.Class<S2>) [ReflectionTypeSolver.java <85:48 85:55>]
+QUALIFIER: com.github.javaparser.symbolsolver.model.resolution.SymbolReference [ReflectionTypeSolver.java <85:32 85:46>]
 REFERENCE_TYPE_USAGE com.github.javaparser.symbolsolver.model.resolution.SymbolReference<com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration> com.github.javaparser.symbolsolver.resolution.typesolvers.ReflectionTypeSolver.tryToSolveType(java.lang.String) -> com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration [ReflectionTypeSolver.java <85:57 85:80>]
 LOCAL_SYMBOL: ReflectionTypeSolver.java<89:16> [ReflectionTypeSolver.java <89:16 89:16>]
 LOCAL_SYMBOL: ReflectionTypeSolver.java<89:16> [ReflectionTypeSolver.java <91:9 91:9>]
-SYMBOL_METHOD static com.github.javaparser.symbolsolver.model.resolution.SymbolReference<S> com.github.javaparser.symbolsolver.model.resolution.SymbolReference<S>.unsolved<S, S2>(java.lang.Class<S2>)
 REFERENCE_CALL com.github.javaparser.symbolsolver.model.resolution.SymbolReference<com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration> com.github.javaparser.symbolsolver.resolution.typesolvers.ReflectionTypeSolver.tryToSolveType(java.lang.String) -> static com.github.javaparser.symbolsolver.model.resolution.SymbolReference<S> com.github.javaparser.symbolsolver.model.resolution.SymbolReference<S>.unsolved<S, S2>(java.lang.Class<S2>) [ReflectionTypeSolver.java <90:36 90:43>]
+QUALIFIER: com.github.javaparser.symbolsolver.model.resolution.SymbolReference [ReflectionTypeSolver.java <90:20 90:34>]
 REFERENCE_TYPE_USAGE com.github.javaparser.symbolsolver.model.resolution.SymbolReference<com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration> com.github.javaparser.symbolsolver.resolution.typesolvers.ReflectionTypeSolver.tryToSolveType(java.lang.String) -> com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration [ReflectionTypeSolver.java <90:45 90:68>]
 COMMENT: comment [ReflectionTypeSolver.java <1:1 15:3>]
 COMMENT: comment [ReflectionTypeSolver.java <59:17 59:117>]

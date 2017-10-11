@@ -1,10 +1,15 @@
 FILE: HasAccessLevel.java
-SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model.declarations [HasAccessLevel.java <17:9 17:61>]
+SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model.declarations [HasAccessLevel.java <17:50 17:61>]
 SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model
 SYMBOL_PACKAGE com.github.javaparser.symbolsolver
 SYMBOL_PACKAGE com.github.javaparser
 SYMBOL_PACKAGE com.github
 SYMBOL_PACKAGE com
+QUALIFIER: com.github.javaparser.symbolsolver.model [HasAccessLevel.java <17:44 17:48>]
+QUALIFIER: com.github.javaparser.symbolsolver [HasAccessLevel.java <17:31 17:42>]
+QUALIFIER: com.github.javaparser [HasAccessLevel.java <17:20 17:29>]
+QUALIFIER: com.github [HasAccessLevel.java <17:13 17:18>]
+QUALIFIER: com [HasAccessLevel.java <17:9 17:11>]
 SYMBOL_INTERFACE public com.github.javaparser.symbolsolver.model.declarations.HasAccessLevel [HasAccessLevel.java <24:1 <24:18 24:31> 31:1>]
 LOCAL_SYMBOL: HasAccessLevel.java<24:33> [HasAccessLevel.java <24:33 24:33>]
 LOCAL_SYMBOL: HasAccessLevel.java<24:33> [HasAccessLevel.java <31:1 31:1>]

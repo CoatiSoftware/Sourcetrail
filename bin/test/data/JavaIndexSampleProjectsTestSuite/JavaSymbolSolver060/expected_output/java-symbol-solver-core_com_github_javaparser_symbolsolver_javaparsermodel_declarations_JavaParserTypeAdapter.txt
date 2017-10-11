@@ -1,48 +1,139 @@
 FILE: JavaParserTypeAdapter.java
-SYMBOL_PACKAGE com.github.javaparser.symbolsolver.javaparsermodel.declarations [JavaParserTypeAdapter.java <1:9 1:71>]
+SYMBOL_PACKAGE com.github.javaparser.symbolsolver.javaparsermodel.declarations [JavaParserTypeAdapter.java <1:60 1:71>]
 SYMBOL_PACKAGE com.github.javaparser.symbolsolver.javaparsermodel
 SYMBOL_PACKAGE com.github.javaparser.symbolsolver
 SYMBOL_PACKAGE com.github.javaparser
 SYMBOL_PACKAGE com.github
 SYMBOL_PACKAGE com
-REFERENCE_IMPORT JavaParserTypeAdapter.java -> com.github.javaparser.ast.Node [JavaParserTypeAdapter.java <3:8 3:37>]
+QUALIFIER: com.github.javaparser.symbolsolver.javaparsermodel [JavaParserTypeAdapter.java <1:44 1:58>]
+QUALIFIER: com.github.javaparser.symbolsolver [JavaParserTypeAdapter.java <1:31 1:42>]
+QUALIFIER: com.github.javaparser [JavaParserTypeAdapter.java <1:20 1:29>]
+QUALIFIER: com.github [JavaParserTypeAdapter.java <1:13 1:18>]
+QUALIFIER: com [JavaParserTypeAdapter.java <1:9 1:11>]
+REFERENCE_IMPORT JavaParserTypeAdapter.java -> com.github.javaparser.ast.Node [JavaParserTypeAdapter.java <3:34 3:37>]
 SYMBOL_PACKAGE com.github.javaparser.ast
-REFERENCE_IMPORT JavaParserTypeAdapter.java -> com.github.javaparser.ast.body.BodyDeclaration<T> [JavaParserTypeAdapter.java <4:8 4:53>]
+QUALIFIER: com.github.javaparser.ast [JavaParserTypeAdapter.java <3:30 3:32>]
+QUALIFIER: com.github.javaparser [JavaParserTypeAdapter.java <3:19 3:28>]
+QUALIFIER: com.github [JavaParserTypeAdapter.java <3:12 3:17>]
+QUALIFIER: com [JavaParserTypeAdapter.java <3:8 3:10>]
+REFERENCE_IMPORT JavaParserTypeAdapter.java -> com.github.javaparser.ast.body.BodyDeclaration<T> [JavaParserTypeAdapter.java <4:39 4:53>]
 SYMBOL_PACKAGE com.github.javaparser.ast.body
-REFERENCE_IMPORT JavaParserTypeAdapter.java -> com.github.javaparser.ast.body.ClassOrInterfaceDeclaration [JavaParserTypeAdapter.java <5:8 5:65>]
-SYMBOL_PACKAGE com.github.javaparser.ast.body
-REFERENCE_IMPORT JavaParserTypeAdapter.java -> com.github.javaparser.ast.body.EnumDeclaration [JavaParserTypeAdapter.java <6:8 6:53>]
-SYMBOL_PACKAGE com.github.javaparser.ast.body
-REFERENCE_IMPORT JavaParserTypeAdapter.java -> com.github.javaparser.ast.nodeTypes.NodeWithMembers<N> [JavaParserTypeAdapter.java <7:8 7:58>]
+QUALIFIER: com.github.javaparser.ast.body [JavaParserTypeAdapter.java <4:34 4:37>]
+QUALIFIER: com.github.javaparser.ast [JavaParserTypeAdapter.java <4:30 4:32>]
+QUALIFIER: com.github.javaparser [JavaParserTypeAdapter.java <4:19 4:28>]
+QUALIFIER: com.github [JavaParserTypeAdapter.java <4:12 4:17>]
+QUALIFIER: com [JavaParserTypeAdapter.java <4:8 4:10>]
+REFERENCE_IMPORT JavaParserTypeAdapter.java -> com.github.javaparser.ast.body.ClassOrInterfaceDeclaration [JavaParserTypeAdapter.java <5:39 5:65>]
+QUALIFIER: com.github.javaparser.ast.body [JavaParserTypeAdapter.java <5:34 5:37>]
+QUALIFIER: com.github.javaparser.ast [JavaParserTypeAdapter.java <5:30 5:32>]
+QUALIFIER: com.github.javaparser [JavaParserTypeAdapter.java <5:19 5:28>]
+QUALIFIER: com.github [JavaParserTypeAdapter.java <5:12 5:17>]
+QUALIFIER: com [JavaParserTypeAdapter.java <5:8 5:10>]
+REFERENCE_IMPORT JavaParserTypeAdapter.java -> com.github.javaparser.ast.body.EnumDeclaration [JavaParserTypeAdapter.java <6:39 6:53>]
+QUALIFIER: com.github.javaparser.ast.body [JavaParserTypeAdapter.java <6:34 6:37>]
+QUALIFIER: com.github.javaparser.ast [JavaParserTypeAdapter.java <6:30 6:32>]
+QUALIFIER: com.github.javaparser [JavaParserTypeAdapter.java <6:19 6:28>]
+QUALIFIER: com.github [JavaParserTypeAdapter.java <6:12 6:17>]
+QUALIFIER: com [JavaParserTypeAdapter.java <6:8 6:10>]
+REFERENCE_IMPORT JavaParserTypeAdapter.java -> com.github.javaparser.ast.nodeTypes.NodeWithMembers<N> [JavaParserTypeAdapter.java <7:44 7:58>]
 SYMBOL_PACKAGE com.github.javaparser.ast.nodeTypes
-REFERENCE_IMPORT JavaParserTypeAdapter.java -> com.github.javaparser.ast.nodeTypes.NodeWithSimpleName<N> [JavaParserTypeAdapter.java <8:8 8:61>]
-SYMBOL_PACKAGE com.github.javaparser.ast.nodeTypes
-REFERENCE_IMPORT JavaParserTypeAdapter.java -> com.github.javaparser.ast.nodeTypes.NodeWithTypeParameters<N> [JavaParserTypeAdapter.java <9:8 9:65>]
-SYMBOL_PACKAGE com.github.javaparser.ast.nodeTypes
-REFERENCE_IMPORT JavaParserTypeAdapter.java -> com.github.javaparser.symbolsolver.javaparsermodel.JavaParserFactory [JavaParserTypeAdapter.java <10:8 10:75>]
-SYMBOL_PACKAGE com.github.javaparser.symbolsolver.javaparsermodel
-REFERENCE_IMPORT JavaParserTypeAdapter.java -> com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration [JavaParserTypeAdapter.java <11:8 11:85>]
+QUALIFIER: com.github.javaparser.ast.nodeTypes [JavaParserTypeAdapter.java <7:34 7:42>]
+QUALIFIER: com.github.javaparser.ast [JavaParserTypeAdapter.java <7:30 7:32>]
+QUALIFIER: com.github.javaparser [JavaParserTypeAdapter.java <7:19 7:28>]
+QUALIFIER: com.github [JavaParserTypeAdapter.java <7:12 7:17>]
+QUALIFIER: com [JavaParserTypeAdapter.java <7:8 7:10>]
+REFERENCE_IMPORT JavaParserTypeAdapter.java -> com.github.javaparser.ast.nodeTypes.NodeWithSimpleName<N> [JavaParserTypeAdapter.java <8:44 8:61>]
+QUALIFIER: com.github.javaparser.ast.nodeTypes [JavaParserTypeAdapter.java <8:34 8:42>]
+QUALIFIER: com.github.javaparser.ast [JavaParserTypeAdapter.java <8:30 8:32>]
+QUALIFIER: com.github.javaparser [JavaParserTypeAdapter.java <8:19 8:28>]
+QUALIFIER: com.github [JavaParserTypeAdapter.java <8:12 8:17>]
+QUALIFIER: com [JavaParserTypeAdapter.java <8:8 8:10>]
+REFERENCE_IMPORT JavaParserTypeAdapter.java -> com.github.javaparser.ast.nodeTypes.NodeWithTypeParameters<N> [JavaParserTypeAdapter.java <9:44 9:65>]
+QUALIFIER: com.github.javaparser.ast.nodeTypes [JavaParserTypeAdapter.java <9:34 9:42>]
+QUALIFIER: com.github.javaparser.ast [JavaParserTypeAdapter.java <9:30 9:32>]
+QUALIFIER: com.github.javaparser [JavaParserTypeAdapter.java <9:19 9:28>]
+QUALIFIER: com.github [JavaParserTypeAdapter.java <9:12 9:17>]
+QUALIFIER: com [JavaParserTypeAdapter.java <9:8 9:10>]
+REFERENCE_IMPORT JavaParserTypeAdapter.java -> com.github.javaparser.symbolsolver.javaparsermodel.JavaParserFactory [JavaParserTypeAdapter.java <10:59 10:75>]
+QUALIFIER: com.github.javaparser.symbolsolver.javaparsermodel [JavaParserTypeAdapter.java <10:43 10:57>]
+QUALIFIER: com.github.javaparser.symbolsolver [JavaParserTypeAdapter.java <10:30 10:41>]
+QUALIFIER: com.github.javaparser [JavaParserTypeAdapter.java <10:19 10:28>]
+QUALIFIER: com.github [JavaParserTypeAdapter.java <10:12 10:17>]
+QUALIFIER: com [JavaParserTypeAdapter.java <10:8 10:10>]
+REFERENCE_IMPORT JavaParserTypeAdapter.java -> com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration [JavaParserTypeAdapter.java <11:62 11:85>]
 SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model.declarations
-REFERENCE_IMPORT JavaParserTypeAdapter.java -> com.github.javaparser.symbolsolver.model.declarations.TypeDeclaration [JavaParserTypeAdapter.java <12:8 12:76>]
-SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model.declarations
-REFERENCE_IMPORT JavaParserTypeAdapter.java -> com.github.javaparser.symbolsolver.model.resolution.SymbolReference<S> [JavaParserTypeAdapter.java <13:8 13:74>]
+QUALIFIER: com.github.javaparser.symbolsolver.model.declarations [JavaParserTypeAdapter.java <11:49 11:60>]
+QUALIFIER: com.github.javaparser.symbolsolver.model [JavaParserTypeAdapter.java <11:43 11:47>]
+QUALIFIER: com.github.javaparser.symbolsolver [JavaParserTypeAdapter.java <11:30 11:41>]
+QUALIFIER: com.github.javaparser [JavaParserTypeAdapter.java <11:19 11:28>]
+QUALIFIER: com.github [JavaParserTypeAdapter.java <11:12 11:17>]
+QUALIFIER: com [JavaParserTypeAdapter.java <11:8 11:10>]
+REFERENCE_IMPORT JavaParserTypeAdapter.java -> com.github.javaparser.symbolsolver.model.declarations.TypeDeclaration [JavaParserTypeAdapter.java <12:62 12:76>]
+QUALIFIER: com.github.javaparser.symbolsolver.model.declarations [JavaParserTypeAdapter.java <12:49 12:60>]
+QUALIFIER: com.github.javaparser.symbolsolver.model [JavaParserTypeAdapter.java <12:43 12:47>]
+QUALIFIER: com.github.javaparser.symbolsolver [JavaParserTypeAdapter.java <12:30 12:41>]
+QUALIFIER: com.github.javaparser [JavaParserTypeAdapter.java <12:19 12:28>]
+QUALIFIER: com.github [JavaParserTypeAdapter.java <12:12 12:17>]
+QUALIFIER: com [JavaParserTypeAdapter.java <12:8 12:10>]
+REFERENCE_IMPORT JavaParserTypeAdapter.java -> com.github.javaparser.symbolsolver.model.resolution.SymbolReference<S> [JavaParserTypeAdapter.java <13:60 13:74>]
 SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model.resolution
-REFERENCE_IMPORT JavaParserTypeAdapter.java -> com.github.javaparser.symbolsolver.model.resolution.TypeSolver [JavaParserTypeAdapter.java <14:8 14:69>]
-SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model.resolution
-REFERENCE_IMPORT JavaParserTypeAdapter.java -> com.github.javaparser.symbolsolver.model.typesystem.ReferenceType [JavaParserTypeAdapter.java <15:8 15:72>]
+QUALIFIER: com.github.javaparser.symbolsolver.model.resolution [JavaParserTypeAdapter.java <13:49 13:58>]
+QUALIFIER: com.github.javaparser.symbolsolver.model [JavaParserTypeAdapter.java <13:43 13:47>]
+QUALIFIER: com.github.javaparser.symbolsolver [JavaParserTypeAdapter.java <13:30 13:41>]
+QUALIFIER: com.github.javaparser [JavaParserTypeAdapter.java <13:19 13:28>]
+QUALIFIER: com.github [JavaParserTypeAdapter.java <13:12 13:17>]
+QUALIFIER: com [JavaParserTypeAdapter.java <13:8 13:10>]
+REFERENCE_IMPORT JavaParserTypeAdapter.java -> com.github.javaparser.symbolsolver.model.resolution.TypeSolver [JavaParserTypeAdapter.java <14:60 14:69>]
+QUALIFIER: com.github.javaparser.symbolsolver.model.resolution [JavaParserTypeAdapter.java <14:49 14:58>]
+QUALIFIER: com.github.javaparser.symbolsolver.model [JavaParserTypeAdapter.java <14:43 14:47>]
+QUALIFIER: com.github.javaparser.symbolsolver [JavaParserTypeAdapter.java <14:30 14:41>]
+QUALIFIER: com.github.javaparser [JavaParserTypeAdapter.java <14:19 14:28>]
+QUALIFIER: com.github [JavaParserTypeAdapter.java <14:12 14:17>]
+QUALIFIER: com [JavaParserTypeAdapter.java <14:8 14:10>]
+REFERENCE_IMPORT JavaParserTypeAdapter.java -> com.github.javaparser.symbolsolver.model.typesystem.ReferenceType [JavaParserTypeAdapter.java <15:60 15:72>]
 SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model.typesystem
-REFERENCE_IMPORT JavaParserTypeAdapter.java -> com.github.javaparser.symbolsolver.model.typesystem.ReferenceTypeImpl [JavaParserTypeAdapter.java <16:8 16:76>]
-SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model.typesystem
-REFERENCE_IMPORT JavaParserTypeAdapter.java -> com.github.javaparser.symbolsolver.model.typesystem.Type [JavaParserTypeAdapter.java <17:8 17:63>]
-SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model.typesystem
-REFERENCE_IMPORT JavaParserTypeAdapter.java -> com.github.javaparser.symbolsolver.resolution.SymbolSolver [JavaParserTypeAdapter.java <18:8 18:65>]
+QUALIFIER: com.github.javaparser.symbolsolver.model.typesystem [JavaParserTypeAdapter.java <15:49 15:58>]
+QUALIFIER: com.github.javaparser.symbolsolver.model [JavaParserTypeAdapter.java <15:43 15:47>]
+QUALIFIER: com.github.javaparser.symbolsolver [JavaParserTypeAdapter.java <15:30 15:41>]
+QUALIFIER: com.github.javaparser [JavaParserTypeAdapter.java <15:19 15:28>]
+QUALIFIER: com.github [JavaParserTypeAdapter.java <15:12 15:17>]
+QUALIFIER: com [JavaParserTypeAdapter.java <15:8 15:10>]
+REFERENCE_IMPORT JavaParserTypeAdapter.java -> com.github.javaparser.symbolsolver.model.typesystem.ReferenceTypeImpl [JavaParserTypeAdapter.java <16:60 16:76>]
+QUALIFIER: com.github.javaparser.symbolsolver.model.typesystem [JavaParserTypeAdapter.java <16:49 16:58>]
+QUALIFIER: com.github.javaparser.symbolsolver.model [JavaParserTypeAdapter.java <16:43 16:47>]
+QUALIFIER: com.github.javaparser.symbolsolver [JavaParserTypeAdapter.java <16:30 16:41>]
+QUALIFIER: com.github.javaparser [JavaParserTypeAdapter.java <16:19 16:28>]
+QUALIFIER: com.github [JavaParserTypeAdapter.java <16:12 16:17>]
+QUALIFIER: com [JavaParserTypeAdapter.java <16:8 16:10>]
+REFERENCE_IMPORT JavaParserTypeAdapter.java -> com.github.javaparser.symbolsolver.model.typesystem.Type [JavaParserTypeAdapter.java <17:60 17:63>]
+QUALIFIER: com.github.javaparser.symbolsolver.model.typesystem [JavaParserTypeAdapter.java <17:49 17:58>]
+QUALIFIER: com.github.javaparser.symbolsolver.model [JavaParserTypeAdapter.java <17:43 17:47>]
+QUALIFIER: com.github.javaparser.symbolsolver [JavaParserTypeAdapter.java <17:30 17:41>]
+QUALIFIER: com.github.javaparser [JavaParserTypeAdapter.java <17:19 17:28>]
+QUALIFIER: com.github [JavaParserTypeAdapter.java <17:12 17:17>]
+QUALIFIER: com [JavaParserTypeAdapter.java <17:8 17:10>]
+REFERENCE_IMPORT JavaParserTypeAdapter.java -> com.github.javaparser.symbolsolver.resolution.SymbolSolver [JavaParserTypeAdapter.java <18:54 18:65>]
 SYMBOL_PACKAGE com.github.javaparser.symbolsolver.resolution
-REFERENCE_IMPORT JavaParserTypeAdapter.java -> java.util.List<E> [JavaParserTypeAdapter.java <20:8 20:21>]
+QUALIFIER: com.github.javaparser.symbolsolver.resolution [JavaParserTypeAdapter.java <18:43 18:52>]
+QUALIFIER: com.github.javaparser.symbolsolver [JavaParserTypeAdapter.java <18:30 18:41>]
+QUALIFIER: com.github.javaparser [JavaParserTypeAdapter.java <18:19 18:28>]
+QUALIFIER: com.github [JavaParserTypeAdapter.java <18:12 18:17>]
+QUALIFIER: com [JavaParserTypeAdapter.java <18:8 18:10>]
+REFERENCE_IMPORT JavaParserTypeAdapter.java -> java.util.List<E> [JavaParserTypeAdapter.java <20:18 20:21>]
 SYMBOL_PACKAGE java.util
-REFERENCE_IMPORT JavaParserTypeAdapter.java -> java.util.Optional<T> [JavaParserTypeAdapter.java <21:8 21:25>]
-SYMBOL_PACKAGE java.util
-REFERENCE_IMPORT JavaParserTypeAdapter.java -> static com.github.javaparser.ast.Node com.github.javaparser.symbolsolver.javaparser.Navigator.getParentNode(com.github.javaparser.ast.Node) [JavaParserTypeAdapter.java <23:15 23:83>]
+QUALIFIER: java.util [JavaParserTypeAdapter.java <20:13 20:16>]
+QUALIFIER: java [JavaParserTypeAdapter.java <20:8 20:11>]
+REFERENCE_IMPORT JavaParserTypeAdapter.java -> java.util.Optional<T> [JavaParserTypeAdapter.java <21:18 21:25>]
+QUALIFIER: java.util [JavaParserTypeAdapter.java <21:13 21:16>]
+QUALIFIER: java [JavaParserTypeAdapter.java <21:8 21:11>]
+REFERENCE_IMPORT JavaParserTypeAdapter.java -> static com.github.javaparser.ast.Node com.github.javaparser.symbolsolver.javaparser.Navigator.getParentNode(com.github.javaparser.ast.Node) [JavaParserTypeAdapter.java <23:71 23:83>]
 SYMBOL_PACKAGE com.github.javaparser.symbolsolver.javaparser
+QUALIFIER: com.github.javaparser.symbolsolver.javaparser.Navigator [JavaParserTypeAdapter.java <23:61 23:69>]
+QUALIFIER: com.github.javaparser.symbolsolver.javaparser [JavaParserTypeAdapter.java <23:50 23:59>]
+QUALIFIER: com.github.javaparser.symbolsolver [JavaParserTypeAdapter.java <23:37 23:48>]
+QUALIFIER: com.github.javaparser [JavaParserTypeAdapter.java <23:26 23:35>]
+QUALIFIER: com.github [JavaParserTypeAdapter.java <23:19 23:24>]
+QUALIFIER: com [JavaParserTypeAdapter.java <23:15 23:17>]
 SYMBOL_CLASS public com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserTypeAdapter<T> [JavaParserTypeAdapter.java <28:1 <28:14 28:34> 120:1>]
 LOCAL_SYMBOL: JavaParserTypeAdapter.java<28:125> [JavaParserTypeAdapter.java <28:125 28:125>]
 LOCAL_SYMBOL: JavaParserTypeAdapter.java<28:125> [JavaParserTypeAdapter.java <120:1 120:1>]
@@ -66,9 +157,11 @@ REFERENCE_TYPE_USAGE com.github.javaparser.symbolsolver.javaparsermodel.declarat
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserTypeAdapter<T>.JavaParserTypeAdapter<1> [JavaParserTypeAdapter.java <33:60 33:69>]
 LOCAL_SYMBOL: JavaParserTypeAdapter.java<33:72> [JavaParserTypeAdapter.java <33:72 33:72>]
 LOCAL_SYMBOL: JavaParserTypeAdapter.java<33:72> [JavaParserTypeAdapter.java <36:5 36:5>]
+QUALIFIER: com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserTypeAdapter<T> [JavaParserTypeAdapter.java <34:9 34:12>]
 SYMBOL_FIELD com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserTypeAdapter<T>.T com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserTypeAdapter<T>.wrappedNode
 REFERENCE_USAGE com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserTypeAdapter<T>.JavaParserTypeAdapter(com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserTypeAdapter<T>.T, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserTypeAdapter<T>.T com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserTypeAdapter<T>.wrappedNode [JavaParserTypeAdapter.java <34:14 34:24>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserTypeAdapter<T>.JavaParserTypeAdapter<0> [JavaParserTypeAdapter.java <34:28 34:38>]
+QUALIFIER: com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserTypeAdapter<T> [JavaParserTypeAdapter.java <35:9 35:12>]
 SYMBOL_FIELD com.github.javaparser.symbolsolver.model.resolution.TypeSolver com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserTypeAdapter<T>.typeSolver
 REFERENCE_USAGE com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserTypeAdapter<T>.JavaParserTypeAdapter(com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserTypeAdapter<T>.T, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> com.github.javaparser.symbolsolver.model.resolution.TypeSolver com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserTypeAdapter<T>.typeSolver [JavaParserTypeAdapter.java <35:14 35:23>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserTypeAdapter<T>.JavaParserTypeAdapter<1> [JavaParserTypeAdapter.java <35:27 35:36>]
@@ -78,7 +171,7 @@ LOCAL_SYMBOL: JavaParserTypeAdapter.java<38:36> [JavaParserTypeAdapter.java <38:
 LOCAL_SYMBOL: JavaParserTypeAdapter.java<38:36> [JavaParserTypeAdapter.java <40:5 40:5>]
 SYMBOL_METHOD static java.lang.String com.github.javaparser.symbolsolver.javaparsermodel.declarations.Helper.getPackageName(com.github.javaparser.ast.Node)
 REFERENCE_CALL java.lang.String com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserTypeAdapter<T>.getPackageName() -> static java.lang.String com.github.javaparser.symbolsolver.javaparsermodel.declarations.Helper.getPackageName(com.github.javaparser.ast.Node) [JavaParserTypeAdapter.java <39:23 39:36>]
-SYMBOL_FIELD com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserTypeAdapter<T>.T com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserTypeAdapter<T>.wrappedNode
+QUALIFIER: com.github.javaparser.symbolsolver.javaparsermodel.declarations.Helper [JavaParserTypeAdapter.java <39:16 39:21>]
 REFERENCE_USAGE java.lang.String com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserTypeAdapter<T>.getPackageName() -> com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserTypeAdapter<T>.T com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserTypeAdapter<T>.wrappedNode [JavaParserTypeAdapter.java <39:38 39:48>]
 SYMBOL_METHOD public java.lang.String com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserTypeAdapter<T>.getClassName() [JavaParserTypeAdapter.java <42:5 <42:19 42:30> 44:5>]
 REFERENCE_TYPE_USAGE java.lang.String com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserTypeAdapter<T>.getClassName() -> java.lang.String [JavaParserTypeAdapter.java <42:12 42:17>]
@@ -86,7 +179,7 @@ LOCAL_SYMBOL: JavaParserTypeAdapter.java<42:34> [JavaParserTypeAdapter.java <42:
 LOCAL_SYMBOL: JavaParserTypeAdapter.java<42:34> [JavaParserTypeAdapter.java <44:5 44:5>]
 SYMBOL_METHOD static java.lang.String com.github.javaparser.symbolsolver.javaparsermodel.declarations.Helper.getClassName(java.lang.String, com.github.javaparser.ast.Node)
 REFERENCE_CALL java.lang.String com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserTypeAdapter<T>.getClassName() -> static java.lang.String com.github.javaparser.symbolsolver.javaparsermodel.declarations.Helper.getClassName(java.lang.String, com.github.javaparser.ast.Node) [JavaParserTypeAdapter.java <43:23 43:34>]
-SYMBOL_FIELD com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserTypeAdapter<T>.T com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserTypeAdapter<T>.wrappedNode
+QUALIFIER: com.github.javaparser.symbolsolver.javaparsermodel.declarations.Helper [JavaParserTypeAdapter.java <43:16 43:21>]
 REFERENCE_USAGE java.lang.String com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserTypeAdapter<T>.getClassName() -> com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserTypeAdapter<T>.T com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserTypeAdapter<T>.wrappedNode [JavaParserTypeAdapter.java <43:40 43:50>]
 SYMBOL_METHOD public java.lang.String com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserTypeAdapter<T>.getQualifiedName() [JavaParserTypeAdapter.java <46:5 <46:19 46:34> 53:5>]
 REFERENCE_TYPE_USAGE java.lang.String com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserTypeAdapter<T>.getQualifiedName() -> java.lang.String [JavaParserTypeAdapter.java <46:12 46:17>]
@@ -96,9 +189,9 @@ REFERENCE_TYPE_USAGE java.lang.String com.github.javaparser.symbolsolver.javapar
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserTypeAdapter<T>.getQualifiedName<0> [JavaParserTypeAdapter.java <47:16 47:28>]
 SYMBOL_METHOD static java.lang.String com.github.javaparser.symbolsolver.javaparsermodel.declarations.Helper.containerName(com.github.javaparser.ast.Node)
 REFERENCE_CALL java.lang.String com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserTypeAdapter<T>.getQualifiedName() -> static java.lang.String com.github.javaparser.symbolsolver.javaparsermodel.declarations.Helper.containerName(com.github.javaparser.ast.Node) [JavaParserTypeAdapter.java <47:39 47:51>]
+QUALIFIER: com.github.javaparser.symbolsolver.javaparsermodel.declarations.Helper [JavaParserTypeAdapter.java <47:32 47:37>]
 SYMBOL_METHOD static com.github.javaparser.ast.Node com.github.javaparser.symbolsolver.javaparser.Navigator.getParentNode(com.github.javaparser.ast.Node)
 REFERENCE_CALL java.lang.String com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserTypeAdapter<T>.getQualifiedName() -> static com.github.javaparser.ast.Node com.github.javaparser.symbolsolver.javaparser.Navigator.getParentNode(com.github.javaparser.ast.Node) [JavaParserTypeAdapter.java <47:53 47:65>]
-SYMBOL_FIELD com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserTypeAdapter<T>.T com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserTypeAdapter<T>.wrappedNode
 REFERENCE_USAGE java.lang.String com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserTypeAdapter<T>.getQualifiedName() -> com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserTypeAdapter<T>.T com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserTypeAdapter<T>.wrappedNode [JavaParserTypeAdapter.java <47:67 47:77>]
 SYMBOL_METHOD boolean java.lang.String.isEmpty()
 REFERENCE_CALL java.lang.String com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserTypeAdapter<T>.getQualifiedName() -> boolean java.lang.String.isEmpty() [JavaParserTypeAdapter.java <48:27 48:33>]
@@ -109,16 +202,12 @@ SYMBOL_METHOD java.lang.String com.github.javaparser.ast.nodeTypes.NodeWithIdent
 REFERENCE_CALL java.lang.String com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserTypeAdapter<T>.getQualifiedName() -> java.lang.String com.github.javaparser.ast.nodeTypes.NodeWithIdentifier<N>.getId() [JavaParserTypeAdapter.java <49:42 49:46>]
 SYMBOL_METHOD com.github.javaparser.ast.expr.SimpleName com.github.javaparser.ast.nodeTypes.NodeWithSimpleName<N>.getName()
 REFERENCE_CALL java.lang.String com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserTypeAdapter<T>.getQualifiedName() -> com.github.javaparser.ast.expr.SimpleName com.github.javaparser.ast.nodeTypes.NodeWithSimpleName<N>.getName() [JavaParserTypeAdapter.java <49:32 49:38>]
-SYMBOL_FIELD com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserTypeAdapter<T>.T com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserTypeAdapter<T>.wrappedNode
 REFERENCE_USAGE java.lang.String com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserTypeAdapter<T>.getQualifiedName() -> com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserTypeAdapter<T>.T com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserTypeAdapter<T>.wrappedNode [JavaParserTypeAdapter.java <49:20 49:30>]
 LOCAL_SYMBOL: JavaParserTypeAdapter.java<50:16> [JavaParserTypeAdapter.java <50:16 50:16>]
 LOCAL_SYMBOL: JavaParserTypeAdapter.java<50:16> [JavaParserTypeAdapter.java <52:9 52:9>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserTypeAdapter<T>.getQualifiedName<0> [JavaParserTypeAdapter.java <51:20 51:32>]
-SYMBOL_METHOD java.lang.String com.github.javaparser.ast.nodeTypes.NodeWithIdentifier<N>.getId()
 REFERENCE_CALL java.lang.String com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserTypeAdapter<T>.getQualifiedName() -> java.lang.String com.github.javaparser.ast.nodeTypes.NodeWithIdentifier<N>.getId() [JavaParserTypeAdapter.java <51:64 51:68>]
-SYMBOL_METHOD com.github.javaparser.ast.expr.SimpleName com.github.javaparser.ast.nodeTypes.NodeWithSimpleName<N>.getName()
 REFERENCE_CALL java.lang.String com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserTypeAdapter<T>.getQualifiedName() -> com.github.javaparser.ast.expr.SimpleName com.github.javaparser.ast.nodeTypes.NodeWithSimpleName<N>.getName() [JavaParserTypeAdapter.java <51:54 51:60>]
-SYMBOL_FIELD com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserTypeAdapter<T>.T com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserTypeAdapter<T>.wrappedNode
 REFERENCE_USAGE java.lang.String com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserTypeAdapter<T>.getQualifiedName() -> com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserTypeAdapter<T>.T com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserTypeAdapter<T>.wrappedNode [JavaParserTypeAdapter.java <51:42 51:52>]
 SYMBOL_METHOD public boolean com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserTypeAdapter<T>.isAssignableBy(com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration) [JavaParserTypeAdapter.java <55:5 <55:20 55:33> 64:5>]
 SYMBOL_BUILTIN_TYPE boolean
@@ -140,7 +229,6 @@ SYMBOL_METHOD com.github.javaparser.symbolsolver.model.typesystem.ReferenceTypeI
 REFERENCE_CALL boolean com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserTypeAdapter<T>.isAssignableBy(com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration) -> com.github.javaparser.symbolsolver.model.typesystem.ReferenceTypeImpl.ReferenceTypeImpl(com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) [JavaParserTypeAdapter.java <57:34 57:50>]
 REFERENCE_TYPE_USAGE boolean com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserTypeAdapter<T>.isAssignableBy(com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration) -> com.github.javaparser.symbolsolver.model.typesystem.ReferenceTypeImpl [JavaParserTypeAdapter.java <57:34 57:50>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserTypeAdapter<T>.isAssignableBy<0> [JavaParserTypeAdapter.java <57:52 57:56>]
-SYMBOL_FIELD com.github.javaparser.symbolsolver.model.resolution.TypeSolver com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserTypeAdapter<T>.typeSolver
 REFERENCE_USAGE boolean com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserTypeAdapter<T>.isAssignableBy(com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration) -> com.github.javaparser.symbolsolver.model.resolution.TypeSolver com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserTypeAdapter<T>.typeSolver [JavaParserTypeAdapter.java <57:59 57:68>]
 REFERENCE_TYPE_USAGE boolean com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserTypeAdapter<T>.isAssignableBy(com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration) -> com.github.javaparser.symbolsolver.model.typesystem.ReferenceType [JavaParserTypeAdapter.java <58:14 58:26>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserTypeAdapter<T>.isAssignableBy<2> [JavaParserTypeAdapter.java <58:28 58:42>]
@@ -154,10 +242,10 @@ REFERENCE_CALL boolean com.github.javaparser.symbolsolver.javaparsermodel.declar
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserTypeAdapter<T>.isAssignableBy<2> [JavaParserTypeAdapter.java <59:17 59:31>]
 SYMBOL_METHOD java.lang.String com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserTypeAdapter<T>.getQualifiedName()
 REFERENCE_CALL boolean com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserTypeAdapter<T>.isAssignableBy(com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration) -> java.lang.String com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserTypeAdapter<T>.getQualifiedName() [JavaParserTypeAdapter.java <59:64 59:79>]
+QUALIFIER: com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserTypeAdapter<T> [JavaParserTypeAdapter.java <59:59 59:62>]
 LOCAL_SYMBOL: JavaParserTypeAdapter.java<59:85> [JavaParserTypeAdapter.java <59:85 59:85>]
 LOCAL_SYMBOL: JavaParserTypeAdapter.java<59:85> [JavaParserTypeAdapter.java <61:13 61:13>]
 SYMBOL_METHOD public boolean com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserTypeAdapter<T>.isAssignableBy(com.github.javaparser.symbolsolver.model.typesystem.Type) [JavaParserTypeAdapter.java <66:5 <66:20 66:33> 76:5>]
-SYMBOL_BUILTIN_TYPE boolean
 REFERENCE_TYPE_USAGE boolean com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserTypeAdapter<T>.isAssignableBy(com.github.javaparser.symbolsolver.model.typesystem.Type) -> boolean [JavaParserTypeAdapter.java <66:12 66:18>]
 REFERENCE_TYPE_USAGE boolean com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserTypeAdapter<T>.isAssignableBy(com.github.javaparser.symbolsolver.model.typesystem.Type) -> com.github.javaparser.symbolsolver.model.typesystem.Type [JavaParserTypeAdapter.java <66:35 66:38>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserTypeAdapter<T>.isAssignableBy<0> [JavaParserTypeAdapter.java <66:40 66:43>]
@@ -177,7 +265,6 @@ REFERENCE_TYPE_USAGE boolean com.github.javaparser.symbolsolver.javaparsermodel.
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserTypeAdapter<T>.isAssignableBy<1> [JavaParserTypeAdapter.java <71:38 71:42>]
 SYMBOL_METHOD com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration com.github.javaparser.symbolsolver.model.resolution.TypeSolver.solveType(java.lang.String)
 REFERENCE_CALL boolean com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserTypeAdapter<T>.isAssignableBy(com.github.javaparser.symbolsolver.model.typesystem.Type) -> com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration com.github.javaparser.symbolsolver.model.resolution.TypeSolver.solveType(java.lang.String) [JavaParserTypeAdapter.java <71:57 71:65>]
-SYMBOL_FIELD com.github.javaparser.symbolsolver.model.resolution.TypeSolver com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserTypeAdapter<T>.typeSolver
 REFERENCE_USAGE boolean com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserTypeAdapter<T>.isAssignableBy(com.github.javaparser.symbolsolver.model.typesystem.Type) -> com.github.javaparser.symbolsolver.model.resolution.TypeSolver com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserTypeAdapter<T>.typeSolver [JavaParserTypeAdapter.java <71:46 71:55>]
 SYMBOL_METHOD java.lang.String com.github.javaparser.symbolsolver.model.typesystem.Type.describe()
 REFERENCE_CALL boolean com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserTypeAdapter<T>.isAssignableBy(com.github.javaparser.symbolsolver.model.typesystem.Type) -> java.lang.String com.github.javaparser.symbolsolver.model.typesystem.Type.describe() [JavaParserTypeAdapter.java <71:72 71:79>]
@@ -201,21 +288,23 @@ LOCAL_SYMBOL: JavaParserTypeAdapter.java<78:91> [JavaParserTypeAdapter.java <78:
 LOCAL_SYMBOL: JavaParserTypeAdapter.java<78:91> [JavaParserTypeAdapter.java <112:5 112:5>]
 SYMBOL_METHOD com.github.javaparser.ast.NodeList<com.github.javaparser.ast.type.TypeParameter> com.github.javaparser.ast.nodeTypes.NodeWithTypeParameters<N>.getTypeParameters()
 REFERENCE_CALL com.github.javaparser.symbolsolver.model.resolution.SymbolReference<com.github.javaparser.symbolsolver.model.declarations.TypeDeclaration> com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserTypeAdapter<T>.solveType(java.lang.String, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> com.github.javaparser.ast.NodeList<com.github.javaparser.ast.type.TypeParameter> com.github.javaparser.ast.nodeTypes.NodeWithTypeParameters<N>.getTypeParameters() [JavaParserTypeAdapter.java <79:30 79:46>]
-SYMBOL_FIELD com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserTypeAdapter<T>.T com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserTypeAdapter<T>.wrappedNode
+QUALIFIER: com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserTypeAdapter<T> [JavaParserTypeAdapter.java <79:13 79:16>]
 REFERENCE_USAGE com.github.javaparser.symbolsolver.model.resolution.SymbolReference<com.github.javaparser.symbolsolver.model.declarations.TypeDeclaration> com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserTypeAdapter<T>.solveType(java.lang.String, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserTypeAdapter<T>.T com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserTypeAdapter<T>.wrappedNode [JavaParserTypeAdapter.java <79:18 79:28>]
 LOCAL_SYMBOL: JavaParserTypeAdapter.java<79:59> [JavaParserTypeAdapter.java <79:59 79:59>]
 LOCAL_SYMBOL: JavaParserTypeAdapter.java<79:59> [JavaParserTypeAdapter.java <85:9 85:9>]
-REFERENCE_TYPE_USAGE com.github.javaparser.symbolsolver.model.resolution.SymbolReference<com.github.javaparser.symbolsolver.model.declarations.TypeDeclaration> com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserTypeAdapter<T>.solveType(java.lang.String, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> com.github.javaparser.ast.type.TypeParameter [JavaParserTypeAdapter.java <80:18 80:61>]
+REFERENCE_TYPE_USAGE com.github.javaparser.symbolsolver.model.resolution.SymbolReference<com.github.javaparser.symbolsolver.model.declarations.TypeDeclaration> com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserTypeAdapter<T>.solveType(java.lang.String, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> com.github.javaparser.ast.type.TypeParameter [JavaParserTypeAdapter.java <80:49 80:61>]
+QUALIFIER: com.github.javaparser.ast.type [JavaParserTypeAdapter.java <80:44 80:47>]
+QUALIFIER: com.github.javaparser.ast [JavaParserTypeAdapter.java <80:40 80:42>]
+QUALIFIER: com.github.javaparser [JavaParserTypeAdapter.java <80:29 80:38>]
+QUALIFIER: com.github [JavaParserTypeAdapter.java <80:22 80:27>]
+QUALIFIER: com [JavaParserTypeAdapter.java <80:18 80:20>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserTypeAdapter<T>.solveType<2> [JavaParserTypeAdapter.java <80:63 80:75>]
-SYMBOL_METHOD com.github.javaparser.ast.NodeList<com.github.javaparser.ast.type.TypeParameter> com.github.javaparser.ast.nodeTypes.NodeWithTypeParameters<N>.getTypeParameters()
 REFERENCE_CALL com.github.javaparser.symbolsolver.model.resolution.SymbolReference<com.github.javaparser.symbolsolver.model.declarations.TypeDeclaration> com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserTypeAdapter<T>.solveType(java.lang.String, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> com.github.javaparser.ast.NodeList<com.github.javaparser.ast.type.TypeParameter> com.github.javaparser.ast.nodeTypes.NodeWithTypeParameters<N>.getTypeParameters() [JavaParserTypeAdapter.java <80:96 80:112>]
-SYMBOL_FIELD com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserTypeAdapter<T>.T com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserTypeAdapter<T>.wrappedNode
+QUALIFIER: com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserTypeAdapter<T> [JavaParserTypeAdapter.java <80:79 80:82>]
 REFERENCE_USAGE com.github.javaparser.symbolsolver.model.resolution.SymbolReference<com.github.javaparser.symbolsolver.model.declarations.TypeDeclaration> com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserTypeAdapter<T>.solveType(java.lang.String, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserTypeAdapter<T>.T com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserTypeAdapter<T>.wrappedNode [JavaParserTypeAdapter.java <80:84 80:94>]
 LOCAL_SYMBOL: JavaParserTypeAdapter.java<80:117> [JavaParserTypeAdapter.java <80:117 80:117>]
 LOCAL_SYMBOL: JavaParserTypeAdapter.java<80:117> [JavaParserTypeAdapter.java <84:13 84:13>]
-SYMBOL_METHOD boolean java.lang.String.equals(java.lang.Object)
 REFERENCE_CALL com.github.javaparser.symbolsolver.model.resolution.SymbolReference<com.github.javaparser.symbolsolver.model.declarations.TypeDeclaration> com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserTypeAdapter<T>.solveType(java.lang.String, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> boolean java.lang.String.equals(java.lang.Object) [JavaParserTypeAdapter.java <81:53 81:58>]
-SYMBOL_METHOD java.lang.String com.github.javaparser.ast.nodeTypes.NodeWithIdentifier<N>.getId()
 REFERENCE_CALL com.github.javaparser.symbolsolver.model.resolution.SymbolReference<com.github.javaparser.symbolsolver.model.declarations.TypeDeclaration> com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserTypeAdapter<T>.solveType(java.lang.String, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> java.lang.String com.github.javaparser.ast.nodeTypes.NodeWithIdentifier<N>.getId() [JavaParserTypeAdapter.java <81:45 81:49>]
 SYMBOL_METHOD com.github.javaparser.ast.expr.SimpleName com.github.javaparser.ast.type.TypeParameter.getName()
 REFERENCE_CALL com.github.javaparser.symbolsolver.model.resolution.SymbolReference<com.github.javaparser.symbolsolver.model.declarations.TypeDeclaration> com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserTypeAdapter<T>.solveType(java.lang.String, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> com.github.javaparser.ast.expr.SimpleName com.github.javaparser.ast.type.TypeParameter.getName() [JavaParserTypeAdapter.java <81:35 81:41>]
@@ -225,6 +314,7 @@ LOCAL_SYMBOL: JavaParserTypeAdapter.java<81:67> [JavaParserTypeAdapter.java <81:
 LOCAL_SYMBOL: JavaParserTypeAdapter.java<81:67> [JavaParserTypeAdapter.java <83:17 83:17>]
 SYMBOL_METHOD static com.github.javaparser.symbolsolver.model.resolution.SymbolReference<S> com.github.javaparser.symbolsolver.model.resolution.SymbolReference<S>.solved<S, S2>(S2)
 REFERENCE_CALL com.github.javaparser.symbolsolver.model.resolution.SymbolReference<com.github.javaparser.symbolsolver.model.declarations.TypeDeclaration> com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserTypeAdapter<T>.solveType(java.lang.String, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> static com.github.javaparser.symbolsolver.model.resolution.SymbolReference<S> com.github.javaparser.symbolsolver.model.resolution.SymbolReference<S>.solved<S, S2>(S2) [JavaParserTypeAdapter.java <82:44 82:49>]
+QUALIFIER: com.github.javaparser.symbolsolver.model.resolution.SymbolReference [JavaParserTypeAdapter.java <82:28 82:42>]
 SYMBOL_METHOD com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserTypeVariableDeclaration.JavaParserTypeVariableDeclaration(com.github.javaparser.ast.type.TypeParameter, com.github.javaparser.symbolsolver.model.resolution.TypeSolver)
 REFERENCE_CALL com.github.javaparser.symbolsolver.model.resolution.SymbolReference<com.github.javaparser.symbolsolver.model.declarations.TypeDeclaration> com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserTypeAdapter<T>.solveType(java.lang.String, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserTypeVariableDeclaration.JavaParserTypeVariableDeclaration(com.github.javaparser.ast.type.TypeParameter, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) [JavaParserTypeAdapter.java <82:55 82:87>]
 REFERENCE_TYPE_USAGE com.github.javaparser.symbolsolver.model.resolution.SymbolReference<com.github.javaparser.symbolsolver.model.declarations.TypeDeclaration> com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserTypeAdapter<T>.solveType(java.lang.String, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserTypeVariableDeclaration [JavaParserTypeAdapter.java <82:55 82:87>]
@@ -234,28 +324,40 @@ REFERENCE_TYPE_USAGE com.github.javaparser.symbolsolver.model.resolution.SymbolR
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserTypeAdapter<T>.solveType<4> [JavaParserTypeAdapter.java <88:33 88:38>]
 SYMBOL_METHOD com.github.javaparser.ast.NodeList<com.github.javaparser.ast.body.BodyDeclaration<?>> com.github.javaparser.ast.nodeTypes.NodeWithMembers<N>.getMembers()
 REFERENCE_CALL com.github.javaparser.symbolsolver.model.resolution.SymbolReference<com.github.javaparser.symbolsolver.model.declarations.TypeDeclaration> com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserTypeAdapter<T>.solveType(java.lang.String, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> com.github.javaparser.ast.NodeList<com.github.javaparser.ast.body.BodyDeclaration<?>> com.github.javaparser.ast.nodeTypes.NodeWithMembers<N>.getMembers() [JavaParserTypeAdapter.java <88:59 88:68>]
-SYMBOL_FIELD com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserTypeAdapter<T>.T com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserTypeAdapter<T>.wrappedNode
+QUALIFIER: com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserTypeAdapter<T> [JavaParserTypeAdapter.java <88:42 88:45>]
 REFERENCE_USAGE com.github.javaparser.symbolsolver.model.resolution.SymbolReference<com.github.javaparser.symbolsolver.model.declarations.TypeDeclaration> com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserTypeAdapter<T>.solveType(java.lang.String, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserTypeAdapter<T>.T com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserTypeAdapter<T>.wrappedNode [JavaParserTypeAdapter.java <88:47 88:57>]
 LOCAL_SYMBOL: JavaParserTypeAdapter.java<88:73> [JavaParserTypeAdapter.java <88:73 88:73>]
 LOCAL_SYMBOL: JavaParserTypeAdapter.java<88:73> [JavaParserTypeAdapter.java <110:9 110:9>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserTypeAdapter<T>.solveType<4> [JavaParserTypeAdapter.java <89:17 89:22>]
-REFERENCE_TYPE_USAGE com.github.javaparser.symbolsolver.model.resolution.SymbolReference<com.github.javaparser.symbolsolver.model.declarations.TypeDeclaration> com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserTypeAdapter<T>.solveType(java.lang.String, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> com.github.javaparser.ast.body.TypeDeclaration<T> [JavaParserTypeAdapter.java <89:35 89:80>]
+REFERENCE_TYPE_USAGE com.github.javaparser.symbolsolver.model.resolution.SymbolReference<com.github.javaparser.symbolsolver.model.declarations.TypeDeclaration> com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserTypeAdapter<T>.solveType(java.lang.String, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> com.github.javaparser.ast.body.TypeDeclaration<T> [JavaParserTypeAdapter.java <89:66 89:80>]
+QUALIFIER: com.github.javaparser.ast.body [JavaParserTypeAdapter.java <89:61 89:64>]
+QUALIFIER: com.github.javaparser.ast [JavaParserTypeAdapter.java <89:57 89:59>]
+QUALIFIER: com.github.javaparser [JavaParserTypeAdapter.java <89:46 89:55>]
+QUALIFIER: com.github [JavaParserTypeAdapter.java <89:39 89:44>]
+QUALIFIER: com [JavaParserTypeAdapter.java <89:35 89:37>]
 LOCAL_SYMBOL: JavaParserTypeAdapter.java<89:83> [JavaParserTypeAdapter.java <89:83 89:83>]
 LOCAL_SYMBOL: JavaParserTypeAdapter.java<89:83> [JavaParserTypeAdapter.java <109:13 109:13>]
-REFERENCE_TYPE_USAGE com.github.javaparser.symbolsolver.model.resolution.SymbolReference<com.github.javaparser.symbolsolver.model.declarations.TypeDeclaration> com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserTypeAdapter<T>.solveType(java.lang.String, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> com.github.javaparser.ast.body.TypeDeclaration<T> [JavaParserTypeAdapter.java <90:17 90:62>]
+REFERENCE_TYPE_USAGE com.github.javaparser.symbolsolver.model.resolution.SymbolReference<com.github.javaparser.symbolsolver.model.declarations.TypeDeclaration> com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserTypeAdapter<T>.solveType(java.lang.String, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> com.github.javaparser.ast.body.TypeDeclaration<T> [JavaParserTypeAdapter.java <90:48 90:62>]
+QUALIFIER: com.github.javaparser.ast.body [JavaParserTypeAdapter.java <90:43 90:46>]
+QUALIFIER: com.github.javaparser.ast [JavaParserTypeAdapter.java <90:39 90:41>]
+QUALIFIER: com.github.javaparser [JavaParserTypeAdapter.java <90:28 90:37>]
+QUALIFIER: com.github [JavaParserTypeAdapter.java <90:21 90:26>]
+QUALIFIER: com [JavaParserTypeAdapter.java <90:17 90:19>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserTypeAdapter<T>.solveType<6> [JavaParserTypeAdapter.java <90:67 90:78>]
-REFERENCE_TYPE_USAGE com.github.javaparser.symbolsolver.model.resolution.SymbolReference<com.github.javaparser.symbolsolver.model.declarations.TypeDeclaration> com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserTypeAdapter<T>.solveType(java.lang.String, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> com.github.javaparser.ast.body.TypeDeclaration<T> [JavaParserTypeAdapter.java <90:83 90:128>]
+REFERENCE_TYPE_USAGE com.github.javaparser.symbolsolver.model.resolution.SymbolReference<com.github.javaparser.symbolsolver.model.declarations.TypeDeclaration> com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserTypeAdapter<T>.solveType(java.lang.String, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> com.github.javaparser.ast.body.TypeDeclaration<T> [JavaParserTypeAdapter.java <90:114 90:128>]
+QUALIFIER: com.github.javaparser.ast.body [JavaParserTypeAdapter.java <90:109 90:112>]
+QUALIFIER: com.github.javaparser.ast [JavaParserTypeAdapter.java <90:105 90:107>]
+QUALIFIER: com.github.javaparser [JavaParserTypeAdapter.java <90:94 90:103>]
+QUALIFIER: com.github [JavaParserTypeAdapter.java <90:87 90:92>]
+QUALIFIER: com [JavaParserTypeAdapter.java <90:83 90:85>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserTypeAdapter<T>.solveType<4> [JavaParserTypeAdapter.java <90:134 90:139>]
 REFERENCE_TYPE_USAGE com.github.javaparser.symbolsolver.model.resolution.SymbolReference<com.github.javaparser.symbolsolver.model.declarations.TypeDeclaration> com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserTypeAdapter<T>.solveType(java.lang.String, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> java.lang.String [JavaParserTypeAdapter.java <91:17 91:22>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserTypeAdapter<T>.solveType<7> [JavaParserTypeAdapter.java <91:24 91:29>]
 SYMBOL_METHOD com.github.javaparser.ast.expr.SimpleName com.github.javaparser.ast.body.TypeDeclaration<T>.getName()
 REFERENCE_CALL com.github.javaparser.symbolsolver.model.resolution.SymbolReference<com.github.javaparser.symbolsolver.model.declarations.TypeDeclaration> com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserTypeAdapter<T>.solveType(java.lang.String, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> com.github.javaparser.ast.expr.SimpleName com.github.javaparser.ast.body.TypeDeclaration<T>.getName() [JavaParserTypeAdapter.java <91:46 91:52>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserTypeAdapter<T>.solveType<6> [JavaParserTypeAdapter.java <91:33 91:44>]
-SYMBOL_METHOD boolean java.lang.String.equals(java.lang.Object)
 REFERENCE_CALL com.github.javaparser.symbolsolver.model.resolution.SymbolReference<com.github.javaparser.symbolsolver.model.declarations.TypeDeclaration> com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserTypeAdapter<T>.solveType(java.lang.String, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> boolean java.lang.String.equals(java.lang.Object) [JavaParserTypeAdapter.java <92:52 92:57>]
-SYMBOL_METHOD java.lang.String com.github.javaparser.ast.nodeTypes.NodeWithIdentifier<N>.getId()
 REFERENCE_CALL com.github.javaparser.symbolsolver.model.resolution.SymbolReference<com.github.javaparser.symbolsolver.model.declarations.TypeDeclaration> com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserTypeAdapter<T>.solveType(java.lang.String, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> java.lang.String com.github.javaparser.ast.nodeTypes.NodeWithIdentifier<N>.getId() [JavaParserTypeAdapter.java <92:44 92:48>]
-SYMBOL_METHOD com.github.javaparser.ast.expr.SimpleName com.github.javaparser.ast.body.TypeDeclaration<T>.getName()
 REFERENCE_CALL com.github.javaparser.symbolsolver.model.resolution.SymbolReference<com.github.javaparser.symbolsolver.model.declarations.TypeDeclaration> com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserTypeAdapter<T>.solveType(java.lang.String, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> com.github.javaparser.ast.expr.SimpleName com.github.javaparser.ast.body.TypeDeclaration<T>.getName() [JavaParserTypeAdapter.java <92:34 92:40>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserTypeAdapter<T>.solveType<6> [JavaParserTypeAdapter.java <92:21 92:32>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserTypeAdapter<T>.solveType<0> [JavaParserTypeAdapter.java <92:59 92:62>]
@@ -265,29 +367,38 @@ LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javaparsermodel.declarations.Ja
 REFERENCE_TYPE_USAGE com.github.javaparser.symbolsolver.model.resolution.SymbolReference<com.github.javaparser.symbolsolver.model.declarations.TypeDeclaration> com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserTypeAdapter<T>.solveType(java.lang.String, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> com.github.javaparser.ast.body.ClassOrInterfaceDeclaration [JavaParserTypeAdapter.java <93:49 93:75>]
 LOCAL_SYMBOL: JavaParserTypeAdapter.java<93:78> [JavaParserTypeAdapter.java <93:78 93:78>]
 LOCAL_SYMBOL: JavaParserTypeAdapter.java<93:78> [JavaParserTypeAdapter.java <95:21 95:21>]
-SYMBOL_METHOD static com.github.javaparser.symbolsolver.model.resolution.SymbolReference<S> com.github.javaparser.symbolsolver.model.resolution.SymbolReference<S>.solved<S, S2>(S2)
 REFERENCE_CALL com.github.javaparser.symbolsolver.model.resolution.SymbolReference<com.github.javaparser.symbolsolver.model.declarations.TypeDeclaration> com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserTypeAdapter<T>.solveType(java.lang.String, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> static com.github.javaparser.symbolsolver.model.resolution.SymbolReference<S> com.github.javaparser.symbolsolver.model.resolution.SymbolReference<S>.solved<S, S2>(S2) [JavaParserTypeAdapter.java <94:48 94:53>]
+QUALIFIER: com.github.javaparser.symbolsolver.model.resolution.SymbolReference [JavaParserTypeAdapter.java <94:32 94:46>]
 SYMBOL_METHOD com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserClassDeclaration.JavaParserClassDeclaration(com.github.javaparser.ast.body.ClassOrInterfaceDeclaration, com.github.javaparser.symbolsolver.model.resolution.TypeSolver)
 REFERENCE_CALL com.github.javaparser.symbolsolver.model.resolution.SymbolReference<com.github.javaparser.symbolsolver.model.declarations.TypeDeclaration> com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserTypeAdapter<T>.solveType(java.lang.String, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserClassDeclaration.JavaParserClassDeclaration(com.github.javaparser.ast.body.ClassOrInterfaceDeclaration, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) [JavaParserTypeAdapter.java <94:59 94:84>]
 REFERENCE_TYPE_USAGE com.github.javaparser.symbolsolver.model.resolution.SymbolReference<com.github.javaparser.symbolsolver.model.declarations.TypeDeclaration> com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserTypeAdapter<T>.solveType(java.lang.String, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserClassDeclaration [JavaParserTypeAdapter.java <94:59 94:84>]
-REFERENCE_TYPE_USAGE com.github.javaparser.symbolsolver.model.resolution.SymbolReference<com.github.javaparser.symbolsolver.model.declarations.TypeDeclaration> com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserTypeAdapter<T>.solveType(java.lang.String, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> com.github.javaparser.ast.body.ClassOrInterfaceDeclaration [JavaParserTypeAdapter.java <94:87 94:144>]
+REFERENCE_TYPE_USAGE com.github.javaparser.symbolsolver.model.resolution.SymbolReference<com.github.javaparser.symbolsolver.model.declarations.TypeDeclaration> com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserTypeAdapter<T>.solveType(java.lang.String, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> com.github.javaparser.ast.body.ClassOrInterfaceDeclaration [JavaParserTypeAdapter.java <94:118 94:144>]
+QUALIFIER: com.github.javaparser.ast.body [JavaParserTypeAdapter.java <94:113 94:116>]
+QUALIFIER: com.github.javaparser.ast [JavaParserTypeAdapter.java <94:109 94:111>]
+QUALIFIER: com.github.javaparser [JavaParserTypeAdapter.java <94:98 94:107>]
+QUALIFIER: com.github [JavaParserTypeAdapter.java <94:91 94:96>]
+QUALIFIER: com [JavaParserTypeAdapter.java <94:87 94:89>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserTypeAdapter<T>.solveType<6> [JavaParserTypeAdapter.java <94:147 94:158>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserTypeAdapter<T>.solveType<1> [JavaParserTypeAdapter.java <94:161 94:170>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserTypeAdapter<T>.solveType<6> [JavaParserTypeAdapter.java <95:32 95:43>]
 REFERENCE_TYPE_USAGE com.github.javaparser.symbolsolver.model.resolution.SymbolReference<com.github.javaparser.symbolsolver.model.declarations.TypeDeclaration> com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserTypeAdapter<T>.solveType(java.lang.String, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> com.github.javaparser.ast.body.EnumDeclaration [JavaParserTypeAdapter.java <95:56 95:70>]
 LOCAL_SYMBOL: JavaParserTypeAdapter.java<95:73> [JavaParserTypeAdapter.java <95:73 95:73>]
 LOCAL_SYMBOL: JavaParserTypeAdapter.java<95:73> [JavaParserTypeAdapter.java <97:21 97:21>]
-SYMBOL_METHOD static com.github.javaparser.symbolsolver.model.resolution.SymbolReference<S> com.github.javaparser.symbolsolver.model.resolution.SymbolReference<S>.solved<S, S2>(S2)
 REFERENCE_CALL com.github.javaparser.symbolsolver.model.resolution.SymbolReference<com.github.javaparser.symbolsolver.model.declarations.TypeDeclaration> com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserTypeAdapter<T>.solveType(java.lang.String, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> static com.github.javaparser.symbolsolver.model.resolution.SymbolReference<S> com.github.javaparser.symbolsolver.model.resolution.SymbolReference<S>.solved<S, S2>(S2) [JavaParserTypeAdapter.java <96:48 96:53>]
+QUALIFIER: com.github.javaparser.symbolsolver.model.resolution.SymbolReference [JavaParserTypeAdapter.java <96:32 96:46>]
 SYMBOL_METHOD com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserEnumDeclaration.JavaParserEnumDeclaration(com.github.javaparser.ast.body.EnumDeclaration, com.github.javaparser.symbolsolver.model.resolution.TypeSolver)
 REFERENCE_CALL com.github.javaparser.symbolsolver.model.resolution.SymbolReference<com.github.javaparser.symbolsolver.model.declarations.TypeDeclaration> com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserTypeAdapter<T>.solveType(java.lang.String, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserEnumDeclaration.JavaParserEnumDeclaration(com.github.javaparser.ast.body.EnumDeclaration, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) [JavaParserTypeAdapter.java <96:59 96:83>]
 REFERENCE_TYPE_USAGE com.github.javaparser.symbolsolver.model.resolution.SymbolReference<com.github.javaparser.symbolsolver.model.declarations.TypeDeclaration> com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserTypeAdapter<T>.solveType(java.lang.String, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserEnumDeclaration [JavaParserTypeAdapter.java <96:59 96:83>]
-REFERENCE_TYPE_USAGE com.github.javaparser.symbolsolver.model.resolution.SymbolReference<com.github.javaparser.symbolsolver.model.declarations.TypeDeclaration> com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserTypeAdapter<T>.solveType(java.lang.String, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> com.github.javaparser.ast.body.EnumDeclaration [JavaParserTypeAdapter.java <96:86 96:131>]
+REFERENCE_TYPE_USAGE com.github.javaparser.symbolsolver.model.resolution.SymbolReference<com.github.javaparser.symbolsolver.model.declarations.TypeDeclaration> com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserTypeAdapter<T>.solveType(java.lang.String, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> com.github.javaparser.ast.body.EnumDeclaration [JavaParserTypeAdapter.java <96:117 96:131>]
+QUALIFIER: com.github.javaparser.ast.body [JavaParserTypeAdapter.java <96:112 96:115>]
+QUALIFIER: com.github.javaparser.ast [JavaParserTypeAdapter.java <96:108 96:110>]
+QUALIFIER: com.github.javaparser [JavaParserTypeAdapter.java <96:97 96:106>]
+QUALIFIER: com.github [JavaParserTypeAdapter.java <96:90 96:95>]
+QUALIFIER: com [JavaParserTypeAdapter.java <96:86 96:88>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserTypeAdapter<T>.solveType<6> [JavaParserTypeAdapter.java <96:134 96:145>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserTypeAdapter<T>.solveType<1> [JavaParserTypeAdapter.java <96:148 96:157>]
 LOCAL_SYMBOL: JavaParserTypeAdapter.java<97:28> [JavaParserTypeAdapter.java <97:28 97:28>]
 LOCAL_SYMBOL: JavaParserTypeAdapter.java<97:28> [JavaParserTypeAdapter.java <99:21 99:21>]
-SYMBOL_METHOD java.lang.UnsupportedOperationException.UnsupportedOperationException()
 REFERENCE_CALL com.github.javaparser.symbolsolver.model.resolution.SymbolReference<com.github.javaparser.symbolsolver.model.declarations.TypeDeclaration> com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserTypeAdapter<T>.solveType(java.lang.String, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> java.lang.UnsupportedOperationException.UnsupportedOperationException() [JavaParserTypeAdapter.java <98:35 98:63>]
 REFERENCE_TYPE_USAGE com.github.javaparser.symbolsolver.model.resolution.SymbolReference<com.github.javaparser.symbolsolver.model.declarations.TypeDeclaration> com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserTypeAdapter<T>.solveType(java.lang.String, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> java.lang.UnsupportedOperationException [JavaParserTypeAdapter.java <98:35 98:63>]
 SYMBOL_METHOD boolean java.lang.String.startsWith(java.lang.String)
@@ -297,7 +408,6 @@ LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javaparsermodel.declarations.Ja
 SYMBOL_METHOD int java.lang.String.length()
 REFERENCE_CALL com.github.javaparser.symbolsolver.model.resolution.SymbolReference<com.github.javaparser.symbolsolver.model.declarations.TypeDeclaration> com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserTypeAdapter<T>.solveType(java.lang.String, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> int java.lang.String.length() [JavaParserTypeAdapter.java <100:60 100:65>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserTypeAdapter<T>.solveType<0> [JavaParserTypeAdapter.java <100:55 100:58>]
-SYMBOL_METHOD int java.lang.String.length()
 REFERENCE_CALL com.github.javaparser.symbolsolver.model.resolution.SymbolReference<com.github.javaparser.symbolsolver.model.declarations.TypeDeclaration> com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserTypeAdapter<T>.solveType(java.lang.String, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> int java.lang.String.length() [JavaParserTypeAdapter.java <100:78 100:83>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserTypeAdapter<T>.solveType<7> [JavaParserTypeAdapter.java <100:71 100:76>]
 LOCAL_SYMBOL: JavaParserTypeAdapter.java<100:88> [JavaParserTypeAdapter.java <100:88 100:88>]
@@ -308,16 +418,19 @@ LOCAL_SYMBOL: JavaParserTypeAdapter.java<101:78> [JavaParserTypeAdapter.java <10
 LOCAL_SYMBOL: JavaParserTypeAdapter.java<101:78> [JavaParserTypeAdapter.java <103:21 103:21>]
 SYMBOL_METHOD com.github.javaparser.symbolsolver.model.resolution.SymbolReference<com.github.javaparser.symbolsolver.model.declarations.TypeDeclaration> com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserClassDeclaration.solveType(java.lang.String, com.github.javaparser.symbolsolver.model.resolution.TypeSolver)
 REFERENCE_CALL com.github.javaparser.symbolsolver.model.resolution.SymbolReference<com.github.javaparser.symbolsolver.model.declarations.TypeDeclaration> com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserTypeAdapter<T>.solveType(java.lang.String, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> com.github.javaparser.symbolsolver.model.resolution.SymbolReference<com.github.javaparser.symbolsolver.model.declarations.TypeDeclaration> com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserClassDeclaration.solveType(java.lang.String, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) [JavaParserTypeAdapter.java <102:150 102:158>]
-SYMBOL_METHOD com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserClassDeclaration.JavaParserClassDeclaration(com.github.javaparser.ast.body.ClassOrInterfaceDeclaration, com.github.javaparser.symbolsolver.model.resolution.TypeSolver)
 REFERENCE_CALL com.github.javaparser.symbolsolver.model.resolution.SymbolReference<com.github.javaparser.symbolsolver.model.declarations.TypeDeclaration> com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserTypeAdapter<T>.solveType(java.lang.String, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserClassDeclaration.JavaParserClassDeclaration(com.github.javaparser.ast.body.ClassOrInterfaceDeclaration, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) [JavaParserTypeAdapter.java <102:36 102:61>]
 REFERENCE_TYPE_USAGE com.github.javaparser.symbolsolver.model.resolution.SymbolReference<com.github.javaparser.symbolsolver.model.declarations.TypeDeclaration> com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserTypeAdapter<T>.solveType(java.lang.String, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserClassDeclaration [JavaParserTypeAdapter.java <102:36 102:61>]
-REFERENCE_TYPE_USAGE com.github.javaparser.symbolsolver.model.resolution.SymbolReference<com.github.javaparser.symbolsolver.model.declarations.TypeDeclaration> com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserTypeAdapter<T>.solveType(java.lang.String, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> com.github.javaparser.ast.body.ClassOrInterfaceDeclaration [JavaParserTypeAdapter.java <102:64 102:121>]
+REFERENCE_TYPE_USAGE com.github.javaparser.symbolsolver.model.resolution.SymbolReference<com.github.javaparser.symbolsolver.model.declarations.TypeDeclaration> com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserTypeAdapter<T>.solveType(java.lang.String, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> com.github.javaparser.ast.body.ClassOrInterfaceDeclaration [JavaParserTypeAdapter.java <102:95 102:121>]
+QUALIFIER: com.github.javaparser.ast.body [JavaParserTypeAdapter.java <102:90 102:93>]
+QUALIFIER: com.github.javaparser.ast [JavaParserTypeAdapter.java <102:86 102:88>]
+QUALIFIER: com.github.javaparser [JavaParserTypeAdapter.java <102:75 102:84>]
+QUALIFIER: com.github [JavaParserTypeAdapter.java <102:68 102:73>]
+QUALIFIER: com [JavaParserTypeAdapter.java <102:64 102:66>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserTypeAdapter<T>.solveType<6> [JavaParserTypeAdapter.java <102:124 102:135>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserTypeAdapter<T>.solveType<1> [JavaParserTypeAdapter.java <102:138 102:147>]
 SYMBOL_METHOD java.lang.String java.lang.String.substring(int)
 REFERENCE_CALL com.github.javaparser.symbolsolver.model.resolution.SymbolReference<com.github.javaparser.symbolsolver.model.declarations.TypeDeclaration> com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserTypeAdapter<T>.solveType(java.lang.String, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> java.lang.String java.lang.String.substring(int) [JavaParserTypeAdapter.java <102:165 102:173>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserTypeAdapter<T>.solveType<0> [JavaParserTypeAdapter.java <102:160 102:163>]
-SYMBOL_METHOD int java.lang.String.length()
 REFERENCE_CALL com.github.javaparser.symbolsolver.model.resolution.SymbolReference<com.github.javaparser.symbolsolver.model.declarations.TypeDeclaration> com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserTypeAdapter<T>.solveType(java.lang.String, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> int java.lang.String.length() [JavaParserTypeAdapter.java <102:182 102:187>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserTypeAdapter<T>.solveType<7> [JavaParserTypeAdapter.java <102:175 102:180>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserTypeAdapter<T>.solveType<1> [JavaParserTypeAdapter.java <102:193 102:202>]
@@ -331,25 +444,27 @@ SYMBOL_METHOD com.github.javaparser.symbolsolver.resolution.SymbolSolver.SymbolS
 REFERENCE_CALL com.github.javaparser.symbolsolver.model.resolution.SymbolReference<com.github.javaparser.symbolsolver.model.declarations.TypeDeclaration> com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserTypeAdapter<T>.solveType(java.lang.String, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> com.github.javaparser.symbolsolver.resolution.SymbolSolver.SymbolSolver(com.github.javaparser.symbolsolver.model.resolution.TypeSolver) [JavaParserTypeAdapter.java <104:36 104:47>]
 REFERENCE_TYPE_USAGE com.github.javaparser.symbolsolver.model.resolution.SymbolReference<com.github.javaparser.symbolsolver.model.declarations.TypeDeclaration> com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserTypeAdapter<T>.solveType(java.lang.String, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> com.github.javaparser.symbolsolver.resolution.SymbolSolver [JavaParserTypeAdapter.java <104:36 104:47>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserTypeAdapter<T>.solveType<1> [JavaParserTypeAdapter.java <104:49 104:58>]
-SYMBOL_METHOD com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserEnumDeclaration.JavaParserEnumDeclaration(com.github.javaparser.ast.body.EnumDeclaration, com.github.javaparser.symbolsolver.model.resolution.TypeSolver)
 REFERENCE_CALL com.github.javaparser.symbolsolver.model.resolution.SymbolReference<com.github.javaparser.symbolsolver.model.declarations.TypeDeclaration> com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserTypeAdapter<T>.solveType(java.lang.String, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserEnumDeclaration.JavaParserEnumDeclaration(com.github.javaparser.ast.body.EnumDeclaration, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) [JavaParserTypeAdapter.java <104:81 104:105>]
 REFERENCE_TYPE_USAGE com.github.javaparser.symbolsolver.model.resolution.SymbolReference<com.github.javaparser.symbolsolver.model.declarations.TypeDeclaration> com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserTypeAdapter<T>.solveType(java.lang.String, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserEnumDeclaration [JavaParserTypeAdapter.java <104:81 104:105>]
-REFERENCE_TYPE_USAGE com.github.javaparser.symbolsolver.model.resolution.SymbolReference<com.github.javaparser.symbolsolver.model.declarations.TypeDeclaration> com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserTypeAdapter<T>.solveType(java.lang.String, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> com.github.javaparser.ast.body.EnumDeclaration [JavaParserTypeAdapter.java <104:108 104:153>]
+REFERENCE_TYPE_USAGE com.github.javaparser.symbolsolver.model.resolution.SymbolReference<com.github.javaparser.symbolsolver.model.declarations.TypeDeclaration> com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserTypeAdapter<T>.solveType(java.lang.String, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> com.github.javaparser.ast.body.EnumDeclaration [JavaParserTypeAdapter.java <104:139 104:153>]
+QUALIFIER: com.github.javaparser.ast.body [JavaParserTypeAdapter.java <104:134 104:137>]
+QUALIFIER: com.github.javaparser.ast [JavaParserTypeAdapter.java <104:130 104:132>]
+QUALIFIER: com.github.javaparser [JavaParserTypeAdapter.java <104:119 104:128>]
+QUALIFIER: com.github [JavaParserTypeAdapter.java <104:112 104:117>]
+QUALIFIER: com [JavaParserTypeAdapter.java <104:108 104:110>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserTypeAdapter<T>.solveType<6> [JavaParserTypeAdapter.java <104:156 104:167>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserTypeAdapter<T>.solveType<1> [JavaParserTypeAdapter.java <104:170 104:179>]
-SYMBOL_METHOD java.lang.String java.lang.String.substring(int)
 REFERENCE_CALL com.github.javaparser.symbolsolver.model.resolution.SymbolReference<com.github.javaparser.symbolsolver.model.declarations.TypeDeclaration> com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserTypeAdapter<T>.solveType(java.lang.String, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> java.lang.String java.lang.String.substring(int) [JavaParserTypeAdapter.java <104:188 104:196>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserTypeAdapter<T>.solveType<0> [JavaParserTypeAdapter.java <104:183 104:186>]
-SYMBOL_METHOD int java.lang.String.length()
 REFERENCE_CALL com.github.javaparser.symbolsolver.model.resolution.SymbolReference<com.github.javaparser.symbolsolver.model.declarations.TypeDeclaration> com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserTypeAdapter<T>.solveType(java.lang.String, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> int java.lang.String.length() [JavaParserTypeAdapter.java <104:205 104:210>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserTypeAdapter<T>.solveType<7> [JavaParserTypeAdapter.java <104:198 104:203>]
 LOCAL_SYMBOL: JavaParserTypeAdapter.java<105:28> [JavaParserTypeAdapter.java <105:28 105:28>]
 LOCAL_SYMBOL: JavaParserTypeAdapter.java<105:28> [JavaParserTypeAdapter.java <107:21 107:21>]
-SYMBOL_METHOD java.lang.UnsupportedOperationException.UnsupportedOperationException()
 REFERENCE_CALL com.github.javaparser.symbolsolver.model.resolution.SymbolReference<com.github.javaparser.symbolsolver.model.declarations.TypeDeclaration> com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserTypeAdapter<T>.solveType(java.lang.String, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> java.lang.UnsupportedOperationException.UnsupportedOperationException() [JavaParserTypeAdapter.java <106:35 106:63>]
 REFERENCE_TYPE_USAGE com.github.javaparser.symbolsolver.model.resolution.SymbolReference<com.github.javaparser.symbolsolver.model.declarations.TypeDeclaration> com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserTypeAdapter<T>.solveType(java.lang.String, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> java.lang.UnsupportedOperationException [JavaParserTypeAdapter.java <106:35 106:63>]
 SYMBOL_METHOD static com.github.javaparser.symbolsolver.model.resolution.SymbolReference<S> com.github.javaparser.symbolsolver.model.resolution.SymbolReference<S>.unsolved<S, S2>(java.lang.Class<S2>)
 REFERENCE_CALL com.github.javaparser.symbolsolver.model.resolution.SymbolReference<com.github.javaparser.symbolsolver.model.declarations.TypeDeclaration> com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserTypeAdapter<T>.solveType(java.lang.String, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> static com.github.javaparser.symbolsolver.model.resolution.SymbolReference<S> com.github.javaparser.symbolsolver.model.resolution.SymbolReference<S>.unsolved<S, S2>(java.lang.Class<S2>) [JavaParserTypeAdapter.java <111:32 111:39>]
+QUALIFIER: com.github.javaparser.symbolsolver.model.resolution.SymbolReference [JavaParserTypeAdapter.java <111:16 111:30>]
 REFERENCE_TYPE_USAGE com.github.javaparser.symbolsolver.model.resolution.SymbolReference<com.github.javaparser.symbolsolver.model.declarations.TypeDeclaration> com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserTypeAdapter<T>.solveType(java.lang.String, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> com.github.javaparser.symbolsolver.model.declarations.TypeDeclaration [JavaParserTypeAdapter.java <111:41 111:55>]
 SYMBOL_METHOD public java.util.Optional<com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration> com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserTypeAdapter<T>.containerType() [JavaParserTypeAdapter.java <114:5 <114:47 114:59> 119:5>]
 REFERENCE_TYPE_USAGE java.util.Optional<com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration> com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserTypeAdapter<T>.containerType() -> java.util.Optional<T> [JavaParserTypeAdapter.java <114:12 114:19>]
@@ -361,20 +476,21 @@ REFERENCE_TYPE_ARGUMENT java.util.Optional<com.github.javaparser.symbolsolver.mo
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserTypeAdapter<T>.containerType<0> [JavaParserTypeAdapter.java <115:24 115:29>]
 SYMBOL_METHOD java.util.Optional<com.github.javaparser.ast.Node> com.github.javaparser.ast.Node.getParentNode()
 REFERENCE_CALL java.util.Optional<com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration> com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserTypeAdapter<T>.containerType() -> java.util.Optional<com.github.javaparser.ast.Node> com.github.javaparser.ast.Node.getParentNode() [JavaParserTypeAdapter.java <115:45 115:57>]
-SYMBOL_FIELD com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserTypeAdapter<T>.T com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserTypeAdapter<T>.wrappedNode
 REFERENCE_USAGE java.util.Optional<com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration> com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserTypeAdapter<T>.containerType() -> com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserTypeAdapter<T>.T com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserTypeAdapter<T>.wrappedNode [JavaParserTypeAdapter.java <115:33 115:43>]
 SYMBOL_METHOD boolean java.util.Optional<T>.isPresent()
 REFERENCE_CALL java.util.Optional<com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration> com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserTypeAdapter<T>.containerType() -> boolean java.util.Optional<T>.isPresent() [JavaParserTypeAdapter.java <116:23 116:31>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserTypeAdapter<T>.containerType<0> [JavaParserTypeAdapter.java <116:16 116:21>]
 SYMBOL_METHOD static java.util.Optional<T> java.util.Optional<T>.of<T>(T)
 REFERENCE_CALL java.util.Optional<com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration> com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserTypeAdapter<T>.containerType() -> static java.util.Optional<T> java.util.Optional<T>.of<T>(T) [JavaParserTypeAdapter.java <117:26 117:27>]
+QUALIFIER: java.util.Optional [JavaParserTypeAdapter.java <117:17 117:24>]
 SYMBOL_METHOD static com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration com.github.javaparser.symbolsolver.javaparsermodel.JavaParserFactory.toTypeDeclaration(com.github.javaparser.ast.Node, com.github.javaparser.symbolsolver.model.resolution.TypeSolver)
 REFERENCE_CALL java.util.Optional<com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration> com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserTypeAdapter<T>.containerType() -> static com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration com.github.javaparser.symbolsolver.javaparsermodel.JavaParserFactory.toTypeDeclaration(com.github.javaparser.ast.Node, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) [JavaParserTypeAdapter.java <117:47 117:63>]
+QUALIFIER: com.github.javaparser.symbolsolver.javaparsermodel.JavaParserFactory [JavaParserTypeAdapter.java <117:29 117:45>]
 SYMBOL_METHOD java.util.Optional<T>.T java.util.Optional<T>.get()
 REFERENCE_CALL java.util.Optional<com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration> com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserTypeAdapter<T>.containerType() -> java.util.Optional<T>.T java.util.Optional<T>.get() [JavaParserTypeAdapter.java <117:72 117:74>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserTypeAdapter<T>.containerType<0> [JavaParserTypeAdapter.java <117:65 117:70>]
-SYMBOL_FIELD com.github.javaparser.symbolsolver.model.resolution.TypeSolver com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserTypeAdapter<T>.typeSolver
 REFERENCE_USAGE java.util.Optional<com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration> com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserTypeAdapter<T>.containerType() -> com.github.javaparser.symbolsolver.model.resolution.TypeSolver com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserTypeAdapter<T>.typeSolver [JavaParserTypeAdapter.java <117:79 117:88>]
 SYMBOL_METHOD static java.util.Optional<T> java.util.Optional<T>.empty<T>()
 REFERENCE_CALL java.util.Optional<com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration> com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserTypeAdapter<T>.containerType() -> static java.util.Optional<T> java.util.Optional<T>.empty<T>() [JavaParserTypeAdapter.java <118:26 118:30>]
+QUALIFIER: java.util.Optional [JavaParserTypeAdapter.java <118:17 118:24>]
 COMMENT: comment [JavaParserTypeAdapter.java <87:9 87:27>]

@@ -1,7 +1,5 @@
 FILE: b2Math.cpp
-FILE: b2Math.cpp
 COMMENT: comment [b2Math.cpp <1:1 17:3>]
-FILE: b2Math.cpp
 COMMENT: comment [b2Math.cpp <23:1 23:72>]
 COMMENT: comment [b2Math.cpp <24:1 24:50>]
 COMMENT: comment [b2Math.cpp <39:1 39:72>]
@@ -14,6 +12,7 @@ SYMBOL_FUNCTION void b2Vec2::b2Vec2(float32, float32)
 REFERENCE_CALL const b2Vec2 b2Vec2_zero -> void b2Vec2::b2Vec2(float32, float32) [b2Math.cpp <21:14 21:24>]
 SYMBOL_METHOD public b2Vec3 b2Mat33::Solve33(const b2Vec3 &) const [b2Math.cpp <25:1 <25:17 25:23> 37:1>]
 SYMBOL_STRUCT b2Mat33
+QUALIFIER: b2Mat33 [b2Math.cpp <25:8 25:14>]
 REFERENCE_TYPE_USAGE b2Vec3 b2Mat33::Solve33(const b2Vec3 &) const -> b2Vec3 [b2Math.cpp <25:1 25:6>]
 LOCAL_SYMBOL: b2Math.cpp<25:39> [b2Math.cpp <25:39 25:39>]
 REFERENCE_TYPE_USAGE b2Vec3 b2Mat33::Solve33(const b2Vec3 &) const -> b2Vec3 [b2Math.cpp <25:31 25:36>]
@@ -36,30 +35,24 @@ REFERENCE_CALL b2Vec3 b2Mat33::Solve33(const b2Vec3 &) const -> void b2Vec3::b2V
 REFERENCE_USAGE b2Vec3 b2Mat33::Solve33(const b2Vec3 &) const -> float32 b2Vec3::x [b2Math.cpp <33:4 33:4>]
 LOCAL_SYMBOL: b2Math.cpp<32:9> [b2Math.cpp <33:2 33:2>]
 LOCAL_SYMBOL: b2Math.cpp<27:10> [b2Math.cpp <33:8 33:10>]
-SYMBOL_FUNCTION float32 b2Dot(const b2Vec3 &, const b2Vec3 &)
 REFERENCE_CALL b2Vec3 b2Mat33::Solve33(const b2Vec3 &) const -> float32 b2Dot(const b2Vec3 &, const b2Vec3 &) [b2Math.cpp <33:14 33:18>]
 LOCAL_SYMBOL: b2Math.cpp<25:39> [b2Math.cpp <33:20 33:20>]
-SYMBOL_FUNCTION b2Vec3 b2Cross(const b2Vec3 &, const b2Vec3 &)
 REFERENCE_CALL b2Vec3 b2Mat33::Solve33(const b2Vec3 &) const -> b2Vec3 b2Cross(const b2Vec3 &, const b2Vec3 &) [b2Math.cpp <33:23 33:29>]
 REFERENCE_USAGE b2Vec3 b2Mat33::Solve33(const b2Vec3 &) const -> b2Vec3 b2Mat33::ey [b2Math.cpp <33:31 33:32>]
 REFERENCE_USAGE b2Vec3 b2Mat33::Solve33(const b2Vec3 &) const -> b2Vec3 b2Mat33::ez [b2Math.cpp <33:35 33:36>]
 REFERENCE_USAGE b2Vec3 b2Mat33::Solve33(const b2Vec3 &) const -> float32 b2Vec3::y [b2Math.cpp <34:4 34:4>]
 LOCAL_SYMBOL: b2Math.cpp<32:9> [b2Math.cpp <34:2 34:2>]
 LOCAL_SYMBOL: b2Math.cpp<27:10> [b2Math.cpp <34:8 34:10>]
-SYMBOL_FUNCTION float32 b2Dot(const b2Vec3 &, const b2Vec3 &)
 REFERENCE_CALL b2Vec3 b2Mat33::Solve33(const b2Vec3 &) const -> float32 b2Dot(const b2Vec3 &, const b2Vec3 &) [b2Math.cpp <34:14 34:18>]
 REFERENCE_USAGE b2Vec3 b2Mat33::Solve33(const b2Vec3 &) const -> b2Vec3 b2Mat33::ex [b2Math.cpp <34:20 34:21>]
-SYMBOL_FUNCTION b2Vec3 b2Cross(const b2Vec3 &, const b2Vec3 &)
 REFERENCE_CALL b2Vec3 b2Mat33::Solve33(const b2Vec3 &) const -> b2Vec3 b2Cross(const b2Vec3 &, const b2Vec3 &) [b2Math.cpp <34:24 34:30>]
 LOCAL_SYMBOL: b2Math.cpp<25:39> [b2Math.cpp <34:32 34:32>]
 REFERENCE_USAGE b2Vec3 b2Mat33::Solve33(const b2Vec3 &) const -> b2Vec3 b2Mat33::ez [b2Math.cpp <34:35 34:36>]
 REFERENCE_USAGE b2Vec3 b2Mat33::Solve33(const b2Vec3 &) const -> float32 b2Vec3::z [b2Math.cpp <35:4 35:4>]
 LOCAL_SYMBOL: b2Math.cpp<32:9> [b2Math.cpp <35:2 35:2>]
 LOCAL_SYMBOL: b2Math.cpp<27:10> [b2Math.cpp <35:8 35:10>]
-SYMBOL_FUNCTION float32 b2Dot(const b2Vec3 &, const b2Vec3 &)
 REFERENCE_CALL b2Vec3 b2Mat33::Solve33(const b2Vec3 &) const -> float32 b2Dot(const b2Vec3 &, const b2Vec3 &) [b2Math.cpp <35:14 35:18>]
 REFERENCE_USAGE b2Vec3 b2Mat33::Solve33(const b2Vec3 &) const -> b2Vec3 b2Mat33::ex [b2Math.cpp <35:20 35:21>]
-SYMBOL_FUNCTION b2Vec3 b2Cross(const b2Vec3 &, const b2Vec3 &)
 REFERENCE_CALL b2Vec3 b2Mat33::Solve33(const b2Vec3 &) const -> b2Vec3 b2Cross(const b2Vec3 &, const b2Vec3 &) [b2Math.cpp <35:24 35:30>]
 REFERENCE_USAGE b2Vec3 b2Mat33::Solve33(const b2Vec3 &) const -> b2Vec3 b2Mat33::ey [b2Math.cpp <35:32 35:33>]
 LOCAL_SYMBOL: b2Math.cpp<25:39> [b2Math.cpp <35:36 35:36>]
@@ -67,7 +60,7 @@ SYMBOL_FUNCTION void b2Vec3::b2Vec3(b2Vec3 &)
 REFERENCE_CALL b2Vec3 b2Mat33::Solve33(const b2Vec3 &) const -> void b2Vec3::b2Vec3(b2Vec3 &) [b2Math.cpp <36:9 36:9>]
 LOCAL_SYMBOL: b2Math.cpp<32:9> [b2Math.cpp <36:9 36:9>]
 SYMBOL_METHOD public b2Vec2 b2Mat33::Solve22(const b2Vec2 &) const [b2Math.cpp <41:1 <41:17 41:23> 53:1>]
-SYMBOL_STRUCT b2Mat33
+QUALIFIER: b2Mat33 [b2Math.cpp <41:8 41:14>]
 REFERENCE_TYPE_USAGE b2Vec2 b2Mat33::Solve22(const b2Vec2 &) const -> b2Vec2 [b2Math.cpp <41:1 41:6>]
 LOCAL_SYMBOL: b2Math.cpp<41:39> [b2Math.cpp <41:39 41:39>]
 REFERENCE_TYPE_USAGE b2Vec2 b2Mat33::Solve22(const b2Vec2 &) const -> b2Vec2 [b2Math.cpp <41:31 41:36>]
@@ -76,15 +69,12 @@ REFERENCE_TYPE_USAGE b2Vec2 b2Mat33::Solve22(const b2Vec2 &) const -> float32 [b
 REFERENCE_USAGE b2Vec2 b2Mat33::Solve22(const b2Vec2 &) const -> float32 b2Vec3::x [b2Math.cpp <43:19 43:19>]
 REFERENCE_USAGE b2Vec2 b2Mat33::Solve22(const b2Vec2 &) const -> b2Vec3 b2Mat33::ex [b2Math.cpp <43:16 43:17>]
 LOCAL_SYMBOL: b2Math.cpp<43:22> [b2Math.cpp <43:22 43:24>]
-REFERENCE_TYPE_USAGE b2Vec2 b2Mat33::Solve22(const b2Vec2 &) const -> float32 [b2Math.cpp <43:2 43:8>]
 REFERENCE_USAGE b2Vec2 b2Mat33::Solve22(const b2Vec2 &) const -> float32 b2Vec3::x [b2Math.cpp <43:31 43:31>]
 REFERENCE_USAGE b2Vec2 b2Mat33::Solve22(const b2Vec2 &) const -> b2Vec3 b2Mat33::ey [b2Math.cpp <43:28 43:29>]
 LOCAL_SYMBOL: b2Math.cpp<43:34> [b2Math.cpp <43:34 43:36>]
-REFERENCE_TYPE_USAGE b2Vec2 b2Mat33::Solve22(const b2Vec2 &) const -> float32 [b2Math.cpp <43:2 43:8>]
 REFERENCE_USAGE b2Vec2 b2Mat33::Solve22(const b2Vec2 &) const -> float32 b2Vec3::y [b2Math.cpp <43:43 43:43>]
 REFERENCE_USAGE b2Vec2 b2Mat33::Solve22(const b2Vec2 &) const -> b2Vec3 b2Mat33::ex [b2Math.cpp <43:40 43:41>]
 LOCAL_SYMBOL: b2Math.cpp<43:46> [b2Math.cpp <43:46 43:48>]
-REFERENCE_TYPE_USAGE b2Vec2 b2Mat33::Solve22(const b2Vec2 &) const -> float32 [b2Math.cpp <43:2 43:8>]
 REFERENCE_USAGE b2Vec2 b2Mat33::Solve22(const b2Vec2 &) const -> float32 b2Vec3::y [b2Math.cpp <43:55 43:55>]
 REFERENCE_USAGE b2Vec2 b2Mat33::Solve22(const b2Vec2 &) const -> b2Vec3 b2Mat33::ey [b2Math.cpp <43:52 43:53>]
 LOCAL_SYMBOL: b2Math.cpp<44:10> [b2Math.cpp <44:10 44:12>]
@@ -122,7 +112,7 @@ SYMBOL_FUNCTION void b2Vec2::b2Vec2(b2Vec2 &)
 REFERENCE_CALL b2Vec2 b2Mat33::Solve22(const b2Vec2 &) const -> void b2Vec2::b2Vec2(b2Vec2 &) [b2Math.cpp <52:9 52:9>]
 LOCAL_SYMBOL: b2Math.cpp<49:9> [b2Math.cpp <52:9 52:9>]
 SYMBOL_METHOD public void b2Mat33::GetInverse22(b2Mat33 *) const [b2Math.cpp <56:1 <56:15 56:26> 68:1>]
-SYMBOL_STRUCT b2Mat33
+QUALIFIER: b2Mat33 [b2Math.cpp <56:6 56:12>]
 SYMBOL_BUILTIN_TYPE void
 REFERENCE_TYPE_USAGE void b2Mat33::GetInverse22(b2Mat33 *) const -> void [b2Math.cpp <56:1 56:4>]
 LOCAL_SYMBOL: b2Math.cpp<56:37> [b2Math.cpp <56:37 56:37>]
@@ -132,15 +122,12 @@ REFERENCE_TYPE_USAGE void b2Mat33::GetInverse22(b2Mat33 *) const -> float32 [b2M
 REFERENCE_USAGE void b2Mat33::GetInverse22(b2Mat33 *) const -> float32 b2Vec3::x [b2Math.cpp <58:17 58:17>]
 REFERENCE_USAGE void b2Mat33::GetInverse22(b2Mat33 *) const -> b2Vec3 b2Mat33::ex [b2Math.cpp <58:14 58:15>]
 LOCAL_SYMBOL: b2Math.cpp<58:20> [b2Math.cpp <58:20 58:20>]
-REFERENCE_TYPE_USAGE void b2Mat33::GetInverse22(b2Mat33 *) const -> float32 [b2Math.cpp <58:2 58:8>]
 REFERENCE_USAGE void b2Mat33::GetInverse22(b2Mat33 *) const -> float32 b2Vec3::x [b2Math.cpp <58:27 58:27>]
 REFERENCE_USAGE void b2Mat33::GetInverse22(b2Mat33 *) const -> b2Vec3 b2Mat33::ey [b2Math.cpp <58:24 58:25>]
 LOCAL_SYMBOL: b2Math.cpp<58:30> [b2Math.cpp <58:30 58:30>]
-REFERENCE_TYPE_USAGE void b2Mat33::GetInverse22(b2Mat33 *) const -> float32 [b2Math.cpp <58:2 58:8>]
 REFERENCE_USAGE void b2Mat33::GetInverse22(b2Mat33 *) const -> float32 b2Vec3::y [b2Math.cpp <58:37 58:37>]
 REFERENCE_USAGE void b2Mat33::GetInverse22(b2Mat33 *) const -> b2Vec3 b2Mat33::ex [b2Math.cpp <58:34 58:35>]
 LOCAL_SYMBOL: b2Math.cpp<58:40> [b2Math.cpp <58:40 58:40>]
-REFERENCE_TYPE_USAGE void b2Mat33::GetInverse22(b2Mat33 *) const -> float32 [b2Math.cpp <58:2 58:8>]
 REFERENCE_USAGE void b2Mat33::GetInverse22(b2Mat33 *) const -> float32 b2Vec3::y [b2Math.cpp <58:47 58:47>]
 REFERENCE_USAGE void b2Mat33::GetInverse22(b2Mat33 *) const -> b2Vec3 b2Mat33::ey [b2Math.cpp <58:44 58:45>]
 LOCAL_SYMBOL: b2Math.cpp<59:10> [b2Math.cpp <59:10 59:12>]
@@ -188,17 +175,14 @@ REFERENCE_USAGE void b2Mat33::GetInverse22(b2Mat33 *) const -> float32 b2Vec3::z
 REFERENCE_USAGE void b2Mat33::GetInverse22(b2Mat33 *) const -> b2Vec3 b2Mat33::ez [b2Math.cpp <67:37 67:38>]
 LOCAL_SYMBOL: b2Math.cpp<56:37> [b2Math.cpp <67:34 67:34>]
 SYMBOL_METHOD public void b2Mat33::GetSymInverse33(b2Mat33 *) const [b2Math.cpp <71:1 <71:15 71:29> 94:1>]
-SYMBOL_STRUCT b2Mat33
-SYMBOL_BUILTIN_TYPE void
+QUALIFIER: b2Mat33 [b2Math.cpp <71:6 71:12>]
 REFERENCE_TYPE_USAGE void b2Mat33::GetSymInverse33(b2Mat33 *) const -> void [b2Math.cpp <71:1 71:4>]
 LOCAL_SYMBOL: b2Math.cpp<71:40> [b2Math.cpp <71:40 71:40>]
 REFERENCE_TYPE_USAGE void b2Mat33::GetSymInverse33(b2Mat33 *) const -> b2Mat33 [b2Math.cpp <71:31 71:37>]
 LOCAL_SYMBOL: b2Math.cpp<73:10> [b2Math.cpp <73:10 73:12>]
 REFERENCE_TYPE_USAGE void b2Mat33::GetSymInverse33(b2Mat33 *) const -> float32 [b2Math.cpp <73:2 73:8>]
-SYMBOL_FUNCTION float32 b2Dot(const b2Vec3 &, const b2Vec3 &)
 REFERENCE_CALL void b2Mat33::GetSymInverse33(b2Mat33 *) const -> float32 b2Dot(const b2Vec3 &, const b2Vec3 &) [b2Math.cpp <73:16 73:20>]
 REFERENCE_USAGE void b2Mat33::GetSymInverse33(b2Mat33 *) const -> b2Vec3 b2Mat33::ex [b2Math.cpp <73:22 73:23>]
-SYMBOL_FUNCTION b2Vec3 b2Cross(const b2Vec3 &, const b2Vec3 &)
 REFERENCE_CALL void b2Mat33::GetSymInverse33(b2Mat33 *) const -> b2Vec3 b2Cross(const b2Vec3 &, const b2Vec3 &) [b2Math.cpp <73:26 73:32>]
 REFERENCE_USAGE void b2Mat33::GetSymInverse33(b2Mat33 *) const -> b2Vec3 b2Mat33::ey [b2Math.cpp <73:34 73:35>]
 REFERENCE_USAGE void b2Mat33::GetSymInverse33(b2Mat33 *) const -> b2Vec3 b2Mat33::ez [b2Math.cpp <73:38 73:39>]
@@ -210,11 +194,9 @@ REFERENCE_TYPE_USAGE void b2Mat33::GetSymInverse33(b2Mat33 *) const -> float32 [
 REFERENCE_USAGE void b2Mat33::GetSymInverse33(b2Mat33 *) const -> float32 b2Vec3::x [b2Math.cpp <79:19 79:19>]
 REFERENCE_USAGE void b2Mat33::GetSymInverse33(b2Mat33 *) const -> b2Vec3 b2Mat33::ex [b2Math.cpp <79:16 79:17>]
 LOCAL_SYMBOL: b2Math.cpp<79:22> [b2Math.cpp <79:22 79:24>]
-REFERENCE_TYPE_USAGE void b2Mat33::GetSymInverse33(b2Mat33 *) const -> float32 [b2Math.cpp <79:2 79:8>]
 REFERENCE_USAGE void b2Mat33::GetSymInverse33(b2Mat33 *) const -> float32 b2Vec3::x [b2Math.cpp <79:31 79:31>]
 REFERENCE_USAGE void b2Mat33::GetSymInverse33(b2Mat33 *) const -> b2Vec3 b2Mat33::ey [b2Math.cpp <79:28 79:29>]
 LOCAL_SYMBOL: b2Math.cpp<79:34> [b2Math.cpp <79:34 79:36>]
-REFERENCE_TYPE_USAGE void b2Mat33::GetSymInverse33(b2Mat33 *) const -> float32 [b2Math.cpp <79:2 79:8>]
 REFERENCE_USAGE void b2Mat33::GetSymInverse33(b2Mat33 *) const -> float32 b2Vec3::x [b2Math.cpp <79:43 79:43>]
 REFERENCE_USAGE void b2Mat33::GetSymInverse33(b2Mat33 *) const -> b2Vec3 b2Mat33::ez [b2Math.cpp <79:40 79:41>]
 LOCAL_SYMBOL: b2Math.cpp<80:10> [b2Math.cpp <80:10 80:12>]
@@ -222,7 +204,6 @@ REFERENCE_TYPE_USAGE void b2Mat33::GetSymInverse33(b2Mat33 *) const -> float32 [
 REFERENCE_USAGE void b2Mat33::GetSymInverse33(b2Mat33 *) const -> float32 b2Vec3::y [b2Math.cpp <80:19 80:19>]
 REFERENCE_USAGE void b2Mat33::GetSymInverse33(b2Mat33 *) const -> b2Vec3 b2Mat33::ey [b2Math.cpp <80:16 80:17>]
 LOCAL_SYMBOL: b2Math.cpp<80:22> [b2Math.cpp <80:22 80:24>]
-REFERENCE_TYPE_USAGE void b2Mat33::GetSymInverse33(b2Mat33 *) const -> float32 [b2Math.cpp <80:2 80:8>]
 REFERENCE_USAGE void b2Mat33::GetSymInverse33(b2Mat33 *) const -> float32 b2Vec3::y [b2Math.cpp <80:31 80:31>]
 REFERENCE_USAGE void b2Mat33::GetSymInverse33(b2Mat33 *) const -> b2Vec3 b2Mat33::ez [b2Math.cpp <80:28 80:29>]
 LOCAL_SYMBOL: b2Math.cpp<81:10> [b2Math.cpp <81:10 81:12>]

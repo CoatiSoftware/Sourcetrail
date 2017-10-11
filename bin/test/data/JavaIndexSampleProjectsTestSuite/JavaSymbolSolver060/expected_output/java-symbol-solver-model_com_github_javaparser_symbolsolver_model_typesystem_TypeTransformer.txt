@@ -1,10 +1,15 @@
 FILE: TypeTransformer.java
-SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model.typesystem [TypeTransformer.java <17:9 17:59>]
+SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model.typesystem [TypeTransformer.java <17:50 17:59>]
 SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model
 SYMBOL_PACKAGE com.github.javaparser.symbolsolver
 SYMBOL_PACKAGE com.github.javaparser
 SYMBOL_PACKAGE com.github
 SYMBOL_PACKAGE com
+QUALIFIER: com.github.javaparser.symbolsolver.model [TypeTransformer.java <17:44 17:48>]
+QUALIFIER: com.github.javaparser.symbolsolver [TypeTransformer.java <17:31 17:42>]
+QUALIFIER: com.github.javaparser [TypeTransformer.java <17:20 17:29>]
+QUALIFIER: com.github [TypeTransformer.java <17:13 17:18>]
+QUALIFIER: com [TypeTransformer.java <17:9 17:11>]
 SYMBOL_INTERFACE public com.github.javaparser.symbolsolver.model.typesystem.TypeTransformer [TypeTransformer.java <22:1 <23:18 23:32> 25:1>]
 LOCAL_SYMBOL: TypeTransformer.java<23:34> [TypeTransformer.java <23:34 23:34>]
 LOCAL_SYMBOL: TypeTransformer.java<23:34> [TypeTransformer.java <25:1 25:1>]

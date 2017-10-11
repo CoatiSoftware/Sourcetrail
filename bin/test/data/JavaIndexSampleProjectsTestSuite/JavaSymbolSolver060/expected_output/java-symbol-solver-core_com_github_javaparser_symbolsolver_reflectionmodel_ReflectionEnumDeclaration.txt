@@ -1,33 +1,95 @@
 FILE: ReflectionEnumDeclaration.java
-SYMBOL_PACKAGE com.github.javaparser.symbolsolver.reflectionmodel [ReflectionEnumDeclaration.java <15:9 15:58>]
+SYMBOL_PACKAGE com.github.javaparser.symbolsolver.reflectionmodel [ReflectionEnumDeclaration.java <15:44 15:58>]
 SYMBOL_PACKAGE com.github.javaparser.symbolsolver
 SYMBOL_PACKAGE com.github.javaparser
 SYMBOL_PACKAGE com.github
 SYMBOL_PACKAGE com
-REFERENCE_IMPORT ReflectionEnumDeclaration.java -> com.github.javaparser.symbolsolver.core.resolution.Context [ReflectionEnumDeclaration.java <17:8 17:65>]
+QUALIFIER: com.github.javaparser.symbolsolver [ReflectionEnumDeclaration.java <15:31 15:42>]
+QUALIFIER: com.github.javaparser [ReflectionEnumDeclaration.java <15:20 15:29>]
+QUALIFIER: com.github [ReflectionEnumDeclaration.java <15:13 15:18>]
+QUALIFIER: com [ReflectionEnumDeclaration.java <15:9 15:11>]
+REFERENCE_IMPORT ReflectionEnumDeclaration.java -> com.github.javaparser.symbolsolver.core.resolution.Context [ReflectionEnumDeclaration.java <17:59 17:65>]
 SYMBOL_PACKAGE com.github.javaparser.symbolsolver.core.resolution
-REFERENCE_IMPORT ReflectionEnumDeclaration.java -> com.github.javaparser.symbolsolver.logic.AbstractTypeDeclaration [ReflectionEnumDeclaration.java <18:8 18:71>]
+QUALIFIER: com.github.javaparser.symbolsolver.core.resolution [ReflectionEnumDeclaration.java <17:48 17:57>]
+QUALIFIER: com.github.javaparser.symbolsolver.core [ReflectionEnumDeclaration.java <17:43 17:46>]
+QUALIFIER: com.github.javaparser.symbolsolver [ReflectionEnumDeclaration.java <17:30 17:41>]
+QUALIFIER: com.github.javaparser [ReflectionEnumDeclaration.java <17:19 17:28>]
+QUALIFIER: com.github [ReflectionEnumDeclaration.java <17:12 17:17>]
+QUALIFIER: com [ReflectionEnumDeclaration.java <17:8 17:10>]
+REFERENCE_IMPORT ReflectionEnumDeclaration.java -> com.github.javaparser.symbolsolver.logic.AbstractTypeDeclaration [ReflectionEnumDeclaration.java <18:49 18:71>]
 SYMBOL_PACKAGE com.github.javaparser.symbolsolver.logic
-REFERENCE_IMPORT ReflectionEnumDeclaration.java -> com.github.javaparser.symbolsolver.logic.ConfilictingGenericTypesException [ReflectionEnumDeclaration.java <19:8 19:81>]
-SYMBOL_PACKAGE com.github.javaparser.symbolsolver.logic
-REFERENCE_IMPORT ReflectionEnumDeclaration.java -> com.github.javaparser.symbolsolver.logic.InferenceContext [ReflectionEnumDeclaration.java <20:8 20:64>]
-SYMBOL_PACKAGE com.github.javaparser.symbolsolver.logic
-REFERENCE_IMPORT ReflectionEnumDeclaration.java -> com.github.javaparser.symbolsolver.model.declarations [ReflectionEnumDeclaration.java <21:8 21:60>]
+QUALIFIER: com.github.javaparser.symbolsolver.logic [ReflectionEnumDeclaration.java <18:43 18:47>]
+QUALIFIER: com.github.javaparser.symbolsolver [ReflectionEnumDeclaration.java <18:30 18:41>]
+QUALIFIER: com.github.javaparser [ReflectionEnumDeclaration.java <18:19 18:28>]
+QUALIFIER: com.github [ReflectionEnumDeclaration.java <18:12 18:17>]
+QUALIFIER: com [ReflectionEnumDeclaration.java <18:8 18:10>]
+REFERENCE_IMPORT ReflectionEnumDeclaration.java -> com.github.javaparser.symbolsolver.logic.ConfilictingGenericTypesException [ReflectionEnumDeclaration.java <19:49 19:81>]
+QUALIFIER: com.github.javaparser.symbolsolver.logic [ReflectionEnumDeclaration.java <19:43 19:47>]
+QUALIFIER: com.github.javaparser.symbolsolver [ReflectionEnumDeclaration.java <19:30 19:41>]
+QUALIFIER: com.github.javaparser [ReflectionEnumDeclaration.java <19:19 19:28>]
+QUALIFIER: com.github [ReflectionEnumDeclaration.java <19:12 19:17>]
+QUALIFIER: com [ReflectionEnumDeclaration.java <19:8 19:10>]
+REFERENCE_IMPORT ReflectionEnumDeclaration.java -> com.github.javaparser.symbolsolver.logic.InferenceContext [ReflectionEnumDeclaration.java <20:49 20:64>]
+QUALIFIER: com.github.javaparser.symbolsolver.logic [ReflectionEnumDeclaration.java <20:43 20:47>]
+QUALIFIER: com.github.javaparser.symbolsolver [ReflectionEnumDeclaration.java <20:30 20:41>]
+QUALIFIER: com.github.javaparser [ReflectionEnumDeclaration.java <20:19 20:28>]
+QUALIFIER: com.github [ReflectionEnumDeclaration.java <20:12 20:17>]
+QUALIFIER: com [ReflectionEnumDeclaration.java <20:8 20:10>]
+REFERENCE_IMPORT ReflectionEnumDeclaration.java -> com.github.javaparser.symbolsolver.model.declarations [ReflectionEnumDeclaration.java <21:49 21:60>]
 SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model.declarations
-REFERENCE_IMPORT ReflectionEnumDeclaration.java -> com.github.javaparser.symbolsolver.model.methods.MethodUsage [ReflectionEnumDeclaration.java <22:8 22:67>]
+QUALIFIER: com.github.javaparser.symbolsolver.model [ReflectionEnumDeclaration.java <21:43 21:47>]
+QUALIFIER: com.github.javaparser.symbolsolver [ReflectionEnumDeclaration.java <21:30 21:41>]
+QUALIFIER: com.github.javaparser [ReflectionEnumDeclaration.java <21:19 21:28>]
+QUALIFIER: com.github [ReflectionEnumDeclaration.java <21:12 21:17>]
+QUALIFIER: com [ReflectionEnumDeclaration.java <21:8 21:10>]
+REFERENCE_IMPORT ReflectionEnumDeclaration.java -> com.github.javaparser.symbolsolver.model.methods.MethodUsage [ReflectionEnumDeclaration.java <22:57 22:67>]
 SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model.methods
-REFERENCE_IMPORT ReflectionEnumDeclaration.java -> com.github.javaparser.symbolsolver.model.resolution.SymbolReference<S> [ReflectionEnumDeclaration.java <23:8 23:74>]
+QUALIFIER: com.github.javaparser.symbolsolver.model.methods [ReflectionEnumDeclaration.java <22:49 22:55>]
+QUALIFIER: com.github.javaparser.symbolsolver.model [ReflectionEnumDeclaration.java <22:43 22:47>]
+QUALIFIER: com.github.javaparser.symbolsolver [ReflectionEnumDeclaration.java <22:30 22:41>]
+QUALIFIER: com.github.javaparser [ReflectionEnumDeclaration.java <22:19 22:28>]
+QUALIFIER: com.github [ReflectionEnumDeclaration.java <22:12 22:17>]
+QUALIFIER: com [ReflectionEnumDeclaration.java <22:8 22:10>]
+REFERENCE_IMPORT ReflectionEnumDeclaration.java -> com.github.javaparser.symbolsolver.model.resolution.SymbolReference<S> [ReflectionEnumDeclaration.java <23:60 23:74>]
 SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model.resolution
-REFERENCE_IMPORT ReflectionEnumDeclaration.java -> com.github.javaparser.symbolsolver.model.resolution.TypeSolver [ReflectionEnumDeclaration.java <24:8 24:69>]
-SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model.resolution
-REFERENCE_IMPORT ReflectionEnumDeclaration.java -> com.github.javaparser.symbolsolver.model.typesystem.ReferenceType [ReflectionEnumDeclaration.java <25:8 25:72>]
+QUALIFIER: com.github.javaparser.symbolsolver.model.resolution [ReflectionEnumDeclaration.java <23:49 23:58>]
+QUALIFIER: com.github.javaparser.symbolsolver.model [ReflectionEnumDeclaration.java <23:43 23:47>]
+QUALIFIER: com.github.javaparser.symbolsolver [ReflectionEnumDeclaration.java <23:30 23:41>]
+QUALIFIER: com.github.javaparser [ReflectionEnumDeclaration.java <23:19 23:28>]
+QUALIFIER: com.github [ReflectionEnumDeclaration.java <23:12 23:17>]
+QUALIFIER: com [ReflectionEnumDeclaration.java <23:8 23:10>]
+REFERENCE_IMPORT ReflectionEnumDeclaration.java -> com.github.javaparser.symbolsolver.model.resolution.TypeSolver [ReflectionEnumDeclaration.java <24:60 24:69>]
+QUALIFIER: com.github.javaparser.symbolsolver.model.resolution [ReflectionEnumDeclaration.java <24:49 24:58>]
+QUALIFIER: com.github.javaparser.symbolsolver.model [ReflectionEnumDeclaration.java <24:43 24:47>]
+QUALIFIER: com.github.javaparser.symbolsolver [ReflectionEnumDeclaration.java <24:30 24:41>]
+QUALIFIER: com.github.javaparser [ReflectionEnumDeclaration.java <24:19 24:28>]
+QUALIFIER: com.github [ReflectionEnumDeclaration.java <24:12 24:17>]
+QUALIFIER: com [ReflectionEnumDeclaration.java <24:8 24:10>]
+REFERENCE_IMPORT ReflectionEnumDeclaration.java -> com.github.javaparser.symbolsolver.model.typesystem.ReferenceType [ReflectionEnumDeclaration.java <25:60 25:72>]
 SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model.typesystem
-REFERENCE_IMPORT ReflectionEnumDeclaration.java -> com.github.javaparser.symbolsolver.model.typesystem.ReferenceTypeImpl [ReflectionEnumDeclaration.java <26:8 26:76>]
-SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model.typesystem
-REFERENCE_IMPORT ReflectionEnumDeclaration.java -> com.github.javaparser.symbolsolver.model.typesystem.Type [ReflectionEnumDeclaration.java <27:8 27:63>]
-SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model.typesystem
-REFERENCE_IMPORT ReflectionEnumDeclaration.java -> java.util [ReflectionEnumDeclaration.java <29:8 29:16>]
+QUALIFIER: com.github.javaparser.symbolsolver.model.typesystem [ReflectionEnumDeclaration.java <25:49 25:58>]
+QUALIFIER: com.github.javaparser.symbolsolver.model [ReflectionEnumDeclaration.java <25:43 25:47>]
+QUALIFIER: com.github.javaparser.symbolsolver [ReflectionEnumDeclaration.java <25:30 25:41>]
+QUALIFIER: com.github.javaparser [ReflectionEnumDeclaration.java <25:19 25:28>]
+QUALIFIER: com.github [ReflectionEnumDeclaration.java <25:12 25:17>]
+QUALIFIER: com [ReflectionEnumDeclaration.java <25:8 25:10>]
+REFERENCE_IMPORT ReflectionEnumDeclaration.java -> com.github.javaparser.symbolsolver.model.typesystem.ReferenceTypeImpl [ReflectionEnumDeclaration.java <26:60 26:76>]
+QUALIFIER: com.github.javaparser.symbolsolver.model.typesystem [ReflectionEnumDeclaration.java <26:49 26:58>]
+QUALIFIER: com.github.javaparser.symbolsolver.model [ReflectionEnumDeclaration.java <26:43 26:47>]
+QUALIFIER: com.github.javaparser.symbolsolver [ReflectionEnumDeclaration.java <26:30 26:41>]
+QUALIFIER: com.github.javaparser [ReflectionEnumDeclaration.java <26:19 26:28>]
+QUALIFIER: com.github [ReflectionEnumDeclaration.java <26:12 26:17>]
+QUALIFIER: com [ReflectionEnumDeclaration.java <26:8 26:10>]
+REFERENCE_IMPORT ReflectionEnumDeclaration.java -> com.github.javaparser.symbolsolver.model.typesystem.Type [ReflectionEnumDeclaration.java <27:60 27:63>]
+QUALIFIER: com.github.javaparser.symbolsolver.model.typesystem [ReflectionEnumDeclaration.java <27:49 27:58>]
+QUALIFIER: com.github.javaparser.symbolsolver.model [ReflectionEnumDeclaration.java <27:43 27:47>]
+QUALIFIER: com.github.javaparser.symbolsolver [ReflectionEnumDeclaration.java <27:30 27:41>]
+QUALIFIER: com.github.javaparser [ReflectionEnumDeclaration.java <27:19 27:28>]
+QUALIFIER: com.github [ReflectionEnumDeclaration.java <27:12 27:17>]
+QUALIFIER: com [ReflectionEnumDeclaration.java <27:8 27:10>]
+REFERENCE_IMPORT ReflectionEnumDeclaration.java -> java.util [ReflectionEnumDeclaration.java <29:13 29:16>]
 SYMBOL_PACKAGE java.util
+QUALIFIER: java [ReflectionEnumDeclaration.java <29:8 29:11>]
 SYMBOL_CLASS public com.github.javaparser.symbolsolver.reflectionmodel.ReflectionEnumDeclaration [ReflectionEnumDeclaration.java <34:1 <34:14 34:38> 191:1>]
 LOCAL_SYMBOL: ReflectionEnumDeclaration.java<34:99> [ReflectionEnumDeclaration.java <34:99 34:99>]
 LOCAL_SYMBOL: ReflectionEnumDeclaration.java<34:99> [ReflectionEnumDeclaration.java <191:1 191:1>]
@@ -58,7 +120,6 @@ REFERENCE_CALL com.github.javaparser.symbolsolver.reflectionmodel.ReflectionEnum
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.reflectionmodel.ReflectionEnumDeclaration.ReflectionEnumDeclaration<0> [ReflectionEnumDeclaration.java <52:9 52:13>]
 LOCAL_SYMBOL: ReflectionEnumDeclaration.java<52:30> [ReflectionEnumDeclaration.java <52:30 52:30>]
 LOCAL_SYMBOL: ReflectionEnumDeclaration.java<52:30> [ReflectionEnumDeclaration.java <54:5 54:5>]
-SYMBOL_METHOD java.lang.IllegalArgumentException.IllegalArgumentException(java.lang.String)
 REFERENCE_CALL com.github.javaparser.symbolsolver.reflectionmodel.ReflectionEnumDeclaration.ReflectionEnumDeclaration(java.lang.Class<?>, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> java.lang.IllegalArgumentException.IllegalArgumentException(java.lang.String) [ReflectionEnumDeclaration.java <53:17 53:40>]
 REFERENCE_TYPE_USAGE com.github.javaparser.symbolsolver.reflectionmodel.ReflectionEnumDeclaration.ReflectionEnumDeclaration(java.lang.Class<?>, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> java.lang.IllegalArgumentException [ReflectionEnumDeclaration.java <53:17 53:40>]
 SYMBOL_METHOD boolean java.lang.Class<T>.isPrimitive()
@@ -66,7 +127,6 @@ REFERENCE_CALL com.github.javaparser.symbolsolver.reflectionmodel.ReflectionEnum
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.reflectionmodel.ReflectionEnumDeclaration.ReflectionEnumDeclaration<0> [ReflectionEnumDeclaration.java <55:9 55:13>]
 LOCAL_SYMBOL: ReflectionEnumDeclaration.java<55:30> [ReflectionEnumDeclaration.java <55:30 55:30>]
 LOCAL_SYMBOL: ReflectionEnumDeclaration.java<55:30> [ReflectionEnumDeclaration.java <57:5 57:5>]
-SYMBOL_METHOD java.lang.IllegalArgumentException.IllegalArgumentException(java.lang.String)
 REFERENCE_CALL com.github.javaparser.symbolsolver.reflectionmodel.ReflectionEnumDeclaration.ReflectionEnumDeclaration(java.lang.Class<?>, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> java.lang.IllegalArgumentException.IllegalArgumentException(java.lang.String) [ReflectionEnumDeclaration.java <56:17 56:40>]
 REFERENCE_TYPE_USAGE com.github.javaparser.symbolsolver.reflectionmodel.ReflectionEnumDeclaration.ReflectionEnumDeclaration(java.lang.Class<?>, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> java.lang.IllegalArgumentException [ReflectionEnumDeclaration.java <56:17 56:40>]
 SYMBOL_METHOD boolean java.lang.Class<T>.isArray()
@@ -74,7 +134,6 @@ REFERENCE_CALL com.github.javaparser.symbolsolver.reflectionmodel.ReflectionEnum
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.reflectionmodel.ReflectionEnumDeclaration.ReflectionEnumDeclaration<0> [ReflectionEnumDeclaration.java <58:9 58:13>]
 LOCAL_SYMBOL: ReflectionEnumDeclaration.java<58:26> [ReflectionEnumDeclaration.java <58:26 58:26>]
 LOCAL_SYMBOL: ReflectionEnumDeclaration.java<58:26> [ReflectionEnumDeclaration.java <60:5 60:5>]
-SYMBOL_METHOD java.lang.IllegalArgumentException.IllegalArgumentException(java.lang.String)
 REFERENCE_CALL com.github.javaparser.symbolsolver.reflectionmodel.ReflectionEnumDeclaration.ReflectionEnumDeclaration(java.lang.Class<?>, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> java.lang.IllegalArgumentException.IllegalArgumentException(java.lang.String) [ReflectionEnumDeclaration.java <59:17 59:40>]
 REFERENCE_TYPE_USAGE com.github.javaparser.symbolsolver.reflectionmodel.ReflectionEnumDeclaration.ReflectionEnumDeclaration(java.lang.Class<?>, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> java.lang.IllegalArgumentException [ReflectionEnumDeclaration.java <59:17 59:40>]
 SYMBOL_METHOD boolean java.lang.Class<T>.isEnum()
@@ -82,15 +141,17 @@ REFERENCE_CALL com.github.javaparser.symbolsolver.reflectionmodel.ReflectionEnum
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.reflectionmodel.ReflectionEnumDeclaration.ReflectionEnumDeclaration<0> [ReflectionEnumDeclaration.java <61:10 61:14>]
 LOCAL_SYMBOL: ReflectionEnumDeclaration.java<61:26> [ReflectionEnumDeclaration.java <61:26 61:26>]
 LOCAL_SYMBOL: ReflectionEnumDeclaration.java<61:26> [ReflectionEnumDeclaration.java <63:5 63:5>]
-SYMBOL_METHOD java.lang.IllegalArgumentException.IllegalArgumentException(java.lang.String)
 REFERENCE_CALL com.github.javaparser.symbolsolver.reflectionmodel.ReflectionEnumDeclaration.ReflectionEnumDeclaration(java.lang.Class<?>, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> java.lang.IllegalArgumentException.IllegalArgumentException(java.lang.String) [ReflectionEnumDeclaration.java <62:17 62:40>]
 REFERENCE_TYPE_USAGE com.github.javaparser.symbolsolver.reflectionmodel.ReflectionEnumDeclaration.ReflectionEnumDeclaration(java.lang.Class<?>, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> java.lang.IllegalArgumentException [ReflectionEnumDeclaration.java <62:17 62:40>]
+QUALIFIER: com.github.javaparser.symbolsolver.reflectionmodel.ReflectionEnumDeclaration [ReflectionEnumDeclaration.java <64:5 64:8>]
 SYMBOL_FIELD java.lang.Class<?> com.github.javaparser.symbolsolver.reflectionmodel.ReflectionEnumDeclaration.clazz
 REFERENCE_USAGE com.github.javaparser.symbolsolver.reflectionmodel.ReflectionEnumDeclaration.ReflectionEnumDeclaration(java.lang.Class<?>, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> java.lang.Class<?> com.github.javaparser.symbolsolver.reflectionmodel.ReflectionEnumDeclaration.clazz [ReflectionEnumDeclaration.java <64:10 64:14>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.reflectionmodel.ReflectionEnumDeclaration.ReflectionEnumDeclaration<0> [ReflectionEnumDeclaration.java <64:18 64:22>]
+QUALIFIER: com.github.javaparser.symbolsolver.reflectionmodel.ReflectionEnumDeclaration [ReflectionEnumDeclaration.java <65:5 65:8>]
 SYMBOL_FIELD com.github.javaparser.symbolsolver.model.resolution.TypeSolver com.github.javaparser.symbolsolver.reflectionmodel.ReflectionEnumDeclaration.typeSolver
 REFERENCE_USAGE com.github.javaparser.symbolsolver.reflectionmodel.ReflectionEnumDeclaration.ReflectionEnumDeclaration(java.lang.Class<?>, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> com.github.javaparser.symbolsolver.model.resolution.TypeSolver com.github.javaparser.symbolsolver.reflectionmodel.ReflectionEnumDeclaration.typeSolver [ReflectionEnumDeclaration.java <65:10 65:19>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.reflectionmodel.ReflectionEnumDeclaration.ReflectionEnumDeclaration<1> [ReflectionEnumDeclaration.java <65:23 65:32>]
+QUALIFIER: com.github.javaparser.symbolsolver.reflectionmodel.ReflectionEnumDeclaration [ReflectionEnumDeclaration.java <66:5 66:8>]
 SYMBOL_FIELD com.github.javaparser.symbolsolver.reflectionmodel.ReflectionClassAdapter com.github.javaparser.symbolsolver.reflectionmodel.ReflectionEnumDeclaration.reflectionClassAdapter
 REFERENCE_USAGE com.github.javaparser.symbolsolver.reflectionmodel.ReflectionEnumDeclaration.ReflectionEnumDeclaration(java.lang.Class<?>, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> com.github.javaparser.symbolsolver.reflectionmodel.ReflectionClassAdapter com.github.javaparser.symbolsolver.reflectionmodel.ReflectionEnumDeclaration.reflectionClassAdapter [ReflectionEnumDeclaration.java <66:10 66:31>]
 SYMBOL_METHOD com.github.javaparser.symbolsolver.reflectionmodel.ReflectionClassAdapter.ReflectionClassAdapter(java.lang.Class<?>, com.github.javaparser.symbolsolver.model.resolution.TypeSolver, com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration)
@@ -106,9 +167,10 @@ LOCAL_SYMBOL: ReflectionEnumDeclaration.java<74:36> [ReflectionEnumDeclaration.j
 LOCAL_SYMBOL: ReflectionEnumDeclaration.java<74:36> [ReflectionEnumDeclaration.java <76:3 76:3>]
 SYMBOL_METHOD static com.github.javaparser.symbolsolver.model.declarations.AccessLevel com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFactory.modifiersToAccessLevel(int)
 REFERENCE_CALL com.github.javaparser.symbolsolver.model.declarations.AccessLevel com.github.javaparser.symbolsolver.reflectionmodel.ReflectionEnumDeclaration.accessLevel() -> static com.github.javaparser.symbolsolver.model.declarations.AccessLevel com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFactory.modifiersToAccessLevel(int) [ReflectionEnumDeclaration.java <75:30 75:51>]
+QUALIFIER: com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFactory [ReflectionEnumDeclaration.java <75:12 75:28>]
 SYMBOL_METHOD int java.lang.Class<T>.getModifiers()
 REFERENCE_CALL com.github.javaparser.symbolsolver.model.declarations.AccessLevel com.github.javaparser.symbolsolver.reflectionmodel.ReflectionEnumDeclaration.accessLevel() -> int java.lang.Class<T>.getModifiers() [ReflectionEnumDeclaration.java <75:64 75:75>]
-SYMBOL_FIELD java.lang.Class<?> com.github.javaparser.symbolsolver.reflectionmodel.ReflectionEnumDeclaration.clazz
+QUALIFIER: com.github.javaparser.symbolsolver.reflectionmodel.ReflectionEnumDeclaration [ReflectionEnumDeclaration.java <75:53 75:56>]
 REFERENCE_USAGE com.github.javaparser.symbolsolver.model.declarations.AccessLevel com.github.javaparser.symbolsolver.reflectionmodel.ReflectionEnumDeclaration.accessLevel() -> java.lang.Class<?> com.github.javaparser.symbolsolver.reflectionmodel.ReflectionEnumDeclaration.clazz [ReflectionEnumDeclaration.java <75:58 75:62>]
 SYMBOL_METHOD public java.util.Optional<com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration> com.github.javaparser.symbolsolver.reflectionmodel.ReflectionEnumDeclaration.containerType() [ReflectionEnumDeclaration.java <78:3 <79:45 79:57> 81:3>]
 SYMBOL_METHOD java.util.Optional<com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration> com.github.javaparser.symbolsolver.model.declarations.TypeDeclaration.containerType()
@@ -119,7 +181,6 @@ LOCAL_SYMBOL: ReflectionEnumDeclaration.java<79:61> [ReflectionEnumDeclaration.j
 LOCAL_SYMBOL: ReflectionEnumDeclaration.java<79:61> [ReflectionEnumDeclaration.java <81:3 81:3>]
 SYMBOL_METHOD java.util.Optional<com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration> com.github.javaparser.symbolsolver.reflectionmodel.ReflectionClassAdapter.containerType()
 REFERENCE_CALL java.util.Optional<com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration> com.github.javaparser.symbolsolver.reflectionmodel.ReflectionEnumDeclaration.containerType() -> java.util.Optional<com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration> com.github.javaparser.symbolsolver.reflectionmodel.ReflectionClassAdapter.containerType() [ReflectionEnumDeclaration.java <80:37 80:49>]
-SYMBOL_FIELD com.github.javaparser.symbolsolver.reflectionmodel.ReflectionClassAdapter com.github.javaparser.symbolsolver.reflectionmodel.ReflectionEnumDeclaration.reflectionClassAdapter
 REFERENCE_USAGE java.util.Optional<com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration> com.github.javaparser.symbolsolver.reflectionmodel.ReflectionEnumDeclaration.containerType() -> com.github.javaparser.symbolsolver.reflectionmodel.ReflectionClassAdapter com.github.javaparser.symbolsolver.reflectionmodel.ReflectionEnumDeclaration.reflectionClassAdapter [ReflectionEnumDeclaration.java <80:14 80:35>]
 SYMBOL_METHOD public java.lang.String com.github.javaparser.symbolsolver.reflectionmodel.ReflectionEnumDeclaration.getPackageName() [ReflectionEnumDeclaration.java <83:3 <84:17 84:30> 89:3>]
 SYMBOL_METHOD java.lang.String com.github.javaparser.symbolsolver.model.declarations.TypeDeclaration.getPackageName()
@@ -129,15 +190,12 @@ LOCAL_SYMBOL: ReflectionEnumDeclaration.java<84:34> [ReflectionEnumDeclaration.j
 LOCAL_SYMBOL: ReflectionEnumDeclaration.java<84:34> [ReflectionEnumDeclaration.java <89:3 89:3>]
 SYMBOL_METHOD java.lang.Package java.lang.Class<T>.getPackage()
 REFERENCE_CALL java.lang.String com.github.javaparser.symbolsolver.reflectionmodel.ReflectionEnumDeclaration.getPackageName() -> java.lang.Package java.lang.Class<T>.getPackage() [ReflectionEnumDeclaration.java <85:15 85:24>]
-SYMBOL_FIELD java.lang.Class<?> com.github.javaparser.symbolsolver.reflectionmodel.ReflectionEnumDeclaration.clazz
 REFERENCE_USAGE java.lang.String com.github.javaparser.symbolsolver.reflectionmodel.ReflectionEnumDeclaration.getPackageName() -> java.lang.Class<?> com.github.javaparser.symbolsolver.reflectionmodel.ReflectionEnumDeclaration.clazz [ReflectionEnumDeclaration.java <85:9 85:13>]
 LOCAL_SYMBOL: ReflectionEnumDeclaration.java<85:37> [ReflectionEnumDeclaration.java <85:37 85:37>]
 LOCAL_SYMBOL: ReflectionEnumDeclaration.java<85:37> [ReflectionEnumDeclaration.java <87:5 87:5>]
 SYMBOL_METHOD java.lang.String java.lang.Package.getName()
 REFERENCE_CALL java.lang.String com.github.javaparser.symbolsolver.reflectionmodel.ReflectionEnumDeclaration.getPackageName() -> java.lang.String java.lang.Package.getName() [ReflectionEnumDeclaration.java <86:33 86:39>]
-SYMBOL_METHOD java.lang.Package java.lang.Class<T>.getPackage()
 REFERENCE_CALL java.lang.String com.github.javaparser.symbolsolver.reflectionmodel.ReflectionEnumDeclaration.getPackageName() -> java.lang.Package java.lang.Class<T>.getPackage() [ReflectionEnumDeclaration.java <86:20 86:29>]
-SYMBOL_FIELD java.lang.Class<?> com.github.javaparser.symbolsolver.reflectionmodel.ReflectionEnumDeclaration.clazz
 REFERENCE_USAGE java.lang.String com.github.javaparser.symbolsolver.reflectionmodel.ReflectionEnumDeclaration.getPackageName() -> java.lang.Class<?> com.github.javaparser.symbolsolver.reflectionmodel.ReflectionEnumDeclaration.clazz [ReflectionEnumDeclaration.java <86:14 86:18>]
 SYMBOL_METHOD public java.lang.String com.github.javaparser.symbolsolver.reflectionmodel.ReflectionEnumDeclaration.getClassName() [ReflectionEnumDeclaration.java <91:3 <92:17 92:28> 98:3>]
 SYMBOL_METHOD java.lang.String com.github.javaparser.symbolsolver.model.declarations.TypeDeclaration.getClassName()
@@ -149,7 +207,6 @@ REFERENCE_TYPE_USAGE java.lang.String com.github.javaparser.symbolsolver.reflect
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.reflectionmodel.ReflectionEnumDeclaration.getClassName<0> [ReflectionEnumDeclaration.java <93:12 93:24>]
 SYMBOL_METHOD java.lang.String java.lang.Class<T>.getCanonicalName()
 REFERENCE_CALL java.lang.String com.github.javaparser.symbolsolver.reflectionmodel.ReflectionEnumDeclaration.getClassName() -> java.lang.String java.lang.Class<T>.getCanonicalName() [ReflectionEnumDeclaration.java <93:34 93:49>]
-SYMBOL_FIELD java.lang.Class<?> com.github.javaparser.symbolsolver.reflectionmodel.ReflectionEnumDeclaration.clazz
 REFERENCE_USAGE java.lang.String com.github.javaparser.symbolsolver.reflectionmodel.ReflectionEnumDeclaration.getClassName() -> java.lang.Class<?> com.github.javaparser.symbolsolver.reflectionmodel.ReflectionEnumDeclaration.clazz [ReflectionEnumDeclaration.java <93:28 93:32>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.reflectionmodel.ReflectionEnumDeclaration.getClassName<0> [ReflectionEnumDeclaration.java <94:9 94:21>]
 SYMBOL_METHOD java.lang.String com.github.javaparser.symbolsolver.reflectionmodel.ReflectionEnumDeclaration.getPackageName()
@@ -161,9 +218,7 @@ REFERENCE_CALL java.lang.String com.github.javaparser.symbolsolver.reflectionmod
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.reflectionmodel.ReflectionEnumDeclaration.getClassName<0> [ReflectionEnumDeclaration.java <95:14 95:26>]
 SYMBOL_METHOD int java.lang.String.length()
 REFERENCE_CALL java.lang.String com.github.javaparser.symbolsolver.reflectionmodel.ReflectionEnumDeclaration.getClassName() -> int java.lang.String.length() [ReflectionEnumDeclaration.java <95:55 95:60>]
-SYMBOL_METHOD java.lang.String com.github.javaparser.symbolsolver.reflectionmodel.ReflectionEnumDeclaration.getPackageName()
 REFERENCE_CALL java.lang.String com.github.javaparser.symbolsolver.reflectionmodel.ReflectionEnumDeclaration.getClassName() -> java.lang.String com.github.javaparser.symbolsolver.reflectionmodel.ReflectionEnumDeclaration.getPackageName() [ReflectionEnumDeclaration.java <95:38 95:51>]
-SYMBOL_METHOD int java.lang.String.length()
 REFERENCE_CALL java.lang.String com.github.javaparser.symbolsolver.reflectionmodel.ReflectionEnumDeclaration.getClassName() -> int java.lang.String.length() [ReflectionEnumDeclaration.java <95:83 95:88>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.reflectionmodel.ReflectionEnumDeclaration.getClassName<0> [ReflectionEnumDeclaration.java <95:69 95:81>]
 SYMBOL_METHOD public java.lang.String com.github.javaparser.symbolsolver.reflectionmodel.ReflectionEnumDeclaration.getQualifiedName() [ReflectionEnumDeclaration.java <100:3 <101:17 101:32> 103:3>]
@@ -172,9 +227,7 @@ REFERENCE_OVERRIDE java.lang.String com.github.javaparser.symbolsolver.reflectio
 REFERENCE_TYPE_USAGE java.lang.String com.github.javaparser.symbolsolver.reflectionmodel.ReflectionEnumDeclaration.getQualifiedName() -> java.lang.String [ReflectionEnumDeclaration.java <101:10 101:15>]
 LOCAL_SYMBOL: ReflectionEnumDeclaration.java<101:36> [ReflectionEnumDeclaration.java <101:36 101:36>]
 LOCAL_SYMBOL: ReflectionEnumDeclaration.java<101:36> [ReflectionEnumDeclaration.java <103:3 103:3>]
-SYMBOL_METHOD java.lang.String java.lang.Class<T>.getCanonicalName()
 REFERENCE_CALL java.lang.String com.github.javaparser.symbolsolver.reflectionmodel.ReflectionEnumDeclaration.getQualifiedName() -> java.lang.String java.lang.Class<T>.getCanonicalName() [ReflectionEnumDeclaration.java <102:18 102:33>]
-SYMBOL_FIELD java.lang.Class<?> com.github.javaparser.symbolsolver.reflectionmodel.ReflectionEnumDeclaration.clazz
 REFERENCE_USAGE java.lang.String com.github.javaparser.symbolsolver.reflectionmodel.ReflectionEnumDeclaration.getQualifiedName() -> java.lang.Class<?> com.github.javaparser.symbolsolver.reflectionmodel.ReflectionEnumDeclaration.clazz [ReflectionEnumDeclaration.java <102:12 102:16>]
 SYMBOL_METHOD public java.util.List<com.github.javaparser.symbolsolver.model.typesystem.ReferenceType> com.github.javaparser.symbolsolver.reflectionmodel.ReflectionEnumDeclaration.getAncestors() [ReflectionEnumDeclaration.java <105:3 <106:30 106:41> 108:3>]
 SYMBOL_METHOD java.util.List<com.github.javaparser.symbolsolver.model.typesystem.ReferenceType> com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration.getAncestors()
@@ -185,7 +238,6 @@ LOCAL_SYMBOL: ReflectionEnumDeclaration.java<106:45> [ReflectionEnumDeclaration.
 LOCAL_SYMBOL: ReflectionEnumDeclaration.java<106:45> [ReflectionEnumDeclaration.java <108:3 108:3>]
 SYMBOL_METHOD java.util.List<com.github.javaparser.symbolsolver.model.typesystem.ReferenceType> com.github.javaparser.symbolsolver.reflectionmodel.ReflectionClassAdapter.getAncestors()
 REFERENCE_CALL java.util.List<com.github.javaparser.symbolsolver.model.typesystem.ReferenceType> com.github.javaparser.symbolsolver.reflectionmodel.ReflectionEnumDeclaration.getAncestors() -> java.util.List<com.github.javaparser.symbolsolver.model.typesystem.ReferenceType> com.github.javaparser.symbolsolver.reflectionmodel.ReflectionClassAdapter.getAncestors() [ReflectionEnumDeclaration.java <107:35 107:46>]
-SYMBOL_FIELD com.github.javaparser.symbolsolver.reflectionmodel.ReflectionClassAdapter com.github.javaparser.symbolsolver.reflectionmodel.ReflectionEnumDeclaration.reflectionClassAdapter
 REFERENCE_USAGE java.util.List<com.github.javaparser.symbolsolver.model.typesystem.ReferenceType> com.github.javaparser.symbolsolver.reflectionmodel.ReflectionEnumDeclaration.getAncestors() -> com.github.javaparser.symbolsolver.reflectionmodel.ReflectionClassAdapter com.github.javaparser.symbolsolver.reflectionmodel.ReflectionEnumDeclaration.reflectionClassAdapter [ReflectionEnumDeclaration.java <107:12 107:33>]
 SYMBOL_METHOD public com.github.javaparser.symbolsolver.model.declarations.FieldDeclaration com.github.javaparser.symbolsolver.reflectionmodel.ReflectionEnumDeclaration.getField(java.lang.String) [ReflectionEnumDeclaration.java <110:3 <111:27 111:34> 113:3>]
 SYMBOL_METHOD com.github.javaparser.symbolsolver.model.declarations.FieldDeclaration com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration.getField(java.lang.String)
@@ -197,7 +249,6 @@ LOCAL_SYMBOL: ReflectionEnumDeclaration.java<111:49> [ReflectionEnumDeclaration.
 LOCAL_SYMBOL: ReflectionEnumDeclaration.java<111:49> [ReflectionEnumDeclaration.java <113:3 113:3>]
 SYMBOL_METHOD com.github.javaparser.symbolsolver.model.declarations.FieldDeclaration com.github.javaparser.symbolsolver.reflectionmodel.ReflectionClassAdapter.getField(java.lang.String)
 REFERENCE_CALL com.github.javaparser.symbolsolver.model.declarations.FieldDeclaration com.github.javaparser.symbolsolver.reflectionmodel.ReflectionEnumDeclaration.getField(java.lang.String) -> com.github.javaparser.symbolsolver.model.declarations.FieldDeclaration com.github.javaparser.symbolsolver.reflectionmodel.ReflectionClassAdapter.getField(java.lang.String) [ReflectionEnumDeclaration.java <112:35 112:42>]
-SYMBOL_FIELD com.github.javaparser.symbolsolver.reflectionmodel.ReflectionClassAdapter com.github.javaparser.symbolsolver.reflectionmodel.ReflectionEnumDeclaration.reflectionClassAdapter
 REFERENCE_USAGE com.github.javaparser.symbolsolver.model.declarations.FieldDeclaration com.github.javaparser.symbolsolver.reflectionmodel.ReflectionEnumDeclaration.getField(java.lang.String) -> com.github.javaparser.symbolsolver.reflectionmodel.ReflectionClassAdapter com.github.javaparser.symbolsolver.reflectionmodel.ReflectionEnumDeclaration.reflectionClassAdapter [ReflectionEnumDeclaration.java <112:12 112:33>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.reflectionmodel.ReflectionEnumDeclaration.getField<0> [ReflectionEnumDeclaration.java <112:44 112:47>]
 SYMBOL_METHOD public boolean com.github.javaparser.symbolsolver.reflectionmodel.ReflectionEnumDeclaration.hasField(java.lang.String) [ReflectionEnumDeclaration.java <115:3 <116:18 116:25> 118:3>]
@@ -211,7 +262,6 @@ LOCAL_SYMBOL: ReflectionEnumDeclaration.java<116:40> [ReflectionEnumDeclaration.
 LOCAL_SYMBOL: ReflectionEnumDeclaration.java<116:40> [ReflectionEnumDeclaration.java <118:3 118:3>]
 SYMBOL_METHOD boolean com.github.javaparser.symbolsolver.reflectionmodel.ReflectionClassAdapter.hasField(java.lang.String)
 REFERENCE_CALL boolean com.github.javaparser.symbolsolver.reflectionmodel.ReflectionEnumDeclaration.hasField(java.lang.String) -> boolean com.github.javaparser.symbolsolver.reflectionmodel.ReflectionClassAdapter.hasField(java.lang.String) [ReflectionEnumDeclaration.java <117:35 117:42>]
-SYMBOL_FIELD com.github.javaparser.symbolsolver.reflectionmodel.ReflectionClassAdapter com.github.javaparser.symbolsolver.reflectionmodel.ReflectionEnumDeclaration.reflectionClassAdapter
 REFERENCE_USAGE boolean com.github.javaparser.symbolsolver.reflectionmodel.ReflectionEnumDeclaration.hasField(java.lang.String) -> com.github.javaparser.symbolsolver.reflectionmodel.ReflectionClassAdapter com.github.javaparser.symbolsolver.reflectionmodel.ReflectionEnumDeclaration.reflectionClassAdapter [ReflectionEnumDeclaration.java <117:12 117:33>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.reflectionmodel.ReflectionEnumDeclaration.hasField<0> [ReflectionEnumDeclaration.java <117:44 117:47>]
 SYMBOL_METHOD public java.util.List<com.github.javaparser.symbolsolver.model.declarations.FieldDeclaration> com.github.javaparser.symbolsolver.reflectionmodel.ReflectionEnumDeclaration.getAllFields() [ReflectionEnumDeclaration.java <120:3 <121:33 121:44> 123:3>]
@@ -223,7 +273,6 @@ LOCAL_SYMBOL: ReflectionEnumDeclaration.java<121:48> [ReflectionEnumDeclaration.
 LOCAL_SYMBOL: ReflectionEnumDeclaration.java<121:48> [ReflectionEnumDeclaration.java <123:3 123:3>]
 SYMBOL_METHOD java.util.List<com.github.javaparser.symbolsolver.model.declarations.FieldDeclaration> com.github.javaparser.symbolsolver.reflectionmodel.ReflectionClassAdapter.getAllFields()
 REFERENCE_CALL java.util.List<com.github.javaparser.symbolsolver.model.declarations.FieldDeclaration> com.github.javaparser.symbolsolver.reflectionmodel.ReflectionEnumDeclaration.getAllFields() -> java.util.List<com.github.javaparser.symbolsolver.model.declarations.FieldDeclaration> com.github.javaparser.symbolsolver.reflectionmodel.ReflectionClassAdapter.getAllFields() [ReflectionEnumDeclaration.java <122:35 122:46>]
-SYMBOL_FIELD com.github.javaparser.symbolsolver.reflectionmodel.ReflectionClassAdapter com.github.javaparser.symbolsolver.reflectionmodel.ReflectionEnumDeclaration.reflectionClassAdapter
 REFERENCE_USAGE java.util.List<com.github.javaparser.symbolsolver.model.declarations.FieldDeclaration> com.github.javaparser.symbolsolver.reflectionmodel.ReflectionEnumDeclaration.getAllFields() -> com.github.javaparser.symbolsolver.reflectionmodel.ReflectionClassAdapter com.github.javaparser.symbolsolver.reflectionmodel.ReflectionEnumDeclaration.reflectionClassAdapter [ReflectionEnumDeclaration.java <122:12 122:33>]
 SYMBOL_METHOD public java.util.Set<com.github.javaparser.symbolsolver.model.declarations.MethodDeclaration> com.github.javaparser.symbolsolver.reflectionmodel.ReflectionEnumDeclaration.getDeclaredMethods() [ReflectionEnumDeclaration.java <125:3 <126:33 126:50> 128:3>]
 SYMBOL_METHOD java.util.Set<com.github.javaparser.symbolsolver.model.declarations.MethodDeclaration> com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration.getDeclaredMethods()
@@ -234,12 +283,10 @@ LOCAL_SYMBOL: ReflectionEnumDeclaration.java<126:54> [ReflectionEnumDeclaration.
 LOCAL_SYMBOL: ReflectionEnumDeclaration.java<126:54> [ReflectionEnumDeclaration.java <128:3 128:3>]
 SYMBOL_METHOD java.util.Set<com.github.javaparser.symbolsolver.model.declarations.MethodDeclaration> com.github.javaparser.symbolsolver.reflectionmodel.ReflectionClassAdapter.getDeclaredMethods()
 REFERENCE_CALL java.util.Set<com.github.javaparser.symbolsolver.model.declarations.MethodDeclaration> com.github.javaparser.symbolsolver.reflectionmodel.ReflectionEnumDeclaration.getDeclaredMethods() -> java.util.Set<com.github.javaparser.symbolsolver.model.declarations.MethodDeclaration> com.github.javaparser.symbolsolver.reflectionmodel.ReflectionClassAdapter.getDeclaredMethods() [ReflectionEnumDeclaration.java <127:35 127:52>]
-SYMBOL_FIELD com.github.javaparser.symbolsolver.reflectionmodel.ReflectionClassAdapter com.github.javaparser.symbolsolver.reflectionmodel.ReflectionEnumDeclaration.reflectionClassAdapter
 REFERENCE_USAGE java.util.Set<com.github.javaparser.symbolsolver.model.declarations.MethodDeclaration> com.github.javaparser.symbolsolver.reflectionmodel.ReflectionEnumDeclaration.getDeclaredMethods() -> com.github.javaparser.symbolsolver.reflectionmodel.ReflectionClassAdapter com.github.javaparser.symbolsolver.reflectionmodel.ReflectionEnumDeclaration.reflectionClassAdapter [ReflectionEnumDeclaration.java <127:12 127:33>]
 SYMBOL_METHOD public boolean com.github.javaparser.symbolsolver.reflectionmodel.ReflectionEnumDeclaration.isAssignableBy(com.github.javaparser.symbolsolver.model.typesystem.Type) [ReflectionEnumDeclaration.java <130:3 <131:18 131:31> 133:3>]
 SYMBOL_METHOD boolean com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration.isAssignableBy(com.github.javaparser.symbolsolver.model.typesystem.Type)
 REFERENCE_OVERRIDE boolean com.github.javaparser.symbolsolver.reflectionmodel.ReflectionEnumDeclaration.isAssignableBy(com.github.javaparser.symbolsolver.model.typesystem.Type) -> boolean com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration.isAssignableBy(com.github.javaparser.symbolsolver.model.typesystem.Type) [ReflectionEnumDeclaration.java <131:18 131:31>]
-SYMBOL_BUILTIN_TYPE boolean
 REFERENCE_TYPE_USAGE boolean com.github.javaparser.symbolsolver.reflectionmodel.ReflectionEnumDeclaration.isAssignableBy(com.github.javaparser.symbolsolver.model.typesystem.Type) -> boolean [ReflectionEnumDeclaration.java <131:10 131:16>]
 REFERENCE_TYPE_USAGE boolean com.github.javaparser.symbolsolver.reflectionmodel.ReflectionEnumDeclaration.isAssignableBy(com.github.javaparser.symbolsolver.model.typesystem.Type) -> com.github.javaparser.symbolsolver.model.typesystem.Type [ReflectionEnumDeclaration.java <131:33 131:36>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.reflectionmodel.ReflectionEnumDeclaration.isAssignableBy<0> [ReflectionEnumDeclaration.java <131:38 131:41>]
@@ -247,13 +294,11 @@ LOCAL_SYMBOL: ReflectionEnumDeclaration.java<131:44> [ReflectionEnumDeclaration.
 LOCAL_SYMBOL: ReflectionEnumDeclaration.java<131:44> [ReflectionEnumDeclaration.java <133:3 133:3>]
 SYMBOL_METHOD boolean com.github.javaparser.symbolsolver.reflectionmodel.ReflectionClassAdapter.isAssignableBy(com.github.javaparser.symbolsolver.model.typesystem.Type)
 REFERENCE_CALL boolean com.github.javaparser.symbolsolver.reflectionmodel.ReflectionEnumDeclaration.isAssignableBy(com.github.javaparser.symbolsolver.model.typesystem.Type) -> boolean com.github.javaparser.symbolsolver.reflectionmodel.ReflectionClassAdapter.isAssignableBy(com.github.javaparser.symbolsolver.model.typesystem.Type) [ReflectionEnumDeclaration.java <132:35 132:48>]
-SYMBOL_FIELD com.github.javaparser.symbolsolver.reflectionmodel.ReflectionClassAdapter com.github.javaparser.symbolsolver.reflectionmodel.ReflectionEnumDeclaration.reflectionClassAdapter
 REFERENCE_USAGE boolean com.github.javaparser.symbolsolver.reflectionmodel.ReflectionEnumDeclaration.isAssignableBy(com.github.javaparser.symbolsolver.model.typesystem.Type) -> com.github.javaparser.symbolsolver.reflectionmodel.ReflectionClassAdapter com.github.javaparser.symbolsolver.reflectionmodel.ReflectionEnumDeclaration.reflectionClassAdapter [ReflectionEnumDeclaration.java <132:12 132:33>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.reflectionmodel.ReflectionEnumDeclaration.isAssignableBy<0> [ReflectionEnumDeclaration.java <132:50 132:53>]
 SYMBOL_METHOD public boolean com.github.javaparser.symbolsolver.reflectionmodel.ReflectionEnumDeclaration.isAssignableBy(com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration) [ReflectionEnumDeclaration.java <135:3 <136:18 136:31> 138:3>]
 SYMBOL_METHOD boolean com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration.isAssignableBy(com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration)
 REFERENCE_OVERRIDE boolean com.github.javaparser.symbolsolver.reflectionmodel.ReflectionEnumDeclaration.isAssignableBy(com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration) -> boolean com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration.isAssignableBy(com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration) [ReflectionEnumDeclaration.java <136:18 136:31>]
-SYMBOL_BUILTIN_TYPE boolean
 REFERENCE_TYPE_USAGE boolean com.github.javaparser.symbolsolver.reflectionmodel.ReflectionEnumDeclaration.isAssignableBy(com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration) -> boolean [ReflectionEnumDeclaration.java <136:10 136:16>]
 REFERENCE_TYPE_USAGE boolean com.github.javaparser.symbolsolver.reflectionmodel.ReflectionEnumDeclaration.isAssignableBy(com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration) -> com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration [ReflectionEnumDeclaration.java <136:33 136:56>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.reflectionmodel.ReflectionEnumDeclaration.isAssignableBy<0> [ReflectionEnumDeclaration.java <136:58 136:62>]
@@ -265,12 +310,10 @@ SYMBOL_METHOD com.github.javaparser.symbolsolver.model.typesystem.ReferenceTypeI
 REFERENCE_CALL boolean com.github.javaparser.symbolsolver.reflectionmodel.ReflectionEnumDeclaration.isAssignableBy(com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration) -> com.github.javaparser.symbolsolver.model.typesystem.ReferenceTypeImpl.ReferenceTypeImpl(com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) [ReflectionEnumDeclaration.java <137:31 137:47>]
 REFERENCE_TYPE_USAGE boolean com.github.javaparser.symbolsolver.reflectionmodel.ReflectionEnumDeclaration.isAssignableBy(com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration) -> com.github.javaparser.symbolsolver.model.typesystem.ReferenceTypeImpl [ReflectionEnumDeclaration.java <137:31 137:47>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.reflectionmodel.ReflectionEnumDeclaration.isAssignableBy<0> [ReflectionEnumDeclaration.java <137:49 137:53>]
-SYMBOL_FIELD com.github.javaparser.symbolsolver.model.resolution.TypeSolver com.github.javaparser.symbolsolver.reflectionmodel.ReflectionEnumDeclaration.typeSolver
 REFERENCE_USAGE boolean com.github.javaparser.symbolsolver.reflectionmodel.ReflectionEnumDeclaration.isAssignableBy(com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration) -> com.github.javaparser.symbolsolver.model.resolution.TypeSolver com.github.javaparser.symbolsolver.reflectionmodel.ReflectionEnumDeclaration.typeSolver [ReflectionEnumDeclaration.java <137:56 137:65>]
 SYMBOL_METHOD public boolean com.github.javaparser.symbolsolver.reflectionmodel.ReflectionEnumDeclaration.hasDirectlyAnnotation(java.lang.String) [ReflectionEnumDeclaration.java <140:3 <141:18 141:38> 143:3>]
 SYMBOL_METHOD boolean com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration.hasDirectlyAnnotation(java.lang.String)
 REFERENCE_OVERRIDE boolean com.github.javaparser.symbolsolver.reflectionmodel.ReflectionEnumDeclaration.hasDirectlyAnnotation(java.lang.String) -> boolean com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration.hasDirectlyAnnotation(java.lang.String) [ReflectionEnumDeclaration.java <141:18 141:38>]
-SYMBOL_BUILTIN_TYPE boolean
 REFERENCE_TYPE_USAGE boolean com.github.javaparser.symbolsolver.reflectionmodel.ReflectionEnumDeclaration.hasDirectlyAnnotation(java.lang.String) -> boolean [ReflectionEnumDeclaration.java <141:10 141:16>]
 REFERENCE_TYPE_USAGE boolean com.github.javaparser.symbolsolver.reflectionmodel.ReflectionEnumDeclaration.hasDirectlyAnnotation(java.lang.String) -> java.lang.String [ReflectionEnumDeclaration.java <141:40 141:45>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.reflectionmodel.ReflectionEnumDeclaration.hasDirectlyAnnotation<0> [ReflectionEnumDeclaration.java <141:47 141:59>]
@@ -278,7 +321,6 @@ LOCAL_SYMBOL: ReflectionEnumDeclaration.java<141:62> [ReflectionEnumDeclaration.
 LOCAL_SYMBOL: ReflectionEnumDeclaration.java<141:62> [ReflectionEnumDeclaration.java <143:3 143:3>]
 SYMBOL_METHOD boolean com.github.javaparser.symbolsolver.reflectionmodel.ReflectionClassAdapter.hasDirectlyAnnotation(java.lang.String)
 REFERENCE_CALL boolean com.github.javaparser.symbolsolver.reflectionmodel.ReflectionEnumDeclaration.hasDirectlyAnnotation(java.lang.String) -> boolean com.github.javaparser.symbolsolver.reflectionmodel.ReflectionClassAdapter.hasDirectlyAnnotation(java.lang.String) [ReflectionEnumDeclaration.java <142:35 142:55>]
-SYMBOL_FIELD com.github.javaparser.symbolsolver.reflectionmodel.ReflectionClassAdapter com.github.javaparser.symbolsolver.reflectionmodel.ReflectionEnumDeclaration.reflectionClassAdapter
 REFERENCE_USAGE boolean com.github.javaparser.symbolsolver.reflectionmodel.ReflectionEnumDeclaration.hasDirectlyAnnotation(java.lang.String) -> com.github.javaparser.symbolsolver.reflectionmodel.ReflectionClassAdapter com.github.javaparser.symbolsolver.reflectionmodel.ReflectionEnumDeclaration.reflectionClassAdapter [ReflectionEnumDeclaration.java <142:12 142:33>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.reflectionmodel.ReflectionEnumDeclaration.hasDirectlyAnnotation<0> [ReflectionEnumDeclaration.java <142:57 142:69>]
 SYMBOL_METHOD public java.lang.String com.github.javaparser.symbolsolver.reflectionmodel.ReflectionEnumDeclaration.getName() [ReflectionEnumDeclaration.java <145:3 <146:17 146:23> 148:3>]
@@ -289,7 +331,6 @@ LOCAL_SYMBOL: ReflectionEnumDeclaration.java<146:27> [ReflectionEnumDeclaration.
 LOCAL_SYMBOL: ReflectionEnumDeclaration.java<146:27> [ReflectionEnumDeclaration.java <148:3 148:3>]
 SYMBOL_METHOD java.lang.String java.lang.Class<T>.getSimpleName()
 REFERENCE_CALL java.lang.String com.github.javaparser.symbolsolver.reflectionmodel.ReflectionEnumDeclaration.getName() -> java.lang.String java.lang.Class<T>.getSimpleName() [ReflectionEnumDeclaration.java <147:18 147:30>]
-SYMBOL_FIELD java.lang.Class<?> com.github.javaparser.symbolsolver.reflectionmodel.ReflectionEnumDeclaration.clazz
 REFERENCE_USAGE java.lang.String com.github.javaparser.symbolsolver.reflectionmodel.ReflectionEnumDeclaration.getName() -> java.lang.Class<?> com.github.javaparser.symbolsolver.reflectionmodel.ReflectionEnumDeclaration.clazz [ReflectionEnumDeclaration.java <147:12 147:16>]
 SYMBOL_METHOD public java.util.List<com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration> com.github.javaparser.symbolsolver.reflectionmodel.ReflectionEnumDeclaration.getTypeParameters() [ReflectionEnumDeclaration.java <150:3 <151:41 151:57> 153:3>]
 SYMBOL_METHOD java.util.List<com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration> com.github.javaparser.symbolsolver.model.declarations.TypeParametrizable.getTypeParameters()
@@ -300,7 +341,6 @@ LOCAL_SYMBOL: ReflectionEnumDeclaration.java<151:61> [ReflectionEnumDeclaration.
 LOCAL_SYMBOL: ReflectionEnumDeclaration.java<151:61> [ReflectionEnumDeclaration.java <153:3 153:3>]
 SYMBOL_METHOD java.util.List<com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration> com.github.javaparser.symbolsolver.reflectionmodel.ReflectionClassAdapter.getTypeParameters()
 REFERENCE_CALL java.util.List<com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration> com.github.javaparser.symbolsolver.reflectionmodel.ReflectionEnumDeclaration.getTypeParameters() -> java.util.List<com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration> com.github.javaparser.symbolsolver.reflectionmodel.ReflectionClassAdapter.getTypeParameters() [ReflectionEnumDeclaration.java <152:35 152:51>]
-SYMBOL_FIELD com.github.javaparser.symbolsolver.reflectionmodel.ReflectionClassAdapter com.github.javaparser.symbolsolver.reflectionmodel.ReflectionEnumDeclaration.reflectionClassAdapter
 REFERENCE_USAGE java.util.List<com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration> com.github.javaparser.symbolsolver.reflectionmodel.ReflectionEnumDeclaration.getTypeParameters() -> com.github.javaparser.symbolsolver.reflectionmodel.ReflectionClassAdapter com.github.javaparser.symbolsolver.reflectionmodel.ReflectionEnumDeclaration.reflectionClassAdapter [ReflectionEnumDeclaration.java <152:12 152:33>]
 SYMBOL_METHOD public com.github.javaparser.symbolsolver.model.resolution.SymbolReference<com.github.javaparser.symbolsolver.model.declarations.MethodDeclaration> com.github.javaparser.symbolsolver.reflectionmodel.ReflectionEnumDeclaration.solveMethod(java.lang.String, java.util.List<com.github.javaparser.symbolsolver.model.typesystem.Type>, boolean) [ReflectionEnumDeclaration.java <155:3 <155:45 155:55> 158:3>]
 REFERENCE_TYPE_USAGE com.github.javaparser.symbolsolver.model.resolution.SymbolReference<com.github.javaparser.symbolsolver.model.declarations.MethodDeclaration> com.github.javaparser.symbolsolver.reflectionmodel.ReflectionEnumDeclaration.solveMethod(java.lang.String, java.util.List<com.github.javaparser.symbolsolver.model.typesystem.Type>, boolean) -> com.github.javaparser.symbolsolver.model.resolution.SymbolReference<S> [ReflectionEnumDeclaration.java <155:10 155:24>]
@@ -310,19 +350,17 @@ LOCAL_SYMBOL: com.github.javaparser.symbolsolver.reflectionmodel.ReflectionEnumD
 REFERENCE_TYPE_USAGE com.github.javaparser.symbolsolver.model.resolution.SymbolReference<com.github.javaparser.symbolsolver.model.declarations.MethodDeclaration> com.github.javaparser.symbolsolver.reflectionmodel.ReflectionEnumDeclaration.solveMethod(java.lang.String, java.util.List<com.github.javaparser.symbolsolver.model.typesystem.Type>, boolean) -> java.util.List<E> [ReflectionEnumDeclaration.java <155:70 155:73>]
 REFERENCE_TYPE_ARGUMENT com.github.javaparser.symbolsolver.model.resolution.SymbolReference<com.github.javaparser.symbolsolver.model.declarations.MethodDeclaration> com.github.javaparser.symbolsolver.reflectionmodel.ReflectionEnumDeclaration.solveMethod(java.lang.String, java.util.List<com.github.javaparser.symbolsolver.model.typesystem.Type>, boolean) -> com.github.javaparser.symbolsolver.model.typesystem.Type [ReflectionEnumDeclaration.java <155:75 155:78>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.reflectionmodel.ReflectionEnumDeclaration.solveMethod<1> [ReflectionEnumDeclaration.java <155:81 155:94>]
-SYMBOL_BUILTIN_TYPE boolean
 REFERENCE_TYPE_USAGE com.github.javaparser.symbolsolver.model.resolution.SymbolReference<com.github.javaparser.symbolsolver.model.declarations.MethodDeclaration> com.github.javaparser.symbolsolver.reflectionmodel.ReflectionEnumDeclaration.solveMethod(java.lang.String, java.util.List<com.github.javaparser.symbolsolver.model.typesystem.Type>, boolean) -> boolean [ReflectionEnumDeclaration.java <155:97 155:103>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.reflectionmodel.ReflectionEnumDeclaration.solveMethod<2> [ReflectionEnumDeclaration.java <155:105 155:114>]
 LOCAL_SYMBOL: ReflectionEnumDeclaration.java<155:117> [ReflectionEnumDeclaration.java <155:117 155:117>]
 LOCAL_SYMBOL: ReflectionEnumDeclaration.java<155:117> [ReflectionEnumDeclaration.java <158:3 158:3>]
 SYMBOL_METHOD static com.github.javaparser.symbolsolver.model.resolution.SymbolReference<com.github.javaparser.symbolsolver.model.declarations.MethodDeclaration> com.github.javaparser.symbolsolver.reflectionmodel.ReflectionMethodResolutionLogic.solveMethod(java.lang.String, java.util.List<com.github.javaparser.symbolsolver.model.typesystem.Type>, boolean, com.github.javaparser.symbolsolver.model.resolution.TypeSolver, com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration, java.lang.Class)
 REFERENCE_CALL com.github.javaparser.symbolsolver.model.resolution.SymbolReference<com.github.javaparser.symbolsolver.model.declarations.MethodDeclaration> com.github.javaparser.symbolsolver.reflectionmodel.ReflectionEnumDeclaration.solveMethod(java.lang.String, java.util.List<com.github.javaparser.symbolsolver.model.typesystem.Type>, boolean) -> static com.github.javaparser.symbolsolver.model.resolution.SymbolReference<com.github.javaparser.symbolsolver.model.declarations.MethodDeclaration> com.github.javaparser.symbolsolver.reflectionmodel.ReflectionMethodResolutionLogic.solveMethod(java.lang.String, java.util.List<com.github.javaparser.symbolsolver.model.typesystem.Type>, boolean, com.github.javaparser.symbolsolver.model.resolution.TypeSolver, com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration, java.lang.Class) [ReflectionEnumDeclaration.java <156:44 156:54>]
+QUALIFIER: com.github.javaparser.symbolsolver.reflectionmodel.ReflectionMethodResolutionLogic [ReflectionEnumDeclaration.java <156:12 156:42>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.reflectionmodel.ReflectionEnumDeclaration.solveMethod<0> [ReflectionEnumDeclaration.java <156:56 156:59>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.reflectionmodel.ReflectionEnumDeclaration.solveMethod<1> [ReflectionEnumDeclaration.java <156:62 156:75>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.reflectionmodel.ReflectionEnumDeclaration.solveMethod<2> [ReflectionEnumDeclaration.java <156:78 156:87>]
-SYMBOL_FIELD com.github.javaparser.symbolsolver.model.resolution.TypeSolver com.github.javaparser.symbolsolver.reflectionmodel.ReflectionEnumDeclaration.typeSolver
 REFERENCE_USAGE com.github.javaparser.symbolsolver.model.resolution.SymbolReference<com.github.javaparser.symbolsolver.model.declarations.MethodDeclaration> com.github.javaparser.symbolsolver.reflectionmodel.ReflectionEnumDeclaration.solveMethod(java.lang.String, java.util.List<com.github.javaparser.symbolsolver.model.typesystem.Type>, boolean) -> com.github.javaparser.symbolsolver.model.resolution.TypeSolver com.github.javaparser.symbolsolver.reflectionmodel.ReflectionEnumDeclaration.typeSolver [ReflectionEnumDeclaration.java <157:13 157:22>]
-SYMBOL_FIELD java.lang.Class<?> com.github.javaparser.symbolsolver.reflectionmodel.ReflectionEnumDeclaration.clazz
 REFERENCE_USAGE com.github.javaparser.symbolsolver.model.resolution.SymbolReference<com.github.javaparser.symbolsolver.model.declarations.MethodDeclaration> com.github.javaparser.symbolsolver.reflectionmodel.ReflectionEnumDeclaration.solveMethod(java.lang.String, java.util.List<com.github.javaparser.symbolsolver.model.typesystem.Type>, boolean) -> java.lang.Class<?> com.github.javaparser.symbolsolver.reflectionmodel.ReflectionEnumDeclaration.clazz [ReflectionEnumDeclaration.java <157:30 157:34>]
 SYMBOL_METHOD public java.util.Optional<com.github.javaparser.symbolsolver.model.methods.MethodUsage> com.github.javaparser.symbolsolver.reflectionmodel.ReflectionEnumDeclaration.solveMethodAsUsage(java.lang.String, java.util.List<com.github.javaparser.symbolsolver.model.typesystem.Type>, com.github.javaparser.symbolsolver.model.resolution.TypeSolver, com.github.javaparser.symbolsolver.core.resolution.Context, java.util.List<com.github.javaparser.symbolsolver.model.typesystem.Type>) [ReflectionEnumDeclaration.java <160:3 <160:32 160:49> 189:1>]
 REFERENCE_TYPE_USAGE java.util.Optional<com.github.javaparser.symbolsolver.model.methods.MethodUsage> com.github.javaparser.symbolsolver.reflectionmodel.ReflectionEnumDeclaration.solveMethodAsUsage(java.lang.String, java.util.List<com.github.javaparser.symbolsolver.model.typesystem.Type>, com.github.javaparser.symbolsolver.model.resolution.TypeSolver, com.github.javaparser.symbolsolver.core.resolution.Context, java.util.List<com.github.javaparser.symbolsolver.model.typesystem.Type>) -> java.util.Optional<T> [ReflectionEnumDeclaration.java <160:10 160:17>]
@@ -346,12 +384,12 @@ REFERENCE_TYPE_ARGUMENT java.util.Optional<com.github.javaparser.symbolsolver.mo
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.reflectionmodel.ReflectionEnumDeclaration.solveMethodAsUsage<5> [ReflectionEnumDeclaration.java <161:27 161:29>]
 SYMBOL_METHOD static java.util.Optional<com.github.javaparser.symbolsolver.model.methods.MethodUsage> com.github.javaparser.symbolsolver.reflectionmodel.ReflectionMethodResolutionLogic.solveMethodAsUsage(java.lang.String, java.util.List<com.github.javaparser.symbolsolver.model.typesystem.Type>, com.github.javaparser.symbolsolver.model.resolution.TypeSolver, com.github.javaparser.symbolsolver.core.resolution.Context, java.util.List<com.github.javaparser.symbolsolver.model.typesystem.Type>, com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration, java.lang.Class)
 REFERENCE_CALL java.util.Optional<com.github.javaparser.symbolsolver.model.methods.MethodUsage> com.github.javaparser.symbolsolver.reflectionmodel.ReflectionEnumDeclaration.solveMethodAsUsage(java.lang.String, java.util.List<com.github.javaparser.symbolsolver.model.typesystem.Type>, com.github.javaparser.symbolsolver.model.resolution.TypeSolver, com.github.javaparser.symbolsolver.core.resolution.Context, java.util.List<com.github.javaparser.symbolsolver.model.typesystem.Type>) -> static java.util.Optional<com.github.javaparser.symbolsolver.model.methods.MethodUsage> com.github.javaparser.symbolsolver.reflectionmodel.ReflectionMethodResolutionLogic.solveMethodAsUsage(java.lang.String, java.util.List<com.github.javaparser.symbolsolver.model.typesystem.Type>, com.github.javaparser.symbolsolver.model.resolution.TypeSolver, com.github.javaparser.symbolsolver.core.resolution.Context, java.util.List<com.github.javaparser.symbolsolver.model.typesystem.Type>, com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration, java.lang.Class) [ReflectionEnumDeclaration.java <161:65 161:82>]
+QUALIFIER: com.github.javaparser.symbolsolver.reflectionmodel.ReflectionMethodResolutionLogic [ReflectionEnumDeclaration.java <161:33 161:63>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.reflectionmodel.ReflectionEnumDeclaration.solveMethodAsUsage<0> [ReflectionEnumDeclaration.java <161:84 161:87>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.reflectionmodel.ReflectionEnumDeclaration.solveMethodAsUsage<1> [ReflectionEnumDeclaration.java <161:90 161:103>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.reflectionmodel.ReflectionEnumDeclaration.solveMethodAsUsage<2> [ReflectionEnumDeclaration.java <161:106 161:115>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.reflectionmodel.ReflectionEnumDeclaration.solveMethodAsUsage<3> [ReflectionEnumDeclaration.java <161:118 161:134>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.reflectionmodel.ReflectionEnumDeclaration.solveMethodAsUsage<4> [ReflectionEnumDeclaration.java <162:13 162:31>]
-SYMBOL_FIELD java.lang.Class<?> com.github.javaparser.symbolsolver.reflectionmodel.ReflectionEnumDeclaration.clazz
 REFERENCE_USAGE java.util.Optional<com.github.javaparser.symbolsolver.model.methods.MethodUsage> com.github.javaparser.symbolsolver.reflectionmodel.ReflectionEnumDeclaration.solveMethodAsUsage(java.lang.String, java.util.List<com.github.javaparser.symbolsolver.model.typesystem.Type>, com.github.javaparser.symbolsolver.model.resolution.TypeSolver, com.github.javaparser.symbolsolver.core.resolution.Context, java.util.List<com.github.javaparser.symbolsolver.model.typesystem.Type>) -> java.lang.Class<?> com.github.javaparser.symbolsolver.reflectionmodel.ReflectionEnumDeclaration.clazz [ReflectionEnumDeclaration.java <162:40 162:44>]
 SYMBOL_METHOD boolean java.util.Optional<T>.isPresent()
 REFERENCE_CALL java.util.Optional<com.github.javaparser.symbolsolver.model.methods.MethodUsage> com.github.javaparser.symbolsolver.reflectionmodel.ReflectionEnumDeclaration.solveMethodAsUsage(java.lang.String, java.util.List<com.github.javaparser.symbolsolver.model.typesystem.Type>, com.github.javaparser.symbolsolver.model.resolution.TypeSolver, com.github.javaparser.symbolsolver.core.resolution.Context, java.util.List<com.github.javaparser.symbolsolver.model.typesystem.Type>) -> boolean java.util.Optional<T>.isPresent() [ReflectionEnumDeclaration.java <163:13 163:21>]
@@ -363,6 +401,7 @@ LOCAL_SYMBOL: com.github.javaparser.symbolsolver.reflectionmodel.ReflectionEnumD
 SYMBOL_METHOD com.github.javaparser.symbolsolver.logic.InferenceContext.InferenceContext(com.github.javaparser.symbolsolver.logic.ObjectProvider)
 REFERENCE_CALL java.util.Optional<com.github.javaparser.symbolsolver.model.methods.MethodUsage> com.github.javaparser.symbolsolver.reflectionmodel.ReflectionEnumDeclaration.solveMethodAsUsage(java.lang.String, java.util.List<com.github.javaparser.symbolsolver.model.typesystem.Type>, com.github.javaparser.symbolsolver.model.resolution.TypeSolver, com.github.javaparser.symbolsolver.core.resolution.Context, java.util.List<com.github.javaparser.symbolsolver.model.typesystem.Type>) -> com.github.javaparser.symbolsolver.logic.InferenceContext.InferenceContext(com.github.javaparser.symbolsolver.logic.ObjectProvider) [ReflectionEnumDeclaration.java <165:49 165:64>]
 REFERENCE_TYPE_USAGE java.util.Optional<com.github.javaparser.symbolsolver.model.methods.MethodUsage> com.github.javaparser.symbolsolver.reflectionmodel.ReflectionEnumDeclaration.solveMethodAsUsage(java.lang.String, java.util.List<com.github.javaparser.symbolsolver.model.typesystem.Type>, com.github.javaparser.symbolsolver.model.resolution.TypeSolver, com.github.javaparser.symbolsolver.core.resolution.Context, java.util.List<com.github.javaparser.symbolsolver.model.typesystem.Type>) -> com.github.javaparser.symbolsolver.logic.InferenceContext [ReflectionEnumDeclaration.java <165:49 165:64>]
+QUALIFIER: com.github.javaparser.symbolsolver.reflectionmodel.MyObjectProvider [ReflectionEnumDeclaration.java <165:66 165:81>]
 SYMBOL_FIELD static com.github.javaparser.symbolsolver.reflectionmodel.MyObjectProvider com.github.javaparser.symbolsolver.reflectionmodel.MyObjectProvider.INSTANCE
 REFERENCE_USAGE java.util.Optional<com.github.javaparser.symbolsolver.model.methods.MethodUsage> com.github.javaparser.symbolsolver.reflectionmodel.ReflectionEnumDeclaration.solveMethodAsUsage(java.lang.String, java.util.List<com.github.javaparser.symbolsolver.model.typesystem.Type>, com.github.javaparser.symbolsolver.model.resolution.TypeSolver, com.github.javaparser.symbolsolver.core.resolution.Context, java.util.List<com.github.javaparser.symbolsolver.model.typesystem.Type>) -> static com.github.javaparser.symbolsolver.reflectionmodel.MyObjectProvider com.github.javaparser.symbolsolver.reflectionmodel.MyObjectProvider.INSTANCE [ReflectionEnumDeclaration.java <165:83 165:90>]
 REFERENCE_TYPE_USAGE java.util.Optional<com.github.javaparser.symbolsolver.model.methods.MethodUsage> com.github.javaparser.symbolsolver.reflectionmodel.ReflectionEnumDeclaration.solveMethodAsUsage(java.lang.String, java.util.List<com.github.javaparser.symbolsolver.model.typesystem.Type>, com.github.javaparser.symbolsolver.model.resolution.TypeSolver, com.github.javaparser.symbolsolver.core.resolution.Context, java.util.List<com.github.javaparser.symbolsolver.model.typesystem.Type>) -> com.github.javaparser.symbolsolver.model.methods.MethodUsage [ReflectionEnumDeclaration.java <166:9 166:19>]
@@ -409,7 +448,6 @@ LOCAL_SYMBOL: com.github.javaparser.symbolsolver.reflectionmodel.ReflectionEnumD
 SYMBOL_METHOD com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.model.methods.MethodUsage.returnType()
 REFERENCE_CALL java.util.Optional<com.github.javaparser.symbolsolver.model.methods.MethodUsage> com.github.javaparser.symbolsolver.reflectionmodel.ReflectionEnumDeclaration.solveMethodAsUsage(java.lang.String, java.util.List<com.github.javaparser.symbolsolver.model.typesystem.Type>, com.github.javaparser.symbolsolver.model.resolution.TypeSolver, com.github.javaparser.symbolsolver.core.resolution.Context, java.util.List<com.github.javaparser.symbolsolver.model.typesystem.Type>) -> com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.model.methods.MethodUsage.returnType() [ReflectionEnumDeclaration.java <177:70 177:79>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.reflectionmodel.ReflectionEnumDeclaration.solveMethodAsUsage<7> [ReflectionEnumDeclaration.java <177:58 177:68>]
-SYMBOL_BUILTIN_TYPE int
 REFERENCE_TYPE_USAGE java.util.Optional<com.github.javaparser.symbolsolver.model.methods.MethodUsage> com.github.javaparser.symbolsolver.reflectionmodel.ReflectionEnumDeclaration.solveMethodAsUsage(java.lang.String, java.util.List<com.github.javaparser.symbolsolver.model.typesystem.Type>, com.github.javaparser.symbolsolver.model.resolution.TypeSolver, com.github.javaparser.symbolsolver.core.resolution.Context, java.util.List<com.github.javaparser.symbolsolver.model.typesystem.Type>) -> int [ReflectionEnumDeclaration.java <178:18 178:20>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.reflectionmodel.ReflectionEnumDeclaration.solveMethodAsUsage<14> [ReflectionEnumDeclaration.java <178:22 178:22>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.reflectionmodel.ReflectionEnumDeclaration.solveMethodAsUsage<14> [ReflectionEnumDeclaration.java <178:26 178:26>]
@@ -435,12 +473,12 @@ LOCAL_SYMBOL: com.github.javaparser.symbolsolver.reflectionmodel.ReflectionEnumD
 SYMBOL_METHOD com.github.javaparser.symbolsolver.model.methods.MethodUsage com.github.javaparser.symbolsolver.model.methods.MethodUsage.replaceReturnType(com.github.javaparser.symbolsolver.model.typesystem.Type)
 REFERENCE_CALL java.util.Optional<com.github.javaparser.symbolsolver.model.methods.MethodUsage> com.github.javaparser.symbolsolver.reflectionmodel.ReflectionEnumDeclaration.solveMethodAsUsage(java.lang.String, java.util.List<com.github.javaparser.symbolsolver.model.typesystem.Type>, com.github.javaparser.symbolsolver.model.resolution.TypeSolver, com.github.javaparser.symbolsolver.core.resolution.Context, java.util.List<com.github.javaparser.symbolsolver.model.typesystem.Type>) -> com.github.javaparser.symbolsolver.model.methods.MethodUsage com.github.javaparser.symbolsolver.model.methods.MethodUsage.replaceReturnType(com.github.javaparser.symbolsolver.model.typesystem.Type) [ReflectionEnumDeclaration.java <181:39 181:55>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.reflectionmodel.ReflectionEnumDeclaration.solveMethodAsUsage<7> [ReflectionEnumDeclaration.java <181:27 181:37>]
-SYMBOL_METHOD com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.logic.InferenceContext.resolve(com.github.javaparser.symbolsolver.model.typesystem.Type)
 REFERENCE_CALL java.util.Optional<com.github.javaparser.symbolsolver.model.methods.MethodUsage> com.github.javaparser.symbolsolver.reflectionmodel.ReflectionEnumDeclaration.solveMethodAsUsage(java.lang.String, java.util.List<com.github.javaparser.symbolsolver.model.typesystem.Type>, com.github.javaparser.symbolsolver.model.resolution.TypeSolver, com.github.javaparser.symbolsolver.core.resolution.Context, java.util.List<com.github.javaparser.symbolsolver.model.typesystem.Type>) -> com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.logic.InferenceContext.resolve(com.github.javaparser.symbolsolver.model.typesystem.Type) [ReflectionEnumDeclaration.java <181:74 181:80>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.reflectionmodel.ReflectionEnumDeclaration.solveMethodAsUsage<6> [ReflectionEnumDeclaration.java <181:57 181:72>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.reflectionmodel.ReflectionEnumDeclaration.solveMethodAsUsage<13> [ReflectionEnumDeclaration.java <181:82 181:91>]
 SYMBOL_METHOD static java.util.Optional<T> java.util.Optional<T>.of<T>(T)
 REFERENCE_CALL java.util.Optional<com.github.javaparser.symbolsolver.model.methods.MethodUsage> com.github.javaparser.symbolsolver.reflectionmodel.ReflectionEnumDeclaration.solveMethodAsUsage(java.lang.String, java.util.List<com.github.javaparser.symbolsolver.model.typesystem.Type>, com.github.javaparser.symbolsolver.model.resolution.TypeSolver, com.github.javaparser.symbolsolver.core.resolution.Context, java.util.List<com.github.javaparser.symbolsolver.model.typesystem.Type>) -> static java.util.Optional<T> java.util.Optional<T>.of<T>(T) [ReflectionEnumDeclaration.java <182:29 182:30>]
+QUALIFIER: java.util.Optional [ReflectionEnumDeclaration.java <182:20 182:27>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.reflectionmodel.ReflectionEnumDeclaration.solveMethodAsUsage<7> [ReflectionEnumDeclaration.java <182:32 182:42>]
 REFERENCE_TYPE_USAGE java.util.Optional<com.github.javaparser.symbolsolver.model.methods.MethodUsage> com.github.javaparser.symbolsolver.reflectionmodel.ReflectionEnumDeclaration.solveMethodAsUsage(java.lang.String, java.util.List<com.github.javaparser.symbolsolver.model.typesystem.Type>, com.github.javaparser.symbolsolver.model.resolution.TypeSolver, com.github.javaparser.symbolsolver.core.resolution.Context, java.util.List<com.github.javaparser.symbolsolver.model.typesystem.Type>) -> com.github.javaparser.symbolsolver.logic.ConfilictingGenericTypesException [ReflectionEnumDeclaration.java <183:18 183:50>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.reflectionmodel.ReflectionEnumDeclaration.solveMethodAsUsage<15> [ReflectionEnumDeclaration.java <183:52 183:52>]
@@ -448,6 +486,7 @@ LOCAL_SYMBOL: ReflectionEnumDeclaration.java<183:55> [ReflectionEnumDeclaration.
 LOCAL_SYMBOL: ReflectionEnumDeclaration.java<183:55> [ReflectionEnumDeclaration.java <185:9 185:9>]
 SYMBOL_METHOD static java.util.Optional<T> java.util.Optional<T>.empty<T>()
 REFERENCE_CALL java.util.Optional<com.github.javaparser.symbolsolver.model.methods.MethodUsage> com.github.javaparser.symbolsolver.reflectionmodel.ReflectionEnumDeclaration.solveMethodAsUsage(java.lang.String, java.util.List<com.github.javaparser.symbolsolver.model.typesystem.Type>, com.github.javaparser.symbolsolver.model.resolution.TypeSolver, com.github.javaparser.symbolsolver.core.resolution.Context, java.util.List<com.github.javaparser.symbolsolver.model.typesystem.Type>) -> static java.util.Optional<T> java.util.Optional<T>.empty<T>() [ReflectionEnumDeclaration.java <184:29 184:33>]
+QUALIFIER: java.util.Optional [ReflectionEnumDeclaration.java <184:20 184:27>]
 LOCAL_SYMBOL: ReflectionEnumDeclaration.java<186:12> [ReflectionEnumDeclaration.java <186:12 186:12>]
 LOCAL_SYMBOL: ReflectionEnumDeclaration.java<186:12> [ReflectionEnumDeclaration.java <188:5 188:5>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.reflectionmodel.ReflectionEnumDeclaration.solveMethodAsUsage<5> [ReflectionEnumDeclaration.java <187:16 187:18>]

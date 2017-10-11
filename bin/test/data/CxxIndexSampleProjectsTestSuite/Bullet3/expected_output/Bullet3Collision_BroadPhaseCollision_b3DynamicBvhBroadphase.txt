@@ -1,8 +1,6 @@
 FILE: b3DynamicBvhBroadphase.cpp
-FILE: b3DynamicBvhBroadphase.cpp
 COMMENT: comment [b3DynamicBvhBroadphase.cpp <1:1 14:3>]
 COMMENT: comment [b3DynamicBvhBroadphase.cpp <16:1 16:62>]
-FILE: b3DynamicBvhBroadphase.cpp
 COMMENT: comment [b3DynamicBvhBroadphase.cpp <21:1 21:3>]
 COMMENT: comment [b3DynamicBvhBroadphase.cpp <22:1 22:13>]
 COMMENT: comment [b3DynamicBvhBroadphase.cpp <23:1 23:3>]
@@ -101,23 +99,11 @@ SYMBOL_TEMPLATE_PARAMETER b3ListAppend<typename T>::T [b3DynamicBvhBroadphase.cp
 SYMBOL_FUNCTION static void b3ListAppend<b3DbvtProxy>(b3DbvtProxy *, b3DbvtProxy * &) [b3DynamicBvhBroadphase.cpp <55:1 <55:20 55:31> 61:1>]
 SYMBOL_FUNCTION static void b3ListAppend<typename T>(T *, T * &)
 REFERENCE_TEMPLATE_SPECIALIZATION static void b3ListAppend<b3DbvtProxy>(b3DbvtProxy *, b3DbvtProxy * &) -> static void b3ListAppend<typename T>(T *, T * &) [b3DynamicBvhBroadphase.cpp <55:20 55:31>]
-SYMBOL_BUILTIN_TYPE void
 REFERENCE_TYPE_USAGE static void b3ListAppend<b3DbvtProxy>(b3DbvtProxy *, b3DbvtProxy * &) -> void [b3DynamicBvhBroadphase.cpp <55:15 55:18>]
-LOCAL_SYMBOL: b3DynamicBvhBroadphase.cpp<55:36> [b3DynamicBvhBroadphase.cpp <55:36 55:39>]
-LOCAL_SYMBOL: b3DynamicBvhBroadphase.cpp<55:45> [b3DynamicBvhBroadphase.cpp <55:45 55:48>]
 REFERENCE_USAGE static void b3ListAppend<b3DbvtProxy>(b3DbvtProxy *, b3DbvtProxy * &) -> b3DbvtProxy * [] b3DbvtProxy::links [b3DynamicBvhBroadphase.cpp <57:8 57:12>]
-LOCAL_SYMBOL: b3DynamicBvhBroadphase.cpp<55:36> [b3DynamicBvhBroadphase.cpp <57:2 57:5>]
 REFERENCE_USAGE static void b3ListAppend<b3DbvtProxy>(b3DbvtProxy *, b3DbvtProxy * &) -> b3DbvtProxy * [] b3DbvtProxy::links [b3DynamicBvhBroadphase.cpp <58:8 58:12>]
-LOCAL_SYMBOL: b3DynamicBvhBroadphase.cpp<55:36> [b3DynamicBvhBroadphase.cpp <58:2 58:5>]
-LOCAL_SYMBOL: b3DynamicBvhBroadphase.cpp<55:45> [b3DynamicBvhBroadphase.cpp <58:17 58:20>]
-LOCAL_SYMBOL: b3DynamicBvhBroadphase.cpp<55:45> [b3DynamicBvhBroadphase.cpp <59:5 59:8>]
 REFERENCE_USAGE static void b3ListAppend<b3DbvtProxy>(b3DbvtProxy *, b3DbvtProxy * &) -> b3DbvtProxy * [] b3DbvtProxy::links [b3DynamicBvhBroadphase.cpp <59:17 59:21>]
-LOCAL_SYMBOL: b3DynamicBvhBroadphase.cpp<55:45> [b3DynamicBvhBroadphase.cpp <59:11 59:14>]
-LOCAL_SYMBOL: b3DynamicBvhBroadphase.cpp<55:36> [b3DynamicBvhBroadphase.cpp <59:26 59:29>]
-LOCAL_SYMBOL: b3DynamicBvhBroadphase.cpp<55:45> [b3DynamicBvhBroadphase.cpp <60:2 60:5>]
-LOCAL_SYMBOL: b3DynamicBvhBroadphase.cpp<55:36> [b3DynamicBvhBroadphase.cpp <60:7 60:10>]
 SYMBOL_FUNCTION static void b3ListRemove<typename T>(T *, T * &) [b3DynamicBvhBroadphase.cpp <64:1 <65:20 65:31> 69:1>]
-SYMBOL_BUILTIN_TYPE void
 REFERENCE_TYPE_USAGE static void b3ListRemove<typename T>(T *, T * &) -> void [b3DynamicBvhBroadphase.cpp <65:15 65:18>]
 LOCAL_SYMBOL: b3DynamicBvhBroadphase.cpp<65:36> [b3DynamicBvhBroadphase.cpp <65:36 65:39>]
 REFERENCE_TYPE_USAGE static void b3ListRemove<typename T>(T *, T * &) -> b3ListRemove<typename T>::T [b3DynamicBvhBroadphase.cpp <65:33 65:33>]
@@ -135,34 +121,22 @@ SYMBOL_TEMPLATE_PARAMETER b3ListRemove<typename T>::T [b3DynamicBvhBroadphase.cp
 SYMBOL_FUNCTION static void b3ListRemove<b3DbvtProxy>(b3DbvtProxy *, b3DbvtProxy * &) [b3DynamicBvhBroadphase.cpp <65:1 <65:20 65:31> 69:1>]
 SYMBOL_FUNCTION static void b3ListRemove<typename T>(T *, T * &)
 REFERENCE_TEMPLATE_SPECIALIZATION static void b3ListRemove<b3DbvtProxy>(b3DbvtProxy *, b3DbvtProxy * &) -> static void b3ListRemove<typename T>(T *, T * &) [b3DynamicBvhBroadphase.cpp <65:20 65:31>]
-SYMBOL_BUILTIN_TYPE void
 REFERENCE_TYPE_USAGE static void b3ListRemove<b3DbvtProxy>(b3DbvtProxy *, b3DbvtProxy * &) -> void [b3DynamicBvhBroadphase.cpp <65:15 65:18>]
-LOCAL_SYMBOL: b3DynamicBvhBroadphase.cpp<65:36> [b3DynamicBvhBroadphase.cpp <65:36 65:39>]
-LOCAL_SYMBOL: b3DynamicBvhBroadphase.cpp<65:45> [b3DynamicBvhBroadphase.cpp <65:45 65:48>]
 REFERENCE_USAGE static void b3ListRemove<b3DbvtProxy>(b3DbvtProxy *, b3DbvtProxy * &) -> b3DbvtProxy * [] b3DbvtProxy::links [b3DynamicBvhBroadphase.cpp <67:11 67:15>]
-LOCAL_SYMBOL: b3DynamicBvhBroadphase.cpp<65:36> [b3DynamicBvhBroadphase.cpp <67:5 67:8>]
 REFERENCE_USAGE static void b3ListRemove<b3DbvtProxy>(b3DbvtProxy *, b3DbvtProxy * &) -> b3DbvtProxy * [] b3DbvtProxy::links [b3DynamicBvhBroadphase.cpp <67:37 67:41>]
 REFERENCE_USAGE static void b3ListRemove<b3DbvtProxy>(b3DbvtProxy *, b3DbvtProxy * &) -> b3DbvtProxy * [] b3DbvtProxy::links [b3DynamicBvhBroadphase.cpp <67:27 67:31>]
-LOCAL_SYMBOL: b3DynamicBvhBroadphase.cpp<65:36> [b3DynamicBvhBroadphase.cpp <67:21 67:24>]
 REFERENCE_USAGE static void b3ListRemove<b3DbvtProxy>(b3DbvtProxy *, b3DbvtProxy * &) -> b3DbvtProxy * [] b3DbvtProxy::links [b3DynamicBvhBroadphase.cpp <67:52 67:56>]
-LOCAL_SYMBOL: b3DynamicBvhBroadphase.cpp<65:36> [b3DynamicBvhBroadphase.cpp <67:46 67:49>]
-LOCAL_SYMBOL: b3DynamicBvhBroadphase.cpp<65:45> [b3DynamicBvhBroadphase.cpp <67:67 67:70>]
 REFERENCE_USAGE static void b3ListRemove<b3DbvtProxy>(b3DbvtProxy *, b3DbvtProxy * &) -> b3DbvtProxy * [] b3DbvtProxy::links [b3DynamicBvhBroadphase.cpp <67:78 67:82>]
-LOCAL_SYMBOL: b3DynamicBvhBroadphase.cpp<65:36> [b3DynamicBvhBroadphase.cpp <67:72 67:75>]
 REFERENCE_USAGE static void b3ListRemove<b3DbvtProxy>(b3DbvtProxy *, b3DbvtProxy * &) -> b3DbvtProxy * [] b3DbvtProxy::links [b3DynamicBvhBroadphase.cpp <68:11 68:15>]
-LOCAL_SYMBOL: b3DynamicBvhBroadphase.cpp<65:36> [b3DynamicBvhBroadphase.cpp <68:5 68:8>]
 REFERENCE_USAGE static void b3ListRemove<b3DbvtProxy>(b3DbvtProxy *, b3DbvtProxy * &) -> b3DbvtProxy * [] b3DbvtProxy::links [b3DynamicBvhBroadphase.cpp <68:37 68:41>]
 REFERENCE_USAGE static void b3ListRemove<b3DbvtProxy>(b3DbvtProxy *, b3DbvtProxy * &) -> b3DbvtProxy * [] b3DbvtProxy::links [b3DynamicBvhBroadphase.cpp <68:27 68:31>]
-LOCAL_SYMBOL: b3DynamicBvhBroadphase.cpp<65:36> [b3DynamicBvhBroadphase.cpp <68:21 68:24>]
 REFERENCE_USAGE static void b3ListRemove<b3DbvtProxy>(b3DbvtProxy *, b3DbvtProxy * &) -> b3DbvtProxy * [] b3DbvtProxy::links [b3DynamicBvhBroadphase.cpp <68:52 68:56>]
-LOCAL_SYMBOL: b3DynamicBvhBroadphase.cpp<65:36> [b3DynamicBvhBroadphase.cpp <68:46 68:49>]
 SYMBOL_FUNCTION static int b3ListCount<typename T>(T *) [b3DynamicBvhBroadphase.cpp <72:1 <73:19 73:29> 78:1>]
 SYMBOL_BUILTIN_TYPE int
 REFERENCE_TYPE_USAGE static int b3ListCount<typename T>(T *) -> int [b3DynamicBvhBroadphase.cpp <73:15 73:17>]
 LOCAL_SYMBOL: b3DynamicBvhBroadphase.cpp<73:34> [b3DynamicBvhBroadphase.cpp <73:34 73:37>]
 REFERENCE_TYPE_USAGE static int b3ListCount<typename T>(T *) -> b3ListCount<typename T>::T [b3DynamicBvhBroadphase.cpp <73:31 73:31>]
 LOCAL_SYMBOL: b3DynamicBvhBroadphase.cpp<75:6> [b3DynamicBvhBroadphase.cpp <75:6 75:6>]
-SYMBOL_BUILTIN_TYPE int
 REFERENCE_TYPE_USAGE static int b3ListCount<typename T>(T *) -> int [b3DynamicBvhBroadphase.cpp <75:2 75:4>]
 LOCAL_SYMBOL: b3DynamicBvhBroadphase.cpp<73:34> [b3DynamicBvhBroadphase.cpp <76:8 76:11>]
 LOCAL_SYMBOL: b3DynamicBvhBroadphase.cpp<75:6> [b3DynamicBvhBroadphase.cpp <76:18 76:18>]
@@ -171,7 +145,6 @@ LOCAL_SYMBOL: b3DynamicBvhBroadphase.cpp<73:34> [b3DynamicBvhBroadphase.cpp <76:
 LOCAL_SYMBOL: b3DynamicBvhBroadphase.cpp<75:6> [b3DynamicBvhBroadphase.cpp <77:9 77:9>]
 SYMBOL_TEMPLATE_PARAMETER b3ListCount<typename T>::T [b3DynamicBvhBroadphase.cpp <72:20 72:20>]
 SYMBOL_FUNCTION static void b3Clear<typename T>(T &) [b3DynamicBvhBroadphase.cpp <81:1 <82:20 82:26> 86:1>]
-SYMBOL_BUILTIN_TYPE void
 REFERENCE_TYPE_USAGE static void b3Clear<typename T>(T &) -> void [b3DynamicBvhBroadphase.cpp <82:15 82:18>]
 LOCAL_SYMBOL: b3DynamicBvhBroadphase.cpp<82:31> [b3DynamicBvhBroadphase.cpp <82:31 82:35>]
 REFERENCE_TYPE_USAGE static void b3Clear<typename T>(T &) -> b3Clear<typename T>::T [b3DynamicBvhBroadphase.cpp <82:28 82:28>]
@@ -184,6 +157,7 @@ LOCAL_SYMBOL: b3DynamicBvhBroadphase.cpp<84:39> [b3DynamicBvhBroadphase.cpp <85:
 SYMBOL_TEMPLATE_PARAMETER b3Clear<typename T>::T [b3DynamicBvhBroadphase.cpp <81:20 81:20>]
 SYMBOL_STRUCT b3DbvtTreeCollider [b3DynamicBvhBroadphase.cpp <93:1 <93:8 93:25> 116:1>]
 SYMBOL_STRUCT b3DynamicBvh
+QUALIFIER: b3DynamicBvh [b3DynamicBvhBroadphase.cpp <93:29 93:40>]
 REFERENCE_INHERITANCE b3DbvtTreeCollider -> b3DynamicBvh::ICollide [b3DynamicBvhBroadphase.cpp <93:43 93:50>]
 SYMBOL_FIELD public b3DynamicBvhBroadphase * b3DbvtTreeCollider::pbp [b3DynamicBvhBroadphase.cpp <95:26 95:28>]
 REFERENCE_TYPE_USAGE b3DynamicBvhBroadphase * b3DbvtTreeCollider::pbp -> b3DynamicBvhBroadphase [b3DynamicBvhBroadphase.cpp <95:2 95:23>]
@@ -197,7 +171,6 @@ REFERENCE_CALL void b3DbvtTreeCollider::b3DbvtTreeCollider(b3DynamicBvhBroadphas
 REFERENCE_USAGE void b3DbvtTreeCollider::b3DbvtTreeCollider(b3DynamicBvhBroadphase *) -> b3DynamicBvhBroadphase * b3DbvtTreeCollider::pbp [b3DynamicBvhBroadphase.cpp <97:50 97:52>]
 LOCAL_SYMBOL: b3DynamicBvhBroadphase.cpp<97:45> [b3DynamicBvhBroadphase.cpp <97:54 97:54>]
 SYMBOL_METHOD public void b3DbvtTreeCollider::Process(const b3DbvtNode *, const b3DbvtNode *) [b3DynamicBvhBroadphase.cpp <98:2 <98:7 98:13> 111:2>]
-SYMBOL_BUILTIN_TYPE void
 REFERENCE_TYPE_USAGE void b3DbvtTreeCollider::Process(const b3DbvtNode *, const b3DbvtNode *) -> void [b3DynamicBvhBroadphase.cpp <98:2 98:5>]
 LOCAL_SYMBOL: b3DynamicBvhBroadphase.cpp<98:33> [b3DynamicBvhBroadphase.cpp <98:33 98:34>]
 REFERENCE_TYPE_USAGE void b3DbvtTreeCollider::Process(const b3DbvtNode *, const b3DbvtNode *) -> b3DbvtNode [b3DynamicBvhBroadphase.cpp <98:21 98:30>]
@@ -224,13 +197,11 @@ REFERENCE_USAGE void b3DbvtTreeCollider::Process(const b3DbvtNode *, const b3Dbv
 SYMBOL_FUNCTION int b3BroadphaseProxy::getUid() const
 REFERENCE_CALL void b3DbvtTreeCollider::Process(const b3DbvtNode *, const b3DbvtNode *) -> int b3BroadphaseProxy::getUid() const [b3DynamicBvhBroadphase.cpp <108:45 108:50>]
 LOCAL_SYMBOL: b3DynamicBvhBroadphase.cpp<102:17> [b3DynamicBvhBroadphase.cpp <108:41 108:42>]
-SYMBOL_FUNCTION int b3BroadphaseProxy::getUid() const
 REFERENCE_CALL void b3DbvtTreeCollider::Process(const b3DbvtNode *, const b3DbvtNode *) -> int b3BroadphaseProxy::getUid() const [b3DynamicBvhBroadphase.cpp <108:58 108:63>]
 LOCAL_SYMBOL: b3DynamicBvhBroadphase.cpp<103:17> [b3DynamicBvhBroadphase.cpp <108:54 108:55>]
 REFERENCE_USAGE void b3DbvtTreeCollider::Process(const b3DbvtNode *, const b3DbvtNode *) -> int b3DynamicBvhBroadphase::m_newpairs [b3DynamicBvhBroadphase.cpp <109:11 109:20>]
 REFERENCE_USAGE void b3DbvtTreeCollider::Process(const b3DbvtNode *, const b3DbvtNode *) -> b3DynamicBvhBroadphase * b3DbvtTreeCollider::pbp [b3DynamicBvhBroadphase.cpp <109:6 109:8>]
 SYMBOL_METHOD public void b3DbvtTreeCollider::Process(const b3DbvtNode *) [b3DynamicBvhBroadphase.cpp <112:2 <112:7 112:13> 115:2>]
-SYMBOL_BUILTIN_TYPE void
 REFERENCE_TYPE_USAGE void b3DbvtTreeCollider::Process(const b3DbvtNode *) -> void [b3DynamicBvhBroadphase.cpp <112:2 112:5>]
 LOCAL_SYMBOL: b3DynamicBvhBroadphase.cpp<112:33> [b3DynamicBvhBroadphase.cpp <112:33 112:33>]
 REFERENCE_TYPE_USAGE void b3DbvtTreeCollider::Process(const b3DbvtNode *) -> b3DbvtNode [b3DynamicBvhBroadphase.cpp <112:21 112:30>]
@@ -243,8 +214,8 @@ SYMBOL_METHOD public void b3DbvtTreeCollider::b3DbvtTreeCollider(const b3DbvtTre
 SYMBOL_METHOD public void b3DbvtTreeCollider::b3DbvtTreeCollider(b3DbvtTreeCollider &) [b3DynamicBvhBroadphase.cpp <93:8 93:25>]
 SYMBOL_METHOD public void b3DynamicBvhBroadphase::b3DynamicBvhBroadphase(int, b3OverlappingPairCache *) [b3DynamicBvhBroadphase.cpp <123:1 <123:25 123:46> 150:1>]
 SYMBOL_STRUCT b3DynamicBvhBroadphase
+QUALIFIER: b3DynamicBvhBroadphase [b3DynamicBvhBroadphase.cpp <123:1 123:22>]
 LOCAL_SYMBOL: b3DynamicBvhBroadphase.cpp<123:52> [b3DynamicBvhBroadphase.cpp <123:52 123:64>]
-SYMBOL_BUILTIN_TYPE int
 REFERENCE_TYPE_USAGE void b3DynamicBvhBroadphase::b3DynamicBvhBroadphase(int, b3OverlappingPairCache *) -> int [b3DynamicBvhBroadphase.cpp <123:48 123:50>]
 LOCAL_SYMBOL: b3DynamicBvhBroadphase.cpp<123:91> [b3DynamicBvhBroadphase.cpp <123:91 123:99>]
 REFERENCE_TYPE_USAGE void b3DynamicBvhBroadphase::b3DynamicBvhBroadphase(int, b3OverlappingPairCache *) -> b3OverlappingPairCache [b3DynamicBvhBroadphase.cpp <123:67 123:88>]
@@ -278,7 +249,6 @@ REFERENCE_TYPE_USAGE void b3DynamicBvhBroadphase::b3DynamicBvhBroadphase(int, b3
 REFERENCE_USAGE void b3DynamicBvhBroadphase::b3DynamicBvhBroadphase(int, b3OverlappingPairCache *) -> int b3DynamicBvhBroadphase::m_pid [b3DynamicBvhBroadphase.cpp <140:2 140:6>]
 REFERENCE_USAGE void b3DynamicBvhBroadphase::b3DynamicBvhBroadphase(int, b3OverlappingPairCache *) -> int b3DynamicBvhBroadphase::m_cid [b3DynamicBvhBroadphase.cpp <141:2 141:6>]
 LOCAL_SYMBOL: b3DynamicBvhBroadphase.cpp<142:10> [b3DynamicBvhBroadphase.cpp <142:10 142:10>]
-SYMBOL_BUILTIN_TYPE int
 REFERENCE_TYPE_USAGE void b3DynamicBvhBroadphase::b3DynamicBvhBroadphase(int, b3OverlappingPairCache *) -> int [b3DynamicBvhBroadphase.cpp <142:6 142:8>]
 LOCAL_SYMBOL: b3DynamicBvhBroadphase.cpp<142:10> [b3DynamicBvhBroadphase.cpp <142:14 142:14>]
 REFERENCE_USAGE void b3DynamicBvhBroadphase::b3DynamicBvhBroadphase(int, b3OverlappingPairCache *) -> b3DynamicBvhBroadphase::anonymous enum (b3DynamicBvhBroadphase.h<123:2>)::STAGECOUNT [b3DynamicBvhBroadphase.cpp <142:17 142:26>]
@@ -290,30 +260,26 @@ REFERENCE_CALL void b3DynamicBvhBroadphase::b3DynamicBvhBroadphase(int, b3Overla
 REFERENCE_USAGE void b3DynamicBvhBroadphase::b3DynamicBvhBroadphase(int, b3OverlappingPairCache *) -> b3AlignedObjectArray<b3DbvtProxy> b3DynamicBvhBroadphase::m_proxies [b3DynamicBvhBroadphase.cpp <149:2 149:10>]
 LOCAL_SYMBOL: b3DynamicBvhBroadphase.cpp<123:52> [b3DynamicBvhBroadphase.cpp <149:19 149:31>]
 SYMBOL_METHOD public void b3DynamicBvhBroadphase::~b3DynamicBvhBroadphase() [b3DynamicBvhBroadphase.cpp <153:1 <153:25 153:47> 160:1>]
-SYMBOL_STRUCT b3DynamicBvhBroadphase
+QUALIFIER: b3DynamicBvhBroadphase [b3DynamicBvhBroadphase.cpp <153:1 153:22>]
 REFERENCE_USAGE void b3DynamicBvhBroadphase::~b3DynamicBvhBroadphase() -> bool b3DynamicBvhBroadphase::m_releasepaircache [b3DynamicBvhBroadphase.cpp <155:5 155:22>]
 SYMBOL_FUNCTION void b3OverlappingPairCache::~b3OverlappingPairCache()
 REFERENCE_CALL void b3DynamicBvhBroadphase::~b3DynamicBvhBroadphase() -> void b3OverlappingPairCache::~b3OverlappingPairCache() [b3DynamicBvhBroadphase.cpp <157:16 157:16>]
 REFERENCE_USAGE void b3DynamicBvhBroadphase::~b3DynamicBvhBroadphase() -> b3OverlappingPairCache * b3DynamicBvhBroadphase::m_paircache [b3DynamicBvhBroadphase.cpp <157:3 157:13>]
 REFERENCE_USAGE void b3DynamicBvhBroadphase::~b3DynamicBvhBroadphase() -> b3OverlappingPairCache * b3DynamicBvhBroadphase::m_paircache [b3DynamicBvhBroadphase.cpp <158:17 158:27>]
 SYMBOL_METHOD public b3BroadphaseProxy * b3DynamicBvhBroadphase::createProxy(const b3Vector3 &, const b3Vector3 &, int, void *, int, int) [b3DynamicBvhBroadphase.cpp <163:1 <163:47 163:57> 190:1>]
-SYMBOL_STRUCT b3DynamicBvhBroadphase
+QUALIFIER: b3DynamicBvhBroadphase [b3DynamicBvhBroadphase.cpp <163:23 163:44>]
 REFERENCE_TYPE_USAGE b3BroadphaseProxy * b3DynamicBvhBroadphase::createProxy(const b3Vector3 &, const b3Vector3 &, int, void *, int, int) -> b3BroadphaseProxy [b3DynamicBvhBroadphase.cpp <163:1 163:17>]
 LOCAL_SYMBOL: b3DynamicBvhBroadphase.cpp<163:77> [b3DynamicBvhBroadphase.cpp <163:77 163:83>]
 REFERENCE_TYPE_USAGE b3BroadphaseProxy * b3DynamicBvhBroadphase::createProxy(const b3Vector3 &, const b3Vector3 &, int, void *, int, int) -> b3Vector3 [b3DynamicBvhBroadphase.cpp <163:66 163:74>]
 LOCAL_SYMBOL: b3DynamicBvhBroadphase.cpp<164:35> [b3DynamicBvhBroadphase.cpp <164:35 164:41>]
 REFERENCE_TYPE_USAGE b3BroadphaseProxy * b3DynamicBvhBroadphase::createProxy(const b3Vector3 &, const b3Vector3 &, int, void *, int, int) -> b3Vector3 [b3DynamicBvhBroadphase.cpp <164:24 164:32>]
 LOCAL_SYMBOL: b3DynamicBvhBroadphase.cpp<165:22> [b3DynamicBvhBroadphase.cpp <165:22 165:29>]
-SYMBOL_BUILTIN_TYPE int
 REFERENCE_TYPE_USAGE b3BroadphaseProxy * b3DynamicBvhBroadphase::createProxy(const b3Vector3 &, const b3Vector3 &, int, void *, int, int) -> int [b3DynamicBvhBroadphase.cpp <165:18 165:20>]
 LOCAL_SYMBOL: b3DynamicBvhBroadphase.cpp<166:24> [b3DynamicBvhBroadphase.cpp <166:24 166:30>]
-SYMBOL_BUILTIN_TYPE void
 REFERENCE_TYPE_USAGE b3BroadphaseProxy * b3DynamicBvhBroadphase::createProxy(const b3Vector3 &, const b3Vector3 &, int, void *, int, int) -> void [b3DynamicBvhBroadphase.cpp <166:18 166:21>]
 LOCAL_SYMBOL: b3DynamicBvhBroadphase.cpp<167:23> [b3DynamicBvhBroadphase.cpp <167:23 167:42>]
-SYMBOL_BUILTIN_TYPE int
 REFERENCE_TYPE_USAGE b3BroadphaseProxy * b3DynamicBvhBroadphase::createProxy(const b3Vector3 &, const b3Vector3 &, int, void *, int, int) -> int [b3DynamicBvhBroadphase.cpp <167:19 167:21>]
 LOCAL_SYMBOL: b3DynamicBvhBroadphase.cpp<168:21> [b3DynamicBvhBroadphase.cpp <168:21 168:39>]
-SYMBOL_BUILTIN_TYPE int
 REFERENCE_TYPE_USAGE b3BroadphaseProxy * b3DynamicBvhBroadphase::createProxy(const b3Vector3 &, const b3Vector3 &, int, void *, int, int) -> int [b3DynamicBvhBroadphase.cpp <168:17 168:19>]
 LOCAL_SYMBOL: b3DynamicBvhBroadphase.cpp<170:15> [b3DynamicBvhBroadphase.cpp <170:15 170:17>]
 REFERENCE_TYPE_USAGE b3BroadphaseProxy * b3DynamicBvhBroadphase::createProxy(const b3Vector3 &, const b3Vector3 &, int, void *, int, int) -> b3DbvtProxy [b3DynamicBvhBroadphase.cpp <170:2 170:12>]
@@ -337,6 +303,7 @@ REFERENCE_TYPE_USAGE b3BroadphaseProxy * b3DynamicBvhBroadphase::createProxy(con
 SYMBOL_FUNCTION static b3DbvtAabbMm b3DbvtAabbMm::FromMM(const b3Vector3 &, const b3Vector3 &)
 REFERENCE_CALL b3BroadphaseProxy * b3DynamicBvhBroadphase::createProxy(const b3Vector3 &, const b3Vector3 &, int, void *, int, int) -> static b3DbvtAabbMm b3DbvtAabbMm::FromMM(const b3Vector3 &, const b3Vector3 &) [b3DynamicBvhBroadphase.cpp <175:36 175:41>]
 SYMBOL_STRUCT b3DbvtAabbMm
+QUALIFIER: b3DbvtAabbMm [b3DynamicBvhBroadphase.cpp <175:22 175:33>]
 LOCAL_SYMBOL: b3DynamicBvhBroadphase.cpp<163:77> [b3DynamicBvhBroadphase.cpp <175:43 175:49>]
 LOCAL_SYMBOL: b3DynamicBvhBroadphase.cpp<164:35> [b3DynamicBvhBroadphase.cpp <175:51 175:57>]
 REFERENCE_USAGE b3BroadphaseProxy * b3DynamicBvhBroadphase::createProxy(const b3Vector3 &, const b3Vector3 &, int, void *, int, int) -> int b3DbvtProxy::stage [b3DynamicBvhBroadphase.cpp <178:9 178:13>]
@@ -372,7 +339,6 @@ REFERENCE_USAGE b3BroadphaseProxy * b3DynamicBvhBroadphase::createProxy(const b3
 REFERENCE_USAGE b3BroadphaseProxy * b3DynamicBvhBroadphase::createProxy(const b3Vector3 &, const b3Vector3 &, int, void *, int, int) -> b3DynamicBvh [] b3DynamicBvhBroadphase::m_sets [b3DynamicBvhBroadphase.cpp <186:23 186:28>]
 LOCAL_SYMBOL: b3DynamicBvhBroadphase.cpp<175:15> [b3DynamicBvhBroadphase.cpp <186:40 186:43>]
 LOCAL_SYMBOL: b3DynamicBvhBroadphase.cpp<184:22> [b3DynamicBvhBroadphase.cpp <186:45 186:52>]
-SYMBOL_FUNCTION void b3DynamicBvh::collideTV<b3DbvtTreeCollider>(const b3DbvtNode *, const b3DbvtVolume &, b3DbvtTreeCollider &) const
 REFERENCE_CALL b3BroadphaseProxy * b3DynamicBvhBroadphase::createProxy(const b3Vector3 &, const b3Vector3 &, int, void *, int, int) -> void b3DynamicBvh::collideTV<b3DbvtTreeCollider>(const b3DbvtNode *, const b3DbvtVolume &, b3DbvtTreeCollider &) const [b3DynamicBvhBroadphase.cpp <187:13 187:21>]
 REFERENCE_USAGE b3BroadphaseProxy * b3DynamicBvhBroadphase::createProxy(const b3Vector3 &, const b3Vector3 &, int, void *, int, int) -> b3DynamicBvh [] b3DynamicBvhBroadphase::m_sets [b3DynamicBvhBroadphase.cpp <187:3 187:8>]
 REFERENCE_USAGE b3BroadphaseProxy * b3DynamicBvhBroadphase::createProxy(const b3Vector3 &, const b3Vector3 &, int, void *, int, int) -> b3DbvtNode * b3DynamicBvh::m_root [b3DynamicBvhBroadphase.cpp <187:33 187:38>]
@@ -381,8 +347,7 @@ LOCAL_SYMBOL: b3DynamicBvhBroadphase.cpp<175:15> [b3DynamicBvhBroadphase.cpp <18
 LOCAL_SYMBOL: b3DynamicBvhBroadphase.cpp<184:22> [b3DynamicBvhBroadphase.cpp <187:45 187:52>]
 LOCAL_SYMBOL: b3DynamicBvhBroadphase.cpp<171:16> [b3DynamicBvhBroadphase.cpp <189:9 189:13>]
 SYMBOL_METHOD public void b3DynamicBvhBroadphase::destroyProxy(b3BroadphaseProxy *, b3Dispatcher *) [b3DynamicBvhBroadphase.cpp <193:1 <193:36 193:47> 205:1>]
-SYMBOL_STRUCT b3DynamicBvhBroadphase
-SYMBOL_BUILTIN_TYPE void
+QUALIFIER: b3DynamicBvhBroadphase [b3DynamicBvhBroadphase.cpp <193:12 193:33>]
 REFERENCE_TYPE_USAGE void b3DynamicBvhBroadphase::destroyProxy(b3BroadphaseProxy *, b3Dispatcher *) -> void [b3DynamicBvhBroadphase.cpp <193:1 193:4>]
 LOCAL_SYMBOL: b3DynamicBvhBroadphase.cpp<193:69> [b3DynamicBvhBroadphase.cpp <193:69 193:76>]
 REFERENCE_TYPE_USAGE void b3DynamicBvhBroadphase::destroyProxy(b3BroadphaseProxy *, b3Dispatcher *) -> b3BroadphaseProxy [b3DynamicBvhBroadphase.cpp <193:50 193:66>]
@@ -400,7 +365,6 @@ REFERENCE_CALL void b3DynamicBvhBroadphase::destroyProxy(b3BroadphaseProxy *, b3
 REFERENCE_USAGE void b3DynamicBvhBroadphase::destroyProxy(b3BroadphaseProxy *, b3Dispatcher *) -> b3DynamicBvh [] b3DynamicBvhBroadphase::m_sets [b3DynamicBvhBroadphase.cpp <198:3 198:8>]
 REFERENCE_USAGE void b3DynamicBvhBroadphase::destroyProxy(b3BroadphaseProxy *, b3Dispatcher *) -> b3DbvtNode * b3DbvtProxy::leaf [b3DynamicBvhBroadphase.cpp <198:27 198:30>]
 LOCAL_SYMBOL: b3DynamicBvhBroadphase.cpp<196:15> [b3DynamicBvhBroadphase.cpp <198:20 198:24>]
-SYMBOL_FUNCTION void b3DynamicBvh::remove(b3DbvtNode *)
 REFERENCE_CALL void b3DynamicBvhBroadphase::destroyProxy(b3BroadphaseProxy *, b3Dispatcher *) -> void b3DynamicBvh::remove(b3DbvtNode *) [b3DynamicBvhBroadphase.cpp <200:13 200:18>]
 REFERENCE_USAGE void b3DynamicBvhBroadphase::destroyProxy(b3BroadphaseProxy *, b3Dispatcher *) -> b3DynamicBvh [] b3DynamicBvhBroadphase::m_sets [b3DynamicBvhBroadphase.cpp <200:3 200:8>]
 REFERENCE_USAGE void b3DynamicBvhBroadphase::destroyProxy(b3BroadphaseProxy *, b3Dispatcher *) -> b3DbvtNode * b3DbvtProxy::leaf [b3DynamicBvhBroadphase.cpp <200:27 200:30>]
@@ -414,17 +378,14 @@ LOCAL_SYMBOL: b3DynamicBvhBroadphase.cpp<196:15> [b3DynamicBvhBroadphase.cpp <20
 SYMBOL_FUNCTION void b3OverlappingPairCache::removeOverlappingPairsContainingProxy(int, b3Dispatcher *)
 REFERENCE_CALL void b3DynamicBvhBroadphase::destroyProxy(b3BroadphaseProxy *, b3Dispatcher *) -> void b3OverlappingPairCache::removeOverlappingPairsContainingProxy(int, b3Dispatcher *) [b3DynamicBvhBroadphase.cpp <202:15 202:51>]
 REFERENCE_USAGE void b3DynamicBvhBroadphase::destroyProxy(b3BroadphaseProxy *, b3Dispatcher *) -> b3OverlappingPairCache * b3DynamicBvhBroadphase::m_paircache [b3DynamicBvhBroadphase.cpp <202:2 202:12>]
-SYMBOL_FUNCTION int b3BroadphaseProxy::getUid() const
 REFERENCE_CALL void b3DynamicBvhBroadphase::destroyProxy(b3BroadphaseProxy *, b3Dispatcher *) -> int b3BroadphaseProxy::getUid() const [b3DynamicBvhBroadphase.cpp <202:60 202:65>]
 LOCAL_SYMBOL: b3DynamicBvhBroadphase.cpp<196:15> [b3DynamicBvhBroadphase.cpp <202:53 202:57>]
 LOCAL_SYMBOL: b3DynamicBvhBroadphase.cpp<194:33> [b3DynamicBvhBroadphase.cpp <202:69 202:78>]
 REFERENCE_USAGE void b3DynamicBvhBroadphase::destroyProxy(b3BroadphaseProxy *, b3Dispatcher *) -> bool b3DynamicBvhBroadphase::m_needcleanup [b3DynamicBvhBroadphase.cpp <204:2 204:14>]
 SYMBOL_METHOD public void b3DynamicBvhBroadphase::getAabb(int, b3Vector3 &, b3Vector3 &) const [b3DynamicBvhBroadphase.cpp <207:1 <207:30 207:36> 212:1>]
-SYMBOL_STRUCT b3DynamicBvhBroadphase
-SYMBOL_BUILTIN_TYPE void
+QUALIFIER: b3DynamicBvhBroadphase [b3DynamicBvhBroadphase.cpp <207:6 207:27>]
 REFERENCE_TYPE_USAGE void b3DynamicBvhBroadphase::getAabb(int, b3Vector3 &, b3Vector3 &) const -> void [b3DynamicBvhBroadphase.cpp <207:1 207:4>]
 LOCAL_SYMBOL: b3DynamicBvhBroadphase.cpp<207:42> [b3DynamicBvhBroadphase.cpp <207:42 207:49>]
-SYMBOL_BUILTIN_TYPE int
 REFERENCE_TYPE_USAGE void b3DynamicBvhBroadphase::getAabb(int, b3Vector3 &, b3Vector3 &) const -> int [b3DynamicBvhBroadphase.cpp <207:38 207:40>]
 LOCAL_SYMBOL: b3DynamicBvhBroadphase.cpp<207:62> [b3DynamicBvhBroadphase.cpp <207:62 207:68>]
 REFERENCE_TYPE_USAGE void b3DynamicBvhBroadphase::getAabb(int, b3Vector3 &, b3Vector3 &) const -> b3Vector3 [b3DynamicBvhBroadphase.cpp <207:51 207:59>]
@@ -441,25 +402,22 @@ REFERENCE_CALL void b3DynamicBvhBroadphase::getAabb(int, b3Vector3 &, b3Vector3 
 LOCAL_SYMBOL: b3DynamicBvhBroadphase.cpp<207:62> [b3DynamicBvhBroadphase.cpp <210:2 210:8>]
 REFERENCE_USAGE void b3DynamicBvhBroadphase::getAabb(int, b3Vector3 &, b3Vector3 &) const -> b3Vector3 b3BroadphaseProxy::m_aabbMin [b3DynamicBvhBroadphase.cpp <210:19 210:27>]
 LOCAL_SYMBOL: b3DynamicBvhBroadphase.cpp<209:26> [b3DynamicBvhBroadphase.cpp <210:12 210:16>]
-SYMBOL_FUNCTION b3Vector3 & b3Vector3::operator=(const b3Vector3 &)
 REFERENCE_CALL void b3DynamicBvhBroadphase::getAabb(int, b3Vector3 &, b3Vector3 &) const -> b3Vector3 & b3Vector3::operator=(const b3Vector3 &) [b3DynamicBvhBroadphase.cpp <211:10 211:10>]
 LOCAL_SYMBOL: b3DynamicBvhBroadphase.cpp<207:82> [b3DynamicBvhBroadphase.cpp <211:2 211:8>]
 REFERENCE_USAGE void b3DynamicBvhBroadphase::getAabb(int, b3Vector3 &, b3Vector3 &) const -> b3Vector3 b3BroadphaseProxy::m_aabbMax [b3DynamicBvhBroadphase.cpp <211:19 211:27>]
 LOCAL_SYMBOL: b3DynamicBvhBroadphase.cpp<209:26> [b3DynamicBvhBroadphase.cpp <211:12 211:16>]
 SYMBOL_STRUCT BroadphaseRayTester [b3DynamicBvhBroadphase.cpp <223:1 <223:8 223:26> 235:1>]
-SYMBOL_STRUCT b3DynamicBvh
+QUALIFIER: b3DynamicBvh [b3DynamicBvhBroadphase.cpp <223:30 223:41>]
 REFERENCE_INHERITANCE BroadphaseRayTester -> b3DynamicBvh::ICollide [b3DynamicBvhBroadphase.cpp <223:44 223:51>]
 SYMBOL_FIELD public b3BroadphaseRayCallback & BroadphaseRayTester::m_rayCallback [b3DynamicBvhBroadphase.cpp <225:27 225:39>]
 REFERENCE_TYPE_USAGE b3BroadphaseRayCallback & BroadphaseRayTester::m_rayCallback -> b3BroadphaseRayCallback [b3DynamicBvhBroadphase.cpp <225:2 225:24>]
 SYMBOL_METHOD public void BroadphaseRayTester::BroadphaseRayTester(b3BroadphaseRayCallback &) [b3DynamicBvhBroadphase.cpp <226:2 <226:2 226:20> 229:2>]
 LOCAL_SYMBOL: b3DynamicBvhBroadphase.cpp<226:47> [b3DynamicBvhBroadphase.cpp <226:47 226:57>]
 REFERENCE_TYPE_USAGE void BroadphaseRayTester::BroadphaseRayTester(b3BroadphaseRayCallback &) -> b3BroadphaseRayCallback [b3DynamicBvhBroadphase.cpp <226:22 226:44>]
-SYMBOL_FUNCTION void b3DynamicBvh::ICollide::ICollide()
 REFERENCE_CALL void BroadphaseRayTester::BroadphaseRayTester(b3BroadphaseRayCallback &) -> void b3DynamicBvh::ICollide::ICollide() [b3DynamicBvhBroadphase.cpp <226:2 226:20>]
 REFERENCE_USAGE void BroadphaseRayTester::BroadphaseRayTester(b3BroadphaseRayCallback &) -> b3BroadphaseRayCallback & BroadphaseRayTester::m_rayCallback [b3DynamicBvhBroadphase.cpp <227:4 227:16>]
 LOCAL_SYMBOL: b3DynamicBvhBroadphase.cpp<226:47> [b3DynamicBvhBroadphase.cpp <227:18 227:28>]
 SYMBOL_METHOD public void BroadphaseRayTester::Process(const b3DbvtNode *) [b3DynamicBvhBroadphase.cpp <230:2 <230:11 230:17> 234:2>]
-SYMBOL_BUILTIN_TYPE void
 REFERENCE_TYPE_USAGE void BroadphaseRayTester::Process(const b3DbvtNode *) -> void [b3DynamicBvhBroadphase.cpp <230:2 230:5>]
 LOCAL_SYMBOL: b3DynamicBvhBroadphase.cpp<230:37> [b3DynamicBvhBroadphase.cpp <230:37 230:40>]
 REFERENCE_TYPE_USAGE void BroadphaseRayTester::Process(const b3DbvtNode *) -> b3DbvtNode [b3DynamicBvhBroadphase.cpp <230:25 230:34>]
@@ -476,8 +434,7 @@ LOCAL_SYMBOL: b3DynamicBvhBroadphase.cpp<232:16> [b3DynamicBvhBroadphase.cpp <23
 SYMBOL_METHOD public void BroadphaseRayTester::BroadphaseRayTester(const BroadphaseRayTester &) [b3DynamicBvhBroadphase.cpp <223:8 223:26>]
 SYMBOL_METHOD public void BroadphaseRayTester::BroadphaseRayTester(BroadphaseRayTester &) [b3DynamicBvhBroadphase.cpp <223:8 223:26>]
 SYMBOL_METHOD public void b3DynamicBvhBroadphase::rayTest(const b3Vector3 &, const b3Vector3 &, b3BroadphaseRayCallback &, const b3Vector3 &, const b3Vector3 &) [b3DynamicBvhBroadphase.cpp <237:1 <237:30 237:36> 261:1>]
-SYMBOL_STRUCT b3DynamicBvhBroadphase
-SYMBOL_BUILTIN_TYPE void
+QUALIFIER: b3DynamicBvhBroadphase [b3DynamicBvhBroadphase.cpp <237:6 237:27>]
 REFERENCE_TYPE_USAGE void b3DynamicBvhBroadphase::rayTest(const b3Vector3 &, const b3Vector3 &, b3BroadphaseRayCallback &, const b3Vector3 &, const b3Vector3 &) -> void [b3DynamicBvhBroadphase.cpp <237:1 237:4>]
 LOCAL_SYMBOL: b3DynamicBvhBroadphase.cpp<237:55> [b3DynamicBvhBroadphase.cpp <237:55 237:61>]
 REFERENCE_TYPE_USAGE void b3DynamicBvhBroadphase::rayTest(const b3Vector3 &, const b3Vector3 &, b3BroadphaseRayCallback &, const b3Vector3 &, const b3Vector3 &) -> b3Vector3 [b3DynamicBvhBroadphase.cpp <237:44 237:52>]
@@ -510,7 +467,6 @@ LOCAL_SYMBOL: b3DynamicBvhBroadphase.cpp<237:112> [b3DynamicBvhBroadphase.cpp <2
 LOCAL_SYMBOL: b3DynamicBvhBroadphase.cpp<237:141> [b3DynamicBvhBroadphase.cpp <247:3 247:9>]
 LOCAL_SYMBOL: b3DynamicBvhBroadphase.cpp<237:166> [b3DynamicBvhBroadphase.cpp <248:3 248:9>]
 LOCAL_SYMBOL: b3DynamicBvhBroadphase.cpp<239:22> [b3DynamicBvhBroadphase.cpp <249:3 249:10>]
-SYMBOL_FUNCTION void b3DynamicBvh::rayTestInternal<BroadphaseRayTester>(const b3DbvtNode *, const b3Vector3 &, const b3Vector3 &, const b3Vector3 &, unsigned int [], b3Scalar, const b3Vector3 &, const b3Vector3 &, BroadphaseRayTester &) const
 REFERENCE_CALL void b3DynamicBvhBroadphase::rayTest(const b3Vector3 &, const b3Vector3 &, b3BroadphaseRayCallback &, const b3Vector3 &, const b3Vector3 &) -> void b3DynamicBvh::rayTestInternal<BroadphaseRayTester>(const b3DbvtNode *, const b3Vector3 &, const b3Vector3 &, const b3Vector3 &, unsigned int [], b3Scalar, const b3Vector3 &, const b3Vector3 &, BroadphaseRayTester &) const [b3DynamicBvhBroadphase.cpp <251:12 251:26>]
 REFERENCE_USAGE void b3DynamicBvhBroadphase::rayTest(const b3Vector3 &, const b3Vector3 &, b3BroadphaseRayCallback &, const b3Vector3 &, const b3Vector3 &) -> b3DynamicBvh [] b3DynamicBvhBroadphase::m_sets [b3DynamicBvhBroadphase.cpp <251:2 251:7>]
 REFERENCE_USAGE void b3DynamicBvhBroadphase::rayTest(const b3Vector3 &, const b3Vector3 &, b3BroadphaseRayCallback &, const b3Vector3 &, const b3Vector3 &) -> b3DbvtNode * b3DynamicBvh::m_root [b3DynamicBvhBroadphase.cpp <251:39 251:44>]
@@ -527,19 +483,17 @@ LOCAL_SYMBOL: b3DynamicBvhBroadphase.cpp<237:141> [b3DynamicBvhBroadphase.cpp <2
 LOCAL_SYMBOL: b3DynamicBvhBroadphase.cpp<237:166> [b3DynamicBvhBroadphase.cpp <258:3 258:9>]
 LOCAL_SYMBOL: b3DynamicBvhBroadphase.cpp<239:22> [b3DynamicBvhBroadphase.cpp <259:3 259:10>]
 SYMBOL_STRUCT BroadphaseAabbTester [b3DynamicBvhBroadphase.cpp <264:1 <264:8 264:27> 276:1>]
-SYMBOL_STRUCT b3DynamicBvh
+QUALIFIER: b3DynamicBvh [b3DynamicBvhBroadphase.cpp <264:31 264:42>]
 REFERENCE_INHERITANCE BroadphaseAabbTester -> b3DynamicBvh::ICollide [b3DynamicBvhBroadphase.cpp <264:45 264:52>]
 SYMBOL_FIELD public b3BroadphaseAabbCallback & BroadphaseAabbTester::m_aabbCallback [b3DynamicBvhBroadphase.cpp <266:28 266:41>]
 REFERENCE_TYPE_USAGE b3BroadphaseAabbCallback & BroadphaseAabbTester::m_aabbCallback -> b3BroadphaseAabbCallback [b3DynamicBvhBroadphase.cpp <266:2 266:25>]
 SYMBOL_METHOD public void BroadphaseAabbTester::BroadphaseAabbTester(b3BroadphaseAabbCallback &) [b3DynamicBvhBroadphase.cpp <267:2 <267:2 267:21> 270:2>]
 LOCAL_SYMBOL: b3DynamicBvhBroadphase.cpp<267:49> [b3DynamicBvhBroadphase.cpp <267:49 267:59>]
 REFERENCE_TYPE_USAGE void BroadphaseAabbTester::BroadphaseAabbTester(b3BroadphaseAabbCallback &) -> b3BroadphaseAabbCallback [b3DynamicBvhBroadphase.cpp <267:23 267:46>]
-SYMBOL_FUNCTION void b3DynamicBvh::ICollide::ICollide()
 REFERENCE_CALL void BroadphaseAabbTester::BroadphaseAabbTester(b3BroadphaseAabbCallback &) -> void b3DynamicBvh::ICollide::ICollide() [b3DynamicBvhBroadphase.cpp <267:2 267:21>]
 REFERENCE_USAGE void BroadphaseAabbTester::BroadphaseAabbTester(b3BroadphaseAabbCallback &) -> b3BroadphaseAabbCallback & BroadphaseAabbTester::m_aabbCallback [b3DynamicBvhBroadphase.cpp <268:4 268:17>]
 LOCAL_SYMBOL: b3DynamicBvhBroadphase.cpp<267:49> [b3DynamicBvhBroadphase.cpp <268:19 268:29>]
 SYMBOL_METHOD public void BroadphaseAabbTester::Process(const b3DbvtNode *) [b3DynamicBvhBroadphase.cpp <271:2 <271:11 271:17> 275:2>]
-SYMBOL_BUILTIN_TYPE void
 REFERENCE_TYPE_USAGE void BroadphaseAabbTester::Process(const b3DbvtNode *) -> void [b3DynamicBvhBroadphase.cpp <271:2 271:5>]
 LOCAL_SYMBOL: b3DynamicBvhBroadphase.cpp<271:37> [b3DynamicBvhBroadphase.cpp <271:37 271:40>]
 REFERENCE_TYPE_USAGE void BroadphaseAabbTester::Process(const b3DbvtNode *) -> b3DbvtNode [b3DynamicBvhBroadphase.cpp <271:25 271:34>]
@@ -549,15 +503,13 @@ REFERENCE_TYPE_USAGE void BroadphaseAabbTester::Process(const b3DbvtNode *) -> b
 REFERENCE_USAGE void BroadphaseAabbTester::Process(const b3DbvtNode *) -> void * b3DbvtNode::anonymous union (b3DynamicBvh.h<183:2>)::data [b3DynamicBvhBroadphase.cpp <273:42 273:45>]
 REFERENCE_USAGE void BroadphaseAabbTester::Process(const b3DbvtNode *) -> b3DbvtNode::anonymous union (b3DynamicBvh.h<183:2>) b3DbvtNode:: [b3DynamicBvhBroadphase.cpp <273:42 273:45>]
 LOCAL_SYMBOL: b3DynamicBvhBroadphase.cpp<271:37> [b3DynamicBvhBroadphase.cpp <273:36 273:39>]
-SYMBOL_FUNCTION bool b3BroadphaseAabbCallback::process(const b3BroadphaseProxy *)
 REFERENCE_CALL void BroadphaseAabbTester::Process(const b3DbvtNode *) -> bool b3BroadphaseAabbCallback::process(const b3BroadphaseProxy *) [b3DynamicBvhBroadphase.cpp <274:18 274:24>]
 REFERENCE_USAGE void BroadphaseAabbTester::Process(const b3DbvtNode *) -> b3BroadphaseAabbCallback & BroadphaseAabbTester::m_aabbCallback [b3DynamicBvhBroadphase.cpp <274:3 274:16>]
 LOCAL_SYMBOL: b3DynamicBvhBroadphase.cpp<273:16> [b3DynamicBvhBroadphase.cpp <274:26 274:30>]
 SYMBOL_METHOD public void BroadphaseAabbTester::BroadphaseAabbTester(const BroadphaseAabbTester &) [b3DynamicBvhBroadphase.cpp <264:8 264:27>]
 SYMBOL_METHOD public void BroadphaseAabbTester::BroadphaseAabbTester(BroadphaseAabbTester &) [b3DynamicBvhBroadphase.cpp <264:8 264:27>]
 SYMBOL_METHOD public void b3DynamicBvhBroadphase::aabbTest(const b3Vector3 &, const b3Vector3 &, b3BroadphaseAabbCallback &) [b3DynamicBvhBroadphase.cpp <278:1 <278:30 278:37> 287:1>]
-SYMBOL_STRUCT b3DynamicBvhBroadphase
-SYMBOL_BUILTIN_TYPE void
+QUALIFIER: b3DynamicBvhBroadphase [b3DynamicBvhBroadphase.cpp <278:6 278:27>]
 REFERENCE_TYPE_USAGE void b3DynamicBvhBroadphase::aabbTest(const b3Vector3 &, const b3Vector3 &, b3BroadphaseAabbCallback &) -> void [b3DynamicBvhBroadphase.cpp <278:1 278:4>]
 LOCAL_SYMBOL: b3DynamicBvhBroadphase.cpp<278:56> [b3DynamicBvhBroadphase.cpp <278:56 278:62>]
 REFERENCE_TYPE_USAGE void b3DynamicBvhBroadphase::aabbTest(const b3Vector3 &, const b3Vector3 &, b3BroadphaseAabbCallback &) -> b3Vector3 [b3DynamicBvhBroadphase.cpp <278:45 278:53>]
@@ -572,9 +524,8 @@ REFERENCE_CALL void b3DynamicBvhBroadphase::aabbTest(const b3Vector3 &, const b3
 LOCAL_SYMBOL: b3DynamicBvhBroadphase.cpp<278:115> [b3DynamicBvhBroadphase.cpp <280:32 280:43>]
 LOCAL_SYMBOL: b3DynamicBvhBroadphase.cpp<282:45> [b3DynamicBvhBroadphase.cpp <282:45 282:50>]
 REFERENCE_TYPE_USAGE void b3DynamicBvhBroadphase::aabbTest(const b3Vector3 &, const b3Vector3 &, b3BroadphaseAabbCallback &) -> b3DbvtVolume [b3DynamicBvhBroadphase.cpp <282:31 282:42>]
-SYMBOL_FUNCTION static b3DbvtAabbMm b3DbvtAabbMm::FromMM(const b3Vector3 &, const b3Vector3 &)
 REFERENCE_CALL void b3DynamicBvhBroadphase::aabbTest(const b3Vector3 &, const b3Vector3 &, b3BroadphaseAabbCallback &) -> static b3DbvtAabbMm b3DbvtAabbMm::FromMM(const b3Vector3 &, const b3Vector3 &) [b3DynamicBvhBroadphase.cpp <282:66 282:71>]
-SYMBOL_STRUCT b3DbvtAabbMm
+QUALIFIER: b3DbvtAabbMm [b3DynamicBvhBroadphase.cpp <282:52 282:63>]
 LOCAL_SYMBOL: b3DynamicBvhBroadphase.cpp<278:56> [b3DynamicBvhBroadphase.cpp <282:73 282:79>]
 LOCAL_SYMBOL: b3DynamicBvhBroadphase.cpp<278:81> [b3DynamicBvhBroadphase.cpp <282:81 282:87>]
 SYMBOL_FUNCTION void b3DynamicBvh::collideTV<BroadphaseAabbTester>(const b3DbvtNode *, const b3DbvtVolume &, BroadphaseAabbTester &) const
@@ -584,7 +535,6 @@ REFERENCE_USAGE void b3DynamicBvhBroadphase::aabbTest(const b3Vector3 &, const b
 REFERENCE_USAGE void b3DynamicBvhBroadphase::aabbTest(const b3Vector3 &, const b3Vector3 &, b3BroadphaseAabbCallback &) -> b3DynamicBvh [] b3DynamicBvhBroadphase::m_sets [b3DynamicBvhBroadphase.cpp <284:22 284:27>]
 LOCAL_SYMBOL: b3DynamicBvhBroadphase.cpp<282:45> [b3DynamicBvhBroadphase.cpp <284:39 284:44>]
 LOCAL_SYMBOL: b3DynamicBvhBroadphase.cpp<280:23> [b3DynamicBvhBroadphase.cpp <284:46 284:53>]
-SYMBOL_FUNCTION void b3DynamicBvh::collideTV<BroadphaseAabbTester>(const b3DbvtNode *, const b3DbvtVolume &, BroadphaseAabbTester &) const
 REFERENCE_CALL void b3DynamicBvhBroadphase::aabbTest(const b3Vector3 &, const b3Vector3 &, b3BroadphaseAabbCallback &) -> void b3DynamicBvh::collideTV<BroadphaseAabbTester>(const b3DbvtNode *, const b3DbvtVolume &, BroadphaseAabbTester &) const [b3DynamicBvhBroadphase.cpp <285:12 285:20>]
 REFERENCE_USAGE void b3DynamicBvhBroadphase::aabbTest(const b3Vector3 &, const b3Vector3 &, b3BroadphaseAabbCallback &) -> b3DynamicBvh [] b3DynamicBvhBroadphase::m_sets [b3DynamicBvhBroadphase.cpp <285:2 285:7>]
 REFERENCE_USAGE void b3DynamicBvhBroadphase::aabbTest(const b3Vector3 &, const b3Vector3 &, b3BroadphaseAabbCallback &) -> b3DbvtNode * b3DynamicBvh::m_root [b3DynamicBvhBroadphase.cpp <285:32 285:37>]
@@ -592,11 +542,9 @@ REFERENCE_USAGE void b3DynamicBvhBroadphase::aabbTest(const b3Vector3 &, const b
 LOCAL_SYMBOL: b3DynamicBvhBroadphase.cpp<282:45> [b3DynamicBvhBroadphase.cpp <285:39 285:44>]
 LOCAL_SYMBOL: b3DynamicBvhBroadphase.cpp<280:23> [b3DynamicBvhBroadphase.cpp <285:46 285:53>]
 SYMBOL_METHOD public void b3DynamicBvhBroadphase::setAabb(int, const b3Vector3 &, const b3Vector3 &, b3Dispatcher *) [b3DynamicBvhBroadphase.cpp <292:1 <292:36 292:42> 357:1>]
-SYMBOL_STRUCT b3DynamicBvhBroadphase
-SYMBOL_BUILTIN_TYPE void
+QUALIFIER: b3DynamicBvhBroadphase [b3DynamicBvhBroadphase.cpp <292:12 292:33>]
 REFERENCE_TYPE_USAGE void b3DynamicBvhBroadphase::setAabb(int, const b3Vector3 &, const b3Vector3 &, b3Dispatcher *) -> void [b3DynamicBvhBroadphase.cpp <292:1 292:4>]
 LOCAL_SYMBOL: b3DynamicBvhBroadphase.cpp<292:48> [b3DynamicBvhBroadphase.cpp <292:48 292:55>]
-SYMBOL_BUILTIN_TYPE int
 REFERENCE_TYPE_USAGE void b3DynamicBvhBroadphase::setAabb(int, const b3Vector3 &, const b3Vector3 &, b3Dispatcher *) -> int [b3DynamicBvhBroadphase.cpp <292:44 292:46>]
 LOCAL_SYMBOL: b3DynamicBvhBroadphase.cpp<293:34> [b3DynamicBvhBroadphase.cpp <293:34 293:40>]
 REFERENCE_TYPE_USAGE void b3DynamicBvhBroadphase::setAabb(int, const b3Vector3 &, const b3Vector3 &, b3Dispatcher *) -> b3Vector3 [b3DynamicBvhBroadphase.cpp <293:23 293:31>]
@@ -605,15 +553,13 @@ REFERENCE_TYPE_USAGE void b3DynamicBvhBroadphase::setAabb(int, const b3Vector3 &
 REFERENCE_TYPE_USAGE void b3DynamicBvhBroadphase::setAabb(int, const b3Vector3 &, const b3Vector3 &, b3Dispatcher *) -> b3Dispatcher [b3DynamicBvhBroadphase.cpp <295:17 295:28>]
 LOCAL_SYMBOL: b3DynamicBvhBroadphase.cpp<297:20> [b3DynamicBvhBroadphase.cpp <297:20 297:24>]
 REFERENCE_TYPE_USAGE void b3DynamicBvhBroadphase::setAabb(int, const b3Vector3 &, const b3Vector3 &, b3Dispatcher *) -> b3DbvtProxy [b3DynamicBvhBroadphase.cpp <297:2 297:12>]
-SYMBOL_FUNCTION b3DbvtProxy & b3AlignedObjectArray<b3DbvtProxy>::operator[](int)
 REFERENCE_CALL void b3DynamicBvhBroadphase::setAabb(int, const b3Vector3 &, const b3Vector3 &, b3Dispatcher *) -> b3DbvtProxy & b3AlignedObjectArray<b3DbvtProxy>::operator[](int) [b3DynamicBvhBroadphase.cpp <297:36 297:36>]
 REFERENCE_USAGE void b3DynamicBvhBroadphase::setAabb(int, const b3Vector3 &, const b3Vector3 &, b3Dispatcher *) -> b3AlignedObjectArray<b3DbvtProxy> b3DynamicBvhBroadphase::m_proxies [b3DynamicBvhBroadphase.cpp <297:27 297:35>]
 LOCAL_SYMBOL: b3DynamicBvhBroadphase.cpp<292:48> [b3DynamicBvhBroadphase.cpp <297:37 297:44>]
 LOCAL_SYMBOL: b3DynamicBvhBroadphase.cpp<299:39> [b3DynamicBvhBroadphase.cpp <299:39 299:42>]
 REFERENCE_TYPE_USAGE void b3DynamicBvhBroadphase::setAabb(int, const b3Vector3 &, const b3Vector3 &, b3Dispatcher *) -> b3DbvtVolume [b3DynamicBvhBroadphase.cpp <299:25 299:36>]
-SYMBOL_FUNCTION static b3DbvtAabbMm b3DbvtAabbMm::FromMM(const b3Vector3 &, const b3Vector3 &)
 REFERENCE_CALL void b3DynamicBvhBroadphase::setAabb(int, const b3Vector3 &, const b3Vector3 &, b3Dispatcher *) -> static b3DbvtAabbMm b3DbvtAabbMm::FromMM(const b3Vector3 &, const b3Vector3 &) [b3DynamicBvhBroadphase.cpp <299:58 299:63>]
-SYMBOL_STRUCT b3DbvtAabbMm
+QUALIFIER: b3DbvtAabbMm [b3DynamicBvhBroadphase.cpp <299:44 299:55>]
 LOCAL_SYMBOL: b3DynamicBvhBroadphase.cpp<293:34> [b3DynamicBvhBroadphase.cpp <299:65 299:71>]
 LOCAL_SYMBOL: b3DynamicBvhBroadphase.cpp<294:34> [b3DynamicBvhBroadphase.cpp <299:73 299:79>]
 LOCAL_SYMBOL: b3DynamicBvhBroadphase.cpp<304:8> [b3DynamicBvhBroadphase.cpp <304:8 304:16>]
@@ -622,14 +568,12 @@ REFERENCE_TYPE_USAGE void b3DynamicBvhBroadphase::setAabb(int, const b3Vector3 &
 REFERENCE_USAGE void b3DynamicBvhBroadphase::setAabb(int, const b3Vector3 &, const b3Vector3 &, b3Dispatcher *) -> int b3DbvtProxy::stage [b3DynamicBvhBroadphase.cpp <305:13 305:17>]
 LOCAL_SYMBOL: b3DynamicBvhBroadphase.cpp<297:20> [b3DynamicBvhBroadphase.cpp <305:6 305:10>]
 REFERENCE_USAGE void b3DynamicBvhBroadphase::setAabb(int, const b3Vector3 &, const b3Vector3 &, b3Dispatcher *) -> b3DynamicBvhBroadphase::anonymous enum (b3DynamicBvhBroadphase.h<123:2>)::STAGECOUNT [b3DynamicBvhBroadphase.cpp <305:20 305:29>]
-SYMBOL_FUNCTION void b3DynamicBvh::remove(b3DbvtNode *)
 REFERENCE_CALL void b3DynamicBvhBroadphase::setAabb(int, const b3Vector3 &, const b3Vector3 &, b3Dispatcher *) -> void b3DynamicBvh::remove(b3DbvtNode *) [b3DynamicBvhBroadphase.cpp <307:14 307:19>]
 REFERENCE_USAGE void b3DynamicBvhBroadphase::setAabb(int, const b3Vector3 &, const b3Vector3 &, b3Dispatcher *) -> b3DynamicBvh [] b3DynamicBvhBroadphase::m_sets [b3DynamicBvhBroadphase.cpp <307:4 307:9>]
 REFERENCE_USAGE void b3DynamicBvhBroadphase::setAabb(int, const b3Vector3 &, const b3Vector3 &, b3Dispatcher *) -> b3DbvtNode * b3DbvtProxy::leaf [b3DynamicBvhBroadphase.cpp <307:28 307:31>]
 LOCAL_SYMBOL: b3DynamicBvhBroadphase.cpp<297:20> [b3DynamicBvhBroadphase.cpp <307:21 307:25>]
 REFERENCE_USAGE void b3DynamicBvhBroadphase::setAabb(int, const b3Vector3 &, const b3Vector3 &, b3Dispatcher *) -> b3DbvtNode * b3DbvtProxy::leaf [b3DynamicBvhBroadphase.cpp <308:11 308:14>]
 LOCAL_SYMBOL: b3DynamicBvhBroadphase.cpp<297:20> [b3DynamicBvhBroadphase.cpp <308:4 308:8>]
-SYMBOL_FUNCTION b3DbvtNode * b3DynamicBvh::insert(const b3DbvtVolume &, void *)
 REFERENCE_CALL void b3DynamicBvhBroadphase::setAabb(int, const b3Vector3 &, const b3Vector3 &, b3Dispatcher *) -> b3DbvtNode * b3DynamicBvh::insert(const b3DbvtVolume &, void *) [b3DynamicBvhBroadphase.cpp <308:26 308:31>]
 REFERENCE_USAGE void b3DynamicBvhBroadphase::setAabb(int, const b3Vector3 &, const b3Vector3 &, b3Dispatcher *) -> b3DynamicBvh [] b3DynamicBvhBroadphase::m_sets [b3DynamicBvhBroadphase.cpp <308:16 308:21>]
 LOCAL_SYMBOL: b3DynamicBvhBroadphase.cpp<299:39> [b3DynamicBvhBroadphase.cpp <308:33 308:36>]
@@ -655,7 +599,6 @@ SYMBOL_FUNCTION b3Vector3 operator*(const b3Vector3 &, const b3Scalar &)
 REFERENCE_CALL void b3DynamicBvhBroadphase::setAabb(int, const b3Vector3 &, const b3Vector3 &, b3Dispatcher *) -> b3Vector3 operator*(const b3Vector3 &, const b3Scalar &) [b3DynamicBvhBroadphase.cpp <318:64 318:64>]
 SYMBOL_FUNCTION b3Vector3 operator/(const b3Vector3 &, const b3Scalar &)
 REFERENCE_CALL void b3DynamicBvhBroadphase::setAabb(int, const b3Vector3 &, const b3Vector3 &, b3Dispatcher *) -> b3Vector3 operator/(const b3Vector3 &, const b3Scalar &) [b3DynamicBvhBroadphase.cpp <318:61 318:61>]
-SYMBOL_FUNCTION b3Vector3 operator-(const b3Vector3 &, const b3Vector3 &)
 REFERENCE_CALL void b3DynamicBvhBroadphase::setAabb(int, const b3Vector3 &, const b3Vector3 &, b3Dispatcher *) -> b3Vector3 operator-(const b3Vector3 &, const b3Vector3 &) [b3DynamicBvhBroadphase.cpp <318:43 318:43>]
 REFERENCE_USAGE void b3DynamicBvhBroadphase::setAabb(int, const b3Vector3 &, const b3Vector3 &, b3Dispatcher *) -> b3Vector3 b3BroadphaseProxy::m_aabbMax [b3DynamicBvhBroadphase.cpp <318:34 318:42>]
 LOCAL_SYMBOL: b3DynamicBvhBroadphase.cpp<297:20> [b3DynamicBvhBroadphase.cpp <318:27 318:31>]
@@ -688,18 +631,15 @@ LOCAL_SYMBOL: b3DynamicBvhBroadphase.cpp<297:20> [b3DynamicBvhBroadphase.cpp <33
 LOCAL_SYMBOL: b3DynamicBvhBroadphase.cpp<299:39> [b3DynamicBvhBroadphase.cpp <336:34 336:37>]
 REFERENCE_USAGE void b3DynamicBvhBroadphase::setAabb(int, const b3Vector3 &, const b3Vector3 &, b3Dispatcher *) -> unsigned int b3DynamicBvhBroadphase::m_updates_done [b3DynamicBvhBroadphase.cpp <337:7 337:20>]
 LOCAL_SYMBOL: b3DynamicBvhBroadphase.cpp<304:8> [b3DynamicBvhBroadphase.cpp <338:5 338:13>]
-SYMBOL_FUNCTION static void b3ListRemove<b3DbvtProxy>(b3DbvtProxy *, b3DbvtProxy * &)
 REFERENCE_CALL void b3DynamicBvhBroadphase::setAabb(int, const b3Vector3 &, const b3Vector3 &, b3Dispatcher *) -> static void b3ListRemove<b3DbvtProxy>(b3DbvtProxy *, b3DbvtProxy * &) [b3DynamicBvhBroadphase.cpp <341:3 341:14>]
 LOCAL_SYMBOL: b3DynamicBvhBroadphase.cpp<297:20> [b3DynamicBvhBroadphase.cpp <341:16 341:20>]
 REFERENCE_USAGE void b3DynamicBvhBroadphase::setAabb(int, const b3Vector3 &, const b3Vector3 &, b3Dispatcher *) -> b3DbvtProxy * [] b3DynamicBvhBroadphase::m_stageRoots [b3DynamicBvhBroadphase.cpp <341:22 341:33>]
 REFERENCE_USAGE void b3DynamicBvhBroadphase::setAabb(int, const b3Vector3 &, const b3Vector3 &, b3Dispatcher *) -> int b3DbvtProxy::stage [b3DynamicBvhBroadphase.cpp <341:42 341:46>]
 LOCAL_SYMBOL: b3DynamicBvhBroadphase.cpp<297:20> [b3DynamicBvhBroadphase.cpp <341:35 341:39>]
-SYMBOL_FUNCTION b3Vector3 & b3Vector3::operator=(const b3Vector3 &)
 REFERENCE_CALL void b3DynamicBvhBroadphase::setAabb(int, const b3Vector3 &, const b3Vector3 &, b3Dispatcher *) -> b3Vector3 & b3Vector3::operator=(const b3Vector3 &) [b3DynamicBvhBroadphase.cpp <342:20 342:20>]
 REFERENCE_USAGE void b3DynamicBvhBroadphase::setAabb(int, const b3Vector3 &, const b3Vector3 &, b3Dispatcher *) -> b3Vector3 b3BroadphaseProxy::m_aabbMin [b3DynamicBvhBroadphase.cpp <342:10 342:18>]
 LOCAL_SYMBOL: b3DynamicBvhBroadphase.cpp<297:20> [b3DynamicBvhBroadphase.cpp <342:3 342:7>]
 LOCAL_SYMBOL: b3DynamicBvhBroadphase.cpp<293:34> [b3DynamicBvhBroadphase.cpp <342:22 342:28>]
-SYMBOL_FUNCTION b3Vector3 & b3Vector3::operator=(const b3Vector3 &)
 REFERENCE_CALL void b3DynamicBvhBroadphase::setAabb(int, const b3Vector3 &, const b3Vector3 &, b3Dispatcher *) -> b3Vector3 & b3Vector3::operator=(const b3Vector3 &) [b3DynamicBvhBroadphase.cpp <343:20 343:20>]
 REFERENCE_USAGE void b3DynamicBvhBroadphase::setAabb(int, const b3Vector3 &, const b3Vector3 &, b3Dispatcher *) -> b3Vector3 b3BroadphaseProxy::m_aabbMax [b3DynamicBvhBroadphase.cpp <343:10 343:18>]
 LOCAL_SYMBOL: b3DynamicBvhBroadphase.cpp<297:20> [b3DynamicBvhBroadphase.cpp <343:3 343:7>]
@@ -707,7 +647,6 @@ LOCAL_SYMBOL: b3DynamicBvhBroadphase.cpp<294:34> [b3DynamicBvhBroadphase.cpp <34
 REFERENCE_USAGE void b3DynamicBvhBroadphase::setAabb(int, const b3Vector3 &, const b3Vector3 &, b3Dispatcher *) -> int b3DbvtProxy::stage [b3DynamicBvhBroadphase.cpp <344:10 344:14>]
 LOCAL_SYMBOL: b3DynamicBvhBroadphase.cpp<297:20> [b3DynamicBvhBroadphase.cpp <344:3 344:7>]
 REFERENCE_USAGE void b3DynamicBvhBroadphase::setAabb(int, const b3Vector3 &, const b3Vector3 &, b3Dispatcher *) -> int b3DynamicBvhBroadphase::m_stageCurrent [b3DynamicBvhBroadphase.cpp <344:18 344:31>]
-SYMBOL_FUNCTION static void b3ListAppend<b3DbvtProxy>(b3DbvtProxy *, b3DbvtProxy * &)
 REFERENCE_CALL void b3DynamicBvhBroadphase::setAabb(int, const b3Vector3 &, const b3Vector3 &, b3Dispatcher *) -> static void b3ListAppend<b3DbvtProxy>(b3DbvtProxy *, b3DbvtProxy * &) [b3DynamicBvhBroadphase.cpp <345:3 345:14>]
 LOCAL_SYMBOL: b3DynamicBvhBroadphase.cpp<297:20> [b3DynamicBvhBroadphase.cpp <345:16 345:20>]
 REFERENCE_USAGE void b3DynamicBvhBroadphase::setAabb(int, const b3Vector3 &, const b3Vector3 &, b3Dispatcher *) -> b3DbvtProxy * [] b3DynamicBvhBroadphase::m_stageRoots [b3DynamicBvhBroadphase.cpp <345:22 345:33>]
@@ -717,7 +656,6 @@ REFERENCE_USAGE void b3DynamicBvhBroadphase::setAabb(int, const b3Vector3 &, con
 REFERENCE_USAGE void b3DynamicBvhBroadphase::setAabb(int, const b3Vector3 &, const b3Vector3 &, b3Dispatcher *) -> bool b3DynamicBvhBroadphase::m_deferedcollide [b3DynamicBvhBroadphase.cpp <349:8 349:23>]
 LOCAL_SYMBOL: b3DynamicBvhBroadphase.cpp<351:24> [b3DynamicBvhBroadphase.cpp <351:24 351:31>]
 REFERENCE_TYPE_USAGE void b3DynamicBvhBroadphase::setAabb(int, const b3Vector3 &, const b3Vector3 &, b3Dispatcher *) -> b3DbvtTreeCollider [b3DynamicBvhBroadphase.cpp <351:5 351:22>]
-SYMBOL_FUNCTION void b3DbvtTreeCollider::b3DbvtTreeCollider(b3DynamicBvhBroadphase *)
 REFERENCE_CALL void b3DynamicBvhBroadphase::setAabb(int, const b3Vector3 &, const b3Vector3 &, b3Dispatcher *) -> void b3DbvtTreeCollider::b3DbvtTreeCollider(b3DynamicBvhBroadphase *) [b3DynamicBvhBroadphase.cpp <351:24 351:31>]
 SYMBOL_FUNCTION void b3DynamicBvh::collideTTpersistentStack<b3DbvtTreeCollider>(const b3DbvtNode *, const b3DbvtNode *, b3DbvtTreeCollider &)
 REFERENCE_CALL void b3DynamicBvhBroadphase::setAabb(int, const b3Vector3 &, const b3Vector3 &, b3Dispatcher *) -> void b3DynamicBvh::collideTTpersistentStack<b3DbvtTreeCollider>(const b3DbvtNode *, const b3DbvtNode *, b3DbvtTreeCollider &) [b3DynamicBvhBroadphase.cpp <352:15 352:38>]
@@ -727,7 +665,6 @@ REFERENCE_USAGE void b3DynamicBvhBroadphase::setAabb(int, const b3Vector3 &, con
 REFERENCE_USAGE void b3DynamicBvhBroadphase::setAabb(int, const b3Vector3 &, const b3Vector3 &, b3Dispatcher *) -> b3DbvtNode * b3DbvtProxy::leaf [b3DynamicBvhBroadphase.cpp <352:64 352:67>]
 LOCAL_SYMBOL: b3DynamicBvhBroadphase.cpp<297:20> [b3DynamicBvhBroadphase.cpp <352:57 352:61>]
 LOCAL_SYMBOL: b3DynamicBvhBroadphase.cpp<351:24> [b3DynamicBvhBroadphase.cpp <352:69 352:76>]
-SYMBOL_FUNCTION void b3DynamicBvh::collideTTpersistentStack<b3DbvtTreeCollider>(const b3DbvtNode *, const b3DbvtNode *, b3DbvtTreeCollider &)
 REFERENCE_CALL void b3DynamicBvhBroadphase::setAabb(int, const b3Vector3 &, const b3Vector3 &, b3Dispatcher *) -> void b3DynamicBvh::collideTTpersistentStack<b3DbvtTreeCollider>(const b3DbvtNode *, const b3DbvtNode *, b3DbvtTreeCollider &) [b3DynamicBvhBroadphase.cpp <353:15 353:38>]
 REFERENCE_USAGE void b3DynamicBvhBroadphase::setAabb(int, const b3Vector3 &, const b3Vector3 &, b3Dispatcher *) -> b3DynamicBvh [] b3DynamicBvhBroadphase::m_sets [b3DynamicBvhBroadphase.cpp <353:5 353:10>]
 REFERENCE_USAGE void b3DynamicBvhBroadphase::setAabb(int, const b3Vector3 &, const b3Vector3 &, b3Dispatcher *) -> b3DbvtNode * b3DynamicBvh::m_root [b3DynamicBvhBroadphase.cpp <353:50 353:55>]
@@ -736,8 +673,7 @@ REFERENCE_USAGE void b3DynamicBvhBroadphase::setAabb(int, const b3Vector3 &, con
 LOCAL_SYMBOL: b3DynamicBvhBroadphase.cpp<297:20> [b3DynamicBvhBroadphase.cpp <353:57 353:61>]
 LOCAL_SYMBOL: b3DynamicBvhBroadphase.cpp<351:24> [b3DynamicBvhBroadphase.cpp <353:69 353:76>]
 SYMBOL_METHOD public void b3DynamicBvhBroadphase::setAabbForceUpdate(b3BroadphaseProxy *, const b3Vector3 &, const b3Vector3 &, b3Dispatcher *) [b3DynamicBvhBroadphase.cpp <361:1 <361:36 361:53> 398:1>]
-SYMBOL_STRUCT b3DynamicBvhBroadphase
-SYMBOL_BUILTIN_TYPE void
+QUALIFIER: b3DynamicBvhBroadphase [b3DynamicBvhBroadphase.cpp <361:12 361:33>]
 REFERENCE_TYPE_USAGE void b3DynamicBvhBroadphase::setAabbForceUpdate(b3BroadphaseProxy *, const b3Vector3 &, const b3Vector3 &, b3Dispatcher *) -> void [b3DynamicBvhBroadphase.cpp <361:1 361:4>]
 LOCAL_SYMBOL: b3DynamicBvhBroadphase.cpp<361:76> [b3DynamicBvhBroadphase.cpp <361:76 361:83>]
 REFERENCE_TYPE_USAGE void b3DynamicBvhBroadphase::setAabbForceUpdate(b3BroadphaseProxy *, const b3Vector3 &, const b3Vector3 &, b3Dispatcher *) -> b3BroadphaseProxy [b3DynamicBvhBroadphase.cpp <361:57 361:73>]
@@ -752,32 +688,27 @@ REFERENCE_TYPE_USAGE void b3DynamicBvhBroadphase::setAabbForceUpdate(b3Broadphas
 LOCAL_SYMBOL: b3DynamicBvhBroadphase.cpp<361:76> [b3DynamicBvhBroadphase.cpp <366:40 366:47>]
 LOCAL_SYMBOL: b3DynamicBvhBroadphase.cpp<367:39> [b3DynamicBvhBroadphase.cpp <367:39 367:42>]
 REFERENCE_TYPE_USAGE void b3DynamicBvhBroadphase::setAabbForceUpdate(b3BroadphaseProxy *, const b3Vector3 &, const b3Vector3 &, b3Dispatcher *) -> b3DbvtVolume [b3DynamicBvhBroadphase.cpp <367:25 367:36>]
-SYMBOL_FUNCTION static b3DbvtAabbMm b3DbvtAabbMm::FromMM(const b3Vector3 &, const b3Vector3 &)
 REFERENCE_CALL void b3DynamicBvhBroadphase::setAabbForceUpdate(b3BroadphaseProxy *, const b3Vector3 &, const b3Vector3 &, b3Dispatcher *) -> static b3DbvtAabbMm b3DbvtAabbMm::FromMM(const b3Vector3 &, const b3Vector3 &) [b3DynamicBvhBroadphase.cpp <367:58 367:63>]
-SYMBOL_STRUCT b3DbvtAabbMm
+QUALIFIER: b3DbvtAabbMm [b3DynamicBvhBroadphase.cpp <367:44 367:55>]
 LOCAL_SYMBOL: b3DynamicBvhBroadphase.cpp<362:34> [b3DynamicBvhBroadphase.cpp <367:65 367:71>]
 LOCAL_SYMBOL: b3DynamicBvhBroadphase.cpp<363:34> [b3DynamicBvhBroadphase.cpp <367:73 367:79>]
 LOCAL_SYMBOL: b3DynamicBvhBroadphase.cpp<368:7> [b3DynamicBvhBroadphase.cpp <368:7 368:15>]
-SYMBOL_BUILTIN_TYPE bool
 REFERENCE_TYPE_USAGE void b3DynamicBvhBroadphase::setAabbForceUpdate(b3BroadphaseProxy *, const b3Vector3 &, const b3Vector3 &, b3Dispatcher *) -> bool [b3DynamicBvhBroadphase.cpp <368:2 368:5>]
 REFERENCE_USAGE void b3DynamicBvhBroadphase::setAabbForceUpdate(b3BroadphaseProxy *, const b3Vector3 &, const b3Vector3 &, b3Dispatcher *) -> int b3DbvtProxy::stage [b3DynamicBvhBroadphase.cpp <369:12 369:16>]
 LOCAL_SYMBOL: b3DynamicBvhBroadphase.cpp<366:20> [b3DynamicBvhBroadphase.cpp <369:5 369:9>]
 REFERENCE_USAGE void b3DynamicBvhBroadphase::setAabbForceUpdate(b3BroadphaseProxy *, const b3Vector3 &, const b3Vector3 &, b3Dispatcher *) -> b3DynamicBvhBroadphase::anonymous enum (b3DynamicBvhBroadphase.h<123:2>)::STAGECOUNT [b3DynamicBvhBroadphase.cpp <369:19 369:28>]
-SYMBOL_FUNCTION void b3DynamicBvh::remove(b3DbvtNode *)
 REFERENCE_CALL void b3DynamicBvhBroadphase::setAabbForceUpdate(b3BroadphaseProxy *, const b3Vector3 &, const b3Vector3 &, b3Dispatcher *) -> void b3DynamicBvh::remove(b3DbvtNode *) [b3DynamicBvhBroadphase.cpp <371:13 371:18>]
 REFERENCE_USAGE void b3DynamicBvhBroadphase::setAabbForceUpdate(b3BroadphaseProxy *, const b3Vector3 &, const b3Vector3 &, b3Dispatcher *) -> b3DynamicBvh [] b3DynamicBvhBroadphase::m_sets [b3DynamicBvhBroadphase.cpp <371:3 371:8>]
 REFERENCE_USAGE void b3DynamicBvhBroadphase::setAabbForceUpdate(b3BroadphaseProxy *, const b3Vector3 &, const b3Vector3 &, b3Dispatcher *) -> b3DbvtNode * b3DbvtProxy::leaf [b3DynamicBvhBroadphase.cpp <371:27 371:30>]
 LOCAL_SYMBOL: b3DynamicBvhBroadphase.cpp<366:20> [b3DynamicBvhBroadphase.cpp <371:20 371:24>]
 REFERENCE_USAGE void b3DynamicBvhBroadphase::setAabbForceUpdate(b3BroadphaseProxy *, const b3Vector3 &, const b3Vector3 &, b3Dispatcher *) -> b3DbvtNode * b3DbvtProxy::leaf [b3DynamicBvhBroadphase.cpp <372:10 372:13>]
 LOCAL_SYMBOL: b3DynamicBvhBroadphase.cpp<366:20> [b3DynamicBvhBroadphase.cpp <372:3 372:7>]
-SYMBOL_FUNCTION b3DbvtNode * b3DynamicBvh::insert(const b3DbvtVolume &, void *)
 REFERENCE_CALL void b3DynamicBvhBroadphase::setAabbForceUpdate(b3BroadphaseProxy *, const b3Vector3 &, const b3Vector3 &, b3Dispatcher *) -> b3DbvtNode * b3DynamicBvh::insert(const b3DbvtVolume &, void *) [b3DynamicBvhBroadphase.cpp <372:25 372:30>]
 REFERENCE_USAGE void b3DynamicBvhBroadphase::setAabbForceUpdate(b3BroadphaseProxy *, const b3Vector3 &, const b3Vector3 &, b3Dispatcher *) -> b3DynamicBvh [] b3DynamicBvhBroadphase::m_sets [b3DynamicBvhBroadphase.cpp <372:15 372:20>]
 LOCAL_SYMBOL: b3DynamicBvhBroadphase.cpp<367:39> [b3DynamicBvhBroadphase.cpp <372:32 372:35>]
 LOCAL_SYMBOL: b3DynamicBvhBroadphase.cpp<366:20> [b3DynamicBvhBroadphase.cpp <372:37 372:41>]
 LOCAL_SYMBOL: b3DynamicBvhBroadphase.cpp<368:7> [b3DynamicBvhBroadphase.cpp <373:3 373:11>]
 REFERENCE_USAGE void b3DynamicBvhBroadphase::setAabbForceUpdate(b3BroadphaseProxy *, const b3Vector3 &, const b3Vector3 &, b3Dispatcher *) -> unsigned int b3DynamicBvhBroadphase::m_updates_call [b3DynamicBvhBroadphase.cpp <377:5 377:18>]
-SYMBOL_FUNCTION void b3DynamicBvh::update(b3DbvtNode *, b3DbvtVolume &)
 REFERENCE_CALL void b3DynamicBvhBroadphase::setAabbForceUpdate(b3BroadphaseProxy *, const b3Vector3 &, const b3Vector3 &, b3Dispatcher *) -> void b3DynamicBvh::update(b3DbvtNode *, b3DbvtVolume &) [b3DynamicBvhBroadphase.cpp <379:13 379:18>]
 REFERENCE_USAGE void b3DynamicBvhBroadphase::setAabbForceUpdate(b3BroadphaseProxy *, const b3Vector3 &, const b3Vector3 &, b3Dispatcher *) -> b3DynamicBvh [] b3DynamicBvhBroadphase::m_sets [b3DynamicBvhBroadphase.cpp <379:3 379:8>]
 REFERENCE_USAGE void b3DynamicBvhBroadphase::setAabbForceUpdate(b3BroadphaseProxy *, const b3Vector3 &, const b3Vector3 &, b3Dispatcher *) -> b3DbvtNode * b3DbvtProxy::leaf [b3DynamicBvhBroadphase.cpp <379:27 379:30>]
@@ -785,18 +716,15 @@ LOCAL_SYMBOL: b3DynamicBvhBroadphase.cpp<366:20> [b3DynamicBvhBroadphase.cpp <37
 LOCAL_SYMBOL: b3DynamicBvhBroadphase.cpp<367:39> [b3DynamicBvhBroadphase.cpp <379:32 379:35>]
 REFERENCE_USAGE void b3DynamicBvhBroadphase::setAabbForceUpdate(b3BroadphaseProxy *, const b3Vector3 &, const b3Vector3 &, b3Dispatcher *) -> unsigned int b3DynamicBvhBroadphase::m_updates_done [b3DynamicBvhBroadphase.cpp <380:5 380:18>]
 LOCAL_SYMBOL: b3DynamicBvhBroadphase.cpp<368:7> [b3DynamicBvhBroadphase.cpp <381:3 381:11>]
-SYMBOL_FUNCTION static void b3ListRemove<b3DbvtProxy>(b3DbvtProxy *, b3DbvtProxy * &)
 REFERENCE_CALL void b3DynamicBvhBroadphase::setAabbForceUpdate(b3BroadphaseProxy *, const b3Vector3 &, const b3Vector3 &, b3Dispatcher *) -> static void b3ListRemove<b3DbvtProxy>(b3DbvtProxy *, b3DbvtProxy * &) [b3DynamicBvhBroadphase.cpp <383:2 383:13>]
 LOCAL_SYMBOL: b3DynamicBvhBroadphase.cpp<366:20> [b3DynamicBvhBroadphase.cpp <383:15 383:19>]
 REFERENCE_USAGE void b3DynamicBvhBroadphase::setAabbForceUpdate(b3BroadphaseProxy *, const b3Vector3 &, const b3Vector3 &, b3Dispatcher *) -> b3DbvtProxy * [] b3DynamicBvhBroadphase::m_stageRoots [b3DynamicBvhBroadphase.cpp <383:21 383:32>]
 REFERENCE_USAGE void b3DynamicBvhBroadphase::setAabbForceUpdate(b3BroadphaseProxy *, const b3Vector3 &, const b3Vector3 &, b3Dispatcher *) -> int b3DbvtProxy::stage [b3DynamicBvhBroadphase.cpp <383:41 383:45>]
 LOCAL_SYMBOL: b3DynamicBvhBroadphase.cpp<366:20> [b3DynamicBvhBroadphase.cpp <383:34 383:38>]
-SYMBOL_FUNCTION b3Vector3 & b3Vector3::operator=(const b3Vector3 &)
 REFERENCE_CALL void b3DynamicBvhBroadphase::setAabbForceUpdate(b3BroadphaseProxy *, const b3Vector3 &, const b3Vector3 &, b3Dispatcher *) -> b3Vector3 & b3Vector3::operator=(const b3Vector3 &) [b3DynamicBvhBroadphase.cpp <384:19 384:19>]
 REFERENCE_USAGE void b3DynamicBvhBroadphase::setAabbForceUpdate(b3BroadphaseProxy *, const b3Vector3 &, const b3Vector3 &, b3Dispatcher *) -> b3Vector3 b3BroadphaseProxy::m_aabbMin [b3DynamicBvhBroadphase.cpp <384:9 384:17>]
 LOCAL_SYMBOL: b3DynamicBvhBroadphase.cpp<366:20> [b3DynamicBvhBroadphase.cpp <384:2 384:6>]
 LOCAL_SYMBOL: b3DynamicBvhBroadphase.cpp<362:34> [b3DynamicBvhBroadphase.cpp <384:21 384:27>]
-SYMBOL_FUNCTION b3Vector3 & b3Vector3::operator=(const b3Vector3 &)
 REFERENCE_CALL void b3DynamicBvhBroadphase::setAabbForceUpdate(b3BroadphaseProxy *, const b3Vector3 &, const b3Vector3 &, b3Dispatcher *) -> b3Vector3 & b3Vector3::operator=(const b3Vector3 &) [b3DynamicBvhBroadphase.cpp <385:19 385:19>]
 REFERENCE_USAGE void b3DynamicBvhBroadphase::setAabbForceUpdate(b3BroadphaseProxy *, const b3Vector3 &, const b3Vector3 &, b3Dispatcher *) -> b3Vector3 b3BroadphaseProxy::m_aabbMax [b3DynamicBvhBroadphase.cpp <385:9 385:17>]
 LOCAL_SYMBOL: b3DynamicBvhBroadphase.cpp<366:20> [b3DynamicBvhBroadphase.cpp <385:2 385:6>]
@@ -804,7 +732,6 @@ LOCAL_SYMBOL: b3DynamicBvhBroadphase.cpp<363:34> [b3DynamicBvhBroadphase.cpp <38
 REFERENCE_USAGE void b3DynamicBvhBroadphase::setAabbForceUpdate(b3BroadphaseProxy *, const b3Vector3 &, const b3Vector3 &, b3Dispatcher *) -> int b3DbvtProxy::stage [b3DynamicBvhBroadphase.cpp <386:9 386:13>]
 LOCAL_SYMBOL: b3DynamicBvhBroadphase.cpp<366:20> [b3DynamicBvhBroadphase.cpp <386:2 386:6>]
 REFERENCE_USAGE void b3DynamicBvhBroadphase::setAabbForceUpdate(b3BroadphaseProxy *, const b3Vector3 &, const b3Vector3 &, b3Dispatcher *) -> int b3DynamicBvhBroadphase::m_stageCurrent [b3DynamicBvhBroadphase.cpp <386:17 386:30>]
-SYMBOL_FUNCTION static void b3ListAppend<b3DbvtProxy>(b3DbvtProxy *, b3DbvtProxy * &)
 REFERENCE_CALL void b3DynamicBvhBroadphase::setAabbForceUpdate(b3BroadphaseProxy *, const b3Vector3 &, const b3Vector3 &, b3Dispatcher *) -> static void b3ListAppend<b3DbvtProxy>(b3DbvtProxy *, b3DbvtProxy * &) [b3DynamicBvhBroadphase.cpp <387:2 387:13>]
 LOCAL_SYMBOL: b3DynamicBvhBroadphase.cpp<366:20> [b3DynamicBvhBroadphase.cpp <387:15 387:19>]
 REFERENCE_USAGE void b3DynamicBvhBroadphase::setAabbForceUpdate(b3BroadphaseProxy *, const b3Vector3 &, const b3Vector3 &, b3Dispatcher *) -> b3DbvtProxy * [] b3DynamicBvhBroadphase::m_stageRoots [b3DynamicBvhBroadphase.cpp <387:21 387:32>]
@@ -814,9 +741,7 @@ REFERENCE_USAGE void b3DynamicBvhBroadphase::setAabbForceUpdate(b3BroadphaseProx
 REFERENCE_USAGE void b3DynamicBvhBroadphase::setAabbForceUpdate(b3BroadphaseProxy *, const b3Vector3 &, const b3Vector3 &, b3Dispatcher *) -> bool b3DynamicBvhBroadphase::m_deferedcollide [b3DynamicBvhBroadphase.cpp <391:7 391:22>]
 LOCAL_SYMBOL: b3DynamicBvhBroadphase.cpp<393:23> [b3DynamicBvhBroadphase.cpp <393:23 393:30>]
 REFERENCE_TYPE_USAGE void b3DynamicBvhBroadphase::setAabbForceUpdate(b3BroadphaseProxy *, const b3Vector3 &, const b3Vector3 &, b3Dispatcher *) -> b3DbvtTreeCollider [b3DynamicBvhBroadphase.cpp <393:4 393:21>]
-SYMBOL_FUNCTION void b3DbvtTreeCollider::b3DbvtTreeCollider(b3DynamicBvhBroadphase *)
 REFERENCE_CALL void b3DynamicBvhBroadphase::setAabbForceUpdate(b3BroadphaseProxy *, const b3Vector3 &, const b3Vector3 &, b3Dispatcher *) -> void b3DbvtTreeCollider::b3DbvtTreeCollider(b3DynamicBvhBroadphase *) [b3DynamicBvhBroadphase.cpp <393:23 393:30>]
-SYMBOL_FUNCTION void b3DynamicBvh::collideTTpersistentStack<b3DbvtTreeCollider>(const b3DbvtNode *, const b3DbvtNode *, b3DbvtTreeCollider &)
 REFERENCE_CALL void b3DynamicBvhBroadphase::setAabbForceUpdate(b3BroadphaseProxy *, const b3Vector3 &, const b3Vector3 &, b3Dispatcher *) -> void b3DynamicBvh::collideTTpersistentStack<b3DbvtTreeCollider>(const b3DbvtNode *, const b3DbvtNode *, b3DbvtTreeCollider &) [b3DynamicBvhBroadphase.cpp <394:14 394:37>]
 REFERENCE_USAGE void b3DynamicBvhBroadphase::setAabbForceUpdate(b3BroadphaseProxy *, const b3Vector3 &, const b3Vector3 &, b3Dispatcher *) -> b3DynamicBvh [] b3DynamicBvhBroadphase::m_sets [b3DynamicBvhBroadphase.cpp <394:4 394:9>]
 REFERENCE_USAGE void b3DynamicBvhBroadphase::setAabbForceUpdate(b3BroadphaseProxy *, const b3Vector3 &, const b3Vector3 &, b3Dispatcher *) -> b3DbvtNode * b3DynamicBvh::m_root [b3DynamicBvhBroadphase.cpp <394:49 394:54>]
@@ -824,7 +749,6 @@ REFERENCE_USAGE void b3DynamicBvhBroadphase::setAabbForceUpdate(b3BroadphaseProx
 REFERENCE_USAGE void b3DynamicBvhBroadphase::setAabbForceUpdate(b3BroadphaseProxy *, const b3Vector3 &, const b3Vector3 &, b3Dispatcher *) -> b3DbvtNode * b3DbvtProxy::leaf [b3DynamicBvhBroadphase.cpp <394:63 394:66>]
 LOCAL_SYMBOL: b3DynamicBvhBroadphase.cpp<366:20> [b3DynamicBvhBroadphase.cpp <394:56 394:60>]
 LOCAL_SYMBOL: b3DynamicBvhBroadphase.cpp<393:23> [b3DynamicBvhBroadphase.cpp <394:68 394:75>]
-SYMBOL_FUNCTION void b3DynamicBvh::collideTTpersistentStack<b3DbvtTreeCollider>(const b3DbvtNode *, const b3DbvtNode *, b3DbvtTreeCollider &)
 REFERENCE_CALL void b3DynamicBvhBroadphase::setAabbForceUpdate(b3BroadphaseProxy *, const b3Vector3 &, const b3Vector3 &, b3Dispatcher *) -> void b3DynamicBvh::collideTTpersistentStack<b3DbvtTreeCollider>(const b3DbvtNode *, const b3DbvtNode *, b3DbvtTreeCollider &) [b3DynamicBvhBroadphase.cpp <395:14 395:37>]
 REFERENCE_USAGE void b3DynamicBvhBroadphase::setAabbForceUpdate(b3BroadphaseProxy *, const b3Vector3 &, const b3Vector3 &, b3Dispatcher *) -> b3DynamicBvh [] b3DynamicBvhBroadphase::m_sets [b3DynamicBvhBroadphase.cpp <395:4 395:9>]
 REFERENCE_USAGE void b3DynamicBvhBroadphase::setAabbForceUpdate(b3BroadphaseProxy *, const b3Vector3 &, const b3Vector3 &, b3Dispatcher *) -> b3DbvtNode * b3DynamicBvh::m_root [b3DynamicBvhBroadphase.cpp <395:49 395:54>]
@@ -833,8 +757,7 @@ REFERENCE_USAGE void b3DynamicBvhBroadphase::setAabbForceUpdate(b3BroadphaseProx
 LOCAL_SYMBOL: b3DynamicBvhBroadphase.cpp<366:20> [b3DynamicBvhBroadphase.cpp <395:56 395:60>]
 LOCAL_SYMBOL: b3DynamicBvhBroadphase.cpp<393:23> [b3DynamicBvhBroadphase.cpp <395:68 395:75>]
 SYMBOL_METHOD public void b3DynamicBvhBroadphase::calculateOverlappingPairs(b3Dispatcher *) [b3DynamicBvhBroadphase.cpp <401:1 <401:36 401:60> 426:1>]
-SYMBOL_STRUCT b3DynamicBvhBroadphase
-SYMBOL_BUILTIN_TYPE void
+QUALIFIER: b3DynamicBvhBroadphase [b3DynamicBvhBroadphase.cpp <401:12 401:33>]
 REFERENCE_TYPE_USAGE void b3DynamicBvhBroadphase::calculateOverlappingPairs(b3Dispatcher *) -> void [b3DynamicBvhBroadphase.cpp <401:1 401:4>]
 LOCAL_SYMBOL: b3DynamicBvhBroadphase.cpp<401:76> [b3DynamicBvhBroadphase.cpp <401:76 401:85>]
 REFERENCE_TYPE_USAGE void b3DynamicBvhBroadphase::calculateOverlappingPairs(b3Dispatcher *) -> b3Dispatcher [b3DynamicBvhBroadphase.cpp <401:62 401:73>]
@@ -845,8 +768,7 @@ SYMBOL_FUNCTION void b3DynamicBvhBroadphase::performDeferredRemoval(b3Dispatcher
 REFERENCE_CALL void b3DynamicBvhBroadphase::calculateOverlappingPairs(b3Dispatcher *) -> void b3DynamicBvhBroadphase::performDeferredRemoval(b3Dispatcher *) [b3DynamicBvhBroadphase.cpp <424:2 424:23>]
 LOCAL_SYMBOL: b3DynamicBvhBroadphase.cpp<401:76> [b3DynamicBvhBroadphase.cpp <424:25 424:34>]
 SYMBOL_METHOD public void b3DynamicBvhBroadphase::performDeferredRemoval(b3Dispatcher *) [b3DynamicBvhBroadphase.cpp <428:1 <428:30 428:51> 495:1>]
-SYMBOL_STRUCT b3DynamicBvhBroadphase
-SYMBOL_BUILTIN_TYPE void
+QUALIFIER: b3DynamicBvhBroadphase [b3DynamicBvhBroadphase.cpp <428:6 428:27>]
 REFERENCE_TYPE_USAGE void b3DynamicBvhBroadphase::performDeferredRemoval(b3Dispatcher *) -> void [b3DynamicBvhBroadphase.cpp <428:1 428:4>]
 LOCAL_SYMBOL: b3DynamicBvhBroadphase.cpp<428:67> [b3DynamicBvhBroadphase.cpp <428:67 428:76>]
 REFERENCE_TYPE_USAGE void b3DynamicBvhBroadphase::performDeferredRemoval(b3Dispatcher *) -> b3Dispatcher [b3DynamicBvhBroadphase.cpp <428:53 428:64>]
@@ -865,10 +787,8 @@ SYMBOL_FUNCTION void b3BroadphasePairSortPredicate::b3BroadphasePairSortPredicat
 REFERENCE_CALL void b3DynamicBvhBroadphase::performDeferredRemoval(b3Dispatcher *) -> void b3BroadphasePairSortPredicate::b3BroadphasePairSortPredicate() [b3DynamicBvhBroadphase.cpp <437:34 437:62>]
 REFERENCE_TYPE_USAGE void b3DynamicBvhBroadphase::performDeferredRemoval(b3Dispatcher *) -> b3BroadphasePairSortPredicate [b3DynamicBvhBroadphase.cpp <437:34 437:62>]
 LOCAL_SYMBOL: b3DynamicBvhBroadphase.cpp<439:7> [b3DynamicBvhBroadphase.cpp <439:7 439:17>]
-SYMBOL_BUILTIN_TYPE int
 REFERENCE_TYPE_USAGE void b3DynamicBvhBroadphase::performDeferredRemoval(b3Dispatcher *) -> int [b3DynamicBvhBroadphase.cpp <439:3 439:5>]
 LOCAL_SYMBOL: b3DynamicBvhBroadphase.cpp<442:7> [b3DynamicBvhBroadphase.cpp <442:7 442:7>]
-SYMBOL_BUILTIN_TYPE int
 REFERENCE_TYPE_USAGE void b3DynamicBvhBroadphase::performDeferredRemoval(b3Dispatcher *) -> int [b3DynamicBvhBroadphase.cpp <442:3 442:5>]
 LOCAL_SYMBOL: b3DynamicBvhBroadphase.cpp<444:20> [b3DynamicBvhBroadphase.cpp <444:20 444:31>]
 REFERENCE_TYPE_USAGE void b3DynamicBvhBroadphase::performDeferredRemoval(b3Dispatcher *) -> b3BroadphasePair [b3DynamicBvhBroadphase.cpp <444:3 444:18>]
@@ -887,7 +807,6 @@ REFERENCE_CALL void b3DynamicBvhBroadphase::performDeferredRemoval(b3Dispatcher 
 LOCAL_SYMBOL: b3DynamicBvhBroadphase.cpp<434:26> [b3DynamicBvhBroadphase.cpp <451:29 451:48>]
 LOCAL_SYMBOL: b3DynamicBvhBroadphase.cpp<442:7> [b3DynamicBvhBroadphase.cpp <451:50 451:50>]
 LOCAL_SYMBOL: b3DynamicBvhBroadphase.cpp<453:9> [b3DynamicBvhBroadphase.cpp <453:9 453:19>]
-SYMBOL_BUILTIN_TYPE bool
 REFERENCE_TYPE_USAGE void b3DynamicBvhBroadphase::performDeferredRemoval(b3Dispatcher *) -> bool [b3DynamicBvhBroadphase.cpp <453:4 453:7>]
 SYMBOL_FUNCTION bool operator==(const b3BroadphasePair &, const b3BroadphasePair &)
 REFERENCE_CALL void b3DynamicBvhBroadphase::performDeferredRemoval(b3Dispatcher *) -> bool operator==(const b3BroadphasePair &, const b3BroadphasePair &) [b3DynamicBvhBroadphase.cpp <453:29 453:30>]
@@ -898,12 +817,10 @@ REFERENCE_CALL void b3DynamicBvhBroadphase::performDeferredRemoval(b3Dispatcher 
 LOCAL_SYMBOL: b3DynamicBvhBroadphase.cpp<444:20> [b3DynamicBvhBroadphase.cpp <455:4 455:15>]
 LOCAL_SYMBOL: b3DynamicBvhBroadphase.cpp<451:22> [b3DynamicBvhBroadphase.cpp <455:19 455:22>]
 LOCAL_SYMBOL: b3DynamicBvhBroadphase.cpp<457:9> [b3DynamicBvhBroadphase.cpp <457:9 457:20>]
-SYMBOL_BUILTIN_TYPE bool
 REFERENCE_TYPE_USAGE void b3DynamicBvhBroadphase::performDeferredRemoval(b3Dispatcher *) -> bool [b3DynamicBvhBroadphase.cpp <457:4 457:7>]
 LOCAL_SYMBOL: b3DynamicBvhBroadphase.cpp<453:9> [b3DynamicBvhBroadphase.cpp <459:9 459:19>]
 LOCAL_SYMBOL: b3DynamicBvhBroadphase.cpp<462:19> [b3DynamicBvhBroadphase.cpp <462:19 462:20>]
 REFERENCE_TYPE_USAGE void b3DynamicBvhBroadphase::performDeferredRemoval(b3Dispatcher *) -> b3DbvtProxy [b3DynamicBvhBroadphase.cpp <462:5 462:15>]
-SYMBOL_FUNCTION b3DbvtProxy & b3AlignedObjectArray<b3DbvtProxy>::operator[](int)
 REFERENCE_CALL void b3DynamicBvhBroadphase::performDeferredRemoval(b3Dispatcher *) -> b3DbvtProxy & b3AlignedObjectArray<b3DbvtProxy>::operator[](int) [b3DynamicBvhBroadphase.cpp <462:32 462:32>]
 REFERENCE_USAGE void b3DynamicBvhBroadphase::performDeferredRemoval(b3Dispatcher *) -> b3AlignedObjectArray<b3DbvtProxy> b3DynamicBvhBroadphase::m_proxies [b3DynamicBvhBroadphase.cpp <462:23 462:31>]
 REFERENCE_USAGE void b3DynamicBvhBroadphase::performDeferredRemoval(b3Dispatcher *) -> int b3Int4::anonymous union (b3Int4.h<30:2>)::anonymous struct (b3Int4.h<32:3>)::x [b3DynamicBvhBroadphase.cpp <462:38 462:38>]
@@ -912,7 +829,6 @@ REFERENCE_USAGE void b3DynamicBvhBroadphase::performDeferredRemoval(b3Dispatcher
 LOCAL_SYMBOL: b3DynamicBvhBroadphase.cpp<451:22> [b3DynamicBvhBroadphase.cpp <462:33 462:36>]
 LOCAL_SYMBOL: b3DynamicBvhBroadphase.cpp<463:19> [b3DynamicBvhBroadphase.cpp <463:19 463:20>]
 REFERENCE_TYPE_USAGE void b3DynamicBvhBroadphase::performDeferredRemoval(b3Dispatcher *) -> b3DbvtProxy [b3DynamicBvhBroadphase.cpp <463:5 463:15>]
-SYMBOL_FUNCTION b3DbvtProxy & b3AlignedObjectArray<b3DbvtProxy>::operator[](int)
 REFERENCE_CALL void b3DynamicBvhBroadphase::performDeferredRemoval(b3Dispatcher *) -> b3DbvtProxy & b3AlignedObjectArray<b3DbvtProxy>::operator[](int) [b3DynamicBvhBroadphase.cpp <463:32 463:32>]
 REFERENCE_USAGE void b3DynamicBvhBroadphase::performDeferredRemoval(b3Dispatcher *) -> b3AlignedObjectArray<b3DbvtProxy> b3DynamicBvhBroadphase::m_proxies [b3DynamicBvhBroadphase.cpp <463:23 463:31>]
 REFERENCE_USAGE void b3DynamicBvhBroadphase::performDeferredRemoval(b3Dispatcher *) -> int b3Int4::anonymous union (b3Int4.h<30:2>)::anonymous struct (b3Int4.h<32:3>)::y [b3DynamicBvhBroadphase.cpp <463:38 463:38>]
@@ -920,9 +836,7 @@ REFERENCE_USAGE void b3DynamicBvhBroadphase::performDeferredRemoval(b3Dispatcher
 REFERENCE_USAGE void b3DynamicBvhBroadphase::performDeferredRemoval(b3Dispatcher *) -> b3Int4::anonymous union (b3Int4.h<30:2>) b3Int4:: [b3DynamicBvhBroadphase.cpp <463:38 463:38>]
 LOCAL_SYMBOL: b3DynamicBvhBroadphase.cpp<451:22> [b3DynamicBvhBroadphase.cpp <463:33 463:36>]
 LOCAL_SYMBOL: b3DynamicBvhBroadphase.cpp<464:10> [b3DynamicBvhBroadphase.cpp <464:10 464:19>]
-SYMBOL_BUILTIN_TYPE bool
 REFERENCE_TYPE_USAGE void b3DynamicBvhBroadphase::performDeferredRemoval(b3Dispatcher *) -> bool [b3DynamicBvhBroadphase.cpp <464:5 464:8>]
-SYMBOL_FUNCTION bool b3Intersect(const b3DbvtAabbMm &, const b3DbvtAabbMm &)
 REFERENCE_CALL void b3DynamicBvhBroadphase::performDeferredRemoval(b3Dispatcher *) -> bool b3Intersect(const b3DbvtAabbMm &, const b3DbvtAabbMm &) [b3DynamicBvhBroadphase.cpp <464:23 464:33>]
 REFERENCE_USAGE void b3DynamicBvhBroadphase::performDeferredRemoval(b3Dispatcher *) -> b3DbvtVolume b3DbvtNode::volume [b3DynamicBvhBroadphase.cpp <464:45 464:50>]
 REFERENCE_USAGE void b3DynamicBvhBroadphase::performDeferredRemoval(b3Dispatcher *) -> b3DbvtNode * b3DbvtProxy::leaf [b3DynamicBvhBroadphase.cpp <464:39 464:42>]
@@ -949,22 +863,18 @@ REFERENCE_USAGE void b3DynamicBvhBroadphase::performDeferredRemoval(b3Dispatcher
 REFERENCE_USAGE void b3DynamicBvhBroadphase::performDeferredRemoval(b3Dispatcher *) -> b3Int4::anonymous union (b3Int4.h<30:2>) b3Int4:: [b3DynamicBvhBroadphase.cpp <485:10 485:10>]
 LOCAL_SYMBOL: b3DynamicBvhBroadphase.cpp<451:22> [b3DynamicBvhBroadphase.cpp <485:5 485:8>]
 LOCAL_SYMBOL: b3DynamicBvhBroadphase.cpp<439:7> [b3DynamicBvhBroadphase.cpp <486:5 486:15>]
-SYMBOL_FUNCTION void b3AlignedObjectArray<b3Int4>::quickSort<b3BroadphasePairSortPredicate>(const b3BroadphasePairSortPredicate &)
 REFERENCE_CALL void b3DynamicBvhBroadphase::performDeferredRemoval(b3Dispatcher *) -> void b3AlignedObjectArray<b3Int4>::quickSort<b3BroadphasePairSortPredicate>(const b3BroadphasePairSortPredicate &) [b3DynamicBvhBroadphase.cpp <492:24 492:32>]
 LOCAL_SYMBOL: b3DynamicBvhBroadphase.cpp<434:26> [b3DynamicBvhBroadphase.cpp <492:3 492:22>]
-SYMBOL_FUNCTION void b3BroadphasePairSortPredicate::b3BroadphasePairSortPredicate()
 REFERENCE_CALL void b3DynamicBvhBroadphase::performDeferredRemoval(b3Dispatcher *) -> void b3BroadphasePairSortPredicate::b3BroadphasePairSortPredicate() [b3DynamicBvhBroadphase.cpp <492:34 492:62>]
 REFERENCE_TYPE_USAGE void b3DynamicBvhBroadphase::performDeferredRemoval(b3Dispatcher *) -> b3BroadphasePairSortPredicate [b3DynamicBvhBroadphase.cpp <492:34 492:62>]
 SYMBOL_FUNCTION void b3AlignedObjectArray<b3Int4>::resize(int, const b3Int4 &)
 REFERENCE_CALL void b3DynamicBvhBroadphase::performDeferredRemoval(b3Dispatcher *) -> void b3AlignedObjectArray<b3Int4>::resize(int, const b3Int4 &) [b3DynamicBvhBroadphase.cpp <493:24 493:29>]
 LOCAL_SYMBOL: b3DynamicBvhBroadphase.cpp<434:26> [b3DynamicBvhBroadphase.cpp <493:3 493:22>]
-SYMBOL_FUNCTION int b3AlignedObjectArray<b3Int4>::size() const
 REFERENCE_CALL void b3DynamicBvhBroadphase::performDeferredRemoval(b3Dispatcher *) -> int b3AlignedObjectArray<b3Int4>::size() const [b3DynamicBvhBroadphase.cpp <493:52 493:55>]
 LOCAL_SYMBOL: b3DynamicBvhBroadphase.cpp<434:26> [b3DynamicBvhBroadphase.cpp <493:31 493:50>]
 LOCAL_SYMBOL: b3DynamicBvhBroadphase.cpp<439:7> [b3DynamicBvhBroadphase.cpp <493:61 493:71>]
 SYMBOL_METHOD public void b3DynamicBvhBroadphase::collide(b3Dispatcher *) [b3DynamicBvhBroadphase.cpp <498:1 <498:36 498:42> 601:1>]
-SYMBOL_STRUCT b3DynamicBvhBroadphase
-SYMBOL_BUILTIN_TYPE void
+QUALIFIER: b3DynamicBvhBroadphase [b3DynamicBvhBroadphase.cpp <498:12 498:33>]
 REFERENCE_TYPE_USAGE void b3DynamicBvhBroadphase::collide(b3Dispatcher *) -> void [b3DynamicBvhBroadphase.cpp <498:1 498:4>]
 LOCAL_SYMBOL: b3DynamicBvhBroadphase.cpp<498:58> [b3DynamicBvhBroadphase.cpp <498:58 498:67>]
 REFERENCE_TYPE_USAGE void b3DynamicBvhBroadphase::collide(b3Dispatcher *) -> b3Dispatcher [b3DynamicBvhBroadphase.cpp <498:44 498:55>]
@@ -976,12 +886,10 @@ REFERENCE_USAGE void b3DynamicBvhBroadphase::collide(b3Dispatcher *) -> b3Dynami
 REFERENCE_USAGE void b3DynamicBvhBroadphase::collide(b3Dispatcher *) -> int b3DynamicBvhBroadphase::m_dupdates [b3DynamicBvhBroadphase.cpp <519:54 519:63>]
 REFERENCE_USAGE void b3DynamicBvhBroadphase::collide(b3Dispatcher *) -> int b3DynamicBvhBroadphase::m_fixedleft [b3DynamicBvhBroadphase.cpp <520:5 520:15>]
 LOCAL_SYMBOL: b3DynamicBvhBroadphase.cpp<522:13> [b3DynamicBvhBroadphase.cpp <522:13 522:17>]
-SYMBOL_BUILTIN_TYPE int
 REFERENCE_TYPE_USAGE void b3DynamicBvhBroadphase::collide(b3Dispatcher *) -> int [b3DynamicBvhBroadphase.cpp <522:9 522:11>]
 REFERENCE_USAGE void b3DynamicBvhBroadphase::collide(b3Dispatcher *) -> int b3DynamicBvh::m_leaves [b3DynamicBvhBroadphase.cpp <522:32 522:39>]
 REFERENCE_USAGE void b3DynamicBvhBroadphase::collide(b3Dispatcher *) -> b3DynamicBvh [] b3DynamicBvhBroadphase::m_sets [b3DynamicBvhBroadphase.cpp <522:22 522:27>]
 REFERENCE_USAGE void b3DynamicBvhBroadphase::collide(b3Dispatcher *) -> int b3DynamicBvhBroadphase::m_fupdates [b3DynamicBvhBroadphase.cpp <522:41 522:50>]
-SYMBOL_FUNCTION void b3DynamicBvh::optimizeIncremental(int)
 REFERENCE_CALL void b3DynamicBvhBroadphase::collide(b3Dispatcher *) -> void b3DynamicBvh::optimizeIncremental(int) [b3DynamicBvhBroadphase.cpp <523:13 523:31>]
 REFERENCE_USAGE void b3DynamicBvhBroadphase::collide(b3Dispatcher *) -> b3DynamicBvh [] b3DynamicBvhBroadphase::m_sets [b3DynamicBvhBroadphase.cpp <523:3 523:8>]
 REFERENCE_USAGE void b3DynamicBvhBroadphase::collide(b3Dispatcher *) -> int b3DynamicBvh::m_leaves [b3DynamicBvhBroadphase.cpp <523:46 523:53>]
@@ -990,7 +898,6 @@ REFERENCE_USAGE void b3DynamicBvhBroadphase::collide(b3Dispatcher *) -> int b3Dy
 REFERENCE_USAGE void b3DynamicBvhBroadphase::collide(b3Dispatcher *) -> int b3DynamicBvhBroadphase::m_fixedleft [b3DynamicBvhBroadphase.cpp <524:3 524:13>]
 SYMBOL_FUNCTION const int & b3Max<int>(const int &, const int &)
 REFERENCE_CALL void b3DynamicBvhBroadphase::collide(b3Dispatcher *) -> const int & b3Max<int>(const int &, const int &) [b3DynamicBvhBroadphase.cpp <524:15 524:19>]
-SYMBOL_BUILTIN_TYPE int
 REFERENCE_TEMPLATE_ARGUMENT const int & b3Max<int>(const int &, const int &) -> int [b3DynamicBvhBroadphase.cpp <524:21 524:23>]
 REFERENCE_USAGE void b3DynamicBvhBroadphase::collide(b3Dispatcher *) -> int b3DynamicBvhBroadphase::m_fixedleft [b3DynamicBvhBroadphase.cpp <524:28 524:38>]
 LOCAL_SYMBOL: b3DynamicBvhBroadphase.cpp<522:13> [b3DynamicBvhBroadphase.cpp <524:40 524:44>]
@@ -1004,40 +911,34 @@ REFERENCE_USAGE void b3DynamicBvhBroadphase::collide(b3Dispatcher *) -> int b3Dy
 LOCAL_SYMBOL: b3DynamicBvhBroadphase.cpp<528:15> [b3DynamicBvhBroadphase.cpp <529:5 529:11>]
 LOCAL_SYMBOL: b3DynamicBvhBroadphase.cpp<531:22> [b3DynamicBvhBroadphase.cpp <531:22 531:29>]
 REFERENCE_TYPE_USAGE void b3DynamicBvhBroadphase::collide(b3Dispatcher *) -> b3DbvtTreeCollider [b3DynamicBvhBroadphase.cpp <531:3 531:20>]
-SYMBOL_FUNCTION void b3DbvtTreeCollider::b3DbvtTreeCollider(b3DynamicBvhBroadphase *)
 REFERENCE_CALL void b3DynamicBvhBroadphase::collide(b3Dispatcher *) -> void b3DbvtTreeCollider::b3DbvtTreeCollider(b3DynamicBvhBroadphase *) [b3DynamicBvhBroadphase.cpp <531:22 531:29>]
 LOCAL_SYMBOL: b3DynamicBvhBroadphase.cpp<533:17> [b3DynamicBvhBroadphase.cpp <533:17 533:20>]
 REFERENCE_TYPE_USAGE void b3DynamicBvhBroadphase::collide(b3Dispatcher *) -> b3DbvtProxy [b3DynamicBvhBroadphase.cpp <533:4 533:14>]
 REFERENCE_USAGE void b3DynamicBvhBroadphase::collide(b3Dispatcher *) -> b3DbvtProxy * [] b3DbvtProxy::links [b3DynamicBvhBroadphase.cpp <533:31 533:35>]
 LOCAL_SYMBOL: b3DynamicBvhBroadphase.cpp<528:15> [b3DynamicBvhBroadphase.cpp <533:22 533:28>]
-SYMBOL_FUNCTION static void b3ListRemove<b3DbvtProxy>(b3DbvtProxy *, b3DbvtProxy * &)
 REFERENCE_CALL void b3DynamicBvhBroadphase::collide(b3Dispatcher *) -> static void b3ListRemove<b3DbvtProxy>(b3DbvtProxy *, b3DbvtProxy * &) [b3DynamicBvhBroadphase.cpp <534:4 534:15>]
 LOCAL_SYMBOL: b3DynamicBvhBroadphase.cpp<528:15> [b3DynamicBvhBroadphase.cpp <534:17 534:23>]
 REFERENCE_USAGE void b3DynamicBvhBroadphase::collide(b3Dispatcher *) -> b3DbvtProxy * [] b3DynamicBvhBroadphase::m_stageRoots [b3DynamicBvhBroadphase.cpp <534:25 534:36>]
 REFERENCE_USAGE void b3DynamicBvhBroadphase::collide(b3Dispatcher *) -> int b3DbvtProxy::stage [b3DynamicBvhBroadphase.cpp <534:47 534:51>]
 LOCAL_SYMBOL: b3DynamicBvhBroadphase.cpp<528:15> [b3DynamicBvhBroadphase.cpp <534:38 534:44>]
-SYMBOL_FUNCTION static void b3ListAppend<b3DbvtProxy>(b3DbvtProxy *, b3DbvtProxy * &)
 REFERENCE_CALL void b3DynamicBvhBroadphase::collide(b3Dispatcher *) -> static void b3ListAppend<b3DbvtProxy>(b3DbvtProxy *, b3DbvtProxy * &) [b3DynamicBvhBroadphase.cpp <535:4 535:15>]
 LOCAL_SYMBOL: b3DynamicBvhBroadphase.cpp<528:15> [b3DynamicBvhBroadphase.cpp <535:17 535:23>]
 REFERENCE_USAGE void b3DynamicBvhBroadphase::collide(b3Dispatcher *) -> b3DbvtProxy * [] b3DynamicBvhBroadphase::m_stageRoots [b3DynamicBvhBroadphase.cpp <535:25 535:36>]
 REFERENCE_USAGE void b3DynamicBvhBroadphase::collide(b3Dispatcher *) -> b3DynamicBvhBroadphase::anonymous enum (b3DynamicBvhBroadphase.h<123:2>)::STAGECOUNT [b3DynamicBvhBroadphase.cpp <535:38 535:47>]
-SYMBOL_FUNCTION void b3DynamicBvh::remove(b3DbvtNode *)
 REFERENCE_CALL void b3DynamicBvhBroadphase::collide(b3Dispatcher *) -> void b3DynamicBvh::remove(b3DbvtNode *) [b3DynamicBvhBroadphase.cpp <542:14 542:19>]
 REFERENCE_USAGE void b3DynamicBvhBroadphase::collide(b3Dispatcher *) -> b3DynamicBvh [] b3DynamicBvhBroadphase::m_sets [b3DynamicBvhBroadphase.cpp <542:4 542:9>]
 REFERENCE_USAGE void b3DynamicBvhBroadphase::collide(b3Dispatcher *) -> b3DbvtNode * b3DbvtProxy::leaf [b3DynamicBvhBroadphase.cpp <542:30 542:33>]
 LOCAL_SYMBOL: b3DynamicBvhBroadphase.cpp<528:15> [b3DynamicBvhBroadphase.cpp <542:21 542:27>]
 LOCAL_SYMBOL: b3DynamicBvhBroadphase.cpp<543:41> [b3DynamicBvhBroadphase.cpp <543:41 543:47>]
 REFERENCE_TYPE_USAGE void b3DynamicBvhBroadphase::collide(b3Dispatcher *) -> b3DbvtVolume [b3DynamicBvhBroadphase.cpp <543:27 543:38>]
-SYMBOL_FUNCTION static b3DbvtAabbMm b3DbvtAabbMm::FromMM(const b3Vector3 &, const b3Vector3 &)
 REFERENCE_CALL void b3DynamicBvhBroadphase::collide(b3Dispatcher *) -> static b3DbvtAabbMm b3DbvtAabbMm::FromMM(const b3Vector3 &, const b3Vector3 &) [b3DynamicBvhBroadphase.cpp <543:63 543:68>]
-SYMBOL_STRUCT b3DbvtAabbMm
+QUALIFIER: b3DbvtAabbMm [b3DynamicBvhBroadphase.cpp <543:49 543:60>]
 REFERENCE_USAGE void b3DynamicBvhBroadphase::collide(b3Dispatcher *) -> b3Vector3 b3BroadphaseProxy::m_aabbMin [b3DynamicBvhBroadphase.cpp <543:79 543:87>]
 LOCAL_SYMBOL: b3DynamicBvhBroadphase.cpp<528:15> [b3DynamicBvhBroadphase.cpp <543:70 543:76>]
 REFERENCE_USAGE void b3DynamicBvhBroadphase::collide(b3Dispatcher *) -> b3Vector3 b3BroadphaseProxy::m_aabbMax [b3DynamicBvhBroadphase.cpp <543:98 543:106>]
 LOCAL_SYMBOL: b3DynamicBvhBroadphase.cpp<528:15> [b3DynamicBvhBroadphase.cpp <543:89 543:95>]
 REFERENCE_USAGE void b3DynamicBvhBroadphase::collide(b3Dispatcher *) -> b3DbvtNode * b3DbvtProxy::leaf [b3DynamicBvhBroadphase.cpp <544:13 544:16>]
 LOCAL_SYMBOL: b3DynamicBvhBroadphase.cpp<528:15> [b3DynamicBvhBroadphase.cpp <544:4 544:10>]
-SYMBOL_FUNCTION b3DbvtNode * b3DynamicBvh::insert(const b3DbvtVolume &, void *)
 REFERENCE_CALL void b3DynamicBvhBroadphase::collide(b3Dispatcher *) -> b3DbvtNode * b3DynamicBvh::insert(const b3DbvtVolume &, void *) [b3DynamicBvhBroadphase.cpp <544:30 544:35>]
 REFERENCE_USAGE void b3DynamicBvhBroadphase::collide(b3Dispatcher *) -> b3DynamicBvh [] b3DynamicBvhBroadphase::m_sets [b3DynamicBvhBroadphase.cpp <544:20 544:25>]
 LOCAL_SYMBOL: b3DynamicBvhBroadphase.cpp<543:41> [b3DynamicBvhBroadphase.cpp <544:37 544:43>]
@@ -1054,10 +955,8 @@ REFERENCE_USAGE void b3DynamicBvhBroadphase::collide(b3Dispatcher *) -> b3Dynami
 REFERENCE_USAGE void b3DynamicBvhBroadphase::collide(b3Dispatcher *) -> bool b3DynamicBvhBroadphase::m_needcleanup [b3DynamicBvhBroadphase.cpp <549:3 549:15>]
 LOCAL_SYMBOL: b3DynamicBvhBroadphase.cpp<553:22> [b3DynamicBvhBroadphase.cpp <553:22 553:29>]
 REFERENCE_TYPE_USAGE void b3DynamicBvhBroadphase::collide(b3Dispatcher *) -> b3DbvtTreeCollider [b3DynamicBvhBroadphase.cpp <553:3 553:20>]
-SYMBOL_FUNCTION void b3DbvtTreeCollider::b3DbvtTreeCollider(b3DynamicBvhBroadphase *)
 REFERENCE_CALL void b3DynamicBvhBroadphase::collide(b3Dispatcher *) -> void b3DbvtTreeCollider::b3DbvtTreeCollider(b3DynamicBvhBroadphase *) [b3DynamicBvhBroadphase.cpp <553:22 553:29>]
 REFERENCE_USAGE void b3DynamicBvhBroadphase::collide(b3Dispatcher *) -> bool b3DynamicBvhBroadphase::m_deferedcollide [b3DynamicBvhBroadphase.cpp <554:6 554:21>]
-SYMBOL_FUNCTION void b3DynamicBvh::collideTTpersistentStack<b3DbvtTreeCollider>(const b3DbvtNode *, const b3DbvtNode *, b3DbvtTreeCollider &)
 REFERENCE_CALL void b3DynamicBvhBroadphase::collide(b3Dispatcher *) -> void b3DynamicBvh::collideTTpersistentStack<b3DbvtTreeCollider>(const b3DbvtNode *, const b3DbvtNode *, b3DbvtTreeCollider &) [b3DynamicBvhBroadphase.cpp <557:14 557:37>]
 REFERENCE_USAGE void b3DynamicBvhBroadphase::collide(b3Dispatcher *) -> b3DynamicBvh [] b3DynamicBvhBroadphase::m_sets [b3DynamicBvhBroadphase.cpp <557:4 557:9>]
 REFERENCE_USAGE void b3DynamicBvhBroadphase::collide(b3Dispatcher *) -> b3DbvtNode * b3DynamicBvh::m_root [b3DynamicBvhBroadphase.cpp <557:49 557:54>]
@@ -1066,7 +965,6 @@ REFERENCE_USAGE void b3DynamicBvhBroadphase::collide(b3Dispatcher *) -> b3DbvtNo
 REFERENCE_USAGE void b3DynamicBvhBroadphase::collide(b3Dispatcher *) -> b3DynamicBvh [] b3DynamicBvhBroadphase::m_sets [b3DynamicBvhBroadphase.cpp <557:56 557:61>]
 LOCAL_SYMBOL: b3DynamicBvhBroadphase.cpp<553:22> [b3DynamicBvhBroadphase.cpp <557:73 557:80>]
 REFERENCE_USAGE void b3DynamicBvhBroadphase::collide(b3Dispatcher *) -> bool b3DynamicBvhBroadphase::m_deferedcollide [b3DynamicBvhBroadphase.cpp <559:6 559:21>]
-SYMBOL_FUNCTION void b3DynamicBvh::collideTTpersistentStack<b3DbvtTreeCollider>(const b3DbvtNode *, const b3DbvtNode *, b3DbvtTreeCollider &)
 REFERENCE_CALL void b3DynamicBvhBroadphase::collide(b3Dispatcher *) -> void b3DynamicBvh::collideTTpersistentStack<b3DbvtTreeCollider>(const b3DbvtNode *, const b3DbvtNode *, b3DbvtTreeCollider &) [b3DynamicBvhBroadphase.cpp <562:14 562:37>]
 REFERENCE_USAGE void b3DynamicBvhBroadphase::collide(b3Dispatcher *) -> b3DynamicBvh [] b3DynamicBvhBroadphase::m_sets [b3DynamicBvhBroadphase.cpp <562:4 562:9>]
 REFERENCE_USAGE void b3DynamicBvhBroadphase::collide(b3Dispatcher *) -> b3DbvtNode * b3DynamicBvh::m_root [b3DynamicBvhBroadphase.cpp <562:49 562:54>]
@@ -1077,48 +975,37 @@ LOCAL_SYMBOL: b3DynamicBvhBroadphase.cpp<553:22> [b3DynamicBvhBroadphase.cpp <56
 REFERENCE_USAGE void b3DynamicBvhBroadphase::collide(b3Dispatcher *) -> bool b3DynamicBvhBroadphase::m_needcleanup [b3DynamicBvhBroadphase.cpp <566:5 566:17>]
 LOCAL_SYMBOL: b3DynamicBvhBroadphase.cpp<569:26> [b3DynamicBvhBroadphase.cpp <569:26 569:30>]
 REFERENCE_TYPE_USAGE void b3DynamicBvhBroadphase::collide(b3Dispatcher *) -> b3BroadphasePairArray [b3DynamicBvhBroadphase.cpp <569:3 569:23>]
-SYMBOL_FUNCTION b3BroadphasePairArray & b3OverlappingPairCache::getOverlappingPairArray()
 REFERENCE_CALL void b3DynamicBvhBroadphase::collide(b3Dispatcher *) -> b3BroadphasePairArray & b3OverlappingPairCache::getOverlappingPairArray() [b3DynamicBvhBroadphase.cpp <569:45 569:67>]
 REFERENCE_USAGE void b3DynamicBvhBroadphase::collide(b3Dispatcher *) -> b3OverlappingPairCache * b3DynamicBvhBroadphase::m_paircache [b3DynamicBvhBroadphase.cpp <569:32 569:42>]
-SYMBOL_FUNCTION int b3AlignedObjectArray<b3Int4>::size() const
 REFERENCE_CALL void b3DynamicBvhBroadphase::collide(b3Dispatcher *) -> int b3AlignedObjectArray<b3Int4>::size() const [b3DynamicBvhBroadphase.cpp <570:12 570:15>]
 LOCAL_SYMBOL: b3DynamicBvhBroadphase.cpp<569:26> [b3DynamicBvhBroadphase.cpp <570:6 570:10>]
 LOCAL_SYMBOL: b3DynamicBvhBroadphase.cpp<573:10> [b3DynamicBvhBroadphase.cpp <573:10 573:11>]
-SYMBOL_BUILTIN_TYPE int
 REFERENCE_TYPE_USAGE void b3DynamicBvhBroadphase::collide(b3Dispatcher *) -> int [b3DynamicBvhBroadphase.cpp <573:4 573:6>]
 SYMBOL_FUNCTION const int & b3Min<int>(const int &, const int &)
 REFERENCE_CALL void b3DynamicBvhBroadphase::collide(b3Dispatcher *) -> const int & b3Min<int>(const int &, const int &) [b3DynamicBvhBroadphase.cpp <573:13 573:17>]
-SYMBOL_FUNCTION int b3AlignedObjectArray<b3Int4>::size() const
 REFERENCE_CALL void b3DynamicBvhBroadphase::collide(b3Dispatcher *) -> int b3AlignedObjectArray<b3Int4>::size() const [b3DynamicBvhBroadphase.cpp <573:25 573:28>]
 LOCAL_SYMBOL: b3DynamicBvhBroadphase.cpp<569:26> [b3DynamicBvhBroadphase.cpp <573:19 573:23>]
-SYMBOL_FUNCTION const int & b3Max<int>(const int &, const int &)
 REFERENCE_CALL void b3DynamicBvhBroadphase::collide(b3Dispatcher *) -> const int & b3Max<int>(const int &, const int &) [b3DynamicBvhBroadphase.cpp <573:32 573:36>]
-SYMBOL_BUILTIN_TYPE int
 REFERENCE_TEMPLATE_ARGUMENT const int & b3Max<int>(const int &, const int &) -> int [b3DynamicBvhBroadphase.cpp <573:38 573:40>]
 REFERENCE_USAGE void b3DynamicBvhBroadphase::collide(b3Dispatcher *) -> int b3DynamicBvhBroadphase::m_newpairs [b3DynamicBvhBroadphase.cpp <573:43 573:52>]
-SYMBOL_FUNCTION int b3AlignedObjectArray<b3Int4>::size() const
 REFERENCE_CALL void b3DynamicBvhBroadphase::collide(b3Dispatcher *) -> int b3AlignedObjectArray<b3Int4>::size() const [b3DynamicBvhBroadphase.cpp <573:61 573:64>]
 LOCAL_SYMBOL: b3DynamicBvhBroadphase.cpp<569:26> [b3DynamicBvhBroadphase.cpp <573:55 573:59>]
 REFERENCE_USAGE void b3DynamicBvhBroadphase::collide(b3Dispatcher *) -> int b3DynamicBvhBroadphase::m_cupdates [b3DynamicBvhBroadphase.cpp <573:68 573:77>]
 LOCAL_SYMBOL: b3DynamicBvhBroadphase.cpp<574:12> [b3DynamicBvhBroadphase.cpp <574:12 574:12>]
-SYMBOL_BUILTIN_TYPE int
 REFERENCE_TYPE_USAGE void b3DynamicBvhBroadphase::collide(b3Dispatcher *) -> int [b3DynamicBvhBroadphase.cpp <574:8 574:10>]
 LOCAL_SYMBOL: b3DynamicBvhBroadphase.cpp<574:12> [b3DynamicBvhBroadphase.cpp <574:16 574:16>]
 LOCAL_SYMBOL: b3DynamicBvhBroadphase.cpp<573:10> [b3DynamicBvhBroadphase.cpp <574:18 574:19>]
 LOCAL_SYMBOL: b3DynamicBvhBroadphase.cpp<574:12> [b3DynamicBvhBroadphase.cpp <574:23 574:23>]
 LOCAL_SYMBOL: b3DynamicBvhBroadphase.cpp<576:23> [b3DynamicBvhBroadphase.cpp <576:23 576:23>]
 REFERENCE_TYPE_USAGE void b3DynamicBvhBroadphase::collide(b3Dispatcher *) -> b3BroadphasePair [b3DynamicBvhBroadphase.cpp <576:5 576:20>]
-SYMBOL_FUNCTION b3Int4 & b3AlignedObjectArray<b3Int4>::operator[](int)
 REFERENCE_CALL void b3DynamicBvhBroadphase::collide(b3Dispatcher *) -> b3Int4 & b3AlignedObjectArray<b3Int4>::operator[](int) [b3DynamicBvhBroadphase.cpp <576:30 576:30>]
 LOCAL_SYMBOL: b3DynamicBvhBroadphase.cpp<569:26> [b3DynamicBvhBroadphase.cpp <576:25 576:29>]
 REFERENCE_USAGE void b3DynamicBvhBroadphase::collide(b3Dispatcher *) -> int b3DynamicBvhBroadphase::m_cid [b3DynamicBvhBroadphase.cpp <576:32 576:36>]
 LOCAL_SYMBOL: b3DynamicBvhBroadphase.cpp<574:12> [b3DynamicBvhBroadphase.cpp <576:38 576:38>]
-SYMBOL_FUNCTION int b3AlignedObjectArray<b3Int4>::size() const
 REFERENCE_CALL void b3DynamicBvhBroadphase::collide(b3Dispatcher *) -> int b3AlignedObjectArray<b3Int4>::size() const [b3DynamicBvhBroadphase.cpp <576:47 576:50>]
 LOCAL_SYMBOL: b3DynamicBvhBroadphase.cpp<569:26> [b3DynamicBvhBroadphase.cpp <576:41 576:45>]
 LOCAL_SYMBOL: b3DynamicBvhBroadphase.cpp<577:19> [b3DynamicBvhBroadphase.cpp <577:19 577:20>]
 REFERENCE_TYPE_USAGE void b3DynamicBvhBroadphase::collide(b3Dispatcher *) -> b3DbvtProxy [b3DynamicBvhBroadphase.cpp <577:5 577:15>]
-SYMBOL_FUNCTION b3DbvtProxy & b3AlignedObjectArray<b3DbvtProxy>::operator[](int)
 REFERENCE_CALL void b3DynamicBvhBroadphase::collide(b3Dispatcher *) -> b3DbvtProxy & b3AlignedObjectArray<b3DbvtProxy>::operator[](int) [b3DynamicBvhBroadphase.cpp <577:32 577:32>]
 REFERENCE_USAGE void b3DynamicBvhBroadphase::collide(b3Dispatcher *) -> b3AlignedObjectArray<b3DbvtProxy> b3DynamicBvhBroadphase::m_proxies [b3DynamicBvhBroadphase.cpp <577:23 577:31>]
 REFERENCE_USAGE void b3DynamicBvhBroadphase::collide(b3Dispatcher *) -> int b3Int4::anonymous union (b3Int4.h<30:2>)::anonymous struct (b3Int4.h<32:3>)::x [b3DynamicBvhBroadphase.cpp <577:35 577:35>]
@@ -1127,14 +1014,12 @@ REFERENCE_USAGE void b3DynamicBvhBroadphase::collide(b3Dispatcher *) -> b3Int4::
 LOCAL_SYMBOL: b3DynamicBvhBroadphase.cpp<576:23> [b3DynamicBvhBroadphase.cpp <577:33 577:33>]
 LOCAL_SYMBOL: b3DynamicBvhBroadphase.cpp<578:19> [b3DynamicBvhBroadphase.cpp <578:19 578:20>]
 REFERENCE_TYPE_USAGE void b3DynamicBvhBroadphase::collide(b3Dispatcher *) -> b3DbvtProxy [b3DynamicBvhBroadphase.cpp <578:5 578:15>]
-SYMBOL_FUNCTION b3DbvtProxy & b3AlignedObjectArray<b3DbvtProxy>::operator[](int)
 REFERENCE_CALL void b3DynamicBvhBroadphase::collide(b3Dispatcher *) -> b3DbvtProxy & b3AlignedObjectArray<b3DbvtProxy>::operator[](int) [b3DynamicBvhBroadphase.cpp <578:32 578:32>]
 REFERENCE_USAGE void b3DynamicBvhBroadphase::collide(b3Dispatcher *) -> b3AlignedObjectArray<b3DbvtProxy> b3DynamicBvhBroadphase::m_proxies [b3DynamicBvhBroadphase.cpp <578:23 578:31>]
 REFERENCE_USAGE void b3DynamicBvhBroadphase::collide(b3Dispatcher *) -> int b3Int4::anonymous union (b3Int4.h<30:2>)::anonymous struct (b3Int4.h<32:3>)::y [b3DynamicBvhBroadphase.cpp <578:35 578:35>]
 REFERENCE_USAGE void b3DynamicBvhBroadphase::collide(b3Dispatcher *) -> b3Int4::anonymous union (b3Int4.h<30:2>)::anonymous struct (b3Int4.h<32:3>) b3Int4::anonymous union (b3Int4.h<30:2>):: [b3DynamicBvhBroadphase.cpp <578:35 578:35>]
 REFERENCE_USAGE void b3DynamicBvhBroadphase::collide(b3Dispatcher *) -> b3Int4::anonymous union (b3Int4.h<30:2>) b3Int4:: [b3DynamicBvhBroadphase.cpp <578:35 578:35>]
 LOCAL_SYMBOL: b3DynamicBvhBroadphase.cpp<576:23> [b3DynamicBvhBroadphase.cpp <578:33 578:33>]
-SYMBOL_FUNCTION bool b3Intersect(const b3DbvtAabbMm &, const b3DbvtAabbMm &)
 REFERENCE_CALL void b3DynamicBvhBroadphase::collide(b3Dispatcher *) -> bool b3Intersect(const b3DbvtAabbMm &, const b3DbvtAabbMm &) [b3DynamicBvhBroadphase.cpp <579:9 579:19>]
 REFERENCE_USAGE void b3DynamicBvhBroadphase::collide(b3Dispatcher *) -> b3DbvtVolume b3DbvtNode::volume [b3DynamicBvhBroadphase.cpp <579:31 579:36>]
 REFERENCE_USAGE void b3DynamicBvhBroadphase::collide(b3Dispatcher *) -> b3DbvtNode * b3DbvtProxy::leaf [b3DynamicBvhBroadphase.cpp <579:25 579:28>]
@@ -1145,22 +1030,18 @@ LOCAL_SYMBOL: b3DynamicBvhBroadphase.cpp<578:19> [b3DynamicBvhBroadphase.cpp <57
 SYMBOL_FUNCTION void * b3OverlappingPairCache::removeOverlappingPair(int, int, b3Dispatcher *)
 REFERENCE_CALL void b3DynamicBvhBroadphase::collide(b3Dispatcher *) -> void * b3OverlappingPairCache::removeOverlappingPair(int, int, b3Dispatcher *) [b3DynamicBvhBroadphase.cpp <585:19 585:39>]
 REFERENCE_USAGE void b3DynamicBvhBroadphase::collide(b3Dispatcher *) -> b3OverlappingPairCache * b3DynamicBvhBroadphase::m_paircache [b3DynamicBvhBroadphase.cpp <585:6 585:16>]
-SYMBOL_FUNCTION int b3BroadphaseProxy::getUid() const
 REFERENCE_CALL void b3DynamicBvhBroadphase::collide(b3Dispatcher *) -> int b3BroadphaseProxy::getUid() const [b3DynamicBvhBroadphase.cpp <585:45 585:50>]
 LOCAL_SYMBOL: b3DynamicBvhBroadphase.cpp<577:19> [b3DynamicBvhBroadphase.cpp <585:41 585:42>]
-SYMBOL_FUNCTION int b3BroadphaseProxy::getUid() const
 REFERENCE_CALL void b3DynamicBvhBroadphase::collide(b3Dispatcher *) -> int b3BroadphaseProxy::getUid() const [b3DynamicBvhBroadphase.cpp <585:58 585:63>]
 LOCAL_SYMBOL: b3DynamicBvhBroadphase.cpp<578:19> [b3DynamicBvhBroadphase.cpp <585:54 585:55>]
 LOCAL_SYMBOL: b3DynamicBvhBroadphase.cpp<498:58> [b3DynamicBvhBroadphase.cpp <585:67 585:76>]
 LOCAL_SYMBOL: b3DynamicBvhBroadphase.cpp<573:10> [b3DynamicBvhBroadphase.cpp <586:8 586:9>]
 LOCAL_SYMBOL: b3DynamicBvhBroadphase.cpp<574:12> [b3DynamicBvhBroadphase.cpp <586:13 586:13>]
-SYMBOL_FUNCTION int b3AlignedObjectArray<b3Int4>::size() const
 REFERENCE_CALL void b3DynamicBvhBroadphase::collide(b3Dispatcher *) -> int b3AlignedObjectArray<b3Int4>::size() const [b3DynamicBvhBroadphase.cpp <589:13 589:16>]
 LOCAL_SYMBOL: b3DynamicBvhBroadphase.cpp<569:26> [b3DynamicBvhBroadphase.cpp <589:7 589:11>]
 REFERENCE_USAGE void b3DynamicBvhBroadphase::collide(b3Dispatcher *) -> int b3DynamicBvhBroadphase::m_cid [b3DynamicBvhBroadphase.cpp <589:23 589:27>]
 REFERENCE_USAGE void b3DynamicBvhBroadphase::collide(b3Dispatcher *) -> int b3DynamicBvhBroadphase::m_cid [b3DynamicBvhBroadphase.cpp <589:30 589:34>]
 LOCAL_SYMBOL: b3DynamicBvhBroadphase.cpp<573:10> [b3DynamicBvhBroadphase.cpp <589:36 589:37>]
-SYMBOL_FUNCTION int b3AlignedObjectArray<b3Int4>::size() const
 REFERENCE_CALL void b3DynamicBvhBroadphase::collide(b3Dispatcher *) -> int b3AlignedObjectArray<b3Int4>::size() const [b3DynamicBvhBroadphase.cpp <589:46 589:49>]
 LOCAL_SYMBOL: b3DynamicBvhBroadphase.cpp<569:26> [b3DynamicBvhBroadphase.cpp <589:40 589:44>]
 REFERENCE_USAGE void b3DynamicBvhBroadphase::collide(b3Dispatcher *) -> int b3DynamicBvhBroadphase::m_cid [b3DynamicBvhBroadphase.cpp <589:59 589:63>]
@@ -1176,26 +1057,23 @@ REFERENCE_USAGE void b3DynamicBvhBroadphase::collide(b3Dispatcher *) -> b3Scalar
 REFERENCE_USAGE void b3DynamicBvhBroadphase::collide(b3Dispatcher *) -> unsigned int b3DynamicBvhBroadphase::m_updates_done [b3DynamicBvhBroadphase.cpp <599:2 599:15>]
 REFERENCE_USAGE void b3DynamicBvhBroadphase::collide(b3Dispatcher *) -> unsigned int b3DynamicBvhBroadphase::m_updates_call [b3DynamicBvhBroadphase.cpp <600:2 600:15>]
 SYMBOL_METHOD public void b3DynamicBvhBroadphase::optimize() [b3DynamicBvhBroadphase.cpp <604:1 <604:36 604:43> 608:1>]
-SYMBOL_STRUCT b3DynamicBvhBroadphase
-SYMBOL_BUILTIN_TYPE void
+QUALIFIER: b3DynamicBvhBroadphase [b3DynamicBvhBroadphase.cpp <604:12 604:33>]
 REFERENCE_TYPE_USAGE void b3DynamicBvhBroadphase::optimize() -> void [b3DynamicBvhBroadphase.cpp <604:1 604:4>]
 SYMBOL_FUNCTION void b3DynamicBvh::optimizeTopDown(int)
 REFERENCE_CALL void b3DynamicBvhBroadphase::optimize() -> void b3DynamicBvh::optimizeTopDown(int) [b3DynamicBvhBroadphase.cpp <606:12 606:26>]
 REFERENCE_USAGE void b3DynamicBvhBroadphase::optimize() -> b3DynamicBvh [] b3DynamicBvhBroadphase::m_sets [b3DynamicBvhBroadphase.cpp <606:2 606:7>]
-SYMBOL_FUNCTION void b3DynamicBvh::optimizeTopDown(int)
 REFERENCE_CALL void b3DynamicBvhBroadphase::optimize() -> void b3DynamicBvh::optimizeTopDown(int) [b3DynamicBvhBroadphase.cpp <607:12 607:26>]
 REFERENCE_USAGE void b3DynamicBvhBroadphase::optimize() -> b3DynamicBvh [] b3DynamicBvhBroadphase::m_sets [b3DynamicBvhBroadphase.cpp <607:2 607:7>]
 SYMBOL_METHOD public b3OverlappingPairCache * b3DynamicBvhBroadphase::getOverlappingPairCache() [b3DynamicBvhBroadphase.cpp <611:1 <611:51 611:73> 614:1>]
-SYMBOL_STRUCT b3DynamicBvhBroadphase
+QUALIFIER: b3DynamicBvhBroadphase [b3DynamicBvhBroadphase.cpp <611:27 611:48>]
 REFERENCE_TYPE_USAGE b3OverlappingPairCache * b3DynamicBvhBroadphase::getOverlappingPairCache() -> b3OverlappingPairCache [b3DynamicBvhBroadphase.cpp <611:1 611:22>]
 REFERENCE_USAGE b3OverlappingPairCache * b3DynamicBvhBroadphase::getOverlappingPairCache() -> b3OverlappingPairCache * b3DynamicBvhBroadphase::m_paircache [b3DynamicBvhBroadphase.cpp <613:9 613:19>]
 SYMBOL_METHOD public const b3OverlappingPairCache * b3DynamicBvhBroadphase::getOverlappingPairCache() const [b3DynamicBvhBroadphase.cpp <617:1 <617:55 617:77> 620:1>]
-SYMBOL_STRUCT b3DynamicBvhBroadphase
+QUALIFIER: b3DynamicBvhBroadphase [b3DynamicBvhBroadphase.cpp <617:31 617:52>]
 REFERENCE_TYPE_USAGE const b3OverlappingPairCache * b3DynamicBvhBroadphase::getOverlappingPairCache() const -> b3OverlappingPairCache [b3DynamicBvhBroadphase.cpp <617:7 617:28>]
 REFERENCE_USAGE const b3OverlappingPairCache * b3DynamicBvhBroadphase::getOverlappingPairCache() const -> b3OverlappingPairCache * b3DynamicBvhBroadphase::m_paircache [b3DynamicBvhBroadphase.cpp <619:9 619:19>]
 SYMBOL_METHOD public void b3DynamicBvhBroadphase::getBroadphaseAabb(b3Vector3 &, b3Vector3 &) const [b3DynamicBvhBroadphase.cpp <623:1 <623:36 623:52> 638:1>]
-SYMBOL_STRUCT b3DynamicBvhBroadphase
-SYMBOL_BUILTIN_TYPE void
+QUALIFIER: b3DynamicBvhBroadphase [b3DynamicBvhBroadphase.cpp <623:12 623:33>]
 REFERENCE_TYPE_USAGE void b3DynamicBvhBroadphase::getBroadphaseAabb(b3Vector3 &, b3Vector3 &) const -> void [b3DynamicBvhBroadphase.cpp <623:1 623:4>]
 LOCAL_SYMBOL: b3DynamicBvhBroadphase.cpp<623:65> [b3DynamicBvhBroadphase.cpp <623:65 623:71>]
 REFERENCE_TYPE_USAGE void b3DynamicBvhBroadphase::getBroadphaseAabb(b3Vector3 &, b3Vector3 &) const -> b3Vector3 [b3DynamicBvhBroadphase.cpp <623:54 623:62>]
@@ -1208,7 +1086,6 @@ REFERENCE_CALL void b3DynamicBvhBroadphase::getBroadphaseAabb(b3Vector3 &, b3Vec
 SYMBOL_FUNCTION bool b3DynamicBvh::empty() const
 REFERENCE_CALL void b3DynamicBvhBroadphase::getBroadphaseAabb(b3Vector3 &, b3Vector3 &) const -> bool b3DynamicBvh::empty() const [b3DynamicBvhBroadphase.cpp <628:16 628:20>]
 REFERENCE_USAGE void b3DynamicBvhBroadphase::getBroadphaseAabb(b3Vector3 &, b3Vector3 &) const -> b3DynamicBvh [] b3DynamicBvhBroadphase::m_sets [b3DynamicBvhBroadphase.cpp <628:6 628:11>]
-SYMBOL_FUNCTION bool b3DynamicBvh::empty() const
 REFERENCE_CALL void b3DynamicBvhBroadphase::getBroadphaseAabb(b3Vector3 &, b3Vector3 &) const -> bool b3DynamicBvh::empty() const [b3DynamicBvhBroadphase.cpp <629:17 629:21>]
 REFERENCE_USAGE void b3DynamicBvhBroadphase::getBroadphaseAabb(b3Vector3 &, b3Vector3 &) const -> b3DynamicBvh [] b3DynamicBvhBroadphase::m_sets [b3DynamicBvhBroadphase.cpp <629:7 629:12>]
 SYMBOL_FUNCTION void b3Merge(const b3DbvtAabbMm &, const b3DbvtAabbMm &, b3DbvtAabbMm &)
@@ -1226,10 +1103,8 @@ LOCAL_SYMBOL: b3DynamicBvhBroadphase.cpp<626:39> [b3DynamicBvhBroadphase.cpp <63
 REFERENCE_USAGE void b3DynamicBvhBroadphase::getBroadphaseAabb(b3Vector3 &, b3Vector3 &) const -> b3DbvtVolume b3DbvtNode::volume [b3DynamicBvhBroadphase.cpp <632:29 632:34>]
 REFERENCE_USAGE void b3DynamicBvhBroadphase::getBroadphaseAabb(b3Vector3 &, b3Vector3 &) const -> b3DbvtNode * b3DynamicBvh::m_root [b3DynamicBvhBroadphase.cpp <632:21 632:26>]
 REFERENCE_USAGE void b3DynamicBvhBroadphase::getBroadphaseAabb(b3Vector3 &, b3Vector3 &) const -> b3DynamicBvh [] b3DynamicBvhBroadphase::m_sets [b3DynamicBvhBroadphase.cpp <632:11 632:16>]
-SYMBOL_FUNCTION bool b3DynamicBvh::empty() const
 REFERENCE_CALL void b3DynamicBvhBroadphase::getBroadphaseAabb(b3Vector3 &, b3Vector3 &) const -> bool b3DynamicBvh::empty() const [b3DynamicBvhBroadphase.cpp <633:21 633:25>]
 REFERENCE_USAGE void b3DynamicBvhBroadphase::getBroadphaseAabb(b3Vector3 &, b3Vector3 &) const -> b3DynamicBvh [] b3DynamicBvhBroadphase::m_sets [b3DynamicBvhBroadphase.cpp <633:11 633:16>]
-SYMBOL_FUNCTION b3DbvtAabbMm & b3DbvtAabbMm::operator=(const b3DbvtAabbMm &)
 REFERENCE_CALL void b3DynamicBvhBroadphase::getBroadphaseAabb(b3Vector3 &, b3Vector3 &) const -> b3DbvtAabbMm & b3DbvtAabbMm::operator=(const b3DbvtAabbMm &) [b3DynamicBvhBroadphase.cpp <633:36 633:36>]
 LOCAL_SYMBOL: b3DynamicBvhBroadphase.cpp<626:39> [b3DynamicBvhBroadphase.cpp <633:30 633:35>]
 REFERENCE_USAGE void b3DynamicBvhBroadphase::getBroadphaseAabb(b3Vector3 &, b3Vector3 &) const -> b3DbvtVolume b3DbvtNode::volume [b3DynamicBvhBroadphase.cpp <633:55 633:60>]
@@ -1240,29 +1115,25 @@ REFERENCE_CALL void b3DynamicBvhBroadphase::getBroadphaseAabb(b3Vector3 &, b3Vec
 LOCAL_SYMBOL: b3DynamicBvhBroadphase.cpp<626:39> [b3DynamicBvhBroadphase.cpp <635:3 635:8>]
 SYMBOL_FUNCTION static b3DbvtAabbMm b3DbvtAabbMm::FromCR(const b3Vector3 &, b3Scalar)
 REFERENCE_CALL void b3DynamicBvhBroadphase::getBroadphaseAabb(b3Vector3 &, b3Vector3 &) const -> static b3DbvtAabbMm b3DbvtAabbMm::FromCR(const b3Vector3 &, b3Scalar) [b3DynamicBvhBroadphase.cpp <635:24 635:29>]
-SYMBOL_STRUCT b3DbvtAabbMm
+QUALIFIER: b3DbvtAabbMm [b3DynamicBvhBroadphase.cpp <635:10 635:21>]
 SYMBOL_FUNCTION b3Vector3 b3MakeVector3(b3Scalar, b3Scalar, b3Scalar)
 REFERENCE_CALL void b3DynamicBvhBroadphase::getBroadphaseAabb(b3Vector3 &, b3Vector3 &) const -> b3Vector3 b3MakeVector3(b3Scalar, b3Scalar, b3Scalar) [b3DynamicBvhBroadphase.cpp <635:31 635:43>]
-SYMBOL_FUNCTION b3Vector3 & b3Vector3::operator=(const b3Vector3 &)
 REFERENCE_CALL void b3DynamicBvhBroadphase::getBroadphaseAabb(b3Vector3 &, b3Vector3 &) const -> b3Vector3 & b3Vector3::operator=(const b3Vector3 &) [b3DynamicBvhBroadphase.cpp <636:9 636:9>]
 LOCAL_SYMBOL: b3DynamicBvhBroadphase.cpp<623:65> [b3DynamicBvhBroadphase.cpp <636:2 636:8>]
 SYMBOL_FUNCTION const b3Vector3 & b3DbvtAabbMm::Mins() const
 REFERENCE_CALL void b3DynamicBvhBroadphase::getBroadphaseAabb(b3Vector3 &, b3Vector3 &) const -> const b3Vector3 & b3DbvtAabbMm::Mins() const [b3DynamicBvhBroadphase.cpp <636:17 636:20>]
 LOCAL_SYMBOL: b3DynamicBvhBroadphase.cpp<626:39> [b3DynamicBvhBroadphase.cpp <636:10 636:15>]
-SYMBOL_FUNCTION b3Vector3 & b3Vector3::operator=(const b3Vector3 &)
 REFERENCE_CALL void b3DynamicBvhBroadphase::getBroadphaseAabb(b3Vector3 &, b3Vector3 &) const -> b3Vector3 & b3Vector3::operator=(const b3Vector3 &) [b3DynamicBvhBroadphase.cpp <637:9 637:9>]
 LOCAL_SYMBOL: b3DynamicBvhBroadphase.cpp<623:84> [b3DynamicBvhBroadphase.cpp <637:2 637:8>]
 SYMBOL_FUNCTION const b3Vector3 & b3DbvtAabbMm::Maxs() const
 REFERENCE_CALL void b3DynamicBvhBroadphase::getBroadphaseAabb(b3Vector3 &, b3Vector3 &) const -> const b3Vector3 & b3DbvtAabbMm::Maxs() const [b3DynamicBvhBroadphase.cpp <637:17 637:20>]
 LOCAL_SYMBOL: b3DynamicBvhBroadphase.cpp<626:39> [b3DynamicBvhBroadphase.cpp <637:10 637:15>]
 SYMBOL_METHOD public void b3DynamicBvhBroadphase::resetPool(b3Dispatcher *) [b3DynamicBvhBroadphase.cpp <640:1 <640:30 640:38> 669:1>]
-SYMBOL_STRUCT b3DynamicBvhBroadphase
-SYMBOL_BUILTIN_TYPE void
+QUALIFIER: b3DynamicBvhBroadphase [b3DynamicBvhBroadphase.cpp <640:6 640:27>]
 REFERENCE_TYPE_USAGE void b3DynamicBvhBroadphase::resetPool(b3Dispatcher *) -> void [b3DynamicBvhBroadphase.cpp <640:1 640:4>]
 LOCAL_SYMBOL: b3DynamicBvhBroadphase.cpp<640:54> [b3DynamicBvhBroadphase.cpp <640:54 640:63>]
 REFERENCE_TYPE_USAGE void b3DynamicBvhBroadphase::resetPool(b3Dispatcher *) -> b3Dispatcher [b3DynamicBvhBroadphase.cpp <640:40 640:51>]
 LOCAL_SYMBOL: b3DynamicBvhBroadphase.cpp<643:6> [b3DynamicBvhBroadphase.cpp <643:6 643:17>]
-SYMBOL_BUILTIN_TYPE int
 REFERENCE_TYPE_USAGE void b3DynamicBvhBroadphase::resetPool(b3Dispatcher *) -> int [b3DynamicBvhBroadphase.cpp <643:2 643:4>]
 REFERENCE_USAGE void b3DynamicBvhBroadphase::resetPool(b3Dispatcher *) -> int b3DynamicBvh::m_leaves [b3DynamicBvhBroadphase.cpp <643:31 643:38>]
 REFERENCE_USAGE void b3DynamicBvhBroadphase::resetPool(b3Dispatcher *) -> b3DynamicBvh [] b3DynamicBvhBroadphase::m_sets [b3DynamicBvhBroadphase.cpp <643:21 643:26>]
@@ -1272,7 +1143,6 @@ LOCAL_SYMBOL: b3DynamicBvhBroadphase.cpp<643:6> [b3DynamicBvhBroadphase.cpp <644
 SYMBOL_FUNCTION void b3DynamicBvh::clear()
 REFERENCE_CALL void b3DynamicBvhBroadphase::resetPool(b3Dispatcher *) -> void b3DynamicBvh::clear() [b3DynamicBvhBroadphase.cpp <647:13 647:17>]
 REFERENCE_USAGE void b3DynamicBvhBroadphase::resetPool(b3Dispatcher *) -> b3DynamicBvh [] b3DynamicBvhBroadphase::m_sets [b3DynamicBvhBroadphase.cpp <647:3 647:8>]
-SYMBOL_FUNCTION void b3DynamicBvh::clear()
 REFERENCE_CALL void b3DynamicBvhBroadphase::resetPool(b3Dispatcher *) -> void b3DynamicBvh::clear() [b3DynamicBvhBroadphase.cpp <648:13 648:17>]
 REFERENCE_USAGE void b3DynamicBvhBroadphase::resetPool(b3Dispatcher *) -> b3DynamicBvh [] b3DynamicBvhBroadphase::m_sets [b3DynamicBvhBroadphase.cpp <648:3 648:8>]
 REFERENCE_USAGE void b3DynamicBvhBroadphase::resetPool(b3Dispatcher *) -> bool b3DynamicBvhBroadphase::m_deferedcollide [b3DynamicBvhBroadphase.cpp <650:3 650:18>]
@@ -1289,7 +1159,6 @@ REFERENCE_USAGE void b3DynamicBvhBroadphase::resetPool(b3Dispatcher *) -> b3Scal
 REFERENCE_USAGE void b3DynamicBvhBroadphase::resetPool(b3Dispatcher *) -> int b3DynamicBvhBroadphase::m_pid [b3DynamicBvhBroadphase.cpp <662:3 662:7>]
 REFERENCE_USAGE void b3DynamicBvhBroadphase::resetPool(b3Dispatcher *) -> int b3DynamicBvhBroadphase::m_cid [b3DynamicBvhBroadphase.cpp <663:3 663:7>]
 LOCAL_SYMBOL: b3DynamicBvhBroadphase.cpp<664:11> [b3DynamicBvhBroadphase.cpp <664:11 664:11>]
-SYMBOL_BUILTIN_TYPE int
 REFERENCE_TYPE_USAGE void b3DynamicBvhBroadphase::resetPool(b3Dispatcher *) -> int [b3DynamicBvhBroadphase.cpp <664:7 664:9>]
 LOCAL_SYMBOL: b3DynamicBvhBroadphase.cpp<664:11> [b3DynamicBvhBroadphase.cpp <664:15 664:15>]
 REFERENCE_USAGE void b3DynamicBvhBroadphase::resetPool(b3Dispatcher *) -> b3DynamicBvhBroadphase::anonymous enum (b3DynamicBvhBroadphase.h<123:2>)::STAGECOUNT [b3DynamicBvhBroadphase.cpp <664:18 664:27>]
@@ -1297,6 +1166,5 @@ LOCAL_SYMBOL: b3DynamicBvhBroadphase.cpp<664:11> [b3DynamicBvhBroadphase.cpp <66
 REFERENCE_USAGE void b3DynamicBvhBroadphase::resetPool(b3Dispatcher *) -> b3DbvtProxy * [] b3DynamicBvhBroadphase::m_stageRoots [b3DynamicBvhBroadphase.cpp <666:4 666:15>]
 LOCAL_SYMBOL: b3DynamicBvhBroadphase.cpp<664:11> [b3DynamicBvhBroadphase.cpp <666:17 666:17>]
 SYMBOL_METHOD public void b3DynamicBvhBroadphase::printStats() [b3DynamicBvhBroadphase.cpp <672:1 <672:36 672:45> 673:2>]
-SYMBOL_STRUCT b3DynamicBvhBroadphase
-SYMBOL_BUILTIN_TYPE void
+QUALIFIER: b3DynamicBvhBroadphase [b3DynamicBvhBroadphase.cpp <672:12 672:33>]
 REFERENCE_TYPE_USAGE void b3DynamicBvhBroadphase::printStats() -> void [b3DynamicBvhBroadphase.cpp <672:1 672:4>]

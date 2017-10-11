@@ -1,31 +1,81 @@
 FILE: ReflectionMethodDeclaration.java
-SYMBOL_PACKAGE com.github.javaparser.symbolsolver.reflectionmodel [ReflectionMethodDeclaration.java <17:9 17:58>]
+SYMBOL_PACKAGE com.github.javaparser.symbolsolver.reflectionmodel [ReflectionMethodDeclaration.java <17:44 17:58>]
 SYMBOL_PACKAGE com.github.javaparser.symbolsolver
 SYMBOL_PACKAGE com.github.javaparser
 SYMBOL_PACKAGE com.github
 SYMBOL_PACKAGE com
-REFERENCE_IMPORT ReflectionMethodDeclaration.java -> com.github.javaparser.symbolsolver.core.resolution.Context [ReflectionMethodDeclaration.java <19:8 19:65>]
+QUALIFIER: com.github.javaparser.symbolsolver [ReflectionMethodDeclaration.java <17:31 17:42>]
+QUALIFIER: com.github.javaparser [ReflectionMethodDeclaration.java <17:20 17:29>]
+QUALIFIER: com.github [ReflectionMethodDeclaration.java <17:13 17:18>]
+QUALIFIER: com [ReflectionMethodDeclaration.java <17:9 17:11>]
+REFERENCE_IMPORT ReflectionMethodDeclaration.java -> com.github.javaparser.symbolsolver.core.resolution.Context [ReflectionMethodDeclaration.java <19:59 19:65>]
 SYMBOL_PACKAGE com.github.javaparser.symbolsolver.core.resolution
-REFERENCE_IMPORT ReflectionMethodDeclaration.java -> com.github.javaparser.symbolsolver.declarations.common.MethodDeclarationCommonLogic [ReflectionMethodDeclaration.java <20:8 20:90>]
+QUALIFIER: com.github.javaparser.symbolsolver.core.resolution [ReflectionMethodDeclaration.java <19:48 19:57>]
+QUALIFIER: com.github.javaparser.symbolsolver.core [ReflectionMethodDeclaration.java <19:43 19:46>]
+QUALIFIER: com.github.javaparser.symbolsolver [ReflectionMethodDeclaration.java <19:30 19:41>]
+QUALIFIER: com.github.javaparser [ReflectionMethodDeclaration.java <19:19 19:28>]
+QUALIFIER: com.github [ReflectionMethodDeclaration.java <19:12 19:17>]
+QUALIFIER: com [ReflectionMethodDeclaration.java <19:8 19:10>]
+REFERENCE_IMPORT ReflectionMethodDeclaration.java -> com.github.javaparser.symbolsolver.declarations.common.MethodDeclarationCommonLogic [ReflectionMethodDeclaration.java <20:63 20:90>]
 SYMBOL_PACKAGE com.github.javaparser.symbolsolver.declarations.common
-REFERENCE_IMPORT ReflectionMethodDeclaration.java -> com.github.javaparser.symbolsolver.model.declarations [ReflectionMethodDeclaration.java <21:8 21:60>]
+QUALIFIER: com.github.javaparser.symbolsolver.declarations.common [ReflectionMethodDeclaration.java <20:56 20:61>]
+QUALIFIER: com.github.javaparser.symbolsolver.declarations [ReflectionMethodDeclaration.java <20:43 20:54>]
+QUALIFIER: com.github.javaparser.symbolsolver [ReflectionMethodDeclaration.java <20:30 20:41>]
+QUALIFIER: com.github.javaparser [ReflectionMethodDeclaration.java <20:19 20:28>]
+QUALIFIER: com.github [ReflectionMethodDeclaration.java <20:12 20:17>]
+QUALIFIER: com [ReflectionMethodDeclaration.java <20:8 20:10>]
+REFERENCE_IMPORT ReflectionMethodDeclaration.java -> com.github.javaparser.symbolsolver.model.declarations [ReflectionMethodDeclaration.java <21:49 21:60>]
 SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model.declarations
-REFERENCE_IMPORT ReflectionMethodDeclaration.java -> com.github.javaparser.symbolsolver.model.methods.MethodUsage [ReflectionMethodDeclaration.java <22:8 22:67>]
+QUALIFIER: com.github.javaparser.symbolsolver.model [ReflectionMethodDeclaration.java <21:43 21:47>]
+QUALIFIER: com.github.javaparser.symbolsolver [ReflectionMethodDeclaration.java <21:30 21:41>]
+QUALIFIER: com.github.javaparser [ReflectionMethodDeclaration.java <21:19 21:28>]
+QUALIFIER: com.github [ReflectionMethodDeclaration.java <21:12 21:17>]
+QUALIFIER: com [ReflectionMethodDeclaration.java <21:8 21:10>]
+REFERENCE_IMPORT ReflectionMethodDeclaration.java -> com.github.javaparser.symbolsolver.model.methods.MethodUsage [ReflectionMethodDeclaration.java <22:57 22:67>]
 SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model.methods
-REFERENCE_IMPORT ReflectionMethodDeclaration.java -> com.github.javaparser.symbolsolver.model.resolution.TypeSolver [ReflectionMethodDeclaration.java <23:8 23:69>]
+QUALIFIER: com.github.javaparser.symbolsolver.model.methods [ReflectionMethodDeclaration.java <22:49 22:55>]
+QUALIFIER: com.github.javaparser.symbolsolver.model [ReflectionMethodDeclaration.java <22:43 22:47>]
+QUALIFIER: com.github.javaparser.symbolsolver [ReflectionMethodDeclaration.java <22:30 22:41>]
+QUALIFIER: com.github.javaparser [ReflectionMethodDeclaration.java <22:19 22:28>]
+QUALIFIER: com.github [ReflectionMethodDeclaration.java <22:12 22:17>]
+QUALIFIER: com [ReflectionMethodDeclaration.java <22:8 22:10>]
+REFERENCE_IMPORT ReflectionMethodDeclaration.java -> com.github.javaparser.symbolsolver.model.resolution.TypeSolver [ReflectionMethodDeclaration.java <23:60 23:69>]
 SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model.resolution
-REFERENCE_IMPORT ReflectionMethodDeclaration.java -> com.github.javaparser.symbolsolver.model.typesystem.Type [ReflectionMethodDeclaration.java <24:8 24:63>]
+QUALIFIER: com.github.javaparser.symbolsolver.model.resolution [ReflectionMethodDeclaration.java <23:49 23:58>]
+QUALIFIER: com.github.javaparser.symbolsolver.model [ReflectionMethodDeclaration.java <23:43 23:47>]
+QUALIFIER: com.github.javaparser.symbolsolver [ReflectionMethodDeclaration.java <23:30 23:41>]
+QUALIFIER: com.github.javaparser [ReflectionMethodDeclaration.java <23:19 23:28>]
+QUALIFIER: com.github [ReflectionMethodDeclaration.java <23:12 23:17>]
+QUALIFIER: com [ReflectionMethodDeclaration.java <23:8 23:10>]
+REFERENCE_IMPORT ReflectionMethodDeclaration.java -> com.github.javaparser.symbolsolver.model.typesystem.Type [ReflectionMethodDeclaration.java <24:60 24:63>]
 SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model.typesystem
-REFERENCE_IMPORT ReflectionMethodDeclaration.java -> java.lang.reflect.Method [ReflectionMethodDeclaration.java <26:8 26:31>]
+QUALIFIER: com.github.javaparser.symbolsolver.model.typesystem [ReflectionMethodDeclaration.java <24:49 24:58>]
+QUALIFIER: com.github.javaparser.symbolsolver.model [ReflectionMethodDeclaration.java <24:43 24:47>]
+QUALIFIER: com.github.javaparser.symbolsolver [ReflectionMethodDeclaration.java <24:30 24:41>]
+QUALIFIER: com.github.javaparser [ReflectionMethodDeclaration.java <24:19 24:28>]
+QUALIFIER: com.github [ReflectionMethodDeclaration.java <24:12 24:17>]
+QUALIFIER: com [ReflectionMethodDeclaration.java <24:8 24:10>]
+REFERENCE_IMPORT ReflectionMethodDeclaration.java -> java.lang.reflect.Method [ReflectionMethodDeclaration.java <26:26 26:31>]
 SYMBOL_PACKAGE java.lang.reflect
-REFERENCE_IMPORT ReflectionMethodDeclaration.java -> java.lang.reflect.Modifier [ReflectionMethodDeclaration.java <27:8 27:33>]
-SYMBOL_PACKAGE java.lang.reflect
-REFERENCE_IMPORT ReflectionMethodDeclaration.java -> java.util.Arrays [ReflectionMethodDeclaration.java <28:8 28:23>]
+QUALIFIER: java.lang.reflect [ReflectionMethodDeclaration.java <26:18 26:24>]
+QUALIFIER: java.lang [ReflectionMethodDeclaration.java <26:13 26:16>]
+QUALIFIER: java [ReflectionMethodDeclaration.java <26:8 26:11>]
+REFERENCE_IMPORT ReflectionMethodDeclaration.java -> java.lang.reflect.Modifier [ReflectionMethodDeclaration.java <27:26 27:33>]
+QUALIFIER: java.lang.reflect [ReflectionMethodDeclaration.java <27:18 27:24>]
+QUALIFIER: java.lang [ReflectionMethodDeclaration.java <27:13 27:16>]
+QUALIFIER: java [ReflectionMethodDeclaration.java <27:8 27:11>]
+REFERENCE_IMPORT ReflectionMethodDeclaration.java -> java.util.Arrays [ReflectionMethodDeclaration.java <28:18 28:23>]
 SYMBOL_PACKAGE java.util
-REFERENCE_IMPORT ReflectionMethodDeclaration.java -> java.util.List<E> [ReflectionMethodDeclaration.java <29:8 29:21>]
-SYMBOL_PACKAGE java.util
-REFERENCE_IMPORT ReflectionMethodDeclaration.java -> java.util.stream.Collectors [ReflectionMethodDeclaration.java <30:8 30:34>]
+QUALIFIER: java.util [ReflectionMethodDeclaration.java <28:13 28:16>]
+QUALIFIER: java [ReflectionMethodDeclaration.java <28:8 28:11>]
+REFERENCE_IMPORT ReflectionMethodDeclaration.java -> java.util.List<E> [ReflectionMethodDeclaration.java <29:18 29:21>]
+QUALIFIER: java.util [ReflectionMethodDeclaration.java <29:13 29:16>]
+QUALIFIER: java [ReflectionMethodDeclaration.java <29:8 29:11>]
+REFERENCE_IMPORT ReflectionMethodDeclaration.java -> java.util.stream.Collectors [ReflectionMethodDeclaration.java <30:25 30:34>]
 SYMBOL_PACKAGE java.util.stream
+QUALIFIER: java.util.stream [ReflectionMethodDeclaration.java <30:18 30:23>]
+QUALIFIER: java.util [ReflectionMethodDeclaration.java <30:13 30:16>]
+QUALIFIER: java [ReflectionMethodDeclaration.java <30:8 30:11>]
 SYMBOL_CLASS public com.github.javaparser.symbolsolver.reflectionmodel.ReflectionMethodDeclaration [ReflectionMethodDeclaration.java <35:1 <35:14 35:40> 135:1>]
 LOCAL_SYMBOL: ReflectionMethodDeclaration.java<35:71> [ReflectionMethodDeclaration.java <35:71 35:71>]
 LOCAL_SYMBOL: ReflectionMethodDeclaration.java<35:71> [ReflectionMethodDeclaration.java <135:1 135:1>]
@@ -42,6 +92,7 @@ REFERENCE_TYPE_USAGE com.github.javaparser.symbolsolver.reflectionmodel.Reflecti
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.reflectionmodel.ReflectionMethodDeclaration.ReflectionMethodDeclaration<1> [ReflectionMethodDeclaration.java <40:66 40:75>]
 LOCAL_SYMBOL: ReflectionMethodDeclaration.java<40:78> [ReflectionMethodDeclaration.java <40:78 40:78>]
 LOCAL_SYMBOL: ReflectionMethodDeclaration.java<40:78> [ReflectionMethodDeclaration.java <46:5 46:5>]
+QUALIFIER: com.github.javaparser.symbolsolver.reflectionmodel.ReflectionMethodDeclaration [ReflectionMethodDeclaration.java <41:9 41:12>]
 SYMBOL_FIELD java.lang.reflect.Method com.github.javaparser.symbolsolver.reflectionmodel.ReflectionMethodDeclaration.method
 REFERENCE_USAGE com.github.javaparser.symbolsolver.reflectionmodel.ReflectionMethodDeclaration.ReflectionMethodDeclaration(java.lang.reflect.Method, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> java.lang.reflect.Method com.github.javaparser.symbolsolver.reflectionmodel.ReflectionMethodDeclaration.method [ReflectionMethodDeclaration.java <41:14 41:19>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.reflectionmodel.ReflectionMethodDeclaration.ReflectionMethodDeclaration<0> [ReflectionMethodDeclaration.java <41:23 41:28>]
@@ -56,6 +107,7 @@ LOCAL_SYMBOL: ReflectionMethodDeclaration.java<42:56> [ReflectionMethodDeclarati
 SYMBOL_METHOD java.lang.IllegalArgumentException.IllegalArgumentException()
 REFERENCE_CALL com.github.javaparser.symbolsolver.reflectionmodel.ReflectionMethodDeclaration.ReflectionMethodDeclaration(java.lang.reflect.Method, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> java.lang.IllegalArgumentException.IllegalArgumentException() [ReflectionMethodDeclaration.java <43:23 43:46>]
 REFERENCE_TYPE_USAGE com.github.javaparser.symbolsolver.reflectionmodel.ReflectionMethodDeclaration.ReflectionMethodDeclaration(java.lang.reflect.Method, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> java.lang.IllegalArgumentException [ReflectionMethodDeclaration.java <43:23 43:46>]
+QUALIFIER: com.github.javaparser.symbolsolver.reflectionmodel.ReflectionMethodDeclaration [ReflectionMethodDeclaration.java <45:9 45:12>]
 SYMBOL_FIELD com.github.javaparser.symbolsolver.model.resolution.TypeSolver com.github.javaparser.symbolsolver.reflectionmodel.ReflectionMethodDeclaration.typeSolver
 REFERENCE_USAGE com.github.javaparser.symbolsolver.reflectionmodel.ReflectionMethodDeclaration.ReflectionMethodDeclaration(java.lang.reflect.Method, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> com.github.javaparser.symbolsolver.model.resolution.TypeSolver com.github.javaparser.symbolsolver.reflectionmodel.ReflectionMethodDeclaration.typeSolver [ReflectionMethodDeclaration.java <45:14 45:23>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.reflectionmodel.ReflectionMethodDeclaration.ReflectionMethodDeclaration<1> [ReflectionMethodDeclaration.java <45:27 45:36>]
@@ -67,7 +119,6 @@ LOCAL_SYMBOL: ReflectionMethodDeclaration.java<49:29> [ReflectionMethodDeclarati
 LOCAL_SYMBOL: ReflectionMethodDeclaration.java<49:29> [ReflectionMethodDeclaration.java <51:5 51:5>]
 SYMBOL_METHOD java.lang.String java.lang.reflect.Method.getName()
 REFERENCE_CALL java.lang.String com.github.javaparser.symbolsolver.reflectionmodel.ReflectionMethodDeclaration.getName() -> java.lang.String java.lang.reflect.Method.getName() [ReflectionMethodDeclaration.java <50:23 50:29>]
-SYMBOL_FIELD java.lang.reflect.Method com.github.javaparser.symbolsolver.reflectionmodel.ReflectionMethodDeclaration.method
 REFERENCE_USAGE java.lang.String com.github.javaparser.symbolsolver.reflectionmodel.ReflectionMethodDeclaration.getName() -> java.lang.reflect.Method com.github.javaparser.symbolsolver.reflectionmodel.ReflectionMethodDeclaration.method [ReflectionMethodDeclaration.java <50:16 50:21>]
 SYMBOL_METHOD public boolean com.github.javaparser.symbolsolver.reflectionmodel.ReflectionMethodDeclaration.isField() [ReflectionMethodDeclaration.java <53:5 <54:20 54:26> 56:5>]
 SYMBOL_METHOD boolean com.github.javaparser.symbolsolver.model.declarations.Declaration.isField()
@@ -79,7 +130,6 @@ LOCAL_SYMBOL: ReflectionMethodDeclaration.java<54:30> [ReflectionMethodDeclarati
 SYMBOL_METHOD public boolean com.github.javaparser.symbolsolver.reflectionmodel.ReflectionMethodDeclaration.isParameter() [ReflectionMethodDeclaration.java <58:5 <59:20 59:30> 61:5>]
 SYMBOL_METHOD boolean com.github.javaparser.symbolsolver.model.declarations.Declaration.isParameter()
 REFERENCE_OVERRIDE boolean com.github.javaparser.symbolsolver.reflectionmodel.ReflectionMethodDeclaration.isParameter() -> boolean com.github.javaparser.symbolsolver.model.declarations.Declaration.isParameter() [ReflectionMethodDeclaration.java <59:20 59:30>]
-SYMBOL_BUILTIN_TYPE boolean
 REFERENCE_TYPE_USAGE boolean com.github.javaparser.symbolsolver.reflectionmodel.ReflectionMethodDeclaration.isParameter() -> boolean [ReflectionMethodDeclaration.java <59:12 59:18>]
 LOCAL_SYMBOL: ReflectionMethodDeclaration.java<59:34> [ReflectionMethodDeclaration.java <59:34 59:34>]
 LOCAL_SYMBOL: ReflectionMethodDeclaration.java<59:34> [ReflectionMethodDeclaration.java <61:5 61:5>]
@@ -89,12 +139,10 @@ REFERENCE_OVERRIDE java.lang.String com.github.javaparser.symbolsolver.reflectio
 REFERENCE_TYPE_USAGE java.lang.String com.github.javaparser.symbolsolver.reflectionmodel.ReflectionMethodDeclaration.toString() -> java.lang.String [ReflectionMethodDeclaration.java <64:12 64:17>]
 LOCAL_SYMBOL: ReflectionMethodDeclaration.java<64:30> [ReflectionMethodDeclaration.java <64:30 64:30>]
 LOCAL_SYMBOL: ReflectionMethodDeclaration.java<64:30> [ReflectionMethodDeclaration.java <68:5 68:5>]
-SYMBOL_FIELD java.lang.reflect.Method com.github.javaparser.symbolsolver.reflectionmodel.ReflectionMethodDeclaration.method
 REFERENCE_USAGE java.lang.String com.github.javaparser.symbolsolver.reflectionmodel.ReflectionMethodDeclaration.toString() -> java.lang.reflect.Method com.github.javaparser.symbolsolver.reflectionmodel.ReflectionMethodDeclaration.method [ReflectionMethodDeclaration.java <66:29 66:34>]
 SYMBOL_METHOD public boolean com.github.javaparser.symbolsolver.reflectionmodel.ReflectionMethodDeclaration.isType() [ReflectionMethodDeclaration.java <70:5 <71:20 71:25> 73:5>]
 SYMBOL_METHOD boolean com.github.javaparser.symbolsolver.model.declarations.Declaration.isType()
 REFERENCE_OVERRIDE boolean com.github.javaparser.symbolsolver.reflectionmodel.ReflectionMethodDeclaration.isType() -> boolean com.github.javaparser.symbolsolver.model.declarations.Declaration.isType() [ReflectionMethodDeclaration.java <71:20 71:25>]
-SYMBOL_BUILTIN_TYPE boolean
 REFERENCE_TYPE_USAGE boolean com.github.javaparser.symbolsolver.reflectionmodel.ReflectionMethodDeclaration.isType() -> boolean [ReflectionMethodDeclaration.java <71:12 71:18>]
 LOCAL_SYMBOL: ReflectionMethodDeclaration.java<71:29> [ReflectionMethodDeclaration.java <71:29 71:29>]
 LOCAL_SYMBOL: ReflectionMethodDeclaration.java<71:29> [ReflectionMethodDeclaration.java <73:5 73:5>]
@@ -108,46 +156,34 @@ SYMBOL_METHOD boolean java.lang.Class<T>.isInterface()
 REFERENCE_CALL com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration com.github.javaparser.symbolsolver.reflectionmodel.ReflectionMethodDeclaration.declaringType() -> boolean java.lang.Class<T>.isInterface() [ReflectionMethodDeclaration.java <77:40 77:50>]
 SYMBOL_METHOD java.lang.Class<?> java.lang.reflect.Method.getDeclaringClass()
 REFERENCE_CALL com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration com.github.javaparser.symbolsolver.reflectionmodel.ReflectionMethodDeclaration.declaringType() -> java.lang.Class<?> java.lang.reflect.Method.getDeclaringClass() [ReflectionMethodDeclaration.java <77:20 77:36>]
-SYMBOL_FIELD java.lang.reflect.Method com.github.javaparser.symbolsolver.reflectionmodel.ReflectionMethodDeclaration.method
 REFERENCE_USAGE com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration com.github.javaparser.symbolsolver.reflectionmodel.ReflectionMethodDeclaration.declaringType() -> java.lang.reflect.Method com.github.javaparser.symbolsolver.reflectionmodel.ReflectionMethodDeclaration.method [ReflectionMethodDeclaration.java <77:13 77:18>]
 LOCAL_SYMBOL: ReflectionMethodDeclaration.java<77:55> [ReflectionMethodDeclaration.java <77:55 77:55>]
 LOCAL_SYMBOL: ReflectionMethodDeclaration.java<77:55> [ReflectionMethodDeclaration.java <79:9 79:9>]
 SYMBOL_METHOD com.github.javaparser.symbolsolver.reflectionmodel.ReflectionInterfaceDeclaration.ReflectionInterfaceDeclaration(java.lang.Class<?>, com.github.javaparser.symbolsolver.model.resolution.TypeSolver)
 REFERENCE_CALL com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration com.github.javaparser.symbolsolver.reflectionmodel.ReflectionMethodDeclaration.declaringType() -> com.github.javaparser.symbolsolver.reflectionmodel.ReflectionInterfaceDeclaration.ReflectionInterfaceDeclaration(java.lang.Class<?>, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) [ReflectionMethodDeclaration.java <78:24 78:53>]
 REFERENCE_TYPE_USAGE com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration com.github.javaparser.symbolsolver.reflectionmodel.ReflectionMethodDeclaration.declaringType() -> com.github.javaparser.symbolsolver.reflectionmodel.ReflectionInterfaceDeclaration [ReflectionMethodDeclaration.java <78:24 78:53>]
-SYMBOL_METHOD java.lang.Class<?> java.lang.reflect.Method.getDeclaringClass()
 REFERENCE_CALL com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration com.github.javaparser.symbolsolver.reflectionmodel.ReflectionMethodDeclaration.declaringType() -> java.lang.Class<?> java.lang.reflect.Method.getDeclaringClass() [ReflectionMethodDeclaration.java <78:62 78:78>]
-SYMBOL_FIELD java.lang.reflect.Method com.github.javaparser.symbolsolver.reflectionmodel.ReflectionMethodDeclaration.method
 REFERENCE_USAGE com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration com.github.javaparser.symbolsolver.reflectionmodel.ReflectionMethodDeclaration.declaringType() -> java.lang.reflect.Method com.github.javaparser.symbolsolver.reflectionmodel.ReflectionMethodDeclaration.method [ReflectionMethodDeclaration.java <78:55 78:60>]
-SYMBOL_FIELD com.github.javaparser.symbolsolver.model.resolution.TypeSolver com.github.javaparser.symbolsolver.reflectionmodel.ReflectionMethodDeclaration.typeSolver
 REFERENCE_USAGE com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration com.github.javaparser.symbolsolver.reflectionmodel.ReflectionMethodDeclaration.declaringType() -> com.github.javaparser.symbolsolver.model.resolution.TypeSolver com.github.javaparser.symbolsolver.reflectionmodel.ReflectionMethodDeclaration.typeSolver [ReflectionMethodDeclaration.java <78:83 78:92>]
 SYMBOL_METHOD boolean java.lang.Class<T>.isEnum()
 REFERENCE_CALL com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration com.github.javaparser.symbolsolver.reflectionmodel.ReflectionMethodDeclaration.declaringType() -> boolean java.lang.Class<T>.isEnum() [ReflectionMethodDeclaration.java <80:40 80:45>]
-SYMBOL_METHOD java.lang.Class<?> java.lang.reflect.Method.getDeclaringClass()
 REFERENCE_CALL com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration com.github.javaparser.symbolsolver.reflectionmodel.ReflectionMethodDeclaration.declaringType() -> java.lang.Class<?> java.lang.reflect.Method.getDeclaringClass() [ReflectionMethodDeclaration.java <80:20 80:36>]
-SYMBOL_FIELD java.lang.reflect.Method com.github.javaparser.symbolsolver.reflectionmodel.ReflectionMethodDeclaration.method
 REFERENCE_USAGE com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration com.github.javaparser.symbolsolver.reflectionmodel.ReflectionMethodDeclaration.declaringType() -> java.lang.reflect.Method com.github.javaparser.symbolsolver.reflectionmodel.ReflectionMethodDeclaration.method [ReflectionMethodDeclaration.java <80:13 80:18>]
 LOCAL_SYMBOL: ReflectionMethodDeclaration.java<80:50> [ReflectionMethodDeclaration.java <80:50 80:50>]
 LOCAL_SYMBOL: ReflectionMethodDeclaration.java<80:50> [ReflectionMethodDeclaration.java <82:9 82:9>]
 SYMBOL_METHOD com.github.javaparser.symbolsolver.reflectionmodel.ReflectionEnumDeclaration.ReflectionEnumDeclaration(java.lang.Class<?>, com.github.javaparser.symbolsolver.model.resolution.TypeSolver)
 REFERENCE_CALL com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration com.github.javaparser.symbolsolver.reflectionmodel.ReflectionMethodDeclaration.declaringType() -> com.github.javaparser.symbolsolver.reflectionmodel.ReflectionEnumDeclaration.ReflectionEnumDeclaration(java.lang.Class<?>, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) [ReflectionMethodDeclaration.java <81:24 81:48>]
 REFERENCE_TYPE_USAGE com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration com.github.javaparser.symbolsolver.reflectionmodel.ReflectionMethodDeclaration.declaringType() -> com.github.javaparser.symbolsolver.reflectionmodel.ReflectionEnumDeclaration [ReflectionMethodDeclaration.java <81:24 81:48>]
-SYMBOL_METHOD java.lang.Class<?> java.lang.reflect.Method.getDeclaringClass()
 REFERENCE_CALL com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration com.github.javaparser.symbolsolver.reflectionmodel.ReflectionMethodDeclaration.declaringType() -> java.lang.Class<?> java.lang.reflect.Method.getDeclaringClass() [ReflectionMethodDeclaration.java <81:57 81:73>]
-SYMBOL_FIELD java.lang.reflect.Method com.github.javaparser.symbolsolver.reflectionmodel.ReflectionMethodDeclaration.method
 REFERENCE_USAGE com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration com.github.javaparser.symbolsolver.reflectionmodel.ReflectionMethodDeclaration.declaringType() -> java.lang.reflect.Method com.github.javaparser.symbolsolver.reflectionmodel.ReflectionMethodDeclaration.method [ReflectionMethodDeclaration.java <81:50 81:55>]
-SYMBOL_FIELD com.github.javaparser.symbolsolver.model.resolution.TypeSolver com.github.javaparser.symbolsolver.reflectionmodel.ReflectionMethodDeclaration.typeSolver
 REFERENCE_USAGE com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration com.github.javaparser.symbolsolver.reflectionmodel.ReflectionMethodDeclaration.declaringType() -> com.github.javaparser.symbolsolver.model.resolution.TypeSolver com.github.javaparser.symbolsolver.reflectionmodel.ReflectionMethodDeclaration.typeSolver [ReflectionMethodDeclaration.java <81:78 81:87>]
 LOCAL_SYMBOL: ReflectionMethodDeclaration.java<82:16> [ReflectionMethodDeclaration.java <82:16 82:16>]
 LOCAL_SYMBOL: ReflectionMethodDeclaration.java<82:16> [ReflectionMethodDeclaration.java <84:9 84:9>]
 SYMBOL_METHOD com.github.javaparser.symbolsolver.reflectionmodel.ReflectionClassDeclaration.ReflectionClassDeclaration(java.lang.Class<?>, com.github.javaparser.symbolsolver.model.resolution.TypeSolver)
 REFERENCE_CALL com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration com.github.javaparser.symbolsolver.reflectionmodel.ReflectionMethodDeclaration.declaringType() -> com.github.javaparser.symbolsolver.reflectionmodel.ReflectionClassDeclaration.ReflectionClassDeclaration(java.lang.Class<?>, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) [ReflectionMethodDeclaration.java <83:24 83:49>]
 REFERENCE_TYPE_USAGE com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration com.github.javaparser.symbolsolver.reflectionmodel.ReflectionMethodDeclaration.declaringType() -> com.github.javaparser.symbolsolver.reflectionmodel.ReflectionClassDeclaration [ReflectionMethodDeclaration.java <83:24 83:49>]
-SYMBOL_METHOD java.lang.Class<?> java.lang.reflect.Method.getDeclaringClass()
 REFERENCE_CALL com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration com.github.javaparser.symbolsolver.reflectionmodel.ReflectionMethodDeclaration.declaringType() -> java.lang.Class<?> java.lang.reflect.Method.getDeclaringClass() [ReflectionMethodDeclaration.java <83:58 83:74>]
-SYMBOL_FIELD java.lang.reflect.Method com.github.javaparser.symbolsolver.reflectionmodel.ReflectionMethodDeclaration.method
 REFERENCE_USAGE com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration com.github.javaparser.symbolsolver.reflectionmodel.ReflectionMethodDeclaration.declaringType() -> java.lang.reflect.Method com.github.javaparser.symbolsolver.reflectionmodel.ReflectionMethodDeclaration.method [ReflectionMethodDeclaration.java <83:51 83:56>]
-SYMBOL_FIELD com.github.javaparser.symbolsolver.model.resolution.TypeSolver com.github.javaparser.symbolsolver.reflectionmodel.ReflectionMethodDeclaration.typeSolver
 REFERENCE_USAGE com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration com.github.javaparser.symbolsolver.reflectionmodel.ReflectionMethodDeclaration.declaringType() -> com.github.javaparser.symbolsolver.model.resolution.TypeSolver com.github.javaparser.symbolsolver.reflectionmodel.ReflectionMethodDeclaration.typeSolver [ReflectionMethodDeclaration.java <83:79 83:88>]
 SYMBOL_METHOD public com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.reflectionmodel.ReflectionMethodDeclaration.getReturnType() [ReflectionMethodDeclaration.java <87:5 <88:17 88:29> 90:5>]
 SYMBOL_METHOD com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.model.declarations.MethodDeclaration.getReturnType()
@@ -157,11 +193,10 @@ LOCAL_SYMBOL: ReflectionMethodDeclaration.java<88:33> [ReflectionMethodDeclarati
 LOCAL_SYMBOL: ReflectionMethodDeclaration.java<88:33> [ReflectionMethodDeclaration.java <90:5 90:5>]
 SYMBOL_METHOD static com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFactory.typeUsageFor(java.lang.reflect.Type, com.github.javaparser.symbolsolver.model.resolution.TypeSolver)
 REFERENCE_CALL com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.reflectionmodel.ReflectionMethodDeclaration.getReturnType() -> static com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFactory.typeUsageFor(java.lang.reflect.Type, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) [ReflectionMethodDeclaration.java <89:34 89:45>]
+QUALIFIER: com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFactory [ReflectionMethodDeclaration.java <89:16 89:32>]
 SYMBOL_METHOD java.lang.reflect.Type java.lang.reflect.Method.getGenericReturnType()
 REFERENCE_CALL com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.reflectionmodel.ReflectionMethodDeclaration.getReturnType() -> java.lang.reflect.Type java.lang.reflect.Method.getGenericReturnType() [ReflectionMethodDeclaration.java <89:54 89:73>]
-SYMBOL_FIELD java.lang.reflect.Method com.github.javaparser.symbolsolver.reflectionmodel.ReflectionMethodDeclaration.method
 REFERENCE_USAGE com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.reflectionmodel.ReflectionMethodDeclaration.getReturnType() -> java.lang.reflect.Method com.github.javaparser.symbolsolver.reflectionmodel.ReflectionMethodDeclaration.method [ReflectionMethodDeclaration.java <89:47 89:52>]
-SYMBOL_FIELD com.github.javaparser.symbolsolver.model.resolution.TypeSolver com.github.javaparser.symbolsolver.reflectionmodel.ReflectionMethodDeclaration.typeSolver
 REFERENCE_USAGE com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.reflectionmodel.ReflectionMethodDeclaration.getReturnType() -> com.github.javaparser.symbolsolver.model.resolution.TypeSolver com.github.javaparser.symbolsolver.reflectionmodel.ReflectionMethodDeclaration.typeSolver [ReflectionMethodDeclaration.java <89:78 89:87>]
 SYMBOL_METHOD public int com.github.javaparser.symbolsolver.reflectionmodel.ReflectionMethodDeclaration.getNumberOfParams() [ReflectionMethodDeclaration.java <92:5 <93:16 93:32> 95:5>]
 SYMBOL_METHOD int com.github.javaparser.symbolsolver.model.declarations.MethodLikeDeclaration.getNumberOfParams()
@@ -172,7 +207,6 @@ LOCAL_SYMBOL: ReflectionMethodDeclaration.java<93:36> [ReflectionMethodDeclarati
 LOCAL_SYMBOL: ReflectionMethodDeclaration.java<93:36> [ReflectionMethodDeclaration.java <95:5 95:5>]
 SYMBOL_METHOD java.lang.Class<?> java.lang.reflect.Method.getParameterTypes()
 REFERENCE_CALL int com.github.javaparser.symbolsolver.reflectionmodel.ReflectionMethodDeclaration.getNumberOfParams() -> java.lang.Class<?> java.lang.reflect.Method.getParameterTypes() [ReflectionMethodDeclaration.java <94:23 94:39>]
-SYMBOL_FIELD java.lang.reflect.Method com.github.javaparser.symbolsolver.reflectionmodel.ReflectionMethodDeclaration.method
 REFERENCE_USAGE int com.github.javaparser.symbolsolver.reflectionmodel.ReflectionMethodDeclaration.getNumberOfParams() -> java.lang.reflect.Method com.github.javaparser.symbolsolver.reflectionmodel.ReflectionMethodDeclaration.method [ReflectionMethodDeclaration.java <94:16 94:21>]
 SYMBOL_FIELD int length
 REFERENCE_USAGE int com.github.javaparser.symbolsolver.reflectionmodel.ReflectionMethodDeclaration.getNumberOfParams() -> int length [ReflectionMethodDeclaration.java <94:43 94:48>]
@@ -180,17 +214,14 @@ SYMBOL_METHOD public com.github.javaparser.symbolsolver.model.declarations.Param
 SYMBOL_METHOD com.github.javaparser.symbolsolver.model.declarations.ParameterDeclaration com.github.javaparser.symbolsolver.model.declarations.MethodLikeDeclaration.getParam(int)
 REFERENCE_OVERRIDE com.github.javaparser.symbolsolver.model.declarations.ParameterDeclaration com.github.javaparser.symbolsolver.reflectionmodel.ReflectionMethodDeclaration.getParam(int) -> com.github.javaparser.symbolsolver.model.declarations.ParameterDeclaration com.github.javaparser.symbolsolver.model.declarations.MethodLikeDeclaration.getParam(int) [ReflectionMethodDeclaration.java <98:33 98:40>]
 REFERENCE_TYPE_USAGE com.github.javaparser.symbolsolver.model.declarations.ParameterDeclaration com.github.javaparser.symbolsolver.reflectionmodel.ReflectionMethodDeclaration.getParam(int) -> com.github.javaparser.symbolsolver.model.declarations.ParameterDeclaration [ReflectionMethodDeclaration.java <98:12 98:31>]
-SYMBOL_BUILTIN_TYPE int
 REFERENCE_TYPE_USAGE com.github.javaparser.symbolsolver.model.declarations.ParameterDeclaration com.github.javaparser.symbolsolver.reflectionmodel.ReflectionMethodDeclaration.getParam(int) -> int [ReflectionMethodDeclaration.java <98:42 98:44>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.reflectionmodel.ReflectionMethodDeclaration.getParam<0> [ReflectionMethodDeclaration.java <98:46 98:46>]
 LOCAL_SYMBOL: ReflectionMethodDeclaration.java<98:49> [ReflectionMethodDeclaration.java <98:49 98:49>]
 LOCAL_SYMBOL: ReflectionMethodDeclaration.java<98:49> [ReflectionMethodDeclaration.java <104:5 104:5>]
-SYMBOL_BUILTIN_TYPE boolean
 REFERENCE_TYPE_USAGE com.github.javaparser.symbolsolver.model.declarations.ParameterDeclaration com.github.javaparser.symbolsolver.reflectionmodel.ReflectionMethodDeclaration.getParam(int) -> boolean [ReflectionMethodDeclaration.java <99:9 99:15>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.reflectionmodel.ReflectionMethodDeclaration.getParam<1> [ReflectionMethodDeclaration.java <99:17 99:24>]
 SYMBOL_METHOD boolean java.lang.reflect.Method.isVarArgs()
 REFERENCE_CALL com.github.javaparser.symbolsolver.model.declarations.ParameterDeclaration com.github.javaparser.symbolsolver.reflectionmodel.ReflectionMethodDeclaration.getParam(int) -> boolean java.lang.reflect.Method.isVarArgs() [ReflectionMethodDeclaration.java <100:20 100:28>]
-SYMBOL_FIELD java.lang.reflect.Method com.github.javaparser.symbolsolver.reflectionmodel.ReflectionMethodDeclaration.method
 REFERENCE_USAGE com.github.javaparser.symbolsolver.model.declarations.ParameterDeclaration com.github.javaparser.symbolsolver.reflectionmodel.ReflectionMethodDeclaration.getParam(int) -> java.lang.reflect.Method com.github.javaparser.symbolsolver.reflectionmodel.ReflectionMethodDeclaration.method [ReflectionMethodDeclaration.java <100:13 100:18>]
 LOCAL_SYMBOL: ReflectionMethodDeclaration.java<100:33> [ReflectionMethodDeclaration.java <100:33 100:33>]
 LOCAL_SYMBOL: ReflectionMethodDeclaration.java<100:33> [ReflectionMethodDeclaration.java <102:9 102:9>]
@@ -198,22 +229,17 @@ LOCAL_SYMBOL: com.github.javaparser.symbolsolver.reflectionmodel.ReflectionMetho
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.reflectionmodel.ReflectionMethodDeclaration.getParam<0> [ReflectionMethodDeclaration.java <101:24 101:24>]
 SYMBOL_METHOD int java.lang.reflect.Method.getParameterCount()
 REFERENCE_CALL com.github.javaparser.symbolsolver.model.declarations.ParameterDeclaration com.github.javaparser.symbolsolver.reflectionmodel.ReflectionMethodDeclaration.getParam(int) -> int java.lang.reflect.Method.getParameterCount() [ReflectionMethodDeclaration.java <101:37 101:53>]
-SYMBOL_FIELD java.lang.reflect.Method com.github.javaparser.symbolsolver.reflectionmodel.ReflectionMethodDeclaration.method
 REFERENCE_USAGE com.github.javaparser.symbolsolver.model.declarations.ParameterDeclaration com.github.javaparser.symbolsolver.reflectionmodel.ReflectionMethodDeclaration.getParam(int) -> java.lang.reflect.Method com.github.javaparser.symbolsolver.reflectionmodel.ReflectionMethodDeclaration.method [ReflectionMethodDeclaration.java <101:30 101:35>]
 SYMBOL_METHOD com.github.javaparser.symbolsolver.reflectionmodel.ReflectionParameterDeclaration.ReflectionParameterDeclaration(java.lang.Class<?>, java.lang.reflect.Type, com.github.javaparser.symbolsolver.model.resolution.TypeSolver, boolean)
 REFERENCE_CALL com.github.javaparser.symbolsolver.model.declarations.ParameterDeclaration com.github.javaparser.symbolsolver.reflectionmodel.ReflectionMethodDeclaration.getParam(int) -> com.github.javaparser.symbolsolver.reflectionmodel.ReflectionParameterDeclaration.ReflectionParameterDeclaration(java.lang.Class<?>, java.lang.reflect.Type, com.github.javaparser.symbolsolver.model.resolution.TypeSolver, boolean) [ReflectionMethodDeclaration.java <103:20 103:49>]
 REFERENCE_TYPE_USAGE com.github.javaparser.symbolsolver.model.declarations.ParameterDeclaration com.github.javaparser.symbolsolver.reflectionmodel.ReflectionMethodDeclaration.getParam(int) -> com.github.javaparser.symbolsolver.reflectionmodel.ReflectionParameterDeclaration [ReflectionMethodDeclaration.java <103:20 103:49>]
-SYMBOL_METHOD java.lang.Class<?> java.lang.reflect.Method.getParameterTypes()
 REFERENCE_CALL com.github.javaparser.symbolsolver.model.declarations.ParameterDeclaration com.github.javaparser.symbolsolver.reflectionmodel.ReflectionMethodDeclaration.getParam(int) -> java.lang.Class<?> java.lang.reflect.Method.getParameterTypes() [ReflectionMethodDeclaration.java <103:58 103:74>]
-SYMBOL_FIELD java.lang.reflect.Method com.github.javaparser.symbolsolver.reflectionmodel.ReflectionMethodDeclaration.method
 REFERENCE_USAGE com.github.javaparser.symbolsolver.model.declarations.ParameterDeclaration com.github.javaparser.symbolsolver.reflectionmodel.ReflectionMethodDeclaration.getParam(int) -> java.lang.reflect.Method com.github.javaparser.symbolsolver.reflectionmodel.ReflectionMethodDeclaration.method [ReflectionMethodDeclaration.java <103:51 103:56>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.reflectionmodel.ReflectionMethodDeclaration.getParam<0> [ReflectionMethodDeclaration.java <103:78 103:78>]
 SYMBOL_METHOD java.lang.reflect.Type java.lang.reflect.Method.getGenericParameterTypes()
 REFERENCE_CALL com.github.javaparser.symbolsolver.model.declarations.ParameterDeclaration com.github.javaparser.symbolsolver.reflectionmodel.ReflectionMethodDeclaration.getParam(int) -> java.lang.reflect.Type java.lang.reflect.Method.getGenericParameterTypes() [ReflectionMethodDeclaration.java <103:89 103:112>]
-SYMBOL_FIELD java.lang.reflect.Method com.github.javaparser.symbolsolver.reflectionmodel.ReflectionMethodDeclaration.method
 REFERENCE_USAGE com.github.javaparser.symbolsolver.model.declarations.ParameterDeclaration com.github.javaparser.symbolsolver.reflectionmodel.ReflectionMethodDeclaration.getParam(int) -> java.lang.reflect.Method com.github.javaparser.symbolsolver.reflectionmodel.ReflectionMethodDeclaration.method [ReflectionMethodDeclaration.java <103:82 103:87>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.reflectionmodel.ReflectionMethodDeclaration.getParam<0> [ReflectionMethodDeclaration.java <103:116 103:116>]
-SYMBOL_FIELD com.github.javaparser.symbolsolver.model.resolution.TypeSolver com.github.javaparser.symbolsolver.reflectionmodel.ReflectionMethodDeclaration.typeSolver
 REFERENCE_USAGE com.github.javaparser.symbolsolver.model.declarations.ParameterDeclaration com.github.javaparser.symbolsolver.reflectionmodel.ReflectionMethodDeclaration.getParam(int) -> com.github.javaparser.symbolsolver.model.resolution.TypeSolver com.github.javaparser.symbolsolver.reflectionmodel.ReflectionMethodDeclaration.typeSolver [ReflectionMethodDeclaration.java <103:120 103:129>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.reflectionmodel.ReflectionMethodDeclaration.getParam<1> [ReflectionMethodDeclaration.java <103:132 103:139>]
 SYMBOL_METHOD public java.util.List<com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration> com.github.javaparser.symbolsolver.reflectionmodel.ReflectionMethodDeclaration.getTypeParameters() [ReflectionMethodDeclaration.java <106:5 <107:43 107:59> 109:5>]
@@ -229,19 +255,19 @@ SYMBOL_METHOD java.util.stream.Stream<R> java.util.stream.Stream<T>.map<R>(java.
 REFERENCE_CALL java.util.List<com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration> com.github.javaparser.symbolsolver.reflectionmodel.ReflectionMethodDeclaration.getTypeParameters() -> java.util.stream.Stream<R> java.util.stream.Stream<T>.map<R>(java.util.function.Function<? super T, ? extends R>) [ReflectionMethodDeclaration.java <108:58 108:60>]
 SYMBOL_METHOD static java.util.stream.Stream<T> java.util.Arrays.stream<T>(T)
 REFERENCE_CALL java.util.List<com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration> com.github.javaparser.symbolsolver.reflectionmodel.ReflectionMethodDeclaration.getTypeParameters() -> static java.util.stream.Stream<T> java.util.Arrays.stream<T>(T) [ReflectionMethodDeclaration.java <108:23 108:28>]
+QUALIFIER: java.util.Arrays [ReflectionMethodDeclaration.java <108:16 108:21>]
 SYMBOL_METHOD java.lang.reflect.TypeVariable<java.lang.reflect.Method> java.lang.reflect.Method.getTypeParameters()
 REFERENCE_CALL java.util.List<com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration> com.github.javaparser.symbolsolver.reflectionmodel.ReflectionMethodDeclaration.getTypeParameters() -> java.lang.reflect.TypeVariable<java.lang.reflect.Method> java.lang.reflect.Method.getTypeParameters() [ReflectionMethodDeclaration.java <108:37 108:53>]
-SYMBOL_FIELD java.lang.reflect.Method com.github.javaparser.symbolsolver.reflectionmodel.ReflectionMethodDeclaration.method
 REFERENCE_USAGE java.util.List<com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration> com.github.javaparser.symbolsolver.reflectionmodel.ReflectionMethodDeclaration.getTypeParameters() -> java.lang.reflect.Method com.github.javaparser.symbolsolver.reflectionmodel.ReflectionMethodDeclaration.method [ReflectionMethodDeclaration.java <108:30 108:35>]
 LOCAL_SYMBOL: java.util.function.Function<T, R>.apply<1> [ReflectionMethodDeclaration.java <108:63 108:67>]
 SYMBOL_METHOD com.github.javaparser.symbolsolver.reflectionmodel.ReflectionTypeParameter.ReflectionTypeParameter(java.lang.reflect.TypeVariable, boolean, com.github.javaparser.symbolsolver.model.resolution.TypeSolver)
 REFERENCE_CALL java.util.List<com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration> com.github.javaparser.symbolsolver.reflectionmodel.ReflectionMethodDeclaration.getTypeParameters() -> com.github.javaparser.symbolsolver.reflectionmodel.ReflectionTypeParameter.ReflectionTypeParameter(java.lang.reflect.TypeVariable, boolean, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) [ReflectionMethodDeclaration.java <108:77 108:99>]
 REFERENCE_TYPE_USAGE java.util.List<com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration> com.github.javaparser.symbolsolver.reflectionmodel.ReflectionMethodDeclaration.getTypeParameters() -> com.github.javaparser.symbolsolver.reflectionmodel.ReflectionTypeParameter [ReflectionMethodDeclaration.java <108:77 108:99>]
 LOCAL_SYMBOL: java.util.function.Function<T, R>.apply<1> [ReflectionMethodDeclaration.java <108:101 108:105>]
-SYMBOL_FIELD com.github.javaparser.symbolsolver.model.resolution.TypeSolver com.github.javaparser.symbolsolver.reflectionmodel.ReflectionMethodDeclaration.typeSolver
 REFERENCE_USAGE java.util.List<com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration> com.github.javaparser.symbolsolver.reflectionmodel.ReflectionMethodDeclaration.getTypeParameters() -> com.github.javaparser.symbolsolver.model.resolution.TypeSolver com.github.javaparser.symbolsolver.reflectionmodel.ReflectionMethodDeclaration.typeSolver [ReflectionMethodDeclaration.java <108:115 108:124>]
 SYMBOL_METHOD static java.util.stream.Collector<T, ?, java.util.List<T>> java.util.stream.Collectors.toList<T>()
 REFERENCE_CALL java.util.List<com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration> com.github.javaparser.symbolsolver.reflectionmodel.ReflectionMethodDeclaration.getTypeParameters() -> static java.util.stream.Collector<T, ?, java.util.List<T>> java.util.stream.Collectors.toList<T>() [ReflectionMethodDeclaration.java <108:147 108:152>]
+QUALIFIER: java.util.stream.Collectors [ReflectionMethodDeclaration.java <108:136 108:145>]
 SYMBOL_METHOD public com.github.javaparser.symbolsolver.model.methods.MethodUsage com.github.javaparser.symbolsolver.reflectionmodel.ReflectionMethodDeclaration.resolveTypeVariables(com.github.javaparser.symbolsolver.core.resolution.Context, java.util.List<com.github.javaparser.symbolsolver.model.typesystem.Type>) [ReflectionMethodDeclaration.java <111:5 <111:24 111:43> 113:5>]
 REFERENCE_TYPE_USAGE com.github.javaparser.symbolsolver.model.methods.MethodUsage com.github.javaparser.symbolsolver.reflectionmodel.ReflectionMethodDeclaration.resolveTypeVariables(com.github.javaparser.symbolsolver.core.resolution.Context, java.util.List<com.github.javaparser.symbolsolver.model.typesystem.Type>) -> com.github.javaparser.symbolsolver.model.methods.MethodUsage [ReflectionMethodDeclaration.java <111:12 111:22>]
 REFERENCE_TYPE_USAGE com.github.javaparser.symbolsolver.model.methods.MethodUsage com.github.javaparser.symbolsolver.reflectionmodel.ReflectionMethodDeclaration.resolveTypeVariables(com.github.javaparser.symbolsolver.core.resolution.Context, java.util.List<com.github.javaparser.symbolsolver.model.typesystem.Type>) -> com.github.javaparser.symbolsolver.core.resolution.Context [ReflectionMethodDeclaration.java <111:45 111:51>]
@@ -256,46 +282,40 @@ REFERENCE_CALL com.github.javaparser.symbolsolver.model.methods.MethodUsage com.
 SYMBOL_METHOD com.github.javaparser.symbolsolver.declarations.common.MethodDeclarationCommonLogic.MethodDeclarationCommonLogic(com.github.javaparser.symbolsolver.model.declarations.MethodDeclaration, com.github.javaparser.symbolsolver.model.resolution.TypeSolver)
 REFERENCE_CALL com.github.javaparser.symbolsolver.model.methods.MethodUsage com.github.javaparser.symbolsolver.reflectionmodel.ReflectionMethodDeclaration.resolveTypeVariables(com.github.javaparser.symbolsolver.core.resolution.Context, java.util.List<com.github.javaparser.symbolsolver.model.typesystem.Type>) -> com.github.javaparser.symbolsolver.declarations.common.MethodDeclarationCommonLogic.MethodDeclarationCommonLogic(com.github.javaparser.symbolsolver.model.declarations.MethodDeclaration, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) [ReflectionMethodDeclaration.java <112:20 112:47>]
 REFERENCE_TYPE_USAGE com.github.javaparser.symbolsolver.model.methods.MethodUsage com.github.javaparser.symbolsolver.reflectionmodel.ReflectionMethodDeclaration.resolveTypeVariables(com.github.javaparser.symbolsolver.core.resolution.Context, java.util.List<com.github.javaparser.symbolsolver.model.typesystem.Type>) -> com.github.javaparser.symbolsolver.declarations.common.MethodDeclarationCommonLogic [ReflectionMethodDeclaration.java <112:20 112:47>]
-SYMBOL_FIELD com.github.javaparser.symbolsolver.model.resolution.TypeSolver com.github.javaparser.symbolsolver.reflectionmodel.ReflectionMethodDeclaration.typeSolver
 REFERENCE_USAGE com.github.javaparser.symbolsolver.model.methods.MethodUsage com.github.javaparser.symbolsolver.reflectionmodel.ReflectionMethodDeclaration.resolveTypeVariables(com.github.javaparser.symbolsolver.core.resolution.Context, java.util.List<com.github.javaparser.symbolsolver.model.typesystem.Type>) -> com.github.javaparser.symbolsolver.model.resolution.TypeSolver com.github.javaparser.symbolsolver.reflectionmodel.ReflectionMethodDeclaration.typeSolver [ReflectionMethodDeclaration.java <112:55 112:64>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.reflectionmodel.ReflectionMethodDeclaration.resolveTypeVariables<0> [ReflectionMethodDeclaration.java <112:88 112:94>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.reflectionmodel.ReflectionMethodDeclaration.resolveTypeVariables<1> [ReflectionMethodDeclaration.java <112:97 112:110>]
 SYMBOL_METHOD public boolean com.github.javaparser.symbolsolver.reflectionmodel.ReflectionMethodDeclaration.isAbstract() [ReflectionMethodDeclaration.java <115:5 <116:20 116:29> 118:5>]
 SYMBOL_METHOD boolean com.github.javaparser.symbolsolver.model.declarations.MethodDeclaration.isAbstract()
 REFERENCE_OVERRIDE boolean com.github.javaparser.symbolsolver.reflectionmodel.ReflectionMethodDeclaration.isAbstract() -> boolean com.github.javaparser.symbolsolver.model.declarations.MethodDeclaration.isAbstract() [ReflectionMethodDeclaration.java <116:20 116:29>]
-SYMBOL_BUILTIN_TYPE boolean
 REFERENCE_TYPE_USAGE boolean com.github.javaparser.symbolsolver.reflectionmodel.ReflectionMethodDeclaration.isAbstract() -> boolean [ReflectionMethodDeclaration.java <116:12 116:18>]
 LOCAL_SYMBOL: ReflectionMethodDeclaration.java<116:33> [ReflectionMethodDeclaration.java <116:33 116:33>]
 LOCAL_SYMBOL: ReflectionMethodDeclaration.java<116:33> [ReflectionMethodDeclaration.java <118:5 118:5>]
 SYMBOL_METHOD static boolean java.lang.reflect.Modifier.isAbstract(int)
 REFERENCE_CALL boolean com.github.javaparser.symbolsolver.reflectionmodel.ReflectionMethodDeclaration.isAbstract() -> static boolean java.lang.reflect.Modifier.isAbstract(int) [ReflectionMethodDeclaration.java <117:25 117:34>]
+QUALIFIER: java.lang.reflect.Modifier [ReflectionMethodDeclaration.java <117:16 117:23>]
 SYMBOL_METHOD int java.lang.reflect.Method.getModifiers()
 REFERENCE_CALL boolean com.github.javaparser.symbolsolver.reflectionmodel.ReflectionMethodDeclaration.isAbstract() -> int java.lang.reflect.Method.getModifiers() [ReflectionMethodDeclaration.java <117:43 117:54>]
-SYMBOL_FIELD java.lang.reflect.Method com.github.javaparser.symbolsolver.reflectionmodel.ReflectionMethodDeclaration.method
 REFERENCE_USAGE boolean com.github.javaparser.symbolsolver.reflectionmodel.ReflectionMethodDeclaration.isAbstract() -> java.lang.reflect.Method com.github.javaparser.symbolsolver.reflectionmodel.ReflectionMethodDeclaration.method [ReflectionMethodDeclaration.java <117:36 117:41>]
 SYMBOL_METHOD public boolean com.github.javaparser.symbolsolver.reflectionmodel.ReflectionMethodDeclaration.isDefaultMethod() [ReflectionMethodDeclaration.java <120:5 <121:20 121:34> 123:5>]
 SYMBOL_METHOD boolean com.github.javaparser.symbolsolver.model.declarations.MethodDeclaration.isDefaultMethod()
 REFERENCE_OVERRIDE boolean com.github.javaparser.symbolsolver.reflectionmodel.ReflectionMethodDeclaration.isDefaultMethod() -> boolean com.github.javaparser.symbolsolver.model.declarations.MethodDeclaration.isDefaultMethod() [ReflectionMethodDeclaration.java <121:20 121:34>]
-SYMBOL_BUILTIN_TYPE boolean
 REFERENCE_TYPE_USAGE boolean com.github.javaparser.symbolsolver.reflectionmodel.ReflectionMethodDeclaration.isDefaultMethod() -> boolean [ReflectionMethodDeclaration.java <121:12 121:18>]
 LOCAL_SYMBOL: ReflectionMethodDeclaration.java<121:38> [ReflectionMethodDeclaration.java <121:38 121:38>]
 LOCAL_SYMBOL: ReflectionMethodDeclaration.java<121:38> [ReflectionMethodDeclaration.java <123:5 123:5>]
 SYMBOL_METHOD boolean java.lang.reflect.Method.isDefault()
 REFERENCE_CALL boolean com.github.javaparser.symbolsolver.reflectionmodel.ReflectionMethodDeclaration.isDefaultMethod() -> boolean java.lang.reflect.Method.isDefault() [ReflectionMethodDeclaration.java <122:23 122:31>]
-SYMBOL_FIELD java.lang.reflect.Method com.github.javaparser.symbolsolver.reflectionmodel.ReflectionMethodDeclaration.method
 REFERENCE_USAGE boolean com.github.javaparser.symbolsolver.reflectionmodel.ReflectionMethodDeclaration.isDefaultMethod() -> java.lang.reflect.Method com.github.javaparser.symbolsolver.reflectionmodel.ReflectionMethodDeclaration.method [ReflectionMethodDeclaration.java <122:16 122:21>]
 SYMBOL_METHOD public boolean com.github.javaparser.symbolsolver.reflectionmodel.ReflectionMethodDeclaration.isStatic() [ReflectionMethodDeclaration.java <125:5 <126:20 126:27> 128:5>]
 SYMBOL_METHOD boolean com.github.javaparser.symbolsolver.model.declarations.MethodDeclaration.isStatic()
 REFERENCE_OVERRIDE boolean com.github.javaparser.symbolsolver.reflectionmodel.ReflectionMethodDeclaration.isStatic() -> boolean com.github.javaparser.symbolsolver.model.declarations.MethodDeclaration.isStatic() [ReflectionMethodDeclaration.java <126:20 126:27>]
-SYMBOL_BUILTIN_TYPE boolean
 REFERENCE_TYPE_USAGE boolean com.github.javaparser.symbolsolver.reflectionmodel.ReflectionMethodDeclaration.isStatic() -> boolean [ReflectionMethodDeclaration.java <126:12 126:18>]
 LOCAL_SYMBOL: ReflectionMethodDeclaration.java<126:31> [ReflectionMethodDeclaration.java <126:31 126:31>]
 LOCAL_SYMBOL: ReflectionMethodDeclaration.java<126:31> [ReflectionMethodDeclaration.java <128:5 128:5>]
 SYMBOL_METHOD static boolean java.lang.reflect.Modifier.isStatic(int)
 REFERENCE_CALL boolean com.github.javaparser.symbolsolver.reflectionmodel.ReflectionMethodDeclaration.isStatic() -> static boolean java.lang.reflect.Modifier.isStatic(int) [ReflectionMethodDeclaration.java <127:25 127:32>]
-SYMBOL_METHOD int java.lang.reflect.Method.getModifiers()
+QUALIFIER: java.lang.reflect.Modifier [ReflectionMethodDeclaration.java <127:16 127:23>]
 REFERENCE_CALL boolean com.github.javaparser.symbolsolver.reflectionmodel.ReflectionMethodDeclaration.isStatic() -> int java.lang.reflect.Method.getModifiers() [ReflectionMethodDeclaration.java <127:41 127:52>]
-SYMBOL_FIELD java.lang.reflect.Method com.github.javaparser.symbolsolver.reflectionmodel.ReflectionMethodDeclaration.method
 REFERENCE_USAGE boolean com.github.javaparser.symbolsolver.reflectionmodel.ReflectionMethodDeclaration.isStatic() -> java.lang.reflect.Method com.github.javaparser.symbolsolver.reflectionmodel.ReflectionMethodDeclaration.method [ReflectionMethodDeclaration.java <127:34 127:39>]
 SYMBOL_METHOD public com.github.javaparser.symbolsolver.model.declarations.AccessLevel com.github.javaparser.symbolsolver.reflectionmodel.ReflectionMethodDeclaration.accessLevel() [ReflectionMethodDeclaration.java <130:5 <131:24 131:34> 133:5>]
 SYMBOL_METHOD com.github.javaparser.symbolsolver.model.declarations.AccessLevel com.github.javaparser.symbolsolver.model.declarations.HasAccessLevel.accessLevel()
@@ -305,8 +325,8 @@ LOCAL_SYMBOL: ReflectionMethodDeclaration.java<131:38> [ReflectionMethodDeclarat
 LOCAL_SYMBOL: ReflectionMethodDeclaration.java<131:38> [ReflectionMethodDeclaration.java <133:5 133:5>]
 SYMBOL_METHOD static com.github.javaparser.symbolsolver.model.declarations.AccessLevel com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFactory.modifiersToAccessLevel(int)
 REFERENCE_CALL com.github.javaparser.symbolsolver.model.declarations.AccessLevel com.github.javaparser.symbolsolver.reflectionmodel.ReflectionMethodDeclaration.accessLevel() -> static com.github.javaparser.symbolsolver.model.declarations.AccessLevel com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFactory.modifiersToAccessLevel(int) [ReflectionMethodDeclaration.java <132:34 132:55>]
-SYMBOL_METHOD int java.lang.reflect.Method.getModifiers()
+QUALIFIER: com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFactory [ReflectionMethodDeclaration.java <132:16 132:32>]
 REFERENCE_CALL com.github.javaparser.symbolsolver.model.declarations.AccessLevel com.github.javaparser.symbolsolver.reflectionmodel.ReflectionMethodDeclaration.accessLevel() -> int java.lang.reflect.Method.getModifiers() [ReflectionMethodDeclaration.java <132:69 132:80>]
-SYMBOL_FIELD java.lang.reflect.Method com.github.javaparser.symbolsolver.reflectionmodel.ReflectionMethodDeclaration.method
+QUALIFIER: com.github.javaparser.symbolsolver.reflectionmodel.ReflectionMethodDeclaration [ReflectionMethodDeclaration.java <132:57 132:60>]
 REFERENCE_USAGE com.github.javaparser.symbolsolver.model.declarations.AccessLevel com.github.javaparser.symbolsolver.reflectionmodel.ReflectionMethodDeclaration.accessLevel() -> java.lang.reflect.Method com.github.javaparser.symbolsolver.reflectionmodel.ReflectionMethodDeclaration.method [ReflectionMethodDeclaration.java <132:62 132:67>]
 COMMENT: comment [ReflectionMethodDeclaration.java <1:1 15:3>]

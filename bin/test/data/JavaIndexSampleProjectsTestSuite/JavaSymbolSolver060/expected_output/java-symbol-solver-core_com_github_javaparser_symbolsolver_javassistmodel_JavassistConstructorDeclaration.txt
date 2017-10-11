@@ -1,29 +1,55 @@
 FILE: JavassistConstructorDeclaration.java
-SYMBOL_PACKAGE com.github.javaparser.symbolsolver.javassistmodel [JavassistConstructorDeclaration.java <17:9 17:57>]
+SYMBOL_PACKAGE com.github.javaparser.symbolsolver.javassistmodel [JavassistConstructorDeclaration.java <17:44 17:57>]
 SYMBOL_PACKAGE com.github.javaparser.symbolsolver
 SYMBOL_PACKAGE com.github.javaparser
 SYMBOL_PACKAGE com.github
 SYMBOL_PACKAGE com
-REFERENCE_IMPORT JavassistConstructorDeclaration.java -> com.github.javaparser.symbolsolver.model.declarations [JavassistConstructorDeclaration.java <19:8 19:60>]
+QUALIFIER: com.github.javaparser.symbolsolver [JavassistConstructorDeclaration.java <17:31 17:42>]
+QUALIFIER: com.github.javaparser [JavassistConstructorDeclaration.java <17:20 17:29>]
+QUALIFIER: com.github [JavassistConstructorDeclaration.java <17:13 17:18>]
+QUALIFIER: com [JavassistConstructorDeclaration.java <17:9 17:11>]
+REFERENCE_IMPORT JavassistConstructorDeclaration.java -> com.github.javaparser.symbolsolver.model.declarations [JavassistConstructorDeclaration.java <19:49 19:60>]
 SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model.declarations
-REFERENCE_IMPORT JavassistConstructorDeclaration.java -> com.github.javaparser.symbolsolver.model.resolution.TypeSolver [JavassistConstructorDeclaration.java <20:8 20:69>]
+QUALIFIER: com.github.javaparser.symbolsolver.model [JavassistConstructorDeclaration.java <19:43 19:47>]
+QUALIFIER: com.github.javaparser.symbolsolver [JavassistConstructorDeclaration.java <19:30 19:41>]
+QUALIFIER: com.github.javaparser [JavassistConstructorDeclaration.java <19:19 19:28>]
+QUALIFIER: com.github [JavassistConstructorDeclaration.java <19:12 19:17>]
+QUALIFIER: com [JavassistConstructorDeclaration.java <19:8 19:10>]
+REFERENCE_IMPORT JavassistConstructorDeclaration.java -> com.github.javaparser.symbolsolver.model.resolution.TypeSolver [JavassistConstructorDeclaration.java <20:60 20:69>]
 SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model.resolution
-REFERENCE_IMPORT JavassistConstructorDeclaration.java -> javassist.CtConstructor [JavassistConstructorDeclaration.java <21:8 21:30>]
+QUALIFIER: com.github.javaparser.symbolsolver.model.resolution [JavassistConstructorDeclaration.java <20:49 20:58>]
+QUALIFIER: com.github.javaparser.symbolsolver.model [JavassistConstructorDeclaration.java <20:43 20:47>]
+QUALIFIER: com.github.javaparser.symbolsolver [JavassistConstructorDeclaration.java <20:30 20:41>]
+QUALIFIER: com.github.javaparser [JavassistConstructorDeclaration.java <20:19 20:28>]
+QUALIFIER: com.github [JavassistConstructorDeclaration.java <20:12 20:17>]
+QUALIFIER: com [JavassistConstructorDeclaration.java <20:8 20:10>]
+REFERENCE_IMPORT JavassistConstructorDeclaration.java -> javassist.CtConstructor [JavassistConstructorDeclaration.java <21:18 21:30>]
 SYMBOL_PACKAGE javassist
-REFERENCE_IMPORT JavassistConstructorDeclaration.java -> javassist.NotFoundException [JavassistConstructorDeclaration.java <22:8 22:34>]
-SYMBOL_PACKAGE javassist
-REFERENCE_IMPORT JavassistConstructorDeclaration.java -> javassist.bytecode.BadBytecode [JavassistConstructorDeclaration.java <23:8 23:37>]
+QUALIFIER: javassist [JavassistConstructorDeclaration.java <21:8 21:16>]
+REFERENCE_IMPORT JavassistConstructorDeclaration.java -> javassist.NotFoundException [JavassistConstructorDeclaration.java <22:18 22:34>]
+QUALIFIER: javassist [JavassistConstructorDeclaration.java <22:8 22:16>]
+REFERENCE_IMPORT JavassistConstructorDeclaration.java -> javassist.bytecode.BadBytecode [JavassistConstructorDeclaration.java <23:27 23:37>]
 SYMBOL_PACKAGE javassist.bytecode
-REFERENCE_IMPORT JavassistConstructorDeclaration.java -> javassist.bytecode.SignatureAttribute [JavassistConstructorDeclaration.java <24:8 24:44>]
-SYMBOL_PACKAGE javassist.bytecode
-REFERENCE_IMPORT JavassistConstructorDeclaration.java -> java.util.Arrays [JavassistConstructorDeclaration.java <26:8 26:23>]
+QUALIFIER: javassist.bytecode [JavassistConstructorDeclaration.java <23:18 23:25>]
+QUALIFIER: javassist [JavassistConstructorDeclaration.java <23:8 23:16>]
+REFERENCE_IMPORT JavassistConstructorDeclaration.java -> javassist.bytecode.SignatureAttribute [JavassistConstructorDeclaration.java <24:27 24:44>]
+QUALIFIER: javassist.bytecode [JavassistConstructorDeclaration.java <24:18 24:25>]
+QUALIFIER: javassist [JavassistConstructorDeclaration.java <24:8 24:16>]
+REFERENCE_IMPORT JavassistConstructorDeclaration.java -> java.util.Arrays [JavassistConstructorDeclaration.java <26:18 26:23>]
 SYMBOL_PACKAGE java.util
-REFERENCE_IMPORT JavassistConstructorDeclaration.java -> java.util.Collections [JavassistConstructorDeclaration.java <27:8 27:28>]
-SYMBOL_PACKAGE java.util
-REFERENCE_IMPORT JavassistConstructorDeclaration.java -> java.util.List<E> [JavassistConstructorDeclaration.java <28:8 28:21>]
-SYMBOL_PACKAGE java.util
-REFERENCE_IMPORT JavassistConstructorDeclaration.java -> java.util.stream.Collectors [JavassistConstructorDeclaration.java <29:8 29:34>]
+QUALIFIER: java.util [JavassistConstructorDeclaration.java <26:13 26:16>]
+QUALIFIER: java [JavassistConstructorDeclaration.java <26:8 26:11>]
+REFERENCE_IMPORT JavassistConstructorDeclaration.java -> java.util.Collections [JavassistConstructorDeclaration.java <27:18 27:28>]
+QUALIFIER: java.util [JavassistConstructorDeclaration.java <27:13 27:16>]
+QUALIFIER: java [JavassistConstructorDeclaration.java <27:8 27:11>]
+REFERENCE_IMPORT JavassistConstructorDeclaration.java -> java.util.List<E> [JavassistConstructorDeclaration.java <28:18 28:21>]
+QUALIFIER: java.util [JavassistConstructorDeclaration.java <28:13 28:16>]
+QUALIFIER: java [JavassistConstructorDeclaration.java <28:8 28:11>]
+REFERENCE_IMPORT JavassistConstructorDeclaration.java -> java.util.stream.Collectors [JavassistConstructorDeclaration.java <29:25 29:34>]
 SYMBOL_PACKAGE java.util.stream
+QUALIFIER: java.util.stream [JavassistConstructorDeclaration.java <29:18 29:23>]
+QUALIFIER: java.util [JavassistConstructorDeclaration.java <29:13 29:16>]
+QUALIFIER: java [JavassistConstructorDeclaration.java <29:8 29:11>]
 SYMBOL_CLASS public com.github.javaparser.symbolsolver.javassistmodel.JavassistConstructorDeclaration [JavassistConstructorDeclaration.java <34:1 <34:14 34:44> 122:1>]
 LOCAL_SYMBOL: JavassistConstructorDeclaration.java<34:80> [JavassistConstructorDeclaration.java <34:80 34:80>]
 LOCAL_SYMBOL: JavassistConstructorDeclaration.java<34:80> [JavassistConstructorDeclaration.java <122:1 122:1>]
@@ -40,9 +66,11 @@ REFERENCE_TYPE_USAGE com.github.javaparser.symbolsolver.javassistmodel.Javassist
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javassistmodel.JavassistConstructorDeclaration.JavassistConstructorDeclaration<1> [JavassistConstructorDeclaration.java <38:84 38:93>]
 LOCAL_SYMBOL: JavassistConstructorDeclaration.java<38:96> [JavassistConstructorDeclaration.java <38:96 38:96>]
 LOCAL_SYMBOL: JavassistConstructorDeclaration.java<38:96> [JavassistConstructorDeclaration.java <41:5 41:5>]
+QUALIFIER: com.github.javaparser.symbolsolver.javassistmodel.JavassistConstructorDeclaration [JavassistConstructorDeclaration.java <39:9 39:12>]
 SYMBOL_FIELD javassist.CtConstructor com.github.javaparser.symbolsolver.javassistmodel.JavassistConstructorDeclaration.ctConstructor
 REFERENCE_USAGE com.github.javaparser.symbolsolver.javassistmodel.JavassistConstructorDeclaration.JavassistConstructorDeclaration(javassist.CtConstructor, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> javassist.CtConstructor com.github.javaparser.symbolsolver.javassistmodel.JavassistConstructorDeclaration.ctConstructor [JavassistConstructorDeclaration.java <39:14 39:26>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javassistmodel.JavassistConstructorDeclaration.JavassistConstructorDeclaration<0> [JavassistConstructorDeclaration.java <39:30 39:42>]
+QUALIFIER: com.github.javaparser.symbolsolver.javassistmodel.JavassistConstructorDeclaration [JavassistConstructorDeclaration.java <40:9 40:12>]
 SYMBOL_FIELD com.github.javaparser.symbolsolver.model.resolution.TypeSolver com.github.javaparser.symbolsolver.javassistmodel.JavassistConstructorDeclaration.typeSolver
 REFERENCE_USAGE com.github.javaparser.symbolsolver.javassistmodel.JavassistConstructorDeclaration.JavassistConstructorDeclaration(javassist.CtConstructor, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> com.github.javaparser.symbolsolver.model.resolution.TypeSolver com.github.javaparser.symbolsolver.javassistmodel.JavassistConstructorDeclaration.typeSolver [JavassistConstructorDeclaration.java <40:14 40:23>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javassistmodel.JavassistConstructorDeclaration.JavassistConstructorDeclaration<1> [JavassistConstructorDeclaration.java <40:27 40:36>]
@@ -52,7 +80,6 @@ REFERENCE_OVERRIDE java.lang.String com.github.javaparser.symbolsolver.javassist
 REFERENCE_TYPE_USAGE java.lang.String com.github.javaparser.symbolsolver.javassistmodel.JavassistConstructorDeclaration.toString() -> java.lang.String [JavassistConstructorDeclaration.java <44:12 44:17>]
 LOCAL_SYMBOL: JavassistConstructorDeclaration.java<44:30> [JavassistConstructorDeclaration.java <44:30 44:30>]
 LOCAL_SYMBOL: JavassistConstructorDeclaration.java<44:30> [JavassistConstructorDeclaration.java <48:5 48:5>]
-SYMBOL_FIELD javassist.CtConstructor com.github.javaparser.symbolsolver.javassistmodel.JavassistConstructorDeclaration.ctConstructor
 REFERENCE_USAGE java.lang.String com.github.javaparser.symbolsolver.javassistmodel.JavassistConstructorDeclaration.toString() -> javassist.CtConstructor com.github.javaparser.symbolsolver.javassistmodel.JavassistConstructorDeclaration.ctConstructor [JavassistConstructorDeclaration.java <46:36 46:48>]
 SYMBOL_METHOD public java.lang.String com.github.javaparser.symbolsolver.javassistmodel.JavassistConstructorDeclaration.getName() [JavassistConstructorDeclaration.java <50:5 <51:19 51:25> 53:5>]
 SYMBOL_METHOD java.lang.String com.github.javaparser.symbolsolver.model.declarations.Declaration.getName()
@@ -62,7 +89,6 @@ LOCAL_SYMBOL: JavassistConstructorDeclaration.java<51:29> [JavassistConstructorD
 LOCAL_SYMBOL: JavassistConstructorDeclaration.java<51:29> [JavassistConstructorDeclaration.java <53:5 53:5>]
 SYMBOL_METHOD java.lang.String javassist.CtConstructor.getName()
 REFERENCE_CALL java.lang.String com.github.javaparser.symbolsolver.javassistmodel.JavassistConstructorDeclaration.getName() -> java.lang.String javassist.CtConstructor.getName() [JavassistConstructorDeclaration.java <52:30 52:36>]
-SYMBOL_FIELD javassist.CtConstructor com.github.javaparser.symbolsolver.javassistmodel.JavassistConstructorDeclaration.ctConstructor
 REFERENCE_USAGE java.lang.String com.github.javaparser.symbolsolver.javassistmodel.JavassistConstructorDeclaration.getName() -> javassist.CtConstructor com.github.javaparser.symbolsolver.javassistmodel.JavassistConstructorDeclaration.ctConstructor [JavassistConstructorDeclaration.java <52:16 52:28>]
 SYMBOL_METHOD public boolean com.github.javaparser.symbolsolver.javassistmodel.JavassistConstructorDeclaration.isField() [JavassistConstructorDeclaration.java <55:5 <56:20 56:26> 58:5>]
 SYMBOL_METHOD boolean com.github.javaparser.symbolsolver.model.declarations.Declaration.isField()
@@ -74,14 +100,12 @@ LOCAL_SYMBOL: JavassistConstructorDeclaration.java<56:30> [JavassistConstructorD
 SYMBOL_METHOD public boolean com.github.javaparser.symbolsolver.javassistmodel.JavassistConstructorDeclaration.isParameter() [JavassistConstructorDeclaration.java <60:5 <61:20 61:30> 63:5>]
 SYMBOL_METHOD boolean com.github.javaparser.symbolsolver.model.declarations.Declaration.isParameter()
 REFERENCE_OVERRIDE boolean com.github.javaparser.symbolsolver.javassistmodel.JavassistConstructorDeclaration.isParameter() -> boolean com.github.javaparser.symbolsolver.model.declarations.Declaration.isParameter() [JavassistConstructorDeclaration.java <61:20 61:30>]
-SYMBOL_BUILTIN_TYPE boolean
 REFERENCE_TYPE_USAGE boolean com.github.javaparser.symbolsolver.javassistmodel.JavassistConstructorDeclaration.isParameter() -> boolean [JavassistConstructorDeclaration.java <61:12 61:18>]
 LOCAL_SYMBOL: JavassistConstructorDeclaration.java<61:34> [JavassistConstructorDeclaration.java <61:34 61:34>]
 LOCAL_SYMBOL: JavassistConstructorDeclaration.java<61:34> [JavassistConstructorDeclaration.java <63:5 63:5>]
 SYMBOL_METHOD public boolean com.github.javaparser.symbolsolver.javassistmodel.JavassistConstructorDeclaration.isType() [JavassistConstructorDeclaration.java <65:5 <66:20 66:25> 68:5>]
 SYMBOL_METHOD boolean com.github.javaparser.symbolsolver.model.declarations.Declaration.isType()
 REFERENCE_OVERRIDE boolean com.github.javaparser.symbolsolver.javassistmodel.JavassistConstructorDeclaration.isType() -> boolean com.github.javaparser.symbolsolver.model.declarations.Declaration.isType() [JavassistConstructorDeclaration.java <66:20 66:25>]
-SYMBOL_BUILTIN_TYPE boolean
 REFERENCE_TYPE_USAGE boolean com.github.javaparser.symbolsolver.javassistmodel.JavassistConstructorDeclaration.isType() -> boolean [JavassistConstructorDeclaration.java <66:12 66:18>]
 LOCAL_SYMBOL: JavassistConstructorDeclaration.java<66:29> [JavassistConstructorDeclaration.java <66:29 66:29>]
 LOCAL_SYMBOL: JavassistConstructorDeclaration.java<66:29> [JavassistConstructorDeclaration.java <68:5 68:5>]
@@ -96,9 +120,7 @@ REFERENCE_CALL com.github.javaparser.symbolsolver.model.declarations.ClassDeclar
 REFERENCE_TYPE_USAGE com.github.javaparser.symbolsolver.model.declarations.ClassDeclaration com.github.javaparser.symbolsolver.javassistmodel.JavassistConstructorDeclaration.declaringType() -> com.github.javaparser.symbolsolver.javassistmodel.JavassistClassDeclaration [JavassistConstructorDeclaration.java <72:20 72:44>]
 SYMBOL_METHOD javassist.CtClass javassist.CtMember.getDeclaringClass()
 REFERENCE_CALL com.github.javaparser.symbolsolver.model.declarations.ClassDeclaration com.github.javaparser.symbolsolver.javassistmodel.JavassistConstructorDeclaration.declaringType() -> javassist.CtClass javassist.CtMember.getDeclaringClass() [JavassistConstructorDeclaration.java <72:60 72:76>]
-SYMBOL_FIELD javassist.CtConstructor com.github.javaparser.symbolsolver.javassistmodel.JavassistConstructorDeclaration.ctConstructor
 REFERENCE_USAGE com.github.javaparser.symbolsolver.model.declarations.ClassDeclaration com.github.javaparser.symbolsolver.javassistmodel.JavassistConstructorDeclaration.declaringType() -> javassist.CtConstructor com.github.javaparser.symbolsolver.javassistmodel.JavassistConstructorDeclaration.ctConstructor [JavassistConstructorDeclaration.java <72:46 72:58>]
-SYMBOL_FIELD com.github.javaparser.symbolsolver.model.resolution.TypeSolver com.github.javaparser.symbolsolver.javassistmodel.JavassistConstructorDeclaration.typeSolver
 REFERENCE_USAGE com.github.javaparser.symbolsolver.model.declarations.ClassDeclaration com.github.javaparser.symbolsolver.javassistmodel.JavassistConstructorDeclaration.declaringType() -> com.github.javaparser.symbolsolver.model.resolution.TypeSolver com.github.javaparser.symbolsolver.javassistmodel.JavassistConstructorDeclaration.typeSolver [JavassistConstructorDeclaration.java <72:81 72:90>]
 SYMBOL_METHOD public int com.github.javaparser.symbolsolver.javassistmodel.JavassistConstructorDeclaration.getNumberOfParams() [JavassistConstructorDeclaration.java <75:5 <76:16 76:32> 82:5>]
 SYMBOL_METHOD int com.github.javaparser.symbolsolver.model.declarations.MethodLikeDeclaration.getNumberOfParams()
@@ -111,7 +133,6 @@ LOCAL_SYMBOL: JavassistConstructorDeclaration.java<77:13> [JavassistConstructorD
 LOCAL_SYMBOL: JavassistConstructorDeclaration.java<77:13> [JavassistConstructorDeclaration.java <79:9 79:9>]
 SYMBOL_METHOD javassist.CtClass javassist.CtBehavior.getParameterTypes()
 REFERENCE_CALL int com.github.javaparser.symbolsolver.javassistmodel.JavassistConstructorDeclaration.getNumberOfParams() -> javassist.CtClass javassist.CtBehavior.getParameterTypes() [JavassistConstructorDeclaration.java <78:34 78:50>]
-SYMBOL_FIELD javassist.CtConstructor com.github.javaparser.symbolsolver.javassistmodel.JavassistConstructorDeclaration.ctConstructor
 REFERENCE_USAGE int com.github.javaparser.symbolsolver.javassistmodel.JavassistConstructorDeclaration.getNumberOfParams() -> javassist.CtConstructor com.github.javaparser.symbolsolver.javassistmodel.JavassistConstructorDeclaration.ctConstructor [JavassistConstructorDeclaration.java <78:20 78:32>]
 SYMBOL_FIELD int length
 REFERENCE_USAGE int com.github.javaparser.symbolsolver.javassistmodel.JavassistConstructorDeclaration.getNumberOfParams() -> int length [JavassistConstructorDeclaration.java <78:54 78:59>]
@@ -127,47 +148,43 @@ SYMBOL_METHOD public com.github.javaparser.symbolsolver.model.declarations.Param
 SYMBOL_METHOD com.github.javaparser.symbolsolver.model.declarations.ParameterDeclaration com.github.javaparser.symbolsolver.model.declarations.MethodLikeDeclaration.getParam(int)
 REFERENCE_OVERRIDE com.github.javaparser.symbolsolver.model.declarations.ParameterDeclaration com.github.javaparser.symbolsolver.javassistmodel.JavassistConstructorDeclaration.getParam(int) -> com.github.javaparser.symbolsolver.model.declarations.ParameterDeclaration com.github.javaparser.symbolsolver.model.declarations.MethodLikeDeclaration.getParam(int) [JavassistConstructorDeclaration.java <85:33 85:40>]
 REFERENCE_TYPE_USAGE com.github.javaparser.symbolsolver.model.declarations.ParameterDeclaration com.github.javaparser.symbolsolver.javassistmodel.JavassistConstructorDeclaration.getParam(int) -> com.github.javaparser.symbolsolver.model.declarations.ParameterDeclaration [JavassistConstructorDeclaration.java <85:12 85:31>]
-SYMBOL_BUILTIN_TYPE int
 REFERENCE_TYPE_USAGE com.github.javaparser.symbolsolver.model.declarations.ParameterDeclaration com.github.javaparser.symbolsolver.javassistmodel.JavassistConstructorDeclaration.getParam(int) -> int [JavassistConstructorDeclaration.java <85:42 85:44>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javassistmodel.JavassistConstructorDeclaration.getParam<0> [JavassistConstructorDeclaration.java <85:46 85:46>]
 LOCAL_SYMBOL: JavassistConstructorDeclaration.java<85:49> [JavassistConstructorDeclaration.java <85:49 85:49>]
 LOCAL_SYMBOL: JavassistConstructorDeclaration.java<85:49> [JavassistConstructorDeclaration.java <103:5 103:5>]
 LOCAL_SYMBOL: JavassistConstructorDeclaration.java<86:13> [JavassistConstructorDeclaration.java <86:13 86:13>]
 LOCAL_SYMBOL: JavassistConstructorDeclaration.java<86:13> [JavassistConstructorDeclaration.java <98:9 98:9>]
-SYMBOL_BUILTIN_TYPE boolean
 REFERENCE_TYPE_USAGE com.github.javaparser.symbolsolver.model.declarations.ParameterDeclaration com.github.javaparser.symbolsolver.javassistmodel.JavassistConstructorDeclaration.getParam(int) -> boolean [JavassistConstructorDeclaration.java <87:13 87:19>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javassistmodel.JavassistConstructorDeclaration.getParam<1> [JavassistConstructorDeclaration.java <87:21 87:28>]
 SYMBOL_METHOD int javassist.CtBehavior.getModifiers()
 REFERENCE_CALL com.github.javaparser.symbolsolver.model.declarations.ParameterDeclaration com.github.javaparser.symbolsolver.javassistmodel.JavassistConstructorDeclaration.getParam(int) -> int javassist.CtBehavior.getModifiers() [JavassistConstructorDeclaration.java <88:32 88:43>]
-SYMBOL_FIELD javassist.CtConstructor com.github.javaparser.symbolsolver.javassistmodel.JavassistConstructorDeclaration.ctConstructor
 REFERENCE_USAGE com.github.javaparser.symbolsolver.model.declarations.ParameterDeclaration com.github.javaparser.symbolsolver.javassistmodel.JavassistConstructorDeclaration.getParam(int) -> javassist.CtConstructor com.github.javaparser.symbolsolver.javassistmodel.JavassistConstructorDeclaration.ctConstructor [JavassistConstructorDeclaration.java <88:18 88:30>]
+QUALIFIER: javassist.Modifier [JavassistConstructorDeclaration.java <88:59 88:66>]
+QUALIFIER: javassist [JavassistConstructorDeclaration.java <88:49 88:57>]
 SYMBOL_FIELD static int javassist.Modifier.VARARGS
 REFERENCE_USAGE com.github.javaparser.symbolsolver.model.declarations.ParameterDeclaration com.github.javaparser.symbolsolver.javassistmodel.JavassistConstructorDeclaration.getParam(int) -> static int javassist.Modifier.VARARGS [JavassistConstructorDeclaration.java <88:68 88:74>]
 LOCAL_SYMBOL: JavassistConstructorDeclaration.java<88:82> [JavassistConstructorDeclaration.java <88:82 88:82>]
 LOCAL_SYMBOL: JavassistConstructorDeclaration.java<88:82> [JavassistConstructorDeclaration.java <90:13 90:13>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javassistmodel.JavassistConstructorDeclaration.getParam<1> [JavassistConstructorDeclaration.java <89:17 89:24>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javassistmodel.JavassistConstructorDeclaration.getParam<0> [JavassistConstructorDeclaration.java <89:28 89:28>]
-SYMBOL_METHOD javassist.CtClass javassist.CtBehavior.getParameterTypes()
 REFERENCE_CALL com.github.javaparser.symbolsolver.model.declarations.ParameterDeclaration com.github.javaparser.symbolsolver.javassistmodel.JavassistConstructorDeclaration.getParam(int) -> javassist.CtClass javassist.CtBehavior.getParameterTypes() [JavassistConstructorDeclaration.java <89:48 89:64>]
-SYMBOL_FIELD javassist.CtConstructor com.github.javaparser.symbolsolver.javassistmodel.JavassistConstructorDeclaration.ctConstructor
 REFERENCE_USAGE com.github.javaparser.symbolsolver.model.declarations.ParameterDeclaration com.github.javaparser.symbolsolver.javassistmodel.JavassistConstructorDeclaration.getParam(int) -> javassist.CtConstructor com.github.javaparser.symbolsolver.javassistmodel.JavassistConstructorDeclaration.ctConstructor [JavassistConstructorDeclaration.java <89:34 89:46>]
-SYMBOL_FIELD int length
 REFERENCE_USAGE com.github.javaparser.symbolsolver.model.declarations.ParameterDeclaration com.github.javaparser.symbolsolver.javassistmodel.JavassistConstructorDeclaration.getParam(int) -> int length [JavassistConstructorDeclaration.java <89:68 89:73>]
 SYMBOL_METHOD java.lang.String javassist.CtBehavior.getGenericSignature()
 REFERENCE_CALL com.github.javaparser.symbolsolver.model.declarations.ParameterDeclaration com.github.javaparser.symbolsolver.javassistmodel.JavassistConstructorDeclaration.getParam(int) -> java.lang.String javassist.CtBehavior.getGenericSignature() [JavassistConstructorDeclaration.java <91:31 91:49>]
-SYMBOL_FIELD javassist.CtConstructor com.github.javaparser.symbolsolver.javassistmodel.JavassistConstructorDeclaration.ctConstructor
 REFERENCE_USAGE com.github.javaparser.symbolsolver.model.declarations.ParameterDeclaration com.github.javaparser.symbolsolver.javassistmodel.JavassistConstructorDeclaration.getParam(int) -> javassist.CtConstructor com.github.javaparser.symbolsolver.javassistmodel.JavassistConstructorDeclaration.ctConstructor [JavassistConstructorDeclaration.java <91:17 91:29>]
 LOCAL_SYMBOL: JavassistConstructorDeclaration.java<91:62> [JavassistConstructorDeclaration.java <91:62 91:62>]
 LOCAL_SYMBOL: JavassistConstructorDeclaration.java<91:62> [JavassistConstructorDeclaration.java <95:13 95:13>]
-REFERENCE_TYPE_USAGE com.github.javaparser.symbolsolver.model.declarations.ParameterDeclaration com.github.javaparser.symbolsolver.javassistmodel.JavassistConstructorDeclaration.getParam(int) -> javassist.bytecode.SignatureAttribute.MethodSignature [JavassistConstructorDeclaration.java <92:17 92:50>]
+REFERENCE_TYPE_USAGE com.github.javaparser.symbolsolver.model.declarations.ParameterDeclaration com.github.javaparser.symbolsolver.javassistmodel.JavassistConstructorDeclaration.getParam(int) -> javassist.bytecode.SignatureAttribute.MethodSignature [JavassistConstructorDeclaration.java <92:36 92:50>]
+QUALIFIER: javassist.bytecode.SignatureAttribute [JavassistConstructorDeclaration.java <92:17 92:34>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javassistmodel.JavassistConstructorDeclaration.getParam<2> [JavassistConstructorDeclaration.java <92:52 92:66>]
 SYMBOL_METHOD static javassist.bytecode.SignatureAttribute.MethodSignature javassist.bytecode.SignatureAttribute.toMethodSignature(java.lang.String)
 REFERENCE_CALL com.github.javaparser.symbolsolver.model.declarations.ParameterDeclaration com.github.javaparser.symbolsolver.javassistmodel.JavassistConstructorDeclaration.getParam(int) -> static javassist.bytecode.SignatureAttribute.MethodSignature javassist.bytecode.SignatureAttribute.toMethodSignature(java.lang.String) [JavassistConstructorDeclaration.java <92:89 92:105>]
-SYMBOL_METHOD java.lang.String javassist.CtBehavior.getGenericSignature()
+QUALIFIER: javassist.bytecode.SignatureAttribute [JavassistConstructorDeclaration.java <92:70 92:87>]
 REFERENCE_CALL com.github.javaparser.symbolsolver.model.declarations.ParameterDeclaration com.github.javaparser.symbolsolver.javassistmodel.JavassistConstructorDeclaration.getParam(int) -> java.lang.String javassist.CtBehavior.getGenericSignature() [JavassistConstructorDeclaration.java <92:121 92:139>]
-SYMBOL_FIELD javassist.CtConstructor com.github.javaparser.symbolsolver.javassistmodel.JavassistConstructorDeclaration.ctConstructor
 REFERENCE_USAGE com.github.javaparser.symbolsolver.model.declarations.ParameterDeclaration com.github.javaparser.symbolsolver.javassistmodel.JavassistConstructorDeclaration.getParam(int) -> javassist.CtConstructor com.github.javaparser.symbolsolver.javassistmodel.JavassistConstructorDeclaration.ctConstructor [JavassistConstructorDeclaration.java <92:107 92:119>]
-REFERENCE_TYPE_USAGE com.github.javaparser.symbolsolver.model.declarations.ParameterDeclaration com.github.javaparser.symbolsolver.javassistmodel.JavassistConstructorDeclaration.getParam(int) -> javassist.bytecode.SignatureAttribute.Type [JavassistConstructorDeclaration.java <93:17 93:39>]
+REFERENCE_TYPE_USAGE com.github.javaparser.symbolsolver.model.declarations.ParameterDeclaration com.github.javaparser.symbolsolver.javassistmodel.JavassistConstructorDeclaration.getParam(int) -> javassist.bytecode.SignatureAttribute.Type [JavassistConstructorDeclaration.java <93:36 93:39>]
+QUALIFIER: javassist.bytecode.SignatureAttribute [JavassistConstructorDeclaration.java <93:17 93:34>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javassistmodel.JavassistConstructorDeclaration.getParam<3> [JavassistConstructorDeclaration.java <93:41 93:53>]
 SYMBOL_METHOD javassist.bytecode.SignatureAttribute.Type javassist.bytecode.SignatureAttribute.MethodSignature.getParameterTypes()
 REFERENCE_CALL com.github.javaparser.symbolsolver.model.declarations.ParameterDeclaration com.github.javaparser.symbolsolver.javassistmodel.JavassistConstructorDeclaration.getParam(int) -> javassist.bytecode.SignatureAttribute.Type javassist.bytecode.SignatureAttribute.MethodSignature.getParameterTypes() [JavassistConstructorDeclaration.java <93:73 93:89>]
@@ -178,10 +195,9 @@ REFERENCE_CALL com.github.javaparser.symbolsolver.model.declarations.ParameterDe
 REFERENCE_TYPE_USAGE com.github.javaparser.symbolsolver.model.declarations.ParameterDeclaration com.github.javaparser.symbolsolver.javassistmodel.JavassistConstructorDeclaration.getParam(int) -> com.github.javaparser.symbolsolver.javassistmodel.JavassistParameterDeclaration [JavassistConstructorDeclaration.java <94:28 94:56>]
 SYMBOL_METHOD static com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.javassistmodel.JavassistUtils.signatureTypeToType(javassist.bytecode.SignatureAttribute.Type, com.github.javaparser.symbolsolver.model.resolution.TypeSolver, com.github.javaparser.symbolsolver.model.declarations.TypeParametrizable)
 REFERENCE_CALL com.github.javaparser.symbolsolver.model.declarations.ParameterDeclaration com.github.javaparser.symbolsolver.javassistmodel.JavassistConstructorDeclaration.getParam(int) -> static com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.javassistmodel.JavassistUtils.signatureTypeToType(javassist.bytecode.SignatureAttribute.Type, com.github.javaparser.symbolsolver.model.resolution.TypeSolver, com.github.javaparser.symbolsolver.model.declarations.TypeParametrizable) [JavassistConstructorDeclaration.java <94:73 94:91>]
+QUALIFIER: com.github.javaparser.symbolsolver.javassistmodel.JavassistUtils [JavassistConstructorDeclaration.java <94:58 94:71>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javassistmodel.JavassistConstructorDeclaration.getParam<3> [JavassistConstructorDeclaration.java <94:93 94:105>]
-SYMBOL_FIELD com.github.javaparser.symbolsolver.model.resolution.TypeSolver com.github.javaparser.symbolsolver.javassistmodel.JavassistConstructorDeclaration.typeSolver
 REFERENCE_USAGE com.github.javaparser.symbolsolver.model.declarations.ParameterDeclaration com.github.javaparser.symbolsolver.javassistmodel.JavassistConstructorDeclaration.getParam(int) -> com.github.javaparser.symbolsolver.model.resolution.TypeSolver com.github.javaparser.symbolsolver.javassistmodel.JavassistConstructorDeclaration.typeSolver [JavassistConstructorDeclaration.java <94:108 94:117>]
-SYMBOL_FIELD com.github.javaparser.symbolsolver.model.resolution.TypeSolver com.github.javaparser.symbolsolver.javassistmodel.JavassistConstructorDeclaration.typeSolver
 REFERENCE_USAGE com.github.javaparser.symbolsolver.model.declarations.ParameterDeclaration com.github.javaparser.symbolsolver.javassistmodel.JavassistConstructorDeclaration.getParam(int) -> com.github.javaparser.symbolsolver.model.resolution.TypeSolver com.github.javaparser.symbolsolver.javassistmodel.JavassistConstructorDeclaration.typeSolver [JavassistConstructorDeclaration.java <94:127 94:136>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javassistmodel.JavassistConstructorDeclaration.getParam<1> [JavassistConstructorDeclaration.java <94:139 94:146>]
 LOCAL_SYMBOL: JavassistConstructorDeclaration.java<95:20> [JavassistConstructorDeclaration.java <95:20 95:20>]
@@ -189,19 +205,15 @@ LOCAL_SYMBOL: JavassistConstructorDeclaration.java<95:20> [JavassistConstructorD
 SYMBOL_METHOD com.github.javaparser.symbolsolver.javassistmodel.JavassistParameterDeclaration.JavassistParameterDeclaration(javassist.CtClass, com.github.javaparser.symbolsolver.model.resolution.TypeSolver, boolean)
 REFERENCE_CALL com.github.javaparser.symbolsolver.model.declarations.ParameterDeclaration com.github.javaparser.symbolsolver.javassistmodel.JavassistConstructorDeclaration.getParam(int) -> com.github.javaparser.symbolsolver.javassistmodel.JavassistParameterDeclaration.JavassistParameterDeclaration(javassist.CtClass, com.github.javaparser.symbolsolver.model.resolution.TypeSolver, boolean) [JavassistConstructorDeclaration.java <96:28 96:56>]
 REFERENCE_TYPE_USAGE com.github.javaparser.symbolsolver.model.declarations.ParameterDeclaration com.github.javaparser.symbolsolver.javassistmodel.JavassistConstructorDeclaration.getParam(int) -> com.github.javaparser.symbolsolver.javassistmodel.JavassistParameterDeclaration [JavassistConstructorDeclaration.java <96:28 96:56>]
-SYMBOL_METHOD javassist.CtClass javassist.CtBehavior.getParameterTypes()
 REFERENCE_CALL com.github.javaparser.symbolsolver.model.declarations.ParameterDeclaration com.github.javaparser.symbolsolver.javassistmodel.JavassistConstructorDeclaration.getParam(int) -> javassist.CtClass javassist.CtBehavior.getParameterTypes() [JavassistConstructorDeclaration.java <96:72 96:88>]
-SYMBOL_FIELD javassist.CtConstructor com.github.javaparser.symbolsolver.javassistmodel.JavassistConstructorDeclaration.ctConstructor
 REFERENCE_USAGE com.github.javaparser.symbolsolver.model.declarations.ParameterDeclaration com.github.javaparser.symbolsolver.javassistmodel.JavassistConstructorDeclaration.getParam(int) -> javassist.CtConstructor com.github.javaparser.symbolsolver.javassistmodel.JavassistConstructorDeclaration.ctConstructor [JavassistConstructorDeclaration.java <96:58 96:70>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javassistmodel.JavassistConstructorDeclaration.getParam<0> [JavassistConstructorDeclaration.java <96:92 96:92>]
-SYMBOL_FIELD com.github.javaparser.symbolsolver.model.resolution.TypeSolver com.github.javaparser.symbolsolver.javassistmodel.JavassistConstructorDeclaration.typeSolver
 REFERENCE_USAGE com.github.javaparser.symbolsolver.model.declarations.ParameterDeclaration com.github.javaparser.symbolsolver.javassistmodel.JavassistConstructorDeclaration.getParam(int) -> com.github.javaparser.symbolsolver.model.resolution.TypeSolver com.github.javaparser.symbolsolver.javassistmodel.JavassistConstructorDeclaration.typeSolver [JavassistConstructorDeclaration.java <96:96 96:105>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javassistmodel.JavassistConstructorDeclaration.getParam<1> [JavassistConstructorDeclaration.java <96:108 96:115>]
 REFERENCE_TYPE_USAGE com.github.javaparser.symbolsolver.model.declarations.ParameterDeclaration com.github.javaparser.symbolsolver.javassistmodel.JavassistConstructorDeclaration.getParam(int) -> javassist.NotFoundException [JavassistConstructorDeclaration.java <98:18 98:34>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javassistmodel.JavassistConstructorDeclaration.getParam<4> [JavassistConstructorDeclaration.java <98:36 98:36>]
 LOCAL_SYMBOL: JavassistConstructorDeclaration.java<98:39> [JavassistConstructorDeclaration.java <98:39 98:39>]
 LOCAL_SYMBOL: JavassistConstructorDeclaration.java<98:39> [JavassistConstructorDeclaration.java <100:9 100:9>]
-SYMBOL_METHOD java.lang.RuntimeException.RuntimeException(java.lang.Throwable)
 REFERENCE_CALL com.github.javaparser.symbolsolver.model.declarations.ParameterDeclaration com.github.javaparser.symbolsolver.javassistmodel.JavassistConstructorDeclaration.getParam(int) -> java.lang.RuntimeException.RuntimeException(java.lang.Throwable) [JavassistConstructorDeclaration.java <99:23 99:38>]
 REFERENCE_TYPE_USAGE com.github.javaparser.symbolsolver.model.declarations.ParameterDeclaration com.github.javaparser.symbolsolver.javassistmodel.JavassistConstructorDeclaration.getParam(int) -> java.lang.RuntimeException [JavassistConstructorDeclaration.java <99:23 99:38>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javassistmodel.JavassistConstructorDeclaration.getParam<4> [JavassistConstructorDeclaration.java <99:40 99:40>]
@@ -209,7 +221,6 @@ REFERENCE_TYPE_USAGE com.github.javaparser.symbolsolver.model.declarations.Param
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javassistmodel.JavassistConstructorDeclaration.getParam<5> [JavassistConstructorDeclaration.java <100:30 100:40>]
 LOCAL_SYMBOL: JavassistConstructorDeclaration.java<100:43> [JavassistConstructorDeclaration.java <100:43 100:43>]
 LOCAL_SYMBOL: JavassistConstructorDeclaration.java<100:43> [JavassistConstructorDeclaration.java <102:9 102:9>]
-SYMBOL_METHOD java.lang.RuntimeException.RuntimeException(java.lang.Throwable)
 REFERENCE_CALL com.github.javaparser.symbolsolver.model.declarations.ParameterDeclaration com.github.javaparser.symbolsolver.javassistmodel.JavassistConstructorDeclaration.getParam(int) -> java.lang.RuntimeException.RuntimeException(java.lang.Throwable) [JavassistConstructorDeclaration.java <101:23 101:38>]
 REFERENCE_TYPE_USAGE com.github.javaparser.symbolsolver.model.declarations.ParameterDeclaration com.github.javaparser.symbolsolver.javassistmodel.JavassistConstructorDeclaration.getParam(int) -> java.lang.RuntimeException [JavassistConstructorDeclaration.java <101:23 101:38>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javassistmodel.JavassistConstructorDeclaration.getParam<5> [JavassistConstructorDeclaration.java <101:40 101:50>]
@@ -222,21 +233,19 @@ LOCAL_SYMBOL: JavassistConstructorDeclaration.java<106:63> [JavassistConstructor
 LOCAL_SYMBOL: JavassistConstructorDeclaration.java<106:63> [JavassistConstructorDeclaration.java <116:5 116:5>]
 LOCAL_SYMBOL: JavassistConstructorDeclaration.java<107:13> [JavassistConstructorDeclaration.java <107:13 107:13>]
 LOCAL_SYMBOL: JavassistConstructorDeclaration.java<107:13> [JavassistConstructorDeclaration.java <113:9 113:9>]
-SYMBOL_METHOD java.lang.String javassist.CtBehavior.getGenericSignature()
 REFERENCE_CALL java.util.List<com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration> com.github.javaparser.symbolsolver.javassistmodel.JavassistConstructorDeclaration.getTypeParameters() -> java.lang.String javassist.CtBehavior.getGenericSignature() [JavassistConstructorDeclaration.java <108:31 108:49>]
-SYMBOL_FIELD javassist.CtConstructor com.github.javaparser.symbolsolver.javassistmodel.JavassistConstructorDeclaration.ctConstructor
 REFERENCE_USAGE java.util.List<com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration> com.github.javaparser.symbolsolver.javassistmodel.JavassistConstructorDeclaration.getTypeParameters() -> javassist.CtConstructor com.github.javaparser.symbolsolver.javassistmodel.JavassistConstructorDeclaration.ctConstructor [JavassistConstructorDeclaration.java <108:17 108:29>]
 LOCAL_SYMBOL: JavassistConstructorDeclaration.java<108:62> [JavassistConstructorDeclaration.java <108:62 108:62>]
 LOCAL_SYMBOL: JavassistConstructorDeclaration.java<108:62> [JavassistConstructorDeclaration.java <110:13 110:13>]
 SYMBOL_METHOD static java.util.List<T> java.util.Collections.emptyList<T>()
 REFERENCE_CALL java.util.List<com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration> com.github.javaparser.symbolsolver.javassistmodel.JavassistConstructorDeclaration.getTypeParameters() -> static java.util.List<T> java.util.Collections.emptyList<T>() [JavassistConstructorDeclaration.java <109:36 109:44>]
-REFERENCE_TYPE_USAGE java.util.List<com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration> com.github.javaparser.symbolsolver.javassistmodel.JavassistConstructorDeclaration.getTypeParameters() -> javassist.bytecode.SignatureAttribute.MethodSignature [JavassistConstructorDeclaration.java <111:13 111:46>]
+QUALIFIER: java.util.Collections [JavassistConstructorDeclaration.java <109:24 109:34>]
+REFERENCE_TYPE_USAGE java.util.List<com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration> com.github.javaparser.symbolsolver.javassistmodel.JavassistConstructorDeclaration.getTypeParameters() -> javassist.bytecode.SignatureAttribute.MethodSignature [JavassistConstructorDeclaration.java <111:32 111:46>]
+QUALIFIER: javassist.bytecode.SignatureAttribute [JavassistConstructorDeclaration.java <111:13 111:30>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javassistmodel.JavassistConstructorDeclaration.getTypeParameters<0> [JavassistConstructorDeclaration.java <111:48 111:62>]
-SYMBOL_METHOD static javassist.bytecode.SignatureAttribute.MethodSignature javassist.bytecode.SignatureAttribute.toMethodSignature(java.lang.String)
 REFERENCE_CALL java.util.List<com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration> com.github.javaparser.symbolsolver.javassistmodel.JavassistConstructorDeclaration.getTypeParameters() -> static javassist.bytecode.SignatureAttribute.MethodSignature javassist.bytecode.SignatureAttribute.toMethodSignature(java.lang.String) [JavassistConstructorDeclaration.java <111:85 111:101>]
-SYMBOL_METHOD java.lang.String javassist.CtBehavior.getGenericSignature()
+QUALIFIER: javassist.bytecode.SignatureAttribute [JavassistConstructorDeclaration.java <111:66 111:83>]
 REFERENCE_CALL java.util.List<com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration> com.github.javaparser.symbolsolver.javassistmodel.JavassistConstructorDeclaration.getTypeParameters() -> java.lang.String javassist.CtBehavior.getGenericSignature() [JavassistConstructorDeclaration.java <111:117 111:135>]
-SYMBOL_FIELD javassist.CtConstructor com.github.javaparser.symbolsolver.javassistmodel.JavassistConstructorDeclaration.ctConstructor
 REFERENCE_USAGE java.util.List<com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration> com.github.javaparser.symbolsolver.javassistmodel.JavassistConstructorDeclaration.getTypeParameters() -> javassist.CtConstructor com.github.javaparser.symbolsolver.javassistmodel.JavassistConstructorDeclaration.ctConstructor [JavassistConstructorDeclaration.java <111:103 111:115>]
 SYMBOL_METHOD R java.util.stream.Stream<T>.collect<R, A>(java.util.stream.Collector<? super T, A, R>)
 REFERENCE_CALL java.util.List<com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration> com.github.javaparser.symbolsolver.javassistmodel.JavassistConstructorDeclaration.getTypeParameters() -> R java.util.stream.Stream<T>.collect<R, A>(java.util.stream.Collector<? super T, A, R>) [JavassistConstructorDeclaration.java <112:139 112:145>]
@@ -244,6 +253,7 @@ SYMBOL_METHOD java.util.stream.Stream<R> java.util.stream.Stream<T>.map<R>(java.
 REFERENCE_CALL java.util.List<com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration> com.github.javaparser.symbolsolver.javassistmodel.JavassistConstructorDeclaration.getTypeParameters() -> java.util.stream.Stream<R> java.util.stream.Stream<T>.map<R>(java.util.function.Function<? super T, ? extends R>) [JavassistConstructorDeclaration.java <112:71 112:73>]
 SYMBOL_METHOD static java.util.stream.Stream<T> java.util.Arrays.stream<T>(T)
 REFERENCE_CALL java.util.List<com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration> com.github.javaparser.symbolsolver.javassistmodel.JavassistConstructorDeclaration.getTypeParameters() -> static java.util.stream.Stream<T> java.util.Arrays.stream<T>(T) [JavassistConstructorDeclaration.java <112:27 112:32>]
+QUALIFIER: java.util.Arrays [JavassistConstructorDeclaration.java <112:20 112:25>]
 SYMBOL_METHOD javassist.bytecode.SignatureAttribute.TypeParameter javassist.bytecode.SignatureAttribute.MethodSignature.getTypeParameters()
 REFERENCE_CALL java.util.List<com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration> com.github.javaparser.symbolsolver.javassistmodel.JavassistConstructorDeclaration.getTypeParameters() -> javassist.bytecode.SignatureAttribute.TypeParameter javassist.bytecode.SignatureAttribute.MethodSignature.getTypeParameters() [JavassistConstructorDeclaration.java <112:50 112:66>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javassistmodel.JavassistConstructorDeclaration.getTypeParameters<0> [JavassistConstructorDeclaration.java <112:34 112:48>]
@@ -252,15 +262,14 @@ SYMBOL_METHOD com.github.javaparser.symbolsolver.javassistmodel.JavassistTypePar
 REFERENCE_CALL java.util.List<com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration> com.github.javaparser.symbolsolver.javassistmodel.JavassistConstructorDeclaration.getTypeParameters() -> com.github.javaparser.symbolsolver.javassistmodel.JavassistTypeParameter.JavassistTypeParameter(javassist.bytecode.SignatureAttribute.TypeParameter, com.github.javaparser.symbolsolver.model.declarations.TypeParametrizable, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) [JavassistConstructorDeclaration.java <112:90 112:111>]
 REFERENCE_TYPE_USAGE java.util.List<com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration> com.github.javaparser.symbolsolver.javassistmodel.JavassistConstructorDeclaration.getTypeParameters() -> com.github.javaparser.symbolsolver.javassistmodel.JavassistTypeParameter [JavassistConstructorDeclaration.java <112:90 112:111>]
 LOCAL_SYMBOL: java.util.function.Function<T, R>.apply<2> [JavassistConstructorDeclaration.java <112:113 112:117>]
-SYMBOL_FIELD com.github.javaparser.symbolsolver.model.resolution.TypeSolver com.github.javaparser.symbolsolver.javassistmodel.JavassistConstructorDeclaration.typeSolver
 REFERENCE_USAGE java.util.List<com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration> com.github.javaparser.symbolsolver.javassistmodel.JavassistConstructorDeclaration.getTypeParameters() -> com.github.javaparser.symbolsolver.model.resolution.TypeSolver com.github.javaparser.symbolsolver.javassistmodel.JavassistConstructorDeclaration.typeSolver [JavassistConstructorDeclaration.java <112:126 112:135>]
 SYMBOL_METHOD static java.util.stream.Collector<T, ?, java.util.List<T>> java.util.stream.Collectors.toList<T>()
 REFERENCE_CALL java.util.List<com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration> com.github.javaparser.symbolsolver.javassistmodel.JavassistConstructorDeclaration.getTypeParameters() -> static java.util.stream.Collector<T, ?, java.util.List<T>> java.util.stream.Collectors.toList<T>() [JavassistConstructorDeclaration.java <112:158 112:163>]
+QUALIFIER: java.util.stream.Collectors [JavassistConstructorDeclaration.java <112:147 112:156>]
 REFERENCE_TYPE_USAGE java.util.List<com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration> com.github.javaparser.symbolsolver.javassistmodel.JavassistConstructorDeclaration.getTypeParameters() -> javassist.bytecode.BadBytecode [JavassistConstructorDeclaration.java <113:18 113:28>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javassistmodel.JavassistConstructorDeclaration.getTypeParameters<3> [JavassistConstructorDeclaration.java <113:30 113:40>]
 LOCAL_SYMBOL: JavassistConstructorDeclaration.java<113:43> [JavassistConstructorDeclaration.java <113:43 113:43>]
 LOCAL_SYMBOL: JavassistConstructorDeclaration.java<113:43> [JavassistConstructorDeclaration.java <115:9 115:9>]
-SYMBOL_METHOD java.lang.RuntimeException.RuntimeException(java.lang.Throwable)
 REFERENCE_CALL java.util.List<com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration> com.github.javaparser.symbolsolver.javassistmodel.JavassistConstructorDeclaration.getTypeParameters() -> java.lang.RuntimeException.RuntimeException(java.lang.Throwable) [JavassistConstructorDeclaration.java <114:23 114:38>]
 REFERENCE_TYPE_USAGE java.util.List<com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration> com.github.javaparser.symbolsolver.javassistmodel.JavassistConstructorDeclaration.getTypeParameters() -> java.lang.RuntimeException [JavassistConstructorDeclaration.java <114:23 114:38>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javassistmodel.JavassistConstructorDeclaration.getTypeParameters<3> [JavassistConstructorDeclaration.java <114:40 114:50>]
@@ -272,8 +281,7 @@ LOCAL_SYMBOL: JavassistConstructorDeclaration.java<119:38> [JavassistConstructor
 LOCAL_SYMBOL: JavassistConstructorDeclaration.java<119:38> [JavassistConstructorDeclaration.java <121:5 121:5>]
 SYMBOL_METHOD static com.github.javaparser.symbolsolver.model.declarations.AccessLevel com.github.javaparser.symbolsolver.javassistmodel.JavassistFactory.modifiersToAccessLevel(int)
 REFERENCE_CALL com.github.javaparser.symbolsolver.model.declarations.AccessLevel com.github.javaparser.symbolsolver.javassistmodel.JavassistConstructorDeclaration.accessLevel() -> static com.github.javaparser.symbolsolver.model.declarations.AccessLevel com.github.javaparser.symbolsolver.javassistmodel.JavassistFactory.modifiersToAccessLevel(int) [JavassistConstructorDeclaration.java <120:33 120:54>]
-SYMBOL_METHOD int javassist.CtBehavior.getModifiers()
+QUALIFIER: com.github.javaparser.symbolsolver.javassistmodel.JavassistFactory [JavassistConstructorDeclaration.java <120:16 120:31>]
 REFERENCE_CALL com.github.javaparser.symbolsolver.model.declarations.AccessLevel com.github.javaparser.symbolsolver.javassistmodel.JavassistConstructorDeclaration.accessLevel() -> int javassist.CtBehavior.getModifiers() [JavassistConstructorDeclaration.java <120:70 120:81>]
-SYMBOL_FIELD javassist.CtConstructor com.github.javaparser.symbolsolver.javassistmodel.JavassistConstructorDeclaration.ctConstructor
 REFERENCE_USAGE com.github.javaparser.symbolsolver.model.declarations.AccessLevel com.github.javaparser.symbolsolver.javassistmodel.JavassistConstructorDeclaration.accessLevel() -> javassist.CtConstructor com.github.javaparser.symbolsolver.javassistmodel.JavassistConstructorDeclaration.ctConstructor [JavassistConstructorDeclaration.java <120:56 120:68>]
 COMMENT: comment [JavassistConstructorDeclaration.java <1:1 15:3>]

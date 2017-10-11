@@ -1,100 +1,39 @@
 FILE: b2ChainShape.cpp
-FILE: b2ChainShape.cpp
 COMMENT: comment [b2ChainShape.cpp <1:1 17:3>]
-FILE: b2ChainShape.cpp
-FILE: b2ChainShape.cpp
-FILE: b2ChainShape.cpp
-FILE: b2ChainShape.cpp
 REFERENCE_MACRO_USAGE b2ChainShape.cpp -> b2Assert [b2ChainShape.cpp <38:2 38:9>]
 REFERENCE_MACRO_USAGE b2Settings.h -> assert [b2Settings.h <31:21 31:26>]
 REFERENCE_MACRO_USAGE assert.h -> _CRT_WIDE [assert.h <34:23 34:31>]
 REFERENCE_MACRO_USAGE vcruntime.h -> _CRT_WIDE_ [vcruntime.h <95:22 95:31>]
 REFERENCE_MACRO_USAGE assert.h -> _CRT_WIDE [assert.h <34:47 34:55>]
 REFERENCE_MACRO_USAGE assert.h -> __FILE__ [assert.h <34:57 34:64>]
-REFERENCE_MACRO_USAGE vcruntime.h -> _CRT_WIDE_ [vcruntime.h <95:22 95:31>]
 REFERENCE_MACRO_USAGE assert.h -> __LINE__ [assert.h <34:79 34:86>]
 REFERENCE_MACRO_USAGE b2ChainShape.cpp -> b2Assert [b2ChainShape.cpp <39:2 39:9>]
-REFERENCE_MACRO_USAGE b2Settings.h -> assert [b2Settings.h <31:21 31:26>]
-REFERENCE_MACRO_USAGE assert.h -> _CRT_WIDE [assert.h <34:23 34:31>]
-REFERENCE_MACRO_USAGE vcruntime.h -> _CRT_WIDE_ [vcruntime.h <95:22 95:31>]
-REFERENCE_MACRO_USAGE assert.h -> _CRT_WIDE [assert.h <34:47 34:55>]
-REFERENCE_MACRO_USAGE assert.h -> __FILE__ [assert.h <34:57 34:64>]
-REFERENCE_MACRO_USAGE vcruntime.h -> _CRT_WIDE_ [vcruntime.h <95:22 95:31>]
-REFERENCE_MACRO_USAGE assert.h -> __LINE__ [assert.h <34:79 34:86>]
 COMMENT: comment [b2ChainShape.cpp <49:3 49:78>]
 REFERENCE_MACRO_USAGE b2ChainShape.cpp -> b2Assert [b2ChainShape.cpp <50:3 50:10>]
 REFERENCE_MACRO_USAGE b2ChainShape.cpp -> b2_linearSlop [b2ChainShape.cpp <50:40 50:52>]
 REFERENCE_MACRO_USAGE b2ChainShape.cpp -> b2_linearSlop [b2ChainShape.cpp <50:56 50:68>]
-REFERENCE_MACRO_USAGE b2Settings.h -> assert [b2Settings.h <31:21 31:26>]
-REFERENCE_MACRO_USAGE assert.h -> _CRT_WIDE [assert.h <34:23 34:31>]
-REFERENCE_MACRO_USAGE vcruntime.h -> _CRT_WIDE_ [vcruntime.h <95:22 95:31>]
-REFERENCE_MACRO_USAGE assert.h -> _CRT_WIDE [assert.h <34:47 34:55>]
-REFERENCE_MACRO_USAGE assert.h -> __FILE__ [assert.h <34:57 34:64>]
-REFERENCE_MACRO_USAGE vcruntime.h -> _CRT_WIDE_ [vcruntime.h <95:22 95:31>]
-REFERENCE_MACRO_USAGE assert.h -> __LINE__ [assert.h <34:79 34:86>]
 REFERENCE_MACRO_USAGE b2ChainShape.cpp -> b2Assert [b2ChainShape.cpp <65:2 65:9>]
-REFERENCE_MACRO_USAGE b2Settings.h -> assert [b2Settings.h <31:21 31:26>]
-REFERENCE_MACRO_USAGE assert.h -> _CRT_WIDE [assert.h <34:23 34:31>]
-REFERENCE_MACRO_USAGE vcruntime.h -> _CRT_WIDE_ [vcruntime.h <95:22 95:31>]
-REFERENCE_MACRO_USAGE assert.h -> _CRT_WIDE [assert.h <34:47 34:55>]
-REFERENCE_MACRO_USAGE assert.h -> __FILE__ [assert.h <34:57 34:64>]
-REFERENCE_MACRO_USAGE vcruntime.h -> _CRT_WIDE_ [vcruntime.h <95:22 95:31>]
-REFERENCE_MACRO_USAGE assert.h -> __LINE__ [assert.h <34:79 34:86>]
 REFERENCE_MACRO_USAGE b2ChainShape.cpp -> b2Assert [b2ChainShape.cpp <66:2 66:9>]
-REFERENCE_MACRO_USAGE b2Settings.h -> assert [b2Settings.h <31:21 31:26>]
-REFERENCE_MACRO_USAGE assert.h -> _CRT_WIDE [assert.h <34:23 34:31>]
-REFERENCE_MACRO_USAGE vcruntime.h -> _CRT_WIDE_ [vcruntime.h <95:22 95:31>]
-REFERENCE_MACRO_USAGE assert.h -> _CRT_WIDE [assert.h <34:47 34:55>]
-REFERENCE_MACRO_USAGE assert.h -> __FILE__ [assert.h <34:57 34:64>]
-REFERENCE_MACRO_USAGE vcruntime.h -> _CRT_WIDE_ [vcruntime.h <95:22 95:31>]
-REFERENCE_MACRO_USAGE assert.h -> __LINE__ [assert.h <34:79 34:86>]
 COMMENT: comment [b2ChainShape.cpp <69:3 69:78>]
 REFERENCE_MACRO_USAGE b2ChainShape.cpp -> b2Assert [b2ChainShape.cpp <70:3 70:10>]
 REFERENCE_MACRO_USAGE b2ChainShape.cpp -> b2_linearSlop [b2ChainShape.cpp <70:60 70:72>]
 REFERENCE_MACRO_USAGE b2ChainShape.cpp -> b2_linearSlop [b2ChainShape.cpp <70:76 70:88>]
-REFERENCE_MACRO_USAGE b2Settings.h -> assert [b2Settings.h <31:21 31:26>]
-REFERENCE_MACRO_USAGE assert.h -> _CRT_WIDE [assert.h <34:23 34:31>]
-REFERENCE_MACRO_USAGE vcruntime.h -> _CRT_WIDE_ [vcruntime.h <95:22 95:31>]
-REFERENCE_MACRO_USAGE assert.h -> _CRT_WIDE [assert.h <34:47 34:55>]
-REFERENCE_MACRO_USAGE assert.h -> __FILE__ [assert.h <34:57 34:64>]
-REFERENCE_MACRO_USAGE vcruntime.h -> _CRT_WIDE_ [vcruntime.h <95:22 95:31>]
-REFERENCE_MACRO_USAGE assert.h -> __LINE__ [assert.h <34:79 34:86>]
 COMMENT: comment [b2ChainShape.cpp <110:2 110:34>]
 REFERENCE_MACRO_USAGE b2ChainShape.cpp -> b2Assert [b2ChainShape.cpp <116:2 116:9>]
-REFERENCE_MACRO_USAGE b2Settings.h -> assert [b2Settings.h <31:21 31:26>]
-REFERENCE_MACRO_USAGE assert.h -> _CRT_WIDE [assert.h <34:23 34:31>]
-REFERENCE_MACRO_USAGE vcruntime.h -> _CRT_WIDE_ [vcruntime.h <95:22 95:31>]
-REFERENCE_MACRO_USAGE assert.h -> _CRT_WIDE [assert.h <34:47 34:55>]
-REFERENCE_MACRO_USAGE assert.h -> __FILE__ [assert.h <34:57 34:64>]
-REFERENCE_MACRO_USAGE vcruntime.h -> _CRT_WIDE_ [vcruntime.h <95:22 95:31>]
-REFERENCE_MACRO_USAGE assert.h -> __LINE__ [assert.h <34:79 34:86>]
 REFERENCE_MACRO_USAGE b2ChainShape.cpp -> B2_NOT_USED [b2ChainShape.cpp <148:2 148:12>]
 REFERENCE_MACRO_USAGE b2ChainShape.cpp -> B2_NOT_USED [b2ChainShape.cpp <149:2 149:12>]
 REFERENCE_MACRO_USAGE b2ChainShape.cpp -> b2Assert [b2ChainShape.cpp <156:2 156:9>]
-REFERENCE_MACRO_USAGE b2Settings.h -> assert [b2Settings.h <31:21 31:26>]
-REFERENCE_MACRO_USAGE assert.h -> _CRT_WIDE [assert.h <34:23 34:31>]
-REFERENCE_MACRO_USAGE vcruntime.h -> _CRT_WIDE_ [vcruntime.h <95:22 95:31>]
-REFERENCE_MACRO_USAGE assert.h -> _CRT_WIDE [assert.h <34:47 34:55>]
-REFERENCE_MACRO_USAGE assert.h -> __FILE__ [assert.h <34:57 34:64>]
-REFERENCE_MACRO_USAGE vcruntime.h -> _CRT_WIDE_ [vcruntime.h <95:22 95:31>]
-REFERENCE_MACRO_USAGE assert.h -> __LINE__ [assert.h <34:79 34:86>]
 REFERENCE_MACRO_USAGE b2ChainShape.cpp -> b2Assert [b2ChainShape.cpp <175:2 175:9>]
-REFERENCE_MACRO_USAGE b2Settings.h -> assert [b2Settings.h <31:21 31:26>]
-REFERENCE_MACRO_USAGE assert.h -> _CRT_WIDE [assert.h <34:23 34:31>]
-REFERENCE_MACRO_USAGE vcruntime.h -> _CRT_WIDE_ [vcruntime.h <95:22 95:31>]
-REFERENCE_MACRO_USAGE assert.h -> _CRT_WIDE [assert.h <34:47 34:55>]
-REFERENCE_MACRO_USAGE assert.h -> __FILE__ [assert.h <34:57 34:64>]
-REFERENCE_MACRO_USAGE vcruntime.h -> _CRT_WIDE_ [vcruntime.h <95:22 95:31>]
-REFERENCE_MACRO_USAGE assert.h -> __LINE__ [assert.h <34:79 34:86>]
 REFERENCE_MACRO_USAGE b2ChainShape.cpp -> B2_NOT_USED [b2ChainShape.cpp <193:2 193:12>]
 SYMBOL_METHOD public void b2ChainShape::~b2ChainShape() [b2ChainShape.cpp <24:1 <24:15 24:27> 27:1>]
 SYMBOL_FUNCTION void b2Shape::~b2Shape()
 REFERENCE_OVERRIDE void b2ChainShape::~b2ChainShape() -> void b2Shape::~b2Shape() [b2ChainShape.cpp <24:15 24:15>]
 SYMBOL_CLASS b2ChainShape
+QUALIFIER: b2ChainShape [b2ChainShape.cpp <24:1 24:12>]
 SYMBOL_FUNCTION void b2ChainShape::Clear()
 REFERENCE_CALL void b2ChainShape::~b2ChainShape() -> void b2ChainShape::Clear() [b2ChainShape.cpp <26:2 26:6>]
 SYMBOL_METHOD public void b2ChainShape::Clear() [b2ChainShape.cpp <29:1 <29:20 29:24> 34:1>]
-SYMBOL_CLASS b2ChainShape
+QUALIFIER: b2ChainShape [b2ChainShape.cpp <29:6 29:17>]
 SYMBOL_BUILTIN_TYPE void
 REFERENCE_TYPE_USAGE void b2ChainShape::Clear() -> void [b2ChainShape.cpp <29:1 29:4>]
 SYMBOL_FUNCTION void b2Free(void *)
@@ -103,8 +42,7 @@ REFERENCE_USAGE void b2ChainShape::Clear() -> b2Vec2 * b2ChainShape::m_vertices 
 REFERENCE_USAGE void b2ChainShape::Clear() -> b2Vec2 * b2ChainShape::m_vertices [b2ChainShape.cpp <32:2 32:11>]
 REFERENCE_USAGE void b2ChainShape::Clear() -> int32 b2ChainShape::m_count [b2ChainShape.cpp <33:2 33:8>]
 SYMBOL_METHOD public void b2ChainShape::CreateLoop(const b2Vec2 *, int32) [b2ChainShape.cpp <36:1 <36:20 36:29> 61:1>]
-SYMBOL_CLASS b2ChainShape
-SYMBOL_BUILTIN_TYPE void
+QUALIFIER: b2ChainShape [b2ChainShape.cpp <36:6 36:17>]
 REFERENCE_TYPE_USAGE void b2ChainShape::CreateLoop(const b2Vec2 *, int32) -> void [b2ChainShape.cpp <36:1 36:4>]
 LOCAL_SYMBOL: b2ChainShape.cpp<36:45> [b2ChainShape.cpp <36:45 36:52>]
 REFERENCE_TYPE_USAGE void b2ChainShape::CreateLoop(const b2Vec2 *, int32) -> b2Vec2 [b2ChainShape.cpp <36:37 36:42>]
@@ -127,7 +65,6 @@ LOCAL_SYMBOL: b2ChainShape.cpp<36:45> [b2ChainShape.cpp <47:15 47:22>]
 LOCAL_SYMBOL: b2ChainShape.cpp<45:13> [b2ChainShape.cpp <47:24 47:24>]
 LOCAL_SYMBOL: b2ChainShape.cpp<48:10> [b2ChainShape.cpp <48:10 48:11>]
 REFERENCE_TYPE_USAGE void b2ChainShape::CreateLoop(const b2Vec2 *, int32) -> b2Vec2 [b2ChainShape.cpp <48:3 48:8>]
-SYMBOL_FUNCTION void b2Vec2::b2Vec2(const b2Vec2 &)
 REFERENCE_CALL void b2ChainShape::CreateLoop(const b2Vec2 *, int32) -> void b2Vec2::b2Vec2(const b2Vec2 &) [b2ChainShape.cpp <48:25 48:25>]
 LOCAL_SYMBOL: b2ChainShape.cpp<36:45> [b2ChainShape.cpp <48:15 48:22>]
 LOCAL_SYMBOL: b2ChainShape.cpp<45:13> [b2ChainShape.cpp <48:24 48:24>]
@@ -154,20 +91,17 @@ REFERENCE_CALL void b2ChainShape::CreateLoop(const b2Vec2 *, int32) -> b2Vec2 & 
 REFERENCE_USAGE void b2ChainShape::CreateLoop(const b2Vec2 *, int32) -> b2Vec2 * b2ChainShape::m_vertices [b2ChainShape.cpp <56:2 56:11>]
 LOCAL_SYMBOL: b2ChainShape.cpp<36:61> [b2ChainShape.cpp <56:13 56:17>]
 REFERENCE_USAGE void b2ChainShape::CreateLoop(const b2Vec2 *, int32) -> b2Vec2 * b2ChainShape::m_vertices [b2ChainShape.cpp <56:22 56:31>]
-SYMBOL_FUNCTION b2Vec2 & b2Vec2::operator=(const b2Vec2 &)
 REFERENCE_CALL void b2ChainShape::CreateLoop(const b2Vec2 *, int32) -> b2Vec2 & b2Vec2::operator=(const b2Vec2 &) [b2ChainShape.cpp <57:15 57:15>]
 REFERENCE_USAGE void b2ChainShape::CreateLoop(const b2Vec2 *, int32) -> b2Vec2 b2ChainShape::m_prevVertex [b2ChainShape.cpp <57:2 57:13>]
 REFERENCE_USAGE void b2ChainShape::CreateLoop(const b2Vec2 *, int32) -> b2Vec2 * b2ChainShape::m_vertices [b2ChainShape.cpp <57:17 57:26>]
 REFERENCE_USAGE void b2ChainShape::CreateLoop(const b2Vec2 *, int32) -> int32 b2ChainShape::m_count [b2ChainShape.cpp <57:28 57:34>]
-SYMBOL_FUNCTION b2Vec2 & b2Vec2::operator=(const b2Vec2 &)
 REFERENCE_CALL void b2ChainShape::CreateLoop(const b2Vec2 *, int32) -> b2Vec2 & b2Vec2::operator=(const b2Vec2 &) [b2ChainShape.cpp <58:15 58:15>]
 REFERENCE_USAGE void b2ChainShape::CreateLoop(const b2Vec2 *, int32) -> b2Vec2 b2ChainShape::m_nextVertex [b2ChainShape.cpp <58:2 58:13>]
 REFERENCE_USAGE void b2ChainShape::CreateLoop(const b2Vec2 *, int32) -> b2Vec2 * b2ChainShape::m_vertices [b2ChainShape.cpp <58:17 58:26>]
 REFERENCE_USAGE void b2ChainShape::CreateLoop(const b2Vec2 *, int32) -> bool b2ChainShape::m_hasPrevVertex [b2ChainShape.cpp <59:2 59:16>]
 REFERENCE_USAGE void b2ChainShape::CreateLoop(const b2Vec2 *, int32) -> bool b2ChainShape::m_hasNextVertex [b2ChainShape.cpp <60:2 60:16>]
 SYMBOL_METHOD public void b2ChainShape::CreateChain(const b2Vec2 *, int32) [b2ChainShape.cpp <63:1 <63:20 63:30> 82:1>]
-SYMBOL_CLASS b2ChainShape
-SYMBOL_BUILTIN_TYPE void
+QUALIFIER: b2ChainShape [b2ChainShape.cpp <63:6 63:17>]
 REFERENCE_TYPE_USAGE void b2ChainShape::CreateChain(const b2Vec2 *, int32) -> void [b2ChainShape.cpp <63:1 63:4>]
 LOCAL_SYMBOL: b2ChainShape.cpp<63:46> [b2ChainShape.cpp <63:46 63:53>]
 REFERENCE_TYPE_USAGE void b2ChainShape::CreateChain(const b2Vec2 *, int32) -> b2Vec2 [b2ChainShape.cpp <63:38 63:43>]
@@ -181,7 +115,6 @@ REFERENCE_TYPE_USAGE void b2ChainShape::CreateChain(const b2Vec2 *, int32) -> in
 LOCAL_SYMBOL: b2ChainShape.cpp<67:13> [b2ChainShape.cpp <67:20 67:20>]
 LOCAL_SYMBOL: b2ChainShape.cpp<63:62> [b2ChainShape.cpp <67:24 67:28>]
 LOCAL_SYMBOL: b2ChainShape.cpp<67:13> [b2ChainShape.cpp <67:33 67:33>]
-SYMBOL_FUNCTION float32 b2DistanceSquared(const b2Vec2 &, const b2Vec2 &)
 REFERENCE_CALL void b2ChainShape::CreateChain(const b2Vec2 *, int32) -> float32 b2DistanceSquared(const b2Vec2 &, const b2Vec2 &) [b2ChainShape.cpp <70:12 70:28>]
 LOCAL_SYMBOL: b2ChainShape.cpp<63:46> [b2ChainShape.cpp <70:30 70:37>]
 LOCAL_SYMBOL: b2ChainShape.cpp<67:13> [b2ChainShape.cpp <70:39 70:39>]
@@ -191,11 +124,9 @@ REFERENCE_USAGE void b2ChainShape::CreateChain(const b2Vec2 *, int32) -> int32 b
 LOCAL_SYMBOL: b2ChainShape.cpp<63:62> [b2ChainShape.cpp <73:12 73:16>]
 REFERENCE_USAGE void b2ChainShape::CreateChain(const b2Vec2 *, int32) -> b2Vec2 * b2ChainShape::m_vertices [b2ChainShape.cpp <74:2 74:11>]
 REFERENCE_TYPE_USAGE void b2ChainShape::CreateChain(const b2Vec2 *, int32) -> b2Vec2 [b2ChainShape.cpp <74:16 74:21>]
-SYMBOL_FUNCTION void * b2Alloc(int32)
 REFERENCE_CALL void b2ChainShape::CreateChain(const b2Vec2 *, int32) -> void * b2Alloc(int32) [b2ChainShape.cpp <74:24 74:30>]
 LOCAL_SYMBOL: b2ChainShape.cpp<63:62> [b2ChainShape.cpp <74:32 74:36>]
 REFERENCE_TYPE_USAGE void b2ChainShape::CreateChain(const b2Vec2 *, int32) -> b2Vec2 [b2ChainShape.cpp <74:47 74:52>]
-SYMBOL_FUNCTION void * memcpy(void *, const void *, size_t)
 REFERENCE_CALL void b2ChainShape::CreateChain(const b2Vec2 *, int32) -> void * memcpy(void *, const void *, size_t) [b2ChainShape.cpp <75:2 75:7>]
 REFERENCE_USAGE void b2ChainShape::CreateChain(const b2Vec2 *, int32) -> b2Vec2 * b2ChainShape::m_vertices [b2ChainShape.cpp <75:9 75:18>]
 LOCAL_SYMBOL: b2ChainShape.cpp<63:46> [b2ChainShape.cpp <75:21 75:28>]
@@ -206,27 +137,22 @@ REFERENCE_USAGE void b2ChainShape::CreateChain(const b2Vec2 *, int32) -> bool b2
 SYMBOL_FUNCTION void b2Vec2::SetZero()
 REFERENCE_CALL void b2ChainShape::CreateChain(const b2Vec2 *, int32) -> void b2Vec2::SetZero() [b2ChainShape.cpp <80:15 80:21>]
 REFERENCE_USAGE void b2ChainShape::CreateChain(const b2Vec2 *, int32) -> b2Vec2 b2ChainShape::m_prevVertex [b2ChainShape.cpp <80:2 80:13>]
-SYMBOL_FUNCTION void b2Vec2::SetZero()
 REFERENCE_CALL void b2ChainShape::CreateChain(const b2Vec2 *, int32) -> void b2Vec2::SetZero() [b2ChainShape.cpp <81:15 81:21>]
 REFERENCE_USAGE void b2ChainShape::CreateChain(const b2Vec2 *, int32) -> b2Vec2 b2ChainShape::m_nextVertex [b2ChainShape.cpp <81:2 81:13>]
 SYMBOL_METHOD public void b2ChainShape::SetPrevVertex(const b2Vec2 &) [b2ChainShape.cpp <84:1 <84:20 84:32> 88:1>]
-SYMBOL_CLASS b2ChainShape
-SYMBOL_BUILTIN_TYPE void
+QUALIFIER: b2ChainShape [b2ChainShape.cpp <84:6 84:17>]
 REFERENCE_TYPE_USAGE void b2ChainShape::SetPrevVertex(const b2Vec2 &) -> void [b2ChainShape.cpp <84:1 84:4>]
 LOCAL_SYMBOL: b2ChainShape.cpp<84:48> [b2ChainShape.cpp <84:48 84:57>]
 REFERENCE_TYPE_USAGE void b2ChainShape::SetPrevVertex(const b2Vec2 &) -> b2Vec2 [b2ChainShape.cpp <84:40 84:45>]
-SYMBOL_FUNCTION b2Vec2 & b2Vec2::operator=(const b2Vec2 &)
 REFERENCE_CALL void b2ChainShape::SetPrevVertex(const b2Vec2 &) -> b2Vec2 & b2Vec2::operator=(const b2Vec2 &) [b2ChainShape.cpp <86:15 86:15>]
 REFERENCE_USAGE void b2ChainShape::SetPrevVertex(const b2Vec2 &) -> b2Vec2 b2ChainShape::m_prevVertex [b2ChainShape.cpp <86:2 86:13>]
 LOCAL_SYMBOL: b2ChainShape.cpp<84:48> [b2ChainShape.cpp <86:17 86:26>]
 REFERENCE_USAGE void b2ChainShape::SetPrevVertex(const b2Vec2 &) -> bool b2ChainShape::m_hasPrevVertex [b2ChainShape.cpp <87:2 87:16>]
 SYMBOL_METHOD public void b2ChainShape::SetNextVertex(const b2Vec2 &) [b2ChainShape.cpp <90:1 <90:20 90:32> 94:1>]
-SYMBOL_CLASS b2ChainShape
-SYMBOL_BUILTIN_TYPE void
+QUALIFIER: b2ChainShape [b2ChainShape.cpp <90:6 90:17>]
 REFERENCE_TYPE_USAGE void b2ChainShape::SetNextVertex(const b2Vec2 &) -> void [b2ChainShape.cpp <90:1 90:4>]
 LOCAL_SYMBOL: b2ChainShape.cpp<90:48> [b2ChainShape.cpp <90:48 90:57>]
 REFERENCE_TYPE_USAGE void b2ChainShape::SetNextVertex(const b2Vec2 &) -> b2Vec2 [b2ChainShape.cpp <90:40 90:45>]
-SYMBOL_FUNCTION b2Vec2 & b2Vec2::operator=(const b2Vec2 &)
 REFERENCE_CALL void b2ChainShape::SetNextVertex(const b2Vec2 &) -> b2Vec2 & b2Vec2::operator=(const b2Vec2 &) [b2ChainShape.cpp <92:15 92:15>]
 REFERENCE_USAGE void b2ChainShape::SetNextVertex(const b2Vec2 &) -> b2Vec2 b2ChainShape::m_nextVertex [b2ChainShape.cpp <92:2 92:13>]
 LOCAL_SYMBOL: b2ChainShape.cpp<90:48> [b2ChainShape.cpp <92:17 92:26>]
@@ -234,12 +160,11 @@ REFERENCE_USAGE void b2ChainShape::SetNextVertex(const b2Vec2 &) -> bool b2Chain
 SYMBOL_METHOD public b2Shape * b2ChainShape::Clone(b2BlockAllocator *) const [b2ChainShape.cpp <96:1 <96:24 96:28> 106:1>]
 SYMBOL_FUNCTION b2Shape * b2Shape::Clone(b2BlockAllocator *) const
 REFERENCE_OVERRIDE b2Shape * b2ChainShape::Clone(b2BlockAllocator *) const -> b2Shape * b2Shape::Clone(b2BlockAllocator *) const [b2ChainShape.cpp <96:24 96:28>]
-SYMBOL_CLASS b2ChainShape
+QUALIFIER: b2ChainShape [b2ChainShape.cpp <96:10 96:21>]
 REFERENCE_TYPE_USAGE b2Shape * b2ChainShape::Clone(b2BlockAllocator *) const -> b2Shape [b2ChainShape.cpp <96:1 96:7>]
 LOCAL_SYMBOL: b2ChainShape.cpp<96:48> [b2ChainShape.cpp <96:48 96:56>]
 REFERENCE_TYPE_USAGE b2Shape * b2ChainShape::Clone(b2BlockAllocator *) const -> b2BlockAllocator [b2ChainShape.cpp <96:30 96:45>]
 LOCAL_SYMBOL: b2ChainShape.cpp<98:8> [b2ChainShape.cpp <98:8 98:10>]
-SYMBOL_BUILTIN_TYPE void
 REFERENCE_TYPE_USAGE b2Shape * b2ChainShape::Clone(b2BlockAllocator *) const -> void [b2ChainShape.cpp <98:2 98:5>]
 SYMBOL_FUNCTION void * b2BlockAllocator::Allocate(int32)
 REFERENCE_CALL b2Shape * b2ChainShape::Clone(b2BlockAllocator *) const -> void * b2BlockAllocator::Allocate(int32) [b2ChainShape.cpp <98:25 98:32>]
@@ -256,12 +181,10 @@ REFERENCE_CALL b2Shape * b2ChainShape::Clone(b2BlockAllocator *) const -> void b
 LOCAL_SYMBOL: b2ChainShape.cpp<99:16> [b2ChainShape.cpp <100:2 100:6>]
 REFERENCE_USAGE b2Shape * b2ChainShape::Clone(b2BlockAllocator *) const -> b2Vec2 * b2ChainShape::m_vertices [b2ChainShape.cpp <100:21 100:30>]
 REFERENCE_USAGE b2Shape * b2ChainShape::Clone(b2BlockAllocator *) const -> int32 b2ChainShape::m_count [b2ChainShape.cpp <100:33 100:39>]
-SYMBOL_FUNCTION b2Vec2 & b2Vec2::operator=(const b2Vec2 &)
 REFERENCE_CALL b2Shape * b2ChainShape::Clone(b2BlockAllocator *) const -> b2Vec2 & b2Vec2::operator=(const b2Vec2 &) [b2ChainShape.cpp <101:22 101:22>]
 REFERENCE_USAGE b2Shape * b2ChainShape::Clone(b2BlockAllocator *) const -> b2Vec2 b2ChainShape::m_prevVertex [b2ChainShape.cpp <101:9 101:20>]
 LOCAL_SYMBOL: b2ChainShape.cpp<99:16> [b2ChainShape.cpp <101:2 101:6>]
 REFERENCE_USAGE b2Shape * b2ChainShape::Clone(b2BlockAllocator *) const -> b2Vec2 b2ChainShape::m_prevVertex [b2ChainShape.cpp <101:24 101:35>]
-SYMBOL_FUNCTION b2Vec2 & b2Vec2::operator=(const b2Vec2 &)
 REFERENCE_CALL b2Shape * b2ChainShape::Clone(b2BlockAllocator *) const -> b2Vec2 & b2Vec2::operator=(const b2Vec2 &) [b2ChainShape.cpp <102:22 102:22>]
 REFERENCE_USAGE b2Shape * b2ChainShape::Clone(b2BlockAllocator *) const -> b2Vec2 b2ChainShape::m_nextVertex [b2ChainShape.cpp <102:9 102:20>]
 LOCAL_SYMBOL: b2ChainShape.cpp<99:16> [b2ChainShape.cpp <102:2 102:6>]
@@ -276,12 +199,11 @@ LOCAL_SYMBOL: b2ChainShape.cpp<99:16> [b2ChainShape.cpp <105:9 105:13>]
 SYMBOL_METHOD public int32 b2ChainShape::GetChildCount() const [b2ChainShape.cpp <108:1 <108:21 108:33> 112:1>]
 SYMBOL_FUNCTION int32 b2Shape::GetChildCount() const
 REFERENCE_OVERRIDE int32 b2ChainShape::GetChildCount() const -> int32 b2Shape::GetChildCount() const [b2ChainShape.cpp <108:21 108:33>]
-SYMBOL_CLASS b2ChainShape
+QUALIFIER: b2ChainShape [b2ChainShape.cpp <108:7 108:18>]
 REFERENCE_TYPE_USAGE int32 b2ChainShape::GetChildCount() const -> int32 [b2ChainShape.cpp <108:1 108:5>]
 REFERENCE_USAGE int32 b2ChainShape::GetChildCount() const -> int32 b2ChainShape::m_count [b2ChainShape.cpp <111:9 111:15>]
 SYMBOL_METHOD public void b2ChainShape::GetChildEdge(b2EdgeShape *, int32) const [b2ChainShape.cpp <114:1 <114:20 114:31> 144:1>]
-SYMBOL_CLASS b2ChainShape
-SYMBOL_BUILTIN_TYPE void
+QUALIFIER: b2ChainShape [b2ChainShape.cpp <114:6 114:17>]
 REFERENCE_TYPE_USAGE void b2ChainShape::GetChildEdge(b2EdgeShape *, int32) const -> void [b2ChainShape.cpp <114:1 114:4>]
 LOCAL_SYMBOL: b2ChainShape.cpp<114:46> [b2ChainShape.cpp <114:46 114:49>]
 REFERENCE_TYPE_USAGE void b2ChainShape::GetChildEdge(b2EdgeShape *, int32) const -> b2EdgeShape [b2ChainShape.cpp <114:33 114:43>]
@@ -294,23 +216,21 @@ REFERENCE_USAGE void b2ChainShape::GetChildEdge(b2EdgeShape *, int32) const -> b
 LOCAL_SYMBOL: b2ChainShape.cpp<114:46> [b2ChainShape.cpp <117:2 117:5>]
 REFERENCE_USAGE void b2ChainShape::GetChildEdge(b2EdgeShape *, int32) const -> b2Shape::Type::e_edge [b2ChainShape.cpp <117:26 117:31>]
 SYMBOL_CLASS b2Shape
+QUALIFIER: b2Shape [b2ChainShape.cpp <117:17 117:23>]
 REFERENCE_USAGE void b2ChainShape::GetChildEdge(b2EdgeShape *, int32) const -> float32 b2Shape::m_radius [b2ChainShape.cpp <118:8 118:15>]
 LOCAL_SYMBOL: b2ChainShape.cpp<114:46> [b2ChainShape.cpp <118:2 118:5>]
 REFERENCE_USAGE void b2ChainShape::GetChildEdge(b2EdgeShape *, int32) const -> float32 b2Shape::m_radius [b2ChainShape.cpp <118:19 118:26>]
-SYMBOL_FUNCTION b2Vec2 & b2Vec2::operator=(const b2Vec2 &)
 REFERENCE_CALL void b2ChainShape::GetChildEdge(b2EdgeShape *, int32) const -> b2Vec2 & b2Vec2::operator=(const b2Vec2 &) [b2ChainShape.cpp <120:18 120:18>]
 REFERENCE_USAGE void b2ChainShape::GetChildEdge(b2EdgeShape *, int32) const -> b2Vec2 b2EdgeShape::m_vertex1 [b2ChainShape.cpp <120:8 120:16>]
 LOCAL_SYMBOL: b2ChainShape.cpp<114:46> [b2ChainShape.cpp <120:2 120:5>]
 REFERENCE_USAGE void b2ChainShape::GetChildEdge(b2EdgeShape *, int32) const -> b2Vec2 * b2ChainShape::m_vertices [b2ChainShape.cpp <120:20 120:29>]
 LOCAL_SYMBOL: b2ChainShape.cpp<114:58> [b2ChainShape.cpp <120:31 120:35>]
-SYMBOL_FUNCTION b2Vec2 & b2Vec2::operator=(const b2Vec2 &)
 REFERENCE_CALL void b2ChainShape::GetChildEdge(b2EdgeShape *, int32) const -> b2Vec2 & b2Vec2::operator=(const b2Vec2 &) [b2ChainShape.cpp <121:18 121:18>]
 REFERENCE_USAGE void b2ChainShape::GetChildEdge(b2EdgeShape *, int32) const -> b2Vec2 b2EdgeShape::m_vertex2 [b2ChainShape.cpp <121:8 121:16>]
 LOCAL_SYMBOL: b2ChainShape.cpp<114:46> [b2ChainShape.cpp <121:2 121:5>]
 REFERENCE_USAGE void b2ChainShape::GetChildEdge(b2EdgeShape *, int32) const -> b2Vec2 * b2ChainShape::m_vertices [b2ChainShape.cpp <121:20 121:29>]
 LOCAL_SYMBOL: b2ChainShape.cpp<114:58> [b2ChainShape.cpp <121:31 121:35>]
 LOCAL_SYMBOL: b2ChainShape.cpp<114:58> [b2ChainShape.cpp <123:6 123:10>]
-SYMBOL_FUNCTION b2Vec2 & b2Vec2::operator=(const b2Vec2 &)
 REFERENCE_CALL void b2ChainShape::GetChildEdge(b2EdgeShape *, int32) const -> b2Vec2 & b2Vec2::operator=(const b2Vec2 &) [b2ChainShape.cpp <125:19 125:19>]
 REFERENCE_USAGE void b2ChainShape::GetChildEdge(b2EdgeShape *, int32) const -> b2Vec2 b2EdgeShape::m_vertex0 [b2ChainShape.cpp <125:9 125:17>]
 LOCAL_SYMBOL: b2ChainShape.cpp<114:46> [b2ChainShape.cpp <125:3 125:6>]
@@ -318,7 +238,6 @@ REFERENCE_USAGE void b2ChainShape::GetChildEdge(b2EdgeShape *, int32) const -> b
 LOCAL_SYMBOL: b2ChainShape.cpp<114:58> [b2ChainShape.cpp <125:32 125:36>]
 REFERENCE_USAGE void b2ChainShape::GetChildEdge(b2EdgeShape *, int32) const -> bool b2EdgeShape::m_hasVertex0 [b2ChainShape.cpp <126:9 126:20>]
 LOCAL_SYMBOL: b2ChainShape.cpp<114:46> [b2ChainShape.cpp <126:3 126:6>]
-SYMBOL_FUNCTION b2Vec2 & b2Vec2::operator=(const b2Vec2 &)
 REFERENCE_CALL void b2ChainShape::GetChildEdge(b2EdgeShape *, int32) const -> b2Vec2 & b2Vec2::operator=(const b2Vec2 &) [b2ChainShape.cpp <130:19 130:19>]
 REFERENCE_USAGE void b2ChainShape::GetChildEdge(b2EdgeShape *, int32) const -> b2Vec2 b2EdgeShape::m_vertex0 [b2ChainShape.cpp <130:9 130:17>]
 LOCAL_SYMBOL: b2ChainShape.cpp<114:46> [b2ChainShape.cpp <130:3 130:6>]
@@ -328,7 +247,6 @@ LOCAL_SYMBOL: b2ChainShape.cpp<114:46> [b2ChainShape.cpp <131:3 131:6>]
 REFERENCE_USAGE void b2ChainShape::GetChildEdge(b2EdgeShape *, int32) const -> bool b2ChainShape::m_hasPrevVertex [b2ChainShape.cpp <131:24 131:38>]
 LOCAL_SYMBOL: b2ChainShape.cpp<114:58> [b2ChainShape.cpp <134:6 134:10>]
 REFERENCE_USAGE void b2ChainShape::GetChildEdge(b2EdgeShape *, int32) const -> int32 b2ChainShape::m_count [b2ChainShape.cpp <134:14 134:20>]
-SYMBOL_FUNCTION b2Vec2 & b2Vec2::operator=(const b2Vec2 &)
 REFERENCE_CALL void b2ChainShape::GetChildEdge(b2EdgeShape *, int32) const -> b2Vec2 & b2Vec2::operator=(const b2Vec2 &) [b2ChainShape.cpp <136:19 136:19>]
 REFERENCE_USAGE void b2ChainShape::GetChildEdge(b2EdgeShape *, int32) const -> b2Vec2 b2EdgeShape::m_vertex3 [b2ChainShape.cpp <136:9 136:17>]
 LOCAL_SYMBOL: b2ChainShape.cpp<114:46> [b2ChainShape.cpp <136:3 136:6>]
@@ -336,7 +254,6 @@ REFERENCE_USAGE void b2ChainShape::GetChildEdge(b2EdgeShape *, int32) const -> b
 LOCAL_SYMBOL: b2ChainShape.cpp<114:58> [b2ChainShape.cpp <136:32 136:36>]
 REFERENCE_USAGE void b2ChainShape::GetChildEdge(b2EdgeShape *, int32) const -> bool b2EdgeShape::m_hasVertex3 [b2ChainShape.cpp <137:9 137:20>]
 LOCAL_SYMBOL: b2ChainShape.cpp<114:46> [b2ChainShape.cpp <137:3 137:6>]
-SYMBOL_FUNCTION b2Vec2 & b2Vec2::operator=(const b2Vec2 &)
 REFERENCE_CALL void b2ChainShape::GetChildEdge(b2EdgeShape *, int32) const -> b2Vec2 & b2Vec2::operator=(const b2Vec2 &) [b2ChainShape.cpp <141:19 141:19>]
 REFERENCE_USAGE void b2ChainShape::GetChildEdge(b2EdgeShape *, int32) const -> b2Vec2 b2EdgeShape::m_vertex3 [b2ChainShape.cpp <141:9 141:17>]
 LOCAL_SYMBOL: b2ChainShape.cpp<114:46> [b2ChainShape.cpp <141:3 141:6>]
@@ -347,7 +264,7 @@ REFERENCE_USAGE void b2ChainShape::GetChildEdge(b2EdgeShape *, int32) const -> b
 SYMBOL_METHOD public bool b2ChainShape::TestPoint(const b2Transform &, const b2Vec2 &) const [b2ChainShape.cpp <146:1 <146:20 146:28> 151:1>]
 SYMBOL_FUNCTION bool b2Shape::TestPoint(const b2Transform &, const b2Vec2 &) const
 REFERENCE_OVERRIDE bool b2ChainShape::TestPoint(const b2Transform &, const b2Vec2 &) const -> bool b2Shape::TestPoint(const b2Transform &, const b2Vec2 &) const [b2ChainShape.cpp <146:20 146:28>]
-SYMBOL_CLASS b2ChainShape
+QUALIFIER: b2ChainShape [b2ChainShape.cpp <146:6 146:17>]
 SYMBOL_BUILTIN_TYPE bool
 REFERENCE_TYPE_USAGE bool b2ChainShape::TestPoint(const b2Transform &, const b2Vec2 &) const -> bool [b2ChainShape.cpp <146:1 146:4>]
 LOCAL_SYMBOL: b2ChainShape.cpp<146:49> [b2ChainShape.cpp <146:49 146:50>]
@@ -359,8 +276,7 @@ LOCAL_SYMBOL: b2ChainShape.cpp<146:67> [b2ChainShape.cpp <149:14 149:14>]
 SYMBOL_METHOD public bool b2ChainShape::RayCast(b2RayCastOutput *, const b2RayCastInput &, const b2Transform &, int32) const [b2ChainShape.cpp <153:1 <153:20 153:26> 171:1>]
 SYMBOL_FUNCTION bool b2Shape::RayCast(b2RayCastOutput *, const b2RayCastInput &, const b2Transform &, int32) const
 REFERENCE_OVERRIDE bool b2ChainShape::RayCast(b2RayCastOutput *, const b2RayCastInput &, const b2Transform &, int32) const -> bool b2Shape::RayCast(b2RayCastOutput *, const b2RayCastInput &, const b2Transform &, int32) const [b2ChainShape.cpp <153:20 153:26>]
-SYMBOL_CLASS b2ChainShape
-SYMBOL_BUILTIN_TYPE bool
+QUALIFIER: b2ChainShape [b2ChainShape.cpp <153:6 153:17>]
 REFERENCE_TYPE_USAGE bool b2ChainShape::RayCast(b2RayCastOutput *, const b2RayCastInput &, const b2Transform &, int32) const -> bool [b2ChainShape.cpp <153:1 153:4>]
 LOCAL_SYMBOL: b2ChainShape.cpp<153:45> [b2ChainShape.cpp <153:45 153:50>]
 REFERENCE_TYPE_USAGE bool b2ChainShape::RayCast(b2RayCastOutput *, const b2RayCastInput &, const b2Transform &, int32) const -> b2RayCastOutput [b2ChainShape.cpp <153:28 153:42>]
@@ -385,13 +301,11 @@ LOCAL_SYMBOL: b2ChainShape.cpp<154:37> [b2ChainShape.cpp <161:13 161:22>]
 LOCAL_SYMBOL: b2ChainShape.cpp<161:8> [b2ChainShape.cpp <162:6 162:7>]
 REFERENCE_USAGE bool b2ChainShape::RayCast(b2RayCastOutput *, const b2RayCastInput &, const b2Transform &, int32) const -> int32 b2ChainShape::m_count [b2ChainShape.cpp <162:12 162:18>]
 LOCAL_SYMBOL: b2ChainShape.cpp<161:8> [b2ChainShape.cpp <164:3 164:4>]
-SYMBOL_FUNCTION b2Vec2 & b2Vec2::operator=(const b2Vec2 &)
 REFERENCE_CALL bool b2ChainShape::RayCast(b2RayCastOutput *, const b2RayCastInput &, const b2Transform &, int32) const -> b2Vec2 & b2Vec2::operator=(const b2Vec2 &) [b2ChainShape.cpp <167:22 167:22>]
 REFERENCE_USAGE bool b2ChainShape::RayCast(b2RayCastOutput *, const b2RayCastInput &, const b2Transform &, int32) const -> b2Vec2 b2EdgeShape::m_vertex1 [b2ChainShape.cpp <167:12 167:20>]
 LOCAL_SYMBOL: b2ChainShape.cpp<158:14> [b2ChainShape.cpp <167:2 167:10>]
 REFERENCE_USAGE bool b2ChainShape::RayCast(b2RayCastOutput *, const b2RayCastInput &, const b2Transform &, int32) const -> b2Vec2 * b2ChainShape::m_vertices [b2ChainShape.cpp <167:24 167:33>]
 LOCAL_SYMBOL: b2ChainShape.cpp<160:8> [b2ChainShape.cpp <167:35 167:36>]
-SYMBOL_FUNCTION b2Vec2 & b2Vec2::operator=(const b2Vec2 &)
 REFERENCE_CALL bool b2ChainShape::RayCast(b2RayCastOutput *, const b2RayCastInput &, const b2Transform &, int32) const -> b2Vec2 & b2Vec2::operator=(const b2Vec2 &) [b2ChainShape.cpp <168:22 168:22>]
 REFERENCE_USAGE bool b2ChainShape::RayCast(b2RayCastOutput *, const b2RayCastInput &, const b2Transform &, int32) const -> b2Vec2 b2EdgeShape::m_vertex2 [b2ChainShape.cpp <168:12 168:20>]
 LOCAL_SYMBOL: b2ChainShape.cpp<158:14> [b2ChainShape.cpp <168:2 168:10>]
@@ -406,8 +320,7 @@ LOCAL_SYMBOL: b2ChainShape.cpp<154:27> [b2ChainShape.cpp <170:42 170:43>]
 SYMBOL_METHOD public void b2ChainShape::ComputeAABB(b2AABB *, const b2Transform &, int32) const [b2ChainShape.cpp <173:1 <173:20 173:30> 189:1>]
 SYMBOL_FUNCTION void b2Shape::ComputeAABB(b2AABB *, const b2Transform &, int32) const
 REFERENCE_OVERRIDE void b2ChainShape::ComputeAABB(b2AABB *, const b2Transform &, int32) const -> void b2Shape::ComputeAABB(b2AABB *, const b2Transform &, int32) const [b2ChainShape.cpp <173:20 173:30>]
-SYMBOL_CLASS b2ChainShape
-SYMBOL_BUILTIN_TYPE void
+QUALIFIER: b2ChainShape [b2ChainShape.cpp <173:6 173:17>]
 REFERENCE_TYPE_USAGE void b2ChainShape::ComputeAABB(b2AABB *, const b2Transform &, int32) const -> void [b2ChainShape.cpp <173:1 173:4>]
 LOCAL_SYMBOL: b2ChainShape.cpp<173:40> [b2ChainShape.cpp <173:40 173:43>]
 REFERENCE_TYPE_USAGE void b2ChainShape::ComputeAABB(b2AABB *, const b2Transform &, int32) const -> b2AABB [b2ChainShape.cpp <173:32 173:37>]
@@ -435,7 +348,6 @@ REFERENCE_USAGE void b2ChainShape::ComputeAABB(b2AABB *, const b2Transform &, in
 LOCAL_SYMBOL: b2ChainShape.cpp<177:8> [b2ChainShape.cpp <184:35 184:36>]
 LOCAL_SYMBOL: b2ChainShape.cpp<185:9> [b2ChainShape.cpp <185:9 185:10>]
 REFERENCE_TYPE_USAGE void b2ChainShape::ComputeAABB(b2AABB *, const b2Transform &, int32) const -> b2Vec2 [b2ChainShape.cpp <185:2 185:7>]
-SYMBOL_FUNCTION b2Vec2 b2Mul(const b2Transform &, const b2Vec2 &)
 REFERENCE_CALL void b2ChainShape::ComputeAABB(b2AABB *, const b2Transform &, int32) const -> b2Vec2 b2Mul(const b2Transform &, const b2Vec2 &) [b2ChainShape.cpp <185:14 185:18>]
 LOCAL_SYMBOL: b2ChainShape.cpp<173:65> [b2ChainShape.cpp <185:20 185:21>]
 REFERENCE_USAGE void b2ChainShape::ComputeAABB(b2AABB *, const b2Transform &, int32) const -> b2Vec2 * b2ChainShape::m_vertices [b2ChainShape.cpp <185:24 185:33>]
@@ -448,7 +360,6 @@ SYMBOL_FUNCTION b2Vec2 b2Min(const b2Vec2 &, const b2Vec2 &)
 REFERENCE_CALL void b2ChainShape::ComputeAABB(b2AABB *, const b2Transform &, int32) const -> b2Vec2 b2Min(const b2Vec2 &, const b2Vec2 &) [b2ChainShape.cpp <187:21 187:25>]
 LOCAL_SYMBOL: b2ChainShape.cpp<184:9> [b2ChainShape.cpp <187:27 187:28>]
 LOCAL_SYMBOL: b2ChainShape.cpp<185:9> [b2ChainShape.cpp <187:31 187:32>]
-SYMBOL_FUNCTION b2Vec2 & b2Vec2::operator=(b2Vec2 &)
 REFERENCE_CALL void b2ChainShape::ComputeAABB(b2AABB *, const b2Transform &, int32) const -> b2Vec2 & b2Vec2::operator=(b2Vec2 &) [b2ChainShape.cpp <188:19 188:19>]
 REFERENCE_USAGE void b2ChainShape::ComputeAABB(b2AABB *, const b2Transform &, int32) const -> b2Vec2 b2AABB::upperBound [b2ChainShape.cpp <188:8 188:17>]
 LOCAL_SYMBOL: b2ChainShape.cpp<173:40> [b2ChainShape.cpp <188:2 188:5>]
@@ -459,8 +370,7 @@ LOCAL_SYMBOL: b2ChainShape.cpp<185:9> [b2ChainShape.cpp <188:31 188:32>]
 SYMBOL_METHOD public void b2ChainShape::ComputeMass(b2MassData *, float32) const [b2ChainShape.cpp <191:1 <191:20 191:30> 198:1>]
 SYMBOL_FUNCTION void b2Shape::ComputeMass(b2MassData *, float32) const
 REFERENCE_OVERRIDE void b2ChainShape::ComputeMass(b2MassData *, float32) const -> void b2Shape::ComputeMass(b2MassData *, float32) const [b2ChainShape.cpp <191:20 191:30>]
-SYMBOL_CLASS b2ChainShape
-SYMBOL_BUILTIN_TYPE void
+QUALIFIER: b2ChainShape [b2ChainShape.cpp <191:6 191:17>]
 REFERENCE_TYPE_USAGE void b2ChainShape::ComputeMass(b2MassData *, float32) const -> void [b2ChainShape.cpp <191:1 191:4>]
 LOCAL_SYMBOL: b2ChainShape.cpp<191:44> [b2ChainShape.cpp <191:44 191:51>]
 REFERENCE_TYPE_USAGE void b2ChainShape::ComputeMass(b2MassData *, float32) const -> b2MassData [b2ChainShape.cpp <191:32 191:41>]
@@ -469,7 +379,6 @@ REFERENCE_TYPE_USAGE void b2ChainShape::ComputeMass(b2MassData *, float32) const
 LOCAL_SYMBOL: b2ChainShape.cpp<191:62> [b2ChainShape.cpp <193:14 193:20>]
 REFERENCE_USAGE void b2ChainShape::ComputeMass(b2MassData *, float32) const -> float32 b2MassData::mass [b2ChainShape.cpp <195:12 195:15>]
 LOCAL_SYMBOL: b2ChainShape.cpp<191:44> [b2ChainShape.cpp <195:2 195:9>]
-SYMBOL_FUNCTION void b2Vec2::SetZero()
 REFERENCE_CALL void b2ChainShape::ComputeMass(b2MassData *, float32) const -> void b2Vec2::SetZero() [b2ChainShape.cpp <196:19 196:25>]
 REFERENCE_USAGE void b2ChainShape::ComputeMass(b2MassData *, float32) const -> b2Vec2 b2MassData::center [b2ChainShape.cpp <196:12 196:17>]
 LOCAL_SYMBOL: b2ChainShape.cpp<191:44> [b2ChainShape.cpp <196:2 196:9>]

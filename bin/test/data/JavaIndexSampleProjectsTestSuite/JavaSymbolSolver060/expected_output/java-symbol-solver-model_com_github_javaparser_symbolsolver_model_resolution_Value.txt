@@ -1,14 +1,31 @@
 FILE: Value.java
-SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model.resolution [Value.java <17:9 17:59>]
+SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model.resolution [Value.java <17:50 17:59>]
 SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model
 SYMBOL_PACKAGE com.github.javaparser.symbolsolver
 SYMBOL_PACKAGE com.github.javaparser
 SYMBOL_PACKAGE com.github
 SYMBOL_PACKAGE com
-REFERENCE_IMPORT Value.java -> com.github.javaparser.symbolsolver.model.declarations.ValueDeclaration [Value.java <19:8 19:77>]
+QUALIFIER: com.github.javaparser.symbolsolver.model [Value.java <17:44 17:48>]
+QUALIFIER: com.github.javaparser.symbolsolver [Value.java <17:31 17:42>]
+QUALIFIER: com.github.javaparser [Value.java <17:20 17:29>]
+QUALIFIER: com.github [Value.java <17:13 17:18>]
+QUALIFIER: com [Value.java <17:9 17:11>]
+REFERENCE_IMPORT Value.java -> com.github.javaparser.symbolsolver.model.declarations.ValueDeclaration [Value.java <19:62 19:77>]
 SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model.declarations
-REFERENCE_IMPORT Value.java -> com.github.javaparser.symbolsolver.model.typesystem.Type [Value.java <20:8 20:63>]
+QUALIFIER: com.github.javaparser.symbolsolver.model.declarations [Value.java <19:49 19:60>]
+QUALIFIER: com.github.javaparser.symbolsolver.model [Value.java <19:43 19:47>]
+QUALIFIER: com.github.javaparser.symbolsolver [Value.java <19:30 19:41>]
+QUALIFIER: com.github.javaparser [Value.java <19:19 19:28>]
+QUALIFIER: com.github [Value.java <19:12 19:17>]
+QUALIFIER: com [Value.java <19:8 19:10>]
+REFERENCE_IMPORT Value.java -> com.github.javaparser.symbolsolver.model.typesystem.Type [Value.java <20:60 20:63>]
 SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model.typesystem
+QUALIFIER: com.github.javaparser.symbolsolver.model.typesystem [Value.java <20:49 20:58>]
+QUALIFIER: com.github.javaparser.symbolsolver.model [Value.java <20:43 20:47>]
+QUALIFIER: com.github.javaparser.symbolsolver [Value.java <20:30 20:41>]
+QUALIFIER: com.github.javaparser [Value.java <20:19 20:28>]
+QUALIFIER: com.github [Value.java <20:12 20:17>]
+QUALIFIER: com [Value.java <20:8 20:10>]
 SYMBOL_CLASS public com.github.javaparser.symbolsolver.model.resolution.Value [Value.java <27:1 <27:14 27:18> 60:1>]
 LOCAL_SYMBOL: Value.java<27:20> [Value.java <27:20 27:20>]
 LOCAL_SYMBOL: Value.java<27:20> [Value.java <60:1 60:1>]
@@ -24,9 +41,11 @@ REFERENCE_TYPE_USAGE com.github.javaparser.symbolsolver.model.resolution.Value.V
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.model.resolution.Value.Value<1> [Value.java <31:36 31:39>]
 LOCAL_SYMBOL: Value.java<31:42> [Value.java <31:42 31:42>]
 LOCAL_SYMBOL: Value.java<31:42> [Value.java <34:5 34:5>]
+QUALIFIER: com.github.javaparser.symbolsolver.model.resolution.Value [Value.java <32:9 32:12>]
 SYMBOL_FIELD com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.model.resolution.Value.type
 REFERENCE_USAGE com.github.javaparser.symbolsolver.model.resolution.Value.Value(com.github.javaparser.symbolsolver.model.typesystem.Type, java.lang.String) -> com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.model.resolution.Value.type [Value.java <32:14 32:17>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.model.resolution.Value.Value<0> [Value.java <32:21 32:24>]
+QUALIFIER: com.github.javaparser.symbolsolver.model.resolution.Value [Value.java <33:9 33:12>]
 SYMBOL_FIELD java.lang.String com.github.javaparser.symbolsolver.model.resolution.Value.name
 REFERENCE_USAGE com.github.javaparser.symbolsolver.model.resolution.Value.Value(com.github.javaparser.symbolsolver.model.typesystem.Type, java.lang.String) -> java.lang.String com.github.javaparser.symbolsolver.model.resolution.Value.name [Value.java <33:14 33:17>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.model.resolution.Value.Value<1> [Value.java <33:21 33:24>]
@@ -55,20 +74,16 @@ REFERENCE_OVERRIDE java.lang.String com.github.javaparser.symbolsolver.model.res
 REFERENCE_TYPE_USAGE java.lang.String com.github.javaparser.symbolsolver.model.resolution.Value.toString() -> java.lang.String [Value.java <45:12 45:17>]
 LOCAL_SYMBOL: Value.java<45:30> [Value.java <45:30 45:30>]
 LOCAL_SYMBOL: Value.java<45:30> [Value.java <50:5 50:5>]
-SYMBOL_FIELD com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.model.resolution.Value.type
 REFERENCE_USAGE java.lang.String com.github.javaparser.symbolsolver.model.resolution.Value.toString() -> com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.model.resolution.Value.type [Value.java <47:32 47:35>]
-SYMBOL_FIELD java.lang.String com.github.javaparser.symbolsolver.model.resolution.Value.name
 REFERENCE_USAGE java.lang.String com.github.javaparser.symbolsolver.model.resolution.Value.toString() -> java.lang.String com.github.javaparser.symbolsolver.model.resolution.Value.name [Value.java <48:30 48:33>]
 SYMBOL_METHOD public java.lang.String com.github.javaparser.symbolsolver.model.resolution.Value.getName() [Value.java <52:5 <52:19 52:25> 54:5>]
 REFERENCE_TYPE_USAGE java.lang.String com.github.javaparser.symbolsolver.model.resolution.Value.getName() -> java.lang.String [Value.java <52:12 52:17>]
 LOCAL_SYMBOL: Value.java<52:29> [Value.java <52:29 52:29>]
 LOCAL_SYMBOL: Value.java<52:29> [Value.java <54:5 54:5>]
-SYMBOL_FIELD java.lang.String com.github.javaparser.symbolsolver.model.resolution.Value.name
 REFERENCE_USAGE java.lang.String com.github.javaparser.symbolsolver.model.resolution.Value.getName() -> java.lang.String com.github.javaparser.symbolsolver.model.resolution.Value.name [Value.java <53:16 53:19>]
 SYMBOL_METHOD public com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.model.resolution.Value.getType() [Value.java <56:5 <56:17 56:23> 58:5>]
 REFERENCE_TYPE_USAGE com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.model.resolution.Value.getType() -> com.github.javaparser.symbolsolver.model.typesystem.Type [Value.java <56:12 56:15>]
 LOCAL_SYMBOL: Value.java<56:27> [Value.java <56:27 56:27>]
 LOCAL_SYMBOL: Value.java<56:27> [Value.java <58:5 58:5>]
-SYMBOL_FIELD com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.model.resolution.Value.type
 REFERENCE_USAGE com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.model.resolution.Value.getType() -> com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.model.resolution.Value.type [Value.java <57:16 57:19>]
 COMMENT: comment [Value.java <1:1 15:3>]

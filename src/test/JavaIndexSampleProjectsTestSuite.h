@@ -264,6 +264,6 @@ private:
 
 		parser.buildIndex(command);
 
-		return TextAccess::createFromString(parserClient->m_dump);
+		return TextAccess::createFromString(parserClient->m_lines);
 	}
 };

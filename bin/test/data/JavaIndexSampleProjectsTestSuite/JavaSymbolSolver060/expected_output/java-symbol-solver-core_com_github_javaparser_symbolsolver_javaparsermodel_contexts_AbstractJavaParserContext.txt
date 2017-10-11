@@ -1,38 +1,111 @@
 FILE: AbstractJavaParserContext.java
-SYMBOL_PACKAGE com.github.javaparser.symbolsolver.javaparsermodel.contexts [AbstractJavaParserContext.java <17:9 17:67>]
+SYMBOL_PACKAGE com.github.javaparser.symbolsolver.javaparsermodel.contexts [AbstractJavaParserContext.java <17:60 17:67>]
 SYMBOL_PACKAGE com.github.javaparser.symbolsolver.javaparsermodel
 SYMBOL_PACKAGE com.github.javaparser.symbolsolver
 SYMBOL_PACKAGE com.github.javaparser
 SYMBOL_PACKAGE com.github
 SYMBOL_PACKAGE com
-REFERENCE_IMPORT AbstractJavaParserContext.java -> com.github.javaparser.ast.Node [AbstractJavaParserContext.java <19:8 19:37>]
+QUALIFIER: com.github.javaparser.symbolsolver.javaparsermodel [AbstractJavaParserContext.java <17:44 17:58>]
+QUALIFIER: com.github.javaparser.symbolsolver [AbstractJavaParserContext.java <17:31 17:42>]
+QUALIFIER: com.github.javaparser [AbstractJavaParserContext.java <17:20 17:29>]
+QUALIFIER: com.github [AbstractJavaParserContext.java <17:13 17:18>]
+QUALIFIER: com [AbstractJavaParserContext.java <17:9 17:11>]
+REFERENCE_IMPORT AbstractJavaParserContext.java -> com.github.javaparser.ast.Node [AbstractJavaParserContext.java <19:34 19:37>]
 SYMBOL_PACKAGE com.github.javaparser.ast
-REFERENCE_IMPORT AbstractJavaParserContext.java -> com.github.javaparser.ast.expr.Expression [AbstractJavaParserContext.java <20:8 20:48>]
+QUALIFIER: com.github.javaparser.ast [AbstractJavaParserContext.java <19:30 19:32>]
+QUALIFIER: com.github.javaparser [AbstractJavaParserContext.java <19:19 19:28>]
+QUALIFIER: com.github [AbstractJavaParserContext.java <19:12 19:17>]
+QUALIFIER: com [AbstractJavaParserContext.java <19:8 19:10>]
+REFERENCE_IMPORT AbstractJavaParserContext.java -> com.github.javaparser.ast.expr.Expression [AbstractJavaParserContext.java <20:39 20:48>]
 SYMBOL_PACKAGE com.github.javaparser.ast.expr
-REFERENCE_IMPORT AbstractJavaParserContext.java -> com.github.javaparser.ast.expr.FieldAccessExpr [AbstractJavaParserContext.java <21:8 21:53>]
-SYMBOL_PACKAGE com.github.javaparser.ast.expr
-REFERENCE_IMPORT AbstractJavaParserContext.java -> com.github.javaparser.ast.expr.MethodCallExpr [AbstractJavaParserContext.java <22:8 22:52>]
-SYMBOL_PACKAGE com.github.javaparser.ast.expr
-REFERENCE_IMPORT AbstractJavaParserContext.java -> com.github.javaparser.symbolsolver.core.resolution.Context [AbstractJavaParserContext.java <23:8 23:65>]
+QUALIFIER: com.github.javaparser.ast.expr [AbstractJavaParserContext.java <20:34 20:37>]
+QUALIFIER: com.github.javaparser.ast [AbstractJavaParserContext.java <20:30 20:32>]
+QUALIFIER: com.github.javaparser [AbstractJavaParserContext.java <20:19 20:28>]
+QUALIFIER: com.github [AbstractJavaParserContext.java <20:12 20:17>]
+QUALIFIER: com [AbstractJavaParserContext.java <20:8 20:10>]
+REFERENCE_IMPORT AbstractJavaParserContext.java -> com.github.javaparser.ast.expr.FieldAccessExpr [AbstractJavaParserContext.java <21:39 21:53>]
+QUALIFIER: com.github.javaparser.ast.expr [AbstractJavaParserContext.java <21:34 21:37>]
+QUALIFIER: com.github.javaparser.ast [AbstractJavaParserContext.java <21:30 21:32>]
+QUALIFIER: com.github.javaparser [AbstractJavaParserContext.java <21:19 21:28>]
+QUALIFIER: com.github [AbstractJavaParserContext.java <21:12 21:17>]
+QUALIFIER: com [AbstractJavaParserContext.java <21:8 21:10>]
+REFERENCE_IMPORT AbstractJavaParserContext.java -> com.github.javaparser.ast.expr.MethodCallExpr [AbstractJavaParserContext.java <22:39 22:52>]
+QUALIFIER: com.github.javaparser.ast.expr [AbstractJavaParserContext.java <22:34 22:37>]
+QUALIFIER: com.github.javaparser.ast [AbstractJavaParserContext.java <22:30 22:32>]
+QUALIFIER: com.github.javaparser [AbstractJavaParserContext.java <22:19 22:28>]
+QUALIFIER: com.github [AbstractJavaParserContext.java <22:12 22:17>]
+QUALIFIER: com [AbstractJavaParserContext.java <22:8 22:10>]
+REFERENCE_IMPORT AbstractJavaParserContext.java -> com.github.javaparser.symbolsolver.core.resolution.Context [AbstractJavaParserContext.java <23:59 23:65>]
 SYMBOL_PACKAGE com.github.javaparser.symbolsolver.core.resolution
-REFERENCE_IMPORT AbstractJavaParserContext.java -> com.github.javaparser.symbolsolver.javaparsermodel.JavaParserFactory [AbstractJavaParserContext.java <24:8 24:75>]
-SYMBOL_PACKAGE com.github.javaparser.symbolsolver.javaparsermodel
-REFERENCE_IMPORT AbstractJavaParserContext.java -> com.github.javaparser.symbolsolver.model.declarations.ValueDeclaration [AbstractJavaParserContext.java <25:8 25:77>]
+QUALIFIER: com.github.javaparser.symbolsolver.core.resolution [AbstractJavaParserContext.java <23:48 23:57>]
+QUALIFIER: com.github.javaparser.symbolsolver.core [AbstractJavaParserContext.java <23:43 23:46>]
+QUALIFIER: com.github.javaparser.symbolsolver [AbstractJavaParserContext.java <23:30 23:41>]
+QUALIFIER: com.github.javaparser [AbstractJavaParserContext.java <23:19 23:28>]
+QUALIFIER: com.github [AbstractJavaParserContext.java <23:12 23:17>]
+QUALIFIER: com [AbstractJavaParserContext.java <23:8 23:10>]
+REFERENCE_IMPORT AbstractJavaParserContext.java -> com.github.javaparser.symbolsolver.javaparsermodel.JavaParserFactory [AbstractJavaParserContext.java <24:59 24:75>]
+QUALIFIER: com.github.javaparser.symbolsolver.javaparsermodel [AbstractJavaParserContext.java <24:43 24:57>]
+QUALIFIER: com.github.javaparser.symbolsolver [AbstractJavaParserContext.java <24:30 24:41>]
+QUALIFIER: com.github.javaparser [AbstractJavaParserContext.java <24:19 24:28>]
+QUALIFIER: com.github [AbstractJavaParserContext.java <24:12 24:17>]
+QUALIFIER: com [AbstractJavaParserContext.java <24:8 24:10>]
+REFERENCE_IMPORT AbstractJavaParserContext.java -> com.github.javaparser.symbolsolver.model.declarations.ValueDeclaration [AbstractJavaParserContext.java <25:62 25:77>]
 SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model.declarations
-REFERENCE_IMPORT AbstractJavaParserContext.java -> com.github.javaparser.symbolsolver.model.resolution.SymbolReference<S> [AbstractJavaParserContext.java <26:8 26:74>]
+QUALIFIER: com.github.javaparser.symbolsolver.model.declarations [AbstractJavaParserContext.java <25:49 25:60>]
+QUALIFIER: com.github.javaparser.symbolsolver.model [AbstractJavaParserContext.java <25:43 25:47>]
+QUALIFIER: com.github.javaparser.symbolsolver [AbstractJavaParserContext.java <25:30 25:41>]
+QUALIFIER: com.github.javaparser [AbstractJavaParserContext.java <25:19 25:28>]
+QUALIFIER: com.github [AbstractJavaParserContext.java <25:12 25:17>]
+QUALIFIER: com [AbstractJavaParserContext.java <25:8 25:10>]
+REFERENCE_IMPORT AbstractJavaParserContext.java -> com.github.javaparser.symbolsolver.model.resolution.SymbolReference<S> [AbstractJavaParserContext.java <26:60 26:74>]
 SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model.resolution
-REFERENCE_IMPORT AbstractJavaParserContext.java -> com.github.javaparser.symbolsolver.model.resolution.TypeSolver [AbstractJavaParserContext.java <27:8 27:69>]
-SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model.resolution
-REFERENCE_IMPORT AbstractJavaParserContext.java -> com.github.javaparser.symbolsolver.model.resolution.Value [AbstractJavaParserContext.java <28:8 28:64>]
-SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model.resolution
-REFERENCE_IMPORT AbstractJavaParserContext.java -> com.github.javaparser.symbolsolver.model.typesystem.Type [AbstractJavaParserContext.java <29:8 29:63>]
+QUALIFIER: com.github.javaparser.symbolsolver.model.resolution [AbstractJavaParserContext.java <26:49 26:58>]
+QUALIFIER: com.github.javaparser.symbolsolver.model [AbstractJavaParserContext.java <26:43 26:47>]
+QUALIFIER: com.github.javaparser.symbolsolver [AbstractJavaParserContext.java <26:30 26:41>]
+QUALIFIER: com.github.javaparser [AbstractJavaParserContext.java <26:19 26:28>]
+QUALIFIER: com.github [AbstractJavaParserContext.java <26:12 26:17>]
+QUALIFIER: com [AbstractJavaParserContext.java <26:8 26:10>]
+REFERENCE_IMPORT AbstractJavaParserContext.java -> com.github.javaparser.symbolsolver.model.resolution.TypeSolver [AbstractJavaParserContext.java <27:60 27:69>]
+QUALIFIER: com.github.javaparser.symbolsolver.model.resolution [AbstractJavaParserContext.java <27:49 27:58>]
+QUALIFIER: com.github.javaparser.symbolsolver.model [AbstractJavaParserContext.java <27:43 27:47>]
+QUALIFIER: com.github.javaparser.symbolsolver [AbstractJavaParserContext.java <27:30 27:41>]
+QUALIFIER: com.github.javaparser [AbstractJavaParserContext.java <27:19 27:28>]
+QUALIFIER: com.github [AbstractJavaParserContext.java <27:12 27:17>]
+QUALIFIER: com [AbstractJavaParserContext.java <27:8 27:10>]
+REFERENCE_IMPORT AbstractJavaParserContext.java -> com.github.javaparser.symbolsolver.model.resolution.Value [AbstractJavaParserContext.java <28:60 28:64>]
+QUALIFIER: com.github.javaparser.symbolsolver.model.resolution [AbstractJavaParserContext.java <28:49 28:58>]
+QUALIFIER: com.github.javaparser.symbolsolver.model [AbstractJavaParserContext.java <28:43 28:47>]
+QUALIFIER: com.github.javaparser.symbolsolver [AbstractJavaParserContext.java <28:30 28:41>]
+QUALIFIER: com.github.javaparser [AbstractJavaParserContext.java <28:19 28:28>]
+QUALIFIER: com.github [AbstractJavaParserContext.java <28:12 28:17>]
+QUALIFIER: com [AbstractJavaParserContext.java <28:8 28:10>]
+REFERENCE_IMPORT AbstractJavaParserContext.java -> com.github.javaparser.symbolsolver.model.typesystem.Type [AbstractJavaParserContext.java <29:60 29:63>]
 SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model.typesystem
-REFERENCE_IMPORT AbstractJavaParserContext.java -> com.github.javaparser.symbolsolver.resolution.SymbolDeclarator [AbstractJavaParserContext.java <30:8 30:69>]
+QUALIFIER: com.github.javaparser.symbolsolver.model.typesystem [AbstractJavaParserContext.java <29:49 29:58>]
+QUALIFIER: com.github.javaparser.symbolsolver.model [AbstractJavaParserContext.java <29:43 29:47>]
+QUALIFIER: com.github.javaparser.symbolsolver [AbstractJavaParserContext.java <29:30 29:41>]
+QUALIFIER: com.github.javaparser [AbstractJavaParserContext.java <29:19 29:28>]
+QUALIFIER: com.github [AbstractJavaParserContext.java <29:12 29:17>]
+QUALIFIER: com [AbstractJavaParserContext.java <29:8 29:10>]
+REFERENCE_IMPORT AbstractJavaParserContext.java -> com.github.javaparser.symbolsolver.resolution.SymbolDeclarator [AbstractJavaParserContext.java <30:54 30:69>]
 SYMBOL_PACKAGE com.github.javaparser.symbolsolver.resolution
-REFERENCE_IMPORT AbstractJavaParserContext.java -> java.util.Optional<T> [AbstractJavaParserContext.java <32:8 32:25>]
+QUALIFIER: com.github.javaparser.symbolsolver.resolution [AbstractJavaParserContext.java <30:43 30:52>]
+QUALIFIER: com.github.javaparser.symbolsolver [AbstractJavaParserContext.java <30:30 30:41>]
+QUALIFIER: com.github.javaparser [AbstractJavaParserContext.java <30:19 30:28>]
+QUALIFIER: com.github [AbstractJavaParserContext.java <30:12 30:17>]
+QUALIFIER: com [AbstractJavaParserContext.java <30:8 30:10>]
+REFERENCE_IMPORT AbstractJavaParserContext.java -> java.util.Optional<T> [AbstractJavaParserContext.java <32:18 32:25>]
 SYMBOL_PACKAGE java.util
-REFERENCE_IMPORT AbstractJavaParserContext.java -> static com.github.javaparser.ast.Node com.github.javaparser.symbolsolver.javaparser.Navigator.getParentNode(com.github.javaparser.ast.Node) [AbstractJavaParserContext.java <34:15 34:83>]
+QUALIFIER: java.util [AbstractJavaParserContext.java <32:13 32:16>]
+QUALIFIER: java [AbstractJavaParserContext.java <32:8 32:11>]
+REFERENCE_IMPORT AbstractJavaParserContext.java -> static com.github.javaparser.ast.Node com.github.javaparser.symbolsolver.javaparser.Navigator.getParentNode(com.github.javaparser.ast.Node) [AbstractJavaParserContext.java <34:71 34:83>]
 SYMBOL_PACKAGE com.github.javaparser.symbolsolver.javaparser
+QUALIFIER: com.github.javaparser.symbolsolver.javaparser.Navigator [AbstractJavaParserContext.java <34:61 34:69>]
+QUALIFIER: com.github.javaparser.symbolsolver.javaparser [AbstractJavaParserContext.java <34:50 34:59>]
+QUALIFIER: com.github.javaparser.symbolsolver [AbstractJavaParserContext.java <34:37 34:48>]
+QUALIFIER: com.github.javaparser [AbstractJavaParserContext.java <34:26 34:35>]
+QUALIFIER: com.github [AbstractJavaParserContext.java <34:19 34:24>]
+QUALIFIER: com [AbstractJavaParserContext.java <34:15 34:17>]
 SYMBOL_CLASS public com.github.javaparser.symbolsolver.javaparsermodel.contexts.AbstractJavaParserContext<N> [AbstractJavaParserContext.java <39:1 <39:23 39:47> 138:1>]
 LOCAL_SYMBOL: AbstractJavaParserContext.java<39:84> [AbstractJavaParserContext.java <39:84 39:84>]
 LOCAL_SYMBOL: AbstractJavaParserContext.java<39:84> [AbstractJavaParserContext.java <138:1 138:1>]
@@ -70,9 +143,11 @@ LOCAL_SYMBOL: AbstractJavaParserContext.java<50:46> [AbstractJavaParserContext.j
 LOCAL_SYMBOL: AbstractJavaParserContext.java<50:46> [AbstractJavaParserContext.java <52:13 52:13>]
 SYMBOL_METHOD static com.github.javaparser.symbolsolver.model.resolution.SymbolReference<S> com.github.javaparser.symbolsolver.model.resolution.SymbolReference<S>.solved<S, S2>(S2)
 REFERENCE_CALL static com.github.javaparser.symbolsolver.model.resolution.SymbolReference<com.github.javaparser.symbolsolver.model.declarations.ValueDeclaration> com.github.javaparser.symbolsolver.javaparsermodel.contexts.AbstractJavaParserContext<N>.solveWith(com.github.javaparser.symbolsolver.resolution.SymbolDeclarator, java.lang.String) -> static com.github.javaparser.symbolsolver.model.resolution.SymbolReference<S> com.github.javaparser.symbolsolver.model.resolution.SymbolReference<S>.solved<S, S2>(S2) [AbstractJavaParserContext.java <51:40 51:45>]
+QUALIFIER: com.github.javaparser.symbolsolver.model.resolution.SymbolReference [AbstractJavaParserContext.java <51:24 51:38>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javaparsermodel.contexts.AbstractJavaParserContext<N>.solveWith<2> [AbstractJavaParserContext.java <51:47 51:50>]
 SYMBOL_METHOD static com.github.javaparser.symbolsolver.model.resolution.SymbolReference<S> com.github.javaparser.symbolsolver.model.resolution.SymbolReference<S>.unsolved<S, S2>(java.lang.Class<S2>)
 REFERENCE_CALL static com.github.javaparser.symbolsolver.model.resolution.SymbolReference<com.github.javaparser.symbolsolver.model.declarations.ValueDeclaration> com.github.javaparser.symbolsolver.javaparsermodel.contexts.AbstractJavaParserContext<N>.solveWith(com.github.javaparser.symbolsolver.resolution.SymbolDeclarator, java.lang.String) -> static com.github.javaparser.symbolsolver.model.resolution.SymbolReference<S> com.github.javaparser.symbolsolver.model.resolution.SymbolReference<S>.unsolved<S, S2>(java.lang.Class<S2>) [AbstractJavaParserContext.java <54:32 54:39>]
+QUALIFIER: com.github.javaparser.symbolsolver.model.resolution.SymbolReference [AbstractJavaParserContext.java <54:16 54:30>]
 REFERENCE_TYPE_USAGE static com.github.javaparser.symbolsolver.model.resolution.SymbolReference<com.github.javaparser.symbolsolver.model.declarations.ValueDeclaration> com.github.javaparser.symbolsolver.javaparsermodel.contexts.AbstractJavaParserContext<N>.solveWith(com.github.javaparser.symbolsolver.resolution.SymbolDeclarator, java.lang.String) -> com.github.javaparser.symbolsolver.model.declarations.ValueDeclaration [AbstractJavaParserContext.java <54:41 54:56>]
 SYMBOL_METHOD public com.github.javaparser.symbolsolver.javaparsermodel.contexts.AbstractJavaParserContext<N>.AbstractJavaParserContext(com.github.javaparser.symbolsolver.javaparsermodel.contexts.AbstractJavaParserContext<N>.N, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) [AbstractJavaParserContext.java <61:5 <61:12 61:36> 67:5>]
 REFERENCE_TYPE_USAGE com.github.javaparser.symbolsolver.javaparsermodel.contexts.AbstractJavaParserContext<N>.AbstractJavaParserContext(com.github.javaparser.symbolsolver.javaparsermodel.contexts.AbstractJavaParserContext<N>.N, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> com.github.javaparser.symbolsolver.javaparsermodel.contexts.AbstractJavaParserContext<N>.N [AbstractJavaParserContext.java <61:38 61:38>]
@@ -87,9 +162,11 @@ LOCAL_SYMBOL: AbstractJavaParserContext.java<62:34> [AbstractJavaParserContext.j
 SYMBOL_METHOD java.lang.NullPointerException.NullPointerException()
 REFERENCE_CALL com.github.javaparser.symbolsolver.javaparsermodel.contexts.AbstractJavaParserContext<N>.AbstractJavaParserContext(com.github.javaparser.symbolsolver.javaparsermodel.contexts.AbstractJavaParserContext<N>.N, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> java.lang.NullPointerException.NullPointerException() [AbstractJavaParserContext.java <63:23 63:42>]
 REFERENCE_TYPE_USAGE com.github.javaparser.symbolsolver.javaparsermodel.contexts.AbstractJavaParserContext<N>.AbstractJavaParserContext(com.github.javaparser.symbolsolver.javaparsermodel.contexts.AbstractJavaParserContext<N>.N, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> java.lang.NullPointerException [AbstractJavaParserContext.java <63:23 63:42>]
+QUALIFIER: com.github.javaparser.symbolsolver.javaparsermodel.contexts.AbstractJavaParserContext<N> [AbstractJavaParserContext.java <65:9 65:12>]
 SYMBOL_FIELD com.github.javaparser.symbolsolver.javaparsermodel.contexts.AbstractJavaParserContext<N>.N com.github.javaparser.symbolsolver.javaparsermodel.contexts.AbstractJavaParserContext<N>.wrappedNode
 REFERENCE_USAGE com.github.javaparser.symbolsolver.javaparsermodel.contexts.AbstractJavaParserContext<N>.AbstractJavaParserContext(com.github.javaparser.symbolsolver.javaparsermodel.contexts.AbstractJavaParserContext<N>.N, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> com.github.javaparser.symbolsolver.javaparsermodel.contexts.AbstractJavaParserContext<N>.N com.github.javaparser.symbolsolver.javaparsermodel.contexts.AbstractJavaParserContext<N>.wrappedNode [AbstractJavaParserContext.java <65:14 65:24>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javaparsermodel.contexts.AbstractJavaParserContext<N>.AbstractJavaParserContext<0> [AbstractJavaParserContext.java <65:28 65:38>]
+QUALIFIER: com.github.javaparser.symbolsolver.javaparsermodel.contexts.AbstractJavaParserContext<N> [AbstractJavaParserContext.java <66:9 66:12>]
 SYMBOL_FIELD com.github.javaparser.symbolsolver.model.resolution.TypeSolver com.github.javaparser.symbolsolver.javaparsermodel.contexts.AbstractJavaParserContext<N>.typeSolver
 REFERENCE_USAGE com.github.javaparser.symbolsolver.javaparsermodel.contexts.AbstractJavaParserContext<N>.AbstractJavaParserContext(com.github.javaparser.symbolsolver.javaparsermodel.contexts.AbstractJavaParserContext<N>.N, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> com.github.javaparser.symbolsolver.model.resolution.TypeSolver com.github.javaparser.symbolsolver.javaparsermodel.contexts.AbstractJavaParserContext<N>.typeSolver [AbstractJavaParserContext.java <66:14 66:23>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javaparsermodel.contexts.AbstractJavaParserContext<N>.AbstractJavaParserContext<1> [AbstractJavaParserContext.java <66:27 66:36>]
@@ -106,24 +183,19 @@ LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javaparsermodel.contexts.Abstra
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javaparsermodel.contexts.AbstractJavaParserContext<N>.equals<0> [AbstractJavaParserContext.java <76:13 76:13>]
 SYMBOL_METHOD java.lang.Class<?> java.lang.Object.getClass()
 REFERENCE_CALL boolean com.github.javaparser.symbolsolver.javaparsermodel.contexts.AbstractJavaParserContext<N>.equals(java.lang.Object) -> java.lang.Class<?> java.lang.Object.getClass() [AbstractJavaParserContext.java <76:26 76:33>]
-SYMBOL_METHOD java.lang.Class<?> java.lang.Object.getClass()
 REFERENCE_CALL boolean com.github.javaparser.symbolsolver.javaparsermodel.contexts.AbstractJavaParserContext<N>.equals(java.lang.Object) -> java.lang.Class<?> java.lang.Object.getClass() [AbstractJavaParserContext.java <76:42 76:49>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javaparsermodel.contexts.AbstractJavaParserContext<N>.equals<0> [AbstractJavaParserContext.java <76:40 76:40>]
 REFERENCE_TYPE_USAGE boolean com.github.javaparser.symbolsolver.javaparsermodel.contexts.AbstractJavaParserContext<N>.equals(java.lang.Object) -> com.github.javaparser.symbolsolver.javaparsermodel.contexts.AbstractJavaParserContext<N> [AbstractJavaParserContext.java <78:9 78:33>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javaparsermodel.contexts.AbstractJavaParserContext<N>.equals<1> [AbstractJavaParserContext.java <78:38 78:41>]
 REFERENCE_TYPE_USAGE boolean com.github.javaparser.symbolsolver.javaparsermodel.contexts.AbstractJavaParserContext<N>.equals(java.lang.Object) -> com.github.javaparser.symbolsolver.javaparsermodel.contexts.AbstractJavaParserContext<N> [AbstractJavaParserContext.java <78:46 78:70>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javaparsermodel.contexts.AbstractJavaParserContext<N>.equals<0> [AbstractJavaParserContext.java <78:76 78:76>]
-SYMBOL_FIELD com.github.javaparser.symbolsolver.javaparsermodel.contexts.AbstractJavaParserContext<N>.N com.github.javaparser.symbolsolver.javaparsermodel.contexts.AbstractJavaParserContext<N>.wrappedNode
 REFERENCE_USAGE boolean com.github.javaparser.symbolsolver.javaparsermodel.contexts.AbstractJavaParserContext<N>.equals(java.lang.Object) -> com.github.javaparser.symbolsolver.javaparsermodel.contexts.AbstractJavaParserContext<N>.N com.github.javaparser.symbolsolver.javaparsermodel.contexts.AbstractJavaParserContext<N>.wrappedNode [AbstractJavaParserContext.java <80:13 80:23>]
 SYMBOL_METHOD boolean com.github.javaparser.ast.Node.equals(java.lang.Object)
 REFERENCE_CALL boolean com.github.javaparser.symbolsolver.javaparsermodel.contexts.AbstractJavaParserContext<N>.equals(java.lang.Object) -> boolean com.github.javaparser.ast.Node.equals(java.lang.Object) [AbstractJavaParserContext.java <80:48 80:53>]
-SYMBOL_FIELD com.github.javaparser.symbolsolver.javaparsermodel.contexts.AbstractJavaParserContext<N>.N com.github.javaparser.symbolsolver.javaparsermodel.contexts.AbstractJavaParserContext<N>.wrappedNode
 REFERENCE_USAGE boolean com.github.javaparser.symbolsolver.javaparsermodel.contexts.AbstractJavaParserContext<N>.equals(java.lang.Object) -> com.github.javaparser.symbolsolver.javaparsermodel.contexts.AbstractJavaParserContext<N>.N com.github.javaparser.symbolsolver.javaparsermodel.contexts.AbstractJavaParserContext<N>.wrappedNode [AbstractJavaParserContext.java <80:36 80:46>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javaparsermodel.contexts.AbstractJavaParserContext<N>.equals<1> [AbstractJavaParserContext.java <80:55 80:58>]
-SYMBOL_FIELD com.github.javaparser.symbolsolver.javaparsermodel.contexts.AbstractJavaParserContext<N>.N com.github.javaparser.symbolsolver.javaparsermodel.contexts.AbstractJavaParserContext<N>.wrappedNode
 REFERENCE_USAGE boolean com.github.javaparser.symbolsolver.javaparsermodel.contexts.AbstractJavaParserContext<N>.equals(java.lang.Object) -> com.github.javaparser.symbolsolver.javaparsermodel.contexts.AbstractJavaParserContext<N>.N com.github.javaparser.symbolsolver.javaparsermodel.contexts.AbstractJavaParserContext<N>.wrappedNode [AbstractJavaParserContext.java <80:60 80:70>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javaparsermodel.contexts.AbstractJavaParserContext<N>.equals<1> [AbstractJavaParserContext.java <80:75 80:78>]
-SYMBOL_FIELD com.github.javaparser.symbolsolver.javaparsermodel.contexts.AbstractJavaParserContext<N>.N com.github.javaparser.symbolsolver.javaparsermodel.contexts.AbstractJavaParserContext<N>.wrappedNode
 REFERENCE_USAGE boolean com.github.javaparser.symbolsolver.javaparsermodel.contexts.AbstractJavaParserContext<N>.equals(java.lang.Object) -> com.github.javaparser.symbolsolver.javaparsermodel.contexts.AbstractJavaParserContext<N>.N com.github.javaparser.symbolsolver.javaparsermodel.contexts.AbstractJavaParserContext<N>.wrappedNode [AbstractJavaParserContext.java <80:80 80:90>]
 SYMBOL_METHOD public int com.github.javaparser.symbolsolver.javaparsermodel.contexts.AbstractJavaParserContext<N>.hashCode() [AbstractJavaParserContext.java <85:5 <86:16 86:23> 88:5>]
 SYMBOL_METHOD int java.lang.Object.hashCode()
@@ -132,11 +204,9 @@ SYMBOL_BUILTIN_TYPE int
 REFERENCE_TYPE_USAGE int com.github.javaparser.symbolsolver.javaparsermodel.contexts.AbstractJavaParserContext<N>.hashCode() -> int [AbstractJavaParserContext.java <86:12 86:14>]
 LOCAL_SYMBOL: AbstractJavaParserContext.java<86:27> [AbstractJavaParserContext.java <86:27 86:27>]
 LOCAL_SYMBOL: AbstractJavaParserContext.java<86:27> [AbstractJavaParserContext.java <88:5 88:5>]
-SYMBOL_FIELD com.github.javaparser.symbolsolver.javaparsermodel.contexts.AbstractJavaParserContext<N>.N com.github.javaparser.symbolsolver.javaparsermodel.contexts.AbstractJavaParserContext<N>.wrappedNode
 REFERENCE_USAGE int com.github.javaparser.symbolsolver.javaparsermodel.contexts.AbstractJavaParserContext<N>.hashCode() -> com.github.javaparser.symbolsolver.javaparsermodel.contexts.AbstractJavaParserContext<N>.N com.github.javaparser.symbolsolver.javaparsermodel.contexts.AbstractJavaParserContext<N>.wrappedNode [AbstractJavaParserContext.java <87:16 87:26>]
 SYMBOL_METHOD int com.github.javaparser.ast.Node.hashCode()
 REFERENCE_CALL int com.github.javaparser.symbolsolver.javaparsermodel.contexts.AbstractJavaParserContext<N>.hashCode() -> int com.github.javaparser.ast.Node.hashCode() [AbstractJavaParserContext.java <87:50 87:57>]
-SYMBOL_FIELD com.github.javaparser.symbolsolver.javaparsermodel.contexts.AbstractJavaParserContext<N>.N com.github.javaparser.symbolsolver.javaparsermodel.contexts.AbstractJavaParserContext<N>.wrappedNode
 REFERENCE_USAGE int com.github.javaparser.symbolsolver.javaparsermodel.contexts.AbstractJavaParserContext<N>.hashCode() -> com.github.javaparser.symbolsolver.javaparsermodel.contexts.AbstractJavaParserContext<N>.N com.github.javaparser.symbolsolver.javaparsermodel.contexts.AbstractJavaParserContext<N>.wrappedNode [AbstractJavaParserContext.java <87:38 87:48>]
 SYMBOL_METHOD public java.util.Optional<com.github.javaparser.symbolsolver.model.typesystem.Type> com.github.javaparser.symbolsolver.javaparsermodel.contexts.AbstractJavaParserContext<N>.solveGenericType(java.lang.String, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) [AbstractJavaParserContext.java <90:5 <91:27 91:42> 98:5>]
 SYMBOL_METHOD java.util.Optional<com.github.javaparser.symbolsolver.model.typesystem.Type> com.github.javaparser.symbolsolver.core.resolution.Context.solveGenericType(java.lang.String, com.github.javaparser.symbolsolver.model.resolution.TypeSolver)
@@ -158,9 +228,9 @@ LOCAL_SYMBOL: AbstractJavaParserContext.java<93:29> [AbstractJavaParserContext.j
 LOCAL_SYMBOL: AbstractJavaParserContext.java<93:29> [AbstractJavaParserContext.java <95:9 95:9>]
 SYMBOL_METHOD static java.util.Optional<T> java.util.Optional<T>.empty<T>()
 REFERENCE_CALL java.util.Optional<com.github.javaparser.symbolsolver.model.typesystem.Type> com.github.javaparser.symbolsolver.javaparsermodel.contexts.AbstractJavaParserContext<N>.solveGenericType(java.lang.String, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> static java.util.Optional<T> java.util.Optional<T>.empty<T>() [AbstractJavaParserContext.java <94:29 94:33>]
+QUALIFIER: java.util.Optional [AbstractJavaParserContext.java <94:20 94:27>]
 LOCAL_SYMBOL: AbstractJavaParserContext.java<95:16> [AbstractJavaParserContext.java <95:16 95:16>]
 LOCAL_SYMBOL: AbstractJavaParserContext.java<95:16> [AbstractJavaParserContext.java <97:9 97:9>]
-SYMBOL_METHOD java.util.Optional<com.github.javaparser.symbolsolver.model.typesystem.Type> com.github.javaparser.symbolsolver.core.resolution.Context.solveGenericType(java.lang.String, com.github.javaparser.symbolsolver.model.resolution.TypeSolver)
 REFERENCE_CALL java.util.Optional<com.github.javaparser.symbolsolver.model.typesystem.Type> com.github.javaparser.symbolsolver.javaparsermodel.contexts.AbstractJavaParserContext<N>.solveGenericType(java.lang.String, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> java.util.Optional<com.github.javaparser.symbolsolver.model.typesystem.Type> com.github.javaparser.symbolsolver.core.resolution.Context.solveGenericType(java.lang.String, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) [AbstractJavaParserContext.java <96:27 96:42>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javaparsermodel.contexts.AbstractJavaParserContext<N>.solveGenericType<2> [AbstractJavaParserContext.java <96:20 96:25>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javaparsermodel.contexts.AbstractJavaParserContext<N>.solveGenericType<0> [AbstractJavaParserContext.java <96:44 96:47>]
@@ -173,7 +243,6 @@ LOCAL_SYMBOL: AbstractJavaParserContext.java<101:38> [AbstractJavaParserContext.
 LOCAL_SYMBOL: AbstractJavaParserContext.java<101:38> [AbstractJavaParserContext.java <125:5 125:5>]
 SYMBOL_METHOD static com.github.javaparser.ast.Node com.github.javaparser.symbolsolver.javaparser.Navigator.getParentNode(com.github.javaparser.ast.Node)
 REFERENCE_CALL com.github.javaparser.symbolsolver.core.resolution.Context com.github.javaparser.symbolsolver.javaparsermodel.contexts.AbstractJavaParserContext<N>.getParent() -> static com.github.javaparser.ast.Node com.github.javaparser.symbolsolver.javaparser.Navigator.getParentNode(com.github.javaparser.ast.Node) [AbstractJavaParserContext.java <102:13 102:25>]
-SYMBOL_FIELD com.github.javaparser.symbolsolver.javaparsermodel.contexts.AbstractJavaParserContext<N>.N com.github.javaparser.symbolsolver.javaparsermodel.contexts.AbstractJavaParserContext<N>.wrappedNode
 REFERENCE_USAGE com.github.javaparser.symbolsolver.core.resolution.Context com.github.javaparser.symbolsolver.javaparsermodel.contexts.AbstractJavaParserContext<N>.getParent() -> com.github.javaparser.symbolsolver.javaparsermodel.contexts.AbstractJavaParserContext<N>.N com.github.javaparser.symbolsolver.javaparsermodel.contexts.AbstractJavaParserContext<N>.wrappedNode [AbstractJavaParserContext.java <102:27 102:37>]
 REFERENCE_TYPE_USAGE com.github.javaparser.symbolsolver.core.resolution.Context com.github.javaparser.symbolsolver.javaparsermodel.contexts.AbstractJavaParserContext<N>.getParent() -> com.github.javaparser.ast.expr.MethodCallExpr [AbstractJavaParserContext.java <102:51 102:64>]
 LOCAL_SYMBOL: AbstractJavaParserContext.java<102:67> [AbstractJavaParserContext.java <102:67 102:67>]
@@ -181,11 +250,8 @@ LOCAL_SYMBOL: AbstractJavaParserContext.java<102:67> [AbstractJavaParserContext.
 REFERENCE_TYPE_USAGE com.github.javaparser.symbolsolver.core.resolution.Context com.github.javaparser.symbolsolver.javaparsermodel.contexts.AbstractJavaParserContext<N>.getParent() -> com.github.javaparser.ast.expr.MethodCallExpr [AbstractJavaParserContext.java <103:13 103:26>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javaparsermodel.contexts.AbstractJavaParserContext<N>.getParent<0> [AbstractJavaParserContext.java <103:28 103:37>]
 REFERENCE_TYPE_USAGE com.github.javaparser.symbolsolver.core.resolution.Context com.github.javaparser.symbolsolver.javaparsermodel.contexts.AbstractJavaParserContext<N>.getParent() -> com.github.javaparser.ast.expr.MethodCallExpr [AbstractJavaParserContext.java <103:42 103:55>]
-SYMBOL_METHOD static com.github.javaparser.ast.Node com.github.javaparser.symbolsolver.javaparser.Navigator.getParentNode(com.github.javaparser.ast.Node)
 REFERENCE_CALL com.github.javaparser.symbolsolver.core.resolution.Context com.github.javaparser.symbolsolver.javaparsermodel.contexts.AbstractJavaParserContext<N>.getParent() -> static com.github.javaparser.ast.Node com.github.javaparser.symbolsolver.javaparser.Navigator.getParentNode(com.github.javaparser.ast.Node) [AbstractJavaParserContext.java <103:58 103:70>]
-SYMBOL_FIELD com.github.javaparser.symbolsolver.javaparsermodel.contexts.AbstractJavaParserContext<N>.N com.github.javaparser.symbolsolver.javaparsermodel.contexts.AbstractJavaParserContext<N>.wrappedNode
 REFERENCE_USAGE com.github.javaparser.symbolsolver.core.resolution.Context com.github.javaparser.symbolsolver.javaparsermodel.contexts.AbstractJavaParserContext<N>.getParent() -> com.github.javaparser.symbolsolver.javaparsermodel.contexts.AbstractJavaParserContext<N>.N com.github.javaparser.symbolsolver.javaparsermodel.contexts.AbstractJavaParserContext<N>.wrappedNode [AbstractJavaParserContext.java <103:72 103:82>]
-SYMBOL_BUILTIN_TYPE boolean
 REFERENCE_TYPE_USAGE com.github.javaparser.symbolsolver.core.resolution.Context com.github.javaparser.symbolsolver.javaparsermodel.contexts.AbstractJavaParserContext<N>.getParent() -> boolean [AbstractJavaParserContext.java <104:13 104:19>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javaparsermodel.contexts.AbstractJavaParserContext<N>.getParent<1> [AbstractJavaParserContext.java <104:21 104:25>]
 SYMBOL_METHOD com.github.javaparser.ast.NodeList<com.github.javaparser.ast.expr.Expression> com.github.javaparser.ast.expr.MethodCallExpr.getArguments()
@@ -195,13 +261,11 @@ LOCAL_SYMBOL: AbstractJavaParserContext.java<105:52> [AbstractJavaParserContext.
 LOCAL_SYMBOL: AbstractJavaParserContext.java<105:52> [AbstractJavaParserContext.java <111:13 111:13>]
 REFERENCE_TYPE_USAGE com.github.javaparser.symbolsolver.core.resolution.Context com.github.javaparser.symbolsolver.javaparsermodel.contexts.AbstractJavaParserContext<N>.getParent() -> com.github.javaparser.ast.expr.Expression [AbstractJavaParserContext.java <106:22 106:31>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javaparsermodel.contexts.AbstractJavaParserContext<N>.getParent<2> [AbstractJavaParserContext.java <106:33 106:42>]
-SYMBOL_METHOD com.github.javaparser.ast.NodeList<com.github.javaparser.ast.expr.Expression> com.github.javaparser.ast.expr.MethodCallExpr.getArguments()
 REFERENCE_CALL com.github.javaparser.symbolsolver.core.resolution.Context com.github.javaparser.symbolsolver.javaparsermodel.contexts.AbstractJavaParserContext<N>.getParent() -> com.github.javaparser.ast.NodeList<com.github.javaparser.ast.expr.Expression> com.github.javaparser.ast.expr.MethodCallExpr.getArguments() [AbstractJavaParserContext.java <106:57 106:68>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javaparsermodel.contexts.AbstractJavaParserContext<N>.getParent<0> [AbstractJavaParserContext.java <106:46 106:55>]
 LOCAL_SYMBOL: AbstractJavaParserContext.java<106:73> [AbstractJavaParserContext.java <106:73 106:73>]
 LOCAL_SYMBOL: AbstractJavaParserContext.java<106:73> [AbstractJavaParserContext.java <110:17 110:17>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javaparsermodel.contexts.AbstractJavaParserContext<N>.getParent<2> [AbstractJavaParserContext.java <107:25 107:34>]
-SYMBOL_FIELD com.github.javaparser.symbolsolver.javaparsermodel.contexts.AbstractJavaParserContext<N>.N com.github.javaparser.symbolsolver.javaparsermodel.contexts.AbstractJavaParserContext<N>.wrappedNode
 REFERENCE_USAGE com.github.javaparser.symbolsolver.core.resolution.Context com.github.javaparser.symbolsolver.javaparsermodel.contexts.AbstractJavaParserContext<N>.getParent() -> com.github.javaparser.symbolsolver.javaparsermodel.contexts.AbstractJavaParserContext<N>.N com.github.javaparser.symbolsolver.javaparsermodel.contexts.AbstractJavaParserContext<N>.wrappedNode [AbstractJavaParserContext.java <107:39 107:49>]
 LOCAL_SYMBOL: AbstractJavaParserContext.java<107:52> [AbstractJavaParserContext.java <107:52 107:52>]
 LOCAL_SYMBOL: AbstractJavaParserContext.java<107:52> [AbstractJavaParserContext.java <109:21 109:21>]
@@ -211,28 +275,23 @@ LOCAL_SYMBOL: AbstractJavaParserContext.java<112:24> [AbstractJavaParserContext.
 LOCAL_SYMBOL: AbstractJavaParserContext.java<112:24> [AbstractJavaParserContext.java <118:13 118:13>]
 REFERENCE_TYPE_USAGE com.github.javaparser.symbolsolver.core.resolution.Context com.github.javaparser.symbolsolver.javaparsermodel.contexts.AbstractJavaParserContext<N>.getParent() -> com.github.javaparser.ast.Node [AbstractJavaParserContext.java <113:17 113:20>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javaparsermodel.contexts.AbstractJavaParserContext<N>.getParent<4> [AbstractJavaParserContext.java <113:22 113:30>]
-SYMBOL_METHOD static com.github.javaparser.ast.Node com.github.javaparser.symbolsolver.javaparser.Navigator.getParentNode(com.github.javaparser.ast.Node)
 REFERENCE_CALL com.github.javaparser.symbolsolver.core.resolution.Context com.github.javaparser.symbolsolver.javaparsermodel.contexts.AbstractJavaParserContext<N>.getParent() -> static com.github.javaparser.ast.Node com.github.javaparser.symbolsolver.javaparser.Navigator.getParentNode(com.github.javaparser.ast.Node) [AbstractJavaParserContext.java <113:34 113:46>]
-SYMBOL_FIELD com.github.javaparser.symbolsolver.javaparsermodel.contexts.AbstractJavaParserContext<N>.N com.github.javaparser.symbolsolver.javaparsermodel.contexts.AbstractJavaParserContext<N>.wrappedNode
 REFERENCE_USAGE com.github.javaparser.symbolsolver.core.resolution.Context com.github.javaparser.symbolsolver.javaparsermodel.contexts.AbstractJavaParserContext<N>.getParent() -> com.github.javaparser.symbolsolver.javaparsermodel.contexts.AbstractJavaParserContext<N>.N com.github.javaparser.symbolsolver.javaparsermodel.contexts.AbstractJavaParserContext<N>.wrappedNode [AbstractJavaParserContext.java <113:48 113:58>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javaparsermodel.contexts.AbstractJavaParserContext<N>.getParent<4> [AbstractJavaParserContext.java <114:24 114:32>]
 REFERENCE_TYPE_USAGE com.github.javaparser.symbolsolver.core.resolution.Context com.github.javaparser.symbolsolver.javaparsermodel.contexts.AbstractJavaParserContext<N>.getParent() -> com.github.javaparser.ast.expr.MethodCallExpr [AbstractJavaParserContext.java <114:45 114:58>]
 LOCAL_SYMBOL: AbstractJavaParserContext.java<114:61> [AbstractJavaParserContext.java <114:61 114:61>]
 LOCAL_SYMBOL: AbstractJavaParserContext.java<114:61> [AbstractJavaParserContext.java <116:17 116:17>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javaparsermodel.contexts.AbstractJavaParserContext<N>.getParent<4> [AbstractJavaParserContext.java <115:21 115:29>]
-SYMBOL_METHOD static com.github.javaparser.ast.Node com.github.javaparser.symbolsolver.javaparser.Navigator.getParentNode(com.github.javaparser.ast.Node)
 REFERENCE_CALL com.github.javaparser.symbolsolver.core.resolution.Context com.github.javaparser.symbolsolver.javaparsermodel.contexts.AbstractJavaParserContext<N>.getParent() -> static com.github.javaparser.ast.Node com.github.javaparser.symbolsolver.javaparser.Navigator.getParentNode(com.github.javaparser.ast.Node) [AbstractJavaParserContext.java <115:33 115:45>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javaparsermodel.contexts.AbstractJavaParserContext<N>.getParent<4> [AbstractJavaParserContext.java <115:47 115:55>]
 SYMBOL_METHOD static com.github.javaparser.symbolsolver.core.resolution.Context com.github.javaparser.symbolsolver.javaparsermodel.JavaParserFactory.getContext(com.github.javaparser.ast.Node, com.github.javaparser.symbolsolver.model.resolution.TypeSolver)
 REFERENCE_CALL com.github.javaparser.symbolsolver.core.resolution.Context com.github.javaparser.symbolsolver.javaparsermodel.contexts.AbstractJavaParserContext<N>.getParent() -> static com.github.javaparser.symbolsolver.core.resolution.Context com.github.javaparser.symbolsolver.javaparsermodel.JavaParserFactory.getContext(com.github.javaparser.ast.Node, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) [AbstractJavaParserContext.java <117:42 117:51>]
+QUALIFIER: com.github.javaparser.symbolsolver.javaparsermodel.JavaParserFactory [AbstractJavaParserContext.java <117:24 117:40>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javaparsermodel.contexts.AbstractJavaParserContext<N>.getParent<4> [AbstractJavaParserContext.java <117:53 117:61>]
-SYMBOL_FIELD com.github.javaparser.symbolsolver.model.resolution.TypeSolver com.github.javaparser.symbolsolver.javaparsermodel.contexts.AbstractJavaParserContext<N>.typeSolver
 REFERENCE_USAGE com.github.javaparser.symbolsolver.core.resolution.Context com.github.javaparser.symbolsolver.javaparsermodel.contexts.AbstractJavaParserContext<N>.getParent() -> com.github.javaparser.symbolsolver.model.resolution.TypeSolver com.github.javaparser.symbolsolver.javaparsermodel.contexts.AbstractJavaParserContext<N>.typeSolver [AbstractJavaParserContext.java <117:64 117:73>]
 REFERENCE_TYPE_USAGE com.github.javaparser.symbolsolver.core.resolution.Context com.github.javaparser.symbolsolver.javaparsermodel.contexts.AbstractJavaParserContext<N>.getParent() -> com.github.javaparser.ast.Node [AbstractJavaParserContext.java <120:9 120:12>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javaparsermodel.contexts.AbstractJavaParserContext<N>.getParent<5> [AbstractJavaParserContext.java <120:14 120:22>]
-SYMBOL_METHOD static com.github.javaparser.ast.Node com.github.javaparser.symbolsolver.javaparser.Navigator.getParentNode(com.github.javaparser.ast.Node)
 REFERENCE_CALL com.github.javaparser.symbolsolver.core.resolution.Context com.github.javaparser.symbolsolver.javaparsermodel.contexts.AbstractJavaParserContext<N>.getParent() -> static com.github.javaparser.ast.Node com.github.javaparser.symbolsolver.javaparser.Navigator.getParentNode(com.github.javaparser.ast.Node) [AbstractJavaParserContext.java <120:26 120:38>]
-SYMBOL_FIELD com.github.javaparser.symbolsolver.javaparsermodel.contexts.AbstractJavaParserContext<N>.N com.github.javaparser.symbolsolver.javaparsermodel.contexts.AbstractJavaParserContext<N>.wrappedNode
 REFERENCE_USAGE com.github.javaparser.symbolsolver.core.resolution.Context com.github.javaparser.symbolsolver.javaparsermodel.contexts.AbstractJavaParserContext<N>.getParent() -> com.github.javaparser.symbolsolver.javaparsermodel.contexts.AbstractJavaParserContext<N>.N com.github.javaparser.symbolsolver.javaparsermodel.contexts.AbstractJavaParserContext<N>.wrappedNode [AbstractJavaParserContext.java <120:40 120:50>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javaparsermodel.contexts.AbstractJavaParserContext<N>.getParent<5> [AbstractJavaParserContext.java <121:16 121:24>]
 REFERENCE_TYPE_USAGE com.github.javaparser.symbolsolver.core.resolution.Context com.github.javaparser.symbolsolver.javaparsermodel.contexts.AbstractJavaParserContext<N>.getParent() -> com.github.javaparser.ast.expr.MethodCallExpr [AbstractJavaParserContext.java <121:37 121:50>]
@@ -241,13 +300,11 @@ REFERENCE_TYPE_USAGE com.github.javaparser.symbolsolver.core.resolution.Context 
 LOCAL_SYMBOL: AbstractJavaParserContext.java<121:93> [AbstractJavaParserContext.java <121:93 121:93>]
 LOCAL_SYMBOL: AbstractJavaParserContext.java<121:93> [AbstractJavaParserContext.java <123:9 123:9>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javaparsermodel.contexts.AbstractJavaParserContext<N>.getParent<5> [AbstractJavaParserContext.java <122:13 122:21>]
-SYMBOL_METHOD static com.github.javaparser.ast.Node com.github.javaparser.symbolsolver.javaparser.Navigator.getParentNode(com.github.javaparser.ast.Node)
 REFERENCE_CALL com.github.javaparser.symbolsolver.core.resolution.Context com.github.javaparser.symbolsolver.javaparsermodel.contexts.AbstractJavaParserContext<N>.getParent() -> static com.github.javaparser.ast.Node com.github.javaparser.symbolsolver.javaparser.Navigator.getParentNode(com.github.javaparser.ast.Node) [AbstractJavaParserContext.java <122:25 122:37>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javaparsermodel.contexts.AbstractJavaParserContext<N>.getParent<5> [AbstractJavaParserContext.java <122:39 122:47>]
-SYMBOL_METHOD static com.github.javaparser.symbolsolver.core.resolution.Context com.github.javaparser.symbolsolver.javaparsermodel.JavaParserFactory.getContext(com.github.javaparser.ast.Node, com.github.javaparser.symbolsolver.model.resolution.TypeSolver)
 REFERENCE_CALL com.github.javaparser.symbolsolver.core.resolution.Context com.github.javaparser.symbolsolver.javaparsermodel.contexts.AbstractJavaParserContext<N>.getParent() -> static com.github.javaparser.symbolsolver.core.resolution.Context com.github.javaparser.symbolsolver.javaparsermodel.JavaParserFactory.getContext(com.github.javaparser.ast.Node, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) [AbstractJavaParserContext.java <124:34 124:43>]
+QUALIFIER: com.github.javaparser.symbolsolver.javaparsermodel.JavaParserFactory [AbstractJavaParserContext.java <124:16 124:32>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javaparsermodel.contexts.AbstractJavaParserContext<N>.getParent<5> [AbstractJavaParserContext.java <124:45 124:53>]
-SYMBOL_FIELD com.github.javaparser.symbolsolver.model.resolution.TypeSolver com.github.javaparser.symbolsolver.javaparsermodel.contexts.AbstractJavaParserContext<N>.typeSolver
 REFERENCE_USAGE com.github.javaparser.symbolsolver.core.resolution.Context com.github.javaparser.symbolsolver.javaparsermodel.contexts.AbstractJavaParserContext<N>.getParent() -> com.github.javaparser.symbolsolver.model.resolution.TypeSolver com.github.javaparser.symbolsolver.javaparsermodel.contexts.AbstractJavaParserContext<N>.typeSolver [AbstractJavaParserContext.java <124:56 124:65>]
 SYMBOL_METHOD protected java.util.Optional<com.github.javaparser.symbolsolver.model.resolution.Value> com.github.javaparser.symbolsolver.javaparsermodel.contexts.AbstractJavaParserContext<N>.solveWithAsValue(com.github.javaparser.symbolsolver.resolution.SymbolDeclarator, java.lang.String, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) [AbstractJavaParserContext.java <131:5 <131:31 131:46> 136:5>]
 REFERENCE_TYPE_USAGE java.util.Optional<com.github.javaparser.symbolsolver.model.resolution.Value> com.github.javaparser.symbolsolver.javaparsermodel.contexts.AbstractJavaParserContext<N>.solveWithAsValue(com.github.javaparser.symbolsolver.resolution.SymbolDeclarator, java.lang.String, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> java.util.Optional<T> [AbstractJavaParserContext.java <131:15 131:22>]
@@ -268,19 +325,17 @@ SYMBOL_METHOD java.util.stream.Stream<java.util.stream.Stream<T>.T> java.util.st
 REFERENCE_CALL java.util.Optional<com.github.javaparser.symbolsolver.model.resolution.Value> com.github.javaparser.symbolsolver.javaparsermodel.contexts.AbstractJavaParserContext<N>.solveWithAsValue(com.github.javaparser.symbolsolver.resolution.SymbolDeclarator, java.lang.String, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> java.util.stream.Stream<java.util.stream.Stream<T>.T> java.util.stream.Stream<T>.filter(java.util.function.Predicate<? super T>) [AbstractJavaParserContext.java <133:18 133:23>]
 SYMBOL_METHOD java.util.stream.Stream<java.util.Collection<E>.E> java.util.Collection<E>.stream()
 REFERENCE_CALL java.util.Optional<com.github.javaparser.symbolsolver.model.resolution.Value> com.github.javaparser.symbolsolver.javaparsermodel.contexts.AbstractJavaParserContext<N>.solveWithAsValue(com.github.javaparser.symbolsolver.resolution.SymbolDeclarator, java.lang.String, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> java.util.stream.Stream<java.util.Collection<E>.E> java.util.Collection<E>.stream() [AbstractJavaParserContext.java <132:57 132:62>]
-SYMBOL_METHOD java.util.List<com.github.javaparser.symbolsolver.model.declarations.ValueDeclaration> com.github.javaparser.symbolsolver.resolution.SymbolDeclarator.getSymbolDeclarations()
 REFERENCE_CALL java.util.Optional<com.github.javaparser.symbolsolver.model.resolution.Value> com.github.javaparser.symbolsolver.javaparsermodel.contexts.AbstractJavaParserContext<N>.solveWithAsValue(com.github.javaparser.symbolsolver.resolution.SymbolDeclarator, java.lang.String, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> java.util.List<com.github.javaparser.symbolsolver.model.declarations.ValueDeclaration> com.github.javaparser.symbolsolver.resolution.SymbolDeclarator.getSymbolDeclarations() [AbstractJavaParserContext.java <132:33 132:53>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javaparsermodel.contexts.AbstractJavaParserContext<N>.solveWithAsValue<0> [AbstractJavaParserContext.java <132:16 132:31>]
 LOCAL_SYMBOL: java.util.function.Predicate<T>.test<4> [AbstractJavaParserContext.java <133:25 133:25>]
-SYMBOL_METHOD boolean java.lang.String.equals(java.lang.Object)
 REFERENCE_CALL java.util.Optional<com.github.javaparser.symbolsolver.model.resolution.Value> com.github.javaparser.symbolsolver.javaparsermodel.contexts.AbstractJavaParserContext<N>.solveWithAsValue(com.github.javaparser.symbolsolver.resolution.SymbolDeclarator, java.lang.String, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> boolean java.lang.String.equals(java.lang.Object) [AbstractJavaParserContext.java <133:42 133:47>]
-SYMBOL_METHOD java.lang.String com.github.javaparser.symbolsolver.model.declarations.Declaration.getName()
 REFERENCE_CALL java.util.Optional<com.github.javaparser.symbolsolver.model.resolution.Value> com.github.javaparser.symbolsolver.javaparsermodel.contexts.AbstractJavaParserContext<N>.solveWithAsValue(com.github.javaparser.symbolsolver.resolution.SymbolDeclarator, java.lang.String, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> java.lang.String com.github.javaparser.symbolsolver.model.declarations.Declaration.getName() [AbstractJavaParserContext.java <133:32 133:38>]
 LOCAL_SYMBOL: java.util.function.Predicate<T>.test<4> [AbstractJavaParserContext.java <133:30 133:30>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javaparsermodel.contexts.AbstractJavaParserContext<N>.solveWithAsValue<1> [AbstractJavaParserContext.java <133:49 133:52>]
 LOCAL_SYMBOL: java.util.function.Function<T, R>.apply<6> [AbstractJavaParserContext.java <134:22 134:22>]
 SYMBOL_METHOD static com.github.javaparser.symbolsolver.model.resolution.Value com.github.javaparser.symbolsolver.model.resolution.Value.from(com.github.javaparser.symbolsolver.model.declarations.ValueDeclaration)
 REFERENCE_CALL java.util.Optional<com.github.javaparser.symbolsolver.model.resolution.Value> com.github.javaparser.symbolsolver.javaparsermodel.contexts.AbstractJavaParserContext<N>.solveWithAsValue(com.github.javaparser.symbolsolver.resolution.SymbolDeclarator, java.lang.String, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> static com.github.javaparser.symbolsolver.model.resolution.Value com.github.javaparser.symbolsolver.model.resolution.Value.from(com.github.javaparser.symbolsolver.model.declarations.ValueDeclaration) [AbstractJavaParserContext.java <134:33 134:36>]
+QUALIFIER: com.github.javaparser.symbolsolver.model.resolution.Value [AbstractJavaParserContext.java <134:27 134:31>]
 LOCAL_SYMBOL: java.util.function.Function<T, R>.apply<6> [AbstractJavaParserContext.java <134:38 134:38>]
 COMMENT: comment [AbstractJavaParserContext.java <1:1 15:3>]
 COMMENT: comment [AbstractJavaParserContext.java <44:5 44:7>]

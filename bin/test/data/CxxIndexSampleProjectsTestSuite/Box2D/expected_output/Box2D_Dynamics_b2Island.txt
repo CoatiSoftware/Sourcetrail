@@ -1,14 +1,5 @@
 FILE: b2Island.cpp
-FILE: b2Island.cpp
 COMMENT: comment [b2Island.cpp <1:1 17:3>]
-FILE: b2Island.cpp
-FILE: b2Island.cpp
-FILE: b2Island.cpp
-FILE: b2Island.cpp
-FILE: b2Island.cpp
-FILE: b2Island.cpp
-FILE: b2Island.cpp
-FILE: b2Island.cpp
 COMMENT: comment [b2Island.cpp <30:1 107:3>]
 COMMENT: comment [b2Island.cpp <109:1 123:3>]
 COMMENT: comment [b2Island.cpp <125:1 146:3>]
@@ -37,9 +28,7 @@ REFERENCE_MACRO_USAGE b2Island.cpp -> b2_maxRotationSquared [b2Island.cpp <291:2
 REFERENCE_MACRO_USAGE b2Settings.h -> b2_maxRotation [b2Settings.h <112:33 112:46>]
 REFERENCE_MACRO_USAGE b2Settings.h -> b2_pi [b2Settings.h <111:35 111:39>]
 REFERENCE_MACRO_USAGE b2Settings.h -> b2_maxRotation [b2Settings.h <112:50 112:63>]
-REFERENCE_MACRO_USAGE b2Settings.h -> b2_pi [b2Settings.h <111:35 111:39>]
 REFERENCE_MACRO_USAGE b2Island.cpp -> b2_maxRotation [b2Island.cpp <293:20 293:33>]
-REFERENCE_MACRO_USAGE b2Settings.h -> b2_pi [b2Settings.h <111:35 111:39>]
 COMMENT: comment [b2Island.cpp <297:3 297:15>]
 COMMENT: comment [b2Island.cpp <307:2 307:31>]
 COMMENT: comment [b2Island.cpp <323:4 323:51>]
@@ -51,7 +40,6 @@ REFERENCE_MACRO_USAGE b2Island.cpp -> b2_linearSleepTolerance [b2Island.cpp <348
 REFERENCE_MACRO_USAGE b2Island.cpp -> b2_angularSleepTolerance [b2Island.cpp <349:29 349:52>]
 REFERENCE_MACRO_USAGE b2Settings.h -> b2_pi [b2Settings.h <130:51 130:55>]
 REFERENCE_MACRO_USAGE b2Island.cpp -> b2_angularSleepTolerance [b2Island.cpp <349:56 349:79>]
-REFERENCE_MACRO_USAGE b2Settings.h -> b2_pi [b2Settings.h <130:51 130:55>]
 REFERENCE_MACRO_USAGE b2Island.cpp -> b2_timeToSleep [b2Island.cpp <373:23 373:36>]
 REFERENCE_MACRO_USAGE b2Island.cpp -> b2Assert [b2Island.cpp <386:2 386:9>]
 REFERENCE_MACRO_USAGE b2Settings.h -> assert [b2Settings.h <31:21 31:26>]
@@ -59,16 +47,8 @@ REFERENCE_MACRO_USAGE assert.h -> _CRT_WIDE [assert.h <34:23 34:31>]
 REFERENCE_MACRO_USAGE vcruntime.h -> _CRT_WIDE_ [vcruntime.h <95:22 95:31>]
 REFERENCE_MACRO_USAGE assert.h -> _CRT_WIDE [assert.h <34:47 34:55>]
 REFERENCE_MACRO_USAGE assert.h -> __FILE__ [assert.h <34:57 34:64>]
-REFERENCE_MACRO_USAGE vcruntime.h -> _CRT_WIDE_ [vcruntime.h <95:22 95:31>]
 REFERENCE_MACRO_USAGE assert.h -> __LINE__ [assert.h <34:79 34:86>]
 REFERENCE_MACRO_USAGE b2Island.cpp -> b2Assert [b2Island.cpp <387:2 387:9>]
-REFERENCE_MACRO_USAGE b2Settings.h -> assert [b2Settings.h <31:21 31:26>]
-REFERENCE_MACRO_USAGE assert.h -> _CRT_WIDE [assert.h <34:23 34:31>]
-REFERENCE_MACRO_USAGE vcruntime.h -> _CRT_WIDE_ [vcruntime.h <95:22 95:31>]
-REFERENCE_MACRO_USAGE assert.h -> _CRT_WIDE [assert.h <34:47 34:55>]
-REFERENCE_MACRO_USAGE assert.h -> __FILE__ [assert.h <34:57 34:64>]
-REFERENCE_MACRO_USAGE vcruntime.h -> _CRT_WIDE_ [vcruntime.h <95:22 95:31>]
-REFERENCE_MACRO_USAGE assert.h -> __LINE__ [assert.h <34:79 34:86>]
 COMMENT: comment [b2Island.cpp <389:2 389:31>]
 COMMENT: comment [b2Island.cpp <408:2 408:32>]
 COMMENT: comment [b2Island.cpp <451:2 451:37>]
@@ -80,20 +60,14 @@ COMMENT: comment [b2Island.cpp <468:2 468:37>]
 COMMENT: comment [b2Island.cpp <472:2 472:24>]
 COMMENT: comment [b2Island.cpp <480:3 480:32>]
 REFERENCE_MACRO_USAGE b2Island.cpp -> b2_maxTranslationSquared [b2Island.cpp <482:41 482:64>]
-REFERENCE_MACRO_USAGE b2Settings.h -> b2_maxTranslation [b2Settings.h <107:35 107:51>]
-REFERENCE_MACRO_USAGE b2Settings.h -> b2_maxTranslation [b2Settings.h <107:55 107:71>]
 REFERENCE_MACRO_USAGE b2Island.cpp -> b2_maxTranslation [b2Island.cpp <484:20 484:36>]
 REFERENCE_MACRO_USAGE b2Island.cpp -> b2_maxRotationSquared [b2Island.cpp <489:29 489:49>]
-REFERENCE_MACRO_USAGE b2Settings.h -> b2_maxRotation [b2Settings.h <112:33 112:46>]
-REFERENCE_MACRO_USAGE b2Settings.h -> b2_pi [b2Settings.h <111:35 111:39>]
-REFERENCE_MACRO_USAGE b2Settings.h -> b2_maxRotation [b2Settings.h <112:50 112:63>]
-REFERENCE_MACRO_USAGE b2Settings.h -> b2_pi [b2Settings.h <111:35 111:39>]
 REFERENCE_MACRO_USAGE b2Island.cpp -> b2_maxRotation [b2Island.cpp <491:20 491:33>]
-REFERENCE_MACRO_USAGE b2Settings.h -> b2_pi [b2Settings.h <111:35 111:39>]
 COMMENT: comment [b2Island.cpp <495:3 495:15>]
 COMMENT: comment [b2Island.cpp <504:3 504:17>]
 SYMBOL_METHOD public void b2Island::b2Island(int32, int32, int32, b2StackAllocator *, b2ContactListener *) [b2Island.cpp <148:1 <148:11 148:18> 171:1>]
 SYMBOL_CLASS b2Island
+QUALIFIER: b2Island [b2Island.cpp <148:1 148:8>]
 LOCAL_SYMBOL: b2Island.cpp<149:8> [b2Island.cpp <149:8 149:19>]
 REFERENCE_TYPE_USAGE void b2Island::b2Island(int32, int32, int32, b2StackAllocator *, b2ContactListener *) -> int32 [b2Island.cpp <149:2 149:6>]
 LOCAL_SYMBOL: b2Island.cpp<150:8> [b2Island.cpp <150:8 150:22>]
@@ -126,56 +100,48 @@ LOCAL_SYMBOL: b2Island.cpp<149:8> [b2Island.cpp <165:45 165:56>]
 REFERENCE_TYPE_USAGE void b2Island::b2Island(int32, int32, int32, b2StackAllocator *, b2ContactListener *) -> b2Body [b2Island.cpp <165:67 165:72>]
 REFERENCE_USAGE void b2Island::b2Island(int32, int32, int32, b2StackAllocator *, b2ContactListener *) -> b2Contact * * b2Island::m_contacts [b2Island.cpp <166:2 166:11>]
 REFERENCE_TYPE_USAGE void b2Island::b2Island(int32, int32, int32, b2StackAllocator *, b2ContactListener *) -> b2Contact [b2Island.cpp <166:16 166:24>]
-SYMBOL_FUNCTION void * b2StackAllocator::Allocate(int32)
 REFERENCE_CALL void b2Island::b2Island(int32, int32, int32, b2StackAllocator *, b2ContactListener *) -> void * b2StackAllocator::Allocate(int32) [b2Island.cpp <166:41 166:48>]
 REFERENCE_USAGE void b2Island::b2Island(int32, int32, int32, b2StackAllocator *, b2ContactListener *) -> b2StackAllocator * b2Island::m_allocator [b2Island.cpp <166:28 166:38>]
 LOCAL_SYMBOL: b2Island.cpp<150:8> [b2Island.cpp <166:50 166:64>]
 REFERENCE_TYPE_USAGE void b2Island::b2Island(int32, int32, int32, b2StackAllocator *, b2ContactListener *) -> b2Contact [b2Island.cpp <166:76 166:84>]
 REFERENCE_USAGE void b2Island::b2Island(int32, int32, int32, b2StackAllocator *, b2ContactListener *) -> b2Joint * * b2Island::m_joints [b2Island.cpp <167:2 167:9>]
 REFERENCE_TYPE_USAGE void b2Island::b2Island(int32, int32, int32, b2StackAllocator *, b2ContactListener *) -> b2Joint [b2Island.cpp <167:14 167:20>]
-SYMBOL_FUNCTION void * b2StackAllocator::Allocate(int32)
 REFERENCE_CALL void b2Island::b2Island(int32, int32, int32, b2StackAllocator *, b2ContactListener *) -> void * b2StackAllocator::Allocate(int32) [b2Island.cpp <167:37 167:44>]
 REFERENCE_USAGE void b2Island::b2Island(int32, int32, int32, b2StackAllocator *, b2ContactListener *) -> b2StackAllocator * b2Island::m_allocator [b2Island.cpp <167:24 167:34>]
 LOCAL_SYMBOL: b2Island.cpp<151:8> [b2Island.cpp <167:46 167:58>]
 REFERENCE_TYPE_USAGE void b2Island::b2Island(int32, int32, int32, b2StackAllocator *, b2ContactListener *) -> b2Joint [b2Island.cpp <167:69 167:75>]
 REFERENCE_USAGE void b2Island::b2Island(int32, int32, int32, b2StackAllocator *, b2ContactListener *) -> b2Velocity * b2Island::m_velocities [b2Island.cpp <169:2 169:13>]
 REFERENCE_TYPE_USAGE void b2Island::b2Island(int32, int32, int32, b2StackAllocator *, b2ContactListener *) -> b2Velocity [b2Island.cpp <169:18 169:27>]
-SYMBOL_FUNCTION void * b2StackAllocator::Allocate(int32)
 REFERENCE_CALL void b2Island::b2Island(int32, int32, int32, b2StackAllocator *, b2ContactListener *) -> void * b2StackAllocator::Allocate(int32) [b2Island.cpp <169:43 169:50>]
 REFERENCE_USAGE void b2Island::b2Island(int32, int32, int32, b2StackAllocator *, b2ContactListener *) -> b2StackAllocator * b2Island::m_allocator [b2Island.cpp <169:30 169:40>]
 REFERENCE_USAGE void b2Island::b2Island(int32, int32, int32, b2StackAllocator *, b2ContactListener *) -> int32 b2Island::m_bodyCapacity [b2Island.cpp <169:52 169:65>]
 REFERENCE_TYPE_USAGE void b2Island::b2Island(int32, int32, int32, b2StackAllocator *, b2ContactListener *) -> b2Velocity [b2Island.cpp <169:76 169:85>]
 REFERENCE_USAGE void b2Island::b2Island(int32, int32, int32, b2StackAllocator *, b2ContactListener *) -> b2Position * b2Island::m_positions [b2Island.cpp <170:2 170:12>]
 REFERENCE_TYPE_USAGE void b2Island::b2Island(int32, int32, int32, b2StackAllocator *, b2ContactListener *) -> b2Position [b2Island.cpp <170:17 170:26>]
-SYMBOL_FUNCTION void * b2StackAllocator::Allocate(int32)
 REFERENCE_CALL void b2Island::b2Island(int32, int32, int32, b2StackAllocator *, b2ContactListener *) -> void * b2StackAllocator::Allocate(int32) [b2Island.cpp <170:42 170:49>]
 REFERENCE_USAGE void b2Island::b2Island(int32, int32, int32, b2StackAllocator *, b2ContactListener *) -> b2StackAllocator * b2Island::m_allocator [b2Island.cpp <170:29 170:39>]
 REFERENCE_USAGE void b2Island::b2Island(int32, int32, int32, b2StackAllocator *, b2ContactListener *) -> int32 b2Island::m_bodyCapacity [b2Island.cpp <170:51 170:64>]
 REFERENCE_TYPE_USAGE void b2Island::b2Island(int32, int32, int32, b2StackAllocator *, b2ContactListener *) -> b2Position [b2Island.cpp <170:75 170:84>]
 SYMBOL_METHOD public void b2Island::~b2Island() [b2Island.cpp <173:1 <173:11 173:19> 181:1>]
-SYMBOL_CLASS b2Island
+QUALIFIER: b2Island [b2Island.cpp <173:1 173:8>]
 SYMBOL_FUNCTION void b2StackAllocator::Free(void *)
 REFERENCE_CALL void b2Island::~b2Island() -> void b2StackAllocator::Free(void *) [b2Island.cpp <176:15 176:18>]
 REFERENCE_USAGE void b2Island::~b2Island() -> b2StackAllocator * b2Island::m_allocator [b2Island.cpp <176:2 176:12>]
 REFERENCE_USAGE void b2Island::~b2Island() -> b2Position * b2Island::m_positions [b2Island.cpp <176:20 176:30>]
-SYMBOL_FUNCTION void b2StackAllocator::Free(void *)
 REFERENCE_CALL void b2Island::~b2Island() -> void b2StackAllocator::Free(void *) [b2Island.cpp <177:15 177:18>]
 REFERENCE_USAGE void b2Island::~b2Island() -> b2StackAllocator * b2Island::m_allocator [b2Island.cpp <177:2 177:12>]
 REFERENCE_USAGE void b2Island::~b2Island() -> b2Velocity * b2Island::m_velocities [b2Island.cpp <177:20 177:31>]
-SYMBOL_FUNCTION void b2StackAllocator::Free(void *)
 REFERENCE_CALL void b2Island::~b2Island() -> void b2StackAllocator::Free(void *) [b2Island.cpp <178:15 178:18>]
 REFERENCE_USAGE void b2Island::~b2Island() -> b2StackAllocator * b2Island::m_allocator [b2Island.cpp <178:2 178:12>]
 REFERENCE_USAGE void b2Island::~b2Island() -> b2Joint * * b2Island::m_joints [b2Island.cpp <178:20 178:27>]
-SYMBOL_FUNCTION void b2StackAllocator::Free(void *)
 REFERENCE_CALL void b2Island::~b2Island() -> void b2StackAllocator::Free(void *) [b2Island.cpp <179:15 179:18>]
 REFERENCE_USAGE void b2Island::~b2Island() -> b2StackAllocator * b2Island::m_allocator [b2Island.cpp <179:2 179:12>]
 REFERENCE_USAGE void b2Island::~b2Island() -> b2Contact * * b2Island::m_contacts [b2Island.cpp <179:20 179:29>]
-SYMBOL_FUNCTION void b2StackAllocator::Free(void *)
 REFERENCE_CALL void b2Island::~b2Island() -> void b2StackAllocator::Free(void *) [b2Island.cpp <180:15 180:18>]
 REFERENCE_USAGE void b2Island::~b2Island() -> b2StackAllocator * b2Island::m_allocator [b2Island.cpp <180:2 180:12>]
 REFERENCE_USAGE void b2Island::~b2Island() -> b2Body * * b2Island::m_bodies [b2Island.cpp <180:20 180:27>]
 SYMBOL_METHOD public void b2Island::Solve(b2Profile *, const b2TimeStep &, const b2Vec2 &, bool) [b2Island.cpp <183:1 <183:16 183:20> 382:1>]
-SYMBOL_CLASS b2Island
+QUALIFIER: b2Island [b2Island.cpp <183:6 183:13>]
 SYMBOL_BUILTIN_TYPE void
 REFERENCE_TYPE_USAGE void b2Island::Solve(b2Profile *, const b2TimeStep &, const b2Vec2 &, bool) -> void [b2Island.cpp <183:1 183:4>]
 LOCAL_SYMBOL: b2Island.cpp<183:33> [b2Island.cpp <183:33 183:39>]
@@ -218,7 +184,6 @@ REFERENCE_USAGE void b2Island::Solve(b2Profile *, const b2TimeStep &, const b2Ve
 LOCAL_SYMBOL: b2Island.cpp<192:11> [b2Island.cpp <195:15 195:15>]
 LOCAL_SYMBOL: b2Island.cpp<196:10> [b2Island.cpp <196:10 196:10>]
 REFERENCE_TYPE_USAGE void b2Island::Solve(b2Profile *, const b2TimeStep &, const b2Vec2 &, bool) -> b2Vec2 [b2Island.cpp <196:3 196:8>]
-SYMBOL_FUNCTION void b2Vec2::b2Vec2(const b2Vec2 &)
 REFERENCE_CALL void b2Island::Solve(b2Profile *, const b2TimeStep &, const b2Vec2 &, bool) -> void b2Vec2::b2Vec2(const b2Vec2 &) [b2Island.cpp <196:17 196:32>]
 REFERENCE_USAGE void b2Island::Solve(b2Profile *, const b2TimeStep &, const b2Vec2 &, bool) -> b2Vec2 b2Body::m_linearVelocity [b2Island.cpp <196:17 196:32>]
 LOCAL_SYMBOL: b2Island.cpp<192:11> [b2Island.cpp <196:14 196:14>]
@@ -251,12 +216,10 @@ REFERENCE_CALL void b2Island::Solve(b2Profile *, const b2TimeStep &, const b2Vec
 LOCAL_SYMBOL: b2Island.cpp<187:10> [b2Island.cpp <206:9 206:9>]
 SYMBOL_FUNCTION b2Vec2 operator+(const b2Vec2 &, const b2Vec2 &)
 REFERENCE_CALL void b2Island::Solve(b2Profile *, const b2TimeStep &, const b2Vec2 &, bool) -> b2Vec2 operator+(const b2Vec2 &, const b2Vec2 &) [b2Island.cpp <206:42 206:42>]
-SYMBOL_FUNCTION b2Vec2 operator*(float32, const b2Vec2 &)
 REFERENCE_CALL void b2Island::Solve(b2Profile *, const b2TimeStep &, const b2Vec2 &, bool) -> b2Vec2 operator*(float32, const b2Vec2 &) [b2Island.cpp <206:32 206:32>]
 REFERENCE_USAGE void b2Island::Solve(b2Profile *, const b2TimeStep &, const b2Vec2 &, bool) -> float32 b2Body::m_gravityScale [b2Island.cpp <206:17 206:30>]
 LOCAL_SYMBOL: b2Island.cpp<192:11> [b2Island.cpp <206:14 206:14>]
 LOCAL_SYMBOL: b2Island.cpp<183:80> [b2Island.cpp <206:34 206:40>]
-SYMBOL_FUNCTION b2Vec2 operator*(float32, const b2Vec2 &)
 REFERENCE_CALL void b2Island::Solve(b2Profile *, const b2TimeStep &, const b2Vec2 &, bool) -> b2Vec2 operator*(float32, const b2Vec2 &) [b2Island.cpp <206:57 206:57>]
 REFERENCE_USAGE void b2Island::Solve(b2Profile *, const b2TimeStep &, const b2Vec2 &, bool) -> float32 b2Body::m_invMass [b2Island.cpp <206:47 206:55>]
 LOCAL_SYMBOL: b2Island.cpp<192:11> [b2Island.cpp <206:44 206:44>]
@@ -278,7 +241,6 @@ LOCAL_SYMBOL: b2Island.cpp<197:11> [b2Island.cpp <217:4 217:4>]
 LOCAL_SYMBOL: b2Island.cpp<187:10> [b2Island.cpp <217:24 217:24>]
 REFERENCE_USAGE void b2Island::Solve(b2Profile *, const b2TimeStep &, const b2Vec2 &, bool) -> float32 b2Body::m_angularDamping [b2Island.cpp <217:31 217:46>]
 LOCAL_SYMBOL: b2Island.cpp<192:11> [b2Island.cpp <217:28 217:28>]
-SYMBOL_FUNCTION b2Vec2 & b2Vec2::operator=(const b2Vec2 &)
 REFERENCE_CALL void b2Island::Solve(b2Profile *, const b2TimeStep &, const b2Vec2 &, bool) -> b2Vec2 & b2Vec2::operator=(const b2Vec2 &) [b2Island.cpp <220:20 220:20>]
 REFERENCE_USAGE void b2Island::Solve(b2Profile *, const b2TimeStep &, const b2Vec2 &, bool) -> b2Vec2 b2Position::c [b2Island.cpp <220:18 220:18>]
 REFERENCE_USAGE void b2Island::Solve(b2Profile *, const b2TimeStep &, const b2Vec2 &, bool) -> b2Position * b2Island::m_positions [b2Island.cpp <220:3 220:13>]
@@ -288,7 +250,6 @@ REFERENCE_USAGE void b2Island::Solve(b2Profile *, const b2TimeStep &, const b2Ve
 REFERENCE_USAGE void b2Island::Solve(b2Profile *, const b2TimeStep &, const b2Vec2 &, bool) -> b2Position * b2Island::m_positions [b2Island.cpp <221:3 221:13>]
 LOCAL_SYMBOL: b2Island.cpp<190:13> [b2Island.cpp <221:15 221:15>]
 LOCAL_SYMBOL: b2Island.cpp<195:11> [b2Island.cpp <221:22 221:22>]
-SYMBOL_FUNCTION b2Vec2 & b2Vec2::operator=(const b2Vec2 &)
 REFERENCE_CALL void b2Island::Solve(b2Profile *, const b2TimeStep &, const b2Vec2 &, bool) -> b2Vec2 & b2Vec2::operator=(const b2Vec2 &) [b2Island.cpp <222:21 222:21>]
 REFERENCE_USAGE void b2Island::Solve(b2Profile *, const b2TimeStep &, const b2Vec2 &, bool) -> b2Vec2 b2Velocity::v [b2Island.cpp <222:19 222:19>]
 REFERENCE_USAGE void b2Island::Solve(b2Profile *, const b2TimeStep &, const b2Vec2 &, bool) -> b2Velocity * b2Island::m_velocities [b2Island.cpp <222:3 222:14>]
@@ -320,7 +281,6 @@ LOCAL_SYMBOL: b2Island.cpp<235:21> [b2Island.cpp <235:21 235:36>]
 REFERENCE_TYPE_USAGE void b2Island::Solve(b2Profile *, const b2TimeStep &, const b2Vec2 &, bool) -> b2ContactSolverDef [b2Island.cpp <235:2 235:19>]
 SYMBOL_FUNCTION void b2ContactSolverDef::b2ContactSolverDef()
 REFERENCE_CALL void b2Island::Solve(b2Profile *, const b2TimeStep &, const b2Vec2 &, bool) -> void b2ContactSolverDef::b2ContactSolverDef() [b2Island.cpp <235:21 235:36>]
-SYMBOL_FUNCTION b2TimeStep & b2TimeStep::operator=(const b2TimeStep &)
 REFERENCE_CALL void b2Island::Solve(b2Profile *, const b2TimeStep &, const b2Vec2 &, bool) -> b2TimeStep & b2TimeStep::operator=(const b2TimeStep &) [b2Island.cpp <236:24 236:24>]
 REFERENCE_USAGE void b2Island::Solve(b2Profile *, const b2TimeStep &, const b2Vec2 &, bool) -> b2TimeStep b2ContactSolverDef::step [b2Island.cpp <236:19 236:22>]
 LOCAL_SYMBOL: b2Island.cpp<235:21> [b2Island.cpp <236:2 236:17>]
@@ -368,7 +328,6 @@ LOCAL_SYMBOL: b2Island.cpp<183:33> [b2Island.cpp <256:2 256:8>]
 SYMBOL_FUNCTION float32 b2Timer::GetMilliseconds() const
 REFERENCE_CALL void b2Island::Solve(b2Profile *, const b2TimeStep &, const b2Vec2 &, bool) -> float32 b2Timer::GetMilliseconds() const [b2Island.cpp <256:29 256:43>]
 LOCAL_SYMBOL: b2Island.cpp<185:10> [b2Island.cpp <256:23 256:27>]
-SYMBOL_FUNCTION void b2Timer::Reset()
 REFERENCE_CALL void b2Island::Solve(b2Profile *, const b2TimeStep &, const b2Vec2 &, bool) -> void b2Timer::Reset() [b2Island.cpp <259:8 259:12>]
 LOCAL_SYMBOL: b2Island.cpp<185:10> [b2Island.cpp <259:2 259:6>]
 LOCAL_SYMBOL: b2Island.cpp<260:13> [b2Island.cpp <260:13 260:13>]
@@ -395,7 +354,6 @@ REFERENCE_CALL void b2Island::Solve(b2Profile *, const b2TimeStep &, const b2Vec
 LOCAL_SYMBOL: b2Island.cpp<243:18> [b2Island.cpp <271:2 271:14>]
 REFERENCE_USAGE void b2Island::Solve(b2Profile *, const b2TimeStep &, const b2Vec2 &, bool) -> float32 b2Profile::solveVelocity [b2Island.cpp <272:11 272:23>]
 LOCAL_SYMBOL: b2Island.cpp<183:33> [b2Island.cpp <272:2 272:8>]
-SYMBOL_FUNCTION float32 b2Timer::GetMilliseconds() const
 REFERENCE_CALL void b2Island::Solve(b2Profile *, const b2TimeStep &, const b2Vec2 &, bool) -> float32 b2Timer::GetMilliseconds() const [b2Island.cpp <272:33 272:47>]
 LOCAL_SYMBOL: b2Island.cpp<185:10> [b2Island.cpp <272:27 272:31>]
 LOCAL_SYMBOL: b2Island.cpp<275:13> [b2Island.cpp <275:13 275:13>]
@@ -405,7 +363,6 @@ REFERENCE_USAGE void b2Island::Solve(b2Profile *, const b2TimeStep &, const b2Ve
 LOCAL_SYMBOL: b2Island.cpp<275:13> [b2Island.cpp <275:39 275:39>]
 LOCAL_SYMBOL: b2Island.cpp<277:10> [b2Island.cpp <277:10 277:10>]
 REFERENCE_TYPE_USAGE void b2Island::Solve(b2Profile *, const b2TimeStep &, const b2Vec2 &, bool) -> b2Vec2 [b2Island.cpp <277:3 277:8>]
-SYMBOL_FUNCTION void b2Vec2::b2Vec2(const b2Vec2 &)
 REFERENCE_CALL void b2Island::Solve(b2Profile *, const b2TimeStep &, const b2Vec2 &, bool) -> void b2Vec2::b2Vec2(const b2Vec2 &) [b2Island.cpp <277:29 277:29>]
 REFERENCE_USAGE void b2Island::Solve(b2Profile *, const b2TimeStep &, const b2Vec2 &, bool) -> b2Vec2 b2Position::c [b2Island.cpp <277:29 277:29>]
 REFERENCE_USAGE void b2Island::Solve(b2Profile *, const b2TimeStep &, const b2Vec2 &, bool) -> b2Position * b2Island::m_positions [b2Island.cpp <277:14 277:24>]
@@ -417,7 +374,6 @@ REFERENCE_USAGE void b2Island::Solve(b2Profile *, const b2TimeStep &, const b2Ve
 LOCAL_SYMBOL: b2Island.cpp<275:13> [b2Island.cpp <278:27 278:27>]
 LOCAL_SYMBOL: b2Island.cpp<279:10> [b2Island.cpp <279:10 279:10>]
 REFERENCE_TYPE_USAGE void b2Island::Solve(b2Profile *, const b2TimeStep &, const b2Vec2 &, bool) -> b2Vec2 [b2Island.cpp <279:3 279:8>]
-SYMBOL_FUNCTION void b2Vec2::b2Vec2(const b2Vec2 &)
 REFERENCE_CALL void b2Island::Solve(b2Profile *, const b2TimeStep &, const b2Vec2 &, bool) -> void b2Vec2::b2Vec2(const b2Vec2 &) [b2Island.cpp <279:30 279:30>]
 REFERENCE_USAGE void b2Island::Solve(b2Profile *, const b2TimeStep &, const b2Vec2 &, bool) -> b2Vec2 b2Velocity::v [b2Island.cpp <279:30 279:30>]
 REFERENCE_USAGE void b2Island::Solve(b2Profile *, const b2TimeStep &, const b2Vec2 &, bool) -> b2Velocity * b2Island::m_velocities [b2Island.cpp <279:14 279:25>]
@@ -429,7 +385,6 @@ REFERENCE_USAGE void b2Island::Solve(b2Profile *, const b2TimeStep &, const b2Ve
 LOCAL_SYMBOL: b2Island.cpp<275:13> [b2Island.cpp <280:28 280:28>]
 LOCAL_SYMBOL: b2Island.cpp<283:10> [b2Island.cpp <283:10 283:20>]
 REFERENCE_TYPE_USAGE void b2Island::Solve(b2Profile *, const b2TimeStep &, const b2Vec2 &, bool) -> b2Vec2 [b2Island.cpp <283:3 283:8>]
-SYMBOL_FUNCTION b2Vec2 operator*(float32, const b2Vec2 &)
 REFERENCE_CALL void b2Island::Solve(b2Profile *, const b2TimeStep &, const b2Vec2 &, bool) -> b2Vec2 operator*(float32, const b2Vec2 &) [b2Island.cpp <283:26 283:26>]
 LOCAL_SYMBOL: b2Island.cpp<187:10> [b2Island.cpp <283:24 283:24>]
 LOCAL_SYMBOL: b2Island.cpp<279:10> [b2Island.cpp <283:28 283:28>]
@@ -442,7 +397,6 @@ REFERENCE_TYPE_USAGE void b2Island::Solve(b2Profile *, const b2TimeStep &, const
 SYMBOL_FUNCTION float32 b2Vec2::Length() const
 REFERENCE_CALL void b2Island::Solve(b2Profile *, const b2TimeStep &, const b2Vec2 &, bool) -> float32 b2Vec2::Length() const [b2Island.cpp <286:52 286:57>]
 LOCAL_SYMBOL: b2Island.cpp<283:10> [b2Island.cpp <286:40 286:50>]
-SYMBOL_FUNCTION void b2Vec2::operator*=(float32)
 REFERENCE_CALL void b2Island::Solve(b2Profile *, const b2TimeStep &, const b2Vec2 &, bool) -> void b2Vec2::operator*=(float32) [b2Island.cpp <287:6 287:7>]
 LOCAL_SYMBOL: b2Island.cpp<279:10> [b2Island.cpp <287:4 287:4>]
 LOCAL_SYMBOL: b2Island.cpp<286:12> [b2Island.cpp <287:9 287:13>]
@@ -459,17 +413,14 @@ REFERENCE_CALL void b2Island::Solve(b2Profile *, const b2TimeStep &, const b2Vec
 LOCAL_SYMBOL: b2Island.cpp<290:11> [b2Island.cpp <293:43 293:50>]
 LOCAL_SYMBOL: b2Island.cpp<280:11> [b2Island.cpp <294:4 294:4>]
 LOCAL_SYMBOL: b2Island.cpp<293:12> [b2Island.cpp <294:9 294:13>]
-SYMBOL_FUNCTION void b2Vec2::operator+=(const b2Vec2 &)
 REFERENCE_CALL void b2Island::Solve(b2Profile *, const b2TimeStep &, const b2Vec2 &, bool) -> void b2Vec2::operator+=(const b2Vec2 &) [b2Island.cpp <298:5 298:6>]
 LOCAL_SYMBOL: b2Island.cpp<277:10> [b2Island.cpp <298:3 298:3>]
-SYMBOL_FUNCTION b2Vec2 operator*(float32, const b2Vec2 &)
 REFERENCE_CALL void b2Island::Solve(b2Profile *, const b2TimeStep &, const b2Vec2 &, bool) -> b2Vec2 operator*(float32, const b2Vec2 &) [b2Island.cpp <298:10 298:10>]
 LOCAL_SYMBOL: b2Island.cpp<187:10> [b2Island.cpp <298:8 298:8>]
 LOCAL_SYMBOL: b2Island.cpp<279:10> [b2Island.cpp <298:12 298:12>]
 LOCAL_SYMBOL: b2Island.cpp<278:11> [b2Island.cpp <299:3 299:3>]
 LOCAL_SYMBOL: b2Island.cpp<187:10> [b2Island.cpp <299:8 299:8>]
 LOCAL_SYMBOL: b2Island.cpp<280:11> [b2Island.cpp <299:12 299:12>]
-SYMBOL_FUNCTION b2Vec2 & b2Vec2::operator=(const b2Vec2 &)
 REFERENCE_CALL void b2Island::Solve(b2Profile *, const b2TimeStep &, const b2Vec2 &, bool) -> b2Vec2 & b2Vec2::operator=(const b2Vec2 &) [b2Island.cpp <301:20 301:20>]
 REFERENCE_USAGE void b2Island::Solve(b2Profile *, const b2TimeStep &, const b2Vec2 &, bool) -> b2Vec2 b2Position::c [b2Island.cpp <301:18 301:18>]
 REFERENCE_USAGE void b2Island::Solve(b2Profile *, const b2TimeStep &, const b2Vec2 &, bool) -> b2Position * b2Island::m_positions [b2Island.cpp <301:3 301:13>]
@@ -479,7 +430,6 @@ REFERENCE_USAGE void b2Island::Solve(b2Profile *, const b2TimeStep &, const b2Ve
 REFERENCE_USAGE void b2Island::Solve(b2Profile *, const b2TimeStep &, const b2Vec2 &, bool) -> b2Position * b2Island::m_positions [b2Island.cpp <302:3 302:13>]
 LOCAL_SYMBOL: b2Island.cpp<275:13> [b2Island.cpp <302:15 302:15>]
 LOCAL_SYMBOL: b2Island.cpp<278:11> [b2Island.cpp <302:22 302:22>]
-SYMBOL_FUNCTION b2Vec2 & b2Vec2::operator=(const b2Vec2 &)
 REFERENCE_CALL void b2Island::Solve(b2Profile *, const b2TimeStep &, const b2Vec2 &, bool) -> b2Vec2 & b2Vec2::operator=(const b2Vec2 &) [b2Island.cpp <303:21 303:21>]
 REFERENCE_USAGE void b2Island::Solve(b2Profile *, const b2TimeStep &, const b2Vec2 &, bool) -> b2Vec2 b2Velocity::v [b2Island.cpp <303:19 303:19>]
 REFERENCE_USAGE void b2Island::Solve(b2Profile *, const b2TimeStep &, const b2Vec2 &, bool) -> b2Velocity * b2Island::m_velocities [b2Island.cpp <303:3 303:14>]
@@ -489,11 +439,9 @@ REFERENCE_USAGE void b2Island::Solve(b2Profile *, const b2TimeStep &, const b2Ve
 REFERENCE_USAGE void b2Island::Solve(b2Profile *, const b2TimeStep &, const b2Vec2 &, bool) -> b2Velocity * b2Island::m_velocities [b2Island.cpp <304:3 304:14>]
 LOCAL_SYMBOL: b2Island.cpp<275:13> [b2Island.cpp <304:16 304:16>]
 LOCAL_SYMBOL: b2Island.cpp<280:11> [b2Island.cpp <304:23 304:23>]
-SYMBOL_FUNCTION void b2Timer::Reset()
 REFERENCE_CALL void b2Island::Solve(b2Profile *, const b2TimeStep &, const b2Vec2 &, bool) -> void b2Timer::Reset() [b2Island.cpp <308:8 308:12>]
 LOCAL_SYMBOL: b2Island.cpp<185:10> [b2Island.cpp <308:2 308:6>]
 LOCAL_SYMBOL: b2Island.cpp<309:7> [b2Island.cpp <309:7 309:20>]
-SYMBOL_BUILTIN_TYPE bool
 REFERENCE_TYPE_USAGE void b2Island::Solve(b2Profile *, const b2TimeStep &, const b2Vec2 &, bool) -> bool [b2Island.cpp <309:2 309:5>]
 LOCAL_SYMBOL: b2Island.cpp<310:13> [b2Island.cpp <310:13 310:13>]
 REFERENCE_TYPE_USAGE void b2Island::Solve(b2Profile *, const b2TimeStep &, const b2Vec2 &, bool) -> int32 [b2Island.cpp <310:7 310:11>]
@@ -502,13 +450,11 @@ REFERENCE_USAGE void b2Island::Solve(b2Profile *, const b2TimeStep &, const b2Ve
 LOCAL_SYMBOL: b2Island.cpp<183:60> [b2Island.cpp <310:24 310:27>]
 LOCAL_SYMBOL: b2Island.cpp<310:13> [b2Island.cpp <310:51 310:51>]
 LOCAL_SYMBOL: b2Island.cpp<312:8> [b2Island.cpp <312:8 312:19>]
-SYMBOL_BUILTIN_TYPE bool
 REFERENCE_TYPE_USAGE void b2Island::Solve(b2Profile *, const b2TimeStep &, const b2Vec2 &, bool) -> bool [b2Island.cpp <312:3 312:6>]
 SYMBOL_FUNCTION bool b2ContactSolver::SolvePositionConstraints()
 REFERENCE_CALL void b2Island::Solve(b2Profile *, const b2TimeStep &, const b2Vec2 &, bool) -> bool b2ContactSolver::SolvePositionConstraints() [b2Island.cpp <312:37 312:60>]
 LOCAL_SYMBOL: b2Island.cpp<243:18> [b2Island.cpp <312:23 312:35>]
 LOCAL_SYMBOL: b2Island.cpp<314:8> [b2Island.cpp <314:8 314:17>]
-SYMBOL_BUILTIN_TYPE bool
 REFERENCE_TYPE_USAGE void b2Island::Solve(b2Profile *, const b2TimeStep &, const b2Vec2 &, bool) -> bool [b2Island.cpp <314:3 314:6>]
 LOCAL_SYMBOL: b2Island.cpp<315:14> [b2Island.cpp <315:14 315:14>]
 REFERENCE_TYPE_USAGE void b2Island::Solve(b2Profile *, const b2TimeStep &, const b2Vec2 &, bool) -> int32 [b2Island.cpp <315:8 315:12>]
@@ -516,7 +462,6 @@ LOCAL_SYMBOL: b2Island.cpp<315:14> [b2Island.cpp <315:21 315:21>]
 REFERENCE_USAGE void b2Island::Solve(b2Profile *, const b2TimeStep &, const b2Vec2 &, bool) -> int32 b2Island::m_jointCount [b2Island.cpp <315:25 315:36>]
 LOCAL_SYMBOL: b2Island.cpp<315:14> [b2Island.cpp <315:41 315:41>]
 LOCAL_SYMBOL: b2Island.cpp<317:9> [b2Island.cpp <317:9 317:17>]
-SYMBOL_BUILTIN_TYPE bool
 REFERENCE_TYPE_USAGE void b2Island::Solve(b2Profile *, const b2TimeStep &, const b2Vec2 &, bool) -> bool [b2Island.cpp <317:4 317:7>]
 SYMBOL_FUNCTION bool b2Joint::SolvePositionConstraints(const b2SolverData &)
 REFERENCE_CALL void b2Island::Solve(b2Profile *, const b2TimeStep &, const b2Vec2 &, bool) -> bool b2Joint::SolvePositionConstraints(const b2SolverData &) [b2Island.cpp <317:34 317:57>]
@@ -538,7 +483,6 @@ LOCAL_SYMBOL: b2Island.cpp<332:11> [b2Island.cpp <332:11 332:14>]
 REFERENCE_TYPE_USAGE void b2Island::Solve(b2Profile *, const b2TimeStep &, const b2Vec2 &, bool) -> b2Body [b2Island.cpp <332:3 332:8>]
 REFERENCE_USAGE void b2Island::Solve(b2Profile *, const b2TimeStep &, const b2Vec2 &, bool) -> b2Body * * b2Island::m_bodies [b2Island.cpp <332:18 332:25>]
 LOCAL_SYMBOL: b2Island.cpp<330:13> [b2Island.cpp <332:27 332:27>]
-SYMBOL_FUNCTION b2Vec2 & b2Vec2::operator=(const b2Vec2 &)
 REFERENCE_CALL void b2Island::Solve(b2Profile *, const b2TimeStep &, const b2Vec2 &, bool) -> b2Vec2 & b2Vec2::operator=(const b2Vec2 &) [b2Island.cpp <333:19 333:19>]
 REFERENCE_USAGE void b2Island::Solve(b2Profile *, const b2TimeStep &, const b2Vec2 &, bool) -> b2Vec2 b2Sweep::c [b2Island.cpp <333:17 333:17>]
 REFERENCE_USAGE void b2Island::Solve(b2Profile *, const b2TimeStep &, const b2Vec2 &, bool) -> b2Sweep b2Body::m_sweep [b2Island.cpp <333:9 333:15>]
@@ -552,7 +496,6 @@ LOCAL_SYMBOL: b2Island.cpp<332:11> [b2Island.cpp <334:3 334:6>]
 REFERENCE_USAGE void b2Island::Solve(b2Profile *, const b2TimeStep &, const b2Vec2 &, bool) -> float32 b2Position::a [b2Island.cpp <334:36 334:36>]
 REFERENCE_USAGE void b2Island::Solve(b2Profile *, const b2TimeStep &, const b2Vec2 &, bool) -> b2Position * b2Island::m_positions [b2Island.cpp <334:21 334:31>]
 LOCAL_SYMBOL: b2Island.cpp<330:13> [b2Island.cpp <334:33 334:33>]
-SYMBOL_FUNCTION b2Vec2 & b2Vec2::operator=(const b2Vec2 &)
 REFERENCE_CALL void b2Island::Solve(b2Profile *, const b2TimeStep &, const b2Vec2 &, bool) -> b2Vec2 & b2Vec2::operator=(const b2Vec2 &) [b2Island.cpp <335:26 335:26>]
 REFERENCE_USAGE void b2Island::Solve(b2Profile *, const b2TimeStep &, const b2Vec2 &, bool) -> b2Vec2 b2Body::m_linearVelocity [b2Island.cpp <335:9 335:24>]
 LOCAL_SYMBOL: b2Island.cpp<332:11> [b2Island.cpp <335:3 335:6>]
@@ -569,7 +512,6 @@ REFERENCE_CALL void b2Island::Solve(b2Profile *, const b2TimeStep &, const b2Vec
 LOCAL_SYMBOL: b2Island.cpp<332:11> [b2Island.cpp <337:3 337:6>]
 REFERENCE_USAGE void b2Island::Solve(b2Profile *, const b2TimeStep &, const b2Vec2 &, bool) -> float32 b2Profile::solvePosition [b2Island.cpp <340:11 340:23>]
 LOCAL_SYMBOL: b2Island.cpp<183:33> [b2Island.cpp <340:2 340:8>]
-SYMBOL_FUNCTION float32 b2Timer::GetMilliseconds() const
 REFERENCE_CALL void b2Island::Solve(b2Profile *, const b2TimeStep &, const b2Vec2 &, bool) -> float32 b2Timer::GetMilliseconds() const [b2Island.cpp <340:33 340:47>]
 LOCAL_SYMBOL: b2Island.cpp<185:10> [b2Island.cpp <340:27 340:31>]
 SYMBOL_FUNCTION void b2Island::Report(const b2ContactVelocityConstraint *)
@@ -600,12 +542,12 @@ REFERENCE_USAGE void b2Island::Solve(b2Profile *, const b2TimeStep &, const b2Ve
 LOCAL_SYMBOL: b2Island.cpp<353:12> [b2Island.cpp <359:9 359:9>]
 REFERENCE_USAGE void b2Island::Solve(b2Profile *, const b2TimeStep &, const b2Vec2 &, bool) -> b2Body::anonymous enum (b2Body.h<413:2>)::e_autoSleepFlag [b2Island.cpp <359:30 359:44>]
 SYMBOL_CLASS b2Body
+QUALIFIER: b2Body [b2Island.cpp <359:22 359:27>]
 REFERENCE_USAGE void b2Island::Solve(b2Profile *, const b2TimeStep &, const b2Vec2 &, bool) -> float32 b2Body::m_angularVelocity [b2Island.cpp <360:8 360:24>]
 LOCAL_SYMBOL: b2Island.cpp<353:12> [b2Island.cpp <360:5 360:5>]
 REFERENCE_USAGE void b2Island::Solve(b2Profile *, const b2TimeStep &, const b2Vec2 &, bool) -> float32 b2Body::m_angularVelocity [b2Island.cpp <360:31 360:47>]
 LOCAL_SYMBOL: b2Island.cpp<353:12> [b2Island.cpp <360:28 360:28>]
 LOCAL_SYMBOL: b2Island.cpp<349:17> [b2Island.cpp <360:51 360:59>]
-SYMBOL_FUNCTION float32 b2Dot(const b2Vec2 &, const b2Vec2 &)
 REFERENCE_CALL void b2Island::Solve(b2Profile *, const b2TimeStep &, const b2Vec2 &, bool) -> float32 b2Dot(const b2Vec2 &, const b2Vec2 &) [b2Island.cpp <361:5 361:9>]
 REFERENCE_USAGE void b2Island::Solve(b2Profile *, const b2TimeStep &, const b2Vec2 &, bool) -> b2Vec2 b2Body::m_linearVelocity [b2Island.cpp <361:14 361:29>]
 LOCAL_SYMBOL: b2Island.cpp<353:12> [b2Island.cpp <361:11 361:11>]
@@ -639,8 +581,7 @@ SYMBOL_FUNCTION void b2Body::SetAwake(bool)
 REFERENCE_CALL void b2Island::Solve(b2Profile *, const b2TimeStep &, const b2Vec2 &, bool) -> void b2Body::SetAwake(bool) [b2Island.cpp <378:8 378:15>]
 LOCAL_SYMBOL: b2Island.cpp<377:13> [b2Island.cpp <378:5 378:5>]
 SYMBOL_METHOD public void b2Island::SolveTOI(const b2TimeStep &, int32, int32) [b2Island.cpp <384:1 <384:16 384:23> 514:1>]
-SYMBOL_CLASS b2Island
-SYMBOL_BUILTIN_TYPE void
+QUALIFIER: b2Island [b2Island.cpp <384:6 384:13>]
 REFERENCE_TYPE_USAGE void b2Island::SolveTOI(const b2TimeStep &, int32, int32) -> void [b2Island.cpp <384:1 384:4>]
 LOCAL_SYMBOL: b2Island.cpp<384:43> [b2Island.cpp <384:43 384:49>]
 REFERENCE_TYPE_USAGE void b2Island::SolveTOI(const b2TimeStep &, int32, int32) -> b2TimeStep [b2Island.cpp <384:31 384:40>]
@@ -661,7 +602,6 @@ LOCAL_SYMBOL: b2Island.cpp<392:11> [b2Island.cpp <392:11 392:11>]
 REFERENCE_TYPE_USAGE void b2Island::SolveTOI(const b2TimeStep &, int32, int32) -> b2Body [b2Island.cpp <392:3 392:8>]
 REFERENCE_USAGE void b2Island::SolveTOI(const b2TimeStep &, int32, int32) -> b2Body * * b2Island::m_bodies [b2Island.cpp <392:15 392:22>]
 LOCAL_SYMBOL: b2Island.cpp<390:13> [b2Island.cpp <392:24 392:24>]
-SYMBOL_FUNCTION b2Vec2 & b2Vec2::operator=(const b2Vec2 &)
 REFERENCE_CALL void b2Island::SolveTOI(const b2TimeStep &, int32, int32) -> b2Vec2 & b2Vec2::operator=(const b2Vec2 &) [b2Island.cpp <393:20 393:20>]
 REFERENCE_USAGE void b2Island::SolveTOI(const b2TimeStep &, int32, int32) -> b2Vec2 b2Position::c [b2Island.cpp <393:18 393:18>]
 REFERENCE_USAGE void b2Island::SolveTOI(const b2TimeStep &, int32, int32) -> b2Position * b2Island::m_positions [b2Island.cpp <393:3 393:13>]
@@ -675,7 +615,6 @@ LOCAL_SYMBOL: b2Island.cpp<390:13> [b2Island.cpp <394:15 394:15>]
 REFERENCE_USAGE void b2Island::SolveTOI(const b2TimeStep &, int32, int32) -> float32 b2Sweep::a [b2Island.cpp <394:33 394:33>]
 REFERENCE_USAGE void b2Island::SolveTOI(const b2TimeStep &, int32, int32) -> b2Sweep b2Body::m_sweep [b2Island.cpp <394:25 394:31>]
 LOCAL_SYMBOL: b2Island.cpp<392:11> [b2Island.cpp <394:22 394:22>]
-SYMBOL_FUNCTION b2Vec2 & b2Vec2::operator=(const b2Vec2 &)
 REFERENCE_CALL void b2Island::SolveTOI(const b2TimeStep &, int32, int32) -> b2Vec2 & b2Vec2::operator=(const b2Vec2 &) [b2Island.cpp <395:21 395:21>]
 REFERENCE_USAGE void b2Island::SolveTOI(const b2TimeStep &, int32, int32) -> b2Vec2 b2Velocity::v [b2Island.cpp <395:19 395:19>]
 REFERENCE_USAGE void b2Island::SolveTOI(const b2TimeStep &, int32, int32) -> b2Velocity * b2Island::m_velocities [b2Island.cpp <395:3 395:14>]
@@ -689,7 +628,6 @@ REFERENCE_USAGE void b2Island::SolveTOI(const b2TimeStep &, int32, int32) -> flo
 LOCAL_SYMBOL: b2Island.cpp<392:11> [b2Island.cpp <396:23 396:23>]
 LOCAL_SYMBOL: b2Island.cpp<399:21> [b2Island.cpp <399:21 399:36>]
 REFERENCE_TYPE_USAGE void b2Island::SolveTOI(const b2TimeStep &, int32, int32) -> b2ContactSolverDef [b2Island.cpp <399:2 399:19>]
-SYMBOL_FUNCTION void b2ContactSolverDef::b2ContactSolverDef()
 REFERENCE_CALL void b2Island::SolveTOI(const b2TimeStep &, int32, int32) -> void b2ContactSolverDef::b2ContactSolverDef() [b2Island.cpp <399:21 399:36>]
 REFERENCE_USAGE void b2Island::SolveTOI(const b2TimeStep &, int32, int32) -> b2Contact * * b2ContactSolverDef::contacts [b2Island.cpp <400:19 400:26>]
 LOCAL_SYMBOL: b2Island.cpp<399:21> [b2Island.cpp <400:2 400:17>]
@@ -700,7 +638,6 @@ REFERENCE_USAGE void b2Island::SolveTOI(const b2TimeStep &, int32, int32) -> int
 REFERENCE_USAGE void b2Island::SolveTOI(const b2TimeStep &, int32, int32) -> b2StackAllocator * b2ContactSolverDef::allocator [b2Island.cpp <402:19 402:27>]
 LOCAL_SYMBOL: b2Island.cpp<399:21> [b2Island.cpp <402:2 402:17>]
 REFERENCE_USAGE void b2Island::SolveTOI(const b2TimeStep &, int32, int32) -> b2StackAllocator * b2Island::m_allocator [b2Island.cpp <402:31 402:41>]
-SYMBOL_FUNCTION b2TimeStep & b2TimeStep::operator=(const b2TimeStep &)
 REFERENCE_CALL void b2Island::SolveTOI(const b2TimeStep &, int32, int32) -> b2TimeStep & b2TimeStep::operator=(const b2TimeStep &) [b2Island.cpp <403:24 403:24>]
 REFERENCE_USAGE void b2Island::SolveTOI(const b2TimeStep &, int32, int32) -> b2TimeStep b2ContactSolverDef::step [b2Island.cpp <403:19 403:22>]
 LOCAL_SYMBOL: b2Island.cpp<399:21> [b2Island.cpp <403:2 403:17>]
@@ -713,7 +650,6 @@ LOCAL_SYMBOL: b2Island.cpp<399:21> [b2Island.cpp <405:2 405:17>]
 REFERENCE_USAGE void b2Island::SolveTOI(const b2TimeStep &, int32, int32) -> b2Velocity * b2Island::m_velocities [b2Island.cpp <405:32 405:43>]
 LOCAL_SYMBOL: b2Island.cpp<406:18> [b2Island.cpp <406:18 406:30>]
 REFERENCE_TYPE_USAGE void b2Island::SolveTOI(const b2TimeStep &, int32, int32) -> b2ContactSolver [b2Island.cpp <406:2 406:16>]
-SYMBOL_FUNCTION void b2ContactSolver::b2ContactSolver(b2ContactSolverDef *)
 REFERENCE_CALL void b2Island::SolveTOI(const b2TimeStep &, int32, int32) -> void b2ContactSolver::b2ContactSolver(b2ContactSolverDef *) [b2Island.cpp <406:18 406:30>]
 LOCAL_SYMBOL: b2Island.cpp<399:21> [b2Island.cpp <406:33 406:48>]
 LOCAL_SYMBOL: b2Island.cpp<409:13> [b2Island.cpp <409:13 409:13>]
@@ -723,7 +659,6 @@ REFERENCE_USAGE void b2Island::SolveTOI(const b2TimeStep &, int32, int32) -> int
 LOCAL_SYMBOL: b2Island.cpp<384:43> [b2Island.cpp <409:24 409:30>]
 LOCAL_SYMBOL: b2Island.cpp<409:13> [b2Island.cpp <409:54 409:54>]
 LOCAL_SYMBOL: b2Island.cpp<411:8> [b2Island.cpp <411:8 411:19>]
-SYMBOL_BUILTIN_TYPE bool
 REFERENCE_TYPE_USAGE void b2Island::SolveTOI(const b2TimeStep &, int32, int32) -> bool [b2Island.cpp <411:3 411:6>]
 SYMBOL_FUNCTION bool b2ContactSolver::SolveTOIPositionConstraints(int32, int32)
 REFERENCE_CALL void b2Island::SolveTOI(const b2TimeStep &, int32, int32) -> bool b2ContactSolver::SolveTOIPositionConstraints(int32, int32) [b2Island.cpp <411:37 411:63>]
@@ -731,7 +666,6 @@ LOCAL_SYMBOL: b2Island.cpp<406:18> [b2Island.cpp <411:23 411:35>]
 LOCAL_SYMBOL: b2Island.cpp<384:58> [b2Island.cpp <411:65 411:73>]
 LOCAL_SYMBOL: b2Island.cpp<384:75> [b2Island.cpp <411:76 411:84>]
 LOCAL_SYMBOL: b2Island.cpp<411:8> [b2Island.cpp <412:7 412:18>]
-SYMBOL_FUNCTION b2Vec2 & b2Vec2::operator=(const b2Vec2 &)
 REFERENCE_CALL void b2Island::SolveTOI(const b2TimeStep &, int32, int32) -> b2Vec2 & b2Vec2::operator=(const b2Vec2 &) [b2Island.cpp <452:34 452:34>]
 REFERENCE_USAGE void b2Island::SolveTOI(const b2TimeStep &, int32, int32) -> b2Vec2 b2Sweep::c0 [b2Island.cpp <452:31 452:32>]
 REFERENCE_USAGE void b2Island::SolveTOI(const b2TimeStep &, int32, int32) -> b2Sweep b2Body::m_sweep [b2Island.cpp <452:23 452:29>]
@@ -747,7 +681,6 @@ LOCAL_SYMBOL: b2Island.cpp<384:58> [b2Island.cpp <453:11 453:19>]
 REFERENCE_USAGE void b2Island::SolveTOI(const b2TimeStep &, int32, int32) -> float32 b2Position::a [b2Island.cpp <453:59 453:59>]
 REFERENCE_USAGE void b2Island::SolveTOI(const b2TimeStep &, int32, int32) -> b2Position * b2Island::m_positions [b2Island.cpp <453:36 453:46>]
 LOCAL_SYMBOL: b2Island.cpp<384:58> [b2Island.cpp <453:48 453:56>]
-SYMBOL_FUNCTION b2Vec2 & b2Vec2::operator=(const b2Vec2 &)
 REFERENCE_CALL void b2Island::SolveTOI(const b2TimeStep &, int32, int32) -> b2Vec2 & b2Vec2::operator=(const b2Vec2 &) [b2Island.cpp <454:34 454:34>]
 REFERENCE_USAGE void b2Island::SolveTOI(const b2TimeStep &, int32, int32) -> b2Vec2 b2Sweep::c0 [b2Island.cpp <454:31 454:32>]
 REFERENCE_USAGE void b2Island::SolveTOI(const b2TimeStep &, int32, int32) -> b2Sweep b2Body::m_sweep [b2Island.cpp <454:23 454:29>]
@@ -763,7 +696,6 @@ LOCAL_SYMBOL: b2Island.cpp<384:75> [b2Island.cpp <455:11 455:19>]
 REFERENCE_USAGE void b2Island::SolveTOI(const b2TimeStep &, int32, int32) -> float32 b2Position::a [b2Island.cpp <455:59 455:59>]
 REFERENCE_USAGE void b2Island::SolveTOI(const b2TimeStep &, int32, int32) -> b2Position * b2Island::m_positions [b2Island.cpp <455:36 455:46>]
 LOCAL_SYMBOL: b2Island.cpp<384:75> [b2Island.cpp <455:48 455:56>]
-SYMBOL_FUNCTION void b2ContactSolver::InitializeVelocityConstraints()
 REFERENCE_CALL void b2Island::SolveTOI(const b2TimeStep &, int32, int32) -> void b2ContactSolver::InitializeVelocityConstraints() [b2Island.cpp <459:16 459:44>]
 LOCAL_SYMBOL: b2Island.cpp<406:18> [b2Island.cpp <459:2 459:14>]
 LOCAL_SYMBOL: b2Island.cpp<462:13> [b2Island.cpp <462:13 462:13>]
@@ -772,7 +704,6 @@ LOCAL_SYMBOL: b2Island.cpp<462:13> [b2Island.cpp <462:20 462:20>]
 REFERENCE_USAGE void b2Island::SolveTOI(const b2TimeStep &, int32, int32) -> int32 b2TimeStep::velocityIterations [b2Island.cpp <462:32 462:49>]
 LOCAL_SYMBOL: b2Island.cpp<384:43> [b2Island.cpp <462:24 462:30>]
 LOCAL_SYMBOL: b2Island.cpp<462:13> [b2Island.cpp <462:54 462:54>]
-SYMBOL_FUNCTION void b2ContactSolver::SolveVelocityConstraints()
 REFERENCE_CALL void b2Island::SolveTOI(const b2TimeStep &, int32, int32) -> void b2ContactSolver::SolveVelocityConstraints() [b2Island.cpp <464:17 464:40>]
 LOCAL_SYMBOL: b2Island.cpp<406:18> [b2Island.cpp <464:3 464:15>]
 LOCAL_SYMBOL: b2Island.cpp<470:10> [b2Island.cpp <470:10 470:10>]
@@ -786,7 +717,6 @@ REFERENCE_USAGE void b2Island::SolveTOI(const b2TimeStep &, int32, int32) -> int
 LOCAL_SYMBOL: b2Island.cpp<473:13> [b2Island.cpp <473:39 473:39>]
 LOCAL_SYMBOL: b2Island.cpp<475:10> [b2Island.cpp <475:10 475:10>]
 REFERENCE_TYPE_USAGE void b2Island::SolveTOI(const b2TimeStep &, int32, int32) -> b2Vec2 [b2Island.cpp <475:3 475:8>]
-SYMBOL_FUNCTION void b2Vec2::b2Vec2(const b2Vec2 &)
 REFERENCE_CALL void b2Island::SolveTOI(const b2TimeStep &, int32, int32) -> void b2Vec2::b2Vec2(const b2Vec2 &) [b2Island.cpp <475:29 475:29>]
 REFERENCE_USAGE void b2Island::SolveTOI(const b2TimeStep &, int32, int32) -> b2Vec2 b2Position::c [b2Island.cpp <475:29 475:29>]
 REFERENCE_USAGE void b2Island::SolveTOI(const b2TimeStep &, int32, int32) -> b2Position * b2Island::m_positions [b2Island.cpp <475:14 475:24>]
@@ -798,7 +728,6 @@ REFERENCE_USAGE void b2Island::SolveTOI(const b2TimeStep &, int32, int32) -> b2P
 LOCAL_SYMBOL: b2Island.cpp<473:13> [b2Island.cpp <476:27 476:27>]
 LOCAL_SYMBOL: b2Island.cpp<477:10> [b2Island.cpp <477:10 477:10>]
 REFERENCE_TYPE_USAGE void b2Island::SolveTOI(const b2TimeStep &, int32, int32) -> b2Vec2 [b2Island.cpp <477:3 477:8>]
-SYMBOL_FUNCTION void b2Vec2::b2Vec2(const b2Vec2 &)
 REFERENCE_CALL void b2Island::SolveTOI(const b2TimeStep &, int32, int32) -> void b2Vec2::b2Vec2(const b2Vec2 &) [b2Island.cpp <477:30 477:30>]
 REFERENCE_USAGE void b2Island::SolveTOI(const b2TimeStep &, int32, int32) -> b2Vec2 b2Velocity::v [b2Island.cpp <477:30 477:30>]
 REFERENCE_USAGE void b2Island::SolveTOI(const b2TimeStep &, int32, int32) -> b2Velocity * b2Island::m_velocities [b2Island.cpp <477:14 477:25>]
@@ -810,20 +739,16 @@ REFERENCE_USAGE void b2Island::SolveTOI(const b2TimeStep &, int32, int32) -> b2V
 LOCAL_SYMBOL: b2Island.cpp<473:13> [b2Island.cpp <478:28 478:28>]
 LOCAL_SYMBOL: b2Island.cpp<481:10> [b2Island.cpp <481:10 481:20>]
 REFERENCE_TYPE_USAGE void b2Island::SolveTOI(const b2TimeStep &, int32, int32) -> b2Vec2 [b2Island.cpp <481:3 481:8>]
-SYMBOL_FUNCTION b2Vec2 operator*(float32, const b2Vec2 &)
 REFERENCE_CALL void b2Island::SolveTOI(const b2TimeStep &, int32, int32) -> b2Vec2 operator*(float32, const b2Vec2 &) [b2Island.cpp <481:26 481:26>]
 LOCAL_SYMBOL: b2Island.cpp<470:10> [b2Island.cpp <481:24 481:24>]
 LOCAL_SYMBOL: b2Island.cpp<477:10> [b2Island.cpp <481:28 481:28>]
-SYMBOL_FUNCTION float32 b2Dot(const b2Vec2 &, const b2Vec2 &)
 REFERENCE_CALL void b2Island::SolveTOI(const b2TimeStep &, int32, int32) -> float32 b2Dot(const b2Vec2 &, const b2Vec2 &) [b2Island.cpp <482:7 482:11>]
 LOCAL_SYMBOL: b2Island.cpp<481:10> [b2Island.cpp <482:13 482:23>]
 LOCAL_SYMBOL: b2Island.cpp<481:10> [b2Island.cpp <482:26 482:36>]
 LOCAL_SYMBOL: b2Island.cpp<484:12> [b2Island.cpp <484:12 484:16>]
 REFERENCE_TYPE_USAGE void b2Island::SolveTOI(const b2TimeStep &, int32, int32) -> float32 [b2Island.cpp <484:4 484:10>]
-SYMBOL_FUNCTION float32 b2Vec2::Length() const
 REFERENCE_CALL void b2Island::SolveTOI(const b2TimeStep &, int32, int32) -> float32 b2Vec2::Length() const [b2Island.cpp <484:52 484:57>]
 LOCAL_SYMBOL: b2Island.cpp<481:10> [b2Island.cpp <484:40 484:50>]
-SYMBOL_FUNCTION void b2Vec2::operator*=(float32)
 REFERENCE_CALL void b2Island::SolveTOI(const b2TimeStep &, int32, int32) -> void b2Vec2::operator*=(float32) [b2Island.cpp <485:6 485:7>]
 LOCAL_SYMBOL: b2Island.cpp<477:10> [b2Island.cpp <485:4 485:4>]
 LOCAL_SYMBOL: b2Island.cpp<484:12> [b2Island.cpp <485:9 485:13>]
@@ -835,22 +760,18 @@ LOCAL_SYMBOL: b2Island.cpp<488:11> [b2Island.cpp <489:7 489:14>]
 LOCAL_SYMBOL: b2Island.cpp<488:11> [b2Island.cpp <489:18 489:25>]
 LOCAL_SYMBOL: b2Island.cpp<491:12> [b2Island.cpp <491:12 491:16>]
 REFERENCE_TYPE_USAGE void b2Island::SolveTOI(const b2TimeStep &, int32, int32) -> float32 [b2Island.cpp <491:4 491:10>]
-SYMBOL_FUNCTION float b2Abs<float>(float)
 REFERENCE_CALL void b2Island::SolveTOI(const b2TimeStep &, int32, int32) -> float b2Abs<float>(float) [b2Island.cpp <491:37 491:41>]
 LOCAL_SYMBOL: b2Island.cpp<488:11> [b2Island.cpp <491:43 491:50>]
 LOCAL_SYMBOL: b2Island.cpp<478:11> [b2Island.cpp <492:4 492:4>]
 LOCAL_SYMBOL: b2Island.cpp<491:12> [b2Island.cpp <492:9 492:13>]
-SYMBOL_FUNCTION void b2Vec2::operator+=(const b2Vec2 &)
 REFERENCE_CALL void b2Island::SolveTOI(const b2TimeStep &, int32, int32) -> void b2Vec2::operator+=(const b2Vec2 &) [b2Island.cpp <496:5 496:6>]
 LOCAL_SYMBOL: b2Island.cpp<475:10> [b2Island.cpp <496:3 496:3>]
-SYMBOL_FUNCTION b2Vec2 operator*(float32, const b2Vec2 &)
 REFERENCE_CALL void b2Island::SolveTOI(const b2TimeStep &, int32, int32) -> b2Vec2 operator*(float32, const b2Vec2 &) [b2Island.cpp <496:10 496:10>]
 LOCAL_SYMBOL: b2Island.cpp<470:10> [b2Island.cpp <496:8 496:8>]
 LOCAL_SYMBOL: b2Island.cpp<477:10> [b2Island.cpp <496:12 496:12>]
 LOCAL_SYMBOL: b2Island.cpp<476:11> [b2Island.cpp <497:3 497:3>]
 LOCAL_SYMBOL: b2Island.cpp<470:10> [b2Island.cpp <497:8 497:8>]
 LOCAL_SYMBOL: b2Island.cpp<478:11> [b2Island.cpp <497:12 497:12>]
-SYMBOL_FUNCTION b2Vec2 & b2Vec2::operator=(const b2Vec2 &)
 REFERENCE_CALL void b2Island::SolveTOI(const b2TimeStep &, int32, int32) -> b2Vec2 & b2Vec2::operator=(const b2Vec2 &) [b2Island.cpp <499:20 499:20>]
 REFERENCE_USAGE void b2Island::SolveTOI(const b2TimeStep &, int32, int32) -> b2Vec2 b2Position::c [b2Island.cpp <499:18 499:18>]
 REFERENCE_USAGE void b2Island::SolveTOI(const b2TimeStep &, int32, int32) -> b2Position * b2Island::m_positions [b2Island.cpp <499:3 499:13>]
@@ -860,7 +781,6 @@ REFERENCE_USAGE void b2Island::SolveTOI(const b2TimeStep &, int32, int32) -> flo
 REFERENCE_USAGE void b2Island::SolveTOI(const b2TimeStep &, int32, int32) -> b2Position * b2Island::m_positions [b2Island.cpp <500:3 500:13>]
 LOCAL_SYMBOL: b2Island.cpp<473:13> [b2Island.cpp <500:15 500:15>]
 LOCAL_SYMBOL: b2Island.cpp<476:11> [b2Island.cpp <500:22 500:22>]
-SYMBOL_FUNCTION b2Vec2 & b2Vec2::operator=(const b2Vec2 &)
 REFERENCE_CALL void b2Island::SolveTOI(const b2TimeStep &, int32, int32) -> b2Vec2 & b2Vec2::operator=(const b2Vec2 &) [b2Island.cpp <501:21 501:21>]
 REFERENCE_USAGE void b2Island::SolveTOI(const b2TimeStep &, int32, int32) -> b2Vec2 b2Velocity::v [b2Island.cpp <501:19 501:19>]
 REFERENCE_USAGE void b2Island::SolveTOI(const b2TimeStep &, int32, int32) -> b2Velocity * b2Island::m_velocities [b2Island.cpp <501:3 501:14>]
@@ -874,7 +794,6 @@ LOCAL_SYMBOL: b2Island.cpp<505:11> [b2Island.cpp <505:11 505:14>]
 REFERENCE_TYPE_USAGE void b2Island::SolveTOI(const b2TimeStep &, int32, int32) -> b2Body [b2Island.cpp <505:3 505:8>]
 REFERENCE_USAGE void b2Island::SolveTOI(const b2TimeStep &, int32, int32) -> b2Body * * b2Island::m_bodies [b2Island.cpp <505:18 505:25>]
 LOCAL_SYMBOL: b2Island.cpp<473:13> [b2Island.cpp <505:27 505:27>]
-SYMBOL_FUNCTION b2Vec2 & b2Vec2::operator=(const b2Vec2 &)
 REFERENCE_CALL void b2Island::SolveTOI(const b2TimeStep &, int32, int32) -> b2Vec2 & b2Vec2::operator=(const b2Vec2 &) [b2Island.cpp <506:19 506:19>]
 REFERENCE_USAGE void b2Island::SolveTOI(const b2TimeStep &, int32, int32) -> b2Vec2 b2Sweep::c [b2Island.cpp <506:17 506:17>]
 REFERENCE_USAGE void b2Island::SolveTOI(const b2TimeStep &, int32, int32) -> b2Sweep b2Body::m_sweep [b2Island.cpp <506:9 506:15>]
@@ -884,7 +803,6 @@ REFERENCE_USAGE void b2Island::SolveTOI(const b2TimeStep &, int32, int32) -> flo
 REFERENCE_USAGE void b2Island::SolveTOI(const b2TimeStep &, int32, int32) -> b2Sweep b2Body::m_sweep [b2Island.cpp <507:9 507:15>]
 LOCAL_SYMBOL: b2Island.cpp<505:11> [b2Island.cpp <507:3 507:6>]
 LOCAL_SYMBOL: b2Island.cpp<476:11> [b2Island.cpp <507:21 507:21>]
-SYMBOL_FUNCTION b2Vec2 & b2Vec2::operator=(const b2Vec2 &)
 REFERENCE_CALL void b2Island::SolveTOI(const b2TimeStep &, int32, int32) -> b2Vec2 & b2Vec2::operator=(const b2Vec2 &) [b2Island.cpp <508:26 508:26>]
 REFERENCE_USAGE void b2Island::SolveTOI(const b2TimeStep &, int32, int32) -> b2Vec2 b2Body::m_linearVelocity [b2Island.cpp <508:9 508:24>]
 LOCAL_SYMBOL: b2Island.cpp<505:11> [b2Island.cpp <508:3 508:6>]
@@ -892,16 +810,13 @@ LOCAL_SYMBOL: b2Island.cpp<477:10> [b2Island.cpp <508:28 508:28>]
 REFERENCE_USAGE void b2Island::SolveTOI(const b2TimeStep &, int32, int32) -> float32 b2Body::m_angularVelocity [b2Island.cpp <509:9 509:25>]
 LOCAL_SYMBOL: b2Island.cpp<505:11> [b2Island.cpp <509:3 509:6>]
 LOCAL_SYMBOL: b2Island.cpp<478:11> [b2Island.cpp <509:29 509:29>]
-SYMBOL_FUNCTION void b2Body::SynchronizeTransform()
 REFERENCE_CALL void b2Island::SolveTOI(const b2TimeStep &, int32, int32) -> void b2Body::SynchronizeTransform() [b2Island.cpp <510:9 510:28>]
 LOCAL_SYMBOL: b2Island.cpp<505:11> [b2Island.cpp <510:3 510:6>]
-SYMBOL_FUNCTION void b2Island::Report(const b2ContactVelocityConstraint *)
 REFERENCE_CALL void b2Island::SolveTOI(const b2TimeStep &, int32, int32) -> void b2Island::Report(const b2ContactVelocityConstraint *) [b2Island.cpp <513:2 513:7>]
 REFERENCE_USAGE void b2Island::SolveTOI(const b2TimeStep &, int32, int32) -> b2ContactVelocityConstraint * b2ContactSolver::m_velocityConstraints [b2Island.cpp <513:23 513:43>]
 LOCAL_SYMBOL: b2Island.cpp<406:18> [b2Island.cpp <513:9 513:21>]
 SYMBOL_METHOD public void b2Island::Report(const b2ContactVelocityConstraint *) [b2Island.cpp <516:1 <516:16 516:21> 539:1>]
-SYMBOL_CLASS b2Island
-SYMBOL_BUILTIN_TYPE void
+QUALIFIER: b2Island [b2Island.cpp <516:6 516:13>]
 REFERENCE_TYPE_USAGE void b2Island::Report(const b2ContactVelocityConstraint *) -> void [b2Island.cpp <516:1 516:4>]
 LOCAL_SYMBOL: b2Island.cpp<516:58> [b2Island.cpp <516:58 516:68>]
 REFERENCE_TYPE_USAGE void b2Island::Report(const b2ContactVelocityConstraint *) -> b2ContactVelocityConstraint [b2Island.cpp <516:29 516:55>]

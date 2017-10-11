@@ -1,19 +1,43 @@
 FILE: TypeParameterValueProvider.java
-SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model.typesystem.parametrization [TypeParameterValueProvider.java <1:9 1:75>]
+SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model.typesystem.parametrization [TypeParameterValueProvider.java <1:61 1:75>]
 SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model.typesystem
 SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model
 SYMBOL_PACKAGE com.github.javaparser.symbolsolver
 SYMBOL_PACKAGE com.github.javaparser
 SYMBOL_PACKAGE com.github
 SYMBOL_PACKAGE com
-REFERENCE_IMPORT TypeParameterValueProvider.java -> com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration [TypeParameterValueProvider.java <3:8 3:85>]
+QUALIFIER: com.github.javaparser.symbolsolver.model.typesystem [TypeParameterValueProvider.java <1:50 1:59>]
+QUALIFIER: com.github.javaparser.symbolsolver.model [TypeParameterValueProvider.java <1:44 1:48>]
+QUALIFIER: com.github.javaparser.symbolsolver [TypeParameterValueProvider.java <1:31 1:42>]
+QUALIFIER: com.github.javaparser [TypeParameterValueProvider.java <1:20 1:29>]
+QUALIFIER: com.github [TypeParameterValueProvider.java <1:13 1:18>]
+QUALIFIER: com [TypeParameterValueProvider.java <1:9 1:11>]
+REFERENCE_IMPORT TypeParameterValueProvider.java -> com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration [TypeParameterValueProvider.java <3:62 3:85>]
 SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model.declarations
-REFERENCE_IMPORT TypeParameterValueProvider.java -> com.github.javaparser.symbolsolver.model.typesystem.Type [TypeParameterValueProvider.java <4:8 4:63>]
-SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model.typesystem
-REFERENCE_IMPORT TypeParameterValueProvider.java -> com.github.javaparser.symbolsolver.model.typesystem.Wildcard [TypeParameterValueProvider.java <5:8 5:67>]
-SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model.typesystem
-REFERENCE_IMPORT TypeParameterValueProvider.java -> java.util.Optional<T> [TypeParameterValueProvider.java <7:8 7:25>]
+QUALIFIER: com.github.javaparser.symbolsolver.model.declarations [TypeParameterValueProvider.java <3:49 3:60>]
+QUALIFIER: com.github.javaparser.symbolsolver.model [TypeParameterValueProvider.java <3:43 3:47>]
+QUALIFIER: com.github.javaparser.symbolsolver [TypeParameterValueProvider.java <3:30 3:41>]
+QUALIFIER: com.github.javaparser [TypeParameterValueProvider.java <3:19 3:28>]
+QUALIFIER: com.github [TypeParameterValueProvider.java <3:12 3:17>]
+QUALIFIER: com [TypeParameterValueProvider.java <3:8 3:10>]
+REFERENCE_IMPORT TypeParameterValueProvider.java -> com.github.javaparser.symbolsolver.model.typesystem.Type [TypeParameterValueProvider.java <4:60 4:63>]
+QUALIFIER: com.github.javaparser.symbolsolver.model.typesystem [TypeParameterValueProvider.java <4:49 4:58>]
+QUALIFIER: com.github.javaparser.symbolsolver.model [TypeParameterValueProvider.java <4:43 4:47>]
+QUALIFIER: com.github.javaparser.symbolsolver [TypeParameterValueProvider.java <4:30 4:41>]
+QUALIFIER: com.github.javaparser [TypeParameterValueProvider.java <4:19 4:28>]
+QUALIFIER: com.github [TypeParameterValueProvider.java <4:12 4:17>]
+QUALIFIER: com [TypeParameterValueProvider.java <4:8 4:10>]
+REFERENCE_IMPORT TypeParameterValueProvider.java -> com.github.javaparser.symbolsolver.model.typesystem.Wildcard [TypeParameterValueProvider.java <5:60 5:67>]
+QUALIFIER: com.github.javaparser.symbolsolver.model.typesystem [TypeParameterValueProvider.java <5:49 5:58>]
+QUALIFIER: com.github.javaparser.symbolsolver.model [TypeParameterValueProvider.java <5:43 5:47>]
+QUALIFIER: com.github.javaparser.symbolsolver [TypeParameterValueProvider.java <5:30 5:41>]
+QUALIFIER: com.github.javaparser [TypeParameterValueProvider.java <5:19 5:28>]
+QUALIFIER: com.github [TypeParameterValueProvider.java <5:12 5:17>]
+QUALIFIER: com [TypeParameterValueProvider.java <5:8 5:10>]
+REFERENCE_IMPORT TypeParameterValueProvider.java -> java.util.Optional<T> [TypeParameterValueProvider.java <7:18 7:25>]
 SYMBOL_PACKAGE java.util
+QUALIFIER: java.util [TypeParameterValueProvider.java <7:13 7:16>]
+QUALIFIER: java [TypeParameterValueProvider.java <7:8 7:11>]
 SYMBOL_INTERFACE public com.github.javaparser.symbolsolver.model.typesystem.parametrization.TypeParameterValueProvider [TypeParameterValueProvider.java <12:1 <12:18 12:43> 51:1>]
 LOCAL_SYMBOL: TypeParameterValueProvider.java<12:45> [TypeParameterValueProvider.java <12:45 12:45>]
 LOCAL_SYMBOL: TypeParameterValueProvider.java<12:45> [TypeParameterValueProvider.java <51:1 51:1>]
@@ -73,29 +97,26 @@ LOCAL_SYMBOL: TypeParameterValueProvider.java<35:65> [TypeParameterValueProvider
 LOCAL_SYMBOL: TypeParameterValueProvider.java<35:65> [TypeParameterValueProvider.java <41:9 41:9>]
 SYMBOL_METHOD boolean com.github.javaparser.symbolsolver.model.typesystem.Wildcard.isExtends()
 REFERENCE_CALL com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.model.typesystem.parametrization.TypeParameterValueProvider.useThisTypeParametersOnTheGivenType(com.github.javaparser.symbolsolver.model.typesystem.Type) -> boolean com.github.javaparser.symbolsolver.model.typesystem.Wildcard.isExtends() [TypeParameterValueProvider.java <36:35 36:43>]
-SYMBOL_METHOD com.github.javaparser.symbolsolver.model.typesystem.Wildcard com.github.javaparser.symbolsolver.model.typesystem.Type.asWildcard()
 REFERENCE_CALL com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.model.typesystem.parametrization.TypeParameterValueProvider.useThisTypeParametersOnTheGivenType(com.github.javaparser.symbolsolver.model.typesystem.Type) -> com.github.javaparser.symbolsolver.model.typesystem.Wildcard com.github.javaparser.symbolsolver.model.typesystem.Type.asWildcard() [TypeParameterValueProvider.java <36:22 36:31>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.model.typesystem.parametrization.TypeParameterValueProvider.useThisTypeParametersOnTheGivenType<0> [TypeParameterValueProvider.java <36:17 36:20>]
 LOCAL_SYMBOL: TypeParameterValueProvider.java<36:48> [TypeParameterValueProvider.java <36:48 36:48>]
 LOCAL_SYMBOL: TypeParameterValueProvider.java<36:48> [TypeParameterValueProvider.java <38:13 38:13>]
 SYMBOL_METHOD static com.github.javaparser.symbolsolver.model.typesystem.Wildcard com.github.javaparser.symbolsolver.model.typesystem.Wildcard.extendsBound(com.github.javaparser.symbolsolver.model.typesystem.Type)
 REFERENCE_CALL com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.model.typesystem.parametrization.TypeParameterValueProvider.useThisTypeParametersOnTheGivenType(com.github.javaparser.symbolsolver.model.typesystem.Type) -> static com.github.javaparser.symbolsolver.model.typesystem.Wildcard com.github.javaparser.symbolsolver.model.typesystem.Wildcard.extendsBound(com.github.javaparser.symbolsolver.model.typesystem.Type) [TypeParameterValueProvider.java <37:33 37:44>]
+QUALIFIER: com.github.javaparser.symbolsolver.model.typesystem.Wildcard [TypeParameterValueProvider.java <37:24 37:31>]
 SYMBOL_METHOD com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.model.typesystem.parametrization.TypeParameterValueProvider.useThisTypeParametersOnTheGivenType(com.github.javaparser.symbolsolver.model.typesystem.Type)
 REFERENCE_CALL com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.model.typesystem.parametrization.TypeParameterValueProvider.useThisTypeParametersOnTheGivenType(com.github.javaparser.symbolsolver.model.typesystem.Type) -> com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.model.typesystem.parametrization.TypeParameterValueProvider.useThisTypeParametersOnTheGivenType(com.github.javaparser.symbolsolver.model.typesystem.Type) [TypeParameterValueProvider.java <37:46 37:80>]
 SYMBOL_METHOD com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.model.typesystem.Wildcard.getBoundedType()
 REFERENCE_CALL com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.model.typesystem.parametrization.TypeParameterValueProvider.useThisTypeParametersOnTheGivenType(com.github.javaparser.symbolsolver.model.typesystem.Type) -> com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.model.typesystem.Wildcard.getBoundedType() [TypeParameterValueProvider.java <37:100 37:113>]
-SYMBOL_METHOD com.github.javaparser.symbolsolver.model.typesystem.Wildcard com.github.javaparser.symbolsolver.model.typesystem.Type.asWildcard()
 REFERENCE_CALL com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.model.typesystem.parametrization.TypeParameterValueProvider.useThisTypeParametersOnTheGivenType(com.github.javaparser.symbolsolver.model.typesystem.Type) -> com.github.javaparser.symbolsolver.model.typesystem.Wildcard com.github.javaparser.symbolsolver.model.typesystem.Type.asWildcard() [TypeParameterValueProvider.java <37:87 37:96>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.model.typesystem.parametrization.TypeParameterValueProvider.useThisTypeParametersOnTheGivenType<0> [TypeParameterValueProvider.java <37:82 37:85>]
 LOCAL_SYMBOL: TypeParameterValueProvider.java<38:20> [TypeParameterValueProvider.java <38:20 38:20>]
 LOCAL_SYMBOL: TypeParameterValueProvider.java<38:20> [TypeParameterValueProvider.java <40:13 40:13>]
 SYMBOL_METHOD static com.github.javaparser.symbolsolver.model.typesystem.Wildcard com.github.javaparser.symbolsolver.model.typesystem.Wildcard.superBound(com.github.javaparser.symbolsolver.model.typesystem.Type)
 REFERENCE_CALL com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.model.typesystem.parametrization.TypeParameterValueProvider.useThisTypeParametersOnTheGivenType(com.github.javaparser.symbolsolver.model.typesystem.Type) -> static com.github.javaparser.symbolsolver.model.typesystem.Wildcard com.github.javaparser.symbolsolver.model.typesystem.Wildcard.superBound(com.github.javaparser.symbolsolver.model.typesystem.Type) [TypeParameterValueProvider.java <39:33 39:42>]
-SYMBOL_METHOD com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.model.typesystem.parametrization.TypeParameterValueProvider.useThisTypeParametersOnTheGivenType(com.github.javaparser.symbolsolver.model.typesystem.Type)
+QUALIFIER: com.github.javaparser.symbolsolver.model.typesystem.Wildcard [TypeParameterValueProvider.java <39:24 39:31>]
 REFERENCE_CALL com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.model.typesystem.parametrization.TypeParameterValueProvider.useThisTypeParametersOnTheGivenType(com.github.javaparser.symbolsolver.model.typesystem.Type) -> com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.model.typesystem.parametrization.TypeParameterValueProvider.useThisTypeParametersOnTheGivenType(com.github.javaparser.symbolsolver.model.typesystem.Type) [TypeParameterValueProvider.java <39:44 39:78>]
-SYMBOL_METHOD com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.model.typesystem.Wildcard.getBoundedType()
 REFERENCE_CALL com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.model.typesystem.parametrization.TypeParameterValueProvider.useThisTypeParametersOnTheGivenType(com.github.javaparser.symbolsolver.model.typesystem.Type) -> com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.model.typesystem.Wildcard.getBoundedType() [TypeParameterValueProvider.java <39:98 39:111>]
-SYMBOL_METHOD com.github.javaparser.symbolsolver.model.typesystem.Wildcard com.github.javaparser.symbolsolver.model.typesystem.Type.asWildcard()
 REFERENCE_CALL com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.model.typesystem.parametrization.TypeParameterValueProvider.useThisTypeParametersOnTheGivenType(com.github.javaparser.symbolsolver.model.typesystem.Type) -> com.github.javaparser.symbolsolver.model.typesystem.Wildcard com.github.javaparser.symbolsolver.model.typesystem.Type.asWildcard() [TypeParameterValueProvider.java <39:85 39:94>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.model.typesystem.parametrization.TypeParameterValueProvider.useThisTypeParametersOnTheGivenType<0> [TypeParameterValueProvider.java <39:80 39:83>]
 SYMBOL_METHOD boolean com.github.javaparser.symbolsolver.model.typesystem.Type.isReferenceType()
@@ -110,7 +131,6 @@ SYMBOL_METHOD com.github.javaparser.symbolsolver.model.typesystem.ReferenceType 
 REFERENCE_CALL com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.model.typesystem.parametrization.TypeParameterValueProvider.useThisTypeParametersOnTheGivenType(com.github.javaparser.symbolsolver.model.typesystem.Type) -> com.github.javaparser.symbolsolver.model.typesystem.ReferenceType com.github.javaparser.symbolsolver.model.typesystem.Type.asReferenceType() [TypeParameterValueProvider.java <44:25 44:39>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.model.typesystem.parametrization.TypeParameterValueProvider.useThisTypeParametersOnTheGivenType<0> [TypeParameterValueProvider.java <44:20 44:23>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.model.typesystem.TypeTransformer.transform<4> [TypeParameterValueProvider.java <44:67 44:68>]
-SYMBOL_METHOD com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.model.typesystem.parametrization.TypeParameterValueProvider.useThisTypeParametersOnTheGivenType(com.github.javaparser.symbolsolver.model.typesystem.Type)
 REFERENCE_CALL com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.model.typesystem.parametrization.TypeParameterValueProvider.useThisTypeParametersOnTheGivenType(com.github.javaparser.symbolsolver.model.typesystem.Type) -> com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.model.typesystem.parametrization.TypeParameterValueProvider.useThisTypeParametersOnTheGivenType(com.github.javaparser.symbolsolver.model.typesystem.Type) [TypeParameterValueProvider.java <44:73 44:107>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.model.typesystem.TypeTransformer.transform<4> [TypeParameterValueProvider.java <44:109 44:110>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.model.typesystem.parametrization.TypeParameterValueProvider.useThisTypeParametersOnTheGivenType<0> [TypeParameterValueProvider.java <47:16 47:19>]

@@ -1,23 +1,60 @@
 FILE: ReflectionFieldDeclaration.java
-SYMBOL_PACKAGE com.github.javaparser.symbolsolver.reflectionmodel [ReflectionFieldDeclaration.java <17:9 17:58>]
+SYMBOL_PACKAGE com.github.javaparser.symbolsolver.reflectionmodel [ReflectionFieldDeclaration.java <17:44 17:58>]
 SYMBOL_PACKAGE com.github.javaparser.symbolsolver
 SYMBOL_PACKAGE com.github.javaparser
 SYMBOL_PACKAGE com.github
 SYMBOL_PACKAGE com
-REFERENCE_IMPORT ReflectionFieldDeclaration.java -> com.github.javaparser.symbolsolver.model.declarations.AccessLevel [ReflectionFieldDeclaration.java <19:8 19:72>]
+QUALIFIER: com.github.javaparser.symbolsolver [ReflectionFieldDeclaration.java <17:31 17:42>]
+QUALIFIER: com.github.javaparser [ReflectionFieldDeclaration.java <17:20 17:29>]
+QUALIFIER: com.github [ReflectionFieldDeclaration.java <17:13 17:18>]
+QUALIFIER: com [ReflectionFieldDeclaration.java <17:9 17:11>]
+REFERENCE_IMPORT ReflectionFieldDeclaration.java -> com.github.javaparser.symbolsolver.model.declarations.AccessLevel [ReflectionFieldDeclaration.java <19:62 19:72>]
 SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model.declarations
-REFERENCE_IMPORT ReflectionFieldDeclaration.java -> com.github.javaparser.symbolsolver.model.declarations.FieldDeclaration [ReflectionFieldDeclaration.java <20:8 20:77>]
-SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model.declarations
-REFERENCE_IMPORT ReflectionFieldDeclaration.java -> com.github.javaparser.symbolsolver.model.declarations.TypeDeclaration [ReflectionFieldDeclaration.java <21:8 21:76>]
-SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model.declarations
-REFERENCE_IMPORT ReflectionFieldDeclaration.java -> com.github.javaparser.symbolsolver.model.resolution.TypeSolver [ReflectionFieldDeclaration.java <22:8 22:69>]
+QUALIFIER: com.github.javaparser.symbolsolver.model.declarations [ReflectionFieldDeclaration.java <19:49 19:60>]
+QUALIFIER: com.github.javaparser.symbolsolver.model [ReflectionFieldDeclaration.java <19:43 19:47>]
+QUALIFIER: com.github.javaparser.symbolsolver [ReflectionFieldDeclaration.java <19:30 19:41>]
+QUALIFIER: com.github.javaparser [ReflectionFieldDeclaration.java <19:19 19:28>]
+QUALIFIER: com.github [ReflectionFieldDeclaration.java <19:12 19:17>]
+QUALIFIER: com [ReflectionFieldDeclaration.java <19:8 19:10>]
+REFERENCE_IMPORT ReflectionFieldDeclaration.java -> com.github.javaparser.symbolsolver.model.declarations.FieldDeclaration [ReflectionFieldDeclaration.java <20:62 20:77>]
+QUALIFIER: com.github.javaparser.symbolsolver.model.declarations [ReflectionFieldDeclaration.java <20:49 20:60>]
+QUALIFIER: com.github.javaparser.symbolsolver.model [ReflectionFieldDeclaration.java <20:43 20:47>]
+QUALIFIER: com.github.javaparser.symbolsolver [ReflectionFieldDeclaration.java <20:30 20:41>]
+QUALIFIER: com.github.javaparser [ReflectionFieldDeclaration.java <20:19 20:28>]
+QUALIFIER: com.github [ReflectionFieldDeclaration.java <20:12 20:17>]
+QUALIFIER: com [ReflectionFieldDeclaration.java <20:8 20:10>]
+REFERENCE_IMPORT ReflectionFieldDeclaration.java -> com.github.javaparser.symbolsolver.model.declarations.TypeDeclaration [ReflectionFieldDeclaration.java <21:62 21:76>]
+QUALIFIER: com.github.javaparser.symbolsolver.model.declarations [ReflectionFieldDeclaration.java <21:49 21:60>]
+QUALIFIER: com.github.javaparser.symbolsolver.model [ReflectionFieldDeclaration.java <21:43 21:47>]
+QUALIFIER: com.github.javaparser.symbolsolver [ReflectionFieldDeclaration.java <21:30 21:41>]
+QUALIFIER: com.github.javaparser [ReflectionFieldDeclaration.java <21:19 21:28>]
+QUALIFIER: com.github [ReflectionFieldDeclaration.java <21:12 21:17>]
+QUALIFIER: com [ReflectionFieldDeclaration.java <21:8 21:10>]
+REFERENCE_IMPORT ReflectionFieldDeclaration.java -> com.github.javaparser.symbolsolver.model.resolution.TypeSolver [ReflectionFieldDeclaration.java <22:60 22:69>]
 SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model.resolution
-REFERENCE_IMPORT ReflectionFieldDeclaration.java -> com.github.javaparser.symbolsolver.model.typesystem.Type [ReflectionFieldDeclaration.java <23:8 23:63>]
+QUALIFIER: com.github.javaparser.symbolsolver.model.resolution [ReflectionFieldDeclaration.java <22:49 22:58>]
+QUALIFIER: com.github.javaparser.symbolsolver.model [ReflectionFieldDeclaration.java <22:43 22:47>]
+QUALIFIER: com.github.javaparser.symbolsolver [ReflectionFieldDeclaration.java <22:30 22:41>]
+QUALIFIER: com.github.javaparser [ReflectionFieldDeclaration.java <22:19 22:28>]
+QUALIFIER: com.github [ReflectionFieldDeclaration.java <22:12 22:17>]
+QUALIFIER: com [ReflectionFieldDeclaration.java <22:8 22:10>]
+REFERENCE_IMPORT ReflectionFieldDeclaration.java -> com.github.javaparser.symbolsolver.model.typesystem.Type [ReflectionFieldDeclaration.java <23:60 23:63>]
 SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model.typesystem
-REFERENCE_IMPORT ReflectionFieldDeclaration.java -> java.lang.reflect.Field [ReflectionFieldDeclaration.java <25:8 25:30>]
+QUALIFIER: com.github.javaparser.symbolsolver.model.typesystem [ReflectionFieldDeclaration.java <23:49 23:58>]
+QUALIFIER: com.github.javaparser.symbolsolver.model [ReflectionFieldDeclaration.java <23:43 23:47>]
+QUALIFIER: com.github.javaparser.symbolsolver [ReflectionFieldDeclaration.java <23:30 23:41>]
+QUALIFIER: com.github.javaparser [ReflectionFieldDeclaration.java <23:19 23:28>]
+QUALIFIER: com.github [ReflectionFieldDeclaration.java <23:12 23:17>]
+QUALIFIER: com [ReflectionFieldDeclaration.java <23:8 23:10>]
+REFERENCE_IMPORT ReflectionFieldDeclaration.java -> java.lang.reflect.Field [ReflectionFieldDeclaration.java <25:26 25:30>]
 SYMBOL_PACKAGE java.lang.reflect
-REFERENCE_IMPORT ReflectionFieldDeclaration.java -> java.lang.reflect.Modifier [ReflectionFieldDeclaration.java <26:8 26:33>]
-SYMBOL_PACKAGE java.lang.reflect
+QUALIFIER: java.lang.reflect [ReflectionFieldDeclaration.java <25:18 25:24>]
+QUALIFIER: java.lang [ReflectionFieldDeclaration.java <25:13 25:16>]
+QUALIFIER: java [ReflectionFieldDeclaration.java <25:8 25:11>]
+REFERENCE_IMPORT ReflectionFieldDeclaration.java -> java.lang.reflect.Modifier [ReflectionFieldDeclaration.java <26:26 26:33>]
+QUALIFIER: java.lang.reflect [ReflectionFieldDeclaration.java <26:18 26:24>]
+QUALIFIER: java.lang [ReflectionFieldDeclaration.java <26:13 26:16>]
+QUALIFIER: java [ReflectionFieldDeclaration.java <26:8 26:11>]
 SYMBOL_CLASS public com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFieldDeclaration [ReflectionFieldDeclaration.java <31:1 <31:14 31:39> 97:1>]
 LOCAL_SYMBOL: ReflectionFieldDeclaration.java<31:69> [ReflectionFieldDeclaration.java <31:69 31:69>]
 LOCAL_SYMBOL: ReflectionFieldDeclaration.java<31:69> [ReflectionFieldDeclaration.java <97:1 97:1>]
@@ -36,12 +73,15 @@ REFERENCE_TYPE_USAGE com.github.javaparser.symbolsolver.reflectionmodel.Reflecti
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFieldDeclaration.ReflectionFieldDeclaration<1> [ReflectionFieldDeclaration.java <37:63 37:72>]
 LOCAL_SYMBOL: ReflectionFieldDeclaration.java<37:75> [ReflectionFieldDeclaration.java <37:75 37:75>]
 LOCAL_SYMBOL: ReflectionFieldDeclaration.java<37:75> [ReflectionFieldDeclaration.java <41:5 41:5>]
+QUALIFIER: com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFieldDeclaration [ReflectionFieldDeclaration.java <38:9 38:12>]
 SYMBOL_FIELD java.lang.reflect.Field com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFieldDeclaration.field
 REFERENCE_USAGE com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFieldDeclaration.ReflectionFieldDeclaration(java.lang.reflect.Field, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> java.lang.reflect.Field com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFieldDeclaration.field [ReflectionFieldDeclaration.java <38:14 38:18>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFieldDeclaration.ReflectionFieldDeclaration<0> [ReflectionFieldDeclaration.java <38:22 38:26>]
+QUALIFIER: com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFieldDeclaration [ReflectionFieldDeclaration.java <39:9 39:12>]
 SYMBOL_FIELD com.github.javaparser.symbolsolver.model.resolution.TypeSolver com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFieldDeclaration.typeSolver
 REFERENCE_USAGE com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFieldDeclaration.ReflectionFieldDeclaration(java.lang.reflect.Field, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> com.github.javaparser.symbolsolver.model.resolution.TypeSolver com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFieldDeclaration.typeSolver [ReflectionFieldDeclaration.java <39:14 39:23>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFieldDeclaration.ReflectionFieldDeclaration<1> [ReflectionFieldDeclaration.java <39:27 39:36>]
+QUALIFIER: com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFieldDeclaration [ReflectionFieldDeclaration.java <40:9 40:12>]
 SYMBOL_FIELD com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFieldDeclaration.type
 REFERENCE_USAGE com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFieldDeclaration.ReflectionFieldDeclaration(java.lang.reflect.Field, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFieldDeclaration.type [ReflectionFieldDeclaration.java <40:14 40:17>]
 SYMBOL_METHOD com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFieldDeclaration.calcType()
@@ -55,13 +95,13 @@ REFERENCE_TYPE_USAGE com.github.javaparser.symbolsolver.reflectionmodel.Reflecti
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFieldDeclaration.ReflectionFieldDeclaration<2> [ReflectionFieldDeclaration.java <43:81 43:84>]
 LOCAL_SYMBOL: ReflectionFieldDeclaration.java<43:87> [ReflectionFieldDeclaration.java <43:87 43:87>]
 LOCAL_SYMBOL: ReflectionFieldDeclaration.java<43:87> [ReflectionFieldDeclaration.java <47:5 47:5>]
-SYMBOL_FIELD java.lang.reflect.Field com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFieldDeclaration.field
+QUALIFIER: com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFieldDeclaration [ReflectionFieldDeclaration.java <44:9 44:12>]
 REFERENCE_USAGE com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFieldDeclaration.ReflectionFieldDeclaration(java.lang.reflect.Field, com.github.javaparser.symbolsolver.model.resolution.TypeSolver, com.github.javaparser.symbolsolver.model.typesystem.Type) -> java.lang.reflect.Field com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFieldDeclaration.field [ReflectionFieldDeclaration.java <44:14 44:18>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFieldDeclaration.ReflectionFieldDeclaration<0> [ReflectionFieldDeclaration.java <44:22 44:26>]
-SYMBOL_FIELD com.github.javaparser.symbolsolver.model.resolution.TypeSolver com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFieldDeclaration.typeSolver
+QUALIFIER: com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFieldDeclaration [ReflectionFieldDeclaration.java <45:9 45:12>]
 REFERENCE_USAGE com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFieldDeclaration.ReflectionFieldDeclaration(java.lang.reflect.Field, com.github.javaparser.symbolsolver.model.resolution.TypeSolver, com.github.javaparser.symbolsolver.model.typesystem.Type) -> com.github.javaparser.symbolsolver.model.resolution.TypeSolver com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFieldDeclaration.typeSolver [ReflectionFieldDeclaration.java <45:14 45:23>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFieldDeclaration.ReflectionFieldDeclaration<1> [ReflectionFieldDeclaration.java <45:27 45:36>]
-SYMBOL_FIELD com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFieldDeclaration.type
+QUALIFIER: com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFieldDeclaration [ReflectionFieldDeclaration.java <46:9 46:12>]
 REFERENCE_USAGE com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFieldDeclaration.ReflectionFieldDeclaration(java.lang.reflect.Field, com.github.javaparser.symbolsolver.model.resolution.TypeSolver, com.github.javaparser.symbolsolver.model.typesystem.Type) -> com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFieldDeclaration.type [ReflectionFieldDeclaration.java <46:14 46:17>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFieldDeclaration.ReflectionFieldDeclaration<2> [ReflectionFieldDeclaration.java <46:21 46:24>]
 SYMBOL_METHOD public com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFieldDeclaration.getType() [ReflectionFieldDeclaration.java <49:5 <50:17 50:23> 52:5>]
@@ -70,7 +110,6 @@ REFERENCE_OVERRIDE com.github.javaparser.symbolsolver.model.typesystem.Type com.
 REFERENCE_TYPE_USAGE com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFieldDeclaration.getType() -> com.github.javaparser.symbolsolver.model.typesystem.Type [ReflectionFieldDeclaration.java <50:12 50:15>]
 LOCAL_SYMBOL: ReflectionFieldDeclaration.java<50:27> [ReflectionFieldDeclaration.java <50:27 50:27>]
 LOCAL_SYMBOL: ReflectionFieldDeclaration.java<50:27> [ReflectionFieldDeclaration.java <52:5 52:5>]
-SYMBOL_FIELD com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFieldDeclaration.type
 REFERENCE_USAGE com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFieldDeclaration.getType() -> com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFieldDeclaration.type [ReflectionFieldDeclaration.java <51:16 51:19>]
 SYMBOL_METHOD private com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFieldDeclaration.calcType() [ReflectionFieldDeclaration.java <54:5 <54:18 54:25> 57:5>]
 REFERENCE_TYPE_USAGE com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFieldDeclaration.calcType() -> com.github.javaparser.symbolsolver.model.typesystem.Type [ReflectionFieldDeclaration.java <54:13 54:16>]
@@ -78,11 +117,10 @@ LOCAL_SYMBOL: ReflectionFieldDeclaration.java<54:29> [ReflectionFieldDeclaration
 LOCAL_SYMBOL: ReflectionFieldDeclaration.java<54:29> [ReflectionFieldDeclaration.java <57:5 57:5>]
 SYMBOL_METHOD static com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFactory.typeUsageFor(java.lang.reflect.Type, com.github.javaparser.symbolsolver.model.resolution.TypeSolver)
 REFERENCE_CALL com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFieldDeclaration.calcType() -> static com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFactory.typeUsageFor(java.lang.reflect.Type, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) [ReflectionFieldDeclaration.java <56:34 56:45>]
+QUALIFIER: com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFactory [ReflectionFieldDeclaration.java <56:16 56:32>]
 SYMBOL_METHOD java.lang.reflect.Type java.lang.reflect.Field.getGenericType()
 REFERENCE_CALL com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFieldDeclaration.calcType() -> java.lang.reflect.Type java.lang.reflect.Field.getGenericType() [ReflectionFieldDeclaration.java <56:53 56:66>]
-SYMBOL_FIELD java.lang.reflect.Field com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFieldDeclaration.field
 REFERENCE_USAGE com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFieldDeclaration.calcType() -> java.lang.reflect.Field com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFieldDeclaration.field [ReflectionFieldDeclaration.java <56:47 56:51>]
-SYMBOL_FIELD com.github.javaparser.symbolsolver.model.resolution.TypeSolver com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFieldDeclaration.typeSolver
 REFERENCE_USAGE com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFieldDeclaration.calcType() -> com.github.javaparser.symbolsolver.model.resolution.TypeSolver com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFieldDeclaration.typeSolver [ReflectionFieldDeclaration.java <56:71 56:80>]
 SYMBOL_METHOD public java.lang.String com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFieldDeclaration.getName() [ReflectionFieldDeclaration.java <59:5 <60:19 60:25> 62:5>]
 SYMBOL_METHOD java.lang.String com.github.javaparser.symbolsolver.model.declarations.Declaration.getName()
@@ -92,7 +130,6 @@ LOCAL_SYMBOL: ReflectionFieldDeclaration.java<60:29> [ReflectionFieldDeclaration
 LOCAL_SYMBOL: ReflectionFieldDeclaration.java<60:29> [ReflectionFieldDeclaration.java <62:5 62:5>]
 SYMBOL_METHOD java.lang.String java.lang.reflect.Field.getName()
 REFERENCE_CALL java.lang.String com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFieldDeclaration.getName() -> java.lang.String java.lang.reflect.Field.getName() [ReflectionFieldDeclaration.java <61:22 61:28>]
-SYMBOL_FIELD java.lang.reflect.Field com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFieldDeclaration.field
 REFERENCE_USAGE java.lang.String com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFieldDeclaration.getName() -> java.lang.reflect.Field com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFieldDeclaration.field [ReflectionFieldDeclaration.java <61:16 61:20>]
 SYMBOL_METHOD public boolean com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFieldDeclaration.isStatic() [ReflectionFieldDeclaration.java <64:5 <65:20 65:27> 67:5>]
 SYMBOL_METHOD boolean com.github.javaparser.symbolsolver.model.declarations.FieldDeclaration.isStatic()
@@ -103,14 +140,13 @@ LOCAL_SYMBOL: ReflectionFieldDeclaration.java<65:31> [ReflectionFieldDeclaration
 LOCAL_SYMBOL: ReflectionFieldDeclaration.java<65:31> [ReflectionFieldDeclaration.java <67:5 67:5>]
 SYMBOL_METHOD static boolean java.lang.reflect.Modifier.isStatic(int)
 REFERENCE_CALL boolean com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFieldDeclaration.isStatic() -> static boolean java.lang.reflect.Modifier.isStatic(int) [ReflectionFieldDeclaration.java <66:25 66:32>]
+QUALIFIER: java.lang.reflect.Modifier [ReflectionFieldDeclaration.java <66:16 66:23>]
 SYMBOL_METHOD int java.lang.reflect.Field.getModifiers()
 REFERENCE_CALL boolean com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFieldDeclaration.isStatic() -> int java.lang.reflect.Field.getModifiers() [ReflectionFieldDeclaration.java <66:40 66:51>]
-SYMBOL_FIELD java.lang.reflect.Field com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFieldDeclaration.field
 REFERENCE_USAGE boolean com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFieldDeclaration.isStatic() -> java.lang.reflect.Field com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFieldDeclaration.field [ReflectionFieldDeclaration.java <66:34 66:38>]
 SYMBOL_METHOD public boolean com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFieldDeclaration.isField() [ReflectionFieldDeclaration.java <69:5 <70:20 70:26> 72:5>]
 SYMBOL_METHOD boolean com.github.javaparser.symbolsolver.model.declarations.FieldDeclaration.isField()
 REFERENCE_OVERRIDE boolean com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFieldDeclaration.isField() -> boolean com.github.javaparser.symbolsolver.model.declarations.FieldDeclaration.isField() [ReflectionFieldDeclaration.java <70:20 70:26>]
-SYMBOL_BUILTIN_TYPE boolean
 REFERENCE_TYPE_USAGE boolean com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFieldDeclaration.isField() -> boolean [ReflectionFieldDeclaration.java <70:12 70:18>]
 LOCAL_SYMBOL: ReflectionFieldDeclaration.java<70:30> [ReflectionFieldDeclaration.java <70:30 70:30>]
 LOCAL_SYMBOL: ReflectionFieldDeclaration.java<70:30> [ReflectionFieldDeclaration.java <72:5 72:5>]
@@ -122,11 +158,10 @@ LOCAL_SYMBOL: ReflectionFieldDeclaration.java<75:44> [ReflectionFieldDeclaration
 LOCAL_SYMBOL: ReflectionFieldDeclaration.java<75:44> [ReflectionFieldDeclaration.java <77:5 77:5>]
 SYMBOL_METHOD static com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFactory.typeDeclarationFor(java.lang.Class<?>, com.github.javaparser.symbolsolver.model.resolution.TypeSolver)
 REFERENCE_CALL com.github.javaparser.symbolsolver.model.declarations.TypeDeclaration com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFieldDeclaration.declaringType() -> static com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFactory.typeDeclarationFor(java.lang.Class<?>, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) [ReflectionFieldDeclaration.java <76:34 76:51>]
+QUALIFIER: com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFactory [ReflectionFieldDeclaration.java <76:16 76:32>]
 SYMBOL_METHOD java.lang.Class<?> java.lang.reflect.Field.getDeclaringClass()
 REFERENCE_CALL com.github.javaparser.symbolsolver.model.declarations.TypeDeclaration com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFieldDeclaration.declaringType() -> java.lang.Class<?> java.lang.reflect.Field.getDeclaringClass() [ReflectionFieldDeclaration.java <76:59 76:75>]
-SYMBOL_FIELD java.lang.reflect.Field com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFieldDeclaration.field
 REFERENCE_USAGE com.github.javaparser.symbolsolver.model.declarations.TypeDeclaration com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFieldDeclaration.declaringType() -> java.lang.reflect.Field com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFieldDeclaration.field [ReflectionFieldDeclaration.java <76:53 76:57>]
-SYMBOL_FIELD com.github.javaparser.symbolsolver.model.resolution.TypeSolver com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFieldDeclaration.typeSolver
 REFERENCE_USAGE com.github.javaparser.symbolsolver.model.declarations.TypeDeclaration com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFieldDeclaration.declaringType() -> com.github.javaparser.symbolsolver.model.resolution.TypeSolver com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFieldDeclaration.typeSolver [ReflectionFieldDeclaration.java <76:80 76:89>]
 SYMBOL_METHOD public com.github.javaparser.symbolsolver.model.declarations.FieldDeclaration com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFieldDeclaration.replaceType(com.github.javaparser.symbolsolver.model.typesystem.Type) [ReflectionFieldDeclaration.java <79:5 <79:29 79:39> 81:5>]
 REFERENCE_TYPE_USAGE com.github.javaparser.symbolsolver.model.declarations.FieldDeclaration com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFieldDeclaration.replaceType(com.github.javaparser.symbolsolver.model.typesystem.Type) -> com.github.javaparser.symbolsolver.model.declarations.FieldDeclaration [ReflectionFieldDeclaration.java <79:12 79:27>]
@@ -137,22 +172,18 @@ LOCAL_SYMBOL: ReflectionFieldDeclaration.java<79:57> [ReflectionFieldDeclaration
 SYMBOL_METHOD com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFieldDeclaration.ReflectionFieldDeclaration(java.lang.reflect.Field, com.github.javaparser.symbolsolver.model.resolution.TypeSolver, com.github.javaparser.symbolsolver.model.typesystem.Type)
 REFERENCE_CALL com.github.javaparser.symbolsolver.model.declarations.FieldDeclaration com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFieldDeclaration.replaceType(com.github.javaparser.symbolsolver.model.typesystem.Type) -> com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFieldDeclaration.ReflectionFieldDeclaration(java.lang.reflect.Field, com.github.javaparser.symbolsolver.model.resolution.TypeSolver, com.github.javaparser.symbolsolver.model.typesystem.Type) [ReflectionFieldDeclaration.java <80:20 80:45>]
 REFERENCE_TYPE_USAGE com.github.javaparser.symbolsolver.model.declarations.FieldDeclaration com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFieldDeclaration.replaceType(com.github.javaparser.symbolsolver.model.typesystem.Type) -> com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFieldDeclaration [ReflectionFieldDeclaration.java <80:20 80:45>]
-SYMBOL_FIELD java.lang.reflect.Field com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFieldDeclaration.field
 REFERENCE_USAGE com.github.javaparser.symbolsolver.model.declarations.FieldDeclaration com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFieldDeclaration.replaceType(com.github.javaparser.symbolsolver.model.typesystem.Type) -> java.lang.reflect.Field com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFieldDeclaration.field [ReflectionFieldDeclaration.java <80:47 80:51>]
-SYMBOL_FIELD com.github.javaparser.symbolsolver.model.resolution.TypeSolver com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFieldDeclaration.typeSolver
 REFERENCE_USAGE com.github.javaparser.symbolsolver.model.declarations.FieldDeclaration com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFieldDeclaration.replaceType(com.github.javaparser.symbolsolver.model.typesystem.Type) -> com.github.javaparser.symbolsolver.model.resolution.TypeSolver com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFieldDeclaration.typeSolver [ReflectionFieldDeclaration.java <80:54 80:63>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFieldDeclaration.replaceType<0> [ReflectionFieldDeclaration.java <80:66 80:74>]
 SYMBOL_METHOD public boolean com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFieldDeclaration.isParameter() [ReflectionFieldDeclaration.java <83:5 <84:20 84:30> 86:5>]
 SYMBOL_METHOD boolean com.github.javaparser.symbolsolver.model.declarations.Declaration.isParameter()
 REFERENCE_OVERRIDE boolean com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFieldDeclaration.isParameter() -> boolean com.github.javaparser.symbolsolver.model.declarations.Declaration.isParameter() [ReflectionFieldDeclaration.java <84:20 84:30>]
-SYMBOL_BUILTIN_TYPE boolean
 REFERENCE_TYPE_USAGE boolean com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFieldDeclaration.isParameter() -> boolean [ReflectionFieldDeclaration.java <84:12 84:18>]
 LOCAL_SYMBOL: ReflectionFieldDeclaration.java<84:34> [ReflectionFieldDeclaration.java <84:34 84:34>]
 LOCAL_SYMBOL: ReflectionFieldDeclaration.java<84:34> [ReflectionFieldDeclaration.java <86:5 86:5>]
 SYMBOL_METHOD public boolean com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFieldDeclaration.isType() [ReflectionFieldDeclaration.java <88:5 <89:20 89:25> 91:5>]
 SYMBOL_METHOD boolean com.github.javaparser.symbolsolver.model.declarations.Declaration.isType()
 REFERENCE_OVERRIDE boolean com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFieldDeclaration.isType() -> boolean com.github.javaparser.symbolsolver.model.declarations.Declaration.isType() [ReflectionFieldDeclaration.java <89:20 89:25>]
-SYMBOL_BUILTIN_TYPE boolean
 REFERENCE_TYPE_USAGE boolean com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFieldDeclaration.isType() -> boolean [ReflectionFieldDeclaration.java <89:12 89:18>]
 LOCAL_SYMBOL: ReflectionFieldDeclaration.java<89:29> [ReflectionFieldDeclaration.java <89:29 89:29>]
 LOCAL_SYMBOL: ReflectionFieldDeclaration.java<89:29> [ReflectionFieldDeclaration.java <91:5 91:5>]
@@ -164,9 +195,8 @@ LOCAL_SYMBOL: ReflectionFieldDeclaration.java<94:38> [ReflectionFieldDeclaration
 LOCAL_SYMBOL: ReflectionFieldDeclaration.java<94:38> [ReflectionFieldDeclaration.java <96:5 96:5>]
 SYMBOL_METHOD static com.github.javaparser.symbolsolver.model.declarations.AccessLevel com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFactory.modifiersToAccessLevel(int)
 REFERENCE_CALL com.github.javaparser.symbolsolver.model.declarations.AccessLevel com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFieldDeclaration.accessLevel() -> static com.github.javaparser.symbolsolver.model.declarations.AccessLevel com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFactory.modifiersToAccessLevel(int) [ReflectionFieldDeclaration.java <95:34 95:55>]
-SYMBOL_METHOD int java.lang.reflect.Field.getModifiers()
+QUALIFIER: com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFactory [ReflectionFieldDeclaration.java <95:16 95:32>]
 REFERENCE_CALL com.github.javaparser.symbolsolver.model.declarations.AccessLevel com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFieldDeclaration.accessLevel() -> int java.lang.reflect.Field.getModifiers() [ReflectionFieldDeclaration.java <95:63 95:74>]
-SYMBOL_FIELD java.lang.reflect.Field com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFieldDeclaration.field
 REFERENCE_USAGE com.github.javaparser.symbolsolver.model.declarations.AccessLevel com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFieldDeclaration.accessLevel() -> java.lang.reflect.Field com.github.javaparser.symbolsolver.reflectionmodel.ReflectionFieldDeclaration.field [ReflectionFieldDeclaration.java <95:57 95:61>]
 COMMENT: comment [ReflectionFieldDeclaration.java <1:1 15:3>]
 COMMENT: comment [ReflectionFieldDeclaration.java <55:9 55:67>]

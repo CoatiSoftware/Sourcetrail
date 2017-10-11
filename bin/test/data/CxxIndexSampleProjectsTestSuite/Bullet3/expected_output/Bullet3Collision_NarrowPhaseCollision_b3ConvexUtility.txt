@@ -1,11 +1,6 @@
 FILE: b3ConvexUtility.cpp
-FILE: b3ConvexUtility.cpp
 COMMENT: comment [b3ConvexUtility.cpp <1:1 13:3>]
 COMMENT: comment [b3ConvexUtility.cpp <14:1 14:38>]
-FILE: b3ConvexUtility.cpp
-FILE: b3ConvexUtility.cpp
-FILE: b3ConvexUtility.cpp
-FILE: b3ConvexUtility.cpp
 COMMENT: comment [b3ConvexUtility.cpp <59:3 59:30>]
 COMMENT: comment [b3ConvexUtility.cpp <65:3 65:25>]
 REFERENCE_MACRO_USAGE b3ConvexUtility.cpp -> b3Assert [b3ConvexUtility.cpp <99:4 99:11>]
@@ -35,8 +30,9 @@ COMMENT: comment [b3ConvexUtility.cpp <417:7 417:28>]
 REFERENCE_MACRO_USAGE b3ConvexUtility.cpp -> TEST_INTERNAL_OBJECTS [b3ConvexUtility.cpp <441:8 441:28>]
 SYMBOL_METHOD public void b3ConvexUtility::~b3ConvexUtility() [b3ConvexUtility.cpp <27:1 <27:18 27:33> 29:1>]
 SYMBOL_CLASS b3ConvexUtility
+QUALIFIER: b3ConvexUtility [b3ConvexUtility.cpp <27:1 27:15>]
 SYMBOL_METHOD public bool b3ConvexUtility::initializePolyhedralFeatures(const b3Vector3 *, int, bool) [b3ConvexUtility.cpp <31:1 <31:23 31:50> 265:1>]
-SYMBOL_CLASS b3ConvexUtility
+QUALIFIER: b3ConvexUtility [b3ConvexUtility.cpp <31:6 31:20>]
 SYMBOL_BUILTIN_TYPE bool
 REFERENCE_TYPE_USAGE bool b3ConvexUtility::initializePolyhedralFeatures(const b3Vector3 *, int, bool) -> bool [b3ConvexUtility.cpp <31:1 31:4>]
 LOCAL_SYMBOL: b3ConvexUtility.cpp<31:69> [b3ConvexUtility.cpp <31:69 31:79>]
@@ -45,7 +41,6 @@ LOCAL_SYMBOL: b3ConvexUtility.cpp<31:86> [b3ConvexUtility.cpp <31:86 31:94>]
 SYMBOL_BUILTIN_TYPE int
 REFERENCE_TYPE_USAGE bool b3ConvexUtility::initializePolyhedralFeatures(const b3Vector3 *, int, bool) -> int [b3ConvexUtility.cpp <31:82 31:84>]
 LOCAL_SYMBOL: b3ConvexUtility.cpp<31:102> [b3ConvexUtility.cpp <31:102 31:123>]
-SYMBOL_BUILTIN_TYPE bool
 REFERENCE_TYPE_USAGE bool b3ConvexUtility::initializePolyhedralFeatures(const b3Vector3 *, int, bool) -> bool [b3ConvexUtility.cpp <31:97 31:100>]
 LOCAL_SYMBOL: b3ConvexUtility.cpp<36:23> [b3ConvexUtility.cpp <36:23 36:26>]
 REFERENCE_TYPE_USAGE bool b3ConvexUtility::initializePolyhedralFeatures(const b3Vector3 *, int, bool) -> b3ConvexHullComputer [b3ConvexUtility.cpp <36:2 36:21>]
@@ -65,7 +60,6 @@ REFERENCE_TEMPLATE_ARGUMENT b3AlignedObjectArray<b3Vector3> -> b3Vector3 [b3Conv
 SYMBOL_FUNCTION void b3AlignedObjectArray<b3Vector3>::b3AlignedObjectArray()
 REFERENCE_CALL bool b3ConvexUtility::initializePolyhedralFeatures(const b3Vector3 *, int, bool) -> void b3AlignedObjectArray<b3Vector3>::b3AlignedObjectArray() [b3ConvexUtility.cpp <39:34 39:44>]
 LOCAL_SYMBOL: b3ConvexUtility.cpp<40:6> [b3ConvexUtility.cpp <40:6 40:13>]
-SYMBOL_BUILTIN_TYPE int
 REFERENCE_TYPE_USAGE bool b3ConvexUtility::initializePolyhedralFeatures(const b3Vector3 *, int, bool) -> int [b3ConvexUtility.cpp <40:2 40:4>]
 SYMBOL_FUNCTION int b3AlignedObjectArray<int>::size() const
 REFERENCE_CALL bool b3ConvexUtility::initializePolyhedralFeatures(const b3Vector3 *, int, bool) -> int b3AlignedObjectArray<int>::size() const [b3ConvexUtility.cpp <40:28 40:31>]
@@ -88,18 +82,15 @@ REFERENCE_CALL bool b3ConvexUtility::initializePolyhedralFeatures(const b3Vector
 LOCAL_SYMBOL: b3ConvexUtility.cpp<45:33> [b3ConvexUtility.cpp <46:2 46:9>]
 LOCAL_SYMBOL: b3ConvexUtility.cpp<40:6> [b3ConvexUtility.cpp <46:18 46:25>]
 LOCAL_SYMBOL: b3ConvexUtility.cpp<48:6> [b3ConvexUtility.cpp <48:6 48:16>]
-SYMBOL_BUILTIN_TYPE int
 REFERENCE_TYPE_USAGE bool b3ConvexUtility::initializePolyhedralFeatures(const b3Vector3 *, int, bool) -> int [b3ConvexUtility.cpp <48:2 48:4>]
 SYMBOL_FUNCTION int b3AlignedObjectArray<b3Vector3>::size() const
 REFERENCE_CALL bool b3ConvexUtility::initializePolyhedralFeatures(const b3Vector3 *, int, bool) -> int b3AlignedObjectArray<b3Vector3>::size() const [b3ConvexUtility.cpp <48:41 48:44>]
 REFERENCE_USAGE bool b3ConvexUtility::initializePolyhedralFeatures(const b3Vector3 *, int, bool) -> b3AlignedObjectArray<b3Vector3> b3ConvexHullComputer::vertices [b3ConvexUtility.cpp <48:32 48:39>]
 LOCAL_SYMBOL: b3ConvexUtility.cpp<42:24> [b3ConvexUtility.cpp <48:20 48:29>]
-SYMBOL_FUNCTION void b3AlignedObjectArray<b3Vector3>::resize(int, const b3Vector3 &)
 REFERENCE_CALL bool b3ConvexUtility::initializePolyhedralFeatures(const b3Vector3 *, int, bool) -> void b3AlignedObjectArray<b3Vector3>::resize(int, const b3Vector3 &) [b3ConvexUtility.cpp <49:13 49:18>]
 REFERENCE_USAGE bool b3ConvexUtility::initializePolyhedralFeatures(const b3Vector3 *, int, bool) -> b3AlignedObjectArray<b3Vector3> b3ConvexUtility::m_vertices [b3ConvexUtility.cpp <49:2 49:11>]
 LOCAL_SYMBOL: b3ConvexUtility.cpp<48:6> [b3ConvexUtility.cpp <49:20 49:30>]
 LOCAL_SYMBOL: b3ConvexUtility.cpp<50:11> [b3ConvexUtility.cpp <50:11 50:11>]
-SYMBOL_BUILTIN_TYPE int
 REFERENCE_TYPE_USAGE bool b3ConvexUtility::initializePolyhedralFeatures(const b3Vector3 *, int, bool) -> int [b3ConvexUtility.cpp <50:7 50:9>]
 LOCAL_SYMBOL: b3ConvexUtility.cpp<50:11> [b3ConvexUtility.cpp <50:15 50:15>]
 LOCAL_SYMBOL: b3ConvexUtility.cpp<48:6> [b3ConvexUtility.cpp <50:17 50:27>]
@@ -110,19 +101,16 @@ SYMBOL_FUNCTION b3Vector3 & b3AlignedObjectArray<b3Vector3>::operator[](int)
 REFERENCE_CALL bool b3ConvexUtility::initializePolyhedralFeatures(const b3Vector3 *, int, bool) -> b3Vector3 & b3AlignedObjectArray<b3Vector3>::operator[](int) [b3ConvexUtility.cpp <52:13 52:13>]
 REFERENCE_USAGE bool b3ConvexUtility::initializePolyhedralFeatures(const b3Vector3 *, int, bool) -> b3AlignedObjectArray<b3Vector3> b3ConvexUtility::m_vertices [b3ConvexUtility.cpp <52:3 52:12>]
 LOCAL_SYMBOL: b3ConvexUtility.cpp<50:11> [b3ConvexUtility.cpp <52:14 52:14>]
-SYMBOL_FUNCTION b3Vector3 & b3AlignedObjectArray<b3Vector3>::operator[](int)
 REFERENCE_CALL bool b3ConvexUtility::initializePolyhedralFeatures(const b3Vector3 *, int, bool) -> b3Vector3 & b3AlignedObjectArray<b3Vector3>::operator[](int) [b3ConvexUtility.cpp <52:39 52:39>]
 REFERENCE_USAGE bool b3ConvexUtility::initializePolyhedralFeatures(const b3Vector3 *, int, bool) -> b3AlignedObjectArray<b3Vector3> b3ConvexHullComputer::vertices [b3ConvexUtility.cpp <52:31 52:38>]
 LOCAL_SYMBOL: b3ConvexUtility.cpp<42:24> [b3ConvexUtility.cpp <52:19 52:28>]
 LOCAL_SYMBOL: b3ConvexUtility.cpp<50:11> [b3ConvexUtility.cpp <52:40 52:40>]
 LOCAL_SYMBOL: b3ConvexUtility.cpp<56:11> [b3ConvexUtility.cpp <56:11 56:11>]
-SYMBOL_BUILTIN_TYPE int
 REFERENCE_TYPE_USAGE bool b3ConvexUtility::initializePolyhedralFeatures(const b3Vector3 *, int, bool) -> int [b3ConvexUtility.cpp <56:7 56:9>]
 LOCAL_SYMBOL: b3ConvexUtility.cpp<56:11> [b3ConvexUtility.cpp <56:15 56:15>]
 LOCAL_SYMBOL: b3ConvexUtility.cpp<40:6> [b3ConvexUtility.cpp <56:17 56:24>]
 LOCAL_SYMBOL: b3ConvexUtility.cpp<56:11> [b3ConvexUtility.cpp <56:26 56:26>]
 LOCAL_SYMBOL: b3ConvexUtility.cpp<58:7> [b3ConvexUtility.cpp <58:7 58:10>]
-SYMBOL_BUILTIN_TYPE int
 REFERENCE_TYPE_USAGE bool b3ConvexUtility::initializePolyhedralFeatures(const b3Vector3 *, int, bool) -> int [b3ConvexUtility.cpp <58:3 58:5>]
 SYMBOL_FUNCTION int & b3AlignedObjectArray<int>::operator[](int)
 REFERENCE_CALL bool b3ConvexUtility::initializePolyhedralFeatures(const b3Vector3 *, int, bool) -> int & b3AlignedObjectArray<int>::operator[](int) [b3ConvexUtility.cpp <58:31 58:31>]
@@ -131,6 +119,7 @@ LOCAL_SYMBOL: b3ConvexUtility.cpp<42:24> [b3ConvexUtility.cpp <58:14 58:23>]
 LOCAL_SYMBOL: b3ConvexUtility.cpp<56:11> [b3ConvexUtility.cpp <58:32 58:32>]
 LOCAL_SYMBOL: b3ConvexUtility.cpp<60:38> [b3ConvexUtility.cpp <60:38 60:46>]
 SYMBOL_CLASS b3ConvexHullComputer
+QUALIFIER: b3ConvexHullComputer [b3ConvexUtility.cpp <60:9 60:28>]
 REFERENCE_TYPE_USAGE bool b3ConvexUtility::initializePolyhedralFeatures(const b3Vector3 *, int, bool) -> b3ConvexHullComputer::Edge [b3ConvexUtility.cpp <60:31 60:34>]
 SYMBOL_FUNCTION b3ConvexHullComputer::Edge & b3AlignedObjectArray<b3ConvexHullComputer::Edge>::operator[](int)
 REFERENCE_CALL bool b3ConvexUtility::initializePolyhedralFeatures(const b3Vector3 *, int, bool) -> b3ConvexHullComputer::Edge & b3AlignedObjectArray<b3ConvexHullComputer::Edge>::operator[](int) [b3ConvexUtility.cpp <60:68 60:68>]
@@ -138,7 +127,7 @@ REFERENCE_USAGE bool b3ConvexUtility::initializePolyhedralFeatures(const b3Vecto
 LOCAL_SYMBOL: b3ConvexUtility.cpp<42:24> [b3ConvexUtility.cpp <60:51 60:60>]
 LOCAL_SYMBOL: b3ConvexUtility.cpp<58:7> [b3ConvexUtility.cpp <60:69 60:72>]
 LOCAL_SYMBOL: b3ConvexUtility.cpp<61:38> [b3ConvexUtility.cpp <61:38 61:41>]
-SYMBOL_CLASS b3ConvexHullComputer
+QUALIFIER: b3ConvexHullComputer [b3ConvexUtility.cpp <61:9 61:28>]
 REFERENCE_TYPE_USAGE bool b3ConvexUtility::initializePolyhedralFeatures(const b3Vector3 *, int, bool) -> b3ConvexHullComputer::Edge [b3ConvexUtility.cpp <61:31 61:34>]
 LOCAL_SYMBOL: b3ConvexUtility.cpp<60:38> [b3ConvexUtility.cpp <61:45 61:53>]
 LOCAL_SYMBOL: b3ConvexUtility.cpp<63:13> [b3ConvexUtility.cpp <63:13 63:17>]
@@ -146,10 +135,8 @@ REFERENCE_TYPE_USAGE bool b3ConvexUtility::initializePolyhedralFeatures(const b3
 SYMBOL_FUNCTION void b3Vector3::b3Vector3()
 REFERENCE_CALL bool b3ConvexUtility::initializePolyhedralFeatures(const b3Vector3 *, int, bool) -> void b3Vector3::b3Vector3() [b3ConvexUtility.cpp <63:13 63:17>]
 LOCAL_SYMBOL: b3ConvexUtility.cpp<64:7> [b3ConvexUtility.cpp <64:7 64:14>]
-SYMBOL_BUILTIN_TYPE int
 REFERENCE_TYPE_USAGE bool b3ConvexUtility::initializePolyhedralFeatures(const b3Vector3 *, int, bool) -> int [b3ConvexUtility.cpp <64:3 64:5>]
 LOCAL_SYMBOL: b3ConvexUtility.cpp<70:8> [b3ConvexUtility.cpp <70:8 70:10>]
-SYMBOL_BUILTIN_TYPE int
 REFERENCE_TYPE_USAGE bool b3ConvexUtility::initializePolyhedralFeatures(const b3Vector3 *, int, bool) -> int [b3ConvexUtility.cpp <70:4 70:6>]
 SYMBOL_FUNCTION int b3ConvexHullComputer::Edge::getSourceVertex() const
 REFERENCE_CALL bool b3ConvexUtility::initializePolyhedralFeatures(const b3Vector3 *, int, bool) -> int b3ConvexHullComputer::Edge::getSourceVertex() const [b3ConvexUtility.cpp <70:20 70:34>]
@@ -163,7 +150,6 @@ LOCAL_SYMBOL: b3ConvexUtility.cpp<45:33> [b3ConvexUtility.cpp <71:4 71:11>]
 LOCAL_SYMBOL: b3ConvexUtility.cpp<56:11> [b3ConvexUtility.cpp <71:13 71:13>]
 LOCAL_SYMBOL: b3ConvexUtility.cpp<70:8> [b3ConvexUtility.cpp <71:36 71:38>]
 LOCAL_SYMBOL: b3ConvexUtility.cpp<72:8> [b3ConvexUtility.cpp <72:8 72:11>]
-SYMBOL_BUILTIN_TYPE int
 REFERENCE_TYPE_USAGE bool b3ConvexUtility::initializePolyhedralFeatures(const b3Vector3 *, int, bool) -> int [b3ConvexUtility.cpp <72:4 72:6>]
 SYMBOL_FUNCTION int b3ConvexHullComputer::Edge::getTargetVertex() const
 REFERENCE_CALL bool b3ConvexUtility::initializePolyhedralFeatures(const b3Vector3 *, int, bool) -> int b3ConvexHullComputer::Edge::getTargetVertex() const [b3ConvexUtility.cpp <72:21 72:35>]
@@ -172,16 +158,13 @@ LOCAL_SYMBOL: b3ConvexUtility.cpp<73:14> [b3ConvexUtility.cpp <73:14 73:15>]
 REFERENCE_TYPE_USAGE bool b3ConvexUtility::initializePolyhedralFeatures(const b3Vector3 *, int, bool) -> b3Vector3 [b3ConvexUtility.cpp <73:4 73:12>]
 SYMBOL_FUNCTION void b3Vector3::b3Vector3(const b3Vector3 &)
 REFERENCE_CALL bool b3ConvexUtility::initializePolyhedralFeatures(const b3Vector3 *, int, bool) -> void b3Vector3::b3Vector3(const b3Vector3 &) [b3ConvexUtility.cpp <73:43 73:43>]
-SYMBOL_FUNCTION b3Vector3 & b3AlignedObjectArray<b3Vector3>::operator[](int)
 REFERENCE_CALL bool b3ConvexUtility::initializePolyhedralFeatures(const b3Vector3 *, int, bool) -> b3Vector3 & b3AlignedObjectArray<b3Vector3>::operator[](int) [b3ConvexUtility.cpp <73:39 73:39>]
 REFERENCE_USAGE bool b3ConvexUtility::initializePolyhedralFeatures(const b3Vector3 *, int, bool) -> b3AlignedObjectArray<b3Vector3> b3ConvexHullComputer::vertices [b3ConvexUtility.cpp <73:31 73:38>]
 LOCAL_SYMBOL: b3ConvexUtility.cpp<42:24> [b3ConvexUtility.cpp <73:19 73:28>]
 LOCAL_SYMBOL: b3ConvexUtility.cpp<70:8> [b3ConvexUtility.cpp <73:40 73:42>]
 LOCAL_SYMBOL: b3ConvexUtility.cpp<75:14> [b3ConvexUtility.cpp <75:14 75:15>]
 REFERENCE_TYPE_USAGE bool b3ConvexUtility::initializePolyhedralFeatures(const b3Vector3 *, int, bool) -> b3Vector3 [b3ConvexUtility.cpp <75:4 75:12>]
-SYMBOL_FUNCTION void b3Vector3::b3Vector3(const b3Vector3 &)
 REFERENCE_CALL bool b3ConvexUtility::initializePolyhedralFeatures(const b3Vector3 *, int, bool) -> void b3Vector3::b3Vector3(const b3Vector3 &) [b3ConvexUtility.cpp <75:44 75:44>]
-SYMBOL_FUNCTION b3Vector3 & b3AlignedObjectArray<b3Vector3>::operator[](int)
 REFERENCE_CALL bool b3ConvexUtility::initializePolyhedralFeatures(const b3Vector3 *, int, bool) -> b3Vector3 & b3AlignedObjectArray<b3Vector3>::operator[](int) [b3ConvexUtility.cpp <75:39 75:39>]
 REFERENCE_USAGE bool b3ConvexUtility::initializePolyhedralFeatures(const b3Vector3 *, int, bool) -> b3AlignedObjectArray<b3Vector3> b3ConvexHullComputer::vertices [b3ConvexUtility.cpp <75:31 75:38>]
 LOCAL_SYMBOL: b3ConvexUtility.cpp<42:24> [b3ConvexUtility.cpp <75:19 75:28>]
@@ -196,7 +179,6 @@ SYMBOL_FUNCTION b3Vector3 & b3Vector3::normalize()
 REFERENCE_CALL bool b3ConvexUtility::initializePolyhedralFeatures(const b3Vector3 *, int, bool) -> b3Vector3 & b3Vector3::normalize() [b3ConvexUtility.cpp <77:12 77:20>]
 LOCAL_SYMBOL: b3ConvexUtility.cpp<76:14> [b3ConvexUtility.cpp <77:4 77:10>]
 LOCAL_SYMBOL: b3ConvexUtility.cpp<64:7> [b3ConvexUtility.cpp <78:8 78:15>]
-SYMBOL_FUNCTION b3Vector3 & b3Vector3::operator=(const b3Vector3 &)
 REFERENCE_CALL bool b3ConvexUtility::initializePolyhedralFeatures(const b3Vector3 *, int, bool) -> b3Vector3 & b3Vector3::operator=(const b3Vector3 &) [b3ConvexUtility.cpp <79:23 79:23>]
 LOCAL_SYMBOL: b3ConvexUtility.cpp<63:13> [b3ConvexUtility.cpp <79:5 79:9>]
 LOCAL_SYMBOL: b3ConvexUtility.cpp<64:7> [b3ConvexUtility.cpp <79:11 79:18>]
@@ -212,7 +194,6 @@ REFERENCE_TYPE_USAGE bool b3ConvexUtility::initializePolyhedralFeatures(const b3
 LOCAL_SYMBOL: b3ConvexUtility.cpp<64:7> [b3ConvexUtility.cpp <87:7 87:14>]
 SYMBOL_FUNCTION b3Vector3 & b3Vector3::operator=(b3Vector3 &)
 REFERENCE_CALL bool b3ConvexUtility::initializePolyhedralFeatures(const b3Vector3 *, int, bool) -> b3Vector3 & b3Vector3::operator=(b3Vector3 &) [b3ConvexUtility.cpp <89:19 89:19>]
-SYMBOL_FUNCTION b3Vector3 & b3AlignedObjectArray<b3Vector3>::operator[](int)
 REFERENCE_CALL bool b3ConvexUtility::initializePolyhedralFeatures(const b3Vector3 *, int, bool) -> b3Vector3 & b3AlignedObjectArray<b3Vector3>::operator[](int) [b3ConvexUtility.cpp <89:15 89:15>]
 LOCAL_SYMBOL: b3ConvexUtility.cpp<39:34> [b3ConvexUtility.cpp <89:4 89:14>]
 LOCAL_SYMBOL: b3ConvexUtility.cpp<56:11> [b3ConvexUtility.cpp <89:16 89:16>]
@@ -220,65 +201,51 @@ SYMBOL_FUNCTION b3Vector3 b3Vector3::cross(const b3Vector3 &) const
 REFERENCE_CALL bool b3ConvexUtility::initializePolyhedralFeatures(const b3Vector3 *, int, bool) -> b3Vector3 b3Vector3::cross(const b3Vector3 &) const [b3ConvexUtility.cpp <89:30 89:34>]
 LOCAL_SYMBOL: b3ConvexUtility.cpp<63:13> [b3ConvexUtility.cpp <89:21 89:25>]
 LOCAL_SYMBOL: b3ConvexUtility.cpp<63:13> [b3ConvexUtility.cpp <89:36 89:40>]
-SYMBOL_FUNCTION b3Vector3 & b3Vector3::normalize()
 REFERENCE_CALL bool b3ConvexUtility::initializePolyhedralFeatures(const b3Vector3 *, int, bool) -> b3Vector3 & b3Vector3::normalize() [b3ConvexUtility.cpp <90:19 90:27>]
-SYMBOL_FUNCTION b3Vector3 & b3AlignedObjectArray<b3Vector3>::operator[](int)
 REFERENCE_CALL bool b3ConvexUtility::initializePolyhedralFeatures(const b3Vector3 *, int, bool) -> b3Vector3 & b3AlignedObjectArray<b3Vector3>::operator[](int) [b3ConvexUtility.cpp <90:15 90:15>]
 LOCAL_SYMBOL: b3ConvexUtility.cpp<39:34> [b3ConvexUtility.cpp <90:4 90:14>]
 LOCAL_SYMBOL: b3ConvexUtility.cpp<56:11> [b3ConvexUtility.cpp <90:16 90:16>]
 REFERENCE_USAGE bool b3ConvexUtility::initializePolyhedralFeatures(const b3Vector3 *, int, bool) -> b3Scalar [] b3MyFace::m_plane [b3ConvexUtility.cpp <91:16 91:22>]
-SYMBOL_FUNCTION b3MyFace & b3AlignedObjectArray<b3MyFace>::operator[](int)
 REFERENCE_CALL bool b3ConvexUtility::initializePolyhedralFeatures(const b3Vector3 *, int, bool) -> b3MyFace & b3AlignedObjectArray<b3MyFace>::operator[](int) [b3ConvexUtility.cpp <91:12 91:12>]
 LOCAL_SYMBOL: b3ConvexUtility.cpp<45:33> [b3ConvexUtility.cpp <91:4 91:11>]
 LOCAL_SYMBOL: b3ConvexUtility.cpp<56:11> [b3ConvexUtility.cpp <91:13 91:13>]
-SYMBOL_FUNCTION const b3Scalar & b3Vector3::getX() const
 REFERENCE_CALL bool b3ConvexUtility::initializePolyhedralFeatures(const b3Vector3 *, int, bool) -> const b3Scalar & b3Vector3::getX() const [b3ConvexUtility.cpp <91:44 91:47>]
-SYMBOL_FUNCTION b3Vector3 & b3AlignedObjectArray<b3Vector3>::operator[](int)
 REFERENCE_CALL bool b3ConvexUtility::initializePolyhedralFeatures(const b3Vector3 *, int, bool) -> b3Vector3 & b3AlignedObjectArray<b3Vector3>::operator[](int) [b3ConvexUtility.cpp <91:40 91:40>]
 LOCAL_SYMBOL: b3ConvexUtility.cpp<39:34> [b3ConvexUtility.cpp <91:29 91:39>]
 LOCAL_SYMBOL: b3ConvexUtility.cpp<56:11> [b3ConvexUtility.cpp <91:41 91:41>]
 REFERENCE_USAGE bool b3ConvexUtility::initializePolyhedralFeatures(const b3Vector3 *, int, bool) -> b3Scalar [] b3MyFace::m_plane [b3ConvexUtility.cpp <92:16 92:22>]
-SYMBOL_FUNCTION b3MyFace & b3AlignedObjectArray<b3MyFace>::operator[](int)
 REFERENCE_CALL bool b3ConvexUtility::initializePolyhedralFeatures(const b3Vector3 *, int, bool) -> b3MyFace & b3AlignedObjectArray<b3MyFace>::operator[](int) [b3ConvexUtility.cpp <92:12 92:12>]
 LOCAL_SYMBOL: b3ConvexUtility.cpp<45:33> [b3ConvexUtility.cpp <92:4 92:11>]
 LOCAL_SYMBOL: b3ConvexUtility.cpp<56:11> [b3ConvexUtility.cpp <92:13 92:13>]
 SYMBOL_FUNCTION const b3Scalar & b3Vector3::getY() const
 REFERENCE_CALL bool b3ConvexUtility::initializePolyhedralFeatures(const b3Vector3 *, int, bool) -> const b3Scalar & b3Vector3::getY() const [b3ConvexUtility.cpp <92:44 92:47>]
-SYMBOL_FUNCTION b3Vector3 & b3AlignedObjectArray<b3Vector3>::operator[](int)
 REFERENCE_CALL bool b3ConvexUtility::initializePolyhedralFeatures(const b3Vector3 *, int, bool) -> b3Vector3 & b3AlignedObjectArray<b3Vector3>::operator[](int) [b3ConvexUtility.cpp <92:40 92:40>]
 LOCAL_SYMBOL: b3ConvexUtility.cpp<39:34> [b3ConvexUtility.cpp <92:29 92:39>]
 LOCAL_SYMBOL: b3ConvexUtility.cpp<56:11> [b3ConvexUtility.cpp <92:41 92:41>]
 REFERENCE_USAGE bool b3ConvexUtility::initializePolyhedralFeatures(const b3Vector3 *, int, bool) -> b3Scalar [] b3MyFace::m_plane [b3ConvexUtility.cpp <93:16 93:22>]
-SYMBOL_FUNCTION b3MyFace & b3AlignedObjectArray<b3MyFace>::operator[](int)
 REFERENCE_CALL bool b3ConvexUtility::initializePolyhedralFeatures(const b3Vector3 *, int, bool) -> b3MyFace & b3AlignedObjectArray<b3MyFace>::operator[](int) [b3ConvexUtility.cpp <93:12 93:12>]
 LOCAL_SYMBOL: b3ConvexUtility.cpp<45:33> [b3ConvexUtility.cpp <93:4 93:11>]
 LOCAL_SYMBOL: b3ConvexUtility.cpp<56:11> [b3ConvexUtility.cpp <93:13 93:13>]
 SYMBOL_FUNCTION const b3Scalar & b3Vector3::getZ() const
 REFERENCE_CALL bool b3ConvexUtility::initializePolyhedralFeatures(const b3Vector3 *, int, bool) -> const b3Scalar & b3Vector3::getZ() const [b3ConvexUtility.cpp <93:44 93:47>]
-SYMBOL_FUNCTION b3Vector3 & b3AlignedObjectArray<b3Vector3>::operator[](int)
 REFERENCE_CALL bool b3ConvexUtility::initializePolyhedralFeatures(const b3Vector3 *, int, bool) -> b3Vector3 & b3AlignedObjectArray<b3Vector3>::operator[](int) [b3ConvexUtility.cpp <93:40 93:40>]
 LOCAL_SYMBOL: b3ConvexUtility.cpp<39:34> [b3ConvexUtility.cpp <93:29 93:39>]
 LOCAL_SYMBOL: b3ConvexUtility.cpp<56:11> [b3ConvexUtility.cpp <93:41 93:41>]
 REFERENCE_USAGE bool b3ConvexUtility::initializePolyhedralFeatures(const b3Vector3 *, int, bool) -> b3Scalar [] b3MyFace::m_plane [b3ConvexUtility.cpp <94:16 94:22>]
-SYMBOL_FUNCTION b3MyFace & b3AlignedObjectArray<b3MyFace>::operator[](int)
 REFERENCE_CALL bool b3ConvexUtility::initializePolyhedralFeatures(const b3Vector3 *, int, bool) -> b3MyFace & b3AlignedObjectArray<b3MyFace>::operator[](int) [b3ConvexUtility.cpp <94:12 94:12>]
 LOCAL_SYMBOL: b3ConvexUtility.cpp<45:33> [b3ConvexUtility.cpp <94:4 94:11>]
 LOCAL_SYMBOL: b3ConvexUtility.cpp<56:11> [b3ConvexUtility.cpp <94:13 94:13>]
 LOCAL_SYMBOL: b3ConvexUtility.cpp<84:12> [b3ConvexUtility.cpp <94:29 94:35>]
 SYMBOL_FUNCTION void b3Vector3::setZero()
 REFERENCE_CALL bool b3ConvexUtility::initializePolyhedralFeatures(const b3Vector3 *, int, bool) -> void b3Vector3::setZero() [b3ConvexUtility.cpp <100:19 100:25>]
-SYMBOL_FUNCTION b3Vector3 & b3AlignedObjectArray<b3Vector3>::operator[](int)
 REFERENCE_CALL bool b3ConvexUtility::initializePolyhedralFeatures(const b3Vector3 *, int, bool) -> b3Vector3 & b3AlignedObjectArray<b3Vector3>::operator[](int) [b3ConvexUtility.cpp <100:15 100:15>]
 LOCAL_SYMBOL: b3ConvexUtility.cpp<39:34> [b3ConvexUtility.cpp <100:4 100:14>]
 LOCAL_SYMBOL: b3ConvexUtility.cpp<56:11> [b3ConvexUtility.cpp <100:16 100:16>]
 LOCAL_SYMBOL: b3ConvexUtility.cpp<103:12> [b3ConvexUtility.cpp <103:12 103:12>]
-SYMBOL_BUILTIN_TYPE int
 REFERENCE_TYPE_USAGE bool b3ConvexUtility::initializePolyhedralFeatures(const b3Vector3 *, int, bool) -> int [b3ConvexUtility.cpp <103:8 103:10>]
 LOCAL_SYMBOL: b3ConvexUtility.cpp<103:12> [b3ConvexUtility.cpp <103:16 103:16>]
-SYMBOL_FUNCTION int b3AlignedObjectArray<int>::size() const
 REFERENCE_CALL bool b3ConvexUtility::initializePolyhedralFeatures(const b3Vector3 *, int, bool) -> int b3AlignedObjectArray<int>::size() const [b3ConvexUtility.cpp <103:40 103:43>]
 REFERENCE_USAGE bool b3ConvexUtility::initializePolyhedralFeatures(const b3Vector3 *, int, bool) -> b3AlignedObjectArray<int> b3MyFace::m_indices [b3ConvexUtility.cpp <103:30 103:38>]
-SYMBOL_FUNCTION b3MyFace & b3AlignedObjectArray<b3MyFace>::operator[](int)
 REFERENCE_CALL bool b3ConvexUtility::initializePolyhedralFeatures(const b3Vector3 *, int, bool) -> b3MyFace & b3AlignedObjectArray<b3MyFace>::operator[](int) [b3ConvexUtility.cpp <103:26 103:26>]
 LOCAL_SYMBOL: b3ConvexUtility.cpp<45:33> [b3ConvexUtility.cpp <103:18 103:25>]
 LOCAL_SYMBOL: b3ConvexUtility.cpp<56:11> [b3ConvexUtility.cpp <103:27 103:27>]
@@ -287,18 +254,14 @@ LOCAL_SYMBOL: b3ConvexUtility.cpp<105:13> [b3ConvexUtility.cpp <105:13 105:14>]
 REFERENCE_TYPE_USAGE bool b3ConvexUtility::initializePolyhedralFeatures(const b3Vector3 *, int, bool) -> b3Scalar [b3ConvexUtility.cpp <105:4 105:11>]
 SYMBOL_FUNCTION b3Scalar b3Vector3::dot(const b3Vector3 &) const
 REFERENCE_CALL bool b3ConvexUtility::initializePolyhedralFeatures(const b3Vector3 *, int, bool) -> b3Scalar b3Vector3::dot(const b3Vector3 &) const [b3ConvexUtility.cpp <105:55 105:57>]
-SYMBOL_FUNCTION b3Vector3 & b3AlignedObjectArray<b3Vector3>::operator[](int)
 REFERENCE_CALL bool b3ConvexUtility::initializePolyhedralFeatures(const b3Vector3 *, int, bool) -> b3Vector3 & b3AlignedObjectArray<b3Vector3>::operator[](int) [b3ConvexUtility.cpp <105:28 105:28>]
 REFERENCE_USAGE bool b3ConvexUtility::initializePolyhedralFeatures(const b3Vector3 *, int, bool) -> b3AlignedObjectArray<b3Vector3> b3ConvexUtility::m_vertices [b3ConvexUtility.cpp <105:18 105:27>]
-SYMBOL_FUNCTION int & b3AlignedObjectArray<int>::operator[](int)
 REFERENCE_CALL bool b3ConvexUtility::initializePolyhedralFeatures(const b3Vector3 *, int, bool) -> int & b3AlignedObjectArray<int>::operator[](int) [b3ConvexUtility.cpp <105:50 105:50>]
 REFERENCE_USAGE bool b3ConvexUtility::initializePolyhedralFeatures(const b3Vector3 *, int, bool) -> b3AlignedObjectArray<int> b3MyFace::m_indices [b3ConvexUtility.cpp <105:41 105:49>]
-SYMBOL_FUNCTION b3MyFace & b3AlignedObjectArray<b3MyFace>::operator[](int)
 REFERENCE_CALL bool b3ConvexUtility::initializePolyhedralFeatures(const b3Vector3 *, int, bool) -> b3MyFace & b3AlignedObjectArray<b3MyFace>::operator[](int) [b3ConvexUtility.cpp <105:37 105:37>]
 LOCAL_SYMBOL: b3ConvexUtility.cpp<45:33> [b3ConvexUtility.cpp <105:29 105:36>]
 LOCAL_SYMBOL: b3ConvexUtility.cpp<56:11> [b3ConvexUtility.cpp <105:38 105:38>]
 LOCAL_SYMBOL: b3ConvexUtility.cpp<103:12> [b3ConvexUtility.cpp <105:51 105:51>]
-SYMBOL_FUNCTION b3Vector3 & b3AlignedObjectArray<b3Vector3>::operator[](int)
 REFERENCE_CALL bool b3ConvexUtility::initializePolyhedralFeatures(const b3Vector3 *, int, bool) -> b3Vector3 & b3AlignedObjectArray<b3Vector3>::operator[](int) [b3ConvexUtility.cpp <105:70 105:70>]
 LOCAL_SYMBOL: b3ConvexUtility.cpp<39:34> [b3ConvexUtility.cpp <105:59 105:69>]
 LOCAL_SYMBOL: b3ConvexUtility.cpp<56:11> [b3ConvexUtility.cpp <105:71 105:71>]
@@ -307,7 +270,6 @@ LOCAL_SYMBOL: b3ConvexUtility.cpp<105:13> [b3ConvexUtility.cpp <106:16 106:17>]
 LOCAL_SYMBOL: b3ConvexUtility.cpp<84:12> [b3ConvexUtility.cpp <108:5 108:11>]
 LOCAL_SYMBOL: b3ConvexUtility.cpp<105:13> [b3ConvexUtility.cpp <108:13 108:14>]
 REFERENCE_USAGE bool b3ConvexUtility::initializePolyhedralFeatures(const b3Vector3 *, int, bool) -> b3Scalar [] b3MyFace::m_plane [b3ConvexUtility.cpp <111:15 111:21>]
-SYMBOL_FUNCTION b3MyFace & b3AlignedObjectArray<b3MyFace>::operator[](int)
 REFERENCE_CALL bool b3ConvexUtility::initializePolyhedralFeatures(const b3Vector3 *, int, bool) -> b3MyFace & b3AlignedObjectArray<b3MyFace>::operator[](int) [b3ConvexUtility.cpp <111:11 111:11>]
 LOCAL_SYMBOL: b3ConvexUtility.cpp<45:33> [b3ConvexUtility.cpp <111:3 111:10>]
 LOCAL_SYMBOL: b3ConvexUtility.cpp<56:11> [b3ConvexUtility.cpp <111:12 111:12>]
@@ -316,47 +278,36 @@ LOCAL_SYMBOL: b3ConvexUtility.cpp<116:11> [b3ConvexUtility.cpp <116:11 116:27>]
 REFERENCE_TYPE_USAGE bool b3ConvexUtility::initializePolyhedralFeatures(const b3Vector3 *, int, bool) -> b3Scalar [b3ConvexUtility.cpp <116:2 116:9>]
 LOCAL_SYMBOL: b3ConvexUtility.cpp<117:28> [b3ConvexUtility.cpp <117:28 117:36>]
 REFERENCE_TYPE_USAGE bool b3ConvexUtility::initializePolyhedralFeatures(const b3Vector3 *, int, bool) -> b3AlignedObjectArray<int> [b3ConvexUtility.cpp <117:2 117:21>]
-SYMBOL_BUILTIN_TYPE int
 REFERENCE_TEMPLATE_ARGUMENT b3AlignedObjectArray<int> -> int [b3ConvexUtility.cpp <117:23 117:25>]
 SYMBOL_FUNCTION void b3AlignedObjectArray<int>::b3AlignedObjectArray()
 REFERENCE_CALL bool b3ConvexUtility::initializePolyhedralFeatures(const b3Vector3 *, int, bool) -> void b3AlignedObjectArray<int>::b3AlignedObjectArray() [b3ConvexUtility.cpp <117:28 117:36>]
 LOCAL_SYMBOL: b3ConvexUtility.cpp<118:11> [b3ConvexUtility.cpp <118:11 118:11>]
-SYMBOL_BUILTIN_TYPE int
 REFERENCE_TYPE_USAGE bool b3ConvexUtility::initializePolyhedralFeatures(const b3Vector3 *, int, bool) -> int [b3ConvexUtility.cpp <118:7 118:9>]
 LOCAL_SYMBOL: b3ConvexUtility.cpp<118:11> [b3ConvexUtility.cpp <118:15 118:15>]
 SYMBOL_FUNCTION int b3AlignedObjectArray<b3MyFace>::size() const
 REFERENCE_CALL bool b3ConvexUtility::initializePolyhedralFeatures(const b3Vector3 *, int, bool) -> int b3AlignedObjectArray<b3MyFace>::size() const [b3ConvexUtility.cpp <118:26 118:29>]
 LOCAL_SYMBOL: b3ConvexUtility.cpp<45:33> [b3ConvexUtility.cpp <118:17 118:24>]
 LOCAL_SYMBOL: b3ConvexUtility.cpp<118:11> [b3ConvexUtility.cpp <118:33 118:33>]
-SYMBOL_FUNCTION void b3AlignedObjectArray<int>::push_back(const int &)
 REFERENCE_CALL bool b3ConvexUtility::initializePolyhedralFeatures(const b3Vector3 *, int, bool) -> void b3AlignedObjectArray<int>::push_back(const int &) [b3ConvexUtility.cpp <119:13 119:21>]
 LOCAL_SYMBOL: b3ConvexUtility.cpp<117:28> [b3ConvexUtility.cpp <119:3 119:11>]
 LOCAL_SYMBOL: b3ConvexUtility.cpp<118:11> [b3ConvexUtility.cpp <119:23 119:23>]
-SYMBOL_FUNCTION int b3AlignedObjectArray<int>::size() const
 REFERENCE_CALL bool b3ConvexUtility::initializePolyhedralFeatures(const b3Vector3 *, int, bool) -> int b3AlignedObjectArray<int>::size() const [b3ConvexUtility.cpp <121:19 121:22>]
 LOCAL_SYMBOL: b3ConvexUtility.cpp<117:28> [b3ConvexUtility.cpp <121:9 121:17>]
 LOCAL_SYMBOL: b3ConvexUtility.cpp<123:29> [b3ConvexUtility.cpp <123:29 123:45>]
 REFERENCE_TYPE_USAGE bool b3ConvexUtility::initializePolyhedralFeatures(const b3Vector3 *, int, bool) -> b3AlignedObjectArray<int> [b3ConvexUtility.cpp <123:3 123:22>]
-SYMBOL_BUILTIN_TYPE int
 REFERENCE_TEMPLATE_ARGUMENT b3AlignedObjectArray<int> -> int [b3ConvexUtility.cpp <123:24 123:26>]
-SYMBOL_FUNCTION void b3AlignedObjectArray<int>::b3AlignedObjectArray()
 REFERENCE_CALL bool b3ConvexUtility::initializePolyhedralFeatures(const b3Vector3 *, int, bool) -> void b3AlignedObjectArray<int>::b3AlignedObjectArray() [b3ConvexUtility.cpp <123:29 123:45>]
 LOCAL_SYMBOL: b3ConvexUtility.cpp<124:7> [b3ConvexUtility.cpp <124:7 124:13>]
-SYMBOL_BUILTIN_TYPE int
 REFERENCE_TYPE_USAGE bool b3ConvexUtility::initializePolyhedralFeatures(const b3Vector3 *, int, bool) -> int [b3ConvexUtility.cpp <124:3 124:5>]
-SYMBOL_FUNCTION int & b3AlignedObjectArray<int>::operator[](int)
 REFERENCE_CALL bool b3ConvexUtility::initializePolyhedralFeatures(const b3Vector3 *, int, bool) -> int & b3AlignedObjectArray<int>::operator[](int) [b3ConvexUtility.cpp <124:26 124:26>]
 LOCAL_SYMBOL: b3ConvexUtility.cpp<117:28> [b3ConvexUtility.cpp <124:17 124:25>]
-SYMBOL_FUNCTION int b3AlignedObjectArray<int>::size() const
 REFERENCE_CALL bool b3ConvexUtility::initializePolyhedralFeatures(const b3Vector3 *, int, bool) -> int b3AlignedObjectArray<int>::size() const [b3ConvexUtility.cpp <124:37 124:40>]
 LOCAL_SYMBOL: b3ConvexUtility.cpp<117:28> [b3ConvexUtility.cpp <124:27 124:35>]
-SYMBOL_FUNCTION void b3AlignedObjectArray<int>::push_back(const int &)
 REFERENCE_CALL bool b3ConvexUtility::initializePolyhedralFeatures(const b3Vector3 *, int, bool) -> void b3AlignedObjectArray<int>::push_back(const int &) [b3ConvexUtility.cpp <126:21 126:29>]
 LOCAL_SYMBOL: b3ConvexUtility.cpp<123:29> [b3ConvexUtility.cpp <126:3 126:19>]
 LOCAL_SYMBOL: b3ConvexUtility.cpp<124:7> [b3ConvexUtility.cpp <126:31 126:37>]
 LOCAL_SYMBOL: b3ConvexUtility.cpp<127:13> [b3ConvexUtility.cpp <127:13 127:17>]
 REFERENCE_TYPE_USAGE bool b3ConvexUtility::initializePolyhedralFeatures(const b3Vector3 *, int, bool) -> b3MyFace [b3ConvexUtility.cpp <127:3 127:10>]
-SYMBOL_FUNCTION b3MyFace & b3AlignedObjectArray<b3MyFace>::operator[](int)
 REFERENCE_CALL bool b3ConvexUtility::initializePolyhedralFeatures(const b3Vector3 *, int, bool) -> b3MyFace & b3AlignedObjectArray<b3MyFace>::operator[](int) [b3ConvexUtility.cpp <127:29 127:29>]
 LOCAL_SYMBOL: b3ConvexUtility.cpp<45:33> [b3ConvexUtility.cpp <127:21 127:28>]
 LOCAL_SYMBOL: b3ConvexUtility.cpp<124:7> [b3ConvexUtility.cpp <127:30 127:36>]
@@ -374,29 +325,23 @@ LOCAL_SYMBOL: b3ConvexUtility.cpp<127:13> [b3ConvexUtility.cpp <130:58 130:62>]
 REFERENCE_USAGE bool b3ConvexUtility::initializePolyhedralFeatures(const b3Vector3 *, int, bool) -> b3Scalar [] b3MyFace::m_plane [b3ConvexUtility.cpp <130:81 130:87>]
 LOCAL_SYMBOL: b3ConvexUtility.cpp<127:13> [b3ConvexUtility.cpp <130:75 130:79>]
 LOCAL_SYMBOL: b3ConvexUtility.cpp<131:12> [b3ConvexUtility.cpp <131:12 131:12>]
-SYMBOL_BUILTIN_TYPE int
 REFERENCE_TYPE_USAGE bool b3ConvexUtility::initializePolyhedralFeatures(const b3Vector3 *, int, bool) -> int [b3ConvexUtility.cpp <131:8 131:10>]
-SYMBOL_FUNCTION int b3AlignedObjectArray<int>::size() const
 REFERENCE_CALL bool b3ConvexUtility::initializePolyhedralFeatures(const b3Vector3 *, int, bool) -> int b3AlignedObjectArray<int>::size() const [b3ConvexUtility.cpp <131:24 131:27>]
 LOCAL_SYMBOL: b3ConvexUtility.cpp<117:28> [b3ConvexUtility.cpp <131:14 131:22>]
 LOCAL_SYMBOL: b3ConvexUtility.cpp<131:12> [b3ConvexUtility.cpp <131:33 131:33>]
 LOCAL_SYMBOL: b3ConvexUtility.cpp<131:12> [b3ConvexUtility.cpp <131:38 131:38>]
 LOCAL_SYMBOL: b3ConvexUtility.cpp<133:8> [b3ConvexUtility.cpp <133:8 133:8>]
-SYMBOL_BUILTIN_TYPE int
 REFERENCE_TYPE_USAGE bool b3ConvexUtility::initializePolyhedralFeatures(const b3Vector3 *, int, bool) -> int [b3ConvexUtility.cpp <133:4 133:6>]
-SYMBOL_FUNCTION int & b3AlignedObjectArray<int>::operator[](int)
 REFERENCE_CALL bool b3ConvexUtility::initializePolyhedralFeatures(const b3Vector3 *, int, bool) -> int & b3AlignedObjectArray<int>::operator[](int) [b3ConvexUtility.cpp <133:21 133:21>]
 LOCAL_SYMBOL: b3ConvexUtility.cpp<117:28> [b3ConvexUtility.cpp <133:12 133:20>]
 LOCAL_SYMBOL: b3ConvexUtility.cpp<131:12> [b3ConvexUtility.cpp <133:22 133:22>]
 LOCAL_SYMBOL: b3ConvexUtility.cpp<134:14> [b3ConvexUtility.cpp <134:14 134:18>]
 REFERENCE_TYPE_USAGE bool b3ConvexUtility::initializePolyhedralFeatures(const b3Vector3 *, int, bool) -> b3MyFace [b3ConvexUtility.cpp <134:4 134:11>]
-SYMBOL_FUNCTION b3MyFace & b3AlignedObjectArray<b3MyFace>::operator[](int)
 REFERENCE_CALL bool b3ConvexUtility::initializePolyhedralFeatures(const b3Vector3 *, int, bool) -> b3MyFace & b3AlignedObjectArray<b3MyFace>::operator[](int) [b3ConvexUtility.cpp <134:30 134:30>]
 LOCAL_SYMBOL: b3ConvexUtility.cpp<45:33> [b3ConvexUtility.cpp <134:22 134:29>]
 LOCAL_SYMBOL: b3ConvexUtility.cpp<133:8> [b3ConvexUtility.cpp <134:31 134:31>]
 LOCAL_SYMBOL: b3ConvexUtility.cpp<135:14> [b3ConvexUtility.cpp <135:14 135:24>]
 REFERENCE_TYPE_USAGE bool b3ConvexUtility::initializePolyhedralFeatures(const b3Vector3 *, int, bool) -> b3Vector3 [b3ConvexUtility.cpp <135:4 135:12>]
-SYMBOL_FUNCTION b3Vector3 b3MakeVector3(b3Scalar, b3Scalar, b3Scalar)
 REFERENCE_CALL bool b3ConvexUtility::initializePolyhedralFeatures(const b3Vector3 *, int, bool) -> b3Vector3 b3MakeVector3(b3Scalar, b3Scalar, b3Scalar) [b3ConvexUtility.cpp <135:28 135:40>]
 REFERENCE_USAGE bool b3ConvexUtility::initializePolyhedralFeatures(const b3Vector3 *, int, bool) -> b3Scalar [] b3MyFace::m_plane [b3ConvexUtility.cpp <135:48 135:54>]
 LOCAL_SYMBOL: b3ConvexUtility.cpp<134:14> [b3ConvexUtility.cpp <135:42 135:46>]
@@ -404,12 +349,10 @@ REFERENCE_USAGE bool b3ConvexUtility::initializePolyhedralFeatures(const b3Vecto
 LOCAL_SYMBOL: b3ConvexUtility.cpp<134:14> [b3ConvexUtility.cpp <135:59 135:63>]
 REFERENCE_USAGE bool b3ConvexUtility::initializePolyhedralFeatures(const b3Vector3 *, int, bool) -> b3Scalar [] b3MyFace::m_plane [b3ConvexUtility.cpp <135:82 135:88>]
 LOCAL_SYMBOL: b3ConvexUtility.cpp<134:14> [b3ConvexUtility.cpp <135:76 135:80>]
-SYMBOL_FUNCTION b3Scalar b3Vector3::dot(const b3Vector3 &) const
 REFERENCE_CALL bool b3ConvexUtility::initializePolyhedralFeatures(const b3Vector3 *, int, bool) -> b3Scalar b3Vector3::dot(const b3Vector3 &) const [b3ConvexUtility.cpp <136:20 136:22>]
 LOCAL_SYMBOL: b3ConvexUtility.cpp<130:13> [b3ConvexUtility.cpp <136:8 136:18>]
 LOCAL_SYMBOL: b3ConvexUtility.cpp<135:14> [b3ConvexUtility.cpp <136:24 136:34>]
 LOCAL_SYMBOL: b3ConvexUtility.cpp<116:11> [b3ConvexUtility.cpp <136:37 136:53>]
-SYMBOL_FUNCTION void b3AlignedObjectArray<int>::push_back(const int &)
 REFERENCE_CALL bool b3ConvexUtility::initializePolyhedralFeatures(const b3Vector3 *, int, bool) -> void b3AlignedObjectArray<int>::push_back(const int &) [b3ConvexUtility.cpp <138:23 138:31>]
 LOCAL_SYMBOL: b3ConvexUtility.cpp<123:29> [b3ConvexUtility.cpp <138:5 138:21>]
 LOCAL_SYMBOL: b3ConvexUtility.cpp<133:8> [b3ConvexUtility.cpp <138:33 138:33>]
@@ -418,9 +361,7 @@ REFERENCE_CALL bool b3ConvexUtility::initializePolyhedralFeatures(const b3Vector
 LOCAL_SYMBOL: b3ConvexUtility.cpp<117:28> [b3ConvexUtility.cpp <139:5 139:13>]
 LOCAL_SYMBOL: b3ConvexUtility.cpp<133:8> [b3ConvexUtility.cpp <139:22 139:22>]
 LOCAL_SYMBOL: b3ConvexUtility.cpp<144:8> [b3ConvexUtility.cpp <144:8 144:16>]
-SYMBOL_BUILTIN_TYPE bool
 REFERENCE_TYPE_USAGE bool b3ConvexUtility::initializePolyhedralFeatures(const b3Vector3 *, int, bool) -> bool [b3ConvexUtility.cpp <144:3 144:6>]
-SYMBOL_FUNCTION int b3AlignedObjectArray<int>::size() const
 REFERENCE_CALL bool b3ConvexUtility::initializePolyhedralFeatures(const b3Vector3 *, int, bool) -> int b3AlignedObjectArray<int>::size() const [b3ConvexUtility.cpp <145:25 145:28>]
 LOCAL_SYMBOL: b3ConvexUtility.cpp<123:29> [b3ConvexUtility.cpp <145:7 145:23>]
 LOCAL_SYMBOL: b3ConvexUtility.cpp<149:42> [b3ConvexUtility.cpp <149:42 149:50>]
@@ -430,28 +371,22 @@ SYMBOL_FUNCTION void b3AlignedObjectArray<b3GrahamVector3>::b3AlignedObjectArray
 REFERENCE_CALL bool b3ConvexUtility::initializePolyhedralFeatures(const b3Vector3 *, int, bool) -> void b3AlignedObjectArray<b3GrahamVector3>::b3AlignedObjectArray() [b3ConvexUtility.cpp <149:42 149:50>]
 LOCAL_SYMBOL: b3ConvexUtility.cpp<150:14> [b3ConvexUtility.cpp <150:14 150:30>]
 REFERENCE_TYPE_USAGE bool b3ConvexUtility::initializePolyhedralFeatures(const b3Vector3 *, int, bool) -> b3Vector3 [b3ConvexUtility.cpp <150:4 150:12>]
-SYMBOL_FUNCTION b3Vector3 b3MakeVector3(b3Scalar, b3Scalar, b3Scalar)
 REFERENCE_CALL bool b3ConvexUtility::initializePolyhedralFeatures(const b3Vector3 *, int, bool) -> b3Vector3 b3MakeVector3(b3Scalar, b3Scalar, b3Scalar) [b3ConvexUtility.cpp <150:34 150:46>]
 LOCAL_SYMBOL: b3ConvexUtility.cpp<152:13> [b3ConvexUtility.cpp <152:13 152:13>]
-SYMBOL_BUILTIN_TYPE int
 REFERENCE_TYPE_USAGE bool b3ConvexUtility::initializePolyhedralFeatures(const b3Vector3 *, int, bool) -> int [b3ConvexUtility.cpp <152:9 152:11>]
 LOCAL_SYMBOL: b3ConvexUtility.cpp<152:13> [b3ConvexUtility.cpp <152:17 152:17>]
-SYMBOL_FUNCTION int b3AlignedObjectArray<int>::size() const
 REFERENCE_CALL bool b3ConvexUtility::initializePolyhedralFeatures(const b3Vector3 *, int, bool) -> int b3AlignedObjectArray<int>::size() const [b3ConvexUtility.cpp <152:37 152:40>]
 LOCAL_SYMBOL: b3ConvexUtility.cpp<123:29> [b3ConvexUtility.cpp <152:19 152:35>]
 LOCAL_SYMBOL: b3ConvexUtility.cpp<152:13> [b3ConvexUtility.cpp <152:44 152:44>]
 LOCAL_SYMBOL: b3ConvexUtility.cpp<156:15> [b3ConvexUtility.cpp <156:15 156:18>]
 REFERENCE_TYPE_USAGE bool b3ConvexUtility::initializePolyhedralFeatures(const b3Vector3 *, int, bool) -> b3MyFace [b3ConvexUtility.cpp <156:5 156:12>]
-SYMBOL_FUNCTION b3MyFace & b3AlignedObjectArray<b3MyFace>::operator[](int)
 REFERENCE_CALL bool b3ConvexUtility::initializePolyhedralFeatures(const b3Vector3 *, int, bool) -> b3MyFace & b3AlignedObjectArray<b3MyFace>::operator[](int) [b3ConvexUtility.cpp <156:30 156:30>]
 LOCAL_SYMBOL: b3ConvexUtility.cpp<45:33> [b3ConvexUtility.cpp <156:22 156:29>]
-SYMBOL_FUNCTION int & b3AlignedObjectArray<int>::operator[](int)
 REFERENCE_CALL bool b3ConvexUtility::initializePolyhedralFeatures(const b3Vector3 *, int, bool) -> int & b3AlignedObjectArray<int>::operator[](int) [b3ConvexUtility.cpp <156:48 156:48>]
 LOCAL_SYMBOL: b3ConvexUtility.cpp<123:29> [b3ConvexUtility.cpp <156:31 156:47>]
 LOCAL_SYMBOL: b3ConvexUtility.cpp<152:13> [b3ConvexUtility.cpp <156:49 156:49>]
 LOCAL_SYMBOL: b3ConvexUtility.cpp<157:15> [b3ConvexUtility.cpp <157:15 157:24>]
 REFERENCE_TYPE_USAGE bool b3ConvexUtility::initializePolyhedralFeatures(const b3Vector3 *, int, bool) -> b3Vector3 [b3ConvexUtility.cpp <157:5 157:13>]
-SYMBOL_FUNCTION b3Vector3 b3MakeVector3(b3Scalar, b3Scalar, b3Scalar)
 REFERENCE_CALL bool b3ConvexUtility::initializePolyhedralFeatures(const b3Vector3 *, int, bool) -> b3Vector3 b3MakeVector3(b3Scalar, b3Scalar, b3Scalar) [b3ConvexUtility.cpp <157:28 157:40>]
 REFERENCE_USAGE bool b3ConvexUtility::initializePolyhedralFeatures(const b3Vector3 *, int, bool) -> b3Scalar [] b3MyFace::m_plane [b3ConvexUtility.cpp <157:47 157:53>]
 LOCAL_SYMBOL: b3ConvexUtility.cpp<156:15> [b3ConvexUtility.cpp <157:42 157:45>]
@@ -464,35 +399,27 @@ REFERENCE_CALL bool b3ConvexUtility::initializePolyhedralFeatures(const b3Vector
 LOCAL_SYMBOL: b3ConvexUtility.cpp<150:14> [b3ConvexUtility.cpp <158:5 158:21>]
 LOCAL_SYMBOL: b3ConvexUtility.cpp<157:15> [b3ConvexUtility.cpp <158:24 158:33>]
 LOCAL_SYMBOL: b3ConvexUtility.cpp<159:14> [b3ConvexUtility.cpp <159:14 159:14>]
-SYMBOL_BUILTIN_TYPE int
 REFERENCE_TYPE_USAGE bool b3ConvexUtility::initializePolyhedralFeatures(const b3Vector3 *, int, bool) -> int [b3ConvexUtility.cpp <159:10 159:12>]
 LOCAL_SYMBOL: b3ConvexUtility.cpp<159:14> [b3ConvexUtility.cpp <159:18 159:18>]
-SYMBOL_FUNCTION int b3AlignedObjectArray<int>::size() const
 REFERENCE_CALL bool b3ConvexUtility::initializePolyhedralFeatures(const b3Vector3 *, int, bool) -> int b3AlignedObjectArray<int>::size() const [b3ConvexUtility.cpp <159:35 159:38>]
 REFERENCE_USAGE bool b3ConvexUtility::initializePolyhedralFeatures(const b3Vector3 *, int, bool) -> b3AlignedObjectArray<int> b3MyFace::m_indices [b3ConvexUtility.cpp <159:25 159:33>]
 LOCAL_SYMBOL: b3ConvexUtility.cpp<156:15> [b3ConvexUtility.cpp <159:20 159:23>]
 LOCAL_SYMBOL: b3ConvexUtility.cpp<159:14> [b3ConvexUtility.cpp <159:42 159:42>]
 LOCAL_SYMBOL: b3ConvexUtility.cpp<161:10> [b3ConvexUtility.cpp <161:10 161:17>]
-SYMBOL_BUILTIN_TYPE int
 REFERENCE_TYPE_USAGE bool b3ConvexUtility::initializePolyhedralFeatures(const b3Vector3 *, int, bool) -> int [b3ConvexUtility.cpp <161:6 161:8>]
-SYMBOL_FUNCTION int & b3AlignedObjectArray<int>::operator[](int)
 REFERENCE_CALL bool b3ConvexUtility::initializePolyhedralFeatures(const b3Vector3 *, int, bool) -> int & b3AlignedObjectArray<int>::operator[](int) [b3ConvexUtility.cpp <161:35 161:35>]
 REFERENCE_USAGE bool b3ConvexUtility::initializePolyhedralFeatures(const b3Vector3 *, int, bool) -> b3AlignedObjectArray<int> b3MyFace::m_indices [b3ConvexUtility.cpp <161:26 161:34>]
 LOCAL_SYMBOL: b3ConvexUtility.cpp<156:15> [b3ConvexUtility.cpp <161:21 161:24>]
 LOCAL_SYMBOL: b3ConvexUtility.cpp<159:14> [b3ConvexUtility.cpp <161:36 161:36>]
 LOCAL_SYMBOL: b3ConvexUtility.cpp<162:16> [b3ConvexUtility.cpp <162:16 162:17>]
 REFERENCE_TYPE_USAGE bool b3ConvexUtility::initializePolyhedralFeatures(const b3Vector3 *, int, bool) -> b3Vector3 [b3ConvexUtility.cpp <162:6 162:14>]
-SYMBOL_FUNCTION void b3Vector3::b3Vector3(const b3Vector3 &)
 REFERENCE_CALL bool b3ConvexUtility::initializePolyhedralFeatures(const b3Vector3 *, int, bool) -> void b3Vector3::b3Vector3(const b3Vector3 &) [b3ConvexUtility.cpp <162:40 162:40>]
-SYMBOL_FUNCTION b3Vector3 & b3AlignedObjectArray<b3Vector3>::operator[](int)
 REFERENCE_CALL bool b3ConvexUtility::initializePolyhedralFeatures(const b3Vector3 *, int, bool) -> b3Vector3 & b3AlignedObjectArray<b3Vector3>::operator[](int) [b3ConvexUtility.cpp <162:31 162:31>]
 REFERENCE_USAGE bool b3ConvexUtility::initializePolyhedralFeatures(const b3Vector3 *, int, bool) -> b3AlignedObjectArray<b3Vector3> b3ConvexUtility::m_vertices [b3ConvexUtility.cpp <162:21 162:30>]
 LOCAL_SYMBOL: b3ConvexUtility.cpp<161:10> [b3ConvexUtility.cpp <162:32 162:39>]
 LOCAL_SYMBOL: b3ConvexUtility.cpp<164:11> [b3ConvexUtility.cpp <164:11 164:15>]
-SYMBOL_BUILTIN_TYPE bool
 REFERENCE_TYPE_USAGE bool b3ConvexUtility::initializePolyhedralFeatures(const b3Vector3 *, int, bool) -> bool [b3ConvexUtility.cpp <164:6 164:9>]
 LOCAL_SYMBOL: b3ConvexUtility.cpp<166:15> [b3ConvexUtility.cpp <166:15 166:15>]
-SYMBOL_BUILTIN_TYPE int
 REFERENCE_TYPE_USAGE bool b3ConvexUtility::initializePolyhedralFeatures(const b3Vector3 *, int, bool) -> int [b3ConvexUtility.cpp <166:11 166:13>]
 LOCAL_SYMBOL: b3ConvexUtility.cpp<166:15> [b3ConvexUtility.cpp <166:19 166:19>]
 SYMBOL_FUNCTION int b3AlignedObjectArray<b3GrahamVector3>::size() const
@@ -520,7 +447,6 @@ REFERENCE_TYPE_USAGE bool b3ConvexUtility::initializePolyhedralFeatures(const b3
 SYMBOL_FUNCTION void b3MyFace::b3MyFace()
 REFERENCE_CALL bool b3ConvexUtility::initializePolyhedralFeatures(const b3Vector3 *, int, bool) -> void b3MyFace::b3MyFace() [b3ConvexUtility.cpp <182:13 182:24>]
 LOCAL_SYMBOL: b3ConvexUtility.cpp<183:13> [b3ConvexUtility.cpp <183:13 183:13>]
-SYMBOL_BUILTIN_TYPE int
 REFERENCE_TYPE_USAGE bool b3ConvexUtility::initializePolyhedralFeatures(const b3Vector3 *, int, bool) -> int [b3ConvexUtility.cpp <183:9 183:11>]
 LOCAL_SYMBOL: b3ConvexUtility.cpp<183:13> [b3ConvexUtility.cpp <183:17 183:17>]
 LOCAL_SYMBOL: b3ConvexUtility.cpp<183:13> [b3ConvexUtility.cpp <183:21 183:21>]
@@ -528,19 +454,15 @@ REFERENCE_USAGE bool b3ConvexUtility::initializePolyhedralFeatures(const b3Vecto
 LOCAL_SYMBOL: b3ConvexUtility.cpp<182:13> [b3ConvexUtility.cpp <184:5 184:16>]
 LOCAL_SYMBOL: b3ConvexUtility.cpp<183:13> [b3ConvexUtility.cpp <184:26 184:26>]
 REFERENCE_USAGE bool b3ConvexUtility::initializePolyhedralFeatures(const b3Vector3 *, int, bool) -> b3Scalar [] b3MyFace::m_plane [b3ConvexUtility.cpp <184:62 184:68>]
-SYMBOL_FUNCTION b3MyFace & b3AlignedObjectArray<b3MyFace>::operator[](int)
 REFERENCE_CALL bool b3ConvexUtility::initializePolyhedralFeatures(const b3Vector3 *, int, bool) -> b3MyFace & b3AlignedObjectArray<b3MyFace>::operator[](int) [b3ConvexUtility.cpp <184:39 184:39>]
 LOCAL_SYMBOL: b3ConvexUtility.cpp<45:33> [b3ConvexUtility.cpp <184:31 184:38>]
-SYMBOL_FUNCTION int & b3AlignedObjectArray<int>::operator[](int)
 REFERENCE_CALL bool b3ConvexUtility::initializePolyhedralFeatures(const b3Vector3 *, int, bool) -> int & b3AlignedObjectArray<int>::operator[](int) [b3ConvexUtility.cpp <184:57 184:57>]
 LOCAL_SYMBOL: b3ConvexUtility.cpp<123:29> [b3ConvexUtility.cpp <184:40 184:56>]
 LOCAL_SYMBOL: b3ConvexUtility.cpp<183:13> [b3ConvexUtility.cpp <184:70 184:70>]
 LOCAL_SYMBOL: b3ConvexUtility.cpp<186:42> [b3ConvexUtility.cpp <186:42 186:45>]
 REFERENCE_TYPE_USAGE bool b3ConvexUtility::initializePolyhedralFeatures(const b3Vector3 *, int, bool) -> b3AlignedObjectArray<b3GrahamVector3> [b3ConvexUtility.cpp <186:4 186:23>]
 REFERENCE_TEMPLATE_ARGUMENT b3AlignedObjectArray<b3GrahamVector3> -> b3GrahamVector3 [b3ConvexUtility.cpp <186:25 186:39>]
-SYMBOL_FUNCTION void b3AlignedObjectArray<b3GrahamVector3>::b3AlignedObjectArray()
 REFERENCE_CALL bool b3ConvexUtility::initializePolyhedralFeatures(const b3Vector3 *, int, bool) -> void b3AlignedObjectArray<b3GrahamVector3>::b3AlignedObjectArray() [b3ConvexUtility.cpp <186:42 186:45>]
-SYMBOL_FUNCTION b3Vector3 & b3Vector3::normalize()
 REFERENCE_CALL bool b3ConvexUtility::initializePolyhedralFeatures(const b3Vector3 *, int, bool) -> b3Vector3 & b3Vector3::normalize() [b3ConvexUtility.cpp <188:22 188:30>]
 LOCAL_SYMBOL: b3ConvexUtility.cpp<150:14> [b3ConvexUtility.cpp <188:4 188:20>]
 SYMBOL_FUNCTION void b3GrahamScanConvexHull2D(b3AlignedObjectArray<b3GrahamVector3> &, b3AlignedObjectArray<b3GrahamVector3> &, const b3Vector3 &)
@@ -549,87 +471,67 @@ LOCAL_SYMBOL: b3ConvexUtility.cpp<149:42> [b3ConvexUtility.cpp <189:29 189:37>]
 LOCAL_SYMBOL: b3ConvexUtility.cpp<186:42> [b3ConvexUtility.cpp <189:39 189:42>]
 LOCAL_SYMBOL: b3ConvexUtility.cpp<150:14> [b3ConvexUtility.cpp <189:44 189:60>]
 LOCAL_SYMBOL: b3ConvexUtility.cpp<191:13> [b3ConvexUtility.cpp <191:13 191:13>]
-SYMBOL_BUILTIN_TYPE int
 REFERENCE_TYPE_USAGE bool b3ConvexUtility::initializePolyhedralFeatures(const b3Vector3 *, int, bool) -> int [b3ConvexUtility.cpp <191:9 191:11>]
 LOCAL_SYMBOL: b3ConvexUtility.cpp<191:13> [b3ConvexUtility.cpp <191:17 191:17>]
-SYMBOL_FUNCTION int b3AlignedObjectArray<b3GrahamVector3>::size() const
 REFERENCE_CALL bool b3ConvexUtility::initializePolyhedralFeatures(const b3Vector3 *, int, bool) -> int b3AlignedObjectArray<b3GrahamVector3>::size() const [b3ConvexUtility.cpp <191:24 191:27>]
 LOCAL_SYMBOL: b3ConvexUtility.cpp<186:42> [b3ConvexUtility.cpp <191:19 191:22>]
 LOCAL_SYMBOL: b3ConvexUtility.cpp<191:13> [b3ConvexUtility.cpp <191:31 191:31>]
-SYMBOL_FUNCTION void b3AlignedObjectArray<int>::push_back(const int &)
 REFERENCE_CALL bool b3ConvexUtility::initializePolyhedralFeatures(const b3Vector3 *, int, bool) -> void b3AlignedObjectArray<int>::push_back(const int &) [b3ConvexUtility.cpp <193:28 193:36>]
 REFERENCE_USAGE bool b3ConvexUtility::initializePolyhedralFeatures(const b3Vector3 *, int, bool) -> b3AlignedObjectArray<int> b3MyFace::m_indices [b3ConvexUtility.cpp <193:18 193:26>]
 LOCAL_SYMBOL: b3ConvexUtility.cpp<182:13> [b3ConvexUtility.cpp <193:5 193:16>]
 REFERENCE_USAGE bool b3ConvexUtility::initializePolyhedralFeatures(const b3Vector3 *, int, bool) -> int b3GrahamVector3::m_orgIndex [b3ConvexUtility.cpp <193:46 193:55>]
-SYMBOL_FUNCTION b3GrahamVector3 & b3AlignedObjectArray<b3GrahamVector3>::operator[](int)
 REFERENCE_CALL bool b3ConvexUtility::initializePolyhedralFeatures(const b3Vector3 *, int, bool) -> b3GrahamVector3 & b3AlignedObjectArray<b3GrahamVector3>::operator[](int) [b3ConvexUtility.cpp <193:42 193:42>]
 LOCAL_SYMBOL: b3ConvexUtility.cpp<186:42> [b3ConvexUtility.cpp <193:38 193:41>]
 LOCAL_SYMBOL: b3ConvexUtility.cpp<191:13> [b3ConvexUtility.cpp <193:43 193:43>]
 LOCAL_SYMBOL: b3ConvexUtility.cpp<194:13> [b3ConvexUtility.cpp <194:13 194:13>]
-SYMBOL_BUILTIN_TYPE int
 REFERENCE_TYPE_USAGE bool b3ConvexUtility::initializePolyhedralFeatures(const b3Vector3 *, int, bool) -> int [b3ConvexUtility.cpp <194:9 194:11>]
 LOCAL_SYMBOL: b3ConvexUtility.cpp<194:13> [b3ConvexUtility.cpp <194:20 194:20>]
-SYMBOL_FUNCTION int b3AlignedObjectArray<b3GrahamVector3>::size() const
 REFERENCE_CALL bool b3ConvexUtility::initializePolyhedralFeatures(const b3Vector3 *, int, bool) -> int b3AlignedObjectArray<b3GrahamVector3>::size() const [b3ConvexUtility.cpp <194:34 194:37>]
 LOCAL_SYMBOL: b3ConvexUtility.cpp<149:42> [b3ConvexUtility.cpp <194:24 194:32>]
 LOCAL_SYMBOL: b3ConvexUtility.cpp<194:13> [b3ConvexUtility.cpp <194:42 194:42>]
 REFERENCE_USAGE bool b3ConvexUtility::initializePolyhedralFeatures(const b3Vector3 *, int, bool) -> int b3GrahamVector3::m_orgIndex [b3ConvexUtility.cpp <196:22 196:31>]
-SYMBOL_FUNCTION b3GrahamVector3 & b3AlignedObjectArray<b3GrahamVector3>::operator[](int)
 REFERENCE_CALL bool b3ConvexUtility::initializePolyhedralFeatures(const b3Vector3 *, int, bool) -> b3GrahamVector3 & b3AlignedObjectArray<b3GrahamVector3>::operator[](int) [b3ConvexUtility.cpp <196:18 196:18>]
 LOCAL_SYMBOL: b3ConvexUtility.cpp<149:42> [b3ConvexUtility.cpp <196:9 196:17>]
 LOCAL_SYMBOL: b3ConvexUtility.cpp<194:13> [b3ConvexUtility.cpp <196:19 196:19>]
 REFERENCE_USAGE bool b3ConvexUtility::initializePolyhedralFeatures(const b3Vector3 *, int, bool) -> int b3GrahamVector3::m_orgIndex [b3ConvexUtility.cpp <196:44 196:53>]
-SYMBOL_FUNCTION b3GrahamVector3 & b3AlignedObjectArray<b3GrahamVector3>::operator[](int)
 REFERENCE_CALL bool b3ConvexUtility::initializePolyhedralFeatures(const b3Vector3 *, int, bool) -> b3GrahamVector3 & b3AlignedObjectArray<b3GrahamVector3>::operator[](int) [b3ConvexUtility.cpp <196:40 196:40>]
 LOCAL_SYMBOL: b3ConvexUtility.cpp<186:42> [b3ConvexUtility.cpp <196:36 196:39>]
 LOCAL_SYMBOL: b3ConvexUtility.cpp<191:13> [b3ConvexUtility.cpp <196:41 196:41>]
 REFERENCE_USAGE bool b3ConvexUtility::initializePolyhedralFeatures(const b3Vector3 *, int, bool) -> int b3GrahamVector3::m_orgIndex [b3ConvexUtility.cpp <198:20 198:29>]
-SYMBOL_FUNCTION b3GrahamVector3 & b3AlignedObjectArray<b3GrahamVector3>::operator[](int)
 REFERENCE_CALL bool b3ConvexUtility::initializePolyhedralFeatures(const b3Vector3 *, int, bool) -> b3GrahamVector3 & b3AlignedObjectArray<b3GrahamVector3>::operator[](int) [b3ConvexUtility.cpp <198:16 198:16>]
 LOCAL_SYMBOL: b3ConvexUtility.cpp<149:42> [b3ConvexUtility.cpp <198:7 198:15>]
 LOCAL_SYMBOL: b3ConvexUtility.cpp<194:13> [b3ConvexUtility.cpp <198:17 198:17>]
 LOCAL_SYMBOL: b3ConvexUtility.cpp<205:9> [b3ConvexUtility.cpp <205:9 205:20>]
-SYMBOL_BUILTIN_TYPE bool
 REFERENCE_TYPE_USAGE bool b3ConvexUtility::initializePolyhedralFeatures(const b3Vector3 *, int, bool) -> bool [b3ConvexUtility.cpp <205:4 205:7>]
 LOCAL_SYMBOL: b3ConvexUtility.cpp<209:12> [b3ConvexUtility.cpp <209:12 209:12>]
-SYMBOL_BUILTIN_TYPE int
 REFERENCE_TYPE_USAGE bool b3ConvexUtility::initializePolyhedralFeatures(const b3Vector3 *, int, bool) -> int [b3ConvexUtility.cpp <209:8 209:10>]
 LOCAL_SYMBOL: b3ConvexUtility.cpp<209:12> [b3ConvexUtility.cpp <209:19 209:19>]
-SYMBOL_FUNCTION int b3AlignedObjectArray<b3GrahamVector3>::size() const
 REFERENCE_CALL bool b3ConvexUtility::initializePolyhedralFeatures(const b3Vector3 *, int, bool) -> int b3AlignedObjectArray<b3GrahamVector3>::size() const [b3ConvexUtility.cpp <209:33 209:36>]
 LOCAL_SYMBOL: b3ConvexUtility.cpp<149:42> [b3ConvexUtility.cpp <209:23 209:31>]
 LOCAL_SYMBOL: b3ConvexUtility.cpp<209:12> [b3ConvexUtility.cpp <209:41 209:41>]
 REFERENCE_USAGE bool b3ConvexUtility::initializePolyhedralFeatures(const b3Vector3 *, int, bool) -> int b3GrahamVector3::m_orgIndex [b3ConvexUtility.cpp <210:21 210:30>]
-SYMBOL_FUNCTION b3GrahamVector3 & b3AlignedObjectArray<b3GrahamVector3>::operator[](int)
 REFERENCE_CALL bool b3ConvexUtility::initializePolyhedralFeatures(const b3Vector3 *, int, bool) -> b3GrahamVector3 & b3AlignedObjectArray<b3GrahamVector3>::operator[](int) [b3ConvexUtility.cpp <210:17 210:17>]
 LOCAL_SYMBOL: b3ConvexUtility.cpp<149:42> [b3ConvexUtility.cpp <210:8 210:16>]
 LOCAL_SYMBOL: b3ConvexUtility.cpp<209:12> [b3ConvexUtility.cpp <210:18 210:18>]
 LOCAL_SYMBOL: b3ConvexUtility.cpp<213:13> [b3ConvexUtility.cpp <213:13 213:13>]
-SYMBOL_BUILTIN_TYPE int
 REFERENCE_TYPE_USAGE bool b3ConvexUtility::initializePolyhedralFeatures(const b3Vector3 *, int, bool) -> int [b3ConvexUtility.cpp <213:9 213:11>]
 LOCAL_SYMBOL: b3ConvexUtility.cpp<213:13> [b3ConvexUtility.cpp <213:20 213:20>]
-SYMBOL_FUNCTION int b3AlignedObjectArray<b3MyFace>::size() const
 REFERENCE_CALL bool b3ConvexUtility::initializePolyhedralFeatures(const b3Vector3 *, int, bool) -> int b3AlignedObjectArray<b3MyFace>::size() const [b3ConvexUtility.cpp <213:33 213:36>]
 LOCAL_SYMBOL: b3ConvexUtility.cpp<45:33> [b3ConvexUtility.cpp <213:24 213:31>]
 LOCAL_SYMBOL: b3ConvexUtility.cpp<213:13> [b3ConvexUtility.cpp <213:41 213:41>]
 LOCAL_SYMBOL: b3ConvexUtility.cpp<215:16> [b3ConvexUtility.cpp <215:16 215:19>]
 REFERENCE_TYPE_USAGE bool b3ConvexUtility::initializePolyhedralFeatures(const b3Vector3 *, int, bool) -> b3MyFace [b3ConvexUtility.cpp <215:6 215:13>]
-SYMBOL_FUNCTION b3MyFace & b3AlignedObjectArray<b3MyFace>::operator[](int)
 REFERENCE_CALL bool b3ConvexUtility::initializePolyhedralFeatures(const b3Vector3 *, int, bool) -> b3MyFace & b3AlignedObjectArray<b3MyFace>::operator[](int) [b3ConvexUtility.cpp <215:31 215:31>]
 LOCAL_SYMBOL: b3ConvexUtility.cpp<45:33> [b3ConvexUtility.cpp <215:23 215:30>]
 LOCAL_SYMBOL: b3ConvexUtility.cpp<213:13> [b3ConvexUtility.cpp <215:32 215:32>]
 LOCAL_SYMBOL: b3ConvexUtility.cpp<217:11> [b3ConvexUtility.cpp <217:11 217:29>]
-SYMBOL_BUILTIN_TYPE bool
 REFERENCE_TYPE_USAGE bool b3ConvexUtility::initializePolyhedralFeatures(const b3Vector3 *, int, bool) -> bool [b3ConvexUtility.cpp <217:6 217:9>]
 LOCAL_SYMBOL: b3ConvexUtility.cpp<218:14> [b3ConvexUtility.cpp <218:14 218:14>]
-SYMBOL_BUILTIN_TYPE int
 REFERENCE_TYPE_USAGE bool b3ConvexUtility::initializePolyhedralFeatures(const b3Vector3 *, int, bool) -> int [b3ConvexUtility.cpp <218:10 218:12>]
 LOCAL_SYMBOL: b3ConvexUtility.cpp<218:14> [b3ConvexUtility.cpp <218:21 218:21>]
-SYMBOL_FUNCTION int b3AlignedObjectArray<int>::size() const
 REFERENCE_CALL bool b3ConvexUtility::initializePolyhedralFeatures(const b3Vector3 *, int, bool) -> int b3AlignedObjectArray<int>::size() const [b3ConvexUtility.cpp <218:43 218:46>]
 LOCAL_SYMBOL: b3ConvexUtility.cpp<123:29> [b3ConvexUtility.cpp <218:25 218:41>]
 LOCAL_SYMBOL: b3ConvexUtility.cpp<218:14> [b3ConvexUtility.cpp <218:51 218:51>]
-SYMBOL_FUNCTION int & b3AlignedObjectArray<int>::operator[](int)
 REFERENCE_CALL bool b3ConvexUtility::initializePolyhedralFeatures(const b3Vector3 *, int, bool) -> int & b3AlignedObjectArray<int>::operator[](int) [b3ConvexUtility.cpp <219:27 219:27>]
 LOCAL_SYMBOL: b3ConvexUtility.cpp<123:29> [b3ConvexUtility.cpp <219:10 219:26>]
 LOCAL_SYMBOL: b3ConvexUtility.cpp<218:14> [b3ConvexUtility.cpp <219:28 219:28>]
@@ -637,21 +539,17 @@ LOCAL_SYMBOL: b3ConvexUtility.cpp<213:13> [b3ConvexUtility.cpp <219:34 219:34>]
 LOCAL_SYMBOL: b3ConvexUtility.cpp<217:11> [b3ConvexUtility.cpp <220:8 220:26>]
 LOCAL_SYMBOL: b3ConvexUtility.cpp<217:11> [b3ConvexUtility.cpp <224:9 224:27>]
 LOCAL_SYMBOL: b3ConvexUtility.cpp<227:14> [b3ConvexUtility.cpp <227:14 227:14>]
-SYMBOL_BUILTIN_TYPE int
 REFERENCE_TYPE_USAGE bool b3ConvexUtility::initializePolyhedralFeatures(const b3Vector3 *, int, bool) -> int [b3ConvexUtility.cpp <227:10 227:12>]
 LOCAL_SYMBOL: b3ConvexUtility.cpp<227:14> [b3ConvexUtility.cpp <227:21 227:21>]
-SYMBOL_FUNCTION int b3AlignedObjectArray<int>::size() const
 REFERENCE_CALL bool b3ConvexUtility::initializePolyhedralFeatures(const b3Vector3 *, int, bool) -> int b3AlignedObjectArray<int>::size() const [b3ConvexUtility.cpp <227:40 227:43>]
 REFERENCE_USAGE bool b3ConvexUtility::initializePolyhedralFeatures(const b3Vector3 *, int, bool) -> b3AlignedObjectArray<int> b3MyFace::m_indices [b3ConvexUtility.cpp <227:30 227:38>]
 LOCAL_SYMBOL: b3ConvexUtility.cpp<215:16> [b3ConvexUtility.cpp <227:25 227:28>]
 LOCAL_SYMBOL: b3ConvexUtility.cpp<227:14> [b3ConvexUtility.cpp <227:48 227:48>]
-SYMBOL_FUNCTION int & b3AlignedObjectArray<int>::operator[](int)
 REFERENCE_CALL bool b3ConvexUtility::initializePolyhedralFeatures(const b3Vector3 *, int, bool) -> int & b3AlignedObjectArray<int>::operator[](int) [b3ConvexUtility.cpp <228:24 228:24>]
 REFERENCE_USAGE bool b3ConvexUtility::initializePolyhedralFeatures(const b3Vector3 *, int, bool) -> b3AlignedObjectArray<int> b3MyFace::m_indices [b3ConvexUtility.cpp <228:15 228:23>]
 LOCAL_SYMBOL: b3ConvexUtility.cpp<215:16> [b3ConvexUtility.cpp <228:10 228:13>]
 LOCAL_SYMBOL: b3ConvexUtility.cpp<227:14> [b3ConvexUtility.cpp <228:25 228:25>]
 REFERENCE_USAGE bool b3ConvexUtility::initializePolyhedralFeatures(const b3Vector3 *, int, bool) -> int b3GrahamVector3::m_orgIndex [b3ConvexUtility.cpp <228:44 228:53>]
-SYMBOL_FUNCTION b3GrahamVector3 & b3AlignedObjectArray<b3GrahamVector3>::operator[](int)
 REFERENCE_CALL bool b3ConvexUtility::initializePolyhedralFeatures(const b3Vector3 *, int, bool) -> b3GrahamVector3 & b3AlignedObjectArray<b3GrahamVector3>::operator[](int) [b3ConvexUtility.cpp <228:40 228:40>]
 LOCAL_SYMBOL: b3ConvexUtility.cpp<149:42> [b3ConvexUtility.cpp <228:31 228:39>]
 LOCAL_SYMBOL: b3ConvexUtility.cpp<209:12> [b3ConvexUtility.cpp <228:41 228:41>]
@@ -666,10 +564,8 @@ REFERENCE_USAGE bool b3ConvexUtility::initializePolyhedralFeatures(const b3Vecto
 LOCAL_SYMBOL: b3ConvexUtility.cpp<182:13> [b3ConvexUtility.cpp <245:23 245:34>]
 LOCAL_SYMBOL: b3ConvexUtility.cpp<144:8> [b3ConvexUtility.cpp <248:7 248:15>]
 LOCAL_SYMBOL: b3ConvexUtility.cpp<250:13> [b3ConvexUtility.cpp <250:13 250:13>]
-SYMBOL_BUILTIN_TYPE int
 REFERENCE_TYPE_USAGE bool b3ConvexUtility::initializePolyhedralFeatures(const b3Vector3 *, int, bool) -> int [b3ConvexUtility.cpp <250:9 250:11>]
 LOCAL_SYMBOL: b3ConvexUtility.cpp<250:13> [b3ConvexUtility.cpp <250:17 250:17>]
-SYMBOL_FUNCTION int b3AlignedObjectArray<int>::size() const
 REFERENCE_CALL bool b3ConvexUtility::initializePolyhedralFeatures(const b3Vector3 *, int, bool) -> int b3AlignedObjectArray<int>::size() const [b3ConvexUtility.cpp <250:37 250:40>]
 LOCAL_SYMBOL: b3ConvexUtility.cpp<123:29> [b3ConvexUtility.cpp <250:19 250:35>]
 LOCAL_SYMBOL: b3ConvexUtility.cpp<250:13> [b3ConvexUtility.cpp <250:44 250:44>]
@@ -677,37 +573,28 @@ LOCAL_SYMBOL: b3ConvexUtility.cpp<252:14> [b3ConvexUtility.cpp <252:14 252:17>]
 REFERENCE_TYPE_USAGE bool b3ConvexUtility::initializePolyhedralFeatures(const b3Vector3 *, int, bool) -> b3MyFace [b3ConvexUtility.cpp <252:5 252:12>]
 SYMBOL_FUNCTION void b3MyFace::b3MyFace(const b3MyFace &)
 REFERENCE_CALL bool b3ConvexUtility::initializePolyhedralFeatures(const b3Vector3 *, int, bool) -> void b3MyFace::b3MyFace(const b3MyFace &) [b3ConvexUtility.cpp <252:50 252:50>]
-SYMBOL_FUNCTION b3MyFace & b3AlignedObjectArray<b3MyFace>::operator[](int)
 REFERENCE_CALL bool b3ConvexUtility::initializePolyhedralFeatures(const b3Vector3 *, int, bool) -> b3MyFace & b3AlignedObjectArray<b3MyFace>::operator[](int) [b3ConvexUtility.cpp <252:29 252:29>]
 LOCAL_SYMBOL: b3ConvexUtility.cpp<45:33> [b3ConvexUtility.cpp <252:21 252:28>]
-SYMBOL_FUNCTION int & b3AlignedObjectArray<int>::operator[](int)
 REFERENCE_CALL bool b3ConvexUtility::initializePolyhedralFeatures(const b3Vector3 *, int, bool) -> int & b3AlignedObjectArray<int>::operator[](int) [b3ConvexUtility.cpp <252:47 252:47>]
 LOCAL_SYMBOL: b3ConvexUtility.cpp<123:29> [b3ConvexUtility.cpp <252:30 252:46>]
 LOCAL_SYMBOL: b3ConvexUtility.cpp<250:13> [b3ConvexUtility.cpp <252:48 252:48>]
-SYMBOL_FUNCTION void b3AlignedObjectArray<b3MyFace>::push_back(const b3MyFace &)
 REFERENCE_CALL bool b3ConvexUtility::initializePolyhedralFeatures(const b3Vector3 *, int, bool) -> void b3AlignedObjectArray<b3MyFace>::push_back(const b3MyFace &) [b3ConvexUtility.cpp <253:13 253:21>]
 REFERENCE_USAGE bool b3ConvexUtility::initializePolyhedralFeatures(const b3Vector3 *, int, bool) -> b3AlignedObjectArray<b3MyFace> b3ConvexUtility::m_faces [b3ConvexUtility.cpp <253:5 253:11>]
 LOCAL_SYMBOL: b3ConvexUtility.cpp<252:14> [b3ConvexUtility.cpp <253:23 253:26>]
 SYMBOL_FUNCTION void b3ConvexUtility::initialize()
 REFERENCE_CALL bool b3ConvexUtility::initializePolyhedralFeatures(const b3Vector3 *, int, bool) -> void b3ConvexUtility::initialize() [b3ConvexUtility.cpp <262:2 262:11>]
 SYMBOL_FUNCTION bool IsAlmostZero(const b3Vector3 &) [b3ConvexUtility.cpp <272:1 <272:13 272:24> 276:1>]
-SYMBOL_BUILTIN_TYPE bool
 REFERENCE_TYPE_USAGE bool IsAlmostZero(const b3Vector3 &) -> bool [b3ConvexUtility.cpp <272:8 272:11>]
 LOCAL_SYMBOL: b3ConvexUtility.cpp<272:43> [b3ConvexUtility.cpp <272:43 272:43>]
 REFERENCE_TYPE_USAGE bool IsAlmostZero(const b3Vector3 &) -> b3Vector3 [b3ConvexUtility.cpp <272:32 272:40>]
 SYMBOL_FUNCTION float fabsf(float)
 REFERENCE_CALL bool IsAlmostZero(const b3Vector3 &) -> float fabsf(float) [b3ConvexUtility.cpp <274:5 274:9>]
-SYMBOL_FUNCTION const b3Scalar & b3Vector3::getX() const
 REFERENCE_CALL bool IsAlmostZero(const b3Vector3 &) -> const b3Scalar & b3Vector3::getX() const [b3ConvexUtility.cpp <274:13 274:16>]
 LOCAL_SYMBOL: b3ConvexUtility.cpp<272:43> [b3ConvexUtility.cpp <274:11 274:11>]
-SYMBOL_FUNCTION float fabsf(float)
 REFERENCE_CALL bool IsAlmostZero(const b3Vector3 &) -> float fabsf(float) [b3ConvexUtility.cpp <274:29 274:33>]
-SYMBOL_FUNCTION const b3Scalar & b3Vector3::getY() const
 REFERENCE_CALL bool IsAlmostZero(const b3Vector3 &) -> const b3Scalar & b3Vector3::getY() const [b3ConvexUtility.cpp <274:37 274:40>]
 LOCAL_SYMBOL: b3ConvexUtility.cpp<272:43> [b3ConvexUtility.cpp <274:35 274:35>]
-SYMBOL_FUNCTION float fabsf(float)
 REFERENCE_CALL bool IsAlmostZero(const b3Vector3 &) -> float fabsf(float) [b3ConvexUtility.cpp <274:53 274:57>]
-SYMBOL_FUNCTION const b3Scalar & b3Vector3::getZ() const
 REFERENCE_CALL bool IsAlmostZero(const b3Vector3 &) -> const b3Scalar & b3Vector3::getZ() const [b3ConvexUtility.cpp <274:61 274:64>]
 LOCAL_SYMBOL: b3ConvexUtility.cpp<272:43> [b3ConvexUtility.cpp <274:59 274:59>]
 SYMBOL_STRUCT b3InternalVertexPair [b3ConvexUtility.cpp <278:1 <278:8 278:27> 297:1>]
@@ -716,7 +603,6 @@ LOCAL_SYMBOL: b3ConvexUtility.cpp<280:33> [b3ConvexUtility.cpp <280:33 280:34>]
 SYMBOL_BUILTIN_TYPE short
 REFERENCE_TYPE_USAGE void b3InternalVertexPair::b3InternalVertexPair(short, short) -> short [b3ConvexUtility.cpp <280:23 280:27>]
 LOCAL_SYMBOL: b3ConvexUtility.cpp<280:46> [b3ConvexUtility.cpp <280:46 280:47>]
-SYMBOL_BUILTIN_TYPE short
 REFERENCE_TYPE_USAGE void b3InternalVertexPair::b3InternalVertexPair(short, short) -> short [b3ConvexUtility.cpp <280:36 280:40>]
 REFERENCE_USAGE void b3InternalVertexPair::b3InternalVertexPair(short, short) -> short b3InternalVertexPair::m_v0 [b3ConvexUtility.cpp <281:4 281:7>]
 LOCAL_SYMBOL: b3ConvexUtility.cpp<280:33> [b3ConvexUtility.cpp <281:9 281:10>]
@@ -729,18 +615,14 @@ REFERENCE_CALL void b3InternalVertexPair::b3InternalVertexPair(short, short) -> 
 REFERENCE_USAGE void b3InternalVertexPair::b3InternalVertexPair(short, short) -> short b3InternalVertexPair::m_v0 [b3ConvexUtility.cpp <285:11 285:14>]
 REFERENCE_USAGE void b3InternalVertexPair::b3InternalVertexPair(short, short) -> short b3InternalVertexPair::m_v1 [b3ConvexUtility.cpp <285:16 285:19>]
 SYMBOL_FIELD public short b3InternalVertexPair::m_v0 [b3ConvexUtility.cpp <287:12 287:15>]
-SYMBOL_BUILTIN_TYPE short
 REFERENCE_TYPE_USAGE short b3InternalVertexPair::m_v0 -> short [b3ConvexUtility.cpp <287:2 287:6>]
 SYMBOL_FIELD public short b3InternalVertexPair::m_v1 [b3ConvexUtility.cpp <288:12 288:15>]
-SYMBOL_BUILTIN_TYPE short
 REFERENCE_TYPE_USAGE short b3InternalVertexPair::m_v1 -> short [b3ConvexUtility.cpp <288:2 288:6>]
 SYMBOL_METHOD public int b3InternalVertexPair::getHash() const [b3ConvexUtility.cpp <289:2 <289:6 289:12> 292:2>]
-SYMBOL_BUILTIN_TYPE int
 REFERENCE_TYPE_USAGE int b3InternalVertexPair::getHash() const -> int [b3ConvexUtility.cpp <289:2 289:4>]
 REFERENCE_USAGE int b3InternalVertexPair::getHash() const -> short b3InternalVertexPair::m_v0 [b3ConvexUtility.cpp <291:10 291:13>]
 REFERENCE_USAGE int b3InternalVertexPair::getHash() const -> short b3InternalVertexPair::m_v1 [b3ConvexUtility.cpp <291:16 291:19>]
 SYMBOL_METHOD public bool b3InternalVertexPair::equals(const b3InternalVertexPair &) const [b3ConvexUtility.cpp <293:2 <293:7 293:12> 296:2>]
-SYMBOL_BUILTIN_TYPE bool
 REFERENCE_TYPE_USAGE bool b3InternalVertexPair::equals(const b3InternalVertexPair &) const -> bool [b3ConvexUtility.cpp <293:2 293:5>]
 LOCAL_SYMBOL: b3ConvexUtility.cpp<293:42> [b3ConvexUtility.cpp <293:42 293:46>]
 REFERENCE_TYPE_USAGE bool b3InternalVertexPair::equals(const b3InternalVertexPair &) const -> b3InternalVertexPair [b3ConvexUtility.cpp <293:20 293:39>]
@@ -752,11 +634,8 @@ REFERENCE_USAGE bool b3InternalVertexPair::equals(const b3InternalVertexPair &) 
 LOCAL_SYMBOL: b3ConvexUtility.cpp<293:42> [b3ConvexUtility.cpp <295:36 295:40>]
 SYMBOL_METHOD public void b3InternalVertexPair::b3InternalVertexPair(const b3InternalVertexPair &) [b3ConvexUtility.cpp <278:8 <278:8 278:27> 278:27>]
 REFERENCE_USAGE void b3InternalVertexPair::b3InternalVertexPair(const b3InternalVertexPair &) -> short b3InternalVertexPair::m_v0 [b3ConvexUtility.cpp <278:8 278:27>]
-REFERENCE_USAGE void b3InternalVertexPair::b3InternalVertexPair(const b3InternalVertexPair &) -> short b3InternalVertexPair::m_v0 [b3ConvexUtility.cpp <278:8 278:27>]
 LOCAL_SYMBOL: b3ConvexUtility.cpp<278:8> [b3ConvexUtility.cpp <278:8 278:27>]
 REFERENCE_USAGE void b3InternalVertexPair::b3InternalVertexPair(const b3InternalVertexPair &) -> short b3InternalVertexPair::m_v1 [b3ConvexUtility.cpp <278:8 278:27>]
-REFERENCE_USAGE void b3InternalVertexPair::b3InternalVertexPair(const b3InternalVertexPair &) -> short b3InternalVertexPair::m_v1 [b3ConvexUtility.cpp <278:8 278:27>]
-LOCAL_SYMBOL: b3ConvexUtility.cpp<278:8> [b3ConvexUtility.cpp <278:8 278:27>]
 SYMBOL_METHOD public void b3InternalVertexPair::b3InternalVertexPair(b3InternalVertexPair &) [b3ConvexUtility.cpp <278:8 278:27>]
 SYMBOL_METHOD public void b3InternalVertexPair::~b3InternalVertexPair() [b3ConvexUtility.cpp <278:8 278:27>]
 SYMBOL_STRUCT b3InternalEdge [b3ConvexUtility.cpp <299:1 <299:8 299:21> 308:1>]
@@ -764,30 +643,21 @@ SYMBOL_METHOD public void b3InternalEdge::b3InternalEdge() [b3ConvexUtility.cpp 
 REFERENCE_USAGE void b3InternalEdge::b3InternalEdge() -> short b3InternalEdge::m_face0 [b3ConvexUtility.cpp <302:4 302:10>]
 REFERENCE_USAGE void b3InternalEdge::b3InternalEdge() -> short b3InternalEdge::m_face1 [b3ConvexUtility.cpp <303:3 303:9>]
 SYMBOL_FIELD public short b3InternalEdge::m_face0 [b3ConvexUtility.cpp <306:12 306:18>]
-SYMBOL_BUILTIN_TYPE short
 REFERENCE_TYPE_USAGE short b3InternalEdge::m_face0 -> short [b3ConvexUtility.cpp <306:2 306:6>]
 SYMBOL_FIELD public short b3InternalEdge::m_face1 [b3ConvexUtility.cpp <307:12 307:18>]
-SYMBOL_BUILTIN_TYPE short
 REFERENCE_TYPE_USAGE short b3InternalEdge::m_face1 -> short [b3ConvexUtility.cpp <307:2 307:6>]
 SYMBOL_METHOD public void b3InternalEdge::b3InternalEdge(const b3InternalEdge &) [b3ConvexUtility.cpp <299:8 <299:8 299:21> 299:21>]
 REFERENCE_USAGE void b3InternalEdge::b3InternalEdge(const b3InternalEdge &) -> short b3InternalEdge::m_face0 [b3ConvexUtility.cpp <299:8 299:21>]
-REFERENCE_USAGE void b3InternalEdge::b3InternalEdge(const b3InternalEdge &) -> short b3InternalEdge::m_face0 [b3ConvexUtility.cpp <299:8 299:21>]
 LOCAL_SYMBOL: b3ConvexUtility.cpp<299:8> [b3ConvexUtility.cpp <299:8 299:21>]
 REFERENCE_USAGE void b3InternalEdge::b3InternalEdge(const b3InternalEdge &) -> short b3InternalEdge::m_face1 [b3ConvexUtility.cpp <299:8 299:21>]
-REFERENCE_USAGE void b3InternalEdge::b3InternalEdge(const b3InternalEdge &) -> short b3InternalEdge::m_face1 [b3ConvexUtility.cpp <299:8 299:21>]
-LOCAL_SYMBOL: b3ConvexUtility.cpp<299:8> [b3ConvexUtility.cpp <299:8 299:21>]
 SYMBOL_METHOD public void b3InternalEdge::b3InternalEdge(b3InternalEdge &) [b3ConvexUtility.cpp <299:8 299:21>]
 SYMBOL_METHOD public void b3InternalEdge::~b3InternalEdge() [b3ConvexUtility.cpp <299:8 299:21>]
 SYMBOL_METHOD public b3InternalEdge & b3InternalEdge::operator=(const b3InternalEdge &) [b3ConvexUtility.cpp <299:8 <299:8 299:21> 299:21>]
 REFERENCE_USAGE b3InternalEdge & b3InternalEdge::operator=(const b3InternalEdge &) -> short b3InternalEdge::m_face0 [b3ConvexUtility.cpp <299:8 299:21>]
-REFERENCE_USAGE b3InternalEdge & b3InternalEdge::operator=(const b3InternalEdge &) -> short b3InternalEdge::m_face0 [b3ConvexUtility.cpp <299:8 299:21>]
-LOCAL_SYMBOL: b3ConvexUtility.cpp<299:8> [b3ConvexUtility.cpp <299:8 299:21>]
 REFERENCE_USAGE b3InternalEdge & b3InternalEdge::operator=(const b3InternalEdge &) -> short b3InternalEdge::m_face1 [b3ConvexUtility.cpp <299:8 299:21>]
-REFERENCE_USAGE b3InternalEdge & b3InternalEdge::operator=(const b3InternalEdge &) -> short b3InternalEdge::m_face1 [b3ConvexUtility.cpp <299:8 299:21>]
-LOCAL_SYMBOL: b3ConvexUtility.cpp<299:8> [b3ConvexUtility.cpp <299:8 299:21>]
 SYMBOL_METHOD public b3InternalEdge & b3InternalEdge::operator=(b3InternalEdge &) [b3ConvexUtility.cpp <299:8 299:21>]
 SYMBOL_METHOD public void b3ConvexUtility::initialize() [b3ConvexUtility.cpp <339:1 <339:23 339:32> 520:1>]
-SYMBOL_CLASS b3ConvexUtility
+QUALIFIER: b3ConvexUtility [b3ConvexUtility.cpp <339:6 339:20>]
 SYMBOL_BUILTIN_TYPE void
 REFERENCE_TYPE_USAGE void b3ConvexUtility::initialize() -> void [b3ConvexUtility.cpp <339:1 339:4>]
 LOCAL_SYMBOL: b3ConvexUtility.cpp<342:49> [b3ConvexUtility.cpp <342:49 342:53>]
@@ -802,35 +672,27 @@ SYMBOL_FUNCTION void b3Vector3::setValue(const b3Scalar &, const b3Scalar &, con
 REFERENCE_CALL void b3ConvexUtility::initialize() -> void b3Vector3::setValue(const b3Scalar &, const b3Scalar &, const b3Scalar &) [b3ConvexUtility.cpp <346:16 346:23>]
 REFERENCE_USAGE void b3ConvexUtility::initialize() -> b3Vector3 b3ConvexUtility::m_localCenter [b3ConvexUtility.cpp <346:2 346:14>]
 LOCAL_SYMBOL: b3ConvexUtility.cpp<347:10> [b3ConvexUtility.cpp <347:10 347:10>]
-SYMBOL_BUILTIN_TYPE int
 REFERENCE_TYPE_USAGE void b3ConvexUtility::initialize() -> int [b3ConvexUtility.cpp <347:6 347:8>]
 LOCAL_SYMBOL: b3ConvexUtility.cpp<347:10> [b3ConvexUtility.cpp <347:14 347:14>]
-SYMBOL_FUNCTION int b3AlignedObjectArray<b3MyFace>::size() const
 REFERENCE_CALL void b3ConvexUtility::initialize() -> int b3AlignedObjectArray<b3MyFace>::size() const [b3ConvexUtility.cpp <347:24 347:27>]
 REFERENCE_USAGE void b3ConvexUtility::initialize() -> b3AlignedObjectArray<b3MyFace> b3ConvexUtility::m_faces [b3ConvexUtility.cpp <347:16 347:22>]
 LOCAL_SYMBOL: b3ConvexUtility.cpp<347:10> [b3ConvexUtility.cpp <347:31 347:31>]
 LOCAL_SYMBOL: b3ConvexUtility.cpp<349:7> [b3ConvexUtility.cpp <349:7 349:17>]
-SYMBOL_BUILTIN_TYPE int
 REFERENCE_TYPE_USAGE void b3ConvexUtility::initialize() -> int [b3ConvexUtility.cpp <349:3 349:5>]
-SYMBOL_FUNCTION int b3AlignedObjectArray<int>::size() const
 REFERENCE_CALL void b3ConvexUtility::initialize() -> int b3AlignedObjectArray<int>::size() const [b3ConvexUtility.cpp <349:42 349:45>]
 REFERENCE_USAGE void b3ConvexUtility::initialize() -> b3AlignedObjectArray<int> b3MyFace::m_indices [b3ConvexUtility.cpp <349:32 349:40>]
-SYMBOL_FUNCTION b3MyFace & b3AlignedObjectArray<b3MyFace>::operator[](int)
 REFERENCE_CALL void b3ConvexUtility::initialize() -> b3MyFace & b3AlignedObjectArray<b3MyFace>::operator[](int) [b3ConvexUtility.cpp <349:28 349:28>]
 REFERENCE_USAGE void b3ConvexUtility::initialize() -> b3AlignedObjectArray<b3MyFace> b3ConvexUtility::m_faces [b3ConvexUtility.cpp <349:21 349:27>]
 LOCAL_SYMBOL: b3ConvexUtility.cpp<347:10> [b3ConvexUtility.cpp <349:29 349:29>]
 LOCAL_SYMBOL: b3ConvexUtility.cpp<350:7> [b3ConvexUtility.cpp <350:7 350:12>]
-SYMBOL_BUILTIN_TYPE int
 REFERENCE_TYPE_USAGE void b3ConvexUtility::initialize() -> int [b3ConvexUtility.cpp <350:3 350:5>]
 LOCAL_SYMBOL: b3ConvexUtility.cpp<349:7> [b3ConvexUtility.cpp <350:16 350:26>]
 LOCAL_SYMBOL: b3ConvexUtility.cpp<351:11> [b3ConvexUtility.cpp <351:11 351:11>]
-SYMBOL_BUILTIN_TYPE int
 REFERENCE_TYPE_USAGE void b3ConvexUtility::initialize() -> int [b3ConvexUtility.cpp <351:7 351:9>]
 LOCAL_SYMBOL: b3ConvexUtility.cpp<351:11> [b3ConvexUtility.cpp <351:15 351:15>]
 LOCAL_SYMBOL: b3ConvexUtility.cpp<350:7> [b3ConvexUtility.cpp <351:17 351:22>]
 LOCAL_SYMBOL: b3ConvexUtility.cpp<351:11> [b3ConvexUtility.cpp <351:24 351:24>]
 LOCAL_SYMBOL: b3ConvexUtility.cpp<353:8> [b3ConvexUtility.cpp <353:8 353:8>]
-SYMBOL_BUILTIN_TYPE int
 REFERENCE_TYPE_USAGE void b3ConvexUtility::initialize() -> int [b3ConvexUtility.cpp <353:4 353:6>]
 LOCAL_SYMBOL: b3ConvexUtility.cpp<351:11> [b3ConvexUtility.cpp <353:13 353:13>]
 LOCAL_SYMBOL: b3ConvexUtility.cpp<349:7> [b3ConvexUtility.cpp <353:18 353:28>]
@@ -838,18 +700,14 @@ LOCAL_SYMBOL: b3ConvexUtility.cpp<354:25> [b3ConvexUtility.cpp <354:25 354:26>]
 REFERENCE_TYPE_USAGE void b3ConvexUtility::initialize() -> b3InternalVertexPair [b3ConvexUtility.cpp <354:4 354:23>]
 SYMBOL_FUNCTION void b3InternalVertexPair::b3InternalVertexPair(short, short)
 REFERENCE_CALL void b3ConvexUtility::initialize() -> void b3InternalVertexPair::b3InternalVertexPair(short, short) [b3ConvexUtility.cpp <354:25 354:26>]
-SYMBOL_FUNCTION int & b3AlignedObjectArray<int>::operator[](int)
 REFERENCE_CALL void b3ConvexUtility::initialize() -> int & b3AlignedObjectArray<int>::operator[](int) [b3ConvexUtility.cpp <354:48 354:48>]
 REFERENCE_USAGE void b3ConvexUtility::initialize() -> b3AlignedObjectArray<int> b3MyFace::m_indices [b3ConvexUtility.cpp <354:39 354:47>]
-SYMBOL_FUNCTION b3MyFace & b3AlignedObjectArray<b3MyFace>::operator[](int)
 REFERENCE_CALL void b3ConvexUtility::initialize() -> b3MyFace & b3AlignedObjectArray<b3MyFace>::operator[](int) [b3ConvexUtility.cpp <354:35 354:35>]
 REFERENCE_USAGE void b3ConvexUtility::initialize() -> b3AlignedObjectArray<b3MyFace> b3ConvexUtility::m_faces [b3ConvexUtility.cpp <354:28 354:34>]
 LOCAL_SYMBOL: b3ConvexUtility.cpp<347:10> [b3ConvexUtility.cpp <354:36 354:36>]
 LOCAL_SYMBOL: b3ConvexUtility.cpp<351:11> [b3ConvexUtility.cpp <354:49 354:49>]
-SYMBOL_FUNCTION int & b3AlignedObjectArray<int>::operator[](int)
 REFERENCE_CALL void b3ConvexUtility::initialize() -> int & b3AlignedObjectArray<int>::operator[](int) [b3ConvexUtility.cpp <354:72 354:72>]
 REFERENCE_USAGE void b3ConvexUtility::initialize() -> b3AlignedObjectArray<int> b3MyFace::m_indices [b3ConvexUtility.cpp <354:63 354:71>]
-SYMBOL_FUNCTION b3MyFace & b3AlignedObjectArray<b3MyFace>::operator[](int)
 REFERENCE_CALL void b3ConvexUtility::initialize() -> b3MyFace & b3AlignedObjectArray<b3MyFace>::operator[](int) [b3ConvexUtility.cpp <354:59 354:59>]
 REFERENCE_USAGE void b3ConvexUtility::initialize() -> b3AlignedObjectArray<b3MyFace> b3ConvexUtility::m_faces [b3ConvexUtility.cpp <354:52 354:58>]
 LOCAL_SYMBOL: b3ConvexUtility.cpp<347:10> [b3ConvexUtility.cpp <354:60 354:60>]
@@ -862,56 +720,41 @@ LOCAL_SYMBOL: b3ConvexUtility.cpp<342:49> [b3ConvexUtility.cpp <355:28 355:32>]
 LOCAL_SYMBOL: b3ConvexUtility.cpp<354:25> [b3ConvexUtility.cpp <355:39 355:40>]
 LOCAL_SYMBOL: b3ConvexUtility.cpp<356:14> [b3ConvexUtility.cpp <356:14 356:17>]
 REFERENCE_TYPE_USAGE void b3ConvexUtility::initialize() -> b3Vector3 [b3ConvexUtility.cpp <356:4 356:12>]
-SYMBOL_FUNCTION b3Vector3 operator-(const b3Vector3 &, const b3Vector3 &)
 REFERENCE_CALL void b3ConvexUtility::initialize() -> b3Vector3 operator-(const b3Vector3 &, const b3Vector3 &) [b3ConvexUtility.cpp <356:40 356:40>]
-SYMBOL_FUNCTION b3Vector3 & b3AlignedObjectArray<b3Vector3>::operator[](int)
 REFERENCE_CALL void b3ConvexUtility::initialize() -> b3Vector3 & b3AlignedObjectArray<b3Vector3>::operator[](int) [b3ConvexUtility.cpp <356:31 356:31>]
 REFERENCE_USAGE void b3ConvexUtility::initialize() -> b3AlignedObjectArray<b3Vector3> b3ConvexUtility::m_vertices [b3ConvexUtility.cpp <356:21 356:30>]
 REFERENCE_USAGE void b3ConvexUtility::initialize() -> short b3InternalVertexPair::m_v1 [b3ConvexUtility.cpp <356:35 356:38>]
 LOCAL_SYMBOL: b3ConvexUtility.cpp<354:25> [b3ConvexUtility.cpp <356:32 356:33>]
-SYMBOL_FUNCTION b3Vector3 & b3AlignedObjectArray<b3Vector3>::operator[](int)
 REFERENCE_CALL void b3ConvexUtility::initialize() -> b3Vector3 & b3AlignedObjectArray<b3Vector3>::operator[](int) [b3ConvexUtility.cpp <356:51 356:51>]
 REFERENCE_USAGE void b3ConvexUtility::initialize() -> b3AlignedObjectArray<b3Vector3> b3ConvexUtility::m_vertices [b3ConvexUtility.cpp <356:41 356:50>]
 REFERENCE_USAGE void b3ConvexUtility::initialize() -> short b3InternalVertexPair::m_v0 [b3ConvexUtility.cpp <356:55 356:58>]
 LOCAL_SYMBOL: b3ConvexUtility.cpp<354:25> [b3ConvexUtility.cpp <356:52 356:53>]
-SYMBOL_FUNCTION b3Vector3 & b3Vector3::normalize()
 REFERENCE_CALL void b3ConvexUtility::initialize() -> b3Vector3 & b3Vector3::normalize() [b3ConvexUtility.cpp <357:9 357:17>]
 LOCAL_SYMBOL: b3ConvexUtility.cpp<356:14> [b3ConvexUtility.cpp <357:4 357:7>]
 LOCAL_SYMBOL: b3ConvexUtility.cpp<359:9> [b3ConvexUtility.cpp <359:9 359:13>]
-SYMBOL_BUILTIN_TYPE bool
 REFERENCE_TYPE_USAGE void b3ConvexUtility::initialize() -> bool [b3ConvexUtility.cpp <359:4 359:7>]
 LOCAL_SYMBOL: b3ConvexUtility.cpp<360:14> [b3ConvexUtility.cpp <360:14 360:17>]
 REFERENCE_TYPE_USAGE void b3ConvexUtility::initialize() -> b3Vector3 [b3ConvexUtility.cpp <360:4 360:12>]
-SYMBOL_FUNCTION void b3Vector3::b3Vector3()
 REFERENCE_CALL void b3ConvexUtility::initialize() -> void b3Vector3::b3Vector3() [b3ConvexUtility.cpp <360:14 360:17>]
 LOCAL_SYMBOL: b3ConvexUtility.cpp<360:19> [b3ConvexUtility.cpp <360:19 360:23>]
-REFERENCE_TYPE_USAGE void b3ConvexUtility::initialize() -> b3Vector3 [b3ConvexUtility.cpp <360:4 360:12>]
-SYMBOL_FUNCTION void b3Vector3::b3Vector3()
 REFERENCE_CALL void b3ConvexUtility::initialize() -> void b3Vector3::b3Vector3() [b3ConvexUtility.cpp <360:19 360:23>]
 LOCAL_SYMBOL: b3ConvexUtility.cpp<362:13> [b3ConvexUtility.cpp <362:13 362:13>]
-SYMBOL_BUILTIN_TYPE int
 REFERENCE_TYPE_USAGE void b3ConvexUtility::initialize() -> int [b3ConvexUtility.cpp <362:9 362:11>]
 LOCAL_SYMBOL: b3ConvexUtility.cpp<362:13> [b3ConvexUtility.cpp <362:17 362:17>]
-SYMBOL_FUNCTION int b3AlignedObjectArray<b3Vector3>::size() const
 REFERENCE_CALL void b3ConvexUtility::initialize() -> int b3AlignedObjectArray<b3Vector3>::size() const [b3ConvexUtility.cpp <362:33 362:36>]
 REFERENCE_USAGE void b3ConvexUtility::initialize() -> b3AlignedObjectArray<b3Vector3> b3ConvexUtility::m_uniqueEdges [b3ConvexUtility.cpp <362:19 362:31>]
 LOCAL_SYMBOL: b3ConvexUtility.cpp<362:13> [b3ConvexUtility.cpp <362:40 362:40>]
-SYMBOL_FUNCTION b3Vector3 & b3Vector3::operator=(b3Vector3 &)
 REFERENCE_CALL void b3ConvexUtility::initialize() -> b3Vector3 & b3Vector3::operator=(b3Vector3 &) [b3ConvexUtility.cpp <364:10 364:10>]
 LOCAL_SYMBOL: b3ConvexUtility.cpp<360:14> [b3ConvexUtility.cpp <364:5 364:8>]
-SYMBOL_FUNCTION b3Vector3 operator-(const b3Vector3 &, const b3Vector3 &)
 REFERENCE_CALL void b3ConvexUtility::initialize() -> b3Vector3 operator-(const b3Vector3 &, const b3Vector3 &) [b3ConvexUtility.cpp <364:28 364:28>]
-SYMBOL_FUNCTION b3Vector3 & b3AlignedObjectArray<b3Vector3>::operator[](int)
 REFERENCE_CALL void b3ConvexUtility::initialize() -> b3Vector3 & b3AlignedObjectArray<b3Vector3>::operator[](int) [b3ConvexUtility.cpp <364:25 364:25>]
 REFERENCE_USAGE void b3ConvexUtility::initialize() -> b3AlignedObjectArray<b3Vector3> b3ConvexUtility::m_uniqueEdges [b3ConvexUtility.cpp <364:12 364:24>]
 LOCAL_SYMBOL: b3ConvexUtility.cpp<362:13> [b3ConvexUtility.cpp <364:26 364:26>]
 LOCAL_SYMBOL: b3ConvexUtility.cpp<356:14> [b3ConvexUtility.cpp <364:29 364:32>]
-SYMBOL_FUNCTION b3Vector3 & b3Vector3::operator=(b3Vector3 &)
 REFERENCE_CALL void b3ConvexUtility::initialize() -> b3Vector3 & b3Vector3::operator=(b3Vector3 &) [b3ConvexUtility.cpp <365:11 365:11>]
 LOCAL_SYMBOL: b3ConvexUtility.cpp<360:19> [b3ConvexUtility.cpp <365:5 365:9>]
 SYMBOL_FUNCTION b3Vector3 operator+(const b3Vector3 &, const b3Vector3 &)
 REFERENCE_CALL void b3ConvexUtility::initialize() -> b3Vector3 operator+(const b3Vector3 &, const b3Vector3 &) [b3ConvexUtility.cpp <365:29 365:29>]
-SYMBOL_FUNCTION b3Vector3 & b3AlignedObjectArray<b3Vector3>::operator[](int)
 REFERENCE_CALL void b3ConvexUtility::initialize() -> b3Vector3 & b3AlignedObjectArray<b3Vector3>::operator[](int) [b3ConvexUtility.cpp <365:26 365:26>]
 REFERENCE_USAGE void b3ConvexUtility::initialize() -> b3AlignedObjectArray<b3Vector3> b3ConvexUtility::m_uniqueEdges [b3ConvexUtility.cpp <365:13 365:25>]
 LOCAL_SYMBOL: b3ConvexUtility.cpp<362:13> [b3ConvexUtility.cpp <365:27 365:27>]
@@ -919,7 +762,6 @@ LOCAL_SYMBOL: b3ConvexUtility.cpp<356:14> [b3ConvexUtility.cpp <365:30 365:33>]
 SYMBOL_FUNCTION bool IsAlmostZero(const b3Vector3 &)
 REFERENCE_CALL void b3ConvexUtility::initialize() -> bool IsAlmostZero(const b3Vector3 &) [b3ConvexUtility.cpp <370:9 370:20>]
 LOCAL_SYMBOL: b3ConvexUtility.cpp<360:14> [b3ConvexUtility.cpp <370:22 370:25>]
-SYMBOL_FUNCTION bool IsAlmostZero(const b3Vector3 &)
 REFERENCE_CALL void b3ConvexUtility::initialize() -> bool IsAlmostZero(const b3Vector3 &) [b3ConvexUtility.cpp <371:5 371:16>]
 LOCAL_SYMBOL: b3ConvexUtility.cpp<360:19> [b3ConvexUtility.cpp <371:18 371:22>]
 LOCAL_SYMBOL: b3ConvexUtility.cpp<359:9> [b3ConvexUtility.cpp <373:6 373:10>]
@@ -945,72 +787,55 @@ LOCAL_SYMBOL: b3ConvexUtility.cpp<342:49> [b3ConvexUtility.cpp <393:5 393:9>]
 LOCAL_SYMBOL: b3ConvexUtility.cpp<354:25> [b3ConvexUtility.cpp <393:18 393:19>]
 LOCAL_SYMBOL: b3ConvexUtility.cpp<391:20> [b3ConvexUtility.cpp <393:21 393:22>]
 LOCAL_SYMBOL: b3ConvexUtility.cpp<419:10> [b3ConvexUtility.cpp <419:10 419:10>]
-SYMBOL_BUILTIN_TYPE int
 REFERENCE_TYPE_USAGE void b3ConvexUtility::initialize() -> int [b3ConvexUtility.cpp <419:6 419:8>]
 LOCAL_SYMBOL: b3ConvexUtility.cpp<419:10> [b3ConvexUtility.cpp <419:14 419:14>]
-SYMBOL_FUNCTION int b3AlignedObjectArray<b3MyFace>::size() const
 REFERENCE_CALL void b3ConvexUtility::initialize() -> int b3AlignedObjectArray<b3MyFace>::size() const [b3ConvexUtility.cpp <419:24 419:27>]
 REFERENCE_USAGE void b3ConvexUtility::initialize() -> b3AlignedObjectArray<b3MyFace> b3ConvexUtility::m_faces [b3ConvexUtility.cpp <419:16 419:22>]
 LOCAL_SYMBOL: b3ConvexUtility.cpp<419:10> [b3ConvexUtility.cpp <419:31 419:31>]
 LOCAL_SYMBOL: b3ConvexUtility.cpp<421:7> [b3ConvexUtility.cpp <421:7 421:17>]
-SYMBOL_BUILTIN_TYPE int
 REFERENCE_TYPE_USAGE void b3ConvexUtility::initialize() -> int [b3ConvexUtility.cpp <421:3 421:5>]
-SYMBOL_FUNCTION int b3AlignedObjectArray<int>::size() const
 REFERENCE_CALL void b3ConvexUtility::initialize() -> int b3AlignedObjectArray<int>::size() const [b3ConvexUtility.cpp <421:42 421:45>]
 REFERENCE_USAGE void b3ConvexUtility::initialize() -> b3AlignedObjectArray<int> b3MyFace::m_indices [b3ConvexUtility.cpp <421:32 421:40>]
-SYMBOL_FUNCTION b3MyFace & b3AlignedObjectArray<b3MyFace>::operator[](int)
 REFERENCE_CALL void b3ConvexUtility::initialize() -> b3MyFace & b3AlignedObjectArray<b3MyFace>::operator[](int) [b3ConvexUtility.cpp <421:28 421:28>]
 REFERENCE_USAGE void b3ConvexUtility::initialize() -> b3AlignedObjectArray<b3MyFace> b3ConvexUtility::m_faces [b3ConvexUtility.cpp <421:21 421:27>]
 LOCAL_SYMBOL: b3ConvexUtility.cpp<419:10> [b3ConvexUtility.cpp <421:29 421:29>]
 LOCAL_SYMBOL: b3ConvexUtility.cpp<422:7> [b3ConvexUtility.cpp <422:7 422:12>]
-SYMBOL_BUILTIN_TYPE int
 REFERENCE_TYPE_USAGE void b3ConvexUtility::initialize() -> int [b3ConvexUtility.cpp <422:3 422:5>]
 LOCAL_SYMBOL: b3ConvexUtility.cpp<421:7> [b3ConvexUtility.cpp <422:16 422:26>]
 LOCAL_SYMBOL: b3ConvexUtility.cpp<424:20> [b3ConvexUtility.cpp <424:20 424:21>]
 REFERENCE_TYPE_USAGE void b3ConvexUtility::initialize() -> b3Vector3 [b3ConvexUtility.cpp <424:9 424:17>]
-SYMBOL_FUNCTION b3Vector3 & b3AlignedObjectArray<b3Vector3>::operator[](int)
 REFERENCE_CALL void b3ConvexUtility::initialize() -> b3Vector3 & b3AlignedObjectArray<b3Vector3>::operator[](int) [b3ConvexUtility.cpp <424:35 424:35>]
 REFERENCE_USAGE void b3ConvexUtility::initialize() -> b3AlignedObjectArray<b3Vector3> b3ConvexUtility::m_vertices [b3ConvexUtility.cpp <424:25 424:34>]
-SYMBOL_FUNCTION int & b3AlignedObjectArray<int>::operator[](int)
 REFERENCE_CALL void b3ConvexUtility::initialize() -> int & b3AlignedObjectArray<int>::operator[](int) [b3ConvexUtility.cpp <424:56 424:56>]
 REFERENCE_USAGE void b3ConvexUtility::initialize() -> b3AlignedObjectArray<int> b3MyFace::m_indices [b3ConvexUtility.cpp <424:47 424:55>]
-SYMBOL_FUNCTION b3MyFace & b3AlignedObjectArray<b3MyFace>::operator[](int)
 REFERENCE_CALL void b3ConvexUtility::initialize() -> b3MyFace & b3AlignedObjectArray<b3MyFace>::operator[](int) [b3ConvexUtility.cpp <424:43 424:43>]
 REFERENCE_USAGE void b3ConvexUtility::initialize() -> b3AlignedObjectArray<b3MyFace> b3ConvexUtility::m_faces [b3ConvexUtility.cpp <424:36 424:42>]
 LOCAL_SYMBOL: b3ConvexUtility.cpp<419:10> [b3ConvexUtility.cpp <424:44 424:44>]
 LOCAL_SYMBOL: b3ConvexUtility.cpp<425:11> [b3ConvexUtility.cpp <425:11 425:11>]
-SYMBOL_BUILTIN_TYPE int
 REFERENCE_TYPE_USAGE void b3ConvexUtility::initialize() -> int [b3ConvexUtility.cpp <425:7 425:9>]
 LOCAL_SYMBOL: b3ConvexUtility.cpp<425:11> [b3ConvexUtility.cpp <425:15 425:15>]
 LOCAL_SYMBOL: b3ConvexUtility.cpp<422:7> [b3ConvexUtility.cpp <425:18 425:23>]
 LOCAL_SYMBOL: b3ConvexUtility.cpp<425:11> [b3ConvexUtility.cpp <425:25 425:25>]
 LOCAL_SYMBOL: b3ConvexUtility.cpp<427:8> [b3ConvexUtility.cpp <427:8 427:8>]
-SYMBOL_BUILTIN_TYPE int
 REFERENCE_TYPE_USAGE void b3ConvexUtility::initialize() -> int [b3ConvexUtility.cpp <427:4 427:6>]
 LOCAL_SYMBOL: b3ConvexUtility.cpp<425:11> [b3ConvexUtility.cpp <427:13 427:13>]
 LOCAL_SYMBOL: b3ConvexUtility.cpp<421:7> [b3ConvexUtility.cpp <427:18 427:28>]
 LOCAL_SYMBOL: b3ConvexUtility.cpp<428:21> [b3ConvexUtility.cpp <428:21 428:22>]
 REFERENCE_TYPE_USAGE void b3ConvexUtility::initialize() -> b3Vector3 [b3ConvexUtility.cpp <428:10 428:18>]
-SYMBOL_FUNCTION b3Vector3 & b3AlignedObjectArray<b3Vector3>::operator[](int)
 REFERENCE_CALL void b3ConvexUtility::initialize() -> b3Vector3 & b3AlignedObjectArray<b3Vector3>::operator[](int) [b3ConvexUtility.cpp <428:36 428:36>]
 REFERENCE_USAGE void b3ConvexUtility::initialize() -> b3AlignedObjectArray<b3Vector3> b3ConvexUtility::m_vertices [b3ConvexUtility.cpp <428:26 428:35>]
-SYMBOL_FUNCTION int & b3AlignedObjectArray<int>::operator[](int)
 REFERENCE_CALL void b3ConvexUtility::initialize() -> int & b3AlignedObjectArray<int>::operator[](int) [b3ConvexUtility.cpp <428:57 428:57>]
 REFERENCE_USAGE void b3ConvexUtility::initialize() -> b3AlignedObjectArray<int> b3MyFace::m_indices [b3ConvexUtility.cpp <428:48 428:56>]
-SYMBOL_FUNCTION b3MyFace & b3AlignedObjectArray<b3MyFace>::operator[](int)
 REFERENCE_CALL void b3ConvexUtility::initialize() -> b3MyFace & b3AlignedObjectArray<b3MyFace>::operator[](int) [b3ConvexUtility.cpp <428:44 428:44>]
 REFERENCE_USAGE void b3ConvexUtility::initialize() -> b3AlignedObjectArray<b3MyFace> b3ConvexUtility::m_faces [b3ConvexUtility.cpp <428:37 428:43>]
 LOCAL_SYMBOL: b3ConvexUtility.cpp<419:10> [b3ConvexUtility.cpp <428:45 428:45>]
 LOCAL_SYMBOL: b3ConvexUtility.cpp<425:11> [b3ConvexUtility.cpp <428:58 428:58>]
 LOCAL_SYMBOL: b3ConvexUtility.cpp<429:21> [b3ConvexUtility.cpp <429:21 429:22>]
 REFERENCE_TYPE_USAGE void b3ConvexUtility::initialize() -> b3Vector3 [b3ConvexUtility.cpp <429:10 429:18>]
-SYMBOL_FUNCTION b3Vector3 & b3AlignedObjectArray<b3Vector3>::operator[](int)
 REFERENCE_CALL void b3ConvexUtility::initialize() -> b3Vector3 & b3AlignedObjectArray<b3Vector3>::operator[](int) [b3ConvexUtility.cpp <429:36 429:36>]
 REFERENCE_USAGE void b3ConvexUtility::initialize() -> b3AlignedObjectArray<b3Vector3> b3ConvexUtility::m_vertices [b3ConvexUtility.cpp <429:26 429:35>]
-SYMBOL_FUNCTION int & b3AlignedObjectArray<int>::operator[](int)
 REFERENCE_CALL void b3ConvexUtility::initialize() -> int & b3AlignedObjectArray<int>::operator[](int) [b3ConvexUtility.cpp <429:57 429:57>]
 REFERENCE_USAGE void b3ConvexUtility::initialize() -> b3AlignedObjectArray<int> b3MyFace::m_indices [b3ConvexUtility.cpp <429:48 429:56>]
-SYMBOL_FUNCTION b3MyFace & b3AlignedObjectArray<b3MyFace>::operator[](int)
 REFERENCE_CALL void b3ConvexUtility::initialize() -> b3MyFace & b3AlignedObjectArray<b3MyFace>::operator[](int) [b3ConvexUtility.cpp <429:44 429:44>]
 REFERENCE_USAGE void b3ConvexUtility::initialize() -> b3AlignedObjectArray<b3MyFace> b3ConvexUtility::m_faces [b3ConvexUtility.cpp <429:37 429:43>]
 LOCAL_SYMBOL: b3ConvexUtility.cpp<419:10> [b3ConvexUtility.cpp <429:45 429:45>]
@@ -1019,13 +844,10 @@ LOCAL_SYMBOL: b3ConvexUtility.cpp<430:13> [b3ConvexUtility.cpp <430:13 430:16>]
 REFERENCE_TYPE_USAGE void b3ConvexUtility::initialize() -> b3Scalar [b3ConvexUtility.cpp <430:4 430:11>]
 SYMBOL_FUNCTION b3Scalar b3Vector3::length() const
 REFERENCE_CALL void b3ConvexUtility::initialize() -> b3Scalar b3Vector3::length() const [b3ConvexUtility.cpp <430:47 430:52>]
-SYMBOL_FUNCTION b3Vector3 b3Vector3::cross(const b3Vector3 &) const
 REFERENCE_CALL void b3ConvexUtility::initialize() -> b3Vector3 b3Vector3::cross(const b3Vector3 &) const [b3ConvexUtility.cpp <430:31 430:35>]
-SYMBOL_FUNCTION b3Vector3 operator-(const b3Vector3 &, const b3Vector3 &)
 REFERENCE_CALL void b3ConvexUtility::initialize() -> b3Vector3 operator-(const b3Vector3 &, const b3Vector3 &) [b3ConvexUtility.cpp <430:25 430:25>]
 LOCAL_SYMBOL: b3ConvexUtility.cpp<424:20> [b3ConvexUtility.cpp <430:22 430:23>]
 LOCAL_SYMBOL: b3ConvexUtility.cpp<428:21> [b3ConvexUtility.cpp <430:27 430:28>]
-SYMBOL_FUNCTION b3Vector3 operator-(const b3Vector3 &, const b3Vector3 &)
 REFERENCE_CALL void b3ConvexUtility::initialize() -> b3Vector3 operator-(const b3Vector3 &, const b3Vector3 &) [b3ConvexUtility.cpp <430:40 430:40>]
 LOCAL_SYMBOL: b3ConvexUtility.cpp<424:20> [b3ConvexUtility.cpp <430:37 430:38>]
 LOCAL_SYMBOL: b3ConvexUtility.cpp<429:21> [b3ConvexUtility.cpp <430:42 430:43>]
@@ -1033,14 +855,11 @@ LOCAL_SYMBOL: b3ConvexUtility.cpp<431:14> [b3ConvexUtility.cpp <431:14 431:19>]
 REFERENCE_TYPE_USAGE void b3ConvexUtility::initialize() -> b3Vector3 [b3ConvexUtility.cpp <431:4 431:12>]
 SYMBOL_FUNCTION b3Vector3 operator/(const b3Vector3 &, const b3Scalar &)
 REFERENCE_CALL void b3ConvexUtility::initialize() -> b3Vector3 operator/(const b3Vector3 &, const b3Scalar &) [b3ConvexUtility.cpp <431:33 431:33>]
-SYMBOL_FUNCTION b3Vector3 operator+(const b3Vector3 &, const b3Vector3 &)
 REFERENCE_CALL void b3ConvexUtility::initialize() -> b3Vector3 operator+(const b3Vector3 &, const b3Vector3 &) [b3ConvexUtility.cpp <431:29 431:29>]
-SYMBOL_FUNCTION b3Vector3 operator+(const b3Vector3 &, const b3Vector3 &)
 REFERENCE_CALL void b3ConvexUtility::initialize() -> b3Vector3 operator+(const b3Vector3 &, const b3Vector3 &) [b3ConvexUtility.cpp <431:26 431:26>]
 LOCAL_SYMBOL: b3ConvexUtility.cpp<424:20> [b3ConvexUtility.cpp <431:24 431:25>]
 LOCAL_SYMBOL: b3ConvexUtility.cpp<428:21> [b3ConvexUtility.cpp <431:27 431:28>]
 LOCAL_SYMBOL: b3ConvexUtility.cpp<429:21> [b3ConvexUtility.cpp <431:30 431:31>]
-SYMBOL_FUNCTION b3Vector3 & b3Vector3::operator+=(const b3Vector3 &)
 REFERENCE_CALL void b3ConvexUtility::initialize() -> b3Vector3 & b3Vector3::operator+=(const b3Vector3 &) [b3ConvexUtility.cpp <432:18 432:19>]
 REFERENCE_USAGE void b3ConvexUtility::initialize() -> b3Vector3 b3ConvexUtility::m_localCenter [b3ConvexUtility.cpp <432:4 432:16>]
 SYMBOL_FUNCTION b3Vector3 operator*(const b3Scalar &, const b3Vector3 &)

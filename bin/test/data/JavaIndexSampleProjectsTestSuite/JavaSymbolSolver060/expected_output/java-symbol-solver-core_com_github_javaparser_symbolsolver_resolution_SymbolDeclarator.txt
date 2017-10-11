@@ -1,13 +1,25 @@
 FILE: SymbolDeclarator.java
-SYMBOL_PACKAGE com.github.javaparser.symbolsolver.resolution [SymbolDeclarator.java <17:9 17:53>]
+SYMBOL_PACKAGE com.github.javaparser.symbolsolver.resolution [SymbolDeclarator.java <17:44 17:53>]
 SYMBOL_PACKAGE com.github.javaparser.symbolsolver
 SYMBOL_PACKAGE com.github.javaparser
 SYMBOL_PACKAGE com.github
 SYMBOL_PACKAGE com
-REFERENCE_IMPORT SymbolDeclarator.java -> com.github.javaparser.symbolsolver.model.declarations.ValueDeclaration [SymbolDeclarator.java <19:8 19:77>]
+QUALIFIER: com.github.javaparser.symbolsolver [SymbolDeclarator.java <17:31 17:42>]
+QUALIFIER: com.github.javaparser [SymbolDeclarator.java <17:20 17:29>]
+QUALIFIER: com.github [SymbolDeclarator.java <17:13 17:18>]
+QUALIFIER: com [SymbolDeclarator.java <17:9 17:11>]
+REFERENCE_IMPORT SymbolDeclarator.java -> com.github.javaparser.symbolsolver.model.declarations.ValueDeclaration [SymbolDeclarator.java <19:62 19:77>]
 SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model.declarations
-REFERENCE_IMPORT SymbolDeclarator.java -> java.util.List<E> [SymbolDeclarator.java <21:8 21:21>]
+QUALIFIER: com.github.javaparser.symbolsolver.model.declarations [SymbolDeclarator.java <19:49 19:60>]
+QUALIFIER: com.github.javaparser.symbolsolver.model [SymbolDeclarator.java <19:43 19:47>]
+QUALIFIER: com.github.javaparser.symbolsolver [SymbolDeclarator.java <19:30 19:41>]
+QUALIFIER: com.github.javaparser [SymbolDeclarator.java <19:19 19:28>]
+QUALIFIER: com.github [SymbolDeclarator.java <19:12 19:17>]
+QUALIFIER: com [SymbolDeclarator.java <19:8 19:10>]
+REFERENCE_IMPORT SymbolDeclarator.java -> java.util.List<E> [SymbolDeclarator.java <21:18 21:21>]
 SYMBOL_PACKAGE java.util
+QUALIFIER: java.util [SymbolDeclarator.java <21:13 21:16>]
+QUALIFIER: java [SymbolDeclarator.java <21:8 21:11>]
 SYMBOL_INTERFACE public com.github.javaparser.symbolsolver.resolution.SymbolDeclarator [SymbolDeclarator.java <26:1 <26:18 26:33> 30:1>]
 LOCAL_SYMBOL: SymbolDeclarator.java<26:35> [SymbolDeclarator.java <26:35 26:35>]
 LOCAL_SYMBOL: SymbolDeclarator.java<26:35> [SymbolDeclarator.java <30:1 30:1>]

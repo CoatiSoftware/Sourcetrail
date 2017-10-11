@@ -1,21 +1,59 @@
 FILE: MyObjectProvider.java
-SYMBOL_PACKAGE com.github.javaparser.symbolsolver.reflectionmodel [MyObjectProvider.java <1:9 1:58>]
+SYMBOL_PACKAGE com.github.javaparser.symbolsolver.reflectionmodel [MyObjectProvider.java <1:44 1:58>]
 SYMBOL_PACKAGE com.github.javaparser.symbolsolver
 SYMBOL_PACKAGE com.github.javaparser
 SYMBOL_PACKAGE com.github
 SYMBOL_PACKAGE com
-REFERENCE_IMPORT MyObjectProvider.java -> com.github.javaparser.symbolsolver.logic.ObjectProvider [MyObjectProvider.java <3:8 3:62>]
+QUALIFIER: com.github.javaparser.symbolsolver [MyObjectProvider.java <1:31 1:42>]
+QUALIFIER: com.github.javaparser [MyObjectProvider.java <1:20 1:29>]
+QUALIFIER: com.github [MyObjectProvider.java <1:13 1:18>]
+QUALIFIER: com [MyObjectProvider.java <1:9 1:11>]
+REFERENCE_IMPORT MyObjectProvider.java -> com.github.javaparser.symbolsolver.logic.ObjectProvider [MyObjectProvider.java <3:49 3:62>]
 SYMBOL_PACKAGE com.github.javaparser.symbolsolver.logic
-REFERENCE_IMPORT MyObjectProvider.java -> com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration [MyObjectProvider.java <4:8 4:85>]
+QUALIFIER: com.github.javaparser.symbolsolver.logic [MyObjectProvider.java <3:43 3:47>]
+QUALIFIER: com.github.javaparser.symbolsolver [MyObjectProvider.java <3:30 3:41>]
+QUALIFIER: com.github.javaparser [MyObjectProvider.java <3:19 3:28>]
+QUALIFIER: com.github [MyObjectProvider.java <3:12 3:17>]
+QUALIFIER: com [MyObjectProvider.java <3:8 3:10>]
+REFERENCE_IMPORT MyObjectProvider.java -> com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration [MyObjectProvider.java <4:62 4:85>]
 SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model.declarations
-REFERENCE_IMPORT MyObjectProvider.java -> com.github.javaparser.symbolsolver.model.resolution.TypeSolver [MyObjectProvider.java <5:8 5:69>]
+QUALIFIER: com.github.javaparser.symbolsolver.model.declarations [MyObjectProvider.java <4:49 4:60>]
+QUALIFIER: com.github.javaparser.symbolsolver.model [MyObjectProvider.java <4:43 4:47>]
+QUALIFIER: com.github.javaparser.symbolsolver [MyObjectProvider.java <4:30 4:41>]
+QUALIFIER: com.github.javaparser [MyObjectProvider.java <4:19 4:28>]
+QUALIFIER: com.github [MyObjectProvider.java <4:12 4:17>]
+QUALIFIER: com [MyObjectProvider.java <4:8 4:10>]
+REFERENCE_IMPORT MyObjectProvider.java -> com.github.javaparser.symbolsolver.model.resolution.TypeSolver [MyObjectProvider.java <5:60 5:69>]
 SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model.resolution
-REFERENCE_IMPORT MyObjectProvider.java -> com.github.javaparser.symbolsolver.model.typesystem.ReferenceType [MyObjectProvider.java <6:8 6:72>]
+QUALIFIER: com.github.javaparser.symbolsolver.model.resolution [MyObjectProvider.java <5:49 5:58>]
+QUALIFIER: com.github.javaparser.symbolsolver.model [MyObjectProvider.java <5:43 5:47>]
+QUALIFIER: com.github.javaparser.symbolsolver [MyObjectProvider.java <5:30 5:41>]
+QUALIFIER: com.github.javaparser [MyObjectProvider.java <5:19 5:28>]
+QUALIFIER: com.github [MyObjectProvider.java <5:12 5:17>]
+QUALIFIER: com [MyObjectProvider.java <5:8 5:10>]
+REFERENCE_IMPORT MyObjectProvider.java -> com.github.javaparser.symbolsolver.model.typesystem.ReferenceType [MyObjectProvider.java <6:60 6:72>]
 SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model.typesystem
-REFERENCE_IMPORT MyObjectProvider.java -> com.github.javaparser.symbolsolver.model.typesystem.ReferenceTypeImpl [MyObjectProvider.java <7:8 7:76>]
-SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model.typesystem
-REFERENCE_IMPORT MyObjectProvider.java -> com.github.javaparser.symbolsolver.resolution.typesolvers.ReflectionTypeSolver [MyObjectProvider.java <8:8 8:85>]
+QUALIFIER: com.github.javaparser.symbolsolver.model.typesystem [MyObjectProvider.java <6:49 6:58>]
+QUALIFIER: com.github.javaparser.symbolsolver.model [MyObjectProvider.java <6:43 6:47>]
+QUALIFIER: com.github.javaparser.symbolsolver [MyObjectProvider.java <6:30 6:41>]
+QUALIFIER: com.github.javaparser [MyObjectProvider.java <6:19 6:28>]
+QUALIFIER: com.github [MyObjectProvider.java <6:12 6:17>]
+QUALIFIER: com [MyObjectProvider.java <6:8 6:10>]
+REFERENCE_IMPORT MyObjectProvider.java -> com.github.javaparser.symbolsolver.model.typesystem.ReferenceTypeImpl [MyObjectProvider.java <7:60 7:76>]
+QUALIFIER: com.github.javaparser.symbolsolver.model.typesystem [MyObjectProvider.java <7:49 7:58>]
+QUALIFIER: com.github.javaparser.symbolsolver.model [MyObjectProvider.java <7:43 7:47>]
+QUALIFIER: com.github.javaparser.symbolsolver [MyObjectProvider.java <7:30 7:41>]
+QUALIFIER: com.github.javaparser [MyObjectProvider.java <7:19 7:28>]
+QUALIFIER: com.github [MyObjectProvider.java <7:12 7:17>]
+QUALIFIER: com [MyObjectProvider.java <7:8 7:10>]
+REFERENCE_IMPORT MyObjectProvider.java -> com.github.javaparser.symbolsolver.resolution.typesolvers.ReflectionTypeSolver [MyObjectProvider.java <8:66 8:85>]
 SYMBOL_PACKAGE com.github.javaparser.symbolsolver.resolution.typesolvers
+QUALIFIER: com.github.javaparser.symbolsolver.resolution.typesolvers [MyObjectProvider.java <8:54 8:64>]
+QUALIFIER: com.github.javaparser.symbolsolver.resolution [MyObjectProvider.java <8:43 8:52>]
+QUALIFIER: com.github.javaparser.symbolsolver [MyObjectProvider.java <8:30 8:41>]
+QUALIFIER: com.github.javaparser [MyObjectProvider.java <8:19 8:28>]
+QUALIFIER: com.github [MyObjectProvider.java <8:12 8:17>]
+QUALIFIER: com [MyObjectProvider.java <8:8 8:10>]
 SYMBOL_CLASS public com.github.javaparser.symbolsolver.reflectionmodel.MyObjectProvider [MyObjectProvider.java <13:1 <13:14 13:29> 36:1>]
 LOCAL_SYMBOL: MyObjectProvider.java<13:57> [MyObjectProvider.java <13:57 13:57>]
 LOCAL_SYMBOL: MyObjectProvider.java<13:57> [MyObjectProvider.java <36:1 36:1>]
@@ -45,7 +83,6 @@ REFERENCE_TYPE_USAGE com.github.javaparser.symbolsolver.model.typesystem.Referen
 SYMBOL_METHOD com.github.javaparser.symbolsolver.resolution.typesolvers.ReflectionTypeSolver.ReflectionTypeSolver()
 REFERENCE_CALL com.github.javaparser.symbolsolver.model.typesystem.ReferenceType com.github.javaparser.symbolsolver.reflectionmodel.MyObjectProvider.object() -> com.github.javaparser.symbolsolver.resolution.typesolvers.ReflectionTypeSolver.ReflectionTypeSolver() [MyObjectProvider.java <23:87 23:106>]
 REFERENCE_TYPE_USAGE com.github.javaparser.symbolsolver.model.typesystem.ReferenceType com.github.javaparser.symbolsolver.reflectionmodel.MyObjectProvider.object() -> com.github.javaparser.symbolsolver.resolution.typesolvers.ReflectionTypeSolver [MyObjectProvider.java <23:87 23:106>]
-SYMBOL_METHOD com.github.javaparser.symbolsolver.resolution.typesolvers.ReflectionTypeSolver.ReflectionTypeSolver()
 REFERENCE_CALL com.github.javaparser.symbolsolver.model.typesystem.ReferenceType com.github.javaparser.symbolsolver.reflectionmodel.MyObjectProvider.object() -> com.github.javaparser.symbolsolver.resolution.typesolvers.ReflectionTypeSolver.ReflectionTypeSolver() [MyObjectProvider.java <23:116 23:135>]
 REFERENCE_TYPE_USAGE com.github.javaparser.symbolsolver.model.typesystem.ReferenceType com.github.javaparser.symbolsolver.reflectionmodel.MyObjectProvider.object() -> com.github.javaparser.symbolsolver.resolution.typesolvers.ReflectionTypeSolver [MyObjectProvider.java <23:116 23:135>]
 SYMBOL_METHOD public com.github.javaparser.symbolsolver.model.typesystem.ReferenceType com.github.javaparser.symbolsolver.reflectionmodel.MyObjectProvider.byName(java.lang.String) [MyObjectProvider.java <26:5 <27:26 27:31> 34:5>]
@@ -58,7 +95,6 @@ LOCAL_SYMBOL: MyObjectProvider.java<27:55> [MyObjectProvider.java <27:55 27:55>]
 LOCAL_SYMBOL: MyObjectProvider.java<27:55> [MyObjectProvider.java <34:5 34:5>]
 REFERENCE_TYPE_USAGE com.github.javaparser.symbolsolver.model.typesystem.ReferenceType com.github.javaparser.symbolsolver.reflectionmodel.MyObjectProvider.byName(java.lang.String) -> com.github.javaparser.symbolsolver.model.resolution.TypeSolver [MyObjectProvider.java <28:9 28:18>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.reflectionmodel.MyObjectProvider.byName<1> [MyObjectProvider.java <28:20 28:29>]
-SYMBOL_METHOD com.github.javaparser.symbolsolver.resolution.typesolvers.ReflectionTypeSolver.ReflectionTypeSolver()
 REFERENCE_CALL com.github.javaparser.symbolsolver.model.typesystem.ReferenceType com.github.javaparser.symbolsolver.reflectionmodel.MyObjectProvider.byName(java.lang.String) -> com.github.javaparser.symbolsolver.resolution.typesolvers.ReflectionTypeSolver.ReflectionTypeSolver() [MyObjectProvider.java <28:37 28:56>]
 REFERENCE_TYPE_USAGE com.github.javaparser.symbolsolver.model.typesystem.ReferenceType com.github.javaparser.symbolsolver.reflectionmodel.MyObjectProvider.byName(java.lang.String) -> com.github.javaparser.symbolsolver.resolution.typesolvers.ReflectionTypeSolver [MyObjectProvider.java <28:37 28:56>]
 REFERENCE_TYPE_USAGE com.github.javaparser.symbolsolver.model.typesystem.ReferenceType com.github.javaparser.symbolsolver.reflectionmodel.MyObjectProvider.byName(java.lang.String) -> com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration [MyObjectProvider.java <29:9 29:32>]
@@ -77,7 +113,6 @@ LOCAL_SYMBOL: MyObjectProvider.java<30:61> [MyObjectProvider.java <32:9 32:9>]
 SYMBOL_METHOD java.lang.UnsupportedOperationException.UnsupportedOperationException()
 REFERENCE_CALL com.github.javaparser.symbolsolver.model.typesystem.ReferenceType com.github.javaparser.symbolsolver.reflectionmodel.MyObjectProvider.byName(java.lang.String) -> java.lang.UnsupportedOperationException.UnsupportedOperationException() [MyObjectProvider.java <31:23 31:51>]
 REFERENCE_TYPE_USAGE com.github.javaparser.symbolsolver.model.typesystem.ReferenceType com.github.javaparser.symbolsolver.reflectionmodel.MyObjectProvider.byName(java.lang.String) -> java.lang.UnsupportedOperationException [MyObjectProvider.java <31:23 31:51>]
-SYMBOL_METHOD com.github.javaparser.symbolsolver.model.typesystem.ReferenceTypeImpl.ReferenceTypeImpl(com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration, com.github.javaparser.symbolsolver.model.resolution.TypeSolver)
 REFERENCE_CALL com.github.javaparser.symbolsolver.model.typesystem.ReferenceType com.github.javaparser.symbolsolver.reflectionmodel.MyObjectProvider.byName(java.lang.String) -> com.github.javaparser.symbolsolver.model.typesystem.ReferenceTypeImpl.ReferenceTypeImpl(com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) [MyObjectProvider.java <33:20 33:36>]
 REFERENCE_TYPE_USAGE com.github.javaparser.symbolsolver.model.typesystem.ReferenceType com.github.javaparser.symbolsolver.reflectionmodel.MyObjectProvider.byName(java.lang.String) -> com.github.javaparser.symbolsolver.model.typesystem.ReferenceTypeImpl [MyObjectProvider.java <33:20 33:36>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.reflectionmodel.MyObjectProvider.byName<2> [MyObjectProvider.java <33:38 33:52>]

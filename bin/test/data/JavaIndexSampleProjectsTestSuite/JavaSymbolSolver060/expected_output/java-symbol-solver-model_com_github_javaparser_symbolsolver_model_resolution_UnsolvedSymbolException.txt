@@ -1,10 +1,15 @@
 FILE: UnsolvedSymbolException.java
-SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model.resolution [UnsolvedSymbolException.java <17:9 17:59>]
+SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model.resolution [UnsolvedSymbolException.java <17:50 17:59>]
 SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model
 SYMBOL_PACKAGE com.github.javaparser.symbolsolver
 SYMBOL_PACKAGE com.github.javaparser
 SYMBOL_PACKAGE com.github
 SYMBOL_PACKAGE com
+QUALIFIER: com.github.javaparser.symbolsolver.model [UnsolvedSymbolException.java <17:44 17:48>]
+QUALIFIER: com.github.javaparser.symbolsolver [UnsolvedSymbolException.java <17:31 17:42>]
+QUALIFIER: com.github.javaparser [UnsolvedSymbolException.java <17:20 17:29>]
+QUALIFIER: com.github [UnsolvedSymbolException.java <17:13 17:18>]
+QUALIFIER: com [UnsolvedSymbolException.java <17:9 17:11>]
 SYMBOL_CLASS public com.github.javaparser.symbolsolver.model.resolution.UnsolvedSymbolException [UnsolvedSymbolException.java <24:1 <24:14 24:36> 56:1>]
 LOCAL_SYMBOL: UnsolvedSymbolException.java<24:63> [UnsolvedSymbolException.java <24:63 24:63>]
 LOCAL_SYMBOL: UnsolvedSymbolException.java<24:63> [UnsolvedSymbolException.java <56:1 56:1>]
@@ -27,9 +32,11 @@ SYMBOL_METHOD java.lang.RuntimeException.RuntimeException(java.lang.String)
 REFERENCE_CALL com.github.javaparser.symbolsolver.model.resolution.UnsolvedSymbolException.UnsolvedSymbolException(java.lang.String, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> java.lang.RuntimeException.RuntimeException(java.lang.String) [UnsolvedSymbolException.java <31:9 31:13>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.model.resolution.UnsolvedSymbolException.UnsolvedSymbolException<0> [UnsolvedSymbolException.java <31:38 31:41>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.model.resolution.UnsolvedSymbolException.UnsolvedSymbolException<1> [UnsolvedSymbolException.java <31:68 31:77>]
+QUALIFIER: com.github.javaparser.symbolsolver.model.resolution.UnsolvedSymbolException [UnsolvedSymbolException.java <32:9 32:12>]
 SYMBOL_FIELD com.github.javaparser.symbolsolver.model.resolution.TypeSolver com.github.javaparser.symbolsolver.model.resolution.UnsolvedSymbolException.typeSolver
 REFERENCE_USAGE com.github.javaparser.symbolsolver.model.resolution.UnsolvedSymbolException.UnsolvedSymbolException(java.lang.String, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> com.github.javaparser.symbolsolver.model.resolution.TypeSolver com.github.javaparser.symbolsolver.model.resolution.UnsolvedSymbolException.typeSolver [UnsolvedSymbolException.java <32:14 32:23>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.model.resolution.UnsolvedSymbolException.UnsolvedSymbolException<1> [UnsolvedSymbolException.java <32:27 32:36>]
+QUALIFIER: com.github.javaparser.symbolsolver.model.resolution.UnsolvedSymbolException [UnsolvedSymbolException.java <33:9 33:12>]
 SYMBOL_FIELD java.lang.String com.github.javaparser.symbolsolver.model.resolution.UnsolvedSymbolException.name
 REFERENCE_USAGE com.github.javaparser.symbolsolver.model.resolution.UnsolvedSymbolException.UnsolvedSymbolException(java.lang.String, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> java.lang.String com.github.javaparser.symbolsolver.model.resolution.UnsolvedSymbolException.name [UnsolvedSymbolException.java <33:14 33:17>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.model.resolution.UnsolvedSymbolException.UnsolvedSymbolException<0> [UnsolvedSymbolException.java <33:21 33:24>]
@@ -40,29 +47,27 @@ REFERENCE_TYPE_USAGE com.github.javaparser.symbolsolver.model.resolution.Unsolve
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.model.resolution.UnsolvedSymbolException.UnsolvedSymbolException<1> [UnsolvedSymbolException.java <36:56 36:62>]
 LOCAL_SYMBOL: UnsolvedSymbolException.java<36:65> [UnsolvedSymbolException.java <36:65 36:65>]
 LOCAL_SYMBOL: UnsolvedSymbolException.java<36:65> [UnsolvedSymbolException.java <40:5 40:5>]
-SYMBOL_METHOD java.lang.RuntimeException.RuntimeException(java.lang.String)
 REFERENCE_CALL com.github.javaparser.symbolsolver.model.resolution.UnsolvedSymbolException.UnsolvedSymbolException(java.lang.String, java.lang.String) -> java.lang.RuntimeException.RuntimeException(java.lang.String) [UnsolvedSymbolException.java <37:9 37:13>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.model.resolution.UnsolvedSymbolException.UnsolvedSymbolException<1> [UnsolvedSymbolException.java <37:39 37:45>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.model.resolution.UnsolvedSymbolException.UnsolvedSymbolException<0> [UnsolvedSymbolException.java <37:57 37:60>]
+QUALIFIER: com.github.javaparser.symbolsolver.model.resolution.UnsolvedSymbolException [UnsolvedSymbolException.java <38:9 38:12>]
 SYMBOL_FIELD java.lang.String com.github.javaparser.symbolsolver.model.resolution.UnsolvedSymbolException.context
 REFERENCE_USAGE com.github.javaparser.symbolsolver.model.resolution.UnsolvedSymbolException.UnsolvedSymbolException(java.lang.String, java.lang.String) -> java.lang.String com.github.javaparser.symbolsolver.model.resolution.UnsolvedSymbolException.context [UnsolvedSymbolException.java <38:14 38:20>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.model.resolution.UnsolvedSymbolException.UnsolvedSymbolException<1> [UnsolvedSymbolException.java <38:24 38:30>]
-SYMBOL_FIELD java.lang.String com.github.javaparser.symbolsolver.model.resolution.UnsolvedSymbolException.name
+QUALIFIER: com.github.javaparser.symbolsolver.model.resolution.UnsolvedSymbolException [UnsolvedSymbolException.java <39:9 39:12>]
 REFERENCE_USAGE com.github.javaparser.symbolsolver.model.resolution.UnsolvedSymbolException.UnsolvedSymbolException(java.lang.String, java.lang.String) -> java.lang.String com.github.javaparser.symbolsolver.model.resolution.UnsolvedSymbolException.name [UnsolvedSymbolException.java <39:14 39:17>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.model.resolution.UnsolvedSymbolException.UnsolvedSymbolException<0> [UnsolvedSymbolException.java <39:21 39:24>]
 SYMBOL_METHOD public com.github.javaparser.symbolsolver.model.resolution.UnsolvedSymbolException.UnsolvedSymbolException(java.lang.String) [UnsolvedSymbolException.java <42:5 <42:12 42:34> 46:5>]
-SYMBOL_METHOD java.lang.RuntimeException.RuntimeException(java.lang.String)
 REFERENCE_OVERRIDE com.github.javaparser.symbolsolver.model.resolution.UnsolvedSymbolException.UnsolvedSymbolException(java.lang.String) -> java.lang.RuntimeException.RuntimeException(java.lang.String) [UnsolvedSymbolException.java <42:12 42:34>]
 REFERENCE_TYPE_USAGE com.github.javaparser.symbolsolver.model.resolution.UnsolvedSymbolException.UnsolvedSymbolException(java.lang.String) -> java.lang.String [UnsolvedSymbolException.java <42:36 42:41>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.model.resolution.UnsolvedSymbolException.UnsolvedSymbolException<0> [UnsolvedSymbolException.java <42:43 42:46>]
 LOCAL_SYMBOL: UnsolvedSymbolException.java<42:49> [UnsolvedSymbolException.java <42:49 42:49>]
 LOCAL_SYMBOL: UnsolvedSymbolException.java<42:49> [UnsolvedSymbolException.java <46:5 46:5>]
-SYMBOL_METHOD java.lang.RuntimeException.RuntimeException(java.lang.String)
 REFERENCE_CALL com.github.javaparser.symbolsolver.model.resolution.UnsolvedSymbolException.UnsolvedSymbolException(java.lang.String) -> java.lang.RuntimeException.RuntimeException(java.lang.String) [UnsolvedSymbolException.java <43:9 43:13>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.model.resolution.UnsolvedSymbolException.UnsolvedSymbolException<0> [UnsolvedSymbolException.java <43:38 43:41>]
-SYMBOL_FIELD java.lang.String com.github.javaparser.symbolsolver.model.resolution.UnsolvedSymbolException.context
+QUALIFIER: com.github.javaparser.symbolsolver.model.resolution.UnsolvedSymbolException [UnsolvedSymbolException.java <44:9 44:12>]
 REFERENCE_USAGE com.github.javaparser.symbolsolver.model.resolution.UnsolvedSymbolException.UnsolvedSymbolException(java.lang.String) -> java.lang.String com.github.javaparser.symbolsolver.model.resolution.UnsolvedSymbolException.context [UnsolvedSymbolException.java <44:14 44:20>]
-SYMBOL_FIELD java.lang.String com.github.javaparser.symbolsolver.model.resolution.UnsolvedSymbolException.name
+QUALIFIER: com.github.javaparser.symbolsolver.model.resolution.UnsolvedSymbolException [UnsolvedSymbolException.java <45:9 45:12>]
 REFERENCE_USAGE com.github.javaparser.symbolsolver.model.resolution.UnsolvedSymbolException.UnsolvedSymbolException(java.lang.String) -> java.lang.String com.github.javaparser.symbolsolver.model.resolution.UnsolvedSymbolException.name [UnsolvedSymbolException.java <45:14 45:17>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.model.resolution.UnsolvedSymbolException.UnsolvedSymbolException<0> [UnsolvedSymbolException.java <45:21 45:24>]
 SYMBOL_METHOD public java.lang.String com.github.javaparser.symbolsolver.model.resolution.UnsolvedSymbolException.toString() [UnsolvedSymbolException.java <48:5 <49:19 49:26> 55:5>]
@@ -71,10 +76,7 @@ REFERENCE_OVERRIDE java.lang.String com.github.javaparser.symbolsolver.model.res
 REFERENCE_TYPE_USAGE java.lang.String com.github.javaparser.symbolsolver.model.resolution.UnsolvedSymbolException.toString() -> java.lang.String [UnsolvedSymbolException.java <49:12 49:17>]
 LOCAL_SYMBOL: UnsolvedSymbolException.java<49:30> [UnsolvedSymbolException.java <49:30 49:30>]
 LOCAL_SYMBOL: UnsolvedSymbolException.java<49:30> [UnsolvedSymbolException.java <55:5 55:5>]
-SYMBOL_FIELD java.lang.String com.github.javaparser.symbolsolver.model.resolution.UnsolvedSymbolException.context
 REFERENCE_USAGE java.lang.String com.github.javaparser.symbolsolver.model.resolution.UnsolvedSymbolException.toString() -> java.lang.String com.github.javaparser.symbolsolver.model.resolution.UnsolvedSymbolException.context [UnsolvedSymbolException.java <51:31 51:37>]
-SYMBOL_FIELD java.lang.String com.github.javaparser.symbolsolver.model.resolution.UnsolvedSymbolException.name
 REFERENCE_USAGE java.lang.String com.github.javaparser.symbolsolver.model.resolution.UnsolvedSymbolException.toString() -> java.lang.String com.github.javaparser.symbolsolver.model.resolution.UnsolvedSymbolException.name [UnsolvedSymbolException.java <52:30 52:33>]
-SYMBOL_FIELD com.github.javaparser.symbolsolver.model.resolution.TypeSolver com.github.javaparser.symbolsolver.model.resolution.UnsolvedSymbolException.typeSolver
 REFERENCE_USAGE java.lang.String com.github.javaparser.symbolsolver.model.resolution.UnsolvedSymbolException.toString() -> com.github.javaparser.symbolsolver.model.resolution.TypeSolver com.github.javaparser.symbolsolver.model.resolution.UnsolvedSymbolException.typeSolver [UnsolvedSymbolException.java <53:35 53:44>]
 COMMENT: comment [UnsolvedSymbolException.java <1:1 15:3>]

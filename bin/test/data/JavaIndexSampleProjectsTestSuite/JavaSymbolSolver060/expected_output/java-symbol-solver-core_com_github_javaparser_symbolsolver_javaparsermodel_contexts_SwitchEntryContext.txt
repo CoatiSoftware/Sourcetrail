@@ -1,38 +1,110 @@
 FILE: SwitchEntryContext.java
-SYMBOL_PACKAGE com.github.javaparser.symbolsolver.javaparsermodel.contexts [SwitchEntryContext.java <17:9 17:67>]
+SYMBOL_PACKAGE com.github.javaparser.symbolsolver.javaparsermodel.contexts [SwitchEntryContext.java <17:60 17:67>]
 SYMBOL_PACKAGE com.github.javaparser.symbolsolver.javaparsermodel
 SYMBOL_PACKAGE com.github.javaparser.symbolsolver
 SYMBOL_PACKAGE com.github.javaparser
 SYMBOL_PACKAGE com.github
 SYMBOL_PACKAGE com
-REFERENCE_IMPORT SwitchEntryContext.java -> com.github.javaparser.ast.stmt.Statement [SwitchEntryContext.java <19:8 19:47>]
+QUALIFIER: com.github.javaparser.symbolsolver.javaparsermodel [SwitchEntryContext.java <17:44 17:58>]
+QUALIFIER: com.github.javaparser.symbolsolver [SwitchEntryContext.java <17:31 17:42>]
+QUALIFIER: com.github.javaparser [SwitchEntryContext.java <17:20 17:29>]
+QUALIFIER: com.github [SwitchEntryContext.java <17:13 17:18>]
+QUALIFIER: com [SwitchEntryContext.java <17:9 17:11>]
+REFERENCE_IMPORT SwitchEntryContext.java -> com.github.javaparser.ast.stmt.Statement [SwitchEntryContext.java <19:39 19:47>]
 SYMBOL_PACKAGE com.github.javaparser.ast.stmt
-REFERENCE_IMPORT SwitchEntryContext.java -> com.github.javaparser.ast.stmt.SwitchEntryStmt [SwitchEntryContext.java <20:8 20:53>]
-SYMBOL_PACKAGE com.github.javaparser.ast.stmt
-REFERENCE_IMPORT SwitchEntryContext.java -> com.github.javaparser.ast.stmt.SwitchStmt [SwitchEntryContext.java <21:8 21:48>]
-SYMBOL_PACKAGE com.github.javaparser.ast.stmt
-REFERENCE_IMPORT SwitchEntryContext.java -> com.github.javaparser.symbolsolver.javaparsermodel.JavaParserFacade [SwitchEntryContext.java <22:8 22:74>]
-SYMBOL_PACKAGE com.github.javaparser.symbolsolver.javaparsermodel
-REFERENCE_IMPORT SwitchEntryContext.java -> com.github.javaparser.symbolsolver.javaparsermodel.JavaParserFactory [SwitchEntryContext.java <23:8 23:75>]
-SYMBOL_PACKAGE com.github.javaparser.symbolsolver.javaparsermodel
-REFERENCE_IMPORT SwitchEntryContext.java -> com.github.javaparser.symbolsolver.model.declarations.MethodDeclaration [SwitchEntryContext.java <24:8 24:78>]
+QUALIFIER: com.github.javaparser.ast.stmt [SwitchEntryContext.java <19:34 19:37>]
+QUALIFIER: com.github.javaparser.ast [SwitchEntryContext.java <19:30 19:32>]
+QUALIFIER: com.github.javaparser [SwitchEntryContext.java <19:19 19:28>]
+QUALIFIER: com.github [SwitchEntryContext.java <19:12 19:17>]
+QUALIFIER: com [SwitchEntryContext.java <19:8 19:10>]
+REFERENCE_IMPORT SwitchEntryContext.java -> com.github.javaparser.ast.stmt.SwitchEntryStmt [SwitchEntryContext.java <20:39 20:53>]
+QUALIFIER: com.github.javaparser.ast.stmt [SwitchEntryContext.java <20:34 20:37>]
+QUALIFIER: com.github.javaparser.ast [SwitchEntryContext.java <20:30 20:32>]
+QUALIFIER: com.github.javaparser [SwitchEntryContext.java <20:19 20:28>]
+QUALIFIER: com.github [SwitchEntryContext.java <20:12 20:17>]
+QUALIFIER: com [SwitchEntryContext.java <20:8 20:10>]
+REFERENCE_IMPORT SwitchEntryContext.java -> com.github.javaparser.ast.stmt.SwitchStmt [SwitchEntryContext.java <21:39 21:48>]
+QUALIFIER: com.github.javaparser.ast.stmt [SwitchEntryContext.java <21:34 21:37>]
+QUALIFIER: com.github.javaparser.ast [SwitchEntryContext.java <21:30 21:32>]
+QUALIFIER: com.github.javaparser [SwitchEntryContext.java <21:19 21:28>]
+QUALIFIER: com.github [SwitchEntryContext.java <21:12 21:17>]
+QUALIFIER: com [SwitchEntryContext.java <21:8 21:10>]
+REFERENCE_IMPORT SwitchEntryContext.java -> com.github.javaparser.symbolsolver.javaparsermodel.JavaParserFacade [SwitchEntryContext.java <22:59 22:74>]
+QUALIFIER: com.github.javaparser.symbolsolver.javaparsermodel [SwitchEntryContext.java <22:43 22:57>]
+QUALIFIER: com.github.javaparser.symbolsolver [SwitchEntryContext.java <22:30 22:41>]
+QUALIFIER: com.github.javaparser [SwitchEntryContext.java <22:19 22:28>]
+QUALIFIER: com.github [SwitchEntryContext.java <22:12 22:17>]
+QUALIFIER: com [SwitchEntryContext.java <22:8 22:10>]
+REFERENCE_IMPORT SwitchEntryContext.java -> com.github.javaparser.symbolsolver.javaparsermodel.JavaParserFactory [SwitchEntryContext.java <23:59 23:75>]
+QUALIFIER: com.github.javaparser.symbolsolver.javaparsermodel [SwitchEntryContext.java <23:43 23:57>]
+QUALIFIER: com.github.javaparser.symbolsolver [SwitchEntryContext.java <23:30 23:41>]
+QUALIFIER: com.github.javaparser [SwitchEntryContext.java <23:19 23:28>]
+QUALIFIER: com.github [SwitchEntryContext.java <23:12 23:17>]
+QUALIFIER: com [SwitchEntryContext.java <23:8 23:10>]
+REFERENCE_IMPORT SwitchEntryContext.java -> com.github.javaparser.symbolsolver.model.declarations.MethodDeclaration [SwitchEntryContext.java <24:62 24:78>]
 SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model.declarations
-REFERENCE_IMPORT SwitchEntryContext.java -> com.github.javaparser.symbolsolver.model.declarations.ValueDeclaration [SwitchEntryContext.java <25:8 25:77>]
-SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model.declarations
-REFERENCE_IMPORT SwitchEntryContext.java -> com.github.javaparser.symbolsolver.model.resolution.SymbolReference<S> [SwitchEntryContext.java <26:8 26:74>]
+QUALIFIER: com.github.javaparser.symbolsolver.model.declarations [SwitchEntryContext.java <24:49 24:60>]
+QUALIFIER: com.github.javaparser.symbolsolver.model [SwitchEntryContext.java <24:43 24:47>]
+QUALIFIER: com.github.javaparser.symbolsolver [SwitchEntryContext.java <24:30 24:41>]
+QUALIFIER: com.github.javaparser [SwitchEntryContext.java <24:19 24:28>]
+QUALIFIER: com.github [SwitchEntryContext.java <24:12 24:17>]
+QUALIFIER: com [SwitchEntryContext.java <24:8 24:10>]
+REFERENCE_IMPORT SwitchEntryContext.java -> com.github.javaparser.symbolsolver.model.declarations.ValueDeclaration [SwitchEntryContext.java <25:62 25:77>]
+QUALIFIER: com.github.javaparser.symbolsolver.model.declarations [SwitchEntryContext.java <25:49 25:60>]
+QUALIFIER: com.github.javaparser.symbolsolver.model [SwitchEntryContext.java <25:43 25:47>]
+QUALIFIER: com.github.javaparser.symbolsolver [SwitchEntryContext.java <25:30 25:41>]
+QUALIFIER: com.github.javaparser [SwitchEntryContext.java <25:19 25:28>]
+QUALIFIER: com.github [SwitchEntryContext.java <25:12 25:17>]
+QUALIFIER: com [SwitchEntryContext.java <25:8 25:10>]
+REFERENCE_IMPORT SwitchEntryContext.java -> com.github.javaparser.symbolsolver.model.resolution.SymbolReference<S> [SwitchEntryContext.java <26:60 26:74>]
 SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model.resolution
-REFERENCE_IMPORT SwitchEntryContext.java -> com.github.javaparser.symbolsolver.model.resolution.TypeSolver [SwitchEntryContext.java <27:8 27:69>]
-SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model.resolution
-REFERENCE_IMPORT SwitchEntryContext.java -> com.github.javaparser.symbolsolver.model.typesystem.ReferenceTypeImpl [SwitchEntryContext.java <28:8 28:76>]
+QUALIFIER: com.github.javaparser.symbolsolver.model.resolution [SwitchEntryContext.java <26:49 26:58>]
+QUALIFIER: com.github.javaparser.symbolsolver.model [SwitchEntryContext.java <26:43 26:47>]
+QUALIFIER: com.github.javaparser.symbolsolver [SwitchEntryContext.java <26:30 26:41>]
+QUALIFIER: com.github.javaparser [SwitchEntryContext.java <26:19 26:28>]
+QUALIFIER: com.github [SwitchEntryContext.java <26:12 26:17>]
+QUALIFIER: com [SwitchEntryContext.java <26:8 26:10>]
+REFERENCE_IMPORT SwitchEntryContext.java -> com.github.javaparser.symbolsolver.model.resolution.TypeSolver [SwitchEntryContext.java <27:60 27:69>]
+QUALIFIER: com.github.javaparser.symbolsolver.model.resolution [SwitchEntryContext.java <27:49 27:58>]
+QUALIFIER: com.github.javaparser.symbolsolver.model [SwitchEntryContext.java <27:43 27:47>]
+QUALIFIER: com.github.javaparser.symbolsolver [SwitchEntryContext.java <27:30 27:41>]
+QUALIFIER: com.github.javaparser [SwitchEntryContext.java <27:19 27:28>]
+QUALIFIER: com.github [SwitchEntryContext.java <27:12 27:17>]
+QUALIFIER: com [SwitchEntryContext.java <27:8 27:10>]
+REFERENCE_IMPORT SwitchEntryContext.java -> com.github.javaparser.symbolsolver.model.typesystem.ReferenceTypeImpl [SwitchEntryContext.java <28:60 28:76>]
 SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model.typesystem
-REFERENCE_IMPORT SwitchEntryContext.java -> com.github.javaparser.symbolsolver.model.typesystem.Type [SwitchEntryContext.java <29:8 29:63>]
-SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model.typesystem
-REFERENCE_IMPORT SwitchEntryContext.java -> com.github.javaparser.symbolsolver.resolution.SymbolDeclarator [SwitchEntryContext.java <30:8 30:69>]
+QUALIFIER: com.github.javaparser.symbolsolver.model.typesystem [SwitchEntryContext.java <28:49 28:58>]
+QUALIFIER: com.github.javaparser.symbolsolver.model [SwitchEntryContext.java <28:43 28:47>]
+QUALIFIER: com.github.javaparser.symbolsolver [SwitchEntryContext.java <28:30 28:41>]
+QUALIFIER: com.github.javaparser [SwitchEntryContext.java <28:19 28:28>]
+QUALIFIER: com.github [SwitchEntryContext.java <28:12 28:17>]
+QUALIFIER: com [SwitchEntryContext.java <28:8 28:10>]
+REFERENCE_IMPORT SwitchEntryContext.java -> com.github.javaparser.symbolsolver.model.typesystem.Type [SwitchEntryContext.java <29:60 29:63>]
+QUALIFIER: com.github.javaparser.symbolsolver.model.typesystem [SwitchEntryContext.java <29:49 29:58>]
+QUALIFIER: com.github.javaparser.symbolsolver.model [SwitchEntryContext.java <29:43 29:47>]
+QUALIFIER: com.github.javaparser.symbolsolver [SwitchEntryContext.java <29:30 29:41>]
+QUALIFIER: com.github.javaparser [SwitchEntryContext.java <29:19 29:28>]
+QUALIFIER: com.github [SwitchEntryContext.java <29:12 29:17>]
+QUALIFIER: com [SwitchEntryContext.java <29:8 29:10>]
+REFERENCE_IMPORT SwitchEntryContext.java -> com.github.javaparser.symbolsolver.resolution.SymbolDeclarator [SwitchEntryContext.java <30:54 30:69>]
 SYMBOL_PACKAGE com.github.javaparser.symbolsolver.resolution
-REFERENCE_IMPORT SwitchEntryContext.java -> java.util.List<E> [SwitchEntryContext.java <32:8 32:21>]
+QUALIFIER: com.github.javaparser.symbolsolver.resolution [SwitchEntryContext.java <30:43 30:52>]
+QUALIFIER: com.github.javaparser.symbolsolver [SwitchEntryContext.java <30:30 30:41>]
+QUALIFIER: com.github.javaparser [SwitchEntryContext.java <30:19 30:28>]
+QUALIFIER: com.github [SwitchEntryContext.java <30:12 30:17>]
+QUALIFIER: com [SwitchEntryContext.java <30:8 30:10>]
+REFERENCE_IMPORT SwitchEntryContext.java -> java.util.List<E> [SwitchEntryContext.java <32:18 32:21>]
 SYMBOL_PACKAGE java.util
-REFERENCE_IMPORT SwitchEntryContext.java -> static com.github.javaparser.ast.Node com.github.javaparser.symbolsolver.javaparser.Navigator.getParentNode(com.github.javaparser.ast.Node) [SwitchEntryContext.java <34:15 34:83>]
+QUALIFIER: java.util [SwitchEntryContext.java <32:13 32:16>]
+QUALIFIER: java [SwitchEntryContext.java <32:8 32:11>]
+REFERENCE_IMPORT SwitchEntryContext.java -> static com.github.javaparser.ast.Node com.github.javaparser.symbolsolver.javaparser.Navigator.getParentNode(com.github.javaparser.ast.Node) [SwitchEntryContext.java <34:71 34:83>]
 SYMBOL_PACKAGE com.github.javaparser.symbolsolver.javaparser
+QUALIFIER: com.github.javaparser.symbolsolver.javaparser.Navigator [SwitchEntryContext.java <34:61 34:69>]
+QUALIFIER: com.github.javaparser.symbolsolver.javaparser [SwitchEntryContext.java <34:50 34:59>]
+QUALIFIER: com.github.javaparser.symbolsolver [SwitchEntryContext.java <34:37 34:48>]
+QUALIFIER: com.github.javaparser [SwitchEntryContext.java <34:26 34:35>]
+QUALIFIER: com.github [SwitchEntryContext.java <34:19 34:24>]
+QUALIFIER: com [SwitchEntryContext.java <34:15 34:17>]
 SYMBOL_CLASS public com.github.javaparser.symbolsolver.javaparsermodel.contexts.SwitchEntryContext [SwitchEntryContext.java <39:1 <39:14 39:31> 80:1>]
 LOCAL_SYMBOL: SwitchEntryContext.java<39:84> [SwitchEntryContext.java <39:84 39:84>]
 LOCAL_SYMBOL: SwitchEntryContext.java<39:84> [SwitchEntryContext.java <80:1 80:1>]
@@ -48,7 +120,6 @@ REFERENCE_TYPE_USAGE com.github.javaparser.symbolsolver.javaparsermodel.contexts
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javaparsermodel.contexts.SwitchEntryContext.SwitchEntryContext<1> [SwitchEntryContext.java <41:71 41:80>]
 LOCAL_SYMBOL: SwitchEntryContext.java<41:83> [SwitchEntryContext.java <41:83 41:83>]
 LOCAL_SYMBOL: SwitchEntryContext.java<41:83> [SwitchEntryContext.java <43:5 43:5>]
-SYMBOL_METHOD com.github.javaparser.symbolsolver.javaparsermodel.contexts.AbstractJavaParserContext<N>.AbstractJavaParserContext(com.github.javaparser.symbolsolver.javaparsermodel.contexts.AbstractJavaParserContext<N>.N, com.github.javaparser.symbolsolver.model.resolution.TypeSolver)
 REFERENCE_CALL com.github.javaparser.symbolsolver.javaparsermodel.contexts.SwitchEntryContext.SwitchEntryContext(com.github.javaparser.ast.stmt.SwitchEntryStmt, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> com.github.javaparser.symbolsolver.javaparsermodel.contexts.AbstractJavaParserContext<N>.AbstractJavaParserContext(com.github.javaparser.symbolsolver.javaparsermodel.contexts.AbstractJavaParserContext<N>.N, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) [SwitchEntryContext.java <42:9 42:13>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javaparsermodel.contexts.SwitchEntryContext.SwitchEntryContext<0> [SwitchEntryContext.java <42:15 42:25>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javaparsermodel.contexts.SwitchEntryContext.SwitchEntryContext<1> [SwitchEntryContext.java <42:28 42:37>]
@@ -76,6 +147,7 @@ SYMBOL_METHOD com.github.javaparser.symbolsolver.model.typesystem.Type com.githu
 REFERENCE_CALL com.github.javaparser.symbolsolver.model.resolution.SymbolReference<? extends ValueDeclaration> com.github.javaparser.symbolsolver.javaparsermodel.contexts.SwitchEntryContext.solveSymbol(java.lang.String, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> com.github.javaparser.symbolsolver.model.typesystem.Type com.github.javaparser.symbolsolver.javaparsermodel.JavaParserFacade.getType(com.github.javaparser.ast.Node) [SwitchEntryContext.java <48:54 48:60>]
 SYMBOL_METHOD static com.github.javaparser.symbolsolver.javaparsermodel.JavaParserFacade com.github.javaparser.symbolsolver.javaparsermodel.JavaParserFacade.get(com.github.javaparser.symbolsolver.model.resolution.TypeSolver)
 REFERENCE_CALL com.github.javaparser.symbolsolver.model.resolution.SymbolReference<? extends ValueDeclaration> com.github.javaparser.symbolsolver.javaparsermodel.contexts.SwitchEntryContext.solveSymbol(java.lang.String, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> static com.github.javaparser.symbolsolver.javaparsermodel.JavaParserFacade com.github.javaparser.symbolsolver.javaparsermodel.JavaParserFacade.get(com.github.javaparser.symbolsolver.model.resolution.TypeSolver) [SwitchEntryContext.java <48:38 48:40>]
+QUALIFIER: com.github.javaparser.symbolsolver.javaparsermodel.JavaParserFacade [SwitchEntryContext.java <48:21 48:36>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javaparsermodel.contexts.SwitchEntryContext.solveSymbol<1> [SwitchEntryContext.java <48:42 48:51>]
 SYMBOL_METHOD com.github.javaparser.ast.expr.Expression com.github.javaparser.ast.stmt.SwitchStmt.getSelector()
 REFERENCE_CALL com.github.javaparser.symbolsolver.model.resolution.SymbolReference<? extends ValueDeclaration> com.github.javaparser.symbolsolver.javaparsermodel.contexts.SwitchEntryContext.solveSymbol(java.lang.String, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> com.github.javaparser.ast.expr.Expression com.github.javaparser.ast.stmt.SwitchStmt.getSelector() [SwitchEntryContext.java <48:73 48:83>]
@@ -102,7 +174,6 @@ REFERENCE_TYPE_USAGE com.github.javaparser.symbolsolver.model.resolution.SymbolR
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javaparsermodel.contexts.SwitchEntryContext.solveSymbol<3> [SwitchEntryContext.java <51:84 51:87>]
 SYMBOL_METHOD boolean com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration.hasField(java.lang.String)
 REFERENCE_CALL com.github.javaparser.symbolsolver.model.resolution.SymbolReference<? extends ValueDeclaration> com.github.javaparser.symbolsolver.javaparsermodel.contexts.SwitchEntryContext.solveSymbol(java.lang.String, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> boolean com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration.hasField(java.lang.String) [SwitchEntryContext.java <52:69 52:76>]
-SYMBOL_METHOD com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration com.github.javaparser.symbolsolver.model.typesystem.ReferenceType.getTypeDeclaration()
 REFERENCE_CALL com.github.javaparser.symbolsolver.model.resolution.SymbolReference<? extends ValueDeclaration> com.github.javaparser.symbolsolver.javaparsermodel.contexts.SwitchEntryContext.solveSymbol(java.lang.String, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration com.github.javaparser.symbolsolver.model.typesystem.ReferenceType.getTypeDeclaration() [SwitchEntryContext.java <52:48 52:65>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javaparsermodel.contexts.SwitchEntryContext.solveSymbol<4> [SwitchEntryContext.java <52:21 52:46>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javaparsermodel.contexts.SwitchEntryContext.solveSymbol<0> [SwitchEntryContext.java <52:78 52:81>]
@@ -110,9 +181,9 @@ LOCAL_SYMBOL: SwitchEntryContext.java<52:85> [SwitchEntryContext.java <52:85 52:
 LOCAL_SYMBOL: SwitchEntryContext.java<52:85> [SwitchEntryContext.java <54:17 54:17>]
 SYMBOL_METHOD static com.github.javaparser.symbolsolver.model.resolution.SymbolReference<S> com.github.javaparser.symbolsolver.model.resolution.SymbolReference<S>.solved<S, S2>(S2)
 REFERENCE_CALL com.github.javaparser.symbolsolver.model.resolution.SymbolReference<? extends ValueDeclaration> com.github.javaparser.symbolsolver.javaparsermodel.contexts.SwitchEntryContext.solveSymbol(java.lang.String, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> static com.github.javaparser.symbolsolver.model.resolution.SymbolReference<S> com.github.javaparser.symbolsolver.model.resolution.SymbolReference<S>.solved<S, S2>(S2) [SwitchEntryContext.java <53:44 53:49>]
+QUALIFIER: com.github.javaparser.symbolsolver.model.resolution.SymbolReference [SwitchEntryContext.java <53:28 53:42>]
 SYMBOL_METHOD com.github.javaparser.symbolsolver.model.declarations.FieldDeclaration com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration.getField(java.lang.String)
 REFERENCE_CALL com.github.javaparser.symbolsolver.model.resolution.SymbolReference<? extends ValueDeclaration> com.github.javaparser.symbolsolver.javaparsermodel.contexts.SwitchEntryContext.solveSymbol(java.lang.String, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> com.github.javaparser.symbolsolver.model.declarations.FieldDeclaration com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration.getField(java.lang.String) [SwitchEntryContext.java <53:99 53:106>]
-SYMBOL_METHOD com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration com.github.javaparser.symbolsolver.model.typesystem.ReferenceType.getTypeDeclaration()
 REFERENCE_CALL com.github.javaparser.symbolsolver.model.resolution.SymbolReference<? extends ValueDeclaration> com.github.javaparser.symbolsolver.javaparsermodel.contexts.SwitchEntryContext.solveSymbol(java.lang.String, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration com.github.javaparser.symbolsolver.model.typesystem.ReferenceType.getTypeDeclaration() [SwitchEntryContext.java <53:78 53:95>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javaparsermodel.contexts.SwitchEntryContext.solveSymbol<4> [SwitchEntryContext.java <53:51 53:76>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javaparsermodel.contexts.SwitchEntryContext.solveSymbol<0> [SwitchEntryContext.java <53:108 53:111>]
@@ -131,7 +202,6 @@ LOCAL_SYMBOL: SwitchEntryContext.java<61:64> [SwitchEntryContext.java <71:9 71:9
 SYMBOL_METHOD boolean com.github.javaparser.ast.Node.equals(java.lang.Object)
 REFERENCE_CALL com.github.javaparser.symbolsolver.model.resolution.SymbolReference<? extends ValueDeclaration> com.github.javaparser.symbolsolver.javaparsermodel.contexts.SwitchEntryContext.solveSymbol(java.lang.String, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> boolean com.github.javaparser.ast.Node.equals(java.lang.Object) [SwitchEntryContext.java <62:25 62:30>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javaparsermodel.contexts.SwitchEntryContext.solveSymbol<5> [SwitchEntryContext.java <62:18 62:23>]
-SYMBOL_FIELD com.github.javaparser.symbolsolver.javaparsermodel.contexts.AbstractJavaParserContext<N>.N com.github.javaparser.symbolsolver.javaparsermodel.contexts.AbstractJavaParserContext<N>.wrappedNode
 REFERENCE_USAGE com.github.javaparser.symbolsolver.model.resolution.SymbolReference<? extends ValueDeclaration> com.github.javaparser.symbolsolver.javaparsermodel.contexts.SwitchEntryContext.solveSymbol(java.lang.String, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> com.github.javaparser.symbolsolver.javaparsermodel.contexts.AbstractJavaParserContext<N>.N com.github.javaparser.symbolsolver.javaparsermodel.contexts.AbstractJavaParserContext<N>.wrappedNode [SwitchEntryContext.java <62:32 62:42>]
 LOCAL_SYMBOL: SwitchEntryContext.java<62:46> [SwitchEntryContext.java <62:46 62:46>]
 LOCAL_SYMBOL: SwitchEntryContext.java<62:46> [SwitchEntryContext.java <70:13 70:13>]
@@ -146,6 +216,7 @@ REFERENCE_TYPE_USAGE com.github.javaparser.symbolsolver.model.resolution.SymbolR
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javaparsermodel.contexts.SwitchEntryContext.solveSymbol<9> [SwitchEntryContext.java <64:38 64:53>]
 SYMBOL_METHOD static com.github.javaparser.symbolsolver.resolution.SymbolDeclarator com.github.javaparser.symbolsolver.javaparsermodel.JavaParserFactory.getSymbolDeclarator(com.github.javaparser.ast.Node, com.github.javaparser.symbolsolver.model.resolution.TypeSolver)
 REFERENCE_CALL com.github.javaparser.symbolsolver.model.resolution.SymbolReference<? extends ValueDeclaration> com.github.javaparser.symbolsolver.javaparsermodel.contexts.SwitchEntryContext.solveSymbol(java.lang.String, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> static com.github.javaparser.symbolsolver.resolution.SymbolDeclarator com.github.javaparser.symbolsolver.javaparsermodel.JavaParserFactory.getSymbolDeclarator(com.github.javaparser.ast.Node, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) [SwitchEntryContext.java <64:75 64:93>]
+QUALIFIER: com.github.javaparser.symbolsolver.javaparsermodel.JavaParserFactory [SwitchEntryContext.java <64:57 64:73>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javaparsermodel.contexts.SwitchEntryContext.solveSymbol<7> [SwitchEntryContext.java <64:95 64:98>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javaparsermodel.contexts.SwitchEntryContext.solveSymbol<1> [SwitchEntryContext.java <64:101 64:110>]
 REFERENCE_TYPE_USAGE com.github.javaparser.symbolsolver.model.resolution.SymbolReference<? extends ValueDeclaration> com.github.javaparser.symbolsolver.javaparsermodel.contexts.SwitchEntryContext.solveSymbol(java.lang.String, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> com.github.javaparser.symbolsolver.model.resolution.SymbolReference<S> [SwitchEntryContext.java <65:21 65:35>]
@@ -161,7 +232,6 @@ LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javaparsermodel.contexts.Switch
 LOCAL_SYMBOL: SwitchEntryContext.java<66:53> [SwitchEntryContext.java <66:53 66:53>]
 LOCAL_SYMBOL: SwitchEntryContext.java<66:53> [SwitchEntryContext.java <68:21 68:21>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javaparsermodel.contexts.SwitchEntryContext.solveSymbol<10> [SwitchEntryContext.java <67:32 67:46>]
-SYMBOL_METHOD com.github.javaparser.symbolsolver.model.resolution.SymbolReference<? extends ValueDeclaration> com.github.javaparser.symbolsolver.core.resolution.Context.solveSymbol(java.lang.String, com.github.javaparser.symbolsolver.model.resolution.TypeSolver)
 REFERENCE_CALL com.github.javaparser.symbolsolver.model.resolution.SymbolReference<? extends ValueDeclaration> com.github.javaparser.symbolsolver.javaparsermodel.contexts.SwitchEntryContext.solveSymbol(java.lang.String, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> com.github.javaparser.symbolsolver.model.resolution.SymbolReference<? extends ValueDeclaration> com.github.javaparser.symbolsolver.core.resolution.Context.solveSymbol(java.lang.String, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) [SwitchEntryContext.java <73:28 73:38>]
 SYMBOL_METHOD com.github.javaparser.symbolsolver.core.resolution.Context com.github.javaparser.symbolsolver.javaparsermodel.contexts.AbstractJavaParserContext<N>.getParent()
 REFERENCE_CALL com.github.javaparser.symbolsolver.model.resolution.SymbolReference<? extends ValueDeclaration> com.github.javaparser.symbolsolver.javaparsermodel.contexts.SwitchEntryContext.solveSymbol(java.lang.String, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> com.github.javaparser.symbolsolver.core.resolution.Context com.github.javaparser.symbolsolver.javaparsermodel.contexts.AbstractJavaParserContext<N>.getParent() [SwitchEntryContext.java <73:16 73:24>]
@@ -184,9 +254,7 @@ REFERENCE_TYPE_USAGE com.github.javaparser.symbolsolver.model.resolution.SymbolR
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javaparsermodel.contexts.SwitchEntryContext.solveMethod<3> [SwitchEntryContext.java <77:130 77:139>]
 LOCAL_SYMBOL: SwitchEntryContext.java<77:142> [SwitchEntryContext.java <77:142 77:142>]
 LOCAL_SYMBOL: SwitchEntryContext.java<77:142> [SwitchEntryContext.java <79:5 79:5>]
-SYMBOL_METHOD com.github.javaparser.symbolsolver.model.resolution.SymbolReference<com.github.javaparser.symbolsolver.model.declarations.MethodDeclaration> com.github.javaparser.symbolsolver.core.resolution.Context.solveMethod(java.lang.String, java.util.List<com.github.javaparser.symbolsolver.model.typesystem.Type>, boolean, com.github.javaparser.symbolsolver.model.resolution.TypeSolver)
 REFERENCE_CALL com.github.javaparser.symbolsolver.model.resolution.SymbolReference<com.github.javaparser.symbolsolver.model.declarations.MethodDeclaration> com.github.javaparser.symbolsolver.javaparsermodel.contexts.SwitchEntryContext.solveMethod(java.lang.String, java.util.List<com.github.javaparser.symbolsolver.model.typesystem.Type>, boolean, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> com.github.javaparser.symbolsolver.model.resolution.SymbolReference<com.github.javaparser.symbolsolver.model.declarations.MethodDeclaration> com.github.javaparser.symbolsolver.core.resolution.Context.solveMethod(java.lang.String, java.util.List<com.github.javaparser.symbolsolver.model.typesystem.Type>, boolean, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) [SwitchEntryContext.java <78:28 78:38>]
-SYMBOL_METHOD com.github.javaparser.symbolsolver.core.resolution.Context com.github.javaparser.symbolsolver.javaparsermodel.contexts.AbstractJavaParserContext<N>.getParent()
 REFERENCE_CALL com.github.javaparser.symbolsolver.model.resolution.SymbolReference<com.github.javaparser.symbolsolver.model.declarations.MethodDeclaration> com.github.javaparser.symbolsolver.javaparsermodel.contexts.SwitchEntryContext.solveMethod(java.lang.String, java.util.List<com.github.javaparser.symbolsolver.model.typesystem.Type>, boolean, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> com.github.javaparser.symbolsolver.core.resolution.Context com.github.javaparser.symbolsolver.javaparsermodel.contexts.AbstractJavaParserContext<N>.getParent() [SwitchEntryContext.java <78:16 78:24>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javaparsermodel.contexts.SwitchEntryContext.solveMethod<0> [SwitchEntryContext.java <78:40 78:43>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javaparsermodel.contexts.SwitchEntryContext.solveMethod<1> [SwitchEntryContext.java <78:46 78:59>]

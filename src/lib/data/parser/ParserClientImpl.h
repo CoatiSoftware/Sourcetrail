@@ -36,8 +36,12 @@ public:
 		ReferenceKind referenceKind, const NameHierarchy& referencedName, const NameHierarchy& contextName,
 		const ParseLocation& location);
 
+	virtual void recordQualifierLocation(
+		const NameHierarchy& qualifierName, const ParseLocation& location);
+
 	virtual void onError(const ParseLocation& location, const std::string& message, const std::string& commandline,
 		bool fatal, bool indexed);
+	
 	virtual void onLocalSymbolParsed(const std::string& name, const ParseLocation& location);
 	virtual void onFileParsed(const FileInfo& fileInfo);
 	virtual void onCommentParsed(const ParseLocation& location);

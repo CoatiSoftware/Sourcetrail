@@ -10,39 +10,39 @@ class DumpParserClient : public ParserClient
 {
 public:
 	DumpParserClient()
-		: m_dump("")
+		: m_lines("")
 	{
 	}
 
 	virtual Id recordSymbol(
 		const NameHierarchy& symbolName, SymbolKind symbolKind,
-		AccessKind access, DefinitionKind definitionKind)
+		AccessKind access, DefinitionKind definitionKind) override
 	{
-		m_dump += symbolKindToString(symbolKind) + " " + addAccessPrefix(symbolName.getQualifiedNameWithSignature(), access) + "\n";
+		recordLine(symbolKindToString(symbolKind) + " " + addAccessPrefix(symbolName.getQualifiedNameWithSignature(), access) + "\n");
 		return 0;
 	}
 
 	virtual Id recordSymbol(
 		const NameHierarchy& symbolName, SymbolKind symbolKind,
 		const ParseLocation& location,
-		AccessKind access, DefinitionKind definitionKind)
+		AccessKind access, DefinitionKind definitionKind) override
 	{
-		m_dump += symbolKindToString(symbolKind) + " " + addLocationSuffix(addAccessPrefix(symbolName.getQualifiedNameWithSignature(), access) + " [" + location.filePath.fileName(), location) + "]\n";
+		recordLine(symbolKindToString(symbolKind) + " " + addLocationSuffix(addAccessPrefix(symbolName.getQualifiedNameWithSignature(), access) + " [" + location.filePath.fileName(), location) + "]\n");
 		return 0;
 	}
 
 	virtual Id recordSymbol(
 		const NameHierarchy& symbolName, SymbolKind symbolKind,
 		const ParseLocation& location, const ParseLocation& scopeLocation,
-		AccessKind access, DefinitionKind definitionKind)
+		AccessKind access, DefinitionKind definitionKind) override
 	{
-		m_dump += symbolKindToString(symbolKind) + " " + addLocationSuffix(addAccessPrefix(symbolName.getQualifiedNameWithSignature(), access) + " [" + location.filePath.fileName(), location, scopeLocation) + "]\n";
+		recordLine(symbolKindToString(symbolKind) + " " + addLocationSuffix(addAccessPrefix(symbolName.getQualifiedNameWithSignature(), access) + " [" + location.filePath.fileName(), location, scopeLocation) + "]\n");
 		return 0;
 	}
 
 	void recordReference(
 		ReferenceKind referenceKind, const NameHierarchy& referencedName, const NameHierarchy& contextName,
-		const ParseLocation& location)
+		const ParseLocation& location) override
 	{
 		std::string contextNameString = contextName.getQualifiedNameWithSignature();
 		try
@@ -56,33 +56,47 @@ public:
 		{
 			// do nothing and use the old contectNameString
 		}
-		m_dump += referenceKindToString(referenceKind) + " " + addLocationSuffix(contextNameString + " -> " + referencedName.getQualifiedNameWithSignature() + " [" + location.filePath.fileName(), location) + "]\n";
+		recordLine(referenceKindToString(referenceKind) + " " + addLocationSuffix(contextNameString + " -> " + referencedName.getQualifiedNameWithSignature() + " [" + location.filePath.fileName(), location) + "]\n");
+	}
+
+	void recordQualifierLocation(const NameHierarchy& qualifierName, const ParseLocation& location) override
+	{
+		recordLine("QUALIFIER: " + addLocationSuffix(qualifierName.getQualifiedNameWithSignature() + " [" + location.filePath.fileName(), location) + "]\n");
 	}
 
 	virtual void onError(const ParseLocation& location, const std::string& message, const std::string& commandline,
-		bool fatal, bool indexed)
+		bool fatal, bool indexed) override
 	{
-		m_dump += "ERROR: " + addLocationSuffix(message + " [" + location.filePath.fileName(), location) + "]\n";
+		recordLine("ERROR: " + addLocationSuffix(message + " [" + location.filePath.fileName(), location) + "]\n");
 	}
 
-	virtual void onLocalSymbolParsed(const std::string& name, const ParseLocation& location)
+	virtual void onLocalSymbolParsed(const std::string& name, const ParseLocation& location) override
 	{
-		m_dump += "LOCAL_SYMBOL: " + addLocationSuffix(name + " [" + location.filePath.fileName(), location) + "]\n";
+		recordLine("LOCAL_SYMBOL: " + addLocationSuffix(name + " [" + location.filePath.fileName(), location) + "]\n");
 	}
 
-	virtual void onFileParsed(const FileInfo& fileInfo)
+	virtual void onFileParsed(const FileInfo& fileInfo) override
 	{
-		m_dump += "FILE: " + fileInfo.path.fileName() + "\n";
+		recordLine("FILE: " + fileInfo.path.fileName() + "\n");
 	}
 
-	virtual void onCommentParsed(const ParseLocation& location)
+	virtual void onCommentParsed(const ParseLocation& location) override
 	{
-		m_dump += "COMMENT: " + addLocationSuffix("comment [" + location.filePath.fileName(), location) + "]\n";
+		recordLine("COMMENT: " + addLocationSuffix("comment [" + location.filePath.fileName(), location) + "]\n");
 	}
 
-	std::string m_dump;
+	std::string m_lines;
 
 private:
+	void recordLine(const std::string& message)
+	{
+		if (m_recordedLines.find(message) == m_recordedLines.end())
+		{
+			m_recordedLines.insert(message);
+			m_lines += message;
+		}
+	}
+
 	std::string symbolKindToString(SymbolKind symbolKind) const
 	{
 		switch (symbolKind)
@@ -162,6 +176,8 @@ private:
 		}
 		return "REFERENCE_UNDEFINED";
 	}
+
+	std::set<std::string> m_recordedLines;
 };
 
 #endif // DUMP_PARSER_CLIENT_H

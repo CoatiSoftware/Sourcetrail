@@ -1,25 +1,61 @@
 FILE: AbstractTypeDeclaration.java
-SYMBOL_PACKAGE com.github.javaparser.symbolsolver.logic [AbstractTypeDeclaration.java <17:9 17:48>]
+SYMBOL_PACKAGE com.github.javaparser.symbolsolver.logic [AbstractTypeDeclaration.java <17:44 17:48>]
 SYMBOL_PACKAGE com.github.javaparser.symbolsolver
 SYMBOL_PACKAGE com.github.javaparser
 SYMBOL_PACKAGE com.github
 SYMBOL_PACKAGE com
-REFERENCE_IMPORT AbstractTypeDeclaration.java -> com.github.javaparser.symbolsolver.model.declarations.MethodDeclaration [AbstractTypeDeclaration.java <19:8 19:78>]
+QUALIFIER: com.github.javaparser.symbolsolver [AbstractTypeDeclaration.java <17:31 17:42>]
+QUALIFIER: com.github.javaparser [AbstractTypeDeclaration.java <17:20 17:29>]
+QUALIFIER: com.github [AbstractTypeDeclaration.java <17:13 17:18>]
+QUALIFIER: com [AbstractTypeDeclaration.java <17:9 17:11>]
+REFERENCE_IMPORT AbstractTypeDeclaration.java -> com.github.javaparser.symbolsolver.model.declarations.MethodDeclaration [AbstractTypeDeclaration.java <19:62 19:78>]
 SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model.declarations
-REFERENCE_IMPORT AbstractTypeDeclaration.java -> com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration [AbstractTypeDeclaration.java <20:8 20:85>]
-SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model.declarations
-REFERENCE_IMPORT AbstractTypeDeclaration.java -> com.github.javaparser.symbolsolver.model.declarations.TypeDeclaration [AbstractTypeDeclaration.java <21:8 21:76>]
-SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model.declarations
-REFERENCE_IMPORT AbstractTypeDeclaration.java -> com.github.javaparser.symbolsolver.model.methods.MethodUsage [AbstractTypeDeclaration.java <22:8 22:67>]
+QUALIFIER: com.github.javaparser.symbolsolver.model.declarations [AbstractTypeDeclaration.java <19:49 19:60>]
+QUALIFIER: com.github.javaparser.symbolsolver.model [AbstractTypeDeclaration.java <19:43 19:47>]
+QUALIFIER: com.github.javaparser.symbolsolver [AbstractTypeDeclaration.java <19:30 19:41>]
+QUALIFIER: com.github.javaparser [AbstractTypeDeclaration.java <19:19 19:28>]
+QUALIFIER: com.github [AbstractTypeDeclaration.java <19:12 19:17>]
+QUALIFIER: com [AbstractTypeDeclaration.java <19:8 19:10>]
+REFERENCE_IMPORT AbstractTypeDeclaration.java -> com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration [AbstractTypeDeclaration.java <20:62 20:85>]
+QUALIFIER: com.github.javaparser.symbolsolver.model.declarations [AbstractTypeDeclaration.java <20:49 20:60>]
+QUALIFIER: com.github.javaparser.symbolsolver.model [AbstractTypeDeclaration.java <20:43 20:47>]
+QUALIFIER: com.github.javaparser.symbolsolver [AbstractTypeDeclaration.java <20:30 20:41>]
+QUALIFIER: com.github.javaparser [AbstractTypeDeclaration.java <20:19 20:28>]
+QUALIFIER: com.github [AbstractTypeDeclaration.java <20:12 20:17>]
+QUALIFIER: com [AbstractTypeDeclaration.java <20:8 20:10>]
+REFERENCE_IMPORT AbstractTypeDeclaration.java -> com.github.javaparser.symbolsolver.model.declarations.TypeDeclaration [AbstractTypeDeclaration.java <21:62 21:76>]
+QUALIFIER: com.github.javaparser.symbolsolver.model.declarations [AbstractTypeDeclaration.java <21:49 21:60>]
+QUALIFIER: com.github.javaparser.symbolsolver.model [AbstractTypeDeclaration.java <21:43 21:47>]
+QUALIFIER: com.github.javaparser.symbolsolver [AbstractTypeDeclaration.java <21:30 21:41>]
+QUALIFIER: com.github.javaparser [AbstractTypeDeclaration.java <21:19 21:28>]
+QUALIFIER: com.github [AbstractTypeDeclaration.java <21:12 21:17>]
+QUALIFIER: com [AbstractTypeDeclaration.java <21:8 21:10>]
+REFERENCE_IMPORT AbstractTypeDeclaration.java -> com.github.javaparser.symbolsolver.model.methods.MethodUsage [AbstractTypeDeclaration.java <22:57 22:67>]
 SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model.methods
-REFERENCE_IMPORT AbstractTypeDeclaration.java -> com.github.javaparser.symbolsolver.model.typesystem.ReferenceType [AbstractTypeDeclaration.java <23:8 23:72>]
+QUALIFIER: com.github.javaparser.symbolsolver.model.methods [AbstractTypeDeclaration.java <22:49 22:55>]
+QUALIFIER: com.github.javaparser.symbolsolver.model [AbstractTypeDeclaration.java <22:43 22:47>]
+QUALIFIER: com.github.javaparser.symbolsolver [AbstractTypeDeclaration.java <22:30 22:41>]
+QUALIFIER: com.github.javaparser [AbstractTypeDeclaration.java <22:19 22:28>]
+QUALIFIER: com.github [AbstractTypeDeclaration.java <22:12 22:17>]
+QUALIFIER: com [AbstractTypeDeclaration.java <22:8 22:10>]
+REFERENCE_IMPORT AbstractTypeDeclaration.java -> com.github.javaparser.symbolsolver.model.typesystem.ReferenceType [AbstractTypeDeclaration.java <23:60 23:72>]
 SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model.typesystem
-REFERENCE_IMPORT AbstractTypeDeclaration.java -> java.util.HashSet<E> [AbstractTypeDeclaration.java <25:8 25:24>]
+QUALIFIER: com.github.javaparser.symbolsolver.model.typesystem [AbstractTypeDeclaration.java <23:49 23:58>]
+QUALIFIER: com.github.javaparser.symbolsolver.model [AbstractTypeDeclaration.java <23:43 23:47>]
+QUALIFIER: com.github.javaparser.symbolsolver [AbstractTypeDeclaration.java <23:30 23:41>]
+QUALIFIER: com.github.javaparser [AbstractTypeDeclaration.java <23:19 23:28>]
+QUALIFIER: com.github [AbstractTypeDeclaration.java <23:12 23:17>]
+QUALIFIER: com [AbstractTypeDeclaration.java <23:8 23:10>]
+REFERENCE_IMPORT AbstractTypeDeclaration.java -> java.util.HashSet<E> [AbstractTypeDeclaration.java <25:18 25:24>]
 SYMBOL_PACKAGE java.util
-REFERENCE_IMPORT AbstractTypeDeclaration.java -> java.util.List<E> [AbstractTypeDeclaration.java <26:8 26:21>]
-SYMBOL_PACKAGE java.util
-REFERENCE_IMPORT AbstractTypeDeclaration.java -> java.util.Set<E> [AbstractTypeDeclaration.java <27:8 27:20>]
-SYMBOL_PACKAGE java.util
+QUALIFIER: java.util [AbstractTypeDeclaration.java <25:13 25:16>]
+QUALIFIER: java [AbstractTypeDeclaration.java <25:8 25:11>]
+REFERENCE_IMPORT AbstractTypeDeclaration.java -> java.util.List<E> [AbstractTypeDeclaration.java <26:18 26:21>]
+QUALIFIER: java.util [AbstractTypeDeclaration.java <26:13 26:16>]
+QUALIFIER: java [AbstractTypeDeclaration.java <26:8 26:11>]
+REFERENCE_IMPORT AbstractTypeDeclaration.java -> java.util.Set<E> [AbstractTypeDeclaration.java <27:18 27:20>]
+QUALIFIER: java.util [AbstractTypeDeclaration.java <27:13 27:16>]
+QUALIFIER: java [AbstractTypeDeclaration.java <27:8 27:11>]
 SYMBOL_CLASS public com.github.javaparser.symbolsolver.logic.AbstractTypeDeclaration [AbstractTypeDeclaration.java <34:1 <34:23 34:45> 65:1>]
 LOCAL_SYMBOL: AbstractTypeDeclaration.java<34:83> [AbstractTypeDeclaration.java <34:83 34:83>]
 LOCAL_SYMBOL: AbstractTypeDeclaration.java<34:83> [AbstractTypeDeclaration.java <65:1 65:1>]
@@ -41,7 +77,6 @@ REFERENCE_TYPE_USAGE java.util.Set<com.github.javaparser.symbolsolver.model.meth
 REFERENCE_TYPE_USAGE java.util.Set<com.github.javaparser.symbolsolver.model.methods.MethodUsage> com.github.javaparser.symbolsolver.logic.AbstractTypeDeclaration.getAllMethods() -> java.util.Set<E> [AbstractTypeDeclaration.java <40:9 40:11>]
 REFERENCE_TYPE_ARGUMENT java.util.Set<com.github.javaparser.symbolsolver.model.methods.MethodUsage> com.github.javaparser.symbolsolver.logic.AbstractTypeDeclaration.getAllMethods() -> java.lang.String [AbstractTypeDeclaration.java <40:13 40:18>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.logic.AbstractTypeDeclaration.getAllMethods<1> [AbstractTypeDeclaration.java <40:21 40:37>]
-SYMBOL_METHOD java.util.HashSet<E>.HashSet()
 REFERENCE_CALL java.util.Set<com.github.javaparser.symbolsolver.model.methods.MethodUsage> com.github.javaparser.symbolsolver.logic.AbstractTypeDeclaration.getAllMethods() -> java.util.HashSet<E>.HashSet() [AbstractTypeDeclaration.java <40:45 40:53>]
 REFERENCE_TYPE_USAGE java.util.Set<com.github.javaparser.symbolsolver.model.methods.MethodUsage> com.github.javaparser.symbolsolver.logic.AbstractTypeDeclaration.getAllMethods() -> java.util.HashSet<E> [AbstractTypeDeclaration.java <40:45 40:51>]
 REFERENCE_TYPE_USAGE java.util.Set<com.github.javaparser.symbolsolver.model.methods.MethodUsage> com.github.javaparser.symbolsolver.logic.AbstractTypeDeclaration.getAllMethods() -> com.github.javaparser.symbolsolver.model.declarations.MethodDeclaration [AbstractTypeDeclaration.java <42:14 42:30>]
@@ -57,7 +92,6 @@ SYMBOL_METHOD com.github.javaparser.symbolsolver.model.methods.MethodUsage.Metho
 REFERENCE_CALL java.util.Set<com.github.javaparser.symbolsolver.model.methods.MethodUsage> com.github.javaparser.symbolsolver.logic.AbstractTypeDeclaration.getAllMethods() -> com.github.javaparser.symbolsolver.model.methods.MethodUsage.MethodUsage(com.github.javaparser.symbolsolver.model.declarations.MethodDeclaration) [AbstractTypeDeclaration.java <43:29 43:39>]
 REFERENCE_TYPE_USAGE java.util.Set<com.github.javaparser.symbolsolver.model.methods.MethodUsage> com.github.javaparser.symbolsolver.logic.AbstractTypeDeclaration.getAllMethods() -> com.github.javaparser.symbolsolver.model.methods.MethodUsage [AbstractTypeDeclaration.java <43:29 43:39>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.logic.AbstractTypeDeclaration.getAllMethods<2> [AbstractTypeDeclaration.java <43:41 43:57>]
-SYMBOL_METHOD boolean java.util.Set<E>.add(java.util.Set<E>.E)
 REFERENCE_CALL java.util.Set<com.github.javaparser.symbolsolver.model.methods.MethodUsage> com.github.javaparser.symbolsolver.logic.AbstractTypeDeclaration.getAllMethods() -> boolean java.util.Set<E>.add(java.util.Set<E>.E) [AbstractTypeDeclaration.java <44:31 44:33>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.logic.AbstractTypeDeclaration.getAllMethods<1> [AbstractTypeDeclaration.java <44:13 44:29>]
 SYMBOL_METHOD java.lang.String com.github.javaparser.symbolsolver.model.declarations.MethodLikeDeclaration.getSignature()
@@ -78,7 +112,6 @@ LOCAL_SYMBOL: AbstractTypeDeclaration.java<48:66> [AbstractTypeDeclaration.java 
 LOCAL_SYMBOL: AbstractTypeDeclaration.java<48:66> [AbstractTypeDeclaration.java <54:13 54:13>]
 REFERENCE_TYPE_USAGE java.util.Set<com.github.javaparser.symbolsolver.model.methods.MethodUsage> com.github.javaparser.symbolsolver.logic.AbstractTypeDeclaration.getAllMethods() -> java.lang.String [AbstractTypeDeclaration.java <49:17 49:22>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.logic.AbstractTypeDeclaration.getAllMethods<8> [AbstractTypeDeclaration.java <49:24 49:32>]
-SYMBOL_METHOD java.lang.String com.github.javaparser.symbolsolver.model.declarations.MethodLikeDeclaration.getSignature()
 REFERENCE_CALL java.util.Set<com.github.javaparser.symbolsolver.model.methods.MethodUsage> com.github.javaparser.symbolsolver.logic.AbstractTypeDeclaration.getAllMethods() -> java.lang.String com.github.javaparser.symbolsolver.model.declarations.MethodLikeDeclaration.getSignature() [AbstractTypeDeclaration.java <49:56 49:67>]
 SYMBOL_METHOD com.github.javaparser.symbolsolver.model.declarations.MethodDeclaration com.github.javaparser.symbolsolver.model.methods.MethodUsage.getDeclaration()
 REFERENCE_CALL java.util.Set<com.github.javaparser.symbolsolver.model.methods.MethodUsage> com.github.javaparser.symbolsolver.logic.AbstractTypeDeclaration.getAllMethods() -> com.github.javaparser.symbolsolver.model.declarations.MethodDeclaration com.github.javaparser.symbolsolver.model.methods.MethodUsage.getDeclaration() [AbstractTypeDeclaration.java <49:39 49:52>]
@@ -89,11 +122,9 @@ LOCAL_SYMBOL: com.github.javaparser.symbolsolver.logic.AbstractTypeDeclaration.g
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.logic.AbstractTypeDeclaration.getAllMethods<8> [AbstractTypeDeclaration.java <50:49 50:57>]
 LOCAL_SYMBOL: AbstractTypeDeclaration.java<50:61> [AbstractTypeDeclaration.java <50:61 50:61>]
 LOCAL_SYMBOL: AbstractTypeDeclaration.java<50:61> [AbstractTypeDeclaration.java <53:17 53:17>]
-SYMBOL_METHOD boolean java.util.Set<E>.add(java.util.Set<E>.E)
 REFERENCE_CALL java.util.Set<com.github.javaparser.symbolsolver.model.methods.MethodUsage> com.github.javaparser.symbolsolver.logic.AbstractTypeDeclaration.getAllMethods() -> boolean java.util.Set<E>.add(java.util.Set<E>.E) [AbstractTypeDeclaration.java <51:39 51:41>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.logic.AbstractTypeDeclaration.getAllMethods<1> [AbstractTypeDeclaration.java <51:21 51:37>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.logic.AbstractTypeDeclaration.getAllMethods<8> [AbstractTypeDeclaration.java <51:43 51:51>]
-SYMBOL_METHOD boolean java.util.Set<E>.add(java.util.Set<E>.E)
 REFERENCE_CALL java.util.Set<com.github.javaparser.symbolsolver.model.methods.MethodUsage> com.github.javaparser.symbolsolver.logic.AbstractTypeDeclaration.getAllMethods() -> boolean java.util.Set<E>.add(java.util.Set<E>.E) [AbstractTypeDeclaration.java <52:29 52:31>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.logic.AbstractTypeDeclaration.getAllMethods<0> [AbstractTypeDeclaration.java <52:21 52:27>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.logic.AbstractTypeDeclaration.getAllMethods<6> [AbstractTypeDeclaration.java <52:33 52:34>]
@@ -109,4 +140,5 @@ SYMBOL_METHOD boolean java.util.Optional<T>.isPresent()
 REFERENCE_CALL boolean com.github.javaparser.symbolsolver.logic.AbstractTypeDeclaration.isFunctionalInterface() -> boolean java.util.Optional<T>.isPresent() [AbstractTypeDeclaration.java <62:67 62:75>]
 SYMBOL_METHOD static java.util.Optional<com.github.javaparser.symbolsolver.model.methods.MethodUsage> com.github.javaparser.symbolsolver.logic.FunctionalInterfaceLogic.getFunctionalMethod(com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration)
 REFERENCE_CALL boolean com.github.javaparser.symbolsolver.logic.AbstractTypeDeclaration.isFunctionalInterface() -> static java.util.Optional<com.github.javaparser.symbolsolver.model.methods.MethodUsage> com.github.javaparser.symbolsolver.logic.FunctionalInterfaceLogic.getFunctionalMethod(com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration) [AbstractTypeDeclaration.java <62:41 62:59>]
+QUALIFIER: com.github.javaparser.symbolsolver.logic.FunctionalInterfaceLogic [AbstractTypeDeclaration.java <62:16 62:39>]
 COMMENT: comment [AbstractTypeDeclaration.java <1:1 15:3>]

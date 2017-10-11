@@ -1,27 +1,16 @@
 FILE: b2ChainAndPolygonContact.cpp
-FILE: b2ChainAndPolygonContact.cpp
 COMMENT: comment [b2ChainAndPolygonContact.cpp <1:1 17:3>]
-FILE: b2ChainAndPolygonContact.cpp
-FILE: b2ChainAndPolygonContact.cpp
-FILE: b2ChainAndPolygonContact.cpp
 REFERENCE_MACRO_USAGE b2ChainAndPolygonContact.cpp -> b2Assert [b2ChainAndPolygonContact.cpp <42:2 42:9>]
 REFERENCE_MACRO_USAGE b2Settings.h -> assert [b2Settings.h <31:21 31:26>]
 REFERENCE_MACRO_USAGE assert.h -> _CRT_WIDE [assert.h <34:23 34:31>]
 REFERENCE_MACRO_USAGE vcruntime.h -> _CRT_WIDE_ [vcruntime.h <95:22 95:31>]
 REFERENCE_MACRO_USAGE assert.h -> _CRT_WIDE [assert.h <34:47 34:55>]
 REFERENCE_MACRO_USAGE assert.h -> __FILE__ [assert.h <34:57 34:64>]
-REFERENCE_MACRO_USAGE vcruntime.h -> _CRT_WIDE_ [vcruntime.h <95:22 95:31>]
 REFERENCE_MACRO_USAGE assert.h -> __LINE__ [assert.h <34:79 34:86>]
 REFERENCE_MACRO_USAGE b2ChainAndPolygonContact.cpp -> b2Assert [b2ChainAndPolygonContact.cpp <43:2 43:9>]
-REFERENCE_MACRO_USAGE b2Settings.h -> assert [b2Settings.h <31:21 31:26>]
-REFERENCE_MACRO_USAGE assert.h -> _CRT_WIDE [assert.h <34:23 34:31>]
-REFERENCE_MACRO_USAGE vcruntime.h -> _CRT_WIDE_ [vcruntime.h <95:22 95:31>]
-REFERENCE_MACRO_USAGE assert.h -> _CRT_WIDE [assert.h <34:47 34:55>]
-REFERENCE_MACRO_USAGE assert.h -> __FILE__ [assert.h <34:57 34:64>]
-REFERENCE_MACRO_USAGE vcruntime.h -> _CRT_WIDE_ [vcruntime.h <95:22 95:31>]
-REFERENCE_MACRO_USAGE assert.h -> __LINE__ [assert.h <34:79 34:86>]
 SYMBOL_METHOD public static b2Contact * b2ChainAndPolygonContact::Create(b2Fixture *, int32, b2Fixture *, int32, b2BlockAllocator *) [b2ChainAndPolygonContact.cpp <27:1 <27:38 27:43> 31:1>]
 SYMBOL_CLASS b2ChainAndPolygonContact
+QUALIFIER: b2ChainAndPolygonContact [b2ChainAndPolygonContact.cpp <27:12 27:35>]
 REFERENCE_TYPE_USAGE static b2Contact * b2ChainAndPolygonContact::Create(b2Fixture *, int32, b2Fixture *, int32, b2BlockAllocator *) -> b2Contact [b2ChainAndPolygonContact.cpp <27:1 27:9>]
 LOCAL_SYMBOL: b2ChainAndPolygonContact.cpp<27:56> [b2ChainAndPolygonContact.cpp <27:56 27:63>]
 REFERENCE_TYPE_USAGE static b2Contact * b2ChainAndPolygonContact::Create(b2Fixture *, int32, b2Fixture *, int32, b2BlockAllocator *) -> b2Fixture [b2ChainAndPolygonContact.cpp <27:45 27:53>]
@@ -49,8 +38,7 @@ LOCAL_SYMBOL: b2ChainAndPolygonContact.cpp<27:91> [b2ChainAndPolygonContact.cpp 
 LOCAL_SYMBOL: b2ChainAndPolygonContact.cpp<27:107> [b2ChainAndPolygonContact.cpp <30:72 30:77>]
 LOCAL_SYMBOL: b2ChainAndPolygonContact.cpp<29:8> [b2ChainAndPolygonContact.cpp <30:14 30:16>]
 SYMBOL_METHOD public static void b2ChainAndPolygonContact::Destroy(b2Contact *, b2BlockAllocator *) [b2ChainAndPolygonContact.cpp <33:1 <33:32 33:38> 37:1>]
-SYMBOL_CLASS b2ChainAndPolygonContact
-SYMBOL_BUILTIN_TYPE void
+QUALIFIER: b2ChainAndPolygonContact [b2ChainAndPolygonContact.cpp <33:6 33:29>]
 REFERENCE_TYPE_USAGE static void b2ChainAndPolygonContact::Destroy(b2Contact *, b2BlockAllocator *) -> void [b2ChainAndPolygonContact.cpp <33:1 33:4>]
 LOCAL_SYMBOL: b2ChainAndPolygonContact.cpp<33:51> [b2ChainAndPolygonContact.cpp <33:51 33:57>]
 REFERENCE_TYPE_USAGE static void b2ChainAndPolygonContact::Destroy(b2Contact *, b2BlockAllocator *) -> b2Contact [b2ChainAndPolygonContact.cpp <33:40 33:48>]
@@ -66,7 +54,7 @@ LOCAL_SYMBOL: b2ChainAndPolygonContact.cpp<33:78> [b2ChainAndPolygonContact.cpp 
 LOCAL_SYMBOL: b2ChainAndPolygonContact.cpp<33:51> [b2ChainAndPolygonContact.cpp <36:18 36:24>]
 REFERENCE_TYPE_USAGE static void b2ChainAndPolygonContact::Destroy(b2Contact *, b2BlockAllocator *) -> b2ChainAndPolygonContact [b2ChainAndPolygonContact.cpp <36:34 36:57>]
 SYMBOL_METHOD public void b2ChainAndPolygonContact::b2ChainAndPolygonContact(b2Fixture *, int32, b2Fixture *, int32) [b2ChainAndPolygonContact.cpp <39:1 <39:27 39:50> 44:1>]
-SYMBOL_CLASS b2ChainAndPolygonContact
+QUALIFIER: b2ChainAndPolygonContact [b2ChainAndPolygonContact.cpp <39:1 39:24>]
 LOCAL_SYMBOL: b2ChainAndPolygonContact.cpp<39:63> [b2ChainAndPolygonContact.cpp <39:63 39:70>]
 REFERENCE_TYPE_USAGE void b2ChainAndPolygonContact::b2ChainAndPolygonContact(b2Fixture *, int32, b2Fixture *, int32) -> b2Fixture [b2ChainAndPolygonContact.cpp <39:52 39:60>]
 LOCAL_SYMBOL: b2ChainAndPolygonContact.cpp<39:79> [b2ChainAndPolygonContact.cpp <39:79 39:84>]
@@ -87,16 +75,15 @@ REFERENCE_CALL void b2ChainAndPolygonContact::b2ChainAndPolygonContact(b2Fixture
 REFERENCE_USAGE void b2ChainAndPolygonContact::b2ChainAndPolygonContact(b2Fixture *, int32, b2Fixture *, int32) -> b2Fixture * b2Contact::m_fixtureA [b2ChainAndPolygonContact.cpp <42:11 42:20>]
 REFERENCE_USAGE void b2ChainAndPolygonContact::b2ChainAndPolygonContact(b2Fixture *, int32, b2Fixture *, int32) -> b2Shape::Type::e_chain [b2ChainAndPolygonContact.cpp <42:45 42:51>]
 SYMBOL_CLASS b2Shape
-SYMBOL_FUNCTION b2Shape::Type b2Fixture::GetType() const
+QUALIFIER: b2Shape [b2ChainAndPolygonContact.cpp <42:36 42:42>]
 REFERENCE_CALL void b2ChainAndPolygonContact::b2ChainAndPolygonContact(b2Fixture *, int32, b2Fixture *, int32) -> b2Shape::Type b2Fixture::GetType() const [b2ChainAndPolygonContact.cpp <43:23 43:29>]
 REFERENCE_USAGE void b2ChainAndPolygonContact::b2ChainAndPolygonContact(b2Fixture *, int32, b2Fixture *, int32) -> b2Fixture * b2Contact::m_fixtureB [b2ChainAndPolygonContact.cpp <43:11 43:20>]
 REFERENCE_USAGE void b2ChainAndPolygonContact::b2ChainAndPolygonContact(b2Fixture *, int32, b2Fixture *, int32) -> b2Shape::Type::e_polygon [b2ChainAndPolygonContact.cpp <43:45 43:53>]
-SYMBOL_CLASS b2Shape
+QUALIFIER: b2Shape [b2ChainAndPolygonContact.cpp <43:36 43:42>]
 SYMBOL_METHOD public void b2ChainAndPolygonContact::Evaluate(b2Manifold *, const b2Transform &, const b2Transform &) [b2ChainAndPolygonContact.cpp <46:1 <46:32 46:39> 53:1>]
 SYMBOL_FUNCTION void b2Contact::Evaluate(b2Manifold *, const b2Transform &, const b2Transform &)
 REFERENCE_OVERRIDE void b2ChainAndPolygonContact::Evaluate(b2Manifold *, const b2Transform &, const b2Transform &) -> void b2Contact::Evaluate(b2Manifold *, const b2Transform &, const b2Transform &) [b2ChainAndPolygonContact.cpp <46:32 46:39>]
-SYMBOL_CLASS b2ChainAndPolygonContact
-SYMBOL_BUILTIN_TYPE void
+QUALIFIER: b2ChainAndPolygonContact [b2ChainAndPolygonContact.cpp <46:6 46:29>]
 REFERENCE_TYPE_USAGE void b2ChainAndPolygonContact::Evaluate(b2Manifold *, const b2Transform &, const b2Transform &) -> void [b2ChainAndPolygonContact.cpp <46:1 46:4>]
 LOCAL_SYMBOL: b2ChainAndPolygonContact.cpp<46:53> [b2ChainAndPolygonContact.cpp <46:53 46:60>]
 REFERENCE_TYPE_USAGE void b2ChainAndPolygonContact::Evaluate(b2Manifold *, const b2Transform &, const b2Transform &) -> b2Manifold [b2ChainAndPolygonContact.cpp <46:41 46:50>]
@@ -125,7 +112,6 @@ LOCAL_SYMBOL: b2ChainAndPolygonContact.cpp<46:53> [b2ChainAndPolygonContact.cpp 
 LOCAL_SYMBOL: b2ChainAndPolygonContact.cpp<49:14> [b2ChainAndPolygonContact.cpp <51:38 51:41>]
 LOCAL_SYMBOL: b2ChainAndPolygonContact.cpp<46:82> [b2ChainAndPolygonContact.cpp <51:44 51:46>]
 REFERENCE_TYPE_USAGE void b2ChainAndPolygonContact::Evaluate(b2Manifold *, const b2Transform &, const b2Transform &) -> b2PolygonShape [b2ChainAndPolygonContact.cpp <52:10 52:23>]
-SYMBOL_FUNCTION b2Shape * b2Fixture::GetShape()
 REFERENCE_CALL void b2ChainAndPolygonContact::Evaluate(b2Manifold *, const b2Transform &, const b2Transform &) -> b2Shape * b2Fixture::GetShape() [b2ChainAndPolygonContact.cpp <52:38 52:45>]
 REFERENCE_USAGE void b2ChainAndPolygonContact::Evaluate(b2Manifold *, const b2Transform &, const b2Transform &) -> b2Fixture * b2Contact::m_fixtureB [b2ChainAndPolygonContact.cpp <52:26 52:35>]
 LOCAL_SYMBOL: b2ChainAndPolygonContact.cpp<46:106> [b2ChainAndPolygonContact.cpp <52:50 52:52>]

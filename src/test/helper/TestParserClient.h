@@ -102,6 +102,12 @@ public:
 		}
 	}
 
+	virtual void recordQualifierLocation(
+		const NameHierarchy& qualifierName, const ParseLocation& location)
+	{
+		qualifiers.push_back(addLocationSuffix(qualifierName.getQualifiedNameWithSignature(), location));
+	}
+
 	virtual void onError(const ParseLocation& location, const std::string& message, const std::string& commandline,
 		bool fatal, bool indexed)
 	{
@@ -124,6 +130,7 @@ public:
 	}
 
 	std::vector<std::string> errors;
+	std::vector<std::string> qualifiers;
 
 	std::vector<std::string> packages;
 	std::vector<std::string> typedefs;

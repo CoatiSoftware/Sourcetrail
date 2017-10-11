@@ -67,6 +67,12 @@ void ParserClientImpl::recordReference(
 	addSourceLocation(edgeId, location, locationTypeToInt(LOCATION_TOKEN));
 }
 
+void ParserClientImpl::recordQualifierLocation(const NameHierarchy& qualifierName, const ParseLocation& location)
+{
+	Id nodeId = addNodeHierarchy(qualifierName, Node::NODE_NON_INDEXED);
+	addSourceLocation(nodeId, location, locationTypeToInt(LOCATION_QUALIFIER));
+}
+
 void ParserClientImpl::onError(
 	const ParseLocation& location, const std::string& message, const std::string& commandline,bool fatal, bool indexed)
 {

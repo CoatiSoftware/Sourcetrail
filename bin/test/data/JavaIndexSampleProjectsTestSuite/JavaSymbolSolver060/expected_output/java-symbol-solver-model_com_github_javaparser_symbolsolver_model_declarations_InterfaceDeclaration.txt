@@ -1,16 +1,30 @@
 FILE: InterfaceDeclaration.java
-SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model.declarations [InterfaceDeclaration.java <17:9 17:61>]
+SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model.declarations [InterfaceDeclaration.java <17:50 17:61>]
 SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model
 SYMBOL_PACKAGE com.github.javaparser.symbolsolver
 SYMBOL_PACKAGE com.github.javaparser
 SYMBOL_PACKAGE com.github
 SYMBOL_PACKAGE com
-REFERENCE_IMPORT InterfaceDeclaration.java -> com.github.javaparser.symbolsolver.model.typesystem.ReferenceType [InterfaceDeclaration.java <19:8 19:72>]
+QUALIFIER: com.github.javaparser.symbolsolver.model [InterfaceDeclaration.java <17:44 17:48>]
+QUALIFIER: com.github.javaparser.symbolsolver [InterfaceDeclaration.java <17:31 17:42>]
+QUALIFIER: com.github.javaparser [InterfaceDeclaration.java <17:20 17:29>]
+QUALIFIER: com.github [InterfaceDeclaration.java <17:13 17:18>]
+QUALIFIER: com [InterfaceDeclaration.java <17:9 17:11>]
+REFERENCE_IMPORT InterfaceDeclaration.java -> com.github.javaparser.symbolsolver.model.typesystem.ReferenceType [InterfaceDeclaration.java <19:60 19:72>]
 SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model.typesystem
-REFERENCE_IMPORT InterfaceDeclaration.java -> java.util.ArrayList<E> [InterfaceDeclaration.java <21:8 21:26>]
+QUALIFIER: com.github.javaparser.symbolsolver.model.typesystem [InterfaceDeclaration.java <19:49 19:58>]
+QUALIFIER: com.github.javaparser.symbolsolver.model [InterfaceDeclaration.java <19:43 19:47>]
+QUALIFIER: com.github.javaparser.symbolsolver [InterfaceDeclaration.java <19:30 19:41>]
+QUALIFIER: com.github.javaparser [InterfaceDeclaration.java <19:19 19:28>]
+QUALIFIER: com.github [InterfaceDeclaration.java <19:12 19:17>]
+QUALIFIER: com [InterfaceDeclaration.java <19:8 19:10>]
+REFERENCE_IMPORT InterfaceDeclaration.java -> java.util.ArrayList<E> [InterfaceDeclaration.java <21:18 21:26>]
 SYMBOL_PACKAGE java.util
-REFERENCE_IMPORT InterfaceDeclaration.java -> java.util.List<E> [InterfaceDeclaration.java <22:8 22:21>]
-SYMBOL_PACKAGE java.util
+QUALIFIER: java.util [InterfaceDeclaration.java <21:13 21:16>]
+QUALIFIER: java [InterfaceDeclaration.java <21:8 21:11>]
+REFERENCE_IMPORT InterfaceDeclaration.java -> java.util.List<E> [InterfaceDeclaration.java <22:18 22:21>]
+QUALIFIER: java.util [InterfaceDeclaration.java <22:13 22:16>]
+QUALIFIER: java [InterfaceDeclaration.java <22:8 22:11>]
 SYMBOL_INTERFACE public com.github.javaparser.symbolsolver.model.declarations.InterfaceDeclaration [InterfaceDeclaration.java <29:1 <29:18 29:37> 52:1>]
 LOCAL_SYMBOL: InterfaceDeclaration.java<29:108> [InterfaceDeclaration.java <29:108 29:108>]
 LOCAL_SYMBOL: InterfaceDeclaration.java<29:108> [InterfaceDeclaration.java <52:1 52:1>]

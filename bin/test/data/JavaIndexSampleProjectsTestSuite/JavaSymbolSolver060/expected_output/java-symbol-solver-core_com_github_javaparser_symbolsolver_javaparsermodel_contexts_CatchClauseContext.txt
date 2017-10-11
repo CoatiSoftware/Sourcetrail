@@ -1,32 +1,87 @@
 FILE: CatchClauseContext.java
-SYMBOL_PACKAGE com.github.javaparser.symbolsolver.javaparsermodel.contexts [CatchClauseContext.java <1:9 1:67>]
+SYMBOL_PACKAGE com.github.javaparser.symbolsolver.javaparsermodel.contexts [CatchClauseContext.java <1:60 1:67>]
 SYMBOL_PACKAGE com.github.javaparser.symbolsolver.javaparsermodel
 SYMBOL_PACKAGE com.github.javaparser.symbolsolver
 SYMBOL_PACKAGE com.github.javaparser
 SYMBOL_PACKAGE com.github
 SYMBOL_PACKAGE com
-REFERENCE_IMPORT CatchClauseContext.java -> com.github.javaparser.ast.stmt.CatchClause [CatchClauseContext.java <3:8 3:49>]
+QUALIFIER: com.github.javaparser.symbolsolver.javaparsermodel [CatchClauseContext.java <1:44 1:58>]
+QUALIFIER: com.github.javaparser.symbolsolver [CatchClauseContext.java <1:31 1:42>]
+QUALIFIER: com.github.javaparser [CatchClauseContext.java <1:20 1:29>]
+QUALIFIER: com.github [CatchClauseContext.java <1:13 1:18>]
+QUALIFIER: com [CatchClauseContext.java <1:9 1:11>]
+REFERENCE_IMPORT CatchClauseContext.java -> com.github.javaparser.ast.stmt.CatchClause [CatchClauseContext.java <3:39 3:49>]
 SYMBOL_PACKAGE com.github.javaparser.ast.stmt
-REFERENCE_IMPORT CatchClauseContext.java -> com.github.javaparser.symbolsolver.javaparsermodel.JavaParserFactory [CatchClauseContext.java <4:8 4:75>]
-SYMBOL_PACKAGE com.github.javaparser.symbolsolver.javaparsermodel
-REFERENCE_IMPORT CatchClauseContext.java -> com.github.javaparser.symbolsolver.model.declarations.MethodDeclaration [CatchClauseContext.java <5:8 5:78>]
+QUALIFIER: com.github.javaparser.ast.stmt [CatchClauseContext.java <3:34 3:37>]
+QUALIFIER: com.github.javaparser.ast [CatchClauseContext.java <3:30 3:32>]
+QUALIFIER: com.github.javaparser [CatchClauseContext.java <3:19 3:28>]
+QUALIFIER: com.github [CatchClauseContext.java <3:12 3:17>]
+QUALIFIER: com [CatchClauseContext.java <3:8 3:10>]
+REFERENCE_IMPORT CatchClauseContext.java -> com.github.javaparser.symbolsolver.javaparsermodel.JavaParserFactory [CatchClauseContext.java <4:59 4:75>]
+QUALIFIER: com.github.javaparser.symbolsolver.javaparsermodel [CatchClauseContext.java <4:43 4:57>]
+QUALIFIER: com.github.javaparser.symbolsolver [CatchClauseContext.java <4:30 4:41>]
+QUALIFIER: com.github.javaparser [CatchClauseContext.java <4:19 4:28>]
+QUALIFIER: com.github [CatchClauseContext.java <4:12 4:17>]
+QUALIFIER: com [CatchClauseContext.java <4:8 4:10>]
+REFERENCE_IMPORT CatchClauseContext.java -> com.github.javaparser.symbolsolver.model.declarations.MethodDeclaration [CatchClauseContext.java <5:62 5:78>]
 SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model.declarations
-REFERENCE_IMPORT CatchClauseContext.java -> com.github.javaparser.symbolsolver.model.declarations.ValueDeclaration [CatchClauseContext.java <6:8 6:77>]
-SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model.declarations
-REFERENCE_IMPORT CatchClauseContext.java -> com.github.javaparser.symbolsolver.model.resolution.SymbolReference<S> [CatchClauseContext.java <7:8 7:74>]
+QUALIFIER: com.github.javaparser.symbolsolver.model.declarations [CatchClauseContext.java <5:49 5:60>]
+QUALIFIER: com.github.javaparser.symbolsolver.model [CatchClauseContext.java <5:43 5:47>]
+QUALIFIER: com.github.javaparser.symbolsolver [CatchClauseContext.java <5:30 5:41>]
+QUALIFIER: com.github.javaparser [CatchClauseContext.java <5:19 5:28>]
+QUALIFIER: com.github [CatchClauseContext.java <5:12 5:17>]
+QUALIFIER: com [CatchClauseContext.java <5:8 5:10>]
+REFERENCE_IMPORT CatchClauseContext.java -> com.github.javaparser.symbolsolver.model.declarations.ValueDeclaration [CatchClauseContext.java <6:62 6:77>]
+QUALIFIER: com.github.javaparser.symbolsolver.model.declarations [CatchClauseContext.java <6:49 6:60>]
+QUALIFIER: com.github.javaparser.symbolsolver.model [CatchClauseContext.java <6:43 6:47>]
+QUALIFIER: com.github.javaparser.symbolsolver [CatchClauseContext.java <6:30 6:41>]
+QUALIFIER: com.github.javaparser [CatchClauseContext.java <6:19 6:28>]
+QUALIFIER: com.github [CatchClauseContext.java <6:12 6:17>]
+QUALIFIER: com [CatchClauseContext.java <6:8 6:10>]
+REFERENCE_IMPORT CatchClauseContext.java -> com.github.javaparser.symbolsolver.model.resolution.SymbolReference<S> [CatchClauseContext.java <7:60 7:74>]
 SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model.resolution
-REFERENCE_IMPORT CatchClauseContext.java -> com.github.javaparser.symbolsolver.model.resolution.TypeSolver [CatchClauseContext.java <8:8 8:69>]
-SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model.resolution
-REFERENCE_IMPORT CatchClauseContext.java -> com.github.javaparser.symbolsolver.model.resolution.Value [CatchClauseContext.java <9:8 9:64>]
-SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model.resolution
-REFERENCE_IMPORT CatchClauseContext.java -> com.github.javaparser.symbolsolver.model.typesystem.Type [CatchClauseContext.java <10:8 10:63>]
+QUALIFIER: com.github.javaparser.symbolsolver.model.resolution [CatchClauseContext.java <7:49 7:58>]
+QUALIFIER: com.github.javaparser.symbolsolver.model [CatchClauseContext.java <7:43 7:47>]
+QUALIFIER: com.github.javaparser.symbolsolver [CatchClauseContext.java <7:30 7:41>]
+QUALIFIER: com.github.javaparser [CatchClauseContext.java <7:19 7:28>]
+QUALIFIER: com.github [CatchClauseContext.java <7:12 7:17>]
+QUALIFIER: com [CatchClauseContext.java <7:8 7:10>]
+REFERENCE_IMPORT CatchClauseContext.java -> com.github.javaparser.symbolsolver.model.resolution.TypeSolver [CatchClauseContext.java <8:60 8:69>]
+QUALIFIER: com.github.javaparser.symbolsolver.model.resolution [CatchClauseContext.java <8:49 8:58>]
+QUALIFIER: com.github.javaparser.symbolsolver.model [CatchClauseContext.java <8:43 8:47>]
+QUALIFIER: com.github.javaparser.symbolsolver [CatchClauseContext.java <8:30 8:41>]
+QUALIFIER: com.github.javaparser [CatchClauseContext.java <8:19 8:28>]
+QUALIFIER: com.github [CatchClauseContext.java <8:12 8:17>]
+QUALIFIER: com [CatchClauseContext.java <8:8 8:10>]
+REFERENCE_IMPORT CatchClauseContext.java -> com.github.javaparser.symbolsolver.model.resolution.Value [CatchClauseContext.java <9:60 9:64>]
+QUALIFIER: com.github.javaparser.symbolsolver.model.resolution [CatchClauseContext.java <9:49 9:58>]
+QUALIFIER: com.github.javaparser.symbolsolver.model [CatchClauseContext.java <9:43 9:47>]
+QUALIFIER: com.github.javaparser.symbolsolver [CatchClauseContext.java <9:30 9:41>]
+QUALIFIER: com.github.javaparser [CatchClauseContext.java <9:19 9:28>]
+QUALIFIER: com.github [CatchClauseContext.java <9:12 9:17>]
+QUALIFIER: com [CatchClauseContext.java <9:8 9:10>]
+REFERENCE_IMPORT CatchClauseContext.java -> com.github.javaparser.symbolsolver.model.typesystem.Type [CatchClauseContext.java <10:60 10:63>]
 SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model.typesystem
-REFERENCE_IMPORT CatchClauseContext.java -> com.github.javaparser.symbolsolver.resolution.SymbolDeclarator [CatchClauseContext.java <11:8 11:69>]
+QUALIFIER: com.github.javaparser.symbolsolver.model.typesystem [CatchClauseContext.java <10:49 10:58>]
+QUALIFIER: com.github.javaparser.symbolsolver.model [CatchClauseContext.java <10:43 10:47>]
+QUALIFIER: com.github.javaparser.symbolsolver [CatchClauseContext.java <10:30 10:41>]
+QUALIFIER: com.github.javaparser [CatchClauseContext.java <10:19 10:28>]
+QUALIFIER: com.github [CatchClauseContext.java <10:12 10:17>]
+QUALIFIER: com [CatchClauseContext.java <10:8 10:10>]
+REFERENCE_IMPORT CatchClauseContext.java -> com.github.javaparser.symbolsolver.resolution.SymbolDeclarator [CatchClauseContext.java <11:54 11:69>]
 SYMBOL_PACKAGE com.github.javaparser.symbolsolver.resolution
-REFERENCE_IMPORT CatchClauseContext.java -> java.util.List<E> [CatchClauseContext.java <13:8 13:21>]
+QUALIFIER: com.github.javaparser.symbolsolver.resolution [CatchClauseContext.java <11:43 11:52>]
+QUALIFIER: com.github.javaparser.symbolsolver [CatchClauseContext.java <11:30 11:41>]
+QUALIFIER: com.github.javaparser [CatchClauseContext.java <11:19 11:28>]
+QUALIFIER: com.github [CatchClauseContext.java <11:12 11:17>]
+QUALIFIER: com [CatchClauseContext.java <11:8 11:10>]
+REFERENCE_IMPORT CatchClauseContext.java -> java.util.List<E> [CatchClauseContext.java <13:18 13:21>]
 SYMBOL_PACKAGE java.util
-REFERENCE_IMPORT CatchClauseContext.java -> java.util.Optional<T> [CatchClauseContext.java <14:8 14:25>]
-SYMBOL_PACKAGE java.util
+QUALIFIER: java.util [CatchClauseContext.java <13:13 13:16>]
+QUALIFIER: java [CatchClauseContext.java <13:8 13:11>]
+REFERENCE_IMPORT CatchClauseContext.java -> java.util.Optional<T> [CatchClauseContext.java <14:18 14:25>]
+QUALIFIER: java.util [CatchClauseContext.java <14:13 14:16>]
+QUALIFIER: java [CatchClauseContext.java <14:8 14:11>]
 SYMBOL_CLASS public com.github.javaparser.symbolsolver.javaparsermodel.contexts.CatchClauseContext [CatchClauseContext.java <19:1 <19:14 19:31> 54:1>]
 LOCAL_SYMBOL: CatchClauseContext.java<19:80> [CatchClauseContext.java <19:80 19:80>]
 LOCAL_SYMBOL: CatchClauseContext.java<19:80> [CatchClauseContext.java <54:1 54:1>]
@@ -42,7 +97,6 @@ REFERENCE_TYPE_USAGE com.github.javaparser.symbolsolver.javaparsermodel.contexts
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javaparsermodel.contexts.CatchClauseContext.CatchClauseContext<1> [CatchClauseContext.java <21:67 21:76>]
 LOCAL_SYMBOL: CatchClauseContext.java<21:79> [CatchClauseContext.java <21:79 21:79>]
 LOCAL_SYMBOL: CatchClauseContext.java<21:79> [CatchClauseContext.java <23:5 23:5>]
-SYMBOL_METHOD com.github.javaparser.symbolsolver.javaparsermodel.contexts.AbstractJavaParserContext<N>.AbstractJavaParserContext(com.github.javaparser.symbolsolver.javaparsermodel.contexts.AbstractJavaParserContext<N>.N, com.github.javaparser.symbolsolver.model.resolution.TypeSolver)
 REFERENCE_CALL com.github.javaparser.symbolsolver.javaparsermodel.contexts.CatchClauseContext.CatchClauseContext(com.github.javaparser.ast.stmt.CatchClause, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> com.github.javaparser.symbolsolver.javaparsermodel.contexts.AbstractJavaParserContext<N>.AbstractJavaParserContext(com.github.javaparser.symbolsolver.javaparsermodel.contexts.AbstractJavaParserContext<N>.N, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) [CatchClauseContext.java <22:9 22:13>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javaparsermodel.contexts.CatchClauseContext.CatchClauseContext<0> [CatchClauseContext.java <22:15 22:25>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javaparsermodel.contexts.CatchClauseContext.CatchClauseContext<1> [CatchClauseContext.java <22:28 22:37>]
@@ -61,6 +115,7 @@ REFERENCE_TYPE_USAGE com.github.javaparser.symbolsolver.model.resolution.SymbolR
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javaparsermodel.contexts.CatchClauseContext.solveSymbol<2> [CatchClauseContext.java <26:26 26:27>]
 SYMBOL_METHOD static com.github.javaparser.symbolsolver.resolution.SymbolDeclarator com.github.javaparser.symbolsolver.javaparsermodel.JavaParserFactory.getSymbolDeclarator(com.github.javaparser.ast.Node, com.github.javaparser.symbolsolver.model.resolution.TypeSolver)
 REFERENCE_CALL com.github.javaparser.symbolsolver.model.resolution.SymbolReference<? extends ValueDeclaration> com.github.javaparser.symbolsolver.javaparsermodel.contexts.CatchClauseContext.solveSymbol(java.lang.String, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> static com.github.javaparser.symbolsolver.resolution.SymbolDeclarator com.github.javaparser.symbolsolver.javaparsermodel.JavaParserFactory.getSymbolDeclarator(com.github.javaparser.ast.Node, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) [CatchClauseContext.java <26:49 26:67>]
+QUALIFIER: com.github.javaparser.symbolsolver.javaparsermodel.JavaParserFactory [CatchClauseContext.java <26:31 26:47>]
 SYMBOL_METHOD com.github.javaparser.ast.body.Parameter com.github.javaparser.ast.stmt.CatchClause.getParameter()
 REFERENCE_CALL com.github.javaparser.symbolsolver.model.resolution.SymbolReference<? extends ValueDeclaration> com.github.javaparser.symbolsolver.javaparsermodel.contexts.CatchClauseContext.solveSymbol(java.lang.String, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> com.github.javaparser.ast.body.Parameter com.github.javaparser.ast.stmt.CatchClause.getParameter() [CatchClauseContext.java <26:81 26:92>]
 SYMBOL_FIELD com.github.javaparser.symbolsolver.javaparsermodel.contexts.AbstractJavaParserContext<N>.N com.github.javaparser.symbolsolver.javaparsermodel.contexts.AbstractJavaParserContext<N>.wrappedNode
@@ -71,6 +126,7 @@ REFERENCE_TYPE_ARGUMENT com.github.javaparser.symbolsolver.model.resolution.Symb
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javaparsermodel.contexts.CatchClauseContext.solveSymbol<3> [CatchClauseContext.java <27:53 27:67>]
 SYMBOL_METHOD static com.github.javaparser.symbolsolver.model.resolution.SymbolReference<com.github.javaparser.symbolsolver.model.declarations.ValueDeclaration> com.github.javaparser.symbolsolver.javaparsermodel.contexts.AbstractJavaParserContext<N>.solveWith(com.github.javaparser.symbolsolver.resolution.SymbolDeclarator, java.lang.String)
 REFERENCE_CALL com.github.javaparser.symbolsolver.model.resolution.SymbolReference<? extends ValueDeclaration> com.github.javaparser.symbolsolver.javaparsermodel.contexts.CatchClauseContext.solveSymbol(java.lang.String, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> static com.github.javaparser.symbolsolver.model.resolution.SymbolReference<com.github.javaparser.symbolsolver.model.declarations.ValueDeclaration> com.github.javaparser.symbolsolver.javaparsermodel.contexts.AbstractJavaParserContext<N>.solveWith(com.github.javaparser.symbolsolver.resolution.SymbolDeclarator, java.lang.String) [CatchClauseContext.java <27:97 27:105>]
+QUALIFIER: com.github.javaparser.symbolsolver.javaparsermodel.contexts.AbstractJavaParserContext [CatchClauseContext.java <27:71 27:95>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javaparsermodel.contexts.CatchClauseContext.solveSymbol<2> [CatchClauseContext.java <27:107 27:108>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javaparsermodel.contexts.CatchClauseContext.solveSymbol<0> [CatchClauseContext.java <27:111 27:114>]
 SYMBOL_METHOD boolean com.github.javaparser.symbolsolver.model.resolution.SymbolReference<S>.isSolved()
@@ -79,7 +135,6 @@ LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javaparsermodel.contexts.CatchC
 LOCAL_SYMBOL: CatchClauseContext.java<28:41> [CatchClauseContext.java <28:41 28:41>]
 LOCAL_SYMBOL: CatchClauseContext.java<28:41> [CatchClauseContext.java <30:9 30:9>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javaparsermodel.contexts.CatchClauseContext.solveSymbol<3> [CatchClauseContext.java <29:20 29:34>]
-SYMBOL_METHOD com.github.javaparser.symbolsolver.model.resolution.SymbolReference<? extends ValueDeclaration> com.github.javaparser.symbolsolver.core.resolution.Context.solveSymbol(java.lang.String, com.github.javaparser.symbolsolver.model.resolution.TypeSolver)
 REFERENCE_CALL com.github.javaparser.symbolsolver.model.resolution.SymbolReference<? extends ValueDeclaration> com.github.javaparser.symbolsolver.javaparsermodel.contexts.CatchClauseContext.solveSymbol(java.lang.String, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> com.github.javaparser.symbolsolver.model.resolution.SymbolReference<? extends ValueDeclaration> com.github.javaparser.symbolsolver.core.resolution.Context.solveSymbol(java.lang.String, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) [CatchClauseContext.java <33:28 33:38>]
 SYMBOL_METHOD com.github.javaparser.symbolsolver.core.resolution.Context com.github.javaparser.symbolsolver.javaparsermodel.contexts.AbstractJavaParserContext<N>.getParent()
 REFERENCE_CALL com.github.javaparser.symbolsolver.model.resolution.SymbolReference<? extends ValueDeclaration> com.github.javaparser.symbolsolver.javaparsermodel.contexts.CatchClauseContext.solveSymbol(java.lang.String, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> com.github.javaparser.symbolsolver.core.resolution.Context com.github.javaparser.symbolsolver.javaparsermodel.contexts.AbstractJavaParserContext<N>.getParent() [CatchClauseContext.java <33:16 33:24>]
@@ -98,11 +153,9 @@ LOCAL_SYMBOL: CatchClauseContext.java<37:89> [CatchClauseContext.java <37:89 37:
 LOCAL_SYMBOL: CatchClauseContext.java<37:89> [CatchClauseContext.java <47:5 47:5>]
 REFERENCE_TYPE_USAGE java.util.Optional<com.github.javaparser.symbolsolver.model.resolution.Value> com.github.javaparser.symbolsolver.javaparsermodel.contexts.CatchClauseContext.solveSymbolAsValue(java.lang.String, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> com.github.javaparser.symbolsolver.resolution.SymbolDeclarator [CatchClauseContext.java <38:9 38:24>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javaparsermodel.contexts.CatchClauseContext.solveSymbolAsValue<2> [CatchClauseContext.java <38:26 38:27>]
-SYMBOL_METHOD static com.github.javaparser.symbolsolver.resolution.SymbolDeclarator com.github.javaparser.symbolsolver.javaparsermodel.JavaParserFactory.getSymbolDeclarator(com.github.javaparser.ast.Node, com.github.javaparser.symbolsolver.model.resolution.TypeSolver)
 REFERENCE_CALL java.util.Optional<com.github.javaparser.symbolsolver.model.resolution.Value> com.github.javaparser.symbolsolver.javaparsermodel.contexts.CatchClauseContext.solveSymbolAsValue(java.lang.String, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> static com.github.javaparser.symbolsolver.resolution.SymbolDeclarator com.github.javaparser.symbolsolver.javaparsermodel.JavaParserFactory.getSymbolDeclarator(com.github.javaparser.ast.Node, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) [CatchClauseContext.java <38:49 38:67>]
-SYMBOL_METHOD com.github.javaparser.ast.body.Parameter com.github.javaparser.ast.stmt.CatchClause.getParameter()
+QUALIFIER: com.github.javaparser.symbolsolver.javaparsermodel.JavaParserFactory [CatchClauseContext.java <38:31 38:47>]
 REFERENCE_CALL java.util.Optional<com.github.javaparser.symbolsolver.model.resolution.Value> com.github.javaparser.symbolsolver.javaparsermodel.contexts.CatchClauseContext.solveSymbolAsValue(java.lang.String, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> com.github.javaparser.ast.body.Parameter com.github.javaparser.ast.stmt.CatchClause.getParameter() [CatchClauseContext.java <38:81 38:92>]
-SYMBOL_FIELD com.github.javaparser.symbolsolver.javaparsermodel.contexts.AbstractJavaParserContext<N>.N com.github.javaparser.symbolsolver.javaparsermodel.contexts.AbstractJavaParserContext<N>.wrappedNode
 REFERENCE_USAGE java.util.Optional<com.github.javaparser.symbolsolver.model.resolution.Value> com.github.javaparser.symbolsolver.javaparsermodel.contexts.CatchClauseContext.solveSymbolAsValue(java.lang.String, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> com.github.javaparser.symbolsolver.javaparsermodel.contexts.AbstractJavaParserContext<N>.N com.github.javaparser.symbolsolver.javaparsermodel.contexts.AbstractJavaParserContext<N>.wrappedNode [CatchClauseContext.java <38:69 38:79>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javaparsermodel.contexts.CatchClauseContext.solveSymbolAsValue<1> [CatchClauseContext.java <38:97 38:106>]
 REFERENCE_TYPE_USAGE java.util.Optional<com.github.javaparser.symbolsolver.model.resolution.Value> com.github.javaparser.symbolsolver.javaparsermodel.contexts.CatchClauseContext.solveSymbolAsValue(java.lang.String, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> java.util.Optional<T> [CatchClauseContext.java <39:9 39:16>]
@@ -119,9 +172,7 @@ LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javaparsermodel.contexts.CatchC
 LOCAL_SYMBOL: CatchClauseContext.java<40:42> [CatchClauseContext.java <40:42 40:42>]
 LOCAL_SYMBOL: CatchClauseContext.java<40:42> [CatchClauseContext.java <43:9 43:9>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javaparsermodel.contexts.CatchClauseContext.solveSymbolAsValue<3> [CatchClauseContext.java <42:20 42:34>]
-SYMBOL_METHOD java.util.Optional<com.github.javaparser.symbolsolver.model.resolution.Value> com.github.javaparser.symbolsolver.core.resolution.Context.solveSymbolAsValue(java.lang.String, com.github.javaparser.symbolsolver.model.resolution.TypeSolver)
 REFERENCE_CALL java.util.Optional<com.github.javaparser.symbolsolver.model.resolution.Value> com.github.javaparser.symbolsolver.javaparsermodel.contexts.CatchClauseContext.solveSymbolAsValue(java.lang.String, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> java.util.Optional<com.github.javaparser.symbolsolver.model.resolution.Value> com.github.javaparser.symbolsolver.core.resolution.Context.solveSymbolAsValue(java.lang.String, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) [CatchClauseContext.java <46:28 46:45>]
-SYMBOL_METHOD com.github.javaparser.symbolsolver.core.resolution.Context com.github.javaparser.symbolsolver.javaparsermodel.contexts.AbstractJavaParserContext<N>.getParent()
 REFERENCE_CALL java.util.Optional<com.github.javaparser.symbolsolver.model.resolution.Value> com.github.javaparser.symbolsolver.javaparsermodel.contexts.CatchClauseContext.solveSymbolAsValue(java.lang.String, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> com.github.javaparser.symbolsolver.core.resolution.Context com.github.javaparser.symbolsolver.javaparsermodel.contexts.AbstractJavaParserContext<N>.getParent() [CatchClauseContext.java <46:16 46:24>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javaparsermodel.contexts.CatchClauseContext.solveSymbolAsValue<0> [CatchClauseContext.java <46:47 46:50>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javaparsermodel.contexts.CatchClauseContext.solveSymbolAsValue<1> [CatchClauseContext.java <46:53 46:62>]
@@ -142,9 +193,7 @@ REFERENCE_TYPE_USAGE com.github.javaparser.symbolsolver.model.resolution.SymbolR
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javaparsermodel.contexts.CatchClauseContext.solveMethod<3> [CatchClauseContext.java <51:84 51:93>]
 LOCAL_SYMBOL: CatchClauseContext.java<51:96> [CatchClauseContext.java <51:96 51:96>]
 LOCAL_SYMBOL: CatchClauseContext.java<51:96> [CatchClauseContext.java <53:5 53:5>]
-SYMBOL_METHOD com.github.javaparser.symbolsolver.model.resolution.SymbolReference<com.github.javaparser.symbolsolver.model.declarations.MethodDeclaration> com.github.javaparser.symbolsolver.core.resolution.Context.solveMethod(java.lang.String, java.util.List<com.github.javaparser.symbolsolver.model.typesystem.Type>, boolean, com.github.javaparser.symbolsolver.model.resolution.TypeSolver)
 REFERENCE_CALL com.github.javaparser.symbolsolver.model.resolution.SymbolReference<com.github.javaparser.symbolsolver.model.declarations.MethodDeclaration> com.github.javaparser.symbolsolver.javaparsermodel.contexts.CatchClauseContext.solveMethod(java.lang.String, java.util.List<com.github.javaparser.symbolsolver.model.typesystem.Type>, boolean, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> com.github.javaparser.symbolsolver.model.resolution.SymbolReference<com.github.javaparser.symbolsolver.model.declarations.MethodDeclaration> com.github.javaparser.symbolsolver.core.resolution.Context.solveMethod(java.lang.String, java.util.List<com.github.javaparser.symbolsolver.model.typesystem.Type>, boolean, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) [CatchClauseContext.java <52:28 52:38>]
-SYMBOL_METHOD com.github.javaparser.symbolsolver.core.resolution.Context com.github.javaparser.symbolsolver.javaparsermodel.contexts.AbstractJavaParserContext<N>.getParent()
 REFERENCE_CALL com.github.javaparser.symbolsolver.model.resolution.SymbolReference<com.github.javaparser.symbolsolver.model.declarations.MethodDeclaration> com.github.javaparser.symbolsolver.javaparsermodel.contexts.CatchClauseContext.solveMethod(java.lang.String, java.util.List<com.github.javaparser.symbolsolver.model.typesystem.Type>, boolean, com.github.javaparser.symbolsolver.model.resolution.TypeSolver) -> com.github.javaparser.symbolsolver.core.resolution.Context com.github.javaparser.symbolsolver.javaparsermodel.contexts.AbstractJavaParserContext<N>.getParent() [CatchClauseContext.java <52:16 52:24>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javaparsermodel.contexts.CatchClauseContext.solveMethod<0> [CatchClauseContext.java <52:40 52:43>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javaparsermodel.contexts.CatchClauseContext.solveMethod<1> [CatchClauseContext.java <52:46 52:59>]

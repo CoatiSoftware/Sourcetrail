@@ -1,11 +1,5 @@
 FILE: b2ContactManager.cpp
-FILE: b2ContactManager.cpp
 COMMENT: comment [b2ContactManager.cpp <1:1 17:3>]
-FILE: b2ContactManager.cpp
-FILE: b2ContactManager.cpp
-FILE: b2ContactManager.cpp
-FILE: b2ContactManager.cpp
-FILE: b2ContactManager.cpp
 COMMENT: comment [b2ContactManager.cpp <49:2 49:27>]
 COMMENT: comment [b2ContactManager.cpp <65:2 65:23>]
 COMMENT: comment [b2ContactManager.cpp <81:2 81:23>]
@@ -46,6 +40,7 @@ SYMBOL_FUNCTION void b2ContactListener::b2ContactListener()
 REFERENCE_CALL b2ContactListener b2_defaultListener -> void b2ContactListener::b2ContactListener() [b2ContactManager.cpp <26:19 26:36>]
 SYMBOL_METHOD public void b2ContactManager::b2ContactManager() [b2ContactManager.cpp <28:1 <28:19 28:34> 35:1>]
 SYMBOL_CLASS b2ContactManager
+QUALIFIER: b2ContactManager [b2ContactManager.cpp <28:1 28:16>]
 REFERENCE_USAGE void b2ContactManager::b2ContactManager() -> b2BroadPhase b2ContactManager::m_broadPhase [b2ContactManager.cpp <28:19 28:34>]
 SYMBOL_FUNCTION void b2BroadPhase::b2BroadPhase()
 REFERENCE_CALL void b2ContactManager::b2ContactManager() -> void b2BroadPhase::b2BroadPhase() [b2ContactManager.cpp <28:19 28:34>]
@@ -57,7 +52,7 @@ REFERENCE_USAGE void b2ContactManager::b2ContactManager() -> b2ContactListener *
 REFERENCE_USAGE void b2ContactManager::b2ContactManager() -> b2ContactListener b2_defaultListener [b2ContactManager.cpp <33:23 33:40>]
 REFERENCE_USAGE void b2ContactManager::b2ContactManager() -> b2BlockAllocator * b2ContactManager::m_allocator [b2ContactManager.cpp <34:2 34:12>]
 SYMBOL_METHOD public void b2ContactManager::Destroy(b2Contact *) [b2ContactManager.cpp <37:1 <37:24 37:30> 100:1>]
-SYMBOL_CLASS b2ContactManager
+QUALIFIER: b2ContactManager [b2ContactManager.cpp <37:6 37:21>]
 SYMBOL_BUILTIN_TYPE void
 REFERENCE_TYPE_USAGE void b2ContactManager::Destroy(b2Contact *) -> void [b2ContactManager.cpp <37:1 37:4>]
 LOCAL_SYMBOL: b2ContactManager.cpp<37:43> [b2ContactManager.cpp <37:43 37:43>]
@@ -79,7 +74,6 @@ REFERENCE_CALL void b2ContactManager::Destroy(b2Contact *) -> b2Body * b2Fixture
 LOCAL_SYMBOL: b2ContactManager.cpp<39:13> [b2ContactManager.cpp <41:18 41:25>]
 LOCAL_SYMBOL: b2ContactManager.cpp<42:10> [b2ContactManager.cpp <42:10 42:14>]
 REFERENCE_TYPE_USAGE void b2ContactManager::Destroy(b2Contact *) -> b2Body [b2ContactManager.cpp <42:2 42:7>]
-SYMBOL_FUNCTION b2Body * b2Fixture::GetBody()
 REFERENCE_CALL void b2ContactManager::Destroy(b2Contact *) -> b2Body * b2Fixture::GetBody() [b2ContactManager.cpp <42:28 42:34>]
 LOCAL_SYMBOL: b2ContactManager.cpp<40:13> [b2ContactManager.cpp <42:18 42:25>]
 REFERENCE_USAGE void b2ContactManager::Destroy(b2Contact *) -> b2ContactListener * b2ContactManager::m_contactListener [b2ContactManager.cpp <44:6 44:22>]
@@ -170,12 +164,12 @@ LOCAL_SYMBOL: b2ContactManager.cpp<37:43> [b2ContactManager.cpp <94:26 94:26>]
 SYMBOL_FUNCTION static void b2Contact::Destroy(b2Contact *, b2BlockAllocator *)
 REFERENCE_CALL void b2ContactManager::Destroy(b2Contact *) -> static void b2Contact::Destroy(b2Contact *, b2BlockAllocator *) [b2ContactManager.cpp <98:13 98:19>]
 SYMBOL_CLASS b2Contact
+QUALIFIER: b2Contact [b2ContactManager.cpp <98:2 98:10>]
 LOCAL_SYMBOL: b2ContactManager.cpp<37:43> [b2ContactManager.cpp <98:21 98:21>]
 REFERENCE_USAGE void b2ContactManager::Destroy(b2Contact *) -> b2BlockAllocator * b2ContactManager::m_allocator [b2ContactManager.cpp <98:24 98:34>]
 REFERENCE_USAGE void b2ContactManager::Destroy(b2Contact *) -> int32 b2ContactManager::m_contactCount [b2ContactManager.cpp <99:4 99:17>]
 SYMBOL_METHOD public void b2ContactManager::Collide() [b2ContactManager.cpp <105:1 <105:24 105:30> 170:1>]
-SYMBOL_CLASS b2ContactManager
-SYMBOL_BUILTIN_TYPE void
+QUALIFIER: b2ContactManager [b2ContactManager.cpp <105:6 105:21>]
 REFERENCE_TYPE_USAGE void b2ContactManager::Collide() -> void [b2ContactManager.cpp <105:1 105:4>]
 LOCAL_SYMBOL: b2ContactManager.cpp<108:13> [b2ContactManager.cpp <108:13 108:13>]
 REFERENCE_TYPE_USAGE void b2ContactManager::Collide() -> b2Contact [b2ContactManager.cpp <108:2 108:10>]
@@ -183,12 +177,10 @@ REFERENCE_USAGE void b2ContactManager::Collide() -> b2Contact * b2ContactManager
 LOCAL_SYMBOL: b2ContactManager.cpp<108:13> [b2ContactManager.cpp <109:9 109:9>]
 LOCAL_SYMBOL: b2ContactManager.cpp<111:14> [b2ContactManager.cpp <111:14 111:21>]
 REFERENCE_TYPE_USAGE void b2ContactManager::Collide() -> b2Fixture [b2ContactManager.cpp <111:3 111:11>]
-SYMBOL_FUNCTION b2Fixture * b2Contact::GetFixtureA()
 REFERENCE_CALL void b2ContactManager::Collide() -> b2Fixture * b2Contact::GetFixtureA() [b2ContactManager.cpp <111:28 111:38>]
 LOCAL_SYMBOL: b2ContactManager.cpp<108:13> [b2ContactManager.cpp <111:25 111:25>]
 LOCAL_SYMBOL: b2ContactManager.cpp<112:14> [b2ContactManager.cpp <112:14 112:21>]
 REFERENCE_TYPE_USAGE void b2ContactManager::Collide() -> b2Fixture [b2ContactManager.cpp <112:3 112:11>]
-SYMBOL_FUNCTION b2Fixture * b2Contact::GetFixtureB()
 REFERENCE_CALL void b2ContactManager::Collide() -> b2Fixture * b2Contact::GetFixtureB() [b2ContactManager.cpp <112:28 112:38>]
 LOCAL_SYMBOL: b2ContactManager.cpp<108:13> [b2ContactManager.cpp <112:25 112:25>]
 LOCAL_SYMBOL: b2ContactManager.cpp<113:9> [b2ContactManager.cpp <113:9 113:14>]
@@ -203,18 +195,16 @@ REFERENCE_CALL void b2ContactManager::Collide() -> int32 b2Contact::GetChildInde
 LOCAL_SYMBOL: b2ContactManager.cpp<108:13> [b2ContactManager.cpp <114:18 114:18>]
 LOCAL_SYMBOL: b2ContactManager.cpp<115:11> [b2ContactManager.cpp <115:11 115:15>]
 REFERENCE_TYPE_USAGE void b2ContactManager::Collide() -> b2Body [b2ContactManager.cpp <115:3 115:8>]
-SYMBOL_FUNCTION b2Body * b2Fixture::GetBody()
 REFERENCE_CALL void b2ContactManager::Collide() -> b2Body * b2Fixture::GetBody() [b2ContactManager.cpp <115:29 115:35>]
 LOCAL_SYMBOL: b2ContactManager.cpp<111:14> [b2ContactManager.cpp <115:19 115:26>]
 LOCAL_SYMBOL: b2ContactManager.cpp<116:11> [b2ContactManager.cpp <116:11 116:15>]
 REFERENCE_TYPE_USAGE void b2ContactManager::Collide() -> b2Body [b2ContactManager.cpp <116:3 116:8>]
-SYMBOL_FUNCTION b2Body * b2Fixture::GetBody()
 REFERENCE_CALL void b2ContactManager::Collide() -> b2Body * b2Fixture::GetBody() [b2ContactManager.cpp <116:29 116:35>]
 LOCAL_SYMBOL: b2ContactManager.cpp<112:14> [b2ContactManager.cpp <116:19 116:26>]
 REFERENCE_USAGE void b2ContactManager::Collide() -> uint32 b2Contact::m_flags [b2ContactManager.cpp <119:10 119:16>]
 LOCAL_SYMBOL: b2ContactManager.cpp<108:13> [b2ContactManager.cpp <119:7 119:7>]
 REFERENCE_USAGE void b2ContactManager::Collide() -> b2Contact::anonymous enum (b2Contact.h<155:2>)::e_filterFlag [b2ContactManager.cpp <119:31 119:42>]
-SYMBOL_CLASS b2Contact
+QUALIFIER: b2Contact [b2ContactManager.cpp <119:20 119:28>]
 SYMBOL_FUNCTION bool b2Body::ShouldCollide(const b2Body *) const
 REFERENCE_CALL void b2ContactManager::Collide() -> bool b2Body::ShouldCollide(const b2Body *) const [b2ContactManager.cpp <122:15 122:27>]
 LOCAL_SYMBOL: b2ContactManager.cpp<116:11> [b2ContactManager.cpp <122:8 122:12>]
@@ -239,16 +229,14 @@ LOCAL_SYMBOL: b2ContactManager.cpp<133:16> [b2ContactManager.cpp <133:16 133:20>
 REFERENCE_TYPE_USAGE void b2ContactManager::Collide() -> b2Contact [b2ContactManager.cpp <133:5 133:13>]
 LOCAL_SYMBOL: b2ContactManager.cpp<108:13> [b2ContactManager.cpp <133:24 133:24>]
 LOCAL_SYMBOL: b2ContactManager.cpp<108:13> [b2ContactManager.cpp <134:5 134:5>]
-SYMBOL_FUNCTION b2Contact * b2Contact::GetNext()
 REFERENCE_CALL void b2ContactManager::Collide() -> b2Contact * b2Contact::GetNext() [b2ContactManager.cpp <134:16 134:22>]
 LOCAL_SYMBOL: b2ContactManager.cpp<133:16> [b2ContactManager.cpp <134:9 134:13>]
-SYMBOL_FUNCTION void b2ContactManager::Destroy(b2Contact *)
 REFERENCE_CALL void b2ContactManager::Collide() -> void b2ContactManager::Destroy(b2Contact *) [b2ContactManager.cpp <135:5 135:11>]
 LOCAL_SYMBOL: b2ContactManager.cpp<133:16> [b2ContactManager.cpp <135:13 135:17>]
 REFERENCE_USAGE void b2ContactManager::Collide() -> uint32 b2Contact::m_flags [b2ContactManager.cpp <140:7 140:13>]
 LOCAL_SYMBOL: b2ContactManager.cpp<108:13> [b2ContactManager.cpp <140:4 140:4>]
 REFERENCE_USAGE void b2ContactManager::Collide() -> b2Contact::anonymous enum (b2Contact.h<155:2>)::e_filterFlag [b2ContactManager.cpp <140:30 140:41>]
-SYMBOL_CLASS b2Contact
+QUALIFIER: b2Contact [b2ContactManager.cpp <140:19 140:27>]
 LOCAL_SYMBOL: b2ContactManager.cpp<143:8> [b2ContactManager.cpp <143:8 143:14>]
 SYMBOL_BUILTIN_TYPE bool
 REFERENCE_TYPE_USAGE void b2ContactManager::Collide() -> bool [b2ContactManager.cpp <143:3 143:6>]
@@ -259,9 +247,7 @@ REFERENCE_USAGE void b2ContactManager::Collide() -> b2BodyType b2Body::m_type [b
 LOCAL_SYMBOL: b2ContactManager.cpp<115:11> [b2ContactManager.cpp <143:38 143:42>]
 REFERENCE_USAGE void b2ContactManager::Collide() -> b2BodyType::b2_staticBody [b2ContactManager.cpp <143:55 143:67>]
 LOCAL_SYMBOL: b2ContactManager.cpp<144:8> [b2ContactManager.cpp <144:8 144:14>]
-SYMBOL_BUILTIN_TYPE bool
 REFERENCE_TYPE_USAGE void b2ContactManager::Collide() -> bool [b2ContactManager.cpp <144:3 144:6>]
-SYMBOL_FUNCTION bool b2Body::IsAwake() const
 REFERENCE_CALL void b2ContactManager::Collide() -> bool b2Body::IsAwake() const [b2ContactManager.cpp <144:25 144:31>]
 LOCAL_SYMBOL: b2ContactManager.cpp<116:11> [b2ContactManager.cpp <144:18 144:22>]
 REFERENCE_USAGE void b2ContactManager::Collide() -> b2BodyType b2Body::m_type [b2ContactManager.cpp <144:45 144:50>]
@@ -270,7 +256,6 @@ REFERENCE_USAGE void b2ContactManager::Collide() -> b2BodyType::b2_staticBody [b
 LOCAL_SYMBOL: b2ContactManager.cpp<143:8> [b2ContactManager.cpp <147:7 147:13>]
 LOCAL_SYMBOL: b2ContactManager.cpp<144:8> [b2ContactManager.cpp <147:27 147:33>]
 LOCAL_SYMBOL: b2ContactManager.cpp<108:13> [b2ContactManager.cpp <149:4 149:4>]
-SYMBOL_FUNCTION b2Contact * b2Contact::GetNext()
 REFERENCE_CALL void b2ContactManager::Collide() -> b2Contact * b2Contact::GetNext() [b2ContactManager.cpp <149:11 149:17>]
 LOCAL_SYMBOL: b2ContactManager.cpp<108:13> [b2ContactManager.cpp <149:8 149:8>]
 LOCAL_SYMBOL: b2ContactManager.cpp<153:9> [b2ContactManager.cpp <153:9 153:16>]
@@ -286,7 +271,6 @@ REFERENCE_USAGE void b2ContactManager::Collide() -> b2FixtureProxy * b2Fixture::
 LOCAL_SYMBOL: b2ContactManager.cpp<112:14> [b2ContactManager.cpp <154:20 154:27>]
 LOCAL_SYMBOL: b2ContactManager.cpp<114:9> [b2ContactManager.cpp <154:40 154:45>]
 LOCAL_SYMBOL: b2ContactManager.cpp<155:8> [b2ContactManager.cpp <155:8 155:14>]
-SYMBOL_BUILTIN_TYPE bool
 REFERENCE_TYPE_USAGE void b2ContactManager::Collide() -> bool [b2ContactManager.cpp <155:3 155:6>]
 SYMBOL_FUNCTION bool b2BroadPhase::TestOverlap(int32, int32) const
 REFERENCE_CALL void b2ContactManager::Collide() -> bool b2BroadPhase::TestOverlap(int32, int32) const [b2ContactManager.cpp <155:31 155:41>]
@@ -298,10 +282,8 @@ LOCAL_SYMBOL: b2ContactManager.cpp<160:15> [b2ContactManager.cpp <160:15 160:19>
 REFERENCE_TYPE_USAGE void b2ContactManager::Collide() -> b2Contact [b2ContactManager.cpp <160:4 160:12>]
 LOCAL_SYMBOL: b2ContactManager.cpp<108:13> [b2ContactManager.cpp <160:23 160:23>]
 LOCAL_SYMBOL: b2ContactManager.cpp<108:13> [b2ContactManager.cpp <161:4 161:4>]
-SYMBOL_FUNCTION b2Contact * b2Contact::GetNext()
 REFERENCE_CALL void b2ContactManager::Collide() -> b2Contact * b2Contact::GetNext() [b2ContactManager.cpp <161:15 161:21>]
 LOCAL_SYMBOL: b2ContactManager.cpp<160:15> [b2ContactManager.cpp <161:8 161:12>]
-SYMBOL_FUNCTION void b2ContactManager::Destroy(b2Contact *)
 REFERENCE_CALL void b2ContactManager::Collide() -> void b2ContactManager::Destroy(b2Contact *) [b2ContactManager.cpp <162:4 162:10>]
 LOCAL_SYMBOL: b2ContactManager.cpp<160:15> [b2ContactManager.cpp <162:12 162:16>]
 SYMBOL_FUNCTION void b2Contact::Update(b2ContactListener *)
@@ -309,25 +291,20 @@ REFERENCE_CALL void b2ContactManager::Collide() -> void b2Contact::Update(b2Cont
 LOCAL_SYMBOL: b2ContactManager.cpp<108:13> [b2ContactManager.cpp <167:3 167:3>]
 REFERENCE_USAGE void b2ContactManager::Collide() -> b2ContactListener * b2ContactManager::m_contactListener [b2ContactManager.cpp <167:13 167:29>]
 LOCAL_SYMBOL: b2ContactManager.cpp<108:13> [b2ContactManager.cpp <168:3 168:3>]
-SYMBOL_FUNCTION b2Contact * b2Contact::GetNext()
 REFERENCE_CALL void b2ContactManager::Collide() -> b2Contact * b2Contact::GetNext() [b2ContactManager.cpp <168:10 168:16>]
 LOCAL_SYMBOL: b2ContactManager.cpp<108:13> [b2ContactManager.cpp <168:7 168:7>]
 SYMBOL_METHOD public void b2ContactManager::FindNewContacts() [b2ContactManager.cpp <172:1 <172:24 172:38> 175:1>]
-SYMBOL_CLASS b2ContactManager
-SYMBOL_BUILTIN_TYPE void
+QUALIFIER: b2ContactManager [b2ContactManager.cpp <172:6 172:21>]
 REFERENCE_TYPE_USAGE void b2ContactManager::FindNewContacts() -> void [b2ContactManager.cpp <172:1 172:4>]
 SYMBOL_FUNCTION void b2BroadPhase::UpdatePairs<b2ContactManager>(b2ContactManager *)
 REFERENCE_CALL void b2ContactManager::FindNewContacts() -> void b2BroadPhase::UpdatePairs<b2ContactManager>(b2ContactManager *) [b2ContactManager.cpp <174:15 174:25>]
 REFERENCE_USAGE void b2ContactManager::FindNewContacts() -> b2BroadPhase b2ContactManager::m_broadPhase [b2ContactManager.cpp <174:2 174:13>]
 SYMBOL_METHOD public void b2ContactManager::AddPair(void *, void *) [b2ContactManager.cpp <177:1 <177:24 177:30> 296:1>]
-SYMBOL_CLASS b2ContactManager
-SYMBOL_BUILTIN_TYPE void
+QUALIFIER: b2ContactManager [b2ContactManager.cpp <177:6 177:21>]
 REFERENCE_TYPE_USAGE void b2ContactManager::AddPair(void *, void *) -> void [b2ContactManager.cpp <177:1 177:4>]
 LOCAL_SYMBOL: b2ContactManager.cpp<177:38> [b2ContactManager.cpp <177:38 177:51>]
-SYMBOL_BUILTIN_TYPE void
 REFERENCE_TYPE_USAGE void b2ContactManager::AddPair(void *, void *) -> void [b2ContactManager.cpp <177:32 177:35>]
 LOCAL_SYMBOL: b2ContactManager.cpp<177:60> [b2ContactManager.cpp <177:60 177:73>]
-SYMBOL_BUILTIN_TYPE void
 REFERENCE_TYPE_USAGE void b2ContactManager::AddPair(void *, void *) -> void [b2ContactManager.cpp <177:54 177:57>]
 LOCAL_SYMBOL: b2ContactManager.cpp<179:18> [b2ContactManager.cpp <179:18 179:23>]
 REFERENCE_TYPE_USAGE void b2ContactManager::AddPair(void *, void *) -> b2FixtureProxy [b2ContactManager.cpp <179:2 179:15>]
@@ -355,12 +332,10 @@ REFERENCE_USAGE void b2ContactManager::AddPair(void *, void *) -> int32 b2Fixtur
 LOCAL_SYMBOL: b2ContactManager.cpp<180:18> [b2ContactManager.cpp <186:17 186:22>]
 LOCAL_SYMBOL: b2ContactManager.cpp<188:10> [b2ContactManager.cpp <188:10 188:14>]
 REFERENCE_TYPE_USAGE void b2ContactManager::AddPair(void *, void *) -> b2Body [b2ContactManager.cpp <188:2 188:7>]
-SYMBOL_FUNCTION b2Body * b2Fixture::GetBody()
 REFERENCE_CALL void b2ContactManager::AddPair(void *, void *) -> b2Body * b2Fixture::GetBody() [b2ContactManager.cpp <188:28 188:34>]
 LOCAL_SYMBOL: b2ContactManager.cpp<182:13> [b2ContactManager.cpp <188:18 188:25>]
 LOCAL_SYMBOL: b2ContactManager.cpp<189:10> [b2ContactManager.cpp <189:10 189:14>]
 REFERENCE_TYPE_USAGE void b2ContactManager::AddPair(void *, void *) -> b2Body [b2ContactManager.cpp <189:2 189:7>]
-SYMBOL_FUNCTION b2Body * b2Fixture::GetBody()
 REFERENCE_CALL void b2ContactManager::AddPair(void *, void *) -> b2Body * b2Fixture::GetBody() [b2ContactManager.cpp <189:28 189:34>]
 LOCAL_SYMBOL: b2ContactManager.cpp<183:13> [b2ContactManager.cpp <189:18 189:25>]
 LOCAL_SYMBOL: b2ContactManager.cpp<188:10> [b2ContactManager.cpp <192:6 192:10>]
@@ -376,25 +351,21 @@ LOCAL_SYMBOL: b2ContactManager.cpp<200:17> [b2ContactManager.cpp <203:7 203:10>]
 LOCAL_SYMBOL: b2ContactManager.cpp<188:10> [b2ContactManager.cpp <203:22 203:26>]
 LOCAL_SYMBOL: b2ContactManager.cpp<205:15> [b2ContactManager.cpp <205:15 205:16>]
 REFERENCE_TYPE_USAGE void b2ContactManager::AddPair(void *, void *) -> b2Fixture [b2ContactManager.cpp <205:4 205:12>]
-SYMBOL_FUNCTION b2Fixture * b2Contact::GetFixtureA()
 REFERENCE_CALL void b2ContactManager::AddPair(void *, void *) -> b2Fixture * b2Contact::GetFixtureA() [b2ContactManager.cpp <205:35 205:45>]
 REFERENCE_USAGE void b2ContactManager::AddPair(void *, void *) -> b2Contact * b2ContactEdge::contact [b2ContactManager.cpp <205:26 205:32>]
 LOCAL_SYMBOL: b2ContactManager.cpp<200:17> [b2ContactManager.cpp <205:20 205:23>]
 LOCAL_SYMBOL: b2ContactManager.cpp<206:15> [b2ContactManager.cpp <206:15 206:16>]
 REFERENCE_TYPE_USAGE void b2ContactManager::AddPair(void *, void *) -> b2Fixture [b2ContactManager.cpp <206:4 206:12>]
-SYMBOL_FUNCTION b2Fixture * b2Contact::GetFixtureB()
 REFERENCE_CALL void b2ContactManager::AddPair(void *, void *) -> b2Fixture * b2Contact::GetFixtureB() [b2ContactManager.cpp <206:35 206:45>]
 REFERENCE_USAGE void b2ContactManager::AddPair(void *, void *) -> b2Contact * b2ContactEdge::contact [b2ContactManager.cpp <206:26 206:32>]
 LOCAL_SYMBOL: b2ContactManager.cpp<200:17> [b2ContactManager.cpp <206:20 206:23>]
 LOCAL_SYMBOL: b2ContactManager.cpp<207:10> [b2ContactManager.cpp <207:10 207:11>]
 REFERENCE_TYPE_USAGE void b2ContactManager::AddPair(void *, void *) -> int32 [b2ContactManager.cpp <207:4 207:8>]
-SYMBOL_FUNCTION int32 b2Contact::GetChildIndexA() const
 REFERENCE_CALL void b2ContactManager::AddPair(void *, void *) -> int32 b2Contact::GetChildIndexA() const [b2ContactManager.cpp <207:30 207:43>]
 REFERENCE_USAGE void b2ContactManager::AddPair(void *, void *) -> b2Contact * b2ContactEdge::contact [b2ContactManager.cpp <207:21 207:27>]
 LOCAL_SYMBOL: b2ContactManager.cpp<200:17> [b2ContactManager.cpp <207:15 207:18>]
 LOCAL_SYMBOL: b2ContactManager.cpp<208:10> [b2ContactManager.cpp <208:10 208:11>]
 REFERENCE_TYPE_USAGE void b2ContactManager::AddPair(void *, void *) -> int32 [b2ContactManager.cpp <208:4 208:8>]
-SYMBOL_FUNCTION int32 b2Contact::GetChildIndexB() const
 REFERENCE_CALL void b2ContactManager::AddPair(void *, void *) -> int32 b2Contact::GetChildIndexB() const [b2ContactManager.cpp <208:30 208:43>]
 REFERENCE_USAGE void b2ContactManager::AddPair(void *, void *) -> b2Contact * b2ContactEdge::contact [b2ContactManager.cpp <208:21 208:27>]
 LOCAL_SYMBOL: b2ContactManager.cpp<200:17> [b2ContactManager.cpp <208:15 208:18>]
@@ -417,12 +388,10 @@ LOCAL_SYMBOL: b2ContactManager.cpp<185:8> [b2ContactManager.cpp <216:66 216:71>]
 LOCAL_SYMBOL: b2ContactManager.cpp<200:17> [b2ContactManager.cpp <223:3 223:6>]
 REFERENCE_USAGE void b2ContactManager::AddPair(void *, void *) -> b2ContactEdge * b2ContactEdge::next [b2ContactManager.cpp <223:16 223:19>]
 LOCAL_SYMBOL: b2ContactManager.cpp<200:17> [b2ContactManager.cpp <223:10 223:13>]
-SYMBOL_FUNCTION bool b2Body::ShouldCollide(const b2Body *) const
 REFERENCE_CALL void b2ContactManager::AddPair(void *, void *) -> bool b2Body::ShouldCollide(const b2Body *) const [b2ContactManager.cpp <227:13 227:25>]
 LOCAL_SYMBOL: b2ContactManager.cpp<189:10> [b2ContactManager.cpp <227:6 227:10>]
 LOCAL_SYMBOL: b2ContactManager.cpp<188:10> [b2ContactManager.cpp <227:27 227:31>]
 REFERENCE_USAGE void b2ContactManager::AddPair(void *, void *) -> b2ContactFilter * b2ContactManager::m_contactFilter [b2ContactManager.cpp <233:6 233:20>]
-SYMBOL_FUNCTION bool b2ContactFilter::ShouldCollide(b2Fixture *, b2Fixture *)
 REFERENCE_CALL void b2ContactManager::AddPair(void *, void *) -> bool b2ContactFilter::ShouldCollide(b2Fixture *, b2Fixture *) [b2ContactManager.cpp <233:42 233:54>]
 REFERENCE_USAGE void b2ContactManager::AddPair(void *, void *) -> b2ContactFilter * b2ContactManager::m_contactFilter [b2ContactManager.cpp <233:25 233:39>]
 LOCAL_SYMBOL: b2ContactManager.cpp<182:13> [b2ContactManager.cpp <233:56 233:63>]
@@ -431,7 +400,7 @@ LOCAL_SYMBOL: b2ContactManager.cpp<239:13> [b2ContactManager.cpp <239:13 239:13>
 REFERENCE_TYPE_USAGE void b2ContactManager::AddPair(void *, void *) -> b2Contact [b2ContactManager.cpp <239:2 239:10>]
 SYMBOL_FUNCTION static b2Contact * b2Contact::Create(b2Fixture *, int32, b2Fixture *, int32, b2BlockAllocator *)
 REFERENCE_CALL void b2ContactManager::AddPair(void *, void *) -> static b2Contact * b2Contact::Create(b2Fixture *, int32, b2Fixture *, int32, b2BlockAllocator *) [b2ContactManager.cpp <239:28 239:33>]
-SYMBOL_CLASS b2Contact
+QUALIFIER: b2Contact [b2ContactManager.cpp <239:17 239:25>]
 LOCAL_SYMBOL: b2ContactManager.cpp<182:13> [b2ContactManager.cpp <239:35 239:42>]
 LOCAL_SYMBOL: b2ContactManager.cpp<185:8> [b2ContactManager.cpp <239:45 239:50>]
 LOCAL_SYMBOL: b2ContactManager.cpp<183:13> [b2ContactManager.cpp <239:53 239:60>]
@@ -439,27 +408,21 @@ LOCAL_SYMBOL: b2ContactManager.cpp<186:8> [b2ContactManager.cpp <239:63 239:68>]
 REFERENCE_USAGE void b2ContactManager::AddPair(void *, void *) -> b2BlockAllocator * b2ContactManager::m_allocator [b2ContactManager.cpp <239:71 239:81>]
 LOCAL_SYMBOL: b2ContactManager.cpp<239:13> [b2ContactManager.cpp <240:6 240:6>]
 LOCAL_SYMBOL: b2ContactManager.cpp<182:13> [b2ContactManager.cpp <246:2 246:9>]
-SYMBOL_FUNCTION b2Fixture * b2Contact::GetFixtureA()
 REFERENCE_CALL void b2ContactManager::AddPair(void *, void *) -> b2Fixture * b2Contact::GetFixtureA() [b2ContactManager.cpp <246:16 246:26>]
 LOCAL_SYMBOL: b2ContactManager.cpp<239:13> [b2ContactManager.cpp <246:13 246:13>]
 LOCAL_SYMBOL: b2ContactManager.cpp<183:13> [b2ContactManager.cpp <247:2 247:9>]
-SYMBOL_FUNCTION b2Fixture * b2Contact::GetFixtureB()
 REFERENCE_CALL void b2ContactManager::AddPair(void *, void *) -> b2Fixture * b2Contact::GetFixtureB() [b2ContactManager.cpp <247:16 247:26>]
 LOCAL_SYMBOL: b2ContactManager.cpp<239:13> [b2ContactManager.cpp <247:13 247:13>]
 LOCAL_SYMBOL: b2ContactManager.cpp<185:8> [b2ContactManager.cpp <248:2 248:7>]
-SYMBOL_FUNCTION int32 b2Contact::GetChildIndexA() const
 REFERENCE_CALL void b2ContactManager::AddPair(void *, void *) -> int32 b2Contact::GetChildIndexA() const [b2ContactManager.cpp <248:14 248:27>]
 LOCAL_SYMBOL: b2ContactManager.cpp<239:13> [b2ContactManager.cpp <248:11 248:11>]
 LOCAL_SYMBOL: b2ContactManager.cpp<186:8> [b2ContactManager.cpp <249:2 249:7>]
-SYMBOL_FUNCTION int32 b2Contact::GetChildIndexB() const
 REFERENCE_CALL void b2ContactManager::AddPair(void *, void *) -> int32 b2Contact::GetChildIndexB() const [b2ContactManager.cpp <249:14 249:27>]
 LOCAL_SYMBOL: b2ContactManager.cpp<239:13> [b2ContactManager.cpp <249:11 249:11>]
 LOCAL_SYMBOL: b2ContactManager.cpp<188:10> [b2ContactManager.cpp <250:2 250:6>]
-SYMBOL_FUNCTION b2Body * b2Fixture::GetBody()
 REFERENCE_CALL void b2ContactManager::AddPair(void *, void *) -> b2Body * b2Fixture::GetBody() [b2ContactManager.cpp <250:20 250:26>]
 LOCAL_SYMBOL: b2ContactManager.cpp<182:13> [b2ContactManager.cpp <250:10 250:17>]
 LOCAL_SYMBOL: b2ContactManager.cpp<189:10> [b2ContactManager.cpp <251:2 251:6>]
-SYMBOL_FUNCTION b2Body * b2Fixture::GetBody()
 REFERENCE_CALL void b2ContactManager::AddPair(void *, void *) -> b2Body * b2Fixture::GetBody() [b2ContactManager.cpp <251:20 251:26>]
 LOCAL_SYMBOL: b2ContactManager.cpp<183:13> [b2ContactManager.cpp <251:10 251:17>]
 REFERENCE_USAGE void b2ContactManager::AddPair(void *, void *) -> b2Contact * b2Contact::m_prev [b2ContactManager.cpp <254:5 254:10>]
@@ -530,13 +493,11 @@ LOCAL_SYMBOL: b2ContactManager.cpp<239:13> [b2ContactManager.cpp <286:26 286:26>
 SYMBOL_FUNCTION bool b2Fixture::IsSensor() const
 REFERENCE_CALL void b2ContactManager::AddPair(void *, void *) -> bool b2Fixture::IsSensor() const [b2ContactManager.cpp <289:16 289:23>]
 LOCAL_SYMBOL: b2ContactManager.cpp<182:13> [b2ContactManager.cpp <289:6 289:13>]
-SYMBOL_FUNCTION bool b2Fixture::IsSensor() const
 REFERENCE_CALL void b2ContactManager::AddPair(void *, void *) -> bool b2Fixture::IsSensor() const [b2ContactManager.cpp <289:49 289:56>]
 LOCAL_SYMBOL: b2ContactManager.cpp<183:13> [b2ContactManager.cpp <289:39 289:46>]
 SYMBOL_FUNCTION void b2Body::SetAwake(bool)
 REFERENCE_CALL void b2ContactManager::AddPair(void *, void *) -> void b2Body::SetAwake(bool) [b2ContactManager.cpp <291:10 291:17>]
 LOCAL_SYMBOL: b2ContactManager.cpp<188:10> [b2ContactManager.cpp <291:3 291:7>]
-SYMBOL_FUNCTION void b2Body::SetAwake(bool)
 REFERENCE_CALL void b2ContactManager::AddPair(void *, void *) -> void b2Body::SetAwake(bool) [b2ContactManager.cpp <292:10 292:17>]
 LOCAL_SYMBOL: b2ContactManager.cpp<189:10> [b2ContactManager.cpp <292:3 292:7>]
 REFERENCE_USAGE void b2ContactManager::AddPair(void *, void *) -> int32 b2ContactManager::m_contactCount [b2ContactManager.cpp <295:4 295:17>]

@@ -1,29 +1,64 @@
 FILE: FunctionalInterfaceLogic.java
-SYMBOL_PACKAGE com.github.javaparser.symbolsolver.logic [FunctionalInterfaceLogic.java <17:9 17:48>]
+SYMBOL_PACKAGE com.github.javaparser.symbolsolver.logic [FunctionalInterfaceLogic.java <17:44 17:48>]
 SYMBOL_PACKAGE com.github.javaparser.symbolsolver
 SYMBOL_PACKAGE com.github.javaparser
 SYMBOL_PACKAGE com.github
 SYMBOL_PACKAGE com
-REFERENCE_IMPORT FunctionalInterfaceLogic.java -> com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration [FunctionalInterfaceLogic.java <19:8 19:85>]
+QUALIFIER: com.github.javaparser.symbolsolver [FunctionalInterfaceLogic.java <17:31 17:42>]
+QUALIFIER: com.github.javaparser [FunctionalInterfaceLogic.java <17:20 17:29>]
+QUALIFIER: com.github [FunctionalInterfaceLogic.java <17:13 17:18>]
+QUALIFIER: com [FunctionalInterfaceLogic.java <17:9 17:11>]
+REFERENCE_IMPORT FunctionalInterfaceLogic.java -> com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration [FunctionalInterfaceLogic.java <19:62 19:85>]
 SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model.declarations
-REFERENCE_IMPORT FunctionalInterfaceLogic.java -> com.github.javaparser.symbolsolver.model.methods.MethodUsage [FunctionalInterfaceLogic.java <20:8 20:67>]
+QUALIFIER: com.github.javaparser.symbolsolver.model.declarations [FunctionalInterfaceLogic.java <19:49 19:60>]
+QUALIFIER: com.github.javaparser.symbolsolver.model [FunctionalInterfaceLogic.java <19:43 19:47>]
+QUALIFIER: com.github.javaparser.symbolsolver [FunctionalInterfaceLogic.java <19:30 19:41>]
+QUALIFIER: com.github.javaparser [FunctionalInterfaceLogic.java <19:19 19:28>]
+QUALIFIER: com.github [FunctionalInterfaceLogic.java <19:12 19:17>]
+QUALIFIER: com [FunctionalInterfaceLogic.java <19:8 19:10>]
+REFERENCE_IMPORT FunctionalInterfaceLogic.java -> com.github.javaparser.symbolsolver.model.methods.MethodUsage [FunctionalInterfaceLogic.java <20:57 20:67>]
 SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model.methods
-REFERENCE_IMPORT FunctionalInterfaceLogic.java -> com.github.javaparser.symbolsolver.model.typesystem.Type [FunctionalInterfaceLogic.java <21:8 21:63>]
+QUALIFIER: com.github.javaparser.symbolsolver.model.methods [FunctionalInterfaceLogic.java <20:49 20:55>]
+QUALIFIER: com.github.javaparser.symbolsolver.model [FunctionalInterfaceLogic.java <20:43 20:47>]
+QUALIFIER: com.github.javaparser.symbolsolver [FunctionalInterfaceLogic.java <20:30 20:41>]
+QUALIFIER: com.github.javaparser [FunctionalInterfaceLogic.java <20:19 20:28>]
+QUALIFIER: com.github [FunctionalInterfaceLogic.java <20:12 20:17>]
+QUALIFIER: com [FunctionalInterfaceLogic.java <20:8 20:10>]
+REFERENCE_IMPORT FunctionalInterfaceLogic.java -> com.github.javaparser.symbolsolver.model.typesystem.Type [FunctionalInterfaceLogic.java <21:60 21:63>]
 SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model.typesystem
-REFERENCE_IMPORT FunctionalInterfaceLogic.java -> java.lang.reflect.Method [FunctionalInterfaceLogic.java <23:8 23:31>]
+QUALIFIER: com.github.javaparser.symbolsolver.model.typesystem [FunctionalInterfaceLogic.java <21:49 21:58>]
+QUALIFIER: com.github.javaparser.symbolsolver.model [FunctionalInterfaceLogic.java <21:43 21:47>]
+QUALIFIER: com.github.javaparser.symbolsolver [FunctionalInterfaceLogic.java <21:30 21:41>]
+QUALIFIER: com.github.javaparser [FunctionalInterfaceLogic.java <21:19 21:28>]
+QUALIFIER: com.github [FunctionalInterfaceLogic.java <21:12 21:17>]
+QUALIFIER: com [FunctionalInterfaceLogic.java <21:8 21:10>]
+REFERENCE_IMPORT FunctionalInterfaceLogic.java -> java.lang.reflect.Method [FunctionalInterfaceLogic.java <23:26 23:31>]
 SYMBOL_PACKAGE java.lang.reflect
-REFERENCE_IMPORT FunctionalInterfaceLogic.java -> java.lang.reflect.Parameter [FunctionalInterfaceLogic.java <24:8 24:34>]
-SYMBOL_PACKAGE java.lang.reflect
-REFERENCE_IMPORT FunctionalInterfaceLogic.java -> java.util.Arrays [FunctionalInterfaceLogic.java <25:8 25:23>]
+QUALIFIER: java.lang.reflect [FunctionalInterfaceLogic.java <23:18 23:24>]
+QUALIFIER: java.lang [FunctionalInterfaceLogic.java <23:13 23:16>]
+QUALIFIER: java [FunctionalInterfaceLogic.java <23:8 23:11>]
+REFERENCE_IMPORT FunctionalInterfaceLogic.java -> java.lang.reflect.Parameter [FunctionalInterfaceLogic.java <24:26 24:34>]
+QUALIFIER: java.lang.reflect [FunctionalInterfaceLogic.java <24:18 24:24>]
+QUALIFIER: java.lang [FunctionalInterfaceLogic.java <24:13 24:16>]
+QUALIFIER: java [FunctionalInterfaceLogic.java <24:8 24:11>]
+REFERENCE_IMPORT FunctionalInterfaceLogic.java -> java.util.Arrays [FunctionalInterfaceLogic.java <25:18 25:23>]
 SYMBOL_PACKAGE java.util
-REFERENCE_IMPORT FunctionalInterfaceLogic.java -> java.util.List<E> [FunctionalInterfaceLogic.java <26:8 26:21>]
-SYMBOL_PACKAGE java.util
-REFERENCE_IMPORT FunctionalInterfaceLogic.java -> java.util.Optional<T> [FunctionalInterfaceLogic.java <27:8 27:25>]
-SYMBOL_PACKAGE java.util
-REFERENCE_IMPORT FunctionalInterfaceLogic.java -> java.util.Set<E> [FunctionalInterfaceLogic.java <28:8 28:20>]
-SYMBOL_PACKAGE java.util
-REFERENCE_IMPORT FunctionalInterfaceLogic.java -> java.util.stream.Collectors [FunctionalInterfaceLogic.java <29:8 29:34>]
+QUALIFIER: java.util [FunctionalInterfaceLogic.java <25:13 25:16>]
+QUALIFIER: java [FunctionalInterfaceLogic.java <25:8 25:11>]
+REFERENCE_IMPORT FunctionalInterfaceLogic.java -> java.util.List<E> [FunctionalInterfaceLogic.java <26:18 26:21>]
+QUALIFIER: java.util [FunctionalInterfaceLogic.java <26:13 26:16>]
+QUALIFIER: java [FunctionalInterfaceLogic.java <26:8 26:11>]
+REFERENCE_IMPORT FunctionalInterfaceLogic.java -> java.util.Optional<T> [FunctionalInterfaceLogic.java <27:18 27:25>]
+QUALIFIER: java.util [FunctionalInterfaceLogic.java <27:13 27:16>]
+QUALIFIER: java [FunctionalInterfaceLogic.java <27:8 27:11>]
+REFERENCE_IMPORT FunctionalInterfaceLogic.java -> java.util.Set<E> [FunctionalInterfaceLogic.java <28:18 28:20>]
+QUALIFIER: java.util [FunctionalInterfaceLogic.java <28:13 28:16>]
+QUALIFIER: java [FunctionalInterfaceLogic.java <28:8 28:11>]
+REFERENCE_IMPORT FunctionalInterfaceLogic.java -> java.util.stream.Collectors [FunctionalInterfaceLogic.java <29:25 29:34>]
 SYMBOL_PACKAGE java.util.stream
+QUALIFIER: java.util.stream [FunctionalInterfaceLogic.java <29:18 29:23>]
+QUALIFIER: java.util [FunctionalInterfaceLogic.java <29:13 29:16>]
+QUALIFIER: java [FunctionalInterfaceLogic.java <29:8 29:11>]
 SYMBOL_CLASS public com.github.javaparser.symbolsolver.logic.FunctionalInterfaceLogic [FunctionalInterfaceLogic.java <34:1 <34:20 34:43> 85:1>]
 LOCAL_SYMBOL: FunctionalInterfaceLogic.java<34:45> [FunctionalInterfaceLogic.java <34:45 34:45>]
 LOCAL_SYMBOL: FunctionalInterfaceLogic.java<34:45> [FunctionalInterfaceLogic.java <85:1 85:1>]
@@ -53,15 +88,14 @@ LOCAL_SYMBOL: FunctionalInterfaceLogic.java<44:98> [FunctionalInterfaceLogic.jav
 LOCAL_SYMBOL: FunctionalInterfaceLogic.java<44:98> [FunctionalInterfaceLogic.java <46:9 46:9>]
 SYMBOL_METHOD static java.util.Optional<com.github.javaparser.symbolsolver.model.methods.MethodUsage> com.github.javaparser.symbolsolver.logic.FunctionalInterfaceLogic.getFunctionalMethod(com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration)
 REFERENCE_CALL static java.util.Optional<com.github.javaparser.symbolsolver.model.methods.MethodUsage> com.github.javaparser.symbolsolver.logic.FunctionalInterfaceLogic.getFunctionalMethod(com.github.javaparser.symbolsolver.model.typesystem.Type) -> static java.util.Optional<com.github.javaparser.symbolsolver.model.methods.MethodUsage> com.github.javaparser.symbolsolver.logic.FunctionalInterfaceLogic.getFunctionalMethod(com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration) [FunctionalInterfaceLogic.java <45:20 45:38>]
-SYMBOL_METHOD com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration com.github.javaparser.symbolsolver.model.typesystem.ReferenceType.getTypeDeclaration()
 REFERENCE_CALL static java.util.Optional<com.github.javaparser.symbolsolver.model.methods.MethodUsage> com.github.javaparser.symbolsolver.logic.FunctionalInterfaceLogic.getFunctionalMethod(com.github.javaparser.symbolsolver.model.typesystem.Type) -> com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration com.github.javaparser.symbolsolver.model.typesystem.ReferenceType.getTypeDeclaration() [FunctionalInterfaceLogic.java <45:63 45:80>]
-SYMBOL_METHOD com.github.javaparser.symbolsolver.model.typesystem.ReferenceType com.github.javaparser.symbolsolver.model.typesystem.Type.asReferenceType()
 REFERENCE_CALL static java.util.Optional<com.github.javaparser.symbolsolver.model.methods.MethodUsage> com.github.javaparser.symbolsolver.logic.FunctionalInterfaceLogic.getFunctionalMethod(com.github.javaparser.symbolsolver.model.typesystem.Type) -> com.github.javaparser.symbolsolver.model.typesystem.ReferenceType com.github.javaparser.symbolsolver.model.typesystem.Type.asReferenceType() [FunctionalInterfaceLogic.java <45:45 45:59>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.logic.FunctionalInterfaceLogic.getFunctionalMethod<0> [FunctionalInterfaceLogic.java <45:40 45:43>]
 LOCAL_SYMBOL: FunctionalInterfaceLogic.java<46:16> [FunctionalInterfaceLogic.java <46:16 46:16>]
 LOCAL_SYMBOL: FunctionalInterfaceLogic.java<46:16> [FunctionalInterfaceLogic.java <48:9 48:9>]
 SYMBOL_METHOD static java.util.Optional<T> java.util.Optional<T>.empty<T>()
 REFERENCE_CALL static java.util.Optional<com.github.javaparser.symbolsolver.model.methods.MethodUsage> com.github.javaparser.symbolsolver.logic.FunctionalInterfaceLogic.getFunctionalMethod(com.github.javaparser.symbolsolver.model.typesystem.Type) -> static java.util.Optional<T> java.util.Optional<T>.empty<T>() [FunctionalInterfaceLogic.java <47:29 47:33>]
+QUALIFIER: java.util.Optional [FunctionalInterfaceLogic.java <47:20 47:27>]
 SYMBOL_METHOD public static java.util.Optional<com.github.javaparser.symbolsolver.model.methods.MethodUsage> com.github.javaparser.symbolsolver.logic.FunctionalInterfaceLogic.getFunctionalMethod(com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration) [FunctionalInterfaceLogic.java <54:1 <54:41 54:59> 68:5>]
 COMMENT: comment [FunctionalInterfaceLogic.java <51:5 53:7>]
 REFERENCE_TYPE_USAGE static java.util.Optional<com.github.javaparser.symbolsolver.model.methods.MethodUsage> com.github.javaparser.symbolsolver.logic.FunctionalInterfaceLogic.getFunctionalMethod(com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration) -> java.util.Optional<T> [FunctionalInterfaceLogic.java <54:19 54:26>]
@@ -77,7 +111,6 @@ SYMBOL_METHOD R java.util.stream.Stream<T>.collect<R, A>(java.util.stream.Collec
 REFERENCE_CALL static java.util.Optional<com.github.javaparser.symbolsolver.model.methods.MethodUsage> com.github.javaparser.symbolsolver.logic.FunctionalInterfaceLogic.getFunctionalMethod(com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration) -> R java.util.stream.Stream<T>.collect<R, A>(java.util.stream.Collector<? super T, A, R>) [FunctionalInterfaceLogic.java <61:18 61:24>]
 SYMBOL_METHOD java.util.stream.Stream<java.util.stream.Stream<T>.T> java.util.stream.Stream<T>.filter(java.util.function.Predicate<? super T>)
 REFERENCE_CALL static java.util.Optional<com.github.javaparser.symbolsolver.model.methods.MethodUsage> com.github.javaparser.symbolsolver.logic.FunctionalInterfaceLogic.getFunctionalMethod(com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration) -> java.util.stream.Stream<java.util.stream.Stream<T>.T> java.util.stream.Stream<T>.filter(java.util.function.Predicate<? super T>) [FunctionalInterfaceLogic.java <60:18 60:23>]
-SYMBOL_METHOD java.util.stream.Stream<java.util.stream.Stream<T>.T> java.util.stream.Stream<T>.filter(java.util.function.Predicate<? super T>)
 REFERENCE_CALL static java.util.Optional<com.github.javaparser.symbolsolver.model.methods.MethodUsage> com.github.javaparser.symbolsolver.logic.FunctionalInterfaceLogic.getFunctionalMethod(com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration) -> java.util.stream.Stream<java.util.stream.Stream<T>.T> java.util.stream.Stream<T>.filter(java.util.function.Predicate<? super T>) [FunctionalInterfaceLogic.java <57:18 57:23>]
 SYMBOL_METHOD java.util.stream.Stream<java.util.Collection<E>.E> java.util.Collection<E>.stream()
 REFERENCE_CALL static java.util.Optional<com.github.javaparser.symbolsolver.model.methods.MethodUsage> com.github.javaparser.symbolsolver.logic.FunctionalInterfaceLogic.getFunctionalMethod(com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration) -> java.util.stream.Stream<java.util.Collection<E>.E> java.util.Collection<E>.stream() [FunctionalInterfaceLogic.java <56:68 56:73>]
@@ -96,6 +129,7 @@ REFERENCE_CALL static java.util.Optional<com.github.javaparser.symbolsolver.mode
 LOCAL_SYMBOL: java.util.function.Predicate<T>.test<5> [FunctionalInterfaceLogic.java <60:48 60:48>]
 SYMBOL_METHOD static java.util.stream.Collector<T, ?, java.util.Set<T>> java.util.stream.Collectors.toSet<T>()
 REFERENCE_CALL static java.util.Optional<com.github.javaparser.symbolsolver.model.methods.MethodUsage> com.github.javaparser.symbolsolver.logic.FunctionalInterfaceLogic.getFunctionalMethod(com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration) -> static java.util.stream.Collector<T, ?, java.util.Set<T>> java.util.stream.Collectors.toSet<T>() [FunctionalInterfaceLogic.java <61:37 61:41>]
+QUALIFIER: java.util.stream.Collectors [FunctionalInterfaceLogic.java <61:26 61:35>]
 SYMBOL_METHOD int java.util.Set<E>.size()
 REFERENCE_CALL static java.util.Optional<com.github.javaparser.symbolsolver.model.methods.MethodUsage> com.github.javaparser.symbolsolver.logic.FunctionalInterfaceLogic.getFunctionalMethod(com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration) -> int java.util.Set<E>.size() [FunctionalInterfaceLogic.java <63:21 63:24>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.logic.FunctionalInterfaceLogic.getFunctionalMethod<1> [FunctionalInterfaceLogic.java <63:13 63:19>]
@@ -103,6 +137,7 @@ LOCAL_SYMBOL: FunctionalInterfaceLogic.java<63:34> [FunctionalInterfaceLogic.jav
 LOCAL_SYMBOL: FunctionalInterfaceLogic.java<63:34> [FunctionalInterfaceLogic.java <65:9 65:9>]
 SYMBOL_METHOD static java.util.Optional<T> java.util.Optional<T>.of<T>(T)
 REFERENCE_CALL static java.util.Optional<com.github.javaparser.symbolsolver.model.methods.MethodUsage> com.github.javaparser.symbolsolver.logic.FunctionalInterfaceLogic.getFunctionalMethod(com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration) -> static java.util.Optional<T> java.util.Optional<T>.of<T>(T) [FunctionalInterfaceLogic.java <64:29 64:30>]
+QUALIFIER: java.util.Optional [FunctionalInterfaceLogic.java <64:20 64:27>]
 SYMBOL_METHOD java.util.Iterator<E>.E java.util.Iterator<E>.next()
 REFERENCE_CALL static java.util.Optional<com.github.javaparser.symbolsolver.model.methods.MethodUsage> com.github.javaparser.symbolsolver.logic.FunctionalInterfaceLogic.getFunctionalMethod(com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration) -> java.util.Iterator<E>.E java.util.Iterator<E>.next() [FunctionalInterfaceLogic.java <64:51 64:54>]
 SYMBOL_METHOD java.util.Iterator<java.util.Set<E>.E> java.util.Set<E>.iterator()
@@ -110,8 +145,8 @@ REFERENCE_CALL static java.util.Optional<com.github.javaparser.symbolsolver.mode
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.logic.FunctionalInterfaceLogic.getFunctionalMethod<1> [FunctionalInterfaceLogic.java <64:32 64:38>]
 LOCAL_SYMBOL: FunctionalInterfaceLogic.java<65:16> [FunctionalInterfaceLogic.java <65:16 65:16>]
 LOCAL_SYMBOL: FunctionalInterfaceLogic.java<65:16> [FunctionalInterfaceLogic.java <67:9 67:9>]
-SYMBOL_METHOD static java.util.Optional<T> java.util.Optional<T>.empty<T>()
 REFERENCE_CALL static java.util.Optional<com.github.javaparser.symbolsolver.model.methods.MethodUsage> com.github.javaparser.symbolsolver.logic.FunctionalInterfaceLogic.getFunctionalMethod(com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration) -> static java.util.Optional<T> java.util.Optional<T>.empty<T>() [FunctionalInterfaceLogic.java <66:29 66:33>]
+QUALIFIER: java.util.Optional [FunctionalInterfaceLogic.java <66:20 66:27>]
 SYMBOL_METHOD private static java.lang.String com.github.javaparser.symbolsolver.logic.FunctionalInterfaceLogic.getSignature(java.lang.reflect.Method) [FunctionalInterfaceLogic.java <70:5 <70:27 70:38> 72:5>]
 REFERENCE_TYPE_USAGE static java.lang.String com.github.javaparser.symbolsolver.logic.FunctionalInterfaceLogic.getSignature(java.lang.reflect.Method) -> java.lang.String [FunctionalInterfaceLogic.java <70:20 70:25>]
 REFERENCE_TYPE_USAGE static java.lang.String com.github.javaparser.symbolsolver.logic.FunctionalInterfaceLogic.getSignature(java.lang.reflect.Method) -> java.lang.reflect.Method [FunctionalInterfaceLogic.java <70:40 70:45>]
@@ -120,17 +155,19 @@ LOCAL_SYMBOL: FunctionalInterfaceLogic.java<70:50> [FunctionalInterfaceLogic.jav
 LOCAL_SYMBOL: FunctionalInterfaceLogic.java<70:50> [FunctionalInterfaceLogic.java <72:5 72:5>]
 SYMBOL_METHOD static java.lang.String java.lang.String.format(java.lang.String, java.lang.Object)
 REFERENCE_CALL static java.lang.String com.github.javaparser.symbolsolver.logic.FunctionalInterfaceLogic.getSignature(java.lang.reflect.Method) -> static java.lang.String java.lang.String.format(java.lang.String, java.lang.Object) [FunctionalInterfaceLogic.java <71:23 71:28>]
+QUALIFIER: java.lang.String [FunctionalInterfaceLogic.java <71:16 71:21>]
 SYMBOL_METHOD java.lang.String java.lang.reflect.Method.getName()
 REFERENCE_CALL static java.lang.String com.github.javaparser.symbolsolver.logic.FunctionalInterfaceLogic.getSignature(java.lang.reflect.Method) -> java.lang.String java.lang.reflect.Method.getName() [FunctionalInterfaceLogic.java <71:42 71:48>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.logic.FunctionalInterfaceLogic.getSignature<0> [FunctionalInterfaceLogic.java <71:40 71:40>]
 SYMBOL_METHOD static java.lang.String java.lang.String.join(java.lang.CharSequence, java.lang.Iterable<? extends CharSequence>)
 REFERENCE_CALL static java.lang.String com.github.javaparser.symbolsolver.logic.FunctionalInterfaceLogic.getSignature(java.lang.reflect.Method) -> static java.lang.String java.lang.String.join(java.lang.CharSequence, java.lang.Iterable<? extends CharSequence>) [FunctionalInterfaceLogic.java <71:60 71:63>]
-SYMBOL_METHOD R java.util.stream.Stream<T>.collect<R, A>(java.util.stream.Collector<? super T, A, R>)
+QUALIFIER: java.lang.String [FunctionalInterfaceLogic.java <71:53 71:58>]
 REFERENCE_CALL static java.lang.String com.github.javaparser.symbolsolver.logic.FunctionalInterfaceLogic.getSignature(java.lang.reflect.Method) -> R java.util.stream.Stream<T>.collect<R, A>(java.util.stream.Collector<? super T, A, R>) [FunctionalInterfaceLogic.java <71:129 71:135>]
 SYMBOL_METHOD java.util.stream.Stream<R> java.util.stream.Stream<T>.map<R>(java.util.function.Function<? super T, ? extends R>)
 REFERENCE_CALL static java.lang.String com.github.javaparser.symbolsolver.logic.FunctionalInterfaceLogic.getSignature(java.lang.reflect.Method) -> java.util.stream.Stream<R> java.util.stream.Stream<T>.map<R>(java.util.function.Function<? super T, ? extends R>) [FunctionalInterfaceLogic.java <71:104 71:106>]
 SYMBOL_METHOD static java.util.stream.Stream<T> java.util.Arrays.stream<T>(T)
 REFERENCE_CALL static java.lang.String com.github.javaparser.symbolsolver.logic.FunctionalInterfaceLogic.getSignature(java.lang.reflect.Method) -> static java.util.stream.Stream<T> java.util.Arrays.stream<T>(T) [FunctionalInterfaceLogic.java <71:78 71:83>]
+QUALIFIER: java.util.Arrays [FunctionalInterfaceLogic.java <71:71 71:76>]
 SYMBOL_METHOD java.lang.reflect.Parameter java.lang.reflect.Executable.getParameters()
 REFERENCE_CALL static java.lang.String com.github.javaparser.symbolsolver.logic.FunctionalInterfaceLogic.getSignature(java.lang.reflect.Method) -> java.lang.reflect.Parameter java.lang.reflect.Executable.getParameters() [FunctionalInterfaceLogic.java <71:87 71:99>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.logic.FunctionalInterfaceLogic.getSignature<0> [FunctionalInterfaceLogic.java <71:85 71:85>]
@@ -140,6 +177,7 @@ REFERENCE_CALL static java.lang.String com.github.javaparser.symbolsolver.logic.
 LOCAL_SYMBOL: java.util.function.Function<T, R>.apply<2> [FunctionalInterfaceLogic.java <71:125 71:125>]
 SYMBOL_METHOD static java.util.stream.Collector<T, ?, java.util.List<T>> java.util.stream.Collectors.toList<T>()
 REFERENCE_CALL static java.lang.String com.github.javaparser.symbolsolver.logic.FunctionalInterfaceLogic.getSignature(java.lang.reflect.Method) -> static java.util.stream.Collector<T, ?, java.util.List<T>> java.util.stream.Collectors.toList<T>() [FunctionalInterfaceLogic.java <71:148 71:153>]
+QUALIFIER: java.util.stream.Collectors [FunctionalInterfaceLogic.java <71:137 71:146>]
 SYMBOL_METHOD private static java.lang.String com.github.javaparser.symbolsolver.logic.FunctionalInterfaceLogic.toSignature(java.lang.reflect.Parameter) [FunctionalInterfaceLogic.java <74:5 <74:27 74:37> 76:5>]
 REFERENCE_TYPE_USAGE static java.lang.String com.github.javaparser.symbolsolver.logic.FunctionalInterfaceLogic.toSignature(java.lang.reflect.Parameter) -> java.lang.String [FunctionalInterfaceLogic.java <74:20 74:25>]
 REFERENCE_TYPE_USAGE static java.lang.String com.github.javaparser.symbolsolver.logic.FunctionalInterfaceLogic.toSignature(java.lang.reflect.Parameter) -> java.lang.reflect.Parameter [FunctionalInterfaceLogic.java <74:39 74:47>]
@@ -154,12 +192,10 @@ LOCAL_SYMBOL: com.github.javaparser.symbolsolver.logic.FunctionalInterfaceLogic.
 SYMBOL_FIELD private static java.util.List<java.lang.String> com.github.javaparser.symbolsolver.logic.FunctionalInterfaceLogic.OBJECT_METHODS_SIGNATURES [FunctionalInterfaceLogic.java <78:33 78:57>]
 REFERENCE_TYPE_USAGE static java.util.List<java.lang.String> com.github.javaparser.symbolsolver.logic.FunctionalInterfaceLogic.OBJECT_METHODS_SIGNATURES -> java.util.List<E> [FunctionalInterfaceLogic.java <78:20 78:23>]
 REFERENCE_TYPE_ARGUMENT static java.util.List<java.lang.String> com.github.javaparser.symbolsolver.logic.FunctionalInterfaceLogic.OBJECT_METHODS_SIGNATURES -> java.lang.String [FunctionalInterfaceLogic.java <78:25 78:30>]
-SYMBOL_METHOD R java.util.stream.Stream<T>.collect<R, A>(java.util.stream.Collector<? super T, A, R>)
 REFERENCE_CALL static java.util.List<java.lang.String> com.github.javaparser.symbolsolver.logic.FunctionalInterfaceLogic.OBJECT_METHODS_SIGNATURES -> R java.util.stream.Stream<T>.collect<R, A>(java.util.stream.Collector<? super T, A, R>) [FunctionalInterfaceLogic.java <80:14 80:20>]
-SYMBOL_METHOD java.util.stream.Stream<R> java.util.stream.Stream<T>.map<R>(java.util.function.Function<? super T, ? extends R>)
 REFERENCE_CALL static java.util.List<java.lang.String> com.github.javaparser.symbolsolver.logic.FunctionalInterfaceLogic.OBJECT_METHODS_SIGNATURES -> java.util.stream.Stream<R> java.util.stream.Stream<T>.map<R>(java.util.function.Function<? super T, ? extends R>) [FunctionalInterfaceLogic.java <79:14 79:16>]
-SYMBOL_METHOD static java.util.stream.Stream<T> java.util.Arrays.stream<T>(T)
 REFERENCE_CALL static java.util.List<java.lang.String> com.github.javaparser.symbolsolver.logic.FunctionalInterfaceLogic.OBJECT_METHODS_SIGNATURES -> static java.util.stream.Stream<T> java.util.Arrays.stream<T>(T) [FunctionalInterfaceLogic.java <78:68 78:73>]
+QUALIFIER: java.util.Arrays [FunctionalInterfaceLogic.java <78:61 78:66>]
 SYMBOL_METHOD java.lang.reflect.Method java.lang.Class<T>.getDeclaredMethods()
 REFERENCE_CALL static java.util.List<java.lang.String> com.github.javaparser.symbolsolver.logic.FunctionalInterfaceLogic.OBJECT_METHODS_SIGNATURES -> java.lang.reflect.Method java.lang.Class<T>.getDeclaredMethods() [FunctionalInterfaceLogic.java <78:88 78:105>]
 REFERENCE_TYPE_USAGE static java.util.List<java.lang.String> com.github.javaparser.symbolsolver.logic.FunctionalInterfaceLogic.OBJECT_METHODS_SIGNATURES -> java.lang.Object [FunctionalInterfaceLogic.java <78:75 78:80>]
@@ -167,8 +203,8 @@ LOCAL_SYMBOL: java.util.function.Function<T, R>.apply<1> [FunctionalInterfaceLog
 SYMBOL_METHOD static java.lang.String com.github.javaparser.symbolsolver.logic.FunctionalInterfaceLogic.getSignature(java.lang.reflect.Method)
 REFERENCE_CALL static java.util.List<java.lang.String> com.github.javaparser.symbolsolver.logic.FunctionalInterfaceLogic.OBJECT_METHODS_SIGNATURES -> static java.lang.String com.github.javaparser.symbolsolver.logic.FunctionalInterfaceLogic.getSignature(java.lang.reflect.Method) [FunctionalInterfaceLogic.java <79:28 79:39>]
 LOCAL_SYMBOL: java.util.function.Function<T, R>.apply<1> [FunctionalInterfaceLogic.java <79:41 79:46>]
-SYMBOL_METHOD static java.util.stream.Collector<T, ?, java.util.List<T>> java.util.stream.Collectors.toList<T>()
 REFERENCE_CALL static java.util.List<java.lang.String> com.github.javaparser.symbolsolver.logic.FunctionalInterfaceLogic.OBJECT_METHODS_SIGNATURES -> static java.util.stream.Collector<T, ?, java.util.List<T>> java.util.stream.Collectors.toList<T>() [FunctionalInterfaceLogic.java <80:33 80:38>]
+QUALIFIER: java.util.stream.Collectors [FunctionalInterfaceLogic.java <80:22 80:31>]
 SYMBOL_METHOD private static boolean com.github.javaparser.symbolsolver.logic.FunctionalInterfaceLogic.declaredOnObject(com.github.javaparser.symbolsolver.model.methods.MethodUsage) [FunctionalInterfaceLogic.java <82:5 <82:28 82:43> 84:5>]
 SYMBOL_BUILTIN_TYPE boolean
 REFERENCE_TYPE_USAGE static boolean com.github.javaparser.symbolsolver.logic.FunctionalInterfaceLogic.declaredOnObject(com.github.javaparser.symbolsolver.model.methods.MethodUsage) -> boolean [FunctionalInterfaceLogic.java <82:20 82:26>]
@@ -182,7 +218,6 @@ SYMBOL_FIELD static java.util.List<java.lang.String> com.github.javaparser.symbo
 REFERENCE_USAGE static boolean com.github.javaparser.symbolsolver.logic.FunctionalInterfaceLogic.declaredOnObject(com.github.javaparser.symbolsolver.model.methods.MethodUsage) -> static java.util.List<java.lang.String> com.github.javaparser.symbolsolver.logic.FunctionalInterfaceLogic.OBJECT_METHODS_SIGNATURES [FunctionalInterfaceLogic.java <83:16 83:40>]
 SYMBOL_METHOD java.lang.String com.github.javaparser.symbolsolver.model.declarations.MethodLikeDeclaration.getSignature()
 REFERENCE_CALL static boolean com.github.javaparser.symbolsolver.logic.FunctionalInterfaceLogic.declaredOnObject(com.github.javaparser.symbolsolver.model.methods.MethodUsage) -> java.lang.String com.github.javaparser.symbolsolver.model.declarations.MethodLikeDeclaration.getSignature() [FunctionalInterfaceLogic.java <83:70 83:81>]
-SYMBOL_METHOD com.github.javaparser.symbolsolver.model.declarations.MethodDeclaration com.github.javaparser.symbolsolver.model.methods.MethodUsage.getDeclaration()
 REFERENCE_CALL static boolean com.github.javaparser.symbolsolver.logic.FunctionalInterfaceLogic.declaredOnObject(com.github.javaparser.symbolsolver.model.methods.MethodUsage) -> com.github.javaparser.symbolsolver.model.declarations.MethodDeclaration com.github.javaparser.symbolsolver.model.methods.MethodUsage.getDeclaration() [FunctionalInterfaceLogic.java <83:53 83:66>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.logic.FunctionalInterfaceLogic.declaredOnObject<0> [FunctionalInterfaceLogic.java <83:51 83:51>]
 COMMENT: comment [FunctionalInterfaceLogic.java <1:1 15:3>]

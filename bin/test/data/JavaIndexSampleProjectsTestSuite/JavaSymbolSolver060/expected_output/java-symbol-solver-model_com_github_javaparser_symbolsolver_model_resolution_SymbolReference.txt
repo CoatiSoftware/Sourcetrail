@@ -1,14 +1,27 @@
 FILE: SymbolReference.java
-SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model.resolution [SymbolReference.java <17:9 17:59>]
+SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model.resolution [SymbolReference.java <17:50 17:59>]
 SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model
 SYMBOL_PACKAGE com.github.javaparser.symbolsolver
 SYMBOL_PACKAGE com.github.javaparser
 SYMBOL_PACKAGE com.github
 SYMBOL_PACKAGE com
-REFERENCE_IMPORT SymbolReference.java -> com.github.javaparser.symbolsolver.model.declarations.Declaration [SymbolReference.java <19:8 19:72>]
+QUALIFIER: com.github.javaparser.symbolsolver.model [SymbolReference.java <17:44 17:48>]
+QUALIFIER: com.github.javaparser.symbolsolver [SymbolReference.java <17:31 17:42>]
+QUALIFIER: com.github.javaparser [SymbolReference.java <17:20 17:29>]
+QUALIFIER: com.github [SymbolReference.java <17:13 17:18>]
+QUALIFIER: com [SymbolReference.java <17:9 17:11>]
+REFERENCE_IMPORT SymbolReference.java -> com.github.javaparser.symbolsolver.model.declarations.Declaration [SymbolReference.java <19:62 19:72>]
 SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model.declarations
-REFERENCE_IMPORT SymbolReference.java -> java.util.Optional<T> [SymbolReference.java <21:8 21:25>]
+QUALIFIER: com.github.javaparser.symbolsolver.model.declarations [SymbolReference.java <19:49 19:60>]
+QUALIFIER: com.github.javaparser.symbolsolver.model [SymbolReference.java <19:43 19:47>]
+QUALIFIER: com.github.javaparser.symbolsolver [SymbolReference.java <19:30 19:41>]
+QUALIFIER: com.github.javaparser [SymbolReference.java <19:19 19:28>]
+QUALIFIER: com.github [SymbolReference.java <19:12 19:17>]
+QUALIFIER: com [SymbolReference.java <19:8 19:10>]
+REFERENCE_IMPORT SymbolReference.java -> java.util.Optional<T> [SymbolReference.java <21:18 21:25>]
 SYMBOL_PACKAGE java.util
+QUALIFIER: java.util [SymbolReference.java <21:13 21:16>]
+QUALIFIER: java [SymbolReference.java <21:8 21:11>]
 SYMBOL_CLASS public com.github.javaparser.symbolsolver.model.resolution.SymbolReference<S> [SymbolReference.java <29:1 <29:14 29:28> 80:1>]
 LOCAL_SYMBOL: SymbolReference.java<29:53> [SymbolReference.java <29:53 29:53>]
 LOCAL_SYMBOL: SymbolReference.java<29:53> [SymbolReference.java <80:1 80:1>]
@@ -24,6 +37,7 @@ REFERENCE_TYPE_ARGUMENT com.github.javaparser.symbolsolver.model.resolution.Symb
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.model.resolution.SymbolReference<S>.SymbolReference<0> [SymbolReference.java <33:51 33:74>]
 LOCAL_SYMBOL: SymbolReference.java<33:77> [SymbolReference.java <33:77 33:77>]
 LOCAL_SYMBOL: SymbolReference.java<33:77> [SymbolReference.java <35:5 35:5>]
+QUALIFIER: com.github.javaparser.symbolsolver.model.resolution.SymbolReference<S> [SymbolReference.java <34:9 34:12>]
 SYMBOL_FIELD java.util.Optional<? extends S> com.github.javaparser.symbolsolver.model.resolution.SymbolReference<S>.correspondingDeclaration
 REFERENCE_USAGE com.github.javaparser.symbolsolver.model.resolution.SymbolReference<S>.SymbolReference(java.util.Optional<? extends S>) -> java.util.Optional<? extends S> com.github.javaparser.symbolsolver.model.resolution.SymbolReference<S>.correspondingDeclaration [SymbolReference.java <34:14 34:37>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.model.resolution.SymbolReference<S>.SymbolReference<0> [SymbolReference.java <34:41 34:64>]
@@ -45,6 +59,7 @@ REFERENCE_TYPE_USAGE static com.github.javaparser.symbolsolver.model.resolution.
 REFERENCE_TYPE_ARGUMENT static com.github.javaparser.symbolsolver.model.resolution.SymbolReference<S> com.github.javaparser.symbolsolver.model.resolution.SymbolReference<S>.solved<S, S2>(S2) -> com.github.javaparser.symbolsolver.model.resolution.SymbolReference<S>.solved<S, S2>.S [SymbolReference.java <41:36 41:36>]
 SYMBOL_METHOD static java.util.Optional<T> java.util.Optional<T>.of<T>(T)
 REFERENCE_CALL static com.github.javaparser.symbolsolver.model.resolution.SymbolReference<S> com.github.javaparser.symbolsolver.model.resolution.SymbolReference<S>.solved<S, S2>(S2) -> static java.util.Optional<T> java.util.Optional<T>.of<T>(T) [SymbolReference.java <41:48 41:49>]
+QUALIFIER: java.util.Optional [SymbolReference.java <41:39 41:46>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.model.resolution.SymbolReference<S>.solved<S, S2><0> [SymbolReference.java <41:51 41:67>]
 SYMBOL_METHOD public static com.github.javaparser.symbolsolver.model.resolution.SymbolReference<S> com.github.javaparser.symbolsolver.model.resolution.SymbolReference<S>.unsolved<S, S2>(java.lang.Class<S2>) [SymbolReference.java <47:1 <47:76 47:83> 49:5>]
 COMMENT: comment [SymbolReference.java <44:5 46:7>]
@@ -59,12 +74,12 @@ REFERENCE_TYPE_ARGUMENT static com.github.javaparser.symbolsolver.model.resoluti
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.model.resolution.SymbolReference<S>.unsolved<S, S2><0> [SymbolReference.java <47:95 47:99>]
 LOCAL_SYMBOL: SymbolReference.java<47:102> [SymbolReference.java <47:102 47:102>]
 LOCAL_SYMBOL: SymbolReference.java<47:102> [SymbolReference.java <49:5 49:5>]
-SYMBOL_METHOD com.github.javaparser.symbolsolver.model.resolution.SymbolReference<S>.SymbolReference(java.util.Optional<? extends S>)
 REFERENCE_CALL static com.github.javaparser.symbolsolver.model.resolution.SymbolReference<S> com.github.javaparser.symbolsolver.model.resolution.SymbolReference<S>.unsolved<S, S2>(java.lang.Class<S2>) -> com.github.javaparser.symbolsolver.model.resolution.SymbolReference<S>.SymbolReference(java.util.Optional<? extends S>) [SymbolReference.java <48:20 48:37>]
 REFERENCE_TYPE_USAGE static com.github.javaparser.symbolsolver.model.resolution.SymbolReference<S> com.github.javaparser.symbolsolver.model.resolution.SymbolReference<S>.unsolved<S, S2>(java.lang.Class<S2>) -> com.github.javaparser.symbolsolver.model.resolution.SymbolReference<S> [SymbolReference.java <48:20 48:34>]
 REFERENCE_TYPE_ARGUMENT static com.github.javaparser.symbolsolver.model.resolution.SymbolReference<S> com.github.javaparser.symbolsolver.model.resolution.SymbolReference<S>.unsolved<S, S2>(java.lang.Class<S2>) -> com.github.javaparser.symbolsolver.model.resolution.SymbolReference<S>.unsolved<S, S2>.S [SymbolReference.java <48:36 48:36>]
 SYMBOL_METHOD static java.util.Optional<T> java.util.Optional<T>.empty<T>()
 REFERENCE_CALL static com.github.javaparser.symbolsolver.model.resolution.SymbolReference<S> com.github.javaparser.symbolsolver.model.resolution.SymbolReference<S>.unsolved<S, S2>(java.lang.Class<S2>) -> static java.util.Optional<T> java.util.Optional<T>.empty<T>() [SymbolReference.java <48:51 48:55>]
+QUALIFIER: java.util.Optional [SymbolReference.java <48:39 48:46>]
 REFERENCE_TYPE_ARGUMENT static com.github.javaparser.symbolsolver.model.resolution.SymbolReference<S> com.github.javaparser.symbolsolver.model.resolution.SymbolReference<S>.unsolved<S, S2>(java.lang.Class<S2>) -> com.github.javaparser.symbolsolver.model.resolution.SymbolReference<S>.unsolved<S, S2>.S [SymbolReference.java <48:49 48:49>]
 SYMBOL_METHOD public java.lang.String com.github.javaparser.symbolsolver.model.resolution.SymbolReference<S>.toString() [SymbolReference.java <51:5 <52:19 52:26> 54:5>]
 SYMBOL_METHOD java.lang.String java.lang.Object.toString()
@@ -72,7 +87,6 @@ REFERENCE_OVERRIDE java.lang.String com.github.javaparser.symbolsolver.model.res
 REFERENCE_TYPE_USAGE java.lang.String com.github.javaparser.symbolsolver.model.resolution.SymbolReference<S>.toString() -> java.lang.String [SymbolReference.java <52:12 52:17>]
 LOCAL_SYMBOL: SymbolReference.java<52:30> [SymbolReference.java <52:30 52:30>]
 LOCAL_SYMBOL: SymbolReference.java<52:30> [SymbolReference.java <54:5 54:5>]
-SYMBOL_FIELD java.util.Optional<? extends S> com.github.javaparser.symbolsolver.model.resolution.SymbolReference<S>.correspondingDeclaration
 REFERENCE_USAGE java.lang.String com.github.javaparser.symbolsolver.model.resolution.SymbolReference<S>.toString() -> java.util.Optional<? extends S> com.github.javaparser.symbolsolver.model.resolution.SymbolReference<S>.correspondingDeclaration [SymbolReference.java <53:37 53:60>]
 SYMBOL_METHOD public com.github.javaparser.symbolsolver.model.resolution.SymbolReference<S>.S com.github.javaparser.symbolsolver.model.resolution.SymbolReference<S>.getCorrespondingDeclaration() [SymbolReference.java <59:1 <59:14 59:40> 64:5>]
 COMMENT: comment [SymbolReference.java <56:5 58:7>]
@@ -88,7 +102,6 @@ REFERENCE_CALL com.github.javaparser.symbolsolver.model.resolution.SymbolReferen
 REFERENCE_TYPE_USAGE com.github.javaparser.symbolsolver.model.resolution.SymbolReference<S>.S com.github.javaparser.symbolsolver.model.resolution.SymbolReference<S>.getCorrespondingDeclaration() -> java.lang.UnsupportedOperationException [SymbolReference.java <61:23 61:51>]
 SYMBOL_METHOD java.util.Optional<T>.T java.util.Optional<T>.get()
 REFERENCE_CALL com.github.javaparser.symbolsolver.model.resolution.SymbolReference<S>.S com.github.javaparser.symbolsolver.model.resolution.SymbolReference<S>.getCorrespondingDeclaration() -> java.util.Optional<T>.T java.util.Optional<T>.get() [SymbolReference.java <63:41 63:43>]
-SYMBOL_FIELD java.util.Optional<? extends S> com.github.javaparser.symbolsolver.model.resolution.SymbolReference<S>.correspondingDeclaration
 REFERENCE_USAGE com.github.javaparser.symbolsolver.model.resolution.SymbolReference<S>.S com.github.javaparser.symbolsolver.model.resolution.SymbolReference<S>.getCorrespondingDeclaration() -> java.util.Optional<? extends S> com.github.javaparser.symbolsolver.model.resolution.SymbolReference<S>.correspondingDeclaration [SymbolReference.java <63:16 63:39>]
 SYMBOL_METHOD public boolean com.github.javaparser.symbolsolver.model.resolution.SymbolReference<S>.isSolved() [SymbolReference.java <69:1 <69:20 69:27> 71:5>]
 COMMENT: comment [SymbolReference.java <66:5 68:7>]
@@ -98,7 +111,6 @@ LOCAL_SYMBOL: SymbolReference.java<69:31> [SymbolReference.java <69:31 69:31>]
 LOCAL_SYMBOL: SymbolReference.java<69:31> [SymbolReference.java <71:5 71:5>]
 SYMBOL_METHOD boolean java.util.Optional<T>.isPresent()
 REFERENCE_CALL boolean com.github.javaparser.symbolsolver.model.resolution.SymbolReference<S>.isSolved() -> boolean java.util.Optional<T>.isPresent() [SymbolReference.java <70:41 70:49>]
-SYMBOL_FIELD java.util.Optional<? extends S> com.github.javaparser.symbolsolver.model.resolution.SymbolReference<S>.correspondingDeclaration
 REFERENCE_USAGE boolean com.github.javaparser.symbolsolver.model.resolution.SymbolReference<S>.isSolved() -> java.util.Optional<? extends S> com.github.javaparser.symbolsolver.model.resolution.SymbolReference<S>.correspondingDeclaration [SymbolReference.java <70:16 70:39>]
 SYMBOL_METHOD public static com.github.javaparser.symbolsolver.model.resolution.SymbolReference<O> com.github.javaparser.symbolsolver.model.resolution.SymbolReference<S>.adapt<O>(com.github.javaparser.symbolsolver.model.resolution.SymbolReference<? extends O>, java.lang.Class<O>) [SymbolReference.java <73:5 <73:62 73:66> 79:5>]
 SYMBOL_TYPE_PARAMETER com.github.javaparser.symbolsolver.model.resolution.SymbolReference<S>.adapt<O>.O [SymbolReference.java <73:20 73:20>]
@@ -113,13 +125,13 @@ REFERENCE_TYPE_ARGUMENT static com.github.javaparser.symbolsolver.model.resoluti
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.model.resolution.SymbolReference<S>.adapt<O><1> [SymbolReference.java <73:111 73:115>]
 LOCAL_SYMBOL: SymbolReference.java<73:118> [SymbolReference.java <73:118 73:118>]
 LOCAL_SYMBOL: SymbolReference.java<73:118> [SymbolReference.java <79:5 79:5>]
-SYMBOL_METHOD boolean com.github.javaparser.symbolsolver.model.resolution.SymbolReference<S>.isSolved()
 REFERENCE_CALL static com.github.javaparser.symbolsolver.model.resolution.SymbolReference<O> com.github.javaparser.symbolsolver.model.resolution.SymbolReference<S>.adapt<O>(com.github.javaparser.symbolsolver.model.resolution.SymbolReference<? extends O>, java.lang.Class<O>) -> boolean com.github.javaparser.symbolsolver.model.resolution.SymbolReference<S>.isSolved() [SymbolReference.java <74:17 74:24>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.model.resolution.SymbolReference<S>.adapt<O><0> [SymbolReference.java <74:13 74:15>]
 LOCAL_SYMBOL: SymbolReference.java<74:29> [SymbolReference.java <74:29 74:29>]
 LOCAL_SYMBOL: SymbolReference.java<74:29> [SymbolReference.java <76:9 76:9>]
 SYMBOL_METHOD static com.github.javaparser.symbolsolver.model.resolution.SymbolReference<S> com.github.javaparser.symbolsolver.model.resolution.SymbolReference<S>.solved<S, S2>(S2)
 REFERENCE_CALL static com.github.javaparser.symbolsolver.model.resolution.SymbolReference<O> com.github.javaparser.symbolsolver.model.resolution.SymbolReference<S>.adapt<O>(com.github.javaparser.symbolsolver.model.resolution.SymbolReference<? extends O>, java.lang.Class<O>) -> static com.github.javaparser.symbolsolver.model.resolution.SymbolReference<S> com.github.javaparser.symbolsolver.model.resolution.SymbolReference<S>.solved<S, S2>(S2) [SymbolReference.java <75:36 75:41>]
+QUALIFIER: com.github.javaparser.symbolsolver.model.resolution.SymbolReference [SymbolReference.java <75:20 75:34>]
 SYMBOL_METHOD com.github.javaparser.symbolsolver.model.resolution.SymbolReference<S>.S com.github.javaparser.symbolsolver.model.resolution.SymbolReference<S>.getCorrespondingDeclaration()
 REFERENCE_CALL static com.github.javaparser.symbolsolver.model.resolution.SymbolReference<O> com.github.javaparser.symbolsolver.model.resolution.SymbolReference<S>.adapt<O>(com.github.javaparser.symbolsolver.model.resolution.SymbolReference<? extends O>, java.lang.Class<O>) -> com.github.javaparser.symbolsolver.model.resolution.SymbolReference<S>.S com.github.javaparser.symbolsolver.model.resolution.SymbolReference<S>.getCorrespondingDeclaration() [SymbolReference.java <75:47 75:73>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.model.resolution.SymbolReference<S>.adapt<O><0> [SymbolReference.java <75:43 75:45>]
@@ -127,5 +139,6 @@ LOCAL_SYMBOL: SymbolReference.java<76:16> [SymbolReference.java <76:16 76:16>]
 LOCAL_SYMBOL: SymbolReference.java<76:16> [SymbolReference.java <78:9 78:9>]
 SYMBOL_METHOD static com.github.javaparser.symbolsolver.model.resolution.SymbolReference<S> com.github.javaparser.symbolsolver.model.resolution.SymbolReference<S>.unsolved<S, S2>(java.lang.Class<S2>)
 REFERENCE_CALL static com.github.javaparser.symbolsolver.model.resolution.SymbolReference<O> com.github.javaparser.symbolsolver.model.resolution.SymbolReference<S>.adapt<O>(com.github.javaparser.symbolsolver.model.resolution.SymbolReference<? extends O>, java.lang.Class<O>) -> static com.github.javaparser.symbolsolver.model.resolution.SymbolReference<S> com.github.javaparser.symbolsolver.model.resolution.SymbolReference<S>.unsolved<S, S2>(java.lang.Class<S2>) [SymbolReference.java <77:36 77:43>]
+QUALIFIER: com.github.javaparser.symbolsolver.model.resolution.SymbolReference [SymbolReference.java <77:20 77:34>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.model.resolution.SymbolReference<S>.adapt<O><1> [SymbolReference.java <77:45 77:49>]
 COMMENT: comment [SymbolReference.java <1:1 15:3>]

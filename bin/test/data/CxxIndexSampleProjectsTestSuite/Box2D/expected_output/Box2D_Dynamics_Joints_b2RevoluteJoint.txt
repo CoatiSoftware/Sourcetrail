@@ -1,9 +1,5 @@
 FILE: b2RevoluteJoint.cpp
-FILE: b2RevoluteJoint.cpp
 COMMENT: comment [b2RevoluteJoint.cpp <1:1 17:3>]
-FILE: b2RevoluteJoint.cpp
-FILE: b2RevoluteJoint.cpp
-FILE: b2RevoluteJoint.cpp
 COMMENT: comment [b2RevoluteJoint.cpp <23:1 23:29>]
 COMMENT: comment [b2RevoluteJoint.cpp <24:1 24:15>]
 COMMENT: comment [b2RevoluteJoint.cpp <25:1 25:18>]
@@ -33,31 +29,25 @@ COMMENT: comment [b2RevoluteJoint.cpp <313:4 313:40>]
 REFERENCE_MACRO_USAGE b2RevoluteJoint.cpp -> b2_maxAngularCorrection [b2RevoluteJoint.cpp <314:47 314:69>]
 REFERENCE_MACRO_USAGE b2Settings.h -> b2_pi [b2Settings.h <102:51 102:55>]
 REFERENCE_MACRO_USAGE b2RevoluteJoint.cpp -> b2_maxAngularCorrection [b2RevoluteJoint.cpp <314:72 314:94>]
-REFERENCE_MACRO_USAGE b2Settings.h -> b2_pi [b2Settings.h <102:51 102:55>]
 COMMENT: comment [b2RevoluteJoint.cpp <323:4 323:61>]
 REFERENCE_MACRO_USAGE b2RevoluteJoint.cpp -> b2_angularSlop [b2RevoluteJoint.cpp <324:20 324:33>]
-REFERENCE_MACRO_USAGE b2Settings.h -> b2_pi [b2Settings.h <76:43 76:47>]
 REFERENCE_MACRO_USAGE b2RevoluteJoint.cpp -> b2_maxAngularCorrection [b2RevoluteJoint.cpp <324:37 324:59>]
-REFERENCE_MACRO_USAGE b2Settings.h -> b2_pi [b2Settings.h <102:51 102:55>]
 COMMENT: comment [b2RevoluteJoint.cpp <332:4 332:61>]
 REFERENCE_MACRO_USAGE b2RevoluteJoint.cpp -> b2_angularSlop [b2RevoluteJoint.cpp <333:20 333:33>]
-REFERENCE_MACRO_USAGE b2Settings.h -> b2_pi [b2Settings.h <76:43 76:47>]
 REFERENCE_MACRO_USAGE b2RevoluteJoint.cpp -> b2_maxAngularCorrection [b2RevoluteJoint.cpp <333:42 333:64>]
-REFERENCE_MACRO_USAGE b2Settings.h -> b2_pi [b2Settings.h <102:51 102:55>]
 COMMENT: comment [b2RevoluteJoint.cpp <341:2 341:37>]
 REFERENCE_MACRO_USAGE b2RevoluteJoint.cpp -> b2_linearSlop [b2RevoluteJoint.cpp <374:26 374:38>]
 REFERENCE_MACRO_USAGE b2RevoluteJoint.cpp -> b2_angularSlop [b2RevoluteJoint.cpp <374:59 374:72>]
-REFERENCE_MACRO_USAGE b2Settings.h -> b2_pi [b2Settings.h <76:43 76:47>]
 REFERENCE_MACRO_USAGE b2RevoluteJoint.cpp -> b2Assert [b2RevoluteJoint.cpp <480:2 480:9>]
 REFERENCE_MACRO_USAGE b2Settings.h -> assert [b2Settings.h <31:21 31:26>]
 REFERENCE_MACRO_USAGE assert.h -> _CRT_WIDE [assert.h <34:23 34:31>]
 REFERENCE_MACRO_USAGE vcruntime.h -> _CRT_WIDE_ [vcruntime.h <95:22 95:31>]
 REFERENCE_MACRO_USAGE assert.h -> _CRT_WIDE [assert.h <34:47 34:55>]
 REFERENCE_MACRO_USAGE assert.h -> __FILE__ [assert.h <34:57 34:64>]
-REFERENCE_MACRO_USAGE vcruntime.h -> _CRT_WIDE_ [vcruntime.h <95:22 95:31>]
 REFERENCE_MACRO_USAGE assert.h -> __LINE__ [assert.h <34:79 34:86>]
 SYMBOL_METHOD public void b2RevoluteJointDef::Initialize(b2Body *, b2Body *, const b2Vec2 &) [b2RevoluteJoint.cpp <36:1 <36:26 36:35> 43:1>]
 SYMBOL_STRUCT b2RevoluteJointDef
+QUALIFIER: b2RevoluteJointDef [b2RevoluteJoint.cpp <36:6 36:23>]
 SYMBOL_BUILTIN_TYPE void
 REFERENCE_TYPE_USAGE void b2RevoluteJointDef::Initialize(b2Body *, b2Body *, const b2Vec2 &) -> void [b2RevoluteJoint.cpp <36:1 36:4>]
 LOCAL_SYMBOL: b2RevoluteJoint.cpp<36:45> [b2RevoluteJoint.cpp <36:45 36:46>]
@@ -77,10 +67,8 @@ SYMBOL_FUNCTION b2Vec2 b2Body::GetLocalPoint(const b2Vec2 &) const
 REFERENCE_CALL void b2RevoluteJointDef::Initialize(b2Body *, b2Body *, const b2Vec2 &) -> b2Vec2 b2Body::GetLocalPoint(const b2Vec2 &) const [b2RevoluteJoint.cpp <40:24 40:36>]
 REFERENCE_USAGE void b2RevoluteJointDef::Initialize(b2Body *, b2Body *, const b2Vec2 &) -> b2Body * b2JointDef::bodyA [b2RevoluteJoint.cpp <40:17 40:21>]
 LOCAL_SYMBOL: b2RevoluteJoint.cpp<36:75> [b2RevoluteJoint.cpp <40:38 40:43>]
-SYMBOL_FUNCTION b2Vec2 & b2Vec2::operator=(b2Vec2 &)
 REFERENCE_CALL void b2RevoluteJointDef::Initialize(b2Body *, b2Body *, const b2Vec2 &) -> b2Vec2 & b2Vec2::operator=(b2Vec2 &) [b2RevoluteJoint.cpp <41:15 41:15>]
 REFERENCE_USAGE void b2RevoluteJointDef::Initialize(b2Body *, b2Body *, const b2Vec2 &) -> b2Vec2 b2RevoluteJointDef::localAnchorB [b2RevoluteJoint.cpp <41:2 41:13>]
-SYMBOL_FUNCTION b2Vec2 b2Body::GetLocalPoint(const b2Vec2 &) const
 REFERENCE_CALL void b2RevoluteJointDef::Initialize(b2Body *, b2Body *, const b2Vec2 &) -> b2Vec2 b2Body::GetLocalPoint(const b2Vec2 &) const [b2RevoluteJoint.cpp <41:24 41:36>]
 REFERENCE_USAGE void b2RevoluteJointDef::Initialize(b2Body *, b2Body *, const b2Vec2 &) -> b2Body * b2JointDef::bodyB [b2RevoluteJoint.cpp <41:17 41:21>]
 LOCAL_SYMBOL: b2RevoluteJoint.cpp<36:75> [b2RevoluteJoint.cpp <41:38 41:43>]
@@ -88,11 +76,11 @@ REFERENCE_USAGE void b2RevoluteJointDef::Initialize(b2Body *, b2Body *, const b2
 SYMBOL_FUNCTION float32 b2Body::GetAngle() const
 REFERENCE_CALL void b2RevoluteJointDef::Initialize(b2Body *, b2Body *, const b2Vec2 &) -> float32 b2Body::GetAngle() const [b2RevoluteJoint.cpp <42:26 42:33>]
 REFERENCE_USAGE void b2RevoluteJointDef::Initialize(b2Body *, b2Body *, const b2Vec2 &) -> b2Body * b2JointDef::bodyB [b2RevoluteJoint.cpp <42:19 42:23>]
-SYMBOL_FUNCTION float32 b2Body::GetAngle() const
 REFERENCE_CALL void b2RevoluteJointDef::Initialize(b2Body *, b2Body *, const b2Vec2 &) -> float32 b2Body::GetAngle() const [b2RevoluteJoint.cpp <42:46 42:53>]
 REFERENCE_USAGE void b2RevoluteJointDef::Initialize(b2Body *, b2Body *, const b2Vec2 &) -> b2Body * b2JointDef::bodyA [b2RevoluteJoint.cpp <42:39 42:43>]
 SYMBOL_METHOD protected void b2RevoluteJoint::b2RevoluteJoint(const b2RevoluteJointDef *) [b2RevoluteJoint.cpp <45:1 <45:18 45:32> 62:1>]
 SYMBOL_CLASS b2RevoluteJoint
+QUALIFIER: b2RevoluteJoint [b2RevoluteJoint.cpp <45:1 45:15>]
 LOCAL_SYMBOL: b2RevoluteJoint.cpp<45:60> [b2RevoluteJoint.cpp <45:60 45:62>]
 REFERENCE_TYPE_USAGE void b2RevoluteJoint::b2RevoluteJoint(const b2RevoluteJointDef *) -> b2RevoluteJointDef [b2RevoluteJoint.cpp <45:40 45:57>]
 REFERENCE_TYPE_USAGE void b2RevoluteJoint::b2RevoluteJoint(const b2RevoluteJointDef *) -> b2Joint [b2RevoluteJoint.cpp <46:3 46:9>]
@@ -103,23 +91,13 @@ REFERENCE_USAGE void b2RevoluteJoint::b2RevoluteJoint(const b2RevoluteJointDef *
 SYMBOL_FUNCTION void b2Vec2::b2Vec2()
 REFERENCE_CALL void b2RevoluteJoint::b2RevoluteJoint(const b2RevoluteJointDef *) -> void b2Vec2::b2Vec2() [b2RevoluteJoint.cpp <45:18 45:32>]
 REFERENCE_USAGE void b2RevoluteJoint::b2RevoluteJoint(const b2RevoluteJointDef *) -> b2Vec2 b2RevoluteJoint::m_localAnchorB [b2RevoluteJoint.cpp <45:18 45:32>]
-SYMBOL_FUNCTION void b2Vec2::b2Vec2()
-REFERENCE_CALL void b2RevoluteJoint::b2RevoluteJoint(const b2RevoluteJointDef *) -> void b2Vec2::b2Vec2() [b2RevoluteJoint.cpp <45:18 45:32>]
 REFERENCE_USAGE void b2RevoluteJoint::b2RevoluteJoint(const b2RevoluteJointDef *) -> b2Vec3 b2RevoluteJoint::m_impulse [b2RevoluteJoint.cpp <45:18 45:32>]
 SYMBOL_FUNCTION void b2Vec3::b2Vec3()
 REFERENCE_CALL void b2RevoluteJoint::b2RevoluteJoint(const b2RevoluteJointDef *) -> void b2Vec3::b2Vec3() [b2RevoluteJoint.cpp <45:18 45:32>]
 REFERENCE_USAGE void b2RevoluteJoint::b2RevoluteJoint(const b2RevoluteJointDef *) -> b2Vec2 b2RevoluteJoint::m_rA [b2RevoluteJoint.cpp <45:18 45:32>]
-SYMBOL_FUNCTION void b2Vec2::b2Vec2()
-REFERENCE_CALL void b2RevoluteJoint::b2RevoluteJoint(const b2RevoluteJointDef *) -> void b2Vec2::b2Vec2() [b2RevoluteJoint.cpp <45:18 45:32>]
 REFERENCE_USAGE void b2RevoluteJoint::b2RevoluteJoint(const b2RevoluteJointDef *) -> b2Vec2 b2RevoluteJoint::m_rB [b2RevoluteJoint.cpp <45:18 45:32>]
-SYMBOL_FUNCTION void b2Vec2::b2Vec2()
-REFERENCE_CALL void b2RevoluteJoint::b2RevoluteJoint(const b2RevoluteJointDef *) -> void b2Vec2::b2Vec2() [b2RevoluteJoint.cpp <45:18 45:32>]
 REFERENCE_USAGE void b2RevoluteJoint::b2RevoluteJoint(const b2RevoluteJointDef *) -> b2Vec2 b2RevoluteJoint::m_localCenterA [b2RevoluteJoint.cpp <45:18 45:32>]
-SYMBOL_FUNCTION void b2Vec2::b2Vec2()
-REFERENCE_CALL void b2RevoluteJoint::b2RevoluteJoint(const b2RevoluteJointDef *) -> void b2Vec2::b2Vec2() [b2RevoluteJoint.cpp <45:18 45:32>]
 REFERENCE_USAGE void b2RevoluteJoint::b2RevoluteJoint(const b2RevoluteJointDef *) -> b2Vec2 b2RevoluteJoint::m_localCenterB [b2RevoluteJoint.cpp <45:18 45:32>]
-SYMBOL_FUNCTION void b2Vec2::b2Vec2()
-REFERENCE_CALL void b2RevoluteJoint::b2RevoluteJoint(const b2RevoluteJointDef *) -> void b2Vec2::b2Vec2() [b2RevoluteJoint.cpp <45:18 45:32>]
 REFERENCE_USAGE void b2RevoluteJoint::b2RevoluteJoint(const b2RevoluteJointDef *) -> b2Mat33 b2RevoluteJoint::m_mass [b2RevoluteJoint.cpp <45:18 45:32>]
 SYMBOL_FUNCTION void b2Mat33::b2Mat33()
 REFERENCE_CALL void b2RevoluteJoint::b2RevoluteJoint(const b2RevoluteJointDef *) -> void b2Mat33::b2Mat33() [b2RevoluteJoint.cpp <45:18 45:32>]
@@ -128,7 +106,6 @@ REFERENCE_CALL void b2RevoluteJoint::b2RevoluteJoint(const b2RevoluteJointDef *)
 REFERENCE_USAGE void b2RevoluteJoint::b2RevoluteJoint(const b2RevoluteJointDef *) -> b2Vec2 b2RevoluteJoint::m_localAnchorA [b2RevoluteJoint.cpp <48:2 48:15>]
 REFERENCE_USAGE void b2RevoluteJoint::b2RevoluteJoint(const b2RevoluteJointDef *) -> b2Vec2 b2RevoluteJointDef::localAnchorA [b2RevoluteJoint.cpp <48:24 48:35>]
 LOCAL_SYMBOL: b2RevoluteJoint.cpp<45:60> [b2RevoluteJoint.cpp <48:19 48:21>]
-SYMBOL_FUNCTION b2Vec2 & b2Vec2::operator=(const b2Vec2 &)
 REFERENCE_CALL void b2RevoluteJoint::b2RevoluteJoint(const b2RevoluteJointDef *) -> b2Vec2 & b2Vec2::operator=(const b2Vec2 &) [b2RevoluteJoint.cpp <49:17 49:17>]
 REFERENCE_USAGE void b2RevoluteJoint::b2RevoluteJoint(const b2RevoluteJointDef *) -> b2Vec2 b2RevoluteJoint::m_localAnchorB [b2RevoluteJoint.cpp <49:2 49:15>]
 REFERENCE_USAGE void b2RevoluteJoint::b2RevoluteJoint(const b2RevoluteJointDef *) -> b2Vec2 b2RevoluteJointDef::localAnchorB [b2RevoluteJoint.cpp <49:24 49:35>]
@@ -163,8 +140,7 @@ REFERENCE_USAGE void b2RevoluteJoint::b2RevoluteJoint(const b2RevoluteJointDef *
 SYMBOL_METHOD protected void b2RevoluteJoint::InitVelocityConstraints(const b2SolverData &) [b2RevoluteJoint.cpp <64:1 <64:23 64:45> 181:1>]
 SYMBOL_FUNCTION void b2Joint::InitVelocityConstraints(const b2SolverData &)
 REFERENCE_OVERRIDE void b2RevoluteJoint::InitVelocityConstraints(const b2SolverData &) -> void b2Joint::InitVelocityConstraints(const b2SolverData &) [b2RevoluteJoint.cpp <64:23 64:45>]
-SYMBOL_CLASS b2RevoluteJoint
-SYMBOL_BUILTIN_TYPE void
+QUALIFIER: b2RevoluteJoint [b2RevoluteJoint.cpp <64:6 64:20>]
 REFERENCE_TYPE_USAGE void b2RevoluteJoint::InitVelocityConstraints(const b2SolverData &) -> void [b2RevoluteJoint.cpp <64:1 64:4>]
 LOCAL_SYMBOL: b2RevoluteJoint.cpp<64:67> [b2RevoluteJoint.cpp <64:67 64:70>]
 REFERENCE_TYPE_USAGE void b2RevoluteJoint::InitVelocityConstraints(const b2SolverData &) -> b2SolverData [b2RevoluteJoint.cpp <64:53 64:64>]
@@ -174,13 +150,11 @@ REFERENCE_USAGE void b2RevoluteJoint::InitVelocityConstraints(const b2SolverData
 REFERENCE_USAGE void b2RevoluteJoint::InitVelocityConstraints(const b2SolverData &) -> int32 b2RevoluteJoint::m_indexB [b2RevoluteJoint.cpp <67:2 67:9>]
 REFERENCE_USAGE void b2RevoluteJoint::InitVelocityConstraints(const b2SolverData &) -> int32 b2Body::m_islandIndex [b2RevoluteJoint.cpp <67:22 67:34>]
 REFERENCE_USAGE void b2RevoluteJoint::InitVelocityConstraints(const b2SolverData &) -> b2Body * b2Joint::m_bodyB [b2RevoluteJoint.cpp <67:13 67:19>]
-SYMBOL_FUNCTION b2Vec2 & b2Vec2::operator=(const b2Vec2 &)
 REFERENCE_CALL void b2RevoluteJoint::InitVelocityConstraints(const b2SolverData &) -> b2Vec2 & b2Vec2::operator=(const b2Vec2 &) [b2RevoluteJoint.cpp <68:17 68:17>]
 REFERENCE_USAGE void b2RevoluteJoint::InitVelocityConstraints(const b2SolverData &) -> b2Vec2 b2RevoluteJoint::m_localCenterA [b2RevoluteJoint.cpp <68:2 68:15>]
 REFERENCE_USAGE void b2RevoluteJoint::InitVelocityConstraints(const b2SolverData &) -> b2Vec2 b2Sweep::localCenter [b2RevoluteJoint.cpp <68:36 68:46>]
 REFERENCE_USAGE void b2RevoluteJoint::InitVelocityConstraints(const b2SolverData &) -> b2Sweep b2Body::m_sweep [b2RevoluteJoint.cpp <68:28 68:34>]
 REFERENCE_USAGE void b2RevoluteJoint::InitVelocityConstraints(const b2SolverData &) -> b2Body * b2Joint::m_bodyA [b2RevoluteJoint.cpp <68:19 68:25>]
-SYMBOL_FUNCTION b2Vec2 & b2Vec2::operator=(const b2Vec2 &)
 REFERENCE_CALL void b2RevoluteJoint::InitVelocityConstraints(const b2SolverData &) -> b2Vec2 & b2Vec2::operator=(const b2Vec2 &) [b2RevoluteJoint.cpp <69:17 69:17>]
 REFERENCE_USAGE void b2RevoluteJoint::InitVelocityConstraints(const b2SolverData &) -> b2Vec2 b2RevoluteJoint::m_localCenterB [b2RevoluteJoint.cpp <69:2 69:15>]
 REFERENCE_USAGE void b2RevoluteJoint::InitVelocityConstraints(const b2SolverData &) -> b2Vec2 b2Sweep::localCenter [b2RevoluteJoint.cpp <69:36 69:46>]
@@ -226,7 +200,6 @@ LOCAL_SYMBOL: b2RevoluteJoint.cpp<64:67> [b2RevoluteJoint.cpp <79:15 79:18>]
 REFERENCE_USAGE void b2RevoluteJoint::InitVelocityConstraints(const b2SolverData &) -> int32 b2RevoluteJoint::m_indexB [b2RevoluteJoint.cpp <79:30 79:37>]
 LOCAL_SYMBOL: b2RevoluteJoint.cpp<80:9> [b2RevoluteJoint.cpp <80:9 80:10>]
 REFERENCE_TYPE_USAGE void b2RevoluteJoint::InitVelocityConstraints(const b2SolverData &) -> b2Vec2 [b2RevoluteJoint.cpp <80:2 80:7>]
-SYMBOL_FUNCTION void b2Vec2::b2Vec2(const b2Vec2 &)
 REFERENCE_CALL void b2RevoluteJoint::InitVelocityConstraints(const b2SolverData &) -> void b2Vec2::b2Vec2(const b2Vec2 &) [b2RevoluteJoint.cpp <80:40 80:40>]
 REFERENCE_USAGE void b2RevoluteJoint::InitVelocityConstraints(const b2SolverData &) -> b2Vec2 b2Velocity::v [b2RevoluteJoint.cpp <80:40 80:40>]
 REFERENCE_USAGE void b2RevoluteJoint::InitVelocityConstraints(const b2SolverData &) -> b2Velocity * b2SolverData::velocities [b2RevoluteJoint.cpp <80:19 80:28>]
@@ -244,11 +217,8 @@ SYMBOL_FUNCTION void b2Rot::b2Rot(float32)
 REFERENCE_CALL void b2RevoluteJoint::InitVelocityConstraints(const b2SolverData &) -> void b2Rot::b2Rot(float32) [b2RevoluteJoint.cpp <83:8 83:9>]
 LOCAL_SYMBOL: b2RevoluteJoint.cpp<75:10> [b2RevoluteJoint.cpp <83:11 83:12>]
 LOCAL_SYMBOL: b2RevoluteJoint.cpp<83:16> [b2RevoluteJoint.cpp <83:16 83:17>]
-REFERENCE_TYPE_USAGE void b2RevoluteJoint::InitVelocityConstraints(const b2SolverData &) -> b2Rot [b2RevoluteJoint.cpp <83:2 83:6>]
-SYMBOL_FUNCTION void b2Rot::b2Rot(float32)
 REFERENCE_CALL void b2RevoluteJoint::InitVelocityConstraints(const b2SolverData &) -> void b2Rot::b2Rot(float32) [b2RevoluteJoint.cpp <83:16 83:17>]
 LOCAL_SYMBOL: b2RevoluteJoint.cpp<79:10> [b2RevoluteJoint.cpp <83:19 83:20>]
-SYMBOL_FUNCTION b2Vec2 & b2Vec2::operator=(b2Vec2 &)
 REFERENCE_CALL void b2RevoluteJoint::InitVelocityConstraints(const b2SolverData &) -> b2Vec2 & b2Vec2::operator=(b2Vec2 &) [b2RevoluteJoint.cpp <85:7 85:7>]
 REFERENCE_USAGE void b2RevoluteJoint::InitVelocityConstraints(const b2SolverData &) -> b2Vec2 b2RevoluteJoint::m_rA [b2RevoluteJoint.cpp <85:2 85:5>]
 SYMBOL_FUNCTION b2Vec2 b2Mul(const b2Rot &, const b2Vec2 &)
@@ -258,13 +228,10 @@ SYMBOL_FUNCTION b2Vec2 operator-(const b2Vec2 &, const b2Vec2 &)
 REFERENCE_CALL void b2RevoluteJoint::InitVelocityConstraints(const b2SolverData &) -> b2Vec2 operator-(const b2Vec2 &, const b2Vec2 &) [b2RevoluteJoint.cpp <85:34 85:34>]
 REFERENCE_USAGE void b2RevoluteJoint::InitVelocityConstraints(const b2SolverData &) -> b2Vec2 b2RevoluteJoint::m_localAnchorA [b2RevoluteJoint.cpp <85:19 85:32>]
 REFERENCE_USAGE void b2RevoluteJoint::InitVelocityConstraints(const b2SolverData &) -> b2Vec2 b2RevoluteJoint::m_localCenterA [b2RevoluteJoint.cpp <85:36 85:49>]
-SYMBOL_FUNCTION b2Vec2 & b2Vec2::operator=(b2Vec2 &)
 REFERENCE_CALL void b2RevoluteJoint::InitVelocityConstraints(const b2SolverData &) -> b2Vec2 & b2Vec2::operator=(b2Vec2 &) [b2RevoluteJoint.cpp <86:7 86:7>]
 REFERENCE_USAGE void b2RevoluteJoint::InitVelocityConstraints(const b2SolverData &) -> b2Vec2 b2RevoluteJoint::m_rB [b2RevoluteJoint.cpp <86:2 86:5>]
-SYMBOL_FUNCTION b2Vec2 b2Mul(const b2Rot &, const b2Vec2 &)
 REFERENCE_CALL void b2RevoluteJoint::InitVelocityConstraints(const b2SolverData &) -> b2Vec2 b2Mul(const b2Rot &, const b2Vec2 &) [b2RevoluteJoint.cpp <86:9 86:13>]
 LOCAL_SYMBOL: b2RevoluteJoint.cpp<83:16> [b2RevoluteJoint.cpp <86:15 86:16>]
-SYMBOL_FUNCTION b2Vec2 operator-(const b2Vec2 &, const b2Vec2 &)
 REFERENCE_CALL void b2RevoluteJoint::InitVelocityConstraints(const b2SolverData &) -> b2Vec2 operator-(const b2Vec2 &, const b2Vec2 &) [b2RevoluteJoint.cpp <86:34 86:34>]
 REFERENCE_USAGE void b2RevoluteJoint::InitVelocityConstraints(const b2SolverData &) -> b2Vec2 b2RevoluteJoint::m_localAnchorB [b2RevoluteJoint.cpp <86:19 86:32>]
 REFERENCE_USAGE void b2RevoluteJoint::InitVelocityConstraints(const b2SolverData &) -> b2Vec2 b2RevoluteJoint::m_localCenterB [b2RevoluteJoint.cpp <86:36 86:49>]
@@ -272,13 +239,11 @@ LOCAL_SYMBOL: b2RevoluteJoint.cpp<97:10> [b2RevoluteJoint.cpp <97:10 97:11>]
 REFERENCE_TYPE_USAGE void b2RevoluteJoint::InitVelocityConstraints(const b2SolverData &) -> float32 [b2RevoluteJoint.cpp <97:2 97:8>]
 REFERENCE_USAGE void b2RevoluteJoint::InitVelocityConstraints(const b2SolverData &) -> float32 b2RevoluteJoint::m_invMassA [b2RevoluteJoint.cpp <97:15 97:24>]
 LOCAL_SYMBOL: b2RevoluteJoint.cpp<97:27> [b2RevoluteJoint.cpp <97:27 97:28>]
-REFERENCE_TYPE_USAGE void b2RevoluteJoint::InitVelocityConstraints(const b2SolverData &) -> float32 [b2RevoluteJoint.cpp <97:2 97:8>]
 REFERENCE_USAGE void b2RevoluteJoint::InitVelocityConstraints(const b2SolverData &) -> float32 b2RevoluteJoint::m_invMassB [b2RevoluteJoint.cpp <97:32 97:41>]
 LOCAL_SYMBOL: b2RevoluteJoint.cpp<98:10> [b2RevoluteJoint.cpp <98:10 98:11>]
 REFERENCE_TYPE_USAGE void b2RevoluteJoint::InitVelocityConstraints(const b2SolverData &) -> float32 [b2RevoluteJoint.cpp <98:2 98:8>]
 REFERENCE_USAGE void b2RevoluteJoint::InitVelocityConstraints(const b2SolverData &) -> float32 b2RevoluteJoint::m_invIA [b2RevoluteJoint.cpp <98:15 98:21>]
 LOCAL_SYMBOL: b2RevoluteJoint.cpp<98:24> [b2RevoluteJoint.cpp <98:24 98:25>]
-REFERENCE_TYPE_USAGE void b2RevoluteJoint::InitVelocityConstraints(const b2SolverData &) -> float32 [b2RevoluteJoint.cpp <98:2 98:8>]
 REFERENCE_USAGE void b2RevoluteJoint::InitVelocityConstraints(const b2SolverData &) -> float32 b2RevoluteJoint::m_invIB [b2RevoluteJoint.cpp <98:29 98:35>]
 LOCAL_SYMBOL: b2RevoluteJoint.cpp<100:7> [b2RevoluteJoint.cpp <100:7 100:19>]
 SYMBOL_BUILTIN_TYPE bool
@@ -453,24 +418,20 @@ REFERENCE_USAGE void b2RevoluteJoint::InitVelocityConstraints(const b2SolverData
 SYMBOL_FUNCTION void b2Vec2::operator+=(const b2Vec2 &)
 REFERENCE_CALL void b2RevoluteJoint::InitVelocityConstraints(const b2SolverData &) -> void b2Vec2::operator+=(const b2Vec2 &) [b2RevoluteJoint.cpp <168:6 168:7>]
 LOCAL_SYMBOL: b2RevoluteJoint.cpp<80:9> [b2RevoluteJoint.cpp <168:3 168:4>]
-SYMBOL_FUNCTION b2Vec2 operator*(float32, const b2Vec2 &)
 REFERENCE_CALL void b2RevoluteJoint::InitVelocityConstraints(const b2SolverData &) -> b2Vec2 operator*(float32, const b2Vec2 &) [b2RevoluteJoint.cpp <168:12 168:12>]
 LOCAL_SYMBOL: b2RevoluteJoint.cpp<97:27> [b2RevoluteJoint.cpp <168:9 168:10>]
 LOCAL_SYMBOL: b2RevoluteJoint.cpp<163:10> [b2RevoluteJoint.cpp <168:14 168:14>]
 LOCAL_SYMBOL: b2RevoluteJoint.cpp<81:10> [b2RevoluteJoint.cpp <169:3 169:4>]
 LOCAL_SYMBOL: b2RevoluteJoint.cpp<98:24> [b2RevoluteJoint.cpp <169:9 169:10>]
-SYMBOL_FUNCTION float32 b2Cross(const b2Vec2 &, const b2Vec2 &)
 REFERENCE_CALL void b2RevoluteJoint::InitVelocityConstraints(const b2SolverData &) -> float32 b2Cross(const b2Vec2 &, const b2Vec2 &) [b2RevoluteJoint.cpp <169:15 169:21>]
 REFERENCE_USAGE void b2RevoluteJoint::InitVelocityConstraints(const b2SolverData &) -> b2Vec2 b2RevoluteJoint::m_rB [b2RevoluteJoint.cpp <169:23 169:26>]
 LOCAL_SYMBOL: b2RevoluteJoint.cpp<163:10> [b2RevoluteJoint.cpp <169:29 169:29>]
 REFERENCE_USAGE void b2RevoluteJoint::InitVelocityConstraints(const b2SolverData &) -> float32 b2RevoluteJoint::m_motorImpulse [b2RevoluteJoint.cpp <169:34 169:47>]
 REFERENCE_USAGE void b2RevoluteJoint::InitVelocityConstraints(const b2SolverData &) -> float32 b2Vec3::z [b2RevoluteJoint.cpp <169:61 169:61>]
 REFERENCE_USAGE void b2RevoluteJoint::InitVelocityConstraints(const b2SolverData &) -> b2Vec3 b2RevoluteJoint::m_impulse [b2RevoluteJoint.cpp <169:51 169:59>]
-SYMBOL_FUNCTION void b2Vec3::SetZero()
 REFERENCE_CALL void b2RevoluteJoint::InitVelocityConstraints(const b2SolverData &) -> void b2Vec3::SetZero() [b2RevoluteJoint.cpp <173:13 173:19>]
 REFERENCE_USAGE void b2RevoluteJoint::InitVelocityConstraints(const b2SolverData &) -> b2Vec3 b2RevoluteJoint::m_impulse [b2RevoluteJoint.cpp <173:3 173:11>]
 REFERENCE_USAGE void b2RevoluteJoint::InitVelocityConstraints(const b2SolverData &) -> float32 b2RevoluteJoint::m_motorImpulse [b2RevoluteJoint.cpp <174:3 174:16>]
-SYMBOL_FUNCTION b2Vec2 & b2Vec2::operator=(const b2Vec2 &)
 REFERENCE_CALL void b2RevoluteJoint::InitVelocityConstraints(const b2SolverData &) -> b2Vec2 & b2Vec2::operator=(const b2Vec2 &) [b2RevoluteJoint.cpp <177:30 177:30>]
 REFERENCE_USAGE void b2RevoluteJoint::InitVelocityConstraints(const b2SolverData &) -> b2Vec2 b2Velocity::v [b2RevoluteJoint.cpp <177:28 177:28>]
 REFERENCE_USAGE void b2RevoluteJoint::InitVelocityConstraints(const b2SolverData &) -> b2Velocity * b2SolverData::velocities [b2RevoluteJoint.cpp <177:7 177:16>]
@@ -482,7 +443,6 @@ REFERENCE_USAGE void b2RevoluteJoint::InitVelocityConstraints(const b2SolverData
 LOCAL_SYMBOL: b2RevoluteJoint.cpp<64:67> [b2RevoluteJoint.cpp <178:2 178:5>]
 REFERENCE_USAGE void b2RevoluteJoint::InitVelocityConstraints(const b2SolverData &) -> int32 b2RevoluteJoint::m_indexA [b2RevoluteJoint.cpp <178:18 178:25>]
 LOCAL_SYMBOL: b2RevoluteJoint.cpp<77:10> [b2RevoluteJoint.cpp <178:32 178:33>]
-SYMBOL_FUNCTION b2Vec2 & b2Vec2::operator=(const b2Vec2 &)
 REFERENCE_CALL void b2RevoluteJoint::InitVelocityConstraints(const b2SolverData &) -> b2Vec2 & b2Vec2::operator=(const b2Vec2 &) [b2RevoluteJoint.cpp <179:30 179:30>]
 REFERENCE_USAGE void b2RevoluteJoint::InitVelocityConstraints(const b2SolverData &) -> b2Vec2 b2Velocity::v [b2RevoluteJoint.cpp <179:28 179:28>]
 REFERENCE_USAGE void b2RevoluteJoint::InitVelocityConstraints(const b2SolverData &) -> b2Velocity * b2SolverData::velocities [b2RevoluteJoint.cpp <179:7 179:16>]
@@ -497,14 +457,12 @@ LOCAL_SYMBOL: b2RevoluteJoint.cpp<81:10> [b2RevoluteJoint.cpp <180:32 180:33>]
 SYMBOL_METHOD protected void b2RevoluteJoint::SolveVelocityConstraints(const b2SolverData &) [b2RevoluteJoint.cpp <183:1 <183:23 183:46> 289:1>]
 SYMBOL_FUNCTION void b2Joint::SolveVelocityConstraints(const b2SolverData &)
 REFERENCE_OVERRIDE void b2RevoluteJoint::SolveVelocityConstraints(const b2SolverData &) -> void b2Joint::SolveVelocityConstraints(const b2SolverData &) [b2RevoluteJoint.cpp <183:23 183:46>]
-SYMBOL_CLASS b2RevoluteJoint
-SYMBOL_BUILTIN_TYPE void
+QUALIFIER: b2RevoluteJoint [b2RevoluteJoint.cpp <183:6 183:20>]
 REFERENCE_TYPE_USAGE void b2RevoluteJoint::SolveVelocityConstraints(const b2SolverData &) -> void [b2RevoluteJoint.cpp <183:1 183:4>]
 LOCAL_SYMBOL: b2RevoluteJoint.cpp<183:68> [b2RevoluteJoint.cpp <183:68 183:71>]
 REFERENCE_TYPE_USAGE void b2RevoluteJoint::SolveVelocityConstraints(const b2SolverData &) -> b2SolverData [b2RevoluteJoint.cpp <183:54 183:65>]
 LOCAL_SYMBOL: b2RevoluteJoint.cpp<185:9> [b2RevoluteJoint.cpp <185:9 185:10>]
 REFERENCE_TYPE_USAGE void b2RevoluteJoint::SolveVelocityConstraints(const b2SolverData &) -> b2Vec2 [b2RevoluteJoint.cpp <185:2 185:7>]
-SYMBOL_FUNCTION void b2Vec2::b2Vec2(const b2Vec2 &)
 REFERENCE_CALL void b2RevoluteJoint::SolveVelocityConstraints(const b2SolverData &) -> void b2Vec2::b2Vec2(const b2Vec2 &) [b2RevoluteJoint.cpp <185:40 185:40>]
 REFERENCE_USAGE void b2RevoluteJoint::SolveVelocityConstraints(const b2SolverData &) -> b2Vec2 b2Velocity::v [b2RevoluteJoint.cpp <185:40 185:40>]
 REFERENCE_USAGE void b2RevoluteJoint::SolveVelocityConstraints(const b2SolverData &) -> b2Velocity * b2SolverData::velocities [b2RevoluteJoint.cpp <185:19 185:28>]
@@ -518,7 +476,6 @@ LOCAL_SYMBOL: b2RevoluteJoint.cpp<183:68> [b2RevoluteJoint.cpp <186:15 186:18>]
 REFERENCE_USAGE void b2RevoluteJoint::SolveVelocityConstraints(const b2SolverData &) -> int32 b2RevoluteJoint::m_indexA [b2RevoluteJoint.cpp <186:31 186:38>]
 LOCAL_SYMBOL: b2RevoluteJoint.cpp<187:9> [b2RevoluteJoint.cpp <187:9 187:10>]
 REFERENCE_TYPE_USAGE void b2RevoluteJoint::SolveVelocityConstraints(const b2SolverData &) -> b2Vec2 [b2RevoluteJoint.cpp <187:2 187:7>]
-SYMBOL_FUNCTION void b2Vec2::b2Vec2(const b2Vec2 &)
 REFERENCE_CALL void b2RevoluteJoint::SolveVelocityConstraints(const b2SolverData &) -> void b2Vec2::b2Vec2(const b2Vec2 &) [b2RevoluteJoint.cpp <187:40 187:40>]
 REFERENCE_USAGE void b2RevoluteJoint::SolveVelocityConstraints(const b2SolverData &) -> b2Vec2 b2Velocity::v [b2RevoluteJoint.cpp <187:40 187:40>]
 REFERENCE_USAGE void b2RevoluteJoint::SolveVelocityConstraints(const b2SolverData &) -> b2Velocity * b2SolverData::velocities [b2RevoluteJoint.cpp <187:19 187:28>]
@@ -534,16 +491,13 @@ LOCAL_SYMBOL: b2RevoluteJoint.cpp<190:10> [b2RevoluteJoint.cpp <190:10 190:11>]
 REFERENCE_TYPE_USAGE void b2RevoluteJoint::SolveVelocityConstraints(const b2SolverData &) -> float32 [b2RevoluteJoint.cpp <190:2 190:8>]
 REFERENCE_USAGE void b2RevoluteJoint::SolveVelocityConstraints(const b2SolverData &) -> float32 b2RevoluteJoint::m_invMassA [b2RevoluteJoint.cpp <190:15 190:24>]
 LOCAL_SYMBOL: b2RevoluteJoint.cpp<190:27> [b2RevoluteJoint.cpp <190:27 190:28>]
-REFERENCE_TYPE_USAGE void b2RevoluteJoint::SolveVelocityConstraints(const b2SolverData &) -> float32 [b2RevoluteJoint.cpp <190:2 190:8>]
 REFERENCE_USAGE void b2RevoluteJoint::SolveVelocityConstraints(const b2SolverData &) -> float32 b2RevoluteJoint::m_invMassB [b2RevoluteJoint.cpp <190:32 190:41>]
 LOCAL_SYMBOL: b2RevoluteJoint.cpp<191:10> [b2RevoluteJoint.cpp <191:10 191:11>]
 REFERENCE_TYPE_USAGE void b2RevoluteJoint::SolveVelocityConstraints(const b2SolverData &) -> float32 [b2RevoluteJoint.cpp <191:2 191:8>]
 REFERENCE_USAGE void b2RevoluteJoint::SolveVelocityConstraints(const b2SolverData &) -> float32 b2RevoluteJoint::m_invIA [b2RevoluteJoint.cpp <191:15 191:21>]
 LOCAL_SYMBOL: b2RevoluteJoint.cpp<191:24> [b2RevoluteJoint.cpp <191:24 191:25>]
-REFERENCE_TYPE_USAGE void b2RevoluteJoint::SolveVelocityConstraints(const b2SolverData &) -> float32 [b2RevoluteJoint.cpp <191:2 191:8>]
 REFERENCE_USAGE void b2RevoluteJoint::SolveVelocityConstraints(const b2SolverData &) -> float32 b2RevoluteJoint::m_invIB [b2RevoluteJoint.cpp <191:29 191:35>]
 LOCAL_SYMBOL: b2RevoluteJoint.cpp<193:7> [b2RevoluteJoint.cpp <193:7 193:19>]
-SYMBOL_BUILTIN_TYPE bool
 REFERENCE_TYPE_USAGE void b2RevoluteJoint::SolveVelocityConstraints(const b2SolverData &) -> bool [b2RevoluteJoint.cpp <193:2 193:5>]
 LOCAL_SYMBOL: b2RevoluteJoint.cpp<191:10> [b2RevoluteJoint.cpp <193:24 193:25>]
 LOCAL_SYMBOL: b2RevoluteJoint.cpp<191:24> [b2RevoluteJoint.cpp <193:29 193:30>]
@@ -591,9 +545,7 @@ REFERENCE_USAGE void b2RevoluteJoint::SolveVelocityConstraints(const b2SolverDat
 LOCAL_SYMBOL: b2RevoluteJoint.cpp<193:7> [b2RevoluteJoint.cpp <210:58 210:70>]
 LOCAL_SYMBOL: b2RevoluteJoint.cpp<212:10> [b2RevoluteJoint.cpp <212:10 212:14>]
 REFERENCE_TYPE_USAGE void b2RevoluteJoint::SolveVelocityConstraints(const b2SolverData &) -> b2Vec2 [b2RevoluteJoint.cpp <212:3 212:8>]
-SYMBOL_FUNCTION b2Vec2 operator-(const b2Vec2 &, const b2Vec2 &)
 REFERENCE_CALL void b2RevoluteJoint::SolveVelocityConstraints(const b2SolverData &) -> b2Vec2 operator-(const b2Vec2 &, const b2Vec2 &) [b2RevoluteJoint.cpp <212:46 212:46>]
-SYMBOL_FUNCTION b2Vec2 operator-(const b2Vec2 &, const b2Vec2 &)
 REFERENCE_CALL void b2RevoluteJoint::SolveVelocityConstraints(const b2SolverData &) -> b2Vec2 operator-(const b2Vec2 &, const b2Vec2 &) [b2RevoluteJoint.cpp <212:41 212:41>]
 SYMBOL_FUNCTION b2Vec2 operator+(const b2Vec2 &, const b2Vec2 &)
 REFERENCE_CALL void b2RevoluteJoint::SolveVelocityConstraints(const b2SolverData &) -> b2Vec2 operator+(const b2Vec2 &, const b2Vec2 &) [b2RevoluteJoint.cpp <212:21 212:21>]
@@ -603,7 +555,6 @@ REFERENCE_CALL void b2RevoluteJoint::SolveVelocityConstraints(const b2SolverData
 LOCAL_SYMBOL: b2RevoluteJoint.cpp<188:10> [b2RevoluteJoint.cpp <212:31 212:32>]
 REFERENCE_USAGE void b2RevoluteJoint::SolveVelocityConstraints(const b2SolverData &) -> b2Vec2 b2RevoluteJoint::m_rB [b2RevoluteJoint.cpp <212:35 212:38>]
 LOCAL_SYMBOL: b2RevoluteJoint.cpp<185:9> [b2RevoluteJoint.cpp <212:43 212:44>]
-SYMBOL_FUNCTION b2Vec2 b2Cross(float32, const b2Vec2 &)
 REFERENCE_CALL void b2RevoluteJoint::SolveVelocityConstraints(const b2SolverData &) -> b2Vec2 b2Cross(float32, const b2Vec2 &) [b2RevoluteJoint.cpp <212:48 212:54>]
 LOCAL_SYMBOL: b2RevoluteJoint.cpp<186:10> [b2RevoluteJoint.cpp <212:56 212:57>]
 REFERENCE_USAGE void b2RevoluteJoint::SolveVelocityConstraints(const b2SolverData &) -> b2Vec2 b2RevoluteJoint::m_rA [b2RevoluteJoint.cpp <212:60 212:63>]
@@ -645,16 +596,13 @@ LOCAL_SYMBOL: b2RevoluteJoint.cpp<216:10> [b2RevoluteJoint.cpp <224:39 224:45>]
 LOCAL_SYMBOL: b2RevoluteJoint.cpp<224:12> [b2RevoluteJoint.cpp <225:8 225:17>]
 LOCAL_SYMBOL: b2RevoluteJoint.cpp<227:12> [b2RevoluteJoint.cpp <227:12 227:14>]
 REFERENCE_TYPE_USAGE void b2RevoluteJoint::SolveVelocityConstraints(const b2SolverData &) -> b2Vec2 [b2RevoluteJoint.cpp <227:5 227:10>]
-SYMBOL_FUNCTION b2Vec2 operator+(const b2Vec2 &, const b2Vec2 &)
 REFERENCE_CALL void b2RevoluteJoint::SolveVelocityConstraints(const b2SolverData &) -> b2Vec2 operator+(const b2Vec2 &, const b2Vec2 &) [b2RevoluteJoint.cpp <227:25 227:25>]
 SYMBOL_FUNCTION b2Vec2 b2Vec2::operator-() const
 REFERENCE_CALL void b2RevoluteJoint::SolveVelocityConstraints(const b2SolverData &) -> b2Vec2 b2Vec2::operator-() const [b2RevoluteJoint.cpp <227:18 227:18>]
 LOCAL_SYMBOL: b2RevoluteJoint.cpp<212:10> [b2RevoluteJoint.cpp <227:19 227:23>]
-SYMBOL_FUNCTION b2Vec2 operator*(float32, const b2Vec2 &)
 REFERENCE_CALL void b2RevoluteJoint::SolveVelocityConstraints(const b2SolverData &) -> b2Vec2 operator*(float32, const b2Vec2 &) [b2RevoluteJoint.cpp <227:39 227:39>]
 REFERENCE_USAGE void b2RevoluteJoint::SolveVelocityConstraints(const b2SolverData &) -> float32 b2Vec3::z [b2RevoluteJoint.cpp <227:37 227:37>]
 REFERENCE_USAGE void b2RevoluteJoint::SolveVelocityConstraints(const b2SolverData &) -> b2Vec3 b2RevoluteJoint::m_impulse [b2RevoluteJoint.cpp <227:27 227:35>]
-SYMBOL_FUNCTION void b2Vec2::b2Vec2(float32, float32)
 REFERENCE_CALL void b2RevoluteJoint::SolveVelocityConstraints(const b2SolverData &) -> void b2Vec2::b2Vec2(float32, float32) [b2RevoluteJoint.cpp <227:41 227:46>]
 REFERENCE_TYPE_USAGE void b2RevoluteJoint::SolveVelocityConstraints(const b2SolverData &) -> b2Vec2 [b2RevoluteJoint.cpp <227:41 227:46>]
 REFERENCE_USAGE void b2RevoluteJoint::SolveVelocityConstraints(const b2SolverData &) -> float32 b2Vec3::x [b2RevoluteJoint.cpp <227:58 227:58>]
@@ -691,7 +639,6 @@ REFERENCE_USAGE void b2RevoluteJoint::SolveVelocityConstraints(const b2SolverDat
 LOCAL_SYMBOL: b2RevoluteJoint.cpp<228:12> [b2RevoluteJoint.cpp <233:20 233:26>]
 REFERENCE_USAGE void b2RevoluteJoint::SolveVelocityConstraints(const b2SolverData &) -> float32 b2Vec3::z [b2RevoluteJoint.cpp <234:15 234:15>]
 REFERENCE_USAGE void b2RevoluteJoint::SolveVelocityConstraints(const b2SolverData &) -> b2Vec3 b2RevoluteJoint::m_impulse [b2RevoluteJoint.cpp <234:5 234:13>]
-SYMBOL_FUNCTION void b2Vec3::operator+=(const b2Vec3 &)
 REFERENCE_CALL void b2RevoluteJoint::SolveVelocityConstraints(const b2SolverData &) -> void b2Vec3::operator+=(const b2Vec3 &) [b2RevoluteJoint.cpp <238:15 238:16>]
 REFERENCE_USAGE void b2RevoluteJoint::SolveVelocityConstraints(const b2SolverData &) -> b2Vec3 b2RevoluteJoint::m_impulse [b2RevoluteJoint.cpp <238:5 238:13>]
 LOCAL_SYMBOL: b2RevoluteJoint.cpp<216:10> [b2RevoluteJoint.cpp <238:18 238:24>]
@@ -706,16 +653,12 @@ LOCAL_SYMBOL: b2RevoluteJoint.cpp<216:10> [b2RevoluteJoint.cpp <243:39 243:45>]
 LOCAL_SYMBOL: b2RevoluteJoint.cpp<243:12> [b2RevoluteJoint.cpp <244:8 244:17>]
 LOCAL_SYMBOL: b2RevoluteJoint.cpp<246:12> [b2RevoluteJoint.cpp <246:12 246:14>]
 REFERENCE_TYPE_USAGE void b2RevoluteJoint::SolveVelocityConstraints(const b2SolverData &) -> b2Vec2 [b2RevoluteJoint.cpp <246:5 246:10>]
-SYMBOL_FUNCTION b2Vec2 operator+(const b2Vec2 &, const b2Vec2 &)
 REFERENCE_CALL void b2RevoluteJoint::SolveVelocityConstraints(const b2SolverData &) -> b2Vec2 operator+(const b2Vec2 &, const b2Vec2 &) [b2RevoluteJoint.cpp <246:25 246:25>]
-SYMBOL_FUNCTION b2Vec2 b2Vec2::operator-() const
 REFERENCE_CALL void b2RevoluteJoint::SolveVelocityConstraints(const b2SolverData &) -> b2Vec2 b2Vec2::operator-() const [b2RevoluteJoint.cpp <246:18 246:18>]
 LOCAL_SYMBOL: b2RevoluteJoint.cpp<212:10> [b2RevoluteJoint.cpp <246:19 246:23>]
-SYMBOL_FUNCTION b2Vec2 operator*(float32, const b2Vec2 &)
 REFERENCE_CALL void b2RevoluteJoint::SolveVelocityConstraints(const b2SolverData &) -> b2Vec2 operator*(float32, const b2Vec2 &) [b2RevoluteJoint.cpp <246:39 246:39>]
 REFERENCE_USAGE void b2RevoluteJoint::SolveVelocityConstraints(const b2SolverData &) -> float32 b2Vec3::z [b2RevoluteJoint.cpp <246:37 246:37>]
 REFERENCE_USAGE void b2RevoluteJoint::SolveVelocityConstraints(const b2SolverData &) -> b2Vec3 b2RevoluteJoint::m_impulse [b2RevoluteJoint.cpp <246:27 246:35>]
-SYMBOL_FUNCTION void b2Vec2::b2Vec2(float32, float32)
 REFERENCE_CALL void b2RevoluteJoint::SolveVelocityConstraints(const b2SolverData &) -> void b2Vec2::b2Vec2(float32, float32) [b2RevoluteJoint.cpp <246:41 246:46>]
 REFERENCE_TYPE_USAGE void b2RevoluteJoint::SolveVelocityConstraints(const b2SolverData &) -> b2Vec2 [b2RevoluteJoint.cpp <246:41 246:46>]
 REFERENCE_USAGE void b2RevoluteJoint::SolveVelocityConstraints(const b2SolverData &) -> float32 b2Vec3::x [b2RevoluteJoint.cpp <246:58 246:58>]
@@ -726,7 +669,6 @@ REFERENCE_USAGE void b2RevoluteJoint::SolveVelocityConstraints(const b2SolverDat
 REFERENCE_USAGE void b2RevoluteJoint::SolveVelocityConstraints(const b2SolverData &) -> b2Mat33 b2RevoluteJoint::m_mass [b2RevoluteJoint.cpp <246:61 246:66>]
 LOCAL_SYMBOL: b2RevoluteJoint.cpp<247:12> [b2RevoluteJoint.cpp <247:12 247:18>]
 REFERENCE_TYPE_USAGE void b2RevoluteJoint::SolveVelocityConstraints(const b2SolverData &) -> b2Vec2 [b2RevoluteJoint.cpp <247:5 247:10>]
-SYMBOL_FUNCTION b2Vec2 b2Mat33::Solve22(const b2Vec2 &) const
 REFERENCE_CALL void b2RevoluteJoint::SolveVelocityConstraints(const b2SolverData &) -> b2Vec2 b2Mat33::Solve22(const b2Vec2 &) const [b2RevoluteJoint.cpp <247:29 247:35>]
 REFERENCE_USAGE void b2RevoluteJoint::SolveVelocityConstraints(const b2SolverData &) -> b2Mat33 b2RevoluteJoint::m_mass [b2RevoluteJoint.cpp <247:22 247:27>]
 LOCAL_SYMBOL: b2RevoluteJoint.cpp<246:12> [b2RevoluteJoint.cpp <247:37 247:39>]
@@ -752,43 +694,35 @@ REFERENCE_USAGE void b2RevoluteJoint::SolveVelocityConstraints(const b2SolverDat
 LOCAL_SYMBOL: b2RevoluteJoint.cpp<247:12> [b2RevoluteJoint.cpp <252:20 252:26>]
 REFERENCE_USAGE void b2RevoluteJoint::SolveVelocityConstraints(const b2SolverData &) -> float32 b2Vec3::z [b2RevoluteJoint.cpp <253:15 253:15>]
 REFERENCE_USAGE void b2RevoluteJoint::SolveVelocityConstraints(const b2SolverData &) -> b2Vec3 b2RevoluteJoint::m_impulse [b2RevoluteJoint.cpp <253:5 253:13>]
-SYMBOL_FUNCTION void b2Vec3::operator+=(const b2Vec3 &)
 REFERENCE_CALL void b2RevoluteJoint::SolveVelocityConstraints(const b2SolverData &) -> void b2Vec3::operator+=(const b2Vec3 &) [b2RevoluteJoint.cpp <257:15 257:16>]
 REFERENCE_USAGE void b2RevoluteJoint::SolveVelocityConstraints(const b2SolverData &) -> b2Vec3 b2RevoluteJoint::m_impulse [b2RevoluteJoint.cpp <257:5 257:13>]
 LOCAL_SYMBOL: b2RevoluteJoint.cpp<216:10> [b2RevoluteJoint.cpp <257:18 257:24>]
 LOCAL_SYMBOL: b2RevoluteJoint.cpp<261:10> [b2RevoluteJoint.cpp <261:10 261:10>]
 REFERENCE_TYPE_USAGE void b2RevoluteJoint::SolveVelocityConstraints(const b2SolverData &) -> b2Vec2 [b2RevoluteJoint.cpp <261:3 261:8>]
-SYMBOL_FUNCTION void b2Vec2::b2Vec2(float32, float32)
 REFERENCE_CALL void b2RevoluteJoint::SolveVelocityConstraints(const b2SolverData &) -> void b2Vec2::b2Vec2(float32, float32) [b2RevoluteJoint.cpp <261:10 261:10>]
 REFERENCE_USAGE void b2RevoluteJoint::SolveVelocityConstraints(const b2SolverData &) -> float32 b2Vec3::x [b2RevoluteJoint.cpp <261:20 261:20>]
 LOCAL_SYMBOL: b2RevoluteJoint.cpp<216:10> [b2RevoluteJoint.cpp <261:12 261:18>]
 REFERENCE_USAGE void b2RevoluteJoint::SolveVelocityConstraints(const b2SolverData &) -> float32 b2Vec3::y [b2RevoluteJoint.cpp <261:31 261:31>]
 LOCAL_SYMBOL: b2RevoluteJoint.cpp<216:10> [b2RevoluteJoint.cpp <261:23 261:29>]
-SYMBOL_FUNCTION void b2Vec2::operator-=(const b2Vec2 &)
 REFERENCE_CALL void b2RevoluteJoint::SolveVelocityConstraints(const b2SolverData &) -> void b2Vec2::operator-=(const b2Vec2 &) [b2RevoluteJoint.cpp <263:6 263:7>]
 LOCAL_SYMBOL: b2RevoluteJoint.cpp<185:9> [b2RevoluteJoint.cpp <263:3 263:4>]
-SYMBOL_FUNCTION b2Vec2 operator*(float32, const b2Vec2 &)
 REFERENCE_CALL void b2RevoluteJoint::SolveVelocityConstraints(const b2SolverData &) -> b2Vec2 operator*(float32, const b2Vec2 &) [b2RevoluteJoint.cpp <263:12 263:12>]
 LOCAL_SYMBOL: b2RevoluteJoint.cpp<190:10> [b2RevoluteJoint.cpp <263:9 263:10>]
 LOCAL_SYMBOL: b2RevoluteJoint.cpp<261:10> [b2RevoluteJoint.cpp <263:14 263:14>]
 LOCAL_SYMBOL: b2RevoluteJoint.cpp<186:10> [b2RevoluteJoint.cpp <264:3 264:4>]
 LOCAL_SYMBOL: b2RevoluteJoint.cpp<191:10> [b2RevoluteJoint.cpp <264:9 264:10>]
-SYMBOL_FUNCTION float32 b2Cross(const b2Vec2 &, const b2Vec2 &)
 REFERENCE_CALL void b2RevoluteJoint::SolveVelocityConstraints(const b2SolverData &) -> float32 b2Cross(const b2Vec2 &, const b2Vec2 &) [b2RevoluteJoint.cpp <264:15 264:21>]
 REFERENCE_USAGE void b2RevoluteJoint::SolveVelocityConstraints(const b2SolverData &) -> b2Vec2 b2RevoluteJoint::m_rA [b2RevoluteJoint.cpp <264:23 264:26>]
 LOCAL_SYMBOL: b2RevoluteJoint.cpp<261:10> [b2RevoluteJoint.cpp <264:29 264:29>]
 REFERENCE_USAGE void b2RevoluteJoint::SolveVelocityConstraints(const b2SolverData &) -> float32 b2Vec3::z [b2RevoluteJoint.cpp <264:42 264:42>]
 LOCAL_SYMBOL: b2RevoluteJoint.cpp<216:10> [b2RevoluteJoint.cpp <264:34 264:40>]
-SYMBOL_FUNCTION void b2Vec2::operator+=(const b2Vec2 &)
 REFERENCE_CALL void b2RevoluteJoint::SolveVelocityConstraints(const b2SolverData &) -> void b2Vec2::operator+=(const b2Vec2 &) [b2RevoluteJoint.cpp <266:6 266:7>]
 LOCAL_SYMBOL: b2RevoluteJoint.cpp<187:9> [b2RevoluteJoint.cpp <266:3 266:4>]
-SYMBOL_FUNCTION b2Vec2 operator*(float32, const b2Vec2 &)
 REFERENCE_CALL void b2RevoluteJoint::SolveVelocityConstraints(const b2SolverData &) -> b2Vec2 operator*(float32, const b2Vec2 &) [b2RevoluteJoint.cpp <266:12 266:12>]
 LOCAL_SYMBOL: b2RevoluteJoint.cpp<190:27> [b2RevoluteJoint.cpp <266:9 266:10>]
 LOCAL_SYMBOL: b2RevoluteJoint.cpp<261:10> [b2RevoluteJoint.cpp <266:14 266:14>]
 LOCAL_SYMBOL: b2RevoluteJoint.cpp<188:10> [b2RevoluteJoint.cpp <267:3 267:4>]
 LOCAL_SYMBOL: b2RevoluteJoint.cpp<191:24> [b2RevoluteJoint.cpp <267:9 267:10>]
-SYMBOL_FUNCTION float32 b2Cross(const b2Vec2 &, const b2Vec2 &)
 REFERENCE_CALL void b2RevoluteJoint::SolveVelocityConstraints(const b2SolverData &) -> float32 b2Cross(const b2Vec2 &, const b2Vec2 &) [b2RevoluteJoint.cpp <267:15 267:21>]
 REFERENCE_USAGE void b2RevoluteJoint::SolveVelocityConstraints(const b2SolverData &) -> b2Vec2 b2RevoluteJoint::m_rB [b2RevoluteJoint.cpp <267:23 267:26>]
 LOCAL_SYMBOL: b2RevoluteJoint.cpp<261:10> [b2RevoluteJoint.cpp <267:29 267:29>]
@@ -796,28 +730,21 @@ REFERENCE_USAGE void b2RevoluteJoint::SolveVelocityConstraints(const b2SolverDat
 LOCAL_SYMBOL: b2RevoluteJoint.cpp<216:10> [b2RevoluteJoint.cpp <267:34 267:40>]
 LOCAL_SYMBOL: b2RevoluteJoint.cpp<272:10> [b2RevoluteJoint.cpp <272:10 272:13>]
 REFERENCE_TYPE_USAGE void b2RevoluteJoint::SolveVelocityConstraints(const b2SolverData &) -> b2Vec2 [b2RevoluteJoint.cpp <272:3 272:8>]
-SYMBOL_FUNCTION b2Vec2 operator-(const b2Vec2 &, const b2Vec2 &)
 REFERENCE_CALL void b2RevoluteJoint::SolveVelocityConstraints(const b2SolverData &) -> b2Vec2 operator-(const b2Vec2 &, const b2Vec2 &) [b2RevoluteJoint.cpp <272:45 272:45>]
-SYMBOL_FUNCTION b2Vec2 operator-(const b2Vec2 &, const b2Vec2 &)
 REFERENCE_CALL void b2RevoluteJoint::SolveVelocityConstraints(const b2SolverData &) -> b2Vec2 operator-(const b2Vec2 &, const b2Vec2 &) [b2RevoluteJoint.cpp <272:40 272:40>]
-SYMBOL_FUNCTION b2Vec2 operator+(const b2Vec2 &, const b2Vec2 &)
 REFERENCE_CALL void b2RevoluteJoint::SolveVelocityConstraints(const b2SolverData &) -> b2Vec2 operator+(const b2Vec2 &, const b2Vec2 &) [b2RevoluteJoint.cpp <272:20 272:20>]
 LOCAL_SYMBOL: b2RevoluteJoint.cpp<187:9> [b2RevoluteJoint.cpp <272:17 272:18>]
-SYMBOL_FUNCTION b2Vec2 b2Cross(float32, const b2Vec2 &)
 REFERENCE_CALL void b2RevoluteJoint::SolveVelocityConstraints(const b2SolverData &) -> b2Vec2 b2Cross(float32, const b2Vec2 &) [b2RevoluteJoint.cpp <272:22 272:28>]
 LOCAL_SYMBOL: b2RevoluteJoint.cpp<188:10> [b2RevoluteJoint.cpp <272:30 272:31>]
 REFERENCE_USAGE void b2RevoluteJoint::SolveVelocityConstraints(const b2SolverData &) -> b2Vec2 b2RevoluteJoint::m_rB [b2RevoluteJoint.cpp <272:34 272:37>]
 LOCAL_SYMBOL: b2RevoluteJoint.cpp<185:9> [b2RevoluteJoint.cpp <272:42 272:43>]
-SYMBOL_FUNCTION b2Vec2 b2Cross(float32, const b2Vec2 &)
 REFERENCE_CALL void b2RevoluteJoint::SolveVelocityConstraints(const b2SolverData &) -> b2Vec2 b2Cross(float32, const b2Vec2 &) [b2RevoluteJoint.cpp <272:47 272:53>]
 LOCAL_SYMBOL: b2RevoluteJoint.cpp<186:10> [b2RevoluteJoint.cpp <272:55 272:56>]
 REFERENCE_USAGE void b2RevoluteJoint::SolveVelocityConstraints(const b2SolverData &) -> b2Vec2 b2RevoluteJoint::m_rA [b2RevoluteJoint.cpp <272:59 272:62>]
 LOCAL_SYMBOL: b2RevoluteJoint.cpp<273:10> [b2RevoluteJoint.cpp <273:10 273:16>]
 REFERENCE_TYPE_USAGE void b2RevoluteJoint::SolveVelocityConstraints(const b2SolverData &) -> b2Vec2 [b2RevoluteJoint.cpp <273:3 273:8>]
-SYMBOL_FUNCTION b2Vec2 b2Mat33::Solve22(const b2Vec2 &) const
 REFERENCE_CALL void b2RevoluteJoint::SolveVelocityConstraints(const b2SolverData &) -> b2Vec2 b2Mat33::Solve22(const b2Vec2 &) const [b2RevoluteJoint.cpp <273:27 273:33>]
 REFERENCE_USAGE void b2RevoluteJoint::SolveVelocityConstraints(const b2SolverData &) -> b2Mat33 b2RevoluteJoint::m_mass [b2RevoluteJoint.cpp <273:20 273:25>]
-SYMBOL_FUNCTION b2Vec2 b2Vec2::operator-() const
 REFERENCE_CALL void b2RevoluteJoint::SolveVelocityConstraints(const b2SolverData &) -> b2Vec2 b2Vec2::operator-() const [b2RevoluteJoint.cpp <273:35 273:35>]
 LOCAL_SYMBOL: b2RevoluteJoint.cpp<272:10> [b2RevoluteJoint.cpp <273:36 273:39>]
 REFERENCE_USAGE void b2RevoluteJoint::SolveVelocityConstraints(const b2SolverData &) -> float32 b2Vec3::x [b2RevoluteJoint.cpp <275:13 275:13>]
@@ -828,33 +755,26 @@ REFERENCE_USAGE void b2RevoluteJoint::SolveVelocityConstraints(const b2SolverDat
 REFERENCE_USAGE void b2RevoluteJoint::SolveVelocityConstraints(const b2SolverData &) -> b2Vec3 b2RevoluteJoint::m_impulse [b2RevoluteJoint.cpp <276:3 276:11>]
 REFERENCE_USAGE void b2RevoluteJoint::SolveVelocityConstraints(const b2SolverData &) -> float32 b2Vec2::y [b2RevoluteJoint.cpp <276:26 276:26>]
 LOCAL_SYMBOL: b2RevoluteJoint.cpp<273:10> [b2RevoluteJoint.cpp <276:18 276:24>]
-SYMBOL_FUNCTION void b2Vec2::operator-=(const b2Vec2 &)
 REFERENCE_CALL void b2RevoluteJoint::SolveVelocityConstraints(const b2SolverData &) -> void b2Vec2::operator-=(const b2Vec2 &) [b2RevoluteJoint.cpp <278:6 278:7>]
 LOCAL_SYMBOL: b2RevoluteJoint.cpp<185:9> [b2RevoluteJoint.cpp <278:3 278:4>]
-SYMBOL_FUNCTION b2Vec2 operator*(float32, const b2Vec2 &)
 REFERENCE_CALL void b2RevoluteJoint::SolveVelocityConstraints(const b2SolverData &) -> b2Vec2 operator*(float32, const b2Vec2 &) [b2RevoluteJoint.cpp <278:12 278:12>]
 LOCAL_SYMBOL: b2RevoluteJoint.cpp<190:10> [b2RevoluteJoint.cpp <278:9 278:10>]
 LOCAL_SYMBOL: b2RevoluteJoint.cpp<273:10> [b2RevoluteJoint.cpp <278:14 278:20>]
 LOCAL_SYMBOL: b2RevoluteJoint.cpp<186:10> [b2RevoluteJoint.cpp <279:3 279:4>]
 LOCAL_SYMBOL: b2RevoluteJoint.cpp<191:10> [b2RevoluteJoint.cpp <279:9 279:10>]
-SYMBOL_FUNCTION float32 b2Cross(const b2Vec2 &, const b2Vec2 &)
 REFERENCE_CALL void b2RevoluteJoint::SolveVelocityConstraints(const b2SolverData &) -> float32 b2Cross(const b2Vec2 &, const b2Vec2 &) [b2RevoluteJoint.cpp <279:14 279:20>]
 REFERENCE_USAGE void b2RevoluteJoint::SolveVelocityConstraints(const b2SolverData &) -> b2Vec2 b2RevoluteJoint::m_rA [b2RevoluteJoint.cpp <279:22 279:25>]
 LOCAL_SYMBOL: b2RevoluteJoint.cpp<273:10> [b2RevoluteJoint.cpp <279:28 279:34>]
-SYMBOL_FUNCTION void b2Vec2::operator+=(const b2Vec2 &)
 REFERENCE_CALL void b2RevoluteJoint::SolveVelocityConstraints(const b2SolverData &) -> void b2Vec2::operator+=(const b2Vec2 &) [b2RevoluteJoint.cpp <281:6 281:7>]
 LOCAL_SYMBOL: b2RevoluteJoint.cpp<187:9> [b2RevoluteJoint.cpp <281:3 281:4>]
-SYMBOL_FUNCTION b2Vec2 operator*(float32, const b2Vec2 &)
 REFERENCE_CALL void b2RevoluteJoint::SolveVelocityConstraints(const b2SolverData &) -> b2Vec2 operator*(float32, const b2Vec2 &) [b2RevoluteJoint.cpp <281:12 281:12>]
 LOCAL_SYMBOL: b2RevoluteJoint.cpp<190:27> [b2RevoluteJoint.cpp <281:9 281:10>]
 LOCAL_SYMBOL: b2RevoluteJoint.cpp<273:10> [b2RevoluteJoint.cpp <281:14 281:20>]
 LOCAL_SYMBOL: b2RevoluteJoint.cpp<188:10> [b2RevoluteJoint.cpp <282:3 282:4>]
 LOCAL_SYMBOL: b2RevoluteJoint.cpp<191:24> [b2RevoluteJoint.cpp <282:9 282:10>]
-SYMBOL_FUNCTION float32 b2Cross(const b2Vec2 &, const b2Vec2 &)
 REFERENCE_CALL void b2RevoluteJoint::SolveVelocityConstraints(const b2SolverData &) -> float32 b2Cross(const b2Vec2 &, const b2Vec2 &) [b2RevoluteJoint.cpp <282:14 282:20>]
 REFERENCE_USAGE void b2RevoluteJoint::SolveVelocityConstraints(const b2SolverData &) -> b2Vec2 b2RevoluteJoint::m_rB [b2RevoluteJoint.cpp <282:22 282:25>]
 LOCAL_SYMBOL: b2RevoluteJoint.cpp<273:10> [b2RevoluteJoint.cpp <282:28 282:34>]
-SYMBOL_FUNCTION b2Vec2 & b2Vec2::operator=(const b2Vec2 &)
 REFERENCE_CALL void b2RevoluteJoint::SolveVelocityConstraints(const b2SolverData &) -> b2Vec2 & b2Vec2::operator=(const b2Vec2 &) [b2RevoluteJoint.cpp <285:30 285:30>]
 REFERENCE_USAGE void b2RevoluteJoint::SolveVelocityConstraints(const b2SolverData &) -> b2Vec2 b2Velocity::v [b2RevoluteJoint.cpp <285:28 285:28>]
 REFERENCE_USAGE void b2RevoluteJoint::SolveVelocityConstraints(const b2SolverData &) -> b2Velocity * b2SolverData::velocities [b2RevoluteJoint.cpp <285:7 285:16>]
@@ -866,7 +786,6 @@ REFERENCE_USAGE void b2RevoluteJoint::SolveVelocityConstraints(const b2SolverDat
 LOCAL_SYMBOL: b2RevoluteJoint.cpp<183:68> [b2RevoluteJoint.cpp <286:2 286:5>]
 REFERENCE_USAGE void b2RevoluteJoint::SolveVelocityConstraints(const b2SolverData &) -> int32 b2RevoluteJoint::m_indexA [b2RevoluteJoint.cpp <286:18 286:25>]
 LOCAL_SYMBOL: b2RevoluteJoint.cpp<186:10> [b2RevoluteJoint.cpp <286:32 286:33>]
-SYMBOL_FUNCTION b2Vec2 & b2Vec2::operator=(const b2Vec2 &)
 REFERENCE_CALL void b2RevoluteJoint::SolveVelocityConstraints(const b2SolverData &) -> b2Vec2 & b2Vec2::operator=(const b2Vec2 &) [b2RevoluteJoint.cpp <287:30 287:30>]
 REFERENCE_USAGE void b2RevoluteJoint::SolveVelocityConstraints(const b2SolverData &) -> b2Vec2 b2Velocity::v [b2RevoluteJoint.cpp <287:28 287:28>]
 REFERENCE_USAGE void b2RevoluteJoint::SolveVelocityConstraints(const b2SolverData &) -> b2Velocity * b2SolverData::velocities [b2RevoluteJoint.cpp <287:7 287:16>]
@@ -881,14 +800,12 @@ LOCAL_SYMBOL: b2RevoluteJoint.cpp<188:10> [b2RevoluteJoint.cpp <288:32 288:33>]
 SYMBOL_METHOD protected bool b2RevoluteJoint::SolvePositionConstraints(const b2SolverData &) [b2RevoluteJoint.cpp <291:1 <291:23 291:46> 375:1>]
 SYMBOL_FUNCTION bool b2Joint::SolvePositionConstraints(const b2SolverData &)
 REFERENCE_OVERRIDE bool b2RevoluteJoint::SolvePositionConstraints(const b2SolverData &) -> bool b2Joint::SolvePositionConstraints(const b2SolverData &) [b2RevoluteJoint.cpp <291:23 291:46>]
-SYMBOL_CLASS b2RevoluteJoint
-SYMBOL_BUILTIN_TYPE bool
+QUALIFIER: b2RevoluteJoint [b2RevoluteJoint.cpp <291:6 291:20>]
 REFERENCE_TYPE_USAGE bool b2RevoluteJoint::SolvePositionConstraints(const b2SolverData &) -> bool [b2RevoluteJoint.cpp <291:1 291:4>]
 LOCAL_SYMBOL: b2RevoluteJoint.cpp<291:68> [b2RevoluteJoint.cpp <291:68 291:71>]
 REFERENCE_TYPE_USAGE bool b2RevoluteJoint::SolvePositionConstraints(const b2SolverData &) -> b2SolverData [b2RevoluteJoint.cpp <291:54 291:65>]
 LOCAL_SYMBOL: b2RevoluteJoint.cpp<293:9> [b2RevoluteJoint.cpp <293:9 293:10>]
 REFERENCE_TYPE_USAGE bool b2RevoluteJoint::SolvePositionConstraints(const b2SolverData &) -> b2Vec2 [b2RevoluteJoint.cpp <293:2 293:7>]
-SYMBOL_FUNCTION void b2Vec2::b2Vec2(const b2Vec2 &)
 REFERENCE_CALL bool b2RevoluteJoint::SolvePositionConstraints(const b2SolverData &) -> void b2Vec2::b2Vec2(const b2Vec2 &) [b2RevoluteJoint.cpp <293:39 293:39>]
 REFERENCE_USAGE bool b2RevoluteJoint::SolvePositionConstraints(const b2SolverData &) -> b2Vec2 b2Position::c [b2RevoluteJoint.cpp <293:39 293:39>]
 REFERENCE_USAGE bool b2RevoluteJoint::SolvePositionConstraints(const b2SolverData &) -> b2Position * b2SolverData::positions [b2RevoluteJoint.cpp <293:19 293:27>]
@@ -902,7 +819,6 @@ LOCAL_SYMBOL: b2RevoluteJoint.cpp<291:68> [b2RevoluteJoint.cpp <294:15 294:18>]
 REFERENCE_USAGE bool b2RevoluteJoint::SolvePositionConstraints(const b2SolverData &) -> int32 b2RevoluteJoint::m_indexA [b2RevoluteJoint.cpp <294:30 294:37>]
 LOCAL_SYMBOL: b2RevoluteJoint.cpp<295:9> [b2RevoluteJoint.cpp <295:9 295:10>]
 REFERENCE_TYPE_USAGE bool b2RevoluteJoint::SolvePositionConstraints(const b2SolverData &) -> b2Vec2 [b2RevoluteJoint.cpp <295:2 295:7>]
-SYMBOL_FUNCTION void b2Vec2::b2Vec2(const b2Vec2 &)
 REFERENCE_CALL bool b2RevoluteJoint::SolvePositionConstraints(const b2SolverData &) -> void b2Vec2::b2Vec2(const b2Vec2 &) [b2RevoluteJoint.cpp <295:39 295:39>]
 REFERENCE_USAGE bool b2RevoluteJoint::SolvePositionConstraints(const b2SolverData &) -> b2Vec2 b2Position::c [b2RevoluteJoint.cpp <295:39 295:39>]
 REFERENCE_USAGE bool b2RevoluteJoint::SolvePositionConstraints(const b2SolverData &) -> b2Position * b2SolverData::positions [b2RevoluteJoint.cpp <295:19 295:27>]
@@ -916,12 +832,9 @@ LOCAL_SYMBOL: b2RevoluteJoint.cpp<291:68> [b2RevoluteJoint.cpp <296:15 296:18>]
 REFERENCE_USAGE bool b2RevoluteJoint::SolvePositionConstraints(const b2SolverData &) -> int32 b2RevoluteJoint::m_indexB [b2RevoluteJoint.cpp <296:30 296:37>]
 LOCAL_SYMBOL: b2RevoluteJoint.cpp<298:8> [b2RevoluteJoint.cpp <298:8 298:9>]
 REFERENCE_TYPE_USAGE bool b2RevoluteJoint::SolvePositionConstraints(const b2SolverData &) -> b2Rot [b2RevoluteJoint.cpp <298:2 298:6>]
-SYMBOL_FUNCTION void b2Rot::b2Rot(float32)
 REFERENCE_CALL bool b2RevoluteJoint::SolvePositionConstraints(const b2SolverData &) -> void b2Rot::b2Rot(float32) [b2RevoluteJoint.cpp <298:8 298:9>]
 LOCAL_SYMBOL: b2RevoluteJoint.cpp<294:10> [b2RevoluteJoint.cpp <298:11 298:12>]
 LOCAL_SYMBOL: b2RevoluteJoint.cpp<298:16> [b2RevoluteJoint.cpp <298:16 298:17>]
-REFERENCE_TYPE_USAGE bool b2RevoluteJoint::SolvePositionConstraints(const b2SolverData &) -> b2Rot [b2RevoluteJoint.cpp <298:2 298:6>]
-SYMBOL_FUNCTION void b2Rot::b2Rot(float32)
 REFERENCE_CALL bool b2RevoluteJoint::SolvePositionConstraints(const b2SolverData &) -> void b2Rot::b2Rot(float32) [b2RevoluteJoint.cpp <298:16 298:17>]
 LOCAL_SYMBOL: b2RevoluteJoint.cpp<296:10> [b2RevoluteJoint.cpp <298:19 298:20>]
 LOCAL_SYMBOL: b2RevoluteJoint.cpp<300:10> [b2RevoluteJoint.cpp <300:10 300:21>]
@@ -929,7 +842,6 @@ REFERENCE_TYPE_USAGE bool b2RevoluteJoint::SolvePositionConstraints(const b2Solv
 LOCAL_SYMBOL: b2RevoluteJoint.cpp<301:10> [b2RevoluteJoint.cpp <301:10 301:22>]
 REFERENCE_TYPE_USAGE bool b2RevoluteJoint::SolvePositionConstraints(const b2SolverData &) -> float32 [b2RevoluteJoint.cpp <301:2 301:8>]
 LOCAL_SYMBOL: b2RevoluteJoint.cpp<303:7> [b2RevoluteJoint.cpp <303:7 303:19>]
-SYMBOL_BUILTIN_TYPE bool
 REFERENCE_TYPE_USAGE bool b2RevoluteJoint::SolvePositionConstraints(const b2SolverData &) -> bool [b2RevoluteJoint.cpp <303:2 303:5>]
 REFERENCE_USAGE bool b2RevoluteJoint::SolvePositionConstraints(const b2SolverData &) -> float32 b2RevoluteJoint::m_invIA [b2RevoluteJoint.cpp <303:24 303:30>]
 REFERENCE_USAGE bool b2RevoluteJoint::SolvePositionConstraints(const b2SolverData &) -> float32 b2RevoluteJoint::m_invIB [b2RevoluteJoint.cpp <303:34 303:40>]
@@ -948,7 +860,6 @@ REFERENCE_USAGE bool b2RevoluteJoint::SolvePositionConstraints(const b2SolverDat
 REFERENCE_USAGE bool b2RevoluteJoint::SolvePositionConstraints(const b2SolverData &) -> b2LimitState::e_equalLimits [b2RevoluteJoint.cpp <311:23 311:35>]
 LOCAL_SYMBOL: b2RevoluteJoint.cpp<314:12> [b2RevoluteJoint.cpp <314:12 314:12>]
 REFERENCE_TYPE_USAGE bool b2RevoluteJoint::SolvePositionConstraints(const b2SolverData &) -> float32 [b2RevoluteJoint.cpp <314:4 314:10>]
-SYMBOL_FUNCTION float b2Clamp<float>(float, float, float)
 REFERENCE_CALL bool b2RevoluteJoint::SolvePositionConstraints(const b2SolverData &) -> float b2Clamp<float>(float, float, float) [b2RevoluteJoint.cpp <314:16 314:22>]
 LOCAL_SYMBOL: b2RevoluteJoint.cpp<308:11> [b2RevoluteJoint.cpp <314:24 314:28>]
 REFERENCE_USAGE bool b2RevoluteJoint::SolvePositionConstraints(const b2SolverData &) -> float32 b2RevoluteJoint::m_lowerAngle [b2RevoluteJoint.cpp <314:32 314:43>]
@@ -956,7 +867,6 @@ LOCAL_SYMBOL: b2RevoluteJoint.cpp<309:11> [b2RevoluteJoint.cpp <315:4 315:15>]
 REFERENCE_USAGE bool b2RevoluteJoint::SolvePositionConstraints(const b2SolverData &) -> float32 b2RevoluteJoint::m_motorMass [b2RevoluteJoint.cpp <315:20 315:30>]
 LOCAL_SYMBOL: b2RevoluteJoint.cpp<314:12> [b2RevoluteJoint.cpp <315:34 315:34>]
 LOCAL_SYMBOL: b2RevoluteJoint.cpp<300:10> [b2RevoluteJoint.cpp <316:4 316:15>]
-SYMBOL_FUNCTION float b2Abs<float>(float)
 REFERENCE_CALL bool b2RevoluteJoint::SolvePositionConstraints(const b2SolverData &) -> float b2Abs<float>(float) [b2RevoluteJoint.cpp <316:19 316:23>]
 LOCAL_SYMBOL: b2RevoluteJoint.cpp<314:12> [b2RevoluteJoint.cpp <316:25 316:25>]
 REFERENCE_USAGE bool b2RevoluteJoint::SolvePositionConstraints(const b2SolverData &) -> b2LimitState b2RevoluteJoint::m_limitState [b2RevoluteJoint.cpp <318:12 318:23>]
@@ -968,7 +878,6 @@ REFERENCE_USAGE bool b2RevoluteJoint::SolvePositionConstraints(const b2SolverDat
 LOCAL_SYMBOL: b2RevoluteJoint.cpp<300:10> [b2RevoluteJoint.cpp <321:4 321:15>]
 LOCAL_SYMBOL: b2RevoluteJoint.cpp<320:12> [b2RevoluteJoint.cpp <321:20 321:20>]
 LOCAL_SYMBOL: b2RevoluteJoint.cpp<320:12> [b2RevoluteJoint.cpp <324:4 324:4>]
-SYMBOL_FUNCTION float b2Clamp<float>(float, float, float)
 REFERENCE_CALL bool b2RevoluteJoint::SolvePositionConstraints(const b2SolverData &) -> float b2Clamp<float>(float, float, float) [b2RevoluteJoint.cpp <324:8 324:14>]
 LOCAL_SYMBOL: b2RevoluteJoint.cpp<320:12> [b2RevoluteJoint.cpp <324:16 324:16>]
 LOCAL_SYMBOL: b2RevoluteJoint.cpp<309:11> [b2RevoluteJoint.cpp <325:4 325:15>]
@@ -983,7 +892,6 @@ REFERENCE_USAGE bool b2RevoluteJoint::SolvePositionConstraints(const b2SolverDat
 LOCAL_SYMBOL: b2RevoluteJoint.cpp<300:10> [b2RevoluteJoint.cpp <330:4 330:15>]
 LOCAL_SYMBOL: b2RevoluteJoint.cpp<329:12> [b2RevoluteJoint.cpp <330:19 330:19>]
 LOCAL_SYMBOL: b2RevoluteJoint.cpp<329:12> [b2RevoluteJoint.cpp <333:4 333:4>]
-SYMBOL_FUNCTION float b2Clamp<float>(float, float, float)
 REFERENCE_CALL bool b2RevoluteJoint::SolvePositionConstraints(const b2SolverData &) -> float b2Clamp<float>(float, float, float) [b2RevoluteJoint.cpp <333:8 333:14>]
 LOCAL_SYMBOL: b2RevoluteJoint.cpp<329:12> [b2RevoluteJoint.cpp <333:16 333:16>]
 LOCAL_SYMBOL: b2RevoluteJoint.cpp<309:11> [b2RevoluteJoint.cpp <334:4 334:15>]
@@ -999,35 +907,27 @@ SYMBOL_FUNCTION void b2Rot::Set(float32)
 REFERENCE_CALL bool b2RevoluteJoint::SolvePositionConstraints(const b2SolverData &) -> void b2Rot::Set(float32) [b2RevoluteJoint.cpp <343:6 343:8>]
 LOCAL_SYMBOL: b2RevoluteJoint.cpp<298:8> [b2RevoluteJoint.cpp <343:3 343:4>]
 LOCAL_SYMBOL: b2RevoluteJoint.cpp<294:10> [b2RevoluteJoint.cpp <343:10 343:11>]
-SYMBOL_FUNCTION void b2Rot::Set(float32)
 REFERENCE_CALL bool b2RevoluteJoint::SolvePositionConstraints(const b2SolverData &) -> void b2Rot::Set(float32) [b2RevoluteJoint.cpp <344:6 344:8>]
 LOCAL_SYMBOL: b2RevoluteJoint.cpp<298:16> [b2RevoluteJoint.cpp <344:3 344:4>]
 LOCAL_SYMBOL: b2RevoluteJoint.cpp<296:10> [b2RevoluteJoint.cpp <344:10 344:11>]
 LOCAL_SYMBOL: b2RevoluteJoint.cpp<345:10> [b2RevoluteJoint.cpp <345:10 345:11>]
 REFERENCE_TYPE_USAGE bool b2RevoluteJoint::SolvePositionConstraints(const b2SolverData &) -> b2Vec2 [b2RevoluteJoint.cpp <345:3 345:8>]
-SYMBOL_FUNCTION b2Vec2 b2Mul(const b2Rot &, const b2Vec2 &)
 REFERENCE_CALL bool b2RevoluteJoint::SolvePositionConstraints(const b2SolverData &) -> b2Vec2 b2Mul(const b2Rot &, const b2Vec2 &) [b2RevoluteJoint.cpp <345:15 345:19>]
 LOCAL_SYMBOL: b2RevoluteJoint.cpp<298:8> [b2RevoluteJoint.cpp <345:21 345:22>]
-SYMBOL_FUNCTION b2Vec2 operator-(const b2Vec2 &, const b2Vec2 &)
 REFERENCE_CALL bool b2RevoluteJoint::SolvePositionConstraints(const b2SolverData &) -> b2Vec2 operator-(const b2Vec2 &, const b2Vec2 &) [b2RevoluteJoint.cpp <345:40 345:40>]
 REFERENCE_USAGE bool b2RevoluteJoint::SolvePositionConstraints(const b2SolverData &) -> b2Vec2 b2RevoluteJoint::m_localAnchorA [b2RevoluteJoint.cpp <345:25 345:38>]
 REFERENCE_USAGE bool b2RevoluteJoint::SolvePositionConstraints(const b2SolverData &) -> b2Vec2 b2RevoluteJoint::m_localCenterA [b2RevoluteJoint.cpp <345:42 345:55>]
 LOCAL_SYMBOL: b2RevoluteJoint.cpp<346:10> [b2RevoluteJoint.cpp <346:10 346:11>]
 REFERENCE_TYPE_USAGE bool b2RevoluteJoint::SolvePositionConstraints(const b2SolverData &) -> b2Vec2 [b2RevoluteJoint.cpp <346:3 346:8>]
-SYMBOL_FUNCTION b2Vec2 b2Mul(const b2Rot &, const b2Vec2 &)
 REFERENCE_CALL bool b2RevoluteJoint::SolvePositionConstraints(const b2SolverData &) -> b2Vec2 b2Mul(const b2Rot &, const b2Vec2 &) [b2RevoluteJoint.cpp <346:15 346:19>]
 LOCAL_SYMBOL: b2RevoluteJoint.cpp<298:16> [b2RevoluteJoint.cpp <346:21 346:22>]
-SYMBOL_FUNCTION b2Vec2 operator-(const b2Vec2 &, const b2Vec2 &)
 REFERENCE_CALL bool b2RevoluteJoint::SolvePositionConstraints(const b2SolverData &) -> b2Vec2 operator-(const b2Vec2 &, const b2Vec2 &) [b2RevoluteJoint.cpp <346:40 346:40>]
 REFERENCE_USAGE bool b2RevoluteJoint::SolvePositionConstraints(const b2SolverData &) -> b2Vec2 b2RevoluteJoint::m_localAnchorB [b2RevoluteJoint.cpp <346:25 346:38>]
 REFERENCE_USAGE bool b2RevoluteJoint::SolvePositionConstraints(const b2SolverData &) -> b2Vec2 b2RevoluteJoint::m_localCenterB [b2RevoluteJoint.cpp <346:42 346:55>]
 LOCAL_SYMBOL: b2RevoluteJoint.cpp<348:10> [b2RevoluteJoint.cpp <348:10 348:10>]
 REFERENCE_TYPE_USAGE bool b2RevoluteJoint::SolvePositionConstraints(const b2SolverData &) -> b2Vec2 [b2RevoluteJoint.cpp <348:3 348:8>]
-SYMBOL_FUNCTION b2Vec2 operator-(const b2Vec2 &, const b2Vec2 &)
 REFERENCE_CALL bool b2RevoluteJoint::SolvePositionConstraints(const b2SolverData &) -> b2Vec2 operator-(const b2Vec2 &, const b2Vec2 &) [b2RevoluteJoint.cpp <348:27 348:27>]
-SYMBOL_FUNCTION b2Vec2 operator-(const b2Vec2 &, const b2Vec2 &)
 REFERENCE_CALL bool b2RevoluteJoint::SolvePositionConstraints(const b2SolverData &) -> b2Vec2 operator-(const b2Vec2 &, const b2Vec2 &) [b2RevoluteJoint.cpp <348:22 348:22>]
-SYMBOL_FUNCTION b2Vec2 operator+(const b2Vec2 &, const b2Vec2 &)
 REFERENCE_CALL bool b2RevoluteJoint::SolvePositionConstraints(const b2SolverData &) -> b2Vec2 operator+(const b2Vec2 &, const b2Vec2 &) [b2RevoluteJoint.cpp <348:17 348:17>]
 LOCAL_SYMBOL: b2RevoluteJoint.cpp<295:9> [b2RevoluteJoint.cpp <348:14 348:15>]
 LOCAL_SYMBOL: b2RevoluteJoint.cpp<346:10> [b2RevoluteJoint.cpp <348:19 348:20>]
@@ -1041,13 +941,11 @@ LOCAL_SYMBOL: b2RevoluteJoint.cpp<351:11> [b2RevoluteJoint.cpp <351:11 351:12>]
 REFERENCE_TYPE_USAGE bool b2RevoluteJoint::SolvePositionConstraints(const b2SolverData &) -> float32 [b2RevoluteJoint.cpp <351:3 351:9>]
 REFERENCE_USAGE bool b2RevoluteJoint::SolvePositionConstraints(const b2SolverData &) -> float32 b2RevoluteJoint::m_invMassA [b2RevoluteJoint.cpp <351:16 351:25>]
 LOCAL_SYMBOL: b2RevoluteJoint.cpp<351:28> [b2RevoluteJoint.cpp <351:28 351:29>]
-REFERENCE_TYPE_USAGE bool b2RevoluteJoint::SolvePositionConstraints(const b2SolverData &) -> float32 [b2RevoluteJoint.cpp <351:3 351:9>]
 REFERENCE_USAGE bool b2RevoluteJoint::SolvePositionConstraints(const b2SolverData &) -> float32 b2RevoluteJoint::m_invMassB [b2RevoluteJoint.cpp <351:33 351:42>]
 LOCAL_SYMBOL: b2RevoluteJoint.cpp<352:11> [b2RevoluteJoint.cpp <352:11 352:12>]
 REFERENCE_TYPE_USAGE bool b2RevoluteJoint::SolvePositionConstraints(const b2SolverData &) -> float32 [b2RevoluteJoint.cpp <352:3 352:9>]
 REFERENCE_USAGE bool b2RevoluteJoint::SolvePositionConstraints(const b2SolverData &) -> float32 b2RevoluteJoint::m_invIA [b2RevoluteJoint.cpp <352:16 352:22>]
 LOCAL_SYMBOL: b2RevoluteJoint.cpp<352:25> [b2RevoluteJoint.cpp <352:25 352:26>]
-REFERENCE_TYPE_USAGE bool b2RevoluteJoint::SolvePositionConstraints(const b2SolverData &) -> float32 [b2RevoluteJoint.cpp <352:3 352:9>]
 REFERENCE_USAGE bool b2RevoluteJoint::SolvePositionConstraints(const b2SolverData &) -> float32 b2RevoluteJoint::m_invIB [b2RevoluteJoint.cpp <352:30 352:36>]
 LOCAL_SYMBOL: b2RevoluteJoint.cpp<354:11> [b2RevoluteJoint.cpp <354:11 354:11>]
 REFERENCE_TYPE_USAGE bool b2RevoluteJoint::SolvePositionConstraints(const b2SolverData &) -> b2Mat22 [b2RevoluteJoint.cpp <354:3 354:9>]
@@ -1104,39 +1002,31 @@ REFERENCE_USAGE bool b2RevoluteJoint::SolvePositionConstraints(const b2SolverDat
 LOCAL_SYMBOL: b2RevoluteJoint.cpp<346:10> [b2RevoluteJoint.cpp <358:53 358:54>]
 LOCAL_SYMBOL: b2RevoluteJoint.cpp<360:10> [b2RevoluteJoint.cpp <360:10 360:16>]
 REFERENCE_TYPE_USAGE bool b2RevoluteJoint::SolvePositionConstraints(const b2SolverData &) -> b2Vec2 [b2RevoluteJoint.cpp <360:3 360:8>]
-SYMBOL_FUNCTION b2Vec2 b2Vec2::operator-() const
 REFERENCE_CALL bool b2RevoluteJoint::SolvePositionConstraints(const b2SolverData &) -> b2Vec2 b2Vec2::operator-() const [b2RevoluteJoint.cpp <360:20 360:20>]
 SYMBOL_FUNCTION b2Vec2 b2Mat22::Solve(const b2Vec2 &) const
 REFERENCE_CALL bool b2RevoluteJoint::SolvePositionConstraints(const b2SolverData &) -> b2Vec2 b2Mat22::Solve(const b2Vec2 &) const [b2RevoluteJoint.cpp <360:23 360:27>]
 LOCAL_SYMBOL: b2RevoluteJoint.cpp<354:11> [b2RevoluteJoint.cpp <360:21 360:21>]
 LOCAL_SYMBOL: b2RevoluteJoint.cpp<348:10> [b2RevoluteJoint.cpp <360:29 360:29>]
-SYMBOL_FUNCTION void b2Vec2::operator-=(const b2Vec2 &)
 REFERENCE_CALL bool b2RevoluteJoint::SolvePositionConstraints(const b2SolverData &) -> void b2Vec2::operator-=(const b2Vec2 &) [b2RevoluteJoint.cpp <362:6 362:7>]
 LOCAL_SYMBOL: b2RevoluteJoint.cpp<293:9> [b2RevoluteJoint.cpp <362:3 362:4>]
-SYMBOL_FUNCTION b2Vec2 operator*(float32, const b2Vec2 &)
 REFERENCE_CALL bool b2RevoluteJoint::SolvePositionConstraints(const b2SolverData &) -> b2Vec2 operator*(float32, const b2Vec2 &) [b2RevoluteJoint.cpp <362:12 362:12>]
 LOCAL_SYMBOL: b2RevoluteJoint.cpp<351:11> [b2RevoluteJoint.cpp <362:9 362:10>]
 LOCAL_SYMBOL: b2RevoluteJoint.cpp<360:10> [b2RevoluteJoint.cpp <362:14 362:20>]
 LOCAL_SYMBOL: b2RevoluteJoint.cpp<294:10> [b2RevoluteJoint.cpp <363:3 363:4>]
 LOCAL_SYMBOL: b2RevoluteJoint.cpp<352:11> [b2RevoluteJoint.cpp <363:9 363:10>]
-SYMBOL_FUNCTION float32 b2Cross(const b2Vec2 &, const b2Vec2 &)
 REFERENCE_CALL bool b2RevoluteJoint::SolvePositionConstraints(const b2SolverData &) -> float32 b2Cross(const b2Vec2 &, const b2Vec2 &) [b2RevoluteJoint.cpp <363:14 363:20>]
 LOCAL_SYMBOL: b2RevoluteJoint.cpp<345:10> [b2RevoluteJoint.cpp <363:22 363:23>]
 LOCAL_SYMBOL: b2RevoluteJoint.cpp<360:10> [b2RevoluteJoint.cpp <363:26 363:32>]
-SYMBOL_FUNCTION void b2Vec2::operator+=(const b2Vec2 &)
 REFERENCE_CALL bool b2RevoluteJoint::SolvePositionConstraints(const b2SolverData &) -> void b2Vec2::operator+=(const b2Vec2 &) [b2RevoluteJoint.cpp <365:6 365:7>]
 LOCAL_SYMBOL: b2RevoluteJoint.cpp<295:9> [b2RevoluteJoint.cpp <365:3 365:4>]
-SYMBOL_FUNCTION b2Vec2 operator*(float32, const b2Vec2 &)
 REFERENCE_CALL bool b2RevoluteJoint::SolvePositionConstraints(const b2SolverData &) -> b2Vec2 operator*(float32, const b2Vec2 &) [b2RevoluteJoint.cpp <365:12 365:12>]
 LOCAL_SYMBOL: b2RevoluteJoint.cpp<351:28> [b2RevoluteJoint.cpp <365:9 365:10>]
 LOCAL_SYMBOL: b2RevoluteJoint.cpp<360:10> [b2RevoluteJoint.cpp <365:14 365:20>]
 LOCAL_SYMBOL: b2RevoluteJoint.cpp<296:10> [b2RevoluteJoint.cpp <366:3 366:4>]
 LOCAL_SYMBOL: b2RevoluteJoint.cpp<352:25> [b2RevoluteJoint.cpp <366:9 366:10>]
-SYMBOL_FUNCTION float32 b2Cross(const b2Vec2 &, const b2Vec2 &)
 REFERENCE_CALL bool b2RevoluteJoint::SolvePositionConstraints(const b2SolverData &) -> float32 b2Cross(const b2Vec2 &, const b2Vec2 &) [b2RevoluteJoint.cpp <366:14 366:20>]
 LOCAL_SYMBOL: b2RevoluteJoint.cpp<346:10> [b2RevoluteJoint.cpp <366:22 366:23>]
 LOCAL_SYMBOL: b2RevoluteJoint.cpp<360:10> [b2RevoluteJoint.cpp <366:26 366:32>]
-SYMBOL_FUNCTION b2Vec2 & b2Vec2::operator=(const b2Vec2 &)
 REFERENCE_CALL bool b2RevoluteJoint::SolvePositionConstraints(const b2SolverData &) -> b2Vec2 & b2Vec2::operator=(const b2Vec2 &) [b2RevoluteJoint.cpp <369:29 369:29>]
 REFERENCE_USAGE bool b2RevoluteJoint::SolvePositionConstraints(const b2SolverData &) -> b2Vec2 b2Position::c [b2RevoluteJoint.cpp <369:27 369:27>]
 REFERENCE_USAGE bool b2RevoluteJoint::SolvePositionConstraints(const b2SolverData &) -> b2Position * b2SolverData::positions [b2RevoluteJoint.cpp <369:7 369:15>]
@@ -1148,7 +1038,6 @@ REFERENCE_USAGE bool b2RevoluteJoint::SolvePositionConstraints(const b2SolverDat
 LOCAL_SYMBOL: b2RevoluteJoint.cpp<291:68> [b2RevoluteJoint.cpp <370:2 370:5>]
 REFERENCE_USAGE bool b2RevoluteJoint::SolvePositionConstraints(const b2SolverData &) -> int32 b2RevoluteJoint::m_indexA [b2RevoluteJoint.cpp <370:17 370:24>]
 LOCAL_SYMBOL: b2RevoluteJoint.cpp<294:10> [b2RevoluteJoint.cpp <370:31 370:32>]
-SYMBOL_FUNCTION b2Vec2 & b2Vec2::operator=(const b2Vec2 &)
 REFERENCE_CALL bool b2RevoluteJoint::SolvePositionConstraints(const b2SolverData &) -> b2Vec2 & b2Vec2::operator=(const b2Vec2 &) [b2RevoluteJoint.cpp <371:29 371:29>]
 REFERENCE_USAGE bool b2RevoluteJoint::SolvePositionConstraints(const b2SolverData &) -> b2Vec2 b2Position::c [b2RevoluteJoint.cpp <371:27 371:27>]
 REFERENCE_USAGE bool b2RevoluteJoint::SolvePositionConstraints(const b2SolverData &) -> b2Position * b2SolverData::positions [b2RevoluteJoint.cpp <371:7 371:15>]
@@ -1165,7 +1054,7 @@ LOCAL_SYMBOL: b2RevoluteJoint.cpp<300:10> [b2RevoluteJoint.cpp <374:43 374:54>]
 SYMBOL_METHOD public b2Vec2 b2RevoluteJoint::GetAnchorA() const [b2RevoluteJoint.cpp <377:1 <377:25 377:34> 380:1>]
 SYMBOL_FUNCTION b2Vec2 b2Joint::GetAnchorA() const
 REFERENCE_OVERRIDE b2Vec2 b2RevoluteJoint::GetAnchorA() const -> b2Vec2 b2Joint::GetAnchorA() const [b2RevoluteJoint.cpp <377:25 377:34>]
-SYMBOL_CLASS b2RevoluteJoint
+QUALIFIER: b2RevoluteJoint [b2RevoluteJoint.cpp <377:8 377:22>]
 REFERENCE_TYPE_USAGE b2Vec2 b2RevoluteJoint::GetAnchorA() const -> b2Vec2 [b2RevoluteJoint.cpp <377:1 377:6>]
 SYMBOL_FUNCTION b2Vec2 b2Body::GetWorldPoint(const b2Vec2 &) const
 REFERENCE_CALL b2Vec2 b2RevoluteJoint::GetAnchorA() const -> b2Vec2 b2Body::GetWorldPoint(const b2Vec2 &) const [b2RevoluteJoint.cpp <379:18 379:30>]
@@ -1174,35 +1063,32 @@ REFERENCE_USAGE b2Vec2 b2RevoluteJoint::GetAnchorA() const -> b2Vec2 b2RevoluteJ
 SYMBOL_METHOD public b2Vec2 b2RevoluteJoint::GetAnchorB() const [b2RevoluteJoint.cpp <382:1 <382:25 382:34> 385:1>]
 SYMBOL_FUNCTION b2Vec2 b2Joint::GetAnchorB() const
 REFERENCE_OVERRIDE b2Vec2 b2RevoluteJoint::GetAnchorB() const -> b2Vec2 b2Joint::GetAnchorB() const [b2RevoluteJoint.cpp <382:25 382:34>]
-SYMBOL_CLASS b2RevoluteJoint
+QUALIFIER: b2RevoluteJoint [b2RevoluteJoint.cpp <382:8 382:22>]
 REFERENCE_TYPE_USAGE b2Vec2 b2RevoluteJoint::GetAnchorB() const -> b2Vec2 [b2RevoluteJoint.cpp <382:1 382:6>]
-SYMBOL_FUNCTION b2Vec2 b2Body::GetWorldPoint(const b2Vec2 &) const
 REFERENCE_CALL b2Vec2 b2RevoluteJoint::GetAnchorB() const -> b2Vec2 b2Body::GetWorldPoint(const b2Vec2 &) const [b2RevoluteJoint.cpp <384:18 384:30>]
 REFERENCE_USAGE b2Vec2 b2RevoluteJoint::GetAnchorB() const -> b2Body * b2Joint::m_bodyB [b2RevoluteJoint.cpp <384:9 384:15>]
 REFERENCE_USAGE b2Vec2 b2RevoluteJoint::GetAnchorB() const -> b2Vec2 b2RevoluteJoint::m_localAnchorB [b2RevoluteJoint.cpp <384:32 384:45>]
 SYMBOL_METHOD public b2Vec2 b2RevoluteJoint::GetReactionForce(float32) const [b2RevoluteJoint.cpp <387:1 <387:25 387:40> 391:1>]
 SYMBOL_FUNCTION b2Vec2 b2Joint::GetReactionForce(float32) const
 REFERENCE_OVERRIDE b2Vec2 b2RevoluteJoint::GetReactionForce(float32) const -> b2Vec2 b2Joint::GetReactionForce(float32) const [b2RevoluteJoint.cpp <387:25 387:40>]
-SYMBOL_CLASS b2RevoluteJoint
+QUALIFIER: b2RevoluteJoint [b2RevoluteJoint.cpp <387:8 387:22>]
 REFERENCE_TYPE_USAGE b2Vec2 b2RevoluteJoint::GetReactionForce(float32) const -> b2Vec2 [b2RevoluteJoint.cpp <387:1 387:6>]
 LOCAL_SYMBOL: b2RevoluteJoint.cpp<387:50> [b2RevoluteJoint.cpp <387:50 387:55>]
 REFERENCE_TYPE_USAGE b2Vec2 b2RevoluteJoint::GetReactionForce(float32) const -> float32 [b2RevoluteJoint.cpp <387:42 387:48>]
 LOCAL_SYMBOL: b2RevoluteJoint.cpp<389:9> [b2RevoluteJoint.cpp <389:9 389:9>]
 REFERENCE_TYPE_USAGE b2Vec2 b2RevoluteJoint::GetReactionForce(float32) const -> b2Vec2 [b2RevoluteJoint.cpp <389:2 389:7>]
-SYMBOL_FUNCTION void b2Vec2::b2Vec2(float32, float32)
 REFERENCE_CALL b2Vec2 b2RevoluteJoint::GetReactionForce(float32) const -> void b2Vec2::b2Vec2(float32, float32) [b2RevoluteJoint.cpp <389:9 389:9>]
 REFERENCE_USAGE b2Vec2 b2RevoluteJoint::GetReactionForce(float32) const -> float32 b2Vec3::x [b2RevoluteJoint.cpp <389:21 389:21>]
 REFERENCE_USAGE b2Vec2 b2RevoluteJoint::GetReactionForce(float32) const -> b2Vec3 b2RevoluteJoint::m_impulse [b2RevoluteJoint.cpp <389:11 389:19>]
 REFERENCE_USAGE b2Vec2 b2RevoluteJoint::GetReactionForce(float32) const -> float32 b2Vec3::y [b2RevoluteJoint.cpp <389:34 389:34>]
 REFERENCE_USAGE b2Vec2 b2RevoluteJoint::GetReactionForce(float32) const -> b2Vec3 b2RevoluteJoint::m_impulse [b2RevoluteJoint.cpp <389:24 389:32>]
-SYMBOL_FUNCTION b2Vec2 operator*(float32, const b2Vec2 &)
 REFERENCE_CALL b2Vec2 b2RevoluteJoint::GetReactionForce(float32) const -> b2Vec2 operator*(float32, const b2Vec2 &) [b2RevoluteJoint.cpp <390:16 390:16>]
 LOCAL_SYMBOL: b2RevoluteJoint.cpp<387:50> [b2RevoluteJoint.cpp <390:9 390:14>]
 LOCAL_SYMBOL: b2RevoluteJoint.cpp<389:9> [b2RevoluteJoint.cpp <390:18 390:18>]
 SYMBOL_METHOD public float32 b2RevoluteJoint::GetReactionTorque(float32) const [b2RevoluteJoint.cpp <393:1 <393:26 393:42> 396:1>]
 SYMBOL_FUNCTION float32 b2Joint::GetReactionTorque(float32) const
 REFERENCE_OVERRIDE float32 b2RevoluteJoint::GetReactionTorque(float32) const -> float32 b2Joint::GetReactionTorque(float32) const [b2RevoluteJoint.cpp <393:26 393:42>]
-SYMBOL_CLASS b2RevoluteJoint
+QUALIFIER: b2RevoluteJoint [b2RevoluteJoint.cpp <393:9 393:23>]
 REFERENCE_TYPE_USAGE float32 b2RevoluteJoint::GetReactionTorque(float32) const -> float32 [b2RevoluteJoint.cpp <393:1 393:7>]
 LOCAL_SYMBOL: b2RevoluteJoint.cpp<393:52> [b2RevoluteJoint.cpp <393:52 393:57>]
 REFERENCE_TYPE_USAGE float32 b2RevoluteJoint::GetReactionTorque(float32) const -> float32 [b2RevoluteJoint.cpp <393:44 393:50>]
@@ -1210,7 +1096,7 @@ LOCAL_SYMBOL: b2RevoluteJoint.cpp<393:52> [b2RevoluteJoint.cpp <395:9 395:14>]
 REFERENCE_USAGE float32 b2RevoluteJoint::GetReactionTorque(float32) const -> float32 b2Vec3::z [b2RevoluteJoint.cpp <395:28 395:28>]
 REFERENCE_USAGE float32 b2RevoluteJoint::GetReactionTorque(float32) const -> b2Vec3 b2RevoluteJoint::m_impulse [b2RevoluteJoint.cpp <395:18 395:26>]
 SYMBOL_METHOD public float32 b2RevoluteJoint::GetJointAngle() const [b2RevoluteJoint.cpp <398:1 <398:26 398:38> 403:1>]
-SYMBOL_CLASS b2RevoluteJoint
+QUALIFIER: b2RevoluteJoint [b2RevoluteJoint.cpp <398:9 398:23>]
 REFERENCE_TYPE_USAGE float32 b2RevoluteJoint::GetJointAngle() const -> float32 [b2RevoluteJoint.cpp <398:1 398:7>]
 LOCAL_SYMBOL: b2RevoluteJoint.cpp<400:10> [b2RevoluteJoint.cpp <400:10 400:11>]
 REFERENCE_TYPE_USAGE float32 b2RevoluteJoint::GetJointAngle() const -> b2Body [b2RevoluteJoint.cpp <400:2 400:7>]
@@ -1226,7 +1112,7 @@ REFERENCE_USAGE float32 b2RevoluteJoint::GetJointAngle() const -> b2Sweep b2Body
 LOCAL_SYMBOL: b2RevoluteJoint.cpp<400:10> [b2RevoluteJoint.cpp <402:25 402:26>]
 REFERENCE_USAGE float32 b2RevoluteJoint::GetJointAngle() const -> float32 b2RevoluteJoint::m_referenceAngle [b2RevoluteJoint.cpp <402:41 402:56>]
 SYMBOL_METHOD public float32 b2RevoluteJoint::GetJointSpeed() const [b2RevoluteJoint.cpp <405:1 <405:26 405:38> 410:1>]
-SYMBOL_CLASS b2RevoluteJoint
+QUALIFIER: b2RevoluteJoint [b2RevoluteJoint.cpp <405:9 405:23>]
 REFERENCE_TYPE_USAGE float32 b2RevoluteJoint::GetJointSpeed() const -> float32 [b2RevoluteJoint.cpp <405:1 405:7>]
 LOCAL_SYMBOL: b2RevoluteJoint.cpp<407:10> [b2RevoluteJoint.cpp <407:10 407:11>]
 REFERENCE_TYPE_USAGE float32 b2RevoluteJoint::GetJointSpeed() const -> b2Body [b2RevoluteJoint.cpp <407:2 407:7>]
@@ -1239,84 +1125,69 @@ LOCAL_SYMBOL: b2RevoluteJoint.cpp<408:10> [b2RevoluteJoint.cpp <409:9 409:10>]
 REFERENCE_USAGE float32 b2RevoluteJoint::GetJointSpeed() const -> float32 b2Body::m_angularVelocity [b2RevoluteJoint.cpp <409:37 409:53>]
 LOCAL_SYMBOL: b2RevoluteJoint.cpp<407:10> [b2RevoluteJoint.cpp <409:33 409:34>]
 SYMBOL_METHOD public bool b2RevoluteJoint::IsMotorEnabled() const [b2RevoluteJoint.cpp <412:1 <412:23 412:36> 415:1>]
-SYMBOL_CLASS b2RevoluteJoint
-SYMBOL_BUILTIN_TYPE bool
+QUALIFIER: b2RevoluteJoint [b2RevoluteJoint.cpp <412:6 412:20>]
 REFERENCE_TYPE_USAGE bool b2RevoluteJoint::IsMotorEnabled() const -> bool [b2RevoluteJoint.cpp <412:1 412:4>]
 REFERENCE_USAGE bool b2RevoluteJoint::IsMotorEnabled() const -> bool b2RevoluteJoint::m_enableMotor [b2RevoluteJoint.cpp <414:9 414:21>]
 SYMBOL_METHOD public void b2RevoluteJoint::EnableMotor(bool) [b2RevoluteJoint.cpp <417:1 <417:23 417:33> 425:1>]
-SYMBOL_CLASS b2RevoluteJoint
-SYMBOL_BUILTIN_TYPE void
+QUALIFIER: b2RevoluteJoint [b2RevoluteJoint.cpp <417:6 417:20>]
 REFERENCE_TYPE_USAGE void b2RevoluteJoint::EnableMotor(bool) -> void [b2RevoluteJoint.cpp <417:1 417:4>]
 LOCAL_SYMBOL: b2RevoluteJoint.cpp<417:40> [b2RevoluteJoint.cpp <417:40 417:43>]
-SYMBOL_BUILTIN_TYPE bool
 REFERENCE_TYPE_USAGE void b2RevoluteJoint::EnableMotor(bool) -> bool [b2RevoluteJoint.cpp <417:35 417:38>]
 LOCAL_SYMBOL: b2RevoluteJoint.cpp<417:40> [b2RevoluteJoint.cpp <419:6 419:9>]
 REFERENCE_USAGE void b2RevoluteJoint::EnableMotor(bool) -> bool b2RevoluteJoint::m_enableMotor [b2RevoluteJoint.cpp <419:14 419:26>]
 SYMBOL_FUNCTION void b2Body::SetAwake(bool)
 REFERENCE_CALL void b2RevoluteJoint::EnableMotor(bool) -> void b2Body::SetAwake(bool) [b2RevoluteJoint.cpp <421:12 421:19>]
 REFERENCE_USAGE void b2RevoluteJoint::EnableMotor(bool) -> b2Body * b2Joint::m_bodyA [b2RevoluteJoint.cpp <421:3 421:9>]
-SYMBOL_FUNCTION void b2Body::SetAwake(bool)
 REFERENCE_CALL void b2RevoluteJoint::EnableMotor(bool) -> void b2Body::SetAwake(bool) [b2RevoluteJoint.cpp <422:12 422:19>]
 REFERENCE_USAGE void b2RevoluteJoint::EnableMotor(bool) -> b2Body * b2Joint::m_bodyB [b2RevoluteJoint.cpp <422:3 422:9>]
 REFERENCE_USAGE void b2RevoluteJoint::EnableMotor(bool) -> bool b2RevoluteJoint::m_enableMotor [b2RevoluteJoint.cpp <423:3 423:15>]
 LOCAL_SYMBOL: b2RevoluteJoint.cpp<417:40> [b2RevoluteJoint.cpp <423:19 423:22>]
 SYMBOL_METHOD public float32 b2RevoluteJoint::GetMotorTorque(float32) const [b2RevoluteJoint.cpp <427:1 <427:26 427:39> 430:1>]
-SYMBOL_CLASS b2RevoluteJoint
+QUALIFIER: b2RevoluteJoint [b2RevoluteJoint.cpp <427:9 427:23>]
 REFERENCE_TYPE_USAGE float32 b2RevoluteJoint::GetMotorTorque(float32) const -> float32 [b2RevoluteJoint.cpp <427:1 427:7>]
 LOCAL_SYMBOL: b2RevoluteJoint.cpp<427:49> [b2RevoluteJoint.cpp <427:49 427:54>]
 REFERENCE_TYPE_USAGE float32 b2RevoluteJoint::GetMotorTorque(float32) const -> float32 [b2RevoluteJoint.cpp <427:41 427:47>]
 LOCAL_SYMBOL: b2RevoluteJoint.cpp<427:49> [b2RevoluteJoint.cpp <429:9 429:14>]
 REFERENCE_USAGE float32 b2RevoluteJoint::GetMotorTorque(float32) const -> float32 b2RevoluteJoint::m_motorImpulse [b2RevoluteJoint.cpp <429:18 429:31>]
 SYMBOL_METHOD public void b2RevoluteJoint::SetMotorSpeed(float32) [b2RevoluteJoint.cpp <432:1 <432:23 432:35> 440:1>]
-SYMBOL_CLASS b2RevoluteJoint
-SYMBOL_BUILTIN_TYPE void
+QUALIFIER: b2RevoluteJoint [b2RevoluteJoint.cpp <432:6 432:20>]
 REFERENCE_TYPE_USAGE void b2RevoluteJoint::SetMotorSpeed(float32) -> void [b2RevoluteJoint.cpp <432:1 432:4>]
 LOCAL_SYMBOL: b2RevoluteJoint.cpp<432:45> [b2RevoluteJoint.cpp <432:45 432:49>]
 REFERENCE_TYPE_USAGE void b2RevoluteJoint::SetMotorSpeed(float32) -> float32 [b2RevoluteJoint.cpp <432:37 432:43>]
 LOCAL_SYMBOL: b2RevoluteJoint.cpp<432:45> [b2RevoluteJoint.cpp <434:6 434:10>]
 REFERENCE_USAGE void b2RevoluteJoint::SetMotorSpeed(float32) -> float32 b2RevoluteJoint::m_motorSpeed [b2RevoluteJoint.cpp <434:15 434:26>]
-SYMBOL_FUNCTION void b2Body::SetAwake(bool)
 REFERENCE_CALL void b2RevoluteJoint::SetMotorSpeed(float32) -> void b2Body::SetAwake(bool) [b2RevoluteJoint.cpp <436:12 436:19>]
 REFERENCE_USAGE void b2RevoluteJoint::SetMotorSpeed(float32) -> b2Body * b2Joint::m_bodyA [b2RevoluteJoint.cpp <436:3 436:9>]
-SYMBOL_FUNCTION void b2Body::SetAwake(bool)
 REFERENCE_CALL void b2RevoluteJoint::SetMotorSpeed(float32) -> void b2Body::SetAwake(bool) [b2RevoluteJoint.cpp <437:12 437:19>]
 REFERENCE_USAGE void b2RevoluteJoint::SetMotorSpeed(float32) -> b2Body * b2Joint::m_bodyB [b2RevoluteJoint.cpp <437:3 437:9>]
 REFERENCE_USAGE void b2RevoluteJoint::SetMotorSpeed(float32) -> float32 b2RevoluteJoint::m_motorSpeed [b2RevoluteJoint.cpp <438:3 438:14>]
 LOCAL_SYMBOL: b2RevoluteJoint.cpp<432:45> [b2RevoluteJoint.cpp <438:18 438:22>]
 SYMBOL_METHOD public void b2RevoluteJoint::SetMaxMotorTorque(float32) [b2RevoluteJoint.cpp <442:1 <442:23 442:39> 450:1>]
-SYMBOL_CLASS b2RevoluteJoint
-SYMBOL_BUILTIN_TYPE void
+QUALIFIER: b2RevoluteJoint [b2RevoluteJoint.cpp <442:6 442:20>]
 REFERENCE_TYPE_USAGE void b2RevoluteJoint::SetMaxMotorTorque(float32) -> void [b2RevoluteJoint.cpp <442:1 442:4>]
 LOCAL_SYMBOL: b2RevoluteJoint.cpp<442:49> [b2RevoluteJoint.cpp <442:49 442:54>]
 REFERENCE_TYPE_USAGE void b2RevoluteJoint::SetMaxMotorTorque(float32) -> float32 [b2RevoluteJoint.cpp <442:41 442:47>]
 LOCAL_SYMBOL: b2RevoluteJoint.cpp<442:49> [b2RevoluteJoint.cpp <444:6 444:11>]
 REFERENCE_USAGE void b2RevoluteJoint::SetMaxMotorTorque(float32) -> float32 b2RevoluteJoint::m_maxMotorTorque [b2RevoluteJoint.cpp <444:16 444:31>]
-SYMBOL_FUNCTION void b2Body::SetAwake(bool)
 REFERENCE_CALL void b2RevoluteJoint::SetMaxMotorTorque(float32) -> void b2Body::SetAwake(bool) [b2RevoluteJoint.cpp <446:12 446:19>]
 REFERENCE_USAGE void b2RevoluteJoint::SetMaxMotorTorque(float32) -> b2Body * b2Joint::m_bodyA [b2RevoluteJoint.cpp <446:3 446:9>]
-SYMBOL_FUNCTION void b2Body::SetAwake(bool)
 REFERENCE_CALL void b2RevoluteJoint::SetMaxMotorTorque(float32) -> void b2Body::SetAwake(bool) [b2RevoluteJoint.cpp <447:12 447:19>]
 REFERENCE_USAGE void b2RevoluteJoint::SetMaxMotorTorque(float32) -> b2Body * b2Joint::m_bodyB [b2RevoluteJoint.cpp <447:3 447:9>]
 REFERENCE_USAGE void b2RevoluteJoint::SetMaxMotorTorque(float32) -> float32 b2RevoluteJoint::m_maxMotorTorque [b2RevoluteJoint.cpp <448:3 448:18>]
 LOCAL_SYMBOL: b2RevoluteJoint.cpp<442:49> [b2RevoluteJoint.cpp <448:22 448:27>]
 SYMBOL_METHOD public bool b2RevoluteJoint::IsLimitEnabled() const [b2RevoluteJoint.cpp <452:1 <452:23 452:36> 455:1>]
-SYMBOL_CLASS b2RevoluteJoint
-SYMBOL_BUILTIN_TYPE bool
+QUALIFIER: b2RevoluteJoint [b2RevoluteJoint.cpp <452:6 452:20>]
 REFERENCE_TYPE_USAGE bool b2RevoluteJoint::IsLimitEnabled() const -> bool [b2RevoluteJoint.cpp <452:1 452:4>]
 REFERENCE_USAGE bool b2RevoluteJoint::IsLimitEnabled() const -> bool b2RevoluteJoint::m_enableLimit [b2RevoluteJoint.cpp <454:9 454:21>]
 SYMBOL_METHOD public void b2RevoluteJoint::EnableLimit(bool) [b2RevoluteJoint.cpp <457:1 <457:23 457:33> 466:1>]
-SYMBOL_CLASS b2RevoluteJoint
-SYMBOL_BUILTIN_TYPE void
+QUALIFIER: b2RevoluteJoint [b2RevoluteJoint.cpp <457:6 457:20>]
 REFERENCE_TYPE_USAGE void b2RevoluteJoint::EnableLimit(bool) -> void [b2RevoluteJoint.cpp <457:1 457:4>]
 LOCAL_SYMBOL: b2RevoluteJoint.cpp<457:40> [b2RevoluteJoint.cpp <457:40 457:43>]
-SYMBOL_BUILTIN_TYPE bool
 REFERENCE_TYPE_USAGE void b2RevoluteJoint::EnableLimit(bool) -> bool [b2RevoluteJoint.cpp <457:35 457:38>]
 LOCAL_SYMBOL: b2RevoluteJoint.cpp<457:40> [b2RevoluteJoint.cpp <459:6 459:9>]
 REFERENCE_USAGE void b2RevoluteJoint::EnableLimit(bool) -> bool b2RevoluteJoint::m_enableLimit [b2RevoluteJoint.cpp <459:14 459:26>]
-SYMBOL_FUNCTION void b2Body::SetAwake(bool)
 REFERENCE_CALL void b2RevoluteJoint::EnableLimit(bool) -> void b2Body::SetAwake(bool) [b2RevoluteJoint.cpp <461:12 461:19>]
 REFERENCE_USAGE void b2RevoluteJoint::EnableLimit(bool) -> b2Body * b2Joint::m_bodyA [b2RevoluteJoint.cpp <461:3 461:9>]
-SYMBOL_FUNCTION void b2Body::SetAwake(bool)
 REFERENCE_CALL void b2RevoluteJoint::EnableLimit(bool) -> void b2Body::SetAwake(bool) [b2RevoluteJoint.cpp <462:12 462:19>]
 REFERENCE_USAGE void b2RevoluteJoint::EnableLimit(bool) -> b2Body * b2Joint::m_bodyB [b2RevoluteJoint.cpp <462:3 462:9>]
 REFERENCE_USAGE void b2RevoluteJoint::EnableLimit(bool) -> bool b2RevoluteJoint::m_enableLimit [b2RevoluteJoint.cpp <463:3 463:15>]
@@ -1324,16 +1195,15 @@ LOCAL_SYMBOL: b2RevoluteJoint.cpp<457:40> [b2RevoluteJoint.cpp <463:19 463:22>]
 REFERENCE_USAGE void b2RevoluteJoint::EnableLimit(bool) -> float32 b2Vec3::z [b2RevoluteJoint.cpp <464:13 464:13>]
 REFERENCE_USAGE void b2RevoluteJoint::EnableLimit(bool) -> b2Vec3 b2RevoluteJoint::m_impulse [b2RevoluteJoint.cpp <464:3 464:11>]
 SYMBOL_METHOD public float32 b2RevoluteJoint::GetLowerLimit() const [b2RevoluteJoint.cpp <468:1 <468:26 468:38> 471:1>]
-SYMBOL_CLASS b2RevoluteJoint
+QUALIFIER: b2RevoluteJoint [b2RevoluteJoint.cpp <468:9 468:23>]
 REFERENCE_TYPE_USAGE float32 b2RevoluteJoint::GetLowerLimit() const -> float32 [b2RevoluteJoint.cpp <468:1 468:7>]
 REFERENCE_USAGE float32 b2RevoluteJoint::GetLowerLimit() const -> float32 b2RevoluteJoint::m_lowerAngle [b2RevoluteJoint.cpp <470:9 470:20>]
 SYMBOL_METHOD public float32 b2RevoluteJoint::GetUpperLimit() const [b2RevoluteJoint.cpp <473:1 <473:26 473:38> 476:1>]
-SYMBOL_CLASS b2RevoluteJoint
+QUALIFIER: b2RevoluteJoint [b2RevoluteJoint.cpp <473:9 473:23>]
 REFERENCE_TYPE_USAGE float32 b2RevoluteJoint::GetUpperLimit() const -> float32 [b2RevoluteJoint.cpp <473:1 473:7>]
 REFERENCE_USAGE float32 b2RevoluteJoint::GetUpperLimit() const -> float32 b2RevoluteJoint::m_upperAngle [b2RevoluteJoint.cpp <475:9 475:20>]
 SYMBOL_METHOD public void b2RevoluteJoint::SetLimits(float32, float32) [b2RevoluteJoint.cpp <478:1 <478:23 478:31> 490:1>]
-SYMBOL_CLASS b2RevoluteJoint
-SYMBOL_BUILTIN_TYPE void
+QUALIFIER: b2RevoluteJoint [b2RevoluteJoint.cpp <478:6 478:20>]
 REFERENCE_TYPE_USAGE void b2RevoluteJoint::SetLimits(float32, float32) -> void [b2RevoluteJoint.cpp <478:1 478:4>]
 LOCAL_SYMBOL: b2RevoluteJoint.cpp<478:41> [b2RevoluteJoint.cpp <478:41 478:45>]
 REFERENCE_TYPE_USAGE void b2RevoluteJoint::SetLimits(float32, float32) -> float32 [b2RevoluteJoint.cpp <478:33 478:39>]
@@ -1345,10 +1215,8 @@ LOCAL_SYMBOL: b2RevoluteJoint.cpp<478:41> [b2RevoluteJoint.cpp <482:6 482:10>]
 REFERENCE_USAGE void b2RevoluteJoint::SetLimits(float32, float32) -> float32 b2RevoluteJoint::m_lowerAngle [b2RevoluteJoint.cpp <482:15 482:26>]
 LOCAL_SYMBOL: b2RevoluteJoint.cpp<478:56> [b2RevoluteJoint.cpp <482:31 482:35>]
 REFERENCE_USAGE void b2RevoluteJoint::SetLimits(float32, float32) -> float32 b2RevoluteJoint::m_upperAngle [b2RevoluteJoint.cpp <482:40 482:51>]
-SYMBOL_FUNCTION void b2Body::SetAwake(bool)
 REFERENCE_CALL void b2RevoluteJoint::SetLimits(float32, float32) -> void b2Body::SetAwake(bool) [b2RevoluteJoint.cpp <484:12 484:19>]
 REFERENCE_USAGE void b2RevoluteJoint::SetLimits(float32, float32) -> b2Body * b2Joint::m_bodyA [b2RevoluteJoint.cpp <484:3 484:9>]
-SYMBOL_FUNCTION void b2Body::SetAwake(bool)
 REFERENCE_CALL void b2RevoluteJoint::SetLimits(float32, float32) -> void b2Body::SetAwake(bool) [b2RevoluteJoint.cpp <485:12 485:19>]
 REFERENCE_USAGE void b2RevoluteJoint::SetLimits(float32, float32) -> b2Body * b2Joint::m_bodyB [b2RevoluteJoint.cpp <485:3 485:9>]
 REFERENCE_USAGE void b2RevoluteJoint::SetLimits(float32, float32) -> float32 b2Vec3::z [b2RevoluteJoint.cpp <486:13 486:13>]
@@ -1360,8 +1228,7 @@ LOCAL_SYMBOL: b2RevoluteJoint.cpp<478:56> [b2RevoluteJoint.cpp <488:18 488:22>]
 SYMBOL_METHOD public void b2RevoluteJoint::Dump() [b2RevoluteJoint.cpp <492:1 <492:23 492:26> 511:1>]
 SYMBOL_FUNCTION void b2Joint::Dump()
 REFERENCE_OVERRIDE void b2RevoluteJoint::Dump() -> void b2Joint::Dump() [b2RevoluteJoint.cpp <492:23 492:26>]
-SYMBOL_CLASS b2RevoluteJoint
-SYMBOL_BUILTIN_TYPE void
+QUALIFIER: b2RevoluteJoint [b2RevoluteJoint.cpp <492:6 492:20>]
 REFERENCE_TYPE_USAGE void b2RevoluteJoint::Dump() -> void [b2RevoluteJoint.cpp <492:1 492:4>]
 LOCAL_SYMBOL: b2RevoluteJoint.cpp<494:8> [b2RevoluteJoint.cpp <494:8 494:13>]
 REFERENCE_TYPE_USAGE void b2RevoluteJoint::Dump() -> int32 [b2RevoluteJoint.cpp <494:2 494:6>]
@@ -1373,48 +1240,35 @@ REFERENCE_USAGE void b2RevoluteJoint::Dump() -> int32 b2Body::m_islandIndex [b2R
 REFERENCE_USAGE void b2RevoluteJoint::Dump() -> b2Body * b2Joint::m_bodyB [b2RevoluteJoint.cpp <495:17 495:23>]
 SYMBOL_FUNCTION void b2Log(const char *)
 REFERENCE_CALL void b2RevoluteJoint::Dump() -> void b2Log(const char *) [b2RevoluteJoint.cpp <497:2 497:6>]
-SYMBOL_FUNCTION void b2Log(const char *)
 REFERENCE_CALL void b2RevoluteJoint::Dump() -> void b2Log(const char *) [b2RevoluteJoint.cpp <498:2 498:6>]
 LOCAL_SYMBOL: b2RevoluteJoint.cpp<494:8> [b2RevoluteJoint.cpp <498:38 498:43>]
-SYMBOL_FUNCTION void b2Log(const char *)
 REFERENCE_CALL void b2RevoluteJoint::Dump() -> void b2Log(const char *) [b2RevoluteJoint.cpp <499:2 499:6>]
 LOCAL_SYMBOL: b2RevoluteJoint.cpp<495:8> [b2RevoluteJoint.cpp <499:38 499:43>]
-SYMBOL_FUNCTION void b2Log(const char *)
 REFERENCE_CALL void b2RevoluteJoint::Dump() -> void b2Log(const char *) [b2RevoluteJoint.cpp <500:2 500:6>]
 REFERENCE_USAGE void b2RevoluteJoint::Dump() -> bool b2Joint::m_collideConnected [b2RevoluteJoint.cpp <500:47 500:64>]
-SYMBOL_FUNCTION void b2Log(const char *)
 REFERENCE_CALL void b2RevoluteJoint::Dump() -> void b2Log(const char *) [b2RevoluteJoint.cpp <501:2 501:6>]
 REFERENCE_USAGE void b2RevoluteJoint::Dump() -> float32 b2Vec2::x [b2RevoluteJoint.cpp <501:69 501:69>]
 REFERENCE_USAGE void b2RevoluteJoint::Dump() -> b2Vec2 b2RevoluteJoint::m_localAnchorA [b2RevoluteJoint.cpp <501:54 501:67>]
 REFERENCE_USAGE void b2RevoluteJoint::Dump() -> float32 b2Vec2::y [b2RevoluteJoint.cpp <501:87 501:87>]
 REFERENCE_USAGE void b2RevoluteJoint::Dump() -> b2Vec2 b2RevoluteJoint::m_localAnchorA [b2RevoluteJoint.cpp <501:72 501:85>]
-SYMBOL_FUNCTION void b2Log(const char *)
 REFERENCE_CALL void b2RevoluteJoint::Dump() -> void b2Log(const char *) [b2RevoluteJoint.cpp <502:2 502:6>]
 REFERENCE_USAGE void b2RevoluteJoint::Dump() -> float32 b2Vec2::x [b2RevoluteJoint.cpp <502:69 502:69>]
 REFERENCE_USAGE void b2RevoluteJoint::Dump() -> b2Vec2 b2RevoluteJoint::m_localAnchorB [b2RevoluteJoint.cpp <502:54 502:67>]
 REFERENCE_USAGE void b2RevoluteJoint::Dump() -> float32 b2Vec2::y [b2RevoluteJoint.cpp <502:87 502:87>]
 REFERENCE_USAGE void b2RevoluteJoint::Dump() -> b2Vec2 b2RevoluteJoint::m_localAnchorB [b2RevoluteJoint.cpp <502:72 502:85>]
-SYMBOL_FUNCTION void b2Log(const char *)
 REFERENCE_CALL void b2RevoluteJoint::Dump() -> void b2Log(const char *) [b2RevoluteJoint.cpp <503:2 503:6>]
 REFERENCE_USAGE void b2RevoluteJoint::Dump() -> float32 b2RevoluteJoint::m_referenceAngle [b2RevoluteJoint.cpp <503:44 503:59>]
-SYMBOL_FUNCTION void b2Log(const char *)
 REFERENCE_CALL void b2RevoluteJoint::Dump() -> void b2Log(const char *) [b2RevoluteJoint.cpp <504:2 504:6>]
 REFERENCE_USAGE void b2RevoluteJoint::Dump() -> bool b2RevoluteJoint::m_enableLimit [b2RevoluteJoint.cpp <504:42 504:54>]
-SYMBOL_FUNCTION void b2Log(const char *)
 REFERENCE_CALL void b2RevoluteJoint::Dump() -> void b2Log(const char *) [b2RevoluteJoint.cpp <505:2 505:6>]
 REFERENCE_USAGE void b2RevoluteJoint::Dump() -> float32 b2RevoluteJoint::m_lowerAngle [b2RevoluteJoint.cpp <505:40 505:51>]
-SYMBOL_FUNCTION void b2Log(const char *)
 REFERENCE_CALL void b2RevoluteJoint::Dump() -> void b2Log(const char *) [b2RevoluteJoint.cpp <506:2 506:6>]
 REFERENCE_USAGE void b2RevoluteJoint::Dump() -> float32 b2RevoluteJoint::m_upperAngle [b2RevoluteJoint.cpp <506:40 506:51>]
-SYMBOL_FUNCTION void b2Log(const char *)
 REFERENCE_CALL void b2RevoluteJoint::Dump() -> void b2Log(const char *) [b2RevoluteJoint.cpp <507:2 507:6>]
 REFERENCE_USAGE void b2RevoluteJoint::Dump() -> bool b2RevoluteJoint::m_enableMotor [b2RevoluteJoint.cpp <507:42 507:54>]
-SYMBOL_FUNCTION void b2Log(const char *)
 REFERENCE_CALL void b2RevoluteJoint::Dump() -> void b2Log(const char *) [b2RevoluteJoint.cpp <508:2 508:6>]
 REFERENCE_USAGE void b2RevoluteJoint::Dump() -> float32 b2RevoluteJoint::m_motorSpeed [b2RevoluteJoint.cpp <508:40 508:51>]
-SYMBOL_FUNCTION void b2Log(const char *)
 REFERENCE_CALL void b2RevoluteJoint::Dump() -> void b2Log(const char *) [b2RevoluteJoint.cpp <509:2 509:6>]
 REFERENCE_USAGE void b2RevoluteJoint::Dump() -> float32 b2RevoluteJoint::m_maxMotorTorque [b2RevoluteJoint.cpp <509:44 509:59>]
-SYMBOL_FUNCTION void b2Log(const char *)
 REFERENCE_CALL void b2RevoluteJoint::Dump() -> void b2Log(const char *) [b2RevoluteJoint.cpp <510:2 510:6>]
 REFERENCE_USAGE void b2RevoluteJoint::Dump() -> int32 b2Joint::m_index [b2RevoluteJoint.cpp <510:55 510:61>]

@@ -1,26 +1,59 @@
 FILE: Helper.java
-SYMBOL_PACKAGE com.github.javaparser.symbolsolver.javaparsermodel.declarations [Helper.java <17:9 17:71>]
+SYMBOL_PACKAGE com.github.javaparser.symbolsolver.javaparsermodel.declarations [Helper.java <17:60 17:71>]
 SYMBOL_PACKAGE com.github.javaparser.symbolsolver.javaparsermodel
 SYMBOL_PACKAGE com.github.javaparser.symbolsolver
 SYMBOL_PACKAGE com.github.javaparser
 SYMBOL_PACKAGE com.github
 SYMBOL_PACKAGE com
-REFERENCE_IMPORT Helper.java -> com.github.javaparser.ast.CompilationUnit [Helper.java <19:8 19:48>]
+QUALIFIER: com.github.javaparser.symbolsolver.javaparsermodel [Helper.java <17:44 17:58>]
+QUALIFIER: com.github.javaparser.symbolsolver [Helper.java <17:31 17:42>]
+QUALIFIER: com.github.javaparser [Helper.java <17:20 17:29>]
+QUALIFIER: com.github [Helper.java <17:13 17:18>]
+QUALIFIER: com [Helper.java <17:9 17:11>]
+REFERENCE_IMPORT Helper.java -> com.github.javaparser.ast.CompilationUnit [Helper.java <19:34 19:48>]
 SYMBOL_PACKAGE com.github.javaparser.ast
-REFERENCE_IMPORT Helper.java -> com.github.javaparser.ast.Modifier [Helper.java <20:8 20:41>]
-SYMBOL_PACKAGE com.github.javaparser.ast
-REFERENCE_IMPORT Helper.java -> com.github.javaparser.ast.Node [Helper.java <21:8 21:37>]
-SYMBOL_PACKAGE com.github.javaparser.ast
-REFERENCE_IMPORT Helper.java -> com.github.javaparser.ast.PackageDeclaration [Helper.java <22:8 22:51>]
-SYMBOL_PACKAGE com.github.javaparser.ast
-REFERENCE_IMPORT Helper.java -> com.github.javaparser.symbolsolver.model.declarations.AccessLevel [Helper.java <23:8 23:72>]
+QUALIFIER: com.github.javaparser.ast [Helper.java <19:30 19:32>]
+QUALIFIER: com.github.javaparser [Helper.java <19:19 19:28>]
+QUALIFIER: com.github [Helper.java <19:12 19:17>]
+QUALIFIER: com [Helper.java <19:8 19:10>]
+REFERENCE_IMPORT Helper.java -> com.github.javaparser.ast.Modifier [Helper.java <20:34 20:41>]
+QUALIFIER: com.github.javaparser.ast [Helper.java <20:30 20:32>]
+QUALIFIER: com.github.javaparser [Helper.java <20:19 20:28>]
+QUALIFIER: com.github [Helper.java <20:12 20:17>]
+QUALIFIER: com [Helper.java <20:8 20:10>]
+REFERENCE_IMPORT Helper.java -> com.github.javaparser.ast.Node [Helper.java <21:34 21:37>]
+QUALIFIER: com.github.javaparser.ast [Helper.java <21:30 21:32>]
+QUALIFIER: com.github.javaparser [Helper.java <21:19 21:28>]
+QUALIFIER: com.github [Helper.java <21:12 21:17>]
+QUALIFIER: com [Helper.java <21:8 21:10>]
+REFERENCE_IMPORT Helper.java -> com.github.javaparser.ast.PackageDeclaration [Helper.java <22:34 22:51>]
+QUALIFIER: com.github.javaparser.ast [Helper.java <22:30 22:32>]
+QUALIFIER: com.github.javaparser [Helper.java <22:19 22:28>]
+QUALIFIER: com.github [Helper.java <22:12 22:17>]
+QUALIFIER: com [Helper.java <22:8 22:10>]
+REFERENCE_IMPORT Helper.java -> com.github.javaparser.symbolsolver.model.declarations.AccessLevel [Helper.java <23:62 23:72>]
 SYMBOL_PACKAGE com.github.javaparser.symbolsolver.model.declarations
-REFERENCE_IMPORT Helper.java -> java.util.EnumSet<E> [Helper.java <25:8 25:24>]
+QUALIFIER: com.github.javaparser.symbolsolver.model.declarations [Helper.java <23:49 23:60>]
+QUALIFIER: com.github.javaparser.symbolsolver.model [Helper.java <23:43 23:47>]
+QUALIFIER: com.github.javaparser.symbolsolver [Helper.java <23:30 23:41>]
+QUALIFIER: com.github.javaparser [Helper.java <23:19 23:28>]
+QUALIFIER: com.github [Helper.java <23:12 23:17>]
+QUALIFIER: com [Helper.java <23:8 23:10>]
+REFERENCE_IMPORT Helper.java -> java.util.EnumSet<E> [Helper.java <25:18 25:24>]
 SYMBOL_PACKAGE java.util
-REFERENCE_IMPORT Helper.java -> java.util.Optional<T> [Helper.java <26:8 26:25>]
-SYMBOL_PACKAGE java.util
-REFERENCE_IMPORT Helper.java -> static com.github.javaparser.ast.Node com.github.javaparser.symbolsolver.javaparser.Navigator.getParentNode(com.github.javaparser.ast.Node) [Helper.java <28:15 28:83>]
+QUALIFIER: java.util [Helper.java <25:13 25:16>]
+QUALIFIER: java [Helper.java <25:8 25:11>]
+REFERENCE_IMPORT Helper.java -> java.util.Optional<T> [Helper.java <26:18 26:25>]
+QUALIFIER: java.util [Helper.java <26:13 26:16>]
+QUALIFIER: java [Helper.java <26:8 26:11>]
+REFERENCE_IMPORT Helper.java -> static com.github.javaparser.ast.Node com.github.javaparser.symbolsolver.javaparser.Navigator.getParentNode(com.github.javaparser.ast.Node) [Helper.java <28:71 28:83>]
 SYMBOL_PACKAGE com.github.javaparser.symbolsolver.javaparser
+QUALIFIER: com.github.javaparser.symbolsolver.javaparser.Navigator [Helper.java <28:61 28:69>]
+QUALIFIER: com.github.javaparser.symbolsolver.javaparser [Helper.java <28:50 28:59>]
+QUALIFIER: com.github.javaparser.symbolsolver [Helper.java <28:37 28:48>]
+QUALIFIER: com.github.javaparser [Helper.java <28:26 28:35>]
+QUALIFIER: com.github [Helper.java <28:19 28:24>]
+QUALIFIER: com [Helper.java <28:15 28:17>]
 SYMBOL_CLASS default com.github.javaparser.symbolsolver.javaparsermodel.declarations.Helper [Helper.java <33:1 <33:7 33:12> 89:1>]
 LOCAL_SYMBOL: Helper.java<33:14> [Helper.java <33:14 33:14>]
 LOCAL_SYMBOL: Helper.java<33:14> [Helper.java <89:1 89:1>]
@@ -35,32 +68,37 @@ LOCAL_SYMBOL: Helper.java<35:74> [Helper.java <45:5 45:5>]
 SYMBOL_METHOD boolean java.util.AbstractCollection<E>.contains(java.lang.Object)
 REFERENCE_CALL static com.github.javaparser.symbolsolver.model.declarations.AccessLevel com.github.javaparser.symbolsolver.javaparsermodel.declarations.Helper.toAccessLevel(java.util.EnumSet<com.github.javaparser.ast.Modifier>) -> boolean java.util.AbstractCollection<E>.contains(java.lang.Object) [Helper.java <36:23 36:30>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javaparsermodel.declarations.Helper.toAccessLevel<0> [Helper.java <36:13 36:21>]
+QUALIFIER: com.github.javaparser.ast.Modifier [Helper.java <36:32 36:39>]
 SYMBOL_FIELD com.github.javaparser.ast.Modifier.PRIVATE
 REFERENCE_USAGE static com.github.javaparser.symbolsolver.model.declarations.AccessLevel com.github.javaparser.symbolsolver.javaparsermodel.declarations.Helper.toAccessLevel(java.util.EnumSet<com.github.javaparser.ast.Modifier>) -> com.github.javaparser.ast.Modifier.PRIVATE [Helper.java <36:41 36:47>]
 LOCAL_SYMBOL: Helper.java<36:51> [Helper.java <36:51 36:51>]
 LOCAL_SYMBOL: Helper.java<36:51> [Helper.java <38:9 38:9>]
+QUALIFIER: com.github.javaparser.symbolsolver.model.declarations.AccessLevel [Helper.java <37:20 37:30>]
 SYMBOL_FIELD com.github.javaparser.symbolsolver.model.declarations.AccessLevel.PRIVATE
 REFERENCE_USAGE static com.github.javaparser.symbolsolver.model.declarations.AccessLevel com.github.javaparser.symbolsolver.javaparsermodel.declarations.Helper.toAccessLevel(java.util.EnumSet<com.github.javaparser.ast.Modifier>) -> com.github.javaparser.symbolsolver.model.declarations.AccessLevel.PRIVATE [Helper.java <37:32 37:38>]
-SYMBOL_METHOD boolean java.util.AbstractCollection<E>.contains(java.lang.Object)
 REFERENCE_CALL static com.github.javaparser.symbolsolver.model.declarations.AccessLevel com.github.javaparser.symbolsolver.javaparsermodel.declarations.Helper.toAccessLevel(java.util.EnumSet<com.github.javaparser.ast.Modifier>) -> boolean java.util.AbstractCollection<E>.contains(java.lang.Object) [Helper.java <38:30 38:37>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javaparsermodel.declarations.Helper.toAccessLevel<0> [Helper.java <38:20 38:28>]
+QUALIFIER: com.github.javaparser.ast.Modifier [Helper.java <38:39 38:46>]
 SYMBOL_FIELD com.github.javaparser.ast.Modifier.PROTECTED
 REFERENCE_USAGE static com.github.javaparser.symbolsolver.model.declarations.AccessLevel com.github.javaparser.symbolsolver.javaparsermodel.declarations.Helper.toAccessLevel(java.util.EnumSet<com.github.javaparser.ast.Modifier>) -> com.github.javaparser.ast.Modifier.PROTECTED [Helper.java <38:48 38:56>]
 LOCAL_SYMBOL: Helper.java<38:60> [Helper.java <38:60 38:60>]
 LOCAL_SYMBOL: Helper.java<38:60> [Helper.java <40:9 40:9>]
+QUALIFIER: com.github.javaparser.symbolsolver.model.declarations.AccessLevel [Helper.java <39:20 39:30>]
 SYMBOL_FIELD com.github.javaparser.symbolsolver.model.declarations.AccessLevel.PROTECTED
 REFERENCE_USAGE static com.github.javaparser.symbolsolver.model.declarations.AccessLevel com.github.javaparser.symbolsolver.javaparsermodel.declarations.Helper.toAccessLevel(java.util.EnumSet<com.github.javaparser.ast.Modifier>) -> com.github.javaparser.symbolsolver.model.declarations.AccessLevel.PROTECTED [Helper.java <39:32 39:40>]
-SYMBOL_METHOD boolean java.util.AbstractCollection<E>.contains(java.lang.Object)
 REFERENCE_CALL static com.github.javaparser.symbolsolver.model.declarations.AccessLevel com.github.javaparser.symbolsolver.javaparsermodel.declarations.Helper.toAccessLevel(java.util.EnumSet<com.github.javaparser.ast.Modifier>) -> boolean java.util.AbstractCollection<E>.contains(java.lang.Object) [Helper.java <40:30 40:37>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javaparsermodel.declarations.Helper.toAccessLevel<0> [Helper.java <40:20 40:28>]
+QUALIFIER: com.github.javaparser.ast.Modifier [Helper.java <40:39 40:46>]
 SYMBOL_FIELD com.github.javaparser.ast.Modifier.PUBLIC
 REFERENCE_USAGE static com.github.javaparser.symbolsolver.model.declarations.AccessLevel com.github.javaparser.symbolsolver.javaparsermodel.declarations.Helper.toAccessLevel(java.util.EnumSet<com.github.javaparser.ast.Modifier>) -> com.github.javaparser.ast.Modifier.PUBLIC [Helper.java <40:48 40:53>]
 LOCAL_SYMBOL: Helper.java<40:57> [Helper.java <40:57 40:57>]
 LOCAL_SYMBOL: Helper.java<40:57> [Helper.java <42:9 42:9>]
+QUALIFIER: com.github.javaparser.symbolsolver.model.declarations.AccessLevel [Helper.java <41:20 41:30>]
 SYMBOL_FIELD com.github.javaparser.symbolsolver.model.declarations.AccessLevel.PUBLIC
 REFERENCE_USAGE static com.github.javaparser.symbolsolver.model.declarations.AccessLevel com.github.javaparser.symbolsolver.javaparsermodel.declarations.Helper.toAccessLevel(java.util.EnumSet<com.github.javaparser.ast.Modifier>) -> com.github.javaparser.symbolsolver.model.declarations.AccessLevel.PUBLIC [Helper.java <41:32 41:37>]
 LOCAL_SYMBOL: Helper.java<42:16> [Helper.java <42:16 42:16>]
 LOCAL_SYMBOL: Helper.java<42:16> [Helper.java <44:9 44:9>]
+QUALIFIER: com.github.javaparser.symbolsolver.model.declarations.AccessLevel [Helper.java <43:20 43:30>]
 SYMBOL_FIELD com.github.javaparser.symbolsolver.model.declarations.AccessLevel.PACKAGE_PROTECTED
 REFERENCE_USAGE static com.github.javaparser.symbolsolver.model.declarations.AccessLevel com.github.javaparser.symbolsolver.javaparsermodel.declarations.Helper.toAccessLevel(java.util.EnumSet<com.github.javaparser.ast.Modifier>) -> com.github.javaparser.symbolsolver.model.declarations.AccessLevel.PACKAGE_PROTECTED [Helper.java <43:32 43:48>]
 SYMBOL_METHOD default static java.lang.String com.github.javaparser.symbolsolver.javaparsermodel.declarations.Helper.containerName(com.github.javaparser.ast.Node) [Helper.java <47:5 <47:19 47:31> 53:5>]
@@ -83,7 +121,6 @@ LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javaparsermodel.declarations.He
 SYMBOL_METHOD boolean java.lang.String.isEmpty()
 REFERENCE_CALL static java.lang.String com.github.javaparser.symbolsolver.javaparsermodel.declarations.Helper.containerName(com.github.javaparser.ast.Node) -> boolean java.lang.String.isEmpty() [Helper.java <51:32 51:38>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javaparsermodel.declarations.Helper.containerName<1> [Helper.java <51:20 51:30>]
-SYMBOL_METHOD boolean java.lang.String.isEmpty()
 REFERENCE_CALL static java.lang.String com.github.javaparser.symbolsolver.javaparsermodel.declarations.Helper.containerName(com.github.javaparser.ast.Node) -> boolean java.lang.String.isEmpty() [Helper.java <51:56 51:62>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javaparsermodel.declarations.Helper.containerName<2> [Helper.java <51:46 51:54>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javaparsermodel.declarations.Helper.containerName<2> [Helper.java <52:17 52:25>]
@@ -119,7 +156,6 @@ LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javaparsermodel.declarations.He
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javaparsermodel.declarations.Helper.getPackageName<0> [Helper.java <61:20 61:28>]
 LOCAL_SYMBOL: Helper.java<61:39> [Helper.java <61:39 61:39>]
 LOCAL_SYMBOL: Helper.java<61:39> [Helper.java <63:9 63:9>]
-SYMBOL_METHOD static java.lang.String com.github.javaparser.symbolsolver.javaparsermodel.declarations.Helper.getPackageName(com.github.javaparser.ast.Node)
 REFERENCE_CALL static java.lang.String com.github.javaparser.symbolsolver.javaparsermodel.declarations.Helper.getPackageName(com.github.javaparser.ast.Node) -> static java.lang.String com.github.javaparser.symbolsolver.javaparsermodel.declarations.Helper.getPackageName(com.github.javaparser.ast.Node) [Helper.java <62:20 62:33>]
 SYMBOL_METHOD static com.github.javaparser.ast.Node com.github.javaparser.symbolsolver.javaparser.Navigator.getParentNode(com.github.javaparser.ast.Node)
 REFERENCE_CALL static java.lang.String com.github.javaparser.symbolsolver.javaparsermodel.declarations.Helper.getPackageName(com.github.javaparser.ast.Node) -> static com.github.javaparser.ast.Node com.github.javaparser.symbolsolver.javaparser.Navigator.getParentNode(com.github.javaparser.ast.Node) [Helper.java <62:35 62:47>]
@@ -133,15 +169,18 @@ LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javaparsermodel.declarations.He
 LOCAL_SYMBOL: Helper.java<67:61> [Helper.java <67:61 67:61>]
 LOCAL_SYMBOL: Helper.java<67:61> [Helper.java <88:5 88:5>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javaparsermodel.declarations.Helper.getClassName<1> [Helper.java <68:13 68:21>]
-REFERENCE_TYPE_USAGE static java.lang.String com.github.javaparser.symbolsolver.javaparsermodel.declarations.Helper.getClassName(java.lang.String, com.github.javaparser.ast.Node) -> com.github.javaparser.ast.body.ClassOrInterfaceDeclaration [Helper.java <68:34 68:91>]
+REFERENCE_TYPE_USAGE static java.lang.String com.github.javaparser.symbolsolver.javaparsermodel.declarations.Helper.getClassName(java.lang.String, com.github.javaparser.ast.Node) -> com.github.javaparser.ast.body.ClassOrInterfaceDeclaration [Helper.java <68:65 68:91>]
+QUALIFIER: com.github.javaparser.ast.body [Helper.java <68:60 68:63>]
+QUALIFIER: com.github.javaparser.ast [Helper.java <68:56 68:58>]
+QUALIFIER: com.github.javaparser [Helper.java <68:45 68:54>]
+QUALIFIER: com.github [Helper.java <68:38 68:43>]
+QUALIFIER: com [Helper.java <68:34 68:36>]
 LOCAL_SYMBOL: Helper.java<68:94> [Helper.java <68:94 68:94>]
 LOCAL_SYMBOL: Helper.java<68:94> [Helper.java <76:9 76:9>]
 REFERENCE_TYPE_USAGE static java.lang.String com.github.javaparser.symbolsolver.javaparsermodel.declarations.Helper.getClassName(java.lang.String, com.github.javaparser.ast.Node) -> java.lang.String [Helper.java <69:13 69:18>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javaparsermodel.declarations.Helper.getClassName<2> [Helper.java <69:20 69:20>]
-SYMBOL_METHOD static java.lang.String com.github.javaparser.symbolsolver.javaparsermodel.declarations.Helper.getClassName(java.lang.String, com.github.javaparser.ast.Node)
 REFERENCE_CALL static java.lang.String com.github.javaparser.symbolsolver.javaparsermodel.declarations.Helper.getClassName(java.lang.String, com.github.javaparser.ast.Node) -> static java.lang.String com.github.javaparser.symbolsolver.javaparsermodel.declarations.Helper.getClassName(java.lang.String, com.github.javaparser.ast.Node) [Helper.java <69:24 69:35>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javaparsermodel.declarations.Helper.getClassName<0> [Helper.java <69:37 69:40>]
-SYMBOL_METHOD static com.github.javaparser.ast.Node com.github.javaparser.symbolsolver.javaparser.Navigator.getParentNode(com.github.javaparser.ast.Node)
 REFERENCE_CALL static java.lang.String com.github.javaparser.symbolsolver.javaparsermodel.declarations.Helper.getClassName(java.lang.String, com.github.javaparser.ast.Node) -> static com.github.javaparser.ast.Node com.github.javaparser.symbolsolver.javaparser.Navigator.getParentNode(com.github.javaparser.ast.Node) [Helper.java <69:43 69:55>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javaparsermodel.declarations.Helper.getClassName<1> [Helper.java <69:57 69:65>]
 REFERENCE_TYPE_USAGE static java.lang.String com.github.javaparser.symbolsolver.javaparsermodel.declarations.Helper.getClassName(java.lang.String, com.github.javaparser.ast.Node) -> java.lang.String [Helper.java <70:13 70:18>]
@@ -150,9 +189,13 @@ SYMBOL_METHOD java.lang.String com.github.javaparser.ast.nodeTypes.NodeWithIdent
 REFERENCE_CALL static java.lang.String com.github.javaparser.symbolsolver.javaparsermodel.declarations.Helper.getClassName(java.lang.String, com.github.javaparser.ast.Node) -> java.lang.String com.github.javaparser.ast.nodeTypes.NodeWithIdentifier<N>.getId() [Helper.java <70:108 70:112>]
 SYMBOL_METHOD com.github.javaparser.ast.expr.SimpleName com.github.javaparser.ast.body.TypeDeclaration<T>.getName()
 REFERENCE_CALL static java.lang.String com.github.javaparser.symbolsolver.javaparsermodel.declarations.Helper.getClassName(java.lang.String, com.github.javaparser.ast.Node) -> com.github.javaparser.ast.expr.SimpleName com.github.javaparser.ast.body.TypeDeclaration<T>.getName() [Helper.java <70:98 70:104>]
-REFERENCE_TYPE_USAGE static java.lang.String com.github.javaparser.symbolsolver.javaparsermodel.declarations.Helper.getClassName(java.lang.String, com.github.javaparser.ast.Node) -> com.github.javaparser.ast.body.ClassOrInterfaceDeclaration [Helper.java <70:27 70:84>]
+REFERENCE_TYPE_USAGE static java.lang.String com.github.javaparser.symbolsolver.javaparsermodel.declarations.Helper.getClassName(java.lang.String, com.github.javaparser.ast.Node) -> com.github.javaparser.ast.body.ClassOrInterfaceDeclaration [Helper.java <70:58 70:84>]
+QUALIFIER: com.github.javaparser.ast.body [Helper.java <70:53 70:56>]
+QUALIFIER: com.github.javaparser.ast [Helper.java <70:49 70:51>]
+QUALIFIER: com.github.javaparser [Helper.java <70:38 70:47>]
+QUALIFIER: com.github [Helper.java <70:31 70:36>]
+QUALIFIER: com [Helper.java <70:27 70:29>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javaparsermodel.declarations.Helper.getClassName<1> [Helper.java <70:87 70:95>]
-SYMBOL_METHOD boolean java.lang.String.isEmpty()
 REFERENCE_CALL static java.lang.String com.github.javaparser.symbolsolver.javaparsermodel.declarations.Helper.getClassName(java.lang.String, com.github.javaparser.ast.Node) -> boolean java.lang.String.isEmpty() [Helper.java <71:19 71:25>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javaparsermodel.declarations.Helper.getClassName<2> [Helper.java <71:17 71:17>]
 LOCAL_SYMBOL: Helper.java<71:30> [Helper.java <71:30 71:30>]
@@ -163,26 +206,31 @@ LOCAL_SYMBOL: Helper.java<73:20> [Helper.java <75:13 75:13>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javaparsermodel.declarations.Helper.getClassName<2> [Helper.java <74:24 74:24>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javaparsermodel.declarations.Helper.getClassName<3> [Helper.java <74:34 74:35>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javaparsermodel.declarations.Helper.getClassName<1> [Helper.java <76:20 76:28>]
-REFERENCE_TYPE_USAGE static java.lang.String com.github.javaparser.symbolsolver.javaparsermodel.declarations.Helper.getClassName(java.lang.String, com.github.javaparser.ast.Node) -> com.github.javaparser.ast.body.EnumDeclaration [Helper.java <76:41 76:86>]
+REFERENCE_TYPE_USAGE static java.lang.String com.github.javaparser.symbolsolver.javaparsermodel.declarations.Helper.getClassName(java.lang.String, com.github.javaparser.ast.Node) -> com.github.javaparser.ast.body.EnumDeclaration [Helper.java <76:72 76:86>]
+QUALIFIER: com.github.javaparser.ast.body [Helper.java <76:67 76:70>]
+QUALIFIER: com.github.javaparser.ast [Helper.java <76:63 76:65>]
+QUALIFIER: com.github.javaparser [Helper.java <76:52 76:61>]
+QUALIFIER: com.github [Helper.java <76:45 76:50>]
+QUALIFIER: com [Helper.java <76:41 76:43>]
 LOCAL_SYMBOL: Helper.java<76:89> [Helper.java <76:89 76:89>]
 LOCAL_SYMBOL: Helper.java<76:89> [Helper.java <84:9 84:9>]
 REFERENCE_TYPE_USAGE static java.lang.String com.github.javaparser.symbolsolver.javaparsermodel.declarations.Helper.getClassName(java.lang.String, com.github.javaparser.ast.Node) -> java.lang.String [Helper.java <77:13 77:18>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javaparsermodel.declarations.Helper.getClassName<4> [Helper.java <77:20 77:20>]
-SYMBOL_METHOD static java.lang.String com.github.javaparser.symbolsolver.javaparsermodel.declarations.Helper.getClassName(java.lang.String, com.github.javaparser.ast.Node)
 REFERENCE_CALL static java.lang.String com.github.javaparser.symbolsolver.javaparsermodel.declarations.Helper.getClassName(java.lang.String, com.github.javaparser.ast.Node) -> static java.lang.String com.github.javaparser.symbolsolver.javaparsermodel.declarations.Helper.getClassName(java.lang.String, com.github.javaparser.ast.Node) [Helper.java <77:24 77:35>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javaparsermodel.declarations.Helper.getClassName<0> [Helper.java <77:37 77:40>]
-SYMBOL_METHOD static com.github.javaparser.ast.Node com.github.javaparser.symbolsolver.javaparser.Navigator.getParentNode(com.github.javaparser.ast.Node)
 REFERENCE_CALL static java.lang.String com.github.javaparser.symbolsolver.javaparsermodel.declarations.Helper.getClassName(java.lang.String, com.github.javaparser.ast.Node) -> static com.github.javaparser.ast.Node com.github.javaparser.symbolsolver.javaparser.Navigator.getParentNode(com.github.javaparser.ast.Node) [Helper.java <77:43 77:55>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javaparsermodel.declarations.Helper.getClassName<1> [Helper.java <77:57 77:65>]
 REFERENCE_TYPE_USAGE static java.lang.String com.github.javaparser.symbolsolver.javaparsermodel.declarations.Helper.getClassName(java.lang.String, com.github.javaparser.ast.Node) -> java.lang.String [Helper.java <78:13 78:18>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javaparsermodel.declarations.Helper.getClassName<5> [Helper.java <78:20 78:21>]
-SYMBOL_METHOD java.lang.String com.github.javaparser.ast.nodeTypes.NodeWithIdentifier<N>.getId()
 REFERENCE_CALL static java.lang.String com.github.javaparser.symbolsolver.javaparsermodel.declarations.Helper.getClassName(java.lang.String, com.github.javaparser.ast.Node) -> java.lang.String com.github.javaparser.ast.nodeTypes.NodeWithIdentifier<N>.getId() [Helper.java <78:96 78:100>]
-SYMBOL_METHOD com.github.javaparser.ast.expr.SimpleName com.github.javaparser.ast.body.TypeDeclaration<T>.getName()
 REFERENCE_CALL static java.lang.String com.github.javaparser.symbolsolver.javaparsermodel.declarations.Helper.getClassName(java.lang.String, com.github.javaparser.ast.Node) -> com.github.javaparser.ast.expr.SimpleName com.github.javaparser.ast.body.TypeDeclaration<T>.getName() [Helper.java <78:86 78:92>]
-REFERENCE_TYPE_USAGE static java.lang.String com.github.javaparser.symbolsolver.javaparsermodel.declarations.Helper.getClassName(java.lang.String, com.github.javaparser.ast.Node) -> com.github.javaparser.ast.body.EnumDeclaration [Helper.java <78:27 78:72>]
+REFERENCE_TYPE_USAGE static java.lang.String com.github.javaparser.symbolsolver.javaparsermodel.declarations.Helper.getClassName(java.lang.String, com.github.javaparser.ast.Node) -> com.github.javaparser.ast.body.EnumDeclaration [Helper.java <78:58 78:72>]
+QUALIFIER: com.github.javaparser.ast.body [Helper.java <78:53 78:56>]
+QUALIFIER: com.github.javaparser.ast [Helper.java <78:49 78:51>]
+QUALIFIER: com.github.javaparser [Helper.java <78:38 78:47>]
+QUALIFIER: com.github [Helper.java <78:31 78:36>]
+QUALIFIER: com [Helper.java <78:27 78:29>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javaparsermodel.declarations.Helper.getClassName<1> [Helper.java <78:75 78:83>]
-SYMBOL_METHOD boolean java.lang.String.isEmpty()
 REFERENCE_CALL static java.lang.String com.github.javaparser.symbolsolver.javaparsermodel.declarations.Helper.getClassName(java.lang.String, com.github.javaparser.ast.Node) -> boolean java.lang.String.isEmpty() [Helper.java <79:19 79:25>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javaparsermodel.declarations.Helper.getClassName<4> [Helper.java <79:17 79:17>]
 LOCAL_SYMBOL: Helper.java<79:30> [Helper.java <79:30 79:30>]
@@ -195,10 +243,8 @@ LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javaparsermodel.declarations.He
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javaparsermodel.declarations.Helper.getClassName<1> [Helper.java <84:20 84:28>]
 LOCAL_SYMBOL: Helper.java<84:39> [Helper.java <84:39 84:39>]
 LOCAL_SYMBOL: Helper.java<84:39> [Helper.java <86:9 86:9>]
-SYMBOL_METHOD static java.lang.String com.github.javaparser.symbolsolver.javaparsermodel.declarations.Helper.getClassName(java.lang.String, com.github.javaparser.ast.Node)
 REFERENCE_CALL static java.lang.String com.github.javaparser.symbolsolver.javaparsermodel.declarations.Helper.getClassName(java.lang.String, com.github.javaparser.ast.Node) -> static java.lang.String com.github.javaparser.symbolsolver.javaparsermodel.declarations.Helper.getClassName(java.lang.String, com.github.javaparser.ast.Node) [Helper.java <85:20 85:31>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javaparsermodel.declarations.Helper.getClassName<0> [Helper.java <85:33 85:36>]
-SYMBOL_METHOD static com.github.javaparser.ast.Node com.github.javaparser.symbolsolver.javaparser.Navigator.getParentNode(com.github.javaparser.ast.Node)
 REFERENCE_CALL static java.lang.String com.github.javaparser.symbolsolver.javaparsermodel.declarations.Helper.getClassName(java.lang.String, com.github.javaparser.ast.Node) -> static com.github.javaparser.ast.Node com.github.javaparser.symbolsolver.javaparser.Navigator.getParentNode(com.github.javaparser.ast.Node) [Helper.java <85:39 85:51>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javaparsermodel.declarations.Helper.getClassName<1> [Helper.java <85:53 85:61>]
 LOCAL_SYMBOL: com.github.javaparser.symbolsolver.javaparsermodel.declarations.Helper.getClassName<0> [Helper.java <87:16 87:19>]
