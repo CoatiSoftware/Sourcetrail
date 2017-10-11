@@ -91,10 +91,30 @@ void QtProjectWizzardContentPreferences::populate(QGridLayout* layout, int& row)
 	QString modifierName =utility::getOsType() == OS_MAC ? "Cmd" : "Ctrl";
 	m_graphZooming = addCheckBox(
 		"Graph Zoom",
-		"Zoom on mouse wheel",
+		"Zoom graph on mouse wheel",
 		"<p>Enable graph zoom using mouse wheel only, instead of using " + modifierName + " + Mouse Wheel.</p>",
 		layout, row
 	);
+
+	addGap(layout, row);
+
+	// Network
+	addTitle("NETWORK", layout, row);
+
+	// Update check
+	m_automaticUpdateCheck = addCheckBox("Automatic<br />Update Check", "Check automatically for updates",
+		"<p>Check automatically for a new releases once a day.</p>", layout, row);
+	addGap(layout, row);
+
+	// Plugins
+	addTitle("PLUGIN", layout, row);
+
+	// Sourcetrail port
+	m_sourcetrailPort = addLineEdit("Sourcetrail Port",
+		"<p>Port number that Sourcetrail uses to listen for incoming messages from plugins.</p>", layout, row);
+
+	// Sourcetrail port
+	m_pluginPort = addLineEdit("Plugin Port", "<p>Port number that Sourcetrail uses to sends outgoing messages to plugins.</p>", layout, row);
 
 	addGap(layout, row);
 
@@ -139,18 +159,6 @@ void QtProjectWizzardContentPreferences::populate(QGridLayout* layout, int& row)
 
 	addGap(layout, row);
 
-
-	// Plugins
-	addTitle("PLUGIN", layout, row);
-
-	// Sourcetrail port
-	m_sourcetrailPort = addLineEdit("Sourcetrail Port",
-		"<p>Port number that Sourcetrail uses to listen for incoming messages from plugins.</p>", layout, row);
-
-	// Sourcetrail port
-	m_pluginPort = addLineEdit("Plugin Port", "<p>Port number that Sourcetrail uses to sends outgoing messages to plugins.</p>", layout, row);
-
-	addGap(layout, row);
 
 	// Java
 	addTitle("JAVA", layout, row);
@@ -301,6 +309,8 @@ void QtProjectWizzardContentPreferences::load()
 	m_scrollSpeed->setText(QString::number(appSettings->getScrollSpeed(), 'f', 1));
 	m_graphZooming->setChecked(appSettings->getControlsGraphZoomOnMouseWheel());
 
+	m_automaticUpdateCheck->setChecked(appSettings->getAutomaticUpdateCheck());
+
 	m_sourcetrailPort->setText(QString::number(appSettings->getSourcetrailPort()));
 	m_pluginPort->setText(QString::number(appSettings->getPluginPort()));
 
@@ -344,6 +354,8 @@ void QtProjectWizzardContentPreferences::save()
 	if (scrollSpeed) appSettings->setScrollSpeed(scrollSpeed);
 
 	appSettings->setControlsGraphZoomOnMouseWheel(m_graphZooming->isChecked());
+
+	appSettings->setAutomaticUpdateCheck(m_automaticUpdateCheck->isChecked());
 
 	int sourcetrailPort = m_sourcetrailPort->text().toInt();
 	if (sourcetrailPort) appSettings->setSourcetrailPort(sourcetrailPort);

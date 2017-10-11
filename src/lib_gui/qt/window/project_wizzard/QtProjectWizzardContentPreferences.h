@@ -66,6 +66,8 @@ private:
 	QLineEdit* m_scrollSpeed;
 	QCheckBox* m_graphZooming;
 
+	QCheckBox* m_automaticUpdateCheck;
+
 	QLineEdit* m_sourcetrailPort;
 	QLineEdit* m_pluginPort;
 

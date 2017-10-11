@@ -14,15 +14,23 @@
 #include "utility/utilityApp.h"
 #include "utility/utilityUuid.h"
 
-void QtUpdateChecker::check(bool force)
+bool QtUpdateChecker::needsAutomaticCheck()
 {
 	ApplicationSettings* appSettings = ApplicationSettings::getInstance().get();
+	return TimeStamp::now().deltaHours(appSettings->getLastUpdateCheck()) >= 24;
+}
 
-	if (!force && TimeStamp::now().deltaHours(appSettings->getLastUpdateCheck()) < 24)
+void QtUpdateChecker::check(bool force, std::function<void(Result)> callback)
+{
+	Result result;
+
+	if (!force && !needsAutomaticCheck())
 	{
+		callback(result);
 		return;
 	}
 
+	ApplicationSettings* appSettings = ApplicationSettings::getInstance().get();
 	appSettings->setLastUpdateCheck(TimeStamp::now());
 	appSettings->save();
 
@@ -43,6 +51,7 @@ void QtUpdateChecker::check(bool force)
 			osString = "linux";
 			break;
 		default:
+			callback(result);
 			return;
 	}
 
@@ -90,8 +99,10 @@ void QtUpdateChecker::check(bool force)
 	// send request
 	QtRequest* request = new QtRequest();
 	QObject::connect(request, &QtRequest::receivedData,
-		[force, request](QByteArray bytes)
+		[force, callback, request](QByteArray bytes)
 		{
+			Result result;
+
 			do
 			{
 				QJsonDocument doc = QJsonDocument::fromJson(bytes);
@@ -111,14 +122,18 @@ void QtUpdateChecker::check(bool force)
 					break;
 				}
 
-				ApplicationSettings* appSettings = ApplicationSettings::getInstance().get();
-				if (!force && appSettings->getSkipUpdateForVersion() == updateVersion)
-				{
-					break;
-				}
+				result.success = true;
 
 				if (updateVersion > Version::getApplicationVersion())
 				{
+					result.url = url;
+
+					ApplicationSettings* appSettings = ApplicationSettings::getInstance().get();
+					if (!force && appSettings->getSkipUpdateForVersion() == updateVersion)
+					{
+						break;
+					}
+
 					QMessageBox msgBox;
 					msgBox.setText("Update Check");
 					msgBox.setInformativeText(
@@ -154,6 +169,8 @@ void QtUpdateChecker::check(bool force)
 			while (false);
 
 			request->deleteLater();
+
+			callback(result);
 		}
 	);
 
@@ -165,7 +182,7 @@ void QtUpdateChecker::checkUpdate()
 	m_onQtThread(
 		[this]()
 		{
-			check();
+			check(false, [](Result){});
 		}
 	);
 }

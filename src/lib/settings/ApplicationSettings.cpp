@@ -419,7 +419,7 @@ void ApplicationSettings::setUserToken(std::string token)
 
 bool ApplicationSettings::getAutomaticUpdateCheck() const
 {
-	return getValue<bool>("user/update_check/automatic", false);
+	return getValue<bool>("user/update_check/automatic", true);
 }
 
 void ApplicationSettings::setAutomaticUpdateCheck(bool automaticUpdates)
@@ -448,6 +448,16 @@ void ApplicationSettings::setSkipUpdateForVersion(const Version& version)
 	{
 		setValue<std::string>("user/update_check/skip_version", version.toDisplayString());
 	}
+}
+
+std::string ApplicationSettings::getUpdateDownloadUrl() const
+{
+	return getValue<std::string>("user/update_check/url", "");
+}
+
+void ApplicationSettings::setUpdateDownloadUrl(const std::string& url)
+{
+	setValue<std::string>("user/update_check/url", url);
 }
 
 int ApplicationSettings::getPluginPort() const

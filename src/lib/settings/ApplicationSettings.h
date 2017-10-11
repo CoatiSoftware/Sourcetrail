@@ -132,6 +132,9 @@ public:
 	Version getSkipUpdateForVersion() const;
 	void setSkipUpdateForVersion(const Version& version);
 
+	std::string getUpdateDownloadUrl() const;
+	void setUpdateDownloadUrl(const std::string& url);
+
 	// network
 	int getPluginPort() const;
 	void setPluginPort(const int pluginPort);

@@ -53,9 +53,9 @@
 	text-decoration: underline;
 }
 
-#updateCheckbox {
+#updateButton:disabled {
 	color: black;
-	font-size: 12px;
+	text-decoration: none;
 }
 
 #licenseHeaderLabel {

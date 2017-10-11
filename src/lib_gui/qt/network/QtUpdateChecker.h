@@ -8,7 +8,14 @@ class QtUpdateChecker
 	: public UpdateChecker
 {
 public:
-	static void check(bool force = false);
+	struct Result
+	{
+		bool success = false;
+		QString url;
+	};
+
+	static bool needsAutomaticCheck();
+	static void check(bool force, std::function<void(Result)> callback);
 
 	virtual void checkUpdate() override;
 

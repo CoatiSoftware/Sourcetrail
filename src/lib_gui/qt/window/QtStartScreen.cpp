@@ -14,7 +14,7 @@
 
 #include "License.h"
 #include "PublicKey.h"
-#include "qt/network/QtUpdateChecker.h"
+#include "qt/element/QtUpdateCheckerWidget.h"
 #include "qt/utility/utilityQt.h"
 #include "settings/ApplicationSettings.h"
 #include "settings/ProjectSettings.h"
@@ -163,33 +163,8 @@ void QtStartScreen::setupStartScreen()
 		versionLabel->setObjectName("versionLabel");
 		col->addWidget(versionLabel);
 
-		QPushButton* updateButton = new QPushButton("check for new version", this);
-		updateButton->setObjectName("updateButton");
-		updateButton->setCursor(Qt::PointingHandCursor);
-		connect(updateButton, &QPushButton::clicked,
-			[]()
-			{
-				QtUpdateChecker::check(true);
-			}
-		);
-		col->addWidget(updateButton);
-
-		QCheckBox* updateCheckbox = new QCheckBox("automatic update check");
-		updateCheckbox->setObjectName("updateCheckbox");
-		updateCheckbox->setChecked(ApplicationSettings::getInstance()->getAutomaticUpdateCheck());
-		connect(updateCheckbox, &QCheckBox::stateChanged,
-			[updateCheckbox]()
-			{
-				ApplicationSettings::getInstance()->setAutomaticUpdateCheck(updateCheckbox->isChecked());
-				ApplicationSettings::getInstance()->save();
-
-				if (updateCheckbox->isChecked())
-				{
-					QtUpdateChecker::check();
-				}
-			}
-		);
-		col->addWidget(updateCheckbox);
+		QtUpdateCheckerWidget* checker = new QtUpdateCheckerWidget(this);
+		col->addWidget(checker);
 
 		if (!licenseValid)
 		{

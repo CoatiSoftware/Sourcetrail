@@ -62,6 +62,8 @@ add_files(
 	qt/element/QtTooltip.h
 	qt/element/QtUndoRedo.cpp
 	qt/element/QtUndoRedo.h
+	qt/element/QtUpdateCheckerWidget.cpp
+	qt/element/QtUpdateCheckerWidget.h
 
 	qt/graphics/QtCountCircleItem.cpp
 	qt/graphics/QtCountCircleItem.h
