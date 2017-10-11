@@ -57,7 +57,7 @@ void QtProjectWizzardContentProjectData::populate(QGridLayout* layout, int& row)
 void QtProjectWizzardContentProjectData::load()
 {
 	m_projectName->setText(QString::fromStdString(m_projectSettings->getProjectName()));
-	m_projectFileLocation->setText(QString::fromStdString(m_projectSettings->getProjectFileLocation().str()));
+	m_projectFileLocation->setText(QString::fromStdString(m_projectSettings->getProjectDirectoryPath().str()));
 }
 
 void QtProjectWizzardContentProjectData::save()

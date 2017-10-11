@@ -10,6 +10,7 @@ class QComboBox;
 class QPushButton;
 class QtDirectoryListBox;
 class SourceGroupSettings;
+class SourceGroupSettingsCxxCdb;
 
 class QtProjectWizzardContentPaths
 	: public QtProjectWizzardContent
@@ -75,9 +76,13 @@ class QtProjectWizzardContentPathsCDBHeader
 	Q_OBJECT
 
 public:
+	static std::vector<FilePath> getTopLevelHeaderSearchPaths(std::shared_ptr<SourceGroupSettingsCxxCdb> settings);
+
 	QtProjectWizzardContentPathsCDBHeader(std::shared_ptr<SourceGroupSettings> settings, QtProjectWizzardWindow* window);
 
 	virtual void populate(QGridLayout* layout, int& row) override;
+
+	virtual void load() override;
 
 	virtual bool check() override;
 

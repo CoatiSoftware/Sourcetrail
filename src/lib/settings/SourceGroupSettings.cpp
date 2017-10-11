@@ -80,9 +80,9 @@ void SourceGroupSettings::setName(const std::string& name)
 	m_name = name;
 }
 
-FilePath SourceGroupSettings::getProjectFileLocation() const
+FilePath SourceGroupSettings::getProjectDirectoryPath() const
 {
-	return m_projectSettings->getProjectFileLocation();
+	return m_projectSettings->getProjectDirectoryPath();
 }
 
 FilePath SourceGroupSettings::makePathExpandedAndAbsolute(const FilePath& path) const

@@ -33,7 +33,7 @@ public:
 	void setProjectFilePath(std::string projectName, const FilePath& projectFileLocation);
 
 	std::string getProjectName() const;
-	FilePath getProjectFileLocation() const;
+	FilePath getProjectDirectoryPath() const;
 
 	std::string getDescription() const;
 

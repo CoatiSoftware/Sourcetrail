@@ -124,7 +124,7 @@ std::string ProjectSettings::getProjectName() const
 	return getFilePath().withoutExtension().fileName();
 }
 
-FilePath ProjectSettings::getProjectFileLocation() const
+FilePath ProjectSettings::getProjectDirectoryPath() const
 {
 	return getFilePath().parentDirectory();
 }
@@ -204,7 +204,7 @@ std::vector<FilePath> ProjectSettings::makePathsExpandedAndAbsolute(const std::v
 	std::vector<FilePath> p = expandPaths(paths);
 
 	std::vector<FilePath> absPaths;
-	FilePath basePath = getProjectFileLocation();
+	FilePath basePath = getProjectDirectoryPath();
 	for (const FilePath& path : p)
 	{
 		if (path.isAbsolute())
@@ -229,7 +229,7 @@ FilePath ProjectSettings::makePathExpandedAndAbsolute(const FilePath& path) cons
 		return p;
 	}
 
-	return getProjectFileLocation().concat(p).canonical();
+	return getProjectDirectoryPath().concat(p).canonical();
 }
 
 SettingsMigrator ProjectSettings::getMigrations() const

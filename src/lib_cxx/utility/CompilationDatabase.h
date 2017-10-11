@@ -4,27 +4,27 @@
 #include <string>
 #include <vector>
 
-class FilePath;
+#include "utility/file/FilePath.h"
 
 namespace utility
 {
 	class CompilationDatabase
 	{
 	public:
-		CompilationDatabase(std::string filename);
+		CompilationDatabase(const FilePath& filePath);
 
-		std::vector<FilePath> getAllHeaderPaths();
-		std::vector<FilePath> getHeaderPaths();
-		std::vector<FilePath> getSystemHeaderPaths();
-		std::vector<FilePath> getFrameworkHeaderPaths();
+		std::vector<FilePath> getAllHeaderPaths() const;
+		std::vector<FilePath> getHeaderPaths() const;
+		std::vector<FilePath> getSystemHeaderPaths() const;
+		std::vector<FilePath> getFrameworkHeaderPaths() const;
 
 	private:
-		std::string m_filename;
+		void init();
+
+		FilePath m_filePath;
 		std::vector<FilePath> m_headers;
 		std::vector<FilePath> m_systemHeaders;
 		std::vector<FilePath> m_frameworkHeaders;
-
-		void getHeaders();
 	};
 
 }

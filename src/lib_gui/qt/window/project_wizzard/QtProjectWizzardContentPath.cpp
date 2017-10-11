@@ -41,7 +41,7 @@ void QtProjectWizzardContentPath::populate(QGridLayout* layout, int& row)
 
 	if (m_makePathRelativeToProjectFileLocation)
 	{
-		m_picker->setRelativeRootDirectory(m_settings->getProjectFileLocation());
+		m_picker->setRelativeRootDirectory(m_settings->getProjectDirectoryPath());
 	}
 
 	layout->addWidget(m_picker, row, QtProjectWizzardWindow::BACK_COL);
@@ -263,7 +263,7 @@ std::vector<std::string> QtProjectWizzardContentPathSourceMaven::getFileNames() 
 			m_settings->getSourceExtensions()
 		);
 
-		const FilePath projectPath = m_settings->getProjectFileLocation();
+		const FilePath projectPath = m_settings->getProjectDirectoryPath();
 
 		for (FilePath path: fileManager.getAllSourceFilePaths())
 		{
@@ -394,7 +394,7 @@ std::vector<std::string> QtProjectWizzardContentPathSourceGradle::getFileNames()
 			m_settings->getSourceExtensions()
 		);
 
-		const FilePath projectPath = m_settings->getProjectFileLocation();
+		const FilePath projectPath = m_settings->getProjectDirectoryPath();
 
 		for (FilePath path : fileManager.getAllSourceFilePaths())
 		{

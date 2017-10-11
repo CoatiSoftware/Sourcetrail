@@ -28,7 +28,7 @@ public:
 	std::string getName() const;
 	void setName(const std::string& name);
 
-	FilePath getProjectFileLocation() const;
+	FilePath getProjectDirectoryPath() const;
 	FilePath makePathExpandedAndAbsolute(const FilePath& path) const;
 	std::vector<FilePath> makePathsExpandedAndAbsolute(const std::vector<FilePath>& paths) const;
 

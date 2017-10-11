@@ -19,6 +19,7 @@
 #include "utility/file/FileManager.h"
 #include "utility/ScopedFunctor.h"
 #include "utility/utility.h"
+#include "utility/utilityFile.h"
 #include "utility/utilityPathDetection.h"
 #include "Application.h"
 
@@ -43,7 +44,7 @@ void QtProjectWizzardContentPaths::populate(QGridLayout* layout, int& row)
 
 	if (m_makePathsRelativeToProjectFileLocation && m_settings)
 	{
-		m_list->setRelativeRootDirectory(m_settings->getProjectFileLocation());
+		m_list->setRelativeRootDirectory(m_settings->getProjectDirectoryPath());
 	}
 
 	layout->addWidget(m_list, row, QtProjectWizzardWindow::BACK_COL);
@@ -192,7 +193,7 @@ std::vector<std::string> QtProjectWizzardContentPathsSource::getFileNames() cons
 		m_settings->getSourceExtensions()
 	);
 
-	const std::set<FilePath> filePaths = fileManager.getAllSourceFilePathsRelative(m_settings->getProjectFileLocation());
+	const std::set<FilePath> filePaths = fileManager.getAllSourceFilePathsRelative(m_settings->getProjectDirectoryPath());
 
 	std::vector<std::string> list;
 	list.resize(filePaths.size());
@@ -209,6 +210,22 @@ QString QtProjectWizzardContentPathsSource::getFileNamesTitle() const
 QString QtProjectWizzardContentPathsSource::getFileNamesDescription() const
 {
 	return " files will be indexed.";
+}
+
+
+std::vector<FilePath> QtProjectWizzardContentPathsCDBHeader::getTopLevelHeaderSearchPaths(
+	std::shared_ptr<SourceGroupSettingsCxxCdb> settings)
+{
+	const FilePath cdbPath = settings->getCompilationDatabasePathExpandedAndAbsolute();
+	if (!cdbPath.exists())
+	{
+		LOG_WARNING("Unable to fetch top level header search directories. The provided Compilation Database path does not exist.");
+		return std::vector<FilePath>();
+	}
+	const std::vector<FilePath> sourcePaths = settings->getSourcePaths();
+	return utility::getTopLevelPaths(utility::unique(utility::concat(
+		sourcePaths, utility::CompilationDatabase(cdbPath).getAllHeaderPaths()
+	)));
 }
 
 QtProjectWizzardContentPathsCDBHeader::QtProjectWizzardContentPathsCDBHeader(
@@ -242,6 +259,25 @@ void QtProjectWizzardContentPathsCDBHeader::populate(QGridLayout* layout, int& r
 	row++;
 }
 
+void QtProjectWizzardContentPathsCDBHeader::load()
+{
+	if (m_settings->getSourcePaths().empty())
+	{
+		std::shared_ptr<SourceGroupSettingsCxxCdb> cdbSettings = std::dynamic_pointer_cast<SourceGroupSettingsCxxCdb>(m_settings);
+		std::vector<FilePath> sourcePaths;
+		for (const FilePath& path : getTopLevelHeaderSearchPaths(cdbSettings))
+		{
+			if (path.exists() && m_settings->getProjectDirectoryPath().contains(path))
+			{
+				sourcePaths.push_back(path);
+			}
+		}
+		m_settings->setSourcePaths(sourcePaths);
+	}
+		
+	QtProjectWizzardContentPathsSource::load();
+}
+
 bool QtProjectWizzardContentPathsCDBHeader::check()
 {
 	if (!m_list->getList().size())
@@ -269,7 +305,7 @@ void QtProjectWizzardContentPathsCDBHeader::buttonClicked()
 
 	if (!m_filesDialog)
 	{
-		FilePath cdbPath = dynamic_cast<SourceGroupSettingsCxxCdb*>(m_settings.get())->getCompilationDatabasePathExpandedAndAbsolute(); // TODO: remove this cast
+		const FilePath cdbPath = std::dynamic_pointer_cast<SourceGroupSettingsCxxCdb>(m_settings)->getCompilationDatabasePathExpandedAndAbsolute();
 		if (!cdbPath.exists())
 		{
 			QMessageBox msgBox;
@@ -287,31 +323,11 @@ void QtProjectWizzardContentPathsCDBHeader::buttonClicked()
 
 		connect(m_filesDialog.get(), &QtSelectPathsDialog::finished, this, &QtProjectWizzardContentPathsCDBHeader::savedFilesDialog);
 		connect(m_filesDialog.get(), &QtSelectPathsDialog::canceled, this, &QtProjectWizzardContentPathsCDBHeader::closedFilesDialog);
-
-
-		utility::CompilationDatabase cdb(cdbPath.str());
-
-		std::vector<FilePath> sourcePaths = m_settings->getSourcePaths();
-
-		std::vector<FilePath> cdbHeaderPaths;
-		for (const FilePath& path: utility::unique(utility::concat(sourcePaths, cdb.getAllHeaderPaths())))
-		{
-			bool addPath = true;
-			for (const FilePath& cdbHeaderPath: cdbHeaderPaths)
-			{
-				if (cdbHeaderPath.contains(path))
-				{
-					addPath = false;
-					break;
-				}
-			}
-			if (addPath)
-			{
-				cdbHeaderPaths.push_back(path);
-			}
-		}
-
-		dynamic_cast<QtSelectPathsDialog*>(m_filesDialog.get())->setPathsList(cdbHeaderPaths, sourcePaths);
+		
+		dynamic_cast<QtSelectPathsDialog*>(m_filesDialog.get())->setPathsList(
+			getTopLevelHeaderSearchPaths(std::dynamic_pointer_cast<SourceGroupSettingsCxxCdb>(m_settings)), 
+			m_settings->getSourcePaths()
+		);
 	}
 
 	m_filesDialog->showWindow();

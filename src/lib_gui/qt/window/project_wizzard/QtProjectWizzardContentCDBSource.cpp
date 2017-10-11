@@ -32,7 +32,7 @@ void QtProjectWizzardContentCDBSource::load()
 {
 	m_fileNames.clear();
 
-	const FilePath projectPath = m_settings->getProjectFileLocation();
+	const FilePath projectPath = m_settings->getProjectDirectoryPath();
 	std::vector<FilePath> excludePaths = m_settings->getExcludePathsExpandedAndAbsolute();
 
 	if (std::shared_ptr<SourceGroupSettingsCxxCdb> cxxSettings = std::dynamic_pointer_cast<SourceGroupSettingsCxxCdb>(m_settings))
