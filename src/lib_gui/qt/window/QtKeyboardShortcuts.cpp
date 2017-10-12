@@ -123,14 +123,15 @@ QTableWidget* QtKeyboardShortcuts::createGenerelShortcutsTable()
 	table->setItem(6, 0, new QTableWidgetItem("Force Refresh"));
 	table->setItem(7, 0, new QTableWidgetItem("Find Symbol"));
 	table->setItem(8, 0, new QTableWidgetItem("Find Text"));
-	table->setItem(9, 0, new QTableWidgetItem("New Project"));
-	table->setItem(10, 0, new QTableWidgetItem("Open Project"));
-	table->setItem(11, 0, new QTableWidgetItem("Close Window"));
-	table->setItem(12, 0, new QTableWidgetItem("Hide Window"));
-	table->setItem(13, 0, new QTableWidgetItem("To Overview"));
-	table->setItem(14, 0, new QTableWidgetItem("Preferences"));
-	table->setItem(15, 0, new QTableWidgetItem("Bookmark Active Symbol"));
-	table->setItem(16, 0, new QTableWidgetItem("Bookmark Manager"));
+	table->setItem(9, 0, new QTableWidgetItem("Find in View"));
+	table->setItem(10, 0, new QTableWidgetItem("New Project"));
+	table->setItem(11, 0, new QTableWidgetItem("Open Project"));
+	table->setItem(12, 0, new QTableWidgetItem("Close Window"));
+	table->setItem(13, 0, new QTableWidgetItem("Hide Window"));
+	table->setItem(14, 0, new QTableWidgetItem("To Overview"));
+	table->setItem(15, 0, new QTableWidgetItem("Preferences"));
+	table->setItem(16, 0, new QTableWidgetItem("Bookmark Active Symbol"));
+	table->setItem(17, 0, new QTableWidgetItem("Bookmark Manager"));
 
 #if defined(Q_OS_MAC)
 	table->setItem(0, 1, new QTableWidgetItem("Cmd + +"));
@@ -142,14 +143,15 @@ QTableWidget* QtKeyboardShortcuts::createGenerelShortcutsTable()
 	table->setItem(6, 1, new QTableWidgetItem("Cmd + Shift + R"));
 	table->setItem(7, 1, new QTableWidgetItem("Cmd + F"));
 	table->setItem(8, 1, new QTableWidgetItem("Cmd + Shift + F"));
-	table->setItem(9, 1, new QTableWidgetItem("Cmd + N"));
-	table->setItem(10, 1, new QTableWidgetItem("Cmd + O"));
-	table->setItem(11, 1, new QTableWidgetItem("Cmd + W"));
-	table->setItem(12, 1, new QTableWidgetItem("Cmd + H"));
-	table->setItem(13, 1, new QTableWidgetItem("Cmd + Home | Cmd + Up"));
-	table->setItem(14, 1, new QTableWidgetItem("Cmd + ,"));
-	table->setItem(15, 1, new QTableWidgetItem("Cmd + D"));
-	table->setItem(16, 1, new QTableWidgetItem("Cmd + B"));
+	table->setItem(9, 1, new QTableWidgetItem("Cmd + D | /"));
+	table->setItem(10, 1, new QTableWidgetItem("Cmd + N"));
+	table->setItem(11, 1, new QTableWidgetItem("Cmd + O"));
+	table->setItem(12, 1, new QTableWidgetItem("Cmd + W"));
+	table->setItem(13, 1, new QTableWidgetItem("Cmd + H"));
+	table->setItem(14, 1, new QTableWidgetItem("Cmd + Home | Cmd + Up"));
+	table->setItem(15, 1, new QTableWidgetItem("Cmd + ,"));
+	table->setItem(16, 1, new QTableWidgetItem("Cmd + S"));
+	table->setItem(17, 1, new QTableWidgetItem("Cmd + B"));
 #else
 	table->setItem(0, 1, new QTableWidgetItem("Ctrl + +"));
 	table->setItem(1, 1, new QTableWidgetItem("Ctrl + -"));
@@ -160,18 +162,19 @@ QTableWidget* QtKeyboardShortcuts::createGenerelShortcutsTable()
 	table->setItem(6, 1, new QTableWidgetItem("Shift + F5"));
 	table->setItem(7, 1, new QTableWidgetItem("Ctrl + F"));
 	table->setItem(8, 1, new QTableWidgetItem("Ctrl + Shift + F"));
-	table->setItem(9, 1, new QTableWidgetItem("Ctrl + N"));
-	table->setItem(10, 1, new QTableWidgetItem("Ctrl + O"));
+	table->setItem(9, 1, new QTableWidgetItem("Ctrl + D | /"));
+	table->setItem(10, 1, new QTableWidgetItem("Ctrl + N"));
+	table->setItem(11, 1, new QTableWidgetItem("Ctrl + O"));
 	#if defined(Q_OS_WIN32)
-	table->setItem(11, 1, new QTableWidgetItem("Alt + F4"));
+	table->setItem(12, 1, new QTableWidgetItem("Alt + F4"));
 	#else
-	table->setItem(11, 1, new QTableWidgetItem("Ctrl + W"));
+	table->setItem(12, 1, new QTableWidgetItem("Ctrl + W"));
 	#endif
-	table->setItem(12, 1, new QTableWidgetItem(""));
-	table->setItem(13, 1, new QTableWidgetItem("Ctrl + Home"));
-	table->setItem(14, 1, new QTableWidgetItem("Ctrl + ,"));
-	table->setItem(15, 1, new QTableWidgetItem("Ctrl + D"));
-	table->setItem(16, 1, new QTableWidgetItem("Ctrl + B"));
+	table->setItem(13, 1, new QTableWidgetItem(""));
+	table->setItem(14, 1, new QTableWidgetItem("Ctrl + Home"));
+	table->setItem(15, 1, new QTableWidgetItem("Ctrl + ,"));
+	table->setItem(16, 1, new QTableWidgetItem("Ctrl + S"));
+	table->setItem(17, 1, new QTableWidgetItem("Ctrl + B"));
 #endif
 
 	table->updateSize();
