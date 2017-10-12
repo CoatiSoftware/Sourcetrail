@@ -59,7 +59,7 @@ std::vector<std::string> TextAccess::getLines(const unsigned int firstLineNumber
 	return std::vector<std::string>(first, last);
 }
 
-std::vector<std::string> TextAccess::getAllLines() const
+const std::vector<std::string>& TextAccess::getAllLines() const
 {
 	return m_lines;
 }
@@ -124,7 +124,7 @@ std::vector<std::string> TextAccess::splitStringByLines(const std::string& text)
 		index = text.find('\n', prevIndex);
 	}
 
-	if (prevIndex < text.length() - 1)
+	if (prevIndex < text.length())
 	{
 		result.push_back(text.substr(prevIndex));
 	}

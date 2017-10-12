@@ -551,11 +551,15 @@ bool Project::didFileChange(const FileInfo& info) const
 	{
 		std::shared_ptr<TextAccess> storedFileContent = m_storage->getFileContent(info.path);
 		std::shared_ptr<TextAccess> diskFileContent = TextAccess::createFromFile(diskFileInfo.path);
-		if (diskFileContent->getLineCount() == storedFileContent->getLineCount())
+
+		const std::vector<std::string>& diskFileLines = diskFileContent->getAllLines();
+		const std::vector<std::string>& storedFileLines = storedFileContent->getAllLines();
+
+		if (diskFileLines.size() == storedFileLines.size())
 		{
-			for (size_t i = 0; i < diskFileContent->getLineCount(); i++)
+			for (size_t i = 0; i < diskFileLines.size(); i++)
 			{
-				if (diskFileContent->getLine(i) != storedFileContent->getLine(i))
+				if (diskFileLines[i] != storedFileLines[i])
 				{
 					return true;
 				}

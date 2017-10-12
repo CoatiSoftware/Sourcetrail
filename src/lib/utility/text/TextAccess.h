@@ -28,7 +28,7 @@ public:
 	 * @param lastLineNumber: starts with 1
 	 */
 	std::vector<std::string> getLines(const unsigned int firstLineNumber, const unsigned int lastLineNumber);
-	std::vector<std::string> getAllLines() const;
+	const std::vector<std::string>& getAllLines() const;
 	std::string getText() const;
 
 private:
