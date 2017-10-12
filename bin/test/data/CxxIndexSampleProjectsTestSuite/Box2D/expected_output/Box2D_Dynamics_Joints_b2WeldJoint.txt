@@ -43,14 +43,14 @@ REFERENCE_USAGE void b2WeldJointDef::Initialize(b2Body *, b2Body *, const b2Vec2
 LOCAL_SYMBOL: b2WeldJoint.cpp<37:41> [b2WeldJoint.cpp <39:10 39:11>]
 REFERENCE_USAGE void b2WeldJointDef::Initialize(b2Body *, b2Body *, const b2Vec2 &) -> b2Body * b2JointDef::bodyB [b2WeldJoint.cpp <40:2 40:6>]
 LOCAL_SYMBOL: b2WeldJoint.cpp<37:53> [b2WeldJoint.cpp <40:10 40:11>]
-SYMBOL_FUNCTION b2Vec2 & b2Vec2::operator=(b2Vec2 &)
-REFERENCE_CALL void b2WeldJointDef::Initialize(b2Body *, b2Body *, const b2Vec2 &) -> b2Vec2 & b2Vec2::operator=(b2Vec2 &) [b2WeldJoint.cpp <41:15 41:15>]
+SYMBOL_FUNCTION b2Vec2 & b2Vec2::operator=(b2Vec2 &&)
+REFERENCE_CALL void b2WeldJointDef::Initialize(b2Body *, b2Body *, const b2Vec2 &) -> b2Vec2 & b2Vec2::operator=(b2Vec2 &&) [b2WeldJoint.cpp <41:15 41:15>]
 REFERENCE_USAGE void b2WeldJointDef::Initialize(b2Body *, b2Body *, const b2Vec2 &) -> b2Vec2 b2WeldJointDef::localAnchorA [b2WeldJoint.cpp <41:2 41:13>]
 SYMBOL_FUNCTION b2Vec2 b2Body::GetLocalPoint(const b2Vec2 &) const
 REFERENCE_CALL void b2WeldJointDef::Initialize(b2Body *, b2Body *, const b2Vec2 &) -> b2Vec2 b2Body::GetLocalPoint(const b2Vec2 &) const [b2WeldJoint.cpp <41:24 41:36>]
 REFERENCE_USAGE void b2WeldJointDef::Initialize(b2Body *, b2Body *, const b2Vec2 &) -> b2Body * b2JointDef::bodyA [b2WeldJoint.cpp <41:17 41:21>]
 LOCAL_SYMBOL: b2WeldJoint.cpp<37:71> [b2WeldJoint.cpp <41:38 41:43>]
-REFERENCE_CALL void b2WeldJointDef::Initialize(b2Body *, b2Body *, const b2Vec2 &) -> b2Vec2 & b2Vec2::operator=(b2Vec2 &) [b2WeldJoint.cpp <42:15 42:15>]
+REFERENCE_CALL void b2WeldJointDef::Initialize(b2Body *, b2Body *, const b2Vec2 &) -> b2Vec2 & b2Vec2::operator=(b2Vec2 &&) [b2WeldJoint.cpp <42:15 42:15>]
 REFERENCE_USAGE void b2WeldJointDef::Initialize(b2Body *, b2Body *, const b2Vec2 &) -> b2Vec2 b2WeldJointDef::localAnchorB [b2WeldJoint.cpp <42:2 42:13>]
 REFERENCE_CALL void b2WeldJointDef::Initialize(b2Body *, b2Body *, const b2Vec2 &) -> b2Vec2 b2Body::GetLocalPoint(const b2Vec2 &) const [b2WeldJoint.cpp <42:24 42:36>]
 REFERENCE_USAGE void b2WeldJointDef::Initialize(b2Body *, b2Body *, const b2Vec2 &) -> b2Body * b2JointDef::bodyB [b2WeldJoint.cpp <42:17 42:21>]
@@ -187,7 +187,7 @@ LOCAL_SYMBOL: b2WeldJoint.cpp<69:10> [b2WeldJoint.cpp <77:11 77:12>]
 LOCAL_SYMBOL: b2WeldJoint.cpp<77:16> [b2WeldJoint.cpp <77:16 77:17>]
 REFERENCE_CALL void b2WeldJoint::InitVelocityConstraints(const b2SolverData &) -> void b2Rot::b2Rot(float32) [b2WeldJoint.cpp <77:16 77:17>]
 LOCAL_SYMBOL: b2WeldJoint.cpp<73:10> [b2WeldJoint.cpp <77:19 77:20>]
-REFERENCE_CALL void b2WeldJoint::InitVelocityConstraints(const b2SolverData &) -> b2Vec2 & b2Vec2::operator=(b2Vec2 &) [b2WeldJoint.cpp <79:7 79:7>]
+REFERENCE_CALL void b2WeldJoint::InitVelocityConstraints(const b2SolverData &) -> b2Vec2 & b2Vec2::operator=(b2Vec2 &&) [b2WeldJoint.cpp <79:7 79:7>]
 REFERENCE_USAGE void b2WeldJoint::InitVelocityConstraints(const b2SolverData &) -> b2Vec2 b2WeldJoint::m_rA [b2WeldJoint.cpp <79:2 79:5>]
 SYMBOL_FUNCTION b2Vec2 b2Mul(const b2Rot &, const b2Vec2 &)
 REFERENCE_CALL void b2WeldJoint::InitVelocityConstraints(const b2SolverData &) -> b2Vec2 b2Mul(const b2Rot &, const b2Vec2 &) [b2WeldJoint.cpp <79:9 79:13>]
@@ -196,7 +196,7 @@ SYMBOL_FUNCTION b2Vec2 operator-(const b2Vec2 &, const b2Vec2 &)
 REFERENCE_CALL void b2WeldJoint::InitVelocityConstraints(const b2SolverData &) -> b2Vec2 operator-(const b2Vec2 &, const b2Vec2 &) [b2WeldJoint.cpp <79:34 79:34>]
 REFERENCE_USAGE void b2WeldJoint::InitVelocityConstraints(const b2SolverData &) -> b2Vec2 b2WeldJoint::m_localAnchorA [b2WeldJoint.cpp <79:19 79:32>]
 REFERENCE_USAGE void b2WeldJoint::InitVelocityConstraints(const b2SolverData &) -> b2Vec2 b2WeldJoint::m_localCenterA [b2WeldJoint.cpp <79:36 79:49>]
-REFERENCE_CALL void b2WeldJoint::InitVelocityConstraints(const b2SolverData &) -> b2Vec2 & b2Vec2::operator=(b2Vec2 &) [b2WeldJoint.cpp <80:7 80:7>]
+REFERENCE_CALL void b2WeldJoint::InitVelocityConstraints(const b2SolverData &) -> b2Vec2 & b2Vec2::operator=(b2Vec2 &&) [b2WeldJoint.cpp <80:7 80:7>]
 REFERENCE_USAGE void b2WeldJoint::InitVelocityConstraints(const b2SolverData &) -> b2Vec2 b2WeldJoint::m_rB [b2WeldJoint.cpp <80:2 80:5>]
 REFERENCE_CALL void b2WeldJoint::InitVelocityConstraints(const b2SolverData &) -> b2Vec2 b2Mul(const b2Rot &, const b2Vec2 &) [b2WeldJoint.cpp <80:9 80:13>]
 LOCAL_SYMBOL: b2WeldJoint.cpp<77:16> [b2WeldJoint.cpp <80:15 80:16>]
@@ -884,8 +884,8 @@ REFERENCE_CALL bool b2WeldJoint::SolvePositionConstraints(const b2SolverData &) 
 REFERENCE_USAGE bool b2WeldJoint::SolvePositionConstraints(const b2SolverData &) -> float32 b2Vec3::z [b2WeldJoint.cpp <281:12 281:12>]
 REFERENCE_USAGE bool b2WeldJoint::SolvePositionConstraints(const b2SolverData &) -> b2Vec3 b2Mat33::ez [b2WeldJoint.cpp <281:9 281:10>]
 LOCAL_SYMBOL: b2WeldJoint.cpp<244:10> [b2WeldJoint.cpp <281:7 281:7>]
-SYMBOL_FUNCTION b2Vec3 & b2Vec3::operator=(b2Vec3 &)
-REFERENCE_CALL bool b2WeldJoint::SolvePositionConstraints(const b2SolverData &) -> b2Vec3 & b2Vec3::operator=(b2Vec3 &) [b2WeldJoint.cpp <283:12 283:12>]
+SYMBOL_FUNCTION b2Vec3 & b2Vec3::operator=(b2Vec3 &&)
+REFERENCE_CALL bool b2WeldJoint::SolvePositionConstraints(const b2SolverData &) -> b2Vec3 & b2Vec3::operator=(b2Vec3 &&) [b2WeldJoint.cpp <283:12 283:12>]
 LOCAL_SYMBOL: b2WeldJoint.cpp<280:10> [b2WeldJoint.cpp <283:4 283:10>]
 REFERENCE_CALL bool b2WeldJoint::SolvePositionConstraints(const b2SolverData &) -> b2Vec3 b2Vec3::operator-() const [b2WeldJoint.cpp <283:14 283:14>]
 SYMBOL_FUNCTION b2Vec3 b2Mat33::Solve33(const b2Vec3 &) const

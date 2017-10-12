@@ -153,8 +153,8 @@ LOCAL_SYMBOL: b2CircleShape.cpp<58:10> [b2CircleShape.cpp <73:8 73:9>]
 REFERENCE_USAGE bool b2CircleShape::RayCast(b2RayCastOutput *, const b2RayCastInput &, const b2Transform &, int32) const -> float32 b2RayCastOutput::fraction [b2CircleShape.cpp <74:11 74:18>]
 LOCAL_SYMBOL: b2CircleShape.cpp<46:46> [b2CircleShape.cpp <74:3 74:8>]
 LOCAL_SYMBOL: b2CircleShape.cpp<68:10> [b2CircleShape.cpp <74:22 74:22>]
-SYMBOL_FUNCTION b2Vec2 & b2Vec2::operator=(b2Vec2 &)
-REFERENCE_CALL bool b2CircleShape::RayCast(b2RayCastOutput *, const b2RayCastInput &, const b2Transform &, int32) const -> b2Vec2 & b2Vec2::operator=(b2Vec2 &) [b2CircleShape.cpp <75:18 75:18>]
+SYMBOL_FUNCTION b2Vec2 & b2Vec2::operator=(b2Vec2 &&)
+REFERENCE_CALL bool b2CircleShape::RayCast(b2RayCastOutput *, const b2RayCastInput &, const b2Transform &, int32) const -> b2Vec2 & b2Vec2::operator=(b2Vec2 &&) [b2CircleShape.cpp <75:18 75:18>]
 REFERENCE_USAGE bool b2CircleShape::RayCast(b2RayCastOutput *, const b2RayCastInput &, const b2Transform &, int32) const -> b2Vec2 b2RayCastOutput::normal [b2CircleShape.cpp <75:11 75:16>]
 LOCAL_SYMBOL: b2CircleShape.cpp<46:46> [b2CircleShape.cpp <75:3 75:8>]
 REFERENCE_CALL bool b2CircleShape::RayCast(b2RayCastOutput *, const b2RayCastInput &, const b2Transform &, int32) const -> b2Vec2 operator+(const b2Vec2 &, const b2Vec2 &) [b2CircleShape.cpp <75:22 75:22>]

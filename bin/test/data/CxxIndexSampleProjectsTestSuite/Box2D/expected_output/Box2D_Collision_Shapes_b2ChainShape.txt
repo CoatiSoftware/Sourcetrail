@@ -352,15 +352,15 @@ REFERENCE_CALL void b2ChainShape::ComputeAABB(b2AABB *, const b2Transform &, int
 LOCAL_SYMBOL: b2ChainShape.cpp<173:65> [b2ChainShape.cpp <185:20 185:21>]
 REFERENCE_USAGE void b2ChainShape::ComputeAABB(b2AABB *, const b2Transform &, int32) const -> b2Vec2 * b2ChainShape::m_vertices [b2ChainShape.cpp <185:24 185:33>]
 LOCAL_SYMBOL: b2ChainShape.cpp<178:8> [b2ChainShape.cpp <185:35 185:36>]
-SYMBOL_FUNCTION b2Vec2 & b2Vec2::operator=(b2Vec2 &)
-REFERENCE_CALL void b2ChainShape::ComputeAABB(b2AABB *, const b2Transform &, int32) const -> b2Vec2 & b2Vec2::operator=(b2Vec2 &) [b2ChainShape.cpp <187:19 187:19>]
+SYMBOL_FUNCTION b2Vec2 & b2Vec2::operator=(b2Vec2 &&)
+REFERENCE_CALL void b2ChainShape::ComputeAABB(b2AABB *, const b2Transform &, int32) const -> b2Vec2 & b2Vec2::operator=(b2Vec2 &&) [b2ChainShape.cpp <187:19 187:19>]
 REFERENCE_USAGE void b2ChainShape::ComputeAABB(b2AABB *, const b2Transform &, int32) const -> b2Vec2 b2AABB::lowerBound [b2ChainShape.cpp <187:8 187:17>]
 LOCAL_SYMBOL: b2ChainShape.cpp<173:40> [b2ChainShape.cpp <187:2 187:5>]
 SYMBOL_FUNCTION b2Vec2 b2Min(const b2Vec2 &, const b2Vec2 &)
 REFERENCE_CALL void b2ChainShape::ComputeAABB(b2AABB *, const b2Transform &, int32) const -> b2Vec2 b2Min(const b2Vec2 &, const b2Vec2 &) [b2ChainShape.cpp <187:21 187:25>]
 LOCAL_SYMBOL: b2ChainShape.cpp<184:9> [b2ChainShape.cpp <187:27 187:28>]
 LOCAL_SYMBOL: b2ChainShape.cpp<185:9> [b2ChainShape.cpp <187:31 187:32>]
-REFERENCE_CALL void b2ChainShape::ComputeAABB(b2AABB *, const b2Transform &, int32) const -> b2Vec2 & b2Vec2::operator=(b2Vec2 &) [b2ChainShape.cpp <188:19 188:19>]
+REFERENCE_CALL void b2ChainShape::ComputeAABB(b2AABB *, const b2Transform &, int32) const -> b2Vec2 & b2Vec2::operator=(b2Vec2 &&) [b2ChainShape.cpp <188:19 188:19>]
 REFERENCE_USAGE void b2ChainShape::ComputeAABB(b2AABB *, const b2Transform &, int32) const -> b2Vec2 b2AABB::upperBound [b2ChainShape.cpp <188:8 188:17>]
 LOCAL_SYMBOL: b2ChainShape.cpp<173:40> [b2ChainShape.cpp <188:2 188:5>]
 SYMBOL_FUNCTION b2Vec2 b2Max(const b2Vec2 &, const b2Vec2 &)

@@ -93,12 +93,20 @@ std::shared_ptr<CxxTypeName> CxxTypeNameResolver::getName(const clang::Type* typ
 				break;
 			}
 		case clang::Type::LValueReference:
-		case clang::Type::RValueReference:
 			{
 				typeName = getName(type->getPointeeType());
 				if (typeName)
 				{
 					typeName->addModifier(CxxTypeName::Modifier("&"));
+				}
+				break;
+			}
+		case clang::Type::RValueReference:
+			{
+				typeName = getName(type->getPointeeType());
+				if (typeName)
+				{
+					typeName->addModifier(CxxTypeName::Modifier("&&"));
 				}
 				break;
 			}

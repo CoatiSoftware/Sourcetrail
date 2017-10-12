@@ -119,19 +119,19 @@ REFERENCE_USAGE void b2PrismaticJointDef::Initialize(b2Body *, b2Body *, const b
 LOCAL_SYMBOL: b2PrismaticJoint.cpp<90:46> [b2PrismaticJoint.cpp <92:10 92:11>]
 REFERENCE_USAGE void b2PrismaticJointDef::Initialize(b2Body *, b2Body *, const b2Vec2 &, const b2Vec2 &) -> b2Body * b2JointDef::bodyB [b2PrismaticJoint.cpp <93:2 93:6>]
 LOCAL_SYMBOL: b2PrismaticJoint.cpp<90:58> [b2PrismaticJoint.cpp <93:10 93:11>]
-SYMBOL_FUNCTION b2Vec2 & b2Vec2::operator=(b2Vec2 &)
-REFERENCE_CALL void b2PrismaticJointDef::Initialize(b2Body *, b2Body *, const b2Vec2 &, const b2Vec2 &) -> b2Vec2 & b2Vec2::operator=(b2Vec2 &) [b2PrismaticJoint.cpp <94:15 94:15>]
+SYMBOL_FUNCTION b2Vec2 & b2Vec2::operator=(b2Vec2 &&)
+REFERENCE_CALL void b2PrismaticJointDef::Initialize(b2Body *, b2Body *, const b2Vec2 &, const b2Vec2 &) -> b2Vec2 & b2Vec2::operator=(b2Vec2 &&) [b2PrismaticJoint.cpp <94:15 94:15>]
 REFERENCE_USAGE void b2PrismaticJointDef::Initialize(b2Body *, b2Body *, const b2Vec2 &, const b2Vec2 &) -> b2Vec2 b2PrismaticJointDef::localAnchorA [b2PrismaticJoint.cpp <94:2 94:13>]
 SYMBOL_FUNCTION b2Vec2 b2Body::GetLocalPoint(const b2Vec2 &) const
 REFERENCE_CALL void b2PrismaticJointDef::Initialize(b2Body *, b2Body *, const b2Vec2 &, const b2Vec2 &) -> b2Vec2 b2Body::GetLocalPoint(const b2Vec2 &) const [b2PrismaticJoint.cpp <94:24 94:36>]
 REFERENCE_USAGE void b2PrismaticJointDef::Initialize(b2Body *, b2Body *, const b2Vec2 &, const b2Vec2 &) -> b2Body * b2JointDef::bodyA [b2PrismaticJoint.cpp <94:17 94:21>]
 LOCAL_SYMBOL: b2PrismaticJoint.cpp<90:76> [b2PrismaticJoint.cpp <94:38 94:43>]
-REFERENCE_CALL void b2PrismaticJointDef::Initialize(b2Body *, b2Body *, const b2Vec2 &, const b2Vec2 &) -> b2Vec2 & b2Vec2::operator=(b2Vec2 &) [b2PrismaticJoint.cpp <95:15 95:15>]
+REFERENCE_CALL void b2PrismaticJointDef::Initialize(b2Body *, b2Body *, const b2Vec2 &, const b2Vec2 &) -> b2Vec2 & b2Vec2::operator=(b2Vec2 &&) [b2PrismaticJoint.cpp <95:15 95:15>]
 REFERENCE_USAGE void b2PrismaticJointDef::Initialize(b2Body *, b2Body *, const b2Vec2 &, const b2Vec2 &) -> b2Vec2 b2PrismaticJointDef::localAnchorB [b2PrismaticJoint.cpp <95:2 95:13>]
 REFERENCE_CALL void b2PrismaticJointDef::Initialize(b2Body *, b2Body *, const b2Vec2 &, const b2Vec2 &) -> b2Vec2 b2Body::GetLocalPoint(const b2Vec2 &) const [b2PrismaticJoint.cpp <95:24 95:36>]
 REFERENCE_USAGE void b2PrismaticJointDef::Initialize(b2Body *, b2Body *, const b2Vec2 &, const b2Vec2 &) -> b2Body * b2JointDef::bodyB [b2PrismaticJoint.cpp <95:17 95:21>]
 LOCAL_SYMBOL: b2PrismaticJoint.cpp<90:76> [b2PrismaticJoint.cpp <95:38 95:43>]
-REFERENCE_CALL void b2PrismaticJointDef::Initialize(b2Body *, b2Body *, const b2Vec2 &, const b2Vec2 &) -> b2Vec2 & b2Vec2::operator=(b2Vec2 &) [b2PrismaticJoint.cpp <96:13 96:13>]
+REFERENCE_CALL void b2PrismaticJointDef::Initialize(b2Body *, b2Body *, const b2Vec2 &, const b2Vec2 &) -> b2Vec2 & b2Vec2::operator=(b2Vec2 &&) [b2PrismaticJoint.cpp <96:13 96:13>]
 REFERENCE_USAGE void b2PrismaticJointDef::Initialize(b2Body *, b2Body *, const b2Vec2 &, const b2Vec2 &) -> b2Vec2 b2PrismaticJointDef::localAxisA [b2PrismaticJoint.cpp <96:2 96:11>]
 SYMBOL_FUNCTION b2Vec2 b2Body::GetLocalVector(const b2Vec2 &) const
 REFERENCE_CALL void b2PrismaticJointDef::Initialize(b2Body *, b2Body *, const b2Vec2 &, const b2Vec2 &) -> b2Vec2 b2Body::GetLocalVector(const b2Vec2 &) const [b2PrismaticJoint.cpp <96:22 96:35>]
@@ -184,7 +184,7 @@ LOCAL_SYMBOL: b2PrismaticJoint.cpp<100:63> [b2PrismaticJoint.cpp <105:18 105:20>
 SYMBOL_FUNCTION float32 b2Vec2::Normalize()
 REFERENCE_CALL void b2PrismaticJoint::b2PrismaticJoint(const b2PrismaticJointDef *) -> float32 b2Vec2::Normalize() [b2PrismaticJoint.cpp <106:16 106:24>]
 REFERENCE_USAGE void b2PrismaticJoint::b2PrismaticJoint(const b2PrismaticJointDef *) -> b2Vec2 b2PrismaticJoint::m_localXAxisA [b2PrismaticJoint.cpp <106:2 106:14>]
-REFERENCE_CALL void b2PrismaticJoint::b2PrismaticJoint(const b2PrismaticJointDef *) -> b2Vec2 & b2Vec2::operator=(b2Vec2 &) [b2PrismaticJoint.cpp <107:16 107:16>]
+REFERENCE_CALL void b2PrismaticJoint::b2PrismaticJoint(const b2PrismaticJointDef *) -> b2Vec2 & b2Vec2::operator=(b2Vec2 &&) [b2PrismaticJoint.cpp <107:16 107:16>]
 REFERENCE_USAGE void b2PrismaticJoint::b2PrismaticJoint(const b2PrismaticJointDef *) -> b2Vec2 b2PrismaticJoint::m_localYAxisA [b2PrismaticJoint.cpp <107:2 107:14>]
 SYMBOL_FUNCTION b2Vec2 b2Cross(float32, const b2Vec2 &)
 REFERENCE_CALL void b2PrismaticJoint::b2PrismaticJoint(const b2PrismaticJointDef *) -> b2Vec2 b2Cross(float32, const b2Vec2 &) [b2PrismaticJoint.cpp <107:18 107:24>]
@@ -354,7 +354,7 @@ REFERENCE_TYPE_USAGE void b2PrismaticJoint::InitVelocityConstraints(const b2Solv
 REFERENCE_USAGE void b2PrismaticJoint::InitVelocityConstraints(const b2SolverData &) -> float32 b2PrismaticJoint::m_invIA [b2PrismaticJoint.cpp <155:15 155:21>]
 LOCAL_SYMBOL: b2PrismaticJoint.cpp<155:24> [b2PrismaticJoint.cpp <155:24 155:25>]
 REFERENCE_USAGE void b2PrismaticJoint::InitVelocityConstraints(const b2SolverData &) -> float32 b2PrismaticJoint::m_invIB [b2PrismaticJoint.cpp <155:29 155:35>]
-REFERENCE_CALL void b2PrismaticJoint::InitVelocityConstraints(const b2SolverData &) -> b2Vec2 & b2Vec2::operator=(b2Vec2 &) [b2PrismaticJoint.cpp <159:10 159:10>]
+REFERENCE_CALL void b2PrismaticJoint::InitVelocityConstraints(const b2SolverData &) -> b2Vec2 & b2Vec2::operator=(b2Vec2 &&) [b2PrismaticJoint.cpp <159:10 159:10>]
 REFERENCE_USAGE void b2PrismaticJoint::InitVelocityConstraints(const b2SolverData &) -> b2Vec2 b2PrismaticJoint::m_axis [b2PrismaticJoint.cpp <159:3 159:8>]
 REFERENCE_CALL void b2PrismaticJoint::InitVelocityConstraints(const b2SolverData &) -> b2Vec2 b2Mul(const b2Rot &, const b2Vec2 &) [b2PrismaticJoint.cpp <159:12 159:16>]
 LOCAL_SYMBOL: b2PrismaticJoint.cpp<147:8> [b2PrismaticJoint.cpp <159:18 159:19>]
@@ -382,7 +382,7 @@ REFERENCE_USAGE void b2PrismaticJoint::InitVelocityConstraints(const b2SolverDat
 REFERENCE_USAGE void b2PrismaticJoint::InitVelocityConstraints(const b2SolverData &) -> float32 b2PrismaticJoint::m_motorMass [b2PrismaticJoint.cpp <164:7 164:17>]
 REFERENCE_USAGE void b2PrismaticJoint::InitVelocityConstraints(const b2SolverData &) -> float32 b2PrismaticJoint::m_motorMass [b2PrismaticJoint.cpp <166:4 166:14>]
 REFERENCE_USAGE void b2PrismaticJoint::InitVelocityConstraints(const b2SolverData &) -> float32 b2PrismaticJoint::m_motorMass [b2PrismaticJoint.cpp <166:25 166:35>]
-REFERENCE_CALL void b2PrismaticJoint::InitVelocityConstraints(const b2SolverData &) -> b2Vec2 & b2Vec2::operator=(b2Vec2 &) [b2PrismaticJoint.cpp <172:10 172:10>]
+REFERENCE_CALL void b2PrismaticJoint::InitVelocityConstraints(const b2SolverData &) -> b2Vec2 & b2Vec2::operator=(b2Vec2 &&) [b2PrismaticJoint.cpp <172:10 172:10>]
 REFERENCE_USAGE void b2PrismaticJoint::InitVelocityConstraints(const b2SolverData &) -> b2Vec2 b2PrismaticJoint::m_perp [b2PrismaticJoint.cpp <172:3 172:8>]
 REFERENCE_CALL void b2PrismaticJoint::InitVelocityConstraints(const b2SolverData &) -> b2Vec2 b2Mul(const b2Rot &, const b2Vec2 &) [b2PrismaticJoint.cpp <172:12 172:16>]
 LOCAL_SYMBOL: b2PrismaticJoint.cpp<147:8> [b2PrismaticJoint.cpp <172:18 172:19>]
@@ -818,8 +818,8 @@ REFERENCE_USAGE void b2PrismaticJoint::SolveVelocityConstraints(const b2SolverDa
 REFERENCE_USAGE void b2PrismaticJoint::SolveVelocityConstraints(const b2SolverData &) -> b2Vec3 b2PrismaticJoint::m_impulse [b2PrismaticJoint.cpp <322:3 322:11>]
 REFERENCE_USAGE void b2PrismaticJoint::SolveVelocityConstraints(const b2SolverData &) -> float32 b2Vec2::y [b2PrismaticJoint.cpp <322:21 322:21>]
 LOCAL_SYMBOL: b2PrismaticJoint.cpp<320:10> [b2PrismaticJoint.cpp <322:17 322:19>]
-SYMBOL_FUNCTION b2Vec3 & b2Vec3::operator=(b2Vec3 &)
-REFERENCE_CALL void b2PrismaticJoint::SolveVelocityConstraints(const b2SolverData &) -> b2Vec3 & b2Vec3::operator=(b2Vec3 &) [b2PrismaticJoint.cpp <324:6 324:6>]
+SYMBOL_FUNCTION b2Vec3 & b2Vec3::operator=(b2Vec3 &&)
+REFERENCE_CALL void b2PrismaticJoint::SolveVelocityConstraints(const b2SolverData &) -> b2Vec3 & b2Vec3::operator=(b2Vec3 &&) [b2PrismaticJoint.cpp <324:6 324:6>]
 LOCAL_SYMBOL: b2PrismaticJoint.cpp<306:10> [b2PrismaticJoint.cpp <324:3 324:4>]
 SYMBOL_FUNCTION b2Vec3 operator-(const b2Vec3 &, const b2Vec3 &)
 REFERENCE_CALL void b2PrismaticJoint::SolveVelocityConstraints(const b2SolverData &) -> b2Vec3 operator-(const b2Vec3 &, const b2Vec3 &) [b2PrismaticJoint.cpp <324:18 324:18>]
@@ -1206,7 +1206,7 @@ LOCAL_SYMBOL: b2PrismaticJoint.cpp<393:9> [b2PrismaticJoint.cpp <449:9 449:10>]
 REFERENCE_USAGE bool b2PrismaticJoint::SolvePositionConstraints(const b2SolverData &) -> float32 b2Vec3::z [b2PrismaticJoint.cpp <450:5 450:5>]
 LOCAL_SYMBOL: b2PrismaticJoint.cpp<447:10> [b2PrismaticJoint.cpp <450:3 450:3>]
 LOCAL_SYMBOL: b2PrismaticJoint.cpp<401:10> [b2PrismaticJoint.cpp <450:9 450:10>]
-REFERENCE_CALL bool b2PrismaticJoint::SolvePositionConstraints(const b2SolverData &) -> b2Vec3 & b2Vec3::operator=(b2Vec3 &) [b2PrismaticJoint.cpp <452:11 452:11>]
+REFERENCE_CALL bool b2PrismaticJoint::SolvePositionConstraints(const b2SolverData &) -> b2Vec3 & b2Vec3::operator=(b2Vec3 &&) [b2PrismaticJoint.cpp <452:11 452:11>]
 LOCAL_SYMBOL: b2PrismaticJoint.cpp<392:9> [b2PrismaticJoint.cpp <452:3 452:9>]
 REFERENCE_CALL bool b2PrismaticJoint::SolvePositionConstraints(const b2SolverData &) -> b2Vec3 b2Mat33::Solve33(const b2Vec3 &) const [b2PrismaticJoint.cpp <452:15 452:21>]
 LOCAL_SYMBOL: b2PrismaticJoint.cpp<442:11> [b2PrismaticJoint.cpp <452:13 452:13>]

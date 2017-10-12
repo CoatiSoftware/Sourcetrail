@@ -147,8 +147,8 @@ LOCAL_SYMBOL: b2RopeJoint.cpp<58:10> [b2RopeJoint.cpp <67:11 67:12>]
 LOCAL_SYMBOL: b2RopeJoint.cpp<67:16> [b2RopeJoint.cpp <67:16 67:17>]
 REFERENCE_CALL void b2RopeJoint::InitVelocityConstraints(const b2SolverData &) -> void b2Rot::b2Rot(float32) [b2RopeJoint.cpp <67:16 67:17>]
 LOCAL_SYMBOL: b2RopeJoint.cpp<63:10> [b2RopeJoint.cpp <67:19 67:20>]
-SYMBOL_FUNCTION b2Vec2 & b2Vec2::operator=(b2Vec2 &)
-REFERENCE_CALL void b2RopeJoint::InitVelocityConstraints(const b2SolverData &) -> b2Vec2 & b2Vec2::operator=(b2Vec2 &) [b2RopeJoint.cpp <69:7 69:7>]
+SYMBOL_FUNCTION b2Vec2 & b2Vec2::operator=(b2Vec2 &&)
+REFERENCE_CALL void b2RopeJoint::InitVelocityConstraints(const b2SolverData &) -> b2Vec2 & b2Vec2::operator=(b2Vec2 &&) [b2RopeJoint.cpp <69:7 69:7>]
 REFERENCE_USAGE void b2RopeJoint::InitVelocityConstraints(const b2SolverData &) -> b2Vec2 b2RopeJoint::m_rA [b2RopeJoint.cpp <69:2 69:5>]
 SYMBOL_FUNCTION b2Vec2 b2Mul(const b2Rot &, const b2Vec2 &)
 REFERENCE_CALL void b2RopeJoint::InitVelocityConstraints(const b2SolverData &) -> b2Vec2 b2Mul(const b2Rot &, const b2Vec2 &) [b2RopeJoint.cpp <69:9 69:13>]
@@ -157,14 +157,14 @@ SYMBOL_FUNCTION b2Vec2 operator-(const b2Vec2 &, const b2Vec2 &)
 REFERENCE_CALL void b2RopeJoint::InitVelocityConstraints(const b2SolverData &) -> b2Vec2 operator-(const b2Vec2 &, const b2Vec2 &) [b2RopeJoint.cpp <69:34 69:34>]
 REFERENCE_USAGE void b2RopeJoint::InitVelocityConstraints(const b2SolverData &) -> b2Vec2 b2RopeJoint::m_localAnchorA [b2RopeJoint.cpp <69:19 69:32>]
 REFERENCE_USAGE void b2RopeJoint::InitVelocityConstraints(const b2SolverData &) -> b2Vec2 b2RopeJoint::m_localCenterA [b2RopeJoint.cpp <69:36 69:49>]
-REFERENCE_CALL void b2RopeJoint::InitVelocityConstraints(const b2SolverData &) -> b2Vec2 & b2Vec2::operator=(b2Vec2 &) [b2RopeJoint.cpp <70:7 70:7>]
+REFERENCE_CALL void b2RopeJoint::InitVelocityConstraints(const b2SolverData &) -> b2Vec2 & b2Vec2::operator=(b2Vec2 &&) [b2RopeJoint.cpp <70:7 70:7>]
 REFERENCE_USAGE void b2RopeJoint::InitVelocityConstraints(const b2SolverData &) -> b2Vec2 b2RopeJoint::m_rB [b2RopeJoint.cpp <70:2 70:5>]
 REFERENCE_CALL void b2RopeJoint::InitVelocityConstraints(const b2SolverData &) -> b2Vec2 b2Mul(const b2Rot &, const b2Vec2 &) [b2RopeJoint.cpp <70:9 70:13>]
 LOCAL_SYMBOL: b2RopeJoint.cpp<67:16> [b2RopeJoint.cpp <70:15 70:16>]
 REFERENCE_CALL void b2RopeJoint::InitVelocityConstraints(const b2SolverData &) -> b2Vec2 operator-(const b2Vec2 &, const b2Vec2 &) [b2RopeJoint.cpp <70:34 70:34>]
 REFERENCE_USAGE void b2RopeJoint::InitVelocityConstraints(const b2SolverData &) -> b2Vec2 b2RopeJoint::m_localAnchorB [b2RopeJoint.cpp <70:19 70:32>]
 REFERENCE_USAGE void b2RopeJoint::InitVelocityConstraints(const b2SolverData &) -> b2Vec2 b2RopeJoint::m_localCenterB [b2RopeJoint.cpp <70:36 70:49>]
-REFERENCE_CALL void b2RopeJoint::InitVelocityConstraints(const b2SolverData &) -> b2Vec2 & b2Vec2::operator=(b2Vec2 &) [b2RopeJoint.cpp <71:6 71:6>]
+REFERENCE_CALL void b2RopeJoint::InitVelocityConstraints(const b2SolverData &) -> b2Vec2 & b2Vec2::operator=(b2Vec2 &&) [b2RopeJoint.cpp <71:6 71:6>]
 REFERENCE_USAGE void b2RopeJoint::InitVelocityConstraints(const b2SolverData &) -> b2Vec2 b2RopeJoint::m_u [b2RopeJoint.cpp <71:2 71:4>]
 REFERENCE_CALL void b2RopeJoint::InitVelocityConstraints(const b2SolverData &) -> b2Vec2 operator-(const b2Vec2 &, const b2Vec2 &) [b2RopeJoint.cpp <71:23 71:23>]
 REFERENCE_CALL void b2RopeJoint::InitVelocityConstraints(const b2SolverData &) -> b2Vec2 operator-(const b2Vec2 &, const b2Vec2 &) [b2RopeJoint.cpp <71:18 71:18>]
@@ -567,8 +567,8 @@ REFERENCE_CALL b2Vec2 b2RopeJoint::GetReactionForce(float32) const -> b2Vec2 ope
 LOCAL_SYMBOL: b2RopeJoint.cpp<206:46> [b2RopeJoint.cpp <208:14 208:19>]
 REFERENCE_USAGE b2Vec2 b2RopeJoint::GetReactionForce(float32) const -> float32 b2RopeJoint::m_impulse [b2RopeJoint.cpp <208:23 208:31>]
 REFERENCE_USAGE b2Vec2 b2RopeJoint::GetReactionForce(float32) const -> b2Vec2 b2RopeJoint::m_u [b2RopeJoint.cpp <208:36 208:38>]
-SYMBOL_FUNCTION void b2Vec2::b2Vec2(b2Vec2 &)
-REFERENCE_CALL b2Vec2 b2RopeJoint::GetReactionForce(float32) const -> void b2Vec2::b2Vec2(b2Vec2 &) [b2RopeJoint.cpp <209:9 209:9>]
+SYMBOL_FUNCTION void b2Vec2::b2Vec2(b2Vec2 &&)
+REFERENCE_CALL b2Vec2 b2RopeJoint::GetReactionForce(float32) const -> void b2Vec2::b2Vec2(b2Vec2 &&) [b2RopeJoint.cpp <209:9 209:9>]
 LOCAL_SYMBOL: b2RopeJoint.cpp<208:9> [b2RopeJoint.cpp <209:9 209:9>]
 SYMBOL_METHOD public float32 b2RopeJoint::GetReactionTorque(float32) const [b2RopeJoint.cpp <212:1 <212:22 212:38> 216:1>]
 SYMBOL_FUNCTION float32 b2Joint::GetReactionTorque(float32) const

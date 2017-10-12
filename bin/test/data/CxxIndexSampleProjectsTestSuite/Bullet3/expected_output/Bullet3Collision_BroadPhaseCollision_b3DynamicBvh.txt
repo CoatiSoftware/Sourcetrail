@@ -83,8 +83,8 @@ REFERENCE_CALL void b3DbvtNodeEnumerator::Process(const b3DbvtNode *) -> void b3
 REFERENCE_USAGE void b3DbvtNodeEnumerator::Process(const b3DbvtNode *) -> b3ConstNodeArray b3DbvtNodeEnumerator::nodes [b3DynamicBvh.cpp <27:38 27:42>]
 LOCAL_SYMBOL: b3DynamicBvh.cpp<27:33> [b3DynamicBvh.cpp <27:54 27:54>]
 SYMBOL_METHOD public void b3DbvtNodeEnumerator::b3DbvtNodeEnumerator(const b3DbvtNodeEnumerator &) [b3DynamicBvh.cpp <24:8 24:27>]
-SYMBOL_METHOD public void b3DbvtNodeEnumerator::b3DbvtNodeEnumerator(b3DbvtNodeEnumerator &) [b3DynamicBvh.cpp <24:8 24:27>]
-SYMBOL_METHOD public b3DbvtNodeEnumerator & b3DbvtNodeEnumerator::operator=(b3DbvtNodeEnumerator &) [b3DynamicBvh.cpp <24:8 24:27>]
+SYMBOL_METHOD public void b3DbvtNodeEnumerator::b3DbvtNodeEnumerator(b3DbvtNodeEnumerator &&) [b3DynamicBvh.cpp <24:8 24:27>]
+SYMBOL_METHOD public b3DbvtNodeEnumerator & b3DbvtNodeEnumerator::operator=(b3DbvtNodeEnumerator &&) [b3DynamicBvh.cpp <24:8 24:27>]
 SYMBOL_METHOD public void b3DbvtNodeEnumerator::~b3DbvtNodeEnumerator() [b3DynamicBvh.cpp <24:8 <24:8 24:27> 24:27>]
 SYMBOL_METHOD public void b3DbvtNodeEnumerator::b3DbvtNodeEnumerator() [b3DynamicBvh.cpp <24:8 <24:8 24:27> 24:27>]
 SYMBOL_FUNCTION void b3DynamicBvh::ICollide::ICollide()

@@ -1604,7 +1604,7 @@ SYMBOL_FIELD public b2QueryCallback * b2WorldQueryWrapper::callback [b2World.cpp
 REFERENCE_TYPE_USAGE b2QueryCallback * b2WorldQueryWrapper::callback -> b2QueryCallback [b2World.cpp <983:2 983:16>]
 SYMBOL_METHOD public void b2WorldQueryWrapper::b2WorldQueryWrapper() [b2World.cpp <974:8 <974:8 974:26> 974:26>]
 SYMBOL_METHOD public void b2WorldQueryWrapper::b2WorldQueryWrapper(const b2WorldQueryWrapper &) [b2World.cpp <974:8 974:26>]
-SYMBOL_METHOD public void b2WorldQueryWrapper::b2WorldQueryWrapper(b2WorldQueryWrapper &) [b2World.cpp <974:8 974:26>]
+SYMBOL_METHOD public void b2WorldQueryWrapper::b2WorldQueryWrapper(b2WorldQueryWrapper &&) [b2World.cpp <974:8 974:26>]
 SYMBOL_METHOD public void b2World::QueryAABB(b2QueryCallback *, const b2AABB &) const [b2World.cpp <986:1 <986:15 986:23> 992:1>]
 QUALIFIER: b2World [b2World.cpp <986:6 986:12>]
 REFERENCE_TYPE_USAGE void b2World::QueryAABB(b2QueryCallback *, const b2AABB &) const -> void [b2World.cpp <986:1 986:4>]
@@ -1699,7 +1699,7 @@ SYMBOL_FIELD public b2RayCastCallback * b2WorldRayCastWrapper::callback [b2World
 REFERENCE_TYPE_USAGE b2RayCastCallback * b2WorldRayCastWrapper::callback -> b2RayCastCallback [b2World.cpp <1016:2 1016:18>]
 SYMBOL_METHOD public void b2WorldRayCastWrapper::b2WorldRayCastWrapper() [b2World.cpp <994:8 <994:8 994:28> 994:28>]
 SYMBOL_METHOD public void b2WorldRayCastWrapper::b2WorldRayCastWrapper(const b2WorldRayCastWrapper &) [b2World.cpp <994:8 994:28>]
-SYMBOL_METHOD public void b2WorldRayCastWrapper::b2WorldRayCastWrapper(b2WorldRayCastWrapper &) [b2World.cpp <994:8 994:28>]
+SYMBOL_METHOD public void b2WorldRayCastWrapper::b2WorldRayCastWrapper(b2WorldRayCastWrapper &&) [b2World.cpp <994:8 994:28>]
 SYMBOL_METHOD public void b2World::RayCast(b2RayCastCallback *, const b2Vec2 &, const b2Vec2 &) const [b2World.cpp <1019:1 <1019:15 1019:21> 1029:1>]
 QUALIFIER: b2World [b2World.cpp <1019:6 1019:12>]
 REFERENCE_TYPE_USAGE void b2World::RayCast(b2RayCastCallback *, const b2Vec2 &, const b2Vec2 &) const -> void [b2World.cpp <1019:1 1019:4>]
@@ -1927,8 +1927,8 @@ REFERENCE_TYPE_USAGE void b2World::DrawShape(b2Fixture *, const b2Transform &, c
 LOCAL_SYMBOL: b2World.cpp<1098:15> [b2World.cpp <1098:22 1098:22>]
 LOCAL_SYMBOL: b2World.cpp<1094:10> [b2World.cpp <1098:26 1098:36>]
 LOCAL_SYMBOL: b2World.cpp<1098:15> [b2World.cpp <1098:41 1098:41>]
-SYMBOL_FUNCTION b2Vec2 & b2Vec2::operator=(b2Vec2 &)
-REFERENCE_CALL void b2World::DrawShape(b2Fixture *, const b2Transform &, const b2Color &) -> b2Vec2 & b2Vec2::operator=(b2Vec2 &) [b2World.cpp <1100:17 1100:17>]
+SYMBOL_FUNCTION b2Vec2 & b2Vec2::operator=(b2Vec2 &&)
+REFERENCE_CALL void b2World::DrawShape(b2Fixture *, const b2Transform &, const b2Color &) -> b2Vec2 & b2Vec2::operator=(b2Vec2 &&) [b2World.cpp <1100:17 1100:17>]
 LOCAL_SYMBOL: b2World.cpp<1096:11> [b2World.cpp <1100:5 1100:12>]
 LOCAL_SYMBOL: b2World.cpp<1098:15> [b2World.cpp <1100:14 1100:14>]
 REFERENCE_CALL void b2World::DrawShape(b2Fixture *, const b2Transform &, const b2Color &) -> b2Vec2 b2Mul(const b2Transform &, const b2Vec2 &) [b2World.cpp <1100:19 1100:23>]

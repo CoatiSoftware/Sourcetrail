@@ -62,8 +62,8 @@ REFERENCE_TEMPLATE_ARGUMENT b3AlignedObjectArray<b3Contact4Data> -> b3Contact4Da
 SYMBOL_FIELD public int b3CpuNarrowPhaseInternalData::m_numAcceleratedShapes [b3CpuNarrowPhase.cpp <25:6 25:27>]
 REFERENCE_TYPE_USAGE int b3CpuNarrowPhaseInternalData::m_numAcceleratedShapes -> int [b3CpuNarrowPhase.cpp <25:2 25:4>]
 SYMBOL_METHOD public void b3CpuNarrowPhaseInternalData::b3CpuNarrowPhaseInternalData(const b3CpuNarrowPhaseInternalData &) [b3CpuNarrowPhase.cpp <9:8 9:35>]
-SYMBOL_METHOD public void b3CpuNarrowPhaseInternalData::b3CpuNarrowPhaseInternalData(b3CpuNarrowPhaseInternalData &) [b3CpuNarrowPhase.cpp <9:8 9:35>]
-SYMBOL_METHOD public b3CpuNarrowPhaseInternalData & b3CpuNarrowPhaseInternalData::operator=(b3CpuNarrowPhaseInternalData &) [b3CpuNarrowPhase.cpp <9:8 9:35>]
+SYMBOL_METHOD public void b3CpuNarrowPhaseInternalData::b3CpuNarrowPhaseInternalData(b3CpuNarrowPhaseInternalData &&) [b3CpuNarrowPhase.cpp <9:8 9:35>]
+SYMBOL_METHOD public b3CpuNarrowPhaseInternalData & b3CpuNarrowPhaseInternalData::operator=(b3CpuNarrowPhaseInternalData &&) [b3CpuNarrowPhase.cpp <9:8 9:35>]
 SYMBOL_METHOD public void b3CpuNarrowPhaseInternalData::~b3CpuNarrowPhaseInternalData() [b3CpuNarrowPhase.cpp <9:8 <9:8 9:35> 9:35>]
 SYMBOL_METHOD public void b3CpuNarrowPhaseInternalData::b3CpuNarrowPhaseInternalData() [b3CpuNarrowPhase.cpp <9:8 <9:8 9:35> 9:35>]
 REFERENCE_USAGE void b3CpuNarrowPhaseInternalData::b3CpuNarrowPhaseInternalData() -> b3AlignedObjectArray<b3Aabb> b3CpuNarrowPhaseInternalData::m_localShapeAABBCPU [b3CpuNarrowPhase.cpp <9:8 9:35>]
@@ -674,8 +674,8 @@ REFERENCE_CALL int b3CpuNarrowPhase::registerConvexHullShapeInternal(b3ConvexUti
 REFERENCE_USAGE int b3CpuNarrowPhase::registerConvexHullShapeInternal(b3ConvexUtility *, b3Collidable &) -> b3AlignedObjectArray<b3MyFace> b3ConvexUtility::m_faces [b3CpuNarrowPhase.cpp <284:24 284:30>]
 LOCAL_SYMBOL: b3CpuNarrowPhase.cpp<250:72> [b3CpuNarrowPhase.cpp <284:13 284:21>]
 LOCAL_SYMBOL: b3CpuNarrowPhase.cpp<271:6> [b3CpuNarrowPhase.cpp <284:39 284:39>]
-SYMBOL_FUNCTION b3Vector3 & b3Vector3::operator=(b3Vector3 &)
-REFERENCE_CALL int b3CpuNarrowPhase::registerConvexHullShapeInternal(b3ConvexUtility *, b3Collidable &) -> b3Vector3 & b3Vector3::operator=(b3Vector3 &) [b3CpuNarrowPhase.cpp <286:56 286:56>]
+SYMBOL_FUNCTION b3Vector3 & b3Vector3::operator=(b3Vector3 &&)
+REFERENCE_CALL int b3CpuNarrowPhase::registerConvexHullShapeInternal(b3ConvexUtility *, b3Collidable &) -> b3Vector3 & b3Vector3::operator=(b3Vector3 &&) [b3CpuNarrowPhase.cpp <286:56 286:56>]
 REFERENCE_USAGE int b3CpuNarrowPhase::registerConvexHullShapeInternal(b3ConvexUtility *, b3Collidable &) -> b3Vector3 b3GpuFace::m_plane [b3CpuNarrowPhase.cpp <286:48 286:54>]
 SYMBOL_FUNCTION b3GpuFace & b3AlignedObjectArray<b3GpuFace>::operator[](int)
 REFERENCE_CALL int b3CpuNarrowPhase::registerConvexHullShapeInternal(b3ConvexUtility *, b3Collidable &) -> b3GpuFace & b3AlignedObjectArray<b3GpuFace>::operator[](int) [b3CpuNarrowPhase.cpp <286:24 286:24>]

@@ -1400,7 +1400,7 @@ public:
 
 		TS_ASSERT(utility::containsElement<std::string>(client->methods, "public void TestClass::TestClass() <1:7 <1:7 1:15> 1:15>"));
 		TS_ASSERT(utility::containsElement<std::string>(client->methods, "public void TestClass::TestClass(const TestClass &) <1:7 <1:7 1:15> 1:15>"));
-		TS_ASSERT(utility::containsElement<std::string>(client->methods, "public void TestClass::TestClass(TestClass &) <1:7 1:15>"));
+		TS_ASSERT(utility::containsElement<std::string>(client->methods, "public void TestClass::TestClass(TestClass &&) <1:7 1:15>"));
 	}
 
 ///////////////////////////////////////////////////////////////////////////////

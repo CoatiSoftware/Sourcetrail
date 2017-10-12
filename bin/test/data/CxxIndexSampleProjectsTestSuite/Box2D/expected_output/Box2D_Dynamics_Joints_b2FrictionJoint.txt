@@ -45,14 +45,14 @@ REFERENCE_USAGE void b2FrictionJointDef::Initialize(b2Body *, b2Body *, const b2
 LOCAL_SYMBOL: b2FrictionJoint.cpp<35:45> [b2FrictionJoint.cpp <37:10 37:11>]
 REFERENCE_USAGE void b2FrictionJointDef::Initialize(b2Body *, b2Body *, const b2Vec2 &) -> b2Body * b2JointDef::bodyB [b2FrictionJoint.cpp <38:2 38:6>]
 LOCAL_SYMBOL: b2FrictionJoint.cpp<35:57> [b2FrictionJoint.cpp <38:10 38:11>]
-SYMBOL_FUNCTION b2Vec2 & b2Vec2::operator=(b2Vec2 &)
-REFERENCE_CALL void b2FrictionJointDef::Initialize(b2Body *, b2Body *, const b2Vec2 &) -> b2Vec2 & b2Vec2::operator=(b2Vec2 &) [b2FrictionJoint.cpp <39:15 39:15>]
+SYMBOL_FUNCTION b2Vec2 & b2Vec2::operator=(b2Vec2 &&)
+REFERENCE_CALL void b2FrictionJointDef::Initialize(b2Body *, b2Body *, const b2Vec2 &) -> b2Vec2 & b2Vec2::operator=(b2Vec2 &&) [b2FrictionJoint.cpp <39:15 39:15>]
 REFERENCE_USAGE void b2FrictionJointDef::Initialize(b2Body *, b2Body *, const b2Vec2 &) -> b2Vec2 b2FrictionJointDef::localAnchorA [b2FrictionJoint.cpp <39:2 39:13>]
 SYMBOL_FUNCTION b2Vec2 b2Body::GetLocalPoint(const b2Vec2 &) const
 REFERENCE_CALL void b2FrictionJointDef::Initialize(b2Body *, b2Body *, const b2Vec2 &) -> b2Vec2 b2Body::GetLocalPoint(const b2Vec2 &) const [b2FrictionJoint.cpp <39:24 39:36>]
 REFERENCE_USAGE void b2FrictionJointDef::Initialize(b2Body *, b2Body *, const b2Vec2 &) -> b2Body * b2JointDef::bodyA [b2FrictionJoint.cpp <39:17 39:21>]
 LOCAL_SYMBOL: b2FrictionJoint.cpp<35:75> [b2FrictionJoint.cpp <39:38 39:43>]
-REFERENCE_CALL void b2FrictionJointDef::Initialize(b2Body *, b2Body *, const b2Vec2 &) -> b2Vec2 & b2Vec2::operator=(b2Vec2 &) [b2FrictionJoint.cpp <40:15 40:15>]
+REFERENCE_CALL void b2FrictionJointDef::Initialize(b2Body *, b2Body *, const b2Vec2 &) -> b2Vec2 & b2Vec2::operator=(b2Vec2 &&) [b2FrictionJoint.cpp <40:15 40:15>]
 REFERENCE_USAGE void b2FrictionJointDef::Initialize(b2Body *, b2Body *, const b2Vec2 &) -> b2Vec2 b2FrictionJointDef::localAnchorB [b2FrictionJoint.cpp <40:2 40:13>]
 REFERENCE_CALL void b2FrictionJointDef::Initialize(b2Body *, b2Body *, const b2Vec2 &) -> b2Vec2 b2Body::GetLocalPoint(const b2Vec2 &) const [b2FrictionJoint.cpp <40:24 40:36>]
 REFERENCE_USAGE void b2FrictionJointDef::Initialize(b2Body *, b2Body *, const b2Vec2 &) -> b2Body * b2JointDef::bodyB [b2FrictionJoint.cpp <40:17 40:21>]
@@ -179,7 +179,7 @@ LOCAL_SYMBOL: b2FrictionJoint.cpp<67:10> [b2FrictionJoint.cpp <75:11 75:12>]
 LOCAL_SYMBOL: b2FrictionJoint.cpp<75:16> [b2FrictionJoint.cpp <75:16 75:17>]
 REFERENCE_CALL void b2FrictionJoint::InitVelocityConstraints(const b2SolverData &) -> void b2Rot::b2Rot(float32) [b2FrictionJoint.cpp <75:16 75:17>]
 LOCAL_SYMBOL: b2FrictionJoint.cpp<71:10> [b2FrictionJoint.cpp <75:19 75:20>]
-REFERENCE_CALL void b2FrictionJoint::InitVelocityConstraints(const b2SolverData &) -> b2Vec2 & b2Vec2::operator=(b2Vec2 &) [b2FrictionJoint.cpp <78:7 78:7>]
+REFERENCE_CALL void b2FrictionJoint::InitVelocityConstraints(const b2SolverData &) -> b2Vec2 & b2Vec2::operator=(b2Vec2 &&) [b2FrictionJoint.cpp <78:7 78:7>]
 REFERENCE_USAGE void b2FrictionJoint::InitVelocityConstraints(const b2SolverData &) -> b2Vec2 b2FrictionJoint::m_rA [b2FrictionJoint.cpp <78:2 78:5>]
 SYMBOL_FUNCTION b2Vec2 b2Mul(const b2Rot &, const b2Vec2 &)
 REFERENCE_CALL void b2FrictionJoint::InitVelocityConstraints(const b2SolverData &) -> b2Vec2 b2Mul(const b2Rot &, const b2Vec2 &) [b2FrictionJoint.cpp <78:9 78:13>]
@@ -188,7 +188,7 @@ SYMBOL_FUNCTION b2Vec2 operator-(const b2Vec2 &, const b2Vec2 &)
 REFERENCE_CALL void b2FrictionJoint::InitVelocityConstraints(const b2SolverData &) -> b2Vec2 operator-(const b2Vec2 &, const b2Vec2 &) [b2FrictionJoint.cpp <78:34 78:34>]
 REFERENCE_USAGE void b2FrictionJoint::InitVelocityConstraints(const b2SolverData &) -> b2Vec2 b2FrictionJoint::m_localAnchorA [b2FrictionJoint.cpp <78:19 78:32>]
 REFERENCE_USAGE void b2FrictionJoint::InitVelocityConstraints(const b2SolverData &) -> b2Vec2 b2FrictionJoint::m_localCenterA [b2FrictionJoint.cpp <78:36 78:49>]
-REFERENCE_CALL void b2FrictionJoint::InitVelocityConstraints(const b2SolverData &) -> b2Vec2 & b2Vec2::operator=(b2Vec2 &) [b2FrictionJoint.cpp <79:7 79:7>]
+REFERENCE_CALL void b2FrictionJoint::InitVelocityConstraints(const b2SolverData &) -> b2Vec2 & b2Vec2::operator=(b2Vec2 &&) [b2FrictionJoint.cpp <79:7 79:7>]
 REFERENCE_USAGE void b2FrictionJoint::InitVelocityConstraints(const b2SolverData &) -> b2Vec2 b2FrictionJoint::m_rB [b2FrictionJoint.cpp <79:2 79:5>]
 REFERENCE_CALL void b2FrictionJoint::InitVelocityConstraints(const b2SolverData &) -> b2Vec2 b2Mul(const b2Rot &, const b2Vec2 &) [b2FrictionJoint.cpp <79:9 79:13>]
 LOCAL_SYMBOL: b2FrictionJoint.cpp<75:16> [b2FrictionJoint.cpp <79:15 79:16>]
@@ -257,8 +257,8 @@ REFERENCE_USAGE void b2FrictionJoint::InitVelocityConstraints(const b2SolverData
 REFERENCE_USAGE void b2FrictionJoint::InitVelocityConstraints(const b2SolverData &) -> b2Vec2 b2FrictionJoint::m_rB [b2FrictionJoint.cpp <97:49 97:52>]
 REFERENCE_USAGE void b2FrictionJoint::InitVelocityConstraints(const b2SolverData &) -> float32 b2Vec2::x [b2FrictionJoint.cpp <97:63 97:63>]
 REFERENCE_USAGE void b2FrictionJoint::InitVelocityConstraints(const b2SolverData &) -> b2Vec2 b2FrictionJoint::m_rB [b2FrictionJoint.cpp <97:58 97:61>]
-SYMBOL_FUNCTION b2Mat22 & b2Mat22::operator=(b2Mat22 &)
-REFERENCE_CALL void b2FrictionJoint::InitVelocityConstraints(const b2SolverData &) -> b2Mat22 & b2Mat22::operator=(b2Mat22 &) [b2FrictionJoint.cpp <99:15 99:15>]
+SYMBOL_FUNCTION b2Mat22 & b2Mat22::operator=(b2Mat22 &&)
+REFERENCE_CALL void b2FrictionJoint::InitVelocityConstraints(const b2SolverData &) -> b2Mat22 & b2Mat22::operator=(b2Mat22 &&) [b2FrictionJoint.cpp <99:15 99:15>]
 REFERENCE_USAGE void b2FrictionJoint::InitVelocityConstraints(const b2SolverData &) -> b2Mat22 b2FrictionJoint::m_linearMass [b2FrictionJoint.cpp <99:2 99:13>]
 SYMBOL_FUNCTION b2Mat22 b2Mat22::GetInverse() const
 REFERENCE_CALL void b2FrictionJoint::InitVelocityConstraints(const b2SolverData &) -> b2Mat22 b2Mat22::GetInverse() const [b2FrictionJoint.cpp <99:19 99:28>]
@@ -465,7 +465,7 @@ REFERENCE_USAGE void b2FrictionJoint::SolveVelocityConstraints(const b2SolverDat
 REFERENCE_CALL void b2FrictionJoint::SolveVelocityConstraints(const b2SolverData &) -> void b2Vec2::operator*=(float32) [b2FrictionJoint.cpp <170:20 170:21>]
 REFERENCE_USAGE void b2FrictionJoint::SolveVelocityConstraints(const b2SolverData &) -> b2Vec2 b2FrictionJoint::m_linearImpulse [b2FrictionJoint.cpp <170:4 170:18>]
 LOCAL_SYMBOL: b2FrictionJoint.cpp<165:11> [b2FrictionJoint.cpp <170:23 170:32>]
-REFERENCE_CALL void b2FrictionJoint::SolveVelocityConstraints(const b2SolverData &) -> b2Vec2 & b2Vec2::operator=(b2Vec2 &) [b2FrictionJoint.cpp <173:11 173:11>]
+REFERENCE_CALL void b2FrictionJoint::SolveVelocityConstraints(const b2SolverData &) -> b2Vec2 & b2Vec2::operator=(b2Vec2 &&) [b2FrictionJoint.cpp <173:11 173:11>]
 LOCAL_SYMBOL: b2FrictionJoint.cpp<161:10> [b2FrictionJoint.cpp <173:3 173:9>]
 REFERENCE_CALL void b2FrictionJoint::SolveVelocityConstraints(const b2SolverData &) -> b2Vec2 operator-(const b2Vec2 &, const b2Vec2 &) [b2FrictionJoint.cpp <173:29 173:29>]
 REFERENCE_USAGE void b2FrictionJoint::SolveVelocityConstraints(const b2SolverData &) -> b2Vec2 b2FrictionJoint::m_linearImpulse [b2FrictionJoint.cpp <173:13 173:27>]
