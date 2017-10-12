@@ -19,7 +19,7 @@ InterprocessIndexerCommandManager::~InterprocessIndexerCommandManager()
 void InterprocessIndexerCommandManager::setIndexerCommands(
 	const std::vector<std::shared_ptr<IndexerCommand>>& indexerCommands)
 {
-	const unsigned int overestimationMultiplier = 2;
+	const unsigned int overestimationMultiplier = 3;
 
 	size_t estimatedSize = 1048576; /* 1 MB */
 	for (auto& command : indexerCommands)

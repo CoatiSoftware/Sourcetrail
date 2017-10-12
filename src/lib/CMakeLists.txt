@@ -363,6 +363,7 @@ add_files(
 	utility/math/VectorBase.h
 
 	utility/messaging/filter_types/MessageFilterFocusInOut.h
+	utility/messaging/filter_types/MessageFilterNewErrors.h
 	utility/messaging/filter_types/MessageFilterSearchAutocomplete.h
 
 	utility/messaging/type/MessageActivateAll.h

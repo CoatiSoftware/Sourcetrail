@@ -1,5 +1,3 @@
-#!/bin/sh
-
 # get the current directory
 SOURCE="${0}"
 while [ -h "$SOURCE" ]; do # resolve $SOURCE until the file is no longer a symlink

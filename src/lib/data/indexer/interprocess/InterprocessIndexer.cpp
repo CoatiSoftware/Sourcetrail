@@ -33,6 +33,20 @@ void InterprocessIndexer::work()
 			LOG_INFO_STREAM(<< m_processId << " fetched indexer command for \"" << indexerCommand->getSourceFilePath().str() << "\"");
 			LOG_INFO_STREAM(<< m_processId << " indexer commands left: " << (m_interprocessIndexerCommandManager.indexerCommandCount() + 1));
 
+			while (true)
+			{
+				size_t storageCount = m_interprocessIntermediateStorageManager.getIntermediateStorageCount();
+				if (storageCount < 10)
+				{
+					break;
+				}
+
+				LOG_INFO_STREAM(<< m_processId << " waits, too many intermediate storages: " << storageCount);
+
+				const int SLEEP_TIME_MS = 200;
+				std::this_thread::sleep_for(std::chrono::milliseconds(SLEEP_TIME_MS));
+			}
+
 			LOG_INFO_STREAM(<< m_processId << " updating indexer status with currently indexed filepath");
 			m_interprocessIndexingStatusManager.startIndexingSourceFile(indexerCommand->getSourceFilePath());
 

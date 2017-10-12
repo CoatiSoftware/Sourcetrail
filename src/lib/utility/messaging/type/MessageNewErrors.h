@@ -27,7 +27,7 @@ public:
 		os << errors.size() << " errors";
 	}
 
-	const std::vector<ErrorInfo> errors;
+	std::vector<ErrorInfo> errors;
 	const ErrorCountInfo errorCount;
 };
 

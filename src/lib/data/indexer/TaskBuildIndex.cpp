@@ -228,6 +228,17 @@ bool TaskBuildIndex::fetchIntermediateStorages(std::shared_ptr<Blackboard> black
 {
 	int poppedStorageCount = 0;
 
+	int providerStorageCount = m_storageProvider->getStorageCount();
+	if (providerStorageCount > 10)
+	{
+		LOG_INFO_STREAM(<< "waiting, too many storages queued: " << providerStorageCount);
+
+		const int SLEEP_TIME_MS = 100;
+		std::this_thread::sleep_for(std::chrono::milliseconds(SLEEP_TIME_MS));
+
+		return true;
+	}
+
 	TimeStamp t = TimeStamp::now();
 	do
 	{
