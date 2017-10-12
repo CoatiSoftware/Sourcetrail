@@ -1,4 +1,5 @@
 #!/bin/sh
+
 SOURCE_DIR=$1
 BUILD_DIR=$2
 ICON=$SOURCE_DIR/bin/app/data/gui/icon/logo_1024_1024.png

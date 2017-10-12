@@ -1,13 +1,15 @@
+#!/bin/sh
 
-MY_PATH=`dirname "$0"`
-MY_PATH=../$MY_PATH
+echo "Do you want to uninstall Sourcetrail?"
 
-echo "Remove sourcetrail form system"
+if [ "$(id -u)" -ne 0 ]; then
+  echo >&2 "Error: Please run script as root or with sudo. Exiting..."
+  exit 1
+fi
+
 printf 'enter [y/n] '
 read ans
 case ${ans:=y} in [yY]*) ;; *) exit ;; esac
-
-echo "Run this script as root"
 
 rm /usr/bin/sourcetrail
 rm /usr/share/mime/packages/sourcetrail-mime.xml
@@ -18,3 +20,4 @@ rm /opt/sourcetrail -rf
 update-mime-database /usr/share/mime
 update-desktop-database
 
+echo "Deinstallation complete."

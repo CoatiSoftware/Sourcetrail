@@ -2,7 +2,7 @@
 Name=Sourcetrail
 GenericName=Sourcetrail
 X-GNOME-FullName=Sourcetrail
-Comment=Code Explorer
+Comment=Source Code Explorer
 Exec=/usr/bin/sourcetrail
 Icon=sourcetrail
 Terminal=true

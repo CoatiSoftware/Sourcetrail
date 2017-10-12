@@ -53,7 +53,7 @@ function(AddSharedToComponent)
 		PATTERN "projects" EXCLUDE
 		PATTERN "data/install" EXCLUDE
 		PATTERN "ProjectSettings_template.xml" EXCLUDE
-		PATTERN "ApplicationSettings_template.xml" EXCLUDE
+		PATTERN "color_scheme_template.xml" EXCLUDE
 	)
 
 	INSTALL(FILES
@@ -105,10 +105,7 @@ function(AddSharedToComponent)
 	INSTALL(DIRECTORY ${CMAKE_SOURCE_DIR}/bin/app/user
 		DESTINATION Sourcetrail
 		PATTERN "ApplicationSettings.xml" EXCLUDE
-		PATTERN "ApplicationSettings_for_package.xml" EXCLUDE
-		PATTERN "ProjectSettings_template.xml" EXCLUDE
 		PATTERN "ApplicationSettings_template.xml" EXCLUDE
-		PATTERN "window_settings_for_package.ini" EXCLUDE
 	)
 
 endfunction(AddSharedToComponent)
@@ -143,10 +140,10 @@ INSTALL(FILES
 
 INSTALL(PROGRAMS
 	${CMAKE_SOURCE_DIR}/setup/Linux/install.sh
-	${CMAKE_SOURCE_DIR}/setup/Linux/deinstall.sh
-	${CMAKE_SOURCE_DIR}/setup/Linux/removeConfigs.sh
-	DESTINATION Sourcetrail/setup
-	)
+	${CMAKE_SOURCE_DIR}/setup/Linux/uninstall.sh
+	${CMAKE_SOURCE_DIR}/setup/Linux/deleteConfig.sh
+	DESTINATION Sourcetrail
+)
 
 INSTALL(PROGRAMS
 	${CMAKE_SOURCE_DIR}/setup/Linux/Sourcetrail.sh
@@ -199,4 +196,3 @@ SET(CPACK_STRIP_FILES "Sourcetrail/sourcetrail")
 SET(CPACK_PACKAGE_CONTACT "astallinger@coati.io")
 
 INCLUDE(CPack)
-

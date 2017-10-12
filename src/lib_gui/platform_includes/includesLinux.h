@@ -3,12 +3,13 @@
 
 #include <QCoreApplication>
 #include <QDir>
+
+#include "qt/utility/utilityQt.h"
 #include "utility/AppPath.h"
-#include "utility/UserPaths.h"
-#include "utility/ResourcePaths.h"
 #include "utility/file/FilePath.h"
 #include "utility/file/FileSystem.h"
-#include "qt/utility/utilityQt.h"
+#include "utility/ResourcePaths.h"
+#include "utility/UserPaths.h"
 
 void setupPlatform(int argc, char *argv[])
 {

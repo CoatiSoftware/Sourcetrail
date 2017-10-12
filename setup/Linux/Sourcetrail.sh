@@ -9,15 +9,6 @@ while [ -h "$SOURCE" ]; do # resolve $SOURCE until the file is no longer a symli
 done
 SOURCETRAIL_PATH="$( cd -P "$( dirname "$SOURCE" )" && pwd )"
 
-#setup data folder
-#if [ ! -d "${HOME}/.config/sourcetrail" ]; then
-	## Control will enter here if $DIRECTORY doesn't exist.
-	#mkdir -p "${HOME}/.config/sourcetrail"
-	#echo "First start of Sourcetrail from this user, copy default configfiles to ~/.config/sourcetrail"
-#fi
-
-#cp -rn "$SOURCETRAIL_PATH/user"/* "${HOME}/.config/sourcetrail/"
-
 export LD_LIBRARY_PATH="$SOURCETRAIL_PATH/lib:$LD_LIBRARY_PATH"
 export QT_XKB_CONFIG_ROOT="/usr/share/X11/xkb:$QT_XKB_CONFIG_ROOT"
 export QT_QPA_PLATFORM_PLUGIN_PATH="$SOURCETRAIL_PATH/lib/platforms"

@@ -628,6 +628,7 @@ target_include_directories(${LICENSE_GENERATOR_PROJECT_NAME} SYSTEM
 
 if(UNIX AND NOT APPLE)
 	target_link_libraries(${LICENSE_GENERATOR_PROJECT_NAME} pthread rt)
+	set_target_properties(${LICENSE_GENERATOR_PROJECT_NAME} PROPERTIES LINK_FLAGS_RELEASE "-pthread")
 endif()
 
 target_link_libraries(${LICENSE_GENERATOR_PROJECT_NAME} ${LIB_LICENSE_PROJECT_NAME} ${Boost_LIBRARIES} )

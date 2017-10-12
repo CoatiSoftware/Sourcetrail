@@ -1,36 +1,44 @@
+
 Sourcetrail
 ===========
 
 Usage
 -----
 
-run Sourcetrail.sh script to start the application.
+Run the Sourcetrail.sh script to start Sourcetrail.
+
 
 Install
 -------
 
-in the setup folder is a install script that will coati install to /opt/sourcetrail
-root permission are required to run this script
+Run install.sh to install Sourcetrail to /opt/sourcetrail
+It also creates a symlink named 'sourcetrail' in /usr/bin to launch Sourcetrail from the console.
+Root permission is required to run this script.
+
+Run uninstall.sh to uninstall Sourcetrail.
 
 
-Configfiles
------------
+Config Files
+------------
 
-Coati places configfiles at ~/.config/sourcetrail
+Sourcetrail places config files at ~/.config/sourcetrail
+Run deleteConfig.sh to delete them. This resets Sourcetrail to the initial configuration.
+
 
 Documentation
 -------------
 
-documentation is available at http://sourcetrail.com/documentation/
+Documentation is available at http://sourcetrail.com/documentation/
+
 
 Website
 -------
 
 http://www.sourcetrail.com/
 
-Reporting a bug
+
+Reporting a Bug
 ---------------
 
-To report a bug go to https://github.com/CoatiSoftware/SourcetrailBugTracker/issues
-or write a email to support@coati.io
-
+Report bugs at https://github.com/CoatiSoftware/SourcetrailBugTracker/issues
+or write an e-mail to support@coati.io

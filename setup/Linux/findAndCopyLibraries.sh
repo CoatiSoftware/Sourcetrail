@@ -1,4 +1,5 @@
 #!/bin/sh
+
 mkdir -p setup/Linux/lib
 ldd bin/app/Release/Sourcetrail | grep "=> /" | awk '{print $3}' | xargs -I '{}' cp -v '{}' setup/Linux/lib
 

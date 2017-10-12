@@ -1,20 +1,23 @@
-SCRIPT_DIR="$( cd "$( dirname "$0" )" && pwd )"
-MY_PATH=$SCRIPT_DIR/..
+#!/bin/sh
 
-cat "${MY_PATH}/EULA.txt"
-echo "Agree to the EULA"
-printf 'enter [y/n] '
-read ans
-case ${ans:=y} in [yY]*) ;; *) exit ;; esac
+echo "Installing Sourcetrail in /opt/sourcetrail"
 
-echo "Run this script as root"
+if [ "$(id -u)" -ne 0 ]; then
+  echo >&2 "Error: Please run script as root or with sudo. Exiting..."
+  exit 1
+fi
+
+MY_PATH="$( cd "$( dirname "$0" )" && pwd )"
 
 cp -rf "$MY_PATH/" /opt/sourcetrail/ > /dev/null
 cp -rf "$MY_PATH/setup/share/" /usr > /dev/null
 cp "$MY_PATH/data/gui/icon/logo_1024_1024.png" /usr/share/icons/sourcetrail.png > /dev/null
 cp "$MY_PATH/data/gui/icon/project_256_256.png" /usr/share/icons/project-sourcetrail.png > /dev/null
+
+ln -f -s /opt/sourcetrail/Sourcetrail.sh /usr/bin/sourcetrail
+
 update-mime-database /usr/share/mime > /dev/null
 update-desktop-database > /dev/null
 
-ln -f -s /opt/sourcetrail/Sourcetrail.sh /usr/bin/sourcetrail > /dev/null
-
+echo "Installation complete."
+echo "Enter 'sourcetrail' to launch application."
