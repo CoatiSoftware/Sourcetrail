@@ -239,8 +239,10 @@ add_files(
 	utility/path_detector/cxx_header/CxxFrameworkPathDetector.h
 	utility/path_detector/cxx_header/CxxHeaderPathDetector.cpp
 	utility/path_detector/cxx_header/CxxHeaderPathDetector.h
-	utility/path_detector/cxx_header/CxxVsHeaderPathDetector.cpp
-	utility/path_detector/cxx_header/CxxVsHeaderPathDetector.h
+	utility/path_detector/cxx_header/CxxVs10To14HeaderPathDetector.cpp
+	utility/path_detector/cxx_header/CxxVs10To14HeaderPathDetector.h
+	utility/path_detector/cxx_header/CxxVs15HeaderPathDetector.cpp
+	utility/path_detector/cxx_header/CxxVs15HeaderPathDetector.h
 	utility/path_detector/cxx_header/utilityCxxHeaderDetection.cpp
 	utility/path_detector/cxx_header/utilityCxxHeaderDetection.h
 

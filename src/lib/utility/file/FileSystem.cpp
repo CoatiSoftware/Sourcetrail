@@ -207,20 +207,37 @@ void FileSystem::createDirectory(const FilePath& path)
 	boost::filesystem::create_directories(path.str());
 }
 
-std::vector<FilePath> FileSystem::getSubDirectories(const FilePath &path)
+std::vector<FilePath> FileSystem::getDirectSubDirectories(const FilePath& path)
 {
 	std::vector<FilePath> v;
 
-	if (!path.exists() || !path.isDirectory())
+	if (path.exists() && path.isDirectory())
 	{
-		return v;
+		for (boost::filesystem::directory_iterator end, dir(path.str()); dir != end; dir++)
+		{
+			if (boost::filesystem::is_directory(dir->path()))
+			{
+				v.push_back(FilePath(dir->path()));
+			}
+		}
 	}
 
-	for (boost::filesystem::recursive_directory_iterator end, dir(path.str()); dir != end; dir++)
+	return v;
+}
+
+
+std::vector<FilePath> FileSystem::getRecursiveSubDirectories(const FilePath &path)
+{
+	std::vector<FilePath> v;
+
+	if (path.exists() && path.isDirectory())
 	{
-		if (boost::filesystem::is_directory(dir->path()))
+		for (boost::filesystem::recursive_directory_iterator end, dir(path.str()); dir != end; dir++)
 		{
-			v.push_back(FilePath(dir->path()));
+			if (boost::filesystem::is_directory(dir->path()))
+			{
+				v.push_back(FilePath(dir->path()));
+			}
 		}
 	}
 

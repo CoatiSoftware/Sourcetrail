@@ -31,7 +31,8 @@ public:
 	static bool copy_directory(const FilePath& from, const FilePath& to);
 
 	static void createDirectory(const FilePath& path);
-	static std::vector<FilePath> getSubDirectories(const FilePath& path);
+	static std::vector<FilePath> getDirectSubDirectories(const FilePath& path);
+	static std::vector<FilePath> getRecursiveSubDirectories(const FilePath& path);
 
 	static std::string fileName(const std::string& path);
 	static std::string absoluteFilePath(const std::string& path);
