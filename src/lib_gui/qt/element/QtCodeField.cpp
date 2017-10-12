@@ -42,11 +42,6 @@ QtCodeField::QtCodeField(
 	viewport()->setCursor(Qt::ArrowCursor);
 
 	std::string displayCode = m_code;
-	if (!displayCode.empty() && *displayCode.rbegin() == '\n')
-	{
-		displayCode.pop_back();
-	}
-
 	setPlainText(QString::fromUtf8(displayCode.c_str()));
 	createLineLengthCache();
 
