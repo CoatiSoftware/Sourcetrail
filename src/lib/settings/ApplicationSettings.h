@@ -135,6 +135,9 @@ public:
 	std::string getUpdateDownloadUrl() const;
 	void setUpdateDownloadUrl(const std::string& url);
 
+	Version getUpdateVersion() const;
+	void setUpdateVersion(const Version& version);
+
 	// network
 	int getPluginPort() const;
 	void setPluginPort(const int pluginPort);

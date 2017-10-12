@@ -31,8 +31,9 @@ QtUpdateCheckerWidget::QtUpdateCheckerWidget(QWidget* parent)
 		}
 		else
 		{
+			Version version = appSettings->getUpdateVersion();
 			QString url = QString::fromStdString(appSettings->getUpdateDownloadUrl());
-			if (!url.isEmpty())
+			if (version > Version::getApplicationVersion() && !url.isEmpty())
 			{
 				setDownloadUrl(url);
 			}
@@ -52,6 +53,7 @@ QtUpdateCheckerWidget::QtUpdateCheckerWidget(QWidget* parent)
 void QtUpdateCheckerWidget::checkUpdate(bool force)
 {
 	ApplicationSettings* appSettings = ApplicationSettings::getInstance().get();
+	appSettings->setUpdateVersion(Version::getApplicationVersion());
 	appSettings->setUpdateDownloadUrl("");
 	appSettings->save();
 
@@ -73,6 +75,7 @@ void QtUpdateCheckerWidget::checkUpdate(bool force)
 			{
 				setDownloadUrl(result.url);
 
+				appSettings->setUpdateVersion(result.version);
 				appSettings->setUpdateDownloadUrl(result.url.toStdString());
 				appSettings->save();
 			}

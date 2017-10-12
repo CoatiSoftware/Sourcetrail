@@ -429,12 +429,18 @@ void ApplicationSettings::setAutomaticUpdateCheck(bool automaticUpdates)
 
 TimeStamp ApplicationSettings::getLastUpdateCheck() const
 {
-	return TimeStamp(getValue<std::string>("user/update_check/last", ""));
+	std::string val = getValue<std::string>("user/update_check/time_stamp", "");
+	if (!val.size())
+	{
+		val = getValue<std::string>("user/update_check/last", ""); // deprecated key
+	}
+
+	return TimeStamp(val);
 }
 
 void ApplicationSettings::setLastUpdateCheck(const TimeStamp& time)
 {
-	setValue<std::string>("user/update_check/last", time.toString());
+	setValue<std::string>("user/update_check/time_stamp", time.toString());
 }
 
 Version ApplicationSettings::getSkipUpdateForVersion() const
@@ -452,12 +458,25 @@ void ApplicationSettings::setSkipUpdateForVersion(const Version& version)
 
 std::string ApplicationSettings::getUpdateDownloadUrl() const
 {
-	return getValue<std::string>("user/update_check/url", "");
+	return getValue<std::string>("user/update_check/update_url", "");
 }
 
 void ApplicationSettings::setUpdateDownloadUrl(const std::string& url)
 {
-	setValue<std::string>("user/update_check/url", url);
+	setValue<std::string>("user/update_check/update_url", url);
+}
+
+Version ApplicationSettings::getUpdateVersion() const
+{
+	return Version::fromString(getValue<std::string>("user/update_check/update_version", "2017.1.0"));
+}
+
+void ApplicationSettings::setUpdateVersion(const Version& version)
+{
+	if (version.isValid())
+	{
+		setValue<std::string>("user/update_check/update_version", version.toDisplayString());
+	}
 }
 
 int ApplicationSettings::getPluginPort() const

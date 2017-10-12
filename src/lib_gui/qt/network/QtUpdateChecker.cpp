@@ -62,7 +62,7 @@ void QtUpdateChecker::check(bool force, std::function<void(Result)> callback)
 	urlString += ("&platform=" + platformString + "bit").c_str();
 
 	// version
-	// Version::setApplicationVersion(Version::fromString("2017.3.10")); // for debugging
+	// Version::setApplicationVersion(Version::fromString("2017.3.48")); // for debugging
 	urlString += ("&version=" + Version::getApplicationVersion().toDisplayString()).c_str();
 
 	// license
@@ -126,6 +126,7 @@ void QtUpdateChecker::check(bool force, std::function<void(Result)> callback)
 
 				if (updateVersion > Version::getApplicationVersion())
 				{
+					result.version = updateVersion;
 					result.url = url;
 
 					ApplicationSettings* appSettings = ApplicationSettings::getInstance().get();

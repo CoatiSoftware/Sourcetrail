@@ -3,6 +3,7 @@
 
 #include "qt/utility/QtThreadedFunctor.h"
 #include "UpdateChecker.h"
+#include "utility/Version.h"
 
 class QtUpdateChecker
 	: public UpdateChecker
@@ -11,6 +12,7 @@ public:
 	struct Result
 	{
 		bool success = false;
+		Version version;
 		QString url;
 	};
 

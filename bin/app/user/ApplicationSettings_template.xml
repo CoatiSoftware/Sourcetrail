@@ -86,7 +86,8 @@
 			<automatic><!-- BOOL: whether to check automatically for new software updates --></automatic>
 			<time_stamp><!-- TIME: time of the last update check --></time_stamp>
 			<skip_version><!-- VERSION: version to skip for update --></skip_version>
-			<url><!-- STRING: url to new version download --></url>
+			<update_url><!-- STRING: url to new version download --></update_url>
+			<update_version><!-- VERSION: version of last check --></update_version>
 		</update_check>
 	</user>
 
