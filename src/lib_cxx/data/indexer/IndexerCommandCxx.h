@@ -22,7 +22,7 @@ public:
 		const bool shouldApplyAnonymousTypedefTransformation);
 
 	virtual ~IndexerCommandCxx();
-	virtual size_t getByteSize() const override;
+	virtual size_t getByteSize(size_t stringSize) const override;
 
 	std::vector<FilePath> getSystemHeaderSearchPaths() const;
 	std::vector<FilePath> getFrameworkSearchPaths() const;

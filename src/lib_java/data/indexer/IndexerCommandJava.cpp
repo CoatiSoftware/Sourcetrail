@@ -25,13 +25,13 @@ IndexerCommandType IndexerCommandJava::getIndexerCommandType() const
 	return getStaticIndexerCommandType();
 }
 
-size_t IndexerCommandJava::getByteSize() const
+size_t IndexerCommandJava::getByteSize(size_t stringSize) const
 {
-	size_t size = IndexerCommand::getByteSize();
+	size_t size = IndexerCommand::getByteSize(stringSize);
 
 	for (auto& i : m_classPath)
 	{
-		size += sizeof(std::string) + i.str().size();
+		size += stringSize + i.str().size();
 	}
 
 	return size;

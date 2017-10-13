@@ -21,23 +21,23 @@ IndexerCommandCxx::~IndexerCommandCxx()
 {
 }
 
-size_t IndexerCommandCxx::getByteSize() const
+size_t IndexerCommandCxx::getByteSize(size_t stringSize) const
 {
-	size_t size = IndexerCommand::getByteSize();
+	size_t size = IndexerCommand::getByteSize(stringSize);
 
 	for (auto& i : m_systemHeaderSearchPaths)
 	{
-		size += sizeof(std::string) + i.str().size();
+		size += stringSize + i.str().size();
 	}
 
 	for (auto& i : m_frameworkSearchPaths)
 	{
-		size += sizeof(std::string) + i.str().size();
+		size += stringSize + i.str().size();
 	}
 
 	for (auto& i : m_compilerFlags)
 	{
-		size += sizeof(std::string) + i.size();
+		size += stringSize + i.size();
 	}
 
 	return size;

@@ -63,9 +63,9 @@ IndexerCommandType IndexerCommandCxxCdb::getIndexerCommandType() const
 	return getStaticIndexerCommandType();
 }
 
-size_t IndexerCommandCxxCdb::getByteSize() const
+size_t IndexerCommandCxxCdb::getByteSize(size_t stringSize) const
 {
-	return IndexerCommandCxx::getByteSize() + sizeof(std::string) + m_workingDirectory.str().size();
+	return IndexerCommandCxx::getByteSize(stringSize) + m_workingDirectory.str().size();
 }
 
 FilePath IndexerCommandCxxCdb::getWorkingDirectory() const

@@ -19,12 +19,12 @@ InterprocessIndexerCommandManager::~InterprocessIndexerCommandManager()
 void InterprocessIndexerCommandManager::setIndexerCommands(
 	const std::vector<std::shared_ptr<IndexerCommand>>& indexerCommands)
 {
-	const unsigned int overestimationMultiplier = 3;
+	const size_t overestimationMultiplier = 2;
 
 	size_t estimatedSize = 1048576; /* 1 MB */
 	for (auto& command : indexerCommands)
 	{
-		estimatedSize += command->getByteSize() + sizeof(SharedIndexerCommand);
+		estimatedSize += command->getByteSize(sizeof(SharedMemory::String)) + sizeof(SharedIndexerCommand);
 	}
 	estimatedSize *= overestimationMultiplier;
 

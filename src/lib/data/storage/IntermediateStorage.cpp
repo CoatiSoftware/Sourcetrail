@@ -28,35 +28,35 @@ void IntermediateStorage::clear()
 	m_nextId = 1;
 }
 
-size_t IntermediateStorage::getByteSize() const
+size_t IntermediateStorage::getByteSize(size_t stringSize) const
 {
 	unsigned int byteSize = 0;
 
 	for (const StorageFile& storageFile: getStorageFiles())
 	{
 		byteSize += sizeof(StorageFile);
-		byteSize += storageFile.filePath.size();
-		byteSize += storageFile.modificationTime.size();
+		byteSize += stringSize + storageFile.filePath.size();
+		byteSize += stringSize + storageFile.modificationTime.size();
 	}
 
 	for (const StorageError& storageError: getErrors())
 	{
 		byteSize += sizeof(StorageError);
-		byteSize += storageError.filePath.str().size();
-		byteSize += storageError.message.size();
-		byteSize += storageError.commandline.size();
+		byteSize += stringSize + storageError.filePath.str().size();
+		byteSize += stringSize + storageError.message.size();
+		byteSize += stringSize + storageError.commandline.size();
 	}
 
 	for (const StorageNode& storageNode: getStorageNodes())
 	{
 		byteSize += sizeof(StorageNode);
-		byteSize += storageNode.serializedName.size();
+		byteSize += stringSize + storageNode.serializedName.size();
 	}
 
 	for (const StorageLocalSymbol& storageLocalSymbol: getStorageLocalSymbols())
 	{
 		byteSize += sizeof(StorageLocalSymbol);
-		byteSize += storageLocalSymbol.name.size();
+		byteSize += stringSize + storageLocalSymbol.name.size();
 	}
 
 	byteSize += sizeof(StorageEdge) * getStorageEdges().size();

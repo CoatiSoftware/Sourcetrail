@@ -39,10 +39,10 @@ void InterprocessIndexingStatusManager::startIndexingSourceFile(const FilePath& 
 		SharedMemory::Map<Id, SharedMemory::String>::iterator it = currentFilesPtr->find(getProcessId());
 		if (it != currentFilesPtr->end())
 		{
-			const int overestimationMultiplier = 3;
+			const size_t overestimationMultiplier = 3;
 			const std::string crashedFilePath = it->second.c_str();
 
-			size_t estimatedSize = 262144 + sizeof(std::string) + crashedFilePath.size();
+			size_t estimatedSize = 262144 + sizeof(SharedMemory::String) + crashedFilePath.size();
 			estimatedSize *= overestimationMultiplier;
 
 			while (access.getFreeMemorySize() < estimatedSize)
@@ -215,7 +215,7 @@ void InterprocessIndexingStatusManager::addIndexedFiles(std::set<FilePath> fileP
 	size_t estimatedSize = 262144;
 	for (auto& newFile : newFiles)
 	{
-		estimatedSize += sizeof(std::string) + newFile.size();
+		estimatedSize += sizeof(SharedMemory::String) + newFile.size();
 	}
 	estimatedSize *= overestimationMultiplier;
 

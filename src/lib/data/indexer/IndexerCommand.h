@@ -15,7 +15,7 @@ public:
 
 	virtual IndexerCommandType getIndexerCommandType() const = 0;
 
-	virtual size_t getByteSize() const;
+	virtual size_t getByteSize(size_t stringSize) const;
 
 	const FilePath& getSourceFilePath() const;
 	const std::set<FilePath>& getIndexedPaths() const;

@@ -17,7 +17,7 @@ public:
 
 	void clear();
 
-	size_t getByteSize() const;
+	size_t getByteSize(size_t stringSize) const;
 	size_t getSourceLocationCount() const;
 
 	void setAllFilesIncomplete();

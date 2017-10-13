@@ -29,9 +29,9 @@ IndexerCommandType IndexerCommandCxxManual::getIndexerCommandType() const
 	return getStaticIndexerCommandType();
 }
 
-size_t IndexerCommandCxxManual::getByteSize() const
+size_t IndexerCommandCxxManual::getByteSize(size_t stringSize) const
 {
-	return IndexerCommandCxx::getByteSize() + sizeof(std::string) + m_languageStandard.size();
+	return IndexerCommandCxx::getByteSize(stringSize) + m_languageStandard.size();
 }
 
 std::string IndexerCommandCxxManual::getLanguageStandard() const

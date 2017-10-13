@@ -13,18 +13,18 @@ IndexerCommand::~IndexerCommand()
 {
 }
 
-size_t IndexerCommand::getByteSize() const
+size_t IndexerCommand::getByteSize(size_t stringSize) const
 {
-	size_t size = sizeof(std::string) + m_sourceFilePath.str().size();
+	size_t size = m_sourceFilePath.str().size();
 
 	for (const FilePath& path: m_indexedPaths)
 	{
-		size += sizeof(std::string) + path.str().size();
+		size += stringSize + path.str().size();
 	}
 
 	for (const FilePath& path : m_excludedPaths)
 	{
-		size += sizeof(std::string) + path.str().size();
+		size += stringSize + path.str().size();
 	}
 
 	return size;

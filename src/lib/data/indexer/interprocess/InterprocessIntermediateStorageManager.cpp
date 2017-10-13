@@ -27,8 +27,9 @@ InterprocessIntermediateStorageManager::~InterprocessIntermediateStorageManager(
 void InterprocessIntermediateStorageManager::pushIntermediateStorage(
 	const std::shared_ptr<IntermediateStorage>& intermediateStorage)
 {
-    const unsigned int overestimationMultiplier = 3;
-    size_t size = (intermediateStorage->getByteSize() + sizeof(SharedIntermediateStorage)) * overestimationMultiplier + 1048576/* 1 MB */;
+    const size_t overestimationMultiplier = 2;
+    size_t size = (intermediateStorage->getByteSize(sizeof(SharedMemory::String)) +
+		sizeof(SharedIntermediateStorage)) * overestimationMultiplier + 1048576/* 1 MB */;
 
 	SharedMemory::ScopedAccess access(&m_sharedMemory);
 
