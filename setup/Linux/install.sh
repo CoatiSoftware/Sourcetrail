@@ -9,7 +9,8 @@ fi
 
 MY_PATH="$( cd "$( dirname "$0" )" && pwd )"
 
-cp -rf "$MY_PATH/" /opt/sourcetrail/ > /dev/null
+rm -rf /opt/sourcetrail > /dev/null
+cp -rf "$MY_PATH/" /opt/sourcetrail > /dev/null
 cp -rf "$MY_PATH/setup/share/" /usr > /dev/null
 cp "$MY_PATH/data/gui/icon/logo_1024_1024.png" /usr/share/icons/sourcetrail.png > /dev/null
 cp "$MY_PATH/data/gui/icon/project_256_256.png" /usr/share/icons/project-sourcetrail.png > /dev/null
