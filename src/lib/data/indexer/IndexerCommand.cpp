@@ -15,7 +15,7 @@ IndexerCommand::~IndexerCommand()
 
 size_t IndexerCommand::getByteSize() const
 {
-	size_t size = m_sourceFilePath.str().size();
+	size_t size = sizeof(std::string) + m_sourceFilePath.str().size();
 
 	for (const FilePath& path: m_indexedPaths)
 	{

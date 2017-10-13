@@ -188,12 +188,6 @@ void Application::createAndLoadProject(const FilePath& projectSettingsFilePath)
 
 		if (m_project)
 		{
-			if (m_hasGUI)
-			{
-				updateTitle();
-				m_mainView->hideStartScreen();
-			}
-
 			m_project->load();
 		}
 		else
@@ -201,6 +195,8 @@ void Application::createAndLoadProject(const FilePath& projectSettingsFilePath)
 			LOG_ERROR_STREAM(<< "Failed to load project.");
 			MessageStatus("Failed to load project: " + projectSettingsFilePath.str(), true).dispatch();
 		}
+
+		updateTitle();
 	}
 	catch (std::exception& e)
 	{
@@ -327,7 +323,7 @@ void Application::handleMessage(MessageSwitchColorScheme* message)
 
 void Application::handleMessage(MessageWindowFocus* message)
 {
-	if (message->focusIn && ApplicationSettings::getInstance()->getAutomaticUpdateCheck())
+	if (message->focusIn && m_project && ApplicationSettings::getInstance()->getAutomaticUpdateCheck())
 	{
 		m_updateChecker->checkUpdate();
 	}
