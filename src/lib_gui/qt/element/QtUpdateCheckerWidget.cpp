@@ -28,6 +28,8 @@ QtUpdateCheckerWidget::QtUpdateCheckerWidget(QWidget* parent)
 	{
 		if (QtUpdateChecker::needsAutomaticCheck())
 		{
+			m_button->setText("checking for update...");
+			m_button->setEnabled(false);
 			QTimer::singleShot(250,
 				[this]()
 				{

@@ -156,16 +156,6 @@ void QtUpdateChecker::check(bool force, std::function<void(Result)> callback)
 						QDesktopServices::openUrl(QUrl(url, QUrl::TolerantMode));
 					}
 				}
-				else if (force)
-				{
-					QMessageBox msgBox;
-					msgBox.setText("Update Check");
-					msgBox.setInformativeText(
-						("Sourcetrial " + Version::getApplicationVersion().toDisplayString() + " is still up-to-date.").c_str());
-					msgBox.setStandardButtons(QMessageBox::Ok);
-					msgBox.setDefaultButton(QMessageBox::Ok);
-					msgBox.exec();
-				}
 			}
 			while (false);
 
