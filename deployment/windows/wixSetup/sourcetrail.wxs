@@ -351,6 +351,9 @@
 
 				<ComponentRef Id='RefreshViewCss'/>
 				<ComponentRef Id='RefreshPng'/>
+				
+				<ComponentRef Id='ScreenSearchViewCss'/>
+				<ComponentRef Id='ScreenSearchViewClosePng'/>
 
 				<ComponentRef Id='SearchViewCss'/>
 				<ComponentRef Id='ArrowSearchPng'/>

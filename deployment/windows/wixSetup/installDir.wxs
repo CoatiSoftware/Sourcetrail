@@ -639,7 +639,20 @@
 							</Component>
 						</Directory>
 					</Directory>
-
+					
+					<Directory Id='DataScreenSearchView' Name='screen_search_view'>
+					
+						<Component Id='ScreenSearchViewCss' Guid='*' Win64="$(var.Win64)">
+							<File Id='ScreenSearchView' Name='screen_search_view.css' DiskId='1' Source='./../../../bin/app/data/gui/screen_search_view/screen_search_view.css' KeyPath='yes' />
+						</Component>
+						
+						<Directory Id='DataScreenSearchViewImages' Name='images'>
+							<Component Id='ScreenSearchViewClosePng' Guid='*' Win64="$(var.Win64)">
+								<File Id='ScreenSearchViewClose' Name='close.png' DiskId='1' Source='./../../../bin/app/data/gui/screen_search_view/images/close.png' KeyPath='yes' />
+							</Component>
+						</Directory>
+					</Directory>
+					
 					<Directory Id='DataSearchView' Name='search_view'>
 
 						<Component Id='SearchViewCss' Guid='*' Win64="$(var.Win64)">
