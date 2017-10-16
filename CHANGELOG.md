@@ -1,5 +1,33 @@
 ### Changelog
 
+#### 2017.4.0
+
+* Linux: Moved install and uninstall scripts to top level directory in package.
+* C++: Fixed record rvalue references as "&&" instead of "&"
+* C/C++: Added prefilling of indexed header paths for compilation database projects
+* Moved automatic update check setting to preferences and enable by default
+* Code: Added indexing of qualifier source locations and allow symbol activation by clicking qualifiers.
+* Linux: Enabled Qt highDPI scaling to fix UI issues on high resolution screens
+* Fixed handling of non-indexed files in Graph and Code
+* C/C++: Removed include check validataion for compilation database source groups
+* Graph: Bundle nested anonymous namespaces into anonymous namespace bundle in namespace overview (issue #465)
+* Search: Fixed vertical growth of search bar area when resizing window
+* Visual Studio plugin: Lots off fixes, see changelog (https://github.com/CoatiSoftware/vs-sourcetrail/blob/master/CHANGELOG.md)
+* Sublime Text plugin: Fixed plugin not working when installed via Package Control (issue #468)
+* Windows: Added missing Qt dlls to save graph images as .jpg (issue #474)
+* C/C++: Updated to Clang 5.0.0
+* Code: Fixed annotations missing for full file snippets
+* Java: Added project setup from Gradle (issue #379)
+* Added "Find in View" option with search bar at bottom of window for searching Graph and Code on-screen (issue #79)
+* Use "Find in View" with 'Ctrl + D' or '/'
+* Graph: Added template specialization and template member specialization edges
+* Graph: Show implicit children of implicit nodes
+* Code: Fixed syntax highlighting of inline comments
+* Code: Added syntax highlighting rule for char literals
+* C++: Improved recording of template member specialization
+* Refresh only files where content actually changed
+
+
 #### 2017.3.48
 released 2017-09-07
 
