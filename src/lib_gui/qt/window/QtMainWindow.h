@@ -113,7 +113,7 @@ public slots:
 
 	void find();
 	void findFulltext();
-	void findInView();
+	void findOnScreen();
 	void codeReferencePrevious();
 	void codeReferenceNext();
 	void overview();

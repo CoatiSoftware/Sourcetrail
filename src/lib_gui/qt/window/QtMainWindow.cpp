@@ -572,7 +572,7 @@ void QtMainWindow::findFulltext()
 	MessageFind(true).dispatch();
 }
 
-void QtMainWindow::findInView()
+void QtMainWindow::findOnScreen()
 {
 	emit showScreenSearch();
 }
@@ -785,7 +785,7 @@ void QtMainWindow::setupEditMenu()
 
 	menu->addAction(tr("&Find Symbol"), this, &QtMainWindow::find, QKeySequence::Find);
 	menu->addAction(tr("&Find Text"), this, &QtMainWindow::findFulltext, QKeySequence(Qt::SHIFT + Qt::CTRL + Qt::Key_F));
-	menu->addAction(tr("&Find in View"), this, &QtMainWindow::findInView, QKeySequence(Qt::CTRL + Qt::Key_D));
+	menu->addAction(tr("&Find On-Screen"), this, &QtMainWindow::findOnScreen, QKeySequence(Qt::CTRL + Qt::Key_D));
 
 	menu->addSeparator();
 

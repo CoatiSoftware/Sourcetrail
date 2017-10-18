@@ -1185,12 +1185,12 @@ void GraphController::bundleNodesByType()
 
 	// // should never be visible
 
-	bundleByType(nodes, Node::NODE_METHOD, "Methods");
-	bundleByType(nodes, Node::NODE_FIELD, "Fields");
-	bundleByType(nodes, Node::NODE_ENUM_CONSTANT, "Enum Constants");
-	bundleByType(nodes, Node::NODE_TEMPLATE_PARAMETER_TYPE, "Template Parameter Types");
-	bundleByType(nodes, Node::NODE_TYPE_PARAMETER, "Type Parameters");
-	bundleByType(nodes, Node::NODE_NON_INDEXED, "Non-indexed Symbols");
+	// bundleByType(nodes, Node::NODE_METHOD, "Methods");
+	// bundleByType(nodes, Node::NODE_FIELD, "Fields");
+	// bundleByType(nodes, Node::NODE_ENUM_CONSTANT, "Enum Constants");
+	// bundleByType(nodes, Node::NODE_TEMPLATE_PARAMETER_TYPE, "Template Parameter Types");
+	// bundleByType(nodes, Node::NODE_TYPE_PARAMETER, "Type Parameters");
+	// bundleByType(nodes, Node::NODE_NON_INDEXED, "Non-indexed Symbols");
 
 	if (nodes.size())
 	{

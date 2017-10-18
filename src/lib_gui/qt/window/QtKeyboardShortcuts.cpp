@@ -123,7 +123,7 @@ QTableWidget* QtKeyboardShortcuts::createGenerelShortcutsTable()
 	table->setItem(6, 0, new QTableWidgetItem("Force Refresh"));
 	table->setItem(7, 0, new QTableWidgetItem("Find Symbol"));
 	table->setItem(8, 0, new QTableWidgetItem("Find Text"));
-	table->setItem(9, 0, new QTableWidgetItem("Find in View"));
+	table->setItem(9, 0, new QTableWidgetItem("Find On-Screen"));
 	table->setItem(10, 0, new QTableWidgetItem("New Project"));
 	table->setItem(11, 0, new QTableWidgetItem("Open Project"));
 	table->setItem(12, 0, new QTableWidgetItem("Close Window"));
