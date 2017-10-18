@@ -17,6 +17,16 @@ public:
 ///////////////////////////////////////////////////////////////////////////////
 // test finding symbol definitions and declarations
 
+	void test_java_parser_finds_all_jar_dependencies()
+	{
+		const std::vector<std::string> jarNames = utility::getRequiredJarNames();
+		for (const std::string& jarName : utility::getRequiredJarNames())
+		{
+			FilePath jarPath("../app/data/java/lib/" + jarName);
+			TSM_ASSERT("Jar dependency path does not exist: " + jarPath.str(), jarPath.exists());
+		}
+	}
+
 	void test_java_parser_can_setup_environment_factory()
 	{
 		std::vector<FilePath> javaPaths = utility::getJavaRuntimePathDetector()->getPaths();

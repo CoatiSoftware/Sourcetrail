@@ -807,46 +807,46 @@
 							<File Id='JavaJavaIndexer' Name='java-indexer.jar' DiskId='1' Source='./../../../bin/app/data/java/lib/java-indexer.jar' KeyPath='yes' />
 						</Component>
 						<Component Id='JavaOrgEclipseCoreCommandsJar' Guid='*' Win64="$(var.Win64)">
-							<File Id='OrgEclipseCoreCommands' Name='org.eclipse.core.commands-3.8.1.jar' DiskId='1' Source='./../../../bin/app/data/java/lib/org.eclipse.core.commands-3.8.1.jar' KeyPath='yes' />
+							<File Id='OrgEclipseCoreCommands' Name='org.eclipse.core.commands-3.9.0.jar' DiskId='1' Source='./../../../bin/app/data/java/lib/org.eclipse.core.commands-3.9.0.jar' KeyPath='yes' />
 						</Component>
 						<Component Id='JavaOrgEclipseCoreContenttypeJar' Guid='*' Win64="$(var.Win64)">
-							<File Id='OrgEclipseCoreContenttype' Name='org.eclipse.core.contenttype-3.5.100.jar' DiskId='1' Source='./../../../bin/app/data/java/lib/org.eclipse.core.contenttype-3.5.100.jar' KeyPath='yes' />
+							<File Id='OrgEclipseCoreContenttype' Name='org.eclipse.core.contenttype-3.6.0.jar' DiskId='1' Source='./../../../bin/app/data/java/lib/org.eclipse.core.contenttype-3.6.0.jar' KeyPath='yes' />
 						</Component>
 						<Component Id='JavaOrgEclipseCoreExpressionsJar' Guid='*' Win64="$(var.Win64)">
-							<File Id='OrgEclipseCoreExpressions' Name='org.eclipse.core.expressions-3.5.100.jar' DiskId='1' Source='./../../../bin/app/data/java/lib/org.eclipse.core.expressions-3.5.100.jar' KeyPath='yes' />
+							<File Id='OrgEclipseCoreExpressions' Name='org.eclipse.core.expressions-3.6.0.jar' DiskId='1' Source='./../../../bin/app/data/java/lib/org.eclipse.core.expressions-3.6.0.jar' KeyPath='yes' />
 						</Component>
 						<Component Id='JavaOrgEclipseCoreFilesystemJar' Guid='*' Win64="$(var.Win64)">
-							<File Id='OrgEclipseCoreFilesystem' Name='org.eclipse.core.filesystem-1.6.1.jar' DiskId='1' Source='./../../../bin/app/data/java/lib/org.eclipse.core.filesystem-1.6.1.jar' KeyPath='yes' />
+							<File Id='OrgEclipseCoreFilesystem' Name='org.eclipse.core.filesystem-1.7.0.jar' DiskId='1' Source='./../../../bin/app/data/java/lib/org.eclipse.core.filesystem-1.7.0.jar' KeyPath='yes' />
 						</Component>
 						<Component Id='JavaOrgEclipseCoreJobsJar' Guid='*' Win64="$(var.Win64)">
-							<File Id='OrgEclipseCoreJobs' Name='org.eclipse.core.jobs-3.8.0.jar' DiskId='1' Source='./../../../bin/app/data/java/lib/org.eclipse.core.jobs-3.8.0.jar' KeyPath='yes' />
+							<File Id='OrgEclipseCoreJobs' Name='org.eclipse.core.jobs-3.9.0.jar' DiskId='1' Source='./../../../bin/app/data/java/lib/org.eclipse.core.jobs-3.9.0.jar' KeyPath='yes' />
 						</Component>
 						<Component Id='JavaOrgEclipseCoreResourcesJar' Guid='*' Win64="$(var.Win64)">
-							<File Id='OrgEclipseCoreResources' Name='org.eclipse.core.resources-3.11.1.jar' DiskId='1' Source='./../../../bin/app/data/java/lib/org.eclipse.core.resources-3.11.1.jar' KeyPath='yes' />
+							<File Id='OrgEclipseCoreResources' Name='org.eclipse.core.resources-3.12.0.jar' DiskId='1' Source='./../../../bin/app/data/java/lib/org.eclipse.core.resources-3.12.0.jar' KeyPath='yes' />
 						</Component>
 						<Component Id='JavaOrgEclipseCoreRuntimeJar' Guid='*' Win64="$(var.Win64)">
-							<File Id='OrgEclipseCoreRuntime' Name='org.eclipse.core.runtime-3.12.0.jar' DiskId='1' Source='./../../../bin/app/data/java/lib/org.eclipse.core.runtime-3.12.0.jar' KeyPath='yes' />
+							<File Id='OrgEclipseCoreRuntime' Name='org.eclipse.core.runtime-3.13.0.jar' DiskId='1' Source='./../../../bin/app/data/java/lib/org.eclipse.core.runtime-3.13.0.jar' KeyPath='yes' />
 						</Component>
 						<Component Id='JavaOrgEclipseEquinoxJar' Guid='*' Win64="$(var.Win64)">
 							<File Id='OrgEclipseEquinox.app' Name='org.eclipse.equinox.app-1.3.400.jar' DiskId='1' Source='./../../../bin/app/data/java/lib/org.eclipse.equinox.app-1.3.400.jar' KeyPath='yes' />
 						</Component>
 						<Component Id='JavaOrgEclipseEquinoxCommonJar' Guid='*' Win64="$(var.Win64)">
-							<File Id='OrgEclipseEquinoxCommon' Name='org.eclipse.equinox.common-3.8.0.jar' DiskId='1' Source='./../../../bin/app/data/java/lib/org.eclipse.equinox.common-3.8.0.jar' KeyPath='yes' />
+							<File Id='OrgEclipseEquinoxCommon' Name='org.eclipse.equinox.common-3.9.0.jar' DiskId='1' Source='./../../../bin/app/data/java/lib/org.eclipse.equinox.common-3.9.0.jar' KeyPath='yes' />
 						</Component>
 						<Component Id='JavaOrgEclipseEquinoxPreferencesJar' Guid='*' Win64="$(var.Win64)">
-							<File Id='OrgEclipseEquinoxPreferences' Name='org.eclipse.equinox.preferences-3.6.1.jar' DiskId='1' Source='./../../../bin/app/data/java/lib/org.eclipse.equinox.preferences-3.6.1.jar' KeyPath='yes' />
+							<File Id='OrgEclipseEquinoxPreferences' Name='org.eclipse.equinox.preferences-3.7.0.jar' DiskId='1' Source='./../../../bin/app/data/java/lib/org.eclipse.equinox.preferences-3.7.0.jar' KeyPath='yes' />
 						</Component>
 						<Component Id='JavaOrgEclipseEquinoxRegistryJar' Guid='*' Win64="$(var.Win64)">
-							<File Id='OrgEclipseEquinoxRegistry' Name='org.eclipse.equinox.registry-3.6.100.jar' DiskId='1' Source='./../../../bin/app/data/java/lib/org.eclipse.equinox.registry-3.6.100.jar' KeyPath='yes' />
+							<File Id='OrgEclipseEquinoxRegistry' Name='org.eclipse.equinox.registry-3.7.0.jar' DiskId='1' Source='./../../../bin/app/data/java/lib/org.eclipse.equinox.registry-3.7.0.jar' KeyPath='yes' />
 						</Component>
 						<Component Id='JavaOrgEclipseJdtCoreJar' Guid='*' Win64="$(var.Win64)">
-							<File Id='OrgEclipseJdtCore' Name='org.eclipse.jdt.core-3.12.3.jar' DiskId='1' Source='./../../../bin/app/data/java/lib/org.eclipse.jdt.core-3.12.3.jar' KeyPath='yes' />
+							<File Id='OrgEclipseJdtCore' Name='org.eclipse.jdt.core-3.13.0.jar' DiskId='1' Source='./../../../bin/app/data/java/lib/org.eclipse.jdt.core-3.13.0.jar' KeyPath='yes' />
 						</Component>
 						<Component Id='JavaOrgEclipseOsgiJar' Guid='*' Win64="$(var.Win64)">
-							<File Id='OrgEclipseOsgi' Name='org.eclipse.osgi-3.11.3.jar' DiskId='1' Source='./../../../bin/app/data/java/lib/org.eclipse.osgi-3.11.3.jar' KeyPath='yes' />
+							<File Id='OrgEclipseOsgi' Name='org.eclipse.osgi-3.12.0.jar' DiskId='1' Source='./../../../bin/app/data/java/lib/org.eclipse.osgi-3.12.0.jar' KeyPath='yes' />
 						</Component>
 						<Component Id='JavaOrgEclipseTextJar' Guid='*' Win64="$(var.Win64)">
-							<File Id='OrgEclipseText' Name='org.eclipse.text-3.6.0.jar' DiskId='1' Source='./../../../bin/app/data/java/lib/org.eclipse.text-3.6.0.jar' KeyPath='yes' />
+							<File Id='OrgEclipseText' Name='org.eclipse.text-3.6.100.jar' DiskId='1' Source='./../../../bin/app/data/java/lib/org.eclipse.text-3.6.100.jar' KeyPath='yes' />
 						</Component>
 						<Component Id='Slf4jApiJar' Guid='*' Win64="$(var.Win64)">
 							<File Id='Slf4jApi' Name='slf4j-api-1.7.10.jar' DiskId='1' Source='./../../../bin/app/data/java/lib/slf4j-api-1.7.10.jar' KeyPath='yes' />
