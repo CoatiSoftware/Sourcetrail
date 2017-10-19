@@ -145,12 +145,12 @@ void QtMainView::updateBookmarksMenu(const std::vector<std::shared_ptr<Bookmark>
 
 void QtMainView::handleMessage(MessageForceEnterLicense* message)
 {
-	bool expired = message->licenseExpired;
+	LicenseChecker::LicenseState state = message->state;
 
 	m_onQtThread(
 		[=]()
 		{
-			m_window->forceEnterLicense(expired);
+			m_window->forceEnterLicense(state);
 		}
 	);
 }

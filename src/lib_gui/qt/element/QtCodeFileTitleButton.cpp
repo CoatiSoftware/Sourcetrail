@@ -4,12 +4,12 @@
 #include "utility/messaging/type/MessageActivateFile.h"
 #include "utility/messaging/type/MessageProjectEdit.h"
 
+#include "Application.h"
 #include "project/Project.h"
 #include "qt/utility/QtContextMenu.h"
 #include "qt/utility/utilityQt.h"
 #include "settings/ColorScheme.h"
 #include "utility/ResourcePaths.h"
-#include "Application.h"
 
 QtCodeFileTitleButton::QtCodeFileTitleButton(QWidget* parent)
 	: QPushButton(parent)
@@ -89,26 +89,18 @@ void QtCodeFileTitleButton::setProject(const std::string& name)
 	setText(name.c_str());
 	m_filePath = FilePath();
 
-	if (Application::getInstance()->isInTrial())
-	{
-		setIcon(QIcon());
-		setEnabled(false);
-	}
-	else
-	{
-		std::string text = ResourcePaths::getGuiPath().str() + "code_view/images/edit.png";
-		setToolTip("edit project");
+	std::string text = ResourcePaths::getGuiPath().str() + "code_view/images/edit.png";
+	setToolTip("edit project");
 
-		setIcon(utility::colorizePixmap(
-			QPixmap(text.c_str()),
-			ColorScheme::getInstance()->getColor("code/file/title/icon").c_str()
-		));
-	}
+	setIcon(utility::colorizePixmap(
+		QPixmap(text.c_str()),
+		ColorScheme::getInstance()->getColor("code/file/title/icon").c_str()
+	));
 }
 
 void QtCodeFileTitleButton::updateTexts()
 {
-	if (Application::getInstance()->isInTrial() || m_filePath.empty())
+	if (m_filePath.empty())
 	{
 		return;
 	}

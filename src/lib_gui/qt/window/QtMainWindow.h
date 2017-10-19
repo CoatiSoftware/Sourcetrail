@@ -8,6 +8,7 @@
 #include <QMainWindow>
 
 #include "data/search/SearchMatch.h"
+#include "LicenseChecker.h"
 #include "qt/window/QtWindowStack.h"
 
 class Bookmark;
@@ -71,7 +72,7 @@ public:
 	void loadDockWidgetLayout();
 	void loadWindow(bool showStartWindow);
 
-	void forceEnterLicense(bool expired);
+	void forceEnterLicense(LicenseChecker::LicenseState state);
 
 	void updateHistoryMenu(const std::vector<SearchMatch>& history);
 	void updateBookmarksMenu(const std::vector<std::shared_ptr<Bookmark>>& bookmarks);
@@ -160,8 +161,6 @@ private:
 	void setupBookmarksMenu();
 	void setupHelpMenu();
 
-	void setTrialActionsEnabled(bool enabled);
-
 	DockWidget* getDockWidgetForView(View* view);
 
 	void setShowDockWidgetTitleBars(bool showTitleBars);
@@ -186,8 +185,6 @@ private:
 	QAction* m_showTitleBarsAction;
 
 	bool m_showDockWidgetTitleBars;
-
-	std::vector<QAction*> m_trialDisabledActions;
 
 	QtWindowStack m_windowStack;
 };

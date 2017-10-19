@@ -3,7 +3,6 @@
 #include "data/indexer/IndexerCommandCxxManual.h"
 #include "settings/ApplicationSettings.h"
 #include "utility/utility.h"
-#include "Application.h"
 
 SourceGroupCxxEmpty::SourceGroupCxxEmpty(std::shared_ptr<SourceGroupSettingsCxxEmpty> settings)
 	: m_settings(settings)

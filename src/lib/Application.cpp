@@ -7,6 +7,7 @@
 #include "utility/messaging/filter_types/MessageFilterNewErrors.h"
 #include "utility/messaging/filter_types/MessageFilterSearchAutocomplete.h"
 #include "utility/messaging/MessageQueue.h"
+#include "utility/messaging/type/MessageForceEnterLicense.h"
 #include "utility/messaging/type/MessageQuitApplication.h"
 #include "utility/messaging/type/MessageStatus.h"
 #include "utility/scheduling/TaskScheduler.h"
@@ -112,6 +113,7 @@ void Application::loadStyle(const FilePath& colorSchemePath)
 Application::Application(bool withGUI)
 	: m_hasGUI(withGUI)
 	, m_licenseType(MessageEnteredLicense::LICENSE_NONE)
+	, m_lastLicenseCheck(TimeStamp::now())
 {
 	LicenseChecker::createInstance();
 }
@@ -157,11 +159,6 @@ std::shared_ptr<DialogView> Application::getDialogView()
 	}
 
 	return std::make_shared<DialogView>(nullptr);
-}
-
-bool Application::isInTrial() const
-{
-	return m_licenseType == MessageEnteredLicense::LICENSE_NONE;
 }
 
 void Application::updateHistory(const std::vector<SearchMatch>& history)
@@ -323,9 +320,25 @@ void Application::handleMessage(MessageSwitchColorScheme* message)
 
 void Application::handleMessage(MessageWindowFocus* message)
 {
-	if (message->focusIn && m_project && ApplicationSettings::getInstance()->getAutomaticUpdateCheck())
+	if (!message->focusIn)
+	{
+		return;
+	}
+
+	if (m_project && ApplicationSettings::getInstance()->getAutomaticUpdateCheck())
 	{
 		m_updateChecker->checkUpdate();
+	}
+
+	if (!ApplicationSettings::getInstance()->getNonCommercialUse() && TimeStamp::now().deltaHours(m_lastLicenseCheck) > 1)
+	{
+		m_lastLicenseCheck = TimeStamp::now();
+
+		LicenseChecker::LicenseState state = LicenseChecker::getInstance()->checkCurrentLicense();
+		if (state != LicenseChecker::LICENSE_VALID && state != LicenseChecker::LICENSE_MOVED)
+		{
+			MessageForceEnterLicense(state).dispatch();
+		}
 	}
 }
 
@@ -406,12 +419,10 @@ void Application::updateTitle()
 
 		switch (m_licenseType)
 		{
-			case MessageEnteredLicense::LICENSE_NONE:
-				title += " [trial]";
-				break;
 			case MessageEnteredLicense::LICENSE_TEST:
 				title += " [test]";
 				break;
+			case MessageEnteredLicense::LICENSE_NONE:
 			case MessageEnteredLicense::LICENSE_NON_COMMERCIAL:
 				title += " [non-commercial]";
 				break;

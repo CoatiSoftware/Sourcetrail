@@ -23,7 +23,6 @@
 #include "utility/logging/LoggerUtility.h"
 #include "utility/logging/logging.h"
 #include "utility/logging/LogManager.h"
-#include "utility/messaging/type/MessageEnteredLicense.h"
 #include "utility/messaging/type/MessageInterruptTasks.h"
 #include "utility/messaging/type/MessageLoadProject.h"
 #include "utility/messaging/type/MessageStatus.h"
@@ -247,15 +246,20 @@ int main(int argc, char *argv[])
 			return 0;
 		}
 
-		if (!checker->isCurrentLicenseValid()) // this works because the user cannot enter a license string while running the app in headless more.
+		if (!checker->isCurrentLicenseValid() && !ApplicationSettings::getInstance()->getNonCommercialUse())
 		{
-			std::cout << "No or invalide License" << std::endl;
+			std::string appName = argc > 0 && std::string(argv[0]).size() ? argv[0] : "sourcetrail";
+
+			std::cout << "\nERROR: No valid license option selected.\n\n";
+			std::cout << "For commercial use please run:\n\n";
+			std::cout << "\t" << appName << " config --license-string <Commercial License or Test License string>\n";
+			std::cout << "or\n";
+			std::cout << "\t" << appName << " config --license-file <path/to/Commercial License or Test License file>\n\n\n";
+			std::cout << "For non-commercial use please run:\n\n";
+			std::cout << "\t" << appName << " config --non-commercial-use true\n" << std::endl;
+
 			LOG_WARNING("Your current Sourcetrail license seems to be invalid. Please update your license info.");
 			return 0;
-		}
-		else
-		{
-			MessageEnteredLicense(checker->getCurrentLicenseType()).dispatch();
 		}
 
 		if (commandLineParser.hasError() )

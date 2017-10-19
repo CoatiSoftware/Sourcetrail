@@ -98,7 +98,7 @@ LicenseChecker::LicenseState LicenseChecker::checkCurrentLicense() const
 	return checkLicense(license);
 }
 
-LicenseChecker::LicenseState LicenseChecker::checkLicenseString(const std::string licenseString) const
+LicenseChecker::LicenseState LicenseChecker::checkLicenseString(const std::string& licenseString) const
 {
 	if (licenseString.size() == 0)
 	{
@@ -145,40 +145,39 @@ MessageEnteredLicense::LicenseType LicenseChecker::getCurrentLicenseType() const
 	return MessageEnteredLicense::LICENSE_COMMERCIAL;
 }
 
+MessageEnteredLicense::LicenseType LicenseChecker::getLicenseType(const std::string& licenseString) const
+{
+	if (licenseString.size() == 0)
+	{
+		return MessageEnteredLicense::LICENSE_NONE;
+	}
+
+	License license;
+	bool isLoaded = license.loadFromString(licenseString);
+	if (!isLoaded)
+	{
+		return MessageEnteredLicense::LICENSE_NONE;
+	}
+
+	LicenseState state = checkLicense(license);
+	if (state != LICENSE_VALID)
+	{
+		return MessageEnteredLicense::LICENSE_NONE;
+	}
+	else if (license.isTestLicense())
+	{
+		return MessageEnteredLicense::LICENSE_TEST;
+	}
+	else if (license.isNonCommercialLicenseType())
+	{
+		return MessageEnteredLicense::LICENSE_NON_COMMERCIAL;
+	}
+
+	return MessageEnteredLicense::LICENSE_COMMERCIAL;
+}
+
 LicenseChecker::LicenseChecker()
-	: m_forcedLicenseEntering(false)
 {
-}
-
-void LicenseChecker::handleMessage(MessageDispatchWhenLicenseValid* message)
-{
-	LicenseState state = checkCurrentLicense();
-
-	if (state == LICENSE_VALID)
-	{
-		message->content->dispatch();
-	}
-	else
-	{
-		m_pendingMessage = message->content;
-
-		if (!m_forcedLicenseEntering)
-		{
-			m_forcedLicenseEntering = true;
-			MessageForceEnterLicense(state == LICENSE_EXPIRED).dispatch();
-		}
-	}
-}
-
-void LicenseChecker::handleMessage(MessageEnteredLicense* message)
-{
-	m_forcedLicenseEntering = false;
-
-	if (m_pendingMessage)
-	{
-		m_pendingMessage->dispatch();
-		m_pendingMessage.reset();
-	}
 }
 
 LicenseChecker::LicenseState LicenseChecker::checkLicense(License& license) const

@@ -42,7 +42,7 @@
 	font-weight: bold;
 }
 
-#updateButton {
+#updateButton, #upgradeButton {
 	margin: 1px 0 3px;
 	text-align: left;
 	padding: 0;
@@ -53,7 +53,7 @@
 	text-decoration: underline;
 }
 
-#updateButton:disabled {
+#updateButton:disabled, #upgradeButton:disabled {
 	color: black;
 	text-decoration: none;
 }

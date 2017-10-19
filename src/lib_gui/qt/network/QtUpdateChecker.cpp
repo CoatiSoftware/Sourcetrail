@@ -70,13 +70,11 @@ void QtUpdateChecker::check(bool force, std::function<void(Result)> callback)
 	switch (LicenseChecker::getInstance()->getCurrentLicenseType())
 	{
 		case MessageEnteredLicense::LICENSE_NONE:
-			licenseString = "trial";
+		case MessageEnteredLicense::LICENSE_NON_COMMERCIAL:
+			licenseString = "private";
 			break;
 		case MessageEnteredLicense::LICENSE_TEST:
 			licenseString = "test";
-			break;
-		case MessageEnteredLicense::LICENSE_NON_COMMERCIAL:
-			licenseString = "private";
 			break;
 		case MessageEnteredLicense::LICENSE_COMMERCIAL:
 			licenseString = "commercial";

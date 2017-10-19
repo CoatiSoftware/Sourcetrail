@@ -111,7 +111,7 @@ void CommandConfig::setup()
 		("global-framework-search-paths,F", po::value<std::vector<std::string>>(),
 		 "Global include paths (once per path or comma separated)")
 		("show,s", "displays all settings")
-		;
+		("non-commercial-use", po::value<bool>(), "Enable non-commercial use. <true/false>");
 
 	m_options.add(options);
 }
@@ -142,9 +142,6 @@ void CommandConfig::printSettings(ApplicationSettings* settings)
 	printVector("global-header-search-paths", settings->getHeaderSearchPaths());
 	printVector("global-framework-search-paths", settings->getFrameworkSearchPaths());
 	printVector("jre-system-library-paths", settings->getJreSystemLibraryPaths());
-	License license;
-	license.loadFromEncodedString(settings->getLicenseString(), AppPath::getAppPath());
-	std::cout << "\nValid license: " << license.isValid() << std::endl;
 }
 
 
@@ -204,6 +201,8 @@ ReturnStatus CommandConfig::parse(std::vector<std::string>& args)
 	parseAndSetValue(&ApplicationSettings::setJreSystemLibraryPaths, "jre-system-library-paths", settings, vm);
 	parseAndSetValue(&ApplicationSettings::setHeaderSearchPaths, "global-header-search-paths", settings, vm);
 	parseAndSetValue(&ApplicationSettings::setFrameworkSearchPaths, "global-framework-search-paths", settings, vm);
+
+	parseAndSetValue(&ApplicationSettings::setNonCommercialUse, "non-commercial-use", settings, vm);
 
 	// license
 	if (vm.count("license-string") || vm.count("license-file") )

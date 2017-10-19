@@ -55,8 +55,6 @@ public:
 	int handleDialog(const std::string& message, const std::vector<std::string>& options);
 	std::shared_ptr<DialogView> getDialogView();
 
-	bool isInTrial() const;
-
 	void updateHistory(const std::vector<SearchMatch>& history);
 	void updateBookmarks(const std::vector<std::shared_ptr<Bookmark>>& bookmarks);
 
@@ -93,6 +91,7 @@ private:
 	std::shared_ptr<UpdateChecker> m_updateChecker;
 
 	MessageEnteredLicense::LicenseType m_licenseType;
+	TimeStamp m_lastLicenseCheck;
 };
 
 #endif // APPLICATION_H

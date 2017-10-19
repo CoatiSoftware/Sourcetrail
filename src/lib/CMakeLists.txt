@@ -385,7 +385,6 @@ add_files(
 	utility/messaging/type/MessageCodeReference.h
 	utility/messaging/type/MessageColorSchemeTest.h
 	utility/messaging/type/MessageDeactivateEdge.h
-	utility/messaging/type/MessageDispatchWhenLicenseValid.h
 	utility/messaging/type/MessageDisplayBookmarkCreator.h
 	utility/messaging/type/MessageDisplayBookmarks.h
 	utility/messaging/type/MessageEnteredLicense.h

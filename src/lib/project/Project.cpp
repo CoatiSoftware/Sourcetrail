@@ -22,7 +22,6 @@
 #include "utility/file/FilePath.h"
 #include "utility/file/FileSystem.h"
 #include "utility/messaging/type/MessageClearErrorCount.h"
-#include "utility/messaging/type/MessageDispatchWhenLicenseValid.h"
 #include "utility/messaging/type/MessageFinishedParsing.h"
 #include "utility/messaging/type/MessageRefresh.h"
 #include "utility/messaging/type/MessageStatus.h"
@@ -129,16 +128,6 @@ bool Project::refresh(bool forceRefresh)
 		{
 			return false;
 		}
-	}
-
-	if (Application::getInstance()->isInTrial())
-	{
-		std::vector<std::string> options = { "Ok" };
-		dialogView->confirm("You can't refresh the project in trial mode, please unlock with a license key.", options);
-
-		MessageDispatchWhenLicenseValid(std::make_shared<MessageRefresh>()).dispatch();
-
-		return false;
 	}
 
 	dialogView->showUnknownProgressDialog("Preparing Project", "Processing Files");

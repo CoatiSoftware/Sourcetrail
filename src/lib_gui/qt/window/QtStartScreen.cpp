@@ -145,7 +145,6 @@ void QtStartScreen::setupStartScreen()
 {
 	License license;
 	license.loadFromEncodedString(ApplicationSettings::getInstance()->getLicenseString(), AppPath::getAppPath());
-	bool licenseValid = license.isValid();
 
 	setStyleSheet(utility::getStyleSheet(ResourcePaths::getGuiPath().concat(FilePath("startscreen/startscreen.css"))).c_str());
 	addLogo();
@@ -166,52 +165,10 @@ void QtStartScreen::setupStartScreen()
 		QtUpdateCheckerWidget* checker = new QtUpdateCheckerWidget(this);
 		col->addWidget(checker);
 
-		if (!licenseValid)
+		col->addSpacing(30);
+
+		if (license.isValid())
 		{
-			col->addSpacing(20);
-
-			QLabel* welcomeLabel = new QLabel(
-				"<b>Welcome to the trial version of Sourcetrail!</b><br />"
-				"Explore our preindexed projects to experience Sourcetrail's unique user interface. "
-				"More projects are available for download <a href=\"http://sourcetrail.com/downloads#extra\" style=\"color: #007AC2;\">here</a>.<br /><br />"
-				"If you want to use Sourcetrail on your own source code please "
-				"<a href=\"http://sourcetrail.com/buy-license\" style=\"color: #007AC2;\">purchase a license</a>, "
-				"or get a temporary <a href=\"http://sourcetrail.com/test-license\" style=\"color: #007AC2;\">test license</a>.", this);
-			welcomeLabel->setOpenExternalLinks(true);
-			welcomeLabel->setObjectName("welcomeLabel");
-			welcomeLabel->setWordWrap(true);
-			welcomeLabel->setAlignment(Qt::AlignTop);
-
-			col->addWidget(welcomeLabel, 0, Qt::AlignHCenter | Qt::AlignTop);
-			col->addStrut(260);
-			col->addStretch();
-
-			QPushButton* openProjectButton = new QPushButton("Open Project", this);
-			openProjectButton->setAttribute(Qt::WA_LayoutUsesWidgetRect); // fixes layouting on Mac
-			openProjectButton->setObjectName("projectButton");
-			openProjectButton->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
-			connect(openProjectButton, &QPushButton::clicked, this, &QtStartScreen::handleOpenProjectButton);
-			col->addWidget(openProjectButton);
-
-			col->addSpacing(8);
-
-			QPushButton* unlockButton = new QPushButton("Unlock", this);
-			unlockButton->setAttribute(Qt::WA_LayoutUsesWidgetRect); // fixes layouting on Mac
-			unlockButton->setObjectName("projectButton");
-			unlockButton->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
-			connect(unlockButton, &QPushButton::clicked, this, &QtStartScreen::handleUnlockButton);
-
-			QHBoxLayout* row = new QHBoxLayout();
-			row->addWidget(unlockButton);
-			row->addStretch();
-			col->addLayout(row);
-
-			layout->addStretch(1);
-		}
-		else
-		{
-			col->addSpacing(30);
-
 			std::string licenseString = license.getLicenseInfo();
 
 			QLabel* licenseHeader = new QLabel("Licensed to:");
@@ -221,27 +178,39 @@ void QtStartScreen::setupStartScreen()
 			QLabel* licenseLabel = new QLabel(licenseString.c_str());
 			licenseLabel->setObjectName("licenseLabel");
 			col->addWidget(licenseLabel);
-
-			col->addStretch();
-
-			QPushButton* newProjectButton = new QPushButton("New Project", this);
-			newProjectButton->setAttribute(Qt::WA_LayoutUsesWidgetRect); // fixes layouting on Mac
-			newProjectButton->setObjectName("projectButton");
-			newProjectButton->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
-			connect(newProjectButton, &QPushButton::clicked, this, &QtStartScreen::handleNewProjectButton);
-			col->addWidget(newProjectButton);
-
-			col->addSpacing(8);
-
-			QPushButton* openProjectButton = new QPushButton("Open Project", this);
-			openProjectButton->setAttribute(Qt::WA_LayoutUsesWidgetRect); // fixes layouting on Mac
-			openProjectButton->setObjectName("projectButton");
-			openProjectButton->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
-			connect(openProjectButton, &QPushButton::clicked, this, &QtStartScreen::handleOpenProjectButton);
-			col->addWidget(openProjectButton);
-
-			layout->addStretch(2);
 		}
+		else
+		{
+			QLabel* licenseHeader = new QLabel("Not licensed for<br />commercial use.");
+			licenseHeader->setObjectName("licenseHeaderLabel");
+			col->addWidget(licenseHeader);
+
+			QPushButton* upgradeButton = new QPushButton("upgrade");
+			upgradeButton->setObjectName("upgradeButton");
+			upgradeButton->setCursor(Qt::PointingHandCursor);
+			col->addWidget(upgradeButton);
+			connect(upgradeButton, &QPushButton::clicked, [this](){ emit openEnterLicenseDialog(); });
+		}
+
+		col->addStretch();
+
+		QPushButton* newProjectButton = new QPushButton("New Project", this);
+		newProjectButton->setAttribute(Qt::WA_LayoutUsesWidgetRect); // fixes layouting on Mac
+		newProjectButton->setObjectName("projectButton");
+		newProjectButton->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
+		connect(newProjectButton, &QPushButton::clicked, this, &QtStartScreen::handleNewProjectButton);
+		col->addWidget(newProjectButton);
+
+		col->addSpacing(8);
+
+		QPushButton* openProjectButton = new QPushButton("Open Project", this);
+		openProjectButton->setAttribute(Qt::WA_LayoutUsesWidgetRect); // fixes layouting on Mac
+		openProjectButton->setObjectName("projectButton");
+		openProjectButton->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
+		connect(openProjectButton, &QPushButton::clicked, this, &QtStartScreen::handleOpenProjectButton);
+		col->addWidget(openProjectButton);
+
+		layout->addStretch(2);
 	}
 
 	{
@@ -249,10 +218,6 @@ void QtStartScreen::setupStartScreen()
 		layout->addLayout(col, 1);
 
 		QLabel* recentProjectsLabel = new QLabel("Recent Projects: ", this);
-		if (!licenseValid)
-		{
-			recentProjectsLabel->setText("Projects:");
-		}
 		recentProjectsLabel->setObjectName("recentLabel");
 		col->addWidget(recentProjectsLabel);
 

@@ -159,6 +159,9 @@ public:
 	std::string getLicenseCheck() const;
 	void setLicenseCheck(const std::string& hash);
 
+	bool getNonCommercialUse() const;
+	void setNonCommercialUse(bool nonCommercialUse);
+
 private:
 	ApplicationSettings(const ApplicationSettings&);
 	void operator=(const ApplicationSettings&);

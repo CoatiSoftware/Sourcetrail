@@ -1,15 +1,11 @@
 #ifndef LICENSE_CHECKER_H
 #define LICENSE_CHECKER_H
 
-#include "utility/messaging/MessageListener.h"
-#include "utility/messaging/type/MessageDispatchWhenLicenseValid.h"
 #include "utility/messaging/type/MessageEnteredLicense.h"
 
 class License;
 
 class LicenseChecker
-	: public MessageListener<MessageDispatchWhenLicenseValid>
-	, public MessageListener<MessageEnteredLicense>
 {
 public:
 	enum LicenseState
@@ -32,24 +28,19 @@ public:
 
 	bool isCurrentLicenseValid();
 	LicenseState checkCurrentLicense() const;
-	LicenseState checkLicenseString(const std::string licenseString) const;
+	LicenseState checkLicenseString(const std::string& licenseString) const;
 
 	MessageEnteredLicense::LicenseType getCurrentLicenseType() const;
+	MessageEnteredLicense::LicenseType getLicenseType(const std::string& licenseString) const;
 
 private:
 	LicenseChecker();
 	LicenseChecker(const LicenseChecker&) = delete;
 	void operator=(const LicenseChecker&) = delete;
 
-	void handleMessage(MessageDispatchWhenLicenseValid* message);
-	void handleMessage(MessageEnteredLicense* message);
-
 	LicenseState checkLicense(License& license) const;
 
 	static std::shared_ptr<LicenseChecker> s_instance;
-
-	std::shared_ptr<MessageBase> m_pendingMessage;
-	bool m_forcedLicenseEntering;
 };
 
 #endif // LICENSE_CHECKER_H

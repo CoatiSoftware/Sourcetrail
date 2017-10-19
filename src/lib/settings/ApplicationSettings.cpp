@@ -1,7 +1,10 @@
 #include "settings/ApplicationSettings.h"
 
+#include "License.h"
 #include "settings/migration/SettingsMigrator.h"
+#include "settings/migration/SettingsMigrationLambda.h"
 #include "settings/migration/SettingsMigrationMoveKey.h"
+#include "utility/AppPath.h"
 #include "utility/ResourcePaths.h"
 #include "utility/Status.h"
 #include "utility/TimeStamp.h"
@@ -9,7 +12,7 @@
 #include "utility/UserPaths.h"
 #include "utility/Version.h"
 
-const size_t ApplicationSettings::VERSION = 2;
+const size_t ApplicationSettings::VERSION = 3;
 
 std::shared_ptr<ApplicationSettings> ApplicationSettings::s_instance;
 
@@ -56,6 +59,20 @@ bool ApplicationSettings::load(const FilePath& filePath)
 	migrator.addMigration(2, std::make_shared<SettingsMigrationMoveKey>(
 		"network/coati_port",
 		"network/sourcetrail_port"
+	));
+	migrator.addMigration(3, std::make_shared<SettingsMigrationLambda>(
+		[](const SettingsMigration* migration, Settings* settings)
+		{
+			License license;
+			bool isLoaded = license.loadFromEncodedString(
+				migration->getValueFromSettings<std::string>(settings, "user/license/license", ""), AppPath::getAppPath());
+			if (isLoaded && license.isValid() && license.isNonCommercialLicenseType())
+			{
+				migration->removeValuesInSettings(settings, "user/license/license");
+				migration->removeValuesInSettings(settings, "user/license/check");
+				migration->setValueInSettings(settings, "user/license/non_commercial_use", true);
+			}
+		}
 	));
 
 	bool migrated = migrator.migrate(this, ApplicationSettings::VERSION);
@@ -524,17 +541,27 @@ std::string ApplicationSettings::getLicenseString() const
 	return getValue<std::string>("user/license/license", "");
 }
 
-std::string ApplicationSettings::getLicenseCheck() const
-{
-	return getValue<std::string>("user/license/check", "");
-}
-
 void ApplicationSettings::setLicenseString(const std::string& licenseString)
 {
 	setValue<std::string>("user/license/license", licenseString);
 }
 
+std::string ApplicationSettings::getLicenseCheck() const
+{
+	return getValue<std::string>("user/license/check", "");
+}
+
 void ApplicationSettings::setLicenseCheck(const std::string& hash)
 {
 	setValue<std::string>("user/license/check", hash);
+}
+
+bool ApplicationSettings::getNonCommercialUse() const
+{
+	return getValue<bool>("user/license/non_commercial_use", false);
+}
+
+void ApplicationSettings::setNonCommercialUse(bool nonCommercialUse)
+{
+	setValue<bool>("user/license/non_commercial_use", nonCommercialUse);
 }

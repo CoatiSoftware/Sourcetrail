@@ -1,9 +1,21 @@
+#title {
+	margin-left: 265px;
+}
+
+#licenseOption {
+	font-weight: bold;
+}
+
 #licenseField {
 	font-family: "<setting:font_name>";
 	font-size: 11px;
 	height: 200px;
 	padding: 5px;
 	width: 470px;
+}
+
+#licenseField:disabled {
+	background: #F5F5F5;
 }
 
 #licenseError {
