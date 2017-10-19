@@ -249,6 +249,10 @@ void QtMainWindow::loadWindow(bool showStartWindow)
 {
 	if (m_loaded)
 	{
+		if (!showStartWindow)
+		{
+			hideStartScreen();
+		}
 		return;
 	}
 
