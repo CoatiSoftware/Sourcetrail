@@ -703,7 +703,10 @@ void QtCodeArea::annotateText()
 
 void QtCodeArea::createActions()
 {
-	m_setIDECursorPositionAction = new QAction(tr("Set IDE Cursor"), this);
+	m_setIDECursorPositionAction = new QAction(tr("Show in IDE (Ctrl + Left Click)"), this);
+#if defined(Q_OS_MAC)
+	m_setIDECursorPositionAction->setText(tr("Show in IDE (Cmd + Left Click)"));
+#endif
 	m_setIDECursorPositionAction->setStatusTip(tr("Set the IDE Cursor to this code position"));
 	m_setIDECursorPositionAction->setToolTip(tr("Set the IDE Cursor to this code position"));
 	connect(m_setIDECursorPositionAction, &QAction::triggered, this, &QtCodeArea::setIDECursorPosition);
