@@ -153,10 +153,10 @@ QtProjectWizzardContentPathsSource::QtProjectWizzardContentPathsSource(
 {
 	m_showFilesString = "show files";
 
-	setTitleString("Indexed Paths");
+	setTitleString("Files & Directories to Index");
 	setHelpString(
-		"Indexed Paths define the files and directories that will be indexed by Sourcetrail. Provide a directory to recursively "
-		"add all contained files.<br />"
+		"These paths define the files and directories that will be indexed by Sourcetrail. Provide a directory to recursively "
+		"add all contained source and header files.<br />"
 		"<br />"
 		"If your project's source code resides in one location, but generated source files are kept at a different location, "
 		"you will also need to add that directory.<br />"
@@ -235,15 +235,17 @@ QtProjectWizzardContentPathsCDBHeader::QtProjectWizzardContentPathsCDBHeader(
 {
 	m_showFilesString = "";
 
-	setTitleString("Indexed Header Paths");
+	setTitleString("Header Files & Directories to Index");
 	setHelpString(
-		"Define which header files should be indexed by Sourcetrail. Provide a directory to recursively add all contained files. "
-		"Every time an included header is encountered, Sourcetrail will check if the file is part of the indexed headers to "
-		"decide whether or not to index it.<br />"
+		"Your Compilation Database already specifies which source files are part of your project. But Sourcetrail still needs to know which "
+		"header files to index as part of your project and which to skip. Skipping to index your system headers or external frameworks will "
+		"significantly improve the overall indexing performance.<br />"
 		"<br />"
-		"Just enter the root path of your project if you want Sourcetrail to index all contained headers it encounters.<br />"
+		"Use this list to define which header files should be indexed by Sourcetrail. Provide a directory to recursively add all contained files.<br />"
 		"<br />"
-		"You can make use of environment variables with ${ENV_VAR}."
+		"You can make use of environment variables with ${ENV_VAR}.<br />"
+		"<br />"
+		"<b>Hint</b>: Just enter the root path of your project if you want Sourcetrail to index all contained headers it encounters.<br />"
 	);
 }
 
@@ -347,11 +349,12 @@ QtProjectWizzardContentPathsExclude::QtProjectWizzardContentPathsExclude(
 )
 	: QtProjectWizzardContentPaths(settings, window)
 {
-	setTitleString("Exclude Paths");
+	setTitleString("Excluded Files & Directories");
 	setHelpString(
-		"Exclude Paths define the files and directories that will be left out from indexing.<br />"
+		"These paths define the files and directories that will be left out from indexing.<br />"
 		"<br />"
-		"You can make use of environment variables with ${ENV_VAR}.");
+		"You can make use of environment variables with ${ENV_VAR}."
+	);
 }
 
 void QtProjectWizzardContentPathsExclude::load()
@@ -372,9 +375,9 @@ QtProjectWizzardContentPathsHeaderSearch::QtProjectWizzardContentPathsHeaderSear
 	, m_showValidationResultFunctor(std::bind(&QtProjectWizzardContentPathsHeaderSearch::showValidationResult, this, std::placeholders::_1))
 	, m_isCdb(isCDB)
 {
-	setTitleString(isCDB ? "Additional Include Paths" : "Include Paths");
+	setTitleString(m_isCdb ? "Additional Include Paths" : "Include Paths");
 	setHelpString(
-		((isCDB ? "<b>Note</b>: Use the Additional Include Paths to add paths that are missing in the CDB.<br /><br />" : "") + std::string(
+		((m_isCdb ? "<b>Note</b>: Use the Additional Include Paths to add paths that are missing in the Compilation Database.<br /><br />" : "") + std::string(
 		"Include Paths are used for resolving #include directives in the indexed source and header files. These paths are "
 		"usually passed to the compiler with the '-I' or '-iquote' flags.<br />"
 		"<br />"
@@ -382,7 +385,7 @@ QtProjectWizzardContentPathsHeaderSearch::QtProjectWizzardContentPathsHeaderSear
 		"specified relative to the project's root directory, please add that root directory here.<br />"
 		"<br />"
 		"If your project also includes files from external libraries (e.g. boost), please add these directories as well "
-		"(e.g. add '&lt;boost_home&gt;/include').<br />"
+		"(e.g. add 'path/to/boost_home/include').<br />"
 		"<br />"
 		"You can make use of environment variables with ${ENV_VAR}.")).c_str()
 	);
@@ -529,7 +532,7 @@ QtProjectWizzardContentPathsHeaderSearchGlobal::QtProjectWizzardContentPathsHead
 {
 	setTitleString("Global Include Paths");
 	setHelpString(
-		"The Global Include Paths will be used in all your projects - in addition to the project specific Include Paths. "
+		"The Global Include Paths will be used in all your projects in addition to the project specific Include Paths. "
 		"These paths are usually passed to the compiler with the '-isystem' flag.<br />"
 		"<br />"
 		"Use them to add system header paths (See <a href=\"https://sourcetrail.com/documentation/#FindingSystemHeaderLocations\">"

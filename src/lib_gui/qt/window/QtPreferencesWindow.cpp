@@ -8,7 +8,7 @@
 #include "Application.h"
 #include "qt/window/project_wizzard/QtProjectWizzardContentPaths.h"
 #include "qt/window/project_wizzard/QtProjectWizzardContentPreferences.h"
-#include "qt/window/project_wizzard/QtProjectWizzardContentSummary.h"
+#include "qt/window/project_wizzard/QtProjectWizzardContentGroup.h"
 #include "utility/utilityApp.h"
 
 QtPreferencesWindow::QtPreferencesWindow(QWidget* parent)
@@ -23,7 +23,7 @@ QtPreferencesWindow::QtPreferencesWindow(QWidget* parent)
 	m_appSettings.setPluginPort(appSettings->getPluginPort());
 
 
-	QtProjectWizzardContentSummary* summary = new QtProjectWizzardContentSummary(this);
+	QtProjectWizzardContentGroup* summary = new QtProjectWizzardContentGroup(this);
 	summary->setIsForm(true);
 	summary->addContent(new QtProjectWizzardContentPreferences(this));
 

@@ -25,7 +25,9 @@ QtHelpButton::QtHelpButton(const QString& helpText, QWidget* parent)
 void QtHelpButton::handleHelpPress()
 {
 	QMessageBox msgBox;
-	msgBox.setText("Help");
+	msgBox.setWindowTitle("Sourcetrail");
+	msgBox.setIcon(QMessageBox::Information);
+	msgBox.setText("Sourcetrail Help");
 	msgBox.setInformativeText(m_helpText);
 	msgBox.setStandardButtons(QMessageBox::Ok);
 	msgBox.setDefaultButton(QMessageBox::Ok);

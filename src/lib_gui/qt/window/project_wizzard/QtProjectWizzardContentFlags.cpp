@@ -5,18 +5,19 @@
 #include "qt/element/QtDirectoryListBox.h"
 #include "settings/SourceGroupSettingsCxx.h"
 
-QtProjectWizzardContentFlags::QtProjectWizzardContentFlags(std::shared_ptr<SourceGroupSettings> settings, QtProjectWizzardWindow* window)
+QtProjectWizzardContentFlags::QtProjectWizzardContentFlags(std::shared_ptr<SourceGroupSettings> settings, QtProjectWizzardWindow* window, bool isCDB)
 	: QtProjectWizzardContent(window)
 	, m_settings(settings)
+	, m_isCdb(isCDB)
 {
 }
 
 void QtProjectWizzardContentFlags::populate(QGridLayout* layout, int& row)
 {
-	QLabel* label = createFormLabel("Compiler Flags");
+	QLabel* label = createFormLabel((std::string(m_isCdb ? "Additional " : "") + "Compiler Flags").c_str());
 	layout->addWidget(label, row, QtProjectWizzardWindow::FRONT_COL, Qt::AlignTop);
 
-	addHelpButton("Define compiler flags used during indexing including the dash (e.g. use \"-D RELEASE\" to add a #define for \"RELEASE\").", layout, row);
+	addHelpButton("Define additional Clang compiler flags used during indexing including the dash (e.g. use \"-D RELEASE\" to add a #define for \"RELEASE\").", layout, row);
 
 	m_list = new QtDirectoryListBox(this, label->text(), true);
 	layout->addWidget(m_list, row, QtProjectWizzardWindow::BACK_COL);

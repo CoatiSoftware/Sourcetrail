@@ -1,6 +1,6 @@
-#include "qt/window/project_wizzard/QtProjectWizzardContentSummary.h"
+#include "qt/window/project_wizzard/QtProjectWizzardContentGroup.h"
 
-QtProjectWizzardContentSummary::QtProjectWizzardContentSummary(
+QtProjectWizzardContentGroup::QtProjectWizzardContentGroup(
 	QtProjectWizzardWindow* window
 )
 	: QtProjectWizzardContent(window)
@@ -8,7 +8,7 @@ QtProjectWizzardContentSummary::QtProjectWizzardContentSummary(
 {
 }
 
-void QtProjectWizzardContentSummary::addContent(QtProjectWizzardContent* content)
+void QtProjectWizzardContentGroup::addContent(QtProjectWizzardContent* content)
 {
 	m_contents.push_back(content);
 
@@ -18,17 +18,17 @@ void QtProjectWizzardContentSummary::addContent(QtProjectWizzardContent* content
 	}
 }
 
-void QtProjectWizzardContentSummary::addSpace()
+void QtProjectWizzardContentGroup::addSpace()
 {
 	m_contents.push_back(nullptr);
 }
 
-void QtProjectWizzardContentSummary::setIsForm(bool isForm)
+void QtProjectWizzardContentGroup::setIsForm(bool isForm)
 {
 	m_isForm = isForm;
 }
 
-void QtProjectWizzardContentSummary::populate(QGridLayout* layout, int& row)
+void QtProjectWizzardContentGroup::populate(QGridLayout* layout, int& row)
 {
 	if (m_isForm)
 	{
@@ -54,7 +54,7 @@ void QtProjectWizzardContentSummary::populate(QGridLayout* layout, int& row)
 	layout->setRowStretch(row, 1);
 }
 
-void QtProjectWizzardContentSummary::populateForm(QGridLayout* layout, int& row)
+void QtProjectWizzardContentGroup::populateForm(QGridLayout* layout, int& row)
 {
 	layout->setRowMinimumHeight(row++, 10);
 
@@ -74,7 +74,7 @@ void QtProjectWizzardContentSummary::populateForm(QGridLayout* layout, int& row)
 	layout->setRowStretch(row, 1);
 }
 
-void QtProjectWizzardContentSummary::load()
+void QtProjectWizzardContentGroup::load()
 {
 	for (QtProjectWizzardContent* content : m_contents)
 	{
@@ -85,7 +85,7 @@ void QtProjectWizzardContentSummary::load()
 	}
 }
 
-void QtProjectWizzardContentSummary::save()
+void QtProjectWizzardContentGroup::save()
 {
 	for (QtProjectWizzardContent* content : m_contents)
 	{
@@ -96,7 +96,7 @@ void QtProjectWizzardContentSummary::save()
 	}
 }
 
-bool QtProjectWizzardContentSummary::check()
+bool QtProjectWizzardContentGroup::check()
 {
 	for (QtProjectWizzardContent* content : m_contents)
 	{
@@ -109,7 +109,7 @@ bool QtProjectWizzardContentSummary::check()
 	return true;
 }
 
-bool QtProjectWizzardContentSummary::isScrollAble() const
+bool QtProjectWizzardContentGroup::isScrollAble() const
 {
 	return true;
 }

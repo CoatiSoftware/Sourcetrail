@@ -59,7 +59,7 @@ void utility::CompilationDatabase::init()
 			for (size_t i = 0; i < command.CommandLine.size(); i++)
 			{
 				std::string argument = command.CommandLine[i];
-				if (!utility::isPrefix("-", command.CommandLine[i + 1]))
+				if (i + 1 < command.CommandLine.size() && !utility::isPrefix("-", command.CommandLine[i + 1]))
 				{
 					argument += command.CommandLine[++i];
 				}

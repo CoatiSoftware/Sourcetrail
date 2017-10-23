@@ -17,7 +17,8 @@
 #include "qt/window/project_wizzard/QtProjectWizzardContentProjectData.h"
 #include "qt/window/project_wizzard/QtProjectWizzardContentSelect.h"
 #include "qt/window/project_wizzard/QtProjectWizzardContentSourceGroupData.h"
-#include "qt/window/project_wizzard/QtProjectWizzardContentSummary.h"
+#include "qt/window/project_wizzard/QtProjectWizzardContentSourceGroupInfoText.h"
+#include "qt/window/project_wizzard/QtProjectWizzardContentGroup.h"
 #include "qt/window/project_wizzard/QtProjectWizzardContentVS.h"
 #include "settings/SourceGroupSettingsCxxEmpty.h"
 #include "settings/SourceGroupSettingsCxxCdb.h"
@@ -296,20 +297,20 @@ QtProjectWizzardWindow* QtProjectWizzard::createWindowWithContent(
 	return window;
 }
 
-QtProjectWizzardWindow* QtProjectWizzard::createWindowWithSummary(
-	std::function<void(QtProjectWizzardWindow*, QtProjectWizzardContentSummary*)> func
+QtProjectWizzardWindow* QtProjectWizzard::createWindowWithContentGroup(
+	std::function<void(QtProjectWizzardWindow*, QtProjectWizzardContentGroup*)> func
 ){
 	QtProjectWizzardWindow* window = new QtProjectWizzardWindow(parentWidget());
 
 	connect(window, &QtProjectWizzardWindow::previous, &m_windowStack, &QtWindowStack::popWindow);
 	connect(window, &QtProjectWizzardWindow::canceled, this, &QtProjectWizzard::cancelSourceGroup);
 
-	QtProjectWizzardContentSummary* summary = new QtProjectWizzardContentSummary(window);
+	QtProjectWizzardContentGroup* contentGroup = new QtProjectWizzardContentGroup(window);
 
-	window->setPreferredSize(QSize(750, 500));
-	window->setContent(summary);
+	window->setPreferredSize(QSize(750, 600));
+	window->setContent(contentGroup);
 	window->setScrollAble(window->content()->isScrollAble());
-	func(window, summary);
+	func(window, contentGroup);
 	window->setup();
 
 	m_windowStack.pushWindow(window);
@@ -351,7 +352,16 @@ void QtProjectWizzard::generalButtonClicked()
 		return;
 	}
 
-	setContent(new QtProjectWizzardContentProjectData(m_projectSettings, this, m_editing));
+	QtProjectWizzardContentGroup* contentGroup = new QtProjectWizzardContentGroup(this);
+	contentGroup->addContent(new QtProjectWizzardContentProjectData(m_projectSettings, this, m_editing));
+
+	if (m_allSourceGroupSettings.empty())
+	{
+		contentGroup->addSpace();
+		contentGroup->addContent(new QtProjectWizzardContentSourceGroupInfoText(this));
+	}
+
+	setContent(contentGroup);
 
 	qDeleteAll(m_contentWidget->children());
 	QtProjectWizzardWindow::populateWindow(m_contentWidget);
@@ -382,7 +392,7 @@ void QtProjectWizzard::selectedSourceGroupChanged(int index)
 
 	std::shared_ptr<SourceGroupSettings> group = m_allSourceGroupSettings[index];
 
-	QtProjectWizzardContentSummary* summary = new QtProjectWizzardContentSummary(this);
+	QtProjectWizzardContentGroup* summary = new QtProjectWizzardContentGroup(this);
 	summary->setIsForm(true);
 
 	QtProjectWizzardContentSourceGroupData* content = new QtProjectWizzardContentSourceGroupData(group, this);
@@ -399,25 +409,32 @@ void QtProjectWizzard::selectedSourceGroupChanged(int index)
 		{
 			summary->addContent(new QtProjectWizzardContentPathsSource(group, this));
 			summary->addSpace();
+			summary->addContent(new QtProjectWizzardContentPathsExclude(group, this));
+			summary->addSpace();
+			summary->addContent(new QtProjectWizzardContentExtensions(group, this));
+			summary->addSpace();
 			summary->addContent(new QtProjectWizzardContentPathsClassJava(group, this));
 		}
-		else if (std::shared_ptr<SourceGroupSettingsJavaGradle> settingsJavaGradle = std::dynamic_pointer_cast<SourceGroupSettingsJavaGradle>(group))
+		else
 		{
-			summary->addContent(new QtProjectWizzardContentPathSourceGradle(group, this));
-			summary->addSpace();
-			summary->addContent(new QtProjectWizzardContentPathDependenciesGradle(group, this));
-		}
-		else if (std::shared_ptr<SourceGroupSettingsJavaMaven> settingsJavaMaven = std::dynamic_pointer_cast<SourceGroupSettingsJavaMaven>(group))
-		{
-			summary->addContent(new QtProjectWizzardContentPathSourceMaven(group, this));
-			summary->addSpace();
-			summary->addContent(new QtProjectWizzardContentPathDependenciesMaven(group, this));
-		}
+			if (std::shared_ptr<SourceGroupSettingsJavaGradle> settingsJavaGradle = std::dynamic_pointer_cast<SourceGroupSettingsJavaGradle>(group))
+			{
+				summary->addContent(new QtProjectWizzardContentPathSourceGradle(group, this));
+				summary->addSpace();
+				summary->addContent(new QtProjectWizzardContentPathDependenciesGradle(group, this));
+			}
+			else if (std::shared_ptr<SourceGroupSettingsJavaMaven> settingsJavaMaven = std::dynamic_pointer_cast<SourceGroupSettingsJavaMaven>(group))
+			{
+				summary->addContent(new QtProjectWizzardContentPathSourceMaven(group, this));
+				summary->addSpace();
+				summary->addContent(new QtProjectWizzardContentPathDependenciesMaven(group, this));
+			}
 
-		summary->addSpace();
-		summary->addContent(new QtProjectWizzardContentExtensions(group, this));
-		summary->addSpace();
-		summary->addContent(new QtProjectWizzardContentPathsExclude(group, this));
+			summary->addSpace();
+			summary->addContent(new QtProjectWizzardContentPathsExclude(group, this));
+			summary->addSpace();
+			summary->addContent(new QtProjectWizzardContentExtensions(group, this));
+		}
 	}
 	else if (std::shared_ptr<SourceGroupSettingsCxx> settingsCxx = std::dynamic_pointer_cast<SourceGroupSettingsCxx>(group))
 	{
@@ -430,6 +447,7 @@ void QtProjectWizzard::selectedSourceGroupChanged(int index)
 			summary->addSpace();
 
 			summary->addContent(new QtProjectWizzardContentPathsSource(group, this));
+			summary->addContent(new QtProjectWizzardContentPathsExclude(group, this));
 			summary->addContent(new QtProjectWizzardContentExtensions(group, this));
 			summary->addSpace();
 		}
@@ -442,6 +460,7 @@ void QtProjectWizzard::selectedSourceGroupChanged(int index)
 			summary->addSpace();
 
 			summary->addContent(new QtProjectWizzardContentPathsCDBHeader(group, this));
+			summary->addContent(new QtProjectWizzardContentPathsExclude(group, this));
 			summary->addSpace();
 		}
 
@@ -457,9 +476,7 @@ void QtProjectWizzard::selectedSourceGroupChanged(int index)
 			summary->addSpace();
 		}
 
-		summary->addContent(new QtProjectWizzardContentFlags(group, this));
-		summary->addSpace();
-		summary->addContent(new QtProjectWizzardContentPathsExclude(group, this));
+		summary->addContent(new QtProjectWizzardContentFlags(group, this, isCDB));
 	}
 
 	setContent(summary);
@@ -658,14 +675,14 @@ void QtProjectWizzard::selectedProjectType(SourceGroupType sourceGroupType)
 
 void QtProjectWizzard::emptySourceGroup()
 {
-	QtProjectWizzardWindow* window = createWindowWithSummary(
-		[this](QtProjectWizzardWindow* window, QtProjectWizzardContentSummary* summary)
+	QtProjectWizzardWindow* window = createWindowWithContentGroup(
+		[this](QtProjectWizzardWindow* window, QtProjectWizzardContentGroup* contentGroup)
 		{
-			summary->addContent(new QtProjectWizzardContentLanguageAndStandard(m_newSourceGroupSettings, window));
+		contentGroup->addContent(new QtProjectWizzardContentLanguageAndStandard(m_newSourceGroupSettings, window));
 			if (m_newSourceGroupSettings->getType() == SOURCE_GROUP_C_EMPTY||
 				m_newSourceGroupSettings->getType() == SOURCE_GROUP_CPP_EMPTY)
 			{
-				summary->addContent(new QtProjectWizzardContentCrossCompilationOptions(m_newSourceGroupSettings, window));
+				contentGroup->addContent(new QtProjectWizzardContentCrossCompilationOptions(m_newSourceGroupSettings, window));
 				window->setPreferredSize(QSize(470, 460));
 			}
 			else
@@ -689,47 +706,53 @@ void QtProjectWizzard::emptySourceGroup()
 
 void QtProjectWizzard::emptySourceGroupCDBVS()
 {
-	QtProjectWizzardWindow* window = createWindowWithSummary(
-		[this](QtProjectWizzardWindow* window, QtProjectWizzardContentSummary* summary)
+	QtProjectWizzardWindow* window = createWindowWithContentGroup(
+		[this](QtProjectWizzardWindow* window, QtProjectWizzardContentGroup* contentGroup)
 		{
-			summary->addContent(new QtProjectWizzardContentVS(window));
-			summary->addContent(new QtProjectWizzardContentPathCDB(m_newSourceGroupSettings, window));
-			summary->addSpace();
-			summary->addContent(new QtProjectWizzardContentCDBSource(m_newSourceGroupSettings, window));
-			summary->addSpace();
-			summary->addContent(new QtProjectWizzardContentPathsCDBHeader(m_newSourceGroupSettings, window));
+			contentGroup->addContent(new QtProjectWizzardContentVS(window));
+			contentGroup->addContent(new QtProjectWizzardContentPathCDB(m_newSourceGroupSettings, window));
+			contentGroup->addSpace();
+			contentGroup->addContent(new QtProjectWizzardContentCDBSource(m_newSourceGroupSettings, window));
+			contentGroup->addSpace();
+			contentGroup->addContent(new QtProjectWizzardContentPathsCDBHeader(m_newSourceGroupSettings, window));
+			contentGroup->addSpace();
+			contentGroup->addContent(new QtProjectWizzardContentPathsExclude(m_newSourceGroupSettings, window));
 		}
 	);
 
-	connect(window, &QtProjectWizzardWindow::next, this, &QtProjectWizzard::advancedSettingsCxx);
+	connect(window, &QtProjectWizzardWindow::next, this, &QtProjectWizzard::createSourceGroup);
 	window->updateSubTitle("VS Solution");
 }
 
 void QtProjectWizzard::emptySourceGroupCDB()
 {
-	QtProjectWizzardWindow* window = createWindowWithSummary(
-		[this](QtProjectWizzardWindow* window, QtProjectWizzardContentSummary* summary)
+	QtProjectWizzardWindow* window = createWindowWithContentGroup(
+		[this](QtProjectWizzardWindow* window, QtProjectWizzardContentGroup* contentGroup)
 		{
-			summary->addContent(new QtProjectWizzardContentPathCDB(m_newSourceGroupSettings, window));
-			summary->addSpace();
-			summary->addContent(new QtProjectWizzardContentCDBSource(m_newSourceGroupSettings, window));
-			summary->addSpace();
-			summary->addContent(new QtProjectWizzardContentPathsCDBHeader(m_newSourceGroupSettings, window));
+			contentGroup->addContent(new QtProjectWizzardContentPathCDB(m_newSourceGroupSettings, window));
+			contentGroup->addSpace();
+			contentGroup->addContent(new QtProjectWizzardContentCDBSource(m_newSourceGroupSettings, window));
+			contentGroup->addSpace();
+			contentGroup->addContent(new QtProjectWizzardContentPathsCDBHeader(m_newSourceGroupSettings, window));
+			contentGroup->addSpace();
+			contentGroup->addContent(new QtProjectWizzardContentPathsExclude(m_newSourceGroupSettings, window));
 		}
 	);
 
-	connect(window, &QtProjectWizzardWindow::next, this, &QtProjectWizzard::advancedSettingsCxx);
+	connect(window, &QtProjectWizzardWindow::next, this, &QtProjectWizzard::createSourceGroup);
 	window->updateSubTitle("CDB Path");
 }
 
 void QtProjectWizzard::sourcePaths()
 {
-	QtProjectWizzardWindow* window = createWindowWithSummary(
-		[this](QtProjectWizzardWindow* window, QtProjectWizzardContentSummary* summary)
+	QtProjectWizzardWindow* window = createWindowWithContentGroup(
+		[this](QtProjectWizzardWindow* window, QtProjectWizzardContentGroup* contentGroup)
 		{
-			summary->addContent(new QtProjectWizzardContentPathsSource(m_newSourceGroupSettings, window));
-			summary->addSpace();
-			summary->addContent(new QtProjectWizzardContentExtensions(m_newSourceGroupSettings, window));
+			contentGroup->addContent(new QtProjectWizzardContentPathsSource(m_newSourceGroupSettings, window));
+			contentGroup->addSpace();
+			contentGroup->addContent(new QtProjectWizzardContentPathsExclude(m_newSourceGroupSettings, window));
+			contentGroup->addSpace();
+			contentGroup->addContent(new QtProjectWizzardContentExtensions(m_newSourceGroupSettings, window));
 		}
 	);
 
@@ -739,12 +762,12 @@ void QtProjectWizzard::sourcePaths()
 
 void QtProjectWizzard::headerSearchPaths()
 {
-	QtProjectWizzardWindow* window = createWindowWithSummary(
-		[this](QtProjectWizzardWindow* window, QtProjectWizzardContentSummary* summary)
+	QtProjectWizzardWindow* window = createWindowWithContentGroup(
+		[this](QtProjectWizzardWindow* window, QtProjectWizzardContentGroup* contentGroup)
 		{
-			summary->addContent(new QtProjectWizzardContentPathsHeaderSearch(m_newSourceGroupSettings, window));
-			summary->addSpace();
-			summary->addContent(new QtProjectWizzardContentPathsHeaderSearchGlobal(window));
+			contentGroup->addContent(new QtProjectWizzardContentPathsHeaderSearch(m_newSourceGroupSettings, window));
+			contentGroup->addSpace();
+			contentGroup->addContent(new QtProjectWizzardContentPathsHeaderSearchGlobal(window));
 		}
 	);
 
@@ -766,12 +789,12 @@ void QtProjectWizzard::headerSearchPathsDone()
 
 void QtProjectWizzard::frameworkSearchPaths()
 {
-	QtProjectWizzardWindow* window = createWindowWithSummary(
-		[this](QtProjectWizzardWindow* window, QtProjectWizzardContentSummary* summary)
+	QtProjectWizzardWindow* window = createWindowWithContentGroup(
+		[this](QtProjectWizzardWindow* window, QtProjectWizzardContentGroup* contentGroup)
 		{
-			summary->addContent(new QtProjectWizzardContentPathsFrameworkSearch(m_newSourceGroupSettings, window));
-			summary->addSpace();
-			summary->addContent(new QtProjectWizzardContentPathsFrameworkSearchGlobal(window));
+			contentGroup->addContent(new QtProjectWizzardContentPathsFrameworkSearch(m_newSourceGroupSettings, window));
+			contentGroup->addSpace();
+			contentGroup->addContent(new QtProjectWizzardContentPathsFrameworkSearchGlobal(window));
 		}
 	);
 
@@ -781,17 +804,32 @@ void QtProjectWizzard::frameworkSearchPaths()
 
 void QtProjectWizzard::sourcePathsJava()
 {
-	QtProjectWizzardWindow* window = createWindowWithSummary(
-		[this](QtProjectWizzardWindow* window, QtProjectWizzardContentSummary* summary)
+	QtProjectWizzardWindow* window = createWindowWithContentGroup(
+		[this](QtProjectWizzardWindow* window, QtProjectWizzardContentGroup* contentGroup)
 		{
-			summary->addContent(new QtProjectWizzardContentPathsSource(m_newSourceGroupSettings, window));
-			summary->addSpace();
-			summary->addContent(new QtProjectWizzardContentPathsClassJava(m_newSourceGroupSettings, window));
+			contentGroup->addContent(new QtProjectWizzardContentPathsSource(m_newSourceGroupSettings, window));
+			contentGroup->addSpace();
+			contentGroup->addContent(new QtProjectWizzardContentPathsExclude(m_newSourceGroupSettings, window));
+			contentGroup->addSpace();
+			contentGroup->addContent(new QtProjectWizzardContentExtensions(m_newSourceGroupSettings, window));
 		}
 	);
 
-	connect(window, &QtProjectWizzardWindow::next, this, &QtProjectWizzard::advancedSettingsJava);
+	connect(window, &QtProjectWizzardWindow::next, this, &QtProjectWizzard::dependenciesJava);
 	window->updateSubTitle("Indexed Paths");
+}
+
+void QtProjectWizzard::dependenciesJava()
+{
+	QtProjectWizzardWindow* window = createWindowWithContentGroup(
+		[this](QtProjectWizzardWindow* window, QtProjectWizzardContentGroup* contentGroup)
+		{
+			contentGroup->addContent(new QtProjectWizzardContentPathsClassJava(m_newSourceGroupSettings, window));
+		}
+	);
+
+	connect(window, &QtProjectWizzardWindow::next, this, &QtProjectWizzard::createSourceGroup);
+	window->updateSubTitle("Dependencies");
 }
 
 void QtProjectWizzard::sourcePathsJavaMaven()
@@ -800,12 +838,12 @@ void QtProjectWizzard::sourcePathsJavaMaven()
 		FilePath("./sourcetrail_dependencies/" + utility::replace(m_projectSettings->getProjectName(), " ", "_") + "/" + m_newSourceGroupSettings->getId() + "/maven")
 	);
 
-	QtProjectWizzardWindow* window = createWindowWithSummary(
-		[this](QtProjectWizzardWindow* window, QtProjectWizzardContentSummary* summary)
+	QtProjectWizzardWindow* window = createWindowWithContentGroup(
+		[this](QtProjectWizzardWindow* window, QtProjectWizzardContentGroup* contentGroup)
 		{
-			summary->addContent(new QtProjectWizzardContentPathSourceMaven(m_newSourceGroupSettings, window));
-			summary->addSpace();
-			summary->addContent(new QtProjectWizzardContentPathDependenciesMaven(m_newSourceGroupSettings, window));
+			contentGroup->addContent(new QtProjectWizzardContentPathSourceMaven(m_newSourceGroupSettings, window));
+			contentGroup->addSpace();
+			contentGroup->addContent(new QtProjectWizzardContentPathDependenciesMaven(m_newSourceGroupSettings, window));
 		}
 	);
 
@@ -819,12 +857,12 @@ void QtProjectWizzard::sourcePathsJavaGradle()
 		FilePath("./sourcetrail_dependencies/" + utility::replace(m_projectSettings->getProjectName(), " ", "_") + "/" + m_newSourceGroupSettings->getId() + "/gradle")
 	);
 
-	QtProjectWizzardWindow* window = createWindowWithSummary(
-		[this](QtProjectWizzardWindow* window, QtProjectWizzardContentSummary* summary)
+	QtProjectWizzardWindow* window = createWindowWithContentGroup(
+		[this](QtProjectWizzardWindow* window, QtProjectWizzardContentGroup* contentGroup)
 		{
-			summary->addContent(new QtProjectWizzardContentPathSourceGradle(m_newSourceGroupSettings, window));
-			summary->addSpace();
-			summary->addContent(new QtProjectWizzardContentPathDependenciesGradle(m_newSourceGroupSettings, window));
+			contentGroup->addContent(new QtProjectWizzardContentPathSourceGradle(m_newSourceGroupSettings, window));
+			contentGroup->addSpace();
+			contentGroup->addContent(new QtProjectWizzardContentPathDependenciesGradle(m_newSourceGroupSettings, window));
 		}
 	);
 
@@ -834,12 +872,10 @@ void QtProjectWizzard::sourcePathsJavaGradle()
 
 void QtProjectWizzard::advancedSettingsCxx()
 {
-	QtProjectWizzardWindow* window = createWindowWithSummary(
-		[this](QtProjectWizzardWindow* window, QtProjectWizzardContentSummary* summary)
+	QtProjectWizzardWindow* window = createWindowWithContentGroup(
+		[this](QtProjectWizzardWindow* window, QtProjectWizzardContentGroup* contentGroup)
 		{
-			summary->addContent(new QtProjectWizzardContentFlags(m_newSourceGroupSettings, window));
-			summary->addSpace();
-			summary->addContent(new QtProjectWizzardContentPathsExclude(m_newSourceGroupSettings, window));
+			contentGroup->addContent(new QtProjectWizzardContentFlags(m_newSourceGroupSettings, window));
 		}
 	);
 
@@ -849,13 +885,13 @@ void QtProjectWizzard::advancedSettingsCxx()
 
 void QtProjectWizzard::advancedSettingsJava()
 {
-	QtProjectWizzardWindow* window = createWindowWithSummary(
-		[this](QtProjectWizzardWindow* window, QtProjectWizzardContentSummary* summary)
+	QtProjectWizzardWindow* window = createWindowWithContentGroup(
+		[this](QtProjectWizzardWindow* window, QtProjectWizzardContentGroup* contentGroup)
 		{
-			summary->addContent(new QtProjectWizzardContentExtensions(m_newSourceGroupSettings, window));
-			summary->addSpace();
-			summary->addContent(new QtProjectWizzardContentPathsExclude(m_newSourceGroupSettings, window));
-		}
+			contentGroup->addContent(new QtProjectWizzardContentPathsExclude(m_newSourceGroupSettings, window));
+			contentGroup->addSpace();
+			contentGroup->addContent(new QtProjectWizzardContentExtensions(m_newSourceGroupSettings, window));
+	}
 	);
 
 	connect(window, &QtProjectWizzardWindow::next, this, &QtProjectWizzard::createSourceGroup);

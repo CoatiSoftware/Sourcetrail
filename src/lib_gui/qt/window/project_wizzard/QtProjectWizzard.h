@@ -14,7 +14,7 @@
 class QListWidget;
 class QPushButton;
 class QtProjectWizzardContent;
-class QtProjectWizzardContentSummary;
+class QtProjectWizzardContentGroup;
 class QtProjectWizzardWindow;
 
 class QtProjectWizzard
@@ -47,8 +47,8 @@ private:
 	QtProjectWizzardWindow* createWindowWithContent(
 		std::function<QtProjectWizzardContent*(QtProjectWizzardWindow*)> func);
 
-	QtProjectWizzardWindow* createWindowWithSummary(
-		std::function<void(QtProjectWizzardWindow*, QtProjectWizzardContentSummary*)> func);
+	QtProjectWizzardWindow* createWindowWithContentGroup(
+		std::function<void(QtProjectWizzardWindow*, QtProjectWizzardContentGroup*)> func);
 
 	void updateSourceGroupList();
 	bool canExitContent();
@@ -96,6 +96,7 @@ private slots:
 	void frameworkSearchPaths();
 
 	void sourcePathsJava();
+	void dependenciesJava();
 	void sourcePathsJavaMaven();
 	void sourcePathsJavaGradle();
 

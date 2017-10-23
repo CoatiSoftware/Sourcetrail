@@ -1,17 +1,17 @@
-#ifndef QT_PROJECT_WIZZARD_CONTENT_SUMMARY_H
-#define QT_PROJECT_WIZZARD_CONTENT_SUMMARY_H
+#ifndef QT_PROJECT_WIZZARD_CONTENT_GROUP_H
+#define QT_PROJECT_WIZZARD_CONTENT_GROUP_H
 
 #include "qt/window/project_wizzard/QtProjectWizzardContent.h"
 
 class QCheckBox;
 
-class QtProjectWizzardContentSummary
+class QtProjectWizzardContentGroup
 	: public QtProjectWizzardContent
 {
 	Q_OBJECT
 
 public:
-	QtProjectWizzardContentSummary(QtProjectWizzardWindow* window);
+	QtProjectWizzardContentGroup(QtProjectWizzardWindow* window);
 
 	void addContent(QtProjectWizzardContent* content);
 	void addSpace();
@@ -34,4 +34,4 @@ private:
 	bool m_isForm;
 };
 
-#endif // QT_PROJECT_WIZZARD_CONTENT_SUMMARY_H
+#endif // QT_PROJECT_WIZZARD_CONTENT_GROUP_H

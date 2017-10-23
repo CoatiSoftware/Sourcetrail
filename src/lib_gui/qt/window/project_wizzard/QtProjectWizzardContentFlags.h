@@ -12,7 +12,7 @@ class QtProjectWizzardContentFlags
 	Q_OBJECT
 
 public:
-	QtProjectWizzardContentFlags(std::shared_ptr<SourceGroupSettings> settings, QtProjectWizzardWindow* window);
+	QtProjectWizzardContentFlags(std::shared_ptr<SourceGroupSettings> settings, QtProjectWizzardWindow* window, bool isCDB = false);
 
 	// QtProjectWizzardContent implementation
 	virtual void populate(QGridLayout* layout, int& row) override;
@@ -22,6 +22,7 @@ public:
 
 private:
 	std::shared_ptr<SourceGroupSettings> m_settings;
+	const bool m_isCdb;
 
 	QtDirectoryListBox* m_list;
 };
