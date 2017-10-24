@@ -280,10 +280,10 @@ void CodeController::handleMessage(MessageScrollToLine* message)
 	scrollParams.line = message->line;
 	getView()->scrollTo(scrollParams);
 
+	getView()->showContents();
+
 	MessageStatus(
-		"Showing source location: " + message->filePath.str()
-		+ " : " + std::to_string(message->line) + ". The file was modified, please refresh.",
-		true
+		"Showing source location: " + message->filePath.str() + " : " + std::to_string(message->line)
 	).dispatch();
 }
 

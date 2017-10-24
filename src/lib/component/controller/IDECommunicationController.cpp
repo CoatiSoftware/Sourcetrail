@@ -103,7 +103,7 @@ void IDECommunicationController::handleSetActiveTokenMessage(
 				{
 					const SourceLocation* endLocation = startLocation->getEndLocation();
 
-					if (!startLocation->isScopeLocation()
+					if ((startLocation->getType() == LOCATION_TOKEN || startLocation->getType() == LOCATION_QUALIFIER)
 						&& startLocation->getLineNumber() == endLocation->getLineNumber()
 						&& startLocation->getColumnNumber() <= cursorColumn
 						&& endLocation->getColumnNumber() + 1 >= cursorColumn)
