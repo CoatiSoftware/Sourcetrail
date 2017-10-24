@@ -276,7 +276,7 @@ void QtProjectWizzardContentPathsCDBHeader::load()
 		}
 		m_settings->setSourcePaths(sourcePaths);
 	}
-		
+
 	QtProjectWizzardContentPathsSource::load();
 }
 
@@ -285,7 +285,7 @@ bool QtProjectWizzardContentPathsCDBHeader::check()
 	if (!m_list->getList().size())
 	{
 		QMessageBox msgBox;
-		msgBox.setText("You didn't specify any Indexed Header Paths.");
+		msgBox.setText("You didn't specify any Header Files & Directories to Index.");
 		msgBox.setInformativeText(
 			"Sourcetrail will only index the source files listed in the compilation database file and none of the included "
 			"header files.");
@@ -325,9 +325,9 @@ void QtProjectWizzardContentPathsCDBHeader::buttonClicked()
 
 		connect(m_filesDialog.get(), &QtSelectPathsDialog::finished, this, &QtProjectWizzardContentPathsCDBHeader::savedFilesDialog);
 		connect(m_filesDialog.get(), &QtSelectPathsDialog::canceled, this, &QtProjectWizzardContentPathsCDBHeader::closedFilesDialog);
-		
+
 		dynamic_cast<QtSelectPathsDialog*>(m_filesDialog.get())->setPathsList(
-			getTopLevelHeaderSearchPaths(std::dynamic_pointer_cast<SourceGroupSettingsCxxCdb>(m_settings)), 
+			getTopLevelHeaderSearchPaths(std::dynamic_pointer_cast<SourceGroupSettingsCxxCdb>(m_settings)),
 			m_settings->getSourcePaths()
 		);
 	}

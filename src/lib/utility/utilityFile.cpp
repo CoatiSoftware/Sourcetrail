@@ -13,7 +13,7 @@ std::vector<FilePath> utility::getTopLevelPaths(const std::vector<FilePath>& pat
 				addPath = false;
 				break;
 			}
-			else if(path.contains(topLevelPaths[i]))
+			else if (path.contains(topLevelPaths[i]))
 			{
 				topLevelPaths.erase(topLevelPaths.begin() + i);
 				break;

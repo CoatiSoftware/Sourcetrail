@@ -17,7 +17,6 @@ utility::CompilationDatabase::CompilationDatabase(const FilePath& filePath)
 std::vector<FilePath> utility::CompilationDatabase::getAllHeaderPaths() const
 {
 	std::vector<FilePath> paths = utility::concat(m_headers, m_systemHeaders);
-	paths = utility::concat(paths, m_frameworkHeaders);
 	paths = utility::unique(paths);
 	return paths;
 }
@@ -66,19 +65,19 @@ void utility::CompilationDatabase::init()
 
 				if (utility::isPrefix(frameworkIncludeFlag, argument))
 				{
-					frameworkHeaders.insert(FilePath(utility::trim(argument.substr(frameworkIncludeFlag.size())), command.Directory));
+					frameworkHeaders.insert(FilePath(utility::trim(argument.substr(frameworkIncludeFlag.size())), command.Directory).canonical());
 				}
 				else if (utility::isPrefix(systemIncludeFlag, argument))
 				{
-					systemHeaders.insert(FilePath(utility::trim(argument.substr(systemIncludeFlag.size())), command.Directory));
+					systemHeaders.insert(FilePath(utility::trim(argument.substr(systemIncludeFlag.size())), command.Directory).canonical());
 				}
 				else if (utility::isPrefix(quoteFlag, argument))
 				{
-					headers.insert(FilePath(utility::trim(argument.substr(quoteFlag.size())), command.Directory));
+					headers.insert(FilePath(utility::trim(argument.substr(quoteFlag.size())), command.Directory).canonical());
 				}
 				else if (utility::isPrefix(includeFlag, argument))
 				{
-					headers.insert(FilePath(utility::trim(argument.substr(includeFlag.size())), command.Directory));
+					headers.insert(FilePath(utility::trim(argument.substr(includeFlag.size())), command.Directory).canonical());
 				}
 			}
 		}

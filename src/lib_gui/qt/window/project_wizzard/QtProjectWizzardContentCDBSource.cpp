@@ -15,7 +15,7 @@ QtProjectWizzardContentCDBSource::QtProjectWizzardContentCDBSource(
 
 void QtProjectWizzardContentCDBSource::populate(QGridLayout* layout, int& row)
 {
-	QLabel* title = createFormLabel("Source Files");
+	QLabel* title = createFormLabel("Source Files to Index");
 	layout->addWidget(title, row, QtProjectWizzardWindow::FRONT_COL, Qt::AlignTop);
 	layout->setRowStretch(row, 0);
 
