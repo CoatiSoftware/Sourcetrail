@@ -19,7 +19,7 @@ QtLicenseWindow::QtLicenseWindow(QWidget *parent)
 
 QSize QtLicenseWindow::sizeHint() const
 {
-	return QSize(740, 500);
+	return QSize(740, 550);
 }
 
 void QtLicenseWindow::clear()
