@@ -87,12 +87,14 @@ void IDECommunicationController::handleSetActiveTokenMessage(
 	{
 		const unsigned int cursorColumn = message.column;
 
-		if (FileSystem::getFileInfoForPath(FilePath(message.fileLocation)).lastWriteTime
-			== m_storageAccess->getFileInfoForFilePath(FilePath(message.fileLocation)).lastWriteTime)
+		const FilePath filePath = FilePath(message.fileLocation).canonical();
+
+		if (FileSystem::getFileInfoForPath(filePath).lastWriteTime
+			== m_storageAccess->getFileInfoForFilePath(filePath).lastWriteTime)
 		{
 			// file was not modified
 			std::shared_ptr<SourceLocationFile> sourceLocationFile = m_storageAccess->getSourceLocationsForLinesInFile(
-				FilePath(message.fileLocation), message.row, message.row
+				filePath, message.row, message.row
 			);
 
 			std::vector<Id> selectedLocationIds;
@@ -113,7 +115,7 @@ void IDECommunicationController::handleSetActiveTokenMessage(
 
 			if (selectedLocationIds.size() > 0)
 			{
-				MessageStatus("Activating source location from plug-in succeeded: " + message.fileLocation + ", row: " +
+				MessageStatus("Activating source location from plug-in succeeded: " + filePath.str() + ", row: " +
 					std::to_string(message.row) + ", col: " + std::to_string(message.column)).dispatch();
 
 				MessageActivateSourceLocations(selectedLocationIds).dispatch();
@@ -122,16 +124,16 @@ void IDECommunicationController::handleSetActiveTokenMessage(
 			}
 		}
 
-		Id fileId = m_storageAccess->getNodeIdForFileNode(FilePath(message.fileLocation));
+		Id fileId = m_storageAccess->getNodeIdForFileNode(filePath);
 		if (fileId > 0)
 		{
-			MessageActivateFile(FilePath(message.fileLocation), message.row).dispatchImmediately();
+			MessageActivateFile(filePath, message.row).dispatchImmediately();
 			MessageActivateWindow().dispatch();
 		}
 		else
 		{
 			MessageStatus(
-				"Activating source location from plug-in failed. File " + message.fileLocation
+				"Activating source location from plug-in failed. File " + filePath.str()
 				+ " was not found in the project.",
 				true
 			).dispatch();
