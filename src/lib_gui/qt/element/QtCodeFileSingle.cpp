@@ -85,6 +85,11 @@ void QtCodeFileSingle::clearCache()
 {
 	clearFile();
 
+	for (auto& p : m_fileDatas)
+	{
+		p.second.area->deleteLater();
+	}
+
 	m_fileDatas.clear();
 	m_filePaths.clear();
 }
@@ -113,7 +118,7 @@ void QtCodeFileSingle::addCodeSnippet(const CodeSnippetParams& params)
 		file.title = params.title;
 	}
 
-	file.area = std::make_shared<QtCodeArea>(1, params.code, params.locationFile, m_navigator, !params.reduced, this);
+	file.area = new QtCodeArea(1, params.code, params.locationFile, m_navigator, !params.reduced, this);
 	connect(file.area->verticalScrollBar(), &QScrollBar::valueChanged, m_navigator, &QtCodeNavigator::scrolled);
 
 	m_fileDatas.emplace(file.filePath, file);
@@ -128,7 +133,12 @@ void QtCodeFileSingle::addCodeSnippet(const CodeSnippetParams& params)
 		FilePath toDelete = m_filePaths.front();
 		m_filePaths.pop_front();
 
-		m_fileDatas.erase(m_fileDatas.find(toDelete));
+		auto it = m_fileDatas.find(toDelete);
+		if (it != m_fileDatas.end())
+		{
+			it->second.area->deleteLater();
+			m_fileDatas.erase(it);
+		}
 	}
 }
 
@@ -272,7 +282,7 @@ QtCodeFileSingle::FileData QtCodeFileSingle::getFileData(const FilePath& filePat
 
 void QtCodeFileSingle::setFileData(const FileData& file)
 {
-	if (file.area.get() == m_area)
+	if (file.area == m_area)
 	{
 		if (m_area)
 		{
@@ -293,7 +303,7 @@ void QtCodeFileSingle::setFileData(const FileData& file)
 
 	if (file.area)
 	{
-		m_area = file.area.get();
+		m_area = file.area;
 		m_area->setSizePolicy(m_area->sizePolicy().horizontalPolicy(), QSizePolicy::Expanding);
 		m_areaWrapper->layout()->addWidget(m_area);
 		m_area->updateContent();

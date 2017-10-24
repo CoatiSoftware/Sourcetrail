@@ -39,6 +39,11 @@ QtCodeFileList::~QtCodeFileList()
 
 void QtCodeFileList::clear()
 {
+	for (QtCodeFile* file : m_files)
+	{
+		file->deleteLater();
+	}
+
 	m_files.clear();
 	verticalScrollBar()->setValue(0);
 }
@@ -47,23 +52,21 @@ QtCodeFile* QtCodeFileList::getFile(const FilePath filePath)
 {
 	QtCodeFile* file = nullptr;
 
-	for (const std::shared_ptr<QtCodeFile>& filePtr : m_files)
+	for (QtCodeFile* filePtr : m_files)
 	{
 		if (filePtr->getFilePath() == filePath)
 		{
-			file = filePtr.get();
+			file = filePtr;
 			break;
 		}
 	}
 
 	if (!file)
 	{
-		std::shared_ptr<QtCodeFile> filePtr = std::make_shared<QtCodeFile>(filePath, m_navigator);
-		m_files.push_back(filePtr);
+		file = new QtCodeFile(filePath, m_navigator);
+		m_files.push_back(file);
 
-		file = filePtr.get();
 		m_filesArea->layout()->addWidget(file);
-
 		file->hide();
 	}
 
@@ -177,7 +180,7 @@ bool QtCodeFileList::requestScroll(const FilePath& filePath, uint lineNumber, Id
 
 void QtCodeFileList::updateFiles()
 {
-	for (const std::shared_ptr<QtCodeFile>& file : m_files)
+	for (QtCodeFile* file : m_files)
 	{
 		file->updateContent();
 	}
@@ -185,25 +188,25 @@ void QtCodeFileList::updateFiles()
 
 void QtCodeFileList::showContents()
 {
-	for (const std::shared_ptr<QtCodeFile>& filePtr : m_files)
+	for (QtCodeFile* file : m_files)
 	{
-		filePtr->show();
+		file->show();
 	}
 }
 
 void QtCodeFileList::onWindowFocus()
 {
-	for (const std::shared_ptr<QtCodeFile>& filePtr : m_files)
+	for (QtCodeFile* file : m_files)
 	{
-		filePtr->updateTitleBar();
+		file->updateTitleBar();
 	}
 }
 
 void QtCodeFileList::findScreenMatches(const std::string& query, std::vector<std::pair<QtCodeArea*, Id>>* screenMatches)
 {
-	for (const std::shared_ptr<QtCodeFile>& filePtr : m_files)
+	for (QtCodeFile* file : m_files)
 	{
-		filePtr->findScreenMatches(query, screenMatches);
+		file->findScreenMatches(query, screenMatches);
 	}
 }
 
@@ -226,14 +229,14 @@ std::pair<QtCodeSnippet*, Id> QtCodeFileList::getFirstSnippetWithActiveLocationI
 {
 	std::pair<QtCodeSnippet*, Id> result(nullptr, 0);
 
-	for (const std::shared_ptr<QtCodeFile>& filePtr : m_files)
+	for (QtCodeFile* file : m_files)
 	{
-		if (filePtr->isCollapsed())
+		if (file->isCollapsed())
 		{
 			continue;
 		}
 
-		result = filePtr->getFirstSnippetWithActiveLocationId(tokenId);
+		result = file->getFirstSnippetWithActiveLocationId(tokenId);
 		if (result.first != nullptr)
 		{
 			break;

@@ -74,7 +74,7 @@ private:
 
 	QPushButton* m_title;
 	QPushButton* m_footer;
-	std::shared_ptr<QtCodeArea> m_codeArea;
+	QtCodeArea* m_codeArea;
 };
 
 #endif // QT_CODE_SNIPPET_H

@@ -68,8 +68,7 @@ QtCodeSnippet::QtCodeSnippet(const CodeSnippetParams& params, QtCodeNavigator* n
 	, m_footerString(params.footer)
 	, m_title(nullptr)
 	, m_footer(nullptr)
-	, m_codeArea(std::make_shared<QtCodeArea>(
-		params.startLineNumber, params.code, params.locationFile, navigator, !params.reduced, this))
+	, m_codeArea(nullptr)
 {
 	setObjectName("code_snippet");
 
@@ -93,7 +92,8 @@ QtCodeSnippet::QtCodeSnippet(const CodeSnippetParams& params, QtCodeNavigator* n
 		connect(m_title, &QPushButton::clicked, this, &QtCodeSnippet::clickedTitle);
 	}
 
-	layout->addWidget(m_codeArea.get());
+	m_codeArea = new QtCodeArea(params.startLineNumber, params.code, params.locationFile, navigator, !params.reduced, this);
+	layout->addWidget(m_codeArea);
 
 	if (m_footerString.size())
 	{
@@ -121,7 +121,7 @@ QtCodeFile* QtCodeSnippet::getFile() const
 
 QtCodeArea* QtCodeSnippet::getArea() const
 {
-	return m_codeArea.get();
+	return m_codeArea;
 }
 
 uint QtCodeSnippet::getStartLineNumber() const

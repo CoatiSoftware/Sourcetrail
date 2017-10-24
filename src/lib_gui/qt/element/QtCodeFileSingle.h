@@ -55,10 +55,10 @@ private:
 	{
 		FilePath filePath;
 		TimeStamp modificationTime;
-		bool isComplete;
+		bool isComplete = false;
 		std::string title;
 
-		std::shared_ptr<QtCodeArea> area;
+		QtCodeArea* area = nullptr;
 	};
 
 	FileData getFileData(const FilePath& filePath) const;

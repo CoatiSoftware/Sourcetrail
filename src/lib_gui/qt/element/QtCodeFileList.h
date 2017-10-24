@@ -1,7 +1,6 @@
 #ifndef QT_CODE_FILE_LIST
 #define QT_CODE_FILE_LIST
 
-#include <memory>
 #include <vector>
 
 #include <QFrame>
@@ -55,7 +54,7 @@ private:
 	QtCodeNavigator* m_navigator;
 	QFrame* m_filesArea;
 
-	std::vector<std::shared_ptr<QtCodeFile>> m_files;
+	std::vector<QtCodeFile*> m_files;
 
 	QtScrollSpeedChangeListener m_scrollSpeedChangeListener;
 };

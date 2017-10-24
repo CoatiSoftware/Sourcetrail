@@ -111,7 +111,7 @@ QtCodeArea::~QtCodeArea()
 	if (m_setIDECursorPositionAction != nullptr)
 	{
 		m_setIDECursorPositionAction->disconnect();
-		delete m_setIDECursorPositionAction;
+		m_setIDECursorPositionAction->deleteLater();
 	}
 }
 
