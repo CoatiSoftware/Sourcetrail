@@ -493,17 +493,26 @@ void QtCodeNavigator::defocusTokenIds()
 
 void QtCodeNavigator::setFileMinimized(const FilePath path)
 {
-	m_list->setFileMinimized(path);
+	if (m_mode == MODE_LIST)
+	{
+		m_list->setFileMinimized(path);
+	}
 }
 
 void QtCodeNavigator::setFileSnippets(const FilePath path)
 {
-	m_list->setFileSnippets(path);
+	if (m_mode == MODE_LIST)
+	{
+		m_list->setFileSnippets(path);
+	}
 }
 
 void QtCodeNavigator::setFileMaximized(const FilePath path)
 {
-	m_list->setFileMaximized(path);
+	if (m_mode == MODE_LIST)
+	{
+		m_list->setFileMaximized(path);
+	}
 }
 
 void QtCodeNavigator::updateFiles()
