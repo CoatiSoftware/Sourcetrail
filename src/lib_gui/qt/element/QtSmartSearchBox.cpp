@@ -43,18 +43,26 @@ void QtSmartSearchBox::search()
 		SearchMatch& match = m_matches.front();
 		if (match.searchType == SearchMatch::SEARCH_NONE && match.name.size())
 		{
-			QString text = QString::fromStdString(match.name);
-			if (!text.startsWith(SearchMatch::FULLTEXT_SEARCH_CHARACTER))
+			if (m_oldMatch.name == match.name)
 			{
-				text = QChar(SearchMatch::FULLTEXT_SEARCH_CHARACTER) + text;
+				clearMatches();
+				addMatchAndUpdate(m_oldMatch);
 			}
+			else
+			{
+				QString text = QString::fromStdString(match.name);
+				if (!text.startsWith(SearchMatch::FULLTEXT_SEARCH_CHARACTER))
+				{
+					text = QChar(SearchMatch::FULLTEXT_SEARCH_CHARACTER) + text;
+				}
 
-			clearMatches();
-			updateElements();
+				clearMatches();
+				updateElements();
 
-			setEditText(text);
-			fullTextSearch();
-			return;
+				setEditText(text);
+				fullTextSearch();
+				return;
+			}
 		}
 	}
 
@@ -197,6 +205,10 @@ bool QtSmartSearchBox::event(QEvent *event)
 			}
 			return true;
 		}
+		else if (keyEvent->key() == Qt::Key_Escape)
+		{
+			clearFocus();
+		}
 	}
 
 	return QWidget::event(event);
@@ -226,6 +238,16 @@ void QtSmartSearchBox::focusInEvent(QFocusEvent* event)
 		editTextToElement();
 		selectAllElementsWith(true);
 		layoutElements();
+
+		if (m_elements.size() == 1)
+		{
+			SearchMatch match = editElement(m_elements[0].get());
+			if (match.searchType != SearchMatch::SEARCH_NONE)
+			{
+				m_oldMatch = match;
+			}
+			selectAll();
+		}
 	}
 
 	if (event->reason() == Qt::MouseFocusReason)
@@ -344,12 +366,8 @@ void QtSmartSearchBox::keyPressEvent(QKeyEvent* event)
 			if (m_completer->popup()->isVisible())
 			{
 				addMatchAndUpdate(m_highlightedMatch);
+				return;
 			}
-			else if (!editTextToElement())
-			{
-				moveCursor(1);
-			}
-			return;
 		}
 	}
 	else if (event->matches(QKeySequence::SelectPreviousChar))
@@ -716,7 +734,7 @@ bool QtSmartSearchBox::editTextToElement()
 	return false;
 }
 
-void QtSmartSearchBox::editElement(QtSearchElement* element)
+SearchMatch QtSmartSearchBox::editElement(QtSearchElement* element)
 {
 	for (int i = m_elements.size() - 1; i >= 0; i--)
 	{
@@ -727,13 +745,13 @@ void QtSmartSearchBox::editElement(QtSearchElement* element)
 		}
 	}
 
-	std::string name = m_matches[m_cursorIndex].getFullName();
+	SearchMatch match = m_matches[m_cursorIndex];
 	m_matches.erase(m_matches.begin() + m_cursorIndex);
 
-	setEditText(QString::fromStdString(name));
+	setEditText(QString::fromStdString(match.getFullName()));
 	updateElements();
 
-	requestAutoCompletions();
+	return match;
 }
 
 void QtSmartSearchBox::updateElements()

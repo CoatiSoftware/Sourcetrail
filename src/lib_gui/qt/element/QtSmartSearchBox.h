@@ -79,7 +79,7 @@ private:
 
 	void setEditText(const QString& text);
 	bool editTextToElement();
-	void editElement(QtSearchElement* element);
+	SearchMatch editElement(QtSearchElement* element);
 
 	void updateElements();
 	void layoutElements();
@@ -106,6 +106,8 @@ private:
 	QString m_oldText;
 
 	std::deque<SearchMatch> m_matches;
+	SearchMatch m_oldMatch;
+
 	std::vector<std::shared_ptr<QtSearchElement>> m_elements;
 
 	size_t m_cursorIndex;
