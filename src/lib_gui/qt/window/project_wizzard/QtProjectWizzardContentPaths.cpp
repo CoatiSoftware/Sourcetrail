@@ -238,7 +238,7 @@ QtProjectWizzardContentPathsCDBHeader::QtProjectWizzardContentPathsCDBHeader(
 	setTitleString("Header Files & Directories to Index");
 	setHelpString(
 		"Your Compilation Database already specifies which source files are part of your project. But Sourcetrail still needs to know which "
-		"header files to index as part of your project and which to skip. Skipping to index your system headers or external frameworks will "
+		"header files to index as part of your project and which to skip. Choosing to skip indexing your system headers or external frameworks will "
 		"significantly improve the overall indexing performance.<br />"
 		"<br />"
 		"Use this list to define which header files should be indexed by Sourcetrail. Provide a directory to recursively add all contained files.<br />"

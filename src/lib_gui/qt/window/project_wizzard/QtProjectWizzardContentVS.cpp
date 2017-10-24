@@ -23,7 +23,7 @@ Note: Sourcetrail's Visual Studio plugin has to be installed. Visual Studio has 
 	layout->addWidget(descriptionLabel, row, QtProjectWizzardWindow::BACK_COL);
 	row++;
 
-	QPushButton* button = new QPushButton("Create CDB");
+	QPushButton* button = new QPushButton("Create Compilation Database");
 	button->setObjectName("windowButton");
 	layout->addWidget(button, row, QtProjectWizzardWindow::BACK_COL);
 	row++;

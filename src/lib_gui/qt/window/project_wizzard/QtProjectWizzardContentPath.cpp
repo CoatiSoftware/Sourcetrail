@@ -116,8 +116,9 @@ QtProjectWizzardContentPathCDB::QtProjectWizzardContentPathCDB(
 {
 	setTitleString("Compilation Database (compile_commands.json)");
 	setHelpString(
-		"Sourcetrail will use all include paths and compiler flags from the compilation database and stay up-to-date "
-		"with changes on refresh.<br />"
+		"Select the compilation database file for the project. Sourcetrail will index your project based on the compile "
+		"commands this file contains using all include paths and compiler flags of these compile commands. The project "
+		"will stay up to date with changes in the compilation database on every refresh.<br />"
 		"<br />"
 		"You can make use of environment variables with ${ENV_VAR}."
 	);
