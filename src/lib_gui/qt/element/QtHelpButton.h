@@ -9,12 +9,13 @@ class QtHelpButton
 	Q_OBJECT
 
 public:
-	QtHelpButton(const QString& helpText, QWidget* parent = nullptr);
+	QtHelpButton(const QString& helpTitle, const QString& helpText, QWidget* parent = nullptr);
 
 private slots:
 	void handleHelpPress();
 
 private:
+	QString m_helpTitle;
 	QString m_helpText;
 };
 

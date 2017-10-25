@@ -43,7 +43,7 @@ void QtProjectWizzardContentProjectData::populate(QGridLayout* layout, int& row)
 
 	layout->addWidget(locationLabel, row, QtProjectWizzardWindow::FRONT_COL, Qt::AlignRight);
 	layout->addWidget(m_projectFileLocation, row, QtProjectWizzardWindow::BACK_COL, Qt::AlignTop);
-	addHelpButton("The directory the Sourcetrail project file (.srctrlprj) will be saved to.", layout, row);
+	addHelpButton("Sourcetrail Project Location", "The directory the Sourcetrail project file (.srctrlprj) will be saved to.", layout, row);
 	layout->setRowMinimumHeight(row, 30);
 	row++;
 

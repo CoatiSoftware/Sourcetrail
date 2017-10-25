@@ -37,7 +37,7 @@ void QtProjectWizzardContentPaths::populate(QGridLayout* layout, int& row)
 
 	if (m_helpString.size() > 0)
 	{
-		addHelpButton(m_helpString, layout, row);
+		addHelpButton(m_titleString, m_helpString, layout, row);
 	}
 
 	m_list = new QtDirectoryListBox(this, m_titleString);

@@ -46,9 +46,9 @@ private:
 		QString label, QWidget* widget, QGridLayout* layout, int& row, Qt::Alignment widgetAlignment = Qt::Alignment());
 	void addGap(QGridLayout* layout, int& row);
 
-	QCheckBox* addCheckBox(QString label, QString text, QString help, QGridLayout* layout, int& row);
-	QComboBox* addComboBox(QString label, int min, int max, QString help, QGridLayout* layout, int& row);
-	QLineEdit* addLineEdit(QString label, QString help, QGridLayout* layout, int& row);
+	QCheckBox* addCheckBox(QString label, QString text, QString helpText, QGridLayout* layout, int& row);
+	QComboBox* addComboBox(QString label, int min, int max, QString helpText, QGridLayout* layout, int& row);
+	QLineEdit* addLineEdit(QString label, QString helpText, QGridLayout* layout, int& row);
 
 	QtFontPicker* m_fontFace;
 	QComboBox* m_fontSize;

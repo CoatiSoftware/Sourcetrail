@@ -31,6 +31,7 @@ void QtProjectWizzardContentCrossCompilationOptions::populate(QGridLayout* layou
 
 	layout->addWidget(createFormLabel("Cross-Compilation"), row, QtProjectWizzardWindow::FRONT_COL, Qt::AlignRight);
 	addHelpButton(
+		"Cross-Compilation", 
 		"<p>Use these options to specify the target architecture for the provided source code. Even though Sourcetrail will "
 		"not generate a target binary, providing these options will affect which headers the indexer will be looking for "
 		"while analyzing your source code.</p>"

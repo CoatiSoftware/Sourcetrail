@@ -93,9 +93,9 @@ QToolButton* QtProjectWizzardContent::createSourceGroupButton(QString name, QStr
 	return button;
 }
 
-QtHelpButton* QtProjectWizzardContent::addHelpButton(QString helpString, QGridLayout* layout, int row) const
+QtHelpButton* QtProjectWizzardContent::addHelpButton(const QString& helpTitle, const QString& helpText, QGridLayout* layout, int row) const
 {
-	QtHelpButton* button = new QtHelpButton(helpString);
+	QtHelpButton* button = new QtHelpButton(helpTitle, helpText);
 	layout->addWidget(button, row, QtProjectWizzardWindow::HELP_COL, Qt::AlignTop);
 	return button;
 }

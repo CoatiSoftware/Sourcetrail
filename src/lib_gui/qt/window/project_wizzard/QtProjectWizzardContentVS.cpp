@@ -12,7 +12,8 @@ void QtProjectWizzardContentVS::populate(QGridLayout* layout, int& row)
 	QLabel* nameLabel = createFormLabel("Create Compilation Database");
 	layout->addWidget(nameLabel, row, QtProjectWizzardWindow::FRONT_COL);
 
-	addHelpButton("To create a new Compilation Database from a Visual Studio Solution, this Solution has to be open in Visual Studio.\n\
+	addHelpButton(
+		"Create Compilation Database", "To create a new Compilation Database from a Visual Studio Solution, this Solution has to be open in Visual Studio.\n\
 Sourcetrail will call Visual Studio to open the 'Create Compilation Database' dialog.\
  Please follow the instructions in Visual Studio to complete the process.\n\
 Note: Sourcetrail's Visual Studio plugin has to be installed. Visual Studio has to be running with an eligible Solution, containing C/C++ projects, loaded.", layout, row);

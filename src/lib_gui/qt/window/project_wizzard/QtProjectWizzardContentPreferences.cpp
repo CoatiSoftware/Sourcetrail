@@ -143,8 +143,9 @@ void QtProjectWizzardContentPreferences::populate(QGridLayout* layout, int& row)
 	QWidget* threadsWidget = new QWidget();
 	threadsWidget->setLayout(hlayout);
 
-	addLabelAndWidget("Indexer threads", threadsWidget, layout, row, Qt::AlignLeft);
+	addLabelAndWidget("Indexer Threads", threadsWidget, layout, row, Qt::AlignLeft);
 	addHelpButton(
+		"Indexer Threads", 
 		"<p>Set the number of threads used to work on indexing your project in parallel.</p>"
 		"<p>When setting this value to 0 Sourcetrail tries to use the ideal thread count for your computer.</p>",
 		layout, row
@@ -152,7 +153,7 @@ void QtProjectWizzardContentPreferences::populate(QGridLayout* layout, int& row)
 	row++;
 
 	// multi process indexing
-	m_multiProcessIndexing = addCheckBox("Multi process<br />C/C++ indexing", "Run C/C++ indexer threads in different process",
+	m_multiProcessIndexing = addCheckBox("Multi Process<br />C/C++ Indexing", "Run C/C++ indexer threads in different process",
 		"<p>Enable C/C++ indexer threads to run in different process.</p>"
 		"<p>This prevents the application from crashing due to unforseen exceptions while indexing.</p>",
 		layout, row);
@@ -202,7 +203,8 @@ void QtProjectWizzardContentPreferences::populate(QGridLayout* layout, int& row)
 		}
 		javaVersionString += "Java 8";
 
-		addHelpButton((
+		addHelpButton(
+			"Java Path", (
 			"<p>Only required for indexing Java projects.</p>"
 			"<p>Provide the location of the jvm library inside the installation of your " + javaVersionString +
 			" runtime environment (for information on how to set this take a look at "
@@ -234,6 +236,7 @@ void QtProjectWizzardContentPreferences::populate(QGridLayout* layout, int& row)
 		layout->addWidget(label, row, QtProjectWizzardWindow::FRONT_COL, Qt::AlignTop);
 
 		addHelpButton(
+			"JRE System Library", 
 			"<p>Only required for indexing Java projects.</p>"
 			"<p>Add the jar files of your JRE System Library. These jars can be found inside your JRE install directory.</p>", layout, row);
 
@@ -263,6 +266,7 @@ void QtProjectWizzardContentPreferences::populate(QGridLayout* layout, int& row)
 		addLabelAndWidget("Maven Path", m_mavenPath, layout, row);
 
 		addHelpButton(
+			"Maven Path", 
 			"<p>Only required for indexing projects using Maven.</p>"
 			"<p>Provide the location of your installed Maven executable. You can also use the auto detection below.</p>"
 			, layout, row
@@ -558,14 +562,14 @@ void QtProjectWizzardContentPreferences::addGap(QGridLayout* layout, int& row)
 }
 
 QCheckBox* QtProjectWizzardContentPreferences::addCheckBox(
-	QString label, QString text, QString help, QGridLayout* layout, int& row)
+	QString label, QString text, QString helpText, QGridLayout* layout, int& row)
 {
 	QCheckBox* checkBox = new QCheckBox(text, this);
 	addLabelAndWidget(label, checkBox, layout, row, Qt::AlignLeft);
 
-	if (help.size())
+	if (helpText.size())
 	{
-		addHelpButton(help, layout, row);
+		addHelpButton(label, helpText, layout, row);
 	}
 
 	row++;
@@ -574,7 +578,7 @@ QCheckBox* QtProjectWizzardContentPreferences::addCheckBox(
 }
 
 QComboBox* QtProjectWizzardContentPreferences::addComboBox(
-	QString label, int min, int max, QString help, QGridLayout* layout, int& row)
+	QString label, int min, int max, QString helpText, QGridLayout* layout, int& row)
 {
 	QComboBox* comboBox = new QComboBox(this);
 	addLabelAndWidget(label, comboBox, layout, row, Qt::AlignLeft);
@@ -587,9 +591,9 @@ QComboBox* QtProjectWizzardContentPreferences::addComboBox(
 		}
 	}
 
-	if (help.size())
+	if (helpText.size())
 	{
-		addHelpButton(help, layout, row);
+		addHelpButton(label, helpText, layout, row);
 	}
 
 	row++;
@@ -597,7 +601,7 @@ QComboBox* QtProjectWizzardContentPreferences::addComboBox(
 	return comboBox;
 }
 
-QLineEdit* QtProjectWizzardContentPreferences::addLineEdit(QString label, QString help, QGridLayout* layout, int& row)
+QLineEdit* QtProjectWizzardContentPreferences::addLineEdit(QString label, QString helpText, QGridLayout* layout, int& row)
 {
 	QLineEdit* lineEdit = new QLineEdit(this);
 	lineEdit->setObjectName("name");
@@ -605,9 +609,9 @@ QLineEdit* QtProjectWizzardContentPreferences::addLineEdit(QString label, QStrin
 
 	addLabelAndWidget(label, lineEdit, layout, row);
 
-	if (help.size())
+	if (helpText.size())
 	{
-		addHelpButton(help, layout, row);
+		addHelpButton(label, helpText, layout, row);
 	}
 
 	row++;
