@@ -472,10 +472,10 @@ void QtSmartSearchBox::mouseMoveEvent(QMouseEvent* event)
 
 void QtSmartSearchBox::mousePressEvent(QMouseEvent* event)
 {
-	QLineEdit::mousePressEvent(event);
-
 	if (!m_ignoreNextMousePress)
 	{
+		QLineEdit::mousePressEvent(event);
+
 		m_mousePressed = true;
 		m_mouseX = event->x();
 	}
@@ -609,6 +609,12 @@ void QtSmartSearchBox::onAutocompletionActivated(const SearchMatch& match)
 
 void QtSmartSearchBox::onElementSelected(QtSearchElement* element)
 {
+	if (m_ignoreNextMousePress)
+	{
+		m_ignoreNextMousePress = false;
+		return;
+	}
+
 	if (!hasSelectedElements() && !m_shiftKeyDown)
 	{
 		editElement(element);
@@ -756,6 +762,11 @@ SearchMatch QtSmartSearchBox::editElement(QtSearchElement* element)
 
 void QtSmartSearchBox::updateElements()
 {
+	m_oldElements = m_elements;
+	for (auto e : m_oldElements)
+	{
+		e->hide();
+	}
 	m_elements.clear();
 
 	ColorScheme* scheme = ColorScheme::getInstance().get();

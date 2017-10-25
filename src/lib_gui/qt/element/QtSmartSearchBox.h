@@ -109,6 +109,7 @@ private:
 	SearchMatch m_oldMatch;
 
 	std::vector<std::shared_ptr<QtSearchElement>> m_elements;
+	std::vector<std::shared_ptr<QtSearchElement>> m_oldElements;
 
 	size_t m_cursorIndex;
 
