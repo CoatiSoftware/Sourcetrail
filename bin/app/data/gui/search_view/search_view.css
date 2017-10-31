@@ -13,7 +13,7 @@
 
 QWidget#search_box_container {
 	background: <color:search/field/background>;
-	border: none;
+	border: 2px solid <color:search/field/border>;
 	border-bottom-left-radius: 12px;
 	border-top-left-radius: 12px;
 	margin-left: 5px;

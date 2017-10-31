@@ -15,7 +15,8 @@
 
 		<field>
 			<text>#FFFFFF</text>
-			<background>#808080</background>
+			<background>#494949</background>
+			<border>#808080</border>
 			<highlight>#B1B1B1</highlight>
 		</field>
 

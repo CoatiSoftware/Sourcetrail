@@ -5,9 +5,9 @@
 		<background>#272728</background>
 
 		<button>
-			<normal>#777777</normal>
-			<hover>#555555</hover>
-			<press>#444444</press>
+			<normal>#555555</normal>
+			<hover>#4A4A4A</hover>
+			<press>#404040</press>
 			<disabled>#333333</disabled>
 			<icon>white</icon>
 			<icon_disabled>#777777</icon_disabled>
@@ -15,16 +15,17 @@
 
 		<field>
 			<text>#F7F7F7</text>
-			<background>#777777</background>
-			<highlight>#555555</highlight>
+			<background>#272728</background>
+			<border>#555555</border>
+			<highlight>#999999</highlight>
 		</field>
 
 		<popup>
 			<text>#F7F7F7</text>
 			<by_text>#A0A0A0</by_text>
 			<background>#272728</background>
-			<highlight>#333333</highlight>
-			<line>#444444</line>
+			<highlight>#4A4A4A</highlight>
+			<line>#4A4A4A</line>
 		</popup>
 
 		<query>
@@ -80,13 +81,13 @@
 		</navigation>
 
 		<file>
-			<background>#777777</background>
+			<background>#555555</background>
 
 			<title>
 				<text>#F7F7F7</text>
-				<normal>#777777</normal>
-				<hover>#555555</hover>
-				<press>#444444</press>
+				<normal>#555555</normal>
+				<hover>#4A4A4A</hover>
+				<press>#404040</press>
 				<icon>white</icon>
 				<border>#272728</border>
 				<hatching>dark</hatching>

@@ -16,6 +16,7 @@
 		<field>
 			<text>black</text>
 			<background>#D0D0D0</background>
+			<border>#D0D0D0</border>
 			<highlight>#A2A2A2</highlight>
 		</field>
 
