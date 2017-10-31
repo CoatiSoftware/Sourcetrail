@@ -1,41 +1,53 @@
 allprojects { pp ->
-	task printMainSrcDirs << {
-		if (project.hasProperty("sourceSets")) {
-			project.sourceSets.main.java.srcDirs.each { dir ->
-			   println "${dir}"
-		   }
+	task printMainSrcDirs {
+		doLast {
+			if (project.hasProperty("sourceSets")) {
+				if (project.sourceSets.hasProperty("main")) {
+					project.sourceSets.main.java.srcDirs.each { dir ->
+						println "${dir}"
+					}
+				}
+			}
 		}
 	}
 
-	task printTestSrcDirs << {
-		if (project.hasProperty("sourceSets")) {
-			project.sourceSets.test.java.srcDirs.each { dir ->
-			   println "${dir}"
+	task printTestSrcDirs {
+		doLast {
+			if (project.hasProperty("sourceSets")) {
+				if (project.sourceSets.hasProperty("test")) {
+					project.sourceSets.test.java.srcDirs.each { dir ->
+						println "${dir}"
+					}
+				}
 			}
 		}
 	}
 	
-	task copyCompileLibs << {
-		File rootDir = pp.getRootDir()
-		String destination = project.hasProperty('sourcetrail_lib_path') ? project.property('sourcetrail_lib_path').replace("\"", "") : rootDir.getPath() + rootDir.separator + "lib"
-		println destination;
-		if (pp.configurations.hasProperty("compile")) {
-			copy {
-				into destination
-				from pp.configurations.compile
-				eachFile { println "copying file \"" + it.file.name + "\" to \"" + destination + "\"" }
+	task copyCompileLibs {
+		doLast {
+			File rootDir = pp.getRootDir()
+			String destination = project.hasProperty('sourcetrail_lib_path') ? project.property('sourcetrail_lib_path').replace("\"", "") : rootDir.getPath() + rootDir.separator + "lib"
+			println destination;
+			if (pp.configurations.hasProperty("compile")) {
+				copy {
+					into destination
+					from pp.configurations.compile
+					eachFile { println "copying file \"" + it.file.name + "\" to \"" + destination + "\"" }
+				}
 			}
 		}
 	}
 	
-	task copyTestCompileLibs << {
-		File rootDir = pp.getRootDir()
-		String destination = project.hasProperty('sourcetrail_lib_path') ? project.property('sourcetrail_lib_path') : rootDir.getPath() + rootDir.separator + "lib"
-		if (pp.configurations.hasProperty("testCompile")) {
-			copy {
-				into destination
-				from pp.configurations.testCompile
-				eachFile { println "copying file \"" + it.file.name + "\" to \"" + destination + "\"" }
+	task copyTestCompileLibs {
+		doLast {
+			File rootDir = pp.getRootDir()
+			String destination = project.hasProperty('sourcetrail_lib_path') ? project.property('sourcetrail_lib_path') : rootDir.getPath() + rootDir.separator + "lib"
+			if (pp.configurations.hasProperty("testCompile")) {
+				copy {
+					into destination
+					from pp.configurations.testCompile
+					eachFile { println "copying file \"" + it.file.name + "\" to \"" + destination + "\"" }
+				}
 			}
 		}
 	}

@@ -66,7 +66,7 @@ namespace utility
 				{
 					// TODO: move error handling to caller of this function
 					const std::string dialogMessage =
-						"The following error occurred while executing a Maven command:\n\n" + utility::replace(output, "\r\n", "\n");
+						"The following error occurred while executing a Gradle command:\n\n" + utility::replace(output, "\r\n", "\n");
 					MessageStatus(dialogMessage, true, false).dispatch();
 					Application::getInstance()->handleDialog(dialogMessage);
 
@@ -88,7 +88,7 @@ namespace utility
 				{
 					// TODO: move error handling to caller of this function
 					const std::string dialogMessage =
-						"The following error occurred while executing a Maven command:\n\n" + utility::replace(output, "\r\n", "\n");
+						"The following error occurred while executing a Gradle command:\n\n" + utility::replace(output, "\r\n", "\n");
 					MessageStatus(dialogMessage, true, false).dispatch();
 					Application::getInstance()->handleDialog(dialogMessage);
 
