@@ -6,11 +6,13 @@
 #include <QLabel>
 #include <QLineEdit>
 
-#include "qt/element/QtFontPicker.h"
 #include "qt/element/QtLocationPicker.h"
 #include "qt/element/QtDirectoryListBox.h"
 #include "qt/window/project_wizzard/QtProjectWizzardContent.h"
 #include "utility/path_detector/CombinedPathDetector.h"
+
+class QtFontPicker;
+class QtTextEncodingPicker;
 
 class QtProjectWizzardContentPreferences
 	: public QtProjectWizzardContent
@@ -47,12 +49,14 @@ private:
 	void addGap(QGridLayout* layout, int& row);
 
 	QCheckBox* addCheckBox(QString label, QString text, QString helpText, QGridLayout* layout, int& row);
+	QComboBox* addComboBox(QString label, QString helpText, QGridLayout* layout, int& row);
 	QComboBox* addComboBox(QString label, int min, int max, QString helpText, QGridLayout* layout, int& row);
 	QLineEdit* addLineEdit(QString label, QString helpText, QGridLayout* layout, int& row);
 
 	QtFontPicker* m_fontFace;
 	QComboBox* m_fontSize;
 	QComboBox* m_tabWidth;
+	QtTextEncodingPicker* m_textEncoding;
 
 	QComboBox* m_colorSchemes;
 	std::vector<FilePath> m_colorSchemePaths;

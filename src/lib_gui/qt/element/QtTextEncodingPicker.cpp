@@ -1,9 +1,10 @@
-#include "qt/element/QtFontPicker.h"
+#include "qt/element/QtTextEncodingPicker.h"
 
 #include <QHBoxLayout>
+#include <QTextCodec>
 #include <QFontComboBox>
 
-QtFontPicker::QtFontPicker(QWidget *parent)
+QtTextEncodingPicker::QtTextEncodingPicker(QWidget *parent)
 	: QWidget(parent)
 {
 	setObjectName("picker");
@@ -13,8 +14,11 @@ QtFontPicker::QtFontPicker(QWidget *parent)
 	layout->setContentsMargins(1, 1, 1, 1);
 	layout->setAlignment(Qt::AlignTop);
 
-	m_box = new QFontComboBox();
-	m_box->setFontFilters(QFontComboBox::MonospacedFonts);
+	m_box = new QComboBox();
+	for (int mib : QTextCodec::availableMibs())
+	{
+		m_box->addItem(QTextCodec::codecForMib(mib)->name());
+	}
 	m_box->setEditable(false);
 
 	layout->addWidget(m_box);
@@ -23,12 +27,13 @@ QtFontPicker::QtFontPicker(QWidget *parent)
 	setSizePolicy(sizePolicy().horizontalPolicy(), QSizePolicy::Fixed);
 }
 
-QString QtFontPicker::getText()
+QString QtTextEncodingPicker::getText()
 {
 	return m_box->currentText();
 }
 
-void QtFontPicker::setText(QString text)
+void QtTextEncodingPicker::setText(QString text)
 {
 	m_box->setCurrentText(text);
 }
+

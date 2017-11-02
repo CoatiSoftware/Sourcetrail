@@ -32,6 +32,9 @@ public:
 	int getFontSize() const;
 	void setFontSize(int fontSize);
 
+	std::string getTextEncoding() const;
+	void setTextEncoding(const std::string& textEncoding);
+
 	FilePath getColorSchemePath() const;
 	void setColorSchemePath(const FilePath& colorSchemePath);
 

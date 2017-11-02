@@ -2,6 +2,7 @@
 
 #include <QPainter>
 #include <QTextBlock>
+#include <QTextCodec>
 
 #include "data/location/SourceLocation.h"
 #include "data/location/SourceLocationFile.h"
@@ -47,8 +48,15 @@ QtCodeField::QtCodeField(
 		displayCode.pop_back();
 	}
 
-	setPlainText(QString::fromUtf8(displayCode.c_str()));
+	QTextCodec* codec = QTextCodec::codecForName(ApplicationSettings::getInstance()->getTextEncoding().c_str());
+	QString convertedDisplayCode(codec->toUnicode(displayCode.c_str()));
+	setPlainText(convertedDisplayCode);
 	createLineLengthCache();
+	if (displayCode.size() != convertedDisplayCode.length())
+	{
+		LOG_INFO("Converting displayed code to " + codec->name().toStdString() + " resulted in offset of source locations. Correcting this now.");
+		createMultibyteCharacterLocationCache();
+	}
 
 	this->setMouseTracking(true);
 
@@ -333,9 +341,12 @@ void QtCodeField::createAnnotations(std::shared_ptr<SourceLocationFile> location
 			}
 			else if (startLocation->getLineNumber() <= endLineNumber)
 			{
-				annotation.start = toTextEditPosition(startLocation->getLineNumber(), startLocation->getColumnNumber() - 1);
-				annotation.startLine = startLocation->getLineNumber();
-				annotation.startCol = startLocation->getColumnNumber() - 1;
+				const int startLine = startLocation->getLineNumber();
+				const int startCol = getColumnCorrectedForMultibyteCharacters(startLine, startLocation->getColumnNumber() - 1);
+
+				annotation.start = toTextEditPosition(startLine, startCol);
+				annotation.startLine = startLine;
+				annotation.startCol = startCol;
 			}
 			else
 			{
@@ -351,9 +362,12 @@ void QtCodeField::createAnnotations(std::shared_ptr<SourceLocationFile> location
 			}
 			else if (endLocation->getLineNumber() >= m_startLineNumber)
 			{
-				annotation.end = toTextEditPosition(endLocation->getLineNumber(), endLocation->getColumnNumber());
-				annotation.endLine = endLocation->getLineNumber();
-				annotation.endCol = endLocation->getColumnNumber();
+				const int endLine = endLocation->getLineNumber();
+				const int endCol = getColumnCorrectedForMultibyteCharacters(endLine, endLocation->getColumnNumber());
+
+				annotation.end = toTextEditPosition(endLine, endCol);
+				annotation.endLine = endLine;
+				annotation.endCol = endCol;
 			}
 			else
 			{
@@ -640,4 +654,41 @@ void QtCodeField::createLineLengthCache()
 		m_lineLengths.push_back(it.length());
 		m_endTextEditPosition += it.length();
 	}
+}
+
+void QtCodeField::createMultibyteCharacterLocationCache()
+{
+	m_multibyteCharacterLocations.clear();
+	QTextCodec* codec = QTextCodec::codecForName(ApplicationSettings::getInstance()->getTextEncoding().c_str());
+
+	for (QTextBlock itLine = document()->begin(); itLine != document()->end(); itLine = itLine.next())
+	{
+		std::vector<std::pair<int, int>> columnsToOffsets;
+		const QString line = itLine.text();
+		for (int i = 0; i < line.size(); i++)
+		{
+			if (line[i].unicode() > 127)
+			{
+				int ss = codec->fromUnicode(line[i]).size();
+				columnsToOffsets.push_back(std::make_pair(i, ss));
+			}
+		}
+		m_multibyteCharacterLocations.push_back(columnsToOffsets);
+	}
+}
+
+int QtCodeField::getColumnCorrectedForMultibyteCharacters(const int line, int column) const
+{
+	const int relativeLineNumber = line - m_startLineNumber;
+	if (relativeLineNumber < m_multibyteCharacterLocations.size())
+	{
+		for (const std::pair<int, int> m_multibyteCharacterLocation : m_multibyteCharacterLocations[relativeLineNumber])
+		{
+			if (column > m_multibyteCharacterLocation.first)
+			{
+				column -= m_multibyteCharacterLocation.second - 1;
+			}
+		}
+	}
+	return column;
 }

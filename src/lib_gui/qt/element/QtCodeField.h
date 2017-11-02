@@ -105,6 +105,8 @@ private:
 	static std::vector<AnnotationColor> s_annotationColors;
 
 	void createLineLengthCache();
+	void createMultibyteCharacterLocationCache();
+	int getColumnCorrectedForMultibyteCharacters(const int line, int column) const;
 
 	const uint m_startLineNumber;
 	const std::string m_code;
@@ -114,6 +116,7 @@ private:
 	QtHighlighter* m_highlighter;
 
 	std::vector<int> m_lineLengths;
+	std::vector<std::vector<std::pair<int, int>>> m_multibyteCharacterLocations;
 
 	int m_endTextEditPosition;
 };

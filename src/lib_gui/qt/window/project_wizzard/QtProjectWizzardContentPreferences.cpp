@@ -1,5 +1,7 @@
 #include "qt/window/project_wizzard/QtProjectWizzardContentPreferences.h"
 
+#include "qt/element/QtFontPicker.h"
+#include "qt/element/QtTextEncodingPicker.h"
 #include "qt/utility/utilityQt.h"
 #include "settings/ApplicationSettings.h"
 #include "utility/file/FileSystem.h"
@@ -39,17 +41,25 @@ void QtProjectWizzardContentPreferences::populate(QGridLayout* layout, int& row)
 	m_fontFace->setObjectName("name");
 	m_fontFace->setAttribute(Qt::WA_MacShowFocusRect, 0);
 
-	addLabelAndWidget("Font face", m_fontFace, layout, row);
+	addLabelAndWidget("Font Face", m_fontFace, layout, row);
 	row++;
 
 	// font size
-	m_fontSize = addComboBox("Font size", appSettings->getFontSizeMin(), appSettings->getFontSizeMax(), "", layout, row);
+	m_fontSize = addComboBox("Font Size", appSettings->getFontSizeMin(), appSettings->getFontSizeMax(), "", layout, row);
 
 	// tab width
-	m_tabWidth = addComboBox("Tab width", 1, 16, "", layout, row);
+	m_tabWidth = addComboBox("Tab Width", 1, 16, "", layout, row);
+
+	// text encoding
+	m_textEncoding = new QtTextEncodingPicker(this);
+	m_textEncoding->setObjectName("text encoding");
+	m_textEncoding->setAttribute(Qt::WA_MacShowFocusRect, 0);
+
+	addLabelAndWidget("Text Encoding", m_textEncoding, layout, row);
+	row++;
 
 	// color scheme
-	m_colorSchemes = addComboBox("Color scheme", 0, 0, "", layout, row);
+	m_colorSchemes = addComboBox("Color Scheme", "", layout, row);
 	for (size_t i = 0; i < m_colorSchemePaths.size(); i++)
 	{
 		m_colorSchemes->insertItem(i, m_colorSchemePaths[i].withoutExtension().fileName().c_str());
@@ -292,6 +302,8 @@ void QtProjectWizzardContentPreferences::load()
 	m_fontSize->setCurrentIndex(appSettings->getFontSize() - appSettings->getFontSizeMin());
 	m_tabWidth->setCurrentIndex(appSettings->getCodeTabWidth() - 1);
 
+	m_textEncoding->setText(QString::fromStdString(appSettings->getTextEncoding()));
+
 	FilePath colorSchemePath = appSettings->getColorSchemePath();
 	for (size_t i = 0; i < m_colorSchemePaths.size(); i++)
 	{
@@ -345,6 +357,8 @@ void QtProjectWizzardContentPreferences::save()
 
 	appSettings->setFontSize(m_fontSize->currentIndex() + appSettings->getFontSizeMin());
 	appSettings->setCodeTabWidth(m_tabWidth->currentIndex() + 1);
+
+	appSettings->setTextEncoding(m_textEncoding->getText().toStdString());
 
 	appSettings->setColorSchemePath(m_colorSchemePaths[m_colorSchemes->currentIndex()]);
 	m_oldColorSchemeIndex = -1;
@@ -578,10 +592,25 @@ QCheckBox* QtProjectWizzardContentPreferences::addCheckBox(
 }
 
 QComboBox* QtProjectWizzardContentPreferences::addComboBox(
-	QString label, int min, int max, QString helpText, QGridLayout* layout, int& row)
+	QString label, QString helpText, QGridLayout* layout, int& row)
 {
 	QComboBox* comboBox = new QComboBox(this);
 	addLabelAndWidget(label, comboBox, layout, row, Qt::AlignLeft);
+
+	if (helpText.size())
+	{
+		addHelpButton(label, helpText, layout, row);
+	}
+
+	row++;
+
+	return comboBox;
+}
+
+QComboBox* QtProjectWizzardContentPreferences::addComboBox(
+	QString label, int min, int max, QString helpText, QGridLayout* layout, int& row)
+{
+	QComboBox* comboBox = addComboBox(label, helpText, layout, row);
 
 	if (min != max)
 	{
@@ -590,13 +619,6 @@ QComboBox* QtProjectWizzardContentPreferences::addComboBox(
 			comboBox->insertItem(i, QString::number(i));
 		}
 	}
-
-	if (helpText.size())
-	{
-		addHelpButton(label, helpText, layout, row);
-	}
-
-	row++;
 
 	return comboBox;
 }

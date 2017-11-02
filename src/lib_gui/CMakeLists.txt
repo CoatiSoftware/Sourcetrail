@@ -58,6 +58,8 @@ add_files(
 	qt/element/QtStatusBar.h
 	qt/element/QtTable.cpp
 	qt/element/QtTable.h
+	qt/element/QtTextEncodingPicker.cpp
+	qt/element/QtTextEncodingPicker.h
 	qt/element/QtTooltip.cpp
 	qt/element/QtTooltip.h
 	qt/element/QtUndoRedo.cpp

@@ -117,6 +117,16 @@ void ApplicationSettings::setFontSize(int fontSize)
 	setValue<int>("application/font_size", fontSize);
 }
 
+std::string ApplicationSettings::getTextEncoding() const
+{
+	return getValue<std::string>("application/text_encoding", "UTF-8");
+}
+
+void ApplicationSettings::setTextEncoding(const std::string& textEncoding)
+{
+	setValue<std::string>("application/text_encoding", textEncoding);
+}
+
 bool ApplicationSettings::getUseAnimations() const
 {
 	return getValue<bool>("application/use_animations", true);
