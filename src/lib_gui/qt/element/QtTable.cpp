@@ -37,6 +37,7 @@ QtTable::QtTable(QWidget* parent)
 {
 	setAlternatingRowColors(true);
 	setShowGrid(false);
+	setMouseTracking(true);
 
 	this->setItemDelegate(new SelectableCellDelegate());
 
@@ -132,3 +133,61 @@ void QtTable::resizeEvent(QResizeEvent* event)
 	updateRows();
 }
 
+void QtTable::mousePressEvent(QMouseEvent* event)
+{
+	if (event->button() == Qt::LeftButton)
+	{
+		for (auto i = 1; i < this->model()->columnCount(); i++)
+		{
+			if (std::abs(event->pos().x() - columnViewportPosition(i)) < 5)
+			{
+				m_colIndex = i - 1;
+				m_lastPos = event->pos().x();
+			}
+		}
+	}
+
+	QTableView::mousePressEvent(event);
+}
+
+void QtTable::mouseMoveEvent(QMouseEvent* event)
+{
+	if (m_colIndex >= 0)
+	{
+		int width = columnWidth(m_colIndex) + event->pos().x() - m_lastPos;
+		setColumnWidth(m_colIndex, width < 20 ? 20 : width);
+
+		if (width >= 20)
+		{
+			m_lastPos = event->pos().x();
+		}
+	}
+	else
+	{
+		bool inRange = false;
+		for (auto i = 1; i < this->model()->columnCount(); i++)
+		{
+			if (std::abs(event->pos().x() - columnViewportPosition(i)) < 5)
+			{
+				setCursor(Qt::SplitHCursor);
+				inRange = true;
+				break;
+			}
+		}
+
+		if (!inRange)
+		{
+			unsetCursor();
+		}
+	}
+
+	QTableView::mouseMoveEvent(event);
+}
+
+void QtTable::mouseReleaseEvent(QMouseEvent* event)
+{
+	m_colIndex = -1;
+	m_lastPos = -1;
+
+	QTableView::mouseReleaseEvent(event);
+}

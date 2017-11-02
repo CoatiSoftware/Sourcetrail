@@ -23,10 +23,15 @@ public:
 
 protected:
 	virtual void resizeEvent(QResizeEvent* event);
-
+	virtual void mousePressEvent(QMouseEvent* event);
+	virtual void mouseMoveEvent(QMouseEvent* event);
+	virtual void mouseReleaseEvent(QMouseEvent* event);
 
 private:
 	float m_rowsToFill;
+
+	int m_colIndex = -1;
+	int m_lastPos = -1;
 };
 
 #endif // QT_TABLE_H
