@@ -34,7 +34,7 @@ QtSearchBar::QtSearchBar()
 	layout->addWidget(m_searchBoxContainer);
 
 	QBoxLayout* innerLayout = new QHBoxLayout();
-	innerLayout->setContentsMargins(7, 3, 5, 2);
+	innerLayout->setContentsMargins(12, 3, 5, 2);
 	m_searchBoxContainer->setLayout(innerLayout);
 
 	m_searchBox = new QtSmartSearchBox(m_searchBoxContainer);

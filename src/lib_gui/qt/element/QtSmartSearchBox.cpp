@@ -241,7 +241,7 @@ void QtSmartSearchBox::focusInEvent(QFocusEvent* event)
 
 		if (m_elements.size() == 1)
 		{
-			SearchMatch match = editElement(m_elements[0].get());
+			SearchMatch match = editElement(m_elements[0]);
 			if (match.searchType != SearchMatch::SEARCH_NONE)
 			{
 				m_oldMatch = match;
@@ -367,6 +367,11 @@ void QtSmartSearchBox::keyPressEvent(QKeyEvent* event)
 			{
 				addMatchAndUpdate(m_highlightedMatch);
 				return;
+			}
+			else if (m_cursorIndex < m_elements.size())
+			{
+				editTextToElement();
+				moveCursor(1);
 			}
 		}
 	}
@@ -615,6 +620,12 @@ void QtSmartSearchBox::onElementSelected(QtSearchElement* element)
 		return;
 	}
 
+	if (!hasFocus())
+	{
+		setFocus();
+		return;
+	}
+
 	if (!hasSelectedElements() && !m_shiftKeyDown)
 	{
 		editElement(element);
@@ -625,7 +636,7 @@ void QtSmartSearchBox::onElementSelected(QtSearchElement* element)
 	bool checked = element->isChecked();
 	for (size_t i = 0; i < m_elements.size(); i++)
 	{
-		if (m_elements[i].get() == element)
+		if (m_elements[i] == element)
 		{
 			idx = i;
 			break;
@@ -641,7 +652,7 @@ void QtSmartSearchBox::onElementSelected(QtSearchElement* element)
 
 		editTextToElement();
 
-		element = m_elements[idx].get();
+		element = m_elements[idx];
 		element->setChecked(checked);
 	}
 
@@ -744,7 +755,7 @@ SearchMatch QtSmartSearchBox::editElement(QtSearchElement* element)
 {
 	for (int i = m_elements.size() - 1; i >= 0; i--)
 	{
-		if (m_elements[i].get() == element)
+		if (m_elements[i] == element)
 		{
 			m_cursorIndex = i;
 			break;
@@ -762,10 +773,10 @@ SearchMatch QtSmartSearchBox::editElement(QtSearchElement* element)
 
 void QtSmartSearchBox::updateElements()
 {
-	m_oldElements = m_elements;
-	for (auto e : m_oldElements)
+	for (auto e : m_elements)
 	{
 		e->hide();
+		e->deleteLater();
 	}
 	m_elements.clear();
 
@@ -781,7 +792,7 @@ void QtSmartSearchBox::updateElements()
 			name += ':';
 		}
 
-		std::shared_ptr<QtSearchElement> element = std::make_shared<QtSearchElement>(QString::fromStdString(name), this);
+		QtSearchElement* element = new QtSearchElement(QString::fromStdString(name), this);
 		m_elements.push_back(element);
 
 		std::string color;
@@ -812,7 +823,7 @@ void QtSmartSearchBox::updateElements()
 
 		element->setStyleSheet(css.str().c_str());
 
-		connect(element.get(), &QtSearchElement::wasChecked, this, &QtSmartSearchBox::onElementSelected);
+		connect(element, &QtSearchElement::wasChecked, this, &QtSmartSearchBox::onElementSelected);
 	}
 
 	updatePlaceholder();
@@ -853,7 +864,7 @@ void QtSmartSearchBox::layoutElements()
 
 		if (i < m_elements.size())
 		{
-			QtSearchElement* button = m_elements[i].get();
+			QtSearchElement* button = m_elements[i];
 
 			if (button->isChecked() && !highlightBegin)
 			{
@@ -878,7 +889,7 @@ void QtSmartSearchBox::layoutElements()
 
 	for (size_t i = 0; i < elementX.size(); i++)
 	{
-		QtSearchElement* button = m_elements[i].get();
+		QtSearchElement* button = m_elements[i];
 		QSize size = button->minimumSizeHint();
 		int y = (rect().height() - size.height()) / 2.0;
 		button->setGeometry(elementX[i] + offsetX, y, size.width(), size.height());
@@ -899,7 +910,7 @@ void QtSmartSearchBox::layoutElements()
 
 bool QtSmartSearchBox::hasSelectedElements() const
 {
-	for (const std::shared_ptr<QtSearchElement>& element : m_elements)
+	for (const QtSearchElement* element : m_elements)
 	{
 		if (element->isChecked())
 		{
@@ -924,7 +935,7 @@ std::string QtSmartSearchBox::getSelectedString() const
 
 void QtSmartSearchBox::selectAllElementsWith(bool selected)
 {
-	for (const std::shared_ptr<QtSearchElement>& element : m_elements)
+	for (QtSearchElement* element : m_elements)
 	{
 		element->setChecked(selected);
 	}
