@@ -267,6 +267,7 @@ void QtGraphView::rebuildGraph(
 		if (m_transition && m_transition->currentTime() < m_transition->totalDuration())
 		{
 			m_transition->stop();
+			m_transition.reset();
 			finishedTransition();
 		}
 
@@ -446,6 +447,13 @@ void QtGraphView::activateEdge(Id edgeId, bool centerOrigin)
 	m_onQtThread(
 		[=]()
 		{
+			if (m_transition && m_transition->currentTime() < m_transition->totalDuration())
+			{
+				m_transition->stop();
+				m_transition.reset();
+				finishedTransition();
+			}
+
 			for (std::shared_ptr<QtGraphEdge>& edge : m_oldEdges)
 			{
 				edge->setIsActive(false);
@@ -497,6 +505,16 @@ void QtGraphView::finishedTransition()
 {
 	QGraphicsView* view = getView();
 	view->setInteractive(true);
+
+	for (const std::shared_ptr<QtGraphNode>& node : m_nodes)
+	{
+		node->showNodeRecursive();
+	}
+
+	for (const std::shared_ptr<QtGraphEdge>& edge : m_edges)
+	{
+		edge->setOpacity(1.0f);
+	}
 
 	switchToNewGraphData();
 }

@@ -74,6 +74,8 @@ public:
 	void focusIn();
 	void focusOut();
 
+	void showNodeRecursive();
+
 	void matchNameRecursive(const std::string& query, std::vector<QtGraphNode*>* matchedNodes);
 	void removeNameMatch();
 	void setActiveMatch(bool active);

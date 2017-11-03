@@ -242,6 +242,17 @@ void QtGraphNode::focusOut()
 	updateStyle();
 }
 
+void QtGraphNode::showNodeRecursive()
+{
+	blendIn();
+	showNode();
+
+	for (auto subNode : m_subNodes)
+	{
+		subNode->showNodeRecursive();
+	}
+}
+
 void QtGraphNode::matchNameRecursive(const std::string& query, std::vector<QtGraphNode*>* matchedNodes)
 {
 	matchName(query, matchedNodes);
