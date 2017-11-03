@@ -90,7 +90,7 @@ public:
 private:
 	void processSourceFile(const std::string& projectName, const FilePath& sourceFilePath, const bool updateExpectedOutput)
 	{
-		const FilePath projectDataRoot = FilePath("data/CxxIndexSampleProjectsTestSuite/" + projectName);
+		const FilePath projectDataRoot = FilePath("data/CxxIndexSampleProjectsTestSuite/" + projectName).absolute();
 		const FilePath projectDataSrcRoot = projectDataRoot.concat(FilePath("src"));
 		const FilePath projectDataExpectedOutputRoot = projectDataRoot.concat(FilePath("expected_output"));
 

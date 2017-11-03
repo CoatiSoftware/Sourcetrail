@@ -131,7 +131,7 @@ void PreprocessorCallbacks::MacroExpands(
 
 void PreprocessorCallbacks::onMacroUsage(const clang::Token& macroNameToken)
 {
-	if (!m_currentPath.empty())
+	if (!m_currentPath.empty() && isLocatedInProjectFile(macroNameToken.getLocation()))
 	{
 		const ParseLocation loc = getParseLocation(macroNameToken);
 
@@ -207,4 +207,37 @@ ParseLocation PreprocessorCallbacks::getParseLocation(const clang::SourceRange& 
 		}
 	}
 	return ParseLocation();
+}
+
+bool PreprocessorCallbacks::isLocatedInProjectFile(const clang::SourceLocation loc)
+{
+	clang::SourceLocation spellingLoc = m_sourceManager.getSpellingLoc(loc);
+
+	clang::FileID fileId;
+
+	if (spellingLoc.isValid())
+	{
+		fileId = m_sourceManager.getFileID(spellingLoc);
+	}
+
+	if (!fileId.isInvalid())
+	{
+		auto it = m_inProjectFileMap.find(fileId);
+		if (it != m_inProjectFileMap.end())
+		{
+			return it->second;
+		}
+
+		const clang::FileEntry* fileEntry = m_sourceManager.getFileEntryForID(fileId);
+		if (fileEntry != NULL)
+		{
+			FilePath filePath =
+				m_canonicalFilePathCache->getValue(utility::getFileNameOfFileEntry(fileEntry));
+			bool ret = m_fileRegister->hasFilePath(filePath);
+			m_inProjectFileMap[fileId] = ret;
+			return ret;
+		}
+	}
+
+	return false;
 }

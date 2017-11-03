@@ -53,16 +53,26 @@ public:
 	) override;
 
 private:
+	struct FileIdHash
+	{
+		size_t operator()(clang::FileID fileID) const
+		{
+			return fileID.getHashValue();
+		}
+	};
+
 	void onMacroUsage(const clang::Token& macroNameToken);
 
 	ParseLocation getParseLocation(const clang::Token& macroNameToc) const;
 	ParseLocation getParseLocation(const clang::MacroInfo* macroNameToc) const;
 	ParseLocation getParseLocation(const clang::SourceRange& sourceRange) const;
+	bool isLocatedInProjectFile(const clang::SourceLocation loc);
 
 	const clang::SourceManager& m_sourceManager;
 	std::shared_ptr<ParserClient> m_client;
 	std::shared_ptr<FileRegister> m_fileRegister;
 	std::shared_ptr<FilePathCache> m_canonicalFilePathCache;
+	std::unordered_map<const clang::FileID, bool, FileIdHash> m_inProjectFileMap;
 
 	FilePath m_currentPath;
 };
