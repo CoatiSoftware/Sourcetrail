@@ -939,7 +939,9 @@ std::shared_ptr<Graph> PersistentStorage::getGraphForActiveTokenIds(
 					}
 
 					if ((nodeType & Node::NODE_USEABLE_TYPE) && (edgeType & Edge::EDGE_TYPE_USAGE) &&
-						m_hierarchyCache.isChildOfVisibleNodeOrInvisible(edge.sourceNodeId))
+						m_hierarchyCache.isChildOfVisibleNodeOrInvisible(edge.sourceNodeId) &&
+						(m_hierarchyCache.getLastVisibleParentNodeId(edge.targetNodeId) !=
+							m_hierarchyCache.getLastVisibleParentNodeId(edge.sourceNodeId)))
 					{
 						edgesToAggregate.push_back(edge);
 					}
