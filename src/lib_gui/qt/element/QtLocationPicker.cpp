@@ -98,14 +98,20 @@ void QtLocationPicker::changeEvent(QEvent *event)
 
 void QtLocationPicker::handleButtonPress()
 {
+	FilePath path(m_data->text().toStdString());
+	if (!m_relativeRootDirectory.empty())
+	{
+		path = m_relativeRootDirectory.concat(path);
+	}
+
 	QString fileName;
 	if (m_pickDirectory)
 	{
-		fileName = QtFileDialog::getExistingDirectory(this, tr("Select Directory"), m_data->text());
+		fileName = QtFileDialog::getExistingDirectory(this, tr("Select Directory"), QString::fromStdString(path.str()));
 	}
 	else
 	{
-		fileName = QtFileDialog::getOpenFileName(this, tr("Open File"), m_data->text(), m_fileFilter);
+		fileName = QtFileDialog::getOpenFileName(this, tr("Open File"), QString::fromStdString(path.str()), m_fileFilter);
 	}
 
 	if (!fileName.isEmpty())

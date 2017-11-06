@@ -75,7 +75,14 @@ void QtListItemWidget::setFocus()
 
 void QtListItemWidget::handleButtonPress()
 {
-	QStringList list = QtFileDialog::getFileNamesAndDirectories(this, m_data->text());
+	FilePath path(m_data->text().toStdString());
+	FilePath relativeRoot = m_list->getRelativeRootDirectory();
+	if (!relativeRoot.empty())
+	{
+		path = relativeRoot.concat(path);
+	}
+
+	QStringList list = QtFileDialog::getFileNamesAndDirectories(this, QString::fromStdString(path.str()));
 	for (int i = 0; i < list.size(); i++)
 	{
 		setText(list.at(i));
