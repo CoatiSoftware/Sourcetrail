@@ -47,7 +47,7 @@ bool SourceGroupSettingsJava::equals(std::shared_ptr<SourceGroupSettings> other)
 
 std::vector<std::string> SourceGroupSettingsJava::getAvailableLanguageStandards() const
 {
-	return std::vector<std::string>(1, "8");
+	return std::vector<std::string>{"1", "2", "3", "4", "5", "6", "7", "8"};
 }
 
 bool SourceGroupSettingsJava::getUseJreSystemLibrary() const

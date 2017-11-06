@@ -19,12 +19,12 @@ import org.eclipse.jdt.core.dom.PackageDeclaration;
 
 public class JavaIndexer 
 {	
-	public static void processFile(int address, String filePath, String fileContent, String classPath, int verbose)
+	public static void processFile(int address, String filePath, String fileContent, String languageStandard, String classPath, int verbose)
 	{
-		processFile(new JavaIndexerAstVisitorClient(address), filePath, fileContent, classPath, verbose);
+		processFile(new JavaIndexerAstVisitorClient(address), filePath, fileContent, languageStandard, classPath, verbose);
 	}
 	
-	public static void processFile(AstVisitorClient astVisitorClient, String filePath, String fileContent, String classPath, int verbose)
+	public static void processFile(AstVisitorClient astVisitorClient, String filePath, String fileContent, String languageStandard, String classPath, int verbose)
 	{
 		astVisitorClient.logInfo("indexing source file: " + filePath);
 		
@@ -38,7 +38,40 @@ public class JavaIndexer
         parser.setStatementsRecovery(true);
 		
         Hashtable<String, String> options = JavaCore.getOptions();
-        JavaCore.setComplianceOptions(JavaCore.VERSION_1_8, options);
+        
+        String convertedLanguageStandard;
+        switch (languageStandard)
+        {
+        case "1":
+        	convertedLanguageStandard = JavaCore.VERSION_1_1;
+        	break;
+        case "2":
+        	convertedLanguageStandard = JavaCore.VERSION_1_2;
+        	break;
+        case "3":
+        	convertedLanguageStandard = JavaCore.VERSION_1_3;
+        	break;
+        case "4":
+        	convertedLanguageStandard = JavaCore.VERSION_1_4;
+        	break;
+        case "5":
+        	convertedLanguageStandard = JavaCore.VERSION_1_5;
+        	break;
+        case "6":
+        	convertedLanguageStandard = JavaCore.VERSION_1_6;
+        	break;
+        case "7":
+        	convertedLanguageStandard = JavaCore.VERSION_1_7;
+        	break;
+        case "8":
+    	default:
+        	convertedLanguageStandard = JavaCore.VERSION_1_8;
+        	break;
+        }
+
+		astVisitorClient.logInfo("using language standard " + convertedLanguageStandard);
+        
+        JavaCore.setComplianceOptions(convertedLanguageStandard, options);
         parser.setCompilerOptions(options);
 		
 		parser.setUnitName(path.getFileName().toString());

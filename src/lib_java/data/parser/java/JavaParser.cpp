@@ -82,16 +82,17 @@ void JavaParser::buildIndex(std::shared_ptr<IndexerCommandJava> indexerCommand)
 		classPath += path.str() + ";";
 	}
 
-	buildIndex(indexerCommand->getSourceFilePath(), classPath, TextAccess::createFromFile(indexerCommand->getSourceFilePath()));
+	buildIndex(indexerCommand->getSourceFilePath(), indexerCommand->getLanguageStandard(), classPath, TextAccess::createFromFile(indexerCommand->getSourceFilePath()));
 }
 
 void JavaParser::buildIndex(const FilePath& filePath, std::shared_ptr<TextAccess> textAccess)
 {
-	buildIndex(filePath, "", textAccess);
+	buildIndex(filePath, "8", "", textAccess);
 }
 
 void JavaParser::buildIndex(
 	const FilePath& sourceFilePath,
+	const std::string& languageStandard,
 	const std::string& classPath,
 	std::shared_ptr<TextAccess> textAccess)
 {
@@ -113,6 +114,7 @@ void JavaParser::buildIndex(
 			m_id,
 			m_currentFilePath.str(),
 			fileContent,
+			languageStandard,
 			classPath,
 			verbose
 		);

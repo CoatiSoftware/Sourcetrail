@@ -39,6 +39,7 @@ void SharedIndexerCommand::fromLocal(IndexerCommand* indexerCommand)
 		IndexerCommandJava* cmd = dynamic_cast<IndexerCommandJava*>(indexerCommand);
 
 		setType(JAVA);
+		setLanguageStandard(cmd->getLanguageStandard());
 		setClassPaths(cmd->getClassPath());
 	}
 	else
@@ -85,6 +86,7 @@ std::shared_ptr<IndexerCommand> SharedIndexerCommand::fromShared(const SharedInd
 			indexerCommand.getSourceFilePath(),
 			indexerCommand.getIndexedPaths(),
 			indexerCommand.getExcludedPaths(),
+			indexerCommand.getLanguageStandard(),
 			indexerCommand.getClassPaths()
 		);
 	}

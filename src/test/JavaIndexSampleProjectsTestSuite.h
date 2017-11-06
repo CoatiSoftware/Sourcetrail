@@ -260,7 +260,7 @@ private:
 		std::shared_ptr<DumpParserClient> parserClient = std::make_shared<DumpParserClient>();
 
 		JavaParser parser(parserClient, fileRegister);
-		std::shared_ptr<IndexerCommandJava> command = std::make_shared<IndexerCommandJava>(sourceFilePath, indexedPaths, excludedPaths, classpath);
+		std::shared_ptr<IndexerCommandJava> command = std::make_shared<IndexerCommandJava>(sourceFilePath, indexedPaths, excludedPaths, "8", classpath);
 
 		parser.buildIndex(command);
 

@@ -42,7 +42,10 @@ public:
 
 private:
 	void buildIndex(
-		const FilePath& sourceFilePath, const std::string& classPath, std::shared_ptr<TextAccess> textAccess);
+		const FilePath& sourceFilePath, 
+		const std::string& languageStandard,
+		const std::string& classPath,
+		std::shared_ptr<TextAccess> textAccess);
 
 // This macro makes available a variable T, the passed-in t. blablabla TODO: write somethign real here
 #define MAKE_PARAMS_0()
