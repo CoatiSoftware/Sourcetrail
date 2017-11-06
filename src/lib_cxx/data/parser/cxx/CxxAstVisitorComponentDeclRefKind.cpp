@@ -164,6 +164,11 @@ void CxxAstVisitorComponentDeclRefKind::visitMemberExpr(clang::MemberExpr* s)
 	m_childRefKind = REFERENCE_USAGE;
 }
 
+void CxxAstVisitorComponentDeclRefKind::visitCXXDependentScopeMemberExpr(clang::CXXDependentScopeMemberExpr* s)
+{
+	m_childRefKind = REFERENCE_USAGE;
+}
+
 void CxxAstVisitorComponentDeclRefKind::saveAll()
 {
 	m_oldThisRefKinds.push_back(m_thisRefKind);

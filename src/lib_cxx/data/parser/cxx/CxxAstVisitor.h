@@ -134,6 +134,7 @@ public:
 
 	virtual bool VisitDeclRefExpr(clang::DeclRefExpr* s);
 	virtual bool VisitMemberExpr(clang::MemberExpr* s);
+	virtual bool VisitCXXDependentScopeMemberExpr(clang::CXXDependentScopeMemberExpr* s);
 	virtual bool VisitCXXConstructExpr(clang::CXXConstructExpr* s);
 	virtual bool VisitLambdaExpr(clang::LambdaExpr* s);
 	virtual bool VisitConstructorInitializer(clang::CXXCtorInitializer* init);

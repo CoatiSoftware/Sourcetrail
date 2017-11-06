@@ -63,6 +63,8 @@ public:
 
 	virtual void visitMemberExpr(clang::MemberExpr* s);
 
+	virtual void visitCXXDependentScopeMemberExpr(clang::CXXDependentScopeMemberExpr* s);
+	
 private:
 	void saveAll();
 	void restoreAll();

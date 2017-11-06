@@ -2156,6 +2156,26 @@ public:
 		));
 	}
 
+	void test_cxx_parser_finds_usage_of_member_in_dependent_scope_member_expression()
+	{
+		std::shared_ptr<TestParserClient> client = parseCode(
+			"template <typename T>\n"
+			"class A\n"
+			"{\n"
+			"	T m_t;\n"
+			"\n"
+			"	void foo()\n"
+			"	{\n"
+			"		m_t.run();\n"
+			"	}\n"
+			"};\n"
+		);
+
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->usages, "void A<typename T>::foo() -> A<typename T>::T A<typename T>::m_t <8:3 8:5>"
+		));
+	}
+
 	void test_cxx_parser_finds_return_type_use_in_function()
 	{
 		std::shared_ptr<TestParserClient> client = parseCode(

@@ -113,6 +113,7 @@ DEF_TRAVERSE_TYPE_PTR(CXXTemporaryObjectExpr)
 	virtual void visitInitListExpr(clang::InitListExpr* s) {}
 	virtual void visitDeclRefExpr(clang::DeclRefExpr* s) {}
 	virtual void visitMemberExpr(clang::MemberExpr* s) {}
+	virtual void visitCXXDependentScopeMemberExpr(clang::CXXDependentScopeMemberExpr* s) {}
 	virtual void visitCXXConstructExpr(clang::CXXConstructExpr* s) {}
 	virtual void visitLambdaExpr(clang::LambdaExpr* s) {}
 
