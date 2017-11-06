@@ -688,18 +688,17 @@ ParseLocation CxxAstVisitor::getParseLocation(const clang::SourceRange& sourceRa
 	{
 		const clang::SourceManager& sourceManager = m_astContext->getSourceManager();
 
-		const clang::SourceLocation startLoc = sourceRange.getBegin();
 		const clang::SourceLocation endLoc = m_preprocessor->getLocForEndOfToken(sourceRange.getEnd());
 
-		const clang::PresumedLoc& presumedBegin = sourceManager.getPresumedLoc(startLoc, false);
-		const clang::PresumedLoc& presumedEnd = sourceManager.getPresumedLoc(endLoc, false);
+		const clang::PresumedLoc& presumedBegin = sourceManager.getPresumedLoc(sourceRange.getBegin(), false);
+		const clang::PresumedLoc& presumedEnd = sourceManager.getPresumedLoc(endLoc.isValid() ? endLoc : sourceRange.getEnd(), false);
 
 		parseLocation = ParseLocation(
 			m_canonicalFilePathCache->getValue(presumedBegin.getFilename()),
 			presumedBegin.getLine(),
 			presumedBegin.getColumn(),
 			presumedEnd.getLine(),
-			presumedEnd.getColumn() - 1
+			presumedEnd.getColumn() - (endLoc.isValid() ? 1 : 0)
 		);
 	}
 	return parseLocation;
