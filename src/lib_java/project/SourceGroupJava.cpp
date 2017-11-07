@@ -36,24 +36,8 @@ std::vector<std::shared_ptr<IndexerCommand>> SourceGroupJava::getIndexerCommands
 	const std::string languageStandard = getSourceGroupSettingsJava()->getStandard();
 
 	std::vector<FilePath> classPath = getClassPath();
-
-	std::set<FilePath> indexedPaths;
-	for (const FilePath& p: getSourceGroupSettings()->getSourcePathsExpandedAndAbsolute())
-	{
-		if (p.exists())
-		{
-			indexedPaths.insert(p);
-		}
-	}
-
-	std::set<FilePath> excludedPaths;
-	for (const FilePath& p: getSourceGroupSettings()->getExcludePathsExpandedAndAbsolute())
-	{
-		if (p.exists())
-		{
-			excludedPaths.insert(p);
-		}
-	}
+	std::set<FilePath> indexedPaths = getIndexedPaths();
+	std::set<FilePath> excludedPaths = getExcludedPaths();
 
 	const std::set<FilePath>& sourceFilePathsToIndex = (fullRefresh ? getAllSourceFilePaths() : getSourceFilePathsToIndex());
 

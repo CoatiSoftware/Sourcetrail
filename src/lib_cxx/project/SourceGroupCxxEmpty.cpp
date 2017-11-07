@@ -51,23 +51,8 @@ std::vector<std::shared_ptr<IndexerCommand>> SourceGroupCxxEmpty::getIndexerComm
 
 	utility::append(compilerFlags, m_settings->getCompilerFlags());
 
-	std::set<FilePath> indexedPaths;
-	for (const FilePath& p : m_settings->getSourcePathsExpandedAndAbsolute())
-	{
-		if (p.exists())
-		{
-			indexedPaths.insert(p);
-		}
-	}
-
-	std::set<FilePath> excludedPaths;
-	for (const FilePath& p: m_settings->getExcludePathsExpandedAndAbsolute())
-	{
-		if (p.exists())
-		{
-			excludedPaths.insert(p);
-		}
-	}
+	std::set<FilePath> indexedPaths = getIndexedPaths();
+	std::set<FilePath> excludedPaths = getExcludedPaths();
 
 	const std::set<FilePath>& sourceFilePathsToIndex = (fullRefresh ? getAllSourceFilePaths() : getSourceFilePathsToIndex());
 

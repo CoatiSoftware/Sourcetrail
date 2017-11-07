@@ -109,6 +109,18 @@ public:
 #endif
 	}
 
+	void test_find_symlinked_directories()
+	{
+#ifndef _WIN32
+		std::vector<FilePath> directoryPaths;
+		directoryPaths.push_back(FilePath("./data/FileSystemTestSuite/src"));
+
+		std::set<FilePath> dirs = FileSystem::getSymLinkedDirectories(directoryPaths);
+
+		TS_ASSERT_EQUALS(dirs.size(), 2);
+#endif
+	}
+
 	void test_filesystem_finds_existing_files()
 	{
 		TS_ASSERT(FileSystem::exists(FilePath("data/FileSystemTestSuite")));
@@ -143,6 +155,11 @@ private:
 	bool isInVector(const std::vector<std::string>& files, const std::string filename)
 	{
 		return std::end(files) != std::find(std::begin(files), std::end(files), filename);
+	}
+
+	bool isInFiles(const std::set<FilePath>& files, const FilePath& filename)
+	{
+		return std::end(files) != files.find(filename);
 	}
 
 	bool isInFileInfos(const std::vector<FileInfo>& infos, const std::string filename)

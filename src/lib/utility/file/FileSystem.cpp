@@ -138,6 +138,55 @@ std::vector<FileInfo> FileSystem::getFileInfosFromPaths(
 	return files;
 }
 
+std::set<FilePath> FileSystem::getSymLinkedDirectories(const std::vector<FilePath>& paths)
+{
+	std::set<boost::filesystem::path> symlinkDirs;
+	std::set<boost::filesystem::path> filePaths;
+
+	for (const FilePath& path: paths)
+	{
+		if (path.isDirectory())
+		{
+			boost::filesystem::recursive_directory_iterator it(path.path(), boost::filesystem::symlink_option::recurse);
+			boost::filesystem::recursive_directory_iterator endit;
+			boost::system::error_code ec;
+			for ( ; it != endit ; it.increment(ec) )
+			{
+				if (boost::filesystem::is_symlink(*it))
+				{
+					// check for self-referencing symlinks
+					boost::filesystem::path p = boost::filesystem::read_symlink(*it);
+					if (p.filename() == p.string() && p.filename() == it->path().filename())
+					{
+						continue;
+					}
+
+					// check for duplicates when following directory symlinks
+					if (boost::filesystem::is_directory(*it))
+					{
+						boost::filesystem::path absDir = boost::filesystem::canonical(p, it->path().parent_path());
+
+						if (symlinkDirs.find(absDir) != symlinkDirs.end())
+						{
+							it.no_push();
+							continue;
+						}
+
+						symlinkDirs.insert(absDir);
+					}
+				}
+			}
+		}
+	}
+
+	std::set<FilePath> files;
+	for (auto& p : symlinkDirs)
+	{
+		files.insert(FilePath(p));
+	}
+	return files;
+}
+
 unsigned long long FileSystem::getFileByteSize(const FilePath& filePath)
 {
 	return boost::filesystem::file_size(filePath.path());
