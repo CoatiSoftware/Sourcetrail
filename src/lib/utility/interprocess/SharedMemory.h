@@ -42,6 +42,7 @@ public:
 
 	// Names addressing shared memory objects longer than 29 characters can throw and exception
 	static std::string checkName(const std::string& name);
+	static std::string checkSharedMemory(const std::string& name);
 	static void deleteSharedMemory(const std::string& name);
 
 	SharedMemory(const std::string& name, size_t initialMemorySize, AccessMode mode);

@@ -80,6 +80,8 @@ private:
 
 	void updateTitle();
 
+	bool checkSharedMemory();
+
 	const bool m_hasGUI;
 	std::shared_ptr<Project> m_project;
 	std::shared_ptr<StorageCache> m_storageCache;

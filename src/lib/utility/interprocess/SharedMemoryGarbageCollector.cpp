@@ -17,9 +17,15 @@ std::shared_ptr<SharedMemoryGarbageCollector> SharedMemoryGarbageCollector::s_in
 
 SharedMemoryGarbageCollector* SharedMemoryGarbageCollector::createInstance()
 {
-	if (!s_instance)
+	try
 	{
-		s_instance = std::shared_ptr<SharedMemoryGarbageCollector>(new SharedMemoryGarbageCollector());
+		if (!s_instance)
+		{
+			s_instance = std::shared_ptr<SharedMemoryGarbageCollector>(new SharedMemoryGarbageCollector());
+		}
+	}
+	catch (boost::interprocess::interprocess_exception& e)
+	{
 	}
 
 	return s_instance.get();

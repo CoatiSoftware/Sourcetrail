@@ -38,7 +38,11 @@ void Application::createInstance(
 	Version::setApplicationVersion(version);
 	loadSettings();
 
-	SharedMemoryGarbageCollector::createInstance()->run(Application::getUUID());
+	SharedMemoryGarbageCollector* collector = SharedMemoryGarbageCollector::createInstance();
+	if (collector)
+	{
+		collector->run(Application::getUUID());
+	}
 
 	TaskScheduler::getInstance();
 	MessageQueue::getInstance();
@@ -128,7 +132,11 @@ Application::~Application()
 		m_mainView->saveLayout();
 	}
 
-	SharedMemoryGarbageCollector::getInstance()->stop();
+	SharedMemoryGarbageCollector* collector = SharedMemoryGarbageCollector::createInstance();
+	if (collector)
+	{
+		collector->stop();
+	}
 }
 
 const std::shared_ptr<Project> Application::getCurrentProject()
@@ -214,7 +222,7 @@ void Application::createAndLoadProject(const FilePath& projectSettingsFilePath)
 
 void Application::refreshProject(bool force)
 {
-	if (m_project)
+	if (m_project && checkSharedMemory())
 	{
 		bool indexing = m_project->refresh(force);
 		if (indexing)
@@ -442,4 +450,20 @@ void Application::updateTitle()
 
 		m_mainView->setTitle(title);
 	}
+}
+
+bool Application::checkSharedMemory()
+{
+	std::string error = SharedMemory::checkSharedMemory(getUUID());
+	if (error.size())
+	{
+		MessageStatus("Error on accessing shared memory. Indexing not possible. Please restart computer or run as admin: " + error, true).dispatch();
+		handleDialog(
+			"There was an error accessing shared memory on your computer: " + error + "\n\n"
+			"Project indexing is not possible. Please restart your computer or try running Sourcetrail as admin. If the "
+			"issue persists contact mail@sourcetrail.com");
+		return false;
+	}
+
+	return true;
 }

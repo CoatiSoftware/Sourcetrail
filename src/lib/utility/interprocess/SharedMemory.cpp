@@ -57,6 +57,23 @@ std::string SharedMemory::checkName(const std::string& name)
 	return name.size() > 18 ? name.substr(0, 18) : name;
 }
 
+std::string SharedMemory::checkSharedMemory(const std::string& name)
+{
+	std::string error;
+
+	try
+	{
+		SharedMemory memory("test_" + name, 65536 /* 64 kB */, CREATE_AND_DELETE);
+	}
+	catch (boost::interprocess::interprocess_exception& e)
+	{
+		LOG_ERROR_STREAM(<< "boost exception thrown at shared memory check: " << e.what());
+		error = e.what();
+	}
+
+	return error;
+}
+
 void SharedMemory::deleteSharedMemory(const std::string& name)
 {
 	boost::interprocess::shared_memory_object::remove((s_memoryNamePrefix + name).c_str());
@@ -116,11 +133,10 @@ SharedMemory::SharedMemory(const std::string& name, size_t initialMemorySize, Ac
 			boost::interprocess::named_mutex mutex(boost::interprocess::open_only, getMutexName().c_str());
 			boost::interprocess::scoped_lock<boost::interprocess::named_mutex> lock(mutex, boost::interprocess::try_to_lock);
 		}
-
 	}
 	catch (boost::interprocess::interprocess_exception& e)
 	{
-		LOG_ERROR_STREAM(<< "boost exception thrown at shared momory creation - " << getMemoryName() << ": " << e.what());
+		LOG_ERROR_STREAM(<< "boost exception thrown at shared memory creation - " << getMemoryName() << ": " << e.what());
 		throw e;
 	}
 }
@@ -142,7 +158,7 @@ SharedMemory::~SharedMemory()
 	}
 	catch (boost::interprocess::interprocess_exception& e)
 	{
-		LOG_ERROR_STREAM(<< "boost exception thrown at shared momory destruction - " << getMemoryName() << ": " << e.what());
+		LOG_ERROR_STREAM(<< "boost exception thrown at shared memory destruction - " << getMemoryName() << ": " << e.what());
 		throw e;
 	}
 }
