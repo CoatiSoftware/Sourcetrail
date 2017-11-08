@@ -925,8 +925,15 @@ std::shared_ptr<Graph> PersistentStorage::getGraphForActiveTokenIds(
 			}
 			else
 			{
-				nodeIds.push_back(elementId);
 				m_hierarchyCache.addFirstChildIdsForNodeId(elementId, &nodeIds, &edgeIds);
+
+				// don't expand active node if it has more than 20 child nodes
+				if (nodeIds.size() > 20)
+				{
+					nodeIds.clear();
+				}
+
+				nodeIds.push_back(elementId);
 				edgeIds.clear();
 
 				std::vector<StorageEdge> edges = m_sqliteIndexStorage.getEdgesBySourceOrTargetId(elementId);

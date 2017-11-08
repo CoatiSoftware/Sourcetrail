@@ -631,7 +631,7 @@ void GraphController::autoExpandActiveNode(const std::vector<Id>& activeTokenIds
 		node = getDummyGraphNodeById(activeTokenIds[0]);
 	}
 
-	if (node)
+	if (node && !node->hasMissingChildNodes())
 	{
 		node->expanded = true;
 		node->autoExpanded = true;
