@@ -116,6 +116,7 @@ std::shared_ptr<CombinedPathDetector> utility::getCxxVsHeaderPathDetector()
 std::shared_ptr<CombinedPathDetector> utility::getCxxHeaderPathDetector()
 {
 	std::shared_ptr<CombinedPathDetector> combinedDetector = getCxxVsHeaderPathDetector();
+	combinedDetector->addDetector(std::make_shared<CxxHeaderPathDetector>("clang"));
 	combinedDetector->addDetector(std::make_shared<CxxHeaderPathDetector>("gcc"));
 	return combinedDetector;
 }
@@ -123,7 +124,7 @@ std::shared_ptr<CombinedPathDetector> utility::getCxxHeaderPathDetector()
 std::shared_ptr<CombinedPathDetector> utility::getCxxFrameworkPathDetector()
 {
 	std::shared_ptr<CombinedPathDetector> combinedDetector = std::make_shared<CombinedPathDetector>();
-	combinedDetector->addDetector(std::make_shared<CxxFrameworkPathDetector>("gcc"));
 	combinedDetector->addDetector(std::make_shared<CxxFrameworkPathDetector>("clang"));
+	combinedDetector->addDetector(std::make_shared<CxxFrameworkPathDetector>("gcc"));
 	return combinedDetector;
 }
