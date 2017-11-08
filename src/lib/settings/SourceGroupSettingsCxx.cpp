@@ -61,6 +61,12 @@ std::vector<std::string> SourceGroupSettingsCxx::getAvailableLanguageStandards()
 	{
 	case SOURCE_GROUP_CPP_EMPTY:
 	case SOURCE_GROUP_CXX_CDB:
+		standards.push_back("c++2a");
+		standards.push_back("gnu++2a");
+
+		standards.push_back("c++17");
+		standards.push_back("gnu++17");
+
 		standards.push_back("c++1z");
 		standards.push_back("gnu++1z");
 
@@ -77,27 +83,28 @@ std::vector<std::string> SourceGroupSettingsCxx::getAvailableLanguageStandards()
 		standards.push_back("gnu++0x");
 
 		standards.push_back("c++03");
+		standards.push_back("gnu++03");
 
 		standards.push_back("c++98");
 		standards.push_back("gnu++98");
 		break;
 
 	case SOURCE_GROUP_C_EMPTY:
-		standards.push_back("c1x");
-		standards.push_back("gnu1x");
-		standards.push_back("iso9899:201x");
-
 		standards.push_back("c11");
 		standards.push_back("gnu11");
 		standards.push_back("iso9899:2011");
 
-		standards.push_back("c9x");
-		standards.push_back("gnu9x");
-		standards.push_back("iso9899:199x");
+		standards.push_back("c1x");
+		standards.push_back("gnu1x");
+		standards.push_back("iso9899:201x");
 
 		standards.push_back("c99");
 		standards.push_back("gnu99");
 		standards.push_back("iso9899:1999");
+
+		standards.push_back("c9x");
+		standards.push_back("gnu9x");
+		standards.push_back("iso9899:199x");
 
 		standards.push_back("iso9899:199409");
 
@@ -193,9 +200,9 @@ std::string SourceGroupSettingsCxx::getDefaultStandard() const
 	switch (getType())
 	{
 	case SOURCE_GROUP_CPP_EMPTY:
-		return "c++1z";
+		return "c++17";
 	case SOURCE_GROUP_C_EMPTY:
-		return "c1x";
+		return "c11";
 	case SOURCE_GROUP_CXX_CDB:
 	default:
 		break;
