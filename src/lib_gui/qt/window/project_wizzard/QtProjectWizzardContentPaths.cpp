@@ -6,7 +6,9 @@
 #include <QMessageBox>
 #include <QVBoxLayout>
 
+#include "Application.h"
 #include "component/view/DialogView.h"
+#include "data/indexer/IndexerCommandCxxCdb.h"
 #include "project/IncludeDirective.h"
 #include "project/IncludeValidation.h"
 #include "qt/element/QtDirectoryListBox.h"
@@ -21,7 +23,6 @@
 #include "utility/utility.h"
 #include "utility/utilityFile.h"
 #include "utility/utilityPathDetection.h"
-#include "Application.h"
 
 QtProjectWizzardContentPaths::QtProjectWizzardContentPaths(std::shared_ptr<SourceGroupSettings> settings, QtProjectWizzardWindow* window)
 	: QtProjectWizzardContent(window)
@@ -266,15 +267,40 @@ void QtProjectWizzardContentPathsCDBHeader::load()
 	if (m_settings->getSourcePaths().empty())
 	{
 		std::shared_ptr<SourceGroupSettingsCxxCdb> cdbSettings = std::dynamic_pointer_cast<SourceGroupSettingsCxxCdb>(m_settings);
-		std::vector<FilePath> sourcePaths;
-		for (const FilePath& path : getTopLevelHeaderSearchPaths(cdbSettings))
+		std::set<FilePath> sourcePaths;
+
+		const FilePath projectPath = m_settings->getProjectDirectoryPath();
+		const FilePath cdbPath = cdbSettings->getCompilationDatabasePathExpandedAndAbsolute();
+
+		if (!cdbPath.empty() && cdbPath.exists())
 		{
-			if (path.exists() && m_settings->getProjectDirectoryPath().contains(path))
+			for (const FilePath& path : IndexerCommandCxxCdb::getSourceFilesFromCDB(cdbPath))
 			{
-				sourcePaths.push_back(path);
+				sourcePaths.insert(path.parentDirectory());
 			}
 		}
-		m_settings->setSourcePaths(sourcePaths);
+
+		for (const FilePath& path : getTopLevelHeaderSearchPaths(cdbSettings))
+		{
+			if (path.exists() && projectPath.contains(path))
+			{
+				sourcePaths.insert(path);
+			}
+		}
+
+		std::vector<FilePath> rootPaths;
+
+		FilePath lastPath;
+		for (const FilePath& path : sourcePaths)
+		{
+			if (lastPath.empty() || !lastPath.contains(path)) // don't add subdirectories of already added paths
+			{
+				lastPath = path;
+				rootPaths.push_back(path.relativeTo(projectPath));
+			}
+		}
+
+		m_settings->setSourcePaths(rootPaths);
 	}
 
 	QtProjectWizzardContentPathsSource::load();
