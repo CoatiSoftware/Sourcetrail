@@ -928,7 +928,7 @@ std::shared_ptr<Graph> PersistentStorage::getGraphForActiveTokenIds(
 				m_hierarchyCache.addFirstChildIdsForNodeId(elementId, &nodeIds, &edgeIds);
 
 				// don't expand active node if it has more than 20 child nodes
-				if (nodeIds.size() > 20)
+				if (nodeIds.size() > 20 && nodeType & Node::NODE_COLLAPSIBLE_TYPE)
 				{
 					nodeIds.clear();
 				}

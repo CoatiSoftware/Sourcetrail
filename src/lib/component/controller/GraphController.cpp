@@ -1345,10 +1345,7 @@ void GraphController::layoutNestingRecursive(DummyNode* node) const
 
 		width = margins.charWidth * node->name.size();
 
-		Node::NodeTypeMask mask =
-			Node::NODE_NON_INDEXED | Node::NODE_TYPE | Node::NODE_BUILTIN_TYPE |
-			Node::NODE_CLASS | Node::NODE_STRUCT | Node::NODE_ENUM | Node::NODE_UNION;
-		if (node->data->isType(mask) && node->data->getChildCount() > 0)
+		if (node->data->isType(Node::NODE_COLLAPSIBLE_TYPE) && node->data->getChildCount() > 0)
 		{
 			addExpandToggleNode(node);
 		}
