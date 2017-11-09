@@ -23,6 +23,8 @@ public:
 private:
 	std::deque<std::shared_ptr<IndexerCommand>> m_commands;
 	std::mutex m_commandsMutex;
+
+	std::set<std::string> m_commandIndex;
 };
 
 #endif // INDEXER_COMMAND_LIST_H

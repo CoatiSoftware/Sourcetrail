@@ -19,7 +19,7 @@ SourceGroupType SourceGroupCxxEmpty::getType() const
 }
 
 std::vector<std::shared_ptr<IndexerCommand>> SourceGroupCxxEmpty::getIndexerCommands(
-	std::set<FilePath>* filesToIndex, bool fullRefresh)
+	const std::set<FilePath>& filesToIndex, bool fullRefresh)
 {
 	std::shared_ptr<ApplicationSettings> appSettings = ApplicationSettings::getInstance();
 
@@ -59,7 +59,7 @@ std::vector<std::shared_ptr<IndexerCommand>> SourceGroupCxxEmpty::getIndexerComm
 	std::vector<std::shared_ptr<IndexerCommand>> indexerCommands;
 	for (const FilePath& sourcePath: sourceFilePathsToIndex)
 	{
-		if (filesToIndex->find(sourcePath) != filesToIndex->end())
+		if (filesToIndex.find(sourcePath) != filesToIndex.end())
 		{
 			indexerCommands.push_back(std::make_shared<IndexerCommandCxxManual>(
 				sourcePath,
@@ -71,8 +71,6 @@ std::vector<std::shared_ptr<IndexerCommand>> SourceGroupCxxEmpty::getIndexerComm
 				compilerFlags,
 				m_settings->getShouldApplyAnonymousTypedefTransformation()
 			));
-
-			filesToIndex->erase(sourcePath);
 		}
 	}
 

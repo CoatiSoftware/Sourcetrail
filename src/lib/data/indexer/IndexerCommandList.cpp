@@ -4,11 +4,21 @@
 #include <random>
 
 #include "utility/file/FileSystem.h"
+#include "utility/logging/logging.h"
 
 void IndexerCommandList::addCommand(std::shared_ptr<IndexerCommand> command)
 {
 	std::lock_guard<std::mutex> lock(m_commandsMutex);
-	m_commands.push_back(command);
+
+	std::string commandHash = command->getSourceFilePath().str() + std::to_string(command->getByteSize(1));
+	if (m_commandIndex.insert(commandHash).second == true) // Don't add duplicate indexer commands
+	{
+		m_commands.push_back(command);
+	}
+	else
+	{
+		LOG_WARNING_STREAM(<< "Duplicate indexer command was ignored: " << commandHash);
+	}
 }
 
 size_t IndexerCommandList::size() const

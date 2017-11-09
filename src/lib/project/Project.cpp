@@ -420,11 +420,10 @@ void Project::buildIndex(
 		));
 	}
 
-	std::set<FilePath> filesToIndexTemp = filesToIndex;
 	std::shared_ptr<IndexerCommandList> indexerCommandList = std::make_shared<IndexerCommandList>();
 	for (const std::shared_ptr<SourceGroup>& sourceGroup : m_sourceGroups)
 	{
-		for (const std::shared_ptr<IndexerCommand>& command : sourceGroup->getIndexerCommands(&filesToIndexTemp, fullRefresh))
+		for (const std::shared_ptr<IndexerCommand>& command : sourceGroup->getIndexerCommands(filesToIndex, fullRefresh))
 		{
 			indexerCommandList->addCommand(command);
 		}

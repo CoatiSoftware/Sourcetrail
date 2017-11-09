@@ -30,7 +30,7 @@ public:
 	std::set<FilePath> getSourceFilePathsToIndex() const;
 
 	virtual std::vector<std::shared_ptr<IndexerCommand>> getIndexerCommands(
-		std::set<FilePath>* filesToIndex, bool fullRefresh) = 0;
+		const std::set<FilePath>& filesToIndex, bool fullRefresh) = 0;
 
 protected:
 	std::set<FilePath> getIndexedPaths();

@@ -48,7 +48,7 @@ bool SourceGroupCxxCdb::prepareRefresh()
 }
 
 std::vector<std::shared_ptr<IndexerCommand>> SourceGroupCxxCdb::getIndexerCommands(
-	std::set<FilePath>* filesToIndex, bool fullRefresh)
+	const std::set<FilePath>& filesToIndex, bool fullRefresh)
 {
 	std::shared_ptr<ApplicationSettings> appSettings = ApplicationSettings::getInstance();
 
@@ -100,7 +100,7 @@ std::vector<std::shared_ptr<IndexerCommand>> SourceGroupCxxCdb::getIndexerComman
 				sourcePath = FilePath(command.Directory + '/' + command.Filename).canonical();
 			}
 
-			if (filesToIndex->find(sourcePath) != filesToIndex->end() &&
+			if (filesToIndex.find(sourcePath) != filesToIndex.end() &&
 				sourceFilePathsToIndex.find(sourcePath) != sourceFilePathsToIndex.end())
 			{
 				std::vector<std::string> currentCompilerFlags = compilerFlags;
@@ -116,8 +116,6 @@ std::vector<std::shared_ptr<IndexerCommand>> SourceGroupCxxCdb::getIndexerComman
 					frameworkSearchPaths,
 					m_settings->getShouldApplyAnonymousTypedefTransformation()
 				));
-
-				filesToIndex->erase(sourcePath);
 			}
 		}
 	}
