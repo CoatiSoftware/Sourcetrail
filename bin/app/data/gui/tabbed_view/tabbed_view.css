@@ -121,3 +121,10 @@ QTableView QTableCornerButton::section {
 	border-bottom: 1px solid <color:table/table>;
 	border-top-left-radius: 10px;
 }
+
+#help_button {
+	background: transparent;
+	border: none;
+	/*margin: none;*/
+	/*padding: none;*/
+}

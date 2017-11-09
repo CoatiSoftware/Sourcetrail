@@ -418,6 +418,7 @@ add_files(
 	utility/messaging/type/MessageSearch.h
 	utility/messaging/type/MessageSearchAutocomplete.h
 	utility/messaging/type/MessageSearchFullText.h
+	utility/messaging/type/MessageShowErrorHelpMessage.h
 	utility/messaging/type/MessageShowErrors.h
 	utility/messaging/type/MessageShowReference.h
 	utility/messaging/type/MessageShowScope.h

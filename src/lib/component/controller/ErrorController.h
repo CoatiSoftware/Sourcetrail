@@ -5,6 +5,7 @@
 #include "utility/messaging/type/MessageClearErrorCount.h"
 #include "utility/messaging/type/MessageFinishedParsing.h"
 #include "utility/messaging/type/MessageNewErrors.h"
+#include "utility/messaging/type/MessageShowErrorHelpMessage.h"
 #include "utility/messaging/type/MessageShowErrors.h"
 
 #include "component/controller/Controller.h"
@@ -17,6 +18,7 @@ class ErrorController
 	, public MessageListener<MessageClearErrorCount>
 	, public MessageListener<MessageFinishedParsing>
 	, public MessageListener<MessageNewErrors>
+	, public MessageListener<MessageShowErrorHelpMessage>
 	, public MessageListener<MessageShowErrors>
 {
 public:
@@ -27,6 +29,7 @@ private:
 	virtual void handleMessage(MessageClearErrorCount* message);
 	virtual void handleMessage(MessageFinishedParsing* message);
 	virtual void handleMessage(MessageNewErrors* message);
+	virtual void handleMessage(MessageShowErrorHelpMessage* message);
 	virtual void handleMessage(MessageShowErrors* message);
 
 	ErrorView* getView() const;

@@ -506,6 +506,16 @@ void ApplicationSettings::setUpdateVersion(const Version& version)
 	}
 }
 
+bool ApplicationSettings::getSeenErrorHelpMessage() const
+{
+	return getValue<bool>("user/seen_error_help_message", false);
+}
+
+void ApplicationSettings::setSeenErrorHelpMessage(bool seen)
+{
+	setValue<bool>("user/seen_error_help_message", seen);
+}
+
 int ApplicationSettings::getPluginPort() const
 {
 	return getValue<int>("network/plugin_port", 6666);

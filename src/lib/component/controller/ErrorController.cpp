@@ -1,6 +1,7 @@
 #include "component/controller/ErrorController.h"
 
 #include "data/access/StorageAccess.h"
+#include "settings/ApplicationSettings.h"
 
 ErrorController::ErrorController(StorageAccess* storageAccess)
 	: m_storageAccess(storageAccess)
@@ -44,6 +45,29 @@ void ErrorController::handleMessage(MessageNewErrors* message)
 
 	getView()->setErrorCount(message->errorCount);
 
+}
+
+void ErrorController::handleMessage(MessageShowErrorHelpMessage* message)
+{
+	ApplicationSettings* appSettings = ApplicationSettings::getInstance().get();
+	if (!message->force && appSettings->getSeenErrorHelpMessage())
+	{
+		return;
+	}
+
+	if (!message->force)
+	{
+		ErrorCountInfo info = m_storageAccess->getErrorCount();
+		if (!info.total)
+		{
+			return;
+		}
+	}
+
+	appSettings->setSeenErrorHelpMessage(true);
+	appSettings->save();
+
+	getView()->showErrorHelpMessage();
 }
 
 void ErrorController::handleMessage(MessageShowErrors* message)

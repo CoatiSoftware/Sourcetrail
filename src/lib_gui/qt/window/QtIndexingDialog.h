@@ -21,7 +21,8 @@ public:
 		DIALOG_MESSAGE,
 		DIALOG_UNKNOWN_PROGRESS,
 		DIALOG_PROGRESS,
-		DIALOG_INDEXING
+		DIALOG_INDEXING,
+		DIALOG_REPORT
 	};
 
 	QtIndexingDialog(QWidget* parent = 0);
@@ -61,7 +62,7 @@ private:
 	void addMessageLabel(QBoxLayout* layout);
 	QLabel* createMessageLabel(QBoxLayout* layout);
 	void addFilePathLabel(QBoxLayout* layout);
-	void addErrorLabel(QBoxLayout* layout);
+	void addErrorWidget(QBoxLayout* layout);
 
 	void addButtons(QBoxLayout* layout);
 	void addFlag();
@@ -78,7 +79,7 @@ private:
 	QLabel* m_percentLabel;
 	QLabel* m_messageLabel;
 	QLabel* m_filePathLabel;
-	QPushButton* m_errorLabel;
+	QWidget* m_errorWidget;
 
 	// start indexing
 	QCheckBox* m_fullRefreshCheckBox;

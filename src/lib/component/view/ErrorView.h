@@ -23,6 +23,8 @@ public:
 
 	virtual void setErrorCount(ErrorCountInfo info) = 0;
 	virtual void resetErrorLimit() = 0;
+
+	virtual void showErrorHelpMessage() = 0;
 };
 
 #endif // ERROR_VIEW_H

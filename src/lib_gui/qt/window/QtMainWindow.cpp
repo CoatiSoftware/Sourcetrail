@@ -41,6 +41,7 @@
 #include "utility/messaging/type/MessageRefresh.h"
 #include "utility/messaging/type/MessageResetZoom.h"
 #include "utility/messaging/type/MessageSearch.h"
+#include "utility/messaging/type/MessageShowErrorHelpMessage.h"
 #include "utility/messaging/type/MessageUndo.h"
 #include "utility/messaging/type/MessageWindowClosed.h"
 #include "utility/messaging/type/MessageZoom.h"
@@ -431,6 +432,11 @@ void QtMainWindow::showKeyboardShortcuts()
 {
 	QtKeyboardShortcuts* keyboardShortcutWindow = createWindow<QtKeyboardShortcuts>();
 	keyboardShortcutWindow->setup();
+}
+
+void QtMainWindow::showErrorHelpMessage()
+{
+	MessageShowErrorHelpMessage(true).dispatch();
 }
 
 void QtMainWindow::showBugtracker()
@@ -914,6 +920,7 @@ void QtMainWindow::setupHelpMenu()
 	menuBar()->addMenu(menu);
 
 	menu->addAction(tr("Keyboard Shortcuts"), this, &QtMainWindow::showKeyboardShortcuts);
+	menu->addAction(tr("Fixing Errors"), this, &QtMainWindow::showErrorHelpMessage);
 	menu->addAction(tr("Documentation"), this, &QtMainWindow::showDocumentation);
 	menu->addAction(tr("Bug Tracker"), this, &QtMainWindow::showBugtracker);
 

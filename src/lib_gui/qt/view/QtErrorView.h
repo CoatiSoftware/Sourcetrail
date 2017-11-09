@@ -12,6 +12,7 @@ class QCheckBox;
 class QLabel;
 class QPushButton;
 class QStandardItemModel;
+class QtHelpButton;
 class QtTable;
 
 class QtErrorView
@@ -36,6 +37,8 @@ public:
 
 	virtual void setErrorCount(ErrorCountInfo info);
 	virtual void resetErrorLimit();
+
+	virtual void showErrorHelpMessage();
 
 private slots:
 	void errorFilterChanged(int i = 0);
@@ -72,6 +75,8 @@ private:
 	QCheckBox* m_showFatals;
 	QCheckBox* m_showNonIndexedErrors;
 	QCheckBox* m_showNonIndexedFatals;
+
+	QtHelpButton* m_helpButton;
 
 	QStandardItemModel* m_model;
 	QtTable* m_table;

@@ -90,6 +90,8 @@
 			<update_url><!-- STRING: url to new version download --></update_url>
 			<update_version><!-- VERSION: version of last check --></update_version>
 		</update_check>
+
+		<seen_error_help_message><!-- BOOL: whether user has been shown help message on errors after indexing --></seen_error_help_message>
 	</user>
 
 	<network>

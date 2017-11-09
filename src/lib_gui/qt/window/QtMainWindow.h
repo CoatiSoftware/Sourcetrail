@@ -95,6 +95,7 @@ public slots:
 	void showBugtracker();
 	void showDocumentation();
 	void showKeyboardShortcuts();
+	void showErrorHelpMessage();
 	void showEula(bool forceAccept = false);
 	void acceptedEula();
 	void showLicenses();

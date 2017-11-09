@@ -141,6 +141,9 @@ public:
 	Version getUpdateVersion() const;
 	void setUpdateVersion(const Version& version);
 
+	bool getSeenErrorHelpMessage() const;
+	void setSeenErrorHelpMessage(bool seen);
+
 	// network
 	int getPluginPort() const;
 	void setPluginPort(const int pluginPort);

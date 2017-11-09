@@ -10,6 +10,7 @@
 #include "qt/element/QtHelpButton.h"
 #include "qt/element/QtProgressBar.h"
 #include "utility/messaging/type/MessageInterruptTasks.h"
+#include "utility/messaging/type/MessageShowErrorHelpMessage.h"
 #include "utility/ResourcePaths.h"
 #include "utility/utility.h"
 
@@ -22,7 +23,7 @@ QtIndexingDialog::QtIndexingDialog(QWidget* parent)
 	, m_percentLabel(nullptr)
 	, m_messageLabel(nullptr)
 	, m_filePathLabel(nullptr)
-	, m_errorLabel(nullptr)
+	, m_errorWidget(nullptr)
 	, m_fullRefreshCheckBox(nullptr)
 	, m_sizeHint(QSize(450, 450))
 	, m_callback([](DialogView::IndexingOptions){})
@@ -117,7 +118,7 @@ void QtIndexingDialog::setupIndexing()
 	addFilePathLabel(layout);
 
 	layout->addSpacing(12);
-	addErrorLabel(layout);
+	addErrorWidget(layout);
 
 	layout->addStretch();
 
@@ -134,6 +135,8 @@ void QtIndexingDialog::setupReport(
 	size_t indexedFileCount, size_t totalIndexedFileCount, size_t completedFileCount, size_t totalFileCount,
 	float time, bool interrupted)
 {
+	setType(DIALOG_REPORT);
+
 	QBoxLayout* layout = createLayout();
 
 	addTitle("Finished Indexing", layout);
@@ -151,7 +154,7 @@ void QtIndexingDialog::setupReport(
 	createMessageLabel(layout)->setText("Total Time:   " + QString::fromStdString(utility::timeToString(time)));
 
 	layout->addSpacing(12);
-	addErrorLabel(layout);
+	addErrorWidget(layout);
 
 	layout->addStretch();
 
@@ -251,7 +254,7 @@ void QtIndexingDialog::updateIndexingProgress(size_t fileCount, size_t totalFile
 
 void QtIndexingDialog::updateErrorCount(size_t errorCount, size_t fatalCount)
 {
-	if (m_errorLabel && errorCount)
+	if (m_errorWidget && errorCount)
 	{
 		QString str = QString::number(errorCount) + " Error";
 		if (errorCount > 1)
@@ -264,8 +267,10 @@ void QtIndexingDialog::updateErrorCount(size_t errorCount, size_t fatalCount)
 			str += " (" + QString::number(fatalCount) + " Fatal)";
 		}
 
-		m_errorLabel->setText(str);
-		m_errorLabel->show();
+		QPushButton* errorCount = m_errorWidget->findChild<QPushButton*>("errorCount");
+		errorCount->setText(str);
+
+		m_errorWidget->show();
 	}
 }
 
@@ -284,6 +289,10 @@ void QtIndexingDialog::handleNext()
 		options.startIndexing = true;
 		options.fullRefresh = m_fullRefreshCheckBox && m_fullRefreshCheckBox->isChecked();
 		m_callback(options);
+	}
+	else if (m_type == DIALOG_REPORT)
+	{
+		MessageShowErrorHelpMessage().dispatch();
 	}
 
 	QtWindow::handleNext();
@@ -395,17 +404,36 @@ void QtIndexingDialog::addFilePathLabel(QBoxLayout* layout)
 	layout->addWidget(m_filePathLabel);
 }
 
-void QtIndexingDialog::addErrorLabel(QBoxLayout* layout)
+void QtIndexingDialog::addErrorWidget(QBoxLayout* layout)
 {
-	m_errorLabel = new QPushButton();
-	m_errorLabel->setObjectName("errorCount");
-	m_errorLabel->setAttribute(Qt::WA_LayoutUsesWidgetRect); // fixes layouting on Mac
+	m_errorWidget = new QWidget();
+	QHBoxLayout* errorLayout = new QHBoxLayout(m_errorWidget);
+	errorLayout->setContentsMargins(0, 0, 0, 0);
+	errorLayout->setSpacing(5);
+
+	QPushButton* errorCount = new QPushButton();
+	errorCount->setObjectName("errorCount");
+	errorCount->setAttribute(Qt::WA_LayoutUsesWidgetRect); // fixes layouting on Mac
 
 	std::string text = ResourcePaths::getGuiPath().str() + "indexing_dialog/error.png";
-	m_errorLabel->setIcon(QPixmap(text.c_str()));
+	errorCount->setIcon(QPixmap(text.c_str()));
+	errorLayout->addWidget(errorCount);
 
-	layout->addWidget(m_errorLabel, 0, Qt::AlignRight);
-	m_errorLabel->hide();
+	QtHelpButton* helpButton = new QtHelpButton("aaa", "bbb");
+	helpButton->setColor(Qt::white);
+
+	helpButton->disconnect();
+	connect(helpButton, &QtHelpButton::clicked,
+		[]()
+		{
+			MessageShowErrorHelpMessage(true).dispatch();
+		}
+	);
+
+	errorLayout->addWidget(helpButton);
+
+	layout->addWidget(m_errorWidget, 0, Qt::AlignRight);
+	m_errorWidget->hide();
 }
 
 void QtIndexingDialog::addButtons(QBoxLayout* layout)
