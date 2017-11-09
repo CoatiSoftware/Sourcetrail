@@ -123,9 +123,11 @@ private:
 
 	std::list<std::shared_ptr<QtGraphEdge>> m_edges;
 	std::list<std::shared_ptr<QtGraphEdge>> m_oldEdges;
+	std::list<std::shared_ptr<QtGraphEdge>> m_oldOldEdges;
 
 	std::list<std::shared_ptr<QtGraphNode>> m_nodes;
 	std::list<std::shared_ptr<QtGraphNode>> m_oldNodes;
+	std::list<std::shared_ptr<QtGraphNode>> m_oldOldNodes;
 
 	std::vector<std::shared_ptr<QtGraphNode>> m_activeNodes;
 	std::shared_ptr<QtGraphNode> m_oldActiveNode;

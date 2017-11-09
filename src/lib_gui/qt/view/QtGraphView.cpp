@@ -356,6 +356,9 @@ void QtGraphView::clear()
 		m_oldActiveNode.reset();
 		m_activeNodes.clear();
 
+		m_oldOldNodes = m_oldNodes;
+		m_oldOldEdges = m_oldEdges;
+
 		m_nodes.clear();
 		m_edges.clear();
 
@@ -776,6 +779,9 @@ void QtGraphView::switchToNewGraphData()
 		edge->hide();
 		edge->setParentItem(nullptr);
 	}
+
+	m_oldOldNodes = m_oldNodes;
+	m_oldOldEdges = m_oldEdges;
 
 	m_oldNodes = m_nodes;
 	m_oldEdges = m_edges;
