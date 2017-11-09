@@ -1,6 +1,34 @@
 ### Changelog
 
-#### 2017.4.19
+#### 2017.4.46
+released 2017-11-09
+
+* C/C++: Add filename info to static global variables to avoid collision (issue #514)
+* Allow duplicate indexing of source files if the indexer command differs
+* Fixed single header files within indexed paths were not indexed (issue #513
+* Status: Explain differences of errors and how to fix them in help message dialog (issue #501)
+* C/C++: Add parent directories of source files in the compilation database automatically to indexed header paths
+* C/C++: Give clang higher precedence in automatic global header search path detection
+* C/C++: Added new clang 5.0.0 language standards to project setup dropdown box
+* Graph: Show nodes with more than 20 children initially collapsed (issue #509)
+* Show message box informing about shared memory problems before indexing (issue #508)
+* Fixed files from symlinked directories within indexed directories were not indexed
+* Start from correct directory for relative paths in project setup location pickers
+* Java: Added all previous Java versions to language standard selection
+* C++: Fixed recording template member specializations of methods as explicit nodes
+* C++: Fixed template members variables sometimes recorded as functions with call edges
+* C/C++: Fixed recorded location of function bodies defined inside macros
+* C/C++: Skip recording macro usages in non-indexed files
+* Search: Fixed focus and selection policy of search elements for Windows and Linux
+* Graph: Fixed type usage edges not shown between class members and inner class types
+* Graph: Fixed activation of bookmarked edge did not highlight edge in all situations
+* Status: Fixed resize status view table columns were only resizeable in the title bar (issue #506)
+* Added setting for text encoding to preferences (issue #500)
+* Search: Fixed low contrast of search field cursor in dark schemes (issue #487)
+
+
+#### 2017.4.20
+released 2017-10-25
 
 * Code: Fixed file state of snippets wrong after iterating references in single file view
 * Search: Improved selection on focus to allow editing of search query (issue #483)
