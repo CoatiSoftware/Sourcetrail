@@ -8,6 +8,7 @@
 #include "data/parser/cxx/name_resolver/CxxSpecifierNameResolver.h"
 #include "data/parser/cxx/name_resolver/CxxTemplateArgumentNameResolver.h"
 #include "data/parser/cxx/name_resolver/CxxTypeNameResolver.h"
+#include "data/parser/cxx/utilityClang.h"
 #include "utility/file/FilePath.h"
 #include "utility/ScopedSwitcher.h"
 
@@ -327,7 +328,40 @@ std::shared_ptr<CxxDeclName> CxxDeclNameResolver::getDeclName(const clang::Named
 				CxxTypeNameResolver typenNameResolver(getIgnoredContextDecls());
 				typenNameResolver.ignoreContextDecl(varDecl);
 				std::shared_ptr<CxxTypeName> typeName = CxxTypeName::makeUnsolvedIfNull(typenNameResolver.getName(varDecl->getType()));
-				return std::make_shared<CxxVariableDeclName>(declNameString, std::vector<std::string>(), typeName, isStatic);
+
+				std::string varName = declNameString;
+				if (utility::getSymbolKind(varDecl) == SYMBOL_GLOBAL_VARIABLE &&
+					varDecl->getStorageClass() == clang::SC_Static)
+				{
+					// if a global variable is static it is only visible in the current translation unit. Therefore if multiple instances of that global variable 
+					// may be generated (one for each translation unit) we add the name of the translation unit's source file.
+					// If that global variable definition is const, we add the name of the (maybe header) file that variable is defined in instead. This causes 
+					// different instances of the variable that all MUST contain the same value to be merged into a single node in Sourcetrail.
+					std::string scopeFileName = "";
+					{
+						const clang::SourceManager& sourceManager = declaration->getASTContext().getSourceManager();
+						if (varDecl->getType().isConstQualified())
+						{
+							const clang::PresumedLoc& presumedBegin = sourceManager.getPresumedLoc(declaration->getLocStart());
+							scopeFileName = FilePath(presumedBegin.getFilename()).fileName(); 
+						}
+						else
+						{
+							clang::FileID fileId = sourceManager.getMainFileID();
+							if (fileId.isValid())
+							{
+								const clang::FileEntry* fileEntry = sourceManager.getFileEntryForID(fileId);
+								scopeFileName = FilePath(utility::getFileNameOfFileEntry(fileEntry)).fileName();
+							}
+						}
+					}
+					if (!scopeFileName.empty())
+					{
+						varName = declNameString + " (" + scopeFileName + ")";
+					}
+				}
+
+				return std::make_shared<CxxVariableDeclName>(varName, std::vector<std::string>(), typeName, isStatic);
 			}
 		}
 

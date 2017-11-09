@@ -12,7 +12,7 @@
 #include "data/parser/cxx/CxxAstVisitorComponentTypeRefKind.h"
 #include "data/parser/cxx/CxxAstVisitorComponentImplicitCode.h"
 #include "data/parser/cxx/CxxAstVisitorComponentIndexer.h"
-#include "data/parser/cxx/utilityCxxAstVisitor.h"
+#include "data/parser/cxx/utilityClang.h"
 #include "data/parser/ParserClient.h"
 
 #include "data/parser/ParseLocation.h"

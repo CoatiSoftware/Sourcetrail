@@ -7,7 +7,7 @@
 #include "utility/file/FileSystem.h"
 #include "utility/file/FileRegister.h"
 
-#include "data/parser/cxx/utilityCxxAstVisitor.h"
+#include "data/parser/cxx/utilityClang.h"
 #include "data/parser/ParserClient.h"
 #include "data/parser/ParseLocation.h"
 

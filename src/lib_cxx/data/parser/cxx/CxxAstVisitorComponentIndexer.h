@@ -67,7 +67,6 @@ private:
 	ParseLocation getParseLocation(const clang::SourceRange& sourceRange) const;
 
 	ReferenceKind consumeDeclRefContextKind();
-	SymbolKind getSymbolKind(clang::VarDecl* d);
 
 	bool shouldVisitDecl(const clang::Decl* decl);
 	bool shouldVisitReference(const clang::SourceLocation& referenceLocation, const clang::Decl* contextDecl);

@@ -54,6 +54,39 @@ public:
 ///////////////////////////////////////////////////////////////////////////////
 // test finding symbol definitions and declarations
 
+	void test_cxx_parser_finds_global_variable_declaration()
+	{
+		std::shared_ptr<TestParserClient> client = parseCode(
+			"int x;\n"
+		);
+
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->globalVariables, "int x <1:5 1:5>"
+		));
+	}
+
+	void test_cxx_parser_finds_static_global_variable_declaration()
+	{
+		std::shared_ptr<TestParserClient> client = parseCode(
+			"static int x;\n"
+		);
+
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->globalVariables, "int x (input.cc) <1:12 1:12>"
+		));
+	}
+
+	void test_cxx_parser_finds_static_const_global_variable_declaration()
+	{
+		std::shared_ptr<TestParserClient> client = parseCode(
+			"static const int x;\n"
+		);
+
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->globalVariables, "const int x (input.cc) <1:18 1:18>"
+		));
+	}
+
 	void test_cxx_parser_finds_global_class_definition()
 	{
 		std::shared_ptr<TestParserClient> client = parseCode(

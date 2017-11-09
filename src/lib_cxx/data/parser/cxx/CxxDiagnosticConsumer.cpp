@@ -3,7 +3,7 @@
 #include "clang/Basic/SourceManager.h"
 #include "clang/Tooling/Tooling.h"
 
-#include "data/parser/cxx/utilityCxxAstVisitor.h"
+#include "data/parser/cxx/utilityClang.h"
 #include "data/parser/ParseLocation.h"
 #include "data/parser/ParserClient.h"
 #include "utility/file/FileRegister.h"

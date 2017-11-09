@@ -72,8 +72,8 @@ add_files(
 	data/parser/cxx/CxxVerboseAstVisitor.h
 	data/parser/cxx/PreprocessorCallbacks.cpp
 	data/parser/cxx/PreprocessorCallbacks.h
-	data/parser/cxx/utilityCxxAstVisitor.cpp
-	data/parser/cxx/utilityCxxAstVisitor.h
+	data/parser/cxx/utilityClang.cpp
+	data/parser/cxx/utilityClang.h
 	
 	data/storage/StorageTransformationAnonymousTypedef.cpp
 	data/storage/StorageTransformationAnonymousTypedef.h

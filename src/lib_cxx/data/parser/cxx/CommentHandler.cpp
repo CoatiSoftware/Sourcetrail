@@ -1,6 +1,6 @@
 #include "data/parser/cxx/CommentHandler.h"
 
-#include "data/parser/cxx/utilityCxxAstVisitor.h"
+#include "data/parser/cxx/utilityClang.h"
 #include "data/parser/ParseLocation.h"
 #include "data/parser/ParserClient.h"
 #include "utility/file/FileRegister.h"

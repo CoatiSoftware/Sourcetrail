@@ -9,7 +9,7 @@
 #include "data/parser/cxx/CxxAstVisitorComponentDeclRefKind.h"
 #include "data/parser/cxx/CxxAstVisitorComponentTypeRefKind.h"
 
-#include "data/parser/cxx/utilityCxxAstVisitor.h"
+#include "data/parser/cxx/utilityClang.h"
 #include "data/parser/ParseLocation.h"
 #include "data/parser/ParserClient.h"
 #include "utility/file/FileRegister.h"
@@ -140,7 +140,7 @@ void CxxAstVisitorComponentIndexer::beginTraverseLambdaCapture(clang::LambdaExpr
 	if ((!lambdaExpr->isInitCapture(capture)) && (capture->capturesVariable()))
 	{
 		clang::VarDecl* d = capture->getCapturedVar();
-		SymbolKind symbolKind = getSymbolKind(d);
+		SymbolKind symbolKind = utility::getSymbolKind(d);
 		if (symbolKind == SYMBOL_LOCAL_VARIABLE || symbolKind == SYMBOL_PARAMETER)
 		{
 			if (!d->getNameAsString().empty()) // don't record anonymous parameters
@@ -228,7 +228,7 @@ void CxxAstVisitorComponentIndexer::visitVarDecl(clang::VarDecl* d)
 {
 	if (shouldVisitDecl(d))
 	{
-		SymbolKind symbolKind = getSymbolKind(d);
+		SymbolKind symbolKind = utility::getSymbolKind(d);
 		if (symbolKind == SYMBOL_LOCAL_VARIABLE || symbolKind == SYMBOL_PARAMETER)
 		{
 			if (!d->getNameAsString().empty()) // don't record anonymous parameters
@@ -763,33 +763,6 @@ ReferenceKind CxxAstVisitorComponentIndexer::consumeDeclRefContextKind()
 		refKind = typeRefKindComponent->getReferenceKind();
 	}
 	return refKind;
-}
-
-SymbolKind CxxAstVisitorComponentIndexer::getSymbolKind(clang::VarDecl* d)
-{
-	SymbolKind symbolKind = SYMBOL_KIND_MAX;
-
-	if (llvm::isa<clang::ParmVarDecl>(d))
-	{
-		symbolKind = SYMBOL_PARAMETER;
-	}
-	else if (d->getParentFunctionOrMethod() == NULL)
-	{
-		if (d->getAccess() == clang::AS_none)
-		{
-			symbolKind = SYMBOL_GLOBAL_VARIABLE;
-		}
-		else
-		{
-			symbolKind = SYMBOL_FIELD;
-		}
-	}
-	else
-	{
-		symbolKind = SYMBOL_LOCAL_VARIABLE;
-	}
-
-	return symbolKind;
 }
 
 bool CxxAstVisitorComponentIndexer::shouldVisitDecl(const clang::Decl* decl)

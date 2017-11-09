@@ -1,4 +1,4 @@
-#include "data/parser/cxx/utilityCxxAstVisitor.h"
+#include "data/parser/cxx/utilityClang.h"
 
 #include <clang/AST/DeclCXX.h>
 #include <clang/AST/DeclTemplate.h>
@@ -64,7 +64,7 @@ AccessKind utility::convertAccessSpecifier(clang::AccessSpecifier access)
 	}
 }
 
-SymbolKind utility::convertTagKind(clang::TagTypeKind tagKind)
+SymbolKind utility::convertTagKind(const clang::TagTypeKind tagKind)
 {
 	switch (tagKind)
 	{
@@ -81,17 +81,47 @@ SymbolKind utility::convertTagKind(clang::TagTypeKind tagKind)
 	}
 }
 
-std::string utility::getFileNameOfFileEntry(const clang::FileEntry* entry)
+SymbolKind utility::getSymbolKind(const clang::VarDecl* d)
 {
-	std::string fileName = entry->tryGetRealPathName();
-	if (fileName.empty())
+	SymbolKind symbolKind = SYMBOL_KIND_MAX;
+
+	if (llvm::isa<clang::ParmVarDecl>(d))
 	{
-		fileName = entry->getName();
+		symbolKind = SYMBOL_PARAMETER;
+	}
+	else if (d->getParentFunctionOrMethod() == NULL)
+	{
+		if (d->getAccess() == clang::AS_none)
+		{
+			symbolKind = SYMBOL_GLOBAL_VARIABLE;
+		}
+		else
+		{
+			symbolKind = SYMBOL_FIELD;
+		}
 	}
 	else
 	{
-		fileName = FilePath(entry->getName().str()).parentDirectory().concat(FilePath(FilePath(fileName).fileName())).str();
+		symbolKind = SYMBOL_LOCAL_VARIABLE;
 	}
 
+	return symbolKind;
+}
+
+std::string utility::getFileNameOfFileEntry(const clang::FileEntry* entry)
+{
+	std::string fileName = "";
+	if (entry)
+	{
+		fileName = entry->tryGetRealPathName();
+		if (fileName.empty())
+		{
+			fileName = entry->getName();
+		}
+		else
+		{
+			fileName = FilePath(entry->getName().str()).parentDirectory().concat(FilePath(FilePath(fileName).fileName())).str();
+		}
+	}
 	return fileName;
 }
