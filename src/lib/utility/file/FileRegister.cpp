@@ -26,10 +26,21 @@ FileRegister::FileRegister(
 			{
 				for (const FilePath& indexedPath: m_indexedPaths)
 				{
-					if (indexedPath.contains(filePath))
+					if (indexedPath.isDirectory())
 					{
-						ret = true;
-						break;
+						if (indexedPath.contains(filePath))
+						{
+							ret = true;
+							break;
+						}
+					}
+					else
+					{
+						if (indexedPath == filePath)
+						{
+							ret = true;
+							break;
+						}
 					}
 				}
 			}
