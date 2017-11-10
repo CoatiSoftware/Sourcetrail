@@ -8,7 +8,8 @@
 #include "utility/utilityString.h"
 
 FilePath::FilePath()
-	: m_exists(false)
+	: m_path("")
+	, m_exists(false)
 	, m_checkedExists(false)
 	, m_isDirectory(false)
 	, m_checkedIsDirectory(false)

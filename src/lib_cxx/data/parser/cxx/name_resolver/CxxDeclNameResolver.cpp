@@ -5,6 +5,7 @@
 
 #include "data/parser/cxx/name/CxxFunctionDeclName.h"
 #include "data/parser/cxx/name/CxxVariableDeclName.h"
+#include "data/parser/cxx/name/CxxStaticFunctionDeclName.h"
 #include "data/parser/cxx/name_resolver/CxxSpecifierNameResolver.h"
 #include "data/parser/cxx/name_resolver/CxxTemplateArgumentNameResolver.h"
 #include "data/parser/cxx/name_resolver/CxxTypeNameResolver.h"
@@ -253,6 +254,17 @@ std::shared_ptr<CxxDeclName> CxxDeclNameResolver::getDeclName(const clang::Named
 				parameterTypeNames.push_back(CxxTypeName::makeUnsolvedIfNull(typenNameResolver.getName(functionDecl->parameters()[i]->getType())));
 			}
 
+			if (!clang::isa<clang::CXXMethodDecl>(declaration) && isStatic)
+			{
+				return std::make_shared<CxxStaticFunctionDeclName>(
+					functionName,
+					templateArguments,
+					returnTypeName,
+					parameterTypeNames, 
+					getTranslationUnitMainFilePath(declaration).fileName()
+				);
+			}
+
 			return std::make_shared<CxxFunctionDeclName>(
 				functionName,
 				templateArguments,
@@ -339,20 +351,13 @@ std::shared_ptr<CxxDeclName> CxxDeclNameResolver::getDeclName(const clang::Named
 					// different instances of the variable that all MUST contain the same value to be merged into a single node in Sourcetrail.
 					std::string scopeFileName = "";
 					{
-						const clang::SourceManager& sourceManager = declaration->getASTContext().getSourceManager();
 						if (varDecl->getType().isConstQualified())
 						{
-							const clang::PresumedLoc& presumedBegin = sourceManager.getPresumedLoc(declaration->getLocStart());
-							scopeFileName = FilePath(presumedBegin.getFilename()).fileName(); 
+							scopeFileName = getDeclarationFilePath(declaration).fileName();
 						}
 						else
 						{
-							clang::FileID fileId = sourceManager.getMainFileID();
-							if (fileId.isValid())
-							{
-								const clang::FileEntry* fileEntry = sourceManager.getFileEntryForID(fileId);
-								scopeFileName = FilePath(utility::getFileNameOfFileEntry(fileEntry)).fileName();
-							}
+							scopeFileName = getTranslationUnitMainFilePath(declaration).fileName();
 						}
 					}
 					if (!scopeFileName.empty())
@@ -375,6 +380,25 @@ std::shared_ptr<CxxDeclName> CxxDeclNameResolver::getDeclName(const clang::Named
 	const clang::PresumedLoc& presumedBegin = sourceManager.getPresumedLoc(declaration->getLocStart());
 	// LOG_ERROR("could not resolve name of decl at: " + declaration->getLocation().printToString(sourceManager));
 	return std::make_shared<CxxDeclName>(getNameForAnonymousSymbol("symbol", presumedBegin), std::vector<std::string>());
+}
+
+FilePath CxxDeclNameResolver::getTranslationUnitMainFilePath(const clang::Decl* declaration)
+{
+	const clang::SourceManager& sourceManager = declaration->getASTContext().getSourceManager();
+	clang::FileID fileId = sourceManager.getMainFileID();
+	if (fileId.isValid())
+	{
+		const clang::FileEntry* fileEntry = sourceManager.getFileEntryForID(fileId);
+		return FilePath(utility::getFileNameOfFileEntry(fileEntry));
+	}
+	return FilePath();
+}
+
+FilePath CxxDeclNameResolver::getDeclarationFilePath(const clang::Decl* declaration)
+{
+	const clang::SourceManager& sourceManager = declaration->getASTContext().getSourceManager();
+	const clang::PresumedLoc& presumedBegin = sourceManager.getPresumedLoc(declaration->getLocStart());
+	return FilePath(presumedBegin.getFilename());
 }
 
 std::string CxxDeclNameResolver::getNameForAnonymousSymbol(const std::string& symbolKindName, const clang::PresumedLoc& presumedBegin)

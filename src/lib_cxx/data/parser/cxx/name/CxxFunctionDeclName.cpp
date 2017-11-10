@@ -1,12 +1,12 @@
 #include "data/parser/cxx/name/CxxFunctionDeclName.h"
 
 CxxFunctionDeclName::CxxFunctionDeclName(
-	std::string name,
-	std::vector<std::string> templateParameterNames,
+	const std::string& name,
+	const std::vector<std::string>& templateParameterNames,
 	std::shared_ptr<CxxTypeName> returnTypeName,
-	std::vector<std::shared_ptr<CxxTypeName>> parameterTypeNames,
-	bool isConst,
-	bool isStatic
+	const std::vector<std::shared_ptr<CxxTypeName>>& parameterTypeNames,
+	const bool isConst,
+	const bool isStatic
 )
 	: CxxDeclName(name, templateParameterNames)
 	, m_returnTypeName(returnTypeName)
@@ -17,12 +17,12 @@ CxxFunctionDeclName::CxxFunctionDeclName(
 }
 
 CxxFunctionDeclName::CxxFunctionDeclName(
-	std::string name,
-	std::vector<std::string> templateParameterNames,
+	const std::string& name,
+	const std::vector<std::string>& templateParameterNames,
 	std::shared_ptr<CxxTypeName> returnTypeName,
-	std::vector<std::shared_ptr<CxxTypeName>> parameterTypeNames,
-	bool isConst,
-	bool isStatic,
+	const std::vector<std::shared_ptr<CxxTypeName>>& parameterTypeNames,
+	const bool isConst,
+	const bool isStatic,
 	std::shared_ptr<CxxName> parent
 )
 	: CxxDeclName(name, templateParameterNames, parent)

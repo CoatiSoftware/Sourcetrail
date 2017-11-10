@@ -4,6 +4,8 @@
 #include "data/parser/cxx/name/CxxDeclName.h"
 #include "data/parser/cxx/name_resolver/CxxNameResolver.h"
 
+class FilePath;
+
 class CxxDeclNameResolver: public CxxNameResolver
 {
 public:
@@ -16,6 +18,8 @@ public:
 private:
 	std::shared_ptr<CxxName> getContextName(const clang::DeclContext* declaration);
 	std::shared_ptr<CxxDeclName> getDeclName(const clang::NamedDecl* declaration);
+	FilePath getTranslationUnitMainFilePath(const clang::Decl* declaration);
+	FilePath getDeclarationFilePath(const clang::Decl* declaration);
 	std::string getNameForAnonymousSymbol(const std::string& symbolKindName, const clang::PresumedLoc& presumedBegin);
 	std::string getTemplateParameterString(const clang::NamedDecl* parameter);
 	std::string getTemplateParameterTypeString(const clang::NonTypeTemplateParmDecl* parameter);

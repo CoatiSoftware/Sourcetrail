@@ -200,7 +200,7 @@ public:
 		);
 
 		TS_ASSERT(utility::containsElement<std::string>(
-			client->functions, "static int ceil(float) <1:1 <1:12 1:15> 4:1>"
+			client->functions, "static int ceil(float) (input.cc) <1:1 <1:12 1:15> 4:1>"
 		));
 	}
 

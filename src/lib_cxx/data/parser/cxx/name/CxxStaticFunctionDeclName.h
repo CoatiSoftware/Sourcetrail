@@ -1,43 +1,34 @@
-#ifndef CXX_FUNCTION_DECL_NAME_H
-#define CXX_FUNCTION_DECL_NAME_H
+#ifndef CXX_STATIC_FUNCTION_DECL_NAME_H
+#define CXX_STATIC_FUNCTION_DECL_NAME_H
 
-#include <memory>
-#include <vector>
+#include "data/parser/cxx/name/CxxFunctionDeclName.h"
 
-#include "data/parser/cxx/name/CxxDeclName.h"
-#include "data/parser/cxx/name/CxxTypeName.h"
-
-class CxxFunctionDeclName: public CxxDeclName
+class CxxStaticFunctionDeclName: public CxxFunctionDeclName
 {
 public:
-	CxxFunctionDeclName(
+	CxxStaticFunctionDeclName(
 		const std::string& name,
 		const std::vector<std::string>& templateParameterNames,
 		std::shared_ptr<CxxTypeName> returnTypeName,
 		const std::vector<std::shared_ptr<CxxTypeName>>& parameterTypeNames,
-		const bool isConst,
-		const bool isStatic
+		const std::string& translationUnitFileName
 	);
 
-	CxxFunctionDeclName(
+	CxxStaticFunctionDeclName(
 		const std::string& name,
 		const std::vector<std::string>& templateParameterNames,
 		std::shared_ptr<CxxTypeName> returnTypeName,
 		const std::vector<std::shared_ptr<CxxTypeName>>& parameterTypeNames,
-		const bool isConst,
-		const bool isStatic,
+		const std::string& translationUnitFileName,
 		std::shared_ptr<CxxName> parent
 	);
 
-	virtual ~CxxFunctionDeclName();
+	virtual ~CxxStaticFunctionDeclName();
 
 	virtual NameHierarchy toNameHierarchy() const;
 
 private:
-	std::shared_ptr<CxxTypeName> m_returnTypeName;
-	std::vector<std::shared_ptr<CxxTypeName>> m_parameterTypeNames;
-	bool m_isConst;
-	bool m_isStatic;
+	std::string m_translationUnitFileName;
 };
 
 #endif // CXX_FUNCTION_DECL_NAME_H

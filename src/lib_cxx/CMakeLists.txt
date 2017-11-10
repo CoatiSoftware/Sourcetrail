@@ -22,6 +22,8 @@ add_files(
 	data/parser/cxx/name/CxxName.h
 	data/parser/cxx/name/CxxQualifierFlags.cpp
 	data/parser/cxx/name/CxxQualifierFlags.h
+	data/parser/cxx/name/CxxStaticFunctionDeclName.cpp
+	data/parser/cxx/name/CxxStaticFunctionDeclName.h
 	data/parser/cxx/name/CxxTypeName.cpp
 	data/parser/cxx/name/CxxTypeName.h
 	data/parser/cxx/name/CxxVariableDeclName.cpp
