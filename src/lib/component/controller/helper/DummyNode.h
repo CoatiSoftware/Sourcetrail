@@ -241,9 +241,11 @@ public:
 	bool hasMissingChildNodes() const
 	{
 		size_t childCount = 0;
+		bool implicit = false;
 		if (isGraphNode())
 		{
 			childCount = data->getChildCount();
+			implicit = data->isImplicit();
 		}
 
 		size_t subNodeCount = 0;
@@ -253,7 +255,7 @@ public:
 			{
 				for (const std::shared_ptr<DummyNode>& subSubNode : subNode->subNodes)
 				{
-					if (subSubNode->isGraphNode() && !subSubNode->data->isImplicit())
+					if (subSubNode->isGraphNode() && (implicit || !subSubNode->data->isImplicit()))
 					{
 						subNodeCount++;
 					}
