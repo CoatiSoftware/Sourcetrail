@@ -5,10 +5,10 @@
 
 #include <clang/AST/RecursiveASTVisitor.h>
 
-#include "data/parser/cxx/cxxCacheTypes.h"
 #include "data/parser/cxx/CxxContext.h"
 #include "utility/messaging/MessageInterruptTasksCounter.h"
 
+class CanonicalFilePathCache;
 class ParserClient;
 struct ParseLocation;
 class FileRegister;
@@ -41,7 +41,7 @@ public:
 		clang::Preprocessor* preprocessor,
 		std::shared_ptr<ParserClient> client,
 		std::shared_ptr<FileRegister> fileRegister,
-		std::shared_ptr<FilePathCache> canonicalFilePathCache
+		std::shared_ptr<CanonicalFilePathCache> canonicalFilePathCache
 	);
 	virtual ~CxxAstVisitor();
 
@@ -50,7 +50,7 @@ public:
 
 	std::shared_ptr<DeclNameCache> getDeclNameCache();
 	std::shared_ptr<TypeNameCache> getTypeNameCache();
-	std::shared_ptr<FilePathCache> getCanonicalFilePathCache();
+	std::shared_ptr<CanonicalFilePathCache> getCanonicalFilePathCache();
 
 	// Indexing entry point
     void indexDecl(clang::Decl *d);
@@ -151,7 +151,7 @@ private:
 	clang::Preprocessor* m_preprocessor;
 	std::shared_ptr<ParserClient> m_client;
 	std::shared_ptr<FileRegister> m_fileRegister;
-	std::shared_ptr<FilePathCache> m_canonicalFilePathCache;
+	std::shared_ptr<CanonicalFilePathCache> m_canonicalFilePathCache;
 
 	MessageInterruptTasksCounter m_interruptCounter;
 

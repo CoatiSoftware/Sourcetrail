@@ -10,6 +10,7 @@
 #include "data/indexer/IndexerCommandCxxCdb.h"
 #include "data/indexer/IndexerCommandCxxManual.h"
 #include "data/parser/cxx/ASTActionFactory.h"
+#include "data/parser/cxx/CanonicalFilePathCache.h"
 #include "data/parser/cxx/CxxCompilationDatabaseSingle.h"
 #include "data/parser/cxx/CxxDiagnosticConsumer.h"
 
@@ -91,11 +92,7 @@ void CxxParser::buildIndex(std::shared_ptr<IndexerCommandCxxManual> indexerComma
 
 void CxxParser::buildIndex(const std::string& fileName, std::shared_ptr<TextAccess> fileContent)
 {
-	std::shared_ptr<FilePathCache> canonicalFilePathCache = std::make_shared<FilePathCache>([](std::string fileName) -> FilePath
-		{
-			return FilePath(fileName).canonical();
-		}
-	);
+	std::shared_ptr<CanonicalFilePathCache> canonicalFilePathCache = std::make_shared<CanonicalFilePathCache>();
 
 	std::shared_ptr<CxxDiagnosticConsumer> diagnostics = getDiagnostics(canonicalFilePathCache, false);
 	ASTActionFactory actionFactory(m_client, m_fileRegister, canonicalFilePathCache, false);
@@ -115,11 +112,7 @@ void CxxParser::runTool(clang::tooling::CompilationDatabase* compilationDatabase
 {
 	clang::tooling::ClangTool tool(*compilationDatabase, std::vector<std::string>(1, sourceFilePath.str()));
 
-	std::shared_ptr<FilePathCache> canonicalFilePathCache = std::make_shared<FilePathCache>([](std::string fileName) -> FilePath
-		{
-			return FilePath(fileName).canonical();
-		}
-	);
+	std::shared_ptr<CanonicalFilePathCache> canonicalFilePathCache = std::make_shared<CanonicalFilePathCache>();
 
 	std::shared_ptr<CxxDiagnosticConsumer> diagnostics = getDiagnostics(canonicalFilePathCache, true);
 
@@ -225,7 +218,7 @@ std::shared_ptr<clang::tooling::FixedCompilationDatabase> CxxParser::getCompilat
 	return compilationDatabase;
 }
 
-std::shared_ptr<CxxDiagnosticConsumer> CxxParser::getDiagnostics(std::shared_ptr<FilePathCache> canonicalFilePathCache, bool logErrors) const
+std::shared_ptr<CxxDiagnosticConsumer> CxxParser::getDiagnostics(std::shared_ptr<CanonicalFilePathCache> canonicalFilePathCache, bool logErrors) const
 {
 	llvm::IntrusiveRefCntPtr<clang::DiagnosticOptions> options = new clang::DiagnosticOptions();
 	return std::make_shared<CxxDiagnosticConsumer>(

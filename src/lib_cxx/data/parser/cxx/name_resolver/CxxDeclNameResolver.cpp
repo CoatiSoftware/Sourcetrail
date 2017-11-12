@@ -9,18 +9,23 @@
 #include "data/parser/cxx/name_resolver/CxxSpecifierNameResolver.h"
 #include "data/parser/cxx/name_resolver/CxxTemplateArgumentNameResolver.h"
 #include "data/parser/cxx/name_resolver/CxxTypeNameResolver.h"
+#include "data/parser/cxx/CanonicalFilePathCache.h"
 #include "data/parser/cxx/utilityClang.h"
 #include "utility/file/FilePath.h"
 #include "utility/ScopedSwitcher.h"
+#include "utility/utilityString.h"
 
-CxxDeclNameResolver::CxxDeclNameResolver()
-	: CxxNameResolver(std::vector<const clang::Decl*>())
+CxxDeclNameResolver::CxxDeclNameResolver(std::shared_ptr<CanonicalFilePathCache> canonicalFilePathCache)
+	: CxxNameResolver(canonicalFilePathCache, std::vector<const clang::Decl*>())
 	, m_currentDecl(nullptr)
 {
 }
 
-CxxDeclNameResolver::CxxDeclNameResolver(std::vector<const clang::Decl*> ignoredContextDecls)
-	: CxxNameResolver(ignoredContextDecls)
+CxxDeclNameResolver::CxxDeclNameResolver(
+	std::shared_ptr<CanonicalFilePathCache> canonicalFilePathCache, 
+	std::vector<const clang::Decl*> ignoredContextDecls
+)
+	: CxxNameResolver(canonicalFilePathCache, ignoredContextDecls)
 	, m_currentDecl(nullptr)
 {
 }
@@ -69,7 +74,7 @@ std::shared_ptr<CxxDeclName> CxxDeclNameResolver::getName(const clang::NamedDecl
 		{
 			if (const clang::UsingDecl* usingDecl = clang::dyn_cast_or_null<clang::UsingDecl>(declaration))
 			{
-				CxxSpecifierNameResolver specifierNameResolver(getIgnoredContextDecls());
+				CxxSpecifierNameResolver specifierNameResolver(getCanonicalFilePathCache(), getIgnoredContextDecls());
 				declName->setParent(specifierNameResolver.getName(usingDecl->getQualifier()));
 			}
 			else
@@ -127,9 +132,6 @@ std::shared_ptr<CxxDeclName> CxxDeclNameResolver::getDeclName(const clang::Named
 			}
 			else if (declNameString.empty())
 			{
-				const clang::SourceManager& sourceManager = declaration->getASTContext().getSourceManager();
-				const clang::PresumedLoc& presumedBegin = sourceManager.getPresumedLoc(declaration->getLocStart());
-
 				std::string symbolKindName = "class";
 				if (recordDecl->isStruct())
 				{
@@ -140,7 +142,7 @@ std::shared_ptr<CxxDeclName> CxxDeclNameResolver::getDeclName(const clang::Named
 					symbolKindName = "union";
 				}
 
-				return std::make_shared<CxxDeclName>(getNameForAnonymousSymbol(symbolKindName, presumedBegin), std::vector<std::string>());
+				return std::make_shared<CxxDeclName>(getNameForAnonymousSymbol(symbolKindName, declaration), std::vector<std::string>());
 			}
 			else if (const clang::CXXRecordDecl* cxxRecordDecl = clang::dyn_cast_or_null<clang::CXXRecordDecl>(declaration))
 			{
@@ -244,7 +246,7 @@ std::shared_ptr<CxxDeclName> CxxDeclNameResolver::getDeclName(const clang::Named
 				isStatic = functionDecl->getStorageClass() == clang::SC_Static;
 			}
 
-			CxxTypeNameResolver typenNameResolver(getIgnoredContextDecls());
+			CxxTypeNameResolver typenNameResolver(getCanonicalFilePathCache(), getIgnoredContextDecls());
 			typenNameResolver.ignoreContextDecl(functionDecl);
 			std::shared_ptr<CxxTypeName> returnTypeName = CxxTypeName::makeUnsolvedIfNull(typenNameResolver.getName(functionDecl->getReturnType()));
 
@@ -261,7 +263,7 @@ std::shared_ptr<CxxDeclName> CxxDeclNameResolver::getDeclName(const clang::Named
 					templateArguments,
 					returnTypeName,
 					parameterTypeNames, 
-					getTranslationUnitMainFilePath(declaration).fileName()
+					getTranslationUnitMainFileName(declaration)
 				);
 			}
 
@@ -287,22 +289,18 @@ std::shared_ptr<CxxDeclName> CxxDeclNameResolver::getDeclName(const clang::Named
 		else if (clang::isa<clang::FieldDecl>(declaration))
 		{
 			const clang::FieldDecl* fieldDecl = clang::dyn_cast<clang::FieldDecl>(declaration);
-			CxxTypeNameResolver typenNameResolver(getIgnoredContextDecls());
+			CxxTypeNameResolver typenNameResolver(getCanonicalFilePathCache(), getIgnoredContextDecls());
 			typenNameResolver.ignoreContextDecl(fieldDecl);
 			std::shared_ptr<CxxTypeName> typeName = CxxTypeName::makeUnsolvedIfNull(typenNameResolver.getName(fieldDecl->getType()));
 			return std::make_shared<CxxVariableDeclName>(declNameString, std::vector<std::string>(), typeName, false);
 		}
 		else if (clang::isa<clang::NamespaceDecl>(declaration) && clang::dyn_cast<clang::NamespaceDecl>(declaration)->isAnonymousNamespace())
 		{
-			const clang::SourceManager& sourceManager = declaration->getASTContext().getSourceManager();
-			const clang::PresumedLoc& presumedBegin = sourceManager.getPresumedLoc(declaration->getLocStart());
-			return std::make_shared<CxxDeclName>(getNameForAnonymousSymbol("namespace", presumedBegin), std::vector<std::string>());
+			return std::make_shared<CxxDeclName>(getNameForAnonymousSymbol("namespace", declaration), std::vector<std::string>());
 		}
 		else if (clang::isa<clang::EnumDecl>(declaration) && declNameString.empty())
 		{
-			const clang::SourceManager& sourceManager = declaration->getASTContext().getSourceManager();
-			const clang::PresumedLoc& presumedBegin = sourceManager.getPresumedLoc(declaration->getLocStart());
-			return std::make_shared<CxxDeclName>(getNameForAnonymousSymbol("enum", presumedBegin), std::vector<std::string>());
+			return std::make_shared<CxxDeclName>(getNameForAnonymousSymbol("enum", declaration), std::vector<std::string>());
 		}
 		else if (
 			(
@@ -311,15 +309,11 @@ std::shared_ptr<CxxDeclName> CxxDeclNameResolver::getDeclName(const clang::Named
 				clang::isa<clang::TemplateTemplateParmDecl>(declaration)
 			) && declNameString.empty())
 		{
-			const clang::SourceManager& sourceManager = declaration->getASTContext().getSourceManager();
-			const clang::PresumedLoc& presumedBegin = sourceManager.getPresumedLoc(declaration->getLocStart());
-			return std::make_shared<CxxDeclName>(getNameForAnonymousSymbol("template parameter", presumedBegin), std::vector<std::string>());
+			return std::make_shared<CxxDeclName>(getNameForAnonymousSymbol("template parameter", declaration), std::vector<std::string>());
 		}
 		else if (clang::isa<clang::ParmVarDecl>(declaration) && declNameString.empty())
 		{
-			const clang::SourceManager& sourceManager = declaration->getASTContext().getSourceManager();
-			const clang::PresumedLoc& presumedBegin = sourceManager.getPresumedLoc(declaration->getLocStart());
-			return std::make_shared<CxxDeclName>(getNameForAnonymousSymbol("parameter", presumedBegin), std::vector<std::string>());
+			return std::make_shared<CxxDeclName>(getNameForAnonymousSymbol("parameter", declaration), std::vector<std::string>());
 		}
 		else if (clang::isa<clang::VarDecl>(declaration))
 		{
@@ -337,7 +331,7 @@ std::shared_ptr<CxxDeclName> CxxDeclNameResolver::getDeclName(const clang::Named
 					// nothing todo, varDecl is global (and non-static)
 				}
 
-				CxxTypeNameResolver typenNameResolver(getIgnoredContextDecls());
+				CxxTypeNameResolver typenNameResolver(getCanonicalFilePathCache(), getIgnoredContextDecls());
 				typenNameResolver.ignoreContextDecl(varDecl);
 				std::shared_ptr<CxxTypeName> typeName = CxxTypeName::makeUnsolvedIfNull(typenNameResolver.getName(varDecl->getType()));
 
@@ -353,11 +347,11 @@ std::shared_ptr<CxxDeclName> CxxDeclNameResolver::getDeclName(const clang::Named
 					{
 						if (varDecl->getType().isConstQualified())
 						{
-							scopeFileName = getDeclarationFilePath(declaration).fileName();
+							scopeFileName = getDeclarationFileName(declaration);
 						}
 						else
 						{
-							scopeFileName = getTranslationUnitMainFilePath(declaration).fileName();
+							scopeFileName = getTranslationUnitMainFileName(declaration);
 						}
 					}
 					if (!scopeFileName.empty())
@@ -376,37 +370,42 @@ std::shared_ptr<CxxDeclName> CxxDeclNameResolver::getDeclName(const clang::Named
 		}
 	}
 
-	const clang::SourceManager& sourceManager = declaration->getASTContext().getSourceManager();
-	const clang::PresumedLoc& presumedBegin = sourceManager.getPresumedLoc(declaration->getLocStart());
 	// LOG_ERROR("could not resolve name of decl at: " + declaration->getLocation().printToString(sourceManager));
-	return std::make_shared<CxxDeclName>(getNameForAnonymousSymbol("symbol", presumedBegin), std::vector<std::string>());
+	return std::make_shared<CxxDeclName>(getNameForAnonymousSymbol("symbol", declaration), std::vector<std::string>());
 }
 
-FilePath CxxDeclNameResolver::getTranslationUnitMainFilePath(const clang::Decl* declaration)
+std::string CxxDeclNameResolver::getTranslationUnitMainFileName(const clang::Decl* declaration)
 {
 	const clang::SourceManager& sourceManager = declaration->getASTContext().getSourceManager();
 	clang::FileID fileId = sourceManager.getMainFileID();
 	if (fileId.isValid())
 	{
 		const clang::FileEntry* fileEntry = sourceManager.getFileEntryForID(fileId);
-		return FilePath(utility::getFileNameOfFileEntry(fileEntry));
+		return getCanonicalFilePathCache()->getCanonicalFilePath(fileEntry).fileName();
 	}
-	return FilePath();
+	return "";
 }
 
-FilePath CxxDeclNameResolver::getDeclarationFilePath(const clang::Decl* declaration)
+std::string CxxDeclNameResolver::getDeclarationFileName(const clang::Decl* declaration)
+{
+	const clang::SourceManager& sourceManager = declaration->getASTContext().getSourceManager();
+	const clang::FileEntry* fileEntry = sourceManager.getFileEntryForID(sourceManager.getFileID(declaration->getLocStart()));
+	if (fileEntry != nullptr && fileEntry->isValid())
+	{
+		return getCanonicalFilePathCache()->getCanonicalFilePath(fileEntry).fileName();
+	}
+	return getCanonicalFilePathCache()->getCanonicalFilePath(sourceManager.getPresumedLoc(declaration->getLocStart()).getFilename()).fileName();
+}
+
+std::string CxxDeclNameResolver::getNameForAnonymousSymbol(const std::string& symbolKindName, const clang::Decl* declaration)
 {
 	const clang::SourceManager& sourceManager = declaration->getASTContext().getSourceManager();
 	const clang::PresumedLoc& presumedBegin = sourceManager.getPresumedLoc(declaration->getLocStart());
-	return FilePath(presumedBegin.getFilename());
-}
 
-std::string CxxDeclNameResolver::getNameForAnonymousSymbol(const std::string& symbolKindName, const clang::PresumedLoc& presumedBegin)
-{
 	if (presumedBegin.isValid())
 	{
 		return "anonymous " + symbolKindName +
-			" (" + FilePath(presumedBegin.getFilename()).fileName() + "<" + std::to_string(presumedBegin.getLine()) + ":" + std::to_string(presumedBegin.getColumn()) + ">)";
+			" (" + getDeclarationFileName(declaration) + "<" + std::to_string(presumedBegin.getLine()) + ":" + std::to_string(presumedBegin.getColumn()) + ">)";
 	}
 	return "anonymous " + symbolKindName;
 }
@@ -445,7 +444,7 @@ std::string CxxDeclNameResolver::getTemplateParameterString(const clang::NamedDe
 
 std::string CxxDeclNameResolver::getTemplateParameterTypeString(const clang::NonTypeTemplateParmDecl* parameter)
 {
-	CxxTypeNameResolver typeNameResolver(getIgnoredContextDecls());
+	CxxTypeNameResolver typeNameResolver(getCanonicalFilePathCache(), getIgnoredContextDecls());
 
 	if (clang::isa<clang::TemplateDecl>(m_currentDecl))
 	{
@@ -500,6 +499,6 @@ std::string CxxDeclNameResolver::getTemplateParameterTypeString(const clang::Tem
 
 std::string CxxDeclNameResolver::getTemplateArgumentName(const clang::TemplateArgument& argument)
 {
-	CxxTemplateArgumentNameResolver resolver(getIgnoredContextDecls());
+	CxxTemplateArgumentNameResolver resolver(getCanonicalFilePathCache(), getIgnoredContextDecls());
 	return resolver.getTemplateArgumentName(argument);
 }

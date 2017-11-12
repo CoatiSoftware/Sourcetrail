@@ -3,6 +3,7 @@
 #include "clang/Basic/SourceManager.h"
 #include "clang/Tooling/Tooling.h"
 
+#include "data/parser/cxx/CanonicalFilePathCache.h"
 #include "data/parser/cxx/utilityClang.h"
 #include "data/parser/ParseLocation.h"
 #include "data/parser/ParserClient.h"
@@ -13,7 +14,7 @@ CxxDiagnosticConsumer::CxxDiagnosticConsumer(
 	clang::DiagnosticOptions *diags,
 	std::shared_ptr<ParserClient> client,
 	std::shared_ptr<FileRegister> fileRegister,
-	std::shared_ptr<FilePathCache> canonicalFilePathCache,
+	std::shared_ptr<CanonicalFilePathCache> canonicalFilePathCache,
 	bool useLogging
 )
 	: clang::TextDiagnosticPrinter(os, diags)
@@ -68,7 +69,7 @@ void CxxDiagnosticConsumer::HandleDiagnostic(clang::DiagnosticsEngine::Level lev
 			return;
 		}
 
-		std::string filePath;
+		FilePath filePath;
 		uint line = 0;
 		uint column = 0;
 
@@ -81,14 +82,14 @@ void CxxDiagnosticConsumer::HandleDiagnostic(clang::DiagnosticsEngine::Level lev
 				column = presumedLocation.getColumn();
 			}
 
-			const clang::FileEntry *fileEntry = sourceManager.getFileEntryForID(sourceManager.getFileID(info.getLocation()));
-			if (fileEntry)
+			const clang::FileEntry* fileEntry = sourceManager.getFileEntryForID(sourceManager.getFileID(info.getLocation()));
+			if (fileEntry != nullptr && fileEntry->isValid())
 			{
-				filePath = m_canonicalFilePathCache->getValue(utility::getFileNameOfFileEntry(fileEntry)).str();
+				filePath = m_canonicalFilePathCache->getCanonicalFilePath(fileEntry);
 			}
 		}
 
-		ParseLocation location(m_canonicalFilePathCache->getValue(filePath), line, column);
+		ParseLocation location(filePath, line, column);
 
 		m_client->onErrorParsed(
 			location,

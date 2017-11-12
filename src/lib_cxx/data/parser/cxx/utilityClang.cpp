@@ -111,7 +111,7 @@ SymbolKind utility::getSymbolKind(const clang::VarDecl* d)
 std::string utility::getFileNameOfFileEntry(const clang::FileEntry* entry)
 {
 	std::string fileName = "";
-	if (entry)
+	if (entry != nullptr && entry->isValid())
 	{
 		fileName = entry->tryGetRealPathName();
 		if (fileName.empty())

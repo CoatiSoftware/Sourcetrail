@@ -9,7 +9,7 @@ ASTConsumer::ASTConsumer(
 	clang::Preprocessor* preprocessor,
 	std::shared_ptr<ParserClient> client,
 	std::shared_ptr<FileRegister> fileRegister,
-	std::shared_ptr<FilePathCache> canonicalFilePathCache
+	std::shared_ptr<CanonicalFilePathCache> canonicalFilePathCache
 )
 {
 	ApplicationSettings* appSettings = ApplicationSettings::getInstance().get();

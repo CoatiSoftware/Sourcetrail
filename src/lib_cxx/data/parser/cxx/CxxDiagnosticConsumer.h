@@ -3,8 +3,7 @@
 
 #include "clang/Frontend/TextDiagnosticPrinter.h"
 
-#include "data/parser/cxx/cxxCacheTypes.h"
-
+class CanonicalFilePathCache;
 class FileRegister;
 class ParserClient;
 
@@ -17,7 +16,7 @@ public:
 		clang::DiagnosticOptions *diags,
 		std::shared_ptr<ParserClient> client,
 		std::shared_ptr<FileRegister> fileRegister,
-		std::shared_ptr<FilePathCache> canonicalFilePathCache,
+		std::shared_ptr<CanonicalFilePathCache> canonicalFilePathCache,
 		bool useLogging = true
 	);
 
@@ -31,7 +30,7 @@ public:
 private:
 	std::shared_ptr<ParserClient> m_client;
 	std::shared_ptr<FileRegister> m_register;
-	std::shared_ptr<FilePathCache> m_canonicalFilePathCache;
+	std::shared_ptr<CanonicalFilePathCache> m_canonicalFilePathCache;
 
 	std::string m_commandline;
 

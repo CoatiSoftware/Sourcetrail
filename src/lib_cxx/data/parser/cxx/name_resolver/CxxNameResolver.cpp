@@ -1,7 +1,11 @@
 #include "data/parser/cxx/name_resolver/CxxNameResolver.h"
 
-CxxNameResolver::CxxNameResolver(std::vector<const clang::Decl*> ignoredContextDecls)
-	: m_ignoredContextDecls(ignoredContextDecls)
+CxxNameResolver::CxxNameResolver(
+	std::shared_ptr<CanonicalFilePathCache> canonicalFilePathCache,
+	std::vector<const clang::Decl*> ignoredContextDecls
+)
+	: m_canonicalFilePathCache(canonicalFilePathCache)
+	, m_ignoredContextDecls(ignoredContextDecls)
 {
 }
 
@@ -28,6 +32,11 @@ bool CxxNameResolver::ignoresContext(const clang::DeclContext* declContext)
 		}
 	}
 	return false;
+}
+
+std::shared_ptr<CanonicalFilePathCache> CxxNameResolver::getCanonicalFilePathCache() const
+{
+	return m_canonicalFilePathCache;
 }
 
 std::vector<const clang::Decl*> CxxNameResolver::getIgnoredContextDecls() const

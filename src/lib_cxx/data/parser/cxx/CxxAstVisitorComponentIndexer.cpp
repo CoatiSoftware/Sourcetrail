@@ -5,10 +5,10 @@
 #include <clang/Basic/SourceManager.h>
 #include <clang/Lex/Preprocessor.h>
 
+#include "data/parser/cxx/CanonicalFilePathCache.h"
 #include "data/parser/cxx/CxxAstVisitorComponentContext.h"
 #include "data/parser/cxx/CxxAstVisitorComponentDeclRefKind.h"
 #include "data/parser/cxx/CxxAstVisitorComponentTypeRefKind.h"
-
 #include "data/parser/cxx/utilityClang.h"
 #include "data/parser/ParseLocation.h"
 #include "data/parser/ParserClient.h"
@@ -798,19 +798,17 @@ bool CxxAstVisitorComponentIndexer::shouldVisitReference(const clang::SourceLoca
 
 bool CxxAstVisitorComponentIndexer::isLocatedInUnparsedProjectFile(clang::SourceLocation loc)
 {
-	clang::SourceManager& sourceManager = m_astContext->getSourceManager();
-	clang::SourceLocation spellingLoc = sourceManager.getSpellingLoc(loc);
+	const clang::SourceManager& sourceManager = m_astContext->getSourceManager();
 
 	clang::FileID fileId;
-
-	if (spellingLoc.isValid())
+	if (loc.isValid())
 	{
-		if (sourceManager.isWrittenInMainFile(spellingLoc))
+		if (sourceManager.isWrittenInMainFile(loc))
 		{
 			return true;
 		}
 
-		fileId = sourceManager.getFileID(spellingLoc);
+		fileId = sourceManager.getFileID(loc);
 	}
 
 	if (fileId.isValid())
@@ -823,10 +821,9 @@ bool CxxAstVisitorComponentIndexer::isLocatedInUnparsedProjectFile(clang::Source
 
 		bool ret = false;
 		const clang::FileEntry* fileEntry = sourceManager.getFileEntryForID(fileId);
-		if (fileEntry != NULL)
+		if (fileEntry != nullptr && fileEntry->isValid())
 		{
-			FilePath filePath =
-				getAstVisitor()->getCanonicalFilePathCache()->getValue(utility::getFileNameOfFileEntry(fileEntry));
+			FilePath filePath = getAstVisitor()->getCanonicalFilePathCache()->getCanonicalFilePath(fileEntry);
 
 			if (m_fileRegister->hasFilePath(filePath))
 			{
@@ -843,14 +840,13 @@ bool CxxAstVisitorComponentIndexer::isLocatedInUnparsedProjectFile(clang::Source
 
 bool CxxAstVisitorComponentIndexer::isLocatedInProjectFile(clang::SourceLocation loc)
 {
-	clang::SourceManager& sourceManager = m_astContext->getSourceManager();
-	clang::SourceLocation spellingLoc = sourceManager.getSpellingLoc(loc);
+	const clang::SourceManager& sourceManager = m_astContext->getSourceManager();
 
 	clang::FileID fileId;
 
-	if (spellingLoc.isValid())
+	if (loc.isValid())
 	{
-		fileId = sourceManager.getFileID(spellingLoc);
+		fileId = sourceManager.getFileID(loc);
 	}
 
 	if (!fileId.isInvalid())
@@ -862,10 +858,9 @@ bool CxxAstVisitorComponentIndexer::isLocatedInProjectFile(clang::SourceLocation
 		}
 
 		const clang::FileEntry* fileEntry = sourceManager.getFileEntryForID(fileId);
-		if (fileEntry != NULL)
+		if (fileEntry != nullptr && fileEntry->isValid())
 		{
-			FilePath filePath =
-				getAstVisitor()->getCanonicalFilePathCache()->getValue(utility::getFileNameOfFileEntry(fileEntry));
+			FilePath filePath = getAstVisitor()->getCanonicalFilePathCache()->getCanonicalFilePath(fileEntry);
 			bool ret = m_fileRegister->hasFilePath(filePath);
 			m_inProjectFileMap[fileId] = ret;
 			return ret;

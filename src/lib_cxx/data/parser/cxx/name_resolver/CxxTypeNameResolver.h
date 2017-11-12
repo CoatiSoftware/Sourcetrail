@@ -7,8 +7,11 @@
 class CxxTypeNameResolver: public CxxNameResolver
 {
 public:
-	CxxTypeNameResolver();
-	CxxTypeNameResolver(std::vector<const clang::Decl*> ignoredContextDecls);
+	CxxTypeNameResolver(std::shared_ptr<CanonicalFilePathCache> canonicalFilePathCache);
+	CxxTypeNameResolver(
+		std::shared_ptr<CanonicalFilePathCache> canonicalFilePathCache,
+		std::vector<const clang::Decl*> ignoredContextDecls
+	);
 	virtual ~CxxTypeNameResolver();
 
 	std::shared_ptr<CxxTypeName> getName(const clang::QualType& qualType);

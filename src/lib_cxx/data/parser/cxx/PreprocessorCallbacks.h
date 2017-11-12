@@ -2,15 +2,16 @@
 #define PREPROCESSOR_CALLBACKS_H
 
 #include <memory>
+#include <unordered_map>
 
 #include "clang/Basic/SourceManager.h"
 #include "clang/Lex/MacroInfo.h"
 #include "clang/Lex/PPCallbacks.h"
 #include "clang/Lex/Token.h"
 
-#include "data/parser/cxx/cxxCacheTypes.h"
 #include "utility/file/FilePath.h"
 
+class CanonicalFilePathCache;
 class FileRegister;
 class ParserClient;
 
@@ -24,7 +25,7 @@ public:
 		clang::SourceManager& sourceManager,
 		std::shared_ptr<ParserClient> client,
 		std::shared_ptr<FileRegister> fileRegister,
-		std::shared_ptr<FilePathCache> canonicalFilePathCache);
+		std::shared_ptr<CanonicalFilePathCache> canonicalFilePathCache);
 
 	virtual void FileChanged(
 		clang::SourceLocation location, FileChangeReason reason, clang::SrcMgr::CharacteristicKind, clang::FileID) override;
@@ -71,7 +72,7 @@ private:
 	const clang::SourceManager& m_sourceManager;
 	std::shared_ptr<ParserClient> m_client;
 	std::shared_ptr<FileRegister> m_fileRegister;
-	std::shared_ptr<FilePathCache> m_canonicalFilePathCache;
+	std::shared_ptr<CanonicalFilePathCache> m_canonicalFilePathCache;
 	std::unordered_map<const clang::FileID, bool, FileIdHash> m_inProjectFileMap;
 
 	FilePath m_currentPath;

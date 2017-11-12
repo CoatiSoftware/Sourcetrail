@@ -7,13 +7,16 @@
 #include "data/parser/cxx/name_resolver/CxxTypeNameResolver.h"
 #include "data/parser/cxx/name_resolver/CxxDeclNameResolver.h"
 
-CxxSpecifierNameResolver::CxxSpecifierNameResolver()
-	: CxxNameResolver(std::vector<const clang::Decl*>())
+CxxSpecifierNameResolver::CxxSpecifierNameResolver(std::shared_ptr<CanonicalFilePathCache> canonicalFilePathCache)
+	: CxxNameResolver(canonicalFilePathCache, std::vector<const clang::Decl*>())
 {
 }
 
-CxxSpecifierNameResolver::CxxSpecifierNameResolver(std::vector<const clang::Decl*> ignoredContextDecls)
-	: CxxNameResolver(ignoredContextDecls)
+CxxSpecifierNameResolver::CxxSpecifierNameResolver(
+	std::shared_ptr<CanonicalFilePathCache> canonicalFilePathCache,
+	std::vector<const clang::Decl*> ignoredContextDecls
+)
+	: CxxNameResolver(canonicalFilePathCache, ignoredContextDecls)
 {
 }
 
@@ -48,20 +51,20 @@ std::shared_ptr<CxxName> CxxSpecifierNameResolver::getName(const clang::NestedNa
 			break;
 		case clang::NestedNameSpecifier::Namespace:
 			{
-				CxxDeclNameResolver declNameResolver(getIgnoredContextDecls());
+				CxxDeclNameResolver declNameResolver(getCanonicalFilePathCache(), getIgnoredContextDecls());
 				name = declNameResolver.getName(nestedNameSpecifier->getAsNamespace());
 			}
 			break;
 		case clang::NestedNameSpecifier::NamespaceAlias:
 			{
-				CxxDeclNameResolver declNameResolver(getIgnoredContextDecls());
+				CxxDeclNameResolver declNameResolver(getCanonicalFilePathCache(), getIgnoredContextDecls());
 				name = declNameResolver.getName(nestedNameSpecifier->getAsNamespaceAlias());
 			}
 			break;
 		case clang::NestedNameSpecifier::TypeSpec:
 		case clang::NestedNameSpecifier::TypeSpecWithTemplate:
 			{
-				CxxTypeNameResolver typeNameResolver(getIgnoredContextDecls());
+				CxxTypeNameResolver typeNameResolver(getCanonicalFilePathCache(), getIgnoredContextDecls());
 				name = CxxTypeName::makeUnsolvedIfNull(typeNameResolver.getName(nestedNameSpecifier->getAsType()));
 			}
 			break;
@@ -70,7 +73,7 @@ std::shared_ptr<CxxName> CxxSpecifierNameResolver::getName(const clang::NestedNa
 			break;
 		case clang::NestedNameSpecifier::Super:
 			{
-				CxxDeclNameResolver declNameResolver(getIgnoredContextDecls());
+				CxxDeclNameResolver declNameResolver(getCanonicalFilePathCache(), getIgnoredContextDecls());
 				name = declNameResolver.getName(nestedNameSpecifier->getAsRecordDecl());
 			}
 			break;

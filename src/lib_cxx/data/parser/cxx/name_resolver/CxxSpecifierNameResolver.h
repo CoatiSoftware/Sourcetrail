@@ -10,8 +10,11 @@ class CxxName;
 class CxxSpecifierNameResolver: public CxxNameResolver
 {
 public:
-	CxxSpecifierNameResolver();
-	CxxSpecifierNameResolver(std::vector<const clang::Decl*> ignoredContextDecls);
+	CxxSpecifierNameResolver(std::shared_ptr<CanonicalFilePathCache> canonicalFilePathCache);
+	CxxSpecifierNameResolver(
+		std::shared_ptr<CanonicalFilePathCache> canonicalFilePathCache,
+		std::vector<const clang::Decl*> ignoredContextDecls
+	);
 	virtual ~CxxSpecifierNameResolver();
 
 	std::shared_ptr<CxxName> getName(const clang::NestedNameSpecifier* nestedNameSpecifier);

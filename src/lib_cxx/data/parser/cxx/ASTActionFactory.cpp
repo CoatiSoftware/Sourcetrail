@@ -6,7 +6,7 @@
 ASTActionFactory::ASTActionFactory(
 	std::shared_ptr<ParserClient> client,
 	std::shared_ptr<FileRegister> fileRegister,
-	std::shared_ptr<FilePathCache> canonicalFilePathCache,
+	std::shared_ptr<CanonicalFilePathCache> canonicalFilePathCache,
 	bool preprocessorOnly
 )
 	: m_client(client)

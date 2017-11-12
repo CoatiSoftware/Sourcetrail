@@ -9,13 +9,16 @@
 #include "data/parser/cxx/name_resolver/CxxTemplateArgumentNameResolver.h"
 #include "utility/logging/logging.h"
 
-CxxTypeNameResolver::CxxTypeNameResolver()
-	: CxxNameResolver(std::vector<const clang::Decl*>())
+CxxTypeNameResolver::CxxTypeNameResolver(std::shared_ptr<CanonicalFilePathCache> canonicalFilePathCache)
+	: CxxNameResolver(canonicalFilePathCache, std::vector<const clang::Decl*>())
 {
 }
 
-CxxTypeNameResolver::CxxTypeNameResolver(std::vector<const clang::Decl*> ignoredContextDecls)
-	: CxxNameResolver(ignoredContextDecls)
+CxxTypeNameResolver::CxxTypeNameResolver(
+	std::shared_ptr<CanonicalFilePathCache> canonicalFilePathCache, 
+	std::vector<const clang::Decl*> ignoredContextDecls
+)
+	: CxxNameResolver(canonicalFilePathCache, ignoredContextDecls)
 {
 }
 
@@ -58,7 +61,7 @@ std::shared_ptr<CxxTypeName> CxxTypeNameResolver::getName(const clang::Type* typ
 			}
 		case clang::Type::Typedef:
 			{
-				CxxDeclNameResolver declNameResolver(getIgnoredContextDecls());
+				CxxDeclNameResolver declNameResolver(getCanonicalFilePathCache(), getIgnoredContextDecls());
 				std::shared_ptr<CxxDeclName> declName = declNameResolver.getName(type->getAs<clang::TypedefType>()->getDecl());
 				if (declName)
 				{
@@ -118,7 +121,7 @@ std::shared_ptr<CxxTypeName> CxxTypeNameResolver::getName(const clang::Type* typ
 		case clang::Type::Enum:
 		case clang::Type::Record:
 			{
-				CxxDeclNameResolver declNameResolver(getIgnoredContextDecls());
+				CxxDeclNameResolver declNameResolver(getCanonicalFilePathCache(), getIgnoredContextDecls());
 				std::shared_ptr<CxxDeclName> declName = declNameResolver.getName(type->getAs<clang::TagType>()->getDecl());
 				if (declName)
 				{
@@ -146,7 +149,7 @@ std::shared_ptr<CxxTypeName> CxxTypeNameResolver::getName(const clang::Type* typ
 				const clang::TagType* tagType = type->getAs<clang::TagType>(); // remove this case when NameHierarchy is split into namepart and parameter part
 				if (tagType)
 				{
-					CxxDeclNameResolver declNameResolver(getIgnoredContextDecls());
+					CxxDeclNameResolver declNameResolver(getCanonicalFilePathCache(), getIgnoredContextDecls());
 					std::shared_ptr<CxxDeclName> declName = declNameResolver.getName(tagType->getDecl());
 					if (declName)
 					{
@@ -160,13 +163,13 @@ std::shared_ptr<CxxTypeName> CxxTypeNameResolver::getName(const clang::Type* typ
 				else // specialization of a template template parameter (no concrete class) important, may help: has no underlying decl!
 				{
 					const clang::TemplateSpecializationType* templateSpecializationType = type->getAs<clang::TemplateSpecializationType>();
-					CxxDeclNameResolver declNameResolver(getIgnoredContextDecls());
+					CxxDeclNameResolver declNameResolver(getCanonicalFilePathCache(), getIgnoredContextDecls());
 					const std::shared_ptr<CxxDeclName> declName = declNameResolver.getName(templateSpecializationType->getTemplateName().getAsTemplateDecl());
 
 					if (declName)
 					{
 						std::vector<std::string> templateArguments;
-						CxxTemplateArgumentNameResolver resolver(getIgnoredContextDecls());
+						CxxTemplateArgumentNameResolver resolver(getCanonicalFilePathCache(), getIgnoredContextDecls());
 						resolver.ignoreContextDecl(templateSpecializationType->getTemplateName().getAsTemplateDecl()->getTemplatedDecl());
 						for (size_t i = 0; i < templateSpecializationType->getNumArgs(); i++)
 						{
@@ -188,7 +191,7 @@ std::shared_ptr<CxxTypeName> CxxTypeNameResolver::getName(const clang::Type* typ
 			}
 		case clang::Type::TemplateTypeParm:
 			{
-				CxxDeclNameResolver declNameResolver(getIgnoredContextDecls());
+				CxxDeclNameResolver declNameResolver(getCanonicalFilePathCache(), getIgnoredContextDecls());
 				std::shared_ptr<CxxDeclName> declName = declNameResolver.getName(clang::dyn_cast<clang::TemplateTypeParmType>(type)->getDecl());
 				if (declName)
 				{
@@ -209,7 +212,7 @@ std::shared_ptr<CxxTypeName> CxxTypeNameResolver::getName(const clang::Type* typ
 			{
 				const clang::DependentNameType* dependentType = clang::dyn_cast<clang::DependentNameType>(type);
 
-				CxxSpecifierNameResolver specifierNameResolver(getIgnoredContextDecls());
+				CxxSpecifierNameResolver specifierNameResolver(getCanonicalFilePathCache(), getIgnoredContextDecls());
 				std::shared_ptr<CxxName> specifierName = specifierNameResolver.getName(dependentType->getQualifier());
 
 				typeName = std::make_shared<CxxTypeName>(
@@ -221,11 +224,11 @@ std::shared_ptr<CxxTypeName> CxxTypeNameResolver::getName(const clang::Type* typ
 			{
 				const clang::DependentTemplateSpecializationType* dependentType = clang::dyn_cast<clang::DependentTemplateSpecializationType>(type);
 
-				CxxSpecifierNameResolver specifierNameResolver(getIgnoredContextDecls());
+				CxxSpecifierNameResolver specifierNameResolver(getCanonicalFilePathCache(), getIgnoredContextDecls());
 				std::shared_ptr<CxxName> specifierName = specifierNameResolver.getName(dependentType->getQualifier());
 
 				std::vector<std::string> templateArguments;
-				CxxTemplateArgumentNameResolver resolver(getIgnoredContextDecls());
+				CxxTemplateArgumentNameResolver resolver(getCanonicalFilePathCache(), getIgnoredContextDecls());
 				for (size_t i = 0; i < dependentType->getNumArgs(); i++)
 				{
 					templateArguments.push_back(resolver.getTemplateArgumentName(dependentType->getArg(i)));

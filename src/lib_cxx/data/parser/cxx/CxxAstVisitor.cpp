@@ -6,6 +6,7 @@
 #include "data/parser/cxx/name_resolver/CxxDeclNameResolver.h"
 #include "data/parser/cxx/name_resolver/CxxTypeNameResolver.h"
 
+#include "data/parser/cxx/CanonicalFilePathCache.h"
 #include "data/parser/cxx/CxxAstVisitorComponent.h"
 #include "data/parser/cxx/CxxAstVisitorComponentContext.h"
 #include "data/parser/cxx/CxxAstVisitorComponentDeclRefKind.h"
@@ -22,7 +23,7 @@ CxxAstVisitor::CxxAstVisitor(
 	clang::Preprocessor* preprocessor,
 	std::shared_ptr<ParserClient> client,
 	 std::shared_ptr<FileRegister> fileRegister,
-	std::shared_ptr<FilePathCache> canonicalFilePathCache
+	std::shared_ptr<CanonicalFilePathCache> canonicalFilePathCache
 )
 	: m_astContext(astContext)
 	, m_preprocessor(preprocessor)
@@ -30,11 +31,11 @@ CxxAstVisitor::CxxAstVisitor(
 	, m_fileRegister(fileRegister)
 	, m_canonicalFilePathCache(canonicalFilePathCache)
 {
-	m_declNameCache = std::make_shared<DeclNameCache>([](const clang::NamedDecl* decl) -> NameHierarchy
+	m_declNameCache = std::make_shared<DeclNameCache>([&](const clang::NamedDecl* decl) -> NameHierarchy
 		{
 			if (decl)
 			{
-				CxxDeclNameResolver resolver;
+				CxxDeclNameResolver resolver(m_canonicalFilePathCache);
 				if (std::shared_ptr<CxxDeclName> declName = resolver.getName(decl))
 				{
 					return declName->toNameHierarchy();
@@ -43,11 +44,11 @@ CxxAstVisitor::CxxAstVisitor(
 			return NameHierarchy("global", NAME_DELIMITER_UNKNOWN);
 		}
 	);
-	m_typeNameCache = std::make_shared<TypeNameCache>([](const clang::Type* type) -> NameHierarchy
+	m_typeNameCache = std::make_shared<TypeNameCache>([&](const clang::Type* type) -> NameHierarchy
 		{
 			if (type)
 			{
-				CxxTypeNameResolver resolver;
+				CxxTypeNameResolver resolver(m_canonicalFilePathCache);
 				if (std::shared_ptr<CxxTypeName> typeName = resolver.getName(type))
 				{
 					return typeName->toNameHierarchy();
@@ -107,7 +108,7 @@ std::shared_ptr<TypeNameCache> CxxAstVisitor::getTypeNameCache()
 	return m_typeNameCache;
 }
 
-std::shared_ptr<FilePathCache> CxxAstVisitor::getCanonicalFilePathCache()
+std::shared_ptr<CanonicalFilePathCache> CxxAstVisitor::getCanonicalFilePathCache()
 {
 	return m_canonicalFilePathCache;
 }
@@ -657,9 +658,9 @@ ParseLocation CxxAstVisitor::getParseLocation(const clang::SourceLocation& loc) 
 		if (!fileId.isInvalid())
 		{
 			const clang::FileEntry* fileEntry = sourceManager.getFileEntryForID(fileId);
-			if (fileEntry != NULL)
+			if (fileEntry != nullptr && fileEntry->isValid())
 			{
-				parseLocation.filePath = m_canonicalFilePathCache->getValue(utility::getFileNameOfFileEntry(fileEntry));
+				parseLocation.filePath = m_canonicalFilePathCache->getCanonicalFilePath(fileEntry);
 			}
 		}
 
@@ -688,14 +689,27 @@ ParseLocation CxxAstVisitor::getParseLocation(const clang::SourceRange& sourceRa
 	if (sourceRange.isValid())
 	{
 		const clang::SourceManager& sourceManager = m_astContext->getSourceManager();
-
+		
 		const clang::SourceLocation endLoc = m_preprocessor->getLocForEndOfToken(sourceRange.getEnd());
 
 		const clang::PresumedLoc& presumedBegin = sourceManager.getPresumedLoc(sourceRange.getBegin(), false);
 		const clang::PresumedLoc& presumedEnd = sourceManager.getPresumedLoc(endLoc.isValid() ? endLoc : sourceRange.getEnd(), false);
 
+		FilePath filePath;
+		{
+			const clang::FileEntry* fileEntry = sourceManager.getFileEntryForID(sourceManager.getFileID(sourceRange.getBegin()));
+			if (fileEntry != nullptr && fileEntry->isValid())
+			{
+				filePath = m_canonicalFilePathCache->getCanonicalFilePath(fileEntry);
+			}
+			else
+			{
+				filePath = m_canonicalFilePathCache->getCanonicalFilePath(presumedBegin.getFilename());
+			}
+		}
+
 		parseLocation = ParseLocation(
-			m_canonicalFilePathCache->getValue(presumedBegin.getFilename()),
+			filePath,
 			presumedBegin.getLine(),
 			presumedBegin.getColumn(),
 			presumedEnd.getLine(),

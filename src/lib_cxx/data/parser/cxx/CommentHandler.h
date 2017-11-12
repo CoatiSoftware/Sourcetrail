@@ -3,8 +3,7 @@
 
 #include "clang/Lex/Preprocessor.h"
 
-#include "data/parser/cxx/cxxCacheTypes.h"
-
+class CanonicalFilePathCache;
 class FileRegister;
 class ParserClient;
 
@@ -15,7 +14,7 @@ public:
 	CommentHandler(
 		std::shared_ptr<ParserClient> client,
 		std::shared_ptr<FileRegister> fileRegister,
-		std::shared_ptr<FilePathCache> canonicalFilePathCache
+		std::shared_ptr<CanonicalFilePathCache> canonicalFilePathCache
 	);
 
 	virtual ~CommentHandler();
@@ -25,7 +24,7 @@ public:
 private:
 	std::shared_ptr<ParserClient> m_client;
 	std::shared_ptr<FileRegister> m_fileRegister;
-	std::shared_ptr<FilePathCache> m_canonicalFilePathCache;
+	std::shared_ptr<CanonicalFilePathCache> m_canonicalFilePathCache;
 };
 
 #endif // COMMENT_HANDLER_H

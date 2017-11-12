@@ -5,13 +5,16 @@
 
 #include "data/parser/cxx/name_resolver/CxxTypeNameResolver.h"
 
-CxxTemplateArgumentNameResolver::CxxTemplateArgumentNameResolver()
-	: CxxNameResolver(std::vector<const clang::Decl*>())
+CxxTemplateArgumentNameResolver::CxxTemplateArgumentNameResolver(std::shared_ptr<CanonicalFilePathCache> canonicalFilePathCache)
+	: CxxNameResolver(canonicalFilePathCache, std::vector<const clang::Decl*>())
 {
 }
 
-CxxTemplateArgumentNameResolver::CxxTemplateArgumentNameResolver(std::vector<const clang::Decl*> ignoredContextDecls)
-	: CxxNameResolver(ignoredContextDecls)
+CxxTemplateArgumentNameResolver::CxxTemplateArgumentNameResolver(
+	std::shared_ptr<CanonicalFilePathCache> canonicalFilePathCache, 
+	std::vector<const clang::Decl*> ignoredContextDecls
+)
+	: CxxNameResolver(canonicalFilePathCache, ignoredContextDecls)
 {
 }
 
@@ -28,7 +31,7 @@ std::string CxxTemplateArgumentNameResolver::getTemplateArgumentName(const clang
 	{
 	case clang::TemplateArgument::Type:
 		{
-			CxxTypeNameResolver typeNameResolver(getIgnoredContextDecls());
+			CxxTypeNameResolver typeNameResolver(getCanonicalFilePathCache(), getIgnoredContextDecls());
 			std::shared_ptr<CxxTypeName> typeName = CxxTypeName::makeUnsolvedIfNull(typeNameResolver.getName(argument.getAsType()));
 			return typeName->toString();
 		}
