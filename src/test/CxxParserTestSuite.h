@@ -677,14 +677,18 @@ public:
 		));
 	}
 
-	//void _test_cxx_parser_finds_template_argument_of_dependent_non_type_template_parameter()
-	//{
-	//	std::shared_ptr<TestParserClient> client = parseCode(
-	//		"template <template<typename> class T1, T1<int>& T2>\n" // test that t1<int> uses int
-	//		"class A\n"
-	//		"{};\n"
-	//	);
-	//}
+	void test_cxx_parser_finds_template_argument_of_dependent_non_type_template_parameter()
+	{
+		std::shared_ptr<TestParserClient> client = parseCode(
+			"template <template<typename> class T1, T1<int>& T2>\n"
+			"class A\n"
+			"{};\n"
+		);
+
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->templateArgumentTypes, "A<template<typename> typename T1, T1<int> & T2>::T1<int> -> int <1:43 1:45>"
+		));
+	}
 
 	void test_cxx_parser_finds_template_template_parameter_of_template_class()
 	{
@@ -2431,7 +2435,77 @@ public:
 		));
 	}
 
-	void test_cxx_parser_finds_usage_of_template_template_parameter_of_template_class_specialized_with_concrete_type()
+	void test_cxx_parser_finds_usage_of_template_parameter_of_template_member_variable_declaration()
+	{
+		std::shared_ptr<TestParserClient> client = parseCode(
+			"template <typename T>\n"
+			"	struct IsBaseType {\n"
+			"	static const bool value = true;\n"
+			"};\n"
+			"template <typename T>\n"
+			"const bool IsBaseType<T>::value;\n"
+		);
+
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->templateParameterTypes, "IsBaseType<typename T>::T <1:20 1:20>"
+		));
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->templateParameterTypes, "IsBaseType<typename T>::T <5:20 5:20>"
+		));
+	}
+
+	void test_cxx_parser_finds_usage_of_template_parameters_with_different_depth_of_template_function()
+	{
+		std::shared_ptr<TestParserClient> client = parseCode(
+			"template <typename T>\n"
+			"class A\n"
+			"{\n"
+			"	template <typename Q>\n"
+			"	void foo(Q q)\n"
+			"	{\n"
+			"		T t;\n"
+			"		t.run(q);\n"
+			"	}\n"
+			"};\n"
+		);
+
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->typeUses, "void A<typename T>::foo<typename Q>(Q) -> A<typename T>::T <7:3 7:3>"
+			));
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->typeUses, "void A<typename T>::foo<typename Q>(Q) -> A<typename T>::foo<typename Q>::Q <5:11 5:11>"
+			));
+	}
+
+	void test_cxx_parser_finds_usage_of_template_parameters_with_different_depth_of_partial_template_specialization()
+	{
+		std::shared_ptr<TestParserClient> client = parseCode(
+			"template <typename T>\n"
+			"class A\n"
+			"{\n"
+			"	template <typename Q, typename R>\n"
+			"	class B\n"
+			"	{\n"
+			"		T foo(Q q, R r);\n"
+			"	};\n"
+			"\n"
+			"	template <typename R>\n"
+			"	class B<int, R>\n"
+			"	{\n"
+			"		T foo(R r);\n"
+			"	};\n"
+			"};\n"
+		);
+
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->typeUses, "A<typename T>::T A<typename T>::B<int, typename R>::foo(A<typename T>::B<int, typename R>::R) -> A<typename T>::T <13:3 13:3>"
+		));
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->typeUses, "A<typename T>::T A<typename T>::B<int, typename R>::foo(A<typename T>::B<int, typename R>::R) -> A<typename T>::B<int, typename R>::R <13:9 13:9>"
+		));
+	}
+
+	void test_cxx_parser_finds_usage_of_template_template_parameter_of_template_class_explicitly_instantiated_with_concrete_type_argument()
 	{
 		std::shared_ptr<TestParserClient> client = parseCode(
 			"template <typename T>\n"
@@ -2450,7 +2524,7 @@ public:
 		));
 	}
 
-	void test_cxx_parser_finds_usage_of_template_template_parameter_of_template_class_specialized_with_template_type()
+	void test_cxx_parser_finds_usage_of_template_template_parameter_of_template_class_explicitly_instantiated_with_template_type()
 	{
 		std::shared_ptr<TestParserClient> client = parseCode(
 			"template <typename T>\n"

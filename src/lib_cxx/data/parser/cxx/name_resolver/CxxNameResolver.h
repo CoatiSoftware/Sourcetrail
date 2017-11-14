@@ -17,6 +17,7 @@ public:
 	virtual ~CxxNameResolver();
 
 	void ignoreContextDecl(const clang::Decl* decl);
+	bool ignoresContext(const clang::Decl* decl);
 	bool ignoresContext(const clang::DeclContext* declContext);
 
 protected:

@@ -25,6 +25,7 @@ private:
 	std::string getTranslationUnitMainFileName(const clang::Decl* declaration);
 	std::string getDeclarationFileName(const clang::Decl* declaration);
 	std::string getNameForAnonymousSymbol(const std::string& symbolKindName, const clang::Decl* declaration);
+	std::vector<std::string> getTemplateParameterStrings(const clang::TemplateDecl* templateDecl);
 	std::string getTemplateParameterString(const clang::NamedDecl* parameter);
 	std::string getTemplateParameterTypeString(const clang::NonTypeTemplateParmDecl* parameter);
 	std::string getTemplateParameterTypeString(const clang::TemplateTypeParmDecl* parameter);

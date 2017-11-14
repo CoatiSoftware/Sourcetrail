@@ -475,14 +475,12 @@ void CxxAstVisitor::traverseDeclContextHelper(clang::DeclContext* d)
 		return;
 	}
 
-	// Traverse children.
-	for (clang::DeclContext::decl_iterator it = d->decls_begin(),
-		itEnd = d->decls_end(); it != itEnd; ++it)
-	{
-		// BlockDecls are traversed through BlockExprs.
-		if (!llvm::isa<clang::BlockDecl>(*it))
+	for (auto* child : d->decls()) {
+		// BlockDecls and CapturedDecls are traversed through BlockExprs and
+		// CapturedStmts respectively.
+		if (!llvm::isa<clang::BlockDecl>(child) && !llvm::isa<clang::CapturedDecl>(child))
 		{
-			TraverseDecl(*it);
+			TraverseDecl(child);
 		}
 	}
 }

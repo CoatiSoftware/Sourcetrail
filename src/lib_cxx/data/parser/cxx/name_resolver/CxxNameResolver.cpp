@@ -21,15 +21,26 @@ void CxxNameResolver::ignoreContextDecl(const clang::Decl* decl)
 	}
 }
 
+bool CxxNameResolver::ignoresContext(const clang::Decl* decl)
+{
+	if (decl)
+	{
+		for (size_t i = 0; i < m_ignoredContextDecls.size(); i++)
+		{
+			if (decl == m_ignoredContextDecls[i])
+			{
+				return true;
+			}
+		}
+	}
+	return false;
+}
+
 bool CxxNameResolver::ignoresContext(const clang::DeclContext* declContext)
 {
-	const clang::Decl* decl = clang::dyn_cast<clang::Decl>(declContext);
-	for (size_t i = 0; i < m_ignoredContextDecls.size(); i++)
+	if (const clang::Decl* decl = clang::dyn_cast_or_null<clang::Decl>(declContext))
 	{
-		if (decl == m_ignoredContextDecls[i])
-		{
-			return true;
-		}
+		return ignoresContext(decl);
 	}
 	return false;
 }

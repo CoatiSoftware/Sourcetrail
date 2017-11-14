@@ -36,17 +36,9 @@ CxxDeclNameResolver::~CxxDeclNameResolver()
 
 std::shared_ptr<CxxDeclName> CxxDeclNameResolver::getName(const clang::NamedDecl* declaration)
 {
-	{
-		const clang::Decl* prev = declaration;
-		while (prev)
-		{
-			declaration = clang::dyn_cast_or_null<clang::NamedDecl>(prev);
-			prev = prev->getPreviousDecl();
-		}
-	}
+	declaration = utility::getFirstDecl(declaration);
 
 	std::shared_ptr<CxxDeclName> declName;
-
 	if ((declaration) &&
 		(clang::isa<clang::CXXRecordDecl>(declaration)) &&
 		(clang::dyn_cast<clang::CXXRecordDecl>(declaration)->isLambda()))
@@ -76,6 +68,60 @@ std::shared_ptr<CxxDeclName> CxxDeclNameResolver::getName(const clang::NamedDecl
 			{
 				CxxSpecifierNameResolver specifierNameResolver(getCanonicalFilePathCache(), getIgnoredContextDecls());
 				declName->setParent(specifierNameResolver.getName(usingDecl->getQualifier()));
+			}
+			else if (
+				clang::isa<clang::TemplateTypeParmDecl>(declaration) ||
+				clang::isa<clang::NonTypeTemplateParmDecl>(declaration) ||
+				clang::isa<clang::TemplateTemplateParmDecl>(declaration)
+			) {
+				clang::ASTContext& context = declaration->getASTContext();
+
+				clang::ASTContext::DynTypedNodeList parents = context.getParents(*declaration);
+				for (const clang::ast_type_traits::DynTypedNode* parent = parents.begin(); parent != parents.end(); parent++)
+				{
+					const clang::Decl* parentDecl = parent->get<clang::Decl>();
+					while (parentDecl != nullptr)
+					{
+						parentDecl = utility::getFirstDecl(parentDecl);
+
+						if (const clang::TemplateDecl* parentTemplateDecl = clang::dyn_cast_or_null<clang::TemplateDecl>(parentDecl))
+						{
+							if (!ignoresContext(parentTemplateDecl) && !ignoresContext(parentTemplateDecl->getTemplatedDecl()))
+							{
+								declName->setParent(getName(parentTemplateDecl));
+							}
+							break;
+						}
+						else if (const clang::ClassTemplatePartialSpecializationDecl* parentTemplateDecl = clang::dyn_cast_or_null<clang::ClassTemplatePartialSpecializationDecl>(parentDecl))
+						{
+							if (!ignoresContext(parentDecl))
+							{
+								declName->setParent(getName(parentTemplateDecl));
+							}
+							break;
+						}
+						
+						if (const clang::DeclContext* parentDeclContext = parentDecl->getDeclContext())
+						{
+							if (ignoresContext(parentDeclContext))
+							{
+								break;
+							}
+							parentDecl = clang::dyn_cast_or_null<clang::Decl>(parentDeclContext);
+							if (parentDecl)
+							{
+								if (clang::TemplateDecl* describedTemplate = parentDecl->getDescribedTemplate())
+								{
+									parentDecl = describedTemplate;
+								}
+							}
+						}
+						else
+						{
+							break;
+						}
+					}
+				}
 			}
 			else
 			{
@@ -215,20 +261,15 @@ std::shared_ptr<CxxDeclName> CxxDeclNameResolver::getDeclName(const clang::Named
 			}
 			else if (clang::FunctionTemplateDecl* templateFunctionDeclaration = functionDecl->getDescribedFunctionTemplate())
 			{
-				std::shared_ptr<CxxDeclName> templateDeclName = getDeclName(templateFunctionDeclaration);
-				functionName = templateDeclName->getName();
-				templateArguments = templateDeclName->getTemplateParameterNames();
+				templateArguments = getTemplateParameterStrings(templateFunctionDeclaration);
 			}
-			else
+			else if (functionDecl->isFunctionTemplateSpecialization())
 			{
-				if (functionDecl->isFunctionTemplateSpecialization())
+				const clang::TemplateArgumentList* templateArgumentList = functionDecl->getTemplateSpecializationArgs();
+				for (size_t i = 0; i < templateArgumentList->size(); i++)
 				{
-					const clang::TemplateArgumentList* templateArgumentList = functionDecl->getTemplateSpecializationArgs();
-					for (size_t i = 0; i < templateArgumentList->size(); i++)
-					{
-						const clang::TemplateArgument& templateArgument = templateArgumentList->get(i);
-						templateArguments.push_back(getTemplateArgumentName(templateArgument));
-					}
+					const clang::TemplateArgument& templateArgument = templateArgumentList->get(i);
+					templateArguments.push_back(getTemplateArgumentName(templateArgument));
 				}
 			}
 
@@ -276,15 +317,14 @@ std::shared_ptr<CxxDeclName> CxxDeclNameResolver::getDeclName(const clang::Named
 				isStatic
 			);
 		}
+		else if (clang::isa<clang::FunctionTemplateDecl>(declaration))
+		{
+			const clang::FunctionTemplateDecl* functionTemplateDecl = clang::dyn_cast<clang::FunctionTemplateDecl>(declaration);
+			return getDeclName(functionTemplateDecl->getTemplatedDecl());
+		}
 		else if (clang::isa<clang::TemplateDecl>(declaration)) // also triggers on TemplateTemplateParmDecl
 		{
-			std::vector<std::string> templateParameters;
-			clang::TemplateParameterList* parameterList = clang::dyn_cast<clang::TemplateDecl>(declaration)->getTemplateParameters();
-			for (size_t i = 0; i < parameterList->size(); i++)
-			{
-				templateParameters.push_back(getTemplateParameterString(parameterList->getParam(i)));
-			}
-			return std::make_shared<CxxDeclName>(declNameString, templateParameters);
+			return std::make_shared<CxxDeclName>(declNameString, getTemplateParameterStrings(clang::dyn_cast<clang::TemplateDecl>(declaration)));
 		}
 		else if (clang::isa<clang::FieldDecl>(declaration))
 		{
@@ -408,6 +448,17 @@ std::string CxxDeclNameResolver::getNameForAnonymousSymbol(const std::string& sy
 			" (" + getDeclarationFileName(declaration) + "<" + std::to_string(presumedBegin.getLine()) + ":" + std::to_string(presumedBegin.getColumn()) + ">)";
 	}
 	return "anonymous " + symbolKindName;
+}
+
+std::vector<std::string> CxxDeclNameResolver::getTemplateParameterStrings(const clang::TemplateDecl* templateDecl)
+{
+	std::vector<std::string> templateParameterStrings;
+	clang::TemplateParameterList* parameterList = templateDecl->getTemplateParameters();
+	for (size_t i = 0; i < parameterList->size(); i++)
+	{
+		templateParameterStrings.push_back(getTemplateParameterString(parameterList->getParam(i)));
+	}
+	return templateParameterStrings;
 }
 
 std::string CxxDeclNameResolver::getTemplateParameterString(const clang::NamedDecl* parameter)
