@@ -51,7 +51,7 @@ QString QtFileDialog::getOpenFileName(QWidget* parent, const QString& caption, c
 QString QtFileDialog::showSaveFileDialog(
 	QWidget *parent, const QString& title, const QString& directory, const QString& filter)
 {
-#if defined(Q_WS_WIN) || defined(Q_WS_MAC)
+#if defined(Q_OS_WIN) || defined(Q_OS_MAC)
 
 	return QFileDialog::getSaveFileName(parent, title, directory, filter);
 
@@ -92,7 +92,7 @@ QString QtFileDialog::showSaveFileDialog(
 	{
 		return QString();
 	}
-#endif  // Q_WS_MAC || Q_WS_WIN
+#endif  // Q_OS_MAC || Q_OS_WIN
 }
 
 QString QtFileDialog::getDir(QString dir)

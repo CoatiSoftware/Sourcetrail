@@ -22,6 +22,8 @@ public:
 	float getZoomFactor() const;
 	void setAppZoomFactor(float appZoomFactor);
 
+	void setSceneRect(const QRectF& rect);
+
 	QtGraphNode* getNodeAtCursorPosition() const;
 
 	void ensureVisibleAnimated(const QRectF& rect, int xmargin = 50, int ymargin = 50);

@@ -92,6 +92,13 @@ void QtGraphicsView::setAppZoomFactor(float appZoomFactor)
 	updateTransform();
 }
 
+void QtGraphicsView::setSceneRect(const QRectF& rect)
+{
+	QGraphicsView::setSceneRect(rect);
+
+	scene()->setSceneRect(rect);
+}
+
 QtGraphNode* QtGraphicsView::getNodeAtCursorPosition() const
 {
 	QtGraphNode* node = nullptr;
@@ -409,11 +416,11 @@ void QtGraphicsView::stopTimer()
 void QtGraphicsView::exportGraph()
 {
 	QString fileName = QtFileDialog::showSaveFileDialog(
-		this, "Save image", QDir::homePath(), "PNG (*.png);;JPEG (*.JPEG);;BMP Files (*.bmp)");
+		nullptr, "Save image", QDir::homePath(), "PNG (*.png);;JPEG (*.JPEG);;BMP Files (*.bmp)");
 
 	if (!fileName.isNull())
 	{
-		QImage image(scene()->sceneRect().size().toSize(), QImage::Format_ARGB32);
+		QImage image(scene()->sceneRect().size().toSize() * 2, QImage::Format_ARGB32);
 		image.fill(Qt::transparent);
 
 		QPainter painter(&image);
@@ -421,7 +428,7 @@ void QtGraphicsView::exportGraph()
 		scene()->render(&painter);
 		image.save(fileName);
 
-		// different approach
+		// different approach: only currently visible part
 		// QPixmap pixMap = grab();
 		// pixMap.save(fileName);
 	}
