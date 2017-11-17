@@ -626,6 +626,11 @@ void QtSmartSearchBox::onElementSelected(QtSearchElement* element)
 		return;
 	}
 
+	if (!hasFocus())
+	{
+		setFocus();
+	}
+
 	if (!hasSelectedElements() && !m_shiftKeyDown)
 	{
 		editElement(element);

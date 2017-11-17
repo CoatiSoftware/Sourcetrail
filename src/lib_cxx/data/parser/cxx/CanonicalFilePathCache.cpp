@@ -1,6 +1,5 @@
 #include "data/parser/cxx/CanonicalFilePathCache.h"
 
-#include "utility/file/FilePath.h"
 #include "utility/utilityString.h"
 #include "data/parser/cxx/utilityClang.h"
 

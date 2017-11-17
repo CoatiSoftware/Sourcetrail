@@ -5,7 +5,6 @@
 #include "data/parser/cxx/name_resolver/CxxNameResolver.h"
 
 class CanonicalFilePathCache;
-class FilePath;
 
 class CxxDeclNameResolver: public CxxNameResolver
 {

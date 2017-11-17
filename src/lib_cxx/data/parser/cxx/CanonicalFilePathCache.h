@@ -5,8 +5,7 @@
 #include <unordered_map>
 
 #include "clang/Basic/FileManager.h"
-
-class FilePath;
+#include "utility/file/FilePath.h"
 
 class CanonicalFilePathCache
 {
