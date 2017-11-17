@@ -49,14 +49,22 @@ QtCodeField::QtCodeField(
 	}
 
 	QTextCodec* codec = QTextCodec::codecForName(ApplicationSettings::getInstance()->getTextEncoding().c_str());
-	QString convertedDisplayCode(codec->toUnicode(displayCode.c_str()));
-	setPlainText(convertedDisplayCode);
-	createLineLengthCache();
-	if (displayCode.size() != convertedDisplayCode.length())
+	if (codec)
 	{
-		LOG_INFO("Converting displayed code to " + codec->name().toStdString() + " resulted in offset of source locations. Correcting this now.");
-		createMultibyteCharacterLocationCache();
+		QString convertedDisplayCode(codec->toUnicode(displayCode.c_str()));
+		setPlainText(convertedDisplayCode);
+		if (displayCode.size() != convertedDisplayCode.length())
+		{
+			LOG_INFO("Converting displayed code to " + codec->name().toStdString() + " resulted in offset of source locations. Correcting this now.");
+			createMultibyteCharacterLocationCache();
+		}
 	}
+	else
+	{
+		setPlainText(displayCode.c_str());
+	}
+
+	createLineLengthCache();
 
 	this->setMouseTracking(true);
 
