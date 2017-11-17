@@ -24,8 +24,8 @@ QtGraphEdge* QtGraphEdge::s_focusedEdge = nullptr;
 QtGraphEdge* QtGraphEdge::s_focusedBezierEdge = nullptr;
 
 QtGraphEdge::QtGraphEdge(
-	const std::weak_ptr<QtGraphNode>& owner,
-	const std::weak_ptr<QtGraphNode>& target,
+	QtGraphNode* owner,
+	QtGraphNode* target,
 	const Edge* data,
 	size_t weight,
 	bool isActive,
@@ -49,11 +49,13 @@ QtGraphEdge::QtGraphEdge(
 {
 	if (m_direction == TokenComponentAggregation::DIRECTION_BACKWARD)
 	{
-		m_owner.swap(m_target);
+		QtGraphNode* temp = m_owner;
+		m_owner = m_target;
+		m_target = temp;
 	}
 
-	m_fromActive = m_owner.lock()->getIsActive();
-	m_toActive = m_target.lock()->getIsActive();
+	m_fromActive = m_owner->getIsActive();
+	m_toActive = m_target->getIsActive();
 
 	s_focusedEdge = nullptr;
 	s_focusedBezierEdge = nullptr;
@@ -68,26 +70,20 @@ const Edge* QtGraphEdge::getData() const
 	return m_data;
 }
 
-std::weak_ptr<QtGraphNode> QtGraphEdge::getOwner()
+QtGraphNode* QtGraphEdge::getOwner()
 {
 	return m_owner;
 }
 
-std::weak_ptr<QtGraphNode> QtGraphEdge::getTarget()
+QtGraphNode* QtGraphEdge::getTarget()
 {
 	return m_target;
 }
 
 void QtGraphEdge::updateLine()
 {
-	std::shared_ptr<QtGraphNode> owner = m_owner.lock();
-	std::shared_ptr<QtGraphNode> target = m_target.lock();
-
-	if (owner == NULL || target == NULL)
-	{
-		LOG_WARNING("Either the owner or the target node is null.");
-		return;
-	}
+	QtGraphNode* owner = m_owner;
+	QtGraphNode* target = m_target;
 
 	Edge::EdgeType type = (getData() ? getData()->getType() : Edge::EDGE_AGGREGATION);
 	GraphViewStyle::EdgeStyle style = GraphViewStyle::getStyleForEdgeType(type, m_isActive | m_isFocused, false, m_isTrailEdge);
@@ -176,8 +172,7 @@ void QtGraphEdge::updateLine()
 		}
 
 		if (type != Edge::EDGE_INHERITANCE &&
-			(type != Edge::EDGE_AGGREGATION ||
-				owner.get() != owner->getLastParent() || target.get() != target->getLastParent()))
+			(type != Edge::EDGE_AGGREGATION || owner != owner->getLastParent() || target != target->getLastParent()))
 		{
 			child->setRoute(QtLineItemBase::ROUTE_HORIZONTAL);
 		}
@@ -246,9 +241,8 @@ void QtGraphEdge::onClick()
 
 	if (!getData())
 	{
-		std::weak_ptr<QtGraphNode> node =
-			(m_direction == TokenComponentAggregation::DIRECTION_BACKWARD ? m_owner : m_target);
-		MessageGraphNodeBundleSplit(node.lock()->getTokenId()).dispatch();
+		QtGraphNode* node = (m_direction == TokenComponentAggregation::DIRECTION_BACKWARD ? m_owner : m_target);
+		MessageGraphNodeBundleSplit(node->getTokenId()).dispatch();
 	}
 	else
 	{

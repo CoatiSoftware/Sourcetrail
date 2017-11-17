@@ -16,15 +16,15 @@ public:
 	AccessKind getAccessKind() const;
 
 	// QtGraphNode implementation
-	virtual bool isAccessNode() const;
+	virtual bool isAccessNode() const override;
 
-	virtual void addSubNode(const std::shared_ptr<QtGraphNode>& node);
-	virtual void updateStyle();
+	virtual void addSubNode(QtGraphNode* node) override;
+	virtual void updateStyle() override;
 
 	void hideLabel();
 
 protected:
-	virtual void matchName(const std::string& query, std::vector<QtGraphNode*>* matchedNodes) {}
+	virtual void matchName(const std::string& query, std::vector<QtGraphNode*>* matchedNodes) override {}
 
 private:
 	AccessKind m_accessKind;

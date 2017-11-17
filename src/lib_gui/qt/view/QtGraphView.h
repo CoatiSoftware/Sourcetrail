@@ -93,23 +93,23 @@ private:
 
 	void doResize();
 
-	std::shared_ptr<QtGraphNode> findNodeRecursive(const std::list<std::shared_ptr<QtGraphNode>>& nodes, Id tokenId);
+	QtGraphNode* findNodeRecursive(const std::list<QtGraphNode*>& nodes, Id tokenId);
 
-	std::shared_ptr<QtGraphNode> createNodeRecursive(
-		QGraphicsView* view, std::shared_ptr<QtGraphNode> parentNode, const DummyNode* node, bool multipleActive);
-	std::shared_ptr<QtGraphEdge> createEdge(
+	QtGraphNode* createNodeRecursive(
+		QGraphicsView* view, QtGraphNode* parentNode, const DummyNode* node, bool multipleActive);
+	QtGraphEdge* createEdge(
 		QGraphicsView* view, const DummyEdge* edge, std::set<Id>* visibleEdgeIds, Graph::TrailMode trailMode, QPointF pathOffset, bool useBezier);
-	std::shared_ptr<QtGraphEdge> createAggregationEdge(
+	QtGraphEdge* createAggregationEdge(
 		QGraphicsView* view, const DummyEdge* edge, std::set<Id>* visibleEdgeIds);
 
-	QRectF itemsBoundingRect(const std::list<std::shared_ptr<QtGraphNode>>& items) const;
-	QRectF getSceneRect(const std::list<std::shared_ptr<QtGraphNode>>& items) const;
+	QRectF itemsBoundingRect(const std::list<QtGraphNode*>& items) const;
+	QRectF getSceneRect(const std::list<QtGraphNode*>& items) const;
 
 	void centerNode(QtGraphNode* node);
 
 	void compareNodesRecursive(
-		std::list<std::shared_ptr<QtGraphNode>> newSubNodes,
-		std::list<std::shared_ptr<QtGraphNode>> oldSubNodes,
+		std::list<QtGraphNode*> newSubNodes,
+		std::list<QtGraphNode*> oldSubNodes,
 		std::list<QtGraphNode*>* appearingNodes,
 		std::list<QtGraphNode*>* vanishingNodes,
 		std::vector<std::pair<QtGraphNode*, QtGraphNode*>>* remainingNodes);
@@ -121,16 +121,14 @@ private:
 	std::shared_ptr<Graph> m_graph;
 	std::shared_ptr<Graph> m_oldGraph;
 
-	std::list<std::shared_ptr<QtGraphEdge>> m_edges;
-	std::list<std::shared_ptr<QtGraphEdge>> m_oldEdges;
-	std::list<std::shared_ptr<QtGraphEdge>> m_oldOldEdges;
+	std::list<QtGraphEdge*> m_edges;
+	std::list<QtGraphEdge*> m_oldEdges;
 
-	std::list<std::shared_ptr<QtGraphNode>> m_nodes;
-	std::list<std::shared_ptr<QtGraphNode>> m_oldNodes;
-	std::list<std::shared_ptr<QtGraphNode>> m_oldOldNodes;
+	std::list<QtGraphNode*> m_nodes;
+	std::list<QtGraphNode*> m_oldNodes;
 
-	std::vector<std::shared_ptr<QtGraphNode>> m_activeNodes;
-	std::shared_ptr<QtGraphNode> m_oldActiveNode;
+	std::vector<QtGraphNode*> m_activeNodes;
+	QtGraphNode* m_oldActiveNode = nullptr;
 
 	bool m_centerActiveNode;
 	bool m_scrollToTop;

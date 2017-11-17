@@ -9,7 +9,7 @@ class QtGraphNodeComponentClickable
 	: public QtGraphNodeComponent
 {
 public:
-	QtGraphNodeComponentClickable(const std::weak_ptr<QtGraphNode>& graphNode);
+	QtGraphNodeComponentClickable(QtGraphNode* graphNode);
 	virtual ~QtGraphNodeComponentClickable();
 
 	virtual void nodeMousePressEvent(QGraphicsSceneMouseEvent* event);

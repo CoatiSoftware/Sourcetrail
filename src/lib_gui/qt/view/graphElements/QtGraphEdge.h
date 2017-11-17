@@ -22,8 +22,8 @@ class QtGraphEdge
 
 public:
 	QtGraphEdge(
-		const std::weak_ptr<QtGraphNode>& owner,
-		const std::weak_ptr<QtGraphNode>& target,
+		QtGraphNode* owner,
+		QtGraphNode* target,
 		const Edge* data,
 		size_t weight,
 		bool isActive,
@@ -32,8 +32,8 @@ public:
 
 	const Edge* getData() const;
 
-	std::weak_ptr<QtGraphNode> getOwner();
-	std::weak_ptr<QtGraphNode> getTarget();
+	QtGraphNode* getOwner();
+	QtGraphNode* getTarget();
 
 	void updateLine();
 
@@ -72,8 +72,8 @@ private:
 
 	const Edge* m_data;
 
-	std::weak_ptr<QtGraphNode> m_owner;
-	std::weak_ptr<QtGraphNode> m_target;
+	QtGraphNode* m_owner;
+	QtGraphNode* m_target;
 
 	QGraphicsItem* m_child;
 

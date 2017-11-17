@@ -57,7 +57,7 @@ QtGraphNode::~QtGraphNode()
 
 QtGraphNode* QtGraphNode::getParent() const
 {
-	return m_parentNode.lock().get();
+	return m_parentNode;
 }
 
 QtGraphNode* QtGraphNode::getLastParent() const
@@ -75,18 +75,17 @@ QtGraphNode* QtGraphNode::getLastParent() const
 	return node;
 }
 
-void QtGraphNode::setParent(std::weak_ptr<QtGraphNode> parentNode)
+void QtGraphNode::setParent(QtGraphNode* parentNode)
 {
 	m_parentNode = parentNode;
 
-	std::shared_ptr<QtGraphNode> parent = parentNode.lock();
-	if (parent != NULL)
+	if (m_parentNode != nullptr)
 	{
-		QGraphicsRectItem::setParentItem(parent.get());
+		QGraphicsRectItem::setParentItem(m_parentNode);
 	}
 }
 
-std::list<std::shared_ptr<QtGraphNode>> QtGraphNode::getSubNodes() const
+std::list<QtGraphNode*> QtGraphNode::getSubNodes() const
 {
 	return m_subNodes;
 }
@@ -147,12 +146,12 @@ Vec4i QtGraphNode::getParentBoundingRect() const
 	return getLastParent()->getBoundingRect();
 }
 
-void QtGraphNode::addOutEdge(const std::shared_ptr<QtGraphEdge>& edge)
+void QtGraphNode::addOutEdge(QtGraphEdge* edge)
 {
 	m_outEdges.push_back(edge);
 }
 
-void QtGraphNode::addInEdge(const std::weak_ptr<QtGraphEdge>& edge)
+void QtGraphNode::addInEdge(QtGraphEdge* edge)
 {
 	m_inEdges.push_back(edge);
 }
@@ -317,7 +316,7 @@ Id QtGraphNode::getTokenId() const
 	return 0;
 }
 
-void QtGraphNode::addSubNode(const std::shared_ptr<QtGraphNode>& node)
+void QtGraphNode::addSubNode(QtGraphNode* node)
 {
 	m_subNodes.push_back(node);
 
@@ -415,18 +414,14 @@ void QtGraphNode::mouseReleaseEvent(QGraphicsSceneMouseEvent* event)
 
 void QtGraphNode::forEachEdge(std::function<void(QtGraphEdge*)> func)
 {
-	for (const std::shared_ptr<QtGraphEdge>& edge : m_outEdges)
+	for (QtGraphEdge* edge : m_outEdges)
 	{
-		func(edge.get());
+		func(edge);
 	}
 
-	for (const std::weak_ptr<QtGraphEdge>& e : m_inEdges)
+	for (QtGraphEdge* edge : m_inEdges)
 	{
-		std::shared_ptr<QtGraphEdge> edge = e.lock();
-		if (edge)
-		{
-			func(edge.get());
-		}
+		func(edge);
 	}
 }
 
@@ -439,7 +434,7 @@ void QtGraphNode::notifyEdgesAfterMove()
 		}
 	);
 
-	for (const std::shared_ptr<QtGraphNode>& node : m_subNodes)
+	for (QtGraphNode* node : m_subNodes)
 	{
 		node->notifyEdgesAfterMove();
 	}

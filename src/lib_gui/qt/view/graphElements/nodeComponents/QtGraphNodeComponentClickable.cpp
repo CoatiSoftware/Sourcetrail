@@ -4,7 +4,7 @@
 
 #include "qt/view/graphElements/QtGraphNode.h"
 
-QtGraphNodeComponentClickable::QtGraphNodeComponentClickable(const std::weak_ptr<QtGraphNode>& graphNode)
+QtGraphNodeComponentClickable::QtGraphNodeComponentClickable(QtGraphNode* graphNode)
 	: QtGraphNodeComponent(graphNode)
 	, m_mousePos(0.0f, 0.0f)
 	, m_mouseMoved(false)
@@ -35,11 +35,7 @@ void QtGraphNodeComponentClickable::nodeMouseReleaseEvent(QGraphicsSceneMouseEve
 {
 	if (!m_mouseMoved)
 	{
-		std::shared_ptr<QtGraphNode> node = m_graphNode.lock();
-		if (node != NULL)
-		{
-			node->onClick();
-			event->accept();
-		}
+		m_graphNode->onClick();
+		event->accept();
 	}
 }

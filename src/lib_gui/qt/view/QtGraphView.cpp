@@ -194,7 +194,7 @@ void QtGraphView::findMatches(ScreenSearchSender* sender, const std::string& que
 		{
 			m_matchedNodes.clear();
 
-			for (std::shared_ptr<QtGraphNode> node : m_oldNodes)
+			for (QtGraphNode* node : m_oldNodes)
 			{
 				node->matchNameRecursive(query, &m_matchedNodes);
 			}
@@ -290,12 +290,12 @@ void QtGraphView::rebuildGraph(
 
 		m_nodes.clear();
 		m_activeNodes.clear();
-		m_oldActiveNode.reset();
+		m_oldActiveNode = nullptr;
 		m_virtualNodeRects.clear();
 
 		for (unsigned int i = 0; i < nodes.size(); i++)
 		{
-			std::shared_ptr<QtGraphNode> node = createNodeRecursive(view, NULL, nodes[i].get(), activeNodeCount > 1);
+			QtGraphNode* node = createNodeRecursive(view, NULL, nodes[i].get(), activeNodeCount > 1);
 			if (node)
 			{
 				m_nodes.push_back(node);
@@ -309,7 +309,7 @@ void QtGraphView::rebuildGraph(
 		QPointF offset = QPointF(o.x, o.y);
 		m_sceneRectOffset = offset - center;
 
-		for (const std::shared_ptr<QtGraphNode>& node : m_nodes)
+		for (QtGraphNode* node : m_nodes)
 		{
 			node->setPos(node->pos() - offset);
 		}
@@ -353,11 +353,18 @@ void QtGraphView::clear()
 {
 	m_onQtThread([this]()
 	{
-		m_oldActiveNode.reset();
+		m_oldActiveNode = nullptr;
 		m_activeNodes.clear();
 
-		m_oldOldNodes = m_oldNodes;
-		m_oldOldEdges = m_oldEdges;
+		for (QtGraphNode* node : m_oldNodes)
+		{
+			node->deleteLater();
+		}
+
+		for (QtGraphEdge* edge : m_oldEdges)
+		{
+			edge->deleteLater();
+		}
 
 		m_nodes.clear();
 		m_edges.clear();
@@ -379,14 +386,14 @@ void QtGraphView::focusTokenIds(const std::vector<Id>& focusedTokenIds)
 	{
 		for (const Id& tokenId : focusedTokenIds)
 		{
-			std::shared_ptr<QtGraphNode> node = findNodeRecursive(m_oldNodes, tokenId);
+			QtGraphNode* node = findNodeRecursive(m_oldNodes, tokenId);
 			if (node)
 			{
 				node->focusIn();
 				continue;
 			}
 
-			for (std::shared_ptr<QtGraphEdge> edge : m_oldEdges)
+			for (QtGraphEdge* edge : m_oldEdges)
 			{
 				if (edge->getData() && edge->getData()->getId() == tokenId)
 				{
@@ -404,14 +411,14 @@ void QtGraphView::defocusTokenIds(const std::vector<Id>& defocusedTokenIds)
 	{
 		for (const Id& tokenId : defocusedTokenIds)
 		{
-			std::shared_ptr<QtGraphNode> node = findNodeRecursive(m_oldNodes, tokenId);
+			QtGraphNode* node = findNodeRecursive(m_oldNodes, tokenId);
 			if (node && node->isDataNode())
 			{
 				node->focusOut();
 				continue;
 			}
 
-			for (std::shared_ptr<QtGraphEdge> edge : m_oldEdges)
+			for (QtGraphEdge* edge : m_oldEdges)
 			{
 				if (edge->getData() && edge->getData()->getId() == tokenId)
 				{
@@ -457,13 +464,13 @@ void QtGraphView::activateEdge(Id edgeId, bool centerOrigin)
 				finishedTransition();
 			}
 
-			for (std::shared_ptr<QtGraphEdge>& edge : m_oldEdges)
+			for (QtGraphEdge* edge : m_oldEdges)
 			{
 				edge->setIsActive(false);
 				edge->setIsFocused(false);
 			}
 
-			for (std::shared_ptr<QtGraphEdge>& edge : m_oldEdges)
+			for (QtGraphEdge* edge : m_oldEdges)
 			{
 				if (edge->getData() && edge->getData()->getId() == edgeId)
 				{
@@ -471,7 +478,7 @@ void QtGraphView::activateEdge(Id edgeId, bool centerOrigin)
 
 					if (centerOrigin)
 					{
-						centerNode(edge->getOwner().lock().get());
+						centerNode(edge->getOwner());
 					}
 
 					break;
@@ -509,12 +516,12 @@ void QtGraphView::finishedTransition()
 	QGraphicsView* view = getView();
 	view->setInteractive(true);
 
-	for (const std::shared_ptr<QtGraphNode>& node : m_nodes)
+	for (QtGraphNode* node : m_nodes)
 	{
 		node->showNodeRecursive();
 	}
 
-	for (const std::shared_ptr<QtGraphEdge>& edge : m_edges)
+	for (QtGraphEdge* edge : m_edges)
 	{
 		edge->setOpacity(1.0f);
 	}
@@ -524,8 +531,8 @@ void QtGraphView::finishedTransition()
 
 void QtGraphView::clickedInEmptySpace()
 {
-	std::vector<std::shared_ptr<QtGraphEdge>> activeEdges;
-	for (std::shared_ptr<QtGraphEdge>& edge : m_oldEdges)
+	std::vector<QtGraphEdge*> activeEdges;
+	for (QtGraphEdge* edge : m_oldEdges)
 	{
 		if (edge->getIsActive())
 		{
@@ -537,7 +544,7 @@ void QtGraphView::clickedInEmptySpace()
 
 	if (m_graph && m_graph->getTrailMode() != Graph::TRAIL_NONE)
 	{
-		for (std::shared_ptr<QtGraphEdge>& edge : activeEdges)
+		for (QtGraphEdge* edge : activeEdges)
 		{
 			edge->setIsActive(false);
 		}
@@ -555,10 +562,10 @@ void QtGraphView::pressedCharacterKey(QChar c)
 		return;
 	}
 
-	QtGraphNode* node = nullptr;
+	const QtGraphNode* node = nullptr;
 	bool hasTextNodes = false;
 
-	for (const std::shared_ptr<QtGraphNode>& n : m_oldNodes)
+	for (const QtGraphNode* n : m_oldNodes)
 	{
 		if (n->isTextNode() && n->getName().size())
 		{
@@ -566,7 +573,7 @@ void QtGraphView::pressedCharacterKey(QChar c)
 			QChar start(n->getName()[0]);
 			if (start.toLower() >= c.toLower())
 			{
-				node = n.get();
+				node = n;
 				break;
 			}
 		}
@@ -652,7 +659,7 @@ MessageActivateTrail QtGraphView::getMessageActivateTrail(bool forward)
 	MessageActivateTrail message(0, 0, 0, 0, false);
 
 	QtGraphNodeData* node = nullptr;
-	if (m_oldActiveNode && (node = dynamic_cast<QtGraphNodeData*>(m_oldActiveNode.get())))
+	if (m_oldActiveNode && (node = dynamic_cast<QtGraphNodeData*>(m_oldActiveNode)))
 	{
 		Edge::EdgeTypeMask trailType;
 		bool horizontalLayout = true;
@@ -768,20 +775,19 @@ void QtGraphView::switchToNewGraphData()
 {
 	m_oldGraph = m_graph;
 
-	for (const std::shared_ptr<QtGraphNode>& node : m_oldNodes)
+	for (QtGraphNode* node : m_oldNodes)
 	{
 		node->hide();
 		node->setParentItem(nullptr);
+		node->deleteLater();
 	}
 
-	for (const std::shared_ptr<QtGraphEdge>& edge : m_oldEdges)
+	for (QtGraphEdge* edge : m_oldEdges)
 	{
 		edge->hide();
 		edge->setParentItem(nullptr);
+		edge->deleteLater();
 	}
-
-	m_oldOldNodes = m_oldNodes;
-	m_oldOldEdges = m_oldEdges;
 
 	m_oldNodes = m_nodes;
 	m_oldEdges = m_edges;
@@ -811,7 +817,7 @@ void QtGraphView::switchToNewGraphData()
 	{
 		if (m_centerActiveNode)
 		{
-			centerNode(m_activeNodes.front().get());
+			centerNode(m_activeNodes.front());
 		}
 
 		if (m_activeNodes.size() == 1)
@@ -851,59 +857,62 @@ void QtGraphView::doResize()
 	getView()->setSceneRect(getSceneRect(m_oldNodes));
 }
 
-std::shared_ptr<QtGraphNode> QtGraphView::findNodeRecursive(const std::list<std::shared_ptr<QtGraphNode>>& nodes, Id tokenId)
+QtGraphNode* QtGraphView::findNodeRecursive(const std::list<QtGraphNode*>& nodes, Id tokenId)
 {
-	for (const std::shared_ptr<QtGraphNode>& node : nodes)
+	for (QtGraphNode* node : nodes)
 	{
 		if (node->getTokenId() == tokenId)
 		{
 			return node;
 		}
 
-		std::shared_ptr<QtGraphNode> result = findNodeRecursive(node->getSubNodes(), tokenId);
-		if (result != NULL)
+		QtGraphNode* result = findNodeRecursive(node->getSubNodes(), tokenId);
+		if (result != nullptr)
 		{
 			return result;
 		}
 	}
 
-	return std::shared_ptr<QtGraphNode>();
+	return nullptr;
 }
 
-std::shared_ptr<QtGraphNode> QtGraphView::createNodeRecursive(
-	QGraphicsView* view, std::shared_ptr<QtGraphNode> parentNode, const DummyNode* node, bool multipleActive
+QtGraphNode* QtGraphView::createNodeRecursive(
+	QGraphicsView* view, QtGraphNode* parentNode, const DummyNode* node, bool multipleActive
 ){
 	if (!node->visible)
 	{
 		return NULL;
 	}
 
-	std::shared_ptr<QtGraphNode> newNode;
+	QtGraphNode* newNode = nullptr;
 	if (node->isGraphNode())
 	{
-		newNode = std::make_shared<QtGraphNodeData>(
-			node->data, node->name, node->hasParent, node->childVisible, node->hasQualifier);
+		newNode = new QtGraphNodeData(node->data, node->name, node->hasParent, node->childVisible, node->hasQualifier);
 	}
 	else if (node->isAccessNode())
 	{
-		newNode = std::make_shared<QtGraphNodeAccess>(node->accessKind);
+		newNode = new QtGraphNodeAccess(node->accessKind);
 	}
 	else if (node->isExpandToggleNode())
 	{
-		newNode = std::make_shared<QtGraphNodeExpandToggle>(node->isExpanded(), node->invisibleSubNodeCount);
+		newNode = new QtGraphNodeExpandToggle(node->isExpanded(), node->invisibleSubNodeCount);
 	}
 	else if (node->isBundleNode())
 	{
-		newNode = std::make_shared<QtGraphNodeBundle>(
-			node->tokenId, node->getBundledNodeCount(), node->bundledNodeType, node->name);
+		newNode = new QtGraphNodeBundle(node->tokenId, node->getBundledNodeCount(), node->bundledNodeType, node->name);
 	}
 	else if (node->isQualifierNode())
 	{
-		newNode = std::make_shared<QtGraphNodeQualifier>(node->qualifierName);
+		newNode = new QtGraphNodeQualifier(node->qualifierName);
 	}
 	else if (node->isTextNode())
 	{
-		newNode = std::make_shared<QtGraphNodeText>(node->name);
+		newNode = new QtGraphNodeText(node->name);
+	}
+	else
+	{
+		LOG_ERROR("DummyNode is not valid");
+		return nullptr;
 	}
 
 	newNode->setPosition(node->position);
@@ -913,7 +922,7 @@ std::shared_ptr<QtGraphNode> QtGraphView::createNodeRecursive(
 
 	newNode->addComponent(std::make_shared<QtGraphNodeComponentClickable>(newNode));
 
-	view->scene()->addItem(newNode.get());
+	view->scene()->addItem(newNode);
 
 	if (parentNode)
 	{
@@ -931,7 +940,7 @@ std::shared_ptr<QtGraphNode> QtGraphView::createNodeRecursive(
 
 	for (unsigned int i = 0; i < node->subNodes.size(); i++)
 	{
-		std::shared_ptr<QtGraphNode> subNode = createNodeRecursive(view, newNode, node->subNodes[i].get(), multipleActive);
+		QtGraphNode* subNode = createNodeRecursive(view, newNode, node->subNodes[i].get(), multipleActive);
 		if (subNode)
 		{
 			newNode->addSubNode(subNode);
@@ -943,7 +952,7 @@ std::shared_ptr<QtGraphNode> QtGraphView::createNodeRecursive(
 	return newNode;
 }
 
-std::shared_ptr<QtGraphEdge> QtGraphView::createEdge(
+QtGraphEdge* QtGraphView::createEdge(
 	QGraphicsView* view,
 	const DummyEdge* edge,
 	std::set<Id>* visibleEdgeIds,
@@ -956,13 +965,13 @@ std::shared_ptr<QtGraphEdge> QtGraphView::createEdge(
 		return NULL;
 	}
 
-	std::shared_ptr<QtGraphNode> owner = findNodeRecursive(m_nodes, edge->ownerId);
-	std::shared_ptr<QtGraphNode> target = findNodeRecursive(m_nodes, edge->targetId);
+	QtGraphNode* owner = findNodeRecursive(m_nodes, edge->ownerId);
+	QtGraphNode* target = findNodeRecursive(m_nodes, edge->targetId);
 
 	if (owner != NULL && target != NULL)
 	{
-		std::shared_ptr<QtGraphEdge> qtEdge =
-			std::make_shared<QtGraphEdge>(owner, target, edge->data, edge->getWeight(), edge->active && !useBezier, edge->getDirection());
+		QtGraphEdge* qtEdge = new QtGraphEdge(
+			owner, target, edge->data, edge->getWeight(), edge->active && !useBezier, edge->getDirection());
 
 		if (trailMode != Graph::TRAIL_NONE)
 		{
@@ -993,7 +1002,7 @@ std::shared_ptr<QtGraphEdge> QtGraphView::createEdge(
 		owner->addOutEdge(qtEdge);
 		target->addInEdge(qtEdge);
 
-		view->scene()->addItem(qtEdge.get());
+		view->scene()->addItem(qtEdge);
 
 		if (edge->data)
 		{
@@ -1008,7 +1017,7 @@ std::shared_ptr<QtGraphEdge> QtGraphView::createEdge(
 	return NULL;
 }
 
-std::shared_ptr<QtGraphEdge> QtGraphView::createAggregationEdge(
+QtGraphEdge* QtGraphView::createAggregationEdge(
 	QGraphicsView* view, const DummyEdge* edge, std::set<Id>* visibleEdgeIds)
 {
 	if (!edge->visible)
@@ -1035,17 +1044,17 @@ std::shared_ptr<QtGraphEdge> QtGraphView::createAggregationEdge(
 	return createEdge(view, edge, visibleEdgeIds, Graph::TRAIL_NONE, QPointF(), false);
 }
 
-QRectF QtGraphView::itemsBoundingRect(const std::list<std::shared_ptr<QtGraphNode>>& items) const
+QRectF QtGraphView::itemsBoundingRect(const std::list<QtGraphNode*>& items) const
 {
 	QRectF boundingRect;
-	for (const std::shared_ptr<QtGraphNode>& item : items)
+	for (const QtGraphNode* item : items)
 	{
 		boundingRect |= item->sceneBoundingRect();
 	}
 	return boundingRect;
 }
 
-QRectF QtGraphView::getSceneRect(const std::list<std::shared_ptr<QtGraphNode>>& items) const
+QRectF QtGraphView::getSceneRect(const std::list<QtGraphNode*>& items) const
 {
 	QRectF sceneRect = itemsBoundingRect(items);
 
@@ -1075,27 +1084,27 @@ void QtGraphView::centerNode(QtGraphNode* node)
 }
 
 void QtGraphView::compareNodesRecursive(
-	std::list<std::shared_ptr<QtGraphNode>> newSubNodes,
-	std::list<std::shared_ptr<QtGraphNode>> oldSubNodes,
+	std::list<QtGraphNode*> newSubNodes,
+	std::list<QtGraphNode*> oldSubNodes,
 	std::list<QtGraphNode*>* appearingNodes,
 	std::list<QtGraphNode*>* vanishingNodes,
 	std::vector<std::pair<QtGraphNode*, QtGraphNode*>>* remainingNodes
 ){
-	for (std::list<std::shared_ptr<QtGraphNode>>::iterator it = newSubNodes.begin(); it != newSubNodes.end(); it++)
+	for (std::list<QtGraphNode*>::iterator it = newSubNodes.begin(); it != newSubNodes.end(); it++)
 	{
 		bool remains = false;
 
-		for (std::list<std::shared_ptr<QtGraphNode>>::iterator it2 = oldSubNodes.begin(); it2 != oldSubNodes.end(); it2++)
+		for (std::list<QtGraphNode*>::iterator it2 = oldSubNodes.begin(); it2 != oldSubNodes.end(); it2++)
 		{
 			if (((*it)->isDataNode() && (*it2)->isDataNode() && (*it)->getTokenId() == (*it2)->getTokenId()) ||
 				((*it)->isAccessNode() && (*it2)->isAccessNode() &&
-					dynamic_cast<QtGraphNodeAccess*>((*it).get())->getAccessKind() ==
-						dynamic_cast<QtGraphNodeAccess*>((*it2).get())->getAccessKind()) ||
+					dynamic_cast<QtGraphNodeAccess*>(*it)->getAccessKind() ==
+						dynamic_cast<QtGraphNodeAccess*>(*it2)->getAccessKind()) ||
 				((*it)->isExpandToggleNode() && (*it2)->isExpandToggleNode()) ||
 				((*it)->isBundleNode() && (*it2)->isBundleNode() && (*it)->getTokenId() == (*it2)->getTokenId()) ||
 				((*it)->isQualifierNode() && (*it2)->isQualifierNode() && (*it)->getTokenId() == (*it2)->getTokenId()))
 			{
-				remainingNodes->push_back(std::pair<QtGraphNode*, QtGraphNode*>((*it).get(), (*it2).get()));
+				remainingNodes->push_back(std::pair<QtGraphNode*, QtGraphNode*>(*it, *it2));
 				compareNodesRecursive(
 					(*it)->getSubNodes(), (*it2)->getSubNodes(), appearingNodes, vanishingNodes, remainingNodes);
 
@@ -1107,13 +1116,13 @@ void QtGraphView::compareNodesRecursive(
 
 		if (!remains)
 		{
-			appearingNodes->push_back((*it).get());
+			appearingNodes->push_back(*it);
 		}
 	}
 
-	for (std::shared_ptr<QtGraphNode>& node : oldSubNodes)
+	for (QtGraphNode* node : oldSubNodes)
 	{
-		vanishingNodes->push_back(node.get());
+		vanishingNodes->push_back(node);
 	}
 }
 
@@ -1163,9 +1172,9 @@ void QtGraphView::createTransition()
 			vanish->addAnimation(anim);
 		}
 
-		for (const std::shared_ptr<QtGraphEdge>& edge : m_oldEdges)
+		for (QtGraphEdge* edge : m_oldEdges)
 		{
-			QPropertyAnimation* anim = new QPropertyAnimation(edge.get(), "opacity");
+			QPropertyAnimation* anim = new QPropertyAnimation(edge, "opacity");
 			anim->setDuration(150);
 			anim->setStartValue(1.0f);
 			anim->setEndValue(0.0f);
@@ -1243,9 +1252,9 @@ void QtGraphView::createTransition()
 			node->blendOut();
 		}
 
-		for (const std::shared_ptr<QtGraphEdge>& edge : m_edges)
+		for (QtGraphEdge* edge : m_edges)
 		{
-			QPropertyAnimation* anim = new QPropertyAnimation(edge.get(), "opacity");
+			QPropertyAnimation* anim = new QPropertyAnimation(edge, "opacity");
 			anim->setDuration(150);
 			anim->setStartValue(0.0f);
 			anim->setEndValue(1.0f);

@@ -70,7 +70,7 @@ bool QtGraphNodeAccess::isAccessNode() const
 	return true;
 }
 
-void QtGraphNodeAccess::addSubNode(const std::shared_ptr<QtGraphNode>& node)
+void QtGraphNodeAccess::addSubNode(QtGraphNode* node)
 {
 	QtGraphNode::addSubNode(node);
 	m_text->show();

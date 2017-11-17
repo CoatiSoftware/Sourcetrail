@@ -154,6 +154,6 @@ void QtGraphNodeQualifier::hoverLeaveEvent(QGraphicsSceneHoverEvent* event)
 	m_rightArrow->hide();
 	m_rightArrowSmall->show();
 
-	this->setParentItem(m_parentNode.lock().get());
+	this->setParentItem(m_parentNode);
 	this->setPos(QPointF(0, 0));
 }

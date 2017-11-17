@@ -38,9 +38,9 @@ public:
 
 	QtGraphNode* getParent() const;
 	QtGraphNode* getLastParent() const;
-	void setParent(std::weak_ptr<QtGraphNode> parentNode);
+	void setParent(QtGraphNode* parentNode);
 
-	std::list<std::shared_ptr<QtGraphNode>> getSubNodes() const;
+	std::list<QtGraphNode*> getSubNodes() const;
 
 	Vec2i getPosition() const;
 	virtual bool setPosition(const Vec2i& position);
@@ -54,8 +54,8 @@ public:
 	Vec4i getBoundingRect() const;
 	Vec4i getParentBoundingRect() const;
 
-	void addOutEdge(const std::shared_ptr<QtGraphEdge>& edge);
-	void addInEdge(const std::weak_ptr<QtGraphEdge>& edge);
+	void addOutEdge(QtGraphEdge* edge);
+	void addInEdge(QtGraphEdge* edge);
 
 	size_t getOutEdgeCount() const;
 	size_t getInEdgeCount() const;
@@ -89,7 +89,7 @@ public:
 
 	virtual Id getTokenId() const;
 
-	virtual void addSubNode(const std::shared_ptr<QtGraphNode>& node);
+	virtual void addSubNode(QtGraphNode* node);
 
 	virtual void onClick();
 	virtual void moved(const Vec2i& oldPosition);
@@ -109,11 +109,11 @@ protected:
 
 	void setStyle(const GraphViewStyle::NodeStyle& style);
 
-	std::list<std::shared_ptr<QtGraphEdge>> m_outEdges;
-	std::list<std::weak_ptr<QtGraphEdge>> m_inEdges;
+	std::list<QtGraphEdge*> m_outEdges;
+	std::list<QtGraphEdge*> m_inEdges;
 
-	std::weak_ptr<QtGraphNode> m_parentNode;
-	std::list<std::shared_ptr<QtGraphNode>> m_subNodes;
+	QtGraphNode* m_parentNode = nullptr;
+	std::list<QtGraphNode*> m_subNodes;
 
 	QGraphicsSimpleTextItem* m_text = nullptr;
 	QtRoundedRectItem* m_rect = nullptr;
