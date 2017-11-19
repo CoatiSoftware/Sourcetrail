@@ -84,19 +84,30 @@ std::shared_ptr<CxxDeclName> CxxDeclNameResolver::getName(const clang::NamedDecl
 					{
 						parentDecl = utility::getFirstDecl(parentDecl);
 
-						if (const clang::TemplateDecl* parentTemplateDecl = clang::dyn_cast_or_null<clang::TemplateDecl>(parentDecl))
+						if (clang::isa<clang::TemplateDecl>(parentDecl))
 						{
+							const clang::TemplateDecl* parentTemplateDecl = clang::dyn_cast_or_null<clang::TemplateDecl>(parentDecl);
 							if (!ignoresContext(parentTemplateDecl) && !ignoresContext(parentTemplateDecl->getTemplatedDecl()))
 							{
 								declName->setParent(getName(parentTemplateDecl));
 							}
 							break;
 						}
-						else if (const clang::ClassTemplatePartialSpecializationDecl* parentTemplateDecl = clang::dyn_cast_or_null<clang::ClassTemplatePartialSpecializationDecl>(parentDecl))
+						else if (clang::isa<clang::ClassTemplatePartialSpecializationDecl>(parentDecl))
 						{
+							const clang::ClassTemplatePartialSpecializationDecl* parentClassTemplateDecl = clang::dyn_cast_or_null<clang::ClassTemplatePartialSpecializationDecl>(parentDecl);
 							if (!ignoresContext(parentDecl))
 							{
-								declName->setParent(getName(parentTemplateDecl));
+								declName->setParent(getName(parentClassTemplateDecl));
+							}
+							break;
+						}
+						else if (clang::isa<clang::VarTemplatePartialSpecializationDecl>(parentDecl))
+						{
+							const clang::VarTemplatePartialSpecializationDecl* parentVarTemplateDecl = clang::dyn_cast_or_null<clang::VarTemplatePartialSpecializationDecl>(parentDecl);
+							if (!ignoresContext(parentDecl))
+							{
+								declName->setParent(getName(parentVarTemplateDecl));
 							}
 							break;
 						}
@@ -199,39 +210,10 @@ std::shared_ptr<CxxDeclName> CxxDeclNameResolver::getDeclName(const clang::Named
 				}
 				else if (clang::isa<clang::ClassTemplatePartialSpecializationDecl>(declaration))
 				{
-					const clang::ClassTemplatePartialSpecializationDecl* partialSpecializationDecl =
-						clang::dyn_cast<clang::ClassTemplatePartialSpecializationDecl>(declaration);
-
-					clang::TemplateParameterList* parameterList = partialSpecializationDecl->getTemplateParameters();
-					unsigned int currentParameterIndex = 0;
-
-					std::vector<std::string> templateParameters;
-					const clang::TemplateArgumentList& templateArgumentList = partialSpecializationDecl->getTemplateArgs();
-					const int templateArgumentCount = templateArgumentList.size();
-					for (int i = 0; i < templateArgumentCount; i++)
-					{
-						const clang::TemplateArgument& templateArgument = templateArgumentList.get(i);
-						if (templateArgument.isDependent()) //  IMPORTANT_TODO: fix case when arg depends on template parameter of outer template class, or depends on first template parameter.
-						{
-							if(currentParameterIndex < parameterList->size())
-							{
-								templateParameters.push_back(getTemplateParameterString(parameterList->getParam(currentParameterIndex)));
-							}
-							else
-							{
-								//this if fixes the crash, but not the problem TODO
-								// const clang::SourceManager& sourceManager = declaration->getASTContext().getSourceManager();
-								// LOG_ERROR("Template getParam out of Range " + declaration->getLocation().printToString(sourceManager));
-							}
-							currentParameterIndex++;
-						}
-						else
-						{
-							templateParameters.push_back(getTemplateArgumentName(templateArgument));
-						}
-					}
-
-					return std::make_shared<CxxDeclName>(declNameString, templateParameters);
+					const std::vector<std::string> templateParameterNames = getTemplateParameterStringsOfPatrialSpecialitarion(
+						clang::dyn_cast<clang::ClassTemplatePartialSpecializationDecl>(declaration)
+					);
+					return std::make_shared<CxxDeclName>(declNameString, templateParameterNames);
 				}
 				else if (clang::isa<clang::ClassTemplateSpecializationDecl>(declaration))
 				{
@@ -322,10 +304,6 @@ std::shared_ptr<CxxDeclName> CxxDeclNameResolver::getDeclName(const clang::Named
 			const clang::FunctionTemplateDecl* functionTemplateDecl = clang::dyn_cast<clang::FunctionTemplateDecl>(declaration);
 			return getDeclName(functionTemplateDecl->getTemplatedDecl());
 		}
-		else if (clang::isa<clang::TemplateDecl>(declaration)) // also triggers on TemplateTemplateParmDecl
-		{
-			return std::make_shared<CxxDeclName>(declNameString, getTemplateParameterStrings(clang::dyn_cast<clang::TemplateDecl>(declaration)));
-		}
 		else if (clang::isa<clang::FieldDecl>(declaration))
 		{
 			const clang::FieldDecl* fieldDecl = clang::dyn_cast<clang::FieldDecl>(declaration);
@@ -400,8 +378,38 @@ std::shared_ptr<CxxDeclName> CxxDeclNameResolver::getDeclName(const clang::Named
 					}
 				}
 
-				return std::make_shared<CxxVariableDeclName>(varName, std::vector<std::string>(), typeName, isStatic);
+				std::vector<std::string> templateParameterNames;
+				if (varDecl->getDescribedVarTemplate())
+				{
+					const clang::VarTemplateDecl* templateDeclaration = varDecl->getDescribedVarTemplate();
+					templateParameterNames = getTemplateParameterStrings(templateDeclaration);
+				}
+				else if (clang::isa<clang::VarTemplatePartialSpecializationDecl>(declaration))
+				{
+					templateParameterNames = getTemplateParameterStringsOfPatrialSpecialitarion(clang::dyn_cast<clang::VarTemplatePartialSpecializationDecl>(declaration));
+				}
+				else if (clang::isa<clang::VarTemplateSpecializationDecl>(declaration))
+				{
+					const clang::VarTemplateSpecializationDecl* templateSpecializationDeclaration = clang::dyn_cast_or_null<clang::VarTemplateSpecializationDecl>(varDecl);
+					const clang::TemplateArgumentList& templateArgumentList = templateSpecializationDeclaration->getTemplateArgs();
+					for (size_t i = 0; i < templateArgumentList.size(); i++)
+					{
+						const clang::TemplateArgument& templateArgument = templateArgumentList.get(i);
+						templateParameterNames.push_back(getTemplateArgumentName(templateArgument));
+					}
+				}
+
+				return std::make_shared<CxxVariableDeclName>(varName, templateParameterNames, typeName, isStatic);
 			}
+		}
+		else if (clang::isa<clang::VarTemplateDecl>(declaration))
+		{
+			const clang::VarTemplateDecl* varTemplateDecl = clang::dyn_cast<clang::VarTemplateDecl>(declaration);
+			return getDeclName(varTemplateDecl->getTemplatedDecl());
+		}
+		else if (clang::isa<clang::TemplateDecl>(declaration)) // also triggers on TemplateTemplateParmDecl
+		{
+			return std::make_shared<CxxDeclName>(declNameString, getTemplateParameterStrings(clang::dyn_cast<clang::TemplateDecl>(declaration)));
 		}
 
 		if (!declNameString.empty())

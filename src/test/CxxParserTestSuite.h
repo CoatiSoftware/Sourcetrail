@@ -565,7 +565,7 @@ public:
 	//	TS_ASSERT_EQUALS(client->templateParameterTypes[0], "MyType<class T>::T <1:17 1:17>");
 	//}
 
-	void test_cxx_parser_finds_type_template_parameter_type_of_template_class()
+	void test_cxx_parser_finds_type_template_parameter_type_of_class_template()
 	{
 		std::shared_ptr<TestParserClient> client = parseCode(
 			"template <typename T>\n"
@@ -576,6 +576,51 @@ public:
 
 		TS_ASSERT(utility::containsElement<std::string>(
 			client->templateParameterTypes, "A<typename T>::T <1:20 1:20>"
+		));
+	}
+
+	void test_cxx_parser_finds_type_template_parameter_of_explicit_partial_class_template_specialization()
+	{
+		std::shared_ptr<TestParserClient> client = parseCode(
+			"template <typename T, typename U>\n"
+			"class A\n"
+			"{\n"
+			"};\n"
+			"template <typename T>\n"
+			"class A<T, int>\n"
+			"{\n"
+			"};\n"
+		);
+
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->templateParameterTypes, "A<typename T, int>::T <5:20 5:20>"
+		));
+	}
+
+	void test_cxx_parser_finds_type_template_parameter_type_of_variable_template()
+	{
+		std::shared_ptr<TestParserClient> client = parseCode(
+			"template <typename T>\n"
+			"T v;\n"
+		);
+
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->templateParameterTypes, "v<typename T>::T <1:20 1:20>"
+		));
+	}
+
+	void test_cxx_parser_finds_type_template_parameter_of_explicit_partial_variable_template_specialization()
+	{
+		std::shared_ptr<TestParserClient> client = parseCode(
+			"template <typename T, typename Q>\n"
+			"T t = Q(5);\n"
+			"\n"
+			"template <typename R>\n"
+			"int t<int, R> = 9;\n"
+		);
+
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->templateParameterTypes, "t<int, typename R>::R <4:20 4:20>"
 		));
 	}
 
@@ -804,7 +849,7 @@ public:
 		));
 	}
 
-	void test_cxx_parser_finds_class_of_explicit_template_specialization()
+	void test_cxx_parser_finds_explicit_class_template_specialization()
 	{
 		std::shared_ptr<TestParserClient> client = parseCode(
 			"template <typename T>\n"
@@ -822,7 +867,22 @@ public:
 		));
 	}
 
-	void test_cxx_parser_finds_class_of_explicit_partial_template_specialization()
+	void test_cxx_parser_finds_explicit_variable_template_specialization()
+	{
+		std::shared_ptr<TestParserClient> client = parseCode(
+			"template <typename T>\n"
+			"T t = T(5);\n"
+			"\n"
+			"template <>\n"
+			"int t<int> = 99;\n"
+		);
+
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->globalVariables, "int t<int> <5:5 5:5>"
+		));
+	}
+
+	void test_cxx_parser_finds_explicit_partial_class_template_specialization()
 	{
 		std::shared_ptr<TestParserClient> client = parseCode(
 			"template <typename T, typename U>\n"
@@ -837,6 +897,21 @@ public:
 
 		TS_ASSERT(utility::containsElement<std::string>(
 			client->classes, "A<typename T, int> <5:1 <6:7 6:7> 8:1>"
+		));
+	}
+
+	void test_cxx_parser_finds_explicit_partial_variable_template_specialization()
+	{
+		std::shared_ptr<TestParserClient> client = parseCode(
+			"template <typename T, typename Q>\n"
+			"T t = Q(5);\n"
+			"\n"
+			"template <typename R>\n"
+			"int t<int, R> = 9;\n"
+		);
+
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->globalVariables, "int t<int, typename R> <5:5 5:5>"
 		));
 	}
 
@@ -2477,7 +2552,7 @@ public:
 			));
 	}
 
-	void test_cxx_parser_finds_usage_of_template_parameters_with_different_depth_of_partial_template_specialization()
+	void test_cxx_parser_finds_usage_of_template_parameters_with_different_depth_of_partial_class_template_specialization()
 	{
 		std::shared_ptr<TestParserClient> client = parseCode(
 			"template <typename T>\n"
@@ -3061,7 +3136,7 @@ public:
 		));
 	}
 
-	void test_cxx_parser_finds_type_template_arguments_of_explicit_partial_template_specialization()
+	void test_cxx_parser_finds_type_template_arguments_of_explicit_partial_class_template_specialization()
 	{
 		std::shared_ptr<TestParserClient> client = parseCode(
 			"template <typename T, typename U>\n"
@@ -3082,7 +3157,7 @@ public:
 		));
 	}
 
-	void test_cxx_parser_finds_no_template_argument_for_builtin_non_type_int_template_parameter_of_explicit_partial_template_specialization()
+	void test_cxx_parser_finds_no_template_argument_for_builtin_non_type_int_template_parameter_of_explicit_partial_class_template_specialization()
 	{
 		std::shared_ptr<TestParserClient> client = parseCode(
 			"template <int T, int U>\n"
@@ -3100,7 +3175,7 @@ public:
 		));
 	}
 
-	void test_cxx_parser_finds_no_template_argument_for_builtin_non_type_bool_template_parameter_of_explicit_partial_template_specialization()
+	void test_cxx_parser_finds_no_template_argument_for_builtin_non_type_bool_template_parameter_of_explicit_partial_class_template_specialization()
 	{
 		std::shared_ptr<TestParserClient> client = parseCode(
 			"template <bool T, bool U>\n"
@@ -3118,7 +3193,7 @@ public:
 		));
 	}
 
-	void test_cxx_parser_finds_template_argument_for_non_type_custom_pointer_template_parameter_of_explicit_partial_template_specialization()
+	void test_cxx_parser_finds_template_argument_for_non_type_custom_pointer_template_parameter_of_explicit_partial_class_template_specialization()
 	{
 		std::shared_ptr<TestParserClient> client = parseCode(
 			"class P\n"
@@ -3141,7 +3216,7 @@ public:
 		));
 	}
 
-	void test_cxx_parser_finds_template_argument_for_non_type_custom_reference_template_parameter_of_explicit_partial_template_specialization()
+	void test_cxx_parser_finds_template_argument_for_non_type_custom_reference_template_parameter_of_explicit_partial_class_template_specialization()
 	{
 		std::shared_ptr<TestParserClient> client = parseCode(
 			"class P\n"
@@ -3164,7 +3239,7 @@ public:
 		));
 	}
 
-	void test_cxx_parser_finds_template_argument_for_template_template_parameter_of_explicit_partial_template_specialization()
+	void test_cxx_parser_finds_template_argument_for_template_template_parameter_of_explicit_partial_class_template_specialization()
 	{
 		std::shared_ptr<TestParserClient> client = parseCode(
 			"template <typename T>\n"
@@ -3187,7 +3262,7 @@ public:
 		));
 	}
 
-	void test_cxx_parser_finds_non_type_template_argument_that_depends_on_type_template_parameter_of_explicit_partial_template_specialization()
+	void test_cxx_parser_finds_non_type_template_argument_that_depends_on_type_template_parameter_of_explicit_partial_class_template_specialization()
 	{
 		std::shared_ptr<TestParserClient> client = parseCode(
 			"template <int T1, typename T2, T2 T3>\n"
@@ -3205,7 +3280,7 @@ public:
 		));
 	}
 
-	//void _test_cxx_parser_finds_non_type_template_argument_that_depends_on_template_template_parameter_of_explicit_partial_template_specialization()
+	//void _test_cxx_parser_finds_non_type_template_argument_that_depends_on_template_template_parameter_of_explicit_partial_class_template_specialization()
 	//{
 	//	std::shared_ptr<TestParserClient> client = parseCode(
 	//		"template <int T1, template<typename> class T2, T2<int> T3>\n"
