@@ -150,7 +150,7 @@ void CxxAstVisitorComponentIndexer::beginTraverseLambdaCapture(clang::LambdaExpr
 					declLocation.filePath.fileName() + "<" +
 					std::to_string(declLocation.startLineNumber) + ":" +
 					std::to_string(declLocation.startColumnNumber) + ">";
-				m_client->onLocalSymbolParsed(name, getParseLocation(capture->getLocation()));
+				m_client->recordLocalSymbol(name, getParseLocation(capture->getLocation()));
 			}
 		}
 	}
@@ -238,7 +238,7 @@ void CxxAstVisitorComponentIndexer::visitVarDecl(clang::VarDecl* d)
 					declLocation.filePath.fileName() + "<" +
 					std::to_string(declLocation.startLineNumber) + ":" +
 					std::to_string(declLocation.startColumnNumber) + ">";
-				m_client->onLocalSymbolParsed(name, getParseLocation(d->getLocation()));
+				m_client->recordLocalSymbol(name, getParseLocation(d->getLocation()));
 			}
 		}
 		else
@@ -554,7 +554,7 @@ void CxxAstVisitorComponentIndexer::visitDeclRefExpr(clang::DeclRefExpr* s)
 				std::to_string(declLocation.startLineNumber) + ":" +
 				std::to_string(declLocation.startColumnNumber) + ">";
 
-			m_client->onLocalSymbolParsed(name, getParseLocation(s->getLocation()));
+			m_client->recordLocalSymbol(name, getParseLocation(s->getLocation()));
 		}
 		else
 		{

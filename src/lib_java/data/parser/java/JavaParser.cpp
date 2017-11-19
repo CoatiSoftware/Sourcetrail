@@ -100,7 +100,7 @@ void JavaParser::buildIndex(
 	{
 		m_currentFilePath = sourceFilePath;
 
-		m_client->onFileParsed(FileSystem::getFileInfoForPath(sourceFilePath));
+		m_client->recordFile(FileSystem::getFileInfoForPath(sourceFilePath));
 
 		// remove tabs because they screw with javaparser's location resolver
 		std::string fileContent = utility::replace(textAccess->getText(), "\t", " ");
@@ -238,7 +238,7 @@ void JavaParser::doRecordQualifierLocation(
 
 void JavaParser::doRecordLocalSymbol(jstring jSymbolName, jint beginLine, jint beginColumn, jint endLine, jint endColumn)
 {
-	m_client->onLocalSymbolParsed(
+	m_client->recordLocalSymbol(
 		NameHierarchy::deserialize(m_javaEnvironment->toStdString(jSymbolName)).getQualifiedName(),
 		ParseLocation(m_currentFilePath, beginLine, beginColumn, endLine, endColumn)
 	);
@@ -248,7 +248,7 @@ void JavaParser::doRecordComment(
 	jint beginLine, jint beginColumn, jint endLine, jint endColumn
 )
 {
-	m_client->onCommentParsed(
+	m_client->recordComment(
 		ParseLocation(m_currentFilePath, beginLine, beginColumn, endLine, endColumn)
 	);
 }
@@ -261,7 +261,7 @@ void JavaParser::doRecordError(
 	bool fatal = jFatal;
 	bool indexed = jIndexed;
 
-	m_client->onError(
+	m_client->recordError(
 		ParseLocation(m_currentFilePath, beginLine, beginColumn, endLine, endColumn),
 		m_javaEnvironment->toStdString(jMessage),
 		"",

@@ -20,33 +20,33 @@ public:
 
 	virtual Id recordSymbol(
 		const NameHierarchy& symbolName, SymbolKind symbolKind,
-		AccessKind access, DefinitionKind definitionKind);
+		AccessKind access, DefinitionKind definitionKind) override;
 
 	virtual Id recordSymbol(
 		const NameHierarchy& symbolName, SymbolKind symbolKind,
 		const ParseLocation& location,
-		AccessKind access, DefinitionKind definitionKind);
+		AccessKind access, DefinitionKind definitionKind) override;
 
 	virtual Id recordSymbol(
 		const NameHierarchy& symbolName, SymbolKind symbolKind,
 		const ParseLocation& location, const ParseLocation& scopeLocation,
-		AccessKind access, DefinitionKind definitionKind);
+		AccessKind access, DefinitionKind definitionKind) override;
 
 	virtual void recordReference(
 		ReferenceKind referenceKind, const NameHierarchy& referencedName, const NameHierarchy& contextName,
-		const ParseLocation& location);
+		const ParseLocation& location) override;
 
 	virtual void recordQualifierLocation(
-		const NameHierarchy& qualifierName, const ParseLocation& location);
-
-	virtual void onError(const ParseLocation& location, const std::string& message, const std::string& commandline,
-		bool fatal, bool indexed);
+		const NameHierarchy& qualifierName, const ParseLocation& location) override;
 	
-	virtual void onLocalSymbolParsed(const std::string& name, const ParseLocation& location);
-	virtual void onFileParsed(const FileInfo& fileInfo);
-	virtual void onCommentParsed(const ParseLocation& location);
+	virtual void recordLocalSymbol(const std::string& name, const ParseLocation& location) override;
+	virtual void recordFile(const FileInfo& fileInfo) override;
+	virtual void recordComment(const ParseLocation& location) override;
 
 private:
+	virtual void doRecordError(const ParseLocation& location, const std::string& message, const std::string& commandline,
+		bool fatal, bool indexed) override;
+
 	Node::NodeType symbolKindToNodeType(SymbolKind symbolType) const;
 	Edge::EdgeType referenceKindToEdgeType(ReferenceKind referenceKind) const;
 	void addAccess(Id nodeId, AccessKind access);

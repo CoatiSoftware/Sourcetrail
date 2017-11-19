@@ -9,7 +9,7 @@ class TestParserClient: public ParserClient
 public:
 	virtual Id recordSymbol(
 		const NameHierarchy& symbolName, SymbolKind symbolKind,
-		AccessKind access, DefinitionKind definitionKind)
+		AccessKind access, DefinitionKind definitionKind) override
 	{
 		std::vector<std::string>* bin = getBinForSymbolKind(symbolKind);
 		if (bin != nullptr)
@@ -22,7 +22,7 @@ public:
 	virtual Id recordSymbol(
 		const NameHierarchy& symbolName, SymbolKind symbolKind,
 		const ParseLocation& location,
-		AccessKind access, DefinitionKind definitionKind)
+		AccessKind access, DefinitionKind definitionKind) override
 	{
 		std::vector<std::string>* bin = getBinForSymbolKind(symbolKind);
 		if (bin != nullptr)
@@ -35,7 +35,7 @@ public:
 	virtual Id recordSymbol(
 		const NameHierarchy& symbolName, SymbolKind symbolKind,
 		const ParseLocation& location, const ParseLocation& scopeLocation,
-		AccessKind access, DefinitionKind definitionKind)
+		AccessKind access, DefinitionKind definitionKind) override
 	{
 		std::vector<std::string>* bin = getBinForSymbolKind(symbolKind);
 		if (bin != nullptr)
@@ -47,7 +47,7 @@ public:
 
 	void recordReference(
 		ReferenceKind referenceKind, const NameHierarchy& referencedName, const NameHierarchy& contextName,
-		const ParseLocation& location)
+		const ParseLocation& location) override
 	{
 		std::vector<std::string>* referenceContainer = nullptr;
 		switch (referenceKind)
@@ -103,28 +103,22 @@ public:
 	}
 
 	virtual void recordQualifierLocation(
-		const NameHierarchy& qualifierName, const ParseLocation& location)
+		const NameHierarchy& qualifierName, const ParseLocation& location) override
 	{
 		qualifiers.push_back(addLocationSuffix(qualifierName.getQualifiedNameWithSignature(), location));
 	}
 
-	virtual void onError(const ParseLocation& location, const std::string& message, const std::string& commandline,
-		bool fatal, bool indexed)
-	{
-		errors.push_back(addLocationSuffix(message, location));
-	}
-
-	virtual void onLocalSymbolParsed(const std::string& name, const ParseLocation& location)
+	virtual void recordLocalSymbol(const std::string& name, const ParseLocation& location) override
 	{
 		localSymbols.push_back(addLocationSuffix(name, location));
 	}
 
-	virtual void onFileParsed(const FileInfo& fileInfo)
+	virtual void recordFile(const FileInfo& fileInfo) override
 	{
 		files.insert(fileInfo.path.str());
 	}
 
-	virtual void onCommentParsed(const ParseLocation& location)
+	virtual void recordComment(const ParseLocation& location) override
 	{
 		comments.push_back(addLocationSuffix("comment", location));
 	}
@@ -168,6 +162,12 @@ public:
 	std::vector<std::string> imports;
 
 private:
+	virtual void doRecordError(const ParseLocation& location, const std::string& message, const std::string& commandline,
+		bool fatal, bool indexed) override
+	{
+		errors.push_back(addLocationSuffix(message, location));
+	}
+
 	std::vector<std::string>* getBinForSymbolKind(SymbolKind symbolType)
 	{
 		switch (symbolType)

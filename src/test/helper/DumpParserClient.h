@@ -64,23 +64,17 @@ public:
 		recordLine("QUALIFIER: " + addLocationSuffix(qualifierName.getQualifiedNameWithSignature() + " [" + location.filePath.fileName(), location) + "]\n");
 	}
 
-	virtual void onError(const ParseLocation& location, const std::string& message, const std::string& commandline,
-		bool fatal, bool indexed) override
-	{
-		recordLine("ERROR: " + addLocationSuffix(message + " [" + location.filePath.fileName(), location) + "]\n");
-	}
-
-	virtual void onLocalSymbolParsed(const std::string& name, const ParseLocation& location) override
+	virtual void recordLocalSymbol(const std::string& name, const ParseLocation& location) override
 	{
 		recordLine("LOCAL_SYMBOL: " + addLocationSuffix(name + " [" + location.filePath.fileName(), location) + "]\n");
 	}
 
-	virtual void onFileParsed(const FileInfo& fileInfo) override
+	virtual void recordFile(const FileInfo& fileInfo) override
 	{
 		recordLine("FILE: " + fileInfo.path.fileName() + "\n");
 	}
 
-	virtual void onCommentParsed(const ParseLocation& location) override
+	virtual void recordComment(const ParseLocation& location) override
 	{
 		recordLine("COMMENT: " + addLocationSuffix("comment [" + location.filePath.fileName(), location) + "]\n");
 	}
@@ -88,6 +82,12 @@ public:
 	std::string m_lines;
 
 private:
+	virtual void doRecordError(const ParseLocation& location, const std::string& message, const std::string& commandline,
+		bool fatal, bool indexed) override
+	{
+		recordLine("ERROR: " + addLocationSuffix(message + " [" + location.filePath.fileName(), location) + "]\n");
+	}
+
 	void recordLine(const std::string& message)
 	{
 		if (m_recordedLines.find(message) == m_recordedLines.end())

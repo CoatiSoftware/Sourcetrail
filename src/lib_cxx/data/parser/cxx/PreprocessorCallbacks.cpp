@@ -40,7 +40,7 @@ void PreprocessorCallbacks::FileChanged(
 
 	if (!filePath.empty() && m_fileRegister->hasFilePath(filePath))
 	{
-		m_client->onFileParsed(FileSystem::getFileInfoForPath(filePath)); // todo: fix for tests
+		m_client->recordFile(FileSystem::getFileInfoForPath(filePath)); // todo: fix for tests
 
 		if (!m_fileRegister->fileIsIndexed(filePath))
 		{

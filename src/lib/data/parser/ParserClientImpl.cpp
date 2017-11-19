@@ -73,30 +73,30 @@ void ParserClientImpl::recordQualifierLocation(const NameHierarchy& qualifierNam
 	addSourceLocation(nodeId, location, locationTypeToInt(LOCATION_QUALIFIER));
 }
 
-void ParserClientImpl::onError(
-	const ParseLocation& location, const std::string& message, const std::string& commandline,bool fatal, bool indexed)
-{
-	if (location.isValid())
-	{
-		addError(message, commandline, fatal, indexed, location);
-	}
-}
-
-void ParserClientImpl::onLocalSymbolParsed(const std::string& name, const ParseLocation& location)
+void ParserClientImpl::recordLocalSymbol(const std::string& name, const ParseLocation& location)
 {
 	const Id localSymbolId = addLocalSymbol(name);
 	addSourceLocation(localSymbolId, location, locationTypeToInt(LOCATION_LOCAL_SYMBOL));
 }
 
-void ParserClientImpl::onFileParsed(const FileInfo& fileInfo)
+void ParserClientImpl::recordFile(const FileInfo& fileInfo)
 {
 	const Id nodeId = addNodeHierarchy(NameHierarchy(fileInfo.path.str(), NAME_DELIMITER_FILE), Node::NODE_FILE);
 	addFile(nodeId, fileInfo.path, fileInfo.lastWriteTime.toString());
 }
 
-void ParserClientImpl::onCommentParsed(const ParseLocation& location)
+void ParserClientImpl::recordComment(const ParseLocation& location)
 {
 	addCommentLocation(location);
+}
+
+void ParserClientImpl::doRecordError(
+	const ParseLocation& location, const std::string& message, const std::string& commandline, bool fatal, bool indexed)
+{
+	if (location.isValid())
+	{
+		addError(message, commandline, fatal, indexed, location);
+	}
 }
 
 Node::NodeType ParserClientImpl::symbolKindToNodeType(SymbolKind symbolKind) const

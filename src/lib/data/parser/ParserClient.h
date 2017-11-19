@@ -49,19 +49,19 @@ public:
 	virtual void recordQualifierLocation(
 		const NameHierarchy& qualifierName, const ParseLocation& location) = 0;
 
-	virtual void onError(const ParseLocation& location, const std::string& message, const std::string& commandline,
-		bool fatal, bool indexed) = 0;
-	
-	virtual void onLocalSymbolParsed(const std::string& name, const ParseLocation& location) = 0;
-	virtual void onFileParsed(const FileInfo& fileInfo) = 0;
-	virtual void onCommentParsed(const ParseLocation& location) = 0;
-
-	void onErrorParsed(const ParseLocation& location, const std::string& message, const std::string& commandline,
+	void recordError(const ParseLocation& location, const std::string& message, const std::string& commandline,
 		bool fatal, bool indexed);
+	
+	virtual void recordLocalSymbol(const std::string& name, const ParseLocation& location) = 0;
+	virtual void recordFile(const FileInfo& fileInfo) = 0;
+	virtual void recordComment(const ParseLocation& location) = 0;
 
 	bool hasFatalErrors() const;
 
 protected:
+	virtual void doRecordError(const ParseLocation& location, const std::string& message, const std::string& commandline,
+		bool fatal, bool indexed) = 0;
+
 	bool m_hasFatalErrors;
 };
 

@@ -38,7 +38,7 @@ bool CommentHandler::HandleComment(clang::Preprocessor& preprocessor, clang::Sou
 			FilePath filePath = m_canonicalFilePathCache->getCanonicalFilePath(fileEntry);
 			if (m_fileRegister->hasFilePath(filePath) && !m_fileRegister->fileIsIndexed(filePath))
 			{
-				m_client->onCommentParsed(ParseLocation(
+				m_client->recordComment(ParseLocation(
 					filePath,
 					presumedBegin.getLine(),
 					presumedBegin.getColumn(),
