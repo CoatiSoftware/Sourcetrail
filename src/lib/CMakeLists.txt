@@ -229,6 +229,21 @@ add_files(
 	data/storage/sqlite/SqliteStorage.cpp
 	data/storage/sqlite/SqliteStorage.h
 
+	data/storage/type/StorageBookmarkCategory.h
+	data/storage/type/StorageBookmark.h
+	data/storage/type/StorageBookmarkedEdge.h
+	data/storage/type/StorageBookmarkedNode.h
+	data/storage/type/StorageCommentLocation.h
+	data/storage/type/StorageComponentAccess.h
+	data/storage/type/StorageEdge.h
+	data/storage/type/StorageError.h
+	data/storage/type/StorageFile.h
+	data/storage/type/StorageLocalSymbol.h
+	data/storage/type/StorageNode.h
+	data/storage/type/StorageOccurrence.h
+	data/storage/type/StorageSourceLocation.h
+	data/storage/type/StorageSymbol.h
+	
 	data/storage/IntermediateStorage.cpp
 	data/storage/IntermediateStorage.h
 	data/storage/PersistentStorage.cpp
@@ -239,7 +254,6 @@ add_files(
 	data/storage/StorageCache.h
 	data/storage/StorageProvider.cpp
 	data/storage/StorageProvider.h
-	data/storage/StorageTypes.h
 	data/storage/StorageStats.h
 
 	data/tooltip/TooltipInfo.h

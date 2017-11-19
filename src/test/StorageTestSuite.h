@@ -21,8 +21,8 @@ public:
 		std::string filePath = "path/to/test.h";
 
 		std::shared_ptr<IntermediateStorage> intermetiateStorage = std::make_shared<IntermediateStorage>();
-		Id id = intermetiateStorage->addNode(Node::typeToInt(Node::NODE_FILE), NameHierarchy::serialize(NameHierarchy(filePath, NAME_DELIMITER_FILE)));
-		intermetiateStorage->addFile(id, filePath, "someTime", true);
+		Id id = intermetiateStorage->addNode(StorageNodeData(Node::typeToInt(Node::NODE_FILE), NameHierarchy::serialize(NameHierarchy(filePath, NAME_DELIMITER_FILE))));
+		intermetiateStorage->addFile(StorageFile(id, filePath, "someTime", true));
 
 		storage.inject(intermetiateStorage.get());
 
@@ -37,7 +37,7 @@ public:
 		TestStorage storage;
 
 		std::shared_ptr<IntermediateStorage> intermetiateStorage = std::make_shared<IntermediateStorage>();
-		intermetiateStorage->addNode(Node::typeToInt(Node::NODE_TYPEDEF), NameHierarchy::serialize(a));
+		intermetiateStorage->addNode(StorageNodeData(Node::typeToInt(Node::NODE_TYPEDEF), NameHierarchy::serialize(a)));
 
 		storage.inject(intermetiateStorage.get());
 
@@ -57,12 +57,12 @@ public:
 
 		std::shared_ptr<IntermediateStorage> intermetiateStorage = std::make_shared<IntermediateStorage>();
 
-		Id aId = intermetiateStorage->addNode(Node::typeToInt(Node::NODE_STRUCT), NameHierarchy::serialize(a));
-		intermetiateStorage->addSymbol(aId, DEFINITION_EXPLICIT);
+		Id aId = intermetiateStorage->addNode(StorageNodeData(Node::typeToInt(Node::NODE_STRUCT), NameHierarchy::serialize(a)));
+		intermetiateStorage->addSymbol(StorageSymbol(aId, DEFINITION_EXPLICIT));
 
-		Id bId = intermetiateStorage->addNode(Node::typeToInt(Node::NODE_FIELD), NameHierarchy::serialize(b));
-		intermetiateStorage->addSymbol(bId, DEFINITION_EXPLICIT);
-		intermetiateStorage->addEdge(Edge::typeToInt(Edge::EDGE_MEMBER), aId, bId);
+		Id bId = intermetiateStorage->addNode(StorageNodeData(Node::typeToInt(Node::NODE_FIELD), NameHierarchy::serialize(b)));
+		intermetiateStorage->addSymbol(StorageSymbol(bId, DEFINITION_EXPLICIT));
+		intermetiateStorage->addEdge(StorageEdgeData(Edge::typeToInt(Edge::EDGE_MEMBER), aId, bId));
 
 		storage.inject(intermetiateStorage.get());
 

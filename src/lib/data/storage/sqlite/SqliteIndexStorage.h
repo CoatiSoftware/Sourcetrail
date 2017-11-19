@@ -8,7 +8,16 @@
 #include "data/location/SourceLocationFile.h"
 #include "data/storage/sqlite/SqliteDatabaseIndex.h"
 #include "data/storage/sqlite/SqliteStorage.h"
-#include "data/storage/StorageTypes.h"
+#include "data/storage/type/StorageCommentLocation.h"
+#include "data/storage/type/StorageComponentAccess.h"
+#include "data/storage/type/StorageEdge.h"
+#include "data/storage/type/StorageError.h"
+#include "data/storage/type/StorageFile.h"
+#include "data/storage/type/StorageLocalSymbol.h"
+#include "data/storage/type/StorageNode.h"
+#include "data/storage/type/StorageOccurrence.h"
+#include "data/storage/type/StorageSourceLocation.h"
+#include "data/storage/type/StorageSymbol.h"
 #include "utility/types.h"
 #include "utility/utility.h"
 #include "utility/utilityString.h"
@@ -29,18 +38,16 @@ public:
 	std::string getProjectSettingsText() const;
 	void setProjectSettingsText(std::string text);
 
-	Id addEdge(int type, Id sourceNodeId, Id targetNodeId);
-
-	Id addNode(const int type, const std::string& serializedName);
-	void addSymbol(const int id, int definitionKind);
-	void addFile(const int id, const std::string& filePath, const std::string& modificationTime, bool complete);
-	Id addLocalSymbol(const std::string& name);
-	Id addSourceLocation(Id fileNodeId, uint startLine, uint startCol, uint endLine, uint endCol, int type);
-	bool addOccurrence(Id elementId, Id sourceLocationId);
-	Id addComponentAccess(Id nodeId, int type);
-	Id addCommentLocation(Id fileNodeId, uint startLine, uint startCol, uint endLine, uint endCol);
-	Id addError(const std::string& message, const std::string& commandline, const FilePath& filePath,
-		uint lineNumber, uint columnNumber, bool fatal, bool indexed);
+	StorageNode addNode(const StorageNodeData& data);
+	void addSymbol(const StorageSymbol& data);
+	void addFile(const StorageFile& data);
+	StorageEdge addEdge(const StorageEdgeData& data);
+	StorageLocalSymbol addLocalSymbol(const StorageLocalSymbolData& data);
+	StorageSourceLocation addSourceLocation(const StorageSourceLocationData& data);
+	bool addOccurrence(const StorageOccurrence& data);
+	StorageComponentAccess addComponentAccess(const StorageComponentAccessData& data);
+	StorageCommentLocation addCommentLocation(const StorageCommentLocationData& data);
+	StorageError addError(const StorageErrorData& data);
 
 	void removeElement(Id id);
 	void removeElements(const std::vector<Id>& ids);

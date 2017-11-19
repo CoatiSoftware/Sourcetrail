@@ -1,6 +1,16 @@
 #ifndef SHARED_STORAGE_TYPES_H
 #define SHARED_STORAGE_TYPES_H
 
+#include "data/storage/type/StorageCommentLocation.h"
+#include "data/storage/type/StorageComponentAccess.h"
+#include "data/storage/type/StorageEdge.h"
+#include "data/storage/type/StorageError.h"
+#include "data/storage/type/StorageFile.h"
+#include "data/storage/type/StorageLocalSymbol.h"
+#include "data/storage/type/StorageNode.h"
+#include "data/storage/type/StorageOccurrence.h"
+#include "data/storage/type/StorageSourceLocation.h"
+#include "data/storage/type/StorageSymbol.h"
 #include "utility/types.h"
 #include "utility/interprocess/SharedMemory.h"
 
@@ -25,8 +35,8 @@ CONVERT_STORAGE_TYPE_TO_SHARED_TYPE(	StorageEdge,				SharedStorageEdge )
 CONVERT_STORAGE_TYPE_TO_SHARED_TYPE(	StorageSymbol,				SharedStorageSymbol )
 CONVERT_STORAGE_TYPE_TO_SHARED_TYPE(	StorageSourceLocation,		SharedStorageSourceLocation )
 CONVERT_STORAGE_TYPE_TO_SHARED_TYPE(	StorageOccurrence,			SharedStorageOccurrence )
-CONVERT_STORAGE_TYPE_TO_SHARED_TYPE(	StorageComponentAccess,		SharedStorageComponentAccess )
-CONVERT_STORAGE_TYPE_TO_SHARED_TYPE(	StorageCommentLocation,		SharedStorageCommentLocation )
+CONVERT_STORAGE_TYPE_TO_SHARED_TYPE(	StorageComponentAccessData,		SharedStorageComponentAccessData)
+CONVERT_STORAGE_TYPE_TO_SHARED_TYPE(	StorageCommentLocationData,		SharedStorageCommentLocationData)
 
 
 struct SharedStorageNode
@@ -103,10 +113,9 @@ inline StorageLocalSymbol fromShared(const SharedStorageLocalSymbol& symbol)
 }
 
 
-struct SharedStorageError
+struct SharedStorageErrorData
 {
-	SharedStorageError(
-		Id id,
+	SharedStorageErrorData(
 		const std::string& message,
 		const std::string& commandline,
 		const std::string& filePath,
@@ -116,8 +125,7 @@ struct SharedStorageError
 		bool indexed,
 		SharedMemory::Allocator* allocator
 	)
-		: id(id)
-		, message(message.c_str(), allocator)
+		: message(message.c_str(), allocator)
 		, commandline(commandline.c_str(), allocator)
 		, filePath(filePath.c_str(), allocator)
 		, lineNumber(lineNumber)
@@ -126,7 +134,6 @@ struct SharedStorageError
 		, indexed(indexed)
 	{}
 
-	Id id;
 	SharedMemory::String message;
 	SharedMemory::String commandline;
 
@@ -138,17 +145,17 @@ struct SharedStorageError
 	bool indexed;
 };
 
-inline SharedStorageError toShared(const StorageError& error, SharedMemory::Allocator* allocator)
+inline SharedStorageErrorData toShared(const StorageErrorData& error, SharedMemory::Allocator* allocator)
 {
-	return SharedStorageError(
-		error.id, error.message, error.commandline, error.filePath.str(),
+	return SharedStorageErrorData(
+		error.message, error.commandline, error.filePath.str(),
 		error.lineNumber, error.columnNumber, error.fatal, error.indexed, allocator);
 }
 
-inline StorageError fromShared(const SharedStorageError& error)
+inline StorageErrorData fromShared(const SharedStorageErrorData& error)
 {
-	return StorageError(
-		error.id, error.message.c_str(), error.commandline.c_str(), FilePath(error.filePath.c_str()),
+	return StorageErrorData(
+		error.message.c_str(), error.commandline.c_str(), FilePath(error.filePath.c_str()),
 		error.lineNumber, error.columnNumber, error.fatal, error.indexed);
 }
 

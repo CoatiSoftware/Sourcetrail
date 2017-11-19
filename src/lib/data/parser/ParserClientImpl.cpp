@@ -222,7 +222,7 @@ Id ParserClientImpl::addNode(Node::NodeType nodeType, NameHierarchy nameHierarch
 		return 0;
 	}
 
-	return m_storage->addNode(Node::typeToInt(nodeType), NameHierarchy::serialize(nameHierarchy));
+	return m_storage->addNode(StorageNodeData(Node::typeToInt(nodeType), NameHierarchy::serialize(nameHierarchy)));
 }
 
 void ParserClientImpl::addFile(Id id, const FilePath& filePath, const std::string& modificationTime)
@@ -232,7 +232,7 @@ void ParserClientImpl::addFile(Id id, const FilePath& filePath, const std::strin
 		return;
 	}
 
-	m_storage->addFile(id, filePath.str(), modificationTime, true);
+	m_storage->addFile(StorageFile(id, filePath.str(), modificationTime, true));
 }
 
 void ParserClientImpl::addSymbol(Id id, DefinitionKind definitionKind)
@@ -244,7 +244,7 @@ void ParserClientImpl::addSymbol(Id id, DefinitionKind definitionKind)
 
 	if (definitionKind != DEFINITION_NONE)
 	{
-		m_storage->addSymbol(id, definitionKindToInt(definitionKind));
+		m_storage->addSymbol(StorageSymbol(id, definitionKindToInt(definitionKind)));
 	}
 }
 
@@ -260,7 +260,7 @@ Id ParserClientImpl::addEdge(int type, Id sourceId, Id targetId)
 		return 0;
 	}
 
-	return m_storage->addEdge(type, sourceId, targetId);
+	return m_storage->addEdge(StorageEdgeData(type, sourceId, targetId));
 }
 
 Id ParserClientImpl::addLocalSymbol(const std::string& name)
@@ -291,19 +291,19 @@ void ParserClientImpl::addSourceLocation(Id elementId, const ParseLocation& loca
 		return;
 	}
 
-	Id sourceLocationId = m_storage->addSourceLocation(
+	Id sourceLocationId = m_storage->addSourceLocation(StorageSourceLocationData(
 		addNodeHierarchy(NameHierarchy(location.filePath.str(), NAME_DELIMITER_FILE), Node::NODE_FILE),
 		location.startLineNumber,
 		location.startColumnNumber,
 		location.endLineNumber,
 		location.endColumnNumber,
 		type
-	);
+	));
 
-	m_storage->addOccurrence(
+	m_storage->addOccurrence(StorageOccurrence(
 		elementId,
 		sourceLocationId
-	);
+	));
 }
 
 void ParserClientImpl::addComponentAccess(Id nodeId , int type)
@@ -313,7 +313,7 @@ void ParserClientImpl::addComponentAccess(Id nodeId , int type)
 		return;
 	}
 
-	m_storage->addComponentAccess(nodeId, type);
+	m_storage->addComponentAccess(StorageComponentAccessData(nodeId, type));
 }
 
 void ParserClientImpl::addCommentLocation(const ParseLocation& location)
@@ -323,13 +323,13 @@ void ParserClientImpl::addCommentLocation(const ParseLocation& location)
 		return;
 	}
 
-	m_storage->addCommentLocation(
+	m_storage->addCommentLocation(StorageCommentLocationData(
 		addNodeHierarchy(NameHierarchy(location.filePath.str(), NAME_DELIMITER_FILE), Node::NODE_FILE),
 		location.startLineNumber,
 		location.startColumnNumber,
 		location.endLineNumber,
 		location.endColumnNumber
-	);
+	));
 }
 
 void ParserClientImpl::addError(
@@ -340,6 +340,7 @@ void ParserClientImpl::addError(
 		return;
 	}
 
-	m_storage->addError(
-		message, commandline, location.filePath, location.startLineNumber, location.startColumnNumber, fatal, indexed);
+	m_storage->addError(StorageErrorData(
+		message, commandline, location.filePath, location.startLineNumber, location.startColumnNumber, fatal, indexed
+	));
 }

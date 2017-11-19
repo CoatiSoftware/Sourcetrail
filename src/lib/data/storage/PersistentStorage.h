@@ -20,28 +20,27 @@ public:
 	PersistentStorage(const FilePath& dbPath, const FilePath& bookmarkPath);
 	virtual ~PersistentStorage();
 
-	virtual Id addNode(int type, const std::string& serializedName);
-	virtual void addFile(const Id id, const std::string& filePath, const std::string& modificationTime, bool complete);
-	virtual void addSymbol(const Id id, int definitionKind);
-	virtual Id addEdge(int type, Id sourceId, Id targetId);
-	virtual Id addLocalSymbol(const std::string& name);
-	virtual Id addSourceLocation(Id fileNodeId, uint startLine, uint startCol, uint endLine, uint endCol, int type);
-	virtual void addOccurrence(Id elementId, Id sourceLocationId);
-	virtual void addComponentAccess(Id nodeId , int type);
-	virtual void addCommentLocation(Id fileNodeId, uint startLine, uint startCol, uint endLine, uint endCol);
-	virtual void addError(const std::string& message, const std::string& commandline, const FilePath& filePath,
-		uint startLine, uint startCol, bool fatal, bool indexed);
+	virtual Id addNode(const StorageNodeData& data) override;
+	virtual void addSymbol(const StorageSymbol& data) override;
+	virtual void addFile(const StorageFile& data) override;
+	virtual Id addEdge(const StorageEdgeData& data) override;
+	virtual Id addLocalSymbol(const StorageLocalSymbolData& data) override;
+	virtual Id addSourceLocation(const StorageSourceLocationData& data) override;
+	virtual void addOccurrence(const StorageOccurrence& data) override;
+	virtual void addComponentAccess(const StorageComponentAccessData& data) override;
+	virtual void addCommentLocation(const StorageCommentLocationData& data) override;
+	virtual void addError(const StorageErrorData& data) override;
 
-	virtual void forEachNode(std::function<void(const StorageNode& /*data*/)> callback) const;
-	virtual void forEachFile(std::function<void(const StorageFile& /*data*/)> callback) const;
-	virtual void forEachSymbol(std::function<void(const StorageSymbol& /*data*/)> callback) const;
-	virtual void forEachEdge(std::function<void(const StorageEdge& /*data*/)> callback) const;
-	virtual void forEachLocalSymbol(std::function<void(const StorageLocalSymbol& /*data*/)> callback) const;
-	virtual void forEachSourceLocation(std::function<void(const StorageSourceLocation& /*data*/)> callback) const;
-	virtual void forEachOccurrence(std::function<void(const StorageOccurrence& /*data*/)> callback) const;
-	virtual void forEachComponentAccess(std::function<void(const StorageComponentAccess& /*data*/)> callback) const;
-	virtual void forEachCommentLocation(std::function<void(const StorageCommentLocation& /*data*/)> callback) const;
-	virtual void forEachError(std::function<void(const StorageError& /*data*/)> callback) const;
+	virtual void forEachNode(std::function<void(const StorageNode& /*data*/)> callback) const override;
+	virtual void forEachFile(std::function<void(const StorageFile& /*data*/)> callback) const override;
+	virtual void forEachSymbol(std::function<void(const StorageSymbol& /*data*/)> callback) const override;
+	virtual void forEachEdge(std::function<void(const StorageEdge& /*data*/)> callback) const override;
+	virtual void forEachLocalSymbol(std::function<void(const StorageLocalSymbol& /*data*/)> callback) const override;
+	virtual void forEachSourceLocation(std::function<void(const StorageSourceLocation& /*data*/)> callback) const override;
+	virtual void forEachOccurrence(std::function<void(const StorageOccurrence& /*data*/)> callback) const override;
+	virtual void forEachComponentAccess(std::function<void(const StorageComponentAccessData& /*data*/)> callback) const override;
+	virtual void forEachCommentLocation(std::function<void(const StorageCommentLocationData& /*data*/)> callback) const override;
+	virtual void forEachError(std::function<void(const StorageErrorData& /*data*/)> callback) const override;
 
 	virtual void startInjection();
 	virtual void finishInjection();

@@ -12,9 +12,9 @@ public:
 	{
 		std::shared_ptr<IntermediateStorage> storage = std::make_shared<IntermediateStorage>();
 
-		Id anonymousTypeId = storage->addNode(Node::typeToInt(Node::NODE_CLASS), NameHierarchy::serialize(NameHierarchy("anonymous class (input.cc<1:9>)", NAME_DELIMITER_CXX)));
-		Id typedefId = storage->addNode(Node::typeToInt(Node::NODE_TYPEDEF), NameHierarchy::serialize(NameHierarchy("ClassTypedef", NAME_DELIMITER_CXX)));
-		storage->addEdge(Edge::typeToInt(Edge::EDGE_TYPE_USAGE), typedefId, anonymousTypeId);
+		Id anonymousTypeId = storage->addNode(StorageNodeData(Node::typeToInt(Node::NODE_CLASS), NameHierarchy::serialize(NameHierarchy("anonymous class (input.cc<1:9>)", NAME_DELIMITER_CXX))));
+		Id typedefId = storage->addNode(StorageNodeData(Node::typeToInt(Node::NODE_TYPEDEF), NameHierarchy::serialize(NameHierarchy("ClassTypedef", NAME_DELIMITER_CXX))));
+		storage->addEdge(StorageEdgeData(Edge::typeToInt(Edge::EDGE_TYPE_USAGE), typedefId, anonymousTypeId));
 
 		StorageTransformationAnonymousTypedef::transform(storage);
 
@@ -35,10 +35,10 @@ public:
 	{
 		std::shared_ptr<IntermediateStorage> storage = std::make_shared<IntermediateStorage>();
 
-		Id anonymousTypeId = storage->addNode(Node::typeToInt(Node::NODE_CLASS), NameHierarchy::serialize(NameHierarchy("anonymous class (input.cc<1:9>)", NAME_DELIMITER_CXX)));
-		Id typedefId = storage->addNode(Node::typeToInt(Node::NODE_TYPEDEF), NameHierarchy::serialize(NameHierarchy("ClassTypedef", NAME_DELIMITER_CXX)));
-		storage->addEdge(Edge::typeToInt(Edge::EDGE_TYPE_USAGE), typedefId, anonymousTypeId);
-		storage->addEdge(Edge::typeToInt(Edge::EDGE_TYPE_USAGE), 42, typedefId);
+		Id anonymousTypeId = storage->addNode(StorageNodeData(Node::typeToInt(Node::NODE_CLASS), NameHierarchy::serialize(NameHierarchy("anonymous class (input.cc<1:9>)", NAME_DELIMITER_CXX))));
+		Id typedefId = storage->addNode(StorageNodeData(Node::typeToInt(Node::NODE_TYPEDEF), NameHierarchy::serialize(NameHierarchy("ClassTypedef", NAME_DELIMITER_CXX))));
+		storage->addEdge(StorageEdgeData(Edge::typeToInt(Edge::EDGE_TYPE_USAGE), typedefId, anonymousTypeId));
+		storage->addEdge(StorageEdgeData(Edge::typeToInt(Edge::EDGE_TYPE_USAGE), 42, typedefId));
 
 		StorageTransformationAnonymousTypedef::transform(storage);
 
@@ -69,10 +69,10 @@ public:
 	{
 		std::shared_ptr<IntermediateStorage> storage = std::make_shared<IntermediateStorage>();
 
-		Id anonymousTypeId = storage->addNode(Node::typeToInt(Node::NODE_CLASS), NameHierarchy::serialize(NameHierarchy("anonymous class (input.cc<1:9>)", NAME_DELIMITER_CXX)));
-		Id typedefId = storage->addNode(Node::typeToInt(Node::NODE_TYPEDEF), NameHierarchy::serialize(NameHierarchy("ClassTypedef", NAME_DELIMITER_CXX)));
-		storage->addEdge(Edge::typeToInt(Edge::EDGE_TYPE_USAGE), typedefId, anonymousTypeId);
-		storage->addEdge(Edge::typeToInt(Edge::EDGE_TYPE_USAGE), anonymousTypeId, 42);
+		Id anonymousTypeId = storage->addNode(StorageNodeData(Node::typeToInt(Node::NODE_CLASS), NameHierarchy::serialize(NameHierarchy("anonymous class (input.cc<1:9>)", NAME_DELIMITER_CXX))));
+		Id typedefId = storage->addNode(StorageNodeData(Node::typeToInt(Node::NODE_TYPEDEF), NameHierarchy::serialize(NameHierarchy("ClassTypedef", NAME_DELIMITER_CXX))));
+		storage->addEdge(StorageEdgeData(Edge::typeToInt(Edge::EDGE_TYPE_USAGE), typedefId, anonymousTypeId));
+		storage->addEdge(StorageEdgeData(Edge::typeToInt(Edge::EDGE_TYPE_USAGE), anonymousTypeId, 42));
 
 		StorageTransformationAnonymousTypedef::transform(storage);
 
@@ -103,14 +103,14 @@ public:
 	{
 		std::shared_ptr<IntermediateStorage> storage = std::make_shared<IntermediateStorage>();
 
-		Id anonymousTypeId = storage->addNode(Node::typeToInt(Node::NODE_CLASS), NameHierarchy::serialize(NameHierarchy("anonymous class (input.cc<1:9>)", NAME_DELIMITER_CXX)));
-		Id typedefId = storage->addNode(Node::typeToInt(Node::NODE_TYPEDEF), NameHierarchy::serialize(NameHierarchy("ClassTypedef", NAME_DELIMITER_CXX)));
-		storage->addEdge(Edge::typeToInt(Edge::EDGE_TYPE_USAGE), typedefId, anonymousTypeId);
+		Id anonymousTypeId = storage->addNode(StorageNodeData(Node::typeToInt(Node::NODE_CLASS), NameHierarchy::serialize(NameHierarchy("anonymous class (input.cc<1:9>)", NAME_DELIMITER_CXX))));
+		Id typedefId = storage->addNode(StorageNodeData(Node::typeToInt(Node::NODE_TYPEDEF), NameHierarchy::serialize(NameHierarchy("ClassTypedef", NAME_DELIMITER_CXX))));
+		storage->addEdge(StorageEdgeData(Edge::typeToInt(Edge::EDGE_TYPE_USAGE), typedefId, anonymousTypeId));
 
-		Id anonymousTypeMemberId = storage->addNode(
+		Id anonymousTypeMemberId = storage->addNode(StorageNodeData(
 			Node::typeToInt(Node::NODE_FIELD),
 			NameHierarchy::serialize(NameHierarchy(utility::createVectorFromElements<std::string>("anonymous class (input.cc<1:9>)", "field"), NAME_DELIMITER_CXX))
-		);
+		));
 
 		StorageTransformationAnonymousTypedef::transform(storage);
 
@@ -131,12 +131,12 @@ public:
 	{
 		std::shared_ptr<IntermediateStorage> storage = std::make_shared<IntermediateStorage>();
 
-		Id typeId = storage->addNode(
+		Id typeId = storage->addNode(StorageNodeData(
 			Node::typeToInt(Node::NODE_CLASS),
 			NameHierarchy::serialize(NameHierarchy(utility::createVectorFromElements<std::string>("anonymous namespace (input.cc<1:9>)", "Type"), NAME_DELIMITER_CXX))
-		);
-		Id typedefId = storage->addNode(Node::typeToInt(Node::NODE_TYPEDEF), NameHierarchy::serialize(NameHierarchy("ClassTypedef", NAME_DELIMITER_CXX)));
-		storage->addEdge(Edge::typeToInt(Edge::EDGE_TYPE_USAGE), typedefId, typeId);
+		));
+		Id typedefId = storage->addNode(StorageNodeData(Node::typeToInt(Node::NODE_TYPEDEF), NameHierarchy::serialize(NameHierarchy("ClassTypedef", NAME_DELIMITER_CXX))));
+		storage->addEdge(StorageEdgeData(Edge::typeToInt(Edge::EDGE_TYPE_USAGE), typedefId, typeId));
 
 		StorageTransformationAnonymousTypedef::transform(storage);
 

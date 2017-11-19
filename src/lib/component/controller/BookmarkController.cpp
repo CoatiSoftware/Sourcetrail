@@ -6,6 +6,7 @@
 #include "data/bookmark/Bookmark.h"
 #include "data/bookmark/EdgeBookmark.h"
 #include "data/bookmark/NodeBookmark.h"
+#include "data/storage/type/StorageEdge.h"
 
 #include "utility/messaging/type/MessageActivateEdge.h"
 #include "utility/messaging/type/MessageActivateNodes.h"

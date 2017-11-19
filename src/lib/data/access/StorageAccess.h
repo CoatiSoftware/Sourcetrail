@@ -12,6 +12,7 @@
 #include "data/bookmark/NodeBookmark.h"
 #include "data/graph/Node.h"
 #include "data/search/SearchMatch.h"
+#include "data/storage/type/StorageEdge.h"
 #include "data/ErrorCountInfo.h"
 #include "data/ErrorFilter.h"
 #include "data/ErrorInfo.h"

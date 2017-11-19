@@ -1,7 +1,6 @@
 #ifndef SHARED_INTERMEDIATE_STORAGE_H
 #define SHARED_INTERMEDIATE_STORAGE_H
 
-#include "data/storage/StorageTypes.h"
 #include "data/indexer/interprocess/shared_types/SharedStorageTypes.h"
 #include "utility/interprocess/SharedMemory.h"
 
@@ -32,14 +31,14 @@ public:
 	std::vector<StorageOccurrence> getStorageOccurrences() const;
 	void setStorageOccurrences(const std::vector<StorageOccurrence>& storageOccurences);
 
-	std::vector<StorageComponentAccess> getStorageComponentAccesses() const;
-	void setStorageComponentAccesses(const std::vector<StorageComponentAccess>& storageComponentAccesses);
+	std::vector<StorageComponentAccessData> getStorageComponentAccesses() const;
+	void setStorageComponentAccesses(const std::vector<StorageComponentAccessData>& storageComponentAccesses);
 
-	std::vector<StorageCommentLocation> getStorageCommentLocations() const;
-	void setStorageCommentLocations(const std::vector<StorageCommentLocation>& commentLocations);
+	std::vector<StorageCommentLocationData> getStorageCommentLocations() const;
+	void setStorageCommentLocations(const std::vector<StorageCommentLocationData>& commentLocations);
 
-	std::vector<StorageError> getStorageErrors() const;
-	void setStorageErrors(const std::vector<StorageError>& errors);
+	std::vector<StorageErrorData> getStorageErrors() const;
+	void setStorageErrors(const std::vector<StorageErrorData>& errors);
 
 	Id getNextId() const;
 	void setNextId(const Id nextId);
@@ -48,13 +47,13 @@ private:
 	SharedMemory::Vector<SharedStorageFile> m_storageFiles;
 	SharedMemory::Vector<SharedStorageSymbol> m_storageSymbols;
 	SharedMemory::Vector<SharedStorageOccurrence> m_storageOccurrences;
-	SharedMemory::Vector<SharedStorageComponentAccess> m_storageComponentAccesses;
-	SharedMemory::Vector<SharedStorageCommentLocation> m_storageCommentLocations;
+	SharedMemory::Vector<SharedStorageComponentAccessData> m_storageComponentAccesses;
+	SharedMemory::Vector<SharedStorageCommentLocationData> m_storageCommentLocations;
 	SharedMemory::Vector<SharedStorageNode> m_storageNodes;
 	SharedMemory::Vector<SharedStorageEdge> m_storageEdges;
 	SharedMemory::Vector<SharedStorageLocalSymbol> m_storageLocalSymbols;
 	SharedMemory::Vector<SharedStorageSourceLocation> m_storageSourceLocations;
-	SharedMemory::Vector<SharedStorageError> m_storageErrors;
+	SharedMemory::Vector<SharedStorageErrorData> m_storageErrors;
 
 	SharedMemory::Allocator* m_allocator;
 

@@ -2,7 +2,6 @@
 #define ERROR_FILTER_H
 
 #include "data/ErrorInfo.h"
-#include "data/storage/StorageTypes.h"
 
 struct ErrorFilter
 {

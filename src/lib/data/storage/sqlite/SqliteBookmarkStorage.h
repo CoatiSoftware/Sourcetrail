@@ -2,7 +2,10 @@
 #define SQLITE_BOOKMARK_STORAGE_H
 
 #include "data/storage/sqlite/SqliteStorage.h"
-#include "data/storage/StorageTypes.h"
+#include "data/storage/type/StorageBookmark.h"
+#include "data/storage/type/StorageBookmarkCategory.h"
+#include "data/storage/type/StorageBookmarkedNode.h"
+#include "data/storage/type/StorageBookmarkedEdge.h"
 #include "utility/types.h"
 
 class SqliteBookmarkStorage
@@ -16,10 +19,10 @@ public:
 
 	void migrateIfNecessary();
 
-	Id addBookmarkCategory(const std::string& name);
-	Id addBookmark(const std::string& name, const std::string& comment, const std::string& timestamp, const Id categoryId);
-	Id addBookmarkedNode(const Id bookmarkId, const std::string& nodeName);
-	Id addBookmarkedEdge(const Id bookmarkId, const std::string& sourceNodeName, const std::string& targetNodeName, const int edgeType, const bool sourceNodeActive);
+	StorageBookmarkCategory addBookmarkCategory(const StorageBookmarkCategoryData& data);
+	StorageBookmark addBookmark(const StorageBookmarkData& data);
+	StorageBookmarkedNode addBookmarkedNode(const StorageBookmarkedNodeData& data);
+	StorageBookmarkedEdge addBookmarkedEdge(const StorageBookmarkedEdgeData data);
 
 	void removeBookmarkCategory(Id id);
 	void removeBookmark(const Id id);
