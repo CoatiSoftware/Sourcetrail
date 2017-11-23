@@ -42,8 +42,8 @@ void QtGraphNodeBundle::onClick()
 {
 	MessageGraphNodeBundleSplit(
 		m_tokenId,
-		m_type.getType() != NodeType::NODE_SYMBOL && getName() != "Anonymous Namespaces",
-		m_type.getType() != NodeType::NODE_SYMBOL
+		!m_type.isUnknownSymbol() && getName() != "Anonymous Namespaces",
+		!m_type.isUnknownSymbol()
 	).dispatch();
 }
 
@@ -57,7 +57,7 @@ void QtGraphNodeBundle::moved(const Vec2i& oldPosition)
 void QtGraphNodeBundle::updateStyle()
 {
 	GraphViewStyle::NodeStyle style;
-	if (m_type.getType() != NodeType::NODE_SYMBOL)
+	if (!m_type.isUnknownSymbol())
 	{
 		style = GraphViewStyle::getStyleForNodeType(m_type, true, false, m_isHovering, false, false);
 	}
