@@ -658,36 +658,31 @@ MessageActivateTrail QtGraphView::getMessageActivateTrail(bool forward)
 {
 	MessageActivateTrail message(0, 0, 0, 0, false);
 
-	QtGraphNodeData* node = nullptr;
-	if (m_oldActiveNode && (node = dynamic_cast<QtGraphNodeData*>(m_oldActiveNode)))
+	QtGraphNodeData* node = dynamic_cast<QtGraphNodeData*>(m_oldActiveNode);
+	if (node)
 	{
 		Edge::TypeMask trailType;
 		bool horizontalLayout = true;
 
-		switch (node->getData()->getType().getType())
+		if (node->getData()->getType().isInheritable())
 		{
-			case NodeType::NODE_SYMBOL:
-			case NodeType::NODE_CLASS:
-			case NodeType::NODE_STRUCT:
-			case NodeType::NODE_INTERFACE:
-				trailType = Edge::EDGE_INHERITANCE;
-				horizontalLayout = false;
-				break;
-
-			case NodeType::NODE_FUNCTION:
-			case NodeType::NODE_METHOD:
-				trailType = Edge::EDGE_CALL | Edge::EDGE_OVERRIDE |
-					Edge::EDGE_TEMPLATE_SPECIALIZATION | Edge::EDGE_TEMPLATE_MEMBER_SPECIALIZATION;
-				horizontalLayout = true;
-				break;
-
-			case NodeType::NODE_FILE:
-				trailType = Edge::EDGE_INCLUDE;
-				horizontalLayout = true;
-				break;
-
-			default:
-				return message;
+			trailType = Edge::EDGE_INHERITANCE;
+			horizontalLayout = false;
+		}
+		else if (node->getData()->getType().isCallable())
+		{
+			trailType = Edge::EDGE_CALL | Edge::EDGE_OVERRIDE |
+				Edge::EDGE_TEMPLATE_SPECIALIZATION | Edge::EDGE_TEMPLATE_MEMBER_SPECIALIZATION;
+			horizontalLayout = true;
+		}
+		else if (node->getData()->getType().isFile())
+		{
+			trailType = Edge::EDGE_INCLUDE;
+			horizontalLayout = true;
+		}
+		else
+		{
+			return message;
 		}
 
 		Id tokenId = node->getData()->getId();
