@@ -106,7 +106,7 @@ private:
 
 	void createLineLengthCache();
 	void createMultibyteCharacterLocationCache();
-	int getColumnCorrectedForMultibyteCharacters(const int line, int column) const;
+	int getColumnCorrectedForMultibyteCharacters(int line, int column) const;
 
 	const uint m_startLineNumber;
 	const std::string m_code;

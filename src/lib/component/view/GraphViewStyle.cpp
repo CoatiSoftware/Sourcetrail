@@ -156,8 +156,10 @@ size_t GraphViewStyle::getFontSizeForStyleType(NodeType::StyleType type)
 	case NodeType::STYLE_PACKAGE:
 	case NodeType::STYLE_SMALL_NODE:
 		return s_fontSize - 3;
+
+	default:
+		return s_fontSize;
 	}
-	return s_fontSize;
 }
 
 size_t GraphViewStyle::getFontSizeOfAccessNode()
@@ -336,8 +338,8 @@ GraphViewStyle::NodeStyle GraphViewStyle::getStyleForNodeType(
 }
 
 GraphViewStyle::NodeStyle GraphViewStyle::getStyleForNodeType(
-	NodeType::StyleType type, const std::string& underscoredTypeString, 
-	const FilePath& iconPath, bool defined, bool isActive, bool isFocused, 
+	NodeType::StyleType type, const std::string& underscoredTypeString,
+	const FilePath& iconPath, bool defined, bool isActive, bool isFocused,
 	bool hasChildren, bool hasQualifier
 ){
 	NodeStyle style;
@@ -483,12 +485,12 @@ GraphViewStyle::NodeStyle GraphViewStyle::getStyleOfBundleNode(bool isFocused)
 {
 	return getStyleForNodeType(
 		NodeType::STYLE_BIG_NODE,
-		"bundle", 
-		ResourcePaths::getGuiPath().concat(FilePath("graph_view/images/bundle.png")), 
-		true, 
-		false, 
-		isFocused, 
-		false, 
+		"bundle",
+		ResourcePaths::getGuiPath().concat(FilePath("graph_view/images/bundle.png")),
+		true,
+		false,
+		isFocused,
+		false,
 		false
 	);
 }

@@ -53,7 +53,7 @@ QtCodeField::QtCodeField(
 	{
 		QString convertedDisplayCode(codec->toUnicode(displayCode.c_str()));
 		setPlainText(convertedDisplayCode);
-		if (displayCode.size() != convertedDisplayCode.length())
+		if (displayCode.size() != size_t(convertedDisplayCode.length()))
 		{
 			LOG_INFO("Converting displayed code to " + codec->name().toStdString() + " resulted in offset of source locations. Correcting this now.");
 			createMultibyteCharacterLocationCache();
@@ -685,9 +685,14 @@ void QtCodeField::createMultibyteCharacterLocationCache()
 	}
 }
 
-int QtCodeField::getColumnCorrectedForMultibyteCharacters(const int line, int column) const
+int QtCodeField::getColumnCorrectedForMultibyteCharacters(int line, int column) const
 {
-	const int relativeLineNumber = line - m_startLineNumber;
+	if (line < int(m_startLineNumber))
+	{
+		return column;
+	}
+
+	const size_t relativeLineNumber = line - m_startLineNumber;
 	if (relativeLineNumber < m_multibyteCharacterLocations.size())
 	{
 		for (const std::pair<int, int> m_multibyteCharacterLocation : m_multibyteCharacterLocations[relativeLineNumber])

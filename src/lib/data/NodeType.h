@@ -12,7 +12,7 @@
 class NodeType
 {
 public:
-	typedef int NodeType::TypeMask;
+	typedef int TypeMask;
 	enum Type : NodeType::TypeMask
 	{ // make sure that the value of 0x0 is not used here because it doesn't work for bitmasking.
 		NODE_SYMBOL = 0x1,
@@ -66,7 +66,7 @@ public:
 	bool isCollapsible() const;
 	bool isVisibleAsParentInGraph() const;
 	FilePath getIconPath() const;
-	
+
 	bool hasIcon() const;
 	StyleType getNodeStyle() const;
 

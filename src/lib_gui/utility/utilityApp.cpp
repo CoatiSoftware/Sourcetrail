@@ -40,8 +40,8 @@ std::string utility::executeProcess(const std::string& command, const std::strin
 		s_runningProcesses.erase(&process);
 	}
 
-	QProcess::ProcessError error = process.error();
-	
+	// QProcess::ProcessError error = process.error();
+
 	std::string processoutput = process.readAll().toStdString();
 	process.close();
 	processoutput = utility::trim(processoutput);

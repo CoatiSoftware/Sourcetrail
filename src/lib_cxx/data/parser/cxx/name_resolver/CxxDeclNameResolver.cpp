@@ -1,6 +1,5 @@
 #include "data/parser/cxx/name_resolver/CxxDeclNameResolver.h"
 
-#include <clang/AST/DeclTemplate.h>
 #include <clang/AST/ASTContext.h>
 
 #include "data/parser/cxx/name/CxxFunctionDeclName.h"
@@ -22,7 +21,7 @@ CxxDeclNameResolver::CxxDeclNameResolver(std::shared_ptr<CanonicalFilePathCache>
 }
 
 CxxDeclNameResolver::CxxDeclNameResolver(
-	std::shared_ptr<CanonicalFilePathCache> canonicalFilePathCache, 
+	std::shared_ptr<CanonicalFilePathCache> canonicalFilePathCache,
 	std::vector<const clang::Decl*> ignoredContextDecls
 )
 	: CxxNameResolver(canonicalFilePathCache, ignoredContextDecls)
@@ -111,7 +110,7 @@ std::shared_ptr<CxxDeclName> CxxDeclNameResolver::getName(const clang::NamedDecl
 							}
 							break;
 						}
-						
+
 						if (const clang::DeclContext* parentDeclContext = parentDecl->getDeclContext())
 						{
 							if (ignoresContext(parentDeclContext))
@@ -285,7 +284,7 @@ std::shared_ptr<CxxDeclName> CxxDeclNameResolver::getDeclName(const clang::Named
 					functionName,
 					templateArguments,
 					returnTypeName,
-					parameterTypeNames, 
+					parameterTypeNames,
 					getTranslationUnitMainFileName(declaration)
 				);
 			}
@@ -357,9 +356,9 @@ std::shared_ptr<CxxDeclName> CxxDeclNameResolver::getDeclName(const clang::Named
 				if (utility::getSymbolKind(varDecl) == SYMBOL_GLOBAL_VARIABLE &&
 					varDecl->getStorageClass() == clang::SC_Static)
 				{
-					// if a global variable is static it is only visible in the current translation unit. Therefore if multiple instances of that global variable 
+					// if a global variable is static it is only visible in the current translation unit. Therefore if multiple instances of that global variable
 					// may be generated (one for each translation unit) we add the name of the translation unit's source file.
-					// If that global variable definition is const, we add the name of the (maybe header) file that variable is defined in instead. This causes 
+					// If that global variable definition is const, we add the name of the (maybe header) file that variable is defined in instead. This causes
 					// different instances of the variable that all MUST contain the same value to be merged into a single node in Sourcetrail.
 					std::string scopeFileName = "";
 					{
