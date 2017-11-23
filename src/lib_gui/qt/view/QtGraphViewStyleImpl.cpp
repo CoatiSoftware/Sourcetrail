@@ -9,14 +9,14 @@ QtGraphViewStyleImpl::~QtGraphViewStyleImpl()
 {
 }
 
-float QtGraphViewStyleImpl::getCharWidthForNodeType(NodeType type)
+float QtGraphViewStyleImpl::getCharWidth(NodeType::StyleType type)
 {
-	return QFontMetrics(QtGraphNode::getFontForNodeType(type)).width("QtGraphNode::QtGraphNode::QtGraphNode") / 37.0f;
+	return QFontMetrics(QtGraphNode::getFontForStyleType(type)).width("QtGraphNode::QtGraphNode::QtGraphNode") / 37.0f;
 }
 
-float QtGraphViewStyleImpl::getCharHeightForNodeType(NodeType type)
+float QtGraphViewStyleImpl::getCharHeight(NodeType::StyleType type)
 {
-	return QFontMetrics(QtGraphNode::getFontForNodeType(type)).height();
+	return QFontMetrics(QtGraphNode::getFontForStyleType(type)).height();
 }
 
 float QtGraphViewStyleImpl::getGraphViewZoomDifferenceForPlatform()

@@ -6,6 +6,7 @@
 #include <set>
 #include <vector>
 
+#include "utility/file/FilePath.h"
 #include "utility/types.h"
 
 class NodeType
@@ -41,6 +42,13 @@ public:
 		NODE_MAX_VALUE = NODE_UNION
 	};
 
+	enum StyleType
+	{
+		STYLE_PACKAGE = 0,
+		STYLE_SMALL_NODE = 1,
+		STYLE_BIG_NODE = 2
+	};
+
 	NodeType(Type type);
 
 	bool operator==(const NodeType& o) const;
@@ -48,15 +56,19 @@ public:
 	Type getType() const;
 
 	bool isFile() const;
+	bool isNonIndexed() const;
 	bool isInheritable() const;
 	bool isPackage() const;
 	bool isCallable() const;
+	bool isVariable() const;
 	bool isUsable() const;
 	bool isPotentialMember() const;
 	bool isCollapsible() const;
 	bool isVisibleAsParentInGraph() const;
-
-	int getFontSizeOffset() const;
+	FilePath getIconPath() const;
+	
+	bool hasIcon() const;
+	StyleType getNodeStyle() const;
 
 	std::string getUnderscoredTypeString() const;
 	std::string getReadableTypeString() const;

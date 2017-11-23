@@ -488,7 +488,7 @@ void GraphController::createDummyGraphForTokenIds(const std::vector<Id>& tokenId
 	{
 		node->hasParent = false;
 
-		if (node->data->isType(NodeType::NODE_NAMESPACE | NodeType::NODE_PACKAGE))
+		if (node->data->getType().isPackage())
 		{
 			node->name = node->data->getFullName();
 		}
@@ -546,7 +546,7 @@ std::vector<std::shared_ptr<DummyNode>> GraphController::createDummyNodeTopDown(
 	m_dummyGraphNodes.emplace(result->data->getId(), result);
 	nodes.push_back(result);
 
-	if (node->isType(NodeType::NODE_NAMESPACE))
+	if (node->getType().isPackage())
 	{
 		node->forEachChildNode(
 			[&nodes, &ancestorId, this](Node* child)
@@ -1197,6 +1197,7 @@ void GraphController::bundleNodesByType()
 		LOG_ERROR("Nodes left after bundling for overview");
 	}
 
+	// crate a sub-bundle for anonymous namespaces
 	for (const std::shared_ptr<DummyNode>& bundleNode : m_dummyNodes)
 	{
 		if (!bundleNode->isBundleNode())
@@ -1300,7 +1301,7 @@ void GraphController::layoutNestingRecursive(DummyNode* node) const
 
 	if (node->isGraphNode())
 	{
-		margins = GraphViewStyle::getMarginsForNodeType(node->data->getType(), node->childVisible);
+		margins = GraphViewStyle::getMarginsForDataNode(node->data->getType().getNodeStyle(), node->data->getType().hasIcon(), node->childVisible);
 	}
 	else if (node->isAccessNode())
 	{
@@ -1314,7 +1315,7 @@ void GraphController::layoutNestingRecursive(DummyNode* node) const
 	{
 		if (node->bundledNodeType.getType() != NodeType::NODE_NON_INDEXED)
 		{
-			margins = GraphViewStyle::getMarginsForNodeType(node->bundledNodeType, false);
+			margins = GraphViewStyle::getMarginsForDataNode(node->bundledNodeType.getNodeStyle(), node->bundledNodeType.hasIcon(), false);
 		}
 		else
 		{

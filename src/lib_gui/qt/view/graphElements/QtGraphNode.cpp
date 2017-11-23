@@ -34,10 +34,10 @@ void QtGraphNode::hideNode()
 	this->hide();
 }
 
-QFont QtGraphNode::getFontForNodeType(NodeType type)
+QFont QtGraphNode::getFontForStyleType(NodeType::StyleType type)
 {
 	QFont font(GraphViewStyle::getFontNameForDataNode().c_str());
-	font.setPixelSize(GraphViewStyle::getFontSizeForNodeType(type));
+	font.setPixelSize(GraphViewStyle::getFontSizeForStyleType(type));
 	return font;
 }
 
@@ -508,9 +508,9 @@ void QtGraphNode::setStyle(const GraphViewStyle::NodeStyle& style)
 		m_undefinedRect->show();
 	}
 
-	if (!m_icon && style.iconPath.size())
+	if (!m_icon && !style.iconPath.empty())
 	{
-		QtDeviceScaledPixmap pixmap(QString::fromStdString(style.iconPath));
+		QtDeviceScaledPixmap pixmap(QString::fromStdString(style.iconPath.str()));
 		pixmap.scaleToHeight(style.iconSize);
 
 		m_icon = new QGraphicsPixmapItem(utility::colorizePixmap(pixmap.pixmap(), style.color.icon.c_str()), this);

@@ -8,9 +8,9 @@ class QtGraphViewStyleImpl
 {
 public:
 	virtual ~QtGraphViewStyleImpl();
-	virtual float getCharWidthForNodeType(NodeType type);
-	virtual float getCharHeightForNodeType(NodeType type);
-	virtual float getGraphViewZoomDifferenceForPlatform();
+	virtual float getCharWidth(NodeType::StyleType type) override;
+	virtual float getCharHeight(NodeType::StyleType type) override;
+	virtual float getGraphViewZoomDifferenceForPlatform() override;
 };
 
 #endif // QT_GRAPH_VIEW_STYLE_IMPL_H

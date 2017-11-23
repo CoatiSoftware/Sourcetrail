@@ -65,7 +65,7 @@ public:
 
 		Vec2i textOffset;
 
-		std::string iconPath;
+		FilePath iconPath;
 		Vec2i iconOffset;
 		size_t iconSize;
 
@@ -99,10 +99,7 @@ public:
 
 	static void loadStyleSettings();
 
-	static float getCharWidthForNodeType(NodeType type);
-	static float getCharHeightForNodeType(NodeType type);
-
-	static size_t getFontSizeForNodeType(NodeType type);
+	static size_t getFontSizeForStyleType(NodeType::StyleType type);
 	static size_t getFontSizeOfAccessNode();
 	static size_t getFontSizeOfExpandToggleNode();
 	static size_t getFontSizeOfCountCircle();
@@ -114,7 +111,7 @@ public:
 	static std::string getFontNameOfExpandToggleNode();
 	static std::string getFontNameOfTextNode();
 
-	static NodeMargins getMarginsForNodeType(NodeType type, bool hasChildren);
+	static NodeMargins getMarginsForDataNode(NodeType::StyleType type, bool hasIcon, bool hasChildren);
 	static NodeMargins getMarginsOfAccessNode(AccessKind access);
 	static NodeMargins getMarginsOfExpandToggleNode();
 	static NodeMargins getMarginsOfBundleNode();
@@ -145,10 +142,16 @@ public:
 	static int s_gridCellPadding;
 
 private:
-	static void addIcon(NodeType type, bool hasChildren, NodeStyle* style);
+	static NodeStyle getStyleForNodeType(
+		NodeType::StyleType type, const std::string& underscoredTypeString, 
+		const FilePath& iconPath, bool defined, bool isActive, bool isFocused, 
+		bool hasChildren, bool hasQualifier);
 
-	static std::unordered_map<std::string, float> s_charWidths;
-	static std::unordered_map<std::string, float> s_charHeights;
+	static float getCharWidth(NodeType::StyleType type);
+	static float getCharHeight(NodeType::StyleType type);
+
+	static std::unordered_map<NodeType::StyleType, float> s_charWidths;
+	static std::unordered_map<NodeType::StyleType, float> s_charHeights;
 
 	static std::shared_ptr<GraphViewStyleImpl> s_impl;
 

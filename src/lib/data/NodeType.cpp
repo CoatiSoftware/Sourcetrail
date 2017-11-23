@@ -1,5 +1,6 @@
 #include "data/NodeType.h"
 
+#include "utility/ResourcePaths.h"
 #include "utility/utilityString.h"
 
 NodeType::NodeType(Type type)
@@ -21,6 +22,13 @@ bool NodeType::isFile() const
 {
 	const NodeType::TypeMask mask =
 		NodeType::NODE_FILE;
+	return ((m_type & mask) > 0);
+}
+
+bool NodeType::isNonIndexed() const
+{
+	const NodeType::TypeMask mask =
+		NodeType::NODE_NON_INDEXED;
 	return ((m_type & mask) > 0);
 }
 
@@ -51,6 +59,14 @@ bool NodeType::isCallable() const
 	const NodeType::TypeMask mask =
 		NodeType::NODE_FUNCTION |
 		NodeType::NODE_METHOD;
+	return ((m_type & mask) > 0);
+}
+
+bool NodeType::isVariable() const
+{
+	const NodeType::TypeMask mask =
+		NodeType::NODE_GLOBAL_VARIABLE |
+		NodeType::NODE_FIELD;
 	return ((m_type & mask) > 0);
 }
 
@@ -102,14 +118,46 @@ bool NodeType::isVisibleAsParentInGraph() const
 	return !isPackage();
 }
 
-int NodeType::getFontSizeOffset() const
+FilePath NodeType::getIconPath() const
 {
 	switch (m_type)
 	{
 	case NodeType::NODE_NAMESPACE:
 	case NodeType::NODE_PACKAGE:
-		return - 3;
+		// package icon cannot be changed
+		return ResourcePaths::getGuiPath().concat(FilePath("graph_view/images/namespace.png"));
+	case NodeType::NODE_ENUM:
+		return ResourcePaths::getGuiPath().concat(FilePath("graph_view/images/enum.png"));
+	case NodeType::NODE_TYPEDEF:
+		return ResourcePaths::getGuiPath().concat(FilePath("graph_view/images/typedef.png"));
+	case NodeType::NODE_MACRO:
+		return ResourcePaths::getGuiPath().concat(FilePath("graph_view/images/macro.png"));
+	case NodeType::NODE_FILE:
+		return ResourcePaths::getGuiPath().concat(FilePath("graph_view/images/file.png"));
+	default:
+		return FilePath();
+	}
+}
 
+bool NodeType::hasIcon() const
+{
+	const NodeType::TypeMask mask =
+		NodeType::NODE_NAMESPACE |
+		NodeType::NODE_PACKAGE |
+		NodeType::NODE_ENUM |
+		NodeType::NODE_TYPEDEF |
+		NodeType::NODE_FILE |
+		NodeType::NODE_MACRO;
+	return ((m_type & mask) > 0);
+}
+
+NodeType::StyleType NodeType::getNodeStyle() const
+{
+	switch (m_type)
+	{
+	case NodeType::NODE_NAMESPACE:
+	case NodeType::NODE_PACKAGE:
+		return STYLE_PACKAGE;
 	case NodeType::NODE_NON_INDEXED:
 	case NodeType::NODE_TYPE:
 	case NodeType::NODE_BUILTIN_TYPE:
@@ -123,14 +171,13 @@ int NodeType::getFontSizeOffset() const
 	case NodeType::NODE_TYPE_PARAMETER:
 	case NodeType::NODE_FILE:
 	case NodeType::NODE_MACRO:
-		return 0;
-
+		return STYLE_BIG_NODE;
 	case NodeType::NODE_FUNCTION:
 	case NodeType::NODE_METHOD:
 	case NodeType::NODE_GLOBAL_VARIABLE:
 	case NodeType::NODE_FIELD:
 	case NodeType::NODE_ENUM_CONSTANT:
-		return - 3;
+		return STYLE_SMALL_NODE;
 	}
 }
 

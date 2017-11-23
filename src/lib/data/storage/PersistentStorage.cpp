@@ -679,7 +679,7 @@ std::vector<SearchMatch> PersistentStorage::getAutocompletionSymbolMatches(
 		match.searchType = SearchMatch::SEARCH_TOKEN;
 
 		if (storageSymbolMap.find(firstNode->id) == storageSymbolMap.end() &&
-			match.nodeType.getType() != NodeType::NODE_NON_INDEXED)
+			!match.nodeType.isNonIndexed())
 		{
 			match.typeName = "non-indexed " + match.typeName;
 		}

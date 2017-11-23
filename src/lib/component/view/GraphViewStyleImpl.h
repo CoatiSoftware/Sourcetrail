@@ -7,8 +7,8 @@ class GraphViewStyleImpl
 {
 public:
 	virtual ~GraphViewStyleImpl() { }
-	virtual float getCharWidthForNodeType(NodeType type) = 0;
-	virtual float getCharHeightForNodeType(NodeType type) = 0;
+	virtual float getCharWidth(NodeType::StyleType type) = 0;
+	virtual float getCharHeight(NodeType::StyleType type) = 0;
 	virtual float getGraphViewZoomDifferenceForPlatform() = 0;
 };
 
