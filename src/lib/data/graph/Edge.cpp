@@ -89,7 +89,7 @@ Edge::EdgeType Edge::getType() const
 	return m_type;
 }
 
-bool Edge::isType(EdgeTypeMask mask) const
+bool Edge::isType(TypeMask mask) const
 {
 	return (m_type & mask) > 0;
 }

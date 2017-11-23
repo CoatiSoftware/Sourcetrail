@@ -9,7 +9,7 @@
 #include "component/view/GraphViewStyle.h"
 #include "qt/graphics/QtCountCircleItem.h"
 
-QtGraphNodeBundle::QtGraphNodeBundle(Id tokenId, size_t nodeCount, Node::NodeType type, std::string name)
+QtGraphNodeBundle::QtGraphNodeBundle(Id tokenId, size_t nodeCount, NodeType type, std::string name)
 	: QtGraphNode()
 	, m_tokenId(tokenId)
 	, m_type(type)
@@ -42,8 +42,8 @@ void QtGraphNodeBundle::onClick()
 {
 	MessageGraphNodeBundleSplit(
 		m_tokenId,
-		m_type != Node::NODE_NON_INDEXED && getName() != "Anonymous Namespaces",
-		m_type != Node::NODE_NON_INDEXED
+		m_type.getType() != NodeType::NODE_NON_INDEXED && getName() != "Anonymous Namespaces",
+		m_type.getType() != NodeType::NODE_NON_INDEXED
 	).dispatch();
 }
 
@@ -57,7 +57,7 @@ void QtGraphNodeBundle::moved(const Vec2i& oldPosition)
 void QtGraphNodeBundle::updateStyle()
 {
 	GraphViewStyle::NodeStyle style;
-	if (m_type != Node::NODE_NON_INDEXED)
+	if (m_type.getType() != NodeType::NODE_NON_INDEXED)
 	{
 		style = GraphViewStyle::getStyleForNodeType(m_type, true, false, m_isHovering, false, false);
 	}

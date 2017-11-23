@@ -266,6 +266,8 @@ add_files(
 	data/ErrorInfo.h
 	data/HierarchyCache.cpp
 	data/HierarchyCache.h
+	data/NodeType.cpp
+	data/NodeType.h
 	data/TaskCleanStorage.cpp
 	data/TaskCleanStorage.h
 	data/TaskFinishParsing.cpp

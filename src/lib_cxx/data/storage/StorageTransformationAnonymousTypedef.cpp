@@ -30,12 +30,12 @@ void StorageTransformationAnonymousTypedef::transform(std::shared_ptr<Intermedia
 
 		for (const StorageNode& node : nodes)
 		{
-			const Node::NodeType nodeType = Node::intToType(node.type);
-			if (nodeType & Node::NODE_TYPEDEF)
+			const NodeType::Type nodeType = utility::intToType(node.type);
+			if (nodeType & NodeType::NODE_TYPEDEF)
 			{
 				typedefNodes.insert(std::pair<Id, StorageNode>(node.id, node));
 			}
-			else if(nodeType & (Node::NODE_STRUCT | Node::NODE_CLASS | Node::NODE_ENUM | Node::NODE_UNION))
+			else if(nodeType & (NodeType::NODE_STRUCT | NodeType::NODE_CLASS | NodeType::NODE_ENUM | NodeType::NODE_UNION))
 			{
 				const NameHierarchy nameHierarchy = NameHierarchy::deserialize(node.serializedName);
 				if (nameHierarchy.back() && utility::isPrefix("anonymous ", nameHierarchy.back()->getName()))

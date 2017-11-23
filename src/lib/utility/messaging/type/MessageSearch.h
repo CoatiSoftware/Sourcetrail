@@ -9,7 +9,7 @@ class MessageSearch
 	: public Message<MessageSearch>
 {
 public:
-	MessageSearch(const std::vector<SearchMatch>& matches, Node::NodeTypeMask filter = 0)
+	MessageSearch(const std::vector<SearchMatch>& matches, NodeType::TypeMask filter = 0)
 		: isFromSearch(true)
 		, filter(filter)
 		, m_matches(matches)
@@ -28,7 +28,7 @@ public:
 		for (size_t i = 0; i < m_matches.size(); i++)
 		{
 			ss << '@';
-			if (m_matches[i].nodeType == Node::NODE_FILE)
+			if (m_matches[i].nodeType.getType() == NodeType::NODE_FILE)
 			{
 				ss << m_matches[i].subtext;
 			}
@@ -72,7 +72,7 @@ public:
 	}
 
 	bool isFromSearch;
-	Node::NodeTypeMask filter;
+	NodeType::TypeMask filter;
 
 private:
 	const std::vector<SearchMatch> m_matches;

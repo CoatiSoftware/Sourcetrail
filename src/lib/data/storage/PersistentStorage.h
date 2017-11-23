@@ -77,7 +77,7 @@ public:
 	virtual NameHierarchy getNameHierarchyForNodeId(Id nodeId) const;
 	virtual std::vector<NameHierarchy> getNameHierarchiesForNodeIds(const std::vector<Id>& nodeIds) const;
 
-	virtual Node::NodeType getNodeTypeForNodeWithId(Id nodeId) const;
+	virtual NodeType getNodeTypeForNodeWithId(Id nodeId) const;
 
 	virtual Id getIdForEdge(
 		Edge::EdgeType type, const NameHierarchy& fromNameHierarchy, const NameHierarchy& toNameHierarchy) const;
@@ -86,19 +86,19 @@ public:
 	virtual std::shared_ptr<SourceLocationCollection> getFullTextSearchLocations(
 		const std::string& searchTerm, bool caseSensitive) const;
 
-	virtual std::vector<SearchMatch> getAutocompletionMatches(const std::string& query, Node::NodeTypeMask filter) const;
+	virtual std::vector<SearchMatch> getAutocompletionMatches(const std::string& query, NodeType::TypeMask filter) const;
 	std::vector<SearchMatch> getAutocompletionSymbolMatches(
-		const std::string& query, Node::NodeTypeMask filter, size_t maxResultsCount, size_t maxBestScoredResultsLength) const;
+		const std::string& query, NodeType::TypeMask filter, size_t maxResultsCount, size_t maxBestScoredResultsLength) const;
 	std::vector<SearchMatch> getAutocompletionFileMatches(const std::string& query, size_t maxResultsCount) const;
-	std::vector<SearchMatch> getAutocompletionCommandMatches(const std::string& query, Node::NodeTypeMask filter) const;
+	std::vector<SearchMatch> getAutocompletionCommandMatches(const std::string& query, NodeType::TypeMask filter) const;
 	virtual std::vector<SearchMatch> getSearchMatchesForTokenIds(const std::vector<Id>& elementIds) const;
 
 	virtual std::shared_ptr<Graph> getGraphForAll() const;
-	virtual std::shared_ptr<Graph> getGraphForFilter(Node::NodeTypeMask filter) const;
+	virtual std::shared_ptr<Graph> getGraphForFilter(NodeType::TypeMask filter) const;
 	virtual std::shared_ptr<Graph> getGraphForActiveTokenIds(
 		const std::vector<Id>& tokenIds, const std::vector<Id>& expandedNodeIds, bool* isActiveNamespace = nullptr) const;
 	virtual std::shared_ptr<Graph> getGraphForChildrenOfNodeId(Id nodeId) const;
-	virtual std::shared_ptr<Graph> getGraphForTrail(Id originId, Id targetId, Edge::EdgeTypeMask trailType, size_t depth) const;
+	virtual std::shared_ptr<Graph> getGraphForTrail(Id originId, Id targetId, Edge::TypeMask trailType, size_t depth) const;
 
 	virtual std::vector<Id> getActiveTokenIdsForId(Id tokenId, Id* declarationId) const;
 	virtual std::vector<Id> getNodeIdsForLocationIds(const std::vector<Id>& locationIds) const;

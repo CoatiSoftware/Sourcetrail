@@ -67,7 +67,7 @@ public:
 		, bundleId(0)
 		, layoutBucket(0, 0)
 		, bundledNodeCount(0)
-		, bundledNodeType(Node::NODE_NON_INDEXED)
+		, bundledNodeType(NodeType::NODE_NON_INDEXED)
 		, qualifierName(NAME_DELIMITER_UNKNOWN)
 		, textNode(false)
 	{
@@ -376,7 +376,7 @@ public:
 	// BundleNode
 	BundledNodesSet bundledNodes;
 	size_t bundledNodeCount;
-	Node::NodeType bundledNodeType;
+	NodeType bundledNodeType;
 
 	// QualifierNode
 	NameHierarchy qualifierName;

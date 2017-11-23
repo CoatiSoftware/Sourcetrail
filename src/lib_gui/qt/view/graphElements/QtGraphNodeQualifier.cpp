@@ -21,7 +21,7 @@ QtGraphNodeQualifier::QtGraphNodeQualifier(const NameHierarchy& name)
 	m_rightArrowSmall = new QGraphicsPolygonItem(this);
 
 	QFont font;
-	font.setFamily(GraphViewStyle::getFontNameForNodeType(Node::NODE_NON_INDEXED).c_str());
+	font.setFamily(GraphViewStyle::getFontNameForDataNode().c_str());
 	font.setPixelSize(GraphViewStyle::getFontSizeOfQualifier());
 	font.setWeight(QFont::Normal);
 

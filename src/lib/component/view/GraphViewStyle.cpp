@@ -11,8 +11,8 @@
 int GraphViewStyle::s_gridCellSize = 5;
 int GraphViewStyle::s_gridCellPadding = 10;
 
-std::map<Node::NodeType, float> GraphViewStyle::s_charWidths;
-std::map<Node::NodeType, float> GraphViewStyle::s_charHeights;
+std::unordered_map<std::string, float> GraphViewStyle::s_charWidths;
+std::unordered_map<std::string, float> GraphViewStyle::s_charHeights;
 
 std::shared_ptr<GraphViewStyleImpl> GraphViewStyle::s_impl;
 
@@ -145,13 +145,13 @@ void GraphViewStyle::loadStyleSettings()
 	s_edgeColors.clear();
 	s_screenMatchColors.clear();
 
-	s_gridCellPadding = getImpl()->getCharHeightForNodeType(Node::NODE_TYPE) - 8;
+	s_gridCellPadding = getImpl()->getCharHeightForNodeType(NodeType::NODE_TYPE) - 8;
 	s_gridCellSize = s_gridCellPadding / 2;
 }
 
-float GraphViewStyle::getCharWidthForNodeType(Node::NodeType type)
+float GraphViewStyle::getCharWidthForNodeType(NodeType type)
 {
-	std::map<Node::NodeType, float>::const_iterator it = s_charWidths.find(type);
+	std::unordered_map<std::string, float>::const_iterator it = s_charWidths.find(type.getReadableTypeString());
 
 	if (it != s_charWidths.end())
 	{
@@ -159,13 +159,13 @@ float GraphViewStyle::getCharWidthForNodeType(Node::NodeType type)
 	}
 
 	float charWidth = getImpl()->getCharWidthForNodeType(type);
-	s_charWidths.emplace(type, charWidth);
+	s_charWidths.emplace(type.getReadableTypeString(), charWidth);
 	return charWidth;
 }
 
-float GraphViewStyle::getCharHeightForNodeType(Node::NodeType type)
+float GraphViewStyle::getCharHeightForNodeType(NodeType type)
 {
-	std::map<Node::NodeType, float>::const_iterator it = s_charHeights.find(type);
+	std::unordered_map<std::string, float>::const_iterator it = s_charHeights.find(type.getReadableTypeString());
 
 	if (it != s_charHeights.end())
 	{
@@ -173,40 +173,13 @@ float GraphViewStyle::getCharHeightForNodeType(Node::NodeType type)
 	}
 
 	float charHeight = getImpl()->getCharHeightForNodeType(type);
-	s_charHeights.emplace(type, charHeight);
+	s_charHeights.emplace(type.getReadableTypeString(), charHeight);
 	return charHeight;
 }
 
-size_t GraphViewStyle::getFontSizeForNodeType(Node::NodeType type)
+size_t GraphViewStyle::getFontSizeForNodeType(NodeType type)
 {
-	switch (type)
-	{
-	case Node::NODE_NAMESPACE:
-	case Node::NODE_PACKAGE:
-		return s_fontSize - 3;
-
-	case Node::NODE_NON_INDEXED:
-	case Node::NODE_TYPE:
-	case Node::NODE_BUILTIN_TYPE:
-	case Node::NODE_STRUCT:
-	case Node::NODE_CLASS:
-	case Node::NODE_UNION:
-	case Node::NODE_INTERFACE:
-	case Node::NODE_ENUM:
-	case Node::NODE_TYPEDEF:
-	case Node::NODE_TEMPLATE_PARAMETER_TYPE:
-	case Node::NODE_TYPE_PARAMETER:
-	case Node::NODE_FILE:
-	case Node::NODE_MACRO:
-		return s_fontSize;
-
-	case Node::NODE_FUNCTION:
-	case Node::NODE_METHOD:
-	case Node::NODE_GLOBAL_VARIABLE:
-	case Node::NODE_FIELD:
-	case Node::NODE_ENUM_CONSTANT:
-		return s_fontSize - 3;
-	}
+	return s_fontSize + type.getFontSizeOffset();
 }
 
 size_t GraphViewStyle::getFontSizeOfAccessNode()
@@ -234,7 +207,7 @@ size_t GraphViewStyle::getFontSizeOfTextNode()
 	return s_fontSize + 5;
 }
 
-std::string GraphViewStyle::getFontNameForNodeType(Node::NodeType type)
+std::string GraphViewStyle::getFontNameForDataNode()
 {
 	return s_fontName;
 }
@@ -254,35 +227,35 @@ std::string GraphViewStyle::getFontNameOfTextNode()
 	return "Fira Sans";
 }
 
-GraphViewStyle::NodeMargins GraphViewStyle::getMarginsForNodeType(Node::NodeType type, bool hasChildren)
+GraphViewStyle::NodeMargins GraphViewStyle::getMarginsForNodeType(NodeType type, bool hasChildren)
 {
 	NodeMargins margins;
 	margins.spacingX = 6;
 	margins.spacingY = 8;
 
-	switch (type)
+	switch (type.getType())
 	{
-	case Node::NODE_NAMESPACE:
-	case Node::NODE_PACKAGE:
+	case NodeType::NODE_NAMESPACE:
+	case NodeType::NODE_PACKAGE:
 		margins.left = margins.right = 5;
 		margins.top = margins.bottom = 3;
 		margins.iconWidth = s_fontSize - 3;
 		break;
 
-	case Node::NODE_ENUM:
-	case Node::NODE_TYPEDEF:
-	case Node::NODE_FILE:
-	case Node::NODE_MACRO:
+	case NodeType::NODE_ENUM:
+	case NodeType::NODE_TYPEDEF:
+	case NodeType::NODE_FILE:
+	case NodeType::NODE_MACRO:
 		margins.iconWidth = s_fontSize + 11;
-	case Node::NODE_NON_INDEXED:
-	case Node::NODE_TYPE:
-	case Node::NODE_BUILTIN_TYPE:
-	case Node::NODE_STRUCT:
-	case Node::NODE_CLASS:
-	case Node::NODE_UNION:
-	case Node::NODE_INTERFACE:
-	case Node::NODE_TEMPLATE_PARAMETER_TYPE:
-	case Node::NODE_TYPE_PARAMETER:
+	case NodeType::NODE_NON_INDEXED:
+	case NodeType::NODE_TYPE:
+	case NodeType::NODE_BUILTIN_TYPE:
+	case NodeType::NODE_STRUCT:
+	case NodeType::NODE_CLASS:
+	case NodeType::NODE_UNION:
+	case NodeType::NODE_INTERFACE:
+	case NodeType::NODE_TEMPLATE_PARAMETER_TYPE:
+	case NodeType::NODE_TYPE_PARAMETER:
 		if (hasChildren)
 		{
 			margins.left = margins.right = 10;
@@ -296,11 +269,11 @@ GraphViewStyle::NodeMargins GraphViewStyle::getMarginsForNodeType(Node::NodeType
 		}
 		break;
 
-	case Node::NODE_FUNCTION:
-	case Node::NODE_METHOD:
-	case Node::NODE_GLOBAL_VARIABLE:
-	case Node::NODE_FIELD:
-	case Node::NODE_ENUM_CONSTANT:
+	case NodeType::NODE_FUNCTION:
+	case NodeType::NODE_METHOD:
+	case NodeType::NODE_GLOBAL_VARIABLE:
+	case NodeType::NODE_FIELD:
+	case NodeType::NODE_ENUM_CONSTANT:
 		if (hasChildren)
 		{
 			margins.top = margins.bottom = 5;
@@ -370,7 +343,7 @@ GraphViewStyle::NodeMargins GraphViewStyle::getMarginsOfExpandToggleNode()
 
 GraphViewStyle::NodeMargins GraphViewStyle::getMarginsOfBundleNode()
 {
-	return getMarginsForNodeType(Node::NODE_ENUM, false);
+	return getMarginsForNodeType(NodeType::NODE_ENUM, false);
 }
 
 GraphViewStyle::NodeMargins GraphViewStyle::getMarginsOfTextNode()
@@ -385,13 +358,13 @@ GraphViewStyle::NodeMargins GraphViewStyle::getMarginsOfTextNode()
 }
 
 GraphViewStyle::NodeStyle GraphViewStyle::getStyleForNodeType(
-	Node::NodeType type, bool defined, bool isActive, bool isFocused, bool hasChildren, bool hasQualifier
+	NodeType type, bool defined, bool isActive, bool isFocused, bool hasChildren, bool hasQualifier
 ){
 	NodeStyle style;
 
-	style.color = getNodeColor(Node::getUnderscoredTypeString(type), isActive || isFocused);
+	style.color = getNodeColor(type.getUnderscoredTypeString(), isActive || isFocused);
 
-	style.fontName = getFontNameForNodeType(type);
+	style.fontName = getFontNameForDataNode();
 	style.fontSize = getFontSizeForNodeType(type);
 
 	if (isActive || isFocused)
@@ -408,28 +381,28 @@ GraphViewStyle::NodeStyle GraphViewStyle::getStyleForNodeType(
 		style.borderWidth = 1;
 	}
 
-	switch (type)
+	switch (type.getType())
 	{
-	case Node::NODE_NAMESPACE:
-	case Node::NODE_PACKAGE:
+	case NodeType::NODE_NAMESPACE:
+	case NodeType::NODE_PACKAGE:
 		style.cornerRadius = 0;
 		style.textOffset.x = 5;
 		style.textOffset.y = 3;
 		break;
 
-	case Node::NODE_NON_INDEXED:
-	case Node::NODE_TYPE:
-	case Node::NODE_BUILTIN_TYPE:
-	case Node::NODE_STRUCT:
-	case Node::NODE_CLASS:
-	case Node::NODE_UNION:
-	case Node::NODE_INTERFACE:
-	case Node::NODE_ENUM:
-	case Node::NODE_TYPEDEF:
-	case Node::NODE_TEMPLATE_PARAMETER_TYPE:
-	case Node::NODE_TYPE_PARAMETER:
-	case Node::NODE_FILE:
-	case Node::NODE_MACRO:
+	case NodeType::NODE_NON_INDEXED:
+	case NodeType::NODE_TYPE:
+	case NodeType::NODE_BUILTIN_TYPE:
+	case NodeType::NODE_STRUCT:
+	case NodeType::NODE_CLASS:
+	case NodeType::NODE_UNION:
+	case NodeType::NODE_INTERFACE:
+	case NodeType::NODE_ENUM:
+	case NodeType::NODE_TYPEDEF:
+	case NodeType::NODE_TEMPLATE_PARAMETER_TYPE:
+	case NodeType::NODE_TYPE_PARAMETER:
+	case NodeType::NODE_FILE:
+	case NodeType::NODE_MACRO:
 		if (hasChildren)
 		{
 			style.cornerRadius = 20;
@@ -444,11 +417,11 @@ GraphViewStyle::NodeStyle GraphViewStyle::getStyleForNodeType(
 		}
 		break;
 
-	case Node::NODE_FUNCTION:
-	case Node::NODE_METHOD:
-	case Node::NODE_GLOBAL_VARIABLE:
-	case Node::NODE_FIELD:
-	case Node::NODE_ENUM_CONSTANT:
+	case NodeType::NODE_FUNCTION:
+	case NodeType::NODE_METHOD:
+	case NodeType::NODE_GLOBAL_VARIABLE:
+	case NodeType::NODE_FIELD:
+	case NodeType::NODE_ENUM_CONSTANT:
 		style.cornerRadius = 8;
 		style.textOffset.x = 5;
 		style.textOffset.y = 3;
@@ -520,11 +493,11 @@ GraphViewStyle::NodeStyle GraphViewStyle::getStyleOfCountCircle()
 
 GraphViewStyle::NodeStyle GraphViewStyle::getStyleOfBundleNode(bool isFocused)
 {
-	NodeStyle style = getStyleForNodeType(Node::NODE_CLASS, true, false, isFocused, false, false);
+	NodeStyle style = getStyleForNodeType(NodeType::NODE_CLASS, true, false, isFocused, false, false);
 
 	style.color = getNodeColor("bundle", isFocused);
 
-	addIcon(Node::NODE_ENUM, false, &style);
+	addIcon(NodeType::NODE_ENUM, false, &style);
 	style.iconPath = ResourcePaths::getGuiPath().str() + "graph_view/images/bundle.png";
 
 	return style;
@@ -737,28 +710,28 @@ const GraphViewStyle::NodeColor& GraphViewStyle::getScreenMatchColor(bool focus)
 	return s_screenMatchColors.find(focus)->second;
 }
 
-void GraphViewStyle::addIcon(Node::NodeType type, bool hasChildren, NodeStyle* style)
+void GraphViewStyle::addIcon(NodeType type, bool hasChildren, NodeStyle* style)
 {
-	switch (type)
+	switch (type.getType())
 	{
-	case Node::NODE_NAMESPACE:
-	case Node::NODE_PACKAGE:
+	case NodeType::NODE_NAMESPACE:
+	case NodeType::NODE_PACKAGE:
 		style->iconPath = ResourcePaths::getGuiPath().str() + "graph_view/images/namespace.png";
 		style->iconSize = s_fontSize - 4;
 		style->iconOffset.x = -1;
 		style->iconOffset.y = 5;
 		return;
 
-	case Node::NODE_ENUM:
+	case NodeType::NODE_ENUM:
 		style->iconPath = ResourcePaths::getGuiPath().str() + "graph_view/images/enum.png";
 		break;
-	case Node::NODE_TYPEDEF:
+	case NodeType::NODE_TYPEDEF:
 		style->iconPath = ResourcePaths::getGuiPath().str() + "graph_view/images/typedef.png";
 		break;
-	case Node::NODE_MACRO:
+	case NodeType::NODE_MACRO:
 		style->iconPath = ResourcePaths::getGuiPath().str() + "graph_view/images/macro.png";
 		break;
-	case Node::NODE_FILE:
+	case NodeType::NODE_FILE:
 		style->iconPath = ResourcePaths::getGuiPath().str() + "graph_view/images/file.png";
 		break;
 	default:

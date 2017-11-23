@@ -99,7 +99,7 @@ private:
 
 	std::deque<SearchMatch> getMatchesForInput(const std::string& text) const;
 
-	Node::NodeTypeMask getMatchFilter() const;
+	NodeType::TypeMask getMatchFilter() const;
 	bool lastMatchIsNoFilter() const;
 
 	bool m_allowTextChange;

@@ -47,12 +47,12 @@ private:
 	virtual void doRecordError(const ParseLocation& location, const std::string& message, const std::string& commandline,
 		bool fatal, bool indexed) override;
 
-	Node::NodeType symbolKindToNodeType(SymbolKind symbolType) const;
+	NodeType symbolKindToNodeType(SymbolKind symbolType) const;
 	Edge::EdgeType referenceKindToEdgeType(ReferenceKind referenceKind) const;
 	void addAccess(Id nodeId, AccessKind access);
-	Id addNodeHierarchy(NameHierarchy nameHierarchy, Node::NodeType nodeType = Node::NODE_NON_INDEXED);
+	Id addNodeHierarchy(NameHierarchy nameHierarchy, NodeType nodeType = NodeType::NODE_NON_INDEXED);
 
-	Id addNode(Node::NodeType nodeType, NameHierarchy nameHierarchy);
+	Id addNode(NodeType nodeType, NameHierarchy nameHierarchy);
 	void addFile(Id id, const FilePath& filePath, const std::string& modificationTime);
 	void addSymbol(Id id, DefinitionKind definitionKind);
 	Id addEdge(int type, Id sourceId, Id targetId);

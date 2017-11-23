@@ -30,7 +30,7 @@ const Node* QtGraphNodeData::getData() const
 
 FilePath QtGraphNodeData::getFilePath() const
 {
-	if (m_data->isType(Node::NODE_FILE))
+	if (m_data->getType().isFile())
 	{
 		return m_data->getComponent<TokenComponentFilePath>()->getFilePath();
 	}

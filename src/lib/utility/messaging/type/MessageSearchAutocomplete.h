@@ -8,7 +8,7 @@ class MessageSearchAutocomplete
 	: public Message<MessageSearchAutocomplete>
 {
 public:
-	MessageSearchAutocomplete(const std::string& query, Node::NodeTypeMask filter)
+	MessageSearchAutocomplete(const std::string& query, NodeType::TypeMask filter)
 		: query(query)
 		, filter(filter)
 	{
@@ -25,7 +25,7 @@ public:
 	}
 
 	const std::string query;
-	const Node::NodeTypeMask filter;
+	const NodeType::TypeMask filter;
 };
 
 #endif // MESSAGE_SEARCH_AUTOCOMPLETE_H

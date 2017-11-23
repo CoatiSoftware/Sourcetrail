@@ -3,6 +3,7 @@
 
 #include <map>
 #include <memory>
+#include <unordered_map>
 
 #include "utility/math/Vector2.h"
 
@@ -98,29 +99,29 @@ public:
 
 	static void loadStyleSettings();
 
-	static float getCharWidthForNodeType(Node::NodeType type);
-	static float getCharHeightForNodeType(Node::NodeType type);
+	static float getCharWidthForNodeType(NodeType type);
+	static float getCharHeightForNodeType(NodeType type);
 
-	static size_t getFontSizeForNodeType(Node::NodeType type);
+	static size_t getFontSizeForNodeType(NodeType type);
 	static size_t getFontSizeOfAccessNode();
 	static size_t getFontSizeOfExpandToggleNode();
 	static size_t getFontSizeOfCountCircle();
 	static size_t getFontSizeOfQualifier();
 	static size_t getFontSizeOfTextNode();
 
-	static std::string getFontNameForNodeType(Node::NodeType type);
+	static std::string getFontNameForDataNode();
 	static std::string getFontNameOfAccessNode();
 	static std::string getFontNameOfExpandToggleNode();
 	static std::string getFontNameOfTextNode();
 
-	static NodeMargins getMarginsForNodeType(Node::NodeType type, bool hasChildren);
+	static NodeMargins getMarginsForNodeType(NodeType type, bool hasChildren);
 	static NodeMargins getMarginsOfAccessNode(AccessKind access);
 	static NodeMargins getMarginsOfExpandToggleNode();
 	static NodeMargins getMarginsOfBundleNode();
 	static NodeMargins getMarginsOfTextNode();
 
 	static NodeStyle getStyleForNodeType(
-		Node::NodeType type, bool defined, bool isActive, bool isFocused, bool hasChildren, bool hasQualifier);
+		NodeType type, bool defined, bool isActive, bool isFocused, bool hasChildren, bool hasQualifier);
 	static NodeStyle getStyleOfAccessNode();
 	static NodeStyle getStyleOfExpandToggleNode();
 	static NodeStyle getStyleOfCountCircle();
@@ -144,10 +145,10 @@ public:
 	static int s_gridCellPadding;
 
 private:
-	static void addIcon(Node::NodeType type, bool hasChildren, NodeStyle* style);
+	static void addIcon(NodeType type, bool hasChildren, NodeStyle* style);
 
-	static std::map<Node::NodeType, float> s_charWidths;
-	static std::map<Node::NodeType, float> s_charHeights;
+	static std::unordered_map<std::string, float> s_charWidths;
+	static std::unordered_map<std::string, float> s_charHeights;
 
 	static std::shared_ptr<GraphViewStyleImpl> s_impl;
 

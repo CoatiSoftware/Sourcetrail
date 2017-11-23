@@ -11,7 +11,7 @@ class QtGraphNodeBundle
 {
 	Q_OBJECT
 public:
-	QtGraphNodeBundle(Id tokenId, size_t nodeCount, Node::NodeType type, std::string name);
+	QtGraphNodeBundle(Id tokenId, size_t nodeCount, NodeType type, std::string name);
 	virtual ~QtGraphNodeBundle();
 
 	// QtGraphNode implementation
@@ -29,7 +29,7 @@ protected:
 private:
 	QtCountCircleItem* m_circle;
 	Id m_tokenId;
-	Node::NodeType m_type;
+	NodeType m_type;
 };
 
 #endif // QT_GRAPH_NODE_BUNDLE_H

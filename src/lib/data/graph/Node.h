@@ -9,6 +9,7 @@
 #include "data/graph/Edge.h"
 #include "data/graph/Token.h"
 #include "data/name/NameHierarchy.h"
+#include "data/NodeType.h"
 
 class TokenComponentAbstraction;
 class TokenComponentAccess;
@@ -21,56 +22,13 @@ class Node
 	: public Token
 {
 public:
-	typedef int NodeTypeMask;
-	enum NodeType : NodeTypeMask
-	{ // make sure that the value of 0x0 is not used here because it doesn't work for bitmasking.
-		NODE_NON_INDEXED				= 0x1,
-		NODE_TYPE						= 0x2,
-		NODE_BUILTIN_TYPE				= 0x4,
-
-		NODE_NAMESPACE					= 0x8,
-		NODE_PACKAGE					= 0x10,
-		NODE_STRUCT						= 0x20,
-		NODE_CLASS						= 0x40,
-		NODE_INTERFACE					= 0x80,
-		NODE_GLOBAL_VARIABLE			= 0x100,
-		NODE_FIELD						= 0x200,
-		NODE_FUNCTION					= 0x400,
-		NODE_METHOD						= 0x800,
-
-		NODE_ENUM						= 0x1000,
-		NODE_ENUM_CONSTANT				= 0x2000,
-		NODE_TYPEDEF					= 0x4000,
-		NODE_TEMPLATE_PARAMETER_TYPE	= 0x8000,
-		NODE_TYPE_PARAMETER				= 0x10000,
-
-		NODE_FILE						= 0x20000,
-		NODE_MACRO						= 0x40000,
-		NODE_UNION						= 0x80000,
-
-		NODE_MAX_VALUE = NODE_UNION
-	};
-
-	static std::string getUnderscoredTypeString(NodeType type);
-	static std::string getReadableTypeString(NodeType type);
-	static Node::NodeType getTypeForReadableTypeString(const std::string str);
-
-	static int typeToInt(NodeType type);
-	static NodeType intToType(int value);
-
-	static const NodeTypeMask NODE_NOT_VISIBLE;
-	static const NodeTypeMask NODE_USEABLE_TYPE;
-	static const NodeTypeMask NODE_INHERITABLE_TYPE;
-	static const NodeTypeMask NODE_MEMBER_TYPE;
-	static const NodeTypeMask NODE_COLLAPSIBLE_TYPE;
-
 	Node(Id id, NodeType type, NameHierarchy nameHierarchy, bool defined);
 	Node(const Node& other);
 	virtual ~Node();
 
 	NodeType getType() const;
 	void setType(NodeType type);
-	bool isType(NodeTypeMask mask) const;
+	bool isType(NodeType::TypeMask mask) const;
 
 	std::string getName() const;
 	std::string getFullName() const;
@@ -98,12 +56,12 @@ public:
 	Edge* getMemberEdge() const;
 
 	Edge* findEdge(std::function<bool(Edge*)> func) const;
-	Edge* findEdgeOfType(Edge::EdgeTypeMask mask) const;
-	Edge* findEdgeOfType(Edge::EdgeTypeMask mask, std::function<bool(Edge*)> func) const;
+	Edge* findEdgeOfType(Edge::TypeMask mask) const;
+	Edge* findEdgeOfType(Edge::TypeMask mask, std::function<bool(Edge*)> func) const;
 	Node* findChildNode(std::function<bool(Node*)> func) const;
 
 	void forEachEdge(std::function<void(Edge*)> func) const;
-	void forEachEdgeOfType(Edge::EdgeTypeMask mask, std::function<void(Edge*)> func) const;
+	void forEachEdgeOfType(Edge::TypeMask mask, std::function<void(Edge*)> func) const;
 	void forEachChildNode(std::function<void(Node*)> func) const;
 	void forEachNodeRecursive(std::function<void(const Node*)> func) const;
 
@@ -116,7 +74,6 @@ public:
 	void addComponentConst(std::shared_ptr<TokenComponentConst> component);
 	void addComponentStatic(std::shared_ptr<TokenComponentStatic> component);
 	void addComponentFilePath(std::shared_ptr<TokenComponentFilePath> component);
-	void addComponentSignature(std::shared_ptr<TokenComponentSignature> component);
 	void addComponentAccess(std::shared_ptr<TokenComponentAccess> component);
 
 	// Logging.

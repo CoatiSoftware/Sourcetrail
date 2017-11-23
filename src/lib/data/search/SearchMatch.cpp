@@ -56,20 +56,20 @@ SearchMatch SearchMatch::createCommand(CommandType type)
 	return match;
 }
 
-std::vector<SearchMatch> SearchMatch::createCommandsForFilter(Node::NodeTypeMask filter)
+std::vector<SearchMatch> SearchMatch::createCommandsForFilter(NodeType::TypeMask filter)
 {
 	std::vector<SearchMatch> matches;
 
-	for (Node::NodeTypeMask type = 1; type <= filter; type *= 2)
+	for (NodeType::TypeMask type = 1; type <= filter; type *= 2)
 	{
 		if (type & filter)
 		{
 			SearchMatch match;
-			match.name = Node::getReadableTypeString(Node::intToType(type));
+			match.name = NodeType(utility::intToType(type)).getReadableTypeString();
 			match.text = match.name;
 			match.typeName = "filter";
 			match.searchType = SEARCH_COMMAND;
-			match.nodeType = Node::intToType(type);
+			match.nodeType = NodeType(utility::intToType(type));
 			matches.push_back(match);
 		}
 	}
@@ -96,7 +96,7 @@ std::string SearchMatch::getCommandName(CommandType type)
 
 SearchMatch::SearchMatch()
 	: typeName("")
-	, nodeType(Node::NODE_NON_INDEXED)
+	, nodeType(NodeType::NODE_NON_INDEXED)
 	, searchType(SEARCH_NONE)
 	, hasChildren(false)
 {
@@ -106,7 +106,7 @@ SearchMatch::SearchMatch(const std::string& query)
 	: name(query)
 	, text(query)
 	, typeName("")
-	, nodeType(Node::NODE_NON_INDEXED)
+	, nodeType(NodeType::NODE_NON_INDEXED)
 	, searchType(SEARCH_NONE)
 	, hasChildren(false)
 {
@@ -224,7 +224,7 @@ void SearchMatch::print(std::ostream& ostream) const
 
 std::string SearchMatch::getFullName() const
 {
-	if (searchType == SEARCH_TOKEN && nodeType == Node::NODE_FILE)
+	if (searchType == SEARCH_TOKEN && nodeType.getType() == NodeType::NODE_FILE)
 	{
 		return text;
 	}
@@ -234,7 +234,7 @@ std::string SearchMatch::getFullName() const
 
 std::string SearchMatch::getNodeTypeAsUnderscoredString() const
 {
-	return Node::getUnderscoredTypeString(nodeType);
+	return nodeType.getUnderscoredTypeString();
 }
 
 std::string SearchMatch::getSearchTypeName() const

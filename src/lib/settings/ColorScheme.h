@@ -22,7 +22,7 @@ public:
 	std::string getColor(const std::string& key) const;
 	std::string getColor(const std::string& key, const std::string& defaultColor) const;
 
-	std::string getNodeTypeColor(Node::NodeType type, const std::string& key, ColorState state) const;
+	std::string getNodeTypeColor(NodeType type, const std::string& key, ColorState state) const;
 	std::string getNodeTypeColor(const std::string& typeStr, const std::string& key, ColorState state) const;
 
 	std::string getEdgeTypeColor(Edge::EdgeType type, ColorState state) const;

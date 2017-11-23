@@ -30,13 +30,13 @@ public:
 	SearchIndex();
 	virtual ~SearchIndex();
 
-	void addNode(Id id, const std::string& name, Node::NodeTypeMask type = 0);
+	void addNode(Id id, const std::string& name, NodeType::TypeMask type = 0);
 	void finishSetup();
 	void clear();
 
 	// maxResultCount == 0 means "no restriction".
 	std::vector<SearchResult> search(
-		const std::string& query, Node::NodeTypeMask filter, size_t maxResultCount, size_t maxBestScoredResultsLength = 0) const;
+		const std::string& query, NodeType::TypeMask filter, size_t maxResultCount, size_t maxBestScoredResultsLength = 0) const;
 
 private:
 	struct SearchEdge;
@@ -44,7 +44,7 @@ private:
 	struct SearchNode
 	{
 		std::set<Id> elementIds;
-		Node::NodeTypeMask mask = 0;
+		NodeType::TypeMask mask = 0;
 		std::map<char, SearchEdge*> edges;
 	};
 
@@ -63,11 +63,11 @@ private:
 	};
 
 	void populateEdgeGate(SearchEdge* e);
-	void searchRecursive(const SearchPath& path, const std::string& remainingQuery, Node::NodeTypeMask filter,
+	void searchRecursive(const SearchPath& path, const std::string& remainingQuery, NodeType::TypeMask filter,
 		std::vector<SearchIndex::SearchPath>* results) const;
 
 	std::multiset<SearchResult> createScoredResults(
-		const std::vector<SearchPath>& paths, Node::NodeTypeMask filter, size_t maxResultCount) const;
+		const std::vector<SearchPath>& paths, NodeType::TypeMask filter, size_t maxResultCount) const;
 
 	static SearchResult bestScoredResult(
 		SearchResult result, std::map<std::string, SearchResult>* scoresCache, size_t maxBestScoredResultsLength);

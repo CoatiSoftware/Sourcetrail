@@ -84,13 +84,13 @@ std::vector<NameHierarchy> StorageAccessProxy::getNameHierarchiesForNodeIds(cons
 	return std::vector<NameHierarchy>();
 }
 
-Node::NodeType StorageAccessProxy::getNodeTypeForNodeWithId(Id id) const
+NodeType StorageAccessProxy::getNodeTypeForNodeWithId(Id id) const
 {
 	if (hasSubject())
 	{
 		return m_subject->getNodeTypeForNodeWithId(id);
 	}
-	return Node::NODE_NON_INDEXED;
+	return NodeType::NODE_NON_INDEXED;
 }
 
 Id StorageAccessProxy::getIdForEdge(
@@ -125,7 +125,7 @@ std::shared_ptr<SourceLocationCollection> StorageAccessProxy::getFullTextSearchL
 	return std::make_shared<SourceLocationCollection>();
 }
 
-std::vector<SearchMatch> StorageAccessProxy::getAutocompletionMatches(const std::string& query, Node::NodeTypeMask filter) const
+std::vector<SearchMatch> StorageAccessProxy::getAutocompletionMatches(const std::string& query, NodeType::TypeMask filter) const
 {
 	if (hasSubject())
 	{
@@ -155,7 +155,7 @@ std::shared_ptr<Graph> StorageAccessProxy::getGraphForAll() const
 	return std::make_shared<Graph>();
 }
 
-std::shared_ptr<Graph> StorageAccessProxy::getGraphForFilter(Node::NodeTypeMask filter) const
+std::shared_ptr<Graph> StorageAccessProxy::getGraphForFilter(NodeType::TypeMask filter) const
 {
 	if (hasSubject())
 	{
@@ -186,7 +186,7 @@ std::shared_ptr<Graph> StorageAccessProxy::getGraphForChildrenOfNodeId(Id nodeId
 	return std::make_shared<Graph>();
 }
 
-std::shared_ptr<Graph> StorageAccessProxy::getGraphForTrail(Id originId, Id targetId, Edge::EdgeTypeMask trailType, size_t depth) const
+std::shared_ptr<Graph> StorageAccessProxy::getGraphForTrail(Id originId, Id targetId, Edge::TypeMask trailType, size_t depth) const
 {
 	if (hasSubject())
 	{

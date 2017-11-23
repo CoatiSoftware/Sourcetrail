@@ -26,9 +26,9 @@ std::string ColorScheme::getColor(const std::string& key, const std::string& def
 	return getValue<std::string>(key, defaultColor);
 }
 
-std::string ColorScheme::getNodeTypeColor(Node::NodeType type, const std::string& key, ColorState state) const
+std::string ColorScheme::getNodeTypeColor(NodeType type, const std::string& key, ColorState state) const
 {
-	return getNodeTypeColor(Node::getUnderscoredTypeString(type), key, state);
+	return getNodeTypeColor(type.getUnderscoredTypeString(), key, state);
 }
 
 std::string ColorScheme::getNodeTypeColor(const std::string& typeStr, const std::string& key, ColorState state) const

@@ -34,7 +34,7 @@ struct SearchMatch
 	static std::string searchMatchesToString(const std::vector<SearchMatch>& matches);
 
 	static SearchMatch createCommand(CommandType type);
-	static std::vector<SearchMatch> createCommandsForFilter(Node::NodeTypeMask filter);
+	static std::vector<SearchMatch> createCommandsForFilter(NodeType::TypeMask filter);
 	static std::string getCommandName(CommandType type);
 
 	static const char FULLTEXT_SEARCH_CHARACTER = '?';
@@ -67,7 +67,7 @@ struct SearchMatch
 
 	std::string typeName;
 
-	Node::NodeType nodeType;
+	NodeType nodeType;
 	SearchType searchType;
 	std::vector<size_t> indices;
 

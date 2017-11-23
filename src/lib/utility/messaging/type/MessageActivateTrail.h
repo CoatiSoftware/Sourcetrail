@@ -8,7 +8,7 @@ class MessageActivateTrail
 	: public Message<MessageActivateTrail>
 {
 public:
-	MessageActivateTrail(Id originId, Id targetId, Edge::EdgeTypeMask trailType, size_t depth, bool horizontalLayout)
+	MessageActivateTrail(Id originId, Id targetId, Edge::TypeMask trailType, size_t depth, bool horizontalLayout)
 		: originId(originId)
 		, targetId(targetId)
 		, trailType(trailType)
@@ -24,7 +24,7 @@ public:
 
 	const Id originId;
 	const Id targetId;
-	const Edge::EdgeTypeMask trailType;
+	const Edge::TypeMask trailType;
 	const size_t depth;
 	const bool horizontalLayout;
 };

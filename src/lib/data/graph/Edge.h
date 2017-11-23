@@ -14,8 +14,8 @@ class Edge
 	: public Token
 {
 public:
-	typedef int EdgeTypeMask;
-	enum EdgeType : EdgeTypeMask
+	typedef int TypeMask;
+	enum EdgeType : TypeMask
 	{
 		EDGE_UNDEFINED							= 0x0,
 		EDGE_MEMBER								= 0x1,
@@ -43,7 +43,7 @@ public:
 	virtual ~Edge();
 
 	EdgeType getType() const;
-	bool isType(EdgeTypeMask mask) const;
+	bool isType(TypeMask mask) const;
 
 	Node* getFrom() const;
 	Node* getTo() const;

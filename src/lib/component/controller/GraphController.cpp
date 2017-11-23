@@ -488,7 +488,7 @@ void GraphController::createDummyGraphForTokenIds(const std::vector<Id>& tokenId
 	{
 		node->hasParent = false;
 
-		if (node->data->isType(Node::NODE_NAMESPACE | Node::NODE_PACKAGE))
+		if (node->data->isType(NodeType::NODE_NAMESPACE | NodeType::NODE_PACKAGE))
 		{
 			node->name = node->data->getFullName();
 		}
@@ -546,7 +546,7 @@ std::vector<std::shared_ptr<DummyNode>> GraphController::createDummyNodeTopDown(
 	m_dummyGraphNodes.emplace(result->data->getId(), result);
 	nodes.push_back(result);
 
-	if (node->isType(Node::NODE_NAMESPACE))
+	if (node->isType(NodeType::NODE_NAMESPACE))
 	{
 		node->forEachChildNode(
 			[&nodes, &ancestorId, this](Node* child)
@@ -602,7 +602,7 @@ std::vector<Id> GraphController::getExpandedNodeIds() const
 	{
 		DummyNode* oldNode = p.second.get();
 		if (oldNode->expanded && !oldNode->autoExpanded && oldNode->isGraphNode() &&
-			!oldNode->data->isType(Node::NODE_FUNCTION | Node::NODE_METHOD))
+			!oldNode->data->isType(NodeType::NODE_FUNCTION | NodeType::NODE_METHOD))
 		{
 			nodeIds.push_back(p.first);
 		}
@@ -763,7 +763,7 @@ void GraphController::setNodeVisibilityRecursiveTopDown(DummyNode* node, bool pa
 {
 	node->visible = true;
 
-	if (node->isGraphNode() && node->data->getType() == Node::NODE_ENUM && !node->isExpanded())
+	if (node->isGraphNode() && node->data->getType().getType() == NodeType::NODE_ENUM && !node->isExpanded())
 	{
 		return;
 	}
@@ -891,7 +891,7 @@ void GraphController::bundleNodes()
 	for (const std::shared_ptr<DummyNode>& node : m_dummyNodes)
 	{
 		if (node->bundleInfo.isActive && (
-			node->data->isType(Node::NODE_FILE | Node::NODE_MACRO) ||
+			node->data->isType(NodeType::NODE_FILE | NodeType::NODE_MACRO) ||
 			node->data->findEdgeOfType(Edge::EDGE_INCLUDE | Edge::EDGE_MACRO_USAGE) != nullptr))
 		{
 			fileOrMacroActive = true;
@@ -907,7 +907,7 @@ void GraphController::bundleNodes()
 	bundleNodesAndEdgesMatching(
 		[](const DummyNode::BundleInfo& info, const Node* data)
 		{
-			return data->isType(Node::NODE_FILE);
+			return data->isType(NodeType::NODE_FILE);
 		},
 		1,
 		false,
@@ -937,7 +937,7 @@ void GraphController::bundleNodes()
 	bundleNodesAndEdgesMatching(
 		[](const DummyNode::BundleInfo& info, const Node* data)
 		{
-			return info.isDefined && info.isReferenced && data->isType(Node::NODE_BUILTIN_TYPE);
+			return info.isDefined && info.isReferenced && data->isType(NodeType::NODE_BUILTIN_TYPE);
 		},
 		3,
 		false,
@@ -1133,13 +1133,13 @@ std::shared_ptr<DummyNode> GraphController::bundleNodesMatching(
 }
 
 void GraphController::bundleByType(
-	std::list<std::shared_ptr<DummyNode>>& nodes, Node::NodeType type, const std::string& name)
+	std::list<std::shared_ptr<DummyNode>>& nodes, NodeType::Type type, const std::string& name)
 {
 	std::shared_ptr<DummyNode> bundleNode = bundleNodesMatching(
 		nodes,
 		[&](const DummyNode* node)
 		{
-			return node->visible && node->isGraphNode() && node->data->isType(type);
+			return node->visible && node->isGraphNode() && node->data->getType().getType() == type;
 		},
 		name
 	);
@@ -1164,33 +1164,33 @@ void GraphController::bundleNodesByType()
 		nodes.push_back(oldNodes[i]);
 	}
 
-	bundleByType(nodes, Node::NODE_FILE, "Files");
-	bundleByType(nodes, Node::NODE_MACRO, "Macros");
+	bundleByType(nodes, NodeType::NODE_FILE, "Files");
+	bundleByType(nodes, NodeType::NODE_MACRO, "Macros");
 
-	bundleByType(nodes, Node::NODE_NAMESPACE, "Namespaces");
-	bundleByType(nodes, Node::NODE_PACKAGE, "Packages");
+	bundleByType(nodes, NodeType::NODE_NAMESPACE, "Namespaces");
+	bundleByType(nodes, NodeType::NODE_PACKAGE, "Packages");
 
-	// bundleByType(nodes, Node::NODE_BUILTIN_TYPE, "Built-in Types");
-	bundleByType(nodes, Node::NODE_CLASS, "Classes");
-	bundleByType(nodes, Node::NODE_INTERFACE, "Interfaces");
-	bundleByType(nodes, Node::NODE_STRUCT, "Structs");
+	// bundleByType(nodes, NodeType::NODE_BUILTIN_TYPE, "Built-in Types");
+	bundleByType(nodes, NodeType::NODE_CLASS, "Classes");
+	bundleByType(nodes, NodeType::NODE_INTERFACE, "Interfaces");
+	bundleByType(nodes, NodeType::NODE_STRUCT, "Structs");
 
-	bundleByType(nodes, Node::NODE_FUNCTION, "Functions");
-	bundleByType(nodes, Node::NODE_GLOBAL_VARIABLE, "Global Variables");
+	bundleByType(nodes, NodeType::NODE_FUNCTION, "Functions");
+	bundleByType(nodes, NodeType::NODE_GLOBAL_VARIABLE, "Global Variables");
 
-	bundleByType(nodes, Node::NODE_TYPE, "Types");
-	bundleByType(nodes, Node::NODE_TYPEDEF, "Typedefs");
-	bundleByType(nodes, Node::NODE_ENUM, "Enums");
-	bundleByType(nodes, Node::NODE_UNION, "Unions");
+	bundleByType(nodes, NodeType::NODE_TYPE, "Types");
+	bundleByType(nodes, NodeType::NODE_TYPEDEF, "Typedefs");
+	bundleByType(nodes, NodeType::NODE_ENUM, "Enums");
+	bundleByType(nodes, NodeType::NODE_UNION, "Unions");
 
 	// // should never be visible
 
-	// bundleByType(nodes, Node::NODE_METHOD, "Methods");
-	// bundleByType(nodes, Node::NODE_FIELD, "Fields");
-	// bundleByType(nodes, Node::NODE_ENUM_CONSTANT, "Enum Constants");
-	// bundleByType(nodes, Node::NODE_TEMPLATE_PARAMETER_TYPE, "Template Parameter Types");
-	// bundleByType(nodes, Node::NODE_TYPE_PARAMETER, "Type Parameters");
-	// bundleByType(nodes, Node::NODE_NON_INDEXED, "Non-indexed Symbols");
+	// bundleByType(nodes, NodeType::NODE_METHOD, "Methods");
+	// bundleByType(nodes, NodeType::NODE_FIELD, "Fields");
+	// bundleByType(nodes, NodeType::NODE_ENUM_CONSTANT, "Enum Constants");
+	// bundleByType(nodes, NodeType::NODE_TEMPLATE_PARAMETER_TYPE, "Template Parameter Types");
+	// bundleByType(nodes, NodeType::NODE_TYPE_PARAMETER, "Type Parameters");
+	// bundleByType(nodes, NodeType::NODE_NON_INDEXED, "Non-indexed Symbols");
 
 	if (nodes.size())
 	{
@@ -1229,7 +1229,7 @@ void GraphController::bundleNodesByType()
 
 			if (anonymousBundle)
 			{
-				anonymousBundle->bundledNodeType = Node::NODE_NAMESPACE;
+				anonymousBundle->bundledNodeType = NodeType::NODE_NAMESPACE;
 				bundleNode->bundledNodeCount = bundleNode->getBundledNodeCount() + anonymousBundle->getBundledNodeCount();
 				bundleNode->bundledNodes.insert(anonymousBundle);
 			}
@@ -1312,7 +1312,7 @@ void GraphController::layoutNestingRecursive(DummyNode* node) const
 	}
 	else if (node->isBundleNode())
 	{
-		if (node->bundledNodeType != Node::NODE_NON_INDEXED)
+		if (node->bundledNodeType.getType() != NodeType::NODE_NON_INDEXED)
 		{
 			margins = GraphViewStyle::getMarginsForNodeType(node->bundledNodeType, false);
 		}
@@ -1345,7 +1345,7 @@ void GraphController::layoutNestingRecursive(DummyNode* node) const
 
 		width = margins.charWidth * node->name.size();
 
-		if (node->data->isType(Node::NODE_COLLAPSIBLE_TYPE) && node->data->getChildCount() > 0)
+		if (node->data->getType().isCollapsible() && node->data->getChildCount() > 0)
 		{
 			addExpandToggleNode(node);
 		}
@@ -1626,10 +1626,10 @@ void GraphController::handleMessage(MessageColorSchemeTest* message)
 
 	std::shared_ptr<Graph> graph = std::make_shared<Graph>();
 
-	std::function<void(Id, Node::NodeType, NameDelimiterType)> createNodes(
-		[&](Id id, Node::NodeType type, NameDelimiterType delimiter)
+	std::function<void(Id, NodeType, NameDelimiterType)> createNodes(
+		[&](Id id, NodeType type, NameDelimiterType delimiter)
 		{
-			std::string name = Node::getReadableTypeString(type);
+			std::string name = type.getReadableTypeString();
 			graph->createNode(id + 1, type, NameHierarchy(name, delimiter), true);
 			graph->createNode(id + 2, type, NameHierarchy("focused " + name, delimiter), true);
 			graph->createNode(id + 3, type, NameHierarchy("active " + name, delimiter), true);
@@ -1640,17 +1640,17 @@ void GraphController::handleMessage(MessageColorSchemeTest* message)
 		}
 	);
 
-	createNodes( 0, Node::NODE_FUNCTION, NAME_DELIMITER_CXX);
-	createNodes(10, Node::NODE_GLOBAL_VARIABLE, NAME_DELIMITER_CXX);
-	createNodes(20, Node::NODE_NON_INDEXED, NAME_DELIMITER_CXX);
-	createNodes(30, Node::NODE_TYPE, NAME_DELIMITER_CXX);
-	createNodes(40, Node::NODE_TYPEDEF, NAME_DELIMITER_CXX);
-	createNodes(50, Node::NODE_NAMESPACE, NAME_DELIMITER_CXX);
-	createNodes(60, Node::NODE_FILE, NAME_DELIMITER_FILE);
-	createNodes(70, Node::NODE_MACRO, NAME_DELIMITER_CXX);
+	createNodes( 0, NodeType::NODE_FUNCTION, NAME_DELIMITER_CXX);
+	createNodes(10, NodeType::NODE_GLOBAL_VARIABLE, NAME_DELIMITER_CXX);
+	createNodes(20, NodeType::NODE_NON_INDEXED, NAME_DELIMITER_CXX);
+	createNodes(30, NodeType::NODE_TYPE, NAME_DELIMITER_CXX);
+	createNodes(40, NodeType::NODE_TYPEDEF, NAME_DELIMITER_CXX);
+	createNodes(50, NodeType::NODE_NAMESPACE, NAME_DELIMITER_CXX);
+	createNodes(60, NodeType::NODE_FILE, NAME_DELIMITER_FILE);
+	createNodes(70, NodeType::NODE_MACRO, NAME_DELIMITER_CXX);
 
-	std::function<Node*(Node*, Id, Node::NodeType, std::string, AccessKind)> createChild(
-		[&](Node* parent, Id id, Node::NodeType type, std::string name, AccessKind access)
+	std::function<Node*(Node*, Id, NodeType, std::string, AccessKind)> createChild(
+		[&](Node* parent, Id id, NodeType type, std::string name, AccessKind access)
 		{
 			Node* node = graph->createNode(id + 1000, type, NameHierarchy(name, NAME_DELIMITER_CXX), true);
 			graph->createEdge(id + 10000, Edge::EDGE_MEMBER, parent, node);
@@ -1667,9 +1667,9 @@ void GraphController::handleMessage(MessageColorSchemeTest* message)
 	std::function<void(Id, std::string)> createEnum(
 		[&](Id id, std::string name)
 		{
-			Node* enumNode = graph->createNode(id, Node::NODE_ENUM,
-				NameHierarchy(name + Node::getReadableTypeString(Node::NODE_ENUM), NAME_DELIMITER_CXX), true);
-			createChild(enumNode, id + 10, Node::NODE_ENUM_CONSTANT, name + Node::getReadableTypeString(Node::NODE_ENUM_CONSTANT), ACCESS_NONE);
+			Node* enumNode = graph->createNode(id, NodeType::NODE_ENUM,
+				NameHierarchy(name + NodeType(NodeType::NODE_ENUM).getReadableTypeString(), NAME_DELIMITER_CXX), true);
+			createChild(enumNode, id + 10, NodeType::NODE_ENUM_CONSTANT, name + NodeType(NodeType::NODE_ENUM_CONSTANT).getReadableTypeString(), ACCESS_NONE);
 		}
 	);
 
@@ -1681,27 +1681,27 @@ void GraphController::handleMessage(MessageColorSchemeTest* message)
 	createEnum(105, "Non-indexed focused ");
 	createEnum(106, "Non-indexed active ");
 
-	std::function<void(Id, Node::NodeType, std::string)> createClass(
-		[&](Id id, Node::NodeType type, std::string name)
+	std::function<void(Id, NodeType, std::string)> createClass(
+		[&](Id id, NodeType type, std::string name)
 		{
-			Node* classNode = graph->createNode(id, type, NameHierarchy(name + Node::getReadableTypeString(type), NAME_DELIMITER_CXX), true);
+			Node* classNode = graph->createNode(id, type, NameHierarchy(name + NodeType(type).getReadableTypeString(), NAME_DELIMITER_CXX), true);
 
-			if (type == Node::NODE_CLASS)
+			if (type.getType() == NodeType::NODE_CLASS)
 			{
-				createChild(classNode, id, Node::NODE_TEMPLATE_PARAMETER_TYPE, name + "temp_param", ACCESS_TEMPLATE_PARAMETER);
+				createChild(classNode, id, NodeType::NODE_TEMPLATE_PARAMETER_TYPE, name + "temp_param", ACCESS_TEMPLATE_PARAMETER);
 			}
 
-			createChild(classNode, id + 10, Node::NODE_METHOD, name + "method", ACCESS_PUBLIC);
-			if (type == Node::NODE_CLASS)
+			createChild(classNode, id + 10, NodeType::NODE_METHOD, name + "method", ACCESS_PUBLIC);
+			if (type.getType() == NodeType::NODE_CLASS)
 			{
-				createChild(classNode, id + 30, Node::NODE_METHOD, name + "method", ACCESS_PROTECTED);
+				createChild(classNode, id + 30, NodeType::NODE_METHOD, name + "method", ACCESS_PROTECTED);
 			}
-			createChild(classNode, id + 60, Node::NODE_FIELD, name + "field", ACCESS_PRIVATE);
+			createChild(classNode, id + 60, NodeType::NODE_FIELD, name + "field", ACCESS_PRIVATE);
 		}
 	);
 
-	std::function<void(Id, Node::NodeType)> createClasses(
-		[&](Id id, Node::NodeType type)
+	std::function<void(Id, NodeType)> createClasses(
+		[&](Id id, NodeType type)
 		{
 			createClass(id + 1, type, "");
 			createClass(id + 2, type, "focused ");
@@ -1713,19 +1713,19 @@ void GraphController::handleMessage(MessageColorSchemeTest* message)
 		}
 	);
 
-	createClasses(200, Node::NODE_STRUCT);
-	createClasses(300, Node::NODE_CLASS);
+	createClasses(200, NodeType::NODE_STRUCT);
+	createClasses(300, NodeType::NODE_CLASS);
 
 
-	std::function<void(Id, Edge::EdgeType, Node::NodeType, Node::NodeType, std::string)> createEdge(
-		[&](Id id, Edge::EdgeType type, Node::NodeType origin, Node::NodeType target, std::string name)
+	std::function<void(Id, Edge::EdgeType, NodeType, NodeType, std::string)> createEdge(
+		[&](Id id, Edge::EdgeType type, NodeType origin, NodeType target, std::string name)
 		{
 			Node* originNode;
-			if (origin == Node::NODE_METHOD)
+			if (origin.getType() == NodeType::NODE_METHOD)
 			{
-				Node* classNode = graph->createNode(id + 101, Node::NODE_CLASS,
-					NameHierarchy(name + Node::getReadableTypeString(Node::NODE_CLASS), NAME_DELIMITER_CXX), true);
-				originNode = createChild(classNode, id + 111, Node::NODE_METHOD, name + Edge::getReadableTypeString(type), ACCESS_PUBLIC);
+				Node* classNode = graph->createNode(id + 101, NodeType::NODE_CLASS,
+					NameHierarchy(name + NodeType(NodeType::NODE_CLASS).getReadableTypeString(), NAME_DELIMITER_CXX), true);
+				originNode = createChild(classNode, id + 111, NodeType::NODE_METHOD, name + Edge::getReadableTypeString(type), ACCESS_PUBLIC);
 			}
 			else
 			{
@@ -1733,11 +1733,11 @@ void GraphController::handleMessage(MessageColorSchemeTest* message)
 			}
 
 			Node* targetNode;
-			if (target == Node::NODE_METHOD)
+			if (target.getType() == NodeType::NODE_METHOD)
 			{
-				Node* classNode = graph->createNode(id + 201, Node::NODE_CLASS,
-					NameHierarchy(name + Node::getReadableTypeString(Node::NODE_CLASS), NAME_DELIMITER_CXX), true);
-				targetNode = createChild(classNode, id + 211, Node::NODE_METHOD, name + Edge::getReadableTypeString(type), ACCESS_PUBLIC);
+				Node* classNode = graph->createNode(id + 201, NodeType::NODE_CLASS,
+					NameHierarchy(name + NodeType(NodeType::NODE_CLASS).getReadableTypeString(), NAME_DELIMITER_CXX), true);
+				targetNode = createChild(classNode, id + 211, NodeType::NODE_METHOD, name + Edge::getReadableTypeString(type), ACCESS_PUBLIC);
 			}
 			else
 			{
@@ -1758,8 +1758,8 @@ void GraphController::handleMessage(MessageColorSchemeTest* message)
 		}
 	);
 
-	std::function<void(Id, Edge::EdgeType, Node::NodeType, Node::NodeType)> createEdges(
-		[&](Id id, Edge::EdgeType type, Node::NodeType origin, Node::NodeType target)
+	std::function<void(Id, Edge::EdgeType, NodeType, NodeType)> createEdges(
+		[&](Id id, Edge::EdgeType type, NodeType origin, NodeType target)
 		{
 			createEdge(id, type, origin, target, "");
 			createEdge(id + 1000, type, origin, target, "focused ");
@@ -1767,21 +1767,21 @@ void GraphController::handleMessage(MessageColorSchemeTest* message)
 		}
 	);
 
-	createEdges( 100000, Edge::EDGE_CALL, Node::NODE_FUNCTION, Node::NODE_FUNCTION);
-	createEdges( 200000, Edge::EDGE_USAGE, Node::NODE_GLOBAL_VARIABLE, Node::NODE_GLOBAL_VARIABLE);
-	createEdges( 300000, Edge::EDGE_TYPE_USAGE, Node::NODE_FUNCTION, Node::NODE_TYPE);
+	createEdges( 100000, Edge::EDGE_CALL, NodeType::NODE_FUNCTION, NodeType::NODE_FUNCTION);
+	createEdges( 200000, Edge::EDGE_USAGE, NodeType::NODE_GLOBAL_VARIABLE, NodeType::NODE_GLOBAL_VARIABLE);
+	createEdges( 300000, Edge::EDGE_TYPE_USAGE, NodeType::NODE_FUNCTION, NodeType::NODE_TYPE);
 
-	createEdges( 400000, Edge::EDGE_AGGREGATION, Node::NODE_TYPE, Node::NODE_TYPE);
-	createEdges( 500000, Edge::EDGE_INCLUDE, Node::NODE_FILE, Node::NODE_FILE);
-	createEdges( 600000, Edge::EDGE_MACRO_USAGE, Node::NODE_MACRO, Node::NODE_MACRO);
+	createEdges( 400000, Edge::EDGE_AGGREGATION, NodeType::NODE_TYPE, NodeType::NODE_TYPE);
+	createEdges( 500000, Edge::EDGE_INCLUDE, NodeType::NODE_FILE, NodeType::NODE_FILE);
+	createEdges( 600000, Edge::EDGE_MACRO_USAGE, NodeType::NODE_MACRO, NodeType::NODE_MACRO);
 
-	createEdges( 700000, Edge::EDGE_INHERITANCE, Node::NODE_CLASS, Node::NODE_CLASS);
-	createEdges( 800000, Edge::EDGE_OVERRIDE, Node::NODE_METHOD, Node::NODE_METHOD);
+	createEdges( 700000, Edge::EDGE_INHERITANCE, NodeType::NODE_CLASS, NodeType::NODE_CLASS);
+	createEdges( 800000, Edge::EDGE_OVERRIDE, NodeType::NODE_METHOD, NodeType::NODE_METHOD);
 
-	createEdges( 900000, Edge::EDGE_TEMPLATE_ARGUMENT, Node::NODE_TYPE, Node::NODE_TYPE);
-	createEdges(1000000, Edge::EDGE_TEMPLATE_DEFAULT_ARGUMENT, Node::NODE_TYPE, Node::NODE_TYPE);
-	createEdges(1100000, Edge::EDGE_TEMPLATE_SPECIALIZATION, Node::NODE_TYPE, Node::NODE_TYPE);
-	createEdges(1200000, Edge::EDGE_TEMPLATE_MEMBER_SPECIALIZATION, Node::NODE_METHOD, Node::NODE_METHOD);
+	createEdges( 900000, Edge::EDGE_TEMPLATE_ARGUMENT, NodeType::NODE_TYPE, NodeType::NODE_TYPE);
+	createEdges(1000000, Edge::EDGE_TEMPLATE_DEFAULT_ARGUMENT, NodeType::NODE_TYPE, NodeType::NODE_TYPE);
+	createEdges(1100000, Edge::EDGE_TEMPLATE_SPECIALIZATION, NodeType::NODE_TYPE, NodeType::NODE_TYPE);
+	createEdges(1200000, Edge::EDGE_TEMPLATE_MEMBER_SPECIALIZATION, NodeType::NODE_METHOD, NodeType::NODE_METHOD);
 
 	std::vector<Id> focusedTokenIds;
 	std::vector<Id> activeTokenIds;

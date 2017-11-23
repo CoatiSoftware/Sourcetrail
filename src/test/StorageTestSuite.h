@@ -21,13 +21,13 @@ public:
 		std::string filePath = "path/to/test.h";
 
 		std::shared_ptr<IntermediateStorage> intermetiateStorage = std::make_shared<IntermediateStorage>();
-		Id id = intermetiateStorage->addNode(StorageNodeData(Node::typeToInt(Node::NODE_FILE), NameHierarchy::serialize(NameHierarchy(filePath, NAME_DELIMITER_FILE))));
+		Id id = intermetiateStorage->addNode(StorageNodeData(utility::nodeTypeToInt(NodeType::NODE_FILE), NameHierarchy::serialize(NameHierarchy(filePath, NAME_DELIMITER_FILE))));
 		intermetiateStorage->addFile(StorageFile(id, filePath, "someTime", true));
 
 		storage.inject(intermetiateStorage.get());
 
 		TS_ASSERT_EQUALS(storage.getNameHierarchyForNodeId(id).getQualifiedName(), filePath);
-		TS_ASSERT_EQUALS(storage.getNodeTypeForNodeWithId(id), Node::NODE_FILE);
+		TS_ASSERT(storage.getNodeTypeForNodeWithId(id).isFile());
 
 	}
 	void test_storage_saves_node()
@@ -37,14 +37,14 @@ public:
 		TestStorage storage;
 
 		std::shared_ptr<IntermediateStorage> intermetiateStorage = std::make_shared<IntermediateStorage>();
-		intermetiateStorage->addNode(StorageNodeData(Node::typeToInt(Node::NODE_TYPEDEF), NameHierarchy::serialize(a)));
+		intermetiateStorage->addNode(StorageNodeData(utility::nodeTypeToInt(NodeType::NODE_TYPEDEF), NameHierarchy::serialize(a)));
 
 		storage.inject(intermetiateStorage.get());
 
 		Id storedId = storage.getNodeIdForNameHierarchy(a);
 
 		TS_ASSERT(storedId != 0);
-		TS_ASSERT_EQUALS(storage.getNodeTypeForNodeWithId(storedId), Node::NODE_TYPEDEF);
+		TS_ASSERT_EQUALS(storage.getNodeTypeForNodeWithId(storedId).getType(), NodeType::NODE_TYPEDEF);
 	}
 
 
@@ -57,10 +57,10 @@ public:
 
 		std::shared_ptr<IntermediateStorage> intermetiateStorage = std::make_shared<IntermediateStorage>();
 
-		Id aId = intermetiateStorage->addNode(StorageNodeData(Node::typeToInt(Node::NODE_STRUCT), NameHierarchy::serialize(a)));
+		Id aId = intermetiateStorage->addNode(StorageNodeData(utility::nodeTypeToInt(NodeType::NODE_STRUCT), NameHierarchy::serialize(a)));
 		intermetiateStorage->addSymbol(StorageSymbol(aId, DEFINITION_EXPLICIT));
 
-		Id bId = intermetiateStorage->addNode(StorageNodeData(Node::typeToInt(Node::NODE_FIELD), NameHierarchy::serialize(b)));
+		Id bId = intermetiateStorage->addNode(StorageNodeData(utility::nodeTypeToInt(NodeType::NODE_FIELD), NameHierarchy::serialize(b)));
 		intermetiateStorage->addSymbol(StorageSymbol(bId, DEFINITION_EXPLICIT));
 		intermetiateStorage->addEdge(StorageEdgeData(Edge::typeToInt(Edge::EDGE_MEMBER), aId, bId));
 
@@ -84,7 +84,7 @@ public:
 		//Node* node = storage.getNodeWithId(id);
 		//TS_ASSERT(node);
 		//TS_ASSERT_EQUALS(node->getQualifiedNameWithSignature(), "isMethod");
-		//TS_ASSERT_EQUALS(node->getType(), Node::NODE_METHOD);
+		//TS_ASSERT_EQUALS(node->getType(), NodeType::NODE_METHOD);
 		//TS_ASSERT(node->getComponent<TokenComponentStatic>());
 	}
 

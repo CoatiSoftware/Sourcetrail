@@ -8,7 +8,7 @@ class MessageActivateAll
 	: public Message<MessageActivateAll>
 {
 public:
-	MessageActivateAll(Node::NodeTypeMask filter = 0)
+	MessageActivateAll(NodeType::TypeMask filter = 0)
 		: filter(filter)
 	{
 		setIsParallel(true);
@@ -19,7 +19,7 @@ public:
 		return "MessageActivateAll";
 	}
 
-	Node::NodeTypeMask filter;
+	NodeType::TypeMask filter;
 };
 
 #endif // MESSAGE_ACTIVATE_ALL_H

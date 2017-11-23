@@ -500,10 +500,10 @@ std::vector<std::string> BookmarkController::getActiveEdgeDisplayNames() const
 
 std::string BookmarkController::getNodeDisplayName(const Id nodeId) const
 {
-	Node::NodeType type = m_storageAccess->getNodeTypeForNodeWithId(nodeId);
+	NodeType type = m_storageAccess->getNodeTypeForNodeWithId(nodeId);
 	NameHierarchy nameHierarchy = m_storageAccess->getNameHierarchyForNodeId(nodeId);
 
-	if (type == Node::NODE_FILE)
+	if (type.getType() == NodeType::NODE_FILE)
 	{
 		return FilePath(nameHierarchy.getQualifiedName()).fileName();
 	}

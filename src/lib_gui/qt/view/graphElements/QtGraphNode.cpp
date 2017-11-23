@@ -34,9 +34,9 @@ void QtGraphNode::hideNode()
 	this->hide();
 }
 
-QFont QtGraphNode::getFontForNodeType(Node::NodeType type)
+QFont QtGraphNode::getFontForNodeType(NodeType type)
 {
-	QFont font(GraphViewStyle::getFontNameForNodeType(type).c_str());
+	QFont font(GraphViewStyle::getFontNameForDataNode().c_str());
 	font.setPixelSize(GraphViewStyle::getFontSizeForNodeType(type));
 	return font;
 }

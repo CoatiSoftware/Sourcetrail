@@ -64,7 +64,7 @@ QVariant QtAutocompletionModel::data(const QModelIndex &index, int role) const
 			return indices;
 		}
 	case 5:
-		return match.nodeType;
+		return match.nodeType.getType();
 	default:
 		return QVariant();
 	}
@@ -140,7 +140,7 @@ void QtAutocompletionDelegate::paint(QPainter* painter, const QStyleOptionViewIt
 	QString subtext = index.sibling(index.row(), index.column() + 2).data().toString();
 	QString type = index.sibling(index.row(), index.column() + 3).data().toString();
 	QList<QVariant> indices = index.sibling(index.row(), index.column() + 4).data().toList();
-	Node::NodeType nodeType = static_cast<Node::NodeType>(index.sibling(index.row(), index.column() + 5).data().toInt());
+	NodeType nodeType = utility::intToType(index.sibling(index.row(), index.column() + 5).data().toInt());
 
 	// define highlight colors
     ColorScheme* scheme = ColorScheme::getInstance().get();
@@ -149,7 +149,7 @@ void QtAutocompletionDelegate::paint(QPainter* painter, const QStyleOptionViewIt
 
 	if (type.size() && type != "command" && type != "filter")
 	{
-		const GraphViewStyle::NodeColor& nodeColor = GraphViewStyle::getNodeColor(Node::getUnderscoredTypeString(nodeType), false);
+		const GraphViewStyle::NodeColor& nodeColor = GraphViewStyle::getNodeColor(nodeType.getUnderscoredTypeString(), false);
 		fillColor = QColor(nodeColor.fill.c_str());
 		textColor = QColor(nodeColor.text.c_str());
 	}

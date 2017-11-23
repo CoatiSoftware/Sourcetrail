@@ -32,26 +32,26 @@ PersistentStorage::PersistentStorage(const FilePath& dbPath, const FilePath& boo
 	m_commandIndex.addNode(0, SearchMatch::getCommandName(SearchMatch::COMMAND_ALL));
 	m_commandIndex.addNode(0, SearchMatch::getCommandName(SearchMatch::COMMAND_ERROR));
 
-	// m_commandIndex.addNode(0, Node::getReadableTypeString(Node::NODE_NON_INDEXED));
-	// m_commandIndex.addNode(0, Node::getReadableTypeString(Node::NODE_TYPE));
-	m_commandIndex.addNode(0, Node::getReadableTypeString(Node::NODE_BUILTIN_TYPE));
-	m_commandIndex.addNode(0, Node::getReadableTypeString(Node::NODE_NAMESPACE));
-	m_commandIndex.addNode(0, Node::getReadableTypeString(Node::NODE_PACKAGE));
-	m_commandIndex.addNode(0, Node::getReadableTypeString(Node::NODE_STRUCT));
-	m_commandIndex.addNode(0, Node::getReadableTypeString(Node::NODE_CLASS));
-	m_commandIndex.addNode(0, Node::getReadableTypeString(Node::NODE_INTERFACE));
-	m_commandIndex.addNode(0, Node::getReadableTypeString(Node::NODE_GLOBAL_VARIABLE));
-	m_commandIndex.addNode(0, Node::getReadableTypeString(Node::NODE_FIELD));
-	m_commandIndex.addNode(0, Node::getReadableTypeString(Node::NODE_FUNCTION));
-	m_commandIndex.addNode(0, Node::getReadableTypeString(Node::NODE_METHOD));
-	m_commandIndex.addNode(0, Node::getReadableTypeString(Node::NODE_ENUM));
-	m_commandIndex.addNode(0, Node::getReadableTypeString(Node::NODE_ENUM_CONSTANT));
-	m_commandIndex.addNode(0, Node::getReadableTypeString(Node::NODE_TYPEDEF));
-	// m_commandIndex.addNode(0, Node::getReadableTypeString(Node::NODE_TEMPLATE_PARAMETER_TYPE));
-	// m_commandIndex.addNode(0, Node::getReadableTypeString(Node::NODE_TYPE_PARAMETER));
-	m_commandIndex.addNode(0, Node::getReadableTypeString(Node::NODE_FILE));
-	m_commandIndex.addNode(0, Node::getReadableTypeString(Node::NODE_MACRO));
-	m_commandIndex.addNode(0, Node::getReadableTypeString(Node::NODE_UNION));
+	// m_commandIndex.addNode(0, NodeType(NodeType::NODE_NON_INDEXED).getReadableTypeString());
+	// m_commandIndex.addNode(0, NodeType(NodeType::NODE_TYPE).getReadableTypeString());
+	m_commandIndex.addNode(0, NodeType(NodeType::NODE_BUILTIN_TYPE).getReadableTypeString());
+	m_commandIndex.addNode(0, NodeType(NodeType::NODE_NAMESPACE).getReadableTypeString());
+	m_commandIndex.addNode(0, NodeType(NodeType::NODE_PACKAGE).getReadableTypeString());
+	m_commandIndex.addNode(0, NodeType(NodeType::NODE_STRUCT).getReadableTypeString());
+	m_commandIndex.addNode(0, NodeType(NodeType::NODE_CLASS).getReadableTypeString());
+	m_commandIndex.addNode(0, NodeType(NodeType::NODE_INTERFACE).getReadableTypeString());
+	m_commandIndex.addNode(0, NodeType(NodeType::NODE_GLOBAL_VARIABLE).getReadableTypeString());
+	m_commandIndex.addNode(0, NodeType(NodeType::NODE_FIELD).getReadableTypeString());
+	m_commandIndex.addNode(0, NodeType(NodeType::NODE_FUNCTION).getReadableTypeString());
+	m_commandIndex.addNode(0, NodeType(NodeType::NODE_METHOD).getReadableTypeString());
+	m_commandIndex.addNode(0, NodeType(NodeType::NODE_ENUM).getReadableTypeString());
+	m_commandIndex.addNode(0, NodeType(NodeType::NODE_ENUM_CONSTANT).getReadableTypeString());
+	m_commandIndex.addNode(0, NodeType(NodeType::NODE_TYPEDEF).getReadableTypeString());
+	// m_commandIndex.addNode(0, NodeType(NodeType::NODE_TEMPLATE_PARAMETER_TYPE).getReadableTypeString());
+	// m_commandIndex.addNode(0, NodeType(NodeType::NODE_TYPE_PARAMETER).getReadableTypeString());
+	m_commandIndex.addNode(0, NodeType(NodeType::NODE_FILE).getReadableTypeString());
+	m_commandIndex.addNode(0, NodeType(NodeType::NODE_MACRO).getReadableTypeString());
+	m_commandIndex.addNode(0, NodeType(NodeType::NODE_UNION).getReadableTypeString());
 
 	// m_commandIndex.addNode(0, SearchMatch::getCommandName(SearchMatch::COMMAND_COLOR_SCHEME_TEST));
 
@@ -440,9 +440,9 @@ std::vector<NameHierarchy> PersistentStorage::getNameHierarchiesForNodeIds(const
 	return nameHierarchies;
 }
 
-Node::NodeType PersistentStorage::getNodeTypeForNodeWithId(Id nodeId) const
+NodeType PersistentStorage::getNodeTypeForNodeWithId(Id nodeId) const
 {
-	return Node::intToType(m_sqliteIndexStorage.getFirstById<StorageNode>(nodeId).type);
+	return utility::intToType(m_sqliteIndexStorage.getFirstById<StorageNode>(nodeId).type);
 }
 
 Id PersistentStorage::getIdForEdge(
@@ -558,7 +558,7 @@ std::shared_ptr<SourceLocationCollection> PersistentStorage::getFullTextSearchLo
 	return collection;
 }
 
-std::vector<SearchMatch> PersistentStorage::getAutocompletionMatches(const std::string& query, Node::NodeTypeMask filter) const
+std::vector<SearchMatch> PersistentStorage::getAutocompletionMatches(const std::string& query, NodeType::TypeMask filter) const
 {
 	TRACE();
 
@@ -569,12 +569,12 @@ std::vector<SearchMatch> PersistentStorage::getAutocompletionMatches(const std::
 	// create SearchMatches
 	std::vector<SearchMatch> matches;
 
-	if (!filter || (filter & ~Node::NODE_FILE))
+	if (!filter || (filter & ~NodeType::NODE_FILE))
 	{
 		utility::append(matches, getAutocompletionSymbolMatches(query, filter, maxResultsCount, maxBestScoredResultsLength));
 	}
 
-	if (!filter || (filter & Node::NODE_FILE))
+	if (!filter || (filter & NodeType::NODE_FILE))
 	{
 		utility::append(matches, getAutocompletionFileMatches(query, maxResultsCount));
 	}
@@ -606,7 +606,7 @@ std::vector<SearchMatch> PersistentStorage::getAutocompletionMatches(const std::
 }
 
 std::vector<SearchMatch> PersistentStorage::getAutocompletionSymbolMatches(
-	const std::string& query, Node::NodeTypeMask filter, size_t maxResultsCount, size_t maxBestScoredResultsLength) const
+	const std::string& query, NodeType::TypeMask filter, size_t maxResultsCount, size_t maxBestScoredResultsLength) const
 {
 	// search in indices
 	std::vector<SearchResult> results =
@@ -674,12 +674,12 @@ std::vector<SearchMatch> PersistentStorage::getAutocompletionSymbolMatches(
 
 		match.indices = result.indices;
 		match.score = result.score;
-		match.nodeType = Node::intToType(firstNode->type);
-		match.typeName = Node::getReadableTypeString(match.nodeType);
+		match.nodeType = utility::intToType(firstNode->type);
+		match.typeName = match.nodeType.getReadableTypeString();
 		match.searchType = SearchMatch::SEARCH_TOKEN;
 
 		if (storageSymbolMap.find(firstNode->id) == storageSymbolMap.end() &&
-			match.nodeType != Node::NODE_NON_INDEXED)
+			match.nodeType.getType() != NodeType::NODE_NON_INDEXED)
 		{
 			match.typeName = "non-indexed " + match.typeName;
 		}
@@ -692,7 +692,7 @@ std::vector<SearchMatch> PersistentStorage::getAutocompletionSymbolMatches(
 
 std::vector<SearchMatch> PersistentStorage::getAutocompletionFileMatches(const std::string& query, size_t maxResultsCount) const
 {
-	std::vector<SearchResult> results = m_fileIndex.search(query, Node::NODE_FILE, maxResultsCount, 100);
+	std::vector<SearchResult> results = m_fileIndex.search(query, NodeType::NODE_FILE, maxResultsCount, 100);
 
 	// create SearchMatches
 	std::vector<SearchMatch> matches;
@@ -712,8 +712,8 @@ std::vector<SearchMatch> PersistentStorage::getAutocompletionFileMatches(const s
 		match.indices = result.indices;
 		match.score = result.score;
 
-		match.nodeType = Node::NODE_FILE;
-		match.typeName = Node::getReadableTypeString(match.nodeType);
+		match.nodeType = NodeType::NODE_FILE;
+		match.typeName = match.nodeType.getReadableTypeString();
 
 		match.searchType = SearchMatch::SEARCH_TOKEN;
 
@@ -724,7 +724,7 @@ std::vector<SearchMatch> PersistentStorage::getAutocompletionFileMatches(const s
 }
 
 std::vector<SearchMatch> PersistentStorage::getAutocompletionCommandMatches(
-	const std::string& query, Node::NodeTypeMask filter) const
+	const std::string& query, NodeType::TypeMask filter) const
 {
 	// search in indices
 	std::vector<SearchResult> results = m_commandIndex.search(query, 0, 0);
@@ -748,11 +748,11 @@ std::vector<SearchMatch> PersistentStorage::getAutocompletionCommandMatches(
 
 		if (match.getCommandType() == SearchMatch::COMMAND_NODE_FILTER)
 		{
-			match.nodeType = Node::getTypeForReadableTypeString(match.name);
+			match.nodeType = utility::getTypeForReadableTypeString(match.name);
 			match.typeName = "filter";
 		}
 
-		if (!filter || (match.getCommandType() == SearchMatch::COMMAND_NODE_FILTER && !(filter & match.nodeType)))
+		if (!filter || (match.getCommandType() == SearchMatch::COMMAND_NODE_FILTER && !(filter & match.nodeType.getType())))
 		{
 			matches.push_back(match);
 		}
@@ -791,12 +791,12 @@ std::vector<SearchMatch> PersistentStorage::getSearchMatchesForTokenIds(const st
 		match.text = nameHierarchy.getRawName();
 
 		match.tokenIds.push_back(elementId);
-		match.nodeType = Node::intToType(node.type);
+		match.nodeType = utility::intToType(node.type);
 		match.searchType = SearchMatch::SEARCH_TOKEN;
 
 		match.delimiter = nameHierarchy.getDelimiter();
 
-		if (match.nodeType == Node::NODE_FILE)
+		if (match.nodeType.getType() == NodeType::NODE_FILE)
 		{
 			match.text = FilePath(match.text).fileName();
 		}
@@ -819,7 +819,7 @@ std::shared_ptr<Graph> PersistentStorage::getGraphForAll() const
 		auto it = m_symbolDefinitionKinds.find(node.id);
 		if (it != m_symbolDefinitionKinds.end() && it->second == DEFINITION_EXPLICIT &&
 			(
-				Node::intToType(node.type) & (Node::NODE_NAMESPACE | Node::NODE_PACKAGE) ||
+				utility::intToType(node.type) & (NodeType::NODE_NAMESPACE | NodeType::NODE_PACKAGE) ||
 				!m_hierarchyCache.isChildOfVisibleNodeOrInvisible(node.id)
 			)
 		){
@@ -837,7 +837,7 @@ std::shared_ptr<Graph> PersistentStorage::getGraphForAll() const
 	return graph;
 }
 
-std::shared_ptr<Graph> PersistentStorage::getGraphForFilter(Node::NodeTypeMask filter) const
+std::shared_ptr<Graph> PersistentStorage::getGraphForFilter(NodeType::TypeMask filter) const
 {
 	TRACE();
 
@@ -846,7 +846,7 @@ std::shared_ptr<Graph> PersistentStorage::getGraphForFilter(Node::NodeTypeMask f
 	std::vector<Id> tokenIds;
 	for (StorageNode& node: m_sqliteIndexStorage.getAll<StorageNode>())
 	{
-		if ((filter & Node::intToType(node.type)))
+		if ((filter & utility::intToType(node.type)))
 		{
 			auto it = m_symbolDefinitionKinds.find(node.id);
 			if (it != m_symbolDefinitionKinds.end() && it->second == DEFINITION_EXPLICIT)
@@ -856,7 +856,7 @@ std::shared_ptr<Graph> PersistentStorage::getGraphForFilter(Node::NodeTypeMask f
 		}
 	}
 
-	if (!filter || (filter & Node::NODE_FILE))
+	if (!filter || (filter & NodeType::NODE_FILE))
 	{
 		for (const auto& p : m_fileNodePaths)
 		{
@@ -890,8 +890,8 @@ std::shared_ptr<Graph> PersistentStorage::getGraphForActiveTokenIds(
 
 		if (node.id > 0)
 		{
-			Node::NodeType nodeType = Node::intToType(node.type);
-			if (nodeType & (Node::NODE_NAMESPACE | Node::NODE_PACKAGE))
+			NodeType nodeType = utility::intToType(node.type);
+			if (nodeType.getType() & (NodeType::NODE_NAMESPACE | NodeType::NODE_PACKAGE))
 			{
 				ids.clear();
 				m_hierarchyCache.addFirstChildIdsForNodeId(elementId, &ids, &edgeIds);
@@ -904,7 +904,7 @@ std::shared_ptr<Graph> PersistentStorage::getGraphForActiveTokenIds(
 				m_hierarchyCache.addFirstChildIdsForNodeId(elementId, &nodeIds, &edgeIds);
 
 				// don't expand active node if it has more than 20 child nodes
-				if (nodeIds.size() > 20 && nodeType & Node::NODE_COLLAPSIBLE_TYPE)
+				if (nodeIds.size() > 20 && nodeType.isCollapsible())
 				{
 					nodeIds.clear();
 				}
@@ -921,7 +921,7 @@ std::shared_ptr<Graph> PersistentStorage::getGraphForActiveTokenIds(
 						continue;
 					}
 
-					if ((nodeType & Node::NODE_USEABLE_TYPE) && (edgeType & Edge::EDGE_TYPE_USAGE) &&
+					if (nodeType.isUsable() && (edgeType & Edge::EDGE_TYPE_USAGE) &&
 						m_hierarchyCache.isChildOfVisibleNodeOrInvisible(edge.sourceNodeId) &&
 						(m_hierarchyCache.getLastVisibleParentNodeId(edge.targetNodeId) !=
 							m_hierarchyCache.getLastVisibleParentNodeId(edge.sourceNodeId)))
@@ -1046,7 +1046,7 @@ std::shared_ptr<Graph> PersistentStorage::getGraphForChildrenOfNodeId(Id nodeId)
 }
 
 std::shared_ptr<Graph> PersistentStorage::getGraphForTrail(
-	Id originId, Id targetId, Edge::EdgeTypeMask trailType, size_t depth) const
+	Id originId, Id targetId, Edge::TypeMask trailType, size_t depth) const
 {
 	TRACE();
 
@@ -1212,7 +1212,7 @@ std::shared_ptr<SourceLocationCollection> PersistentStorage::getSourceLocationsF
 		if (path.empty() && m_symbolDefinitionKinds.find(tokenId) == m_symbolDefinitionKinds.end())
 		{
 			StorageNode fileNode = m_sqliteIndexStorage.getNodeById(tokenId);
-			if (Node::intToType(fileNode.type) == Node::NODE_FILE)
+			if (utility::intToType(fileNode.type) == NodeType::NODE_FILE)
 			{
 				path = FilePath(NameHierarchy::deserialize(fileNode.serializedName).getQualifiedName());
 			}
@@ -1705,8 +1705,8 @@ TooltipInfo PersistentStorage::getTooltipInfoForTokenIds(const std::vector<Id>& 
 		return info;
 	}
 
-	Node::NodeType type = Node::intToType(node.type);
-	info.title = Node::getReadableTypeString(type);
+	NodeType type = utility::intToType(node.type);
+	info.title = type.getReadableTypeString();
 
 	DefinitionKind defKind = DEFINITION_NONE;
 	StorageSymbol symbol = m_sqliteIndexStorage.getFirstById<StorageSymbol>(node.id);
@@ -1715,7 +1715,7 @@ TooltipInfo PersistentStorage::getTooltipInfoForTokenIds(const std::vector<Id>& 
 		defKind = intToDefinitionKind(symbol.definitionKind);
 	}
 
-	if (type & Node::NODE_MEMBER_TYPE)
+	if (type.isPotentialMember())
 	{
 		StorageComponentAccess access = m_sqliteIndexStorage.getComponentAccessByNodeId(node.id);
 		if (access.nodeId != 0)
@@ -1724,7 +1724,7 @@ TooltipInfo PersistentStorage::getTooltipInfoForTokenIds(const std::vector<Id>& 
 		}
 	}
 
-	if (type == Node::NODE_FILE && m_fileNodePaths.find(node.id) != m_fileNodePaths.end())
+	if (type.getType() == NodeType::NODE_FILE && m_fileNodePaths.find(node.id) != m_fileNodePaths.end())
 	{
 		bool complete = false;
 		auto it = m_fileNodeComplete.find(node.id);
@@ -1738,7 +1738,7 @@ TooltipInfo PersistentStorage::getTooltipInfoForTokenIds(const std::vector<Id>& 
 			info.title = "incomplete " + info.title;
 		}
 	}
-	else if (defKind == DEFINITION_NONE && type != Node::NODE_NON_INDEXED)
+	else if (defKind == DEFINITION_NONE && type.getType() != NodeType::NODE_NON_INDEXED)
 	{
 		info.title = "non-indexed " + info.title;
 	}
@@ -1781,7 +1781,7 @@ TooltipSnippet PersistentStorage::getTooltipSnippetForNode(const StorageNode& no
 	snippet.locationFile = std::make_shared<SourceLocationFile>(
 		FilePath(nameHierarchy.getDelimiter() == NAME_DELIMITER_JAVA ? "main.java" : "main.cpp"), true, true);
 
-	if (Node::intToType(node.type) & (Node::NODE_FUNCTION | Node::NODE_METHOD | Node::NODE_FIELD | Node::NODE_GLOBAL_VARIABLE))
+	if (utility::intToType(node.type) & (NodeType::NODE_FUNCTION | NodeType::NODE_METHOD | NodeType::NODE_FIELD | NodeType::NODE_GLOBAL_VARIABLE))
 	{
 		snippet.code = utility::breakSignature(
 			nameHierarchy.getSignature().getPrefix(),
@@ -1892,7 +1892,7 @@ TooltipInfo PersistentStorage::getTooltipInfoForSourceLocationIdsAndLocalSymbolI
 			snippet.locationFile->addSourceLocation(
 				LOCATION_TOKEN, 0, std::vector<Id>(1, node.id), 1, 1, 1, snippet.code.size());
 
-			if (Node::intToType(node.type) & (Node::NODE_METHOD | Node::NODE_FUNCTION))
+			if (utility::intToType(node.type) & (NodeType::NODE_METHOD | NodeType::NODE_FUNCTION))
 			{
 				snippet.code += "()";
 			}
@@ -2170,8 +2170,8 @@ void PersistentStorage::addNodesToGraph(const std::vector<Id>& newNodeIds, Graph
 
 	for (const StorageNode& storageNode : m_sqliteIndexStorage.getAllByIds<StorageNode>(nodeIds))
 	{
-		const Node::NodeType type = Node::intToType(storageNode.type);
-		if (type == Node::NODE_FILE)
+		const NodeType type(utility::intToType(storageNode.type));
+		if (type.getType() == NodeType::NODE_FILE)
 		{
 			const FilePath filePath(NameHierarchy::deserialize(storageNode.serializedName).getRawName());
 
@@ -2184,7 +2184,7 @@ void PersistentStorage::addNodesToGraph(const std::vector<Id>& newNodeIds, Graph
 
 			Node* node = graph->createNode(
 				storageNode.id,
-				Node::NODE_FILE,
+				type,
 				NameHierarchy(filePath.fileName(), NAME_DELIMITER_FILE),
 				defined
 			);
@@ -2452,7 +2452,7 @@ void PersistentStorage::addInheritanceChainsToGraph(const std::vector<Id>& activ
 		for (Id nodeId : visibleParentIds)
 		{
 			Node* node = graph->getNodeById(nodeId);
-			if (node && node->isType(Node::NODE_INHERITABLE_TYPE))
+			if (node && node->getType().isInheritable())
 			{
 				activeNodeIdsSet.insert(node->getId());
 			}
@@ -2463,7 +2463,7 @@ void PersistentStorage::addInheritanceChainsToGraph(const std::vector<Id>& activ
 	graph->forEachNode(
 		[&nodeIdsSet, &activeNodeIdsSet](Node* node)
 		{
-			if (node->isType(Node::NODE_INHERITABLE_TYPE) && activeNodeIdsSet.find(node->getId()) == activeNodeIdsSet.end())
+			if (node->getType().isInheritable() && activeNodeIdsSet.find(node->getId()) == activeNodeIdsSet.end())
 			{
 				nodeIdsSet.insert(node->getId());
 			}
@@ -2536,8 +2536,8 @@ void PersistentStorage::buildSearchIndex()
 
 	for (StorageNode& node : m_sqliteIndexStorage.getAll<StorageNode>())
 	{
-		Node::NodeType type = Node::intToType(node.type);
-		if (type == Node::NODE_FILE)
+		NodeType::Type type = utility::intToType(node.type);
+		if (type == NodeType::NODE_FILE)
 		{
 			auto it = m_fileNodePaths.find(node.id);
 			if (it != m_fileNodePaths.end())
@@ -2549,7 +2549,7 @@ void PersistentStorage::buildSearchIndex()
 					filePath = filePath.relativeTo(dbPath);
 				}
 
-				m_fileIndex.addNode(node.id, filePath.str(), type);
+				m_fileIndex.addNode(node.id, filePath.str(), node.type);
 			}
 		}
 		else
@@ -2570,7 +2570,7 @@ void PersistentStorage::buildSearchIndex()
 					name = utility::replaceBetween(name, '<', '>', "..");
 				}
 
-				m_symbolIndex.addNode(node.id, name, type);
+				m_symbolIndex.addNode(node.id, name, node.type);
 			}
 		}
 	}
@@ -2676,15 +2676,22 @@ void PersistentStorage::buildHierarchyCache()
 
 	std::vector<StorageNode> sourceNodes = m_sqliteIndexStorage.getAllByIds<StorageNode>(sourceNodeIds);
 
-	std::map<Id, Node::NodeType> sourceNodeTypeMap;
+	std::map<Id, NodeType> sourceNodeTypeMap;
 	for (const StorageNode& node : sourceNodes)
 	{
-		sourceNodeTypeMap.emplace(node.id, Node::intToType(node.type));
+		sourceNodeTypeMap.emplace(node.id, utility::intToType(node.type));
 	}
 
 	for (const StorageEdge& edge : memberEdges)
 	{
-		bool sourceIsVisible = !(sourceNodeTypeMap[edge.sourceNodeId] & Node::NODE_NOT_VISIBLE);
+		bool sourceIsVisible = true;
+		{
+			std::map<Id, NodeType>::const_iterator it = sourceNodeTypeMap.find(edge.sourceNodeId);
+			if (it != sourceNodeTypeMap.end())
+			{
+				sourceIsVisible = it->second.isVisibleAsParentInGraph();
+			}
+		}
 
 		bool sourceIsImplicit = false;
 		auto it = m_symbolDefinitionKinds.find(edge.sourceNodeId);

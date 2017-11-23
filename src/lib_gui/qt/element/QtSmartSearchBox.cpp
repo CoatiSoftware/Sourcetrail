@@ -807,10 +807,10 @@ void QtSmartSearchBox::updateElements()
 
 		if (match.searchType == SearchMatch::SEARCH_TOKEN)
 		{
-			color = GraphViewStyle::getNodeColor(Node::getUnderscoredTypeString(match.nodeType), false).fill;
-			hoverColor = GraphViewStyle::getNodeColor(Node::getUnderscoredTypeString(match.nodeType), true).fill;
-			textColor = GraphViewStyle::getNodeColor(Node::getUnderscoredTypeString(match.nodeType), false).text;
-			textHoverColor = GraphViewStyle::getNodeColor(Node::getUnderscoredTypeString(match.nodeType), true).text;
+			color = GraphViewStyle::getNodeColor(match.nodeType.getUnderscoredTypeString(), false).fill;
+			hoverColor = GraphViewStyle::getNodeColor(match.nodeType.getUnderscoredTypeString(), true).fill;
+			textColor = GraphViewStyle::getNodeColor(match.nodeType.getUnderscoredTypeString(), false).text;
+			textHoverColor = GraphViewStyle::getNodeColor(match.nodeType.getUnderscoredTypeString(), true).text;
 		}
 		else
 		{
@@ -1040,15 +1040,15 @@ std::deque<SearchMatch> QtSmartSearchBox::getMatchesForInput(const std::string& 
 	return matches;
 }
 
-Node::NodeTypeMask QtSmartSearchBox::getMatchFilter() const
+NodeType::TypeMask QtSmartSearchBox::getMatchFilter() const
 {
-	Node::NodeTypeMask filter = 0;
+	NodeType::TypeMask filter = 0;
 
 	for (const SearchMatch& match : m_matches)
 	{
 		if (match.isFilterCommand())
 		{
-			filter |= match.nodeType;
+			filter |= match.nodeType.getType();
 		}
 		else
 		{

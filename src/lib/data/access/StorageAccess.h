@@ -40,7 +40,7 @@ public:
 	virtual NameHierarchy getNameHierarchyForNodeId(Id id) const = 0;
 	virtual std::vector<NameHierarchy> getNameHierarchiesForNodeIds(const std::vector<Id>& nodeIds) const = 0;
 
-	virtual Node::NodeType getNodeTypeForNodeWithId(Id id) const = 0;
+	virtual NodeType getNodeTypeForNodeWithId(Id id) const = 0;
 
 	virtual Id getIdForEdge(
 		Edge::EdgeType type, const NameHierarchy& fromNameHierarchy, const NameHierarchy& toNameHierarchy) const = 0;
@@ -48,15 +48,15 @@ public:
 
 	virtual std::shared_ptr<SourceLocationCollection> getFullTextSearchLocations(
 			const std::string& searchTerm, bool caseSensitive) const = 0;
-	virtual std::vector<SearchMatch> getAutocompletionMatches(const std::string& query, Node::NodeTypeMask filter) const = 0;
+	virtual std::vector<SearchMatch> getAutocompletionMatches(const std::string& query, NodeType::TypeMask filter) const = 0;
 	virtual std::vector<SearchMatch> getSearchMatchesForTokenIds(const std::vector<Id>& tokenIds) const = 0;
 
 	virtual std::shared_ptr<Graph> getGraphForAll() const = 0;
-	virtual std::shared_ptr<Graph> getGraphForFilter(Node::NodeTypeMask filter) const = 0;
+	virtual std::shared_ptr<Graph> getGraphForFilter(NodeType::TypeMask filter) const = 0;
 	virtual std::shared_ptr<Graph> getGraphForActiveTokenIds(
 		const std::vector<Id>& tokenIds, const std::vector<Id>& expandedNodeIds, bool* isActiveNamespace = nullptr) const = 0;
 	virtual std::shared_ptr<Graph> getGraphForChildrenOfNodeId(Id nodeId) const = 0;
-	virtual std::shared_ptr<Graph> getGraphForTrail(Id originId, Id targetId, Edge::EdgeTypeMask trailType, size_t depth) const = 0;
+	virtual std::shared_ptr<Graph> getGraphForTrail(Id originId, Id targetId, Edge::TypeMask trailType, size_t depth) const = 0;
 
 	virtual std::vector<Id> getActiveTokenIdsForId(Id tokenId, Id* declarationId) const = 0;
 	virtual std::vector<Id> getNodeIdsForLocationIds(const std::vector<Id>& locationIds) const = 0;

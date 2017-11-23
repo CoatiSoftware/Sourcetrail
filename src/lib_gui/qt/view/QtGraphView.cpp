@@ -661,27 +661,27 @@ MessageActivateTrail QtGraphView::getMessageActivateTrail(bool forward)
 	QtGraphNodeData* node = nullptr;
 	if (m_oldActiveNode && (node = dynamic_cast<QtGraphNodeData*>(m_oldActiveNode)))
 	{
-		Edge::EdgeTypeMask trailType;
+		Edge::TypeMask trailType;
 		bool horizontalLayout = true;
 
-		switch (node->getData()->getType())
+		switch (node->getData()->getType().getType())
 		{
-			case Node::NODE_NON_INDEXED:
-			case Node::NODE_CLASS:
-			case Node::NODE_STRUCT:
-			case Node::NODE_INTERFACE:
+			case NodeType::NODE_NON_INDEXED:
+			case NodeType::NODE_CLASS:
+			case NodeType::NODE_STRUCT:
+			case NodeType::NODE_INTERFACE:
 				trailType = Edge::EDGE_INHERITANCE;
 				horizontalLayout = false;
 				break;
 
-			case Node::NODE_FUNCTION:
-			case Node::NODE_METHOD:
+			case NodeType::NODE_FUNCTION:
+			case NodeType::NODE_METHOD:
 				trailType = Edge::EDGE_CALL | Edge::EDGE_OVERRIDE |
 					Edge::EDGE_TEMPLATE_SPECIALIZATION | Edge::EDGE_TEMPLATE_MEMBER_SPECIALIZATION;
 				horizontalLayout = true;
 				break;
 
-			case Node::NODE_FILE:
+			case NodeType::NODE_FILE:
 				trailType = Edge::EDGE_INCLUDE;
 				horizontalLayout = true;
 				break;
