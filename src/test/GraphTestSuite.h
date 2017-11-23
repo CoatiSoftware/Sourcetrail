@@ -90,7 +90,7 @@ public:
 
 	void test_nodes_are_nodes()
 	{
-		Node a(1, NodeType(NodeType::NODE_NON_INDEXED), NameHierarchy("A", NAME_DELIMITER_CXX), false);
+		Node a(1, NodeType(NodeType::NODE_SYMBOL), NameHierarchy("A", NAME_DELIMITER_CXX), false);
 
 		TS_ASSERT(a.isNode());
 		TS_ASSERT(!a.isEdge());
@@ -98,8 +98,8 @@ public:
 
 	void test_edges_are_edges()
 	{
-		Node a(1, NodeType(NodeType::NODE_NON_INDEXED), NameHierarchy("A", NAME_DELIMITER_CXX), false);
-		Node b(2, NodeType(NodeType::NODE_NON_INDEXED), NameHierarchy("B", NAME_DELIMITER_CXX), false);
+		Node a(1, NodeType(NodeType::NODE_SYMBOL), NameHierarchy("A", NAME_DELIMITER_CXX), false);
+		Node b(2, NodeType(NodeType::NODE_SYMBOL), NameHierarchy("B", NAME_DELIMITER_CXX), false);
 		Edge e(3, Edge::EDGE_USAGE, &a, &b);
 
 		TS_ASSERT(!e.isNode());
@@ -114,7 +114,7 @@ public:
 
 	void test_set_type_of_node_from_non_indexed()
 	{
-		Node n(2, NodeType(NodeType::NODE_NON_INDEXED), NameHierarchy("A", NAME_DELIMITER_CXX), false);
+		Node n(2, NodeType(NodeType::NODE_SYMBOL), NameHierarchy("A", NAME_DELIMITER_CXX), false);
 		n.setType(NodeType(NodeType::NODE_CLASS));
 		TS_ASSERT_EQUALS(NodeType(NodeType::NODE_CLASS), n.getType());
 	}
@@ -146,8 +146,8 @@ public:
 
 	void test_get_type_of_edges()
 	{
-		Node a(1, NodeType(NodeType::NODE_NON_INDEXED), NameHierarchy("A", NAME_DELIMITER_CXX), false);
-		Node b(2, NodeType(NodeType::NODE_NON_INDEXED), NameHierarchy("B", NAME_DELIMITER_CXX), false);
+		Node a(1, NodeType(NodeType::NODE_SYMBOL), NameHierarchy("A", NAME_DELIMITER_CXX), false);
+		Node b(2, NodeType(NodeType::NODE_SYMBOL), NameHierarchy("B", NAME_DELIMITER_CXX), false);
 		Edge e(3, Edge::EDGE_USAGE, &a, &b);
 
 		TS_ASSERT_EQUALS(Edge::EDGE_USAGE, e.getType());
@@ -155,8 +155,8 @@ public:
 
 	void test_edge_can_be_copied_and_keeps_same_id()
 	{
-		Node a(1, NodeType(NodeType::NODE_NON_INDEXED), NameHierarchy("A", NAME_DELIMITER_CXX), false);
-		Node b(2, NodeType(NodeType::NODE_NON_INDEXED), NameHierarchy("B", NAME_DELIMITER_CXX), false);
+		Node a(1, NodeType(NodeType::NODE_SYMBOL), NameHierarchy("A", NAME_DELIMITER_CXX), false);
+		Node b(2, NodeType(NodeType::NODE_SYMBOL), NameHierarchy("B", NAME_DELIMITER_CXX), false);
 		Edge e(3, Edge::EDGE_USAGE, &a, &b);
 		Edge e2(e, &a, &b);
 
@@ -167,8 +167,8 @@ public:
 
 	void test_edge_type_bit_masking()
 	{
-		Node a(1, NodeType(NodeType::NODE_NON_INDEXED), NameHierarchy("A", NAME_DELIMITER_CXX), false);
-		Node b(2, NodeType(NodeType::NODE_NON_INDEXED), NameHierarchy("B", NAME_DELIMITER_CXX), false);
+		Node a(1, NodeType(NodeType::NODE_SYMBOL), NameHierarchy("A", NAME_DELIMITER_CXX), false);
+		Node b(2, NodeType(NodeType::NODE_SYMBOL), NameHierarchy("B", NAME_DELIMITER_CXX), false);
 		Edge e(3, Edge::EDGE_USAGE, &a, &b);
 
 		TS_ASSERT(e.isType(Edge::EDGE_MEMBER | Edge::EDGE_CALL | Edge::EDGE_USAGE));
@@ -177,9 +177,9 @@ public:
 
 	void test_node_finds_child_node()
 	{
-		Node a(1, NodeType(NodeType::NODE_NON_INDEXED), NameHierarchy("A", NAME_DELIMITER_CXX), false);
-		Node b(2, NodeType(NodeType::NODE_NON_INDEXED), NameHierarchy("B", NAME_DELIMITER_CXX), false);
-		Node c(3, NodeType(NodeType::NODE_NON_INDEXED), NameHierarchy("C", NAME_DELIMITER_CXX), false);
+		Node a(1, NodeType(NodeType::NODE_SYMBOL), NameHierarchy("A", NAME_DELIMITER_CXX), false);
+		Node b(2, NodeType(NodeType::NODE_SYMBOL), NameHierarchy("B", NAME_DELIMITER_CXX), false);
+		Node c(3, NodeType(NodeType::NODE_SYMBOL), NameHierarchy("C", NAME_DELIMITER_CXX), false);
 		Edge e(4, Edge::EDGE_MEMBER, &a, &b);
 		Edge e2(5, Edge::EDGE_MEMBER, &a, &c);
 
@@ -196,9 +196,9 @@ public:
 
 	void test_node_can_not_find_child_node()
 	{
-		Node a(1, NodeType(NodeType::NODE_NON_INDEXED), NameHierarchy("A", NAME_DELIMITER_CXX), false);
-		Node b(2, NodeType(NodeType::NODE_NON_INDEXED), NameHierarchy("B", NAME_DELIMITER_CXX), false);
-		Node c(3, NodeType(NodeType::NODE_NON_INDEXED), NameHierarchy("C", NAME_DELIMITER_CXX), false);
+		Node a(1, NodeType(NodeType::NODE_SYMBOL), NameHierarchy("A", NAME_DELIMITER_CXX), false);
+		Node b(2, NodeType(NodeType::NODE_SYMBOL), NameHierarchy("B", NAME_DELIMITER_CXX), false);
+		Node c(3, NodeType(NodeType::NODE_SYMBOL), NameHierarchy("C", NAME_DELIMITER_CXX), false);
 		Edge e(4, Edge::EDGE_MEMBER, &a, &b);
 		Edge e2(5, Edge::EDGE_MEMBER, &a, &c);
 
@@ -214,9 +214,9 @@ public:
 
 	void test_node_visits_child_nodes()
 	{
-		Node a(1, NodeType(NodeType::NODE_NON_INDEXED), NameHierarchy("A", NAME_DELIMITER_CXX), false);
-		Node b(2, NodeType(NodeType::NODE_NON_INDEXED), NameHierarchy("B", NAME_DELIMITER_CXX), false);
-		Node c(3, NodeType(NodeType::NODE_NON_INDEXED), NameHierarchy("C", NAME_DELIMITER_CXX), false);
+		Node a(1, NodeType(NodeType::NODE_SYMBOL), NameHierarchy("A", NAME_DELIMITER_CXX), false);
+		Node b(2, NodeType(NodeType::NODE_SYMBOL), NameHierarchy("B", NAME_DELIMITER_CXX), false);
+		Node c(3, NodeType(NodeType::NODE_SYMBOL), NameHierarchy("C", NAME_DELIMITER_CXX), false);
 		Edge e(4, Edge::EDGE_MEMBER, &a, &b);
 		Edge e2(5, Edge::EDGE_MEMBER, &a, &c);
 
@@ -236,8 +236,8 @@ public:
 	void test_graph_saves_nodes()
 	{
 		Graph graph;
-		Node* a = graph.createNode(1, NodeType(NodeType::NODE_NON_INDEXED), NameHierarchy("A", NAME_DELIMITER_CXX), false);
-		Node* b = graph.createNode(2, NodeType(NodeType::NODE_NON_INDEXED), NameHierarchy("B", NAME_DELIMITER_CXX), false);
+		Node* a = graph.createNode(1, NodeType(NodeType::NODE_SYMBOL), NameHierarchy("A", NAME_DELIMITER_CXX), false);
+		Node* b = graph.createNode(2, NodeType(NodeType::NODE_SYMBOL), NameHierarchy("B", NAME_DELIMITER_CXX), false);
 
 		TS_ASSERT_EQUALS(2, graph.getNodeCount());
 		TS_ASSERT_EQUALS(0, graph.getEdgeCount());
@@ -271,8 +271,8 @@ public:
 	{
 		Graph graph;
 
-		Node* a = graph.createNode(1, NodeType(NodeType::NODE_NON_INDEXED), NameHierarchy("A", NAME_DELIMITER_CXX), false);
-		graph.createNode(2, NodeType(NodeType::NODE_NON_INDEXED), NameHierarchy("B", NAME_DELIMITER_CXX), false);
+		Node* a = graph.createNode(1, NodeType(NodeType::NODE_SYMBOL), NameHierarchy("A", NAME_DELIMITER_CXX), false);
+		graph.createNode(2, NodeType(NodeType::NODE_SYMBOL), NameHierarchy("B", NAME_DELIMITER_CXX), false);
 
 		TS_ASSERT_EQUALS(2, graph.getNodeCount());
 		TS_ASSERT_EQUALS(0, graph.getEdgeCount());

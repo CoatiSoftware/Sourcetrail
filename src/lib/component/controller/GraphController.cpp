@@ -1190,7 +1190,7 @@ void GraphController::bundleNodesByType()
 	// bundleByType(nodes, NodeType::NODE_ENUM_CONSTANT, "Enum Constants");
 	// bundleByType(nodes, NodeType::NODE_TEMPLATE_PARAMETER_TYPE, "Template Parameter Types");
 	// bundleByType(nodes, NodeType::NODE_TYPE_PARAMETER, "Type Parameters");
-	// bundleByType(nodes, NodeType::NODE_NON_INDEXED, "Non-indexed Symbols");
+	// bundleByType(nodes, NodeType::NODE_SYMBOL, "Non-indexed Symbols");
 
 	if (nodes.size())
 	{
@@ -1313,7 +1313,7 @@ void GraphController::layoutNestingRecursive(DummyNode* node) const
 	}
 	else if (node->isBundleNode())
 	{
-		if (node->bundledNodeType.getType() != NodeType::NODE_NON_INDEXED)
+		if (node->bundledNodeType.getType() != NodeType::NODE_SYMBOL)
 		{
 			margins = GraphViewStyle::getMarginsForDataNode(node->bundledNodeType.getNodeStyle(), node->bundledNodeType.hasIcon(), false);
 		}
@@ -1643,7 +1643,7 @@ void GraphController::handleMessage(MessageColorSchemeTest* message)
 
 	createNodes( 0, NodeType::NODE_FUNCTION, NAME_DELIMITER_CXX);
 	createNodes(10, NodeType::NODE_GLOBAL_VARIABLE, NAME_DELIMITER_CXX);
-	createNodes(20, NodeType::NODE_NON_INDEXED, NAME_DELIMITER_CXX);
+	createNodes(20, NodeType::NODE_SYMBOL, NAME_DELIMITER_CXX);
 	createNodes(30, NodeType::NODE_TYPE, NAME_DELIMITER_CXX);
 	createNodes(40, NodeType::NODE_TYPEDEF, NAME_DELIMITER_CXX);
 	createNodes(50, NodeType::NODE_NAMESPACE, NAME_DELIMITER_CXX);

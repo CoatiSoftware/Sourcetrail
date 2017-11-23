@@ -90,7 +90,7 @@ NodeType StorageAccessProxy::getNodeTypeForNodeWithId(Id id) const
 	{
 		return m_subject->getNodeTypeForNodeWithId(id);
 	}
-	return NodeType(NodeType::NODE_NON_INDEXED);
+	return NodeType(NodeType::NODE_SYMBOL);
 }
 
 Id StorageAccessProxy::getIdForEdge(

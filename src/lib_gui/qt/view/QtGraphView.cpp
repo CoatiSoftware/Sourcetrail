@@ -666,7 +666,7 @@ MessageActivateTrail QtGraphView::getMessageActivateTrail(bool forward)
 
 		switch (node->getData()->getType().getType())
 		{
-			case NodeType::NODE_NON_INDEXED:
+			case NodeType::NODE_SYMBOL:
 			case NodeType::NODE_CLASS:
 			case NodeType::NODE_STRUCT:
 			case NodeType::NODE_INTERFACE:

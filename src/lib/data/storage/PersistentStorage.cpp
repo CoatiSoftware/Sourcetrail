@@ -32,7 +32,7 @@ PersistentStorage::PersistentStorage(const FilePath& dbPath, const FilePath& boo
 	m_commandIndex.addNode(0, SearchMatch::getCommandName(SearchMatch::COMMAND_ALL));
 	m_commandIndex.addNode(0, SearchMatch::getCommandName(SearchMatch::COMMAND_ERROR));
 
-	// m_commandIndex.addNode(0, NodeType(NodeType::NODE_NON_INDEXED).getReadableTypeString());
+	// m_commandIndex.addNode(0, NodeType(NodeType::NODE_SYMBOL).getReadableTypeString());
 	// m_commandIndex.addNode(0, NodeType(NodeType::NODE_TYPE).getReadableTypeString());
 	m_commandIndex.addNode(0, NodeType(NodeType::NODE_BUILTIN_TYPE).getReadableTypeString());
 	m_commandIndex.addNode(0, NodeType(NodeType::NODE_NAMESPACE).getReadableTypeString());
@@ -678,8 +678,7 @@ std::vector<SearchMatch> PersistentStorage::getAutocompletionSymbolMatches(
 		match.typeName = match.nodeType.getReadableTypeString();
 		match.searchType = SearchMatch::SEARCH_TOKEN;
 
-		if (storageSymbolMap.find(firstNode->id) == storageSymbolMap.end() &&
-			!match.nodeType.isNonIndexed())
+		if (storageSymbolMap.find(firstNode->id) == storageSymbolMap.end())
 		{
 			match.typeName = "non-indexed " + match.typeName;
 		}
@@ -1735,7 +1734,7 @@ TooltipInfo PersistentStorage::getTooltipInfoForTokenIds(const std::vector<Id>& 
 			info.title = "incomplete " + info.title;
 		}
 	}
-	else if (defKind == DEFINITION_NONE && type.getType() != NodeType::NODE_NON_INDEXED)
+	else if (defKind == DEFINITION_NONE)
 	{
 		info.title = "non-indexed " + info.title;
 	}

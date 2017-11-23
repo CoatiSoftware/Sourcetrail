@@ -15,7 +15,7 @@ public:
 	typedef int NodeType::TypeMask;
 	enum Type : NodeType::TypeMask
 	{ // make sure that the value of 0x0 is not used here because it doesn't work for bitmasking.
-		NODE_NON_INDEXED = 0x1,
+		NODE_SYMBOL = 0x1,
 		NODE_TYPE = 0x2,
 		NODE_BUILTIN_TYPE = 0x4,
 
@@ -56,7 +56,7 @@ public:
 	Type getType() const;
 
 	bool isFile() const;
-	bool isNonIndexed() const;
+	bool isUnknownSymbol() const;
 	bool isInheritable() const;
 	bool isPackage() const;
 	bool isCallable() const;

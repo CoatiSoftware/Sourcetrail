@@ -69,7 +69,7 @@ void ParserClientImpl::recordReference(
 
 void ParserClientImpl::recordQualifierLocation(const NameHierarchy& qualifierName, const ParseLocation& location)
 {
-	Id nodeId = addNodeHierarchy(qualifierName, NodeType::NODE_NON_INDEXED);
+	Id nodeId = addNodeHierarchy(qualifierName, NodeType::NODE_SYMBOL);
 	addSourceLocation(nodeId, location, locationTypeToInt(LOCATION_QUALIFIER));
 }
 
@@ -140,7 +140,7 @@ NodeType ParserClientImpl::symbolKindToNodeType(SymbolKind symbolKind) const
 	default:
 		break;
 	}
-	return NodeType::NODE_NON_INDEXED;
+	return NodeType::NODE_SYMBOL;
 }
 
 Edge::EdgeType ParserClientImpl::referenceKindToEdgeType(ReferenceKind referenceKind) const
@@ -201,7 +201,7 @@ Id ParserClientImpl::addNodeHierarchy(NameHierarchy nameHierarchy, NodeType node
 	{
 		currentNameHierarchy.push(nameHierarchy[i]);
 		const bool currentIsLastElement = (i == nameHierarchy.size() - 1);
-		const NodeType currentType = (currentIsLastElement ? nodeType : NodeType::NODE_NON_INDEXED); // TODO: rename to unknown!
+		const NodeType currentType = (currentIsLastElement ? nodeType : NodeType::NODE_SYMBOL); // TODO: rename to unknown!
 
 		Id nodeId = addNode(currentType, currentNameHierarchy);
 

@@ -44,7 +44,7 @@ NodeType Node::getType() const
 
 void Node::setType(NodeType type)
 {
-	if (!isType(type.getType() | NodeType::NODE_NON_INDEXED))
+	if (!isType(type.getType() | NodeType::NODE_SYMBOL))
 	{
 		LOG_WARNING(
 			"Cannot change NodeType after it was already set from " + getReadableTypeString() + " to " + type.getReadableTypeString()

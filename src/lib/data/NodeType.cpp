@@ -25,10 +25,10 @@ bool NodeType::isFile() const
 	return ((m_type & mask) > 0);
 }
 
-bool NodeType::isNonIndexed() const
+bool NodeType::isUnknownSymbol() const
 {
 	const NodeType::TypeMask mask =
-		NodeType::NODE_NON_INDEXED;
+		NodeType::NODE_SYMBOL;
 	return ((m_type & mask) > 0);
 }
 
@@ -36,7 +36,7 @@ bool NodeType::isInheritable() const
 {
 	// what about java enums?
 	const NodeType::TypeMask mask =
-		NodeType::NODE_NON_INDEXED | 
+		NodeType::NODE_SYMBOL | 
 		NodeType::NODE_BUILTIN_TYPE | 
 		NodeType::NODE_TYPE | 
 		NodeType::NODE_STRUCT | 
@@ -73,7 +73,7 @@ bool NodeType::isVariable() const
 bool NodeType::isUsable() const
 {
 	const NodeType::TypeMask mask =
-		NodeType::NODE_NON_INDEXED | 
+		NodeType::NODE_SYMBOL | 
 		NodeType::NODE_BUILTIN_TYPE | 
 		NodeType::NODE_STRUCT | 
 		NodeType::NODE_CLASS | 
@@ -102,7 +102,7 @@ bool NodeType::isPotentialMember() const
 bool NodeType::isCollapsible() const
 {
 	const NodeType::TypeMask mask =
-		NodeType::NODE_NON_INDEXED | 
+		NodeType::NODE_SYMBOL | 
 		NodeType::NODE_TYPE | 
 		NodeType::NODE_BUILTIN_TYPE | 
 		NodeType::NODE_CLASS | 
@@ -158,7 +158,7 @@ NodeType::StyleType NodeType::getNodeStyle() const
 	case NodeType::NODE_NAMESPACE:
 	case NodeType::NODE_PACKAGE:
 		return STYLE_PACKAGE;
-	case NodeType::NODE_NON_INDEXED:
+	case NodeType::NODE_SYMBOL:
 	case NodeType::NODE_TYPE:
 	case NodeType::NODE_BUILTIN_TYPE:
 	case NodeType::NODE_STRUCT:
@@ -240,15 +240,15 @@ NodeType::Type utility::intToType(int value)
 		return NodeType::NODE_UNION;
 	}
 
-	return NodeType::NODE_NON_INDEXED;
+	return NodeType::NODE_SYMBOL;
 }
 
 std::string utility::getReadableTypeString(NodeType::Type type)
 {
 	switch (type)
 	{
-	case NodeType::NODE_NON_INDEXED:
-		return "non-indexed";
+	case NodeType::NODE_SYMBOL:
+		return "symbol";
 	case NodeType::NODE_BUILTIN_TYPE:
 		return "built-in type";
 	case NodeType::NODE_TYPE:
@@ -303,5 +303,5 @@ NodeType::Type utility::getTypeForReadableTypeString(const std::string str)
 		}
 	}
 
-	return NodeType::NODE_NON_INDEXED;
+	return NodeType::NODE_SYMBOL;
 }

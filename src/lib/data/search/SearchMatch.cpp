@@ -96,7 +96,7 @@ std::string SearchMatch::getCommandName(CommandType type)
 
 SearchMatch::SearchMatch()
 	: typeName("")
-	, nodeType(NodeType::NODE_NON_INDEXED)
+	, nodeType(NodeType::NODE_SYMBOL)
 	, searchType(SEARCH_NONE)
 	, hasChildren(false)
 {
@@ -106,7 +106,7 @@ SearchMatch::SearchMatch(const std::string& query)
 	: name(query)
 	, text(query)
 	, typeName("")
-	, nodeType(NodeType::NODE_NON_INDEXED)
+	, nodeType(NodeType::NODE_SYMBOL)
 	, searchType(SEARCH_NONE)
 	, hasChildren(false)
 {

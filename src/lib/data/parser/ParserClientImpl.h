@@ -50,7 +50,7 @@ private:
 	NodeType symbolKindToNodeType(SymbolKind symbolType) const;
 	Edge::EdgeType referenceKindToEdgeType(ReferenceKind referenceKind) const;
 	void addAccess(Id nodeId, AccessKind access);
-	Id addNodeHierarchy(NameHierarchy nameHierarchy, NodeType nodeType = NodeType::NODE_NON_INDEXED);
+	Id addNodeHierarchy(NameHierarchy nameHierarchy, NodeType nodeType = NodeType::NODE_SYMBOL);
 
 	Id addNode(NodeType nodeType, NameHierarchy nameHierarchy);
 	void addFile(Id id, const FilePath& filePath, const std::string& modificationTime);
