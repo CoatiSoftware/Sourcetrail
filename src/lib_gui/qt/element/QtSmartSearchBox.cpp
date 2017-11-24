@@ -259,6 +259,7 @@ void QtSmartSearchBox::focusInEvent(QFocusEvent* event)
 void QtSmartSearchBox::keyPressEvent(QKeyEvent* event)
 {
 	m_shiftKeyDown = event->modifiers() & Qt::ShiftModifier;
+	bool layout = false;
 
 	if (event->key() == Qt::Key_Return)
 	{
@@ -344,6 +345,10 @@ void QtSmartSearchBox::keyPressEvent(QKeyEvent* event)
 			moveCursor(-1);
 			return;
 		}
+		else if (cursorPosition())
+		{
+			layout = true;
+		}
 	}
 	else if (event->matches(QKeySequence::MoveToNextChar))
 	{
@@ -373,6 +378,10 @@ void QtSmartSearchBox::keyPressEvent(QKeyEvent* event)
 				editTextToElement();
 				moveCursor(1);
 			}
+		}
+		else if (cursorPosition())
+		{
+			layout = true;
 		}
 	}
 	else if (event->matches(QKeySequence::SelectPreviousChar))
@@ -446,6 +455,11 @@ void QtSmartSearchBox::keyPressEvent(QKeyEvent* event)
 	}
 
 	QLineEdit::keyPressEvent(event);
+
+	if (layout)
+	{
+		layoutElements();
+	}
 }
 
 void QtSmartSearchBox::keyReleaseEvent(QKeyEvent* event)
@@ -843,12 +857,8 @@ void QtSmartSearchBox::layoutElements()
 
 	bool hasSelected = hasSelectedElements();
 
-	QString cursorText = text();
-	cursorText.resize(cursorPosition());
-
 	int x = 5;
 	int editX = x;
-	int cursorX = fontMetrics().width(cursorText) + x;
 	std::vector<int> elementX;
 
 	int highlightBegin = 0;
@@ -859,11 +869,6 @@ void QtSmartSearchBox::layoutElements()
 		if (!hasSelected && i == m_cursorIndex)
 		{
 			editX = x - 5;
-			cursorX += editX;
-			if (i != m_elements.size())
-			{
-				cursorX += 15;
-			}
 			x += fontMetrics().width(text());
 		}
 
@@ -886,11 +891,25 @@ void QtSmartSearchBox::layoutElements()
 		}
 	}
 
-	int offsetX = 0;
-	if (cursorX > width())
+	int cursorX = fontMetrics().width(text().left(cursorPosition()));
+	int offsetX = m_oldLayoutOffset;
+
+	if (x < width())
 	{
-		offsetX = width() - cursorX;
+		offsetX = 0;
 	}
+	else if (editX + cursorX + 10 > width() - m_oldLayoutOffset)
+	{
+		offsetX = width() - editX - cursorX - 10;
+	}
+	else if (m_oldLayoutOffset < 10 - editX - cursorX)
+	{
+		offsetX = std::min(10 - editX - cursorX, 0);
+	}
+
+	QMargins margins = textMargins();
+	setTextMargins(offsetX + editX, margins.top(), margins.right(), margins.bottom());
+	m_oldLayoutOffset = offsetX;
 
 	for (size_t i = 0; i < elementX.size(); i++)
 	{
@@ -902,13 +921,10 @@ void QtSmartSearchBox::layoutElements()
 
 	if (hasSelected)
 	{
-		setTextMargins(width() + 10, 0, 0, 0);
 		m_highlightRect->setGeometry(highlightBegin + offsetX, 0, highlightEnd - highlightBegin, height());
 	}
 	else
 	{
-		QMargins margins = textMargins();
-		setTextMargins(editX + offsetX, margins.top(), margins.right(), margins.bottom());
 		m_highlightRect->setGeometry(0, 0, 0, 0);
 	}
 }

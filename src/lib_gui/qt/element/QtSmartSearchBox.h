@@ -121,6 +121,8 @@ private:
 
 	QWidget* m_highlightRect;
 	QtAutocompletionList* m_completer;
+
+	int m_oldLayoutOffset = 0;
 };
 
 #endif // QT_SMART_SEARCH_BOX_H
