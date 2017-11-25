@@ -4,3 +4,7 @@ QToolTip {
 	font-size: <setting:font_size>px;
 }
 
+QMainWindow::separator {
+	background: <color:window/separator>;
+	width: 1px;
+}

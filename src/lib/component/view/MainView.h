@@ -20,6 +20,8 @@ public:
 	virtual void loadLayout() = 0;
 	virtual void saveLayout() = 0;
 
+	virtual void refreshView() = 0;
+
 	virtual void hideStartScreen() = 0;
 	virtual void setTitle(const std::string& title) = 0;
 	virtual void activateWindow() = 0;

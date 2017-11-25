@@ -1,6 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <config>
+	<window>
+		<separator>#CCC</separator>
+		<scrollbar>
+			<background>transparent</background>
+			<handle>#80999999</handle>
+			<line>#80999999</line>
+		</scrollbar>
+	</window>
+
 	<search>
 		<background>#272728</background>
 

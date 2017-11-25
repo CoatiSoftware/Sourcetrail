@@ -228,10 +228,6 @@ void Application::refreshProject(bool force)
 		if (indexing)
 		{
 			m_storageCache->clear();
-			if (m_hasGUI)
-			{
-				m_componentManager->refreshViews();
-			}
 		}
 	}
 }
@@ -309,6 +305,7 @@ void Application::handleMessage(MessageRefresh* message)
 
 	if (m_hasGUI)
 	{
+		m_mainView->refreshView();
 		m_componentManager->refreshViews();
 	}
 

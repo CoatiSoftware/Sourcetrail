@@ -53,7 +53,7 @@ void QtStatusView::initView()
 
 	// Setup filters
 	QHBoxLayout* filters = new QHBoxLayout();
-	filters->setContentsMargins(10, 0, 0, 0);
+	filters->setContentsMargins(10, 3, 0, 3);
 	filters->setSpacing(25);
 
 	const StatusFilter filter = ApplicationSettings::getInstance()->getStatusFilter();
@@ -86,7 +86,10 @@ void QtStatusView::refreshView()
 		utility::setWidgetBackgroundColor(widget, ColorScheme::getInstance()->getColor("error/background"));
 
 		QPalette palette(m_showErrors->palette());
-		palette.setColor(QPalette::WindowText, QColor(ColorScheme::getInstance()->getColor("error/text/normal").c_str()));
+		palette.setColor(QPalette::WindowText, QColor(ColorScheme::getInstance()->getColor("table/text/normal").c_str()));
+
+		m_showErrors->setPalette(palette);
+		m_showInfo->setPalette(palette);
 
 		m_table->updateRows();
 	});

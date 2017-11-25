@@ -1,0 +1,56 @@
+QScrollBar:vertical, QScrollBar:horizontal {
+	background: <color:window/scrollbar/background>;
+	border: none;
+	margin: 0px;
+}
+
+QScrollBar:vertical {
+	width: 15px;
+	border-left: 1px solid <color:window/scrollbar/line>;
+}
+
+QScrollBar:horizontal {
+	height: 15px;
+	border-top: 1px solid <color:window/scrollbar/line>;
+}
+
+QScrollBar::handle:vertical, QScrollBar::handle:horizontal {
+	background: <color:window/scrollbar/handle>;
+	border: none;
+	border-radius: 4px;
+}
+
+QScrollBar::handle:vertical {
+	width: 8px;
+	margin: 4px 3px;
+}
+
+QScrollBar::handle:horizontal {
+	height: 8px;
+	margin: 3px 4px;
+}
+
+QScrollBar::add-line:vertical, QScrollBar::add-line:horizontal {
+	background: transparent;
+	border: none;
+	height: 0px;
+	width: 0px;
+	subcontrol-position: bottom;
+	subcontrol-origin: margin;
+}
+
+QScrollBar::sub-line:vertical, QScrollBar::sub-line:horizontal {
+	background: transparent;
+	border: none;
+	height: 0px;
+	width: 0px;
+	subcontrol-position: top;
+	subcontrol-origin: margin;
+}
+
+QAbstractScrollArea::corner {
+    background: transparent;
+    border: none;
+    border-left: 1px solid <color:window/scrollbar/line>;
+    border-top: 1px solid <color:window/scrollbar/line>;
+}

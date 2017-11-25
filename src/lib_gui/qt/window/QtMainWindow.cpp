@@ -122,7 +122,14 @@ QtMainWindow::QtMainWindow()
 	QApplication* app = dynamic_cast<QApplication*>(QCoreApplication::instance());
 	app->installEventFilter(new MouseReleaseFilter(this));
 
-	app->setStyleSheet(utility::getStyleSheet(ResourcePaths::getGuiPath().concat(FilePath("main.css"))).c_str());
+	refreshStyle();
+
+	if (utility::getOsType() != OS_MAC)
+	{
+		// can only be done once, because resetting the style on the QCoreApplication causes crash
+		app->setStyleSheet(
+			utility::getStyleSheet(ResourcePaths::getGuiPath().concat(FilePath("scrollbar.css"))).c_str());
+	}
 
 	m_recentProjectAction = new QAction*[ApplicationSettings::getInstance()->getMaxRecentProjectsCount()];
 
@@ -368,6 +375,11 @@ void QtMainWindow::setContentEnabled(bool enabled)
 	{
 		dock.widget->setEnabled(enabled);
 	}
+}
+
+void QtMainWindow::refreshStyle()
+{
+	setStyleSheet(utility::getStyleSheet(ResourcePaths::getGuiPath().concat(FilePath("main.css"))).c_str());
 }
 
 void QtMainWindow::keyPressEvent(QKeyEvent* event)

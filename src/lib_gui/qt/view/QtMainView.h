@@ -47,6 +47,8 @@ public:
 	virtual void loadLayout();
 	virtual void saveLayout();
 
+	virtual void refreshView();
+
 	virtual void hideStartScreen();
 	virtual void setTitle(const std::string& title);
 	virtual void activateWindow();

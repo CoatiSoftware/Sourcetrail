@@ -106,7 +106,7 @@ void QtErrorView::initView()
 
 	// Setup Checkboxes
 	QBoxLayout* checkboxes = new QHBoxLayout();
-	checkboxes->setContentsMargins(10, 0, 0, 0);
+	checkboxes->setContentsMargins(10, 3, 0, 3);
 	checkboxes->setSpacing(0);
 
 	{

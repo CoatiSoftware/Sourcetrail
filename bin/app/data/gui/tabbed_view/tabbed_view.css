@@ -35,9 +35,10 @@ QTableView {
 	background-color: <color:table/table_line_1/normal>;
 	alternate-background-color: <color:table/table_line_2/normal>;
 	border-radius: 10px;
+	border-bottom-left-radius: 0px;
+	border-bottom-right-radius: 0px;
 	border: 1px solid <color:table/table>;
 	margin: 10px 10px 2px;
-	padding-right: 10px;
 	font-size: <setting:font_size>px;
 }
 
@@ -67,7 +68,7 @@ QHeaderView::section:horizontal {
 	color: <color:table/text/normal>;
 	font-size: <setting:font_size>px;
 	font-weight: bold;
-	padding: 1px 6px;
+	padding: 2px 6px 1px;
 	height: <setting:font_size+5>px;
 }
 
@@ -76,44 +77,7 @@ QHeaderView::section:vertical {
 	border: none;
 	color: <color:table/text/normal>;
 	font-size: <setting:font_size>px;
-	padding-right: 5px;
-	padding-left: 5px;
-}
-
-
-QCheckBox {
-	color: <color:table/text/normal>;
-	border-color: <color:table/table>;
-	margin: 0;
-	/*background-color: <color:table/table>;*/
-}
-
-QScrollBar:vertical {
-}
-
-QScrollBar::handle:vertical {
-	min-height: 20px;
-}
-
-QScrollBar::add-line:vertical {
-	height: 20px;
-	subcontrol-position: bottom;
-	subcontrol-origin: margin;
-}
-
-QScrollBar::sub-line:vertical {
-	height: 20px;
-	subcontrol-position: top;
-	subcontrol-origin: margin;
-}
-QScrollBar::up-arrow:vertical, QScrollBar::down-arrow:vertical {
-	width: 3px;
-	height: 3px;
-	background: white;
-}
-
-QScrollBar::add-page:vertical, QScrollBar::sub-page:vertical {
-	background: none;
+	padding: 2px 5px 1px;
 }
 
 QTableView QTableCornerButton::section {

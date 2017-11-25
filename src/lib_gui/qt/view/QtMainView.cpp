@@ -70,6 +70,16 @@ void QtMainView::saveLayout()
 	m_window->saveLayout();
 }
 
+void QtMainView::refreshView()
+{
+	m_onQtThread(
+		[=]()
+		{
+			m_window->refreshStyle();
+		}
+	);
+}
+
 QStatusBar* QtMainView::getStatusBar()
 {
 	return m_window->statusBar();

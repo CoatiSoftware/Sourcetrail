@@ -78,6 +78,7 @@ public:
 	void updateBookmarksMenu(const std::vector<std::shared_ptr<Bookmark>>& bookmarks);
 
 	void setContentEnabled(bool enabled);
+	void refreshStyle();
 
 signals:
 	void showScreenSearch();
