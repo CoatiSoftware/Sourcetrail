@@ -17,6 +17,7 @@ QtHelpButton::QtHelpButton(const QString& helpTitle, const QString& helpText, QW
 	setMouseTracking(true);
 
 	setToolTip("help");
+	setIconSize(QSize(16, 16));
 
 	leaveEvent(nullptr);
 

@@ -111,6 +111,11 @@ void QtSearchBar::refreshStyle()
 		"search/button"
 	));
 
+	int iconSize = int((m_searchBox->height() + 5) / 4) * 2 + 2;
+
+	m_searchButton->setIconSize(QSize(iconSize, iconSize));
+	m_homeButton->setIconSize(QSize(iconSize, iconSize));
+
 	m_searchBox->refreshStyle();
 }
 

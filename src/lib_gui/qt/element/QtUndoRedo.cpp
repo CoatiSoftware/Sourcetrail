@@ -148,4 +148,10 @@ void QtUndoRedo::refreshStyle()
 		ResourcePaths::getGuiPath().str() + "undoredo_view/images/history.png",
 		"search/button"
 	));
+
+	int iconSize = int(height / 4) * 2 + 2;
+
+	m_undoButton->setIconSize(QSize(iconSize, iconSize));
+	m_redoButton->setIconSize(QSize(iconSize, iconSize));
+	m_historyButton->setIconSize(QSize(iconSize, iconSize));
 }

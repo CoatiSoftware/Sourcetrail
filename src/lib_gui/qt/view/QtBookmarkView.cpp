@@ -269,4 +269,9 @@ void QtBookmarkView::refreshStyle()
 		ResourcePaths::getGuiPath().str() + "bookmark_view/images/bookmark_list_icon.png",
 		"search/button"
 	));
+
+	int iconSize = int(height / 4) * 2 + 2;
+
+	m_createBookmarkButton->setIconSize(QSize(iconSize, iconSize));
+	m_showBookmarksButton->setIconSize(QSize(iconSize, iconSize));
 }

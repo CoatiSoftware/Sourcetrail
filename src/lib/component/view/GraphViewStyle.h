@@ -3,7 +3,6 @@
 
 #include <map>
 #include <memory>
-#include <unordered_map>
 
 #include "utility/math/Vector2.h"
 
@@ -150,8 +149,8 @@ private:
 	static float getCharWidth(NodeType::StyleType type);
 	static float getCharHeight(NodeType::StyleType type);
 
-	static std::unordered_map<NodeType::StyleType, float> s_charWidths;
-	static std::unordered_map<NodeType::StyleType, float> s_charHeights;
+	static std::map<NodeType::StyleType, float> s_charWidths;
+	static std::map<NodeType::StyleType, float> s_charHeights;
 
 	static std::shared_ptr<GraphViewStyleImpl> s_impl;
 

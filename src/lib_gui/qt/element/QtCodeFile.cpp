@@ -65,6 +65,7 @@ QtCodeFile::QtCodeFile(const FilePath& filePath, QtCodeNavigator* navigator)
 //	m_minimizeButton->addState(QtIconStateButton::STATE_HOVERED, (ResourcePaths::getGuiPath().str() + "code_view/images/minimize_inactive.png").c_str(), "#5E5D5D");
 	m_minimizeButton->addState(QtIconStateButton::STATE_HOVERED, (ResourcePaths::getGuiPath().str() + "code_view/images/minimize_inactive.png").c_str(), QColor(0x5E, 0x5D, 0x5D));
 	m_minimizeButton->addState(QtIconStateButton::STATE_DISABLED, (ResourcePaths::getGuiPath().str() + "code_view/images/minimize_inactive.png").c_str());
+	m_minimizeButton->setIconSize(QSize(16, 16));
 	m_minimizeButton->setObjectName("file_button");
 	m_minimizeButton->setToolTip("minimize");
 	titleLayout->addWidget(m_minimizeButton);
@@ -74,6 +75,7 @@ QtCodeFile::QtCodeFile(const FilePath& filePath, QtCodeNavigator* navigator)
 //	m_snippetButton->addState(QtIconStateButton::STATE_HOVERED, (ResourcePaths::getGuiPath().str() + "code_view/images/snippet_inactive.png").c_str(), "#5E5D5D");
 	m_snippetButton->addState(QtIconStateButton::STATE_HOVERED, (ResourcePaths::getGuiPath().str() + "code_view/images/snippet_inactive.png").c_str(), QColor(0x5E, 0x5D, 0x5D));
 	m_snippetButton->addState(QtIconStateButton::STATE_DISABLED, (ResourcePaths::getGuiPath().str() + "code_view/images/snippet_inactive.png").c_str());
+	m_snippetButton->setIconSize(QSize(16, 16));
 	m_snippetButton->setObjectName("file_button");
 	m_snippetButton->setToolTip("show snippets");
 	titleLayout->addWidget(m_snippetButton);
@@ -83,6 +85,7 @@ QtCodeFile::QtCodeFile(const FilePath& filePath, QtCodeNavigator* navigator)
 //	m_maximizeButton->addState(QtIconStateButton::STATE_HOVERED, (ResourcePaths::getGuiPath().str() + "code_view/images/maximize_inactive.png").c_str(), "#5E5D5D");
 	m_maximizeButton->addState(QtIconStateButton::STATE_HOVERED, (ResourcePaths::getGuiPath().str() + "code_view/images/maximize_inactive.png").c_str(), QColor(0x5E, 0x5D, 0x5D));
 	m_maximizeButton->addState(QtIconStateButton::STATE_DISABLED, (ResourcePaths::getGuiPath().str() + "code_view/images/maximize_inactive.png").c_str());
+	m_maximizeButton->setIconSize(QSize(16, 16));
 	m_maximizeButton->setObjectName("file_button");
 	m_maximizeButton->setToolTip("maximize");
 	titleLayout->addWidget(m_maximizeButton);

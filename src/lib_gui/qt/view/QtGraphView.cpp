@@ -178,6 +178,9 @@ void QtGraphView::refreshView()
 			"search/button"
 		));
 
+		m_expandButton->setIconSize(QSize(16, 16));
+		m_collapseButton->setIconSize(QSize(16, 16));
+
 		updateTrailButtons();
 	});
 }
@@ -764,6 +767,9 @@ void QtGraphView::updateTrailButtons()
 		ResourcePaths::getGuiPath().str() + "graph_view/images/" + forwardImagePath,
 		"search/button"
 	));
+
+	m_backwardTrailButton->setIconSize(QSize(16, 16));
+	m_forwardTrailButton->setIconSize(QSize(16, 16));
 }
 
 void QtGraphView::switchToNewGraphData()

@@ -31,6 +31,7 @@ QtListItemWidget::QtListItemWidget(QtDirectoryListBox* list, QListWidgetItem* it
 	m_button = new QtIconButton(
 		(ResourcePaths::getGuiPath().str() + "window/dots.png").c_str(),
 		(ResourcePaths::getGuiPath().str() + "window/dots_hover.png").c_str());
+	m_button->setIconSize(QSize(16, 16));
 	m_button->setObjectName("dotsButton");
 
 	layout->addWidget(m_data);
@@ -126,6 +127,7 @@ QtDirectoryListBox::QtDirectoryListBox(QWidget *parent, const QString& listName,
 	m_addButton = new QtIconButton(
 		(ResourcePaths::getGuiPath().str() + "window/plus.png").c_str(),
 		(ResourcePaths::getGuiPath().str() + "window/plus_hover.png").c_str());
+	m_addButton->setIconSize(QSize(16, 16));
 	m_addButton->setObjectName("plusButton");
 	m_addButton->setToolTip("add line");
 	innerLayout->addWidget(m_addButton);
@@ -133,6 +135,7 @@ QtDirectoryListBox::QtDirectoryListBox(QWidget *parent, const QString& listName,
 	m_removeButton = new QtIconButton(
 		(ResourcePaths::getGuiPath().str() + "window/minus.png").c_str(),
 		(ResourcePaths::getGuiPath().str() + "window/minus_hover.png").c_str());
+	m_removeButton->setIconSize(QSize(16, 16));
 	m_removeButton->setObjectName("minusButton");
 	m_removeButton->setToolTip("remove line");
 	innerLayout->addWidget(m_removeButton);
@@ -148,6 +151,7 @@ QtDirectoryListBox::QtDirectoryListBox(QWidget *parent, const QString& listName,
 	QPushButton* editButton = new QtIconButton(
 		(ResourcePaths::getGuiPath().str() + "code_view/images/edit.png").c_str(),
 		QString());
+	editButton->setIconSize(QSize(16, 16));
 	editButton->setObjectName("editButton");
 	editButton->setToolTip("edit plain text");
 	innerLayout->addWidget(editButton);

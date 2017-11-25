@@ -11,8 +11,8 @@
 int GraphViewStyle::s_gridCellSize = 5;
 int GraphViewStyle::s_gridCellPadding = 10;
 
-std::unordered_map<NodeType::StyleType, float> GraphViewStyle::s_charWidths;
-std::unordered_map<NodeType::StyleType, float> GraphViewStyle::s_charHeights;
+std::map<NodeType::StyleType, float> GraphViewStyle::s_charWidths;
+std::map<NodeType::StyleType, float> GraphViewStyle::s_charHeights;
 
 std::shared_ptr<GraphViewStyleImpl> GraphViewStyle::s_impl;
 
@@ -704,7 +704,7 @@ const GraphViewStyle::NodeColor& GraphViewStyle::getScreenMatchColor(bool focus)
 
 float GraphViewStyle::getCharWidth(NodeType::StyleType type)
 {
-	std::unordered_map<NodeType::StyleType, float>::const_iterator it = s_charWidths.find(type);
+	std::map<NodeType::StyleType, float>::const_iterator it = s_charWidths.find(type);
 
 	if (it != s_charWidths.end())
 	{
@@ -718,7 +718,7 @@ float GraphViewStyle::getCharWidth(NodeType::StyleType type)
 
 float GraphViewStyle::getCharHeight(NodeType::StyleType type)
 {
-	std::unordered_map<NodeType::StyleType, float>::const_iterator it = s_charHeights.find(type);
+	std::map<NodeType::StyleType, float>::const_iterator it = s_charHeights.find(type);
 
 	if (it != s_charHeights.end())
 	{

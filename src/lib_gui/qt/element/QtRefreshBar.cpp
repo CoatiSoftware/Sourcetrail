@@ -49,4 +49,8 @@ void QtRefreshBar::refreshStyle()
 		ResourcePaths::getGuiPath().str() + "refresh_view/images/refresh.png",
 		"search/button"
 	));
+
+	int iconSize = int(height / 4) * 2 + 2;
+
+	m_refreshButton->setIconSize(QSize(iconSize, iconSize));
 }
