@@ -64,6 +64,8 @@ private:
 	int m_newColorSchemeIndex;
 
 	QCheckBox* m_useAnimations;
+	QCheckBox* m_showBuiltinTypes;
+
 	QCheckBox* m_loggingEnabled;
 	QCheckBox* m_verboseIndexerLoggingEnabled;
 

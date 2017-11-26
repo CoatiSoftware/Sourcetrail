@@ -56,6 +56,7 @@ public:
 	Type getType() const;
 
 	bool isFile() const;
+	bool isBuiltin() const;
 	bool isUnknownSymbol() const;
 	bool isInheritable() const;
 	bool isPackage() const;

@@ -25,6 +25,12 @@ bool NodeType::isFile() const
 	return ((m_type & mask) > 0);
 }
 
+bool NodeType::isBuiltin() const
+{
+	const NodeType::TypeMask mask = NodeType::NODE_BUILTIN_TYPE;
+	return ((m_type & mask) > 0);
+}
+
 bool NodeType::isUnknownSymbol() const
 {
 	const NodeType::TypeMask mask =
@@ -36,11 +42,11 @@ bool NodeType::isInheritable() const
 {
 	// what about java enums?
 	const NodeType::TypeMask mask =
-		NodeType::NODE_SYMBOL | 
-		NodeType::NODE_BUILTIN_TYPE | 
-		NodeType::NODE_TYPE | 
-		NodeType::NODE_STRUCT | 
-		NodeType::NODE_CLASS | 
+		NodeType::NODE_SYMBOL |
+		NodeType::NODE_BUILTIN_TYPE |
+		NodeType::NODE_TYPE |
+		NodeType::NODE_STRUCT |
+		NodeType::NODE_CLASS |
 		NodeType::NODE_INTERFACE;
 
 	return ((m_type & mask) > 0);
@@ -73,12 +79,12 @@ bool NodeType::isVariable() const
 bool NodeType::isUsable() const
 {
 	const NodeType::TypeMask mask =
-		NodeType::NODE_SYMBOL | 
-		NodeType::NODE_BUILTIN_TYPE | 
-		NodeType::NODE_STRUCT | 
-		NodeType::NODE_CLASS | 
-		NodeType::NODE_ENUM | 
-		NodeType::NODE_UNION | 
+		NodeType::NODE_SYMBOL |
+		NodeType::NODE_BUILTIN_TYPE |
+		NodeType::NODE_STRUCT |
+		NodeType::NODE_CLASS |
+		NodeType::NODE_ENUM |
+		NodeType::NODE_UNION |
 		NodeType::NODE_INTERFACE |
 		NodeType::NODE_TYPEDEF;
 	return ((m_type & mask) > 0);
@@ -87,13 +93,13 @@ bool NodeType::isUsable() const
 bool NodeType::isPotentialMember() const
 {
 	const NodeType::TypeMask mask =
-		NodeType::NODE_METHOD | 
-		NodeType::NODE_FIELD | 
-		NodeType::NODE_CLASS | 
-		NodeType::NODE_INTERFACE | 
-		NodeType::NODE_STRUCT | 
-		NodeType::NODE_UNION | 
-		NodeType::NODE_TYPEDEF | 
+		NodeType::NODE_METHOD |
+		NodeType::NODE_FIELD |
+		NodeType::NODE_CLASS |
+		NodeType::NODE_INTERFACE |
+		NodeType::NODE_STRUCT |
+		NodeType::NODE_UNION |
+		NodeType::NODE_TYPEDEF |
 		NodeType::NODE_ENUM;
 
 	return ((m_type & mask) > 0);
@@ -102,12 +108,12 @@ bool NodeType::isPotentialMember() const
 bool NodeType::isCollapsible() const
 {
 	const NodeType::TypeMask mask =
-		NodeType::NODE_SYMBOL | 
-		NodeType::NODE_TYPE | 
-		NodeType::NODE_BUILTIN_TYPE | 
-		NodeType::NODE_CLASS | 
-		NodeType::NODE_STRUCT | 
-		NodeType::NODE_ENUM | 
+		NodeType::NODE_SYMBOL |
+		NodeType::NODE_TYPE |
+		NodeType::NODE_BUILTIN_TYPE |
+		NodeType::NODE_CLASS |
+		NodeType::NODE_STRUCT |
+		NodeType::NODE_ENUM |
 		NodeType::NODE_UNION |
 		NodeType::NODE_INTERFACE;
 	return ((m_type & mask) > 0);

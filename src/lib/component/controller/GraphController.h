@@ -72,8 +72,8 @@ private:
 
 	virtual void clear();
 
-	void createDummyGraphForTokenIds(const std::vector<Id>& tokenIds, const std::shared_ptr<Graph> graph);
-	void createDummyGraphForTokenIdsAndSetActiveAndVisibility(
+	void createDummyGraph(const std::shared_ptr<Graph> graph);
+	void createDummyGraphAndSetActiveAndVisibility(
 		const std::vector<Id>& tokenIds, const std::shared_ptr<Graph> graph);
 	std::vector<std::shared_ptr<DummyNode>> createDummyNodeTopDown(Node* node, Id ancestorId);
 
@@ -87,6 +87,8 @@ private:
 	void setNodeActiveRecursive(DummyNode* node, const std::vector<Id>& activeTokenIds, bool* noActive) const;
 	bool setNodeVisibilityRecursiveBottomUp(DummyNode* node, bool noActive) const;
 	void setNodeVisibilityRecursiveTopDown(DummyNode* node, bool parentExpanded) const;
+
+	void hideBuiltinTypes();
 
 	void bundleNodes();
 	void bundleNodesAndEdgesMatching(

@@ -137,6 +137,16 @@ void ApplicationSettings::setUseAnimations(bool useAnimations)
 	setValue<bool>("application/use_animations", useAnimations);
 }
 
+bool ApplicationSettings::getShowBuiltinTypesInGraph() const
+{
+	return getValue<bool>("application/builtin_types_in_graph", false);
+}
+
+void ApplicationSettings::setShowBuiltinTypesInGraph(bool showBuiltinTypes)
+{
+	setValue<bool>("application/builtin_types_in_graph", showBuiltinTypes);
+}
+
 FilePath ApplicationSettings::getColorSchemePath() const
 {
 	FilePath defaultPath(ResourcePaths::getColorSchemesPath().concat(FilePath("bright.xml")));

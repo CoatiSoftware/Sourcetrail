@@ -18,6 +18,7 @@
 #include "data/graph/token_component/TokenComponentAccess.h"
 #include "data/graph/Graph.h"
 #include "data/parser/AccessKind.h"
+#include "settings/ApplicationSettings.h"
 
 GraphController::GraphController(StorageAccess* storageAccess)
 	: m_storageAccess(storageAccess)
@@ -40,7 +41,7 @@ void GraphController::handleMessage(MessageActivateAll* message)
 
 	if (message->filter)
 	{
-		createDummyGraphForTokenIdsAndSetActiveAndVisibility(
+		createDummyGraphAndSetActiveAndVisibility(
 			std::vector<Id>(), m_storageAccess->getGraphForFilter(message->filter));
 
 		addCharacterIndex();
@@ -49,7 +50,7 @@ void GraphController::handleMessage(MessageActivateAll* message)
 	}
 	else
 	{
-		createDummyGraphForTokenIdsAndSetActiveAndVisibility(std::vector<Id>(), m_storageAccess->getGraphForAll());
+		createDummyGraphAndSetActiveAndVisibility(std::vector<Id>(), m_storageAccess->getGraphForAll());
 
 		bundleNodesByType();
 
@@ -101,7 +102,7 @@ void GraphController::handleMessage(MessageActivateTokens* message)
 	bool isNamespace = false;
 	std::shared_ptr<Graph> graph = m_storageAccess->getGraphForActiveTokenIds(tokenIds, getExpandedNodeIds(), &isNamespace);
 
-	createDummyGraphForTokenIdsAndSetActiveAndVisibility(tokenIds, graph);
+	createDummyGraphAndSetActiveAndVisibility(tokenIds, graph);
 
 	if (isNamespace)
 	{
@@ -157,7 +158,7 @@ void GraphController::handleMessage(MessageActivateTrail* message)
 	std::shared_ptr<Graph> graph = m_storageAccess->getGraphForTrail(
 		message->originId, message->targetId, message->trailType, message->depth);
 
-	createDummyGraphForTokenIds(m_activeNodeIds, graph);
+	createDummyGraph(graph);
 	m_graph->setTrailMode(message->horizontalLayout ? Graph::TRAIL_HORIZONTAL : Graph::TRAIL_VERTICAL);
 
 	setVisibility(setActive(m_activeNodeIds, true));
@@ -356,7 +357,8 @@ void GraphController::handleMessage(MessageGraphNodeExpand* message)
 							break;
 						}
 
-						std::shared_ptr<Graph> aggregationGraph = m_storageAccess->getGraphForActiveTokenIds(aggregationIds, std::vector<Id>());
+						std::shared_ptr<Graph> aggregationGraph =
+							m_storageAccess->getGraphForActiveTokenIds(aggregationIds, std::vector<Id>());
 
 						aggregationGraph->forEachEdge(
 							[this](Edge* e)
@@ -439,7 +441,7 @@ void GraphController::clear()
 	getView()->clear();
 }
 
-void GraphController::createDummyGraphForTokenIds(const std::vector<Id>& tokenIds, const std::shared_ptr<Graph> graph)
+void GraphController::createDummyGraph(const std::shared_ptr<Graph> graph)
 {
 	TRACE();
 
@@ -517,12 +519,12 @@ void GraphController::createDummyGraphForTokenIds(const std::vector<Id>& tokenId
 	m_useBezierEdges = false;
 }
 
-void GraphController::createDummyGraphForTokenIdsAndSetActiveAndVisibility(
+void GraphController::createDummyGraphAndSetActiveAndVisibility(
 	const std::vector<Id>& tokenIds, const std::shared_ptr<Graph> graph
 ){
 	std::vector<Id> expandedNodeIds = getExpandedNodeIds();
 
-	createDummyGraphForTokenIds(tokenIds, graph);
+	createDummyGraph(graph);
 
 	bool noActive = setActive(tokenIds, false);
 
@@ -530,6 +532,8 @@ void GraphController::createDummyGraphForTokenIdsAndSetActiveAndVisibility(
 	setExpandedNodeIds(expandedNodeIds);
 
 	setVisibility(noActive);
+
+	hideBuiltinTypes();
 }
 
 std::vector<std::shared_ptr<DummyNode>> GraphController::createDummyNodeTopDown(Node* node, Id ancestorId)
@@ -778,6 +782,22 @@ void GraphController::setNodeVisibilityRecursiveTopDown(DummyNode* node, bool pa
 				node->childVisible = true;
 				setNodeVisibilityRecursiveTopDown(subNode.get(), node->isExpanded());
 			}
+		}
+	}
+}
+
+void GraphController::hideBuiltinTypes()
+{
+	if (ApplicationSettings::getInstance()->getShowBuiltinTypesInGraph() || m_activeNodeIds.size() != 1)
+	{
+		return;
+	}
+
+	for (const std::shared_ptr<DummyNode>& node : m_dummyNodes)
+	{
+		if (node->isGraphNode() && !node->active && node->data->getType().isBuiltin())
+		{
+			node->visible = false;
 		}
 	}
 }
@@ -1301,7 +1321,8 @@ void GraphController::layoutNestingRecursive(DummyNode* node) const
 
 	if (node->isGraphNode())
 	{
-		margins = GraphViewStyle::getMarginsForDataNode(node->data->getType().getNodeStyle(), node->data->getType().hasIcon(), node->childVisible);
+		margins = GraphViewStyle::getMarginsForDataNode(
+			node->data->getType().getNodeStyle(), node->data->getType().hasIcon(), node->childVisible);
 	}
 	else if (node->isAccessNode())
 	{
@@ -1315,7 +1336,8 @@ void GraphController::layoutNestingRecursive(DummyNode* node) const
 	{
 		if (node->bundledNodeType.getType() != NodeType::NODE_SYMBOL)
 		{
-			margins = GraphViewStyle::getMarginsForDataNode(node->bundledNodeType.getNodeStyle(), node->bundledNodeType.hasIcon(), false);
+			margins = GraphViewStyle::getMarginsForDataNode(
+				node->bundledNodeType.getNodeStyle(), node->bundledNodeType.hasIcon(), false);
 		}
 		else
 		{
@@ -1822,7 +1844,7 @@ void GraphController::handleMessage(MessageColorSchemeTest* message)
 		}
 	);
 
-	createDummyGraphForTokenIds(std::vector<Id>(), graph);
+	createDummyGraph(graph);
 
 	for (size_t i = 0; i < 2; i++)
 	{

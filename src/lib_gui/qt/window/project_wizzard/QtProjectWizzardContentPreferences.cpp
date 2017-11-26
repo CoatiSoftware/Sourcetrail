@@ -70,6 +70,10 @@ void QtProjectWizzardContentPreferences::populate(QGridLayout* layout, int& row)
 	m_useAnimations = addCheckBox("Animations", "Enable animations",
 		"<p>Enable animations throughout the user interface.</p>", layout, row);
 
+	// built-in types
+	m_showBuiltinTypes = addCheckBox("Built-in Types", "Show built-in types in graph when referenced",
+		"<p>Enable display of referenced built-in types in the graph view.</p>", layout, row);
+
 	// logging
 	m_loggingEnabled = addCheckBox("Logging", "Enable console and file logging",
 		"<p>Show logs in the console and save this information in files.</p>", layout, row);
@@ -155,7 +159,7 @@ void QtProjectWizzardContentPreferences::populate(QGridLayout* layout, int& row)
 
 	addLabelAndWidget("Indexer Threads", threadsWidget, layout, row, Qt::AlignLeft);
 	addHelpButton(
-		"Indexer Threads", 
+		"Indexer Threads",
 		"<p>Set the number of threads used to work on indexing your project in parallel.</p>"
 		"<p>When setting this value to 0 Sourcetrail tries to use the ideal thread count for your computer.</p>",
 		layout, row
@@ -246,7 +250,7 @@ void QtProjectWizzardContentPreferences::populate(QGridLayout* layout, int& row)
 		layout->addWidget(label, row, QtProjectWizzardWindow::FRONT_COL, Qt::AlignTop);
 
 		addHelpButton(
-			"JRE System Library", 
+			"JRE System Library",
 			"<p>Only required for indexing Java projects.</p>"
 			"<p>Add the jar files of your JRE System Library. These jars can be found inside your JRE install directory.</p>", layout, row);
 
@@ -276,7 +280,7 @@ void QtProjectWizzardContentPreferences::populate(QGridLayout* layout, int& row)
 		addLabelAndWidget("Maven Path", m_mavenPath, layout, row);
 
 		addHelpButton(
-			"Maven Path", 
+			"Maven Path",
 			"<p>Only required for indexing projects using Maven.</p>"
 			"<p>Provide the location of your installed Maven executable. You can also use the auto detection below.</p>"
 			, layout, row
@@ -317,6 +321,7 @@ void QtProjectWizzardContentPreferences::load()
 	}
 
 	m_useAnimations->setChecked(appSettings->getUseAnimations());
+	m_showBuiltinTypes->setChecked(appSettings->getShowBuiltinTypesInGraph());
 
 	m_loggingEnabled->setChecked(appSettings->getLoggingEnabled());
 	m_verboseIndexerLoggingEnabled->setChecked(appSettings->getVerboseIndexerLoggingEnabled());
@@ -364,6 +369,7 @@ void QtProjectWizzardContentPreferences::save()
 	m_oldColorSchemeIndex = -1;
 
 	appSettings->setUseAnimations(m_useAnimations->isChecked());
+	appSettings->setShowBuiltinTypesInGraph(m_showBuiltinTypes->isChecked());
 
 	appSettings->setLoggingEnabled(m_loggingEnabled->isChecked());
 	appSettings->setVerboseIndexerLoggingEnabled(m_verboseIndexerLoggingEnabled->isChecked());

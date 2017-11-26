@@ -50,6 +50,9 @@ public:
 	bool getUseAnimations() const;
 	void setUseAnimations(bool useAnimations);
 
+	bool getShowBuiltinTypesInGraph() const;
+	void setShowBuiltinTypesInGraph(bool showBuiltinTypes);
+
 	int getWindowBaseWidth() const;
 	int getWindowBaseHeight() const;
 
