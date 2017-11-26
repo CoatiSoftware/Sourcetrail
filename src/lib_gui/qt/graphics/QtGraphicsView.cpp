@@ -10,6 +10,7 @@
 #include <QPropertyAnimation>
 #include <QParallelAnimationGroup>
 
+#include "qt/view/graphElements/QtGraphEdge.h"
 #include "qt/view/graphElements/QtGraphNode.h"
 #include "qt/view/graphElements/QtGraphNodeData.h"
 #include "qt/view/graphElements/QtGraphNodeBundle.h"
@@ -18,6 +19,7 @@
 #include "qt/utility/utilityQt.h"
 #include "settings/ApplicationSettings.h"
 #include "utility/messaging/type/MessageDisplayBookmarkCreator.h"
+#include "utility/messaging/type/MessageGraphNodeHide.h"
 #include "utility/utilityApp.h"
 #include "utility/ResourcePaths.h"
 
@@ -56,6 +58,16 @@ QtGraphicsView::QtGraphicsView(QWidget* parent)
 	m_copyNodeNameAction->setStatusTip(tr("Copies the name of this node to the clipboard"));
 	m_copyNodeNameAction->setToolTip(tr("Copies the name of this node to the clipboard"));
 	connect(m_copyNodeNameAction, &QAction::triggered, this, &QtGraphicsView::copyNodeName);
+
+	m_hideNodeAction = new QAction(tr("Hide Node (Alt + Left Click)"), this);
+	m_hideNodeAction->setStatusTip(tr("Hide the node from this graph"));
+	m_hideNodeAction->setToolTip(tr("Hide the node from this graph"));
+	connect(m_hideNodeAction, &QAction::triggered, this, &QtGraphicsView::hideNode);
+
+	m_hideEdgeAction = new QAction(tr("Hide Edge (Alt + Left Click)"), this);
+	m_hideEdgeAction->setStatusTip(tr("Hide the edge from this graph"));
+	m_hideEdgeAction->setToolTip(tr("Hide the edge from this graph"));
+	connect(m_hideEdgeAction, &QAction::triggered, this, &QtGraphicsView::hideEdge);
 
 	m_bookmarkNodeAction = new QAction(tr("Bookmark Node"), this);
 	m_bookmarkNodeAction->setStatusTip(tr("Create a bookmark for this node"));
@@ -111,6 +123,20 @@ QtGraphNode* QtGraphicsView::getNodeAtCursorPosition() const
 	}
 
 	return node;
+}
+
+QtGraphEdge* QtGraphicsView::getEdgeAtCursorPosition() const
+{
+	QtGraphEdge* edge = nullptr;
+
+	QPointF point = mapToScene(mapFromGlobal(QCursor::pos()));
+	QGraphicsItem* item = scene()->itemAt(point, QTransform());
+	if (item)
+	{
+		edge = dynamic_cast<QtGraphEdge*>(item->parentItem());
+	}
+
+	return edge;
 }
 
 void QtGraphicsView::ensureVisibleAnimated(const QRectF& rect, int xmargin, int ymargin)
@@ -302,51 +328,64 @@ void QtGraphicsView::wheelEvent(QWheelEvent* event)
 void QtGraphicsView::contextMenuEvent(QContextMenuEvent* event)
 {
 	m_clipboardNodeName = "";
+	m_hideNodeId = 0;
+	m_hideEdgeId = 0;
 	m_bookmarkNodeId = 0;
 	FilePath clipboardFilePath;
 
 	QtGraphNode* node = getNodeAtCursorPosition();
-	while (node)
+	if (node)
 	{
-		QtGraphNodeData* dataNode = dynamic_cast<QtGraphNodeData*>(node);
-		if (dataNode)
+		while (node)
 		{
-			m_clipboardNodeName = dataNode->getName();
-			m_bookmarkNodeId = dataNode->getTokenId();
-			clipboardFilePath = dataNode->getFilePath();
+			m_hideNodeId = node->getTokenId();
+
+			QtGraphNodeData* dataNode = dynamic_cast<QtGraphNodeData*>(node);
+			if (dataNode)
+			{
+				m_clipboardNodeName = dataNode->getName();
+				m_bookmarkNodeId = dataNode->getTokenId();
+				clipboardFilePath = dataNode->getFilePath();
+				break;
+			}
+			else if (dynamic_cast<QtGraphNodeBundle*>(node))
+			{
+				m_clipboardNodeName = node->getName();
+				break;
+			}
+
+			node = node->getParent();
 		}
-		else if (dynamic_cast<QtGraphNodeBundle*>(node))
+	}
+	else
+	{
+		QtGraphEdge* edge = getEdgeAtCursorPosition();
+		if (edge)
 		{
-			m_clipboardNodeName = node->getName();
-			break;
+			m_hideEdgeId = edge->getTokenId();
 		}
-		node = node->getParent();
 	}
 
+	m_hideNodeAction->setEnabled(m_hideNodeId);
+	m_hideEdgeAction->setEnabled(m_hideEdgeId);
+	m_bookmarkNodeAction->setEnabled(m_bookmarkNodeId);
+
+	m_copyNodeNameAction->setEnabled(m_clipboardNodeName.size());
+
+
 	QtContextMenu menu(event, this);
+
 	menu.addSeparator();
 	menu.addAction(m_exportGraphAction);
 
-	if (m_bookmarkNodeId)
-	{
-		menu.addSeparator();
-		menu.addAction(m_bookmarkNodeAction);
-	}
+	menu.addSeparator();
+	menu.addAction(m_hideEdgeAction);
+	menu.addAction(m_hideNodeAction);
+	menu.addAction(m_bookmarkNodeAction);
 
-	if (!m_clipboardNodeName.empty() || !clipboardFilePath.empty())
-	{
-		menu.addSeparator();
-	}
-
-	if (!m_clipboardNodeName.empty())
-	{
-		menu.addAction(m_copyNodeNameAction);
-	}
-
-	if (!clipboardFilePath.empty())
-	{
-		menu.addFileActions(clipboardFilePath);
-	}
+	menu.addSeparator();
+	menu.addAction(m_copyNodeNameAction);
+	menu.addFileActions(clipboardFilePath);
 
 	menu.show();
 }
@@ -437,6 +476,16 @@ void QtGraphicsView::exportGraph()
 void QtGraphicsView::copyNodeName()
 {
 	QApplication::clipboard()->setText(m_clipboardNodeName.c_str());
+}
+
+void QtGraphicsView::hideNode()
+{
+	MessageGraphNodeHide(m_hideNodeId).dispatch();
+}
+
+void QtGraphicsView::hideEdge()
+{
+	MessageGraphNodeHide(m_hideEdgeId).dispatch();
 }
 
 void QtGraphicsView::bookmarkNode()

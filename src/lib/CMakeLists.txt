@@ -243,7 +243,7 @@ add_files(
 	data/storage/type/StorageOccurrence.h
 	data/storage/type/StorageSourceLocation.h
 	data/storage/type/StorageSymbol.h
-	
+
 	data/storage/IntermediateStorage.cpp
 	data/storage/IntermediateStorage.h
 	data/storage/PersistentStorage.cpp
@@ -413,6 +413,7 @@ add_files(
 	utility/messaging/type/MessageForceEnterLicense.h
 	utility/messaging/type/MessageGraphNodeBundleSplit.h
 	utility/messaging/type/MessageGraphNodeExpand.h
+	utility/messaging/type/MessageGraphNodeHide.h
 	utility/messaging/type/MessageGraphNodeMove.h
 	utility/messaging/type/MessageIDECreateCDB.h
 	utility/messaging/type/MessageInterruptTasks.h

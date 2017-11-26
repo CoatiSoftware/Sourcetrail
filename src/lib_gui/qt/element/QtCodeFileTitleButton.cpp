@@ -128,14 +128,8 @@ void QtCodeFileTitleButton::updateTexts()
 
 void QtCodeFileTitleButton::contextMenuEvent(QContextMenuEvent* event)
 {
-	QtContextMenu menu(event, this);
-	menu.addSeparator();
-
-	if (!m_filePath.empty())
-	{
-		menu.addFileActions(m_filePath);
-	}
-	else if (text().size())
+	FilePath path = m_filePath;
+	if (text().size())
 	{
 		Project* currentProject = Application::getInstance()->getCurrentProject().get();
 		if (!currentProject)
@@ -143,9 +137,12 @@ void QtCodeFileTitleButton::contextMenuEvent(QContextMenuEvent* event)
 			return;
 		}
 
-		menu.addFileActions(currentProject->getProjectSettingsFilePath());
+		path = currentProject->getProjectSettingsFilePath();
 	}
 
+	QtContextMenu menu(event, this);
+	menu.addSeparator();
+	menu.addFileActions(path);
 	menu.show();
 }
 

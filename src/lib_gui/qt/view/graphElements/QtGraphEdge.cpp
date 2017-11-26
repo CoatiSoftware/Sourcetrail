@@ -16,6 +16,7 @@
 #include "utility/messaging/type/MessageFocusIn.h"
 #include "utility/messaging/type/MessageFocusOut.h"
 #include "utility/messaging/type/MessageGraphNodeBundleSplit.h"
+#include "utility/messaging/type/MessageGraphNodeHide.h"
 #include "utility/messaging/type/MessageTooltipShow.h"
 #include "utility/messaging/type/MessageTooltipHide.h"
 #include "utility/utility.h"
@@ -78,6 +79,16 @@ QtGraphNode* QtGraphEdge::getOwner()
 QtGraphNode* QtGraphEdge::getTarget()
 {
 	return m_target;
+}
+
+Id QtGraphEdge::getTokenId() const
+{
+	if (getData())
+	{
+		return getData()->getId();
+	}
+
+	return 0;
 }
 
 void QtGraphEdge::updateLine()
@@ -269,6 +280,16 @@ void QtGraphEdge::onClick()
 	}
 }
 
+void QtGraphEdge::onHide()
+{
+	Id tokenId = getTokenId();
+
+	if (tokenId)
+	{
+		MessageGraphNodeHide(tokenId).dispatch();
+	}
+}
+
 void QtGraphEdge::focusIn()
 {
 	if (!m_isFocused)
@@ -328,7 +349,14 @@ void QtGraphEdge::mouseReleaseEvent(QGraphicsSceneMouseEvent* event)
 {
 	if (!m_mouseMoved)
 	{
-		this->onClick();
+		if (event->modifiers() & Qt::AltModifier)
+		{
+			this->onHide();
+		}
+		else
+		{
+			this->onClick();
+		}
 	}
 }
 

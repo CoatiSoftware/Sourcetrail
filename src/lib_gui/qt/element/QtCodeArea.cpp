@@ -581,14 +581,13 @@ void QtCodeArea::contextMenuEvent(QContextMenuEvent* event)
 	{
 		m_eventPosition = event->pos();
 
+		m_setIDECursorPositionAction->setEnabled(!getSourceLocationFile()->getFilePath().empty());
+
 		QtContextMenu menu(event, this);
-		if (!getSourceLocationFile()->getFilePath().empty())
-		{
-			menu.addSeparator();
-			menu.addFileActions(getSourceLocationFile()->getFilePath());
-			menu.addSeparator();
-			menu.addAction(m_setIDECursorPositionAction);
-		}
+		menu.addSeparator();
+		menu.addFileActions(getSourceLocationFile()->getFilePath());
+		menu.addSeparator();
+		menu.addAction(m_setIDECursorPositionAction);
 		menu.show();
 	}
 }

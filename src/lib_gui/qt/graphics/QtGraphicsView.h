@@ -9,6 +9,7 @@
 #include "utility/types.h"
 
 class QTimer;
+class QtGraphEdge;
 class QtGraphNode;
 
 class QtGraphicsView
@@ -25,6 +26,7 @@ public:
 	void setSceneRect(const QRectF& rect);
 
 	QtGraphNode* getNodeAtCursorPosition() const;
+	QtGraphEdge* getEdgeAtCursorPosition() const;
 
 	void ensureVisibleAnimated(const QRectF& rect, int xmargin = 50, int ymargin = 50);
 
@@ -56,6 +58,8 @@ private slots:
 
 	void exportGraph();
 	void copyNodeName();
+	void hideNode();
+	void hideEdge();
 	void bookmarkNode();
 
 	void zoomInPressed();
@@ -81,6 +85,8 @@ private:
 	bool m_shift;
 
 	std::string m_clipboardNodeName;
+	Id m_hideNodeId;
+	Id m_hideEdgeId;
 	Id m_bookmarkNodeId;
 
 	std::shared_ptr<QTimer> m_timer;
@@ -89,6 +95,8 @@ private:
 
 	QAction* m_exportGraphAction;
 	QAction* m_copyNodeNameAction;
+	QAction* m_hideNodeAction;
+	QAction* m_hideEdgeAction;
 	QAction* m_bookmarkNodeAction;
 
 	QPushButton* m_zoomState;

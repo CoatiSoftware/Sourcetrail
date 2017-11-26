@@ -35,7 +35,14 @@ void QtGraphNodeComponentClickable::nodeMouseReleaseEvent(QGraphicsSceneMouseEve
 {
 	if (!m_mouseMoved)
 	{
-		m_graphNode->onClick();
+		if (event->modifiers() & Qt::AltModifier)
+		{
+			m_graphNode->onHide();
+		}
+		else
+		{
+			m_graphNode->onClick();
+		}
 		event->accept();
 	}
 }

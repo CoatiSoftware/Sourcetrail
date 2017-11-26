@@ -160,39 +160,14 @@ void GraphController::handleMessage(MessageActivateTrail* message)
 
 	createDummyGraph(graph);
 	m_graph->setTrailMode(message->horizontalLayout ? Graph::TRAIL_HORIZONTAL : Graph::TRAIL_VERTICAL);
+	m_graph->setHasTrailOrigin(message->originId);
 
 	setVisibility(setActive(m_activeNodeIds, true));
 
-	layoutNesting();
-
-	TrailLayouter::LayoutDirection direction;
-	if (message->horizontalLayout)
-	{
-		if (message->originId)
-		{
-			direction = TrailLayouter::LAYOUT_LEFT_RIGHT;
-		}
-		else
-		{
-			direction = TrailLayouter::LAYOUT_RIGHT_LEFT;
-		}
-	}
-	else
-	{
-		if (message->originId)
-		{
-			direction = TrailLayouter::LAYOUT_TOP_BOTTOM;
-		}
-		else
-		{
-			direction = TrailLayouter::LAYOUT_BOTTOM_TOP;
-		}
-	}
-
 	MessageStatus("Layouting graph", false, true).dispatch();
 
-	TrailLayouter layout(direction);
-	layout.layoutGraph(m_dummyNodes, m_dummyEdges, m_topLevelAncestorIds);
+	layoutNesting();
+	layoutTrail(message->horizontalLayout, message->originId);
 
 	MessageStatus("Displaying graph", false, true).dispatch();
 
@@ -379,6 +354,73 @@ void GraphController::handleMessage(MessageGraphNodeExpand* message)
 
 		layoutNesting();
 		layoutGraph();
+
+		buildGraph(message, false, true, false);
+	}
+}
+
+void GraphController::handleMessage(MessageGraphNodeHide* message)
+{
+	DummyNode* node = getDummyGraphNodeById(message->tokenId);
+	DummyEdge* edge = nullptr;
+	if (node)
+	{
+		if (node->active || node->hasActiveSubNode())
+		{
+			MessageStatus("Can't hide active node or node with active children", true).dispatch();
+			return;
+		}
+
+		node->hidden = true;
+	}
+	else
+	{
+		edge = getDummyGraphEdgeById(message->tokenId);
+		if (edge)
+		{
+			edge->hidden = true;
+			edge->visible = false;
+
+			DummyNode* from = getDummyGraphNodeById(edge->ownerId);
+			DummyNode* to = getDummyGraphNodeById(edge->targetId);
+
+			if (from)
+			{
+				from->connected = false;
+			}
+
+			if (to)
+			{
+				to->connected = false;
+			}
+		}
+	}
+
+	if (node || edge)
+	{
+		bool showsTrail = m_graph->getTrailMode() != Graph::TRAIL_NONE;
+
+		setVisibility(setActive(utility::concat(m_activeNodeIds, m_activeEdgeIds), showsTrail));
+
+		if (hasCharacterIndex())
+		{
+			addCharacterIndex();
+			layoutNesting();
+			layoutList();
+		}
+		else
+		{
+			layoutNesting();
+
+			if (showsTrail)
+			{
+				layoutTrail(m_graph->getTrailMode() == Graph::TRAIL_HORIZONTAL, m_graph->hasTrailOrigin());
+			}
+			else
+			{
+				layoutGraph();
+			}
+		}
 
 		buildGraph(message, false, true, false);
 	}
@@ -674,7 +716,8 @@ bool GraphController::setActive(const std::vector<Id>& activeTokenIds, bool show
 		DummyNode* to = getDummyGraphNodeById(edge->targetId);
 
 		bool isInheritance = edge->data->isType(Edge::EDGE_INHERITANCE);
-		if (from && to && (showAllEdges || noActive || from->active || to->active || edge->active || isInheritance))
+		if (from && to && !edge->hidden &&
+			(showAllEdges || noActive || from->active || to->active || edge->active || isInheritance))
 		{
 			edge->visible = true;
 			from->connected = true;
@@ -727,7 +770,11 @@ bool GraphController::setNodeVisibilityRecursiveBottomUp(DummyNode* node, bool n
 	node->visible = false;
 	node->childVisible = false;
 
-	if (node->isExpandToggleNode())
+	if (node->hidden)
+	{
+		return false;
+	}
+	else if (node->isExpandToggleNode())
 	{
 		node->visible = true;
 		return false;
@@ -765,10 +812,9 @@ bool GraphController::setNodeVisibilityRecursiveBottomUp(DummyNode* node, bool n
 
 void GraphController::setNodeVisibilityRecursiveTopDown(DummyNode* node, bool parentExpanded) const
 {
-	node->visible = true;
-
 	if (node->isGraphNode() && node->data->getType().getType() == NodeType::NODE_ENUM && !node->isExpanded())
 	{
+		node->visible = true;
 		return;
 	}
 
@@ -777,12 +823,17 @@ void GraphController::setNodeVisibilityRecursiveTopDown(DummyNode* node, bool pa
 	{
 		for (const std::shared_ptr<DummyNode>& subNode : node->subNodes)
 		{
-			if (!subNode->isQualifierNode())
+			if (!subNode->isQualifierNode() && !subNode->isExpandToggleNode() && !subNode->hidden)
 			{
-				node->childVisible = true;
 				setNodeVisibilityRecursiveTopDown(subNode.get(), node->isExpanded());
+				node->childVisible |= subNode->visible;
 			}
 		}
+	}
+
+	if (!node->isAccessNode() || node->childVisible)
+	{
+		node->visible = true;
 	}
 }
 
@@ -1276,7 +1327,7 @@ void GraphController::addCharacterIndex()
 	char character = 0;
 	for (size_t i = 0; i < m_dummyNodes.size(); i++)
 	{
-		if (!m_dummyNodes[i]->name.size())
+		if (!m_dummyNodes[i]->visible || !m_dummyNodes[i]->name.size())
 		{
 			continue;
 		}
@@ -1293,6 +1344,18 @@ void GraphController::addCharacterIndex()
 			m_dummyNodes.insert(m_dummyNodes.begin() + i, textNode);
 		}
 	}
+}
+
+bool GraphController::hasCharacterIndex() const
+{
+	for (const std::shared_ptr<DummyNode>& node : m_dummyNodes)
+	{
+		if (node->isTextNode())
+		{
+			return true;
+		}
+	}
+	return false;
 }
 
 void GraphController::layoutNesting()
@@ -1493,7 +1556,8 @@ void GraphController::addExpandToggleNode(DummyNode* node) const
 
 		for (const std::shared_ptr<DummyNode>& subSubNode : subNode->subNodes)
 		{
-			if (subSubNode->visible && (!subSubNode->isGraphNode() || !subSubNode->data->isImplicit() || node->data->isImplicit()))
+			if ((subSubNode->visible || subSubNode->hidden) &&
+				(!subSubNode->isGraphNode() || !subSubNode->data->isImplicit() || node->data->isImplicit()))
 			{
 				visibleSubNodeCount++;
 			}
@@ -1562,8 +1626,17 @@ void GraphController::layoutGraph(bool getSortedNodes)
 {
 	TRACE();
 
+	std::vector<std::shared_ptr<DummyNode>> visibleNodes;
+	for (auto node : m_dummyNodes)
+	{
+		if (node->visible)
+		{
+			visibleNodes.push_back(node);
+		}
+	}
+
 	BucketLayouter grid(getView()->getViewSize());
-	grid.createBuckets(m_dummyNodes, m_dummyEdges);
+	grid.createBuckets(visibleNodes, m_dummyEdges);
 	grid.layoutBuckets();
 
 	if (getSortedNodes)
@@ -1576,8 +1649,56 @@ void GraphController::layoutList()
 {
 	TRACE();
 
+	std::vector<std::shared_ptr<DummyNode>> visibleNodes;
+	for (auto node : m_dummyNodes)
+	{
+		if (node->visible)
+		{
+			visibleNodes.push_back(node);
+		}
+	}
+
 	ListLayouter layouter(getView()->getViewSize());
-	layouter.layoutList(m_dummyNodes);
+	layouter.layoutList(visibleNodes);
+}
+
+void GraphController::layoutTrail(bool horizontal, bool hasOrigin)
+{
+	TrailLayouter::LayoutDirection direction;
+	if (horizontal)
+	{
+		if (hasOrigin)
+		{
+			direction = TrailLayouter::LAYOUT_LEFT_RIGHT;
+		}
+		else
+		{
+			direction = TrailLayouter::LAYOUT_RIGHT_LEFT;
+		}
+	}
+	else
+	{
+		if (hasOrigin)
+		{
+			direction = TrailLayouter::LAYOUT_TOP_BOTTOM;
+		}
+		else
+		{
+			direction = TrailLayouter::LAYOUT_BOTTOM_TOP;
+		}
+	}
+
+	std::vector<std::shared_ptr<DummyNode>> visibleNodes;
+	for (auto node : m_dummyNodes)
+	{
+		if (node->visible)
+		{
+			visibleNodes.push_back(node);
+		}
+	}
+
+	TrailLayouter layout(direction);
+	layout.layoutGraph(visibleNodes, m_dummyEdges, m_topLevelAncestorIds);
 }
 
 void GraphController::assignBundleIds()
@@ -1602,6 +1723,19 @@ DummyNode* GraphController::getDummyGraphNodeById(Id tokenId) const
 		if (node->tokenId == tokenId)
 		{
 			return node.get();
+		}
+	}
+
+	return nullptr;
+}
+
+DummyEdge* GraphController::getDummyGraphEdgeById(Id tokenId) const
+{
+	for (const std::shared_ptr<DummyEdge>& edge : m_dummyEdges)
+	{
+		if (edge->data && edge->data->getId() == tokenId)
+		{
+			return edge.get();
 		}
 	}
 

@@ -17,6 +17,7 @@ struct DummyEdge
 		, targetId(0)
 		, data(nullptr)
 		, visible(false)
+		, hidden(false)
 		, active(false)
 		, weight(0)
 		, direction(TokenComponentAggregation::DIRECTION_INVALID)
@@ -28,6 +29,7 @@ struct DummyEdge
 		, targetId(targetId)
 		, data(data)
 		, visible(false)
+		, hidden(false)
 		, active(false)
 		, weight(0)
 		, direction(TokenComponentAggregation::DIRECTION_INVALID)
@@ -85,6 +87,7 @@ struct DummyEdge
 	const Edge* data;
 
 	bool visible;
+	bool hidden;
 	bool active;
 
 	std::vector<Vec4i> path;

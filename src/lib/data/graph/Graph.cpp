@@ -296,6 +296,16 @@ void Graph::setTrailMode(TrailMode trailMode)
 	m_trailMode = trailMode;
 }
 
+bool Graph::hasTrailOrigin() const
+{
+	return m_hasTrailOrigin;
+}
+
+void Graph::setHasTrailOrigin(bool hasOrigin)
+{
+	m_hasTrailOrigin = hasOrigin;
+}
+
 void Graph::print(std::ostream& ostream) const
 {
 	ostream << "Graph:\n";

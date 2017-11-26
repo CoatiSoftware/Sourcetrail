@@ -15,6 +15,7 @@
 #include "utility/messaging/type/MessageFinishedParsing.h"
 #include "utility/messaging/type/MessageGraphNodeBundleSplit.h"
 #include "utility/messaging/type/MessageGraphNodeExpand.h"
+#include "utility/messaging/type/MessageGraphNodeHide.h"
 #include "utility/messaging/type/MessageGraphNodeMove.h"
 #include "utility/messaging/type/MessageRedo.h"
 #include "utility/messaging/type/MessageRefresh.h"
@@ -44,6 +45,7 @@ class UndoRedoController
 	, public MessageListener<MessageFinishedParsing>
 	, public MessageListener<MessageGraphNodeBundleSplit>
 	, public MessageListener<MessageGraphNodeExpand>
+	, public MessageListener<MessageGraphNodeHide>
 	, public MessageListener<MessageGraphNodeMove>
 	, public MessageListener<MessageRedo>
 	, public MessageListener<MessageRefresh>
@@ -91,6 +93,7 @@ private:
 	virtual void handleMessage(MessageFinishedParsing* message);
 	virtual void handleMessage(MessageGraphNodeBundleSplit* message);
 	virtual void handleMessage(MessageGraphNodeExpand* message);
+	virtual void handleMessage(MessageGraphNodeHide* message);
 	virtual void handleMessage(MessageGraphNodeMove* message);
 	virtual void handleMessage(MessageRedo* message);
 	virtual void handleMessage(MessageRefresh* message);

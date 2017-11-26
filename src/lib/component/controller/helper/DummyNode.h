@@ -52,6 +52,7 @@ public:
 
 	DummyNode()
 		: visible(false)
+		, hidden(false)
 		, childVisible(false)
 		, tokenId(0)
 		, data(nullptr)
@@ -342,6 +343,7 @@ public:
 	Vec2i size;
 
 	bool visible;
+	bool hidden;
 	bool childVisible;
 
 	Id tokenId;

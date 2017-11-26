@@ -174,6 +174,12 @@ void UndoRedoController::handleMessage(MessageGraphNodeExpand* message)
 	processCommand(command);
 }
 
+void UndoRedoController::handleMessage(MessageGraphNodeHide* message)
+{
+	Command command(std::make_shared<MessageGraphNodeHide>(*message), Command::ORDER_ADAPT);
+	processCommand(command);
+}
+
 void UndoRedoController::handleMessage(MessageGraphNodeMove* message)
 {
 	Command command(std::make_shared<MessageGraphNodeMove>(*message), Command::ORDER_VIEW);

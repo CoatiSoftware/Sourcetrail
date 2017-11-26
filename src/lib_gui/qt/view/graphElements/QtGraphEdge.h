@@ -35,6 +35,8 @@ public:
 	QtGraphNode* getOwner();
 	QtGraphNode* getTarget();
 
+	Id getTokenId() const;
+
 	void updateLine();
 
 	bool getIsActive() const;
@@ -44,6 +46,7 @@ public:
 	void setIsFocused(bool isFocused);
 
 	void onClick();
+	void onHide();
 
 	void focusIn();
 	void focusOut();

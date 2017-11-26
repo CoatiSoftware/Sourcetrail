@@ -54,6 +54,9 @@ void QtContextMenu::addFileActions(FilePath filePath)
 {
 	s_filePath = filePath;
 
+	s_copyFullPathAction->setEnabled(!s_filePath.empty());
+	s_openContainingFolderAction->setEnabled(!s_filePath.empty());
+
 	addAction(s_copyFullPathAction);
 	addAction(s_openContainingFolderAction);
 }

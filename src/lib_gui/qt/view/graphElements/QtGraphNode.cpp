@@ -11,6 +11,7 @@
 #include "qt/utility/utilityQt.h"
 #include "qt/view/graphElements/nodeComponents/QtGraphNodeComponent.h"
 #include "qt/view/graphElements/QtGraphEdge.h"
+#include "utility/messaging/type/MessageGraphNodeHide.h"
 #include "utility/ResourcePaths.h"
 #include "utility/utilityString.h"
 
@@ -343,6 +344,20 @@ void QtGraphNode::moved(const Vec2i& oldPosition)
 
 void QtGraphNode::onClick()
 {
+}
+
+void QtGraphNode::onHide()
+{
+	Id tokenId = getTokenId();
+
+	if (tokenId)
+	{
+		MessageGraphNodeHide(tokenId).dispatch();
+	}
+	else if (getParent())
+	{
+		getParent()->onHide();
+	}
 }
 
 void QtGraphNode::mousePressEvent(QGraphicsSceneMouseEvent* event)

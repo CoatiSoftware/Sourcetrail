@@ -15,6 +15,7 @@
 #include "utility/messaging/type/MessageFocusOut.h"
 #include "utility/messaging/type/MessageGraphNodeBundleSplit.h"
 #include "utility/messaging/type/MessageGraphNodeExpand.h"
+#include "utility/messaging/type/MessageGraphNodeHide.h"
 #include "utility/messaging/type/MessageGraphNodeMove.h"
 #include "utility/messaging/type/MessageScrollGraph.h"
 #include "utility/messaging/type/MessageSearchFullText.h"
@@ -42,6 +43,7 @@ class GraphController
 	, public MessageListener<MessageFocusOut>
 	, public MessageListener<MessageGraphNodeBundleSplit>
 	, public MessageListener<MessageGraphNodeExpand>
+	, public MessageListener<MessageGraphNodeHide>
 	, public MessageListener<MessageGraphNodeMove>
 	, public MessageListener<MessageScrollGraph>
 	, public MessageListener<MessageSearchFullText>
@@ -62,6 +64,7 @@ private:
 	virtual void handleMessage(MessageFocusOut* message);
 	virtual void handleMessage(MessageGraphNodeBundleSplit* message);
 	virtual void handleMessage(MessageGraphNodeExpand* message);
+	virtual void handleMessage(MessageGraphNodeHide* message);
 	virtual void handleMessage(MessageGraphNodeMove* message);
 	virtual void handleMessage(MessageScrollGraph* message);
 	virtual void handleMessage(MessageSearchFullText* message);
@@ -100,6 +103,7 @@ private:
 	void bundleNodesByType();
 
 	void addCharacterIndex();
+	bool hasCharacterIndex() const;
 
 	void layoutNesting();
 	void layoutNestingRecursive(DummyNode* node) const;
@@ -108,10 +112,12 @@ private:
 
 	void layoutGraph(bool getSortedNodes = false);
 	void layoutList();
+	void layoutTrail(bool horizontal, bool hasOrigin);
 
 	void assignBundleIds();
 
 	DummyNode* getDummyGraphNodeById(Id tokenId) const;
+	DummyEdge* getDummyGraphEdgeById(Id tokenId) const;
 
 	void buildGraph(MessageBase* message, bool centerActiveNode, bool animatedTransition, bool scrollToTop);
 

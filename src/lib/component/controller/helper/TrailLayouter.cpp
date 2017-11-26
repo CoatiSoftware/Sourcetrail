@@ -588,7 +588,14 @@ void TrailLayouter::retrievePositions(const std::map<Id, Id>& topLevelAncestorId
 	{
 		if (node->dummyNode)
 		{
-			node->dummyNode->position = node->pos;
+			if (node->level != -1)
+			{
+				node->dummyNode->position = node->pos;
+			}
+			else
+			{
+				node->dummyNode->visible = false;
+			}
 		}
 	}
 
