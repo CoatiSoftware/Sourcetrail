@@ -9,7 +9,6 @@
 #include "utility/messaging/type/MessageActivateTokens.h"
 #include "utility/messaging/type/MessageActivateTrail.h"
 #include "utility/messaging/type/MessageActivateTrailEdge.h"
-#include "utility/messaging/type/MessageColorSchemeTest.h"
 #include "utility/messaging/type/MessageFlushUpdates.h"
 #include "utility/messaging/type/MessageFocusIn.h"
 #include "utility/messaging/type/MessageFocusOut.h"
@@ -37,7 +36,6 @@ class GraphController
 	, public MessageListener<MessageActivateTokens>
 	, public MessageListener<MessageActivateTrail>
 	, public MessageListener<MessageActivateTrailEdge>
-	, public MessageListener<MessageColorSchemeTest>
 	, public MessageListener<MessageFlushUpdates>
 	, public MessageListener<MessageFocusIn>
 	, public MessageListener<MessageFocusOut>
@@ -123,8 +121,6 @@ private:
 
 	void forEachDummyNodeRecursive(std::function<void(DummyNode*)> func);
 	void forEachDummyEdge(std::function<void(DummyEdge*)> func);
-
-	virtual void handleMessage(MessageColorSchemeTest* message);
 
 	StorageAccess* m_storageAccess;
 

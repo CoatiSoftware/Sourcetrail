@@ -6,7 +6,6 @@
 #include "utility/messaging/type/MessageActivateAll.h"
 #include "utility/messaging/type/MessageActivateTokens.h"
 #include "utility/messaging/type/MessageChangeFileView.h"
-#include "utility/messaging/type/MessageColorSchemeTest.h"
 #include "utility/messaging/type/MessageFlushUpdates.h"
 #include "utility/messaging/type/MessageRefresh.h"
 #include "utility/messaging/type/MessageShowErrors.h"
@@ -109,12 +108,6 @@ void ActivationController::handleMessage(MessageSearch* message)
 			{
 				MessageShowErrors(m_storageAccess->getErrorCount()).dispatch();
 				MessageFlushUpdates().dispatch();
-				return;
-			}
-
-			case SearchMatch::COMMAND_COLOR_SCHEME_TEST:
-			{
-				MessageColorSchemeTest().dispatchImmediately();
 				return;
 			}
 		}

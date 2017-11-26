@@ -53,8 +53,6 @@ PersistentStorage::PersistentStorage(const FilePath& dbPath, const FilePath& boo
 	m_commandIndex.addNode(0, NodeType(NodeType::NODE_MACRO).getReadableTypeString());
 	m_commandIndex.addNode(0, NodeType(NodeType::NODE_UNION).getReadableTypeString());
 
-	// m_commandIndex.addNode(0, SearchMatch::getCommandName(SearchMatch::COMMAND_COLOR_SCHEME_TEST));
-
 	m_commandIndex.finishSetup();
 }
 

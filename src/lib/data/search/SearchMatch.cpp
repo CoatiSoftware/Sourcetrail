@@ -87,8 +87,6 @@ std::string SearchMatch::getCommandName(CommandType type)
 		return "error";
 	case COMMAND_NODE_FILTER:
 		return "node_filter";
-	case COMMAND_COLOR_SCHEME_TEST:
-		return "color_scheme_test";
 	}
 
 	return "none";
@@ -251,10 +249,6 @@ SearchMatch::CommandType SearchMatch::getCommandType() const
 	else if (name == "error")
 	{
 		return COMMAND_ERROR;
-	}
-	else if (name == "color_scheme_test")
-	{
-		return COMMAND_COLOR_SCHEME_TEST;
 	}
 
 	return COMMAND_NODE_FILTER;
