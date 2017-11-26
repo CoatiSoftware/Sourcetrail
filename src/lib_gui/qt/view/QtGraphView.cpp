@@ -125,6 +125,7 @@ void QtGraphView::initView()
 			m_trailDepthSlider->setMaximum(26);
 			m_trailDepthSlider->setValue(5);
 			connect(m_trailDepthSlider, &QSlider::valueChanged, this, &QtGraphView::trailDepthChanged);
+			connect(m_trailDepthSlider, &QSlider::sliderReleased, this, &QtGraphView::trailDepthUpdated);
 
 			m_collapseButton->setGeometry(0, 0, 26, 20);
 			m_backwardTrailButton->setGeometry(0, 22, 26, 26);
@@ -628,6 +629,14 @@ void QtGraphView::trailDepthChanged(int)
 	else
 	{
 		m_trailDepthLabel->setText(QString::number(m_trailDepthSlider->value()));
+	}
+}
+
+void QtGraphView::trailDepthUpdated()
+{
+	if (m_oldGraph->getTrailMode() != Graph::TRAIL_NONE)
+	{
+		activateTrail(m_oldGraph->hasTrailOrigin());
 	}
 }
 

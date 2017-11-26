@@ -75,6 +75,7 @@ private slots:
 	void resized();
 
 	void trailDepthChanged(int);
+	void trailDepthUpdated();
 
 	void clickedCollapse();
 	void clickedExpand();
