@@ -480,67 +480,59 @@ std::shared_ptr<SourceLocationCollection> PersistentStorage::getFullTextSearchLo
 		false, true
 	).dispatch();
 
-	std::vector<FullTextSearchResult> hits = m_fullTextSearchIndex.searchForTerm(searchTerm);
+	std::vector<FullTextSearchResult> allHits = m_fullTextSearchIndex.searchForTerm(searchTerm);
 	int termLength = searchTerm.length();
 
-	for (size_t i = 0; i < hits.size(); i++)
+	for (FullTextSearchResult fileHits : allHits)
 	{
-		FilePath filePath = getFileNodePath(hits[i].fileId);
+		FilePath filePath = getFileNodePath(fileHits.fileId);
 		std::shared_ptr<TextAccess> fileContent = getFileContent(filePath);
 
-		int charsInPreviousLines = 0;
+		int charsTotal = 0;
 		int lineNumber = 1;
-		std::string line;
-		line = fileContent->getLine(lineNumber);
+		std::string line = fileContent->getLine(lineNumber);
 
-		for (int pos : hits[i].positions)
+		for (int pos : fileHits.positions)
 		{
-			bool addHit = true;
-			while( (charsInPreviousLines + (int)line.length()) < pos)
+			while (charsTotal + (int)line.length() <= pos)
 			{
+				charsTotal += line.length();
 				lineNumber++;
-				charsInPreviousLines += line.length();
 				line = fileContent->getLine(lineNumber);
 			}
 
 			ParseLocation location;
 			location.startLineNumber = lineNumber;
-			location.startColumnNumber = pos - charsInPreviousLines + 1;
+			location.startColumnNumber = pos - charsTotal + 1;
 
-			if ( caseSensitive )
+			if (caseSensitive && line.substr(location.startColumnNumber - 1, termLength) != searchTerm)
 			{
-				if( line.substr(location.startColumnNumber-1, termLength) != searchTerm )
-				{
-					addHit = false;
-				}
+				continue;
 			}
 
-			while( (charsInPreviousLines + (int)line.length()) < pos + termLength)
+			while ((charsTotal + (int)line.length()) < pos + termLength)
 			{
+				charsTotal += line.length();
 				lineNumber++;
-				charsInPreviousLines += line.length();
 				line = fileContent->getLine(lineNumber);
 			}
 
 			location.endLineNumber = lineNumber;
-			location.endColumnNumber = pos + termLength - charsInPreviousLines;
+			location.endColumnNumber = pos + termLength - charsTotal;
 
-			if ( addHit )
-			{
-				// Set first bit to 1 to avoid collisions
-				Id locationId = ~(~Id(0) >> 1) + collection->getSourceLocationCount() + 1;
+			// Set first bit to 1 to avoid collisions
+			Id locationId = ~(~Id(0) >> 1) + collection->getSourceLocationCount() + 1;
 
-				collection->addSourceLocation(
-					LOCATION_FULLTEXT_SEARCH,
-					locationId,
-					std::vector<Id>(),
-					filePath,
-					location.startLineNumber,
-					location.startColumnNumber,
-					location.endLineNumber,
-					location.endColumnNumber
-				);
-			}
+			collection->addSourceLocation(
+				LOCATION_FULLTEXT_SEARCH,
+				locationId,
+				std::vector<Id>(),
+				filePath,
+				location.startLineNumber,
+				location.startColumnNumber,
+				location.endLineNumber,
+				location.endColumnNumber
+			);
 		}
 	}
 

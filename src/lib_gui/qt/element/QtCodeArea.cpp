@@ -166,6 +166,7 @@ void QtCodeArea::lineNumberAreaPaintEvent(QPaintEvent *event)
 			break;
 
 		case LOCATION_ERROR:
+		case LOCATION_FULLTEXT_SEARCH:
 		case LOCATION_SCREEN_SEARCH:
 			if (annotation.isFocused || annotation.isActive)
 			{
