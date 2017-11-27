@@ -13,9 +13,20 @@ bool NodeType::operator==(const NodeType& o) const
 	return m_type == o.m_type;
 }
 
+bool NodeType::operator<(const NodeType& o) const
+{
+	return m_type < o.m_type;
+}
+
 NodeType::Type NodeType::getType() const
 {
 	return m_type;
+}
+
+Id NodeType::getId() const
+{
+	// TODO: add id in constructor and return it here
+	return utility::nodeTypeToInt(m_type);
 }
 
 bool NodeType::isFile() const

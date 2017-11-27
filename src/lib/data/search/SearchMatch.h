@@ -7,6 +7,7 @@
 #include <vector>
 
 #include "data/graph/Node.h"
+#include "data/NodeTypeSet.h"
 #include "utility/types.h"
 
 struct SearchMatch
@@ -33,7 +34,7 @@ struct SearchMatch
 	static std::string searchMatchesToString(const std::vector<SearchMatch>& matches);
 
 	static SearchMatch createCommand(CommandType type);
-	static std::vector<SearchMatch> createCommandsForFilter(NodeType::TypeMask filter);
+	static std::vector<SearchMatch> createCommandsForNodeTypes(NodeTypeSet types);
 	static std::string getCommandName(CommandType type);
 
 	static const char FULLTEXT_SEARCH_CHARACTER = '?';

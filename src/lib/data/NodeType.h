@@ -52,9 +52,11 @@ public:
 	NodeType(Type type);
 
 	bool operator==(const NodeType& o) const;
+	bool operator<(const NodeType& o) const;
 
 	Type getType() const;
 
+	Id getId() const;
 	bool isFile() const;
 	bool isBuiltin() const;
 	bool isUnknownSymbol() const;

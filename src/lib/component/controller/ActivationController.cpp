@@ -100,7 +100,7 @@ void ActivationController::handleMessage(MessageSearch* message)
 			case SearchMatch::COMMAND_ALL:
 			case SearchMatch::COMMAND_NODE_FILTER:
 			{
-				MessageActivateAll(message->filter).dispatchImmediately();
+				MessageActivateAll(message->acceptedNodeTypes).dispatchImmediately();
 				return;
 			}
 

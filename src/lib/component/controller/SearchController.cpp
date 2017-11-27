@@ -16,11 +16,11 @@ SearchController::~SearchController()
 
 void SearchController::handleMessage(MessageActivateAll* message)
 {
-	if (message->filter)
+	if (message->acceptedNodeTypes != NodeTypeSet::all())
 	{
 		if (message->isReplayed())
 		{
-			getView()->setMatches(SearchMatch::createCommandsForFilter(message->filter));
+			getView()->setMatches(SearchMatch::createCommandsForNodeTypes(message->acceptedNodeTypes));
 		}
 		return;
 	}
@@ -87,7 +87,7 @@ void SearchController::handleMessage(MessageSearchAutocomplete* message)
 	}
 
 	LOG_INFO("autocomplete string: \"" + message->query + "\"");
-	view->setAutocompletionList(m_storageAccess->getAutocompletionMatches(message->query, message->filter));
+	view->setAutocompletionList(m_storageAccess->getAutocompletionMatches(message->query, message->acceptedNodeTypes));
 }
 
 void SearchController::handleMessage(MessageSearchFullText* message)

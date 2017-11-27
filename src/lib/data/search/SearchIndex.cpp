@@ -16,7 +16,7 @@ SearchIndex::~SearchIndex()
 {
 }
 
-void SearchIndex::addNode(Id id, const std::string& name, NodeType::TypeMask type)
+void SearchIndex::addNode(Id id, const std::string& name, NodeTypeSet typeSet)
 {
 	SearchNode* currentNode = m_root;
 
@@ -77,7 +77,7 @@ void SearchIndex::addNode(Id id, const std::string& name, NodeType::TypeMask typ
 	}
 
 	currentNode->elementIds.insert(id);
-	currentNode->mask |= type;
+	currentNode->containedTypes.add(typeSet);
 }
 
 void SearchIndex::finishSetup()
@@ -100,17 +100,17 @@ void SearchIndex::clear()
 }
 
 std::vector<SearchResult> SearchIndex::search(
-	const std::string& query, NodeType::TypeMask filter, size_t maxResultCount, size_t maxBestScoredResultsLength) const
+	const std::string& query, NodeTypeSet acceptedNodeTypes, size_t maxResultCount, size_t maxBestScoredResultsLength) const
 {
 	// find paths containing query
 	SearchPath startPath;
 	startPath.node = m_root;
 
 	std::vector<SearchPath> paths;
-	searchRecursive(startPath, utility::toLowerCase(query), filter, &paths);
+	searchRecursive(startPath, utility::toLowerCase(query), acceptedNodeTypes, &paths);
 
 	// create scored search results
-	std::multiset<SearchResult> searchResults = createScoredResults(paths, filter, maxResultCount * 3);
+	std::multiset<SearchResult> searchResults = createScoredResults(paths, acceptedNodeTypes, maxResultCount * 3);
 
 	// find best scores
 	std::map<std::string, SearchResult> scoresCache;
@@ -147,10 +147,10 @@ void SearchIndex::populateEdgeGate(SearchEdge* e)
 }
 
 void SearchIndex::searchRecursive(
-	const SearchPath& path, const std::string& remainingQuery, NodeType::TypeMask filter,
+	const SearchPath& path, const std::string& remainingQuery, NodeTypeSet acceptedNodeTypes,
 	std::vector<SearchIndex::SearchPath>* results) const
 {
-	if (remainingQuery.size() == 0 && (!filter || (path.node->mask & filter)))
+	if (remainingQuery.size() == 0 && (acceptedNodeTypes.intersectsWith(path.node->containedTypes)))
 	{
 		results->push_back(std::move(path));
 		return;
@@ -191,13 +191,13 @@ void SearchIndex::searchRecursive(
 				}
 			}
 
-			searchRecursive(currentPath, remainingQuery.substr(j), filter, results);
+			searchRecursive(currentPath, remainingQuery.substr(j), acceptedNodeTypes, results);
 		}
 	}
 }
 
 std::multiset<SearchResult> SearchIndex::createScoredResults(
-	const std::vector<SearchPath>& paths, NodeType::TypeMask filter, size_t maxResultCount) const
+	const std::vector<SearchPath>& paths, NodeTypeSet acceptedNodeTypes, size_t maxResultCount) const
 {
 	// score and order initial paths
 	std::multimap<int, SearchPath, std::greater<int>> scoredPaths;
@@ -213,13 +213,13 @@ std::multiset<SearchResult> SearchIndex::createScoredResults(
 		std::vector<SearchPath> currentPaths;
 		currentPaths.push_back(p.second);
 
-		while (currentPaths.size())
+		while (!currentPaths.empty())
 		{
 			std::vector<SearchPath> nextPaths;
 
 			for (const SearchPath& path : currentPaths)
 			{
-				if (path.node->elementIds.size() && (!filter || (path.node->mask & filter)))
+				if (!path.node->elementIds.empty() && (acceptedNodeTypes.intersectsWith(path.node->containedTypes)))
 				{
 					SearchResult result;
 					result.text = path.text;

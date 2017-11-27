@@ -548,7 +548,7 @@ std::shared_ptr<SourceLocationCollection> PersistentStorage::getFullTextSearchLo
 	return collection;
 }
 
-std::vector<SearchMatch> PersistentStorage::getAutocompletionMatches(const std::string& query, NodeType::TypeMask filter) const
+std::vector<SearchMatch> PersistentStorage::getAutocompletionMatches(const std::string& query, NodeTypeSet acceptedNodeTypes) const
 {
 	TRACE();
 
@@ -559,17 +559,17 @@ std::vector<SearchMatch> PersistentStorage::getAutocompletionMatches(const std::
 	// create SearchMatches
 	std::vector<SearchMatch> matches;
 
-	if (!filter || (filter & ~NodeType::NODE_FILE))
+	if (!acceptedNodeTypes.getWithRemoved(NodeType(NodeType::NODE_FILE)).isEmpty())
 	{
-		utility::append(matches, getAutocompletionSymbolMatches(query, filter, maxResultsCount, maxBestScoredResultsLength));
+		utility::append(matches, getAutocompletionSymbolMatches(query, acceptedNodeTypes, maxResultsCount, maxBestScoredResultsLength));
 	}
 
-	if (!filter || (filter & NodeType::NODE_FILE))
+	if (acceptedNodeTypes.contains(NodeType(NodeType::NODE_FILE)))
 	{
 		utility::append(matches, getAutocompletionFileMatches(query, maxResultsCount));
 	}
 
-	utility::append(matches, getAutocompletionCommandMatches(query, filter));
+	utility::append(matches, getAutocompletionCommandMatches(query, acceptedNodeTypes));
 
 	std::set<SearchMatch> matchesSet;
 	for (SearchMatch& match : matches)
@@ -596,11 +596,11 @@ std::vector<SearchMatch> PersistentStorage::getAutocompletionMatches(const std::
 }
 
 std::vector<SearchMatch> PersistentStorage::getAutocompletionSymbolMatches(
-	const std::string& query, NodeType::TypeMask filter, size_t maxResultsCount, size_t maxBestScoredResultsLength) const
+	const std::string& query, const NodeTypeSet& acceptedNodeTypes, size_t maxResultsCount, size_t maxBestScoredResultsLength) const
 {
 	// search in indices
 	std::vector<SearchResult> results =
-		m_symbolIndex.search(query, filter, maxResultsCount, maxBestScoredResultsLength);
+		m_symbolIndex.search(query, acceptedNodeTypes, maxResultsCount, maxBestScoredResultsLength);
 
 	// fetch StorageNodes for node ids
 	std::map<Id, StorageNode> storageNodeMap;
@@ -637,7 +637,7 @@ std::vector<SearchMatch> PersistentStorage::getAutocompletionSymbolMatches(
 			{
 				match.tokenIds.push_back(elementId);
 
-				if (!match.hasChildren && !filter) // TODO: apply filter to children
+				if (!match.hasChildren && acceptedNodeTypes == NodeTypeSet::all()) // TODO: check if node types of children match
 				{
 					match.hasChildren = m_hierarchyCache.nodeHasChildren(elementId);
 				}
@@ -681,7 +681,7 @@ std::vector<SearchMatch> PersistentStorage::getAutocompletionSymbolMatches(
 
 std::vector<SearchMatch> PersistentStorage::getAutocompletionFileMatches(const std::string& query, size_t maxResultsCount) const
 {
-	std::vector<SearchResult> results = m_fileIndex.search(query, NodeType::NODE_FILE, maxResultsCount, 100);
+	std::vector<SearchResult> results = m_fileIndex.search(query, NodeTypeSet(NodeType::NODE_FILE), maxResultsCount, 100);
 
 	// create SearchMatches
 	std::vector<SearchMatch> matches;
@@ -713,10 +713,10 @@ std::vector<SearchMatch> PersistentStorage::getAutocompletionFileMatches(const s
 }
 
 std::vector<SearchMatch> PersistentStorage::getAutocompletionCommandMatches(
-	const std::string& query, NodeType::TypeMask filter) const
+	const std::string& query, NodeTypeSet acceptedNodeTypes) const
 {
 	// search in indices
-	std::vector<SearchResult> results = m_commandIndex.search(query, 0, 0);
+	std::vector<SearchResult> results = m_commandIndex.search(query, NodeTypeSet::all(), 0);
 
 	// create SearchMatches
 	std::vector<SearchMatch> matches;
@@ -741,7 +741,7 @@ std::vector<SearchMatch> PersistentStorage::getAutocompletionCommandMatches(
 			match.typeName = "filter";
 		}
 
-		if (!filter || (match.getCommandType() == SearchMatch::COMMAND_NODE_FILTER && !(filter & match.nodeType.getType())))
+		if (acceptedNodeTypes == NodeTypeSet::all() || match.getCommandType() == SearchMatch::COMMAND_NODE_FILTER && (acceptedNodeTypes.contains(match.nodeType)))
 		{
 			matches.push_back(match);
 		}
@@ -823,7 +823,7 @@ std::shared_ptr<Graph> PersistentStorage::getGraphForAll() const
 	return graph;
 }
 
-std::shared_ptr<Graph> PersistentStorage::getGraphForFilter(NodeType::TypeMask filter) const
+std::shared_ptr<Graph> PersistentStorage::getGraphForNodeTypes(NodeTypeSet nodeTypes) const
 {
 	TRACE();
 
@@ -832,7 +832,7 @@ std::shared_ptr<Graph> PersistentStorage::getGraphForFilter(NodeType::TypeMask f
 	std::vector<Id> tokenIds;
 	for (StorageNode& node: m_sqliteIndexStorage.getAll<StorageNode>())
 	{
-		if ((filter & utility::intToType(node.type)))
+		if (nodeTypes.contains(utility::intToType(node.type)))
 		{
 			auto it = m_symbolDefinitionKinds.find(node.id);
 			if (it != m_symbolDefinitionKinds.end() && it->second == DEFINITION_EXPLICIT)
@@ -842,7 +842,7 @@ std::shared_ptr<Graph> PersistentStorage::getGraphForFilter(NodeType::TypeMask f
 		}
 	}
 
-	if (!filter || (filter & NodeType::NODE_FILE))
+	if (nodeTypes.contains(NodeType(NodeType::NODE_FILE)))
 	{
 		for (const auto& p : m_fileNodePaths)
 		{
@@ -2522,7 +2522,7 @@ void PersistentStorage::buildSearchIndex()
 
 	for (StorageNode& node : m_sqliteIndexStorage.getAll<StorageNode>())
 	{
-		NodeType::Type type = utility::intToType(node.type);
+		NodeType type = utility::intToType(node.type);
 		if (type == NodeType::NODE_FILE)
 		{
 			auto it = m_fileNodePaths.find(node.id);
@@ -2535,7 +2535,7 @@ void PersistentStorage::buildSearchIndex()
 					filePath = filePath.relativeTo(dbPath);
 				}
 
-				m_fileIndex.addNode(node.id, filePath.str(), node.type);
+				m_fileIndex.addNode(node.id, filePath.str(), type);
 			}
 		}
 		else
@@ -2556,7 +2556,7 @@ void PersistentStorage::buildSearchIndex()
 					name = utility::replaceBetween(name, '<', '>', "..");
 				}
 
-				m_symbolIndex.addNode(node.id, name, node.type);
+				m_symbolIndex.addNode(node.id, name, type);
 			}
 		}
 	}

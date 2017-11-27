@@ -9,9 +9,9 @@ class MessageSearch
 	: public Message<MessageSearch>
 {
 public:
-	MessageSearch(const std::vector<SearchMatch>& matches, NodeType::TypeMask filter = 0)
+	MessageSearch(const std::vector<SearchMatch>& matches, NodeTypeSet acceptedNodeTypes = NodeTypeSet::all())
 		: isFromSearch(true)
-		, filter(filter)
+		, acceptedNodeTypes(acceptedNodeTypes)
 		, m_matches(matches)
 	{
 	}
@@ -72,7 +72,7 @@ public:
 	}
 
 	bool isFromSearch;
-	NodeType::TypeMask filter;
+	NodeTypeSet acceptedNodeTypes;
 
 private:
 	const std::vector<SearchMatch> m_matches;

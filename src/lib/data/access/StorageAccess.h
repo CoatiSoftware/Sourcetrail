@@ -13,12 +13,13 @@
 #include "data/graph/Node.h"
 #include "data/search/SearchMatch.h"
 #include "data/storage/type/StorageEdge.h"
-#include "data/ErrorCountInfo.h"
-#include "data/ErrorFilter.h"
-#include "data/ErrorInfo.h"
 #include "data/storage/StorageStats.h"
 #include "data/tooltip/TooltipInfo.h"
 #include "data/tooltip/TooltipOrigin.h"
+#include "data/ErrorCountInfo.h"
+#include "data/ErrorFilter.h"
+#include "data/ErrorInfo.h"
+#include "data/NodeTypeSet.h"
 
 class FilePath;
 class Graph;
@@ -48,11 +49,11 @@ public:
 
 	virtual std::shared_ptr<SourceLocationCollection> getFullTextSearchLocations(
 			const std::string& searchTerm, bool caseSensitive) const = 0;
-	virtual std::vector<SearchMatch> getAutocompletionMatches(const std::string& query, NodeType::TypeMask filter) const = 0;
+	virtual std::vector<SearchMatch> getAutocompletionMatches(const std::string& query, NodeTypeSet acceptedNodeTypes) const = 0;
 	virtual std::vector<SearchMatch> getSearchMatchesForTokenIds(const std::vector<Id>& tokenIds) const = 0;
 
 	virtual std::shared_ptr<Graph> getGraphForAll() const = 0;
-	virtual std::shared_ptr<Graph> getGraphForFilter(NodeType::TypeMask filter) const = 0;
+	virtual std::shared_ptr<Graph> getGraphForNodeTypes(NodeTypeSet nodeTypes) const = 0;
 	virtual std::shared_ptr<Graph> getGraphForActiveTokenIds(
 		const std::vector<Id>& tokenIds, const std::vector<Id>& expandedNodeIds, bool* isActiveNamespace = nullptr) const = 0;
 	virtual std::shared_ptr<Graph> getGraphForChildrenOfNodeId(Id nodeId) const = 0;

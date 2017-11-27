@@ -268,6 +268,8 @@ add_files(
 	data/HierarchyCache.h
 	data/NodeType.cpp
 	data/NodeType.h
+	data/NodeTypeSet.cpp
+	data/NodeTypeSet.h
 	data/TaskCleanStorage.cpp
 	data/TaskCleanStorage.h
 	data/TaskFinishParsing.cpp

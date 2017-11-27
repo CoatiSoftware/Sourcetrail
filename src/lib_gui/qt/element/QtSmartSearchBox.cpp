@@ -68,7 +68,7 @@ void QtSmartSearchBox::search()
 
 	std::vector<SearchMatch> matches = utility::toVector(m_matches);
 
-	MessageSearch(matches, getMatchFilter()).dispatch();
+	MessageSearch(matches, getMatchAcceptedNodeTypes()).dispatch();
 }
 
 void QtSmartSearchBox::fullTextSearch()
@@ -1033,7 +1033,7 @@ void QtSmartSearchBox::requestAutoCompletions()
 {
 	if (text().size() && !text().startsWith(SearchMatch::FULLTEXT_SEARCH_CHARACTER))
 	{
-		MessageSearchAutocomplete(text().toStdString(), getMatchFilter()).dispatch();
+		MessageSearchAutocomplete(text().toStdString(), getMatchAcceptedNodeTypes()).dispatch();
 	}
 	else
 	{
@@ -1056,15 +1056,15 @@ std::deque<SearchMatch> QtSmartSearchBox::getMatchesForInput(const std::string& 
 	return matches;
 }
 
-NodeType::TypeMask QtSmartSearchBox::getMatchFilter() const
+NodeTypeSet QtSmartSearchBox::getMatchAcceptedNodeTypes() const
 {
-	NodeType::TypeMask filter = 0;
+	NodeTypeSet types;
 
 	for (const SearchMatch& match : m_matches)
 	{
 		if (match.isFilterCommand())
 		{
-			filter |= match.nodeType.getType();
+			types.add(match.nodeType);
 		}
 		else
 		{
@@ -1072,7 +1072,12 @@ NodeType::TypeMask QtSmartSearchBox::getMatchFilter() const
 		}
 	}
 
-	return filter;
+	if (types.isEmpty())
+	{
+		types.invert();
+	}
+
+	return types;
 }
 
 bool QtSmartSearchBox::lastMatchIsNoFilter() const

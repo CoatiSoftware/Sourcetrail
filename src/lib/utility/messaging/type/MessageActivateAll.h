@@ -2,14 +2,15 @@
 #define MESSAGE_ACTIVATE_ALL_H
 
 #include "data/graph/Node.h"
+#include "data/NodeTypeSet.h"
 #include "utility/messaging/Message.h"
 
 class MessageActivateAll
 	: public Message<MessageActivateAll>
 {
 public:
-	MessageActivateAll(NodeType::TypeMask filter = 0)
-		: filter(filter)
+	MessageActivateAll(NodeTypeSet acceptedNodeTypes = NodeTypeSet::all())
+		: acceptedNodeTypes(acceptedNodeTypes)
 	{
 		setIsParallel(true);
 	}
@@ -19,7 +20,7 @@ public:
 		return "MessageActivateAll";
 	}
 
-	NodeType::TypeMask filter;
+	NodeTypeSet acceptedNodeTypes;
 };
 
 #endif // MESSAGE_ACTIVATE_ALL_H

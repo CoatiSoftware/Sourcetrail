@@ -56,22 +56,19 @@ SearchMatch SearchMatch::createCommand(CommandType type)
 	return match;
 }
 
-std::vector<SearchMatch> SearchMatch::createCommandsForFilter(NodeType::TypeMask filter)
+std::vector<SearchMatch> SearchMatch::createCommandsForNodeTypes(NodeTypeSet types)
 {
 	std::vector<SearchMatch> matches;
 
-	for (NodeType::TypeMask type = 1; type <= filter; type *= 2)
+	for (const NodeType& type: types.getNodeTypes())
 	{
-		if (type & filter)
-		{
-			SearchMatch match;
-			match.name = NodeType(utility::intToType(type)).getReadableTypeString();
-			match.text = match.name;
-			match.typeName = "filter";
-			match.searchType = SEARCH_COMMAND;
-			match.nodeType = NodeType(utility::intToType(type));
-			matches.push_back(match);
-		}
+		SearchMatch match;
+		match.name = type.getReadableTypeString();
+		match.text = match.name;
+		match.typeName = "filter";
+		match.searchType = SEARCH_COMMAND;
+		match.nodeType = type;
+		matches.push_back(match);
 	}
 
 	return matches;

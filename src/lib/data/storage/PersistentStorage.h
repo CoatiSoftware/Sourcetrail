@@ -86,15 +86,15 @@ public:
 	virtual std::shared_ptr<SourceLocationCollection> getFullTextSearchLocations(
 		const std::string& searchTerm, bool caseSensitive) const override;
 
-	virtual std::vector<SearchMatch> getAutocompletionMatches(const std::string& query, NodeType::TypeMask filter) const override;
+	virtual std::vector<SearchMatch> getAutocompletionMatches(const std::string& query, NodeTypeSet acceptedNodeTypes) const override;
 	std::vector<SearchMatch> getAutocompletionSymbolMatches(
-		const std::string& query, NodeType::TypeMask filter, size_t maxResultsCount, size_t maxBestScoredResultsLength) const;
+		const std::string& query, const NodeTypeSet& acceptedNodeTypes, size_t maxResultsCount, size_t maxBestScoredResultsLength) const;
 	std::vector<SearchMatch> getAutocompletionFileMatches(const std::string& query, size_t maxResultsCount) const;
-	std::vector<SearchMatch> getAutocompletionCommandMatches(const std::string& query, NodeType::TypeMask filter) const;
+	std::vector<SearchMatch> getAutocompletionCommandMatches(const std::string& query, NodeTypeSet acceptedNodeTypes) const;
 	virtual std::vector<SearchMatch> getSearchMatchesForTokenIds(const std::vector<Id>& elementIds) const override;
 
 	virtual std::shared_ptr<Graph> getGraphForAll() const override;
-	virtual std::shared_ptr<Graph> getGraphForFilter(NodeType::TypeMask filter) const override;
+	virtual std::shared_ptr<Graph> getGraphForNodeTypes(NodeTypeSet nodeTypes) const override;
 	virtual std::shared_ptr<Graph> getGraphForActiveTokenIds(
 		const std::vector<Id>& tokenIds, const std::vector<Id>& expandedNodeIds, bool* isActiveNamespace = nullptr) const override;
 	virtual std::shared_ptr<Graph> getGraphForChildrenOfNodeId(Id nodeId) const override;

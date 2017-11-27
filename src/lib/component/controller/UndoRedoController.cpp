@@ -45,7 +45,7 @@ UndoRedoController::Command::Command(std::shared_ptr<MessageBase> message, Order
 void UndoRedoController::handleMessage(MessageActivateAll* message)
 {
 	if (sameMessageTypeAsLast(message) &&
-		static_cast<MessageActivateAll*>(lastMessage())->filter == message->filter)
+		static_cast<MessageActivateAll*>(lastMessage())->acceptedNodeTypes == message->acceptedNodeTypes)
 	{
 		return;
 	}
@@ -603,9 +603,9 @@ SearchMatch UndoRedoController::getSearchMatchForMessage(MessageBase* message) c
 	if (message->getType() == MessageActivateAll::getStaticType())
 	{
 		SearchMatch match = SearchMatch::createCommand(SearchMatch::COMMAND_ALL);
-		if (dynamic_cast<MessageActivateAll*>(message)->filter)
+		if (dynamic_cast<MessageActivateAll*>(message)->acceptedNodeTypes != NodeTypeSet::all())
 		{
-			match.name = match.text = "filter"; // TODO: show filter names
+			match.name = match.text = "filter"; // TODO: show acceptedNodeTypes names or at least type ids
 		}
 		return match;
 	}

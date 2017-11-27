@@ -39,10 +39,11 @@ void GraphController::handleMessage(MessageActivateAll* message)
 
 	m_dummyGraphNodes.clear();
 
-	if (message->filter)
+	if (message->acceptedNodeTypes != NodeTypeSet::all())
 	{
 		createDummyGraphAndSetActiveAndVisibility(
-			std::vector<Id>(), m_storageAccess->getGraphForFilter(message->filter));
+			std::vector<Id>(), m_storageAccess->getGraphForNodeTypes(message->acceptedNodeTypes)
+		);
 
 		addCharacterIndex();
 		layoutNesting();
@@ -59,7 +60,7 @@ void GraphController::handleMessage(MessageActivateAll* message)
 		layoutGraph();
 	}
 
-	buildGraph(message, false, true, message->filter);
+	buildGraph(message, false, true, message->acceptedNodeTypes != NodeTypeSet::all());
 }
 
 void GraphController::handleMessage(MessageActivateTokens* message)

@@ -8,6 +8,7 @@
 #include <QPushButton>
 
 #include "data/search/SearchMatch.h"
+#include "data/NodeTypeSet.h"
 #include "qt/element/QtAutocompletionList.h"
 
 class QtSearchElement
@@ -99,7 +100,7 @@ private:
 
 	std::deque<SearchMatch> getMatchesForInput(const std::string& text) const;
 
-	NodeType::TypeMask getMatchFilter() const;
+	NodeTypeSet getMatchAcceptedNodeTypes() const;
 	bool lastMatchIsNoFilter() const;
 
 	bool m_allowTextChange;
