@@ -22,11 +22,13 @@ QScrollBar::handle:vertical, QScrollBar::handle:horizontal {
 
 QScrollBar::handle:vertical {
 	width: 8px;
+	min-height: 16px;
 	margin: 4px 3px;
 }
 
 QScrollBar::handle:horizontal {
 	height: 8px;
+	min-width: 16px;
 	margin: 3px 4px;
 }
 
@@ -46,6 +48,10 @@ QScrollBar::sub-line:vertical, QScrollBar::sub-line:horizontal {
 	width: 0px;
 	subcontrol-position: top;
 	subcontrol-origin: margin;
+}
+
+QScrollBar::add-page:horizontal, QScrollBar::sub-page:horizontal, QScrollBar::add-page:vertical, QScrollBar::sub-page:vertical {
+	background: none;
 }
 
 QAbstractScrollArea::corner {
