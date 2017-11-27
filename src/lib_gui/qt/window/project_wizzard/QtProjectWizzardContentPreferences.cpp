@@ -201,21 +201,16 @@ void QtProjectWizzardContentPreferences::populate(QGridLayout* layout, int& row)
 			break;
 		}
 
-		addLabelAndWidget("Java Path", m_javaPath, layout, row);
+		const std::string javaArchitectureString = utility::getApplicationArchitectureType() == APPLICATION_ARCHITECTURE_X86_32 ? "32 Bit" : "64 Bit";
 
-		std::string javaVersionString = "";
-		switch (utility::getApplicationArchitectureType())
-		{
-		case APPLICATION_ARCHITECTURE_X86_32:
-			javaVersionString = "32 Bit ";
-			break;
-		case APPLICATION_ARCHITECTURE_X86_64:
-			javaVersionString = "64 Bit ";
-			break;
-		default:
-			break;
-		}
-		javaVersionString += "Java 8";
+		addLabelAndWidget(
+			("Java Path (" + javaArchitectureString + ")").c_str(),
+			m_javaPath, 
+			layout, 
+			row
+		);
+
+		const std::string javaVersionString = javaArchitectureString + " Java 8";
 
 		addHelpButton(
 			"Java Path", (
