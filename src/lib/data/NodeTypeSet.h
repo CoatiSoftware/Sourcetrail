@@ -23,7 +23,7 @@ public:
 	NodeTypeSet getInverse() const;
 
 	void add(const NodeTypeSet& typeSet);
-	std::set<NodeType> getNodeTypes() const;
+	std::vector<NodeType> getNodeTypes() const;
 
 	void remove(const NodeTypeSet& typeSet);
 	NodeTypeSet getWithRemoved(const NodeTypeSet& typeSet) const;
@@ -34,7 +34,13 @@ public:
 	std::vector<Id> getNodeTypeIds() const;
 
 private:
-	std::set<NodeType> m_nodeTypes;
+	typedef unsigned long int MaskType;
+
+	static MaskType nodeTypeToMask(const NodeType& nodeType);
+	static const std::vector<NodeType> s_allNodeTypes;
+
+	MaskType m_nodeTypeMask;
+	//std::set<NodeType> m_nodeTypes;
 };
 
 #endif // NODE_TYPE_SET_H

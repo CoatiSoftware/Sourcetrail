@@ -15,29 +15,29 @@ public:
 	typedef int TypeMask;
 	enum Type : NodeType::TypeMask
 	{ // make sure that the value of 0x0 is not used here because it doesn't work for bitmasking.
-		NODE_SYMBOL = 0x1,
-		NODE_TYPE = 0x2,
-		NODE_BUILTIN_TYPE = 0x4,
+		NODE_SYMBOL = 1 << 0,
+		NODE_TYPE = 1 << 1,
+		NODE_BUILTIN_TYPE = 1 << 2,
 
-		NODE_NAMESPACE = 0x8,
-		NODE_PACKAGE = 0x10,
-		NODE_STRUCT = 0x20,
-		NODE_CLASS = 0x40,
-		NODE_INTERFACE = 0x80,
-		NODE_GLOBAL_VARIABLE = 0x100,
-		NODE_FIELD = 0x200,
-		NODE_FUNCTION = 0x400,
-		NODE_METHOD = 0x800,
+		NODE_NAMESPACE = 1 << 3,
+		NODE_PACKAGE = 1 << 4,
+		NODE_STRUCT = 1 << 5,
+		NODE_CLASS = 1 << 6,
+		NODE_INTERFACE = 1 << 7,
+		NODE_GLOBAL_VARIABLE = 1 << 8,
+		NODE_FIELD = 1 << 9,
+		NODE_FUNCTION = 1 << 10,
+		NODE_METHOD = 1 << 11,
 
-		NODE_ENUM = 0x1000,
-		NODE_ENUM_CONSTANT = 0x2000,
-		NODE_TYPEDEF = 0x4000,
-		NODE_TEMPLATE_PARAMETER_TYPE = 0x8000,
-		NODE_TYPE_PARAMETER = 0x10000,
+		NODE_ENUM = 1 << 12,
+		NODE_ENUM_CONSTANT = 1 << 13,
+		NODE_TYPEDEF = 1 << 14,
+		NODE_TEMPLATE_PARAMETER_TYPE = 1 << 15,
+		NODE_TYPE_PARAMETER = 1 << 16,
 
-		NODE_FILE = 0x20000,
-		NODE_MACRO = 0x40000,
-		NODE_UNION = 0x80000,
+		NODE_FILE = 1 << 17,
+		NODE_MACRO = 1 << 18,
+		NODE_UNION = 1 << 19,
 
 		NODE_MAX_VALUE = NODE_UNION
 	};
