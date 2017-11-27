@@ -6,13 +6,11 @@
 ASTActionFactory::ASTActionFactory(
 	std::shared_ptr<ParserClient> client,
 	std::shared_ptr<FileRegister> fileRegister,
-	std::shared_ptr<CanonicalFilePathCache> canonicalFilePathCache,
-	bool preprocessorOnly
+	std::shared_ptr<CanonicalFilePathCache> canonicalFilePathCache
 )
 	: m_client(client)
 	, m_fileRegister(fileRegister)
 	, m_canonicalFilePathCache(canonicalFilePathCache)
-	, m_preprocessorOnly(preprocessorOnly)
 {
 }
 
@@ -22,9 +20,5 @@ ASTActionFactory::~ASTActionFactory()
 
 clang::FrontendAction* ASTActionFactory::create()
 {
-	if (m_preprocessorOnly)
-	{
-		return new ASTAction<clang::PreprocessOnlyAction>(m_client, m_fileRegister, m_canonicalFilePathCache);
-	}
 	return new ASTAction<clang::ASTFrontendAction>(m_client, m_fileRegister, m_canonicalFilePathCache);
 }

@@ -15,8 +15,7 @@ public:
 	explicit ASTActionFactory(
 		std::shared_ptr<ParserClient> client,
 		std::shared_ptr<FileRegister> fileRegister,
-		std::shared_ptr<CanonicalFilePathCache> canonicalFilePathCache,
-		bool preprocessorOnly
+		std::shared_ptr<CanonicalFilePathCache> canonicalFilePathCache
 	);
 
 	virtual ~ASTActionFactory();
@@ -27,8 +26,6 @@ private:
 	std::shared_ptr<ParserClient> m_client;
 	std::shared_ptr<FileRegister> m_fileRegister;
 	std::shared_ptr<CanonicalFilePathCache> m_canonicalFilePathCache;
-
-	bool m_preprocessorOnly;
 };
 
 #endif // AST_ACTION_FACTORY

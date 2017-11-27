@@ -95,7 +95,7 @@ void CxxParser::buildIndex(const std::string& fileName, std::shared_ptr<TextAcce
 	std::shared_ptr<CanonicalFilePathCache> canonicalFilePathCache = std::make_shared<CanonicalFilePathCache>();
 
 	std::shared_ptr<CxxDiagnosticConsumer> diagnostics = getDiagnostics(canonicalFilePathCache, false);
-	ASTActionFactory actionFactory(m_client, m_fileRegister, canonicalFilePathCache, false);
+	ASTActionFactory actionFactory(m_client, m_fileRegister, canonicalFilePathCache);
 
 	std::vector<std::string> args = getCommandlineArgumentsEssential(std::vector<std::string>(1, "-std=c++1z"), std::vector<FilePath>(), std::vector<FilePath>());
 
@@ -129,7 +129,7 @@ void CxxParser::runTool(clang::tooling::CompilationDatabase* compilationDatabase
 
 	tool.setDiagnosticConsumer(diagnostics.get());
 
-	ASTActionFactory actionFactory(m_client, m_fileRegister, canonicalFilePathCache, false);
+	ASTActionFactory actionFactory(m_client, m_fileRegister, canonicalFilePathCache);
 	tool.run(&actionFactory);
 }
 
