@@ -1,5 +1,7 @@
 package com.sourcetrail;
 
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -26,110 +28,119 @@ public class JavaIndexer
 	
 	public static void processFile(AstVisitorClient astVisitorClient, String filePath, String fileContent, String languageStandard, String classPath, int verbose)
 	{
-		astVisitorClient.logInfo("indexing source file: " + filePath);
+		try
+		{
+			astVisitorClient.logInfo("indexing source file: " + filePath);
+			
+			Path path = Paths.get(filePath);
 		
-		Path path = Paths.get(filePath);
+			ASTParser parser = ASTParser.newParser(AST.JLS8);
+			
+			parser.setResolveBindings(true); // solve "bindings" like the declatarion of the type used in a var decl
+			parser.setKind(ASTParser.K_COMPILATION_UNIT); // specify to parse the entire compilation unit
+			parser.setBindingsRecovery(true); // also return bindings that are not resolved completely
+	        parser.setStatementsRecovery(true);
+
+	        Hashtable<String, String> options = JavaCore.getOptions();
+
+	        String convertedLanguageStandard;
+	        switch (languageStandard)
+	        {
+	        case "1":
+	        	convertedLanguageStandard = JavaCore.VERSION_1_1;
+	        	break;
+	        case "2":
+	        	convertedLanguageStandard = JavaCore.VERSION_1_2;
+	        	break;
+	        case "3":
+	        	convertedLanguageStandard = JavaCore.VERSION_1_3;
+	        	break;
+	        case "4":
+	        	convertedLanguageStandard = JavaCore.VERSION_1_4;
+	        	break;
+	        case "5":
+	        	convertedLanguageStandard = JavaCore.VERSION_1_5;
+	        	break;
+	        case "6":
+	        	convertedLanguageStandard = JavaCore.VERSION_1_6;
+	        	break;
+	        case "7":
+	        	convertedLanguageStandard = JavaCore.VERSION_1_7;
+	        	break;
+	        case "8":
+	    	default:
+	        	convertedLanguageStandard = JavaCore.VERSION_1_8;
+	        	break;
+	        }
 	
-		ASTParser parser = ASTParser.newParser(AST.JLS8);
-		
-		parser.setResolveBindings(true); // solve "bindings" like the declatarion of the type used in a var decl
-		parser.setKind(ASTParser.K_COMPILATION_UNIT); // specify to parse the entire compilation unit
-		parser.setBindingsRecovery(true); // also return bindings that are not resolved completely
-        parser.setStatementsRecovery(true);
-		
-        Hashtable<String, String> options = JavaCore.getOptions();
-        
-        String convertedLanguageStandard;
-        switch (languageStandard)
-        {
-        case "1":
-        	convertedLanguageStandard = JavaCore.VERSION_1_1;
-        	break;
-        case "2":
-        	convertedLanguageStandard = JavaCore.VERSION_1_2;
-        	break;
-        case "3":
-        	convertedLanguageStandard = JavaCore.VERSION_1_3;
-        	break;
-        case "4":
-        	convertedLanguageStandard = JavaCore.VERSION_1_4;
-        	break;
-        case "5":
-        	convertedLanguageStandard = JavaCore.VERSION_1_5;
-        	break;
-        case "6":
-        	convertedLanguageStandard = JavaCore.VERSION_1_6;
-        	break;
-        case "7":
-        	convertedLanguageStandard = JavaCore.VERSION_1_7;
-        	break;
-        case "8":
-    	default:
-        	convertedLanguageStandard = JavaCore.VERSION_1_8;
-        	break;
-        }
-
-		astVisitorClient.logInfo("using language standard " + convertedLanguageStandard);
-        
-        JavaCore.setComplianceOptions(convertedLanguageStandard, options);
-        parser.setCompilerOptions(options);
-		
-		parser.setUnitName(path.getFileName().toString());
-
-		List<String> classpath = new ArrayList<>();
-		List<String> sources = new ArrayList<>();
-		
-		for (String classPathEntry: classPath.split("\\;"))
-		{	
-			if (classPathEntry.endsWith(".jar"))
-			{
-				classpath.add(classPathEntry);
-			}
-			else if (!classPathEntry.isEmpty())
-			{
-				sources.add(classPathEntry);
-			}		
-		}
-		
-		parser.setEnvironment(classpath.toArray(new String[0]), sources.toArray(new String[0]), null, true);
-		parser.setSource(fileContent.toCharArray());
-		
-		CompilationUnit cu = (CompilationUnit) parser.createAST(null);
-		
-		ASTVisitor visitor;
-		if (verbose != 0)
-		{
-			visitor = new VerboseContextAwareAstVisitor(astVisitorClient, path.toFile(), fileContent, cu);
-		}
-		else
-		{
-			visitor = new ContextAwareAstVisitor(astVisitorClient, path.toFile(), fileContent, cu);
-		}
-		
-		cu.accept(visitor);
-
-		for (IProblem problem: cu.getProblems())
-		{
-			if (problem.isError())
-			{
-				Range range = new Range(
-						cu.getLineNumber(problem.getSourceStart()),
-						cu.getColumnNumber(problem.getSourceStart() + 1),
-						cu.getLineNumber(problem.getSourceEnd()),
-						cu.getColumnNumber(problem.getSourceEnd()) + 1);
-
-				astVisitorClient.recordError(problem.getMessage(), false, true, range);
-			}
-		}
-		
-		for (Object commentObject: cu.getCommentList())
-		{
-			if ((commentObject instanceof LineComment) || (commentObject instanceof BlockComment))
-			{
-				((Comment) commentObject).accept(visitor);
-			}
-		}
+			astVisitorClient.logInfo("using language standard " + convertedLanguageStandard);
+	        
+	        JavaCore.setComplianceOptions(convertedLanguageStandard, options);
+	        parser.setCompilerOptions(options);
+			
+			parser.setUnitName(path.getFileName().toString());
 	
+			List<String> classpath = new ArrayList<>();
+			List<String> sources = new ArrayList<>();
+			
+			for (String classPathEntry: classPath.split("\\;"))
+			{	
+				if (classPathEntry.endsWith(".jar"))
+				{
+					classpath.add(classPathEntry);
+				}
+				else if (!classPathEntry.isEmpty())
+				{
+					sources.add(classPathEntry);
+				}		
+			}
+			
+			parser.setEnvironment(classpath.toArray(new String[0]), sources.toArray(new String[0]), null, true);
+			parser.setSource(fileContent.toCharArray());
+			
+			CompilationUnit cu = (CompilationUnit) parser.createAST(null);
+			
+			ASTVisitor visitor;
+			if (verbose != 0)
+			{
+				visitor = new VerboseContextAwareAstVisitor(astVisitorClient, path.toFile(), fileContent, cu);
+			}
+			else
+			{
+				visitor = new ContextAwareAstVisitor(astVisitorClient, path.toFile(), fileContent, cu);
+			}
+			
+			cu.accept(visitor);
+	
+			for (IProblem problem: cu.getProblems())
+			{
+				if (problem.isError())
+				{
+					Range range = new Range(
+							cu.getLineNumber(problem.getSourceStart()),
+							cu.getColumnNumber(problem.getSourceStart() + 1),
+							cu.getLineNumber(problem.getSourceEnd()),
+							cu.getColumnNumber(problem.getSourceEnd()) + 1);
+	
+					astVisitorClient.recordError(problem.getMessage(), false, true, range);
+				}
+			}
+			
+			for (Object commentObject: cu.getCommentList())
+			{
+				if ((commentObject instanceof LineComment) || (commentObject instanceof BlockComment))
+				{
+					((Comment) commentObject).accept(visitor);
+				}
+			}
+		}
+		catch (Exception e)
+		{
+			StringWriter sw = new StringWriter();
+			PrintWriter pw = new PrintWriter(sw);
+			e.printStackTrace(pw);
+			astVisitorClient.logError(sw.toString());
+		}
 	}
 	
 	public static String getPackageName(String fileContent)
