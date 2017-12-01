@@ -210,8 +210,7 @@ public class JavaIndexer
 			
 			astVisitorClient.logInfo(
 					"Extracted classes.jar file from \"" + aarFilePath.toString() + "\" to \"" + tempFile.getAbsolutePath() + "\". " +
-					"This file will be automatically deleted when the session ends."
-			);
+					"This file will be automatically deleted when the session ends.");
 			
 			return tempFile;
 		}

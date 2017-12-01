@@ -12,6 +12,7 @@ import org.eclipse.jdt.core.dom.IBinding;
 import org.eclipse.jdt.core.dom.IMethodBinding;
 import org.eclipse.jdt.core.dom.IPackageBinding;
 import org.eclipse.jdt.core.dom.ITypeBinding;
+import org.eclipse.jdt.core.dom.IVariableBinding;
 import org.eclipse.jdt.core.dom.ImportDeclaration;
 import org.eclipse.jdt.core.dom.MethodInvocation;
 import org.eclipse.jdt.core.dom.Name;
@@ -201,18 +202,22 @@ public class QualifierVisitor
 			else if (node instanceof SuperFieldAccess)
 			{
 				SuperFieldAccess expression = (SuperFieldAccess) node;
+				IVariableBinding fieldBinding = expression.resolveFieldBinding();
 				
-				m_client.recordQualifierLocation(
-						BindingNameResolver
-							.getQualifiedName(expression.resolveFieldBinding().getDeclaringClass(), m_filePath, m_compilationUnit)
-							.orElse(TypeName.unsolved())
-							.toDeclName()
-							.toNameHierarchy(), 
-						fileContent.findRange(
-								"super", 
-								expression.getQualifier() != null 
-									? getRange(expression.getQualifier()).end 
-									: getRange(expression).begin));
+				if (fieldBinding != null)
+				{
+					m_client.recordQualifierLocation(
+							BindingNameResolver
+								.getQualifiedName(fieldBinding.getDeclaringClass(), m_filePath, m_compilationUnit)
+								.orElse(TypeName.unsolved())
+								.toDeclName()
+								.toNameHierarchy(), 
+							fileContent.findRange(
+									"super", 
+									expression.getQualifier() != null 
+										? getRange(expression.getQualifier()).end 
+										: getRange(expression).begin));
+				}
 				
 				recordNodeAsQualifier(expression.getQualifier());
 			}

@@ -228,6 +228,7 @@ public abstract class AstVisitor extends ASTVisitor
 	{
 		if (m_client.getInterrupted())
 		{
+			m_contextStack.push(new ArrayList<>());
 			return false;
 		}
 		
