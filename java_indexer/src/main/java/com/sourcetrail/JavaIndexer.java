@@ -1,5 +1,10 @@
 package com.sourcetrail;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.nio.file.Path;
@@ -7,6 +12,8 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.List;
+import java.util.jar.JarFile;
+import java.util.zip.ZipEntry;
 
 import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jdt.core.compiler.IProblem;
@@ -39,44 +46,16 @@ public class JavaIndexer
 			parser.setResolveBindings(true); // solve "bindings" like the declatarion of the type used in a var decl
 			parser.setKind(ASTParser.K_COMPILATION_UNIT); // specify to parse the entire compilation unit
 			parser.setBindingsRecovery(true); // also return bindings that are not resolved completely
-	        parser.setStatementsRecovery(true);
+			parser.setStatementsRecovery(true);
 
-	        Hashtable<String, String> options = JavaCore.getOptions();
-
-	        String convertedLanguageStandard;
-	        switch (languageStandard)
-	        {
-	        case "1":
-	        	convertedLanguageStandard = JavaCore.VERSION_1_1;
-	        	break;
-	        case "2":
-	        	convertedLanguageStandard = JavaCore.VERSION_1_2;
-	        	break;
-	        case "3":
-	        	convertedLanguageStandard = JavaCore.VERSION_1_3;
-	        	break;
-	        case "4":
-	        	convertedLanguageStandard = JavaCore.VERSION_1_4;
-	        	break;
-	        case "5":
-	        	convertedLanguageStandard = JavaCore.VERSION_1_5;
-	        	break;
-	        case "6":
-	        	convertedLanguageStandard = JavaCore.VERSION_1_6;
-	        	break;
-	        case "7":
-	        	convertedLanguageStandard = JavaCore.VERSION_1_7;
-	        	break;
-	        case "8":
-	    	default:
-	        	convertedLanguageStandard = JavaCore.VERSION_1_8;
-	        	break;
-	        }
-	
-			astVisitorClient.logInfo("using language standard " + convertedLanguageStandard);
-	        
-	        JavaCore.setComplianceOptions(convertedLanguageStandard, options);
-	        parser.setCompilerOptions(options);
+			{
+				Hashtable<String, String> options = JavaCore.getOptions();
+				
+				String convertedLanguageStandard = convertLanguageStandard(languageStandard);
+				astVisitorClient.logInfo("using language standard " + convertedLanguageStandard);
+				JavaCore.setComplianceOptions(convertedLanguageStandard, options);
+				parser.setCompilerOptions(options);
+			}
 			
 			parser.setUnitName(path.getFileName().toString());
 	
@@ -88,6 +67,14 @@ public class JavaIndexer
 				if (classPathEntry.endsWith(".jar"))
 				{
 					classpath.add(classPathEntry);
+				}
+				else if(classPathEntry.endsWith(".aar"))
+				{
+					File extractedJarFile = extractClassesJarFileFromAarFile(Paths.get(classPathEntry), astVisitorClient);
+					if (extractedJarFile != null)
+					{
+						classpath.add(extractedJarFile.getAbsolutePath());
+					}
 				}
 				else if (!classPathEntry.isEmpty())
 				{
@@ -164,8 +151,79 @@ public class JavaIndexer
 		Runtime.getRuntime().gc();
 	}
 	
+	private static String convertLanguageStandard(String s)
+	{
+		switch (s)
+        {
+        case "1":
+        	return JavaCore.VERSION_1_1;
+        case "2":
+        	return JavaCore.VERSION_1_2;
+        case "3":
+        	return JavaCore.VERSION_1_3;
+        case "4":
+        	return JavaCore.VERSION_1_4;
+        case "5":
+        	return JavaCore.VERSION_1_5;
+        case "6":
+        	return JavaCore.VERSION_1_6;
+        case "7":
+        	return JavaCore.VERSION_1_7;
+        case "8":
+    	default:
+    		return JavaCore.VERSION_1_8;
+        }
+	}
 	
-	
+	private static File extractClassesJarFileFromAarFile(Path aarFilePath, AstVisitorClient astVisitorClient) throws IOException 
+	{
+		JarFile jarFile = new JarFile(aarFilePath.toString());
+		ZipEntry classesJarEntry = jarFile.getEntry("classes.jar");
+		if (classesJarEntry != null)
+		{
+			InputStream inputStream = jarFile.getInputStream(classesJarEntry);
+			File tempFile = File.createTempFile("jar_file_from_" + Utility.getFilenameWithoutExtension(aarFilePath) + "_", ".jar");
+			tempFile.deleteOnExit();
+			
+			byte[] buffer = new byte[8 * 1024];
+			
+			try 
+			{
+				OutputStream output = new FileOutputStream(tempFile);
+				try 
+				{
+					int bytesRead;
+					while ((bytesRead = inputStream.read(buffer)) != -1) 
+					{
+						output.write(buffer, 0, bytesRead);
+					}
+				} 
+				finally 
+				{
+					output.close();
+				}
+			} 
+			finally 
+			{
+				inputStream.close();
+			} 
+			
+			astVisitorClient.logInfo(
+					"Extracted classes.jar file from \"" + aarFilePath.toString() + "\" to \"" + tempFile.getAbsolutePath() + "\". " +
+					"This file will be automatically deleted when the session ends."
+			);
+			
+			return tempFile;
+		}
+		else
+		{
+			astVisitorClient.logError("Classpath entry \"" + aarFilePath + "\" is malformed. No internal \"classes.jar\" entry could be found.");
+		}
+		jarFile.close();
+		
+		return null;
+	}
+
 	// the following methods are defined in the native c++ code
 
 	static public native boolean getInterrupted(int address);

@@ -1,5 +1,7 @@
 package com.sourcetrail;
 
+import java.nio.file.Path;
+
 import org.eclipse.jdt.core.dom.ASTNode;
 import org.eclipse.jdt.core.dom.BodyDeclaration;
 import org.eclipse.jdt.core.dom.CompilationUnit;
@@ -23,5 +25,10 @@ public class Utility
 				compilationUnit.getColumnNumber(startPosition),
 				compilationUnit.getLineNumber(endPosition),
 				compilationUnit.getColumnNumber(endPosition) + 1);
+	}
+	
+	public static String getFilenameWithoutExtension(Path filePath)
+	{
+		return filePath.getFileName().toString().replaceFirst("[.][^.]+$", "");
 	}
 }
