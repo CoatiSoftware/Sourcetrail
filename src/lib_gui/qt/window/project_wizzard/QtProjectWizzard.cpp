@@ -919,30 +919,23 @@ void QtProjectWizzard::createProject()
 	m_projectSettings->setAllSourceGroupSettings(m_allSourceGroupSettings);
 	m_projectSettings->save(path);
 
-	bool forceRefreshProject = false;
+	bool settingsChanged = false;
 	if (m_editing)
 	{
-		bool settingsChanged = false;
-
 		Application* application = Application::getInstance().get();
 		if (application->getCurrentProject() != NULL)
 		{
 			settingsChanged = !(application->getCurrentProject()->settingsEqualExceptNameAndLocation(*(m_projectSettings.get())));
 		}
 
-		bool appSettingsChanged = !(m_appSettings == *ApplicationSettings::getInstance().get());
-
-		if (settingsChanged || appSettingsChanged)
-		{
-			forceRefreshProject = true;
-		}
+		settingsChanged |= !(m_appSettings == *ApplicationSettings::getInstance().get());
 	}
 	else
 	{
 		MessageStatus("Created project: " + path.str()).dispatch();
 	}
 
-	MessageLoadProject(path, forceRefreshProject).dispatch();
+	MessageLoadProject(path, settingsChanged).dispatch();
 
 	finishWizzard();
 }

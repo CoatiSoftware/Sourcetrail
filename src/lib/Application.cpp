@@ -189,7 +189,8 @@ void Application::createAndLoadProject(const FilePath& projectSettingsFilePath)
 		m_storageCache->clear();
 		m_storageCache->setSubject(nullptr);
 
-		m_project = std::make_shared<Project>(std::make_shared<ProjectSettings>(projectSettingsFilePath), m_storageCache.get());
+		m_project = std::make_shared<Project>(
+			std::make_shared<ProjectSettings>(projectSettingsFilePath), m_storageCache.get(), hasGUI());
 
 		if (m_project)
 		{
@@ -220,15 +221,11 @@ void Application::createAndLoadProject(const FilePath& projectSettingsFilePath)
 	}
 }
 
-void Application::refreshProject(bool force)
+void Application::refreshProject(RefreshMode refreshMode)
 {
 	if (m_project && checkSharedMemory())
 	{
-		bool indexing = m_project->refresh(force);
-		if (indexing)
-		{
-			m_storageCache->clear();
-		}
+		m_project->refresh(getDialogView().get(), refreshMode);
 	}
 }
 
@@ -275,22 +272,20 @@ void Application::handleMessage(MessageLoadProject* message)
 
 	if (m_project && projectSettingsFilePath == m_project->getProjectSettingsFilePath())
 	{
-		if (message->forceRefresh && m_hasGUI)
+		if (message->settingsChanged && m_hasGUI)
 		{
 			m_project->setStateSettingsUpdated();
-			refreshProject(false);
+			refreshProject(REFRESH_ALL_FILES);
 		}
-		return;
 	}
-	createAndLoadProject(projectSettingsFilePath);
+	else
+	{
+		createAndLoadProject(projectSettingsFilePath);
 
-	if (message->forceRefresh)
-	{
-		refreshProject(true);
-	}
-	else if (!m_hasGUI)
-	{
-		refreshProject(false);
+		if (message->refreshMode != REFRESH_NONE)
+		{
+			refreshProject(message->refreshMode);
+		}
 	}
 }
 
@@ -311,7 +306,7 @@ void Application::handleMessage(MessageRefresh* message)
 
 	if (!message->uiOnly)
 	{
-		refreshProject(message->all);
+		refreshProject(message->all ? REFRESH_ALL_FILES : REFRESH_UPDATED_FILES);
 	}
 }
 

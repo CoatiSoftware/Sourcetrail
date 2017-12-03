@@ -283,6 +283,7 @@ add_files(
 
 	project/Project.cpp
 	project/Project.h
+	project/RefreshInfo.h
 	project/SourceGroupFactory.cpp
 	project/SourceGroupFactory.h
 	project/SourceGroupFactoryModule.cpp

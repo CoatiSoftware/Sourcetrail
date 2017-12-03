@@ -15,8 +15,7 @@ public:
 
 	virtual SourceGroupType getType() const;
 
-	virtual std::vector<std::shared_ptr<IndexerCommand>> getIndexerCommands(
-		const std::set<FilePath>& filesToIndex, bool fullRefresh);
+	virtual std::vector<std::shared_ptr<IndexerCommand>> getIndexerCommands(const std::set<FilePath>& filesToIndex);
 
 private:
 	virtual std::shared_ptr<SourceGroupSettingsCxx> getSourceGroupSettingsCxx();

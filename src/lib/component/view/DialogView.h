@@ -5,26 +5,14 @@
 #include <vector>
 
 #include "data/ErrorCountInfo.h"
+#include "project/RefreshInfo.h"
 
+class Project;
 class StorageAccess;
 
 class DialogView
 {
 public:
-	struct IndexingOptions
-	{
-		IndexingOptions()
-			: startIndexing(false)
-			, fullRefreshVisible(false)
-			, fullRefresh(false)
-		{}
-
-		bool startIndexing;
-
-		bool fullRefreshVisible;
-		bool fullRefresh;
-	};
-
 	DialogView(StorageAccess* storageAccess);
 	virtual ~DialogView();
 
@@ -34,8 +22,8 @@ public:
 	virtual void showProgressDialog(const std::string& title, const std::string& message, int progress);
 	virtual void hideProgressDialog();
 
-	virtual IndexingOptions startIndexingDialog(
-		size_t cleanFileCount, size_t indexFileCount, size_t totalFileCount, IndexingOptions options);
+	virtual void startIndexingDialog(
+		Project* project, const std::vector<RefreshMode>& enabledModes, const RefreshInfo& info);
 	virtual void updateIndexingDialog(
 		size_t startedFileCount, size_t finishedFileCount, size_t totalFileCount, std::string sourcePath);
 	virtual void finishedIndexingDialog(

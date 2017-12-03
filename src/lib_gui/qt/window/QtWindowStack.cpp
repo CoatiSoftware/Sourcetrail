@@ -57,7 +57,7 @@ void QtWindowStack::popWindow()
 	if (m_stack.size())
 	{
 		m_stack.back()->hideWindow();
-		delete m_stack.back();
+		m_stack.back()->deleteLater();
 		m_stack.pop_back();
 
 		emit pop();
@@ -93,7 +93,7 @@ void QtWindowStack::clearWindows()
 	for (QtWindowStackElement* window : m_stack)
 	{
 		window->hideWindow();
-		delete window;
+		window->deleteLater();
 	}
 
 	m_stack.clear();

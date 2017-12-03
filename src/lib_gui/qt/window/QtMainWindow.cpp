@@ -582,7 +582,7 @@ void QtMainWindow::openProject()
 
 	if (!fileName.isEmpty())
 	{
-		MessageLoadProject(FilePath(fileName.toStdString()), false).dispatch();
+		MessageLoadProject(FilePath(fileName.toStdString())).dispatch();
 		m_windowStack.clearWindows();
 	}
 }
@@ -687,7 +687,7 @@ void QtMainWindow::openRecentProject()
 	QAction *action = qobject_cast<QAction*>(sender());
 	if (action)
 	{
-		MessageLoadProject(FilePath(action->data().toString().toStdString()), false).dispatch();
+		MessageLoadProject(FilePath(action->data().toString().toStdString())).dispatch();
 		m_windowStack.clearWindows();
 	}
 }

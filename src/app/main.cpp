@@ -270,7 +270,8 @@ int main(int argc, char *argv[])
 		{
 			MessageLoadProject(
 				commandLineParser.getProjectFilePath(),
-				commandLineParser.getFullProjectRefresh()
+				false,
+				commandLineParser.getRefreshMode()
 			).dispatch();
 		}
 
@@ -320,7 +321,8 @@ int main(int argc, char *argv[])
 		{
 			MessageLoadProject(
 				commandLineParser.getProjectFilePath(),
-				commandLineParser.getFullProjectRefresh()
+				false,
+				commandLineParser.getRefreshMode()
 			).dispatch();
 		}
 

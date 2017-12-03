@@ -5,13 +5,16 @@
 #include <thread>
 
 #include <QMessageBox>
+#include <QTimer>
 
 #include "data/access/StorageAccess.h"
 #include "qt/window/QtIndexingDialog.h"
 #include "qt/window/QtMainWindow.h"
 #include "qt/window/QtWindow.h"
 #include "utility/messaging/type/MessageStatus.h"
+#include "utility/scheduling/TaskLambda.h"
 #include "utility/utility.h"
+#include "project/Project.h"
 
 QtDialogView::QtDialogView(QtMainWindow* mainWindow, StorageAccess* storageAccess)
 	: DialogView(storageAccess)
@@ -34,19 +37,7 @@ void QtDialogView::showUnknownProgressDialog(const std::string& title, const std
 	m_onQtThread2(
 		[=]()
 		{
-			QtIndexingDialog* window = dynamic_cast<QtIndexingDialog*>(m_windowStack.getTopWindow());
-			if (!window || window->getType() != QtIndexingDialog::DIALOG_UNKNOWN_PROGRESS)
-			{
-				m_windowStack.clearWindows();
-
-				window = createWindow<QtIndexingDialog>();
-				window->setupUnknownProgress();
-			}
-
-			window->updateTitle(title.c_str());
-			window->updateMessage(message.c_str());
-
-			setUIBlocked(true);
+			showUnknownProgress(title, message, false);
 		}
 	);
 }
@@ -58,13 +49,7 @@ void QtDialogView::hideUnknownProgressDialog()
 	m_onQtThread2(
 		[=]()
 		{
-			QtIndexingDialog* window = dynamic_cast<QtIndexingDialog*>(m_windowStack.getTopWindow());
-			if (window && window->getType() == QtIndexingDialog::DIALOG_UNKNOWN_PROGRESS)
-			{
-				m_windowStack.popWindow();
-			}
-
-			setUIBlocked(false);
+			hideUnknownProgress();
 		}
 	);
 
@@ -117,43 +102,91 @@ void QtDialogView::hideProgressDialog()
 }
 
 
-DialogView::IndexingOptions QtDialogView::startIndexingDialog(
-	size_t cleanFileCount, size_t indexFileCount, size_t totalFileCount, DialogView::IndexingOptions options)
+void QtDialogView::startIndexingDialog(
+	Project* project, const std::vector<RefreshMode>& enabledModes, const RefreshInfo& info)
 {
-	DialogView::IndexingOptions result;
-	m_resultReady = false;
+	m_refreshInfos.clear();
 
 	m_onQtThread(
-		[=, &result]()
+		[=]()
 		{
-			QtIndexingDialog* window = createWindow<QtIndexingDialog>();
-			window->setupStart(cleanFileCount, indexFileCount, totalFileCount, options,
-				[&](DialogView::IndexingOptions o)
-				{
-					result = o;
-					m_resultReady = true;
+			m_windowStack.clearWindows();
 
-					setUIBlocked(o.startIndexing);
+			QtIndexingDialog* window = createWindow<QtIndexingDialog>();
+			window->setupStart(enabledModes);
+
+			m_refreshInfos.emplace(info.mode, info);
+
+			connect(window, &QtIndexingDialog::setMode,
+				[=](RefreshMode refreshMode)
+				{
+					auto it = m_refreshInfos.find(refreshMode);
+					if (it != m_refreshInfos.end())
+					{
+						window->updateRefreshInfo(it->second);
+						return;
+					}
+
+					std::shared_ptr<QTimer> timer = std::make_shared<QTimer>();
+					connect(timer.get(), &QTimer::timeout,
+						[=]()
+						{
+							showUnknownProgress("Preparing Index", "Processing Files", true);
+						}
+					);
+					timer->start(200);
+
+					Task::dispatch(std::make_shared<TaskLambda>(
+						[=]()
+						{
+							RefreshInfo info = project->getRefreshInfo(refreshMode);
+
+							m_onQtThread2(
+								[=]()
+								{
+									m_refreshInfos.emplace(info.mode, info);
+									window->updateRefreshInfo(info);
+
+									timer->stop();
+									hideUnknownProgress();
+								}
+							);
+						}
+					));
 				}
 			);
 
+			connect(window, &QtIndexingDialog::startIndexing,
+				[=](RefreshMode refreshMode)
+				{
+					RefreshInfo info = m_refreshInfos.find(refreshMode)->second;
+					Task::dispatch(std::make_shared<TaskLambda>(
+						[=]()
+						{
+							project->buildIndex(info);
+						}
+					));
+
+					m_windowStack.clearWindows();
+				}
+			);
+
+			connect(window, &QtWindow::canceled,
+				[=]()
+				{
+					setUIBlocked(false);
+				}
+			);
+
+			window->updateRefreshInfo(info);
 			setUIBlocked(true);
 		}
 	);
-
-	while (!m_resultReady)
-	{
-		const int SLEEP_TIME_MS = 25;
-		std::this_thread::sleep_for(std::chrono::milliseconds(SLEEP_TIME_MS));
-	}
-
-	return result;
 }
 
 void QtDialogView::updateIndexingDialog(
 	size_t startedFileCount, size_t finishedFileCount, size_t totalFileCount, std::string sourcePath)
 {
-
 	m_onQtThread(
 		[=]()
 		{
@@ -257,6 +290,68 @@ void QtDialogView::setParentWindow(QtWindow* window)
 	);
 }
 
+void QtDialogView::showUnknownProgress(const std::string& title, const std::string& message, bool stacked)
+{
+	QtIndexingDialog* window = nullptr;
+
+	if (!stacked)
+	{
+		window = dynamic_cast<QtIndexingDialog*>(m_windowStack.getTopWindow());
+
+		if (window && window->getType() != QtIndexingDialog::DIALOG_UNKNOWN_PROGRESS)
+		{
+			m_windowStack.clearWindows();
+			window = nullptr;
+		}
+	}
+
+	if (!window)
+	{
+		window = createWindow<QtIndexingDialog>();
+		window->setupUnknownProgress();
+	}
+
+	window->updateTitle(title.c_str());
+	window->updateMessage(message.c_str());
+
+	setUIBlocked(true);
+}
+
+void QtDialogView::hideUnknownProgress()
+{
+	QtIndexingDialog* window = dynamic_cast<QtIndexingDialog*>(m_windowStack.getTopWindow());
+	if (window && window->getType() == QtIndexingDialog::DIALOG_UNKNOWN_PROGRESS)
+	{
+		m_windowStack.popWindow();
+	}
+
+	if (!m_windowStack.getWindowCount())
+	{
+		setUIBlocked(false);
+	}
+}
+
+void QtDialogView::setUIBlocked(bool blocked)
+{
+	if (m_parentWindow)
+	{
+		m_parentWindow->setEnabled(!blocked);
+	}
+	else
+	{
+		m_mainWindow->setContentEnabled(!blocked);
+	}
+
+	if (blocked)
+	{
+		QWidget* window = m_windowStack.getTopWindow();
+		if (window)
+		{
+			window->setEnabled(true);
+		}
+	}
+}
+
 void QtDialogView::handleMessage(MessageInterruptTasks* message)
 {
 	m_onQtThread3(
@@ -336,25 +431,4 @@ template<typename T>
 	}
 
 	return window;
-}
-
-void QtDialogView::setUIBlocked(bool blocked)
-{
-	if (m_parentWindow)
-	{
-		m_parentWindow->setEnabled(!blocked);
-	}
-	else
-	{
-		m_mainWindow->setContentEnabled(!blocked);
-	}
-
-	if (blocked)
-	{
-		QWidget* window = m_windowStack.getTopWindow();
-		if (window)
-		{
-			window->setEnabled(true);
-		}
-	}
 }

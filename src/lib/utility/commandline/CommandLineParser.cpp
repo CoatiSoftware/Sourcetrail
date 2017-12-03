@@ -249,9 +249,14 @@ License CommandLineParser::getLicense()
 	return m_license;
 }
 
-void CommandLineParser::force()
+void CommandLineParser::fullRefresh()
 {
-	m_force = true;
+	m_refreshMode = REFRESH_ALL_FILES;
+}
+
+void CommandLineParser::incompleteRefresh()
+{
+	m_refreshMode = REFRESH_UPDATED_AND_INCOMPLETE_FILES;
 }
 
 const FilePath& CommandLineParser::getProjectFilePath() const
@@ -259,9 +264,9 @@ const FilePath& CommandLineParser::getProjectFilePath() const
 	return m_projectFile;
 }
 
-bool CommandLineParser::getFullProjectRefresh() const
+RefreshMode CommandLineParser::getRefreshMode() const
 {
-	return m_force;
+	return m_refreshMode;
 }
 
 } // namespace cmd

@@ -9,6 +9,7 @@
 #include "boost/program_options.hpp"
 
 #include "License.h"
+#include "project/RefreshInfo.h"
 #include "utility/file/FilePath.h"
 
 namespace po = boost::program_options;
@@ -37,7 +38,8 @@ public:
 	bool startedWithLicense();
 	bool hasError();
 
-	void force();
+	void fullRefresh();
+	void incompleteRefresh();
 
 	std::string getError();
 	License getLicense();
@@ -45,7 +47,7 @@ public:
 
 	const FilePath& getProjectFilePath() const;
 	void setProjectFile(const FilePath& filepath);
-	bool getFullProjectRefresh() const;
+	RefreshMode getRefreshMode() const;
 
 private:
 	void addCommand(std::unique_ptr<Command> command);
@@ -57,7 +59,7 @@ private:
 	std::vector<std::shared_ptr<Command>> m_commands;
 
 	const std::string m_version;
-	bool m_force{false};
+	RefreshMode m_refreshMode = REFRESH_UPDATED_FILES;
 	bool m_quit{false};
 	bool m_withoutGUI{false};
 

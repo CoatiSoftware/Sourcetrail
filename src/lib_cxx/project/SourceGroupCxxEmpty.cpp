@@ -18,8 +18,7 @@ SourceGroupType SourceGroupCxxEmpty::getType() const
 	return m_settings->getType(); // may be either C or Cpp
 }
 
-std::vector<std::shared_ptr<IndexerCommand>> SourceGroupCxxEmpty::getIndexerCommands(
-	const std::set<FilePath>& filesToIndex, bool fullRefresh)
+std::vector<std::shared_ptr<IndexerCommand>> SourceGroupCxxEmpty::getIndexerCommands(const std::set<FilePath>& filesToIndex)
 {
 	std::shared_ptr<ApplicationSettings> appSettings = ApplicationSettings::getInstance();
 
@@ -54,10 +53,8 @@ std::vector<std::shared_ptr<IndexerCommand>> SourceGroupCxxEmpty::getIndexerComm
 	std::set<FilePath> indexedPaths = getIndexedPaths();
 	std::set<FilePath> excludedPaths = getExcludedPaths();
 
-	const std::set<FilePath>& sourceFilePathsToIndex = (fullRefresh ? getAllSourceFilePaths() : getSourceFilePathsToIndex());
-
 	std::vector<std::shared_ptr<IndexerCommand>> indexerCommands;
-	for (const FilePath& sourcePath: sourceFilePathsToIndex)
+	for (const FilePath& sourcePath: getAllSourceFilePaths())
 	{
 		if (filesToIndex.find(sourcePath) != filesToIndex.end())
 		{

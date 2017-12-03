@@ -49,7 +49,7 @@ void QtRecentProjectButton::handleButtonClick()
 {
 	if (m_projectExists)
 	{
-		MessageLoadProject(m_projectFilePath, false).dispatch();
+		MessageLoadProject(m_projectFilePath).dispatch();
 	}
 	else
 	{

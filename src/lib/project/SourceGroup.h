@@ -7,8 +7,8 @@
 
 #include "settings/LanguageType.h"
 #include "settings/SourceGroupType.h"
+#include "utility/file/FilePath.h"
 
-class FilePath;
 class IndexerCommand;
 class SourceGroupSettings;
 
@@ -20,24 +20,20 @@ public:
 	virtual SourceGroupType getType() const = 0;
 	LanguageType getLanguage() const;
 
-	virtual bool prepareRefresh();
 	virtual bool prepareIndexing();
 
 	void fetchAllSourceFilePaths();
-	void fetchSourceFilePathsToIndex(const std::set<FilePath>& staticSourceFilePaths);
 
 	std::set<FilePath> getAllSourceFilePaths() const;
-	std::set<FilePath> getSourceFilePathsToIndex() const;
+	std::set<FilePath> getSourceFilePathsToIndex(const std::set<FilePath>& staticSourceFilePaths);
 
-	virtual std::vector<std::shared_ptr<IndexerCommand>> getIndexerCommands(
-		const std::set<FilePath>& filesToIndex, bool fullRefresh) = 0;
+	virtual std::vector<std::shared_ptr<IndexerCommand>> getIndexerCommands(const std::set<FilePath>& filesToIndex) = 0;
 
 protected:
 	std::set<FilePath> getIndexedPaths();
 	std::set<FilePath> getExcludedPaths();
 
 	std::set<FilePath> m_allSourceFilePaths;
-	std::set<FilePath> m_sourceFilePathsToIndex;
 
 private:
 	virtual std::shared_ptr<SourceGroupSettings> getSourceGroupSettings() = 0;

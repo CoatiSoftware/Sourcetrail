@@ -48,7 +48,7 @@ public:
 	const std::shared_ptr<Project> getCurrentProject();
 
 	void createAndLoadProject(const FilePath& projectSettingsFilePath);
-	void refreshProject(bool force);
+	void refreshProject(RefreshMode refreshMode);
 	bool hasGUI();
 
 	int handleDialog(const std::string& message);

@@ -30,7 +30,7 @@ bool QtApplication::event(QEvent *event)
 
 		if (path.exists() && (path.extension() == ".srctrlprj" || path.extension() == ".coatiproject"))
 		{
-			MessageLoadProject(path, false).dispatch();
+			MessageLoadProject(path).dispatch();
 			return true;
 		}
 	}

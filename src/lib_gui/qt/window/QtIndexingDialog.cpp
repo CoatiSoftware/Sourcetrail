@@ -2,8 +2,7 @@
 
 #include <QCheckBox>
 #include <QLabel>
-#include <QTimer>
-#include <QPainter>
+#include <QRadioButton>
 #include <QPushButton>
 
 #include "qt/utility/utilityQt.h"
@@ -24,9 +23,7 @@ QtIndexingDialog::QtIndexingDialog(QWidget* parent)
 	, m_messageLabel(nullptr)
 	, m_filePathLabel(nullptr)
 	, m_errorWidget(nullptr)
-	, m_fullRefreshCheckBox(nullptr)
 	, m_sizeHint(QSize(450, 450))
-	, m_callback([](DialogView::IndexingOptions){})
 {
 	setSizeGripStyle(false);
 }
@@ -41,67 +38,118 @@ QtIndexingDialog::DialogType QtIndexingDialog::getType() const
 	return m_type;
 }
 
-void QtIndexingDialog::setupStart(
-	size_t cleanFileCount, size_t indexFileCount, size_t totalFileCount,
-	DialogView::IndexingOptions options, std::function<void(DialogView::IndexingOptions)> callback)
+void QtIndexingDialog::setupStart(const std::vector<RefreshMode>& enabledModes)
 {
+	setType(DIALOG_START_INDEXING);
+
 	QBoxLayout* layout = createLayout();
 
 	addTitle("Start Indexing", layout);
 	layout->addSpacing(5);
 
-	QLabel* clearLabel = createMessageLabel(layout);
-	QLabel* indexLabel = createMessageLabel(layout);
-	QLabel* fullLabel = createMessageLabel(layout);
+	m_clearLabel = createMessageLabel(layout);
+	m_indexLabel = createMessageLabel(layout);
 
-	clearLabel->setText("Clear: " + QString::number(cleanFileCount) + " File" + (cleanFileCount != 1 ? "s" : ""));
-	indexLabel->setText("Index: " + QString::number(indexFileCount) + " File" + (indexFileCount != 1 ? "s" : ""));
-	fullLabel->setText("Index: " + QString::number(totalFileCount) + " File" + (totalFileCount != 1 ? "s" : ""));
+	m_clearLabel->setVisible(false);
+	m_indexLabel->setVisible(false);
 
 	layout->addStretch();
 
-	if (options.fullRefreshVisible)
-	{
-		m_fullRefreshCheckBox = new QCheckBox("full refresh", this);
-		m_fullRefreshCheckBox->setObjectName("message");
+	QHBoxLayout* subLayout = new QHBoxLayout();
+	subLayout->addStretch();
 
-		connect(m_fullRefreshCheckBox, &QCheckBox::toggled,
-			[=](bool checked = false)
+	QVBoxLayout* modeLayout = new QVBoxLayout();
+	modeLayout->setSpacing(7);
+
+	QHBoxLayout* modeTitleLayout = new QHBoxLayout();
+	modeTitleLayout->setSpacing(7);
+
+	QLabel* modeLabel = createMessageLabel(modeTitleLayout);
+	modeLabel->setText("Mode:");
+	modeLabel->setAlignment(Qt::AlignLeft);
+
+	QtHelpButton* helpButton = new QtHelpButton(
+		"Indexing Modes",
+		"<b>Updated files:</b> Reindexes all files that were modified since the last indexing, all files depending "
+			"on those and new files.<br /><br />"
+		"<b>Incomplete & updated files:</b> Reindexes all files that had errors during last indexing, all files "
+			"depending on those and all updated files.<br /><br />"
+		"<b>All files:</b> Deletes the previous index and reindexes all files.<br /><br />"
+	);
+	helpButton->setColor(Qt::white);
+	modeTitleLayout->addWidget(helpButton);
+
+	modeTitleLayout->addStretch();
+
+	modeLayout->addLayout(modeTitleLayout);
+	modeLayout->addSpacing(5);
+
+	m_refreshModeButtons.emplace(REFRESH_UPDATED_FILES, new QRadioButton("Updated files"));
+	m_refreshModeButtons.emplace(REFRESH_UPDATED_AND_INCOMPLETE_FILES, new QRadioButton("Incomplete && updated files"));
+	m_refreshModeButtons.emplace(REFRESH_ALL_FILES, new QRadioButton("All files"));
+
+	std::function<void(bool)> func =
+		[=](bool checked)
+		{
+			if (!checked)
 			{
-				clearLabel->setVisible(!checked);
-				indexLabel->setVisible(!checked);
-				fullLabel->setVisible(checked);
+				return;
 			}
-		);
 
-		m_fullRefreshCheckBox->setChecked(!options.fullRefresh);
-		m_fullRefreshCheckBox->setChecked(options.fullRefresh);
+			for (auto p : m_refreshModeButtons)
+			{
+				if (p.second->isChecked())
+				{
+					emit setMode(p.first);
+					return;
+				}
+			}
+		};
 
-		QHBoxLayout* subLayout = new QHBoxLayout();
-		subLayout->addStretch();
-		subLayout->addWidget(m_fullRefreshCheckBox);
-
-		layout->addLayout(subLayout);
-	}
-	else
+	for (auto p : m_refreshModeButtons)
 	{
-		clearLabel->hide();
-		indexLabel->hide();
+		QRadioButton* button = p.second;
+		button->setObjectName("option");
+		button->setEnabled(false);
+		modeLayout->addWidget(button);
+		connect(button, &QRadioButton::toggled, func);
 	}
 
-	if (m_fullRefreshCheckBox)
+	for (RefreshMode mode : enabledModes)
 	{
-		layout->addSpacing(20);
+		m_refreshModeButtons[mode]->setEnabled(true);
 	}
+
+	subLayout->addLayout(modeLayout);
+	layout->addLayout(subLayout);
+
+	layout->addSpacing(20);
 
 	addButtons(layout);
 	updateNextButton("Start");
 	updateCloseButton("Cancel");
 
-	m_sizeHint = QSize(350, 270);
-	m_callback = callback;
+	m_sizeHint = QSize(350, 310);
 
 	finishSetup();
+}
+
+void QtIndexingDialog::updateRefreshInfo(const RefreshInfo& info)
+{
+	QRadioButton* button = m_refreshModeButtons.find(info.mode)->second;
+	if (!button->isChecked())
+	{
+		button->setChecked(true);
+	}
+
+	size_t clearCount = info.filesToClear.size();
+	size_t indexCount = info.filesToIndex.size();
+
+	m_clearLabel->setText("Files to clear: " + QString::number(clearCount));
+	m_indexLabel->setText("Source files to index: " + QString::number(indexCount));
+
+	m_clearLabel->setVisible(clearCount);
+	m_indexLabel->setVisible(true);
 }
 
 void QtIndexingDialog::setupIndexing()
@@ -143,15 +191,15 @@ void QtIndexingDialog::setupReport(
 	layout->addSpacing(5);
 
 	createMessageLabel(layout)->setText(
-		"Source Files indexed:   " + QString::number(indexedFileCount) + "/" + QString::number(totalIndexedFileCount)
+		"Source files indexed:   " + QString::number(indexedFileCount) + "/" + QString::number(totalIndexedFileCount)
 	);
 
 	createMessageLabel(layout)->setText(
-		"Files completed:   " + QString::number(completedFileCount) + "/" + QString::number(totalFileCount)
+		"Total files completed:   " + QString::number(completedFileCount) + "/" + QString::number(totalFileCount)
 	);
 
 	layout->addSpacing(12);
-	createMessageLabel(layout)->setText("Total Time:   " + QString::fromStdString(utility::timeToString(time)));
+	createMessageLabel(layout)->setText("Time:   " + QString::fromStdString(utility::timeToString(time)));
 
 	layout->addSpacing(12);
 	addErrorWidget(layout);
@@ -283,14 +331,19 @@ void QtIndexingDialog::resizeEvent(QResizeEvent* event)
 
 void QtIndexingDialog::handleNext()
 {
-	if (m_type == DIALOG_MESSAGE)
+	if (m_type == DIALOG_START_INDEXING)
 	{
-		DialogView::IndexingOptions options;
-		options.startIndexing = true;
-		options.fullRefresh = m_fullRefreshCheckBox && m_fullRefreshCheckBox->isChecked();
-		m_callback(options);
+		for (auto p : m_refreshModeButtons)
+		{
+			if (p.second->isChecked())
+			{
+				emit startIndexing(p.first);
+				return;
+			}
+		}
 	}
-	else if (m_type == DIALOG_REPORT)
+
+	if (m_type == DIALOG_REPORT)
 	{
 		MessageShowErrorHelpMessage().dispatch();
 	}
@@ -300,12 +353,6 @@ void QtIndexingDialog::handleNext()
 
 void QtIndexingDialog::handleClose()
 {
-	if (m_type == DIALOG_MESSAGE)
-	{
-		DialogView::IndexingOptions options;
-		m_callback(options);
-	}
-
 	if (m_type == DIALOG_INDEXING)
 	{
 		MessageInterruptTasks().dispatch();
@@ -368,7 +415,7 @@ void QtIndexingDialog::addTitle(QString title, QBoxLayout* layout)
 	{
 		m_title->show();
 	}
-	else
+	else if (layout)
 	{
 		layout->addWidget(m_title, 0, Qt::AlignRight);
 	}

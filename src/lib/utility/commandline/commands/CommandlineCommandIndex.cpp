@@ -20,6 +20,7 @@ void CommandIndex::setup()
 	po::options_description options("Config Options");
 	options.add_options()
 		("help,h", "Print this help message")
+		("incomplete,i", "Also reindex incomplete files (files with errors)")
 		("full,f", "Index full project (omit to only index new/changed files)")
 		("project-file", po::value<std::string>(), "Project file to index (.srctrlprj)")
 		;
@@ -53,7 +54,11 @@ ReturnStatus CommandIndex::parse(std::vector<std::string>& args)
 
 	if (vm.count("full"))
 	{
-		m_parser->force();
+		m_parser->fullRefresh();
+	}
+	else if (vm.count("incomplete"))
+	{
+		m_parser->incompleteRefresh();
 	}
 
 	if (vm.count("project-file"))

@@ -23,7 +23,7 @@ SourceGroupType SourceGroupCxxCdb::getType() const
 	return SOURCE_GROUP_CXX_CDB;
 }
 
-bool SourceGroupCxxCdb::prepareRefresh()
+bool SourceGroupCxxCdb::prepareIndexing()
 {
 	FilePath cdbPath = m_settings->getCompilationDatabasePathExpandedAndAbsolute();
 	if (!cdbPath.empty() && !cdbPath.exists())
@@ -47,8 +47,7 @@ bool SourceGroupCxxCdb::prepareRefresh()
 	return true;
 }
 
-std::vector<std::shared_ptr<IndexerCommand>> SourceGroupCxxCdb::getIndexerCommands(
-	const std::set<FilePath>& filesToIndex, bool fullRefresh)
+std::vector<std::shared_ptr<IndexerCommand>> SourceGroupCxxCdb::getIndexerCommands(const std::set<FilePath>& filesToIndex)
 {
 	std::shared_ptr<ApplicationSettings> appSettings = ApplicationSettings::getInstance();
 
@@ -75,22 +74,28 @@ std::vector<std::shared_ptr<IndexerCommand>> SourceGroupCxxCdb::getIndexerComman
 	std::set<FilePath> indexedPaths = getIndexedPaths();
 	std::set<FilePath> excludedPaths = getExcludedPaths();
 
-	const std::set<FilePath>& sourceFilePathsToIndex = (fullRefresh ? getAllSourceFilePaths() : getSourceFilePathsToIndex());
-
 	std::vector<std::shared_ptr<IndexerCommand>> indexerCommands;
 
 	FilePath cdbPath = m_settings->getCompilationDatabasePathExpandedAndAbsolute();
 	if (cdbPath.exists())
 	{
 		std::string error;
-		std::shared_ptr<clang::tooling::JSONCompilationDatabase> cdb = std::shared_ptr<clang::tooling::JSONCompilationDatabase>
-			(clang::tooling::JSONCompilationDatabase::loadFromFile(cdbPath.str(), error, clang::tooling::JSONCommandLineSyntax::AutoDetect));
+		std::shared_ptr<clang::tooling::JSONCompilationDatabase> cdb =
+			std::shared_ptr<clang::tooling::JSONCompilationDatabase>(
+				clang::tooling::JSONCompilationDatabase::loadFromFile(cdbPath.str(),
+				error,
+				clang::tooling::JSONCommandLineSyntax::AutoDetect
+			)
+		);
+
 		if (!error.empty())
 		{
 			const std::string message = "Loading Clang compilation database failed with error: \"" + error + "\"";
 			LOG_ERROR(message);
 			MessageStatus(message, true).dispatch();
 		}
+
+		const std::set<FilePath>& sourceFilePaths = getAllSourceFilePaths();
 
 		for (const clang::tooling::CompileCommand& command: cdb->getAllCompileCommands())
 		{
@@ -101,7 +106,7 @@ std::vector<std::shared_ptr<IndexerCommand>> SourceGroupCxxCdb::getIndexerComman
 			}
 
 			if (filesToIndex.find(sourcePath) != filesToIndex.end() &&
-				sourceFilePathsToIndex.find(sourcePath) != sourceFilePathsToIndex.end())
+				sourceFilePaths.find(sourcePath) != sourceFilePaths.end())
 			{
 				std::vector<std::string> currentCompilerFlags = compilerFlags;
 				currentCompilerFlags.insert(currentCompilerFlags.end(), command.CommandLine.begin(), command.CommandLine.end());

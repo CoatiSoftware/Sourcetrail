@@ -1,6 +1,8 @@
 #ifndef MESSAGE_LOAD_PROJECT_H
 #define MESSAGE_LOAD_PROJECT_H
 
+#include "project/RefreshInfo.h"
+
 #include "utility/file/FilePath.h"
 #include "utility/messaging/Message.h"
 
@@ -8,9 +10,10 @@ class MessageLoadProject
 	: public Message<MessageLoadProject>
 {
 public:
-	MessageLoadProject(const FilePath& filePath, bool forceRefresh)
+	MessageLoadProject(const FilePath& filePath, bool settingsChanged = false, RefreshMode refreshMode = REFRESH_NONE)
 		: projectSettingsFilePath(filePath)
-		, forceRefresh(forceRefresh)
+		, settingsChanged(settingsChanged)
+		, refreshMode(refreshMode)
 	{
 	}
 
@@ -21,11 +24,14 @@ public:
 
 	virtual void print(std::ostream& os) const
 	{
-		os << projectSettingsFilePath.str() << ", forceRefresh: " << std::boolalpha << forceRefresh;
+		os << projectSettingsFilePath.str();
+		os << ", settingsChanged: " << std::boolalpha << settingsChanged;
+		os << ", refreshMode: " << refreshMode;
 	}
 
 	const FilePath projectSettingsFilePath;
-	const bool forceRefresh;
+	const bool settingsChanged;
+	const RefreshMode refreshMode;
 };
 
 #endif // MESSAGE_LOAD_PROJECT_H

@@ -35,8 +35,8 @@ public:
 	virtual void showProgressDialog(const std::string& title, const std::string& message, int progress) override;
 	virtual void hideProgressDialog() override;
 
-	virtual DialogView::IndexingOptions startIndexingDialog(
-		size_t cleanFileCount, size_t indexFileCount, size_t totalFileCount, DialogView::IndexingOptions options) override;
+	virtual void startIndexingDialog(
+		Project* project, const std::vector<RefreshMode>& enabledModes, const RefreshInfo& info) override;
 	virtual void updateIndexingDialog(
 		size_t startedFileCount, size_t finishedFileCount, size_t totalFileCount, std::string sourcePath) override;
 	virtual void finishedIndexingDialog(
@@ -49,6 +49,12 @@ public:
 
 	void setParentWindow(QtWindow* window);
 
+private slots:
+	void showUnknownProgress(const std::string& title, const std::string& message, bool stacked);
+	void hideUnknownProgress();
+
+	void setUIBlocked(bool blocked);
+
 private:
 	void handleMessage(MessageInterruptTasks* message) override;
 	void handleMessage(MessageNewErrors* message) override;
@@ -60,8 +66,6 @@ private:
 	template<typename T>
 		T* createWindow();
 
-	void setUIBlocked(bool blocked);
-
 	QtMainWindow* m_mainWindow;
 	QtWindow* m_parentWindow;
 
@@ -70,6 +74,8 @@ private:
 	QtThreadedLambdaFunctor m_onQtThread;
 	QtThreadedLambdaFunctor m_onQtThread2;
 	QtThreadedLambdaFunctor m_onQtThread3;
+
+	std::map<RefreshMode, RefreshInfo> m_refreshInfos;
 
 	bool m_resultReady;
 };

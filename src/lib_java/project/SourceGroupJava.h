@@ -17,8 +17,7 @@ public:
 
 	virtual bool prepareIndexing();
 
-	virtual std::vector<std::shared_ptr<IndexerCommand>> getIndexerCommands(
-		const std::set<FilePath>& filesToIndex, bool fullRefresh);
+	virtual std::vector<std::shared_ptr<IndexerCommand>> getIndexerCommands(const std::set<FilePath>& filesToIndex);
 
 protected:
 	virtual std::vector<FilePath> doGetClassPath();

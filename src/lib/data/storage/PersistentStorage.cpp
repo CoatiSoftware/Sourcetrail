@@ -345,27 +345,44 @@ void PersistentStorage::clearFileElements(const std::vector<FilePath>& filePaths
 	}
 }
 
-std::vector<FileInfo> PersistentStorage::getInfoOnAllFiles() const
+std::vector<FileInfo> PersistentStorage::getFileInfoForAllFiles() const
 {
 	TRACE();
 
 	std::vector<FileInfo> fileInfos;
-
-	std::vector<StorageFile> storageFiles = m_sqliteIndexStorage.getAll<StorageFile>();
-	for (size_t i = 0; i < storageFiles.size(); i++)
+	for (StorageFile file : m_sqliteIndexStorage.getAll<StorageFile>())
 	{
 		boost::posix_time::ptime modificationTime = boost::posix_time::not_a_date_time;
-		if (storageFiles[i].modificationTime != "not-a-date-time")
+		if (file.modificationTime != "not-a-date-time")
 		{
-			modificationTime = boost::posix_time::time_from_string(storageFiles[i].modificationTime);
+			modificationTime = boost::posix_time::time_from_string(file.modificationTime);
 		}
-		fileInfos.push_back(FileInfo(
-			FilePath(storageFiles[i].filePath),
-			modificationTime
-		));
+
+		fileInfos.push_back(
+			FileInfo(
+				FilePath(file.filePath),
+				modificationTime
+			)
+		);
 	}
 
 	return fileInfos;
+}
+
+std::set<FilePath> PersistentStorage::getIncompleteFiles() const
+{
+	TRACE();
+
+	std::set<FilePath> incompleteFiles;
+	for (auto p : m_fileNodeComplete)
+	{
+		if (p.second == false)
+		{
+			incompleteFiles.insert(getFileNodePath(p.first));
+		}
+	}
+
+	return incompleteFiles;
 }
 
 void PersistentStorage::buildCaches()
@@ -1712,14 +1729,7 @@ TooltipInfo PersistentStorage::getTooltipInfoForTokenIds(const std::vector<Id>& 
 
 	if (type.getType() == NodeType::NODE_FILE && m_fileNodePaths.find(node.id) != m_fileNodePaths.end())
 	{
-		bool complete = false;
-		auto it = m_fileNodeComplete.find(node.id);
-		if (it != m_fileNodeComplete.end())
-		{
-			complete = it->second;
-		}
-
-		if (!complete)
+		if (!getFileNodeComplete(node.id))
 		{
 			info.title = "incomplete " + info.title;
 		}
@@ -1960,16 +1970,23 @@ FilePath PersistentStorage::getFileNodePath(Id fileId) const
 	return FilePath();
 }
 
-bool PersistentStorage::getFileNodeComplete(const FilePath& filePath) const
+bool PersistentStorage::getFilePathComplete(const FilePath& filePath) const
 {
 	auto it = m_fileNodeIds.find(filePath);
 	if (it != m_fileNodeIds.end())
 	{
-		auto it2 = m_fileNodeComplete.find(it->second);
-		if (it2 != m_fileNodeComplete.end())
-		{
-			return it2->second;
-		}
+		return getFileNodeComplete(it->second);
+	}
+
+	return false;
+}
+
+bool PersistentStorage::getFileNodeComplete(Id fileId) const
+{
+	auto it = m_fileNodeComplete.find(fileId);
+	if (it != m_fileNodeComplete.end())
+	{
+		return it->second;
 	}
 
 	return false;
@@ -2419,7 +2436,7 @@ void PersistentStorage::addCompleteFlagsToSourceLocationCollection(SourceLocatio
 	collection->forEachSourceLocationFile(
 		[this](std::shared_ptr<SourceLocationFile> file)
 		{
-			file->setIsComplete(getFileNodeComplete(file->getFilePath()));
+			file->setIsComplete(getFilePathComplete(file->getFilePath()));
 		}
 	);
 }

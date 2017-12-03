@@ -1,19 +1,18 @@
 #include "project/Project.h"
 
-#include "Application.h"
 #include "component/view/DialogView.h"
-#include "data/access/StorageAccessProxy.h"
 #include "data/indexer/IndexerCommand.h"
 #include "data/indexer/IndexerCommandList.h"
 #include "data/indexer/TaskBuildIndex.h"
 #include "data/parser/TaskParseWrapper.h"
-#include "data/storage/StorageProvider.h"
 #include "data/storage/PersistentStorage.h"
+#include "data/storage/StorageCache.h"
+#include "data/storage/StorageProvider.h"
 #include "data/TaskCleanStorage.h"
-#include "data/TaskMergeStorages.h"
-#include "data/TaskShowStatusDialog.h"
 #include "data/TaskFinishParsing.h"
 #include "data/TaskInjectStorage.h"
+#include "data/TaskMergeStorages.h"
+#include "data/TaskShowStatusDialog.h"
 #include "project/SourceGroup.h"
 #include "project/SourceGroupFactory.h"
 #include "settings/ApplicationSettings.h"
@@ -37,132 +36,16 @@
 #include "utility/utilityApp.h"
 #include "utility/utilityString.h"
 
-Project::Project(std::shared_ptr<ProjectSettings> settings, StorageAccessProxy* storageAccessProxy)
+Project::Project(std::shared_ptr<ProjectSettings> settings, StorageCache* storageCache, bool hasGUI)
 	: m_settings(settings)
-	, m_storageAccessProxy(storageAccessProxy)
+	, m_storageCache(storageCache)
 	, m_state(PROJECT_STATE_NOT_LOADED)
+	, m_hasGUI(hasGUI)
 {
 }
 
 Project::~Project()
 {
-}
-
-bool Project::refresh(bool forceRefresh)
-{
-	if (m_state == PROJECT_STATE_NOT_LOADED)
-	{
-		return false;
-	}
-
-	bool needsFullRefresh = false;
-	std::string question;
-
-	switch (m_state)
-	{
-		case PROJECT_STATE_EMPTY:
-			needsFullRefresh = true;
-			break;
-
-		case PROJECT_STATE_LOADED:
-			break;
-
-		case PROJECT_STATE_OUTDATED:
-			question =
-				"The project file was changed after the last indexing. The project needs to get fully reindexed to "
-				"reflect the current project state. Do you want to reindex the project?";
-			needsFullRefresh = true;
-			break;
-
-		case PROJECT_STATE_OUTVERSIONED:
-			question =
-				"This project was indexed with a different version of Sourcetrail. It needs to be fully reindexed to be used "
-				"with this version of Sourcetrail. Do you want to reindex the project?";
-			needsFullRefresh = true;
-			break;
-
-		case PROJECT_STATE_SETTINGS_UPDATED:
-			question =
-				"Some settings were changed, the project needs to be fully reindexed. "
-				"Do you want to reindex the project?";
-			needsFullRefresh = true;
-			break;
-
-		case PROJECT_STATE_NEEDS_MIGRATION:
-			question =
-				"This project was created with a different version of Sourcetrail. The project file needs to get updated and "
-				"the project fully reindexed. Do you want to update the project file and reindex the project?";
-			needsFullRefresh = true;
-
-		default:
-			break;
-	}
-
-	std::shared_ptr<DialogView> dialogView = Application::getInstance()->getDialogView();
-
-	if (
-		ApplicationSettings::getInstance()->getLoggingEnabled() &&
-		ApplicationSettings::getInstance()->getVerboseIndexerLoggingEnabled() &&
-		Application::getInstance()->hasGUI()
-		)
-	{
-		std::vector<std::string> options = { "Yes", "No" };
-		int result = dialogView->confirm(
-			"Warning: You are about to index your project with the \"verbose indexer logging\" setting "
-			"enabled. This will cause a significant slowdown in indexing performance. Do you want to proceed?",
-			options
-		);
-
-		if (result == 1)
-		{
-			return false;
-		}
-	}
-
-	if (!forceRefresh && needsFullRefresh && question.size() && Application::getInstance()->hasGUI())
-	{
-		std::vector<std::string> options = { "Yes", "No"};
-		int result = dialogView->confirm(question, options);
-
-		if (result == 1)
-		{
-			return false;
-		}
-	}
-
-	dialogView->showUnknownProgressDialog("Preparing Project", "Processing Files");
-
-	ScopedFunctor dialogHider([&dialogView](){
-		dialogView->hideUnknownProgressDialog();
-	});
-
-
-	if (m_state == PROJECT_STATE_NEEDS_MIGRATION)
-	{
-		m_settings->migrate();
-	}
-
-	m_settings->reload();
-
-	m_sourceGroups = SourceGroupFactory::getInstance()->createSourceGroups(m_settings->getAllSourceGroupSettings());
-	for (const std::shared_ptr<SourceGroup>& sourceGroup: m_sourceGroups)
-	{
-		if (!sourceGroup->prepareRefresh())
-		{
-			return false;
-		}
-	}
-
-	if (requestIndex(forceRefresh, needsFullRefresh))
-	{
-		m_storageAccessProxy->setSubject(m_storage.get());
-
-		m_state = PROJECT_STATE_LOADED;
-
-		return true;
-	}
-
-	return false;
 }
 
 FilePath Project::getProjectSettingsFilePath() const
@@ -190,7 +73,7 @@ void Project::setStateSettingsUpdated()
 
 void Project::load()
 {
-	m_storageAccessProxy->setSubject(nullptr);
+	m_storageCache->setSubject(nullptr);
 
 	bool loadedSettings = m_settings->reload();
 
@@ -246,9 +129,9 @@ void Project::load()
 	{
 		m_storage->setMode(SqliteStorage::STORAGE_MODE_READ);
 		m_storage->buildCaches();
-		m_storageAccessProxy->setSubject(m_storage.get());
+		m_storageCache->setSubject(m_storage.get());
 
-		if (Application::getInstance()->hasGUI())
+		if (m_hasGUI)
 		{
 			MessageFinishedParsing().dispatch();
 		}
@@ -259,171 +142,200 @@ void Project::load()
 		MessageStatus("Project not loaded", false, false).dispatch();
 	}
 
-	if (m_state != PROJECT_STATE_LOADED && Application::getInstance()->hasGUI())
+	if (m_state != PROJECT_STATE_LOADED && m_hasGUI)
 	{
 		MessageRefresh().dispatch();
 	}
 }
 
-bool Project::requestIndex(bool forceRefresh, bool needsFullRefresh)
+void Project::refresh(DialogView* dialogView, RefreshMode refreshMode)
 {
-	std::set<FilePath> allSourceFilePaths;
-	for (const std::shared_ptr<SourceGroup>& sourceGroup: m_sourceGroups)
+	if (m_state == PROJECT_STATE_NOT_LOADED)
+	{
+		return;
+	}
+
+	bool needsFullRefresh = false;
+	bool fullRefresh = false;
+	std::string question;
+
+	switch (m_state)
+	{
+		case PROJECT_STATE_EMPTY:
+			needsFullRefresh = true;
+			break;
+
+		case PROJECT_STATE_LOADED:
+			break;
+
+		case PROJECT_STATE_OUTDATED:
+			question =
+				"The project file was changed after the last indexing. The project needs to get fully reindexed to "
+				"reflect the current project state. Alternatively you can also choose to just reindex updated or "
+				"incomplete files. Do you want to reindex the project?";
+			fullRefresh = true;
+			break;
+
+		case PROJECT_STATE_OUTVERSIONED:
+			question =
+				"This project was indexed with a different version of Sourcetrail. It needs to be fully reindexed to be used "
+				"with this version of Sourcetrail. Do you want to reindex the project?";
+			needsFullRefresh = true;
+			break;
+
+		case PROJECT_STATE_SETTINGS_UPDATED:
+			question =
+				"Some settings were changed, the project should be fully reindexed. Alternatively you can also choose to "
+				"just reindex updated or incomplete files. "
+				"Do you want to reindex the project?";
+			fullRefresh = true;
+			break;
+
+		case PROJECT_STATE_NEEDS_MIGRATION:
+			question =
+				"This project was created with a different version of Sourcetrail. The project file needs to get updated and "
+				"the project fully reindexed. Do you want to update the project file and reindex the project?";
+			needsFullRefresh = true;
+
+		default:
+			break;
+	}
+
+	if (question.size() && m_hasGUI)
+	{
+		std::vector<std::string> options = { "Yes", "No" };
+		int result = dialogView->confirm(question, options);
+
+		if (result == 1)
+		{
+			return;
+		}
+	}
+
+	if (ApplicationSettings::getInstance()->getLoggingEnabled() &&
+		ApplicationSettings::getInstance()->getVerboseIndexerLoggingEnabled() && m_hasGUI)
+	{
+		std::vector<std::string> options = { "Yes", "No" };
+		int result = dialogView->confirm(
+			"Warning: You are about to index your project with the \"verbose indexer logging\" setting "
+			"enabled. This will cause a significant slowdown in indexing performance. Do you want to proceed?",
+			options
+		);
+
+		if (result == 1)
+		{
+			return;
+		}
+	}
+
+	dialogView->showUnknownProgressDialog("Preparing Project", "Processing Files");
+	ScopedFunctor dialogHider([&dialogView](){
+		dialogView->hideUnknownProgressDialog();
+	});
+
+	if (m_state == PROJECT_STATE_NEEDS_MIGRATION)
+	{
+		m_settings->migrate();
+	}
+
+	m_settings->reload();
+
+	m_sourceGroups = SourceGroupFactory::getInstance()->createSourceGroups(m_settings->getAllSourceGroupSettings());
+	for (const std::shared_ptr<SourceGroup>& sourceGroup : m_sourceGroups)
 	{
 		if (!sourceGroup->prepareIndexing())
 		{
-			return false;
+			return;
 		}
+
 		sourceGroup->fetchAllSourceFilePaths();
-		utility::append(allSourceFilePaths, sourceGroup->getAllSourceFilePaths());
 	}
 
-	std::set<FilePath> filesToClean;
-	std::set<FilePath> filesToAdd;
-	if (!needsFullRefresh)
+	if (needsFullRefresh || fullRefresh)
 	{
-		std::set<FilePath> unchangedFilePaths;
-		std::set<FilePath> changedFilePaths;
-		for (const FileInfo& info: m_storage->getInfoOnAllFiles())
-		{
-			if (info.path.exists())
-			{
-				if (didFileChange(info))
-				{
-					changedFilePaths.insert(info.path);
-				}
-				else
-				{
-					unchangedFilePaths.insert(info.path);
-				}
-			}
-			else
-			{
-				// file has been removed
-				changedFilePaths.insert(info.path);
-			}
-		}
-
-		filesToClean = changedFilePaths;
-
-		// handle referencing paths
-		utility::append(filesToClean, m_storage->getReferencing(changedFilePaths));
-
-		// handle referenced paths
-		std::set<FilePath> staticSourceFiles = allSourceFilePaths;
-		for (const FilePath& path: changedFilePaths)
-		{
-			staticSourceFiles.erase(path);
-		}
-
-		const std::set<FilePath> staticReferencedFilePaths = m_storage->getReferenced(staticSourceFiles);
-		const std::set<FilePath> dynamicReferencedFilePaths = m_storage->getReferenced(changedFilePaths);
-
-		for (const FilePath& path : dynamicReferencedFilePaths)
-		{
-			if (staticReferencedFilePaths.find(path) == staticReferencedFilePaths.end() &&
-				staticSourceFiles.find(path) == staticSourceFiles.end())
-			{
-				// file may not be referenced anymore and will be reindexed if still needed
-				filesToClean.insert(path);
-			}
-		}
-
-		for (const FilePath& path: unchangedFilePaths)
-		{
-			staticSourceFiles.erase(path);
-		}
-		filesToAdd = staticSourceFiles;
+		refreshMode = REFRESH_ALL_FILES;
+	}
+	else if (refreshMode == REFRESH_NONE)
+	{
+		refreshMode = REFRESH_UPDATED_FILES;
 	}
 
+	RefreshInfo info = getRefreshInfo(refreshMode);
 
-	std::set<FilePath> staticSourceFilePaths;
-	for (const FilePath& path: allSourceFilePaths)
+	if (m_hasGUI)
 	{
-		if (filesToClean.find(path) == filesToClean.end() && filesToAdd.find(path) == filesToAdd.end())
+		std::vector<RefreshMode> enabledModes = { REFRESH_ALL_FILES };
+		if (!needsFullRefresh)
 		{
-			staticSourceFilePaths.insert(path);
-		}
-	}
-
-	std::set<FilePath> filesToIndex;
-	for (const std::shared_ptr<SourceGroup>& sourceGroup: m_sourceGroups)
-	{
-		sourceGroup->fetchSourceFilePathsToIndex(staticSourceFilePaths);
-		utility::append(filesToIndex, sourceGroup->getSourceFilePathsToIndex());
-	}
-
-	bool fullRefresh = forceRefresh | needsFullRefresh;
-
-	if (Application::getInstance()->hasGUI())
-	{
-		DialogView::IndexingOptions options;
-		options.fullRefreshVisible = !needsFullRefresh;
-		options.fullRefresh = forceRefresh;
-
-		Application::getInstance()->getDialogView()->hideUnknownProgressDialog();
-
-		options = Application::getInstance()->getDialogView()->startIndexingDialog(
-			filesToClean.size(), filesToIndex.size(), allSourceFilePaths.size(), options);
-
-		if (!options.startIndexing)
-		{
-			return false;
+			enabledModes.insert(enabledModes.end(), { REFRESH_UPDATED_FILES, REFRESH_UPDATED_AND_INCOMPLETE_FILES });
 		}
 
-		fullRefresh = options.fullRefresh | needsFullRefresh;
+		dialogView->startIndexingDialog(this, enabledModes, info);
 	}
-
-	if (fullRefresh)
+	else
 	{
-		filesToClean.clear();
-		filesToIndex = allSourceFilePaths;
+		buildIndex(info);
 	}
+}
 
-	if (!filesToClean.size() && !filesToIndex.size())
+RefreshInfo Project::getRefreshInfo(RefreshMode mode) const
+{
+	switch (mode)
 	{
-		if (!Application::getInstance()->hasGUI())
+	case REFRESH_NONE:
+		return RefreshInfo();
+
+	case REFRESH_UPDATED_FILES:
+		return getRefreshInfoForUpdatedFiles();
+
+	case REFRESH_UPDATED_AND_INCOMPLETE_FILES:
+		return getRefreshInfoForIncompleteFiles();
+
+	case REFRESH_ALL_FILES:
+		return getRefreshInfoForAllFiles();
+	}
+}
+
+void Project::buildIndex(const RefreshInfo& info)
+{
+	if (info.mode == REFRESH_NONE || (!info.filesToClear.size() && !info.filesToIndex.size()))
+	{
+		if (!m_hasGUI)
 		{
 			MessageFinishedParsing().dispatch();
 		}
 
 		MessageStatus("Nothing to refresh, all files are up-to-date.").dispatch();
-		return false;
+		return;
 	}
 
-	MessageStatus((fullRefresh ? "Reindexing Project" : "Refreshing Project"), false, true).dispatch();
-
-	buildIndex(filesToIndex, filesToClean, fullRefresh);
-
-	return true;
-}
-
-void Project::buildIndex(
-	const std::set<FilePath>& filesToIndex, const std::set<FilePath>& filesToClean, bool fullRefresh)
-{
+	MessageStatus("Preparing Indexing", false, true).dispatch();
 	MessageClearErrorCount().dispatch();
-	if (fullRefresh)
+
+	if (info.mode == REFRESH_ALL_FILES)
 	{
 		m_storage->clear();
 	}
+
+	m_storageCache->clear();
 
 	m_storage->setProjectSettingsText(TextAccess::createFromFile(getProjectSettingsFilePath())->getText());
 
 	std::shared_ptr<TaskGroupSequence> taskSequential = std::make_shared<TaskGroupSequence>();
 
-	// add task for cleaning the database
-	if (!filesToClean.empty())
+	// add task for clearing the database
+	if (info.filesToClear.size())
 	{
 		taskSequential->addTask(std::make_shared<TaskCleanStorage>(
 			m_storage.get(),
-			utility::toVector(filesToClean)
+			utility::toVector(info.filesToClear)
 		));
 	}
 
 	std::shared_ptr<IndexerCommandList> indexerCommandList = std::make_shared<IndexerCommandList>();
 	for (const std::shared_ptr<SourceGroup>& sourceGroup : m_sourceGroups)
 	{
-		for (const std::shared_ptr<IndexerCommand>& command : sourceGroup->getIndexerCommands(filesToIndex, fullRefresh))
+		for (const std::shared_ptr<IndexerCommand>& command : sourceGroup->getIndexerCommands(info.filesToIndex))
 		{
 			indexerCommandList->addCommand(command);
 		}
@@ -515,9 +427,144 @@ void Project::buildIndex(
 		);
 	}
 
-	taskSequential->addTask(std::make_shared<TaskFinishParsing>(m_storage.get(), m_storageAccessProxy));
+	taskSequential->addTask(std::make_shared<TaskFinishParsing>(m_storage.get(), m_storageCache));
 
 	Task::dispatch(taskSequential);
+
+	m_storageCache->setSubject(m_storage.get());
+	m_state = PROJECT_STATE_LOADED;
+}
+
+std::set<FilePath> Project::getAllSourceFilePaths() const
+{
+	std::set<FilePath> allSourceFilePaths;
+
+	for (const std::shared_ptr<SourceGroup>& sourceGroup: m_sourceGroups)
+	{
+		utility::append(allSourceFilePaths, sourceGroup->getAllSourceFilePaths());
+	}
+
+	return allSourceFilePaths;
+}
+
+RefreshInfo Project::getRefreshInfoForUpdatedFiles() const
+{
+	std::set<FilePath> unchangedFilePaths;
+	std::set<FilePath> changedFilePaths;
+
+	for (const FileInfo& info: m_storage->getFileInfoForAllFiles())
+	{
+		if (info.path.exists())
+		{
+			if (didFileChange(info))
+			{
+				changedFilePaths.insert(info.path);
+			}
+			else
+			{
+				unchangedFilePaths.insert(info.path);
+			}
+		}
+		else // file has been removed
+		{
+			changedFilePaths.insert(info.path);
+		}
+	}
+
+	std::set<FilePath> filesToClear = changedFilePaths;
+
+	// handle referencing paths
+	utility::append(filesToClear, m_storage->getReferencing(changedFilePaths));
+
+	// handle referenced paths
+	std::set<FilePath> allSourceFilePaths = getAllSourceFilePaths();
+	std::set<FilePath> staticSourceFiles = allSourceFilePaths;
+	for (const FilePath& path: changedFilePaths)
+	{
+		staticSourceFiles.erase(path);
+	}
+
+	const std::set<FilePath> staticReferencedFilePaths = m_storage->getReferenced(staticSourceFiles);
+	const std::set<FilePath> dynamicReferencedFilePaths = m_storage->getReferenced(changedFilePaths);
+
+	for (const FilePath& path : dynamicReferencedFilePaths)
+	{
+		if (staticReferencedFilePaths.find(path) == staticReferencedFilePaths.end() &&
+			staticSourceFiles.find(path) == staticSourceFiles.end())
+		{
+			// file may not be referenced anymore and will be reindexed if still needed
+			filesToClear.insert(path);
+		}
+	}
+
+	for (const FilePath& path: unchangedFilePaths)
+	{
+		staticSourceFiles.erase(path);
+	}
+
+	std::set<FilePath> filesToAdd = staticSourceFiles;
+
+	std::set<FilePath> staticSourceFilePaths;
+	for (const FilePath& path: allSourceFilePaths)
+	{
+		if (filesToClear.find(path) == filesToClear.end() && filesToAdd.find(path) == filesToAdd.end())
+		{
+			staticSourceFilePaths.insert(path);
+		}
+	}
+
+	RefreshInfo info;
+	info.mode = REFRESH_UPDATED_FILES;
+	info.filesToClear = filesToClear;
+
+	for (const std::shared_ptr<SourceGroup>& sourceGroup: m_sourceGroups)
+	{
+		utility::append(info.filesToIndex, sourceGroup->getSourceFilePathsToIndex(staticSourceFilePaths));
+	}
+
+	return info;
+}
+
+RefreshInfo Project::getRefreshInfoForIncompleteFiles() const
+{
+	RefreshInfo info = getRefreshInfoForUpdatedFiles();
+	info.mode = REFRESH_UPDATED_AND_INCOMPLETE_FILES;
+
+	std::set<FilePath> incompleteFiles;
+	for (const FilePath& path: m_storage->getIncompleteFiles())
+	{
+		if (info.filesToClear.find(path) == info.filesToClear.end())
+		{
+			incompleteFiles.insert(path);
+		}
+	}
+
+	if (incompleteFiles.size())
+	{
+		utility::append(incompleteFiles, m_storage->getReferencing(incompleteFiles));
+		utility::append(info.filesToClear, incompleteFiles);
+
+		std::set<FilePath> staticSourceFilePaths = getAllSourceFilePaths();
+		for (const FilePath& path: incompleteFiles)
+		{
+			staticSourceFilePaths.erase(path);
+		}
+
+		for (const std::shared_ptr<SourceGroup>& sourceGroup: m_sourceGroups)
+		{
+			utility::append(info.filesToIndex, sourceGroup->getSourceFilePathsToIndex(staticSourceFilePaths));
+		}
+	}
+
+	return info;
+}
+
+RefreshInfo Project::getRefreshInfoForAllFiles() const
+{
+	RefreshInfo info;
+	info.mode = REFRESH_ALL_FILES;
+	info.filesToIndex = getAllSourceFilePaths();
+	return info;
 }
 
 bool Project::hasCxxSourceGroup() const

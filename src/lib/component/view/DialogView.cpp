@@ -25,10 +25,9 @@ void DialogView::hideProgressDialog()
 {
 }
 
-DialogView::IndexingOptions DialogView::startIndexingDialog(
-	size_t cleanFileCount, size_t indexFileCount, size_t totalFileCount, DialogView::IndexingOptions options)
+void DialogView::startIndexingDialog(
+	Project* project, const std::vector<RefreshMode>& enabledModes, const RefreshInfo& info)
 {
-	return IndexingOptions();
 }
 
 void DialogView::updateIndexingDialog(

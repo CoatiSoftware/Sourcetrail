@@ -14,11 +14,6 @@ LanguageType SourceGroup::getLanguage() const
 	return getLanguageTypeForSourceGroupType(getType());
 }
 
-bool SourceGroup::prepareRefresh()
-{
-	return true;
-}
-
 bool SourceGroup::prepareIndexing()
 {
 	return true;
@@ -26,7 +21,6 @@ bool SourceGroup::prepareIndexing()
 
 void SourceGroup::fetchAllSourceFilePaths()
 {
-	m_sourceFilePathsToIndex.clear();
 	FileManager fileManager;
 	fileManager.update(
 		getAllSourcePaths(),
@@ -36,15 +30,22 @@ void SourceGroup::fetchAllSourceFilePaths()
 	m_allSourceFilePaths = fileManager.getAllSourceFilePaths();
 }
 
-void SourceGroup::fetchSourceFilePathsToIndex(const std::set<FilePath>& staticSourceFilePaths)
+std::set<FilePath> SourceGroup::getAllSourceFilePaths() const
 {
+	return m_allSourceFilePaths;
+}
+
+std::set<FilePath> SourceGroup::getSourceFilePathsToIndex(const std::set<FilePath>& staticSourceFilePaths)
+{
+	std::set<FilePath> sourceFilePathsToIndex;
 	for (const FilePath& sourceFilePath: m_allSourceFilePaths)
 	{
 		if (staticSourceFilePaths.find(sourceFilePath) == staticSourceFilePaths.end())
 		{
-			m_sourceFilePathsToIndex.insert(sourceFilePath);
+			sourceFilePathsToIndex.insert(sourceFilePath);
 		}
 	}
+	return sourceFilePathsToIndex;
 }
 
 std::set<FilePath> SourceGroup::getIndexedPaths()
@@ -55,16 +56,6 @@ std::set<FilePath> SourceGroup::getIndexedPaths()
 std::set<FilePath> SourceGroup::getExcludedPaths()
 {
 	return findAndAddSymlinkedDirectories(getSourceGroupSettings()->getExcludePathsExpandedAndAbsolute());
-}
-
-std::set<FilePath> SourceGroup::getAllSourceFilePaths() const
-{
-	return m_allSourceFilePaths;
-}
-
-std::set<FilePath> SourceGroup::getSourceFilePathsToIndex() const
-{
-	return m_sourceFilePathsToIndex;
 }
 
 std::set<FilePath> SourceGroup::findAndAddSymlinkedDirectories(const std::vector<FilePath>& paths)

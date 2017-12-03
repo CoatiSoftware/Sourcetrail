@@ -6,27 +6,35 @@
 #include <set>
 #include <vector>
 
+#include "project/RefreshInfo.h"
 #include "project/SourceGroup.h"
 
 struct FileInfo;
+class DialogView;
 class FilePath;
 class PersistentStorage;
 class ProjectSettings;
-class StorageAccessProxy;
+class StorageCache;
 
 class Project
 {
 public:
-	Project(std::shared_ptr<ProjectSettings> settings, StorageAccessProxy* storageAccessProxy);
+	Project(std::shared_ptr<ProjectSettings> settings, StorageCache* storageCache, bool hasGUI);
 	virtual ~Project();
-
-	bool refresh(bool forceRefresh);
 
 	FilePath getProjectSettingsFilePath() const;
 	std::string getDescription() const;
 
 	bool settingsEqualExceptNameAndLocation(const ProjectSettings& otherSettings) const;
 	void setStateSettingsUpdated();
+
+	void load();
+
+	void refresh(DialogView* dialogView, RefreshMode refreshMode);
+
+	RefreshInfo getRefreshInfo(RefreshMode mode) const;
+
+	void buildIndex(const RefreshInfo& info);
 
 private:
 	enum ProjectStateType
@@ -42,23 +50,23 @@ private:
 
 	Project(const Project&);
 
-public: // todo: make private again
-	void load();
+	std::set<FilePath> getAllSourceFilePaths() const;
 
-private:
-	bool requestIndex(bool forceRefresh, bool needsFullRefresh);
-
-	void buildIndex(const std::set<FilePath>& filesToIndex, const std::set<FilePath>& filesToClean, bool fullRefresh);
+	RefreshInfo getRefreshInfoForUpdatedFiles() const;
+	RefreshInfo getRefreshInfoForIncompleteFiles() const;
+	RefreshInfo getRefreshInfoForAllFiles() const;
 
 	bool hasCxxSourceGroup() const;
 	bool didFileChange(const FileInfo& info) const;
 
 	std::shared_ptr<ProjectSettings> m_settings;
-	StorageAccessProxy* const m_storageAccessProxy;
+	StorageCache* const m_storageCache;
 
 	ProjectStateType m_state;
 	std::shared_ptr<PersistentStorage> m_storage;
 	std::vector<std::shared_ptr<SourceGroup>> m_sourceGroups;
+
+	bool m_hasGUI;
 };
 
 #endif // PROJECT_H

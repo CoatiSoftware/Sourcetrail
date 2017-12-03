@@ -1,13 +1,14 @@
-#ifndef QT_INDEXING_WIZARD_WINDOW_H
-#define QT_INDEXING_WIZARD_WINDOW_H
+#ifndef QT_INDEXING_DIALOG_H
+#define QT_INDEXING_DIALOG_H
 
 #include <functional>
 
-#include "component/view/DialogView.h"
+#include "project/RefreshInfo.h"
 #include "qt/window/QtWindow.h"
 
 class QCheckBox;
 class QLabel;
+class QRadioButton;
 class QtProgressBar;
 
 class QtIndexingDialog
@@ -15,12 +16,17 @@ class QtIndexingDialog
 {
 	Q_OBJECT
 
+signals:
+	void setMode(RefreshMode mode);
+	void startIndexing(RefreshMode mode);
+
 public:
 	enum DialogType
 	{
 		DIALOG_MESSAGE,
 		DIALOG_UNKNOWN_PROGRESS,
 		DIALOG_PROGRESS,
+		DIALOG_START_INDEXING,
 		DIALOG_INDEXING,
 		DIALOG_REPORT
 	};
@@ -30,8 +36,9 @@ public:
 
 	DialogType getType() const;
 
-	void setupStart(size_t cleanFileCount, size_t indexFileCount, size_t totalFileCount,
-		DialogView::IndexingOptions options, std::function<void(DialogView::IndexingOptions)> callback);
+	void setupStart(const std::vector<RefreshMode>& enabledModes);
+	void updateRefreshInfo(const RefreshInfo& info);
+
 	void setupIndexing();
 	void setupReport(
 		size_t indexedFileCount, size_t totalIndexedFileCount, size_t completedFileCount, size_t totalFileCount,
@@ -82,12 +89,12 @@ private:
 	QWidget* m_errorWidget;
 
 	// start indexing
-	QCheckBox* m_fullRefreshCheckBox;
+	QLabel* m_clearLabel;
+	QLabel* m_indexLabel;
+	std::map<RefreshMode, QRadioButton*> m_refreshModeButtons;
 
 	QSize m_sizeHint;
-
-	std::function<void(DialogView::IndexingOptions)> m_callback;
 	QString m_sourcePath;
 };
 
-#endif // QT_INDEXING_WIZARD_WINDOW_H
+#endif // QT_INDEXING_DIALOG_H

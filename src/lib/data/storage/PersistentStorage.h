@@ -63,7 +63,8 @@ public:
 
 	void clearFileElements(const std::vector<FilePath>& filePaths, std::function<void(int)> updateStatusCallback);
 
-	std::vector<FileInfo> getInfoOnAllFiles() const;
+	std::vector<FileInfo> getFileInfoForAllFiles() const;
+	std::set<FilePath> getIncompleteFiles() const;
 
 	void buildCaches();
 
@@ -148,7 +149,8 @@ private:
 	std::vector<Id> getFileNodeIds(const std::vector<FilePath>& filePaths) const;
 	std::set<Id> getFileNodeIds(const std::set<FilePath>& filePaths) const;
 	FilePath getFileNodePath(Id fileId) const;
-	bool getFileNodeComplete(const FilePath& filePath) const;
+	bool getFilePathComplete(const FilePath& filePath) const;
+	bool getFileNodeComplete(Id fileId) const;
 
 	std::unordered_map<Id, std::set<Id>> getFileIdToIncludingFileIdMap() const;
 	std::unordered_map<Id, std::set<Id>> getFileIdToImportingFileIdMap() const;

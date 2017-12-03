@@ -30,8 +30,7 @@ bool SourceGroupJava::prepareIndexing()
 	return true;
 }
 
-std::vector<std::shared_ptr<IndexerCommand>> SourceGroupJava::getIndexerCommands(
-	const std::set<FilePath>& filesToIndex, bool fullRefresh)
+std::vector<std::shared_ptr<IndexerCommand>> SourceGroupJava::getIndexerCommands(const std::set<FilePath>& filesToIndex)
 {
 	const std::string languageStandard = getSourceGroupSettingsJava()->getStandard();
 
@@ -39,10 +38,8 @@ std::vector<std::shared_ptr<IndexerCommand>> SourceGroupJava::getIndexerCommands
 	std::set<FilePath> indexedPaths = getIndexedPaths();
 	std::set<FilePath> excludedPaths = getExcludedPaths();
 
-	const std::set<FilePath>& sourceFilePathsToIndex = (fullRefresh ? getAllSourceFilePaths() : getSourceFilePathsToIndex());
-
 	std::vector<std::shared_ptr<IndexerCommand>> indexerCommands;
-	for (const FilePath& sourcePath: sourceFilePathsToIndex)
+	for (const FilePath& sourcePath: getAllSourceFilePaths())
 	{
 		if (filesToIndex.find(sourcePath) != filesToIndex.end())
 		{
