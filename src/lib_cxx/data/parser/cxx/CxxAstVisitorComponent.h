@@ -89,6 +89,7 @@ DEF_TRAVERSE_TYPE_PTR(CXXTemporaryObjectExpr)
 	virtual void visitTagDecl(clang::TagDecl* d) {}
 	virtual void visitClassTemplateSpecializationDecl(clang::ClassTemplateSpecializationDecl* d) {}
 	virtual void visitVarDecl(clang::VarDecl* d) {}
+	virtual void visitVarTemplateSpecializationDecl(clang::VarTemplateSpecializationDecl* d) {}
 	virtual void visitFieldDecl(clang::FieldDecl* d) {}
 	virtual void visitFunctionDecl(clang::FunctionDecl* d) {}
 	virtual void visitCXXMethodDecl(clang::CXXMethodDecl* d) {}

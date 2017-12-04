@@ -261,6 +261,32 @@ void CxxAstVisitorComponentIndexer::visitVarDecl(clang::VarDecl* d)
 	}
 }
 
+void CxxAstVisitorComponentIndexer::visitVarTemplateSpecializationDecl(clang::VarTemplateSpecializationDecl* d)
+{
+	if (shouldVisitDecl(d))
+	{
+		clang::NamedDecl* specializedFromDecl;
+
+		// todo: use context and childcontext!!
+		llvm::PointerUnion<clang::VarTemplateDecl*, clang::VarTemplatePartialSpecializationDecl*> pu = d->getSpecializedTemplateOrPartial();
+		if (pu.is<clang::VarTemplateDecl*>())
+		{
+			specializedFromDecl = pu.get<clang::VarTemplateDecl*>();
+		}
+		else if (pu.is<clang::VarTemplatePartialSpecializationDecl*>())
+		{
+			specializedFromDecl = pu.get<clang::VarTemplatePartialSpecializationDecl*>();
+		}
+
+		m_client->recordReference(
+			REFERENCE_TEMPLATE_SPECIALIZATION,
+			getAstVisitor()->getDeclNameCache()->getValue(specializedFromDecl),
+			getAstVisitor()->getDeclNameCache()->getValue(d),
+			getParseLocation(d->getLocation())
+		);
+	}
+}
+
 void CxxAstVisitorComponentIndexer::visitFieldDecl(clang::FieldDecl* d)
 {
 	if (shouldVisitDecl(d))

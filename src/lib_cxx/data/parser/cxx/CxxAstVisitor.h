@@ -117,6 +117,7 @@ public:
 	virtual bool VisitFunctionDecl(clang::FunctionDecl* d);
 	virtual bool VisitCXXMethodDecl(clang::CXXMethodDecl* d);
 	virtual bool VisitVarDecl(clang::VarDecl* d);
+	virtual bool VisitVarTemplateSpecializationDecl(clang::VarTemplateSpecializationDecl* d);
 	virtual bool VisitFieldDecl(clang::FieldDecl* d);
 	virtual bool VisitTypedefDecl(clang::TypedefDecl* d);
 	virtual bool VisitTypeAliasDecl(clang::TypeAliasDecl* d);
