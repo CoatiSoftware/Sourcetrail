@@ -82,11 +82,12 @@
 	</search>
 
 	<code>
-		<background>#494949</background>
+		<background>#595959</background>
 
 		<navigation>
+			<background>#494949</background>
 			<text>#A0A0A0</text>
-			<line>#CCCCCC</line>
+			<line>#999</line>
 		</navigation>
 
 		<file>

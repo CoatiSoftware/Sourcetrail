@@ -89,27 +89,13 @@ QtCodeNavigator::QtCodeNavigator(QWidget* parent)
 		navigation->setLayout(navLayout);
 		layout->addWidget(navigation);
 
-		QHBoxLayout* separatorLayout = new QHBoxLayout();
-
-		QWidget* widget = new QWidget();
-		widget->setObjectName("separator_gap");
-		widget->setFixedWidth(7);
-		separatorLayout->addWidget(widget);
-
 		m_separatorLine = new QFrame();
 		m_separatorLine->setFrameShape(QFrame::HLine);
 		m_separatorLine->setFrameShadow(QFrame::Plain);
 		m_separatorLine->setObjectName("separator_line");
 		m_separatorLine->setFixedHeight(1);
 		m_separatorLine->hide();
-		separatorLayout->addWidget(m_separatorLine);
-
-		QWidget* widget2 = new QWidget();
-		widget2->setObjectName("separator_gap");
-		widget2->setFixedWidth(7);
-		separatorLayout->addWidget(widget2);
-
-		layout->addLayout(separatorLayout);
+		layout->addWidget(m_separatorLine);
 	}
 
 	m_list = new QtCodeFileList(this);

@@ -82,20 +82,21 @@
 	</search>
 
 	<code>
-		<background>white</background>
+		<background>#F6F6F6</background>
 
 		<navigation>
+			<background>white</background>
 			<text>#A2A2A2</text>
-			<line>#A2A2A2</line>
+			<line>#D2D2D2</line>
 		</navigation>
 
 		<file>
-			<background>#E0E0E0</background>
+			<background>#D0D0D0</background>
 
 			<title>
 				<text>black</text>
-				<normal>#E0E0E0</normal>
-				<hover>#C2C2C2</hover>
+				<normal>#D0D0D0</normal>
+				<hover>#B2B2B2</hover>
 				<press>#A2A2A2</press>
 				<icon>black</icon>
 				<border>white</border>

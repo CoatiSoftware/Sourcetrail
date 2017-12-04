@@ -1,5 +1,13 @@
-#code_navigation, #code_container, #code_file_list, #code_file_single {
+#code_container, #code_file_list {
 	background-color: <color:code/background>;
+}
+
+#code_file_single {
+	background-color: <color:code/snippet/background>;
+}
+
+#code_navigation {
+	background-color: <color:code/navigation/background>;
 }
 
 #code_container, #code_file_list {
@@ -7,7 +15,7 @@
 }
 
 #separator_gap {
-	background-color: <color:code/background>;
+	background-color: <color:code/navigation/background>;
 	border: none;
 }
 
