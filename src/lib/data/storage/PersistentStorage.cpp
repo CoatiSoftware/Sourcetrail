@@ -824,7 +824,10 @@ std::shared_ptr<Graph> PersistentStorage::getGraphForAll() const
 	{
 		auto it = m_symbolDefinitionKinds.find(node.id);
 		if (it != m_symbolDefinitionKinds.end() && it->second == DEFINITION_EXPLICIT &&
-			!m_hierarchyCache.isChildOfVisibleNodeOrInvisible(node.id)
+			(
+				NodeType(utility::intToType(node.type)).isPackage() ||
+				!m_hierarchyCache.isChildOfVisibleNodeOrInvisible(node.id)
+			)
 		){
 			tokenIds.push_back(node.id);
 		}
