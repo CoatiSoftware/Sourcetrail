@@ -219,7 +219,7 @@ void SearchMatch::print(std::ostream& ostream) const
 
 std::string SearchMatch::getFullName() const
 {
-	if (searchType == SEARCH_TOKEN && nodeType.getType() == NodeType::NODE_FILE)
+	if (searchType == SEARCH_TOKEN && nodeType.isFile())
 	{
 		return text;
 	}

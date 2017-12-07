@@ -503,7 +503,7 @@ std::string BookmarkController::getNodeDisplayName(const Id nodeId) const
 	NodeType type = m_storageAccess->getNodeTypeForNodeWithId(nodeId);
 	NameHierarchy nameHierarchy = m_storageAccess->getNameHierarchyForNodeId(nodeId);
 
-	if (type.getType() == NodeType::NODE_FILE)
+	if (type.isFile())
 	{
 		return FilePath(nameHierarchy.getQualifiedName()).fileName();
 	}

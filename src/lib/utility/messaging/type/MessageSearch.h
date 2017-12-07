@@ -28,7 +28,7 @@ public:
 		for (size_t i = 0; i < m_matches.size(); i++)
 		{
 			ss << '@';
-			if (m_matches[i].nodeType.getType() == NodeType::NODE_FILE)
+			if (m_matches[i].nodeType.isFile())
 			{
 				ss << m_matches[i].subtext;
 			}

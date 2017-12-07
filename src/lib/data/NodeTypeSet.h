@@ -28,6 +28,9 @@ public:
 	void remove(const NodeTypeSet& typeSet);
 	NodeTypeSet getWithRemoved(const NodeTypeSet& typeSet) const;
 
+	void removeIf(const std::function<bool(const NodeType&)> condition);
+	NodeTypeSet getWithRemovedIf(const std::function<bool(const NodeType&)> condition) const;
+
 	bool isEmpty() const;
 	bool contains(const NodeType& type) const;
 	bool intersectsWith(const NodeTypeSet& typeSet) const;

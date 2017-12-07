@@ -576,12 +576,12 @@ std::vector<SearchMatch> PersistentStorage::getAutocompletionMatches(const std::
 	// create SearchMatches
 	std::vector<SearchMatch> matches;
 
-	if (!acceptedNodeTypes.getWithRemoved(NodeType(NodeType::NODE_FILE)).isEmpty())
+	if (!acceptedNodeTypes.getWithRemovedIf([](const NodeType& type) { return type.isFile(); }).isEmpty())
 	{
 		utility::append(matches, getAutocompletionSymbolMatches(query, acceptedNodeTypes, maxResultsCount, maxBestScoredResultsLength));
 	}
 
-	if (acceptedNodeTypes.contains(NodeType(NodeType::NODE_FILE)))
+	if (!acceptedNodeTypes.getWithRemovedIf([](const NodeType& type) { return !type.isFile(); }).isEmpty())
 	{
 		utility::append(matches, getAutocompletionFileMatches(query, maxResultsCount));
 	}
@@ -802,7 +802,7 @@ std::vector<SearchMatch> PersistentStorage::getSearchMatchesForTokenIds(const st
 
 		match.delimiter = nameHierarchy.getDelimiter();
 
-		if (match.nodeType.getType() == NodeType::NODE_FILE)
+		if (match.nodeType.isFile())
 		{
 			match.text = FilePath(match.text).fileName();
 		}
@@ -1727,7 +1727,7 @@ TooltipInfo PersistentStorage::getTooltipInfoForTokenIds(const std::vector<Id>& 
 		}
 	}
 
-	if (type.getType() == NodeType::NODE_FILE && m_fileNodePaths.find(node.id) != m_fileNodePaths.end())
+	if (type.isFile() && m_fileNodePaths.find(node.id) != m_fileNodePaths.end())
 	{
 		if (!getFileNodeComplete(node.id))
 		{
@@ -2174,7 +2174,7 @@ void PersistentStorage::addNodesToGraph(const std::vector<Id>& newNodeIds, Graph
 	for (const StorageNode& storageNode : m_sqliteIndexStorage.getAllByIds<StorageNode>(nodeIds))
 	{
 		const NodeType type(utility::intToType(storageNode.type));
-		if (type.getType() == NodeType::NODE_FILE)
+		if (type.isFile())
 		{
 			const FilePath filePath(NameHierarchy::deserialize(storageNode.serializedName).getRawName());
 
@@ -2540,7 +2540,7 @@ void PersistentStorage::buildSearchIndex()
 	for (StorageNode& node : m_sqliteIndexStorage.getAll<StorageNode>())
 	{
 		NodeType type = utility::intToType(node.type);
-		if (type == NodeType::NODE_FILE)
+		if (type.isFile())
 		{
 			auto it = m_fileNodePaths.find(node.id);
 			if (it != m_fileNodePaths.end())

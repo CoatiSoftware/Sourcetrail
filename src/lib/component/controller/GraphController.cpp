@@ -979,7 +979,7 @@ void GraphController::bundleNodes()
 	bundleNodesAndEdgesMatching(
 		[](const DummyNode::BundleInfo& info, const Node* data)
 		{
-			return data->isType(NodeType::NODE_FILE);
+			return data->getType().isFile();
 		},
 		1,
 		false,
@@ -1009,7 +1009,7 @@ void GraphController::bundleNodes()
 	bundleNodesAndEdgesMatching(
 		[](const DummyNode::BundleInfo& info, const Node* data)
 		{
-			return info.isDefined && info.isReferenced && data->isType(NodeType::NODE_BUILTIN_TYPE);
+			return info.isDefined && info.isReferenced && data->getType().isBuiltin();
 		},
 		3,
 		false,

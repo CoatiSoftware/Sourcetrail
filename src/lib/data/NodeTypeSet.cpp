@@ -79,6 +79,24 @@ NodeTypeSet NodeTypeSet::getWithRemoved(const NodeTypeSet& typeSet) const
 	return ret;
 }
 
+void NodeTypeSet::removeIf(const std::function<bool(const NodeType&)> condition)
+{
+	for (const NodeType& type : s_allNodeTypes)
+	{
+		if (m_nodeTypeMask & nodeTypeToMask(type) && condition(type))
+		{
+			remove(type);
+		}
+	}
+}
+
+NodeTypeSet NodeTypeSet::getWithRemovedIf(const std::function<bool(const NodeType&)> condition) const
+{
+	NodeTypeSet ret(*this);
+	ret.removeIf(condition);
+	return ret;
+}
+
 bool NodeTypeSet::isEmpty() const
 {
 	return m_nodeTypeMask == 0;
