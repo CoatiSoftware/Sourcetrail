@@ -19,10 +19,10 @@
 #include "data/ErrorCountInfo.h"
 #include "data/ErrorFilter.h"
 #include "data/ErrorInfo.h"
-#include "data/NodeTypeSet.h"
 
 class FilePath;
 class Graph;
+class NodeTypeSet;
 class SourceLocationCollection;
 class SourceLocationFile;
 class TextAccess;

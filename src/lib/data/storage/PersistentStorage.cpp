@@ -3,6 +3,17 @@
 #include <sstream>
 #include <queue>
 
+#include "data/graph/token_component/TokenComponentAccess.h"
+#include "data/graph/token_component/TokenComponentAggregation.h"
+#include "data/graph/token_component/TokenComponentFilePath.h"
+#include "data/graph/token_component/TokenComponentInheritanceChain.h"
+#include "data/graph/Graph.h"
+#include "data/location/SourceLocationCollection.h"
+#include "data/location/SourceLocationFile.h"
+#include "data/parser/AccessKind.h"
+#include "data/parser/ParseLocation.h"
+#include "data/NodeTypeSet.h"
+#include "settings/ApplicationSettings.h"
 #include "utility/Cache.h"
 #include "utility/file/FileInfo.h"
 #include "utility/file/FilePath.h"
@@ -13,17 +24,6 @@
 #include "utility/TimeStamp.h"
 #include "utility/tracing.h"
 #include "utility/utility.h"
-
-#include "data/graph/token_component/TokenComponentAccess.h"
-#include "data/graph/token_component/TokenComponentAggregation.h"
-#include "data/graph/token_component/TokenComponentFilePath.h"
-#include "data/graph/token_component/TokenComponentInheritanceChain.h"
-#include "data/graph/Graph.h"
-#include "data/location/SourceLocationCollection.h"
-#include "data/location/SourceLocationFile.h"
-#include "data/parser/AccessKind.h"
-#include "data/parser/ParseLocation.h"
-#include "settings/ApplicationSettings.h"
 
 PersistentStorage::PersistentStorage(const FilePath& dbPath, const FilePath& bookmarkPath)
 	: m_sqliteIndexStorage(dbPath)

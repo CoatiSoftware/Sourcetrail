@@ -3,6 +3,7 @@
 #include "data/graph/Graph.h"
 #include "data/location/SourceLocationCollection.h"
 #include "data/location/SourceLocationFile.h"
+#include "data/NodeTypeSet.h"
 
 #include "utility/file/FileInfo.h"
 #include "utility/file/FilePath.h"

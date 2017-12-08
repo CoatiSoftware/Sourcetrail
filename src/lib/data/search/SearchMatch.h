@@ -7,8 +7,9 @@
 #include <vector>
 
 #include "data/graph/Node.h"
-#include "data/NodeTypeSet.h"
 #include "utility/types.h"
+
+class NodeTypeSet;
 
 struct SearchMatch
 {

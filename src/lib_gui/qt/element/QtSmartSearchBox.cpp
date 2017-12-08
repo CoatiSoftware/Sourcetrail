@@ -6,14 +6,14 @@
 #include <QClipboard>
 #include <QKeyEvent>
 
+#include "component/view/GraphViewStyle.h"
+#include "data/NodeTypeSet.h"
+#include "settings/ColorScheme.h"
 #include "utility/messaging/type/MessageSearch.h"
 #include "utility/messaging/type/MessageSearchFullText.h"
 #include "utility/messaging/type/MessageSearchAutocomplete.h"
 #include "utility/utility.h"
 #include "utility/utilityString.h"
-
-#include "component/view/GraphViewStyle.h"
-#include "settings/ColorScheme.h"
 
 QtSearchElement::QtSearchElement(const QString& text, QWidget* parent)
 	: QPushButton(text, parent)
@@ -1058,13 +1058,13 @@ std::deque<SearchMatch> QtSmartSearchBox::getMatchesForInput(const std::string& 
 
 NodeTypeSet QtSmartSearchBox::getMatchAcceptedNodeTypes() const
 {
-	NodeTypeSet types;
+	NodeTypeSet acceptedTypes;
 
 	for (const SearchMatch& match : m_matches)
 	{
 		if (match.isFilterCommand())
 		{
-			types.add(match.nodeType);
+			acceptedTypes.add(match.nodeType);
 		}
 		else
 		{
@@ -1072,12 +1072,12 @@ NodeTypeSet QtSmartSearchBox::getMatchAcceptedNodeTypes() const
 		}
 	}
 
-	if (types.isEmpty())
+	if (acceptedTypes.isEmpty())
 	{
-		types.invert();
+		acceptedTypes.invert();
 	}
 
-	return types;
+	return acceptedTypes;
 }
 
 bool QtSmartSearchBox::lastMatchIsNoFilter() const

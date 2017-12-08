@@ -1,11 +1,12 @@
 #ifndef NODE_TYPE_SET_H
 #define NODE_TYPE_SET_H
 
-#include <unordered_set>
-#include <unordered_set>
+#include <functional>
+#include <vector>
 
-#include "data/NodeType.h"
 #include "utility/types.h"
+
+class NodeType;
 
 class NodeTypeSet
 {
@@ -43,7 +44,6 @@ private:
 	static const std::vector<NodeType> s_allNodeTypes;
 
 	MaskType m_nodeTypeMask;
-	//std::set<NodeType> m_nodeTypes;
 };
 
 #endif // NODE_TYPE_SET_H

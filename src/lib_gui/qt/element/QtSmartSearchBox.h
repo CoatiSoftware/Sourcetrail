@@ -8,8 +8,9 @@
 #include <QPushButton>
 
 #include "data/search/SearchMatch.h"
-#include "data/NodeTypeSet.h"
 #include "qt/element/QtAutocompletionList.h"
+
+class NodeTypeSet;
 
 class QtSearchElement
 	: public QPushButton

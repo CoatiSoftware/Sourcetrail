@@ -3,6 +3,7 @@
 
 #include "utility/messaging/Message.h"
 
+#include "data/NodeTypeSet.h"
 #include "data/search/SearchMatch.h"
 
 class MessageSearch

@@ -1,5 +1,6 @@
 #include "data/NodeTypeSet.h"
 
+#include "data/NodeType.h"
 #include "utility/utility.h"
 #include "utility/utilityMath.h"
 
