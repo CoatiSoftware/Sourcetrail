@@ -32,26 +32,13 @@ PersistentStorage::PersistentStorage(const FilePath& dbPath, const FilePath& boo
 	m_commandIndex.addNode(0, SearchMatch::getCommandName(SearchMatch::COMMAND_ALL));
 	m_commandIndex.addNode(0, SearchMatch::getCommandName(SearchMatch::COMMAND_ERROR));
 
-	// m_commandIndex.addNode(0, NodeType(NodeType::NODE_SYMBOL).getReadableTypeString());
-	// m_commandIndex.addNode(0, NodeType(NodeType::NODE_TYPE).getReadableTypeString());
-	m_commandIndex.addNode(0, NodeType(NodeType::NODE_BUILTIN_TYPE).getReadableTypeString());
-	m_commandIndex.addNode(0, NodeType(NodeType::NODE_NAMESPACE).getReadableTypeString());
-	m_commandIndex.addNode(0, NodeType(NodeType::NODE_PACKAGE).getReadableTypeString());
-	m_commandIndex.addNode(0, NodeType(NodeType::NODE_STRUCT).getReadableTypeString());
-	m_commandIndex.addNode(0, NodeType(NodeType::NODE_CLASS).getReadableTypeString());
-	m_commandIndex.addNode(0, NodeType(NodeType::NODE_INTERFACE).getReadableTypeString());
-	m_commandIndex.addNode(0, NodeType(NodeType::NODE_GLOBAL_VARIABLE).getReadableTypeString());
-	m_commandIndex.addNode(0, NodeType(NodeType::NODE_FIELD).getReadableTypeString());
-	m_commandIndex.addNode(0, NodeType(NodeType::NODE_FUNCTION).getReadableTypeString());
-	m_commandIndex.addNode(0, NodeType(NodeType::NODE_METHOD).getReadableTypeString());
-	m_commandIndex.addNode(0, NodeType(NodeType::NODE_ENUM).getReadableTypeString());
-	m_commandIndex.addNode(0, NodeType(NodeType::NODE_ENUM_CONSTANT).getReadableTypeString());
-	m_commandIndex.addNode(0, NodeType(NodeType::NODE_TYPEDEF).getReadableTypeString());
-	// m_commandIndex.addNode(0, NodeType(NodeType::NODE_TEMPLATE_PARAMETER_TYPE).getReadableTypeString());
-	// m_commandIndex.addNode(0, NodeType(NodeType::NODE_TYPE_PARAMETER).getReadableTypeString());
-	m_commandIndex.addNode(0, NodeType(NodeType::NODE_FILE).getReadableTypeString());
-	m_commandIndex.addNode(0, NodeType(NodeType::NODE_MACRO).getReadableTypeString());
-	m_commandIndex.addNode(0, NodeType(NodeType::NODE_UNION).getReadableTypeString());
+	for (const NodeType& nodeType : NodeTypeSet::all().getNodeTypes())
+	{
+		if (nodeType.hasSearchFilter())
+		{
+			m_commandIndex.addNode(0, nodeType.getReadableTypeString());
+		}
+	}
 
 	m_commandIndex.finishSetup();
 }

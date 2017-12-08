@@ -83,6 +83,7 @@ public:
 	bool isPotentialMember() const;
 	bool isCollapsible() const;
 	bool isVisibleAsParentInGraph() const;
+	bool hasSearchFilter() const;
 	Tree<BundleInfo> getOverviewBundleTree() const;
 
 	FilePath getIconPath() const;

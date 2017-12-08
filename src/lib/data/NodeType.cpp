@@ -135,6 +135,28 @@ bool NodeType::isVisibleAsParentInGraph() const
 	return !isPackage();
 }
 
+bool NodeType::hasSearchFilter() const
+{
+	const NodeType::TypeMask mask =
+		NodeType::NODE_BUILTIN_TYPE |
+		NodeType::NODE_NAMESPACE |
+		NodeType::NODE_PACKAGE |
+		NodeType::NODE_STRUCT |
+		NodeType::NODE_CLASS |
+		NodeType::NODE_INTERFACE |
+		NodeType::NODE_GLOBAL_VARIABLE |
+		NodeType::NODE_FIELD |
+		NodeType::NODE_FUNCTION |
+		NodeType::NODE_METHOD |
+		NodeType::NODE_ENUM |
+		NodeType::NODE_ENUM_CONSTANT |
+		NodeType::NODE_TYPEDEF |
+		NodeType::NODE_FILE |
+		NodeType::NODE_MACRO |
+		NodeType::NODE_UNION;
+	return ((m_type & mask) > 0);
+}
+
 Tree<NodeType::BundleInfo> NodeType::getOverviewBundleTree() const
 {
 	switch (m_type)
