@@ -142,6 +142,7 @@ const std::vector<NodeType> NodeTypeSet::s_allNodeTypes = {
 	NodeType(NodeType::NODE_STRUCT),
 	NodeType(NodeType::NODE_CLASS),
 	NodeType(NodeType::NODE_INTERFACE),
+	NodeType(NodeType::NODE_GLOBAL_VARIABLE),
 	NodeType(NodeType::NODE_FIELD),
 	NodeType(NodeType::NODE_FUNCTION),
 	NodeType(NodeType::NODE_METHOD),

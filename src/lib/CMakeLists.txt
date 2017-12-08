@@ -523,6 +523,7 @@ add_files(
 	utility/TimeStamp.h
 	utility/tracing.cpp
 	utility/tracing.h
+	utility/Tree.h
 	utility/types.h
 	utility/UserPaths.cpp
 	utility/UserPaths.h

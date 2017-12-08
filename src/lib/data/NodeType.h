@@ -7,6 +7,7 @@
 #include <vector>
 
 #include "utility/file/FilePath.h"
+#include "utility/Tree.h"
 #include "utility/types.h"
 
 class NodeType
@@ -49,6 +50,20 @@ public:
 		STYLE_BIG_NODE = 2
 	};
 
+	struct BundleInfo
+	{
+		BundleInfo()
+			: nameMatcher(nullptr)
+			, bundleName("")
+		{}
+		BundleInfo(std::function<bool(std::string)> nameMatcher, std::string bundleName)
+			: nameMatcher(nameMatcher)
+			, bundleName(bundleName)
+		{}
+		std::function<bool(const std::string&)> nameMatcher;
+		std::string bundleName;
+	};
+
 	NodeType(Type type);
 
 	bool operator==(const NodeType& o) const;
@@ -68,11 +83,14 @@ public:
 	bool isPotentialMember() const;
 	bool isCollapsible() const;
 	bool isVisibleAsParentInGraph() const;
+	Tree<BundleInfo> getOverviewBundleTree() const;
+
 	FilePath getIconPath() const;
 
 	bool hasIcon() const;
 	StyleType getNodeStyle() const;
 
+	bool hasOverviewBundle() const;
 	std::string getUnderscoredTypeString() const;
 	std::string getReadableTypeString() const;
 

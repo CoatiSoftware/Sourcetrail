@@ -135,14 +135,57 @@ bool NodeType::isVisibleAsParentInGraph() const
 	return !isPackage();
 }
 
-FilePath NodeType::getIconPath() const
+Tree<NodeType::BundleInfo> NodeType::getOverviewBundleTree() const
 {
 	switch (m_type)
 	{
-	case NodeType::NODE_NAMESPACE:
-	case NodeType::NODE_PACKAGE:
-		// package icon cannot be changed
+	case  NodeType::NODE_FILE:
+		return Tree<BundleInfo>(BundleInfo([](const std::string&) { return true; }, "Files"));
+	case  NodeType::NODE_MACRO:
+		return Tree<BundleInfo>(BundleInfo([](const std::string&) { return true; }, "Macros"));
+	case  NodeType::NODE_NAMESPACE:
+		{
+			Tree<BundleInfo> tree(BundleInfo([](const std::string&) { return true; }, "Namespaces"));
+			tree.children.push_back(Tree<BundleInfo>(BundleInfo([](const std::string& nodeName) { return nodeName.find("anonymous namespace") != std::string::npos; }, "Anonymous Namespaces")));
+			return tree;
+		}
+	case  NodeType::NODE_PACKAGE:
+		return Tree<BundleInfo>(BundleInfo([](const std::string&) { return true; }, "Packages"));
+	case  NodeType::NODE_CLASS:
+		return Tree<BundleInfo>(BundleInfo([](const std::string&) { return true; }, "Classes"));
+	case  NodeType::NODE_INTERFACE:
+		return Tree<BundleInfo>(BundleInfo([](const std::string&) { return true; }, "Interfaces"));
+	case  NodeType::NODE_STRUCT:
+		return Tree<BundleInfo>(BundleInfo([](const std::string&) { return true; }, "Structs"));
+	case  NodeType::NODE_FUNCTION:
+		return Tree<BundleInfo>(BundleInfo([](const std::string&) { return true; }, "Functions"));
+	case  NodeType::NODE_GLOBAL_VARIABLE:
+		return Tree<BundleInfo>(BundleInfo([](const std::string&) { return true; }, "Global Variables"));
+	case  NodeType::NODE_TYPE:
+		return Tree<BundleInfo>(BundleInfo([](const std::string&) { return true; }, "Types"));
+	case  NodeType::NODE_TYPEDEF:
+		return Tree<BundleInfo>(BundleInfo([](const std::string&) { return true; }, "Typedefs"));
+	case  NodeType::NODE_ENUM:
+		return Tree<BundleInfo>(BundleInfo([](const std::string&) { return true; }, "Enums"));
+	case  NodeType::NODE_UNION:
+		return Tree<BundleInfo>(BundleInfo([](const std::string&) { return true; }, "Unions"));
+	default:
+		break;
+	}
+
+	return Tree<BundleInfo>();
+}
+
+FilePath NodeType::getIconPath() const
+{
+	if (isPackage())
+	{
+		// this icon cannot be changed
 		return ResourcePaths::getGuiPath().concat(FilePath("graph_view/images/namespace.png"));
+	}
+
+	switch (m_type)
+	{
 	case NodeType::NODE_ENUM:
 		return ResourcePaths::getGuiPath().concat(FilePath("graph_view/images/enum.png"));
 	case NodeType::NODE_TYPEDEF:
@@ -158,9 +201,12 @@ FilePath NodeType::getIconPath() const
 
 bool NodeType::hasIcon() const
 {
+	if (isPackage())
+	{
+		return true;
+	}
+
 	const NodeType::TypeMask mask =
-		NodeType::NODE_NAMESPACE |
-		NodeType::NODE_PACKAGE |
 		NodeType::NODE_ENUM |
 		NodeType::NODE_TYPEDEF |
 		NodeType::NODE_FILE |
@@ -196,6 +242,11 @@ NodeType::StyleType NodeType::getNodeStyle() const
 	case NodeType::NODE_ENUM_CONSTANT:
 		return STYLE_SMALL_NODE;
 	}
+}
+
+bool NodeType::hasOverviewBundle() const
+{
+	return !getOverviewBundleTree().data.bundleName.empty();
 }
 
 std::string NodeType::getUnderscoredTypeString() const

@@ -1181,7 +1181,7 @@ std::shared_ptr<DummyNode> GraphController::bundleNodesMatching(
 		}
 	}
 
-	if (!matchedNodes.size())
+	if (matchedNodes.empty())
 	{
 		return nullptr;
 	}
@@ -1204,23 +1204,59 @@ std::shared_ptr<DummyNode> GraphController::bundleNodesMatching(
 	return bundleNode;
 }
 
-void GraphController::bundleByType(
-	std::list<std::shared_ptr<DummyNode>>& nodes, NodeType::Type type, const std::string& name)
+std::shared_ptr<DummyNode> GraphController::bundleByType(
+	std::list<std::shared_ptr<DummyNode>>& nodes, 
+	const NodeType& type, 
+	const Tree<NodeType::BundleInfo>& bundleInfoTree,
+	const bool considerInvisibleNodes)
 {
 	std::shared_ptr<DummyNode> bundleNode = bundleNodesMatching(
 		nodes,
 		[&](const DummyNode* node)
 		{
-			return node->visible && node->isGraphNode() && node->data->getType().getType() == type;
+			return 
+				(considerInvisibleNodes || node->visible) && 
+				node->isGraphNode() && 
+				node->data->getType() == type && 
+				bundleInfoTree.data.nameMatcher(node->name);
 		},
-		name
+		bundleInfoTree.data.bundleName
 	);
 
 	if (bundleNode)
 	{
 		bundleNode->bundledNodeType = type;
-		m_dummyNodes.push_back(bundleNode);
+		bundleNode->bundledNodeCount = bundleNode->getBundledNodeCount();
+
+		if (!bundleInfoTree.children.empty())
+		{
+			std::list<std::shared_ptr<DummyNode>> bundledNodes;
+			for (const std::shared_ptr<DummyNode>& node : bundleNode->bundledNodes)
+			{
+				bundledNodes.push_back(node);
+			}
+			bundleNode->bundledNodes.clear();
+
+			// crate a sub-bundle for anonymous namespaces
+			for (const Tree<NodeType::BundleInfo>& childBundleInfoTree : bundleInfoTree.children)
+			{
+				std::shared_ptr<DummyNode> childBundle = bundleByType(bundledNodes, type, childBundleInfoTree, true);
+
+
+				if (childBundle)
+				{
+					bundleNode->bundledNodes.insert(childBundle);
+				}
+			}
+
+			for (const std::shared_ptr<DummyNode>& bundledNode : bundledNodes)
+			{
+				bundleNode->bundledNodes.insert(bundledNode);
+			}
+		}
 	}
+
+	return bundleNode;
 }
 
 void GraphController::bundleNodesByType()
@@ -1236,77 +1272,21 @@ void GraphController::bundleNodesByType()
 		nodes.push_back(oldNodes[i]);
 	}
 
-	bundleByType(nodes, NodeType::NODE_FILE, "Files");
-	bundleByType(nodes, NodeType::NODE_MACRO, "Macros");
-
-	bundleByType(nodes, NodeType::NODE_NAMESPACE, "Namespaces");
-	bundleByType(nodes, NodeType::NODE_PACKAGE, "Packages");
-
-	// bundleByType(nodes, NodeType::NODE_BUILTIN_TYPE, "Built-in Types");
-	bundleByType(nodes, NodeType::NODE_CLASS, "Classes");
-	bundleByType(nodes, NodeType::NODE_INTERFACE, "Interfaces");
-	bundleByType(nodes, NodeType::NODE_STRUCT, "Structs");
-
-	bundleByType(nodes, NodeType::NODE_FUNCTION, "Functions");
-	bundleByType(nodes, NodeType::NODE_GLOBAL_VARIABLE, "Global Variables");
-
-	bundleByType(nodes, NodeType::NODE_TYPE, "Types");
-	bundleByType(nodes, NodeType::NODE_TYPEDEF, "Typedefs");
-	bundleByType(nodes, NodeType::NODE_ENUM, "Enums");
-	bundleByType(nodes, NodeType::NODE_UNION, "Unions");
-
-	// // should never be visible
-
-	// bundleByType(nodes, NodeType::NODE_METHOD, "Methods");
-	// bundleByType(nodes, NodeType::NODE_FIELD, "Fields");
-	// bundleByType(nodes, NodeType::NODE_ENUM_CONSTANT, "Enum Constants");
-	// bundleByType(nodes, NodeType::NODE_TEMPLATE_PARAMETER_TYPE, "Template Parameter Types");
-	// bundleByType(nodes, NodeType::NODE_TYPE_PARAMETER, "Type Parameters");
-	// bundleByType(nodes, NodeType::NODE_SYMBOL, "Non-indexed Symbols");
+	for (const NodeType& nodeType : NodeTypeSet::all().getNodeTypes())
+	{
+		if (nodeType.hasOverviewBundle())
+		{
+			std::shared_ptr<DummyNode> bundleNode = bundleByType(nodes, nodeType, nodeType.getOverviewBundleTree());
+			if (bundleNode)
+			{
+				m_dummyNodes.push_back(bundleNode);
+			}
+		}
+	}
 
 	if (nodes.size())
 	{
 		LOG_ERROR("Nodes left after bundling for overview");
-	}
-
-	// crate a sub-bundle for anonymous namespaces
-	for (const std::shared_ptr<DummyNode>& bundleNode : m_dummyNodes)
-	{
-		if (!bundleNode->isBundleNode())
-		{
-			LOG_ERROR("Non-Bundle node in overview");
-		}
-
-		if (bundleNode->name == "Namespaces")
-		{
-			std::list<std::shared_ptr<DummyNode>> nodes;
-			for (const std::shared_ptr<DummyNode>& node : bundleNode->bundledNodes)
-			{
-				nodes.push_back(node);
-			}
-			bundleNode->bundledNodes.clear();
-
-			std::shared_ptr<DummyNode> anonymousBundle = bundleNodesMatching(
-				nodes,
-				[&](const DummyNode* node)
-				{
-					return node->name.find("anonymous namespace") != std::string::npos;
-				},
-				"Anonymous Namespaces"
-			);
-
-			for (const std::shared_ptr<DummyNode>& node : nodes)
-			{
-				bundleNode->bundledNodes.insert(node);
-			}
-
-			if (anonymousBundle)
-			{
-				anonymousBundle->bundledNodeType = NodeType::NODE_NAMESPACE;
-				bundleNode->bundledNodeCount = bundleNode->getBundledNodeCount() + anonymousBundle->getBundledNodeCount();
-				bundleNode->bundledNodes.insert(anonymousBundle);
-			}
-		}
 	}
 }
 

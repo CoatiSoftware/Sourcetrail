@@ -97,7 +97,11 @@ private:
 		const std::string& name);
 	std::shared_ptr<DummyNode> bundleNodesMatching(
 		std::list<std::shared_ptr<DummyNode>>& nodes, std::function<bool(const DummyNode*)> matcher, const std::string& name);
-	void bundleByType(std::list<std::shared_ptr<DummyNode>>& nodes, NodeType::Type type, const std::string& name);
+	std::shared_ptr<DummyNode> bundleByType(
+		std::list<std::shared_ptr<DummyNode>>& nodes, 
+		const NodeType& type, 
+		const Tree<NodeType::BundleInfo>& bundleInfoTree,
+		const bool considerInvisibleNodes = false);
 	void bundleNodesByType();
 
 	void addCharacterIndex();
