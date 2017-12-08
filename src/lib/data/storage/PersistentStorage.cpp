@@ -563,12 +563,12 @@ std::vector<SearchMatch> PersistentStorage::getAutocompletionMatches(const std::
 	// create SearchMatches
 	std::vector<SearchMatch> matches;
 
-	if (!acceptedNodeTypes.getWithRemovedIf([](const NodeType& type) { return type.isFile(); }).isEmpty())
+	if (!acceptedNodeTypes.getWithMatchingRemoved([](const NodeType& type) { return type.isFile(); }).isEmpty())
 	{
 		utility::append(matches, getAutocompletionSymbolMatches(query, acceptedNodeTypes, maxResultsCount, maxBestScoredResultsLength));
 	}
 
-	if (!acceptedNodeTypes.getWithRemovedIf([](const NodeType& type) { return !type.isFile(); }).isEmpty())
+	if (acceptedNodeTypes.containsMatching([](const NodeType& type) { return type.isFile(); }))
 	{
 		utility::append(matches, getAutocompletionFileMatches(query, maxResultsCount));
 	}
@@ -685,7 +685,12 @@ std::vector<SearchMatch> PersistentStorage::getAutocompletionSymbolMatches(
 
 std::vector<SearchMatch> PersistentStorage::getAutocompletionFileMatches(const std::string& query, size_t maxResultsCount) const
 {
-	std::vector<SearchResult> results = m_fileIndex.search(query, NodeTypeSet(NodeType::NODE_FILE), maxResultsCount, 100);
+	std::vector<SearchResult> results = m_fileIndex.search(
+		query, 
+		NodeTypeSet::all().getWithMatchingKept([](const NodeType& type) { return type.isFile(); }), 
+		maxResultsCount, 
+		100
+	);
 
 	// create SearchMatches
 	std::vector<SearchMatch> matches;
@@ -849,7 +854,7 @@ std::shared_ptr<Graph> PersistentStorage::getGraphForNodeTypes(NodeTypeSet nodeT
 		}
 	}
 
-	if (nodeTypes.contains(NodeType(NodeType::NODE_FILE)))
+	if (nodeTypes.containsMatching([](const NodeType& type) { return type.isFile(); }))
 	{
 		for (const auto& p : m_fileNodePaths)
 		{
@@ -868,7 +873,7 @@ std::shared_ptr<Graph> PersistentStorage::getGraphForActiveTokenIds(
 	TRACE();
 
 	std::vector<Id> ids(tokenIds);
-	bool isNamespace = false;
+	bool isPackage = false;
 
 	std::vector<Id> nodeIds;
 	std::vector<Id> edgeIds;
@@ -884,13 +889,13 @@ std::shared_ptr<Graph> PersistentStorage::getGraphForActiveTokenIds(
 		if (node.id > 0)
 		{
 			NodeType nodeType = utility::intToType(node.type);
-			if (nodeType.getType() & (NodeType::NODE_NAMESPACE | NodeType::NODE_PACKAGE))
+			if (nodeType.isPackage())
 			{
 				ids.clear();
 				m_hierarchyCache.addFirstChildIdsForNodeId(elementId, &ids, &edgeIds);
 				edgeIds.clear();
 
-				isNamespace = true;
+				isPackage = true;
 			}
 			else
 			{
@@ -936,12 +941,12 @@ std::shared_ptr<Graph> PersistentStorage::getGraphForActiveTokenIds(
 		}
 	}
 
-	if (ids.size() >= 1 || isNamespace)
+	if (ids.size() >= 1 || isPackage)
 	{
 		std::set<Id> symbolIds;
 		for (const StorageSymbol& symbol : m_sqliteIndexStorage.getAllByIds<StorageSymbol>(ids))
 		{
-			if (symbol.id > 0 && (!isNamespace || intToDefinitionKind(symbol.definitionKind) != DEFINITION_IMPLICIT))
+			if (symbol.id > 0 && (!isPackage || intToDefinitionKind(symbol.definitionKind) != DEFINITION_IMPLICIT))
 			{
 				nodeIds.push_back(symbol.id);
 			}
@@ -955,7 +960,7 @@ std::shared_ptr<Graph> PersistentStorage::getGraphForActiveTokenIds(
 			}
 		}
 
-		if (!isNamespace)
+		if (!isPackage)
 		{
 			if (nodeIds.size() != ids.size())
 			{
@@ -974,7 +979,7 @@ std::shared_ptr<Graph> PersistentStorage::getGraphForActiveTokenIds(
 	std::shared_ptr<Graph> g = std::make_shared<Graph>();
 	Graph* graph = g.get();
 
-	if (isNamespace)
+	if (isPackage)
 	{
 		addNodesToGraph(nodeIds, graph, false);
 	}
@@ -988,7 +993,7 @@ std::shared_ptr<Graph> PersistentStorage::getGraphForActiveTokenIds(
 		addAggregationEdgesToGraph(tokenIds[0], edgesToAggregate, graph);
 	}
 
-	if (!isNamespace)
+	if (!isPackage)
 	{
 		std::vector<Id> expandedChildIds;
 		std::vector<Id> expandedChildEdgeIds;
@@ -1014,7 +1019,7 @@ std::shared_ptr<Graph> PersistentStorage::getGraphForActiveTokenIds(
 
 	if (isActiveNamespace)
 	{
-		*isActiveNamespace = isNamespace;
+		*isActiveNamespace = isPackage;
 	}
 
 	return g;
@@ -1205,7 +1210,7 @@ std::shared_ptr<SourceLocationCollection> PersistentStorage::getSourceLocationsF
 		if (path.empty() && m_symbolDefinitionKinds.find(tokenId) == m_symbolDefinitionKinds.end())
 		{
 			StorageNode fileNode = m_sqliteIndexStorage.getNodeById(tokenId);
-			if (utility::intToType(fileNode.type) == NodeType::NODE_FILE)
+			if (NodeType(utility::intToType(fileNode.type)).isFile())
 			{
 				path = FilePath(NameHierarchy::deserialize(fileNode.serializedName).getQualifiedName());
 			}
@@ -1767,7 +1772,7 @@ TooltipSnippet PersistentStorage::getTooltipSnippetForNode(const StorageNode& no
 	snippet.locationFile = std::make_shared<SourceLocationFile>(
 		FilePath(nameHierarchy.getDelimiter() == NAME_DELIMITER_JAVA ? "main.java" : "main.cpp"), true, true);
 
-	if (utility::intToType(node.type) & (NodeType::NODE_FUNCTION | NodeType::NODE_METHOD | NodeType::NODE_FIELD | NodeType::NODE_GLOBAL_VARIABLE))
+	if (nameHierarchy.hasSignature())
 	{
 		snippet.code = utility::breakSignature(
 			nameHierarchy.getSignature().getPrefix(),
@@ -1857,20 +1862,20 @@ TooltipInfo PersistentStorage::getTooltipInfoForSourceLocationIdsAndLocalSymbolI
 
 	TooltipInfo info;
 
-	if (!locationIds.size() && !localSymbolIds.size())
+	if (locationIds.empty() && localSymbolIds.empty())
 	{
 		return info;
 	}
 
 	if (locationIds.size())
 	{
-		std::vector<Id> tokenIds = getNodeIdsForLocationIds(locationIds);
+		const std::vector<Id> nodeIds = getNodeIdsForLocationIds(locationIds);
 
-		for (const StorageNode& node : m_sqliteIndexStorage.getAllByIds<StorageNode>(tokenIds))
+		for (const StorageNode& node : m_sqliteIndexStorage.getAllByIds<StorageNode>(nodeIds))
 		{
 			TooltipSnippet snippet;
 
-			NameHierarchy nameHierarchy = NameHierarchy::deserialize(node.serializedName);
+			const NameHierarchy nameHierarchy = NameHierarchy::deserialize(node.serializedName);
 			snippet.code = nameHierarchy.getQualifiedName();
 			snippet.locationFile = std::make_shared<SourceLocationFile>(
 				FilePath(nameHierarchy.getDelimiter() == NAME_DELIMITER_JAVA ? "main.java" : "main.cpp"), true, true);
@@ -1878,7 +1883,7 @@ TooltipInfo PersistentStorage::getTooltipInfoForSourceLocationIdsAndLocalSymbolI
 			snippet.locationFile->addSourceLocation(
 				LOCATION_TOKEN, 0, std::vector<Id>(1, node.id), 1, 1, 1, snippet.code.size());
 
-			if (utility::intToType(node.type) & (NodeType::NODE_METHOD | NodeType::NODE_FUNCTION))
+			if (NodeType(utility::intToType(node.type)).isCallable())
 			{
 				snippet.code += "()";
 			}

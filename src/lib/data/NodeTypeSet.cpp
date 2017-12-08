@@ -80,21 +80,39 @@ NodeTypeSet NodeTypeSet::getWithRemoved(const NodeTypeSet& typeSet) const
 	return ret;
 }
 
-void NodeTypeSet::removeIf(const std::function<bool(const NodeType&)> condition)
+void NodeTypeSet::keepMatching(const std::function<bool(const NodeType&)>& matcher)
 {
 	for (const NodeType& type : s_allNodeTypes)
 	{
-		if (m_nodeTypeMask & nodeTypeToMask(type) && condition(type))
+		if (m_nodeTypeMask & nodeTypeToMask(type) && !matcher(type))
 		{
 			remove(type);
 		}
 	}
 }
 
-NodeTypeSet NodeTypeSet::getWithRemovedIf(const std::function<bool(const NodeType&)> condition) const
+NodeTypeSet NodeTypeSet::getWithMatchingKept(const std::function<bool(const NodeType&)>& matcher) const
 {
 	NodeTypeSet ret(*this);
-	ret.removeIf(condition);
+	ret.keepMatching(matcher);
+	return ret;
+}
+
+void NodeTypeSet::removeMatching(const std::function<bool(const NodeType&)>& matcher)
+{
+	for (const NodeType& type : s_allNodeTypes)
+	{
+		if (m_nodeTypeMask & nodeTypeToMask(type) && matcher(type))
+		{
+			remove(type);
+		}
+	}
+}
+
+NodeTypeSet NodeTypeSet::getWithMatchingRemoved(const std::function<bool(const NodeType&)>& matcher) const
+{
+	NodeTypeSet ret(*this);
+	ret.removeMatching(matcher);
 	return ret;
 }
 
@@ -106,6 +124,18 @@ bool NodeTypeSet::isEmpty() const
 bool NodeTypeSet::contains(const NodeType& type) const
 {
 	return m_nodeTypeMask & nodeTypeToMask(type);
+}
+
+bool NodeTypeSet::containsMatching(const std::function<bool(const NodeType&)>& matcher) const
+{
+	for (const NodeType& type : s_allNodeTypes)
+	{
+		if (m_nodeTypeMask & nodeTypeToMask(type) && matcher(type))
+		{
+			return true;
+		}
+	}
+	return false;
 }
 
 bool NodeTypeSet::intersectsWith(const NodeTypeSet& typeSet) const

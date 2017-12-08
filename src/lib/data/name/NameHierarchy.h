@@ -37,6 +37,7 @@ public:
 	std::string getRawName() const;
 	std::string getRawNameWithSignature() const;
 
+	bool hasSignature() const;
 	NameElement::Signature getSignature() const;
 
 private:

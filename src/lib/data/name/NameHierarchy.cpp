@@ -162,6 +162,16 @@ std::string NameHierarchy::getRawNameWithSignature() const
 	return "";
 }
 
+bool NameHierarchy::hasSignature() const
+{
+	if (m_elements.size())
+	{
+		return m_elements.back()->hasSignature();
+	}
+
+	return false;
+}
+
 NameElement::Signature NameHierarchy::getSignature() const
 {
 	if (m_elements.size())

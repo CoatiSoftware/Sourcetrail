@@ -29,11 +29,15 @@ public:
 	void remove(const NodeTypeSet& typeSet);
 	NodeTypeSet getWithRemoved(const NodeTypeSet& typeSet) const;
 
-	void removeIf(const std::function<bool(const NodeType&)> condition);
-	NodeTypeSet getWithRemovedIf(const std::function<bool(const NodeType&)> condition) const;
+	void keepMatching(const std::function<bool(const NodeType&)>& matcher);
+	NodeTypeSet getWithMatchingKept(const std::function<bool(const NodeType&)>& matcher) const;
+
+	void removeMatching(const std::function<bool(const NodeType&)>& matcher);
+	NodeTypeSet getWithMatchingRemoved(const std::function<bool(const NodeType&)>& matcher) const;
 
 	bool isEmpty() const;
 	bool contains(const NodeType& type) const;
+	bool containsMatching(const std::function<bool(const NodeType&)>& matcher) const;
 	bool intersectsWith(const NodeTypeSet& typeSet) const;
 	std::vector<Id> getNodeTypeIds() const;
 
