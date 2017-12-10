@@ -751,7 +751,7 @@ std::vector<SearchMatch> PersistentStorage::getAutocompletionCommandMatches(
 		}
 
 		if (acceptedNodeTypes == NodeTypeSet::all() ||
-			(match.getCommandType() == SearchMatch::COMMAND_NODE_FILTER && (acceptedNodeTypes.contains(match.nodeType))))
+			(match.getCommandType() == SearchMatch::COMMAND_NODE_FILTER && !(acceptedNodeTypes.contains(match.nodeType))))
 		{
 			matches.push_back(match);
 		}
