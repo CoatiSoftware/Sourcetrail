@@ -448,6 +448,12 @@ void QtSmartSearchBox::keyPressEvent(QKeyEvent* event)
 	}
 	else if (event->matches(QKeySequence::Paste))
 	{
+		deleteSelectedElements();
+		if (hasSelectedText())
+		{
+			del();
+		}
+
 		setEditText(text() + QApplication::clipboard()->text());
 		onTextEdited(text());
 		m_allowTextChange = false;
