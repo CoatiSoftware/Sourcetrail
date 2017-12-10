@@ -58,19 +58,31 @@ QtUpdateCheckerWidget::QtUpdateCheckerWidget(QWidget* parent)
 	}
 }
 
+QtUpdateCheckerWidget::~QtUpdateCheckerWidget()
+{
+	if (m_deleteCheck)
+	{
+		*m_deleteCheck.get() = true;
+	}
+}
+
 void QtUpdateCheckerWidget::checkUpdate(bool force)
 {
-	ApplicationSettings* appSettings = ApplicationSettings::getInstance().get();
-	appSettings->setUpdateVersion(Version::getApplicationVersion());
-	appSettings->setUpdateDownloadUrl("");
-	appSettings->save();
-
 	m_button->setText("checking for update...");
 	m_button->setEnabled(false);
 
+	std::shared_ptr<bool> deleteCheck = std::make_shared<bool>(false);
+	m_deleteCheck = deleteCheck;
+
 	QtUpdateChecker::check(force,
-		[this, appSettings](QtUpdateChecker::Result result)
+		[deleteCheck, this](QtUpdateChecker::Result result)
 		{
+			bool deleted = *deleteCheck.get();
+			if (deleted)
+			{
+				return;
+			}
+
 			if (!result.success)
 			{
 				m_button->setText("update check failed");
@@ -82,10 +94,6 @@ void QtUpdateCheckerWidget::checkUpdate(bool force)
 			else
 			{
 				setDownloadUrl(result.url);
-
-				appSettings->setUpdateVersion(result.version);
-				appSettings->setUpdateDownloadUrl(result.url.toStdString());
-				appSettings->save();
 			}
 		}
 	);

@@ -32,6 +32,8 @@ void QtUpdateChecker::check(bool force, std::function<void(Result)> callback)
 
 	ApplicationSettings* appSettings = ApplicationSettings::getInstance().get();
 	appSettings->setLastUpdateCheck(TimeStamp::now());
+	appSettings->setUpdateVersion(Version::getApplicationVersion());
+	appSettings->setUpdateDownloadUrl("");
 	appSettings->save();
 
 	QString urlString = "https://www.sourcetrail.com/api/v1/versions/latest";
@@ -128,6 +130,10 @@ void QtUpdateChecker::check(bool force, std::function<void(Result)> callback)
 					result.url = url;
 
 					ApplicationSettings* appSettings = ApplicationSettings::getInstance().get();
+					appSettings->setUpdateVersion(updateVersion);
+					appSettings->setUpdateDownloadUrl(url.toStdString());
+					appSettings->save();
+
 					if (!force && appSettings->getSkipUpdateForVersion() == updateVersion)
 					{
 						break;
