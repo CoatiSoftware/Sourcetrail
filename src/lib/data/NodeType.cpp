@@ -3,6 +3,25 @@
 #include "utility/ResourcePaths.h"
 #include "utility/utilityString.h"
 
+std::vector<NodeType> NodeType::getOverviewBundleNodeTypesOrdered()
+{
+	return {
+		NodeType(NodeType::NODE_FILE),
+		NodeType(NodeType::NODE_MACRO),
+		NodeType(NodeType::NODE_NAMESPACE),
+		NodeType(NodeType::NODE_PACKAGE),
+		NodeType(NodeType::NODE_CLASS),
+		NodeType(NodeType::NODE_INTERFACE),
+		NodeType(NodeType::NODE_STRUCT),
+		NodeType(NodeType::NODE_FUNCTION),
+		NodeType(NodeType::NODE_GLOBAL_VARIABLE),
+		NodeType(NodeType::NODE_TYPE),
+		NodeType(NodeType::NODE_TYPEDEF),
+		NodeType(NodeType::NODE_ENUM),
+		NodeType(NodeType::NODE_UNION),
+	};
+}
+
 NodeType::NodeType(Type type)
 	: m_type(type)
 {
@@ -161,36 +180,42 @@ Tree<NodeType::BundleInfo> NodeType::getOverviewBundleTree() const
 {
 	switch (m_type)
 	{
-	case  NodeType::NODE_FILE:
-		return Tree<BundleInfo>(BundleInfo([](const std::string&) { return true; }, "Files"));
-	case  NodeType::NODE_MACRO:
-		return Tree<BundleInfo>(BundleInfo([](const std::string&) { return true; }, "Macros"));
-	case  NodeType::NODE_NAMESPACE:
+	case NodeType::NODE_FILE:
+		return Tree<BundleInfo>(BundleInfo("Files"));
+	case NodeType::NODE_MACRO:
+		return Tree<BundleInfo>(BundleInfo("Macros"));
+	case NodeType::NODE_NAMESPACE:
 		{
-			Tree<BundleInfo> tree(BundleInfo([](const std::string&) { return true; }, "Namespaces"));
-			tree.children.push_back(Tree<BundleInfo>(BundleInfo([](const std::string& nodeName) { return nodeName.find("anonymous namespace") != std::string::npos; }, "Anonymous Namespaces")));
+			Tree<BundleInfo> tree(BundleInfo("Namespaces"));
+			tree.children.push_back(Tree<BundleInfo>(BundleInfo(
+				[](const std::string& nodeName)
+				{
+					return nodeName.find("anonymous namespace") != std::string::npos;
+				},
+				"Anonymous Namespaces")
+			));
 			return tree;
 		}
-	case  NodeType::NODE_PACKAGE:
-		return Tree<BundleInfo>(BundleInfo([](const std::string&) { return true; }, "Packages"));
-	case  NodeType::NODE_CLASS:
-		return Tree<BundleInfo>(BundleInfo([](const std::string&) { return true; }, "Classes"));
-	case  NodeType::NODE_INTERFACE:
-		return Tree<BundleInfo>(BundleInfo([](const std::string&) { return true; }, "Interfaces"));
-	case  NodeType::NODE_STRUCT:
-		return Tree<BundleInfo>(BundleInfo([](const std::string&) { return true; }, "Structs"));
-	case  NodeType::NODE_FUNCTION:
-		return Tree<BundleInfo>(BundleInfo([](const std::string&) { return true; }, "Functions"));
-	case  NodeType::NODE_GLOBAL_VARIABLE:
-		return Tree<BundleInfo>(BundleInfo([](const std::string&) { return true; }, "Global Variables"));
-	case  NodeType::NODE_TYPE:
-		return Tree<BundleInfo>(BundleInfo([](const std::string&) { return true; }, "Types"));
-	case  NodeType::NODE_TYPEDEF:
-		return Tree<BundleInfo>(BundleInfo([](const std::string&) { return true; }, "Typedefs"));
-	case  NodeType::NODE_ENUM:
-		return Tree<BundleInfo>(BundleInfo([](const std::string&) { return true; }, "Enums"));
-	case  NodeType::NODE_UNION:
-		return Tree<BundleInfo>(BundleInfo([](const std::string&) { return true; }, "Unions"));
+	case NodeType::NODE_PACKAGE:
+		return Tree<BundleInfo>(BundleInfo("Packages"));
+	case NodeType::NODE_CLASS:
+		return Tree<BundleInfo>(BundleInfo("Classes"));
+	case NodeType::NODE_INTERFACE:
+		return Tree<BundleInfo>(BundleInfo("Interfaces"));
+	case NodeType::NODE_STRUCT:
+		return Tree<BundleInfo>(BundleInfo("Structs"));
+	case NodeType::NODE_FUNCTION:
+		return Tree<BundleInfo>(BundleInfo("Functions"));
+	case NodeType::NODE_GLOBAL_VARIABLE:
+		return Tree<BundleInfo>(BundleInfo("Global Variables"));
+	case NodeType::NODE_TYPE:
+		return Tree<BundleInfo>(BundleInfo("Types"));
+	case NodeType::NODE_TYPEDEF:
+		return Tree<BundleInfo>(BundleInfo("Typedefs"));
+	case NodeType::NODE_ENUM:
+		return Tree<BundleInfo>(BundleInfo("Enums"));
+	case NodeType::NODE_UNION:
+		return Tree<BundleInfo>(BundleInfo("Unions"));
 	default:
 		break;
 	}
@@ -268,7 +293,7 @@ NodeType::StyleType NodeType::getNodeStyle() const
 
 bool NodeType::hasOverviewBundle() const
 {
-	return !getOverviewBundleTree().data.bundleName.empty();
+	return !getOverviewBundleTree().data.isValid();
 }
 
 std::string NodeType::getUnderscoredTypeString() const

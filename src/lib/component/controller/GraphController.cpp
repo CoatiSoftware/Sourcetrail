@@ -1205,8 +1205,8 @@ std::shared_ptr<DummyNode> GraphController::bundleNodesMatching(
 }
 
 std::shared_ptr<DummyNode> GraphController::bundleByType(
-	std::list<std::shared_ptr<DummyNode>>& nodes, 
-	const NodeType& type, 
+	std::list<std::shared_ptr<DummyNode>>& nodes,
+	const NodeType& type,
 	const Tree<NodeType::BundleInfo>& bundleInfoTree,
 	const bool considerInvisibleNodes)
 {
@@ -1214,10 +1214,10 @@ std::shared_ptr<DummyNode> GraphController::bundleByType(
 		nodes,
 		[&](const DummyNode* node)
 		{
-			return 
-				(considerInvisibleNodes || node->visible) && 
-				node->isGraphNode() && 
-				node->data->getType() == type && 
+			return
+				(considerInvisibleNodes || node->visible) &&
+				node->isGraphNode() &&
+				node->data->getType() == type &&
 				bundleInfoTree.data.nameMatcher(node->name);
 		},
 		bundleInfoTree.data.bundleName
@@ -1272,11 +1272,12 @@ void GraphController::bundleNodesByType()
 		nodes.push_back(oldNodes[i]);
 	}
 
-	for (const NodeType& nodeType : NodeTypeSet::all().getNodeTypes())
+	for (const NodeType& nodeType : NodeType::getOverviewBundleNodeTypesOrdered())
 	{
-		if (nodeType.hasOverviewBundle())
+		Tree<NodeType::BundleInfo> bundleInfoTree = nodeType.getOverviewBundleTree();
+		if (bundleInfoTree.data.isValid())
 		{
-			std::shared_ptr<DummyNode> bundleNode = bundleByType(nodes, nodeType, nodeType.getOverviewBundleTree());
+			std::shared_ptr<DummyNode> bundleNode = bundleByType(nodes, nodeType, bundleInfoTree);
 			if (bundleNode)
 			{
 				m_dummyNodes.push_back(bundleNode);

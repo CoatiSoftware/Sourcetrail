@@ -53,16 +53,28 @@ public:
 	struct BundleInfo
 	{
 		BundleInfo()
-			: nameMatcher(nullptr)
-			, bundleName("")
 		{}
+
+		BundleInfo(std::string bundleName)
+			: nameMatcher([](const std::string&) { return true; })
+			, bundleName(bundleName)
+		{}
+
 		BundleInfo(std::function<bool(std::string)> nameMatcher, std::string bundleName)
 			: nameMatcher(nameMatcher)
 			, bundleName(bundleName)
 		{}
-		std::function<bool(const std::string&)> nameMatcher;
+
+		bool isValid() const
+		{
+			return bundleName.size() > 0;
+		}
+
+		std::function<bool(const std::string&)> nameMatcher = nullptr;
 		std::string bundleName;
 	};
+
+	static std::vector<NodeType> getOverviewBundleNodeTypesOrdered();
 
 	NodeType(Type type);
 
