@@ -686,9 +686,9 @@ std::vector<SearchMatch> PersistentStorage::getAutocompletionSymbolMatches(
 std::vector<SearchMatch> PersistentStorage::getAutocompletionFileMatches(const std::string& query, size_t maxResultsCount) const
 {
 	std::vector<SearchResult> results = m_fileIndex.search(
-		query, 
-		NodeTypeSet::all().getWithMatchingKept([](const NodeType& type) { return type.isFile(); }), 
-		maxResultsCount, 
+		query,
+		NodeTypeSet::all().getWithMatchingKept([](const NodeType& type) { return type.isFile(); }),
+		maxResultsCount,
 		100
 	);
 
@@ -750,7 +750,8 @@ std::vector<SearchMatch> PersistentStorage::getAutocompletionCommandMatches(
 			match.typeName = "filter";
 		}
 
-		if (acceptedNodeTypes == NodeTypeSet::all() || match.getCommandType() == SearchMatch::COMMAND_NODE_FILTER && (acceptedNodeTypes.contains(match.nodeType)))
+		if (acceptedNodeTypes == NodeTypeSet::all() ||
+			(match.getCommandType() == SearchMatch::COMMAND_NODE_FILTER && (acceptedNodeTypes.contains(match.nodeType))))
 		{
 			matches.push_back(match);
 		}

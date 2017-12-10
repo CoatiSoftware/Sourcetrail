@@ -93,7 +93,7 @@ protected:
 	virtual void setErrorFilter(const ErrorFilter& filter) override;
 
 private:
-	void handleMessage(MessageErrorFilterChanged* message);
+	void handleMessage(MessageErrorFilterChanged* message) override;
 
 	StorageAccess* m_subject;
 };
