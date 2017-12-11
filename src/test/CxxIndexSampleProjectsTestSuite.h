@@ -15,80 +15,78 @@
 class CxxIndexSampleProjectsTestSuite : public CxxTest::TestSuite
 {
 public:
+	static const bool s_updateExpectedOutput = false;
+
 	void test_index_box2d_project()
 	{
 #ifdef _WIN32
-		const bool updateExpectedOutput = false;
-
-		processSourceFile("Box2D", FilePath("Box2D/Collision/b2BroadPhase.cpp"), updateExpectedOutput);
-		processSourceFile("Box2D", FilePath("Box2D/Collision/b2CollideCircle.cpp"), updateExpectedOutput);
-		processSourceFile("Box2D", FilePath("Box2D/Collision/b2CollideEdge.cpp"), updateExpectedOutput);
-		processSourceFile("Box2D", FilePath("Box2D/Collision/b2CollidePolygon.cpp"), updateExpectedOutput);
-		processSourceFile("Box2D", FilePath("Box2D/Collision/b2Collision.cpp"), updateExpectedOutput);
-		processSourceFile("Box2D", FilePath("Box2D/Collision/b2Distance.cpp"), updateExpectedOutput);
-		processSourceFile("Box2D", FilePath("Box2D/Collision/b2DynamicTree.cpp"), updateExpectedOutput);
-		processSourceFile("Box2D", FilePath("Box2D/Collision/b2TimeOfImpact.cpp"), updateExpectedOutput);
-		processSourceFile("Box2D", FilePath("Box2D/Collision/Shapes/b2ChainShape.cpp"), updateExpectedOutput);
-		processSourceFile("Box2D", FilePath("Box2D/Collision/Shapes/b2CircleShape.cpp"), updateExpectedOutput);
-		processSourceFile("Box2D", FilePath("Box2D/Collision/Shapes/b2EdgeShape.cpp"), updateExpectedOutput);
-		processSourceFile("Box2D", FilePath("Box2D/Collision/Shapes/b2PolygonShape.cpp"), updateExpectedOutput);
-		processSourceFile("Box2D", FilePath("Box2D/Common/b2BlockAllocator.cpp"), updateExpectedOutput);
-		processSourceFile("Box2D", FilePath("Box2D/Common/b2Draw.cpp"), updateExpectedOutput);
-		processSourceFile("Box2D", FilePath("Box2D/Common/b2Math.cpp"), updateExpectedOutput);
-		processSourceFile("Box2D", FilePath("Box2D/Common/b2Settings.cpp"), updateExpectedOutput);
-		processSourceFile("Box2D", FilePath("Box2D/Common/b2StackAllocator.cpp"), updateExpectedOutput);
-		processSourceFile("Box2D", FilePath("Box2D/Common/b2Timer.cpp"), updateExpectedOutput);
-		processSourceFile("Box2D", FilePath("Box2D/Dynamics/b2Body.cpp"), updateExpectedOutput);
-		processSourceFile("Box2D", FilePath("Box2D/Dynamics/b2ContactManager.cpp"), updateExpectedOutput);
-		processSourceFile("Box2D", FilePath("Box2D/Dynamics/b2Fixture.cpp"), updateExpectedOutput);
-		processSourceFile("Box2D", FilePath("Box2D/Dynamics/b2Island.cpp"), updateExpectedOutput);
-		processSourceFile("Box2D", FilePath("Box2D/Dynamics/b2World.cpp"), updateExpectedOutput);
-		processSourceFile("Box2D", FilePath("Box2D/Dynamics/b2WorldCallbacks.cpp"), updateExpectedOutput);
-		processSourceFile("Box2D", FilePath("Box2D/Dynamics/Contacts/b2ChainAndCircleContact.cpp"), updateExpectedOutput);
-		processSourceFile("Box2D", FilePath("Box2D/Dynamics/Contacts/b2ChainAndPolygonContact.cpp"), updateExpectedOutput);
-		processSourceFile("Box2D", FilePath("Box2D/Dynamics/Contacts/b2CircleContact.cpp"), updateExpectedOutput);
-		processSourceFile("Box2D", FilePath("Box2D/Dynamics/Contacts/b2Contact.cpp"), updateExpectedOutput);
-		processSourceFile("Box2D", FilePath("Box2D/Dynamics/Contacts/b2ContactSolver.cpp"), updateExpectedOutput);
-		processSourceFile("Box2D", FilePath("Box2D/Dynamics/Contacts/b2EdgeAndCircleContact.cpp"), updateExpectedOutput);
-		processSourceFile("Box2D", FilePath("Box2D/Dynamics/Contacts/b2EdgeAndPolygonContact.cpp"), updateExpectedOutput);
-		processSourceFile("Box2D", FilePath("Box2D/Dynamics/Contacts/b2PolygonAndCircleContact.cpp"), updateExpectedOutput);
-		processSourceFile("Box2D", FilePath("Box2D/Dynamics/Contacts/b2PolygonContact.cpp"), updateExpectedOutput);
-		processSourceFile("Box2D", FilePath("Box2D/Dynamics/Joints/b2DistanceJoint.cpp"), updateExpectedOutput);
-		processSourceFile("Box2D", FilePath("Box2D/Dynamics/Joints/b2FrictionJoint.cpp"), updateExpectedOutput);
-		processSourceFile("Box2D", FilePath("Box2D/Dynamics/Joints/b2GearJoint.cpp"), updateExpectedOutput);
-		processSourceFile("Box2D", FilePath("Box2D/Dynamics/Joints/b2Joint.cpp"), updateExpectedOutput);
-		processSourceFile("Box2D", FilePath("Box2D/Dynamics/Joints/b2MotorJoint.cpp"), updateExpectedOutput);
-		processSourceFile("Box2D", FilePath("Box2D/Dynamics/Joints/b2MouseJoint.cpp"), updateExpectedOutput);
-		processSourceFile("Box2D", FilePath("Box2D/Dynamics/Joints/b2PrismaticJoint.cpp"), updateExpectedOutput);
-		processSourceFile("Box2D", FilePath("Box2D/Dynamics/Joints/b2PulleyJoint.cpp"), updateExpectedOutput);
-		processSourceFile("Box2D", FilePath("Box2D/Dynamics/Joints/b2RevoluteJoint.cpp"), updateExpectedOutput);
-		processSourceFile("Box2D", FilePath("Box2D/Dynamics/Joints/b2RopeJoint.cpp"), updateExpectedOutput);
-		processSourceFile("Box2D", FilePath("Box2D/Dynamics/Joints/b2WeldJoint.cpp"), updateExpectedOutput);
-		processSourceFile("Box2D", FilePath("Box2D/Dynamics/Joints/b2WheelJoint.cpp"), updateExpectedOutput);
-		processSourceFile("Box2D", FilePath("Box2D/Rope/b2Rope.cpp"), updateExpectedOutput);
+		processSourceFile("Box2D", FilePath("Box2D/Collision/b2BroadPhase.cpp"));
+		processSourceFile("Box2D", FilePath("Box2D/Collision/b2CollideCircle.cpp"));
+		processSourceFile("Box2D", FilePath("Box2D/Collision/b2CollideEdge.cpp"));
+		processSourceFile("Box2D", FilePath("Box2D/Collision/b2CollidePolygon.cpp"));
+		processSourceFile("Box2D", FilePath("Box2D/Collision/b2Collision.cpp"));
+		processSourceFile("Box2D", FilePath("Box2D/Collision/b2Distance.cpp"));
+		processSourceFile("Box2D", FilePath("Box2D/Collision/b2DynamicTree.cpp"));
+		processSourceFile("Box2D", FilePath("Box2D/Collision/b2TimeOfImpact.cpp"));
+		processSourceFile("Box2D", FilePath("Box2D/Collision/Shapes/b2ChainShape.cpp"));
+		processSourceFile("Box2D", FilePath("Box2D/Collision/Shapes/b2CircleShape.cpp"));
+		processSourceFile("Box2D", FilePath("Box2D/Collision/Shapes/b2EdgeShape.cpp"));
+		processSourceFile("Box2D", FilePath("Box2D/Collision/Shapes/b2PolygonShape.cpp"));
+		processSourceFile("Box2D", FilePath("Box2D/Common/b2BlockAllocator.cpp"));
+		processSourceFile("Box2D", FilePath("Box2D/Common/b2Draw.cpp"));
+		processSourceFile("Box2D", FilePath("Box2D/Common/b2Math.cpp"));
+		processSourceFile("Box2D", FilePath("Box2D/Common/b2Settings.cpp"));
+		processSourceFile("Box2D", FilePath("Box2D/Common/b2StackAllocator.cpp"));
+		processSourceFile("Box2D", FilePath("Box2D/Common/b2Timer.cpp"));
+		processSourceFile("Box2D", FilePath("Box2D/Dynamics/b2Body.cpp"));
+		processSourceFile("Box2D", FilePath("Box2D/Dynamics/b2ContactManager.cpp"));
+		processSourceFile("Box2D", FilePath("Box2D/Dynamics/b2Fixture.cpp"));
+		processSourceFile("Box2D", FilePath("Box2D/Dynamics/b2Island.cpp"));
+		processSourceFile("Box2D", FilePath("Box2D/Dynamics/b2World.cpp"));
+		processSourceFile("Box2D", FilePath("Box2D/Dynamics/b2WorldCallbacks.cpp"));
+		processSourceFile("Box2D", FilePath("Box2D/Dynamics/Contacts/b2ChainAndCircleContact.cpp"));
+		processSourceFile("Box2D", FilePath("Box2D/Dynamics/Contacts/b2ChainAndPolygonContact.cpp"));
+		processSourceFile("Box2D", FilePath("Box2D/Dynamics/Contacts/b2CircleContact.cpp"));
+		processSourceFile("Box2D", FilePath("Box2D/Dynamics/Contacts/b2Contact.cpp"));
+		processSourceFile("Box2D", FilePath("Box2D/Dynamics/Contacts/b2ContactSolver.cpp"));
+		processSourceFile("Box2D", FilePath("Box2D/Dynamics/Contacts/b2EdgeAndCircleContact.cpp"));
+		processSourceFile("Box2D", FilePath("Box2D/Dynamics/Contacts/b2EdgeAndPolygonContact.cpp"));
+		processSourceFile("Box2D", FilePath("Box2D/Dynamics/Contacts/b2PolygonAndCircleContact.cpp"));
+		processSourceFile("Box2D", FilePath("Box2D/Dynamics/Contacts/b2PolygonContact.cpp"));
+		processSourceFile("Box2D", FilePath("Box2D/Dynamics/Joints/b2DistanceJoint.cpp"));
+		processSourceFile("Box2D", FilePath("Box2D/Dynamics/Joints/b2FrictionJoint.cpp"));
+		processSourceFile("Box2D", FilePath("Box2D/Dynamics/Joints/b2GearJoint.cpp"));
+		processSourceFile("Box2D", FilePath("Box2D/Dynamics/Joints/b2Joint.cpp"));
+		processSourceFile("Box2D", FilePath("Box2D/Dynamics/Joints/b2MotorJoint.cpp"));
+		processSourceFile("Box2D", FilePath("Box2D/Dynamics/Joints/b2MouseJoint.cpp"));
+		processSourceFile("Box2D", FilePath("Box2D/Dynamics/Joints/b2PrismaticJoint.cpp"));
+		processSourceFile("Box2D", FilePath("Box2D/Dynamics/Joints/b2PulleyJoint.cpp"));
+		processSourceFile("Box2D", FilePath("Box2D/Dynamics/Joints/b2RevoluteJoint.cpp"));
+		processSourceFile("Box2D", FilePath("Box2D/Dynamics/Joints/b2RopeJoint.cpp"));
+		processSourceFile("Box2D", FilePath("Box2D/Dynamics/Joints/b2WeldJoint.cpp"));
+		processSourceFile("Box2D", FilePath("Box2D/Dynamics/Joints/b2WheelJoint.cpp"));
+		processSourceFile("Box2D", FilePath("Box2D/Rope/b2Rope.cpp"));
 #endif
 	}
 
 	void test_index_bullet3_project()
 	{
 #ifdef _WIN32
-		const bool updateExpectedOutput = false;
-
-		processSourceFile("Bullet3", FilePath("Bullet3Collision/BroadPhaseCollision/b3DynamicBvh.cpp"), updateExpectedOutput);
-		processSourceFile("Bullet3", FilePath("Bullet3Collision/BroadPhaseCollision/b3DynamicBvhBroadphase.cpp"), updateExpectedOutput);
-		processSourceFile("Bullet3", FilePath("Bullet3Collision/BroadPhaseCollision/b3OverlappingPairCache.cpp"), updateExpectedOutput);
-		processSourceFile("Bullet3", FilePath("Bullet3Collision/NarrowPhaseCollision/b3ConvexUtility.cpp"), updateExpectedOutput);
-		processSourceFile("Bullet3", FilePath("Bullet3Collision/NarrowPhaseCollision/b3CpuNarrowPhase.cpp"), updateExpectedOutput);
-		processSourceFile("Bullet3", FilePath("Bullet3Common/b3AlignedAllocator.cpp"), updateExpectedOutput);
-		processSourceFile("Bullet3", FilePath("Bullet3Common/b3Logging.cpp"), updateExpectedOutput);
-		processSourceFile("Bullet3", FilePath("Bullet3Common/b3Vector3.cpp"), updateExpectedOutput);
-		processSourceFile("Bullet3", FilePath("Bullet3Geometry/b3ConvexHullComputer.cpp"), updateExpectedOutput);
-		processSourceFile("Bullet3", FilePath("Bullet3Geometry/b3GeometryUtil.cpp"), updateExpectedOutput);
+		processSourceFile("Bullet3", FilePath("Bullet3Collision/BroadPhaseCollision/b3DynamicBvh.cpp"));
+		processSourceFile("Bullet3", FilePath("Bullet3Collision/BroadPhaseCollision/b3DynamicBvhBroadphase.cpp"));
+		processSourceFile("Bullet3", FilePath("Bullet3Collision/BroadPhaseCollision/b3OverlappingPairCache.cpp"));
+		processSourceFile("Bullet3", FilePath("Bullet3Collision/NarrowPhaseCollision/b3ConvexUtility.cpp"));
+		processSourceFile("Bullet3", FilePath("Bullet3Collision/NarrowPhaseCollision/b3CpuNarrowPhase.cpp"));
+		processSourceFile("Bullet3", FilePath("Bullet3Common/b3AlignedAllocator.cpp"));
+		processSourceFile("Bullet3", FilePath("Bullet3Common/b3Logging.cpp"));
+		processSourceFile("Bullet3", FilePath("Bullet3Common/b3Vector3.cpp"));
+		processSourceFile("Bullet3", FilePath("Bullet3Geometry/b3ConvexHullComputer.cpp"));
+		processSourceFile("Bullet3", FilePath("Bullet3Geometry/b3GeometryUtil.cpp"));
 #endif
 	}
 
 private:
-	void processSourceFile(const std::string& projectName, const FilePath& sourceFilePath, const bool updateExpectedOutput)
+	void processSourceFile(const std::string& projectName, const FilePath& sourceFilePath)
 	{
 		const FilePath projectDataRoot = FilePath("data/CxxIndexSampleProjectsTestSuite/" + projectName).absolute();
 		const FilePath projectDataSrcRoot = projectDataRoot.concat(FilePath("src"));
@@ -97,7 +95,7 @@ private:
 		std::shared_ptr<TextAccess> output = parseCode(projectDataSrcRoot.concat(sourceFilePath), projectDataSrcRoot);
 
 		FilePath expectedOutputFilePath = projectDataExpectedOutputRoot.concat(FilePath(utility::replace(sourceFilePath.withoutExtension().str() + ".txt", "/", "_")));
-		if (updateExpectedOutput || !expectedOutputFilePath.exists())
+		if (s_updateExpectedOutput || !expectedOutputFilePath.exists())
 		{
 			std::ofstream expectedOutputFile;
 			expectedOutputFile.open(expectedOutputFilePath.str());

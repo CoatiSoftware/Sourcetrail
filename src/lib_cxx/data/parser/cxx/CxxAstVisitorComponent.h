@@ -50,6 +50,8 @@ DEF_TRAVERSE_TYPE_PTR(CXXForRangeStmt)
 
 DEF_TRAVERSE_TYPE_PTR(UnresolvedLookupExpr)
 
+DEF_TRAVERSE_TYPE_PTR(UnresolvedMemberExpr)
+
 	virtual void beginTraverseCallCommonCallee() {}
 	virtual void endTraverseCallCommonCallee() {}
 

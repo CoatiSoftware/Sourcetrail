@@ -17,35 +17,35 @@ public:
 	NameHierarchy getContextName(const size_t skip = 0);
 	NameHierarchy getContextName(const NameHierarchy& fallback, const size_t skip = 0);
 
-	virtual void beginTraverseDecl(clang::Decl* d);
-	virtual void endTraverseDecl(clang::Decl* d);
+	virtual void beginTraverseDecl(clang::Decl* d) override;
+	virtual void endTraverseDecl(clang::Decl* d) override;
 
-	virtual void beginTraverseTypeLoc(const clang::TypeLoc& tl);
-	virtual void endTraverseTypeLoc(const clang::TypeLoc& tl);
+	virtual void beginTraverseTypeLoc(const clang::TypeLoc& tl) override;
+	virtual void endTraverseTypeLoc(const clang::TypeLoc& tl) override;
 
-	virtual void beginTraverseLambdaExpr(clang::LambdaExpr* s);
-	virtual void endTraverseLambdaExpr(clang::LambdaExpr* s);
+	virtual void beginTraverseLambdaExpr(clang::LambdaExpr* s) override;
+	virtual void endTraverseLambdaExpr(clang::LambdaExpr* s) override;
 
-	virtual void beginTraverseFunctionDecl(clang::FunctionDecl* d);
-	virtual void endTraverseFunctionDecl(clang::FunctionDecl* d);
+	virtual void beginTraverseFunctionDecl(clang::FunctionDecl* d) override;
+	virtual void endTraverseFunctionDecl(clang::FunctionDecl* d) override;
 
-	virtual void beginTraverseClassTemplateSpecializationDecl(clang::ClassTemplateSpecializationDecl *d);
-	virtual void endTraverseClassTemplateSpecializationDecl(clang::ClassTemplateSpecializationDecl *d);
+	virtual void beginTraverseClassTemplateSpecializationDecl(clang::ClassTemplateSpecializationDecl *d) override;
+	virtual void endTraverseClassTemplateSpecializationDecl(clang::ClassTemplateSpecializationDecl *d) override;
 
-	virtual void beginTraverseClassTemplatePartialSpecializationDecl(clang::ClassTemplatePartialSpecializationDecl* d);
-	virtual void endTraverseClassTemplatePartialSpecializationDecl(clang::ClassTemplatePartialSpecializationDecl* d);
+	virtual void beginTraverseClassTemplatePartialSpecializationDecl(clang::ClassTemplatePartialSpecializationDecl* d) override;
+	virtual void endTraverseClassTemplatePartialSpecializationDecl(clang::ClassTemplatePartialSpecializationDecl* d) override;
 
-	virtual void beginTraverseDeclRefExpr(clang::DeclRefExpr* s);
-	virtual void endTraverseDeclRefExpr(clang::DeclRefExpr* s);
+	virtual void beginTraverseDeclRefExpr(clang::DeclRefExpr* s) override;
+	virtual void endTraverseDeclRefExpr(clang::DeclRefExpr* s) override;
 
-	virtual void beginTraverseTemplateSpecializationTypeLoc(const clang::TemplateSpecializationTypeLoc& loc);
-	virtual void endTraverseTemplateSpecializationTypeLoc(const clang::TemplateSpecializationTypeLoc& loc);
+	virtual void beginTraverseTemplateSpecializationTypeLoc(const clang::TemplateSpecializationTypeLoc& loc) override;
+	virtual void endTraverseTemplateSpecializationTypeLoc(const clang::TemplateSpecializationTypeLoc& loc) override;
 
-	virtual void beginTraverseUnresolvedLookupExpr(clang::UnresolvedLookupExpr* e);
-	virtual void endTraverseUnresolvedLookupExpr(clang::UnresolvedLookupExpr* e);
+	virtual void beginTraverseUnresolvedLookupExpr(clang::UnresolvedLookupExpr* e) override;
+	virtual void endTraverseUnresolvedLookupExpr(clang::UnresolvedLookupExpr* e) override;
 
-	virtual void beginTraverseTemplateArgumentLoc(const clang::TemplateArgumentLoc& loc);
-	virtual void endTraverseTemplateArgumentLoc(const clang::TemplateArgumentLoc& loc);
+	virtual void beginTraverseTemplateArgumentLoc(const clang::TemplateArgumentLoc& loc) override;
+	virtual void endTraverseTemplateArgumentLoc(const clang::TemplateArgumentLoc& loc) override;
 
 private:
 	std::vector<std::shared_ptr<CxxContext>> m_contextStack;

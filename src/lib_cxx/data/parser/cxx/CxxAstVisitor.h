@@ -87,6 +87,7 @@ public:
 	virtual bool TraverseCXXForRangeStmt(clang::CXXForRangeStmt* s);
 	virtual bool TraverseTemplateSpecializationTypeLoc(clang::TemplateSpecializationTypeLoc loc);
 	virtual bool TraverseUnresolvedLookupExpr(clang::UnresolvedLookupExpr* s);
+	virtual bool TraverseUnresolvedMemberExpr(clang::UnresolvedMemberExpr* S);
 	virtual bool TraverseTemplateArgumentLoc(const clang::TemplateArgumentLoc& loc);
 	virtual bool TraverseLambdaCapture(clang::LambdaExpr* lambdaExpr, const clang::LambdaCapture* capture, clang::Expr *Init);
 	virtual bool TraverseBinComma(clang::BinaryOperator* s);

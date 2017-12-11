@@ -116,6 +116,11 @@ void CxxAstVisitorComponentDeclRefKind::beginTraverseCXXTemporaryObjectExpr(clan
 	m_childRefKind = REFERENCE_USAGE;
 }
 
+void CxxAstVisitorComponentDeclRefKind::beginTraverseUnresolvedMemberExpr(clang::UnresolvedMemberExpr* s)
+{
+	m_childRefKind = REFERENCE_USAGE;
+}
+
 void CxxAstVisitorComponentDeclRefKind::visitVarDecl(clang::VarDecl* d)
 {
 	m_childRefKind = REFERENCE_USAGE;

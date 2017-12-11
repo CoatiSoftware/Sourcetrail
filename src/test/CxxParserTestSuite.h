@@ -2239,6 +2239,27 @@ public:
 		));
 	}
 
+	void test_cxx_parser_finds_usage_of_member_in_call_expression_to_unresolved_member_expression()
+	{
+		std::shared_ptr<TestParserClient> client = parseCode(
+			"class A {"
+			"	template <typename T>\n"
+			"	T run() { return 5; }\n"
+			"};\n"
+			"class B {\n"
+			"	template <typename T>\n"
+			"	T run() {\n"
+			"		return a.run<T>();\n"
+			"	}\n"
+			"	A a;\n"
+			"};\n"
+		);
+
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->usages, "T B::run<typename T>() -> A B::a <7:10 7:10>"
+		));
+	}
+
 	void test_cxx_parser_finds_usage_of_member_in_temporary_object_expression()
 	{
 		std::shared_ptr<TestParserClient> client = parseCode(

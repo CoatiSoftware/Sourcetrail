@@ -400,6 +400,7 @@ DEF_TRAVERSE_TYPE_PTR(DeclRefExpr, {}, {})
 DEF_TRAVERSE_TYPE_PTR(CXXForRangeStmt, {}, {})
 DEF_TRAVERSE_TYPE(TemplateSpecializationTypeLoc, {}, {})
 DEF_TRAVERSE_TYPE_PTR(UnresolvedLookupExpr, {}, {})
+DEF_TRAVERSE_TYPE_PTR(UnresolvedMemberExpr, {}, {})
 
 bool CxxAstVisitor::TraverseTemplateArgumentLoc(const clang::TemplateArgumentLoc& loc)
 {

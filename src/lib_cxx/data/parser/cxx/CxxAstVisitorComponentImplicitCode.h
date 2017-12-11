@@ -12,11 +12,11 @@ public:
 
 	bool shouldVisitImplicitCode() const;
 
-	virtual void beginTraverseDecl(clang::Decl* d);
-	virtual void endTraverseDecl(clang::Decl* d);
+	virtual void beginTraverseDecl(clang::Decl* d) override;
+	virtual void endTraverseDecl(clang::Decl* d) override;
 
-	virtual void beginTraverseCXXForRangeStmt(clang::CXXForRangeStmt* s);
-	virtual void endTraverseCXXForRangeStmt(clang::CXXForRangeStmt* s);
+	virtual void beginTraverseCXXForRangeStmt(clang::CXXForRangeStmt* s) override;
+	virtual void endTraverseCXXForRangeStmt(clang::CXXForRangeStmt* s) override;
 
 private:
 	std::vector<bool> m_stack;

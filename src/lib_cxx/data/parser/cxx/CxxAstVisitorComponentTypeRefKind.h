@@ -19,14 +19,14 @@ public:
 
 	ReferenceKind getReferenceKind() const;
 
-	virtual void beginTraverseCXXBaseSpecifier();
-	virtual void endTraverseCXXBaseSpecifier();
+	virtual void beginTraverseCXXBaseSpecifier() override;
+	virtual void endTraverseCXXBaseSpecifier() override;
 
-	virtual void beginTraverseTemplateDefaultArgumentLoc();
-	virtual void endTraverseTemplateDefaultArgumentLoc();
+	virtual void beginTraverseTemplateDefaultArgumentLoc() override;
+	virtual void endTraverseTemplateDefaultArgumentLoc() override;
 
-	virtual void beginTraverseTemplateArgumentLoc(const clang::TemplateArgumentLoc& loc);
-	virtual void endTraverseTemplateArgumentLoc(const clang::TemplateArgumentLoc& loc);
+	virtual void beginTraverseTemplateArgumentLoc(const clang::TemplateArgumentLoc& loc) override;
+	virtual void endTraverseTemplateArgumentLoc(const clang::TemplateArgumentLoc& loc) override;
 
 private:
 	std::vector<ReferenceKind> m_refKindStack;
