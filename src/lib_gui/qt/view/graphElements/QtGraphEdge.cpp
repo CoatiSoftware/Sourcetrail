@@ -303,6 +303,12 @@ void QtGraphEdge::focusIn()
 
 			TooltipInfo info;
 			info.title = Edge::getReadableTypeString(type);
+
+			if (type == Edge::EDGE_AGGREGATION && m_direction == TokenComponentAggregation::DIRECTION_NONE)
+			{
+				info.title = "bidirectional " + info.title;
+			}
+
 			if (type == Edge::EDGE_AGGREGATION)
 			{
 				info.count = m_weight;
