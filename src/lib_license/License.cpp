@@ -531,7 +531,7 @@ std::string License::getLicenseEncodedString(const std::string& applicationLocat
 
 	if(fileContents.size() <= 0)
 	{
-		std::cout << "Failed to read licence string" << std::endl;
+		std::cout << "Failed to read license string" << std::endl;
 		return "";
 	}
 
@@ -557,7 +557,7 @@ bool License::loadFromEncodedString(const std::string& encodedLicense, const std
 {
 	if (encodedLicense.size() <= 0)
 	{
-		std::cout << "No licence string given" << std::endl;
+		std::cout << "No license string given" << std::endl;
 		return false;
 	}
 

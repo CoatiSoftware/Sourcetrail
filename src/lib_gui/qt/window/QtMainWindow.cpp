@@ -940,7 +940,7 @@ void QtMainWindow::setupHelpMenu()
 
 	menu->addAction(tr("Select License..."), this, &QtMainWindow::enterLicense);
 	menu->addAction(tr("End User License Agreement"), this, &QtMainWindow::showEula);
-	menu->addAction(tr("3rd Party Licences"), this, &QtMainWindow::showLicenses);
+	menu->addAction(tr("3rd Party Licenses"), this, &QtMainWindow::showLicenses);
 	menu->addAction(tr("&About Sourcetrail"), this, &QtMainWindow::about);
 
 	menu->addSeparator();

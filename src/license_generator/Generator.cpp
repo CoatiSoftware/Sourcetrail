@@ -84,7 +84,7 @@ std::string Generator::encodeLicense(
 
 	if (licenseType.size() <= 0)
 	{
-		std::cout << "No licence type given" << std::endl;
+		std::cout << "No license type given" << std::endl;
         return "";
 	}
 

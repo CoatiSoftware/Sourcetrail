@@ -138,7 +138,7 @@ void QtLicenseWindow::windowReady()
 
 	addLogo();
 
-	updateTitle("Select Licence Option");
+	updateTitle("Select License Option");
 
 	updateNextButton("Activate");
 	setNextEnabled(false);
@@ -161,7 +161,7 @@ void QtLicenseWindow::handleNext()
 		switch (state)
 		{
 			case LicenseChecker::LICENSE_EMPTY:
-				errorString = "No licence key was entered.";
+				errorString = "No license key was entered.";
 				break;
 			case LicenseChecker::LICENSE_MOVED:
 			case LicenseChecker::LICENSE_MALFORMED:
