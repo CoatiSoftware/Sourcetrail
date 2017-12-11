@@ -78,7 +78,7 @@ void QtListItemWidget::handleButtonPress()
 {
 	FilePath path(m_data->text().toStdString());
 	FilePath relativeRoot = m_list->getRelativeRootDirectory();
-	if (!relativeRoot.empty())
+	if (!path.empty() && !path.isAbsolute() && !relativeRoot.empty())
 	{
 		path = relativeRoot.concat(path);
 	}

@@ -100,7 +100,7 @@ void QtLocationPicker::changeEvent(QEvent *event)
 void QtLocationPicker::handleButtonPress()
 {
 	FilePath path(m_data->text().toStdString());
-	if (!m_relativeRootDirectory.empty())
+	if (!path.empty() && !path.isAbsolute() && !m_relativeRootDirectory.empty())
 	{
 		path = m_relativeRootDirectory.concat(path);
 	}
