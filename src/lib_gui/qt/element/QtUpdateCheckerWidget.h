@@ -1,6 +1,8 @@
 #ifndef QT_UPDATE_CHECKER_WIDGET_H
 #define QT_UPDATE_CHECKER_WIDGET_H
 
+#include <memory>
+
 #include <QWidget>
 
 class QPushButton;
