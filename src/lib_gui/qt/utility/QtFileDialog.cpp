@@ -4,36 +4,33 @@
 #include <QListView>
 #include <QTreeView>
 
+#include "qt/utility/QtFilesAndDirectoriesDialog.h"
 #include "utility/utilityApp.h"
 
 QStringList QtFileDialog::getFileNamesAndDirectories(QWidget* parent, const QString& dir)
 {
-	QFileDialog dialog(parent);
+	QFileDialog* dialog = (utility::getOsType() == OS_MAC ? new QFileDialog(parent) : new QtFilesAndDirectoriesDialog(parent));
 
-	if (utility::getOsType() != OS_MAC)
-	{
-		dialog.setFileMode(QFileDialog::Directory);
-	}
+	dialog->setDirectory(getDir(dir));
 
-	dialog.setDirectory(getDir(dir));
-
-	QListView *l = dialog.findChild<QListView*>("listView");
+	QListView *l = dialog->findChild<QListView*>("listView");
 	if (l)
 	{
-		l->setSelectionMode(QAbstractItemView::SingleSelection);
+		l->setSelectionMode(QAbstractItemView::ExtendedSelection);
 	}
-	QTreeView *t = dialog.findChild<QTreeView*>();
+	QTreeView *t = dialog->findChild<QTreeView*>();
 	if (t)
 	{
-		t->setSelectionMode(QAbstractItemView::SingleSelection);
+		t->setSelectionMode(QAbstractItemView::ExtendedSelection);
 	}
 
 	QStringList list;
-
-	if (dialog.exec())
+	if (dialog->exec())
 	{
-		list = dialog.selectedFiles();
+		list = dialog->selectedFiles();
 	}
+	
+	delete dialog;
 
 	return list;
 }

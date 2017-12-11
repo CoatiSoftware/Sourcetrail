@@ -59,6 +59,8 @@ public:
 	std::vector<std::string> getStringList();
 	void setStringList(const std::vector<std::string>& list);
 
+	void addListBoxItemWithText(const QString& text);
+
 	void selectItem(QListWidgetItem* item);
 
 	bool isForStrings() const;

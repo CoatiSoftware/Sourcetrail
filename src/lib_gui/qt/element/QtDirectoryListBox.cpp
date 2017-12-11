@@ -84,9 +84,14 @@ void QtListItemWidget::handleButtonPress()
 	}
 
 	QStringList list = QtFileDialog::getFileNamesAndDirectories(this, QString::fromStdString(path.str()));
-	for (int i = 0; i < list.size(); i++)
+	if (!list.isEmpty())
 	{
-		setText(list.at(i));
+		setText(list.at(0));
+	}
+
+	for (int i = 1; i < list.size(); i++)
+	{
+		m_list->addListBoxItemWithText(list.at(i));
 	}
 
 	handleFocus();
@@ -260,13 +265,18 @@ void QtDirectoryListBox::setStringList(const std::vector<std::string>& list)
 
 	for (const std::string& str : list)
 	{
-		QtListItemWidget* widget = addListBoxItem();
-		widget->setText(QString::fromStdString(str));
+		addListBoxItemWithText(QString::fromStdString(str));
 	}
 
 	m_relativeRootDirectory = root;
 
 	QTimer::singleShot(1, this, &QtDirectoryListBox::resize);
+}
+
+void QtDirectoryListBox::addListBoxItemWithText(const QString& text)
+{
+	QtListItemWidget* widget = addListBoxItem();
+	widget->setText(text);
 }
 
 void QtDirectoryListBox::selectItem(QListWidgetItem* item)
