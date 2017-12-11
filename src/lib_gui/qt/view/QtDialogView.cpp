@@ -131,7 +131,7 @@ void QtDialogView::startIndexingDialog(
 					connect(timer.get(), &QTimer::timeout,
 						[=]()
 						{
-							showUnknownProgress("Preparing Index", "Processing Files", true);
+							showUnknownProgress("Preparing Indexing", "Processing Files", true);
 						}
 					);
 					timer->start(200);
@@ -168,6 +168,7 @@ void QtDialogView::startIndexingDialog(
 					));
 
 					m_windowStack.clearWindows();
+					showUnknownProgress("Preparing Indexing", "Setting up Indexers", false);
 				}
 			);
 

@@ -210,7 +210,7 @@ void QtIndexingDialog::setupReport(
 	updateNextButton("OK");
 	setCloseVisible(false);
 
-	m_sizeHint = QSize(400, 280);
+	m_sizeHint = QSize(interrupted ? 400 : 430, 280);
 
 	if (interrupted)
 	{
@@ -526,9 +526,9 @@ void QtIndexingDialog::setGeometries()
 		m_top->setGeometry(0, 0, m_window->size().width(), m_window->size().height() * m_topRatio);
 
 		m_title->setGeometry(
-			margins.left(),
+			45,
 			m_window->size().height() * m_topRatio - 50,
-			m_window->size().width() - margins.left() - margins.right(),
+			m_window->size().width() - 60,
 			40
 		);
 	}
