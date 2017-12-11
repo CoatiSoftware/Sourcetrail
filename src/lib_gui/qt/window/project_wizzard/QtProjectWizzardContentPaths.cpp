@@ -24,7 +24,9 @@
 #include "utility/utilityFile.h"
 #include "utility/utilityPathDetection.h"
 
-QtProjectWizzardContentPaths::QtProjectWizzardContentPaths(std::shared_ptr<SourceGroupSettings> settings, QtProjectWizzardWindow* window)
+QtProjectWizzardContentPaths::QtProjectWizzardContentPaths(
+	std::shared_ptr<SourceGroupSettings> settings, QtProjectWizzardWindow* window
+)
 	: QtProjectWizzardContent(window)
 	, m_settings(settings)
 	, m_makePathsRelativeToProjectFileLocation(true)
@@ -238,15 +240,17 @@ QtProjectWizzardContentPathsCDBHeader::QtProjectWizzardContentPathsCDBHeader(
 
 	setTitleString("Header Files & Directories to Index");
 	setHelpString(
-		"Your Compilation Database already specifies which source files are part of your project. But Sourcetrail still needs to know which "
-		"header files to index as part of your project and which to skip. Choosing to skip indexing your system headers or external frameworks will "
-		"significantly improve the overall indexing performance.<br />"
+		"Your Compilation Database already specifies which source files are part of your project. But Sourcetrail still "
+		"needs to know which header files to index as part of your project and which to skip. Choosing to skip indexing "
+		"your system headers or external frameworks will significantly improve the overall indexing performance.<br />"
 		"<br />"
-		"Use this list to define which header files should be indexed by Sourcetrail. Provide a directory to recursively add all contained files.<br />"
+		"Use this list to define which header files should be indexed by Sourcetrail. Provide a directory to recursively "
+		"add all contained files.<br />"
 		"<br />"
 		"You can make use of environment variables with ${ENV_VAR}.<br />"
 		"<br />"
-		"<b>Hint</b>: Just enter the root path of your project if you want Sourcetrail to index all contained headers it encounters.<br />"
+		"<b>Hint</b>: Just enter the root path of your project if you want Sourcetrail to index all contained headers it "
+		"encounters.<br />"
 	);
 }
 
@@ -266,7 +270,8 @@ void QtProjectWizzardContentPathsCDBHeader::load()
 {
 	if (m_settings->getSourcePaths().empty())
 	{
-		std::shared_ptr<SourceGroupSettingsCxxCdb> cdbSettings = std::dynamic_pointer_cast<SourceGroupSettingsCxxCdb>(m_settings);
+		std::shared_ptr<SourceGroupSettingsCxxCdb> cdbSettings =
+			std::dynamic_pointer_cast<SourceGroupSettingsCxxCdb>(m_settings);
 		std::set<FilePath> sourcePaths;
 
 		const FilePath projectPath = m_settings->getProjectDirectoryPath();
@@ -333,7 +338,8 @@ void QtProjectWizzardContentPathsCDBHeader::buttonClicked()
 
 	if (!m_filesDialog)
 	{
-		const FilePath cdbPath = std::dynamic_pointer_cast<SourceGroupSettingsCxxCdb>(m_settings)->getCompilationDatabasePathExpandedAndAbsolute();
+		const FilePath cdbPath =
+			std::dynamic_pointer_cast<SourceGroupSettingsCxxCdb>(m_settings)->getCompilationDatabasePathExpandedAndAbsolute();
 		if (!cdbPath.exists())
 		{
 			QMessageBox msgBox;
@@ -398,12 +404,14 @@ QtProjectWizzardContentPathsHeaderSearch::QtProjectWizzardContentPathsHeaderSear
 	std::shared_ptr<SourceGroupSettings> settings, QtProjectWizzardWindow* window, bool isCDB
 )
 	: QtProjectWizzardContentPaths(settings, window)
-	, m_showValidationResultFunctor(std::bind(&QtProjectWizzardContentPathsHeaderSearch::showValidationResult, this, std::placeholders::_1))
+	, m_showValidationResultFunctor(std::bind(
+		&QtProjectWizzardContentPathsHeaderSearch::showValidationResult, this, std::placeholders::_1))
 	, m_isCdb(isCDB)
 {
 	setTitleString(m_isCdb ? "Additional Include Paths" : "Include Paths");
 	setHelpString(
-		((m_isCdb ? "<b>Note</b>: Use the Additional Include Paths to add paths that are missing in the Compilation Database.<br /><br />" : "") + std::string(
+		((m_isCdb ? "<b>Note</b>: Use the Additional Include Paths to add paths that are missing in the Compilation "
+			"Database.<br /><br />" : "") + std::string(
 		"Include Paths are used for resolving #include directives in the indexed source and header files. These paths are "
 		"usually passed to the compiler with the '-I' or '-iquote' flags.<br />"
 		"<br />"
@@ -487,7 +495,8 @@ void QtProjectWizzardContentPathsHeaderSearch::validateButtonClicked()
 
 				headerSearchPaths = ApplicationSettings::getInstance()->getHeaderSearchPathsExpanded();
 
-				if (std::shared_ptr<SourceGroupSettingsCxx> cxxSettings = std::dynamic_pointer_cast<SourceGroupSettingsCxx>(m_settings))
+				if (std::shared_ptr<SourceGroupSettingsCxx> cxxSettings =
+						std::dynamic_pointer_cast<SourceGroupSettingsCxx>(m_settings))
 				{
 					indexedFilePaths = cxxSettings->getSourcePaths();
 					utility::append(headerSearchPaths, cxxSettings->getHeaderSearchPathsExpandedAndAbsolute());
@@ -527,18 +536,34 @@ void QtProjectWizzardContentPathsHeaderSearch::showValidationResult(const std::v
 	}
 	else
 	{
-		std::string detailedText = "";
+		std::map<std::string, std::map<size_t, std::string>> orderedIncludes;
 		for (const IncludeDirective& unresolvedInclude: unresolvedIncludes)
 		{
-			detailedText += unresolvedInclude.getIncludingFile().str() + "[" + std::to_string(unresolvedInclude.getLineNumber()) + "]: " + unresolvedInclude.getDirective() + "\n";
+			orderedIncludes[unresolvedInclude.getIncludingFile().str()].emplace(
+				unresolvedInclude.getLineNumber(), unresolvedInclude.getDirective());
+		}
+
+		std::string detailedText = "";
+		for (const auto& p: orderedIncludes)
+		{
+			detailedText += p.first + "\n";
+
+			for (const auto& p2: p.second)
+			{
+				detailedText += std::to_string(p2.first) + ":\t" + p2.second + "\n";
+			}
+
+			detailedText += "\n";
 		}
 
 		m_filesDialog = std::make_shared<QtTextEditDialog>("Unresolved Include Directives",
-			("<p>The indexed files contain <b>" + std::to_string(unresolvedIncludes.size()) + "</b> include directive" + (unresolvedIncludes.size() == 1 ? "" : "s") + " that could "
-			"not be resolved correctly. Please check the details and add the respective header search paths.</p>"
-			"<p><b>Note</b>: This is only a quick pass that does not regard block commenting or conditional preprocessor directives. This means that "
-			"some of the unresolved includes may actually not be required by the indexer.</p>").c_str()
-		);
+			("<p>The indexed files contain <b>" + std::to_string(unresolvedIncludes.size()) + "</b> include directive" +
+			(unresolvedIncludes.size() == 1 ? "" : "s") + " that could not be resolved correctly. Please check the details "
+			"and add the respective header search paths.</p>"
+			"<p><b>Note</b>: This is only a quick pass that does not regard block commenting or conditional preprocessor "
+			"directives. This means that some of the unresolved includes may actually not be required by the indexer.</p>"
+		).c_str());
+
 		m_filesDialog->setup();
 		m_filesDialog->setCloseVisible(false);
 		m_filesDialog->setReadOnly(true);
@@ -657,7 +682,8 @@ QtProjectWizzardContentPathsClassJava::QtProjectWizzardContentPathsClassJava(
 	setTitleString("Class Path");
 	setHelpString(
 		"Enter all the .jar files your project depends on. If your project depends on uncompiled java code that should "
-		"not be indexed, please add the root directory of those .java files here (the one where all the package names are relative to).<br />"
+		"not be indexed, please add the root directory of those .java files here (the one where all the package names "
+		"are relative to).<br />"
 		"<br />"
 		"You can make use of environment variables with ${ENV_VAR}."
 	);
@@ -678,7 +704,8 @@ void QtProjectWizzardContentPathsClassJava::populate(QGridLayout* layout, int& r
 
 void QtProjectWizzardContentPathsClassJava::load()
 {
-	std::shared_ptr<SourceGroupSettingsJava> javaSettings = std::dynamic_pointer_cast<SourceGroupSettingsJava>(m_settings);
+	std::shared_ptr<SourceGroupSettingsJava> javaSettings =
+		std::dynamic_pointer_cast<SourceGroupSettingsJava>(m_settings);
 	if (javaSettings)
 	{
 		m_list->setList(javaSettings->getClasspath());
@@ -688,7 +715,8 @@ void QtProjectWizzardContentPathsClassJava::load()
 
 void QtProjectWizzardContentPathsClassJava::save()
 {
-	std::shared_ptr<SourceGroupSettingsJava> javaSettings = std::dynamic_pointer_cast<SourceGroupSettingsJava>(m_settings);
+	std::shared_ptr<SourceGroupSettingsJava> javaSettings =
+		std::dynamic_pointer_cast<SourceGroupSettingsJava>(m_settings);
 	if (javaSettings)
 	{
 		javaSettings->setClasspath(m_list->getList());
