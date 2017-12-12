@@ -20,8 +20,8 @@
 #include "settings/ApplicationSettings.h"
 #include "utility/messaging/type/MessageDisplayBookmarkCreator.h"
 #include "utility/messaging/type/MessageGraphNodeHide.h"
-#include "utility/utilityApp.h"
 #include "utility/ResourcePaths.h"
+#include "utility/utilityApp.h"
 
 QtGraphicsView::QtGraphicsView(QWidget* parent)
 	: QGraphicsView(parent)
@@ -372,7 +372,6 @@ void QtGraphicsView::contextMenuEvent(QContextMenuEvent* event)
 
 	m_copyNodeNameAction->setEnabled(m_clipboardNodeName.size());
 
-
 	QtContextMenu menu(event, this);
 
 	menu.addSeparator();
@@ -465,11 +464,33 @@ void QtGraphicsView::exportGraph()
 		QPainter painter(&image);
 		painter.setRenderHint(QPainter::Antialiasing);
 		scene()->render(&painter);
-		image.save(fileName);
 
 		// different approach: only currently visible part
 		// QPixmap pixMap = grab();
 		// pixMap.save(fileName);
+
+		{
+			const int margin = 10;
+
+			{
+				QFont font = painter.font();
+				font.setPixelSize(14);
+				painter.setFont(font);
+			}
+			
+			QRect boundingRect;
+			painter.drawText(QRect(margin, margin, image.size().width() - 2 * margin, image.size().height() - 2 * margin), Qt::AlignBottom | Qt::AlignHCenter, "Exported from Sourcetrail", &boundingRect);
+
+			{
+				QFont font = painter.font();
+				font.setPixelSize(8);
+				painter.setFont(font);
+			}
+
+			painter.drawText(boundingRect.right() + boundingRect.height() / 5, boundingRect.top() + boundingRect.height() / 2, QChar(0x00AE));
+		}
+
+		image.save(fileName);
 	}
 }
 
