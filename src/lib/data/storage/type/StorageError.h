@@ -18,7 +18,6 @@ struct StorageErrorData
 
 	StorageErrorData(
 		const std::string& message,
-		const std::string& commandline,
 		const FilePath& filePath,
 		uint lineNumber,
 		uint columnNumber,
@@ -26,7 +25,6 @@ struct StorageErrorData
 		bool indexed
 	)
 		: message(message)
-		, commandline(commandline)
 		, filePath(filePath)
 		, lineNumber(lineNumber)
 		, columnNumber(columnNumber)
@@ -35,7 +33,6 @@ struct StorageErrorData
 	{}
 
 	std::string message;
-	std::string commandline;
 
 	FilePath filePath;
 	uint lineNumber;
@@ -60,7 +57,6 @@ struct StorageError: public StorageErrorData
 	StorageError(
 		Id id,
 		const std::string& message,
-		const std::string& commandline,
 		const FilePath& filePath,
 		uint lineNumber,
 		uint columnNumber,
@@ -69,7 +65,6 @@ struct StorageError: public StorageErrorData
 	)
 		: StorageErrorData(
 			message,
-			commandline,
 			filePath,
 			lineNumber,
 			columnNumber,

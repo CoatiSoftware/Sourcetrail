@@ -82,7 +82,7 @@ public:
 	std::string m_lines;
 
 private:
-	virtual void doRecordError(const ParseLocation& location, const std::string& message, const std::string& commandline,
+	virtual void doRecordError(const ParseLocation& location, const std::string& message,
 		bool fatal, bool indexed) override
 	{
 		recordLine("ERROR: " + addLocationSuffix(message + " [" + location.filePath.fileName(), location) + "]\n");

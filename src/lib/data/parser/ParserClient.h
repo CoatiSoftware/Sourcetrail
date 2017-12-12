@@ -49,8 +49,8 @@ public:
 	virtual void recordQualifierLocation(
 		const NameHierarchy& qualifierName, const ParseLocation& location) = 0;
 
-	void recordError(const ParseLocation& location, const std::string& message, const std::string& commandline,
-		bool fatal, bool indexed);
+	void recordError(
+		const ParseLocation& location, const std::string& message, bool fatal, bool indexed);
 	
 	virtual void recordLocalSymbol(const std::string& name, const ParseLocation& location) = 0;
 	virtual void recordFile(const FileInfo& fileInfo) = 0;
@@ -59,8 +59,8 @@ public:
 	bool hasFatalErrors() const;
 
 protected:
-	virtual void doRecordError(const ParseLocation& location, const std::string& message, const std::string& commandline,
-		bool fatal, bool indexed) = 0;
+	virtual void doRecordError(
+		const ParseLocation& location, const std::string& message, bool fatal, bool indexed) = 0;
 
 	bool m_hasFatalErrors;
 };

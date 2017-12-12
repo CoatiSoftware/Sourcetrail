@@ -44,7 +44,6 @@ size_t IntermediateStorage::getByteSize(size_t stringSize) const
 		byteSize += sizeof(StorageErrorData);
 		byteSize += stringSize + storageError.filePath.str().size();
 		byteSize += stringSize + storageError.message.size();
-		byteSize += stringSize + storageError.commandline.size();
 	}
 
 	for (const StorageNode& storageNode: getStorageNodes())

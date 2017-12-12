@@ -162,8 +162,11 @@ public:
 	std::vector<std::string> imports;
 
 private:
-	virtual void doRecordError(const ParseLocation& location, const std::string& message, const std::string& commandline,
-		bool fatal, bool indexed) override
+	virtual void doRecordError(
+		const ParseLocation& location, 
+		const std::string& message,
+		bool fatal, 
+		bool indexed) override
 	{
 		errors.push_back(addLocationSuffix(message, location));
 	}

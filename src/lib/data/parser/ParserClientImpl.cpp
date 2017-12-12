@@ -91,11 +91,11 @@ void ParserClientImpl::recordComment(const ParseLocation& location)
 }
 
 void ParserClientImpl::doRecordError(
-	const ParseLocation& location, const std::string& message, const std::string& commandline, bool fatal, bool indexed)
+	const ParseLocation& location, const std::string& message, bool fatal, bool indexed)
 {
 	if (location.isValid())
 	{
-		addError(message, commandline, fatal, indexed, location);
+		addError(message, fatal, indexed, location);
 	}
 }
 
@@ -333,7 +333,7 @@ void ParserClientImpl::addCommentLocation(const ParseLocation& location)
 }
 
 void ParserClientImpl::addError(
-	const std::string& message, const std::string& commandline, bool fatal, bool indexed, const ParseLocation& location)
+	const std::string& message, bool fatal, bool indexed, const ParseLocation& location)
 {
 	if (!m_storage)
 	{
@@ -341,6 +341,6 @@ void ParserClientImpl::addError(
 	}
 
 	m_storage->addError(StorageErrorData(
-		message, commandline, location.filePath, location.startLineNumber, location.startColumnNumber, fatal, indexed
+		message, location.filePath, location.startLineNumber, location.startColumnNumber, fatal, indexed
 	));
 }

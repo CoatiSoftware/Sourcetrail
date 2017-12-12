@@ -44,8 +44,8 @@ public:
 	virtual void recordComment(const ParseLocation& location) override;
 
 private:
-	virtual void doRecordError(const ParseLocation& location, const std::string& message, const std::string& commandline,
-		bool fatal, bool indexed) override;
+	virtual void doRecordError(
+		const ParseLocation& location, const std::string& message, bool fatal, bool indexed) override;
 
 	NodeType symbolKindToNodeType(SymbolKind symbolType) const;
 	Edge::EdgeType referenceKindToEdgeType(ReferenceKind referenceKind) const;
@@ -60,7 +60,7 @@ private:
 	void addSourceLocation(Id elementId, const ParseLocation& location, int type);
 	void addComponentAccess(Id nodeId , int type);
 	void addCommentLocation(const ParseLocation& location);
-	void addError(const std::string& message, const std::string& commandline, bool fatal, bool indexed,
+	void addError(const std::string& message, bool fatal, bool indexed,
 		const ParseLocation& location);
 
 	std::shared_ptr<IntermediateStorage> m_storage;

@@ -76,16 +76,15 @@ void QtErrorView::initView()
 	m_table->setItemDelegate(new SelectableDelegate());
 
 	// Setup Table Headers
-	m_model->setColumnCount(7);
+	m_model->setColumnCount(COLUMN_MAX + 1);
 	m_table->setColumnWidth(COLUMN::TYPE, 80);
 	m_table->setColumnWidth(COLUMN::MESSAGE, 450);
 	m_table->setColumnWidth(COLUMN::FILE, 300);
 	m_table->setColumnWidth(COLUMN::LINE, 50);
-	m_table->setColumnWidth(COLUMN::COMMANDLINE, 120);
 	m_table->setColumnHidden(COLUMN::ID, true);
 
 	QStringList headers;
-	headers << "Type" << "Message" << "File" << "Line" << "Command Line" << "Indexed";
+	headers << "Type" << "Message" << "File" << "Line" << "Indexed";
 	m_model->setHorizontalHeaderLabels(headers);
 
 	connect(m_table->selectionModel(), &QItemSelectionModel::currentRowChanged,
@@ -331,7 +330,6 @@ void QtErrorView::addErrorToTable(const ErrorInfo& error)
 	m_model->item(rowNumber, COLUMN::FILE)->setToolTip(error.filePath.str().c_str());
 
 	m_model->setItem(rowNumber, COLUMN::LINE, new QStandardItem(QString::number(error.lineNumber)));
-	m_model->setItem(rowNumber, COLUMN::COMMANDLINE, new QStandardItem(error.commandline.c_str()));
 
 	m_model->setItem(rowNumber, COLUMN::INDEXED, new QStandardItem(error.indexed ? "yes" : "no"));
 

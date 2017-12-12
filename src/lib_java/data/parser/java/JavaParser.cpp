@@ -264,8 +264,7 @@ void JavaParser::doRecordError(
 	m_client->recordError(
 		ParseLocation(m_currentFilePath, beginLine, beginColumn, endLine, endColumn),
 		m_javaEnvironment->toStdString(jMessage),
-		"",
-		fatal, indexed
+		fatal, 
+		indexed
 	);
 }
-

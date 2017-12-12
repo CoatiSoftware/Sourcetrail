@@ -269,15 +269,12 @@ StorageError SqliteIndexStorage::addError(const StorageErrorData& data)
 
 	if (id == 0)
 	{
-		const std::string sanitizedCommandline = utility::replace(data.commandline, "'", "''");
-
 		m_insertErrorStmt.bind(1, sanitizedMessage.c_str());
-		m_insertErrorStmt.bind(2, sanitizedCommandline.c_str());
-		m_insertErrorStmt.bind(3, data.fatal);
-		m_insertErrorStmt.bind(4, data.indexed);
-		m_insertErrorStmt.bind(5, data.filePath.str().c_str());
-		m_insertErrorStmt.bind(6, int(data.lineNumber));
-		m_insertErrorStmt.bind(7, int(data.columnNumber));
+		m_insertErrorStmt.bind(2, data.fatal);
+		m_insertErrorStmt.bind(3, data.indexed);
+		m_insertErrorStmt.bind(4, data.filePath.str().c_str());
+		m_insertErrorStmt.bind(5, int(data.lineNumber));
+		m_insertErrorStmt.bind(6, int(data.columnNumber));
 
 		const bool success = executeStatement(m_insertErrorStmt);
 		if (success)
@@ -954,7 +951,6 @@ void SqliteIndexStorage::setupTables()
 			"CREATE TABLE IF NOT EXISTS error("
 				"id INTEGER NOT NULL, "
 				"message TEXT, "
-				"commandline TEXT, "
 				"fatal INTEGER NOT NULL, "
 				"indexed INTEGER NOT NULL, "
 				"file_path TEXT, "
@@ -1042,7 +1038,7 @@ void SqliteIndexStorage::setupPrecompiledStatements()
 			"LIMIT 1;"
 		);
 		m_insertErrorStmt = m_database.compileStatement(
-			"INSERT INTO error(message, commandline, fatal, indexed, file_path, line_number, column_number) VALUES(?, ?, ?, ?, ?, ?, ?);"
+			"INSERT INTO error(message, fatal, indexed, file_path, line_number, column_number) VALUES(?, ?, ?, ?, ?, ?);"
 		);
 	}
 	catch (CppSQLite3Exception& e)
@@ -1288,7 +1284,7 @@ template <>
 std::vector<StorageError> SqliteIndexStorage::doGetAll<StorageError>(const std::string& query) const
 {
 	CppSQLite3Query q = executeQuery(
-		"SELECT message, commandline, fatal, indexed, file_path, line_number, column_number FROM error " + query + ";"
+		"SELECT message, fatal, indexed, file_path, line_number, column_number FROM error " + query + ";"
 	);
 
 	std::vector<StorageError> errors;
@@ -1296,17 +1292,17 @@ std::vector<StorageError> SqliteIndexStorage::doGetAll<StorageError>(const std::
 	while (!q.eof())
 	{
 		const std::string message = q.getStringField(0, "");
-		const std::string commandline = q.getStringField(1, "");
-		const bool fatal = q.getIntField(2, 0);
-		const bool indexed = q.getIntField(3, 0);
-		const std::string filePath = q.getStringField(4, "");
-		const int lineNumber = q.getIntField(5, -1);
-		const int columnNumber = q.getIntField(6, -1);
+		const bool fatal = q.getIntField(1, 0);
+		const bool indexed = q.getIntField(2, 0);
+		const std::string filePath = q.getStringField(3, "");
+		const int lineNumber = q.getIntField(4, -1);
+		const int columnNumber = q.getIntField(5, -1);
 
 		if (lineNumber != -1 && columnNumber != -1)
 		{
 			errors.push_back(StorageError(
-				id, message, commandline, FilePath(filePath), lineNumber, columnNumber, fatal, indexed));
+				id, message, FilePath(filePath), lineNumber, columnNumber, fatal, indexed)
+			);
 			id++;
 		}
 

@@ -117,7 +117,6 @@ struct SharedStorageErrorData
 {
 	SharedStorageErrorData(
 		const std::string& message,
-		const std::string& commandline,
 		const std::string& filePath,
 		uint lineNumber,
 		uint columnNumber,
@@ -126,7 +125,6 @@ struct SharedStorageErrorData
 		SharedMemory::Allocator* allocator
 	)
 		: message(message.c_str(), allocator)
-		, commandline(commandline.c_str(), allocator)
 		, filePath(filePath.c_str(), allocator)
 		, lineNumber(lineNumber)
 		, columnNumber(columnNumber)
@@ -135,7 +133,6 @@ struct SharedStorageErrorData
 	{}
 
 	SharedMemory::String message;
-	SharedMemory::String commandline;
 
 	SharedMemory::String filePath;
 	uint lineNumber;
@@ -148,14 +145,14 @@ struct SharedStorageErrorData
 inline SharedStorageErrorData toShared(const StorageErrorData& error, SharedMemory::Allocator* allocator)
 {
 	return SharedStorageErrorData(
-		error.message, error.commandline, error.filePath.str(),
+		error.message, error.filePath.str(),
 		error.lineNumber, error.columnNumber, error.fatal, error.indexed, allocator);
 }
 
 inline StorageErrorData fromShared(const SharedStorageErrorData& error)
 {
 	return StorageErrorData(
-		error.message.c_str(), error.commandline.c_str(), FilePath(error.filePath.c_str()),
+		error.message.c_str(), FilePath(error.filePath.c_str()),
 		error.lineNumber, error.columnNumber, error.fatal, error.indexed);
 }
 

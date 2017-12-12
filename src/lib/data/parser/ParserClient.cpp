@@ -80,9 +80,9 @@ ParserClient::~ParserClient()
 }
 
 void ParserClient::recordError(
-	const ParseLocation& location, const std::string& message, const std::string& commandline, bool fatal, bool indexed)
+	const ParseLocation& location, const std::string& message, bool fatal, bool indexed)
 {
-	doRecordError(location, message, commandline, fatal, indexed);
+	doRecordError(location, message, fatal, indexed);
 
 	if (fatal)
 	{

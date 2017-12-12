@@ -116,17 +116,6 @@ void CxxParser::runTool(clang::tooling::CompilationDatabase* compilationDatabase
 
 	std::shared_ptr<CxxDiagnosticConsumer> diagnostics = getDiagnostics(canonicalFilePathCache, true);
 
-	std::vector<clang::tooling::CompileCommand> compileCommands = compilationDatabase->getCompileCommands(sourceFilePath.str());
-	if (compileCommands.size() == 1)
-	{
-		std::string commandline;
-		for (const std::string& str : compileCommands[0].CommandLine)
-		{
-			commandline += str + " ";
-		}
-		diagnostics->setCommandLine(commandline);
-	}
-
 	tool.setDiagnosticConsumer(diagnostics.get());
 
 	ASTActionFactory actionFactory(m_client, m_fileRegister, canonicalFilePathCache);
