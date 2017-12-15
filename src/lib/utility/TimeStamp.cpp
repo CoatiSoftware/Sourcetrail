@@ -51,12 +51,12 @@ std::string TimeStamp::getDDMMYYYYString() const
 
 size_t TimeStamp::deltaMS(const TimeStamp& other) const
 {
-	return (m_time - other.m_time).total_milliseconds();
+	return abs((m_time - other.m_time).total_milliseconds());
 }
 
 size_t TimeStamp::deltaS(const TimeStamp& other) const
 {
-	return (m_time - other.m_time).total_seconds();
+	return abs((m_time - other.m_time).total_seconds());
 }
 
 bool TimeStamp::isSameDay(const TimeStamp& other) const
@@ -74,11 +74,11 @@ bool TimeStamp::isSameDay(const TimeStamp& other) const
 size_t TimeStamp::deltaDays(const TimeStamp& other) const
 {
 	boost::gregorian::date_duration deltaDate = m_time.date() - other.m_time.date();
-	return size_t(std::abs(deltaDate.days()));
+	return abs(deltaDate.days());
 }
 
-long TimeStamp::deltaHours(const TimeStamp& other) const
+size_t TimeStamp::deltaHours(const TimeStamp& other) const
 {
 	boost::posix_time::time_duration delta = m_time - other.m_time;
-	return delta.total_seconds() / 3600;
+	return abs(delta.total_seconds() / 3600);
 }

@@ -32,16 +32,21 @@ private:
 };
 
 
-
 class QtHistoryList
 	: public QWidget
 {
 	Q_OBJECT
 
+signals:
+	void closed();
+
 public:
 	QtHistoryList(const std::vector<SearchMatch>& history, size_t currentIndex);
 
 	void showPopup(QPoint pos);
+
+protected:
+	void closeEvent(QCloseEvent* event);
 
 private slots:
 	void onItemClicked(QListWidgetItem *item);

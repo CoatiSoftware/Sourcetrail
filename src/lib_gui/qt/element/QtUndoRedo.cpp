@@ -15,6 +15,8 @@
 
 QtUndoRedo::QtUndoRedo()
 	: m_pressed(false)
+	, m_historyList(nullptr)
+	, m_historyHiddenAt(TimeStamp::now())
 {
 	setObjectName("undo_redo_bar");
 
@@ -62,6 +64,11 @@ QtUndoRedo::~QtUndoRedo()
 
 void QtUndoRedo::buttonPressed()
 {
+	if (TimeStamp::now().deltaMS(m_historyHiddenAt) < 250)
+	{
+		return;
+	}
+
 	m_pressed = true;
 	QTimer::singleShot(250, this, &QtUndoRedo::showHistory);
 	m_historyButton->setAttribute(Qt::WA_UnderMouse, false);
@@ -91,6 +98,12 @@ void QtUndoRedo::showHistory()
 	{
 		m_pressed = false;
 
+		if (m_historyList)
+		{
+			m_historyList->deleteLater();
+			m_historyList = nullptr;
+		}
+
 		m_undoButton->setDown(false);
 		m_redoButton->setDown(false);
 		m_historyButton->setDown(false);
@@ -99,11 +112,24 @@ void QtUndoRedo::showHistory()
 		m_redoButton->setAttribute(Qt::WA_UnderMouse, false);
 		m_historyButton->setAttribute(Qt::WA_UnderMouse, false);
 
-		QtHistoryList* list = new QtHistoryList(m_history, m_currentIndex);
+		m_historyList = new QtHistoryList(m_history, m_currentIndex);
 
 		QPoint pos = m_undoButton->mapToGlobal(m_undoButton->pos());
 
-		list->showPopup(QPoint(pos.x(), pos.y() + m_undoButton->size().height() + 5));
+		m_historyList->showPopup(QPoint(pos.x(), pos.y() + m_undoButton->size().height() + 5));
+
+		connect(m_historyList, &QtHistoryList::closed, this, &QtUndoRedo::hidHistory);
+	}
+}
+
+void QtUndoRedo::hidHistory()
+{
+	if (m_historyList)
+	{
+		m_historyList->deleteLater();
+		m_historyList = nullptr;
+
+		m_historyHiddenAt = TimeStamp::now();
 	}
 }
 

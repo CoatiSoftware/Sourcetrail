@@ -5,8 +5,10 @@
 #include <QFrame>
 
 #include "data/search/SearchMatch.h"
+#include "utility/TimeStamp.h"
 
 class QPushButton;
+class QtHistoryList;
 
 class QtUndoRedo
 	: public QFrame
@@ -31,6 +33,7 @@ private slots:
 	void redoReleased();
 
 	void showHistory();
+	void hidHistory();
 
 private:
 	QPushButton* m_undoButton;
@@ -41,6 +44,9 @@ private:
 	size_t m_currentIndex;
 
 	bool m_pressed;
+
+	QtHistoryList* m_historyList;
+	TimeStamp m_historyHiddenAt;
 };
 
 #endif // QT_UNDO_REDO_H

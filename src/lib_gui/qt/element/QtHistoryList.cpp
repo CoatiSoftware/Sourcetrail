@@ -152,6 +152,11 @@ void QtHistoryList::showPopup(QPoint pos)
 	show();
 }
 
+void QtHistoryList::closeEvent(QCloseEvent* event)
+{
+	emit closed();
+}
+
 void QtHistoryList::onItemClicked(QListWidgetItem *item)
 {
 	QtHistoryItem* historyItem = dynamic_cast<QtHistoryItem*>(m_list->itemWidget(item));

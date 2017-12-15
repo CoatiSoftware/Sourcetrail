@@ -256,7 +256,7 @@ std::string QtBookmark::getDateString() const
 	{
 		result = "today";
 	}
-	else if (creationDate.deltaDays(now) == 1) // yesterday
+	else if (now.deltaDays(creationDate) == 1) // yesterday
 	{
 		result = "yesterday";
 	}

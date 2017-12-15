@@ -31,7 +31,7 @@ public:
 
 	// days are counted beginning at 00:00, so a tp of 1.1.2017 23:59 is 1 day ago if it's the 2.1.2017 00:01
 	size_t deltaDays(const TimeStamp& other) const;
-	long deltaHours(const TimeStamp& other) const;
+	size_t deltaHours(const TimeStamp& other) const;
 
 private:
 	boost::posix_time::ptime m_time;
