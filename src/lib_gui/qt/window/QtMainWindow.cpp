@@ -641,7 +641,14 @@ void QtMainWindow::closeWindow()
 
 void QtMainWindow::refresh()
 {
-	MessageRefresh().dispatch();
+	if (Qt::KeyboardModifier::AltModifier & QApplication::keyboardModifiers())
+	{
+		MessageRefresh().refreshUiOnly().dispatch();
+	}
+	else
+	{
+		MessageRefresh().dispatch();
+	}
 }
 
 void QtMainWindow::forceRefresh()

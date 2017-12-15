@@ -293,13 +293,13 @@ void Application::handleMessage(MessageRefresh* message)
 {
 	TRACE("app refresh");
 
-	if (message->loadStyle)
+	if (m_hasGUI && message->uiOnly)
 	{
-		loadStyle(ApplicationSettings::getInstance()->getColorSchemePath());
-	}
+		if (message->loadStyle)
+		{
+			loadStyle(ApplicationSettings::getInstance()->getColorSchemePath());
+		}
 
-	if (m_hasGUI)
-	{
 		m_mainView->refreshView();
 		m_componentManager->refreshViews();
 	}
