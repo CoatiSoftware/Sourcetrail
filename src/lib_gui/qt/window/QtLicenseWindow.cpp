@@ -217,8 +217,10 @@ void QtLicenseWindow::handleNext()
 					m_confirmWindow->hideWindow();
 					raise();
 
-					ApplicationSettings::getInstance()->setNonCommercialUse(true);
-					ApplicationSettings::getInstance()->save();
+					ApplicationSettings* appSettings = ApplicationSettings::getInstance().get();
+					appSettings->setLicenseString("");
+					appSettings->setNonCommercialUse(true);
+					appSettings->save();
 
 					emit finished();
 				}
