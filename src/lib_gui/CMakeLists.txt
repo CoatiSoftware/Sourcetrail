@@ -22,6 +22,8 @@ add_files(
 	qt/element/QtCodeFileList.h
 	qt/element/QtCodeFileSingle.cpp
 	qt/element/QtCodeFileSingle.h
+	qt/element/QtCodeFileTitleBar.cpp
+	qt/element/QtCodeFileTitleBar.h
 	qt/element/QtCodeFileTitleButton.cpp
 	qt/element/QtCodeFileTitleButton.h
 	qt/element/QtCodeNavigateable.cpp

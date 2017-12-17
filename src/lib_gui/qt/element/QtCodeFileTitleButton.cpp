@@ -126,6 +126,21 @@ void QtCodeFileTitleButton::updateTexts()
 	setToolTip(toolTip.c_str());
 }
 
+void QtCodeFileTitleButton::updateFromOther(const QtCodeFileTitleButton* other)
+{
+	if (!other->m_filePath.empty())
+	{
+		setFilePath(other->m_filePath);
+	}
+	else
+	{
+		setProject(other->text().toStdString());
+	}
+
+	setModificationTime(other->m_modificationTime);
+	setIsComplete(other->m_isComplete);
+}
+
 void QtCodeFileTitleButton::contextMenuEvent(QContextMenuEvent* event)
 {
 	FilePath path = m_filePath;

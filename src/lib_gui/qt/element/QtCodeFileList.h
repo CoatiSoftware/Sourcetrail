@@ -11,11 +11,12 @@
 #include "qt/utility/QtScrollSpeedChangeListener.h"
 
 class QtCodeFile;
+class QtCodeFileTitleBar;
 class QtCodeNavigator;
 class QtCodeSnippet;
 
 class QtCodeFileList
-	: public QScrollArea
+	: public QFrame
 	, public QtCodeNavigateable
 {
 	Q_OBJECT
@@ -35,7 +36,7 @@ public:
 	virtual void addCodeSnippet(const CodeSnippetParams& params);
 
 	virtual void requestFileContent(const FilePath& filePath);
-	virtual bool requestScroll(const FilePath& filePath, uint lineNumber, Id locationId, bool animated, bool onTop);
+	virtual bool requestScroll(const FilePath& filePath, uint lineNumber, Id locationId, bool animated, ScrollTarget target);
 
 	virtual void updateFiles();
 	virtual void showContents();
@@ -50,11 +51,29 @@ public:
 
 	std::pair<QtCodeSnippet*, Id> getFirstSnippetWithActiveLocationId(Id tokenId) const;
 
+protected:
+	virtual void resizeEvent(QResizeEvent* event);
+
+private slots:
+	void updateSnippetTitleAndScrollBar(int value = 0);
+	void scrollLastSnippet(int value);
+	void scrollLastSnippetScrollBar(int value);
+
 private:
+	void updateFirstSnippetTitleBar(const QtCodeFile* file, int fileTitleBarOffset = 0);
+	void updateLastSnippetScrollBar(QScrollBar* mirroredScrollBar);
+
 	QtCodeNavigator* m_navigator;
+	QScrollArea* m_scrollArea;
 	QFrame* m_filesArea;
 
 	std::vector<QtCodeFile*> m_files;
+
+	QtCodeFileTitleBar* m_firstSnippetTitleBar;
+	const QtCodeFileTitleBar* m_mirroredTitleBar;
+
+	QScrollBar* m_lastSnippetScrollBar;
+	QScrollBar* m_mirroredSnippetScrollBar;
 
 	QtScrollSpeedChangeListener m_scrollSpeedChangeListener;
 };

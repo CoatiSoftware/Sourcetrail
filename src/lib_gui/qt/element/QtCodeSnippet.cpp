@@ -203,7 +203,7 @@ void QtCodeSnippet::clickedTitle()
 		getFile()->clickedMaximizeButton();
 	}
 
-	m_navigator->requestScroll(getFile()->getFilePath(), getStartLineNumber(), 0, true, false);
+	m_navigator->requestScroll(getFile()->getFilePath(), getStartLineNumber(), 0, true, QtCodeNavigateable::SCROLL_CENTER);
 }
 
 void QtCodeSnippet::clickedFooter()
@@ -212,7 +212,7 @@ void QtCodeSnippet::clickedFooter()
 	{
 		MessageShowScope(m_footerId, m_navigator->hasErrors()).dispatch();
 
-		m_navigator->requestScroll(getFile()->getFilePath(), getEndLineNumber(), 0, true, false);
+		m_navigator->requestScroll(getFile()->getFilePath(), getEndLineNumber(), 0, true, QtCodeNavigateable::SCROLL_CENTER);
 	}
 }
 

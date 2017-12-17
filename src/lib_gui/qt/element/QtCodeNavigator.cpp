@@ -451,7 +451,7 @@ void QtCodeNavigator::showActiveSnippet(
 	{
 		if (scrollTo)
 		{
-			requestScroll(firstReference.filePath, 0, firstReference.locationId, true, false);
+			requestScroll(firstReference.filePath, 0, firstReference.locationId, true, QtCodeNavigateable::SCROLL_CENTER);
 			emit scrollRequest();
 		}
 
@@ -569,7 +569,8 @@ void QtCodeNavigator::activateScreenMatch(size_t matchIndex)
 	m_currentActiveLocationIds.insert(m_activeScreenMatchId);
 	p.first->updateContent();
 
-	requestScroll(p.first->getSourceLocationFile()->getFilePath(), 0, m_activeScreenMatchId, true, false);
+	requestScroll(
+		p.first->getSourceLocationFile()->getFilePath(), 0, m_activeScreenMatchId, true, QtCodeNavigateable::SCROLL_CENTER);
 	emit scrollRequest();
 }
 
@@ -614,7 +615,7 @@ void QtCodeNavigator::scrollToValue(int value, bool inListMode)
 
 void QtCodeNavigator::scrollToLine(const FilePath& filePath, unsigned int line)
 {
-	requestScroll(filePath, line, 0, false, false);
+	requestScroll(filePath, line, 0, false, QtCodeNavigateable::SCROLL_CENTER);
 	emit scrollRequest();
 }
 
@@ -634,7 +635,7 @@ void QtCodeNavigator::scrollToDefinition(bool animated, bool ignoreActiveReferen
 			m_list->requestFileContent(m_activeReference.filePath);
 		}
 
-		requestScroll(m_activeReference.filePath, 0, m_activeReference.locationId, true, false);
+		requestScroll(m_activeReference.filePath, 0, m_activeReference.locationId, true, QtCodeNavigateable::SCROLL_CENTER);
 		emit scrollRequest();
 
 		updateRefLabel();
@@ -651,7 +652,8 @@ void QtCodeNavigator::scrollToDefinition(bool animated, bool ignoreActiveReferen
 	{
 		if (m_references.size() && m_references.front().locationType != LOCATION_TOKEN)
 		{
-			requestScroll(m_references.front().filePath, 0, m_references.front().locationId, false, false);
+			requestScroll(
+				m_references.front().filePath, 0, m_references.front().locationId, false, QtCodeNavigateable::SCROLL_CENTER);
 			emit scrollRequest();
 		}
 		return;
@@ -662,7 +664,8 @@ void QtCodeNavigator::scrollToDefinition(bool animated, bool ignoreActiveReferen
 		std::pair<QtCodeSnippet*, Id> result = m_list->getFirstSnippetWithActiveLocationId(m_activeTokenId);
 		if (result.first != nullptr)
 		{
-			requestScroll(result.first->getFile()->getFilePath(), 0, result.second, animated, false);
+			requestScroll(
+				result.first->getFile()->getFilePath(), 0, result.second, animated, QtCodeNavigateable::SCROLL_CENTER);
 			emit scrollRequest();
 			return;
 		}
@@ -672,7 +675,7 @@ void QtCodeNavigator::scrollToDefinition(bool animated, bool ignoreActiveReferen
 		Id locationId = m_single->getLocationIdOfFirstActiveLocationOfTokenId(m_activeTokenId);
 		if (locationId)
 		{
-			requestScroll(m_single->getCurrentFilePath(), 0, locationId, true, false);
+			requestScroll(m_single->getCurrentFilePath(), 0, locationId, true, QtCodeNavigateable::SCROLL_CENTER);
 			emit scrollRequest();
 			return;
 		}
@@ -681,7 +684,7 @@ void QtCodeNavigator::scrollToDefinition(bool animated, bool ignoreActiveReferen
 	if (m_references.size())
 	{
 		m_current->requestFileContent(m_references.front().filePath);
-		requestScroll(m_references.front().filePath, 0, m_references.front().locationId, false, false);
+		requestScroll(m_references.front().filePath, 0, m_references.front().locationId, false, QtCodeNavigateable::SCROLL_CENTER);
 		emit scrollRequest();
 	}
 }
@@ -691,14 +694,15 @@ void QtCodeNavigator::scrollToSnippetIfRequested()
 	emit scrollRequest();
 }
 
-void QtCodeNavigator::requestScroll(const FilePath& filePath, uint lineNumber, Id locationId, bool animated, bool onTop)
+void QtCodeNavigator::requestScroll(
+	const FilePath& filePath, uint lineNumber, Id locationId, bool animated, QtCodeNavigateable::ScrollTarget target)
 {
 	ScrollRequest req;
 	req.filePath = filePath;
 	req.lineNumber = lineNumber;
 	req.locationId = locationId;
 	req.animated = animated;
-	req.onTop = onTop;
+	req.target = target;
 
 	if (m_mode == MODE_SINGLE)
 	{
@@ -709,9 +713,9 @@ void QtCodeNavigator::requestScroll(const FilePath& filePath, uint lineNumber, I
 	}
 
 	// std::cout << "scroll request: " << req.filePath.str() << " " << req.lineNumber << " " << req.locationId;
-	// std::cout << " " << req.animated << " " << req.onTop << std::endl;
+	// std::cout << " " << req.animated << " " << req.target << std::endl;
 
-	if ((!m_scrollRequest.lineNumber || !m_scrollRequest.locationId) && (req.lineNumber || req.locationId))
+	if ((!m_scrollRequest.lineNumber || !m_scrollRequest.locationId) && !req.filePath.empty())
 	{
 		m_scrollRequest = req;
 	}
@@ -727,7 +731,10 @@ void QtCodeNavigator::handleScrollRequest()
 		return;
 	}
 
-	bool done = m_current->requestScroll(req.filePath, req.lineNumber, req.locationId, req.animated, req.onTop);
+	// std::cout << "handle scroll request: " << req.filePath.str() << " " << req.lineNumber << " " << req.locationId;
+	// std::cout << " " << req.animated << " " << req.target << std::endl;
+
+	bool done = m_current->requestScroll(req.filePath, req.lineNumber, req.locationId, req.animated, req.target);
 	if (done)
 	{
 		m_scrollRequest = ScrollRequest();
@@ -907,7 +914,7 @@ void QtCodeNavigator::handleMessage(MessageShowReference* message)
 				setCurrentActiveLocationIds(std::vector<Id>(1, ref.locationId));
 				updateFiles();
 
-				requestScroll(ref.filePath, 0, ref.locationId, true, false);
+				requestScroll(ref.filePath, 0, ref.locationId, true, QtCodeNavigateable::SCROLL_CENTER);
 				emit scrollRequest();
 
 				if (ref.locationType == LOCATION_ERROR)

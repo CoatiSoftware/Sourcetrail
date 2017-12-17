@@ -94,14 +94,19 @@
 	padding-bottom: 7px;
 }
 
-#code_file #title_widget {
+#title_widget {
 	background-color: <color:code/file/background>;
 	border-top-left-radius: 7px;
 	border-top-right-radius: 7px;
 	font-size: <setting:font_size>px;
 }
 
-#code_file #title_label, #single_file_title_bar #file_title {
+#title_widget[hovering=true] {
+	border-top-left-radius: 0px;
+	border-top-right-radius: 0px;
+}
+
+#title_label, #single_file_title_bar #file_title {
 	background-color: <color:code/file/title/normal>;
 	border: none;
 	border-radius: 3px;
@@ -110,7 +115,7 @@
 	padding: 2px 4px;
 }
 
-#code_file #title_label {
+#title_label {
 	margin: 1px 8px;
 }
 
@@ -118,19 +123,19 @@
 	margin: 3px 8px;
 }
 
-#code_file #title_label:hover, #single_file_title_bar #file_title:hover {
+#title_label:hover, #single_file_title_bar #file_title:hover {
 	background-color: <color:code/file/title/hover>;
 }
 
-#code_file #title_label:pressed, #single_file_title_bar #file_title:pressed {
+#title_label:pressed, #single_file_title_bar #file_title:pressed {
 	background-color: <color:code/file/title/press>;
 }
 
-#code_file #title_label[complete=false], #single_file_title_bar #file_title[complete=false] {
+#title_label[complete=false], #single_file_title_bar #file_title[complete=false] {
 	border: 1px solid <color:code/file/title/border>;
 }
 
-#code_file #references_label, #single_file_title_bar #references_label {
+#references_label, #single_file_title_bar #references_label {
 	background-color: <color:code/file/ref_count/background>;
 	border: none;
 	border-radius: 10px;
@@ -178,13 +183,13 @@
 }
 
 #code_area {
-	background-color: transparent;
+	background-color: <color:code/snippet/background>;
 	color: <color:code/snippet/syntax/normal>;
 	selection-color: <color:code/snippet/selection/text>;
 	selection-background-color: <color:code/snippet/selection/background>;
 }
 
-#code_file #file_button {
+#title_widget #file_button {
 	background: transparent;
 	border: none;
 	margin: 3px;
@@ -192,11 +197,15 @@
 	max-width: 16px;
 }
 
-#code_file #file_button:enabled {
+#title_widget #file_button:enabled {
 	border-image: url(<setting:gui_path>code_view/images/button_background.png);
 }
 
 #single_file_title_bar {
 	background-color: <color:code/file/background>;
 	padding-right: 5px;
+}
+
+#last_scroll_bar {
+	background-color: <color:code/snippet/background>;
 }

@@ -22,6 +22,8 @@ public:
 
 	void updateTexts();
 
+	void updateFromOther(const QtCodeFileTitleButton* other);
+
 protected:
 	void contextMenuEvent(QContextMenuEvent* event);
 

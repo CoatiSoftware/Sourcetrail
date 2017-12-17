@@ -166,7 +166,8 @@ void QtCodeFileSingle::requestFileContent(const FilePath& filePath)
 	).dispatch();
 }
 
-bool QtCodeFileSingle::requestScroll(const FilePath& filePath, uint lineNumber, Id locationId, bool animated, bool onTop)
+bool QtCodeFileSingle::requestScroll(
+	const FilePath& filePath, uint lineNumber, Id locationId, bool animated, ScrollTarget target)
 {
 	FileData file = getFileData(filePath);
 	if (file.area)
@@ -207,7 +208,7 @@ bool QtCodeFileSingle::requestScroll(const FilePath& filePath, uint lineNumber, 
 	double percentA = double(lineNumber - 1) / m_area->getEndLineNumber();
 	double percentB = endLineNumber ? double(endLineNumber - 1) / m_area->getEndLineNumber() : 0.0f;
 
-	ensurePercentVisibleAnimated(percentA, percentB, animated, onTop);
+	ensurePercentVisibleAnimated(percentA, percentB, animated, target);
 
 	m_scrollRequested = true;
 

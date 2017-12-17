@@ -10,12 +10,20 @@
 class FilePath;
 class QRectF;
 class QAbstractScrollArea;
+class QRect;
 class QtCodeArea;
 class QWidget;
 
 class QtCodeNavigateable
 {
 public:
+	enum ScrollTarget
+	{
+		SCROLL_VISIBLE,
+		SCROLL_CENTER,
+		SCROLL_TOP
+	};
+
 	virtual ~QtCodeNavigateable();
 
 	virtual QAbstractScrollArea* getScrollArea() = 0;
@@ -23,7 +31,7 @@ public:
 	virtual void addCodeSnippet(const CodeSnippetParams& params) = 0;
 
 	virtual void requestFileContent(const FilePath& filePath) = 0;
-	virtual bool requestScroll(const FilePath& filePath, uint lineNumber, Id locationId, bool animated, bool onTop) = 0;
+	virtual bool requestScroll(const FilePath& filePath, uint lineNumber, Id locationId, bool animated, ScrollTarget target) = 0;
 
 	virtual void updateFiles() = 0;
 	virtual void showContents() = 0;
@@ -33,8 +41,10 @@ public:
 	virtual void findScreenMatches(const std::string& query, std::vector<std::pair<QtCodeArea*, Id>>* screenMatches) = 0;
 
 protected:
-	void ensureWidgetVisibleAnimated(QWidget* parentWidget, QWidget *childWidget, QRectF rect, bool animated, bool onTop);
-	void ensurePercentVisibleAnimated(double percentA, double percentB, bool animated, bool onTop);
+	void ensureWidgetVisibleAnimated(const QWidget* parentWidget, const QWidget *childWidget, QRectF rect, bool animated, ScrollTarget target);
+	void ensurePercentVisibleAnimated(double percentA, double percentB, bool animated, ScrollTarget target);
+
+	QRect getFocusRectForWidget(const QWidget* childWidget, const QWidget* parentWidget) const;
 };
 
 #endif // QT_CODE_NAVIGATEABLE_H

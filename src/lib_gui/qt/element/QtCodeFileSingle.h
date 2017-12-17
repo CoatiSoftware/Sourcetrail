@@ -36,14 +36,16 @@ public:
 	virtual void addCodeSnippet(const CodeSnippetParams& params) override;
 
 	virtual void requestFileContent(const FilePath& filePath) override;
-	virtual bool requestScroll(const FilePath& filePath, uint lineNumber, Id locationId, bool animated, bool onTop) override;
+	virtual bool requestScroll(
+		const FilePath& filePath, uint lineNumber, Id locationId, bool animated, ScrollTarget target) override;
 
 	virtual void updateFiles() override;
 	virtual void showContents() override;
 
 	virtual void onWindowFocus() override;
 
-	virtual void findScreenMatches(const std::string& query, std::vector<std::pair<QtCodeArea*, Id>>* screenMatches) override;
+	virtual void findScreenMatches(
+		const std::string& query, std::vector<std::pair<QtCodeArea*, Id>>* screenMatches) override;
 
 	const FilePath& getCurrentFilePath() const;
 	bool hasFileCached(const FilePath& filePath) const;

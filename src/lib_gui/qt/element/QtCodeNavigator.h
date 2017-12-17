@@ -94,7 +94,8 @@ public:
 
 	void scrollToSnippetIfRequested();
 
-	void requestScroll(const FilePath& filePath, uint lineNumber, Id locationId, bool animated, bool onTop);
+	void requestScroll(
+		const FilePath& filePath, uint lineNumber, Id locationId, bool animated, QtCodeNavigateable::ScrollTarget target);
 
 signals:
 	void scrollRequest();
@@ -146,7 +147,7 @@ private:
 			: lineNumber(0)
 			, locationId(0)
 			, animated(false)
-			, onTop(false)
+			, target(QtCodeNavigateable::SCROLL_VISIBLE)
 		{
 		}
 
@@ -155,7 +156,7 @@ private:
 		Id locationId;
 
 		bool animated;
-		bool onTop;
+		QtCodeNavigateable::ScrollTarget target;
 	};
 
 	void handleMessage(MessageCodeReference* message);

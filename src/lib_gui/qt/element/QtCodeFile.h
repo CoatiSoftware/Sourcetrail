@@ -10,12 +10,9 @@
 #include "utility/file/FilePath.h"
 
 #include "component/view/helper/CodeSnippetParams.h"
-#include "qt/element/QtIconButton.h"
 
-class QLabel;
-class QPushButton;
 class QtCodeArea;
-class QtCodeFileTitleButton;
+class QtCodeFileTitleBar;
 class QtCodeNavigator;
 class QtCodeSnippet;
 class QVBoxLayout;
@@ -35,9 +32,12 @@ public:
 	const FilePath& getFilePath() const;
 	std::string getFileName() const;
 
+	const QtCodeFileTitleBar* getTitleBar() const;
+
 	QtCodeSnippet* addCodeSnippet(const CodeSnippetParams& params);
 	QtCodeSnippet* insertCodeSnippet(const CodeSnippetParams& params);
 
+	std::vector<QtCodeSnippet*> getVisibleSnippets() const;
 	QtCodeSnippet* getSnippetForLocationId(Id locationId) const;
 	QtCodeSnippet* getSnippetForLine(unsigned int line) const;
 	QtCodeSnippet* getFileSnippet() const;
@@ -67,33 +67,19 @@ public slots:
 	void clickedSnippetButton();
 	void clickedMaximizeButton();
 
-	void enteredTitleBar(QPushButton* button);
-	void leftTitleBar(QPushButton* button);
-
-private slots:
-	void clickedTitleBar();
-
 private:
 	void updateRefCount(int refCount);
 
 	QtCodeNavigator* m_navigator;
 
-	QPushButton* m_titleBar;
-	QtCodeFileTitleButton* m_title;
-	QLabel* m_referenceCount;
-
-	QtIconStateButton* m_minimizeButton;
-	QtIconStateButton* m_snippetButton;
-	QtIconStateButton* m_maximizeButton;
+	QtCodeFileTitleBar* m_titleBar;
 
 	QVBoxLayout* m_snippetLayout;
 	std::vector<std::shared_ptr<QtCodeSnippet>> m_snippets;
 	std::shared_ptr<QtCodeSnippet> m_fileSnippet;
 
 	const FilePath m_filePath;
-
 	bool m_isWholeFile;
-	bool m_isCollapsed;
 
 	mutable bool m_contentRequested;
 };
