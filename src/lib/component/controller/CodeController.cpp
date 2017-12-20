@@ -31,6 +31,7 @@ void CodeController::handleMessage(MessageActivateAll* message)
 {
 	TRACE("code all");
 
+	saveOrRestoreViewMode(message);
 	clear();
 
 	Project* currentProject = Application::getInstance()->getCurrentProject().get();
@@ -107,6 +108,8 @@ void CodeController::handleMessage(MessageActivateTokens* message)
 {
 	TRACE("code activate");
 
+	saveOrRestoreViewMode(message);
+
 	CodeView* view = getView();
 
 	CodeView::CodeParams params;
@@ -180,6 +183,8 @@ void CodeController::handleMessage(MessageActivateTrailEdge* message)
 {
 	TRACE("trail edge activate");
 
+	saveOrRestoreViewMode(message);
+
 	CodeView::ScrollParams scrollParams(CodeView::ScrollParams::SCROLL_TO_DEFINITION);
 	getView()->scrollTo(scrollParams);
 
@@ -197,14 +202,6 @@ void CodeController::handleMessage(MessageChangeFileView* message)
 {
 	TRACE("code change file");
 
-	if (!m_collection)
-	{
-		return;
-	}
-
-	CodeView* view = getView();
-	bool inListMode = view->isInListMode();
-
 	CodeView::FileState state;
 	switch (message->state)
 	{
@@ -219,13 +216,15 @@ void CodeController::handleMessage(MessageChangeFileView* message)
 	case MessageChangeFileView::FILE_MAXIMIZED:
 		state = CodeView::FILE_MAXIMIZED;
 		break;
-
-	case MessageChangeFileView::FILE_DEFAULT_FOR_MODE:
-		state = inListMode ? CodeView::FILE_SNIPPETS : CodeView::FILE_MAXIMIZED;
-		break;
 	}
 
-	if (message->needsData)
+	CodeView* view = getView();
+	if (message->viewMode != MessageChangeFileView::VIEW_CURRENT)
+	{
+		view->setMode(message->viewMode == MessageChangeFileView::VIEW_LIST);
+	}
+
+	if (message->needsData && !message->filePath.empty())
 	{
 		CodeView::CodeParams params;
 		view->showCodeSnippets(getSnippetsForFileWithState(message->filePath, state, !message->showErrors), params);
@@ -302,6 +301,8 @@ void CodeController::handleMessage(MessageShowErrors* message)
 {
 	TRACE("code errors");
 
+	saveOrRestoreViewMode(message);
+
 	CodeView* view = getView();
 	if (!view->showsErrors() || !message->errorId)
 	{
@@ -336,6 +337,8 @@ void CodeController::handleMessage(MessageShowErrors* message)
 void CodeController::handleMessage(MessageSearchFullText* message)
 {
 	TRACE("code fulltext");
+
+	saveOrRestoreViewMode(message);
 
 	m_collection = m_storageAccess->getFullTextSearchLocations(message->searchTerm, message->caseSensitive);
 
@@ -890,5 +893,21 @@ void CodeController::addActiveSourceLocations(std::shared_ptr<SourceLocationFile
 				locationFile->addSourceLocationCopy(location);
 			}
 		);
+	}
+}
+
+void CodeController::saveOrRestoreViewMode(MessageBase* message)
+{
+	if (message->isReplayed())
+	{
+		auto it = m_messageIdToViewModeMap.find(message->getId());
+		if (it != m_messageIdToViewModeMap.end())
+		{
+			getView()->setMode(it->second);
+		}
+	}
+	else
+	{
+		m_messageIdToViewModeMap.emplace(message->getId(), getView()->isInListMode());
 	}
 }

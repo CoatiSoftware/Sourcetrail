@@ -46,6 +46,8 @@ public:
 	virtual void showContents();
 
 	virtual bool isInListMode() const;
+	virtual void setMode(bool listMode);
+
 	virtual bool hasSingleFileCached(const FilePath& filePath) const;
 
 private:

@@ -146,10 +146,9 @@ void QtCodeView::showCodeSnippets(const std::vector<CodeSnippetParams>& snippets
 			m_widget->addedFiles();
 		}
 
-		m_widget->updateFiles();
-
 		if (params.showContents)
 		{
+			m_widget->updateFiles();
 			m_widget->showContents();
 			performScroll();
 		}
@@ -231,6 +230,7 @@ void QtCodeView::showContents()
 	m_onQtThread([=]()
 	{
 		TRACE("show contents");
+		m_widget->updateFiles();
 		m_widget->showContents();
 		performScroll();
 	});
@@ -239,6 +239,19 @@ void QtCodeView::showContents()
 bool QtCodeView::isInListMode() const
 {
 	return m_widget->isInListMode();
+}
+
+void QtCodeView::setMode(bool listMode)
+{
+	if (isInListMode() == listMode)
+	{
+		return;
+	}
+
+	m_onQtThread([=]()
+	{
+		m_widget->setMode(listMode ? QtCodeNavigator::MODE_LIST : QtCodeNavigator::MODE_SINGLE);
+	});
 }
 
 bool QtCodeView::hasSingleFileCached(const FilePath& filePath) const

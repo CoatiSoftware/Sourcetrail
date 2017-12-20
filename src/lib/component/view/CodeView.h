@@ -94,6 +94,8 @@ public:
 	virtual void showContents() = 0;
 
 	virtual bool isInListMode() const = 0;
+	virtual void setMode(bool listMode) = 0;
+
 	virtual bool hasSingleFileCached(const FilePath& filePath) const = 0;
 
 private:

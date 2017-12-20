@@ -15,7 +15,7 @@ QtCodeFileTitleButton::QtCodeFileTitleButton(QWidget* parent)
 	: QPushButton(parent)
 	, m_isComplete(true)
 {
-	setObjectName("title_label");
+	setObjectName("title_button");
 	minimumSizeHint(); // force font loading
 	setAttribute(Qt::WA_LayoutUsesWidgetRect); // fixes layouting on Mac
 
@@ -35,18 +35,16 @@ void QtCodeFileTitleButton::setFilePath(const FilePath& filePath)
 {
 	setEnabled(true);
 
+	if (m_filePath.empty())
+	{
+		std::string text = ResourcePaths::getGuiPath().str() + "code_view/images/file.png";
+		setIcon(utility::colorizePixmap(
+			QPixmap(text.c_str()),
+			ColorScheme::getInstance()->getColor("code/file/title/icon").c_str()
+		));
+	}
+
 	m_filePath = filePath;
-	setText("");
-
-	setText(filePath.fileName().c_str());
-	setToolTip(filePath.str().c_str());
-
-	std::string text = ResourcePaths::getGuiPath().str() + "code_view/images/file.png";
-
-	setIcon(utility::colorizePixmap(
-		QPixmap(text.c_str()),
-		ColorScheme::getInstance()->getColor("code/file/title/icon").c_str()
-	));
 }
 
 void QtCodeFileTitleButton::setModificationTime(const TimeStamp modificationTime)
@@ -54,7 +52,6 @@ void QtCodeFileTitleButton::setModificationTime(const TimeStamp modificationTime
 	if (modificationTime.isValid())
 	{
 		m_modificationTime = modificationTime;
-		updateTexts();
 	}
 }
 
@@ -75,24 +72,23 @@ void QtCodeFileTitleButton::setIsComplete(bool isComplete)
 		);
 
 		setStyleSheet((
-			"#title_label, #file_title { background-image: url(" + hatchingFilePath.str() + "); }"
+			"#title_button { background-image: url(" + hatchingFilePath.str() + "); }"
 		).c_str());
 	}
 	else
 	{
 		setStyleSheet("");
 	}
-
-	updateTexts();
 }
 
 void QtCodeFileTitleButton::setProject(const std::string& name)
 {
-	setText(name.c_str());
 	m_filePath = FilePath();
 
-	std::string text = ResourcePaths::getGuiPath().str() + "code_view/images/edit.png";
+	setText(name.c_str());
 	setToolTip("edit project");
+
+	std::string text = ResourcePaths::getGuiPath().str() + "code_view/images/edit.png";
 
 	setIcon(utility::colorizePixmap(
 		QPixmap(text.c_str()),
@@ -139,6 +135,7 @@ void QtCodeFileTitleButton::updateFromOther(const QtCodeFileTitleButton* other)
 
 	setModificationTime(other->m_modificationTime);
 	setIsComplete(other->m_isComplete);
+	updateTexts();
 }
 
 void QtCodeFileTitleButton::contextMenuEvent(QContextMenuEvent* event)

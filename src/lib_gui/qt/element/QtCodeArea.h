@@ -79,7 +79,7 @@ public:
 	Id getLocationIdOfFirstActiveLocation(Id tokenId) const;
 	Id getLocationIdOfFirstActiveScopeLocation(Id tokenId) const;
 
-	uint getActiveLocationCount() const;
+	size_t getActiveLocationCount() const;
 
 	QRectF getLineRectForLineNumber(uint lineNumber) const;
 

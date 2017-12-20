@@ -347,7 +347,7 @@ Id QtCodeArea::getLocationIdOfFirstActiveScopeLocation(Id tokenId) const
 	return 0;
 }
 
-uint QtCodeArea::getActiveLocationCount() const
+size_t QtCodeArea::getActiveLocationCount() const
 {
 	uint count = 0;
 
@@ -356,6 +356,18 @@ uint QtCodeArea::getActiveLocationCount() const
 		if (annotation.locationType == LocationType::LOCATION_TOKEN && (annotation.isActive || annotation.isFocused))
 		{
 			count++;
+		}
+	}
+
+	if (!count)
+	{
+		for (const Annotation& annotation : m_annotations)
+		{
+			if (annotation.locationType == LocationType::LOCATION_FULLTEXT_SEARCH ||
+				annotation.locationType == LocationType::LOCATION_ERROR)
+			{
+				count++;
+			}
 		}
 	}
 

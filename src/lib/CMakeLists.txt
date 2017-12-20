@@ -454,6 +454,7 @@ add_files(
 	utility/messaging/type/MessageZoom.h
 
 	utility/messaging/Message.h
+	utility/messaging/MessageBase.cpp
 	utility/messaging/MessageBase.h
 	utility/messaging/MessageFilter.h
 	utility/messaging/MessageInterruptTasksCounter.cpp

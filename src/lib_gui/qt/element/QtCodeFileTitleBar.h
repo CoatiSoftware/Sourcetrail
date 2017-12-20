@@ -19,15 +19,15 @@ signals:
 	void maximize();
 
 public:
-	QtCodeFileTitleBar(QWidget* parent = nullptr, bool isHovering = false);
+	QtCodeFileTitleBar(QWidget* parent = nullptr, bool isHovering = false, bool isSingle = false);
 
 	QtCodeFileTitleButton* getTitleButton() const;
 
-	void setRefString(const QString& refString);
+	void updateRefCount(int refCount, bool hasErrors, size_t fatalErrorCount);
 
-	void setMinimized(bool hasSnippets);
+	void setMinimized();
 	void setSnippets();
-	void setMaximized(bool hasSnippets);
+	void setMaximized();
 
 	void updateFromOther(const QtCodeFileTitleBar* other);
 

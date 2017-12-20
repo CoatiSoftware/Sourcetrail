@@ -108,7 +108,8 @@ void UndoRedoController::handleMessage(MessageActivateTrailEdge* message)
 
 void UndoRedoController::handleMessage(MessageChangeFileView* message)
 {
-	Command command(std::make_shared<MessageChangeFileView>(*message), Command::ORDER_VIEW);
+	Command command(std::make_shared<MessageChangeFileView>(*message),
+		message->switchesViewMode ? Command::ORDER_ADAPT : Command::ORDER_VIEW);
 	processCommand(command);
 }
 

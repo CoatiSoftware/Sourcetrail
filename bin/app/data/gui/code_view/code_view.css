@@ -94,48 +94,49 @@
 	padding-bottom: 7px;
 }
 
-#title_widget {
+#title_bar, #title_bar_single {
 	background-color: <color:code/file/background>;
+	font-size: <setting:font_size>px;
+	border: none;
+}
+
+#title_bar[hovering=false] {
 	border-top-left-radius: 7px;
 	border-top-right-radius: 7px;
-	font-size: <setting:font_size>px;
 }
 
-#title_widget[hovering=true] {
-	border-top-left-radius: 0px;
-	border-top-right-radius: 0px;
+#title_bar_single {
+	background-color: <color:code/file/background>;
+	padding-right: 5px;
 }
 
-#title_label, #single_file_title_bar #file_title {
+#title_button {
 	background-color: <color:code/file/title/normal>;
 	border: none;
 	border-radius: 3px;
 	color: <color:code/file/title/text>;
 	font-size: <setting:font_size>px;
 	padding: 2px 4px;
-}
-
-#title_label {
 	margin: 1px 8px;
 }
 
-#single_file_title_bar #file_title {
+#title_bar_single #title_button {
 	margin: 3px 8px;
 }
 
-#title_label:hover, #single_file_title_bar #file_title:hover {
+#title_button:hover {
 	background-color: <color:code/file/title/hover>;
 }
 
-#title_label:pressed, #single_file_title_bar #file_title:pressed {
+#title_button:pressed {
 	background-color: <color:code/file/title/press>;
 }
 
-#title_label[complete=false], #single_file_title_bar #file_title[complete=false] {
+#title_button[complete=false] {
 	border: 1px solid <color:code/file/title/border>;
 }
 
-#references_label, #single_file_title_bar #references_label {
+#references_label {
 	background-color: <color:code/file/ref_count/background>;
 	border: none;
 	border-radius: 10px;
@@ -189,7 +190,7 @@
 	selection-background-color: <color:code/snippet/selection/background>;
 }
 
-#title_widget #file_button {
+#title_bar #file_button, #title_bar_single #file_button {
 	background: transparent;
 	border: none;
 	margin: 3px;
@@ -197,13 +198,8 @@
 	max-width: 16px;
 }
 
-#title_widget #file_button:enabled {
+#title_bar #file_button:enabled, #title_bar_single #file_button:enabled {
 	border-image: url(<setting:gui_path>code_view/images/button_background.png);
-}
-
-#single_file_title_bar {
-	background-color: <color:code/file/background>;
-	padding-right: 5px;
 }
 
 #last_scroll_bar {

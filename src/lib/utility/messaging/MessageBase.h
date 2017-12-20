@@ -4,11 +4,14 @@
 #include <ostream>
 #include <sstream>
 
+#include "utility/types.h"
+
 class MessageBase
 {
 public:
 	MessageBase()
-		: m_isParallel(false)
+		: m_id(s_nextId++)
+		, m_isParallel(false)
 		, m_isReplayed(false)
 		, m_sendAsTask(true)
 		, m_keepContent(false)
@@ -23,6 +26,11 @@ public:
 
 	virtual std::string getType() const = 0;
 	virtual void dispatch() = 0;
+
+	Id getId() const
+	{
+		return m_id;
+	}
 
 	bool sendAsTask() const
 	{
@@ -95,6 +103,10 @@ public:
 	}
 
 private:
+	static size_t s_nextId;
+
+	Id m_id;
+
 	bool m_isParallel;
 	bool m_isReplayed;
 

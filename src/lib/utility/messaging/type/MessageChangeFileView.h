@@ -12,20 +12,30 @@ public:
 	{
 		FILE_MINIMIZED,
 		FILE_SNIPPETS,
-		FILE_MAXIMIZED,
-		FILE_DEFAULT_FOR_MODE
+		FILE_MAXIMIZED
+	};
+
+	enum ViewMode
+	{
+		VIEW_LIST,
+		VIEW_SINGLE,
+		VIEW_CURRENT
 	};
 
 	MessageChangeFileView(
 		const FilePath& filePath,
 		FileState state,
+		ViewMode viewMode,
 		bool needsData,
-		bool showErrors
+		bool showErrors,
+		bool switchesViewMode = false
 	)
 		: filePath(filePath)
 		, state(state)
+		, viewMode(viewMode)
 		, needsData(needsData)
 		, showErrors(showErrors)
+		, switchesViewMode(switchesViewMode)
 	{
 	}
 
@@ -41,7 +51,13 @@ public:
 		case FILE_MINIMIZED: os << "minimize"; break;
 		case FILE_SNIPPETS: os << "snippets"; break;
 		case FILE_MAXIMIZED: os << "maximize"; break;
-		case FILE_DEFAULT_FOR_MODE: os << "default"; break;
+		}
+
+		switch (viewMode)
+		{
+		case VIEW_LIST: os << ", list"; break;
+		case VIEW_SINGLE: os << ", single"; break;
+		case VIEW_CURRENT: os << ", current"; break;
 		}
 
 		if (needsData)
@@ -50,11 +66,12 @@ public:
 		}
 	}
 
-	FilePath filePath;
-	FileState state;
-
-	bool needsData;
-	bool showErrors;
+	const FilePath filePath;
+	const FileState state;
+	const ViewMode viewMode;
+	const bool needsData;
+	const bool showErrors;
+	const bool switchesViewMode;
 };
 
 #endif // MESSAGE_CHANGE_FILE_VIEW_H

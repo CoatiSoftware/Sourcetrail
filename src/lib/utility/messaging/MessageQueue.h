@@ -24,7 +24,7 @@ public:
 	void registerListener(MessageListenerBase* listener);
 	void unregisterListener(MessageListenerBase* listener);
 
-	MessageListenerBase* getListenerById(const uint id) const;
+	MessageListenerBase* getListenerById(Id listenerId) const;
 
 	void addMessageFilter(std::shared_ptr<MessageFilter> filter);
 

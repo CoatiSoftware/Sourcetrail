@@ -12,6 +12,7 @@
 
 #include "data/location/SourceLocationFile.h"
 #include "qt/element/QtCodeArea.h"
+#include "qt/element/QtCodeFileTitleBar.h"
 #include "qt/element/QtCodeFileTitleButton.h"
 #include "qt/element/QtCodeNavigator.h"
 #include "qt/utility/utilityQt.h"
@@ -28,35 +29,11 @@ QtCodeFileSingle::QtCodeFileSingle(QtCodeNavigator* navigator, QWidget* parent)
 	layout()->setContentsMargins(0, 0, 0, 0);
 	layout()->setSpacing(0);
 
-	{
-		QWidget* titleBar = new QWidget();
-		titleBar->setObjectName("single_file_title_bar");
+	m_titleBar = new QtCodeFileTitleBar(this, false, true);
+	m_titleBar->setObjectName("title_bar_single");
+	layout()->addWidget(m_titleBar);
 
-		QHBoxLayout* titleLayout = new QHBoxLayout();
-		titleLayout->setSpacing(0);
-		titleLayout->setMargin(0);
-
-		m_title = new QtCodeFileTitleButton();
-		m_title->setObjectName("file_title");
-		titleLayout->addWidget(m_title);
-
-		m_title->hide();
-
-		m_referenceCount = new QLabel();
-		m_referenceCount->setObjectName("references_label");
-		m_referenceCount->hide();
-		titleLayout->addWidget(m_referenceCount);
-
-		QPushButton* filler = new QPushButton();
-		filler->setObjectName("file_title");
-		filler->setEnabled(false);
-		titleLayout->addWidget(filler);
-
-		titleLayout->addStretch();
-
-		titleBar->setLayout(titleLayout);
-		layout()->addWidget(titleBar);
-	}
+	connect(m_titleBar, &QtCodeFileTitleBar::snippet, this, &QtCodeFileSingle::clickedSnippetButton);
 
 	m_areaWrapper = new QWidget();
 	m_areaWrapper->setObjectName("code_file_single");
@@ -160,7 +137,8 @@ void QtCodeFileSingle::requestFileContent(const FilePath& filePath)
 
 	MessageChangeFileView(
 		filePath,
-		MessageChangeFileView::FILE_DEFAULT_FOR_MODE,
+		MessageChangeFileView::FILE_MAXIMIZED,
+		MessageChangeFileView::VIEW_SINGLE,
 		true,
 		m_navigator->hasErrors()
 	).dispatch();
@@ -228,12 +206,13 @@ void QtCodeFileSingle::showContents()
 	if (m_area)
 	{
 		m_area->show();
+		updateRefCount(m_area->getActiveLocationCount());
 	}
 }
 
 void QtCodeFileSingle::onWindowFocus()
 {
-	m_title->updateTexts();
+	m_titleBar->getTitleButton()->updateTexts();
 }
 
 void QtCodeFileSingle::findScreenMatches(const std::string& query, std::vector<std::pair<QtCodeArea*, Id>>* screenMatches)
@@ -270,6 +249,20 @@ Id QtCodeFileSingle::getLocationIdOfFirstActiveLocationOfTokenId(Id tokenId) con
 	return m_area->getLocationIdOfFirstActiveLocation(tokenId);
 }
 
+void QtCodeFileSingle::clickedSnippetButton()
+{
+	m_navigator->requestScroll(m_currentFilePath, 0, 0, false, QtCodeNavigateable::SCROLL_TOP);
+
+	MessageChangeFileView(
+		m_currentFilePath,
+		MessageChangeFileView::FILE_SNIPPETS,
+		MessageChangeFileView::VIEW_LIST,
+		true, // TODO: check if data is really needed
+		m_navigator->hasErrors(),
+		true
+	).dispatch();
+}
+
 QtCodeFileSingle::FileData QtCodeFileSingle::getFileData(const FilePath& filePath) const
 {
 	std::map<FilePath, FileData>::const_iterator it = m_fileDatas.find(filePath);
@@ -285,11 +278,6 @@ void QtCodeFileSingle::setFileData(const FileData& file)
 {
 	if (file.area == m_area)
 	{
-		if (m_area)
-		{
-			updateRefCount(m_area->getActiveLocationCount());
-			m_area->updateContent();
-		}
 		return;
 	}
 
@@ -302,6 +290,7 @@ void QtCodeFileSingle::setFileData(const FileData& file)
 
 	m_areaWrapper->layout()->takeAt(0);
 
+	QtCodeFileTitleButton* titleButton = m_titleBar->getTitleButton();
 	if (file.area)
 	{
 		m_area = file.area;
@@ -310,54 +299,40 @@ void QtCodeFileSingle::setFileData(const FileData& file)
 		m_area->updateContent();
 
 		m_currentFilePath = file.filePath;
+		m_titleBar->setMaximized();
 
 		if (file.title.size())
 		{
-			m_title->setProject(file.title);
-			m_title->setIsComplete(true);
+			titleButton->setProject(file.title);
+			titleButton->setIsComplete(true);
 		}
 		else
 		{
-			m_title->setFilePath(file.filePath);
-			m_title->setModificationTime(file.modificationTime);
-			m_title->setIsComplete(file.isComplete);
+			titleButton->setFilePath(file.filePath);
+			titleButton->setModificationTime(file.modificationTime);
+			titleButton->setIsComplete(file.isComplete);
 		}
 
 		updateRefCount(m_area->getActiveLocationCount());
 
-		m_title->show();
+		titleButton->updateTexts();
+		titleButton->show();
 		m_area->show();
 
 		m_scrollRequested = false;
 	}
 	else
 	{
-		m_title->hide();
+		titleButton->hide();
 		updateRefCount(0);
+		m_titleBar->setSnippets();
 	}
 }
 
 void QtCodeFileSingle::updateRefCount(int refCount)
 {
-	if (refCount > 0)
-	{
-		QString label = m_navigator->hasErrors() ? "error" : "reference";
-		if (refCount > 1)
-		{
-			label += "s";
-		}
+	bool hasErrors = m_navigator->hasErrors();
+	size_t fatalErrorCount = hasErrors ? m_navigator->getFatalErrorCountForFile(m_currentFilePath) : 0;
 
-		size_t fatalErrorCount = m_navigator->getFatalErrorCountForFile(m_currentFilePath);
-		if (fatalErrorCount > 0)
-		{
-			label += " (" + QString::number(fatalErrorCount) + " fatal)";
-		}
-
-		m_referenceCount->setText(QString::number(refCount) + " " + label);
-		m_referenceCount->show();
-	}
-	else
-	{
-		m_referenceCount->hide();
-	}
+	m_titleBar->updateRefCount(refCount, hasErrors, fatalErrorCount);
 }

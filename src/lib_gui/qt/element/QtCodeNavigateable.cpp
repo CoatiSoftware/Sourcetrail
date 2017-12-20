@@ -43,15 +43,10 @@ void QtCodeNavigateable::ensureWidgetVisibleAnimated(
 	switch (target)
 	{
 	case SCROLL_VISIBLE:
-		if (focusRect.top() < visibleRect.top())
+		if (focusRect.top() > visibleRect.top() && focusRect.bottom() < visibleRect.bottom())
 		{
-			value = focusRect.top() - visibleRect.top() - 20;
+			return;
 		}
-		else if (focusRect.bottom() > visibleRect.bottom())
-		{
-			value = focusRect.bottom() - visibleRect.bottom() + 20;
-		}
-		break;
 
 	case SCROLL_CENTER:
 		value = focusRect.center().y() - visibleRect.center().y();

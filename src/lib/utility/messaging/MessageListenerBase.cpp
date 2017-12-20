@@ -1,3 +1,3 @@
 #include "utility/messaging/MessageListenerBase.h"
 
-uint MessageListenerBase::s_nextId = 0;
+Id MessageListenerBase::s_nextId = 1;

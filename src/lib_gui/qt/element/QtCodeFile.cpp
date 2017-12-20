@@ -100,7 +100,7 @@ QtCodeSnippet* QtCodeFile::addCodeSnippet(const CodeSnippetParams& params)
 			m_fileSnippet->setIsActiveFile(true);
 		}
 
-		setMaximized();
+		setSnippets();
 		if (params.refCount != -1)
 		{
 			updateRefCount(0);
@@ -140,6 +140,7 @@ QtCodeSnippet* QtCodeFile::insertCodeSnippet(const CodeSnippetParams& params)
 		}
 		else if (s->getStartLineNumber() < start || s->getEndLineNumber() > end)
 		{
+			m_navigator->clearSnippetReferences();
 			snippet = QtCodeSnippet::merged(snippet.get(), s.get(), m_navigator, this);
 		}
 
@@ -256,7 +257,25 @@ void QtCodeFile::requestContent()
 
 	bool needsData = (state == MessageChangeFileView::FILE_MAXIMIZED) ? (getFileSnippet() == nullptr) : (m_snippets.size() == 0);
 
-	MessageChangeFileView(m_filePath, state, needsData, m_navigator->hasErrors()).dispatch();
+	MessageChangeFileView(m_filePath, state, MessageChangeFileView::VIEW_LIST, needsData, m_navigator->hasErrors()).dispatch();
+}
+
+void QtCodeFile::requestWholeFileContent()
+{
+	if (!getFileSnippet())
+	{
+		MessageChangeFileView(
+			m_filePath,
+			MessageChangeFileView::FILE_MAXIMIZED,
+			MessageChangeFileView::VIEW_LIST,
+			true,
+			m_navigator->hasErrors()
+		).dispatch();
+	}
+	else
+	{
+		setSnippets();
+	}
 }
 
 void QtCodeFile::updateContent()
@@ -299,21 +318,28 @@ void QtCodeFile::setMinimized()
 		m_fileSnippet->hide();
 	}
 
-	m_titleBar->setMinimized(!m_isWholeFile);
+	m_titleBar->setMinimized();
 
-	setStyleSheet("#code_file { padding-bottom: 0; } #code_file #title_widget { border-radius: 7px; }");
+	setStyleSheet("#code_file { padding-bottom: 0; } #code_file #title_bar { border-radius: 7px; }");
 }
 
 void QtCodeFile::setSnippets()
 {
-	for (const std::shared_ptr<QtCodeSnippet>& snippet : m_snippets)
-	{
-		snippet->show();
-	}
-
 	if (m_fileSnippet)
 	{
-		m_fileSnippet->hide();
+		m_fileSnippet->show();
+
+		for (const std::shared_ptr<QtCodeSnippet>& snippet : m_snippets)
+		{
+			snippet->hide();
+		}
+	}
+	else
+	{
+		for (const std::shared_ptr<QtCodeSnippet>& snippet : m_snippets)
+		{
+			snippet->show();
+		}
 	}
 
 	m_titleBar->setSnippets();
@@ -323,19 +349,7 @@ void QtCodeFile::setSnippets()
 
 void QtCodeFile::setMaximized()
 {
-	for (const std::shared_ptr<QtCodeSnippet>& snippet : m_snippets)
-	{
-		snippet->hide();
-	}
-
-	if (m_fileSnippet)
-	{
-		m_fileSnippet->show();
-	}
-
-	m_titleBar->setMaximized(!m_isWholeFile);
-
-	setStyleSheet("");
+	setSnippets();
 }
 
 bool QtCodeFile::hasSnippets() const
@@ -396,18 +410,12 @@ void QtCodeFile::findScreenMatches(const std::string& query, std::vector<std::pa
 
 void QtCodeFile::clickedMinimizeButton()
 {
-	// overview stats
-	if (m_filePath.empty())
-	{
-		setMinimized();
-		return;
-	}
-
 	m_navigator->requestScroll(m_filePath, 0, 0, false, QtCodeNavigateable::SCROLL_VISIBLE);
 
 	MessageChangeFileView(
 		m_filePath,
 		MessageChangeFileView::FILE_MINIMIZED,
+		MessageChangeFileView::VIEW_LIST,
 		false,
 		m_navigator->hasErrors()
 	).dispatch();
@@ -420,55 +428,41 @@ void QtCodeFile::clickedSnippetButton()
 	MessageChangeFileView(
 		m_filePath,
 		MessageChangeFileView::FILE_SNIPPETS,
-		!m_snippets.size(),
+		MessageChangeFileView::VIEW_LIST,
+		isCollapsed(),
 		m_navigator->hasErrors()
 	).dispatch();
 }
 
 void QtCodeFile::clickedMaximizeButton()
 {
-	// overview stats
-	if (m_filePath.empty())
+	uint firstLineNumber = 1;
+	std::vector<QtCodeSnippet*> snippets = getVisibleSnippets();
+	if (snippets.size())
 	{
-		setMaximized();
-		return;
+		firstLineNumber = snippets[0]->getStartLineNumber();
 	}
-
-	m_navigator->requestScroll(m_filePath, 0, 0, false, QtCodeNavigateable::SCROLL_VISIBLE);
+	m_navigator->requestScroll(m_filePath, firstLineNumber, 0, false, QtCodeNavigateable::SCROLL_CENTER);
 
 	MessageChangeFileView(
 		m_filePath,
 		MessageChangeFileView::FILE_MAXIMIZED,
-		!getFileSnippet(),
-		m_navigator->hasErrors()
+		MessageChangeFileView::VIEW_SINGLE,
+		true, // TODO: check if data is really needed
+		m_navigator->hasErrors(),
+		true
 	).dispatch();
 }
 
 void QtCodeFile::updateRefCount(int refCount)
 {
-	if (refCount > 0 && !m_isWholeFile)
+	if (m_isWholeFile)
 	{
-		bool hasErrors = m_navigator->hasErrors();
-
-		QString label = hasErrors ? "error" : "reference";
-		if (refCount > 1)
-		{
-			label += "s";
-		}
-
-		if (hasErrors)
-		{
-			size_t fatalErrorCount = m_navigator->getFatalErrorCountForFile(m_filePath);
-			if (fatalErrorCount > 0)
-			{
-				label += " (" + QString::number(fatalErrorCount) + " fatal)";
-			}
-		}
-
-		m_titleBar->setRefString(QString::number(refCount) + " " + label);
+		refCount = 0;
 	}
-	else
-	{
-		m_titleBar->setRefString("");
-	}
+
+	bool hasErrors = m_navigator->hasErrors();
+	size_t fatalErrorCount = hasErrors ? m_navigator->getFatalErrorCountForFile(m_filePath) : 0;
+
+	m_titleBar->updateRefCount(refCount, hasErrors, fatalErrorCount);
 }

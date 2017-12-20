@@ -200,10 +200,10 @@ void QtCodeSnippet::clickedTitle()
 	}
 	else
 	{
-		getFile()->clickedMaximizeButton();
+		getFile()->requestWholeFileContent();
 	}
 
-	m_navigator->requestScroll(getFile()->getFilePath(), getStartLineNumber(), 0, true, QtCodeNavigateable::SCROLL_CENTER);
+	m_navigator->requestScroll(getFile()->getFilePath(), getStartLineNumber(), 0, true, QtCodeNavigateable::SCROLL_VISIBLE);
 }
 
 void QtCodeSnippet::clickedFooter()

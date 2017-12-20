@@ -64,12 +64,12 @@ void MessageQueue::unregisterListener(MessageListenerBase* listener)
 	LOG_ERROR("Listener was not found");
 }
 
-MessageListenerBase* MessageQueue::getListenerById(const uint id) const
+MessageListenerBase* MessageQueue::getListenerById(Id listenerId) const
 {
 	std::lock_guard<std::mutex> lock(m_listenersMutex);
 	for (size_t i = 0; i < m_listeners.size(); i++)
 	{
-		if (m_listeners[i]->getId() == id)
+		if (m_listeners[i]->getId() == listenerId)
 		{
 			return m_listeners[i];
 		}
@@ -284,7 +284,7 @@ void MessageQueue::sendMessageAsTask(std::shared_ptr<MessageBase> message, bool 
 
 			if (listener->getType() == message->getType())
 			{
-				uint listenerId = listener->getId();
+				Id listenerId = listener->getId();
 				taskGroup->addTask(std::make_shared<TaskLambda>(
 					[listenerId, message]()
 					{

@@ -14,7 +14,7 @@
 class QLabel;
 class QPushButton;
 class QtCodeArea;
-class QtCodeFileTitleButton;
+class QtCodeFileTitleBar;
 class QtCodeNavigator;
 
 class QtCodeFileSingle
@@ -52,6 +52,9 @@ public:
 
 	Id getLocationIdOfFirstActiveLocationOfTokenId(Id tokenId) const;
 
+public slots:
+	void clickedSnippetButton();
+
 private:
 	struct FileData
 	{
@@ -73,8 +76,7 @@ private:
 	QWidget* m_areaWrapper;
 	FilePath m_currentFilePath;
 
-	QtCodeFileTitleButton* m_title;
-	QLabel* m_referenceCount;
+	QtCodeFileTitleBar* m_titleBar;
 
 	QtCodeArea* m_area;
 	std::map<FilePath, FileData> m_fileDatas;

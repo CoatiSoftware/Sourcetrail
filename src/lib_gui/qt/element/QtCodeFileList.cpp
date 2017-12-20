@@ -72,6 +72,11 @@ void QtCodeFileList::clear()
 	m_files.clear();
 	m_scrollArea->verticalScrollBar()->setValue(0);
 
+	clearSnippetTitleAndScrollBar();
+}
+
+void QtCodeFileList::clearSnippetTitleAndScrollBar()
+{
 	updateFirstSnippetTitleBar(nullptr);
 	updateLastSnippetScrollBar(nullptr);
 }
@@ -221,6 +226,7 @@ void QtCodeFileList::showContents()
 {
 	for (QtCodeFile* file : m_files)
 	{
+		file->updateTitleBar();
 		file->show();
 	}
 }
@@ -248,17 +254,55 @@ void QtCodeFileList::findScreenMatches(const std::string& query, std::vector<std
 
 void QtCodeFileList::setFileMinimized(const FilePath path)
 {
-	getFile(path)->setMinimized();
+	if (path.empty())
+	{
+		if (m_files.size())
+		{
+			m_files[0]->setMinimized();
+		}
+	}
+	else
+	{
+		getFile(path)->setMinimized();
+	}
 }
 
 void QtCodeFileList::setFileSnippets(const FilePath path)
 {
-	getFile(path)->setSnippets();
+	if (path.empty())
+	{
+		if (m_files.size())
+		{
+			m_files[0]->setSnippets();
+		}
+	}
+	else
+	{
+		getFile(path)->setSnippets();
+	}
 }
 
 void QtCodeFileList::setFileMaximized(const FilePath path)
 {
-	getFile(path)->setMaximized();
+	if (path.empty())
+	{
+		if (m_files.size())
+		{
+			m_files[0]->setMaximized();
+		}
+	}
+	else
+	{
+		getFile(path)->setMaximized();
+	}
+}
+
+void QtCodeFileList::maximizeFirstFile()
+{
+	if (m_files.size())
+	{
+		m_files[0]->clickedMaximizeButton();
+	}
 }
 
 std::pair<QtCodeSnippet*, Id> QtCodeFileList::getFirstSnippetWithActiveLocationId(Id tokenId) const
@@ -284,9 +328,7 @@ std::pair<QtCodeSnippet*, Id> QtCodeFileList::getFirstSnippetWithActiveLocationI
 
 void QtCodeFileList::resizeEvent(QResizeEvent* event)
 {
-	updateFirstSnippetTitleBar(nullptr);
-	updateLastSnippetScrollBar(nullptr);
-
+	clearSnippetTitleAndScrollBar();
 	updateSnippetTitleAndScrollBar();
 }
 

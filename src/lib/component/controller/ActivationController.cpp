@@ -61,6 +61,7 @@ void ActivationController::handleMessage(MessageActivateFile* message)
 		MessageChangeFileView msg(
 			message->filePath,
 			MessageChangeFileView::FILE_MAXIMIZED,
+			MessageChangeFileView::VIEW_CURRENT,
 			true,
 			true
 		);

@@ -26,6 +26,7 @@ public:
 	virtual ~QtCodeFileList();
 
 	void clear();
+	void clearSnippetTitleAndScrollBar();
 
 	QtCodeFile* getFile(const FilePath filePath);
 	void addFile(const FilePath& filePath, bool isWholeFile, int refCount, TimeStamp modificationTime, bool isComplete);
@@ -48,6 +49,8 @@ public:
 	void setFileMinimized(const FilePath path);
 	void setFileSnippets(const FilePath path);
 	void setFileMaximized(const FilePath path);
+
+	void maximizeFirstFile();
 
 	std::pair<QtCodeSnippet*, Id> getFirstSnippetWithActiveLocationId(Id tokenId) const;
 

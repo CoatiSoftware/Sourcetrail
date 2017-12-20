@@ -24,6 +24,7 @@
 QtCodeNavigator::QtCodeNavigator(QWidget* parent)
 	: QWidget(parent)
 	, m_mode(MODE_NONE)
+	, m_oldMode(MODE_NONE)
 	, m_activeTokenId(0)
 	, m_value(0)
 	, m_refIndex(0)
@@ -104,14 +105,8 @@ QtCodeNavigator::QtCodeNavigator(QWidget* parent)
 	m_single = new QtCodeFileSingle(this);
 	layout->addWidget(m_single);
 
-	if (ApplicationSettings::getInstance()->getCodeViewModeSingle())
-	{
-		setModeSingle();
-	}
-	else
-	{
-		setModeList();
-	}
+	setMode(ApplicationSettings::getInstance()->getCodeViewModeSingle() ? MODE_SINGLE : MODE_LIST);
+	showContents();
 
 	refreshStyle();
 
@@ -257,6 +252,25 @@ void QtCodeNavigator::clearFile()
 void QtCodeNavigator::clearCaches()
 {
 	m_single->clearCache();
+}
+
+void QtCodeNavigator::clearSnippetReferences()
+{
+	m_list->clearSnippetTitleAndScrollBar();
+}
+
+void QtCodeNavigator::setMode(Mode mode)
+{
+	m_mode = mode;
+
+	if (mode == MODE_LIST)
+	{
+		m_current = m_list;
+	}
+	else
+	{
+		m_current = m_single;
+	}
 }
 
 const std::set<Id>& QtCodeNavigator::getCurrentActiveTokenIds() const
@@ -504,10 +518,41 @@ void QtCodeNavigator::setFileMaximized(const FilePath path)
 void QtCodeNavigator::updateFiles()
 {
 	m_current->updateFiles();
+	updateRefLabel();
 }
 
 void QtCodeNavigator::showContents()
 {
+	if (m_oldMode != m_mode)
+	{
+		m_listButton->setChecked(m_mode == MODE_LIST);
+		m_fileButton->setChecked(m_mode == MODE_SINGLE);
+
+		switch (m_mode)
+		{
+			case MODE_SINGLE:
+				m_list->hide();
+				m_single->show();
+				m_separatorLine->hide();
+				break;
+
+			case MODE_LIST:
+				m_single->hide();
+				m_list->show();
+				m_separatorLine->show();
+				break;
+
+			default:
+				LOG_ERROR("Wrong mode set in code navigator");
+				return;
+		}
+
+		ApplicationSettings::getInstance()->setCodeViewModeSingle(m_mode == MODE_SINGLE);
+		ApplicationSettings::getInstance()->save();
+
+		m_oldMode = m_mode;
+	}
+
 	m_current->showContents();
 }
 
@@ -715,7 +760,7 @@ void QtCodeNavigator::requestScroll(
 	// std::cout << "scroll request: " << req.filePath.str() << " " << req.lineNumber << " " << req.locationId;
 	// std::cout << " " << req.animated << " " << req.target << std::endl;
 
-	if ((!m_scrollRequest.lineNumber || !m_scrollRequest.locationId) && !req.filePath.empty())
+	if ((!m_scrollRequest.lineNumber && !m_scrollRequest.locationId) && !req.filePath.empty())
 	{
 		m_scrollRequest = req;
 	}
@@ -802,50 +847,12 @@ void QtCodeNavigator::nextReference(bool fromUI)
 
 void QtCodeNavigator::setModeList()
 {
-	setMode(MODE_LIST);
+	m_single->clickedSnippetButton();
 }
 
 void QtCodeNavigator::setModeSingle()
 {
-	setMode(MODE_SINGLE);
-}
-
-void QtCodeNavigator::setMode(Mode mode)
-{
-	m_listButton->setChecked(mode == MODE_LIST);
-	m_fileButton->setChecked(mode == MODE_SINGLE);
-
-	if (m_mode == mode)
-	{
-		return;
-	}
-
-	m_mode = mode;
-
-	switch (mode)
-	{
-		case MODE_SINGLE:
-			m_list->hide();
-			m_single->show();
-			m_separatorLine->hide();
-			m_current = m_single;
-			break;
-		case MODE_LIST:
-			m_single->hide();
-			m_list->show();
-			m_separatorLine->show();
-			m_current = m_list;
-			break;
-		default:
-			LOG_ERROR("Wrong mode set in code navigator");
-			return;
-	}
-
-	ApplicationSettings::getInstance()->setCodeViewModeSingle(m_mode == MODE_SINGLE);
-	ApplicationSettings::getInstance()->save();
-
-	scrollToDefinition(false, false);
-	showContents();
+	m_list->maximizeFirstFile();
 }
 
 void QtCodeNavigator::showCurrentReference(bool fromUI)
@@ -903,16 +910,23 @@ void QtCodeNavigator::handleMessage(MessageFinishedParsing* message)
 
 void QtCodeNavigator::handleMessage(MessageShowReference* message)
 {
-	m_refIndex = message->refIndex;
+	size_t refIndex = message->refIndex;
+	bool replayed = message->isReplayed();
 
 	m_onQtThread(
 		[=]()
 		{
+			m_refIndex = refIndex;
+
 			if (m_refIndex > 0)
 			{
 				const Reference& ref = m_references[m_refIndex - 1];
 				setCurrentActiveLocationIds(std::vector<Id>(1, ref.locationId));
-				updateFiles();
+
+				if (!replayed)
+				{
+					updateFiles();
+				}
 
 				requestScroll(ref.filePath, 0, ref.locationId, true, QtCodeNavigateable::SCROLL_CENTER);
 				emit scrollRequest();
@@ -923,7 +937,10 @@ void QtCodeNavigator::handleMessage(MessageShowReference* message)
 				}
 			}
 
-			updateRefLabel();
+			if (!replayed)
+			{
+				updateRefLabel();
+			}
 		}
 	);
 }

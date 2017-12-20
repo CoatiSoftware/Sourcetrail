@@ -26,7 +26,7 @@ public:
 		}
 	}
 
-	uint getId() const
+	Id getId() const
 	{
 		return m_id;
 	}
@@ -57,9 +57,9 @@ private:
 	virtual std::string doGetType() const = 0;
 	virtual void doHandleMessageBase(MessageBase*) = 0;
 
-	static uint s_nextId;
+	static Id s_nextId;
 
-	uint m_id;
+	Id m_id;
 	bool m_alive;
 };
 

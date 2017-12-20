@@ -100,8 +100,12 @@ private:
 	void addModificationTimes(std::vector<CodeSnippetParams>& snippets) const;
 	void addActiveSourceLocations(std::shared_ptr<SourceLocationFile> locationFile) const;
 
+	void saveOrRestoreViewMode(MessageBase* message);
+
 	StorageAccess* m_storageAccess;
 	mutable std::shared_ptr<SourceLocationCollection> m_collection;
+
+	std::map<Id, bool> m_messageIdToViewModeMap;
 };
 
 #endif // CODE_CONTROLLER_H

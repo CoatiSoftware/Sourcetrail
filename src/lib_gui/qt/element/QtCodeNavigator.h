@@ -31,6 +31,13 @@ class QtCodeNavigator
 	Q_OBJECT
 
 public:
+	enum Mode
+	{
+		MODE_NONE,
+		MODE_LIST,
+		MODE_SINGLE
+	};
+
 	QtCodeNavigator(QWidget* parent = nullptr);
 	virtual ~QtCodeNavigator();
 
@@ -43,6 +50,9 @@ public:
 	void clearCodeSnippets();
 	void clearFile();
 	void clearCaches();
+	void clearSnippetReferences();
+
+	void setMode(Mode mode);
 
 	const std::set<Id>& getCurrentActiveTokenIds() const;
 	void setCurrentActiveTokenIds(const std::vector<Id>& currentActiveTokenIds);
@@ -114,15 +124,6 @@ private slots:
 	void setModeSingle();
 
 private:
-	enum Mode
-	{
-		MODE_NONE,
-		MODE_LIST,
-		MODE_SINGLE
-	};
-
-	void setMode(Mode mode);
-
 	struct Reference
 	{
 		Reference()
@@ -172,6 +173,7 @@ private:
 	QtCodeFileSingle* m_single;
 
 	Mode m_mode;
+	Mode m_oldMode;
 
 	std::set<Id> m_currentActiveTokenIds;
 	std::set<Id> m_currentActiveLocationIds;
