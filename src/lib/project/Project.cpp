@@ -148,7 +148,7 @@ void Project::load()
 	}
 }
 
-void Project::refresh(DialogView* dialogView, RefreshMode refreshMode)
+void Project::refresh(RefreshMode refreshMode, DialogView* dialogView)
 {
 	if (m_state == PROJECT_STATE_NOT_LOADED)
 	{
@@ -274,7 +274,7 @@ void Project::refresh(DialogView* dialogView, RefreshMode refreshMode)
 	}
 	else
 	{
-		buildIndex(info);
+		buildIndex(info, dialogView);
 	}
 }
 
@@ -296,11 +296,15 @@ RefreshInfo Project::getRefreshInfo(RefreshMode mode) const
 	}
 }
 
-void Project::buildIndex(const RefreshInfo& info)
+void Project::buildIndex(const RefreshInfo& info, DialogView* dialogView)
 {
 	if (info.mode == REFRESH_NONE || (!info.filesToClear.size() && !info.filesToIndex.size()))
 	{
-		if (!m_hasGUI)
+		if (m_hasGUI)
+		{
+			dialogView->hideDialogs();
+		}
+		else
 		{
 			MessageFinishedParsing().dispatch();
 		}
@@ -311,6 +315,8 @@ void Project::buildIndex(const RefreshInfo& info)
 
 	MessageStatus("Preparing Indexing", false, true).dispatch();
 	MessageClearErrorCount().dispatch();
+
+	dialogView->showUnknownProgressDialog("Preparing Indexing", "Setting up Indexers");
 
 	if (info.mode == REFRESH_ALL_FILES)
 	{
@@ -425,6 +431,10 @@ void Project::buildIndex(const RefreshInfo& info)
 				std::make_shared<TaskInjectStorage>(storageProvider, m_storage)
 			)
 		);
+	}
+	else
+	{
+		dialogView->hideUnknownProgressDialog();
 	}
 
 	taskSequential->addTask(std::make_shared<TaskFinishParsing>(m_storage.get(), m_storageCache));

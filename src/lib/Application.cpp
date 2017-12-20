@@ -225,7 +225,7 @@ void Application::refreshProject(RefreshMode refreshMode)
 {
 	if (m_project && checkSharedMemory())
 	{
-		m_project->refresh(getDialogView().get(), refreshMode);
+		m_project->refresh(refreshMode, getDialogView().get());
 	}
 }
 

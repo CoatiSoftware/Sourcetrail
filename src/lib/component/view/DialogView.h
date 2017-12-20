@@ -30,7 +30,7 @@ public:
 		size_t indexedFileCount, size_t totalIndexedFileCount, size_t completedFileCount, size_t totalFileCount,
 		float time, ErrorCountInfo errorInfo, bool interrupted);
 
-	virtual void hideDialogs();
+	virtual void hideDialogs(bool unblockUI = true);
 
 	int confirm(const std::string& message);
 	virtual int confirm(const std::string& message, const std::vector<std::string>& options);

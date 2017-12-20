@@ -178,7 +178,7 @@ std::vector<FilePath> FilePath::expandEnvironmentVariables() const
 		const char * s = match[1].matched ? getenv(match[1].str().c_str()) : getenv(match[2].str().c_str());
 		if (s == nullptr)
 		{
-			LOG_ERROR(match[1].str() + " is not an environment variable");
+			LOG_ERROR_STREAM(<< match[1].str() << " is not an environment variable in: " << text);
 			return paths;
 		}
 		text.replace(match.position(0), match.length(0), s);

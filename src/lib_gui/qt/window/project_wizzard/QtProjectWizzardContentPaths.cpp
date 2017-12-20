@@ -69,30 +69,54 @@ void QtProjectWizzardContentPaths::populate(QGridLayout* layout, int& row)
 bool QtProjectWizzardContentPaths::check()
 {
 	QString missingPaths;
+	std::vector<FilePath> existingPaths;
 
-	std::vector<FilePath> paths = m_list->getList();
-	if (m_settings)
+	for (const FilePath& path : m_list->getList())
 	{
-		paths = m_settings->makePathsExpandedAndAbsolute(paths);
-	}
-
-	for (const FilePath& path : paths)
-	{
-		if (!path.exists())
+		std::vector<FilePath> expandedPaths(1, path);
+		std::cout << path.str() << std::endl;
+		if (m_settings)
 		{
-			missingPaths.append(path.str().c_str());
-			missingPaths.append("\n");
-			break;
+			expandedPaths = m_settings->makePathsExpandedAndAbsolute(expandedPaths);
+		}
+
+		size_t existingCount = 0;
+		for (const FilePath& expandedPath : expandedPaths)
+		{
+			if (!expandedPath.exists())
+			{
+				missingPaths.append((expandedPath.str() + "\n").c_str());
+			}
+			else
+			{
+				existingCount++;
+			}
+		}
+
+		if (expandedPaths.size() && expandedPaths.size() == existingCount)
+		{
+			existingPaths.push_back(path);
 		}
 	}
 
 	if (!missingPaths.isEmpty())
 	{
 		QMessageBox msgBox;
-		msgBox.setText("Some provided paths do not exist at \"" + m_titleString + "\".");
+		msgBox.setText(QString("Some provided paths do not exist at \"%1\". Do you want to remove them "
+			"before continuing?").arg(m_titleString));
 		msgBox.setDetailedText(missingPaths);
-		msgBox.exec();
-		return false;
+		msgBox.setStandardButtons(QMessageBox::Yes | QMessageBox::No | QMessageBox::Cancel);
+		int ret = msgBox.exec();
+
+		if (ret == QMessageBox::Yes)
+		{
+			m_list->setList(existingPaths);
+			save();
+		}
+		else if (ret == QMessageBox::Cancel)
+		{
+			return false;
+		}
 	}
 
 	return true;

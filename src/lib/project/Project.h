@@ -30,11 +30,11 @@ public:
 
 	void load();
 
-	void refresh(DialogView* dialogView, RefreshMode refreshMode);
+	void refresh(RefreshMode refreshMode, DialogView* dialogView);
 
 	RefreshInfo getRefreshInfo(RefreshMode mode) const;
 
-	void buildIndex(const RefreshInfo& info);
+	void buildIndex(const RefreshInfo& info, DialogView* dialogView);
 
 private:
 	enum ProjectStateType

@@ -91,6 +91,11 @@ std::shared_ptr<CombinedPathDetector> utility::getCxxVsHeaderPathDetector()
 {
 	std::shared_ptr<CombinedPathDetector> combinedDetector = std::make_shared<CombinedPathDetector>();
 
+	if (utility::getOsType() != OS_WINDOWS)
+	{
+		return combinedDetector;
+	}
+
 	combinedDetector->addDetector(std::make_shared<CxxVs15HeaderPathDetector>());
 
 	combinedDetector->addDetector(std::make_shared<CxxVs10To14HeaderPathDetector>(CxxVs10To14HeaderPathDetector::VISUAL_STUDIO_2015, false, APPLICATION_ARCHITECTURE_X86_32));

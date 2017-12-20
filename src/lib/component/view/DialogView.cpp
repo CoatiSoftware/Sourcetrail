@@ -41,7 +41,7 @@ void DialogView::finishedIndexingDialog(
 {
 }
 
-void DialogView::hideDialogs()
+void DialogView::hideDialogs(bool unblockUI)
 {
 }
 

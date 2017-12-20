@@ -21,7 +21,7 @@ void TaskParseWrapper::doEnter(std::shared_ptr<Blackboard> blackboard)
 	blackboard->get("source_file_count", sourceFileCount);
 	if (std::shared_ptr<DialogView> dialogView = Application::getInstance()->getDialogView())
 	{
-		dialogView->hideUnknownProgressDialog();
+		dialogView->hideDialogs(false);
 		dialogView->updateIndexingDialog(0, 0, sourceFileCount, "");
 	}
 

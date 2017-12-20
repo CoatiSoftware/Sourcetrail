@@ -163,18 +163,18 @@ void QtDialogView::startIndexingDialog(
 					Task::dispatch(std::make_shared<TaskLambda>(
 						[=]()
 						{
-							project->buildIndex(info);
+							project->buildIndex(info, this);
 						}
 					));
 
 					m_windowStack.clearWindows();
-					showUnknownProgress("Preparing Indexing", "Setting up Indexers", false);
 				}
 			);
 
 			connect(window, &QtWindow::canceled,
 				[=]()
 				{
+					std::cout << "cancelse" << std::endl;
 					setUIBlocked(false);
 				}
 			);
@@ -228,13 +228,17 @@ void QtDialogView::finishedIndexingDialog(
 	);
 }
 
-void QtDialogView::hideDialogs()
+void QtDialogView::hideDialogs(bool unblockUI)
 {
 	m_onQtThread2(
 		[=]()
 		{
 			m_windowStack.clearWindows();
-			setUIBlocked(false);
+
+			if (unblockUI)
+			{
+				setUIBlocked(false);
+			}
 		}
 	);
 
