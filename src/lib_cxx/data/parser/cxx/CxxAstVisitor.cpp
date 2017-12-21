@@ -645,12 +645,23 @@ ParseLocation CxxAstVisitor::getParseLocationOfFunctionBody(const clang::Functio
 	return ParseLocation();
 }
 
-ParseLocation CxxAstVisitor::getParseLocation(const clang::SourceLocation& loc) const
+ParseLocation CxxAstVisitor::getParseLocation(const clang::SourceLocation& sourceLocation) const
 {
 	ParseLocation parseLocation;
-	if (loc.isValid())
+	if (sourceLocation.isValid())
 	{
 		clang::SourceManager& sourceManager = m_astContext->getSourceManager();
+
+		clang::SourceLocation loc = sourceLocation;
+		if (sourceManager.isMacroBodyExpansion(sourceLocation))
+		{
+			loc = sourceManager.getExpansionLoc(sourceLocation);
+			if (loc.isInvalid())
+			{
+				loc = sourceLocation;
+			}
+		}
+
 		clang::SourceLocation startLoc = sourceManager.getSpellingLoc(loc);
 		clang::FileID fileId = sourceManager.getFileID(startLoc);
 
@@ -690,14 +701,37 @@ ParseLocation CxxAstVisitor::getParseLocation(const clang::SourceRange& sourceRa
 	{
 		const clang::SourceManager& sourceManager = m_astContext->getSourceManager();
 		
-		const clang::SourceLocation endLoc = m_preprocessor->getLocForEndOfToken(sourceRange.getEnd());
+		clang::SourceRange range = sourceRange;
+		clang::SourceLocation endLoc = m_preprocessor->getLocForEndOfToken(range.getEnd());
 
-		const clang::PresumedLoc& presumedBegin = sourceManager.getPresumedLoc(sourceRange.getBegin(), false);
-		const clang::PresumedLoc& presumedEnd = sourceManager.getPresumedLoc(endLoc.isValid() ? endLoc : sourceRange.getEnd(), false);
+		if ((
+				sourceManager.isMacroArgExpansion(range.getBegin()) ||
+				sourceManager.isMacroBodyExpansion(range.getBegin())
+			) &&
+			(
+				sourceManager.isMacroArgExpansion(range.getEnd()) ||
+				sourceManager.isMacroBodyExpansion(range.getEnd())
+			))
+		{
+			range = sourceManager.getExpansionRange(sourceRange);
+			if (range.isValid())
+			{
+				endLoc = m_preprocessor->getLocForEndOfToken(range.getBegin());
+			}
+			else
+			{
+				range = sourceRange;
+			}
+		}
+
+		const clang::SourceLocation beginLoc = range.getBegin();
+
+		const clang::PresumedLoc presumedBegin = sourceManager.getPresumedLoc(beginLoc, false);
+		const clang::PresumedLoc presumedEnd = sourceManager.getPresumedLoc(endLoc.isValid() ? endLoc : range.getEnd(), false);
 
 		FilePath filePath;
 		{
-			const clang::FileEntry* fileEntry = sourceManager.getFileEntryForID(sourceManager.getFileID(sourceRange.getBegin()));
+			const clang::FileEntry* fileEntry = sourceManager.getFileEntryForID(sourceManager.getFileID(beginLoc));
 			if (fileEntry != nullptr && fileEntry->isValid())
 			{
 				filePath = m_canonicalFilePathCache->getCanonicalFilePath(fileEntry);

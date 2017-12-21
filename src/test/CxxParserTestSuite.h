@@ -3736,6 +3736,67 @@ public:
 		));
 	}
 
+	void test_cxx_parser_finds_macro_argument_location_for_field_definition_with_name_passed_as_argument_to_macro()
+	{
+		std::shared_ptr<TestParserClient> client = parseCode(
+			"#define DEF_INT_FIELD(name) int name;\n"
+			"class A {\n"
+			"	DEF_INT_FIELD(m_value)\n"
+			"};\n"
+		);
+
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->fields, "private int A::m_value <3:16 3:22>"
+		));
+	}
+
+	void test_cxx_parser_finds_macro_usage_location_for_field_definition_with_name_partially_passed_as_argument_to_macro()
+	{
+		std::shared_ptr<TestParserClient> client = parseCode(
+			"#define DEF_INT_FIELD(name) int m_##name;\n"
+			"class A {\n"
+			"	DEF_INT_FIELD(value)\n"
+			"};\n"
+		);
+
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->fields, "private int A::m_value <3:2 3:14>"
+		));
+	}
+
+
+	void test_cxx_parser_finds_macro_argument_location_for_function_call_in_code_passed_as_argument_to_macro()
+	{
+		std::shared_ptr<TestParserClient> client = parseCode(
+			"#define DEF_INT_FIELD(name, init) int name = init;\n"
+			"int foo() { return 5; }\n"
+			"class A {\n"
+			"	DEF_INT_FIELD(m_value, foo())\n"
+			"};\n"
+		);
+
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->calls, "int A::m_value -> int foo() <4:25 4:27>"
+		));
+	}
+
+
+	void test_cxx_parser_finds_macro_usage_location_for_function_call_in_code_of_macro_body()
+	{
+		std::shared_ptr<TestParserClient> client = parseCode(
+			"int foo() { return 5; }\n"
+			"#define DEF_INT_FIELD(name) int name = foo();\n"
+			"class A {\n"
+			"	DEF_INT_FIELD(m_value)\n"
+			"};\n"
+		);
+
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->calls, "int A::m_value -> int foo() <4:2 4:14>"
+		));
+	}
+
+
 	//void __test_cxx_parser_finds_type_template_argument_of_static_cast_expression()
 	//{
 	//	std::shared_ptr<TestParserClient> client = parseCode(

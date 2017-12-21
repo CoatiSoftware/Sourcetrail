@@ -795,7 +795,13 @@ bool CxxAstVisitorComponentIndexer::shouldVisitDecl(const clang::Decl* decl)
 {
 	if (decl)
 	{
-		clang::SourceLocation loc = decl->getLocation();
+		clang::SourceLocation loc = m_astContext->getSourceManager().getExpansionLoc(decl->getLocation());
+
+		if (loc.isInvalid())
+		{
+			loc = decl->getLocation();
+		}
+
 		bool declIsImplicit = utility::isImplicit(decl);
 		if ((declIsImplicit && isLocatedInProjectFile(loc)) ||
 			(!declIsImplicit && isLocatedInUnparsedProjectFile(loc)))
@@ -814,8 +820,14 @@ bool CxxAstVisitorComponentIndexer::shouldVisitReference(const clang::SourceLoca
 		declIsImplicit = utility::isImplicit(contextDecl);
 	}
 
-	if ((declIsImplicit && isLocatedInProjectFile(referenceLocation)) ||
-		(!declIsImplicit && isLocatedInUnparsedProjectFile(referenceLocation)))
+	clang::SourceLocation loc = m_astContext->getSourceManager().getExpansionLoc(referenceLocation);
+	if (loc.isInvalid())
+	{
+		loc = referenceLocation;
+	}
+
+	if ((declIsImplicit && isLocatedInProjectFile(loc)) ||
+		(!declIsImplicit && isLocatedInUnparsedProjectFile(loc)))
 	{
 		return true;
 	}

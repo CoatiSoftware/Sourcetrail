@@ -157,7 +157,17 @@ LOCAL_SYMBOL: b2Settings.cpp<38:24> [b2Settings.cpp <38:24 38:29>]
 REFERENCE_TYPE_USAGE void b2Log(const char *) -> char [b2Settings.cpp <38:18 38:21>]
 LOCAL_SYMBOL: b2Settings.cpp<40:10> [b2Settings.cpp <40:10 40:13>]
 REFERENCE_TYPE_USAGE void b2Log(const char *) -> va_list [b2Settings.cpp <40:2 40:8>]
+REFERENCE_TYPE_USAGE void b2Log(const char *) -> void [b2Settings.cpp <41:2 41:9>]
+SYMBOL_FUNCTION void __vcrt_va_start_verify_argument_type<const char *>()
+REFERENCE_CALL void b2Log(const char *) -> void __vcrt_va_start_verify_argument_type<const char *>() [b2Settings.cpp <41:2 41:9>]
+LOCAL_SYMBOL: b2Settings.cpp<38:24> [b2Settings.cpp <41:17 41:22>]
+SYMBOL_FUNCTION void __va_start(char * *)
+REFERENCE_CALL void b2Log(const char *) -> void __va_start(char * *) [b2Settings.cpp <41:2 41:9>]
+LOCAL_SYMBOL: b2Settings.cpp<40:10> [b2Settings.cpp <41:11 41:14>]
 SYMBOL_FUNCTION int vprintf(const char * const, va_list)
 REFERENCE_CALL void b2Log(const char *) -> int vprintf(const char * const, va_list) [b2Settings.cpp <42:2 42:8>]
 LOCAL_SYMBOL: b2Settings.cpp<38:24> [b2Settings.cpp <42:10 42:15>]
 LOCAL_SYMBOL: b2Settings.cpp<40:10> [b2Settings.cpp <42:18 42:21>]
+REFERENCE_TYPE_USAGE void b2Log(const char *) -> void [b2Settings.cpp <43:2 43:7>]
+LOCAL_SYMBOL: b2Settings.cpp<40:10> [b2Settings.cpp <43:9 43:12>]
+REFERENCE_TYPE_USAGE void b2Log(const char *) -> va_list [b2Settings.cpp <43:2 43:7>]
