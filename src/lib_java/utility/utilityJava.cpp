@@ -9,14 +9,13 @@ namespace utility
 	std::vector<std::string> getRequiredJarNames()
 	{
 		std::vector<std::string> jarNames = {
-
 			"gradle-tooling-api-4.2.jar",
 			"java-indexer.jar",
 			"org.eclipse.core.commands-3.9.0.jar",
 			"org.eclipse.core.contenttype-3.6.0.jar",
 			"org.eclipse.core.expressions-3.6.0.jar",
 			"org.eclipse.core.filesystem-1.7.0.jar",
-			"org.eclipse.core.jobs-3.9.1.jar",
+			"org.eclipse.core.jobs-3.9.2.jar",
 			"org.eclipse.core.resources-3.12.0.jar",
 			"org.eclipse.core.runtime-3.13.0.jar",
 			"org.eclipse.equinox.app-1.3.400.jar",

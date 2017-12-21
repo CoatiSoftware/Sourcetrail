@@ -103,7 +103,7 @@ public:
 	}
 
 private:
-	static size_t s_nextId;
+	static Id s_nextId;
 
 	Id m_id;
 
