@@ -77,9 +77,6 @@ add_files(
 	data/parser/cxx/PreprocessorCallbacks.h
 	data/parser/cxx/utilityClang.cpp
 	data/parser/cxx/utilityClang.h
-	
-	data/storage/StorageTransformationAnonymousTypedef.cpp
-	data/storage/StorageTransformationAnonymousTypedef.h
 
 	project/IncludeDirective.cpp
 	project/IncludeDirective.h

@@ -6,14 +6,12 @@ IndexerCommandCxx::IndexerCommandCxx(
 	const std::set<FilePath>& excludedPaths,
 	const std::vector<FilePath>& systemHeaderSearchPaths,
 	const std::vector<FilePath>& frameworkSearchPaths,
-	const std::vector<std::string>& compilerFlags,
-	const bool shouldApplyAnonymousTypedefTransformation
+	const std::vector<std::string>& compilerFlags
 )
 	: IndexerCommand(sourceFilePath, indexedPaths, excludedPaths)
 	, m_systemHeaderSearchPaths(systemHeaderSearchPaths)
 	, m_frameworkSearchPaths(frameworkSearchPaths)
 	, m_compilerFlags(compilerFlags)
-	, m_shouldApplyAnonymousTypedefTransformation(shouldApplyAnonymousTypedefTransformation)
 {
 }
 
@@ -56,9 +54,4 @@ std::vector<FilePath> IndexerCommandCxx::getFrameworkSearchPaths() const
 std::vector<std::string> IndexerCommandCxx::getCompilerFlags() const
 {
 	return m_compilerFlags;
-}
-
-bool IndexerCommandCxx::shouldApplyAnonymousTypedefTransformation() const
-{
-	return m_shouldApplyAnonymousTypedefTransformation;
 }

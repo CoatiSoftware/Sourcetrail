@@ -8,7 +8,6 @@ SourceGroupSettingsCxx::SourceGroupSettingsCxx(const std::string& id, SourceGrou
 	, m_headerSearchPaths(std::vector<FilePath>())
 	, m_frameworkSearchPaths(std::vector<FilePath>())
 	, m_compilerFlags(std::vector<std::string>())
-	, m_shouldApplyAnonymousTypedefTransformation(true)
 {
 }
 
@@ -25,7 +24,6 @@ void SourceGroupSettingsCxx::load(std::shared_ptr<const ConfigManager> config)
 	setHeaderSearchPaths(getPathValues(key + "/header_search_paths/header_search_path", config));
 	setFrameworkSearchPaths(getPathValues(key + "/framework_search_paths/framework_search_path", config));
 	setCompilerFlags(getValues<std::string>(key + "/compiler_flags/compiler_flag", std::vector<std::string>(), config));
-	setShouldApplyAnonymousTypedefTransformation(getValue<bool>(key + "/should_apply_anonymous_typedef_transformation", true, config));
 }
 
 void SourceGroupSettingsCxx::save(std::shared_ptr<ConfigManager> config)
@@ -37,7 +35,6 @@ void SourceGroupSettingsCxx::save(std::shared_ptr<ConfigManager> config)
 	setPathValues(key + "/header_search_paths/header_search_path", getHeaderSearchPaths(), config);
 	setPathValues(key + "/framework_search_paths/framework_search_path", getFrameworkSearchPaths(), config);
 	setValues(key + "/compiler_flags/compiler_flag", getCompilerFlags(), config);
-	setValue(key + "/should_apply_anonymous_typedef_transformation", getShouldApplyAnonymousTypedefTransformation(), config);
 }
 
 bool SourceGroupSettingsCxx::equals(std::shared_ptr<SourceGroupSettings> other) const
@@ -144,16 +141,6 @@ std::vector<std::string> SourceGroupSettingsCxx::getCompilerFlags() const
 void SourceGroupSettingsCxx::setCompilerFlags(const std::vector<std::string>& compilerFlags)
 {
 	m_compilerFlags = compilerFlags;
-}
-
-bool SourceGroupSettingsCxx::getShouldApplyAnonymousTypedefTransformation() const
-{
-	return m_shouldApplyAnonymousTypedefTransformation;
-}
-
-void SourceGroupSettingsCxx::setShouldApplyAnonymousTypedefTransformation(bool shouldApplyAnonymousTypedefTransformation)
-{
-	m_shouldApplyAnonymousTypedefTransformation = shouldApplyAnonymousTypedefTransformation;
 }
 
 std::vector<std::string> SourceGroupSettingsCxx::getDefaultSourceExtensions() const

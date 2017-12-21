@@ -31,7 +31,6 @@ add_files(
 	SqliteBookmarkStorageTestSuite.h
 	SqliteIndexStorageTestSuite.h
 	StorageTestSuite.h
-	StorageTransformationAnonymousTypedefTestSuite.h
 	TaskSchedulerTestSuite.h
 	TextAccessTestSuite.h
 	UtilityStringTestSuite.h

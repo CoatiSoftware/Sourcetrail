@@ -21,7 +21,6 @@ void SharedIndexerCommand::fromLocal(IndexerCommand* indexerCommand)
 		setCompilerFlags(cmd->getCompilerFlags());
 		setSystemHeaderSearchPaths(cmd->getSystemHeaderSearchPaths());
 		setFrameworkSearchhPaths(cmd->getFrameworkSearchPaths());
-		setShouldApplyAnonymousTypedefTransformation(cmd->shouldApplyAnonymousTypedefTransformation());
 	}
 	else if (dynamic_cast<IndexerCommandCxxManual*>(indexerCommand) != NULL)
 	{
@@ -32,7 +31,6 @@ void SharedIndexerCommand::fromLocal(IndexerCommand* indexerCommand)
 		setCompilerFlags(cmd->getCompilerFlags());
 		setSystemHeaderSearchPaths(cmd->getSystemHeaderSearchPaths());
 		setFrameworkSearchhPaths(cmd->getFrameworkSearchPaths());
-		setShouldApplyAnonymousTypedefTransformation(cmd->shouldApplyAnonymousTypedefTransformation());
 	}
 	else if (dynamic_cast<IndexerCommandJava*>(indexerCommand) != NULL)
 	{
@@ -61,8 +59,7 @@ std::shared_ptr<IndexerCommand> SharedIndexerCommand::fromShared(const SharedInd
 			indexerCommand.getWorkingDirectory(),
 			indexerCommand.getCompilerFlags(),
 			indexerCommand.getSystemHeaderSearchPaths(),
-			indexerCommand.getFrameworkSearchhPaths(),
-			indexerCommand.shouldApplyAnonymousTypedefTransformation()
+			indexerCommand.getFrameworkSearchhPaths()
 		);
 		return command;
 	}
@@ -75,8 +72,7 @@ std::shared_ptr<IndexerCommand> SharedIndexerCommand::fromShared(const SharedInd
 			indexerCommand.getLanguageStandard(),
 			indexerCommand.getSystemHeaderSearchPaths(),
 			indexerCommand.getFrameworkSearchhPaths(),
-			indexerCommand.getCompilerFlags(),
-			indexerCommand.shouldApplyAnonymousTypedefTransformation()
+			indexerCommand.getCompilerFlags()
 		);
 		return command;
 	}
@@ -272,16 +268,6 @@ void SharedIndexerCommand::setFrameworkSearchhPaths(const std::vector<FilePath>&
 		path = searchPaths[i].str().c_str();
 		m_frameworkSearchPaths.push_back(path);
 	}
-}
-
-bool SharedIndexerCommand::shouldApplyAnonymousTypedefTransformation() const
-{
-	return m_shouldApplyAnonymousTypedefTransformation;
-}
-
-void SharedIndexerCommand::setShouldApplyAnonymousTypedefTransformation(bool shouldApplyAnonymousTypedefTransformation)
-{
-	m_shouldApplyAnonymousTypedefTransformation = shouldApplyAnonymousTypedefTransformation;
 }
 
 std::vector<FilePath> SharedIndexerCommand::getClassPaths() const

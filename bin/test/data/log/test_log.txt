@@ -24,16 +24,6 @@ Settings.cpp WARNING: File for Settings not found: data/SettingsTestSuite/wrong_
 SourceLocationCollection.cpp ERROR: SourceLocation has wrong boundaries: file.c 2:3 2:1
 SourceLocationCollection.cpp ERROR: SourceLocation has wrong boundaries: file.c 4:1 1:10
 TextAccess.cpp ERROR: Could not open file path/to/test.h
-StorageTransformationAnonymousTypedef.cpp INFO: Applying storage transformation to rename anonymous types inside typedefs.
-StorageTransformationAnonymousTypedef.cpp INFO: Renamed 1 types.
-StorageTransformationAnonymousTypedef.cpp INFO: Applying storage transformation to rename anonymous types inside typedefs.
-StorageTransformationAnonymousTypedef.cpp INFO: Renamed 1 types.
-StorageTransformationAnonymousTypedef.cpp INFO: Applying storage transformation to rename anonymous types inside typedefs.
-StorageTransformationAnonymousTypedef.cpp INFO: Renamed 1 types.
-StorageTransformationAnonymousTypedef.cpp INFO: Applying storage transformation to rename anonymous types inside typedefs.
-StorageTransformationAnonymousTypedef.cpp INFO: Renamed 1 types.
-StorageTransformationAnonymousTypedef.cpp INFO: Applying storage transformation to rename anonymous types inside typedefs.
-StorageTransformationAnonymousTypedef.cpp INFO: Renamed 0 types.
 TextAccess.cpp WARNING: Index 'firstLine' has to be lower or equal index 'lastLine', is 3 > 2
 TextAccess.cpp WARNING: Tried to access index 10. Maximum index is 8
 TextAccess.cpp WARNING: Tried to access index 10. Maximum index is 8

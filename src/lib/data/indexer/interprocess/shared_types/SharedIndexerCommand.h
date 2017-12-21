@@ -41,9 +41,6 @@ public:
 	std::vector<FilePath> getFrameworkSearchhPaths() const;
 	void setFrameworkSearchhPaths(const std::vector<FilePath>& searchPaths);
 
-	bool shouldApplyAnonymousTypedefTransformation() const;
-	void setShouldApplyAnonymousTypedefTransformation(bool shouldApplyAnonymousTypedefTransformation);
-
 	std::vector<FilePath> getClassPaths() const;
 	void setClassPaths(const std::vector<FilePath>& classPaths);
 
@@ -72,7 +69,6 @@ private:
 	SharedMemory::Vector<SharedMemory::String> m_compilerFlags;
 	SharedMemory::Vector<SharedMemory::String> m_systemHeaderSearchPaths;
 	SharedMemory::Vector<SharedMemory::String> m_frameworkSearchPaths;
-	bool m_shouldApplyAnonymousTypedefTransformation;
 
 	// java
 	SharedMemory::Vector<SharedMemory::String> m_classPaths;

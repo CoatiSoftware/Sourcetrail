@@ -139,8 +139,7 @@ private:
 			"c++1z", 
 			utility::concat(std::vector<FilePath> { projectDataSrcRoot }, ApplicationSettings::getInstance()->getHeaderSearchPathsExpanded()),
 			ApplicationSettings::getInstance()->getFrameworkSearchPathsExpanded(), 
-			std::vector<std::string> { "--target=x86_64-pc-windows-msvc" },
-			true
+			std::vector<std::string> { "--target=x86_64-pc-windows-msvc" }
 		);
 
 		parser.buildIndex(command);

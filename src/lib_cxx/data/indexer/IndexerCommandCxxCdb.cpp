@@ -46,10 +46,9 @@ IndexerCommandCxxCdb::IndexerCommandCxxCdb(
 	const FilePath& workingDirectory,
 	const std::vector<std::string>& compilerFlags,
 	const std::vector<FilePath>& systemHeaderSearchPaths,
-	const std::vector<FilePath>& frameworkSearchPaths,
-	const bool shouldApplyAnonymousTypedefTransformation
+	const std::vector<FilePath>& frameworkSearchPaths
 )
-	: IndexerCommandCxx(sourceFilePath, indexedPaths, excludedPaths, systemHeaderSearchPaths, frameworkSearchPaths, compilerFlags, shouldApplyAnonymousTypedefTransformation)
+	: IndexerCommandCxx(sourceFilePath, indexedPaths, excludedPaths, systemHeaderSearchPaths, frameworkSearchPaths, compilerFlags)
 	, m_workingDirectory(workingDirectory)
 {
 }

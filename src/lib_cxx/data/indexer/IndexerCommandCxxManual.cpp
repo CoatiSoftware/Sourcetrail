@@ -12,10 +12,9 @@ IndexerCommandCxxManual::IndexerCommandCxxManual(
 	const std::string& languageStandard,
 	const std::vector<FilePath>& systemHeaderSearchPaths,
 	const std::vector<FilePath>& frameworkSearchPaths,
-	const std::vector<std::string>& compilerFlags,
-	const bool shouldApplyAnonymousTypedefTransformation
+	const std::vector<std::string>& compilerFlags
 )
-	: IndexerCommandCxx(sourceFilePath, indexedPaths, excludedPaths, systemHeaderSearchPaths, frameworkSearchPaths, compilerFlags, shouldApplyAnonymousTypedefTransformation)
+	: IndexerCommandCxx(sourceFilePath, indexedPaths, excludedPaths, systemHeaderSearchPaths, frameworkSearchPaths, compilerFlags)
 	, m_languageStandard(languageStandard)
 {
 }

@@ -65,8 +65,7 @@ std::vector<std::shared_ptr<IndexerCommand>> SourceGroupCxxEmpty::getIndexerComm
 				m_settings->getStandard(),
 				systemHeaderSearchPaths,
 				frameworkSearchPaths,
-				compilerFlags,
-				m_settings->getShouldApplyAnonymousTypedefTransformation()
+				compilerFlags
 			));
 		}
 	}

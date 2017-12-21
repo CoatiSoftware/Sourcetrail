@@ -171,6 +171,14 @@ std::shared_ptr<CxxDeclName> CxxDeclNameResolver::getDeclName(const clang::Named
 		ScopedSwitcher<const clang::NamedDecl*> switcher(m_currentDecl, declaration);
 
 		std::string declNameString = declaration->getNameAsString();
+		if (const clang::TagDecl* tagDecl = clang::dyn_cast_or_null<clang::TagDecl>(declaration))
+		{
+			if (const clang::TypedefNameDecl* typedefNameDecl = tagDecl->getTypedefNameForAnonDecl())
+			{
+				declNameString = typedefNameDecl->getNameAsString();
+			}
+		}
+
 		if (const clang::TypeAliasDecl* typeAliasDecl = clang::dyn_cast_or_null<clang::TypeAliasDecl>(declaration))
 		{
 			clang::TypeAliasTemplateDecl* templatedDeclaration = typeAliasDecl->getDescribedAliasTemplate();

@@ -314,7 +314,7 @@ public:
 			"typedef struct\n"
 			"{\n"
 			"	int x;\n"
-			"} Foo;\n"
+			"};\n"
 		);
 
 		TS_ASSERT(utility::containsElement<std::string>(
@@ -328,11 +328,11 @@ public:
 			"typedef struct\n"
 			"{\n"
 			"	int x;\n"
-			"} Foo;\n"
+			"};\n"
 			"typedef struct\n"
 			"{\n"
 			"	float x;\n"
-			"} Bar;\n"
+			"};\n"
 		);
 
 		TS_ASSERT_EQUALS(client->structs.size(), 2);
@@ -347,11 +347,149 @@ public:
 			"{\n"
 			"	int i;\n"
 			"	float f;\n"
-			"} Foo;\n"
+			"};\n"
 		);
 
 		TS_ASSERT(utility::containsElement<std::string>(
 			client->unions, "anonymous union (input.cc<1:9>) <1:9 <1:9 1:13> 5:1>"
+		));
+	}
+
+	void test_cxx_parser_finds_name_of_anonymous_struct_declared_inside_typedef()
+	{
+		std::shared_ptr<TestParserClient> client = parseCode(
+			"typedef struct\n"
+			"{\n"
+			"	int x;\n"
+			"} Foo;\n"
+		);
+
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->structs, "Foo <1:9 <1:9 1:14> 4:1>"
+		));
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->structs, "Foo <4:3 4:5>"
+		));
+	}
+
+	void test_cxx_parser_finds_name_of_anonymous_class_declared_inside_typedef()
+	{
+		std::shared_ptr<TestParserClient> client = parseCode(
+			"typedef class\n"
+			"{\n"
+			"	int x;\n"
+			"} Foo;\n"
+		);
+
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->classes, "Foo <1:9 <1:9 1:13> 4:1>"
+		));
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->classes, "Foo <4:3 4:5>"
+		));
+	}
+
+	void test_cxx_parser_finds_name_of_anonymous_enum_declared_inside_typedef()
+	{
+		std::shared_ptr<TestParserClient> client = parseCode(
+			"typedef enum\n"
+			"{\n"
+			"	CONSTANT_1;\n"
+			"} Foo;\n"
+		);
+
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->enums, "Foo <1:9 <1:9 1:12> 4:1>"
+		));
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->enums, "Foo <4:3 4:5>"
+		));
+	}
+
+	void test_cxx_parser_finds_name_of_anonymous_union_declared_inside_typedef()
+	{
+		std::shared_ptr<TestParserClient> client = parseCode(
+			"typedef union\n"
+			"{\n"
+			"	int x;\n"
+			"	float y;\n"
+			"} Foo;\n"
+		);
+
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->unions, "Foo <1:9 <1:9 1:13> 5:1>"
+		));
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->unions, "Foo <5:3 5:5>"
+		));
+	}
+
+	void test_cxx_parser_finds_name_of_anonymous_struct_declared_inside_type_alias()
+	{
+		std::shared_ptr<TestParserClient> client = parseCode(
+			"using Foo = struct\n"
+			"{\n"
+			"	int x;\n"
+			"};\n"
+		);
+
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->structs, "Foo <1:13 <1:13 1:18> 4:1>"
+		));
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->structs, "Foo <1:7 1:9>"
+		));
+	}
+
+	void test_cxx_parser_finds_name_of_anonymous_class_declared_inside_type_alias()
+	{
+		std::shared_ptr<TestParserClient> client = parseCode(
+			"using Foo = class\n"
+			"{\n"
+			"	int x;\n"
+			"};\n"
+		);
+
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->classes, "Foo <1:13 <1:13 1:17> 4:1>"
+		));
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->classes, "Foo <1:7 1:9>"
+		));
+	}
+
+	void test_cxx_parser_finds_name_of_anonymous_enum_declared_inside_type_alias()
+	{
+		std::shared_ptr<TestParserClient> client = parseCode(
+			"using Foo = enum\n"
+			"{\n"
+			"	CONSTANT_1;\n"
+			"};\n"
+		);
+
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->enums, "Foo <1:13 <1:13 1:16> 4:1>"
+		));
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->enums, "Foo <1:7 1:9>"
+		));
+	}
+
+	void test_cxx_parser_finds_name_of_anonymous_union_declared_inside_type_alias()
+	{
+		std::shared_ptr<TestParserClient> client = parseCode(
+			"using Foo = union\n"
+			"{\n"
+			"	int x;\n"
+			"	float y;\n"
+			"};\n"
+		);
+
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->unions, "Foo <1:13 <1:13 1:17> 5:1>"
+		));
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->unions, "Foo <1:7 1:9>"
 		));
 	}
 
@@ -423,7 +561,7 @@ public:
 
 	void test_cxx_parser_finds_type_alias_in_class()
 	{
-		std::shared_ptr<TestParserClient> client = parseCode(
+			std::shared_ptr<TestParserClient> client = parseCode(
 			"class Foo\n"
 			"{\n"
 			"	using Bar = Foo;\n"
@@ -3839,8 +3977,7 @@ public:
 			"c++1z",
 			std::vector<FilePath>(),
 			std::vector<FilePath>(),
-			std::vector<std::string>(),
-			false
+			std::vector<std::string>()
 		);
 
 		std::shared_ptr<TestParserClient> client = std::make_shared<TestParserClient>();

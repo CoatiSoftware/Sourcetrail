@@ -27,8 +27,7 @@ public:
 		const FilePath& workingDirectory,
 		const std::vector<std::string>& compilerFlags,
 		const std::vector<FilePath>& systemHeaderSearchPaths,
-		const std::vector<FilePath>& frameworkSearchPaths,
-		const bool shouldApplyAnonymousTypedefTransformation);
+		const std::vector<FilePath>& frameworkSearchPaths);
 
 	virtual ~IndexerCommandCxxCdb();
 

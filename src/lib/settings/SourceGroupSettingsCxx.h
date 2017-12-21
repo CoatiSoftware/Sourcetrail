@@ -28,9 +28,6 @@ public:
 	std::vector<std::string> getCompilerFlags() const;
 	void setCompilerFlags(const std::vector<std::string>& compilerFlags);
 
-	bool getShouldApplyAnonymousTypedefTransformation() const;
-	void setShouldApplyAnonymousTypedefTransformation(bool shouldApplyAnonymousTypedefTransformation);
-
 private:
 	virtual std::vector<std::string> getDefaultSourceExtensions() const;
 	virtual std::string getDefaultStandard() const;
@@ -38,7 +35,6 @@ private:
 	std::vector<FilePath> m_headerSearchPaths;
 	std::vector<FilePath> m_frameworkSearchPaths;
 	std::vector<std::string> m_compilerFlags;
-	bool m_shouldApplyAnonymousTypedefTransformation;
 };
 
 #endif // SOURCE_GROUP_SETTINGS_CXX_H

@@ -18,8 +18,7 @@ public:
 		const std::set<FilePath>& excludedPaths,
 		const std::vector<FilePath>& systemHeaderSearchPaths,
 		const std::vector<FilePath>& frameworkSearchPaths,
-		const std::vector<std::string>& compilerFlags,
-		const bool shouldApplyAnonymousTypedefTransformation);
+		const std::vector<std::string>& compilerFlags);
 
 	virtual ~IndexerCommandCxx();
 	virtual size_t getByteSize(size_t stringSize) const override;
@@ -28,13 +27,10 @@ public:
 	std::vector<FilePath> getFrameworkSearchPaths() const;
 	std::vector<std::string> getCompilerFlags() const;
 
-	bool shouldApplyAnonymousTypedefTransformation() const;
-
 private:
 	std::vector<FilePath> m_systemHeaderSearchPaths;
 	std::vector<FilePath> m_frameworkSearchPaths;
 	std::vector<std::string> m_compilerFlags;
-	bool m_shouldApplyAnonymousTypedefTransformation;
 };
 
 #endif // INDEXER_COMMAND_CXXL_H

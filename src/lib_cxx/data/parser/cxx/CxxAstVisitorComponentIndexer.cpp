@@ -194,7 +194,6 @@ void CxxAstVisitorComponentIndexer::visitTagDecl(clang::TagDecl* d)
 				symbolKind
 			);
 		}
-
 	}
 }
 
@@ -441,7 +440,7 @@ void CxxAstVisitorComponentIndexer::visitTypedefDecl(clang::TypedefDecl* d)
 	{
 		m_client->recordSymbol(
 			getAstVisitor()->getDeclNameCache()->getValue(d),
-			SYMBOL_TYPEDEF,
+			d->getAnonDeclWithTypedefName() == NULL ? SYMBOL_TYPEDEF : utility::convertTagKind(d->getAnonDeclWithTypedefName()->getTagKind()),
 			getParseLocation(d->getLocation()),
 			utility::convertAccessSpecifier(d->getAccess()),
 			utility::isImplicit(d) ? DEFINITION_IMPLICIT : DEFINITION_EXPLICIT
@@ -455,7 +454,7 @@ void CxxAstVisitorComponentIndexer::visitTypeAliasDecl(clang::TypeAliasDecl* d)
 	{
 		m_client->recordSymbol(
 			getAstVisitor()->getDeclNameCache()->getValue(d),
-			SYMBOL_TYPEDEF,
+			d->getAnonDeclWithTypedefName() == NULL ? SYMBOL_TYPEDEF : utility::convertTagKind(d->getAnonDeclWithTypedefName()->getTagKind()),
 			getParseLocation(d->getLocation()),
 			utility::convertAccessSpecifier(d->getAccess()),
 			utility::isImplicit(d) ? DEFINITION_IMPLICIT : DEFINITION_EXPLICIT

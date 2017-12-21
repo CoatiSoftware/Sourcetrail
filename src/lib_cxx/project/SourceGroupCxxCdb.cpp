@@ -118,8 +118,7 @@ std::vector<std::shared_ptr<IndexerCommand>> SourceGroupCxxCdb::getIndexerComman
 					FilePath(command.Directory),
 					currentCompilerFlags,
 					systemHeaderSearchPaths,
-					frameworkSearchPaths,
-					m_settings->getShouldApplyAnonymousTypedefTransformation()
+					frameworkSearchPaths
 				));
 			}
 		}
