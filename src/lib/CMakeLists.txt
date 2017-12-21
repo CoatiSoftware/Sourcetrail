@@ -510,9 +510,9 @@ add_files(
 	utility/ApplicationArchitectureType.h
 	utility/AppPath.cpp
 	utility/AppPath.h
-	utility/Cache.h
 	utility/ConfigManager.cpp
 	utility/ConfigManager.h
+	utility/OrderedCache.h
 	utility/OsType.h
 	utility/Property.h
 	utility/ResourcePaths.cpp
@@ -526,6 +526,7 @@ add_files(
 	utility/tracing.h
 	utility/Tree.h
 	utility/types.h
+	utility/UnorderedCache.h
 	utility/UserPaths.cpp
 	utility/UserPaths.h
 	utility/utility.cpp

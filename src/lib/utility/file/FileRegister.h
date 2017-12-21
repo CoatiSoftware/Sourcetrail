@@ -4,7 +4,7 @@
 #include <set>
 
 #include "utility/file/FileRegisterStateData.h"
-#include "utility/Cache.h"
+#include "utility/OrderedCache.h"
 
 class FileRegister
 {
@@ -29,7 +29,7 @@ private:
 	const FilePath& m_currentPath;
 	const std::set<FilePath> m_indexedPaths;
 	const std::set<FilePath> m_excludedPaths;
-	mutable Cache<std::string, bool> m_hasFilePathCache;
+	mutable OrderedCache<FilePath, bool> m_hasFilePathCache;
 };
 
 #endif // FILE_REGISTER_H

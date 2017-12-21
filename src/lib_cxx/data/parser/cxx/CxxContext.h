@@ -4,10 +4,10 @@
 #include <clang/AST/Decl.h>
 
 #include "data/name/NameHierarchy.h"
-#include "utility/Cache.h"
+#include "utility/UnorderedCache.h"
 
-typedef Cache<const clang::NamedDecl*, NameHierarchy> DeclNameCache;
-typedef Cache<const clang::Type*, NameHierarchy> TypeNameCache;
+typedef UnorderedCache<const clang::NamedDecl*, NameHierarchy> DeclNameCache;
+typedef UnorderedCache<const clang::Type*, NameHierarchy> TypeNameCache;
 
 class CxxContext
 {

@@ -14,7 +14,7 @@
 #include "data/parser/ParseLocation.h"
 #include "data/NodeTypeSet.h"
 #include "settings/ApplicationSettings.h"
-#include "utility/Cache.h"
+#include "utility/UnorderedCache.h"
 #include "utility/file/FileInfo.h"
 #include "utility/file/FilePath.h"
 #include "utility/logging/logging.h"
@@ -1624,7 +1624,8 @@ std::vector<EdgeBookmark> PersistentStorage::getAllEdgeBookmarks() const
 
 	std::vector<EdgeBookmark> edgeBookmarks;
 
-	Cache<std::string, Id> nodeIdCache([&](std::string serializedNodeName)
+	UnorderedCache<std::string, Id> nodeIdCache(
+		[&](const std::string& serializedNodeName)
 		{
 			return m_sqliteIndexStorage.getNodeBySerializedName(serializedNodeName).id;
 		}

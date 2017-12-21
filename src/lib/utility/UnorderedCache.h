@@ -1,18 +1,18 @@
-#ifndef CACHE_H
-#define CACHE_H
+#ifndef UNORDERED_CACHE_H
+#define UNORDERED_CACHE_H
 
 #include <functional>
 #include <unordered_map>
 
 template <typename KeyType, typename ValType, typename Hasher = std::hash<KeyType>>
-class Cache
+class UnorderedCache
 {
 public:
-	Cache(std::function<ValType(KeyType)> calculator);
-	ValType getValue(KeyType key);
+	UnorderedCache(std::function<ValType(const KeyType&)> calculator);
+	ValType getValue(const KeyType& key);
 
 private:
-	std::function<ValType(KeyType)> m_calculator;
+	std::function<ValType(const KeyType&)> m_calculator;
 	std::unordered_map<KeyType, ValType, Hasher> m_map;
 
 	size_t m_hitCount;
@@ -20,7 +20,7 @@ private:
 };
 
 template <typename KeyType, typename ValType, typename Hasher>
-Cache<KeyType, ValType, Hasher>::Cache(std::function<ValType(KeyType)> calculator)
+UnorderedCache<KeyType, ValType, Hasher>::UnorderedCache(std::function<ValType(const KeyType&)> calculator)
 	: m_calculator(calculator)
 	, m_hitCount(0)
 	, m_missCount(0)
@@ -28,9 +28,9 @@ Cache<KeyType, ValType, Hasher>::Cache(std::function<ValType(KeyType)> calculato
 }
 
 template <typename KeyType, typename ValType, typename Hasher>
-ValType Cache<KeyType, ValType, Hasher>::getValue(KeyType key)
+ValType UnorderedCache<KeyType, ValType, Hasher>::getValue(const KeyType& key)
 {
-	typename std::unordered_map<KeyType, ValType>::const_iterator it = m_map.find(key);
+	typename std::unordered_map<KeyType, ValType, Hasher>::const_iterator it = m_map.find(key);
 	if (it != m_map.end())
 	{
 		++m_hitCount;
@@ -42,4 +42,4 @@ ValType Cache<KeyType, ValType, Hasher>::getValue(KeyType key)
 	return val;
 }
 
-#endif // CACHE_H
+#endif // UNORDERED_CACHE_H
