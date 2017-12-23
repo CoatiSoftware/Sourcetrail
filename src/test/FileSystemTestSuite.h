@@ -121,18 +121,6 @@ public:
 #endif
 	}
 
-	void test_filesystem_finds_existing_files()
-	{
-		TS_ASSERT(FileSystem::exists(FilePath("data/FileSystemTestSuite")));
-		TS_ASSERT(FileSystem::exists(FilePath("data/FileSystemTestSuite/tictactoe.h")));
-	}
-
-	void test_filesystem_does_not_find_non_existing_files()
-	{
-		TS_ASSERT(!FileSystem::exists(FilePath("data/FileSystemTestSuite/foo")));
-		TS_ASSERT(!FileSystem::exists(FilePath("data/FileSystemTestSuite/blabla.h")));
-	}
-
 	void test_filesystem_extracts_filename()
 	{
 		TS_ASSERT_EQUALS(FileSystem::fileName("data/FileSystemTestSuite/tictactoe.h"), "tictactoe.h");

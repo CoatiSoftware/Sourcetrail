@@ -58,8 +58,8 @@ void QtListItemWidget::setText(QString text)
 	FilePath relativeRoot = m_list->getRelativeRootDirectory();
 	if (!relativeRoot.empty())
 	{
-		FilePath path(text.toStdString());
-		FilePath relPath(path.relativeTo(relativeRoot));
+		const FilePath path(text.toStdString());
+		const FilePath relPath = path.getRelativeTo(relativeRoot);
 		if (relPath.str().size() < path.str().size())
 		{
 			text = QString::fromStdString(relPath.str());
@@ -77,10 +77,10 @@ void QtListItemWidget::setFocus()
 void QtListItemWidget::handleButtonPress()
 {
 	FilePath path(m_data->text().toStdString());
-	FilePath relativeRoot = m_list->getRelativeRootDirectory();
+	const FilePath relativeRoot = m_list->getRelativeRootDirectory();
 	if (!path.empty() && !path.isAbsolute() && !relativeRoot.empty())
 	{
-		path = relativeRoot.concat(path);
+		path = relativeRoot.getConcatenated(path);
 	}
 
 	QStringList list = QtFileDialog::getFileNamesAndDirectories(this, QString::fromStdString(path.str()));
@@ -118,7 +118,7 @@ QtDirectoryListBox::QtDirectoryListBox(QWidget *parent, const QString& listName,
 	m_list->setAttribute(Qt::WA_MacShowFocusRect, 0);
 	m_list->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding);
 
-	setStyleSheet(utility::getStyleSheet(ResourcePaths::getGuiPath().concat(FilePath("window/listbox.css"))).c_str());
+	setStyleSheet(utility::getStyleSheet(ResourcePaths::getGuiPath().concatenate(FilePath("window/listbox.css"))).c_str());
 	layout->addWidget(m_list);
 
 	QWidget* buttonContainer = new QWidget(this);

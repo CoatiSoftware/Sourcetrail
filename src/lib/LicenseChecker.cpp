@@ -83,7 +83,7 @@ LicenseChecker::LicenseState LicenseChecker::checkCurrentLicense() const
 		return LICENSE_EMPTY;
 	}
 
-	if (!License::checkLocation(FilePath(appPath).absolute().str(), licenseCheck))
+	if (!License::checkLocation(FilePath(appPath).makeAbsolute().str(), licenseCheck))
 	{
 		return LICENSE_MOVED;
 	}

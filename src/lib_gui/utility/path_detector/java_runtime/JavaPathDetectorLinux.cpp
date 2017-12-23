@@ -52,15 +52,12 @@ FilePath JavaPathDetectorLinux::readLink(const FilePath& path) const
 
 FilePath JavaPathDetectorLinux::getFilePathRelativeToJavaExecutable(FilePath& javaExecutablePath) const
 {
-	FilePath p(javaExecutablePath.parentDirectory().str() + jvmLibPathRelativeToJavaExecutable);
-	if ( p.exists() )
+	FilePath p(javaExecutablePath.getParentDirectory().str() + jvmLibPathRelativeToJavaExecutable);
+	if (p.exists())
 	{
-		return p.canonical();
+		return p.makeCanonical();
 	}
-	else
-	{
-		return FilePath();
-	}
+	return FilePath();
 }
 
 FilePath JavaPathDetectorLinux::getJavaInJavaHome() const

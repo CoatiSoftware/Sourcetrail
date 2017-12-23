@@ -78,7 +78,7 @@ void QtSearchView::setAutocompletionList(const std::vector<SearchMatch>& autocom
 
 void QtSearchView::setStyleSheet()
 {
-	std::string css = utility::getStyleSheet(ResourcePaths::getGuiPath().concat(FilePath("search_view/search_view.css")));
+	std::string css = utility::getStyleSheet(ResourcePaths::getGuiPath().concatenate(FilePath("search_view/search_view.css")));
 
 	m_widget->setStyleSheet(css.c_str());
 

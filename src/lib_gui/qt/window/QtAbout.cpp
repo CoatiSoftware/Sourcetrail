@@ -23,7 +23,7 @@ QSize QtAbout::sizeHint() const
 
 void QtAbout::setupAbout()
 {
-	setStyleSheet(utility::getStyleSheet(ResourcePaths::getGuiPath().concat(FilePath("about/about.css"))).c_str());
+	setStyleSheet(utility::getStyleSheet(ResourcePaths::getGuiPath().concatenate(FilePath("about/about.css"))).c_str());
 
 	QVBoxLayout* windowLayout = new QVBoxLayout();
 	windowLayout->setContentsMargins(10, 10, 10, 0);

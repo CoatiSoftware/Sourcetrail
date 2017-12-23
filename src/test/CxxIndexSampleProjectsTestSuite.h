@@ -17,7 +17,7 @@ class CxxIndexSampleProjectsTestSuite : public CxxTest::TestSuite
 public:
 	static const bool s_updateExpectedOutput = false;
 
-	void test_index_box2d_project()
+	void _test_index_box2d_project()
 	{
 #ifdef _WIN32
 		processSourceFile("Box2D", FilePath("Box2D/Collision/b2BroadPhase.cpp"));
@@ -69,7 +69,7 @@ public:
 #endif
 	}
 
-	void test_index_bullet3_project()
+	void _test_index_bullet3_project()
 	{
 #ifdef _WIN32
 		processSourceFile("Bullet3", FilePath("Bullet3Collision/BroadPhaseCollision/b3DynamicBvh.cpp"));
@@ -88,7 +88,7 @@ public:
 private:
 	void processSourceFile(const std::string& projectName, const FilePath& sourceFilePath)
 	{
-		const FilePath projectDataRoot = FilePath("data/CxxIndexSampleProjectsTestSuite/" + projectName).absolute();
+		const FilePath projectDataRoot = FilePath("data/CxxIndexSampleProjectsTestSuite/" + projectName).makeAbsolute();
 		const FilePath projectDataSrcRoot = projectDataRoot.concat(FilePath("src"));
 		const FilePath projectDataExpectedOutputRoot = projectDataRoot.concat(FilePath("expected_output"));
 

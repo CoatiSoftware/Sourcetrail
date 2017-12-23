@@ -1,6 +1,7 @@
 #ifndef NODE_TYPE_H
 #define NODE_TYPE_H
 
+#include <functional>
 #include <map>
 #include <memory>
 #include <set>

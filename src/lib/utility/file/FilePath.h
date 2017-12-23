@@ -3,8 +3,15 @@
 
 #include <string>
 #include <vector>
+#include <memory>
 
-#include "boost/filesystem/path.hpp"
+namespace boost 
+{
+	namespace filesystem 
+	{
+		class path;
+	}
+}
 
 class FilePath
 {
@@ -13,9 +20,12 @@ public:
 	explicit FilePath(const char* filePath);
 	explicit FilePath(const std::string& filePath);
 	explicit FilePath(const boost::filesystem::path& filePath);
+	FilePath(const FilePath& filePath);
+	FilePath(FilePath&& other);
 	FilePath(const std::string& filePath, const std::string& base);
+	~FilePath();
 
-	boost::filesystem::path path() const;
+	boost::filesystem::path getPath() const;
 
 	bool empty() const;
 	bool exists() const;
@@ -23,12 +33,16 @@ public:
 	bool isDirectory() const;
 	bool isAbsolute() const;
 
-	FilePath parentDirectory() const;
+	FilePath getParentDirectory() const;
 
-	FilePath absolute() const;
-	FilePath canonical() const;
-	FilePath relativeTo(const FilePath& other) const;
-	FilePath concat(const FilePath& other) const;
+	FilePath& makeAbsolute();
+	FilePath getAbsolute() const;
+	FilePath& makeCanonical();
+	FilePath getCanonical() const;
+	FilePath& makeRelativeTo(const FilePath& other);
+	FilePath getRelativeTo(const FilePath& other) const;
+	FilePath& concatenate(const FilePath& other);
+	FilePath getConcatenated(const FilePath& other) const;
 	std::vector<FilePath> expandEnvironmentVariables() const;
 
 	bool contains(const FilePath& other) const;
@@ -42,12 +56,14 @@ public:
 	FilePath replaceExtension(const std::string& extension) const;
 	bool hasExtension(const std::vector<std::string>& extensions) const;
 
+	FilePath& operator=(const FilePath& other);
+	FilePath& operator=(FilePath&& other);
 	bool operator==(const FilePath& other) const;
 	bool operator!=(const FilePath& other) const;
 	bool operator<(const FilePath& other) const;
 
 private:
-	boost::filesystem::path m_path;
+	std::unique_ptr<boost::filesystem::path> m_path;
 
 	mutable bool m_exists;
 	mutable bool m_checkedExists;

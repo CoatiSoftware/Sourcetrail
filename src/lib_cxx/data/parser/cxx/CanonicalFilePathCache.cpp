@@ -19,7 +19,7 @@ FilePath CanonicalFilePathCache::getCanonicalFilePath(const std::string& path)
 		return it->second;
 	}
 
-	const FilePath canonicalPath = FilePath(path).canonical();
+	const FilePath canonicalPath = FilePath(path).makeCanonical();
 	const std::string lowercaseCanonicalPath = utility::toLowerCase(canonicalPath.str());
 
 	m_map.insert(std::make_pair(lowercasePath, canonicalPath));

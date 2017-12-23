@@ -119,7 +119,7 @@ void QtContextMenu::copyFullPathActionTriggered()
 
 void QtContextMenu::openContainingFolderActionTriggered()
 {
-	FilePath dir = s_filePath.parentDirectory();
+	FilePath dir = s_filePath.getParentDirectory();
 	if (dir.exists())
 	{
 		QDesktopServices::openUrl(QUrl(("file:///" + dir.str()).c_str(), QUrl::TolerantMode));

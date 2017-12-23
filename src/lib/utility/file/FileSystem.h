@@ -26,7 +26,6 @@ public:
 	static TimeStamp getLastWriteTime(const FilePath& filePath);
 	static std::string getTimeStringNow();
 
-	static bool exists(const FilePath& path);
 	static bool remove(const FilePath& path);
 	static bool rename(const FilePath& from, const FilePath& to);
 

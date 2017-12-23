@@ -152,7 +152,7 @@ std::set<FilePath> SourceGroupJava::fetchRootDirectories()
 			continue;
 		}
 
-		FilePath rootPath = filePath.parentDirectory();
+		FilePath rootPath = filePath.getParentDirectory();
 		bool success = true;
 
 		const std::vector<std::string> packageNameParts = utility::splitToVector(packageName, ".");
@@ -163,7 +163,7 @@ std::set<FilePath> SourceGroupJava::fetchRootDirectories()
 				success = false;
 				break;
 			}
-			rootPath = rootPath.parentDirectory();
+			rootPath = rootPath.getParentDirectory();
 		}
 
 		if (success)

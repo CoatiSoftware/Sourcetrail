@@ -102,7 +102,7 @@ void QtLocationPicker::handleButtonPress()
 	FilePath path(m_data->text().toStdString());
 	if (!path.empty() && !path.isAbsolute() && !m_relativeRootDirectory.empty())
 	{
-		path = m_relativeRootDirectory.concat(path);
+		path = m_relativeRootDirectory.getConcatenated(path);
 	}
 
 	QString fileName;
@@ -119,8 +119,8 @@ void QtLocationPicker::handleButtonPress()
 	{
 		if (!m_relativeRootDirectory.empty())
 		{
-			FilePath path(fileName.toStdString());
-			FilePath relPath(path.relativeTo(m_relativeRootDirectory));
+			const FilePath path(fileName.toStdString());
+			const FilePath relPath = path.getRelativeTo(m_relativeRootDirectory);
 			if (relPath.str().size() < path.str().size())
 			{
 				fileName = QString::fromStdString(relPath.str());

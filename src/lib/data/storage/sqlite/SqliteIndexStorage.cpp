@@ -8,7 +8,7 @@
 const size_t SqliteIndexStorage::s_storageVersion = 15;
 
 SqliteIndexStorage::SqliteIndexStorage(const FilePath& dbFilePath)
-	: SqliteStorage(dbFilePath.canonical())
+	: SqliteStorage(dbFilePath.getCanonical())
 {
 }
 

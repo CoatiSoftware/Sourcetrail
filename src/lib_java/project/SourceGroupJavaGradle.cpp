@@ -73,7 +73,7 @@ std::vector<FilePath> SourceGroupJavaGradle::getAllSourcePaths() const
 		std::shared_ptr<DialogView> dialogView = Application::getInstance()->getDialogView();
 		dialogView->showUnknownProgressDialog("Preparing Project", "Gradle\nFetching Source Directories");
 
-		const FilePath projectRootPath = m_settings->getGradleProjectFilePathExpandedAndAbsolute().parentDirectory();
+		const FilePath projectRootPath = m_settings->getGradleProjectFilePathExpandedAndAbsolute().getParentDirectory();
 		sourcePaths = utility::gradleGetAllSourceDirectories(projectRootPath, m_settings->getShouldIndexGradleTests());
 
 		dialogView->hideUnknownProgressDialog();
@@ -85,7 +85,7 @@ bool SourceGroupJavaGradle::prepareGradleData()
 {
 	if (m_settings && m_settings->getGradleProjectFilePathExpandedAndAbsolute().exists())
 	{
-		const FilePath projectRootPath = m_settings->getGradleProjectFilePathExpandedAndAbsolute().parentDirectory();
+		const FilePath projectRootPath = m_settings->getGradleProjectFilePathExpandedAndAbsolute().getParentDirectory();
 
 		std::shared_ptr<DialogView> dialogView = Application::getInstance()->getDialogView();
 

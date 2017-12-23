@@ -69,5 +69,5 @@ void QtUndoRedoView::updateHistory(const std::vector<SearchMatch>& searchMatches
 void QtUndoRedoView::setStyleSheet()
 {
 	m_widget->setStyleSheet(utility::getStyleSheet(
-		ResourcePaths::getGuiPath().concat(FilePath("undoredo_view/undoredo_view.css"))).c_str());
+		ResourcePaths::getGuiPath().concatenate(FilePath("undoredo_view/undoredo_view.css"))).c_str());
 }

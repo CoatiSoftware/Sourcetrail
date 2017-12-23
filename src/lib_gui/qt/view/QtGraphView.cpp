@@ -162,7 +162,7 @@ void QtGraphView::refreshView()
 
 		QtGraphicsView* view = getView();
 
-		std::string css = utility::getStyleSheet(ResourcePaths::getGuiPath().concat(FilePath("graph_view/graph_view.css")));
+		std::string css = utility::getStyleSheet(ResourcePaths::getGuiPath().concatenate(FilePath("graph_view/graph_view.css")));
 		view->setStyleSheet(css.c_str());
 		view->setAppZoomFactor(GraphViewStyle::getZoomFactor());
 		view->refreshStyle();

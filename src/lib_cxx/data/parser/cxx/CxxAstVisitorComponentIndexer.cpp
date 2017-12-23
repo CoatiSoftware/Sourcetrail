@@ -886,7 +886,7 @@ bool CxxAstVisitorComponentIndexer::isLocatedInProjectFile(clang::SourceLocation
 		fileId = sourceManager.getFileID(loc);
 	}
 
-	if (!fileId.isInvalid())
+	if (fileId.isValid())
 	{
 		auto it = m_inProjectFileMap.find(fileId);
 		if (it != m_inProjectFileMap.end())
@@ -898,7 +898,7 @@ bool CxxAstVisitorComponentIndexer::isLocatedInProjectFile(clang::SourceLocation
 		if (fileEntry != nullptr && fileEntry->isValid())
 		{
 			FilePath filePath = getAstVisitor()->getCanonicalFilePathCache()->getCanonicalFilePath(fileEntry);
-			bool ret = m_fileRegister->hasFilePath(filePath);
+			const bool ret = m_fileRegister->hasFilePath(filePath);
 			m_inProjectFileMap[fileId] = ret;
 			return ret;
 		}

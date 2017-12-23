@@ -21,8 +21,8 @@ std::vector<FilePath> JreSystemLibraryPathDetector::getPaths() const
 	std::vector<FilePath> paths;
 	for (const FilePath& jrePath: m_javaPathDetector->getPaths())
 	{
-		const FilePath javaRoot = jrePath.parentDirectory().parentDirectory().parentDirectory();
-		for (const FilePath& jarPath : FileSystem::getFilePathsFromDirectory(javaRoot.concat(FilePath("lib")), {".jar"}))
+		const FilePath javaRoot = jrePath.getParentDirectory().getParentDirectory().getParentDirectory();
+		for (const FilePath& jarPath : FileSystem::getFilePathsFromDirectory(javaRoot.getConcatenated(FilePath("lib")), {".jar"}))
 		{
 			paths.push_back(jarPath);
 		}

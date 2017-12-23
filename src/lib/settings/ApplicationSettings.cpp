@@ -149,7 +149,7 @@ void ApplicationSettings::setShowBuiltinTypesInGraph(bool showBuiltinTypes)
 
 FilePath ApplicationSettings::getColorSchemePath() const
 {
-	FilePath defaultPath(ResourcePaths::getColorSchemesPath().concat(FilePath("bright.xml")));
+	FilePath defaultPath(ResourcePaths::getColorSchemesPath().concatenate(FilePath("bright.xml")));
 	FilePath path(getValue<std::string>("application/color_scheme", defaultPath.str()));
 
 	if (path != defaultPath && !path.exists())
@@ -423,7 +423,7 @@ std::vector<FilePath> ApplicationSettings::getRecentProjects() const
 		}
 		else
 		{
-			recentProjects.push_back(UserPaths::getUserDataPath().concat(project));
+			recentProjects.push_back(UserPaths::getUserDataPath().concatenate(project));
 		}
 	}
 	return recentProjects;

@@ -4,7 +4,7 @@
 #include "utility/TimeStamp.h"
 
 SqliteStorage::SqliteStorage(const FilePath& dbFilePath)
-	: m_dbFilePath(dbFilePath.canonical())
+	: m_dbFilePath(dbFilePath.getCanonical())
 {
 	m_database.open(m_dbFilePath.str().c_str());
 

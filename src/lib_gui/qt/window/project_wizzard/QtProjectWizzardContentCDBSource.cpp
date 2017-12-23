@@ -61,7 +61,7 @@ void QtProjectWizzardContentCDBSource::load()
 
 				if (projectPath.exists())
 				{
-					path = path.relativeTo(projectPath);
+					path.makeRelativeTo(projectPath);
 				}
 
 				m_fileNames.push_back(path.str());

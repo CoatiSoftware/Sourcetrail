@@ -226,7 +226,7 @@ std::vector<std::string> QtProjectWizzardContentPathSourceMaven::getFileNames() 
 	std::shared_ptr<SourceGroupSettingsJavaMaven> settings = std::dynamic_pointer_cast<SourceGroupSettingsJavaMaven>(m_settings);
 
 	const FilePath mavenPath = ApplicationSettings::getInstance()->getMavenPath();
-	const FilePath mavenProjectRoot = settings->getMavenProjectFilePathExpandedAndAbsolute().parentDirectory();
+	const FilePath mavenProjectRoot = settings->getMavenProjectFilePathExpandedAndAbsolute().getParentDirectory();
 
 	std::vector<std::string> list;
 	std::shared_ptr<DialogView> dialogView = Application::getInstance()->getDialogView();
@@ -270,7 +270,7 @@ std::vector<std::string> QtProjectWizzardContentPathSourceMaven::getFileNames() 
 		{
 			if (projectPath.exists())
 			{
-				path = path.relativeTo(projectPath);
+				path.makeRelativeTo(projectPath);
 			}
 
 			list.push_back(path.str());
@@ -370,7 +370,7 @@ std::vector<std::string> QtProjectWizzardContentPathSourceGradle::getFileNames()
 {
 	std::shared_ptr<SourceGroupSettingsJavaGradle> settings = std::dynamic_pointer_cast<SourceGroupSettingsJavaGradle>(m_settings);
 
-	const FilePath gradleProjectRoot = settings->getGradleProjectFilePathExpandedAndAbsolute().parentDirectory();
+	const FilePath gradleProjectRoot = settings->getGradleProjectFilePathExpandedAndAbsolute().getParentDirectory();
 
 	std::vector<std::string> list;
 
@@ -401,7 +401,7 @@ std::vector<std::string> QtProjectWizzardContentPathSourceGradle::getFileNames()
 		{
 			if (projectPath.exists())
 			{
-				path = path.relativeTo(projectPath);
+				path.makeRelativeTo(projectPath);
 			}
 
 			list.push_back(path.str());

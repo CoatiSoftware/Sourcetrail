@@ -74,7 +74,7 @@ std::vector<FilePath> SourceGroupJavaMaven::getAllSourcePaths() const
 		dialogView->showUnknownProgressDialog("Preparing Project", "Maven\nFetching Source Directories");
 
 		const FilePath mavenPath(ApplicationSettings::getInstance()->getMavenPath());
-		const FilePath projectRootPath = m_settings->getMavenProjectFilePathExpandedAndAbsolute().parentDirectory();
+		const FilePath projectRootPath = m_settings->getMavenProjectFilePathExpandedAndAbsolute().getParentDirectory();
 		sourcePaths = utility::mavenGetAllDirectoriesFromEffectivePom(mavenPath, projectRootPath, m_settings->getShouldIndexMavenTests());
 
 		dialogView->hideUnknownProgressDialog();
@@ -87,7 +87,7 @@ bool SourceGroupJavaMaven::prepareMavenData()
 	if (m_settings && m_settings->getMavenProjectFilePathExpandedAndAbsolute().exists())
 	{
 		const FilePath mavenPath = ApplicationSettings::getInstance()->getMavenPath();
-		const FilePath projectRootPath = m_settings->getMavenProjectFilePathExpandedAndAbsolute().parentDirectory();
+		const FilePath projectRootPath = m_settings->getMavenProjectFilePathExpandedAndAbsolute().getParentDirectory();
 
 		std::shared_ptr<DialogView> dialogView = Application::getInstance()->getDialogView();
 		dialogView->showUnknownProgressDialog("Preparing Project", "Maven\nGenerating Source Files");

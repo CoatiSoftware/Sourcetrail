@@ -63,7 +63,7 @@ std::set<FilePath> FileManager::getAllSourceFilePathsRelative(const FilePath& ba
 	{
 		if (baseDirectory.exists())
 		{
-			absolutePaths.insert(path.relativeTo(baseDirectory));
+			absolutePaths.insert(path.getRelativeTo(baseDirectory));
 		}
 		else
 		{
@@ -78,7 +78,7 @@ std::vector<FilePath> FileManager::makeCanonical(const std::vector<FilePath>& fi
 	std::vector<FilePath> ret;
 	for (const FilePath& filePath: filePaths)
 	{
-		ret.push_back(filePath.canonical());
+		ret.push_back(filePath.getCanonical());
 	}
 	return ret;
 }

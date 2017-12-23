@@ -44,11 +44,11 @@ void PreprocessorCallbacks::FileChanged(
 
 		if (!m_fileRegister->fileIsIndexed(filePath))
 		{
-			m_currentPath = filePath;
+			m_currentPath = std::move(filePath);
 
 			if (reason == EnterFile)
 			{
-				m_fileRegister->markFileIndexing(filePath);
+				m_fileRegister->markFileIndexing(m_currentPath);
 			}
 		}
 	}

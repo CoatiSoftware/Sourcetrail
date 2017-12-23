@@ -58,7 +58,7 @@ std::vector<IncludeDirective> IncludeValidation::getUnresolvedIncludeDirectives(
 				for (const IncludeDirective& includeDirective: getIncludeDirectives(filePath))
 				{
 					const FilePath resolvedIncludePath =
-						resolveIncludeDirective(includeDirective, headerSearchDirectories).canonical();
+						resolveIncludeDirective(includeDirective, headerSearchDirectories).makeCanonical();
 					if (resolvedIncludePath.empty())
 					{
 						unresolvedIncludeDirectives.insert(includeDirective);
@@ -142,7 +142,7 @@ FilePath IncludeValidation::resolveIncludeDirective(const IncludeDirective& incl
 
 	{
 		// check for an include path relative to the including path
-		FilePath resolvedIncludePath = includeDirective.getIncludingFile().parentDirectory().concat(includeDirective.getIncludedFile());
+		const FilePath resolvedIncludePath = includeDirective.getIncludingFile().getParentDirectory().concatenate(includeDirective.getIncludedFile());
 		if (resolvedIncludePath.exists())
 		{
 			return resolvedIncludePath;
@@ -153,7 +153,7 @@ FilePath IncludeValidation::resolveIncludeDirective(const IncludeDirective& incl
 		// check for an include path relative to the header search directories
 		for (const FilePath& headerSearchDirectory: headerSearchDirectories)
 		{
-			FilePath resolvedIncludePath = headerSearchDirectory.concat(includeDirective.getIncludedFile());
+			const FilePath resolvedIncludePath = headerSearchDirectory.getConcatenated(includeDirective.getIncludedFile());
 			if (resolvedIncludePath.exists())
 			{
 				return resolvedIncludePath;

@@ -74,7 +74,7 @@ void QtProjectWizzard::newProjectFromCDB(const FilePath& filePath, const std::ve
 
 	if (m_projectSettings->getProjectFilePath().empty())
 	{
-		m_projectSettings->setProjectFilePath(filePath.withoutExtension().fileName(), filePath.parentDirectory());
+		m_projectSettings->setProjectFilePath(filePath.withoutExtension().fileName(), filePath.getParentDirectory());
 	}
 
 	if (!m_contentWidget)

@@ -38,13 +38,13 @@ public:
 		const bool updateExpectedOutput = false;
 
 		const std::vector<FilePath>& classpath = { 
-			FilePath("data/JavaIndexSampleProjectsTestSuite/JavaSymbolSolver060/lib/guava-21.0.jar").absolute(),
-			FilePath("data/JavaIndexSampleProjectsTestSuite/JavaSymbolSolver060/lib/javaparser-core-3.3.0.jar").absolute(),
-			FilePath("data/JavaIndexSampleProjectsTestSuite/JavaSymbolSolver060/lib/javaslang-2.0.3.jar").absolute(),
-			FilePath("data/JavaIndexSampleProjectsTestSuite/JavaSymbolSolver060/lib/javassist-3.19.0-GA.jar").absolute(),
-			FilePath("data/JavaIndexSampleProjectsTestSuite/JavaSymbolSolver060/src/java-symbol-solver-core").absolute(),
-			FilePath("data/JavaIndexSampleProjectsTestSuite/JavaSymbolSolver060/src/java-symbol-solver-logic").absolute(),
-			FilePath("data/JavaIndexSampleProjectsTestSuite/JavaSymbolSolver060/src/java-symbol-solver-model").absolute()
+			FilePath("data/JavaIndexSampleProjectsTestSuite/JavaSymbolSolver060/lib/guava-21.0.jar").makeAbsolute(),
+			FilePath("data/JavaIndexSampleProjectsTestSuite/JavaSymbolSolver060/lib/javaparser-core-3.3.0.jar").makeAbsolute(),
+			FilePath("data/JavaIndexSampleProjectsTestSuite/JavaSymbolSolver060/lib/javaslang-2.0.3.jar").makeAbsolute(),
+			FilePath("data/JavaIndexSampleProjectsTestSuite/JavaSymbolSolver060/lib/javassist-3.19.0-GA.jar").makeAbsolute(),
+			FilePath("data/JavaIndexSampleProjectsTestSuite/JavaSymbolSolver060/src/java-symbol-solver-core").makeAbsolute(),
+			FilePath("data/JavaIndexSampleProjectsTestSuite/JavaSymbolSolver060/src/java-symbol-solver-logic").makeAbsolute(),
+			FilePath("data/JavaIndexSampleProjectsTestSuite/JavaSymbolSolver060/src/java-symbol-solver-model").makeAbsolute()
 		};
 
 		processSourceFile("JavaSymbolSolver060", FilePath("java-symbol-solver-core/com/github/javaparser/symbolsolver/SourceFileInfoExtractor.java"), classpath, updateExpectedOutput);
@@ -218,12 +218,12 @@ private:
 	void processSourceFile(const std::string& projectName, const FilePath& sourceFilePath, const std::vector<FilePath>& classpath, const bool updateExpectedOutput)
 	{
 		const FilePath projectDataRoot = FilePath("data/JavaIndexSampleProjectsTestSuite/" + projectName);
-		const FilePath projectDataSrcRoot = projectDataRoot.concat(FilePath("src"));
-		const FilePath projectDataExpectedOutputRoot = projectDataRoot.concat(FilePath("expected_output"));
+		const FilePath projectDataSrcRoot = projectDataRoot.getConcatenated(FilePath("src"));
+		const FilePath projectDataExpectedOutputRoot = projectDataRoot.getConcatenated(FilePath("expected_output"));
 
-		std::shared_ptr<TextAccess> output = parseCode(projectDataSrcRoot.concat(sourceFilePath), projectDataSrcRoot, classpath);
+		std::shared_ptr<TextAccess> output = parseCode(projectDataSrcRoot.getConcatenated(sourceFilePath), projectDataSrcRoot, classpath);
 
-		FilePath expectedOutputFilePath = projectDataExpectedOutputRoot.concat(FilePath(utility::replace(sourceFilePath.withoutExtension().str() + ".txt", "/", "_")));
+		const FilePath expectedOutputFilePath = projectDataExpectedOutputRoot.getConcatenated(FilePath(utility::replace(sourceFilePath.withoutExtension().str() + ".txt", "/", "_")));
 		if (updateExpectedOutput || !expectedOutputFilePath.exists())
 		{
 			std::ofstream expectedOutputFile;

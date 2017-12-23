@@ -13,7 +13,7 @@ public:
 		size_t bookmarkCount = 4;
 		int result = -1;
 		{
-			boost::filesystem::remove(databasePath.path());
+			FileSystem::remove(databasePath);
 			SqliteBookmarkStorage storage(databasePath);
 			storage.setup();
 
@@ -26,7 +26,7 @@ public:
 			result = storage.getAllBookmarks().size();
 		}
 
-		boost::filesystem::remove(databasePath.path());
+		FileSystem::remove(databasePath);
 
 		TS_ASSERT_EQUALS(result, bookmarkCount);
 	}
@@ -37,7 +37,7 @@ public:
 		size_t bookmarkCount = 4;
 		int result = -1;
 		{
-			boost::filesystem::remove(databasePath.path());
+			FileSystem::remove(databasePath);
 			SqliteBookmarkStorage storage(databasePath);
 			storage.setup();
 
@@ -52,7 +52,7 @@ public:
 			result = storage.getAllBookmarkedNodes().size();
 		}
 
-		boost::filesystem::remove(databasePath.path());
+		FileSystem::remove(databasePath);
 
 		TS_ASSERT_EQUALS(result, bookmarkCount);
 	}
@@ -62,7 +62,7 @@ public:
 		FilePath databasePath("data/SQLiteTestSuite/bookmarkTest.sqlite");
 		int result = -1;
 		{
-			boost::filesystem::remove(databasePath.path());
+			FileSystem::remove(databasePath);
 			SqliteBookmarkStorage storage(databasePath);
 			storage.setup();
 
@@ -75,7 +75,7 @@ public:
 			result = storage.getAllBookmarkedNodes().size();
 		}
 
-		boost::filesystem::remove(databasePath.path());
+		FileSystem::remove(databasePath);
 
 		TS_ASSERT_EQUALS(result, 0);
 	}
@@ -89,7 +89,7 @@ public:
 
 		StorageBookmark storageBookmark;
 		{
-			boost::filesystem::remove(databasePath.path());
+			FileSystem::remove(databasePath);
 			SqliteBookmarkStorage storage(databasePath);
 			storage.setup();
 
@@ -102,7 +102,7 @@ public:
 			storageBookmark = storage.getAllBookmarks().front();
 		}
 
-		boost::filesystem::remove(databasePath.path());
+		FileSystem::remove(databasePath);
 
 		TS_ASSERT_EQUALS(updatedName, storageBookmark.name);
 		TS_ASSERT_EQUALS(updatedComment, storageBookmark.comment);

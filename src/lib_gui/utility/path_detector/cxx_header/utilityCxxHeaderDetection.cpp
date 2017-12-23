@@ -41,10 +41,10 @@ namespace utility
 
 		for (size_t i = 0; i < windowsSdkVersions.size(); i++)
 		{
-			FilePath sdkPath = getWindowsSdkRootPathUsingRegistry(architectureType, windowsSdkVersions[i]);
+			const FilePath sdkPath = getWindowsSdkRootPathUsingRegistry(architectureType, windowsSdkVersions[i]);
 			if (sdkPath.exists())
 			{
-				FilePath sdkIncludePath = sdkPath.concat(FilePath("include/"));
+				const FilePath sdkIncludePath = sdkPath.getConcatenated(FilePath("include/"));
 				if (sdkIncludePath.exists())
 				{
 					std::vector<std::string> subdirectories;
@@ -55,7 +55,7 @@ namespace utility
 					bool usingSubdirectories = false;
 					for (size_t j = 0; j < subdirectories.size(); j++)
 					{
-						FilePath sdkSubdirectory = sdkIncludePath.concat(FilePath(subdirectories[j]));
+						const FilePath sdkSubdirectory = sdkIncludePath.getConcatenated(FilePath(subdirectories[j]));
 						if (sdkSubdirectory.exists())
 						{
 							headerSearchPaths.push_back(sdkSubdirectory);
@@ -72,12 +72,12 @@ namespace utility
 			}
 		}
 		{
-			FilePath sdkPath = getWindowsSdkRootPathUsingRegistry(architectureType, "v10.0");
+			const FilePath sdkPath = getWindowsSdkRootPathUsingRegistry(architectureType, "v10.0");
 			if (sdkPath.exists())
 			{
-				for (const FilePath& versionPath : FileSystem::getDirectSubDirectories(sdkPath.concat(FilePath("include/"))))
+				for (const FilePath& versionPath : FileSystem::getDirectSubDirectories(sdkPath.getConcatenated(FilePath("include/"))))
 				{
-					const FilePath ucrtPath = versionPath.concat(FilePath("ucrt"));
+					const FilePath ucrtPath = versionPath.getConcatenated(FilePath("ucrt"));
 					if (ucrtPath.exists())
 					{
 						headerSearchPaths.push_back(ucrtPath);

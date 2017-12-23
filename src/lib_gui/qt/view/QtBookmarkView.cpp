@@ -250,7 +250,8 @@ void QtBookmarkView::showBookmarksClicked()
 void QtBookmarkView::setStyleSheet()
 {
 	m_widget->setStyleSheet(utility::getStyleSheet(
-		ResourcePaths::getGuiPath().concat(FilePath("bookmark_view/bookmark_view.css"))).c_str());
+		ResourcePaths::getGuiPath().concatenate(FilePath("bookmark_view/bookmark_view.css"))
+	).c_str());
 }
 
 void QtBookmarkView::refreshStyle()

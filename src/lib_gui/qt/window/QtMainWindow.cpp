@@ -128,7 +128,7 @@ QtMainWindow::QtMainWindow()
 	{
 		// can only be done once, because resetting the style on the QCoreApplication causes crash
 		app->setStyleSheet(
-			utility::getStyleSheet(ResourcePaths::getGuiPath().concat(FilePath("scrollbar.css"))).c_str());
+			utility::getStyleSheet(ResourcePaths::getGuiPath().concatenate(FilePath("scrollbar.css"))).c_str());
 	}
 
 	m_recentProjectAction = new QAction*[ApplicationSettings::getInstance()->getMaxRecentProjectsCount()];
@@ -379,7 +379,7 @@ void QtMainWindow::setContentEnabled(bool enabled)
 
 void QtMainWindow::refreshStyle()
 {
-	setStyleSheet(utility::getStyleSheet(ResourcePaths::getGuiPath().concat(FilePath("main.css"))).c_str());
+	setStyleSheet(utility::getStyleSheet(ResourcePaths::getGuiPath().concatenate(FilePath("main.css"))).c_str());
 }
 
 void QtMainWindow::keyPressEvent(QKeyEvent* event)
@@ -524,12 +524,12 @@ void QtMainWindow::enteredLicense()
 
 void QtMainWindow::showDataFolder()
 {
-	QDesktopServices::openUrl(QUrl(("file:///" + UserPaths::getUserDataPath().canonical().str()).c_str(), QUrl::TolerantMode));
+	QDesktopServices::openUrl(QUrl(("file:///" + UserPaths::getUserDataPath().makeCanonical().str()).c_str(), QUrl::TolerantMode));
 }
 
 void QtMainWindow::showLogFolder()
 {
-	QDesktopServices::openUrl(QUrl(("file:///" + UserPaths::getLogPath().canonical().str()).c_str(), QUrl::TolerantMode));
+	QDesktopServices::openUrl(QUrl(("file:///" + UserPaths::getLogPath().makeCanonical().str()).c_str(), QUrl::TolerantMode));
 }
 
 void QtMainWindow::showStartScreen()
@@ -685,7 +685,9 @@ void QtMainWindow::resetWindowLayout()
 {
 	FileSystem::remove(UserPaths::getWindowSettingsPath());
 	FileSystem::copyFile(
-		ResourcePaths::getFallbackPath().concat(FilePath("window_settings.ini")), UserPaths::getWindowSettingsPath());
+		ResourcePaths::getFallbackPath().concatenate(FilePath("window_settings.ini")), 
+		UserPaths::getWindowSettingsPath()
+	);
 	loadDockWidgetLayout();
 }
 

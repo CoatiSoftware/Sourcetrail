@@ -138,7 +138,7 @@ size_t i = 0;
 		}
 		i++;
 	}
-	setStyleSheet(utility::getStyleSheet(ResourcePaths::getGuiPath().concat(FilePath("startscreen/startscreen.css"))).c_str());
+	setStyleSheet(utility::getStyleSheet(ResourcePaths::getGuiPath().concatenate(FilePath("startscreen/startscreen.css"))).c_str());
 }
 
 void QtStartScreen::setupStartScreen()
@@ -146,7 +146,7 @@ void QtStartScreen::setupStartScreen()
 	License license;
 	license.loadFromEncodedString(ApplicationSettings::getInstance()->getLicenseString(), AppPath::getAppPath());
 
-	setStyleSheet(utility::getStyleSheet(ResourcePaths::getGuiPath().concat(FilePath("startscreen/startscreen.css"))).c_str());
+	setStyleSheet(utility::getStyleSheet(ResourcePaths::getGuiPath().concatenate(FilePath("startscreen/startscreen.css"))).c_str());
 	addLogo();
 
 	QHBoxLayout* layout = new QHBoxLayout();

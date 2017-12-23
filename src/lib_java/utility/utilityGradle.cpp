@@ -19,7 +19,7 @@ namespace
 		if (getenv("JAVA_HOME") == nullptr)
 		{
 			const FilePath javaPath(ApplicationSettings::getInstance()->getJavaPath());
-			const FilePath javaHomePath = javaPath.parentDirectory().parentDirectory().parentDirectory();
+			const FilePath javaHomePath = javaPath.getParentDirectory().getParentDirectory().getParentDirectory();
 
 			LOG_WARNING("Environment variable \"JAVA_HOME\" not found on system. Setting value to \"" + javaHomePath.str() + "\" for this process.");
 

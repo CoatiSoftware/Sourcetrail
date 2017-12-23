@@ -99,10 +99,10 @@ std::vector<std::shared_ptr<IndexerCommand>> SourceGroupCxxCdb::getIndexerComman
 
 		for (const clang::tooling::CompileCommand& command: cdb->getAllCompileCommands())
 		{
-			FilePath sourcePath = FilePath(command.Filename).canonical();
+			FilePath sourcePath = FilePath(command.Filename).makeCanonical();
 			if (!sourcePath.isAbsolute())
 			{
-				sourcePath = FilePath(command.Directory + '/' + command.Filename).canonical();
+				sourcePath = FilePath(command.Directory + '/' + command.Filename).makeCanonical();
 			}
 
 			if (filesToIndex.find(sourcePath) != filesToIndex.end() &&

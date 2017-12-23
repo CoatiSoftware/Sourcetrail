@@ -23,7 +23,7 @@ CxxVs10To14HeaderPathDetector::~CxxVs10To14HeaderPathDetector()
 
 std::vector<FilePath> CxxVs10To14HeaderPathDetector::getPaths() const
 {
-	FilePath vsInstallPath = getVsInstallPathUsingRegistry();
+	const FilePath vsInstallPath = getVsInstallPathUsingRegistry();
 
 	// vc++ headers
 	std::vector<FilePath> headerSearchPaths;
@@ -35,10 +35,10 @@ std::vector<FilePath> CxxVs10To14HeaderPathDetector::getPaths() const
 
 		for (size_t i = 0; i < subdirectories.size(); i++)
 		{
-			FilePath headerSearchPath = vsInstallPath.concat(FilePath(subdirectories[i]));
+			FilePath headerSearchPath = vsInstallPath.getConcatenated(FilePath(subdirectories[i]));
 			if (headerSearchPath.exists())
 			{
-				headerSearchPaths.push_back(headerSearchPath.canonical());
+				headerSearchPaths.push_back(headerSearchPath.makeCanonical());
 			}
 		}
 	}

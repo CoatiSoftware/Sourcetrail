@@ -19,7 +19,7 @@ public:
 			storage.commitTransaction();
 			nodeCount = storage.getNodeCount();
 		}
-		boost::filesystem::remove(databasePath.path());
+		FileSystem::remove(databasePath);
 
 		TS_ASSERT_EQUALS(1, nodeCount);
 	}
@@ -37,7 +37,7 @@ public:
 			storage.commitTransaction();
 			nodeCount = storage.getNodeCount();
 		}
-		boost::filesystem::remove(databasePath.path());
+		FileSystem::remove(databasePath);
 
 		TS_ASSERT_EQUALS(0, nodeCount);
 	}
@@ -56,7 +56,7 @@ public:
 			storage.commitTransaction();
 			edgeCount = storage.getEdgeCount();
 		}
-		boost::filesystem::remove(databasePath.path());
+		FileSystem::remove(databasePath);
 
 		TS_ASSERT_EQUALS(1, edgeCount);
 	}
@@ -76,7 +76,7 @@ public:
 			storage.commitTransaction();
 			edgeCount = storage.getEdgeCount();
 		}
-		boost::filesystem::remove(databasePath.path());
+		FileSystem::remove(databasePath);
 
 		TS_ASSERT_EQUALS(0, edgeCount);
 	}

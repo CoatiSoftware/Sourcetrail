@@ -23,10 +23,10 @@ std::vector<FilePath> IndexerCommandCxxCdb::getSourceFilesFromCDB(const FilePath
 	{
 		for (const clang::tooling::CompileCommand& command : cdb->getAllCompileCommands())
 		{
-			FilePath path = FilePath(command.Filename).canonical();
+			FilePath path = FilePath(command.Filename).makeCanonical();
 			if (!path.isAbsolute())
 			{
-				path = FilePath(command.Directory + '/' + command.Filename).canonical();
+				path = FilePath(command.Directory + '/' + command.Filename).makeCanonical();
 			}
 			filePaths.push_back(path);
 		}

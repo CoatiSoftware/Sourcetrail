@@ -218,7 +218,8 @@ bool CommandLineParser::startedWithLicense()
 
 void CommandLineParser::processProjectfile()
 {
-	m_projectFile = m_projectFile.absolute();
+	m_projectFile.makeAbsolute();
+
 	const std::string errorstring =
 		"Provided Projectfile is not valid:\n* Provided Projectfile('" + m_projectFile.fileName() + "') ";
 	if (!m_projectFile.exists())

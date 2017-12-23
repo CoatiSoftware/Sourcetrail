@@ -305,7 +305,7 @@ void QtProjectWizzardContentPathsCDBHeader::load()
 		{
 			for (const FilePath& path : IndexerCommandCxxCdb::getSourceFilesFromCDB(cdbPath))
 			{
-				sourcePaths.insert(path.parentDirectory());
+				sourcePaths.insert(path.getParentDirectory());
 			}
 		}
 
@@ -325,7 +325,7 @@ void QtProjectWizzardContentPathsCDBHeader::load()
 			if (lastPath.empty() || !lastPath.contains(path)) // don't add subdirectories of already added paths
 			{
 				lastPath = path;
-				rootPaths.push_back(path.relativeTo(projectPath));
+				rootPaths.push_back(path.getRelativeTo(projectPath));
 			}
 		}
 

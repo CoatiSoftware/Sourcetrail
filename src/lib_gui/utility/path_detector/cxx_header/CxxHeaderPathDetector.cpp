@@ -22,7 +22,7 @@ std::vector<FilePath> CxxHeaderPathDetector::getPaths() const
 	{
 		if (!utility::isPostfix(" (framework directory)", path))
 		{
-			headerPaths.push_back(FilePath(path).canonical());
+			headerPaths.push_back(FilePath(path).makeCanonical());
 		}
 	}
 	return headerPaths;

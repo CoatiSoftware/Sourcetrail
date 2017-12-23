@@ -14,16 +14,12 @@ ParseLocation::ParseLocation(
 	uint lineNumber,
 	uint columnNumber
 )
-	: filePath(filePath)
+	: filePath(filePath.getCanonical())
 	, startLineNumber(lineNumber)
 	, startColumnNumber(columnNumber)
 	, endLineNumber(lineNumber)
 	, endColumnNumber(columnNumber)
 {
-	if (this->filePath.exists())
-	{
-		this->filePath = this->filePath.canonical();
-	}
 }
 
 ParseLocation::ParseLocation(
@@ -31,16 +27,12 @@ ParseLocation::ParseLocation(
 	uint startLineNumber, uint startColumnNumber,
 	uint endLineNumber, uint endColumnNumber
 )
-	: filePath(filePath)
+	: filePath(filePath.getCanonical())
 	, startLineNumber(startLineNumber)
 	, startColumnNumber(startColumnNumber)
 	, endLineNumber(endLineNumber)
 	, endColumnNumber(endColumnNumber)
 {
-	if (this->filePath.exists())
-	{
-		this->filePath = this->filePath.canonical();
-	}
 }
 
 bool ParseLocation::isValid() const

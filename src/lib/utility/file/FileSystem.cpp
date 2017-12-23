@@ -13,9 +13,9 @@ std::vector<FilePath> FileSystem::getFilePathsFromDirectory(
 	std::set<std::string> ext(extensions.begin(), extensions.end());
 	std::vector<FilePath> files;
 
-	if (boost::filesystem::is_directory(path.path()))
+	if (path.isDirectory())
 	{
-		boost::filesystem::recursive_directory_iterator it(path.path());
+		boost::filesystem::recursive_directory_iterator it(path.getPath());
 		boost::filesystem::recursive_directory_iterator endit;
 		while (it != endit)
 		{
@@ -44,9 +44,7 @@ FileInfo FileSystem::getFileInfoForPath(const FilePath& filePath)
 {
 	if (filePath.exists())
 	{
-		std::time_t t = boost::filesystem::last_write_time(filePath.path());
-		boost::posix_time::ptime lastWriteTime = boost::posix_time::from_time_t(t);
-		return FileInfo(filePath, lastWriteTime);
+		return FileInfo(filePath, getLastWriteTime(filePath));
 	}
 	return FileInfo();
 }
@@ -69,7 +67,7 @@ std::vector<FileInfo> FileSystem::getFileInfosFromPaths(
 	{
 		if (path.isDirectory())
 		{
-			boost::filesystem::recursive_directory_iterator it(path.path(), boost::filesystem::symlink_option::recurse);
+			boost::filesystem::recursive_directory_iterator it(path.getPath(), boost::filesystem::symlink_option::recurse);
 			boost::filesystem::recursive_directory_iterator endit;
 			boost::system::error_code ec;
 			for ( ; it != endit ; it.increment(ec) )
@@ -113,25 +111,20 @@ std::vector<FileInfo> FileSystem::getFileInfosFromPaths(
 						continue;
 					}
 					filePaths.insert(p);
-
-					std::time_t t = boost::filesystem::last_write_time(*it);
-					boost::posix_time::ptime lastWriteTime = boost::posix_time::from_time_t(t);
-					files.push_back(FileInfo(FilePath(it->path()), lastWriteTime));
+					files.push_back(getFileInfoForPath(FilePath(it->path())));
 				}
 			}
 		}
 		else if (path.exists() && (!ext.size() || ext.find(utility::toLowerCase(path.extension())) != ext.end()))
 		{
-			boost::filesystem::path p = boost::filesystem::canonical(path.path());
+			const FilePath canonicalPath = path.getCanonical();
+			boost::filesystem::path p = canonicalPath.getPath();
 			if (filePaths.find(p) != filePaths.end())
 			{
 				continue;
 			}
 			filePaths.insert(p);
-
-			std::time_t t = boost::filesystem::last_write_time(path.path());
-			boost::posix_time::ptime lastWriteTime = boost::posix_time::from_time_t(t);
-			files.push_back(FileInfo(path, lastWriteTime));
+			files.push_back(getFileInfoForPath(canonicalPath));
 		}
 	}
 
@@ -147,7 +140,7 @@ std::set<FilePath> FileSystem::getSymLinkedDirectories(const std::vector<FilePat
 	{
 		if (path.isDirectory())
 		{
-			boost::filesystem::recursive_directory_iterator it(path.path(), boost::filesystem::symlink_option::recurse);
+			boost::filesystem::recursive_directory_iterator it(path.getPath(), boost::filesystem::symlink_option::recurse);
 			boost::filesystem::recursive_directory_iterator endit;
 			boost::system::error_code ec;
 			for ( ; it != endit ; it.increment(ec) )
@@ -189,7 +182,7 @@ std::set<FilePath> FileSystem::getSymLinkedDirectories(const std::vector<FilePat
 
 unsigned long long FileSystem::getFileByteSize(const FilePath& filePath)
 {
-	return boost::filesystem::file_size(filePath.path());
+	return boost::filesystem::file_size(filePath.getPath());
 }
 
 TimeStamp FileSystem::getLastWriteTime(const FilePath& filePath)
@@ -197,7 +190,7 @@ TimeStamp FileSystem::getLastWriteTime(const FilePath& filePath)
 	boost::posix_time::ptime lastWriteTime;
 	if (filePath.exists())
 	{
-		std::time_t t = boost::filesystem::last_write_time(filePath.path());
+		std::time_t t = boost::filesystem::last_write_time(filePath.getPath());
 		lastWriteTime = boost::posix_time::from_time_t(t);
 	}
 	return TimeStamp(lastWriteTime);
@@ -208,14 +201,9 @@ std::string FileSystem::getTimeStringNow() // TODO: move to utility
 	return boost::posix_time::to_iso_string(boost::posix_time::second_clock::universal_time());
 }
 
-bool FileSystem::exists(const FilePath& path)
-{
-	return boost::filesystem::exists(path.path());
-}
-
 bool FileSystem::remove(const FilePath& path)
 {
-	return boost::filesystem::remove(path.path());
+	return boost::filesystem::remove(path.getPath());
 }
 
 bool FileSystem::rename(const FilePath& from, const FilePath& to)
@@ -225,7 +213,7 @@ bool FileSystem::rename(const FilePath& from, const FilePath& to)
 		return false;
 	}
 
-	boost::filesystem::rename(from.path(), to.path());
+	boost::filesystem::rename(from.getPath(), to.getPath());
 	return true;
 }
 
@@ -236,7 +224,7 @@ bool FileSystem::copyFile(const FilePath& from, const FilePath& to)
 		return false;
 	}
 
-	boost::filesystem::copy_file(boost::filesystem::path(from.path()), boost::filesystem::path(to.path()));
+	boost::filesystem::copy_file(from.getPath(), to.getPath());
 	return true;
 }
 
@@ -247,7 +235,7 @@ bool FileSystem::copy_directory(const FilePath& from, const FilePath& to)
 		return false;
 	}
 
-	boost::filesystem::copy_directory(boost::filesystem::path(from.path()),boost::filesystem::path(to.path()));
+	boost::filesystem::copy_directory(from.getPath(), to.getPath());
 	return true;
 }
 
@@ -273,7 +261,6 @@ std::vector<FilePath> FileSystem::getDirectSubDirectories(const FilePath& path)
 
 	return v;
 }
-
 
 std::vector<FilePath> FileSystem::getRecursiveSubDirectories(const FilePath &path)
 {

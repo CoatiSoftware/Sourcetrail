@@ -87,7 +87,7 @@ void IDECommunicationController::handleSetActiveTokenMessage(
 	{
 		const unsigned int cursorColumn = message.column;
 
-		const FilePath filePath = FilePath(message.fileLocation).canonical();
+		const FilePath filePath = FilePath(message.fileLocation).makeCanonical();
 
 		if (FileSystem::getFileInfoForPath(filePath).lastWriteTime
 			== m_storageAccess->getFileInfoForFilePath(filePath).lastWriteTime)

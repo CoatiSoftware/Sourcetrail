@@ -65,19 +65,19 @@ void utility::CompilationDatabase::init()
 
 				if (utility::isPrefix(frameworkIncludeFlag, argument))
 				{
-					frameworkHeaders.insert(FilePath(utility::trim(argument.substr(frameworkIncludeFlag.size())), command.Directory).canonical());
+					frameworkHeaders.insert(FilePath(utility::trim(argument.substr(frameworkIncludeFlag.size())), command.Directory).makeCanonical());
 				}
 				else if (utility::isPrefix(systemIncludeFlag, argument))
 				{
-					systemHeaders.insert(FilePath(utility::trim(argument.substr(systemIncludeFlag.size())), command.Directory).canonical());
+					systemHeaders.insert(FilePath(utility::trim(argument.substr(systemIncludeFlag.size())), command.Directory).makeCanonical());
 				}
 				else if (utility::isPrefix(quoteFlag, argument))
 				{
-					headers.insert(FilePath(utility::trim(argument.substr(quoteFlag.size())), command.Directory).canonical());
+					headers.insert(FilePath(utility::trim(argument.substr(quoteFlag.size())), command.Directory).makeCanonical());
 				}
 				else if (utility::isPrefix(includeFlag, argument))
 				{
-					headers.insert(FilePath(utility::trim(argument.substr(includeFlag.size())), command.Directory).canonical());
+					headers.insert(FilePath(utility::trim(argument.substr(includeFlag.size())), command.Directory).makeCanonical());
 				}
 			}
 		}
