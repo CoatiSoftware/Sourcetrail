@@ -11,7 +11,7 @@
 #include "data/graph/token_component/TokenComponentStatic.h"
 #include "data/graph/token_component/TokenComponentFilePath.h"
 
-Node::Node(Id id, NodeType type, NameHierarchy nameHierarchy, bool defined)
+Node::Node(Id id, NodeType type, const NameHierarchy& nameHierarchy, bool defined)
 	: Token(id)
 	, m_type(type)
 	, m_nameHierarchy(nameHierarchy)

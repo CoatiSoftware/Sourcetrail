@@ -11,18 +11,30 @@
 class CxxDeclName: public CxxName
 {
 public:
-	CxxDeclName(
-		std::string name,
-		std::vector<std::string> templateParameterNames
-	);
+	// uncomment this constructor if required, but try to use the one using move constructors for the members
+	//CxxDeclName(
+	//	const std::string& name,
+	//	const std::vector<std::string>& templateParameterNames
+	//);
 
 	CxxDeclName(
-		std::string name,
-		std::vector<std::string> templateParameterNames,
+		std::string&& name,
+		std::vector<std::string>&& templateParameterNames
+	);
+
+	// uncomment this constructor if required, but try to use the one using move constructors for the members
+	//CxxDeclName(
+	//	const std::string& name,
+	//	const std::vector<std::string>& templateParameterNames,
+	//	std::shared_ptr<CxxName> parent
+	//);
+
+	CxxDeclName(
+		std::string&& name,
+		std::vector<std::string>&& templateParameterNames,
 		std::shared_ptr<CxxName> parent
 	);
 
-	virtual ~CxxDeclName();
 	virtual NameHierarchy toNameHierarchy() const;
 
 	std::string getName() const;

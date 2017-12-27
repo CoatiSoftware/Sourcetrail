@@ -53,10 +53,6 @@ IndexerCommandCxxCdb::IndexerCommandCxxCdb(
 {
 }
 
-IndexerCommandCxxCdb::~IndexerCommandCxxCdb()
-{
-}
-
 IndexerCommandType IndexerCommandCxxCdb::getIndexerCommandType() const
 {
 	return getStaticIndexerCommandType();

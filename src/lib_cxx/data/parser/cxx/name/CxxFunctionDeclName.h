@@ -10,26 +10,45 @@
 class CxxFunctionDeclName: public CxxDeclName
 {
 public:
+	// uncomment this constructor if required, but try to use the one using move constructors for the members
+	//CxxFunctionDeclName(
+	//	const std::string& name,
+	//	const std::vector<std::string>& templateParameterNames,
+	//	std::shared_ptr<CxxTypeName> returnTypeName,
+	//	const std::vector<std::shared_ptr<CxxTypeName>>& parameterTypeNames,
+	//	const bool isConst,
+	//	const bool isStatic
+	//);
+
 	CxxFunctionDeclName(
-		const std::string& name,
-		const std::vector<std::string>& templateParameterNames,
+		std::string&& name,
+		std::vector<std::string>&& templateParameterNames,
 		std::shared_ptr<CxxTypeName> returnTypeName,
-		const std::vector<std::shared_ptr<CxxTypeName>>& parameterTypeNames,
+		std::vector<std::shared_ptr<CxxTypeName>>&& parameterTypeNames,
 		const bool isConst,
 		const bool isStatic
 	);
 
+	// uncomment this constructor if required, but try to use the one using move constructors for the members
+	//CxxFunctionDeclName(
+	//	const std::string& name,
+	//	const std::vector<std::string>& templateParameterNames,
+	//	std::shared_ptr<CxxTypeName> returnTypeName,
+	//	const std::vector<std::shared_ptr<CxxTypeName>>& parameterTypeNames,
+	//	const bool isConst,
+	//	const bool isStatic,
+	//	std::shared_ptr<CxxName> parent
+	//);
+
 	CxxFunctionDeclName(
-		const std::string& name,
-		const std::vector<std::string>& templateParameterNames,
+		std::string&& name,
+		std::vector<std::string>&& templateParameterNames,
 		std::shared_ptr<CxxTypeName> returnTypeName,
-		const std::vector<std::shared_ptr<CxxTypeName>>& parameterTypeNames,
+		std::vector<std::shared_ptr<CxxTypeName>>&& parameterTypeNames,
 		const bool isConst,
 		const bool isStatic,
 		std::shared_ptr<CxxName> parent
 	);
-
-	virtual ~CxxFunctionDeclName();
 
 	virtual NameHierarchy toNameHierarchy() const;
 

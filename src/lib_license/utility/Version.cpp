@@ -33,7 +33,7 @@ Version Version::fromString(const std::string& versionString)
 		Version version;
 		std::vector<std::string> parts = split<std::vector<std::string>>(versionString, ".");
 
-		if (parts.size())
+		if (!parts.empty())
 		{
 			version.m_year = std::stoi(parts[0]);
 		}
@@ -46,7 +46,7 @@ Version Version::fromString(const std::string& versionString)
 		if (parts.size() > 2)
 		{
 			std::vector<std::string> hashParts = split<std::vector<std::string>>(parts[2], "-");
-			if (hashParts.size())
+			if (!hashParts.empty())
 			{
 				version.m_commitNumber = std::stoi(hashParts[0]);
 			}
@@ -92,12 +92,7 @@ bool Version::isEmpty() const
 
 bool Version::isValid() const
 {
-	if (m_minorNumber < 5 && m_minorNumber > 0
-			&& m_year > 2016)
-	{
-		return true;
-	}
-	return false;
+	return (0 < m_minorNumber && m_minorNumber < 5 && m_year > 2016);
 }
 
 std::string Version::toShortString() const

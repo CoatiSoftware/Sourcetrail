@@ -189,25 +189,25 @@ std::string License::getLicenseInfo() const
 	info += m_type + "\n";
 	info += getExpireLine() + "\n";
 
-    // get info depending on license type
+	// get info depending on license type
 	if (isNonCommercialLicenseType())
-    {
-        info += "not registered for commercial development";
-    }
+	{
+		info += "not registered for commercial development";
+	}
 	else if (m_type == LicenseConstants::TEST_LICENSE_STRING)
-    {
-        info += "unlimited Seats";
-    }
+	{
+		info += "unlimited Seats";
+	}
 	else if (m_seats > 1)
-    {
+	{
 		info += std::to_string(m_seats) + " Seats";
-    }
-    else
-    {
-        info += "1 Seat";
-    }
+	}
+	else
+	{
+		info += "1 Seat";
+	}
 
-    return info;
+	return info;
 }
 
 std::string License::getUser() const
@@ -355,7 +355,7 @@ bool License::isValid() const
 	}
     try
 	{
-		if (m_signature.size() <= 0)
+		if (m_signature.empty())
 		{
 			std::cout << "Could not read signature" << std::endl;
 			return false;
@@ -395,14 +395,14 @@ bool License::isValid() const
 bool License::isExpired() const
 {
 	if ( getType() == LicenseConstants::TEST_LICENSE_STRING)
-    {
-        return (getTimeLeft()==-1);
-    }
-    else
-    {
+	{
+		return (getTimeLeft()==-1);
+	}
+	else
+	{
 		Version version = Version::fromString(m_expire);
 		return Version::getApplicationVersion() > version;
-    }
+	}
 }
 
 std::string License::getPublicKeyFilename() const
@@ -423,7 +423,7 @@ bool License::loadPublicKeyFromFile(const std::string& filename)
 
 	if(boost::filesystem::exists(getPublicKeyFilename()))
 	{
-		Botan::RSA_PublicKey *rsaPublicKey = dynamic_cast<Botan::RSA_PublicKey *>(Botan::X509::load_key(getPublicKeyFilename()));
+		Botan::RSA_PublicKey* rsaPublicKey = dynamic_cast<Botan::RSA_PublicKey *>(Botan::X509::load_key(getPublicKeyFilename()));
 
 		if (!rsaPublicKey)
 		{
@@ -499,7 +499,7 @@ std::string License::hashLocation(const std::string& location) const
 
 bool License::checkLocation(const std::string& location, const std::string& hash)
 {
-	if (!location.size() || !hash.size())
+	if (location.empty() || hash.empty())
 	{
 		return true;
 	}
@@ -509,7 +509,7 @@ bool License::checkLocation(const std::string& location, const std::string& hash
 
 std::string License::getLicenseEncodedString(const std::string& applicationLocation) const
 {
-	if (applicationLocation.size() <= 0)
+	if (applicationLocation.empty())
 	{
 		std::cout << "No application location was given" << std::endl;
 		return "";
@@ -555,13 +555,13 @@ std::string License::getLicenseEncodedString(const std::string& applicationLocat
 
 bool License::loadFromEncodedString(const std::string& encodedLicense, const std::string& applicationLocation)
 {
-	if (encodedLicense.size() <= 0)
+	if (encodedLicense.empty())
 	{
 		std::cout << "No license string given" << std::endl;
 		return false;
 	}
 
-	if (applicationLocation.size() <= 0)
+	if (applicationLocation.empty())
 	{
 		std::cout << "No application location given" << std::endl;
 		return false;
@@ -593,7 +593,7 @@ std::string License::getHashedLicense() const
 
 std::string License::getEncodeKey(const std::string applicationLocation) const
 {
-	if (applicationLocation.size() <= 0)
+	if (applicationLocation.empty())
 	{
 		std::cout << "No application location given" << std::endl;
 		return "";

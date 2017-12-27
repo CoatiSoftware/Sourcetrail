@@ -9,10 +9,6 @@ CxxName::CxxName(std::shared_ptr<CxxName> parent)
 {
 }
 
-CxxName::~CxxName()
-{
-}
-
 void CxxName::setParent(std::shared_ptr<CxxName> parent)
 {
 	m_parent = parent;

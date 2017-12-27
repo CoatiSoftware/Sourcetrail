@@ -1,31 +1,52 @@
 #include "data/parser/cxx/name/CxxStaticFunctionDeclName.h"
 
+//CxxStaticFunctionDeclName::CxxStaticFunctionDeclName(
+//	const std::string& name,
+//	const std::vector<std::string>& templateParameterNames,
+//	std::shared_ptr<CxxTypeName> returnTypeName,
+//	const std::vector<std::shared_ptr<CxxTypeName>>& parameterTypeNames,
+//	const std::string& translationUnitFileName
+//)
+//	: CxxFunctionDeclName(name, templateParameterNames, returnTypeName, parameterTypeNames, false, true)
+//	, m_translationUnitFileName(translationUnitFileName)
+//{
+//}
+
 CxxStaticFunctionDeclName::CxxStaticFunctionDeclName(
-	const std::string& name,
-	const std::vector<std::string>& templateParameterNames,
+	std::string&& name,
+	std::vector<std::string>&& templateParameterNames,
 	std::shared_ptr<CxxTypeName> returnTypeName,
-	const std::vector<std::shared_ptr<CxxTypeName>>& parameterTypeNames,
-	const std::string& translationUnitFileName
+	std::vector<std::shared_ptr<CxxTypeName>>&& parameterTypeNames,
+	std::string&& translationUnitFileName
 )
-	: CxxFunctionDeclName(name, templateParameterNames, returnTypeName, parameterTypeNames, false, true)
-	, m_translationUnitFileName(translationUnitFileName)
+	: CxxFunctionDeclName(std::move(name), std::move(templateParameterNames), returnTypeName, std::move(parameterTypeNames), false, true)
+	, m_translationUnitFileName(std::move(translationUnitFileName))
 {
 }
 
+//CxxStaticFunctionDeclName::CxxStaticFunctionDeclName(
+//	const std::string& name,
+//	const std::vector<std::string>& templateParameterNames,
+//	std::shared_ptr<CxxTypeName> returnTypeName,
+//	const std::vector<std::shared_ptr<CxxTypeName>>& parameterTypeNames,
+//	const std::string& translationUnitFileName,
+//	std::shared_ptr<CxxName> parent
+//)
+//	: CxxFunctionDeclName(name, templateParameterNames, returnTypeName, parameterTypeNames, false, true, parent)
+//	, m_translationUnitFileName(translationUnitFileName)
+//{
+//}
+
 CxxStaticFunctionDeclName::CxxStaticFunctionDeclName(
-	const std::string& name,
-	const std::vector<std::string>& templateParameterNames,
+	std::string&& name,
+	std::vector<std::string>&& templateParameterNames,
 	std::shared_ptr<CxxTypeName> returnTypeName,
-	const std::vector<std::shared_ptr<CxxTypeName>>& parameterTypeNames,
-	const std::string& translationUnitFileName,
+	std::vector<std::shared_ptr<CxxTypeName>>&& parameterTypeNames,
+	std::string&& translationUnitFileName,
 	std::shared_ptr<CxxName> parent
 )
-	: CxxFunctionDeclName(name, templateParameterNames, returnTypeName, parameterTypeNames, false, true, parent)
-	, m_translationUnitFileName(translationUnitFileName)
-{
-}
-
-CxxStaticFunctionDeclName::~CxxStaticFunctionDeclName()
+	: CxxFunctionDeclName(std::move(name), std::move(templateParameterNames), returnTypeName, std::move(parameterTypeNames), false, true, parent)
+	, m_translationUnitFileName(std::move(translationUnitFileName))
 {
 }
 

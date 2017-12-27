@@ -34,7 +34,7 @@ void JavaEnvironmentFactory::createInstance(std::string classPath, std::string& 
 		errorString
 	);
 
-	if (!createInstanceFunction && errorString.size() > 0)
+	if (!createInstanceFunction && !errorString.empty())
 	{
 		return;
 	}

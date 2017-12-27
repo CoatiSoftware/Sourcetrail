@@ -187,7 +187,7 @@ void ParserClientImpl::addAccess(Id nodeId, AccessKind access)
 	}
 }
 
-Id ParserClientImpl::addNodeHierarchy(NameHierarchy nameHierarchy, NodeType nodeType)
+Id ParserClientImpl::addNodeHierarchy(const NameHierarchy& nameHierarchy, NodeType nodeType)
 {
 	if (nameHierarchy.size() == 0)
 	{
@@ -215,7 +215,7 @@ Id ParserClientImpl::addNodeHierarchy(NameHierarchy nameHierarchy, NodeType node
 	return parentNodeId;
 }
 
-Id ParserClientImpl::addNode(NodeType nodeType, NameHierarchy nameHierarchy)
+Id ParserClientImpl::addNode(NodeType nodeType, const NameHierarchy& nameHierarchy)
 {
 	if (!m_storage)
 	{

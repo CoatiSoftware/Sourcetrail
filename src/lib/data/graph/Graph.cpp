@@ -41,7 +41,7 @@ void Graph::forEachToken(std::function<void(Token*)> func) const
 	forEachEdge(func);
 }
 
-Node* Graph::createNode(Id id, NodeType type, NameHierarchy nameHierarchy, bool defined)
+Node* Graph::createNode(Id id, NodeType type, const NameHierarchy& nameHierarchy, bool defined)
 {
 	Node* n = getNodeById(id);
 	if (n)

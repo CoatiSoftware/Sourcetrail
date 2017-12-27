@@ -13,7 +13,7 @@ public:
 	CxxName();
 	CxxName(std::shared_ptr<CxxName> parent);
 
-	virtual ~CxxName();
+	virtual ~CxxName() = default;
 
 	void setParent(std::shared_ptr<CxxName> parent);
 	std::shared_ptr<CxxName> getParent() const;

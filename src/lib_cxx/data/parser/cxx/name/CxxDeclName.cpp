@@ -1,23 +1,36 @@
 #include "data/parser/cxx/name/CxxDeclName.h"
 
-CxxDeclName::CxxDeclName(std::string name, std::vector<std::string> templateParameterNames)
-	: m_name(name)
-	, m_templateParameterNames(templateParameterNames)
+//CxxDeclName::CxxDeclName(const std::string& name, const std::vector<std::string>& templateParameterNames)
+//	: m_name(name)
+//	, m_templateParameterNames(templateParameterNames)
+//{
+//}
+
+CxxDeclName::CxxDeclName(std::string&& name, std::vector<std::string>&& templateParameterNames)
+	: m_name(std::move(name))
+	, m_templateParameterNames(std::move(templateParameterNames))
 {
 }
 
+//CxxDeclName::CxxDeclName(
+//	const std::string& name,
+//	const std::vector<std::string>& templateParameterNames,
+//	std::shared_ptr<CxxName> parent
+//)
+//	: CxxName(parent)
+//	, m_name(name)
+//	, m_templateParameterNames(templateParameterNames)
+//{
+//}
+
 CxxDeclName::CxxDeclName(
-	std::string name,
-	std::vector<std::string> templateParameterNames,
+	std::string&& name,
+	std::vector<std::string>&& templateParameterNames,
 	std::shared_ptr<CxxName> parent
 )
 	: CxxName(parent)
-	, m_name(name)
-	, m_templateParameterNames(templateParameterNames)
-{
-}
-
-CxxDeclName::~CxxDeclName()
+	, m_name(std::move(name))
+	, m_templateParameterNames(std::move(templateParameterNames))
 {
 }
 

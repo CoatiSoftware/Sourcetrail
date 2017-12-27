@@ -15,10 +15,6 @@ IndexerCommandCxx::IndexerCommandCxx(
 {
 }
 
-IndexerCommandCxx::~IndexerCommandCxx()
-{
-}
-
 size_t IndexerCommandCxx::getByteSize(size_t stringSize) const
 {
 	size_t size = IndexerCommand::getByteSize(stringSize);

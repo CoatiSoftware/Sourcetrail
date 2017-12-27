@@ -105,7 +105,7 @@ public:
 
 private:
 	std::string getEncodeKey(const std::string applicationLocation) const;
-	bool extractData(const std::string& string, LICENSE_LINE line);
+	bool extractData(const std::string& data, LICENSE_LINE line);
 	std::string removeCaption(const std::string& line, const std::string& caption) const;
 
 	std::string m_publicKeyFilename;

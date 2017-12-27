@@ -178,7 +178,7 @@ std::shared_ptr<CxxTypeName> CxxTypeNameResolver::getName(const clang::Type* typ
 
 						typeName = std::make_shared<CxxTypeName>(
 							declName->getName(),
-							templateArguments,
+							std::move(templateArguments),
 							declName->getParent()
 						);
 					}
@@ -235,7 +235,7 @@ std::shared_ptr<CxxTypeName> CxxTypeNameResolver::getName(const clang::Type* typ
 				}
 
 				typeName = std::make_shared<CxxTypeName>(
-					dependentType->getIdentifier()->getName().str(), templateArguments, specifierName
+					dependentType->getIdentifier()->getName().str(), std::move(templateArguments), specifierName
 				);
 				break;
 			}
@@ -280,7 +280,7 @@ std::shared_ptr<CxxTypeName> CxxTypeNameResolver::getName(const clang::Type* typ
 				nameString += ")";
 
 				typeName = std::make_shared<CxxTypeName>(
-					nameString, std::vector<std::string>()
+					std::move(nameString), std::vector<std::string>()
 				);
 				break;
 			}
@@ -304,7 +304,7 @@ std::shared_ptr<CxxTypeName> CxxTypeNameResolver::getName(const clang::Type* typ
 				std::string nameString = StrOS.str();
 
 				typeName = std::make_shared<CxxTypeName>(
-					nameString, std::vector<std::string>()
+					std::move(nameString), std::vector<std::string>()
 				);
 				break;
 			}

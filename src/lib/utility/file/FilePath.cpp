@@ -84,7 +84,7 @@ FilePath::~FilePath()
 
 boost::filesystem::path FilePath::getPath() const
 {
-	return boost::filesystem::path(*(m_path.get()));
+	return *(m_path.get());
 }
 
 bool FilePath::empty() const

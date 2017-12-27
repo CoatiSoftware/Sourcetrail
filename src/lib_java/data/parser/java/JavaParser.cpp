@@ -35,7 +35,7 @@ JavaParser::JavaParser(std::shared_ptr<ParserClient> client, std::shared_ptr<Fil
 	, m_id(s_nextParserId++)
 {
 	const std::string errorString = utility::prepareJavaEnvironment();
-	if (errorString.size() > 0)
+	if (!errorString.empty())
 	{
 		LOG_ERROR(errorString);
 	}

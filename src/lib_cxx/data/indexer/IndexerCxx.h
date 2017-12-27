@@ -11,17 +11,12 @@ template <typename IndexerCommandType, typename ParserType>
 class IndexerCxx: public Indexer<IndexerCommandType>
 {
 public:
-	virtual ~IndexerCxx();
+	virtual ~IndexerCxx() = default;
 
 	virtual std::shared_ptr<IntermediateStorage> doIndex(
 		std::shared_ptr<IndexerCommandType> indexerCommand,
 		std::shared_ptr<FileRegister> fileRegister);
 };
-
-template <typename IndexerCommandType, typename ParserType>
-IndexerCxx<IndexerCommandType, ParserType>::~IndexerCxx()
-{
-}
 
 template <typename IndexerCommandType, typename ParserType>
 std::shared_ptr<IntermediateStorage> IndexerCxx<IndexerCommandType, ParserType>::doIndex(

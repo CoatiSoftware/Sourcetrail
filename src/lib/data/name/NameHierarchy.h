@@ -11,12 +11,14 @@
 class NameHierarchy
 {
 public:
-	static std::string serialize(NameHierarchy nameHierarchy);
+	static std::string serialize(const NameHierarchy& nameHierarchy);
 	static NameHierarchy deserialize(const std::string& serializedName);
 
 	NameHierarchy(const NameDelimiterType delimiter);
 	NameHierarchy(const std::string& name, const NameDelimiterType delimiter);
 	NameHierarchy(const std::vector<std::string>& names, const NameDelimiterType delimiter);
+	NameHierarchy(const NameHierarchy& other);
+	NameHierarchy(NameHierarchy&& other);
 	~NameHierarchy();
 
 	NameDelimiterType getDelimiter() const;
@@ -27,6 +29,8 @@ public:
 
 	std::shared_ptr<NameElement> back() const;
 	std::shared_ptr<NameElement> operator[](size_t pos) const;
+	NameHierarchy& operator=(const NameHierarchy& other);
+	NameHierarchy& operator=(NameHierarchy&& other);
 
 	NameHierarchy getRange(size_t first, size_t last) const;
 

@@ -16,23 +16,35 @@ public:
 
 	struct Modifier
 	{
-		Modifier(std::string symbol);
+		Modifier(std::string&& symbol);
 		std::string symbol;
 		CxxQualifierFlags qualifierFlags;
 	};
 
-	CxxTypeName(
-		std::string name,
-		std::vector<std::string> templateArguments
-	);
+	// uncomment this constructor if required, but try to use the one using move constructors for the members
+	//CxxTypeName(
+	//	const std::string& name,
+	//	const std::vector<std::string>& templateArguments
+	//);
 
 	CxxTypeName(
-		std::string name,
-		std::vector<std::string> templateArguments,
+		std::string&& name,
+		std::vector<std::string>&& templateArguments
+	);
+
+	// uncomment this constructor if required, but try to use the one using move constructors for the members
+	//CxxTypeName(
+	//	const std::string& name,
+	//	const std::vector<std::string>& templateArguments,
+	//	std::shared_ptr<CxxName> parent
+	//);
+
+	CxxTypeName(
+		std::string&& name,
+		std::vector<std::string>&& templateArguments,
 		std::shared_ptr<CxxName> parent
 	);
 
-	virtual ~CxxTypeName();
 	virtual NameHierarchy toNameHierarchy() const;
 
 	void addQualifier(const CxxQualifierFlags::QualifierType qualifier);

@@ -10,22 +10,37 @@
 class CxxVariableDeclName: public CxxDeclName
 {
 public:
+	// uncomment this constructor if required, but try to use the one using move constructors for the members
+	//CxxVariableDeclName(
+	//	const std::string& name,
+	//	const std::vector<std::string>& templateParameterNames,
+	//	std::shared_ptr<CxxTypeName> typeName,
+	//	bool isStatic
+	//);
+
 	CxxVariableDeclName(
-		std::string name,
-		std::vector<std::string> templateParameterNames,
+		std::string&& name,
+		std::vector<std::string>&& templateParameterNames,
 		std::shared_ptr<CxxTypeName> typeName,
 		bool isStatic
 	);
 
+	// uncomment this constructor if required, but try to use the one using move constructors for the members
+	//CxxVariableDeclName(
+	//	const std::string& name,
+	//	const std::vector<std::string>& templateParameterNames,
+	//	std::shared_ptr<CxxTypeName> typeName,
+	//	bool isStatic,
+	//	std::shared_ptr<CxxName> parent
+	//);
+
 	CxxVariableDeclName(
-		std::string name,
-		std::vector<std::string> templateParameterNames,
+		std::string&& name,
+		std::vector<std::string>&& templateParameterNames,
 		std::shared_ptr<CxxTypeName> typeName,
 		bool isStatic,
 		std::shared_ptr<CxxName> parent
 	);
-
-	virtual ~CxxVariableDeclName();
 
 	virtual NameHierarchy toNameHierarchy() const;
 

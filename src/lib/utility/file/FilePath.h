@@ -20,7 +20,7 @@ public:
 	explicit FilePath(const char* filePath);
 	explicit FilePath(const std::string& filePath);
 	explicit FilePath(const boost::filesystem::path& filePath);
-	FilePath(const FilePath& filePath);
+	FilePath(const FilePath& other);
 	FilePath(FilePath&& other);
 	FilePath(const std::string& filePath, const std::string& base);
 	~FilePath();

@@ -1,31 +1,52 @@
 #include "data/parser/cxx/name/CxxVariableDeclName.h"
 
+//CxxVariableDeclName::CxxVariableDeclName(
+//	const std::string& name,
+//	const std::vector<std::string>& templateParameterNames,
+//	std::shared_ptr<CxxTypeName> typeName,
+//	bool isStatic
+//)
+//	: CxxDeclName(name, templateParameterNames)
+//	, m_typeName(typeName)
+//	, m_isStatic(isStatic)
+//{
+//}
+
 CxxVariableDeclName::CxxVariableDeclName(
-	std::string name,
-	std::vector<std::string> templateParameterNames,
+	std::string&& name,
+	std::vector<std::string>&& templateParameterNames,
 	std::shared_ptr<CxxTypeName> typeName,
 	bool isStatic
 )
-	: CxxDeclName(name, templateParameterNames)
+	: CxxDeclName(std::move(name), std::move(templateParameterNames))
 	, m_typeName(typeName)
 	, m_isStatic(isStatic)
 {
 }
 
+//CxxVariableDeclName::CxxVariableDeclName(
+//	const std::string& name,
+//	const std::vector<std::string>& templateParameterNames,
+//	std::shared_ptr<CxxTypeName> typeName,
+//	bool isStatic,
+//	std::shared_ptr<CxxName> parent
+//)
+//	: CxxDeclName(name, templateParameterNames, parent)
+//	, m_typeName(typeName)
+//	, m_isStatic(isStatic)
+//{
+//}
+
 CxxVariableDeclName::CxxVariableDeclName(
-	std::string name,
-	std::vector<std::string> templateParameterNames,
+	std::string&& name,
+	std::vector<std::string>&& templateParameterNames,
 	std::shared_ptr<CxxTypeName> typeName,
 	bool isStatic,
 	std::shared_ptr<CxxName> parent
 )
-	: CxxDeclName(name, templateParameterNames, parent)
+	: CxxDeclName(std::move(name), std::move(templateParameterNames), parent)
 	, m_typeName(typeName)
 	, m_isStatic(isStatic)
-{
-}
-
-CxxVariableDeclName::~CxxVariableDeclName()
 {
 }
 

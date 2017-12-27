@@ -19,10 +19,6 @@ IndexerCommandCxxManual::IndexerCommandCxxManual(
 {
 }
 
-IndexerCommandCxxManual::~IndexerCommandCxxManual()
-{
-}
-
 IndexerCommandType IndexerCommandCxxManual::getIndexerCommandType() const
 {
 	return getStaticIndexerCommandType();

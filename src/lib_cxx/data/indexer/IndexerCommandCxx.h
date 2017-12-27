@@ -20,7 +20,6 @@ public:
 		const std::vector<FilePath>& frameworkSearchPaths,
 		const std::vector<std::string>& compilerFlags);
 
-	virtual ~IndexerCommandCxx();
 	virtual size_t getByteSize(size_t stringSize) const override;
 
 	std::vector<FilePath> getSystemHeaderSearchPaths() const;

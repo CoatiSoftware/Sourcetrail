@@ -11,29 +11,42 @@ std::shared_ptr<CxxTypeName> CxxTypeName::makeUnsolvedIfNull(std::shared_ptr<Cxx
 	);
 }
 
-CxxTypeName::Modifier::Modifier(std::string symbol)
-	: symbol(symbol)
+CxxTypeName::Modifier::Modifier(std::string&& symbol)
+	: symbol(std::move(symbol))
 {
 }
 
-CxxTypeName::CxxTypeName(std::string name, std::vector<std::string> templateArguments)
-	: m_name(name)
-	, m_templateArguments(templateArguments)
+//CxxTypeName::CxxTypeName(const std::string& name, const std::vector<std::string>& templateArguments)
+//	: m_name(name)
+//	, m_templateArguments(templateArguments)
+//{
+//}
+
+CxxTypeName::CxxTypeName(std::string&& name, std::vector<std::string>&& templateArguments)
+	: m_name(std::move(name))
+	, m_templateArguments(std::move(templateArguments))
 {
 }
+
+//CxxTypeName::CxxTypeName(
+//	const std::string& name,
+//	const std::vector<std::string>& templateArguments,
+//	std::shared_ptr<CxxName> parent
+//)
+//	: CxxName(parent)
+//	, m_name(name)
+//	, m_templateArguments(templateArguments)
+//{
+//}
 
 CxxTypeName::CxxTypeName(
-	std::string name,
-	std::vector<std::string> templateArguments,
+	std::string&& name,
+	std::vector<std::string>&& templateArguments,
 	std::shared_ptr<CxxName> parent
 )
 	: CxxName(parent)
-	, m_name(name)
-	, m_templateArguments(templateArguments)
-{
-}
-
-CxxTypeName::~CxxTypeName()
+	, m_name(std::move(name))
+	, m_templateArguments(std::move(templateArguments))
 {
 }
 

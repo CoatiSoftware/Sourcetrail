@@ -6,7 +6,6 @@
 class IndexerFactoryModuleCxxManual: public IndexerFactoryModule
 {
 public:
-	virtual ~IndexerFactoryModuleCxxManual();
 	virtual std::shared_ptr<IndexerBase> createIndexer();
 };
 

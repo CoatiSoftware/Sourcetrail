@@ -29,8 +29,6 @@ public:
 		const std::vector<FilePath>& systemHeaderSearchPaths,
 		const std::vector<FilePath>& frameworkSearchPaths);
 
-	virtual ~IndexerCommandCxxCdb();
-
 	virtual IndexerCommandType getIndexerCommandType() const override;
 	virtual size_t getByteSize(size_t stringSize) const override;
 

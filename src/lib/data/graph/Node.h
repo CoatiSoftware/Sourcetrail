@@ -22,7 +22,7 @@ class Node
 	: public Token
 {
 public:
-	Node(Id id, NodeType type, NameHierarchy nameHierarchy, bool defined);
+	Node(Id id, NodeType type, const NameHierarchy& nameHierarchy, bool defined);
 	Node(const Node& other);
 	virtual ~Node();
 

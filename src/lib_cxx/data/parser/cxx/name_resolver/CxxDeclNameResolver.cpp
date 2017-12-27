@@ -217,10 +217,12 @@ std::shared_ptr<CxxDeclName> CxxDeclNameResolver::getDeclName(const clang::Named
 				}
 				else if (clang::isa<clang::ClassTemplatePartialSpecializationDecl>(declaration))
 				{
-					const std::vector<std::string> templateParameterNames = getTemplateParameterStringsOfPatrialSpecialitarion(
-						clang::dyn_cast<clang::ClassTemplatePartialSpecializationDecl>(declaration)
+					return std::make_shared<CxxDeclName>(
+						std::move(declNameString), 
+						getTemplateParameterStringsOfPatrialSpecialitarion(
+							clang::dyn_cast<clang::ClassTemplatePartialSpecializationDecl>(declaration)
+						)
 					);
-					return std::make_shared<CxxDeclName>(declNameString, templateParameterNames);
 				}
 				else if (clang::isa<clang::ClassTemplateSpecializationDecl>(declaration))
 				{
@@ -230,7 +232,7 @@ std::shared_ptr<CxxDeclName> CxxDeclNameResolver::getDeclName(const clang::Named
 					{
 						templateArguments.push_back(getTemplateArgumentName(templateArgumentList.get(i)));
 					}
-					return std::make_shared<CxxDeclName>(declNameString, templateArguments);
+					return std::make_shared<CxxDeclName>(std::move(declNameString), std::move(templateArguments));
 				}
 			}
 		}
@@ -289,19 +291,19 @@ std::shared_ptr<CxxDeclName> CxxDeclNameResolver::getDeclName(const clang::Named
 			if (!clang::isa<clang::CXXMethodDecl>(declaration) && isStatic)
 			{
 				return std::make_shared<CxxStaticFunctionDeclName>(
-					functionName,
-					templateArguments,
+					std::move(functionName),
+					std::move(templateArguments),
 					returnTypeName,
-					parameterTypeNames,
+					std::move(parameterTypeNames),
 					getTranslationUnitMainFileName(declaration)
 				);
 			}
 
 			return std::make_shared<CxxFunctionDeclName>(
-				functionName,
-				templateArguments,
+				std::move(functionName),
+				std::move(templateArguments),
 				returnTypeName,
-				parameterTypeNames,
+				std::move(parameterTypeNames),
 				isConst,
 				isStatic
 			);
@@ -317,7 +319,7 @@ std::shared_ptr<CxxDeclName> CxxDeclNameResolver::getDeclName(const clang::Named
 			CxxTypeNameResolver typenNameResolver(getCanonicalFilePathCache(), getIgnoredContextDecls());
 			typenNameResolver.ignoreContextDecl(fieldDecl);
 			std::shared_ptr<CxxTypeName> typeName = CxxTypeName::makeUnsolvedIfNull(typenNameResolver.getName(fieldDecl->getType()));
-			return std::make_shared<CxxVariableDeclName>(declNameString, std::vector<std::string>(), typeName, false);
+			return std::make_shared<CxxVariableDeclName>(std::move(declNameString), std::vector<std::string>(), typeName, false);
 		}
 		else if (clang::isa<clang::NamespaceDecl>(declaration) && clang::dyn_cast<clang::NamespaceDecl>(declaration)->isAnonymousNamespace())
 		{
@@ -406,7 +408,7 @@ std::shared_ptr<CxxDeclName> CxxDeclNameResolver::getDeclName(const clang::Named
 					}
 				}
 
-				return std::make_shared<CxxVariableDeclName>(varName, templateParameterNames, typeName, isStatic);
+				return std::make_shared<CxxVariableDeclName>(std::move(varName), std::move(templateParameterNames), typeName, isStatic);
 			}
 		}
 		else if (clang::isa<clang::VarTemplateDecl>(declaration))
@@ -416,12 +418,12 @@ std::shared_ptr<CxxDeclName> CxxDeclNameResolver::getDeclName(const clang::Named
 		}
 		else if (clang::isa<clang::TemplateDecl>(declaration)) // also triggers on TemplateTemplateParmDecl
 		{
-			return std::make_shared<CxxDeclName>(declNameString, getTemplateParameterStrings(clang::dyn_cast<clang::TemplateDecl>(declaration)));
+			return std::make_shared<CxxDeclName>(std::move(declNameString), getTemplateParameterStrings(clang::dyn_cast<clang::TemplateDecl>(declaration)));
 		}
 
 		if (!declNameString.empty())
 		{
-			return std::make_shared<CxxDeclName>(declNameString, std::vector<std::string>(), std::shared_ptr<CxxName>());
+			return std::make_shared<CxxDeclName>(std::move(declNameString), std::vector<std::string>(), std::shared_ptr<CxxName>());
 		}
 	}
 

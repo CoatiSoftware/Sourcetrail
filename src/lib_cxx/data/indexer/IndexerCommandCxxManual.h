@@ -20,8 +20,6 @@ public:
 		const std::vector<FilePath>& frameworkSearchPaths,
 		const std::vector<std::string>& compilerFlags);
 
-	virtual ~IndexerCommandCxxManual();
-
 	virtual IndexerCommandType getIndexerCommandType() const override;
 	virtual size_t getByteSize(size_t stringSize) const override;
 

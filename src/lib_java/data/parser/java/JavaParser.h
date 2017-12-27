@@ -191,7 +191,7 @@ private:
 		jint jAccess, jint jDefinitionKind
 	);
 
-	void doRecordReference(jint jRefType, jstring jReferencedName, jstring jContextName, jint beginLine, jint beginColumn, jint endLine, jint endColumn);
+	void doRecordReference(jint jReferenceKind, jstring jReferencedName, jstring jContextName, jint beginLine, jint beginColumn, jint endLine, jint endColumn);
 	void doRecordQualifierLocation(jstring jQualifierName, jint beginLine, jint beginColumn, jint endLine, jint endColumn);
 	void doRecordLocalSymbol(jstring jSymbolName, jint beginLine, jint beginColumn, jint endLine, jint endColumn);
 	void doRecordComment(jint beginLine, jint beginColumn, jint endLine, jint endColumn);

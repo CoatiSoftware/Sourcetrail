@@ -24,7 +24,7 @@ SharedMemoryGarbageCollector* SharedMemoryGarbageCollector::createInstance()
 			s_instance = std::shared_ptr<SharedMemoryGarbageCollector>(new SharedMemoryGarbageCollector());
 		}
 	}
-	catch (boost::interprocess::interprocess_exception& e)
+	catch (boost::interprocess::interprocess_exception)
 	{
 	}
 

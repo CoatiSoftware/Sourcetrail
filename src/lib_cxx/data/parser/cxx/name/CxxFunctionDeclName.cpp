@@ -1,39 +1,68 @@
 #include "data/parser/cxx/name/CxxFunctionDeclName.h"
 
+//CxxFunctionDeclName::CxxFunctionDeclName(
+//	const std::string& name,
+//	const std::vector<std::string>& templateParameterNames,
+//	std::shared_ptr<CxxTypeName> returnTypeName,
+//	const std::vector<std::shared_ptr<CxxTypeName>>& parameterTypeNames,
+//	const bool isConst,
+//	const bool isStatic
+//)
+//	: CxxDeclName(name, templateParameterNames)
+//	, m_returnTypeName(returnTypeName)
+//	, m_parameterTypeNames(parameterTypeNames)
+//	, m_isConst(isConst)
+//	, m_isStatic(isStatic)
+//{
+//}
+
 CxxFunctionDeclName::CxxFunctionDeclName(
-	const std::string& name,
-	const std::vector<std::string>& templateParameterNames,
+	std::string&& name,
+	std::vector<std::string>&& templateParameterNames,
 	std::shared_ptr<CxxTypeName> returnTypeName,
-	const std::vector<std::shared_ptr<CxxTypeName>>& parameterTypeNames,
+	std::vector<std::shared_ptr<CxxTypeName>>&& parameterTypeNames,
 	const bool isConst,
 	const bool isStatic
 )
-	: CxxDeclName(name, templateParameterNames)
+	: CxxDeclName(std::move(name), std::move(templateParameterNames))
 	, m_returnTypeName(returnTypeName)
-	, m_parameterTypeNames(parameterTypeNames)
+	, m_parameterTypeNames(std::move(parameterTypeNames))
 	, m_isConst(isConst)
 	, m_isStatic(isStatic)
 {
 }
 
+//CxxFunctionDeclName::CxxFunctionDeclName(
+//	const std::string& name,
+//	const std::vector<std::string>& templateParameterNames,
+//	std::shared_ptr<CxxTypeName> returnTypeName,
+//	const std::vector<std::shared_ptr<CxxTypeName>>& parameterTypeNames,
+//	const bool isConst,
+//	const bool isStatic,
+//	std::shared_ptr<CxxName> parent
+//)
+//	: CxxDeclName(name, templateParameterNames, parent)
+//	, m_returnTypeName(returnTypeName)
+//	, m_parameterTypeNames(parameterTypeNames)
+//	, m_isConst(isConst)
+//	, m_isStatic(isStatic)
+//{
+//}
+
 CxxFunctionDeclName::CxxFunctionDeclName(
-	const std::string& name,
-	const std::vector<std::string>& templateParameterNames,
+	std::string&& name,
+	std::vector<std::string>&& templateParameterNames,
 	std::shared_ptr<CxxTypeName> returnTypeName,
-	const std::vector<std::shared_ptr<CxxTypeName>>& parameterTypeNames,
+	std::vector<std::shared_ptr<CxxTypeName>>&& parameterTypeNames,
 	const bool isConst,
 	const bool isStatic,
 	std::shared_ptr<CxxName> parent
 )
-	: CxxDeclName(name, templateParameterNames, parent)
+	: CxxDeclName(std::move(name), std::move(templateParameterNames), parent)
 	, m_returnTypeName(returnTypeName)
-	, m_parameterTypeNames(parameterTypeNames)
+	, m_parameterTypeNames(std::move(parameterTypeNames))
 	, m_isConst(isConst)
 	, m_isStatic(isStatic)
-{
-}
-
-CxxFunctionDeclName::~CxxFunctionDeclName()
 {
 }
 

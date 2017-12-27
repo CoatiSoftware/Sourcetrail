@@ -3,7 +3,7 @@
 #include "utility/logging/logging.h"
 #include "utility/utilityString.h"
 
-std::string NameHierarchy::serialize(NameHierarchy nameHierarchy)
+std::string NameHierarchy::serialize(const NameHierarchy& nameHierarchy)
 {
 	std::string serializedName = nameDelimiterTypeToString(nameHierarchy.getDelimiter()) + "\tm";
 	for (size_t i = 0; i < nameHierarchy.size(); i++)
@@ -75,6 +75,18 @@ NameHierarchy::NameHierarchy(const std::vector<std::string>& names, const NameDe
 	}
 }
 
+NameHierarchy::NameHierarchy(const NameHierarchy& other)
+	: m_elements(other.m_elements)
+	, m_delimiter(other.m_delimiter)
+{
+}
+
+NameHierarchy::NameHierarchy(NameHierarchy&& other)
+	: m_elements(std::move(other.m_elements))
+	, m_delimiter(other.m_delimiter)
+{
+}
+
 NameHierarchy::~NameHierarchy()
 {
 }
@@ -101,6 +113,20 @@ std::shared_ptr<NameElement> NameHierarchy::back() const
 std::shared_ptr<NameElement> NameHierarchy::operator[](size_t pos) const
 {
 	return m_elements[pos];
+}
+
+NameHierarchy& NameHierarchy::operator=(const NameHierarchy& other)
+{
+	m_elements = other.m_elements;
+	m_delimiter = other.m_delimiter;
+	return *this;
+}
+
+NameHierarchy& NameHierarchy::operator=(NameHierarchy&& other)
+{
+	m_elements = std::move(other.m_elements);
+	m_delimiter = other.m_delimiter;
+	return *this;
 }
 
 NameHierarchy NameHierarchy::getRange(size_t first, size_t last) const
