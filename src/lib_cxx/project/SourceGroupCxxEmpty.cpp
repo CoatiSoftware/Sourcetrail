@@ -1,6 +1,6 @@
 #include "project/SourceGroupCxxEmpty.h"
 
-#include "data/indexer/IndexerCommandCxxManual.h"
+#include "data/indexer/IndexerCommandCxxEmpty.h"
 #include "settings/ApplicationSettings.h"
 #include "utility/utility.h"
 
@@ -58,7 +58,7 @@ std::vector<std::shared_ptr<IndexerCommand>> SourceGroupCxxEmpty::getIndexerComm
 	{
 		if (filesToIndex.find(sourcePath) != filesToIndex.end())
 		{
-			indexerCommands.push_back(std::make_shared<IndexerCommandCxxManual>(
+			indexerCommands.push_back(std::make_shared<IndexerCommandCxxEmpty>(
 				sourcePath,
 				indexedPaths,
 				excludedPaths,

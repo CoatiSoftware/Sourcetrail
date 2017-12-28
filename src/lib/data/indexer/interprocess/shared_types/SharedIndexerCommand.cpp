@@ -1,7 +1,7 @@
 #include "SharedIndexerCommand.h"
 
 #include "data/indexer/IndexerCommandCxxCdb.h"
-#include "data/indexer/IndexerCommandCxxManual.h"
+#include "data/indexer/IndexerCommandCxxEmpty.h"
 #include "data/indexer/IndexerCommandJava.h"
 
 #include "utility/logging/logging.h"
@@ -22,11 +22,11 @@ void SharedIndexerCommand::fromLocal(IndexerCommand* indexerCommand)
 		setSystemHeaderSearchPaths(cmd->getSystemHeaderSearchPaths());
 		setFrameworkSearchhPaths(cmd->getFrameworkSearchPaths());
 	}
-	else if (dynamic_cast<IndexerCommandCxxManual*>(indexerCommand) != NULL)
+	else if (dynamic_cast<IndexerCommandCxxEmpty*>(indexerCommand) != NULL)
 	{
-		IndexerCommandCxxManual* cmd = dynamic_cast<IndexerCommandCxxManual*>(indexerCommand);
+		IndexerCommandCxxEmpty* cmd = dynamic_cast<IndexerCommandCxxEmpty*>(indexerCommand);
 
-		setType(CXX_MANUAL);
+		setType(CXX_EMPTY);
 		setLanguageStandard(cmd->getLanguageStandard());
 		setCompilerFlags(cmd->getCompilerFlags());
 		setSystemHeaderSearchPaths(cmd->getSystemHeaderSearchPaths());
@@ -63,9 +63,9 @@ std::shared_ptr<IndexerCommand> SharedIndexerCommand::fromShared(const SharedInd
 		);
 		return command;
 	}
-	else if (indexerCommand.getType() == CXX_MANUAL)
+	else if (indexerCommand.getType() == CXX_EMPTY)
 	{
-		std::shared_ptr<IndexerCommand> command = std::make_shared<IndexerCommandCxxManual>(
+		std::shared_ptr<IndexerCommand> command = std::make_shared<IndexerCommandCxxEmpty>(
 			indexerCommand.getSourceFilePath(),
 			indexerCommand.getIndexedPaths(),
 			indexerCommand.getExcludedPaths(),

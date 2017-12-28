@@ -49,7 +49,7 @@ private:
 	{
 		UNKNOWN = 0,
 		CXX_CDB,
-		CXX_MANUAL,
+		CXX_EMPTY,
 		JAVA
 	};
 

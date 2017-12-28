@@ -6,13 +6,13 @@ add_files(
 	data/indexer/IndexerCommandCxx.h
 	data/indexer/IndexerCommandCxxCdb.cpp
 	data/indexer/IndexerCommandCxxCdb.h
-	data/indexer/IndexerCommandCxxManual.cpp
-	data/indexer/IndexerCommandCxxManual.h
+	data/indexer/IndexerCommandCxxEmpty.cpp
+	data/indexer/IndexerCommandCxxEmpty.h
 	data/indexer/IndexerCxx.h
 	data/indexer/IndexerFactoryModuleCxxCdb.cpp
 	data/indexer/IndexerFactoryModuleCxxCdb.h
-	data/indexer/IndexerFactoryModuleCxxManual.cpp
-	data/indexer/IndexerFactoryModuleCxxManual.h
+	data/indexer/IndexerFactoryModuleCxxEmpty.cpp
+	data/indexer/IndexerFactoryModuleCxxEmpty.h
 
 	data/parser/cxx/name/CxxDeclName.cpp
 	data/parser/cxx/name/CxxDeclName.h

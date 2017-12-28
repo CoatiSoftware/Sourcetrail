@@ -1,11 +1,11 @@
-#include "data/indexer/IndexerCommandCxxManual.h"
+#include "data/indexer/IndexerCommandCxxEmpty.h"
 
-IndexerCommandType IndexerCommandCxxManual::getStaticIndexerCommandType()
+IndexerCommandType IndexerCommandCxxEmpty::getStaticIndexerCommandType()
 {
-	return INDEXER_COMMAND_CXX_MANUAL;
+	return INDEXER_COMMAND_CXX_EMPTY;
 }
 
-IndexerCommandCxxManual::IndexerCommandCxxManual(
+IndexerCommandCxxEmpty::IndexerCommandCxxEmpty(
 	const FilePath& sourceFilePath,
 	const std::set<FilePath>& indexedPaths,
 	const std::set<FilePath>& excludedPaths,
@@ -19,17 +19,17 @@ IndexerCommandCxxManual::IndexerCommandCxxManual(
 {
 }
 
-IndexerCommandType IndexerCommandCxxManual::getIndexerCommandType() const
+IndexerCommandType IndexerCommandCxxEmpty::getIndexerCommandType() const
 {
 	return getStaticIndexerCommandType();
 }
 
-size_t IndexerCommandCxxManual::getByteSize(size_t stringSize) const
+size_t IndexerCommandCxxEmpty::getByteSize(size_t stringSize) const
 {
 	return IndexerCommandCxx::getByteSize(stringSize) + m_languageStandard.size();
 }
 
-std::string IndexerCommandCxxManual::getLanguageStandard() const
+std::string IndexerCommandCxxEmpty::getLanguageStandard() const
 {
 	return m_languageStandard;
 }

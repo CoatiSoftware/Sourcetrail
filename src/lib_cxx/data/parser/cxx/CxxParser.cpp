@@ -8,7 +8,7 @@
 #include "utility/text/TextAccess.h"
 
 #include "data/indexer/IndexerCommandCxxCdb.h"
-#include "data/indexer/IndexerCommandCxxManual.h"
+#include "data/indexer/IndexerCommandCxxEmpty.h"
 #include "data/parser/cxx/ASTActionFactory.h"
 #include "data/parser/cxx/CanonicalFilePathCache.h"
 #include "data/parser/cxx/CxxCompilationDatabaseSingle.h"
@@ -83,7 +83,7 @@ void CxxParser::buildIndex(std::shared_ptr<IndexerCommandCxxCdb> indexerCommand)
 	runTool(&compilationDatabase, indexerCommand->getSourceFilePath());
 }
 
-void CxxParser::buildIndex(std::shared_ptr<IndexerCommandCxxManual> indexerCommand)
+void CxxParser::buildIndex(std::shared_ptr<IndexerCommandCxxEmpty> indexerCommand)
 {
 	std::shared_ptr<clang::tooling::CompilationDatabase> compilationDatabase = getCompilationDatabase(indexerCommand);
 
@@ -163,7 +163,7 @@ std::vector<std::string> CxxParser::getCommandlineArgumentsEssential(
 	return args;
 }
 
-std::vector<std::string> CxxParser::getCommandlineArguments(std::shared_ptr<IndexerCommandCxxManual> indexerCommand) const
+std::vector<std::string> CxxParser::getCommandlineArguments(std::shared_ptr<IndexerCommandCxxEmpty> indexerCommand) const
 {
 	std::vector<std::string> args = getCommandlineArgumentsEssential(
 		indexerCommand->getCompilerFlags(), indexerCommand->getSystemHeaderSearchPaths(), indexerCommand->getFrameworkSearchPaths()
@@ -177,7 +177,7 @@ std::vector<std::string> CxxParser::getCommandlineArguments(std::shared_ptr<Inde
 }
 
 std::shared_ptr<clang::tooling::FixedCompilationDatabase> CxxParser::getCompilationDatabase(
-	std::shared_ptr<IndexerCommandCxxManual> indexerCommand
+	std::shared_ptr<IndexerCommandCxxEmpty> indexerCommand
 ) const {
 	// Commandline flags passed to the programm. Everything after '--' will be interpreted by the ClangTool.
 	std::vector<std::string> args = getCommandlineArguments(indexerCommand);

@@ -1,17 +1,17 @@
-#ifndef INDEXER_COMMAND_CXX_MANUAL_H
-#define INDEXER_COMMAND_CXX_MANUAL_H
+#ifndef INDEXER_COMMAND_CXX_EMPTY_H
+#define INDEXER_COMMAND_CXX_EMPTY_H
 
 #include "data/indexer/IndexerCommandCxx.h"
 
 class FilePath;
 
-class IndexerCommandCxxManual
+class IndexerCommandCxxEmpty
 	: public IndexerCommandCxx
 {
 public:
 	static IndexerCommandType getStaticIndexerCommandType();
 
-	IndexerCommandCxxManual(
+	IndexerCommandCxxEmpty(
 		const FilePath& sourceFilePath,
 		const std::set<FilePath>& indexedPaths,
 		const std::set<FilePath>& excludedPaths,
@@ -29,4 +29,4 @@ private:
 	std::string m_languageStandard;
 };
 
-#endif // INDEXER_COMMAND_CXX_MANUAL_H
+#endif // INDEXER_COMMAND_CXX_EMPTY_H

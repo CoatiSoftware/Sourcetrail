@@ -4,7 +4,7 @@
 #include "utility/utility.h"
 #include "utility/utilityString.h"
 
-#include "data/indexer/IndexerCommandCxxManual.h"
+#include "data/indexer/IndexerCommandCxxEmpty.h"
 #include "data/parser/cxx/CxxParser.h"
 
 #include "helper/TestFileRegister.h"
@@ -3970,7 +3970,7 @@ public:
 		std::set<FilePath> indexedPaths;
 		indexedPaths.insert(FilePath("data/CxxParserTestSuite/"));
 
-		std::shared_ptr<IndexerCommandCxxManual> indexerCommand = std::make_shared<IndexerCommandCxxManual>(
+		std::shared_ptr<IndexerCommandCxxEmpty> indexerCommand = std::make_shared<IndexerCommandCxxEmpty>(
 			FilePath("data/CxxParserTestSuite/code.cpp"),
 			indexedPaths,
 			std::set<FilePath>(),

@@ -8,7 +8,7 @@ class CxxDiagnosticConsumer;
 class FilePath;
 class FileRegister;
 class IndexerCommandCxxCdb;
-class IndexerCommandCxxManual;
+class IndexerCommandCxxEmpty;
 class TaskParseCxx;
 
 namespace clang {
@@ -25,7 +25,7 @@ public:
 	~CxxParser();
 
 	void buildIndex(std::shared_ptr<IndexerCommandCxxCdb> indexerCommand);
-	void buildIndex(std::shared_ptr<IndexerCommandCxxManual> indexerCommand);
+	void buildIndex(std::shared_ptr<IndexerCommandCxxEmpty> indexerCommand);
 	void buildIndex(const std::string& fileName, std::shared_ptr<TextAccess> fileContent);
 
 private:
@@ -35,8 +35,8 @@ private:
 		const std::vector<std::string>& compilerFlags,
 		const std::vector<FilePath>& systemHeaderSearchPaths,
 		const std::vector<FilePath>& frameworkSearchPaths) const;
-	std::vector<std::string> getCommandlineArguments(std::shared_ptr<IndexerCommandCxxManual> indexerCommand) const;
-	std::shared_ptr<clang::tooling::FixedCompilationDatabase> getCompilationDatabase(std::shared_ptr<IndexerCommandCxxManual> indexerCommand) const;
+	std::vector<std::string> getCommandlineArguments(std::shared_ptr<IndexerCommandCxxEmpty> indexerCommand) const;
+	std::shared_ptr<clang::tooling::FixedCompilationDatabase> getCompilationDatabase(std::shared_ptr<IndexerCommandCxxEmpty> indexerCommand) const;
 
 	std::shared_ptr<CxxDiagnosticConsumer> getDiagnostics(std::shared_ptr<CanonicalFilePathCache> canonicalFilePathCache, bool logErrors) const;
 

@@ -5,7 +5,7 @@
 #include "data/indexer/IndexerFactory.h"
 #include "data/indexer/IndexerFactoryModuleJava.h"
 #include "data/indexer/IndexerFactoryModuleCxxCdb.h"
-#include "data/indexer/IndexerFactoryModuleCxxManual.h"
+#include "data/indexer/IndexerFactoryModuleCxxEmpty.h"
 #include "data/indexer/interprocess/InterprocessIndexer.h"
 #include "settings/ApplicationSettings.h"
 #include "utility/AppPath.h"
@@ -86,7 +86,7 @@ int main(int argc, char *argv[])
 
 	IndexerFactory::getInstance()->addModule(std::make_shared<IndexerFactoryModuleJava>());
 	IndexerFactory::getInstance()->addModule(std::make_shared<IndexerFactoryModuleCxxCdb>());
-	IndexerFactory::getInstance()->addModule(std::make_shared<IndexerFactoryModuleCxxManual>());
+	IndexerFactory::getInstance()->addModule(std::make_shared<IndexerFactoryModuleCxxEmpty>());
 
 	InterprocessIndexer indexer(instanceUuid, processId);
 	indexer.work();

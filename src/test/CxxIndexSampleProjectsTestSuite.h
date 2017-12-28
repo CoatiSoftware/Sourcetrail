@@ -3,7 +3,7 @@
 #include <fstream>
 #include <iostream>
 
-#include "data/indexer/IndexerCommandCxxManual.h"
+#include "data/indexer/IndexerCommandCxxEmpty.h"
 #include "data/parser/cxx/CxxParser.h"
 #include "helper/DumpParserClient.h"
 #include "settings/ApplicationSettings.h"
@@ -132,7 +132,7 @@ private:
 
 		CxxParser parser(parserClient, fileRegister);
 
-		std::shared_ptr<IndexerCommandCxxManual> command = std::make_shared<IndexerCommandCxxManual>(
+		std::shared_ptr<IndexerCommandCxxEmpty> command = std::make_shared<IndexerCommandCxxEmpty>(
 			sourceFilePath, 
 			indexedPaths,
 			excludedPaths,

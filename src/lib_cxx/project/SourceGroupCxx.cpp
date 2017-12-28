@@ -4,7 +4,7 @@
 #include "clang/Tooling/CompilationDatabase.h"
 #include "clang/Tooling/JSONCompilationDatabase.h"
 
-#include "data/indexer/IndexerCommandCxxManual.h"
+#include "data/indexer/IndexerCommandCxxEmpty.h"
 #include "data/indexer/IndexerCommandCxxCdb.h"
 #include "settings/ApplicationSettings.h"
 #include "utility/file/FileManager.h"

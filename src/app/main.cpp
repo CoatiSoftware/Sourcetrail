@@ -6,7 +6,7 @@
 #include "data/indexer/IndexerFactory.h"
 #include "data/indexer/IndexerFactoryModuleJava.h"
 #include "data/indexer/IndexerFactoryModuleCxxCdb.h"
-#include "data/indexer/IndexerFactoryModuleCxxManual.h"
+#include "data/indexer/IndexerFactoryModuleCxxEmpty.h"
 #include "LicenseChecker.h"
 #include "project/SourceGroupFactory.h"
 #include "project/SourceGroupFactoryModuleCxx.h"
@@ -170,7 +170,7 @@ void addLanguageModules()
 
 	IndexerFactory::getInstance()->addModule(std::make_shared<IndexerFactoryModuleJava>());
 	IndexerFactory::getInstance()->addModule(std::make_shared<IndexerFactoryModuleCxxCdb>());
-	IndexerFactory::getInstance()->addModule(std::make_shared<IndexerFactoryModuleCxxManual>());
+	IndexerFactory::getInstance()->addModule(std::make_shared<IndexerFactoryModuleCxxEmpty>());
 }
 
 QCoreApplication* createApplication(int &argc, char *argv[], bool noGUI = false)
