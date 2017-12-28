@@ -1,5 +1,8 @@
 #include "project/IncludeValidation.h"
 
+#include <set>
+#include <unordered_set>
+
 #include "project/IncludeDirective.h"
 #include "utility/file/FilePath.h"
 #include "utility/text/TextAccess.h"
@@ -21,7 +24,7 @@ std::vector<IncludeDirective> IncludeValidation::getUnresolvedIncludeDirectives(
 		}
 	};
 
-	std::set<std::string> processedFilePaths;
+	std::unordered_set<std::string> processedFilePaths;
 	std::set<IncludeDirective, IncludeDirectiveComparator> unresolvedIncludeDirectives;
 
 	quantileCount = std::max<size_t>(1, std::min(quantileCount, sourceFilePaths.size()));
@@ -33,8 +36,15 @@ std::vector<IncludeDirective> IncludeValidation::getUnresolvedIncludeDirectives(
 	}
 	for (size_t i = 0; i < sourceFilePaths.size(); i++)
 	{
-		quantiles[i%quantileCount].push_back(sourceFilePaths[i]);
+		quantiles[i % quantileCount].push_back(sourceFilePaths[i]);
 	}
+
+	OrderedCache<FilePath, FilePath> canonicalPathCache(
+		[](const FilePath& filePath)
+		{
+			return filePath.getCanonical();
+		}
+	);
 
 	for (size_t i = 0; i < quantiles.size(); i++)
 	{
@@ -51,14 +61,14 @@ std::vector<IncludeDirective> IncludeValidation::getUnresolvedIncludeDirectives(
 				std::inserter(processedFilePaths, processedFilePaths.begin()),
 				[](const FilePath& p){ return p.str(); }
 			);
-			std::set<FilePath> tempUnprocessedFilePaths;
+			std::set<FilePath> unprocessedFilePathsForNextIteration;
 
 			for (const FilePath& filePath: unprocessedFilePaths)
 			{
 				for (const IncludeDirective& includeDirective: getIncludeDirectives(filePath))
 				{
 					const FilePath resolvedIncludePath =
-						resolveIncludeDirective(includeDirective, headerSearchDirectories).makeCanonical();
+						resolveIncludeDirective(includeDirective, headerSearchDirectories, canonicalPathCache).makeCanonical();
 					if (resolvedIncludePath.empty())
 					{
 						unresolvedIncludeDirectives.insert(includeDirective);
@@ -69,7 +79,7 @@ std::vector<IncludeDirective> IncludeValidation::getUnresolvedIncludeDirectives(
 						{
 							if (indexedPath.contains(resolvedIncludePath))
 							{
-								tempUnprocessedFilePaths.insert(resolvedIncludePath);
+								unprocessedFilePathsForNextIteration.insert(resolvedIncludePath);
 								break;
 							}
 						}
@@ -77,7 +87,7 @@ std::vector<IncludeDirective> IncludeValidation::getUnresolvedIncludeDirectives(
 				}
 			}
 
-			unprocessedFilePaths = tempUnprocessedFilePaths;
+			unprocessedFilePaths = unprocessedFilePathsForNextIteration;
 		}
 	}
 
@@ -130,19 +140,29 @@ std::vector<IncludeDirective> IncludeValidation::getIncludeDirectives(const File
 	return includeDirectives;
 }
 
-FilePath IncludeValidation::resolveIncludeDirective(const IncludeDirective& includeDirective, const std::vector<FilePath>& headerSearchDirectories)
+FilePath IncludeValidation::resolveIncludeDirective(
+	const IncludeDirective& includeDirective, 
+	const std::vector<FilePath>& headerSearchDirectories,
+	OrderedCache<FilePath, FilePath>& canonicalPathCache
+)
 {
+	const FilePath includedFilePath = includeDirective.getIncludedFile();
+
 	{
 		// check for an absolute include path
-		if (includeDirective.getIncludedFile().exists())
+		if (includedFilePath.isAbsolute())
 		{
-			return includeDirective.getIncludedFile();
+			const FilePath resolvedIncludePath = canonicalPathCache.getValue(includedFilePath);
+			if (resolvedIncludePath.exists())
+			{
+				return includedFilePath;
+			}
 		}
 	}
 
 	{
 		// check for an include path relative to the including path
-		const FilePath resolvedIncludePath = includeDirective.getIncludingFile().getParentDirectory().concatenate(includeDirective.getIncludedFile());
+		const FilePath resolvedIncludePath = canonicalPathCache.getValue(includeDirective.getIncludingFile().getParentDirectory().concatenate(includedFilePath));
 		if (resolvedIncludePath.exists())
 		{
 			return resolvedIncludePath;
@@ -153,7 +173,7 @@ FilePath IncludeValidation::resolveIncludeDirective(const IncludeDirective& incl
 		// check for an include path relative to the header search directories
 		for (const FilePath& headerSearchDirectory: headerSearchDirectories)
 		{
-			const FilePath resolvedIncludePath = headerSearchDirectory.getConcatenated(includeDirective.getIncludedFile());
+			const FilePath resolvedIncludePath = canonicalPathCache.getValue(headerSearchDirectory.getConcatenated(includedFilePath));
 			if (resolvedIncludePath.exists())
 			{
 				return resolvedIncludePath;
