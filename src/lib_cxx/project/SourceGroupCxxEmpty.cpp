@@ -23,8 +23,6 @@ std::vector<std::shared_ptr<IndexerCommand>> SourceGroupCxxEmpty::getIndexerComm
 	std::shared_ptr<ApplicationSettings> appSettings = ApplicationSettings::getInstance();
 
 	std::vector<FilePath> systemHeaderSearchPaths;
-	utility::append(systemHeaderSearchPaths, m_settings->getHeaderSearchPathsExpandedAndAbsolute());
-	utility::append(systemHeaderSearchPaths, appSettings->getHeaderSearchPathsExpanded());
 
 	// Add the source paths as HeaderSearchPaths as well, so clang will also look here when searching include files.
 	for (const FilePath& sourcePath: m_settings->getSourcePathsExpandedAndAbsolute())
@@ -34,6 +32,9 @@ std::vector<std::shared_ptr<IndexerCommand>> SourceGroupCxxEmpty::getIndexerComm
 			systemHeaderSearchPaths.push_back(sourcePath);
 		}
 	}
+
+	utility::append(systemHeaderSearchPaths, m_settings->getHeaderSearchPathsExpandedAndAbsolute());
+	utility::append(systemHeaderSearchPaths, appSettings->getHeaderSearchPathsExpanded());
 
 	std::vector<FilePath> frameworkSearchPaths;
 	utility::append(frameworkSearchPaths, m_settings->getFrameworkSearchPathsExpandedAndAbsolute());

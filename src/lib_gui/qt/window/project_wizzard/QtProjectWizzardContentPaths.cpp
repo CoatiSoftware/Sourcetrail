@@ -74,7 +74,6 @@ bool QtProjectWizzardContentPaths::check()
 	for (const FilePath& path : m_list->getList())
 	{
 		std::vector<FilePath> expandedPaths(1, path);
-		std::cout << path.str() << std::endl;
 		if (m_settings)
 		{
 			expandedPaths = m_settings->makePathsExpandedAndAbsolute(expandedPaths);

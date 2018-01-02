@@ -174,7 +174,6 @@ void QtDialogView::startIndexingDialog(
 			connect(window, &QtWindow::canceled,
 				[=]()
 				{
-					std::cout << "cancelse" << std::endl;
 					setUIBlocked(false);
 				}
 			);
