@@ -88,7 +88,7 @@ void setupPlatform(int argc, char *argv[])
 void setupApp(int argc, char *argv[])
 {
 	FilePath path(QDir::currentPath().toStdString());
-	AppPath::setAppPath(path.absolute().str() + "/");
+	AppPath::setAppPath(path.getAbsolute().str() + "/");
 
 	if (!appIsMacBundle)
 	{

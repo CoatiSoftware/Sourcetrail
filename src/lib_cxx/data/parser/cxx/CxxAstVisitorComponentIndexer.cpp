@@ -175,7 +175,7 @@ void CxxAstVisitorComponentIndexer::visitTagDecl(clang::TagDecl* d)
 			utility::convertAccessSpecifier(d->getAccess()),
 			definitionKind
 		);
-		
+
 		if (clang::EnumDecl* enumDecl = clang::dyn_cast_or_null<clang::EnumDecl>(d))
 		{
 			recordTemplateMemberSpecialization(
@@ -201,7 +201,7 @@ void CxxAstVisitorComponentIndexer::visitClassTemplateSpecializationDecl(clang::
 {
 	if (shouldVisitDecl(d))
 	{
-		clang::NamedDecl* specializedFromDecl;
+		clang::NamedDecl* specializedFromDecl = nullptr;
 
 		// todo: use context and childcontext!!
 		llvm::PointerUnion<clang::ClassTemplateDecl*, clang::ClassTemplatePartialSpecializationDecl*> pu = d->getSpecializedTemplateOrPartial();
@@ -251,7 +251,7 @@ void CxxAstVisitorComponentIndexer::visitVarDecl(clang::VarDecl* d)
 			);
 
 			recordTemplateMemberSpecialization(
-				d->getMemberSpecializationInfo(), 
+				d->getMemberSpecializationInfo(),
 				getAstVisitor()->getDeclNameCache()->getValue(d),
 				getParseLocation(d->getLocation()),
 				symbolKind
@@ -264,7 +264,7 @@ void CxxAstVisitorComponentIndexer::visitVarTemplateSpecializationDecl(clang::Va
 {
 	if (shouldVisitDecl(d))
 	{
-		clang::NamedDecl* specializedFromDecl;
+		clang::NamedDecl* specializedFromDecl = nullptr;
 
 		// todo: use context and childcontext!!
 		llvm::PointerUnion<clang::VarTemplateDecl*, clang::VarTemplatePartialSpecializationDecl*> pu = d->getSpecializedTemplateOrPartial();
