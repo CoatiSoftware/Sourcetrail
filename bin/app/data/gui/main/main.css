@@ -1,0 +1,31 @@
+QToolTip {
+	background-color: #E0E0E0;
+	color: black;
+	font-size: <setting:font_size>px;
+}
+
+QMainWindow::separator {
+	background: <color:window/separator>;
+	width: 1px;
+}
+
+QDockWidget {
+	color: <color:window/dock/text>;
+	font-size: 10pt;
+	titlebar-close-icon: url(<setting:gui_path>main/images/close_<color:window/dock/icon_type>.png);
+	titlebar-normal-icon: url(<setting:gui_path>main/images/float_<color:window/dock/icon_type>.png);
+}
+
+QDockWidget::title {
+	border-bottom: 1px solid <color:window/dock/line>;
+	background: <color:window/dock/background>;
+	text-align: center;
+	padding-top: 1px;
+}
+
+QDockWidget::close-button, QDockWidget::float-button {
+	background: transparent;
+	border: none;
+	icon-size: 12px;
+	margin-top: 2px;
+}

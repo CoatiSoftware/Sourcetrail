@@ -9,7 +9,6 @@ QtUndoRedoView::QtUndoRedoView(ViewLayout* viewLayout)
 	: UndoRedoView(viewLayout)
 {
 	m_widget = new QtUndoRedo();
-	setStyleSheet();
 }
 
 QtUndoRedoView::~QtUndoRedoView()

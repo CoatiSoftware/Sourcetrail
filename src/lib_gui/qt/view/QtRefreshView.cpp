@@ -9,7 +9,6 @@ QtRefreshView::QtRefreshView(ViewLayout* viewLayout)
 	: RefreshView(viewLayout)
 {
 	m_widget = new QtRefreshBar();
-	setStyleSheet();
 }
 
 QtRefreshView::~QtRefreshView()

@@ -14,7 +14,6 @@ QtCodeView::QtCodeView(ViewLayout* viewLayout)
 	: CodeView(viewLayout)
 {
 	m_widget = new QtCodeNavigator();
-	setStyleSheet();
 }
 
 QtCodeView::~QtCodeView()

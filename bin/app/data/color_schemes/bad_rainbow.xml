@@ -8,6 +8,12 @@
 			<handle>#80999999</handle>
 			<line>#80999999</line>
 		</scrollbar>
+		<dock>
+			<text>white</text>
+			<background>#808080</background>
+			<line>#A0A0A0</line>
+			<icon_type>white</icon_type> <!-- white, grey, black -->
+		</dock>
 	</window>
 
 	<search>
@@ -86,7 +92,7 @@
 
 		<navigation>
 			<background>#494949</background>
-			<text>#A0A0A0</text>
+			<text>#CCCCCC</text>
 			<line>#999</line>
 		</navigation>
 
@@ -487,7 +493,7 @@
 		<box>
 			<background>#494949</background>
 			<text>#D4D4D4</text>
-			<match_label>#A0A0A0</match_label>
+			<match_label>#CCCCCC</match_label>
 		</box>
 		<filter>white</filter>
 		<button>

@@ -180,8 +180,6 @@ void QtErrorView::initView()
 	checkboxes->addSpacing(10);
 
 	layout->addLayout(checkboxes);
-
-	setStyleSheet();
 }
 
 void QtErrorView::refreshView()

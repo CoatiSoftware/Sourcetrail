@@ -128,7 +128,7 @@ QtMainWindow::QtMainWindow()
 	{
 		// can only be done once, because resetting the style on the QCoreApplication causes crash
 		app->setStyleSheet(
-			utility::getStyleSheet(ResourcePaths::getGuiPath().concatenate(FilePath("scrollbar.css"))).c_str());
+			utility::getStyleSheet(ResourcePaths::getGuiPath().concatenate(FilePath("main/scrollbar.css"))).c_str());
 	}
 
 	m_recentProjectAction = new QAction*[ApplicationSettings::getInstance()->getMaxRecentProjectsCount()];
@@ -379,7 +379,7 @@ void QtMainWindow::setContentEnabled(bool enabled)
 
 void QtMainWindow::refreshStyle()
 {
-	setStyleSheet(utility::getStyleSheet(ResourcePaths::getGuiPath().concatenate(FilePath("main.css"))).c_str());
+	setStyleSheet(utility::getStyleSheet(ResourcePaths::getGuiPath().concatenate(FilePath("main/main.css"))).c_str());
 }
 
 void QtMainWindow::keyPressEvent(QKeyEvent* event)
@@ -685,7 +685,7 @@ void QtMainWindow::resetWindowLayout()
 {
 	FileSystem::remove(UserPaths::getWindowSettingsPath());
 	FileSystem::copyFile(
-		ResourcePaths::getFallbackPath().concatenate(FilePath("window_settings.ini")), 
+		ResourcePaths::getFallbackPath().concatenate(FilePath("window_settings.ini")),
 		UserPaths::getWindowSettingsPath()
 	);
 	loadDockWidgetLayout();
@@ -851,15 +851,15 @@ void QtMainWindow::setupViewMenu()
 	m_showTitleBarsAction->setChecked(m_showDockWidgetTitleBars);
 	connect(m_showTitleBarsAction, &QAction::triggered, this, &QtMainWindow::toggleShowDockWidgetTitleBars);
 	menu->addAction(m_showTitleBarsAction);
+	menu->addAction(tr("Reset Window Layout"), this, &QtMainWindow::resetWindowLayout);
 
 	menu->addSeparator();
 
 	m_viewSeparator = menu->addSeparator();
 
-	menu->addAction(tr("Larger font"), this, &QtMainWindow::zoomIn, QKeySequence::ZoomIn);
-	menu->addAction(tr("Smaller font"), this, &QtMainWindow::zoomOut, QKeySequence::ZoomOut);
-	menu->addAction(tr("Reset font size"), this, &QtMainWindow::resetZoom, QKeySequence(Qt::CTRL + Qt::Key_0));
-	menu->addAction(tr("Reset window layout"), this, &QtMainWindow::resetWindowLayout);
+	menu->addAction(tr("Larger Font"), this, &QtMainWindow::zoomIn, QKeySequence::ZoomIn);
+	menu->addAction(tr("Smaller Font"), this, &QtMainWindow::zoomOut, QKeySequence::ZoomOut);
+	menu->addAction(tr("Reset Font Size"), this, &QtMainWindow::resetZoom, QKeySequence(Qt::CTRL + Qt::Key_0));
 
 	m_viewMenu = menu;
 }

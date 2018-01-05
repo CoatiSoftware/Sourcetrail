@@ -62,6 +62,7 @@ void Application::createInstance(
 		s_instance->m_componentManager->setup(s_instance->m_mainView.get());
 		s_instance->m_mainView->loadLayout();
 
+		s_instance->m_componentManager->refreshViews();
 	}
 
 	if (networkFactory != nullptr)

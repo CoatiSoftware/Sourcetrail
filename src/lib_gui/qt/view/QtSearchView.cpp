@@ -11,7 +11,6 @@ QtSearchView::QtSearchView(ViewLayout* viewLayout)
 	: SearchView(viewLayout)
 {
 	m_widget = new QtSearchBar();
-	setStyleSheet();
 }
 
 QtSearchView::~QtSearchView()

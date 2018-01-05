@@ -74,8 +74,6 @@ void QtStatusView::initView()
 	filters->addSpacing(10);
 
 	layout->addLayout(filters);
-
-	refreshView();
 }
 
 void QtStatusView::refreshView()

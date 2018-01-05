@@ -8,6 +8,12 @@
 			<handle>#80999999</handle>
 			<line>#80999999</line>
 		</scrollbar>
+		<dock>
+			<text>black</text>
+			<background>#E0E0E0</background>
+			<line>#BEBEBE</line>
+			<icon_type>grey</icon_type> <!-- white, grey, black -->
+		</dock>
 	</window>
 
 	<search>
@@ -86,7 +92,7 @@
 
 		<navigation>
 			<background>white</background>
-			<text>#A2A2A2</text>
+			<text>#727272</text>
 			<line>#D2D2D2</line>
 		</navigation>
 
@@ -448,7 +454,7 @@
 		<box>
 			<background>white</background>
 			<text>black</text>
-			<match_label>#A0A0A0</match_label>
+			<match_label>#727272</match_label>
 		</box>
 		<filter>black</filter>
 		<button>

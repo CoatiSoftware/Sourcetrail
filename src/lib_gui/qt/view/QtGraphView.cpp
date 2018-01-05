@@ -150,8 +150,6 @@ void QtGraphView::initView()
 		updateTrailButtons();
 		trailDepthChanged(0);
 	}
-
-	refreshView();
 }
 
 void QtGraphView::refreshView()
