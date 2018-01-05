@@ -86,6 +86,10 @@ QTableView QTableCornerButton::section {
 	border-top-left-radius: 10px;
 }
 
+QCheckBox {
+	color: <color:table/text/normal>;
+}
+
 #help_button {
 	background: transparent;
 	border: none;

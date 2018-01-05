@@ -14,6 +14,7 @@
 #include "utility/logging/logging.h"
 #include "utility/ResourcePaths.h"
 #include "utility/text/TextAccess.h"
+#include "utility/utilityApp.h"
 #include "utility/utilityString.h"
 
 #include "settings/ApplicationSettings.h"
@@ -167,6 +168,23 @@ namespace utility
 			else if (key == "color")
 			{
 				val = ColorScheme::getInstance()->getColor(val);
+			}
+			else if (key == "platform_wml")
+			{
+				std::vector<std::string> values = utility::splitToVector(val, '|');
+				if (values.size() != 3)
+				{
+					LOG_ERROR("Syntax error in file: " + path.str());
+					return "";
+				}
+
+				switch (utility::getOsType())
+				{
+					case OS_WINDOWS: val = values[0]; break;
+					case OS_MAC: val = values[1]; break;
+					case OS_LINUX: val = values[2]; break;
+					default: break;
+				}
 			}
 			else
 			{

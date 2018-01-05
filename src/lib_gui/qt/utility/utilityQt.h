@@ -3,12 +3,12 @@
 
 #include <string>
 
+class FilePath;
 class QColor;
 class QIcon;
 class QPixmap;
 class QString;
 class QWidget;
-class FilePath;
 
 namespace utility
 {
@@ -25,4 +25,4 @@ namespace utility
 	void copyNewFilesFromDirectory(QString src, QString dst);
 }
 
-# endif // UTILITY_QT_H
+#endif // UTILITY_QT_H

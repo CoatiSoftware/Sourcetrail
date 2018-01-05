@@ -10,8 +10,8 @@
 		</scrollbar>
 		<dock>
 			<text>#F7F7F7</text>
-			<background>#777777</background>
-			<line>#A0A0A0</line>
+			<background>#555555</background>
+			<line>#808080</line>
 			<icon_type>white</icon_type> <!-- white, grey, black -->
 		</dock>
 	</window>
@@ -460,7 +460,7 @@
 	</table>
 
 	<screen_search>
-		<background>#777777</background>
+		<background>#555555</background>
 		<box>
 			<background>#272728</background>
 			<text>#F7F7F7</text>
