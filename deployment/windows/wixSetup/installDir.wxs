@@ -375,15 +375,6 @@
 				</Directory>
 
 				<Directory Id='DataGui' Name='gui'>
-					<Component Id='MainCss' Guid='*' Win64="$(var.Win64)">
-						<File Id='Main' Name='main.css' DiskId='1' Source='./../../../bin/app/data/gui/main.css' KeyPath='yes' />
-					</Component>
-					<Component Id='SplashBluePng' Guid='*' Win64="$(var.Win64)">
-						<File Id='SplashBlue' Name='splash_blue.png' DiskId='1' Source='./../../../bin/app/data/gui/splash_blue.png' KeyPath='yes' />
-					</Component>
-					<Component Id='SplashWhitePng' Guid='*' Win64="$(var.Win64)">
-						<File Id='SplashWhite' Name='splash_white.png' DiskId='1' Source='./../../../bin/app/data/gui/splash_white.png' KeyPath='yes' />
-					</Component>
 
 					<Directory Id='DataAbout' Name='about'>
 						<Component Id='AboutCss' Guid='*' Win64="$(var.Win64)">
@@ -648,6 +639,36 @@
 							<File Id='License' Name='license.css' DiskId='1' Source='./../../../bin/app/data/gui/license/license.css' KeyPath='yes' />
 						</Component>
 					</Directory>
+					
+					<Directory Id='DataMain' Name='main'>
+						<Component Id='MainCss' Guid='*' Win64="$(var.Win64)">
+							<File Id='Main' Name='main.css' DiskId='1' Source='./../../../bin/app/data/gui/main/main.css' KeyPath='yes' />
+						</Component>
+						<Component Id='ScrollbarCss' Guid='*' Win64="$(var.Win64)">
+							<File Id='Scrollbar' Name='scrollbar.css' DiskId='1' Source='./../../../bin/app/data/gui/main/scrollbar.css' KeyPath='yes' />
+						</Component>
+						
+						<Directory Id='DataMainImages' Name='images'>
+							<Component Id='CloseBlackPng' Guid='*' Win64="$(var.Win64)">
+								<File Id='CloseBlack' Name='close_black.png' DiskId='1' Source='./../../../bin/app/data/gui/main/images/close_black.png' KeyPath='yes' />
+							</Component>
+							<Component Id='CloseGreyPng' Guid='*' Win64="$(var.Win64)">
+								<File Id='CloseGrey' Name='close_grey.png' DiskId='1' Source='./../../../bin/app/data/gui/main/images/close_grey.png' KeyPath='yes' />
+							</Component>
+							<Component Id='CloseWhitePng' Guid='*' Win64="$(var.Win64)">
+								<File Id='CloseWhite' Name='close_white.png' DiskId='1' Source='./../../../bin/app/data/gui/main/images/close_white.png' KeyPath='yes' />
+							</Component>
+							<Component Id='FloatBlackPng' Guid='*' Win64="$(var.Win64)">
+								<File Id='FloatBlack' Name='float_black.png' DiskId='1' Source='./../../../bin/app/data/gui/main/images/float_black.png' KeyPath='yes' />
+							</Component>
+							<Component Id='FloatGreyPng' Guid='*' Win64="$(var.Win64)">
+								<File Id='FloatGrey' Name='float_grey.png' DiskId='1' Source='./../../../bin/app/data/gui/main/images/float_grey.png' KeyPath='yes' />
+							</Component>
+							<Component Id='FloatWhitePng' Guid='*' Win64="$(var.Win64)">
+								<File Id='FloatWhite' Name='float_white.png' DiskId='1' Source='./../../../bin/app/data/gui/main/images/float_white.png' KeyPath='yes' />
+							</Component>
+						</Directory>
+					</Directory>
 
 					<Directory Id='DataRefreshView' Name='refresh_view'>
 						<Component Id='RefreshViewCss' Guid='*' Win64="$(var.Win64)">
@@ -840,7 +861,7 @@
 							<File Id='OrgEclipseCoreFilesystem' Name='org.eclipse.core.filesystem-1.7.0.jar' DiskId='1' Source='./../../../bin/app/data/java/lib/org.eclipse.core.filesystem-1.7.0.jar' KeyPath='yes' />
 						</Component>
 						<Component Id='JavaOrgEclipseCoreJobsJar' Guid='*' Win64="$(var.Win64)">
-							<File Id='OrgEclipseCoreJobs' Name='org.eclipse.core.jobs-3.9.1.jar' DiskId='1' Source='./../../../bin/app/data/java/lib/org.eclipse.core.jobs-3.9.1.jar' KeyPath='yes' />
+							<File Id='OrgEclipseCoreJobs' Name='org.eclipse.core.jobs-3.9.2.jar' DiskId='1' Source='./../../../bin/app/data/java/lib/org.eclipse.core.jobs-3.9.2.jar' KeyPath='yes' />
 						</Component>
 						<Component Id='JavaOrgEclipseCoreResourcesJar' Guid='*' Win64="$(var.Win64)">
 							<File Id='OrgEclipseCoreResources' Name='org.eclipse.core.resources-3.12.0.jar' DiskId='1' Source='./../../../bin/app/data/java/lib/org.eclipse.core.resources-3.12.0.jar' KeyPath='yes' />

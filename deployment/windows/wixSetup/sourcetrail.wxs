@@ -268,10 +268,6 @@
 				
 				<ComponentRef Id='applicationSettingsXml'/>
 				<ComponentRef Id='window_settingsIni'/>
-				
-				<ComponentRef Id='MainCss'/>
-				<ComponentRef Id='SplashBluePng'/>
-				<ComponentRef Id='SplashWhitePng'/>
 
 				<ComponentRef Id='AboutCss'/>
 				<ComponentRef Id='LogoAwsPng'/>
@@ -351,6 +347,15 @@
 				<ComponentRef Id='ProgressBarElementPng'/>
 
 				<ComponentRef Id='LicenseCss'/>
+				
+				<ComponentRef Id='MainCss'/>
+				<ComponentRef Id='ScrollbarCss'/>
+				<ComponentRef Id='CloseBlackPng'/>
+				<ComponentRef Id='CloseGreyPng'/>
+				<ComponentRef Id='CloseWhitePng'/>
+				<ComponentRef Id='FloatBlackPng'/>
+				<ComponentRef Id='FloatGreyPng'/>
+				<ComponentRef Id='FloatWhitePng'/>
 				
 				<ComponentRef Id='EulaTxt'/>
 				
