@@ -75,8 +75,15 @@ if [ $PLATFORM == "Windows" ]; then
 	cp -u -r ${QT_WIN32_DIR}/bin/Qt5Networkd.dll build/win32/Debug/app
 	cp -u -r ${QT_WIN32_DIR}/bin/Qt5Widgetsd.dll build/win32/Debug/app
 	cp -u -r ${QT_WIN32_DIR}/plugins/platforms/qwindowsd.dll build/win32/Debug/app/platforms
+	cp -u -r ${QT_WIN32_DIR}/plugins/imageformats/qgifd.dll build/win32/Debug/app/imageformats
+	cp -u -r ${QT_WIN32_DIR}/plugins/imageformats/qicnsd.dll build/win32/Debug/app/imageformats
+	cp -u -r ${QT_WIN32_DIR}/plugins/imageformats/qicod.dll build/win32/Debug/app/imageformats
 	cp -u -r ${QT_WIN32_DIR}/plugins/imageformats/qjpegd.dll build/win32/Debug/app/imageformats
+	cp -u -r ${QT_WIN32_DIR}/plugins/imageformats/qsvgd.dll build/win32/Debug/app/imageformats
+	cp -u -r ${QT_WIN32_DIR}/plugins/imageformats/qtgad.dll build/win32/Debug/app/imageformats
+	cp -u -r ${QT_WIN32_DIR}/plugins/imageformats/qtiffd.dll build/win32/Debug/app/imageformats
 	cp -u -r ${QT_WIN32_DIR}/plugins/imageformats/qwbmpd.dll build/win32/Debug/app/imageformats
+	cp -u -r ${QT_WIN32_DIR}/plugins/imageformats/qwebpd.dll build/win32/Debug/app/imageformats
 	
 	cp -u -r setup/dynamic_libraries/win32/app/Release/* build/win32/Release/app
 	cp -u -r ${QT_WIN32_DIR}/bin/Qt5Core.dll build/win32/Release/app
@@ -84,8 +91,15 @@ if [ $PLATFORM == "Windows" ]; then
 	cp -u -r ${QT_WIN32_DIR}/bin/Qt5Network.dll build/win32/Release/app
 	cp -u -r ${QT_WIN32_DIR}/bin/Qt5Widgets.dll build/win32/Release/app
 	cp -u -r ${QT_WIN32_DIR}/plugins/platforms/qwindows.dll build/win32/Release/app/platforms
+	cp -u -r ${QT_WIN32_DIR}/plugins/imageformats/qgif.dll build/win32/Release/app/imageformats
+	cp -u -r ${QT_WIN32_DIR}/plugins/imageformats/qicns.dll build/win32/Release/app/imageformats
+	cp -u -r ${QT_WIN32_DIR}/plugins/imageformats/qico.dll build/win32/Release/app/imageformats
 	cp -u -r ${QT_WIN32_DIR}/plugins/imageformats/qjpeg.dll build/win32/Release/app/imageformats
+	cp -u -r ${QT_WIN32_DIR}/plugins/imageformats/qsvg.dll build/win32/Release/app/imageformats
+	cp -u -r ${QT_WIN32_DIR}/plugins/imageformats/qtga.dll build/win32/Release/app/imageformats
+	cp -u -r ${QT_WIN32_DIR}/plugins/imageformats/qtiff.dll build/win32/Release/app/imageformats
 	cp -u -r ${QT_WIN32_DIR}/plugins/imageformats/qwbmp.dll build/win32/Release/app/imageformats
+	cp -u -r ${QT_WIN32_DIR}/plugins/imageformats/qwebp.dll build/win32/Release/app/imageformats
 	
 	cp -u -r setup/dynamic_libraries/win64/app/Debug/* build/win64/Debug/app
 	cp -u -r ${QT_WIN64_DIR}/bin/Qt5Cored.dll build/win64/Debug/app
@@ -93,8 +107,15 @@ if [ $PLATFORM == "Windows" ]; then
 	cp -u -r ${QT_WIN64_DIR}/bin/Qt5Networkd.dll build/win64/Debug/app
 	cp -u -r ${QT_WIN64_DIR}/bin/Qt5Widgetsd.dll build/win64/Debug/app
 	cp -u -r ${QT_WIN64_DIR}/plugins/platforms/qwindowsd.dll build/win64/Debug/app/platforms
+	cp -u -r ${QT_WIN64_DIR}/plugins/imageformats/qgifd.dll build/win64/Debug/app/imageformats
+	cp -u -r ${QT_WIN64_DIR}/plugins/imageformats/qicnsd.dll build/win64/Debug/app/imageformats
+	cp -u -r ${QT_WIN64_DIR}/plugins/imageformats/qicod.dll build/win64/Debug/app/imageformats
 	cp -u -r ${QT_WIN64_DIR}/plugins/imageformats/qjpegd.dll build/win64/Debug/app/imageformats
+	cp -u -r ${QT_WIN64_DIR}/plugins/imageformats/qsvgd.dll build/win64/Debug/app/imageformats
+	cp -u -r ${QT_WIN64_DIR}/plugins/imageformats/qtgad.dll build/win64/Debug/app/imageformats
+	cp -u -r ${QT_WIN64_DIR}/plugins/imageformats/qtiffd.dll build/win64/Debug/app/imageformats
 	cp -u -r ${QT_WIN64_DIR}/plugins/imageformats/qwbmpd.dll build/win64/Debug/app/imageformats
+	cp -u -r ${QT_WIN64_DIR}/plugins/imageformats/qwebpd.dll build/win64/Debug/app/imageformats
 	
 	cp -u -r setup/dynamic_libraries/win64/app/Release/* build/win64/Release/app
 	cp -u -r ${QT_WIN64_DIR}/bin/Qt5Core.dll build/win64/Release/app
@@ -102,8 +123,15 @@ if [ $PLATFORM == "Windows" ]; then
 	cp -u -r ${QT_WIN64_DIR}/bin/Qt5Network.dll build/win64/Release/app
 	cp -u -r ${QT_WIN64_DIR}/bin/Qt5Widgets.dll build/win64/Release/app
 	cp -u -r ${QT_WIN64_DIR}/plugins/platforms/qwindows.dll build/win64/Release/app/platforms
+	cp -u -r ${QT_WIN64_DIR}/plugins/imageformats/qgif.dll build/win64/Release/app/imageformats
+	cp -u -r ${QT_WIN64_DIR}/plugins/imageformats/qicns.dll build/win64/Release/app/imageformats
+	cp -u -r ${QT_WIN64_DIR}/plugins/imageformats/qico.dll build/win64/Release/app/imageformats
 	cp -u -r ${QT_WIN64_DIR}/plugins/imageformats/qjpeg.dll build/win64/Release/app/imageformats
+	cp -u -r ${QT_WIN64_DIR}/plugins/imageformats/qsvg.dll build/win64/Release/app/imageformats
+	cp -u -r ${QT_WIN64_DIR}/plugins/imageformats/qtga.dll build/win64/Release/app/imageformats
+	cp -u -r ${QT_WIN64_DIR}/plugins/imageformats/qtiff.dll build/win64/Release/app/imageformats
 	cp -u -r ${QT_WIN64_DIR}/plugins/imageformats/qwbmp.dll build/win64/Release/app/imageformats
+	cp -u -r ${QT_WIN64_DIR}/plugins/imageformats/qwebp.dll build/win64/Release/app/imageformats
 	
 	
 	echo -e $INFO "copy dynamic libraries for tests"
@@ -112,32 +140,60 @@ if [ $PLATFORM == "Windows" ]; then
 	cp -u -r ${QT_WIN32_DIR}/bin/Qt5Networkd.dll build/win32/Debug/test
 	cp -u -r ${QT_WIN32_DIR}/bin/Qt5Widgetsd.dll build/win32/Debug/test
 	cp -u -r ${QT_WIN32_DIR}/plugins/platforms/qwindowsd.dll build/win32/Debug/test/platforms
+	cp -u -r ${QT_WIN32_DIR}/plugins/imageformats/qgifd.dll build/win32/Debug/test/imageformats
+	cp -u -r ${QT_WIN32_DIR}/plugins/imageformats/qicnsd.dll build/win32/Debug/test/imageformats
+	cp -u -r ${QT_WIN32_DIR}/plugins/imageformats/qicod.dll build/win32/Debug/test/imageformats
 	cp -u -r ${QT_WIN32_DIR}/plugins/imageformats/qjpegd.dll build/win32/Debug/test/imageformats
+	cp -u -r ${QT_WIN32_DIR}/plugins/imageformats/qsvgd.dll build/win32/Debug/test/imageformats
+	cp -u -r ${QT_WIN32_DIR}/plugins/imageformats/qtgad.dll build/win32/Debug/test/imageformats
+	cp -u -r ${QT_WIN32_DIR}/plugins/imageformats/qtiffd.dll build/win32/Debug/test/imageformats
 	cp -u -r ${QT_WIN32_DIR}/plugins/imageformats/qwbmpd.dll build/win32/Debug/test/imageformats
+	cp -u -r ${QT_WIN32_DIR}/plugins/imageformats/qwebpd.dll build/win32/Debug/test/imageformats
 	
 	cp -u -r ${QT_WIN32_DIR}/bin/Qt5Core.dll build/win32/Release/test
 	cp -u -r ${QT_WIN32_DIR}/bin/Qt5Gui.dll build/win32/Release/test
 	cp -u -r ${QT_WIN32_DIR}/bin/Qt5Network.dll build/win32/Release/test
 	cp -u -r ${QT_WIN32_DIR}/bin/Qt5Widgets.dll build/win32/Release/test
 	cp -u -r ${QT_WIN32_DIR}/plugins/platforms/qwindows.dll build/win32/Release/test/platforms
+	cp -u -r ${QT_WIN32_DIR}/plugins/imageformats/qgif.dll build/win32/Release/test/imageformats
+	cp -u -r ${QT_WIN32_DIR}/plugins/imageformats/qicns.dll build/win32/Release/test/imageformats
+	cp -u -r ${QT_WIN32_DIR}/plugins/imageformats/qico.dll build/win32/Release/test/imageformats
 	cp -u -r ${QT_WIN32_DIR}/plugins/imageformats/qjpeg.dll build/win32/Release/test/imageformats
+	cp -u -r ${QT_WIN32_DIR}/plugins/imageformats/qsvg.dll build/win32/Release/test/imageformats
+	cp -u -r ${QT_WIN32_DIR}/plugins/imageformats/qtga.dll build/win32/Release/test/imageformats
+	cp -u -r ${QT_WIN32_DIR}/plugins/imageformats/qtiff.dll build/win32/Release/test/imageformats
 	cp -u -r ${QT_WIN32_DIR}/plugins/imageformats/qwbmp.dll build/win32/Release/test/imageformats
+	cp -u -r ${QT_WIN32_DIR}/plugins/imageformats/qwebp.dll build/win32/Release/test/imageformats
 	
 	cp -u -r ${QT_WIN64_DIR}/bin/Qt5Cored.dll build/win64/Debug/test
 	cp -u -r ${QT_WIN64_DIR}/bin/Qt5Guid.dll build/win64/Debug/test
 	cp -u -r ${QT_WIN64_DIR}/bin/Qt5Networkd.dll build/win64/Debug/test
 	cp -u -r ${QT_WIN64_DIR}/bin/Qt5Widgetsd.dll build/win64/Debug/test
 	cp -u -r ${QT_WIN64_DIR}/plugins/platforms/qwindowsd.dll build/win64/Debug/test/platforms
+	cp -u -r ${QT_WIN64_DIR}/plugins/imageformats/qgifd.dll build/win64/Debug/test/imageformats
+	cp -u -r ${QT_WIN64_DIR}/plugins/imageformats/qicnsd.dll build/win64/Debug/test/imageformats
+	cp -u -r ${QT_WIN64_DIR}/plugins/imageformats/qicod.dll build/win64/Debug/test/imageformats
 	cp -u -r ${QT_WIN64_DIR}/plugins/imageformats/qjpegd.dll build/win64/Debug/test/imageformats
+	cp -u -r ${QT_WIN64_DIR}/plugins/imageformats/qsvgd.dll build/win64/Debug/test/imageformats
+	cp -u -r ${QT_WIN64_DIR}/plugins/imageformats/qtgad.dll build/win64/Debug/test/imageformats
+	cp -u -r ${QT_WIN64_DIR}/plugins/imageformats/qtiffd.dll build/win64/Debug/test/imageformats
 	cp -u -r ${QT_WIN64_DIR}/plugins/imageformats/qwbmpd.dll build/win64/Debug/test/imageformats
+	cp -u -r ${QT_WIN64_DIR}/plugins/imageformats/qwebpd.dll build/win64/Debug/test/imageformats
 	
 	cp -u -r ${QT_WIN64_DIR}/bin/Qt5Core.dll build/win64/Release/test
 	cp -u -r ${QT_WIN64_DIR}/bin/Qt5Gui.dll build/win64/Release/test
 	cp -u -r ${QT_WIN64_DIR}/bin/Qt5Network.dll build/win64/Release/test
 	cp -u -r ${QT_WIN64_DIR}/bin/Qt5Widgets.dll build/win64/Release/test
 	cp -u -r ${QT_WIN64_DIR}/plugins/platforms/qwindows.dll build/win64/Release/test/platforms
+	cp -u -r ${QT_WIN64_DIR}/plugins/imageformats/qgif.dll build/win64/Release/test/imageformats
+	cp -u -r ${QT_WIN64_DIR}/plugins/imageformats/qicns.dll build/win64/Release/test/imageformats
+	cp -u -r ${QT_WIN64_DIR}/plugins/imageformats/qico.dll build/win64/Release/test/imageformats
 	cp -u -r ${QT_WIN64_DIR}/plugins/imageformats/qjpeg.dll build/win64/Release/test/imageformats
+	cp -u -r ${QT_WIN64_DIR}/plugins/imageformats/qsvg.dll build/win64/Release/test/imageformats
+	cp -u -r ${QT_WIN64_DIR}/plugins/imageformats/qtga.dll build/win64/Release/test/imageformats
+	cp -u -r ${QT_WIN64_DIR}/plugins/imageformats/qtiff.dll build/win64/Release/test/imageformats
 	cp -u -r ${QT_WIN64_DIR}/plugins/imageformats/qwbmp.dll build/win64/Release/test/imageformats
+	cp -u -r ${QT_WIN64_DIR}/plugins/imageformats/qwebp.dll build/win64/Release/test/imageformats
 
 	echo -e $INFO "copy test_main file"
 	cp -u setup/cxx_test/windows/test_main.cpp build/win32

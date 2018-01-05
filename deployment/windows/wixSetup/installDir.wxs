@@ -252,11 +252,32 @@
 			</Directory>
 			
 			<Directory Id='Imageformats' Name='imageformats'>
+				<Component Id='QGifDll' Guid='*' Win64="$(var.Win64)">
+					<File Id='QGif' Name='qgif.dll' DiskId='1' Source='$(var.PlatformSourceFolder)/imageformats/qgif.dll' KeyPath='yes' />
+				</Component>
+				<Component Id='QIcnsDll' Guid='*' Win64="$(var.Win64)">
+					<File Id='QIcns' Name='qicns.dll' DiskId='1' Source='$(var.PlatformSourceFolder)/imageformats/qicns.dll' KeyPath='yes' />
+				</Component>
+				<Component Id='QIcoDll' Guid='*' Win64="$(var.Win64)">
+					<File Id='QIco' Name='qico.dll' DiskId='1' Source='$(var.PlatformSourceFolder)/imageformats/qico.dll' KeyPath='yes' />
+				</Component>
 				<Component Id='QJpegDll' Guid='*' Win64="$(var.Win64)">
 					<File Id='QJpeg' Name='qjpeg.dll' DiskId='1' Source='$(var.PlatformSourceFolder)/imageformats/qjpeg.dll' KeyPath='yes' />
 				</Component>
+				<Component Id='QSvgDll' Guid='*' Win64="$(var.Win64)">
+					<File Id='QSvg' Name='qsvg.dll' DiskId='1' Source='$(var.PlatformSourceFolder)/imageformats/qsvg.dll' KeyPath='yes' />
+				</Component>
+				<Component Id='GTgaDll' Guid='*' Win64="$(var.Win64)">
+					<File Id='GTga' Name='qtga.dll' DiskId='1' Source='$(var.PlatformSourceFolder)/imageformats/qtga.dll' KeyPath='yes' />
+				</Component>
+				<Component Id='QTiffDll' Guid='*' Win64="$(var.Win64)">
+					<File Id='QTiff' Name='qtiff.dll' DiskId='1' Source='$(var.PlatformSourceFolder)/imageformats/qtiff.dll' KeyPath='yes' />
+				</Component>
 				<Component Id='QWBmpDll' Guid='*' Win64="$(var.Win64)">
 					<File Id='QWBmp' Name='qwbmp.dll' DiskId='1' Source='$(var.PlatformSourceFolder)/imageformats/qwbmp.dll' KeyPath='yes' />
+				</Component>
+				<Component Id='QWebpDll' Guid='*' Win64="$(var.Win64)">
+					<File Id='QWebp' Name='qwebp.dll' DiskId='1' Source='$(var.PlatformSourceFolder)/imageformats/qwebp.dll' KeyPath='yes' />
 				</Component>
 			</Directory>
 			
