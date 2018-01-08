@@ -25,6 +25,9 @@ public:
 	QString getText();
 	void setText(QString text);
 
+	bool readOnly() const;
+	void setReadOnly(bool readOnly);
+
 public slots:
 	void setFocus();
 
@@ -38,6 +41,8 @@ private:
 
 	QtDirectoryListBox* m_list;
 	QListWidgetItem* m_item;
+
+	bool m_readOnly;
 };
 
 
@@ -54,12 +59,12 @@ public:
 	void clear();
 
 	std::vector<FilePath> getList();
-	void setList(const std::vector<FilePath>& list);
+	void setList(const std::vector<FilePath>& list, bool readOnly = false);
 
 	std::vector<std::string> getStringList();
-	void setStringList(const std::vector<std::string>& list);
+	void setStringList(const std::vector<std::string>& list, bool readOnly = false);
 
-	void addListBoxItemWithText(const QString& text);
+	QtListItemWidget* addListBoxItemWithText(const QString& text);
 
 	void selectItem(QListWidgetItem* item);
 

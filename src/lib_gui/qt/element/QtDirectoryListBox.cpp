@@ -16,6 +16,7 @@ QtListItemWidget::QtListItemWidget(QtDirectoryListBox* list, QListWidgetItem* it
 	: QWidget(parent)
 	, m_list(list)
 	, m_item(item)
+	, m_readOnly(false)
 {
 	QBoxLayout* layout = new QHBoxLayout();
 	layout->setSpacing(3);
@@ -67,6 +68,29 @@ void QtListItemWidget::setText(QString text)
 	}
 
 	m_data->setText(text);
+}
+
+bool QtListItemWidget::readOnly() const
+{
+	return m_readOnly;
+}
+
+void QtListItemWidget::setReadOnly(bool readOnly)
+{
+	m_readOnly = readOnly;
+
+	if (readOnly)
+	{
+		m_item->setFlags(m_item->flags() & ~(Qt::ItemIsSelectable | Qt::ItemIsEnabled));
+	}
+	else
+	{
+		m_item->setFlags(m_item->flags() | ~(Qt::ItemIsSelectable | Qt::ItemIsEnabled));
+	}
+
+	m_data->setReadOnly(readOnly);
+	m_data->setEnabled(!readOnly);
+	m_button->setEnabled(!readOnly);
 }
 
 void QtListItemWidget::setFocus()
@@ -235,14 +259,14 @@ std::vector<FilePath> QtDirectoryListBox::getList()
 	return list;
 }
 
-void QtDirectoryListBox::setList(const std::vector<FilePath>& list)
+void QtDirectoryListBox::setList(const std::vector<FilePath>& list, bool readOnly)
 {
 	std::vector<std::string> strList;
 	for (const FilePath& path : list)
 	{
 		strList.push_back(path.str());
 	}
-	setStringList(strList);
+	setStringList(strList, readOnly);
 }
 
 std::vector<std::string> QtDirectoryListBox::getStringList()
@@ -256,7 +280,7 @@ std::vector<std::string> QtDirectoryListBox::getStringList()
 	return list;
 }
 
-void QtDirectoryListBox::setStringList(const std::vector<std::string>& list)
+void QtDirectoryListBox::setStringList(const std::vector<std::string>& list, bool readOnly)
 {
 	clear();
 
@@ -265,7 +289,8 @@ void QtDirectoryListBox::setStringList(const std::vector<std::string>& list)
 
 	for (const std::string& str : list)
 	{
-		addListBoxItemWithText(QString::fromStdString(str));
+		QtListItemWidget* itemWidget = addListBoxItemWithText(QString::fromStdString(str));
+		itemWidget->setReadOnly(readOnly);
 	}
 
 	m_relativeRootDirectory = root;
@@ -273,10 +298,11 @@ void QtDirectoryListBox::setStringList(const std::vector<std::string>& list)
 	QTimer::singleShot(1, this, &QtDirectoryListBox::resize);
 }
 
-void QtDirectoryListBox::addListBoxItemWithText(const QString& text)
+QtListItemWidget* QtDirectoryListBox::addListBoxItemWithText(const QString& text)
 {
 	QtListItemWidget* widget = addListBoxItem();
 	widget->setText(text);
+	return widget;
 }
 
 void QtDirectoryListBox::selectItem(QListWidgetItem* item)
@@ -372,7 +398,17 @@ void QtDirectoryListBox::showEditDialog()
 		m_editDialog = std::make_shared<QtTextEditDialog>(m_listName, "Edit the list in plain text. Each line is one item.");
 		m_editDialog->setup();
 
-		m_editDialog->setText(utility::join(getStringList(), "\n"));
+		std::vector<std::string> list;
+		for (int i = 0; i < m_list->count(); ++i)
+		{
+			QtListItemWidget* widget = dynamic_cast<QtListItemWidget*>(m_list->itemWidget(m_list->item(i)));
+			if (!widget->readOnly())
+			{
+				list.push_back(widget->getText().toStdString());
+			}
+		}
+
+		m_editDialog->setText(utility::join(list, "\n"));
 
 		connect(m_editDialog.get(), &QtTextEditDialog::canceled, this, &QtDirectoryListBox::canceledEditDialog);
 		connect(m_editDialog.get(), &QtTextEditDialog::finished, this, &QtDirectoryListBox::savedEditDialog);
@@ -392,6 +428,16 @@ void QtDirectoryListBox::canceledEditDialog()
 
 void QtDirectoryListBox::savedEditDialog()
 {
+	std::vector<std::string> readOnlyLines;
+	for (int i = 0; i < m_list->count(); ++i)
+	{
+		QtListItemWidget* widget = dynamic_cast<QtListItemWidget*>(m_list->itemWidget(m_list->item(i)));
+		if (widget->readOnly())
+		{
+			readOnlyLines.push_back(widget->getText().toStdString());
+		}
+	}
+
 	std::vector<std::string> lines = utility::splitToVector(m_editDialog->getText(), "\n");
 	for (size_t i = 0; i < lines.size(); i++)
 	{
@@ -403,7 +449,27 @@ void QtDirectoryListBox::savedEditDialog()
 			i--;
 		}
 	}
-	setStringList(lines);
+
+	clear();
+
+	FilePath root = m_relativeRootDirectory;
+	m_relativeRootDirectory = FilePath();
+
+	for (const std::string& str : readOnlyLines)
+	{
+		QtListItemWidget* itemWidget = addListBoxItemWithText(QString::fromStdString(str));
+		itemWidget->setReadOnly(true);
+	}
+
+	for (const std::string& str : lines)
+	{
+		QtListItemWidget* itemWidget = addListBoxItemWithText(QString::fromStdString(str));
+		itemWidget->setReadOnly(false);
+	}
+
+	m_relativeRootDirectory = root;
 
 	canceledEditDialog();
+
+	QTimer::singleShot(1, this, &QtDirectoryListBox::resize);
 }

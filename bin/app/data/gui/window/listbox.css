@@ -31,6 +31,10 @@ QtListItemWidget #field {
 	margin-left: 5px;
 }
 
+QtListItemWidget #field:disabled {
+	color: grey;
+}
+
 #bar {
 	border-top: 1px solid lightgray;
 }
