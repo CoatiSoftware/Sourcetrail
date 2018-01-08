@@ -116,9 +116,7 @@
 
 			<!-- Application Folder -->
 			<Directory Id='$(var.PlatformProgramFilesFolder)' Name='PFiles'>
-				<Directory Id='COMPANYDIR' Name='Coati Software'>
-					<Directory Id='INSTALLDIR' Name='Sourcetrail' />
-				</Directory>
+				<Directory Id='INSTALLDIR' Name='Sourcetrail' />
 			</Directory>
 
 
@@ -494,7 +492,7 @@
 			<Publish Dialog="VerifyReadyDlg" Control="Back" Event="NewDialog" Value="ShortcutDlg">1</Publish>
 		</UI>
 
-		<Property Id="WIXUI_INSTALLDIR" Value="COMPANYDIR" />
+		<Property Id="WIXUI_INSTALLDIR" Value="INSTALLDIR" />
 
 		<UIRef Id="WixUI_ErrorProgressText" />
 
