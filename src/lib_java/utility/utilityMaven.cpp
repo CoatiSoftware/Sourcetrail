@@ -127,7 +127,7 @@ namespace utility
 		size_t startLine = 0;
 		for (size_t i = 1; i <= outputAccess->getLineCount(); i++)
 		{
-			if (utility::isPrefix("<?xml", utility::trim(outputAccess->getLine(i))))
+			if (utility::isPrefix("<", utility::trim(outputAccess->getLine(i))))
 			{
 				startLine = i;
 				break;

@@ -33,6 +33,7 @@ add_files(
 	StorageTestSuite.h
 	TaskSchedulerTestSuite.h
 	TextAccessTestSuite.h
+	UtilityMavenTestSuite.h
 	UtilityStringTestSuite.h
 	Vector2TestSuite.h
 	

@@ -29,6 +29,82 @@ TextAccess.cpp WARNING: Tried to access index 10. Maximum index is 8
 TextAccess.cpp WARNING: Tried to access index 10. Maximum index is 8
 TextAccess.cpp WARNING: Line numbers start with one, is 0
 TextAccess.cpp WARNING: Line numbers start with one, is 0
+utilityMaven.cpp INFO: Fetching source directories in "project -> build -> sourceDirectory".
+utilityMaven.cpp INFO: Found 1 source directories.
+utilityMaven.cpp INFO: Found directory "C:/sourcetrail/sourcetrail/bin/test/data/UtilityMavenTestSuite/simple_maven_project/src/main/java".
+utilityMaven.cpp INFO: Fetching source directories in "projects -> project -> build -> sourceDirectory".
+utilityMaven.cpp INFO: Found 0 source directories.
+utilityMaven.cpp INFO: Fetching source directories in "project -> build -> directory".
+utilityMaven.cpp INFO: Found 1 source directories.
+utilityMaven.cpp INFO: Found directory "C:/sourcetrail/sourcetrail/bin/test/data/UtilityMavenTestSuite/simple_maven_project/target/generated-sources".
+utilityMaven.cpp INFO: Fetching source directories in "projects -> project -> build -> directory".
+utilityMaven.cpp INFO: Found 0 source directories.
+utilityMaven.cpp INFO: Found 1 of 2 directories on system.
+utilityMaven.cpp INFO: Fetching source directories in "project -> build -> sourceDirectory".
+utilityMaven.cpp INFO: Found 1 source directories.
+utilityMaven.cpp INFO: Found directory "C:/sourcetrail/sourcetrail/bin/test/data/UtilityMavenTestSuite/simple_maven_project/src/main/java".
+utilityMaven.cpp INFO: Fetching source directories in "projects -> project -> build -> sourceDirectory".
+utilityMaven.cpp INFO: Found 0 source directories.
+utilityMaven.cpp INFO: Fetching source directories in "project -> build -> directory".
+utilityMaven.cpp INFO: Found 1 source directories.
+utilityMaven.cpp INFO: Found directory "C:/sourcetrail/sourcetrail/bin/test/data/UtilityMavenTestSuite/simple_maven_project/target/generated-sources".
+utilityMaven.cpp INFO: Fetching source directories in "projects -> project -> build -> directory".
+utilityMaven.cpp INFO: Found 0 source directories.
+utilityMaven.cpp INFO: Fetching source directories in "project -> build -> testSourceDirectory".
+utilityMaven.cpp INFO: Found 1 source directories.
+utilityMaven.cpp INFO: Found directory "C:/sourcetrail/sourcetrail/bin/test/data/UtilityMavenTestSuite/simple_maven_project/src/test/java".
+utilityMaven.cpp INFO: Fetching source directories in "projects -> project -> build -> testSourceDirectory".
+utilityMaven.cpp INFO: Found 0 source directories.
+utilityMaven.cpp INFO: Fetching source directories in "project -> build -> directory".
+utilityMaven.cpp INFO: Found 1 source directories.
+utilityMaven.cpp INFO: Found directory "C:/sourcetrail/sourcetrail/bin/test/data/UtilityMavenTestSuite/simple_maven_project/target/generated-test-sources".
+utilityMaven.cpp INFO: Fetching source directories in "projects -> project -> build -> directory".
+utilityMaven.cpp INFO: Found 0 source directories.
+utilityMaven.cpp INFO: Found 2 of 4 directories on system.
+utilityMaven.cpp INFO: Fetching source directories in "project -> build -> sourceDirectory".
+utilityMaven.cpp INFO: Found 0 source directories.
+utilityMaven.cpp INFO: Fetching source directories in "projects -> project -> build -> sourceDirectory".
+utilityMaven.cpp INFO: Found 3 source directories.
+utilityMaven.cpp INFO: Found directory "C:/sourcetrail/sourcetrail/bin/test/data/UtilityMavenTestSuite/nested_maven_project/module_2/src/main/java".
+utilityMaven.cpp INFO: Found directory "C:/sourcetrail/sourcetrail/bin/test/data/UtilityMavenTestSuite/nested_maven_project/module_1/src/main/java".
+utilityMaven.cpp INFO: Found directory "C:/sourcetrail/sourcetrail/bin/test/data/UtilityMavenTestSuite/nested_maven_project/src/main/java".
+utilityMaven.cpp INFO: Fetching source directories in "project -> build -> directory".
+utilityMaven.cpp INFO: Found 0 source directories.
+utilityMaven.cpp INFO: Fetching source directories in "projects -> project -> build -> directory".
+utilityMaven.cpp INFO: Found 3 source directories.
+utilityMaven.cpp INFO: Found directory "C:/sourcetrail/sourcetrail/bin/test/data/UtilityMavenTestSuite/nested_maven_project/module_2/target/generated-sources".
+utilityMaven.cpp INFO: Found directory "C:/sourcetrail/sourcetrail/bin/test/data/UtilityMavenTestSuite/nested_maven_project/module_1/target/generated-sources".
+utilityMaven.cpp INFO: Found directory "C:/sourcetrail/sourcetrail/bin/test/data/UtilityMavenTestSuite/nested_maven_project/target/generated-sources".
+utilityMaven.cpp INFO: Found 2 of 6 directories on system.
+utilityMaven.cpp INFO: Fetching source directories in "project -> build -> sourceDirectory".
+utilityMaven.cpp INFO: Found 0 source directories.
+utilityMaven.cpp INFO: Fetching source directories in "projects -> project -> build -> sourceDirectory".
+utilityMaven.cpp INFO: Found 3 source directories.
+utilityMaven.cpp INFO: Found directory "C:/sourcetrail/sourcetrail/bin/test/data/UtilityMavenTestSuite/nested_maven_project/module_2/src/main/java".
+utilityMaven.cpp INFO: Found directory "C:/sourcetrail/sourcetrail/bin/test/data/UtilityMavenTestSuite/nested_maven_project/module_1/src/main/java".
+utilityMaven.cpp INFO: Found directory "C:/sourcetrail/sourcetrail/bin/test/data/UtilityMavenTestSuite/nested_maven_project/src/main/java".
+utilityMaven.cpp INFO: Fetching source directories in "project -> build -> directory".
+utilityMaven.cpp INFO: Found 0 source directories.
+utilityMaven.cpp INFO: Fetching source directories in "projects -> project -> build -> directory".
+utilityMaven.cpp INFO: Found 3 source directories.
+utilityMaven.cpp INFO: Found directory "C:/sourcetrail/sourcetrail/bin/test/data/UtilityMavenTestSuite/nested_maven_project/module_2/target/generated-sources".
+utilityMaven.cpp INFO: Found directory "C:/sourcetrail/sourcetrail/bin/test/data/UtilityMavenTestSuite/nested_maven_project/module_1/target/generated-sources".
+utilityMaven.cpp INFO: Found directory "C:/sourcetrail/sourcetrail/bin/test/data/UtilityMavenTestSuite/nested_maven_project/target/generated-sources".
+utilityMaven.cpp INFO: Fetching source directories in "project -> build -> testSourceDirectory".
+utilityMaven.cpp INFO: Found 0 source directories.
+utilityMaven.cpp INFO: Fetching source directories in "projects -> project -> build -> testSourceDirectory".
+utilityMaven.cpp INFO: Found 3 source directories.
+utilityMaven.cpp INFO: Found directory "C:/sourcetrail/sourcetrail/bin/test/data/UtilityMavenTestSuite/nested_maven_project/module_2/src/test/java".
+utilityMaven.cpp INFO: Found directory "C:/sourcetrail/sourcetrail/bin/test/data/UtilityMavenTestSuite/nested_maven_project/module_1/src/test/java".
+utilityMaven.cpp INFO: Found directory "C:/sourcetrail/sourcetrail/bin/test/data/UtilityMavenTestSuite/nested_maven_project/src/test/java".
+utilityMaven.cpp INFO: Fetching source directories in "project -> build -> directory".
+utilityMaven.cpp INFO: Found 0 source directories.
+utilityMaven.cpp INFO: Fetching source directories in "projects -> project -> build -> directory".
+utilityMaven.cpp INFO: Found 3 source directories.
+utilityMaven.cpp INFO: Found directory "C:/sourcetrail/sourcetrail/bin/test/data/UtilityMavenTestSuite/nested_maven_project/module_2/target/generated-test-sources".
+utilityMaven.cpp INFO: Found directory "C:/sourcetrail/sourcetrail/bin/test/data/UtilityMavenTestSuite/nested_maven_project/module_1/target/generated-test-sources".
+utilityMaven.cpp INFO: Found directory "C:/sourcetrail/sourcetrail/bin/test/data/UtilityMavenTestSuite/nested_maven_project/target/generated-test-sources".
+utilityMaven.cpp INFO: Found 4 of 12 directories on system.
  INFO: Indexer - indexing source file: input.cc
  INFO: Indexer - using language standard 1.8
  INFO: Indexer - indexing source file: input.cc
