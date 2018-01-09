@@ -1,11 +1,7 @@
 #include "data/parser/cxx/CxxParser.h"
 
 #include "clang/Tooling/Tooling.h"
-
-#include "utility/file/FilePath.h"
-#include "utility/file/FileRegister.h"
-#include "utility/logging/logging.h"
-#include "utility/text/TextAccess.h"
+#include "llvm/Support/TargetSelect.h"
 
 #include "data/indexer/IndexerCommandCxxCdb.h"
 #include "data/indexer/IndexerCommandCxxEmpty.h"
@@ -13,6 +9,11 @@
 #include "data/parser/cxx/CanonicalFilePathCache.h"
 #include "data/parser/cxx/CxxCompilationDatabaseSingle.h"
 #include "data/parser/cxx/CxxDiagnosticConsumer.h"
+
+#include "utility/file/FilePath.h"
+#include "utility/file/FileRegister.h"
+#include "utility/logging/logging.h"
+#include "utility/text/TextAccess.h"
 
 namespace
 {
@@ -59,6 +60,8 @@ CxxParser::CxxParser(std::shared_ptr<ParserClient> client, std::shared_ptr<FileR
 	: Parser(client)
 	, m_fileRegister(fileRegister)
 {
+	llvm::InitializeNativeTarget();
+	llvm::InitializeNativeTargetAsmParser();
 }
 
 CxxParser::~CxxParser()
@@ -90,14 +93,14 @@ void CxxParser::buildIndex(std::shared_ptr<IndexerCommandCxxEmpty> indexerComman
 	runTool(compilationDatabase.get(), indexerCommand->getSourceFilePath());
 }
 
-void CxxParser::buildIndex(const std::string& fileName, std::shared_ptr<TextAccess> fileContent)
+void CxxParser::buildIndex(const std::string& fileName, std::shared_ptr<TextAccess> fileContent, std::vector<std::string> compilerFlags)
 {
 	std::shared_ptr<CanonicalFilePathCache> canonicalFilePathCache = std::make_shared<CanonicalFilePathCache>();
 
 	std::shared_ptr<CxxDiagnosticConsumer> diagnostics = getDiagnostics(canonicalFilePathCache, false);
 	ASTActionFactory actionFactory(m_client, m_fileRegister, canonicalFilePathCache);
 
-	std::vector<std::string> args = getCommandlineArgumentsEssential(std::vector<std::string>(1, "-std=c++1z"), std::vector<FilePath>(), std::vector<FilePath>());
+	std::vector<std::string> args = getCommandlineArgumentsEssential(compilerFlags, std::vector<FilePath>(), std::vector<FilePath>());
 
 	runToolOnCodeWithArgs(
 		diagnostics.get(),

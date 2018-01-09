@@ -26,7 +26,7 @@ public:
 
 	void buildIndex(std::shared_ptr<IndexerCommandCxxCdb> indexerCommand);
 	void buildIndex(std::shared_ptr<IndexerCommandCxxEmpty> indexerCommand);
-	void buildIndex(const std::string& fileName, std::shared_ptr<TextAccess> fileContent);
+	void buildIndex(const std::string& fileName, std::shared_ptr<TextAccess> fileContent, std::vector<std::string> compilerFlags = {});
 
 private:
 	void runTool(clang::tooling::CompilationDatabase* compilationDatabase, const FilePath& sourceFilePath);

@@ -1923,8 +1923,7 @@ public:
 			"};\n"
 			"class B : public A {\n"
 			"	int foo();\n"
-			"};\n",
-			false
+			"};\n"
 		);
 
 		TS_ASSERT_EQUALS(client->errors.size(), 1);
@@ -3829,6 +3828,30 @@ public:
 		));
 	}
 
+	void test_cxx_parser_finds_usage_of_local_variable_in_microsoft_inline_assembly_statement()
+	{
+		std::shared_ptr<TestParserClient> client = parseCode(
+			"void foo()\n"
+			"{\n"
+			"	int x = 2;\n"
+				"__asm\n"
+				"{\n"
+				"	mov eax, x\n"
+				"	mov x, eax\n"
+				"}\n"
+			"}\n",
+			{ "--target=i686-pc-windows-msvc" }
+		);
+
+ 		TS_ASSERT(utility::containsElement<std::string>(
+			client->localSymbols, "input.cc<3:6> <6:11 6:11>"
+		));
+
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->localSymbols, "input.cc<3:6> <7:6 7:6>"
+		));
+	}
+
 	void test_cxx_parser_finds_template_argument_of_unresolved_lookup_expression()
 	{
 		std::shared_ptr<TestParserClient> client = parseCode(
@@ -4010,8 +4033,7 @@ public:
 	void test_cxx_parser_catches_error()
 	{
 		std::shared_ptr<TestParserClient> client = parseCode(
-			"int a = b;\n",
-			false
+			"int a = b;\n"
 		);
 
 		TS_ASSERT(utility::containsElement<std::string>(
@@ -4059,12 +4081,12 @@ public:
 	// }
 
 private:
-	std::shared_ptr<TestParserClient> parseCode(std::string code, bool logErrors = true)
+	std::shared_ptr<TestParserClient> parseCode(std::string code, std::vector<std::string> compilerFlags = {})
 	{
 		std::shared_ptr<TestFileRegister> fileRegister = std::make_shared<TestFileRegister>();
 		std::shared_ptr<TestParserClient> parserClient = std::make_shared<TestParserClient>();
 		CxxParser parser(parserClient, fileRegister);
-		parser.buildIndex("input.cc", TextAccess::createFromString(code));
+		parser.buildIndex("input.cc", TextAccess::createFromString(code), utility::concat(compilerFlags, std::vector<std::string>(1, "-std=c++1z")));
 		return parserClient;
 	}
 };
