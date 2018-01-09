@@ -503,9 +503,10 @@ void QtProjectWizzardContentPathsHeaderSearch::detectIncludesButtonClicked()
 
 	m_pathsDialog = std::make_shared<QtPathListDialog>(
 		"Detect Include Paths",
-		"<p>Automatically search the paths provided below for additional include paths that "
-		"can be used to resolve include directives within your source code.</p>"
-		"<p>The indexed paths will be searched by default but you can add further paths if required.</p>"
+		"<p>Automatically search for header files in the paths provided below to find missing include paths for "
+		"unresolved include directives in your source code.</p>"
+		"<p>The \"Files & Directories to Index\" will be searched by default, but you can add further paths, such "
+		"as directories of third-party libraries, if required.</p>"
 	);
 
 	m_pathsDialog->setup();

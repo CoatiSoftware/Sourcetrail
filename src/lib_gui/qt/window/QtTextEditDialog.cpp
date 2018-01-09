@@ -4,7 +4,7 @@
 #include <QPlainTextEdit>
 
 QtTextEditDialog::QtTextEditDialog(const QString& title, const QString& description, QWidget* parent)
-	: QtWindow(parent)
+	: QtWindow(false, parent)
 	, m_title(title)
 	, m_description(description)
 {

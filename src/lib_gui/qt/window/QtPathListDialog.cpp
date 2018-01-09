@@ -4,7 +4,7 @@
 #include "qt/element/QtDirectoryListBox.h"
 
 QtPathListDialog::QtPathListDialog(const QString& title, const QString& description, QWidget* parent)
-	: QtWindow(parent)
+	: QtWindow(false, parent)
 	, m_title(title)
 	, m_description(description)
 {
@@ -12,7 +12,7 @@ QtPathListDialog::QtPathListDialog(const QString& title, const QString& descript
 
 QSize QtPathListDialog::sizeHint() const
 {
-	return QSize(550, 550);
+	return QSize(550, 350);
 }
 
 void QtPathListDialog::setRelativeRootDirectory(const FilePath& dir)
@@ -40,7 +40,11 @@ void QtPathListDialog::populateWindow(QWidget* widget)
 	description->setWordWrap(true);
 	layout->addWidget(description);
 
-	m_pathList = new QtDirectoryListBox(this, m_title);
+	layout->addSpacing(10);
+
+	m_pathList = new QtDirectoryListBox(nullptr, m_title);
+	m_pathList->setMinimumHeight(150);
+	m_pathList->setMaximumHeight(1000);
 	layout->addWidget(m_pathList);
 
 	widget->setLayout(layout);

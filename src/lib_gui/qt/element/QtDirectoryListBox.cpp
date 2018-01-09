@@ -203,12 +203,13 @@ QtDirectoryListBox::QtDirectoryListBox(QWidget *parent, const QString& listName,
 	setAcceptDrops(true);
 	setSizePolicy(sizePolicy().horizontalPolicy(), QSizePolicy::Minimum);
 	setMaximumHeight(200);
+	setMinimumHeight(100);
 	resize();
 }
 
 QSize QtDirectoryListBox::sizeHint() const
 {
-	return QSize(QFrame::sizeHint().width(), 100);
+	return QSize(QFrame::sizeHint().width(), minimumHeight());
 }
 
 void QtDirectoryListBox::clear()
