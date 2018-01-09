@@ -17,9 +17,10 @@ class CxxIndexSampleProjectsTestSuite : public CxxTest::TestSuite
 public:
 	static const bool s_updateExpectedOutput = false;
 
-	void _test_index_box2d_project()
+	void test_index_box2d_project()
 	{
 #ifdef _WIN32
+#ifdef NDEBUG
 		processSourceFile("Box2D", FilePath("Box2D/Collision/b2BroadPhase.cpp"));
 		processSourceFile("Box2D", FilePath("Box2D/Collision/b2CollideCircle.cpp"));
 		processSourceFile("Box2D", FilePath("Box2D/Collision/b2CollideEdge.cpp"));
@@ -66,12 +67,14 @@ public:
 		processSourceFile("Box2D", FilePath("Box2D/Dynamics/Joints/b2WeldJoint.cpp"));
 		processSourceFile("Box2D", FilePath("Box2D/Dynamics/Joints/b2WheelJoint.cpp"));
 		processSourceFile("Box2D", FilePath("Box2D/Rope/b2Rope.cpp"));
-#endif
+#endif // NDEBUG
+#endif // _WIN32
 	}
 
-	void _test_index_bullet3_project()
+	void test_index_bullet3_project()
 	{
 #ifdef _WIN32
+#ifdef NDEBUG
 		processSourceFile("Bullet3", FilePath("Bullet3Collision/BroadPhaseCollision/b3DynamicBvh.cpp"));
 		processSourceFile("Bullet3", FilePath("Bullet3Collision/BroadPhaseCollision/b3DynamicBvhBroadphase.cpp"));
 		processSourceFile("Bullet3", FilePath("Bullet3Collision/BroadPhaseCollision/b3OverlappingPairCache.cpp"));
@@ -82,19 +85,20 @@ public:
 		processSourceFile("Bullet3", FilePath("Bullet3Common/b3Vector3.cpp"));
 		processSourceFile("Bullet3", FilePath("Bullet3Geometry/b3ConvexHullComputer.cpp"));
 		processSourceFile("Bullet3", FilePath("Bullet3Geometry/b3GeometryUtil.cpp"));
-#endif
+#endif // NDEBUG
+#endif // _WIN32
 	}
 
 private:
 	void processSourceFile(const std::string& projectName, const FilePath& sourceFilePath)
 	{
 		const FilePath projectDataRoot = FilePath("data/CxxIndexSampleProjectsTestSuite/" + projectName).makeAbsolute();
-		const FilePath projectDataSrcRoot = projectDataRoot.concat(FilePath("src"));
-		const FilePath projectDataExpectedOutputRoot = projectDataRoot.concat(FilePath("expected_output"));
+		const FilePath projectDataSrcRoot = projectDataRoot.getConcatenated(FilePath("src"));
+		const FilePath projectDataExpectedOutputRoot = projectDataRoot.getConcatenated(FilePath("expected_output"));
 
-		std::shared_ptr<TextAccess> output = parseCode(projectDataSrcRoot.concat(sourceFilePath), projectDataSrcRoot);
+		std::shared_ptr<TextAccess> output = parseCode(projectDataSrcRoot.getConcatenated(sourceFilePath), projectDataSrcRoot);
 
-		FilePath expectedOutputFilePath = projectDataExpectedOutputRoot.concat(FilePath(utility::replace(sourceFilePath.withoutExtension().str() + ".txt", "/", "_")));
+		FilePath expectedOutputFilePath = projectDataExpectedOutputRoot.getConcatenated(FilePath(utility::replace(sourceFilePath.withoutExtension().str() + ".txt", "/", "_")));
 		if (s_updateExpectedOutput || !expectedOutputFilePath.exists())
 		{
 			std::ofstream expectedOutputFile;
