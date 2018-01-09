@@ -78,10 +78,6 @@ add_files(
 	data/parser/cxx/utilityClang.cpp
 	data/parser/cxx/utilityClang.h
 
-	project/IncludeDirective.cpp
-	project/IncludeDirective.h
-	project/IncludeValidation.cpp
-	project/IncludeValidation.h
 	project/SourceGroupCxx.cpp
 	project/SourceGroupCxx.h
 	project/SourceGroupCxxCdb.cpp
@@ -93,4 +89,8 @@ add_files(
 
 	utility/CompilationDatabase.cpp
 	utility/CompilationDatabase.h
+	utility/IncludeDirective.cpp
+	utility/IncludeDirective.h
+	utility/IncludeProcessing.cpp
+	utility/IncludeProcessing.h
 )

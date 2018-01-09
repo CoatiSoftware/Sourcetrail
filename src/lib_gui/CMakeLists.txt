@@ -225,6 +225,8 @@ add_files(
     qt/window/QtLicenseWindow.h
 	qt/window/QtMainWindow.cpp
 	qt/window/QtMainWindow.h
+	qt/window/QtPathListDialog.cpp
+	qt/window/QtPathListDialog.h
 	qt/window/QtPreferencesWindow.cpp
 	qt/window/QtPreferencesWindow.h
 	qt/window/QtSelectPathsDialog.cpp

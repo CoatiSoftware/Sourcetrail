@@ -128,13 +128,17 @@ bool FilePath::isAbsolute() const
 FilePath FilePath::getParentDirectory() const
 {
 	FilePath parentDirectory(m_path->parent_path());
-	parentDirectory.m_checkedIsDirectory = true;
-	parentDirectory.m_isDirectory = true;
 
-	if (m_checkedExists && m_exists)
+	if (!parentDirectory.empty())
 	{
-		parentDirectory.m_checkedExists = true;
-		parentDirectory.m_exists = true;
+		parentDirectory.m_checkedIsDirectory = true;
+		parentDirectory.m_isDirectory = true;
+
+		if (m_checkedExists && m_exists)
+		{
+			parentDirectory.m_checkedExists = true;
+			parentDirectory.m_exists = true;
+		}
 	}
 
 	return parentDirectory;

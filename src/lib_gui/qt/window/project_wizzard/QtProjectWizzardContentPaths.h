@@ -1,6 +1,8 @@
 #ifndef QT_PROJECT_WIZZARD_CONTENT_PATHS_H
 #define QT_PROJECT_WIZZARD_CONTENT_PATHS_H
 
+#include <set>
+
 #include "qt/window/project_wizzard/QtProjectWizzardContent.h"
 #include "utility/path_detector/CombinedPathDetector.h"
 
@@ -9,6 +11,7 @@ class QCheckBox;
 class QComboBox;
 class QPushButton;
 class QtDirectoryListBox;
+class QtPathListDialog;
 class SourceGroupSettings;
 class SourceGroupSettingsCxxCdb;
 
@@ -119,12 +122,19 @@ public:
 	virtual bool isScrollAble() const override;
 
 private slots:
-	void validateButtonClicked();
+	void detectIncludesButtonClicked();
+	void validateIncludesButtonClicked();
+	void finishedSelectDetectIncludesRootPathsDialog();
+	void finishedAcceptDetectedIncludePathsDialog();
+	void closedPathsDialog();
 
 private:
+	void showDetectedIncludesResult(const std::set<FilePath>& detectedHeaderSearchPaths);
 	void showValidationResult(const std::vector<IncludeDirective>& unresolvedIncludes);
+	QtThreadedFunctor<std::set<FilePath>> m_showDetectedIncludesResultFunctor;
 	QtThreadedFunctor<std::vector<IncludeDirective>> m_showValidationResultFunctor;
 
+	std::shared_ptr<QtPathListDialog> m_pathsDialog;
 	const bool m_isCdb;
 };
 

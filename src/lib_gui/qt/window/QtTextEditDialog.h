@@ -28,7 +28,6 @@ protected:
 	QString m_description;
 
 private:
-
 	QPlainTextEdit* m_text;
 };
 

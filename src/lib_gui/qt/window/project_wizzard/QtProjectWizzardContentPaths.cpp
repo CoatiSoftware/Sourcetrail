@@ -9,10 +9,11 @@
 #include "Application.h"
 #include "component/view/DialogView.h"
 #include "data/indexer/IndexerCommandCxxCdb.h"
-#include "project/IncludeDirective.h"
-#include "project/IncludeValidation.h"
+#include "utility/IncludeDirective.h"
+#include "utility/IncludeProcessing.h"
 #include "qt/element/QtDirectoryListBox.h"
 #include "qt/view/QtDialogView.h"
+#include "qt/window/QtPathListDialog.h"
 #include "qt/window/QtSelectPathsDialog.h"
 #include "settings/ApplicationSettings.h"
 #include "settings/SourceGroupSettingsCxxCdb.h"
@@ -23,6 +24,7 @@
 #include "utility/utility.h"
 #include "utility/utilityFile.h"
 #include "utility/utilityPathDetection.h"
+#include "utility/utilityString.h"
 
 QtProjectWizzardContentPaths::QtProjectWizzardContentPaths(
 	std::shared_ptr<SourceGroupSettings> settings, QtProjectWizzardWindow* window
@@ -429,6 +431,8 @@ QtProjectWizzardContentPathsHeaderSearch::QtProjectWizzardContentPathsHeaderSear
 	: QtProjectWizzardContentPaths(settings, window)
 	, m_showValidationResultFunctor(std::bind(
 		&QtProjectWizzardContentPathsHeaderSearch::showValidationResult, this, std::placeholders::_1))
+	, m_showDetectedIncludesResultFunctor(std::bind(
+		&QtProjectWizzardContentPathsHeaderSearch::showDetectedIncludesResult, this, std::placeholders::_1))
 	, m_isCdb(isCDB)
 {
 	setTitleString(m_isCdb ? "Additional Include Paths" : "Include Paths");
@@ -454,11 +458,18 @@ void QtProjectWizzardContentPathsHeaderSearch::populate(QGridLayout* layout, int
 
 	if (!m_isCdb)
 	{
-		QPushButton* button = new QPushButton("validate include directives");
-		button->setObjectName("windowButton");
-		connect(button, &QPushButton::clicked, this, &QtProjectWizzardContentPathsHeaderSearch::validateButtonClicked);
-
-		layout->addWidget(button, row, QtProjectWizzardWindow::BACK_COL, Qt::AlignRight | Qt::AlignTop);
+		{
+			QPushButton* detectionButton = new QPushButton("auto-detect");
+			detectionButton->setObjectName("windowButton");
+			connect(detectionButton, &QPushButton::clicked, this, &QtProjectWizzardContentPathsHeaderSearch::detectIncludesButtonClicked);
+			layout->addWidget(detectionButton, row, QtProjectWizzardWindow::BACK_COL, Qt::AlignLeft | Qt::AlignTop);
+		}
+		{
+			QPushButton* validateionButton = new QPushButton("validate include directives");
+			validateionButton->setObjectName("windowButton");
+			connect(validateionButton, &QPushButton::clicked, this, &QtProjectWizzardContentPathsHeaderSearch::validateIncludesButtonClicked);
+			layout->addWidget(validateionButton, row, QtProjectWizzardWindow::BACK_COL, Qt::AlignRight | Qt::AlignTop);
+		}
 		row++;
 	}
 }
@@ -486,7 +497,30 @@ bool QtProjectWizzardContentPathsHeaderSearch::isScrollAble() const
 	return true;
 }
 
-void QtProjectWizzardContentPathsHeaderSearch::validateButtonClicked()
+void QtProjectWizzardContentPathsHeaderSearch::detectIncludesButtonClicked()
+{
+	m_window->saveContent();
+
+	m_pathsDialog = std::make_shared<QtPathListDialog>(
+		"Detect Include Paths",
+		"<p>Automatically search the paths provided below for additional include paths that "
+		"can be used to resolve include directives within your source code.</p>"
+		"<p>The indexed paths will be searched by default but you can add further paths if required.</p>"
+	);
+
+	m_pathsDialog->setup();
+	m_pathsDialog->updateNextButton("Next");
+	m_pathsDialog->setCloseVisible(true);
+
+	m_pathsDialog->setRelativeRootDirectory(m_settings->getProjectDirectoryPath());
+	m_pathsDialog->setPaths(m_settings->getSourcePaths(), true);
+	m_pathsDialog->showWindow();
+
+	connect(m_pathsDialog.get(), &QtPathListDialog::finished, this, &QtProjectWizzardContentPathsHeaderSearch::finishedSelectDetectIncludesRootPathsDialog);
+	connect(m_pathsDialog.get(), &QtPathListDialog::canceled, this, &QtProjectWizzardContentPathsHeaderSearch::closedPathsDialog);
+}
+
+void QtProjectWizzardContentPathsHeaderSearch::validateIncludesButtonClicked()
 {
 	// TODO: regard Force Includes here, too!
 	m_window->saveContent();
@@ -497,7 +531,7 @@ void QtProjectWizzardContentPathsHeaderSearch::validateButtonClicked()
 		{
 			std::shared_ptr<DialogView> dialogView = Application::getInstance()->getDialogView();
 
-			std::vector<FilePath> sourceFilePaths;
+			std::set<FilePath> sourceFilePaths;
 			std::vector<FilePath> indexedFilePaths;
 			std::vector<FilePath> headerSearchPaths;
 
@@ -514,7 +548,7 @@ void QtProjectWizzardContentPathsHeaderSearch::validateButtonClicked()
 					m_settings->getExcludePathsExpandedAndAbsolute(),
 					m_settings->getSourceExtensions()
 				);
-				sourceFilePaths = utility::toVector(fileManager.getAllSourceFilePaths());
+				sourceFilePaths = fileManager.getAllSourceFilePaths();
 
 				headerSearchPaths = ApplicationSettings::getInstance()->getHeaderSearchPathsExpanded();
 
@@ -531,10 +565,10 @@ void QtProjectWizzardContentPathsHeaderSearch::validateButtonClicked()
 					dialogView->hideProgressDialog();
 				});
 
-				unresolvedIncludes = IncludeValidation::getUnresolvedIncludeDirectives(
+				unresolvedIncludes = IncludeProcessing::getUnresolvedIncludeDirectives(
 					sourceFilePaths,
-					indexedFilePaths,
-					headerSearchPaths,
+					utility::toSet(indexedFilePaths),
+					utility::toSet(headerSearchPaths),
 					log2(sourceFilePaths.size()),
 					[&](const float progress)
 					{
@@ -547,6 +581,147 @@ void QtProjectWizzardContentPathsHeaderSearch::validateButtonClicked()
 		}
 		m_showValidationResultFunctor(unresolvedIncludes);
 	}).detach();
+}
+
+
+void QtProjectWizzardContentPathsHeaderSearch::finishedSelectDetectIncludesRootPathsDialog()
+{
+	// TODO: regard Force Includes here, too!
+	const std::vector<FilePath> searchedPaths = m_settings->makePathsExpandedAndAbsolute(m_pathsDialog->getPaths());
+
+	closedPathsDialog();
+
+	std::thread([=]()
+	{
+		std::set<FilePath> detectedHeaderSearchPaths;
+		{
+			std::shared_ptr<QtDialogView> dialogView = std::dynamic_pointer_cast<QtDialogView>(Application::getInstance()->getDialogView());
+
+			std::set<FilePath> sourceFilePaths;
+
+			{
+				dialogView->setParentWindow(m_window);
+				dialogView->showUnknownProgressDialog("Processing", "Gathering Source Files");
+				ScopedFunctor dialogHider([&dialogView]() {
+					dialogView->hideUnknownProgressDialog();
+				});
+
+				FileManager fileManager;
+				fileManager.update(
+					m_settings->getSourcePathsExpandedAndAbsolute(),
+					m_settings->getExcludePathsExpandedAndAbsolute(),
+					m_settings->getSourceExtensions()
+				);
+				sourceFilePaths = fileManager.getAllSourceFilePaths();
+			}
+			{
+				dialogView->setParentWindow(m_window);
+				ScopedFunctor dialogHider([&dialogView]() {
+					dialogView->hideProgressDialog();
+				});
+
+				detectedHeaderSearchPaths = IncludeProcessing::getHeaderSearchDirectories(
+					sourceFilePaths,
+					utility::toSet(searchedPaths),
+					log2(sourceFilePaths.size()),
+					[&](const float progress)
+					{
+						Application::getInstance()->getDialogView()->showProgressDialog(
+							"Processing", std::to_string(int(progress * sourceFilePaths.size())) + " Files", int(progress * 100.0f)
+						);
+					}
+				);
+			}
+		}
+
+		m_showDetectedIncludesResultFunctor(detectedHeaderSearchPaths);
+	}).detach();
+}
+
+void QtProjectWizzardContentPathsHeaderSearch::finishedAcceptDetectedIncludePathsDialog()
+{
+	const std::vector<std::string> detectedPaths = utility::splitToVector(m_filesDialog->getText(), "\n");
+	closedFilesDialog();
+
+	std::vector<std::string> headerSearchPaths = m_list->getStringList();
+
+	headerSearchPaths.reserve(headerSearchPaths.size() + detectedPaths.size());
+	for (const std::string& detectedPath : detectedPaths)
+	{
+		if (!detectedPath.empty())
+		{
+			headerSearchPaths.push_back(detectedPath);
+		}
+	}
+
+	m_list->setStringList(headerSearchPaths);
+}
+
+void QtProjectWizzardContentPathsHeaderSearch::closedPathsDialog()
+{
+	m_pathsDialog->hide();
+	m_pathsDialog.reset();
+
+	window()->raise();
+}
+
+void QtProjectWizzardContentPathsHeaderSearch::showDetectedIncludesResult(const std::set<FilePath>& detectedHeaderSearchPaths)
+{
+	const std::set<FilePath> headerSearchPaths = utility::toSet(m_settings->makePathsExpandedAndAbsolute(m_list->getList()));
+
+	std::vector<FilePath> additionalHeaderSearchPaths;
+	for (const FilePath& detectedHeaderSearchPath : detectedHeaderSearchPaths)
+	{
+		if (headerSearchPaths.find(detectedHeaderSearchPath) == headerSearchPaths.end())
+		{
+			additionalHeaderSearchPaths.push_back(detectedHeaderSearchPath);
+		}
+	}
+
+	if (additionalHeaderSearchPaths.empty())
+	{
+		QMessageBox msgBox;
+		msgBox.setText("<p>No additional include paths have been detected while searching the provided paths.</p>");
+		msgBox.exec();
+	}
+	else
+	{
+		std::string detailedText = "";
+		FilePath relativeRoot = m_list->getRelativeRootDirectory();
+		for (const FilePath& path : additionalHeaderSearchPaths)
+		{
+			if (!relativeRoot.empty())
+			{
+				const FilePath relPath = path.getRelativeTo(relativeRoot);
+				if (relPath.str().size() < path.str().size())
+				{
+					detailedText += relPath.str() + "\n";
+					continue;
+				}
+			}
+
+			detailedText += path.str() + "\n";
+		}
+
+		m_filesDialog = std::make_shared<QtTextEditDialog>(
+			"Detected Include Paths",
+			(
+				"<p>The following <b>" + std::to_string(additionalHeaderSearchPaths.size()) + "</b> include paths have been "
+				"detected and will be added to the include paths that are already defined by this Source Group.<b>" 
+			).c_str()
+		);
+
+		m_filesDialog->setup();
+		m_filesDialog->setCloseVisible(true);
+		m_filesDialog->updateNextButton("Finish");
+
+		m_filesDialog->setReadOnly(true);
+		m_filesDialog->setText(detailedText);
+		m_filesDialog->showWindow();
+
+		connect(m_filesDialog.get(), &QtTextEditDialog::finished, this, &QtProjectWizzardContentPathsHeaderSearch::finishedAcceptDetectedIncludePathsDialog);
+		connect(m_filesDialog.get(), &QtTextEditDialog::canceled, this, &QtProjectWizzardContentPathsHeaderSearch::closedFilesDialog);
+	}
 }
 
 void QtProjectWizzardContentPathsHeaderSearch::showValidationResult(const std::vector<IncludeDirective>& unresolvedIncludes)

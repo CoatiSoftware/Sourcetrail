@@ -52,6 +52,9 @@ namespace utility
 	std::vector<T> toVector(const std::set<T>& d);
 
 	template<typename T>
+	std::set<T>toSet(const std::vector<T>& d);
+
+	template<typename T>
 	void fillVectorWithElements(std::vector<T>& v, const T& arg);
 
 	template<typename T, typename... Args>
@@ -189,6 +192,13 @@ std::vector<T> utility::toVector(const std::set<T>& d)
 	std::vector<T> v;
 	v.insert(v.begin(), d.begin(), d.end());
 	return v;
+}
+
+template<typename T>
+std::set<T> utility::toSet(const std::vector<T>& v)
+{
+	std::set<T> s(v.begin(), v.end());
+	return s;
 }
 
 template<typename T>

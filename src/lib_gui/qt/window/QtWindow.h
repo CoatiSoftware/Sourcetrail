@@ -35,6 +35,7 @@ public:
     void moveToCenter();
 
 	void updateTitle(QString title);
+	std::string getTitle() const;
 	void updateSubTitle(QString subTitle);
 
 	void updateNextButton(QString text);

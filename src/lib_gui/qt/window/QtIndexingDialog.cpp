@@ -273,13 +273,27 @@ void QtIndexingDialog::updateMessage(QString message)
 	}
 }
 
-void QtIndexingDialog::updateProgress(int progress)
+std::string QtIndexingDialog::getMessage() const
 {
-	int percent = std::min(std::max(progress, 0), 100);
+	if (m_messageLabel)
+	{
+		return m_messageLabel->text().toStdString();
+	}
+	return "";
+}
+
+void QtIndexingDialog::updateProgress(size_t progress)
+{
+	size_t percent = std::min<size_t>(std::max<size_t>(progress, 0), 100);
 
 	m_progressBar->showProgress(percent);
 	m_percentLabel->setText(QString::number(percent) + "% Progress");
 	setGeometries();
+}
+
+size_t QtIndexingDialog::getProgress() const
+{
+	return m_progressBar->getProgress();
 }
 
 void QtIndexingDialog::updateIndexingProgress(size_t fileCount, size_t totalFileCount, std::string sourcePath)

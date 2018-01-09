@@ -29,6 +29,11 @@ void QtProgressBar::showProgress(size_t percent)
 	update();
 }
 
+size_t QtProgressBar::getProgress() const
+{
+	return m_percent;
+}
+
 void QtProgressBar::showUnknownProgressAnimated()
 {
 	start();

@@ -17,6 +17,7 @@ public:
 	QtProgressBar(QWidget* parent = nullptr);
 
 	void showProgress(size_t percent);
+	size_t getProgress() const;
 
 	void showUnknownProgressAnimated();
 

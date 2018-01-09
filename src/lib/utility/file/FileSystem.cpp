@@ -30,7 +30,7 @@ std::vector<FilePath> FileSystem::getFilePathsFromDirectory(
 				}
 			}
 
-			if (boost::filesystem::is_regular_file(*it) && ext.find(it->path().extension().string()) != ext.end())
+			if (boost::filesystem::is_regular_file(*it) && (ext.empty() || ext.find(it->path().extension().string()) != ext.end()))
 			{
 				files.push_back(FilePath(it->path().generic_string()));
 			}

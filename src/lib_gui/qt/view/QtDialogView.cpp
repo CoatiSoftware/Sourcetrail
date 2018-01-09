@@ -58,11 +58,10 @@ void QtDialogView::hideUnknownProgressDialog()
 
 void QtDialogView::showProgressDialog(const std::string& title, const std::string& message, int progress)
 {
-	MessageStatus(title + ": " + message + " [" + std::to_string(progress) + "%]", false, true).dispatch();
-
 	m_onQtThread(
 		[=]()
 		{
+			bool sendStatusMessage = true;
 			QtIndexingDialog* window = dynamic_cast<QtIndexingDialog*>(m_windowStack.getTopWindow());
 			if (!window || window->getType() != QtIndexingDialog::DIALOG_PROGRESS)
 			{
@@ -70,6 +69,19 @@ void QtDialogView::showProgressDialog(const std::string& title, const std::strin
 
 				window = createWindow<QtIndexingDialog>();
 				window->setupProgress();
+			}
+			else
+			{
+				sendStatusMessage = (
+					window->getTitle() != title || 
+					window->getMessage() != message || 
+					window->getProgress() != progress
+				);
+			}
+
+			if (sendStatusMessage)
+			{
+				MessageStatus(title + ": " + message + " [" + std::to_string(progress) + "%]", false, true).dispatch();
 			}
 
 			window->updateTitle(title.c_str());

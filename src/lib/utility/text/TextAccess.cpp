@@ -14,11 +14,12 @@ std::shared_ptr<TextAccess> TextAccess::createFromFile(const FilePath& filePath)
 	return result;
 }
 
-std::shared_ptr<TextAccess> TextAccess::createFromString(const std::string& text)
+std::shared_ptr<TextAccess> TextAccess::createFromString(const std::string& text, const FilePath& filePath)
 {
 	std::shared_ptr<TextAccess> result(new TextAccess());
 
 	result->m_lines = splitStringByLines(text);
+	result->m_filePath = filePath;
 
 	return result;
 }

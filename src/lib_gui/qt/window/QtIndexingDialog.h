@@ -48,7 +48,9 @@ public:
 	void setupProgress();
 
 	void updateMessage(QString message);
-	void updateProgress(int progress);
+	std::string getMessage() const;
+	void updateProgress(size_t progress);
+	size_t getProgress() const;
 	void updateIndexingProgress(size_t fileCount, size_t totalFileCount, std::string sourcePath);
 	void updateErrorCount(size_t errorCount, size_t fatalCount);
 

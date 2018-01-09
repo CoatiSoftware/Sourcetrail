@@ -11,6 +11,7 @@ add_files(
 
 	CommandlineTestSuite.h
 	ConfigManagerTestSuite.h
+	CxxIncludeProcessingTestSuite.h
 	CxxIndexSampleProjectsTestSuite.h
 	CxxParserTestSuite.h
 	CxxTypeNameTestSuite.h
