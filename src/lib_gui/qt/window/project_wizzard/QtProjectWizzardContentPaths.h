@@ -131,6 +131,7 @@ private slots:
 private:
 	void showDetectedIncludesResult(const std::set<FilePath>& detectedHeaderSearchPaths);
 	void showValidationResult(const std::vector<IncludeDirective>& unresolvedIncludes);
+
 	QtThreadedFunctor<std::set<FilePath>> m_showDetectedIncludesResultFunctor;
 	QtThreadedFunctor<std::vector<IncludeDirective>> m_showValidationResultFunctor;
 

@@ -429,10 +429,10 @@ QtProjectWizzardContentPathsHeaderSearch::QtProjectWizzardContentPathsHeaderSear
 	std::shared_ptr<SourceGroupSettings> settings, QtProjectWizzardWindow* window, bool isCDB
 )
 	: QtProjectWizzardContentPaths(settings, window)
-	, m_showValidationResultFunctor(std::bind(
-		&QtProjectWizzardContentPathsHeaderSearch::showValidationResult, this, std::placeholders::_1))
 	, m_showDetectedIncludesResultFunctor(std::bind(
 		&QtProjectWizzardContentPathsHeaderSearch::showDetectedIncludesResult, this, std::placeholders::_1))
+	, m_showValidationResultFunctor(std::bind(
+		&QtProjectWizzardContentPathsHeaderSearch::showValidationResult, this, std::placeholders::_1))
 	, m_isCdb(isCDB)
 {
 	setTitleString(m_isCdb ? "Additional Include Paths" : "Include Paths");
@@ -707,7 +707,7 @@ void QtProjectWizzardContentPathsHeaderSearch::showDetectedIncludesResult(const 
 			"Detected Include Paths",
 			(
 				"<p>The following <b>" + std::to_string(additionalHeaderSearchPaths.size()) + "</b> include paths have been "
-				"detected and will be added to the include paths that are already defined by this Source Group.<b>" 
+				"detected and will be added to the include paths that are already defined by this Source Group.<b>"
 			).c_str()
 		);
 

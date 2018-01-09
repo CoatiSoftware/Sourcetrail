@@ -56,7 +56,7 @@ void QtDialogView::hideUnknownProgressDialog()
 	setParentWindow(nullptr);
 }
 
-void QtDialogView::showProgressDialog(const std::string& title, const std::string& message, int progress)
+void QtDialogView::showProgressDialog(const std::string& title, const std::string& message, size_t progress)
 {
 	m_onQtThread(
 		[=]()
@@ -73,8 +73,8 @@ void QtDialogView::showProgressDialog(const std::string& title, const std::strin
 			else
 			{
 				sendStatusMessage = (
-					window->getTitle() != title || 
-					window->getMessage() != message || 
+					window->getTitle() != title ||
+					window->getMessage() != message ||
 					window->getProgress() != progress
 				);
 			}

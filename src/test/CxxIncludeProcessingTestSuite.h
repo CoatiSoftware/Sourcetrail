@@ -71,47 +71,47 @@ public:
 
 	void test_header_search_path_detection_does_not_find_path_relative_to_including_file()
 	{
-		std::set<FilePath> headerSearchDirectoies = IncludeProcessing::getHeaderSearchDirectories(
+		std::set<FilePath> headerSearchDirectories = IncludeProcessing::getHeaderSearchDirectories(
 		{ FilePath("data/CxxIncludeProcessingTestSuite/test_header_search_path_detection_does_not_find_path_relative_to_including_file/a.cpp") },
 		{ FilePath("data/CxxIncludeProcessingTestSuite/test_header_search_path_detection_does_not_find_path_relative_to_including_file") },
 			1, [&](float) {}
 		);
 
-		TS_ASSERT(headerSearchDirectoies.empty());
+		TS_ASSERT(headerSearchDirectories.empty());
 	}
 
 	void test_header_search_path_detection_finds_path_inside_sub_directory()
 	{
-		std::set<FilePath> headerSearchDirectoies = IncludeProcessing::getHeaderSearchDirectories(
+		std::set<FilePath> headerSearchDirectories = IncludeProcessing::getHeaderSearchDirectories(
 		{ FilePath("data/CxxIncludeProcessingTestSuite/test_header_search_path_detection_finds_path_inside_sub_directory/a.cpp") },
 		{ FilePath("data/CxxIncludeProcessingTestSuite/test_header_search_path_detection_finds_path_inside_sub_directory") },
 			1, [&](float) {}
 		);
 
-		TS_ASSERT(!headerSearchDirectoies.empty());
-		if (!headerSearchDirectoies.empty())
+		TS_ASSERT(!headerSearchDirectories.empty());
+		if (!headerSearchDirectories.empty())
 		{
 			TS_ASSERT_EQUALS(
 				"CxxIncludeProcessingTestSuite/test_header_search_path_detection_finds_path_inside_sub_directory/include",
-				headerSearchDirectoies.begin()->getRelativeTo(FilePath("data").getAbsolute()).str()
+				headerSearchDirectories.begin()->getRelativeTo(FilePath("data").getAbsolute()).str()
 			);
 		}
 	}
 
 	void test_header_search_path_detection_finds_path_relative_to_sub_directory()
 	{
-		std::set<FilePath> headerSearchDirectoies = IncludeProcessing::getHeaderSearchDirectories(
+		std::set<FilePath> headerSearchDirectories = IncludeProcessing::getHeaderSearchDirectories(
 		{ FilePath("data/CxxIncludeProcessingTestSuite/test_header_search_path_detection_finds_path_relative_to_sub_directory/a.cpp") },
 		{ FilePath("data/CxxIncludeProcessingTestSuite/test_header_search_path_detection_finds_path_relative_to_sub_directory") },
 			1, [&](float) {}
 		);
 
-		TS_ASSERT(!headerSearchDirectoies.empty());
-		if (!headerSearchDirectoies.empty())
+		TS_ASSERT(!headerSearchDirectories.empty());
+		if (!headerSearchDirectories.empty())
 		{
 			TS_ASSERT_EQUALS(
 				"CxxIncludeProcessingTestSuite/test_header_search_path_detection_finds_path_relative_to_sub_directory/include",
-				headerSearchDirectoies.begin()->getRelativeTo(FilePath("data").getAbsolute()).str()
+				headerSearchDirectories.begin()->getRelativeTo(FilePath("data").getAbsolute()).str()
 			);
 		}
 	}

@@ -19,7 +19,7 @@ public:
 	virtual void showUnknownProgressDialog(const std::string& title, const std::string& message);
 	virtual void hideUnknownProgressDialog();
 
-	virtual void showProgressDialog(const std::string& title, const std::string& message, int progress);
+	virtual void showProgressDialog(const std::string& title, const std::string& message, size_t progress);
 	virtual void hideProgressDialog();
 
 	virtual void startIndexingDialog(

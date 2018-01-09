@@ -32,7 +32,7 @@ public:
 	virtual void showUnknownProgressDialog(const std::string& title, const std::string& message) override;
 	virtual void hideUnknownProgressDialog() override;
 
-	virtual void showProgressDialog(const std::string& title, const std::string& message, int progress) override;
+	virtual void showProgressDialog(const std::string& title, const std::string& message, size_t progress) override;
 	virtual void hideProgressDialog() override;
 
 	virtual void startIndexingDialog(
