@@ -22,7 +22,8 @@ add_files(
 	component/controller/BookmarkController.h
 	component/controller/CodeController.cpp
 	component/controller/CodeController.h
-	component/controller/Controller
+	component/controller/Controller.cpp
+	component/controller/Controller.h
 	component/controller/ErrorController.cpp
 	component/controller/ErrorController.h
 	component/controller/GraphController.cpp
@@ -335,9 +336,12 @@ add_files(
 	utility/commandline/CommandlineHelper.h
 	utility/commandline/CommandLineParser.cpp
 	utility/commandline/CommandLineParser.h
-	utility/commandline/commands/CommandlineCommand
-	utility/commandline/commands/CommandlineCommandConfig
-	utility/commandline/commands/CommandlineCommandIndex
+	utility/commandline/commands/CommandlineCommand.cpp
+	utility/commandline/commands/CommandlineCommand.h
+	utility/commandline/commands/CommandlineCommandConfig.cpp
+	utility/commandline/commands/CommandlineCommandConfig.h
+	utility/commandline/commands/CommandlineCommandIndex.cpp
+	utility/commandline/commands/CommandlineCommandIndex.h
 
 	utility/file/FileInfo.cpp
 	utility/file/FileInfo.h
