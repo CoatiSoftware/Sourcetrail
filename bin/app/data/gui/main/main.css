@@ -4,6 +4,10 @@ QToolTip {
 	font-size: <setting:font_size>px;
 }
 
+QPushButton {
+	outline: none;
+}
+
 QMainWindow::separator {
 	background: <color:window/separator>;
 	width: 1px;

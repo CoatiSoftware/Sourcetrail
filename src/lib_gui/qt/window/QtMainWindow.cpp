@@ -5,7 +5,6 @@
 #include <QDockWidget>
 #include <QDir>
 #include <QMenuBar>
-#include <QMessageBox>
 #include <QSettings>
 #include <QTimer>
 
@@ -111,13 +110,6 @@ QtMainWindow::QtMainWindow()
 
 	setWindowIcon(QIcon((ResourcePaths::getGuiPath().str() + "icon/logo_1024_1024.png").c_str()));
 	setWindowFlags(Qt::Widget);
-
-#ifdef __linux__
-	if (std::getenv("SOURCETRAIL_VIA_SCRIPT") == nullptr)
-	{
-	   QMessageBox::warning(this, "Run Sourcetrail via Script", "Please run Sourcetrail via Sourcetrail.sh");
-	}
-#endif
 
 	QApplication* app = dynamic_cast<QApplication*>(QCoreApplication::instance());
 	app->installEventFilter(new MouseReleaseFilter(this));
