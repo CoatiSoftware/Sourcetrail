@@ -141,7 +141,7 @@ void QtCodeFileTitleButton::updateFromOther(const QtCodeFileTitleButton* other)
 void QtCodeFileTitleButton::contextMenuEvent(QContextMenuEvent* event)
 {
 	FilePath path = m_filePath;
-	if (text().size())
+	if (path.empty())
 	{
 		Project* currentProject = Application::getInstance()->getCurrentProject().get();
 		if (!currentProject)

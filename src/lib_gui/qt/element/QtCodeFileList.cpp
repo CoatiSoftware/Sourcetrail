@@ -2,6 +2,7 @@
 
 #include <QScrollBar>
 #include <QVBoxLayout>
+#include <QTimer>
 
 #include "utility/file/FilePath.h"
 #include "utility/utilityApp.h"
@@ -219,7 +220,8 @@ void QtCodeFileList::updateFiles()
 		file->updateContent();
 	}
 
-	updateSnippetTitleAndScrollBar();
+	// Perform delayed so all widgets are already visible
+	QTimer::singleShot(100, this, &QtCodeFileList::updateSnippetTitleAndScrollBarSlot);
 }
 
 void QtCodeFileList::showContents()
@@ -330,6 +332,11 @@ void QtCodeFileList::resizeEvent(QResizeEvent* event)
 {
 	clearSnippetTitleAndScrollBar();
 	updateSnippetTitleAndScrollBar();
+}
+
+void QtCodeFileList::updateSnippetTitleAndScrollBarSlot()
+{
+	updateSnippetTitleAndScrollBar(0);
 }
 
 void QtCodeFileList::updateSnippetTitleAndScrollBar(int value)

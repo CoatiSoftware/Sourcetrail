@@ -238,8 +238,7 @@ void QtCodeNavigator::clearCodeSnippets()
 
 	m_singleHasNewFile = false;
 
-	m_screenMatches.clear();
-	m_activeScreenMatchId = 0;
+	clearScreenMatches();
 }
 
 void QtCodeNavigator::clearFile()

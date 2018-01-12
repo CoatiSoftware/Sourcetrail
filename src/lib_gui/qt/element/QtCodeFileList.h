@@ -58,6 +58,7 @@ protected:
 	virtual void resizeEvent(QResizeEvent* event);
 
 private slots:
+	void updateSnippetTitleAndScrollBarSlot();
 	void updateSnippetTitleAndScrollBar(int value = 0);
 	void scrollLastSnippet(int value);
 	void scrollLastSnippetScrollBar(int value);
