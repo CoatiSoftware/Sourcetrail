@@ -964,8 +964,6 @@ void SqliteIndexStorage::setupTables()
 		LOG_ERROR(std::to_string(e.errorCode()) + ": " + e.errorMessage());
 
 		throw(std::exception());
-
-		// todo: cancel project creation and destroy created files, display message
 	}
 }
 

@@ -121,7 +121,17 @@ void Project::load()
 		canLoad = true;
 	}
 
-	m_storage->setup();
+	try
+	{
+		m_storage->setup();
+	}
+	catch(...)
+	{
+		LOG_ERROR_STREAM(<< "Exception during storage loading.");
+
+		canLoad = false;
+		m_state = PROJECT_STATE_DB_CORRUPTED;
+	}
 
 	m_sourceGroups = SourceGroupFactory::getInstance()->createSourceGroups(m_settings->getAllSourceGroupSettings());
 
@@ -195,6 +205,12 @@ void Project::refresh(RefreshMode refreshMode, DialogView* dialogView)
 			question =
 				"This project was created with a different version of Sourcetrail. The project file needs to get updated and "
 				"the project fully reindexed. Do you want to update the project file and reindex the project?";
+			needsFullRefresh = true;
+
+		case PROJECT_STATE_DB_CORRUPTED:
+			question =
+				"There was a problem loading the index of this project. The project needs to get fully reindexed. "
+				"Do you want to reindex the project?";
 			needsFullRefresh = true;
 
 		default:
