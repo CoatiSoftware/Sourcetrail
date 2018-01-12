@@ -9,6 +9,7 @@
 #include "utility/utility.h"
 #include "utility/utilityString.h"
 
+#include "Application.h"
 #include "component/controller/helper/BucketLayouter.h"
 #include "component/controller/helper/ListLayouter.h"
 #include "component/controller/helper/TrailLayouter.h"
@@ -152,12 +153,29 @@ void GraphController::handleMessage(MessageActivateTrail* message)
 {
 	TRACE("trail activate");
 
-	MessageStatus("Retrieving graph data", false, true).dispatch();
+	MessageStatus("Retrieving depth graph data", false, true).dispatch();
 
 	m_activeEdgeIds.clear();
 
 	std::shared_ptr<Graph> graph = m_storageAccess->getGraphForTrail(
 		message->originId, message->targetId, message->trailType, message->depth);
+
+	if (graph->getNodeCount() > 1000)
+	{
+		int r = Application::getInstance()->handleDialog(
+			"Warning!\n\nThe resulting depth graph will contain " + std::to_string(graph->getNodeCount()) + " nodes. "
+			"Layouting and drawing might take a while and the resulting graph diagram could be unclear. Please "
+			"consider reducing graph depth with the slider on the left.\n\n"
+			"Do you want to proceed?",
+			{"Yes", "No"}
+		);
+
+		if (r == 1)
+		{
+			MessageStatus("Depth graph aborted.").dispatch();
+			return;
+		}
+	}
 
 	createDummyGraph(graph);
 	m_graph->setTrailMode(message->horizontalLayout ? Graph::TRAIL_HORIZONTAL : Graph::TRAIL_VERTICAL);
@@ -165,12 +183,12 @@ void GraphController::handleMessage(MessageActivateTrail* message)
 
 	setVisibility(setActive(m_activeNodeIds, true));
 
-	MessageStatus("Layouting graph", false, true).dispatch();
+	MessageStatus("Layouting depth graph", false, true).dispatch();
 
 	layoutNesting();
 	layoutTrail(message->horizontalLayout, message->originId);
 
-	MessageStatus("Displaying graph", false, true).dispatch();
+	MessageStatus("Displaying depth graph", false, true).dispatch();
 
 	message->setIsReplayed(false);
 	buildGraph(message, message->isLast(), true, false);
