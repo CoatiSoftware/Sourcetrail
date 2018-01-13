@@ -12,6 +12,7 @@
 QtCodeFile::QtCodeFile(const FilePath& filePath, QtCodeNavigator* navigator)
 	: QFrame()
 	, m_navigator(navigator)
+	, m_fileSnippet(nullptr)
 	, m_filePath(filePath)
 	, m_isWholeFile(false)
 	, m_contentRequested(false)
@@ -71,16 +72,16 @@ const QtCodeFileTitleBar* QtCodeFile::getTitleBar() const
 
 QtCodeSnippet* QtCodeFile::addCodeSnippet(const CodeSnippetParams& params)
 {
-	for (const std::shared_ptr<QtCodeSnippet>& snippet : m_snippets)
+	for (QtCodeSnippet* snippet : m_snippets)
 	{
 		if (snippet->getStartLineNumber() == params.startLineNumber &&
 			snippet->getEndLineNumber() == params.endLineNumber)
 		{
-			return snippet.get();
+			return snippet;
 		}
 	}
 
-	std::shared_ptr<QtCodeSnippet> snippet(new QtCodeSnippet(params, m_navigator, this));
+	QtCodeSnippet* snippet = new QtCodeSnippet(params, m_navigator, this);
 
 	if (params.reduced)
 	{
@@ -88,7 +89,7 @@ QtCodeSnippet* QtCodeFile::addCodeSnippet(const CodeSnippetParams& params)
 		m_isWholeFile = true;
 	}
 
-	m_snippetLayout->addWidget(snippet.get());
+	m_snippetLayout->addWidget(snippet);
 
 	if (params.locationFile->isWhole() || m_isWholeFile)
 	{
@@ -106,7 +107,7 @@ QtCodeSnippet* QtCodeFile::addCodeSnippet(const CodeSnippetParams& params)
 			updateRefCount(0);
 		}
 
-		return m_fileSnippet.get();
+		return m_fileSnippet;
 	}
 
 	m_snippets.push_back(snippet);
@@ -114,12 +115,12 @@ QtCodeSnippet* QtCodeFile::addCodeSnippet(const CodeSnippetParams& params)
 	setSnippets();
 	updateRefCount(params.refCount);
 
-	return snippet.get();
+	return snippet;
 }
 
 QtCodeSnippet* QtCodeFile::insertCodeSnippet(const CodeSnippetParams& params)
 {
-	std::shared_ptr<QtCodeSnippet> snippet(new QtCodeSnippet(params, m_navigator, this));
+	QtCodeSnippet* snippet = new QtCodeSnippet(params, m_navigator, this);
 
 	size_t i = 0;
 	while (i < m_snippets.size())
@@ -127,7 +128,7 @@ QtCodeSnippet* QtCodeFile::insertCodeSnippet(const CodeSnippetParams& params)
 		uint start = snippet->getStartLineNumber();
 		uint end = snippet->getEndLineNumber();
 
-		std::shared_ptr<QtCodeSnippet> s = m_snippets[i];
+		QtCodeSnippet* s = m_snippets[i];
 
 		if (s->getEndLineNumber() + 1 < start)
 		{
@@ -141,37 +142,38 @@ QtCodeSnippet* QtCodeFile::insertCodeSnippet(const CodeSnippetParams& params)
 		else if (s->getStartLineNumber() < start || s->getEndLineNumber() > end)
 		{
 			m_navigator->clearSnippetReferences();
-			snippet = QtCodeSnippet::merged(snippet.get(), s.get(), m_navigator, this);
+			snippet = QtCodeSnippet::merged(snippet, s, m_navigator, this);
 		}
 
 		s->hide();
-		m_snippetLayout->removeWidget(s.get());
+		m_snippetLayout->removeWidget(s);
+		s->deleteLater();
 
 		m_snippets.erase(m_snippets.begin() + i);
 	}
 
-	m_snippetLayout->insertWidget(i, snippet.get());
+	m_snippetLayout->insertWidget(i, snippet);
 	m_snippets.insert(m_snippets.begin() + i, snippet);
 
 	setSnippets();
 
-	return snippet.get();
+	return snippet;
 }
 
 std::vector<QtCodeSnippet*> QtCodeFile::getVisibleSnippets() const
 {
 	if (m_fileSnippet && m_fileSnippet->isVisible())
 	{
-		return { m_fileSnippet.get() };
+		return { m_fileSnippet };
 	}
 
 	std::vector<QtCodeSnippet*> snippets;
 
-	for (const std::shared_ptr<QtCodeSnippet>& snippet : m_snippets)
+	for (QtCodeSnippet* snippet : m_snippets)
 	{
 		if (snippet->isVisible())
 		{
-			snippets.push_back(snippet.get());
+			snippets.push_back(snippet);
 		}
 	}
 
@@ -182,14 +184,14 @@ QtCodeSnippet* QtCodeFile::getSnippetForLocationId(Id locationId) const
 {
 	if (m_fileSnippet && m_fileSnippet->isVisible() && m_fileSnippet->getLineNumberForLocationId(locationId))
 	{
-		return m_fileSnippet.get();
+		return m_fileSnippet;
 	}
 
-	for (const std::shared_ptr<QtCodeSnippet>& snippet : m_snippets)
+	for (QtCodeSnippet* snippet : m_snippets)
 	{
 		if (snippet->getLineNumberForLocationId(locationId))
 		{
-			return snippet.get();
+			return snippet;
 		}
 	}
 
@@ -200,14 +202,14 @@ QtCodeSnippet* QtCodeFile::getSnippetForLine(unsigned int line) const
 {
 	if (m_fileSnippet && m_fileSnippet->isVisible())
 	{
-		return m_fileSnippet.get();
+		return m_fileSnippet;
 	}
 
-	for (const std::shared_ptr<QtCodeSnippet>& snippet : m_snippets)
+	for (QtCodeSnippet* snippet : m_snippets)
 	{
 		if (snippet->getStartLineNumber() <= line && line <= snippet->getEndLineNumber())
 		{
-			return snippet.get();
+			return snippet;
 		}
 	}
 
@@ -216,19 +218,19 @@ QtCodeSnippet* QtCodeFile::getSnippetForLine(unsigned int line) const
 
 QtCodeSnippet* QtCodeFile::getFileSnippet() const
 {
-	return m_fileSnippet.get();
+	return m_fileSnippet;
 }
 
 std::pair<QtCodeSnippet*, Id> QtCodeFile::getFirstSnippetWithActiveLocationId(Id tokenId) const
 {
 	std::pair<QtCodeSnippet*, Id> result(nullptr, 0);
 
-	for (const std::shared_ptr<QtCodeSnippet>& snippet : m_snippets)
+	for (QtCodeSnippet* snippet : m_snippets)
 	{
 		Id locationId = snippet->getFirstActiveLocationId(tokenId);
 		if (locationId != 0)
 		{
-			result.first = snippet.get();
+			result.first = snippet;
 			result.second = locationId;
 			break;
 		}
@@ -282,7 +284,7 @@ void QtCodeFile::updateContent()
 {
 	updateSnippets();
 
-	for (const std::shared_ptr<QtCodeSnippet>& snippet : m_snippets)
+	for (QtCodeSnippet* snippet : m_snippets)
 	{
 		snippet->updateContent();
 	}
@@ -308,7 +310,7 @@ void QtCodeFile::setIsComplete(bool isComplete)
 
 void QtCodeFile::setMinimized()
 {
-	for (const std::shared_ptr<QtCodeSnippet>& snippet : m_snippets)
+	for (QtCodeSnippet* snippet : m_snippets)
 	{
 		snippet->hide();
 	}
@@ -329,14 +331,14 @@ void QtCodeFile::setSnippets()
 	{
 		m_fileSnippet->show();
 
-		for (const std::shared_ptr<QtCodeSnippet>& snippet : m_snippets)
+		for (QtCodeSnippet* snippet : m_snippets)
 		{
 			snippet->hide();
 		}
 	}
 	else
 	{
-		for (const std::shared_ptr<QtCodeSnippet>& snippet : m_snippets)
+		for (QtCodeSnippet* snippet : m_snippets)
 		{
 			snippet->show();
 		}
@@ -365,7 +367,7 @@ void QtCodeFile::updateSnippets()
 	}
 
 	int maxDigits = 1;
-	for (const std::shared_ptr<QtCodeSnippet>& snippet : m_snippets)
+	for (QtCodeSnippet* snippet : m_snippets)
 	{
 		if (snippet != m_snippets.front() && snippet->styleSheet().size())
 		{
@@ -375,7 +377,7 @@ void QtCodeFile::updateSnippets()
 		maxDigits = qMax(maxDigits, snippet->lineNumberDigits());
 	}
 
-	for (const std::shared_ptr<QtCodeSnippet>& snippet : m_snippets)
+	for (QtCodeSnippet* snippet : m_snippets)
 	{
 		snippet->updateLineNumberAreaWidthForDigits(maxDigits);
 	}
@@ -399,7 +401,7 @@ void QtCodeFile::findScreenMatches(const std::string& query, std::vector<std::pa
 		return;
 	}
 
-	for (const std::shared_ptr<QtCodeSnippet>& snippet : m_snippets)
+	for (QtCodeSnippet* snippet : m_snippets)
 	{
 		if (snippet->isVisible())
 		{

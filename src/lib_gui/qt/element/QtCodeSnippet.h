@@ -2,7 +2,6 @@
 #define QT_CODE_SNIPPET_H
 
 #include <vector>
-#include <memory>
 
 #include <QFrame>
 
@@ -24,7 +23,7 @@ class QtCodeSnippet
 	Q_OBJECT
 
 public:
-	static std::shared_ptr<QtCodeSnippet> merged(
+	static QtCodeSnippet* merged(
 		QtCodeSnippet* a, QtCodeSnippet* b, QtCodeNavigator* navigator, QtCodeFile* file);
 
 	QtCodeSnippet(const CodeSnippetParams& params, QtCodeNavigator* navigator, QtCodeFile* file);

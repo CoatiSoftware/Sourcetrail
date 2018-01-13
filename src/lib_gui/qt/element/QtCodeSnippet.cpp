@@ -10,7 +10,7 @@
 #include "qt/element/QtCodeNavigator.h"
 #include "qt/element/QtCodeFile.h"
 
-std::shared_ptr<QtCodeSnippet> QtCodeSnippet::merged(
+QtCodeSnippet* QtCodeSnippet::merged(
 	QtCodeSnippet* a, QtCodeSnippet* b, QtCodeNavigator* navigator, QtCodeFile* file)
 {
 	QtCodeSnippet* first = a->getStartLineNumber() < b->getStartLineNumber() ? a : b;
@@ -55,7 +55,7 @@ std::shared_ptr<QtCodeSnippet> QtCodeSnippet::merged(
 	params.code = code;
 	params.locationFile = locationFile;
 
-	return std::shared_ptr<QtCodeSnippet>(new QtCodeSnippet(params, navigator, file));
+	return new QtCodeSnippet(params, navigator, file);
 }
 
 QtCodeSnippet::QtCodeSnippet(const CodeSnippetParams& params, QtCodeNavigator* navigator, QtCodeFile* file)

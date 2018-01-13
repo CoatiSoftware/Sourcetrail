@@ -76,8 +76,8 @@ private:
 	QtCodeFileTitleBar* m_titleBar;
 
 	QVBoxLayout* m_snippetLayout;
-	std::vector<std::shared_ptr<QtCodeSnippet>> m_snippets;
-	std::shared_ptr<QtCodeSnippet> m_fileSnippet;
+	std::vector<QtCodeSnippet*> m_snippets;
+	QtCodeSnippet* m_fileSnippet;
 
 	const FilePath m_filePath;
 	bool m_isWholeFile;
