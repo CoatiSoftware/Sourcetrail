@@ -535,7 +535,8 @@ MessageBase* UndoRedoController::lastMessage() const
 
 void UndoRedoController::updateHistory()
 {
-	const size_t historySize = 20;
+	const size_t historySize = 50;
+	const size_t historyMenuSize = 20;
 
 	std::vector<SearchMatch> matches;
 	bool firstActiveMessage = false;
@@ -574,7 +575,7 @@ void UndoRedoController::updateHistory()
 					}
 				}
 				m_history.push_front(match);
-				if (m_history.size() > historySize)
+				if (m_history.size() > historyMenuSize)
 				{
 					m_history.pop_back();
 				}

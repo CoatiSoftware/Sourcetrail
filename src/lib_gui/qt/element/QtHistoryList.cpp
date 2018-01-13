@@ -1,7 +1,8 @@
 #include "QtHistoryList.h"
 
-#include <QLabel>
 #include <QBoxLayout>
+#include <QLabel>
+#include <QScrollBar>
 
 #include "utility/messaging/type/MessageToUndoRedoPosition.h"
 #include "utility/ResourcePaths.h"
@@ -113,42 +114,40 @@ void QtHistoryItem::leaveEvent(QEvent *event)
 QtHistoryList::QtHistoryList(const std::vector<SearchMatch>& history, size_t currentIndex)
 	: m_currentIndex(currentIndex)
 {
-	setObjectName("history");
 	setWindowFlags(Qt::Popup);
-
-	m_list = new QListWidget(this);
-	m_list->setObjectName("history_list");
+	setObjectName("history_list");
+	setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
+	setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 
 	for (size_t i = 0; i < history.size(); i++)
 	{
-		QListWidgetItem *item = new QListWidgetItem(m_list);
+		QListWidgetItem *item = new QListWidgetItem(this);
 		QtHistoryItem* line = new QtHistoryItem(history[i], i, i == currentIndex);
 		item->setSizeHint(line->getSizeHint());
-		m_list->setItemWidget(item, line);
+		setItemWidget(item, line);
 	}
 
 	setStyleSheet(utility::getStyleSheet(ResourcePaths::getGuiPath().concatenate(FilePath("history_list/history_list.css"))).c_str());
 
-	connect(m_list, &QListWidget::itemClicked, this, &QtHistoryList::onItemClicked);
+	connect(this, &QListWidget::itemClicked, this, &QtHistoryList::onItemClicked);
 }
 
 void QtHistoryList::showPopup(QPoint pos)
 {
 	QSize size(50, 0);
-	for (int i = 0; i < m_list->count(); i++)
+	for (int i = 0; i < count(); i++)
 	{
-		QtHistoryItem* it = dynamic_cast<QtHistoryItem*>(m_list->itemWidget(m_list->item(i)));
+		QtHistoryItem* it = dynamic_cast<QtHistoryItem*>(itemWidget(item(i)));
 		QSize itemSize = it->getSizeHint();
 		if (itemSize.width() > size.width())
 		{
 			size.setWidth(itemSize.width());
 		}
 
-		size.setHeight(size.height() + m_list->item(i)->sizeHint().height());
+		size.setHeight(size.height() + item(i)->sizeHint().height());
 	}
 
-	setGeometry(pos.x(), pos.y(), size.width(), size.height());
-    m_list->setMinimumSize(size);
+	setGeometry(pos.x(), pos.y(), size.width() + 15, std::min(size.height(), 600));
 	show();
 }
 
@@ -159,7 +158,7 @@ void QtHistoryList::closeEvent(QCloseEvent* event)
 
 void QtHistoryList::onItemClicked(QListWidgetItem *item)
 {
-	QtHistoryItem* historyItem = dynamic_cast<QtHistoryItem*>(m_list->itemWidget(item));
+	QtHistoryItem* historyItem = dynamic_cast<QtHistoryItem*>(itemWidget(item));
 	if (historyItem)
 	{
 		if (historyItem->index != m_currentIndex)
