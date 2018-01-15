@@ -140,6 +140,7 @@ void QtDialogView::startIndexingDialog(
 					}
 
 					std::shared_ptr<QTimer> timer = std::make_shared<QTimer>();
+					timer->setSingleShot(true);
 					connect(timer.get(), &QTimer::timeout,
 						[=]()
 						{
