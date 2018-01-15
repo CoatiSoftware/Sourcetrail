@@ -335,10 +335,6 @@ void Project::buildIndex(const RefreshInfo& info, DialogView* dialogView)
 
 	dialogView->showUnknownProgressDialog("Preparing Indexing", "Setting up Indexers");
 
-	m_storageCache->clear();
-
-	m_storage->setProjectSettingsText(TextAccess::createFromFile(getProjectSettingsFilePath())->getText());
-
 	std::shared_ptr<TaskGroupSequence> taskSequential = std::make_shared<TaskGroupSequence>();
 
 	if (info.mode == REFRESH_ALL_FILES)
@@ -347,12 +343,15 @@ void Project::buildIndex(const RefreshInfo& info, DialogView* dialogView)
 	}
 	else if (info.filesToClear.size())
 	{
-		// add task for clearing the database
 		taskSequential->addTask(std::make_shared<TaskCleanStorage>(
 			m_storage.get(),
 			utility::toVector(info.filesToClear)
 		));
 	}
+
+	m_storageCache->clear();
+
+	m_storage->setProjectSettingsText(TextAccess::createFromFile(getProjectSettingsFilePath())->getText());
 
 	std::shared_ptr<IndexerCommandList> indexerCommandList = std::make_shared<IndexerCommandList>();
 	for (const std::shared_ptr<SourceGroup>& sourceGroup : m_sourceGroups)
