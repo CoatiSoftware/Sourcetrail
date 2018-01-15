@@ -30,7 +30,7 @@ bool SourceGroupJava::prepareIndexing()
 	return true;
 }
 
-std::vector<std::shared_ptr<IndexerCommand>> SourceGroupJava::getIndexerCommands(const std::set<FilePath>& filesToIndex)
+std::vector<std::shared_ptr<IndexerCommand>> SourceGroupJava::getIndexerCommands(const std::set<FilePath>& filesToIndex) const
 {
 	const std::string languageStandard = getSourceGroupSettingsJava()->getStandard();
 
@@ -52,6 +52,11 @@ std::vector<std::shared_ptr<IndexerCommand>> SourceGroupJava::getIndexerCommands
 }
 
 std::shared_ptr<SourceGroupSettings> SourceGroupJava::getSourceGroupSettings()
+{
+	return getSourceGroupSettingsJava();
+}
+
+std::shared_ptr<const SourceGroupSettings> SourceGroupJava::getSourceGroupSettings() const
 {
 	return getSourceGroupSettingsJava();
 }
@@ -86,7 +91,7 @@ bool SourceGroupJava::prepareJavaEnvironment()
 }
 
 
-std::vector<FilePath> SourceGroupJava::getClassPath()
+std::vector<FilePath> SourceGroupJava::getClassPath() const
 {
 	LOG_INFO("Retrieving classpath for indexer commands");
 	std::vector<FilePath> classPath = doGetClassPath();
@@ -94,7 +99,7 @@ std::vector<FilePath> SourceGroupJava::getClassPath()
 	return classPath;
 }
 
-std::vector<FilePath> SourceGroupJava::doGetClassPath()
+std::vector<FilePath> SourceGroupJava::doGetClassPath() const
 {
 	std::vector<FilePath> classPath;
 
@@ -128,7 +133,7 @@ std::vector<FilePath> SourceGroupJava::doGetClassPath()
 	return classPath;
 }
 
-std::set<FilePath> SourceGroupJava::fetchRootDirectories()
+std::set<FilePath> SourceGroupJava::fetchRootDirectories() const
 {
 	std::shared_ptr<DialogView> dialogView = Application::getInstance()->getDialogView();
 	dialogView->showUnknownProgressDialog("Preparing Project", "Gathering Root\nDirectories");

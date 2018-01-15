@@ -21,6 +21,11 @@ std::shared_ptr<SourceGroupSettingsJava> SourceGroupJavaEmpty::getSourceGroupSet
 	return m_settings;
 }
 
+std::shared_ptr<const SourceGroupSettingsJava> SourceGroupJavaEmpty::getSourceGroupSettingsJava() const
+{
+	return m_settings;
+}
+
 std::vector<FilePath> SourceGroupJavaEmpty::getAllSourcePaths() const
 {
 	return m_settings->getSourcePathsExpandedAndAbsolute();

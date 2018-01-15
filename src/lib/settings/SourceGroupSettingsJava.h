@@ -13,12 +13,12 @@ public:
 	SourceGroupSettingsJava(const std::string& id, SourceGroupType type, const ProjectSettings* projectSettings);
 	virtual ~SourceGroupSettingsJava();
 
-	virtual void load(std::shared_ptr<const ConfigManager> config);
-	virtual void save(std::shared_ptr<ConfigManager> config);
+	virtual void load(std::shared_ptr<const ConfigManager> config) override;
+	virtual void save(std::shared_ptr<ConfigManager> config) override;
 
-	virtual bool equals(std::shared_ptr<SourceGroupSettings> other) const;
+	virtual bool equals(std::shared_ptr<SourceGroupSettings> other) const override;
 
-	virtual std::vector<std::string> getAvailableLanguageStandards() const;
+	virtual std::vector<std::string> getAvailableLanguageStandards() const override;
 
 	bool getUseJreSystemLibrary() const;
 	void setUseJreSystemLibrary(bool useJreSystemLibrary);
@@ -28,8 +28,8 @@ public:
 	void setClasspath(const std::vector<FilePath>& classpath);
 
 private:
-	virtual std::vector<std::string> getDefaultSourceExtensions() const;
-	virtual std::string getDefaultStandard() const;
+	virtual std::vector<std::string> getDefaultSourceExtensions() const override;
+	virtual std::string getDefaultStandard() const override;
 
 	bool m_useJreSystemLibrary;
 	std::vector<FilePath> m_classpath;

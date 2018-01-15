@@ -9,6 +9,7 @@ SourceGroupSettings::SourceGroupSettings(const std::string& id, SourceGroupType 
 	, m_id(id)
 	, m_name(sourceGroupTypeToString(type))
 	, m_type(type)
+	, m_status(SOURCE_GROUP_STATUS_ENABLED)
 	, m_standard("")
 	, m_sourcePaths(std::vector<FilePath>())
 	, m_excludePaths(std::vector<FilePath>())
@@ -29,7 +30,8 @@ void SourceGroupSettings::load(std::shared_ptr<const ConfigManager> config)
 	{
 		setName(name);
 	}
-
+	
+	setStatus(stringToSourceGroupStatusType(getValue(key + "/status", sourceGroupStatusTypeToString(SOURCE_GROUP_STATUS_ENABLED), config)));
 	setStandard(getValue<std::string>(key + "/standard", "", config));
 	setSourcePaths(getPathValues(key + "/source_paths/source_path", config));
 	setExcludePaths(getPathValues(key + "/exclude_paths/exclude_path", config));
@@ -40,6 +42,7 @@ void SourceGroupSettings::save(std::shared_ptr<ConfigManager> config)
 {
 	const std::string key = s_keyPrefix + getId();
 
+	setValue(key + "/status", sourceGroupStatusTypeToString(getStatus()), config);
 	setValue(key + "/name", getName(), config);
 	setValue(key + "/standard", getStandard(), config);
 	setPathValues(key + "/source_paths/source_path", getSourcePaths(), config);
@@ -53,6 +56,7 @@ bool SourceGroupSettings::equals(std::shared_ptr<SourceGroupSettings> other) con
 		m_id == other->m_id &&
 		m_name == other->m_name &&
 		m_type == other->m_type &&
+		m_status == other->m_status &&
 		m_standard == other->m_standard &&
 		utility::isPermutation(m_sourcePaths, other->m_sourcePaths) &&
 		utility::isPermutation(m_excludePaths, other->m_excludePaths) &&
@@ -98,6 +102,16 @@ std::vector<FilePath> SourceGroupSettings::makePathsExpandedAndAbsolute(const st
 SourceGroupType SourceGroupSettings::getType() const
 {
 	return m_type;
+}
+
+SourceGroupStatusType SourceGroupSettings::getStatus() const
+{
+	return m_status;
+}
+
+void SourceGroupSettings::setStatus(SourceGroupStatusType status)
+{
+	m_status = status;
 }
 
 std::string SourceGroupSettings::getStandard() const

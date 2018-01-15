@@ -15,21 +15,22 @@ public:
 	SourceGroupJava();
 	virtual ~SourceGroupJava();
 
-	virtual bool prepareIndexing();
+	virtual bool prepareIndexing() override;
 
-	virtual std::vector<std::shared_ptr<IndexerCommand>> getIndexerCommands(const std::set<FilePath>& filesToIndex);
+	virtual std::vector<std::shared_ptr<IndexerCommand>> getIndexerCommands(const std::set<FilePath>& filesToIndex) const override;
 
 protected:
-	virtual std::vector<FilePath> doGetClassPath();
+	virtual std::vector<FilePath> doGetClassPath() const;
 
 private:
 	virtual std::shared_ptr<SourceGroupSettingsJava> getSourceGroupSettingsJava() = 0;
-
-	virtual std::shared_ptr<SourceGroupSettings> getSourceGroupSettings();
+	virtual std::shared_ptr<const SourceGroupSettingsJava> getSourceGroupSettingsJava() const = 0;
+	virtual std::shared_ptr<SourceGroupSettings> getSourceGroupSettings() override;
+	virtual std::shared_ptr<const SourceGroupSettings> getSourceGroupSettings() const override;
 	bool prepareJavaEnvironment();
 
-	std::vector<FilePath> getClassPath();
-	std::set<FilePath> fetchRootDirectories();
+	std::vector<FilePath> getClassPath() const;
+	std::set<FilePath> fetchRootDirectories() const;
 };
 
 #endif // SOURCE_GROUP_JAVA_H

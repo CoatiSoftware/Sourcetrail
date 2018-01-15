@@ -14,11 +14,12 @@ public:
 	SourceGroupJavaEmpty(std::shared_ptr<SourceGroupSettingsJavaEmpty> settings);
 	virtual ~SourceGroupJavaEmpty();
 
-	virtual SourceGroupType getType() const;
+	virtual SourceGroupType getType() const override;
 
 private:
-	virtual std::shared_ptr<SourceGroupSettingsJava> getSourceGroupSettingsJava();
-	virtual std::vector<FilePath> getAllSourcePaths() const;
+	virtual std::shared_ptr<SourceGroupSettingsJava> getSourceGroupSettingsJava() override;
+	virtual std::shared_ptr<const SourceGroupSettingsJava> getSourceGroupSettingsJava() const override;
+	virtual std::vector<FilePath> getAllSourcePaths() const override;
 
 	std::shared_ptr<SourceGroupSettingsJavaEmpty> m_settings;
 };

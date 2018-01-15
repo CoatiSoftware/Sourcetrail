@@ -9,6 +9,11 @@ SourceGroup::~SourceGroup()
 {
 }
 
+SourceGroupStatusType SourceGroup::getStatus() const
+{
+	return getSourceGroupSettings()->getStatus();
+}
+
 LanguageType SourceGroup::getLanguage() const
 {
 	return getLanguageTypeForSourceGroupType(getType());
@@ -30,12 +35,22 @@ void SourceGroup::fetchAllSourceFilePaths()
 	m_allSourceFilePaths = fileManager.getAllSourceFilePaths();
 }
 
+std::set<FilePath> SourceGroup::getIndexedPaths() const
+{
+	return findAndAddSymlinkedDirectories(getSourceGroupSettings()->getSourcePathsExpandedAndAbsolute());
+}
+
+std::set<FilePath> SourceGroup::getExcludedPaths() const
+{
+	return findAndAddSymlinkedDirectories(getSourceGroupSettings()->getExcludePathsExpandedAndAbsolute());
+}
+
 std::set<FilePath> SourceGroup::getAllSourceFilePaths() const
 {
 	return m_allSourceFilePaths;
 }
 
-std::set<FilePath> SourceGroup::getSourceFilePathsToIndex(const std::set<FilePath>& staticSourceFilePaths)
+std::set<FilePath> SourceGroup::getSourceFilePathsToIndex(const std::set<FilePath>& staticSourceFilePaths) const
 {
 	std::set<FilePath> sourceFilePathsToIndex;
 	for (const FilePath& sourceFilePath: m_allSourceFilePaths)
@@ -48,17 +63,7 @@ std::set<FilePath> SourceGroup::getSourceFilePathsToIndex(const std::set<FilePat
 	return sourceFilePathsToIndex;
 }
 
-std::set<FilePath> SourceGroup::getIndexedPaths()
-{
-	return findAndAddSymlinkedDirectories(getSourceGroupSettings()->getSourcePathsExpandedAndAbsolute());
-}
-
-std::set<FilePath> SourceGroup::getExcludedPaths()
-{
-	return findAndAddSymlinkedDirectories(getSourceGroupSettings()->getExcludePathsExpandedAndAbsolute());
-}
-
-std::set<FilePath> SourceGroup::findAndAddSymlinkedDirectories(const std::vector<FilePath>& paths)
+std::set<FilePath> SourceGroup::findAndAddSymlinkedDirectories(const std::vector<FilePath>& paths) const
 {
 	std::set<FilePath> resultPaths;
 	for (const FilePath& path: paths)

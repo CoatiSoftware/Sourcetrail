@@ -5,6 +5,7 @@
 #include <vector>
 
 #include "settings/ProjectSettings.h"
+#include "settings/SourceGroupStatusType.h"
 #include "settings/SourceGroupType.h"
 
 class ProjectSettings;
@@ -34,6 +35,9 @@ public:
 
 	virtual std::vector<std::string> getAvailableLanguageStandards() const = 0;
 	virtual SourceGroupType getType() const;
+
+	SourceGroupStatusType getStatus() const;
+	void setStatus(SourceGroupStatusType status);
 
 	std::string getStandard() const;
 	void setStandard(const std::string& standard);
@@ -75,6 +79,7 @@ private:
 	std::string m_id;
 	std::string m_name;
 	const SourceGroupType m_type;
+	SourceGroupStatusType m_status;
 
 	std::string m_standard;
 	std::vector<FilePath> m_sourcePaths;

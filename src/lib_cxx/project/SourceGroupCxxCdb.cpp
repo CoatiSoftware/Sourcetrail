@@ -47,7 +47,7 @@ bool SourceGroupCxxCdb::prepareIndexing()
 	return true;
 }
 
-std::vector<std::shared_ptr<IndexerCommand>> SourceGroupCxxCdb::getIndexerCommands(const std::set<FilePath>& filesToIndex)
+std::vector<std::shared_ptr<IndexerCommand>> SourceGroupCxxCdb::getIndexerCommands(const std::set<FilePath>& filesToIndex) const
 {
 	std::shared_ptr<ApplicationSettings> appSettings = ApplicationSettings::getInstance();
 
@@ -124,6 +124,11 @@ std::vector<std::shared_ptr<IndexerCommand>> SourceGroupCxxCdb::getIndexerComman
 }
 
 std::shared_ptr<SourceGroupSettingsCxx> SourceGroupCxxCdb::getSourceGroupSettingsCxx()
+{
+	return m_settings;
+}
+
+std::shared_ptr<const SourceGroupSettingsCxx> SourceGroupCxxCdb::getSourceGroupSettingsCxx() const
 {
 	return m_settings;
 }

@@ -328,8 +328,9 @@ add_files(
 	settings/SourceGroupSettingsJavaGradle.h
 	settings/SourceGroupSettingsJavaMaven.cpp
 	settings/SourceGroupSettingsJavaMaven.h
+	settings/SourceGroupStatusType.cpp
+	settings/SourceGroupStatusType.h
 	settings/SourceGroupType.cpp
-
 	settings/SourceGroupType.h
 
 	utility/commandline/CommandlineHelper.cpp

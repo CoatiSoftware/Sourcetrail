@@ -26,3 +26,8 @@ std::shared_ptr<SourceGroupSettings> SourceGroupCxx::getSourceGroupSettings()
 {
 	return getSourceGroupSettingsCxx();
 }
+
+std::shared_ptr<const SourceGroupSettings> SourceGroupCxx::getSourceGroupSettings() const
+{
+	return getSourceGroupSettingsCxx();
+}

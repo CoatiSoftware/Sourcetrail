@@ -34,6 +34,7 @@
 #include "utility/text/TextAccess.h"
 #include "utility/utility.h"
 #include "utility/utilityApp.h"
+#include "utility/utilityFile.h"
 #include "utility/utilityString.h"
 
 Project::Project(std::shared_ptr<ProjectSettings> settings, StorageCache* storageCache, bool hasGUI)
@@ -314,7 +315,7 @@ RefreshInfo Project::getRefreshInfo(RefreshMode mode) const
 
 void Project::buildIndex(const RefreshInfo& info, DialogView* dialogView)
 {
-	if (info.mode == REFRESH_NONE || (!info.filesToClear.size() && !info.filesToIndex.size()))
+	if (info.mode == REFRESH_NONE || (info.filesToClear.empty() && info.filesToIndex.empty()))
 	{
 		if (m_hasGUI)
 		{
@@ -334,20 +335,19 @@ void Project::buildIndex(const RefreshInfo& info, DialogView* dialogView)
 
 	dialogView->showUnknownProgressDialog("Preparing Indexing", "Setting up Indexers");
 
-	if (info.mode == REFRESH_ALL_FILES)
-	{
-		m_storage->clear();
-	}
-
 	m_storageCache->clear();
 
 	m_storage->setProjectSettingsText(TextAccess::createFromFile(getProjectSettingsFilePath())->getText());
 
 	std::shared_ptr<TaskGroupSequence> taskSequential = std::make_shared<TaskGroupSequence>();
 
-	// add task for clearing the database
-	if (info.filesToClear.size())
+	if (info.mode == REFRESH_ALL_FILES)
 	{
+		m_storage->clear();
+	}
+	else if (info.filesToClear.size())
+	{
+		// add task for clearing the database
 		taskSequential->addTask(std::make_shared<TaskCleanStorage>(
 			m_storage.get(),
 			utility::toVector(info.filesToClear)
@@ -357,9 +357,12 @@ void Project::buildIndex(const RefreshInfo& info, DialogView* dialogView)
 	std::shared_ptr<IndexerCommandList> indexerCommandList = std::make_shared<IndexerCommandList>();
 	for (const std::shared_ptr<SourceGroup>& sourceGroup : m_sourceGroups)
 	{
-		for (const std::shared_ptr<IndexerCommand>& command : sourceGroup->getIndexerCommands(info.filesToIndex))
+		if (sourceGroup->getStatus() == SOURCE_GROUP_STATUS_ENABLED)
 		{
-			indexerCommandList->addCommand(command);
+			for (const std::shared_ptr<IndexerCommand>& command : sourceGroup->getIndexerCommands(info.filesToIndex))
+			{
+				indexerCommandList->addCommand(command);
+			}
 		}
 	}
 
@@ -467,7 +470,10 @@ std::set<FilePath> Project::getAllSourceFilePaths() const
 
 	for (const std::shared_ptr<SourceGroup>& sourceGroup: m_sourceGroups)
 	{
-		utility::append(allSourceFilePaths, sourceGroup->getAllSourceFilePaths());
+		if (sourceGroup->getStatus() == SOURCE_GROUP_STATUS_ENABLED)
+		{
+			utility::append(allSourceFilePaths, sourceGroup->getAllSourceFilePaths());
+		}
 	}
 
 	return allSourceFilePaths;
@@ -478,22 +484,44 @@ RefreshInfo Project::getRefreshInfoForUpdatedFiles() const
 	std::set<FilePath> unchangedFilePaths;
 	std::set<FilePath> changedFilePaths;
 
-	for (const FileInfo& info: m_storage->getFileInfoForAllFiles())
 	{
-		if (info.path.exists())
+		std::set<FilePath> indexedPaths;
+		for (const std::shared_ptr<SourceGroup>& sourceGroup : m_sourceGroups)
 		{
-			if (didFileChange(info))
+			if (sourceGroup->getStatus() == SOURCE_GROUP_STATUS_ENABLED)
+			{
+				utility::append(indexedPaths, sourceGroup->getIndexedPaths());
+			}
+		}
+		indexedPaths = utility::toSet(utility::getTopLevelPaths(utility::toVector(indexedPaths)));
+
+		for (const FileInfo& info : m_storage->getFileInfoForAllFiles())
+		{
+			bool isInIndexedPaths = false;
+			for (const FilePath& indexedPath : indexedPaths)
+			{
+				if (indexedPath == info.path || indexedPath.contains(info.path))
+				{
+					isInIndexedPaths = true;
+					break;
+				}
+			}
+
+			if (isInIndexedPaths && info.path.exists())
+			{
+				if (didFileChange(info))
+				{
+					changedFilePaths.insert(info.path);
+				}
+				else
+				{
+					unchangedFilePaths.insert(info.path);
+				}
+			}
+			else // file has been removed
 			{
 				changedFilePaths.insert(info.path);
 			}
-			else
-			{
-				unchangedFilePaths.insert(info.path);
-			}
-		}
-		else // file has been removed
-		{
-			changedFilePaths.insert(info.path);
 		}
 	}
 
@@ -503,7 +531,7 @@ RefreshInfo Project::getRefreshInfoForUpdatedFiles() const
 	utility::append(filesToClear, m_storage->getReferencing(changedFilePaths));
 
 	// handle referenced paths
-	std::set<FilePath> allSourceFilePaths = getAllSourceFilePaths();
+	const std::set<FilePath> allSourceFilePaths = getAllSourceFilePaths();
 	std::set<FilePath> staticSourceFiles = allSourceFilePaths;
 	for (const FilePath& path: changedFilePaths)
 	{
@@ -528,7 +556,7 @@ RefreshInfo Project::getRefreshInfoForUpdatedFiles() const
 		staticSourceFiles.erase(path);
 	}
 
-	std::set<FilePath> filesToAdd = staticSourceFiles;
+	const std::set<FilePath> filesToAdd = staticSourceFiles;
 
 	std::set<FilePath> staticSourceFilePaths;
 	for (const FilePath& path: allSourceFilePaths)
@@ -545,7 +573,10 @@ RefreshInfo Project::getRefreshInfoForUpdatedFiles() const
 
 	for (const std::shared_ptr<SourceGroup>& sourceGroup: m_sourceGroups)
 	{
-		utility::append(info.filesToIndex, sourceGroup->getSourceFilePathsToIndex(staticSourceFilePaths));
+		if (sourceGroup->getStatus() == SOURCE_GROUP_STATUS_ENABLED)
+		{
+			utility::append(info.filesToIndex, sourceGroup->getSourceFilePathsToIndex(staticSourceFilePaths));
+		}
 	}
 
 	return info;
@@ -565,7 +596,7 @@ RefreshInfo Project::getRefreshInfoForIncompleteFiles() const
 		}
 	}
 
-	if (incompleteFiles.size())
+	if (!incompleteFiles.empty())
 	{
 		utility::append(incompleteFiles, m_storage->getReferencing(incompleteFiles));
 		utility::append(info.filesToClear, incompleteFiles);
@@ -578,7 +609,10 @@ RefreshInfo Project::getRefreshInfoForIncompleteFiles() const
 
 		for (const std::shared_ptr<SourceGroup>& sourceGroup: m_sourceGroups)
 		{
-			utility::append(info.filesToIndex, sourceGroup->getSourceFilePathsToIndex(staticSourceFilePaths));
+			if (sourceGroup->getStatus() == SOURCE_GROUP_STATUS_ENABLED)
+			{
+				utility::append(info.filesToIndex, sourceGroup->getSourceFilePathsToIndex(staticSourceFilePaths));
+			}
 		}
 	}
 
@@ -590,6 +624,12 @@ RefreshInfo Project::getRefreshInfoForAllFiles() const
 	RefreshInfo info;
 	info.mode = REFRESH_ALL_FILES;
 	info.filesToIndex = getAllSourceFilePaths();
+	{
+		for (const FileInfo& fileInfo : m_storage->getFileInfoForAllFiles())
+		{
+			info.filesToClear.insert(fileInfo.path);
+		}
+	}
 	return info;
 }
 
@@ -597,9 +637,12 @@ bool Project::hasCxxSourceGroup() const
 {
 	for (const std::shared_ptr<SourceGroup>& sourceGroup: m_sourceGroups)
 	{
-		if (sourceGroup->getLanguage() == LANGUAGE_C || sourceGroup->getLanguage() == LANGUAGE_CPP)
+		if (sourceGroup->getStatus() == SOURCE_GROUP_STATUS_ENABLED)
 		{
-			return true;
+			if (sourceGroup->getLanguage() == LANGUAGE_C || sourceGroup->getLanguage() == LANGUAGE_CPP)
+			{
+				return true;
+			}
 		}
 	}
 	return false;

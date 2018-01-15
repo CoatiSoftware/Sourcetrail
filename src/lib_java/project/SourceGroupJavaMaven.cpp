@@ -38,7 +38,7 @@ bool SourceGroupJavaMaven::prepareIndexing()
 	return true;
 }
 
-std::vector<FilePath> SourceGroupJavaMaven::doGetClassPath()
+std::vector<FilePath> SourceGroupJavaMaven::doGetClassPath() const
 {
 	std::vector<FilePath> classPath = SourceGroupJava::doGetClassPath();
 
@@ -61,6 +61,11 @@ std::vector<FilePath> SourceGroupJavaMaven::doGetClassPath()
 }
 
 std::shared_ptr<SourceGroupSettingsJava> SourceGroupJavaMaven::getSourceGroupSettingsJava()
+{
+	return m_settings;
+}
+
+std::shared_ptr<const SourceGroupSettingsJava> SourceGroupJavaMaven::getSourceGroupSettingsJava() const
 {
 	return m_settings;
 }

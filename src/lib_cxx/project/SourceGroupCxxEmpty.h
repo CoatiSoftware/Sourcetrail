@@ -13,13 +13,14 @@ public:
 	SourceGroupCxxEmpty(std::shared_ptr<SourceGroupSettingsCxxEmpty> settings);
 	virtual ~SourceGroupCxxEmpty();
 
-	virtual SourceGroupType getType() const;
+	virtual SourceGroupType getType() const override;
 
-	virtual std::vector<std::shared_ptr<IndexerCommand>> getIndexerCommands(const std::set<FilePath>& filesToIndex);
+	virtual std::vector<std::shared_ptr<IndexerCommand>> getIndexerCommands(const std::set<FilePath>& filesToIndex) const override;
 
 private:
-	virtual std::shared_ptr<SourceGroupSettingsCxx> getSourceGroupSettingsCxx();
-	virtual std::vector<FilePath> getAllSourcePaths() const;
+	virtual std::shared_ptr<SourceGroupSettingsCxx> getSourceGroupSettingsCxx() override;
+	virtual std::shared_ptr<const SourceGroupSettingsCxx> getSourceGroupSettingsCxx() const override;
+	virtual std::vector<FilePath> getAllSourcePaths() const override;
 
 	std::shared_ptr<SourceGroupSettingsCxxEmpty> m_settings;
 };

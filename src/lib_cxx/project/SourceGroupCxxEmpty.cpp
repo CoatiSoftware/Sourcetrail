@@ -18,7 +18,7 @@ SourceGroupType SourceGroupCxxEmpty::getType() const
 	return m_settings->getType(); // may be either C or Cpp
 }
 
-std::vector<std::shared_ptr<IndexerCommand>> SourceGroupCxxEmpty::getIndexerCommands(const std::set<FilePath>& filesToIndex)
+std::vector<std::shared_ptr<IndexerCommand>> SourceGroupCxxEmpty::getIndexerCommands(const std::set<FilePath>& filesToIndex) const
 {
 	std::shared_ptr<ApplicationSettings> appSettings = ApplicationSettings::getInstance();
 
@@ -76,6 +76,11 @@ std::vector<std::shared_ptr<IndexerCommand>> SourceGroupCxxEmpty::getIndexerComm
 }
 
 std::shared_ptr<SourceGroupSettingsCxx> SourceGroupCxxEmpty::getSourceGroupSettingsCxx()
+{
+	return m_settings;
+}
+
+std::shared_ptr<const SourceGroupSettingsCxx> SourceGroupCxxEmpty::getSourceGroupSettingsCxx() const
 {
 	return m_settings;
 }
