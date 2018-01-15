@@ -68,8 +68,7 @@ std::vector<std::shared_ptr<IndexerCommand>> SourceGroupCxxCdb::getIndexerComman
 	utility::append(frameworkSearchPaths, m_settings->getFrameworkSearchPathsExpandedAndAbsolute());
 	utility::append(frameworkSearchPaths, appSettings->getFrameworkSearchPathsExpanded());
 
-	std::vector<std::string> compilerFlags;
-	utility::append(compilerFlags, m_settings->getCompilerFlags());
+	const std::vector<std::string> compilerFlags = m_settings->getCompilerFlags();
 
 	std::set<FilePath> indexedPaths = getIndexedPaths();
 	std::set<FilePath> excludedPaths = getExcludedPaths();
@@ -108,15 +107,12 @@ std::vector<std::shared_ptr<IndexerCommand>> SourceGroupCxxCdb::getIndexerComman
 			if (filesToIndex.find(sourcePath) != filesToIndex.end() &&
 				sourceFilePaths.find(sourcePath) != sourceFilePaths.end())
 			{
-				std::vector<std::string> currentCompilerFlags = compilerFlags;
-				currentCompilerFlags.insert(currentCompilerFlags.end(), command.CommandLine.begin(), command.CommandLine.end());
-
 				indexerCommands.push_back(std::make_shared<IndexerCommandCxxCdb>(
 					sourcePath,
 					indexedPaths,
 					excludedPaths,
 					FilePath(command.Directory),
-					currentCompilerFlags,
+					utility::concat(command.CommandLine, compilerFlags),
 					systemHeaderSearchPaths,
 					frameworkSearchPaths
 				));

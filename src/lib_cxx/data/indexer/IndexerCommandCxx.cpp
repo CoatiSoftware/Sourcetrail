@@ -4,11 +4,13 @@ IndexerCommandCxx::IndexerCommandCxx(
 	const FilePath& sourceFilePath,
 	const std::set<FilePath>& indexedPaths,
 	const std::set<FilePath>& excludedPaths,
+	const FilePath& workingDirectory,
 	const std::vector<FilePath>& systemHeaderSearchPaths,
 	const std::vector<FilePath>& frameworkSearchPaths,
 	const std::vector<std::string>& compilerFlags
 )
 	: IndexerCommand(sourceFilePath, indexedPaths, excludedPaths)
+	, m_workingDirectory(workingDirectory)
 	, m_systemHeaderSearchPaths(systemHeaderSearchPaths)
 	, m_frameworkSearchPaths(frameworkSearchPaths)
 	, m_compilerFlags(compilerFlags)
@@ -50,4 +52,9 @@ std::vector<FilePath> IndexerCommandCxx::getFrameworkSearchPaths() const
 std::vector<std::string> IndexerCommandCxx::getCompilerFlags() const
 {
 	return m_compilerFlags;
+}
+
+FilePath IndexerCommandCxx::getWorkingDirectory() const
+{
+	return m_workingDirectory;
 }

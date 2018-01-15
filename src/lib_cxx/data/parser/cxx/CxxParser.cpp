@@ -14,21 +14,23 @@
 #include "utility/file/FileRegister.h"
 #include "utility/logging/logging.h"
 #include "utility/text/TextAccess.h"
+#include "utility/utilityString.h"
+#include "utility/utility.h"
 
 namespace
 {
-	static std::vector<std::string> getSyntaxOnlyToolArgs(const std::vector<std::string> &ExtraArgs, llvm::StringRef FileName)
+	std::vector<std::string> prependSyntaxOnlyToolArgs(const std::vector<std::string>& args)
 	{
-		std::vector<std::string> Args;
-		Args.push_back("clang-tool");
-		Args.push_back("-fsyntax-only");
-		Args.insert(Args.end(), ExtraArgs.begin(), ExtraArgs.end());
-		Args.push_back(FileName.str());
-		return Args;
+		return utility::concat({ "clang-tool", "-fsyntax-only" }, args);
+	}
+
+	std::vector<std::string> appendFilePath(const std::vector<std::string>& args, llvm::StringRef fileName)
+	{
+		return utility::concat(args, { fileName.str() });
 	}
 
 	// custom implementation of clang::runToolOnCodeWithArgs which also sets our custon DiagnosticConsumer
-	static bool runToolOnCodeWithArgs(
+	bool runToolOnCodeWithArgs(
 		clang::DiagnosticConsumer* DiagConsumer,
 		clang::FrontendAction *ToolAction,
 		const llvm::Twine &Code,
@@ -40,7 +42,7 @@ namespace
 		llvm::SmallString<16> FileNameStorage;
 		llvm::StringRef FileNameRef = FileName.toNullTerminatedStringRef(FileNameStorage);
 		llvm::IntrusiveRefCntPtr<clang::FileManager> Files(new clang::FileManager(clang::FileSystemOptions()));
-		clang::tooling::ToolInvocation Invocation(getSyntaxOnlyToolArgs(Args, FileNameRef), ToolAction, Files.get());
+		clang::tooling::ToolInvocation Invocation(prependSyntaxOnlyToolArgs(appendFilePath(Args, FileNameRef)), ToolAction, Files.get());
 
 		llvm::SmallString<1024> CodeStorage;
 		Invocation.mapVirtualFile(FileNameRef, Code.toNullTerminatedStringRef(CodeStorage));
@@ -73,14 +75,15 @@ void CxxParser::buildIndex(std::shared_ptr<IndexerCommandCxxCdb> indexerCommand)
 	clang::tooling::CompileCommand compileCommand;
 	compileCommand.Filename = indexerCommand->getSourceFilePath().str();
 	compileCommand.Directory = indexerCommand->getWorkingDirectory().str();
-	compileCommand.CommandLine = indexerCommand->getCompilerFlags();
+	compileCommand.CommandLine = utility::concat(indexerCommand->getCompilerFlags(), getCommandlineArgumentsEssential(
+		std::vector<std::string>(), indexerCommand->getSystemHeaderSearchPaths(), indexerCommand->getFrameworkSearchPaths()
+	));
 
+	if (!utility::isPrefix("-", compileCommand.CommandLine.front()))
 	{
-		std::vector<std::string> args = getCommandlineArgumentsEssential(
-			std::vector<std::string>(), indexerCommand->getSystemHeaderSearchPaths(), indexerCommand->getFrameworkSearchPaths()
-		);
-		compileCommand.CommandLine.insert(compileCommand.CommandLine.end(), args.begin(), args.end());
+		compileCommand.CommandLine.erase(compileCommand.CommandLine.begin());
 	}
+	compileCommand.CommandLine = prependSyntaxOnlyToolArgs(compileCommand.CommandLine);
 
 	CxxCompilationDatabaseSingle compilationDatabase(compileCommand);
 	runTool(&compilationDatabase, indexerCommand->getSourceFilePath());
@@ -88,9 +91,13 @@ void CxxParser::buildIndex(std::shared_ptr<IndexerCommandCxxCdb> indexerCommand)
 
 void CxxParser::buildIndex(std::shared_ptr<IndexerCommandCxxEmpty> indexerCommand)
 {
-	std::shared_ptr<clang::tooling::CompilationDatabase> compilationDatabase = getCompilationDatabase(indexerCommand);
+	clang::tooling::CompileCommand compileCommand;
+	compileCommand.Filename = indexerCommand->getSourceFilePath().str();
+	compileCommand.Directory = indexerCommand->getWorkingDirectory().str();
+	compileCommand.CommandLine = prependSyntaxOnlyToolArgs(appendFilePath(getCommandlineArguments(indexerCommand), indexerCommand->getSourceFilePath().str()));
 
-	runTool(compilationDatabase.get(), indexerCommand->getSourceFilePath());
+	CxxCompilationDatabaseSingle compilationDatabase(compileCommand);
+	runTool(&compilationDatabase, indexerCommand->getSourceFilePath());
 }
 
 void CxxParser::buildIndex(const std::string& fileName, std::shared_ptr<TextAccess> fileContent, std::vector<std::string> compilerFlags)
@@ -177,37 +184,6 @@ std::vector<std::string> CxxParser::getCommandlineArguments(std::shared_ptr<Inde
 	args.push_back(standard);
 
 	return args;
-}
-
-std::shared_ptr<clang::tooling::FixedCompilationDatabase> CxxParser::getCompilationDatabase(
-	std::shared_ptr<IndexerCommandCxxEmpty> indexerCommand
-) const {
-	// Commandline flags passed to the programm. Everything after '--' will be interpreted by the ClangTool.
-	std::vector<std::string> args = getCommandlineArguments(indexerCommand);
-	args.insert(args.begin(), "app");
-	args.insert(args.begin() + 1, "--");
-
-	int argc = args.size();
-	const char** argv = new const char*[argc];
-	for (size_t i = 0; i < args.size(); i++)
-	{
-		argv[i] = args[i].c_str();
-	}
-
-	std::string errorMessage;
-	std::shared_ptr<clang::tooling::FixedCompilationDatabase> compilationDatabase(
-		clang::tooling::FixedCompilationDatabase::loadFromCommandLine(argc, argv, errorMessage)
-	);
-
-	delete[] argv;
-
-	if (!compilationDatabase)
-	{
-		LOG_ERROR("Failed to load compilation database");
-		return nullptr;
-	}
-
-	return compilationDatabase;
 }
 
 std::shared_ptr<CxxDiagnosticConsumer> CxxParser::getDiagnostics(std::shared_ptr<CanonicalFilePathCache> canonicalFilePathCache, bool logErrors) const

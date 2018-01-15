@@ -63,6 +63,7 @@ std::vector<std::shared_ptr<IndexerCommand>> SourceGroupCxxEmpty::getIndexerComm
 				sourcePath,
 				indexedPaths,
 				excludedPaths,
+				m_settings->getProjectDirectoryPath(),
 				m_settings->getStandard(),
 				systemHeaderSearchPaths,
 				frameworkSearchPaths,

@@ -30,12 +30,6 @@ public:
 		const std::vector<FilePath>& frameworkSearchPaths);
 
 	virtual IndexerCommandType getIndexerCommandType() const override;
-	virtual size_t getByteSize(size_t stringSize) const override;
-
-	FilePath getWorkingDirectory() const;
-
-private:
-	FilePath m_workingDirectory;
 };
 
 #endif // INDEXER_COMMAND_CXX_CDB_H

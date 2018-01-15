@@ -27,6 +27,7 @@ void SharedIndexerCommand::fromLocal(IndexerCommand* indexerCommand)
 		IndexerCommandCxxEmpty* cmd = dynamic_cast<IndexerCommandCxxEmpty*>(indexerCommand);
 
 		setType(CXX_EMPTY);
+		setWorkingDirectory(cmd->getWorkingDirectory());
 		setLanguageStandard(cmd->getLanguageStandard());
 		setCompilerFlags(cmd->getCompilerFlags());
 		setSystemHeaderSearchPaths(cmd->getSystemHeaderSearchPaths());
@@ -69,6 +70,7 @@ std::shared_ptr<IndexerCommand> SharedIndexerCommand::fromShared(const SharedInd
 			indexerCommand.getSourceFilePath(),
 			indexerCommand.getIndexedPaths(),
 			indexerCommand.getExcludedPaths(),
+			indexerCommand.getWorkingDirectory(),
 			indexerCommand.getLanguageStandard(),
 			indexerCommand.getSystemHeaderSearchPaths(),
 			indexerCommand.getFrameworkSearchhPaths(),

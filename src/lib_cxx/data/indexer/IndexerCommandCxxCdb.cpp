@@ -48,22 +48,11 @@ IndexerCommandCxxCdb::IndexerCommandCxxCdb(
 	const std::vector<FilePath>& systemHeaderSearchPaths,
 	const std::vector<FilePath>& frameworkSearchPaths
 )
-	: IndexerCommandCxx(sourceFilePath, indexedPaths, excludedPaths, systemHeaderSearchPaths, frameworkSearchPaths, compilerFlags)
-	, m_workingDirectory(workingDirectory)
+	: IndexerCommandCxx(sourceFilePath, indexedPaths, excludedPaths, workingDirectory, systemHeaderSearchPaths, frameworkSearchPaths, compilerFlags)
 {
 }
 
 IndexerCommandType IndexerCommandCxxCdb::getIndexerCommandType() const
 {
 	return getStaticIndexerCommandType();
-}
-
-size_t IndexerCommandCxxCdb::getByteSize(size_t stringSize) const
-{
-	return IndexerCommandCxx::getByteSize(stringSize) + m_workingDirectory.str().size();
-}
-
-FilePath IndexerCommandCxxCdb::getWorkingDirectory() const
-{
-	return m_workingDirectory;
 }

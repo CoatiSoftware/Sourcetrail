@@ -122,8 +122,9 @@ private:
 
 	std::shared_ptr<TextAccess> parseCode(const FilePath& sourceFilePath, const FilePath& projectDataSrcRoot)
 	{
-		std::set<FilePath> indexedPaths = { projectDataSrcRoot };
-		std::set<FilePath> excludedPaths = { };
+		const std::set<FilePath> indexedPaths = { projectDataSrcRoot };
+		const std::set<FilePath> excludedPaths = {};
+		const FilePath workingDirectory(".");
 
 		std::shared_ptr<FileRegister> fileRegister = std::make_shared<FileRegister>(
 			FileRegisterStateData(),
@@ -140,6 +141,7 @@ private:
 			sourceFilePath, 
 			indexedPaths,
 			excludedPaths,
+			workingDirectory,
 			"c++1z", 
 			utility::concat(std::vector<FilePath> { projectDataSrcRoot }, ApplicationSettings::getInstance()->getHeaderSearchPathsExpanded()),
 			ApplicationSettings::getInstance()->getFrameworkSearchPathsExpanded(), 
