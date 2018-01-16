@@ -39,27 +39,6 @@ void setupApp(int argc, char *argv[])
 #endif
 
 	// This "copyFile" method does nothing if the copy destination already exist
-
-#ifdef DEPLOY 
-	// try to find files in Coati installation to migrate to Sourcetrail
-	FilePath coatiUserDataPath = UserPaths::getUserDataPath().concatenate(FilePath("../"));
-	if (utility::getApplicationArchitectureType() == APPLICATION_ARCHITECTURE_X86_64)
-	{
-		coatiUserDataPath = coatiUserDataPath.concatenate(FilePath("Coati 64-bit"));
-	}
-	else
-	{
-		coatiUserDataPath = coatiUserDataPath.concatenate(FilePath("Coati"));
-	}
-
-	if (coatiUserDataPath.exists())
-	{
-		FileSystem::copyFile(coatiUserDataPath.concatenate(FilePath("ApplicationSettings.xml")), UserPaths::getAppSettingsPath());
-		FileSystem::copyFile(coatiUserDataPath.concatenate(FilePath("window_settings.ini")), UserPaths::getWindowSettingsPath());
-	}
-#endif
-
-	// use files in fallback folder if Coati has not been installed and used before
 	FileSystem::copyFile(ResourcePaths::getFallbackPath().concatenate(FilePath("ApplicationSettings.xml")), UserPaths::getAppSettingsPath());
 	FileSystem::copyFile(ResourcePaths::getFallbackPath().concatenate(FilePath("window_settings.ini")), UserPaths::getWindowSettingsPath());
 }
