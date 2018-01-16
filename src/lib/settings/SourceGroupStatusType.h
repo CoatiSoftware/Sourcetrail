@@ -6,8 +6,7 @@
 enum SourceGroupStatusType
 {
 	SOURCE_GROUP_STATUS_ENABLED,
-	SOURCE_GROUP_STATUS_DISABLED,
-	SOURCE_GROUP_STATUS_UNKNOWN
+	SOURCE_GROUP_STATUS_DISABLED
 };
 
 std::string sourceGroupStatusTypeToString(SourceGroupStatusType v);

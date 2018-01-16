@@ -1,5 +1,7 @@
 #include "settings/SourceGroupStatusType.h"
 
+#include "utility/logging/logging.h"
+
 std::string sourceGroupStatusTypeToString(SourceGroupStatusType v)
 {
 	switch (v)
@@ -8,10 +10,9 @@ std::string sourceGroupStatusTypeToString(SourceGroupStatusType v)
 		return "enabled";
 	case SOURCE_GROUP_STATUS_DISABLED:
 		return "disabled";
-	case SOURCE_GROUP_STATUS_UNKNOWN:
-		break;
 	}
-	return "unknown";
+	LOG_WARNING("Trying to convert unknown Source Group status type to string, falling back to disabled status.");
+	return "disabled"; 
 }
 
 SourceGroupStatusType stringToSourceGroupStatusType(std::string v)
@@ -25,5 +26,6 @@ SourceGroupStatusType stringToSourceGroupStatusType(std::string v)
 		return SOURCE_GROUP_STATUS_DISABLED;
 	}
 
-	return SOURCE_GROUP_STATUS_UNKNOWN;
+	LOG_WARNING("Trying to convert unknown string to Source Group status type, falling back to disabled status.");
+	return SOURCE_GROUP_STATUS_DISABLED;
 }
