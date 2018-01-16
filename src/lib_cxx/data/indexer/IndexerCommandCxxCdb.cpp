@@ -56,3 +56,8 @@ IndexerCommandType IndexerCommandCxxCdb::getIndexerCommandType() const
 {
 	return getStaticIndexerCommandType();
 }
+
+const FilePath& IndexerCommandCxxCdb::getWorkingDirectory() const
+{
+	return IndexerCommandCxx::getWorkingDirectory();
+}

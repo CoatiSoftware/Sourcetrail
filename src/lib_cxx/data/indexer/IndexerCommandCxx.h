@@ -23,11 +23,10 @@ public:
 
 	virtual size_t getByteSize(size_t stringSize) const override;
 
-	std::vector<FilePath> getSystemHeaderSearchPaths() const;
-	std::vector<FilePath> getFrameworkSearchPaths() const;
-	std::vector<std::string> getCompilerFlags() const;
-	FilePath getWorkingDirectory() const;
-
+	const std::vector<FilePath>& getSystemHeaderSearchPaths() const;
+	const std::vector<FilePath>& getFrameworkSearchPaths() const;
+	const std::vector<std::string>& getCompilerFlags() const;
+	const FilePath& getWorkingDirectory() const;
 
 private:
 	FilePath m_workingDirectory;

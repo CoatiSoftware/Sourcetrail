@@ -30,6 +30,9 @@ public:
 		const std::vector<FilePath>& frameworkSearchPaths);
 
 	virtual IndexerCommandType getIndexerCommandType() const override;
+
+	// this method only exists to avoid a linker problem on Linux
+	const FilePath& getWorkingDirectory() const;
 };
 
 #endif // INDEXER_COMMAND_CXX_CDB_H

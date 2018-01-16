@@ -39,22 +39,22 @@ size_t IndexerCommandCxx::getByteSize(size_t stringSize) const
 	return size;
 }
 
-std::vector<FilePath> IndexerCommandCxx::getSystemHeaderSearchPaths() const
+const std::vector<FilePath>& IndexerCommandCxx::getSystemHeaderSearchPaths() const
 {
 	return m_systemHeaderSearchPaths;
 }
 
-std::vector<FilePath> IndexerCommandCxx::getFrameworkSearchPaths() const
+const std::vector<FilePath>& IndexerCommandCxx::getFrameworkSearchPaths() const
 {
 	return m_frameworkSearchPaths;
 }
 
-std::vector<std::string> IndexerCommandCxx::getCompilerFlags() const
+const std::vector<std::string>& IndexerCommandCxx::getCompilerFlags() const
 {
 	return m_compilerFlags;
 }
 
-FilePath IndexerCommandCxx::getWorkingDirectory() const
+const FilePath& IndexerCommandCxx::getWorkingDirectory() const
 {
 	return m_workingDirectory;
 }
