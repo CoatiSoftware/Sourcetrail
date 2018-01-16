@@ -18,11 +18,11 @@ Root permission is required to run this script.
 Run uninstall.sh to uninstall Sourcetrail.
 
 
-Config Files
-------------
+User Data Files
+---------------
 
-Sourcetrail places config files at ~/.config/sourcetrail
-Run deleteConfig.sh to delete them. This resets Sourcetrail to the initial configuration.
+Sourcetrail places user data files at ~/.config/sourcetrail
+Run resetPreferences.sh to delete them and reset Sourcetrail to the initial configuration.
 
 
 Documentation

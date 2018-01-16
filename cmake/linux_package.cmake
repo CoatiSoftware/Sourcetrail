@@ -141,7 +141,7 @@ INSTALL(FILES
 INSTALL(PROGRAMS
 	${CMAKE_SOURCE_DIR}/setup/Linux/install.sh
 	${CMAKE_SOURCE_DIR}/setup/Linux/uninstall.sh
-	${CMAKE_SOURCE_DIR}/setup/Linux/deleteConfig.sh
+	${CMAKE_SOURCE_DIR}/setup/Linux/resetPreferences.sh
 	DESTINATION Sourcetrail
 )
 

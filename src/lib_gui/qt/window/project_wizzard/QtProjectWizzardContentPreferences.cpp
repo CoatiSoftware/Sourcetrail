@@ -85,7 +85,7 @@ void QtProjectWizzardContentPreferences::populate(QGridLayout* layout, int& row)
 
 
 	// Linux UI scale
-	if (utility::getOsType() == OS_LINUX)
+	// if (utility::getOsType() == OS_LINUX)
 	{
 		// screen
 		addTitle("SCREEN", layout, row);
