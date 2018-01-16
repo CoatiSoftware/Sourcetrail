@@ -324,7 +324,13 @@ void QtProjectWizzard::updateSourceGroupList()
 
 	for (const std::shared_ptr<SourceGroupSettings>& group : m_allSourceGroupSettings)
 	{
-		QListWidgetItem *item = new QListWidgetItem(QString::fromStdString(group->getName()));
+		QString name = QString::fromStdString(group->getName());
+		if (group->getStatus() == SOURCE_GROUP_STATUS_DISABLED)
+		{
+			name = "(" + name + ")";
+		}
+
+		QListWidgetItem *item = new QListWidgetItem(name);
 		m_sourceGroupList->addItem(item);
 	}
 }

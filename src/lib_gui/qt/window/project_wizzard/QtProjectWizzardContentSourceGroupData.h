@@ -2,7 +2,9 @@
 #define QT_PROJECT_WIZZARD_CONTENT_SOURCE_GROUP_DATA_H
 
 #include "qt/window/project_wizzard/QtProjectWizzardContent.h"
+#include "settings/SourceGroupStatusType.h"
 
+class QCheckBox;
 class QLineEdit;
 class SourceGroupSettings;
 
@@ -25,14 +27,17 @@ public:
 
 signals:
 	void nameUpdated(QString);
+	void statusUpdated(SourceGroupStatusType);
 
 private slots:
 	void editedName(QString name);
+	void changedStatus(bool checked);
 
 private:
 	std::shared_ptr<SourceGroupSettings> m_settings;
 
 	QLineEdit* m_name;
+	QCheckBox* m_status;
 };
 
 #endif // QT_PROJECT_WIZZARD_CONTENT_SOURCE_GROUP_DATA_H
