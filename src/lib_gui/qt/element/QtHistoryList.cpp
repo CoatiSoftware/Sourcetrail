@@ -115,39 +115,44 @@ QtHistoryList::QtHistoryList(const std::vector<SearchMatch>& history, size_t cur
 	: m_currentIndex(currentIndex)
 {
 	setWindowFlags(Qt::Popup);
-	setObjectName("history_list");
-	setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
-	setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+	setObjectName("history");
+
+	m_list = new QListWidget(this);
+	m_list->setObjectName("history_list");
+	m_list->setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
+	m_list->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 
 	for (size_t i = 0; i < history.size(); i++)
 	{
-		QListWidgetItem *item = new QListWidgetItem(this);
+		QListWidgetItem *item = new QListWidgetItem(m_list);
 		QtHistoryItem* line = new QtHistoryItem(history[i], i, i == currentIndex);
 		item->setSizeHint(line->getSizeHint());
-		setItemWidget(item, line);
+		m_list->setItemWidget(item, line);
 	}
 
-	setStyleSheet(utility::getStyleSheet(ResourcePaths::getGuiPath().concatenate(FilePath("history_list/history_list.css"))).c_str());
+	setStyleSheet(utility::getStyleSheet(
+		ResourcePaths::getGuiPath().concatenate(FilePath("history_list/history_list.css"))).c_str());
 
-	connect(this, &QListWidget::itemClicked, this, &QtHistoryList::onItemClicked);
+	connect(m_list, &QListWidget::itemClicked, this, &QtHistoryList::onItemClicked);
 }
 
 void QtHistoryList::showPopup(QPoint pos)
 {
-	QSize size(50, 0);
-	for (int i = 0; i < count(); i++)
+	QSize size(50, 2);
+	for (int i = 0; i < m_list->count(); i++)
 	{
-		QtHistoryItem* it = dynamic_cast<QtHistoryItem*>(itemWidget(item(i)));
+		QtHistoryItem* it = dynamic_cast<QtHistoryItem*>(m_list->itemWidget(m_list->item(i)));
 		QSize itemSize = it->getSizeHint();
 		if (itemSize.width() > size.width())
 		{
 			size.setWidth(itemSize.width());
 		}
 
-		size.setHeight(size.height() + item(i)->sizeHint().height());
+		size.setHeight(size.height() + m_list->item(i)->sizeHint().height());
 	}
 
-	setGeometry(pos.x(), pos.y(), size.width() + 15, std::min(size.height(), 600));
+	m_list->setGeometry(0, 0, size.width() + 15, std::min(size.height(), 100));
+	setGeometry(pos.x(), pos.y(), m_list->size().width(), m_list->size().height());
 	show();
 }
 
@@ -158,7 +163,7 @@ void QtHistoryList::closeEvent(QCloseEvent* event)
 
 void QtHistoryList::onItemClicked(QListWidgetItem *item)
 {
-	QtHistoryItem* historyItem = dynamic_cast<QtHistoryItem*>(itemWidget(item));
+	QtHistoryItem* historyItem = dynamic_cast<QtHistoryItem*>(m_list->itemWidget(item));
 	if (historyItem)
 	{
 		if (historyItem->index != m_currentIndex)
