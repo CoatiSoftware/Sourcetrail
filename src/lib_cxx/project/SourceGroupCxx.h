@@ -7,7 +7,8 @@
 #include "project/SourceGroup.h"
 #include "settings/SourceGroupSettingsCxx.h"
 
-class SourceGroupCxx: public SourceGroup
+class SourceGroupCxx
+	: public SourceGroup
 {
 public:
 	SourceGroupCxx();

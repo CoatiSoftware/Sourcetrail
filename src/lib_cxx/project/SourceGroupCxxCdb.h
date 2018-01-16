@@ -7,7 +7,8 @@
 #include "project/SourceGroupCxx.h"
 #include "settings/SourceGroupSettingsCxxCdb.h"
 
-class SourceGroupCxxCdb: public SourceGroupCxx
+class SourceGroupCxxCdb
+	: public SourceGroupCxx
 {
 public:
 	SourceGroupCxxCdb(std::shared_ptr<SourceGroupSettingsCxxCdb> settings);
@@ -22,7 +23,7 @@ public:
 private:
 	virtual std::shared_ptr<SourceGroupSettingsCxx> getSourceGroupSettingsCxx() override;
 	virtual std::shared_ptr<const SourceGroupSettingsCxx> getSourceGroupSettingsCxx() const override;
-	virtual std::vector<FilePath> getAllSourcePaths() const;
+	virtual std::vector<FilePath> getAllSourcePaths() const override;
 
 	std::shared_ptr<SourceGroupSettingsCxxCdb> m_settings;
 };

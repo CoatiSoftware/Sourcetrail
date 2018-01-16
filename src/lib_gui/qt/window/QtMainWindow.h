@@ -9,6 +9,7 @@
 
 #include "data/search/SearchMatch.h"
 #include "LicenseChecker.h"
+#include "qt/utility/QtWindowsTaskbarButton.h"
 #include "qt/window/QtWindowStack.h"
 
 class Bookmark;
@@ -80,15 +81,19 @@ public:
 	void setContentEnabled(bool enabled);
 	void refreshStyle();
 
+	void setWindowsTaskbarProgress(float progress);
+	void hideWindowsTaskbarProgress();
+
 signals:
 	void showScreenSearch();
 	void hideScreenSearch();
 
 protected:
-	void keyPressEvent(QKeyEvent* event);
-	void contextMenuEvent(QContextMenuEvent* event);
-	void closeEvent(QCloseEvent* event);
-    void resizeEvent(QResizeEvent* event);
+	virtual void showEvent(QShowEvent* event) override;
+	virtual void keyPressEvent(QKeyEvent* event) override;
+	virtual void contextMenuEvent(QContextMenuEvent* event) override;
+	virtual void closeEvent(QCloseEvent* event) override;
+	virtual void resizeEvent(QResizeEvent* event) override;
 
 public slots:
 	void about();
@@ -189,6 +194,8 @@ private:
 	bool m_showDockWidgetTitleBars;
 
 	QtWindowStack m_windowStack;
+
+	QtWindowsTaskbarButton m_windowsTaskbarButton;
 };
 
 #endif // QT_MAIN_WINDOW_H

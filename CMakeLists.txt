@@ -349,11 +349,16 @@ else()
 	set(Qt5Widgets_DIR "${CMAKE_PREFIX_PATH}/lib/cmake/Qt5Widgets")
 	set(Qt5PrintSupport_DIR "${CMAKE_PREFIX_PATH}/lib/cmake/Qt5PrintSupport")
 	set(Qt5Network_DIR "${CMAKE_PREFIX_PATH}/lib/cmake/Qt5Network")
+	set(Qt5WinExtras_DIR "${CMAKE_PREFIX_PATH}/lib/cmake/Qt5WinExtras")
 endif()
 
 find_package(Qt5Widgets)
 find_package(Qt5PrintSupport)
 find_package(Qt5Network)
+
+if (WIN32)
+	find_package(Qt5WinExtras)
+endif()
 
 if(Qt5Widgets_FOUND)
 	MESSAGE(STATUS "Found Qt ${Qt5Widgets_VERSION_STRING}")
@@ -371,7 +376,11 @@ add_custom_target(
 
 add_library(${LIB_GUI_PROJECT_NAME} ${LIB_GUI_FILES} ${CMAKE_BINARY_DIR}/src/lib_gui/version.h)
 
-target_link_libraries(${LIB_GUI_PROJECT_NAME} Qt5::Widgets Qt5::Network)
+if(UNIX)
+	target_link_libraries(${LIB_GUI_PROJECT_NAME} Qt5::Widgets Qt5::Network)
+else()
+	target_link_libraries(${LIB_GUI_PROJECT_NAME} Qt5::Widgets Qt5::Network Qt5::WinExtras)
+endif()
 
 # command for versioning script
 add_custom_command(

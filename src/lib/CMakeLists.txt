@@ -279,8 +279,8 @@ add_files(
 	data/TaskInjectStorage.h
 	data/TaskMergeStorages.cpp
 	data/TaskMergeStorages.h
-	data/TaskShowStatusDialog.cpp
-	data/TaskShowStatusDialog.h
+	data/TaskShowUnknownProgressDialog.cpp
+	data/TaskShowUnknownProgressDialog.h
 
 	project/Project.cpp
 	project/Project.h

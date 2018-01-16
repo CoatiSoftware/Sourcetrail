@@ -175,6 +175,7 @@
 				<ComponentRef Id='Qt5GuiDll'/>
 				<ComponentRef Id='Qt5NetworkDll'/>
 				<ComponentRef Id='Qt5WidgetsDll'/>
+				<ComponentRef Id='Qt5WinExtrasDll'/>
 
 				<ComponentRef Id='apiMsWinCoreConsole_l1_1_0Dll'/>
 				<ComponentRef Id='apiMsWinCoreDatetime_l1_1_0Dll'/>

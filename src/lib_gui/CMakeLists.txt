@@ -104,6 +104,8 @@ add_files(
 	qt/utility/QtScrollSpeedChangeListener.cpp
 	qt/utility/QtScrollSpeedChangeListener.h
 	qt/utility/QtThreadedFunctor.h
+	qt/utility/QtWindowsTaskbarButton.cpp
+	qt/utility/QtWindowsTaskbarButton.h
 	qt/utility/utilityQt.cpp
 	qt/utility/utilityQt.h
 

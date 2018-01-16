@@ -217,6 +217,7 @@ void QtDialogView::updateIndexingDialog(
 				window->updateIndexingProgress(finishedFileCount, totalFileCount, sourcePath);
 				setUIBlocked(true);
 			}
+			m_mainWindow->setWindowsTaskbarProgress(float(finishedFileCount) / totalFileCount);
 		}
 	);
 }
@@ -236,6 +237,7 @@ void QtDialogView::finishedIndexingDialog(
 			window->updateErrorCount(errorInfo.total, errorInfo.fatal);
 
 			setUIBlocked(false);
+			m_mainWindow->hideWindowsTaskbarProgress();
 		}
 	);
 }

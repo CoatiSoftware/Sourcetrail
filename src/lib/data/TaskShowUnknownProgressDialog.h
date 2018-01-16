@@ -1,22 +1,20 @@
-#ifndef TASK_SHOW_STATUS_DIALOG_H
-#define TASK_SHOW_STATUS_DIALOG_H
+#ifndef TASK_SHOW_UNKNOWN_PROGRESS_DIALOG_H
+#define TASK_SHOW_UNKNOWN_PROGRESS_DIALOG_H
 
 #include <string>
 
 #include "utility/scheduling/Task.h"
 
-class DialogView;
-
-class TaskShowStatusDialog
+class TaskShowUnknownProgressDialog
 	: public Task
 {
 public:
-	TaskShowStatusDialog(
+	TaskShowUnknownProgressDialog(
 		const std::string& title,
 		const std::string& message
 	);
 
-	virtual ~TaskShowStatusDialog();
+	virtual ~TaskShowUnknownProgressDialog();
 
 private:
 	virtual void doEnter(std::shared_ptr<Blackboard> blackboard);
@@ -28,4 +26,4 @@ private:
 	const std::string m_message;
 };
 
-#endif // TASK_SHOW_STATUS_DIALOG_H
+#endif // TASK_SHOW_UNKNOWN_PROGRESS_DIALOG_H

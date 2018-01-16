@@ -48,6 +48,10 @@
 			<Component Id='Qt5WidgetsDll' Guid='*' Win64="$(var.Win64)">
 				<File Id='qt5widgetsDLL' Name='Qt5Widgets.dll' DiskId='1' Source='$(var.PlatformSourceFolder)/Qt5Widgets.dll' KeyPath='yes' />
 			</Component>
+
+			<Component Id='Qt5WinExtrasDll' Guid='*' Win64="$(var.Win64)">
+				<File Id='qt5winExtrasDLL' Name='Qt5WinExtras.dll' DiskId='1' Source='$(var.PlatformSourceFolder)/Qt5WinExtras.dll' KeyPath='yes' />
+			</Component>
 			
 			<Component Id='apiMsWinCoreConsole_l1_1_0Dll' Guid='*' Win64="$(var.Win64)">
 				<File Id='apiMsWinCoreConsole_l1_1_0' Name='api-ms-win-core-console-l1-1-0.dll' DiskId='1' Source='$(var.PlatformSourceFolder)/api-ms-win-core-console-l1-1-0.dll' KeyPath='yes' />

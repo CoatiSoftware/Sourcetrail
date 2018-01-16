@@ -1,5 +1,5 @@
-#ifndef QT_FILE_DIALOG
-#define QT_FILE_DIALOG
+#ifndef QT_FILE_DIALOG_H
+#define QT_FILE_DIALOG_H
 
 class QString;
 class QStringList;
@@ -20,4 +20,4 @@ private:
 	static QString getDir(QString dir);
 };
 
-#endif // QT_FILE_DIALOG
+#endif // QT_FILE_DIALOG_H

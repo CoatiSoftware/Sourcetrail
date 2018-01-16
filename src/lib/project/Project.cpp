@@ -12,7 +12,7 @@
 #include "data/TaskFinishParsing.h"
 #include "data/TaskInjectStorage.h"
 #include "data/TaskMergeStorages.h"
-#include "data/TaskShowStatusDialog.h"
+#include "data/TaskShowUnknownProgressDialog.h"
 #include "project/SourceGroup.h"
 #include "project/SourceGroupFactory.h"
 #include "settings/ApplicationSettings.h"
@@ -440,7 +440,7 @@ void Project::buildIndex(const RefreshInfo& info, DialogView* dialogView)
 		);
 		// add task that notifies the user of what's going on
 		taskSequential->addTask( // we don't need to hide this dialog again, because it's overridden by other dialogs later on.
-			std::make_shared<TaskShowStatusDialog>("Finish Indexing", "Saving\nRemaining Data")
+			std::make_shared<TaskShowUnknownProgressDialog>("Finish Indexing", "Saving\nRemaining Data")
 		);
 
 		// add task that injects the remaining intermediate storages into the persistent storage
