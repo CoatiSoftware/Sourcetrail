@@ -2,6 +2,8 @@
 CLEAN_AND_SETUP=true
 REBUILD=true
 UPDATE_DATABASES=true
+CREATE_INSTALLER_ZIP=true
+CREATE_PORTABLE_ZIP=true
 
 
 # USEFUL VARIABLES
@@ -31,10 +33,15 @@ if [ $UPDATE_DATABASES = false ]; then
 	read -p "Press [Enter] key to continue"
 fi
 
+if [ $CREATE_INSTALLER_ZIP = false ]; then
+	echo -e "$INFO CREATE_INSTALLER_ZIP flag is set to false. Do you want to proceed?"
+	read -p "Press [Enter] key to continue"
+fi
 
-# SETTING THE DEPLOY FLAG
-rm -rf src/lib_gui/platform_includes/deploy.h
-echo "#define DEPLOY" >src/lib_gui/platform_includes/deploy.h
+if [ $CREATE_PORTABLE_ZIP = false ]; then
+	echo -e "$INFO CREATE_PORTABLE_ZIP flag is set to false. Do you want to proceed?"
+	read -p "Press [Enter] key to continue"
+fi
 
 
 ### TODO: add HKEY_CURRENT_USER\Software\Microsoft\VisualStudio\12.0_Config\MSBuild\EnableOutOfProcBuild
@@ -101,96 +108,155 @@ sh build_win64.sh
 cd ../../..
 
 
-# CREATING PACKAGE FOLDER
 VERSION_STRING=$(git describe --long)
 VERSION_STRING="${VERSION_STRING//-/_}"
 VERSION_STRING="${VERSION_STRING//./_}"
 VERSION_STRING="${VERSION_STRING%_*}"
 
-echo -e "$INFO creating package folder for win32"
-APP_PACKAGE_NAME_WIN32=Sourcetrail_${VERSION_STRING}_32bit
-APP_PACKAGE_DIR_WIN32=release/$APP_PACKAGE_NAME_WIN32
 
-rm -rf $APP_PACKAGE_DIR_WIN32
-mkdir -p $APP_PACKAGE_DIR_WIN32
+# CREATING THE INSTALLER ZIP FILES
+if [ $CREATE_INSTALLER_ZIP = true ]; then
+	create_installer_zip() # Parameters: bit {32, 64}
+	{
+		# CREATING INSTALLER PACKAGE FOLDER
+		echo -e "$INFO creating installer package folder for win$1"
+		local INSTALLER_PACKAGE_NAME=Sourcetrail_${VERSION_STRING}_${1}bit_Installer
+		local INSTALLER_PACKAGE_DIR=release/$INSTALLER_PACKAGE_NAME
+		local INSTALLER_PACKAGE_PLUGINS_DIR=$INSTALLER_PACKAGE_DIR/plugins
 
-cp -u -r deployment/windows/wixSetup/bin/win32/* $APP_PACKAGE_DIR_WIN32/
+		rm -rf $INSTALLER_PACKAGE_DIR
+		mkdir -p $INSTALLER_PACKAGE_DIR
 
-mkdir -p $APP_PACKAGE_DIR_WIN32/plugins/atom/
-cp -u -r ide_plugins/atom/* $APP_PACKAGE_DIR_WIN32/plugins/atom/
-mkdir -p $APP_PACKAGE_DIR_WIN32/plugins/eclipse/
-cp -u -r ide_plugins/eclipse/* $APP_PACKAGE_DIR_WIN32/plugins/eclipse/
-mkdir -p $APP_PACKAGE_DIR_WIN32/plugins/emacs/
-cp -u -r ide_plugins/emacs/* $APP_PACKAGE_DIR_WIN32/plugins/emacs/
-mkdir -p $APP_PACKAGE_DIR_WIN32/plugins/idea/
-cp -u -r ide_plugins/idea/* $APP_PACKAGE_DIR_WIN32/plugins/idea/
-mkdir -p $APP_PACKAGE_DIR_WIN32/plugins/qt_creator/
-cp -u -r ide_plugins/qt_creator/* $APP_PACKAGE_DIR_WIN32/plugins/qt_creator/
-mkdir -p $APP_PACKAGE_DIR_WIN32/plugins/sublime_text/
-cp -u -r ide_plugins/sublime_text/* $APP_PACKAGE_DIR_WIN32/plugins/sublime_text/
-mkdir -p $APP_PACKAGE_DIR_WIN32/plugins/vim/
-cp -u -r ide_plugins/vim/* $APP_PACKAGE_DIR_WIN32/plugins/vim/
-mkdir -p $APP_PACKAGE_DIR_WIN32/plugins/vscode/
-cp -u -r ide_plugins/vscode/* $APP_PACKAGE_DIR_WIN32/plugins/vscode/
-mkdir -p $APP_PACKAGE_DIR_WIN32/plugins/visual_studio/
-cp -u -r ide_plugins/visual_studio/* $APP_PACKAGE_DIR_WIN32/plugins/visual_studio/
+		cp -u -r deployment/windows/wixSetup/bin/win${1}/* $INSTALLER_PACKAGE_DIR/
 
+		# COPYING PLUGINS DATA
+		mkdir -p $INSTALLER_PACKAGE_PLUGINS_DIR/atom/
+		cp -u -r ide_plugins/atom/* $INSTALLER_PACKAGE_PLUGINS_DIR/atom/
+		mkdir -p $INSTALLER_PACKAGE_PLUGINS_DIR/eclipse/
+		cp -u -r ide_plugins/eclipse/* $INSTALLER_PACKAGE_PLUGINS_DIR/eclipse/
+		mkdir -p $INSTALLER_PACKAGE_PLUGINS_DIR/emacs/
+		cp -u -r ide_plugins/emacs/* $INSTALLER_PACKAGE_PLUGINS_DIR/emacs/
+		mkdir -p $INSTALLER_PACKAGE_PLUGINS_DIR/idea/
+		cp -u -r ide_plugins/idea/* $INSTALLER_PACKAGE_PLUGINS_DIR/idea/
+		mkdir -p $INSTALLER_PACKAGE_PLUGINS_DIR/qt_creator/
+		cp -u -r ide_plugins/qt_creator/* $INSTALLER_PACKAGE_PLUGINS_DIR/qt_creator/
+		mkdir -p $INSTALLER_PACKAGE_PLUGINS_DIR/sublime_text/
+		cp -u -r ide_plugins/sublime_text/* $INSTALLER_PACKAGE_PLUGINS_DIR/sublime_text/
+		mkdir -p $INSTALLER_PACKAGE_PLUGINS_DIR/vim/
+		cp -u -r ide_plugins/vim/* $INSTALLER_PACKAGE_PLUGINS_DIR/vim/
+		mkdir -p $INSTALLER_PACKAGE_PLUGINS_DIR/vscode/
+		cp -u -r ide_plugins/vscode/* $INSTALLER_PACKAGE_PLUGINS_DIR/vscode/
+		mkdir -p $INSTALLER_PACKAGE_PLUGINS_DIR/visual_studio/
+		cp -u -r ide_plugins/visual_studio/* $INSTALLER_PACKAGE_PLUGINS_DIR/visual_studio/
+		
+		cd ./release/
 
-echo -e "$INFO creating package folder for win64"
-APP_PACKAGE_NAME_WIN64=Sourcetrail_${VERSION_STRING}_64bit
-APP_PACKAGE_DIR_WIN64=release/$APP_PACKAGE_NAME_WIN64
+		# PACKAGING SOURCETRAIL
+		echo -e "$INFO packaging sourcetrail installer for win$1"
+		winrar a -afzip Sourcetrail_${VERSION_STRING}_Windows_${1}bit_Installer.zip $INSTALLER_PACKAGE_NAME
 
-rm -rf $APP_PACKAGE_DIR_WIN64
-mkdir -p $APP_PACKAGE_DIR_WIN64
+		# STORING PDB FILES
+		echo -e "$INFO storing pdb file for win$1"
+		mkdir PDB_${INSTALLER_PACKAGE_NAME}
+		cp -u -r ../build/win$1/Release/app/Sourcetrail.pdb PDB_${INSTALLER_PACKAGE_NAME}/
 
-cp -u -r deployment/windows/wixSetup/bin/win64/* $APP_PACKAGE_DIR_WIN64/
+		cd ../
 
-mkdir -p $APP_PACKAGE_DIR_WIN64/plugins/atom/
-cp -u -r ide_plugins/atom/* $APP_PACKAGE_DIR_WIN64/plugins/atom/
-mkdir -p $APP_PACKAGE_DIR_WIN64/plugins/eclipse/
-cp -u -r ide_plugins/eclipse/* $APP_PACKAGE_DIR_WIN64/plugins/eclipse/
-mkdir -p $APP_PACKAGE_DIR_WIN64/plugins/emacs/
-cp -u -r ide_plugins/emacs/* $APP_PACKAGE_DIR_WIN64/plugins/emacs/
-mkdir -p $APP_PACKAGE_DIR_WIN64/plugins/idea/
-cp -u -r ide_plugins/idea/* $APP_PACKAGE_DIR_WIN64/plugins/idea/
-mkdir -p $APP_PACKAGE_DIR_WIN64/plugins/qt_creator/
-cp -u -r ide_plugins/qt_creator/* $APP_PACKAGE_DIR_WIN64/plugins/qt_creator/
-mkdir -p $APP_PACKAGE_DIR_WIN64/plugins/sublime_text/
-cp -u -r ide_plugins/sublime_text/* $APP_PACKAGE_DIR_WIN64/plugins/sublime_text/
-mkdir -p $APP_PACKAGE_DIR_WIN64/plugins/vim/
-cp -u -r ide_plugins/vim/* $APP_PACKAGE_DIR_WIN64/plugins/vim/
-mkdir -p $APP_PACKAGE_DIR_WIN64/plugins/vscode/
-cp -u -r ide_plugins/vscode/* $APP_PACKAGE_DIR_WIN64/plugins/vscode/
-mkdir -p $APP_PACKAGE_DIR_WIN64/plugins/visual_studio/
-cp -u -r ide_plugins/visual_studio/* $APP_PACKAGE_DIR_WIN64/plugins/visual_studio/
-
-
-# PACKAGING SOURCETRAIL
-echo -e "$INFO packaging sourcetrail"
-cd ./release/
-
-winrar a -afzip Sourcetrail_${VERSION_STRING}_Windows_32bit.zip $APP_PACKAGE_NAME_WIN32
-winrar a -afzip Sourcetrail_${VERSION_STRING}_Windows_64bit.zip $APP_PACKAGE_NAME_WIN64
+		# CLEANING UP
+		echo -e "$INFO Cleaning installer package folders for win$1"
+		rm -rf $INSTALLER_PACKAGE_DIR
+	}
+	
+	create_installer_zip "32"
+	create_installer_zip "64"
+fi
 
 
-# STORING PDB FILES
-mkdir PDB_${APP_PACKAGE_NAME_WIN32}
-cp -u -r ../build/win32/Release/app/Sourcetrail.pdb PDB_${APP_PACKAGE_NAME_WIN32}/
-mkdir PDB_${APP_PACKAGE_NAME_WIN64}
-cp -u -r ../build/win64/Release/app/Sourcetrail.pdb PDB_${APP_PACKAGE_NAME_WIN64}/
+# CREATING THE PORTABLE ZIP FILES
+if [ $CREATE_PORTABLE_ZIP = true ]; then
+	create_portable_zip() # Parameters: bit {32, 64}
+	{
+		# CREATING PORTABLE PACKAGE FOLDER
+		echo -e "$INFO creating portable package folder for win$1"
+		local PORTABLE_PACKAGE_NAME=Sourcetrail_${VERSION_STRING}_${1}bit_Portable
+		local PORTABLE_PACKAGE_DIR=release/$PORTABLE_PACKAGE_NAME
+		local PORTABLE_PACKAGE_APP_DIR=$PORTABLE_PACKAGE_DIR/Sourcetrail_${VERSION_STRING}_${1}bit
+		local PORTABLE_PACKAGE_PLUGINS_DIR=$PORTABLE_PACKAGE_DIR/plugins
 
-cd ../
+		rm -rf $PORTABLE_PACKAGE_DIR
+		mkdir -p $PORTABLE_PACKAGE_DIR
+		
+		
+		# COPYING APPLICATION DATA
+		mkdir -p $PORTABLE_PACKAGE_APP_DIR/data/3rd_party_licenses/
+		cp -u -r bin/app/data/3rd_party_licenses/* $PORTABLE_PACKAGE_APP_DIR/data/3rd_party_licenses/
+		mkdir -p $PORTABLE_PACKAGE_APP_DIR/data/color_schemes/
+		cp -u -r bin/app/data/color_schemes/* $PORTABLE_PACKAGE_APP_DIR/data/color_schemes/
+		mkdir -p $PORTABLE_PACKAGE_APP_DIR/data/fallback/
+		cp -u -r bin/app/data/fallback/* $PORTABLE_PACKAGE_APP_DIR/data/fallback/
+		mkdir -p $PORTABLE_PACKAGE_APP_DIR/data/fonts/
+		cp -u -r bin/app/data/fonts/* $PORTABLE_PACKAGE_APP_DIR/data/fonts/
+		mkdir -p $PORTABLE_PACKAGE_APP_DIR/data/gui/
+		cp -u -r bin/app/data/gui/* $PORTABLE_PACKAGE_APP_DIR/data/gui/
+		mkdir -p $PORTABLE_PACKAGE_APP_DIR/data/install/
+		cp -u -r bin/app/data/install/* $PORTABLE_PACKAGE_APP_DIR/data/install/
+		mkdir -p $PORTABLE_PACKAGE_APP_DIR/data/java/
+		cp -u -r bin/app/data/java/* $PORTABLE_PACKAGE_APP_DIR/data/java/
+		
+		mkdir -p $PORTABLE_PACKAGE_APP_DIR/user/projects/javaparser/
+		cp -u -r bin/app/user/projects/javaparser/* $PORTABLE_PACKAGE_APP_DIR/user/projects/javaparser/
+		mkdir -p $PORTABLE_PACKAGE_APP_DIR/user/projects/tictactoe/
+		cp -u -r bin/app/user/projects/tictactoe/* $PORTABLE_PACKAGE_APP_DIR/user/projects/tictactoe/
+		mkdir -p $PORTABLE_PACKAGE_APP_DIR/user/projects/tutorial/
+		cp -u -r bin/app/user/projects/tutorial/* $PORTABLE_PACKAGE_APP_DIR/user/projects/tutorial/
+		
+		mkdir -p $PORTABLE_PACKAGE_APP_DIR/imageformats/
+		cp -u -r build/win$1/Release/app/imageformats/*.dll $PORTABLE_PACKAGE_APP_DIR/imageformats/
+		mkdir -p $PORTABLE_PACKAGE_APP_DIR/platforms/
+		cp -u -r build/win$1/Release/app/platforms/*.dll $PORTABLE_PACKAGE_APP_DIR/platforms/
+		
+		cp -u -r build/win$1/Release/app/*.dll $PORTABLE_PACKAGE_APP_DIR/
+		cp -u -r build/win$1/Release/app/qt.conf $PORTABLE_PACKAGE_APP_DIR/
+		cp -u -r build/win$1/Release/app/Sourcetrail.exe $PORTABLE_PACKAGE_APP_DIR/
+		cp -u -r build/win$1/Release/app/sourcetrail_indexer.exe $PORTABLE_PACKAGE_APP_DIR/
+		
 
+		# COPYING PLUGINS DATA
+		mkdir -p $PORTABLE_PACKAGE_PLUGINS_DIR/atom/
+		cp -u -r ide_plugins/atom/* $PORTABLE_PACKAGE_PLUGINS_DIR/atom/
+		mkdir -p $PORTABLE_PACKAGE_PLUGINS_DIR/eclipse/
+		cp -u -r ide_plugins/eclipse/* $PORTABLE_PACKAGE_PLUGINS_DIR/eclipse/
+		mkdir -p $PORTABLE_PACKAGE_PLUGINS_DIR/emacs/
+		cp -u -r ide_plugins/emacs/* $PORTABLE_PACKAGE_PLUGINS_DIR/emacs/
+		mkdir -p $PORTABLE_PACKAGE_PLUGINS_DIR/idea/
+		cp -u -r ide_plugins/idea/* $PORTABLE_PACKAGE_PLUGINS_DIR/idea/
+		mkdir -p $PORTABLE_PACKAGE_PLUGINS_DIR/qt_creator/
+		cp -u -r ide_plugins/qt_creator/* $PORTABLE_PACKAGE_PLUGINS_DIR/qt_creator/
+		mkdir -p $PORTABLE_PACKAGE_PLUGINS_DIR/sublime_text/
+		cp -u -r ide_plugins/sublime_text/* $PORTABLE_PACKAGE_PLUGINS_DIR/sublime_text/
+		mkdir -p $PORTABLE_PACKAGE_PLUGINS_DIR/vim/
+		cp -u -r ide_plugins/vim/* $PORTABLE_PACKAGE_PLUGINS_DIR/vim/
+		mkdir -p $PORTABLE_PACKAGE_PLUGINS_DIR/vscode/
+		cp -u -r ide_plugins/vscode/* $PORTABLE_PACKAGE_PLUGINS_DIR/vscode/
+		mkdir -p $PORTABLE_PACKAGE_PLUGINS_DIR/visual_studio/
+		cp -u -r ide_plugins/visual_studio/* $PORTABLE_PACKAGE_PLUGINS_DIR/visual_studio/
+		
+		cd ./release/
 
-# CLEANING UP
-echo -e "$INFO Cleaning package folders"
-rm -rf $APP_PACKAGE_DIR_WIN32
-rm -rf $APP_PACKAGE_DIR_WIN64
+		# PACKAGING SOURCETRAIL
+		echo -e "$INFO packaging sourcetrail portable for win$1"
+		winrar a -afzip Sourcetrail_${VERSION_STRING}_Windows_${1}bit_Portable.zip $PORTABLE_PACKAGE_NAME
 
+		cd ../
 
-# UNSETTING THE DEPLOY FLAG
-rm -rf src/lib_gui/platform_includes/deploy.h
-echo $'// #define DEPLOY' >src/lib_gui/platform_includes/deploy.h
+		# CLEANING UP
+		echo -e "$INFO Cleaning portable package folders for win$1"
+		rm -rf $PORTABLE_PACKAGE_DIR
+	}
+	
+	create_portable_zip "32"
+	create_portable_zip "64"
+fi
 
 
 echo -e "$SUCCESS packaging complete!"

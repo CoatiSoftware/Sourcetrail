@@ -8,11 +8,10 @@
 #include "vld.h"
 
 #include "utility/file/FileSystem.h"
+#include "utility/AppPath.h"
 #include "utility/ResourcePaths.h"
 #include "utility/UserPaths.h"
 #include "utility/utility.h"
-
-#include "platform_includes/deploy.h"
 
 void setupPlatform(int argc, char *argv[])
 {
@@ -20,23 +19,43 @@ void setupPlatform(int argc, char *argv[])
 
 void setupApp(int argc, char *argv[])
 {
-#ifdef DEPLOY
-	std::string path = std::getenv("APPDATA");
-	path += "/../local/Coati Software/";
-	if (utility::getApplicationArchitectureType() == APPLICATION_ARCHITECTURE_X86_64)
 	{
-		path += "Sourcetrail 64-bit/";
+		HMODULE hModule = GetModuleHandleW(NULL);
+		WCHAR path[MAX_PATH];
+		GetModuleFileNameW(hModule, path, MAX_PATH);
+
+		const std::wstring wPath(path);
+		std::string appPath = std::string(wPath.begin(), wPath.end());
+
+		size_t pos = appPath.find_last_of("/");
+		if (pos == std::string::npos)
+		{
+			pos = appPath.find_last_of("\\");
+		}
+		if (pos != std::string::npos)
+		{
+			appPath = appPath.substr(0, pos + 1);
+		}
+		AppPath::setAppPath(FilePath(appPath).str());
 	}
-	else
+
 	{
-		path += "Sourcetrail/";
+		FilePath userDataPath(AppPath::getAppPath() + "user/");
+		if (!userDataPath.exists())
+		{
+			userDataPath = FilePath(std::string(std::getenv("APPDATA")) + "/../local/Coati Software/");
+			if (utility::getApplicationArchitectureType() == APPLICATION_ARCHITECTURE_X86_64)
+			{
+				userDataPath.concatenate(FilePath("Sourcetrail 64-bit/"));
+			}
+			else
+			{
+				userDataPath.concatenate(FilePath("Sourcetrail/"));
+			}
+			userDataPath.makeCanonical();
+		}
+		UserPaths::setUserDataPath(userDataPath);
 	}
-	UserPaths::setUserDataPath(FilePath(path));
-#else
-	std::string path = QDir::currentPath().toStdString();
-	path += "/user/";
-	UserPaths::setUserDataPath(FilePath(path));
-#endif
 
 	// This "copyFile" method does nothing if the copy destination already exist
 	FileSystem::copyFile(ResourcePaths::getFallbackPath().concatenate(FilePath("ApplicationSettings.xml")), UserPaths::getAppSettingsPath());

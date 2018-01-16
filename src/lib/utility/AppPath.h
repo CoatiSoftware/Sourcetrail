@@ -7,11 +7,7 @@
 #define WIN32_LEAN_AND_MEAN
 #define NOMINMAX
 #include <Windows.h>
-#elif _WIN64
-#define WIN32_LEAN_AND_MEAN
-#define NOMINMAX
-#include <Windows.h>
-#endif // WINDOWS
+#endif // _WIN32
 
 class AppPath
 {
@@ -20,8 +16,6 @@ public:
 	static bool setAppPath(std::string path);
 
 private:
-	static void setupAppPath();
-
 	static std::string m_appPath;
 };
 
