@@ -151,7 +151,7 @@ void QtHistoryList::showPopup(QPoint pos)
 		size.setHeight(size.height() + m_list->item(i)->sizeHint().height());
 	}
 
-	m_list->setGeometry(0, 0, size.width() + 15, std::min(size.height(), 100));
+	m_list->setGeometry(0, 0, size.width() + 15, std::min(size.height(), 600));
 	setGeometry(pos.x(), pos.y(), m_list->size().width(), m_list->size().height());
 	show();
 }
