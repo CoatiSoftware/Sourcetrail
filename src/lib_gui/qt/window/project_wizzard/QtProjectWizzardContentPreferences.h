@@ -1,18 +1,17 @@
 #ifndef QT_PROJECT_WIZZARD_CONTENT_PREFERENCES_H
 #define QT_PROJECT_WIZZARD_CONTENT_PREFERENCES_H
 
-#include <QCheckBox>
-#include <QComboBox>
-#include <QLabel>
-#include <QLineEdit>
-
 #include "qt/element/QtLocationPicker.h"
 #include "qt/element/QtDirectoryListBox.h"
 #include "qt/window/project_wizzard/QtProjectWizzardContent.h"
 #include "utility/path_detector/CombinedPathDetector.h"
 
-class QtFontPicker;
-class QtTextEncodingPicker;
+class QCheckBox;
+class QComboBox;
+class QFontComboBox;
+class QLabel;
+class QLineEdit;
+
 
 class QtProjectWizzardContentPreferences
 	: public QtProjectWizzardContent
@@ -37,6 +36,8 @@ private slots:
 	void mavenPathDetectionClicked();
 	void loggingEnabledChanged();
 	void indexerThreadsChanges(int index);
+	void uiAutoScalingChanges(int index);
+	void uiScaleFactorChanges(int index);
 
 private:
 	void addJavaPathDetection(QGridLayout* layout, int& row);
@@ -50,13 +51,17 @@ private:
 
 	QCheckBox* addCheckBox(QString label, QString text, QString helpText, QGridLayout* layout, int& row);
 	QComboBox* addComboBox(QString label, QString helpText, QGridLayout* layout, int& row);
+	QComboBox* addComboBoxWithWidgets(
+		QString label, QString helpText, std::vector<QWidget*> widgets, QGridLayout* layout, int& row);
 	QComboBox* addComboBox(QString label, int min, int max, QString helpText, QGridLayout* layout, int& row);
+	QComboBox* addComboBoxWithWidgets(
+		QString label, int min, int max, QString helpText, std::vector<QWidget*> widgets, QGridLayout* layout, int& row);
 	QLineEdit* addLineEdit(QString label, QString helpText, QGridLayout* layout, int& row);
 
-	QtFontPicker* m_fontFace;
+	QFontComboBox* m_fontFace;
 	QComboBox* m_fontSize;
 	QComboBox* m_tabWidth;
-	QtTextEncodingPicker* m_textEncoding;
+	QComboBox* m_textEncoding;
 
 	QComboBox* m_colorSchemes;
 	std::vector<FilePath> m_colorSchemePaths;
@@ -66,11 +71,17 @@ private:
 	QCheckBox* m_useAnimations;
 	QCheckBox* m_showBuiltinTypes;
 
-	QCheckBox* m_loggingEnabled;
-	QCheckBox* m_verboseIndexerLoggingEnabled;
+	QComboBox* m_screenAutoScaling;
+	QLabel* m_screenAutoScalingInfoLabel;
+
+	QComboBox* m_screenScaleFactor;
+	QLabel* m_screenScaleFactorInfoLabel;
 
 	QLineEdit* m_scrollSpeed;
 	QCheckBox* m_graphZooming;
+
+	QCheckBox* m_loggingEnabled;
+	QCheckBox* m_verboseIndexerLoggingEnabled;
 
 	QCheckBox* m_automaticUpdateCheck;
 

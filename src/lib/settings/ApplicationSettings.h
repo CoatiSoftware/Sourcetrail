@@ -62,6 +62,13 @@ public:
 	bool getGraphControlsVisible() const;
 	void setGraphControlsVisible(bool visible);
 
+	// screen
+	int getScreenAutoScaling() const;
+	void setScreenAutoScaling(int autoScaling);
+
+	float getScreenScaleFactor() const;
+	void setScreenScaleFactor(float scaleFactor);
+
 	// logging
 	bool getLoggingEnabled() const;
 	void setLoggingEnabled(bool loggingEnabled);
@@ -74,9 +81,6 @@ public:
 
 	int getStatusFilter() const;
 	void setStatusFilter(int mask);
-
-	std::vector<FilePath> getIndexingFilePaths() const;
-	bool setIndexingFilePaths(const std::vector<FilePath>& indexingFiles);
 
 	// indexing
 	int getIndexerThreadCount() const;

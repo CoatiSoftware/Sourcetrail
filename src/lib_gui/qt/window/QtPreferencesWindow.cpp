@@ -6,6 +6,7 @@
 #include "utility/messaging/type/MessageScrollSpeedChange.h"
 
 #include "Application.h"
+#include "component/view/DialogView.h"
 #include "qt/window/project_wizzard/QtProjectWizzardContentPaths.h"
 #include "qt/window/project_wizzard/QtProjectWizzardContentPreferences.h"
 #include "qt/window/project_wizzard/QtProjectWizzardContentGroup.h"
@@ -21,6 +22,9 @@ QtPreferencesWindow::QtPreferencesWindow(QWidget* parent)
 	m_appSettings.setScrollSpeed(appSettings->getScrollSpeed());
 	m_appSettings.setSourcetrailPort(appSettings->getSourcetrailPort());
 	m_appSettings.setPluginPort(appSettings->getPluginPort());
+
+	m_appSettings.setScreenAutoScaling(appSettings->getScreenAutoScaling());
+	m_appSettings.setScreenScaleFactor(appSettings->getScreenScaleFactor());
 
 
 	QtProjectWizzardContentGroup* summary = new QtProjectWizzardContentGroup(this);
@@ -62,24 +66,39 @@ void QtPreferencesWindow::handleNext()
 
 	saveContent();
 
-	bool appSettingsChanged = !(m_appSettings == *ApplicationSettings::getInstance().get());
+	Application* app = Application::getInstance().get();
+	ApplicationSettings* appSettings = ApplicationSettings::getInstance().get();
 
-	if (m_appSettings.getScrollSpeed() != ApplicationSettings::getInstance()->getScrollSpeed())
+	bool needsRestart =
+		m_appSettings.getScreenAutoScaling() != appSettings->getScreenAutoScaling() ||
+		m_appSettings.getScreenScaleFactor() != appSettings->getScreenScaleFactor();
+
+	if (needsRestart)
 	{
-		MessageScrollSpeedChange(ApplicationSettings::getInstance()->getScrollSpeed()).dispatch();
+		app->getDialogView()->confirm(
+			"Please restart the application for all changes to take effect."
+		);
 	}
 
-	if (m_appSettings.getSourcetrailPort() != ApplicationSettings::getInstance()->getSourcetrailPort() ||
-		m_appSettings.getPluginPort() != ApplicationSettings::getInstance()->getPluginPort())
+
+	bool appSettingsChanged = !(m_appSettings == *appSettings);
+
+	if (m_appSettings.getScrollSpeed() != appSettings->getScrollSpeed())
+	{
+		MessageScrollSpeedChange(appSettings->getScrollSpeed()).dispatch();
+	}
+
+	if (m_appSettings.getSourcetrailPort() != appSettings->getSourcetrailPort() ||
+		m_appSettings.getPluginPort() != appSettings->getPluginPort())
 	{
 		MessagePluginPortChange().dispatch();
 	}
 
-	Application::getInstance()->loadSettings();
+	app->loadSettings();
 
 	if (appSettingsChanged)
 	{
-		Project* currentProject = Application::getInstance()->getCurrentProject().get();
+		Project* currentProject = app->getCurrentProject().get();
 		if (currentProject)
 		{
 			MessageLoadProject(currentProject->getProjectSettingsFilePath(), true).dispatch();

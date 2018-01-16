@@ -66,7 +66,9 @@ bool ConfigManager::getValue(const std::string& key, float& value) const
 	std::string valueString;
 	if (getValue(key, valueString))
 	{
-		value = static_cast<float>(atof(valueString.c_str()));
+		std::stringstream ss;
+		ss << valueString;
+		ss >> value;
 		return true;
 	}
 	return false;
@@ -91,8 +93,8 @@ bool ConfigManager::getValues(const std::string& key, std::vector<std::string>& 
 
 	if (ret.first != ret.second)
 	{
-		std::multimap<std::string, std::string>::const_iterator cit = ret.first;
-		for(;cit!=ret.second;++cit)
+		for (std::multimap<std::string, std::string>::const_iterator cit = ret.first;
+			cit != ret.second; ++cit)
 		{
 			values.push_back(cit->second);
 		}
@@ -171,7 +173,9 @@ void ConfigManager::setValue(const std::string& key, const int value)
 
 void ConfigManager::setValue(const std::string& key, const float value)
 {
-	setValue(key, std::to_string(value));
+	std::stringstream ss;
+	ss << value;
+	setValue(key, ss.str());
 }
 
 void ConfigManager::setValue(const std::string& key, const bool value)
@@ -183,11 +187,11 @@ void ConfigManager::setValues(const std::string& key, const std::vector<std::str
 {
 	std::multimap<std::string, std::string>::iterator it = m_values.find(key);
 
-	if(it != m_values.end())
+	if (it != m_values.end())
 	{
 		m_values.erase(key);
 	}
-	for(std::string s : values)
+	for (std::string s : values)
 	{
 		m_values.emplace(key, s);
 	}
@@ -196,7 +200,7 @@ void ConfigManager::setValues(const std::string& key, const std::vector<std::str
 void ConfigManager::setValues(const std::string& key, const std::vector<int>& values)
 {
 	std::vector<std::string> stringValues;
-	for(int i : values)
+	for (int i : values)
 	{
 		stringValues.push_back(std::to_string(i));
 	}
@@ -206,7 +210,7 @@ void ConfigManager::setValues(const std::string& key, const std::vector<int>& va
 void ConfigManager::setValues(const std::string& key, const std::vector<float>& values)
 {
 	std::vector<std::string> stringValues;
-	for(float f : values)
+	for (float f : values)
 	{
 		stringValues.push_back(std::to_string(f));
 	}
@@ -216,7 +220,7 @@ void ConfigManager::setValues(const std::string& key, const std::vector<float>& 
 void ConfigManager::setValues(const std::string& key, const std::vector<bool>& values)
 {
 	std::vector<std::string> stringValues;
-	for(bool b : values)
+	for (bool b : values)
 	{
 		stringValues.push_back(std::string(b ? "1" : "0"));
 	}
@@ -267,7 +271,7 @@ bool ConfigManager::load(const std::shared_ptr<TextAccess> textAccess)
 	{
 		TiXmlHandle docHandle(&doc);
 		TiXmlNode *rootNode = docHandle.FirstChild("config").ToNode();
-		if(rootNode == nullptr)
+		if (rootNode == nullptr)
 		{
 			LOG_ERROR("No rootelement 'config' in the configfile");
 			return false;
@@ -316,7 +320,7 @@ bool ConfigManager::createXmlDocument(bool saveAsFile, const std::string filepat
 	TiXmlElement *root = new TiXmlElement("config");
 	doc.LinkEndChild(root);
 
-	for(std::multimap<std::string,std::string>::iterator it = m_values.begin(); it != m_values.end(); ++it)
+	for (std::multimap<std::string,std::string>::iterator it = m_values.begin(); it != m_values.end(); ++it)
 	{
 		if (!it->first.size() || !it->second.size())
 		{
@@ -345,7 +349,7 @@ bool ConfigManager::createXmlDocument(bool saveAsFile, const std::string filepat
 		child->LinkEndChild(text);
 	}
 
-	if(saveAsFile)
+	if (saveAsFile)
 	{
 		success = doc.SaveFile(filepath.c_str());
 	}

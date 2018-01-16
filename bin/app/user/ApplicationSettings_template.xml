@@ -29,9 +29,15 @@
 		<scroll_speed><!-- DECIMAL: multiplier for default scroll speed in views --></scroll_speed>
 
 		<logging_enabled><!-- BOOL: define if console and file logging is enabled --></logging_enabled>
+		<verbose_indexer_logging_enabled><!-- BOOL: define if verbose indexer logging is enabled --></verbose_indexer_logging_enabled>
 
 		<graph_controls_visible><!-- BOOL: define if the graph controls are visible or collapsed --></graph_controls_visible>
 	</application>
+
+	<screen>
+		<auto_scaling><!-- INTEGER: 0 or 1 if auto scaling is enabled, -1 for system setting --></auto_scaling>
+		<scale_factor><!-- DECIMAL: defines highDPI scale factor, < 0 uses system setting --></scale_factor>
+	</screen>
 
 	<indexing>
 		<indexer_thread_count><!-- INTEGER: number of threads indexing the source code --></indexer_thread_count>

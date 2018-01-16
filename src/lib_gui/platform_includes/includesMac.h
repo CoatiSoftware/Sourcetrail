@@ -12,10 +12,11 @@
 #include "utility/ResourcePaths.h"
 #include "utility/UserPaths.h"
 
-bool appIsMacBundle = false;
 
 void setupPlatform(int argc, char *argv[])
 {
+	UserPaths::setUserDataPath(FilePath("./user/"));
+
 	// ----------------------------------------------------------------------------
 	// This makes relative paths work in C++ in Xcode by changing directory to the Resources folder inside the .app bundle
 	// source: http://stackoverflow.com/questions/516200/relative-paths-not-working-in-xcode-c
@@ -81,19 +82,12 @@ void setupPlatform(int argc, char *argv[])
 
 	// ----------------------------------------------------------------------------
 	UserPaths::setUserDataPath(FilePath(dataPath.toStdString() + "/"));
-
-	appIsMacBundle = true;
 }
 
 void setupApp(int argc, char *argv[])
 {
 	FilePath path(QDir::currentPath().toStdString());
 	AppPath::setAppPath(path.getAbsolute().str() + "/");
-
-	if (!appIsMacBundle)
-	{
-		UserPaths::setUserDataPath(FilePath("./user/"));
-	}
 }
 
 #endif // INCLUDES_MAC_H

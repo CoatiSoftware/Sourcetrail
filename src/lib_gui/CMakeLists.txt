@@ -34,8 +34,6 @@ add_files(
 	qt/element/QtCodeSnippet.h
 	qt/element/QtDirectoryListBox.cpp
 	qt/element/QtDirectoryListBox.h
-	qt/element/QtFontPicker.cpp
-	qt/element/QtFontPicker.h
 	qt/element/QtHelpButton.cpp
 	qt/element/QtHelpButton.h
 	qt/element/QtHistoryList.cpp
@@ -60,8 +58,6 @@ add_files(
 	qt/element/QtStatusBar.h
 	qt/element/QtTable.cpp
 	qt/element/QtTable.h
-	qt/element/QtTextEncodingPicker.cpp
-	qt/element/QtTextEncodingPicker.h
 	qt/element/QtTooltip.cpp
 	qt/element/QtTooltip.h
 	qt/element/QtUndoRedo.cpp

@@ -225,6 +225,26 @@ void ApplicationSettings::setGraphControlsVisible(bool visible)
 	setValue<bool>("application/graph_controls_visible", visible);
 }
 
+int ApplicationSettings::getScreenAutoScaling() const
+{
+	return getValue<int>("screen/auto_scaling", 1);
+}
+
+void ApplicationSettings::setScreenAutoScaling(int autoScaling)
+{
+	setValue<int>("screen/auto_scaling", autoScaling);
+}
+
+float ApplicationSettings::getScreenScaleFactor() const
+{
+	return getValue<float>("screen/scale_factor", -1.0);
+}
+
+void ApplicationSettings::setScreenScaleFactor(float scaleFactor)
+{
+	setValue<float>("screen/scale_factor", scaleFactor);
+}
+
 bool ApplicationSettings::getLoggingEnabled() const
 {
 	return getValue<bool>("application/logging_enabled", false);
@@ -263,16 +283,6 @@ int ApplicationSettings::getStatusFilter() const
 int ApplicationSettings::getLogFilter() const
 {
 	return getValue<int>("application/log_filter", Logger::LOG_WARNINGS | Logger::LOG_ERRORS);
-}
-
-std::vector<FilePath> ApplicationSettings::getIndexingFilePaths() const
-{
-	return getPathValues("application/state/indexing_paths/indexing_path");
-}
-
-bool ApplicationSettings::setIndexingFilePaths(const std::vector<FilePath>& indexingFiles)
-{
-	return setPathValues("application/state/indexing_paths/indexing_path", indexingFiles);
 }
 
 int ApplicationSettings::getIndexerThreadCount() const

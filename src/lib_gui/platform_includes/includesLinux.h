@@ -11,8 +11,35 @@
 #include "utility/ResourcePaths.h"
 #include "utility/UserPaths.h"
 
+#include "settings/ApplicationSettings.h"
+
 void setupPlatform(int argc, char *argv[])
 {
+	std::string home = std::getenv("HOME");
+	UserPaths::setUserDataPath(FilePath(home + "/.config/sourcetrail/"));
+
+	// Set QT screen scaling factor
+	ApplicationSettings appSettings;
+	appSettings.load(UserPaths::getAppSettingsPath());
+
+	qputenv("QT_AUTO_SCREEN_SCALE_FACTOR_SOURCETRAIL", qgetenv("QT_AUTO_SCREEN_SCALE_FACTOR"));
+	qputenv("QT_SCALE_FACTOR_SOURCETRAIL", qgetenv("QT_SCALE_FACTOR"));
+
+	int autoScaling = appSettings.getScreenAutoScaling();
+	if (autoScaling != -1)
+	{
+		QByteArray bytes;
+		bytes.setNum(autoScaling);
+		qputenv("QT_AUTO_SCREEN_SCALE_FACTOR", bytes);
+	}
+
+	float scaleFactor = appSettings.getScreenScaleFactor();
+	if (scaleFactor > 0.0)
+	{
+		QByteArray bytes;
+		bytes.setNum(scaleFactor);
+		qputenv("QT_SCALE_FACTOR", bytes);
+	}
 }
 
 void setupApp(int argc, char *argv[])
@@ -25,8 +52,6 @@ void setupApp(int argc, char *argv[])
 	std::string userdir(std::getenv("HOME"));
 	QDir coatiDir((userdir + "/.config/coati").c_str());
 	userdir.append("/.config/sourcetrail/");
-
-	UserPaths::setUserDataPath(FilePath(userdir));
 
 	QString userDataPath(userdir.c_str());
 	QDir dataDir(userdir.c_str());
