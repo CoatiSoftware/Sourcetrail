@@ -85,6 +85,10 @@ void QtRecentProjectButton::handleButtonClick()
 
 QtStartScreen::QtStartScreen(QWidget *parent)
 	: QtWindow(true, parent)
+	, m_cppIcon((ResourcePaths::getGuiPath().str() + "icon/cpp_icon.png").c_str())
+	, m_cIcon((ResourcePaths::getGuiPath().str() + "icon/c_icon.png").c_str())
+	, m_javaIcon((ResourcePaths::getGuiPath().str() + "icon/java_icon.png").c_str())
+	, m_projectIcon((ResourcePaths::getGuiPath().str() + "icon/empty_icon.png").c_str())
 {
 }
 
@@ -96,7 +100,7 @@ QSize QtStartScreen::sizeHint() const
 void QtStartScreen::updateButtons()
 {
 	std::vector<FilePath> recentProjects = ApplicationSettings::getInstance()->getRecentProjects();
-size_t i = 0;
+	size_t i = 0;
 	for (QtRecentProjectButton* button : m_recentProjectsButtons)
 	{
 		button->disconnect();
@@ -107,16 +111,16 @@ size_t i = 0;
 			switch (lang)
 			{
 				case LanguageType::LANGUAGE_C:
-					button->setIcon(*m_cIcon);
+					button->setIcon(m_cIcon);
 					break;
 				case LANGUAGE_CPP:
-					button->setIcon(*m_cppIcon);
+					button->setIcon(m_cppIcon);
 					break;
 				case LANGUAGE_JAVA:
-					button->setIcon(*m_javaIcon);
+					button->setIcon(m_javaIcon);
 					break;
 				default:
-					button->setIcon(*m_projectIcon);
+					button->setIcon(m_projectIcon);
 					break;
 			}
 			button->setFixedWidth(button->fontMetrics().width(button->text()) + 45);
@@ -223,17 +227,13 @@ void QtStartScreen::setupStartScreen()
 
 		col->addSpacing(20);
 
-		m_cppIcon = new QIcon((ResourcePaths::getGuiPath().str() + "icon/cpp_icon.png").c_str());
-		m_cIcon = new QIcon((ResourcePaths::getGuiPath().str() + "icon/c_icon.png").c_str());
-		m_javaIcon = new QIcon((ResourcePaths::getGuiPath().str() + "icon/java_icon.png").c_str());
-		m_projectIcon = new QIcon((ResourcePaths::getGuiPath().str() + "icon/empty_icon.png").c_str());
 		for (int i = 0
 			; i < ApplicationSettings::getInstance()->getMaxRecentProjectsCount()
 			; i++)
 		{
 			QtRecentProjectButton* button = new QtRecentProjectButton(this);
 			button->setAttribute(Qt::WA_LayoutUsesWidgetRect); // fixes layouting on Mac
-			button->setIcon(*m_projectIcon);
+			button->setIcon(m_projectIcon);
 			button->setIconSize(QSize(30, 30));
 			button->setMinimumSize(button->fontMetrics().width(button->text()) + 45, 40);
 			button->setObjectName("recentButtonMissing");

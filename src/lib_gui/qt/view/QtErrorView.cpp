@@ -28,8 +28,16 @@ QIcon QtErrorView::s_errorIcon;
 class SelectableDelegate
 	: public QStyledItemDelegate
 {
+public:
+	SelectableDelegate(QObject* parent = Q_NULLPTR);
 	QWidget* createEditor(QWidget* parent, const QStyleOptionViewItem &option, const QModelIndex &index) const;
 };
+
+SelectableDelegate::SelectableDelegate(QObject* parent)
+	: QStyledItemDelegate(parent)
+{
+}
+
 
 QWidget* SelectableDelegate::createEditor(
 	QWidget* parent,
@@ -73,7 +81,7 @@ void QtErrorView::initView()
 	m_table = new QtTable(this);
 	m_model = new QStandardItemModel(this);
 	m_table->setModel(m_model);
-	m_table->setItemDelegate(new SelectableDelegate());
+	m_table->setItemDelegate(new SelectableDelegate(m_table));
 
 	// Setup Table Headers
 	m_model->setColumnCount(COLUMN_MAX + 1);

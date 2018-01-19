@@ -19,7 +19,7 @@ class QtFocusInFilter
 	Q_OBJECT
 
 public:
-	QtFocusInFilter();
+	QtFocusInFilter(QObject* parent = Q_NULLPTR);
 
 signals:
 	void focusIn();

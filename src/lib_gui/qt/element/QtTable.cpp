@@ -13,9 +13,15 @@
 
 class SelectableCellDelegate : public QStyledItemDelegate
 {
+public:
+	SelectableCellDelegate(QObject* parent = Q_NULLPTR);
 	QWidget* createEditor(QWidget* parent, const QStyleOptionViewItem &option, const QModelIndex &index) const;
 };
 
+SelectableCellDelegate::SelectableCellDelegate(QObject* parent)
+	: QStyledItemDelegate(parent)
+{
+}
 
 QWidget* SelectableCellDelegate::createEditor(
 	QWidget* parent,
@@ -39,7 +45,7 @@ QtTable::QtTable(QWidget* parent)
 	setShowGrid(false);
 	setMouseTracking(true);
 
-	this->setItemDelegate(new SelectableCellDelegate());
+	this->setItemDelegate(new SelectableCellDelegate(this));
 
 	verticalHeader()->sectionResizeMode(QHeaderView::Fixed);
 	verticalHeader()->setDefaultAlignment(Qt::AlignRight);

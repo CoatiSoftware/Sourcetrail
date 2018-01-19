@@ -13,15 +13,15 @@ QtStatusBar::QtStatusBar()
 {
 	addWidget(new QWidget()); // add some space
 
-	QMovie* movie = new QMovie((ResourcePaths::getGuiPath().str() + "statusbar_view/loader.gif").c_str());
+	m_movie = std::make_shared<QMovie>((ResourcePaths::getGuiPath().str() + "statusbar_view/loader.gif").c_str());
 	// if movie doesn't loop forever, force it to.
-	if (movie->loopCount() != -1)
+	if (m_movie->loopCount() != -1)
 	{
-		connect(movie, &QMovie::finished, movie, &QMovie::start);
+		connect(m_movie.get(), &QMovie::finished, m_movie.get(), &QMovie::start);
 	}
-	movie->start();
+	m_movie->start();
 
-	m_loader.setMovie(movie);
+	m_loader.setMovie(m_movie.get());
 	m_loader.hide();
 	addWidget(&m_loader);
 
@@ -47,10 +47,6 @@ QtStatusBar::QtStatusBar()
 	addPermanentWidget(&m_errorButton);
 
 	connect(&m_errorButton, &QPushButton::clicked, this, &QtStatusBar::showErrors);
-}
-
-QtStatusBar::~QtStatusBar()
-{
 }
 
 void QtStatusBar::setText(const std::string& text, bool isError, bool showLoader)

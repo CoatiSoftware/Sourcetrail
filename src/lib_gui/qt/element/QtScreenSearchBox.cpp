@@ -12,7 +12,8 @@
 #include "utility/ResourcePaths.h"
 
 
-QtFocusInFilter::QtFocusInFilter()
+QtFocusInFilter::QtFocusInFilter(QObject* parent)
+	: QObject(parent)
 {
 }
 
@@ -57,7 +58,7 @@ QtScreenSearchBox::QtScreenSearchBox(ControllerProxy<ScreenSearchController>* co
 		connect(m_searchBox, &QLineEdit::textChanged, this, &QtScreenSearchBox::searchQueryChanged);
 		connect(m_searchBox, &QLineEdit::returnPressed, this, &QtScreenSearchBox::returnPressed);
 
-		QtFocusInFilter* filter = new QtFocusInFilter();
+		QtFocusInFilter* filter = new QtFocusInFilter(m_searchBox);
 		m_searchBox->installEventFilter(filter);
 		connect(filter, &QtFocusInFilter::focusIn, this, &QtScreenSearchBox::findMatches);
 	}

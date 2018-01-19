@@ -1,6 +1,7 @@
 #ifndef QT_STATUS_BAR_H
 #define QT_STATUS_BAR_H
 
+#include <memory>
 #include <string>
 
 #include <QPushButton>
@@ -15,8 +16,7 @@ class QtStatusBar
 	Q_OBJECT
 
 public:
-	QtStatusBar(void);
-	virtual ~QtStatusBar(void);
+	QtStatusBar();
 
 	void setText(const std::string& text, bool isError, bool showLoader);
 	void setErrorCount(ErrorCountInfo errorCount);
@@ -31,6 +31,8 @@ private slots:
 	void showErrors();
 
 private:
+	std::shared_ptr<QMovie> m_movie;
+
 	std::string m_textString;
 
 	QPushButton m_text;
