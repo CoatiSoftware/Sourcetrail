@@ -329,6 +329,7 @@ void PersistentStorage::clearFileElements(const std::vector<FilePath>& filePaths
 		m_sqliteIndexStorage.removeElements(fileNodeIds);
 		m_sqliteIndexStorage.removeErrorsInFiles(filePaths);
 		m_sqliteIndexStorage.commitTransaction();
+		updateStatusCallback(100);
 	}
 }
 
