@@ -47,6 +47,7 @@ void QtProjectWizzardContentPreferences::populate(QGridLayout* layout, int& row)
 	// font face
 	m_fontFace = new QFontComboBox(this);
 	m_fontFace->setFontFilters(QFontComboBox::MonospacedFonts);
+	m_fontFace->setWritingSystem(QFontDatabase::Latin);
 	m_fontFace->setEditable(false);
 	addLabelAndWidget("Font Face", m_fontFace, layout, row);
 	row++;
@@ -85,7 +86,7 @@ void QtProjectWizzardContentPreferences::populate(QGridLayout* layout, int& row)
 
 
 	// Linux UI scale
-	// if (utility::getOsType() == OS_LINUX)
+	if (utility::getOsType() == OS_LINUX)
 	{
 		// screen
 		addTitle("SCREEN", layout, row);

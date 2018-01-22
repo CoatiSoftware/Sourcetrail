@@ -233,16 +233,17 @@ void QtCodeArea::lineNumberAreaPaintEvent(QPaintEvent *event)
 		if (block.isVisible() && bottom >= event->rect().top())
 		{
 			int number = blockNumber + getStartLineNumber();
+			int height = std::ceil(blockBoundingRect(block).height());
 
 			p.setColor(textColor);
 
 			if (focusedLineNumbers.find(number) != focusedLineNumbers.end())
 			{
-				painter.fillRect(m_lineNumberArea->width() - 8, top, 3, fontMetrics().height() + 1, focusedMarkerColor);
+				painter.fillRect(m_lineNumberArea->width() - 8, top, 3, height, focusedMarkerColor);
 			}
 			else if (activeLineNumbers.find(number) != activeLineNumbers.end())
 			{
-				painter.fillRect(m_lineNumberArea->width() - 8, top, 3, fontMetrics().height() + 1, activeMarkerColor);
+				painter.fillRect(m_lineNumberArea->width() - 8, top, 3, height, activeMarkerColor);
 			}
 			else if (!m_isActiveFile)
 			{
@@ -250,8 +251,7 @@ void QtCodeArea::lineNumberAreaPaintEvent(QPaintEvent *event)
 			}
 
 			painter.setPen(p);
-			painter.drawText(
-				0, top, m_lineNumberArea->width() - 16, fontMetrics().height(), Qt::AlignRight, QString::number(number));
+			painter.drawText(0, top, m_lineNumberArea->width() - 16, height, Qt::AlignRight, QString::number(number));
 		}
 
 		block = block.next();

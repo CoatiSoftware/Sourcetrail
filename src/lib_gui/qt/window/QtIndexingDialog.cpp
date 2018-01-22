@@ -148,7 +148,7 @@ void QtIndexingDialog::updateRefreshInfo(const RefreshInfo& info)
 	m_clearLabel->setText("Files to clear: " + QString::number(clearCount));
 	m_indexLabel->setText("Source files to index: " + QString::number(indexCount));
 
-	m_clearLabel->setVisible(clearCount);
+	m_clearLabel->setVisible(clearCount && info.mode != REFRESH_ALL_FILES);
 	m_indexLabel->setVisible(true);
 }
 
