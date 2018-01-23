@@ -589,7 +589,6 @@ void QtProjectWizzardContentPathsHeaderSearch::finishedSelectDetectIncludesRootP
 {
 	// TODO: regard Force Includes here, too!
 	const std::vector<FilePath> searchedPaths = m_settings->makePathsExpandedAndAbsolute(m_pathsDialog->getPaths());
-
 	closedPathsDialog();
 
 	std::thread([=]()
@@ -599,7 +598,7 @@ void QtProjectWizzardContentPathsHeaderSearch::finishedSelectDetectIncludesRootP
 			std::shared_ptr<QtDialogView> dialogView = std::dynamic_pointer_cast<QtDialogView>(Application::getInstance()->getDialogView());
 
 			std::set<FilePath> sourceFilePaths;
-
+			std::vector<FilePath> headerSearchPaths;
 			{
 				dialogView->setParentWindow(m_window);
 				dialogView->showUnknownProgressDialog("Processing", "Gathering Source Files");
@@ -614,6 +613,13 @@ void QtProjectWizzardContentPathsHeaderSearch::finishedSelectDetectIncludesRootP
 					m_settings->getSourceExtensions()
 				);
 				sourceFilePaths = fileManager.getAllSourceFilePaths();
+
+				headerSearchPaths = ApplicationSettings::getInstance()->getHeaderSearchPathsExpanded();
+				if (std::shared_ptr<SourceGroupSettingsCxx> cxxSettings =
+					std::dynamic_pointer_cast<SourceGroupSettingsCxx>(m_settings))
+				{
+					utility::append(headerSearchPaths, cxxSettings->getHeaderSearchPathsExpandedAndAbsolute());
+				}
 			}
 			{
 				dialogView->setParentWindow(m_window);
@@ -624,6 +630,7 @@ void QtProjectWizzardContentPathsHeaderSearch::finishedSelectDetectIncludesRootP
 				detectedHeaderSearchPaths = IncludeProcessing::getHeaderSearchDirectories(
 					sourceFilePaths,
 					utility::toSet(searchedPaths),
+					utility::toSet(headerSearchPaths),
 					log2(sourceFilePaths.size()),
 					[&](const float progress)
 					{

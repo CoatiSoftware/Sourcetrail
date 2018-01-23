@@ -356,6 +356,8 @@ add_files(
 	utility/file/FileRegisterStateData.h
 	utility/file/FileSystem.cpp
 	utility/file/FileSystem.h
+	utility/file/FileTree.cpp
+	utility/file/FileTree.h
 
 	utility/interprocess/SharedMemory.cpp
 	utility/interprocess/SharedMemory.h
