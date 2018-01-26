@@ -54,8 +54,6 @@ class QtDirectoryListBox
 public:
 	QtDirectoryListBox(QWidget *parent, const QString& listName, bool forStrings = false);
 
-	virtual QSize sizeHint() const override;
-
 	void clear();
 
 	std::vector<FilePath> getList();
@@ -80,8 +78,6 @@ protected:
 	void dragEnterEvent(QDragEnterEvent* event) override;
 
 private slots:
-	void resize();
-
 	QtListItemWidget* addListBoxItem();
 	void removeListBoxItem();
 

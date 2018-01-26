@@ -43,7 +43,6 @@ void QtPathListDialog::populateWindow(QWidget* widget)
 	layout->addSpacing(10);
 
 	m_pathList = new QtDirectoryListBox(nullptr, m_title);
-	m_pathList->setMinimumHeight(150);
 	m_pathList->setMaximumHeight(1000);
 	layout->addWidget(m_pathList);
 

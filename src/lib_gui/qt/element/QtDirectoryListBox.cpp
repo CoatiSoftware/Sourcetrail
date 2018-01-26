@@ -140,13 +140,11 @@ QtDirectoryListBox::QtDirectoryListBox(QWidget *parent, const QString& listName,
 	m_list = new QListWidget(this);
 	m_list->setObjectName("list");
 	m_list->setAttribute(Qt::WA_MacShowFocusRect, 0);
-	m_list->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding);
 
 	setStyleSheet(utility::getStyleSheet(ResourcePaths::getGuiPath().concatenate(FilePath("window/listbox.css"))).c_str());
-	layout->addWidget(m_list);
+	layout->addWidget(m_list, 5);
 
 	QWidget* buttonContainer = new QWidget(this);
-	buttonContainer->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Fixed);
 	buttonContainer->setObjectName("bar");
 
 	QHBoxLayout* innerLayout = new QHBoxLayout();
@@ -190,10 +188,8 @@ QtDirectoryListBox::QtDirectoryListBox(QWidget *parent, const QString& listName,
 		dropInfoText->hide();
 	}
 
-	layout->addStretch();
-
 	buttonContainer->setLayout(innerLayout);
-	layout->addWidget(buttonContainer);
+	layout->addWidget(buttonContainer, 0);
 	setLayout(layout);
 
 	connect(m_addButton, &QPushButton::clicked, this, &QtDirectoryListBox::addListBoxItem);
@@ -201,15 +197,7 @@ QtDirectoryListBox::QtDirectoryListBox(QWidget *parent, const QString& listName,
 	connect(editButton, &QPushButton::clicked, this, &QtDirectoryListBox::showEditDialog);
 
 	setAcceptDrops(true);
-	setSizePolicy(sizePolicy().horizontalPolicy(), QSizePolicy::Minimum);
-	setMaximumHeight(200);
-	setMinimumHeight(100);
-	resize();
-}
-
-QSize QtDirectoryListBox::sizeHint() const
-{
-	return QSize(QFrame::sizeHint().width(), minimumHeight());
+	setMaximumHeight(160);
 }
 
 void QtDirectoryListBox::clear()
@@ -294,9 +282,8 @@ void QtDirectoryListBox::setStringList(const std::vector<std::string>& list, boo
 		itemWidget->setReadOnly(readOnly);
 	}
 
+	m_list->scrollToTop();
 	m_relativeRootDirectory = root;
-
-	QTimer::singleShot(1, this, &QtDirectoryListBox::resize);
 }
 
 QtListItemWidget* QtDirectoryListBox::addListBoxItemWithText(const QString& text)
@@ -331,34 +318,18 @@ void QtDirectoryListBox::setRelativeRootDirectory(const FilePath& dir)
 	m_relativeRootDirectory = dir;
 }
 
-void QtDirectoryListBox::resize()
-{
-	int height = m_list->height() - m_list->viewport()->height();
-
-	if (m_list->count() > 0)
-	{
-		height += (m_list->itemWidget(m_list->item(0))->height() + 1) * m_list->count() + 7;
-	}
-
-	if (height < 0)
-	{
-		height = 0;
-	}
-
-	m_list->setMaximumHeight(height);
-}
-
 QtListItemWidget* QtDirectoryListBox::addListBoxItem()
 {
+	int rowIndex = m_list->row(m_list->selectedItems().last()) + 1;
+
 	QListWidgetItem *item = new QListWidgetItem(m_list);
-	m_list->addItem(item);
+	m_list->insertItem(rowIndex, item);
 
 	QtListItemWidget* widget = new QtListItemWidget(this, item);
 	m_list->setItemWidget(item, widget);
 
+	m_list->scrollToItem(item);
 	widget->setFocus();
-
-	resize();
 
 	return widget;
 }
@@ -383,8 +354,6 @@ void QtDirectoryListBox::removeListBoxItem()
 	{
 		m_list->setCurrentRow(rowIndex);
 	}
-
-	resize();
 }
 
 void QtDirectoryListBox::dragEnterEvent(QDragEnterEvent *event)
@@ -471,6 +440,4 @@ void QtDirectoryListBox::savedEditDialog()
 	m_relativeRootDirectory = root;
 
 	canceledEditDialog();
-
-	QTimer::singleShot(1, this, &QtDirectoryListBox::resize);
 }

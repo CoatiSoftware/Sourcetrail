@@ -11,7 +11,7 @@ QtDirectoryListBox {
 QListWidget {
 	background: transparent;
 	border: none;
-	margin: 2px 0 2px 0;
+	margin: 2px 0 0 0;
 }
 
 QListWidget::item {
