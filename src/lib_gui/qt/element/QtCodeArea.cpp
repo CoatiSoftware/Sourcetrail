@@ -228,12 +228,16 @@ void QtCodeArea::lineNumberAreaPaintEvent(QPaintEvent *event)
 
 	QPen p = painter.pen();
 
-	while (block.isValid() && top <= event->rect().bottom())
+	const int scrollBarHeight = (horizontalScrollBar()->minimum() != horizontalScrollBar()->maximum() ? horizontalScrollBar()->height() : 0);
+	const int drawAreaTop = event->rect().top();
+	const int drawAreaBottom = event->rect().bottom() - scrollBarHeight;
+
+	while (block.isValid() && top <= drawAreaBottom)
 	{
-		if (block.isVisible() && bottom >= event->rect().top())
+		if (block.isVisible() && bottom >= drawAreaTop)
 		{
-			int number = blockNumber + getStartLineNumber();
-			int height = std::ceil(blockBoundingRect(block).height());
+			const int number = blockNumber + getStartLineNumber();
+			const int height = bottom - top - std::max(0, bottom - drawAreaBottom);
 
 			p.setColor(textColor);
 
