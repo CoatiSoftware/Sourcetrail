@@ -81,6 +81,11 @@ QtCodeSnippet* QtCodeFile::addCodeSnippet(const CodeSnippetParams& params)
 		}
 	}
 
+	if (params.locationFile->isWhole() && m_fileSnippet)
+	{
+		return m_fileSnippet;
+	}
+
 	QtCodeSnippet* snippet = new QtCodeSnippet(params, m_navigator, this);
 
 	if (params.reduced)
