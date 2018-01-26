@@ -107,7 +107,7 @@ void QtListItemWidget::handleButtonPress()
 		path = relativeRoot.getConcatenated(path);
 	}
 
-	QStringList list = QtFileDialog::getFileNamesAndDirectories(this, QString::fromStdString(path.str()));
+	QStringList list = QtFileDialog::getFileNamesAndDirectories(this, path);
 	if (!list.isEmpty())
 	{
 		setText(list.at(0));

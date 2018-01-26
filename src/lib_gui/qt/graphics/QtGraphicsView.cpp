@@ -454,7 +454,7 @@ void QtGraphicsView::stopTimer()
 void QtGraphicsView::exportGraph()
 {
 	QString fileName = QtFileDialog::showSaveFileDialog(
-		nullptr, "Save image", QDir::homePath(), "PNG (*.png);;JPEG (*.JPEG);;BMP Files (*.bmp)");
+		nullptr, "Save image", FilePath(), "PNG (*.png);;JPEG (*.JPEG);;BMP Files (*.bmp)");
 
 	if (!fileName.isNull())
 	{

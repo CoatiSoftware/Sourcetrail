@@ -5,13 +5,19 @@
 #include <QTreeView>
 
 #include "qt/utility/QtFilesAndDirectoriesDialog.h"
+#include "utility/file/FilePath.h"
 #include "utility/utilityApp.h"
 
-QStringList QtFileDialog::getFileNamesAndDirectories(QWidget* parent, const QString& dir)
+QStringList QtFileDialog::getFileNamesAndDirectories(QWidget* parent, const FilePath& path)
 {
+	const QString dir = getDir(QString::fromStdString((path.isDirectory() ? path : path.getParentDirectory()).str()));
+
 	QFileDialog* dialog = (utility::getOsType() == OS_MAC ? new QFileDialog(parent) : new QtFilesAndDirectoriesDialog(parent));
 
-	dialog->setDirectory(getDir(dir));
+	if (!dir.isEmpty())
+	{
+		dialog->setDirectory(dir);
+	}
 
 	QListView *l = dialog->findChild<QListView*>("listView");
 	if (l)
@@ -35,25 +41,25 @@ QStringList QtFileDialog::getFileNamesAndDirectories(QWidget* parent, const QStr
 	return list;
 }
 
-QString QtFileDialog::getExistingDirectory(QWidget* parent, const QString& caption, const QString& dir)
+QString QtFileDialog::getExistingDirectory(QWidget* parent, const QString& caption, const FilePath& dir)
 {
-	return QFileDialog::getExistingDirectory(parent, caption, getDir(dir));
+	return QFileDialog::getExistingDirectory(parent, caption, getDir(QString::fromStdString(dir.str())));
 }
 
-QString QtFileDialog::getOpenFileName(QWidget* parent, const QString& caption, const QString& dir, const QString& filter)
+QString QtFileDialog::getOpenFileName(QWidget* parent, const QString& caption, const FilePath& dir, const QString& filter)
 {
-	return QFileDialog::getOpenFileName(parent, caption, getDir(dir), filter);
+	return QFileDialog::getOpenFileName(parent, caption, getDir(QString::fromStdString(dir.str())), filter);
 }
 
 QString QtFileDialog::showSaveFileDialog(
-	QWidget *parent, const QString& title, const QString& directory, const QString& filter)
+	QWidget *parent, const QString& title, const FilePath& directory, const QString& filter)
 {
 #if defined(Q_OS_WIN) || defined(Q_OS_MAC)
 
-	return QFileDialog::getSaveFileName(parent, title, directory, filter);
+	return QFileDialog::getSaveFileName(parent, title, getDir(QString::fromStdString(directory.str())), filter);
 
 #else
-	QFileDialog dialog(parent, title, directory, filter);
+	QFileDialog dialog(parent, title, getDir(QString::fromStdString(directory.str())), filter);
 
 	if (parent)
 	{
@@ -96,7 +102,7 @@ QString QtFileDialog::getDir(QString dir)
 {
 	static bool used = false;
 
-	if (!used && !dir.size())
+	if (!used && dir.isEmpty())
 	{
 		dir = QDir::homePath();
 	}

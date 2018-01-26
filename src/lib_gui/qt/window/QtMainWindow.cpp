@@ -585,7 +585,7 @@ void QtMainWindow::newProjectFromCDB(const std::string& filePath, const std::vec
 void QtMainWindow::openProject()
 {
 	QString fileName = QtFileDialog::getOpenFileName(
-		this, tr("Open File"), QDir::homePath(), "Sourcetrail Project Files (*.srctrlprj *.coatiproject)");
+		this, tr("Open File"), FilePath(), "Sourcetrail Project Files (*.srctrlprj *.coatiproject)");
 
 	if (!fileName.isEmpty())
 	{
