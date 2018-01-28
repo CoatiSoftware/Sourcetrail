@@ -43,7 +43,7 @@ void GraphController::handleMessage(MessageActivateAll* message)
 	if (message->acceptedNodeTypes != NodeTypeSet::all())
 	{
 		createDummyGraphAndSetActiveAndVisibility(
-			std::vector<Id>(), m_storageAccess->getGraphForNodeTypes(message->acceptedNodeTypes)
+			std::vector<Id>(), m_storageAccess->getGraphForNodeTypes(message->acceptedNodeTypes), false
 		);
 
 		addCharacterIndex();
@@ -52,7 +52,7 @@ void GraphController::handleMessage(MessageActivateAll* message)
 	}
 	else
 	{
-		createDummyGraphAndSetActiveAndVisibility(std::vector<Id>(), m_storageAccess->getGraphForAll());
+		createDummyGraphAndSetActiveAndVisibility(std::vector<Id>(), m_storageAccess->getGraphForAll(), false);
 
 		bundleNodesByType();
 
@@ -104,7 +104,7 @@ void GraphController::handleMessage(MessageActivateTokens* message)
 	bool isNamespace = false;
 	std::shared_ptr<Graph> graph = m_storageAccess->getGraphForActiveTokenIds(tokenIds, getExpandedNodeIds(), &isNamespace);
 
-	createDummyGraphAndSetActiveAndVisibility(tokenIds, graph);
+	createDummyGraphAndSetActiveAndVisibility(tokenIds, graph, !message->isFromSearch);
 
 	if (isNamespace)
 	{
@@ -581,16 +581,25 @@ void GraphController::createDummyGraph(const std::shared_ptr<Graph> graph)
 }
 
 void GraphController::createDummyGraphAndSetActiveAndVisibility(
-	const std::vector<Id>& tokenIds, const std::shared_ptr<Graph> graph
+	const std::vector<Id>& tokenIds, const std::shared_ptr<Graph> graph, bool keepExpandedNodesExpanded
 ){
-	std::vector<Id> expandedNodeIds = getExpandedNodeIds();
+	std::vector<Id> expandedNodeIds;
+
+	if (keepExpandedNodesExpanded)
+	{
+		expandedNodeIds = getExpandedNodeIds();
+	}
 
 	createDummyGraph(graph);
 
 	bool noActive = setActive(tokenIds, false);
 
 	autoExpandActiveNode(tokenIds);
-	setExpandedNodeIds(expandedNodeIds);
+
+	if (keepExpandedNodesExpanded)
+	{
+		setExpandedNodeIds(expandedNodeIds);
+	}
 
 	setVisibility(noActive);
 
