@@ -400,16 +400,10 @@ void QtCodeField::activateAnnotations(const std::vector<const Annotation*>& anno
 	std::set<Id> tokenIds;
 	std::set<Id> localSymbolIds;
 
-	bool allActive = true;
 	for (const Annotation* annotation : annotations)
 	{
 		if (annotation->locationType == LOCATION_TOKEN || annotation->locationType == LOCATION_QUALIFIER)
 		{
-			if (!annotation->isActive)
-			{
-				allActive = false;
-			}
-
 			if (annotation->locationId > 0)
 			{
 				locationIds.push_back(annotation->locationId);
@@ -422,11 +416,6 @@ void QtCodeField::activateAnnotations(const std::vector<const Annotation*>& anno
 		}
 		else if (annotation->locationType == LOCATION_LOCAL_SYMBOL)
 		{
-			if (!annotation->isActive)
-			{
-				allActive = false;
-			}
-
 			if (annotation->tokenIds.size())
 			{
 				localSymbolIds.insert(annotation->tokenIds.begin(), annotation->tokenIds.end());
@@ -434,24 +423,21 @@ void QtCodeField::activateAnnotations(const std::vector<const Annotation*>& anno
 		}
 	}
 
-	if (!allActive)
+	if (tokenIds.size() > 1 || localSymbolIds.size() > 1 || (tokenIds.size() && localSymbolIds.size()))
 	{
-		if (tokenIds.size() > 1 || localSymbolIds.size() > 1 || (tokenIds.size() && localSymbolIds.size()))
-		{
-			MessageTooltipShow(locationIds, utility::toVector(localSymbolIds), TOOLTIP_ORIGIN_CODE).dispatch();
-		}
-		else if (locationIds.size())
-		{
-			MessageActivateSourceLocations(locationIds).dispatch();
-		}
-		else if (tokenIds.size()) // fallback for links in project description
-		{
-			MessageActivateTokenIds(utility::toVector(tokenIds)).dispatch();
-		}
-		else if (localSymbolIds.size())
-		{
-			MessageActivateLocalSymbols(utility::toVector(localSymbolIds)).dispatch();
-		}
+		MessageTooltipShow(locationIds, utility::toVector(localSymbolIds), TOOLTIP_ORIGIN_CODE).dispatch();
+	}
+	else if (locationIds.size())
+	{
+		MessageActivateSourceLocations(locationIds).dispatch();
+	}
+	else if (tokenIds.size()) // fallback for links in project description
+	{
+		MessageActivateTokenIds(utility::toVector(tokenIds)).dispatch();
+	}
+	else if (localSymbolIds.size())
+	{
+		MessageActivateLocalSymbols(utility::toVector(localSymbolIds)).dispatch();
 	}
 }
 
