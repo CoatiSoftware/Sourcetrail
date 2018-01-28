@@ -95,8 +95,6 @@ void QtDialogView::showProgressDialog(const std::string& title, const std::strin
 
 void QtDialogView::hideProgressDialog()
 {
-	MessageStatus("", false, false).dispatch();
-
 	m_onQtThread(
 		[=]()
 		{
@@ -105,6 +103,8 @@ void QtDialogView::hideProgressDialog()
 			{
 				m_windowStack.popWindow();
 			}
+
+			MessageStatus("", false, false).dispatch();
 
 			setUIBlocked(false);
 		}

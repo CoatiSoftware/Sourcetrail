@@ -510,7 +510,7 @@ void QtProjectWizzardContentPathsHeaderSearch::detectIncludesButtonClicked()
 	);
 
 	m_pathsDialog->setup();
-	m_pathsDialog->updateNextButton("Next");
+	m_pathsDialog->updateNextButton("Start");
 	m_pathsDialog->setCloseVisible(true);
 
 	m_pathsDialog->setRelativeRootDirectory(m_settings->getProjectDirectoryPath());
@@ -715,15 +715,15 @@ void QtProjectWizzardContentPathsHeaderSearch::showDetectedIncludesResult(const 
 			"Detected Include Paths",
 			(
 				"<p>The following <b>" + std::to_string(additionalHeaderSearchPaths.size()) + "</b> include paths have been "
-				"detected and will be added to the include paths that are already defined by this Source Group.<b>"
+				"detected and will be added to the include paths of this Source Group.<b>"
 			).c_str()
 		);
 
 		m_filesDialog->setup();
-		m_filesDialog->setCloseVisible(true);
-		m_filesDialog->updateNextButton("Finish");
-
 		m_filesDialog->setReadOnly(true);
+		m_filesDialog->setCloseVisible(true);
+		m_filesDialog->updateNextButton("Add");
+
 		m_filesDialog->setText(detailedText);
 		m_filesDialog->showWindow();
 
