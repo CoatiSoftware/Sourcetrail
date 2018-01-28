@@ -32,7 +32,6 @@ void CodeController::handleMessage(MessageActivateAll* message)
 	TRACE("code all");
 
 	saveOrRestoreViewMode(message);
-	clear();
 
 	Project* currentProject = Application::getInstance()->getCurrentProject().get();
 	if (!currentProject || message->acceptedNodeTypes != NodeTypeSet::all())

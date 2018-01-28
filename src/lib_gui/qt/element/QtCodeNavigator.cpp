@@ -459,6 +459,10 @@ void QtCodeNavigator::showActiveSnippet(
 			m_list->requestFileContent(filePath);
 		}
 	}
+	else if (firstReference.tokenId)
+	{
+		m_single->requestFileContent(firstReference.filePath);
+	}
 
 	if (firstReference.tokenId)
 	{

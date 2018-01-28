@@ -46,11 +46,13 @@ public:
 
 	virtual void print(std::ostream& os) const
 	{
+		os << filePath.str();
+
 		switch (state)
 		{
-		case FILE_MINIMIZED: os << "minimize"; break;
-		case FILE_SNIPPETS: os << "snippets"; break;
-		case FILE_MAXIMIZED: os << "maximize"; break;
+		case FILE_MINIMIZED: os << ", minimize"; break;
+		case FILE_SNIPPETS: os << ", snippets"; break;
+		case FILE_MAXIMIZED: os << ", maximize"; break;
 		}
 
 		switch (viewMode)
