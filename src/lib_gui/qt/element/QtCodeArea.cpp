@@ -19,6 +19,7 @@
 #include "utility/messaging/type/MessageMoveIDECursor.h"
 #include "utility/messaging/type/MessageShowErrors.h"
 #include "utility/utility.h"
+#include "utility/utilityApp.h"
 #include "utility/utilityString.h"
 
 #include "qt/element/QtCodeNavigator.h"
@@ -228,7 +229,12 @@ void QtCodeArea::lineNumberAreaPaintEvent(QPaintEvent *event)
 
 	QPen p = painter.pen();
 
-	const int scrollBarHeight = (horizontalScrollBar()->minimum() != horizontalScrollBar()->maximum() ? horizontalScrollBar()->height() : 0);
+	int scrollBarHeight = 0;
+	if (horizontalScrollBar()->minimum() != horizontalScrollBar()->maximum() && utility::getOsType() != OS_MAC)
+	{
+		scrollBarHeight = horizontalScrollBar()->height();
+	}
+
 	const int drawAreaTop = event->rect().top();
 	const int drawAreaBottom = event->rect().bottom() - scrollBarHeight;
 
