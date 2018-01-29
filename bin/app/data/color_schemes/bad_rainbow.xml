@@ -93,7 +93,7 @@
 		<navigation>
 			<background>#494949</background>
 			<text>#CCCCCC</text>
-			<line>#999</line>
+			<line>#CCCCCC</line>
 		</navigation>
 
 		<file>

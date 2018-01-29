@@ -430,6 +430,9 @@ void QtCodeFileList::updateFirstSnippetTitleBar(const QtCodeFile* file, int file
 		}
 		else
 		{
+			// Forces the title button icon to get reloaded next time, which fixes a color change issue when changing
+			// color scheme
+			m_firstSnippetTitleBar->getTitleButton()->setFilePath(FilePath());
 			m_firstSnippetTitleBar->hide();
 		}
 	}
