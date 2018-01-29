@@ -331,7 +331,7 @@ int main(int argc, char *argv[])
 			MessageLoadProject(
 				commandLineParser.getProjectFilePath(),
 				false,
-				commandLineParser.getRefreshMode()
+				REFRESH_NONE
 			).dispatch();
 		}
 
