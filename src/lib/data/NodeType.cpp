@@ -228,19 +228,19 @@ FilePath NodeType::getIconPath() const
 	if (isPackage())
 	{
 		// this icon cannot be changed
-		return ResourcePaths::getGuiPath().concatenate(FilePath("graph_view/images/namespace.png"));
+		return ResourcePaths::getGuiPath().concatenate(L"graph_view/images/namespace.png");
 	}
 
 	switch (m_type)
 	{
 	case NodeType::NODE_ENUM:
-		return ResourcePaths::getGuiPath().concatenate(FilePath("graph_view/images/enum.png"));
+		return ResourcePaths::getGuiPath().concatenate(L"graph_view/images/enum.png");
 	case NodeType::NODE_TYPEDEF:
-		return ResourcePaths::getGuiPath().concatenate(FilePath("graph_view/images/typedef.png"));
+		return ResourcePaths::getGuiPath().concatenate(L"graph_view/images/typedef.png");
 	case NodeType::NODE_MACRO:
-		return ResourcePaths::getGuiPath().concatenate(FilePath("graph_view/images/macro.png"));
+		return ResourcePaths::getGuiPath().concatenate(L"graph_view/images/macro.png");
 	case NodeType::NODE_FILE:
-		return ResourcePaths::getGuiPath().concatenate(FilePath("graph_view/images/file.png"));
+		return ResourcePaths::getGuiPath().concatenate(L"graph_view/images/file.png");
 	default:
 		return FilePath();
 	}

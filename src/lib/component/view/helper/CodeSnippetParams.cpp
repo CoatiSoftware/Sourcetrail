@@ -62,7 +62,7 @@ bool CodeSnippetParams::sort(const CodeSnippetParams& a, const CodeSnippetParams
 		// alphabetical filepath without extension
 		else
 		{
-			return aFilePath.withoutExtension().fileName() < bFilePath.withoutExtension().fileName();
+			return aFilePath.withoutExtension().wFileName() < bFilePath.withoutExtension().wFileName();
 		}
 	}
 

@@ -4,6 +4,7 @@
 	<Int>42</Int>
 	<Float>3.1416</Float>
 	<String>Hello World!</String>
+	<WString>Hello World!</WString>
 
 	<source_groups>
         <source_group_77438437-02db-4207-8bbf-75c627d53b89>

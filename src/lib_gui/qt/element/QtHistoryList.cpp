@@ -131,7 +131,7 @@ QtHistoryList::QtHistoryList(const std::vector<SearchMatch>& history, size_t cur
 	}
 
 	setStyleSheet(utility::getStyleSheet(
-		ResourcePaths::getGuiPath().concatenate(FilePath("history_list/history_list.css"))).c_str());
+		ResourcePaths::getGuiPath().concatenate(L"history_list/history_list.css")).c_str());
 
 	connect(m_list, &QListWidget::itemClicked, this, &QtHistoryList::onItemClicked);
 }

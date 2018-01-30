@@ -6,6 +6,7 @@
 #include "utility/messaging/type/MessageStatus.h"
 #include "utility/utility.h"
 #include "utility/Version.h"
+#include "utility/utilityQString.h"
 
 std::shared_ptr<LogManager> LogManager::getInstance()
 {
@@ -38,12 +39,12 @@ void LogManager::setLoggingEnabled(bool enabled)
 				(utility::getApplicationArchitectureType() == APPLICATION_ARCHITECTURE_X86_32 ? "32" : "64") + " bit, " +
 				"version " + Version::getApplicationVersion().toDisplayString()
 			);
-			MessageStatus("Enabled console and file logging.").dispatch();
+			MessageStatus(L"Enabled console and file logging.").dispatch();
 		}
 		else
 		{
 			LOG_INFO("Disabled logging");
-			MessageStatus("Disabled console and file logging.").dispatch();
+			MessageStatus(L"Disabled console and file logging.").dispatch();
 		}
 	}
 }
@@ -96,6 +97,19 @@ void LogManager::logInfo(
 	}
 }
 
+void LogManager::logInfo(
+	const std::wstring& message,
+	const std::string& file,
+	const std::string& function,
+	const unsigned int line
+)
+{
+	if (m_loggingEnabled)
+	{
+		m_logManagerImplementation.logInfo(utility::encodeToUtf8(message), file, function, line);
+	}
+}
+
 void LogManager::logWarning(
 	const std::string& message,
 	const std::string& file,
@@ -109,6 +123,19 @@ void LogManager::logWarning(
 	}
 }
 
+void LogManager::logWarning(
+	const std::wstring& message,
+	const std::string& file,
+	const std::string& function,
+	const unsigned int line
+)
+{
+	if (m_loggingEnabled)
+	{
+		m_logManagerImplementation.logWarning(utility::encodeToUtf8(message), file, function, line);
+	}
+}
+
 void LogManager::logError(
 	const std::string& message,
 	const std::string& file,
@@ -119,6 +146,19 @@ void LogManager::logError(
 	if (m_loggingEnabled)
 	{
 		m_logManagerImplementation.logError(message, file, function, line);
+	}
+}
+
+void LogManager::logError(
+	const std::wstring& message,
+	const std::string& file,
+	const std::string& function,
+	const unsigned int line
+)
+{
+	if (m_loggingEnabled)
+	{
+		m_logManagerImplementation.logError(utility::encodeToUtf8(message), file, function, line);
 	}
 }
 

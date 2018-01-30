@@ -18,7 +18,7 @@ class QtStatusBar
 public:
 	QtStatusBar();
 
-	void setText(const std::string& text, bool isError, bool showLoader);
+	void setText(const std::wstring& text, bool isError, bool showLoader);
 	void setErrorCount(ErrorCountInfo errorCount);
 
 	void setIdeStatus(const std::string& text);
@@ -33,7 +33,7 @@ private slots:
 private:
 	std::shared_ptr<QMovie> m_movie;
 
-	std::string m_textString;
+	std::wstring m_textString;
 
 	QPushButton m_text;
 	QLabel m_loader;

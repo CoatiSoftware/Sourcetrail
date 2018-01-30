@@ -22,7 +22,7 @@ public:
 	virtual void refreshView();
 
 	// StatusBar view implementation
-	virtual void showMessage(const std::string& message, bool isError, bool showLoader);
+	virtual void showMessage(const std::wstring& message, bool isError, bool showLoader);
 	virtual void setErrorCount(ErrorCountInfo errorCount);
 
 	virtual void showIdeStatus(const std::string& message);

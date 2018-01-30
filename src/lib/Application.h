@@ -53,6 +53,8 @@ public:
 
 	int handleDialog(const std::string& message);
 	int handleDialog(const std::string& message, const std::vector<std::string>& options);
+	int handleDialog(const std::wstring& message);
+	int handleDialog(const std::wstring& message, const std::vector<std::wstring>& options);
 	std::shared_ptr<DialogView> getDialogView();
 
 	void updateHistory(const std::vector<SearchMatch>& history);

@@ -21,7 +21,7 @@ std::vector<FilePath> QtSelectPathsDialog::getPathsList() const
 	{
 		if (m_list->item(i)->checkState() ==  Qt::Checked)
 		{
-			checkedPaths.push_back(FilePath(m_list->item(i)->text().toStdString()));
+			checkedPaths.push_back(FilePath(m_list->item(i)->text().toStdWString()));
 		}
 	}
 

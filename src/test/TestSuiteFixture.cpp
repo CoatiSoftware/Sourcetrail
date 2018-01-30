@@ -34,7 +34,7 @@ bool TestSuiteFixture::setUpWorld()
 	}
 
 #else
-	ApplicationSettings::getInstance()->load(FilePath("data/TestSettings.xml"));
+	ApplicationSettings::getInstance()->load(FilePath(L"data/TestSettings.xml"));
 #endif
 
 	return true;

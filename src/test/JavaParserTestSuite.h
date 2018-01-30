@@ -19,11 +19,10 @@ public:
 
 	void test_java_parser_finds_all_jar_dependencies()
 	{
-		const std::vector<std::string> jarNames = utility::getRequiredJarNames();
-		for (const std::string& jarName : utility::getRequiredJarNames())
+		for (const std::wstring& jarName : utility::getRequiredJarNames())
 		{
-			FilePath jarPath("../app/data/java/lib/" + jarName);
-			TSM_ASSERT("Jar dependency path does not exist: " + jarPath.str(), jarPath.exists());
+			FilePath jarPath = FilePath(L"../app/data/java/lib/").concatenate(jarName);
+			TSM_ASSERT(L"Jar dependency path does not exist: " + jarPath.wstr(), jarPath.exists());
 		}
 	}
 
@@ -1491,14 +1490,14 @@ private:
 #endif
 			std::string classPath = "";
 			{
-				const std::vector<std::string> jarNames =  utility::getRequiredJarNames();
+				const std::vector<std::wstring> jarNames =  utility::getRequiredJarNames();
 				for (size_t i = 0; i < jarNames.size(); i++)
 				{
 					if (i != 0)
 					{
 						classPath += separator;
 					}
-					classPath += "../app/data/java/lib/" + jarNames[i];
+					classPath += FilePath(L"../app/data/java/lib/").concatenate(jarNames[i]).str();
 				}
 			}
 
@@ -1518,7 +1517,7 @@ private:
 		setupJavaEnvironmentFactory();
 
 		JavaParser parser(parserClient, nullptr);
-		parser.buildIndex(FilePath("input.cc"), textAccess);
+		parser.buildIndex(FilePath(L"input.cc"), textAccess);
 
 		return parserClient;
 	}

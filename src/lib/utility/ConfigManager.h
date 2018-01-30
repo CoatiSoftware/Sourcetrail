@@ -19,21 +19,25 @@ public:
 	void clear();
 
 	bool getValue(const std::string& key, std::string& value) const;
+	bool getValue(const std::string& key, std::wstring& value) const;
 	bool getValue(const std::string& key, int& value) const;
 	bool getValue(const std::string& key, float& value) const;
 	bool getValue(const std::string& key, bool& value) const;
 
 	bool getValues(const std::string& key, std::vector<std::string>& values) const;
+	bool getValues(const std::string& key, std::vector<std::wstring>& values) const;
 	bool getValues(const std::string& key, std::vector<int>& values) const;
 	bool getValues(const std::string& key, std::vector<float>& values) const;
 	bool getValues(const std::string& key, std::vector<bool>& values) const;
 
 	void setValue(const std::string& key, const std::string& value);
+	void setValue(const std::string& key, const std::wstring& value);
 	void setValue(const std::string& key, const int value);
 	void setValue(const std::string& key, const float value);
 	void setValue(const std::string& key, const bool value);
 
 	void setValues(const std::string& key, const std::vector<std::string>& values);
+	void setValues(const std::string& key, const std::vector<std::wstring>& values);
 	void setValues(const std::string& key, const std::vector<int>& values);
 	void setValues(const std::string& key, const std::vector<float>& values);
 	void setValues(const std::string& key, const std::vector<bool>& values);
@@ -52,7 +56,7 @@ public:
 private:
 	ConfigManager();
 	ConfigManager(const ConfigManager&);
-	void operator=(const ConfigManager&);
+	void operator=(const ConfigManager&) = delete;
 
 	void parseSubtree(TiXmlNode* parentElement, const std::string& currentPath);
 	bool createXmlDocument(bool saveAsFile, std::string filepath, std::string& output);

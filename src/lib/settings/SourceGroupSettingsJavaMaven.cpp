@@ -18,8 +18,8 @@ void SourceGroupSettingsJavaMaven::load(std::shared_ptr<const ConfigManager> con
 
 	const std::string key = s_keyPrefix + getId();
 
-	setMavenProjectFilePath(FilePath(getValue<std::string>(key + "/maven/project_file_path", "", config)));
-	setMavenDependenciesDirectory(FilePath(getValue<std::string>(key + "/maven/dependencies_directory", "", config)));
+	setMavenProjectFilePath(FilePath(getValue<std::wstring>(key + "/maven/project_file_path", L"", config)));
+	setMavenDependenciesDirectory(FilePath(getValue<std::wstring>(key + "/maven/dependencies_directory", L"", config)));
 	setShouldIndexMavenTests(getValue<bool>(key + "/maven/should_index_tests", false, config));
 }
 
@@ -29,8 +29,8 @@ void SourceGroupSettingsJavaMaven::save(std::shared_ptr<ConfigManager> config)
 
 	const std::string key = s_keyPrefix + getId();
 
-	setValue(key + "/maven/project_file_path", getMavenProjectFilePath().str(), config);
-	setValue(key + "/maven/dependencies_directory", getMavenDependenciesDirectory().str(), config);
+	setValue(key + "/maven/project_file_path", getMavenProjectFilePath().wstr(), config);
+	setValue(key + "/maven/dependencies_directory", getMavenDependenciesDirectory().wstr(), config);
 	setValue(key + "/maven/should_index_tests", getShouldIndexMavenTests(), config);
 }
 

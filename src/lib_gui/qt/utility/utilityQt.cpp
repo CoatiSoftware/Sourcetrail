@@ -212,9 +212,9 @@ namespace utility
 		return QPixmap::fromImage(image);
 	}
 
-	QIcon createButtonIcon(const std::string& iconPath, const std::string& colorId)
+	QIcon createButtonIcon(const FilePath& iconPath, const std::string& colorId)
 	{
-		QPixmap pixmap(iconPath.c_str());
+		QPixmap pixmap(QString::fromStdWString(iconPath.wstr()));
 
 		QIcon icon(utility::colorizePixmap(pixmap, ColorScheme::getInstance()->getColor(colorId + "/icon").c_str()));
 		icon.addPixmap(

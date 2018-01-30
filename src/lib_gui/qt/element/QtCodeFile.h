@@ -30,7 +30,6 @@ public:
 	void setModificationTime(const TimeStamp modificationTime);
 
 	const FilePath& getFilePath() const;
-	std::string getFileName() const;
 
 	const QtCodeFileTitleBar* getTitleBar() const;
 

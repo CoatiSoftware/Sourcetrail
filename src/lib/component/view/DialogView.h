@@ -34,6 +34,8 @@ public:
 
 	int confirm(const std::string& message);
 	virtual int confirm(const std::string& message, const std::vector<std::string>& options);
+	int confirm(const std::wstring& message);
+	virtual int confirm(const std::wstring& message, const std::vector<std::wstring>& options);
 
 protected:
 	StorageAccess* m_storageAccess;

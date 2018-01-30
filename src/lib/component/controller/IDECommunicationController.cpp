@@ -115,8 +115,10 @@ void IDECommunicationController::handleSetActiveTokenMessage(
 
 			if (selectedLocationIds.size() > 0)
 			{
-				MessageStatus("Activating source location from plug-in succeeded: " + filePath.str() + ", row: " +
-					std::to_string(message.row) + ", col: " + std::to_string(message.column)).dispatch();
+				MessageStatus(
+					L"Activating source location from plug-in succeeded: " + filePath.wstr() + L", row: " +
+					std::to_wstring(message.row) + L", col: " + std::to_wstring(message.column)
+				).dispatch();
 
 				MessageActivateSourceLocations(selectedLocationIds).dispatch();
 				MessageActivateWindow().dispatch();
@@ -133,8 +135,8 @@ void IDECommunicationController::handleSetActiveTokenMessage(
 		else
 		{
 			MessageStatus(
-				"Activating source location from plug-in failed. File " + filePath.str()
-				+ " was not found in the project.",
+				L"Activating source location from plug-in failed. File " + filePath.wstr()
+				+ L" was not found in the project.",
 				true
 			).dispatch();
 		}
@@ -191,7 +193,7 @@ void IDECommunicationController::handleMessage(MessageIDECreateCDB* message)
 {
 	std::string networkMessage = NetworkProtocolHelper::buildCreateCDBMessage();
 
-	MessageStatus("Requesting IDE to create Compilation Database via plug-in.").dispatch();
+	MessageStatus(L"Requesting IDE to create Compilation Database via plug-in.").dispatch();
 
 	sendMessage(networkMessage);
 }
@@ -199,12 +201,12 @@ void IDECommunicationController::handleMessage(MessageIDECreateCDB* message)
 void IDECommunicationController::handleMessage(MessageMoveIDECursor* message)
 {
 	std::string networkMessage = NetworkProtocolHelper::buildSetIDECursorMessage(
-		message->FilePosition, message->Row, message->Column
+		message->FilePosition.str(), message->Row, message->Column
 	);
 
 	MessageStatus(
-		"Jump to source location via plug-in: " + message->FilePosition + ", row: " +
-		std::to_string(message->Row) + ", col: " + std::to_string(message->Column)
+		L"Jump to source location via plug-in: " + message->FilePosition.wstr() + L", row: " +
+		std::to_wstring(message->Row) + L", col: " + std::to_wstring(message->Column)
 	).dispatch();
 
 	sendMessage(networkMessage);

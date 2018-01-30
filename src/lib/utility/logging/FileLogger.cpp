@@ -9,7 +9,7 @@
 FileLogger::FileLogger()
 	: Logger("FileLogger")
 	, m_logFileName("log")
-	, m_logDirectory("user/log/")
+	, m_logDirectory(L"user/log/")
 	, m_maxLogLineCount(0)
 	, m_maxLogFileCount(0)
 	, m_currentLogLineCount(0)

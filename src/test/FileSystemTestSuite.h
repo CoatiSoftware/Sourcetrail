@@ -15,16 +15,16 @@ public:
 		std::vector<std::string> extensions;
 		extensions.push_back(".cpp");
 
-		std::vector<std::string> cppFiles = utility::convert<FilePath, std::string>(
-			FileSystem::getFilePathsFromDirectory(FilePath("data/FileSystemTestSuite"), extensions),
-			[](const FilePath& filePath){ return filePath.str(); }
+		std::vector<std::wstring> cppFiles = utility::convert<FilePath, std::wstring>(
+			FileSystem::getFilePathsFromDirectory(FilePath(L"data/FileSystemTestSuite"), extensions),
+			[](const FilePath& filePath){ return filePath.wstr(); }
 		);
 
 		TS_ASSERT_EQUALS(cppFiles.size(), 4);
-		TS_ASSERT(isInVector(cppFiles, "data/FileSystemTestSuite/main.cpp"));
-		TS_ASSERT(isInVector(cppFiles, "data/FileSystemTestSuite/Settings/sample.cpp"));
-		TS_ASSERT(isInVector(cppFiles, "data/FileSystemTestSuite/src/main.cpp"));
-		TS_ASSERT(isInVector(cppFiles, "data/FileSystemTestSuite/src/test.cpp"));
+		TS_ASSERT(utility::containsElement<std::wstring>(cppFiles, L"data/FileSystemTestSuite/main.cpp"));
+		TS_ASSERT(utility::containsElement<std::wstring>(cppFiles, L"data/FileSystemTestSuite/Settings/sample.cpp"));
+		TS_ASSERT(utility::containsElement<std::wstring>(cppFiles, L"data/FileSystemTestSuite/src/main.cpp"));
+		TS_ASSERT(utility::containsElement<std::wstring>(cppFiles, L"data/FileSystemTestSuite/src/test.cpp"));
 	}
 
 	void test_find_h_files()
@@ -32,15 +32,15 @@ public:
 		std::vector<std::string> extensions;
 		extensions.push_back(".h");
 
-		std::vector<std::string> headerFiles = utility::convert<FilePath, std::string>(
+		std::vector<std::wstring> headerFiles = utility::convert<FilePath, std::wstring>(
 			FileSystem::getFilePathsFromDirectory(FilePath("data/FileSystemTestSuite"), extensions),
-			[](const FilePath& filePath){ return filePath.str(); }
+			[](const FilePath& filePath){ return filePath.wstr(); }
 		);
 
 		TS_ASSERT_EQUALS(headerFiles.size(), 3);
-		TS_ASSERT(isInVector(headerFiles, "data/FileSystemTestSuite/tictactoe.h"));
-		TS_ASSERT(isInVector(headerFiles, "data/FileSystemTestSuite/Settings/player.h"));
-		TS_ASSERT(isInVector(headerFiles, "data/FileSystemTestSuite/src/test.h"));
+		TS_ASSERT(utility::containsElement<std::wstring>(headerFiles, L"data/FileSystemTestSuite/tictactoe.h"));
+		TS_ASSERT(utility::containsElement<std::wstring>(headerFiles, L"data/FileSystemTestSuite/Settings/player.h"));
+		TS_ASSERT(utility::containsElement<std::wstring>(headerFiles, L"data/FileSystemTestSuite/src/test.h"));
 	}
 
 	void test_find_all_source_files()
@@ -51,7 +51,7 @@ public:
 		extensions.push_back(".cpp");
 
 		std::vector<std::string> sourceFiles = utility::convert<FilePath, std::string>(
-			FileSystem::getFilePathsFromDirectory(FilePath("data/FileSystemTestSuite"), extensions),
+			FileSystem::getFilePathsFromDirectory(FilePath(L"data/FileSystemTestSuite"), extensions),
 			[](const FilePath& filePath){ return filePath.str(); }
 		);
 
@@ -67,13 +67,13 @@ public:
 		extensions.push_back(".cpp");
 
 		std::vector<FilePath> directoryPaths;
-		directoryPaths.push_back(FilePath("./data/FileSystemTestSuite/src"));
+		directoryPaths.push_back(FilePath(L"./data/FileSystemTestSuite/src"));
 
 		std::vector<FileInfo> files = FileSystem::getFileInfosFromPaths(directoryPaths, extensions, false);
 
 		TS_ASSERT_EQUALS(files.size(), 2);
-		TS_ASSERT(isInFileInfos(files, "./data/FileSystemTestSuite/src/test.cpp"));
-		TS_ASSERT(isInFileInfos(files, "./data/FileSystemTestSuite/src/test.h"));
+		TS_ASSERT(isInFileInfos(files, L"./data/FileSystemTestSuite/src/test.cpp"));
+		TS_ASSERT(isInFileInfos(files, L"./data/FileSystemTestSuite/src/test.h"));
 #endif
 	}
 
@@ -86,25 +86,25 @@ public:
 		extensions.push_back(".cpp");
 
 		std::vector<FilePath> directoryPaths;
-		directoryPaths.push_back(FilePath("./data/FileSystemTestSuite/src"));
+		directoryPaths.push_back(FilePath(L"./data/FileSystemTestSuite/src"));
 
 		std::vector<FileInfo> files = FileSystem::getFileInfosFromPaths(directoryPaths, extensions, true);
 
 		TS_ASSERT_EQUALS(files.size(), 5);
-		TS_ASSERT(isInFileInfos(files, "./data/FileSystemTestSuite/src/Settings/player.h",
-			"./data/FileSystemTestSuite/player.h"
+		TS_ASSERT(isInFileInfos(files, L"./data/FileSystemTestSuite/src/Settings/player.h",
+			L"./data/FileSystemTestSuite/player.h"
 		));
-		TS_ASSERT(isInFileInfos(files, "./data/FileSystemTestSuite/src/Settings/sample.cpp",
-			"./data/FileSystemTestSuite/sample.cpp"
+		TS_ASSERT(isInFileInfos(files, L"./data/FileSystemTestSuite/src/Settings/sample.cpp",
+			L"./data/FileSystemTestSuite/sample.cpp"
 		));
-		TS_ASSERT(isInFileInfos(files, "./data/FileSystemTestSuite/src/main.cpp",
-			"./data/FileSystemTestSuite/src/Settings/src/main.cpp"
+		TS_ASSERT(isInFileInfos(files, L"./data/FileSystemTestSuite/src/main.cpp",
+			L"./data/FileSystemTestSuite/src/Settings/src/main.cpp"
 		));
-		TS_ASSERT(isInFileInfos(files, "./data/FileSystemTestSuite/src/test.cpp",
-			"./data/FileSystemTestSuite/src/Settings/src/test.cpp"
+		TS_ASSERT(isInFileInfos(files, L"./data/FileSystemTestSuite/src/test.cpp",
+			L"./data/FileSystemTestSuite/src/Settings/src/test.cpp"
 		));
-		TS_ASSERT(isInFileInfos(files, "./data/FileSystemTestSuite/src/test.h",
-			"./data/FileSystemTestSuite/src/Settings/src/test.h"
+		TS_ASSERT(isInFileInfos(files, L"./data/FileSystemTestSuite/src/test.h",
+			L"./data/FileSystemTestSuite/src/Settings/src/test.h"
 		));
 #endif
 	}
@@ -140,21 +140,16 @@ public:
 	}
 
 private:
-	bool isInVector(const std::vector<std::string>& files, const std::string filename)
-	{
-		return std::end(files) != std::find(std::begin(files), std::end(files), filename);
-	}
-
 	bool isInFiles(const std::set<FilePath>& files, const FilePath& filename)
 	{
 		return std::end(files) != files.find(filename);
 	}
 
-	bool isInFileInfos(const std::vector<FileInfo>& infos, const std::string filename)
+	bool isInFileInfos(const std::vector<FileInfo>& infos, const std::wstring& filename)
 	{
 		for (const FileInfo& info : infos)
 		{
-			if (info.path.str() == filename)
+			if (info.path.wstr() == filename)
 			{
 				return true;
 			}
@@ -163,11 +158,11 @@ private:
 		return false;
 	}
 
-	bool isInFileInfos(const std::vector<FileInfo>& infos, const std::string filename, const std::string filename2)
+	bool isInFileInfos(const std::vector<FileInfo>& infos, const std::wstring& filename, const std::wstring& filename2)
 	{
 		for (const FileInfo& info : infos)
 		{
-			if (info.path.str() == filename || info.path.str() == filename2)
+			if (info.path.wstr() == filename || info.path.wstr() == filename2)
 			{
 				return true;
 			}

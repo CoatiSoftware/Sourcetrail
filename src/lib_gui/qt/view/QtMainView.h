@@ -50,7 +50,7 @@ public:
 	virtual void refreshView();
 
 	virtual void hideStartScreen();
-	virtual void setTitle(const std::string& title);
+	virtual void setTitle(const std::wstring& title);
 	virtual void activateWindow();
 
 	virtual void updateRecentProjectMenu();

@@ -46,7 +46,7 @@ void setupApp(int argc, char *argv[])
 {
 	if (AppPath::getAppPath().empty())
 	{
-		AppPath::setAppPath(QCoreApplication::applicationDirPath().toStdString() + "/");
+		AppPath::setAppPath(FilePath(QCoreApplication::applicationDirPath().toStdWString() + L"/"));
 	}
 
 	std::string userdir(std::getenv("HOME"));
@@ -67,8 +67,8 @@ void setupApp(int argc, char *argv[])
 		}
 	}
 
-	utility::copyNewFilesFromDirectory(QString::fromStdString(ResourcePaths::getFallbackPath().str()), userDataPath);
-	utility::copyNewFilesFromDirectory(QString::fromStdString(AppPath::getAppPath() + "/user/" ), userDataPath);
+	utility::copyNewFilesFromDirectory(QString::fromStdWString(ResourcePaths::getFallbackPath().wstr()), userDataPath);
+	utility::copyNewFilesFromDirectory(QString::fromStdWString(AppPath::getAppPath().concatenate(L"user/").wstr()), userDataPath);
 }
 
 #endif // INCLUDES_DEFAULT_H

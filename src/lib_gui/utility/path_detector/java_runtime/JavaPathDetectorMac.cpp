@@ -21,14 +21,14 @@ std::vector<FilePath> JavaPathDetectorMac::getPaths() const
 	std::string command = "/usr/libexec/java_home";
 	std::string output = utility::executeProcess(command.c_str());
 
-	if (output.size())
+	if (!output.empty())
 	{
 		javaPath = FilePath(utility::trim(output) + "/jre/lib/jli/libjli.dylib");
 	}
 
 	if (!javaPath.exists())
 	{
-		javaPath = FilePath("/usr/lib/libjli.dylib");
+		javaPath = FilePath(L"/usr/lib/libjli.dylib");
 	}
 
 	if (!javaPath.exists() && output.size())
@@ -38,7 +38,7 @@ std::vector<FilePath> JavaPathDetectorMac::getPaths() const
 
 	if (!javaPath.exists())
 	{
-		javaPath = FilePath("/usr/lib/libjvm.dylib");
+		javaPath = FilePath(L"/usr/lib/libjvm.dylib");
 	}
 
 	if (javaPath.exists())

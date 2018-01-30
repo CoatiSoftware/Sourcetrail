@@ -66,14 +66,14 @@ void prefillJavaRuntimePath()
 		std::vector<FilePath> paths = javaPathDetector->getPaths();
 		if (!paths.empty())
 		{
-			MessageStatus("Ran Java runtime path detection, found: " + paths.front().str()).dispatch();
+			MessageStatus(L"Ran Java runtime path detection, found: " + paths.front().wstr()).dispatch();
 
 			settings->setJavaPath(paths.front());
 			settings->save();
 		}
 		else
 		{
-			MessageStatus("Ran Java runtime path detection, no path found.").dispatch();
+			MessageStatus(L"Ran Java runtime path detection, no path found.").dispatch();
 		}
 	}
 }
@@ -87,14 +87,14 @@ void prefillJreSystemLibraryPaths()
 		std::vector<FilePath> paths = jreSystemLibraryPathsDetector->getPaths();
 		if (!paths.empty())
 		{
-			MessageStatus("Ran JRE system library path detection, found: " + paths.front().str()).dispatch();
+			MessageStatus(L"Ran JRE system library path detection, found: " + paths.front().wstr()).dispatch();
 
 			settings->setJreSystemLibraryPaths(paths);
 			settings->save();
 		}
 		else
 		{
-			MessageStatus("Ran JRE system library path detection, no path found.").dispatch();
+			MessageStatus(L"Ran JRE system library path detection, no path found.").dispatch();
 		}
 	}
 }
@@ -108,14 +108,14 @@ void prefillMavenExecutablePath()
 		std::vector<FilePath> paths = mavenPathDetector->getPaths();
 		if (!paths.empty())
 		{
-			MessageStatus("Ran Maven executable path detection, found: " + paths.front().str()).dispatch();
+			MessageStatus(L"Ran Maven executable path detection, found: " + paths.front().wstr()).dispatch();
 
 			settings->setMavenPath(paths.front());
 			settings->save();
 		}
 		else
 		{
-			MessageStatus("Ran Maven executable path detection, no path found.").dispatch();
+			MessageStatus(L"Ran Maven executable path detection, no path found.").dispatch();
 		}
 	}
 }
@@ -129,7 +129,7 @@ void prefillCxxHeaderPaths()
 		std::vector<FilePath> paths = cxxHeaderDetector->getPaths();
 		if (!paths.empty())
 		{
-			MessageStatus("Ran C/C++ header path detection, found " + std::to_string(paths.size()) + " paths").dispatch();
+			MessageStatus(L"Ran C/C++ header path detection, found " + std::to_wstring(paths.size()) + L" path" + (paths.size() == 1 ? L"" : L"s")).dispatch();
 
 			settings->setHeaderSearchPaths(paths);
 			settings->save();
@@ -146,7 +146,7 @@ void prefillCxxFrameworkPaths()
 		std::vector<FilePath> paths = cxxFrameworkDetector->getPaths();
 		if (!paths.empty())
 		{
-			MessageStatus("Ran C/C++ framework path detection, found " + std::to_string(paths.size()) + " paths").dispatch();
+			MessageStatus(L"Ran C/C++ framework path detection, found " + std::to_wstring(paths.size()) + L" path" + (paths.size() == 1 ? L"" : L"s")).dispatch();
 
 			settings->setFrameworkSearchPaths(paths);
 			settings->save();
@@ -208,9 +208,10 @@ int main(int argc, char *argv[])
 	QApplication::setApplicationVersion(version.toDisplayString().c_str());
 
 	MessageStatus(
-		std::string("Starting Sourcetrail ") +
-		(utility::getApplicationArchitectureType() == APPLICATION_ARCHITECTURE_X86_32 ? "32" : "64") + " bit, " +
-		"version " + version.toDisplayString()).dispatch();
+		std::wstring(L"Starting Sourcetrail ") +
+		(utility::getApplicationArchitectureType() == APPLICATION_ARCHITECTURE_X86_32 ? L"32" : L"64") + L" bit, " +
+		L"version " + version.toDisplayWString()
+	).dispatch();
 
 	commandline::CommandLineParser commandLineParser(version.toString());
 	commandLineParser.preparse(argc, argv);
@@ -273,7 +274,7 @@ int main(int argc, char *argv[])
 
 		if (commandLineParser.hasError() )
 		{
-			std::cout << commandLineParser.getError() << std::endl;
+			std::wcout << commandLineParser.getError() << std::endl;
 		}
 		else
 		{

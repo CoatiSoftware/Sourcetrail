@@ -28,17 +28,15 @@ bool SourceGroupCxxCdb::prepareIndexing()
 	FilePath cdbPath = m_settings->getCompilationDatabasePathExpandedAndAbsolute();
 	if (!cdbPath.empty() && !cdbPath.exists())
 	{
-		MessageStatus("Can't refresh project").dispatch();
+		MessageStatus(L"Can't refresh project").dispatch();
 
 		if (std::shared_ptr<Application> application = Application::getInstance())
 		{
 			if (application->hasGUI())
 			{
-				std::vector<std::string> options;
-				options.push_back("Ok");
 				application->handleDialog(
-					"Can't refresh. The compilation database of the project does not exist anymore: " + cdbPath.str(),
-					options
+					L"Can't refresh. The compilation database of the project does not exist anymore: " + cdbPath.wstr(),
+					{ L"Ok" }
 				);
 			}
 		}

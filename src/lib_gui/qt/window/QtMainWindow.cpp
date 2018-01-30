@@ -120,7 +120,7 @@ QtMainWindow::QtMainWindow()
 	{
 		// can only be done once, because resetting the style on the QCoreApplication causes crash
 		app->setStyleSheet(
-			utility::getStyleSheet(ResourcePaths::getGuiPath().concatenate(FilePath("main/scrollbar.css"))).c_str());
+			utility::getStyleSheet(ResourcePaths::getGuiPath().concatenate(L"main/scrollbar.css")).c_str());
 	}
 
 	m_recentProjectAction = new QAction*[ApplicationSettings::getInstance()->getMaxRecentProjectsCount()];
@@ -371,7 +371,7 @@ void QtMainWindow::setContentEnabled(bool enabled)
 
 void QtMainWindow::refreshStyle()
 {
-	setStyleSheet(utility::getStyleSheet(ResourcePaths::getGuiPath().concatenate(FilePath("main/main.css"))).c_str());
+	setStyleSheet(utility::getStyleSheet(ResourcePaths::getGuiPath().concatenate(L"main/main.css")).c_str());
 }
 
 void QtMainWindow::setWindowsTaskbarProgress(float progress)
@@ -589,7 +589,7 @@ void QtMainWindow::openProject()
 
 	if (!fileName.isEmpty())
 	{
-		MessageLoadProject(FilePath(fileName.toStdString())).dispatch();
+		MessageLoadProject(FilePath(fileName.toStdWString())).dispatch();
 		m_windowStack.clearWindows();
 	}
 }
@@ -692,7 +692,7 @@ void QtMainWindow::resetWindowLayout()
 {
 	FileSystem::remove(UserPaths::getWindowSettingsPath());
 	FileSystem::copyFile(
-		ResourcePaths::getFallbackPath().concatenate(FilePath("window_settings.ini")),
+		ResourcePaths::getFallbackPath().concatenate(L"window_settings.ini"),
 		UserPaths::getWindowSettingsPath()
 	);
 	loadDockWidgetLayout();
@@ -703,7 +703,7 @@ void QtMainWindow::openRecentProject()
 	QAction *action = qobject_cast<QAction*>(sender());
 	if (action)
 	{
-		MessageLoadProject(FilePath(action->data().toString().toStdString())).dispatch();
+		MessageLoadProject(FilePath(action->data().toString().toStdWString())).dispatch();
 		m_windowStack.clearWindows();
 	}
 }

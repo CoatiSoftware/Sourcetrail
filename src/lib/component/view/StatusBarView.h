@@ -13,7 +13,7 @@ public:
 	~StatusBarView(void);
 
 	virtual std::string getName() const;
-	virtual void showMessage(const std::string& message, bool isError, bool showLoader) = 0;
+	virtual void showMessage(const std::wstring& message, bool isError, bool showLoader) = 0;
 	virtual void setErrorCount(ErrorCountInfo errorCount) = 0;
 
 	virtual void showIdeStatus(const std::string& message) = 0;

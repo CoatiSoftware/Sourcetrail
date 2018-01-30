@@ -188,7 +188,7 @@ bool CommandLineParser::hasError()
 	return !m_errorString.empty();
 }
 
-std::string CommandLineParser::getError()
+std::wstring CommandLineParser::getError()
 {
 	return m_errorString;
 }
@@ -220,18 +220,18 @@ void CommandLineParser::processProjectfile()
 {
 	m_projectFile.makeAbsolute();
 
-	const std::string errorstring =
-		"Provided Projectfile is not valid:\n* Provided Projectfile('" + m_projectFile.fileName() + "') ";
+	const std::wstring errorstring =
+		L"Provided Projectfile is not valid:\n* Provided Projectfile('" + m_projectFile.wFileName() + L"') ";
 	if (!m_projectFile.exists())
 	{
-		m_errorString = errorstring + " does not exist";
+		m_errorString = errorstring + L" does not exist";
 		m_projectFile = FilePath();
 		return;
 	}
 
 	if (m_projectFile.extension() != ".srctrlprj" && m_projectFile.extension() != ".coatiproject")
 	{
-		m_errorString = errorstring + " has a wrong file ending";
+		m_errorString = errorstring + L" has a wrong file ending";
 		m_projectFile = FilePath();
 		return;
 	}
@@ -239,7 +239,7 @@ void CommandLineParser::processProjectfile()
 	std::shared_ptr<ConfigManager> configManager = ConfigManager::createEmpty();
 	if (!configManager->load(TextAccess::createFromFile(m_projectFile)))
 	{
-		m_errorString = errorstring + " could not be loaded (invalid)";
+		m_errorString = errorstring + L" could not be loaded (invalid)";
 		m_projectFile = FilePath();
 		return;
 	}

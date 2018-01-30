@@ -65,7 +65,7 @@ bool ApplicationSettings::load(const FilePath& filePath)
 		{
 			License license;
 			bool isLoaded = license.loadFromEncodedString(
-				migration->getValueFromSettings<std::string>(settings, "user/license/license", ""), AppPath::getAppPath());
+				migration->getValueFromSettings<std::string>(settings, "user/license/license", ""), AppPath::getAppPath().str());
 			if (isLoaded && license.isValid() && license.isNonCommercialLicenseType())
 			{
 				migration->removeValuesInSettings(settings, "user/license/license");
@@ -149,8 +149,8 @@ void ApplicationSettings::setShowBuiltinTypesInGraph(bool showBuiltinTypes)
 
 FilePath ApplicationSettings::getColorSchemePath() const
 {
-	FilePath defaultPath(ResourcePaths::getColorSchemesPath().concatenate(FilePath("bright.xml")));
-	FilePath path(getValue<std::string>("application/color_scheme", defaultPath.str()));
+	FilePath defaultPath(ResourcePaths::getColorSchemesPath().concatenate(L"bright.xml"));
+	FilePath path(getValue<std::wstring>("application/color_scheme", defaultPath.wstr()));
 
 	if (path != defaultPath && !path.exists())
 	{
@@ -305,14 +305,14 @@ void ApplicationSettings::setMultiProcessIndexingEnabled(bool enabled)
 	setValue<bool>("indexing/multi_process_indexing", enabled);
 }
 
-std::string ApplicationSettings::getJavaPath() const
+FilePath ApplicationSettings::getJavaPath() const
 {
-	return getValue<std::string>("indexing/java/java_path", "");
+	return FilePath(getValue<std::wstring>("indexing/java/java_path", L""));
 }
 
 void ApplicationSettings::setJavaPath(const FilePath& path)
 {
-	setValue<std::string>("indexing/java/java_path", path.str());
+	setValue<std::wstring>("indexing/java/java_path", path.wstr());
 }
 
 int ApplicationSettings::getJavaMaximumMemory() const
@@ -342,12 +342,12 @@ bool ApplicationSettings::setJreSystemLibraryPaths(const std::vector<FilePath>& 
 
 FilePath ApplicationSettings::getMavenPath() const
 {
-	return FilePath(getValue<std::string>("indexing/java/maven_path", ""));
+	return FilePath(getValue<std::wstring>("indexing/java/maven_path", L""));
 }
 
 void ApplicationSettings::setMavenPath(const FilePath& path)
 {
-	setValue<std::string>("indexing/java/maven_path", path.str());
+	setValue<std::wstring>("indexing/java/maven_path", path.wstr());
 }
 
 std::vector<FilePath> ApplicationSettings::getHeaderSearchPaths() const

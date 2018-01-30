@@ -33,7 +33,7 @@ void QtRecentProjectButton::setProjectPath(const FilePath& projectFilePath)
 {
 	m_projectFilePath = projectFilePath;
 	m_projectExists = projectFilePath.exists();
-	this->setText(m_projectFilePath.withoutExtension().fileName().c_str());
+	this->setText(QString::fromStdWString(m_projectFilePath.withoutExtension().wFileName()));
 	if (m_projectExists)
 	{
 		this->setToolTip(m_projectFilePath.str().c_str());
@@ -82,13 +82,12 @@ void QtRecentProjectButton::handleButtonClick()
 	}
 }
 
-
 QtStartScreen::QtStartScreen(QWidget *parent)
 	: QtWindow(true, parent)
-	, m_cppIcon((ResourcePaths::getGuiPath().str() + "icon/cpp_icon.png").c_str())
-	, m_cIcon((ResourcePaths::getGuiPath().str() + "icon/c_icon.png").c_str())
-	, m_javaIcon((ResourcePaths::getGuiPath().str() + "icon/java_icon.png").c_str())
-	, m_projectIcon((ResourcePaths::getGuiPath().str() + "icon/empty_icon.png").c_str())
+	, m_cppIcon(QString::fromStdWString(ResourcePaths::getGuiPath().concatenate(L"icon/cpp_icon.png").wstr()))
+	, m_cIcon(QString::fromStdWString(ResourcePaths::getGuiPath().concatenate(L"icon/c_icon.png").wstr()))
+	, m_javaIcon(QString::fromStdWString(ResourcePaths::getGuiPath().concatenate(L"icon/java_icon.png").wstr()))
+	, m_projectIcon(QString::fromStdWString(ResourcePaths::getGuiPath().concatenate(L"icon/empty_icon.png").wstr()))
 {
 }
 
@@ -142,15 +141,15 @@ void QtStartScreen::updateButtons()
 		}
 		i++;
 	}
-	setStyleSheet(utility::getStyleSheet(ResourcePaths::getGuiPath().concatenate(FilePath("startscreen/startscreen.css"))).c_str());
+	setStyleSheet(utility::getStyleSheet(ResourcePaths::getGuiPath().concatenate(L"startscreen/startscreen.css")).c_str());
 }
 
 void QtStartScreen::setupStartScreen()
 {
 	License license;
-	license.loadFromEncodedString(ApplicationSettings::getInstance()->getLicenseString(), AppPath::getAppPath());
+	license.loadFromEncodedString(ApplicationSettings::getInstance()->getLicenseString(), AppPath::getAppPath().str());
 
-	setStyleSheet(utility::getStyleSheet(ResourcePaths::getGuiPath().concatenate(FilePath("startscreen/startscreen.css"))).c_str());
+	setStyleSheet(utility::getStyleSheet(ResourcePaths::getGuiPath().concatenate(L"startscreen/startscreen.css")).c_str());
 	addLogo();
 
 	QHBoxLayout* layout = new QHBoxLayout();

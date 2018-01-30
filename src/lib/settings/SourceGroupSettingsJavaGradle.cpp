@@ -18,8 +18,8 @@ void SourceGroupSettingsJavaGradle::load(std::shared_ptr<const ConfigManager> co
 
 	const std::string key = s_keyPrefix + getId();
 
-	setGradleProjectFilePath(FilePath(getValue<std::string>(key + "/gradle/project_file_path", "", config)));
-	setGradleDependenciesDirectory(FilePath(getValue<std::string>(key + "/gradle/dependencies_directory", "", config)));
+	setGradleProjectFilePath(FilePath(getValue<std::wstring>(key + "/gradle/project_file_path", L"", config)));
+	setGradleDependenciesDirectory(FilePath(getValue<std::wstring>(key + "/gradle/dependencies_directory", L"", config)));
 	setShouldIndexGradleTests(getValue<bool>(key + "/gradle/should_index_tests", false, config));
 }
 
@@ -29,8 +29,8 @@ void SourceGroupSettingsJavaGradle::save(std::shared_ptr<ConfigManager> config)
 
 	const std::string key = s_keyPrefix + getId();
 
-	setValue(key + "/gradle/project_file_path", getGradleProjectFilePath().str(), config);
-	setValue(key + "/gradle/dependencies_directory", getGradleDependenciesDirectory().str(), config);
+	setValue(key + "/gradle/project_file_path", getGradleProjectFilePath().wstr(), config);
+	setValue(key + "/gradle/dependencies_directory", getGradleDependenciesDirectory().wstr(), config);
 	setValue(key + "/gradle/should_index_tests", getShouldIndexGradleTests(), config);
 }
 

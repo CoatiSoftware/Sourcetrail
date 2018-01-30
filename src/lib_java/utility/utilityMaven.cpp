@@ -50,7 +50,7 @@ namespace
 	{
 		if (getenv("JAVA_HOME") == nullptr)
 		{
-			const FilePath javaPath(ApplicationSettings::getInstance()->getJavaPath());
+			const FilePath javaPath = ApplicationSettings::getInstance()->getJavaPath();
 			const FilePath javaHomePath = javaPath.getParentDirectory().getParentDirectory().getParentDirectory();
 
 			LOG_WARNING("Environment variable \"JAVA_HOME\" not found on system. Setting value to \"" + javaHomePath.str() + "\" for this process.");
@@ -165,9 +165,9 @@ namespace utility
 		fetchDirectories(uncheckedDirectories, xmlAccess,
 			utility::createVectorFromElements<std::string>("projects", "project", "build", "sourceDirectory"));
 		fetchDirectories(uncheckedDirectories, xmlAccess,
-			utility::createVectorFromElements<std::string>("project", "build", "directory"), FilePath("generated-sources"));
+			utility::createVectorFromElements<std::string>("project", "build", "directory"), FilePath(L"generated-sources"));
 		fetchDirectories(uncheckedDirectories, xmlAccess,
-			utility::createVectorFromElements<std::string>("projects", "project", "build", "directory"), FilePath("generated-sources"));
+			utility::createVectorFromElements<std::string>("projects", "project", "build", "directory"), FilePath(L"generated-sources"));
 
 		if (addTestDirectories)
 		{
@@ -176,9 +176,9 @@ namespace utility
 			fetchDirectories(uncheckedDirectories, xmlAccess,
 				utility::createVectorFromElements<std::string>("projects", "project", "build", "testSourceDirectory"));
 			fetchDirectories(uncheckedDirectories, xmlAccess,
-				utility::createVectorFromElements<std::string>("project", "build", "directory"), FilePath("generated-test-sources"));
+				utility::createVectorFromElements<std::string>("project", "build", "directory"), FilePath(L"generated-test-sources"));
 			fetchDirectories(uncheckedDirectories, xmlAccess,
-				utility::createVectorFromElements<std::string>("projects", "project", "build", "directory"), FilePath("generated-test-sources"));
+				utility::createVectorFromElements<std::string>("projects", "project", "build", "directory"), FilePath(L"generated-test-sources"));
 		}
 
 		std::vector<FilePath> directories;

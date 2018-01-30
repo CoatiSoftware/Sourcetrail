@@ -60,11 +60,6 @@ const FilePath& QtCodeFile::getFilePath() const
 	return m_filePath;
 }
 
-std::string QtCodeFile::getFileName() const
-{
-	return m_filePath.fileName();
-}
-
 const QtCodeFileTitleBar* QtCodeFile::getTitleBar() const
 {
 	return m_titleBar;

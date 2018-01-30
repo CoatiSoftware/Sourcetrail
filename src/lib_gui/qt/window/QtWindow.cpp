@@ -88,7 +88,7 @@ QSize QtWindow::sizeHint() const
 
 void QtWindow::setup()
 {
-	setStyleSheet(utility::getStyleSheet(ResourcePaths::getGuiPath().concatenate(FilePath("window/window.css"))).c_str());
+	setStyleSheet(utility::getStyleSheet(ResourcePaths::getGuiPath().concatenate(L"window/window.css")).c_str());
 
 	QVBoxLayout* layout = new QVBoxLayout();
 	layout->setContentsMargins(10, 10, 10, 10);

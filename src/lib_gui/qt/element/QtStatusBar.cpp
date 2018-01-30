@@ -29,7 +29,7 @@ QtStatusBar::QtStatusBar()
 	m_text.setAttribute(Qt::WA_LayoutUsesWidgetRect); // fixes layouting on Mac
 	m_text.setSizePolicy(QSizePolicy::Ignored, m_text.sizePolicy().verticalPolicy());
 	addWidget(&m_text, 1);
-	setText("", false, false);
+	setText(L"", false, false);
 
 	connect(&m_text, &QPushButton::clicked, this, &QtStatusBar::showStatus);
 
@@ -49,7 +49,7 @@ QtStatusBar::QtStatusBar()
 	connect(&m_errorButton, &QPushButton::clicked, this, &QtStatusBar::showErrors);
 }
 
-void QtStatusBar::setText(const std::string& text, bool isError, bool showLoader)
+void QtStatusBar::setText(const std::wstring& text, bool isError, bool showLoader)
 {
 	if (isError)
 	{
@@ -69,10 +69,10 @@ void QtStatusBar::setText(const std::string& text, bool isError, bool showLoader
 		m_loader.hide();
 	}
 
-	if (text.size())
+	if (!text.empty())
 	{
 		m_textString = text;
-		m_text.setText(m_text.fontMetrics().elidedText(QString::fromStdString(m_textString), Qt::ElideRight, m_text.width()));
+		m_text.setText(m_text.fontMetrics().elidedText(QString::fromStdWString(m_textString), Qt::ElideRight, m_text.width()));
 	}
 }
 
@@ -108,7 +108,7 @@ void QtStatusBar::setIdeStatus(const std::string& text)
 
 void QtStatusBar::resizeEvent(QResizeEvent* event)
 {
-	m_text.setText(m_text.fontMetrics().elidedText(QString::fromStdString(m_textString), Qt::ElideRight, m_text.width()));
+	m_text.setText(m_text.fontMetrics().elidedText(QString::fromStdWString(m_textString), Qt::ElideRight, m_text.width()));
 }
 
 void QtStatusBar::showStatus()

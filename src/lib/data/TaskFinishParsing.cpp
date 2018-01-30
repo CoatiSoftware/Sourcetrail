@@ -7,6 +7,7 @@
 #include "utility/messaging/type/MessageStatus.h"
 #include "utility/scheduling/Blackboard.h"
 #include "utility/utility.h"
+#include "utility/utilityQString.h"
 #include "Application.h"
 
 TaskFinishParsing::TaskFinishParsing(
@@ -69,16 +70,16 @@ Task::TaskState TaskFinishParsing::doUpdate(std::shared_ptr<Blackboard> blackboa
 
 	ErrorCountInfo errorInfo = m_storageAccess->getErrorCount();
 
-	std::stringstream ss;
-	ss << "Finished indexing: ";
-	ss << indexedSourceFileCount << "/" << sourceFileCount << " source files indexed; ";
-	ss << utility::timeToString(time);
-	ss << "; " << errorInfo.total << " error" << (errorInfo.total != 1 ? "s" : "");
+	std::wstring status;
+	status += L"Finished indexing: ";
+	status += std::to_wstring(indexedSourceFileCount) + L"/" + std::to_wstring(sourceFileCount) + L" source files indexed; ";
+	status += utility::decodeFromUtf8(utility::timeToString(time));
+	status += L"; " + std::to_wstring(errorInfo.total) + L" error" + (errorInfo.total != 1 ? L"s" : L"");
 	if (errorInfo.fatal > 0)
 	{
-		ss << " (" << errorInfo.fatal << " fatal)";
+		status += L" (" + std::to_wstring(errorInfo.fatal) + L" fatal)";
 	}
-	MessageStatus(ss.str(), false, false).dispatch();
+	MessageStatus(status, false, false).dispatch();
 
 	StorageStats stats = m_storageAccess->getStorageStats();
 	dialogView->finishedIndexingDialog(
@@ -110,6 +111,6 @@ void TaskFinishParsing::terminate()
 		app->getDialogView()->hideDialogs();
 	}
 
-	MessageStatus("An unknown exception was thrown during indexing.", true, false).dispatch();
+	MessageStatus(L"An unknown exception was thrown during indexing.", true, false).dispatch();
 	MessageFinishedParsing().dispatch();
 }

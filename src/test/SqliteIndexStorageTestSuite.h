@@ -9,7 +9,7 @@ class SqliteIndexStorageTestSuite: public CxxTest::TestSuite
 public:
 	void test_storage_adds_node_successfully()
 	{
-		FilePath databasePath("data/SQLiteTestSuite/test.sqlite");
+		FilePath databasePath(L"data/SQLiteTestSuite/test.sqlite");
 		int nodeCount = -1;
 		{
 			SqliteIndexStorage storage(databasePath);
@@ -26,7 +26,7 @@ public:
 
 	void test_storage_removes_node_successfully()
 	{
-		FilePath databasePath("data/SQLiteTestSuite/test.sqlite");
+		FilePath databasePath(L"data/SQLiteTestSuite/test.sqlite");
 		int nodeCount = -1;
 		{
 			SqliteIndexStorage storage(databasePath);
@@ -44,7 +44,7 @@ public:
 
 	void test_storage_adds_edge_successfully()
 	{
-		FilePath databasePath("data/SQLiteTestSuite/test.sqlite");
+		FilePath databasePath(L"data/SQLiteTestSuite/test.sqlite");
 		int edgeCount = -1;
 		{
 			SqliteIndexStorage storage(databasePath);
@@ -63,7 +63,7 @@ public:
 
 	void test_storage_removes_edge_successfully()
 	{
-		FilePath databasePath("data/SQLiteTestSuite/test.sqlite");
+		FilePath databasePath(L"data/SQLiteTestSuite/test.sqlite");
 		int edgeCount = -1;
 		{
 			SqliteIndexStorage storage(databasePath);

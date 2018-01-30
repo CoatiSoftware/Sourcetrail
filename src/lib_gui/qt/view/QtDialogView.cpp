@@ -44,7 +44,7 @@ void QtDialogView::showUnknownProgressDialog(const std::string& title, const std
 
 void QtDialogView::hideUnknownProgressDialog()
 {
-	MessageStatus("", false, false).dispatch();
+	MessageStatus(L"", false, false).dispatch();
 
 	m_onQtThread2(
 		[=]()
@@ -104,7 +104,7 @@ void QtDialogView::hideProgressDialog()
 				m_windowStack.popWindow();
 			}
 
-			MessageStatus("", false, false).dispatch();
+			MessageStatus(L"", false, false).dispatch();
 
 			setUIBlocked(false);
 		}
@@ -112,7 +112,6 @@ void QtDialogView::hideProgressDialog()
 
 	setParentWindow(nullptr);
 }
-
 
 void QtDialogView::startIndexingDialog(
 	Project* project, const std::vector<RefreshMode>& enabledModes, const RefreshInfo& info)
@@ -268,11 +267,51 @@ int QtDialogView::confirm(const std::string& message, const std::vector<std::str
 		[=, &result]()
 		{
 			QMessageBox msgBox;
-			msgBox.setText(message.c_str());
+			msgBox.setText(QString::fromStdString(message));
 
 			for (const std::string& option : options)
 			{
-				msgBox.addButton(option.c_str(), QMessageBox::AcceptRole);
+				msgBox.addButton(QString::fromStdString(option), QMessageBox::AcceptRole);
+			}
+
+			msgBox.exec();
+
+			for (int i = 0; i < msgBox.buttons().size(); i++)
+			{
+				if (msgBox.clickedButton() == msgBox.buttons().at(i))
+				{
+					result = i;
+					break;
+				}
+			}
+
+			m_resultReady = true;
+		}
+	);
+
+	while (!m_resultReady)
+	{
+		const int SLEEP_TIME_MS = 25;
+		std::this_thread::sleep_for(std::chrono::milliseconds(SLEEP_TIME_MS));
+	}
+
+	return result;
+}
+
+int QtDialogView::confirm(const std::wstring& message, const std::vector<std::wstring>& options)
+{
+	int result = -1;
+	m_resultReady = false;
+
+	m_onQtThread2(
+		[=, &result]()
+		{
+			QMessageBox msgBox;
+			msgBox.setText(QString::fromStdWString(message));
+
+			for (const std::wstring& option : options)
+			{
+				msgBox.addButton(QString::fromStdWString(option), QMessageBox::AcceptRole);
 			}
 
 			msgBox.exec();

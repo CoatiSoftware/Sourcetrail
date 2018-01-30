@@ -136,7 +136,7 @@ void CommandConfig::printSettings(ApplicationSettings* settings)
 			  << "\n  use-processes: " << settings->getMultiProcessIndexingEnabled()
 			  << "\n  logging-enabled: " << settings->getLoggingEnabled()
 			  << "\n  verbose-indexer-logging-enabled: " << settings->getVerboseIndexerLoggingEnabled()
-			  << "\n  jvm-path: " << settings->getJavaPath()
+			  << "\n  jvm-path: " << settings->getJavaPath().str()
 			  << "\n  jvm-max-memory: " << settings->getJavaMaximumMemory()
 			  << "\n  maven-path: " << settings->getMavenPath().str();
 	printVector("global-header-search-paths", settings->getHeaderSearchPaths());

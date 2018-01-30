@@ -32,7 +32,7 @@ std::vector<FilePath> FileSystem::getFilePathsFromDirectory(
 
 			if (boost::filesystem::is_regular_file(*it) && (ext.empty() || ext.find(it->path().extension().string()) != ext.end()))
 			{
-				files.push_back(FilePath(it->path().generic_string()));
+				files.push_back(FilePath(it->path().generic_wstring()));
 			}
 			++it;
 		}
@@ -111,7 +111,7 @@ std::vector<FileInfo> FileSystem::getFileInfosFromPaths(
 						continue;
 					}
 					filePaths.insert(p);
-					files.push_back(getFileInfoForPath(FilePath(it->path())));
+					files.push_back(getFileInfoForPath(FilePath(it->path().wstring())));
 				}
 			}
 		}
@@ -175,7 +175,7 @@ std::set<FilePath> FileSystem::getSymLinkedDirectories(const std::vector<FilePat
 	std::set<FilePath> files;
 	for (auto& p : symlinkDirs)
 	{
-		files.insert(FilePath(p));
+		files.insert(FilePath(p.wstring()));
 	}
 	return files;
 }
@@ -254,7 +254,7 @@ std::vector<FilePath> FileSystem::getDirectSubDirectories(const FilePath& path)
 		{
 			if (boost::filesystem::is_directory(dir->path()))
 			{
-				v.push_back(FilePath(dir->path()));
+				v.push_back(FilePath(dir->path().wstring()));
 			}
 		}
 	}
@@ -272,7 +272,7 @@ std::vector<FilePath> FileSystem::getRecursiveSubDirectories(const FilePath &pat
 		{
 			if (boost::filesystem::is_directory(dir->path()))
 			{
-				v.push_back(FilePath(dir->path()));
+				v.push_back(FilePath(dir->path().wstring()));
 			}
 		}
 	}

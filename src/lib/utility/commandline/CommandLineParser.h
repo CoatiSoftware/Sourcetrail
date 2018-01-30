@@ -41,7 +41,7 @@ public:
 	void fullRefresh();
 	void incompleteRefresh();
 
-	std::string getError();
+	std::wstring getError();
 	License getLicense();
 	License* getLicensePtr();
 
@@ -66,7 +66,7 @@ private:
 	boost::program_options::options_description m_options;
 	boost::program_options::positional_options_description m_positional;
 
-	std::string m_errorString;
+	std::wstring m_errorString;
 	License m_license;
 
 	std::vector<std::string> m_args;

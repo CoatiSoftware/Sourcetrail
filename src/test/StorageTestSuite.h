@@ -11,7 +11,7 @@ class StorageTestSuite: public CxxTest::TestSuite
 public:
 	void setUp()
 	{
-		m_filePath = FilePath("file.cpp");
+		m_filePath = FilePath(L"file.cpp");
 	}
 
 	void test_storage_saves_file()
@@ -230,7 +230,7 @@ private:
 	{
 	public:
 		TestStorage()
-			: PersistentStorage(FilePath("data/test.sqlite"), FilePath("data/testBookmarks.sqlite"))
+			: PersistentStorage(FilePath(L"data/test.sqlite"), FilePath(L"data/testBookmarks.sqlite"))
 		{
 			clear();
 		}

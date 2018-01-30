@@ -83,7 +83,7 @@ void QtBookmarkView::setCreateButtonState(const CreateButtonState& state)
 			m_createButtonState = state;
 
 			m_createBookmarkButton->setIcon(utility::createButtonIcon(
-				ResourcePaths::getGuiPath().str() + "bookmark_view/images/edit_bookmark_icon.png",
+				ResourcePaths::getGuiPath().concatenate(L"bookmark_view/images/edit_bookmark_icon.png"),
 				"search/button"
 			));
 
@@ -100,7 +100,7 @@ void QtBookmarkView::setCreateButtonState(const CreateButtonState& state)
 				m_createBookmarkButton->setEnabled(true);
 
 				m_createBookmarkButton->setIcon(utility::createButtonIcon(
-					ResourcePaths::getGuiPath().str() + "bookmark_view/images/bookmark_active.png",
+					ResourcePaths::getGuiPath().concatenate(L"bookmark_view/images/bookmark_active.png"),
 					"search/button"
 				));
 			}
@@ -250,7 +250,7 @@ void QtBookmarkView::showBookmarksClicked()
 void QtBookmarkView::setStyleSheet()
 {
 	m_widget->setStyleSheet(utility::getStyleSheet(
-		ResourcePaths::getGuiPath().concatenate(FilePath("bookmark_view/bookmark_view.css"))
+		ResourcePaths::getGuiPath().concatenate(L"bookmark_view/bookmark_view.css")
 	).c_str());
 }
 
@@ -262,12 +262,12 @@ void QtBookmarkView::refreshStyle()
 	m_showBookmarksButton->setFixedHeight(height);
 
 	m_createBookmarkButton->setIcon(utility::createButtonIcon(
-		ResourcePaths::getGuiPath().str() + "bookmark_view/images/edit_bookmark_icon.png",
+		ResourcePaths::getGuiPath().concatenate(L"bookmark_view/images/edit_bookmark_icon.png"),
 		"search/button"
 	));
 
 	m_showBookmarksButton->setIcon(utility::createButtonIcon(
-		ResourcePaths::getGuiPath().str() + "bookmark_view/images/bookmark_list_icon.png",
+		ResourcePaths::getGuiPath().concatenate(L"bookmark_view/images/bookmark_list_icon.png"),
 		"search/button"
 	));
 

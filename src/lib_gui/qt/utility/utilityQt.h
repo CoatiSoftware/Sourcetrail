@@ -20,7 +20,7 @@ namespace utility
 	std::string getStyleSheet(const FilePath& path);
 
 	QPixmap colorizePixmap(const QPixmap& pixmap, QColor color);
-	QIcon createButtonIcon(const std::string& iconPath, const std::string& colorId);
+	QIcon createButtonIcon(const FilePath& iconPath, const std::string& colorId);
 
 	void copyNewFilesFromDirectory(QString src, QString dst);
 }

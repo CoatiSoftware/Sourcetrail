@@ -392,8 +392,8 @@ QBoxLayout* QtIndexingDialog::createLayout()
 	);
 
 	setStyleSheet((
-		utility::getStyleSheet(ResourcePaths::getGuiPath().concatenate(FilePath("window/window.css"))) +
-		utility::getStyleSheet(ResourcePaths::getGuiPath().concatenate(FilePath("indexing_dialog/indexing_dialog.css")))
+		utility::getStyleSheet(ResourcePaths::getGuiPath().concatenate(L"window/window.css")) +
+		utility::getStyleSheet(ResourcePaths::getGuiPath().concatenate(L"indexing_dialog/indexing_dialog.css"))
 	).c_str());
 
 	QVBoxLayout* layout = new QVBoxLayout(this);

@@ -11,6 +11,8 @@
 #include "utility/text/TextAccess.h"
 #include "utility/ScopedFunctor.h"
 #include "utility/utilityJava.h"
+#include "utility/utilityQString.h"
+#include "utility/utilityString.h"
 #include "Application.h"
 
 SourceGroupJava::SourceGroupJava()
@@ -63,7 +65,7 @@ std::shared_ptr<const SourceGroupSettings> SourceGroupJava::getSourceGroupSettin
 
 bool SourceGroupJava::prepareJavaEnvironment()
 {
-	const std::string errorString = utility::prepareJavaEnvironment();
+	const std::wstring errorString = utility::decodeFromUtf8(utility::prepareJavaEnvironment());
 
 	if (errorString.size() > 0)
 	{
@@ -73,13 +75,13 @@ bool SourceGroupJava::prepareJavaEnvironment()
 
 	if (!JavaEnvironmentFactory::getInstance())
 	{
-		std::string dialogMessage =
-			"Sourcetrail was unable to locate Java on this machine.\n"
+		std::wstring dialogMessage =
+			L"Sourcetrail was unable to locate Java on this machine.\n"
 			"Please make sure to provide the correct Java Path in the preferences.";
 
-		if (errorString.size() > 0)
+		if (!errorString.empty())
 		{
-			dialogMessage += "\n\nError: " + errorString;
+			dialogMessage += L"\n\nError: " + errorString;
 		}
 
 		MessageStatus(dialogMessage, true, false).dispatch();
@@ -163,7 +165,7 @@ std::set<FilePath> SourceGroupJava::fetchRootDirectories() const
 		const std::vector<std::string> packageNameParts = utility::splitToVector(packageName, ".");
 		for (std::vector<std::string>::const_reverse_iterator it = packageNameParts.rbegin(); it != packageNameParts.rend(); it++)
 		{
-			if (rootPath.fileName() != (*it))
+			if (rootPath.wFileName() != utility::decodeFromUtf8(*it))
 			{
 				success = false;
 				break;

@@ -21,15 +21,15 @@ public:
 		if (!mavenPathDetector->getPaths().empty())
 		{
 			std::vector<FilePath> result = utility::mavenGetAllDirectoriesFromEffectivePom(
-				mavenPathDetector->getPaths().front(), FilePath("data/UtilityMavenTestSuite/simple_maven_project"), false
+				mavenPathDetector->getPaths().front(), FilePath(L"data/UtilityMavenTestSuite/simple_maven_project"), false
 			);
 
 			TS_ASSERT(utility::containsElement<FilePath>(
-				result, FilePath("data/UtilityMavenTestSuite/simple_maven_project/src/main/java").makeAbsolute()
+				result, FilePath(L"data/UtilityMavenTestSuite/simple_maven_project/src/main/java").makeAbsolute()
 			));
 
 			TS_ASSERT(!utility::containsElement<FilePath>(
-				result, FilePath("data/UtilityMavenTestSuite/simple_maven_project/src/test/java").makeAbsolute()
+				result, FilePath(L"data/UtilityMavenTestSuite/simple_maven_project/src/test/java").makeAbsolute()
 			));
 		}
 	}
@@ -42,15 +42,15 @@ public:
 		if (!mavenPathDetector->getPaths().empty())
 		{
 			std::vector<FilePath> result = utility::mavenGetAllDirectoriesFromEffectivePom(
-				mavenPathDetector->getPaths().front(), FilePath("data/UtilityMavenTestSuite/simple_maven_project"), true
+				mavenPathDetector->getPaths().front(), FilePath(L"data/UtilityMavenTestSuite/simple_maven_project"), true
 			);
 
 			TS_ASSERT(utility::containsElement<FilePath>(
-				result, FilePath("data/UtilityMavenTestSuite/simple_maven_project/src/main/java").makeAbsolute()
+				result, FilePath(L"data/UtilityMavenTestSuite/simple_maven_project/src/main/java").makeAbsolute()
 			));
 
 			TS_ASSERT(utility::containsElement<FilePath>(
-				result, FilePath("data/UtilityMavenTestSuite/simple_maven_project/src/test/java").makeAbsolute()
+				result, FilePath(L"data/UtilityMavenTestSuite/simple_maven_project/src/test/java").makeAbsolute()
 			));
 		}
 	}
@@ -63,23 +63,23 @@ public:
 		if (!mavenPathDetector->getPaths().empty())
 		{
 			std::vector<FilePath> result = utility::mavenGetAllDirectoriesFromEffectivePom(
-				mavenPathDetector->getPaths().front(), FilePath("data/UtilityMavenTestSuite/nested_maven_project"), false
+				mavenPathDetector->getPaths().front(), FilePath(L"data/UtilityMavenTestSuite/nested_maven_project"), false
 			);
 
 			TS_ASSERT(utility::containsElement<FilePath>(
-				result, FilePath("data/UtilityMavenTestSuite/nested_maven_project/module_1/src/main/java").makeAbsolute()
+				result, FilePath(L"data/UtilityMavenTestSuite/nested_maven_project/module_1/src/main/java").makeAbsolute()
 			));
 
 			TS_ASSERT(utility::containsElement<FilePath>(
-				result, FilePath("data/UtilityMavenTestSuite/nested_maven_project/module_2/src/main/java").makeAbsolute()
+				result, FilePath(L"data/UtilityMavenTestSuite/nested_maven_project/module_2/src/main/java").makeAbsolute()
 			));
 
 			TS_ASSERT(!utility::containsElement<FilePath>(
-				result, FilePath("data/UtilityMavenTestSuite/nested_maven_project/module_1/src/test/java").makeAbsolute()
+				result, FilePath(L"data/UtilityMavenTestSuite/nested_maven_project/module_1/src/test/java").makeAbsolute()
 			));
 
 			TS_ASSERT(!utility::containsElement<FilePath>(
-				result, FilePath("data/UtilityMavenTestSuite/nested_maven_project/module_2/src/test/java").makeAbsolute()
+				result, FilePath(L"data/UtilityMavenTestSuite/nested_maven_project/module_2/src/test/java").makeAbsolute()
 			));
 		}
 	}
@@ -92,23 +92,23 @@ public:
 		if (!mavenPathDetector->getPaths().empty())
 		{
 			std::vector<FilePath> result = utility::mavenGetAllDirectoriesFromEffectivePom(
-				mavenPathDetector->getPaths().front(), FilePath("data/UtilityMavenTestSuite/nested_maven_project"), true
+				mavenPathDetector->getPaths().front(), FilePath(L"data/UtilityMavenTestSuite/nested_maven_project"), true
 			);
 
 			TS_ASSERT(utility::containsElement<FilePath>(
-				result, FilePath("data/UtilityMavenTestSuite/nested_maven_project/module_1/src/main/java").makeAbsolute()
+				result, FilePath(L"data/UtilityMavenTestSuite/nested_maven_project/module_1/src/main/java").makeAbsolute()
 			));
 
 			TS_ASSERT(utility::containsElement<FilePath>(
-				result, FilePath("data/UtilityMavenTestSuite/nested_maven_project/module_2/src/main/java").makeAbsolute()
+				result, FilePath(L"data/UtilityMavenTestSuite/nested_maven_project/module_2/src/main/java").makeAbsolute()
 			));
 
 			TS_ASSERT(utility::containsElement<FilePath>(
-				result, FilePath("data/UtilityMavenTestSuite/nested_maven_project/module_1/src/test/java").makeAbsolute()
+				result, FilePath(L"data/UtilityMavenTestSuite/nested_maven_project/module_1/src/test/java").makeAbsolute()
 			));
 
 			TS_ASSERT(utility::containsElement<FilePath>(
-				result, FilePath("data/UtilityMavenTestSuite/nested_maven_project/module_2/src/test/java").makeAbsolute()
+				result, FilePath(L"data/UtilityMavenTestSuite/nested_maven_project/module_2/src/test/java").makeAbsolute()
 			));
 		}
 	}

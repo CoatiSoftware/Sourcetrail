@@ -19,6 +19,7 @@ public:
 	std::string toString() const;
 	std::string toShortString() const;
 	std::string toDisplayString() const;
+	std::wstring toDisplayWString() const;
 
 	bool operator<(const Version& other) const;
 	bool operator>(const Version& other) const;

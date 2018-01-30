@@ -285,5 +285,7 @@ add_files(
 	utility/utilityApp.h
 	utility/utilityPathDetection.cpp
 	utility/utilityPathDetection.h
+	utility/utilityQString.cpp
+	utility/utilityQString.h
 )
 

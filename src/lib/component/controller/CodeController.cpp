@@ -7,6 +7,7 @@
 #include "utility/text/TextAccess.h"
 #include "utility/tracing.h"
 #include "utility/logging/logging.h"
+#include "utility/utilityQString.h"
 #include "utility/utilityString.h"
 
 #include "data/access/StorageAccess.h"
@@ -156,25 +157,25 @@ void CodeController::handleMessage(MessageActivateTokens* message)
 		size_t fileCount = m_collection->getSourceLocationFileCount();
 		size_t referenceCount = m_collection->getSourceLocationCount();
 
-		std::stringstream ss;
+		std::wstring status = L"";
 
 		if (message->tokenNames.size())
 		{
-			ss << "Activate \"" << message->tokenNames[0].getQualifiedName() << "\": ";
+			status += L"Activate \"" + utility::decodeFromUtf8(message->tokenNames[0].getQualifiedName()) + L"\": ";
 		}
 
-		ss << message->tokenIds.size() << ' ';
-		ss << (message->tokenIds.size() == 1 ? "result" : "results");
+		status += std::to_wstring(message->tokenIds.size()) + L" ";
+		status += (message->tokenIds.size() == 1 ? L"result" : L"results");
 
 		if (fileCount > 0)
 		{
-			ss << " with " << referenceCount << ' ';
-			ss << (referenceCount == 1 ? "reference" : "references");
-			ss << " in " << fileCount << ' ';
-			ss << (fileCount == 1 ? "file" : "files");
+			status += L" with " + std::to_wstring(referenceCount) + L" ";
+			status += (referenceCount == 1 ? L"reference" : L"references");
+			status += L" in " + std::to_wstring(fileCount) + L" ";
+			status += (fileCount == 1 ? L"file" : L"files");
 		}
 
-		MessageStatus(ss.str()).dispatch();
+		MessageStatus(status).dispatch();
 	}
 }
 
@@ -281,7 +282,7 @@ void CodeController::handleMessage(MessageScrollToLine* message)
 	getView()->showContents();
 
 	MessageStatus(
-		"Showing source location: " + message->filePath.str() + " : " + std::to_string(message->line)
+		L"Showing source location: " + message->filePath.wstr() + L" : " + std::to_wstring(message->line)
 	).dispatch();
 }
 

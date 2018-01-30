@@ -5,6 +5,28 @@
 #include <iterator>
 #include <string>
 
+namespace
+{
+	template <typename StringType>
+	StringType doRreplace(StringType str, const StringType& from, const StringType& to)
+	{
+		size_t pos = 0;
+
+		if (from.size() == 0)
+		{
+			return str;
+		}
+
+		while ((pos = str.find(from, pos)) != std::string::npos)
+		{
+			str.replace(pos, from.length(), to);
+			pos += to.length();
+		}
+
+		return str;
+	}
+}
+
 namespace utility
 {
 	std::deque<std::string> split(const std::string& str, char delimiter)
@@ -199,20 +221,12 @@ namespace utility
 
 	std::string replace(std::string str, const std::string& from, const std::string& to)
 	{
-		size_t pos = 0;
+		return doRreplace(str, from, to);
+	}
 
-		if (from.size() == 0)
-		{
-			return str;
-		}
-
-		while ((pos = str.find(from, pos)) != std::string::npos)
-		{
-			str.replace(pos, from.length(), to);
-			pos += to.length();
-		}
-
-		return str;
+	std::wstring replace(std::wstring str, const std::wstring& from, const std::wstring& to)
+	{
+		return doRreplace(str, from, to);
 	}
 
 	std::string replaceBetween(const std::string& str, char startDelimiter, char endDelimiter, const std::string& to)

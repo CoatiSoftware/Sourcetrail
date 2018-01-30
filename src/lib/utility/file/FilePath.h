@@ -17,9 +17,8 @@ class FilePath
 {
 public:
 	FilePath();
-	explicit FilePath(const char* filePath);
 	explicit FilePath(const std::string& filePath);
-	explicit FilePath(const boost::filesystem::path& filePath);
+	explicit FilePath(const std::wstring& filePath);
 	FilePath(const FilePath& other);
 	FilePath(FilePath&& other);
 	FilePath(const std::string& filePath, const std::string& base);
@@ -43,13 +42,17 @@ public:
 	FilePath getRelativeTo(const FilePath& other) const;
 	FilePath& concatenate(const FilePath& other);
 	FilePath getConcatenated(const FilePath& other) const;
+	FilePath& concatenate(const std::wstring& other);
+	FilePath getConcatenated(const std::wstring& other) const;
 	std::vector<FilePath> expandEnvironmentVariables() const;
 
 	bool contains(const FilePath& other) const;
 
 	std::string str() const;
+	std::wstring wstr() const;
 	std::string getBackslashedString() const;
 	std::string fileName() const;
+	std::wstring wFileName() const;
 
 	std::string extension() const;
 	FilePath withoutExtension() const;

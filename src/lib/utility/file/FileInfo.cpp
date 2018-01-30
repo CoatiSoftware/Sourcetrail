@@ -1,7 +1,7 @@
 #include "FileInfo.h"
 
 FileInfo::FileInfo()
-	: path(FilePath(""))
+	: path(FilePath(L""))
 {
 }
 

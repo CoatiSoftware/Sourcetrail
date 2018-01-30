@@ -45,7 +45,8 @@ public:
 
 	virtual void hideDialogs(bool unblockUI = true) override;
 
-	int confirm(const std::string& message, const std::vector<std::string>& options) override;
+	virtual int confirm(const std::string& message, const std::vector<std::string>& options) override;
+	virtual int confirm(const std::wstring& message, const std::vector<std::wstring>& options) override;
 
 	void setParentWindow(QtWindow* window);
 

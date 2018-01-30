@@ -10,6 +10,7 @@
 #include "qt/utility/utilityQt.h"
 #include "settings/ColorScheme.h"
 #include "utility/ResourcePaths.h"
+#include "utility/utilityQString.h"
 
 QtCodeFileTitleButton::QtCodeFileTitleButton(QWidget* parent)
 	: QPushButton(parent)
@@ -67,8 +68,8 @@ void QtCodeFileTitleButton::setIsComplete(bool isComplete)
 
 	if (!isComplete)
 	{
-		FilePath hatchingFilePath(ResourcePaths::getGuiPath().str() + "code_view/images/pattern_" +
-			ColorScheme::getInstance()->getColor("code/file/title/hatching") + ".png"
+		FilePath hatchingFilePath = ResourcePaths::getGuiPath().concatenate(L"code_view/images/pattern_" +
+			utility::decodeFromUtf8(ColorScheme::getInstance()->getColor("code/file/title/hatching")) + L".png"
 		);
 
 		setStyleSheet((
@@ -103,23 +104,23 @@ void QtCodeFileTitleButton::updateTexts()
 		return;
 	}
 
-	std::string title = m_filePath.fileName();
-	std::string toolTip = "file: " + m_filePath.str();
+	std::wstring title = m_filePath.wFileName();
+	std::wstring toolTip = L"file: " + m_filePath.wstr();
 
 	if ((!m_filePath.recheckExists()) ||
 		(FileSystem::getLastWriteTime(m_filePath) > m_modificationTime))
 	{
-		title += "*";
-		toolTip = "out of date " + toolTip;
+		title += L"*";
+		toolTip = L"out of date " + toolTip;
 	}
 
 	if (!m_isComplete)
 	{
-		toolTip = "incomplete " + toolTip;
+		toolTip = L"incomplete " + toolTip;
 	}
 
-	setText(title.c_str());
-	setToolTip(toolTip.c_str());
+	setText(QString::fromStdWString(title));
+	setToolTip(QString::fromStdWString(toolTip));
 }
 
 void QtCodeFileTitleButton::updateFromOther(const QtCodeFileTitleButton* other)

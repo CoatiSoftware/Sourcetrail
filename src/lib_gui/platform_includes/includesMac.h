@@ -15,7 +15,7 @@
 
 void setupPlatform(int argc, char *argv[])
 {
-	UserPaths::setUserDataPath(FilePath("./user/"));
+	UserPaths::setUserDataPath(FilePath(L"./user/"));
 
 	// ----------------------------------------------------------------------------
 	// This makes relative paths work in C++ in Xcode by changing directory to the Resources folder inside the .app bundle
@@ -58,7 +58,7 @@ void setupPlatform(int argc, char *argv[])
 	// ----------------------------------------------------------------------------
 	// Makes the mac bundle copy the user files to the Application Support folder
 	QString dataPath = QStandardPaths::writableLocation(QStandardPaths::DataLocation);
-	QString oldDataPath = QString::fromStdString(ResourcePaths::getFallbackPath().str());
+	QString oldDataPath = QString::fromStdWString(ResourcePaths::getFallbackPath().wstr());
 
 	QDir dataDir(dataPath);
 	if (!dataDir.exists())
@@ -81,13 +81,13 @@ void setupPlatform(int argc, char *argv[])
 	utility::copyNewFilesFromDirectory(oldDataPath, dataPath);
 
 	// ----------------------------------------------------------------------------
-	UserPaths::setUserDataPath(FilePath(dataPath.toStdString() + "/"));
+	UserPaths::setUserDataPath(FilePath(dataPath.toStdWString() + L"/"));
 }
 
 void setupApp(int argc, char *argv[])
 {
-	FilePath path(QDir::currentPath().toStdString());
-	AppPath::setAppPath(path.getAbsolute().str() + "/");
+	const FilePath path(QDir::currentPath().toStdWString() + L"/");
+	AppPath::setAppPath(path.getAbsolute());
 }
 
 #endif // INCLUDES_MAC_H

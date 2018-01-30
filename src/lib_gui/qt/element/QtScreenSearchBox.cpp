@@ -123,22 +123,22 @@ QtScreenSearchBox::~QtScreenSearchBox()
 void QtScreenSearchBox::refreshStyle()
 {
 	m_searchButton->setIcon(utility::createButtonIcon(
-		ResourcePaths::getGuiPath().str() + "search_view/images/search.png",
+		ResourcePaths::getGuiPath().concatenate(L"search_view/images/search.png"),
 		"screen_search/button"
 	));
 
 	m_prevButton->setIcon(utility::createButtonIcon(
-		ResourcePaths::getGuiPath().str() + "code_view/images/arrow_left.png",
+		ResourcePaths::getGuiPath().concatenate(L"code_view/images/arrow_left.png"),
 		"screen_search/button"
 	));
 
 	m_nextButton->setIcon(utility::createButtonIcon(
-		ResourcePaths::getGuiPath().str() + "code_view/images/arrow_right.png",
+		ResourcePaths::getGuiPath().concatenate(L"code_view/images/arrow_right.png"),
 		"screen_search/button"
 	));
 
 	m_closeButton->setIcon(utility::createButtonIcon(
-		ResourcePaths::getGuiPath().str() + "screen_search_view/images/close.png",
+		ResourcePaths::getGuiPath().concatenate(L"screen_search_view/images/close.png"),
 		"screen_search/button"
 	));
 

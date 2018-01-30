@@ -31,6 +31,7 @@
 #include "utility/utility.h"
 #include "utility/utilityApp.h"
 #include "utility/utilityPathDetection.h"
+#include "utility/utilityQString.h"
 #include "utility/utilityString.h"
 #include "utility/utilityUuid.h"
 
@@ -74,7 +75,7 @@ void QtProjectWizzard::newProjectFromCDB(const FilePath& filePath, const std::ve
 
 	if (m_projectSettings->getProjectFilePath().empty())
 	{
-		m_projectSettings->setProjectFilePath(filePath.withoutExtension().fileName(), filePath.getParentDirectory());
+		m_projectSettings->setProjectFilePath(filePath.withoutExtension().wFileName(), filePath.getParentDirectory());
 	}
 
 	if (!m_contentWidget)
@@ -841,7 +842,12 @@ void QtProjectWizzard::dependenciesJava()
 void QtProjectWizzard::sourcePathsJavaMaven()
 {
 	std::dynamic_pointer_cast<SourceGroupSettingsJavaMaven>(m_newSourceGroupSettings)->setMavenDependenciesDirectory(
-		FilePath("./sourcetrail_dependencies/" + utility::replace(m_projectSettings->getProjectName(), " ", "_") + "/" + m_newSourceGroupSettings->getId() + "/maven")
+		FilePath(
+			L"./sourcetrail_dependencies/" + utility::replace(m_projectSettings->getProjectName(), L" ", L"_") + 
+			L"/" + 
+			utility::decodeFromUtf8(m_newSourceGroupSettings->getId()) +
+			L"/maven"
+		)
 	);
 
 	QtProjectWizzardWindow* window = createWindowWithContentGroup(
@@ -860,7 +866,12 @@ void QtProjectWizzard::sourcePathsJavaMaven()
 void QtProjectWizzard::sourcePathsJavaGradle()
 {
 	std::dynamic_pointer_cast<SourceGroupSettingsJavaGradle>(m_newSourceGroupSettings)->setGradleDependenciesDirectory(
-		FilePath("./sourcetrail_dependencies/" + utility::replace(m_projectSettings->getProjectName(), " ", "_") + "/" + m_newSourceGroupSettings->getId() + "/gradle")
+		FilePath(
+			L"./sourcetrail_dependencies/" + utility::replace(m_projectSettings->getProjectName(), L" ", L"_") + 
+			L"/" + 
+			utility::decodeFromUtf8(m_newSourceGroupSettings->getId()) +
+			L"/gradle"
+		)
 	);
 
 	QtProjectWizzardWindow* window = createWindowWithContentGroup(
@@ -938,7 +949,7 @@ void QtProjectWizzard::createProject()
 	}
 	else
 	{
-		MessageStatus("Created project: " + path.str()).dispatch();
+		MessageStatus(L"Created project: " + path.wstr()).dispatch();
 	}
 
 	MessageLoadProject(path, settingsChanged).dispatch();

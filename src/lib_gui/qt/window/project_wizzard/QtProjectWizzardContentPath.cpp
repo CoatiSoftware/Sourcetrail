@@ -60,7 +60,7 @@ bool QtProjectWizzardContentPath::check()
 			break;
 		}
 
-		FilePath path = m_settings->makePathExpandedAndAbsolute(FilePath(m_picker->getText().toStdString()));
+		FilePath path = m_settings->makePathExpandedAndAbsolute(FilePath(m_picker->getText().toStdWString()));
 
 		if (m_picker->pickDirectory())
 		{
@@ -157,7 +157,7 @@ void QtProjectWizzardContentPathCDB::save()
 		std::dynamic_pointer_cast<SourceGroupSettingsCxxCdb>(m_settings);
 	if (settings)
 	{
-		settings->setCompilationDatabasePath(FilePath(m_picker->getText().toStdString()));
+		settings->setCompilationDatabasePath(FilePath(m_picker->getText().toStdWString()));
 	}
 }
 
@@ -216,7 +216,7 @@ void QtProjectWizzardContentPathSourceMaven::save()
 	std::shared_ptr<SourceGroupSettingsJavaMaven> settings = std::dynamic_pointer_cast<SourceGroupSettingsJavaMaven>(m_settings);
 	if (settings)
 	{
-		settings->setMavenProjectFilePath(FilePath(m_picker->getText().toStdString()));
+		settings->setMavenProjectFilePath(FilePath(m_picker->getText().toStdWString()));
 		settings->setShouldIndexMavenTests(m_shouldIndexTests->isChecked());
 	}
 }
@@ -240,8 +240,8 @@ std::vector<std::string> QtProjectWizzardContentPathSourceMaven::getFileNames() 
 	const bool success = utility::mavenGenerateSources(mavenPath, mavenProjectRoot);
 	if (!success)
 	{
-		const std::string dialogMessage =
-			"Sourcetrail was unable to locate Maven on this machine.\n"
+		const std::wstring dialogMessage =
+			L"Sourcetrail was unable to locate Maven on this machine.\n"
 			"Please make sure to provide the correct Maven Path in the preferences.";
 
 		MessageStatus(dialogMessage, true, false).dispatch();
@@ -308,7 +308,7 @@ void QtProjectWizzardContentPathDependenciesMaven::save()
 	std::shared_ptr<SourceGroupSettingsJavaMaven> settings = std::dynamic_pointer_cast<SourceGroupSettingsJavaMaven>(m_settings);
 	if (settings)
 	{
-		settings->setMavenDependenciesDirectory(FilePath(m_picker->getText().toStdString()));
+		settings->setMavenDependenciesDirectory(FilePath(m_picker->getText().toStdWString()));
 	}
 }
 
@@ -361,7 +361,7 @@ void QtProjectWizzardContentPathSourceGradle::save()
 	std::shared_ptr<SourceGroupSettingsJavaGradle> settings = std::dynamic_pointer_cast<SourceGroupSettingsJavaGradle>(m_settings);
 	if (settings)
 	{
-		settings->setGradleProjectFilePath(FilePath(m_picker->getText().toStdString()));
+		settings->setGradleProjectFilePath(FilePath(m_picker->getText().toStdWString()));
 		settings->setShouldIndexGradleTests(m_shouldIndexTests->isChecked());
 	}
 }
@@ -439,6 +439,6 @@ void QtProjectWizzardContentPathDependenciesGradle::save()
 	std::shared_ptr<SourceGroupSettingsJavaGradle> settings = std::dynamic_pointer_cast<SourceGroupSettingsJavaGradle>(m_settings);
 	if (settings)
 	{
-		settings->setGradleDependenciesDirectory(FilePath(m_picker->getText().toStdString()));
+		settings->setGradleDependenciesDirectory(FilePath(m_picker->getText().toStdWString()));
 	}
 }

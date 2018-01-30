@@ -13,6 +13,7 @@
 #include "utility/scheduling/TaskScheduler.h"
 #include "utility/tracing.h"
 #include "utility/UserPaths.h"
+#include "utility/utilityQString.h"
 #include "utility/utilityUuid.h"
 #include "utility/Version.h"
 
@@ -99,7 +100,7 @@ std::string Application::getUUID()
 
 void Application::loadSettings()
 {
-	MessageStatus("Load settings: " + UserPaths::getAppSettingsPath().str()).dispatch();
+	MessageStatus(L"Load settings: " + UserPaths::getAppSettingsPath().wstr()).dispatch();
 
 	std::shared_ptr<ApplicationSettings> settings = ApplicationSettings::getInstance();
 	settings->load(UserPaths::getAppSettingsPath());
@@ -160,6 +161,16 @@ int Application::handleDialog(const std::string& message, const std::vector<std:
 	return getDialogView()->confirm(message, options);
 }
 
+int Application::handleDialog(const std::wstring& message)
+{
+	return getDialogView()->confirm(message);
+}
+
+int Application::handleDialog(const std::wstring& message, const std::vector<std::wstring>& options)
+{
+	return getDialogView()->confirm(message, options);
+}
+
 std::shared_ptr<DialogView> Application::getDialogView()
 {
 	if (m_componentManager)
@@ -182,7 +193,7 @@ void Application::updateBookmarks(const std::vector<std::shared_ptr<Bookmark>>& 
 
 void Application::createAndLoadProject(const FilePath& projectSettingsFilePath)
 {
-	MessageStatus("Loading Project: " + projectSettingsFilePath.str(), false, true).dispatch();
+	MessageStatus(L"Loading Project: " + projectSettingsFilePath.wstr(), false, true).dispatch();
 	try
 	{
 		updateRecentProjects(projectSettingsFilePath);
@@ -200,7 +211,7 @@ void Application::createAndLoadProject(const FilePath& projectSettingsFilePath)
 		else
 		{
 			LOG_ERROR_STREAM(<< "Failed to load project.");
-			MessageStatus("Failed to load project: " + projectSettingsFilePath.str(), true).dispatch();
+			MessageStatus(L"Failed to load project: " + projectSettingsFilePath.wstr(), true).dispatch();
 		}
 
 		updateTitle();
@@ -208,12 +219,12 @@ void Application::createAndLoadProject(const FilePath& projectSettingsFilePath)
 	catch (std::exception& e)
 	{
 		LOG_ERROR_STREAM(<< "Failed to load project, exception thrown: " << e.what());
-		MessageStatus("Failed to load project, exception was thrown: " + projectSettingsFilePath.str(), true).dispatch();
+		MessageStatus(L"Failed to load project, exception was thrown: " + projectSettingsFilePath.wstr(), true).dispatch();
 	}
 	catch (...)
 	{
 		LOG_ERROR_STREAM(<< "Failed to load project, unknown exception thrown.");
-		MessageStatus("Failed to load project, unknown exception was thrown: " + projectSettingsFilePath.str(), true).dispatch();
+		MessageStatus(L"Failed to load project, unknown exception was thrown: " + projectSettingsFilePath.wstr(), true).dispatch();
 	}
 
 	if (m_hasGUI)
@@ -240,7 +251,7 @@ void Application::handleMessage(MessageActivateWindow* message)
 
 void Application::handleMessage(MessageEnteredLicense* message)
 {
-	MessageStatus("Found valid license key, unlocked application.").dispatch();
+	MessageStatus(L"Found valid license key, unlocked application.").dispatch();
 
 	m_licenseType = message->type;
 
@@ -313,7 +324,7 @@ void Application::handleMessage(MessageRefresh* message)
 
 void Application::handleMessage(MessageSwitchColorScheme* message)
 {
-	MessageStatus("Switch color scheme: " + message->colorSchemePath.str()).dispatch();
+	MessageStatus(L"Switch color scheme: " + message->colorSchemePath.wstr()).dispatch();
 
 	loadStyle(message->colorSchemePath);
 	MessageRefresh().refreshUiOnly().noReloadStyle().dispatch();
@@ -416,16 +427,16 @@ void Application::updateTitle()
 {
 	if (m_hasGUI)
 	{
-		std::string title = "Sourcetrail";
+		std::wstring title = L"Sourcetrail";
 
 		switch (m_licenseType)
 		{
 			case MessageEnteredLicense::LICENSE_TEST:
-				title += " [test]";
+				title += L" [test]";
 				break;
 			case MessageEnteredLicense::LICENSE_NONE:
 			case MessageEnteredLicense::LICENSE_NON_COMMERCIAL:
-				title += " [non-commercial]";
+				title += L" [non-commercial]";
 				break;
 			case MessageEnteredLicense::LICENSE_COMMERCIAL:
 				break;
@@ -437,7 +448,7 @@ void Application::updateTitle()
 
 			if (!projectPath.empty())
 			{
-				title += " - " + projectPath.fileName();
+				title += L" - " + projectPath.wFileName();
 			}
 		}
 
@@ -452,7 +463,7 @@ bool Application::checkSharedMemory()
 	{
 		MessageStatus("Error on accessing shared memory. Indexing not possible. Please restart computer or run as admin: " + error, true).dispatch();
 		handleDialog(
-			"There was an error accessing shared memory on your computer: " + error + "\n\n"
+			L"There was an error accessing shared memory on your computer: " + utility::decodeFromUtf8(error) + L"\n\n"
 			"Project indexing is not possible. Please restart your computer or try running Sourcetrail as admin. If the "
 			"issue persists contact mail@sourcetrail.com");
 		return false;

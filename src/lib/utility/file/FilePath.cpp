@@ -18,16 +18,6 @@ FilePath::FilePath()
 {
 }
 
-FilePath::FilePath(const char* filePath)
-	: m_path(std::make_unique<boost::filesystem::path>(filePath))
-	, m_exists(false)
-	, m_checkedExists(false)
-	, m_isDirectory(false)
-	, m_checkedIsDirectory(false)
-	, m_canonicalized(false)
-{
-}
-
 FilePath::FilePath(const std::string& filePath)
 	: m_path(std::make_unique<boost::filesystem::path>(filePath))
 	, m_exists(false)
@@ -38,7 +28,7 @@ FilePath::FilePath(const std::string& filePath)
 {
 }
 
-FilePath::FilePath(const boost::filesystem::path& filePath)
+FilePath::FilePath(const std::wstring& filePath)
 	: m_path(std::make_unique<boost::filesystem::path>(filePath))
 	, m_exists(false)
 	, m_checkedExists(false)
@@ -127,7 +117,7 @@ bool FilePath::isAbsolute() const
 
 FilePath FilePath::getParentDirectory() const
 {
-	FilePath parentDirectory(m_path->parent_path());
+	FilePath parentDirectory(m_path->parent_path().wstring());
 
 	if (!parentDirectory.empty())
 	{
@@ -320,6 +310,25 @@ FilePath FilePath::getConcatenated(const FilePath& other) const
 	return path;
 }
 
+FilePath& FilePath::concatenate(const std::wstring& other)
+{
+	m_path->operator/=(other);
+	m_exists = false;
+	m_checkedExists = false;
+	m_isDirectory = false;
+	m_checkedIsDirectory = false;
+	m_canonicalized = false;
+
+	return *this;
+}
+
+FilePath FilePath::getConcatenated(const std::wstring& other) const
+{
+	FilePath path(*this);
+	path.concatenate(other);
+	return path;
+}
+
 bool FilePath::contains(const FilePath& other) const
 {
 	if (!isDirectory())
@@ -362,6 +371,11 @@ std::string FilePath::str() const
 	return m_path->generic_string();
 }
 
+std::wstring FilePath::wstr() const
+{
+	return m_path->generic_wstring();
+}
+
 std::string FilePath::getBackslashedString() const
 {
 	return utility::replace(str(), "/", "\\");
@@ -372,6 +386,11 @@ std::string FilePath::fileName() const
 	return m_path->filename().generic_string();
 }
 
+std::wstring FilePath::wFileName() const
+{
+	return m_path->filename().generic_wstring();
+}
+
 std::string FilePath::extension() const
 {
 	return m_path->extension().generic_string();
@@ -379,12 +398,12 @@ std::string FilePath::extension() const
 
 FilePath FilePath::withoutExtension() const
 {
-	return FilePath(getPath().replace_extension());
+	return FilePath(getPath().replace_extension().wstring());
 }
 
 FilePath FilePath::replaceExtension(const std::string& extension) const
 {
-	return FilePath(getPath().replace_extension(extension));
+	return FilePath(getPath().replace_extension(extension).wstring());
 }
 
 bool FilePath::hasExtension(const std::vector<std::string>& extensions) const

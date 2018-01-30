@@ -476,7 +476,7 @@ std::shared_ptr<SourceLocationCollection> PersistentStorage::getFullTextSearchLo
 
 	if (m_fullTextSearchIndex.fileCount() == 0)
 	{
-		MessageStatus("Building fulltext search index", false, true).dispatch();
+		MessageStatus(L"Building fulltext search index", false, true).dispatch();
 		buildFullTextSearchIndex();
 	}
 

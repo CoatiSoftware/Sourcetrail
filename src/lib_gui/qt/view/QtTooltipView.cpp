@@ -31,7 +31,7 @@ void QtTooltipView::refreshView()
 	m_onQtThread([=]()
 	{
 		m_widget->setStyleSheet(
-			utility::getStyleSheet(ResourcePaths::getGuiPath().concatenate(FilePath("tooltip_view/tooltip_view.css"))).c_str()
+			utility::getStyleSheet(ResourcePaths::getGuiPath().concatenate(L"tooltip_view/tooltip_view.css")).c_str()
 		);
 	});
 }

@@ -9,7 +9,7 @@ class SqliteBookmarkStorageTestSuite: public CxxTest::TestSuite
 public:
 	void test_add_bookmarks()
 	{
-		FilePath databasePath("data/SQLiteTestSuite/bookmarkTest.sqlite");
+		FilePath databasePath(L"data/SQLiteTestSuite/bookmarkTest.sqlite");
 		size_t bookmarkCount = 4;
 		int result = -1;
 		{
@@ -33,7 +33,7 @@ public:
 
 	void test_add_bookmarked_node()
 	{
-		FilePath databasePath("data/SQLiteTestSuite/bookmarkTest.sqlite");
+		FilePath databasePath(L"data/SQLiteTestSuite/bookmarkTest.sqlite");
 		size_t bookmarkCount = 4;
 		int result = -1;
 		{
@@ -59,7 +59,7 @@ public:
 
 	void test_remove_bookmark_also_removes_bookmarked_node()
 	{
-		FilePath databasePath("data/SQLiteTestSuite/bookmarkTest.sqlite");
+		FilePath databasePath(L"data/SQLiteTestSuite/bookmarkTest.sqlite");
 		int result = -1;
 		{
 			FileSystem::remove(databasePath);
@@ -82,7 +82,7 @@ public:
 
 	void test_edit_nodeBookmark()
 	{
-		FilePath databasePath("data/SQLiteTestSuite/bookmarkTest.sqlite");
+		FilePath databasePath(L"data/SQLiteTestSuite/bookmarkTest.sqlite");
 
 		const std::string updatedName = "updated name";
 		const std::string updatedComment = "updated comment";

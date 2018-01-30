@@ -1,12 +1,13 @@
 #ifndef MESSAGE_MOVE_IDE_CURSOR_H
 #define MESSAGE_MOVE_IDE_CURSOR_H
 
+#include "utility/file/FilePath.h"
 #include "utility/messaging/Message.h"
 
 class MessageMoveIDECursor : public Message<MessageMoveIDECursor>
 {
 public:
-	MessageMoveIDECursor(const std::string& FilePos, const unsigned int Row, const unsigned int Column)
+	MessageMoveIDECursor(const FilePath& FilePos, const unsigned int Row, const unsigned int Column)
 		: FilePosition(FilePos)
 		, Row(Row)
 		, Column(Column)
@@ -20,10 +21,10 @@ public:
 
 	virtual void print(std::ostream& os) const
 	{
-		os << FilePosition << ":" << Row << ":" << Column;
+		os << FilePosition.str() << ":" << Row << ":" << Column;
 	}
 
-	const std::string FilePosition;
+	const FilePath FilePosition;
 	const unsigned int Row;
 	const unsigned int Column;
 };

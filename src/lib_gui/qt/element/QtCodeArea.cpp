@@ -682,7 +682,7 @@ void QtCodeArea::setIDECursorPosition()
 {
 	std::pair<int, int> lineColumn = toLineColumn(this->cursorForPosition(m_eventPosition).position());
 
-	MessageMoveIDECursor(getSourceLocationFile()->getFilePath().str(), lineColumn.first, lineColumn.second).dispatch();
+	MessageMoveIDECursor(getSourceLocationFile()->getFilePath(), lineColumn.first, lineColumn.second).dispatch();
 }
 
 void QtCodeArea::activateErrors(const std::vector<const Annotation*>& annotations)

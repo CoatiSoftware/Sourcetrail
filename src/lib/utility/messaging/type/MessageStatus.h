@@ -1,80 +1,30 @@
 #ifndef MESSAGE_STATUS_H
 #define MESSAGE_STATUS_H
 
+#include <string>
 #include <vector>
 
 #include "utility/messaging/Message.h"
-#include "utility/utilityString.h"
 
 class MessageStatus
 	: public Message<MessageStatus>
 {
 public:
-	MessageStatus(const std::string& status, bool isError = false, bool showLoader = false)
-		: isError(isError)
-		, showLoader(showLoader)
-	{
-		m_stati.push_back(utility::replace(status, "\n", " "));
+	MessageStatus(const std::string& status, bool isError = false, bool showLoader = false);
+	MessageStatus(const std::wstring& status, bool isError = false, bool showLoader = false);
+	MessageStatus(const std::vector<std::wstring>& stati, bool isError = false, bool showLoader = false);
 
-		setSendAsTask(false);
-	}
+	static const std::string getStaticType();
 
-	MessageStatus(const std::vector<std::string>& stati, bool isError = false, bool showLoader = false)
-		: isError(isError)
-		, showLoader(showLoader)
-		, m_stati(stati)
-	{
-		setSendAsTask(false);
-	}
-
-	static const std::string getStaticType()
-	{
-		return "MessageStatus";
-	}
-
-	const std::vector<std::string>& stati() const
-	{
-		return m_stati;
-	}
-
-	std::string status() const
-	{
-		if (m_stati.size())
-		{
-			return m_stati[0];
-		}
-
-		return "";
-	}
-
-	virtual void print(std::ostream& os) const
-	{
-		for (const std::string& status : m_stati)
-		{
-			os << status;
-
-			if (m_stati.size() > 1)
-			{
-				os << " - ";
-			}
-		}
-
-		if (isError)
-		{
-			os << " - error";
-		}
-
-		if (showLoader)
-		{
-			os << " - loading";
-		}
-	}
+	const std::vector<std::wstring>& stati() const;
+	std::wstring status() const;
+	virtual void print(std::ostream& os) const;
 
 	const bool isError;
 	const bool showLoader;
 
 private:
-	std::vector<std::string> m_stati;
+	std::vector<std::wstring> m_stati;
 };
 
 #endif // MESSAGE_STATUS_H

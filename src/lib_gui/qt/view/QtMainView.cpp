@@ -100,12 +100,12 @@ void QtMainView::hideStartScreen()
 	);
 }
 
-void QtMainView::setTitle(const std::string& title)
+void QtMainView::setTitle(const std::wstring& title)
 {
 	m_onQtThread(
 		[=]()
 		{
-			m_window->setWindowTitle(QString::fromStdString(title));
+			m_window->setWindowTitle(QString::fromStdWString(title));
 		}
 	);
 }

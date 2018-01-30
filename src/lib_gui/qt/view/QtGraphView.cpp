@@ -160,7 +160,7 @@ void QtGraphView::refreshView()
 
 		QtGraphicsView* view = getView();
 
-		std::string css = utility::getStyleSheet(ResourcePaths::getGuiPath().concatenate(FilePath("graph_view/graph_view.css")));
+		const std::string css = utility::getStyleSheet(ResourcePaths::getGuiPath().concatenate(L"graph_view/graph_view.css"));
 		view->setStyleSheet(css.c_str());
 		view->setAppZoomFactor(GraphViewStyle::getZoomFactor());
 		view->refreshStyle();
@@ -168,12 +168,12 @@ void QtGraphView::refreshView()
 		m_trailWidget->setStyleSheet(css.c_str());
 
 		m_expandButton->setIcon(utility::createButtonIcon(
-			ResourcePaths::getGuiPath().str() + "graph_view/images/graph.png",
+			ResourcePaths::getGuiPath().concatenate(L"graph_view/images/graph.png"),
 			"search/button"
 		));
 
 		m_collapseButton->setIcon(utility::createButtonIcon(
-			ResourcePaths::getGuiPath().str() + "graph_view/images/graph_arrow.png",
+			ResourcePaths::getGuiPath().concatenate(L"graph_view/images/graph_arrow.png"),
 			"search/button"
 		));
 
@@ -729,49 +729,49 @@ void QtGraphView::updateTrailButtons()
 	m_trailDepthLabel->setEnabled(message.trailType);
 	m_trailDepthSlider->setEnabled(message.trailType);
 
-	std::string backwardImagePath;
-	std::string forwardImagePath;
+	std::wstring backwardImagePath;
+	std::wstring forwardImagePath;
 
 	if (message.trailType & Edge::EDGE_CALL)
 	{
 		m_backwardTrailButton->setToolTip("show caller graph");
 		m_forwardTrailButton->setToolTip("show callee graph");
 
-		backwardImagePath = "graph_left.png";
-		forwardImagePath = "graph_right.png";
+		backwardImagePath = L"graph_left.png";
+		forwardImagePath = L"graph_right.png";
 	}
 	else if (message.trailType & Edge::EDGE_INHERITANCE)
 	{
 		m_backwardTrailButton->setToolTip("show base hierarchy");
 		m_forwardTrailButton->setToolTip("show derived hierarchy");
 
-		backwardImagePath = "graph_up.png";
-		forwardImagePath = "graph_down.png";
+		backwardImagePath = L"graph_up.png";
+		forwardImagePath = L"graph_down.png";
 	}
 	else if (message.trailType & Edge::EDGE_INCLUDE)
 	{
 		m_backwardTrailButton->setToolTip("show including files hierarchy");
 		m_forwardTrailButton->setToolTip("show included files hierarchy");
 
-		backwardImagePath = "graph_left.png";
-		forwardImagePath = "graph_right.png";
+		backwardImagePath = L"graph_left.png";
+		forwardImagePath = L"graph_right.png";
 	}
 	else
 	{
 		m_backwardTrailButton->setToolTip("no depth graph available for active symbol");
 		m_forwardTrailButton->setToolTip("no depth graph available for active symbol");
 
-		backwardImagePath = "graph_left.png";
-		forwardImagePath = "graph_right.png";
+		backwardImagePath = L"graph_left.png";
+		forwardImagePath = L"graph_right.png";
 	}
 
 	m_backwardTrailButton->setIcon(utility::createButtonIcon(
-		ResourcePaths::getGuiPath().str() + "graph_view/images/" + backwardImagePath,
+		ResourcePaths::getGuiPath().concatenate(L"graph_view/images/" + backwardImagePath),
 		"search/button"
 	));
 
 	m_forwardTrailButton->setIcon(utility::createButtonIcon(
-		ResourcePaths::getGuiPath().str() + "graph_view/images/" + forwardImagePath,
+		ResourcePaths::getGuiPath().concatenate(L"graph_view/images/" + forwardImagePath),
 		"search/button"
 	));
 
@@ -842,7 +842,7 @@ void QtGraphView::switchToNewGraphData()
 
 	if (m_oldGraph && m_oldGraph->getTrailMode() != Graph::TRAIL_NONE)
 	{
-		MessageStatus("Finished graph display").dispatch();
+		MessageStatus(L"Finished graph display").dispatch();
 	}
 }
 

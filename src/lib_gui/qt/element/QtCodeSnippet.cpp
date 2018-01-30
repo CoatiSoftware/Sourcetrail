@@ -83,7 +83,7 @@ QtCodeSnippet::QtCodeSnippet(const CodeSnippetParams& params, QtCodeNavigator* n
 		m_title = createScopeLine(layout);
 		if (m_titleId == 0) // title is a file path
 		{
-			m_title->setText(FilePath(m_titleString).fileName().c_str());
+			m_title->setText(QString::fromStdWString(FilePath(m_titleString).wFileName()));
 		}
 		else
 		{
@@ -100,7 +100,7 @@ QtCodeSnippet::QtCodeSnippet(const CodeSnippetParams& params, QtCodeNavigator* n
 		m_footer = createScopeLine(layout);
 		if (m_footerId == 0) // footer is a file path
 		{
-			m_footer->setText(FilePath(m_footerString).fileName().c_str());
+			m_footer->setText(QString::fromStdWString(FilePath(m_footerString).wFileName()));
 		}
 		else
 		{

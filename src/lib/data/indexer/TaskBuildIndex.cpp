@@ -14,9 +14,9 @@
 #include "utility/messaging/type/MessageStatus.h"
 
 #if _WIN32
-const std::string TaskBuildIndex::s_processName("sourcetrail_indexer.exe");
+const std::wstring TaskBuildIndex::s_processName(L"sourcetrail_indexer.exe");
 #else
-const std::string TaskBuildIndex::s_processName("sourcetrail_indexer");
+const std::wstring TaskBuildIndex::s_processName(L"sourcetrail_indexer");
 #endif
 
 TaskBuildIndex::TaskBuildIndex(
@@ -177,7 +177,7 @@ void TaskBuildIndex::runIndexerProcess(int processId, const std::string& logFile
 		m_runningThreadCount++;
 	}
 
-	FilePath indexerProcessPath(AppPath::getAppPath() + s_processName);
+	FilePath indexerProcessPath = AppPath::getAppPath().concatenate(s_processName);
 	if (!indexerProcessPath.exists())
 	{
 		m_interrupted = true;
@@ -188,7 +188,7 @@ void TaskBuildIndex::runIndexerProcess(int processId, const std::string& logFile
 	std::string command = "\"" + indexerProcessPath.str() + "\"";
 	command += " " + std::to_string(processId);
 	command += " " + Application::getUUID();
-	command += " \"" + AppPath::getAppPath() + "\"";
+	command += " \"" + AppPath::getAppPath().str() + "\"";
 	command += " \"" + UserPaths::getUserDataPath().str() + "\"";
 
 	if (logFilePath.size())
@@ -292,14 +292,11 @@ void TaskBuildIndex::updateIndexingDialog(
 
 	if (sourcePaths.size())
 	{
-		std::vector<std::string> stati;
+		std::vector<std::wstring> stati;
 		for (const FilePath& path : sourcePaths)
 		{
 			m_indexingFileCount++;
-
-			std::stringstream ss;
-			ss << "[" << m_indexingFileCount << "/" << sourceFileCount << "] Indexing file: " << path.str();
-			stati.push_back(ss.str());
+			stati.push_back(L"[" + std::to_wstring(m_indexingFileCount) + L"/" + std::to_wstring(sourceFileCount) + L"] Indexing file: " + path.wstr());
 		}
 		MessageStatus(stati, false, true).dispatch();
 	}

@@ -120,7 +120,7 @@ std::string utility::getFileNameOfFileEntry(const clang::FileEntry* entry)
 		}
 		else
 		{
-			fileName = FilePath(entry->getName().str()).getParentDirectory().concatenate(FilePath(FilePath(fileName).fileName())).str();
+			fileName = FilePath(entry->getName().str()).getParentDirectory().concatenate(FilePath(fileName).wFileName()).str();
 		}
 	}
 	return fileName;

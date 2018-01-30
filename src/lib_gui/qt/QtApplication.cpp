@@ -26,7 +26,7 @@ bool QtApplication::event(QEvent *event)
 	{
 		QFileOpenEvent* fileEvent = dynamic_cast<QFileOpenEvent*>(event);
 
-		FilePath path(fileEvent->file().toStdString());
+		FilePath path(fileEvent->file().toStdWString());
 
 		if (path.exists() && (path.extension() == ".srctrlprj" || path.extension() == ".coatiproject"))
 		{

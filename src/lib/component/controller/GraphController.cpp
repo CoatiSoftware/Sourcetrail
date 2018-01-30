@@ -153,7 +153,7 @@ void GraphController::handleMessage(MessageActivateTrail* message)
 {
 	TRACE("trail activate");
 
-	MessageStatus("Retrieving depth graph data", false, true).dispatch();
+	MessageStatus(L"Retrieving depth graph data", false, true).dispatch();
 
 	m_activeEdgeIds.clear();
 
@@ -172,7 +172,7 @@ void GraphController::handleMessage(MessageActivateTrail* message)
 
 		if (r == 1)
 		{
-			MessageStatus("Depth graph aborted.").dispatch();
+			MessageStatus(L"Depth graph aborted.").dispatch();
 			return;
 		}
 	}
@@ -183,12 +183,12 @@ void GraphController::handleMessage(MessageActivateTrail* message)
 
 	setVisibility(setActive(m_activeNodeIds, true));
 
-	MessageStatus("Layouting depth graph", false, true).dispatch();
+	MessageStatus(L"Layouting depth graph", false, true).dispatch();
 
 	layoutNesting();
 	layoutTrail(message->horizontalLayout, message->originId);
 
-	MessageStatus("Displaying depth graph", false, true).dispatch();
+	MessageStatus(L"Displaying depth graph", false, true).dispatch();
 
 	message->setIsReplayed(false);
 	buildGraph(message, message->isLast(), true, false);
@@ -386,7 +386,7 @@ void GraphController::handleMessage(MessageGraphNodeHide* message)
 	{
 		if (node->active || node->hasActiveSubNode())
 		{
-			MessageStatus("Can't hide active node or node with active children", true).dispatch();
+			MessageStatus(L"Can't hide active node or node with active children", true).dispatch();
 			return;
 		}
 

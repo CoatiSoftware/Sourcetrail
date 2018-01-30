@@ -10,24 +10,25 @@ public:
 	void test_settings_get_loaded_from_file()
 	{
 		TestSettings settings;
-		TS_ASSERT(settings.load(FilePath("data/SettingsTestSuite/settings.xml")));
+		TS_ASSERT(settings.load(FilePath(L"data/SettingsTestSuite/settings.xml")));
 	}
 
 	void test_settings_get_not_loaded_from_file()
 	{
 		TestSettings settings;
-		TS_ASSERT(!settings.load(FilePath("data/SettingsTestSuite/wrong_settings.xml")));
+		TS_ASSERT(!settings.load(FilePath(L"data/SettingsTestSuite/wrong_settings.xml")));
 	}
 
 	void test_settings_get_loaded_value()
 	{
 		TestSettings settings;
-		TS_ASSERT(settings.load(FilePath("data/SettingsTestSuite/settings.xml")));
+		TS_ASSERT(settings.load(FilePath(L"data/SettingsTestSuite/settings.xml")));
 
 		TS_ASSERT_EQUALS(settings.getBool(), true);
 		TS_ASSERT_EQUALS(settings.getInt(), 42);
 		TS_ASSERT_EQUALS(settings.getFloat(), 3.1416f);
 		TS_ASSERT_EQUALS(settings.getString(), "Hello World!");
+		TS_ASSERT_EQUALS(settings.getWString(), L"Hello World!");
 	}
 
 	void test_settings_get_default_value_when_not_loaded()
@@ -37,29 +38,32 @@ public:
 		TS_ASSERT_EQUALS(settings.getInt(), -1);
 		TS_ASSERT_EQUALS(settings.getFloat(), 0.01f);
 		TS_ASSERT_EQUALS(settings.getString(), "<empty>");
+		TS_ASSERT_EQUALS(settings.getWString(), L"<empty>");
 	}
 
 	void test_settings_get_default_value_when_wrongly_loaded()
 	{
 		TestSettings settings;
-		TS_ASSERT(!settings.load(FilePath("data/SettingsTestSuite/wrong_settings.xml")));
+		TS_ASSERT(!settings.load(FilePath(L"data/SettingsTestSuite/wrong_settings.xml")));
 
 		TS_ASSERT_EQUALS(settings.getBool(), false);
 		TS_ASSERT_EQUALS(settings.getInt(), -1);
 		TS_ASSERT_EQUALS(settings.getFloat(), 0.01f);
 		TS_ASSERT_EQUALS(settings.getString(), "<empty>");
+		TS_ASSERT_EQUALS(settings.getWString(), L"<empty>");
 	}
 
 	void test_settings_get_default_value_after_clearing()
 	{
 		TestSettings settings;
-		TS_ASSERT(settings.load(FilePath("data/SettingsTestSuite/settings.xml")));
+		TS_ASSERT(settings.load(FilePath(L"data/SettingsTestSuite/settings.xml")));
 
 		settings.clear();
 		TS_ASSERT_EQUALS(settings.getBool(), false);
 		TS_ASSERT_EQUALS(settings.getInt(), -1);
 		TS_ASSERT_EQUALS(settings.getFloat(), 0.01f);
 		TS_ASSERT_EQUALS(settings.getString(), "<empty>");
+		TS_ASSERT_EQUALS(settings.getWString(), L"<empty>");
 	}
 
 	void test_settings_can_be_set_when_not_loaded()
@@ -75,14 +79,17 @@ public:
 		TS_ASSERT(settings.setFloat(2.5f));
 		TS_ASSERT_EQUALS(settings.getFloat(), 2.5f);
 
-		TS_ASSERT(settings.setString("foobar"));
-		TS_ASSERT_EQUALS(settings.getString(), "foobar");
+		TS_ASSERT(settings.setString("foo"));
+		TS_ASSERT_EQUALS(settings.getString(), "foo");
+
+		TS_ASSERT(settings.setWString(L"bar"));
+		TS_ASSERT_EQUALS(settings.getWString(), L"bar");
 	}
 
 	void test_settings_can_be_replaced_when_loaded()
 	{
 		TestSettings settings;
-		TS_ASSERT(settings.load(FilePath("data/SettingsTestSuite/settings.xml")));
+		TS_ASSERT(settings.load(FilePath(L"data/SettingsTestSuite/settings.xml")));
 
 		TS_ASSERT(settings.setBool(false));
 		TS_ASSERT_EQUALS(settings.getBool(), false);
@@ -93,14 +100,17 @@ public:
 		TS_ASSERT(settings.setFloat(2.5f));
 		TS_ASSERT_EQUALS(settings.getFloat(), 2.5f);
 
-		TS_ASSERT(settings.setString("foobar"));
-		TS_ASSERT_EQUALS(settings.getString(), "foobar");
+		TS_ASSERT(settings.setString("foo"));
+		TS_ASSERT_EQUALS(settings.getString(), "foo");
+
+		TS_ASSERT(settings.setWString(L"bar"));
+		TS_ASSERT_EQUALS(settings.getWString(), L"bar");
 	}
 
 	void test_settings_can_be_added_when_loaded()
 	{
 		TestSettings settings;
-		TS_ASSERT(settings.load(FilePath("data/SettingsTestSuite/settings.xml")));
+		TS_ASSERT(settings.load(FilePath(L"data/SettingsTestSuite/settings.xml")));
 
 		TS_ASSERT_EQUALS(settings.getNewBool(), false);
 		TS_ASSERT(settings.setNewBool(true));
@@ -110,13 +120,13 @@ public:
 	void test_load_project_settings_from_file()
 	{
 		ProjectSettings settings;
-		TS_ASSERT(settings.load(FilePath("data/SettingsTestSuite/settings.xml")));
+		TS_ASSERT(settings.load(FilePath(L"data/SettingsTestSuite/settings.xml")));
 	}
 
 	void test_load_source_path_from_file()
 	{
 		ProjectSettings projectSettings;
-		projectSettings.load(FilePath("data/SettingsTestSuite/settings.xml"));
+		projectSettings.load(FilePath(L"data/SettingsTestSuite/settings.xml"));
 		std::shared_ptr<SourceGroupSettingsCxx> sourceGroupSettings = std::dynamic_pointer_cast<SourceGroupSettingsCxx>(projectSettings.getAllSourceGroupSettings().front());
 		std::vector<FilePath> paths = sourceGroupSettings->getSourcePaths();
 
@@ -127,7 +137,7 @@ public:
 	void test_load_header_search_paths_from_file()
 	{
 		ProjectSettings projectSettings;
-		projectSettings.load(FilePath("data/SettingsTestSuite/settings.xml"));
+		projectSettings.load(FilePath(L"data/SettingsTestSuite/settings.xml"));
 		std::shared_ptr<SourceGroupSettingsCxx> sourceGroupSettings = std::dynamic_pointer_cast<SourceGroupSettingsCxx>(projectSettings.getAllSourceGroupSettings().front());
 		std::vector<FilePath> paths = sourceGroupSettings->getHeaderSearchPaths();
 
@@ -179,6 +189,16 @@ private:
 		bool setString(const std::string& value)
 		{
 			return setValue<std::string>("String", value);
+		}
+
+		std::wstring getWString() const
+		{
+			return getValue<std::wstring>("WString", L"<empty>");
+		}
+
+		bool setWString(const std::wstring& value)
+		{
+			return setValue<std::wstring>("WString", value);
 		}
 
 		bool getNewBool() const

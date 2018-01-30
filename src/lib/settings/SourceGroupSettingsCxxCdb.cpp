@@ -19,7 +19,7 @@ void SourceGroupSettingsCxxCdb::load(std::shared_ptr<const ConfigManager> config
 
 	const std::string key = s_keyPrefix + getId();
 
-	setCompilationDatabasePath(FilePath(getValue<std::string>(key + "/build_file_path/compilation_db_path", "", config)));
+	setCompilationDatabasePath(FilePath(getValue<std::wstring>(key + "/build_file_path/compilation_db_path", L"", config)));
 }
 
 void SourceGroupSettingsCxxCdb::save(std::shared_ptr<ConfigManager> config)
@@ -28,7 +28,7 @@ void SourceGroupSettingsCxxCdb::save(std::shared_ptr<ConfigManager> config)
 
 	const std::string key = s_keyPrefix + getId();
 
-	setValue(key + "/build_file_path/compilation_db_path", getCompilationDatabasePath().str(), config);
+	setValue(key + "/build_file_path/compilation_db_path", getCompilationDatabasePath().wstr(), config);
 }
 
 bool SourceGroupSettingsCxxCdb::equals(std::shared_ptr<SourceGroupSettings> other) const

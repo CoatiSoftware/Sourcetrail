@@ -1,7 +1,7 @@
 #include "data/parser/ParseLocation.h"
 
 ParseLocation::ParseLocation()
-	: filePath("")
+	: filePath(L"")
 	, startLineNumber(0)
 	, startColumnNumber(0)
 	, endLineNumber(0)

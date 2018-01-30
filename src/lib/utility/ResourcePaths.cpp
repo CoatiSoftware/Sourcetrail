@@ -4,25 +4,25 @@
 
 FilePath ResourcePaths::getColorSchemesPath()
 {
-	return FilePath(AppPath::getAppPath() + "data/color_schemes/");
+	return AppPath::getAppPath().concatenate(L"data/color_schemes/");
 }
 
 FilePath ResourcePaths::getFallbackPath()
 {
-	return FilePath(AppPath::getAppPath() + "data/fallback/");
+	return AppPath::getAppPath().concatenate(L"data/fallback/");
 }
 
 FilePath ResourcePaths::getFontsPath()
 {
-	return FilePath(AppPath::getAppPath() + "data/fonts/");
+	return AppPath::getAppPath().concatenate(L"data/fonts/");
 }
 
 FilePath ResourcePaths::getGuiPath()
 {
-	return FilePath(AppPath::getAppPath() + "data/gui/");
+	return AppPath::getAppPath().concatenate(L"data/gui/");
 }
 
 FilePath ResourcePaths::getJavaPath()
 {
-	return FilePath(AppPath::getAppPath() + "data/java/");
+	return AppPath::getAppPath().concatenate(L"data/java/");
 }

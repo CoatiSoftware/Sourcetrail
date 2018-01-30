@@ -105,8 +105,8 @@ bool SourceGroupJavaMaven::prepareMavenData()
 
 		if (!success)
 		{
-			const std::string dialogMessage =
-				"Sourcetrail was unable to locate Maven on this machine.\n"
+			const std::wstring dialogMessage =
+				L"Sourcetrail was unable to locate Maven on this machine.\n"
 				"Please make sure to provide the correct Maven Path in the preferences.";
 
 			MessageStatus(dialogMessage, true, false).dispatch();

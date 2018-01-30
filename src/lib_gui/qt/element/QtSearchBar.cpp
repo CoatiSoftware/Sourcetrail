@@ -102,12 +102,12 @@ void QtSearchBar::refreshStyle()
 	m_homeButton->setFixedHeight(m_searchBox->height() + 5);
 
 	m_searchButton->setIcon(utility::createButtonIcon(
-		ResourcePaths::getGuiPath().str() + "search_view/images/search.png",
+		ResourcePaths::getGuiPath().concatenate(L"search_view/images/search.png"),
 		"search/button"
 	));
 
 	m_homeButton->setIcon(utility::createButtonIcon(
-		ResourcePaths::getGuiPath().str() + "search_view/images/home.png",
+		ResourcePaths::getGuiPath().concatenate(L"search_view/images/home.png"),
 		"search/button"
 	));
 

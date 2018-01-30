@@ -154,9 +154,8 @@ void ActivationController::handleMessage(MessageResetZoom* message)
 		MessageRefresh().refreshUiOnly().dispatch();
 	}
 
-	std::stringstream text;
-	text << "Font size: " << fontSizeStd;
-	MessageStatus(text.str()).dispatch();
+	
+	MessageStatus(L"Font size: " + std::to_wstring(fontSizeStd)).dispatch();
 }
 
 void ActivationController::handleMessage(MessageZoom* message)
@@ -178,10 +177,7 @@ void ActivationController::handleMessage(MessageZoom* message)
 	settings->setFontSize(fontSize + (message->zoomIn ? 1 : -1));
 	settings->save();
 
-	std::stringstream text;
-	text << "Font size: " << settings->getFontSize();
-	MessageStatus(text.str()).dispatch();
-
+	MessageStatus(L"Font size: " + std::to_wstring(settings->getFontSize())).dispatch();
 	MessageRefresh().refreshUiOnly().dispatch();
 }
 

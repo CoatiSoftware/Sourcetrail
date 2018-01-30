@@ -8,8 +8,8 @@ public:
 	void test_file_manager_has_added_file_paths_after_first_fetch()
 	{
 		std::vector<FilePath> sourcePaths;
-		sourcePaths.push_back(FilePath("./data/FileManagerTestSuite/src/"));
-		sourcePaths.push_back(FilePath("./data/FileManagerTestSuite/include/"));
+		sourcePaths.push_back(FilePath(L"./data/FileManagerTestSuite/src/"));
+		sourcePaths.push_back(FilePath(L"./data/FileManagerTestSuite/include/"));
 		std::vector<FilePath> headerPaths;
 		std::vector<FilePath> excludePaths;
 		std::vector<std::string> sourceExtensions;

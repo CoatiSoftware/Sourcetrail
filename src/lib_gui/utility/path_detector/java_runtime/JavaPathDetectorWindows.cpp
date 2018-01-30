@@ -29,7 +29,7 @@ std::vector<FilePath> JavaPathDetectorWindows::getPaths() const
 	QSettings expressKey(key, QSettings::NativeFormat); // NativeFormat means from Registry on Windows.
 	QString value = expressKey.value("RuntimeLib").toString();
 
-	FilePath path(value.toStdString());
+	FilePath path(value.toStdWString());
 
 	std::vector<FilePath> paths;
 	if (path.exists())

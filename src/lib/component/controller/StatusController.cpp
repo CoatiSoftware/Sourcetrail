@@ -35,14 +35,14 @@ void StatusController::handleMessage(MessageShowStatus* message)
 
 void StatusController::handleMessage(MessageStatus* message)
 {
-	if (!message->status().size())
+	if (message->status().empty())
 	{
 		return;
 	}
 
 	std::vector<Status> stati;
 
-	for (const std::string& status : message->stati())
+	for (const std::wstring& status : message->stati())
 	{
 		stati.push_back(Status(status, message->isError));
 	}

@@ -54,3 +54,13 @@ int DialogView::confirm(const std::string& message, const std::vector<std::strin
 {
 	return -1;
 }
+
+int DialogView::confirm(const std::wstring& message)
+{
+	return confirm(message, std::vector<std::wstring>());
+}
+
+int DialogView::confirm(const std::wstring& message, const std::vector<std::wstring>& options)
+{
+	return -1;
+}

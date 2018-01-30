@@ -41,7 +41,7 @@ protected:
 	bool fetchIntermediateStorages(std::shared_ptr<Blackboard> blackboard);
 	void updateIndexingDialog(std::shared_ptr<Blackboard> blackboard, const std::vector<FilePath>& sourcePaths);
 
-	static const std::string s_processName;
+	static const std::wstring s_processName;
 
 	std::shared_ptr<IndexerCommandList> m_indexerCommandList;
 	std::shared_ptr<StorageProvider> m_storageProvider;

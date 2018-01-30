@@ -70,7 +70,7 @@ void QtKeyboardShortcuts::populateWindow(QWidget* widget)
 
 	widget->setLayout(layout);
 
-	widget->setStyleSheet(utility::getStyleSheet(ResourcePaths::getGuiPath().concatenate(FilePath("keyboard_shortcuts/keyboard_shortcuts.css"))).c_str());
+	widget->setStyleSheet(utility::getStyleSheet(ResourcePaths::getGuiPath().concatenate(L"keyboard_shortcuts/keyboard_shortcuts.css")).c_str());
 }
 
 void QtKeyboardShortcuts::windowReady()

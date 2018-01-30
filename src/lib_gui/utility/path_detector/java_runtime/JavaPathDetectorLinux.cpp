@@ -5,9 +5,9 @@
 #include "utility/utilityString.h"
 
 #ifdef __x86_64__
-	const char jvmLibPathRelativeToJavaExecutable[] = "/../lib/amd64/server/libjvm.so";
+	const wchar_t jvmLibPathRelativeToJavaExecutable[] = L"/../lib/amd64/server/libjvm.so";
 #else
-	const char jvmLibPathRelativeToJavaExecutable[] = "/../lib/i386/server/libjvm.so";
+	const wchar_t jvmLibPathRelativeToJavaExecutable[] = L"/../lib/i386/server/libjvm.so";
 #endif
 
 
@@ -25,7 +25,7 @@ FilePath JavaPathDetectorLinux::getJavaInPath() const
 	std::string command = "which java";
 	std::string output = utility::executeProcess(command.c_str());
 
-	if (output.size())
+	if (!output.empty())
 	{
 		output = utility::trim(output);
 
@@ -52,7 +52,7 @@ FilePath JavaPathDetectorLinux::readLink(const FilePath& path) const
 
 FilePath JavaPathDetectorLinux::getFilePathRelativeToJavaExecutable(FilePath& javaExecutablePath) const
 {
-	FilePath p(javaExecutablePath.getParentDirectory().str() + jvmLibPathRelativeToJavaExecutable);
+	FilePath p = javaExecutablePath.getParentDirectory().concatenate(jvmLibPathRelativeToJavaExecutable);
 	if (p.exists())
 	{
 		return p.makeCanonical();
@@ -90,20 +90,20 @@ std::vector<FilePath> JavaPathDetectorLinux::getPaths() const
 {
 	std::vector<FilePath> paths;
 	FilePath p = getJavaInPath();
-	if( !p.empty() )
+	if(!p.empty())
 	{
 		paths.push_back(p);
 	}
 	p = getJavaInJavaHome();
-	if( !p.empty() )
+	if(!p.empty())
 	{
 		paths.push_back(p);
 	}
 
 	// some default paths for java
-	paths.push_back(FilePath("/etc/alternatives/java"));
-	paths.push_back(FilePath("/usr/lib/jvm/default/bin/java"));
-	paths.push_back(FilePath("/usr/lib/jvm/java-openjdk/bin/java"));
+	paths.push_back(FilePath(L"/etc/alternatives/java"));
+	paths.push_back(FilePath(L"/usr/lib/jvm/default/bin/java"));
+	paths.push_back(FilePath(L"/usr/lib/jvm/java-openjdk/bin/java"));
 
 	for (const FilePath& path : paths )
 	{

@@ -114,11 +114,8 @@ void Settings::setFilePath(const FilePath& filePath)
 
 std::vector<FilePath> Settings::getPathValues(const std::string& key) const
 {
-	std::vector<std::string> values;
-	values = getValues(key, values);
-
 	std::vector<FilePath> paths;
-	for (const std::string& value : values)
+	for (const std::wstring& value : getValues<std::wstring>(key, {}))
 	{
 		paths.push_back(FilePath(value));
 	}
@@ -127,10 +124,10 @@ std::vector<FilePath> Settings::getPathValues(const std::string& key) const
 
 bool Settings::setPathValues(const std::string& key, const std::vector<FilePath>& paths)
 {
-	std::vector<std::string> values;
+	std::vector<std::wstring> values;
 	for (const FilePath& path : paths)
 	{
-		values.push_back(path.str());
+		values.push_back(path.wstr());
 	}
 
 	return setValues(key, values);

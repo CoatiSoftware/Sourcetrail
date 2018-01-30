@@ -23,7 +23,7 @@ QSize QtAbout::sizeHint() const
 
 void QtAbout::setupAbout()
 {
-	setStyleSheet(utility::getStyleSheet(ResourcePaths::getGuiPath().concatenate(FilePath("about/about.css"))).c_str());
+	setStyleSheet(utility::getStyleSheet(ResourcePaths::getGuiPath().concatenate(L"about/about.css")).c_str());
 
 	QVBoxLayout* windowLayout = new QVBoxLayout();
 	windowLayout->setContentsMargins(10, 10, 10, 0);
@@ -34,7 +34,7 @@ void QtAbout::setupAbout()
 		QHBoxLayout* row = new QHBoxLayout();
 		windowLayout->addLayout(row);
 		{
-			QtDeviceScaledPixmap sourcetrailLogo((ResourcePaths::getGuiPath().str() + "about/logo_sourcetrail.png").c_str());
+			QtDeviceScaledPixmap sourcetrailLogo(QString::fromStdWString(ResourcePaths::getGuiPath().wstr() + L"about/logo_sourcetrail.png"));
 			sourcetrailLogo.scaleToHeight(150);
 
 			QLabel* sourcetrailLogoLabel = new QLabel(this);

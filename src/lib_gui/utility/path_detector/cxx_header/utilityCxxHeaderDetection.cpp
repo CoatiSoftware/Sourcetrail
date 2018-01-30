@@ -44,18 +44,13 @@ namespace utility
 			const FilePath sdkPath = getWindowsSdkRootPathUsingRegistry(architectureType, windowsSdkVersions[i]);
 			if (sdkPath.exists())
 			{
-				const FilePath sdkIncludePath = sdkPath.getConcatenated(FilePath("include/"));
+				const FilePath sdkIncludePath = sdkPath.getConcatenated(L"include/");
 				if (sdkIncludePath.exists())
 				{
-					std::vector<std::string> subdirectories;
-					subdirectories.push_back("shared");
-					subdirectories.push_back("um");
-					subdirectories.push_back("winrt");
-
 					bool usingSubdirectories = false;
-					for (size_t j = 0; j < subdirectories.size(); j++)
+					for (const std::wstring subDirectory : { L"shared", L"um", L"winrt" })
 					{
-						const FilePath sdkSubdirectory = sdkIncludePath.getConcatenated(FilePath(subdirectories[j]));
+						const FilePath sdkSubdirectory = sdkIncludePath.getConcatenated(subDirectory);
 						if (sdkSubdirectory.exists())
 						{
 							headerSearchPaths.push_back(sdkSubdirectory);
@@ -75,9 +70,9 @@ namespace utility
 			const FilePath sdkPath = getWindowsSdkRootPathUsingRegistry(architectureType, "v10.0");
 			if (sdkPath.exists())
 			{
-				for (const FilePath& versionPath : FileSystem::getDirectSubDirectories(sdkPath.getConcatenated(FilePath("include/"))))
+				for (const FilePath& versionPath : FileSystem::getDirectSubDirectories(sdkPath.getConcatenated(L"include/")))
 				{
-					const FilePath ucrtPath = versionPath.getConcatenated(FilePath("ucrt"));
+					const FilePath ucrtPath = versionPath.getConcatenated(L"ucrt");
 					if (ucrtPath.exists())
 					{
 						headerSearchPaths.push_back(ucrtPath);
@@ -102,7 +97,7 @@ namespace utility
 		QSettings expressKey(key, QSettings::NativeFormat); // NativeFormat means from Registry on Windows.
 		QString value = expressKey.value("InstallationFolder").toString();
 
-		FilePath path(value.toStdString());
+		FilePath path(value.toStdWString());
 		if (path.exists())
 		{
 			return path;

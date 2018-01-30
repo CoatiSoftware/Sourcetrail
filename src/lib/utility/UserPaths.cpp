@@ -14,15 +14,15 @@ void UserPaths::setUserDataPath(const FilePath& path)
 
 FilePath UserPaths::getAppSettingsPath()
 {
-	return getUserDataPath().concatenate(FilePath("ApplicationSettings.xml"));
+	return getUserDataPath().concatenate(L"ApplicationSettings.xml");
 }
 
 FilePath UserPaths::getWindowSettingsPath()
 {
-	return getUserDataPath().concatenate(FilePath("window_settings.ini"));
+	return getUserDataPath().concatenate(L"window_settings.ini");
 }
 
 FilePath UserPaths::getLogPath()
 {
-	return getUserDataPath().concatenate(FilePath("log/"));
+	return getUserDataPath().concatenate(L"log/");
 }

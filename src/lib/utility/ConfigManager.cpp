@@ -8,6 +8,7 @@
 #include "utility/text/TextAccess.h"
 #include "utility/utility.h"
 #include "utility/utilityString.h"
+#include "utility/utilityQString.h"
 
 std::shared_ptr<ConfigManager> ConfigManager::createEmpty()
 {
@@ -48,6 +49,17 @@ bool ConfigManager::getValue(const std::string& key, std::string& value) const
 		}
 		return false;
 	}
+}
+
+bool ConfigManager::getValue(const std::string& key, std::wstring& value) const
+{
+	std::string valueString;
+	if (getValue(key, valueString))
+	{
+		value = utility::decodeFromUtf8(valueString.c_str());
+		return true;
+	}
+	return false;
 }
 
 bool ConfigManager::getValue(const std::string& key, int& value) const
@@ -110,6 +122,21 @@ bool ConfigManager::getValues(const std::string& key, std::vector<std::string>& 
 	}
 }
 
+bool ConfigManager::getValues(const std::string& key, std::vector<std::wstring>& values) const
+{
+	std::vector<std::string> valuesStringVector;
+	if (getValues(key, valuesStringVector))
+	{
+		for (const std::string& valueString : valuesStringVector)
+		{
+			values.push_back(utility::decodeFromUtf8(valueString));
+		}
+		return true;
+	}
+	return false;
+}
+
+
 bool ConfigManager::getValues(const std::string& key, std::vector<int>& values) const
 {
 	std::vector<std::string> valuesStringVector;
@@ -166,6 +193,11 @@ void ConfigManager::setValue(const std::string& key, const std::string& value)
 	}
 }
 
+void ConfigManager::setValue(const std::string& key, const std::wstring& value)
+{
+	setValue(key, utility::encodeToUtf8(value));
+}
+
 void ConfigManager::setValue(const std::string& key, const int value)
 {
 	setValue(key, std::to_string(value));
@@ -195,6 +227,16 @@ void ConfigManager::setValues(const std::string& key, const std::vector<std::str
 	{
 		m_values.emplace(key, s);
 	}
+}
+
+void ConfigManager::setValues(const std::string& key, const std::vector<std::wstring>& values)
+{
+	std::vector<std::string> stringValues;
+	for (std::wstring v : values)
+	{
+		stringValues.push_back(utility::encodeToUtf8(v));
+	}
+	setValues(key, stringValues);
 }
 
 void ConfigManager::setValues(const std::string& key, const std::vector<int>& values)

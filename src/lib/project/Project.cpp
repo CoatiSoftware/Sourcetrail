@@ -146,11 +146,11 @@ void Project::load()
 		{
 			MessageFinishedParsing().dispatch();
 		}
-		MessageStatus("Finished Loading", false, false).dispatch();
+		MessageStatus(L"Finished Loading", false, false).dispatch();
 	}
 	else
 	{
-		MessageStatus("Project not loaded", false, false).dispatch();
+		MessageStatus(L"Project not loaded", false, false).dispatch();
 	}
 
 	if (m_state != PROJECT_STATE_LOADED && m_hasGUI)
@@ -326,11 +326,11 @@ void Project::buildIndex(const RefreshInfo& info, DialogView* dialogView)
 			MessageFinishedParsing().dispatch();
 		}
 
-		MessageStatus("Nothing to refresh, all files are up-to-date.").dispatch();
+		MessageStatus(L"Nothing to refresh, all files are up-to-date.").dispatch();
 		return;
 	}
 
-	MessageStatus("Preparing Indexing", false, true).dispatch();
+	MessageStatus(L"Preparing Indexing", false, true).dispatch();
 	MessageClearErrorCount().dispatch();
 
 	dialogView->showUnknownProgressDialog("Preparing Indexing", "Setting up Indexers");

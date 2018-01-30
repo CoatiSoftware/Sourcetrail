@@ -32,7 +32,7 @@ std::string LicenseChecker::getCurrentLicenseString() const
 {
 	License license;
 	bool isLoaded = license.loadFromEncodedString(
-		ApplicationSettings::getInstance()->getLicenseString(), AppPath::getAppPath());
+		ApplicationSettings::getInstance()->getLicenseString(), AppPath::getAppPath().str());
 
 	if (isLoaded)
 	{
@@ -68,10 +68,9 @@ LicenseChecker::LicenseState LicenseChecker::checkCurrentLicense() const
 		return LICENSE_EMPTY;
 	}
 
-	std::string licenseCheck = appSettings->getLicenseCheck();
-	std::string appPath(AppPath::getAppPath());
+	const FilePath appPath = AppPath::getAppPath();
 
-	if (appPath.size() <= 0)
+	if (appPath.empty())
 	{
 		LOG_ERROR_STREAM(<< "Failed to retrieve app path");
 		return LICENSE_EMPTY;
@@ -83,13 +82,13 @@ LicenseChecker::LicenseState LicenseChecker::checkCurrentLicense() const
 		return LICENSE_EMPTY;
 	}
 
-	if (!License::checkLocation(FilePath(appPath).makeAbsolute().str(), licenseCheck))
+	if (!License::checkLocation(appPath.getAbsolute().str(), appSettings->getLicenseCheck()))
 	{
 		return LICENSE_MOVED;
 	}
 
 	License license;
-	bool isLoaded = license.loadFromEncodedString(licenseString, appPath);
+	bool isLoaded = license.loadFromEncodedString(licenseString, appPath.str());
 	if (!isLoaded)
 	{
 		return LICENSE_MOVED;
@@ -121,7 +120,7 @@ MessageEnteredLicense::LicenseType LicenseChecker::getCurrentLicenseType() const
 {
 	License license;
 	bool isLoaded = license.loadFromEncodedString(
-		ApplicationSettings::getInstance()->getLicenseString(), AppPath::getAppPath());
+		ApplicationSettings::getInstance()->getLicenseString(), AppPath::getAppPath().str());
 
 	if (!isLoaded)
 	{

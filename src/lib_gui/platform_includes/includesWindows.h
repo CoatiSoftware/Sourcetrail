@@ -36,21 +36,20 @@ void setupApp(int argc, char *argv[])
 		{
 			appPath = appPath.substr(0, pos + 1);
 		}
-		AppPath::setAppPath(FilePath(appPath).str());
 	}
 
 	{
-		FilePath userDataPath(AppPath::getAppPath() + "user/");
+		FilePath userDataPath = AppPath::getAppPath().concatenate(L"user/");
 		if (!userDataPath.exists())
 		{
 			userDataPath = FilePath(std::string(std::getenv("APPDATA")) + "/../local/Coati Software/");
 			if (utility::getApplicationArchitectureType() == APPLICATION_ARCHITECTURE_X86_64)
 			{
-				userDataPath.concatenate(FilePath("Sourcetrail 64-bit/"));
+				userDataPath.concatenate(L"Sourcetrail 64-bit/");
 			}
 			else
 			{
-				userDataPath.concatenate(FilePath("Sourcetrail/"));
+				userDataPath.concatenate(L"Sourcetrail/");
 			}
 			userDataPath.makeCanonical();
 		}
@@ -58,8 +57,8 @@ void setupApp(int argc, char *argv[])
 	}
 
 	// This "copyFile" method does nothing if the copy destination already exist
-	FileSystem::copyFile(ResourcePaths::getFallbackPath().concatenate(FilePath("ApplicationSettings.xml")), UserPaths::getAppSettingsPath());
-	FileSystem::copyFile(ResourcePaths::getFallbackPath().concatenate(FilePath("window_settings.ini")), UserPaths::getWindowSettingsPath());
+	FileSystem::copyFile(ResourcePaths::getFallbackPath().concatenate(L"ApplicationSettings.xml"), UserPaths::getAppSettingsPath());
+	FileSystem::copyFile(ResourcePaths::getFallbackPath().concatenate(L"window_settings.ini"), UserPaths::getWindowSettingsPath());
 }
 
 #endif // INCLUDES_WINDOWS_H

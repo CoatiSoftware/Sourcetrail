@@ -56,15 +56,15 @@ void QtProjectWizzardContentProjectData::populate(QGridLayout* layout, int& row)
 
 void QtProjectWizzardContentProjectData::load()
 {
-	m_projectName->setText(QString::fromStdString(m_projectSettings->getProjectName()));
-	m_projectFileLocation->setText(QString::fromStdString(m_projectSettings->getProjectDirectoryPath().str()));
+	m_projectName->setText(QString::fromStdWString(m_projectSettings->getProjectName()));
+	m_projectFileLocation->setText(QString::fromStdWString(m_projectSettings->getProjectDirectoryPath().wstr()));
 }
 
 void QtProjectWizzardContentProjectData::save()
 {
 	m_projectSettings->setProjectFilePath(
-		m_projectName->text().toStdString(),
-		FilePath(m_projectFileLocation->getText().toStdString())
+		m_projectName->text().toStdWString(),
+		FilePath(m_projectFileLocation->getText().toStdWString())
 	);
 }
 
@@ -86,7 +86,7 @@ bool QtProjectWizzardContentProjectData::check()
 		return false;
 	}
 
-	std::vector<FilePath> paths = FilePath(m_projectFileLocation->getText().toStdString()).expandEnvironmentVariables();
+	std::vector<FilePath> paths = FilePath(m_projectFileLocation->getText().toStdWString()).expandEnvironmentVariables();
 	if (paths.size() != 1 || !paths[0].exists())
 	{
 		QMessageBox msgBox;

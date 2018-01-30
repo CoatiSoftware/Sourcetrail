@@ -486,7 +486,7 @@ GraphViewStyle::NodeStyle GraphViewStyle::getStyleOfBundleNode(bool isFocused)
 	return getStyleForNodeType(
 		NodeType::STYLE_BIG_NODE,
 		"bundle",
-		ResourcePaths::getGuiPath().concatenate(FilePath("graph_view/images/bundle.png")),
+		ResourcePaths::getGuiPath().concatenate(L"graph_view/images/bundle.png"),
 		true,
 		false,
 		isFocused,

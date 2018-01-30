@@ -36,5 +36,5 @@ void QtRefreshView::refreshView()
 void QtRefreshView::setStyleSheet()
 {
 	m_widget->setStyleSheet(utility::getStyleSheet(
-		ResourcePaths::getGuiPath().concatenate(FilePath("refresh_view/refresh_view.css"))).c_str());
+		ResourcePaths::getGuiPath().concatenate(L"refresh_view/refresh_view.css")).c_str());
 }

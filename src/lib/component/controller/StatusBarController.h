@@ -41,7 +41,7 @@ private:
 	virtual void handleMessage(MessageShowErrors* message);
 	virtual void handleMessage(MessageStatus* message);
 
-	void setStatus(const std::string& status, bool isError, bool showLoader);
+	void setStatus(const std::wstring& status, bool isError, bool showLoader);
 
 	StorageAccess* m_storageAccess;
 };

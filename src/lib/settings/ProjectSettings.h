@@ -19,7 +19,6 @@ public:
 
 	ProjectSettings();
 	ProjectSettings(const FilePath& projectFilePath);
-	ProjectSettings(std::string projectName, const FilePath& projectFileLocation);
 	virtual ~ProjectSettings();
 
 	bool equalsExceptNameAndLocation(const ProjectSettings& other) const;
@@ -30,9 +29,9 @@ public:
 	bool reload();
 
 	FilePath getProjectFilePath() const;
-	void setProjectFilePath(std::string projectName, const FilePath& projectFileLocation);
+	void setProjectFilePath(std::wstring projectName, const FilePath& projectFileLocation);
 
-	std::string getProjectName() const;
+	std::wstring getProjectName() const;
 	FilePath getProjectDirectoryPath() const;
 
 	std::string getDescription() const;

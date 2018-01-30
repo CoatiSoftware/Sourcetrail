@@ -31,7 +31,7 @@ void QtStatusBarView::refreshView()
 {
 }
 
-void QtStatusBarView::showMessage(const std::string& message, bool isError, bool showLoader)
+void QtStatusBarView::showMessage(const std::wstring& message, bool isError, bool showLoader)
 {
 	m_onQtThread(
 		[=]()

@@ -13,7 +13,7 @@ FileRegister::FileRegister(
 	, m_indexedPaths(indexedPaths)
 	, m_excludedPaths(excludedPaths)
 	, m_hasFilePathCache(
-		[&](const std::string& f)
+		[&](const std::wstring& f)
 		{
 			const FilePath filePath(f);
 			bool ret = false;
@@ -101,5 +101,5 @@ bool FileRegister::fileIsIndexed(const FilePath& filePath) const
 
 bool FileRegister::hasFilePath(const FilePath& filePath) const
 {
-	return m_hasFilePathCache.getValue(filePath.str());
+	return m_hasFilePathCache.getValue(filePath.wstr());
 }

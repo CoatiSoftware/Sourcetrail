@@ -161,17 +161,17 @@ void QtUndoRedo::refreshStyle()
 	m_historyButton->setFixedHeight(height);
 
 	m_undoButton->setIcon(utility::createButtonIcon(
-		ResourcePaths::getGuiPath().str() + "undoredo_view/images/arrow_left.png",
+		ResourcePaths::getGuiPath().concatenate(L"undoredo_view/images/arrow_left.png"),
 		"search/button"
 	));
 
 	m_redoButton->setIcon(utility::createButtonIcon(
-		ResourcePaths::getGuiPath().str() + "undoredo_view/images/arrow_right.png",
+		ResourcePaths::getGuiPath().concatenate(L"undoredo_view/images/arrow_right.png"),
 		"search/button"
 	));
 
 	m_historyButton->setIcon(utility::createButtonIcon(
-		ResourcePaths::getGuiPath().str() + "undoredo_view/images/history.png",
+		ResourcePaths::getGuiPath().concatenate(L"undoredo_view/images/history.png"),
 		"search/button"
 	));
 

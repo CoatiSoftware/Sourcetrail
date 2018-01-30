@@ -111,9 +111,12 @@ std::string Version::toString() const
 
 std::string Version::toDisplayString() const
 {
-	std::stringstream ss;
-	ss << m_year << '.' << m_minorNumber << '.' << m_commitNumber;
-	return ss.str();
+	return std::to_string(m_year) + '.' + std::to_string(m_minorNumber) + '.' + std::to_string(m_commitNumber);
+}
+
+std::wstring Version::toDisplayWString() const
+{
+	return std::to_wstring(m_year) + L'.' + std::to_wstring(m_minorNumber) + L'.' + std::to_wstring(m_commitNumber);
 }
 
 bool Version::operator<(const Version& other) const

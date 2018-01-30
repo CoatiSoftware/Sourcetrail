@@ -13,7 +13,7 @@ public:
 	void setUp()
 	{
 		m_appSettingsPath = ApplicationSettings::getInstance()->getFilePath();
-		ApplicationSettings::getInstance()->load(FilePath("data/CommandlineTestSuite/settings.xml"));
+		ApplicationSettings::getInstance()->load(FilePath(L"data/CommandlineTestSuite/settings.xml"));
 	}
 
 	void tearDown()

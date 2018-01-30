@@ -106,8 +106,8 @@ void QtBookmarkCreator::setupBookmarkCreator()
 void QtBookmarkCreator::refreshStyle()
 {
 	setStyleSheet((
-		utility::getStyleSheet(ResourcePaths::getGuiPath().concatenate(FilePath("window/window.css"))) +
-		utility::getStyleSheet(ResourcePaths::getGuiPath().concatenate(FilePath("bookmark_view/bookmark_view.css")))
+		utility::getStyleSheet(ResourcePaths::getGuiPath().concatenate(L"window/window.css")) +
+		utility::getStyleSheet(ResourcePaths::getGuiPath().concatenate(L"bookmark_view/bookmark_view.css"))
 	).c_str());
 }
 
@@ -172,7 +172,7 @@ void QtBookmarkCreator::handleNext()
 		m_controllerProxy->executeAsTaskWithArgs(
 			&BookmarkController::createBookmark, name, comment, category, m_nodeId);
 
-		MessageStatus("Creating Bookmark for active Token").dispatch();
+		MessageStatus(L"Creating Bookmark for active Token").dispatch();
 	}
 
 	close();

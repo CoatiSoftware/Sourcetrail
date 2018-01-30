@@ -174,11 +174,8 @@ void SourceGroupSettings::setSourceExtensions(const std::vector<std::string>& so
 
 std::vector<FilePath> SourceGroupSettings::getPathValues(const std::string& key, std::shared_ptr<const ConfigManager> config)
 {
-	std::vector<std::string> values;
-	values = getValues(key, values, config);
-
 	std::vector<FilePath> paths;
-	for (const std::string& value : values)
+	for (const std::wstring& value : getValues<std::wstring>(key, {}, config))
 	{
 		paths.push_back(FilePath(value));
 	}
@@ -187,10 +184,10 @@ std::vector<FilePath> SourceGroupSettings::getPathValues(const std::string& key,
 
 bool SourceGroupSettings::setPathValues(const std::string& key, const std::vector<FilePath>& paths, std::shared_ptr<ConfigManager> config)
 {
-	std::vector<std::string> values;
+	std::vector<std::wstring> values;
 	for (const FilePath& path : paths)
 	{
-		values.push_back(path.str());
+		values.push_back(path.wstr());
 	}
 
 	return setValues(key, values, config);

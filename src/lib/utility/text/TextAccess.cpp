@@ -134,7 +134,7 @@ std::vector<std::string> TextAccess::splitStringByLines(const std::string& text)
 }
 
 TextAccess::TextAccess()
-	: m_filePath("")
+	: m_filePath(L"")
 {
 }
 

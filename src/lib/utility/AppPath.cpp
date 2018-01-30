@@ -1,15 +1,13 @@
 #include "AppPath.h"
 
-#include <string>
+FilePath AppPath::m_appPath(L"");
 
-std::string AppPath::m_appPath = "";
-
-std::string AppPath::getAppPath()
+FilePath AppPath::getAppPath()
 {
 	return m_appPath;
 }
 
-bool AppPath::setAppPath(std::string path)
+bool AppPath::setAppPath(const FilePath& path)
 {
 	if(!path.empty())
 	{

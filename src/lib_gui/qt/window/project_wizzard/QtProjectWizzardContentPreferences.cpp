@@ -69,7 +69,7 @@ void QtProjectWizzardContentPreferences::populate(QGridLayout* layout, int& row)
 	m_colorSchemes = addComboBox("Color Scheme", "", layout, row);
 	for (size_t i = 0; i < m_colorSchemePaths.size(); i++)
 	{
-		m_colorSchemes->insertItem(i, m_colorSchemePaths[i].withoutExtension().fileName().c_str());
+		m_colorSchemes->insertItem(i, QString::fromStdWString(m_colorSchemePaths[i].withoutExtension().wFileName()));
 	}
 	connect(m_colorSchemes, static_cast<void (QComboBox::*)(int)>(&QComboBox::activated),
 		this, &QtProjectWizzardContentPreferences::colorSchemeChanged);
@@ -411,7 +411,7 @@ void QtProjectWizzardContentPreferences::load()
 
 	if (m_javaPath)
 	{
-		m_javaPath->setText(QString::fromStdString(appSettings->getJavaPath()));
+		m_javaPath->setText(QString::fromStdWString(appSettings->getJavaPath().wstr()));
 	}
 
 	m_jvmMaximumMemory->setText(QString::number(appSettings->getJavaMaximumMemory()));
@@ -472,7 +472,7 @@ void QtProjectWizzardContentPreferences::save()
 
 	if (m_javaPath)
 	{
-		appSettings->setJavaPath(FilePath(m_javaPath->getText().toStdString()));
+		appSettings->setJavaPath(FilePath(m_javaPath->getText().toStdWString()));
 	}
 
 	appSettings->setJreSystemLibraryPaths(m_jreSystemLibraryPaths->getList());
@@ -482,7 +482,7 @@ void QtProjectWizzardContentPreferences::save()
 
 	if (m_mavenPath)
 	{
-		appSettings->setMavenPath(FilePath(m_mavenPath->getText().toStdString()));
+		appSettings->setMavenPath(FilePath(m_mavenPath->getText().toStdWString()));
 	}
 
 	appSettings->save();

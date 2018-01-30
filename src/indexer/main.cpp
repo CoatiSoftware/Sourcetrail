@@ -71,7 +71,7 @@ int main(int argc, char *argv[])
 		logFilePath = argv[5];
 	}
 
-	AppPath::setAppPath(appPath);
+	AppPath::setAppPath(FilePath(appPath));
 	UserPaths::setUserDataPath(FilePath(userDataPath));
 
 	setupLogging(logFilePath);

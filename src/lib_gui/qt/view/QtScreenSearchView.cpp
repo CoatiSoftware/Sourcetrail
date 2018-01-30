@@ -45,8 +45,11 @@ void QtScreenSearchView::refreshView()
 	m_onQtThread([=]()
 	{
 		m_bar->setStyleSheet(
-			utility::getStyleSheet(ResourcePaths::getGuiPath().concatenate(
-				FilePath("screen_search_view/screen_search_view.css"))).c_str()
+			utility::getStyleSheet(
+				ResourcePaths::getGuiPath().concatenate(
+					L"screen_search_view/screen_search_view.css"
+				)
+			).c_str()
 		);
 
 		m_widget->refreshStyle();

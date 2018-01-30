@@ -165,9 +165,9 @@ bool utility::saveLicense(const License* license)
 			return false;
 		}
 
-		std::string appLocation = AppPath::getAppPath();
-		appSettings->setLicenseString(license->getLicenseEncodedString(appLocation));
-		appSettings->setLicenseCheck(license->hashLocation(FilePath(appLocation).makeAbsolute().str()));
+		const FilePath appLocation = AppPath::getAppPath();
+		appSettings->setLicenseString(license->getLicenseEncodedString(appLocation.str()));
+		appSettings->setLicenseCheck(license->hashLocation(appLocation.getAbsolute().str()));
 		appSettings->save();
 		return true;
 	}
