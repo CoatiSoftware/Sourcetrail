@@ -1,5 +1,79 @@
 ### Changelog
 
+#### 2018.1.19
+released 2018-01-30
+
+* Fixed crash on filling DirectoryListBox with no selected items (issue #544, #545)
+* Graph: Improved type node contrast in bright color scheme
+* Code: Fixed going back in history sometimes showed the wrong file when an edge was activated last
+* Code: Clicking on active location will activate it again and show it's definition
+* Graph: Don't keep expanded nodes expanded after using symbol search
+* Fixed file picker didn't start in recent directory when exporting graph as image (issue #541)
+* Code: Fixed file content shown multiple times when clicking title button of non-indexed file with errors
+* Preferences: Only show latin fonts in the font face dropdown
+* Code: Fixed gaps in line indicators for some font faces
+* Windows: Show indexing progress in Windows task bar
+* Linux: Added settings to change screen scaling to preferences (issue #518, #523)
+* Allow for disabling certain Source Groups via Status checkbox in the "Edit Project" dialog
+* C/C++: Fixed no indexed information saved for compilation database referencing certain compiler (issue #531)
+* Increased history dropdown list size to 50 items
+* Still allow project refresh if database file can't be loaded
+* Removed focus outlines from push buttons
+* Graph: Display warning when depth graph has more than 1000 nodes
+* Code: Fixed screen search matches not always cleared in single file mode
+* C/C++: Implemented handling Microsoft inline assembly statements
+* C/C++: Added automatic include path detection to project setup
+* Java: Fixed project setup from Maven not working for projects without sub-modules
+* Windows: Changed default install directory to ".../Sourcetrail/"
+* Windows: Changed Sourcetrail font color in installer image
+* Windows: Fixed sourcetrail loader gif not showing up on some windows systems
+* Custom style for dock widget title bars with different colors in each color scheme
+* C++: Fixed bug where anonymous symbols were only partly named like the enclosing typedef
+* C/C++: Fixed policy for recording elements inside macro arguments and bodies
+* Allow users to ignore warning on non-existing paths in project setup
+* Code: Switch to single file view when clicking snippet maximize
+* Code: Show scrollbar at bottom of snippet list if bottom snippet is horizontally scrollable (issue #432)
+* Code: Keep snippet title bar at top when scrolling down (issue #479)
+* Fixed history dropdown opened again when clicking on button again
+* Code: Fixed single file view cleared when refreshing
+* Graph: Added "Exported from Sourcetrail" note to exported graph images
+* C/C++: Don't store commandline string for each error to save memory
+* Fixed delay when starting indexing until progress dialog shows up
+* Group include validation results by file and add line breaks for readability
+* Fixed location pickers used system root directory when empty
+* Graph: Add "bidirectional" to tooltip of bidirectional aggregation edges
+* Linux: Don't explicitely open terminal when running on Linux (issue #525)
+* Fixed files and directories dialog to offer selection of files (issue #521)
+* C++: Fixed cases where references to members were recorded as usage instead of call
+* Fixed crash when Start Screen is closed while checking for update
+* Search: Fixed selected text not deleted when pasting into search field (issue #527)
+* C++: Record template variable specialization edges
+* Code: Use different background color in snippet list to improve visual layering
+* Don't force full project refresh when project settings changed (issue #493)
+* Added indexing mode to reindex incomplete files (issue #496)
+* Java: Allow using .aar files as Java project dependencies
+* Java: fixed some Java exceptions and write Java exceptions to log file
+* Java: Note architecture of Java version in preferences dialog
+* Code: Show line indicators for fulltext search results and fixed matches at line start
+* Graph: Update visible depth graph when changing depth level slider (issue #484)
+* Always show all context menu actions, but disable unavailable ones
+* Graph: Hide nodes and edges via context menu action or Alt + Click (issue #472)
+* Graph: Added option to preferences to show/hide builtin types, default is hidden (issue #409)
+* Improved style and color of scrollbars and main window separators
+* Linux: Fixed icon sizes when scaling to highDPI fails
+* Search: Fixed cursor disappearing when entering long string in the search field
+* C++: Fixed parent node hierarchy for C++ template parameters of variable declarations
+* Linux: Fixed syntax error in Sourcetrail.sh (issue #519)
+* Graph: Improved exported image quality
+* Graph: Fixed exported graph image were too large (issue #511)
+* Fixed crashes due to double deleted Qt widgets
+* Fixed crash when specifying an unknown text encoding in the preferences
+* C++: Fixed retrieval of CXX template parameter declarations of parent
+* C/C++: Fixed filepaths to always be canonical (issue #516)
+* Graph: Fixed implicit nodes not auto-expanded when activated
+* C/C++: Add filename info to static functions (issue #515)
+
+
 #### 2017.4.46
 released 2017-11-09
 
