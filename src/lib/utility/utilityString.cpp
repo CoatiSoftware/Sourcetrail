@@ -2,9 +2,10 @@
 
 #include <algorithm>
 #include <cctype>
-#include <codecvt>
 #include <iterator>
 #include <string>
+
+#include <boost/locale/encoding_utf.hpp>
 
 namespace
 {
@@ -32,14 +33,12 @@ namespace utility
 {
 	std::string encodeToUtf8(const std::wstring& s)
 	{
-		std::wstring_convert<std::codecvt_utf8<wchar_t>> conv;
-		return conv.to_bytes(s);
+		return boost::locale::conv::utf_to_utf<char>(s.c_str(), s.c_str() + s.size());
 	}
 
 	std::wstring decodeFromUtf8(const std::string& s)
 	{
-		std::wstring_convert<std::codecvt_utf8<wchar_t>> conv;
-		return conv.from_bytes(s);
+		return boost::locale::conv::utf_to_utf<wchar_t>(s.c_str(), s.c_str() + s.size());
 	}
 
 	std::deque<std::string> split(const std::string& str, char delimiter)
