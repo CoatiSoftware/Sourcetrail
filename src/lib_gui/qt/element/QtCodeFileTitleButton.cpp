@@ -10,7 +10,7 @@
 #include "qt/utility/utilityQt.h"
 #include "settings/ColorScheme.h"
 #include "utility/ResourcePaths.h"
-#include "utility/utilityQString.h"
+#include "utility/utilityString.h"
 
 QtCodeFileTitleButton::QtCodeFileTitleButton(QWidget* parent)
 	: QPushButton(parent)

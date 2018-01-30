@@ -31,7 +31,6 @@
 #include "utility/utility.h"
 #include "utility/utilityApp.h"
 #include "utility/utilityPathDetection.h"
-#include "utility/utilityQString.h"
 #include "utility/utilityString.h"
 #include "utility/utilityUuid.h"
 

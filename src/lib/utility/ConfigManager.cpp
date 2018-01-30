@@ -8,7 +8,6 @@
 #include "utility/text/TextAccess.h"
 #include "utility/utility.h"
 #include "utility/utilityString.h"
-#include "utility/utilityQString.h"
 
 std::shared_ptr<ConfigManager> ConfigManager::createEmpty()
 {

@@ -8,6 +8,9 @@
 
 namespace utility
 {
+	std::string encodeToUtf8(const std::wstring& s);
+	std::wstring decodeFromUtf8(const std::string& s);
+
 	template <typename ContainerType>
 	ContainerType split(const std::string& str, const std::string& delimiter);
 

@@ -13,7 +13,7 @@
 #include "utility/scheduling/TaskScheduler.h"
 #include "utility/tracing.h"
 #include "utility/UserPaths.h"
-#include "utility/utilityQString.h"
+#include "utility/utilityString.h"
 #include "utility/utilityUuid.h"
 #include "utility/Version.h"
 

@@ -7,7 +7,7 @@
 #include "utility/messaging/type/MessageStatus.h"
 #include "utility/scheduling/Blackboard.h"
 #include "utility/utility.h"
-#include "utility/utilityQString.h"
+#include "utility/utilityString.h"
 #include "Application.h"
 
 TaskFinishParsing::TaskFinishParsing(

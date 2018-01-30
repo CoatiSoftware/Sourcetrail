@@ -11,7 +11,6 @@
 #include "utility/text/TextAccess.h"
 #include "utility/ScopedFunctor.h"
 #include "utility/utilityJava.h"
-#include "utility/utilityQString.h"
 #include "utility/utilityString.h"
 #include "Application.h"
 

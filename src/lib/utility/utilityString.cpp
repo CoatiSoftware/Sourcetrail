@@ -2,6 +2,7 @@
 
 #include <algorithm>
 #include <cctype>
+#include <codecvt>
 #include <iterator>
 #include <string>
 
@@ -29,6 +30,18 @@ namespace
 
 namespace utility
 {
+	std::string encodeToUtf8(const std::wstring& s)
+	{
+		std::wstring_convert<std::codecvt_utf8<wchar_t>> conv;
+		return conv.to_bytes(s);
+	}
+
+	std::wstring decodeFromUtf8(const std::string& s)
+	{
+		std::wstring_convert<std::codecvt_utf8<wchar_t>> conv;
+		return conv.from_bytes(s);
+	}
+
 	std::deque<std::string> split(const std::string& str, char delimiter)
 	{
 		return split<std::deque<std::string>>(str, std::string(1, delimiter));
