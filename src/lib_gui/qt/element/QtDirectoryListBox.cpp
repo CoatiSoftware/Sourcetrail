@@ -320,10 +320,8 @@ void QtDirectoryListBox::setRelativeRootDirectory(const FilePath& dir)
 
 QtListItemWidget* QtDirectoryListBox::addListBoxItem()
 {
-	int rowIndex = m_list->row(m_list->selectedItems().last()) + 1;
-
 	QListWidgetItem *item = new QListWidgetItem(m_list);
-	m_list->insertItem(rowIndex, item);
+	m_list->addItem(item);
 
 	QtListItemWidget* widget = new QtListItemWidget(this, item);
 	m_list->setItemWidget(item, widget);
