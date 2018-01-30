@@ -27,10 +27,10 @@ void QtProjectWizzardContentExtensions::populate(QGridLayout* layout, int& row)
 
 void QtProjectWizzardContentExtensions::load()
 {
-	m_sourceList->setStringList(m_settings->getSourceExtensions());
+	m_sourceList->setWStringList(m_settings->getSourceExtensions());
 }
 
 void QtProjectWizzardContentExtensions::save()
 {
-	m_settings->setSourceExtensions(m_sourceList->getStringList());
+	m_settings->setSourceExtensions(m_sourceList->getWStringList());
 }

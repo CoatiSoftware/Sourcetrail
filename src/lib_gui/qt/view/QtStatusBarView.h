@@ -25,7 +25,7 @@ public:
 	virtual void showMessage(const std::wstring& message, bool isError, bool showLoader);
 	virtual void setErrorCount(ErrorCountInfo errorCount);
 
-	virtual void showIdeStatus(const std::string& message);
+	virtual void showIdeStatus(const std::wstring& message);
 
 private:
 	QtThreadedLambdaFunctor m_onQtThread;

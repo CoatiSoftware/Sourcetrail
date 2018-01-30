@@ -16,7 +16,7 @@ public:
 	virtual void showMessage(const std::wstring& message, bool isError, bool showLoader) = 0;
 	virtual void setErrorCount(ErrorCountInfo errorCount) = 0;
 
-	virtual void showIdeStatus(const std::string& message) = 0;
+	virtual void showIdeStatus(const std::wstring& message) = 0;
 
 protected:
 	StatusBarController* getController();

@@ -50,10 +50,10 @@ FileInfo FileSystem::getFileInfoForPath(const FilePath& filePath)
 }
 
 std::vector<FileInfo> FileSystem::getFileInfosFromPaths(
-	const std::vector<FilePath>& paths, const std::vector<std::string>& fileExtensions, bool followSymLinks
+	const std::vector<FilePath>& paths, const std::vector<std::wstring>& fileExtensions, bool followSymLinks
 ){
-	std::set<std::string> ext;
-	for (const std::string& e : fileExtensions)
+	std::set<std::wstring> ext;
+	for (const std::wstring& e : fileExtensions)
 	{
 		ext.insert(utility::toLowerCase(e));
 	}
@@ -103,7 +103,7 @@ std::vector<FileInfo> FileSystem::getFileInfosFromPaths(
 				}
 
 				if (boost::filesystem::is_regular_file(*it) &&
-					(!ext.size() || ext.find(utility::toLowerCase(it->path().extension().string())) != ext.end()))
+					(ext.empty() || ext.find(utility::toLowerCase(it->path().extension().wstring())) != ext.end()))
 				{
 					boost::filesystem::path p = boost::filesystem::canonical(it->path());
 					if (filePaths.find(p) != filePaths.end())
@@ -115,7 +115,7 @@ std::vector<FileInfo> FileSystem::getFileInfosFromPaths(
 				}
 			}
 		}
-		else if (path.exists() && (!ext.size() || ext.find(utility::toLowerCase(path.extension())) != ext.end()))
+		else if (path.exists() && (ext.empty() || ext.find(utility::toLowerCase(path.wExtension())) != ext.end()))
 		{
 			const FilePath canonicalPath = path.getCanonical();
 			boost::filesystem::path p = canonicalPath.getPath();

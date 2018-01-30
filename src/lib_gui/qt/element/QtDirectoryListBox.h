@@ -59,6 +59,9 @@ public:
 	std::vector<FilePath> getList();
 	void setList(const std::vector<FilePath>& list, bool readOnly = false);
 
+	std::vector<std::wstring> getWStringList();
+	void setWStringList(const std::vector<std::wstring>& list, bool readOnly = false);
+
 	std::vector<std::string> getStringList();
 	void setStringList(const std::vector<std::string>& list, bool readOnly = false);
 

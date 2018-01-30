@@ -55,6 +55,7 @@ public:
 	std::wstring wFileName() const;
 
 	std::string extension() const;
+	std::wstring wExtension() const;
 	FilePath withoutExtension() const;
 	FilePath replaceExtension(const std::string& extension) const;
 	bool hasExtension(const std::vector<std::string>& extensions) const;

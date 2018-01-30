@@ -4,6 +4,8 @@
 #include <string>
 #include <vector>
 
+#include "utility/file/FilePath.h"
+
 class NetworkProtocolHelper
 {
 public:
@@ -11,13 +13,13 @@ public:
 	{
 	public:
 		SetActiveTokenMessage()
-			: fileLocation("")
+			: filePath(L"")
 			, row(0)
 			, column(0)
 			, valid(false)
 		{}
 
-		std::string fileLocation;
+		FilePath filePath;
 		unsigned int row;
 		unsigned int column;
 		bool valid;
@@ -25,31 +27,19 @@ public:
 
 	struct CreateProjectMessage
 	{
-	public:
-		CreateProjectMessage()
-			: solutionFileLocation("")
-			, ideId("")
-			, valid(false)
-		{}
-
-		std::string solutionFileLocation;
-		std::string ideId;
-		bool valid;
 	};
 
 	struct CreateCDBProjectMessage
 	{
 	public:
 		CreateCDBProjectMessage()
-			: cdbFileLocation("")
-			, headerPaths()
-			, ideId("")
+			: cdbFileLocation(L"")
+			, ideId(L"")
 			, valid(false)
 		{}
 
-		std::string cdbFileLocation;
-		std::vector<std::string> headerPaths;
-		std::string ideId;
+		FilePath cdbFileLocation;
+		std::wstring ideId;
 		bool valid;
 	};
 
@@ -57,11 +47,11 @@ public:
 	{
 	public:
 		PingMessage()
-			: ideId("")
+			: ideId(L"")
 			, valid(false)
 		{}
 
-		std::string ideId;
+		std::wstring ideId;
 		bool valid;
 	};
 
@@ -74,33 +64,29 @@ public:
 		PING
 	};
 
-	static MESSAGE_TYPE getMessageType(const std::string& message);
+	static MESSAGE_TYPE getMessageType(const std::wstring& message);
 
-	static SetActiveTokenMessage parseSetActiveTokenMessage(const std::string& message);
-	static CreateProjectMessage parseCreateProjectMessage(const std::string& message);
-	static CreateCDBProjectMessage parseCreateCDBProjectMessage(const std::string& message);
-	static PingMessage parsePingMessage(const std::string& message);
+	static SetActiveTokenMessage parseSetActiveTokenMessage(const std::wstring& message);
+	static CreateProjectMessage parseCreateProjectMessage(const std::wstring& message);
+	static CreateCDBProjectMessage parseCreateCDBProjectMessage(const std::wstring& message);
+	static PingMessage parsePingMessage(const std::wstring& message);
 
-	static std::string buildSetIDECursorMessage(const std::string& fileLocation, const unsigned int row, const unsigned int column);
-	static std::string buildCreateCDBMessage();
-	static std::string buildPingMessage();
+	static std::wstring buildSetIDECursorMessage(const FilePath& fileLocation, const unsigned int row, const unsigned int column);
+	static std::wstring buildCreateCDBMessage();
+	static std::wstring buildPingMessage();
 
 private:
-	static std::vector<std::string> divideMessage(const std::string& message);
+	static std::vector<std::wstring> divideMessage(const std::wstring& message);
+	static bool isDigits(const std::wstring& text);
 
-	static std::string removeEndOfMessageToken(const std::string& message);
-
-	static std::string getSubstringAfterString(const std::string& message, const std::string& searchString, std::string& subMessage);
-	static bool isDigits(const std::string& text);
-
-	static std::string m_divider;
-	static std::string m_setActiveTokenPrefix;
-	static std::string m_moveCursorPrefix;
-	static std::string m_endOfMessageToken;
-	static std::string m_createProjectPrefix;
-	static std::string m_createCDBProjectPrefix;
-	static std::string m_createCDBPrefix;
-	static std::string m_pingPrefix;
+	static std::wstring s_divider;
+	static std::wstring s_setActiveTokenPrefix;
+	static std::wstring s_moveCursorPrefix;
+	static std::wstring s_endOfMessageToken;
+	static std::wstring s_createProjectPrefix;
+	static std::wstring s_createCDBProjectPrefix;
+	static std::wstring s_createCDBPrefix;
+	static std::wstring s_pingPrefix;
 };
 
 #endif // NETWORK_PROTOCOL_HELPER_H

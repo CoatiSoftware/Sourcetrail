@@ -565,7 +565,7 @@ void QtMainWindow::newProject()
 	wizzard->newProject();
 }
 
-void QtMainWindow::newProjectFromCDB(const std::string& filePath, const std::vector<std::string>& headerPaths)
+void QtMainWindow::newProjectFromCDB(const FilePath& filePath)
 {
 	QtProjectWizzard* wizzard = dynamic_cast<QtProjectWizzard*>(m_windowStack.getTopWindow());
 	if (!wizzard)
@@ -573,13 +573,7 @@ void QtMainWindow::newProjectFromCDB(const std::string& filePath, const std::vec
 		wizzard = createWindow<QtProjectWizzard>();
 	}
 
-	std::vector<FilePath> headerFilePaths;
-	for (const std::string& s: headerPaths)
-	{
-		headerFilePaths.push_back(FilePath(s));
-	}
-
-	wizzard->newProjectFromCDB(FilePath(filePath), headerFilePaths);
+	wizzard->newProjectFromCDB(filePath);
 }
 
 void QtMainWindow::openProject()

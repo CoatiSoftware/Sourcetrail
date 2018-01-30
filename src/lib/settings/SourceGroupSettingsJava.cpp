@@ -74,9 +74,9 @@ void SourceGroupSettingsJava::setClasspath(const std::vector<FilePath>& classpat
 {
 	m_classpath = classpath;
 }
-std::vector<std::string> SourceGroupSettingsJava::getDefaultSourceExtensions() const
+std::vector<std::wstring> SourceGroupSettingsJava::getDefaultSourceExtensions() const
 {
-	return std::vector<std::string>(1, ".java");
+	return { L".java" };
 }
 
 std::string SourceGroupSettingsJava::getDefaultStandard() const

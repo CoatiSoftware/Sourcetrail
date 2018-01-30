@@ -18,6 +18,9 @@ public:
 	void setText(const std::string& text);
 	std::string getText();
 
+	void setWText(const std::wstring& text);
+	std::wstring getWText();
+
 	void setReadOnly(bool readOnly);
 
 protected:

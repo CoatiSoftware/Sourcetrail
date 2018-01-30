@@ -21,7 +21,7 @@ public:
 	void setText(const std::wstring& text, bool isError, bool showLoader);
 	void setErrorCount(ErrorCountInfo errorCount);
 
-	void setIdeStatus(const std::string& text);
+	void setIdeStatus(const std::wstring& text);
 
 protected:
 	virtual void resizeEvent(QResizeEvent* event);

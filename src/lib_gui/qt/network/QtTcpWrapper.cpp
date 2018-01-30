@@ -43,10 +43,9 @@ QtTcpWrapper::~QtTcpWrapper()
 	}
 }
 
-void QtTcpWrapper::sendMessage(const std::string& message) const
+void QtTcpWrapper::sendMessage(const std::wstring& message) const
 {
-	QByteArray data;
-	data.append(message.c_str());
+	QByteArray data = QString::fromStdWString(message).toUtf8();
 
 	QTcpSocket socket;
 	socket.connectToHost(QHostAddress::LocalHost, m_clientPort);
@@ -60,7 +59,7 @@ void QtTcpWrapper::sendMessage(const std::string& message) const
 	}
 }
 
-void QtTcpWrapper::setReadCallback(const std::function<void(const std::string&)>& callback)
+void QtTcpWrapper::setReadCallback(const std::function<void(const std::wstring&)>& callback)
 {
 	m_readCallback = callback;
 }
@@ -110,12 +109,11 @@ void QtTcpWrapper::startRead()
 	QString string;
 	stream >> string;*/
 
-	QString string = QString::fromUtf8(byteArray);
+	QString message = QString::fromUtf8(byteArray);
 
 	if (m_readCallback != NULL)
 	{
-		std::string message = string.toStdString();
-		m_readCallback(message);
+		m_readCallback(message.toStdWString());
 	}
 
 	/*char buffer[1024] = { 0 };

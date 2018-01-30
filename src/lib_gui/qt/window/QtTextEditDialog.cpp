@@ -25,6 +25,16 @@ std::string QtTextEditDialog::getText()
 	return m_text->toPlainText().toStdString();
 }
 
+void QtTextEditDialog::setWText(const std::wstring& text)
+{
+	m_text->setPlainText(QString::fromStdWString(text));
+}
+
+std::wstring QtTextEditDialog::getWText()
+{
+	return m_text->toPlainText().toStdWString();
+}
+
 void QtTextEditDialog::setReadOnly(bool readOnly)
 {
 	m_text->setReadOnly(readOnly);

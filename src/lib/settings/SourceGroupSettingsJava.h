@@ -28,7 +28,7 @@ public:
 	void setClasspath(const std::vector<FilePath>& classpath);
 
 private:
-	virtual std::vector<std::string> getDefaultSourceExtensions() const override;
+	virtual std::vector<std::wstring> getDefaultSourceExtensions() const override;
 	virtual std::string getDefaultStandard() const override;
 
 	bool m_useJreSystemLibrary;

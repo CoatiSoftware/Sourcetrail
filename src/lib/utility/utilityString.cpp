@@ -10,7 +10,7 @@
 namespace
 {
 	template <typename StringType>
-	StringType doRreplace(StringType str, const StringType& from, const StringType& to)
+	StringType doReplace(StringType str, const StringType& from, const StringType& to)
 	{
 		size_t pos = 0;
 
@@ -215,6 +215,13 @@ namespace utility
 		return out;
 	}
 
+	std::wstring toLowerCase(const std::wstring& in)
+	{
+		std::wstring out;
+		std::transform(in.begin(), in.end(), std::back_inserter(out), tolower);
+		return out;
+	}
+
 	bool equalsCaseInsensitive(const std::string& a, const std::string& b)
 	{
 		if (a.size() == b.size())
@@ -233,12 +240,12 @@ namespace utility
 
 	std::string replace(std::string str, const std::string& from, const std::string& to)
 	{
-		return doRreplace(str, from, to);
+		return doReplace(str, from, to);
 	}
 
 	std::wstring replace(std::wstring str, const std::wstring& from, const std::wstring& to)
 	{
-		return doRreplace(str, from, to);
+		return doReplace(str, from, to);
 	}
 
 	std::string replaceBetween(const std::string& str, char startDelimiter, char endDelimiter, const std::string& to)

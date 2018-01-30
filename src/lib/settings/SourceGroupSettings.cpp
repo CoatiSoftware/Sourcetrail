@@ -13,7 +13,7 @@ SourceGroupSettings::SourceGroupSettings(const std::string& id, SourceGroupType 
 	, m_standard("")
 	, m_sourcePaths(std::vector<FilePath>())
 	, m_excludePaths(std::vector<FilePath>())
-	, m_sourceExtensions(std::vector<std::string>())
+	, m_sourceExtensions(std::vector<std::wstring>())
 {
 }
 
@@ -35,7 +35,7 @@ void SourceGroupSettings::load(std::shared_ptr<const ConfigManager> config)
 	setStandard(getValue<std::string>(key + "/standard", "", config));
 	setSourcePaths(getPathValues(key + "/source_paths/source_path", config));
 	setExcludePaths(getPathValues(key + "/exclude_paths/exclude_path", config));
-	setSourceExtensions(getValues(key + "/source_extensions/source_extension", std::vector<std::string>(), config));
+	setSourceExtensions(getValues(key + "/source_extensions/source_extension", std::vector<std::wstring>(), config));
 }
 
 void SourceGroupSettings::save(std::shared_ptr<ConfigManager> config)
@@ -158,7 +158,7 @@ void SourceGroupSettings::setExcludePaths(const std::vector<FilePath>& excludePa
 	m_excludePaths = excludePaths;
 }
 
-std::vector<std::string> SourceGroupSettings::getSourceExtensions() const
+std::vector<std::wstring> SourceGroupSettings::getSourceExtensions() const
 {
 	if (m_sourceExtensions.empty())
 	{
@@ -167,7 +167,7 @@ std::vector<std::string> SourceGroupSettings::getSourceExtensions() const
 	return m_sourceExtensions;
 }
 
-void SourceGroupSettings::setSourceExtensions(const std::vector<std::string>& sourceExtensions)
+void SourceGroupSettings::setSourceExtensions(const std::vector<std::wstring>& sourceExtensions)
 {
 	m_sourceExtensions = sourceExtensions;
 }

@@ -61,9 +61,9 @@ void QtListItemWidget::setText(QString text)
 	{
 		const FilePath path(text.toStdWString());
 		const FilePath relPath = path.getRelativeTo(relativeRoot);
-		if (relPath.str().size() < path.str().size())
+		if (relPath.wstr().size() < path.wstr().size())
 		{
-			text = QString::fromStdString(relPath.str());
+			text = QString::fromStdWString(relPath.wstr());
 		}
 	}
 
@@ -239,51 +239,70 @@ void QtDirectoryListBox::dropEvent(QDropEvent *event)
 
 std::vector<FilePath> QtDirectoryListBox::getList()
 {
-	std::vector<std::string> strList = getStringList();
 	std::vector<FilePath> list;
-	for (const std::string& str : strList)
+	for (const std::wstring& s : getWStringList())
 	{
-		list.push_back(FilePath(str));
+		list.push_back(FilePath(s));
 	}
 	return list;
 }
 
 void QtDirectoryListBox::setList(const std::vector<FilePath>& list, bool readOnly)
 {
-	std::vector<std::string> strList;
+	std::vector<std::wstring> strList;
 	for (const FilePath& path : list)
 	{
-		strList.push_back(path.str());
+		strList.push_back(path.wstr());
 	}
-	setStringList(strList, readOnly);
+	setWStringList(strList, readOnly);
 }
 
-std::vector<std::string> QtDirectoryListBox::getStringList()
+std::vector<std::wstring> QtDirectoryListBox::getWStringList()
 {
-	std::vector<std::string> list;
+	std::vector<std::wstring> list;
 	for (int i = 0; i < m_list->count(); ++i)
 	{
 		QtListItemWidget* widget = dynamic_cast<QtListItemWidget*>(m_list->itemWidget(m_list->item(i)));
-		list.push_back(widget->getText().toStdString());
+		list.push_back(widget->getText().toStdWString());
 	}
 	return list;
 }
 
-void QtDirectoryListBox::setStringList(const std::vector<std::string>& list, bool readOnly)
+void QtDirectoryListBox::setWStringList(const std::vector<std::wstring>& list, bool readOnly)
 {
 	clear();
 
 	FilePath root = m_relativeRootDirectory;
 	m_relativeRootDirectory = FilePath();
 
-	for (const std::string& str : list)
+	for (const std::wstring& str : list)
 	{
-		QtListItemWidget* itemWidget = addListBoxItemWithText(QString::fromStdString(str));
+		QtListItemWidget* itemWidget = addListBoxItemWithText(QString::fromStdWString(str));
 		itemWidget->setReadOnly(readOnly);
 	}
 
 	m_list->scrollToTop();
 	m_relativeRootDirectory = root;
+}
+
+std::vector<std::string> QtDirectoryListBox::getStringList()
+{
+	std::vector<std::string> list;
+	for (std::wstring s: getWStringList())
+	{
+		list.push_back(utility::encodeToUtf8(s));
+	}
+	return list;
+}
+
+void QtDirectoryListBox::setStringList(const std::vector<std::string>& list, bool readOnly)
+{
+	std::vector<std::wstring> wlist;
+	for (std::string s : list)
+	{
+		wlist.push_back(utility::decodeFromUtf8(s));
+	}
+	setWStringList(wlist);
 }
 
 QtListItemWidget* QtDirectoryListBox::addListBoxItemWithText(const QString& text)

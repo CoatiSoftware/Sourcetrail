@@ -23,7 +23,7 @@ public:
 	virtual bool isListening() const;
 
 private:
-	virtual void sendMessage(const std::string& message) const;
+	virtual void sendMessage(const std::wstring& message) const;
 
 	QtTcpWrapper m_tcpWrapper;
 

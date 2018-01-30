@@ -51,7 +51,7 @@ void QtStatusBarView::setErrorCount(ErrorCountInfo errorCount)
 	);
 }
 
-void QtStatusBarView::showIdeStatus(const std::string& message)
+void QtStatusBarView::showIdeStatus(const std::wstring& message)
 {
 	m_onQtThread(
 		[=]()

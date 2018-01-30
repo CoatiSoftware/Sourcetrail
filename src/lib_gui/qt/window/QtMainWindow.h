@@ -115,7 +115,7 @@ public slots:
 	void hideStartScreen();
 
 	void newProject();
-	void newProjectFromCDB(const std::string& filePath, const std::vector<std::string>& headerPaths);
+	void newProjectFromCDB(const FilePath& filePath);
 	void openProject();
 	void editProject();
 

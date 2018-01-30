@@ -8,8 +8,7 @@ class MessagePingReceived
 {
 public:
 	MessagePingReceived()
-		: ideId("")
-		, ideName("")
+		: ideName(L"")
 	{
 	}
 
@@ -18,8 +17,7 @@ public:
 		return "MessagePingReceived";
 	}
 
-	std::string ideId;
-	std::string ideName;
+	std::wstring ideName;
 };
 
 #endif // MESSAGE_PING_RECEIVED_H

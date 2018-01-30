@@ -17,7 +17,7 @@ public:
 	void update(
 		const std::vector<FilePath>& sourcePaths,
 		const std::vector<FilePath>& excludePaths,
-		const std::vector<std::string>& sourceExtensions
+		const std::vector<std::wstring>& sourceExtensions
 	);
 
 	// returns a list of source paths (can be directories) specified in the project settings
@@ -36,7 +36,7 @@ private:
 
 	std::vector<FilePath> m_sourcePaths;
 	std::vector<FilePath> m_excludePaths;
-	std::vector<std::string> m_sourceExtensions;
+	std::vector<std::wstring> m_sourceExtensions;
 
 	std::set<FilePath> m_allSourceFilePaths;
 };

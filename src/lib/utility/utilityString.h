@@ -14,6 +14,9 @@ namespace utility
 	template <typename ContainerType>
 	ContainerType split(const std::string& str, const std::string& delimiter);
 
+	template <typename ContainerType>
+	ContainerType split(const std::wstring& str, const std::wstring& delimiter);
+
 	std::deque<std::string> split(const std::string& str, char delimiter);
 	std::deque<std::string> split(const std::string& str, const std::string& delimiter);
 	std::vector<std::string> splitToVector(const std::string& str, char delimiter);
@@ -45,6 +48,7 @@ namespace utility
 
 	std::string toUpperCase(const std::string& in);
 	std::string toLowerCase(const std::string& in);
+	std::wstring toLowerCase(const std::wstring& in);
 	bool equalsCaseInsensitive(const std::string& a, const std::string& b);
 
 	std::string replace(std::string str, const std::string& from, const std::string& to);
@@ -80,8 +84,24 @@ namespace utility
 			pos = str.find(delimiter, oldPos);
 			c.push_back(str.substr(oldPos, pos - oldPos));
 			oldPos = pos + delimiter.size();
-		}
-		while (pos != std::string::npos);
+		} while (pos != std::string::npos);
+
+		return c;
+	}
+
+	template <typename ContainerType>
+	ContainerType split(const std::wstring& str, const std::wstring& delimiter)
+	{
+		size_t pos = 0;
+		size_t oldPos = 0;
+		ContainerType c;
+
+		do
+		{
+			pos = str.find(delimiter, oldPos);
+			c.push_back(str.substr(oldPos, pos - oldPos));
+			oldPos = pos + delimiter.size();
+		} while (pos != std::wstring::npos);
 
 		return c;
 	}

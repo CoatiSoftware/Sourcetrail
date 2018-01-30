@@ -86,7 +86,7 @@ bool QtProjectWizzardContentPaths::check()
 		{
 			if (!expandedPath.exists())
 			{
-				missingPaths.append((expandedPath.str() + "\n").c_str());
+				missingPaths.append(QString::fromStdWString(expandedPath.wstr() + L"\n"));
 			}
 			else
 			{
@@ -94,7 +94,7 @@ bool QtProjectWizzardContentPaths::check()
 			}
 		}
 
-		if (expandedPaths.size() && expandedPaths.size() == existingCount)
+		if (!expandedPaths.empty() && expandedPaths.size() == existingCount)
 		{
 			existingPaths.push_back(path);
 		}
@@ -648,13 +648,13 @@ void QtProjectWizzardContentPathsHeaderSearch::finishedSelectDetectIncludesRootP
 
 void QtProjectWizzardContentPathsHeaderSearch::finishedAcceptDetectedIncludePathsDialog()
 {
-	const std::vector<std::string> detectedPaths = utility::splitToVector(m_filesDialog->getText(), "\n");
+	const std::vector<std::wstring> detectedPaths = utility::split<std::vector<std::wstring>>(m_filesDialog->getWText(), L"\n");
 	closedFilesDialog();
 
-	std::vector<std::string> headerSearchPaths = m_list->getStringList();
+	std::vector<std::wstring> headerSearchPaths = m_list->getWStringList();
 
 	headerSearchPaths.reserve(headerSearchPaths.size() + detectedPaths.size());
-	for (const std::string& detectedPath : detectedPaths)
+	for (const std::wstring& detectedPath : detectedPaths)
 	{
 		if (!detectedPath.empty())
 		{
@@ -662,7 +662,7 @@ void QtProjectWizzardContentPathsHeaderSearch::finishedAcceptDetectedIncludePath
 		}
 	}
 
-	m_list->setStringList(headerSearchPaths);
+	m_list->setWStringList(headerSearchPaths);
 }
 
 void QtProjectWizzardContentPathsHeaderSearch::closedPathsDialog()

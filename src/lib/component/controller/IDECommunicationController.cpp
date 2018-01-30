@@ -26,7 +26,7 @@ void IDECommunicationController::clear()
 {
 }
 
-void IDECommunicationController::handleIncomingMessage(const std::string& message)
+void IDECommunicationController::handleIncomingMessage(const std::wstring& message)
 {
 	if (m_enabled == false)
 	{
@@ -70,10 +70,7 @@ void IDECommunicationController::setEnabled(const bool enabled)
 void IDECommunicationController::sendUpdatePing()
 {
 	// first reset connection status
-	MessagePingReceived msg;
-	msg.ideId = "";
-	msg.ideName = "";
-	msg.dispatch();
+	MessagePingReceived().dispatch();
 
 	// send ping to update connection status
 	sendMessage(NetworkProtocolHelper::buildPingMessage());
@@ -87,7 +84,7 @@ void IDECommunicationController::handleSetActiveTokenMessage(
 	{
 		const unsigned int cursorColumn = message.column;
 
-		const FilePath filePath = FilePath(message.fileLocation).makeCanonical();
+		const FilePath filePath = message.filePath.getCanonical();
 
 		if (FileSystem::getFileInfoForPath(filePath).lastWriteTime
 			== m_storageAccess->getFileInfoForFilePath(filePath).lastWriteTime)
@@ -152,7 +149,7 @@ void IDECommunicationController::handleCreateCDBProjectMessage(const NetworkProt
 {
 	if (message.valid)
 	{
-		MessageProjectNew(message.cdbFileLocation, message.headerPaths).dispatch();
+		MessageProjectNew(message.cdbFileLocation).dispatch();
 	}
 	else
 	{
@@ -169,10 +166,10 @@ void IDECommunicationController::handlePing(const NetworkProtocolHelper::PingMes
 
 		if (msg.ideName.empty())
 		{
-			msg.ideName = "unknown IDE";
+			msg.ideName = L"unknown IDE";
 		}
 
-		LOG_INFO(msg.ideName + " instance detected via plugin port");
+		LOG_INFO(msg.ideName + L" instance detected via plugin port");
 		msg.dispatch();
 	}
 	else
@@ -191,7 +188,7 @@ void IDECommunicationController::handleMessage(MessageWindowFocus* message)
 
 void IDECommunicationController::handleMessage(MessageIDECreateCDB* message)
 {
-	std::string networkMessage = NetworkProtocolHelper::buildCreateCDBMessage();
+	std::wstring networkMessage = NetworkProtocolHelper::buildCreateCDBMessage();
 
 	MessageStatus(L"Requesting IDE to create Compilation Database via plug-in.").dispatch();
 
@@ -200,13 +197,13 @@ void IDECommunicationController::handleMessage(MessageIDECreateCDB* message)
 
 void IDECommunicationController::handleMessage(MessageMoveIDECursor* message)
 {
-	std::string networkMessage = NetworkProtocolHelper::buildSetIDECursorMessage(
-		message->FilePosition.str(), message->Row, message->Column
+	std::wstring networkMessage = NetworkProtocolHelper::buildSetIDECursorMessage(
+		message->filePath, message->row, message->column
 	);
 
 	MessageStatus(
-		L"Jump to source location via plug-in: " + message->FilePosition.wstr() + L", row: " +
-		std::to_wstring(message->Row) + L", col: " + std::to_wstring(message->Column)
+		L"Jump to source location via plug-in: " + message->filePath.wstr() + L", row: " +
+		std::to_wstring(message->row) + L", col: " + std::to_wstring(message->column)
 	).dispatch();
 
 	sendMessage(networkMessage);

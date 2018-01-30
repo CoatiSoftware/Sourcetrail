@@ -29,7 +29,7 @@ public:
 	void setCompilerFlags(const std::vector<std::string>& compilerFlags);
 
 private:
-	virtual std::vector<std::string> getDefaultSourceExtensions() const override;
+	virtual std::vector<std::wstring> getDefaultSourceExtensions() const override;
 	virtual std::string getDefaultStandard() const override;
 
 	std::vector<FilePath> m_headerSearchPaths;

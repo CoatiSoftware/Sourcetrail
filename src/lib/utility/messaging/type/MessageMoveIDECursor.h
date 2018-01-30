@@ -7,10 +7,10 @@
 class MessageMoveIDECursor : public Message<MessageMoveIDECursor>
 {
 public:
-	MessageMoveIDECursor(const FilePath& FilePos, const unsigned int Row, const unsigned int Column)
-		: FilePosition(FilePos)
-		, Row(Row)
-		, Column(Column)
+	MessageMoveIDECursor(const FilePath& filePath, const unsigned int row, const unsigned int column)
+		: filePath(filePath)
+		, row(row)
+		, column(column)
 	{
 	}
 
@@ -21,12 +21,12 @@ public:
 
 	virtual void print(std::ostream& os) const
 	{
-		os << FilePosition.str() << ":" << Row << ":" << Column;
+		os << filePath.str() << ":" << row << ":" << column;
 	}
 
-	const FilePath FilePosition;
-	const unsigned int Row;
-	const unsigned int Column;
+	const FilePath filePath;
+	const unsigned int row;
+	const unsigned int column;
 };
 
 #endif // MESSAGE_MOVE_IDE_CURSOR_H

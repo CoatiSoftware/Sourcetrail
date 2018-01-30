@@ -143,19 +143,19 @@ void SourceGroupSettingsCxx::setCompilerFlags(const std::vector<std::string>& co
 	m_compilerFlags = compilerFlags;
 }
 
-std::vector<std::string> SourceGroupSettingsCxx::getDefaultSourceExtensions() const
+std::vector<std::wstring> SourceGroupSettingsCxx::getDefaultSourceExtensions() const
 {
-	std::vector<std::string> defaultValues;
+	std::vector<std::wstring> defaultValues;
 
 	switch (getType())
 	{
 	case SOURCE_GROUP_CPP_EMPTY:
-		defaultValues.push_back(".cpp");
-		defaultValues.push_back(".cxx");
-		defaultValues.push_back(".cc");
+		defaultValues.push_back(L".cpp");
+		defaultValues.push_back(L".cxx");
+		defaultValues.push_back(L".cc");
 		break;
 	case SOURCE_GROUP_C_EMPTY:
-		defaultValues.push_back(".c");
+		defaultValues.push_back(L".c");
 		break;
 	case SOURCE_GROUP_CXX_CDB:
 	default:

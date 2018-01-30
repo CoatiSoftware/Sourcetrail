@@ -65,7 +65,7 @@ void QtProjectWizzard::newProject()
 	setup();
 }
 
-void QtProjectWizzard::newProjectFromCDB(const FilePath& filePath, const std::vector<FilePath>& headerPaths)
+void QtProjectWizzard::newProjectFromCDB(const FilePath& filePath)
 {
 	if (!m_projectSettings)
 	{
@@ -91,14 +91,9 @@ void QtProjectWizzard::newProjectFromCDB(const FilePath& filePath, const std::ve
 	std::shared_ptr<SourceGroupSettingsCxxCdb> sourceGroupSettings =
 		std::make_shared<SourceGroupSettingsCxxCdb>(utility::getUuidString(), m_projectSettings.get());
 	sourceGroupSettings->setCompilationDatabasePath(filePath);
-	sourceGroupSettings->setSourcePaths(headerPaths);
 	m_newSourceGroupSettings = sourceGroupSettings;
 
 	emptySourceGroupCDBVS();
-}
-
-void QtProjectWizzard::refreshProjectFromSolution(const std::string& ideId, const std::string& solutionPath)
-{
 }
 
 void QtProjectWizzard::editProject(const FilePath& settingsPath)

@@ -6,6 +6,7 @@
 #include <vector>
 
 #include "utility/file/FileSystem.h"
+#include "utility/utility.h"
 
 class FileSystemTestSuite: public CxxTest::TestSuite
 {

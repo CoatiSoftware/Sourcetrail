@@ -16,7 +16,7 @@ FileManager::~FileManager()
 void FileManager::update(
 	const std::vector<FilePath>& sourcePaths,
 	const std::vector<FilePath>& excludePaths,
-	const std::vector<std::string>& sourceExtensions
+	const std::vector<std::wstring>& sourceExtensions
 ){
 	m_sourcePaths = sourcePaths;
 	m_excludePaths = makeCanonical(excludePaths);

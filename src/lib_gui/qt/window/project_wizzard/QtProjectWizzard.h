@@ -29,8 +29,7 @@ public:
 public slots:
 	void newProject();
 
-	void newProjectFromCDB(const FilePath& filePath, const std::vector<FilePath>& headerPaths);
-	void refreshProjectFromSolution(const std::string& ideId, const std::string& solutionPath);
+	void newProjectFromCDB(const FilePath& filePath);
 
 	void editProject(const FilePath& settingsPath);
 	void editProject(std::shared_ptr<ProjectSettings> settings);

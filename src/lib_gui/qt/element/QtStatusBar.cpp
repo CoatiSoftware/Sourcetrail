@@ -101,9 +101,9 @@ void QtStatusBar::setErrorCount(ErrorCountInfo errorCount)
 	}
 }
 
-void QtStatusBar::setIdeStatus(const std::string& text)
+void QtStatusBar::setIdeStatus(const std::wstring& text)
 {
-	m_ideStatusText.setText(text.c_str());
+	m_ideStatusText.setText(QString::fromStdWString(text));
 }
 
 void QtStatusBar::resizeEvent(QResizeEvent* event)

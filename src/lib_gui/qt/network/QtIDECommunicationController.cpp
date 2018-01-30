@@ -45,7 +45,7 @@ bool QtIDECommunicationController::isListening() const
 	return m_tcpWrapper.isListening();
 }
 
-void QtIDECommunicationController::sendMessage(const std::string& message) const
+void QtIDECommunicationController::sendMessage(const std::wstring& message) const
 {
 	m_tcpWrapper.sendMessage(message);
 }

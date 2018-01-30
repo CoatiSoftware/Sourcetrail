@@ -396,6 +396,11 @@ std::string FilePath::extension() const
 	return m_path->extension().generic_string();
 }
 
+std::wstring FilePath::wExtension() const
+{
+	return m_path->extension().generic_wstring();
+}
+
 FilePath FilePath::withoutExtension() const
 {
 	return FilePath(getPath().replace_extension().wstring());

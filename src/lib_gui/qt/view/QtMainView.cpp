@@ -189,13 +189,12 @@ void QtMainView::handleMessage(MessageProjectEdit* message)
 
 void QtMainView::handleMessage(MessageProjectNew* message)
 {
-	std::string cdbPath = message->cdbPath;
-	std::vector<std::string> headerPaths = message->headerPaths;
+	FilePath cdbPath = message->cdbPath;
 
 	m_onQtThread(
 		[=]()
 		{
-			m_window->newProjectFromCDB(cdbPath, headerPaths);
+			m_window->newProjectFromCDB(cdbPath);
 		}
 	);
 }

@@ -50,8 +50,8 @@ public:
 	std::vector<FilePath> getExcludePathsExpandedAndAbsolute() const;
 	void setExcludePaths(const std::vector<FilePath>& excludePaths);
 
-	std::vector<std::string> getSourceExtensions() const;
-	void setSourceExtensions(const std::vector<std::string>& sourceExtensions);
+	std::vector<std::wstring> getSourceExtensions() const;
+	void setSourceExtensions(const std::vector<std::wstring>& sourceExtensions);
 
 protected:
 	template<typename T>
@@ -73,7 +73,7 @@ protected:
 	const ProjectSettings* m_projectSettings;
 
 private:
-	virtual std::vector<std::string> getDefaultSourceExtensions() const = 0;
+	virtual std::vector<std::wstring> getDefaultSourceExtensions() const = 0;
 	virtual std::string getDefaultStandard() const = 0;
 
 	std::string m_id;
@@ -84,7 +84,7 @@ private:
 	std::string m_standard;
 	std::vector<FilePath> m_sourcePaths;
 	std::vector<FilePath> m_excludePaths;
-	std::vector<std::string> m_sourceExtensions;
+	std::vector<std::wstring> m_sourceExtensions;
 };
 
 template<typename T>

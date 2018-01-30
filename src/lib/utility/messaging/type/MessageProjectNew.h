@@ -7,9 +7,8 @@ class MessageProjectNew
 	: public Message<MessageProjectNew>
 {
 public:
-	MessageProjectNew(const std::string cdbPath, const std::vector<std::string> headerPaths)
+	MessageProjectNew(const FilePath& cdbPath)
 		: cdbPath(cdbPath)
-		, headerPaths(headerPaths)
 	{
 	}
 
@@ -18,8 +17,7 @@ public:
 		return "MessageProjectNew";
 	}
 
-	const std::string cdbPath;
-	const std::vector<std::string> headerPaths;
+	const FilePath cdbPath;
 };
 
 #endif // MESSAGE_PROJECT_NEW_H
