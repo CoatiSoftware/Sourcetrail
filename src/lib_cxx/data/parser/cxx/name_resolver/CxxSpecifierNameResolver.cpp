@@ -6,6 +6,7 @@
 
 #include "data/parser/cxx/name_resolver/CxxTypeNameResolver.h"
 #include "data/parser/cxx/name_resolver/CxxDeclNameResolver.h"
+#include "utility/utilityString.h"
 
 CxxSpecifierNameResolver::CxxSpecifierNameResolver(std::shared_ptr<CanonicalFilePathCache> canonicalFilePathCache)
 	: CxxNameResolver(canonicalFilePathCache, std::vector<const clang::Decl*>())
@@ -36,7 +37,7 @@ std::shared_ptr<CxxName> CxxSpecifierNameResolver::getName(const clang::NestedNa
 		case clang::NestedNameSpecifier::Identifier:
 			{
 				name = std::make_shared<CxxDeclName>(
-					nestedNameSpecifier->getAsIdentifier()->getName(), std::vector<std::string>()
+					utility::decodeFromUtf8(nestedNameSpecifier->getAsIdentifier()->getName()), std::vector<std::wstring>()
 				);
 
 				if (const clang::NestedNameSpecifier* prefix = nestedNameSpecifier->getPrefix())

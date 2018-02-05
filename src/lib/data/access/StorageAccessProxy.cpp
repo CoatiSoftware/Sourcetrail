@@ -362,7 +362,7 @@ Id StorageAccessProxy::addEdgeBookmark(const EdgeBookmark& bookmark)
 	return -1;
 }
 
-Id StorageAccessProxy::addBookmarkCategory(const std::string& categoryName)
+Id StorageAccessProxy::addBookmarkCategory(const std::wstring& categoryName)
 {
 	if (hasSubject())
 	{
@@ -372,7 +372,7 @@ Id StorageAccessProxy::addBookmarkCategory(const std::string& categoryName)
 	return -1;
 }
 
-void StorageAccessProxy::updateBookmark(const Id bookmarkId, const std::string& name, const std::string& comment, const std::string& categoryName)
+void StorageAccessProxy::updateBookmark(const Id bookmarkId, const std::wstring& name, const std::wstring& comment, const std::wstring& categoryName)
 {
 	if (hasSubject())
 	{

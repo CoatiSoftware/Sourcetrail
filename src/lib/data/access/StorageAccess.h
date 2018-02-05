@@ -88,10 +88,10 @@ public:
 	// todo: remove bookmark related methods from storage access
 	virtual Id addNodeBookmark(const NodeBookmark& bookmark) = 0;
 	virtual Id addEdgeBookmark(const EdgeBookmark& bookmark) = 0;
-	virtual Id addBookmarkCategory(const std::string& categoryName) = 0;
+	virtual Id addBookmarkCategory(const std::wstring& categoryName) = 0;
 
 	virtual void updateBookmark(
-		const Id bookmarkId, const std::string& name, const std::string& comment, const std::string& categoryName) = 0;
+		const Id bookmarkId, const std::wstring& name, const std::wstring& comment, const std::wstring& categoryName) = 0;
 	virtual void removeBookmark(const Id id) = 0;
 	virtual void removeBookmarkCategory(const Id id) = 0;
 

@@ -11,12 +11,12 @@
 class NameHierarchy
 {
 public:
-	static std::string serialize(const NameHierarchy& nameHierarchy);
-	static NameHierarchy deserialize(const std::string& serializedName);
+	static std::wstring serialize(const NameHierarchy& nameHierarchy);
+	static NameHierarchy deserialize(const std::wstring& serializedName);
 
 	NameHierarchy(const NameDelimiterType delimiter);
-	NameHierarchy(const std::string& name, const NameDelimiterType delimiter);
-	NameHierarchy(const std::vector<std::string>& names, const NameDelimiterType delimiter);
+	NameHierarchy(const std::wstring& name, const NameDelimiterType delimiter);
+	NameHierarchy(const std::vector<std::wstring>& names, const NameDelimiterType delimiter);
 	NameHierarchy(const NameHierarchy& other);
 	NameHierarchy(NameHierarchy&& other);
 	~NameHierarchy();
@@ -36,10 +36,10 @@ public:
 
 	size_t size() const;
 
-	std::string getQualifiedName() const;
-	std::string getQualifiedNameWithSignature() const;
-	std::string getRawName() const;
-	std::string getRawNameWithSignature() const;
+	std::wstring getQualifiedName() const;
+	std::wstring getQualifiedNameWithSignature() const;
+	std::wstring getRawName() const;
+	std::wstring getRawNameWithSignature() const;
 
 	bool hasSignature() const;
 	NameElement::Signature getSignature() const;

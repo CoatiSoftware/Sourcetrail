@@ -10,7 +10,7 @@ class DumpParserClient : public ParserClient
 {
 public:
 	DumpParserClient()
-		: m_lines("")
+		: m_lines(L"")
 	{
 	}
 
@@ -18,7 +18,7 @@ public:
 		const NameHierarchy& symbolName, SymbolKind symbolKind,
 		AccessKind access, DefinitionKind definitionKind) override
 	{
-		recordLine(symbolKindToString(symbolKind) + " " + addAccessPrefix(symbolName.getQualifiedNameWithSignature(), access) + "\n");
+		recordLine(symbolKindToString(symbolKind) + L" " + addAccessPrefix(symbolName.getQualifiedNameWithSignature(), access) + L"\n");
 		return 0;
 	}
 
@@ -27,7 +27,7 @@ public:
 		const ParseLocation& location,
 		AccessKind access, DefinitionKind definitionKind) override
 	{
-		recordLine(symbolKindToString(symbolKind) + " " + addLocationSuffix(addAccessPrefix(symbolName.getQualifiedNameWithSignature(), access) + " [" + location.filePath.fileName(), location) + "]\n");
+		recordLine(symbolKindToString(symbolKind) + L" " + addLocationSuffix(addAccessPrefix(symbolName.getQualifiedNameWithSignature(), access) + L" [" + location.filePath.wFileName(), location) + L"]\n");
 		return 0;
 	}
 
@@ -36,7 +36,7 @@ public:
 		const ParseLocation& location, const ParseLocation& scopeLocation,
 		AccessKind access, DefinitionKind definitionKind) override
 	{
-		recordLine(symbolKindToString(symbolKind) + " " + addLocationSuffix(addAccessPrefix(symbolName.getQualifiedNameWithSignature(), access) + " [" + location.filePath.fileName(), location, scopeLocation) + "]\n");
+		recordLine(symbolKindToString(symbolKind) + L" " + addLocationSuffix(addAccessPrefix(symbolName.getQualifiedNameWithSignature(), access) + L" [" + location.filePath.wFileName(), location, scopeLocation) + L"]\n");
 		return 0;
 	}
 
@@ -44,51 +44,51 @@ public:
 		ReferenceKind referenceKind, const NameHierarchy& referencedName, const NameHierarchy& contextName,
 		const ParseLocation& location) override
 	{
-		std::string contextNameString = contextName.getQualifiedNameWithSignature();
+		std::wstring contextNameString = contextName.getQualifiedNameWithSignature();
 		try
 		{
 			if (FilePath(contextNameString).exists())
 			{
-				contextNameString = FilePath(contextNameString).fileName();
+				contextNameString = FilePath(contextNameString).wFileName();
 			}
 		}
 		catch (const boost::filesystem::filesystem_error& e)
 		{
 			// do nothing and use the old contectNameString
 		}
-		recordLine(referenceKindToString(referenceKind) + " " + addLocationSuffix(contextNameString + " -> " + referencedName.getQualifiedNameWithSignature() + " [" + location.filePath.fileName(), location) + "]\n");
+		recordLine(referenceKindToString(referenceKind) + L" " + addLocationSuffix(contextNameString + L" -> " + referencedName.getQualifiedNameWithSignature() + L" [" + location.filePath.wFileName(), location) + L"]\n");
 	}
 
 	void recordQualifierLocation(const NameHierarchy& qualifierName, const ParseLocation& location) override
 	{
-		recordLine("QUALIFIER: " + addLocationSuffix(qualifierName.getQualifiedNameWithSignature() + " [" + location.filePath.fileName(), location) + "]\n");
+		recordLine(L"QUALIFIER: " + addLocationSuffix(qualifierName.getQualifiedNameWithSignature() + L" [" + location.filePath.wFileName(), location) + L"]\n");
 	}
 
-	virtual void recordLocalSymbol(const std::string& name, const ParseLocation& location) override
+	virtual void recordLocalSymbol(const std::wstring& name, const ParseLocation& location) override
 	{
-		recordLine("LOCAL_SYMBOL: " + addLocationSuffix(name + " [" + location.filePath.fileName(), location) + "]\n");
+		recordLine(L"LOCAL_SYMBOL: " + addLocationSuffix(name + L" [" + location.filePath.wFileName(), location) + L"]\n");
 	}
 
 	virtual void recordFile(const FileInfo& fileInfo) override
 	{
-		recordLine("FILE: " + fileInfo.path.fileName() + "\n");
+		recordLine(L"FILE: " + fileInfo.path.wFileName() + L"\n");
 	}
 
 	virtual void recordComment(const ParseLocation& location) override
 	{
-		recordLine("COMMENT: " + addLocationSuffix("comment [" + location.filePath.fileName(), location) + "]\n");
+		recordLine(L"COMMENT: " + addLocationSuffix(L"comment [" + location.filePath.wFileName(), location) + L"]\n");
 	}
 
-	std::string m_lines;
+	std::wstring m_lines;
 
 private:
-	virtual void doRecordError(const ParseLocation& location, const std::string& message,
+	virtual void doRecordError(const ParseLocation& location, const std::wstring& message,
 		bool fatal, bool indexed) override
 	{
-		recordLine("ERROR: " + addLocationSuffix(message + " [" + location.filePath.fileName(), location) + "]\n");
+		recordLine(L"ERROR: " + addLocationSuffix(message + L" [" + location.filePath.wFileName(), location) + L"]\n");
 	}
 
-	void recordLine(const std::string& message)
+	void recordLine(const std::wstring& message)
 	{
 		if (m_recordedLines.find(message) == m_recordedLines.end())
 		{
@@ -97,87 +97,87 @@ private:
 		}
 	}
 
-	std::string symbolKindToString(SymbolKind symbolKind) const
+	std::wstring symbolKindToString(SymbolKind symbolKind) const
 	{
 		switch (symbolKind)
 		{
 		case SYMBOL_BUILTIN_TYPE:
-			return "SYMBOL_BUILTIN_TYPE";
+			return L"SYMBOL_BUILTIN_TYPE";
 		case SYMBOL_CLASS:
-			return "SYMBOL_CLASS";
+			return L"SYMBOL_CLASS";
 		case SYMBOL_ENUM:
-			return "SYMBOL_ENUM";
+			return L"SYMBOL_ENUM";
 		case SYMBOL_ENUM_CONSTANT:
-			return "SYMBOL_ENUM_CONSTANT";
+			return L"SYMBOL_ENUM_CONSTANT";
 		case SYMBOL_FIELD:
-			return "SYMBOL_FIELD";
+			return L"SYMBOL_FIELD";
 		case SYMBOL_FUNCTION:
-			return "SYMBOL_FUNCTION";
+			return L"SYMBOL_FUNCTION";
 		case SYMBOL_GLOBAL_VARIABLE:
-			return "SYMBOL_GLOBAL_VARIABLE";
+			return L"SYMBOL_GLOBAL_VARIABLE";
 		case SYMBOL_INTERFACE:
-			return "SYMBOL_INTERFACE";
+			return L"SYMBOL_INTERFACE";
 		case SYMBOL_MACRO:
-			return "SYMBOL_MACRO";
+			return L"SYMBOL_MACRO";
 		case SYMBOL_METHOD:
-			return "SYMBOL_METHOD";
+			return L"SYMBOL_METHOD";
 		case SYMBOL_NAMESPACE:
-			return "SYMBOL_NAMESPACE";
+			return L"SYMBOL_NAMESPACE";
 		case SYMBOL_PACKAGE:
-			return "SYMBOL_PACKAGE";
+			return L"SYMBOL_PACKAGE";
 		case SYMBOL_STRUCT:
-			return "SYMBOL_STRUCT";
+			return L"SYMBOL_STRUCT";
 		case SYMBOL_TEMPLATE_PARAMETER:
-			return "SYMBOL_TEMPLATE_PARAMETER";
+			return L"SYMBOL_TEMPLATE_PARAMETER";
 		case SYMBOL_TYPEDEF:
-			return "SYMBOL_TYPEDEF";
+			return L"SYMBOL_TYPEDEF";
 		case SYMBOL_TYPE_PARAMETER:
-			return "SYMBOL_TYPE_PARAMETER";
+			return L"SYMBOL_TYPE_PARAMETER";
 		case SYMBOL_UNION:
-			return "SYMBOL_UNION";
+			return L"SYMBOL_UNION";
 		default:
 			break;
 		}
-		return "SYMBOL_NON_INDEXED";
+		return L"SYMBOL_NON_INDEXED";
 	}
 
-	std::string referenceKindToString(ReferenceKind referenceKind) const
+	std::wstring referenceKindToString(ReferenceKind referenceKind) const
 	{
 		switch (referenceKind)
 		{
 		case REFERENCE_TYPE_USAGE:
-			return "REFERENCE_TYPE_USAGE";
+			return L"REFERENCE_TYPE_USAGE";
 		case REFERENCE_USAGE:
-			return "REFERENCE_USAGE";
+			return L"REFERENCE_USAGE";
 		case REFERENCE_CALL:
-			return "REFERENCE_CALL";
+			return L"REFERENCE_CALL";
 		case REFERENCE_INHERITANCE:
-			return "REFERENCE_INHERITANCE";
+			return L"REFERENCE_INHERITANCE";
 		case REFERENCE_OVERRIDE:
-			return "REFERENCE_OVERRIDE";
+			return L"REFERENCE_OVERRIDE";
 		case REFERENCE_TEMPLATE_ARGUMENT:
-			return "REFERENCE_TEMPLATE_ARGUMENT";
+			return L"REFERENCE_TEMPLATE_ARGUMENT";
 		case REFERENCE_TYPE_ARGUMENT:
-			return "REFERENCE_TYPE_ARGUMENT";
+			return L"REFERENCE_TYPE_ARGUMENT";
 		case REFERENCE_TEMPLATE_DEFAULT_ARGUMENT:
-			return "REFERENCE_TEMPLATE_DEFAULT_ARGUMENT";
+			return L"REFERENCE_TEMPLATE_DEFAULT_ARGUMENT";
 		case REFERENCE_TEMPLATE_SPECIALIZATION:
-			return "REFERENCE_TEMPLATE_SPECIALIZATION";
+			return L"REFERENCE_TEMPLATE_SPECIALIZATION";
 		case REFERENCE_TEMPLATE_MEMBER_SPECIALIZATION:
-			return "REFERENCE_TEMPLATE_MEMBER_SPECIALIZATION";
+			return L"REFERENCE_TEMPLATE_MEMBER_SPECIALIZATION";
 		case REFERENCE_INCLUDE:
-			return "REFERENCE_INCLUDE";
+			return L"REFERENCE_INCLUDE";
 		case REFERENCE_IMPORT:
-			return "REFERENCE_IMPORT";
+			return L"REFERENCE_IMPORT";
 		case REFERENCE_MACRO_USAGE:
-			return "REFERENCE_MACRO_USAGE";
+			return L"REFERENCE_MACRO_USAGE";
 		default:
 			break;
 		}
-		return "REFERENCE_UNDEFINED";
+		return L"REFERENCE_UNDEFINED";
 	}
 
-	std::set<std::string> m_recordedLines;
+	std::set<std::wstring> m_recordedLines;
 };
 
 #endif // DUMP_PARSER_CLIENT_H

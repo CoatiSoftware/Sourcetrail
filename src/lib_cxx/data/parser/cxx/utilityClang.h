@@ -14,7 +14,7 @@ namespace utility
 	AccessKind convertAccessSpecifier(clang::AccessSpecifier access);
 	SymbolKind convertTagKind(const clang::TagTypeKind tagKind);
 	SymbolKind getSymbolKind(const clang::VarDecl* d);
-	std::string getFileNameOfFileEntry(const clang::FileEntry* entry);
+	std::wstring getFileNameOfFileEntry(const clang::FileEntry* entry);
 }
 
 template <typename T>

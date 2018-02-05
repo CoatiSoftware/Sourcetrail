@@ -8,6 +8,7 @@
 #include "data/parser/cxx/name_resolver/CxxSpecifierNameResolver.h"
 #include "data/parser/cxx/name_resolver/CxxTemplateArgumentNameResolver.h"
 #include "utility/logging/logging.h"
+#include "utility/utilityString.h"
 
 CxxTypeNameResolver::CxxTypeNameResolver(std::shared_ptr<CanonicalFilePathCache> canonicalFilePathCache)
 	: CxxNameResolver(canonicalFilePathCache, std::vector<const clang::Decl*>())
@@ -67,7 +68,7 @@ std::shared_ptr<CxxTypeName> CxxTypeNameResolver::getName(const clang::Type* typ
 				{
 					typeName = std::make_shared<CxxTypeName>(
 						declName->getName(),
-						std::vector<std::string>(),
+						std::vector<std::wstring>(),
 						declName->getParent()
 					);
 				}
@@ -79,7 +80,7 @@ std::shared_ptr<CxxTypeName> CxxTypeNameResolver::getName(const clang::Type* typ
 				typeName = getName(type->getPointeeType());
 				if (typeName)
 				{
-					typeName->addModifier(CxxTypeName::Modifier("*"));
+					typeName->addModifier(CxxTypeName::Modifier(L"*"));
 				}
 				break;
 			}
@@ -91,7 +92,7 @@ std::shared_ptr<CxxTypeName> CxxTypeNameResolver::getName(const clang::Type* typ
 				typeName = getName(clang::dyn_cast<clang::ArrayType>(type)->getElementType());
 				if (typeName)
 				{
-					typeName->addModifier(CxxTypeName::Modifier("[]"));
+					typeName->addModifier(CxxTypeName::Modifier(L"[]"));
 				}
 				break;
 			}
@@ -100,7 +101,7 @@ std::shared_ptr<CxxTypeName> CxxTypeNameResolver::getName(const clang::Type* typ
 				typeName = getName(type->getPointeeType());
 				if (typeName)
 				{
-					typeName->addModifier(CxxTypeName::Modifier("&"));
+					typeName->addModifier(CxxTypeName::Modifier(L"&"));
 				}
 				break;
 			}
@@ -109,7 +110,7 @@ std::shared_ptr<CxxTypeName> CxxTypeNameResolver::getName(const clang::Type* typ
 				typeName = getName(type->getPointeeType());
 				if (typeName)
 				{
-					typeName->addModifier(CxxTypeName::Modifier("&&"));
+					typeName->addModifier(CxxTypeName::Modifier(L"&&"));
 				}
 				break;
 			}
@@ -140,7 +141,7 @@ std::shared_ptr<CxxTypeName> CxxTypeNameResolver::getName(const clang::Type* typ
 				pp.Bool = true;					// value "true": prints bool type as "bool" instead of "_Bool"
 
 				typeName = std::make_shared<CxxTypeName>(
-					type->getAs<clang::BuiltinType>()->getName(pp), std::vector<std::string>()
+					utility::decodeFromUtf8(type->getAs<clang::BuiltinType>()->getName(pp)), std::vector<std::wstring>()
 				);
 				break;
 			}
@@ -168,7 +169,7 @@ std::shared_ptr<CxxTypeName> CxxTypeNameResolver::getName(const clang::Type* typ
 
 					if (declName)
 					{
-						std::vector<std::string> templateArguments;
+						std::vector<std::wstring> templateArguments;
 						CxxTemplateArgumentNameResolver resolver(getCanonicalFilePathCache(), getIgnoredContextDecls());
 						resolver.ignoreContextDecl(templateSpecializationType->getTemplateName().getAsTemplateDecl()->getTemplatedDecl());
 						for (size_t i = 0; i < templateSpecializationType->getNumArgs(); i++)
@@ -214,9 +215,10 @@ std::shared_ptr<CxxTypeName> CxxTypeNameResolver::getName(const clang::Type* typ
 
 				CxxSpecifierNameResolver specifierNameResolver(getCanonicalFilePathCache(), getIgnoredContextDecls());
 				std::shared_ptr<CxxName> specifierName = specifierNameResolver.getName(dependentType->getQualifier());
-
 				typeName = std::make_shared<CxxTypeName>(
-					dependentType->getIdentifier()->getName().str(), std::vector<std::string>(), specifierName
+					utility::decodeFromUtf8(dependentType->getIdentifier()->getName().str()), 
+					std::vector<std::wstring>(), 
+					specifierName
 				);
 				break;
 			}
@@ -227,7 +229,7 @@ std::shared_ptr<CxxTypeName> CxxTypeNameResolver::getName(const clang::Type* typ
 				CxxSpecifierNameResolver specifierNameResolver(getCanonicalFilePathCache(), getIgnoredContextDecls());
 				std::shared_ptr<CxxName> specifierName = specifierNameResolver.getName(dependentType->getQualifier());
 
-				std::vector<std::string> templateArguments;
+				std::vector<std::wstring> templateArguments;
 				CxxTemplateArgumentNameResolver resolver(getCanonicalFilePathCache(), getIgnoredContextDecls());
 				for (size_t i = 0; i < dependentType->getNumArgs(); i++)
 				{
@@ -235,7 +237,9 @@ std::shared_ptr<CxxTypeName> CxxTypeNameResolver::getName(const clang::Type* typ
 				}
 
 				typeName = std::make_shared<CxxTypeName>(
-					dependentType->getIdentifier()->getName().str(), std::move(templateArguments), specifierName
+					utility::decodeFromUtf8(dependentType->getIdentifier()->getName().str()), 
+					std::move(templateArguments), 
+					specifierName
 				);
 				break;
 			}
@@ -254,7 +258,7 @@ std::shared_ptr<CxxTypeName> CxxTypeNameResolver::getName(const clang::Type* typ
 				else
 				{
 					typeName = std::make_shared<CxxTypeName>(
-						"auto", std::vector<std::string>()
+						L"auto", std::vector<std::wstring>() // TODO: can we actually resolve this case? would be great!
 					);
 				}
 				break;
@@ -267,20 +271,20 @@ std::shared_ptr<CxxTypeName> CxxTypeNameResolver::getName(const clang::Type* typ
 		case clang::Type::FunctionProto:
 			{
 				const clang::FunctionProtoType* protoType = clang::dyn_cast<clang::FunctionProtoType>(type);
-				std::string nameString = CxxTypeName::makeUnsolvedIfNull(getName(protoType->getReturnType()))->toString();
-				nameString += "(";
+				std::wstring nameString = CxxTypeName::makeUnsolvedIfNull(getName(protoType->getReturnType()))->toString();
+				nameString += L"(";
 				for (size_t i = 0; i < protoType->getNumParams(); i++)
 				{
 					if (i != 0)
 					{
-						nameString += ", ";
+						nameString += L", ";
 					}
 					nameString += CxxTypeName::makeUnsolvedIfNull(getName(protoType->getParamType(i)))->toString();
 				}
-				nameString += ")";
+				nameString += L")";
 
 				typeName = std::make_shared<CxxTypeName>(
-					std::move(nameString), std::vector<std::string>()
+					std::move(nameString), std::vector<std::wstring>()
 				);
 				break;
 			}
@@ -292,8 +296,8 @@ std::shared_ptr<CxxTypeName> CxxTypeNameResolver::getName(const clang::Type* typ
 			}
 		default:
 			{
-				std::string typeClassName = type->getTypeClassName();
-				LOG_INFO(std::string("Unhandled kind of type encountered: ") + typeClassName);
+				const std::string typeClassName = type->getTypeClassName();
+				LOG_INFO("Unhandled kind of type encountered: " + typeClassName);
 				clang::PrintingPolicy pp = clang::PrintingPolicy(clang::LangOptions());
 				pp.SuppressTagKeyword = true;	// value "true": for a class A it prints "A" instead of "class A"
 				pp.Bool = true;					// value "true": prints bool type as "bool" instead of "_Bool"
@@ -301,10 +305,10 @@ std::shared_ptr<CxxTypeName> CxxTypeNameResolver::getName(const clang::Type* typ
 				clang::SmallString<64> Buf;
 				llvm::raw_svector_ostream StrOS(Buf);
 				clang::QualType::print(type, clang::Qualifiers(), StrOS, pp, clang::Twine());
-				std::string nameString = StrOS.str();
+				std::wstring nameString = utility::decodeFromUtf8(StrOS.str());
 
 				typeName = std::make_shared<CxxTypeName>(
-					std::move(nameString), std::vector<std::string>()
+					std::move(nameString), std::vector<std::wstring>()
 				);
 				break;
 			}

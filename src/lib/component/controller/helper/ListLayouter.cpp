@@ -84,7 +84,7 @@ void ListLayouter::layoutList(std::vector<std::shared_ptr<DummyNode>>& nodes)
 				}
 				else if (textNode->name.size() == 1)
 				{
-					textNode->name += "..";
+					textNode->name += L"..";
 				}
 
 				nodes.insert(nodes.begin() + i, textNode);

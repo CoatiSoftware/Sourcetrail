@@ -329,7 +329,7 @@ void QtCodeNavigator::setFocusedTokenIds(const std::vector<Id>& focusedTokenIds)
 	m_focusedTokenIds = std::set<Id>(focusedTokenIds.begin(), focusedTokenIds.end());
 }
 
-std::string QtCodeNavigator::getErrorMessageForId(Id errorId) const
+std::wstring QtCodeNavigator::getErrorMessageForId(Id errorId) const
 {
 	std::map<Id, ErrorInfo>::const_iterator it = m_errorInfos.find(errorId);
 
@@ -338,7 +338,7 @@ std::string QtCodeNavigator::getErrorMessageForId(Id errorId) const
 		return it->second.message;
 	}
 
-	return "";
+	return L"";
 }
 
 void QtCodeNavigator::setErrorInfos(const std::vector<ErrorInfo>& errorInfos)
@@ -362,7 +362,7 @@ size_t QtCodeNavigator::getFatalErrorCountForFile(const FilePath& filePath) cons
 	for (const std::pair<Id, ErrorInfo>& p : m_errorInfos)
 	{
 		const ErrorInfo& error = p.second;
-		if (error.filePath == filePath && error.fatal)
+		if (error.filePath == filePath.wstr() && error.fatal)
 		{
 			fatalErrorCount++;
 		}

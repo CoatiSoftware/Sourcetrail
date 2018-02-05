@@ -9,16 +9,16 @@ struct StorageNodeData
 {
 	StorageNodeData()
 		: type(0)
-		, serializedName("")
+		, serializedName(L"")
 	{}
 
-	StorageNodeData(int type, const std::string& serializedName)
+	StorageNodeData(int type, const std::wstring& serializedName)
 		: type(type)
 		, serializedName(serializedName)
 	{}
 
 	int type;
-	std::string serializedName;
+	std::wstring serializedName;
 };
 
 struct StorageNode: public StorageNodeData
@@ -28,7 +28,7 @@ struct StorageNode: public StorageNodeData
 		, id(0)
 	{}
 
-	StorageNode(Id id, int type, const std::string& serializedName)
+	StorageNode(Id id, int type, const std::wstring& serializedName)
 		: StorageNodeData(type, serializedName)
 		, id(id)
 	{}

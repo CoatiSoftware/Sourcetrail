@@ -1,6 +1,6 @@
 #include "Bookmark.h"
 
-Bookmark::Bookmark(const Id id, const std::string& name, const std::string& comment, const TimeStamp& timeStamp, const BookmarkCategory& category)
+Bookmark::Bookmark(const Id id, const std::wstring& name, const std::wstring& comment, const TimeStamp& timeStamp, const BookmarkCategory& category)
 	: m_id(id)
 	, m_name(name)
 	, m_comment(comment)
@@ -24,22 +24,22 @@ void Bookmark::setId(const Id id)
 	m_id = id;
 }
 
-std::string Bookmark::getName() const
+std::wstring Bookmark::getName() const
 {
 	return m_name;
 }
 
-void Bookmark::setName(const std::string& name)
+void Bookmark::setName(const std::wstring& name)
 {
 	m_name = name;
 }
 
-std::string Bookmark::getComment() const
+std::wstring Bookmark::getComment() const
 {
 	return m_comment;
 }
 
-void Bookmark::setComment(const std::string& comment)
+void Bookmark::setComment(const std::wstring& comment)
 {
 	m_comment = comment;
 }

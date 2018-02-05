@@ -30,10 +30,11 @@ void ConsoleLogger::logMessage(const std::string& type, const LogMessage& messag
 {
 	std::cout << message.getTimeString("%H:%M:%S") << " | ";
 
-	if (message.filePath.size())
+	if (!message.filePath.empty())
 	{
 		std::cout << message.getFileName() << ':' << message.line << ' ' << message.functionName << "() | ";
 	}
 
-	std::cout << type << ": " << message.message << std::endl;
+	std::cout << type << ": ";
+	std::wcout << message.message << std::endl;
 }

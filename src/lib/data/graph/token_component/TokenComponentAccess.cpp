@@ -1,25 +1,25 @@
 #include "data/graph/token_component/TokenComponentAccess.h"
 
-std::string TokenComponentAccess::getAccessString(AccessKind access)
+std::wstring TokenComponentAccess::getAccessString(AccessKind access)
 {
 	switch (access)
 	{
 	case ACCESS_NONE:
 		break;
 	case ACCESS_PUBLIC:
-		return "public";
+		return L"public";
 	case ACCESS_PROTECTED:
-		return "protected";
+		return L"protected";
 	case ACCESS_PRIVATE:
-		return "private";
+		return L"private";
 	case ACCESS_DEFAULT:
-		return "default";
+		return L"default";
 	case ACCESS_TEMPLATE_PARAMETER:
-		return "template parameter";
+		return L"template parameter";
 	case ACCESS_TYPE_PARAMETER:
-		return "type parameter";
+		return L"type parameter";
 	}
-	return "";
+	return L"";
 }
 
 
@@ -42,7 +42,7 @@ AccessKind TokenComponentAccess::getAccess() const
 	return m_access;
 }
 
-std::string TokenComponentAccess::getAccessString() const
+std::wstring TokenComponentAccess::getAccessString() const
 {
 	return getAccessString(m_access);
 }

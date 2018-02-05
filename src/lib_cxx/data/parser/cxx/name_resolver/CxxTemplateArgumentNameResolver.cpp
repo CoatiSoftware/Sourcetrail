@@ -4,6 +4,7 @@
 #include <clang/AST/DeclTemplate.h>
 
 #include "data/parser/cxx/name_resolver/CxxTypeNameResolver.h"
+#include "utility/utilityString.h"
 
 CxxTemplateArgumentNameResolver::CxxTemplateArgumentNameResolver(std::shared_ptr<CanonicalFilePathCache> canonicalFilePathCache)
 	: CxxNameResolver(canonicalFilePathCache, std::vector<const clang::Decl*>())
@@ -22,7 +23,7 @@ CxxTemplateArgumentNameResolver::~CxxTemplateArgumentNameResolver()
 {
 }
 
-std::string CxxTemplateArgumentNameResolver::getTemplateArgumentName(const clang::TemplateArgument& argument)
+std::wstring CxxTemplateArgumentNameResolver::getTemplateArgumentName(const clang::TemplateArgument& argument)
 {
 	// This doesn't work correctly if the template argument is dependent.
 	// If that's required: build name from depth and index of template arg.
@@ -52,25 +53,25 @@ std::string CxxTemplateArgumentNameResolver::getTemplateArgumentName(const clang
 			argument.print(pp, os);
 			const std::string typeName = os.str();
 
-			return typeName;
+			return utility::decodeFromUtf8(typeName);
 		}
 	case clang::TemplateArgument::Pack:
 		{
-			std::string typeName = "<";
+			std::wstring typeName = L"<";
 			llvm::ArrayRef<clang::TemplateArgument> pack = argument.getPackAsArray();
 			for (size_t i = 0; i < pack.size(); i++)
 			{
 				typeName += getTemplateArgumentName(pack[i]);
 				if (i < pack.size() - 1)
 				{
-					typeName += ", ";
+					typeName += L", ";
 				}
 			}
-			typeName += ">";
+			typeName += L">";
 
 			return typeName;
 		}
 	}
 
-	return "";
+	return L"";
 }

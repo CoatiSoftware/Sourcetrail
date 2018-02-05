@@ -1,6 +1,6 @@
 #include "NodeBookmark.h"
 
-NodeBookmark::NodeBookmark(const Id id, const std::string& name, const std::string& comment,
+NodeBookmark::NodeBookmark(const Id id, const std::wstring& name, const std::wstring& comment,
 	const TimeStamp& timeStamp, const BookmarkCategory& category
 )
 	: Bookmark(id, name, comment, timeStamp, category)

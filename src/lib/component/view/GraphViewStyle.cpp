@@ -1,12 +1,11 @@
 #include "component/view/GraphViewStyle.h"
 
-#include "utility/logging/logging.h"
-
-#include "utility/ResourcePaths.h"
-
 #include "component/view/GraphViewStyleImpl.h"
 #include "settings/ApplicationSettings.h"
 #include "settings/ColorScheme.h"
+#include "utility/logging/logging.h"
+#include "utility/ResourcePaths.h"
+#include "utility/utilityString.h"
 
 int GraphViewStyle::s_gridCellSize = 5;
 int GraphViewStyle::s_gridCellPadding = 10;
@@ -540,7 +539,7 @@ GraphViewStyle::EdgeStyle GraphViewStyle::getStyleForEdgeType(
 	style.originOffset.y = -1;
 	style.targetOffset.y = 1;
 
-	style.color = getEdgeColor(Edge::getUnderscoredTypeString(type), isActive || isFocused);
+	style.color = getEdgeColor(utility::encodeToUtf8(Edge::getUnderscoredTypeString(type)), isActive || isFocused);
 
 	switch (type)
 	{
@@ -564,7 +563,7 @@ GraphViewStyle::EdgeStyle GraphViewStyle::getStyleForEdgeType(
 		{
 			style.width = 3;
 			style.color = ColorScheme::getInstance()->getColor(
-				"graph/edge/" + Edge::getUnderscoredTypeString(type) + "/trail_focus", style.color);
+				"graph/edge/" + utility::encodeToUtf8(Edge::getUnderscoredTypeString(type)) + "/trail_focus", style.color);
 		}
 		break;
 	case Edge::EDGE_USAGE:

@@ -9,7 +9,7 @@
 #include "component/view/GraphViewStyle.h"
 #include "qt/graphics/QtCountCircleItem.h"
 
-QtGraphNodeBundle::QtGraphNodeBundle(Id tokenId, size_t nodeCount, NodeType type, std::string name)
+QtGraphNodeBundle::QtGraphNodeBundle(Id tokenId, size_t nodeCount, NodeType type, std::wstring name)
 	: QtGraphNode()
 	, m_tokenId(tokenId)
 	, m_type(type)
@@ -42,7 +42,7 @@ void QtGraphNodeBundle::onClick()
 {
 	MessageGraphNodeBundleSplit(
 		m_tokenId,
-		!m_type.isUnknownSymbol() && getName() != "Anonymous Namespaces",
+		!m_type.isUnknownSymbol() && getName() != L"Anonymous Namespaces", // TODO: move to language package
 		!m_type.isUnknownSymbol()
 	).dispatch();
 }

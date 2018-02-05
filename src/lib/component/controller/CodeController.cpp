@@ -160,7 +160,7 @@ void CodeController::handleMessage(MessageActivateTokens* message)
 
 		if (message->tokenNames.size())
 		{
-			status += L"Activate \"" + utility::decodeFromUtf8(message->tokenNames[0].getQualifiedName()) + L"\": ";
+			status += L"Activate \"" + message->tokenNames[0].getQualifiedName() + L"\": ";
 		}
 
 		status += std::to_wstring(message->tokenIds.size()) + L" ";
@@ -660,7 +660,7 @@ std::vector<CodeSnippetParams> CodeController::getSnippetsForFile(
 				{
 					if (location->getTokenIds().size())
 					{
-						params.title = m_storageAccess->getNameHierarchyForNodeId(location->getTokenIds()[0]).getQualifiedName();
+						params.title = utility::encodeToUtf8(m_storageAccess->getNameHierarchyForNodeId(location->getTokenIds()[0]).getQualifiedName());
 						params.titleId = location->getLocationId();
 					}
 				}
@@ -682,7 +682,7 @@ std::vector<CodeSnippetParams> CodeController::getSnippetsForFile(
 				{
 					if (location->getTokenIds().size())
 					{
-						params.footer = m_storageAccess->getNameHierarchyForNodeId(location->getTokenIds()[0]).getQualifiedName();
+						params.footer = utility::encodeToUtf8(m_storageAccess->getNameHierarchyForNodeId(location->getTokenIds()[0]).getQualifiedName());
 						params.footerId = location->getLocationId();
 					}
 				}
@@ -829,12 +829,12 @@ std::vector<std::string> CodeController::getProjectDescription(SourceLocationFil
 				break;
 			}
 
-			std::string serializedName = line.substr(posA + 1, posB - posA - 1);
+			std::wstring serializedName = utility::decodeFromUtf8(line.substr(posA + 1, posB - posA - 1));
 
 			NameHierarchy nameHierarchy = NameHierarchy::deserialize(serializedName);
 			Id tokenId = m_storageAccess->getNodeIdForNameHierarchy(nameHierarchy);
 
-			std::string nameString = nameHierarchy.getQualifiedName();
+			std::string nameString = utility::encodeToUtf8(nameHierarchy.getQualifiedName());
 			if (tokenId > 0)
 			{
 				line.replace(posA, posB - posA + 1, nameString);

@@ -9,7 +9,7 @@ struct LogMessage
 {
 public:
 	LogMessage(
-		const std::string& message,
+		const std::wstring& message,
 		const std::string& filePath,
 		const std::string& functionName,
 		const unsigned int line,
@@ -36,7 +36,7 @@ public:
 		return filePath.substr(filePath.find_last_of("/\\") + 1);
 	}
 
-	const std::string message;
+	const std::wstring message;
 	const std::string filePath;
 	const std::string functionName;
 	const unsigned int line;

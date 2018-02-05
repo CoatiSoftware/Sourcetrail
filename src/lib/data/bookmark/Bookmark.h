@@ -29,17 +29,17 @@ public:
 		ORDER_NAME_DESCENDING
 	};
 
-	Bookmark(const Id id, const std::string& name, const std::string& comment, const TimeStamp& timeStamp, const BookmarkCategory& category);
+	Bookmark(const Id id, const std::wstring& name, const std::wstring& comment, const TimeStamp& timeStamp, const BookmarkCategory& category);
 	virtual ~Bookmark();
 
 	Id getId() const;
 	void setId(const Id id);
 
-	std::string getName() const;
-	void setName(const std::string& name);
+	std::wstring getName() const;
+	void setName(const std::wstring& name);
 
-	std::string getComment() const;
-	void setComment(const std::string& comment);
+	std::wstring getComment() const;
+	void setComment(const std::wstring& comment);
 
 	TimeStamp getTimeStamp() const;
 	void setTimeStamp(const TimeStamp& timeStamp);
@@ -52,8 +52,8 @@ public:
 
 private:
 	Id m_id;
-	std::string m_name;
-	std::string m_comment;
+	std::wstring m_name;
+	std::wstring m_comment;
 	TimeStamp m_timeStamp;
 	BookmarkCategory m_category;
 	bool m_isValid;

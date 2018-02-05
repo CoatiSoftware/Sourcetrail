@@ -26,8 +26,8 @@ public:
 
 	void refreshStyle();
 
-	void setDisplayName(const std::string& name);
-	void setComment(const std::string& comment);
+	void setDisplayName(const std::wstring& name);
+	void setComment(const std::wstring& comment);
 
 	void setBookmarkCategories(const std::vector<BookmarkCategory>& categories);
 	void setCurrentBookmarkCategory(const BookmarkCategory& category);

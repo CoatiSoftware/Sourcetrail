@@ -9,12 +9,12 @@ struct StorageFile
 {
 	StorageFile()
 		: id(0)
-		, filePath("")
+		, filePath(L"")
 		, modificationTime("")
 		, complete(true)
 	{}
 
-	StorageFile(Id id, const std::string& filePath, const std::string& modificationTime, bool complete)
+	StorageFile(Id id, const std::wstring& filePath, const std::string& modificationTime, bool complete)
 		: id(id)
 		, filePath(filePath)
 		, modificationTime(modificationTime)
@@ -22,7 +22,7 @@ struct StorageFile
 	{}
 
 	Id id;
-	std::string filePath;
+	std::wstring filePath;
 	std::string modificationTime;
 	bool complete;
 };

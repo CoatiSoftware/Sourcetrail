@@ -19,7 +19,7 @@ public:
 	void removeQualifier(QualifierType qualifier);
 
 	bool empty() const;
-	std::string toString() const;
+	std::wstring toString() const;
 
 private:
 	char m_flags;

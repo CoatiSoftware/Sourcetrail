@@ -10,7 +10,7 @@ public:
 	void test_search_index_finds_id_of_element_added()
 	{
 		SearchIndex index;
-		index.addNode(1, NameHierarchy::deserialize("::\tmfoo\tsvoid\tp() const").getQualifiedName());
+		index.addNode(1, utility::encodeToUtf8(NameHierarchy::deserialize(L"::\tmfoo\tsvoid\tp() const").getQualifiedName()));
 		index.finishSetup();
 		std::vector<SearchResult> results = index.search("oo", NodeTypeSet::all(), 0);
 
@@ -22,7 +22,7 @@ public:
 	void test_search_index_finds_correct_indices_for_query()
 	{
 		SearchIndex index;
-		index.addNode(1, NameHierarchy::deserialize("::\tmfoo\tsvoid\tp() const").getQualifiedName());
+		index.addNode(1, utility::encodeToUtf8(NameHierarchy::deserialize(L"::\tmfoo\tsvoid\tp() const").getQualifiedName()));
 		index.finishSetup();
 		std::vector<SearchResult> results = index.search("oo", NodeTypeSet::all(), 0);
 
@@ -35,8 +35,8 @@ public:
 	void test_search_index_finds_ids_for_ambiguous_query()
 	{
 		SearchIndex index;
-		index.addNode(1, NameHierarchy::deserialize("::\tmfor\tsvoid\tp() const").getQualifiedName());
-		index.addNode(2, NameHierarchy::deserialize("::\tmfos\tsvoid\tp() const").getQualifiedName());
+		index.addNode(1, utility::encodeToUtf8(NameHierarchy::deserialize(L"::\tmfor\tsvoid\tp() const").getQualifiedName()));
+		index.addNode(2, utility::encodeToUtf8(NameHierarchy::deserialize(L"::\tmfos\tsvoid\tp() const").getQualifiedName()));
 		index.finishSetup();
 		std::vector<SearchResult> results = index.search("fo", NodeTypeSet::all(), 0);
 
@@ -50,7 +50,7 @@ public:
 	void test_search_index_does_not_find_anything_after_clear()
 	{
 		SearchIndex index;
-		index.addNode(1, NameHierarchy::deserialize("::\tmfoo\tsvoid\tp() const").getQualifiedName());
+		index.addNode(1, utility::encodeToUtf8(NameHierarchy::deserialize(L"::\tmfoo\tsvoid\tp() const").getQualifiedName()));
 		index.finishSetup();
 		index.clear();
 		std::vector<SearchResult> results = index.search("oo", NodeTypeSet::all(), 0);
@@ -61,8 +61,8 @@ public:
 	void test_search_index_does_not_find_all_results_when_max_amount_is_limited()
 	{
 		SearchIndex index;
-		index.addNode(1, NameHierarchy::deserialize("::\tmfoo1\tsvoid\tp() const").getQualifiedName());
-		index.addNode(2, NameHierarchy::deserialize("::\tmfoo2\tsvoid\tp() const").getQualifiedName());
+		index.addNode(1, utility::encodeToUtf8(NameHierarchy::deserialize(L"::\tmfoo1\tsvoid\tp() const").getQualifiedName()));
+		index.addNode(2, utility::encodeToUtf8(NameHierarchy::deserialize(L"::\tmfoo2\tsvoid\tp() const").getQualifiedName()));
 		index.finishSetup();
 		std::vector<SearchResult> results = index.search("oo", NodeTypeSet::all(), 1);
 
@@ -72,8 +72,8 @@ public:
 	void test_search_index_query_is_case_insensitive()
 	{
 		SearchIndex index;
-		index.addNode(1, NameHierarchy::deserialize("::\tmfoo1\tsvoid\tp() const").getQualifiedName());
-		index.addNode(2, NameHierarchy::deserialize("::\tmFOO2\tsvoid\tp() const").getQualifiedName());
+		index.addNode(1, utility::encodeToUtf8(NameHierarchy::deserialize(L"::\tmfoo1\tsvoid\tp() const").getQualifiedName()));
+		index.addNode(2, utility::encodeToUtf8(NameHierarchy::deserialize(L"::\tmFOO2\tsvoid\tp() const").getQualifiedName()));
 		index.finishSetup();
 		std::vector<SearchResult> results = index.search("oo", NodeTypeSet::all(), 0);
 
@@ -84,8 +84,8 @@ public:
 	{
 
 		SearchIndex index;
-		index.addNode(1, NameHierarchy::deserialize("::\tmoaabbcc\tsvoid\tp() const").getQualifiedName());
-		index.addNode(2, NameHierarchy::deserialize("::\tmocbcabc\tsvoid\tp() const").getQualifiedName());
+		index.addNode(1, utility::encodeToUtf8(NameHierarchy::deserialize(L"::\tmoaabbcc\tsvoid\tp() const").getQualifiedName()));
+		index.addNode(2, utility::encodeToUtf8(NameHierarchy::deserialize(L"::\tmocbcabc\tsvoid\tp() const").getQualifiedName()));
 		index.finishSetup();
 		std::vector<SearchResult> results = index.search("abc", NodeTypeSet::all(), 0);
 

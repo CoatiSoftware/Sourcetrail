@@ -352,7 +352,7 @@ public:
 
 	// GraphNode
 	const Node* data;
-	std::string name;
+	std::wstring name;
 
 	bool active;
 	bool connected;

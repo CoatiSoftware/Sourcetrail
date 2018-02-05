@@ -84,7 +84,7 @@ private:
 	bool m_right;
 	bool m_shift;
 
-	std::string m_clipboardNodeName;
+	std::wstring m_clipboardNodeName;
 	Id m_hideNodeId;
 	Id m_hideEdgeId;
 	Id m_bookmarkNodeId;

@@ -16,32 +16,32 @@ public:
 
 	struct Modifier
 	{
-		Modifier(std::string&& symbol);
-		std::string symbol;
+		Modifier(std::wstring&& symbol);
+		std::wstring symbol;
 		CxxQualifierFlags qualifierFlags;
 	};
 
 	// uncomment this constructor if required, but try to use the one using move constructors for the members
 	//CxxTypeName(
-	//	const std::string& name,
-	//	const std::vector<std::string>& templateArguments
+	//	const std::wstring& name,
+	//	const std::vector<std::wstring>& templateArguments
 	//);
 
 	CxxTypeName(
-		std::string&& name,
-		std::vector<std::string>&& templateArguments
+		std::wstring&& name,
+		std::vector<std::wstring>&& templateArguments
 	);
 
 	// uncomment this constructor if required, but try to use the one using move constructors for the members
 	//CxxTypeName(
-	//	const std::string& name,
-	//	const std::vector<std::string>& templateArguments,
+	//	const std::wstring& name,
+	//	const std::vector<std::wstring>& templateArguments,
 	//	std::shared_ptr<CxxName> parent
 	//);
 
 	CxxTypeName(
-		std::string&& name,
-		std::vector<std::string>&& templateArguments,
+		std::wstring&& name,
+		std::vector<std::wstring>&& templateArguments,
 		std::shared_ptr<CxxName> parent
 	);
 
@@ -50,13 +50,13 @@ public:
 	void addQualifier(const CxxQualifierFlags::QualifierType qualifier);
 	void addModifier(const Modifier& modifier);
 
-	std::string toString() const;
+	std::wstring toString() const;
 
 private:
-	std::string getTypeNameString() const;
+	std::wstring getTypeNameString() const;
 
-	std::string m_name;
-	std::vector<std::string> m_templateArguments;
+	std::wstring m_name;
+	std::vector<std::wstring> m_templateArguments;
 
 	CxxQualifierFlags m_qualifierFlags;
 	std::vector<Modifier> m_modifiers;

@@ -4,54 +4,54 @@
 
 #include "data/parser/ParseLocation.h"
 
-std::string ParserClient::addAccessPrefix(const std::string& str, AccessKind access)
+std::wstring ParserClient::addAccessPrefix(const std::wstring& str, AccessKind access)
 {
 	switch (access)
 	{
 	case ACCESS_PUBLIC:
-		return "public " + str;
+		return L"public " + str;
 	case ACCESS_PROTECTED:
-		return "protected " + str;
+		return L"protected " + str;
 	case ACCESS_PRIVATE:
-		return "private " + str;
+		return L"private " + str;
 	case ACCESS_DEFAULT:
-		return "default " + str;
+		return L"default " + str;
 	default:
 		break;
 	}
 	return str;
 }
 
-std::string ParserClient::addStaticPrefix(const std::string& str, bool isStatic)
+std::wstring ParserClient::addStaticPrefix(const std::wstring& str, bool isStatic)
 {
 	if (isStatic)
 	{
-		return "static " + str;
+		return L"static " + str;
 	}
 	return str;
 }
 
-std::string ParserClient::addConstPrefix(const std::string& str, bool isConst, bool atFront)
+std::wstring ParserClient::addConstPrefix(const std::wstring& str, bool isConst, bool atFront)
 {
 	if (isConst)
 	{
-		return atFront ? "const " + str : str + " const";
+		return atFront ? L"const " + str : str + L" const";
 	}
 	return str;
 }
 
-std::string ParserClient::addLocationSuffix(const std::string& str, const ParseLocation& location)
+std::wstring ParserClient::addLocationSuffix(const std::wstring& str, const ParseLocation& location)
 {
-	std::stringstream ss;
+	std::wstringstream ss;
 	ss << str;
-	ss << " <" << location.startLineNumber << ":" << location.startColumnNumber << " ";
-	ss << location.endLineNumber << ":" << location.endColumnNumber << ">";
+	ss << L" <" << location.startLineNumber << L":" << location.startColumnNumber << L" ";
+	ss << location.endLineNumber << L":" << location.endColumnNumber << L">";
 	return ss.str();
 }
 
-std::string ParserClient::addLocationSuffix(
-	const std::string& str, const ParseLocation& location, const ParseLocation& scopeLocation
-){
+std::wstring ParserClient::addLocationSuffix(
+	const std::wstring& str, const ParseLocation& location, const ParseLocation& scopeLocation
+) {
 	if (!location.isValid())
 	{
 		return addLocationSuffix(str, scopeLocation);
@@ -61,12 +61,12 @@ std::string ParserClient::addLocationSuffix(
 		return addLocationSuffix(str, location);
 	}
 
-	std::stringstream ss;
+	std::wstringstream ss;
 	ss << str;
-	ss << " <" << scopeLocation.startLineNumber << ":" << scopeLocation.startColumnNumber;
-	ss << " <" << location.startLineNumber << ":" << location.startColumnNumber << " ";
-	ss << location.endLineNumber << ":" << location.endColumnNumber << "> ";
-	ss << scopeLocation.endLineNumber << ":" << scopeLocation.endColumnNumber << ">";
+	ss << L" <" << scopeLocation.startLineNumber << L":" << scopeLocation.startColumnNumber;
+	ss << L" <" << location.startLineNumber << L":" << location.startColumnNumber << L" ";
+	ss << location.endLineNumber << L":" << location.endColumnNumber << L"> ";
+	ss << scopeLocation.endLineNumber << L":" << scopeLocation.endColumnNumber << L">";
 	return ss.str();
 }
 
@@ -80,7 +80,7 @@ ParserClient::~ParserClient()
 }
 
 void ParserClient::recordError(
-	const ParseLocation& location, const std::string& message, bool fatal, bool indexed)
+	const ParseLocation& location, const std::wstring& message, bool fatal, bool indexed)
 {
 	doRecordError(location, message, fatal, indexed);
 

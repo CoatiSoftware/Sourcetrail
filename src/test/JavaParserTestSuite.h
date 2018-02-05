@@ -46,8 +46,8 @@ public:
 			"package foo;\n"
 		);
 
-		TS_ASSERT(utility::containsElement<std::string>(
-			client->packages, "foo <1:9 1:11>"
+		TS_ASSERT(utility::containsElement<std::wstring>(
+			client->packages, L"foo <1:9 1:11>"
 		));
 	}
 
@@ -59,8 +59,8 @@ public:
 			"}\n"
 		);
 
-		TS_ASSERT(utility::containsElement<std::string>(
-			client->classes, "public A <1:1 <1:14 1:14> 3:1>"
+		TS_ASSERT(utility::containsElement<std::wstring>(
+			client->classes, L"public A <1:1 <1:14 1:14> 3:1>"
 		));
 	}
 
@@ -72,8 +72,8 @@ public:
 			"}\n"
 		);
 
-		TS_ASSERT(utility::containsElement<std::string>(
-			client->interfaces, "public A <1:1 <1:18 1:18> 3:1>"
+		TS_ASSERT(utility::containsElement<std::wstring>(
+			client->interfaces, L"public A <1:1 <1:18 1:18> 3:1>"
 		));
 	}
 
@@ -86,8 +86,8 @@ public:
 			"}\n"
 		);
 
-		TS_ASSERT(utility::containsElement<std::string>(
-			client->classes, "public foo.A <2:1 <2:14 2:14> 4:1>"
+		TS_ASSERT(utility::containsElement<std::wstring>(
+			client->classes, L"public foo.A <2:1 <2:14 2:14> 4:1>"
 		));
 	}
 
@@ -100,8 +100,8 @@ public:
 			"}\n"
 		);
 
-		TS_ASSERT(utility::containsElement<std::string>(
-			client->classes, "public foo.bar.A <2:1 <2:14 2:14> 4:1>"
+		TS_ASSERT(utility::containsElement<std::wstring>(
+			client->classes, L"public foo.bar.A <2:1 <2:14 2:14> 4:1>"
 		));
 	}
 
@@ -114,8 +114,8 @@ public:
 			"}\n"
 		);
 
-		TS_ASSERT(utility::containsElement<std::string>(
-			client->enums, "public foo.A <2:1 <2:13 2:13> 4:1>"
+		TS_ASSERT(utility::containsElement<std::wstring>(
+			client->enums, L"public foo.A <2:1 <2:13 2:13> 4:1>"
 		));
 	}
 
@@ -129,8 +129,8 @@ public:
 			"}\n"
 		);
 
-		TS_ASSERT(utility::containsElement<std::string>(
-			client->enumConstants, "foo.A.A_TEST <4:2 4:7>"
+		TS_ASSERT(utility::containsElement<std::wstring>(
+			client->enumConstants, L"foo.A.A_TEST <4:2 4:7>"
 		));
 	}
 
@@ -146,8 +146,8 @@ public:
 			"}\n"
 		);
 
-		TS_ASSERT(utility::containsElement<std::string>(
-			client->methods, "public foo.A.A() <4:2 <4:9 4:9> 6:2>"
+		TS_ASSERT(utility::containsElement<std::wstring>(
+			client->methods, L"public foo.A.A() <4:2 <4:9 4:9> 6:2>"
 		));
 	}
 
@@ -163,8 +163,8 @@ public:
 			"}\n"
 		);
 
-		TS_ASSERT(utility::containsElement<std::string>(
-			client->methods, "public void foo.A.bar(foo.A) <4:2 <4:14 4:16> 6:2>"
+		TS_ASSERT(utility::containsElement<std::wstring>(
+			client->methods, L"public void foo.A.bar(foo.A) <4:2 <4:14 4:16> 6:2>"
 		));
 	}
 
@@ -182,8 +182,8 @@ public:
 			"}\n"
 		);
 
-		TS_ASSERT(utility::containsElement<std::string>(
-			client->classes, "foo.A.bar.anonymous class (input.cc<7:17>) <7:17 <7:17 7:17> 7:19>"
+		TS_ASSERT(utility::containsElement<std::wstring>(
+			client->classes, L"foo.A.bar.anonymous class (input.cc<7:17>) <7:17 <7:17 7:17> 7:19>"
 		));
 	}
 
@@ -206,8 +206,8 @@ public:
 			"}\n"
 		);
 
-		TS_ASSERT(utility::containsElement<std::string>(
-			client->methods, "public void foo.A.bar.anonymous class (input.cc<10:3>).foo() <11:4 <11:16 11:18> 11:23>"
+		TS_ASSERT(utility::containsElement<std::wstring>(
+			client->methods, L"public void foo.A.bar.anonymous class (input.cc<10:3>).foo() <11:4 <11:16 11:18> 11:23>"
 		));
 	}
 
@@ -223,8 +223,8 @@ public:
 			"}\n"
 		);
 
-		TS_ASSERT(utility::containsElement<std::string>(
-			client->methods, "public static void foo.A.bar() <4:2 <4:21 4:23> 6:2>"
+		TS_ASSERT(utility::containsElement<std::wstring>(
+			client->methods, L"public static void foo.A.bar() <4:2 <4:21 4:23> 6:2>"
 		));
 	}
 
@@ -238,8 +238,8 @@ public:
 			"}\n"
 		);
 
-		TS_ASSERT(utility::containsElement<std::string>(
-			client->fields, "default int foo.A.bar <4:6 4:8>"
+		TS_ASSERT(utility::containsElement<std::wstring>(
+			client->fields, L"default int foo.A.bar <4:6 4:8>"
 		));
 	}
 
@@ -253,8 +253,8 @@ public:
 			"}\n"
 		);
 
-		TS_ASSERT(utility::containsElement<std::string>(
-			client->fields, "public int foo.A.bar <4:13 4:15>"
+		TS_ASSERT(utility::containsElement<std::wstring>(
+			client->fields, L"public int foo.A.bar <4:13 4:15>"
 		));
 	}
 
@@ -268,8 +268,8 @@ public:
 			"}\n"
 		);
 
-		TS_ASSERT(utility::containsElement<std::string>(
-			client->fields, "protected int foo.A.bar <4:16 4:18>"
+		TS_ASSERT(utility::containsElement<std::wstring>(
+			client->fields, L"protected int foo.A.bar <4:16 4:18>"
 		));
 	}
 
@@ -283,8 +283,8 @@ public:
 			"}\n"
 		);
 
-		TS_ASSERT(utility::containsElement<std::string>(
-			client->fields, "private int foo.A.bar <4:14 4:16>"
+		TS_ASSERT(utility::containsElement<std::wstring>(
+			client->fields, L"private int foo.A.bar <4:14 4:16>"
 		));
 	}
 
@@ -298,8 +298,8 @@ public:
 			"}\n"
 		);
 
-		TS_ASSERT(utility::containsElement<std::string>(
-			client->fields, "default static int foo.A.bar <4:13 4:15>"
+		TS_ASSERT(utility::containsElement<std::wstring>(
+			client->fields, L"default static int foo.A.bar <4:13 4:15>"
 		));
 	}
 
@@ -315,8 +315,8 @@ public:
 			"}\n"
 		);
 
-		TS_ASSERT(utility::containsElement<std::string>(
-			client->localSymbols, "foo.A.bar<0> <4:15 4:15>"
+		TS_ASSERT(utility::containsElement<std::wstring>(
+			client->localSymbols, L"foo.A.bar<0> <4:15 4:15>"
 		));
 	}
 
@@ -333,8 +333,8 @@ public:
 			"}\n"
 		);
 
-		TS_ASSERT(utility::containsElement<std::string>(
-			client->localSymbols, "foo.A.bar<0> <6:7 6:7>"
+		TS_ASSERT(utility::containsElement<std::wstring>(
+			client->localSymbols, L"foo.A.bar<0> <6:7 6:7>"
 		));
 	}
 
@@ -346,8 +346,8 @@ public:
 			"}\n"
 		);
 
-		TS_ASSERT(utility::containsElement<std::string>(
-			client->typeParameters, "A<T>.T <1:17 1:17>"
+		TS_ASSERT(utility::containsElement<std::wstring>(
+			client->typeParameters, L"A<T>.T <1:17 1:17>"
 		));
 	}
 
@@ -362,8 +362,8 @@ public:
 			"}\n"
 		);
 
-		TS_ASSERT(utility::containsElement<std::string>(
-			client->typeParameters, "A.foo<T>.T <3:10 3:10>"
+		TS_ASSERT(utility::containsElement<std::wstring>(
+			client->typeParameters, L"A.foo<T>.T <3:10 3:10>"
 		));
 	}
 
@@ -376,8 +376,8 @@ public:
 			"}\n"
 		);
 
-		TS_ASSERT(utility::containsElement<std::string>(
-			client->fields, "default static int A.b <3:6 3:6>"
+		TS_ASSERT(utility::containsElement<std::wstring>(
+			client->fields, L"default static int A.b <3:6 3:6>"
 		));
 	}
 
@@ -388,8 +388,8 @@ public:
 			"package foo;\n"
 		);
 
-		TS_ASSERT(utility::containsElement<std::string>(
-			client->comments, "comment <1:1 1:25>"
+		TS_ASSERT(utility::containsElement<std::wstring>(
+			client->comments, L"comment <1:1 1:25>"
 		));
 	}
 
@@ -400,8 +400,8 @@ public:
 			"package foo;\n"
 		);
 
-		TS_ASSERT(utility::containsElement<std::string>(
-			client->comments, "comment <1:1 1:27>"
+		TS_ASSERT(utility::containsElement<std::wstring>(
+			client->comments, L"comment <1:1 1:27>"
 		));
 	}
 
@@ -411,8 +411,8 @@ public:
 			"package foo\n"
 		);
 
-		TS_ASSERT(utility::containsElement<std::string>(
-			client->errors, "Syntax error on token \"foo\", ; expected after this token <1:9 1:11>"
+		TS_ASSERT(utility::containsElement<std::wstring>(
+			client->errors, L"Syntax error on token \"foo\", ; expected after this token <1:9 1:11>"
 		));
 	}
 
@@ -422,8 +422,8 @@ public:
 			"import foo;\n"
 		);
 
-		TS_ASSERT(utility::containsElement<std::string>(
-			client->errors, "The import foo cannot be resolved <1:8 1:10>"
+		TS_ASSERT(utility::containsElement<std::wstring>(
+			client->errors, L"The import foo cannot be resolved <1:8 1:10>"
 		));
 	}
 
@@ -445,8 +445,8 @@ public:
 			"};\n"
 		);
 
-		TS_ASSERT(utility::containsElement<std::string>(
-			client->classes, "public foo.bar.A.B <4:2 <4:15 4:15> 6:2>"
+		TS_ASSERT(utility::containsElement<std::wstring>(
+			client->classes, L"public foo.bar.A.B <4:2 <4:15 4:15> 6:2>"
 		));
 	}
 
@@ -465,8 +465,8 @@ public:
 			"};\n"
 		);
 
-		TS_ASSERT(utility::containsElement<std::string>(
-			client->classes, "default foo.bar.A.bar.B <6:3 <6:9 6:9> 8:3>"
+		TS_ASSERT(utility::containsElement<std::wstring>(
+			client->classes, L"default foo.bar.A.bar.B <6:3 <6:9 6:9> 8:3>"
 		));
 	}
 
@@ -496,8 +496,8 @@ public:
 			"import foo.bar;\n"
 		);
 
-		TS_ASSERT(utility::containsElement<std::string>(
-			client->qualifiers, "foo <1:8 1:10>"
+		TS_ASSERT(utility::containsElement<std::wstring>(
+			client->qualifiers, L"foo <1:8 1:10>"
 		));
 	}
 
@@ -514,11 +514,11 @@ public:
 			"};\n"
 		);
 
-		TS_ASSERT(utility::containsElement<std::string>(
-			client->qualifiers, "foo <6:3 6:5>"
+		TS_ASSERT(utility::containsElement<std::wstring>(
+			client->qualifiers, L"foo <6:3 6:5>"
 			));
-		TS_ASSERT(utility::containsElement<std::string>(
-			client->qualifiers, "foo.bar <6:7 6:9>"
+		TS_ASSERT(utility::containsElement<std::wstring>(
+			client->qualifiers, L"foo.bar <6:7 6:9>"
 			));
 	}
 
@@ -537,8 +537,8 @@ public:
 			"}\n"
 		);
 
-		TS_ASSERT(utility::containsElement<std::string>(
-			client->qualifiers, "foo.X <8:3 8:6>"
+		TS_ASSERT(utility::containsElement<std::wstring>(
+			client->qualifiers, L"foo.X <8:3 8:6>"
 		));
 	}
 
@@ -560,12 +560,12 @@ public:
 			"}\n"
 		);
 
-		TS_ASSERT(utility::containsElement<std::string>(
-			client->qualifiers, "foo.B <11:3 11:3>"
+		TS_ASSERT(utility::containsElement<std::wstring>(
+			client->qualifiers, L"foo.B <11:3 11:3>"
 		));
 
-		TS_ASSERT(utility::containsElement<std::string>(
-			client->qualifiers, "foo.A <11:5 11:9>"
+		TS_ASSERT(utility::containsElement<std::wstring>(
+			client->qualifiers, L"foo.A <11:5 11:9>"
 		));
 	}
 
@@ -584,8 +584,8 @@ public:
 			"}\n"
 		);
 
-		TS_ASSERT(utility::containsElement<std::string>(
-			client->qualifiers, "foo.A <8:9 8:9>"
+		TS_ASSERT(utility::containsElement<std::wstring>(
+			client->qualifiers, L"foo.A <8:9 8:9>"
 		));
 	}
 
@@ -602,12 +602,12 @@ public:
 			"}\n"
 		);
 
-		TS_ASSERT(utility::containsElement<std::string>(
-			client->qualifiers, "foo <6:3 6:5>"
+		TS_ASSERT(utility::containsElement<std::wstring>(
+			client->qualifiers, L"foo <6:3 6:5>"
 		));
 
-		TS_ASSERT(utility::containsElement<std::string>(
-			client->qualifiers, "foo.X <6:7 6:7>"
+		TS_ASSERT(utility::containsElement<std::wstring>(
+			client->qualifiers, L"foo.X <6:7 6:7>"
 		));
 	}
 
@@ -624,8 +624,8 @@ public:
 			"}\n"
 		);
 
-		TS_ASSERT(utility::containsElement<std::string>(
-			client->qualifiers, "foo.X <6:3 6:6>"
+		TS_ASSERT(utility::containsElement<std::wstring>(
+			client->qualifiers, L"foo.X <6:3 6:6>"
 		));
 	}
 
@@ -652,20 +652,20 @@ public:
 			"}\n"
 		);
 
-		TS_ASSERT(utility::containsElement<std::string>(
-			client->qualifiers, "foo <15:4 15:6>"
+		TS_ASSERT(utility::containsElement<std::wstring>(
+			client->qualifiers, L"foo <15:4 15:6>"
 		));
 
-		TS_ASSERT(utility::containsElement<std::string>(
-			client->qualifiers, "foo.X <15:8 15:8>"
+		TS_ASSERT(utility::containsElement<std::wstring>(
+			client->qualifiers, L"foo.X <15:8 15:8>"
 		));
 
-		TS_ASSERT(utility::containsElement<std::string>(
-			client->qualifiers, "foo.X.B <15:10 15:10>"
+		TS_ASSERT(utility::containsElement<std::wstring>(
+			client->qualifiers, L"foo.X.B <15:10 15:10>"
 		));
 
-		TS_ASSERT(utility::containsElement<std::string>(
-			client->qualifiers, "foo.X.A <15:12 15:16>"
+		TS_ASSERT(utility::containsElement<std::wstring>(
+			client->qualifiers, L"foo.X.A <15:12 15:16>"
 		));
 	}
 
@@ -690,12 +690,12 @@ public:
 			"}\n"
 		);
 
-		TS_ASSERT(utility::containsElement<std::string>(
-			client->qualifiers, "A <14:20 14:20>"
+		TS_ASSERT(utility::containsElement<std::wstring>(
+			client->qualifiers, L"A <14:20 14:20>"
 		));
 
-		TS_ASSERT(utility::containsElement<std::string>(
-			client->qualifiers, "A.Bar <14:22 14:24>"
+		TS_ASSERT(utility::containsElement<std::wstring>(
+			client->qualifiers, L"A.Bar <14:22 14:24>"
 		));
 	}
 
@@ -723,8 +723,8 @@ public:
 			"}\n"
 		);
 
-		TS_ASSERT(utility::containsElement<std::string>(
-			client->qualifiers, "A.B <17:20 17:20>"
+		TS_ASSERT(utility::containsElement<std::wstring>(
+			client->qualifiers, L"A.B <17:20 17:20>"
 		));
 	}
 	
@@ -749,8 +749,8 @@ public:
 			"}\n"
 		);
 
-		TS_ASSERT(utility::containsElement<std::string>(
-			client->qualifiers, "A.B <13:21 13:25>"
+		TS_ASSERT(utility::containsElement<std::wstring>(
+			client->qualifiers, L"A.B <13:21 13:25>"
 		));
 	}
 
@@ -770,8 +770,8 @@ public:
 			"}\n"
 		);
 
-		TS_ASSERT(utility::containsElement<std::string>(
-			client->qualifiers, "A <8:14 8:14>"
+		TS_ASSERT(utility::containsElement<std::wstring>(
+			client->qualifiers, L"A <8:14 8:14>"
 		));
 	}
 
@@ -792,8 +792,8 @@ public:
 			"}\n"
 		);
 
-		TS_ASSERT(utility::containsElement<std::string>(
-			client->inheritances, "foo.B -> foo.A <6:24 6:24>"
+		TS_ASSERT(utility::containsElement<std::wstring>(
+			client->inheritances, L"foo.B -> foo.A <6:24 6:24>"
 		));
 	}
 
@@ -810,8 +810,8 @@ public:
 			"}\n"
 		);
 
-		TS_ASSERT(utility::containsElement<std::string>(
-			client->inheritances, "foo.B -> foo.A <6:27 6:27>"
+		TS_ASSERT(utility::containsElement<std::wstring>(
+			client->inheritances, L"foo.B -> foo.A <6:27 6:27>"
 		));
 	}
 
@@ -833,8 +833,8 @@ public:
 			"}\n"
 		);
 
-		TS_ASSERT(utility::containsElement<std::string>(
-			client->inheritances, "A.foo.anonymous class (input.cc<10:3>) -> A.Base <9:16 9:19>"
+		TS_ASSERT(utility::containsElement<std::wstring>(
+			client->inheritances, L"A.foo.anonymous class (input.cc<10:3>) -> A.Base <9:16 9:19>"
 		));
 	}
 
@@ -849,11 +849,11 @@ public:
 			"}\n"
 		);
 
-		TS_ASSERT(utility::containsElement<std::string>(
-			client->typeUses, "A<java.lang.Void> A<T>.foo(A<java.lang.Void>) -> A<T> <3:9 3:9>"
+		TS_ASSERT(utility::containsElement<std::wstring>(
+			client->typeUses, L"A<java.lang.Void> A<T>.foo(A<java.lang.Void>) -> A<T> <3:9 3:9>"
 		));
-		TS_ASSERT(utility::containsElement<std::string>(
-			client->typeUses, "A<java.lang.Void> A<T>.foo(A<java.lang.Void>) -> A<T> <3:21 3:21>"
+		TS_ASSERT(utility::containsElement<std::wstring>(
+			client->typeUses, L"A<java.lang.Void> A<T>.foo(A<java.lang.Void>) -> A<T> <3:21 3:21>"
 		));
 	}
 
@@ -871,8 +871,8 @@ public:
 			"}\n"
 		);
 
-		TS_ASSERT(utility::containsElement<std::string>(
-			client->typeUses, "Foo.Base.X Foo.Derived.x -> Foo.Base.X <7:10 7:10>"
+		TS_ASSERT(utility::containsElement<std::wstring>(
+			client->typeUses, L"Foo.Base.X Foo.Derived.x -> Foo.Base.X <7:10 7:10>"
 		));
 	}
 
@@ -891,8 +891,8 @@ public:
 			"}\n"
 		);
 
-		TS_ASSERT(utility::containsElement<std::string>(
-			client->typeUses, "void A.bar() -> A.B <8:5 8:5>"
+		TS_ASSERT(utility::containsElement<std::wstring>(
+			client->typeUses, L"void A.bar() -> A.B <8:5 8:5>"
 		));
 	}
 
@@ -919,8 +919,8 @@ public:
 			"}\n"
 		);
 
-		TS_ASSERT(utility::containsElement<std::string>(
-			client->calls, "void foo.X.B.bar() -> void foo.X.A.bar() <15:10 15:12>"
+		TS_ASSERT(utility::containsElement<std::wstring>(
+			client->calls, L"void foo.X.B.bar() -> void foo.X.A.bar() <15:10 15:12>"
 		));
 	}
 
@@ -941,8 +941,8 @@ public:
 			"}\n"
 		);
 
-		TS_ASSERT(utility::containsElement<std::string>(
-			client->calls, "foo.Bar.Bar(int) -> foo.Bar.Bar() <10:3 10:6>"
+		TS_ASSERT(utility::containsElement<std::wstring>(
+			client->calls, L"foo.Bar.Bar(int) -> foo.Bar.Bar() <10:3 10:6>"
 		));
 	}
 	
@@ -965,8 +965,8 @@ public:
 			"}\n"
 		);
 
-		TS_ASSERT(utility::containsElement<std::string>(
-			client->calls, "A.Derived.Derived() -> A.Base.Base() <11:4 11:8>"
+		TS_ASSERT(utility::containsElement<std::wstring>(
+			client->calls, L"A.Derived.Derived() -> A.Base.Base() <11:4 11:8>"
 		));
 	}
 
@@ -989,8 +989,8 @@ public:
 			"}\n"
 		);
 
-		TS_ASSERT(utility::containsElement<std::string>(
-			client->calls, "void Main.anonymous class (input.cc<6:40>).foo() -> void Main.anonymous class (input.cc<6:40>).bar() <8:4 8:6>"
+		TS_ASSERT(utility::containsElement<std::wstring>(
+			client->calls, L"void Main.anonymous class (input.cc<6:40>).foo() -> void Main.anonymous class (input.cc<6:40>).bar() <8:4 8:6>"
 		));
 	}
 
@@ -1009,8 +1009,8 @@ public:
 			"}\n"
 		);
 
-		TS_ASSERT(utility::containsElement<std::string>(
-			client->overrides, "void Main.C.foo(int) -> void Main.Interfaze.foo(int) <7:15 7:17>"
+		TS_ASSERT(utility::containsElement<std::wstring>(
+			client->overrides, L"void Main.C.foo(int) -> void Main.Interfaze.foo(int) <7:15 7:17>"
 		));
 	}
 
@@ -1029,8 +1029,8 @@ public:
 			"}\n"
 		);
 
-		TS_ASSERT(utility::containsElement<std::string>(
-			client->overrides, "void Main<X>.C.foo(Main<X>.X) -> void Main<X>.Interfaze<T>.foo(Main<X>.Interfaze<T>.T) <7:15 7:17>"
+		TS_ASSERT(utility::containsElement<std::wstring>(
+			client->overrides, L"void Main<X>.C.foo(Main<X>.X) -> void Main<X>.Interfaze<T>.foo(Main<X>.Interfaze<T>.T) <7:15 7:17>"
 		));
 	}
 
@@ -1055,8 +1055,8 @@ public:
 			"}\n"
 		);
 
-		TS_ASSERT(utility::containsElement<std::string>(
-			client->usages, "void A.foo() -> A.B.B() <14:23 14:25>"
+		TS_ASSERT(utility::containsElement<std::wstring>(
+			client->usages, L"void A.foo() -> A.B.B() <14:23 14:25>"
 		));
 	}
 
@@ -1084,8 +1084,8 @@ public:
 			"}\n"
 		);
 
-		TS_ASSERT(utility::containsElement<std::string>(
-			client->usages, "void A.foo() -> void A.B.bar() <17:23 17:25>"
+		TS_ASSERT(utility::containsElement<std::wstring>(
+			client->usages, L"void A.foo() -> void A.B.bar() <17:23 17:25>"
 		));
 	}
 
@@ -1110,8 +1110,8 @@ public:
 			"}\n"
 		);
 
-		TS_ASSERT(utility::containsElement<std::string>(
-			client->usages, "void A.C.foo() -> void A.B.bar() <13:28 13:30>"
+		TS_ASSERT(utility::containsElement<std::wstring>(
+			client->usages, L"void A.C.foo() -> void A.B.bar() <13:28 13:30>"
 		));
 	}
 
@@ -1169,8 +1169,8 @@ public:
 			"}\n"
 		);
 
-		TS_ASSERT(utility::containsElement<std::string>(
-			client->usages, "foo.X.X(int) -> int foo.X.t <7:8 7:8>"
+		TS_ASSERT(utility::containsElement<std::wstring>(
+			client->usages, L"foo.X.X(int) -> int foo.X.t <7:8 7:8>"
 		));
 	}
 
@@ -1188,8 +1188,8 @@ public:
 			"}\n"
 		);
 
-		TS_ASSERT(utility::containsElement<std::string>(
-			client->usages, "void foo.X.foo() -> int foo.X.foo <7:8 7:10>"
+		TS_ASSERT(utility::containsElement<std::wstring>(
+			client->usages, L"void foo.X.foo() -> int foo.X.foo <7:8 7:10>"
 		));
 	}
 
@@ -1206,8 +1206,8 @@ public:
 			"}\n"
 		);
 
-		TS_ASSERT(utility::containsElement<std::string>(
-			client->localSymbols, "foo.A.bar<0> <6:3 6:3>"
+		TS_ASSERT(utility::containsElement<std::wstring>(
+			client->localSymbols, L"foo.A.bar<0> <6:3 6:3>"
 		));
 	}
 
@@ -1225,8 +1225,8 @@ public:
 			"}\n"
 		);
 
-		TS_ASSERT(utility::containsElement<std::string>(
-			client->localSymbols, "foo.A.bar<0> <7:3 7:3>"
+		TS_ASSERT(utility::containsElement<std::wstring>(
+			client->localSymbols, L"foo.A.bar<0> <7:3 7:3>"
 		));
 	}
 
@@ -1238,11 +1238,11 @@ public:
 			"}\n"
 		);
 
-		TS_ASSERT(utility::containsElement<std::string>(
-			client->localSymbols, "input.cc<2:1> <2:1 2:1>"
+		TS_ASSERT(utility::containsElement<std::wstring>(
+			client->localSymbols, L"input.cc<2:1> <2:1 2:1>"
 		));
-		TS_ASSERT(utility::containsElement<std::string>(
-			client->localSymbols, "input.cc<2:1> <3:1 3:1>"
+		TS_ASSERT(utility::containsElement<std::wstring>(
+			client->localSymbols, L"input.cc<2:1> <3:1 3:1>"
 		));
 	}
 
@@ -1254,11 +1254,11 @@ public:
 			"}\n"
 		);
 
-		TS_ASSERT(utility::containsElement<std::string>(
-			client->localSymbols, "input.cc<2:1> <2:1 2:1>"
+		TS_ASSERT(utility::containsElement<std::wstring>(
+			client->localSymbols, L"input.cc<2:1> <2:1 2:1>"
 		));
-		TS_ASSERT(utility::containsElement<std::string>(
-			client->localSymbols, "input.cc<2:1> <3:1 3:1>"
+		TS_ASSERT(utility::containsElement<std::wstring>(
+			client->localSymbols, L"input.cc<2:1> <3:1 3:1>"
 		));
 	}
 
@@ -1273,11 +1273,11 @@ public:
 			"}\n"
 		);
 
-		TS_ASSERT(utility::containsElement<std::string>(
-			client->localSymbols, "input.cc<4:2> <4:2 4:2>"
+		TS_ASSERT(utility::containsElement<std::wstring>(
+			client->localSymbols, L"input.cc<4:2> <4:2 4:2>"
 		));
-		TS_ASSERT(utility::containsElement<std::string>(
-			client->localSymbols, "input.cc<4:2> <5:2 5:2>"
+		TS_ASSERT(utility::containsElement<std::wstring>(
+			client->localSymbols, L"input.cc<4:2> <5:2 5:2>"
 		));
 	}
 
@@ -1292,11 +1292,11 @@ public:
 			"}\n"
 		);
 
-		TS_ASSERT(utility::containsElement<std::string>(
-			client->localSymbols, "input.cc<4:2> <4:2 4:2>"
+		TS_ASSERT(utility::containsElement<std::wstring>(
+			client->localSymbols, L"input.cc<4:2> <4:2 4:2>"
 		));
-		TS_ASSERT(utility::containsElement<std::string>(
-			client->localSymbols, "input.cc<4:2> <5:2 5:2>"
+		TS_ASSERT(utility::containsElement<std::wstring>(
+			client->localSymbols, L"input.cc<4:2> <5:2 5:2>"
 		));
 	}
 
@@ -1316,11 +1316,11 @@ public:
 			"}\n"
 		);
 
-		TS_ASSERT(utility::containsElement<std::string>(
-			client->localSymbols, "input.cc<6:3> <6:3 6:3>"
+		TS_ASSERT(utility::containsElement<std::wstring>(
+			client->localSymbols, L"input.cc<6:3> <6:3 6:3>"
 		));
-		TS_ASSERT(utility::containsElement<std::string>(
-			client->localSymbols, "input.cc<6:3> <9:3 9:3>"
+		TS_ASSERT(utility::containsElement<std::wstring>(
+			client->localSymbols, L"input.cc<6:3> <9:3 9:3>"
 		));
 	}
 
@@ -1337,11 +1337,11 @@ public:
 			"}\n"
 		);
 
-		TS_ASSERT(utility::containsElement<std::string>(
-			client->localSymbols, "input.cc<5:3> <5:3 5:3>"
+		TS_ASSERT(utility::containsElement<std::wstring>(
+			client->localSymbols, L"input.cc<5:3> <5:3 5:3>"
 		));
-		TS_ASSERT(utility::containsElement<std::string>(
-			client->localSymbols, "input.cc<5:3> <6:3 6:3>"
+		TS_ASSERT(utility::containsElement<std::wstring>(
+			client->localSymbols, L"input.cc<5:3> <6:3 6:3>"
 		));
 	}
 
@@ -1354,11 +1354,11 @@ public:
 			"}\n"
 		);
 
-		TS_ASSERT(utility::containsElement<std::string>(
-			client->localSymbols, "input.cc<3:24> <3:24 3:24>"
+		TS_ASSERT(utility::containsElement<std::wstring>(
+			client->localSymbols, L"input.cc<3:24> <3:24 3:24>"
 		));
-		TS_ASSERT(utility::containsElement<std::string>(
-			client->localSymbols, "input.cc<3:24> <3:29 3:29>"
+		TS_ASSERT(utility::containsElement<std::wstring>(
+			client->localSymbols, L"input.cc<3:24> <3:29 3:29>"
 		));
 	}
 
@@ -1380,11 +1380,11 @@ public:
 			"}\n"
 		);
 
-		TS_ASSERT(utility::containsElement<std::string>(
-			client->localSymbols, "input.cc<10:3> <10:3 10:3>"
+		TS_ASSERT(utility::containsElement<std::wstring>(
+			client->localSymbols, L"input.cc<10:3> <10:3 10:3>"
 		));
-		TS_ASSERT(utility::containsElement<std::string>(
-			client->localSymbols, "input.cc<10:3> <11:3 11:3>"
+		TS_ASSERT(utility::containsElement<std::wstring>(
+			client->localSymbols, L"input.cc<10:3> <11:3 11:3>"
 		));
 	}
 
@@ -1397,8 +1397,8 @@ public:
 			"}\n"
 		);
 
-		TS_ASSERT(utility::containsElement<std::string>(
-			client->typeUses, "A<T>.T A<T>.t -> A<T>.T <3:2 3:2>"
+		TS_ASSERT(utility::containsElement<std::wstring>(
+			client->typeUses, L"A<T>.T A<T>.t -> A<T>.T <3:2 3:2>"
 		));
 	}
 
@@ -1411,8 +1411,8 @@ public:
 			"}\n"
 		);
 
-		TS_ASSERT(utility::containsElement<std::string>(
-			client->typeUses, "void A.foo<T>(T) -> A.foo<T>.T <3:22 3:22>"
+		TS_ASSERT(utility::containsElement<std::wstring>(
+			client->typeUses, L"void A.foo<T>(T) -> A.foo<T>.T <3:22 3:22>"
 		));
 	}
 
@@ -1425,8 +1425,8 @@ public:
 			"}\n"
 		);
 
-		TS_ASSERT(utility::containsElement<std::string>(
-			client->typeUses, "A<java.lang.Void> A<T>.t -> A<T> <3:2 3:2>"
+		TS_ASSERT(utility::containsElement<std::wstring>(
+			client->typeUses, L"A<java.lang.Void> A<T>.t -> A<T> <3:2 3:2>"
 		));
 	}
 
@@ -1438,8 +1438,8 @@ public:
 			"}\n"
 		);
 
-		TS_ASSERT(utility::containsElement<std::string>(
-			client->typeUses, "A<T>.T -> java.lang.Void <1:27 1:30>"
+		TS_ASSERT(utility::containsElement<std::wstring>(
+			client->typeUses, L"A<T>.T -> java.lang.Void <1:27 1:30>"
 		));
 	}
 
@@ -1452,7 +1452,7 @@ public:
 	//	);
 
 	//	TS_ASSERT_EQUALS(client->errors.size(), 1);
-	//	TS_ASSERT_EQUALS(client->errors[0], "use of undeclared identifier \'b\' <1:9 1:9>");
+	//	TS_ASSERT_EQUALS(client->errors[0], L"use of undeclared identifier \'b\' <1:9 1:9>");
 	//}
 
 	//void test_cxx_parser_finds_location_of_line_comment()
@@ -1462,7 +1462,7 @@ public:
 	//	);
 
 	//	TS_ASSERT_EQUALS(client->comments.size(), 1);
-	//	TS_ASSERT_EQUALS(client->comments[0], "comment <1:1 1:26>");
+	//	TS_ASSERT_EQUALS(client->comments[0], L"comment <1:1 1:26>");
 	//}
 
 	//void test_cxx_parser_finds_location_of_block_comment()
@@ -1473,7 +1473,7 @@ public:
 	//	);
 
 	//	TS_ASSERT_EQUALS(client->comments.size(), 1);
-	//	TS_ASSERT_EQUALS(client->comments[0], "comment <1:1 2:17>");
+	//	TS_ASSERT_EQUALS(client->comments[0], L"comment <1:1 2:17>");
 	//}
 
 

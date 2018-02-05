@@ -54,14 +54,14 @@ QtBookmarkCategory::~QtBookmarkCategory()
 {
 }
 
-void QtBookmarkCategory::setName(const std::string& name)
+void QtBookmarkCategory::setName(const std::wstring& name)
 {
-	m_name->setText(name.c_str());
+	m_name->setText(QString::fromStdWString(name));
 }
 
-std::string QtBookmarkCategory::getName() const
+std::wstring QtBookmarkCategory::getName() const
 {
-	return m_name->text().toStdString();
+	return m_name->text().toStdWString();
 }
 
 void QtBookmarkCategory::setId(const Id id)

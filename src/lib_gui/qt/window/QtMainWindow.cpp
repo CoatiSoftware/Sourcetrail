@@ -925,10 +925,10 @@ void QtMainWindow::setupBookmarksMenu()
 	for (size_t i = 0; i < m_bookmarks.size(); i++)
 	{
 		Bookmark* bookmark = m_bookmarks[i].get();
-		std::string name = utility::elide(bookmark->getName(), utility::ELIDE_RIGHT, 50);
+		std::wstring name = utility::elide(bookmark->getName(), utility::ELIDE_RIGHT, 50);
 
 		QAction* action = new QAction();
-		action->setText(name.c_str());
+		action->setText(QString::fromStdWString(name));
 		action->setData(QVariant(int(i)));
 
 		connect(action, &QAction::triggered, this, &QtMainWindow::activateBookmarkAction);

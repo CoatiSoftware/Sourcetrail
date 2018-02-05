@@ -330,10 +330,10 @@ void QtErrorView::addErrorToTable(const ErrorInfo& error)
 	}
 	m_model->item(rowNumber, COLUMN::TYPE)->setIcon(s_errorIcon);
 
-	m_model->setItem(rowNumber, COLUMN::MESSAGE, new QStandardItem(error.message.c_str()));
+	m_model->setItem(rowNumber, COLUMN::MESSAGE, new QStandardItem(QString::fromStdWString(error.message)));
 
-	m_model->setItem(rowNumber, COLUMN::FILE, new QStandardItem(error.filePath.str().c_str()));
-	m_model->item(rowNumber, COLUMN::FILE)->setToolTip(error.filePath.str().c_str());
+	m_model->setItem(rowNumber, COLUMN::FILE, new QStandardItem(QString::fromStdWString(error.filePath)));
+	m_model->item(rowNumber, COLUMN::FILE)->setToolTip(QString::fromStdWString(error.filePath));
 
 	m_model->setItem(rowNumber, COLUMN::LINE, new QStandardItem(QString::number(error.lineNumber)));
 

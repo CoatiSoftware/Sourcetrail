@@ -8,15 +8,15 @@
 struct StorageBookmarkData
 {
 	StorageBookmarkData()
-		: name("")
-		, comment("")
+		: name(L"")
+		, comment(L"")
 		, timestamp("")
 		, categoryId(0)
 	{}
 
 	StorageBookmarkData(
-		const std::string& name,
-		const std::string& comment,
+		const std::wstring& name,
+		const std::wstring& comment,
 		const std::string& timestamp,
 		const Id categoryId
 	)
@@ -26,8 +26,8 @@ struct StorageBookmarkData
 		, categoryId(categoryId)
 	{}
 
-	std::string name;
-	std::string comment;
+	std::wstring name;
+	std::wstring comment;
 	std::string timestamp;
 	Id categoryId;
 };
@@ -46,8 +46,8 @@ struct StorageBookmark: public StorageBookmarkData
 
 	StorageBookmark(
 		Id id,
-		const std::string& name,
-		const std::string& comment,
+		const std::wstring& name,
+		const std::wstring& comment,
 		const std::string& timestamp,
 		const Id categoryId
 	)

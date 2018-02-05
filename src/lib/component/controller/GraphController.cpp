@@ -1010,7 +1010,7 @@ void GraphController::bundleNodes()
 		},
 		1,
 		false,
-		"Importing Files"
+		L"Importing Files"
 	);
 
 	bundleNodesAndEdgesMatching(
@@ -1020,7 +1020,7 @@ void GraphController::bundleNodes()
 		},
 		2,
 		true,
-		"Non-indexed Symbols"
+		L"Non-indexed Symbols"
 	);
 
 	bundleNodesAndEdgesMatching(
@@ -1030,7 +1030,7 @@ void GraphController::bundleNodes()
 		},
 		2,
 		true,
-		"Non-indexed Symbols"
+		L"Non-indexed Symbols"
 	);
 
 	bundleNodesAndEdgesMatching(
@@ -1040,7 +1040,7 @@ void GraphController::bundleNodes()
 		},
 		3,
 		false,
-		"Built-in Types"
+		L"Built-in Types"
 	);
 
 	bundleNodesAndEdgesMatching(
@@ -1050,7 +1050,7 @@ void GraphController::bundleNodes()
 		},
 		10,
 		false,
-		"Referencing Symbols"
+		L"Referencing Symbols"
 	);
 
 	bundleNodesAndEdgesMatching(
@@ -1060,7 +1060,7 @@ void GraphController::bundleNodes()
 		},
 		10,
 		false,
-		"Referenced Symbols"
+		L"Referenced Symbols"
 	);
 
 	bundleNodesAndEdgesMatching(
@@ -1070,7 +1070,7 @@ void GraphController::bundleNodes()
 		},
 		5,
 		false,
-		"Derived Symbols"
+		L"Derived Symbols"
 	);
 
 	bundleNodesAndEdgesMatching(
@@ -1080,7 +1080,7 @@ void GraphController::bundleNodes()
 		},
 		5,
 		false,
-		"Base Symbols"
+		L"Base Symbols"
 	);
 }
 
@@ -1089,7 +1089,7 @@ void GraphController::bundleNodesAndEdgesMatching(
 	const Node* data)> matcher,
 	size_t count,
 	bool countConnectedNodes,
-	const std::string& name
+	const std::wstring& name
 ){
 	std::vector<size_t> matchedNodeIndices;
 	size_t connectedNodeCount = 0;
@@ -1197,7 +1197,7 @@ void GraphController::bundleNodesAndEdgesMatching(
 }
 
 std::shared_ptr<DummyNode> GraphController::bundleNodesMatching(
-	std::list<std::shared_ptr<DummyNode>>& nodes, std::function<bool(const DummyNode*)> matcher, const std::string& name
+	std::list<std::shared_ptr<DummyNode>>& nodes, std::function<bool(const DummyNode*)> matcher, const std::wstring& name
 ){
 	std::vector<std::list<std::shared_ptr<DummyNode>>::iterator> matchedNodes;
 	for (std::list<std::shared_ptr<DummyNode>>::iterator it = nodes.begin(); it != nodes.end(); it++)
@@ -1435,7 +1435,7 @@ void GraphController::layoutNestingRecursive(DummyNode* node) const
 		size_t maxNameSize = 50;
 		if (!node->active && node->name.size() > maxNameSize)
 		{
-			node->name = node->name.substr(0, maxNameSize - 3) + "...";
+			node->name = node->name.substr(0, maxNameSize - 3) + L"...";
 		}
 
 		width = margins.charWidth * node->name.size();

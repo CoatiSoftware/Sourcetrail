@@ -75,14 +75,14 @@ public:
 	std::vector<StorageEdge> getEdgesByTargetsType(const std::vector<Id>& targetIds, int type) const;
 
 	StorageNode getNodeById(Id id) const;
-	StorageNode getNodeBySerializedName(const std::string& serializedName) const;
+	StorageNode getNodeBySerializedName(const std::wstring& serializedName) const;
 
-	StorageLocalSymbol getLocalSymbolByName(const std::string& name) const;
+	StorageLocalSymbol getLocalSymbolByName(const std::wstring& name) const;
 
-	StorageFile getFileByPath(const std::string& filePath) const;
+	StorageFile getFileByPath(const std::wstring& filePath) const;
 
 	std::vector<StorageFile> getFilesByPaths(const std::vector<FilePath>& filePaths) const;
-	std::shared_ptr<TextAccess> getFileContentByPath(const std::string& filePath) const;
+	std::shared_ptr<TextAccess> getFileContentByPath(const std::wstring& filePath) const;
 	std::shared_ptr<TextAccess> getFileContentById(Id fileId) const;
 
 	void setFileComplete(bool complete, Id fileId);

@@ -21,6 +21,8 @@ namespace utility
 	std::deque<std::string> split(const std::string& str, const std::string& delimiter);
 	std::vector<std::string> splitToVector(const std::string& str, char delimiter);
 	std::vector<std::string> splitToVector(const std::string& str, const std::string& delimiter);
+	std::vector<std::wstring> splitToVector(const std::wstring& str, wchar_t delimiter);
+	std::vector<std::wstring> splitToVector(const std::wstring& str, const std::wstring& delimiter);
 
 	template <typename ContainerType>
 	std::string join(const ContainerType& list, const std::string& delimiter);
@@ -38,6 +40,7 @@ namespace utility
 	std::string substrBeforeFirst(const std::string& str, char delimiter);
 	std::string substrBeforeFirst(const std::string& str, const std::string& delimiter);
 	std::string substrBeforeLast(const std::string& str, char delimiter);
+	std::wstring substrBeforeLast(const std::wstring& str, wchar_t delimiter);
 	std::string substrAfter(const std::string& str, char delimiter);
 	std::string substrAfter(const std::string& str, const std::string& delimiter);
 
@@ -71,6 +74,7 @@ namespace utility
 	};
 
 	std::string elide(const std::string& str, ElideMode mode, size_t size);
+	std::wstring elide(const std::wstring& str, ElideMode mode, size_t size);
 
 	template <typename ContainerType>
 	ContainerType split(const std::string& str, const std::string& delimiter)

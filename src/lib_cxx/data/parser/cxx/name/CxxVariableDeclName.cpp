@@ -1,8 +1,8 @@
 #include "data/parser/cxx/name/CxxVariableDeclName.h"
 
 //CxxVariableDeclName::CxxVariableDeclName(
-//	const std::string& name,
-//	const std::vector<std::string>& templateParameterNames,
+//	const std::wstring& name,
+//	const std::vector<std::wstring>& templateParameterNames,
 //	std::shared_ptr<CxxTypeName> typeName,
 //	bool isStatic
 //)
@@ -13,8 +13,8 @@
 //}
 
 CxxVariableDeclName::CxxVariableDeclName(
-	std::string&& name,
-	std::vector<std::string>&& templateParameterNames,
+	std::wstring&& name,
+	std::vector<std::wstring>&& templateParameterNames,
 	std::shared_ptr<CxxTypeName> typeName,
 	bool isStatic
 )
@@ -25,8 +25,8 @@ CxxVariableDeclName::CxxVariableDeclName(
 }
 
 //CxxVariableDeclName::CxxVariableDeclName(
-//	const std::string& name,
-//	const std::vector<std::string>& templateParameterNames,
+//	const std::wstring& name,
+//	const std::vector<std::wstring>& templateParameterNames,
 //	std::shared_ptr<CxxTypeName> typeName,
 //	bool isStatic,
 //	std::shared_ptr<CxxName> parent
@@ -38,8 +38,8 @@ CxxVariableDeclName::CxxVariableDeclName(
 //}
 
 CxxVariableDeclName::CxxVariableDeclName(
-	std::string&& name,
-	std::vector<std::string>&& templateParameterNames,
+	std::wstring&& name,
+	std::vector<std::wstring>&& templateParameterNames,
 	std::shared_ptr<CxxTypeName> typeName,
 	bool isStatic,
 	std::shared_ptr<CxxName> parent
@@ -52,14 +52,14 @@ CxxVariableDeclName::CxxVariableDeclName(
 
 NameHierarchy CxxVariableDeclName::toNameHierarchy() const
 {
-	std::string signaturePrefix;
+	std::wstring signaturePrefix;
 	if (m_isStatic)
 	{
-		signaturePrefix += "static ";
+		signaturePrefix += L"static ";
 	}
 	signaturePrefix += CxxTypeName::makeUnsolvedIfNull(m_typeName)->toString();
 
-	const std::string signaturePostfix;
+	const std::wstring signaturePostfix;
 
 	NameHierarchy ret = CxxDeclName::toNameHierarchy();
 	std::shared_ptr<NameElement> nameElement = std::make_shared<NameElement>(

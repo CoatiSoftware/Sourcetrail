@@ -7,30 +7,30 @@ std::shared_ptr<CxxTypeName> CxxTypeName::makeUnsolvedIfNull(std::shared_ptr<Cxx
 		return name;
 	}
 	return std::make_shared<CxxTypeName>(
-		"unsolved-type", std::vector<std::string>()
+		L"unsolved-type", std::vector<std::wstring>()
 	);
 }
 
-CxxTypeName::Modifier::Modifier(std::string&& symbol)
+CxxTypeName::Modifier::Modifier(std::wstring&& symbol)
 	: symbol(std::move(symbol))
 {
 }
 
-//CxxTypeName::CxxTypeName(const std::string& name, const std::vector<std::string>& templateArguments)
+//CxxTypeName::CxxTypeName(const std::wstring& name, const std::vector<std::wstring>& templateArguments)
 //	: m_name(name)
 //	, m_templateArguments(templateArguments)
 //{
 //}
 
-CxxTypeName::CxxTypeName(std::string&& name, std::vector<std::string>&& templateArguments)
+CxxTypeName::CxxTypeName(std::wstring&& name, std::vector<std::wstring>&& templateArguments)
 	: m_name(std::move(name))
 	, m_templateArguments(std::move(templateArguments))
 {
 }
 
 //CxxTypeName::CxxTypeName(
-//	const std::string& name,
-//	const std::vector<std::string>& templateArguments,
+//	const std::wstring& name,
+//	const std::vector<std::wstring>& templateArguments,
 //	std::shared_ptr<CxxName> parent
 //)
 //	: CxxName(parent)
@@ -40,8 +40,8 @@ CxxTypeName::CxxTypeName(std::string&& name, std::vector<std::string>&& template
 //}
 
 CxxTypeName::CxxTypeName(
-	std::string&& name,
-	std::vector<std::string>&& templateArguments,
+	std::wstring&& name,
+	std::vector<std::wstring>&& templateArguments,
 	std::shared_ptr<CxxName> parent
 )
 	: CxxName(parent)
@@ -74,41 +74,41 @@ void CxxTypeName::addModifier(const Modifier& modifier)
 	m_modifiers.push_back(modifier);
 }
 
-std::string CxxTypeName::toString() const
+std::wstring CxxTypeName::toString() const
 {
-	std::string ret = "";
+	std::wstring ret = L"";
 	if (!m_qualifierFlags.empty())
 	{
-		ret += m_qualifierFlags.toString() + " ";
+		ret += m_qualifierFlags.toString() + L" ";
 	}
 	ret += toNameHierarchy().getQualifiedName();
 
 	for (const Modifier& modifier: m_modifiers)
 	{
-		ret += " " + modifier.symbol;
+		ret += L" " + modifier.symbol;
 		if (!modifier.qualifierFlags.empty())
 		{
-			ret += " " + modifier.qualifierFlags.toString();
+			ret += L" " + modifier.qualifierFlags.toString();
 		}
 	}
 	return ret;
 }
 
-std::string CxxTypeName::getTypeNameString() const
+std::wstring CxxTypeName::getTypeNameString() const
 {
-	std::string ret = m_name;
+	std::wstring ret = m_name;
 	if (!m_templateArguments.empty())
 	{
-		ret += "<";
+		ret += L"<";
 		for (size_t i = 0; i < m_templateArguments.size(); i++)
 		{
 			if (i != 0)
 			{
-				ret += ", ";
+				ret += L", ";
 			}
 			ret += m_templateArguments[i];
 		}
-		ret += ">";
+		ret += L">";
 	}
 	return ret;
 }

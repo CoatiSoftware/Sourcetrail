@@ -2,11 +2,11 @@
 
 BookmarkCategory::BookmarkCategory()
 	: m_id(-1)
-	, m_name("")
+	, m_name(L"")
 {
 }
 
-BookmarkCategory::BookmarkCategory(const Id id, const std::string& name)
+BookmarkCategory::BookmarkCategory(const Id id, const std::wstring& name)
 	: m_id(id)
 	, m_name(name)
 {
@@ -26,12 +26,12 @@ void BookmarkCategory::setId(const Id id)
 	m_id = id;
 }
 
-std::string BookmarkCategory::getName() const
+std::wstring BookmarkCategory::getName() const
 {
 	return m_name;
 }
 
-void BookmarkCategory::setName(const std::string& name)
+void BookmarkCategory::setName(const std::wstring& name)
 {
 	m_name = name;
 }

@@ -5,6 +5,7 @@
 #include <cstdio>
 
 #include "utility/file/FileSystem.h"
+#include "utility/utilityString.h"
 
 FileLogger::FileLogger()
 	: Logger("FileLogger")
@@ -124,7 +125,7 @@ void FileLogger::logMessage(const std::string& type, const LogMessage& message)
 		fileStream << message.getFileName() << ':' << message.line << ' ' << message.functionName << "() | ";
 	}
 
-	fileStream << type << ": " << message.message << std::endl;
+	fileStream << type << ": " << utility::encodeToUtf8(message.message) << std::endl;
 	fileStream.close();
 
 	m_currentLogLineCount++;

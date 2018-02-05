@@ -4,6 +4,7 @@
 
 #include "utility/logging/logging.h"
 #include "utility/text/TextAccess.h"
+#include "utility/utilityString.h"
 
 const size_t SqliteIndexStorage::s_storageVersion = 15;
 
@@ -42,7 +43,7 @@ StorageNode SqliteIndexStorage::addNode(const StorageNodeData& data)
 	{
 		m_inserNodeStmt.bind(1, int(id));
 		m_inserNodeStmt.bind(2, data.type);
-		m_inserNodeStmt.bind(3, data.serializedName.c_str());
+		m_inserNodeStmt.bind(3, utility::encodeToUtf8(data.serializedName).c_str());
 		executeStatement(m_inserNodeStmt);
 		m_inserNodeStmt.reset();
 	}
@@ -70,7 +71,7 @@ void SqliteIndexStorage::addFile(const StorageFile& data)
 	bool success = false;
 	{
 		m_insertFileStmt.bind(1, int(data.id));
-		m_insertFileStmt.bind(2, data.filePath.c_str());
+		m_insertFileStmt.bind(2, utility::encodeToUtf8(data.filePath).c_str());
 		m_insertFileStmt.bind(3, data.modificationTime.c_str());
 		m_insertFileStmt.bind(4, data.complete);
 		m_insertFileStmt.bind(5, lineCount);
@@ -116,7 +117,7 @@ StorageLocalSymbol SqliteIndexStorage::addLocalSymbol(const StorageLocalSymbolDa
 	}
 	{
 		m_inserLocalSymbolStmt.bind(1, int(id));
-		m_inserLocalSymbolStmt.bind(2, data.name.c_str());
+		m_inserLocalSymbolStmt.bind(2, utility::encodeToUtf8(data.name).c_str());
 		executeStatement(m_inserLocalSymbolStmt);
 		m_inserLocalSymbolStmt.reset();
 	}
@@ -248,13 +249,13 @@ StorageCommentLocation SqliteIndexStorage::addCommentLocation(const StorageComme
 
 StorageError SqliteIndexStorage::addError(const StorageErrorData& data)
 {
-	const std::string sanitizedMessage = utility::replace(data.message, "'", "''");
+	const std::wstring sanitizedMessage = utility::replace(data.message, L"'", L"''");
 
 	Id id = 0;
 	{
-		m_checkErrorExistsStmt.bind(1, sanitizedMessage.c_str());
+		m_checkErrorExistsStmt.bind(1, utility::encodeToUtf8(sanitizedMessage).c_str());
 		m_checkErrorExistsStmt.bind(2, int(data.fatal));
-		m_checkErrorExistsStmt.bind(3, data.filePath.str().c_str());
+		m_checkErrorExistsStmt.bind(3, utility::encodeToUtf8(data.filePath).c_str());
 		m_checkErrorExistsStmt.bind(4, int(data.lineNumber));
 		m_checkErrorExistsStmt.bind(5, int(data.columnNumber));
 
@@ -269,10 +270,10 @@ StorageError SqliteIndexStorage::addError(const StorageErrorData& data)
 
 	if (id == 0)
 	{
-		m_insertErrorStmt.bind(1, sanitizedMessage.c_str());
+		m_insertErrorStmt.bind(1, utility::encodeToUtf8(sanitizedMessage).c_str());
 		m_insertErrorStmt.bind(2, data.fatal);
 		m_insertErrorStmt.bind(3, data.indexed);
-		m_insertErrorStmt.bind(4, data.filePath.str().c_str());
+		m_insertErrorStmt.bind(4, utility::encodeToUtf8(data.filePath).c_str());
 		m_insertErrorStmt.bind(5, int(data.lineNumber));
 		m_insertErrorStmt.bind(6, int(data.columnNumber));
 
@@ -552,38 +553,38 @@ StorageNode SqliteIndexStorage::getNodeById(Id id) const
 	return StorageNode();
 }
 
-StorageNode SqliteIndexStorage::getNodeBySerializedName(const std::string& serializedName) const
+StorageNode SqliteIndexStorage::getNodeBySerializedName(const std::wstring& serializedName) const
 {
 	CppSQLite3Statement stmt = m_database.compileStatement(
 		"SELECT id, type, serialized_name FROM node WHERE serialized_name == ? LIMIT 1;"
 	);
 
-	stmt.bind(1, serializedName.c_str());
+	stmt.bind(1, utility::encodeToUtf8(serializedName).c_str());
 	CppSQLite3Query q = executeQuery(stmt);
 
 	if (!q.eof())
 	{
 		const Id id = q.getIntField(0, 0);
 		const int type = q.getIntField(1, -1);
-		const std::string serializedName = q.getStringField(2, "");
+		const std::string name = q.getStringField(2, "");
 
 		if (id != 0 && type != -1)
 		{
-			return StorageNode(id, type, serializedName);
+			return StorageNode(id, type, utility::decodeFromUtf8(name));
 		}
 	}
 
 	return StorageNode();
 }
 
-StorageLocalSymbol SqliteIndexStorage::getLocalSymbolByName(const std::string& name) const
+StorageLocalSymbol SqliteIndexStorage::getLocalSymbolByName(const std::wstring& name) const
 {
-	return doGetFirst<StorageLocalSymbol>("WHERE name == '" + name + "'");
+	return doGetFirst<StorageLocalSymbol>("WHERE name == '" + utility::encodeToUtf8(name) + "'");
 }
 
-StorageFile SqliteIndexStorage::getFileByPath(const std::string& filePath) const
+StorageFile SqliteIndexStorage::getFileByPath(const std::wstring& filePath) const
 {
-	return doGetFirst<StorageFile>("WHERE file.path == '" + filePath + "'");
+	return doGetFirst<StorageFile>("WHERE file.path == '" + utility::encodeToUtf8(filePath) + "'");
 }
 
 std::vector<StorageFile> SqliteIndexStorage::getFilesByPaths(const std::vector<FilePath>& filePaths) const
@@ -604,7 +605,7 @@ std::shared_ptr<TextAccess> SqliteIndexStorage::getFileContentById(Id fileId) co
 	return TextAccess::createFromString("");
 }
 
-std::shared_ptr<TextAccess> SqliteIndexStorage::getFileContentByPath(const std::string& filePath) const
+std::shared_ptr<TextAccess> SqliteIndexStorage::getFileContentByPath(const std::wstring& filePath) const
 {
 	try
 	{
@@ -612,7 +613,7 @@ std::shared_ptr<TextAccess> SqliteIndexStorage::getFileContentByPath(const std::
 			"SELECT filecontent.content "
 				"FROM filecontent "
 				"INNER JOIN file ON filecontent.id = file.id "
-				"WHERE file.path = '" + filePath + "';"
+				"WHERE file.path = '" + utility::encodeToUtf8(filePath) + "';"
 		);
 
 		if (!q.eof())
@@ -646,7 +647,7 @@ std::shared_ptr<SourceLocationFile> SqliteIndexStorage::getSourceLocationsForFil
 {
 	std::shared_ptr<SourceLocationFile> ret = std::make_shared<SourceLocationFile>(filePath, true, false);
 
-	const StorageFile file = getFileByPath(filePath.str());
+	const StorageFile file = getFileByPath(filePath.wstr());
 	if (file.id == 0) // early out
 	{
 		return ret;
@@ -717,7 +718,7 @@ std::vector<StorageComponentAccess> SqliteIndexStorage::getComponentAccessesByNo
 
 std::vector<StorageCommentLocation> SqliteIndexStorage::getCommentLocationsInFile(const FilePath& filePath) const
 {
-	Id fileNodeId = getFileByPath(filePath.str()).id;
+	Id fileNodeId = getFileByPath(filePath.wstr()).id;
 	return doGetAll<StorageCommentLocation>("WHERE file_node_id == " + std::to_string(fileNodeId));
 }
 
@@ -1090,7 +1091,7 @@ std::vector<StorageNode> SqliteIndexStorage::doGetAll<StorageNode>(const std::st
 
 		if (id != 0 && type != -1)
 		{
-			nodes.push_back(StorageNode(id, type, serializedName));
+			nodes.push_back(StorageNode(id, type, utility::decodeFromUtf8(serializedName)));
 		}
 
 		q.nextRow();
@@ -1138,7 +1139,7 @@ std::vector<StorageFile> SqliteIndexStorage::doGetAll<StorageFile>(const std::st
 
 		if (id != 0)
 		{
-			files.push_back(StorageFile(id, filePath, modificationTime, complete));
+			files.push_back(StorageFile(id, utility::decodeFromUtf8(filePath), modificationTime, complete));
 		}
 		q.nextRow();
 	}
@@ -1162,7 +1163,7 @@ std::vector<StorageLocalSymbol> SqliteIndexStorage::doGetAll<StorageLocalSymbol>
 
 		if (id != 0)
 		{
-			localSymbols.push_back(StorageLocalSymbol(id, name));
+			localSymbols.push_back(StorageLocalSymbol(id, utility::decodeFromUtf8(name)));
 		}
 
 		q.nextRow();
@@ -1299,7 +1300,7 @@ std::vector<StorageError> SqliteIndexStorage::doGetAll<StorageError>(const std::
 		if (lineNumber != -1 && columnNumber != -1)
 		{
 			errors.push_back(StorageError(
-				id, message, FilePath(filePath), lineNumber, columnNumber, fatal, indexed)
+				id, utility::decodeFromUtf8(message), utility::decodeFromUtf8(filePath), lineNumber, columnNumber, fatal, indexed)
 			);
 			id++;
 		}

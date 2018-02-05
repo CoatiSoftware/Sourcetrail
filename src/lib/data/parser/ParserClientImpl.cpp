@@ -73,7 +73,7 @@ void ParserClientImpl::recordQualifierLocation(const NameHierarchy& qualifierNam
 	addSourceLocation(nodeId, location, locationTypeToInt(LOCATION_QUALIFIER));
 }
 
-void ParserClientImpl::recordLocalSymbol(const std::string& name, const ParseLocation& location)
+void ParserClientImpl::recordLocalSymbol(const std::wstring& name, const ParseLocation& location)
 {
 	const Id localSymbolId = addLocalSymbol(name);
 	addSourceLocation(localSymbolId, location, locationTypeToInt(LOCATION_LOCAL_SYMBOL));
@@ -81,7 +81,7 @@ void ParserClientImpl::recordLocalSymbol(const std::string& name, const ParseLoc
 
 void ParserClientImpl::recordFile(const FileInfo& fileInfo)
 {
-	const Id nodeId = addNodeHierarchy(NameHierarchy(fileInfo.path.str(), NAME_DELIMITER_FILE), NodeType::NODE_FILE);
+	const Id nodeId = addNodeHierarchy(NameHierarchy(fileInfo.path.wstr(), NAME_DELIMITER_FILE), NodeType::NODE_FILE);
 	addFile(nodeId, fileInfo.path, fileInfo.lastWriteTime.toString());
 }
 
@@ -91,7 +91,7 @@ void ParserClientImpl::recordComment(const ParseLocation& location)
 }
 
 void ParserClientImpl::doRecordError(
-	const ParseLocation& location, const std::string& message, bool fatal, bool indexed)
+	const ParseLocation& location, const std::wstring& message, bool fatal, bool indexed)
 {
 	if (location.isValid())
 	{
@@ -232,7 +232,7 @@ void ParserClientImpl::addFile(Id id, const FilePath& filePath, const std::strin
 		return;
 	}
 
-	m_storage->addFile(StorageFile(id, filePath.str(), modificationTime, true));
+	m_storage->addFile(StorageFile(id, filePath.wstr(), modificationTime, true));
 }
 
 void ParserClientImpl::addSymbol(Id id, DefinitionKind definitionKind)
@@ -263,7 +263,7 @@ Id ParserClientImpl::addEdge(int type, Id sourceId, Id targetId)
 	return m_storage->addEdge(StorageEdgeData(type, sourceId, targetId));
 }
 
-Id ParserClientImpl::addLocalSymbol(const std::string& name)
+Id ParserClientImpl::addLocalSymbol(const std::wstring& name)
 {
 	if (!m_storage)
 	{
@@ -292,7 +292,7 @@ void ParserClientImpl::addSourceLocation(Id elementId, const ParseLocation& loca
 	}
 
 	Id sourceLocationId = m_storage->addSourceLocation(StorageSourceLocationData(
-		addNodeHierarchy(NameHierarchy(location.filePath.str(), NAME_DELIMITER_FILE), NodeType::NODE_FILE),
+		addNodeHierarchy(NameHierarchy(location.filePath.wstr(), NAME_DELIMITER_FILE), NodeType::NODE_FILE),
 		location.startLineNumber,
 		location.startColumnNumber,
 		location.endLineNumber,
@@ -324,7 +324,7 @@ void ParserClientImpl::addCommentLocation(const ParseLocation& location)
 	}
 
 	m_storage->addCommentLocation(StorageCommentLocationData(
-		addNodeHierarchy(NameHierarchy(location.filePath.str(), NAME_DELIMITER_FILE), NodeType::NODE_FILE),
+		addNodeHierarchy(NameHierarchy(location.filePath.wstr(), NAME_DELIMITER_FILE), NodeType::NODE_FILE),
 		location.startLineNumber,
 		location.startColumnNumber,
 		location.endLineNumber,
@@ -333,7 +333,7 @@ void ParserClientImpl::addCommentLocation(const ParseLocation& location)
 }
 
 void ParserClientImpl::addError(
-	const std::string& message, bool fatal, bool indexed, const ParseLocation& location)
+	const std::wstring& message, bool fatal, bool indexed, const ParseLocation& location)
 {
 	if (!m_storage)
 	{
@@ -341,6 +341,6 @@ void ParserClientImpl::addError(
 	}
 
 	m_storage->addError(StorageErrorData(
-		message, location.filePath, location.startLineNumber, location.startColumnNumber, fatal, indexed
+		message, location.filePath.wstr(), location.startLineNumber, location.startColumnNumber, fatal, indexed
 	));
 }

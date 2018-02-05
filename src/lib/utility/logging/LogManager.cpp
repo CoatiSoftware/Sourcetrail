@@ -93,7 +93,7 @@ void LogManager::logInfo(
 {
 	if (m_loggingEnabled)
 	{
-		m_logManagerImplementation.logInfo(message, file, function, line);
+		m_logManagerImplementation.logInfo(utility::decodeFromUtf8(message), file, function, line);
 	}
 }
 
@@ -106,12 +106,25 @@ void LogManager::logInfo(
 {
 	if (m_loggingEnabled)
 	{
-		m_logManagerImplementation.logInfo(utility::encodeToUtf8(message), file, function, line);
+		m_logManagerImplementation.logInfo(message, file, function, line);
 	}
 }
 
 void LogManager::logWarning(
 	const std::string& message,
+	const std::string& file,
+	const std::string& function,
+	const unsigned int line
+)
+{
+	if (m_loggingEnabled)
+	{
+		m_logManagerImplementation.logWarning(utility::decodeFromUtf8(message), file, function, line);
+	}
+}
+
+void LogManager::logWarning(
+	const std::wstring& message,
 	const std::string& file,
 	const std::string& function,
 	const unsigned int line
@@ -123,19 +136,6 @@ void LogManager::logWarning(
 	}
 }
 
-void LogManager::logWarning(
-	const std::wstring& message,
-	const std::string& file,
-	const std::string& function,
-	const unsigned int line
-)
-{
-	if (m_loggingEnabled)
-	{
-		m_logManagerImplementation.logWarning(utility::encodeToUtf8(message), file, function, line);
-	}
-}
-
 void LogManager::logError(
 	const std::string& message,
 	const std::string& file,
@@ -145,7 +145,7 @@ void LogManager::logError(
 {
 	if (m_loggingEnabled)
 	{
-		m_logManagerImplementation.logError(message, file, function, line);
+		m_logManagerImplementation.logError(utility::decodeFromUtf8(message), file, function, line);
 	}
 }
 
@@ -158,7 +158,7 @@ void LogManager::logError(
 {
 	if (m_loggingEnabled)
 	{
-		m_logManagerImplementation.logError(utility::encodeToUtf8(message), file, function, line);
+		m_logManagerImplementation.logError(message, file, function, line);
 	}
 }
 

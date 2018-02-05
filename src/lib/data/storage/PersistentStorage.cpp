@@ -402,7 +402,7 @@ void PersistentStorage::optimizeMemory()
 
 Id PersistentStorage::getNodeIdForFileNode(const FilePath& filePath) const
 {
-	return m_sqliteIndexStorage.getFileByPath(filePath.str()).id;
+	return m_sqliteIndexStorage.getFileByPath(filePath.wstr()).id;
 }
 
 Id PersistentStorage::getNodeIdForNameHierarchy(const NameHierarchy& nameHierarchy) const
@@ -657,11 +657,11 @@ std::vector<SearchMatch> PersistentStorage::getAutocompletionSymbolMatches(
 		match.text = result.text;
 
 		NameHierarchy name = NameHierarchy::deserialize(firstNode->serializedName);
-		if (name.getQualifiedName() == match.name)
+		if (utility::encodeToUtf8(name.getQualifiedName()) == match.name)
 		{
 			const size_t idx = m_hierarchyCache.getIndexOfLastVisibleParentNode(firstNode->id);
-			match.text = name.getRange(idx, name.size()).getQualifiedName();
-			match.subtext = name.getRange(0, idx).getQualifiedName();
+			match.text = utility::encodeToUtf8(name.getRange(idx, name.size()).getQualifiedName());
+			match.subtext = utility::encodeToUtf8(name.getRange(0, idx).getQualifiedName());
 		}
 
 		match.delimiter = name.getDelimiter();
@@ -786,8 +786,8 @@ std::vector<SearchMatch> PersistentStorage::getSearchMatchesForTokenIds(const st
 
 		SearchMatch match;
 		const NameHierarchy nameHierarchy = NameHierarchy::deserialize(node.serializedName);
-		match.name = nameHierarchy.getQualifiedName();
-		match.text = nameHierarchy.getRawName();
+		match.name = utility::encodeToUtf8(nameHierarchy.getQualifiedName());
+		match.text = utility::encodeToUtf8(nameHierarchy.getRawName());
 
 		match.tokenIds.push_back(elementId);
 		match.nodeType = utility::intToType(node.type);
@@ -1364,12 +1364,12 @@ std::shared_ptr<TextAccess> PersistentStorage::getFileContent(const FilePath& fi
 {
 	TRACE();
 
-	return m_sqliteIndexStorage.getFileContentByPath(filePath.str());
+	return m_sqliteIndexStorage.getFileContentByPath(filePath.wstr());
 }
 
 FileInfo PersistentStorage::getFileInfoForFilePath(const FilePath& filePath) const
 {
-	return FileInfo(filePath, m_sqliteIndexStorage.getFileByPath(filePath.str()).modificationTime);
+	return FileInfo(filePath, m_sqliteIndexStorage.getFileByPath(filePath.wstr()).modificationTime);
 }
 
 std::vector<FileInfo> PersistentStorage::getFileInfosForFilePaths(const std::vector<FilePath>& filePaths) const
@@ -1477,7 +1477,7 @@ std::shared_ptr<SourceLocationCollection> PersistentStorage::getErrorSourceLocat
 				LOCATION_ERROR,
 				locationId,
 				std::vector<Id>(1, error.id),
-				error.filePath,
+				FilePath(error.filePath),
 				error.lineNumber,
 				error.columnNumber,
 				error.lineNumber,
@@ -1534,7 +1534,7 @@ Id PersistentStorage::addEdgeBookmark(const EdgeBookmark& bookmark)
 	return id;
 }
 
-Id PersistentStorage::addBookmarkCategory(const std::string& name)
+Id PersistentStorage::addBookmarkCategory(const std::wstring& name)
 {
 	if (name.empty())
 	{
@@ -1550,7 +1550,7 @@ Id PersistentStorage::addBookmarkCategory(const std::string& name)
 }
 
 void PersistentStorage::updateBookmark(
-	const Id bookmarkId, const std::string& name, const std::string& comment, const std::string& categoryName)
+	const Id bookmarkId, const std::wstring& name, const std::wstring& comment, const std::wstring& categoryName)
 {
 	const Id categoryId = addBookmarkCategory(categoryName); // only creates category if id didn't exist before;
 	m_sqliteBookmarkStorage.updateBookmark(bookmarkId, name, comment, categoryId);
@@ -1621,8 +1621,8 @@ std::vector<EdgeBookmark> PersistentStorage::getAllEdgeBookmarks() const
 
 	std::vector<EdgeBookmark> edgeBookmarks;
 
-	UnorderedCache<std::string, Id> nodeIdCache(
-		[&](const std::string& serializedNodeName)
+	UnorderedCache<std::wstring, Id> nodeIdCache(
+		[&](const std::wstring& serializedNodeName)
 		{
 			return m_sqliteIndexStorage.getNodeBySerializedName(serializedNodeName).id;
 		}
@@ -1767,16 +1767,16 @@ TooltipSnippet PersistentStorage::getTooltipSnippetForNode(const StorageNode& no
 
 	const NameHierarchy nameHierarchy = NameHierarchy::deserialize(node.serializedName);
 	TooltipSnippet snippet;
-	snippet.code = nameHierarchy.getQualifiedNameWithSignature();
+	snippet.code = utility::encodeToUtf8(nameHierarchy.getQualifiedNameWithSignature());
 	snippet.locationFile = std::make_shared<SourceLocationFile>(
-		FilePath(nameHierarchy.getDelimiter() == NAME_DELIMITER_JAVA ? "main.java" : "main.cpp"), true, true);
+		FilePath(nameHierarchy.getDelimiter() == NAME_DELIMITER_JAVA ? L"main.java" : L"main.cpp"), true, true);
 
 	if (nameHierarchy.hasSignature())
 	{
 		snippet.code = utility::breakSignature(
-			nameHierarchy.getSignature().getPrefix(),
-			nameHierarchy.getQualifiedName(),
-			nameHierarchy.getSignature().getPostfix(),
+			utility::encodeToUtf8(nameHierarchy.getSignature().getPrefix()),
+			utility::encodeToUtf8(nameHierarchy.getQualifiedName()),
+			utility::encodeToUtf8(nameHierarchy.getSignature().getPostfix()),
 			50,
 			ApplicationSettings::getInstance()->getCodeTabWidth()
 		);
@@ -1802,11 +1802,11 @@ TooltipSnippet PersistentStorage::getTooltipSnippetForNode(const StorageNode& no
 			}
 		);
 
-		typeNames.insert(std::make_pair(nameHierarchy.getQualifiedName(), node.id));
+		typeNames.insert(std::make_pair(utility::encodeToUtf8(nameHierarchy.getQualifiedName()), node.id));
 		for (const auto& typeNode : m_sqliteIndexStorage.getAllByIds<StorageNode>(typeNodeIds))
 		{
 			typeNames.insert(std::make_pair(
-				NameHierarchy::deserialize(typeNode.serializedName).getQualifiedName(),
+				utility::encodeToUtf8(NameHierarchy::deserialize(typeNode.serializedName).getQualifiedName()),
 				typeNode.id
 			));
 		}
@@ -1866,7 +1866,7 @@ TooltipInfo PersistentStorage::getTooltipInfoForSourceLocationIdsAndLocalSymbolI
 		return info;
 	}
 
-	if (locationIds.size())
+	if (!locationIds.empty())
 	{
 		const std::vector<Id> nodeIds = getNodeIdsForLocationIds(locationIds);
 
@@ -1875,7 +1875,7 @@ TooltipInfo PersistentStorage::getTooltipInfoForSourceLocationIdsAndLocalSymbolI
 			TooltipSnippet snippet;
 
 			const NameHierarchy nameHierarchy = NameHierarchy::deserialize(node.serializedName);
-			snippet.code = nameHierarchy.getQualifiedName();
+			snippet.code = utility::encodeToUtf8(nameHierarchy.getQualifiedName());
 			snippet.locationFile = std::make_shared<SourceLocationFile>(
 				FilePath(nameHierarchy.getDelimiter() == NAME_DELIMITER_JAVA ? "main.java" : "main.cpp"), true, true);
 
@@ -1896,7 +1896,7 @@ TooltipInfo PersistentStorage::getTooltipInfoForSourceLocationIdsAndLocalSymbolI
 		TooltipSnippet snippet;
 
 		snippet.code = "local symbol";
-		snippet.locationFile = std::make_shared<SourceLocationFile>(FilePath("main.cpp"), true, true);
+		snippet.locationFile = std::make_shared<SourceLocationFile>(FilePath(L"main.cpp"), true, true);
 		snippet.locationFile->addSourceLocation(
 			LOCATION_LOCAL_SYMBOL, 0, std::vector<Id>(1, id), 1, 1, 1, snippet.code.size());
 
@@ -2182,7 +2182,7 @@ void PersistentStorage::addNodesToGraph(const std::vector<Id>& newNodeIds, Graph
 			Node* node = graph->createNode(
 				storageNode.id,
 				type,
-				NameHierarchy(filePath.fileName(), NAME_DELIMITER_FILE),
+				NameHierarchy(filePath.wFileName(), NAME_DELIMITER_FILE),
 				defined
 			);
 			node->addComponentFilePath(std::make_shared<TokenComponentFilePath>(filePath));
@@ -2558,7 +2558,7 @@ void PersistentStorage::buildSearchIndex()
 				const NameHierarchy nameHierarchy = NameHierarchy::deserialize(node.serializedName);
 
 				// we don't use the signature here, so elements with the same signature share the same node.
-				std::string name = nameHierarchy.getQualifiedName();
+				std::string name = utility::encodeToUtf8(nameHierarchy.getQualifiedName());
 
 				// replace template arguments with .. to avoid clutter in search results and have different
 				// template specializations share the same node.

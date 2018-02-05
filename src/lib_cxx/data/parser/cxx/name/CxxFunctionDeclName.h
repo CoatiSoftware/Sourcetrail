@@ -12,8 +12,8 @@ class CxxFunctionDeclName: public CxxDeclName
 public:
 	// uncomment this constructor if required, but try to use the one using move constructors for the members
 	//CxxFunctionDeclName(
-	//	const std::string& name,
-	//	const std::vector<std::string>& templateParameterNames,
+	//	const std::wstring& name,
+	//	const std::vector<std::wstring>& templateParameterNames,
 	//	std::shared_ptr<CxxTypeName> returnTypeName,
 	//	const std::vector<std::shared_ptr<CxxTypeName>>& parameterTypeNames,
 	//	const bool isConst,
@@ -21,8 +21,8 @@ public:
 	//);
 
 	CxxFunctionDeclName(
-		std::string&& name,
-		std::vector<std::string>&& templateParameterNames,
+		std::wstring&& name,
+		std::vector<std::wstring>&& templateParameterNames,
 		std::shared_ptr<CxxTypeName> returnTypeName,
 		std::vector<std::shared_ptr<CxxTypeName>>&& parameterTypeNames,
 		const bool isConst,
@@ -31,8 +31,8 @@ public:
 
 	// uncomment this constructor if required, but try to use the one using move constructors for the members
 	//CxxFunctionDeclName(
-	//	const std::string& name,
-	//	const std::vector<std::string>& templateParameterNames,
+	//	const std::wstring& name,
+	//	const std::vector<std::wstring>& templateParameterNames,
 	//	std::shared_ptr<CxxTypeName> returnTypeName,
 	//	const std::vector<std::shared_ptr<CxxTypeName>>& parameterTypeNames,
 	//	const bool isConst,
@@ -41,8 +41,8 @@ public:
 	//);
 
 	CxxFunctionDeclName(
-		std::string&& name,
-		std::vector<std::string>&& templateParameterNames,
+		std::wstring&& name,
+		std::vector<std::wstring>&& templateParameterNames,
 		std::shared_ptr<CxxTypeName> returnTypeName,
 		std::vector<std::shared_ptr<CxxTypeName>>&& parameterTypeNames,
 		const bool isConst,

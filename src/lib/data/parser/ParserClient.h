@@ -18,12 +18,12 @@ class DataType;
 class ParserClient
 {
 public:
-	static std::string addAccessPrefix(const std::string& str, AccessKind access);
-	static std::string addStaticPrefix(const std::string& str, bool isStatic);
-	static std::string addConstPrefix(const std::string& str, bool isConst, bool atFront);
-	static std::string addLocationSuffix(const std::string& str, const ParseLocation& location);
-	static std::string addLocationSuffix(
-		const std::string& str, const ParseLocation& location, const ParseLocation& scopeLocation);
+	static std::wstring addAccessPrefix(const std::wstring& str, AccessKind access);
+	static std::wstring addStaticPrefix(const std::wstring& str, bool isStatic);
+	static std::wstring addConstPrefix(const std::wstring& str, bool isConst, bool atFront);
+	static std::wstring addLocationSuffix(const std::wstring& str, const ParseLocation& location);
+	static std::wstring addLocationSuffix(
+		const std::wstring& str, const ParseLocation& location, const ParseLocation& scopeLocation);
 
 	ParserClient();
 	virtual ~ParserClient();
@@ -50,9 +50,9 @@ public:
 		const NameHierarchy& qualifierName, const ParseLocation& location) = 0;
 
 	void recordError(
-		const ParseLocation& location, const std::string& message, bool fatal, bool indexed);
+		const ParseLocation& location, const std::wstring& message, bool fatal, bool indexed);
 	
-	virtual void recordLocalSymbol(const std::string& name, const ParseLocation& location) = 0;
+	virtual void recordLocalSymbol(const std::wstring& name, const ParseLocation& location) = 0;
 	virtual void recordFile(const FileInfo& fileInfo) = 0;
 	virtual void recordComment(const ParseLocation& location) = 0;
 
@@ -60,7 +60,7 @@ public:
 
 protected:
 	virtual void doRecordError(
-		const ParseLocation& location, const std::string& message, bool fatal, bool indexed) = 0;
+		const ParseLocation& location, const std::wstring& message, bool fatal, bool indexed) = 0;
 
 	bool m_hasFatalErrors;
 };

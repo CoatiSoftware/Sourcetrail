@@ -1,8 +1,8 @@
 #include "data/parser/cxx/name/CxxFunctionDeclName.h"
 
 //CxxFunctionDeclName::CxxFunctionDeclName(
-//	const std::string& name,
-//	const std::vector<std::string>& templateParameterNames,
+//	const std::wstring& name,
+//	const std::vector<std::wstring>& templateParameterNames,
 //	std::shared_ptr<CxxTypeName> returnTypeName,
 //	const std::vector<std::shared_ptr<CxxTypeName>>& parameterTypeNames,
 //	const bool isConst,
@@ -17,8 +17,8 @@
 //}
 
 CxxFunctionDeclName::CxxFunctionDeclName(
-	std::string&& name,
-	std::vector<std::string>&& templateParameterNames,
+	std::wstring&& name,
+	std::vector<std::wstring>&& templateParameterNames,
 	std::shared_ptr<CxxTypeName> returnTypeName,
 	std::vector<std::shared_ptr<CxxTypeName>>&& parameterTypeNames,
 	const bool isConst,
@@ -33,8 +33,8 @@ CxxFunctionDeclName::CxxFunctionDeclName(
 }
 
 //CxxFunctionDeclName::CxxFunctionDeclName(
-//	const std::string& name,
-//	const std::vector<std::string>& templateParameterNames,
+//	const std::wstring& name,
+//	const std::vector<std::wstring>& templateParameterNames,
 //	std::shared_ptr<CxxTypeName> returnTypeName,
 //	const std::vector<std::shared_ptr<CxxTypeName>>& parameterTypeNames,
 //	const bool isConst,
@@ -50,8 +50,8 @@ CxxFunctionDeclName::CxxFunctionDeclName(
 //}
 
 CxxFunctionDeclName::CxxFunctionDeclName(
-	std::string&& name,
-	std::vector<std::string>&& templateParameterNames,
+	std::wstring&& name,
+	std::vector<std::wstring>&& templateParameterNames,
 	std::shared_ptr<CxxTypeName> returnTypeName,
 	std::vector<std::shared_ptr<CxxTypeName>>&& parameterTypeNames,
 	const bool isConst,
@@ -68,26 +68,26 @@ CxxFunctionDeclName::CxxFunctionDeclName(
 
 NameHierarchy CxxFunctionDeclName::toNameHierarchy() const
 {
-	std::string signaturePrefix;
+	std::wstring signaturePrefix;
 	if (m_isStatic)
 	{
-		signaturePrefix += "static ";
+		signaturePrefix += L"static ";
 	}
 	signaturePrefix += CxxTypeName::makeUnsolvedIfNull(m_returnTypeName)->toString();
 
-	std::string signaturePostfix = "(";
+	std::wstring signaturePostfix = L"(";
 	for (size_t i = 0; i < m_parameterTypeNames.size(); i++)
 	{
 		if (i != 0)
 		{
-			signaturePostfix += ", ";
+			signaturePostfix += L", ";
 		}
 		signaturePostfix += CxxTypeName::makeUnsolvedIfNull(m_parameterTypeNames[i])->toString();
 	}
-	signaturePostfix += ")";
+	signaturePostfix += L")";
 	if (m_isConst)
 	{
-		signaturePostfix += " const";
+		signaturePostfix += L" const";
 	}
 
 	NameHierarchy ret = CxxDeclName::toNameHierarchy();

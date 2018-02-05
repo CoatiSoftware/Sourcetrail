@@ -3,40 +3,40 @@
 #include "utility/logging/logging.h"
 #include "utility/utilityString.h"
 
-std::string NameHierarchy::serialize(const NameHierarchy& nameHierarchy)
+std::wstring NameHierarchy::serialize(const NameHierarchy& nameHierarchy)
 {
-	std::string serializedName = nameDelimiterTypeToString(nameHierarchy.getDelimiter()) + "\tm";
+	std::wstring serializedName = nameDelimiterTypeToString(nameHierarchy.getDelimiter()) + L"\tm";
 	for (size_t i = 0; i < nameHierarchy.size(); i++)
 	{
 		if (i > 0)
 		{
-			serializedName += "\tn";
+			serializedName += L"\tn";
 		}
-		serializedName += nameHierarchy[i]->getName() + "\ts";
+		serializedName += nameHierarchy[i]->getName() + L"\ts";
 		serializedName += NameElement::Signature::serialize(nameHierarchy[i]->getSignature());
 	}
 	return serializedName;
 }
 
-NameHierarchy NameHierarchy::deserialize(const std::string& serializedName)
+NameHierarchy NameHierarchy::deserialize(const std::wstring& serializedName)
 {
-	std::vector<std::string> serializedNameAndMetaElements = utility::splitToVector(serializedName, "\tm");
+	std::vector<std::wstring> serializedNameAndMetaElements = utility::splitToVector(serializedName, L"\tm");
 	if (serializedNameAndMetaElements.size() != 2)
 	{
-		LOG_ERROR("unable to deserialize name hierarchy: " + serializedName); // todo: obfuscate serializedName!
+		LOG_ERROR(L"unable to deserialize name hierarchy: " + serializedName); // todo: obfuscate serializedName!
 		return NameHierarchy(NAME_DELIMITER_UNKNOWN);
 	}
 
 	const NameDelimiterType delimiter = stringToNameDelimiterType(serializedNameAndMetaElements[0]);
 	NameHierarchy nameHierarchy(delimiter);
 
-	std::vector<std::string> serializedNameElements = utility::splitToVector(serializedNameAndMetaElements[1], "\tn");
+	std::vector<std::wstring> serializedNameElements = utility::splitToVector(serializedNameAndMetaElements[1], L"\tn");
 	for (size_t i = 0; i < serializedNameElements.size(); i++)
 	{
-		std::vector<std::string> nameParts = utility::splitToVector(serializedNameElements[i], "\ts");
+		std::vector<std::wstring> nameParts = utility::splitToVector(serializedNameElements[i], L"\ts");
 		if (nameParts.size() != 2)
 		{
-			LOG_ERROR("unable to deserialize name hierarchy: " + serializedName); // todo: obfuscate serializedName!
+			LOG_ERROR(L"unable to deserialize name hierarchy: " + serializedName); // todo: obfuscate serializedName!
 			return NameHierarchy(delimiter);
 		}
 		nameHierarchy.push(std::make_shared<NameElement>(nameParts[0], NameElement::Signature::deserialize(nameParts[1])));
@@ -60,16 +60,16 @@ NameHierarchy::NameHierarchy(const NameDelimiterType delimiter)
 {
 }
 
-NameHierarchy::NameHierarchy(const std::string& name, const NameDelimiterType delimiter)
+NameHierarchy::NameHierarchy(const std::wstring& name, const NameDelimiterType delimiter)
 	: m_delimiter(delimiter)
 {
 	push(std::make_shared<NameElement>(name));
 }
 
-NameHierarchy::NameHierarchy(const std::vector<std::string>& names, const NameDelimiterType delimiter)
+NameHierarchy::NameHierarchy(const std::vector<std::wstring>& names, const NameDelimiterType delimiter)
 	: m_delimiter(delimiter)
 {
-	for (const std::string& name : names)
+	for (const std::wstring& name : names)
 	{
 		push(std::make_shared<NameElement>(name));
 	}
@@ -146,9 +146,9 @@ size_t NameHierarchy::size() const
 	return m_elements.size();
 }
 
-std::string NameHierarchy::getQualifiedName() const
+std::wstring NameHierarchy::getQualifiedName() const
 {
-	std::string name;
+	std::wstring name;
 	for (size_t i = 0; i < m_elements.size(); i++)
 	{
 		if (i > 0)
@@ -160,9 +160,9 @@ std::string NameHierarchy::getQualifiedName() const
 	return name;
 }
 
-std::string NameHierarchy::getQualifiedNameWithSignature() const
+std::wstring NameHierarchy::getQualifiedNameWithSignature() const
 {
-	std::string name = getQualifiedName();
+	std::wstring name = getQualifiedName();
 	if (m_elements.size())
 	{
 		name = m_elements.back()->getSignature().qualifyName(name); // todo: use separator for signature!
@@ -170,22 +170,22 @@ std::string NameHierarchy::getQualifiedNameWithSignature() const
 	return name;
 }
 
-std::string NameHierarchy::getRawName() const
+std::wstring NameHierarchy::getRawName() const
 {
 	if (m_elements.size())
 	{
 		return m_elements.back()->getName();
 	}
-	return "";
+	return L"";
 }
 
-std::string NameHierarchy::getRawNameWithSignature() const
+std::wstring NameHierarchy::getRawNameWithSignature() const
 {
 	if (m_elements.size())
 	{
 		return m_elements.back()->getNameWithSignature();
 	}
-	return "";
+	return L"";
 }
 
 bool NameHierarchy::hasSignature() const

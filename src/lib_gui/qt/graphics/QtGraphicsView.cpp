@@ -327,7 +327,7 @@ void QtGraphicsView::wheelEvent(QWheelEvent* event)
 
 void QtGraphicsView::contextMenuEvent(QContextMenuEvent* event)
 {
-	m_clipboardNodeName = "";
+	m_clipboardNodeName = L"";
 	m_hideNodeId = 0;
 	m_hideEdgeId = 0;
 	m_bookmarkNodeId = 0;
@@ -370,7 +370,7 @@ void QtGraphicsView::contextMenuEvent(QContextMenuEvent* event)
 	m_hideEdgeAction->setEnabled(m_hideEdgeId);
 	m_bookmarkNodeAction->setEnabled(m_bookmarkNodeId);
 
-	m_copyNodeNameAction->setEnabled(m_clipboardNodeName.size());
+	m_copyNodeNameAction->setEnabled(!m_clipboardNodeName.empty());
 
 	QtContextMenu menu(event, this);
 
@@ -496,7 +496,7 @@ void QtGraphicsView::exportGraph()
 
 void QtGraphicsView::copyNodeName()
 {
-	QApplication::clipboard()->setText(m_clipboardNodeName.c_str());
+	QApplication::clipboard()->setText(QString::fromStdWString(m_clipboardNodeName));
 }
 
 void QtGraphicsView::hideNode()

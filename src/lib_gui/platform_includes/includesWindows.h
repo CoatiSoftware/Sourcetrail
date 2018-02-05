@@ -24,18 +24,18 @@ void setupApp(int argc, char *argv[])
 		WCHAR path[MAX_PATH];
 		GetModuleFileNameW(hModule, path, MAX_PATH);
 
-		const std::wstring wPath(path);
-		std::string appPath = std::string(wPath.begin(), wPath.end());
+		std::wstring appPath(path);
 
-		size_t pos = appPath.find_last_of("/");
-		if (pos == std::string::npos)
+		size_t pos = appPath.find_last_of(L"/");
+		if (pos == std::wstring::npos)
 		{
-			pos = appPath.find_last_of("\\");
+			pos = appPath.find_last_of(L"\\");
 		}
-		if (pos != std::string::npos)
+		if (pos != std::wstring::npos)
 		{
 			appPath = appPath.substr(0, pos + 1);
 		}
+		AppPath::setAppPath(FilePath(appPath));
 	}
 
 	{

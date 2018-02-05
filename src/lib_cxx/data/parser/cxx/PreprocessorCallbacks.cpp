@@ -11,6 +11,7 @@
 
 #include "utility/file/FileSystem.h"
 #include "utility/file/FileRegister.h"
+#include "utility/utilityString.h"
 
 PreprocessorCallbacks::PreprocessorCallbacks(
 	clang::SourceManager& sourceManager,
@@ -64,8 +65,8 @@ void PreprocessorCallbacks::InclusionDirective(
 		FilePath includedFilePath = m_canonicalFilePathCache->getCanonicalFilePath(fileEntry);
 		if (m_fileRegister->hasFilePath(includedFilePath))
 		{
-			const NameHierarchy referencedNameHierarchy(includedFilePath.str(), NAME_DELIMITER_FILE);
-			const NameHierarchy contextNameHierarchy(m_currentPath.str(), NAME_DELIMITER_FILE);
+			const NameHierarchy referencedNameHierarchy(includedFilePath.wstr(), NAME_DELIMITER_FILE);
+			const NameHierarchy contextNameHierarchy(m_currentPath.wstr(), NAME_DELIMITER_FILE);
 
 			m_client->recordReference(
 				REFERENCE_INCLUDE,
@@ -87,7 +88,7 @@ void PreprocessorCallbacks::MacroDefined(const clang::Token& macroNameToken, con
 			return;
 		}
 
-		const NameHierarchy nameHierarchy(macroNameToken.getIdentifierInfo()->getName().str(), NAME_DELIMITER_CXX);
+		const NameHierarchy nameHierarchy(utility::decodeFromUtf8(macroNameToken.getIdentifierInfo()->getName().str()), NAME_DELIMITER_CXX);
 
 		m_client->recordSymbol(
 			nameHierarchy,
@@ -136,8 +137,8 @@ void PreprocessorCallbacks::onMacroUsage(const clang::Token& macroNameToken)
 	{
 		const ParseLocation loc = getParseLocation(macroNameToken);
 
-		const NameHierarchy referencedNameHierarchy(macroNameToken.getIdentifierInfo()->getName().str(), NAME_DELIMITER_CXX);
-		const NameHierarchy contextNameHierarchy(loc.filePath.str(), NAME_DELIMITER_FILE);
+		const NameHierarchy referencedNameHierarchy(utility::decodeFromUtf8(macroNameToken.getIdentifierInfo()->getName().str()), NAME_DELIMITER_CXX);
+		const NameHierarchy contextNameHierarchy(loc.filePath.wstr(), NAME_DELIMITER_FILE);
 
 		m_client->recordReference(
 			REFERENCE_MACRO_USAGE,

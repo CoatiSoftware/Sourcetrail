@@ -52,7 +52,7 @@ void ActivationController::handleMessage(MessageActivateFile* message)
 	{
 		MessageActivateTokens messageActivateTokens(message);
 		messageActivateTokens.tokenIds.push_back(fileId);
-		messageActivateTokens.tokenNames.push_back(NameHierarchy(message->filePath.str(), NAME_DELIMITER_FILE));
+		messageActivateTokens.tokenNames.push_back(NameHierarchy(message->filePath.wstr(), NAME_DELIMITER_FILE));
 		messageActivateTokens.searchMatches = m_storageAccess->getSearchMatchesForTokenIds({ fileId });
 		messageActivateTokens.dispatchImmediately();
 	}

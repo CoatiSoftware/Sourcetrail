@@ -111,27 +111,27 @@ void QtBookmarkCreator::refreshStyle()
 	).c_str());
 }
 
-void QtBookmarkCreator::setDisplayName(const std::string& name)
+void QtBookmarkCreator::setDisplayName(const std::wstring& name)
 {
-	m_displayName->setText(name.c_str());
+	m_displayName->setText(QString::fromStdWString(name));
 }
 
-void QtBookmarkCreator::setComment(const std::string& comment)
+void QtBookmarkCreator::setComment(const std::wstring& comment)
 {
-	m_commentBox->setText(comment.c_str());
+	m_commentBox->setText(QString::fromStdWString(comment));
 }
 
 void QtBookmarkCreator::setBookmarkCategories(const std::vector<BookmarkCategory>& categories)
 {
 	for (unsigned int i = 0; i < categories.size(); i++)
 	{
-		m_categoryBox->addItem(categories[i].getName().c_str());
+		m_categoryBox->addItem(QString::fromStdWString(categories[i].getName()));
 	}
 }
 
 void QtBookmarkCreator::setCurrentBookmarkCategory(const BookmarkCategory& category)
 {
-	int index = m_categoryBox->findText(category.getName().c_str());
+	int index = m_categoryBox->findText(QString::fromStdWString(category.getName()));
 
 	if (index > -1)
 	{
@@ -139,7 +139,7 @@ void QtBookmarkCreator::setCurrentBookmarkCategory(const BookmarkCategory& categ
 	}
 	else
 	{
-		m_categoryBox->addItem(category.getName().c_str());
+		m_categoryBox->addItem(QString::fromStdWString(category.getName()));
 		m_categoryBox->setCurrentIndex(1);
 	}
 }
@@ -158,9 +158,9 @@ void QtBookmarkCreator::resizeEvent(QResizeEvent* event)
 
 void QtBookmarkCreator::handleNext()
 {
-	std::string name = m_displayName->text().toStdString();
-	std::string comment = m_commentBox->toPlainText().toStdString();
-	std::string category = m_categoryBox->currentText().toStdString();
+	std::wstring name = m_displayName->text().toStdWString();
+	std::wstring comment = m_commentBox->toPlainText().toStdWString();
+	std::wstring category = m_categoryBox->currentText().toStdWString();
 
 	if (m_editBookmarkId)
 	{

@@ -62,8 +62,8 @@ public:
 	bool hasTrailOrigin() const;
 	void setHasTrailOrigin(bool hasOrigin);
 
-	void print(std::ostream& ostream) const;
-	void printBasic(std::ostream& ostream) const;
+	void print(std::wostream& ostream) const;
+	void printBasic(std::wostream& ostream) const;
 
 private:
 	Graph(const Graph&);
@@ -78,6 +78,6 @@ private:
 	bool m_hasTrailOrigin;
 };
 
-std::ostream& operator<<(std::ostream& ostream, const Graph& graph);
+std::wostream& operator<<(std::wostream& ostream, const Graph& graph);
 
 #endif // GRAPH_H

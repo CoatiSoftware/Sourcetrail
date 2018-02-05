@@ -146,10 +146,10 @@ void CxxAstVisitorComponentIndexer::beginTraverseLambdaCapture(clang::LambdaExpr
 			if (!d->getNameAsString().empty()) // don't record anonymous parameters
 			{
 				ParseLocation declLocation = getParseLocation(d->getLocation());
-				std::string name =
-					declLocation.filePath.fileName() + "<" +
-					std::to_string(declLocation.startLineNumber) + ":" +
-					std::to_string(declLocation.startColumnNumber) + ">";
+				std::wstring name =
+					declLocation.filePath.wFileName() + L"<" +
+					std::to_wstring(declLocation.startLineNumber) + L":" +
+					std::to_wstring(declLocation.startColumnNumber) + L">";
 				m_client->recordLocalSymbol(name, getParseLocation(capture->getLocation()));
 			}
 		}
@@ -233,10 +233,10 @@ void CxxAstVisitorComponentIndexer::visitVarDecl(clang::VarDecl* d)
 			if (!d->getNameAsString().empty()) // don't record anonymous parameters
 			{
 				ParseLocation declLocation = getParseLocation(d->getLocation());
-				std::string name =
-					declLocation.filePath.fileName() + "<" +
-					std::to_string(declLocation.startLineNumber) + ":" +
-					std::to_string(declLocation.startColumnNumber) + ">";
+				std::wstring name =
+					declLocation.filePath.wFileName() + L"<" +
+					std::to_wstring(declLocation.startLineNumber) + L":" +
+					std::to_wstring(declLocation.startColumnNumber) + L">";
 				m_client->recordLocalSymbol(name, getParseLocation(d->getLocation()));
 			}
 		}
@@ -474,7 +474,7 @@ void CxxAstVisitorComponentIndexer::visitUsingDirectiveDecl(clang::UsingDirectiv
 		m_client->recordReference(
 			REFERENCE_USAGE,
 			nameHierarchy,
-			getAstVisitor()->getComponent<CxxAstVisitorComponentContext>()->getContextName(NameHierarchy(loc.filePath.str(), NAME_DELIMITER_FILE)),
+			getAstVisitor()->getComponent<CxxAstVisitorComponentContext>()->getContextName(NameHierarchy(loc.filePath.wstr(), NAME_DELIMITER_FILE)),
 			loc
 		);
 	}
@@ -488,7 +488,7 @@ void CxxAstVisitorComponentIndexer::visitUsingDecl(clang::UsingDecl* d)
 		m_client->recordReference(
 			REFERENCE_USAGE,
 			getAstVisitor()->getDeclNameCache()->getValue(d),
-			getAstVisitor()->getComponent<CxxAstVisitorComponentContext>()->getContextName(NameHierarchy(loc.filePath.str(), NAME_DELIMITER_FILE)),
+			getAstVisitor()->getComponent<CxxAstVisitorComponentContext>()->getContextName(NameHierarchy(loc.filePath.wstr(), NAME_DELIMITER_FILE)),
 			loc
 		);
 	}
@@ -575,9 +575,9 @@ void CxxAstVisitorComponentIndexer::visitDeclRefExpr(clang::DeclRefExpr* s)
 			(clang::isa<clang::VarDecl>(decl) && decl->getParentFunctionOrMethod() != NULL)
 			) {
 			ParseLocation declLocation = getParseLocation(decl->getLocation());
-			std::string name = declLocation.filePath.fileName() + "<" +
-				std::to_string(declLocation.startLineNumber) + ":" +
-				std::to_string(declLocation.startColumnNumber) + ">";
+			std::wstring name = declLocation.filePath.wFileName() + L"<" +
+				std::to_wstring(declLocation.startLineNumber) + L":" +
+				std::to_wstring(declLocation.startColumnNumber) + L">";
 
 			m_client->recordLocalSymbol(name, getParseLocation(s->getLocation()));
 		}

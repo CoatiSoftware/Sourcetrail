@@ -25,13 +25,13 @@ void InterprocessIndexer::work()
 {
 	try
 	{
-		LOG_INFO_STREAM(<< m_processId << " starting up indexer");
+		LOG_INFO(std::to_wstring(m_processId) + L" starting up indexer");
 		std::shared_ptr<IndexerBase> indexer = IndexerFactory::getInstance()->createCompositeIndexerForAllRegisteredModules();
 
 		while (std::shared_ptr<IndexerCommand> indexerCommand = m_interprocessIndexerCommandManager.popIndexerCommand())
 		{
-			LOG_INFO_STREAM(<< m_processId << " fetched indexer command for \"" << indexerCommand->getSourceFilePath().str() << "\"");
-			LOG_INFO_STREAM(<< m_processId << " indexer commands left: " << (m_interprocessIndexerCommandManager.indexerCommandCount() + 1));
+			LOG_INFO(std::to_wstring(m_processId) + L" fetched indexer command for \"" + indexerCommand->getSourceFilePath().wstr() + L"\"");
+			LOG_INFO(std::to_wstring(m_processId) + L" indexer commands left: " + std::to_wstring(m_interprocessIndexerCommandManager.indexerCommandCount() + 1));
 
 			while (true)
 			{

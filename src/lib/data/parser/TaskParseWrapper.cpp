@@ -22,7 +22,7 @@ void TaskParseWrapper::doEnter(std::shared_ptr<Blackboard> blackboard)
 	if (std::shared_ptr<DialogView> dialogView = Application::getInstance()->getDialogView())
 	{
 		dialogView->hideDialogs(false);
-		dialogView->updateIndexingDialog(0, 0, sourceFileCount, "");
+		dialogView->updateIndexingDialog(0, 0, sourceFileCount, FilePath());
 	}
 
 	m_start = utility::durationStart();

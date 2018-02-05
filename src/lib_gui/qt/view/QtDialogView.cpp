@@ -197,7 +197,7 @@ void QtDialogView::startIndexingDialog(
 }
 
 void QtDialogView::updateIndexingDialog(
-	size_t startedFileCount, size_t finishedFileCount, size_t totalFileCount, std::string sourcePath)
+	size_t startedFileCount, size_t finishedFileCount, size_t totalFileCount, const FilePath& sourcePath)
 {
 	m_onQtThread(
 		[=]()

@@ -12,7 +12,7 @@
 QtBookmark::QtBookmark(ControllerProxy<BookmarkController>* controllerProxy)
 	: m_controllerProxy(controllerProxy)
 	, m_treeWidgetItem(NULL)
-	, m_arrowImageName("arrow_line_down.png")
+	, m_arrowImageName(L"arrow_line_down.png")
 	, m_hovered(false)
 	, m_ignoreNextResize(false)
 {
@@ -94,7 +94,7 @@ void QtBookmark::setBookmark(const std::shared_ptr<Bookmark> bookmark)
 	{
 		m_bookmark = bookmark;
 
-		m_activateButton->setText(m_bookmark->getName().c_str());
+		m_activateButton->setText(QString::fromStdWString(m_bookmark->getName()));
 
 		if (m_bookmark->isValid() == false)
 		{
@@ -104,7 +104,7 @@ void QtBookmark::setBookmark(const std::shared_ptr<Bookmark> bookmark)
 
 		if (m_bookmark->getComment().length() > 0)
 		{
-			m_comment->setText(m_bookmark->getComment().c_str());
+			m_comment->setText(QString::fromStdWString(m_bookmark->getComment()));
 			m_toggleCommentButton->show();
 		}
 		else
@@ -142,13 +142,13 @@ void QtBookmark::commentToggled()
 
 	if (m_comment->isVisible() == false)
 	{
-		m_arrowImageName = "arrow_line_up.png";
+		m_arrowImageName = L"arrow_line_up.png";
 		m_comment->show();
 		m_comment->setMinimumHeight(m_comment->heightForWidth(m_comment->width()));
 	}
 	else
 	{
-		m_arrowImageName = "arrow_line_down.png";
+		m_arrowImageName = L"arrow_line_down.png";
 		m_comment->hide();
 	}
 
@@ -170,7 +170,7 @@ void QtBookmark::resizeEvent(QResizeEvent* event)
 		return;
 	}
 
-	m_activateButton->setText(m_bookmark->getName().c_str());
+	m_activateButton->setText(QString::fromStdWString(m_bookmark->getName()));
 	QTimer::singleShot(10, this, &QtBookmark::elideButtonText);
 }
 
@@ -226,12 +226,12 @@ void QtBookmark::deleteClicked()
 void QtBookmark::elideButtonText()
 {
 	m_activateButton->setText(m_activateButton->fontMetrics().elidedText(
-		m_bookmark->getName().c_str(), Qt::ElideMiddle, m_activateButton->width() - 16));
+		QString::fromStdWString(m_bookmark->getName()), Qt::ElideMiddle, m_activateButton->width() - 16));
 }
 
 void QtBookmark::updateArrow()
 {
-	QPixmap pixmap((ResourcePaths::getGuiPath().str() + "bookmark_view/images/" + m_arrowImageName).c_str());
+	QPixmap pixmap(QString::fromStdWString(ResourcePaths::getGuiPath().concatenate(L"bookmark_view/images/" + m_arrowImageName).wstr()));
 	m_toggleCommentButton->setIcon(QIcon(utility::colorizePixmap(pixmap, m_hovered ? "#707070" : "black")));
 }
 

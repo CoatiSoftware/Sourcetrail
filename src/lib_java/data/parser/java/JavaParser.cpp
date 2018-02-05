@@ -167,7 +167,7 @@ void JavaParser::doRecordSymbol(
 	DefinitionKind definitionKind = intToDefinitionKind(jDefinitionKind);
 
 	m_client->recordSymbol(
-		NameHierarchy::deserialize(m_javaEnvironment->toStdString(jSymbolName)),
+		NameHierarchy::deserialize(utility::decodeFromUtf8(m_javaEnvironment->toStdString(jSymbolName))),
 		intToSymbolKind(jSymbolKind),
 		access,
 		definitionKind
@@ -184,7 +184,7 @@ void JavaParser::doRecordSymbolWithLocation(
 	DefinitionKind definitionKind = intToDefinitionKind(jDefinitionKind);
 
 	m_client->recordSymbol(
-		NameHierarchy::deserialize(m_javaEnvironment->toStdString(jSymbolName)),
+		NameHierarchy::deserialize(utility::decodeFromUtf8(m_javaEnvironment->toStdString(jSymbolName))),
 		intToSymbolKind(jSymbolKind),
 		ParseLocation(m_currentFilePath, beginLine, beginColumn, endLine, endColumn),
 		access,
@@ -203,7 +203,7 @@ void JavaParser::doRecordSymbolWithLocationAndScope(
 	DefinitionKind definitionKind = intToDefinitionKind(jDefinitionKind);
 
 	m_client->recordSymbol(
-		NameHierarchy::deserialize(m_javaEnvironment->toStdString(jSymbolName)),
+		NameHierarchy::deserialize(utility::decodeFromUtf8(m_javaEnvironment->toStdString(jSymbolName))),
 		intToSymbolKind(jSymbolKind),
 		ParseLocation(m_currentFilePath, beginLine, beginColumn, endLine, endColumn),
 		ParseLocation(m_currentFilePath, scopeBeginLine, scopeBeginColumn, scopeEndLine, scopeEndColumn),
@@ -219,8 +219,8 @@ void JavaParser::doRecordReference(
 {
 	m_client->recordReference(
 		intToReferenceKind(jReferenceKind),
-		NameHierarchy::deserialize(m_javaEnvironment->toStdString(jReferencedName)),
-		NameHierarchy::deserialize(m_javaEnvironment->toStdString(jContextName)),
+		NameHierarchy::deserialize(utility::decodeFromUtf8(m_javaEnvironment->toStdString(jReferencedName))),
+		NameHierarchy::deserialize(utility::decodeFromUtf8(m_javaEnvironment->toStdString(jContextName))),
 		ParseLocation(m_currentFilePath, beginLine, beginColumn, endLine, endColumn)
 	);
 }
@@ -231,7 +231,7 @@ void JavaParser::doRecordQualifierLocation(
 )
 {
 	m_client->recordQualifierLocation(
-		NameHierarchy::deserialize(m_javaEnvironment->toStdString(jQualifierName)),
+		NameHierarchy::deserialize(utility::decodeFromUtf8(m_javaEnvironment->toStdString(jQualifierName))),
 		ParseLocation(m_currentFilePath, beginLine, beginColumn, endLine, endColumn)
 	);
 }
@@ -239,7 +239,7 @@ void JavaParser::doRecordQualifierLocation(
 void JavaParser::doRecordLocalSymbol(jstring jSymbolName, jint beginLine, jint beginColumn, jint endLine, jint endColumn)
 {
 	m_client->recordLocalSymbol(
-		NameHierarchy::deserialize(m_javaEnvironment->toStdString(jSymbolName)).getQualifiedName(),
+		NameHierarchy::deserialize(utility::decodeFromUtf8(m_javaEnvironment->toStdString(jSymbolName))).getQualifiedName(),
 		ParseLocation(m_currentFilePath, beginLine, beginColumn, endLine, endColumn)
 	);
 }
@@ -263,7 +263,7 @@ void JavaParser::doRecordError(
 
 	m_client->recordError(
 		ParseLocation(m_currentFilePath, beginLine, beginColumn, endLine, endColumn),
-		m_javaEnvironment->toStdString(jMessage),
+		utility::decodeFromUtf8(m_javaEnvironment->toStdString(jMessage)),
 		fatal, 
 		indexed
 	);

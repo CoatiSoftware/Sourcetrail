@@ -104,9 +104,9 @@ Node* Edge::getTo() const
 	return m_to;
 }
 
-std::string Edge::getName() const
+std::wstring Edge::getName() const
 {
-	return getReadableTypeString() + ":" + getFrom()->getFullName() + "->" + getTo()->getFullName();
+	return getReadableTypeString() + L":" + getFrom()->getFullName() + L"->" + getTo()->getFullName();
 }
 
 bool Edge::isNode() const
@@ -123,11 +123,11 @@ void Edge::addComponentAggregation(std::shared_ptr<TokenComponentAggregation> co
 {
 	if (getComponent<TokenComponentAggregation>())
 	{
-		LOG_ERROR("TokenComponentAggregation has been set before!");
+		LOG_ERROR(L"TokenComponentAggregation has been set before!");
 	}
 	else if (m_type != EDGE_AGGREGATION)
 	{
-		LOG_ERROR("TokenComponentAggregation can't be set on edge of type: " + getReadableTypeString());
+		LOG_ERROR(L"TokenComponentAggregation can't be set on edge of type: " + getReadableTypeString());
 	}
 	else
 	{
@@ -139,11 +139,11 @@ void Edge::addComponentInheritanceChain(std::shared_ptr<TokenComponentInheritanc
 {
 	if (getComponent<TokenComponentInheritanceChain>())
 	{
-		LOG_ERROR("TokenComponentInheritanceChain has been set before!");
+		LOG_ERROR(L"TokenComponentInheritanceChain has been set before!");
 	}
 	else if (m_type != EDGE_INHERITANCE)
 	{
-		LOG_ERROR("TokenComponentInheritanceChain can't be set on edge of type: " + getReadableTypeString());
+		LOG_ERROR(L"TokenComponentInheritanceChain can't be set on edge of type: " + getReadableTypeString());
 	}
 	else
 	{
@@ -151,72 +151,72 @@ void Edge::addComponentInheritanceChain(std::shared_ptr<TokenComponentInheritanc
 	}
 }
 
-std::string Edge::getUnderscoredTypeString(EdgeType type)
+std::wstring Edge::getUnderscoredTypeString(EdgeType type)
 {
-	return utility::replace(utility::replace(getReadableTypeString(type), "-", "_"), " ", "_");
+	return utility::replace(utility::replace(getReadableTypeString(type), L"-", L"_"), L" ", L"_");
 }
 
-std::string Edge::getReadableTypeString(EdgeType type)
+std::wstring Edge::getReadableTypeString(EdgeType type)
 {
 	switch (type)
 	{
 	case EDGE_UNDEFINED:
-		return "undefined";
+		return L"undefined";
 	case EDGE_MEMBER:
-		return "child";
+		return L"child";
 	case EDGE_TYPE_USAGE:
-		return "type use";
+		return L"type use";
 	case EDGE_USAGE:
-		return "use";
+		return L"use";
 	case EDGE_CALL:
-		return "call";
+		return L"call";
 	case EDGE_INHERITANCE:
-		return "inheritance";
+		return L"inheritance";
 	case EDGE_OVERRIDE:
-		return "override";
+		return L"override";
 	case EDGE_TEMPLATE_ARGUMENT:
-		return "template argument";
+		return L"template argument";
 	case EDGE_TYPE_ARGUMENT:
-		return "type argument";
+		return L"type argument";
 	case EDGE_TEMPLATE_DEFAULT_ARGUMENT:
-		return "template default argument";
+		return L"template default argument";
 	case EDGE_TEMPLATE_SPECIALIZATION:
-		return "template specialization";
+		return L"template specialization";
 	case EDGE_TEMPLATE_MEMBER_SPECIALIZATION:
-		return "template member specialization";
+		return L"template member specialization";
 	case EDGE_INCLUDE:
-		return "include";
+		return L"include";
 	case EDGE_IMPORT:
-		return "import";
+		return L"import";
 	case EDGE_AGGREGATION:
-		return "aggregation";
+		return L"aggregation";
 	case EDGE_MACRO_USAGE:
-		return "macro use";
+		return L"macro use";
 	}
 
-	return "";
+	return L"";
 }
 
-std::string Edge::getReadableTypeString() const
+std::wstring Edge::getReadableTypeString() const
 {
 	return getReadableTypeString(m_type);
 }
 
-std::string Edge::getAsString() const
+std::wstring Edge::getAsString() const
 {
-	std::stringstream str;
-	str << "[" << getId() << "] " << getReadableTypeString() << ": \"" << m_from->getName() << "\" -> \"" + m_to->getName() << "\"";
+	std::wstringstream str;
+	str << L"[" << getId() << L"] " << getReadableTypeString() << L": \"" << m_from->getName() << L"\" -> \"" + m_to->getName() << L"\"";
 
 	TokenComponentAggregation* aggregation = getComponent<TokenComponentAggregation>();
 	if (aggregation)
 	{
-		str << " " << aggregation->getAggregationCount();
+		str << L" " << aggregation->getAggregationCount();
 	}
 
 	return str.str();
 }
 
-std::ostream& operator<<(std::ostream& ostream, const Edge& edge)
+std::wostream& operator<<(std::wostream& ostream, const Edge& edge)
 {
 	ostream << edge.getAsString();
 	return ostream;

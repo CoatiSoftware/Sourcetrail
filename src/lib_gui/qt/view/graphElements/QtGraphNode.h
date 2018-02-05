@@ -64,8 +64,8 @@ public:
 	void setIsActive(bool isActive);
 	void setMultipleActive(bool multipleActive);
 
-	std::string getName() const;
-	void setName(const std::string& name);
+	std::wstring getName() const;
+	void setName(const std::wstring& name);
 
 	void addComponent(const std::shared_ptr<QtGraphNodeComponent>& component);
 

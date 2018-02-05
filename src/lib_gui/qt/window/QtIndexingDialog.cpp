@@ -296,7 +296,7 @@ size_t QtIndexingDialog::getProgress() const
 	return m_progressBar->getProgress();
 }
 
-void QtIndexingDialog::updateIndexingProgress(size_t fileCount, size_t totalFileCount, std::string sourcePath)
+void QtIndexingDialog::updateIndexingProgress(size_t fileCount, size_t totalFileCount, const FilePath& sourcePath)
 {
 	updateMessage(QString::number(fileCount) + "/" + QString::number(totalFileCount) + " File" + (totalFileCount > 1 ? "s" : ""));
 
@@ -306,9 +306,9 @@ void QtIndexingDialog::updateIndexingProgress(size_t fileCount, size_t totalFile
 		progress = fileCount * 100 / totalFileCount;
 	}
 
-	if (sourcePath.size())
+	if (!sourcePath.empty())
 	{
-		m_sourcePath = QString::fromStdString(sourcePath);
+		m_sourcePath = QString::fromStdWString(sourcePath.wstr());
 	}
 
 	updateProgress(progress);

@@ -39,13 +39,13 @@ public:
 	virtual void recordQualifierLocation(
 		const NameHierarchy& qualifierName, const ParseLocation& location) override;
 	
-	virtual void recordLocalSymbol(const std::string& name, const ParseLocation& location) override;
+	virtual void recordLocalSymbol(const std::wstring& name, const ParseLocation& location) override;
 	virtual void recordFile(const FileInfo& fileInfo) override;
 	virtual void recordComment(const ParseLocation& location) override;
 
 private:
 	virtual void doRecordError(
-		const ParseLocation& location, const std::string& message, bool fatal, bool indexed) override;
+		const ParseLocation& location, const std::wstring& message, bool fatal, bool indexed) override;
 
 	NodeType symbolKindToNodeType(SymbolKind symbolType) const;
 	Edge::EdgeType referenceKindToEdgeType(ReferenceKind referenceKind) const;
@@ -56,11 +56,11 @@ private:
 	void addFile(Id id, const FilePath& filePath, const std::string& modificationTime);
 	void addSymbol(Id id, DefinitionKind definitionKind);
 	Id addEdge(int type, Id sourceId, Id targetId);
-	Id addLocalSymbol(const std::string& name);
+	Id addLocalSymbol(const std::wstring& name);
 	void addSourceLocation(Id elementId, const ParseLocation& location, int type);
 	void addComponentAccess(Id nodeId , int type);
 	void addCommentLocation(const ParseLocation& location);
-	void addError(const std::string& message, bool fatal, bool indexed,
+	void addError(const std::wstring& message, bool fatal, bool indexed,
 		const ParseLocation& location);
 
 	std::shared_ptr<IntermediateStorage> m_storage;

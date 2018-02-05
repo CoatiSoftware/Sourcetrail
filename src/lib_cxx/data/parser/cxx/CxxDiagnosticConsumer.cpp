@@ -8,6 +8,7 @@
 #include "data/parser/ParseLocation.h"
 #include "data/parser/ParserClient.h"
 #include "utility/file/FileRegister.h"
+#include "utility/utilityString.h"
 
 CxxDiagnosticConsumer::CxxDiagnosticConsumer(
 	clang::raw_ostream &os,
@@ -93,7 +94,7 @@ void CxxDiagnosticConsumer::HandleDiagnostic(clang::DiagnosticsEngine::Level lev
 
 		m_client->recordError(
 			location,
-			message,
+			utility::decodeFromUtf8(message),
 			level == clang::DiagnosticsEngine::Fatal,
 			m_register->hasFilePath(location.filePath)
 		);

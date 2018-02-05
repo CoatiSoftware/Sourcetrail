@@ -142,9 +142,9 @@ void TaskBuildIndex::doExit(std::shared_ptr<Blackboard> blackboard)
 		for (const FilePath& path : crashedFiles)
 		{
 			is->addError(StorageErrorData(
-				"The translation unit threw an exception during indexing. Please check if the source file "
+				L"The translation unit threw an exception during indexing. Please check if the source file "
 				"conforms to the specified language standard and all necessary options are defined within your project "
-				"setup.", path, 1, 1, true, true
+				"setup.", path.wstr(), 1, 1, true, true
 			));
 			LOG_INFO_STREAM(<< "crashed translation unit: " << path.str());
 		}
@@ -290,7 +290,7 @@ void TaskBuildIndex::updateIndexingDialog(
 		blackboard->get("indexed_source_file_count", indexedSourceFileCount);
 	}
 
-	if (sourcePaths.size())
+	if (!sourcePaths.empty())
 	{
 		std::vector<std::wstring> stati;
 		for (const FilePath& path : sourcePaths)
@@ -302,6 +302,6 @@ void TaskBuildIndex::updateIndexingDialog(
 	}
 
 	Application::getInstance()->getDialogView()->updateIndexingDialog(
-		m_indexingFileCount, indexedSourceFileCount, sourceFileCount, (sourcePaths.size() ? sourcePaths.back().str() : "")
+		m_indexingFileCount, indexedSourceFileCount, sourceFileCount, (sourcePaths.empty() ? FilePath() : sourcePaths.back())
 	);
 }

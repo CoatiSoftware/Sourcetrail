@@ -30,8 +30,8 @@ public:
 	void setType(NodeType type);
 	bool isType(NodeType::TypeMask mask) const;
 
-	std::string getName() const;
-	std::string getFullName() const;
+	std::wstring getName() const;
+	std::wstring getFullName() const;
 	NameHierarchy getNameHierarchy() const;
 
 	bool isDefined() const;
@@ -66,8 +66,8 @@ public:
 	void forEachNodeRecursive(std::function<void(const Node*)> func) const;
 
 	// Token implementation.
-	virtual bool isNode() const;
-	virtual bool isEdge() const;
+	virtual bool isNode() const override;
+	virtual bool isEdge() const override;
 
 	// Component setters.
 	void addComponentAbstraction(std::shared_ptr<TokenComponentAbstraction> component);
@@ -77,8 +77,8 @@ public:
 	void addComponentAccess(std::shared_ptr<TokenComponentAccess> component);
 
 	// Logging.
-	virtual std::string getReadableTypeString() const;
-	std::string getAsString() const;
+	virtual std::wstring getReadableTypeString() const override;
+	std::wstring getAsString() const;
 
 private:
 	void operator=(const Node&);
@@ -94,6 +94,6 @@ private:
 	size_t m_childCount;
 };
 
-std::ostream& operator<<(std::ostream& ostream, const Node& node);
+std::wostream& operator<<(std::wostream& ostream, const Node& node);
 
 #endif // NODE_H

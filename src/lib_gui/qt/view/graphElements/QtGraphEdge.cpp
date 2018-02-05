@@ -302,7 +302,7 @@ void QtGraphEdge::focusIn()
 			Edge::EdgeType type = (getData() ? getData()->getType() : Edge::EDGE_AGGREGATION);
 
 			TooltipInfo info;
-			info.title = Edge::getReadableTypeString(type);
+			info.title = utility::encodeToUtf8(Edge::getReadableTypeString(type));
 
 			if (type == Edge::EDGE_AGGREGATION && m_direction == TokenComponentAggregation::DIRECTION_NONE)
 			{

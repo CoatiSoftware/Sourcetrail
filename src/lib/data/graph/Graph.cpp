@@ -306,45 +306,45 @@ void Graph::setHasTrailOrigin(bool hasOrigin)
 	m_hasTrailOrigin = hasOrigin;
 }
 
-void Graph::print(std::ostream& ostream) const
+void Graph::print(std::wostream& ostream) const
 {
-	ostream << "Graph:\n";
-	ostream << "nodes (" << getNodeCount() << ")\n";
+	ostream << L"Graph:\n";
+	ostream << L"nodes (" << getNodeCount() << L")\n";
 	forEachNode(
 		[&ostream](Node* n)
 		{
-			ostream << *n << '\n';
+			ostream << *n << L'\n';
 		}
 	);
 
-	ostream << "edges (" << getEdgeCount() << ")\n";
+	ostream << L"edges (" << getEdgeCount() << L")\n";
 	forEachEdge(
 		[&ostream](Edge* e)
 		{
-			ostream << *e << '\n';
+			ostream << *e << L'\n';
 		}
 	);
 }
 
-void Graph::printBasic(std::ostream& ostream) const
+void Graph::printBasic(std::wostream& ostream) const
 {
-	ostream << getNodeCount() << " nodes:";
+	ostream << getNodeCount() << L" nodes:";
 	forEachNode(
 		[&ostream](Node* n)
 		{
-			ostream << ' ' << n->getReadableTypeString() << ':' << n->getFullName();
+			ostream << L' ' << n->getReadableTypeString() << L':' << n->getFullName();
 		}
 	);
 	ostream << '\n';
 
-	ostream << getEdgeCount() << " edges:";
+	ostream << getEdgeCount() << L" edges:";
 	forEachEdge(
 		[&ostream](Edge* e)
 		{
-			ostream << ' ' << e->getName();
+			ostream << L' ' << e->getName();
 		}
 	);
-	ostream << '\n';
+	ostream << L'\n';
 }
 
 void Graph::removeEdgeInternal(Edge* edge)
@@ -357,7 +357,7 @@ void Graph::removeEdgeInternal(Edge* edge)
 	}
 }
 
-std::ostream& operator<<(std::ostream& ostream, const Graph& graph)
+std::wostream& operator<<(std::wostream& ostream, const Graph& graph)
 {
 	graph.print(ostream);
 	return ostream;

@@ -10,7 +10,7 @@ class TokenComponentAccess
 	: public TokenComponent
 {
 public:
-	static std::string getAccessString(AccessKind access);
+	static std::wstring getAccessString(AccessKind access);
 
 	TokenComponentAccess(AccessKind access);
 	virtual ~TokenComponentAccess();
@@ -18,7 +18,7 @@ public:
 	virtual std::shared_ptr<TokenComponent> copy() const;
 
 	AccessKind getAccess() const;
-	std::string getAccessString() const;
+	std::wstring getAccessString() const;
 
 private:
 	const AccessKind m_access;

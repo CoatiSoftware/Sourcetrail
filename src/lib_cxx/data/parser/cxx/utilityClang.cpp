@@ -4,6 +4,7 @@
 #include <clang/AST/DeclTemplate.h>
 
 #include "utility/file/FilePath.h"
+#include "utility/utilityString.h"
 
 bool utility::isImplicit(const clang::Decl* d)
 {
@@ -108,19 +109,19 @@ SymbolKind utility::getSymbolKind(const clang::VarDecl* d)
 	return symbolKind;
 }
 
-std::string utility::getFileNameOfFileEntry(const clang::FileEntry* entry)
+std::wstring utility::getFileNameOfFileEntry(const clang::FileEntry* entry)
 {
-	std::string fileName = "";
+	std::wstring fileName = L"";
 	if (entry != nullptr && entry->isValid())
 	{
-		fileName = entry->tryGetRealPathName();
+		fileName = utility::decodeFromUtf8(entry->tryGetRealPathName());
 		if (fileName.empty())
 		{
-			fileName = entry->getName();
+			fileName = utility::decodeFromUtf8(entry->getName());
 		}
 		else
 		{
-			fileName = FilePath(entry->getName().str()).getParentDirectory().concatenate(FilePath(fileName).wFileName()).str();
+			fileName = FilePath(utility::decodeFromUtf8(entry->getName().str())).getParentDirectory().concatenate(FilePath(fileName).wFileName()).wstr();
 		}
 	}
 	return fileName;

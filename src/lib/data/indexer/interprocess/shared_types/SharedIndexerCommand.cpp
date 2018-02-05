@@ -5,6 +5,7 @@
 #include "data/indexer/IndexerCommandJava.h"
 
 #include "utility/logging/logging.h"
+#include "utility/utilityString.h"
 
 void SharedIndexerCommand::fromLocal(IndexerCommand* indexerCommand)
 {
@@ -118,12 +119,12 @@ SharedIndexerCommand::~SharedIndexerCommand()
 
 FilePath SharedIndexerCommand::getSourceFilePath() const
 {
-	return FilePath(m_sourceFilePath.c_str());
+	return FilePath(utility::decodeFromUtf8(m_sourceFilePath.c_str()));
 }
 
 void SharedIndexerCommand::setSourceFilePath(const FilePath& filePath)
 {
-	m_sourceFilePath = filePath.str().c_str();
+	m_sourceFilePath = utility::encodeToUtf8(filePath.wstr()).c_str();
 }
 
 std::set<FilePath> SharedIndexerCommand::getIndexedPaths() const
@@ -132,7 +133,7 @@ std::set<FilePath> SharedIndexerCommand::getIndexedPaths() const
 
 	for (unsigned int i = 0; i < m_indexedPaths.size(); i++)
 	{
-		result.insert(FilePath(m_indexedPaths[i].c_str()));
+		result.insert(FilePath(utility::decodeFromUtf8(m_indexedPaths[i].c_str())));
 	}
 
 	return result;
@@ -142,10 +143,10 @@ void SharedIndexerCommand::setIndexedPaths(const std::set<FilePath>& indexedPath
 {
 	m_indexedPaths.clear();
 
-	for (std::set<FilePath>::iterator it = indexedPaths.begin(); it != indexedPaths.end(); it++)
+	for (const FilePath& indexedPath: indexedPaths)
 	{
 		SharedMemory::String path(m_indexedPaths.get_allocator());
-		path = (*it).str().c_str();
+		path = utility::encodeToUtf8(indexedPath.wstr()).c_str();
 		m_indexedPaths.push_back(path);
 	}
 }
@@ -156,7 +157,7 @@ std::set<FilePath> SharedIndexerCommand::getExcludedPaths() const
 
 	for (unsigned int i = 0; i < m_excludedPaths.size(); i++)
 	{
-		result.insert(FilePath(m_excludedPaths[i].c_str()));
+		result.insert(FilePath(utility::decodeFromUtf8(m_excludedPaths[i].c_str())));
 	}
 
 	return result;
@@ -166,22 +167,22 @@ void SharedIndexerCommand::setExcludedPaths(const std::set<FilePath>& excludedPa
 {
 	m_excludedPaths.clear();
 
-	for (std::set<FilePath>::iterator it = excludedPaths.begin(); it != excludedPaths.end(); it++)
+	for (const FilePath& excludedPath : excludedPaths)
 	{
 		SharedMemory::String path(m_excludedPaths.get_allocator());
-		path = (*it).str().c_str();
+		path = utility::encodeToUtf8(excludedPath.wstr()).c_str();
 		m_excludedPaths.push_back(path);
 	}
 }
 
 FilePath SharedIndexerCommand::getWorkingDirectory() const
 {
-	return FilePath(m_workingDirectory.c_str());
+	return FilePath(utility::decodeFromUtf8(m_workingDirectory.c_str()));
 }
 
 void SharedIndexerCommand::setWorkingDirectory(const FilePath& workingDirectory)
 {
-	m_workingDirectory = workingDirectory.str().c_str();
+	m_workingDirectory = utility::encodeToUtf8(workingDirectory.wstr()).c_str();
 }
 
 std::string SharedIndexerCommand::getLanguageStandard() const
@@ -212,10 +213,10 @@ void SharedIndexerCommand::setCompilerFlags(const std::vector<std::string>& comp
 	m_compilerFlags.clear();
 	m_compilerFlags.reserve(compilerFlags.size());
 
-	for (unsigned int i = 0; i < compilerFlags.size(); i++)
+	for (const std::string& compilerFlag : compilerFlags)
 	{
 		SharedMemory::String path(m_compilerFlags.get_allocator());
-		path = compilerFlags[i].c_str();
+		path = compilerFlag.c_str();
 		m_compilerFlags.push_back(path);
 	}
 }
@@ -227,7 +228,7 @@ std::vector<FilePath> SharedIndexerCommand::getSystemHeaderSearchPaths() const
 
 	for (unsigned int i = 0; i < m_systemHeaderSearchPaths.size(); i++)
 	{
-		result.push_back(FilePath(m_systemHeaderSearchPaths[i].c_str()));
+		result.push_back(FilePath(utility::decodeFromUtf8(m_systemHeaderSearchPaths[i].c_str())));
 	}
 
 	return result;
@@ -238,10 +239,10 @@ void SharedIndexerCommand::setSystemHeaderSearchPaths(const std::vector<FilePath
 	m_systemHeaderSearchPaths.clear();
 	m_systemHeaderSearchPaths.reserve(filePaths.size());
 
-	for (unsigned int i = 0; i < filePaths.size(); i++)
+	for (const FilePath& filePath : filePaths)
 	{
 		SharedMemory::String path(m_systemHeaderSearchPaths.get_allocator());
-		path = filePaths[i].str().c_str();
+		path = utility::encodeToUtf8(filePath.wstr()).c_str();
 		m_systemHeaderSearchPaths.push_back(path);
 	}
 }
@@ -253,7 +254,7 @@ std::vector<FilePath> SharedIndexerCommand::getFrameworkSearchhPaths() const
 
 	for (unsigned int i = 0; i < m_frameworkSearchPaths.size(); i++)
 	{
-		result.push_back(FilePath(m_frameworkSearchPaths[i].c_str()));
+		result.push_back(FilePath(utility::decodeFromUtf8(m_frameworkSearchPaths[i].c_str())));
 	}
 
 	return result;
@@ -264,10 +265,10 @@ void SharedIndexerCommand::setFrameworkSearchhPaths(const std::vector<FilePath>&
 	m_frameworkSearchPaths.clear();
 	m_frameworkSearchPaths.reserve(searchPaths.size());
 
-	for (unsigned int i = 0; i < searchPaths.size(); i++)
+	for (const FilePath& searchPath : searchPaths)
 	{
 		SharedMemory::String path(m_frameworkSearchPaths.get_allocator());
-		path = searchPaths[i].str().c_str();
+		path = utility::encodeToUtf8(searchPath.wstr()).c_str();
 		m_frameworkSearchPaths.push_back(path);
 	}
 }
@@ -279,7 +280,7 @@ std::vector<FilePath> SharedIndexerCommand::getClassPaths() const
 
 	for (unsigned int i = 0; i < m_classPaths.size(); i++)
 	{
-		result.push_back(FilePath(m_classPaths[i].c_str()));
+		result.push_back(FilePath(utility::decodeFromUtf8(m_classPaths[i].c_str())));
 	}
 
 	return result;
@@ -290,10 +291,10 @@ void SharedIndexerCommand::setClassPaths(const std::vector<FilePath>& classPaths
 	m_classPaths.clear();
 	m_classPaths.reserve(classPaths.size());
 
-	for (unsigned int i = 0; i < classPaths.size(); i++)
+	for (const FilePath& classPath : classPaths)
 	{
 		SharedMemory::String path(m_classPaths.get_allocator());
-		path = classPaths[i].str().c_str();
+		path = utility::encodeToUtf8(classPath.wstr()).c_str();
 		m_classPaths.push_back(path);
 	}
 }

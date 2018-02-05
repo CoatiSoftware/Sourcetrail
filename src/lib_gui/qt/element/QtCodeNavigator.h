@@ -69,7 +69,7 @@ public:
 	const std::set<Id>& getFocusedTokenIds() const;
 	void setFocusedTokenIds(const std::vector<Id>& focusedTokenIds);
 
-	std::string getErrorMessageForId(Id errorId) const;
+	std::wstring getErrorMessageForId(Id errorId) const;
 	void setErrorInfos(const std::vector<ErrorInfo>& errorInfos);
 
 	bool hasErrors() const;

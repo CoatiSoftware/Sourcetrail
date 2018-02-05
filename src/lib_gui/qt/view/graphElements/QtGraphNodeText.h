@@ -8,7 +8,7 @@ class QtGraphNodeText
 {
 	Q_OBJECT
 public:
-	QtGraphNodeText(const std::string& name);
+	QtGraphNodeText(const std::wstring& name);
 	virtual ~QtGraphNodeText();
 
 	// QtGraphNode implementation

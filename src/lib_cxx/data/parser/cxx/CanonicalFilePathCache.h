@@ -11,10 +11,10 @@ class CanonicalFilePathCache
 {
 public:
 	FilePath getCanonicalFilePath(const clang::FileEntry* entry);
-	FilePath getCanonicalFilePath(const std::string& path);
+	FilePath getCanonicalFilePath(const std::wstring& path);
 
 private:
-	std::unordered_map<std::string, FilePath> m_map;
+	std::unordered_map<std::wstring, FilePath> m_map;
 };
 
 #endif // CANONICAL_FILE_PATH_CACHE_H

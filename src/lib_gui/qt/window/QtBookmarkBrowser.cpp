@@ -131,7 +131,7 @@ void QtBookmarkBrowser::setBookmarks(const std::vector<std::shared_ptr<Bookmark>
 
 	m_bookmarkTree->clear();
 
-	std::map<std::string, BookmarkCategory> categoryNamesOrdered;
+	std::map<std::wstring, BookmarkCategory> categoryNamesOrdered;
 	for (const std::shared_ptr<Bookmark>& bookmark : bookmarks)
 	{
 		categoryNamesOrdered.emplace(bookmark->getCategory().getName(), bookmark->getCategory());
@@ -255,7 +255,7 @@ QTreeWidgetItem* QtBookmarkBrowser::findOrCreateTreeCategory(const BookmarkCateg
 	{
 		QTreeWidgetItem* item = m_bookmarkTree->topLevelItem(i);
 
-		if (item->whatsThis(0).toStdString() == category.getName())
+		if (item->whatsThis(0).toStdWString() == category.getName())
 		{
 			return item;
 		}
@@ -268,12 +268,12 @@ QTreeWidgetItem* QtBookmarkBrowser::findOrCreateTreeCategory(const BookmarkCateg
 	}
 	else
 	{
-		categoryItem->setName("No Category");
+		categoryItem->setName(L"No Category");
 	}
 	categoryItem->setId(category.getId());
 
 	QTreeWidgetItem* newItem = new QTreeWidgetItem(m_bookmarkTree);
-	newItem->setWhatsThis(0, category.getName().c_str());
+	newItem->setWhatsThis(0, QString::fromStdWString(category.getName()));
 
 	categoryItem->setTreeWidgetItem(newItem);
 

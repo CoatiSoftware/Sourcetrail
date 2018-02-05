@@ -579,8 +579,8 @@ void QtCodeArea::mouseMoveEvent(QMouseEvent* event)
 
 		if (m_navigator->hasErrors() && annotations.size() == 1 && annotations[0]->tokenIds.size())
 		{
-			std::string errorMessage = m_navigator->getErrorMessageForId(*annotations[0]->tokenIds.begin());
-			QToolTip::showText(event->globalPos(), QString::fromStdString(errorMessage));
+			std::wstring errorMessage = m_navigator->getErrorMessageForId(*annotations[0]->tokenIds.begin());
+			QToolTip::showText(event->globalPos(), QString::fromStdWString(errorMessage));
 		}
 	}
 }

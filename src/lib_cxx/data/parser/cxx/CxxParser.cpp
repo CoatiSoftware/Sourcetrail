@@ -24,9 +24,9 @@ namespace
 		return utility::concat({ "clang-tool", "-fsyntax-only" }, args);
 	}
 
-	std::vector<std::string> appendFilePath(const std::vector<std::string>& args, llvm::StringRef fileName)
+	std::vector<std::string> appendFilePath(const std::vector<std::string>& args, llvm::StringRef filePath)
 	{
-		return utility::concat(args, { fileName.str() });
+		return utility::concat(args, { filePath.str() });
 	}
 
 	// custom implementation of clang::runToolOnCodeWithArgs which also sets our custon DiagnosticConsumer
@@ -92,9 +92,9 @@ void CxxParser::buildIndex(std::shared_ptr<IndexerCommandCxxCdb> indexerCommand)
 void CxxParser::buildIndex(std::shared_ptr<IndexerCommandCxxEmpty> indexerCommand)
 {
 	clang::tooling::CompileCommand compileCommand;
-	compileCommand.Filename = indexerCommand->getSourceFilePath().str();
+	compileCommand.Filename = utility::encodeToUtf8(indexerCommand->getSourceFilePath().wstr());
 	compileCommand.Directory = indexerCommand->getWorkingDirectory().str();
-	compileCommand.CommandLine = prependSyntaxOnlyToolArgs(appendFilePath(getCommandlineArguments(indexerCommand), indexerCommand->getSourceFilePath().str()));
+	compileCommand.CommandLine = prependSyntaxOnlyToolArgs(appendFilePath(getCommandlineArguments(indexerCommand), utility::encodeToUtf8(indexerCommand->getSourceFilePath().wstr())));
 
 	CxxCompilationDatabaseSingle compilationDatabase(compileCommand);
 	runTool(&compilationDatabase, indexerCommand->getSourceFilePath());

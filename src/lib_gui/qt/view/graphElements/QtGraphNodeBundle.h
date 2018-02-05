@@ -11,7 +11,7 @@ class QtGraphNodeBundle
 {
 	Q_OBJECT
 public:
-	QtGraphNodeBundle(Id tokenId, size_t nodeCount, NodeType type, std::string name);
+	QtGraphNodeBundle(Id tokenId, size_t nodeCount, NodeType type, std::wstring name);
 	virtual ~QtGraphNodeBundle();
 
 	// QtGraphNode implementation

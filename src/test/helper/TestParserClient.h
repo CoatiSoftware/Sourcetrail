@@ -11,7 +11,7 @@ public:
 		const NameHierarchy& symbolName, SymbolKind symbolKind,
 		AccessKind access, DefinitionKind definitionKind) override
 	{
-		std::vector<std::string>* bin = getBinForSymbolKind(symbolKind);
+		std::vector<std::wstring>* bin = getBinForSymbolKind(symbolKind);
 		if (bin != nullptr)
 		{
 			bin->push_back(addAccessPrefix(symbolName.getQualifiedNameWithSignature(), access));
@@ -24,7 +24,7 @@ public:
 		const ParseLocation& location,
 		AccessKind access, DefinitionKind definitionKind) override
 	{
-		std::vector<std::string>* bin = getBinForSymbolKind(symbolKind);
+		std::vector<std::wstring>* bin = getBinForSymbolKind(symbolKind);
 		if (bin != nullptr)
 		{
 			bin->push_back(addLocationSuffix(addAccessPrefix(symbolName.getQualifiedNameWithSignature(), access), location));
@@ -37,7 +37,7 @@ public:
 		const ParseLocation& location, const ParseLocation& scopeLocation,
 		AccessKind access, DefinitionKind definitionKind) override
 	{
-		std::vector<std::string>* bin = getBinForSymbolKind(symbolKind);
+		std::vector<std::wstring>* bin = getBinForSymbolKind(symbolKind);
 		if (bin != nullptr)
 		{
 			bin->push_back(addLocationSuffix(addAccessPrefix(symbolName.getQualifiedNameWithSignature(), access), location, scopeLocation));
@@ -49,7 +49,7 @@ public:
 		ReferenceKind referenceKind, const NameHierarchy& referencedName, const NameHierarchy& contextName,
 		const ParseLocation& location) override
 	{
-		std::vector<std::string>* referenceContainer = nullptr;
+		std::vector<std::wstring>* referenceContainer = nullptr;
 		switch (referenceKind)
 		{
 		case REFERENCE_TYPE_USAGE:
@@ -97,7 +97,7 @@ public:
 		if (referenceContainer != nullptr)
 		{
 			referenceContainer->push_back(addLocationSuffix(
-				contextName.getQualifiedNameWithSignature() + " -> " + referencedName.getQualifiedNameWithSignature(), location)
+				contextName.getQualifiedNameWithSignature() + L" -> " + referencedName.getQualifiedNameWithSignature(), location)
 			);
 		}
 	}
@@ -108,70 +108,70 @@ public:
 		qualifiers.push_back(addLocationSuffix(qualifierName.getQualifiedNameWithSignature(), location));
 	}
 
-	virtual void recordLocalSymbol(const std::string& name, const ParseLocation& location) override
+	virtual void recordLocalSymbol(const std::wstring& name, const ParseLocation& location) override
 	{
 		localSymbols.push_back(addLocationSuffix(name, location));
 	}
 
 	virtual void recordFile(const FileInfo& fileInfo) override
 	{
-		files.insert(fileInfo.path.str());
+		files.insert(fileInfo.path.wstr());
 	}
 
 	virtual void recordComment(const ParseLocation& location) override
 	{
-		comments.push_back(addLocationSuffix("comment", location));
+		comments.push_back(addLocationSuffix(L"comment", location));
 	}
 
-	std::vector<std::string> errors;
-	std::vector<std::string> qualifiers;
+	std::vector<std::wstring> errors;
+	std::vector<std::wstring> qualifiers;
 
-	std::vector<std::string> packages;
-	std::vector<std::string> typedefs;
-	std::vector<std::string> builtinTypes;
-	std::vector<std::string> classes;
-	std::vector<std::string> unions;
-	std::vector<std::string> interfaces;
-	std::vector<std::string> enums;
-	std::vector<std::string> enumConstants;
-	std::vector<std::string> functions;
-	std::vector<std::string> fields;
-	std::vector<std::string> globalVariables;
-	std::vector<std::string> methods;
-	std::vector<std::string> namespaces;
-	std::vector<std::string> structs;
-	std::vector<std::string> macros;
-	std::vector<std::string> templateParameterTypes;
-	std::vector<std::string> typeParameters;
-	std::vector<std::string> localSymbols;
-	std::set<std::string> files;
-	std::vector<std::string> comments;
+	std::vector<std::wstring> packages;
+	std::vector<std::wstring> typedefs;
+	std::vector<std::wstring> builtinTypes;
+	std::vector<std::wstring> classes;
+	std::vector<std::wstring> unions;
+	std::vector<std::wstring> interfaces;
+	std::vector<std::wstring> enums;
+	std::vector<std::wstring> enumConstants;
+	std::vector<std::wstring> functions;
+	std::vector<std::wstring> fields;
+	std::vector<std::wstring> globalVariables;
+	std::vector<std::wstring> methods;
+	std::vector<std::wstring> namespaces;
+	std::vector<std::wstring> structs;
+	std::vector<std::wstring> macros;
+	std::vector<std::wstring> templateParameterTypes;
+	std::vector<std::wstring> typeParameters;
+	std::vector<std::wstring> localSymbols;
+	std::set<std::wstring> files;
+	std::vector<std::wstring> comments;
 
-	std::vector<std::string> inheritances;
-	std::vector<std::string> overrides;
-	std::vector<std::string> calls;
-	std::vector<std::string> usages;	// for variables
-	std::vector<std::string> typeUses;	// for types
-	std::vector<std::string> macroUses;
-	std::vector<std::string> templateArgumentTypes;
-	std::vector<std::string> typeArguments;
-	std::vector<std::string> templateDefaultArgumentTypes;
-	std::vector<std::string> templateSpecializations;
-	std::vector<std::string> templateMemberSpecializations;
-	std::vector<std::string> includes;
-	std::vector<std::string> imports;
+	std::vector<std::wstring> inheritances;
+	std::vector<std::wstring> overrides;
+	std::vector<std::wstring> calls;
+	std::vector<std::wstring> usages;	// for variables
+	std::vector<std::wstring> typeUses;	// for types
+	std::vector<std::wstring> macroUses;
+	std::vector<std::wstring> templateArgumentTypes;
+	std::vector<std::wstring> typeArguments;
+	std::vector<std::wstring> templateDefaultArgumentTypes;
+	std::vector<std::wstring> templateSpecializations;
+	std::vector<std::wstring> templateMemberSpecializations;
+	std::vector<std::wstring> includes;
+	std::vector<std::wstring> imports;
 
 private:
 	virtual void doRecordError(
 		const ParseLocation& location, 
-		const std::string& message,
+		const std::wstring& message,
 		bool fatal, 
 		bool indexed) override
 	{
 		errors.push_back(addLocationSuffix(message, location));
 	}
 
-	std::vector<std::string>* getBinForSymbolKind(SymbolKind symbolType)
+	std::vector<std::wstring>* getBinForSymbolKind(SymbolKind symbolType)
 	{
 		switch (symbolType)
 		{

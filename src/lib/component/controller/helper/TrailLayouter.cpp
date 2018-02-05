@@ -273,7 +273,7 @@ void TrailLayouter::addVirtualNodes()
 		{
 			std::shared_ptr<TrailNode> virtualNode = std::make_shared<TrailNode>();
 			virtualNode->id = 0;
-			virtualNode->name = "<virtual>";
+			virtualNode->name = L"<virtual>";
 			virtualNode->dummyNode = nullptr;
 			virtualNode->level = i;
 
@@ -626,7 +626,7 @@ void TrailLayouter::print()
 		{
 			std::cout << node->id << "\t" << node->level << "\t";
 			std::cout << node->incomingEdges.size() << "\t" << node->outgoingEdges.size() << "\t";
-			std::cout << node->name << std::endl;
+			std::wcout << node->name << std::endl;
 		}
 	}
 	std::cout << std::endl;
@@ -635,7 +635,7 @@ void TrailLayouter::print()
 	{
 		if (edge->origin->id || edge->target->id)
 		{
-			std::cout << edge->id << "\t" << edge->origin->name << "\t" << edge->target->name << std::endl;
+			std::wcout << edge->id << L"\t" << edge->origin->name << L"\t" << edge->target->name << std::endl;
 		}
 	}
 	std::cout << std::endl;

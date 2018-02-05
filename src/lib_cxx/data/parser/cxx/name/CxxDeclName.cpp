@@ -1,20 +1,20 @@
 #include "data/parser/cxx/name/CxxDeclName.h"
 
-//CxxDeclName::CxxDeclName(const std::string& name, const std::vector<std::string>& templateParameterNames)
+//CxxDeclName::CxxDeclName(const std::wstring& name, const std::vector<std::wstring>& templateParameterNames)
 //	: m_name(name)
 //	, m_templateParameterNames(templateParameterNames)
 //{
 //}
 
-CxxDeclName::CxxDeclName(std::string&& name, std::vector<std::string>&& templateParameterNames)
+CxxDeclName::CxxDeclName(std::wstring&& name, std::vector<std::wstring>&& templateParameterNames)
 	: m_name(std::move(name))
 	, m_templateParameterNames(std::move(templateParameterNames))
 {
 }
 
 //CxxDeclName::CxxDeclName(
-//	const std::string& name,
-//	const std::vector<std::string>& templateParameterNames,
+//	const std::wstring& name,
+//	const std::vector<std::wstring>& templateParameterNames,
 //	std::shared_ptr<CxxName> parent
 //)
 //	: CxxName(parent)
@@ -24,8 +24,8 @@ CxxDeclName::CxxDeclName(std::string&& name, std::vector<std::string>&& template
 //}
 
 CxxDeclName::CxxDeclName(
-	std::string&& name,
-	std::vector<std::string>&& templateParameterNames,
+	std::wstring&& name,
+	std::vector<std::wstring>&& templateParameterNames,
 	std::shared_ptr<CxxName> parent
 )
 	: CxxName(parent)
@@ -36,19 +36,19 @@ CxxDeclName::CxxDeclName(
 
 NameHierarchy CxxDeclName::toNameHierarchy() const
 {
-	std::string nameString = m_name;
+	std::wstring nameString = m_name;
 	if (!m_templateParameterNames.empty())
 	{
-		nameString += "<";
+		nameString += L"<";
 		for (size_t i = 0; i < m_templateParameterNames.size(); i++)
 		{
 			if (i != 0)
 			{
-				nameString += ", ";
+				nameString += L", ";
 			}
 			nameString += m_templateParameterNames[i];
 		}
-		nameString += ">";
+		nameString += L">";
 	}
 
 	NameHierarchy ret = getParent() ? getParent()->toNameHierarchy(): NameHierarchy(NAME_DELIMITER_CXX);
@@ -57,12 +57,12 @@ NameHierarchy CxxDeclName::toNameHierarchy() const
 	return ret;
 }
 
-std::string CxxDeclName::getName() const
+std::wstring CxxDeclName::getName() const
 {
 	return m_name;
 }
 
-std::vector<std::string> CxxDeclName::getTemplateParameterNames() const
+std::vector<std::wstring> CxxDeclName::getTemplateParameterNames() const
 {
 	return m_templateParameterNames;
 }

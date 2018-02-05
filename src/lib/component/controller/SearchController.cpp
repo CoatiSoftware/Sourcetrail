@@ -50,7 +50,7 @@ void SearchController::handleMessage(MessageActivateTokens* message)
 
 		for (const NameHierarchy& name : message->tokenNames)
 		{
-			matches.push_back(SearchMatch(name.getQualifiedName()));
+			matches.push_back(SearchMatch(utility::encodeToUtf8(name.getQualifiedName())));
 		}
 
 		if (!matches.size())

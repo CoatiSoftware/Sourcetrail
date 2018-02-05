@@ -264,6 +264,6 @@ private:
 
 		parser.buildIndex(command);
 
-		return TextAccess::createFromString(parserClient->m_lines);
+		return TextAccess::createFromString(utility::encodeToUtf8(parserClient->m_lines));
 	}
 };

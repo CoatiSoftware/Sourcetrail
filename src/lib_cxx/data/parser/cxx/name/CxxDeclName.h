@@ -18,8 +18,8 @@ public:
 	//);
 
 	CxxDeclName(
-		std::string&& name,
-		std::vector<std::string>&& templateParameterNames
+		std::wstring&& name,
+		std::vector<std::wstring>&& templateParameterNames
 	);
 
 	// uncomment this constructor if required, but try to use the one using move constructors for the members
@@ -30,19 +30,19 @@ public:
 	//);
 
 	CxxDeclName(
-		std::string&& name,
-		std::vector<std::string>&& templateParameterNames,
+		std::wstring&& name,
+		std::vector<std::wstring>&& templateParameterNames,
 		std::shared_ptr<CxxName> parent
 	);
 
 	virtual NameHierarchy toNameHierarchy() const;
 
-	std::string getName() const;
-	std::vector<std::string> getTemplateParameterNames() const;
+	std::wstring getName() const;
+	std::vector<std::wstring> getTemplateParameterNames() const;
 
 private:
-	std::string m_name;
-	std::vector<std::string> m_templateParameterNames;
+	std::wstring m_name;
+	std::vector<std::wstring> m_templateParameterNames;
 };
 
 #endif // CXX_DECL_NAME_H

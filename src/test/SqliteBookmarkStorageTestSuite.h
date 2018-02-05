@@ -19,8 +19,8 @@ public:
 
 			for (size_t i = 0; i < bookmarkCount; i++)
 			{
-				const Id categoryId = storage.addBookmarkCategory(StorageBookmarkCategoryData("test category")).id;
-				storage.addBookmark(StorageBookmarkData("test bookmark", "test comment", TimeStamp::now().toString(), categoryId));
+				const Id categoryId = storage.addBookmarkCategory(StorageBookmarkCategoryData(L"test category")).id;
+				storage.addBookmark(StorageBookmarkData(L"test bookmark", L"test comment", TimeStamp::now().toString(), categoryId));
 			}
 
 			result = storage.getAllBookmarks().size();
@@ -41,12 +41,12 @@ public:
 			SqliteBookmarkStorage storage(databasePath);
 			storage.setup();
 
-			const Id categoryId = storage.addBookmarkCategory(StorageBookmarkCategoryData("test category")).id;
-			const Id bookmarkId = storage.addBookmark(StorageBookmarkData("test bookmark", "test comment", TimeStamp::now().toString(), categoryId)).id;
+			const Id categoryId = storage.addBookmarkCategory(StorageBookmarkCategoryData(L"test category")).id;
+			const Id bookmarkId = storage.addBookmark(StorageBookmarkData(L"test bookmark", L"test comment", TimeStamp::now().toString(), categoryId)).id;
 
 			for (size_t i = 0; i < bookmarkCount; i++)
 			{
-				storage.addBookmarkedNode(StorageBookmarkedNodeData(bookmarkId, "test name"));
+				storage.addBookmarkedNode(StorageBookmarkedNodeData(bookmarkId, L"test name"));
 			}
 
 			result = storage.getAllBookmarkedNodes().size();
@@ -66,9 +66,9 @@ public:
 			SqliteBookmarkStorage storage(databasePath);
 			storage.setup();
 
-			const Id categoryId = storage.addBookmarkCategory(StorageBookmarkCategoryData("test category")).id;
-			const Id bookmarkId = storage.addBookmark(StorageBookmarkData("test bookmark", "test comment", TimeStamp::now().toString(), categoryId)).id;
-			storage.addBookmarkedNode(StorageBookmarkedNodeData(bookmarkId, "test name"));
+			const Id categoryId = storage.addBookmarkCategory(StorageBookmarkCategoryData(L"test category")).id;
+			const Id bookmarkId = storage.addBookmark(StorageBookmarkData(L"test bookmark", L"test comment", TimeStamp::now().toString(), categoryId)).id;
+			storage.addBookmarkedNode(StorageBookmarkedNodeData(bookmarkId, L"test name"));
 
 			storage.removeBookmark(bookmarkId);
 
@@ -84,8 +84,8 @@ public:
 	{
 		FilePath databasePath(L"data/SQLiteTestSuite/bookmarkTest.sqlite");
 
-		const std::string updatedName = "updated name";
-		const std::string updatedComment = "updated comment";
+		const std::wstring updatedName = L"updated name";
+		const std::wstring updatedComment = L"updated comment";
 
 		StorageBookmark storageBookmark;
 		{
@@ -93,9 +93,9 @@ public:
 			SqliteBookmarkStorage storage(databasePath);
 			storage.setup();
 
-			const Id categoryId = storage.addBookmarkCategory(StorageBookmarkCategoryData("test category")).id;
-			const Id bookmarkId = storage.addBookmark(StorageBookmarkData("test bookmark", "test comment", TimeStamp::now().toString(), categoryId)).id;
-			storage.addBookmarkedNode(StorageBookmarkedNodeData(bookmarkId, "test name"));
+			const Id categoryId = storage.addBookmarkCategory(StorageBookmarkCategoryData(L"test category")).id;
+			const Id bookmarkId = storage.addBookmark(StorageBookmarkData(L"test bookmark", L"test comment", TimeStamp::now().toString(), categoryId)).id;
+			storage.addBookmarkedNode(StorageBookmarkedNodeData(bookmarkId, L"test name"));
 
 			storage.updateBookmark(bookmarkId, updatedName, updatedComment, categoryId);
 

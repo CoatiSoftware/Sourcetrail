@@ -1,6 +1,7 @@
 #include "InterprocessIndexingStatusManager.h"
 
 #include "utility/logging/logging.h"
+#include "utility/utilityString.h"
 
 const char* InterprocessIndexingStatusManager::s_sharedMemoryNamePrefix = "ists_";
 
@@ -28,7 +29,7 @@ void InterprocessIndexingStatusManager::startIndexingSourceFile(const FilePath& 
 	if (indexingFilesPtr)
 	{
 		SharedMemory::String fileStr(access.getAllocator());
-		fileStr = filePath.str().c_str();
+		fileStr = utility::encodeToUtf8(filePath.wstr()).c_str();
 		indexingFilesPtr->push_back(fileStr);
 	}
 
@@ -71,7 +72,7 @@ void InterprocessIndexingStatusManager::startIndexingSourceFile(const FilePath& 
 		}
 
 		SharedMemory::String str(access.getAllocator());
-		str = filePath.str().c_str();
+		str = utility::encodeToUtf8(filePath.wstr()).c_str();
 
 		it = currentFilesPtr->insert(std::pair<Id, SharedMemory::String>(getProcessId(), str)).first;
 		it->second = str;
@@ -125,7 +126,7 @@ std::vector<FilePath> InterprocessIndexingStatusManager::getCurrentlyIndexedSour
 	{
 		while (indexingFilesPtr->size())
 		{
-			indexingFiles.push_back(FilePath(indexingFilesPtr->front().c_str()));
+			indexingFiles.push_back(FilePath(utility::decodeFromUtf8(indexingFilesPtr->front().c_str())));
 			indexingFilesPtr->pop_front();
 		}
 	}
@@ -146,7 +147,7 @@ std::vector<FilePath> InterprocessIndexingStatusManager::getCrashedSourceFilePat
 	{
 		for (size_t i = 0; i < crashedFilesPtr->size(); i++)
 		{
-			crashedFiles.push_back(FilePath(crashedFilesPtr->at(i).c_str()));
+			crashedFiles.push_back(FilePath(utility::decodeFromUtf8(crashedFilesPtr->at(i).c_str())));
 		}
 	}
 
@@ -156,7 +157,7 @@ std::vector<FilePath> InterprocessIndexingStatusManager::getCrashedSourceFilePat
 	{
 		for (SharedMemory::Map<Id, SharedMemory::String>::iterator it = currentFilesPtr->begin(); it != currentFilesPtr->end(); it++)
 		{
-			crashedFiles.push_back(FilePath(it->second.c_str()));
+			crashedFiles.push_back(FilePath(utility::decodeFromUtf8(it->second.c_str())));
 		}
 	}
 
@@ -178,7 +179,7 @@ std::set<FilePath> InterprocessIndexingStatusManager::getIndexedFiles()
 
 	for (auto& file : *files)
 	{
-		result.insert(FilePath(file.c_str()));
+		result.insert(FilePath(utility::decodeFromUtf8(file.c_str())));
 	}
 
 	return result;
@@ -206,9 +207,9 @@ void InterprocessIndexingStatusManager::addIndexedFiles(std::set<FilePath> fileP
 	std::set<std::string> newFiles;
 	for (const FilePath& filePath : filePaths)
 	{
-		if (oldFiles.find(filePath.str()) == oldFiles.end())
+		if (oldFiles.find(utility::encodeToUtf8(filePath.wstr())) == oldFiles.end())
 		{
-			newFiles.insert(filePath.str());
+			newFiles.insert(utility::encodeToUtf8(filePath.wstr()));
 		}
 	}
 

@@ -23,26 +23,26 @@ public:
 private:
 	std::shared_ptr<CxxName> getContextName(const clang::DeclContext* declaration);
 	std::shared_ptr<CxxDeclName> getDeclName(const clang::NamedDecl* declaration);
-	std::string getTranslationUnitMainFileName(const clang::Decl* declaration);
-	std::string getDeclarationFileName(const clang::Decl* declaration);
-	std::string getNameForAnonymousSymbol(const std::string& symbolKindName, const clang::Decl* declaration);
-	std::vector<std::string> getTemplateParameterStrings(const clang::TemplateDecl* templateDecl);
+	std::wstring getTranslationUnitMainFileName(const clang::Decl* declaration);
+	std::wstring getDeclarationFileName(const clang::Decl* declaration);
+	std::wstring getNameForAnonymousSymbol(const std::wstring& symbolKindName, const clang::Decl* declaration);
+	std::vector<std::wstring> getTemplateParameterStrings(const clang::TemplateDecl* templateDecl);
 	template <typename T>
-	std::vector<std::string> getTemplateParameterStringsOfPatrialSpecialitarion(const T* templateDecl);
-	std::string getTemplateParameterString(const clang::NamedDecl* parameter);
-	std::string getTemplateParameterTypeString(const clang::NonTypeTemplateParmDecl* parameter);
-	std::string getTemplateParameterTypeString(const clang::TemplateTypeParmDecl* parameter);
-	std::string getTemplateParameterTypeString(const clang::TemplateTemplateParmDecl* parameter);
-	std::string getTemplateArgumentName(const clang::TemplateArgument& argument);
+	std::vector<std::wstring> getTemplateParameterStringsOfPatrialSpecialitarion(const T* templateDecl);
+	std::wstring getTemplateParameterString(const clang::NamedDecl* parameter);
+	std::wstring getTemplateParameterTypeString(const clang::NonTypeTemplateParmDecl* parameter);
+	std::wstring getTemplateParameterTypeString(const clang::TemplateTypeParmDecl* parameter);
+	std::wstring getTemplateParameterTypeString(const clang::TemplateTemplateParmDecl* parameter);
+	std::wstring getTemplateArgumentName(const clang::TemplateArgument& argument);
 
 	const clang::NamedDecl* m_currentDecl;
 };
 
 
 template <typename T>
-std::vector<std::string> CxxDeclNameResolver::getTemplateParameterStringsOfPatrialSpecialitarion(const T* partialSpecializationDecl)
+std::vector<std::wstring> CxxDeclNameResolver::getTemplateParameterStringsOfPatrialSpecialitarion(const T* partialSpecializationDecl)
 {
-	std::vector<std::string> templateParameterNames;
+	std::vector<std::wstring> templateParameterNames;
 	clang::TemplateParameterList* parameterList = partialSpecializationDecl->getTemplateParameters();
 	unsigned int currentParameterIndex = 0;
 

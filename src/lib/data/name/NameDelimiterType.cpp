@@ -2,23 +2,23 @@
 
 #include <vector>
 
-std::string nameDelimiterTypeToString(NameDelimiterType delimiter)
+std::wstring nameDelimiterTypeToString(NameDelimiterType delimiter)
 {
 	switch(delimiter)
 	{
 	case NAME_DELIMITER_FILE:
-		return "/";
+		return L"/";
 	case NAME_DELIMITER_CXX:
-		return "::";
+		return L"::";
 	case NAME_DELIMITER_JAVA:
-		return ".";
+		return L".";
 	default:
 		break;
 	}
-	return "@";
+	return L"@";
 }
 
-NameDelimiterType stringToNameDelimiterType(const std::string& s)
+NameDelimiterType stringToNameDelimiterType(const std::wstring& s)
 {
 	if (s == nameDelimiterTypeToString(NAME_DELIMITER_FILE))
 	{
@@ -35,13 +35,13 @@ NameDelimiterType stringToNameDelimiterType(const std::string& s)
 	return NAME_DELIMITER_UNKNOWN;
 }
 
-NameDelimiterType detectDelimiterType(const std::string& name)
+NameDelimiterType detectDelimiterType(const std::wstring& name)
 {
 	std::vector<NameDelimiterType> allDelimiters {NAME_DELIMITER_FILE, NAME_DELIMITER_CXX, NAME_DELIMITER_JAVA};
 
 	for (NameDelimiterType delimiter: allDelimiters)
 	{
-		if (name.find(nameDelimiterTypeToString(delimiter)) != std::string::npos)
+		if (name.find(nameDelimiterTypeToString(delimiter)) != std::wstring::npos)
 		{
 			return delimiter;
 		}

@@ -25,12 +25,12 @@ bool CxxQualifierFlags::empty() const
 	return m_flags == QUALIFIER_NONE;
 }
 
-std::string CxxQualifierFlags::toString() const
+std::wstring CxxQualifierFlags::toString() const
 {
-	std::string ret = "";
+	std::wstring ret = L"";
 	if (m_flags & QUALIFIER_CONST)
 	{
-		ret += "const";
+		ret += L"const";
 	}
 	return ret;
 }

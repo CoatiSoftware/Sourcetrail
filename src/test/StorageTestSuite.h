@@ -18,7 +18,7 @@ public:
 	{
 		TestStorage storage;
 
-		std::string filePath = "path/to/test.h";
+		std::wstring filePath = L"path/to/test.h";
 
 		std::shared_ptr<IntermediateStorage> intermetiateStorage = std::make_shared<IntermediateStorage>();
 		Id id = intermetiateStorage->addNode(StorageNodeData(utility::nodeTypeToInt(NodeType::NODE_FILE), NameHierarchy::serialize(NameHierarchy(filePath, NAME_DELIMITER_FILE))));
@@ -32,7 +32,7 @@ public:
 	}
 	void test_storage_saves_node()
 	{
-		NameHierarchy a = createNameHierarchy("type");
+		NameHierarchy a = createNameHierarchy(L"type");
 
 		TestStorage storage;
 
@@ -50,8 +50,8 @@ public:
 
 	void test_storage_saves_field_as_member()
 	{
-		NameHierarchy a = createNameHierarchy("Struct");
-		NameHierarchy b = createNameHierarchy("Struct::m_field");
+		NameHierarchy a = createNameHierarchy(L"Struct");
+		NameHierarchy b = createNameHierarchy(L"Struct::m_field");
 
 		TestStorage storage;
 
@@ -256,19 +256,19 @@ private:
 		return ParseLocation(m_filePath, 1, locationId, 1, locationId);
 	}
 
-	NameHierarchy createFunctionNameHierarchy(std::string ret, std::string name, std::string parameters) const
+	NameHierarchy createFunctionNameHierarchy(std::wstring ret, std::wstring name, std::wstring parameters) const
 	{
 		NameHierarchy nameHierarchy = createNameHierarchy(name);
-		std::string lastName = nameHierarchy.back()->getName();
+		std::wstring lastName = nameHierarchy.back()->getName();
 		nameHierarchy.pop();
 		nameHierarchy.push(std::make_shared<NameElement>(lastName, NameElement::Signature(ret, parameters)));
 		return nameHierarchy;
 	}
 
-	NameHierarchy createNameHierarchy(std::string s) const
+	NameHierarchy createNameHierarchy(std::wstring s) const
 	{
 		NameHierarchy nameHierarchy(NAME_DELIMITER_CXX);
-		for (std::string element: utility::splitToVector(s, nameDelimiterTypeToString(NAME_DELIMITER_CXX)))
+		for (std::wstring element: utility::splitToVector(s, nameDelimiterTypeToString(NAME_DELIMITER_CXX)))
 		{
 			nameHierarchy.push(std::make_shared<NameElement>(element, NameElement::Signature()));
 		}

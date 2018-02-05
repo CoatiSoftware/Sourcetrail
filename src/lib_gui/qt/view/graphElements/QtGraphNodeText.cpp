@@ -1,6 +1,6 @@
 #include "qt/view/graphElements/QtGraphNodeText.h"
 
-QtGraphNodeText::QtGraphNodeText(const std::string& name)
+QtGraphNodeText::QtGraphNodeText(const std::wstring& name)
 {
 	setName(name);
 }

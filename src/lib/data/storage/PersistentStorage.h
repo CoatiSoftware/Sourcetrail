@@ -129,9 +129,9 @@ public:
 
 	virtual Id addNodeBookmark(const NodeBookmark& bookmark) override;
 	virtual Id addEdgeBookmark(const EdgeBookmark& bookmark) override;
-	virtual Id addBookmarkCategory(const std::string& categoryName) override;
+	virtual Id addBookmarkCategory(const std::wstring& categoryName) override;
 
-	virtual void updateBookmark(const Id bookmarkId, const std::string& name, const std::string& comment, const std::string& categoryName) override;
+	virtual void updateBookmark(const Id bookmarkId, const std::wstring& name, const std::wstring& comment, const std::wstring& categoryName) override;
 	virtual void removeBookmark(const Id id) override;
 	virtual void removeBookmarkCategory(const Id id) override;
 

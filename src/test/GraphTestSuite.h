@@ -90,7 +90,7 @@ public:
 
 	void test_nodes_are_nodes()
 	{
-		Node a(1, NodeType(NodeType::NODE_SYMBOL), NameHierarchy("A", NAME_DELIMITER_CXX), false);
+		Node a(1, NodeType(NodeType::NODE_SYMBOL), NameHierarchy(L"A", NAME_DELIMITER_CXX), false);
 
 		TS_ASSERT(a.isNode());
 		TS_ASSERT(!a.isEdge());
@@ -98,8 +98,8 @@ public:
 
 	void test_edges_are_edges()
 	{
-		Node a(1, NodeType(NodeType::NODE_SYMBOL), NameHierarchy("A", NAME_DELIMITER_CXX), false);
-		Node b(2, NodeType(NodeType::NODE_SYMBOL), NameHierarchy("B", NAME_DELIMITER_CXX), false);
+		Node a(1, NodeType(NodeType::NODE_SYMBOL), NameHierarchy(L"A", NAME_DELIMITER_CXX), false);
+		Node b(2, NodeType(NodeType::NODE_SYMBOL), NameHierarchy(L"B", NAME_DELIMITER_CXX), false);
 		Edge e(3, Edge::EDGE_USAGE, &a, &b);
 
 		TS_ASSERT(!e.isNode());
@@ -108,27 +108,27 @@ public:
 
 	void test_set_type_of_node_from_constructor()
 	{
-		Node n(1, NodeType(NodeType::NODE_FUNCTION), NameHierarchy("A", NAME_DELIMITER_CXX), false);
+		Node n(1, NodeType(NodeType::NODE_FUNCTION), NameHierarchy(L"A", NAME_DELIMITER_CXX), false);
 		TS_ASSERT_EQUALS(NodeType(NodeType::NODE_FUNCTION), n.getType());
 	}
 
 	void test_set_type_of_node_from_non_indexed()
 	{
-		Node n(2, NodeType(NodeType::NODE_SYMBOL), NameHierarchy("A", NAME_DELIMITER_CXX), false);
+		Node n(2, NodeType(NodeType::NODE_SYMBOL), NameHierarchy(L"A", NAME_DELIMITER_CXX), false);
 		n.setType(NodeType(NodeType::NODE_CLASS));
 		TS_ASSERT_EQUALS(NodeType(NodeType::NODE_CLASS), n.getType());
 	}
 
 	void test_can_not_change_type_of_node_after_it_was_set()
 	{
-		Node n(3, NodeType(NodeType::NODE_NAMESPACE), NameHierarchy("A", NAME_DELIMITER_CXX), false);
+		Node n(3, NodeType(NodeType::NODE_NAMESPACE), NameHierarchy(L"A", NAME_DELIMITER_CXX), false);
 		n.setType(NodeType(NodeType::NODE_CLASS));
 		TS_ASSERT_DIFFERS(NodeType(NodeType::NODE_CLASS), n.getType());
 	}
 
 	void test_node_can_be_copied_and_keeps_same_id()
 	{
-		Node n(4, NodeType(NodeType::NODE_NAMESPACE), NameHierarchy("A", NAME_DELIMITER_CXX), false);
+		Node n(4, NodeType(NodeType::NODE_NAMESPACE), NameHierarchy(L"A", NAME_DELIMITER_CXX), false);
 		Node n2(n);
 
 		TS_ASSERT_DIFFERS(&n, &n2);
@@ -139,15 +139,15 @@ public:
 
 	void test_node_type_bit_masking()
 	{
-		Node n(1, NodeType(NodeType::NODE_NAMESPACE), NameHierarchy("A", NAME_DELIMITER_CXX), false);
+		Node n(1, NodeType(NodeType::NODE_NAMESPACE), NameHierarchy(L"A", NAME_DELIMITER_CXX), false);
 		TS_ASSERT(n.isType(NodeType::NODE_FUNCTION | NodeType::NODE_NAMESPACE | NodeType::NODE_CLASS));
 		TS_ASSERT(!n.isType(NodeType::NODE_FUNCTION | NodeType::NODE_METHOD | NodeType::NODE_CLASS));
 	}
 
 	void test_get_type_of_edges()
 	{
-		Node a(1, NodeType(NodeType::NODE_SYMBOL), NameHierarchy("A", NAME_DELIMITER_CXX), false);
-		Node b(2, NodeType(NodeType::NODE_SYMBOL), NameHierarchy("B", NAME_DELIMITER_CXX), false);
+		Node a(1, NodeType(NodeType::NODE_SYMBOL), NameHierarchy(L"A", NAME_DELIMITER_CXX), false);
+		Node b(2, NodeType(NodeType::NODE_SYMBOL), NameHierarchy(L"B", NAME_DELIMITER_CXX), false);
 		Edge e(3, Edge::EDGE_USAGE, &a, &b);
 
 		TS_ASSERT_EQUALS(Edge::EDGE_USAGE, e.getType());
@@ -155,8 +155,8 @@ public:
 
 	void test_edge_can_be_copied_and_keeps_same_id()
 	{
-		Node a(1, NodeType(NodeType::NODE_SYMBOL), NameHierarchy("A", NAME_DELIMITER_CXX), false);
-		Node b(2, NodeType(NodeType::NODE_SYMBOL), NameHierarchy("B", NAME_DELIMITER_CXX), false);
+		Node a(1, NodeType(NodeType::NODE_SYMBOL), NameHierarchy(L"A", NAME_DELIMITER_CXX), false);
+		Node b(2, NodeType(NodeType::NODE_SYMBOL), NameHierarchy(L"B", NAME_DELIMITER_CXX), false);
 		Edge e(3, Edge::EDGE_USAGE, &a, &b);
 		Edge e2(e, &a, &b);
 
@@ -167,8 +167,8 @@ public:
 
 	void test_edge_type_bit_masking()
 	{
-		Node a(1, NodeType(NodeType::NODE_SYMBOL), NameHierarchy("A", NAME_DELIMITER_CXX), false);
-		Node b(2, NodeType(NodeType::NODE_SYMBOL), NameHierarchy("B", NAME_DELIMITER_CXX), false);
+		Node a(1, NodeType(NodeType::NODE_SYMBOL), NameHierarchy(L"A", NAME_DELIMITER_CXX), false);
+		Node b(2, NodeType(NodeType::NODE_SYMBOL), NameHierarchy(L"B", NAME_DELIMITER_CXX), false);
 		Edge e(3, Edge::EDGE_USAGE, &a, &b);
 
 		TS_ASSERT(e.isType(Edge::EDGE_MEMBER | Edge::EDGE_CALL | Edge::EDGE_USAGE));
@@ -177,16 +177,16 @@ public:
 
 	void test_node_finds_child_node()
 	{
-		Node a(1, NodeType(NodeType::NODE_SYMBOL), NameHierarchy("A", NAME_DELIMITER_CXX), false);
-		Node b(2, NodeType(NodeType::NODE_SYMBOL), NameHierarchy("B", NAME_DELIMITER_CXX), false);
-		Node c(3, NodeType(NodeType::NODE_SYMBOL), NameHierarchy("C", NAME_DELIMITER_CXX), false);
+		Node a(1, NodeType(NodeType::NODE_SYMBOL), NameHierarchy(L"A", NAME_DELIMITER_CXX), false);
+		Node b(2, NodeType(NodeType::NODE_SYMBOL), NameHierarchy(L"B", NAME_DELIMITER_CXX), false);
+		Node c(3, NodeType(NodeType::NODE_SYMBOL), NameHierarchy(L"C", NAME_DELIMITER_CXX), false);
 		Edge e(4, Edge::EDGE_MEMBER, &a, &b);
 		Edge e2(5, Edge::EDGE_MEMBER, &a, &c);
 
 		Node* x = a.findChildNode(
 			[](Node* n)
 			{
-				return n->getName() == "C";
+				return n->getName() == L"C";
 			}
 		);
 
@@ -196,16 +196,16 @@ public:
 
 	void test_node_can_not_find_child_node()
 	{
-		Node a(1, NodeType(NodeType::NODE_SYMBOL), NameHierarchy("A", NAME_DELIMITER_CXX), false);
-		Node b(2, NodeType(NodeType::NODE_SYMBOL), NameHierarchy("B", NAME_DELIMITER_CXX), false);
-		Node c(3, NodeType(NodeType::NODE_SYMBOL), NameHierarchy("C", NAME_DELIMITER_CXX), false);
+		Node a(1, NodeType(NodeType::NODE_SYMBOL), NameHierarchy(L"A", NAME_DELIMITER_CXX), false);
+		Node b(2, NodeType(NodeType::NODE_SYMBOL), NameHierarchy(L"B", NAME_DELIMITER_CXX), false);
+		Node c(3, NodeType(NodeType::NODE_SYMBOL), NameHierarchy(L"C", NAME_DELIMITER_CXX), false);
 		Edge e(4, Edge::EDGE_MEMBER, &a, &b);
 		Edge e2(5, Edge::EDGE_MEMBER, &a, &c);
 
 		Node* x = a.findChildNode(
 			[](Node* n)
 			{
-				return n->getName() == "D";
+				return n->getName() == L"D";
 			}
 		);
 
@@ -214,9 +214,9 @@ public:
 
 	void test_node_visits_child_nodes()
 	{
-		Node a(1, NodeType(NodeType::NODE_SYMBOL), NameHierarchy("A", NAME_DELIMITER_CXX), false);
-		Node b(2, NodeType(NodeType::NODE_SYMBOL), NameHierarchy("B", NAME_DELIMITER_CXX), false);
-		Node c(3, NodeType(NodeType::NODE_SYMBOL), NameHierarchy("C", NAME_DELIMITER_CXX), false);
+		Node a(1, NodeType(NodeType::NODE_SYMBOL), NameHierarchy(L"A", NAME_DELIMITER_CXX), false);
+		Node b(2, NodeType(NodeType::NODE_SYMBOL), NameHierarchy(L"B", NAME_DELIMITER_CXX), false);
+		Node c(3, NodeType(NodeType::NODE_SYMBOL), NameHierarchy(L"C", NAME_DELIMITER_CXX), false);
 		Edge e(4, Edge::EDGE_MEMBER, &a, &b);
 		Edge e2(5, Edge::EDGE_MEMBER, &a, &c);
 
@@ -236,17 +236,17 @@ public:
 	void test_graph_saves_nodes()
 	{
 		Graph graph;
-		Node* a = graph.createNode(1, NodeType(NodeType::NODE_SYMBOL), NameHierarchy("A", NAME_DELIMITER_CXX), false);
-		Node* b = graph.createNode(2, NodeType(NodeType::NODE_SYMBOL), NameHierarchy("B", NAME_DELIMITER_CXX), false);
+		Node* a = graph.createNode(1, NodeType(NodeType::NODE_SYMBOL), NameHierarchy(L"A", NAME_DELIMITER_CXX), false);
+		Node* b = graph.createNode(2, NodeType(NodeType::NODE_SYMBOL), NameHierarchy(L"B", NAME_DELIMITER_CXX), false);
 
 		TS_ASSERT_EQUALS(2, graph.getNodeCount());
 		TS_ASSERT_EQUALS(0, graph.getEdgeCount());
 
 		TS_ASSERT(graph.getNodeById(a->getId()));
-		TS_ASSERT_EQUALS("A", graph.getNodeById(a->getId())->getName());
+		TS_ASSERT_EQUALS(L"A", graph.getNodeById(a->getId())->getName());
 
 		TS_ASSERT(graph.getNodeById(b->getId()));
-		TS_ASSERT_EQUALS("B", graph.getNodeById(b->getId())->getName());
+		TS_ASSERT_EQUALS(L"B", graph.getNodeById(b->getId())->getName());
 
 		TS_ASSERT(!graph.getNodeById(0));
 	}
@@ -255,8 +255,8 @@ public:
 	{
 		Graph graph;
 
-		Node* a = graph.createNode(1, NodeType(NodeType::NODE_FUNCTION), NameHierarchy("A", NAME_DELIMITER_CXX), false);
-		Node* b = graph.createNode(2, NodeType(NodeType::NODE_FUNCTION), NameHierarchy("B", NAME_DELIMITER_CXX), false);
+		Node* a = graph.createNode(1, NodeType(NodeType::NODE_FUNCTION), NameHierarchy(L"A", NAME_DELIMITER_CXX), false);
+		Node* b = graph.createNode(2, NodeType(NodeType::NODE_FUNCTION), NameHierarchy(L"B", NAME_DELIMITER_CXX), false);
 
 		Edge* e = graph.createEdge(3, Edge::EDGE_CALL, a, b);
 
@@ -271,8 +271,8 @@ public:
 	{
 		Graph graph;
 
-		Node* a = graph.createNode(1, NodeType(NodeType::NODE_SYMBOL), NameHierarchy("A", NAME_DELIMITER_CXX), false);
-		graph.createNode(2, NodeType(NodeType::NODE_SYMBOL), NameHierarchy("B", NAME_DELIMITER_CXX), false);
+		Node* a = graph.createNode(1, NodeType(NodeType::NODE_SYMBOL), NameHierarchy(L"A", NAME_DELIMITER_CXX), false);
+		graph.createNode(2, NodeType(NodeType::NODE_SYMBOL), NameHierarchy(L"B", NAME_DELIMITER_CXX), false);
 
 		TS_ASSERT_EQUALS(2, graph.getNodeCount());
 		TS_ASSERT_EQUALS(0, graph.getEdgeCount());
@@ -317,9 +317,9 @@ private:
 			return Token::removeComponent<ComponentType>();
 		}
 
-		virtual std::string getReadableTypeString() const
+		virtual std::wstring getReadableTypeString() const
 		{
-			return "";
+			return L"";
 		}
 	};
 

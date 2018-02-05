@@ -37,8 +37,8 @@ public:
 	void displayBookmarks();
 	void displayBookmarksFor(Bookmark::BookmarkFilter filter, Bookmark::BookmarkOrder order);
 
-	void createBookmark(const std::string& name, const std::string& comment, const std::string& category, Id nodeId);
-	void editBookmark(Id bookmarkId, const std::string& name, const std::string& comment, const std::string& category);
+	void createBookmark(const std::wstring& name, const std::wstring& comment, const std::wstring& category, Id nodeId);
+	void editBookmark(Id bookmarkId, const std::wstring& name, const std::wstring& comment, const std::wstring& category);
 
 	void deleteBookmark(Id bookmarkId);
 	void deleteBookmarkCategory(Id categoryId);
@@ -76,8 +76,8 @@ private:
 	virtual void handleMessage(MessageFinishedParsing* message);
 	virtual void handleMessage(MessageShowErrors* message);
 
-	std::vector<std::string> getActiveTokenDisplayNames() const;
-	std::vector<std::string> getDisplayNamesForNodeId(Id nodeId) const;
+	std::vector<std::wstring> getActiveTokenDisplayNames() const;
+	std::vector<std::wstring> getDisplayNamesForNodeId(Id nodeId) const;
 
 	std::vector<BookmarkCategory> getAllBookmarkCategories() const;
 
@@ -92,9 +92,9 @@ private:
 	std::vector<std::shared_ptr<Bookmark>> getBookmarks(
 		Bookmark::BookmarkFilter filter, Bookmark::BookmarkOrder order) const;
 
-	std::vector<std::string> getActiveNodeDisplayNames() const;
-	std::vector<std::string> getActiveEdgeDisplayNames() const;
-	std::string getNodeDisplayName(const Id id) const;
+	std::vector<std::wstring> getActiveNodeDisplayNames() const;
+	std::vector<std::wstring> getActiveEdgeDisplayNames() const;
+	std::wstring getNodeDisplayName(const Id id) const;
 
 	std::vector<std::shared_ptr<Bookmark>> getFilteredBookmarks(
 		const std::vector<std::shared_ptr<Bookmark>>& bookmarks, Bookmark::BookmarkFilter filter) const;
@@ -112,8 +112,8 @@ private:
 
 	void update();
 
-	static const std::string s_edgeSeperatorToken;
-	static const std::string s_defaultCategoryName;
+	static const std::wstring s_edgeSeperatorToken;
+	static const std::wstring s_defaultCategoryName;
 
 	StorageAccess* m_storageAccess;
 	mutable BookmarkCache m_bookmarkCache;

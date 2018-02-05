@@ -9,7 +9,7 @@
 
 #include "data/graph/token_component/TokenComponentFilePath.h"
 
-QtGraphNodeData::QtGraphNodeData(const Node* data, const std::string& name, bool hasParent, bool childVisible, bool hasQualifier)
+QtGraphNodeData::QtGraphNodeData(const Node* data, const std::wstring& name, bool hasParent, bool childVisible, bool hasQualifier)
 	: m_data(data)
 	, m_childVisible(childVisible)
 	, m_hasQualifier(hasQualifier)
@@ -59,7 +59,7 @@ void QtGraphNodeData::onClick()
 	FilePath path = getFilePath();
 
 	MessageActivateNodes message;
-	message.addNode(m_data->getId(), path.empty() ? m_data->getNameHierarchy() : NameHierarchy(path.str(), NAME_DELIMITER_FILE));
+	message.addNode(m_data->getId(), path.empty() ? m_data->getNameHierarchy() : NameHierarchy(path.wstr(), NAME_DELIMITER_FILE));
 	message.dispatch();
 }
 

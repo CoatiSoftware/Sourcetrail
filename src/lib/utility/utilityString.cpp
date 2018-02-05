@@ -61,6 +61,16 @@ namespace utility
 		return split<std::vector<std::string>>(str, delimiter);
 	}
 
+	std::vector<std::wstring> splitToVector(const std::wstring& str, wchar_t delimiter)
+	{
+		return split<std::vector<std::wstring>>(str, std::wstring(1, delimiter));
+	}
+
+	std::vector<std::wstring> splitToVector(const std::wstring& str, const std::wstring& delimiter)
+	{
+		return split<std::vector<std::wstring>>(str, delimiter);
+	}
+
 	std::string join(const std::deque<std::string>& list, char delimiter)
 	{
 		return join<std::deque<std::string> >(list, std::string(1, delimiter));
@@ -158,6 +168,16 @@ namespace utility
 	{
 		size_t pos = str.rfind(delimiter);
 		if (pos != std::string::npos)
+		{
+			return str.substr(0, pos);
+		}
+		return str;
+	}
+
+	std::wstring substrBeforeLast(const std::wstring& str, wchar_t delimiter)
+	{
+		size_t pos = str.rfind(delimiter);
+		if (pos != std::wstring::npos)
 		{
 			return str.substr(0, pos);
 		}
@@ -449,6 +469,24 @@ namespace utility
 			return str.substr(0, size / 2 - 1) + "..." + str.substr(str.size() - (size / 2 - 2), str.size());
 		case ELIDE_RIGHT:
 			return str.substr(0, size - 3) + "...";
+		}
+	}
+
+	std::wstring elide(const std::wstring& str, ElideMode mode, size_t size)
+	{
+		if (str.size() <= size || str.size() <= 3)
+		{
+			return str;
+		}
+
+		switch (mode)
+		{
+		case ELIDE_LEFT:
+			return L"..." + str.substr(str.size() - size - 3, str.size());
+		case ELIDE_MIDDLE:
+			return str.substr(0, size / 2 - 1) + L"..." + str.substr(str.size() - (size / 2 - 2), str.size());
+		case ELIDE_RIGHT:
+			return str.substr(0, size - 3) + L"...";
 		}
 	}
 

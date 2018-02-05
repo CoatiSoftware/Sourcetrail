@@ -47,7 +47,7 @@ void Node::setType(NodeType type)
 	if (!isType(type.getType() | NodeType::NODE_SYMBOL))
 	{
 		LOG_WARNING(
-			"Cannot change NodeType after it was already set from " + getReadableTypeString() + " to " + type.getReadableTypeString()
+			L"Cannot change NodeType after it was already set from " + getReadableTypeString() + L" to " + type.getReadableTypeWString()
 		);
 		return;
 	}
@@ -59,12 +59,12 @@ bool Node::isType(NodeType::TypeMask mask) const
 	return (m_type.getType() & mask) > 0;
 }
 
-std::string Node::getName() const
+std::wstring Node::getName() const
 {
 	return m_nameHierarchy.getRawName();
 }
 
-std::string Node::getFullName() const
+std::wstring Node::getFullName() const
 {
 	return m_nameHierarchy.getQualifiedName();
 }
@@ -353,36 +353,36 @@ void Node::addComponentAccess(std::shared_ptr<TokenComponentAccess> component)
 	}
 }
 
-std::string Node::getReadableTypeString() const
+std::wstring Node::getReadableTypeString() const
 {
-	return m_type.getReadableTypeString();
+	return m_type.getReadableTypeWString();
 }
 
-std::string Node::getAsString() const
+std::wstring Node::getAsString() const
 {
-	std::stringstream str;
-	str << "[" << getId() << "] " << getReadableTypeString() << ": " << "\"" << getName() << "\"";
+	std::wstringstream str;
+	str << L"[" << getId() << L"] " << getReadableTypeString() << L": " << L"\"" << getName() << L"\"";
 
 	TokenComponentAccess* access = getComponent<TokenComponentAccess>();
 	if (access)
 	{
-		str << " " << access->getAccessString();
+		str << L" " << access->getAccessString();
 	}
 
 	if (getComponent<TokenComponentStatic>())
 	{
-		str << " static";
+		str << L" static";
 	}
 
 	if (getComponent<TokenComponentConst>())
 	{
-		str << " const";
+		str << L" const";
 	}
 
 	return str.str();
 }
 
-std::ostream& operator<<(std::ostream& ostream, const Node& node)
+std::wostream& operator<<(std::wostream& ostream, const Node& node)
 {
 	ostream << node.getAsString();
 	return ostream;

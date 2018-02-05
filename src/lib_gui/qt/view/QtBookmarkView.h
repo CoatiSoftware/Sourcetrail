@@ -29,7 +29,7 @@ public:
 	virtual void setCreateButtonState(const CreateButtonState& state);
 
 	virtual void displayBookmarkCreator(
-		const std::vector<std::string>& names, const std::vector<BookmarkCategory>& categories, Id nodeId);
+		const std::vector<std::wstring>& names, const std::vector<BookmarkCategory>& categories, Id nodeId);
 	virtual void displayBookmarkEditor(
 		std::shared_ptr<Bookmark> bookmark, const std::vector<BookmarkCategory>& categories);
 

@@ -7,7 +7,7 @@ class NodeBookmark
 	: public Bookmark
 {
 public:
-	NodeBookmark(const Id id, const std::string& name, const std::string& comment,
+	NodeBookmark(const Id id, const std::wstring& name, const std::wstring& comment,
 		const TimeStamp& timeStamp, const BookmarkCategory& category);
 	virtual ~NodeBookmark();
 

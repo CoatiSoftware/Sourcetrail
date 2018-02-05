@@ -1,11 +1,12 @@
 #ifndef MESSAGE_ACTIVATE_EDGE_H
 #define MESSAGE_ACTIVATE_EDGE_H
 
-#include "utility/messaging/Message.h"
-#include "utility/types.h"
-
 #include "data/graph/Edge.h"
 #include "data/name/NameHierarchy.h"
+
+#include "utility/messaging/Message.h"
+#include "utility/types.h"
+#include "utility/utilityString.h"
 
 class MessageActivateEdge
 	: public Message<MessageActivateEdge>
@@ -35,10 +36,10 @@ public:
 
 	std::string getFullName() const
 	{
-		std::string name = Edge::getReadableTypeString(type) + ":";
-		name += sourceNameHierarchy.getQualifiedNameWithSignature() + "->";
+		std::wstring name = Edge::getReadableTypeString(type) + L":";
+		name += sourceNameHierarchy.getQualifiedNameWithSignature() + L"->";
 		name += targetNameHierarchy.getQualifiedNameWithSignature();
-		return name;
+		return utility::encodeToUtf8(name);
 	}
 
 	virtual void print(std::ostream& os) const

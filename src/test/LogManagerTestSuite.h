@@ -39,13 +39,13 @@ public:
 	{
 		LogManagerImplementation logManagerImplementation;
 
-		std::string log = "test";
+		const std::wstring log = L"test";
 		std::shared_ptr<TestLogger> logger = std::make_shared<TestLogger>();
 
 		logManagerImplementation.addLogger(logger);
 		logManagerImplementation.logInfo(log, __FILE__, __FUNCTION__, __LINE__);
-		int logCount = logger->getMessageCount();
-		std::string lastLog = logger->getLastMessage();
+		const int logCount = logger->getMessageCount();
+		const std::wstring lastLog = logger->getLastInfo();
 
 		TS_ASSERT_EQUALS(1, logCount);
 		TS_ASSERT_EQUALS(log, lastLog);
@@ -55,14 +55,14 @@ public:
 	{
 		LogManagerImplementation logManagerImplementation;
 
-		std::string log = "test";
+		const std::wstring log = L"test";
 		std::shared_ptr<TestLogger> logger = std::make_shared<TestLogger>();
 
 		logManagerImplementation.addLogger(logger);
 
 		logManagerImplementation.logWarning(log, __FILE__, __FUNCTION__, __LINE__);
-		int logCount = logger->getWarningCount();
-		std::string lastLog = logger->getLastWarning();
+		const int logCount = logger->getWarningCount();
+		const std::wstring lastLog = logger->getLastWarning();
 
 		TS_ASSERT_EQUALS(1, logCount);
 		TS_ASSERT_EQUALS(log, lastLog);
@@ -72,14 +72,14 @@ public:
 	{
 		LogManagerImplementation logManagerImplementation;
 
-		std::string log = "test";
+		std::wstring log = L"test";
 		std::shared_ptr<TestLogger> logger = std::make_shared<TestLogger>();
 
 		logManagerImplementation.addLogger(logger);
 
 		logManagerImplementation.logError(log, __FILE__, __FUNCTION__, __LINE__);
-		int logCount = logger->getErrorCount();
-		std::string lastLog = logger->getLastError();
+		const int logCount = logger->getErrorCount();
+		const std::wstring lastLog = logger->getLastError();
 
 		TS_ASSERT_EQUALS(1, logCount);
 		TS_ASSERT_EQUALS(log, lastLog);
@@ -89,9 +89,9 @@ public:
 	{
 		LogManagerImplementation logManagerImplementation;
 
-		std::string info = "info";
-		std::string warning = "warning";
-		std::string error = "error";
+		std::wstring info = L"info";
+		std::wstring warning = L"warning";
+		std::wstring error = L"error";
 
 		std::shared_ptr<TestLogger> logger = std::make_shared<TestLogger>();
 
@@ -107,7 +107,7 @@ public:
 		TS_ASSERT_EQUALS(0, logger->getWarningCount());
 		TS_ASSERT_EQUALS(1, logger->getErrorCount());
 
-		TS_ASSERT_EQUALS(info, logger->getLastMessage());
+		TS_ASSERT_EQUALS(info, logger->getLastInfo());
 		TS_ASSERT_EQUALS(error, logger->getLastError());
 	}
 
@@ -143,7 +143,7 @@ public:
 	{
 		LogManagerImplementation logManagerImplementation;
 
-		std::string log = "foo";
+		std::wstring log = L"foo";
 		unsigned int messageCount = 100;
 		std::shared_ptr<TestLogger> logger = std::make_shared<TestLogger>();
 		logManagerImplementation.addLogger(logger);
@@ -182,7 +182,7 @@ private:
 
 	static void logSomeMessages(
 		LogManagerImplementation* logManagerImplementation,
-		const std::string& message,
+		const std::wstring& message,
 		const unsigned int messageCount
 	)
 	{
@@ -205,9 +205,9 @@ private:
 		int getWarningCount() const;
 		int getErrorCount() const;
 
-		std::string getLastMessage() const;
-		std::string getLastWarning() const;
-		std::string getLastError() const;
+		std::wstring getLastInfo() const;
+		std::wstring getLastWarning() const;
+		std::wstring getLastError() const;
 
 	private:
 		void logInfo(const LogMessage& message);
@@ -218,9 +218,9 @@ private:
 		int m_logWarningCount;
 		int m_logErrorCount;
 
-		std::string m_lastMessage;
-		std::string m_lastWarning;
-		std::string m_lastError;
+		std::wstring m_lastInfo;
+		std::wstring m_lastWarning;
+		std::wstring m_lastError;
 	};
 };
 
@@ -230,9 +230,9 @@ LogManagerTestSuite::TestLogger::TestLogger()
 	, m_logMessageCount(0)
 	, m_logWarningCount(0)
 	, m_logErrorCount(0)
-	, m_lastMessage("")
-	, m_lastWarning("")
-	, m_lastError("")
+	, m_lastInfo(L"")
+	, m_lastWarning(L"")
+	, m_lastError(L"")
 {
 }
 
@@ -262,24 +262,24 @@ int LogManagerTestSuite::TestLogger::getErrorCount() const
 	return m_logErrorCount;
 }
 
-std::string LogManagerTestSuite::TestLogger::getLastMessage() const
+std::wstring LogManagerTestSuite::TestLogger::getLastInfo() const
 {
-	return m_lastMessage;
+	return m_lastInfo;
 }
 
-std::string LogManagerTestSuite::TestLogger::getLastWarning() const
+std::wstring LogManagerTestSuite::TestLogger::getLastWarning() const
 {
 	return m_lastWarning;
 }
 
-std::string LogManagerTestSuite::TestLogger::getLastError() const
+std::wstring LogManagerTestSuite::TestLogger::getLastError() const
 {
 	return m_lastError;
 }
 
 void LogManagerTestSuite::TestLogger::logInfo(const LogMessage& message)
 {
-	m_lastMessage = message.message;
+	m_lastInfo = message.message;
 	m_logMessageCount++;
 }
 

@@ -48,21 +48,21 @@ public:
 	Node* getFrom() const;
 	Node* getTo() const;
 
-	std::string getName() const;
+	std::wstring getName() const;
 
 	// Token implementation
-	virtual bool isNode() const;
-	virtual bool isEdge() const;
+	virtual bool isNode() const override;
+	virtual bool isEdge() const override;
 
 	// Component setters
 	void addComponentAggregation(std::shared_ptr<TokenComponentAggregation> component);
 	void addComponentInheritanceChain(std::shared_ptr<TokenComponentInheritanceChain> component);
 
-	static std::string getUnderscoredTypeString(EdgeType type);
-	static std::string getReadableTypeString(EdgeType type);
+	static std::wstring getUnderscoredTypeString(EdgeType type);
+	static std::wstring getReadableTypeString(EdgeType type);
 	// Logging.
-	virtual std::string getReadableTypeString() const;
-	std::string getAsString() const;
+	virtual std::wstring getReadableTypeString() const override;
+	std::wstring getAsString() const;
 
 private:
 	void operator=(const Node&);
@@ -75,6 +75,6 @@ private:
 	Node* const m_to;
 };
 
-std::ostream& operator<<(std::ostream& ostream, const Edge& edge);
+std::wostream& operator<<(std::wostream& ostream, const Edge& edge);
 
 #endif // EDGE_H

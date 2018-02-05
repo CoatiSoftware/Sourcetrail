@@ -182,14 +182,14 @@ void QtGraphNode::setMultipleActive(bool multipleActive)
 	m_multipleActive = multipleActive;
 }
 
-std::string QtGraphNode::getName() const
+std::wstring QtGraphNode::getName() const
 {
-	return m_text->text().toStdString();
+	return m_text->text().toStdWString();
 }
 
-void QtGraphNode::setName(const std::string& name)
+void QtGraphNode::setName(const std::wstring& name)
 {
-	m_text->setText(QString::fromStdString(name));
+	m_text->setText(QString::fromStdWString(name));
 }
 
 void QtGraphNode::addComponent(const std::shared_ptr<QtGraphNodeComponent>& component)
@@ -458,7 +458,7 @@ void QtGraphNode::notifyEdgesAfterMove()
 void QtGraphNode::matchName(const std::string& query, std::vector<QtGraphNode*>* matchedNodes)
 {
 	m_isActiveMatch = false;
-	std::string name = getName();
+	std::string name = utility::encodeToUtf8(getName());
 	size_t pos = utility::toLowerCase(name).find(query);
 
 	if (pos != std::string::npos)

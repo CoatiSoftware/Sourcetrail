@@ -113,7 +113,7 @@ void QtBookmarkView::setCreateButtonState(const CreateButtonState& state)
 }
 
 void QtBookmarkView::displayBookmarkCreator(
-	const std::vector<std::string>& names, const std::vector<BookmarkCategory>& categories, Id nodeId
+	const std::vector<std::wstring>& names, const std::vector<BookmarkCategory>& categories, Id nodeId
 ){
 	m_onQtThread(
 		[=]()
@@ -124,7 +124,7 @@ void QtBookmarkView::displayBookmarkCreator(
 			);
 			bookmarkCreator->setupBookmarkCreator();
 
-			std::string displayName = "";
+			std::wstring displayName = L"";
 
 			for (unsigned int i = 0; i < names.size(); i++)
 			{
@@ -132,7 +132,7 @@ void QtBookmarkView::displayBookmarkCreator(
 
 				if (i < names.size() - 1)
 				{
-					displayName += "; ";
+					displayName += L"; ";
 				}
 			}
 

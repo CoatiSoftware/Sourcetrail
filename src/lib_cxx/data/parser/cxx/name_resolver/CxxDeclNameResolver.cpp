@@ -49,7 +49,7 @@ std::shared_ptr<CxxDeclName> CxxDeclNameResolver::getName(const clang::NamedDecl
 		if (Calls.empty())
 		{
 			declaration = nullptr;
-			declName = std::make_shared<CxxDeclName>("unsolved-lambda", std::vector<std::string>());
+			declName = std::make_shared<CxxDeclName>(L"unsolved-lambda", std::vector<std::wstring>());
 		}
 		else
 		{
@@ -170,12 +170,12 @@ std::shared_ptr<CxxDeclName> CxxDeclNameResolver::getDeclName(const clang::Named
 	{
 		ScopedSwitcher<const clang::NamedDecl*> switcher(m_currentDecl, declaration);
 
-		std::string declNameString = declaration->getNameAsString();
+		std::wstring declNameString = utility::decodeFromUtf8(declaration->getNameAsString());
 		if (const clang::TagDecl* tagDecl = clang::dyn_cast_or_null<clang::TagDecl>(declaration))
 		{
 			if (const clang::TypedefNameDecl* typedefNameDecl = tagDecl->getTypedefNameForAnonDecl())
 			{
-				declNameString = typedefNameDecl->getNameAsString();
+				declNameString = utility::decodeFromUtf8(typedefNameDecl->getNameAsString());
 			}
 		}
 
@@ -196,17 +196,17 @@ std::shared_ptr<CxxDeclName> CxxDeclNameResolver::getDeclName(const clang::Named
 			}
 			else if (declNameString.empty())
 			{
-				std::string symbolKindName = "class";
+				std::wstring symbolKindName = L"class";
 				if (recordDecl->isStruct())
 				{
-					symbolKindName = "struct";
+					symbolKindName = L"struct";
 				}
 				else if (recordDecl->isUnion())
 				{
-					symbolKindName = "union";
+					symbolKindName = L"union";
 				}
 
-				return std::make_shared<CxxDeclName>(getNameForAnonymousSymbol(symbolKindName, declaration), std::vector<std::string>());
+				return std::make_shared<CxxDeclName>(getNameForAnonymousSymbol(symbolKindName, declaration), std::vector<std::wstring>());
 			}
 			else if (const clang::CXXRecordDecl* cxxRecordDecl = clang::dyn_cast_or_null<clang::CXXRecordDecl>(declaration))
 			{
@@ -226,7 +226,7 @@ std::shared_ptr<CxxDeclName> CxxDeclNameResolver::getDeclName(const clang::Named
 				}
 				else if (clang::isa<clang::ClassTemplateSpecializationDecl>(declaration))
 				{
-					std::vector<std::string> templateArguments;
+					std::vector<std::wstring> templateArguments;
 					const clang::TemplateArgumentList& templateArgumentList = clang::dyn_cast<clang::ClassTemplateSpecializationDecl>(declaration)->getTemplateArgs();
 					for (size_t i = 0; i < templateArgumentList.size(); i++)
 					{
@@ -240,15 +240,15 @@ std::shared_ptr<CxxDeclName> CxxDeclNameResolver::getDeclName(const clang::Named
 		{
 			const clang::FunctionDecl* functionDecl = clang::dyn_cast<clang::FunctionDecl>(declaration);
 
-			std::string functionName = declNameString;
-			std::vector<std::string> templateArguments;
+			std::wstring functionName = declNameString;
+			std::vector<std::wstring> templateArguments;
 
 			if ((clang::dyn_cast_or_null<clang::CXXMethodDecl>(functionDecl)) &&
 				(clang::dyn_cast_or_null<clang::CXXMethodDecl>(functionDecl)->getParent()->isLambda()))
 			{
 				const clang::SourceManager& sourceManager = declaration->getASTContext().getSourceManager();
 				const clang::PresumedLoc& presumedBegin = sourceManager.getPresumedLoc(clang::dyn_cast_or_null<clang::CXXMethodDecl>(functionDecl)->getParent()->getLocStart());
-				functionName = "lambda at " + std::to_string(presumedBegin.getLine()) + ":" + std::to_string(presumedBegin.getColumn());
+				functionName = L"lambda at " + std::to_wstring(presumedBegin.getLine()) + L":" + std::to_wstring(presumedBegin.getColumn());
 			}
 			else if (clang::FunctionTemplateDecl* templateFunctionDeclaration = functionDecl->getDescribedFunctionTemplate())
 			{
@@ -319,15 +319,15 @@ std::shared_ptr<CxxDeclName> CxxDeclNameResolver::getDeclName(const clang::Named
 			CxxTypeNameResolver typenNameResolver(getCanonicalFilePathCache(), getIgnoredContextDecls());
 			typenNameResolver.ignoreContextDecl(fieldDecl);
 			std::shared_ptr<CxxTypeName> typeName = CxxTypeName::makeUnsolvedIfNull(typenNameResolver.getName(fieldDecl->getType()));
-			return std::make_shared<CxxVariableDeclName>(std::move(declNameString), std::vector<std::string>(), typeName, false);
+			return std::make_shared<CxxVariableDeclName>(std::move(declNameString), std::vector<std::wstring>(), typeName, false);
 		}
 		else if (clang::isa<clang::NamespaceDecl>(declaration) && clang::dyn_cast<clang::NamespaceDecl>(declaration)->isAnonymousNamespace())
 		{
-			return std::make_shared<CxxDeclName>(getNameForAnonymousSymbol("namespace", declaration), std::vector<std::string>());
+			return std::make_shared<CxxDeclName>(getNameForAnonymousSymbol(L"namespace", declaration), std::vector<std::wstring>());
 		}
 		else if (clang::isa<clang::EnumDecl>(declaration) && declNameString.empty())
 		{
-			return std::make_shared<CxxDeclName>(getNameForAnonymousSymbol("enum", declaration), std::vector<std::string>());
+			return std::make_shared<CxxDeclName>(getNameForAnonymousSymbol(L"enum", declaration), std::vector<std::wstring>());
 		}
 		else if (
 			(
@@ -336,11 +336,11 @@ std::shared_ptr<CxxDeclName> CxxDeclNameResolver::getDeclName(const clang::Named
 				clang::isa<clang::TemplateTemplateParmDecl>(declaration)
 			) && declNameString.empty())
 		{
-			return std::make_shared<CxxDeclName>(getNameForAnonymousSymbol("template parameter", declaration), std::vector<std::string>());
+			return std::make_shared<CxxDeclName>(getNameForAnonymousSymbol(L"template parameter", declaration), std::vector<std::wstring>());
 		}
 		else if (clang::isa<clang::ParmVarDecl>(declaration) && declNameString.empty())
 		{
-			return std::make_shared<CxxDeclName>(getNameForAnonymousSymbol("parameter", declaration), std::vector<std::string>());
+			return std::make_shared<CxxDeclName>(getNameForAnonymousSymbol(L"parameter", declaration), std::vector<std::wstring>());
 		}
 		else if (clang::isa<clang::VarDecl>(declaration))
 		{
@@ -362,7 +362,7 @@ std::shared_ptr<CxxDeclName> CxxDeclNameResolver::getDeclName(const clang::Named
 				typenNameResolver.ignoreContextDecl(varDecl);
 				std::shared_ptr<CxxTypeName> typeName = CxxTypeName::makeUnsolvedIfNull(typenNameResolver.getName(varDecl->getType()));
 
-				std::string varName = declNameString;
+				std::wstring varName = declNameString;
 				if (utility::getSymbolKind(varDecl) == SYMBOL_GLOBAL_VARIABLE &&
 					varDecl->getStorageClass() == clang::SC_Static)
 				{
@@ -370,7 +370,7 @@ std::shared_ptr<CxxDeclName> CxxDeclNameResolver::getDeclName(const clang::Named
 					// may be generated (one for each translation unit) we add the name of the translation unit's source file.
 					// If that global variable definition is const, we add the name of the (maybe header) file that variable is defined in instead. This causes
 					// different instances of the variable that all MUST contain the same value to be merged into a single node in Sourcetrail.
-					std::string scopeFileName = "";
+					std::wstring scopeFileName = L"";
 					{
 						if (varDecl->getType().isConstQualified())
 						{
@@ -383,11 +383,11 @@ std::shared_ptr<CxxDeclName> CxxDeclNameResolver::getDeclName(const clang::Named
 					}
 					if (!scopeFileName.empty())
 					{
-						varName = declNameString + " (" + scopeFileName + ")";
+						varName = declNameString + L" (" + scopeFileName + L")";
 					}
 				}
 
-				std::vector<std::string> templateParameterNames;
+				std::vector<std::wstring> templateParameterNames;
 				if (varDecl->getDescribedVarTemplate())
 				{
 					const clang::VarTemplateDecl* templateDeclaration = varDecl->getDescribedVarTemplate();
@@ -423,53 +423,53 @@ std::shared_ptr<CxxDeclName> CxxDeclNameResolver::getDeclName(const clang::Named
 
 		if (!declNameString.empty())
 		{
-			return std::make_shared<CxxDeclName>(std::move(declNameString), std::vector<std::string>(), std::shared_ptr<CxxName>());
+			return std::make_shared<CxxDeclName>(std::move(declNameString), std::vector<std::wstring>(), std::shared_ptr<CxxName>());
 		}
 	}
 
 	// LOG_ERROR("could not resolve name of decl at: " + declaration->getLocation().printToString(sourceManager));
-	return std::make_shared<CxxDeclName>(getNameForAnonymousSymbol("symbol", declaration), std::vector<std::string>());
+	return std::make_shared<CxxDeclName>(getNameForAnonymousSymbol(L"symbol", declaration), std::vector<std::wstring>());
 }
 
-std::string CxxDeclNameResolver::getTranslationUnitMainFileName(const clang::Decl* declaration)
+std::wstring CxxDeclNameResolver::getTranslationUnitMainFileName(const clang::Decl* declaration)
 {
 	const clang::SourceManager& sourceManager = declaration->getASTContext().getSourceManager();
 	clang::FileID fileId = sourceManager.getMainFileID();
 	if (fileId.isValid())
 	{
 		const clang::FileEntry* fileEntry = sourceManager.getFileEntryForID(fileId);
-		return getCanonicalFilePathCache()->getCanonicalFilePath(fileEntry).fileName();
+		return getCanonicalFilePathCache()->getCanonicalFilePath(fileEntry).wFileName();
 	}
-	return "";
+	return L"";
 }
 
-std::string CxxDeclNameResolver::getDeclarationFileName(const clang::Decl* declaration)
+std::wstring CxxDeclNameResolver::getDeclarationFileName(const clang::Decl* declaration)
 {
 	const clang::SourceManager& sourceManager = declaration->getASTContext().getSourceManager();
 	const clang::FileEntry* fileEntry = sourceManager.getFileEntryForID(sourceManager.getFileID(declaration->getLocStart()));
 	if (fileEntry != nullptr && fileEntry->isValid())
 	{
-		return getCanonicalFilePathCache()->getCanonicalFilePath(fileEntry).fileName();
+		return getCanonicalFilePathCache()->getCanonicalFilePath(fileEntry).wFileName();
 	}
-	return getCanonicalFilePathCache()->getCanonicalFilePath(sourceManager.getPresumedLoc(declaration->getLocStart()).getFilename()).fileName();
+	return getCanonicalFilePathCache()->getCanonicalFilePath(utility::decodeFromUtf8(sourceManager.getPresumedLoc(declaration->getLocStart()).getFilename())).wFileName();
 }
 
-std::string CxxDeclNameResolver::getNameForAnonymousSymbol(const std::string& symbolKindName, const clang::Decl* declaration)
+std::wstring CxxDeclNameResolver::getNameForAnonymousSymbol(const std::wstring& symbolKindName, const clang::Decl* declaration)
 {
 	const clang::SourceManager& sourceManager = declaration->getASTContext().getSourceManager();
 	const clang::PresumedLoc& presumedBegin = sourceManager.getPresumedLoc(declaration->getLocStart());
 
 	if (presumedBegin.isValid())
 	{
-		return "anonymous " + symbolKindName +
-			" (" + getDeclarationFileName(declaration) + "<" + std::to_string(presumedBegin.getLine()) + ":" + std::to_string(presumedBegin.getColumn()) + ">)";
+		return L"anonymous " + symbolKindName +
+			L" (" + getDeclarationFileName(declaration) + L"<" + std::to_wstring(presumedBegin.getLine()) + L":" + std::to_wstring(presumedBegin.getColumn()) + L">)";
 	}
-	return "anonymous " + symbolKindName;
+	return L"anonymous " + symbolKindName;
 }
 
-std::vector<std::string> CxxDeclNameResolver::getTemplateParameterStrings(const clang::TemplateDecl* templateDecl)
+std::vector<std::wstring> CxxDeclNameResolver::getTemplateParameterStrings(const clang::TemplateDecl* templateDecl)
 {
-	std::vector<std::string> templateParameterStrings;
+	std::vector<std::wstring> templateParameterStrings;
 	clang::TemplateParameterList* parameterList = templateDecl->getTemplateParameters();
 	for (size_t i = 0; i < parameterList->size(); i++)
 	{
@@ -478,13 +478,13 @@ std::vector<std::string> CxxDeclNameResolver::getTemplateParameterStrings(const 
 	return templateParameterStrings;
 }
 
-std::string CxxDeclNameResolver::getTemplateParameterString(const clang::NamedDecl* parameter)
+std::wstring CxxDeclNameResolver::getTemplateParameterString(const clang::NamedDecl* parameter)
 {
-	std::string templateParameterTypeString;
+	std::wstring templateParameterTypeString;
 
 	if (parameter)
 	{
-		clang::Decl::Kind templateParameterKind = parameter->getKind();
+		const clang::Decl::Kind templateParameterKind = parameter->getKind();
 		switch (templateParameterKind)
 		{
 		case clang::Decl::NonTypeTemplateParm:
@@ -501,16 +501,16 @@ std::string CxxDeclNameResolver::getTemplateParameterString(const clang::NamedDe
 			break;
 		}
 
-		std::string parameterName = parameter->getName();
+		std::wstring parameterName = utility::decodeFromUtf8(parameter->getName());
 		if (!parameterName.empty())
 		{
-			templateParameterTypeString += " " + parameterName;
+			templateParameterTypeString += L" " + parameterName;
 		}
 	}
 	return templateParameterTypeString;
 }
 
-std::string CxxDeclNameResolver::getTemplateParameterTypeString(const clang::NonTypeTemplateParmDecl* parameter)
+std::wstring CxxDeclNameResolver::getTemplateParameterTypeString(const clang::NonTypeTemplateParmDecl* parameter)
 {
 	CxxTypeNameResolver typeNameResolver(getCanonicalFilePathCache(), getIgnoredContextDecls());
 
@@ -523,49 +523,49 @@ std::string CxxDeclNameResolver::getTemplateParameterTypeString(const clang::Non
 		typeNameResolver.ignoreContextDecl(m_currentDecl);
 	}
 
-	std::string typeString;
+	std::wstring typeString;
 
 	std::shared_ptr<CxxTypeName> typeName = CxxTypeName::makeUnsolvedIfNull(typeNameResolver.getName(parameter->getType()));
 	typeString = typeName->toString();
 
 	if (parameter->isTemplateParameterPack())
 	{
-		typeString += "...";
+		typeString += L"...";
 	}
 	return typeString;
 }
 
-std::string CxxDeclNameResolver::getTemplateParameterTypeString(const clang::TemplateTypeParmDecl* parameter)
+std::wstring CxxDeclNameResolver::getTemplateParameterTypeString(const clang::TemplateTypeParmDecl* parameter)
 {
-	std::string typeString = (parameter->wasDeclaredWithTypename() ? "typename" : "class");
+	std::wstring typeString = (parameter->wasDeclaredWithTypename() ? L"typename" : L"class");
 	if (parameter->isTemplateParameterPack())
 	{
-		typeString += "...";
+		typeString += L"...";
 	}
 	return typeString;
 }
 
-std::string CxxDeclNameResolver::getTemplateParameterTypeString(const clang::TemplateTemplateParmDecl* parameter)
+std::wstring CxxDeclNameResolver::getTemplateParameterTypeString(const clang::TemplateTemplateParmDecl* parameter)
 {
-	std::string templateParameterTypeString = "template<";
+	std::wstring templateParameterTypeString = L"template<";
 	clang::TemplateParameterList* parameterList = parameter->getTemplateParameters();
 	for (size_t i = 0; i < parameterList->size(); i++)
 	{
 		templateParameterTypeString += getTemplateParameterString(parameterList->getParam(i));
-		templateParameterTypeString += (i < parameterList->size() - 1) ? ", " : "";
+		templateParameterTypeString += (i < parameterList->size() - 1) ? L", " : L"";
 	}
-	templateParameterTypeString += ">";
-	templateParameterTypeString += " typename"; // TODO: what if template template parameter is defined with class keyword?
+	templateParameterTypeString += L">";
+	templateParameterTypeString += L" typename"; // TODO: what if template template parameter is defined with class keyword?
 
 	if (parameter->isTemplateParameterPack())
 	{
-		templateParameterTypeString += "...";
+		templateParameterTypeString += L"...";
 	}
 
 	return templateParameterTypeString;
 }
 
-std::string CxxDeclNameResolver::getTemplateArgumentName(const clang::TemplateArgument& argument)
+std::wstring CxxDeclNameResolver::getTemplateArgumentName(const clang::TemplateArgument& argument)
 {
 	CxxTemplateArgumentNameResolver resolver(getCanonicalFilePathCache(), getIgnoredContextDecls());
 	return resolver.getTemplateArgumentName(argument);

@@ -16,6 +16,7 @@
 #include "utility/file/FilePath.h"
 #include "utility/math/Vector2.h"
 #include "utility/TimeStamp.h"
+#include "utility/utilityString.h"
 
 namespace utility
 {
@@ -250,7 +251,7 @@ inline std::vector<std::string> utility::toStrings<FilePath>(const std::vector<F
 	std::vector<std::string> v;
 	for (const FilePath& t : d)
 	{
-		v.push_back(t.str());
+		v.push_back(utility::encodeToUtf8(t.wstr()));
 	}
 	return v;
 }

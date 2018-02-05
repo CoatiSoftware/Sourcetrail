@@ -83,41 +83,41 @@ public:
 	void setNextId(const Id nextId);
 
 private:
-	std::string serialize(const StorageNodeData& nodeData) const;
-	std::string serialize(const StorageFile& file) const;
-	std::string serialize(const StorageEdgeData& edgeData) const;
-	std::string serialize(const StorageLocalSymbolData& localSymbolData) const;
-	std::string serialize(const StorageSourceLocationData& sourceLocationData) const;
-	std::string serialize(const StorageOccurrence& occurrence) const;
-	std::string serialize(const StorageComponentAccessData& componentAccessData) const;
-	std::string serialize(const StorageCommentLocationData& commentLocationData) const;
-	std::string serialize(const StorageErrorData& errorData) const;
+	std::wstring serialize(const StorageNodeData& nodeData) const;
+	std::wstring serialize(const StorageFile& file) const;
+	std::wstring serialize(const StorageEdgeData& edgeData) const;
+	std::wstring serialize(const StorageLocalSymbolData& localSymbolData) const;
+	std::wstring serialize(const StorageSourceLocationData& sourceLocationData) const;
+	std::wstring serialize(const StorageOccurrence& occurrence) const;
+	std::wstring serialize(const StorageComponentAccessData& componentAccessData) const;
+	std::wstring serialize(const StorageCommentLocationData& commentLocationData) const;
+	std::wstring serialize(const StorageErrorData& errorData) const;
 
-	std::unordered_map<std::string, size_t> m_nodesIndex;
+	std::unordered_map<std::wstring, size_t> m_nodesIndex;
 	std::vector<StorageNode> m_nodes;
 
-	std::unordered_set<std::string> m_serializedFiles; // this is used to prevent duplicates (unique)
+	std::unordered_set<std::wstring> m_serializedFiles; // this is used to prevent duplicates (unique)
 	std::vector<StorageFile> m_files;
 
 	std::vector<StorageSymbol> m_symbols;
 
-	std::unordered_map<std::string, size_t> m_edgesIndex;
+	std::unordered_map<std::wstring, size_t> m_edgesIndex;
 	std::vector<StorageEdge> m_edges;
 
-	std::unordered_map<std::string, StorageLocalSymbol> m_localSymbols;
+	std::unordered_map<std::wstring, StorageLocalSymbol> m_localSymbols;
 
-	std::unordered_map<std::string, StorageSourceLocation> m_sourceLocations;
+	std::unordered_map<std::wstring, StorageSourceLocation> m_sourceLocations;
 
-	std::unordered_set<std::string> m_serializedOccurrences; // this is used to prevent duplicates (unique)
+	std::unordered_set<std::wstring> m_serializedOccurrences; // this is used to prevent duplicates (unique)
 	std::vector<StorageOccurrence> m_occurrences;
 
-	std::unordered_set<std::string> m_serializedComponentAccesses; // this is used to prevent duplicates (unique)
+	std::unordered_set<std::wstring> m_serializedComponentAccesses; // this is used to prevent duplicates (unique)
 	std::vector<StorageComponentAccessData> m_componentAccesses;
 
-	std::unordered_set<std::string> m_serializedCommentLocations; // this is used to prevent duplicates (unique)
+	std::unordered_set<std::wstring> m_serializedCommentLocations; // this is used to prevent duplicates (unique)
 	std::vector<StorageCommentLocationData> m_commentLocations;
 
-	std::unordered_set<std::string> m_serializedErrors; // this is used to prevent duplicates (unique)
+	std::unordered_set<std::wstring> m_serializedErrors; // this is used to prevent duplicates (unique)
 	std::vector<StorageErrorData> m_errors;
 
 	Id m_nextId;

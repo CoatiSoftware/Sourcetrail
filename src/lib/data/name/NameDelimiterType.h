@@ -11,9 +11,9 @@ enum NameDelimiterType
 	NAME_DELIMITER_JAVA
 };
 
-std::string nameDelimiterTypeToString(NameDelimiterType delimiter);
-NameDelimiterType stringToNameDelimiterType(const std::string& s);
+std::wstring nameDelimiterTypeToString(NameDelimiterType delimiter);
+NameDelimiterType stringToNameDelimiterType(const std::wstring& s);
 
-NameDelimiterType detectDelimiterType(const std::string& name);
+NameDelimiterType detectDelimiterType(const std::wstring& name);
 
 #endif // NAME_DELIMITER_TYPE_H
