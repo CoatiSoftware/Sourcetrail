@@ -6,6 +6,7 @@
 #include <QLabel>
 #include <QLineEdit>
 #include <QTextCodec>
+#include <QTimer>
 
 #include "qt/utility/utilityQt.h"
 #include "settings/ApplicationSettings.h"
@@ -45,11 +46,30 @@ void QtProjectWizzardContentPreferences::populate(QGridLayout* layout, int& row)
 	addTitle("USER INTERFACE", layout, row);
 
 	// font face
-	m_fontFace = new QFontComboBox(this);
-	m_fontFace->setFontFilters(QFontComboBox::MonospacedFonts);
-	m_fontFace->setWritingSystem(QFontDatabase::Latin);
+	m_fontFacePlaceHolder = new QtComboBoxPlaceHolder();
+	m_fontFace = new QFontComboBox();
 	m_fontFace->setEditable(false);
-	addLabelAndWidget("Font Face", m_fontFace, layout, row);
+	addLabelAndWidget("Font Face", m_fontFacePlaceHolder, layout, row);
+
+	int rowNum = row;
+	connect(m_fontFacePlaceHolder, &QtComboBoxPlaceHolder::opened,
+		[this, rowNum, layout]()
+		{
+			m_fontFacePlaceHolder->hide();
+
+			QString name = m_fontFace->currentText();
+			m_fontFace->setFontFilters(QFontComboBox::MonospacedFonts);
+			m_fontFace->setWritingSystem(QFontDatabase::Latin);
+			m_fontFace->setCurrentText(name);
+
+			addWidget(m_fontFace, layout, rowNum);
+
+			QTimer::singleShot(10, [this]()
+			{
+				m_fontFace->showPopup();
+			});
+		}
+	);
 	row++;
 
 	// font size
@@ -359,7 +379,10 @@ void QtProjectWizzardContentPreferences::load()
 {
 	ApplicationSettings* appSettings = ApplicationSettings::getInstance().get();
 
-	m_fontFace->setCurrentText(QString::fromStdString(appSettings->getFontName()));
+	QString fontName = QString::fromStdString(appSettings->getFontName());
+	m_fontFace->setCurrentText(fontName);
+	m_fontFacePlaceHolder->addItem(fontName);
+	m_fontFacePlaceHolder->setCurrentText(fontName);
 
 	m_fontSize->setCurrentIndex(appSettings->getFontSize() - appSettings->getFontSizeMin());
 	m_tabWidth->setCurrentIndex(appSettings->getCodeTabWidth() - 1);
@@ -695,11 +718,22 @@ void QtProjectWizzardContentPreferences::addTitle(QString title, QGridLayout* la
 	layout->addWidget(createFormTitle(title), row++, QtProjectWizzardWindow::FRONT_COL, Qt::AlignLeft);
 }
 
-void QtProjectWizzardContentPreferences::addLabelAndWidget(
-	QString label, QWidget* widget, QGridLayout* layout, int& row, Qt::Alignment widgetAlignment)
+void QtProjectWizzardContentPreferences::addLabel(QString label, QGridLayout* layout, int row)
 {
 	layout->addWidget(createFormLabel(label), row, QtProjectWizzardWindow::FRONT_COL, Qt::AlignRight);
+}
+
+void QtProjectWizzardContentPreferences::addWidget(
+	QWidget* widget, QGridLayout* layout, int row, Qt::Alignment widgetAlignment)
+{
 	layout->addWidget(widget, row, QtProjectWizzardWindow::BACK_COL, widgetAlignment);
+}
+
+void QtProjectWizzardContentPreferences::addLabelAndWidget(
+	QString label, QWidget* widget, QGridLayout* layout, int row, Qt::Alignment widgetAlignment)
+{
+	addLabel(label, layout, row);
+	addWidget(widget, layout, row, widgetAlignment);
 }
 
 void QtProjectWizzardContentPreferences::addGap(QGridLayout* layout, int& row)

@@ -1,16 +1,33 @@
 #ifndef QT_PROJECT_WIZZARD_CONTENT_PREFERENCES_H
 #define QT_PROJECT_WIZZARD_CONTENT_PREFERENCES_H
 
+#include <QComboBox>
+
 #include "qt/element/QtLocationPicker.h"
 #include "qt/element/QtDirectoryListBox.h"
 #include "qt/window/project_wizzard/QtProjectWizzardContent.h"
 #include "utility/path_detector/CombinedPathDetector.h"
 
 class QCheckBox;
-class QComboBox;
 class QFontComboBox;
 class QLabel;
 class QLineEdit;
+
+
+class QtComboBoxPlaceHolder
+	: public QComboBox
+{
+	Q_OBJECT
+
+signals:
+	void opened();
+
+public:
+	virtual void showPopup()
+	{
+		emit opened();
+	}
+};
 
 
 class QtProjectWizzardContentPreferences
@@ -45,8 +62,10 @@ private:
 	void addMavenPathDetection(QGridLayout* layout, int& row);
 
 	void addTitle(QString title, QGridLayout* layout, int& row);
+	void addLabel(QString label, QGridLayout* layout, int row);
+	void addWidget(QWidget* widget, QGridLayout* layout, int row, Qt::Alignment widgetAlignment = Qt::Alignment());
 	void addLabelAndWidget(
-		QString label, QWidget* widget, QGridLayout* layout, int& row, Qt::Alignment widgetAlignment = Qt::Alignment());
+		QString label, QWidget* widget, QGridLayout* layout, int row, Qt::Alignment widgetAlignment = Qt::Alignment());
 	void addGap(QGridLayout* layout, int& row);
 
 	QCheckBox* addCheckBox(QString label, QString text, QString helpText, QGridLayout* layout, int& row);
@@ -59,6 +78,8 @@ private:
 	QLineEdit* addLineEdit(QString label, QString helpText, QGridLayout* layout, int& row);
 
 	QFontComboBox* m_fontFace;
+	QtComboBoxPlaceHolder* m_fontFacePlaceHolder;
+
 	QComboBox* m_fontSize;
 	QComboBox* m_tabWidth;
 	QComboBox* m_textEncoding;
