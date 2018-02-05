@@ -14,9 +14,15 @@ public:
 		sourcePaths.push_back(FilePath(L"./data/FileManagerTestSuite/include/"));
 		std::vector<FilePath> headerPaths;
 		std::vector<FilePath> excludePaths;
-		const wchar_t specialCharacter(252);
 		std::wstring specialExtension = L".";
+#ifdef _WIN32
+		const wchar_t specialCharacter(252);
 		specialExtension += specialCharacter;
+#else
+		std::wstring c;
+		specialExtension += wchar_t(117);
+		specialExtension += wchar_t(776);
+#endif
 		std::vector<std::wstring> sourceExtensions = { L".cpp", L".c", specialExtension };
 
 		FileManager fm;
@@ -27,6 +33,5 @@ public:
 		TS_ASSERT(utility::containsElement<FilePath>(filePaths, FilePath(L"./data/FileManagerTestSuite/src/a.cpp")));
 		TS_ASSERT(utility::containsElement<FilePath>(filePaths, FilePath(L"./data/FileManagerTestSuite/src/d.c")));
 		TS_ASSERT(utility::containsElement<FilePath>(filePaths, FilePath(L"./data/FileManagerTestSuite/src/e" + specialExtension)));
-		int ee = 0;
 	}
 };

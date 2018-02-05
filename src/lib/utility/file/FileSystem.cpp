@@ -8,9 +8,9 @@
 #include "utility/utilityString.h"
 
 std::vector<FilePath> FileSystem::getFilePathsFromDirectory(
-	const FilePath& path, const std::vector<std::string>& extensions
+	const FilePath& path, const std::vector<std::wstring>& extensions
 ){
-	std::set<std::string> ext(extensions.begin(), extensions.end());
+	std::set<std::wstring> ext(extensions.begin(), extensions.end());
 	std::vector<FilePath> files;
 
 	if (path.isDirectory())
@@ -30,7 +30,7 @@ std::vector<FilePath> FileSystem::getFilePathsFromDirectory(
 				}
 			}
 
-			if (boost::filesystem::is_regular_file(*it) && (ext.empty() || ext.find(it->path().extension().string()) != ext.end()))
+			if (boost::filesystem::is_regular_file(*it) && (ext.empty() || ext.find(it->path().extension().wstring()) != ext.end()))
 			{
 				files.push_back(FilePath(it->path().generic_wstring()));
 			}
@@ -55,7 +55,8 @@ std::vector<FileInfo> FileSystem::getFileInfosFromPaths(
 	std::set<std::wstring> ext;
 	for (const std::wstring& e : fileExtensions)
 	{
-		ext.insert(utility::toLowerCase(e));
+		// ext.insert(utility::toLowerCase(e));
+		ext.insert(e);
 	}
 
 	std::set<boost::filesystem::path> symlinkDirs;

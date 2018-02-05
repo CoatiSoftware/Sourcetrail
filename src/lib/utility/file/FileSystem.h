@@ -12,7 +12,7 @@ class FileSystem
 {
 public:
 	static std::vector<FilePath> getFilePathsFromDirectory(
-		const FilePath& path, const std::vector<std::string>& extensions = {});
+		const FilePath& path, const std::vector<std::wstring>& extensions = {});
 
 	static FileInfo getFileInfoForPath(const FilePath& filePath);
 

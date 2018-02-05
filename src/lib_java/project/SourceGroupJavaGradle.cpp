@@ -46,7 +46,7 @@ std::vector<FilePath> SourceGroupJavaGradle::doGetClassPath() const
 	{
 		std::vector<FilePath> gradleJarPaths = FileSystem::getFilePathsFromDirectory(
 			m_settings->getGradleDependenciesDirectoryExpandedAndAbsolute(),
-			{".jar"}
+			{ L".jar" }
 		);
 
 		for (const FilePath& gradleJarPath : gradleJarPaths)
@@ -97,12 +97,12 @@ bool SourceGroupJavaGradle::prepareGradleData()
 		ScopedFunctor dialogHider([&dialogView]() {
 			dialogView->hideUnknownProgressDialog();
 		});
-		
+
 		dialogView->showUnknownProgressDialog("Preparing Project", "Gradle\nExporting Dependencies");
 
 		bool success = utility::gradleCopyDependencies(
-			projectRootPath, 
-			m_settings->getGradleDependenciesDirectoryExpandedAndAbsolute(), 
+			projectRootPath,
+			m_settings->getGradleDependenciesDirectoryExpandedAndAbsolute(),
 			m_settings->getShouldIndexGradleTests()
 		);
 

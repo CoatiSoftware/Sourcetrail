@@ -37,9 +37,9 @@ namespace utility
 		widget->setSizePolicy(pol);
 	}
 
-	void loadFontsFromDirectory(const FilePath& path, const std::string& extension)
+	void loadFontsFromDirectory(const FilePath& path, const std::wstring& extension)
 	{
-		std::vector<std::string> extensions;
+		std::vector<std::wstring> extensions;
 		extensions.push_back(extension);
 		std::vector<FilePath> fontFilePaths = FileSystem::getFilePathsFromDirectory(path, extensions);
 

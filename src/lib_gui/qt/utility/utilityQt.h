@@ -15,7 +15,7 @@ namespace utility
 	void setWidgetBackgroundColor(QWidget* widget, const std::string& color);
 	void setWidgetRetainsSpaceWhenHidden(QWidget* widget);
 
-	void loadFontsFromDirectory(const FilePath& path, const std::string& extension = ".otf");
+	void loadFontsFromDirectory(const FilePath& path, const std::wstring& extension = L".otf");
 
 	std::string getStyleSheet(const FilePath& path);
 

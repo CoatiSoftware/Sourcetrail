@@ -46,7 +46,7 @@ std::vector<FilePath> SourceGroupJavaMaven::doGetClassPath() const
 	{
 		std::vector<FilePath> mavenJarPaths = FileSystem::getFilePathsFromDirectory(
 			m_settings->getMavenDependenciesDirectoryExpandedAndAbsolute(),
-			utility::createVectorFromElements<std::string>(".jar")
+			{ L".jar" }
 		);
 
 		for (const FilePath& mavenJarPath : mavenJarPaths)

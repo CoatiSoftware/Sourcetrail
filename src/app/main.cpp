@@ -320,8 +320,8 @@ int main(int argc, char *argv[])
 		prefillPaths();
 		addLanguageModules();
 
-		utility::loadFontsFromDirectory(ResourcePaths::getFontsPath(), ".otf");
-		utility::loadFontsFromDirectory(ResourcePaths::getFontsPath(), ".ttf");
+		utility::loadFontsFromDirectory(ResourcePaths::getFontsPath(), L".otf");
+		utility::loadFontsFromDirectory(ResourcePaths::getFontsPath(), L".ttf");
 
 		if (commandLineParser.hasError())
 		{

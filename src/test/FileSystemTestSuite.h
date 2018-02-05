@@ -13,11 +13,8 @@ class FileSystemTestSuite: public CxxTest::TestSuite
 public:
 	void test_find_cpp_files()
 	{
-		std::vector<std::string> extensions;
-		extensions.push_back(".cpp");
-
 		std::vector<std::wstring> cppFiles = utility::convert<FilePath, std::wstring>(
-			FileSystem::getFilePathsFromDirectory(FilePath(L"data/FileSystemTestSuite"), extensions),
+			FileSystem::getFilePathsFromDirectory(FilePath(L"data/FileSystemTestSuite"), { L".cpp" }),
 			[](const FilePath& filePath){ return filePath.wstr(); }
 		);
 
@@ -30,11 +27,8 @@ public:
 
 	void test_find_h_files()
 	{
-		std::vector<std::string> extensions;
-		extensions.push_back(".h");
-
 		std::vector<std::wstring> headerFiles = utility::convert<FilePath, std::wstring>(
-			FileSystem::getFilePathsFromDirectory(FilePath("data/FileSystemTestSuite"), extensions),
+			FileSystem::getFilePathsFromDirectory(FilePath("data/FileSystemTestSuite"), { L".h" }),
 			[](const FilePath& filePath){ return filePath.wstr(); }
 		);
 
@@ -46,13 +40,8 @@ public:
 
 	void test_find_all_source_files()
 	{
-		std::vector<std::string> extensions;
-		extensions.push_back(".h");
-		extensions.push_back(".hpp");
-		extensions.push_back(".cpp");
-
 		std::vector<std::string> sourceFiles = utility::convert<FilePath, std::string>(
-			FileSystem::getFilePathsFromDirectory(FilePath(L"data/FileSystemTestSuite"), extensions),
+			FileSystem::getFilePathsFromDirectory(FilePath(L"data/FileSystemTestSuite"), { L".h", L".hpp", L".cpp" }),
 			[](const FilePath& filePath){ return filePath.str(); }
 		);
 
@@ -62,15 +51,10 @@ public:
 	void test_find_file_infos()
 	{
 #ifndef _WIN32
-		std::vector<std::string> extensions;
-		extensions.push_back(".h");
-		extensions.push_back(".hpp");
-		extensions.push_back(".cpp");
-
 		std::vector<FilePath> directoryPaths;
 		directoryPaths.push_back(FilePath(L"./data/FileSystemTestSuite/src"));
 
-		std::vector<FileInfo> files = FileSystem::getFileInfosFromPaths(directoryPaths, extensions, false);
+		std::vector<FileInfo> files = FileSystem::getFileInfosFromPaths(directoryPaths, { L".h", L".hpp", L".cpp" }, false);
 
 		TS_ASSERT_EQUALS(files.size(), 2);
 		TS_ASSERT(isInFileInfos(files, L"./data/FileSystemTestSuite/src/test.cpp"));
@@ -81,15 +65,10 @@ public:
 	void test_find_file_infos_with_symlinks()
 	{
 #ifndef _WIN32
-		std::vector<std::string> extensions;
-		extensions.push_back(".h");
-		extensions.push_back(".hpp");
-		extensions.push_back(".cpp");
-
 		std::vector<FilePath> directoryPaths;
 		directoryPaths.push_back(FilePath(L"./data/FileSystemTestSuite/src"));
 
-		std::vector<FileInfo> files = FileSystem::getFileInfosFromPaths(directoryPaths, extensions, true);
+		std::vector<FileInfo> files = FileSystem::getFileInfosFromPaths(directoryPaths, { L".h", L".hpp", L".cpp" }, true);
 
 		TS_ASSERT_EQUALS(files.size(), 5);
 		TS_ASSERT(isInFileInfos(files, L"./data/FileSystemTestSuite/src/Settings/player.h",

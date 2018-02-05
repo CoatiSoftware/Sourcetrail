@@ -26,7 +26,7 @@ QtProjectWizzardContentPreferences::QtProjectWizzardContentPreferences(
 	, m_screenScaleFactor(nullptr)
 {
 	m_colorSchemePaths =
-		FileSystem::getFilePathsFromDirectory(ResourcePaths::getColorSchemesPath(), std::vector<std::string>(1, ".xml"));
+		FileSystem::getFilePathsFromDirectory(ResourcePaths::getColorSchemesPath(), { L".xml" });
 }
 
 QtProjectWizzardContentPreferences::~QtProjectWizzardContentPreferences()
