@@ -889,10 +889,10 @@ void QtMainWindow::setupHistoryMenu()
 	for (size_t i = 0; i < m_history.size(); i++)
 	{
 		SearchMatch& match = m_history[i];
-		std::string name = utility::elide(match.nodeType.isFile() ? match.text : match.name, utility::ELIDE_RIGHT, 50);
+		const std::wstring name = utility::elide(match.nodeType.isFile() ? match.text : match.name, utility::ELIDE_RIGHT, 50);
 
 		QAction* action = new QAction();
-		action->setText(name.c_str());
+		action->setText(QString::fromStdWString(name));
 		action->setData(QVariant(int(i)));
 
 		connect(action, &QAction::triggered, this, &QtMainWindow::openHistoryAction);

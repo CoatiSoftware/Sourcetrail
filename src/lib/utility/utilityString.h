@@ -55,12 +55,15 @@ namespace utility
 	std::string toUpperCase(const std::string& in);
 	std::string toLowerCase(const std::string& in);
 	std::wstring toLowerCase(const std::wstring& in);
+
+	template <typename StringType>
 	bool equalsCaseInsensitive(const std::string& a, const std::string& b);
 
 	std::string replace(std::string str, const std::string& from, const std::string& to);
 	std::wstring replace(std::wstring str, const std::wstring& from, const std::wstring& to);
 
 	std::string replaceBetween(const std::string& str, char startDelimiter, char endDelimiter, const std::string& to);
+	std::wstring replaceBetween(const std::wstring& str, wchar_t startDelimiter, wchar_t endDelimiter, const std::wstring& to);
 
 	std::string insertLineBreaksAtBlankSpaces(const std::string& s, size_t maxLineLength);
 	std::string breakSignature(
@@ -132,6 +135,7 @@ namespace utility
 		return ss.str();
 	}
 
+
 	template <typename ContainerType>
 	std::wstring join(const ContainerType& list, const std::wstring& delimiter)
 	{
@@ -148,6 +152,16 @@ namespace utility
 			ss << str;
 		}
 		return ss.str();
+	}
+
+	template <typename StringType>
+	bool equalsCaseInsensitive(const StringType& a, const StringType& b)
+	{
+		if (a.size() == b.size())
+		{
+			return toLowerCase(a) == toLowerCase(b);
+		}
+		return false;
 	}
 }
 

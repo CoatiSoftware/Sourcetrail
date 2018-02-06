@@ -50,12 +50,12 @@ void SearchController::handleMessage(MessageActivateTokens* message)
 
 		for (const NameHierarchy& name : message->tokenNames)
 		{
-			matches.push_back(SearchMatch(utility::encodeToUtf8(name.getQualifiedName())));
+			matches.push_back(SearchMatch(name.getQualifiedName()));
 		}
 
 		if (!matches.size())
 		{
-			matches.push_back(SearchMatch("<invalid>"));
+			matches.push_back(SearchMatch(L"<invalid>"));
 		}
 
 		getView()->setMatches(matches);
@@ -86,14 +86,14 @@ void SearchController::handleMessage(MessageSearchAutocomplete* message)
 		return;
 	}
 
-	LOG_INFO("autocomplete string: \"" + message->query + "\"");
+	LOG_INFO(L"autocomplete string: \"" + message->query + L"\"");
 	view->setAutocompletionList(m_storageAccess->getAutocompletionMatches(message->query, message->acceptedNodeTypes));
 }
 
 void SearchController::handleMessage(MessageSearchFullText* message)
 {
-	LOG_INFO("fulltext string: \"" + message->searchTerm + "\"");
-	std::string prefix(message->caseSensitive ? 2 : 1, SearchMatch::FULLTEXT_SEARCH_CHARACTER);
+	LOG_INFO(L"fulltext string: \"" + message->searchTerm + L"\"");
+	std::wstring prefix(message->caseSensitive ? 2 : 1, SearchMatch::FULLTEXT_SEARCH_CHARACTER);
 
 	SearchMatch match(prefix + message->searchTerm);
 	match.searchType = SearchMatch::SEARCH_FULLTEXT;

@@ -6,7 +6,7 @@
 class MessageSearchFullText: public Message<MessageSearchFullText>
 {
 public:
-	MessageSearchFullText(const std::string& searchTerm, bool caseSensitive = false)
+	MessageSearchFullText(const std::wstring& searchTerm, bool caseSensitive = false)
 		: searchTerm(searchTerm)
 		, caseSensitive(caseSensitive)
 	{
@@ -19,10 +19,10 @@ public:
 
 	virtual void print(std::wostream& os) const
 	{
-		os << utility::decodeFromUtf8(searchTerm);
+		os << searchTerm;
 	}
 
-	const std::string searchTerm;
+	const std::wstring searchTerm;
 	bool caseSensitive;
 };
 

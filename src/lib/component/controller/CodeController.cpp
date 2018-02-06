@@ -339,7 +339,7 @@ void CodeController::handleMessage(MessageSearchFullText* message)
 
 	saveOrRestoreViewMode(message);
 
-	m_collection = m_storageAccess->getFullTextSearchLocations(message->searchTerm, message->caseSensitive);
+	m_collection = m_storageAccess->getFullTextSearchLocations(utility::encodeToUtf8(message->searchTerm), message->caseSensitive);
 
 	CodeView::ScrollParams scrollParams(CodeView::ScrollParams::SCROLL_TO_DEFINITION);
 	getView()->scrollTo(scrollParams);

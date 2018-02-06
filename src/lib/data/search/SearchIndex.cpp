@@ -16,18 +16,18 @@ SearchIndex::~SearchIndex()
 {
 }
 
-void SearchIndex::addNode(Id id, const std::string& name, NodeTypeSet typeSet)
+void SearchIndex::addNode(Id id, const std::wstring& name, NodeTypeSet typeSet)
 {
 	SearchNode* currentNode = m_root;
 
-	std::string remaining = name;
+	std::wstring remaining = name;
 	while (remaining.size() > 0)
 	{
 		auto it = currentNode->edges.find(remaining[0]);
 		if (it != currentNode->edges.end())
 		{
 			SearchEdge* currentEdge = it->second;
-			const std::string& edgeString = currentEdge->s;
+			const std::wstring& edgeString = currentEdge->s;
 
 			size_t matchCount = 1;
 			for (size_t j = 1; j < edgeString.size() && j < remaining.size(); j++)
@@ -72,7 +72,7 @@ void SearchIndex::addNode(Id id, const std::string& name, NodeTypeSet typeSet)
 			currentNode->edges.emplace(e->s[0], e.get());
 			currentNode = n.get();
 
-			remaining = "";
+			remaining = L"";
 		}
 	}
 
@@ -100,7 +100,7 @@ void SearchIndex::clear()
 }
 
 std::vector<SearchResult> SearchIndex::search(
-	const std::string& query, NodeTypeSet acceptedNodeTypes, size_t maxResultCount, size_t maxBestScoredResultsLength) const
+	const std::wstring& query, NodeTypeSet acceptedNodeTypes, size_t maxResultCount, size_t maxBestScoredResultsLength) const
 {
 	// find paths containing query
 	SearchPath startPath;
@@ -113,7 +113,7 @@ std::vector<SearchResult> SearchIndex::search(
 	std::multiset<SearchResult> searchResults = createScoredResults(paths, acceptedNodeTypes, maxResultCount * 3);
 
 	// find best scores
-	std::map<std::string, SearchResult> scoresCache;
+	std::map<std::wstring, SearchResult> scoresCache;
 	std::multiset<SearchResult> bestResults;
 	for (const SearchResult& result : searchResults)
 	{
@@ -147,7 +147,7 @@ void SearchIndex::populateEdgeGate(SearchEdge* e)
 }
 
 void SearchIndex::searchRecursive(
-	const SearchPath& path, const std::string& remainingQuery, NodeTypeSet acceptedNodeTypes,
+	const SearchPath& path, const std::wstring& remainingQuery, NodeTypeSet acceptedNodeTypes,
 	std::vector<SearchIndex::SearchPath>* results) const
 {
 	if (remainingQuery.size() == 0 && (acceptedNodeTypes.intersectsWith(path.node->containedTypes)))
@@ -174,7 +174,7 @@ void SearchIndex::searchRecursive(
 		if (passesGate)
 		{
 			// consume characters for edge
-			const std::string& edgeString = currentEdge->s;
+			const std::wstring& edgeString = currentEdge->s;
 
 			SearchPath currentPath;
 			currentPath.node = currentEdge->target;
@@ -253,9 +253,9 @@ std::multiset<SearchResult> SearchIndex::createScoredResults(
 }
 
 SearchResult SearchIndex::bestScoredResult(
-	SearchResult result, std::map<std::string, SearchResult>* scoresCache, size_t maxBestScoredResultsLength)
+	SearchResult result, std::map<std::wstring, SearchResult>* scoresCache, size_t maxBestScoredResultsLength)
 {
-	std::string text = result.text;
+	std::wstring text = result.text;
 
 	if (maxBestScoredResultsLength && result.text.size() > maxBestScoredResultsLength)
 	{
@@ -289,8 +289,8 @@ SearchResult SearchIndex::bestScoredResult(
 }
 
 void SearchIndex::bestScoredResultRecursive(
-	const std::string& lowerText, const std::vector<size_t>& indices, const size_t lastIndex, const size_t indicesPos,
-	std::map<std::string, SearchResult>* scoresCache, SearchResult* result)
+	const std::wstring& lowerText, const std::vector<size_t>& indices, const size_t lastIndex, const size_t indicesPos,
+	std::map<std::wstring, SearchResult>* scoresCache, SearchResult* result)
 {
 	// left for debugging
 	// std::cout << lowerText << std::endl;
@@ -316,7 +316,7 @@ void SearchIndex::bestScoredResultRecursive(
 		{
 			if (lowerText[i] == lowerText[lastIndex])
 			{
-				std::string lowerTextPart = result->text.substr(0, i + 1);
+				std::wstring lowerTextPart = result->text.substr(0, i + 1);
 
 				auto it = scoresCache->find(lowerTextPart);
 				if (it != scoresCache->end())
@@ -380,7 +380,7 @@ void SearchIndex::bestScoredResultRecursive(
 	}
 }
 
-int SearchIndex::scoreText(const std::string& text, const std::vector<size_t>& indices)
+int SearchIndex::scoreText(const std::wstring& text, const std::vector<size_t>& indices)
 {
 	const int unmatchedLetterBonus = -1;
 	const int consecutiveLetterBonus = 4;
@@ -389,20 +389,6 @@ int SearchIndex::scoreText(const std::string& text, const std::vector<size_t>& i
 	const int firstLetterBonus = 4;
 	const int delayedStartBonus = -1;
 	const int minDelayedStartBonus = -20;
-
-	static bool isNoLetter[256] = { false };
-	if (!isNoLetter[int(' ')])
-	{
-		isNoLetter[int(' ')] = true;
-		isNoLetter[int('.')] = true;
-		isNoLetter[int(',')] = true;
-		isNoLetter[int('_')] = true;
-		isNoLetter[int(':')] = true;
-		isNoLetter[int('<')] = true;
-		isNoLetter[int('>')] = true;
-		isNoLetter[int('/')] = true;
-		isNoLetter[int('\\')] = true;
-	}
 
 	int unmatchedLetterScore = 0;
 	int consecutiveLetterScore = 0;
@@ -427,7 +413,7 @@ int SearchIndex::scoreText(const std::string& text, const std::vector<size_t>& i
 			firstLetterScore += firstLetterBonus;
 		}
 		// after no letter
-		else if (index != 0 && isNoLetter[ int(text[index - 1]) ])
+		else if (index != 0 && isNoLetter(text[index - 1]))
 		{
 			noLetterScore += noLetterBonus;
 		}
@@ -462,8 +448,8 @@ int SearchIndex::scoreText(const std::string& text, const std::vector<size_t>& i
 }
 
 SearchResult SearchIndex::rescoreText(
-	const std::string& fulltext,
-	const std::string& text,
+	const std::wstring& fulltext,
+	const std::wstring& text,
 	const std::vector<size_t>& indices,
 	int score,
 	size_t maxBestScoredResultsLength)
@@ -514,7 +500,7 @@ SearchResult SearchIndex::rescoreText(
 	result.score = scoreText(text, textIndices);
 	result.indices = textIndices;
 
-	std::map<std::string, SearchResult> scoresCache;
+	std::map<std::wstring, SearchResult> scoresCache;
 	result = bestScoredResult(result, &scoresCache, maxBestScoredResultsLength);
 
 	for (size_t i = 0; i < result.indices.size(); i++)
@@ -524,3 +510,22 @@ SearchResult SearchIndex::rescoreText(
 
 	return result;
 }
+
+bool SearchIndex::isNoLetter(const wchar_t c)
+{
+	switch (c)
+	{
+	case L' ':
+	case L'.':
+	case L',':
+	case L'_':
+	case L':':
+	case L'<':
+	case L'>':
+	case L'/':
+	case L'\\':
+		return true;
+	}
+	return false;
+}
+

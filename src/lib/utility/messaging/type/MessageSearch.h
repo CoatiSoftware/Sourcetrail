@@ -24,7 +24,7 @@ public:
 
 	std::wstring getMatchesAsString() const
 	{
-		std::stringstream ss;
+		std::wstringstream ss;
 
 		for (size_t i = 0; i < m_matches.size(); i++)
 		{
@@ -37,13 +37,16 @@ public:
 			{
 				if (!m_matches[i].subtext.empty())
 				{
-					ss << m_matches[i].subtext << m_matches[i].delimiter;
+					ss << m_matches[i].subtext << nameDelimiterTypeToString(m_matches[i].delimiter) << m_matches[i].text;
 				}
-				ss << m_matches[i].name;
+				else
+				{
+					ss << m_matches[i].name;
+				}
 			}
 		}
 
-		return utility::decodeFromUtf8(ss.str());
+		return ss.str();
 	}
 
 	const std::vector<SearchMatch>& getMatches() const

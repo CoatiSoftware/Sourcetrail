@@ -87,7 +87,7 @@ private:
 	void layoutElements();
 
 	bool hasSelectedElements() const;
-	std::string getSelectedString() const;
+	std::wstring getSelectedString() const;
 
 	void selectAllElementsWith(bool selected);
 	void selectElementsTo(size_t idx, bool selected);
@@ -99,7 +99,7 @@ private:
 	void requestAutoCompletions();
 	void hideAutoCompletions();
 
-	std::deque<SearchMatch> getMatchesForInput(const std::string& text) const;
+	std::deque<SearchMatch> getMatchesForInput(const std::wstring& text) const;
 
 	NodeTypeSet getMatchAcceptedNodeTypes() const;
 	bool lastMatchIsNoFilter() const;

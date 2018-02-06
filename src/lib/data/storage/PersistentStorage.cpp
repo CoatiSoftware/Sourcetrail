@@ -36,7 +36,7 @@ PersistentStorage::PersistentStorage(const FilePath& dbPath, const FilePath& boo
 	{
 		if (nodeType.hasSearchFilter())
 		{
-			m_commandIndex.addNode(0, nodeType.getReadableTypeString());
+			m_commandIndex.addNode(0, nodeType.getReadableTypeWString());
 		}
 	}
 
@@ -552,7 +552,7 @@ std::shared_ptr<SourceLocationCollection> PersistentStorage::getFullTextSearchLo
 	return collection;
 }
 
-std::vector<SearchMatch> PersistentStorage::getAutocompletionMatches(const std::string& query, NodeTypeSet acceptedNodeTypes) const
+std::vector<SearchMatch> PersistentStorage::getAutocompletionMatches(const std::wstring& query, NodeTypeSet acceptedNodeTypes) const
 {
 	TRACE();
 
@@ -600,7 +600,7 @@ std::vector<SearchMatch> PersistentStorage::getAutocompletionMatches(const std::
 }
 
 std::vector<SearchMatch> PersistentStorage::getAutocompletionSymbolMatches(
-	const std::string& query, const NodeTypeSet& acceptedNodeTypes, size_t maxResultsCount, size_t maxBestScoredResultsLength) const
+	const std::wstring& query, const NodeTypeSet& acceptedNodeTypes, size_t maxResultsCount, size_t maxBestScoredResultsLength) const
 {
 	// search in indices
 	const std::vector<SearchResult> results =
@@ -657,11 +657,11 @@ std::vector<SearchMatch> PersistentStorage::getAutocompletionSymbolMatches(
 		match.text = result.text;
 
 		NameHierarchy name = NameHierarchy::deserialize(firstNode->serializedName);
-		if (utility::encodeToUtf8(name.getQualifiedName()) == match.name)
+		if (name.getQualifiedName() == match.name)
 		{
 			const size_t idx = m_hierarchyCache.getIndexOfLastVisibleParentNode(firstNode->id);
-			match.text = utility::encodeToUtf8(name.getRange(idx, name.size()).getQualifiedName());
-			match.subtext = utility::encodeToUtf8(name.getRange(0, idx).getQualifiedName());
+			match.text = name.getRange(idx, name.size()).getQualifiedName();
+			match.subtext = name.getRange(0, idx).getQualifiedName();
 		}
 
 		match.delimiter = name.getDelimiter();
@@ -669,12 +669,12 @@ std::vector<SearchMatch> PersistentStorage::getAutocompletionSymbolMatches(
 		match.indices = result.indices;
 		match.score = result.score;
 		match.nodeType = utility::intToType(firstNode->type);
-		match.typeName = match.nodeType.getReadableTypeString();
+		match.typeName = match.nodeType.getReadableTypeWString();
 		match.searchType = SearchMatch::SEARCH_TOKEN;
 
 		if (storageSymbolMap.find(firstNode->id) == storageSymbolMap.end())
 		{
-			match.typeName = "non-indexed " + match.typeName;
+			match.typeName = L"non-indexed " + match.typeName;
 		}
 
 		matches.push_back(match);
@@ -683,7 +683,7 @@ std::vector<SearchMatch> PersistentStorage::getAutocompletionSymbolMatches(
 	return matches;
 }
 
-std::vector<SearchMatch> PersistentStorage::getAutocompletionFileMatches(const std::string& query, size_t maxResultsCount) const
+std::vector<SearchMatch> PersistentStorage::getAutocompletionFileMatches(const std::wstring& query, size_t maxResultsCount) const
 {
 	const std::vector<SearchResult> results = m_fileIndex.search(
 		query,
@@ -702,8 +702,8 @@ std::vector<SearchMatch> PersistentStorage::getAutocompletionFileMatches(const s
 		match.tokenIds = utility::toVector(result.elementIds);
 
 		const FilePath path(match.name);
-		match.text = path.fileName();
-		match.subtext = path.str();
+		match.text = path.wFileName();
+		match.subtext = path.wstr();
 
 		match.delimiter = NAME_DELIMITER_FILE;
 
@@ -711,7 +711,7 @@ std::vector<SearchMatch> PersistentStorage::getAutocompletionFileMatches(const s
 		match.score = result.score;
 
 		match.nodeType = NodeType::NODE_FILE;
-		match.typeName = match.nodeType.getReadableTypeString();
+		match.typeName = match.nodeType.getReadableTypeWString();
 
 		match.searchType = SearchMatch::SEARCH_TOKEN;
 
@@ -722,7 +722,7 @@ std::vector<SearchMatch> PersistentStorage::getAutocompletionFileMatches(const s
 }
 
 std::vector<SearchMatch> PersistentStorage::getAutocompletionCommandMatches(
-	const std::string& query, NodeTypeSet acceptedNodeTypes) const
+	const std::wstring& query, NodeTypeSet acceptedNodeTypes) const
 {
 	// search in indices
 	const std::vector<SearchResult> results = m_commandIndex.search(query, NodeTypeSet::all(), 0);
@@ -742,12 +742,12 @@ std::vector<SearchMatch> PersistentStorage::getAutocompletionCommandMatches(
 		match.score = result.score;
 
 		match.searchType = SearchMatch::SEARCH_COMMAND;
-		match.typeName = "command";
+		match.typeName = L"command";
 
 		if (match.getCommandType() == SearchMatch::COMMAND_NODE_FILTER)
 		{
 			match.nodeType = utility::getTypeForReadableTypeString(match.name);
-			match.typeName = "filter";
+			match.typeName = L"filter";
 		}
 
 		if (acceptedNodeTypes == NodeTypeSet::all() ||
@@ -786,8 +786,8 @@ std::vector<SearchMatch> PersistentStorage::getSearchMatchesForTokenIds(const st
 
 		SearchMatch match;
 		const NameHierarchy nameHierarchy = NameHierarchy::deserialize(node.serializedName);
-		match.name = utility::encodeToUtf8(nameHierarchy.getQualifiedName());
-		match.text = utility::encodeToUtf8(nameHierarchy.getRawName());
+		match.name = nameHierarchy.getQualifiedName();
+		match.text = nameHierarchy.getRawName();
 
 		match.tokenIds.push_back(elementId);
 		match.nodeType = utility::intToType(node.type);
@@ -797,7 +797,7 @@ std::vector<SearchMatch> PersistentStorage::getSearchMatchesForTokenIds(const st
 
 		if (match.nodeType.isFile())
 		{
-			match.text = FilePath(match.text).fileName();
+			match.text = FilePath(match.text).wFileName();
 		}
 
 		matches.push_back(match);
@@ -2546,7 +2546,7 @@ void PersistentStorage::buildSearchIndex()
 					filePath.makeRelativeTo(dbPath);
 				}
 
-				m_fileIndex.addNode(node.id, filePath.str(), type);
+				m_fileIndex.addNode(node.id, filePath.wstr(), type);
 			}
 		}
 		else
@@ -2558,13 +2558,13 @@ void PersistentStorage::buildSearchIndex()
 				const NameHierarchy nameHierarchy = NameHierarchy::deserialize(node.serializedName);
 
 				// we don't use the signature here, so elements with the same signature share the same node.
-				std::string name = utility::encodeToUtf8(nameHierarchy.getQualifiedName());
+				std::wstring name = nameHierarchy.getQualifiedName();
 
 				// replace template arguments with .. to avoid clutter in search results and have different
 				// template specializations share the same node.
 				if (defKind == DEFINITION_NONE && nameHierarchy.getDelimiter() == NAME_DELIMITER_CXX)
 				{
-					name = utility::replaceBetween(name, '<', '>', "..");
+					name = utility::replaceBetween(name, L'<', L'>', L"..");
 				}
 
 				m_symbolIndex.addNode(node.id, name, type);

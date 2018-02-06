@@ -119,7 +119,8 @@ namespace utility
 	int nodeTypeToInt(NodeType::Type type);
 	NodeType::Type intToType(int value);
 	std::string getReadableTypeString(NodeType::Type type);
-	NodeType::Type getTypeForReadableTypeString(const std::string str);
+	std::wstring getReadableTypeWString(NodeType::Type type);
+	NodeType::Type getTypeForReadableTypeString(const std::wstring str);
 }
 
 #endif // NODE_TYPE_H

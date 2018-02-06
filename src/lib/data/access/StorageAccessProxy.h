@@ -33,7 +33,7 @@ public:
 
 	virtual std::shared_ptr<SourceLocationCollection> getFullTextSearchLocations(
 			const std::string& searchTerm, bool caseSensitive) const override;
-	virtual std::vector<SearchMatch> getAutocompletionMatches(const std::string& query, NodeTypeSet acceptedNodeTypes) const override;
+	virtual std::vector<SearchMatch> getAutocompletionMatches(const std::wstring& query, NodeTypeSet acceptedNodeTypes) const override;
 	virtual std::vector<SearchMatch> getSearchMatchesForTokenIds(const std::vector<Id>& tokenIds) const override;
 
 	virtual std::shared_ptr<Graph> getGraphForAll() const override;

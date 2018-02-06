@@ -417,12 +417,17 @@ std::string utility::getReadableTypeString(NodeType::Type type)
 	return "";
 }
 
-NodeType::Type utility::getTypeForReadableTypeString(const std::string str)
+std::wstring utility::getReadableTypeWString(NodeType::Type type)
+{
+	return utility::decodeFromUtf8(getReadableTypeString(type));
+}
+
+NodeType::Type utility::getTypeForReadableTypeString(const std::wstring str)
 {
 	for (NodeType::TypeMask mask = 1; mask <= NodeType::NODE_MAX_VALUE; mask *= 2)
 	{
 		NodeType::Type type = intToType(mask);
-		if (getReadableTypeString(type) == str)
+		if (getReadableTypeWString(type) == str)
 		{
 			return type;
 		}

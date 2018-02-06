@@ -11,6 +11,7 @@
 
 class NodeTypeSet;
 
+// SearchMatch is used to display the search result in the UI
 struct SearchMatch
 {
 	enum SearchType
@@ -29,44 +30,43 @@ struct SearchMatch
 		COMMAND_NODE_FILTER
 	};
 
-	static void log(const std::vector<SearchMatch>& matches, const std::string& query);
+	static void log(const std::vector<SearchMatch>& matches, const std::wstring& query);
 
-	static std::string getSearchTypeName(SearchType type);
-	static std::string searchMatchesToString(const std::vector<SearchMatch>& matches);
+	static std::wstring getSearchTypeName(SearchType type);
+	static std::wstring searchMatchesToString(const std::vector<SearchMatch>& matches);
 
 	static SearchMatch createCommand(CommandType type);
 	static std::vector<SearchMatch> createCommandsForNodeTypes(NodeTypeSet types);
-	static std::string getCommandName(CommandType type);
+	static std::wstring getCommandName(CommandType type);
 
-	static const char FULLTEXT_SEARCH_CHARACTER = '?';
+	static const wchar_t FULLTEXT_SEARCH_CHARACTER = L'?';
 
 	SearchMatch();
-	SearchMatch(const std::string& query);
+	SearchMatch(const std::wstring& query);
 
 	bool operator<(const SearchMatch& other) const;
 	bool operator==(const SearchMatch& other) const;
 
-	size_t getTextSizeForSorting(const std::string* str) const;
+	size_t getTextSizeForSorting(const std::wstring* str) const;
 
 	bool isValid() const;
 	bool isFilterCommand() const;
 
-	void print(std::ostream& ostream) const;
+	void print(std::wostream& ostream) const;
 
-	std::string getFullName() const;
-	std::string getNodeTypeAsUnderscoredString() const;
-	std::string getSearchTypeName() const;
+	std::wstring getFullName() const;
+	std::wstring getSearchTypeName() const;
 	CommandType getCommandType() const;
 
-	std::string name;
+	std::wstring name;
 	std::vector<Id> tokenIds;
 
-	std::string text;
-	std::string subtext;
+	std::wstring text;
+	std::wstring subtext;
 
 	NameDelimiterType delimiter;
 
-	std::string typeName;
+	std::wstring typeName;
 
 	NodeType nodeType;
 	SearchType searchType;

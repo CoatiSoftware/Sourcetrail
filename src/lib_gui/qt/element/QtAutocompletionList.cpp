@@ -8,6 +8,7 @@
 #include "settings/ApplicationSettings.h"
 #include "settings/ColorScheme.h"
 #include "utility/ResourcePaths.h"
+#include "utility/utilityString.h"
 
 QtAutocompletionModel::QtAutocompletionModel(QObject* parent)
 	: QAbstractTableModel(parent)
@@ -47,13 +48,13 @@ QVariant QtAutocompletionModel::data(const QModelIndex &index, int role) const
 	switch (index.column())
 	{
 	case 0:
-		return QString::fromStdString(match.name);
+		return QString::fromStdWString(match.name);
 	case 1:
-		return QString::fromStdString(match.text);
+		return QString::fromStdWString(match.text);
 	case 2:
-		return QString::fromStdString(match.subtext);
+		return QString::fromStdWString(match.subtext);
 	case 3:
-		return QString::fromStdString(match.typeName);
+		return QString::fromStdWString(match.typeName);
 	case 4:
 		{
 			QList<QVariant> indices;
@@ -81,7 +82,7 @@ const SearchMatch* QtAutocompletionModel::getSearchMatchAt(int idx) const
 
 QString QtAutocompletionModel::longestText() const
 {
-	std::string str;
+	std::wstring str;
 	for (const SearchMatch& match : m_matchList)
 	{
 		if (match.text.size() > str.size())
@@ -89,12 +90,12 @@ QString QtAutocompletionModel::longestText() const
 			str = match.text;
 		}
 	}
-	return QString::fromStdString(str);
+	return QString::fromStdWString(str);
 }
 
 QString QtAutocompletionModel::longestSubText() const
 {
-	std::string str;
+	std::wstring str;
 	for (const SearchMatch& match : m_matchList)
 	{
 		if (match.subtext.size() > str.size())
@@ -102,12 +103,12 @@ QString QtAutocompletionModel::longestSubText() const
 			str = match.subtext;
 		}
 	}
-	return QString::fromStdString(str);
+	return QString::fromStdWString(str);
 }
 
 QString QtAutocompletionModel::longestType() const
 {
-	std::string str;
+	std::wstring str;
 	for (const SearchMatch& match : m_matchList)
 	{
 		if (match.typeName.size() > str.size())
@@ -115,7 +116,7 @@ QString QtAutocompletionModel::longestType() const
 			str = match.typeName;
 		}
 	}
-	return QString::fromStdString(str);
+	return QString::fromStdWString(str);
 }
 
 
@@ -155,8 +156,8 @@ void QtAutocompletionDelegate::paint(QPainter* painter, const QStyleOptionViewIt
 	}
 	else
 	{
-		fillColor = QColor(scheme->getSearchTypeColor(SearchMatch::getSearchTypeName(SearchMatch::SEARCH_COMMAND), "fill").c_str());
-		textColor = QColor(scheme->getSearchTypeColor(SearchMatch::getSearchTypeName(SearchMatch::SEARCH_COMMAND), "text").c_str());
+		fillColor = QColor(scheme->getSearchTypeColor(utility::encodeToUtf8(SearchMatch::getSearchTypeName(SearchMatch::SEARCH_COMMAND)), "fill").c_str());
+		textColor = QColor(scheme->getSearchTypeColor(utility::encodeToUtf8(SearchMatch::getSearchTypeName(SearchMatch::SEARCH_COMMAND)), "text").c_str());
 	}
 
 	int top1 = 6;

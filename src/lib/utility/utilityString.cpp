@@ -27,6 +27,39 @@ namespace
 
 		return str;
 	}
+
+	template <typename StringType>
+	StringType doReplaceBetween(const StringType& str, typename StringType::value_type startDelimiter, typename StringType::value_type endDelimiter, const StringType& to)
+	{
+		size_t startPos = str.find(startDelimiter);
+		if (startPos == StringType::npos)
+		{
+			return str;
+		}
+
+		size_t depth = 1;
+
+		for (size_t pos = startPos + 1; pos < str.size(); pos++)
+		{
+			if (str[pos] == endDelimiter && depth)
+			{
+				depth--;
+
+				if (depth == 0)
+				{
+					StringType end = doReplaceBetween<StringType>(str.substr(pos + 1), startDelimiter, endDelimiter, to);
+					return str.substr(0, startPos) + startDelimiter + to + endDelimiter + end;
+				}
+			}
+
+			if (str[pos] == startDelimiter)
+			{
+				depth++;
+			}
+		}
+
+		return str;
+	}
 }
 
 namespace utility
@@ -242,22 +275,6 @@ namespace utility
 		return out;
 	}
 
-	bool equalsCaseInsensitive(const std::string& a, const std::string& b)
-	{
-		if (a.size() == b.size())
-		{
-			for (size_t i = 0; i < a.size(); i++)
-			{
-				if (tolower(a[i]) != tolower(b[i]))
-				{
-					return false;
-				}
-			}
-			return true;
-		}
-		return false;
-	}
-
 	std::string replace(std::string str, const std::string& from, const std::string& to)
 	{
 		return doReplace(str, from, to);
@@ -270,36 +287,14 @@ namespace utility
 
 	std::string replaceBetween(const std::string& str, char startDelimiter, char endDelimiter, const std::string& to)
 	{
-		size_t startPos = str.find(startDelimiter);
-		if (startPos == std::string::npos)
-		{
-			return str;
-		}
-
-		size_t depth = 1;
-
-		for (size_t pos = startPos + 1; pos < str.size(); pos++)
-		{
-			if (str[pos] == endDelimiter && depth)
-			{
-				depth--;
-
-				if (depth == 0)
-				{
-					std::string end = replaceBetween(str.substr(pos + 1), startDelimiter, endDelimiter, to);
-					return str.substr(0, startPos) + startDelimiter + to + endDelimiter + end;
-				}
-			}
-
-			if (str[pos] == startDelimiter)
-			{
-				depth++;
-			}
-		}
-
-		return str;
+		return doReplaceBetween<std::string>(str, startDelimiter, endDelimiter, to);
 	}
 
+	std::wstring replaceBetween(const std::wstring& str, wchar_t startDelimiter, wchar_t endDelimiter, const std::wstring& to)
+	{
+		return doReplaceBetween<std::wstring>(str, startDelimiter, endDelimiter, to);
+	}
+	
 	std::string insertLineBreaksAtBlankSpaces(const std::string& s, size_t maxLineLength)
 	{
 		const std::vector<std::string> atoms = splitToVector(s, " ");

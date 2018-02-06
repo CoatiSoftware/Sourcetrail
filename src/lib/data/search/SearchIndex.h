@@ -12,6 +12,7 @@
 #include "data/graph/Node.h"
 #include "data/NodeTypeSet.h"
 
+// SearchResult is only used as an internal type in the SearchIndex and the PersistentStorage
 struct SearchResult
 {
 	bool operator<(const SearchResult& other) const
@@ -19,7 +20,7 @@ struct SearchResult
 		return score > other.score;
 	}
 
-	std::string text;
+	std::wstring text;
 	std::set<Id> elementIds;
 	std::vector<size_t> indices;
 	int score;
@@ -31,13 +32,13 @@ public:
 	SearchIndex();
 	virtual ~SearchIndex();
 
-	void addNode(Id id, const std::string& name, NodeTypeSet typeSet = NodeTypeSet::all());
+	void addNode(Id id, const std::wstring& name, NodeTypeSet typeSet = NodeTypeSet::all());
 	void finishSetup();
 	void clear();
 
 	// maxResultCount == 0 means "no restriction".
 	std::vector<SearchResult> search(
-		const std::string& query, NodeTypeSet acceptedNodeTypes, size_t maxResultCount, size_t maxBestScoredResultsLength = 0) const;
+		const std::wstring& query, NodeTypeSet acceptedNodeTypes, size_t maxResultCount, size_t maxBestScoredResultsLength = 0) const;
 
 private:
 	struct SearchEdge;
@@ -46,44 +47,46 @@ private:
 	{
 		std::set<Id> elementIds;
 		NodeTypeSet containedTypes;
-		std::map<char, SearchEdge*> edges;
+		std::map<wchar_t, SearchEdge*> edges;
 	};
 
 	struct SearchEdge
 	{
 		SearchNode* target;
-		std::string s;
-		std::unordered_set<char> gate;
+		std::wstring s;
+		std::unordered_set<wchar_t> gate;
 	};
 
 	struct SearchPath
 	{
-		std::string text;
+		std::wstring text;
 		std::vector<size_t> indices;
 		SearchNode* node;
 	};
 
 	void populateEdgeGate(SearchEdge* e);
-	void searchRecursive(const SearchPath& path, const std::string& remainingQuery, NodeTypeSet acceptedNodeTypes,
+	void searchRecursive(const SearchPath& path, const std::wstring& remainingQuery, NodeTypeSet acceptedNodeTypes,
 		std::vector<SearchIndex::SearchPath>* results) const;
 
 	std::multiset<SearchResult> createScoredResults(
 		const std::vector<SearchPath>& paths, NodeTypeSet acceptedNodeTypes, size_t maxResultCount) const;
 
 	static SearchResult bestScoredResult(
-		SearchResult result, std::map<std::string, SearchResult>* scoresCache, size_t maxBestScoredResultsLength);
+		SearchResult result, std::map<std::wstring, SearchResult>* scoresCache, size_t maxBestScoredResultsLength);
 	static void bestScoredResultRecursive(
-		const std::string& lowerText, const std::vector<size_t>& indices, const size_t lastIndex, const size_t indicesPos,
-		std::map<std::string, SearchResult>* scoresCache, SearchResult* result);
-	static int scoreText(const std::string& text, const std::vector<size_t>& indices);
+		const std::wstring& lowerText, const std::vector<size_t>& indices, const size_t lastIndex, const size_t indicesPos,
+		std::map<std::wstring, SearchResult>* scoresCache, SearchResult* result);
+	static int scoreText(const std::wstring& text, const std::vector<size_t>& indices);
 
 public:
 	static SearchResult rescoreText(
-		const std::string& fulltext,
-		const std::string& text,
+		const std::wstring& fulltext,
+		const std::wstring& text,
 		const std::vector<size_t>& indices,
 		int score,
 		size_t maxBestScoredResultsLength);
+
+	static bool isNoLetter(const wchar_t c);
 
 private:
 	std::vector<std::shared_ptr<SearchNode>> m_nodes;

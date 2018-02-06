@@ -23,9 +23,9 @@ QtHistoryItem::QtHistoryItem(const SearchMatch& match, size_t index, bool isCurr
 	layout->setContentsMargins(0, 0, 0, 0);
 	layout->setAlignment(Qt::AlignTop);
 
-	std::string name = utility::elide(match.nodeType.isFile() ? match.text : match.name, utility::ELIDE_RIGHT, 100);
+	const std::wstring name = utility::elide(match.nodeType.isFile() ? match.text : match.name, utility::ELIDE_RIGHT, 100);
 
-	m_name = new QLabel(name.c_str(), this);
+	m_name = new QLabel(QString::fromStdWString(name), this);
 	m_name->setAttribute(Qt::WA_MacShowFocusRect, 0);
 	m_name->setAttribute(Qt::WA_LayoutUsesWidgetRect); // fixes layouting on Mac
 	m_name->setObjectName(isCurrent ? "history_item_current" : "history_item");
@@ -49,8 +49,8 @@ QtHistoryItem::QtHistoryItem(const SearchMatch& match, size_t index, bool isCurr
 	}
 	else
 	{
-		m_indicatorColor = scheme->getSearchTypeColor(match.getSearchTypeName(), "fill");
-		m_indicatorHoverColor = scheme->getSearchTypeColor(match.getSearchTypeName(), "fill", "hover");
+		m_indicatorColor = scheme->getSearchTypeColor(utility::encodeToUtf8(match.getSearchTypeName()), "fill");
+		m_indicatorHoverColor = scheme->getSearchTypeColor(utility::encodeToUtf8(match.getSearchTypeName()), "fill", "hover");
 	}
 
 	std::stringstream css;

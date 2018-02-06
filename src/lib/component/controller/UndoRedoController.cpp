@@ -557,7 +557,7 @@ void UndoRedoController::updateHistory()
 			index++;
 
 			SearchMatch match = getSearchMatchForMessage(it->message.get());
-			if (!match.text.size())
+			if (match.text.empty())
 			{
 				continue;
 			}
@@ -607,7 +607,7 @@ SearchMatch UndoRedoController::getSearchMatchForMessage(MessageBase* message) c
 		SearchMatch match = SearchMatch::createCommand(SearchMatch::COMMAND_ALL);
 		if (dynamic_cast<MessageActivateAll*>(message)->acceptedNodeTypes != NodeTypeSet::all())
 		{
-			match.name = match.text = "filter"; // TODO: show acceptedNodeTypes names or at least type ids
+			match.name = match.text = L"filter"; // TODO: show acceptedNodeTypes names or at least type ids
 		}
 		return match;
 	}
@@ -621,7 +621,7 @@ SearchMatch UndoRedoController::getSearchMatchForMessage(MessageBase* message) c
 		else if (msg->isAggregation)
 		{
 			SearchMatch match;
-			match.name = match.text = "aggregation"; // TODO: show aggregation source and target
+			match.name = match.text = L"aggregation"; // TODO: show aggregation source and target
 			match.searchType = SearchMatch::SEARCH_TOKEN;
 			match.nodeType = NodeType::NODE_TYPE;
 			return match;
@@ -630,7 +630,7 @@ SearchMatch UndoRedoController::getSearchMatchForMessage(MessageBase* message) c
 	else if (message->getType() == MessageSearchFullText::getStaticType())
 	{
 		MessageSearchFullText* msg = dynamic_cast<MessageSearchFullText*>(message);
-		std::string prefix(msg->caseSensitive ? 2 : 1, SearchMatch::FULLTEXT_SEARCH_CHARACTER);
+		std::wstring prefix(msg->caseSensitive ? 2 : 1, SearchMatch::FULLTEXT_SEARCH_CHARACTER);
 
 		SearchMatch match(prefix + msg->searchTerm);
 		match.searchType = SearchMatch::SEARCH_FULLTEXT;

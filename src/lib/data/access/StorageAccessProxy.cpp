@@ -126,7 +126,7 @@ std::shared_ptr<SourceLocationCollection> StorageAccessProxy::getFullTextSearchL
 	return std::make_shared<SourceLocationCollection>();
 }
 
-std::vector<SearchMatch> StorageAccessProxy::getAutocompletionMatches(const std::string& query, NodeTypeSet acceptedNodeTypes) const
+std::vector<SearchMatch> StorageAccessProxy::getAutocompletionMatches(const std::wstring& query, NodeTypeSet acceptedNodeTypes) const
 {
 	if (hasSubject())
 	{
