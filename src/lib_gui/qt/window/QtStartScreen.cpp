@@ -40,8 +40,8 @@ void QtRecentProjectButton::setProjectPath(const FilePath& projectFilePath)
 	}
 	else
 	{
-		std::string missingFileText = "Couldn't find " + m_projectFilePath.str() + " in your filesystem";
-		this->setToolTip(missingFileText.c_str());
+		const std::wstring missingFileText = L"Couldn't find " + m_projectFilePath.wstr() + L" in your filesystem";
+		this->setToolTip(QString::fromStdWString(missingFileText));
 	}
 }
 
@@ -55,9 +55,9 @@ void QtRecentProjectButton::handleButtonClick()
 	{
 		QMessageBox msgBox;
 		msgBox.setText("Missing Project File");
-		msgBox.setInformativeText((
-			"Couldn't find " + m_projectFilePath.str() + " in your filesystem. Delete it from this recent Proejct list?"
-		).c_str());
+		msgBox.setInformativeText(QString::fromStdWString(
+			L"Couldn't find " + m_projectFilePath.wstr() + L" in your filesystem. Delete it from this recent Proejct list?"
+		));
 		msgBox.addButton("Delete", QMessageBox::ButtonRole::YesRole);
 		msgBox.addButton("Keep", QMessageBox::ButtonRole::NoRole);
 		msgBox.setIcon(QMessageBox::Icon::Question);
@@ -69,7 +69,7 @@ void QtRecentProjectButton::handleButtonClick()
 			const int maxRecentProjectsCount = ApplicationSettings::getInstance()->getMaxRecentProjectsCount();
 			for (int i = 0; i < maxRecentProjectsCount; i++)
 			{
-				if (recentProjects[i].str() == m_projectFilePath.str())
+				if (recentProjects[i].wstr() == m_projectFilePath.wstr())
 				{
 					recentProjects.erase(recentProjects.begin()+i);
 					ApplicationSettings::getInstance()->setRecentProjects(recentProjects);

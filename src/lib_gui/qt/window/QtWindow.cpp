@@ -150,13 +150,13 @@ void QtWindow::setSizeGripStyle(bool isBlack)
 		return;
 	}
 
-	std::string path = isBlack ? "size_grip_black.png" : "size_grip_white.png";
+	const std::wstring path = isBlack ? L"size_grip_black.png" : L"size_grip_white.png";
 
-	m_sizeGrip->setStyleSheet(QString::fromStdString(
-		"QSizeGrip {"
+	m_sizeGrip->setStyleSheet(QString::fromStdWString(
+		L"QSizeGrip {"
 		"	max-height: 16px;"
 		"	max-width: 16px;"
-		"	border-image: url(" + ResourcePaths::getGuiPath().str() + "window/" + path + ");"
+		"	border-image: url(" + ResourcePaths::getGuiPath().wstr() + L"window/" + path + L");"
 		"}"
 	));
 }
@@ -509,7 +509,7 @@ void QtWindow::setupDone()
 
 void QtWindow::addLogo()
 {
-	QtDeviceScaledPixmap sourcetrailLogo((ResourcePaths::getGuiPath().str() + "window/logo.png").c_str());
+	QtDeviceScaledPixmap sourcetrailLogo(QString::fromStdWString(ResourcePaths::getGuiPath().concatenate(L"window/logo.png").wstr()));
 	sourcetrailLogo.scaleToWidth(240);
 
 	QLabel* sourcetrailLogoLabel = new QLabel(this);

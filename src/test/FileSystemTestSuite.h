@@ -40,9 +40,9 @@ public:
 
 	void test_find_all_source_files()
 	{
-		std::vector<std::string> sourceFiles = utility::convert<FilePath, std::string>(
+		std::vector<std::wstring> sourceFiles = utility::convert<FilePath, std::wstring>(
 			FileSystem::getFilePathsFromDirectory(FilePath(L"data/FileSystemTestSuite"), { L".h", L".hpp", L".cpp" }),
-			[](const FilePath& filePath){ return filePath.str(); }
+			[](const FilePath& filePath){ return filePath.wstr(); }
 		);
 
 		TS_ASSERT_EQUALS(sourceFiles.size(), 8);

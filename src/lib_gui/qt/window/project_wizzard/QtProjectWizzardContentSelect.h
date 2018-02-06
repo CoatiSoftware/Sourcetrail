@@ -32,7 +32,7 @@ private:
 	QLabel* m_title;
 	QLabel* m_description;
 
-	std::map<SourceGroupType, std::string> m_sourceGroupTypeIconName;
+	std::map<SourceGroupType, std::wstring> m_sourceGroupTypeIconName;
 	std::map<SourceGroupType, std::string> m_sourceGroupTypeDescriptions;
 
 	std::vector<std::string> m_solutionDescription;

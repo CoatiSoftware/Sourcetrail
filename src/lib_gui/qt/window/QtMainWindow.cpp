@@ -108,7 +108,7 @@ QtMainWindow::QtMainWindow()
 	setCentralWidget(nullptr);
 	setDockNestingEnabled(true);
 
-	setWindowIcon(QIcon((ResourcePaths::getGuiPath().str() + "icon/logo_1024_1024.png").c_str()));
+	setWindowIcon(QIcon(QString::fromStdWString(ResourcePaths::getGuiPath().concatenate(L"icon/logo_1024_1024.png").wstr())));
 	setWindowFlags(Qt::Widget);
 
 	QApplication* app = dynamic_cast<QApplication*>(QCoreApplication::instance());
@@ -220,7 +220,7 @@ View* QtMainWindow::findFloatingView(const std::string& name) const
 
 void QtMainWindow::loadLayout()
 {
-	QSettings settings(UserPaths::getWindowSettingsPath().str().c_str(), QSettings::IniFormat);
+	QSettings settings(QString::fromStdWString(UserPaths::getWindowSettingsPath().wstr()), QSettings::IniFormat);
 
 	settings.beginGroup("MainWindow");
 	resize(settings.value("size", QSize(600, 400)).toSize());
@@ -236,7 +236,7 @@ void QtMainWindow::loadLayout()
 
 void QtMainWindow::loadDockWidgetLayout()
 {
-	QSettings settings(UserPaths::getWindowSettingsPath().str().c_str(), QSettings::IniFormat);
+	QSettings settings(QString::fromStdWString(UserPaths::getWindowSettingsPath().wstr()), QSettings::IniFormat);
 	this->restoreState(settings.value("DOCK_LOCATIONS").toByteArray());
 
 	for (DockWidget dock : m_dockWidgets)
@@ -293,7 +293,7 @@ void QtMainWindow::loadWindow(bool showStartWindow)
 
 void QtMainWindow::saveLayout()
 {
-	QSettings settings(UserPaths::getWindowSettingsPath().str().c_str(), QSettings::IniFormat);
+	QSettings settings(QString::fromStdWString(UserPaths::getWindowSettingsPath().wstr()), QSettings::IniFormat);
 
 	settings.beginGroup("MainWindow");
 	settings.setValue("maximized", isMaximized());
@@ -531,12 +531,12 @@ void QtMainWindow::enteredLicense()
 
 void QtMainWindow::showDataFolder()
 {
-	QDesktopServices::openUrl(QUrl(("file:///" + UserPaths::getUserDataPath().makeCanonical().str()).c_str(), QUrl::TolerantMode));
+	QDesktopServices::openUrl(QUrl(QString::fromStdWString(L"file:///" + UserPaths::getUserDataPath().makeCanonical().wstr()), QUrl::TolerantMode));
 }
 
 void QtMainWindow::showLogFolder()
 {
-	QDesktopServices::openUrl(QUrl(("file:///" + UserPaths::getLogPath().makeCanonical().str()).c_str(), QUrl::TolerantMode));
+	QDesktopServices::openUrl(QUrl(QString::fromStdWString(L"file:///" + UserPaths::getLogPath().makeCanonical().wstr()), QUrl::TolerantMode));
 }
 
 void QtMainWindow::showStartScreen()
@@ -711,8 +711,8 @@ void QtMainWindow::updateRecentProjectMenu()
 		{
 			FilePath project = recentProjects[i];
 			m_recentProjectAction[i]->setVisible(true);
-			m_recentProjectAction[i]->setText(FileSystem::fileName(project.str()).c_str());
-			m_recentProjectAction[i]->setData(project.str().c_str());
+			m_recentProjectAction[i]->setText(QString::fromStdWString(project.wFileName()));
+			m_recentProjectAction[i]->setData(QString::fromStdWString(project.wstr()));
 		}
 		else
 		{

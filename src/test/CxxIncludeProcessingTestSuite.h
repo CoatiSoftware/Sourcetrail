@@ -19,8 +19,8 @@ public:
 
 		if (!includeDirectives.empty())
 		{
-			TS_ASSERT_EQUALS("foo.h", includeDirectives.front().getIncludedFile().str());
-			TS_ASSERT_EQUALS("foo.cpp", includeDirectives.front().getIncludingFile().str());
+			TS_ASSERT_EQUALS(L"foo.h", includeDirectives.front().getIncludedFile().wstr());
+			TS_ASSERT_EQUALS(L"foo.cpp", includeDirectives.front().getIncludingFile().wstr());
 		}
 	}
 
@@ -35,8 +35,8 @@ public:
 
 		if (!includeDirectives.empty())
 		{
-			TS_ASSERT_EQUALS("foo.h", includeDirectives.front().getIncludedFile().str());
-			TS_ASSERT_EQUALS("foo.cpp", includeDirectives.front().getIncludingFile().str());
+			TS_ASSERT_EQUALS(L"foo.h", includeDirectives.front().getIncludedFile().wstr());
+			TS_ASSERT_EQUALS(L"foo.cpp", includeDirectives.front().getIncludingFile().wstr());
 		}
 	}
 	void test_include_detection_finds_include_with_quotes_and_space_before_keyword()
@@ -50,8 +50,8 @@ public:
 
 		if (!includeDirectives.empty())
 		{
-			TS_ASSERT_EQUALS("foo.h", includeDirectives.front().getIncludedFile().str());
-			TS_ASSERT_EQUALS("foo.cpp", includeDirectives.front().getIncludingFile().str());
+			TS_ASSERT_EQUALS(L"foo.h", includeDirectives.front().getIncludedFile().wstr());
+			TS_ASSERT_EQUALS(L"foo.cpp", includeDirectives.front().getIncludingFile().wstr());
 		}
 	}
 

@@ -443,7 +443,7 @@ void QtProjectWizzardContentPreferences::load()
 
 	if (m_mavenPath)
 	{
-		m_mavenPath->setText(QString::fromStdString(appSettings->getMavenPath().str()));
+		m_mavenPath->setText(QString::fromStdWString(appSettings->getMavenPath().wstr()));
 	}
 }
 
@@ -527,7 +527,7 @@ void QtProjectWizzardContentPreferences::javaPathDetectionClicked()
 	std::vector<FilePath> paths = m_javaPathDetector->getPaths(m_javaPathDetectorBox->currentText().toStdString());
 	if (!paths.empty())
 	{
-		m_javaPath->setText(paths.front().str().c_str());
+		m_javaPath->setText(QString::fromStdWString(paths.front().wstr()));
 	}
 }
 
@@ -544,7 +544,7 @@ void QtProjectWizzardContentPreferences::mavenPathDetectionClicked()
 	std::vector<FilePath> paths = m_mavenPathDetector->getPaths(m_mavenPathDetectorBox->currentText().toStdString());
 	if (!paths.empty())
 	{
-		m_mavenPath->setText(paths.front().str().c_str());
+		m_mavenPath->setText(QString::fromStdWString(paths.front().wstr()));
 	}
 }
 

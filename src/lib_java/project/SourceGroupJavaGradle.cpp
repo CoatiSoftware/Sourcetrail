@@ -51,7 +51,7 @@ std::vector<FilePath> SourceGroupJavaGradle::doGetClassPath() const
 
 		for (const FilePath& gradleJarPath : gradleJarPaths)
 		{
-			LOG_INFO("Adding jar to classpath: " + gradleJarPath.str());
+			LOG_INFO(L"Adding jar to classpath: " + gradleJarPath.wstr());
 		}
 
 		utility::append(classPath, gradleJarPaths);

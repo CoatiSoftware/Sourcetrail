@@ -51,7 +51,7 @@ std::vector<FilePath> SourceGroupJavaMaven::doGetClassPath() const
 
 		for (const FilePath& mavenJarPath : mavenJarPaths)
 		{
-			LOG_INFO("Adding jar to classpath: " + mavenJarPath.str());
+			LOG_INFO(L"Adding jar to classpath: " + mavenJarPath.wstr());
 		}
 
 		utility::append(classPath, mavenJarPaths);

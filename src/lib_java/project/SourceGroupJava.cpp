@@ -108,7 +108,7 @@ std::vector<FilePath> SourceGroupJava::doGetClassPath() const
 	{
 		if (classpath.exists())
 		{
-			LOG_INFO("Adding path to classpath: " + classpath.str());
+			LOG_INFO(L"Adding path to classpath: " + classpath.wstr());
 			classPath.push_back(classpath);
 		}
 	}
@@ -117,7 +117,7 @@ std::vector<FilePath> SourceGroupJava::doGetClassPath() const
 	{
 		for (const FilePath& systemLibraryPath : ApplicationSettings::getInstance()->getJreSystemLibraryPathsExpanded())
 		{
-			LOG_INFO("Adding JRE system library path to classpath: " + systemLibraryPath.str());
+			LOG_INFO(L"Adding JRE system library path to classpath: " + systemLibraryPath.wstr());
 			classPath.push_back(systemLibraryPath);
 		}
 	}
@@ -126,7 +126,7 @@ std::vector<FilePath> SourceGroupJava::doGetClassPath() const
 	{
 		if (rootDirectory.exists())
 		{
-			LOG_INFO("Adding root directory to classpath: " + rootDirectory.str());
+			LOG_INFO(L"Adding root directory to classpath: " + rootDirectory.wstr());
 			classPath.push_back(rootDirectory);
 		}
 	}

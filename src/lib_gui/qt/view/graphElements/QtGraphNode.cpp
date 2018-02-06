@@ -510,7 +510,7 @@ void QtGraphNode::setStyle(const GraphViewStyle::NodeStyle& style)
 
 	if (style.hasHatching)
 	{
-		QtDeviceScaledPixmap pattern((ResourcePaths::getGuiPath().str() + "graph_view/images/pattern.png").c_str());
+		QtDeviceScaledPixmap pattern(QString::fromStdWString(ResourcePaths::getGuiPath().concatenate(L"graph_view/images/pattern.png").wstr()));
 		pattern.scaleToHeight(12);
 		QPixmap pixmap = utility::colorizePixmap(pattern.pixmap(), style.color.hatching.c_str());
 
@@ -525,7 +525,7 @@ void QtGraphNode::setStyle(const GraphViewStyle::NodeStyle& style)
 
 	if (!m_icon && !style.iconPath.empty())
 	{
-		QtDeviceScaledPixmap pixmap(QString::fromStdString(style.iconPath.str()));
+		QtDeviceScaledPixmap pixmap(QString::fromStdWString(style.iconPath.wstr()));
 		pixmap.scaleToHeight(style.iconSize);
 
 		m_icon = new QGraphicsPixmapItem(utility::colorizePixmap(pixmap.pixmap(), style.color.icon.c_str()), this);

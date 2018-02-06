@@ -44,9 +44,10 @@ void SharedIndexerCommand::fromLocal(IndexerCommand* indexerCommand)
 	}
 	else
 	{
-		LOG_ERROR_STREAM(<< "Trying to push unhandled type of IndexerCommand for file: "
-			<< indexerCommand->getSourceFilePath().str() << ". Type string is: " << indexerCommandTypeToString(indexerCommand->getIndexerCommandType())
-			<< ". It will be ignored.");
+		LOG_ERROR(L"Trying to push unhandled type of IndexerCommand for file: " +
+			indexerCommand->getSourceFilePath().wstr() + L". Type string is: " + 
+			utility::decodeFromUtf8(indexerCommandTypeToString(indexerCommand->getIndexerCommandType())) +
+			L". It will be ignored.");
 	}
 }
 
@@ -91,8 +92,8 @@ std::shared_ptr<IndexerCommand> SharedIndexerCommand::fromShared(const SharedInd
 	}
 	else
 	{
-		LOG_ERROR_STREAM(<< "Cannot convert shared IndexerCommand for file: "
-			<< indexerCommand.getSourceFilePath().str() << ". The type is unknown.");
+		LOG_ERROR(L"Cannot convert shared IndexerCommand for file: " +
+			indexerCommand.getSourceFilePath().wstr() + L". The type is unknown.");
 	}
 
 	return nullptr;

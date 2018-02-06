@@ -131,7 +131,7 @@ public:
 		std::vector<FilePath> paths = sourceGroupSettings->getSourcePaths();
 
 		TS_ASSERT_EQUALS(paths.size(), 1);
-		TS_ASSERT_EQUALS(paths[0].str(), "data");
+		TS_ASSERT_EQUALS(paths[0].wstr(), L"data");
 	}
 
 	void test_load_header_search_paths_from_file()
@@ -142,8 +142,8 @@ public:
 		std::vector<FilePath> paths = sourceGroupSettings->getHeaderSearchPaths();
 
 		TS_ASSERT_EQUALS(paths.size(), 2);
-		TS_ASSERT_EQUALS(paths[0].str(), "data/");
-		TS_ASSERT_EQUALS(paths[1].str(), "src/");
+		TS_ASSERT_EQUALS(paths[0].wstr(), L"data/");
+		TS_ASSERT_EQUALS(paths[1].wstr(), L"src/");
 	}
 
 private:

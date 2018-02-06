@@ -72,7 +72,7 @@ public:
 		TS_ASSERT_EQUALS(3, a->getColumnNumber());
 		TS_ASSERT_EQUALS(4, a->getOtherLocation()->getLineNumber());
 		TS_ASSERT_EQUALS(5, a->getOtherLocation()->getColumnNumber());
-		TS_ASSERT_EQUALS("file.c", a->getFilePath().str());
+		TS_ASSERT_EQUALS(L"file.c", a->getFilePath().wstr());
 	}
 
 	void test_finding_source_locations_by_id()

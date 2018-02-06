@@ -60,9 +60,9 @@ public:
 		parser.parse();
 
 		std::vector<FilePath> paths = ApplicationSettings::getInstance()->getHeaderSearchPaths();
-		TS_ASSERT_EQUALS( paths[0].str(), "/usr")
-		TS_ASSERT_EQUALS( paths[1].str(), "/usr/share/include")
-		TS_ASSERT_EQUALS( paths[2].str(), "/opt/test/include")
+		TS_ASSERT_EQUALS(paths[0].wstr(), L"/usr")
+		TS_ASSERT_EQUALS(paths[1].wstr(), L"/usr/share/include")
+		TS_ASSERT_EQUALS(paths[2].wstr(), L"/opt/test/include")
 	}
 
 	void test_command_config_string_filepath_option()

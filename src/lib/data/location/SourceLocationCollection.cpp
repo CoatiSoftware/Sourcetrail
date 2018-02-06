@@ -63,9 +63,9 @@ SourceLocation* SourceLocationCollection::addSourceLocation(
 {
 	if (startLineNumber > endLineNumber || (startLineNumber == endLineNumber && startColumnNumber > endColumnNumber))
 	{
-		LOG_ERROR_STREAM(<< "SourceLocation has wrong boundaries: " << filePath.str() << " "
-			<< startLineNumber << ":" << startColumnNumber << " "
-			<< endLineNumber << ":" << endColumnNumber);
+		LOG_ERROR(L"SourceLocation has wrong boundaries: " + filePath.wstr() + L" " +
+			std::to_wstring(startLineNumber) + L":" + std::to_wstring(startColumnNumber) + L" " +
+			std::to_wstring(endLineNumber) + L":" + std::to_wstring(endColumnNumber));
 		return nullptr;
 	}
 

@@ -40,7 +40,7 @@ QtStatusBar::QtStatusBar()
 	m_errorButton.setAttribute(Qt::WA_LayoutUsesWidgetRect); // fixes layouting on Mac
 	m_errorButton.setStyleSheet("QPushButton { color: #D00000; margin-right: 0; spacing: none; }");
 	m_errorButton.setIcon(utility::colorizePixmap(
-		QPixmap((ResourcePaths::getGuiPath().str() + "statusbar_view/dot.png").c_str()),
+		QPixmap(QString::fromStdWString(ResourcePaths::getGuiPath().concatenate(L"statusbar_view/dot.png").wstr())),
 //		"#D00000"
 		QColor(0xD0, 0, 0)
 	).scaledToHeight(12));

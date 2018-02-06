@@ -476,8 +476,7 @@ void QtIndexingDialog::addErrorWidget(QBoxLayout* layout)
 	errorCount->setObjectName("errorCount");
 	errorCount->setAttribute(Qt::WA_LayoutUsesWidgetRect); // fixes layouting on Mac
 
-	std::string text = ResourcePaths::getGuiPath().str() + "indexing_dialog/error.png";
-	errorCount->setIcon(QPixmap(text.c_str()));
+	errorCount->setIcon(QPixmap(QString::fromStdWString(ResourcePaths::getGuiPath().concatenate(L"indexing_dialog/error.png").wstr())));
 	errorLayout->addWidget(errorCount);
 
 	QtHelpButton* helpButton = new QtHelpButton("aaa", "bbb");
@@ -519,7 +518,7 @@ void QtIndexingDialog::addButtons(QBoxLayout* layout)
 
 void QtIndexingDialog::addFlag()
 {
-	QtDeviceScaledPixmap flag((ResourcePaths::getGuiPath().str() + "indexing_dialog/flag.png").c_str());
+	QtDeviceScaledPixmap flag(QString::fromStdWString(ResourcePaths::getGuiPath().concatenate(L"indexing_dialog/flag.png").wstr()));
 	flag.scaleToWidth(120);
 
 	QLabel* flagLabel = new QLabel(this);

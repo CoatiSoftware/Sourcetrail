@@ -38,13 +38,13 @@ void QtProjectWizzardContentSelect::populate(QGridLayout* layout, int& row)
 	sourceGroupInfos[LANGUAGE_JAVA].push_back(SourceGroupInfo(SOURCE_GROUP_JAVA_GRADLE));
 
 	// define which icons should be used for which kind of source group
-	m_sourceGroupTypeIconName[SOURCE_GROUP_C_EMPTY] = "empty_icon";
-	m_sourceGroupTypeIconName[SOURCE_GROUP_CPP_EMPTY] = "empty_icon";
-	m_sourceGroupTypeIconName[SOURCE_GROUP_CXX_CDB] = "cdb_icon";
-	m_sourceGroupTypeIconName[SOURCE_GROUP_CXX_VS] = "vs_icon";
-	m_sourceGroupTypeIconName[SOURCE_GROUP_JAVA_EMPTY] = "empty_icon";
-	m_sourceGroupTypeIconName[SOURCE_GROUP_JAVA_MAVEN] = "mvn_icon";
-	m_sourceGroupTypeIconName[SOURCE_GROUP_JAVA_GRADLE] = "gradle_icon";
+	m_sourceGroupTypeIconName[SOURCE_GROUP_C_EMPTY] = L"empty_icon";
+	m_sourceGroupTypeIconName[SOURCE_GROUP_CPP_EMPTY] = L"empty_icon";
+	m_sourceGroupTypeIconName[SOURCE_GROUP_CXX_CDB] = L"cdb_icon";
+	m_sourceGroupTypeIconName[SOURCE_GROUP_CXX_VS] = L"vs_icon";
+	m_sourceGroupTypeIconName[SOURCE_GROUP_JAVA_EMPTY] = L"empty_icon";
+	m_sourceGroupTypeIconName[SOURCE_GROUP_JAVA_MAVEN] = L"mvn_icon";
+	m_sourceGroupTypeIconName[SOURCE_GROUP_JAVA_GRADLE] = L"gradle_icon";
 
 	// define descriptions for each kind of Source Group
 	m_sourceGroupTypeDescriptions[SOURCE_GROUP_C_EMPTY] = "Create a new Sourcetrail Source Group by defining which C files will be indexed.";
@@ -115,7 +115,7 @@ void QtProjectWizzardContentSelect::populate(QGridLayout* layout, int& row)
 		{
 			QToolButton* b = createSourceGroupButton(
 				utility::insertLineBreaksAtBlankSpaces(sourceGroupTypeToProjectSetupString(sourceGroupIt.type), 15).c_str(),
-				(ResourcePaths::getGuiPath().str() + "icon/" + m_sourceGroupTypeIconName[sourceGroupIt.type] + ".png").c_str()
+				QString::fromStdWString(ResourcePaths::getGuiPath().concatenate(L"icon/" + m_sourceGroupTypeIconName[sourceGroupIt.type] + L".png").wstr())
 			);
 			b->setProperty("source_group_type", int(sourceGroupIt.type));
 			sourceGroupButtons->addButton(b);

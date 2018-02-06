@@ -126,14 +126,14 @@ void QtAbout::setupAbout()
 				QHBoxLayout* rowAcknowledgementsLogos = new QHBoxLayout();
 				column->addLayout(rowAcknowledgementsLogos);
 
-				QtDeviceScaledPixmap fhsLogo((ResourcePaths::getGuiPath().str() + "about/logo_fhs.png").c_str());
+				QtDeviceScaledPixmap fhsLogo(QString::fromStdWString(ResourcePaths::getGuiPath().concatenate(L"about/logo_fhs.png").wstr()));
 				fhsLogo.scaleToHeight(30);
 				QLabel* fhsLabel = new QLabel(this);
 				fhsLabel->setPixmap(fhsLogo.pixmap());
 				fhsLabel->resize(fhsLogo.width(), fhsLogo.height());
 				rowAcknowledgementsLogos->addWidget(fhsLabel);
 
-				QtDeviceScaledPixmap awsLogo((ResourcePaths::getGuiPath().str() + "about/logo_aws.png").c_str());
+				QtDeviceScaledPixmap awsLogo(QString::fromStdWString(ResourcePaths::getGuiPath().concatenate(L"about/logo_aws.png").wstr()));
 				awsLogo.scaleToHeight(30);
 				QLabel* awsLabel = new QLabel(this);
 				awsLabel->setPixmap(awsLogo.pixmap());

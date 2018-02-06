@@ -38,9 +38,9 @@ void QtCodeFileTitleButton::setFilePath(const FilePath& filePath)
 
 	if (m_filePath.empty())
 	{
-		std::string text = ResourcePaths::getGuiPath().str() + "code_view/images/file.png";
+		FilePath iconPath = ResourcePaths::getGuiPath().concatenate(L"code_view/images/file.png");
 		setIcon(utility::colorizePixmap(
-			QPixmap(text.c_str()),
+			QPixmap(QString::fromStdWString(iconPath.wstr())),
 			ColorScheme::getInstance()->getColor("code/file/title/icon").c_str()
 		));
 	}

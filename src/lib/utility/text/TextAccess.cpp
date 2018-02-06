@@ -86,7 +86,7 @@ std::vector<std::string> TextAccess::readFile(const FilePath& filePath)
 
 	if (srcFile.fail())
 	{
-		LOG_ERROR("Could not open file " + filePath.str());
+		LOG_ERROR(L"Could not open file " + filePath.wstr());
 		return result;
 	}
 

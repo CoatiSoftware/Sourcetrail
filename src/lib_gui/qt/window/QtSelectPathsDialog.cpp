@@ -34,7 +34,7 @@ void QtSelectPathsDialog::setPathsList(const std::vector<FilePath>& paths, const
 
 	for (const FilePath& s : paths)
 	{
-		QListWidgetItem* item = new QListWidgetItem(s.str().c_str(), m_list);
+		QListWidgetItem* item = new QListWidgetItem(QString::fromStdWString(s.wstr()), m_list);
 		item->setFlags(item->flags() | Qt::ItemIsUserCheckable); // set checkable flag
 
 		if (checked.find(s) == checked.end())

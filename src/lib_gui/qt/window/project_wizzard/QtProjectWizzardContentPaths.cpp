@@ -369,7 +369,7 @@ void QtProjectWizzardContentPathsCDBHeader::buttonClicked()
 		{
 			QMessageBox msgBox;
 			msgBox.setText("The provided Compilation Database path does not exist.");
-			msgBox.setDetailedText(QString::fromStdString(cdbPath.str()));
+			msgBox.setDetailedText(QString::fromStdWString(cdbPath.wstr()));
 			msgBox.exec();
 			return;
 		}

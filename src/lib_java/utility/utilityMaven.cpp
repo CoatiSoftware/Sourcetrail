@@ -42,7 +42,7 @@ namespace
 				path.concatenate(toAppend);
 			}
 			pathList.push_back(path);
-			LOG_INFO("Found directory \"" + path.str() + "\".");
+			LOG_INFO(L"Found directory \"" + path.wstr() + L"\".");
 		}
 	}
 

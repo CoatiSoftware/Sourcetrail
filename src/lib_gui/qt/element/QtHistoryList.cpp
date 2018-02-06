@@ -59,7 +59,7 @@ QtHistoryItem::QtHistoryItem(const SearchMatch& match, size_t index, bool isCurr
 
 	if (isCurrent)
 	{
-		QtDeviceScaledPixmap pixmap(QString::fromStdString(ResourcePaths::getGuiPath().str() + "history_list/images/arrow.png"));
+		QtDeviceScaledPixmap pixmap(QString::fromStdWString(ResourcePaths::getGuiPath().concatenate(L"history_list/images/arrow.png").wstr()));
 		pixmap.scaleToHeight(size.height() / 3);
 
 		QLabel* arrow = new QLabel(this);

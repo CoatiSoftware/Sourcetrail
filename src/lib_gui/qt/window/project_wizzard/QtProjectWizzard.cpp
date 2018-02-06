@@ -147,16 +147,19 @@ void QtProjectWizzard::populateWindow(QWidget* widget)
 		buttonsLayout->setSpacing(0);
 
 		QPushButton* addButton = new QtIconButton(
-			(ResourcePaths::getGuiPath().str() + "window/source_group_add.png").c_str(),
-			(ResourcePaths::getGuiPath().str() + "window/source_group_add_hover.png").c_str());
+			QString::fromStdWString(ResourcePaths::getGuiPath().concatenate(L"window/source_group_add.png").wstr()),
+			QString::fromStdWString(ResourcePaths::getGuiPath().concatenate(L"window/source_group_add_hover.png").wstr())
+		);
 
 		m_removeButton = new QtIconButton(
-			(ResourcePaths::getGuiPath().str() + "window/source_group_delete.png").c_str(),
-			(ResourcePaths::getGuiPath().str() + "window/source_group_delete_hover.png").c_str());
+			QString::fromStdWString(ResourcePaths::getGuiPath().concatenate(L"window/source_group_delete.png").wstr()),
+			QString::fromStdWString(ResourcePaths::getGuiPath().concatenate(L"window/source_group_delete_hover.png").wstr())
+		);
 
 		m_duplicateButton = new QtIconButton(
-			(ResourcePaths::getGuiPath().str() + "window/source_group_copy.png").c_str(),
-			(ResourcePaths::getGuiPath().str() + "window/source_group_copy_hover.png").c_str());
+			QString::fromStdWString(ResourcePaths::getGuiPath().concatenate(L"window/source_group_copy.png").wstr()),
+			QString::fromStdWString(ResourcePaths::getGuiPath().concatenate(L"window/source_group_copy_hover.png").wstr())
+		);
 
 		addButton->setIconSize(QSize(20, 20));
 		m_removeButton->setIconSize(QSize(20, 20));

@@ -57,7 +57,7 @@ QtErrorView::QtErrorView(ViewLayout* viewLayout)
 	: ErrorView(viewLayout)
 	, m_ignoreRowSelection(false)
 {
-	s_errorIcon = QIcon(QString((ResourcePaths::getGuiPath().str() + "/indexing_dialog/error.png").c_str()));
+	s_errorIcon = QIcon(QString::fromStdWString(ResourcePaths::getGuiPath().concatenate(L"indexing_dialog/error.png").wstr()));
 }
 
 QtErrorView::~QtErrorView()
@@ -182,7 +182,7 @@ void QtErrorView::initView()
 		checkboxes->addWidget(editButton);
 
 		editButton->setToolTip("edit project");
-		editButton->setIcon(QPixmap((ResourcePaths::getGuiPath().str() + "code_view/images/edit.png").c_str()));
+		editButton->setIcon(QPixmap(QString::fromStdWString(ResourcePaths::getGuiPath().concatenate(L"code_view/images/edit.png").wstr())));
 	}
 
 	checkboxes->addSpacing(10);

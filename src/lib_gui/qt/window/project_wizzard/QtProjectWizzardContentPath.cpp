@@ -147,7 +147,7 @@ void QtProjectWizzardContentPathCDB::load()
 		std::dynamic_pointer_cast<SourceGroupSettingsCxxCdb>(m_settings);
 	if (settings)
 	{
-		m_picker->setText(QString::fromStdString(settings->getCompilationDatabasePath().str()));
+		m_picker->setText(QString::fromStdWString(settings->getCompilationDatabasePath().wstr()));
 	}
 }
 
@@ -206,7 +206,7 @@ void QtProjectWizzardContentPathSourceMaven::load()
 	std::shared_ptr<SourceGroupSettingsJavaMaven> settings = std::dynamic_pointer_cast<SourceGroupSettingsJavaMaven>(m_settings);
 	if (settings)
 	{
-		m_picker->setText(QString::fromStdString(settings->getMavenProjectFilePath().str()));
+		m_picker->setText(QString::fromStdWString(settings->getMavenProjectFilePath().wstr()));
 		m_shouldIndexTests->setChecked(settings->getShouldIndexMavenTests());
 	}
 }
@@ -299,7 +299,7 @@ void QtProjectWizzardContentPathDependenciesMaven::load()
 	std::shared_ptr<SourceGroupSettingsJavaMaven> settings = std::dynamic_pointer_cast<SourceGroupSettingsJavaMaven>(m_settings);
 	if (settings)
 	{
-		m_picker->setText(QString::fromStdString(settings->getMavenDependenciesDirectory().str()));
+		m_picker->setText(QString::fromStdWString(settings->getMavenDependenciesDirectory().wstr()));
 	}
 }
 
@@ -351,7 +351,7 @@ void QtProjectWizzardContentPathSourceGradle::load()
 	std::shared_ptr<SourceGroupSettingsJavaGradle> settings = std::dynamic_pointer_cast<SourceGroupSettingsJavaGradle>(m_settings);
 	if (settings)
 	{
-		m_picker->setText(QString::fromStdString(settings->getGradleProjectFilePath().str()));
+		m_picker->setText(QString::fromStdWString(settings->getGradleProjectFilePath().wstr()));
 		m_shouldIndexTests->setChecked(settings->getShouldIndexGradleTests());
 	}
 }
@@ -430,7 +430,7 @@ void QtProjectWizzardContentPathDependenciesGradle::load()
 	std::shared_ptr<SourceGroupSettingsJavaGradle> settings = std::dynamic_pointer_cast<SourceGroupSettingsJavaGradle>(m_settings);
 	if (settings)
 	{
-		m_picker->setText(QString::fromStdString(settings->getGradleDependenciesDirectory().str()));
+		m_picker->setText(QString::fromStdWString(settings->getGradleDependenciesDirectory().wstr()));
 	}
 }
 

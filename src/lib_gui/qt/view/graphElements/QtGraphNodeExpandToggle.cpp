@@ -25,7 +25,7 @@ QtGraphNodeExpandToggle::QtGraphNodeExpandToggle(bool expanded, int invisibleSub
 	m_icon->setTransformationMode(Qt::SmoothTransformation);
 	m_icon->setShapeMode(QGraphicsPixmapItem::BoundingRectShape);
 
-	QtDeviceScaledPixmap pixmap((ResourcePaths::getGuiPath().str() + "graph_view/images/arrow.png").c_str());
+	QtDeviceScaledPixmap pixmap(QString::fromStdWString(ResourcePaths::getGuiPath().concatenate(L"graph_view/images/arrow.png").wstr()));
 	pixmap.scaleToHeight(iconHeight);
 
 	if (invisibleSubNodeCount)
