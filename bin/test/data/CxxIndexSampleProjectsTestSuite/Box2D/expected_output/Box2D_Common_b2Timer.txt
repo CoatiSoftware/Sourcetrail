@@ -1,11 +1,11 @@
 FILE: b2Timer.cpp
 COMMENT: comment [b2Timer.cpp <1:1 17:3>]
-REFERENCE_INCLUDE b2Timer.cpp -> C:/sourcetrail/sourcetrail/bin/test/data/CxxIndexSampleProjectsTestSuite/Box2D/src/Box2D/Common/b2Timer.h [b2Timer.cpp <19:10 19:33>]
+REFERENCE_INCLUDE b2Timer.cpp -> b2Timer.h [b2Timer.cpp <19:10 19:33>]
 FILE: b2Timer.h
 COMMENT: comment [b2Timer.h <1:1 17:3>]
 REFERENCE_MACRO_USAGE b2Timer.h -> B2_TIMER_H [b2Timer.h <19:9 19:18>]
 SYMBOL_MACRO B2_TIMER_H [b2Timer.h <20:9 <20:9 20:18> 20:8>]
-REFERENCE_INCLUDE b2Timer.h -> C:/sourcetrail/sourcetrail/bin/test/data/CxxIndexSampleProjectsTestSuite/Box2D/src/Box2D/Common/b2Settings.h [b2Timer.h <22:10 22:36>]
+REFERENCE_INCLUDE b2Timer.h -> b2Settings.h [b2Timer.h <22:10 22:36>]
 FILE: b2Settings.h
 COMMENT: comment [b2Settings.h <1:1 17:3>]
 REFERENCE_MACRO_USAGE b2Settings.h -> B2_SETTINGS_H [b2Settings.h <19:9 19:21>]

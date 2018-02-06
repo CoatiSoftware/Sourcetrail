@@ -44,6 +44,19 @@ public:
 		ReferenceKind referenceKind, const NameHierarchy& referencedName, const NameHierarchy& contextName,
 		const ParseLocation& location) override
 	{
+		std::wstring referencedNameString = referencedName.getQualifiedNameWithSignature();
+		try
+		{
+			if (FilePath(referencedNameString).exists())
+			{
+				referencedNameString = FilePath(referencedNameString).wFileName();
+			}
+		}
+		catch (const boost::filesystem::filesystem_error& e)
+		{
+			// do nothing and use the old contectNameString
+		}
+
 		std::wstring contextNameString = contextName.getQualifiedNameWithSignature();
 		try
 		{
@@ -56,7 +69,8 @@ public:
 		{
 			// do nothing and use the old contectNameString
 		}
-		recordLine(referenceKindToString(referenceKind) + L" " + addLocationSuffix(contextNameString + L" -> " + referencedName.getQualifiedNameWithSignature() + L" [" + location.filePath.wFileName(), location) + L"]\n");
+
+		recordLine(referenceKindToString(referenceKind) + L" " + addLocationSuffix(contextNameString + L" -> " + referencedNameString + L" [" + location.filePath.wFileName(), location) + L"]\n");
 	}
 
 	void recordQualifierLocation(const NameHierarchy& qualifierName, const ParseLocation& location) override

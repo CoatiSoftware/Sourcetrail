@@ -1,11 +1,11 @@
 FILE: b2StackAllocator.cpp
 COMMENT: comment [b2StackAllocator.cpp <1:1 17:3>]
-REFERENCE_INCLUDE b2StackAllocator.cpp -> C:/sourcetrail/sourcetrail/bin/test/data/CxxIndexSampleProjectsTestSuite/Box2D/src/Box2D/Common/b2StackAllocator.h [b2StackAllocator.cpp <19:10 19:42>]
+REFERENCE_INCLUDE b2StackAllocator.cpp -> b2StackAllocator.h [b2StackAllocator.cpp <19:10 19:42>]
 FILE: b2StackAllocator.h
 COMMENT: comment [b2StackAllocator.h <1:1 17:3>]
 REFERENCE_MACRO_USAGE b2StackAllocator.h -> B2_STACK_ALLOCATOR_H [b2StackAllocator.h <19:9 19:28>]
 SYMBOL_MACRO B2_STACK_ALLOCATOR_H [b2StackAllocator.h <20:9 <20:9 20:28> 20:8>]
-REFERENCE_INCLUDE b2StackAllocator.h -> C:/sourcetrail/sourcetrail/bin/test/data/CxxIndexSampleProjectsTestSuite/Box2D/src/Box2D/Common/b2Settings.h [b2StackAllocator.h <22:10 22:36>]
+REFERENCE_INCLUDE b2StackAllocator.h -> b2Settings.h [b2StackAllocator.h <22:10 22:36>]
 FILE: b2Settings.h
 COMMENT: comment [b2Settings.h <1:1 17:3>]
 REFERENCE_MACRO_USAGE b2Settings.h -> B2_SETTINGS_H [b2Settings.h <19:9 19:21>]
@@ -93,12 +93,12 @@ COMMENT: comment [b2StackAllocator.h <24:40 24:47>]
 COMMENT: comment [b2StackAllocator.h <34:1 34:65>]
 COMMENT: comment [b2StackAllocator.h <35:1 35:59>]
 COMMENT: comment [b2StackAllocator.h <36:1 36:58>]
-REFERENCE_INCLUDE b2StackAllocator.cpp -> C:/sourcetrail/sourcetrail/bin/test/data/CxxIndexSampleProjectsTestSuite/Box2D/src/Box2D/Common/b2Math.h [b2StackAllocator.cpp <20:10 20:32>]
+REFERENCE_INCLUDE b2StackAllocator.cpp -> b2Math.h [b2StackAllocator.cpp <20:10 20:32>]
 FILE: b2Math.h
 COMMENT: comment [b2Math.h <1:1 17:3>]
 REFERENCE_MACRO_USAGE b2Math.h -> B2_MATH_H [b2Math.h <19:9 19:17>]
 SYMBOL_MACRO B2_MATH_H [b2Math.h <20:9 <20:9 20:17> 20:8>]
-REFERENCE_INCLUDE b2Math.h -> C:/sourcetrail/sourcetrail/bin/test/data/CxxIndexSampleProjectsTestSuite/Box2D/src/Box2D/Common/b2Settings.h [b2Math.h <22:10 22:36>]
+REFERENCE_INCLUDE b2Math.h -> b2Settings.h [b2Math.h <22:10 22:36>]
 COMMENT: comment [b2Math.h <25:1 25:91>]
 COMMENT: comment [b2Math.h <32:1 32:56>]
 SYMBOL_MACRO b2Sqrt [b2Math.h <49:9 <49:9 49:14> 49:25>]

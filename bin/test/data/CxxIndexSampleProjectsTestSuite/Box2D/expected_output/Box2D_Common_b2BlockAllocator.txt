@@ -1,11 +1,11 @@
 FILE: b2BlockAllocator.cpp
 COMMENT: comment [b2BlockAllocator.cpp <1:1 17:3>]
-REFERENCE_INCLUDE b2BlockAllocator.cpp -> C:/sourcetrail/sourcetrail/bin/test/data/CxxIndexSampleProjectsTestSuite/Box2D/src/Box2D/Common/b2BlockAllocator.h [b2BlockAllocator.cpp <19:10 19:42>]
+REFERENCE_INCLUDE b2BlockAllocator.cpp -> b2BlockAllocator.h [b2BlockAllocator.cpp <19:10 19:42>]
 FILE: b2BlockAllocator.h
 COMMENT: comment [b2BlockAllocator.h <1:1 17:3>]
 REFERENCE_MACRO_USAGE b2BlockAllocator.h -> B2_BLOCK_ALLOCATOR_H [b2BlockAllocator.h <19:9 19:28>]
 SYMBOL_MACRO B2_BLOCK_ALLOCATOR_H [b2BlockAllocator.h <20:9 <20:9 20:28> 20:8>]
-REFERENCE_INCLUDE b2BlockAllocator.h -> C:/sourcetrail/sourcetrail/bin/test/data/CxxIndexSampleProjectsTestSuite/Box2D/src/Box2D/Common/b2Settings.h [b2BlockAllocator.h <22:10 22:36>]
+REFERENCE_INCLUDE b2BlockAllocator.h -> b2Settings.h [b2BlockAllocator.h <22:10 22:36>]
 FILE: b2Settings.h
 COMMENT: comment [b2Settings.h <1:1 17:3>]
 REFERENCE_MACRO_USAGE b2Settings.h -> B2_SETTINGS_H [b2Settings.h <19:9 19:21>]

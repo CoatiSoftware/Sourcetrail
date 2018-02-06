@@ -1,7 +1,7 @@
 FILE: b3Logging.cpp
 COMMENT: comment [b3Logging.cpp <1:1 13:3>]
 COMMENT: comment [b3Logging.cpp <14:1 14:38>]
-REFERENCE_INCLUDE b3Logging.cpp -> C:/sourcetrail/sourcetrail/bin/test/data/CxxIndexSampleProjectsTestSuite/Bullet3/src/Bullet3Common/b3Logging.h [b3Logging.cpp <16:10 16:22>]
+REFERENCE_INCLUDE b3Logging.cpp -> b3Logging.h [b3Logging.cpp <16:10 16:22>]
 FILE: b3Logging.h
 REFERENCE_MACRO_USAGE b3Logging.h -> B3_LOGGING_H [b3Logging.h <2:9 2:20>]
 SYMBOL_MACRO B3_LOGGING_H [b3Logging.h <3:9 <3:9 3:20> 3:8>]

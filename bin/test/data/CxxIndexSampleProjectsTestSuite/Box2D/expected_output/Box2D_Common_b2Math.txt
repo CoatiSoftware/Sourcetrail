@@ -1,11 +1,11 @@
 FILE: b2Math.cpp
 COMMENT: comment [b2Math.cpp <1:1 17:3>]
-REFERENCE_INCLUDE b2Math.cpp -> C:/sourcetrail/sourcetrail/bin/test/data/CxxIndexSampleProjectsTestSuite/Box2D/src/Box2D/Common/b2Math.h [b2Math.cpp <19:10 19:32>]
+REFERENCE_INCLUDE b2Math.cpp -> b2Math.h [b2Math.cpp <19:10 19:32>]
 FILE: b2Math.h
 COMMENT: comment [b2Math.h <1:1 17:3>]
 REFERENCE_MACRO_USAGE b2Math.h -> B2_MATH_H [b2Math.h <19:9 19:17>]
 SYMBOL_MACRO B2_MATH_H [b2Math.h <20:9 <20:9 20:17> 20:8>]
-REFERENCE_INCLUDE b2Math.h -> C:/sourcetrail/sourcetrail/bin/test/data/CxxIndexSampleProjectsTestSuite/Box2D/src/Box2D/Common/b2Settings.h [b2Math.h <22:10 22:36>]
+REFERENCE_INCLUDE b2Math.h -> b2Settings.h [b2Math.h <22:10 22:36>]
 FILE: b2Settings.h
 COMMENT: comment [b2Settings.h <1:1 17:3>]
 REFERENCE_MACRO_USAGE b2Settings.h -> B2_SETTINGS_H [b2Settings.h <19:9 19:21>]

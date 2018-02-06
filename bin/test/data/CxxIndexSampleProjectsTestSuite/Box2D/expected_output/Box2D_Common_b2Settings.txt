@@ -1,6 +1,6 @@
 FILE: b2Settings.cpp
 COMMENT: comment [b2Settings.cpp <1:1 17:3>]
-REFERENCE_INCLUDE b2Settings.cpp -> C:/sourcetrail/sourcetrail/bin/test/data/CxxIndexSampleProjectsTestSuite/Box2D/src/Box2D/Common/b2Settings.h [b2Settings.cpp <19:10 19:36>]
+REFERENCE_INCLUDE b2Settings.cpp -> b2Settings.h [b2Settings.cpp <19:10 19:36>]
 FILE: b2Settings.h
 COMMENT: comment [b2Settings.h <1:1 17:3>]
 REFERENCE_MACRO_USAGE b2Settings.h -> B2_SETTINGS_H [b2Settings.h <19:9 19:21>]

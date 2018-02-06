@@ -1,6 +1,6 @@
 FILE: b3AlignedAllocator.cpp
 COMMENT: comment [b3AlignedAllocator.cpp <1:1 14:3>]
-REFERENCE_INCLUDE b3AlignedAllocator.cpp -> C:/sourcetrail/sourcetrail/bin/test/data/CxxIndexSampleProjectsTestSuite/Bullet3/src/Bullet3Common/b3AlignedAllocator.h [b3AlignedAllocator.cpp <16:10 16:31>]
+REFERENCE_INCLUDE b3AlignedAllocator.cpp -> b3AlignedAllocator.h [b3AlignedAllocator.cpp <16:10 16:31>]
 FILE: b3AlignedAllocator.h
 COMMENT: comment [b3AlignedAllocator.h <1:1 14:3>]
 REFERENCE_MACRO_USAGE b3AlignedAllocator.h -> B3_ALIGNED_ALLOCATOR [b3AlignedAllocator.h <16:9 16:28>]
@@ -8,7 +8,7 @@ SYMBOL_MACRO B3_ALIGNED_ALLOCATOR [b3AlignedAllocator.h <17:9 <17:9 17:28> 17:8>
 COMMENT: comment [b3AlignedAllocator.h <19:1 19:66>]
 COMMENT: comment [b3AlignedAllocator.h <20:1 20:64>]
 COMMENT: comment [b3AlignedAllocator.h <21:1 21:48>]
-REFERENCE_INCLUDE b3AlignedAllocator.h -> C:/sourcetrail/sourcetrail/bin/test/data/CxxIndexSampleProjectsTestSuite/Bullet3/src/Bullet3Common/b3Scalar.h [b3AlignedAllocator.h <23:10 23:21>]
+REFERENCE_INCLUDE b3AlignedAllocator.h -> b3Scalar.h [b3AlignedAllocator.h <23:10 23:21>]
 FILE: b3Scalar.h
 COMMENT: comment [b3Scalar.h <1:1 13:3>]
 REFERENCE_MACRO_USAGE b3Scalar.h -> B3_SCALAR_H [b3Scalar.h <17:9 17:19>]
@@ -21,7 +21,7 @@ REFERENCE_MACRO_USAGE b3Scalar.h -> B3_BULLET_VERSION [b3Scalar.h <36:9 36:25>]
 REFERENCE_MACRO_USAGE b3Scalar.h -> DEBUG [b3Scalar.h <39:13 39:17>]
 REFERENCE_MACRO_USAGE b3Scalar.h -> _DEBUG [b3Scalar.h <39:32 39:37>]
 COMMENT: comment [b3Scalar.h <43:23 43:36>]
-REFERENCE_INCLUDE b3Scalar.h -> C:/sourcetrail/sourcetrail/bin/test/data/CxxIndexSampleProjectsTestSuite/Bullet3/src/Bullet3Common/b3Logging.h [b3Scalar.h <43:10 43:22>]
+REFERENCE_INCLUDE b3Scalar.h -> b3Logging.h [b3Scalar.h <43:10 43:22>]
 FILE: b3Logging.h
 REFERENCE_MACRO_USAGE b3Logging.h -> B3_LOGGING_H [b3Logging.h <2:9 2:20>]
 SYMBOL_MACRO B3_LOGGING_H [b3Logging.h <3:9 <3:9 3:20> 3:8>]
