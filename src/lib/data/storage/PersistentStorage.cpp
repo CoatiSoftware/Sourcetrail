@@ -1703,7 +1703,7 @@ TooltipInfo PersistentStorage::getTooltipInfoForTokenIds(const std::vector<Id>& 
 	}
 
 	const NodeType type = utility::intToType(node.type);
-	info.title = type.getReadableTypeString();
+	info.title = type.getReadableTypeWString();
 
 	DefinitionKind defKind = DEFINITION_NONE;
 	const StorageSymbol symbol = m_sqliteIndexStorage.getFirstById<StorageSymbol>(node.id);
@@ -1717,7 +1717,7 @@ TooltipInfo PersistentStorage::getTooltipInfoForTokenIds(const std::vector<Id>& 
 		const StorageComponentAccess access = m_sqliteIndexStorage.getComponentAccessByNodeId(node.id);
 		if (access.nodeId != 0)
 		{
-			info.title = accessKindToString(intToAccessKind(access.type)) + " " + info.title;
+			info.title = accessKindToString(intToAccessKind(access.type)) + L" " + info.title;
 		}
 	}
 
@@ -1725,16 +1725,16 @@ TooltipInfo PersistentStorage::getTooltipInfoForTokenIds(const std::vector<Id>& 
 	{
 		if (!getFileNodeComplete(node.id))
 		{
-			info.title = "incomplete " + info.title;
+			info.title = L"incomplete " + info.title;
 		}
 	}
 	else if (defKind == DEFINITION_NONE)
 	{
-		info.title = "non-indexed " + info.title;
+		info.title = L"non-indexed " + info.title;
 	}
 	else if (defKind == DEFINITION_IMPLICIT)
 	{
-		info.title = "implicit " + info.title;
+		info.title = L"implicit " + info.title;
 	}
 
 	info.count = 0;

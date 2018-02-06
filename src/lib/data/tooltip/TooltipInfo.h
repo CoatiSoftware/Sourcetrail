@@ -21,7 +21,7 @@ struct TooltipInfo
 		return title.size() || snippets.size();
 	}
 
-	std::string title;
+	std::wstring title;
 
 	int count = -1;
 	std::string countText;

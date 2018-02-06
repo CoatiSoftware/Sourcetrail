@@ -78,7 +78,7 @@ QtCodeSnippet::QtCodeSnippet(const CodeSnippetParams& params, QtCodeNavigator* n
 	layout->setAlignment(Qt::AlignTop);
 	setLayout(layout);
 
-	if (m_titleString.size() && !params.reduced)
+	if (!m_titleString.empty() && !params.reduced)
 	{
 		m_title = createScopeLine(layout);
 		if (m_titleId == 0) // title is a file path
@@ -87,7 +87,7 @@ QtCodeSnippet::QtCodeSnippet(const CodeSnippetParams& params, QtCodeNavigator* n
 		}
 		else
 		{
-			m_title->setText(m_titleString.c_str());
+			m_title->setText(QString::fromStdWString(m_titleString));
 		}
 		connect(m_title, &QPushButton::clicked, this, &QtCodeSnippet::clickedTitle);
 	}
@@ -95,7 +95,7 @@ QtCodeSnippet::QtCodeSnippet(const CodeSnippetParams& params, QtCodeNavigator* n
 	m_codeArea = new QtCodeArea(params.startLineNumber, params.code, params.locationFile, navigator, !params.reduced, this);
 	layout->addWidget(m_codeArea);
 
-	if (m_footerString.size())
+	if (!m_footerString.empty())
 	{
 		m_footer = createScopeLine(layout);
 		if (m_footerId == 0) // footer is a file path
@@ -104,7 +104,7 @@ QtCodeSnippet::QtCodeSnippet(const CodeSnippetParams& params, QtCodeNavigator* n
 		}
 		else
 		{
-			m_footer->setText(m_footerString.c_str());
+			m_footer->setText(QString::fromStdWString(m_footerString));
 		}
 		connect(m_footer, &QPushButton::clicked, this, &QtCodeSnippet::clickedFooter);
 	}

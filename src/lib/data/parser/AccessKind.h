@@ -16,6 +16,6 @@ enum AccessKind
 
 AccessKind intToAccessKind(int v);
 int accessKindToInt(AccessKind t);
-std::string accessKindToString(AccessKind t);
+std::wstring accessKindToString(AccessKind t);
 
 #endif // ACCESS_KIND_H

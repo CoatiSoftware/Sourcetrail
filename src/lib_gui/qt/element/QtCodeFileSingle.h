@@ -61,7 +61,7 @@ private:
 		FilePath filePath;
 		TimeStamp modificationTime;
 		bool isComplete = false;
-		std::string title;
+		std::wstring title;
 
 		QtCodeArea* area = nullptr;
 	};

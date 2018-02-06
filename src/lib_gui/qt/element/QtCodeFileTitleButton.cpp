@@ -82,17 +82,15 @@ void QtCodeFileTitleButton::setIsComplete(bool isComplete)
 	}
 }
 
-void QtCodeFileTitleButton::setProject(const std::string& name)
+void QtCodeFileTitleButton::setProject(const std::wstring& name)
 {
 	m_filePath = FilePath();
 
-	setText(name.c_str());
+	setText(QString::fromStdWString(name));
 	setToolTip("edit project");
 
-	std::string text = ResourcePaths::getGuiPath().str() + "code_view/images/edit.png";
-
 	setIcon(utility::colorizePixmap(
-		QPixmap(text.c_str()),
+		QPixmap(QString::fromStdWString(ResourcePaths::getGuiPath().concatenate(L"code_view/images/edit.png").wstr())),
 		ColorScheme::getInstance()->getColor("code/file/title/icon").c_str()
 	));
 }
@@ -131,7 +129,7 @@ void QtCodeFileTitleButton::updateFromOther(const QtCodeFileTitleButton* other)
 	}
 	else
 	{
-		setProject(other->text().toStdString());
+		setProject(other->text().toStdWString());
 	}
 
 	setModificationTime(other->m_modificationTime);

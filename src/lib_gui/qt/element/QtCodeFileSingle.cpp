@@ -301,7 +301,7 @@ void QtCodeFileSingle::setFileData(const FileData& file)
 		m_currentFilePath = file.filePath;
 		m_titleBar->setMaximized();
 
-		if (file.title.size())
+		if (!file.title.empty())
 		{
 			titleButton->setProject(file.title);
 			titleButton->setIsComplete(true);

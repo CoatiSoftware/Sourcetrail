@@ -19,8 +19,8 @@ struct CodeSnippetParams
 	uint startLineNumber;
 	uint endLineNumber;
 
-	std::string title;
-	std::string footer;
+	std::wstring title;
+	std::wstring footer;
 	std::string code;
 
 	Id titleId;

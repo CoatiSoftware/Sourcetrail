@@ -75,7 +75,7 @@ void TooltipController::handleMessage(MessageTooltipHide* message)
 
 void TooltipController::handleMessage(MessageTooltipShow* message)
 {
-	if (message->tooltipInfo.title.size())
+	if (!message->tooltipInfo.title.empty())
 	{
 		requestTooltipShow(std::vector<Id>(), message->tooltipInfo, message->origin);
 	}

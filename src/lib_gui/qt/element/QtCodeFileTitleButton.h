@@ -18,7 +18,7 @@ public:
 	void setFilePath(const FilePath& filePath);
 	void setModificationTime(const TimeStamp modificationTime);
 	void setIsComplete(bool isComplete);
-	void setProject(const std::string& name);
+	void setProject(const std::wstring& name);
 
 	void updateTexts();
 

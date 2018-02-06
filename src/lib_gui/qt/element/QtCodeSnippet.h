@@ -64,10 +64,10 @@ private:
 	QtCodeFile* m_file;
 
 	Id m_titleId;
-	std::string m_titleString;
+	std::wstring m_titleString;
 
 	Id m_footerId;
-	std::string m_footerString;
+	std::wstring m_footerString;
 
 	std::vector<QPushButton*> m_dots;
 

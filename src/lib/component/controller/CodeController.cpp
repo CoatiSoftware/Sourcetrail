@@ -40,7 +40,7 @@ void CodeController::handleMessage(MessageActivateAll* message)
 	}
 
 	CodeSnippetParams statsSnippet;
-	statsSnippet.title = currentProject->getProjectSettingsFilePath().withoutExtension().fileName();
+	statsSnippet.title = currentProject->getProjectSettingsFilePath().withoutExtension().wFileName();
 
 	statsSnippet.startLineNumber = 1;
 	statsSnippet.endLineNumber = 1;
@@ -660,7 +660,7 @@ std::vector<CodeSnippetParams> CodeController::getSnippetsForFile(
 				{
 					if (location->getTokenIds().size())
 					{
-						params.title = utility::encodeToUtf8(m_storageAccess->getNameHierarchyForNodeId(location->getTokenIds()[0]).getQualifiedName());
+						params.title = m_storageAccess->getNameHierarchyForNodeId(location->getTokenIds()[0]).getQualifiedName();
 						params.titleId = location->getLocationId();
 					}
 				}
@@ -669,7 +669,7 @@ std::vector<CodeSnippetParams> CodeController::getSnippetsForFile(
 
 		if (!activeSourceLocations->isWhole() && params.titleId == 0)
 		{
-			params.title = activeSourceLocations->getFilePath().str();
+			params.title = activeSourceLocations->getFilePath().wstr();
 		}
 
 		const SourceLocation* lastSourceLocation =
@@ -682,7 +682,7 @@ std::vector<CodeSnippetParams> CodeController::getSnippetsForFile(
 				{
 					if (location->getTokenIds().size())
 					{
-						params.footer = utility::encodeToUtf8(m_storageAccess->getNameHierarchyForNodeId(location->getTokenIds()[0]).getQualifiedName());
+						params.footer = m_storageAccess->getNameHierarchyForNodeId(location->getTokenIds()[0]).getQualifiedName();
 						params.footerId = location->getLocationId();
 					}
 				}

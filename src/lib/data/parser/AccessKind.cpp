@@ -25,25 +25,25 @@ int accessKindToInt(AccessKind t)
 	return t;
 }
 
-std::string accessKindToString(AccessKind t)
+std::wstring accessKindToString(AccessKind t)
 {
 	switch (t)
 	{
 	case ACCESS_NONE:
-		return "";
+		return L"";
 	case ACCESS_PUBLIC:
-		return "public";
+		return L"public";
 	case ACCESS_PROTECTED:
-		return "protected";
+		return L"protected";
 	case ACCESS_PRIVATE:
-		return "private";
+		return L"private";
 	case ACCESS_DEFAULT:
-		return "default";
+		return L"default";
 	case ACCESS_TEMPLATE_PARAMETER:
-		return "template parameter";
+		return L"template parameter";
 	case ACCESS_TYPE_PARAMETER:
-		return "type parameter";
+		return L"type parameter";
 	}
-	return "";
+	return L"";
 }
 
