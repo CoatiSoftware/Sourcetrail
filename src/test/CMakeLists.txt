@@ -36,6 +36,7 @@ add_files(
 	TextAccessTestSuite.h
 	UtilityMavenTestSuite.h
 	UtilityStringTestSuite.h
+	UtilityTestSuite.h
 	Vector2TestSuite.h
 	
 # Java tests need to be executed last because of some linux related issues.
