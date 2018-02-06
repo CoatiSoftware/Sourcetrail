@@ -3,6 +3,7 @@
 #include <thread>
 
 #include "qt/window/QtTextEditDialog.h"
+#include "utility/utility.h"
 #include "utility/utilityString.h"
 
 QtProjectWizzardContent::QtProjectWizzardContent(QtProjectWizzardWindow* window)
@@ -39,9 +40,9 @@ bool QtProjectWizzardContent::isScrollAble() const
 	return false;
 }
 
-std::vector<std::string> QtProjectWizzardContent::getFileNames() const
+std::vector<FilePath> QtProjectWizzardContent::getFilePaths() const
 {
-	return std::vector<std::string>();
+	return {};
 }
 
 QString QtProjectWizzardContent::getFileNamesTitle() const
@@ -132,20 +133,20 @@ void QtProjectWizzardContent::filesButtonClicked()
 	m_window->saveContent();
 
 	std::thread([&](){
-		std::vector<std::string> fileNames = getFileNames();
-		m_showFilesFunctor(fileNames);
+		const std::vector<FilePath> filePaths = getFilePaths();
+		m_showFilesFunctor(filePaths);
 	}).detach();
 }
 
-void QtProjectWizzardContent::showFilesDialog(const std::vector<std::string>& fileNames)
+void QtProjectWizzardContent::showFilesDialog(const std::vector<FilePath>& filePaths)
 {
 	if (!m_filesDialog)
 	{
 		m_filesDialog = std::make_shared<QtTextEditDialog>(
-			getFileNamesTitle(), QString::number(fileNames.size()) + " " + getFileNamesDescription());
+			getFileNamesTitle(), QString::number(filePaths.size()) + " " + getFileNamesDescription());
 		m_filesDialog->setup();
 
-		m_filesDialog->setText(utility::join(fileNames, "\n"));
+		m_filesDialog->setText(utility::join(utility::toWStrings(filePaths), L"\n"));
 		m_filesDialog->setCloseVisible(false);
 		m_filesDialog->setReadOnly(true);
 

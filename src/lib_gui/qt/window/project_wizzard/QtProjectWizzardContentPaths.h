@@ -68,7 +68,7 @@ public:
 	virtual void load() override;
 	virtual void save() override;
 
-	virtual std::vector<std::string> getFileNames() const override;
+	virtual std::vector<FilePath> getFilePaths() const override;
 	virtual QString getFileNamesTitle() const override;
 	virtual QString getFileNamesDescription() const override;
 };

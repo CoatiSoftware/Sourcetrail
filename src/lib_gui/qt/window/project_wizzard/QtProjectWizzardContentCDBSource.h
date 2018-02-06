@@ -18,14 +18,14 @@ public:
 
 	virtual void load() override;
 
-	virtual std::vector<std::string> getFileNames() const override;
+	virtual std::vector<FilePath> getFilePaths() const override;
 	virtual QString getFileNamesTitle() const override;
 	virtual QString getFileNamesDescription() const override;
 
 private:
 	std::shared_ptr<SourceGroupSettings> m_settings;
 	QLabel* m_text;
-	std::vector<std::string> m_fileNames;
+	std::vector<FilePath> m_filePaths;
 };
 
 #endif // QT_PROJECT_WIZZARD_CONTENT_CDB_SOURCE_H

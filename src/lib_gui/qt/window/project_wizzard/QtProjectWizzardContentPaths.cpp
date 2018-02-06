@@ -203,7 +203,7 @@ void QtProjectWizzardContentPathsSource::save()
 	m_settings->setSourcePaths(m_list->getList());
 }
 
-std::vector<std::string> QtProjectWizzardContentPathsSource::getFileNames() const
+std::vector<FilePath> QtProjectWizzardContentPathsSource::getFilePaths() const
 {
 	std::shared_ptr<DialogView> dialogView = Application::getInstance()->getDialogView();
 
@@ -223,11 +223,7 @@ std::vector<std::string> QtProjectWizzardContentPathsSource::getFileNames() cons
 
 	const std::set<FilePath> filePaths = fileManager.getAllSourceFilePathsRelative(m_settings->getProjectDirectoryPath());
 
-	std::vector<std::string> list;
-	list.resize(filePaths.size());
-	std::transform(filePaths.begin(), filePaths.end(), list.begin(), [](const FilePath& p){ return p.str(); });
-
-	return list;
+	return utility::toVector(filePaths);
 }
 
 QString QtProjectWizzardContentPathsSource::getFileNamesTitle() const
@@ -648,7 +644,7 @@ void QtProjectWizzardContentPathsHeaderSearch::finishedSelectDetectIncludesRootP
 
 void QtProjectWizzardContentPathsHeaderSearch::finishedAcceptDetectedIncludePathsDialog()
 {
-	const std::vector<std::wstring> detectedPaths = utility::split<std::vector<std::wstring>>(m_filesDialog->getWText(), L"\n");
+	const std::vector<std::wstring> detectedPaths = utility::split<std::vector<std::wstring>>(m_filesDialog->getText(), L"\n");
 	closedFilesDialog();
 
 	std::vector<std::wstring> headerSearchPaths = m_list->getWStringList();
@@ -694,7 +690,7 @@ void QtProjectWizzardContentPathsHeaderSearch::showDetectedIncludesResult(const 
 	}
 	else
 	{
-		std::string detailedText = "";
+		std::wstring detailedText = L"";
 		FilePath relativeRoot = m_list->getRelativeRootDirectory();
 		for (const FilePath& path : additionalHeaderSearchPaths)
 		{
@@ -703,12 +699,13 @@ void QtProjectWizzardContentPathsHeaderSearch::showDetectedIncludesResult(const 
 				const FilePath relPath = path.getRelativeTo(relativeRoot);
 				if (relPath.str().size() < path.str().size())
 				{
-					detailedText += relPath.str() + "\n";
-					continue;
+					detailedText += relPath.wstr() + L"\n";
+				}
+				else
+				{
+					detailedText += path.wstr() + L"\n";
 				}
 			}
-
-			detailedText += path.str() + "\n";
 		}
 
 		m_filesDialog = std::make_shared<QtTextEditDialog>(
@@ -742,24 +739,24 @@ void QtProjectWizzardContentPathsHeaderSearch::showValidationResult(const std::v
 	}
 	else
 	{
-		std::map<std::string, std::map<size_t, std::string>> orderedIncludes;
+		std::map<std::wstring, std::map<size_t, std::wstring>> orderedIncludes;
 		for (const IncludeDirective& unresolvedInclude: unresolvedIncludes)
 		{
-			orderedIncludes[unresolvedInclude.getIncludingFile().str()].emplace(
+			orderedIncludes[unresolvedInclude.getIncludingFile().wstr()].emplace(
 				unresolvedInclude.getLineNumber(), unresolvedInclude.getDirective());
 		}
 
-		std::string detailedText = "";
+		std::wstring detailedText = L"";
 		for (const auto& p: orderedIncludes)
 		{
-			detailedText += p.first + "\n";
+			detailedText += p.first + L"\n";
 
 			for (const auto& p2: p.second)
 			{
-				detailedText += std::to_string(p2.first) + ":\t" + p2.second + "\n";
+				detailedText += std::to_wstring(p2.first) + L":\t" + p2.second + L"\n";
 			}
 
-			detailedText += "\n";
+			detailedText += L"\n";
 		}
 
 		m_filesDialog = std::make_shared<QtTextEditDialog>("Unresolved Include Directives",

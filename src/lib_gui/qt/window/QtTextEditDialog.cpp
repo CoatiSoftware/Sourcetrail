@@ -15,22 +15,12 @@ QSize QtTextEditDialog::sizeHint() const
 	return QSize(550, 550);
 }
 
-void QtTextEditDialog::setText(const std::string& text)
-{
-	m_text->setPlainText(QString::fromStdString(text));
-}
-
-std::string QtTextEditDialog::getText()
-{
-	return m_text->toPlainText().toStdString();
-}
-
-void QtTextEditDialog::setWText(const std::wstring& text)
+void QtTextEditDialog::setText(const std::wstring& text)
 {
 	m_text->setPlainText(QString::fromStdWString(text));
 }
 
-std::wstring QtTextEditDialog::getWText()
+std::wstring QtTextEditDialog::getText()
 {
 	return m_text->toPlainText().toStdWString();
 }

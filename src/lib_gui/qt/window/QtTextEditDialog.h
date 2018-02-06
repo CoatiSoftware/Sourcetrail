@@ -15,11 +15,8 @@ public:
 
 	QSize sizeHint() const override;
 
-	void setText(const std::string& text);
-	std::string getText();
-
-	void setWText(const std::wstring& text);
-	std::wstring getWText();
+	void setText(const std::wstring& text);
+	std::wstring getText();
 
 	void setReadOnly(bool readOnly);
 

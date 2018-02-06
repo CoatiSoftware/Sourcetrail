@@ -27,6 +27,9 @@ namespace utility
 	template <typename ContainerType>
 	std::string join(const ContainerType& list, const std::string& delimiter);
 
+	template <typename ContainerType>
+	std::wstring join(const ContainerType& list, const std::wstring& delimiter);
+
 	std::string join(const std::deque<std::string>& list, char delimiter);
 	std::string join(const std::deque<std::string>& list, const std::string& delimiter);
 	std::string join(const std::vector<std::string>& list, char delimiter);
@@ -65,6 +68,7 @@ namespace utility
 		size_t maxLineLength, size_t tabWidth);
 
 	std::string trim(const std::string &str);
+	std::wstring trim(const std::wstring &str);
 
 	enum ElideMode
 	{
@@ -116,6 +120,24 @@ namespace utility
 		std::stringstream ss;
 		bool first = true;
 		for (const std::string& str : list)
+		{
+			if (!first)
+			{
+				ss << delimiter;
+			}
+			first = false;
+
+			ss << str;
+		}
+		return ss.str();
+	}
+
+	template <typename ContainerType>
+	std::wstring join(const ContainerType& list, const std::wstring& delimiter)
+	{
+		std::wstringstream ss;
+		bool first = true;
+		for (const std::wstring& str : list)
 		{
 			if (!first)
 			{

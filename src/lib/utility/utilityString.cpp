@@ -449,9 +449,16 @@ namespace utility
 
 	std::string trim(const std::string &str)
 	{
-		auto wsfront = std::find_if_not(str.begin(), str.end(), [](int c){ return std::isspace(c); });
-		auto wsback = std::find_if_not(str.rbegin(), str.rend(), [](int c){ return std::isspace(c); }).base();
+		auto wsfront = std::find_if_not(str.begin(), str.end(), [](int c) { return std::isspace(c); });
+		auto wsback = std::find_if_not(str.rbegin(), str.rend(), [](int c) { return std::isspace(c); }).base();
 		return (wsback <= wsfront ? std::string() : std::string(wsfront, wsback));
+	}
+
+	std::wstring trim(const std::wstring &str)
+	{
+		auto wsfront = std::find_if_not(str.begin(), str.end(), [](int c) { return std::isspace(c); });
+		auto wsback = std::find_if_not(str.rbegin(), str.rend(), [](int c) { return std::isspace(c); }).base();
+		return (wsback <= wsfront ? std::wstring() : std::wstring(wsfront, wsback));
 	}
 
 	std::string elide(const std::string& str, ElideMode mode, size_t size)

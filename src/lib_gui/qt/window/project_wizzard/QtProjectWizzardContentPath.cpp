@@ -221,14 +221,14 @@ void QtProjectWizzardContentPathSourceMaven::save()
 	}
 }
 
-std::vector<std::string> QtProjectWizzardContentPathSourceMaven::getFileNames() const
+std::vector<FilePath> QtProjectWizzardContentPathSourceMaven::getFilePaths() const
 {
 	std::shared_ptr<SourceGroupSettingsJavaMaven> settings = std::dynamic_pointer_cast<SourceGroupSettingsJavaMaven>(m_settings);
 
 	const FilePath mavenPath = ApplicationSettings::getInstance()->getMavenPath();
 	const FilePath mavenProjectRoot = settings->getMavenProjectFilePathExpandedAndAbsolute().getParentDirectory();
 
-	std::vector<std::string> list;
+	std::vector<FilePath> list;
 	std::shared_ptr<DialogView> dialogView = Application::getInstance()->getDialogView();
 
 	ScopedFunctor scopedFunctor([&dialogView](){
@@ -273,7 +273,7 @@ std::vector<std::string> QtProjectWizzardContentPathSourceMaven::getFileNames() 
 				path.makeRelativeTo(projectPath);
 			}
 
-			list.push_back(path.str());
+			list.push_back(path);
 		}
 	}
 
@@ -366,13 +366,13 @@ void QtProjectWizzardContentPathSourceGradle::save()
 	}
 }
 
-std::vector<std::string> QtProjectWizzardContentPathSourceGradle::getFileNames() const
+std::vector<FilePath> QtProjectWizzardContentPathSourceGradle::getFilePaths() const
 {
 	std::shared_ptr<SourceGroupSettingsJavaGradle> settings = std::dynamic_pointer_cast<SourceGroupSettingsJavaGradle>(m_settings);
 
 	const FilePath gradleProjectRoot = settings->getGradleProjectFilePathExpandedAndAbsolute().getParentDirectory();
 
-	std::vector<std::string> list;
+	std::vector<FilePath> list;
 
 	std::shared_ptr<DialogView> dialogView = Application::getInstance()->getDialogView();
 
@@ -404,7 +404,7 @@ std::vector<std::string> QtProjectWizzardContentPathSourceGradle::getFileNames()
 				path.makeRelativeTo(projectPath);
 			}
 
-			list.push_back(path.str());
+			list.push_back(path);
 		}
 	}
 	

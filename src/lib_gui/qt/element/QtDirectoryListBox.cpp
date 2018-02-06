@@ -385,17 +385,17 @@ void QtDirectoryListBox::showEditDialog()
 		m_editDialog = std::make_shared<QtTextEditDialog>(m_listName, "Edit the list in plain text. Each line is one item.");
 		m_editDialog->setup();
 
-		std::vector<std::string> list;
+		std::vector<std::wstring> list;
 		for (int i = 0; i < m_list->count(); ++i)
 		{
 			QtListItemWidget* widget = dynamic_cast<QtListItemWidget*>(m_list->itemWidget(m_list->item(i)));
 			if (!widget->readOnly())
 			{
-				list.push_back(widget->getText().toStdString());
+				list.push_back(widget->getText().toStdWString());
 			}
 		}
 
-		m_editDialog->setText(utility::join(list, "\n"));
+		m_editDialog->setText(utility::join(list, L"\n"));
 
 		connect(m_editDialog.get(), &QtTextEditDialog::canceled, this, &QtDirectoryListBox::canceledEditDialog);
 		connect(m_editDialog.get(), &QtTextEditDialog::finished, this, &QtDirectoryListBox::savedEditDialog);
@@ -425,12 +425,12 @@ void QtDirectoryListBox::savedEditDialog()
 		}
 	}
 
-	std::vector<std::string> lines = utility::splitToVector(m_editDialog->getText(), "\n");
+	std::vector<std::wstring> lines = utility::splitToVector(m_editDialog->getText(), L"\n");
 	for (size_t i = 0; i < lines.size(); i++)
 	{
 		lines[i] = utility::trim(lines[i]);
 
-		if (!lines[i].size())
+		if (lines[i].empty())
 		{
 			lines.erase(lines.begin() + i);
 			i--;
@@ -448,9 +448,9 @@ void QtDirectoryListBox::savedEditDialog()
 		itemWidget->setReadOnly(true);
 	}
 
-	for (const std::string& str : lines)
+	for (const std::wstring& line : lines)
 	{
-		QtListItemWidget* itemWidget = addListBoxItemWithText(QString::fromStdString(str));
+		QtListItemWidget* itemWidget = addListBoxItemWithText(QString::fromStdWString(line));
 		itemWidget->setReadOnly(false);
 	}
 

@@ -30,7 +30,7 @@ void QtProjectWizzardContentCDBSource::populate(QGridLayout* layout, int& row)
 
 void QtProjectWizzardContentCDBSource::load()
 {
-	m_fileNames.clear();
+	m_filePaths.clear();
 
 	const FilePath projectPath = m_settings->getProjectDirectoryPath();
 	std::vector<FilePath> excludePaths = m_settings->getExcludePathsExpandedAndAbsolute();
@@ -64,22 +64,22 @@ void QtProjectWizzardContentCDBSource::load()
 					path.makeRelativeTo(projectPath);
 				}
 
-				m_fileNames.push_back(path.str());
+				m_filePaths.push_back(path);
 			}
 		}
 	}
 
 	if (m_text)
 	{
-		m_text->setText("<b>" + QString::number(m_fileNames.size()) + "</b> source files were found in the compilation database.");
+		m_text->setText("<b>" + QString::number(m_filePaths.size()) + "</b> source files were found in the compilation database.");
 	}
 }
 
-std::vector<std::string> QtProjectWizzardContentCDBSource::getFileNames() const
+std::vector<FilePath> QtProjectWizzardContentCDBSource::getFilePaths() const
 {
 	const_cast<QtProjectWizzardContentCDBSource*>(this)->load();
 
-	return m_fileNames;
+	return m_filePaths;
 }
 
 QString QtProjectWizzardContentCDBSource::getFileNamesTitle() const

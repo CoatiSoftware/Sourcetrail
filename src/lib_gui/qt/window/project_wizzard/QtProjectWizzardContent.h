@@ -9,6 +9,7 @@
 #include "qt/element/QtHelpButton.h"
 #include "qt/utility/QtThreadedFunctor.h"
 #include "qt/window/project_wizzard/QtProjectWizzardWindow.h"
+#include "utility/file/FilePath.h"
 
 class QtTextEditDialog;
 
@@ -29,7 +30,7 @@ public:
 
 	virtual bool isScrollAble() const;
 
-	virtual std::vector<std::string> getFileNames() const;
+	virtual std::vector<FilePath> getFilePaths() const;
 	virtual QString getFileNamesTitle() const;
 	virtual QString getFileNamesDescription() const;
 
@@ -54,10 +55,10 @@ protected slots:
 	void closedFilesDialog();
 
 private:
-	void showFilesDialog(const std::vector<std::string>& fileNames);
+	void showFilesDialog(const std::vector<FilePath>& filePaths);
 
 	bool m_isInForm;
-	QtThreadedFunctor<std::vector<std::string>> m_showFilesFunctor;
+	QtThreadedFunctor<const std::vector<FilePath>&> m_showFilesFunctor;
 };
 
 #endif // QT_PROJECT_WIZZARD_CONTENT_H
