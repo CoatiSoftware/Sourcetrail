@@ -36,11 +36,11 @@ public:
 		return "MessageActivateNodes";
 	}
 
-	virtual void print(std::ostream& os) const
+	virtual void print(std::wostream& os) const
 	{
 		for (const ActiveNode& node : nodes)
 		{
-			os << node.nodeId << " ";
+			os << node.nodeId << L" ";
 		}
 	}
 

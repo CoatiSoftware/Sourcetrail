@@ -37,7 +37,7 @@ public:
 		return *this;
 	}
 
-	virtual void print(std::ostream& os) const
+	virtual void print(std::wostream& os) const
 	{
 		if (uiOnly)
 		{

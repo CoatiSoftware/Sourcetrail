@@ -22,9 +22,9 @@ public:
 		return "MessageNewErrors";
 	}
 
-	virtual void print(std::ostream& os) const
+	virtual void print(std::wostream& os) const
 	{
-		os << errors.size() << " errors";
+		os << errors.size() << L" errors";
 	}
 
 	std::vector<ErrorInfo> errors;

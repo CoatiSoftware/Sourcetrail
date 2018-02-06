@@ -20,16 +20,16 @@ public:
 		return "MessageGraphNodeExpand";
 	}
 
-	virtual void print(std::ostream& os) const
+	virtual void print(std::wostream& os) const
 	{
-		os << tokenId << " ";
+		os << tokenId << L" ";
 		if (expand)
 		{
-			os << "expand";
+			os << L"expand";
 		}
 		else
 		{
-			os << "collapse";
+			os << L"collapse";
 		}
 	}
 

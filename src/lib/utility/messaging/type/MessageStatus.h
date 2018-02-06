@@ -18,7 +18,7 @@ public:
 
 	const std::vector<std::wstring>& stati() const;
 	std::wstring status() const;
-	virtual void print(std::ostream& os) const;
+	virtual void print(std::wostream& os) const;
 
 	const bool isError;
 	const bool showLoader;

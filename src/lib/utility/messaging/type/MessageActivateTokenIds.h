@@ -18,11 +18,11 @@ public:
 		return "MessageActivateTokenIds";
 	}
 
-	virtual void print(std::ostream& os) const
+	virtual void print(std::wostream& os) const
 	{
 		for (const Id& id : tokenIds)
 		{
-			os << id << " ";
+			os << id << L" ";
 		}
 	}
 

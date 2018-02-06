@@ -29,6 +29,27 @@
 	} \
 	while(0)
 
+#define LOG_INFO_BARE(__str__) \
+	do \
+	{ \
+		LogManager::getInstance()->logInfo(__str__, "", "", 0); \
+	} \
+	while(0)
+
+#define LOG_WARNING_BARE(__str__) \
+	do \
+	{ \
+		LogManager::getInstance()->logWarning(__str__, "", "", 0); \
+	} \
+	while(0)
+
+#define LOG_ERROR_BARE(__str__) \
+	do \
+	{ \
+		LogManager::getInstance()->logError(__str__, "", "", 0); \
+	} \
+	while(0)
+
 #define LOG_INFO_STREAM(__s__) \
 	do \
 	{ \

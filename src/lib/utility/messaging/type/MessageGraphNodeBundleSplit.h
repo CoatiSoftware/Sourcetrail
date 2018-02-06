@@ -20,7 +20,7 @@ public:
 		return "MessageGraphNodeBundleSplit";
 	}
 
-	virtual void print(std::ostream& os) const
+	virtual void print(std::wostream& os) const
 	{
 		os << bundleId;
 	}

@@ -21,9 +21,9 @@ public:
 		return "MessageShowReference";
 	}
 
-	virtual void print(std::ostream& os) const
+	virtual void print(std::wostream& os) const
 	{
-		os << "index: " << refIndex << " token: " << tokenId << " location: " << locationId;
+		os << L"index: " << refIndex << L" token: " << tokenId << L" location: " << locationId;
 	}
 
 	const size_t refIndex;

@@ -22,7 +22,7 @@ public:
 		return "MessageSearch";
 	}
 
-	std::string getMatchesAsString() const
+	std::wstring getMatchesAsString() const
 	{
 		std::stringstream ss;
 
@@ -43,7 +43,7 @@ public:
 			}
 		}
 
-		return ss.str();
+		return utility::decodeFromUtf8(ss.str());
 	}
 
 	const std::vector<SearchMatch>& getMatches() const
@@ -67,7 +67,7 @@ public:
 		return tokenIds;
 	}
 
-	virtual void print(std::ostream& os) const
+	virtual void print(std::wostream& os) const
 	{
 		os << getMatchesAsString();
 	}

@@ -27,17 +27,17 @@ public:
 		return "MessageActivateTrailEdge";
 	}
 
-	std::string getFullName() const
+	std::wstring getFullName() const
 	{
 		std::wstring name = Edge::getReadableTypeString(type) + L":";
 		name += sourceNameHierarchy.getQualifiedNameWithSignature() + L"->";
 		name += targetNameHierarchy.getQualifiedNameWithSignature();
-		return utility::encodeToUtf8(name);
+		return name;
 	}
 
-	virtual void print(std::ostream& os) const
+	virtual void print(std::wostream& os) const
 	{
-		os << tokenId << " - " << getFullName();
+		os << tokenId << L" - " << getFullName();
 	}
 
 	const Id tokenId;

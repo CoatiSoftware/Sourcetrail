@@ -34,7 +34,7 @@ public:
 		MessageQueue::getInstance()->processMessage(message, true);
 	}
 
-	virtual void print(std::ostream& os) const
+	virtual void print(std::wostream& os) const
 	{
 	}
 };

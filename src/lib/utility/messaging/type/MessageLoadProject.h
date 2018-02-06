@@ -22,11 +22,11 @@ public:
 		return "MessageLoadProject";
 	}
 
-	virtual void print(std::ostream& os) const
+	virtual void print(std::wostream& os) const
 	{
-		os << projectSettingsFilePath.str();
-		os << ", settingsChanged: " << std::boolalpha << settingsChanged;
-		os << ", refreshMode: " << refreshMode;
+		os << projectSettingsFilePath.wstr();
+		os << L", settingsChanged: " << std::boolalpha << settingsChanged;
+		os << L", refreshMode: " << refreshMode;
 	}
 
 	const FilePath projectSettingsFilePath;

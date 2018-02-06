@@ -48,26 +48,26 @@ std::wstring MessageStatus::status() const
 	return L"";
 }
 
-void MessageStatus::print(std::ostream& os) const
+void MessageStatus::print(std::wostream& os) const
 {
 	for (const std::wstring& status : m_stati)
 	{
-		os << utility::encodeToUtf8(status);
+		os << status;
 
 		if (m_stati.size() > 1)
 		{
-			os << " - ";
+			os << L" - ";
 		}
 	}
 
 	if (isError)
 	{
-		os << " - error";
+		os << L" - error";
 	}
 
 	if (showLoader)
 	{
-		os << " - loading";
+		os << L" - loading";
 	}
 }
 

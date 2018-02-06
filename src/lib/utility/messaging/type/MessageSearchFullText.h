@@ -17,9 +17,9 @@ public:
 		return "MessageSearchFullText";
 	}
 
-	virtual void print(std::ostream& os) const
+	virtual void print(std::wostream& os) const
 	{
-		os << searchTerm;
+		os << utility::decodeFromUtf8(searchTerm);
 	}
 
 	const std::string searchTerm;

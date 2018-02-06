@@ -23,15 +23,15 @@ public:
 		return "MessageCodeReference";
 	}
 
-	virtual void print(std::ostream& os) const
+	virtual void print(std::wostream& os) const
 	{
 		if (type == REFERENCE_PREVIOUS)
 		{
-			os << "previous";
+			os << L"previous";
 		}
 		else
 		{
-			os << "next";
+			os << L"next";
 		}
 	}
 

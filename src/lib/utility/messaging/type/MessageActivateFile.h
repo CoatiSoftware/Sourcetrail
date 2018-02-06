@@ -18,9 +18,9 @@ public:
 		return "MessageActivateFile";
 	}
 
-	virtual void print(std::ostream& os) const
+	virtual void print(std::wostream& os) const
 	{
-		os << filePath.str();
+		os << filePath.wstr();
 	}
 
 	const FilePath filePath;

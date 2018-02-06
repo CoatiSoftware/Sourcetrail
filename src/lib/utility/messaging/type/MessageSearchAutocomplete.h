@@ -20,19 +20,19 @@ public:
 		return "MessageSearchAutocomplete";
 	}
 
-	virtual void print(std::ostream& os) const
+	virtual void print(std::wostream& os) const
 	{
-		os << query << "[";
+		os << utility::decodeFromUtf8(query) << L"[";
 		std::vector<Id> nodeTypeIds = acceptedNodeTypes.getNodeTypeIds();
 		for (size_t i = 0; i < nodeTypeIds.size(); i++)
 		{
 			if (i != 0)
 			{
-				os << ", ";
+				os << L", ";
 			}
-			os << std::to_string(nodeTypeIds[i]);
+			os << std::to_wstring(nodeTypeIds[i]);
 		}
-		os << "]";
+		os << L"]";
 	}
 
 	const std::string query;

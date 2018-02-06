@@ -5,6 +5,7 @@
 #include <sstream>
 
 #include "utility/types.h"
+#include "utility/utilityString.h"
 
 class MessageBase
 {
@@ -92,12 +93,12 @@ public:
 		return m_keepContent;
 	}
 
-	virtual void print(std::ostream& os) const = 0;
+	virtual void print(std::wostream& os) const = 0;
 
-	std::string str() const
+	std::wstring str() const
 	{
-		std::stringstream ss;
-		ss << getType() << " ";
+		std::wstringstream ss;
+		ss << utility::decodeFromUtf8(getType()) << L" ";
 		print(ss);
 		return ss.str();
 	}

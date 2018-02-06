@@ -18,11 +18,11 @@ public:
 		return "MessageActivateSourceLocations";
 	}
 
-	virtual void print(std::ostream& os) const
+	virtual void print(std::wostream& os) const
 	{
 		for (const Id& id : locationIds)
 		{
-			os << id << " ";
+			os << id << L" ";
 		}
 	}
 

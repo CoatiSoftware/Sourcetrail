@@ -17,15 +17,15 @@ public:
 		return "MessageZoom";
 	}
 
-	virtual void print(std::ostream& os) const
+	virtual void print(std::wostream& os) const
 	{
 		if (zoomIn)
 		{
-			os << "in";
+			os << L"in";
 		}
 		else
 		{
-			os << "out";
+			os << L"out";
 		}
 	}
 

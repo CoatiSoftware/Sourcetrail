@@ -13,8 +13,8 @@ class CxxDeclName: public CxxName
 public:
 	// uncomment this constructor if required, but try to use the one using move constructors for the members
 	//CxxDeclName(
-	//	const std::string& name,
-	//	const std::vector<std::string>& templateParameterNames
+	//	const std::wstring& name,
+	//	const std::vector<std::wstring>& templateParameterNames
 	//);
 
 	CxxDeclName(
@@ -24,8 +24,8 @@ public:
 
 	// uncomment this constructor if required, but try to use the one using move constructors for the members
 	//CxxDeclName(
-	//	const std::string& name,
-	//	const std::vector<std::string>& templateParameterNames,
+	//	const std::wstring& name,
+	//	const std::vector<std::wstring>& templateParameterNames,
 	//	std::shared_ptr<CxxName> parent
 	//);
 

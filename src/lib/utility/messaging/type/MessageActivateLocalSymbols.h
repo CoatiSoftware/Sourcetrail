@@ -27,11 +27,11 @@ public:
 		return "MessageActivateLocalSymbols";
 	}
 
-	virtual void print(std::ostream& os) const
+	virtual void print(std::wostream& os) const
 	{
 		for (const Id& symbolId : symbolIds)
 		{
-			os << symbolId << " ";
+			os << symbolId << L" ";
 		}
 	}
 
