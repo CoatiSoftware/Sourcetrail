@@ -182,6 +182,24 @@ void QtGraphNode::setMultipleActive(bool multipleActive)
 	m_multipleActive = multipleActive;
 }
 
+bool QtGraphNode::hasActiveChild() const
+{
+	if (m_isActive)
+	{
+		return true;
+	}
+
+	for (auto subNode : m_subNodes)
+	{
+		if (subNode->hasActiveChild())
+		{
+			return true;
+		}
+	}
+
+	return false;
+}
+
 std::wstring QtGraphNode::getName() const
 {
 	return m_text->text().toStdWString();

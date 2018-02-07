@@ -41,7 +41,6 @@ public:
 
 	bool getIsActive() const;
 	void setIsActive(bool isActive);
-	void setFromAndToActive(bool fromActive, bool toActive);
 
 	void setIsFocused(bool isFocused);
 
@@ -81,9 +80,6 @@ private:
 	QGraphicsItem* m_child;
 
 	bool m_isActive;
-	bool m_fromActive;
-	bool m_toActive;
-
 	bool m_isFocused;
 
 	size_t m_weight;

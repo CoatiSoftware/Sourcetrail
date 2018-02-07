@@ -17,7 +17,7 @@ public:
 		return "MessageScrollSpeedChange";
 	}
 
-	virtual void print(std::ostream& os) const
+	virtual void print(std::wostream& os) const
 	{
 		os << scrollSpeed;
 	}

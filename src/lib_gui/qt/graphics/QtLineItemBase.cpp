@@ -8,7 +8,7 @@ QtLineItemBase::QtLineItemBase(QGraphicsItem* parent)
 	, m_showArrow(true)
 	, m_onFront(false)
 	, m_onBack(false)
-	, m_horizontalIn(false)
+	, m_earlyBend(false)
 	, m_route(ROUTE_ANY)
 	, m_pivot(PIVOT_THIRD)
 {
@@ -64,9 +64,9 @@ void QtLineItemBase::setOnBack(bool back)
 	m_onBack = back;
 }
 
-void QtLineItemBase::setHorizontalIn(bool horizontal)
+void QtLineItemBase::setEarlyBend(bool earlyBend)
 {
-	m_horizontalIn = horizontal;
+	m_earlyBend = earlyBend;
 }
 
 QPolygon QtLineItemBase::getPath() const
@@ -96,6 +96,7 @@ QPolygon QtLineItemBase::getPath() const
 	float dist = -1;
 	std::map<int, float> dists;
 
+	// find start and end points
 	if (m_onFront)
 	{
 		io = 3;
@@ -139,6 +140,7 @@ QPolygon QtLineItemBase::getPath() const
 		}
 	}
 
+	// start/end and offsetted start/end points
 	Vec2f o[4];
 	getPivotPoints(o, oR, oR, oOff.y, false);
 
@@ -167,11 +169,12 @@ QPolygon QtLineItemBase::getPath() const
 		case 3: c.setX(c.x() - oOff.x); break;
 	}
 
+	// move one offsetted point
 	if (it != io)
 	{
 		if ((it == 1 && b.x() < c.x()) || (io == 1 && b.x() > c.x()))
 		{
-			if (m_horizontalIn)
+			if (m_earlyBend)
 			{
 				b.setX(c.x());
 			}
@@ -182,7 +185,14 @@ QPolygon QtLineItemBase::getPath() const
 		}
 		else if ((it == 2 && b.y() < c.y()) || (io == 2 && b.y() > c.y()))
 		{
-			c.setY(b.y());
+			if (m_earlyBend)
+			{
+				b.setY(c.y());
+			}
+			else
+			{
+				c.setY(b.y());
+			}
 		}
 		else if (
 			(it == 3 && b.x() < c.x()) || (io == 3 && b.x() > c.x()) ||

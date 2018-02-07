@@ -38,7 +38,7 @@ public:
 
 	void setOnFront(bool front);
 	void setOnBack(bool back);
-	void setHorizontalIn(bool horizontal);
+	void setEarlyBend(bool earlyBend);
 
 protected:
 	QPolygon getPath() const;
@@ -54,7 +54,7 @@ protected:
 
 	bool m_onFront;
 	bool m_onBack;
-	bool m_horizontalIn;
+	bool m_earlyBend;
 
 	Route m_route;
 	Pivot m_pivot;

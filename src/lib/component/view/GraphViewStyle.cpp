@@ -575,7 +575,12 @@ GraphViewStyle::EdgeStyle GraphViewStyle::getStyleForEdgeType(
 		style.arrowLength = 20;
 		style.arrowWidth = 14;
 		style.arrowClosed = true;
+		style.originOffset.x = 7;
 		style.targetOffset.x = 34;
+		style.originOffset.y = -15;
+		style.targetOffset.y = 15;
+		style.verticalOffset = 0;
+		style.cornerRadius = 7;
 		style.zValue = isActive ? 2 : -3;
 		break;
 	case Edge::EDGE_INCLUDE:

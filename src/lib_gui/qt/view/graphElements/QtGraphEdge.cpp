@@ -37,8 +37,6 @@ QtGraphEdge::QtGraphEdge(
 	, m_target(target)
 	, m_child(nullptr)
 	, m_isActive(isActive)
-	, m_fromActive(false)
-	, m_toActive(false)
 	, m_isFocused(false)
 	, m_weight(weight)
 	, m_direction(direction)
@@ -54,9 +52,6 @@ QtGraphEdge::QtGraphEdge(
 		m_owner = m_target;
 		m_target = temp;
 	}
-
-	m_fromActive = m_owner->getIsActive();
-	m_toActive = m_target->getIsActive();
 
 	s_focusedEdge = nullptr;
 	s_focusedBezierEdge = nullptr;
@@ -99,6 +94,12 @@ void QtGraphEdge::updateLine()
 	Edge::EdgeType type = (getData() ? getData()->getType() : Edge::EDGE_AGGREGATION);
 	GraphViewStyle::EdgeStyle style = GraphViewStyle::getStyleForEdgeType(type, m_isActive | m_isFocused, false, m_isTrailEdge);
 
+	Vec4i ownerRect = owner->getBoundingRect();
+	Vec4i targetRect = target->getBoundingRect();
+
+	Vec4i ownerParentRect = owner->getParentBoundingRect();
+	Vec4i targetParentRect = target->getParentBoundingRect();
+
 	if (m_useBezier)
 	{
 		for (QGraphicsItem* item : childItems())
@@ -109,9 +110,6 @@ void QtGraphEdge::updateLine()
 
 		style.originOffset.y() = 0;
 		style.targetOffset.y() = 0;
-
-		Vec4i ownerRect = owner->getBoundingRect();
-		Vec4i ownerParentRect = owner->getParentBoundingRect();
 
 		QtLineItemBase::Route route =
 			m_isHorizontalTrail ? QtLineItemBase::ROUTE_HORIZONTAL : QtLineItemBase::ROUTE_VERTICAL;
@@ -140,9 +138,7 @@ void QtGraphEdge::updateLine()
 		bool showArrow = m_direction != TokenComponentAggregation::DIRECTION_NONE;
 
 		QtLineItemBezier* bezier = new QtLineItemBezier(this);
-		bezier->updateLine(
-			ownerRect, target->getBoundingRect(), ownerParentRect, target->getParentBoundingRect(),
-			style, m_weight, showArrow);
+		bezier->updateLine(ownerRect, targetRect, ownerParentRect, targetParentRect, style, m_weight, showArrow);
 		bezier->setRoute(route);
 		bezier->setPivot(QtLineItemBase::PIVOT_MIDDLE);
 
@@ -167,32 +163,49 @@ void QtGraphEdge::updateLine()
 
 		QtLineItemAngled* child = dynamic_cast<QtLineItemAngled*>(m_child);
 
-		if (m_fromActive && owner->getLastParent() == target->getLastParent())
+		if (owner->getIsActive() && owner->getLastParent() == target->getLastParent())
 		{
 			child->setOnBack(true);
 		}
 
-		if (m_toActive)
+		if (target->getIsActive())
 		{
-			child->setHorizontalIn(true);
+			child->setEarlyBend(true);
 
-			if (owner->getLastParent() == target->getLastParent())
+			if (owner->getLastParent() == target->getLastParent() ||
+				(type == Edge::EDGE_OVERRIDE &&
+					targetParentRect.z() + style.targetOffset.x + style.originOffset.x > ownerParentRect.x()))
 			{
 				child->setOnFront(true);
 			}
+			else
+			{
+				child->setOnFront(false);
+			}
 		}
 
-		if (type != Edge::EDGE_INHERITANCE &&
-			(type != Edge::EDGE_AGGREGATION || owner != owner->getLastParent() || target != target->getLastParent()))
+		if (type == Edge::EDGE_INHERITANCE)
+		{
+			child->setRoute(QtLineItemBase::ROUTE_VERTICAL);
+
+			if (target->hasActiveChild())
+			{
+				child->setEarlyBend(true);
+			}
+		}
+		else if (type != Edge::EDGE_AGGREGATION || owner != owner->getLastParent() || target != target->getLastParent())
 		{
 			child->setRoute(QtLineItemBase::ROUTE_HORIZONTAL);
+		}
+
+		if (type == Edge::EDGE_AGGREGATION || type == Edge::EDGE_INHERITANCE)
+		{
+			child->setPivot(QtLineItemBase::PIVOT_MIDDLE);
 		}
 
 		bool showArrow = true;
 		if (type == Edge::EDGE_AGGREGATION)
 		{
-			child->setPivot(QtLineItemBase::PIVOT_MIDDLE);
-
 			showArrow = m_direction != TokenComponentAggregation::DIRECTION_NONE;
 		}
 
@@ -205,10 +218,7 @@ void QtGraphEdge::updateLine()
 			}
 		}
 
-		child->updateLine(
-			owner->getBoundingRect(), target->getBoundingRect(),
-			owner->getParentBoundingRect(), target->getParentBoundingRect(),
-			style, m_weight, showArrow);
+		child->updateLine(ownerRect, targetRect, ownerParentRect, targetParentRect, style, m_weight, showArrow);
 	}
 
 	this->setZValue(style.zValue);

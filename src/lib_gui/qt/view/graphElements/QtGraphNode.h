@@ -63,6 +63,7 @@ public:
 	bool getIsActive() const;
 	void setIsActive(bool isActive);
 	void setMultipleActive(bool multipleActive);
+	bool hasActiveChild() const;
 
 	std::wstring getName() const;
 	void setName(const std::wstring& name);
