@@ -199,7 +199,7 @@ void TaskBuildIndex::runIndexerProcess(int processId, const std::string& logFile
 	int result = 1;
 	while (result != 0 && !m_interrupted)
 	{
-		result = utility::executeProcessAndGetExitCode(command.c_str(), "", -1);
+		result = utility::executeProcessAndGetExitCode(command.c_str(), FilePath(), -1);
 
 		LOG_INFO_STREAM(<< "Indexer process " << processId << " returned with " + std::to_string(result));
 	}

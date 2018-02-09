@@ -18,14 +18,14 @@ namespace utility
 	std::set<QProcess*> s_runningProcesses;
 }
 
-std::string utility::executeProcess(const std::string& command, const std::string& workingDirectory, const int timeout)
+std::string utility::executeProcess(const std::string& command, const FilePath& workingDirectory, const int timeout)
 {
 	QProcess process;
 	process.setProcessChannelMode(QProcess::MergedChannels);
 
 	if (!workingDirectory.empty())
 	{
-		process.setWorkingDirectory(workingDirectory.c_str());
+		process.setWorkingDirectory(QString::fromStdWString(workingDirectory.wstr()));
 	}
 
 	{
@@ -49,14 +49,14 @@ std::string utility::executeProcess(const std::string& command, const std::strin
 	return processoutput;
 }
 
-std::string utility::executeProcessUntilNoOutput(const std::string& command, const std::string& workingDirectory, const int waitTime)
+std::string utility::executeProcessUntilNoOutput(const std::string& command, const FilePath& workingDirectory, const int waitTime)
 {
 	QProcess process;
 	process.setProcessChannelMode(QProcess::MergedChannels);
 
 	if (!workingDirectory.empty())
 	{
-		process.setWorkingDirectory(workingDirectory.c_str());
+		process.setWorkingDirectory(QString::fromStdWString(workingDirectory.wstr()));
 	}
 
 	{
@@ -92,13 +92,13 @@ std::string utility::executeProcessUntilNoOutput(const std::string& command, con
 	return processoutput;
 }
 
-int utility::executeProcessAndGetExitCode(const std::string& command, const std::string& workingDirectory, const int timeout)
+int utility::executeProcessAndGetExitCode(const std::string& command, const FilePath& workingDirectory, const int timeout)
 {
 	QProcess process;
 
 	if (!workingDirectory.empty())
 	{
-		process.setWorkingDirectory(workingDirectory.c_str());
+		process.setWorkingDirectory(QString::fromStdWString(workingDirectory.wstr()));
 	}
 
 	{

@@ -68,7 +68,7 @@ namespace utility
 
 		const std::string output = utility::executeProcessUntilNoOutput(
 			"\"" + mavenPath.str() + "\" generate-sources",
-			projectDirectoryPath.str(),
+			projectDirectoryPath,
 			60000
 		);
 		return !output.empty();
@@ -80,7 +80,7 @@ namespace utility
 
 		const std::string output = utility::executeProcessUntilNoOutput(
 			"\"" + mavenPath.str() + "\" dependency:copy-dependencies -DoutputDirectory=" + outputDirectoryPath.str(),
-			projectDirectoryPath.str(),
+			projectDirectoryPath,
 			60000
 		);
 
@@ -107,7 +107,7 @@ namespace utility
 
 		std::shared_ptr<TextAccess> outputAccess = TextAccess::createFromString(utility::executeProcessUntilNoOutput(
 			"\"" + mavenPath.str() + "\" help:effective-pom",
-			projectDirectoryPath.str(),
+			projectDirectoryPath,
 			60000
 		));
 

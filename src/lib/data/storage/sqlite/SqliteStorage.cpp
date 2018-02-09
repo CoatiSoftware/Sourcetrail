@@ -2,11 +2,12 @@
 
 #include "utility/logging/logging.h"
 #include "utility/TimeStamp.h"
+#include "utility/utilityString.h"
 
 SqliteStorage::SqliteStorage(const FilePath& dbFilePath)
 	: m_dbFilePath(dbFilePath.getCanonical())
 {
-	m_database.open(m_dbFilePath.str().c_str());
+	m_database.open(utility::encodeToUtf8(m_dbFilePath.wstr()).c_str());
 
 	executeStatement("PRAGMA foreign_keys=ON;");
 

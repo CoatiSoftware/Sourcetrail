@@ -32,17 +32,29 @@ namespace utility
 {
 	bool gradleCopyDependencies(const FilePath& projectDirectoryPath, const FilePath& outputDirectoryPath, bool addTestDependencies)
 	{
-		const std::string gradleInitScriptPath = ResourcePaths::getJavaPath().str() + "gradle/init.gradle";
+		const FilePath gradleInitScriptPath = ResourcePaths::getJavaPath().concatenate(L"gradle/init.gradle");
 
 		setJavaHomeVariableIfNotExists();
 		utility::prepareJavaEnvironment();
 
 		std::shared_ptr<JavaEnvironment> javaEnvironment = JavaEnvironmentFactory::getInstance()->createEnvironment();
-		bool success = javaEnvironment->callStaticVoidMethod("com/sourcetrail/gradle/InfoRetriever", "copyCompileLibs", projectDirectoryPath.str(), gradleInitScriptPath, outputDirectoryPath.str());
+		bool success = javaEnvironment->callStaticVoidMethod(
+			"com/sourcetrail/gradle/InfoRetriever", 
+			"copyCompileLibs", 
+			utility::encodeToUtf8(projectDirectoryPath.wstr()),
+			utility::encodeToUtf8(gradleInitScriptPath.wstr()),
+			utility::encodeToUtf8(outputDirectoryPath.wstr())
+		);
 		
 		if (success && addTestDependencies)
 		{
-			success = javaEnvironment->callStaticVoidMethod("com/sourcetrail/gradle/InfoRetriever", "copyTestCompileLibs", projectDirectoryPath.str(), gradleInitScriptPath, outputDirectoryPath.str());
+			success = javaEnvironment->callStaticVoidMethod(
+				"com/sourcetrail/gradle/InfoRetriever",
+				"copyTestCompileLibs", 
+				utility::encodeToUtf8(projectDirectoryPath.wstr()),
+				utility::encodeToUtf8(gradleInitScriptPath.wstr()),
+				utility::encodeToUtf8(outputDirectoryPath.wstr())
+			);
 		}
 
 		return success;
@@ -50,17 +62,23 @@ namespace utility
 
 	std::vector<FilePath> gradleGetAllSourceDirectories(const FilePath& projectDirectoryPath, bool addTestDirectories)
 	{
-		const std::string gradleInitScriptPath = ResourcePaths::getJavaPath().str() + "gradle/init.gradle";
+		const FilePath gradleInitScriptPath = ResourcePaths::getJavaPath().concatenate(L"gradle/init.gradle");
 
 		setJavaHomeVariableIfNotExists();
 		utility::prepareJavaEnvironment();
 
-		std::set<std::string> uncheckedDirectories;
+		std::set<std::wstring> uncheckedDirectories;
 		{
 			std::shared_ptr<JavaEnvironment> javaEnvironment = JavaEnvironmentFactory::getInstance()->createEnvironment();
 			{
 				std::string output = "";
-				javaEnvironment->callStaticStringMethod("com/sourcetrail/gradle/InfoRetriever", "getMainSrcDirs", output, projectDirectoryPath.str(), gradleInitScriptPath);
+				javaEnvironment->callStaticStringMethod(
+					"com/sourcetrail/gradle/InfoRetriever", 
+					"getMainSrcDirs", 
+					output, 
+					utility::encodeToUtf8(projectDirectoryPath.wstr()),
+					utility::encodeToUtf8(gradleInitScriptPath.wstr())
+				);
 
 				if (utility::isPrefix("[ERROR]", utility::trim(output)))
 				{
@@ -75,14 +93,20 @@ namespace utility
 
 				for (const std::string mainSrcDir : utility::splitToVector(output, ";"))
 				{
-					uncheckedDirectories.insert(mainSrcDir);
+					uncheckedDirectories.insert(utility::decodeFromUtf8(mainSrcDir));
 				}
 			}
 
 			if (addTestDirectories)
 			{
 				std::string output = "";
-				javaEnvironment->callStaticStringMethod("com/sourcetrail/gradle/InfoRetriever", "getTestSrcDirs", output, projectDirectoryPath.str(), gradleInitScriptPath);
+				javaEnvironment->callStaticStringMethod(
+					"com/sourcetrail/gradle/InfoRetriever", 
+					"getTestSrcDirs", 
+					output,
+					utility::encodeToUtf8(projectDirectoryPath.wstr()),
+					utility::encodeToUtf8(gradleInitScriptPath.wstr())
+				);
 				
 				if (utility::isPrefix("[ERROR]", utility::trim(output)))
 				{
@@ -97,13 +121,13 @@ namespace utility
 
 				for (const std::string testSrcDir : utility::splitToVector(output, ";"))
 				{
-					uncheckedDirectories.insert(testSrcDir);
+					uncheckedDirectories.insert(utility::decodeFromUtf8(testSrcDir));
 				}
 			}
 		}
 
 		std::vector<FilePath> directories;
-		for (const std::string& uncheckedDirectory: uncheckedDirectories)
+		for (const std::wstring& uncheckedDirectory: uncheckedDirectories)
 		{
 			FilePath uncheckedDirectoryPath(uncheckedDirectory);
 			if (uncheckedDirectoryPath.exists())
