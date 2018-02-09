@@ -116,7 +116,7 @@ std::vector<FileInfo> FileSystem::getFileInfosFromPaths(
 				}
 			}
 		}
-		else if (path.exists() && (ext.empty() || ext.find(utility::toLowerCase(path.wExtension())) != ext.end()))
+		else if (path.exists() && (ext.empty() || ext.find(utility::toLowerCase(path.extension())) != ext.end()))
 		{
 			const FilePath canonicalPath = path.getCanonical();
 			boost::filesystem::path p = canonicalPath.getPath();

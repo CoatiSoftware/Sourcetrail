@@ -51,14 +51,12 @@ public:
 	std::string str() const;
 	std::wstring wstr() const;
 	std::string getBackslashedString() const;
-	std::string fileName() const;
-	std::wstring wFileName() const;
+	std::wstring fileName() const;
 
-	std::string extension() const;
-	std::wstring wExtension() const;
+	std::wstring extension() const;
 	FilePath withoutExtension() const;
-	FilePath replaceExtension(const std::string& extension) const;
-	bool hasExtension(const std::vector<std::string>& extensions) const;
+	FilePath replaceExtension(const std::wstring& extension) const;
+	bool hasExtension(const std::vector<std::wstring>& extensions) const;
 
 	FilePath& operator=(const FilePath& other);
 	FilePath& operator=(FilePath&& other);

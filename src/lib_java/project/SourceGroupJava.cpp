@@ -164,7 +164,7 @@ std::set<FilePath> SourceGroupJava::fetchRootDirectories() const
 		const std::vector<std::string> packageNameParts = utility::splitToVector(packageName, ".");
 		for (std::vector<std::string>::const_reverse_iterator it = packageNameParts.rbegin(); it != packageNameParts.rend(); it++)
 		{
-			if (rootPath.wFileName() != utility::decodeFromUtf8(*it))
+			if (rootPath.fileName() != utility::decodeFromUtf8(*it))
 			{
 				success = false;
 				break;

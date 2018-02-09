@@ -702,7 +702,7 @@ std::vector<SearchMatch> PersistentStorage::getAutocompletionFileMatches(const s
 		match.tokenIds = utility::toVector(result.elementIds);
 
 		const FilePath path(match.name);
-		match.text = path.wFileName();
+		match.text = path.fileName();
 		match.subtext = path.wstr();
 
 		match.delimiter = NAME_DELIMITER_FILE;
@@ -797,7 +797,7 @@ std::vector<SearchMatch> PersistentStorage::getSearchMatchesForTokenIds(const st
 
 		if (match.nodeType.isFile())
 		{
-			match.text = FilePath(match.text).wFileName();
+			match.text = FilePath(match.text).fileName();
 		}
 
 		matches.push_back(match);
@@ -2182,7 +2182,7 @@ void PersistentStorage::addNodesToGraph(const std::vector<Id>& newNodeIds, Graph
 			Node* node = graph->createNode(
 				storageNode.id,
 				type,
-				NameHierarchy(filePath.wFileName(), NAME_DELIMITER_FILE),
+				NameHierarchy(filePath.fileName(), NAME_DELIMITER_FILE),
 				defined
 			);
 			node->addComponentFilePath(std::make_shared<TokenComponentFilePath>(filePath));
@@ -2513,7 +2513,7 @@ void PersistentStorage::buildFilePathMaps()
 		m_fileNodePaths.emplace(file.id, path);
 		m_fileNodeComplete.emplace(file.id, file.complete);
 
-		if (!m_hasJavaFiles && path.extension() == ".java")
+		if (!m_hasJavaFiles && path.extension() == L".java")
 		{
 			m_hasJavaFiles = true;
 		}
@@ -2622,7 +2622,7 @@ void PersistentStorage::buildMemberEdgeIdOrderMap()
 		}
 
 		const FilePath path(m_fileNodePaths[location.fileNodeId]);
-		if (path.extension() == ".java")
+		if (path.extension() == L".java")
 		{
 			collection.addSourceLocation(
 				intToLocationType(location.type),

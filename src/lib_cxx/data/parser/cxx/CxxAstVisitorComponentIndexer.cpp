@@ -147,7 +147,7 @@ void CxxAstVisitorComponentIndexer::beginTraverseLambdaCapture(clang::LambdaExpr
 			{
 				ParseLocation declLocation = getParseLocation(d->getLocation());
 				std::wstring name =
-					declLocation.filePath.wFileName() + L"<" +
+					declLocation.filePath.fileName() + L"<" +
 					std::to_wstring(declLocation.startLineNumber) + L":" +
 					std::to_wstring(declLocation.startColumnNumber) + L">";
 				m_client->recordLocalSymbol(name, getParseLocation(capture->getLocation()));
@@ -234,7 +234,7 @@ void CxxAstVisitorComponentIndexer::visitVarDecl(clang::VarDecl* d)
 			{
 				ParseLocation declLocation = getParseLocation(d->getLocation());
 				std::wstring name =
-					declLocation.filePath.wFileName() + L"<" +
+					declLocation.filePath.fileName() + L"<" +
 					std::to_wstring(declLocation.startLineNumber) + L":" +
 					std::to_wstring(declLocation.startColumnNumber) + L">";
 				m_client->recordLocalSymbol(name, getParseLocation(d->getLocation()));
@@ -575,7 +575,7 @@ void CxxAstVisitorComponentIndexer::visitDeclRefExpr(clang::DeclRefExpr* s)
 			(clang::isa<clang::VarDecl>(decl) && decl->getParentFunctionOrMethod() != NULL)
 			) {
 			ParseLocation declLocation = getParseLocation(decl->getLocation());
-			std::wstring name = declLocation.filePath.wFileName() + L"<" +
+			std::wstring name = declLocation.filePath.fileName() + L"<" +
 				std::to_wstring(declLocation.startLineNumber) + L":" +
 				std::to_wstring(declLocation.startColumnNumber) + L">";
 

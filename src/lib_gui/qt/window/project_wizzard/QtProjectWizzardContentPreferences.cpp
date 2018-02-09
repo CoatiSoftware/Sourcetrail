@@ -89,7 +89,7 @@ void QtProjectWizzardContentPreferences::populate(QGridLayout* layout, int& row)
 	m_colorSchemes = addComboBox("Color Scheme", "", layout, row);
 	for (size_t i = 0; i < m_colorSchemePaths.size(); i++)
 	{
-		m_colorSchemes->insertItem(i, QString::fromStdWString(m_colorSchemePaths[i].withoutExtension().wFileName()));
+		m_colorSchemes->insertItem(i, QString::fromStdWString(m_colorSchemePaths[i].withoutExtension().fileName()));
 	}
 	connect(m_colorSchemes, static_cast<void (QComboBox::*)(int)>(&QComboBox::activated),
 		this, &QtProjectWizzardContentPreferences::colorSchemeChanged);

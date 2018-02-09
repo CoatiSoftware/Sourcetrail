@@ -103,7 +103,7 @@ void QtProjectWizzardContentPath::setHelpString(const QString& help)
 	m_helpString = help;
 }
 
-void QtProjectWizzardContentPath::setFileEndings(const std::set<std::string>& fileEndings)
+void QtProjectWizzardContentPath::setFileEndings(const std::set<std::wstring>& fileEndings)
 {
 	m_fileEndings = fileEndings;
 }
@@ -122,7 +122,7 @@ QtProjectWizzardContentPathCDB::QtProjectWizzardContentPathCDB(
 		"<br />"
 		"You can make use of environment variables with ${ENV_VAR}."
 	);
-	setFileEndings({ ".json" });
+	setFileEndings({ L".json" });
 }
 
 void QtProjectWizzardContentPathCDB::populate(QGridLayout* layout, int& row)
@@ -179,7 +179,7 @@ QtProjectWizzardContentPathSourceMaven::QtProjectWizzardContentPathSourceMaven(
 		"<br />"
 		"You can make use of environment variables with ${ENV_VAR}."
 	);
-	setFileEndings({ ".xml" });
+	setFileEndings({ L".xml" });
 }
 
 void QtProjectWizzardContentPathSourceMaven::populate(QGridLayout* layout, int& row)
@@ -324,7 +324,7 @@ QtProjectWizzardContentPathSourceGradle::QtProjectWizzardContentPathSourceGradle
 		"<br />"
 		"You can make use of environment variables with ${ENV_VAR}."
 	);
-	setFileEndings({ ".gradle" });
+	setFileEndings({ L".gradle" });
 }
 
 void QtProjectWizzardContentPathSourceGradle::populate(QGridLayout* layout, int& row)

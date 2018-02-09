@@ -85,9 +85,9 @@ void Project::load()
 
 	const FilePath projectSettingsPath = m_settings->getFilePath();
 
-	const std::string dbExtension = (projectSettingsPath.extension() == ".coatiproject" ? "coatidb" : "srctrldb");
+	const std::wstring dbExtension = (projectSettingsPath.extension() == L".coatiproject" ? L"coatidb" : L"srctrldb");
 	const FilePath dbPath = FilePath(projectSettingsPath).replaceExtension(dbExtension);
-	const FilePath bookmarkPath = FilePath(projectSettingsPath).replaceExtension("srctrlbm");
+	const FilePath bookmarkPath = FilePath(projectSettingsPath).replaceExtension(L"srctrlbm");
 
 	m_storage = std::make_shared<PersistentStorage>(dbPath, bookmarkPath);
 

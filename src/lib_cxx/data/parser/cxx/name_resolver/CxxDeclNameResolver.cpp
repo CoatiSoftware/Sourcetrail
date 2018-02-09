@@ -438,7 +438,7 @@ std::wstring CxxDeclNameResolver::getTranslationUnitMainFileName(const clang::De
 	if (fileId.isValid())
 	{
 		const clang::FileEntry* fileEntry = sourceManager.getFileEntryForID(fileId);
-		return getCanonicalFilePathCache()->getCanonicalFilePath(fileEntry).wFileName();
+		return getCanonicalFilePathCache()->getCanonicalFilePath(fileEntry).fileName();
 	}
 	return L"";
 }
@@ -449,9 +449,9 @@ std::wstring CxxDeclNameResolver::getDeclarationFileName(const clang::Decl* decl
 	const clang::FileEntry* fileEntry = sourceManager.getFileEntryForID(sourceManager.getFileID(declaration->getLocStart()));
 	if (fileEntry != nullptr && fileEntry->isValid())
 	{
-		return getCanonicalFilePathCache()->getCanonicalFilePath(fileEntry).wFileName();
+		return getCanonicalFilePathCache()->getCanonicalFilePath(fileEntry).fileName();
 	}
-	return getCanonicalFilePathCache()->getCanonicalFilePath(utility::decodeFromUtf8(sourceManager.getPresumedLoc(declaration->getLocStart()).getFilename())).wFileName();
+	return getCanonicalFilePathCache()->getCanonicalFilePath(utility::decodeFromUtf8(sourceManager.getPresumedLoc(declaration->getLocStart()).getFilename())).fileName();
 }
 
 std::wstring CxxDeclNameResolver::getNameForAnonymousSymbol(const std::wstring& symbolKindName, const clang::Decl* declaration)

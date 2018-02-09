@@ -40,7 +40,7 @@ void CodeController::handleMessage(MessageActivateAll* message)
 	}
 
 	CodeSnippetParams statsSnippet;
-	statsSnippet.title = currentProject->getProjectSettingsFilePath().withoutExtension().wFileName();
+	statsSnippet.title = currentProject->getProjectSettingsFilePath().withoutExtension().fileName();
 
 	statsSnippet.startLineNumber = 1;
 	statsSnippet.endLineNumber = 1;

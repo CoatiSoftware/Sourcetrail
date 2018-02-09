@@ -505,7 +505,7 @@ std::wstring BookmarkController::getNodeDisplayName(const Id nodeId) const
 
 	if (type.isFile())
 	{
-		return FilePath(nameHierarchy.getQualifiedName()).wFileName();
+		return FilePath(nameHierarchy.getQualifiedName()).fileName();
 	}
 
 	return nameHierarchy.getQualifiedName();

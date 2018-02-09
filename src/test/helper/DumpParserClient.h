@@ -27,7 +27,7 @@ public:
 		const ParseLocation& location,
 		AccessKind access, DefinitionKind definitionKind) override
 	{
-		recordLine(symbolKindToString(symbolKind) + L" " + addLocationSuffix(addAccessPrefix(symbolName.getQualifiedNameWithSignature(), access) + L" [" + location.filePath.wFileName(), location) + L"]\n");
+		recordLine(symbolKindToString(symbolKind) + L" " + addLocationSuffix(addAccessPrefix(symbolName.getQualifiedNameWithSignature(), access) + L" [" + location.filePath.fileName(), location) + L"]\n");
 		return 0;
 	}
 
@@ -36,7 +36,7 @@ public:
 		const ParseLocation& location, const ParseLocation& scopeLocation,
 		AccessKind access, DefinitionKind definitionKind) override
 	{
-		recordLine(symbolKindToString(symbolKind) + L" " + addLocationSuffix(addAccessPrefix(symbolName.getQualifiedNameWithSignature(), access) + L" [" + location.filePath.wFileName(), location, scopeLocation) + L"]\n");
+		recordLine(symbolKindToString(symbolKind) + L" " + addLocationSuffix(addAccessPrefix(symbolName.getQualifiedNameWithSignature(), access) + L" [" + location.filePath.fileName(), location, scopeLocation) + L"]\n");
 		return 0;
 	}
 
@@ -49,7 +49,7 @@ public:
 		{
 			if (FilePath(referencedNameString).exists())
 			{
-				referencedNameString = FilePath(referencedNameString).wFileName();
+				referencedNameString = FilePath(referencedNameString).fileName();
 			}
 		}
 		catch (const boost::filesystem::filesystem_error& e)
@@ -62,7 +62,7 @@ public:
 		{
 			if (FilePath(contextNameString).exists())
 			{
-				contextNameString = FilePath(contextNameString).wFileName();
+				contextNameString = FilePath(contextNameString).fileName();
 			}
 		}
 		catch (const boost::filesystem::filesystem_error& e)
@@ -70,27 +70,27 @@ public:
 			// do nothing and use the old contectNameString
 		}
 
-		recordLine(referenceKindToString(referenceKind) + L" " + addLocationSuffix(contextNameString + L" -> " + referencedNameString + L" [" + location.filePath.wFileName(), location) + L"]\n");
+		recordLine(referenceKindToString(referenceKind) + L" " + addLocationSuffix(contextNameString + L" -> " + referencedNameString + L" [" + location.filePath.fileName(), location) + L"]\n");
 	}
 
 	void recordQualifierLocation(const NameHierarchy& qualifierName, const ParseLocation& location) override
 	{
-		recordLine(L"QUALIFIER: " + addLocationSuffix(qualifierName.getQualifiedNameWithSignature() + L" [" + location.filePath.wFileName(), location) + L"]\n");
+		recordLine(L"QUALIFIER: " + addLocationSuffix(qualifierName.getQualifiedNameWithSignature() + L" [" + location.filePath.fileName(), location) + L"]\n");
 	}
 
 	virtual void recordLocalSymbol(const std::wstring& name, const ParseLocation& location) override
 	{
-		recordLine(L"LOCAL_SYMBOL: " + addLocationSuffix(name + L" [" + location.filePath.wFileName(), location) + L"]\n");
+		recordLine(L"LOCAL_SYMBOL: " + addLocationSuffix(name + L" [" + location.filePath.fileName(), location) + L"]\n");
 	}
 
 	virtual void recordFile(const FileInfo& fileInfo) override
 	{
-		recordLine(L"FILE: " + fileInfo.path.wFileName() + L"\n");
+		recordLine(L"FILE: " + fileInfo.path.fileName() + L"\n");
 	}
 
 	virtual void recordComment(const ParseLocation& location) override
 	{
-		recordLine(L"COMMENT: " + addLocationSuffix(L"comment [" + location.filePath.wFileName(), location) + L"]\n");
+		recordLine(L"COMMENT: " + addLocationSuffix(L"comment [" + location.filePath.fileName(), location) + L"]\n");
 	}
 
 	std::wstring m_lines;
@@ -99,7 +99,7 @@ private:
 	virtual void doRecordError(const ParseLocation& location, const std::wstring& message,
 		bool fatal, bool indexed) override
 	{
-		recordLine(L"ERROR: " + addLocationSuffix(message + L" [" + location.filePath.wFileName(), location) + L"]\n");
+		recordLine(L"ERROR: " + addLocationSuffix(message + L" [" + location.filePath.fileName(), location) + L"]\n");
 	}
 
 	void recordLine(const std::wstring& message)

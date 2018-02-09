@@ -381,22 +381,12 @@ std::string FilePath::getBackslashedString() const
 	return utility::replace(str(), "/", "\\");
 }
 
-std::string FilePath::fileName() const
-{
-	return m_path->filename().generic_string();
-}
-
-std::wstring FilePath::wFileName() const
+std::wstring FilePath::fileName() const
 {
 	return m_path->filename().generic_wstring();
 }
 
-std::string FilePath::extension() const
-{
-	return m_path->extension().generic_string();
-}
-
-std::wstring FilePath::wExtension() const
+std::wstring FilePath::extension() const
 {
 	return m_path->extension().generic_wstring();
 }
@@ -406,15 +396,15 @@ FilePath FilePath::withoutExtension() const
 	return FilePath(getPath().replace_extension().wstring());
 }
 
-FilePath FilePath::replaceExtension(const std::string& extension) const
+FilePath FilePath::replaceExtension(const std::wstring& extension) const
 {
 	return FilePath(getPath().replace_extension(extension).wstring());
 }
 
-bool FilePath::hasExtension(const std::vector<std::string>& extensions) const
+bool FilePath::hasExtension(const std::vector<std::wstring>& extensions) const
 {
-	std::string e = extension();
-	for (const std::string& ext : extensions)
+	const std::wstring e = extension();
+	for (const std::wstring& ext : extensions)
 	{
 		if (e == ext)
 		{

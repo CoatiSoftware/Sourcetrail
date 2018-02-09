@@ -74,7 +74,7 @@ QtCodeField::QtCodeField(
 	LanguageType language = LANGUAGE_UNKNOWN;
 	if (!path.empty())
 	{
-		language = (path.extension() == ".java" ? LANGUAGE_JAVA : LANGUAGE_CPP);
+		language = (path.extension() == L".java" ? LANGUAGE_JAVA : LANGUAGE_CPP);
 	}
 
 	m_highlighter = new QtHighlighter(document(), language);

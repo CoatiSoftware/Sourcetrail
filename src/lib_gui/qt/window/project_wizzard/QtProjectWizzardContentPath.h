@@ -29,7 +29,7 @@ protected:
 	void setTitleString(const QString& title);
 	void setHelpString(const QString& help);
 
-	void setFileEndings(const std::set<std::string>& fileEndings);
+	void setFileEndings(const std::set<std::wstring>& fileEndings);
 
 	std::shared_ptr<SourceGroupSettings> m_settings;
 
@@ -40,7 +40,7 @@ protected:
 private:
 	QString m_titleString;
 	QString m_helpString;
-	std::set<std::string> m_fileEndings;
+	std::set<std::wstring> m_fileEndings;
 };
 
 

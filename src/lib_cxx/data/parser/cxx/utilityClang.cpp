@@ -121,7 +121,7 @@ std::wstring utility::getFileNameOfFileEntry(const clang::FileEntry* entry)
 		}
 		else
 		{
-			fileName = FilePath(utility::decodeFromUtf8(entry->getName().str())).getParentDirectory().concatenate(FilePath(fileName).wFileName()).wstr();
+			fileName = FilePath(utility::decodeFromUtf8(entry->getName().str())).getParentDirectory().concatenate(FilePath(fileName).fileName()).wstr();
 		}
 	}
 	return fileName;

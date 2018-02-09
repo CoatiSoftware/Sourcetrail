@@ -118,14 +118,14 @@ public:
 	{
 		const FilePath path(L"data/FilePathTestSuite/abc.h");
 
-		TS_ASSERT_EQUALS(path.wFileName(), L"abc.h");
+		TS_ASSERT_EQUALS(path.fileName(), L"abc.h");
 	}
 
 	void test_file_path_extension()
 	{
 		const FilePath path(L"data/FilePathTestSuite/a.h");
 
-		TS_ASSERT_EQUALS(path.extension(), ".h");
+		TS_ASSERT_EQUALS(path.extension(), L".h");
 	}
 
 	void test_file_path_without_extension()
@@ -137,10 +137,10 @@ public:
 
 	void test_file_path_has_extension()
 	{
-		std::vector<std::string> extensions;
-		extensions.push_back(".h");
-		extensions.push_back(".cpp");
-		extensions.push_back(".cc");
+		std::vector<std::wstring> extensions;
+		extensions.push_back(L".h");
+		extensions.push_back(L".cpp");
+		extensions.push_back(L".cc");
 
 		TS_ASSERT(FilePath(L"data/FilePathTestSuite/a.h").hasExtension(extensions));
 		TS_ASSERT(FilePath(L"data/FilePathTestSuite/b.cpp").hasExtension(extensions));

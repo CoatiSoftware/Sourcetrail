@@ -221,7 +221,7 @@ void CommandLineParser::processProjectfile()
 	m_projectFile.makeAbsolute();
 
 	const std::wstring errorstring =
-		L"Provided Projectfile is not valid:\n* Provided Projectfile('" + m_projectFile.wFileName() + L"') ";
+		L"Provided Projectfile is not valid:\n* Provided Projectfile('" + m_projectFile.fileName() + L"') ";
 	if (!m_projectFile.exists())
 	{
 		m_errorString = errorstring + L" does not exist";
@@ -229,7 +229,7 @@ void CommandLineParser::processProjectfile()
 		return;
 	}
 
-	if (m_projectFile.extension() != ".srctrlprj" && m_projectFile.extension() != ".coatiproject")
+	if (m_projectFile.extension() != L".srctrlprj" && m_projectFile.extension() != L".coatiproject")
 	{
 		m_errorString = errorstring + L" has a wrong file ending";
 		m_projectFile = FilePath();

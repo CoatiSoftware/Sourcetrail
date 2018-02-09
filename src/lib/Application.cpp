@@ -448,7 +448,7 @@ void Application::updateTitle()
 
 			if (!projectPath.empty())
 			{
-				title += L" - " + projectPath.wFileName();
+				title += L" - " + projectPath.fileName();
 			}
 		}
 

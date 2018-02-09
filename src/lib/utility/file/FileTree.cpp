@@ -40,7 +40,7 @@ std::vector<FilePath> FileTree::doGetAbsoluteRootPathsForRelativeFilePath(const 
 {
 	std::vector<FilePath> rootPaths;
 
-	std::unordered_map<std::string, std::set<FilePath>>::const_iterator it = m_files.find(relativeFilePath.fileName());
+	std::unordered_map<std::wstring, std::set<FilePath>>::const_iterator it = m_files.find(relativeFilePath.fileName());
 	if (it != m_files.end())
 	{
 		for (FilePath existingFilePath : it->second)
@@ -51,7 +51,7 @@ std::vector<FilePath> FileTree::doGetAbsoluteRootPathsForRelativeFilePath(const 
 				FilePath temp = relativeFilePath.getParentDirectory();
 				while (!temp.empty())
 				{
-					if (temp.fileName() == "..")
+					if (temp.fileName() == L"..")
 					{
 						std::vector<FilePath> subDirectories = FileSystem::getDirectSubDirectories(existingFilePath);
 						if (!subDirectories.empty())

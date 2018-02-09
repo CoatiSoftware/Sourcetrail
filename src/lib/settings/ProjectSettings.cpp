@@ -116,7 +116,7 @@ void ProjectSettings::setProjectFilePath(std::wstring projectName, const FilePat
 
 std::wstring ProjectSettings::getProjectName() const
 {
-	return getFilePath().withoutExtension().wFileName();
+	return getFilePath().withoutExtension().fileName();
 }
 
 FilePath ProjectSettings::getProjectDirectoryPath() const

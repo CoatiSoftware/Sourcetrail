@@ -711,7 +711,7 @@ void QtMainWindow::updateRecentProjectMenu()
 		{
 			FilePath project = recentProjects[i];
 			m_recentProjectAction[i]->setVisible(true);
-			m_recentProjectAction[i]->setText(QString::fromStdWString(project.wFileName()));
+			m_recentProjectAction[i]->setText(QString::fromStdWString(project.fileName()));
 			m_recentProjectAction[i]->setData(QString::fromStdWString(project.wstr()));
 		}
 		else

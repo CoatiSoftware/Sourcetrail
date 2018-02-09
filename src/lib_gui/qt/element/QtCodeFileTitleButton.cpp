@@ -102,7 +102,7 @@ void QtCodeFileTitleButton::updateTexts()
 		return;
 	}
 
-	std::wstring title = m_filePath.wFileName();
+	std::wstring title = m_filePath.fileName();
 	std::wstring toolTip = L"file: " + m_filePath.wstr();
 
 	if ((!m_filePath.recheckExists()) ||
