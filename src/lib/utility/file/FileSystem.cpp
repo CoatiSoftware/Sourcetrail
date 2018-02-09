@@ -197,11 +197,6 @@ TimeStamp FileSystem::getLastWriteTime(const FilePath& filePath)
 	return TimeStamp(lastWriteTime);
 }
 
-std::string FileSystem::getTimeStringNow() // TODO: move to utility
-{
-	return boost::posix_time::to_iso_string(boost::posix_time::second_clock::universal_time());
-}
-
 bool FileSystem::remove(const FilePath& path)
 {
 	return boost::filesystem::remove(path.getPath());
@@ -279,24 +274,4 @@ std::vector<FilePath> FileSystem::getRecursiveSubDirectories(const FilePath &pat
 	}
 
 	return v;
-}
-
-std::string FileSystem::fileName(const std::string& path)
-{
-	return boost::filesystem::path(path).filename().generic_string();
-}
-
-std::string FileSystem::absoluteFilePath(const std::string& path)
-{
-	return boost::filesystem::absolute(boost::filesystem::path(path)).generic_string();
-}
-
-std::string FileSystem::extension(const std::string& path)
-{
-	return boost::filesystem::path(path).extension().generic_string();
-}
-
-std::string FileSystem::filePathWithoutExtension(const std::string& path)
-{
-	return boost::filesystem::path(path).replace_extension().generic_string();
 }

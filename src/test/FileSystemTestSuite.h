@@ -101,24 +101,6 @@ public:
 #endif
 	}
 
-	void test_filesystem_extracts_filename()
-	{
-		TS_ASSERT_EQUALS(FileSystem::fileName("data/FileSystemTestSuite/tictactoe.h"), "tictactoe.h");
-		TS_ASSERT_EQUALS(FileSystem::fileName("data/FileSystemTestSuite/Settings/player.h"), "player.h");
-	}
-
-	void test_filesystem_extracts_extension()
-	{
-		TS_ASSERT_EQUALS(FileSystem::extension("data/FileSystemTestSuite/tictactoe.h"), ".h");
-		TS_ASSERT_EQUALS(FileSystem::extension("data/FileSystemTestSuite/tictactoe.cpp"), ".cpp");
-	}
-
-	void test_filesystem_extract_filepath_without_extension()
-	{
-		TS_ASSERT_EQUALS(FileSystem::filePathWithoutExtension("data/FileSystemTestSuite/tictactoe.h"), "data/FileSystemTestSuite/tictactoe");
-		TS_ASSERT_EQUALS(FileSystem::filePathWithoutExtension("data/FileSystemTestSuite/tictactoe.cpp"), "data/FileSystemTestSuite/tictactoe");
-	}
-
 private:
 	bool isInFiles(const std::set<FilePath>& files, const FilePath& filename)
 	{
