@@ -19,20 +19,20 @@ public:
 		const FilePath& workingDirectory,
 		const std::vector<FilePath>& systemHeaderSearchPaths,
 		const std::vector<FilePath>& frameworkSearchPaths,
-		const std::vector<std::string>& compilerFlags);
+		const std::vector<std::wstring>& compilerFlags);
 
 	virtual size_t getByteSize(size_t stringSize) const override;
 
 	const std::vector<FilePath>& getSystemHeaderSearchPaths() const;
 	const std::vector<FilePath>& getFrameworkSearchPaths() const;
-	const std::vector<std::string>& getCompilerFlags() const;
+	const std::vector<std::wstring>& getCompilerFlags() const;
 	const FilePath& getWorkingDirectory() const;
 
 private:
 	FilePath m_workingDirectory;
 	std::vector<FilePath> m_systemHeaderSearchPaths;
 	std::vector<FilePath> m_frameworkSearchPaths;
-	std::vector<std::string> m_compilerFlags;
+	std::vector<std::wstring> m_compilerFlags;
 };
 
 #endif // INDEXER_COMMAND_CXXL_H

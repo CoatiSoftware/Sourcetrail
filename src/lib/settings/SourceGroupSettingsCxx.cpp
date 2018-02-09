@@ -7,7 +7,7 @@ SourceGroupSettingsCxx::SourceGroupSettingsCxx(const std::string& id, SourceGrou
 	: SourceGroupSettings(id, type, projectSettings)
 	, m_headerSearchPaths(std::vector<FilePath>())
 	, m_frameworkSearchPaths(std::vector<FilePath>())
-	, m_compilerFlags(std::vector<std::string>())
+	, m_compilerFlags(std::vector<std::wstring>())
 {
 }
 
@@ -23,7 +23,7 @@ void SourceGroupSettingsCxx::load(std::shared_ptr<const ConfigManager> config)
 
 	setHeaderSearchPaths(getPathValues(key + "/header_search_paths/header_search_path", config));
 	setFrameworkSearchPaths(getPathValues(key + "/framework_search_paths/framework_search_path", config));
-	setCompilerFlags(getValues<std::string>(key + "/compiler_flags/compiler_flag", std::vector<std::string>(), config));
+	setCompilerFlags(getValues<std::wstring>(key + "/compiler_flags/compiler_flag", std::vector<std::wstring>(), config));
 }
 
 void SourceGroupSettingsCxx::save(std::shared_ptr<ConfigManager> config)
@@ -133,12 +133,12 @@ void SourceGroupSettingsCxx::setFrameworkSearchPaths(const std::vector<FilePath>
 	m_frameworkSearchPaths = frameworkSearchPaths;
 }
 
-std::vector<std::string> SourceGroupSettingsCxx::getCompilerFlags() const
+std::vector<std::wstring> SourceGroupSettingsCxx::getCompilerFlags() const
 {
 	return m_compilerFlags;
 }
 
-void SourceGroupSettingsCxx::setCompilerFlags(const std::vector<std::string>& compilerFlags)
+void SourceGroupSettingsCxx::setCompilerFlags(const std::vector<std::wstring>& compilerFlags)
 {
 	m_compilerFlags = compilerFlags;
 }

@@ -61,11 +61,11 @@ void QtProjectWizzardContentCrossCompilationOptions::populate(QGridLayout* layou
 		QLabel* label = new QLabel("Architecture:");
 
 		m_arch = new QComboBox();
-		std::vector<std::string> archTypes = SourceGroupSettingsCxxEmpty::getAvailableArchTypes();
+		std::vector<std::wstring> archTypes = SourceGroupSettingsCxxEmpty::getAvailableArchTypes();
 		std::sort(archTypes.begin(), archTypes.end());
 		for (size_t i = 0; i < archTypes.size(); i++)
 		{
-			m_arch->insertItem(i, archTypes[i].c_str());
+			m_arch->insertItem(i, QString::fromStdWString(archTypes[i]));
 		}
 		m_arch->setCurrentIndex(m_arch->findText("x86_64"));
 
@@ -77,11 +77,11 @@ void QtProjectWizzardContentCrossCompilationOptions::populate(QGridLayout* layou
 		QLabel* label = new QLabel("Vendor:");
 
 		m_vendor = new QComboBox();
-		std::vector<std::string> vendorTypes = SourceGroupSettingsCxxEmpty::getAvailableVendorTypes();
+		std::vector<std::wstring> vendorTypes = SourceGroupSettingsCxxEmpty::getAvailableVendorTypes();
 		std::sort(vendorTypes.begin() + 1, vendorTypes.end());
 		for (size_t i = 0; i < vendorTypes.size(); i++)
 		{
-			m_vendor->insertItem(i, vendorTypes[i].c_str());
+			m_vendor->insertItem(i, QString::fromStdWString(vendorTypes[i]));
 		}
 
 		gridLayout->addWidget(label, 1, 0, Qt::AlignRight);
@@ -92,11 +92,11 @@ void QtProjectWizzardContentCrossCompilationOptions::populate(QGridLayout* layou
 		QLabel* label = new QLabel("OS:");
 
 		m_sys = new QComboBox();
-		std::vector<std::string> osTypes = SourceGroupSettingsCxxEmpty::getAvailableOsTypes();
+		std::vector<std::wstring> osTypes = SourceGroupSettingsCxxEmpty::getAvailableOsTypes();
 		std::sort(osTypes.begin() + 1, osTypes.end());
 		for (size_t i = 0; i < osTypes.size(); i++)
 		{
-			m_sys->insertItem(i, osTypes[i].c_str());
+			m_sys->insertItem(i, QString::fromStdWString(osTypes[i]));
 		}
 
 		gridLayout->addWidget(label, 2, 0, Qt::AlignRight);
@@ -107,11 +107,11 @@ void QtProjectWizzardContentCrossCompilationOptions::populate(QGridLayout* layou
 		QLabel* label = new QLabel("Environment:");
 
 		m_abi = new QComboBox();
-		std::vector<std::string> environmentTypes = SourceGroupSettingsCxxEmpty::getAvailableEnvironmentTypes();
+		std::vector<std::wstring> environmentTypes = SourceGroupSettingsCxxEmpty::getAvailableEnvironmentTypes();
 		std::sort(environmentTypes.begin() + 1, environmentTypes.end());
 		for (size_t i = 0; i < environmentTypes.size(); i++)
 		{
-			m_abi->insertItem(i, environmentTypes[i].c_str());
+			m_abi->insertItem(i, QString::fromStdWString(environmentTypes[i]));
 		}
 
 		gridLayout->addWidget(label, 3, 0, Qt::AlignRight);
@@ -132,10 +132,10 @@ void QtProjectWizzardContentCrossCompilationOptions::load()
 	if (std::shared_ptr<SourceGroupSettingsCxxEmpty> cxxSettings = std::dynamic_pointer_cast<SourceGroupSettingsCxxEmpty>(m_sourceGroupSettings))
 	{
 		m_useTargetOptions->setChecked(cxxSettings->getTargetOptionsEnabled());
-		m_arch->setCurrentText(QString::fromStdString(cxxSettings->getTargetArch()));
-		m_vendor->setCurrentText(QString::fromStdString(cxxSettings->getTargetVendor()));
-		m_sys->setCurrentText(QString::fromStdString(cxxSettings->getTargetSys()));
-		m_abi->setCurrentText(QString::fromStdString(cxxSettings->getTargetAbi()));
+		m_arch->setCurrentText(QString::fromStdWString(cxxSettings->getTargetArch()));
+		m_vendor->setCurrentText(QString::fromStdWString(cxxSettings->getTargetVendor()));
+		m_sys->setCurrentText(QString::fromStdWString(cxxSettings->getTargetSys()));
+		m_abi->setCurrentText(QString::fromStdWString(cxxSettings->getTargetAbi()));
 	}
 
 	updateTargetOptionsEnabled();
@@ -146,10 +146,10 @@ void QtProjectWizzardContentCrossCompilationOptions::save()
 	if (std::shared_ptr<SourceGroupSettingsCxxEmpty> cxxSettings = std::dynamic_pointer_cast<SourceGroupSettingsCxxEmpty>(m_sourceGroupSettings))
 	{
 		cxxSettings->setTargetOptionsEnabled(m_useTargetOptions->isChecked());
-		cxxSettings->setTargetArch(m_arch->currentText().toStdString());
-		cxxSettings->setTargetVendor(m_vendor->currentText().toStdString());
-		cxxSettings->setTargetSys(m_sys->currentText().toStdString());
-		cxxSettings->setTargetAbi(m_abi->currentText().toStdString());
+		cxxSettings->setTargetArch(m_arch->currentText().toStdWString());
+		cxxSettings->setTargetVendor(m_vendor->currentText().toStdWString());
+		cxxSettings->setTargetSys(m_sys->currentText().toStdWString());
+		cxxSettings->setTargetAbi(m_abi->currentText().toStdWString());
 	}
 }
 

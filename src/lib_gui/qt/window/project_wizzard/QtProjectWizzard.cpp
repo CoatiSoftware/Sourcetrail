@@ -644,10 +644,10 @@ void QtProjectWizzard::selectedProjectType(SourceGroupType sourceGroupType)
 		m_newSourceGroupSettings = std::make_shared<SourceGroupSettingsCxxEmpty>(sourceGroupId, sourceGroupType, m_projectSettings.get());
 		if (applicationSettingsContainVisualStudioHeaderSearchPaths())
 		{
-			std::vector<std::string> flags;
-			flags.push_back("-fms-extensions");
-			flags.push_back("-fms-compatibility");
-			flags.push_back("-fms-compatibility-version=19");
+			std::vector<std::wstring> flags;
+			flags.push_back(L"-fms-extensions");
+			flags.push_back(L"-fms-compatibility");
+			flags.push_back(L"-fms-compatibility-version=19");
 			std::dynamic_pointer_cast<SourceGroupSettingsCxx>(m_newSourceGroupSettings)->setCompilerFlags(flags);
 		}
 		emptySourceGroup();

@@ -13,7 +13,7 @@ std::vector<FilePath> IndexerCommandCxxCdb::getSourceFilesFromCDB(const FilePath
 
 	if (!error.empty())
 	{
-		const std::string message = "Loading Clang compilation database failed with error: \"" + error + "\"";
+		const std::wstring message = L"Loading Clang compilation database failed with error: \"" + utility::decodeFromUtf8(error) + L"\"";
 		LOG_ERROR(message);
 		MessageStatus(message, true).dispatch();
 	}
@@ -44,7 +44,7 @@ IndexerCommandCxxCdb::IndexerCommandCxxCdb(
 	const std::set<FilePath>& indexedPaths,
 	const std::set<FilePath>& excludedPaths,
 	const FilePath& workingDirectory,
-	const std::vector<std::string>& compilerFlags,
+	const std::vector<std::wstring>& compilerFlags,
 	const std::vector<FilePath>& systemHeaderSearchPaths,
 	const std::vector<FilePath>& frameworkSearchPaths
 )

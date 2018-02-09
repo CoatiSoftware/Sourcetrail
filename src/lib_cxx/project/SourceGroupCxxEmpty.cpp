@@ -40,9 +40,9 @@ std::vector<std::shared_ptr<IndexerCommand>> SourceGroupCxxEmpty::getIndexerComm
 	utility::append(frameworkSearchPaths, m_settings->getFrameworkSearchPathsExpandedAndAbsolute());
 	utility::append(frameworkSearchPaths, appSettings->getFrameworkSearchPathsExpanded());
 
-	std::vector<std::string> compilerFlags;
+	std::vector<std::wstring> compilerFlags;
 	{
-		const std::string targetFlag = m_settings->getTargetFlag();
+		const std::wstring targetFlag = m_settings->getTargetFlag();
 		if (!targetFlag.empty())
 		{
 			compilerFlags.push_back(targetFlag);

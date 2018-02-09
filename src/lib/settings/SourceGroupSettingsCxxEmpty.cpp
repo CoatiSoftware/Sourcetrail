@@ -3,150 +3,150 @@
 #include "utility/utility.h"
 #include "utility/utilityApp.h"
 
-std::vector<std::string> SourceGroupSettingsCxxEmpty::getAvailableArchTypes()
+std::vector<std::wstring> SourceGroupSettingsCxxEmpty::getAvailableArchTypes()
 {
 	return {
-		"aarch64",
-		"aarch64_be",
-		"arm",
-		"armeb",
-		"avr",
-		"bpfel",
-		"bpfeb",
-		"hexagon",
-		"mips",
-		"mipsel",
-		"mips64",
-		"mips64el",
-		"msp430",
-		"powerpc64",
-		"powerpc64le",
-		"powerpc",
-		"r600",
-		"amdgcn",
-		"riscv32",
-		"riscv64",
-		"sparc",
-		"sparcv9",
-		"sparcel",
-		"s390x",
-		"tce",
-		"tcele",
-		"thumb",
-		"thumbeb",
-		"i386",
-		"x86_64",
-		"xcore",
-		"nvptx",
-		"nvptx64",
-		"le32",
-		"le64",
-		"amdil",
-		"amdil64",
-		"hsail",
-		"hsail64",
-		"spir",
-		"spir64",
-		"kalimba",
-		"lanai",
-		"shave",
-		"wasm32",
-		"wasm64",
-		"renderscript32",
-		"renderscript64",
+		L"aarch64",
+		L"aarch64_be",
+		L"arm",
+		L"armeb",
+		L"avr",
+		L"bpfel",
+		L"bpfeb",
+		L"hexagon",
+		L"mips",
+		L"mipsel",
+		L"mips64",
+		L"mips64el",
+		L"msp430",
+		L"powerpc64",
+		L"powerpc64le",
+		L"powerpc",
+		L"r600",
+		L"amdgcn",
+		L"riscv32",
+		L"riscv64",
+		L"sparc",
+		L"sparcv9",
+		L"sparcel",
+		L"s390x",
+		L"tce",
+		L"tcele",
+		L"thumb",
+		L"thumbeb",
+		L"i386",
+		L"x86_64",
+		L"xcore",
+		L"nvptx",
+		L"nvptx64",
+		L"le32",
+		L"le64",
+		L"amdil",
+		L"amdil64",
+		L"hsail",
+		L"hsail64",
+		L"spir",
+		L"spir64",
+		L"kalimba",
+		L"lanai",
+		L"shave",
+		L"wasm32",
+		L"wasm64",
+		L"renderscript32",
+		L"renderscript64",
 	};
 }
 
-std::vector<std::string> SourceGroupSettingsCxxEmpty::getAvailableVendorTypes()
+std::vector<std::wstring> SourceGroupSettingsCxxEmpty::getAvailableVendorTypes()
 {
 	return {
-	  "unknown",
-	  "apple",
-	  "pc",
-	  "scei",
-	  "bgp",
-	  "bgq",
-	  "fsl",
-	  "ibm",
-	  "img",
-	  "mti",
-	  "nvidia",
-	  "csr",
-	  "myriad",
-	  "amd",
-	  "mesa"
+		L"unknown",
+		L"apple",
+		L"pc",
+		L"scei",
+		L"bgp",
+		L"bgq",
+		L"fsl",
+		L"ibm",
+		L"img",
+		L"mti",
+		L"nvidia",
+		L"csr",
+		L"myriad",
+		L"amd",
+		L"mesa"
 	};
 }
 
-std::vector<std::string> SourceGroupSettingsCxxEmpty::getAvailableOsTypes()
+std::vector<std::wstring> SourceGroupSettingsCxxEmpty::getAvailableOsTypes()
 {
 	return {
-		"unknown",
-		"cloudabi",
-		"darwin",
-		"dragonfly",
-		"freebsd",
-		"fuchsia",
-		"ios",
-		"kfreebsd",
-		"linux",
-		"lv2",
-		"macosx",
-		"netbsd",
-		"openbsd",
-		"solaris",
-		"windows",
-		"haiku",
-		"minix",
-		"rtems",
-		"nacl",
-		"cnk",
-		"bitrig",
-		"aix",
-		"cuda",
-		"nvcl",
-		"amdhsa",
-		"ps4",
-		"elfiamcu",
-		"tvos",
-		"watchos",
-		"mesa3d",
-		"contiki"
+		L"unknown",
+		L"cloudabi",
+		L"darwin",
+		L"dragonfly",
+		L"freebsd",
+		L"fuchsia",
+		L"ios",
+		L"kfreebsd",
+		L"linux",
+		L"lv2",
+		L"macosx",
+		L"netbsd",
+		L"openbsd",
+		L"solaris",
+		L"windows",
+		L"haiku",
+		L"minix",
+		L"rtems",
+		L"nacl",
+		L"cnk",
+		L"bitrig",
+		L"aix",
+		L"cuda",
+		L"nvcl",
+		L"amdhsa",
+		L"ps4",
+		L"elfiamcu",
+		L"tvos",
+		L"watchos",
+		L"mesa3d",
+		L"contiki"
 	};
 }
 
-std::vector<std::string> SourceGroupSettingsCxxEmpty::getAvailableEnvironmentTypes()
+std::vector<std::wstring> SourceGroupSettingsCxxEmpty::getAvailableEnvironmentTypes()
 {
 	return {
-		"unknown",
-		"gnu",
-		"gnuabi64",
-		"gnueabihf",
-		"gnueabi",
-		"gnux32",
-		"code16",
-		"eabi",
-		"eabihf",
-		"android",
-		"musl",
-		"musleabi",
-		"musleabihf",
-		"msvc",
-		"itanium",
-		"cygnus",
-		"amdopencl",
-		"coreclr",
-		"opencl"
+		L"unknown",
+		L"gnu",
+		L"gnuabi64",
+		L"gnueabihf",
+		L"gnueabi",
+		L"gnux32",
+		L"code16",
+		L"eabi",
+		L"eabihf",
+		L"android",
+		L"musl",
+		L"musleabi",
+		L"musleabihf",
+		L"msvc",
+		L"itanium",
+		L"cygnus",
+		L"amdopencl",
+		L"coreclr",
+		L"opencl"
 	};
 }
 
 SourceGroupSettingsCxxEmpty::SourceGroupSettingsCxxEmpty(const std::string& id, SourceGroupType type, const ProjectSettings* projectSettings)
 	: SourceGroupSettingsCxx(id, type, projectSettings)
 	, m_targetOptionsEnabled(false)
-	, m_targetArch("")
-	, m_targetVendor("")
-	, m_targetSys("")
-	, m_targetAbi("")
+	, m_targetArch(L"")
+	, m_targetVendor(L"")
+	, m_targetSys(L"")
+	, m_targetAbi(L"")
 {
 }
 
@@ -161,10 +161,10 @@ void SourceGroupSettingsCxxEmpty::load(std::shared_ptr<const ConfigManager> conf
 	const std::string key = s_keyPrefix + getId();
 
 	setTargetOptionsEnabled(getValue<bool>(key + "/cross_compilation/target_options_enabled", false, config));
-	setTargetArch(getValue<std::string>(key + "/cross_compilation/target/arch", "", config));
-	setTargetVendor(getValue<std::string>(key + "/cross_compilation/target/vendor", "", config));
-	setTargetSys(getValue<std::string>(key + "/cross_compilation/target/sys", "", config));
-	setTargetAbi(getValue<std::string>(key + "/cross_compilation/target/abi", "", config));
+	setTargetArch(getValue<std::wstring>(key + "/cross_compilation/target/arch", L"", config));
+	setTargetVendor(getValue<std::wstring>(key + "/cross_compilation/target/vendor", L"", config));
+	setTargetSys(getValue<std::wstring>(key + "/cross_compilation/target/sys", L"", config));
+	setTargetAbi(getValue<std::wstring>(key + "/cross_compilation/target/abi", L"", config));
 }
 
 void SourceGroupSettingsCxxEmpty::save(std::shared_ptr<ConfigManager> config)
@@ -201,56 +201,56 @@ void SourceGroupSettingsCxxEmpty::setTargetOptionsEnabled(bool targetOptionsEnab
 	m_targetOptionsEnabled = targetOptionsEnabled;
 }
 
-std::string SourceGroupSettingsCxxEmpty::getTargetArch() const
+std::wstring SourceGroupSettingsCxxEmpty::getTargetArch() const
 {
 	return m_targetArch;
 }
 
-void SourceGroupSettingsCxxEmpty::setTargetArch(const std::string& arch)
+void SourceGroupSettingsCxxEmpty::setTargetArch(const std::wstring& arch)
 {
 	m_targetArch = arch;
 }
 
-std::string SourceGroupSettingsCxxEmpty::getTargetVendor() const
+std::wstring SourceGroupSettingsCxxEmpty::getTargetVendor() const
 {
 	return m_targetVendor;
 }
 
-void SourceGroupSettingsCxxEmpty::setTargetVendor(const std::string& vendor)
+void SourceGroupSettingsCxxEmpty::setTargetVendor(const std::wstring& vendor)
 {
 	m_targetVendor = vendor;
 }
 
-std::string SourceGroupSettingsCxxEmpty::getTargetSys() const
+std::wstring SourceGroupSettingsCxxEmpty::getTargetSys() const
 {
 	return m_targetSys;
 }
 
-void SourceGroupSettingsCxxEmpty::setTargetSys(const std::string& sys)
+void SourceGroupSettingsCxxEmpty::setTargetSys(const std::wstring& sys)
 {
 	m_targetSys = sys;
 }
 
-std::string SourceGroupSettingsCxxEmpty::getTargetAbi() const
+std::wstring SourceGroupSettingsCxxEmpty::getTargetAbi() const
 {
 	return m_targetAbi;
 }
 
-void SourceGroupSettingsCxxEmpty::setTargetAbi(const std::string& abi)
+void SourceGroupSettingsCxxEmpty::setTargetAbi(const std::wstring& abi)
 {
 	m_targetAbi = abi;
 }
 
-std::string SourceGroupSettingsCxxEmpty::getTargetFlag() const
+std::wstring SourceGroupSettingsCxxEmpty::getTargetFlag() const
 {
-	std::string targetFlag = "";
+	std::wstring targetFlag = L"";
 	if (m_targetOptionsEnabled && !m_targetArch.empty())
 	{
-		targetFlag = "--target=";
+		targetFlag = L"--target=";
 		targetFlag += m_targetArch;
-		targetFlag += "-" + (m_targetVendor.empty() ? "unknown" : m_targetVendor);
-		targetFlag += "-" + (m_targetSys.empty() ? "unknown" : m_targetSys);
-		targetFlag += "-" + (m_targetAbi.empty() ? "unknown" : m_targetAbi);
+		targetFlag += L"-" + (m_targetVendor.empty() ? L"unknown" : m_targetVendor);
+		targetFlag += L"-" + (m_targetSys.empty() ? L"unknown" : m_targetSys);
+		targetFlag += L"-" + (m_targetAbi.empty() ? L"unknown" : m_targetAbi);
 	}
 	return targetFlag;
 }

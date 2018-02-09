@@ -32,8 +32,8 @@ public:
 	std::string getLanguageStandard() const;
 	void setLanguageStandard(const std::string& languageStandard);
 
-	std::vector<std::string> getCompilerFlags() const;
-	void setCompilerFlags(const std::vector<std::string>& compilerFlags);
+	std::vector<std::wstring> getCompilerFlags() const;
+	void setCompilerFlags(const std::vector<std::wstring>& compilerFlags);
 
 	std::vector<FilePath> getSystemHeaderSearchPaths() const;
 	void setSystemHeaderSearchPaths(const std::vector<FilePath>& filePaths);

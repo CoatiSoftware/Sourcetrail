@@ -7,10 +7,10 @@ class SourceGroupSettingsCxxEmpty
 	: public SourceGroupSettingsCxx
 {
 public:
-	static std::vector<std::string> getAvailableArchTypes();
-	static std::vector<std::string> getAvailableVendorTypes();
-	static std::vector<std::string> getAvailableOsTypes();
-	static std::vector<std::string> getAvailableEnvironmentTypes();
+	static std::vector<std::wstring> getAvailableArchTypes();
+	static std::vector<std::wstring> getAvailableVendorTypes();
+	static std::vector<std::wstring> getAvailableOsTypes();
+	static std::vector<std::wstring> getAvailableEnvironmentTypes();
 
 	SourceGroupSettingsCxxEmpty(const std::string& id, SourceGroupType type, const ProjectSettings* projectSettings);
 	virtual ~SourceGroupSettingsCxxEmpty();
@@ -23,26 +23,26 @@ public:
 	bool getTargetOptionsEnabled() const;
 	void setTargetOptionsEnabled(bool targetOptionsEnabled);
 
-	std::string getTargetArch() const;
-	void setTargetArch(const std::string& arch);
+	std::wstring getTargetArch() const;
+	void setTargetArch(const std::wstring& arch);
 
-	std::string getTargetVendor() const;
-	void setTargetVendor(const std::string& vendor);
+	std::wstring getTargetVendor() const;
+	void setTargetVendor(const std::wstring& vendor);
 
-	std::string getTargetSys() const;
-	void setTargetSys(const std::string& sys);
+	std::wstring getTargetSys() const;
+	void setTargetSys(const std::wstring& sys);
 
-	std::string getTargetAbi() const;
-	void setTargetAbi(const std::string& abi);
+	std::wstring getTargetAbi() const;
+	void setTargetAbi(const std::wstring& abi);
 
-	std::string getTargetFlag() const;
+	std::wstring getTargetFlag() const;
 
 private:
 	bool m_targetOptionsEnabled;
-	std::string m_targetArch;
-	std::string m_targetVendor;
-	std::string m_targetSys;
-	std::string m_targetAbi;
+	std::wstring m_targetArch;
+	std::wstring m_targetVendor;
+	std::wstring m_targetSys;
+	std::wstring m_targetAbi;
 };
 
 #endif // SOURCE_GROUP_SETTINGS_CXX_EMPTY_H

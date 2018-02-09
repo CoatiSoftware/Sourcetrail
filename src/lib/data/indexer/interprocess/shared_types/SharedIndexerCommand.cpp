@@ -196,28 +196,28 @@ void SharedIndexerCommand::setLanguageStandard(const std::string& languageStanda
 	m_languageStandard = languageStandard.c_str();
 }
 
-std::vector<std::string> SharedIndexerCommand::getCompilerFlags() const
+std::vector<std::wstring> SharedIndexerCommand::getCompilerFlags() const
 {
-	std::vector<std::string> result;
+	std::vector<std::wstring> result;
 	result.reserve(m_compilerFlags.size());
 
 	for (unsigned int i = 0; i <  m_compilerFlags.size(); i++)
 	{
-		result.push_back(m_compilerFlags[i].c_str());
+		result.push_back(utility::decodeFromUtf8(m_compilerFlags[i].c_str()));
 	}
 
 	return result;
 }
 
-void SharedIndexerCommand::setCompilerFlags(const std::vector<std::string>& compilerFlags)
+void SharedIndexerCommand::setCompilerFlags(const std::vector<std::wstring>& compilerFlags)
 {
 	m_compilerFlags.clear();
 	m_compilerFlags.reserve(compilerFlags.size());
 
-	for (const std::string& compilerFlag : compilerFlags)
+	for (const std::wstring& compilerFlag : compilerFlags)
 	{
 		SharedMemory::String path(m_compilerFlags.get_allocator());
-		path = compilerFlag.c_str();
+		path = utility::encodeToUtf8(compilerFlag).c_str();
 		m_compilerFlags.push_back(path);
 	}
 }

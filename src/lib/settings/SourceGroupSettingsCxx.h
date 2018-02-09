@@ -25,8 +25,8 @@ public:
 	std::vector<FilePath> getFrameworkSearchPathsExpandedAndAbsolute() const;
 	void setFrameworkSearchPaths(const std::vector<FilePath>& frameworkSearchPaths);
 
-	std::vector<std::string> getCompilerFlags() const;
-	void setCompilerFlags(const std::vector<std::string>& compilerFlags);
+	std::vector<std::wstring> getCompilerFlags() const;
+	void setCompilerFlags(const std::vector<std::wstring>& compilerFlags);
 
 private:
 	virtual std::vector<std::wstring> getDefaultSourceExtensions() const override;
@@ -34,7 +34,7 @@ private:
 
 	std::vector<FilePath> m_headerSearchPaths;
 	std::vector<FilePath> m_frameworkSearchPaths;
-	std::vector<std::string> m_compilerFlags;
+	std::vector<std::wstring> m_compilerFlags;
 };
 
 #endif // SOURCE_GROUP_SETTINGS_CXX_H

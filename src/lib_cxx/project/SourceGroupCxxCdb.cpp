@@ -66,7 +66,7 @@ std::vector<std::shared_ptr<IndexerCommand>> SourceGroupCxxCdb::getIndexerComman
 	utility::append(frameworkSearchPaths, m_settings->getFrameworkSearchPathsExpandedAndAbsolute());
 	utility::append(frameworkSearchPaths, appSettings->getFrameworkSearchPathsExpanded());
 
-	const std::vector<std::string> compilerFlags = m_settings->getCompilerFlags();
+	const std::vector<std::wstring> compilerFlags = m_settings->getCompilerFlags();
 
 	std::set<FilePath> indexedPaths = getIndexedPaths();
 	std::set<FilePath> excludedPaths = getExcludedPaths();
@@ -87,7 +87,7 @@ std::vector<std::shared_ptr<IndexerCommand>> SourceGroupCxxCdb::getIndexerComman
 
 		if (!error.empty())
 		{
-			const std::string message = "Loading Clang compilation database failed with error: \"" + error + "\"";
+			const std::wstring message = L"Loading Clang compilation database failed with error: \"" + utility::decodeFromUtf8(error) + L"\"";
 			LOG_ERROR(message);
 			MessageStatus(message, true).dispatch();
 		}
@@ -110,7 +110,10 @@ std::vector<std::shared_ptr<IndexerCommand>> SourceGroupCxxCdb::getIndexerComman
 					indexedPaths,
 					excludedPaths,
 					FilePath(command.Directory),
-					utility::concat(command.CommandLine, compilerFlags),
+					utility::concat(
+						utility::convert<std::string, std::wstring>(command.CommandLine, [](const std::string& arg) { return utility::decodeFromUtf8(arg); }), 
+						compilerFlags
+					),
 					systemHeaderSearchPaths,
 					frameworkSearchPaths
 				));

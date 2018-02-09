@@ -3840,7 +3840,7 @@ public:
 				"	mov x, eax\n"
 				"}\n"
 			"}\n",
-			{ "--target=i686-pc-windows-msvc" }
+			{ L"--target=i686-pc-windows-msvc" }
 		);
 
  		TS_ASSERT(utility::containsElement<std::wstring>(
@@ -4002,7 +4002,7 @@ public:
 			"c++1z",
 			std::vector<FilePath>(),
 			std::vector<FilePath>(),
-			std::vector<std::string>()
+			std::vector<std::wstring>()
 		);
 
 		std::shared_ptr<TestParserClient> client = std::make_shared<TestParserClient>();
@@ -4083,12 +4083,12 @@ public:
 	// }
 
 private:
-	std::shared_ptr<TestParserClient> parseCode(std::string code, std::vector<std::string> compilerFlags = {})
+	std::shared_ptr<TestParserClient> parseCode(std::string code, std::vector<std::wstring> compilerFlags = {})
 	{
 		std::shared_ptr<TestFileRegister> fileRegister = std::make_shared<TestFileRegister>();
 		std::shared_ptr<TestParserClient> parserClient = std::make_shared<TestParserClient>();
 		CxxParser parser(parserClient, fileRegister);
-		parser.buildIndex("input.cc", TextAccess::createFromString(code), utility::concat(compilerFlags, std::vector<std::string>(1, "-std=c++1z")));
+		parser.buildIndex(L"input.cc", TextAccess::createFromString(code), utility::concat(compilerFlags, std::vector<std::wstring>(1, L"-std=c++1z")));
 		return parserClient;
 	}
 };

@@ -75,9 +75,12 @@ void CxxParser::buildIndex(std::shared_ptr<IndexerCommandCxxCdb> indexerCommand)
 	clang::tooling::CompileCommand compileCommand;
 	compileCommand.Filename = indexerCommand->getSourceFilePath().str();
 	compileCommand.Directory = indexerCommand->getWorkingDirectory().str();
-	compileCommand.CommandLine = utility::concat(indexerCommand->getCompilerFlags(), getCommandlineArgumentsEssential(
-		std::vector<std::string>(), indexerCommand->getSystemHeaderSearchPaths(), indexerCommand->getFrameworkSearchPaths()
-	));
+	compileCommand.CommandLine = utility::concat(
+		utility::convert<std::wstring, std::string>(indexerCommand->getCompilerFlags(), [](const std::wstring & flag) { return utility::encodeToUtf8(flag); }), 
+		getCommandlineArgumentsEssential(
+			std::vector<std::wstring>(), indexerCommand->getSystemHeaderSearchPaths(), indexerCommand->getFrameworkSearchPaths()
+		)
+	);
 
 	if (!utility::isPrefix("-", compileCommand.CommandLine.front()))
 	{
@@ -93,14 +96,17 @@ void CxxParser::buildIndex(std::shared_ptr<IndexerCommandCxxEmpty> indexerComman
 {
 	clang::tooling::CompileCommand compileCommand;
 	compileCommand.Filename = utility::encodeToUtf8(indexerCommand->getSourceFilePath().wstr());
-	compileCommand.Directory = indexerCommand->getWorkingDirectory().str();
-	compileCommand.CommandLine = prependSyntaxOnlyToolArgs(appendFilePath(getCommandlineArguments(indexerCommand), utility::encodeToUtf8(indexerCommand->getSourceFilePath().wstr())));
+	compileCommand.Directory = utility::encodeToUtf8(indexerCommand->getWorkingDirectory().wstr());
+	compileCommand.CommandLine = prependSyntaxOnlyToolArgs(appendFilePath(
+		getCommandlineArguments(indexerCommand), 
+		utility::encodeToUtf8(indexerCommand->getSourceFilePath().wstr())
+	));
 
 	CxxCompilationDatabaseSingle compilationDatabase(compileCommand);
 	runTool(&compilationDatabase, indexerCommand->getSourceFilePath());
 }
 
-void CxxParser::buildIndex(const std::string& fileName, std::shared_ptr<TextAccess> fileContent, std::vector<std::string> compilerFlags)
+void CxxParser::buildIndex(const std::wstring& fileName, std::shared_ptr<TextAccess> fileContent, std::vector<std::wstring> compilerFlags)
 {
 	std::shared_ptr<CanonicalFilePathCache> canonicalFilePathCache = std::make_shared<CanonicalFilePathCache>();
 
@@ -114,7 +120,7 @@ void CxxParser::buildIndex(const std::string& fileName, std::shared_ptr<TextAcce
 		actionFactory.create(),
 		fileContent->getText(),
 		args,
-		fileName
+		utility::encodeToUtf8(fileName)
 	);
 }
 
@@ -133,7 +139,7 @@ void CxxParser::runTool(clang::tooling::CompilationDatabase* compilationDatabase
 }
 
 std::vector<std::string> CxxParser::getCommandlineArgumentsEssential(
-	const std::vector<std::string>& compilerFlags, const std::vector<FilePath>& systemHeaderSearchPaths, const std::vector<FilePath>& frameworkSearchPaths
+	const std::vector<std::wstring>& compilerFlags, const std::vector<FilePath>& systemHeaderSearchPaths, const std::vector<FilePath>& frameworkSearchPaths
 ) const {
 	std::vector<std::string> args;
 
@@ -156,18 +162,21 @@ std::vector<std::string> CxxParser::getCommandlineArgumentsEssential(
 	// This option tells clang just to continue parsing no matter how manny errors have been thrown.
 	args.push_back("-ferror-limit=0");
 
-	args.insert(args.end(), compilerFlags.begin(), compilerFlags.end());
+	for (const std::wstring& compilerFlag: compilerFlags)
+	{
+		args.push_back(utility::encodeToUtf8(compilerFlag));
+	}
 
-	for (const FilePath& path: systemHeaderSearchPaths)
+	for (const FilePath& path : systemHeaderSearchPaths)
 	{
 		args.push_back("-isystem");
-		args.push_back(path.str());
+		args.push_back(utility::encodeToUtf8(path.wstr()));
 	}
 
 	for (const FilePath& path: frameworkSearchPaths)
 	{
 		args.push_back("-iframework");
-		args.push_back(path.str());
+		args.push_back(utility::encodeToUtf8(path.wstr()));
 	}
 
 	return args;

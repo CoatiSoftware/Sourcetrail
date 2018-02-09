@@ -647,7 +647,7 @@ void QtProjectWizzardContentPathsHeaderSearch::finishedAcceptDetectedIncludePath
 	const std::vector<std::wstring> detectedPaths = utility::split<std::vector<std::wstring>>(m_filesDialog->getText(), L"\n");
 	closedFilesDialog();
 
-	std::vector<std::wstring> headerSearchPaths = m_list->getWStringList();
+	std::vector<std::wstring> headerSearchPaths = m_list->getStringList();
 
 	headerSearchPaths.reserve(headerSearchPaths.size() + detectedPaths.size());
 	for (const std::wstring& detectedPath : detectedPaths)
@@ -658,7 +658,7 @@ void QtProjectWizzardContentPathsHeaderSearch::finishedAcceptDetectedIncludePath
 		}
 	}
 
-	m_list->setWStringList(headerSearchPaths);
+	m_list->setStringList(headerSearchPaths);
 }
 
 void QtProjectWizzardContentPathsHeaderSearch::closedPathsDialog()
