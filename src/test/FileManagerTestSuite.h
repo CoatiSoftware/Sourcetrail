@@ -15,13 +15,12 @@ public:
 		std::vector<FilePath> headerPaths;
 		std::vector<FilePath> excludePaths;
 		std::wstring specialExtension = L".";
-#ifdef _WIN32
-		const wchar_t specialCharacter(252);
-		specialExtension += specialCharacter;
-#else
-		std::wstring c;
+#ifdef __APPLE__
 		specialExtension += wchar_t(117);
 		specialExtension += wchar_t(776);
+#else
+		const wchar_t specialCharacter(252);
+		specialExtension += specialCharacter;
 #endif
 		std::vector<std::wstring> sourceExtensions = { L".cpp", L".c", specialExtension };
 
