@@ -2,18 +2,17 @@
 
 #include <memory>
 
-#include "utility/file/FileInfo.h"
-#include "utility/messaging/type/MessageStatus.h"
-#include "utility/text/TextAccess.h"
-#include "utility/tracing.h"
-#include "utility/logging/logging.h"
-#include "utility/utilityString.h"
-
 #include "data/access/StorageAccess.h"
 #include "data/location/SourceLocation.h"
 #include "data/location/SourceLocationCollection.h"
 #include "data/location/SourceLocationFile.h"
 #include "settings/ApplicationSettings.h"
+#include "utility/file/FileInfo.h"
+#include "utility/logging/logging.h"
+#include "utility/messaging/type/MessageStatus.h"
+#include "utility/text/TextAccess.h"
+#include "utility/tracing.h"
+#include "utility/utilityString.h"
 #include "Application.h"
 
 CodeController::CodeController(StorageAccess* storageAccess)
@@ -339,7 +338,7 @@ void CodeController::handleMessage(MessageSearchFullText* message)
 
 	saveOrRestoreViewMode(message);
 
-	m_collection = m_storageAccess->getFullTextSearchLocations(utility::encodeToUtf8(message->searchTerm), message->caseSensitive);
+	m_collection = m_storageAccess->getFullTextSearchLocations(message->searchTerm, message->caseSensitive);
 
 	CodeView::ScrollParams scrollParams(CodeView::ScrollParams::SCROLL_TO_DEFINITION);
 	getView()->scrollTo(scrollParams);

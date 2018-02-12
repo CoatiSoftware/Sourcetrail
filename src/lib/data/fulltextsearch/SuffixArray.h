@@ -8,8 +8,8 @@
 class SuffixArray
 {
 public:
-	SuffixArray(const std::string& text);
-	std::vector<int> searchForTerm(const std::string& searchTerm) const;
+	SuffixArray(const std::wstring& text);
+	std::vector<int> searchForTerm(const std::wstring& searchTerm) const;
 	static int cmp(struct suffix a, struct suffix b);
 
 	void printArray() const;
@@ -30,7 +30,7 @@ private:
 	std::vector<int> buildSuffixArray();
 	std::vector<int> m_array;
 	std::vector<int> m_lcp;
-	std::string m_text;
+	std::wstring m_text;
 };
 
 #endif // SUFFIX_ARRAY_H

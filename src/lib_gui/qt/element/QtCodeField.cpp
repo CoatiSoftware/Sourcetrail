@@ -13,6 +13,7 @@
 #include "utility/messaging/type/MessageActivateSourceLocations.h"
 #include "utility/messaging/type/MessageActivateTokenIds.h"
 #include "utility/messaging/type/MessageTooltipShow.h"
+#include "utility/TextCodec.h"
 #include "utility/utility.h"
 
 std::vector<QtCodeField::AnnotationColor> QtCodeField::s_annotationColors;
@@ -48,14 +49,14 @@ QtCodeField::QtCodeField(
 		displayCode.pop_back();
 	}
 
-	QTextCodec* codec = QTextCodec::codecForName(ApplicationSettings::getInstance()->getTextEncoding().c_str());
-	if (codec)
+	TextCodec codec(ApplicationSettings::getInstance()->getTextEncoding().c_str());
+	if (codec.isValid())
 	{
-		QString convertedDisplayCode(codec->toUnicode(displayCode.c_str()));
+		QString convertedDisplayCode = QString::fromStdWString(codec.decode(displayCode));
 		setPlainText(convertedDisplayCode);
 		if (displayCode.size() != size_t(convertedDisplayCode.length()))
 		{
-			LOG_INFO("Converting displayed code to " + codec->name().toStdString() + " resulted in offset of source locations. Correcting this now.");
+			LOG_INFO("Converting displayed code to " + codec.getName() + " resulted in offset of source locations. Correcting this now.");
 			createMultibyteCharacterLocationCache();
 		}
 	}

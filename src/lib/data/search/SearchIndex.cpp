@@ -162,7 +162,7 @@ void SearchIndex::searchRecursive(
 
 		// test if s passes the edge's gate.
 		bool passesGate = true;
-		for (const char& c : remainingQuery)
+		for (const wchar_t& c : remainingQuery)
 		{
 			if (currentEdge->gate.find(c) == currentEdge->gate.end())
 			{

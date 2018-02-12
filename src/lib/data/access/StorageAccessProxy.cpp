@@ -116,7 +116,7 @@ StorageEdge StorageAccessProxy::getEdgeById(Id edgeId) const
 }
 
 std::shared_ptr<SourceLocationCollection> StorageAccessProxy::getFullTextSearchLocations(
-		const std::string &searchTerm, bool caseSensitive) const
+		const std::wstring &searchTerm, bool caseSensitive) const
 {
 	if (hasSubject())
 	{

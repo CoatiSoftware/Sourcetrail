@@ -18,6 +18,7 @@ IF(${CMAKE_BINARY_DIR} STREQUAL ${CMAKE_SOURCE_DIR})
   MESSAGE(FATAL_ERROR "Please create a separate build directory and call CMake again")
 ENDIF(${CMAKE_BINARY_DIR} STREQUAL ${CMAKE_SOURCE_DIR})
 
+
 # Variables --------------------------------------------------------------------
 
 set(PROJECT_NAME Sourcetrail)
@@ -32,6 +33,7 @@ endif()
 
 set(APP_PROJECT_NAME "${PROJECT_NAME}")
 set(LIB_LICENSE_PROJECT_NAME "${PROJECT_NAME}_lib_license")
+set(LIB_UTILITY_PROJECT_NAME "${PROJECT_NAME}_lib_utility")
 set(LIB_GUI_PROJECT_NAME "${PROJECT_NAME}_lib_gui")
 set(LIB_CXX_PROJECT_NAME "${PROJECT_NAME}_lib_cxx")
 set(LIB_JAVA_PROJECT_NAME "${PROJECT_NAME}_lib_java")
@@ -56,6 +58,7 @@ else ()
 	set(PLATFORM_INCLUDE "includesLinux.h")
 endif ()
 
+
 # Project ----------------------------------------------------------------------
 
 project(${PROJECT_NAME})
@@ -74,7 +77,9 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_C_STANDARD 99)
 
+
 # Settings ---------------------------------------------------------------------
+
 if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
 	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-unknown-warning-option -fcolor-diagnostics")
 endif()
@@ -83,6 +88,7 @@ endif()
 #if (UNIX AND "${CMAKE_BUILD_TYPE}" STREQUAL "Release")
 	#add_definitions(-fno-omit-frame-pointer)
 #endif ()
+
 
 # Clang ------------------------------------------------------------------------
 
@@ -105,6 +111,7 @@ endif()
 find_package(CLANG REQUIRED PATHS "${CMAKE_SOURCE_DIR}/cmake" NO_DEFAULT_PATH)
 
 add_definitions(${CLANG_DEFINITIONS})
+
 
 # Boost ------------------------------------------------------------------------
 
@@ -132,7 +139,8 @@ endif()
 
 find_package(Boost 1.64 COMPONENTS system program_options filesystem date_time REQUIRED)
 
-# Botan -------------------------------------------------------------------------
+
+# Botan ------------------------------------------------------------------------
 
 set(BOTAN_VERSION "botan-2")
 
@@ -184,7 +192,47 @@ if(NOT BOTAN_INCLUDE_DIR)
 endif()
 
 
-# Lib License -------------------------------------------------------------------
+# Qt ---------------------------------------------------------------------------
+
+# Find the QtWidgets library
+if(UNIX)
+	set(CMAKE_PREFIX_PATH "$ENV{QT_DIR}/")
+
+	if(APPLE)
+		set(Qt5Widgets_DIR "$ENV{QT_DIR}/cmake/Qt5Widgets/")
+		set(Qt5PrintSupport_DIR "$ENV{QT_DIR}/cmake/Qt5PrintSupport/")
+	endif()
+
+else()
+	if(${WINXXBITS} STREQUAL "Win32")
+		set(CMAKE_PREFIX_PATH "$ENV{QT_WIN32_DIR}/")
+	else()
+		set(CMAKE_PREFIX_PATH "$ENV{QT_WIN64_DIR}/")
+	endif()
+	set(Qt5Widgets_DIR "${CMAKE_PREFIX_PATH}/lib/cmake/Qt5Widgets")
+	set(Qt5PrintSupport_DIR "${CMAKE_PREFIX_PATH}/lib/cmake/Qt5PrintSupport")
+	set(Qt5Network_DIR "${CMAKE_PREFIX_PATH}/lib/cmake/Qt5Network")
+	set(Qt5WinExtras_DIR "${CMAKE_PREFIX_PATH}/lib/cmake/Qt5WinExtras")
+endif()
+
+find_package(Qt5Widgets)
+find_package(Qt5PrintSupport)
+find_package(Qt5Network)
+
+if (WIN32)
+	find_package(Qt5WinExtras)
+endif()
+
+if(Qt5Widgets_FOUND)
+	MESSAGE(STATUS "Found Qt ${Qt5Widgets_VERSION_STRING}")
+	# FIX: Qt was built with -reduce-relocations
+	if (Qt5_POSITION_INDEPENDENT_CODE)
+		SET(CMAKE_POSITION_INDEPENDENT_CODE ON)
+	endif()
+endif()
+
+
+# Lib License ------------------------------------------------------------------
 
 if (UNIX)
 	set(CMAKE_LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/${CMAKE_BUILD_TYPE}/lib/")
@@ -223,6 +271,31 @@ else()
 endif()
 
 
+# Lib Utility ------------------------------------------------------------------
+
+add_subdirectory(src/lib_utility)
+
+add_library(${LIB_UTILITY_PROJECT_NAME} ${LIB_UTILITY_FILES})
+
+create_source_groups(${LIB_UTILITY_FILES})
+
+set_property(
+	TARGET ${LIB_UTILITY_PROJECT_NAME}
+	PROPERTY INCLUDE_DIRECTORIES
+		"${CMAKE_SOURCE_DIR}/src/lib_utility"
+)
+
+target_include_directories(${LIB_UTILITY_PROJECT_NAME} SYSTEM
+	PUBLIC ${Boost_INCLUDE_DIR}
+)
+
+if(UNIX)
+	target_link_libraries(${LIB_UTILITY_PROJECT_NAME} ${Boost_LIBRARIES} Qt5::Widgets Qt5::Network)
+else()
+	target_link_libraries(${LIB_UTILITY_PROJECT_NAME} ${Boost_LIBRARIES} Qt5::Widgets Qt5::Network Qt5::WinExtras)
+endif()
+
+
 # Lib --------------------------------------------------------------------------
 
 add_subdirectory(src/lib)
@@ -244,6 +317,7 @@ set_property(
 		"${CMAKE_SOURCE_DIR}/src/external"
 		"${CMAKE_SOURCE_DIR}/src/lib_license"
 		"${CMAKE_SOURCE_DIR}/src/lib_gui"
+		"${CMAKE_SOURCE_DIR}/src/lib_utility"
 		"${CMAKE_BINARY_DIR}/src/lib_license"
 		"${CMAKE_SOURCE_DIR}/src/lib_cxx"
 		"${CMAKE_SOURCE_DIR}/src/lib_java"
@@ -254,10 +328,10 @@ target_include_directories(${LIB_PROJECT_NAME} SYSTEM
 	"${CMAKE_SOURCE_DIR}/src/external"
 )
 
-target_link_libraries(${LIB_PROJECT_NAME} ${Boost_LIBRARIES} ${LIB_LICENSE_PROJECT_NAME})
+target_link_libraries(${LIB_PROJECT_NAME} ${LIB_UTILITY_PROJECT_NAME} ${LIB_LICENSE_PROJECT_NAME} ${Boost_LIBRARIES})
 
 
-# Lib Cxx -------------------------------------------------------------------
+# Lib Cxx ----------------------------------------------------------------------
 
 add_subdirectory(src/lib_cxx)
 
@@ -287,7 +361,8 @@ if (WIN32)
 	target_link_libraries(${LIB_CXX_PROJECT_NAME} version)
 endif()
 
-# Lib Java -------------------------------------------------------------------
+
+# Lib Java ---------------------------------------------------------------------
 
 find_package(JNI)
 
@@ -331,43 +406,6 @@ set(CMAKE_INCLUDE_CURRENT_DIR ON)
 # Instruct CMake to run moc automatically when needed.
 set(CMAKE_AUTOMOC ON)
 
-# Find the QtWidgets library
-if(UNIX)
-	set(CMAKE_PREFIX_PATH "$ENV{QT_DIR}/")
-
-	if(APPLE)
-		set(Qt5Widgets_DIR "$ENV{QT_DIR}/cmake/Qt5Widgets/")
-		set(Qt5PrintSupport_DIR "$ENV{QT_DIR}/cmake/Qt5PrintSupport/")
-	endif()
-
-else()
-	if(${WINXXBITS} STREQUAL "Win32")
-		set(CMAKE_PREFIX_PATH "$ENV{QT_WIN32_DIR}/")
-	else()
-		set(CMAKE_PREFIX_PATH "$ENV{QT_WIN64_DIR}/")
-	endif()
-	set(Qt5Widgets_DIR "${CMAKE_PREFIX_PATH}/lib/cmake/Qt5Widgets")
-	set(Qt5PrintSupport_DIR "${CMAKE_PREFIX_PATH}/lib/cmake/Qt5PrintSupport")
-	set(Qt5Network_DIR "${CMAKE_PREFIX_PATH}/lib/cmake/Qt5Network")
-	set(Qt5WinExtras_DIR "${CMAKE_PREFIX_PATH}/lib/cmake/Qt5WinExtras")
-endif()
-
-find_package(Qt5Widgets)
-find_package(Qt5PrintSupport)
-find_package(Qt5Network)
-
-if (WIN32)
-	find_package(Qt5WinExtras)
-endif()
-
-if(Qt5Widgets_FOUND)
-	MESSAGE(STATUS "Found Qt ${Qt5Widgets_VERSION_STRING}")
-	# FIX: Qt was built with -reduce-relocations
-	if (Qt5_POSITION_INDEPENDENT_CODE)
-		SET(CMAKE_POSITION_INDEPENDENT_CODE ON)
-	endif()
-endif()
-
 # target for running versionnumber script
 # workaround for running customcommand (ninja dependency cycle)
 add_custom_target(
@@ -377,9 +415,9 @@ add_custom_target(
 add_library(${LIB_GUI_PROJECT_NAME} ${LIB_GUI_FILES} ${CMAKE_BINARY_DIR}/src/lib_gui/version.h)
 
 if(UNIX)
-	target_link_libraries(${LIB_GUI_PROJECT_NAME} Qt5::Widgets Qt5::Network)
+	target_link_libraries(${LIB_GUI_PROJECT_NAME} ${LIB_UTILITY_PROJECT_NAME} Qt5::Widgets Qt5::Network)
 else()
-	target_link_libraries(${LIB_GUI_PROJECT_NAME} Qt5::Widgets Qt5::Network Qt5::WinExtras)
+	target_link_libraries(${LIB_GUI_PROJECT_NAME} ${LIB_UTILITY_PROJECT_NAME} Qt5::Widgets Qt5::Network Qt5::WinExtras)
 endif()
 
 # command for versioning script
@@ -400,6 +438,7 @@ set_property(
 	TARGET ${LIB_GUI_PROJECT_NAME}
 	PROPERTY INCLUDE_DIRECTORIES
 		"${CMAKE_SOURCE_DIR}/src/lib_gui"
+		"${CMAKE_SOURCE_DIR}/src/lib_utility"
 		"${CMAKE_SOURCE_DIR}/src/lib"
 		"${CMAKE_SOURCE_DIR}/src/lib_cxx"
 		"${CMAKE_SOURCE_DIR}/src/lib_java"
@@ -430,6 +469,7 @@ configure_file(
 include(cmake/public_key.cmake)
 
 set(CMAKE_AUTOMOC OFF)
+
 
 # Indexer App ------------------------------------------------------------------
 
@@ -483,6 +523,7 @@ set_property(
 		"${CMAKE_BINARY_DIR}/src/lib_gui"
 		"${CMAKE_BINARY_DIR}/src/lib_license"
 )
+
 
 # App --------------------------------------------------------------------------
 
@@ -603,7 +644,8 @@ if (APPLE)
 
 endif ()
 
-# License Generator  --------------------------------------------------------
+
+# License Generator  -----------------------------------------------------------
 
 add_subdirectory(src/license_generator)
 
@@ -641,6 +683,7 @@ if(UNIX AND NOT APPLE)
 endif()
 
 target_link_libraries(${LICENSE_GENERATOR_PROJECT_NAME} ${LIB_LICENSE_PROJECT_NAME} ${Boost_LIBRARIES} )
+
 
 # CxxTest ----------------------------------------------------------------------
 
@@ -716,6 +759,7 @@ elseif (UNIX)
 	add_custom_target(gen DEPENDS ${TESTGEN_FILE})
 	add_dependencies(${TEST_PROJECT_NAME} gen)
 endif ()
+
 
 # Visual Leak Detector ---------------------------------------------------------
 

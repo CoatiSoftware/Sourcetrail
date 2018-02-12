@@ -32,7 +32,7 @@ public:
 	virtual StorageEdge getEdgeById(Id edgeId) const override;
 
 	virtual std::shared_ptr<SourceLocationCollection> getFullTextSearchLocations(
-			const std::string& searchTerm, bool caseSensitive) const override;
+			const std::wstring& searchTerm, bool caseSensitive) const override;
 	virtual std::vector<SearchMatch> getAutocompletionMatches(const std::wstring& query, NodeTypeSet acceptedNodeTypes) const override;
 	virtual std::vector<SearchMatch> getSearchMatchesForTokenIds(const std::vector<Id>& tokenIds) const override;
 

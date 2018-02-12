@@ -85,7 +85,7 @@ public:
 	virtual StorageEdge getEdgeById(Id edgeId) const override;
 
 	virtual std::shared_ptr<SourceLocationCollection> getFullTextSearchLocations(
-		const std::string& searchTerm, bool caseSensitive) const override;
+		const std::wstring& searchTerm, bool caseSensitive) const override;
 
 	virtual std::vector<SearchMatch> getAutocompletionMatches(const std::wstring& query, NodeTypeSet acceptedNodeTypes) const override;
 	std::vector<SearchMatch> getAutocompletionSymbolMatches(
@@ -187,6 +187,7 @@ private:
 	SearchIndex m_fileIndex;
 
 	mutable FullTextSearchIndex m_fullTextSearchIndex;
+	mutable std::string m_fullTextSearchCodec;
 
 	SqliteIndexStorage m_sqliteIndexStorage;
 	SqliteBookmarkStorage m_sqliteBookmarkStorage;

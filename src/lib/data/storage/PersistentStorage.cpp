@@ -21,6 +21,7 @@
 #include "utility/messaging/type/MessageNewErrors.h"
 #include "utility/messaging/type/MessageStatus.h"
 #include "utility/text/TextAccess.h"
+#include "utility/TextCodec.h"
 #include "utility/TimeStamp.h"
 #include "utility/tracing.h"
 #include "utility/utility.h"
@@ -292,6 +293,7 @@ void PersistentStorage::clearCaches()
 
 	m_hierarchyCache.clear();
 	m_fullTextSearchIndex.clear();
+	m_fullTextSearchCodec = "";
 }
 
 std::set<FilePath> PersistentStorage::getReferenced(const std::set<FilePath>& filePaths)
@@ -463,25 +465,27 @@ StorageEdge PersistentStorage::getEdgeById(Id edgeId) const
 }
 
 std::shared_ptr<SourceLocationCollection> PersistentStorage::getFullTextSearchLocations(
-		const std::string& searchTerm, bool caseSensitive
+		const std::wstring& searchTerm, bool caseSensitive
 ) const
 {
 	TRACE();
 
+	const TextCodec codec(ApplicationSettings::getInstance()->getTextEncoding());
+
 	std::shared_ptr<SourceLocationCollection> collection = std::make_shared<SourceLocationCollection>();
-	if (!searchTerm.size())
+	if (searchTerm.empty())
 	{
 		return collection;
 	}
 
-	if (m_fullTextSearchIndex.fileCount() == 0)
+	if (m_fullTextSearchCodec != codec.getName())
 	{
 		MessageStatus(L"Building fulltext search index", false, true).dispatch();
 		buildFullTextSearchIndex();
 	}
 
 	MessageStatus(
-		std::string("Searching fulltext (case-") + (caseSensitive ? "sensitive" : "insensitive") + "): " + searchTerm,
+		std::wstring(L"Searching fulltext (case-") + (caseSensitive ? L"sensitive" : L"insensitive") + L"): " + searchTerm,
 		false, true
 	).dispatch();
 
@@ -494,7 +498,7 @@ std::shared_ptr<SourceLocationCollection> PersistentStorage::getFullTextSearchLo
 
 		int charsTotal = 0;
 		int lineNumber = 1;
-		std::string line = fileContent->getLine(lineNumber);
+		std::wstring line = codec.decode(fileContent->getLine(lineNumber));
 
 		for (int pos : fileHits.positions)
 		{
@@ -502,7 +506,7 @@ std::shared_ptr<SourceLocationCollection> PersistentStorage::getFullTextSearchLo
 			{
 				charsTotal += line.length();
 				lineNumber++;
-				line = fileContent->getLine(lineNumber);
+				line = codec.decode(fileContent->getLine(lineNumber));
 			}
 
 			ParseLocation location;
@@ -518,7 +522,7 @@ std::shared_ptr<SourceLocationCollection> PersistentStorage::getFullTextSearchLo
 			{
 				charsTotal += line.length();
 				lineNumber++;
-				line = fileContent->getLine(lineNumber);
+				line = codec.decode(fileContent->getLine(lineNumber));
 			}
 
 			location.endLineNumber = lineNumber;
@@ -543,9 +547,9 @@ std::shared_ptr<SourceLocationCollection> PersistentStorage::getFullTextSearchLo
 	addCompleteFlagsToSourceLocationCollection(collection.get());
 
 	MessageStatus(
-		std::to_string(collection->getSourceLocationCount()) + " results in " +
-			std::to_string(collection->getSourceLocationFileCount()) + " files for fulltext search (case-" +
-			(caseSensitive ? "sensitive" : "insensitive") + "): " + searchTerm,
+		std::to_wstring(collection->getSourceLocationCount()) + L" results in " +
+			std::to_wstring(collection->getSourceLocationFileCount()) + L" files for fulltext search (case-" +
+			(caseSensitive ? L"sensitive" : L"insensitive") + L"): " + searchTerm,
 		false, false
 	).dispatch();
 
@@ -2580,9 +2584,18 @@ void PersistentStorage::buildFullTextSearchIndex() const
 {
 	TRACE();
 
+	TextCodec codec(ApplicationSettings::getInstance()->getTextEncoding());
+
+	m_fullTextSearchCodec = codec.getName();
+	
+	m_fullTextSearchIndex.clear();
 	for (StorageFile& file : m_sqliteIndexStorage.getAll<StorageFile>())
 	{
-		m_fullTextSearchIndex.addFile(file.id, m_sqliteIndexStorage.getFileContentById(file.id)->getText());
+
+		m_fullTextSearchIndex.addFile(
+			file.id, 
+			codec.decode(m_sqliteIndexStorage.getFileContentById(file.id)->getText())
+		);
 	}
 }
 
