@@ -4,8 +4,8 @@
 #include "Application.h"
 
 TaskShowUnknownProgressDialog::TaskShowUnknownProgressDialog(
-	const std::string& title,
-	const std::string& message
+	const std::wstring& title,
+	const std::wstring& message
 )
 	: m_title(title)
 	, m_message(message)

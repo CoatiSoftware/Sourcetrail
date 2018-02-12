@@ -265,7 +265,7 @@ void QtIndexingDialog::setupProgress()
 	finishSetup();
 }
 
-void QtIndexingDialog::updateMessage(QString message)
+void QtIndexingDialog::updateMessage(const QString& message)
 {
 	if (m_messageLabel)
 	{
@@ -273,13 +273,13 @@ void QtIndexingDialog::updateMessage(QString message)
 	}
 }
 
-std::string QtIndexingDialog::getMessage() const
+std::wstring QtIndexingDialog::getMessage() const
 {
 	if (m_messageLabel)
 	{
-		return m_messageLabel->text().toStdString();
+		return m_messageLabel->text().toStdWString();
 	}
-	return "";
+	return L"";
 }
 
 void QtIndexingDialog::updateProgress(size_t progress)

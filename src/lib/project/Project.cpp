@@ -245,7 +245,7 @@ void Project::refresh(RefreshMode refreshMode, DialogView* dialogView)
 		}
 	}
 
-	dialogView->showUnknownProgressDialog("Preparing Project", "Processing Files");
+	dialogView->showUnknownProgressDialog(L"Preparing Project", L"Processing Files");
 	ScopedFunctor dialogHider([&dialogView](){
 		dialogView->hideUnknownProgressDialog();
 	});
@@ -333,7 +333,7 @@ void Project::buildIndex(const RefreshInfo& info, DialogView* dialogView)
 	MessageStatus(L"Preparing Indexing", false, true).dispatch();
 	MessageClearErrorCount().dispatch();
 
-	dialogView->showUnknownProgressDialog("Preparing Indexing", "Setting up Indexers");
+	dialogView->showUnknownProgressDialog(L"Preparing Indexing", L"Setting up Indexers");
 
 	std::shared_ptr<TaskGroupSequence> taskSequential = std::make_shared<TaskGroupSequence>();
 
@@ -440,7 +440,7 @@ void Project::buildIndex(const RefreshInfo& info, DialogView* dialogView)
 		);
 		// add task that notifies the user of what's going on
 		taskSequential->addTask( // we don't need to hide this dialog again, because it's overridden by other dialogs later on.
-			std::make_shared<TaskShowUnknownProgressDialog>("Finish Indexing", "Saving\nRemaining Data")
+			std::make_shared<TaskShowUnknownProgressDialog>(L"Finish Indexing", L"Saving\nRemaining Data")
 		);
 
 		// add task that injects the remaining intermediate storages into the persistent storage

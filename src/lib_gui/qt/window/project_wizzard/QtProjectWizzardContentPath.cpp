@@ -236,7 +236,7 @@ std::vector<FilePath> QtProjectWizzardContentPathSourceMaven::getFilePaths() con
 	});
 
 	std::dynamic_pointer_cast<QtDialogView>(dialogView)->setParentWindow(m_window);
-	dialogView->showUnknownProgressDialog("Preparing Project", "Maven\nGenerating Source Files");
+	dialogView->showUnknownProgressDialog(L"Preparing Project", L"Maven\nGenerating Source Files");
 	const bool success = utility::mavenGenerateSources(mavenPath, mavenProjectRoot);
 	if (!success)
 	{
@@ -250,7 +250,7 @@ std::vector<FilePath> QtProjectWizzardContentPathSourceMaven::getFilePaths() con
 	}
 	else
 	{
-		dialogView->showUnknownProgressDialog("Preparing Project", "Maven\nFetching Source Directories");
+		dialogView->showUnknownProgressDialog(L"Preparing Project", L"Maven\nFetching Source Directories");
 		const std::vector<FilePath> sourceDirectories = utility::mavenGetAllDirectoriesFromEffectivePom(
 			mavenPath,
 			mavenProjectRoot,
@@ -382,7 +382,7 @@ std::vector<FilePath> QtProjectWizzardContentPathSourceGradle::getFilePaths() co
 
 	std::dynamic_pointer_cast<QtDialogView>(dialogView)->setParentWindow(m_window);
 	{
-		dialogView->showUnknownProgressDialog("Preparing Project", "Gradle\nFetching Source Directories");
+		dialogView->showUnknownProgressDialog(L"Preparing Project", L"Gradle\nFetching Source Directories");
 		const std::vector<FilePath> sourceDirectories = utility::gradleGetAllSourceDirectories(
 			gradleProjectRoot,
 			settings->getShouldIndexGradleTests()

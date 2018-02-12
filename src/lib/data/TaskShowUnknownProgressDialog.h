@@ -10,8 +10,8 @@ class TaskShowUnknownProgressDialog
 {
 public:
 	TaskShowUnknownProgressDialog(
-		const std::string& title,
-		const std::string& message
+		const std::wstring& title,
+		const std::wstring& message
 	);
 
 	virtual ~TaskShowUnknownProgressDialog();
@@ -22,8 +22,8 @@ private:
 	virtual void doExit(std::shared_ptr<Blackboard> blackboard);
 	virtual void doReset(std::shared_ptr<Blackboard> blackboard);
 
-	const std::string m_title;
-	const std::string m_message;
+	const std::wstring m_title;
+	const std::wstring m_message;
 };
 
 #endif // TASK_SHOW_UNKNOWN_PROGRESS_DIALOG_H

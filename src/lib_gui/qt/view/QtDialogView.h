@@ -29,10 +29,10 @@ public:
 	QtDialogView(QtMainWindow* mainWindow, StorageAccess* storageAccess);
 	virtual ~QtDialogView();
 
-	virtual void showUnknownProgressDialog(const std::string& title, const std::string& message) override;
+	virtual void showUnknownProgressDialog(const std::wstring& title, const std::wstring& message) override;
 	virtual void hideUnknownProgressDialog() override;
 
-	virtual void showProgressDialog(const std::string& title, const std::string& message, size_t progress) override;
+	virtual void showProgressDialog(const std::wstring& title, const std::wstring& message, size_t progress) override;
 	virtual void hideProgressDialog() override;
 
 	virtual void startIndexingDialog(
@@ -51,7 +51,7 @@ public:
 	void setParentWindow(QtWindow* window);
 
 private slots:
-	void showUnknownProgress(const std::string& title, const std::string& message, bool stacked);
+	void showUnknownProgress(const std::wstring& title, const std::wstring& message, bool stacked);
 	void hideUnknownProgress();
 
 	void setUIBlocked(bool blocked);

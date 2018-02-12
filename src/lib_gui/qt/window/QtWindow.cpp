@@ -205,7 +205,7 @@ void QtWindow::moveToCenter()
     }
 }
 
-void QtWindow::updateTitle(QString title)
+void QtWindow::updateTitle(const QString& title)
 {
 	if (m_title)
 	{
@@ -213,13 +213,13 @@ void QtWindow::updateTitle(QString title)
 	}
 }
 
-std::string QtWindow::getTitle() const
+std::wstring QtWindow::getTitle() const
 {
 	if (m_title)
 	{
-		return m_title->text().toStdString();
+		return m_title->text().toStdWString();
 	}
-	return "";
+	return L"";
 }
 
 void QtWindow::updateSubTitle(QString subTitle)

@@ -90,8 +90,9 @@ namespace utility
 			if (utility::isPrefix("[ERROR]", utility::trim(line)))
 			{
 				// TODO: move error handling to caller of this function
-				const std::string dialogMessage =
-					"The following error occurred while executing a Maven command:\n\n" + utility::replace(line, "\r\n", "\n");
+				const std::wstring dialogMessage =
+					L"The following error occurred while executing a Maven command:\n\n" + 
+					utility::decodeFromUtf8(utility::replace(line, "\r\n", "\n"));
 				MessageStatus(dialogMessage, true, false).dispatch();
 				Application::getInstance()->handleDialog(dialogMessage);
 				return false;
@@ -114,8 +115,9 @@ namespace utility
 		if (outputAccess->getLineCount() > 0 && utility::isPrefix("Error", utility::trim(outputAccess->getLine(1))))
 		{
 			// TODO: move error handling to caller of this function
-			const std::string dialogMessage =
-				"The following error occurred while executing a Maven command:\n\n" + utility::replace(outputAccess->getText(), "\r\n", "\n");
+			const std::wstring dialogMessage =
+				L"The following error occurred while executing a Maven command:\n\n" + 
+				utility::decodeFromUtf8(utility::replace(outputAccess->getText(), "\r\n", "\n"));
 
 			MessageStatus(dialogMessage, true, false).dispatch();
 

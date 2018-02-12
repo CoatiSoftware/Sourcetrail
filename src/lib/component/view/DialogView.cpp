@@ -9,7 +9,7 @@ DialogView::~DialogView()
 {
 }
 
-void DialogView::showUnknownProgressDialog(const std::string& title, const std::string& message)
+void DialogView::showUnknownProgressDialog(const std::wstring& title, const std::wstring& message)
 {
 }
 
@@ -17,7 +17,7 @@ void DialogView::hideUnknownProgressDialog()
 {
 }
 
-void DialogView::showProgressDialog(const std::string& title, const std::string& message, size_t progress)
+void DialogView::showProgressDialog(const std::wstring& title, const std::wstring& message, size_t progress)
 {
 }
 

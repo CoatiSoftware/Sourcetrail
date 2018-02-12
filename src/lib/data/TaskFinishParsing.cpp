@@ -34,10 +34,10 @@ Task::TaskState TaskFinishParsing::doUpdate(std::shared_ptr<Blackboard> blackboa
 
 	std::shared_ptr<DialogView> dialogView = Application::getInstance()->getDialogView();
 
-	dialogView->showUnknownProgressDialog("Finish Indexing", "Optimizing database");
+	dialogView->showUnknownProgressDialog(L"Finish Indexing", L"Optimizing database");
 	m_storage->optimizeMemory();
 
-	dialogView->showUnknownProgressDialog("Finish Indexing", "Building caches");
+	dialogView->showUnknownProgressDialog(L"Finish Indexing", L"Building caches");
 	m_storage->buildCaches();
 
 	dialogView->hideUnknownProgressDialog();

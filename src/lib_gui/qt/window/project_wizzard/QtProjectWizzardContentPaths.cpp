@@ -212,7 +212,7 @@ std::vector<FilePath> QtProjectWizzardContentPathsSource::getFilePaths() const
 	});
 
 	std::dynamic_pointer_cast<QtDialogView>(dialogView)->setParentWindow(m_window);
-	dialogView->showUnknownProgressDialog("Processing", "Gathering Source Files");
+	dialogView->showUnknownProgressDialog(L"Processing", L"Gathering Source Files");
 
 	FileManager fileManager;
 	fileManager.update(
@@ -534,7 +534,7 @@ void QtProjectWizzardContentPathsHeaderSearch::validateIncludesButtonClicked()
 
 			{
 				std::dynamic_pointer_cast<QtDialogView>(dialogView)->setParentWindow(m_window);
-				dialogView->showUnknownProgressDialog("Processing", "Gathering Source Files");
+				dialogView->showUnknownProgressDialog(L"Processing", L"Gathering Source Files");
 				ScopedFunctor dialogHider([&dialogView](){
 					dialogView->hideUnknownProgressDialog();
 				});
@@ -570,7 +570,7 @@ void QtProjectWizzardContentPathsHeaderSearch::validateIncludesButtonClicked()
 					[&](const float progress)
 					{
 						Application::getInstance()->getDialogView()->showProgressDialog(
-							"Processing", std::to_string(int(progress * sourceFilePaths.size())) + " Files", int(progress * 100.0f)
+							L"Processing", std::to_wstring(int(progress * sourceFilePaths.size())) + L" Files", int(progress * 100.0f)
 						);
 					}
 				);
@@ -597,7 +597,7 @@ void QtProjectWizzardContentPathsHeaderSearch::finishedSelectDetectIncludesRootP
 			std::vector<FilePath> headerSearchPaths;
 			{
 				dialogView->setParentWindow(m_window);
-				dialogView->showUnknownProgressDialog("Processing", "Gathering Source Files");
+				dialogView->showUnknownProgressDialog(L"Processing", L"Gathering Source Files");
 				ScopedFunctor dialogHider([&dialogView]() {
 					dialogView->hideUnknownProgressDialog();
 				});
@@ -631,7 +631,7 @@ void QtProjectWizzardContentPathsHeaderSearch::finishedSelectDetectIncludesRootP
 					[&](const float progress)
 					{
 						Application::getInstance()->getDialogView()->showProgressDialog(
-							"Processing", std::to_string(int(progress * sourceFilePaths.size())) + " Files", int(progress * 100.0f)
+							L"Processing", std::to_wstring(int(progress * sourceFilePaths.size())) + L" Files", int(progress * 100.0f)
 						);
 					}
 				);

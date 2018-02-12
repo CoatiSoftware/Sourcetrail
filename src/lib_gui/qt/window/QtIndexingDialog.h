@@ -47,8 +47,8 @@ public:
 	void setupUnknownProgress();
 	void setupProgress();
 
-	void updateMessage(QString message);
-	std::string getMessage() const;
+	void updateMessage(const QString& message);
+	std::wstring getMessage() const;
 	void updateProgress(size_t progress);
 	size_t getProgress() const;
 	void updateIndexingProgress(size_t fileCount, size_t totalFileCount, const FilePath& sourcePath);

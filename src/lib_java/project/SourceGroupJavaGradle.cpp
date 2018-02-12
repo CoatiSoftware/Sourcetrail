@@ -76,7 +76,7 @@ std::vector<FilePath> SourceGroupJavaGradle::getAllSourcePaths() const
 	if (m_settings->getGradleProjectFilePathExpandedAndAbsolute().exists())
 	{
 		std::shared_ptr<DialogView> dialogView = Application::getInstance()->getDialogView();
-		dialogView->showUnknownProgressDialog("Preparing Project", "Gradle\nFetching Source Directories");
+		dialogView->showUnknownProgressDialog(L"Preparing Project", L"Gradle\nFetching Source Directories");
 
 		const FilePath projectRootPath = m_settings->getGradleProjectFilePathExpandedAndAbsolute().getParentDirectory();
 		sourcePaths = utility::gradleGetAllSourceDirectories(projectRootPath, m_settings->getShouldIndexGradleTests());
@@ -98,7 +98,7 @@ bool SourceGroupJavaGradle::prepareGradleData()
 			dialogView->hideUnknownProgressDialog();
 		});
 
-		dialogView->showUnknownProgressDialog("Preparing Project", "Gradle\nExporting Dependencies");
+		dialogView->showUnknownProgressDialog(L"Preparing Project", L"Gradle\nExporting Dependencies");
 
 		bool success = utility::gradleCopyDependencies(
 			projectRootPath,

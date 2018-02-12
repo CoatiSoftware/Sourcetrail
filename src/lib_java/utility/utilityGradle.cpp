@@ -83,8 +83,9 @@ namespace utility
 				if (utility::isPrefix("[ERROR]", utility::trim(output)))
 				{
 					// TODO: move error handling to caller of this function
-					const std::string dialogMessage =
-						"The following error occurred while executing a Gradle command:\n\n" + utility::replace(output, "\r\n", "\n");
+					const std::wstring dialogMessage =
+						L"The following error occurred while executing a Gradle command:\n\n" + 
+						utility::decodeFromUtf8(utility::replace(output, "\r\n", "\n"));
 					MessageStatus(dialogMessage, true, false).dispatch();
 					Application::getInstance()->handleDialog(dialogMessage);
 
@@ -111,8 +112,9 @@ namespace utility
 				if (utility::isPrefix("[ERROR]", utility::trim(output)))
 				{
 					// TODO: move error handling to caller of this function
-					const std::string dialogMessage =
-						"The following error occurred while executing a Gradle command:\n\n" + utility::replace(output, "\r\n", "\n");
+					const std::wstring dialogMessage =
+						L"The following error occurred while executing a Gradle command:\n\n" + 
+						utility::decodeFromUtf8(utility::replace(output, "\r\n", "\n"));
 					MessageStatus(dialogMessage, true, false).dispatch();
 					Application::getInstance()->handleDialog(dialogMessage);
 

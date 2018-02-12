@@ -137,7 +137,7 @@ std::vector<FilePath> SourceGroupJava::doGetClassPath() const
 std::set<FilePath> SourceGroupJava::fetchRootDirectories() const
 {
 	std::shared_ptr<DialogView> dialogView = Application::getInstance()->getDialogView();
-	dialogView->showUnknownProgressDialog("Preparing Project", "Gathering Root\nDirectories");
+	dialogView->showUnknownProgressDialog(L"Preparing Project", L"Gathering Root\nDirectories");
 
 	ScopedFunctor dialogHider([&dialogView](){
 		dialogView->hideUnknownProgressDialog();
