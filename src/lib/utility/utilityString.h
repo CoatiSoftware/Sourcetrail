@@ -162,7 +162,7 @@ namespace utility
 	{
 		if (prefix.size() <= text.size())
 		{
-			std::pair<StringType::const_iterator, StringType::const_iterator> res =
+			std::pair<typename StringType::const_iterator, typename StringType::const_iterator> res =
 				std::mismatch(prefix.begin(), prefix.end(), text.begin());
 
 			return res.first == prefix.end();
