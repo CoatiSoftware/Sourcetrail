@@ -1769,18 +1769,20 @@ TooltipSnippet PersistentStorage::getTooltipSnippetForNode(const StorageNode& no
 {
 	TRACE();
 
+	const TextCodec codec(ApplicationSettings::getInstance()->getTextEncoding());
+
 	const NameHierarchy nameHierarchy = NameHierarchy::deserialize(node.serializedName);
 	TooltipSnippet snippet;
-	snippet.code = utility::encodeToUtf8(nameHierarchy.getQualifiedNameWithSignature());
+	snippet.code = codec.encode(nameHierarchy.getQualifiedNameWithSignature());
 	snippet.locationFile = std::make_shared<SourceLocationFile>(
 		FilePath(nameHierarchy.getDelimiter() == NAME_DELIMITER_JAVA ? L"main.java" : L"main.cpp"), true, true);
 
 	if (nameHierarchy.hasSignature())
 	{
 		snippet.code = utility::breakSignature(
-			utility::encodeToUtf8(nameHierarchy.getSignature().getPrefix()),
-			utility::encodeToUtf8(nameHierarchy.getQualifiedName()),
-			utility::encodeToUtf8(nameHierarchy.getSignature().getPostfix()),
+			codec.encode(nameHierarchy.getSignature().getPrefix()),
+			codec.encode(nameHierarchy.getQualifiedName()),
+			codec.encode(nameHierarchy.getSignature().getPostfix()),
 			50,
 			ApplicationSettings::getInstance()->getCodeTabWidth()
 		);
@@ -1806,11 +1808,11 @@ TooltipSnippet PersistentStorage::getTooltipSnippetForNode(const StorageNode& no
 			}
 		);
 
-		typeNames.insert(std::make_pair(utility::encodeToUtf8(nameHierarchy.getQualifiedName()), node.id));
+		typeNames.insert(std::make_pair(codec.encode(nameHierarchy.getQualifiedName()), node.id));
 		for (const auto& typeNode : m_sqliteIndexStorage.getAllByIds<StorageNode>(typeNodeIds))
 		{
 			typeNames.insert(std::make_pair(
-				utility::encodeToUtf8(NameHierarchy::deserialize(typeNode.serializedName).getQualifiedName()),
+				codec.encode(NameHierarchy::deserialize(typeNode.serializedName).getQualifiedName()),
 				typeNode.id
 			));
 		}
@@ -1863,6 +1865,8 @@ TooltipInfo PersistentStorage::getTooltipInfoForSourceLocationIdsAndLocalSymbolI
 {
 	TRACE();
 
+	const TextCodec codec(ApplicationSettings::getInstance()->getTextEncoding());
+
 	TooltipInfo info;
 
 	if (locationIds.empty() && localSymbolIds.empty())
@@ -1879,7 +1883,7 @@ TooltipInfo PersistentStorage::getTooltipInfoForSourceLocationIdsAndLocalSymbolI
 			TooltipSnippet snippet;
 
 			const NameHierarchy nameHierarchy = NameHierarchy::deserialize(node.serializedName);
-			snippet.code = utility::encodeToUtf8(nameHierarchy.getQualifiedName());
+			snippet.code = codec.encode(nameHierarchy.getQualifiedName());
 			snippet.locationFile = std::make_shared<SourceLocationFile>(
 				FilePath(nameHierarchy.getDelimiter() == NAME_DELIMITER_JAVA ? "main.java" : "main.cpp"), true, true);
 
