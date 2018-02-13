@@ -2,15 +2,6 @@
 
 #include "utility/utilityString.h"
 
-MessageStatus::MessageStatus(const std::string& status, bool isError, bool showLoader)
-	: isError(isError)
-	, showLoader(showLoader)
-{
-	m_stati.push_back(utility::decodeFromUtf8(utility::replace(status, "\n", " ")));
-
-	setSendAsTask(false);
-}
-
 MessageStatus::MessageStatus(const std::wstring& status, bool isError, bool showLoader)
 	: isError(isError)
 	, showLoader(showLoader)
