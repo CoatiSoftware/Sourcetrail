@@ -237,23 +237,6 @@ namespace utility
 		return str;
 	}
 
-	bool isPrefix(const std::string& prefix, const std::string& text)
-	{
-		if (prefix.size() <= text.size())
-		{
-			std::pair<std::string::const_iterator, std::string::const_iterator> res =
-				std::mismatch(prefix.begin(), prefix.end(), text.begin());
-
-			return res.first == prefix.end();
-		}
-		return false;
-	}
-
-	bool isPostfix(const std::string& postfix, const std::string& text)
-	{
-		return text.size() >= postfix.size() && text.rfind(postfix) == (text.size() - postfix.size());
-	}
-
 	std::string toUpperCase(const std::string& in)
 	{
 		std::string out;

@@ -87,7 +87,7 @@ namespace utility
 		std::shared_ptr<TextAccess> outputAccess = TextAccess::createFromString(output);
 		for (const std::string& line: outputAccess->getAllLines())
 		{
-			if (utility::isPrefix("[ERROR]", utility::trim(line)))
+			if (utility::isPrefix<std::string>("[ERROR]", utility::trim(line)))
 			{
 				// TODO: move error handling to caller of this function
 				const std::wstring dialogMessage =
@@ -112,7 +112,7 @@ namespace utility
 			60000
 		));
 
-		if (outputAccess->getLineCount() > 0 && utility::isPrefix("Error", utility::trim(outputAccess->getLine(1))))
+		if (outputAccess->getLineCount() > 0 && utility::isPrefix<std::string>("Error", utility::trim(outputAccess->getLine(1))))
 		{
 			// TODO: move error handling to caller of this function
 			const std::wstring dialogMessage =
@@ -129,7 +129,7 @@ namespace utility
 		size_t startLine = 0;
 		for (size_t i = 1; i <= outputAccess->getLineCount(); i++)
 		{
-			if (utility::isPrefix("<", utility::trim(outputAccess->getLine(i))))
+			if (utility::isPrefix<std::string>("<", utility::trim(outputAccess->getLine(i))))
 			{
 				startLine = i;
 				break;
@@ -139,7 +139,7 @@ namespace utility
 		size_t endLine = outputAccess->getLineCount();
 		for (size_t i = outputAccess->getLineCount(); i > 0 ; i--)
 		{
-			if (utility::isPrefix("<", utility::trim(outputAccess->getLine(i))))
+			if (utility::isPrefix<std::string>("<", utility::trim(outputAccess->getLine(i))))
 			{
 				endLine = i;
 				break;
@@ -147,7 +147,7 @@ namespace utility
 		}
 		for (size_t i = endLine + 1; i <= outputAccess->getLineCount(); i++)
 		{
-			if (utility::isPrefix("[", utility::trim(outputAccess->getLine(i))))
+			if (utility::isPrefix<std::string>("[", utility::trim(outputAccess->getLine(i))))
 			{
 				break;
 			}

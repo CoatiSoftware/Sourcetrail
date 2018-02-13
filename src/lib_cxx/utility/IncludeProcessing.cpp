@@ -175,10 +175,10 @@ std::vector<IncludeDirective> IncludeProcessing::getIncludeDirectives(std::share
 	for (size_t i = 0; i < lines.size(); i++)
 	{
 		const std::string lineTrimmedToHash = utility::trim(lines[i]);
-		if (utility::isPrefix("#", lineTrimmedToHash))
+		if (utility::isPrefix<std::string>("#", lineTrimmedToHash))
 		{
 			const std::string lineTrimmedToInclude = utility::trim(lineTrimmedToHash.substr(1));
-			if (utility::isPrefix("include", lineTrimmedToInclude))
+			if (utility::isPrefix<std::string>("include", lineTrimmedToInclude))
 			{
 				std::string includeString = utility::substrBetween(lineTrimmedToInclude, "<", ">");
 				bool usesBrackets = true;

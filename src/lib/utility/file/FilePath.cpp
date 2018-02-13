@@ -58,7 +58,7 @@ FilePath::FilePath(FilePath&& other)
 {
 }
 
-FilePath::FilePath(const std::string& filePath, const std::string& base)
+FilePath::FilePath(const std::wstring& filePath, const std::wstring& base)
 	: m_path(std::make_unique<boost::filesystem::path>(boost::filesystem::absolute(filePath, base)))
 	, m_exists(false)
 	, m_checkedExists(false)

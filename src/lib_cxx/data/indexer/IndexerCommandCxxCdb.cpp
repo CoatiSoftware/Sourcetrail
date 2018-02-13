@@ -9,7 +9,7 @@ std::vector<FilePath> IndexerCommandCxxCdb::getSourceFilesFromCDB(const FilePath
 {
 	std::string error;
 	std::shared_ptr<clang::tooling::JSONCompilationDatabase> cdb = std::shared_ptr<clang::tooling::JSONCompilationDatabase>
-		(clang::tooling::JSONCompilationDatabase::loadFromFile(compilationDatabasePath.str(), error, clang::tooling::JSONCommandLineSyntax::AutoDetect));
+		(clang::tooling::JSONCompilationDatabase::loadFromFile(utility::encodeToUtf8(compilationDatabasePath.wstr()), error, clang::tooling::JSONCommandLineSyntax::AutoDetect));
 
 	if (!error.empty())
 	{
@@ -23,10 +23,10 @@ std::vector<FilePath> IndexerCommandCxxCdb::getSourceFilesFromCDB(const FilePath
 	{
 		for (const clang::tooling::CompileCommand& command : cdb->getAllCompileCommands())
 		{
-			FilePath path = FilePath(command.Filename).makeCanonical();
+			FilePath path = FilePath(utility::decodeFromUtf8(command.Filename)).makeCanonical();
 			if (!path.isAbsolute())
 			{
-				path = FilePath(command.Directory + '/' + command.Filename).makeCanonical();
+				path = FilePath(utility::decodeFromUtf8(command.Directory + '/' + command.Filename)).makeCanonical();
 			}
 			filePaths.push_back(path);
 		}

@@ -235,7 +235,7 @@ public:
 	{
 		const std::string foo = "foo";
 
-		TS_ASSERT(utility::isPrefix("", foo));
+		TS_ASSERT(utility::isPrefix<std::string>("", foo));
 	}
 
 	void test_prefix_of_bigger_text_is_detected_as_prefix()

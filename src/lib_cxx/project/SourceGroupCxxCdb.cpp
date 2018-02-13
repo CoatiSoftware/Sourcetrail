@@ -79,7 +79,7 @@ std::vector<std::shared_ptr<IndexerCommand>> SourceGroupCxxCdb::getIndexerComman
 		std::string error;
 		std::shared_ptr<clang::tooling::JSONCompilationDatabase> cdb =
 			std::shared_ptr<clang::tooling::JSONCompilationDatabase>(
-				clang::tooling::JSONCompilationDatabase::loadFromFile(cdbPath.str(),
+				clang::tooling::JSONCompilationDatabase::loadFromFile(utility::encodeToUtf8(cdbPath.wstr()),
 				error,
 				clang::tooling::JSONCommandLineSyntax::AutoDetect
 			)
@@ -96,10 +96,10 @@ std::vector<std::shared_ptr<IndexerCommand>> SourceGroupCxxCdb::getIndexerComman
 
 		for (const clang::tooling::CompileCommand& command: cdb->getAllCompileCommands())
 		{
-			FilePath sourcePath = FilePath(command.Filename).makeCanonical();
+			FilePath sourcePath = FilePath(utility::decodeFromUtf8(command.Filename)).makeCanonical();
 			if (!sourcePath.isAbsolute())
 			{
-				sourcePath = FilePath(command.Directory + '/' + command.Filename).makeCanonical();
+				sourcePath = FilePath(utility::decodeFromUtf8(command.Directory + '/' + command.Filename)).makeCanonical();
 			}
 
 			if (filesToIndex.find(sourcePath) != filesToIndex.end() &&
@@ -109,7 +109,7 @@ std::vector<std::shared_ptr<IndexerCommand>> SourceGroupCxxCdb::getIndexerComman
 					sourcePath,
 					indexedPaths,
 					excludedPaths,
-					FilePath(command.Directory),
+					FilePath(utility::decodeFromUtf8(command.Directory)),
 					utility::concat(
 						utility::convert<std::string, std::wstring>(command.CommandLine, [](const std::string& arg) { return utility::decodeFromUtf8(arg); }), 
 						compilerFlags

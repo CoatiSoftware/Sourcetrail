@@ -73,8 +73,8 @@ CxxParser::~CxxParser()
 void CxxParser::buildIndex(std::shared_ptr<IndexerCommandCxxCdb> indexerCommand)
 {
 	clang::tooling::CompileCommand compileCommand;
-	compileCommand.Filename = indexerCommand->getSourceFilePath().str();
-	compileCommand.Directory = indexerCommand->getWorkingDirectory().str();
+	compileCommand.Filename = utility::encodeToUtf8(indexerCommand->getSourceFilePath().wstr());
+	compileCommand.Directory = utility::encodeToUtf8(indexerCommand->getWorkingDirectory().wstr());
 	compileCommand.CommandLine = utility::concat(
 		utility::convert<std::wstring, std::string>(indexerCommand->getCompilerFlags(), [](const std::wstring & flag) { return utility::encodeToUtf8(flag); }), 
 		getCommandlineArgumentsEssential(
@@ -82,7 +82,7 @@ void CxxParser::buildIndex(std::shared_ptr<IndexerCommandCxxCdb> indexerCommand)
 		)
 	);
 
-	if (!utility::isPrefix("-", compileCommand.CommandLine.front()))
+	if (!utility::isPrefix<std::string>("-", compileCommand.CommandLine.front()))
 	{
 		compileCommand.CommandLine.erase(compileCommand.CommandLine.begin());
 	}
@@ -126,7 +126,7 @@ void CxxParser::buildIndex(const std::wstring& fileName, std::shared_ptr<TextAcc
 
 void CxxParser::runTool(clang::tooling::CompilationDatabase* compilationDatabase, const FilePath& sourceFilePath)
 {
-	clang::tooling::ClangTool tool(*compilationDatabase, std::vector<std::string>(1, sourceFilePath.str()));
+	clang::tooling::ClangTool tool(*compilationDatabase, std::vector<std::string>(1, utility::encodeToUtf8(sourceFilePath.wstr())));
 
 	std::shared_ptr<CanonicalFilePathCache> canonicalFilePathCache = std::make_shared<CanonicalFilePathCache>();
 

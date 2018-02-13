@@ -236,12 +236,12 @@ SettingsMigrator ProjectSettings::getMigrations() const
 			const std::string language = migration->getValueFromSettings<std::string>(settings, "language_settings/language", "");
 			const std::string standard = migration->getValueFromSettings<std::string>(settings, "language_settings/standard", "");
 
-			if (language == "C" && !utility::isPrefix("c", standard))
+			if (language == "C" && !utility::isPrefix<std::string>("c", standard))
 			{
 				migration->setValueInSettings(settings, "language_settings/standard", "c" + standard);
 			}
 
-			if (language == "C++" && !utility::isPrefix("c++", standard))
+			if (language == "C++" && !utility::isPrefix<std::string>("c++", standard))
 			{
 				migration->setValueInSettings(settings, "language_settings/standard", "c++" + standard);
 			}

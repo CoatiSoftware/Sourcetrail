@@ -80,7 +80,7 @@ namespace utility
 					utility::encodeToUtf8(gradleInitScriptPath.wstr())
 				);
 
-				if (utility::isPrefix("[ERROR]", utility::trim(output)))
+				if (utility::isPrefix<std::string>("[ERROR]", utility::trim(output)))
 				{
 					// TODO: move error handling to caller of this function
 					const std::wstring dialogMessage =
@@ -109,7 +109,7 @@ namespace utility
 					utility::encodeToUtf8(gradleInitScriptPath.wstr())
 				);
 				
-				if (utility::isPrefix("[ERROR]", utility::trim(output)))
+				if (utility::isPrefix<std::string>("[ERROR]", utility::trim(output)))
 				{
 					// TODO: move error handling to caller of this function
 					const std::wstring dialogMessage =

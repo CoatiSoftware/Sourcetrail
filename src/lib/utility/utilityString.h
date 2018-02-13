@@ -49,8 +49,11 @@ namespace utility
 
 	std::string substrBetween(const std::string& str, const std::string& delimiter1, const std::string& delimiter2);
 
-	bool isPrefix(const std::string& prefix, const std::string& text);
-	bool isPostfix(const std::string& postfix, const std::string& text);
+	template <typename StringType>
+	bool isPrefix(const StringType& prefix, const StringType& text);
+
+	template <typename StringType>
+	bool isPostfix(const StringType& postfix, const StringType& text);
 
 	std::string toUpperCase(const std::string& in);
 	std::string toLowerCase(const std::string& in);
@@ -152,6 +155,25 @@ namespace utility
 			ss << str;
 		}
 		return ss.str();
+	}
+
+	template <typename StringType>
+	bool isPrefix(const StringType& prefix, const StringType& text)
+	{
+		if (prefix.size() <= text.size())
+		{
+			std::pair<StringType::const_iterator, StringType::const_iterator> res =
+				std::mismatch(prefix.begin(), prefix.end(), text.begin());
+
+			return res.first == prefix.end();
+		}
+		return false;
+	}
+
+	template <typename StringType>
+	bool isPostfix(const StringType& postfix, const StringType& text)
+	{
+		return text.size() >= postfix.size() && text.rfind(postfix) == (text.size() - postfix.size());
 	}
 
 	template <typename StringType>

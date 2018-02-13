@@ -21,7 +21,7 @@ public:
 	explicit FilePath(const std::wstring& filePath);
 	FilePath(const FilePath& other);
 	FilePath(FilePath&& other);
-	FilePath(const std::string& filePath, const std::string& base);
+	FilePath(const std::wstring& filePath, const std::wstring& base);
 	~FilePath();
 
 	boost::filesystem::path getPath() const;
