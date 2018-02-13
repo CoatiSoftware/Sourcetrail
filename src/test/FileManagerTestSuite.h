@@ -2,6 +2,7 @@
 
 #include "utility/file/FileManager.h"
 #include "utility/file/FilePath.h"
+#include "utility/file/FileSystem.h"
 #include "utility/utility.h"
 
 class FileManagerTestSuite : public CxxTest::TestSuite
@@ -14,23 +15,24 @@ public:
 		sourcePaths.push_back(FilePath(L"./data/FileManagerTestSuite/include/"));
 		std::vector<FilePath> headerPaths;
 		std::vector<FilePath> excludePaths;
-		std::wstring specialExtension = L".";
-#ifdef __APPLE__
-		specialExtension += wchar_t(117);
-		specialExtension += wchar_t(776);
-#else
-		const wchar_t specialCharacter(252);
-		specialExtension += specialCharacter;
-#endif
-		std::vector<std::wstring> sourceExtensions = { L".cpp", L".c", specialExtension };
+
+		std::vector<FilePath> filePaths = FileSystem::getFilePathsFromDirectory(FilePath(L"./data/FileManagerTestSuite/src/"));
+		TS_ASSERT_EQUALS(filePaths.size(), 3);
+
+		std::vector<std::wstring> sourceExtensions;
+		for (FilePath p : filePaths)
+		{
+			sourceExtensions.push_back(p.extension());
+		}
+		TS_ASSERT_EQUALS(sourceExtensions.size(), 3);
 
 		FileManager fm;
 		fm.update(sourcePaths, excludePaths, sourceExtensions);
-		std::vector<FilePath> filePaths = utility::toVector(fm.getAllSourceFilePaths());
+		std::vector<FilePath> foundSourcePaths = utility::toVector(fm.getAllSourceFilePaths());
 
-		TS_ASSERT_EQUALS(filePaths.size(), 3);
-		TS_ASSERT(utility::containsElement<FilePath>(filePaths, FilePath(L"./data/FileManagerTestSuite/src/a.cpp")));
-		TS_ASSERT(utility::containsElement<FilePath>(filePaths, FilePath(L"./data/FileManagerTestSuite/src/d.c")));
-		TS_ASSERT(utility::containsElement<FilePath>(filePaths, FilePath(L"./data/FileManagerTestSuite/src/e" + specialExtension)));
+		TS_ASSERT_EQUALS(foundSourcePaths.size(), 3);
+		TS_ASSERT(utility::containsElement<FilePath>(foundSourcePaths, filePaths[0]));
+		TS_ASSERT(utility::containsElement<FilePath>(foundSourcePaths, filePaths[1]));
+		TS_ASSERT(utility::containsElement<FilePath>(foundSourcePaths, filePaths[2]));
 	}
 };
