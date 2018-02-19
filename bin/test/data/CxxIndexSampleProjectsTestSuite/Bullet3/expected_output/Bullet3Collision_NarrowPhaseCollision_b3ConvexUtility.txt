@@ -10224,8 +10224,8 @@ SYMBOL_METHOD public void b3HashString::b3HashString(const char *) [b3HashMap.h 
 LOCAL_SYMBOL: b3HashMap.h<37:27> [b3HashMap.h <37:27 37:30>]
 REFERENCE_TYPE_USAGE void b3HashString::b3HashString(const char *) -> char [b3HashMap.h <37:21 37:24>]
 REFERENCE_USAGE void b3HashString::b3HashString(const char *) -> std::string b3HashString::m_string [b3HashMap.h <38:4 38:11>]
-SYMBOL_FUNCTION void std::basic_string<char, std::char_traits<char>, std::allocator<char>>::basic_string(const char * const)
-REFERENCE_CALL void b3HashString::b3HashString(const char *) -> void std::basic_string<char, std::char_traits<char>, std::allocator<char>>::basic_string(const char * const) [b3HashMap.h <38:4 38:11>]
+SYMBOL_FUNCTION void std::basic_string<char, std::char_traits<char>, std::allocator<char>>::basic_string(const char *)
+REFERENCE_CALL void b3HashString::b3HashString(const char *) -> void std::basic_string<char, std::char_traits<char>, std::allocator<char>>::basic_string(const char *) [b3HashMap.h <38:4 38:11>]
 LOCAL_SYMBOL: b3HashMap.h<37:27> [b3HashMap.h <38:13 38:16>]
 LOCAL_SYMBOL: b3HashMap.h<42:30> [b3HashMap.h <42:30 42:39>]
 REFERENCE_TYPE_USAGE void b3HashString::b3HashString(const char *) -> unsigned int [b3HashMap.h <42:16 42:23>]
@@ -10246,8 +10246,8 @@ LOCAL_SYMBOL: b3HashMap.h<47:7> [b3HashMap.h <48:20 48:22>]
 LOCAL_SYMBOL: b3HashMap.h<48:11> [b3HashMap.h <48:25 48:25>]
 LOCAL_SYMBOL: b3HashMap.h<46:16> [b3HashMap.h <50:4 50:7>]
 LOCAL_SYMBOL: b3HashMap.h<46:16> [b3HashMap.h <50:11 50:14>]
-SYMBOL_FUNCTION std::basic_string<char, std::char_traits<char>, std::allocator<char>>::reference std::basic_string<char, std::char_traits<char>, std::allocator<char>>::operator[](const std::basic_string<char, std::char_traits<char>, std::allocator<char>>::size_type)
-REFERENCE_CALL void b3HashString::b3HashString(const char *) -> std::basic_string<char, std::char_traits<char>, std::allocator<char>>::reference std::basic_string<char, std::char_traits<char>, std::allocator<char>>::operator[](const std::basic_string<char, std::char_traits<char>, std::allocator<char>>::size_type) [b3HashMap.h <50:27 50:27>]
+SYMBOL_FUNCTION std::basic_string<char, std::char_traits<char>, std::allocator<char>>::reference std::basic_string<char, std::char_traits<char>, std::allocator<char>>::operator[](std::basic_string<char, std::char_traits<char>, std::allocator<char>>::size_type)
+REFERENCE_CALL void b3HashString::b3HashString(const char *) -> std::basic_string<char, std::char_traits<char>, std::allocator<char>>::reference std::basic_string<char, std::char_traits<char>, std::allocator<char>>::operator[](std::basic_string<char, std::char_traits<char>, std::allocator<char>>::size_type) [b3HashMap.h <50:27 50:27>]
 REFERENCE_USAGE void b3HashString::b3HashString(const char *) -> std::string b3HashString::m_string [b3HashMap.h <50:19 50:26>]
 LOCAL_SYMBOL: b3HashMap.h<48:11> [b3HashMap.h <50:28 50:28>]
 LOCAL_SYMBOL: b3HashMap.h<46:16> [b3HashMap.h <51:4 51:7>]
