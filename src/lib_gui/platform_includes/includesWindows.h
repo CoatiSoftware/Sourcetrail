@@ -35,8 +35,7 @@ void setupApp(int argc, char *argv[])
 		{
 			appPath = appPath.substr(0, pos + 1);
 		}
-		AppPath::setAppPath(FilePath(L"C:/sourcetrail/täst/Sourcetrail_2018_1_19_32bit")); 
-		//AppPath::setAppPath(FilePath(appPath)); C:\sourcetrail\täst\Sourcetrail_2018_1_19_32bit
+		AppPath::setAppPath(FilePath(appPath)); 
 	}
 
 	{
