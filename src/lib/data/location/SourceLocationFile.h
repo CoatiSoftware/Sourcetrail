@@ -63,6 +63,6 @@ private:
 	std::map<Id, SourceLocation*> m_locationIndex;
 };
 
-std::ostream& operator<<(std::ostream& ostream, const SourceLocationFile& base);
+std::wostream& operator<<(std::wostream& ostream, const SourceLocationFile& base);
 
 #endif // SOURCE_LOCATION_FILE_H

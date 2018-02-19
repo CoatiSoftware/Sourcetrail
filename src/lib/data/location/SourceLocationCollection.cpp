@@ -118,9 +118,9 @@ SourceLocationFile* SourceLocationCollection::createSourceLocationFile(const Fil
 	return filePtr.get();
 }
 
-std::ostream& operator<<(std::ostream& ostream, const SourceLocationCollection& base)
+std::wostream& operator<<(std::wostream& ostream, const SourceLocationCollection& base)
 {
-	ostream << "Locations:\n";
+	ostream << L"Locations:\n";
 	base.forEachSourceLocationFile([&ostream](std::shared_ptr<SourceLocationFile> f)
 	{
 		ostream << *(f.get());

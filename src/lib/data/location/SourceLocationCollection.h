@@ -45,6 +45,6 @@ private:
 	std::map<FilePath, std::shared_ptr<SourceLocationFile>> m_files;
 };
 
-std::ostream& operator<<(std::ostream& ostream, const SourceLocationCollection& base);
+std::wostream& operator<<(std::wostream& ostream, const SourceLocationCollection& base);
 
 #endif // SOURCE_LOCATION_COLLECTION_H

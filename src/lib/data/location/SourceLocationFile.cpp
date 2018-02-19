@@ -187,9 +187,9 @@ std::shared_ptr<SourceLocationFile> SourceLocationFile::getFilteredByType(Locati
 	return ret;
 }
 
-std::ostream& operator<<(std::ostream& ostream, const SourceLocationFile& file)
+std::wostream& operator<<(std::wostream& ostream, const SourceLocationFile& file)
 {
-	ostream << "file \"" << file.getFilePath().str() << "\"";
+	ostream << L"file \"" << file.getFilePath().wstr() << L"\"";
 
 	size_t line = 0;
 	file.forEachSourceLocation(
@@ -208,16 +208,16 @@ std::ostream& operator<<(std::ostream& ostream, const SourceLocationFile& file)
 						line++;
 					}
 
-					ostream << '\n' << line;
+					ostream << L'\n' << line;
 				}
 
-				ostream << ":  ";
+				ostream << L":  ";
 			}
 
 			ostream << *location;
 		}
 	);
 
-	ostream << '\n';
+	ostream << L'\n';
 	return ostream;
 }

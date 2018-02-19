@@ -381,6 +381,11 @@ std::string FilePath::getBackslashedString() const
 	return utility::replace(str(), "/", "\\");
 }
 
+std::wstring FilePath::getBackslashedWString() const
+{
+	return utility::replace(wstr(), L"/", L"\\");
+}
+
 std::wstring FilePath::fileName() const
 {
 	return m_path->filename().generic_wstring();

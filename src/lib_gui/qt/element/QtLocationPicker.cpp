@@ -28,8 +28,9 @@ QtLocationPicker::QtLocationPicker(QWidget *parent)
 	layout->addWidget(m_data);
 
 	m_button = new QtIconButton(
-		(ResourcePaths::getGuiPath().str() + "window/dots.png").c_str(),
-		(ResourcePaths::getGuiPath().str() + "window/dots_hover.png").c_str());
+		QString::fromStdWString(ResourcePaths::getGuiPath().concatenate(L"window/dots.png").wstr()),
+		QString::fromStdWString(ResourcePaths::getGuiPath().concatenate(L"window/dots_hover.png").wstr())
+	);
 	m_button->setIconSize(QSize(16, 16));
 	m_button->setObjectName("dotsButton");
 	m_button->setToolTip("pick file");
@@ -123,7 +124,7 @@ void QtLocationPicker::handleButtonPress()
 			const FilePath relPath = path.getRelativeTo(m_relativeRootDirectory);
 			if (relPath.str().size() < path.str().size())
 			{
-				fileName = QString::fromStdString(relPath.str());
+				fileName = QString::fromStdWString(relPath.wstr());
 			}
 		}
 

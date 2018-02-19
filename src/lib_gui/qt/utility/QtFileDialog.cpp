@@ -10,7 +10,7 @@
 
 QStringList QtFileDialog::getFileNamesAndDirectories(QWidget* parent, const FilePath& path)
 {
-	const QString dir = getDir(QString::fromStdString((path.isDirectory() ? path : path.getParentDirectory()).str()));
+	const QString dir = getDir(QString::fromStdWString((path.isDirectory() ? path : path.getParentDirectory()).wstr()));
 
 	QFileDialog* dialog = (utility::getOsType() == OS_MAC ? new QFileDialog(parent) : new QtFilesAndDirectoriesDialog(parent));
 
@@ -43,12 +43,12 @@ QStringList QtFileDialog::getFileNamesAndDirectories(QWidget* parent, const File
 
 QString QtFileDialog::getExistingDirectory(QWidget* parent, const QString& caption, const FilePath& dir)
 {
-	return QFileDialog::getExistingDirectory(parent, caption, getDir(QString::fromStdString(dir.str())));
+	return QFileDialog::getExistingDirectory(parent, caption, getDir(QString::fromStdWString(dir.wstr())));
 }
 
 QString QtFileDialog::getOpenFileName(QWidget* parent, const QString& caption, const FilePath& dir, const QString& filter)
 {
-	return QFileDialog::getOpenFileName(parent, caption, getDir(QString::fromStdString(dir.str())), filter);
+	return QFileDialog::getOpenFileName(parent, caption, getDir(QString::fromStdWString(dir.wstr())), filter);
 }
 
 QString QtFileDialog::showSaveFileDialog(
@@ -56,10 +56,10 @@ QString QtFileDialog::showSaveFileDialog(
 {
 #if defined(Q_OS_WIN) || defined(Q_OS_MAC)
 
-	return QFileDialog::getSaveFileName(parent, title, getDir(QString::fromStdString(directory.str())), filter);
+	return QFileDialog::getSaveFileName(parent, title, getDir(QString::fromStdWString(directory.wstr())), filter);
 
 #else
-	QFileDialog dialog(parent, title, getDir(QString::fromStdString(directory.str())), filter);
+	QFileDialog dialog(parent, title, getDir(QString::fromStdWString(directory.wstr())), filter);
 
 	if (parent)
 	{

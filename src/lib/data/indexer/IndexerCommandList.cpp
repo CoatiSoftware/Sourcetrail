@@ -10,14 +10,14 @@ void IndexerCommandList::addCommand(std::shared_ptr<IndexerCommand> command)
 {
 	std::lock_guard<std::mutex> lock(m_commandsMutex);
 
-	std::string commandHash = command->getSourceFilePath().str() + std::to_string(command->getByteSize(1));
+	std::wstring commandHash = command->getSourceFilePath().wstr() + std::to_wstring(command->getByteSize(1));
 	if (m_commandIndex.insert(commandHash).second == true) // Don't add duplicate indexer commands
 	{
 		m_commands.push_back(command);
 	}
 	else
 	{
-		LOG_WARNING_STREAM(<< "Duplicate indexer command was ignored: " << commandHash);
+		LOG_WARNING(L"Duplicate indexer command was ignored: " + commandHash);
 	}
 }
 

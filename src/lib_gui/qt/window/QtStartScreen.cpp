@@ -36,7 +36,7 @@ void QtRecentProjectButton::setProjectPath(const FilePath& projectFilePath)
 	this->setText(QString::fromStdWString(m_projectFilePath.withoutExtension().fileName()));
 	if (m_projectExists)
 	{
-		this->setToolTip(m_projectFilePath.str().c_str());
+		this->setToolTip(QString::fromStdWString(m_projectFilePath.wstr()));
 	}
 	else
 	{

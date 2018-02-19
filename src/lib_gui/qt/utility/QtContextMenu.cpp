@@ -113,8 +113,8 @@ void QtContextMenu::redoActionTriggered()
 
 void QtContextMenu::copyFullPathActionTriggered()
 {
-	const std::string pathString = (QSysInfo::windowsVersion() != QSysInfo::WV_None) ? s_filePath.getBackslashedString() : s_filePath.str();
-	QApplication::clipboard()->setText(pathString.c_str());
+	const std::wstring pathString = (QSysInfo::windowsVersion() != QSysInfo::WV_None) ? s_filePath.getBackslashedWString() : s_filePath.wstr();
+	QApplication::clipboard()->setText(QString::fromStdWString(pathString));
 }
 
 void QtContextMenu::openContainingFolderActionTriggered()
@@ -122,11 +122,11 @@ void QtContextMenu::openContainingFolderActionTriggered()
 	FilePath dir = s_filePath.getParentDirectory();
 	if (dir.exists())
 	{
-		QDesktopServices::openUrl(QUrl(("file:///" + dir.str()).c_str(), QUrl::TolerantMode));
+		QDesktopServices::openUrl(QUrl(QString::fromStdWString(L"file:///" + dir.wstr()), QUrl::TolerantMode));
 	}
 	else
 	{
-		LOG_ERROR("Unable to open directory: " + dir.str());
+		LOG_ERROR(L"Unable to open directory: " + dir.wstr());
 	}
 }
 

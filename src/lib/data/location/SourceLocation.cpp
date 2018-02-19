@@ -180,26 +180,26 @@ bool SourceLocation::isFullTextSearchMatch() const
 	return m_type == LOCATION_FULLTEXT_SEARCH;
 }
 
-std::ostream& operator<<(std::ostream& ostream, const SourceLocation& location)
+std::wostream& operator<<(std::wostream& ostream, const SourceLocation& location)
 {
 	if (location.isStartLocation())
 	{
-		ostream << '<';
+		ostream << L'<';
 	}
 
-	ostream << location.getColumnNumber() << ":[ ";
+	ostream << location.getColumnNumber() << L":[ ";
 	for (Id tokenId : location.getTokenIds())
 	{
-		ostream << '\b' << tokenId << ' ';
+		ostream << L'\b' << tokenId << L' ';
 	}
 
-	ostream << "\b]";
+	ostream << L"\b]";
 
 	if (location.isEndLocation())
 	{
-		ostream << '>';
+		ostream << L'>';
 	}
 
-	ostream << ' ';
+	ostream << L' ';
 	return ostream;
 }

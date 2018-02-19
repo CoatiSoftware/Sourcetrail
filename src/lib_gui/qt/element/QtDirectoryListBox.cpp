@@ -30,8 +30,9 @@ QtListItemWidget::QtListItemWidget(QtDirectoryListBox* list, QListWidgetItem* it
     m_data->setAcceptDrops(false);
 
 	m_button = new QtIconButton(
-		(ResourcePaths::getGuiPath().str() + "window/dots.png").c_str(),
-		(ResourcePaths::getGuiPath().str() + "window/dots_hover.png").c_str());
+		QString::fromStdWString(ResourcePaths::getGuiPath().concatenate(L"window/dots.png").wstr()),
+		QString::fromStdWString(ResourcePaths::getGuiPath().concatenate(L"window/dots_hover.png").wstr())
+	);
 	m_button->setIconSize(QSize(16, 16));
 	m_button->setObjectName("dotsButton");
 
@@ -152,16 +153,18 @@ QtDirectoryListBox::QtDirectoryListBox(QWidget *parent, const QString& listName,
 	innerLayout->setSpacing(0);
 
 	m_addButton = new QtIconButton(
-		(ResourcePaths::getGuiPath().str() + "window/plus.png").c_str(),
-		(ResourcePaths::getGuiPath().str() + "window/plus_hover.png").c_str());
+		QString::fromStdWString(ResourcePaths::getGuiPath().concatenate(L"window/plus.png").wstr()),
+		QString::fromStdWString(ResourcePaths::getGuiPath().concatenate(L"window/plus_hover.png").wstr())
+	);
 	m_addButton->setIconSize(QSize(16, 16));
 	m_addButton->setObjectName("plusButton");
 	m_addButton->setToolTip("add line");
 	innerLayout->addWidget(m_addButton);
 
 	m_removeButton = new QtIconButton(
-		(ResourcePaths::getGuiPath().str() + "window/minus.png").c_str(),
-		(ResourcePaths::getGuiPath().str() + "window/minus_hover.png").c_str());
+		QString::fromStdWString(ResourcePaths::getGuiPath().concatenate(L"window/minus.png").wstr()),
+		QString::fromStdWString(ResourcePaths::getGuiPath().concatenate(L"window/minus_hover.png").wstr())
+	);
 	m_removeButton->setIconSize(QSize(16, 16));
 	m_removeButton->setObjectName("minusButton");
 	m_removeButton->setToolTip("remove line");
@@ -176,8 +179,9 @@ QtDirectoryListBox::QtDirectoryListBox(QWidget *parent, const QString& listName,
 	innerLayout->addWidget(dropInfoText);
 
 	QPushButton* editButton = new QtIconButton(
-		(ResourcePaths::getGuiPath().str() + "code_view/images/edit.png").c_str(),
-		QString());
+		QString::fromStdWString(ResourcePaths::getGuiPath().concatenate(L"code_view/images/edit.png").wstr()),
+		QString()
+	);
 	editButton->setIconSize(QSize(16, 16));
 	editButton->setObjectName("editButton");
 	editButton->setToolTip("edit plain text");

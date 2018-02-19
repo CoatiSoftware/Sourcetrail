@@ -72,9 +72,9 @@ void QtCodeFileTitleButton::setIsComplete(bool isComplete)
 			utility::decodeFromUtf8(ColorScheme::getInstance()->getColor("code/file/title/hatching")) + L".png"
 		);
 
-		setStyleSheet((
-			"#title_button { background-image: url(" + hatchingFilePath.str() + "); }"
-		).c_str());
+		setStyleSheet(QString::fromStdWString(
+			L"#title_button { background-image: url(" + hatchingFilePath.wstr() + L"); }"
+		));
 	}
 	else
 	{

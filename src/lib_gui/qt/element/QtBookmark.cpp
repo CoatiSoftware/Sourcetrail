@@ -55,7 +55,7 @@ QtBookmark::QtBookmark(ControllerProxy<BookmarkController>* controllerProxy)
 	m_editButton->setToolTip("Edit bookmark");
 	m_editButton->setAttribute(Qt::WA_LayoutUsesWidgetRect);
 	m_editButton->setIconSize(QSize(20, 20));
-	m_editButton->setIcon(QPixmap((ResourcePaths::getGuiPath().str() + "bookmark_view/images/bookmark_edit_icon.png").c_str()));
+	m_editButton->setIcon(QPixmap(QString::fromStdWString(ResourcePaths::getGuiPath().concatenate(L"bookmark_view/images/bookmark_edit_icon.png").wstr())));
 	utility::setWidgetRetainsSpaceWhenHidden(m_editButton);
 	m_editButton->hide();
 	buttonsLayout->addWidget(m_editButton);
@@ -65,7 +65,7 @@ QtBookmark::QtBookmark(ControllerProxy<BookmarkController>* controllerProxy)
 	m_deleteButton->setToolTip("Delete bookmark");
 	m_deleteButton->setAttribute(Qt::WA_LayoutUsesWidgetRect);
 	m_deleteButton->setIconSize(QSize(20, 20));
-	m_deleteButton->setIcon(QPixmap((ResourcePaths::getGuiPath().str() + "bookmark_view/images/bookmark_delete_icon.png").c_str()));
+	m_deleteButton->setIcon(QPixmap(QString::fromStdWString(ResourcePaths::getGuiPath().concatenate(L"bookmark_view/images/bookmark_delete_icon.png").wstr())));
 	utility::setWidgetRetainsSpaceWhenHidden(m_deleteButton);
 	m_deleteButton->hide();
 	buttonsLayout->addWidget(m_deleteButton);

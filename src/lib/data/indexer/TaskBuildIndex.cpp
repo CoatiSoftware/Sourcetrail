@@ -146,7 +146,7 @@ void TaskBuildIndex::doExit(std::shared_ptr<Blackboard> blackboard)
 				"conforms to the specified language standard and all necessary options are defined within your project "
 				"setup.", path.wstr(), 1, 1, true, true
 			));
-			LOG_INFO_STREAM(<< "crashed translation unit: " << path.str());
+			LOG_INFO(L"crashed translation unit: " + path.wstr());
 		}
 		m_storageProvider->insert(is);
 	}

@@ -20,7 +20,7 @@ CxxVerboseAstVisitor::CxxVerboseAstVisitor(
 	std::shared_ptr<CanonicalFilePathCache> canonicalFilePathCache
 )
 	: base(context, preprocessor, client, fileRegister, canonicalFilePathCache)
-	, m_currentFilePath("")
+	, m_currentFilePath(L"")
 	, m_indentation(0)
 {
 }
@@ -43,10 +43,10 @@ bool CxxVerboseAstVisitor::TraverseDecl(clang::Decl *d)
 		ParseLocation loc = getParseLocation(d->getSourceRange());
 		stream << " <" << loc.startLineNumber << ":" << loc.startColumnNumber << ", " << loc.endLineNumber << ":" << loc.endColumnNumber << ">";
 
-		if (m_currentFilePath != loc.filePath.str())
+		if (m_currentFilePath != loc.filePath.wstr())
 		{
-			m_currentFilePath = loc.filePath.str();
-			LOG_INFO_STREAM_BARE(<< "Indexer - Traversing \"" + m_currentFilePath + "\"" );
+			m_currentFilePath = loc.filePath.wstr();
+			LOG_INFO_BARE(L"Indexer - Traversing \"" + m_currentFilePath + L"\"" );
 		}
 
 		LOG_INFO_STREAM_BARE(<< "Indexer - " << stream.str());

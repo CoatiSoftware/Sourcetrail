@@ -47,7 +47,7 @@ namespace utility
 
 		for (const FilePath& fontFilePath: fontFilePaths)
 		{
-			QFile file(fontFilePath.str().c_str());
+			QFile file(QString::fromStdWString(fontFilePath.wstr()));
 			if (file.open(QIODevice::ReadOnly))
 			{
 				int id = QFontDatabase::addApplicationFontFromData(file.readAll());
@@ -62,7 +62,7 @@ namespace utility
 		{
 			for (QString& family: QFontDatabase::applicationFontFamilies(loadedFontId))
 			{
-				LOG_INFO("Loaded FontFamily: " + family.toStdString());
+				LOG_INFO(L"Loaded FontFamily: " + family.toStdWString());
 			}
 		}
 	}
@@ -86,7 +86,7 @@ namespace utility
 			std::deque<std::string> seq = utility::split(css.substr(posA + 1, posB - posA - 1), ':');
 			if (seq.size() != 2)
 			{
-				LOG_ERROR("Syntax error in file: " + path.str());
+				LOG_ERROR(L"Syntax error in file: " + path.wstr());
 				return "";
 			}
 
@@ -161,7 +161,7 @@ namespace utility
 				}
 				else
 				{
-					LOG_ERROR("Syntax error in file: " + path.str());
+					LOG_ERROR(L"Syntax error in file: " + path.wstr());
 					return "";
 				}
 			}
@@ -174,7 +174,7 @@ namespace utility
 				std::vector<std::string> values = utility::splitToVector(val, '|');
 				if (values.size() != 3)
 				{
-					LOG_ERROR("Syntax error in file: " + path.str());
+					LOG_ERROR(L"Syntax error in file: " + path.wstr());
 					return "";
 				}
 
@@ -188,7 +188,7 @@ namespace utility
 			}
 			else
 			{
-				LOG_ERROR("Syntax error in file: " + path.str());
+				LOG_ERROR(L"Syntax error in file: " + path.wstr());
 				return "";
 			}
 
