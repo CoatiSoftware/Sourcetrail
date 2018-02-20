@@ -14,7 +14,7 @@
 #include "utility/logging/logging.h"
 #include "utility/logging/LogManager.h"
 
-void setupLogging(const std::string logFilePath)
+void setupLogging(const FilePath& logFilePath)
 {
 	LogManager* logManager = LogManager::getInstance().get();
 
@@ -24,7 +24,7 @@ void setupLogging(const std::string logFilePath)
 	logManager->addLogger(consoleLogger);
 
 	std::shared_ptr<FileLogger> fileLogger = std::make_shared<FileLogger>();
-	fileLogger->setLogFilePath(FilePath(logFilePath));
+	fileLogger->setLogFilePath(logFilePath);
 	fileLogger->setLogLevel(Logger::LOG_ALL);
 	logManager->addLogger(fileLogger);
 }
@@ -74,15 +74,19 @@ int main(int argc, char *argv[])
 	AppPath::setAppPath(FilePath(appPath));
 	UserPaths::setUserDataPath(FilePath(userDataPath));
 
-	setupLogging(logFilePath);
+	if (!logFilePath.empty())
+	{
+		setupLogging(FilePath(logFilePath));
+	}
+
 	suppressCrashMessage();
 
 	ApplicationSettings* appSettings = ApplicationSettings::getInstance().get();
 	appSettings->load(FilePath(UserPaths::getAppSettingsPath()));
 	LogManager::getInstance()->setLoggingEnabled(appSettings->getLoggingEnabled());
 
-	LOG_INFO("appPath: " + appPath);
-	LOG_INFO("userDataPath: " + userDataPath);
+	LOG_INFO(L"appPath: " + AppPath::getAppPath().wstr());
+	LOG_INFO(L"userDataPath: " + UserPaths::getUserDataPath().wstr());
 
 	IndexerFactory::getInstance()->addModule(std::make_shared<IndexerFactoryModuleJava>());
 	IndexerFactory::getInstance()->addModule(std::make_shared<IndexerFactoryModuleCxxCdb>());

@@ -36,7 +36,7 @@ protected:
 
 	virtual void handleMessage(MessageInterruptTasks* message);
 
-	void runIndexerProcess( int processId, const std::string& logFilePath);
+	void runIndexerProcess(int processId, const std::wstring& logFilePath);
 	void runIndexerThread(int processId);
 	bool fetchIntermediateStorages(std::shared_ptr<Blackboard> blackboard);
 	void updateIndexingDialog(std::shared_ptr<Blackboard> blackboard, const std::vector<FilePath>& sourcePaths);

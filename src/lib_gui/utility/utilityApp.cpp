@@ -92,8 +92,12 @@ std::string utility::executeProcessUntilNoOutput(const std::string& command, con
 	return processoutput;
 }
 
-int utility::executeProcessAndGetExitCode(const std::string& command, const FilePath& workingDirectory, const int timeout)
-{
+int utility::executeProcessAndGetExitCode(
+	const std::wstring& commandPath, 
+	const std::vector<std::wstring>& commandArguments, 
+	const FilePath& workingDirectory, 
+	const int timeout
+){
 	QProcess process;
 
 	if (!workingDirectory.empty())
@@ -101,9 +105,15 @@ int utility::executeProcessAndGetExitCode(const std::string& command, const File
 		process.setWorkingDirectory(QString::fromStdWString(workingDirectory.wstr()));
 	}
 
+	QString command = QString::fromStdWString(commandPath);
+	for (const std::wstring& commandArgument : commandArguments)
+	{
+		command += " " + QString::fromStdWString(commandArgument);
+	}
+
 	{
 		std::lock_guard<std::mutex> lock(s_runningProcessesMutex);
-		process.start(command.c_str());
+		process.start(command);
 		s_runningProcesses.insert(&process);
 	}
 

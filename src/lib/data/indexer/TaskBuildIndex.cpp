@@ -52,11 +52,11 @@ void TaskBuildIndex::doEnter(std::shared_ptr<Blackboard> blackboard)
 	m_lastCommandCount = m_indexerCommandList->size();
 	m_interprocessIndexerCommandManager.setIndexerCommands(m_indexerCommandList->getAllCommands());
 
-	std::string logFilePath;
+	std::wstring logFilePath;
 	Logger* logger = LogManager::getInstance()->getLoggerByType("FileLogger");
 	if (logger)
 	{
-		logFilePath = dynamic_cast<FileLogger*>(logger)->getLogFilePath().str();
+		logFilePath = dynamic_cast<FileLogger*>(logger)->getLogFilePath().wstr();
 	}
 
 	// start indexer processes
@@ -170,7 +170,7 @@ void TaskBuildIndex::handleMessage(MessageInterruptTasks* message)
 	m_interrupted = true;
 }
 
-void TaskBuildIndex::runIndexerProcess(int processId, const std::string& logFilePath)
+void TaskBuildIndex::runIndexerProcess(int processId, const std::wstring& logFilePath)
 {
 	{
 		std::lock_guard<std::mutex> lock(m_runningThreadCountMutex);
@@ -185,21 +185,22 @@ void TaskBuildIndex::runIndexerProcess(int processId, const std::string& logFile
 		return;
 	}
 
-	std::string command = "\"" + indexerProcessPath.str() + "\"";
-	command += " " + std::to_string(processId);
-	command += " " + Application::getUUID();
-	command += " \"" + AppPath::getAppPath().str() + "\"";
-	command += " \"" + UserPaths::getUserDataPath().str() + "\"";
+	const std::wstring commandPath = L"\"" + indexerProcessPath.wstr() + L"\"";
+	std::vector<std::wstring> commandArguments;
+	commandArguments.push_back(std::to_wstring(processId));
+	commandArguments.push_back(utility::decodeFromUtf8(Application::getUUID()));
+	commandArguments.push_back(L"\"" + AppPath::getAppPath().wstr() + L"\"");
+	commandArguments.push_back(L"\"" + UserPaths::getUserDataPath().wstr() + L"\"");
 
-	if (logFilePath.size())
+	if (!logFilePath.empty())
 	{
-		command += " \"" + logFilePath + "\"";
+		commandArguments.push_back(L"\"" + logFilePath + L"\"");
 	}
 
 	int result = 1;
 	while (result != 0 && !m_interrupted)
 	{
-		result = utility::executeProcessAndGetExitCode(command.c_str(), FilePath(), -1);
+		result = utility::executeProcessAndGetExitCode(commandPath, commandArguments, FilePath(), -1);
 
 		LOG_INFO_STREAM(<< "Indexer process " << processId << " returned with " + std::to_string(result));
 	}
