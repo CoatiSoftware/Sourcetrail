@@ -449,7 +449,7 @@ void QtProjectWizzardContentPreferences::load()
 
 void QtProjectWizzardContentPreferences::save()
 {
-	ApplicationSettings* appSettings = ApplicationSettings::getInstance().get();
+	std::shared_ptr<ApplicationSettings> appSettings = ApplicationSettings::getInstance();
 
 	appSettings->setFontName(m_fontFace->currentText().toStdString());
 
@@ -458,7 +458,7 @@ void QtProjectWizzardContentPreferences::save()
 
 	appSettings->setTextEncoding(m_textEncoding->currentText().toStdString());
 
-	appSettings->setColorSchemePath(m_colorSchemePaths[m_colorSchemes->currentIndex()]);
+	appSettings->setColorSchemeName(m_colorSchemePaths[m_colorSchemes->currentIndex()].withoutExtension().fileName());
 	m_oldColorSchemeIndex = -1;
 
 	appSettings->setUseAnimations(m_useAnimations->isChecked());

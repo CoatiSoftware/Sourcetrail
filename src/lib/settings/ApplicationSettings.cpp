@@ -12,7 +12,7 @@
 #include "utility/UserPaths.h"
 #include "utility/Version.h"
 
-const size_t ApplicationSettings::VERSION = 3;
+const size_t ApplicationSettings::VERSION = 4;
 
 std::shared_ptr<ApplicationSettings> ApplicationSettings::s_instance;
 
@@ -71,6 +71,17 @@ bool ApplicationSettings::load(const FilePath& filePath)
 				migration->removeValuesInSettings(settings, "user/license/license");
 				migration->removeValuesInSettings(settings, "user/license/check");
 				migration->setValueInSettings(settings, "user/license/non_commercial_use", true);
+			}
+		}
+	));
+	migrator.addMigration(4, std::make_shared<SettingsMigrationLambda>(
+		[](const SettingsMigration* migration, Settings* settings)
+		{
+			std::wstring colorSchemePathString = migration->getValueFromSettings<std::wstring>(settings, "application/color_scheme", L"");
+			if (!colorSchemePathString.empty())
+			{
+				FilePath colorSchemePath(colorSchemePathString);
+				migration->setValueInSettings(settings, "application/color_scheme", colorSchemePath.withoutExtension().fileName());
 			}
 		}
 	));
@@ -147,10 +158,15 @@ void ApplicationSettings::setShowBuiltinTypesInGraph(bool showBuiltinTypes)
 	setValue<bool>("application/builtin_types_in_graph", showBuiltinTypes);
 }
 
+std::wstring ApplicationSettings::getColorSchemeName() const
+{
+	return getValue<std::wstring>("application/color_scheme", L"bright");
+}
+
 FilePath ApplicationSettings::getColorSchemePath() const
 {
 	FilePath defaultPath(ResourcePaths::getColorSchemesPath().concatenate(L"bright.xml"));
-	FilePath path(getValue<std::wstring>("application/color_scheme", defaultPath.wstr()));
+	FilePath path(ResourcePaths::getColorSchemesPath().concatenate(getColorSchemeName() + L".xml"));
 
 	if (path != defaultPath && !path.exists())
 	{
@@ -160,9 +176,9 @@ FilePath ApplicationSettings::getColorSchemePath() const
 	return path;
 }
 
-void ApplicationSettings::setColorSchemePath(const FilePath& colorSchemePath)
+void ApplicationSettings::setColorSchemeName(const std::wstring& colorSchemeName)
 {
-	setValue<std::string>("application/color_scheme", colorSchemePath.str());
+	setValue("application/color_scheme", colorSchemeName);
 }
 
 int ApplicationSettings::getFontSizeMax() const
