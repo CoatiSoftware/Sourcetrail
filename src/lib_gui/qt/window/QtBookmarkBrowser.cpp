@@ -193,14 +193,14 @@ void QtBookmarkBrowser::filterOrOrderChanged(const QString& text)
 void  QtBookmarkBrowser::treeItemClicked(QTreeWidgetItem* item, int column)
 {
 	QtBookmarkCategory* category = dynamic_cast<QtBookmarkCategory*>(m_bookmarkTree->itemWidget(item, 0));
-	if (category != NULL)
+	if (category != nullptr)
 	{
 		category->expandClicked();
 		return;
 	}
 
 	QtBookmark* bookmark = dynamic_cast<QtBookmark*>(m_bookmarkTree->itemWidget(item, 0));
-	if (bookmark != NULL)
+	if (bookmark != nullptr)
 	{
 		bookmark->commentToggled();
 		return;

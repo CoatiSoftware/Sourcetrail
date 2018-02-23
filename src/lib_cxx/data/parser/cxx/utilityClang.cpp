@@ -90,7 +90,7 @@ SymbolKind utility::getSymbolKind(const clang::VarDecl* d)
 	{
 		symbolKind = SYMBOL_PARAMETER;
 	}
-	else if (d->getParentFunctionOrMethod() == NULL)
+	else if (d->getParentFunctionOrMethod() == nullptr)
 	{
 		if (d->getAccess() == clang::AS_none)
 		{

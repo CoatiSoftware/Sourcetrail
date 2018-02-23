@@ -62,7 +62,7 @@ bool LicenseChecker::isCurrentLicenseValid()
 LicenseChecker::LicenseState LicenseChecker::checkCurrentLicense() const
 {
 	ApplicationSettings* appSettings = ApplicationSettings::getInstance().get();
-	if (appSettings == NULL)
+	if (appSettings == nullptr)
 	{
 		LOG_ERROR_STREAM(<< "Unable to retrieve app settings");
 		return LICENSE_EMPTY;

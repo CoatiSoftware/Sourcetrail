@@ -81,7 +81,7 @@ ControllerType* View::getController()
 	{
 		return m_component->getController<ControllerType>();
 	}
-	return NULL;
+	return nullptr;
 }
 
 #endif // VIEW_H

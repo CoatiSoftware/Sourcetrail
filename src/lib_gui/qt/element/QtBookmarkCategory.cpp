@@ -81,7 +81,7 @@ void QtBookmarkCategory::setTreeWidgetItem(QTreeWidgetItem* treeItem)
 
 void QtBookmarkCategory::updateArrow()
 {
-	if (m_treeItem != NULL)
+	if (m_treeItem != nullptr)
 	{
 		if (m_treeItem->isExpanded())
 		{
@@ -98,7 +98,7 @@ void QtBookmarkCategory::updateArrow()
 
 void QtBookmarkCategory::expandClicked()
 {
-	if (m_treeItem != NULL)
+	if (m_treeItem != nullptr)
 	{
 		m_treeItem->setExpanded(!m_treeItem->isExpanded());
 		updateArrow();

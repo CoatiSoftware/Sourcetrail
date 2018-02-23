@@ -13,7 +13,7 @@ void SharedIndexerCommand::fromLocal(IndexerCommand* indexerCommand)
 	setIndexedPaths(indexerCommand->getIndexedPaths());
 	setExcludedPaths(indexerCommand->getExcludedPath());
 
-	if (dynamic_cast<IndexerCommandCxxCdb*>(indexerCommand) != NULL)
+	if (dynamic_cast<IndexerCommandCxxCdb*>(indexerCommand) != nullptr)
 	{
 		IndexerCommandCxxCdb* cmd = dynamic_cast<IndexerCommandCxxCdb*>(indexerCommand);
 
@@ -23,7 +23,7 @@ void SharedIndexerCommand::fromLocal(IndexerCommand* indexerCommand)
 		setSystemHeaderSearchPaths(cmd->getSystemHeaderSearchPaths());
 		setFrameworkSearchhPaths(cmd->getFrameworkSearchPaths());
 	}
-	else if (dynamic_cast<IndexerCommandCxxEmpty*>(indexerCommand) != NULL)
+	else if (dynamic_cast<IndexerCommandCxxEmpty*>(indexerCommand) != nullptr)
 	{
 		IndexerCommandCxxEmpty* cmd = dynamic_cast<IndexerCommandCxxEmpty*>(indexerCommand);
 
@@ -34,7 +34,7 @@ void SharedIndexerCommand::fromLocal(IndexerCommand* indexerCommand)
 		setSystemHeaderSearchPaths(cmd->getSystemHeaderSearchPaths());
 		setFrameworkSearchhPaths(cmd->getFrameworkSearchPaths());
 	}
-	else if (dynamic_cast<IndexerCommandJava*>(indexerCommand) != NULL)
+	else if (dynamic_cast<IndexerCommandJava*>(indexerCommand) != nullptr)
 	{
 		IndexerCommandJava* cmd = dynamic_cast<IndexerCommandJava*>(indexerCommand);
 

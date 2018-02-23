@@ -15,7 +15,7 @@ namespace utility
 
 		TiXmlDocument doc;
 		const char* pTest = doc.Parse(text.c_str(), 0, TIXML_ENCODING_LEGACY);
-		if (pTest != NULL)
+		if (pTest != nullptr)
 		{
 			TiXmlHandle docHandle(&doc);
 			std::vector<std::pair<TiXmlElement*, size_t>> traversalStates;
@@ -77,7 +77,7 @@ namespace utility
 
 		TiXmlDocument doc;
 		const char* pTest = doc.Parse(text.c_str(), 0, TIXML_ENCODING_UTF8);
-		if (pTest != NULL)
+		if (pTest != nullptr)
 		{
 			TiXmlHandle docHandle(&doc);
 			TiXmlElement *rootElement = docHandle.ToNode()->FirstChildElement();
@@ -121,31 +121,31 @@ namespace utility
 				nodes.push_back(element);
 			}
 
-			if (element->FirstChildElement() != NULL)
+			if (element->FirstChildElement() != nullptr)
 			{
 				element = element->FirstChildElement();
 			}
-			else if (element->NextSiblingElement() != NULL)
+			else if (element->NextSiblingElement() != nullptr)
 			{
 				element = element->NextSiblingElement();
 			}
 			else
 			{
-				if (element == NULL)
+				if (element == nullptr)
 				{
 				}
 
-				while (element->Parent()->ToElement() != NULL && element->Parent()->NextSiblingElement() == NULL)
+				while (element->Parent()->ToElement() != nullptr && element->Parent()->NextSiblingElement() == nullptr)
 				{
 					TiXmlElement* newElement = element->Parent()->ToElement();
 
-					if (newElement == NULL)
+					if (newElement == nullptr)
 					{
 					}
 
 					element = newElement;
 				}
-				if (element->Parent() != NULL && element->Parent()->NextSiblingElement() != NULL)
+				if (element->Parent() != nullptr && element->Parent()->NextSiblingElement() != nullptr)
 				{
 					element = element->Parent()->NextSiblingElement();
 				}

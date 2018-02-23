@@ -22,12 +22,12 @@ Component::~Component()
 {
 	if (m_controller)
 	{
-		m_controller->setComponent(NULL);
+		m_controller->setComponent(nullptr);
 	}
 
 	if (m_view)
 	{
-		m_view->setComponent(NULL);
+		m_view->setComponent(nullptr);
 	}
 }
 

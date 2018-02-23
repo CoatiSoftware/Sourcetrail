@@ -32,7 +32,7 @@ void QtTcpWrapper::stopListening()
 
 QtTcpWrapper::~QtTcpWrapper()
 {
-	if (m_tcpServer != NULL)
+	if (m_tcpServer != nullptr)
 	{
 		if (m_tcpServer->isListening())
 		{
@@ -111,7 +111,7 @@ void QtTcpWrapper::startRead()
 
 	QString message = QString::fromUtf8(byteArray);
 
-	if (m_readCallback != NULL)
+	if (m_readCallback != nullptr)
 	{
 		m_readCallback(message.toStdWString());
 	}
@@ -121,7 +121,7 @@ void QtTcpWrapper::startRead()
 	
 	m_tcpClient->close();
 
-	if (m_readCallback != NULL)
+	if (m_readCallback != nullptr)
 	{
 		m_readCallback(buffer);
 	}*/

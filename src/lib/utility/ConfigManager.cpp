@@ -308,7 +308,7 @@ bool ConfigManager::load(const std::shared_ptr<TextAccess> textAccess)
 
 	TiXmlDocument doc;
 	const char* pTest = doc.Parse(text.c_str(), 0, TIXML_ENCODING_UTF8);
-	if (pTest != NULL)
+	if (pTest != nullptr)
 	{
 		TiXmlHandle docHandle(&doc);
 		TiXmlNode *rootNode = docHandle.FirstChild("config").ToNode();

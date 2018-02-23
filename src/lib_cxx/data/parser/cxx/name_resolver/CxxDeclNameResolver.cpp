@@ -345,7 +345,7 @@ std::shared_ptr<CxxDeclName> CxxDeclNameResolver::getDeclName(const clang::Named
 		else if (clang::isa<clang::VarDecl>(declaration))
 		{
 			const clang::VarDecl* varDecl = clang::dyn_cast<clang::VarDecl>(declaration);
-			if (varDecl->getParentFunctionOrMethod() == NULL)
+			if (varDecl->getParentFunctionOrMethod() == nullptr)
 			{
 				bool isStatic = false;
 				if (varDecl->getAccess() != clang::AS_none)

@@ -11,7 +11,7 @@ public:
 
 		std::shared_ptr<TextAccess> textAccess = TextAccess::createFromString(text);
 
-		TS_ASSERT(textAccess.get() != NULL);
+		TS_ASSERT(textAccess.get() != nullptr);
 	}
 
 	void test_textAccessString_lines_count()
@@ -91,7 +91,7 @@ public:
 
 		std::shared_ptr<TextAccess> textAccess = TextAccess::createFromFile(filePath);
 
-		TS_ASSERT(textAccess.get() != NULL);
+		TS_ASSERT(textAccess.get() != nullptr);
 	}
 
 	void test_textAccessFile_lines_count()

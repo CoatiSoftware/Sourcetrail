@@ -297,7 +297,7 @@ void QtGraphView::rebuildGraph(
 
 		for (unsigned int i = 0; i < nodes.size(); i++)
 		{
-			QtGraphNode* node = createNodeRecursive(view, NULL, nodes[i].get(), activeNodeCount > 1);
+			QtGraphNode* node = createNodeRecursive(view, nullptr, nodes[i].get(), activeNodeCount > 1);
 			if (node)
 			{
 				m_nodes.push_back(node);
@@ -889,7 +889,7 @@ QtGraphNode* QtGraphView::createNodeRecursive(
 ){
 	if (!node->visible)
 	{
-		return NULL;
+		return nullptr;
 	}
 
 	QtGraphNode* newNode = nullptr;
@@ -970,13 +970,13 @@ QtGraphEdge* QtGraphView::createEdge(
 {
 	if (!edge->visible)
 	{
-		return NULL;
+		return nullptr;
 	}
 
 	QtGraphNode* owner = findNodeRecursive(m_nodes, edge->ownerId);
 	QtGraphNode* target = findNodeRecursive(m_nodes, edge->targetId);
 
-	if (owner != NULL && target != NULL)
+	if (owner != nullptr && target != nullptr)
 	{
 		QtGraphEdge* qtEdge = new QtGraphEdge(
 			owner, target, edge->data, edge->getWeight(), edge->active && !useBezier, edge->getDirection());
@@ -1022,7 +1022,7 @@ QtGraphEdge* QtGraphView::createEdge(
 		return qtEdge;
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 QtGraphEdge* QtGraphView::createAggregationEdge(
@@ -1030,7 +1030,7 @@ QtGraphEdge* QtGraphView::createAggregationEdge(
 {
 	if (!edge->visible)
 	{
-		return NULL;
+		return nullptr;
 	}
 
 	bool allVisible = true;
@@ -1046,7 +1046,7 @@ QtGraphEdge* QtGraphView::createAggregationEdge(
 
 	if (allVisible)
 	{
-		return NULL;
+		return nullptr;
 	}
 
 	return createEdge(view, edge, visibleEdgeIds, Graph::TRAIL_NONE, QPointF(), false);

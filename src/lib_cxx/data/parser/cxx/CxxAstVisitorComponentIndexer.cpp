@@ -440,7 +440,7 @@ void CxxAstVisitorComponentIndexer::visitTypedefDecl(clang::TypedefDecl* d)
 	{
 		m_client->recordSymbol(
 			getAstVisitor()->getDeclNameCache()->getValue(d),
-			d->getAnonDeclWithTypedefName() == NULL ? SYMBOL_TYPEDEF : utility::convertTagKind(d->getAnonDeclWithTypedefName()->getTagKind()),
+			d->getAnonDeclWithTypedefName() == nullptr ? SYMBOL_TYPEDEF : utility::convertTagKind(d->getAnonDeclWithTypedefName()->getTagKind()),
 			getParseLocation(d->getLocation()),
 			utility::convertAccessSpecifier(d->getAccess()),
 			utility::isImplicit(d) ? DEFINITION_IMPLICIT : DEFINITION_EXPLICIT
@@ -454,7 +454,7 @@ void CxxAstVisitorComponentIndexer::visitTypeAliasDecl(clang::TypeAliasDecl* d)
 	{
 		m_client->recordSymbol(
 			getAstVisitor()->getDeclNameCache()->getValue(d),
-			d->getAnonDeclWithTypedefName() == NULL ? SYMBOL_TYPEDEF : utility::convertTagKind(d->getAnonDeclWithTypedefName()->getTagKind()),
+			d->getAnonDeclWithTypedefName() == nullptr ? SYMBOL_TYPEDEF : utility::convertTagKind(d->getAnonDeclWithTypedefName()->getTagKind()),
 			getParseLocation(d->getLocation()),
 			utility::convertAccessSpecifier(d->getAccess()),
 			utility::isImplicit(d) ? DEFINITION_IMPLICIT : DEFINITION_EXPLICIT
@@ -572,7 +572,7 @@ void CxxAstVisitorComponentIndexer::visitDeclRefExpr(clang::DeclRefExpr* s)
 	if (shouldVisitReference(s->getLocation(), getAstVisitor()->getComponent<CxxAstVisitorComponentContext>()->getTopmostContextDecl()))
 	{
 		if ((clang::isa<clang::ParmVarDecl>(decl)) ||
-			(clang::isa<clang::VarDecl>(decl) && decl->getParentFunctionOrMethod() != NULL)
+			(clang::isa<clang::VarDecl>(decl) && decl->getParentFunctionOrMethod() != nullptr)
 			) {
 			ParseLocation declLocation = getParseLocation(decl->getLocation());
 			std::wstring name = declLocation.filePath.fileName() + L"<" +

@@ -937,7 +937,7 @@ void QtProjectWizzard::createProject()
 	if (m_editing)
 	{
 		Application* application = Application::getInstance().get();
-		if (application->getCurrentProject() != NULL)
+		if (application->getCurrentProject() != nullptr)
 		{
 			settingsChanged = !(application->getCurrentProject()->settingsEqualExceptNameAndLocation(*(m_projectSettings.get())));
 		}
