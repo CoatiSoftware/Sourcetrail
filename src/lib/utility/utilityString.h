@@ -47,7 +47,8 @@ namespace utility
 	std::string substrAfter(const std::string& str, char delimiter);
 	std::string substrAfter(const std::string& str, const std::string& delimiter);
 
-	std::string substrBetween(const std::string& str, const std::string& delimiter1, const std::string& delimiter2);
+	template <typename StringType>
+	StringType substrBetween(const StringType& str, const StringType& delimiter1, const StringType& delimiter2);
 
 	template <typename StringType>
 	bool isPrefix(const StringType& prefix, const StringType& text);
@@ -156,6 +157,21 @@ namespace utility
 		}
 		return ss.str();
 	}
+
+
+	template <typename StringType>
+	StringType substrBetween(const StringType& str, const StringType& delimiter1, const StringType& delimiter2)
+	{
+		size_t found_delimiter1 = str.find(delimiter1);
+		found_delimiter1 += delimiter1.length();
+		size_t found_delimiter2 = str.find(delimiter2, found_delimiter1);
+		if (found_delimiter1 != str.npos && found_delimiter2 != str.npos)
+		{
+			return str.substr(found_delimiter1, found_delimiter2 - found_delimiter1);
+		}
+		return StringType();
+	}
+
 
 	template <typename StringType>
 	bool isPrefix(const StringType& prefix, const StringType& text)

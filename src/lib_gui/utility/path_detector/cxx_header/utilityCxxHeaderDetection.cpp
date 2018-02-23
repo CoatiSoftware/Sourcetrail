@@ -14,7 +14,7 @@ namespace utility
 		std::string command = compilerName + " -x c++ -v -E /dev/null";
 		std::string clangOutput = utility::executeProcess(command.c_str());
 		std::string standardHeaders =
-			utility::substrBetween(clangOutput, "#include <...> search starts here:\n","\nEnd of search list");
+			utility::substrBetween<std::string>(clangOutput, "#include <...> search starts here:\n","\nEnd of search list");
 		std::vector<std::string> paths;
 
 		if (!standardHeaders.empty())

@@ -36,7 +36,7 @@ public:
 private:
 	static std::vector<IncludeDirective> doGetUnresolvedIncludeDirectives(
 		std::set<FilePath> filePathsToProcess,
-		std::unordered_set<std::string>& processedFilePaths,
+		std::unordered_set<std::wstring>& processedFilePaths,
 		const std::set<FilePath>& indexedPaths,
 		const std::set<FilePath>& headerSearchDirectories
 	);

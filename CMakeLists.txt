@@ -343,6 +343,7 @@ set_property(
 	TARGET ${LIB_CXX_PROJECT_NAME}
 	PROPERTY INCLUDE_DIRECTORIES
 		"${CMAKE_SOURCE_DIR}/src/lib_cxx"
+		"${CMAKE_SOURCE_DIR}/src/lib_utility"
 		"${CMAKE_SOURCE_DIR}/src/lib"
 )
 
@@ -355,7 +356,7 @@ target_include_directories(${LIB_CXX_PROJECT_NAME} SYSTEM
 link_directories(${LLVM_LIBRARY_DIRS} ${CLANG_LIBRARY_DIRS} ${Boost_LIBRARY_DIRS})
 llvm_map_components_to_libnames(REQ_LLVM_LIBS support core libdriver passes x86asmparser x86codegen)
 
-target_link_libraries(${LIB_CXX_PROJECT_NAME} ${CLANG_LIBRARIES} ${REQ_LLVM_LIBS})
+target_link_libraries(${LIB_CXX_PROJECT_NAME} ${LIB_UTILITY_PROJECT_NAME} ${CLANG_LIBRARIES} ${REQ_LLVM_LIBS})
 
 if (WIN32)
 	target_link_libraries(${LIB_CXX_PROJECT_NAME} version)
@@ -376,6 +377,7 @@ set_property(
 	TARGET ${LIB_JAVA_PROJECT_NAME}
 	PROPERTY INCLUDE_DIRECTORIES
 		"${CMAKE_SOURCE_DIR}/src/lib_java"
+		"${CMAKE_SOURCE_DIR}/src/lib_utility"
 		"${CMAKE_SOURCE_DIR}/src/lib"
 		"${CMAKE_SOURCE_DIR}/src/lib_gui"
 )
@@ -387,7 +389,7 @@ target_include_directories(${LIB_JAVA_PROJECT_NAME} SYSTEM
 
 link_directories(${Boost_LIBRARY_DIRS})
 
-target_link_libraries(${LIB_JAVA_PROJECT_NAME} ${LIB_PROJECT_NAME})
+target_link_libraries(${LIB_JAVA_PROJECT_NAME} ${LIB_UTILITY_PROJECT_NAME} ${LIB_PROJECT_NAME})
 
 add_custom_command(
 	TARGET ${LIB_JAVA_PROJECT_NAME}
