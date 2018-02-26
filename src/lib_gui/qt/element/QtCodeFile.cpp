@@ -393,7 +393,7 @@ void QtCodeFile::updateTitleBar()
 	m_titleBar->getTitleButton()->updateTexts();
 }
 
-void QtCodeFile::findScreenMatches(const std::string& query, std::vector<std::pair<QtCodeArea*, Id>>* screenMatches)
+void QtCodeFile::findScreenMatches(const std::wstring& query, std::vector<std::pair<QtCodeArea*, Id>>* screenMatches)
 {
 	if (m_fileSnippet && m_fileSnippet->isVisible())
 	{

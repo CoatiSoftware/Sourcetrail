@@ -44,7 +44,7 @@ public:
 
 	virtual void onWindowFocus();
 
-	virtual void findScreenMatches(const std::string& query, std::vector<std::pair<QtCodeArea*, Id>>* screenMatches);
+	virtual void findScreenMatches(const std::wstring& query, std::vector<std::pair<QtCodeArea*, Id>>* screenMatches);
 
 	void setFileMinimized(const FilePath path);
 	void setFileSnippets(const FilePath path);

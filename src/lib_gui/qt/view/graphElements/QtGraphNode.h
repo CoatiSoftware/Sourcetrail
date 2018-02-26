@@ -77,7 +77,7 @@ public:
 
 	void showNodeRecursive();
 
-	void matchNameRecursive(const std::string& query, std::vector<QtGraphNode*>* matchedNodes);
+	void matchNameRecursive(const std::wstring& query, std::vector<QtGraphNode*>* matchedNodes);
 	void removeNameMatch();
 	void setActiveMatch(bool active);
 
@@ -107,7 +107,7 @@ protected:
 
 	void notifyEdgesAfterMove();
 
-	virtual void matchName(const std::string& query, std::vector<QtGraphNode*>* matchedNodes);
+	virtual void matchName(const std::wstring& query, std::vector<QtGraphNode*>* matchedNodes);
 
 	void setStyle(const GraphViewStyle::NodeStyle& style);
 

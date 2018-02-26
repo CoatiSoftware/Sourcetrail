@@ -93,7 +93,7 @@ public:
 
 	void refreshStyle();
 
-	size_t findScreenMatches(const std::string& query);
+	size_t findScreenMatches(const std::wstring& query);
 	void activateScreenMatch(size_t matchIndex);
 	void deactivateScreenMatch(size_t matchIndex);
 	void clearScreenMatches();

@@ -13,18 +13,19 @@
 #include <QToolTip>
 
 #include "data/location/SourceLocationFile.h"
+#include "qt/element/QtCodeNavigator.h"
+#include "qt/utility/QtContextMenu.h"
+#include "settings/ApplicationSettings.h"
+#include "settings/ColorScheme.h"
 #include "utility/messaging/type/MessageActivateLocalSymbols.h"
 #include "utility/messaging/type/MessageFocusIn.h"
 #include "utility/messaging/type/MessageFocusOut.h"
 #include "utility/messaging/type/MessageMoveIDECursor.h"
 #include "utility/messaging/type/MessageShowErrors.h"
+#include "utility/TextCodec.h"
 #include "utility/utility.h"
 #include "utility/utilityApp.h"
 #include "utility/utilityString.h"
-
-#include "qt/element/QtCodeNavigator.h"
-#include "qt/utility/QtContextMenu.h"
-#include "settings/ColorScheme.h"
 
 MouseWheelOverScrollbarFilter::MouseWheelOverScrollbarFilter()
 {
@@ -399,9 +400,10 @@ QRectF QtCodeArea::getLineRectForLineNumber(uint lineNumber) const
 	return blockBoundingGeometry(block);
 }
 
-void QtCodeArea::findScreenMatches(const std::string& query, std::vector<std::pair<QtCodeArea*, Id>>* screenMatches)
+void QtCodeArea::findScreenMatches(const std::wstring& query, std::vector<std::pair<QtCodeArea*, Id>>* screenMatches)
 {
-	const std::string& code = utility::toLowerCase(getCode());
+	TextCodec codec(ApplicationSettings::getInstance()->getTextEncoding());
+	const std::wstring& code = utility::toLowerCase(codec.decode(getCode()));
 	size_t pos = 0;
 	while (pos != std::string::npos)
 	{

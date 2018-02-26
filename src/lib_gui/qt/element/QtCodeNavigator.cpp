@@ -596,7 +596,7 @@ void QtCodeNavigator::refreshStyle()
 	clearCaches();
 }
 
-size_t QtCodeNavigator::findScreenMatches(const std::string& query)
+size_t QtCodeNavigator::findScreenMatches(const std::wstring& query)
 {
 	clearScreenMatches();
 

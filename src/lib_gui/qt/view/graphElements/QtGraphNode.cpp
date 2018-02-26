@@ -271,7 +271,7 @@ void QtGraphNode::showNodeRecursive()
 	}
 }
 
-void QtGraphNode::matchNameRecursive(const std::string& query, std::vector<QtGraphNode*>* matchedNodes)
+void QtGraphNode::matchNameRecursive(const std::wstring& query, std::vector<QtGraphNode*>* matchedNodes)
 {
 	matchName(query, matchedNodes);
 
@@ -473,10 +473,10 @@ void QtGraphNode::notifyEdgesAfterMove()
 	}
 }
 
-void QtGraphNode::matchName(const std::string& query, std::vector<QtGraphNode*>* matchedNodes)
+void QtGraphNode::matchName(const std::wstring& query, std::vector<QtGraphNode*>* matchedNodes)
 {
 	m_isActiveMatch = false;
-	std::string name = utility::encodeToUtf8(getName());
+	const std::wstring name = getName();
 	size_t pos = utility::toLowerCase(name).find(query);
 
 	if (pos != std::string::npos)
@@ -490,9 +490,9 @@ void QtGraphNode::matchName(const std::string& query, std::vector<QtGraphNode*>*
 		m_matchRect->show();
 		m_matchText->show();
 
-		std::string matchName(name.length(), ' ');
+		std::wstring matchName(name.length(), L' ');
 		matchName.replace(pos, query.length(), name.substr(pos, query.length()));
-		m_matchText->setText(matchName.c_str());
+		m_matchText->setText(QString::fromStdWString(matchName));
 
 		matchedNodes->push_back(this);
 

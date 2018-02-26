@@ -49,7 +49,7 @@ bool QtCodeView::isVisible() const
 	return m_widget->isVisible();
 }
 
-void QtCodeView::findMatches(ScreenSearchSender* sender, const std::string& query)
+void QtCodeView::findMatches(ScreenSearchSender* sender, const std::wstring& query)
 {
 	m_onQtThread(
 		[sender, query, this]()

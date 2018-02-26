@@ -189,7 +189,7 @@ bool QtGraphView::isVisible() const
 	return QtViewWidgetWrapper::getWidgetOfView(this)->isVisible();
 }
 
-void QtGraphView::findMatches(ScreenSearchSender* sender, const std::string& query)
+void QtGraphView::findMatches(ScreenSearchSender* sender, const std::wstring& query)
 {
 	m_onQtThread(
 		[sender, query, this]()

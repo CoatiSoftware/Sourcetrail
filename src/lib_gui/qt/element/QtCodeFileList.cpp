@@ -246,7 +246,7 @@ void QtCodeFileList::onWindowFocus()
 	}
 }
 
-void QtCodeFileList::findScreenMatches(const std::string& query, std::vector<std::pair<QtCodeArea*, Id>>* screenMatches)
+void QtCodeFileList::findScreenMatches(const std::wstring& query, std::vector<std::pair<QtCodeArea*, Id>>* screenMatches)
 {
 	for (QtCodeFile* file : m_files)
 	{

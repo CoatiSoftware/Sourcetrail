@@ -54,7 +54,7 @@ void ScreenSearchController::addResponder(ScreenSearchResponder* responder)
 	}
 }
 
-void ScreenSearchController::search(const std::string& query, const std::set<std::string>& responderNames)
+void ScreenSearchController::search(const std::wstring& query, const std::set<std::string>& responderNames)
 {
 	{
 		std::lock_guard<std::mutex> lock(m_matchMutex);

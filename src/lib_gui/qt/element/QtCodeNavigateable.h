@@ -38,7 +38,7 @@ public:
 
 	virtual void onWindowFocus() = 0;
 
-	virtual void findScreenMatches(const std::string& query, std::vector<std::pair<QtCodeArea*, Id>>* screenMatches) = 0;
+	virtual void findScreenMatches(const std::wstring& query, std::vector<std::pair<QtCodeArea*, Id>>* screenMatches) = 0;
 
 protected:
 	void ensureWidgetVisibleAnimated(const QWidget* parentWidget, const QWidget *childWidget, QRectF rect, bool animated, ScrollTarget target);

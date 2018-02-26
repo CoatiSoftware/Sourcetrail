@@ -41,7 +41,7 @@ public:
 
 	// ScreenSearchResponder implementation
 	virtual bool isVisible() const;
-	virtual void findMatches(ScreenSearchSender* sender, const std::string& query);
+	virtual void findMatches(ScreenSearchSender* sender, const std::wstring& query);
 	virtual void activateMatch(size_t matchIndex);
 	virtual void deactivateMatch(size_t matchIndex);
 	virtual void clearMatches();

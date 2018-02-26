@@ -23,7 +23,7 @@ public:
 	virtual void foundMatches(ScreenSearchResponder* responder, size_t matchCount);
 
 	void addResponder(ScreenSearchResponder* responder);
-	void search(const std::string& query, const std::set<std::string>& responderNames);
+	void search(const std::wstring& query, const std::set<std::string>& responderNames);
 	void activateMatch(bool next);
 	void clearMatches();
 

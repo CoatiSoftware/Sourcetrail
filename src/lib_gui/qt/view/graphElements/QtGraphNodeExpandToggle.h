@@ -20,7 +20,7 @@ public:
 	virtual void updateStyle();
 
 protected:
-	virtual void matchName(const std::string& query, std::vector<QtGraphNode*>* matchedNodes) {}
+	virtual void matchName(const std::wstring& query, std::vector<QtGraphNode*>* matchedNodes) {}
 
 private:
 	QGraphicsPixmapItem* m_icon;

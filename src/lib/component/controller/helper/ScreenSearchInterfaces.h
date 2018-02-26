@@ -19,7 +19,7 @@ public:
 	virtual std::string getName() const = 0;
 	virtual bool isVisible() const = 0;
 
-	virtual void findMatches(ScreenSearchSender* sender, const std::string& query) = 0;
+	virtual void findMatches(ScreenSearchSender* sender, const std::wstring& query) = 0;
 	virtual void activateMatch(size_t matchIndex) = 0;
 	virtual void deactivateMatch(size_t matchIndex) = 0;
 	virtual void clearMatches() = 0;

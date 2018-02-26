@@ -50,7 +50,7 @@ public:
 
 	std::string getCode() const;
 
-	void findScreenMatches(const std::string& query, std::vector<std::pair<QtCodeArea*, Id>>* screenMatches);
+	void findScreenMatches(const std::wstring& query, std::vector<std::pair<QtCodeArea*, Id>>* screenMatches);
 
 private slots:
 	void clickedTitle();
