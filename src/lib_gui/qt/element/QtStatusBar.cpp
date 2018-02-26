@@ -13,7 +13,7 @@ QtStatusBar::QtStatusBar()
 {
 	addWidget(new QWidget()); // add some space
 
-	m_movie = std::make_shared<QMovie>((ResourcePaths::getGuiPath().str() + "statusbar_view/loader.gif").c_str());
+	m_movie = std::make_shared<QMovie>(QString::fromStdWString(ResourcePaths::getGuiPath().concatenate(L"statusbar_view/loader.gif").wstr()));
 	// if movie doesn't loop forever, force it to.
 	if (m_movie->loopCount() != -1)
 	{

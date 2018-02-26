@@ -10,6 +10,8 @@
 class FileLogger: public Logger
 {
 public:
+	static std::wstring generateDatedFileName(const std::wstring& prefix = L"", const std::wstring& suffix = L"");
+
 	FileLogger();
 	virtual ~FileLogger();
 
@@ -17,7 +19,7 @@ public:
 	void setLogFilePath(const FilePath& filePath);
 
 	void setLogDirectory(const FilePath& filePath);
-	void setFileName(const std::string& fileName);
+	void setFileName(const std::wstring& fileName);
 	void setMaxLogLineCount(unsigned int logCount);
 
 	// setting the max log file count to 0 will disable ringlogging
@@ -31,7 +33,7 @@ private:
 	void logMessage(const std::string& type, const LogMessage& message);
 	void updateLogFileName();
 
-	std::string m_logFileName;
+	std::wstring m_logFileName;
 	FilePath m_logDirectory;
 	FilePath m_currentLogFilePath;
 

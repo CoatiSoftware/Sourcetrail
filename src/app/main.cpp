@@ -20,7 +20,6 @@
 #include "utility/commandline/CommandLineParser.h"
 #include "utility/logging/ConsoleLogger.h"
 #include "utility/logging/FileLogger.h"
-#include "utility/logging/LoggerUtility.h"
 #include "utility/logging/logging.h"
 #include "utility/logging/LogManager.h"
 #include "utility/messaging/type/MessageInterruptTasks.h"
@@ -52,7 +51,7 @@ void setupLogging()
 
 	std::shared_ptr<FileLogger> fileLogger = std::make_shared<FileLogger>();
 	fileLogger->setLogDirectory(UserPaths::getLogPath());
-	fileLogger->setFileName(LoggerUtility::generateDatedFileName("log"));
+	fileLogger->setFileName(FileLogger::generateDatedFileName(L"log"));
 	fileLogger->setLogLevel(Logger::LOG_ALL);
 	logManager->addLogger(fileLogger);
 }

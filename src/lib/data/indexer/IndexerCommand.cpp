@@ -1,5 +1,7 @@
 #include "data/indexer/IndexerCommand.h"
 
+#include "utility/utilityString.h"
+
 IndexerCommand::IndexerCommand(
 	const FilePath& sourceFilePath, const std::set<FilePath>& indexedPaths, const std::set<FilePath>& excludedPaths
 )
@@ -15,16 +17,16 @@ IndexerCommand::~IndexerCommand()
 
 size_t IndexerCommand::getByteSize(size_t stringSize) const
 {
-	size_t size = m_sourceFilePath.str().size();
+	size_t size = utility::encodeToUtf8(m_sourceFilePath.wstr()).size();
 
 	for (const FilePath& path: m_indexedPaths)
 	{
-		size += stringSize + path.str().size();
+		size += stringSize + utility::encodeToUtf8(path.wstr()).size();
 	}
 
 	for (const FilePath& path : m_excludedPaths)
 	{
-		size += stringSize + path.str().size();
+		size += stringSize + utility::encodeToUtf8(path.wstr()).size();
 	}
 
 	return size;

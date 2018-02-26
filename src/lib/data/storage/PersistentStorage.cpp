@@ -1885,7 +1885,7 @@ TooltipInfo PersistentStorage::getTooltipInfoForSourceLocationIdsAndLocalSymbolI
 			const NameHierarchy nameHierarchy = NameHierarchy::deserialize(node.serializedName);
 			snippet.code = codec.encode(nameHierarchy.getQualifiedName());
 			snippet.locationFile = std::make_shared<SourceLocationFile>(
-				FilePath(nameHierarchy.getDelimiter() == NAME_DELIMITER_JAVA ? "main.java" : "main.cpp"), true, true);
+				FilePath(nameHierarchy.getDelimiter() == NAME_DELIMITER_JAVA ? L"main.java" : L"main.cpp"), true, true);
 
 			snippet.locationFile->addSourceLocation(
 				LOCATION_TOKEN, 0, std::vector<Id>(1, node.id), 1, 1, 1, snippet.code.size());
@@ -2645,7 +2645,7 @@ void PersistentStorage::buildMemberEdgeIdOrderMap()
 				intToLocationType(location.type),
 				location.id,
 				std::vector<Id>(),
-				FilePath(std::to_string(location.fileNodeId)),
+				FilePath(std::to_wstring(location.fileNodeId)),
 				location.startLine,
 				location.startCol,
 				location.endLine,

@@ -1,5 +1,7 @@
 #include "data/indexer/IndexerCommandJava.h"
 
+#include "utility/utilityString.h"
+
 IndexerCommandType IndexerCommandJava::getStaticIndexerCommandType()
 {
 	return INDEXER_COMMAND_JAVA;
@@ -33,7 +35,7 @@ size_t IndexerCommandJava::getByteSize(size_t stringSize) const
 
 	for (auto& i : m_classPath)
 	{
-		size += stringSize + i.str().size();
+		size += stringSize + utility::encodeToUtf8(i.wstr()).size();
 	}
 
 	return size;

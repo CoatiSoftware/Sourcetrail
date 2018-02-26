@@ -84,7 +84,7 @@ public:
 		std::cout.rdbuf( oldBuf );
 
 		FilePath path = ApplicationSettings::getInstance()->getMavenPath();
-		TS_ASSERT_EQUALS( path.str(), "/opt/testpath/mvn")
+		TS_ASSERT_EQUALS( path.wstr(), L"/opt/testpath/mvn")
 
 	}
 
@@ -102,10 +102,10 @@ public:
 		parser.parse();
 
 		std::vector<FilePath> paths = ApplicationSettings::getInstance()->getHeaderSearchPaths();
-		TS_ASSERT_EQUALS( paths[0].str(), "/usr")
-		TS_ASSERT_EQUALS( paths[1].str(), "/usr/include")
-		TS_ASSERT_EQUALS( paths[2].str(), "/include")
-		TS_ASSERT_EQUALS( paths[3].str(), "/opt/include")
+		TS_ASSERT_EQUALS( paths[0].wstr(), L"/usr")
+		TS_ASSERT_EQUALS( paths[1].wstr(), L"/usr/include")
+		TS_ASSERT_EQUALS( paths[2].wstr(), L"/include")
+		TS_ASSERT_EQUALS( paths[3].wstr(), L"/opt/include")
 
 	}
 

@@ -2,14 +2,43 @@
 
 #include <fstream>
 #include <sstream>
+#include <ctime>
 #include <cstdio>
 
 #include "utility/file/FileSystem.h"
 #include "utility/utilityString.h"
 
+std::wstring FileLogger::generateDatedFileName(const std::wstring& prefix, const std::wstring& suffix)
+{
+	time_t time;
+	std::time(&time);
+	tm t = *std::localtime(&time);
+
+	std::wstringstream filename;
+	if (!prefix.empty())
+	{
+		filename << prefix;
+		filename << L"_";
+	}
+	filename << t.tm_year + 1900 << L"-";
+	filename << (t.tm_mon < 9 ? L"0" : L"") << t.tm_mon + 1 << L"-";
+	filename << (t.tm_mday < 10 ? L"0" : L"") << t.tm_mday << L"_";
+	filename << (t.tm_hour < 10 ? L"0" : L"") << t.tm_hour << L"-";
+	filename << (t.tm_min < 10 ? L"0" : L"") << t.tm_min << L"-";
+	filename << (t.tm_sec < 10 ? L"0" : L"") << t.tm_sec;
+
+	if (!suffix.empty())
+	{
+		filename << L"_";
+		filename << suffix;
+	}
+
+	return filename.str();
+}
+
 FileLogger::FileLogger()
 	: Logger("FileLogger")
-	, m_logFileName("log")
+	, m_logFileName(L"log")
 	, m_logDirectory(L"user/log/")
 	, m_maxLogLineCount(0)
 	, m_maxLogFileCount(0)
@@ -31,7 +60,7 @@ FilePath FileLogger::getLogFilePath() const
 void FileLogger::setLogFilePath(const FilePath& filePath)
 {
 	m_currentLogFilePath = filePath;
-	m_logFileName = "";
+	m_logFileName = L"";
 }
 
 void FileLogger::setLogDirectory(const FilePath& filePath)
@@ -40,7 +69,7 @@ void FileLogger::setLogDirectory(const FilePath& filePath)
 	FileSystem::createDirectory(m_logDirectory);
 }
 
-void FileLogger::setFileName(const std::string& fileName)
+void FileLogger::setFileName(const std::wstring& fileName)
 {
 	if (fileName != m_logFileName)
 	{
@@ -78,17 +107,17 @@ void FileLogger::setMaxLogFileCount(unsigned int fileCount)
 
 void FileLogger::updateLogFileName()
 {
-	if (!m_logFileName.size())
+	if (m_logFileName.empty())
 	{
 		return;
 	}
 
 	bool fileChanged = false;
 
-	std::string currentLogFilePath = m_logDirectory.str() + m_logFileName;
+	std::wstring currentLogFilePath = m_logDirectory.wstr() + m_logFileName;
 	if (m_maxLogFileCount > 0)
 	{
-		currentLogFilePath += "_";
+		currentLogFilePath += L"_";
 		if (m_currentLogLineCount >= m_maxLogLineCount)
 		{
 			m_currentLogLineCount = 0;
@@ -100,10 +129,10 @@ void FileLogger::updateLogFileName()
 			}
 			fileChanged = true;
 		}
-		currentLogFilePath += std::to_string(m_currentLogFileCount);
+		currentLogFilePath += std::to_wstring(m_currentLogFileCount);
 
 	}
-	currentLogFilePath += ".txt";
+	currentLogFilePath += L".txt";
 
 	m_currentLogFilePath = FilePath(currentLogFilePath);
 

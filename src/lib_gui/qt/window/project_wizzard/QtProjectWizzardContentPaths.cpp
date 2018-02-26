@@ -697,7 +697,7 @@ void QtProjectWizzardContentPathsHeaderSearch::showDetectedIncludesResult(const 
 			if (!relativeRoot.empty())
 			{
 				const FilePath relPath = path.getRelativeTo(relativeRoot);
-				if (relPath.str().size() < path.str().size())
+				if (relPath.wstr().size() < path.wstr().size())
 				{
 					detailedText += relPath.wstr() + L"\n";
 				}

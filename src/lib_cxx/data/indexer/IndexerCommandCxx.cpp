@@ -1,5 +1,7 @@
 #include "data/indexer/IndexerCommandCxx.h"
 
+#include "utility/utilityString.h"
+
 IndexerCommandCxx::IndexerCommandCxx(
 	const FilePath& sourceFilePath,
 	const std::set<FilePath>& indexedPaths,
@@ -23,12 +25,12 @@ size_t IndexerCommandCxx::getByteSize(size_t stringSize) const
 
 	for (auto& i : m_systemHeaderSearchPaths)
 	{
-		size += stringSize + i.str().size();
+		size += stringSize + utility::encodeToUtf8(i.wstr()).size();
 	}
 
 	for (auto& i : m_frameworkSearchPaths)
 	{
-		size += stringSize + i.str().size();
+		size += stringSize + utility::encodeToUtf8(i.wstr()).size();
 	}
 
 	for (auto& i : m_compilerFlags)

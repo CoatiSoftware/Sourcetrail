@@ -120,9 +120,9 @@ void QtLocationPicker::handleButtonPress()
 	{
 		if (!m_relativeRootDirectory.empty())
 		{
-			const FilePath path(fileName.toStdString());
+			const FilePath path(fileName.toStdWString());
 			const FilePath relPath = path.getRelativeTo(m_relativeRootDirectory);
-			if (relPath.str().size() < path.str().size())
+			if (relPath.wstr().size() < path.wstr().size())
 			{
 				fileName = QString::fromStdWString(relPath.wstr());
 			}

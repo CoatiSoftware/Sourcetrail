@@ -28,7 +28,7 @@ public:
 	void test_find_h_files()
 	{
 		std::vector<std::wstring> headerFiles = utility::convert<FilePath, std::wstring>(
-			FileSystem::getFilePathsFromDirectory(FilePath("data/FileSystemTestSuite"), { L".h" }),
+			FileSystem::getFilePathsFromDirectory(FilePath(L"data/FileSystemTestSuite"), { L".h" }),
 			[](const FilePath& filePath){ return filePath.wstr(); }
 		);
 
