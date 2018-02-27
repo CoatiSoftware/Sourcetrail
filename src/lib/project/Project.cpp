@@ -128,7 +128,7 @@ void Project::load()
 	}
 	catch(...)
 	{
-		LOG_ERROR_STREAM(<< "Exception during storage loading.");
+		LOG_ERROR("Exception has been encountered while loading the project.");
 
 		canLoad = false;
 		m_state = PROJECT_STATE_DB_CORRUPTED;
@@ -150,7 +150,20 @@ void Project::load()
 	}
 	else
 	{
-		MessageStatus(L"Project not loaded", false, false).dispatch();
+		switch (m_state)
+		{
+		case PROJECT_STATE_NEEDS_MIGRATION:
+			MessageStatus(L"Project could not be loaded and needs to be re-indexed after automatic migration to latest version.", false, false).dispatch();
+			break;
+		case PROJECT_STATE_EMPTY:
+			MessageStatus(L"Project could load any symbols because the index database is empty. Please re-index the project.", false, false).dispatch();
+			break;
+		case PROJECT_STATE_OUTVERSIONED:
+			MessageStatus(L"Project could not be loaded because the indexed data format is incompatible to the current version of Sourcetrail. Please re-index the project.", false, false).dispatch();
+			break;
+		default:
+			MessageStatus(L"Project could not be loaded.", false, false).dispatch();
+		}
 	}
 
 	if (m_state != PROJECT_STATE_LOADED && m_hasGUI)
