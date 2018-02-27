@@ -7,7 +7,6 @@
 #include "data/indexer/IndexerFactoryModuleJava.h"
 #include "data/indexer/IndexerFactoryModuleCxxCdb.h"
 #include "data/indexer/IndexerFactoryModuleCxxEmpty.h"
-#include "LicenseChecker.h"
 #include "project/SourceGroupFactory.h"
 #include "project/SourceGroupFactoryModuleCxx.h"
 #include "project/SourceGroupFactoryModuleJava.h"
@@ -16,6 +15,7 @@
 #include "qt/QtCoreApplication.h"
 #include "qt/utility/utilityQt.h"
 #include "qt/view/QtViewFactory.h"
+#include "qt/window/QtEulaWindow.h"
 #include "settings/ApplicationSettings.h"
 #include "utility/commandline/CommandLineParser.h"
 #include "utility/logging/ConsoleLogger.h"
@@ -27,6 +27,7 @@
 #include "utility/messaging/type/MessageStatus.h"
 #include "utility/ResourcePaths.h"
 #include "utility/ScopedFunctor.h"
+#include "utility/text/TextAccess.h"
 #include "utility/UserPaths.h"
 #include "utility/utility.h"
 #include "utility/utilityApp.h"
@@ -128,7 +129,8 @@ void prefillCxxHeaderPaths()
 		std::vector<FilePath> paths = cxxHeaderDetector->getPaths();
 		if (!paths.empty())
 		{
-			MessageStatus(L"Ran C/C++ header path detection, found " + std::to_wstring(paths.size()) + L" path" + (paths.size() == 1 ? L"" : L"s")).dispatch();
+			MessageStatus(L"Ran C/C++ header path detection, found " + std::to_wstring(paths.size()) + L" path" +
+				(paths.size() == 1 ? L"" : L"s")).dispatch();
 
 			settings->setHeaderSearchPaths(paths);
 			settings->save();
@@ -145,7 +147,8 @@ void prefillCxxFrameworkPaths()
 		std::vector<FilePath> paths = cxxFrameworkDetector->getPaths();
 		if (!paths.empty())
 		{
-			MessageStatus(L"Ran C/C++ framework path detection, found " + std::to_wstring(paths.size()) + L" path" + (paths.size() == 1 ? L"" : L"s")).dispatch();
+			MessageStatus(L"Ran C/C++ framework path detection, found " + std::to_wstring(paths.size()) + L" path" +
+				(paths.size() == 1 ? L"" : L"s")).dispatch();
 
 			settings->setFrameworkSearchPaths(paths);
 			settings->save();
@@ -235,39 +238,46 @@ int main(int argc, char *argv[])
 			Application::destroyInstance();
 		});
 
+		// check if already agreed to EULA
+		ApplicationSettings* appSettings = ApplicationSettings::getInstance().get();
+		if (appSettings->getAcceptedEulaVersion() < QtEulaWindow::EULA_VERSION)
+		{
+			// to avoid interferring with other console output
+			std::this_thread::sleep_for(std::chrono::milliseconds(250));
+
+			std::shared_ptr<TextAccess> text =
+				TextAccess::createFromFile(ResourcePaths::getGuiPath().concatenate(L"installer/EULA.txt"));
+
+			std::cout << std::endl << text->getText() << std::endl;
+			std::cout << "Do you accept the Sourcetrail Software License Agreement? (y/n)" << std::endl;
+
+			char c = 'n';
+			std::cin >> c;
+
+			if (c == 'Y' || c == 'y')
+			{
+				std::cout << "\nAgreement accepted.\n" << std::endl;
+				appSettings->setAcceptedEulaVersion(QtEulaWindow::EULA_VERSION);
+				appSettings->save();
+			}
+			else
+			{
+				std::cout << "\nAgreement not accepted. quitting..." << std::endl;
+				return 1;
+			}
+		}
+
 		prefillPaths();
 		addLanguageModules();
-
-		std::shared_ptr<LicenseChecker> checker = LicenseChecker::getInstance();
 
 		signal(SIGINT, signalHandler);
 		signal(SIGTERM, signalHandler);
 		signal(SIGABRT, signalHandler);
 
 		commandLineParser.parse();
-		if (commandLineParser.startedWithLicense())
-		{
-			utility::saveLicense(commandLineParser.getLicensePtr());
-		}
 
 		if (commandLineParser.exitApplication())
 		{
-			return 0;
-		}
-
-		if (!checker->isCurrentLicenseValid() && !ApplicationSettings::getInstance()->getNonCommercialUse())
-		{
-			std::string appName = argc > 0 && std::string(argv[0]).size() ? argv[0] : "sourcetrail";
-
-			std::cout << "\nERROR: No valid license option selected.\n\n";
-			std::cout << "For commercial use please run:\n\n";
-			std::cout << "\t" << appName << " config --license-string <Commercial License or Test License string>\n";
-			std::cout << "or\n";
-			std::cout << "\t" << appName << " config --license-file <path/to/Commercial License or Test License file>\n\n\n";
-			std::cout << "For non-commercial use please run:\n\n";
-			std::cout << "\t" << appName << " config --non-commercial-use true\n" << std::endl;
-
-			LOG_WARNING("Your current Sourcetrail license seems to be invalid. Please update your license info.");
 			return 0;
 		}
 

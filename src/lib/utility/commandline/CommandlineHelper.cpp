@@ -6,12 +6,9 @@
 
 #include "boost/program_options.hpp"
 
-namespace po = boost::program_options;
-
 namespace commandline {
 
-void parseConfigFile(po::variables_map& vm,
-					 po::options_description& options)
+void parseConfigFile(po::variables_map& vm, po::options_description& options)
 {
 	if (vm.count("config-file"))
 	{
@@ -20,26 +17,12 @@ void parseConfigFile(po::variables_map& vm,
 
 		if (!ifs)
 		{
-			std::cout << "Could not open config file( "
-					<< configFile << ")"
-					<< std::endl;
+			std::cout << "Could not open config file( " << configFile << ")" << std::endl;
 		}
 		else
 		{
 			po::store(po::parse_config_file(ifs, options), vm);
 		}
-	}
-}
-
-void conflicting_options(const boost::program_options::variables_map& vm,
-						 const char* opt1, const char* opt2)
-{
-	if (vm.count(opt1) && !vm[opt1].defaulted()
-		&& vm.count(opt2) && !vm[opt2].defaulted())
-	{
-		std::cout << "Options " << opt1
-				  << " and " << opt2
-				  << " are conflicted." << std::endl;
 	}
 }
 

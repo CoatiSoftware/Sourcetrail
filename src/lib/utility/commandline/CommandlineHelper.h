@@ -14,6 +14,8 @@ namespace program_options {
 }
 }
 
+namespace po = boost::program_options;
+
 namespace commandline
 {
 	enum class ReturnStatus {
@@ -22,14 +24,9 @@ namespace commandline
 		CMD_FAILURE
 	};
 
-	void parseConfigFile(boost::program_options::variables_map& vm,
-						 boost::program_options::options_description& options);
-
-	void conflicting_options(const boost::program_options::variables_map& vm,
-							 const char* opt1, const char* opt2);
+	void parseConfigFile(po::variables_map& vm, po::options_description& options);
 
 	std::vector<FilePath> extractPaths(const std::vector<std::string>& vector);
-
 }
 
 #endif // COMMANDLINE_HELPER_H

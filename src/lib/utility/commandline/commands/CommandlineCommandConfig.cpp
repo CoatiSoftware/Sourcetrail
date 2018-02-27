@@ -3,28 +3,23 @@
 #include <functional>
 #include <utility>
 
-
 #include "boost/program_options.hpp"
 
-#include "utility/UserPaths.h"
 #include "utility/commandline/CommandlineHelper.h"
 #include "utility/commandline/CommandLineParser.h"
 #include "utility/file/FilePath.h"
-#include "settings/ApplicationSettings.h"
-#include "PublicKey.h"
-#include "utility/AppPath.h"
 
-namespace po = boost::program_options;
+#include "settings/ApplicationSettings.h"
 
 namespace commandline {
 
 // helper functions
 typedef void(ApplicationSettings::*intFunc)(int);
 void parseAndSetValue(
-		intFunc f,
-		const char* opt,
-		ApplicationSettings* settings,
-		po::variables_map& vm)
+	intFunc f,
+	const char* opt,
+	ApplicationSettings* settings,
+	po::variables_map& vm)
 {
 	if (vm.count(opt))
 	{
@@ -34,10 +29,10 @@ void parseAndSetValue(
 
 typedef void(ApplicationSettings::*boolFunc)(bool);
 void parseAndSetValue(
-		boolFunc f,
-		const char* opt,
-		ApplicationSettings* settings,
-		po::variables_map& vm)
+	boolFunc f,
+	const char* opt,
+	ApplicationSettings* settings,
+	po::variables_map& vm)
 {
 	if (vm.count(opt))
 	{
@@ -47,10 +42,10 @@ void parseAndSetValue(
 
 typedef void(ApplicationSettings::*filePathFunc)(const FilePath&);
 void parseAndSetValue(
-		filePathFunc f,
-		const char* opt,
-		ApplicationSettings* settings,
-		po::variables_map& vm)
+	filePathFunc f,
+	const char* opt,
+	ApplicationSettings* settings,
+	po::variables_map& vm)
 {
 	if (vm.count(opt))
 	{
@@ -66,10 +61,10 @@ void parseAndSetValue(
 
 typedef bool(ApplicationSettings::*vectorFunc)(const std::vector<FilePath>&);
 void parseAndSetValue(
-		vectorFunc f,
-		const char* opt,
-		ApplicationSettings* settings,
-		po::variables_map& vm)
+	vectorFunc f,
+	const char* opt,
+	ApplicationSettings* settings,
+	po::variables_map& vm)
 {
 	if (vm.count(opt))
 	{
@@ -96,22 +91,21 @@ void CommandConfig::setup()
 		("use-processes,p", po::value<bool>(), "Enable C/C++ Indexer threads to run in different processes. <true/false>")
 		("logging-enabled,l", po::value<bool>(), "Enable file/console logging <true/false>")
 		("verbose-indexer-logging-enabled,L", po::value<bool>(),
-		 "Enable additional log of abstract syntax tree during the indexing. <true/false> WARNINIG Slows down indexing speed")
+			"Enable additional log of abstract syntax tree during the indexing. <true/false> WARNINIG Slows down "
+			"indexing speed")
 		("jvm-path,j", po::value<std::string>(), "Path to the location of the jvm library")
 		("jvm-max-memory,M", po::value<int>(),
-		 "Set the maximum amount of memory for the JVM indexer(-1 for using the JVM default settings)")
+			"Set the maximum amount of memory for the JVM indexer(-1 for using the JVM default settings)")
 		("maven-path,m", po::value<std::string>(), "Path to the maven binary")
 		("jre-system-library-paths,J", po::value<std::vector<std::string>>(),
-		 "paths to the jars of the JRE system library. "
-		 "These jars can be found inside your JRE install directory (once per path or comma separated)")
-		("license-file,z", po::value<std::string>(), "Enter license via Licensefile")
-		("license-string,Z", po::value<std::string>(), "Enter licenes via commandline")
+			"paths to the jars of the JRE system library. "
+			"These jars can be found inside your JRE install directory (once per path or comma separated)")
 		("global-header-search-paths,g", po::value<std::vector<std::string>>(),
-		 "Global include paths (once per path or comma separated)")
+			"Global include paths (once per path or comma separated)")
 		("global-framework-search-paths,F", po::value<std::vector<std::string>>(),
-		 "Global include paths (once per path or comma separated)")
+			"Global include paths (once per path or comma separated)")
 		("show,s", "displays all settings")
-		("non-commercial-use", po::value<bool>(), "Enable non-commercial use. <true/false>");
+		;
 
 	m_options.add(options);
 }
@@ -201,51 +195,6 @@ ReturnStatus CommandConfig::parse(std::vector<std::string>& args)
 	parseAndSetValue(&ApplicationSettings::setJreSystemLibraryPaths, "jre-system-library-paths", settings, vm);
 	parseAndSetValue(&ApplicationSettings::setHeaderSearchPaths, "global-header-search-paths", settings, vm);
 	parseAndSetValue(&ApplicationSettings::setFrameworkSearchPaths, "global-framework-search-paths", settings, vm);
-
-	parseAndSetValue(&ApplicationSettings::setNonCommercialUse, "non-commercial-use", settings, vm);
-
-	// license
-	if (vm.count("license-string") || vm.count("license-file") )
-	{
-		bool licenseLoaded = false;
-		if (vm.count("license-string"))
-		{
-			std::string licensetext = utility::replace(vm["license-string"].as<std::string>(), "\\n", "\n");
-			licenseLoaded = m_parser->getLicensePtr()->loadFromString(licensetext);
-		}
-
-		if (vm.count("license-file"))
-		{
-			const std::string licensefile = vm["license-file"].as<std::string>();
-			if (FilePath(licensefile).exists())
-			{
-				std::cout << "Load license from file" << std::endl;
-				licenseLoaded = m_parser->getLicensePtr()->loadFromFile(licensefile);
-			}
-			else
-			{
-				std::cout << licensefile << " not found" << std::endl;
-			}
-		}
-
-		if (licenseLoaded)
-		{
-			if (!m_parser->getLicensePtr()->isValid())
-			{
-				std::cout << "License is not valid" << std::endl;
-				return ReturnStatus::CMD_FAILURE;
-			}
-			else
-			{
-				std::cout << "License is valid" << std::endl;
-			}
-		}
-		else
-		{
-			std::cout << "Could not load License" << std::endl;
-			return ReturnStatus::CMD_FAILURE;
-		}
-	}
 
 	settings->save();
 
