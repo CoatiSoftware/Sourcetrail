@@ -27,7 +27,7 @@ const char PUBLIC_KEY_FILE[] = "public-sourcetrail.pem";
 
 Generator::Generator()
 {
-    loadPrivateKeyFromString(PRIVATE_KEY);
+	loadPrivateKeyFromString(PRIVATE_KEY);
 }
 
 Generator::~Generator()
@@ -41,20 +41,20 @@ void Generator::generateKeys()
 
 std::string Generator::getPrivateKeyFilename()
 {
-    if(m_privateKeyFile.empty())
-    {
-        return PRIVATE_KEY_FILE;
-    }
-    return m_privateKeyFile;
+	if(m_privateKeyFile.empty())
+	{
+		return PRIVATE_KEY_FILE;
+	}
+	return m_privateKeyFile;
 }
 
 std::string Generator::getPublicKeyFilename()
 {
-    if(m_publicKeyFile.empty())
-    {
-        return PUBLIC_KEY_FILE;
-    }
-    return m_publicKeyFile;
+	if(m_publicKeyFile.empty())
+	{
+		return PUBLIC_KEY_FILE;
+	}
+	return m_publicKeyFile;
 }
 
 std::string Generator::encodeLicense(const std::string& user, const int days)
@@ -63,89 +63,89 @@ std::string Generator::encodeLicense(const std::string& user, const int days)
 	boost::gregorian::days daysToTry(days);
 	boost::gregorian::date expireDate = today + daysToTry;
 
-    createLicense(user, LicenseConstants::TEST_LICENSE_STRING, boost::gregorian::to_simple_string(expireDate), 0);
+	createLicense(user, LicenseConstants::TEST_LICENSE_STRING, boost::gregorian::to_simple_string(expireDate), 0);
 
-    return m_license->getLicenseString();
+	return m_license->getLicenseString();
 }
 
 std::string Generator::encodeLicense(
-    const std::string& user,
-    const std::string& licenseType,
-    size_t numberOfUsers,
-    const std::string& version
+	const std::string& user,
+	const std::string& licenseType,
+	size_t numberOfUsers,
+	const std::string& version
 )
 {
-    m_license = nullptr;
+	m_license = nullptr;
 	if (user.size() <= 0)
 	{
 		std::cout << "No user given" << std::endl;
-        return "";
+		return "";
 	}
 
 	if (licenseType.size() <= 0)
 	{
 		std::cout << "No license type given" << std::endl;
-        return "";
+		return "";
 	}
 
-    if (!version.empty())
-    {
-        Version tempVersion = Version::fromString(version);
-        if (tempVersion.isValid())
-        {
-            createLicense(user, licenseType, tempVersion.toShortString(), numberOfUsers);
-        }
-    }
+	if (!version.empty())
+	{
+		Version tempVersion = Version::fromString(version);
+		if (tempVersion.isValid())
+		{
+			createLicense(user, licenseType, tempVersion.toShortString(), numberOfUsers);
+		}
+	}
 
-    if (!m_license)
-    {
-        createLicense(user, licenseType, getExpireVersion(), numberOfUsers);
-    }
+	if (!m_license)
+	{
+		createLicense(user, licenseType, getExpireVersion(), numberOfUsers);
+	}
 
 
-    return m_license->getLicenseString();
+	return m_license->getLicenseString();
 }
 
 void Generator::printLicenseAndWriteItToFile()
 {
-    if (m_license)
-    {
-        m_license->print();
-        m_license->writeToFile("license.txt");
-    }
-    else
-    {
-        std::cout << "nothing to print" << std::endl;
-    }
+	if (m_license)
+	{
+		m_license->print();
+		m_license->writeToFile("license.txt");
+	}
+	else
+	{
+		std::cout << "nothing to print" << std::endl;
+	}
 }
 
 bool Generator::verifyLicense(const std::string& filename)
 {
-    License license;
-    license.loadFromFile(filename);
+	License license;
+	license.loadFromFile(filename);
 //    license.loadPublicKeyFromString(PUBLIC_KEY);
-    return license.isValid();
+	return license.isValid();
 }
 
 void Generator::setCustomPrivateKeyFile(const std::string& file)
 {
-    if(!file.empty())
-    {
-        m_privateKeyFile = file;
-    }
+	if(!file.empty())
+	{
+		m_privateKeyFile = file;
+	}
 }
 
 void Generator::setCustomPublicKeyFile(const std::string& file)
 {
-    if(!file.empty())
-    {
-        m_publicKeyFile = file;
-    }
+	if(!file.empty())
+	{
+		m_publicKeyFile = file;
+	}
 }
 
 std::string Generator::getPublicKeyPEMFileAsString()
 {
-    return Botan::X509::PEM_encode(*m_privateKey);
+	return Botan::X509::PEM_encode(*m_privateKey);
 }
 
 std::string Generator::getPrivateKeyPEMFileAsString()
@@ -156,12 +156,12 @@ std::string Generator::getPrivateKeyPEMFileAsString()
 		return "";
 	}
 
-    return Botan::PKCS8::PEM_encode(*m_privateKey, m_rng, PRIVATE_KEY_PASSWORD);
+	return Botan::PKCS8::PEM_encode(*m_privateKey, m_rng, PRIVATE_KEY_PASSWORD);
 }
 
 void Generator::writeKeysToFiles()
 {
-    std::string publicKeyFilename = getPublicKeyFilename();
+	std::string publicKeyFilename = getPublicKeyFilename();
 	if (publicKeyFilename.size() <= 0)
 	{
 		std::cout << "Failed to retrieve file name for public key" << std::endl;
@@ -176,15 +176,15 @@ void Generator::writeKeysToFiles()
 	}
 
 
-    std::cout << "public key filename: " << publicKeyFilename << std::endl;
-    std::ofstream pub(publicKeyFilename);
-    pub << getPublicKeyPEMFileAsString();
-    std::cout << "public key created" << std::endl;
+	std::cout << "public key filename: " << publicKeyFilename << std::endl;
+	std::ofstream pub(publicKeyFilename);
+	pub << getPublicKeyPEMFileAsString();
+	std::cout << "public key created" << std::endl;
 
-    std::cout << "private key filename: " << privateKeyFilename << std::endl;
-    std::ofstream priv(privateKeyFilename);
-    priv << getPrivateKeyPEMFileAsString();
-    std::cout << "private key created" << std::endl;
+	std::cout << "private key filename: " << privateKeyFilename << std::endl;
+	std::ofstream priv(privateKeyFilename);
+	priv << getPrivateKeyPEMFileAsString();
+	std::cout << "private key created" << std::endl;
 }
 
 bool Generator::loadPrivateKeyFromFile()
@@ -194,14 +194,14 @@ bool Generator::loadPrivateKeyFromFile()
 		return false;
 	}
 
-    Botan::Private_Key* privateKey = Botan::PKCS8::load_key(getPrivateKeyFilename(), m_rng, PRIVATE_KEY_PASSWORD);
-    Botan::RSA_PrivateKey *rsaKey = dynamic_cast<Botan::RSA_PrivateKey *>(privateKey);
+	Botan::Private_Key* privateKey = Botan::PKCS8::load_key(getPrivateKeyFilename(), m_rng, PRIVATE_KEY_PASSWORD);
+	Botan::RSA_PrivateKey *rsaKey = dynamic_cast<Botan::RSA_PrivateKey *>(privateKey);
 
 	if (!rsaKey)
 	{
-        std::cout << "The key is not a RSA key" << std::endl;
-        return false;
-    }
+		std::cout << "The key is not a RSA key" << std::endl;
+		return false;
+	}
 
 	m_privateKey = std::unique_ptr<Botan::RSA_PrivateKey>(rsaKey);
 
@@ -216,67 +216,67 @@ bool Generator::loadPrivateKeyFromString(const std::string& key)
 		return false;
 	}
 
-    Botan::DataSource_Memory in(key);
-    Botan::Private_Key* privateKey= Botan::PKCS8::load_key(in, m_rng, PRIVATE_KEY_PASSWORD);
-    Botan::RSA_PrivateKey *rsaKey = dynamic_cast<Botan::RSA_PrivateKey *>(privateKey);
+	Botan::DataSource_Memory in(key);
+	Botan::Private_Key* privateKey= Botan::PKCS8::load_key(in, m_rng, PRIVATE_KEY_PASSWORD);
+	Botan::RSA_PrivateKey *rsaKey = dynamic_cast<Botan::RSA_PrivateKey *>(privateKey);
 
 	if (!rsaKey)
 	{
-        std::cout << "The key is not a RSA key" << std::endl;
-        return false;
-    }
+		std::cout << "The key is not a RSA key" << std::endl;
+		return false;
+	}
 
 	m_privateKey = std::unique_ptr<Botan::RSA_PrivateKey>(rsaKey);
 
-    return (m_privateKey != NULL);
+	return (m_privateKey != NULL);
 }
 
 Botan::RSA_PrivateKey *Generator::getPrivateKey() const
 {
-    return m_privateKey.get();
+	return m_privateKey.get();
 }
 
 void Generator::createLicense(
-    const std::string& user,
+	const std::string& user,
 	const std::string& type,
-    const std::string& expiration,
-    size_t numberOfUsers
+	const std::string& expiration,
+	size_t numberOfUsers
 )
 {
 	m_license = std::make_unique<License>();
 
 	m_license->createHeader(user, type, expiration, numberOfUsers);
 
-    Botan::AutoSeeded_RNG rng;
+	Botan::AutoSeeded_RNG rng;
 	std::string pass9 = Botan::generate_passhash9(m_license->getExpireLine(), m_rng);
 	m_license->setHashLine(pass9);
 
-    //encode message
-    const std::string emsa = "EMSA4(SHA-256)";
-    Botan::PK_Signer signer(*(m_privateKey.get()), rng, emsa);
-    Botan::DataSource_Memory in(m_license->getMessage());
-    Botan::byte buffer[4096] = {0};
+	//encode message
+	const std::string emsa = "EMSA4(SHA-256)";
+	Botan::PK_Signer signer(*(m_privateKey.get()), rng, emsa);
+	Botan::DataSource_Memory in(m_license->getMessage());
+	Botan::byte buffer[4096] = {0};
 
-    while (size_t got = in.read(buffer, sizeof(buffer)))
-    {
-        signer.update(buffer, got);
-    }
+	while (size_t got = in.read(buffer, sizeof(buffer)))
+	{
+		signer.update(buffer, got);
+	}
 
-    const std::string signature = Botan::base64_encode(signer.signature(rng));
-    m_license->setSignature(signature);
+	const std::string signature = Botan::base64_encode(signer.signature(rng));
+	m_license->setSignature(signature);
 }
 
 int Generator::mapMonthToVersion(int month)
 {
-    return (month-1)/3+1;
+	return (month-1)/3+1;
 }
 
 std::string Generator::getExpireVersion(int versions)
 {
-        boost::gregorian::date today = boost::gregorian::day_clock::local_day();
-        int monthNumber = today.month().as_number();
-        Version version(today.year(), mapMonthToVersion(monthNumber));
-        version += versions;
-        return version.toShortString();
+		boost::gregorian::date today = boost::gregorian::day_clock::local_day();
+		int monthNumber = today.month().as_number();
+		Version version(today.year(), mapMonthToVersion(monthNumber));
+		version += versions;
+		return version.toShortString();
 }
 

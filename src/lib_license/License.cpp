@@ -146,14 +146,14 @@ bool License::isTestLicense() const
 
 bool License::isNonCommercialLicenseType() const
 {
-    for ( const std::string& nonCommercialLicenseType : NON_COMMERCIAL_LICENSE_TYPES)
-    {
+	for ( const std::string& nonCommercialLicenseType : NON_COMMERCIAL_LICENSE_TYPES)
+	{
 		if (m_type == nonCommercialLicenseType)
-        {
-            return true;
-        }
-    }
-    return false;
+		{
+			return true;
+		}
+	}
+	return false;
 }
 
 size_t License::getNumberOfUsers() const
@@ -209,21 +209,21 @@ std::string License::getUser() const
 
 int License::getTimeLeft() const
 {
-    const std::string dateText = "YYYY-MMM-DD";
+	const std::string dateText = "YYYY-MMM-DD";
 
 	std::string dateString = m_expire;
-    if (dateString.length() != dateText.length())
-    {
-        return -2;
-    }
+	if (dateString.length() != dateText.length())
+	{
+		return -2;
+	}
 
-    boost::gregorian::date expireDate(
-        boost::gregorian::from_simple_string(dateString));
+	boost::gregorian::date expireDate(
+		boost::gregorian::from_simple_string(dateString));
 
-    boost::gregorian::date today = boost::gregorian::day_clock::local_day();
-    boost::gregorian::days daysLeft = expireDate - today;
+	boost::gregorian::date today = boost::gregorian::day_clock::local_day();
+	boost::gregorian::days daysLeft = expireDate - today;
 
-    return (daysLeft.days() < 0 ? -1 : daysLeft.days());
+	return (daysLeft.days() < 0 ? -1 : daysLeft.days());
 }
 
 void License::writeToFile(const std::string& filename)
@@ -286,12 +286,12 @@ bool License::load(std::istream& stream)
 	m_signature = "";
 	while (getline(stream, line, '\n'))
 	{
-        std::string l = utility::trim(line);
+		std::string l = utility::trim(line);
 		if (l == LicenseConstants::END_LICENSE_STRING)
 		{
 			break;
 		}
-        if (l.size())
+		if (l.size())
 		{
 			m_signature += l;
 		}
@@ -350,7 +350,7 @@ bool License::isValid() const
 		std::cout << "No public key loaded" << std::endl;
 		return false;
 	}
-    try
+	try
 	{
 		if (m_signature.empty())
 		{
@@ -368,7 +368,6 @@ bool License::isValid() const
 
 		if (isExpired())
 		{
-			std::cout << "License is expired" << std::endl;
 			return false;
 		}
 
@@ -413,7 +412,7 @@ std::string License::getPublicKeyFilename() const
 {
 	if (m_publicKeyFilename.empty())
 	{
-        return "public-sourcetrail" + KEY_FILEENDING;
+		return "public-sourcetrail" + KEY_FILEENDING;
 	}
 	return m_publicKeyFilename;
 }
@@ -594,7 +593,7 @@ bool License::loadFromEncodedString(const std::string& encodedLicense, const std
 
 std::string License::getHashedLicense() const
 {
-    return getEncodeKey("fakeKey");
+	return getEncodeKey("fakeKey");
 }
 
 std::string License::getEncodeKey(const std::string applicationLocation) const
