@@ -261,6 +261,8 @@ target_include_directories(${LIB_LICENSE_PROJECT_NAME} SYSTEM
 	${BOTAN_INCLUDE_DIR}
 )
 
+target_link_libraries(${LIB_LICENSE_PROJECT_NAME} ${LIB_UTILITY_PROJECT_NAME})
+
 if(UNIX)
 	target_link_libraries(${LIB_LICENSE_PROJECT_NAME} ${BOTAN})
 else()
@@ -685,7 +687,7 @@ if(UNIX AND NOT APPLE)
 	set_target_properties(${LICENSE_GENERATOR_PROJECT_NAME} PROPERTIES LINK_FLAGS_RELEASE "-pthread")
 endif()
 
-target_link_libraries(${LICENSE_GENERATOR_PROJECT_NAME} ${LIB_UTILITY_PROJECT_NAME} ${LIB_LICENSE_PROJECT_NAME} ${Boost_LIBRARIES} )
+target_link_libraries(${LICENSE_GENERATOR_PROJECT_NAME} ${LIB_LICENSE_PROJECT_NAME} ${Boost_LIBRARIES} )
 
 
 # CxxTest ----------------------------------------------------------------------
