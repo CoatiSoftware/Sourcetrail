@@ -252,6 +252,7 @@ create_source_groups(${LIB_LICENSE_FILES})
 target_include_directories( ${LIB_LICENSE_PROJECT_NAME} PUBLIC
 	"${CMAKE_SOURCE_DIR}/src/lib_license"
 	"${CMAKE_BINARY_DIR}/src/lib_license"
+	"${CMAKE_SOURCE_DIR}/src/lib_utility"
 )
 
 target_include_directories(${LIB_LICENSE_PROJECT_NAME} SYSTEM
@@ -684,7 +685,7 @@ if(UNIX AND NOT APPLE)
 	set_target_properties(${LICENSE_GENERATOR_PROJECT_NAME} PROPERTIES LINK_FLAGS_RELEASE "-pthread")
 endif()
 
-target_link_libraries(${LICENSE_GENERATOR_PROJECT_NAME} ${LIB_LICENSE_PROJECT_NAME} ${Boost_LIBRARIES} )
+target_link_libraries(${LICENSE_GENERATOR_PROJECT_NAME} ${LIB_UTILITY_PROJECT_NAME} ${LIB_LICENSE_PROJECT_NAME} ${Boost_LIBRARIES} )
 
 
 # CxxTest ----------------------------------------------------------------------

@@ -540,8 +540,6 @@ add_files(
 	utility/utilityLibrary.h
 	utility/utilityMath.cpp
 	utility/utilityMath.h
-	utility/utilityString.cpp
-	utility/utilityString.h
 	utility/utilityUuid.cpp
 	utility/utilityUuid.h
 	utility/utilityXml.cpp

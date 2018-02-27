@@ -21,24 +21,16 @@
 #include "botan/auto_rng.h"
 #include "botan/pbkdf.h"
 
+#include "utility/utilityString.h"
 #include "utility/Version.h"
 #include "PublicKey.h"
-
-namespace
-{
-	std::string trimWhiteSpaces(const std::string &str)
-	{
-		auto wsfront = std::find_if_not(str.begin(), str.end(), [](int c){ return std::isspace(c); });
-		auto wsback = std::find_if_not(str.rbegin(), str.rend(), [](int c){ return std::isspace(c); }).base();
-		return (wsback <= wsfront ? std::string() : std::string(wsfront, wsback));
-	}
-}
 
 License::License()
 	: m_rng(std::make_shared<Botan::AutoSeeded_RNG>())
 	, m_user("")
 	, m_type("Private License")
-	, m_seats(0)
+	, m_numberOfUsers(0)
+	, m_createdWithSeats(false)
 	, m_expire("")
 {
 	loadPublicKey();
@@ -52,7 +44,7 @@ void License::createHeader(
 	const std::string& user,
 	const std::string& type,
 	const std::string& expiration,
-	unsigned int seats
+	size_t numberOfUsers
 )
 {
 	if (user.empty() || type.empty() || expiration.empty())
@@ -62,7 +54,7 @@ void License::createHeader(
 	m_user = user;
 	m_expire = expiration;
 	m_type = type;
-	m_seats = seats;
+	m_numberOfUsers = numberOfUsers;
 }
 
 std::string License::getMessage(bool withNewlines) const
@@ -78,17 +70,17 @@ std::string License::getMessage(bool withNewlines) const
 	message += LicenseConstants::PRODUCT_STRING + separator;
 	message += LicenseConstants::LICENSED_TO_STRING + m_user + separator;
 	message += LicenseConstants::LICENSE_TYPE_STRING + m_type;
-	if (m_seats > 1)
+	if (m_numberOfUsers > 1)
 	{
-		message += " (" + std::to_string(m_seats) + " Seats)";
+		message += " (" + std::to_string(m_numberOfUsers) + (m_createdWithSeats ? " Seats)" : " users)");
 	}
-	else if (m_seats == 1)
+	else if (m_numberOfUsers == 1)
 	{
-		message += " (1 Seat)";
+		message += (m_createdWithSeats ? " (1 Seat)" : " (1 user)");
 	}
 	else if (m_type == LicenseConstants::TEST_LICENSE_STRING)
 	{
-		message += " (unlimited seats)";
+		message += (m_createdWithSeats ? " (unlimited seats)" : " (unlimited users)");
 	}
 	message += separator;
 	message += getExpireLine() + separator;
@@ -103,7 +95,7 @@ std::string License::getLine(std::istream& stream)
 	std::string line;
 	if(getline(stream, line, '\n'))
 	{
-		return trimWhiteSpaces(line);
+		return utility::trim(line);
 	}
 	return "";
 }
@@ -140,7 +132,7 @@ bool License::extractData(const std::string& data, LICENSE_LINE line)
 			}
 			return !m_expire.empty();
 		case TYPE_LINE:
-			setTypeAndSeats(removeCaption(data, LicenseConstants::LICENSE_TYPE_STRING));
+			setTypeAndNumberOfUsers(removeCaption(data, LicenseConstants::LICENSE_TYPE_STRING));
 			return !m_type.empty();
 		default:
 			return false;
@@ -164,9 +156,9 @@ bool License::isNonCommercialLicenseType() const
     return false;
 }
 
-unsigned int License::getSeats() const
+size_t License::getNumberOfUsers() const
 {
-	return m_seats;
+	return m_numberOfUsers;
 }
 
 std::string License::getType() const
@@ -196,15 +188,15 @@ std::string License::getLicenseInfo() const
 	}
 	else if (m_type == LicenseConstants::TEST_LICENSE_STRING)
 	{
-		info += "unlimited Seats";
+		info += "unlimited users";
 	}
-	else if (m_seats > 1)
+	else if (m_numberOfUsers > 1)
 	{
-		info += std::to_string(m_seats) + " Seats";
+		info += std::to_string(m_numberOfUsers) + " users";
 	}
 	else
 	{
-		info += "1 Seat";
+		info += "1 user";
 	}
 
 	return info;
@@ -282,7 +274,7 @@ bool License::load(std::istream& stream)
 
 	// separator line
 	getline(stream, line, '\n');
-	if (trimWhiteSpaces(line) != LicenseConstants::SEPARATOR_STRING)
+	if (utility::trim(line) != LicenseConstants::SEPARATOR_STRING)
 	{
 		return false;
 	}
@@ -294,7 +286,7 @@ bool License::load(std::istream& stream)
 	m_signature = "";
 	while (getline(stream, line, '\n'))
 	{
-        std::string l = trimWhiteSpaces(line);
+        std::string l = utility::trim(line);
 		if (l == LicenseConstants::END_LICENSE_STRING)
 		{
 			break;
@@ -312,26 +304,31 @@ bool License::load(std::istream& stream)
 	return true;
 }
 
-void License::setTypeAndSeats(const std::string& line)
+void License::setTypeAndNumberOfUsers(const std::string& line)
 {
 	size_t pos = line.find("(");
 
-	if ( pos != line.npos)
+	if (pos != line.npos)
 	{
 		m_type = line.substr(0, pos - 1);
 		try
 		{
-			m_seats = std::stoi(line.substr(pos+1));
+			m_numberOfUsers = std::stoi(line.substr(pos+1));
 		}
 		catch (std::invalid_argument e)
 		{
-			m_seats = 0;
+			m_numberOfUsers = 0;
+		}
+
+		if (utility::toLowerCase(line).find("seat") != line.npos)
+		{
+			m_createdWithSeats = true;
 		}
 	}
 	else
 	{
 		m_type = line;
-		m_seats = 0;
+		m_numberOfUsers = 0;
 	}
 }
 
@@ -348,7 +345,7 @@ void License::print()
 
 bool License::isValid() const
 {
-	if(!m_publicKey)
+	if (!m_publicKey)
 	{
 		std::cout << "No public key loaded" << std::endl;
 		return false;
@@ -369,6 +366,12 @@ bool License::isValid() const
 			return false;
 		}
 
+		if (isExpired())
+		{
+			std::cout << "License is expired" << std::endl;
+			return false;
+		}
+
 		Botan::PK_Verifier verifier(*m_publicKey.get(), "EMSA4(SHA-256)");
 
 		Botan::DataSource_Memory in(getMessage());
@@ -379,8 +382,9 @@ bool License::isValid() const
 		}
 
 		const bool ok = verifier.check_signature(signature);
-		if (isExpired())
+		if (!ok)
 		{
+			std::cout << "License check failed" << std::endl;
 			return false;
 		}
 		return ok;
@@ -394,9 +398,9 @@ bool License::isValid() const
 
 bool License::isExpired() const
 {
-	if ( getType() == LicenseConstants::TEST_LICENSE_STRING)
+	if (getType() == LicenseConstants::TEST_LICENSE_STRING)
 	{
-		return (getTimeLeft()==-1);
+		return (getTimeLeft() == -1);
 	}
 	else
 	{
@@ -407,7 +411,7 @@ bool License::isExpired() const
 
 std::string License::getPublicKeyFilename() const
 {
-	if(m_publicKeyFilename.empty())
+	if (m_publicKeyFilename.empty())
 	{
         return "public-sourcetrail" + KEY_FILEENDING;
 	}
@@ -421,9 +425,10 @@ bool License::loadPublicKeyFromFile(const std::string& filename)
 		m_publicKeyFilename = filename;
 	}
 
-	if(boost::filesystem::exists(getPublicKeyFilename()))
+	if (boost::filesystem::exists(getPublicKeyFilename()))
 	{
-		Botan::RSA_PublicKey* rsaPublicKey = dynamic_cast<Botan::RSA_PublicKey *>(Botan::X509::load_key(getPublicKeyFilename()));
+		Botan::RSA_PublicKey* rsaPublicKey =
+			dynamic_cast<Botan::RSA_PublicKey*>(Botan::X509::load_key(getPublicKeyFilename()));
 
 		if (!rsaPublicKey)
 		{
@@ -535,7 +540,8 @@ std::string License::getLicenseEncodedString(const std::string& applicationLocat
 		return "";
 	}
 
-	std::string result = Botan::CryptoBox::encrypt(&fileContents[0], fileContents.size(), getEncodeKey(applicationLocation), rng);
+	std::string result =
+		Botan::CryptoBox::encrypt(&fileContents[0], fileContents.size(), getEncodeKey(applicationLocation), rng);
 
 	//remove Botan Cryptobox begin and end
 	//should not be in the application settings

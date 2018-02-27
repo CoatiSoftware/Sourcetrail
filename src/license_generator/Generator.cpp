@@ -71,7 +71,7 @@ std::string Generator::encodeLicense(const std::string& user, const int days)
 std::string Generator::encodeLicense(
     const std::string& user,
     const std::string& licenseType,
-    const int seats,
+    size_t numberOfUsers,
     const std::string& version
 )
 {
@@ -93,13 +93,13 @@ std::string Generator::encodeLicense(
         Version tempVersion = Version::fromString(version);
         if (tempVersion.isValid())
         {
-            createLicense(user, licenseType, tempVersion.toShortString(), seats);
+            createLicense(user, licenseType, tempVersion.toShortString(), numberOfUsers);
         }
     }
 
     if (!m_license)
     {
-        createLicense(user, licenseType, getExpireVersion(), seats);
+        createLicense(user, licenseType, getExpireVersion(), numberOfUsers);
     }
 
 
@@ -240,12 +240,12 @@ void Generator::createLicense(
     const std::string& user,
 	const std::string& type,
     const std::string& expiration,
-    const unsigned int seats
+    size_t numberOfUsers
 )
 {
 	m_license = std::make_unique<License>();
 
-	m_license->createHeader(user, type, expiration, seats);
+	m_license->createHeader(user, type, expiration, numberOfUsers);
 
     Botan::AutoSeeded_RNG rng;
 	std::string pass9 = Botan::generate_passhash9(m_license->getExpireLine(), m_rng);

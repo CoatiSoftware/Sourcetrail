@@ -22,7 +22,7 @@ bool process_command_line(int argc, char** argv)
         std::string licenseFile = "";
         std::string type = "";
 		int days = 0;
-        int seats = 0;
+        int numberOfUsers = 0;
 
         po::options_description modes_description("Sourcetrail Generator Modes");
         modes_description.add_options()
@@ -33,7 +33,8 @@ bool process_command_line(int argc, char** argv)
         po::options_description keygen_description("Options Keygeneration");
         keygen_description.add_options()
             ("version,v", po::value<std::string>(&version), "Versionnumber (in format 20xx.x) until Sourcetrail valid")
-            ("seats,s", po::value<int>(&seats), "Generate a License, USERNAME as value")
+            ("users,u", po::value<int>(&numberOfUsers), "Number of users")
+            ("seats,s", po::value<int>(&numberOfUsers), "Number of users (prev. seats)")
             ("licenseType,t", po::value<std::string>(&type), "License Type of ")
             ("testLicense,e", po::value<int>(&days), "Generates a test license for <value> days");
 
@@ -83,12 +84,12 @@ bool process_command_line(int argc, char** argv)
 
         Generator keygen;
 
-        // make sure there are no negative amount of seats
-        if (vm.count("seats"))
+        // make sure there are no negative amount of users
+        if (vm.count("users") || vm.count("seats"))
         {
-            if (seats < 0)
+            if (numberOfUsers < 0)
             {
-                std::cout << "Invalid amount of seats. (Must be > 0)" << std::endl;
+                std::cout << "Invalid amount of users. (Must be > 0)" << std::endl;
                 return false;
             }
         }
@@ -113,23 +114,23 @@ bool process_command_line(int argc, char** argv)
             keygen.loadPrivateKeyFromString(PRIVATE_KEY);
         }
 
-        if(vm.count("generate"))
+        if (vm.count("generate"))
         {
-			if(vm.count("testLicense"))
+			if (vm.count("testLicense"))
 			{
-                keygen.encodeLicense(user,days);
+                keygen.encodeLicense(user, days);
                 keygen.printLicenseAndWriteItToFile();
 			}
 			else
 			{
-                keygen.encodeLicense(user,type,seats,version);
+                keygen.encodeLicense(user, type, numberOfUsers, version);
                 keygen.printLicenseAndWriteItToFile();
 			}
         }
 
-        if(vm.count("check"))
+        if (vm.count("check"))
         {
-            if(keygen.verifyLicense())
+            if (keygen.verifyLicense())
             {
                 std::cout << "License valid" << std::endl;
             }
@@ -139,11 +140,12 @@ bool process_command_line(int argc, char** argv)
             }
         }
     }
-    catch(std::exception& e)
+    catch (std::exception& e)
     {
         std::cout << "Exception caught: " << e.what() << std::endl;
         return false;
     }
+
     return true;
 }
 

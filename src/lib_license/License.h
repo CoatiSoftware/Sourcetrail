@@ -55,20 +55,20 @@ public:
 
     void setLine(const LICENSE_LINE line, const std::string& value);
 	void setHashLine(const std::string& hash);
-	void setTypeAndSeats(const std::string& line);
+	void setTypeAndNumberOfUsers(const std::string& line);
 
     std::string getLicenseInfo() const;
     std::string getPublicKeyFilename() const;
     std::string getVersion() const;
 	std::string getType() const;
 	std::string getUser() const;
-    unsigned int getSeats() const;
+    size_t getNumberOfUsers() const;
 
 	void createHeader(
 		const std::string& user,
 		const std::string& type,
 		const std::string& expiration,
-		unsigned int seats = 0
+		size_t numberOfUsers = 0
 	);
 	std::string getExpireLine() const;
 
@@ -115,7 +115,8 @@ private:
 	// message
 	std::string m_user;
 	std::string m_type;
-	unsigned int m_seats;
+	size_t m_numberOfUsers;
+	bool m_createdWithSeats;
 	std::string m_expire;
 	std::string m_hashLine;
 

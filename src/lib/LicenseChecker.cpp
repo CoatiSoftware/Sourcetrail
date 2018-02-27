@@ -79,11 +79,13 @@ LicenseChecker::LicenseState LicenseChecker::checkCurrentLicense() const
 	std::string licenseString = appSettings->getLicenseString();
 	if (licenseString.size() == 0)
 	{
+		LOG_ERROR_STREAM(<< "No license key available.");
 		return LICENSE_EMPTY;
 	}
 
 	if (!License::checkLocation(appPath.getAbsolute().str(), appSettings->getLicenseCheck()))
 	{
+		LOG_ERROR_STREAM(<< "Application was moved, reenter license key.");
 		return LICENSE_MOVED;
 	}
 
@@ -91,6 +93,7 @@ LicenseChecker::LicenseState LicenseChecker::checkCurrentLicense() const
 	bool isLoaded = license.loadFromEncodedString(licenseString, appPath.str());
 	if (!isLoaded)
 	{
+		LOG_ERROR_STREAM(<< "License is invalid or application was moved.");
 		return LICENSE_MOVED;
 	}
 

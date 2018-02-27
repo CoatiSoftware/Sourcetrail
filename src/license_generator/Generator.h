@@ -21,7 +21,7 @@ public:
     std::string encodeLicense(
         const std::string& user,
         const std::string& licenseType,
-        const int seats = 0,
+        size_t numberOfUsers = 0,
         const std::string& version = ""
     );
     std::string encodeLicense(
@@ -45,7 +45,7 @@ public:
         const std::string& user,
 		const std::string& type,
         const std::string& expiration,
-        const unsigned int seates
+        size_t numberOfUsers
     );
 
     std::string getExpireVersion(int versions = 4);
