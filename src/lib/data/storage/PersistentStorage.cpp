@@ -1769,20 +1769,18 @@ TooltipSnippet PersistentStorage::getTooltipSnippetForNode(const StorageNode& no
 {
 	TRACE();
 
-	const TextCodec codec(ApplicationSettings::getInstance()->getTextEncoding());
-
 	const NameHierarchy nameHierarchy = NameHierarchy::deserialize(node.serializedName);
 	TooltipSnippet snippet;
-	snippet.code = codec.encode(nameHierarchy.getQualifiedNameWithSignature());
+	snippet.code = nameHierarchy.getQualifiedNameWithSignature();
 	snippet.locationFile = std::make_shared<SourceLocationFile>(
 		FilePath(nameHierarchy.getDelimiter() == NAME_DELIMITER_JAVA ? L"main.java" : L"main.cpp"), true, true);
 
 	if (nameHierarchy.hasSignature())
 	{
 		snippet.code = utility::breakSignature(
-			codec.encode(nameHierarchy.getSignature().getPrefix()),
-			codec.encode(nameHierarchy.getQualifiedName()),
-			codec.encode(nameHierarchy.getSignature().getPostfix()),
+			nameHierarchy.getSignature().getPrefix(),
+			nameHierarchy.getQualifiedName(),
+			nameHierarchy.getSignature().getPostfix(),
 			50,
 			ApplicationSettings::getInstance()->getCodeTabWidth()
 		);
@@ -1796,8 +1794,8 @@ TooltipSnippet PersistentStorage::getTooltipSnippetForNode(const StorageNode& no
 			}
 		}
 
-		std::set<std::pair<std::string, Id>, bool(*)(const std::pair<std::string, Id>&, const std::pair<std::string, Id>&)> typeNames(
-			[](const std::pair<std::string, Id>& a, const std::pair<std::string, Id>& b)
+		std::set<std::pair<std::wstring, Id>, bool(*)(const std::pair<std::wstring, Id>&, const std::pair<std::wstring, Id>&)> typeNames(
+			[](const std::pair<std::wstring, Id>& a, const std::pair<std::wstring, Id>& b)
 			{
 				if (a.first.size() == b.first.size())
 				{
@@ -1808,11 +1806,11 @@ TooltipSnippet PersistentStorage::getTooltipSnippetForNode(const StorageNode& no
 			}
 		);
 
-		typeNames.insert(std::make_pair(codec.encode(nameHierarchy.getQualifiedName()), node.id));
+		typeNames.insert(std::make_pair(nameHierarchy.getQualifiedName(), node.id));
 		for (const auto& typeNode : m_sqliteIndexStorage.getAllByIds<StorageNode>(typeNodeIds))
 		{
 			typeNames.insert(std::make_pair(
-				codec.encode(NameHierarchy::deserialize(typeNode.serializedName).getQualifiedName()),
+				NameHierarchy::deserialize(typeNode.serializedName).getQualifiedName(),
 				typeNode.id
 			));
 		}
@@ -1821,21 +1819,21 @@ TooltipSnippet PersistentStorage::getTooltipSnippetForNode(const StorageNode& no
 		for (const auto& p : typeNames)
 		{
 			size_t pos = 0;
-			while (pos != std::string::npos)
+			while (pos != std::wstring::npos)
 			{
 				pos = snippet.code.find(p.first, pos);
-				if (pos == std::string::npos)
+				if (pos == std::wstring::npos)
 				{
 					continue;
 				}
 
 				bool inRange = false;
-				for (const auto& p : locationRanges)
+				for (const auto& locationRange : locationRanges)
 				{
-					if (pos + 1 >= p.first && pos + 1 <= p.second)
+					if (pos + 1 >= locationRange.first && pos + 1 <= locationRange.second)
 					{
 						inRange = true;
-						pos = p.second + 1;
+						pos = locationRange.second + 1;
 						break;
 					}
 				}
@@ -1883,7 +1881,7 @@ TooltipInfo PersistentStorage::getTooltipInfoForSourceLocationIdsAndLocalSymbolI
 			TooltipSnippet snippet;
 
 			const NameHierarchy nameHierarchy = NameHierarchy::deserialize(node.serializedName);
-			snippet.code = codec.encode(nameHierarchy.getQualifiedName());
+			snippet.code = nameHierarchy.getQualifiedName();
 			snippet.locationFile = std::make_shared<SourceLocationFile>(
 				FilePath(nameHierarchy.getDelimiter() == NAME_DELIMITER_JAVA ? L"main.java" : L"main.cpp"), true, true);
 
@@ -1892,7 +1890,7 @@ TooltipInfo PersistentStorage::getTooltipInfoForSourceLocationIdsAndLocalSymbolI
 
 			if (NodeType(utility::intToType(node.type)).isCallable())
 			{
-				snippet.code += "()";
+				snippet.code += L"()";
 			}
 
 			info.snippets.push_back(snippet);
@@ -1903,7 +1901,7 @@ TooltipInfo PersistentStorage::getTooltipInfoForSourceLocationIdsAndLocalSymbolI
 	{
 		TooltipSnippet snippet;
 
-		snippet.code = "local symbol";
+		snippet.code = L"local symbol";
 		snippet.locationFile = std::make_shared<SourceLocationFile>(FilePath(L"main.cpp"), true, true);
 		snippet.locationFile->addSourceLocation(
 			LOCATION_LOCAL_SYMBOL, 0, std::vector<Id>(1, id), 1, 1, 1, snippet.code.size());

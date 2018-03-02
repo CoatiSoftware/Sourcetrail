@@ -11,6 +11,8 @@
 #include "data/location/SourceLocationFile.h"
 #include "data/tooltip/TooltipInfo.h"
 #include "qt/element/QtCodeField.h"
+#include "settings/ApplicationSettings.h"
+#include "utility/TextCodec.h"
 
 QtTooltip::QtTooltip(QWidget* parent)
 	: QFrame(parent)
@@ -32,14 +34,16 @@ QtTooltip::~QtTooltip()
 
 void QtTooltip::setTooltipInfo(TooltipInfo info)
 {
-	if (info.title.size())
+	if (!info.title.empty())
 	{
 		addTitle(QString::fromStdWString(info.title), info.count, info.countText.c_str());
 	}
 
-	for (TooltipSnippet& snippet : info.snippets)
+	for (const TooltipSnippet& snippet : info.snippets)
 	{
-		QtCodeField* field = new QtCodeField(1, snippet.code, snippet.locationFile);
+		const TextCodec codec(ApplicationSettings::getInstance()->getTextEncoding());
+
+		QtCodeField* field = new QtCodeField(1, codec.encode(snippet.code), snippet.locationFile, false);
 
 		QSize size = field->sizeHint() + QSize(15, 5);
 		if (size.width() > 600)

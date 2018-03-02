@@ -25,7 +25,9 @@ public:
 		uint startLineNumber,
 		const std::string& code,
 		std::shared_ptr<SourceLocationFile> locationFile,
-		QWidget* parent = nullptr);
+		bool convertLocationsOnDemand = true, 
+		QWidget* parent = nullptr); 
+
 	~QtCodeField();
 
 	virtual QSize sizeHint() const Q_DECL_OVERRIDE;
@@ -105,7 +107,7 @@ private:
 	static std::vector<AnnotationColor> s_annotationColors;
 
 	void createLineLengthCache();
-	void createMultibyteCharacterLocationCache();
+	void createMultibyteCharacterLocationCache(const QString& code);
 	int getColumnCorrectedForMultibyteCharacters(int line, int column) const;
 
 	const uint m_startLineNumber;

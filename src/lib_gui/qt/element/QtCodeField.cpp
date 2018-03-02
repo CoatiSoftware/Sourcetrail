@@ -27,6 +27,7 @@ QtCodeField::QtCodeField(
 	uint startLineNumber,
 	const std::string& code,
 	std::shared_ptr<SourceLocationFile> locationFile,
+	bool convertLocationsOnDemand,
 	QWidget* parent
 )
 	: QPlainTextEdit(parent)
@@ -50,14 +51,14 @@ QtCodeField::QtCodeField(
 	}
 
 	TextCodec codec(ApplicationSettings::getInstance()->getTextEncoding().c_str());
-	if (codec.isValid())
+	if (convertLocationsOnDemand && codec.isValid())
 	{
 		QString convertedDisplayCode = QString::fromStdWString(codec.decode(displayCode));
 		setPlainText(convertedDisplayCode);
 		if (displayCode.size() != size_t(convertedDisplayCode.length()))
 		{
 			LOG_INFO("Converting displayed code to " + codec.getName() + " resulted in offset of source locations. Correcting this now.");
-			createMultibyteCharacterLocationCache();
+			createMultibyteCharacterLocationCache(convertedDisplayCode);
 		}
 	}
 	else
@@ -651,15 +652,14 @@ void QtCodeField::createLineLengthCache()
 	}
 }
 
-void QtCodeField::createMultibyteCharacterLocationCache()
+void QtCodeField::createMultibyteCharacterLocationCache(const QString& code)
 {
 	m_multibyteCharacterLocations.clear();
 	QTextCodec* codec = QTextCodec::codecForName(ApplicationSettings::getInstance()->getTextEncoding().c_str());
 
-	for (QTextBlock itLine = document()->begin(); itLine != document()->end(); itLine = itLine.next())
+	for (const QString& line: code.split("\n"))
 	{
 		std::vector<std::pair<int, int>> columnsToOffsets;
-		const QString line = itLine.text();
 		for (int i = 0; i < line.size(); i++)
 		{
 			if (line[i].unicode() > 127)

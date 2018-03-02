@@ -277,7 +277,7 @@ namespace utility
 	{
 		return doReplaceBetween<std::wstring>(str, startDelimiter, endDelimiter, to);
 	}
-	
+
 	std::string insertLineBreaksAtBlankSpaces(const std::string& s, size_t maxLineLength)
 	{
 		const std::vector<std::string> atoms = splitToVector(s, " ");
@@ -319,11 +319,11 @@ namespace utility
 		return ret;
 	}
 
-	std::string breakSignature(
-		std::string returnPart, std::string namePart, std::string paramPart,
+	std::wstring breakSignature(
+		std::wstring returnPart, std::wstring namePart, std::wstring paramPart,
 		size_t maxLineLength, size_t tabWidth)
 	{
-		namePart = ' ' + namePart;
+		namePart = L' ' + namePart;
 
 		size_t totalSize = returnPart.size() + namePart.size() + paramPart.size();
 		if (totalSize <= maxLineLength)
@@ -331,47 +331,47 @@ namespace utility
 			return returnPart + namePart + paramPart;
 		}
 
-		if (paramPart.size())
+		if (!paramPart.empty())
 		{
 			namePart += paramPart[0];
 			paramPart.erase(0, 1);
 		}
 
-		size_t parenPos = paramPart.rfind(')');
-		std::string endPart;
+		size_t parenPos = paramPart.rfind(L')');
+		std::wstring endPart;
 		if (parenPos == 0)
 		{
 			namePart += paramPart;
-			paramPart = "";
+			paramPart = L"";
 		}
-		else if (parenPos != std::string::npos)
+		else if (parenPos != std::wstring::npos)
 		{
 			endPart = paramPart.substr(parenPos);
 			paramPart = paramPart.substr(0, parenPos);
 		}
 
-		if (paramPart.size() && paramPart.size() + tabWidth - endPart.size() > maxLineLength)
+		if (!paramPart.empty() && paramPart.size() + tabWidth - endPart.size() > maxLineLength)
 		{
-			std::vector<std::string> paramLines;
+			std::vector<std::wstring> paramLines;
 			while (true)
 			{
 				size_t parenCount = 0;
 				bool split = false;
 				for (size_t i = 0; i < paramPart.size(); i++)
 				{
-					char c = paramPart[i];
-					if (parenCount == 0 && c == ',')
+					const wchar_t c = paramPart[i];
+					if (parenCount == 0 && c == L',')
 					{
 						paramLines.push_back(paramPart.substr(0, i + 1));
 						paramPart = paramPart.substr(i + 2);
 						split = true;
 						break;
 					}
-					else if (c == '<' || c == '(')
+					else if (c == L'<' || c == L'(')
 					{
 						parenCount++;
 					}
-					else if (c == '>' || c == ')')
+					else if (c == L'>' || c == L')')
 					{
 						parenCount--;
 					}
@@ -384,42 +384,42 @@ namespace utility
 				}
 			}
 
-			paramPart = "";
-			for (const std::string& str : paramLines)
+			paramPart = L"";
+			for (const std::wstring& str : paramLines)
 			{
-				paramPart += "\n\t" + str;
-				size_t length = tabWidth + str.size();
+				paramPart += L"\n\t" + str;
+				const size_t length = tabWidth + str.size();
 				maxLineLength = std::max(length, maxLineLength);
 			}
 		}
-		else if (paramPart.size())
+		else if (!paramPart.empty())
 		{
-			paramPart = "\n\t" + paramPart;
+			paramPart = L"\n\t" + paramPart;
 		}
 
 		if (returnPart.size() + namePart.size() <= maxLineLength)
 		{
 			namePart = returnPart + namePart;
-			returnPart = "";
+			returnPart = L"";
 		}
 
-		std::string sig;
+		std::wstring sig;
 
-		if (returnPart.size())
+		if (!returnPart.empty())
 		{
-			sig += returnPart + '\n';
+			sig += returnPart + L'\n';
 		}
 
 		sig += namePart;
 
-		if (paramPart.size())
+		if (!paramPart.empty())
 		{
 			sig += paramPart;
 		}
 
-		if (endPart.size())
+		if (!endPart.empty())
 		{
-			sig += '\n' + endPart;
+			sig += L'\n' + endPart;
 		}
 
 		return sig;

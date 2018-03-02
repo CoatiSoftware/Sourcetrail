@@ -10,7 +10,7 @@ class SourceLocationFile;
 
 struct TooltipSnippet
 {
-	std::string code;
+	std::wstring code;
 	std::shared_ptr<SourceLocationFile> locationFile;
 };
 

@@ -70,8 +70,8 @@ namespace utility
 	std::wstring replaceBetween(const std::wstring& str, wchar_t startDelimiter, wchar_t endDelimiter, const std::wstring& to);
 
 	std::string insertLineBreaksAtBlankSpaces(const std::string& s, size_t maxLineLength);
-	std::string breakSignature(
-		std::string returnPart, std::string namePart, std::string paramPart,
+	std::wstring breakSignature(
+		std::wstring returnPart, std::wstring namePart, std::wstring paramPart,
 		size_t maxLineLength, size_t tabWidth);
 
 	std::string trim(const std::string &str);
