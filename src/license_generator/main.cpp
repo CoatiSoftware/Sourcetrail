@@ -34,7 +34,6 @@ bool process_command_line(int argc, char** argv)
 		keygen_description.add_options()
 			("version,v", po::value<std::string>(&version), "Versionnumber (in format 20xx.x) until Sourcetrail valid")
 			("users,u", po::value<int>(&numberOfUsers), "Number of users")
-			("seats,s", po::value<int>(&numberOfUsers), "Number of users (prev. seats)")
 			("licenseType,t", po::value<std::string>(&type), "License Type of ")
 			("testLicense,e", po::value<int>(&days), "Generates a test license for <value> days");
 
@@ -85,7 +84,7 @@ bool process_command_line(int argc, char** argv)
 		Generator keygen;
 
 		// make sure there are no negative amount of users
-		if (vm.count("users") || vm.count("seats"))
+		if (vm.count("users"))
 		{
 			if (numberOfUsers < 0)
 			{
