@@ -1,31 +1,25 @@
 #ifndef COMMANDLINE_COMMAND_CONFIG_H
 #define COMMANDLINE_COMMAND_CONFIG_H
 
-#include <memory>
-#include <iostream>
 #include "utility/commandline/commands/CommandlineCommand.h"
-
-class ApplicationSettings;
-class CommandLineParser;
 
 namespace commandline
 {
-enum class ReturnStatus;
 
-class CommandConfig
-	: public Command
+class CommandlineCommandConfig
+	: public CommandlineCommand
 {
 public:
-	CommandConfig(CommandLineParser* parser);
-	virtual ~CommandConfig();
+	CommandlineCommandConfig(CommandLineParser* parser);
+	virtual ~CommandlineCommandConfig();
 
 	virtual void setup();
+	virtual void preparse();
 	virtual ReturnStatus parse(std::vector<std::string>& args);
 
-private:
-	void printSettings(ApplicationSettings* settings);
+	virtual bool hasHelp() const { return true; }
 };
 
-} // namespace cmd
+} // namespace commandline
 
 #endif // COMMANDLINE_COMMAND_CONFIG_H

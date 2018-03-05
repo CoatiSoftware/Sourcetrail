@@ -3,19 +3,21 @@
 #include "utility/commandline/CommandlineHelper.h"
 #include "utility/commandline/CommandLineParser.h"
 
+namespace po = boost::program_options;
+
 namespace commandline
 {
 
-CommandIndex::CommandIndex(CommandLineParser* parser)
-	: Command("index", parser)
+CommandlineCommandIndex::CommandlineCommandIndex(CommandLineParser* parser)
+	: CommandlineCommand("index", "Index a certain project.", parser)
 {
 }
 
-CommandIndex::~CommandIndex()
+CommandlineCommandIndex::~CommandlineCommandIndex()
 {
 }
 
-void CommandIndex::setup()
+void CommandlineCommandIndex::setup()
 {
 	po::options_description options("Config Options");
 	options.add_options()
@@ -29,7 +31,11 @@ void CommandIndex::setup()
 	m_positional.add("project-file", 1);
 }
 
-ReturnStatus CommandIndex::parse(std::vector<std::string>& args)
+void CommandlineCommandIndex::preparse()
+{
+}
+
+CommandlineCommand::ReturnStatus CommandlineCommandIndex::parse(std::vector<std::string>& args)
 {
 	po::variables_map vm;
 	try

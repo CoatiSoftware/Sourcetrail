@@ -1,27 +1,22 @@
 #ifndef COMMANDLINE_COMMAND_INDEX_H
 #define COMMANDLINE_COMMAND_INDEX_H
 
-#include <memory>
-
-#include "boost/program_options.hpp"
-
 #include "utility/commandline/commands/CommandlineCommand.h"
-
-namespace po = boost::program_options;
 
 namespace commandline {
 
-enum class ReturnStatus;
-
-class CommandIndex
-	: public Command
+class CommandlineCommandIndex
+	: public CommandlineCommand
 {
 public:
-	CommandIndex(CommandLineParser* parser);
-	virtual ~CommandIndex();
+	CommandlineCommandIndex(CommandLineParser* parser);
+	virtual ~CommandlineCommandIndex();
 
 	virtual void setup();
+	virtual void preparse();
 	virtual ReturnStatus parse(std::vector<std::string>& args);
+
+	virtual bool hasHelp() const { return true; }
 };
 
 } // namespace cmd

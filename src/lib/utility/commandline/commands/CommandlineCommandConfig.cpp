@@ -3,8 +3,6 @@
 #include <functional>
 #include <utility>
 
-#include "boost/program_options.hpp"
-
 #include "utility/commandline/CommandlineHelper.h"
 #include "utility/commandline/CommandLineParser.h"
 #include "utility/file/FilePath.h"
@@ -73,16 +71,30 @@ void parseAndSetValue(
 	}
 }
 
-CommandConfig::CommandConfig(CommandLineParser* parser)
-	: Command("config", parser)
+void printVector(const std::string& title, const std::vector<FilePath>& vec)
+{
+	std::cout << "\n  " << title << ":";
+	if (vec.empty())
+	{
+		std::cout << "\n    -\n";
+	}
+	for (const FilePath& item : vec)
+	{
+		std::cout << "\n    " << item.str();
+	}
+}
+
+
+CommandlineCommandConfig::CommandlineCommandConfig(CommandLineParser* parser)
+	: CommandlineCommand("config", "Change preferences relevant to project indexing.", parser)
 {
 }
 
-CommandConfig::~CommandConfig()
+CommandlineCommandConfig::~CommandlineCommandConfig()
 {
 }
 
-void CommandConfig::setup()
+void CommandlineCommandConfig::setup()
 {
 	po::options_description options("Config Options");
 	options.add_options()
@@ -110,36 +122,11 @@ void CommandConfig::setup()
 	m_options.add(options);
 }
 
-void printVector(const std::string& title, const std::vector<FilePath>& vec)
+void CommandlineCommandConfig::preparse()
 {
-	std::cout << "\n  " << title << ":";
-	if (vec.empty())
-	{
-		std::cout << "\n    -\n";
-	}
-	for (const FilePath& item : vec)
-	{
-		std::cout << "\n    " << item.str();
-	}
 }
 
-void CommandConfig::printSettings(ApplicationSettings* settings)
-{
-	std::cout << "Sourcetrail Settings:\n"
-			  << "\n  indexer-threads: " << settings->getIndexerThreadCount()
-			  << "\n  use-processes: " << settings->getMultiProcessIndexingEnabled()
-			  << "\n  logging-enabled: " << settings->getLoggingEnabled()
-			  << "\n  verbose-indexer-logging-enabled: " << settings->getVerboseIndexerLoggingEnabled()
-			  << "\n  jvm-path: " << settings->getJavaPath().str()
-			  << "\n  jvm-max-memory: " << settings->getJavaMaximumMemory()
-			  << "\n  maven-path: " << settings->getMavenPath().str();
-	printVector("global-header-search-paths", settings->getHeaderSearchPaths());
-	printVector("global-framework-search-paths", settings->getFrameworkSearchPaths());
-	printVector("jre-system-library-paths", settings->getJreSystemLibraryPaths());
-}
-
-
-ReturnStatus CommandConfig::parse(std::vector<std::string>& args)
+CommandlineCommand::ReturnStatus CommandlineCommandConfig::parse(std::vector<std::string>& args)
 {
 	po::variables_map vm;
 	try
@@ -173,7 +160,17 @@ ReturnStatus CommandConfig::parse(std::vector<std::string>& args)
 
 	if (args[0] == "show" || vm.count("show"))
 	{
-		printSettings(settings);
+		std::cout << "Sourcetrail Settings:\n"
+			<< "\n  indexer-threads: " << settings->getIndexerThreadCount()
+			<< "\n  use-processes: " << settings->getMultiProcessIndexingEnabled()
+			<< "\n  logging-enabled: " << settings->getLoggingEnabled()
+			<< "\n  verbose-indexer-logging-enabled: " << settings->getVerboseIndexerLoggingEnabled()
+			<< "\n  jvm-path: " << settings->getJavaPath().str()
+			<< "\n  jvm-max-memory: " << settings->getJavaMaximumMemory()
+			<< "\n  maven-path: " << settings->getMavenPath().str();
+		printVector("global-header-search-paths", settings->getHeaderSearchPaths());
+		printVector("global-framework-search-paths", settings->getFrameworkSearchPaths());
+		printVector("jre-system-library-paths", settings->getJreSystemLibraryPaths());
 		return ReturnStatus::CMD_QUIT;
 	}
 

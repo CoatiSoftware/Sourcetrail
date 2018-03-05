@@ -215,7 +215,7 @@ int main(int argc, char *argv[])
 		L"version " + version.toDisplayWString()
 	).dispatch();
 
-	commandline::CommandLineParser commandLineParser(version.toString());
+	commandline::CommandLineParser commandLineParser(version.toDisplayString());
 	commandLineParser.preparse(argc, argv);
 	if (commandLineParser.exitApplication())
 	{
@@ -242,29 +242,30 @@ int main(int argc, char *argv[])
 		ApplicationSettings* appSettings = ApplicationSettings::getInstance().get();
 		if (appSettings->getAcceptedEulaVersion() < QtEulaWindow::EULA_VERSION)
 		{
-			// to avoid interferring with other console output
-			std::this_thread::sleep_for(std::chrono::milliseconds(250));
-
-			std::shared_ptr<TextAccess> text =
-				TextAccess::createFromFile(ResourcePaths::getGuiPath().concatenate(L"installer/EULA.txt"));
-
-			std::cout << std::endl << text->getText() << std::endl;
-			std::cout << "Do you accept the Sourcetrail Software License Agreement? (y/n)" << std::endl;
-
-			char c = 'n';
-			std::cin >> c;
-
-			if (c == 'Y' || c == 'y')
+			if (!commandLineParser.acceptedEULA())
 			{
-				std::cout << "\nAgreement accepted.\n" << std::endl;
-				appSettings->setAcceptedEulaVersion(QtEulaWindow::EULA_VERSION);
-				appSettings->save();
+				// to avoid interferring with other console output
+				std::this_thread::sleep_for(std::chrono::milliseconds(250));
+
+				std::shared_ptr<TextAccess> text =
+					TextAccess::createFromFile(ResourcePaths::getGuiPath().concatenate(L"installer/EULA.txt"));
+
+				std::cout << std::endl << text->getText() << std::endl;
+				std::cout << "Do you accept the Sourcetrail End User License Agreement? (y/n)" << std::endl;
+
+				char c = 'n';
+				std::cin >> c;
+
+				if (c != 'Y' && c != 'y')
+				{
+					std::cout << "\nAgreement not accepted. quitting..." << std::endl;
+					return 1;
+				}
 			}
-			else
-			{
-				std::cout << "\nAgreement not accepted. quitting..." << std::endl;
-				return 1;
-			}
+
+			std::cout << "\nSourcetrail End User License Agreement accepted.\n" << std::endl;
+			appSettings->setAcceptedEulaVersion(QtEulaWindow::EULA_VERSION);
+			appSettings->save();
 		}
 
 		prefillPaths();
@@ -281,7 +282,7 @@ int main(int argc, char *argv[])
 			return 0;
 		}
 
-		if (commandLineParser.hasError() )
+		if (commandLineParser.hasError())
 		{
 			std::wcout << commandLineParser.getError() << std::endl;
 		}

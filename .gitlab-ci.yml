@@ -15,8 +15,7 @@ variables:
     script:
         - ./script/buildonly.sh all
         - ./script/buildonly.sh package
-        - ./build/Release/app/Sourcetrail config -z ./setup/license.txt
-        - ./script/build.sh r test
+        - ./script/build.sh release test
     artifacts:
         name: "$CI_JOB_NAME"
         paths:
@@ -74,7 +73,7 @@ LicenseGenerator:
     when: manual
     script:
         - ./script/setup.sh
-        - ./script/buildonly.sh r keygen
+        - ./script/buildonly.sh release keygen
         - mv build/Release/license_generator/Sourcetrail_license_generator .
     artifacts:
         name: "$CI_JOB_NAME"

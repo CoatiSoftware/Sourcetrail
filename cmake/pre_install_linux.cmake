@@ -15,7 +15,7 @@ set(binPath ${CMAKE_CURRENT_LIST_DIR}/../build/Release/app/Sourcetrail)
 set(projPath ${CMAKE_CURRENT_LIST_DIR}/../bin/app/user/projects)
 
 execute_process(
-	COMMAND ${binPath} config -z ${CMAKE_CURRENT_LIST_DIR}/../setup/license.txt
+	COMMAND ${binPath} accept-eula
 )
 
 execute_process(

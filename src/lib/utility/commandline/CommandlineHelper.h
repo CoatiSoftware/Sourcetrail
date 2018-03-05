@@ -18,12 +18,6 @@ namespace po = boost::program_options;
 
 namespace commandline
 {
-	enum class ReturnStatus {
-		CMD_OK,
-		CMD_QUIT,
-		CMD_FAILURE
-	};
-
 	void parseConfigFile(po::variables_map& vm, po::options_description& options);
 
 	std::vector<FilePath> extractPaths(const std::vector<std::string>& vector);

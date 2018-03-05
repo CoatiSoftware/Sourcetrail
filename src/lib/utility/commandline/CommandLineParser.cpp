@@ -1,19 +1,17 @@
 #include "utility/commandline/CommandLineParser.h"
 
 #include <iostream>
-#include <fstream>
 #include <utility>
 
 #include "boost/program_options.hpp"
 
 #include "utility/commandline/CommandlineHelper.h"
+#include "utility/commandline/commands/CommandlineCommandAcceptEULA.h"
 #include "utility/commandline/commands/CommandlineCommandConfig.h"
 #include "utility/commandline/commands/CommandlineCommandIndex.h"
 #include "utility/ConfigManager.h"
 #include "utility/text/TextAccess.h"
 #include "utility/utilityString.h"
-#include "License.h"
-#include "PublicKey.h"
 
 namespace po = boost::program_options;
 
@@ -26,9 +24,13 @@ CommandLineParser::CommandLineParser(const std::string& version)
 	setup();
 }
 
+CommandLineParser::~CommandLineParser()
+{
+}
+
 void CommandLineParser::setup()
 {
-	po::options_description options("Sourcetrail Options");
+	po::options_description options("Options");
 	options.add_options()
 		("help,h", "Print this help message")
 		("version,v", "Version of Sourcetrail")
@@ -37,30 +39,19 @@ void CommandLineParser::setup()
 
 	m_options.add(options);
 	m_positional.add("project-file", 1);
-	addCommand(std::make_unique<commandline::CommandConfig>(this));
-	addCommand(std::make_unique<commandline::CommandIndex>(this));
 
-	for ( auto& command : m_commands)
+	addCommand(std::make_unique<commandline::CommandlineCommandConfig>(this));
+	addCommand(std::make_unique<commandline::CommandlineCommandIndex>(this));
+	addCommand(std::make_unique<commandline::CommandlineCommandAcceptEULA>(this));
+
+	for (auto& command : m_commands)
 	{
 		command->setup();
 	}
-
-}
-
-void CommandLineParser::setProjectFile(const FilePath &filepath)
-{
-	m_projectFile = filepath;
-	processProjectfile();
-}
-
-void CommandLineParser::addCommand(std::unique_ptr<Command> command)
-{
-	m_commands.push_back(std::move(command));
 }
 
 void CommandLineParser::preparse(int argc, char** argv)
 {
-	// put argv into a string vector
 	std::vector<std::string> args;
 	for(int i = 1; i < argc; i++)
 	{
@@ -76,14 +67,16 @@ void CommandLineParser::preparse(std::vector<std::string>& args)
 	{
 		return;
 	}
-	m_args = std::move(args);
+
+	m_args = args;
+
 	try
 	{
-		// parsing for all commands
-		for ( auto& command : m_commands)
+		for (auto& command : m_commands)
 		{
 			if ( m_args[0] == command->name())
 			{
+				command->preparse();
 				m_withoutGUI = true;
 				return;
 			}
@@ -127,34 +120,40 @@ void CommandLineParser::parse()
 	{
 		return;
 	}
+
 	try
 	{
 		// parsing for all commands
-		for ( auto& command : m_commands)
+		for (auto& command : m_commands)
 		{
 			if ( m_args[0] == command->name())
 			{
 				m_args.erase(m_args.begin());
-				ReturnStatus status = command->parse(m_args);
-				if (status == ReturnStatus::CMD_QUIT
-						|| status == ReturnStatus::CMD_FAILURE)
+				CommandlineCommand::ReturnStatus status = command->parse(m_args);
+
+				if (status != CommandlineCommand::ReturnStatus::CMD_OK)
 				{
 					m_quit = true;
 				}
 			}
 		}
 	}
-	catch(boost::program_options::error& e)
+	catch (boost::program_options::error& e)
 	{
 		std::cerr << "ERROR: " << e.what() << std::endl << std::endl;
 		std::cerr << m_options << std::endl;
 	}
-
 }
 
-License* CommandLineParser::getLicensePtr()
+void CommandLineParser::setProjectFile(const FilePath &filepath)
 {
-	return &m_license;
+	m_projectFile = filepath;
+	processProjectfile();
+}
+
+void CommandLineParser::addCommand(std::unique_ptr<CommandlineCommand> command)
+{
+	m_commands.push_back(std::move(command));
 }
 
 void CommandLineParser::printHelp() const
@@ -163,11 +162,13 @@ void CommandLineParser::printHelp() const
 
 	// Commands
 	std::cout << "Commands:\n";
-	for (auto& Command : m_commands)
+	for (auto& command : m_commands)
 	{
-		std::cout << "  " << Command->name() << "\n";
+		std::cout << "  " << command->name();
+		std::cout << std::string(std::max(23 - command->name().size(), size_t(2)), ' ');
+		std::cout << command->description() << (command->hasHelp() ? "*" : "") << "\n";
 	}
-	std::cout << "\n  * Each command has its own --help\n";
+	std::cout << "\n  * has its own --help\n";
 
 	std::cout << m_options << std::endl;
 
@@ -176,14 +177,28 @@ void CommandLineParser::printHelp() const
 		std::cout << "Positional Arguments: ";
 		for (unsigned int i = 0; i < m_positional.max_total_count(); i++)
 		{
-			std::cout << "\n  " << i+1 << ": " << m_positional.name_for_position(i);
+			std::cout << "\n  " << i + 1 << ": " << m_positional.name_for_position(i);
 		}
 		std::cout << std::endl;
 	}
 }
 
+bool CommandLineParser::runWithoutGUI() const
+{
+	return m_withoutGUI;
+}
 
-bool CommandLineParser::hasError()
+bool CommandLineParser::exitApplication() const
+{
+	return m_quit;
+}
+
+bool CommandLineParser::acceptedEULA() const
+{
+	return m_acceptEULA;
+}
+
+bool CommandLineParser::hasError() const
 {
 	return !m_errorString.empty();
 }
@@ -191,29 +206,6 @@ bool CommandLineParser::hasError()
 std::wstring CommandLineParser::getError()
 {
 	return m_errorString;
-}
-
-CommandLineParser::~CommandLineParser()
-{
-}
-
-bool CommandLineParser::runWithoutGUI()
-{
-	return m_withoutGUI;
-}
-
-bool CommandLineParser::exitApplication()
-{
-	return m_quit;
-}
-
-bool CommandLineParser::startedWithLicense()
-{
-	if (m_license.getUser().empty())
-	{
-		return false;
-	}
-	return m_license.isValid();
 }
 
 void CommandLineParser::processProjectfile()
@@ -245,11 +237,6 @@ void CommandLineParser::processProjectfile()
 	}
 }
 
-License CommandLineParser::getLicense()
-{
-	return m_license;
-}
-
 void CommandLineParser::fullRefresh()
 {
 	m_refreshMode = REFRESH_ALL_FILES;
@@ -258,6 +245,11 @@ void CommandLineParser::fullRefresh()
 void CommandLineParser::incompleteRefresh()
 {
 	m_refreshMode = REFRESH_UPDATED_AND_INCOMPLETE_FILES;
+}
+
+void CommandLineParser::acceptEULA()
+{
+	m_acceptEULA = true;
 }
 
 const FilePath& CommandLineParser::getProjectFilePath() const
