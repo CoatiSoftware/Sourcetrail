@@ -21,9 +21,27 @@
 #include "botan/auto_rng.h"
 #include "botan/pbkdf.h"
 
-#include "utility/utilityString.h"
 #include "utility/Version.h"
 #include "PublicKey.h"
+
+namespace
+{
+
+std::string trim(const std::string &str)
+{
+	auto wsfront = std::find_if_not(str.begin(), str.end(), [](int c) { return std::isspace(c); });
+	auto wsback = std::find_if_not(str.rbegin(), str.rend(), [](int c) { return std::isspace(c); }).base();
+	return (wsback <= wsfront ? std::string() : std::string(wsfront, wsback));
+}
+
+std::string toLowerCase(const std::string& in)
+{
+	std::string out;
+	std::transform(in.begin(), in.end(), std::back_inserter(out), tolower);
+	return out;
+}
+
+}
 
 License::License()
 	: m_rng(std::make_shared<Botan::AutoSeeded_RNG>())
@@ -95,7 +113,7 @@ std::string License::getLine(std::istream& stream)
 	std::string line;
 	if(getline(stream, line, '\n'))
 	{
-		return utility::trim(line);
+		return trim(line);
 	}
 	return "";
 }
@@ -274,7 +292,7 @@ bool License::load(std::istream& stream)
 
 	// separator line
 	getline(stream, line, '\n');
-	if (utility::trim(line) != LicenseConstants::SEPARATOR_STRING)
+	if (trim(line) != LicenseConstants::SEPARATOR_STRING)
 	{
 		return false;
 	}
@@ -286,7 +304,7 @@ bool License::load(std::istream& stream)
 	m_signature = "";
 	while (getline(stream, line, '\n'))
 	{
-		std::string l = utility::trim(line);
+		std::string l = trim(line);
 		if (l == LicenseConstants::END_LICENSE_STRING)
 		{
 			break;
@@ -320,7 +338,7 @@ void License::setTypeAndNumberOfUsers(const std::string& line)
 			m_numberOfUsers = 0;
 		}
 
-		if (utility::toLowerCase(line).find("seat") != line.npos)
+		if (toLowerCase(line).find("seat") != line.npos)
 		{
 			m_createdWithSeats = true;
 		}

@@ -252,7 +252,6 @@ create_source_groups(${LIB_LICENSE_FILES})
 target_include_directories( ${LIB_LICENSE_PROJECT_NAME} PUBLIC
 	"${CMAKE_SOURCE_DIR}/src/lib_license"
 	"${CMAKE_BINARY_DIR}/src/lib_license"
-	"${CMAKE_SOURCE_DIR}/src/lib_utility"
 )
 
 target_include_directories(${LIB_LICENSE_PROJECT_NAME} SYSTEM
@@ -260,8 +259,6 @@ target_include_directories(${LIB_LICENSE_PROJECT_NAME} SYSTEM
 	${Boost_INCLUDE_DIRS}
 	${BOTAN_INCLUDE_DIR}
 )
-
-target_link_libraries(${LIB_LICENSE_PROJECT_NAME} ${LIB_UTILITY_PROJECT_NAME})
 
 if(UNIX)
 	target_link_libraries(${LIB_LICENSE_PROJECT_NAME} ${BOTAN})
@@ -578,6 +575,7 @@ set_property(
 	PROPERTY INCLUDE_DIRECTORIES
 		"${CMAKE_SOURCE_DIR}/src/app"
 		"${CMAKE_SOURCE_DIR}/src/lib"
+		"${CMAKE_SOURCE_DIR}/src/lib_utility"
 		"${CMAKE_SOURCE_DIR}/src/lib_gui"
 		"${CMAKE_SOURCE_DIR}/src/lib_license"
 		"${CMAKE_SOURCE_DIR}/src/lib_cxx"
@@ -723,6 +721,7 @@ if (CXXTEST_FOUND)
 		PROPERTY INCLUDE_DIRECTORIES
 			"${CXXTEST_INCLUDE_DIR}"
 			"${CMAKE_SOURCE_DIR}/src/lib"
+			"${CMAKE_SOURCE_DIR}/src/lib_utility"
 			"${CMAKE_SOURCE_DIR}/src/lib_gui"
 			"${CMAKE_SOURCE_DIR}/src/lib_cxx"
 			"${CMAKE_SOURCE_DIR}/src/lib_java"
