@@ -27,11 +27,12 @@
 #include "utility/utilityString.h"
 
 QtProjectWizzardContentPaths::QtProjectWizzardContentPaths(
-	std::shared_ptr<SourceGroupSettings> settings, QtProjectWizzardWindow* window
+	std::shared_ptr<SourceGroupSettings> settings, QtProjectWizzardWindow* window, bool checkMissingPaths
 )
 	: QtProjectWizzardContent(window)
 	, m_settings(settings)
 	, m_makePathsRelativeToProjectFileLocation(true)
+	, m_checkMissingPaths(checkMissingPaths)
 {
 }
 
@@ -70,56 +71,61 @@ void QtProjectWizzardContentPaths::populate(QGridLayout* layout, int& row)
 
 bool QtProjectWizzardContentPaths::check()
 {
-	QString missingPaths;
-	std::vector<FilePath> existingPaths;
-
-	for (const FilePath& path : m_list->getList())
+	if (m_checkMissingPaths)
 	{
-		std::vector<FilePath> expandedPaths(1, path);
-		if (m_settings)
+		QString missingPaths;
+		std::vector<FilePath> existingPaths;
+
+		for (const FilePath& path : m_list->getList())
 		{
-			expandedPaths = m_settings->makePathsExpandedAndAbsolute(expandedPaths);
+			std::vector<FilePath> expandedPaths(1, path);
+			if (m_settings)
+			{
+				expandedPaths = m_settings->makePathsExpandedAndAbsolute(expandedPaths);
+			}
+
+			size_t existingCount = 0;
+			for (const FilePath& expandedPath : expandedPaths)
+			{
+				if (!expandedPath.exists())
+				{
+					missingPaths.append(QString::fromStdWString(expandedPath.wstr() + L"\n"));
+				}
+				else
+				{
+					existingCount++;
+				}
+			}
+
+			if (!expandedPaths.empty() && expandedPaths.size() == existingCount)
+			{
+				existingPaths.push_back(path);
+			}
 		}
 
-		size_t existingCount = 0;
-		for (const FilePath& expandedPath : expandedPaths)
+		if (!missingPaths.isEmpty())
 		{
-			if (!expandedPath.exists())
-			{
-				missingPaths.append(QString::fromStdWString(expandedPath.wstr() + L"\n"));
-			}
-			else
-			{
-				existingCount++;
-			}
-		}
+			QMessageBox msgBox;
+			msgBox.setText(
+				QString(
+					"Some provided paths do not exist at \"%1\". Do you want to remove them before continuing?"
+				).arg(m_titleString)
+			);
+			msgBox.setDetailedText(missingPaths);
+			msgBox.setStandardButtons(QMessageBox::Yes | QMessageBox::No | QMessageBox::Cancel);
+			int ret = msgBox.exec();
 
-		if (!expandedPaths.empty() && expandedPaths.size() == existingCount)
-		{
-			existingPaths.push_back(path);
+			if (ret == QMessageBox::Yes)
+			{
+				m_list->setList(existingPaths);
+				save();
+			}
+			else if (ret == QMessageBox::Cancel)
+			{
+				return false;
+			}
 		}
 	}
-
-	if (!missingPaths.isEmpty())
-	{
-		QMessageBox msgBox;
-		msgBox.setText(QString("Some provided paths do not exist at \"%1\". Do you want to remove them "
-			"before continuing?").arg(m_titleString));
-		msgBox.setDetailedText(missingPaths);
-		msgBox.setStandardButtons(QMessageBox::Yes | QMessageBox::No | QMessageBox::Cancel);
-		int ret = msgBox.exec();
-
-		if (ret == QMessageBox::Yes)
-		{
-			m_list->setList(existingPaths);
-			save();
-		}
-		else if (ret == QMessageBox::Cancel)
-		{
-			return false;
-		}
-	}
-
 	return true;
 }
 
@@ -217,7 +223,7 @@ std::vector<FilePath> QtProjectWizzardContentPathsSource::getFilePaths() const
 	FileManager fileManager;
 	fileManager.update(
 		m_settings->getSourcePathsExpandedAndAbsolute(),
-		m_settings->getExcludePathsExpandedAndAbsolute(),
+		m_settings->getExcludeFiltersExpandedAndAbsolute(),
 		m_settings->getSourceExtensions()
 	);
 
@@ -400,7 +406,7 @@ void QtProjectWizzardContentPathsCDBHeader::savedFilesDialog()
 QtProjectWizzardContentPathsExclude::QtProjectWizzardContentPathsExclude(
 	std::shared_ptr<SourceGroupSettings> settings, QtProjectWizzardWindow* window
 )
-	: QtProjectWizzardContentPaths(settings, window)
+	: QtProjectWizzardContentPaths(settings, window, false)
 {
 	setTitleString("Excluded Files & Directories");
 	setHelpString(
@@ -412,12 +418,12 @@ QtProjectWizzardContentPathsExclude::QtProjectWizzardContentPathsExclude(
 
 void QtProjectWizzardContentPathsExclude::load()
 {
-	m_list->setList(m_settings->getExcludePaths());
+	m_list->setStringList(m_settings->getExcludeFilterStrings());
 }
 
 void QtProjectWizzardContentPathsExclude::save()
 {
-	m_settings->setExcludePaths(m_list->getList());
+	m_settings->setExcludeFilterStrings(m_list->getStringList());
 }
 
 
@@ -542,7 +548,7 @@ void QtProjectWizzardContentPathsHeaderSearch::validateIncludesButtonClicked()
 				FileManager fileManager;
 				fileManager.update(
 					m_settings->getSourcePathsExpandedAndAbsolute(),
-					m_settings->getExcludePathsExpandedAndAbsolute(),
+					m_settings->getExcludeFiltersExpandedAndAbsolute(),
 					m_settings->getSourceExtensions()
 				);
 				sourceFilePaths = fileManager.getAllSourceFilePaths();
@@ -605,7 +611,7 @@ void QtProjectWizzardContentPathsHeaderSearch::finishedSelectDetectIncludesRootP
 				FileManager fileManager;
 				fileManager.update(
 					m_settings->getSourcePathsExpandedAndAbsolute(),
-					m_settings->getExcludePathsExpandedAndAbsolute(),
+					m_settings->getExcludeFiltersExpandedAndAbsolute(),
 					m_settings->getSourceExtensions()
 				);
 				sourceFilePaths = fileManager.getAllSourceFilePaths();

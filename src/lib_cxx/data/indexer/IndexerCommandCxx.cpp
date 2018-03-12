@@ -4,14 +4,14 @@
 
 IndexerCommandCxx::IndexerCommandCxx(
 	const FilePath& sourceFilePath,
-	const std::set<FilePath>& indexedPaths,
-	const std::set<FilePath>& excludedPaths,
+	const std::set<FilePath>& indexedPaths, 
+	const std::set<FilePathFilter>& excludeFilters,
 	const FilePath& workingDirectory,
 	const std::vector<FilePath>& systemHeaderSearchPaths,
 	const std::vector<FilePath>& frameworkSearchPaths,
 	const std::vector<std::wstring>& compilerFlags
 )
-	: IndexerCommand(sourceFilePath, indexedPaths, excludedPaths)
+	: IndexerCommand(sourceFilePath, indexedPaths, excludeFilters)
 	, m_workingDirectory(workingDirectory)
 	, m_systemHeaderSearchPaths(systemHeaderSearchPaths)
 	, m_frameworkSearchPaths(frameworkSearchPaths)

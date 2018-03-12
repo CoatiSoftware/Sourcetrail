@@ -24,7 +24,7 @@ signals:
 	void showSourceFiles();
 
 public:
-	QtProjectWizzardContentPaths(std::shared_ptr<SourceGroupSettings> settings, QtProjectWizzardWindow* window);
+	QtProjectWizzardContentPaths(std::shared_ptr<SourceGroupSettings> settings, QtProjectWizzardWindow* window, bool checkMissingPaths = true);
 
 	// QtSettingsWindow implementation
 	virtual void populate(QGridLayout* layout, int& row) override;
@@ -50,6 +50,7 @@ private slots:
 	void detectionClicked();
 
 private:
+	const bool m_checkMissingPaths;
 	QString m_titleString;
 	QString m_helpString;
 

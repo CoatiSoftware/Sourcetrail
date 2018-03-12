@@ -248,19 +248,19 @@ private:
 	std::shared_ptr<TextAccess> parseCode(const FilePath& sourceFilePath, const FilePath& projectDataSrcRoot, const std::vector<FilePath>& classpath)
 	{
 		std::set<FilePath> indexedPaths = { projectDataSrcRoot };
-		std::set<FilePath> excludedPaths = { };
+		std::set<FilePathFilter> excludeFilters = { };
 
 		std::shared_ptr<FileRegister> fileRegister = std::make_shared<FileRegister>(
 			FileRegisterStateData(),
 			sourceFilePath,
 			indexedPaths,
-			excludedPaths
+			excludeFilters
 		);
 
 		std::shared_ptr<DumpParserClient> parserClient = std::make_shared<DumpParserClient>();
 
 		JavaParser parser(parserClient, fileRegister);
-		std::shared_ptr<IndexerCommandJava> command = std::make_shared<IndexerCommandJava>(sourceFilePath, indexedPaths, excludedPaths, "8", classpath);
+		std::shared_ptr<IndexerCommandJava> command = std::make_shared<IndexerCommandJava>(sourceFilePath, indexedPaths, excludeFilters, "8", classpath);
 
 		parser.buildIndex(command);
 

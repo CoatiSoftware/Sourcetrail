@@ -1,17 +1,18 @@
 #include "utility/file/FileRegister.h"
 
 #include "utility/file/FilePath.h"
+#include "utility/file/FilePathFilter.h"
 
 FileRegister::FileRegister(
 	const FileRegisterStateData& stateData,
 	const FilePath& currentPath,
 	const std::set<FilePath>& indexedPaths,
-	const std::set<FilePath>& excludedPaths
+	const std::set<FilePathFilter>& excludeFilters
 )
 	: m_stateData(stateData)
 	, m_currentPath(currentPath)
 	, m_indexedPaths(indexedPaths)
-	, m_excludedPaths(excludedPaths)
+	, m_excludeFilters(excludeFilters)
 	, m_hasFilePathCache(
 		[&](const std::wstring& f)
 		{
@@ -48,23 +49,12 @@ FileRegister::FileRegister(
 
 			if (ret)
 			{
-				for (const FilePath& excluded: m_excludedPaths)
+				for (const FilePathFilter& excludeFilter: m_excludeFilters)
 				{
-					if (excluded.isDirectory())
+					if (excludeFilter.isMatching(filePath))
 					{
-						if (excluded.contains(filePath))
-						{
-							ret = false;
-							break;
-						}
-					}
-					else
-					{
-						if (excluded == filePath)
-						{
-							ret = false;
-							break;
-						}
+						ret = false;
+						break;
 					}
 				}
 			}

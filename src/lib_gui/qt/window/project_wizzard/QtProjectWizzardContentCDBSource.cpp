@@ -33,7 +33,7 @@ void QtProjectWizzardContentCDBSource::load()
 	m_filePaths.clear();
 
 	const FilePath projectPath = m_settings->getProjectDirectoryPath();
-	std::vector<FilePath> excludePaths = m_settings->getExcludePathsExpandedAndAbsolute();
+	const std::vector<FilePathFilter> excludeFilters = m_settings->getExcludeFiltersExpandedAndAbsolute();
 
 	if (std::shared_ptr<SourceGroupSettingsCxxCdb> cxxSettings = std::dynamic_pointer_cast<SourceGroupSettingsCxxCdb>(m_settings))
 	{
@@ -44,19 +44,21 @@ void QtProjectWizzardContentCDBSource::load()
 
 			for (FilePath& path : filePaths)
 			{
-				bool excluded = false;
-				for (const FilePath& p : excludePaths)
 				{
-					if (p == path || p.contains(path))
+					bool excluded = false;
+					for (const FilePathFilter& filter : excludeFilters)
 					{
-						excluded = true;
-						break;
+						if (filter.isMatching(path))
+						{
+							excluded = true;
+							break;
+						}
 					}
-				}
 
-				if (excluded)
-				{
-					continue;
+					if (excluded)
+					{
+						continue;
+					}
 				}
 
 				if (projectPath.exists())

@@ -352,6 +352,8 @@ add_files(
 	utility/file/FileManager.h
 	utility/file/FilePath.cpp
 	utility/file/FilePath.h
+	utility/file/FilePathFilter.cpp
+	utility/file/FilePathFilter.h
 	utility/file/FileRegister.cpp
 	utility/file/FileRegister.h
 	utility/file/FileRegisterStateData.cpp

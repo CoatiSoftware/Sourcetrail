@@ -14,7 +14,7 @@ public:
 		sourcePaths.push_back(FilePath(L"./data/FileManagerTestSuite/src/"));
 		sourcePaths.push_back(FilePath(L"./data/FileManagerTestSuite/include/"));
 		std::vector<FilePath> headerPaths;
-		std::vector<FilePath> excludePaths;
+		std::vector<FilePathFilter> excludeFilters;
 
 		std::vector<FilePath> filePaths = FileSystem::getFilePathsFromDirectory(FilePath(L"./data/FileManagerTestSuite/src/"));
 		TS_ASSERT_EQUALS(filePaths.size(), 3);
@@ -27,7 +27,7 @@ public:
 		TS_ASSERT_EQUALS(sourceExtensions.size(), 3);
 
 		FileManager fm;
-		fm.update(sourcePaths, excludePaths, sourceExtensions);
+		fm.update(sourcePaths, excludeFilters, sourceExtensions);
 		std::vector<FilePath> foundSourcePaths = utility::toVector(fm.getAllSourceFilePaths());
 
 		TS_ASSERT_EQUALS(foundSourcePaths.size(), 3);

@@ -14,7 +14,7 @@ public:
 	IndexerCommandCxxEmpty(
 		const FilePath& sourceFilePath,
 		const std::set<FilePath>& indexedPaths,
-		const std::set<FilePath>& excludedPaths,
+		const std::set<FilePathFilter>& excludeFilters,
 		const FilePath& workingDirectory,
 		const std::string& languageStandard,
 		const std::vector<FilePath>& systemHeaderSearchPaths,

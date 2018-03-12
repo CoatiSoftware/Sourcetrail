@@ -85,9 +85,16 @@ void Settings::setVersion(size_t version)
 FilePath Settings::expandPath(const FilePath& path)
 {
 	std::vector<FilePath> paths = path.expandEnvironmentVariables();
-	if (paths.size() >= 1)
+	if (!paths.empty())
 	{
-		return paths[0];
+		if (paths.size() > 1)
+		{
+			LOG_WARNING(
+				L"Environment variable in path \"" + path.wstr() + L"\" has been expanded to " + std::to_wstring(paths.size()) +
+				L"paths, but only \"" + paths.front().wstr() + L"\" will be used."
+			);
+		}
+		return paths.front();
 	}
 	return FilePath();
 }

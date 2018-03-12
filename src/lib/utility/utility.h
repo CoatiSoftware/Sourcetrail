@@ -67,6 +67,9 @@ namespace utility
 	template<typename SourceType, typename TargetType>
 	std::vector<TargetType> convert(const std::vector<SourceType>& sourceContainer, std::function<TargetType(const SourceType&)> conversion);
 
+	template<typename SourceType, typename TargetType>
+	std::vector<TargetType> convert(const std::vector<SourceType>& sourceContainer);
+
 	template<typename T>
 	std::vector<std::string> toStrings(const std::vector<T>& d);
 	template<>
@@ -235,6 +238,17 @@ std::vector<TargetType> utility::convert(const std::vector<SourceType>& sourceCo
 	for (const SourceType& sourceElement: sourceContainer)
 	{
 		targetContainer.push_back(conversion(sourceElement));
+	}
+	return targetContainer;
+}
+
+template<typename SourceType, typename TargetType>
+std::vector<TargetType> utility::convert(const std::vector<SourceType>& sourceContainer)
+{
+	std::vector<TargetType> targetContainer;
+	for (const SourceType& sourceElement : sourceContainer)
+	{
+		targetContainer.push_back(TargetType(sourceElement));
 	}
 	return targetContainer;
 }

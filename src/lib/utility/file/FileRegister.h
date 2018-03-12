@@ -6,6 +6,8 @@
 #include "utility/file/FileRegisterStateData.h"
 #include "utility/UnorderedCache.h"
 
+class FilePathFilter;
+
 class FileRegister
 {
 public:
@@ -13,7 +15,7 @@ public:
 		const FileRegisterStateData& stateData,
 		const FilePath& currentPath,
 		const std::set<FilePath>& indexedPaths,
-		const std::set<FilePath>& excludedPaths
+		const std::set<FilePathFilter>& excludeFilters
 	);
 	virtual ~FileRegister();
 
@@ -28,7 +30,7 @@ private:
 	FileRegisterStateData m_stateData;
 	const FilePath& m_currentPath;
 	const std::set<FilePath> m_indexedPaths;
-	const std::set<FilePath> m_excludedPaths;
+	const std::set<FilePathFilter> m_excludeFilters;
 	mutable UnorderedCache<std::wstring, bool> m_hasFilePathCache;
 };
 

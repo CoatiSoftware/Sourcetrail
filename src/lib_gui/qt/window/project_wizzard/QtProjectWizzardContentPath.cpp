@@ -260,7 +260,7 @@ std::vector<FilePath> QtProjectWizzardContentPathSourceMaven::getFilePaths() con
 		FileManager fileManager;
 		fileManager.update(
 			sourceDirectories,
-			m_settings->getExcludePathsExpandedAndAbsolute(),
+			m_settings->getExcludeFiltersExpandedAndAbsolute(),
 			m_settings->getSourceExtensions()
 		);
 
@@ -391,7 +391,7 @@ std::vector<FilePath> QtProjectWizzardContentPathSourceGradle::getFilePaths() co
 		FileManager fileManager;
 		fileManager.update(
 			sourceDirectories,
-			m_settings->getExcludePathsExpandedAndAbsolute(),
+			m_settings->getExcludeFiltersExpandedAndAbsolute(),
 			m_settings->getSourceExtensions()
 		);
 

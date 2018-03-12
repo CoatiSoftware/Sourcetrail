@@ -19,6 +19,7 @@ public:
 	static std::vector<FileInfo> getFileInfosFromPaths(
 		const std::vector<FilePath>& paths, const std::vector<std::wstring>& fileExtensions, bool followSymLinks = true);
 
+	static std::set<FilePath> getSymLinkedDirectories(const FilePath& path);
 	static std::set<FilePath> getSymLinkedDirectories(const std::vector<FilePath>& paths);
 
 	static unsigned long long getFileByteSize(const FilePath& filePath);

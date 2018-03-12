@@ -3991,13 +3991,13 @@ public:
 	void test_cxx_parser_parses_multiple_files()
 	{
 		const std::set<FilePath> indexedPaths = { FilePath(L"data/CxxParserTestSuite/") };
-		const std::set<FilePath> excludedPaths;
+		const std::set<FilePathFilter> excludeFilters;
 		const FilePath workingDirectory(L".");
 
 		std::shared_ptr<IndexerCommandCxxEmpty> indexerCommand = std::make_shared<IndexerCommandCxxEmpty>(
 			FilePath(L"data/CxxParserTestSuite/code.cpp"),
 			indexedPaths,
-			excludedPaths,
+			excludeFilters,
 			workingDirectory,
 			"c++1z",
 			std::vector<FilePath>(),

@@ -4,6 +4,7 @@
 #include "utility/file/FileManager.h"
 #include "utility/file/FilePath.h"
 #include "utility/file/FileSystem.h"
+#include "utility/utility.h"
 
 SourceGroup::~SourceGroup()
 {
@@ -29,7 +30,7 @@ void SourceGroup::fetchAllSourceFilePaths()
 	FileManager fileManager;
 	fileManager.update(
 		getAllSourcePaths(),
-		getSourceGroupSettings()->getExcludePathsExpandedAndAbsolute(),
+		getSourceGroupSettings()->getExcludeFiltersExpandedAndAbsolute(),
 		getSourceGroupSettings()->getSourceExtensions()
 	);
 	m_allSourceFilePaths = fileManager.getAllSourceFilePaths();
@@ -40,9 +41,9 @@ std::set<FilePath> SourceGroup::getIndexedPaths() const
 	return findAndAddSymlinkedDirectories(getSourceGroupSettings()->getSourcePathsExpandedAndAbsolute());
 }
 
-std::set<FilePath> SourceGroup::getExcludedPaths() const
+std::set<FilePathFilter> SourceGroup::getExcludeFilters() const
 {
-	return findAndAddSymlinkedDirectories(getSourceGroupSettings()->getExcludePathsExpandedAndAbsolute());
+	return utility::toSet(getSourceGroupSettings()->getExcludeFiltersExpandedAndAbsolute());
 }
 
 std::set<FilePath> SourceGroup::getAllSourceFilePaths() const

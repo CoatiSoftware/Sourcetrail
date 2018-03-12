@@ -1,8 +1,10 @@
 #include "settings/SourceGroupSettings.h"
 
+#include "utility/file/FileSystem.h"
 #include "utility/utility.h"
 
-std::string SourceGroupSettings::s_keyPrefix = "source_groups/source_group_";
+const size_t SourceGroupSettings::s_version = 1;
+const std::string SourceGroupSettings::s_keyPrefix = "source_groups/source_group_";
 
 SourceGroupSettings::SourceGroupSettings(const std::string& id, SourceGroupType type, const ProjectSettings* projectSettings)
 	: m_projectSettings(projectSettings)
@@ -12,7 +14,7 @@ SourceGroupSettings::SourceGroupSettings(const std::string& id, SourceGroupType 
 	, m_status(SOURCE_GROUP_STATUS_ENABLED)
 	, m_standard("")
 	, m_sourcePaths(std::vector<FilePath>())
-	, m_excludePaths(std::vector<FilePath>())
+	, m_excludeFilters(std::vector<std::wstring>())
 	, m_sourceExtensions(std::vector<std::wstring>())
 {
 }
@@ -34,7 +36,7 @@ void SourceGroupSettings::load(std::shared_ptr<const ConfigManager> config)
 	setStatus(stringToSourceGroupStatusType(getValue(key + "/status", sourceGroupStatusTypeToString(SOURCE_GROUP_STATUS_ENABLED), config)));
 	setStandard(getValue<std::string>(key + "/standard", "", config));
 	setSourcePaths(getPathValues(key + "/source_paths/source_path", config));
-	setExcludePaths(getPathValues(key + "/exclude_paths/exclude_path", config));
+	setExcludeFilterStrings(getValues(key + "/exclude_filters/exclude_filter", std::vector<std::wstring>(), config));
 	setSourceExtensions(getValues(key + "/source_extensions/source_extension", std::vector<std::wstring>(), config));
 }
 
@@ -46,7 +48,7 @@ void SourceGroupSettings::save(std::shared_ptr<ConfigManager> config)
 	setValue(key + "/name", getName(), config);
 	setValue(key + "/standard", getStandard(), config);
 	setPathValues(key + "/source_paths/source_path", getSourcePaths(), config);
-	setPathValues(key + "/exclude_paths/exclude_path", getExcludePaths(), config);
+	setValues(key + "/exclude_filters/exclude_filter", getExcludeFilterStrings(), config);
 	setValues(key + "/source_extensions/source_extension", getSourceExtensions(), config);
 }
 
@@ -59,7 +61,7 @@ bool SourceGroupSettings::equals(std::shared_ptr<SourceGroupSettings> other) con
 		m_status == other->m_status &&
 		m_standard == other->m_standard &&
 		utility::isPermutation(m_sourcePaths, other->m_sourcePaths) &&
-		utility::isPermutation(m_excludePaths, other->m_excludePaths) &&
+		utility::isPermutation(m_excludeFilters, other->m_excludeFilters) &&
 		utility::isPermutation(m_sourceExtensions, other->m_sourceExtensions)
 	);
 }
@@ -143,19 +145,63 @@ void SourceGroupSettings::setSourcePaths(const std::vector<FilePath>& sourcePath
 	m_sourcePaths = sourcePaths;
 }
 
-std::vector<FilePath> SourceGroupSettings::getExcludePaths() const
+std::vector<std::wstring> SourceGroupSettings::getExcludeFilterStrings() const
 {
-	return m_excludePaths;
+	return m_excludeFilters;
 }
 
-std::vector<FilePath> SourceGroupSettings::getExcludePathsExpandedAndAbsolute() const
+std::vector<FilePathFilter> SourceGroupSettings::getExcludeFiltersExpandedAndAbsolute() const
 {
-	return m_projectSettings->makePathsExpandedAndAbsolute(getExcludePaths());
+	std::vector<FilePathFilter> result;
+
+	for (const FilePathFilter& filter : m_excludeFilters)
+	{
+		const std::wstring filterString = filter.wstr();
+		const size_t wildcardPos = filterString.find(L"*");
+		if (wildcardPos != filterString.npos)
+		{
+			std::wsmatch match;
+			if (std::regex_search(filterString, match, std::wregex(L"[\\\\/]")) && !match.empty() && match.position(0) < wildcardPos)
+			{
+				const FilePath p = m_projectSettings->makePathExpandedAndAbsolute(FilePath(match.prefix().str()));
+				std::set<FilePath> symLinkPaths = FileSystem::getSymLinkedDirectories(p);
+				symLinkPaths.insert(p);
+
+				utility::append(result, 
+					utility::convert<FilePath, FilePathFilter>(
+						utility::toVector(symLinkPaths),
+						[match](const FilePath& filePath) { return FilePathFilter(filePath.wstr() + L"/" + match.suffix().str()); }
+					)
+				);
+			}
+			else
+			{
+				result.push_back(filter);
+			}
+		}
+		else
+		{
+			const FilePath p = m_projectSettings->makePathExpandedAndAbsolute(FilePath(filterString));
+			const bool isFile = p.exists() && !p.isDirectory();
+
+			std::set<FilePath> symLinkPaths = FileSystem::getSymLinkedDirectories(p);
+			symLinkPaths.insert(p);
+
+			utility::append(result,
+				utility::convert<FilePath, FilePathFilter>(
+					utility::toVector(symLinkPaths),
+					[isFile](const FilePath& filePath) { return FilePathFilter(filePath.wstr() + (isFile ? L"" : L"**")); }
+				)
+			);
+		}
+	}
+	
+	return result;
 }
 
-void SourceGroupSettings::setExcludePaths(const std::vector<FilePath>& excludePaths)
+void SourceGroupSettings::setExcludeFilterStrings(const std::vector<std::wstring>& excludeFilters)
 {
-	m_excludePaths = excludePaths;
+	m_excludeFilters = excludeFilters;
 }
 
 std::vector<std::wstring> SourceGroupSettings::getSourceExtensions() const

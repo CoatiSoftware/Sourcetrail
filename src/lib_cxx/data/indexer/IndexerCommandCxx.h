@@ -15,7 +15,7 @@ public:
 	IndexerCommandCxx(
 		const FilePath& sourceFilePath,
 		const std::set<FilePath>& indexedPaths,
-		const std::set<FilePath>& excludedPaths,
+		const std::set<FilePathFilter>& excludeFilters,
 		const FilePath& workingDirectory,
 		const std::vector<FilePath>& systemHeaderSearchPaths,
 		const std::vector<FilePath>& frameworkSearchPaths,

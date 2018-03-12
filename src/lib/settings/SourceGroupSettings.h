@@ -7,13 +7,15 @@
 #include "settings/ProjectSettings.h"
 #include "settings/SourceGroupStatusType.h"
 #include "settings/SourceGroupType.h"
+#include "utility/file/FilePathFilter.h"
 
 class ProjectSettings;
 
 class SourceGroupSettings
 {
 public:
-	static std::string s_keyPrefix;
+	static const size_t s_version;
+	static const std::string s_keyPrefix;
 
 	SourceGroupSettings(const std::string& id, SourceGroupType type, const ProjectSettings* projectSettings);
 	virtual ~SourceGroupSettings();
@@ -46,9 +48,9 @@ public:
 	std::vector<FilePath> getSourcePathsExpandedAndAbsolute() const;
 	void setSourcePaths(const std::vector<FilePath>& sourcePaths);
 
-	std::vector<FilePath> getExcludePaths() const;
-	std::vector<FilePath> getExcludePathsExpandedAndAbsolute() const;
-	void setExcludePaths(const std::vector<FilePath>& excludePaths);
+	std::vector<std::wstring> getExcludeFilterStrings() const;
+	std::vector<FilePathFilter> getExcludeFiltersExpandedAndAbsolute() const;
+	void setExcludeFilterStrings(const std::vector<std::wstring>& excludeFilters);
 
 	std::vector<std::wstring> getSourceExtensions() const;
 	void setSourceExtensions(const std::vector<std::wstring>& sourceExtensions);
@@ -83,7 +85,7 @@ private:
 
 	std::string m_standard;
 	std::vector<FilePath> m_sourcePaths;
-	std::vector<FilePath> m_excludePaths;
+	std::vector<std::wstring> m_excludeFilters;
 	std::vector<std::wstring> m_sourceExtensions;
 };
 

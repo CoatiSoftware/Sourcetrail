@@ -9,6 +9,7 @@
 #include "settings/SourceGroupStatusType.h"
 #include "settings/SourceGroupType.h"
 #include "utility/file/FilePath.h"
+#include "utility/file/FilePathFilter.h"
 
 class IndexerCommand;
 class SourceGroupSettings;
@@ -26,7 +27,7 @@ public:
 	void fetchAllSourceFilePaths();
 
 	std::set<FilePath> getIndexedPaths() const;
-	std::set<FilePath> getExcludedPaths() const;
+	std::set<FilePathFilter> getExcludeFilters() const;
 	std::set<FilePath> getAllSourceFilePaths() const;
 	std::set<FilePath> getSourceFilePathsToIndex(const std::set<FilePath>& staticSourceFilePaths) const;
 

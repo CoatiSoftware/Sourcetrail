@@ -16,6 +16,7 @@ add_files(
 	CxxParserTestSuite.h
 	CxxTypeNameTestSuite.h
 	FileManagerTestSuite.h
+	FilePathFilterTestSuite.h
 	FilePathTestSuite.h
 	FileSystemTestSuite.h
 	GeneratorTestSuite.h

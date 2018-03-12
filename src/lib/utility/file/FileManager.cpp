@@ -4,6 +4,7 @@
 
 #include "utility/file/FileSystem.h"
 #include "utility/file/FilePath.h"
+#include "utility/file/FilePathFilter.h"
 
 FileManager::FileManager()
 {
@@ -15,11 +16,11 @@ FileManager::~FileManager()
 
 void FileManager::update(
 	const std::vector<FilePath>& sourcePaths,
-	const std::vector<FilePath>& excludePaths,
+	const std::vector<FilePathFilter>& excludeFilters,
 	const std::vector<std::wstring>& sourceExtensions
 ){
 	m_sourcePaths = sourcePaths;
-	m_excludePaths = makeCanonical(excludePaths);
+	m_excludeFilters = excludeFilters;
 	m_sourceExtensions = sourceExtensions;
 
 	m_allSourceFilePaths.clear();
@@ -85,9 +86,9 @@ std::vector<FilePath> FileManager::makeCanonical(const std::vector<FilePath>& fi
 
 bool FileManager::isExcluded(const FilePath& filePath) const
 {
-	for (const FilePath& path : m_excludePaths)
+	for (const FilePathFilter& filter : m_excludeFilters)
 	{
-		if (path == filePath || path.contains(filePath))
+		if (filter.isMatching(filePath))
 		{
 			return true;
 		}

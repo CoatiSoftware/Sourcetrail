@@ -4,6 +4,7 @@
 #include <set>
 
 #include "utility/file/FilePath.h"
+#include "utility/file/FilePathFilter.h"
 #include "utility/interprocess/SharedMemory.h"
 
 class IndexerCommand;
@@ -23,8 +24,8 @@ public:
 	std::set<FilePath> getIndexedPaths() const;
 	void setIndexedPaths(const std::set<FilePath>& indexedPaths);
 
-	std::set<FilePath> getExcludedPaths() const;
-	void setExcludedPaths(const std::set<FilePath>& excludedPaths);
+	std::set<FilePathFilter> getExcludeFilters() const;
+	void setExcludeFilters(const std::set<FilePathFilter>& excludeFilters);
 
 	FilePath getWorkingDirectory() const;
 	void setWorkingDirectory(const FilePath& workingDirectory);
@@ -61,7 +62,7 @@ private:
 	// indexer command
 	SharedMemory::String m_sourceFilePath;
 	SharedMemory::Vector<SharedMemory::String> m_indexedPaths;
-	SharedMemory::Vector<SharedMemory::String> m_excludedPaths;
+	SharedMemory::Vector<SharedMemory::String> m_excludeFilters;
 
 	// cxx
 	SharedMemory::String m_workingDirectory;

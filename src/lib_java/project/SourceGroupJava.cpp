@@ -37,7 +37,7 @@ std::vector<std::shared_ptr<IndexerCommand>> SourceGroupJava::getIndexerCommands
 
 	std::vector<FilePath> classPath = getClassPath();
 	std::set<FilePath> indexedPaths = getIndexedPaths();
-	std::set<FilePath> excludedPaths = getExcludedPaths();
+	std::set<FilePathFilter> excludeFilters = getExcludeFilters();
 
 	std::vector<std::shared_ptr<IndexerCommand>> indexerCommands;
 	for (const FilePath& sourcePath: getAllSourceFilePaths())
@@ -45,7 +45,7 @@ std::vector<std::shared_ptr<IndexerCommand>> SourceGroupJava::getIndexerCommands
 		if (filesToIndex.find(sourcePath) != filesToIndex.end())
 		{
 			indexerCommands.push_back(
-				std::make_shared<IndexerCommandJava>(sourcePath, indexedPaths, excludedPaths, languageStandard, classPath));
+				std::make_shared<IndexerCommandJava>(sourcePath, indexedPaths, excludeFilters, languageStandard, classPath));
 		}
 	}
 

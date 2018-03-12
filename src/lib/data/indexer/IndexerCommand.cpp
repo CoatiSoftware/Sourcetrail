@@ -3,11 +3,12 @@
 #include "utility/utilityString.h"
 
 IndexerCommand::IndexerCommand(
-	const FilePath& sourceFilePath, const std::set<FilePath>& indexedPaths, const std::set<FilePath>& excludedPaths
+	const FilePath& sourceFilePath, const std::set<FilePath>& indexedPaths, 
+	const std::set<FilePathFilter>& excludeFilters
 )
 	: m_sourceFilePath(sourceFilePath)
 	, m_indexedPaths(indexedPaths)
-	, m_excludedPaths(excludedPaths)
+	, m_excludeFilters(excludeFilters)
 {
 }
 
@@ -24,9 +25,9 @@ size_t IndexerCommand::getByteSize(size_t stringSize) const
 		size += stringSize + utility::encodeToUtf8(path.wstr()).size();
 	}
 
-	for (const FilePath& path : m_excludedPaths)
+	for (const FilePathFilter& filter : m_excludeFilters)
 	{
-		size += stringSize + utility::encodeToUtf8(path.wstr()).size();
+		size += stringSize + utility::encodeToUtf8(filter.wstr()).size();
 	}
 
 	return size;
@@ -42,7 +43,7 @@ const std::set<FilePath>& IndexerCommand::getIndexedPaths() const
 	return m_indexedPaths;
 }
 
-const std::set<FilePath>& IndexerCommand::getExcludedPath() const
+const std::set<FilePathFilter>& IndexerCommand::getExcludeFilters() const
 {
-	return m_excludedPaths;
+	return m_excludeFilters;
 }

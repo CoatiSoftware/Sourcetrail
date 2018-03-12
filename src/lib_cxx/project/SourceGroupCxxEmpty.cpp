@@ -52,7 +52,7 @@ std::vector<std::shared_ptr<IndexerCommand>> SourceGroupCxxEmpty::getIndexerComm
 	utility::append(compilerFlags, m_settings->getCompilerFlags());
 
 	std::set<FilePath> indexedPaths = getIndexedPaths();
-	std::set<FilePath> excludedPaths = getExcludedPaths();
+	std::set<FilePathFilter> excludeFilters = getExcludeFilters();
 
 	std::vector<std::shared_ptr<IndexerCommand>> indexerCommands;
 	for (const FilePath& sourcePath: getAllSourceFilePaths())
@@ -62,7 +62,7 @@ std::vector<std::shared_ptr<IndexerCommand>> SourceGroupCxxEmpty::getIndexerComm
 			indexerCommands.push_back(std::make_shared<IndexerCommandCxxEmpty>(
 				sourcePath,
 				indexedPaths,
-				excludedPaths,
+				excludeFilters,
 				m_settings->getProjectDirectoryPath(),
 				m_settings->getStandard(),
 				systemHeaderSearchPaths,

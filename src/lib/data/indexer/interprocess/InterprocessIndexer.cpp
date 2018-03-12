@@ -54,7 +54,7 @@ void InterprocessIndexer::work()
 			data.setIndexedFiles(m_interprocessIndexingStatusManager.getIndexedFiles());
 
 			std::shared_ptr<FileRegister> fileRegister = std::make_shared<FileRegister>(
-				data, indexerCommand->getSourceFilePath(), indexerCommand->getIndexedPaths(), indexerCommand->getExcludedPath()
+				data, indexerCommand->getSourceFilePath(), indexerCommand->getIndexedPaths(), indexerCommand->getExcludeFilters()
 			);
 
 			LOG_INFO_STREAM(<< m_processId << " starting to index current file");

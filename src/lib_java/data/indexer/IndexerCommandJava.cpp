@@ -10,11 +10,11 @@ IndexerCommandType IndexerCommandJava::getStaticIndexerCommandType()
 IndexerCommandJava::IndexerCommandJava(
 	const FilePath& sourceFilePath,
 	const std::set<FilePath>& indexedPaths,
-	const std::set<FilePath>& excludedPaths,
+	const std::set<FilePathFilter>& excludeFilters,
 	const std::string& languageStandard,
 	const std::vector<FilePath>& classPath
 )
-	: IndexerCommand(sourceFilePath, indexedPaths, excludedPaths)
+	: IndexerCommand(sourceFilePath, indexedPaths, excludeFilters)
 	, m_languageStandard(languageStandard)
 	, m_classPath(classPath)
 {

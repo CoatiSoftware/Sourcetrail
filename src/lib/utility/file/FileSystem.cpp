@@ -132,10 +132,14 @@ std::vector<FileInfo> FileSystem::getFileInfosFromPaths(
 	return files;
 }
 
+std::set<FilePath> FileSystem::getSymLinkedDirectories(const FilePath& path)
+{
+	return getSymLinkedDirectories(std::vector<FilePath>{path});
+}
+
 std::set<FilePath> FileSystem::getSymLinkedDirectories(const std::vector<FilePath>& paths)
 {
 	std::set<boost::filesystem::path> symlinkDirs;
-	std::set<boost::filesystem::path> filePaths;
 
 	for (const FilePath& path: paths)
 	{

@@ -11,7 +11,7 @@ void SharedIndexerCommand::fromLocal(IndexerCommand* indexerCommand)
 {
 	setSourceFilePath(indexerCommand->getSourceFilePath());
 	setIndexedPaths(indexerCommand->getIndexedPaths());
-	setExcludedPaths(indexerCommand->getExcludedPath());
+	setExcludeFilters(indexerCommand->getExcludeFilters());
 
 	if (dynamic_cast<IndexerCommandCxxCdb*>(indexerCommand) != nullptr)
 	{
@@ -58,7 +58,7 @@ std::shared_ptr<IndexerCommand> SharedIndexerCommand::fromShared(const SharedInd
 		std::shared_ptr<IndexerCommand> command = std::make_shared<IndexerCommandCxxCdb>(
 			indexerCommand.getSourceFilePath(),
 			indexerCommand.getIndexedPaths(),
-			indexerCommand.getExcludedPaths(),
+			indexerCommand.getExcludeFilters(),
 			indexerCommand.getWorkingDirectory(),
 			indexerCommand.getCompilerFlags(),
 			indexerCommand.getSystemHeaderSearchPaths(),
@@ -71,7 +71,7 @@ std::shared_ptr<IndexerCommand> SharedIndexerCommand::fromShared(const SharedInd
 		std::shared_ptr<IndexerCommand> command = std::make_shared<IndexerCommandCxxEmpty>(
 			indexerCommand.getSourceFilePath(),
 			indexerCommand.getIndexedPaths(),
-			indexerCommand.getExcludedPaths(),
+			indexerCommand.getExcludeFilters(),
 			indexerCommand.getWorkingDirectory(),
 			indexerCommand.getLanguageStandard(),
 			indexerCommand.getSystemHeaderSearchPaths(),
@@ -85,7 +85,7 @@ std::shared_ptr<IndexerCommand> SharedIndexerCommand::fromShared(const SharedInd
 		return std::make_shared<IndexerCommandJava>(
 			indexerCommand.getSourceFilePath(),
 			indexerCommand.getIndexedPaths(),
-			indexerCommand.getExcludedPaths(),
+			indexerCommand.getExcludeFilters(),
 			indexerCommand.getLanguageStandard(),
 			indexerCommand.getClassPaths()
 		);
@@ -104,7 +104,7 @@ SharedIndexerCommand::SharedIndexerCommand(SharedMemory::Allocator* allocator)
 	: m_type(Type::UNKNOWN)
 	, m_sourceFilePath("", allocator)
 	, m_indexedPaths(allocator)
-	, m_excludedPaths(allocator)
+	, m_excludeFilters(allocator)
 	, m_workingDirectory("", allocator)
 	, m_languageStandard("", allocator)
 	, m_compilerFlags(allocator)
@@ -152,27 +152,27 @@ void SharedIndexerCommand::setIndexedPaths(const std::set<FilePath>& indexedPath
 	}
 }
 
-std::set<FilePath> SharedIndexerCommand::getExcludedPaths() const
+std::set<FilePathFilter> SharedIndexerCommand::getExcludeFilters() const
 {
-	std::set<FilePath> result;
+	std::set<FilePathFilter> result;
 
-	for (unsigned int i = 0; i < m_excludedPaths.size(); i++)
+	for (unsigned int i = 0; i < m_excludeFilters.size(); i++)
 	{
-		result.insert(FilePath(utility::decodeFromUtf8(m_excludedPaths[i].c_str())));
+		result.insert(FilePathFilter(utility::decodeFromUtf8(m_excludeFilters[i].c_str())));
 	}
 
 	return result;
 }
 
-void SharedIndexerCommand::setExcludedPaths(const std::set<FilePath>& excludedPaths)
+void SharedIndexerCommand::setExcludeFilters(const std::set<FilePathFilter>& excludeFilters)
 {
-	m_excludedPaths.clear();
+	m_excludeFilters.clear();
 
-	for (const FilePath& excludedPath : excludedPaths)
+	for (const FilePathFilter& excludeFilter : excludeFilters)
 	{
-		SharedMemory::String path(m_excludedPaths.get_allocator());
-		path = utility::encodeToUtf8(excludedPath.wstr()).c_str();
-		m_excludedPaths.push_back(path);
+		SharedMemory::String path(m_excludeFilters.get_allocator());
+		path = utility::encodeToUtf8(excludeFilter.wstr()).c_str();
+		m_excludeFilters.push_back(path);
 	}
 }
 

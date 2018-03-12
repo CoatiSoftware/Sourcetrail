@@ -3,6 +3,7 @@
 
 #include "data/indexer/IndexerCommandCxx.h"
 #include "utility/file/FilePath.h"
+#include "utility/file/FilePathFilter.h"
 
 namespace clang
 {
@@ -23,7 +24,7 @@ public:
 	IndexerCommandCxxCdb(
 		const FilePath& sourceFilePath,
 		const std::set<FilePath>& indexedPaths,
-		const std::set<FilePath>& excludedPaths,
+		const std::set<FilePathFilter>& excludeFilters,
 		const FilePath& workingDirectory,
 		const std::vector<std::wstring>& compilerFlags,
 		const std::vector<FilePath>& systemHeaderSearchPaths,
