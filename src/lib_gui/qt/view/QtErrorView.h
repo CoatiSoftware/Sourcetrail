@@ -46,13 +46,13 @@ private slots:
 
 private:
 	enum COLUMN {
-		TYPE = 0,
-		MESSAGE = 1,
-		FILE = 2,
-		LINE = 3,
-		INDEXED = 4,
-		ID = 5,
-		COLUMN_MAX = ID
+		ID = 0,
+		TYPE = 1,
+		MESSAGE = 2,
+		FILE = 3,
+		LINE = 4,
+		INDEXED = 5,
+		COLUMN_MAX = INDEXED
 	};
 
 	void setStyleSheet() const;

@@ -80,19 +80,20 @@ void QtErrorView::initView()
 
 	m_table = new QtTable(this);
 	m_model = new QStandardItemModel(this);
+	m_table->setSortingEnabled(true);
 	m_table->setModel(m_model);
 	m_table->setItemDelegate(new SelectableDelegate(m_table));
 
 	// Setup Table Headers
 	m_model->setColumnCount(COLUMN_MAX + 1);
+	m_table->setColumnWidth(COLUMN::ID, 40);
 	m_table->setColumnWidth(COLUMN::TYPE, 80);
 	m_table->setColumnWidth(COLUMN::MESSAGE, 450);
 	m_table->setColumnWidth(COLUMN::FILE, 300);
 	m_table->setColumnWidth(COLUMN::LINE, 50);
-	m_table->setColumnHidden(COLUMN::ID, true);
 
 	QStringList headers;
-	headers << "Type" << "Message" << "File" << "Line" << "Indexed";
+	headers << "ID" << "Type" << "Message" << "File" << "Line" << "Indexed";
 	m_model->setHorizontalHeaderLabels(headers);
 
 	connect(m_table->selectionModel(), &QItemSelectionModel::currentRowChanged,
@@ -323,6 +324,10 @@ void QtErrorView::addErrorToTable(const ErrorInfo& error)
 		m_model->insertRow(rowNumber);
 	}
 
+	QStandardItem *item = new QStandardItem();
+	item->setData(QVariant(qlonglong(error.id)), Qt::DisplayRole);
+	m_model->setItem(rowNumber, COLUMN::ID, item);
+
 	m_model->setItem(rowNumber, COLUMN::TYPE, new QStandardItem(error.fatal ? "FATAL" : "ERROR"));
 	if (error.fatal)
 	{
@@ -335,11 +340,11 @@ void QtErrorView::addErrorToTable(const ErrorInfo& error)
 	m_model->setItem(rowNumber, COLUMN::FILE, new QStandardItem(QString::fromStdWString(error.filePath)));
 	m_model->item(rowNumber, COLUMN::FILE)->setToolTip(QString::fromStdWString(error.filePath));
 
-	m_model->setItem(rowNumber, COLUMN::LINE, new QStandardItem(QString::number(error.lineNumber)));
+	item = new QStandardItem();
+	item->setData(QVariant(error.lineNumber), Qt::DisplayRole);
+	m_model->setItem(rowNumber, COLUMN::LINE, item);
 
 	m_model->setItem(rowNumber, COLUMN::INDEXED, new QStandardItem(error.indexed ? "yes" : "no"));
-
-	m_model->setItem(rowNumber, COLUMN::ID, new QStandardItem(QString::number(error.id)));
 }
 
 QCheckBox* QtErrorView::createFilterCheckbox(const QString& name, bool checked, QBoxLayout* layout)

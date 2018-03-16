@@ -8,8 +8,6 @@ QTabBar::tab {
 	padding: 12px 75px 5px 12px;
 	border: 0px;
 	border-bottom: 4px solid <color:tab/background>;
-	/*font-size: <setting:font_size>px;*/
-	/*font-weight: bold;*/
 }
 
 QTabBar::tab:hover {
@@ -58,6 +56,14 @@ QTableView::item:selected {
 
 QHeaderView {
 	background-color: transparent;
+}
+
+QHeaderView::up-arrow {
+	image: url(<setting:gui_path>tabbed_view/arrow_up.png);
+}
+
+QHeaderView::down-arrow {
+	image: url(<setting:gui_path>tabbed_view/arrow_down.png);
 }
 
 QHeaderView::section:horizontal {

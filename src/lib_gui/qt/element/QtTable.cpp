@@ -45,7 +45,7 @@ QtTable::QtTable(QWidget* parent)
 	setShowGrid(false);
 	setMouseTracking(true);
 
-	this->setItemDelegate(new SelectableCellDelegate(this));
+	setItemDelegate(new SelectableCellDelegate(this));
 
 	verticalHeader()->sectionResizeMode(QHeaderView::Fixed);
 	verticalHeader()->setDefaultAlignment(Qt::AlignRight);

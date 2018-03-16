@@ -13,7 +13,6 @@ public:
 	virtual ~QtTable();
 
 	void updateRows();
-	void setTableModel(QAbstractItemModel* model);
 	int getFilledRowCount();
 
 	void showFirstRow();
