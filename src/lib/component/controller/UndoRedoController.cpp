@@ -273,7 +273,8 @@ void UndoRedoController::handleMessage(MessageSearchFullText* message)
 void UndoRedoController::handleMessage(MessageShowErrors* message)
 {
 	if (sameMessageTypeAsLast(message) &&
-		static_cast<MessageShowErrors*>(lastMessage())->errorId == message->errorId)
+		static_cast<MessageShowErrors*>(lastMessage())->errorId == message->errorId &&
+		static_cast<MessageShowErrors*>(lastMessage())->errors.size() == message->errors.size())
 	{
 		return;
 	}

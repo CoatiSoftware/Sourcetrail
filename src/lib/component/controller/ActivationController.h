@@ -13,6 +13,7 @@
 #include "utility/messaging/type/MessageActivateSourceLocations.h"
 #include "utility/messaging/type/MessageResetZoom.h"
 #include "utility/messaging/type/MessageSearch.h"
+#include "utility/messaging/type/MessageShowErrorsForFile.h"
 #include "utility/messaging/type/MessageZoom.h"
 
 class StorageAccess;
@@ -26,6 +27,7 @@ class ActivationController
 	, public MessageListener<MessageActivateSourceLocations>
 	, public MessageListener<MessageResetZoom>
 	, public MessageListener<MessageSearch>
+	, public MessageListener<MessageShowErrorsForFile>
 	, public MessageListener<MessageZoom>
 {
 public:
@@ -38,10 +40,11 @@ private:
 	virtual void handleMessage(MessageActivateEdge* message);
 	virtual void handleMessage(MessageActivateFile* message);
 	virtual void handleMessage(MessageActivateNodes* message);
-	virtual void handleMessage(MessageSearch* message);
 	virtual void handleMessage(MessageActivateTokenIds* message);
 	virtual void handleMessage(MessageActivateSourceLocations* message);
 	virtual void handleMessage(MessageResetZoom* message);
+	virtual void handleMessage(MessageSearch* message);
+	virtual void handleMessage(MessageShowErrorsForFile* message);
 	virtual void handleMessage(MessageZoom* message);
 
 	StorageAccess* m_storageAccess;

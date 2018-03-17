@@ -4,7 +4,7 @@ int main() {
 	TicTacToe tictactoe;
 
 	while ( tictactoe.Start() ) {
-		tictactoe.Run();
+		tictactoe.Ru();
 	}
 
 	return 0;

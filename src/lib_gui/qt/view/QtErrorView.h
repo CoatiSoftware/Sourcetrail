@@ -77,6 +77,7 @@ private:
 	QCheckBox* m_showNonIndexedFatals;
 
 	QtHelpButton* m_helpButton;
+	QPushButton* m_editButton;
 
 	QStandardItemModel* m_model;
 	QtTable* m_table;

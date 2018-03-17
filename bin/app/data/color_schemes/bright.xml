@@ -14,6 +14,13 @@
 			<line>#BEBEBE</line>
 			<icon_type>grey</icon_type> <!-- white, grey, black -->
 		</dock>
+		<button>
+			<text>black</text>
+			<background>white</background>
+			<border>#AAA</border>
+			<border_hover>#878787</border_hover>
+			<icon>black</icon>
+		</button>
 	</window>
 
 	<search>

@@ -63,6 +63,7 @@ void QtStatusView::initView()
 	filters->addStretch();
 
 	QPushButton* clearButton = new QPushButton("Clear Table");
+	clearButton->setObjectName("screen_button");
 	connect(clearButton, &QPushButton::clicked,
 		[=]()
 		{

@@ -332,11 +332,22 @@ std::vector<ErrorInfo> StorageAccessProxy::getErrorsLimited() const
 	return std::vector<ErrorInfo>();
 }
 
-std::shared_ptr<SourceLocationCollection> StorageAccessProxy::getErrorSourceLocationsLimited(std::vector<ErrorInfo>* errors) const
+std::vector<ErrorInfo> StorageAccessProxy::getErrorsForFileLimited(const FilePath& filePath) const
 {
 	if (hasSubject())
 	{
-		return m_subject->getErrorSourceLocationsLimited(errors);
+		return m_subject->getErrorsForFileLimited(filePath);
+	}
+
+	return std::vector<ErrorInfo>();
+}
+
+std::shared_ptr<SourceLocationCollection> StorageAccessProxy::getErrorSourceLocations(
+	const std::vector<ErrorInfo>& errors) const
+{
+	if (hasSubject())
+	{
+		return m_subject->getErrorSourceLocations(errors);
 	}
 
 	return std::make_shared<SourceLocationCollection>();

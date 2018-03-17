@@ -110,6 +110,10 @@
 	padding-right: 5px;
 }
 
+#title_bar #screen_button, #title_bar_single #screen_button {
+	margin-right: 7px;
+}
+
 #title_button {
 	background-color: <color:code/file/title/normal>;
 	border: none;

@@ -15,10 +15,14 @@ public:
 	QtCodeFileTitleButton(QWidget* parent = nullptr);
 	virtual ~QtCodeFileTitleButton();
 
+	const FilePath& getFilePath() const;
 	void setFilePath(const FilePath& filePath);
+
 	void setModificationTime(const TimeStamp modificationTime);
-	void setIsComplete(bool isComplete);
 	void setProject(const std::wstring& name);
+
+	bool isComplete() const;
+	void setIsComplete(bool isComplete);
 
 	void updateTexts();
 

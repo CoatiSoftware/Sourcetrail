@@ -304,13 +304,13 @@ void QtCodeFileSingle::setFileData(const FileData& file)
 		if (!file.title.empty())
 		{
 			titleButton->setProject(file.title);
-			titleButton->setIsComplete(true);
+			m_titleBar->setIsComplete(true);
 		}
 		else
 		{
 			titleButton->setFilePath(file.filePath);
 			titleButton->setModificationTime(file.modificationTime);
-			titleButton->setIsComplete(file.isComplete);
+			m_titleBar->setIsComplete(file.isComplete);
 		}
 
 		updateRefCount(m_area->getActiveLocationCount());

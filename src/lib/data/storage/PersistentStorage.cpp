@@ -1452,44 +1452,83 @@ std::vector<ErrorInfo> PersistentStorage::getErrorsLimited() const
 		if (m_errorFilter.filter(error))
 		{
 			errors.push_back(error);
-		}
 
-		if (m_errorFilter.limit > 0 && errors.size() >= m_errorFilter.limit)
-		{
-			break;
+			if (m_errorFilter.limit > 0 && errors.size() >= m_errorFilter.limit)
+			{
+				break;
+			}
 		}
 	}
 
 	return errors;
 }
 
-std::shared_ptr<SourceLocationCollection> PersistentStorage::getErrorSourceLocationsLimited(std::vector<ErrorInfo>* errors) const
+std::vector<ErrorInfo> PersistentStorage::getErrorsForFileLimited(const FilePath& filePath) const
+{
+	std::unordered_map<Id, std::set<Id>> includingMap = getFileIdToIncludedFileIdMap();
+
+	std::set<FilePath> filePaths;
+	filePaths.insert(filePath);
+
+	std::set<Id> fileIdsToProcess = includingMap[getFileNodeId(filePath)];
+	std::set<Id> processedFileIds;
+	while (fileIdsToProcess.size())
+	{
+		std::set<Id> nextFileIdsToProcess;
+		for (Id id : fileIdsToProcess)
+		{
+			if (filePaths.insert(getFileNodePath(id)).second)
+			{
+				utility::append(nextFileIdsToProcess, includingMap[id]);
+			}
+		}
+		fileIdsToProcess = nextFileIdsToProcess;
+	}
+
+	std::vector<ErrorInfo> errors;
+
+	for (const ErrorInfo& error : m_sqliteIndexStorage.getAll<StorageError>())
+	{
+		if (m_errorFilter.filter(error) && filePaths.find(FilePath(error.filePath)) != filePaths.end())
+		{
+			errors.push_back(error);
+
+			if (m_errorFilter.limit > 0 && errors.size() >= m_errorFilter.limit)
+			{
+				break;
+			}
+		}
+	}
+
+	return errors;
+}
+
+std::shared_ptr<SourceLocationCollection> PersistentStorage::getErrorSourceLocations(
+	const std::vector<ErrorInfo>& errors) const
 {
 	TRACE();
 
 	std::shared_ptr<SourceLocationCollection> collection = std::make_shared<SourceLocationCollection>();
-	for (const ErrorInfo& error : m_sqliteIndexStorage.getAll<StorageError>())
+	size_t count = 0;
+	for (const ErrorInfo& error : errors)
 	{
-		if (m_errorFilter.filter(error))
-		{
-			errors->push_back(error);
+		// Set first bit to 1 to avoid collisions
+		Id locationId = ~(~Id(0) >> 1) + error.id;
 
-			// Set first bit to 1 to avoid collisions
-			Id locationId = ~(~Id(0) >> 1) + error.id;
+		collection->addSourceLocation(
+			LOCATION_ERROR,
+			locationId,
+			std::vector<Id>(1, error.id),
+			FilePath(error.filePath),
+			error.lineNumber,
+			error.columnNumber,
+			error.lineNumber,
+			error.columnNumber
+		);
 
-			collection->addSourceLocation(
-				LOCATION_ERROR,
-				locationId,
-				std::vector<Id>(1, error.id),
-				FilePath(error.filePath),
-				error.lineNumber,
-				error.columnNumber,
-				error.lineNumber,
-				error.columnNumber
-			);
-		}
+		count++;
 
-		if (m_errorFilter.limit > 0 && errors->size() >= m_errorFilter.limit)
+		if (m_errorFilter.limit > 0 && count >= m_errorFilter.limit)
 		{
 			break;
 		}
@@ -1998,6 +2037,16 @@ std::unordered_map<Id, std::set<Id>> PersistentStorage::getFileIdToIncludingFile
 	for (const StorageEdge& includeEdge : m_sqliteIndexStorage.getEdgesByType(Edge::typeToInt(Edge::EDGE_INCLUDE)))
 	{
 		fileIdToIncludingFileIdMap[includeEdge.targetNodeId].insert(includeEdge.sourceNodeId);
+	}
+	return fileIdToIncludingFileIdMap;
+}
+
+std::unordered_map<Id, std::set<Id>> PersistentStorage::getFileIdToIncludedFileIdMap() const
+{
+	std::unordered_map<Id, std::set<Id>> fileIdToIncludingFileIdMap;
+	for (const StorageEdge& includeEdge : m_sqliteIndexStorage.getEdgesByType(Edge::typeToInt(Edge::EDGE_INCLUDE)))
+	{
+		fileIdToIncludingFileIdMap[includeEdge.sourceNodeId].insert(includeEdge.targetNodeId);
 	}
 	return fileIdToIncludingFileIdMap;
 }
@@ -2589,13 +2638,13 @@ void PersistentStorage::buildFullTextSearchIndex() const
 	TextCodec codec(ApplicationSettings::getInstance()->getTextEncoding());
 
 	m_fullTextSearchCodec = codec.getName();
-	
+
 	m_fullTextSearchIndex.clear();
 	for (StorageFile& file : m_sqliteIndexStorage.getAll<StorageFile>())
 	{
 
 		m_fullTextSearchIndex.addFile(
-			file.id, 
+			file.id,
 			codec.decode(m_sqliteIndexStorage.getFileContentById(file.id)->getText())
 		);
 	}

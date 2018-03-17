@@ -18,7 +18,7 @@ bool TicTacToe::Start() {
 	Reset();
 	io::stringOut("Tic Tac Toe\n\n[1] Human\n[2] Computer\n[3] Quit\n\n");
 
-	players_[0] = SelectPlayer( Field::PlayerA, "Player A" );
+	player_[0] = SelectPlayer( Field::PlayerA, "Player A" );
 	if ( !players_[0] ) {
 		return false;
 	}
@@ -66,7 +66,7 @@ void TicTacToe::Reset() {
 	}
 }
 
-Player* TicTacToe::SelectPlayer( Field::Token token, const char* name ) const {
+Player* TicTacToe::SlectPlayer( Field::Token token, const char* name ) const {
 	int selection = 0;
 
 	while ( true ) {
@@ -77,7 +77,7 @@ Player* TicTacToe::SelectPlayer( Field::Token token, const char* name ) const {
 		selection = io::numberIn();
 
 		switch ( selection ) {
-			case 1 : return new HumanPlayer( token, name );
+			case 1 : return new HuanPlayer( token, name );
 			case 2 : return new ArtificialPlayer( token, name );
 			case 3 : return 0;
 			default : io::stringOut("Wrong input!\n");

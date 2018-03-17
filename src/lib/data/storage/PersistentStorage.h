@@ -125,7 +125,9 @@ public:
 	virtual ErrorCountInfo getErrorCount(const std::vector<ErrorInfo>& errors) const;
 	virtual std::vector<ErrorInfo> getErrors() const;
 	virtual std::vector<ErrorInfo> getErrorsLimited() const override;
-	virtual std::shared_ptr<SourceLocationCollection> getErrorSourceLocationsLimited(std::vector<ErrorInfo>* errors) const override;
+	virtual std::vector<ErrorInfo> getErrorsForFileLimited(const FilePath& filePath) const override;
+	virtual std::shared_ptr<SourceLocationCollection> getErrorSourceLocations(
+		const std::vector<ErrorInfo>& errors) const override;
 
 	virtual Id addNodeBookmark(const NodeBookmark& bookmark) override;
 	virtual Id addEdgeBookmark(const EdgeBookmark& bookmark) override;
@@ -153,6 +155,7 @@ private:
 	bool getFileNodeComplete(Id fileId) const;
 
 	std::unordered_map<Id, std::set<Id>> getFileIdToIncludingFileIdMap() const;
+	std::unordered_map<Id, std::set<Id>> getFileIdToIncludedFileIdMap() const;
 	std::unordered_map<Id, std::set<Id>> getFileIdToImportingFileIdMap() const;
 	std::set<Id> getReferenced(const std::set<Id>& filePaths, std::unordered_map<Id, std::set<Id>> idToReferencingIdMap) const;
 	std::set<Id> getReferencing(const std::set<Id>& filePaths, std::unordered_map<Id, std::set<Id>> idToReferencingIdMap) const;

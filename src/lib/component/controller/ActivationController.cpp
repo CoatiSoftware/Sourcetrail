@@ -90,38 +90,6 @@ void ActivationController::handleMessage(MessageActivateNodes* message)
 	m.dispatchImmediately();
 }
 
-void ActivationController::handleMessage(MessageSearch* message)
-{
-	const std::vector<SearchMatch>& matches = message->getMatches();
-
-	if (matches.size() && matches.back().searchType == SearchMatch::SEARCH_COMMAND)
-	{
-		switch (matches.back().getCommandType())
-		{
-			case SearchMatch::COMMAND_ALL:
-			case SearchMatch::COMMAND_NODE_FILTER:
-			{
-				MessageActivateAll(message->acceptedNodeTypes).dispatchImmediately();
-				return;
-			}
-
-			case SearchMatch::COMMAND_ERROR:
-			{
-				MessageShowErrors(m_storageAccess->getErrorCount()).dispatch();
-				MessageFlushUpdates().dispatch();
-				return;
-			}
-		}
-	}
-
-	MessageActivateTokens m(message);
-	m.tokenIds = message->getTokenIdsOfMatches();
-	m.searchMatches = matches;
-	m.tokenNames = m_storageAccess->getNameHierarchiesForNodeIds(m.tokenIds);
-	m.isFromSearch = message->isFromSearch;
-	m.dispatchImmediately();
-}
-
 void ActivationController::handleMessage(MessageActivateTokenIds* message)
 {
 	MessageActivateTokens m(message);
@@ -154,8 +122,45 @@ void ActivationController::handleMessage(MessageResetZoom* message)
 		MessageRefresh().refreshUiOnly().dispatch();
 	}
 
-	
+
 	MessageStatus(L"Font size: " + std::to_wstring(fontSizeStd)).dispatch();
+}
+
+void ActivationController::handleMessage(MessageSearch* message)
+{
+	const std::vector<SearchMatch>& matches = message->getMatches();
+
+	if (matches.size() && matches.back().searchType == SearchMatch::SEARCH_COMMAND)
+	{
+		switch (matches.back().getCommandType())
+		{
+			case SearchMatch::COMMAND_ALL:
+			case SearchMatch::COMMAND_NODE_FILTER:
+			{
+				MessageActivateAll(message->acceptedNodeTypes).dispatchImmediately();
+				return;
+			}
+
+			case SearchMatch::COMMAND_ERROR:
+			{
+				MessageShowErrors(m_storageAccess->getErrorCount()).dispatch();
+				MessageFlushUpdates().dispatch();
+				return;
+			}
+		}
+	}
+
+	MessageActivateTokens m(message);
+	m.tokenIds = message->getTokenIdsOfMatches();
+	m.searchMatches = matches;
+	m.tokenNames = m_storageAccess->getNameHierarchiesForNodeIds(m.tokenIds);
+	m.isFromSearch = message->isFromSearch;
+	m.dispatchImmediately();
+}
+
+void ActivationController::handleMessage(MessageShowErrorsForFile* message)
+{
+	MessageShowErrors(m_storageAccess->getErrorsForFileLimited(message->filePath)).dispatch();
 }
 
 void ActivationController::handleMessage(MessageZoom* message)

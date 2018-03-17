@@ -14,6 +14,13 @@
 			<line>#A0A0A0</line>
 			<icon_type>white</icon_type> <!-- white, grey, black -->
 		</dock>
+		<button>
+			<text>white</text>
+			<background>#CC494949</background>
+			<border>#D4D4D4</border>
+			<border_hover>white</border_hover>
+			<icon>white</icon>
+		</button>
 	</window>
 
 	<search>

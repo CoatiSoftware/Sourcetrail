@@ -23,6 +23,7 @@ public:
 
 	QtCodeFileTitleButton* getTitleButton() const;
 
+	void setIsComplete(bool isComplete);
 	void updateRefCount(int refCount, bool hasErrors, size_t fatalErrorCount);
 
 	void setMinimized();
@@ -43,6 +44,7 @@ private slots:
 
 private:
 	QtCodeFileTitleButton* m_titleButton;
+	QPushButton* m_showErrorsButton;
 	QLabel* m_referenceCount;
 
 	QtIconStateButton* m_minimizeButton;

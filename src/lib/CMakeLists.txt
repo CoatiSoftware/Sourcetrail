@@ -446,6 +446,7 @@ add_files(
 	utility/messaging/type/MessageSearchFullText.h
 	utility/messaging/type/MessageShowErrorHelpMessage.h
 	utility/messaging/type/MessageShowErrors.h
+	utility/messaging/type/MessageShowErrorsForFile.h
 	utility/messaging/type/MessageShowReference.h
 	utility/messaging/type/MessageShowScope.h
 	utility/messaging/type/MessageShowStatus.h

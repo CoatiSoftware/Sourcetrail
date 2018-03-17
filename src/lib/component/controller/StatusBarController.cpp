@@ -59,7 +59,7 @@ void StatusBarController::handleMessage(MessageRefresh* message)
 
 void StatusBarController::handleMessage(MessageShowErrors* message)
 {
-	if (message->errorId || message->isReplayed())
+	if (message->errorId || message->errors.size() || message->isReplayed())
 	{
 		return;
 	}

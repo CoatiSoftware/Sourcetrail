@@ -305,7 +305,7 @@ void QtCodeFile::setWholeFile(bool isWholeFile, int refCount)
 
 void QtCodeFile::setIsComplete(bool isComplete)
 {
-	m_titleBar->getTitleButton()->setIsComplete(isComplete);
+	m_titleBar->setIsComplete(isComplete);
 }
 
 void QtCodeFile::setMinimized()

@@ -41,3 +41,17 @@ QDockWidget::close-button {
 QDockWidget::float-button {
 	margin-right: <platform_wml:0|2|0>px;
 }
+
+#screen_button {
+	background-color: <color:window/button/background>;
+	border: 1px solid <color:window/button/border>;
+	border-radius: 5px;
+	color: <color:window/button/text>;
+	font-size: <setting:font_size>px;
+	padding: 4px 6px;
+	margin: 2px 0px;
+}
+
+#screen_button:hover {
+	border: 1px solid <color:window/button/border_hover>;
+}

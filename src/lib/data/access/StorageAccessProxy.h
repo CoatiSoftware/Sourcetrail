@@ -68,7 +68,9 @@ public:
 
 	virtual ErrorCountInfo getErrorCount() const override;
 	virtual std::vector<ErrorInfo> getErrorsLimited() const override;
-	virtual std::shared_ptr<SourceLocationCollection> getErrorSourceLocationsLimited(std::vector<ErrorInfo>* errors) const override;
+	virtual std::vector<ErrorInfo> getErrorsForFileLimited(const FilePath& filePath) const override;
+	virtual std::shared_ptr<SourceLocationCollection> getErrorSourceLocations(
+		const std::vector<ErrorInfo>& errors) const override;
 
 	// TODO: remove these from access because it's not a getter!
 	virtual Id addNodeBookmark(const NodeBookmark& bookmark) override;

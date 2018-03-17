@@ -158,6 +158,7 @@ void QtErrorView::initView()
 
 	{
 		m_allButton = new QPushButton("");
+		m_allButton->setObjectName("screen_button");
 		connect(m_allButton, &QPushButton::clicked,
 			[=]()
 			{
@@ -173,17 +174,17 @@ void QtErrorView::initView()
 
 
 	{
-		QPushButton* editButton = new QPushButton("Edit Project");
-		connect(editButton, &QPushButton::clicked,
+		m_editButton = new QPushButton("Edit Project");
+		m_editButton->setObjectName("screen_button");
+		connect(m_editButton, &QPushButton::clicked,
 			[]()
 			{
 				MessageProjectEdit().dispatch();
 			}
 		);
-		checkboxes->addWidget(editButton);
+		checkboxes->addWidget(m_editButton);
 
-		editButton->setToolTip("edit project");
-		editButton->setIcon(QPixmap(QString::fromStdWString(ResourcePaths::getGuiPath().concatenate(L"code_view/images/edit.png").wstr())));
+		m_editButton->setToolTip("edit project");
 	}
 
 	checkboxes->addSpacing(10);
@@ -307,6 +308,11 @@ void QtErrorView::setStyleSheet() const
 	m_showNonIndexedFatals->setPalette(palette);
 
 	m_helpButton->setColor(QColor(ColorScheme::getInstance()->getColor("table/text/normal").c_str()));
+
+	m_editButton->setIcon(utility::createButtonIcon(
+		ResourcePaths::getGuiPath().concatenate(L"code_view/images/edit.png"),
+		"window/button"
+	));
 
 	m_table->updateRows();
 }

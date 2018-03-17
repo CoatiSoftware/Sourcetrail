@@ -80,7 +80,12 @@ void ErrorController::handleMessage(MessageShowErrors* message)
 
 	clear();
 
-	std::vector<ErrorInfo> errors = m_storageAccess->getErrorsLimited();
+	std::vector<ErrorInfo> errors = message->errors;
+	if (!errors.size())
+	{
+		errors = m_storageAccess->getErrorsLimited();
+	}
+
 	if (errors.size())
 	{
 		getView()->showDockWidget();

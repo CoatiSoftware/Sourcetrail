@@ -5,6 +5,7 @@
 #include <QVariant>
 
 #include "utility/ResourcePaths.h"
+#include "utility/messaging/type/MessageShowErrorsForFile.h"
 
 QtCodeFileTitleBar::QtCodeFileTitleBar(QWidget* parent, bool isHovering, bool isSingle)
 	: QtHoverButton(parent)
@@ -40,6 +41,20 @@ QtCodeFileTitleBar::QtCodeFileTitleBar(QWidget* parent, bool isHovering, bool is
 	titleLayout->addWidget(m_referenceCount);
 
 	titleLayout->addStretch(3);
+
+	m_showErrorsButton = new QPushButton("show errors");
+	m_showErrorsButton->setObjectName("screen_button");
+	m_showErrorsButton->setToolTip("Show all errors related to this file");
+	m_showErrorsButton->setAttribute(Qt::WA_LayoutUsesWidgetRect); // fixes layouting on Mac
+	m_showErrorsButton->hide();
+	titleLayout->addWidget(m_showErrorsButton);
+
+	connect(m_showErrorsButton, &QPushButton::clicked,
+		[this]()
+		{
+			MessageShowErrorsForFile(m_titleButton->getFilePath()).dispatch();
+		}
+	);
 
 	FilePath imageDir = ResourcePaths::getGuiPath().concatenate(L"code_view/images/");
 	QColor inactiveColor(0x5E, 0x5D, 0x5D);
@@ -92,6 +107,12 @@ QtCodeFileTitleBar::QtCodeFileTitleBar(QWidget* parent, bool isHovering, bool is
 QtCodeFileTitleButton* QtCodeFileTitleBar::getTitleButton() const
 {
 	return m_titleButton;
+}
+
+void QtCodeFileTitleBar::setIsComplete(bool isComplete)
+{
+	m_titleButton->setIsComplete(isComplete);
+	m_showErrorsButton->setVisible(!isComplete);
 }
 
 void QtCodeFileTitleBar::updateRefCount(int refCount, bool hasErrors, size_t fatalErrorCount)
@@ -158,6 +179,7 @@ void QtCodeFileTitleBar::setMaximized()
 void QtCodeFileTitleBar::updateFromOther(const QtCodeFileTitleBar* other)
 {
 	m_titleButton->updateFromOther(other->getTitleButton());
+	setIsComplete(m_titleButton->isComplete());
 
 	QString refString = other->m_referenceCount->text();
 	if (refString.size())

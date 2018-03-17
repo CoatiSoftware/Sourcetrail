@@ -81,7 +81,9 @@ public:
 
 	virtual ErrorCountInfo getErrorCount() const = 0;
 	virtual std::vector<ErrorInfo> getErrorsLimited() const = 0;
-	virtual std::shared_ptr<SourceLocationCollection> getErrorSourceLocationsLimited(std::vector<ErrorInfo>* errors) const = 0;
+	virtual std::vector<ErrorInfo> getErrorsForFileLimited(const FilePath& filePath) const = 0;
+	virtual std::shared_ptr<SourceLocationCollection> getErrorSourceLocations(
+		const std::vector<ErrorInfo>& errors) const = 0;
 
 	virtual void setErrorFilter(const ErrorFilter& filter);
 
