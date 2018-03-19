@@ -30,7 +30,7 @@ public:
 	void clearFile();
 	void clearCache();
 
-	// QtCodeNaviatebale implementation
+	// QtCodeNavigateable implementation
 	virtual QAbstractScrollArea* getScrollArea() override;
 
 	virtual void addCodeSnippet(const CodeSnippetParams& params) override;

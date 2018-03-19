@@ -23,6 +23,7 @@ class QSlider;
 class QtGraphEdge;
 class QtGraphicsView;
 class QtGraphNode;
+class QtSelfRefreshIconButton;
 
 class QtGraphView
 	: public QObject
@@ -99,7 +100,8 @@ private:
 	QtGraphNode* createNodeRecursive(
 		QGraphicsView* view, QtGraphNode* parentNode, const DummyNode* node, bool multipleActive);
 	QtGraphEdge* createEdge(
-		QGraphicsView* view, const DummyEdge* edge, std::set<Id>* visibleEdgeIds, Graph::TrailMode trailMode, QPointF pathOffset, bool useBezier);
+		QGraphicsView* view, const DummyEdge* edge, std::set<Id>* visibleEdgeIds, Graph::TrailMode trailMode,
+		QPointF pathOffset, bool useBezier);
 	QtGraphEdge* createAggregationEdge(
 		QGraphicsView* view, const DummyEdge* edge, std::set<Id>* visibleEdgeIds);
 
@@ -144,10 +146,10 @@ private:
 	QtScrollSpeedChangeListener m_scrollSpeedChangeListenerVertical;
 
 	QWidget* m_trailWidget;
-	QPushButton* m_expandButton;
-	QPushButton* m_collapseButton;
-	QPushButton* m_forwardTrailButton;
-	QPushButton* m_backwardTrailButton;
+	QtSelfRefreshIconButton* m_expandButton;
+	QtSelfRefreshIconButton* m_collapseButton;
+	QtSelfRefreshIconButton* m_forwardTrailButton;
+	QtSelfRefreshIconButton* m_backwardTrailButton;
 	QSlider* m_trailDepthSlider;
 	QLabel* m_trailDepthLabel;
 

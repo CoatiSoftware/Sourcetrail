@@ -60,21 +60,21 @@ QtCodeFileTitleBar::QtCodeFileTitleBar(QWidget* parent, bool isHovering, bool is
 	QColor inactiveColor(0x5E, 0x5D, 0x5D);
 
 	m_minimizeButton = new QtIconStateButton(this);
-	m_minimizeButton->addState(QtIconStateButton::STATE_DEFAULT, (QString::fromStdWString(imageDir.getConcatenated(L"minimize_active.png").wstr())));
-	m_minimizeButton->addState(QtIconStateButton::STATE_HOVERED, (QString::fromStdWString(imageDir.getConcatenated(L"minimize_inactive.png").wstr())), inactiveColor);
-	m_minimizeButton->addState(QtIconStateButton::STATE_DISABLED, (QString::fromStdWString(imageDir.getConcatenated(L"minimize_inactive.png").wstr())));
+	m_minimizeButton->addState(QtIconStateButton::STATE_DEFAULT, imageDir.getConcatenated(L"minimize_active.png"));
+	m_minimizeButton->addState(QtIconStateButton::STATE_HOVERED, imageDir.getConcatenated(L"minimize_inactive.png"), inactiveColor);
+	m_minimizeButton->addState(QtIconStateButton::STATE_DISABLED, imageDir.getConcatenated(L"minimize_inactive.png"));
 	m_minimizeButton->setToolTip("minimize");
 
 	m_snippetButton = new QtIconStateButton(this);
-	m_snippetButton->addState(QtIconStateButton::STATE_DEFAULT, (QString::fromStdWString(imageDir.getConcatenated(L"snippet_active.png").wstr())));
-	m_snippetButton->addState(QtIconStateButton::STATE_HOVERED, (QString::fromStdWString(imageDir.getConcatenated(L"snippet_inactive.png").wstr())), inactiveColor);
-	m_snippetButton->addState(QtIconStateButton::STATE_DISABLED, (QString::fromStdWString(imageDir.getConcatenated(L"snippet_inactive.png").wstr())));
+	m_snippetButton->addState(QtIconStateButton::STATE_DEFAULT, imageDir.getConcatenated(L"snippet_active.png"));
+	m_snippetButton->addState(QtIconStateButton::STATE_HOVERED, imageDir.getConcatenated(L"snippet_inactive.png"), inactiveColor);
+	m_snippetButton->addState(QtIconStateButton::STATE_DISABLED, imageDir.getConcatenated(L"snippet_inactive.png"));
 	m_snippetButton->setToolTip("show snippets");
 
 	m_maximizeButton = new QtIconStateButton(this);
-	m_maximizeButton->addState(QtIconStateButton::STATE_DEFAULT, (QString::fromStdWString(imageDir.getConcatenated(L"maximize_active.png").wstr())));
-	m_maximizeButton->addState(QtIconStateButton::STATE_HOVERED, (QString::fromStdWString(imageDir.getConcatenated(L"maximize_inactive.png").wstr())), inactiveColor);
-	m_maximizeButton->addState(QtIconStateButton::STATE_DISABLED, (QString::fromStdWString(imageDir.getConcatenated(L"maximize_inactive.png").wstr())));
+	m_maximizeButton->addState(QtIconStateButton::STATE_DEFAULT, imageDir.getConcatenated(L"maximize_active.png"));
+	m_maximizeButton->addState(QtIconStateButton::STATE_HOVERED, imageDir.getConcatenated(L"maximize_inactive.png"), inactiveColor);
+	m_maximizeButton->addState(QtIconStateButton::STATE_DISABLED, imageDir.getConcatenated(L"maximize_inactive.png"));
 	m_maximizeButton->setToolTip("maximize");
 
 	for (QtIconStateButton* button : { m_minimizeButton, m_snippetButton, m_maximizeButton })

@@ -45,12 +45,12 @@ add_files(
 	qt/element/QtLocationPicker.h
 	qt/element/QtProgressBar.cpp
 	qt/element/QtProgressBar.h
-	qt/element/QtRefreshBar.cpp
-	qt/element/QtRefreshBar.h
 	qt/element/QtScreenSearchBox.cpp
 	qt/element/QtScreenSearchBox.h
 	qt/element/QtSearchBar.cpp
 	qt/element/QtSearchBar.h
+	qt/element/QtSearchBarButton.cpp
+	qt/element/QtSearchBarButton.h
 	qt/element/QtSmartSearchBox.cpp
 	qt/element/QtSmartSearchBox.h
 	qt/element/QtStatusBar.cpp

@@ -5,13 +5,13 @@
 #include <QMessageBox>
 #include <QPushButton>
 
+#include "qt/element/QtSearchBarButton.h"
 #include "qt/utility/utilityQt.h"
-#include "qt/view/QtViewWidgetWrapper.h"
-#include "qt/window/QtBookmarkCreator.h"
-#include "qt/window/QtBookmarkBrowser.h"
 #include "qt/view/QtMainView.h"
+#include "qt/view/QtViewWidgetWrapper.h"
+#include "qt/window/QtBookmarkBrowser.h"
+#include "qt/window/QtBookmarkCreator.h"
 #include "qt/window/QtMainWindow.h"
-#include "settings/ApplicationSettings.h"
 #include "utility/ResourcePaths.h"
 
 QtBookmarkView::QtBookmarkView(ViewLayout* viewLayout)
@@ -42,26 +42,23 @@ void QtBookmarkView::initView()
 	layout->setAlignment(Qt::AlignTop);
 	m_widget->setLayout(layout);
 
-	m_createBookmarkButton = new QPushButton();
+	m_createBookmarkButton = new QtSearchBarButton(
+		ResourcePaths::getGuiPath().concatenate(L"bookmark_view/images/edit_bookmark_icon.png"));
 	m_createBookmarkButton->setObjectName("bookmark_button");
 	m_createBookmarkButton->setToolTip("create a bookmark for the active symbol");
-	m_createBookmarkButton->setAttribute(Qt::WA_LayoutUsesWidgetRect); // fixes layouting on Mac
 	m_createBookmarkButton->setEnabled(false);
 	layout->addWidget(m_createBookmarkButton);
 
 	connect(m_createBookmarkButton, &QPushButton::clicked, this, &QtBookmarkView::createBookmarkClicked);
 
-	m_showBookmarksButton = new QPushButton();
+	m_showBookmarksButton = new QtSearchBarButton(
+		ResourcePaths::getGuiPath().concatenate(L"bookmark_view/images/bookmark_list_icon.png"));
 	m_showBookmarksButton->setObjectName("show_bookmark_button");
 	m_showBookmarksButton->setToolTip("Show bookmarks");
-	m_showBookmarksButton->setAttribute(Qt::WA_LayoutUsesWidgetRect);
 	m_showBookmarksButton->setEnabled(false);
 	layout->addWidget(m_showBookmarksButton);
 
 	connect(m_showBookmarksButton, &QPushButton::clicked, this, &QtBookmarkView::showBookmarksClicked);
-
-	setStyleSheet();
-	refreshStyle();
 }
 
 void QtBookmarkView::refreshView()
@@ -69,8 +66,9 @@ void QtBookmarkView::refreshView()
 	m_onQtThread(
 		[=]()
 		{
-			setStyleSheet();
-			refreshStyle();
+			m_widget->setStyleSheet(utility::getStyleSheet(
+				ResourcePaths::getGuiPath().concatenate(L"bookmark_view/bookmark_view.css")
+			).c_str());
 		}
 	);
 }
@@ -82,10 +80,8 @@ void QtBookmarkView::setCreateButtonState(const CreateButtonState& state)
 		{
 			m_createButtonState = state;
 
-			m_createBookmarkButton->setIcon(utility::createButtonIcon(
-				ResourcePaths::getGuiPath().concatenate(L"bookmark_view/images/edit_bookmark_icon.png"),
-				"search/button"
-			));
+			m_createBookmarkButton->setIconPath(
+				ResourcePaths::getGuiPath().concatenate(L"bookmark_view/images/edit_bookmark_icon.png"));
 
 			if (state == BookmarkView::CreateButtonState::CAN_CREATE)
 			{
@@ -99,10 +95,8 @@ void QtBookmarkView::setCreateButtonState(const CreateButtonState& state)
 			{
 				m_createBookmarkButton->setEnabled(true);
 
-				m_createBookmarkButton->setIcon(utility::createButtonIcon(
-					ResourcePaths::getGuiPath().concatenate(L"bookmark_view/images/bookmark_active.png"),
-					"search/button"
-				));
+				m_createBookmarkButton->setIconPath(
+					ResourcePaths::getGuiPath().concatenate(L"bookmark_view/images/bookmark_active.png"));
 			}
 			else
 			{
@@ -245,34 +239,4 @@ void QtBookmarkView::createBookmarkClicked()
 void QtBookmarkView::showBookmarksClicked()
 {
 	m_controllerProxy.executeAsTask(&BookmarkController::displayBookmarks);
-}
-
-void QtBookmarkView::setStyleSheet()
-{
-	m_widget->setStyleSheet(utility::getStyleSheet(
-		ResourcePaths::getGuiPath().concatenate(L"bookmark_view/bookmark_view.css")
-	).c_str());
-}
-
-void QtBookmarkView::refreshStyle()
-{
-	float height = std::max(ApplicationSettings::getInstance()->getFontSize() + 16, 30);
-
-	m_createBookmarkButton->setFixedHeight(height);
-	m_showBookmarksButton->setFixedHeight(height);
-
-	m_createBookmarkButton->setIcon(utility::createButtonIcon(
-		ResourcePaths::getGuiPath().concatenate(L"bookmark_view/images/edit_bookmark_icon.png"),
-		"search/button"
-	));
-
-	m_showBookmarksButton->setIcon(utility::createButtonIcon(
-		ResourcePaths::getGuiPath().concatenate(L"bookmark_view/images/bookmark_list_icon.png"),
-		"search/button"
-	));
-
-	int iconSize = int(height / 4) * 2 + 2;
-
-	m_createBookmarkButton->setIconSize(QSize(iconSize, iconSize));
-	m_showBookmarksButton->setIconSize(QSize(iconSize, iconSize));
 }

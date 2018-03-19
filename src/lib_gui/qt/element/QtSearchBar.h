@@ -8,7 +8,7 @@
 
 #include "data/search/SearchMatch.h"
 
-class QPushButton;
+class QtSearchBarButton;
 class QtSmartSearchBox;
 
 class QtSearchBar
@@ -38,9 +38,11 @@ private slots:
 
 private:
 	QWidget* m_searchBoxContainer; // used for correct clipping inside the search box
+
 	QtSmartSearchBox* m_searchBox;
-	QPushButton* m_searchButton;
-	QPushButton* m_homeButton;
+
+	QtSearchBarButton* m_searchButton;
+	QtSearchBarButton* m_homeButton;
 };
 
 #endif // QT_SEARCH_BAR_H

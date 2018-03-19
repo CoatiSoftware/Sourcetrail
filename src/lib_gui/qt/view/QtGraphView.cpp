@@ -10,19 +10,19 @@
 #include <QPushButton>
 #include <QScrollBar>
 #include <QSequentialAnimationGroup>
-#include <QStackedLayout>
 #include <QSlider>
+#include <QStackedLayout>
 
-#include "component/controller/helper/DummyEdge.h"
-#include "component/controller/helper/DummyNode.h"
-#include "component/view/GraphViewStyle.h"
-#include "settings/ApplicationSettings.h"
 #include "utility/messaging/type/MessageActivateTrail.h"
 #include "utility/messaging/type/MessageDeactivateEdge.h"
 #include "utility/messaging/type/MessageScrollGraph.h"
 #include "utility/messaging/type/MessageStatus.h"
 #include "utility/ResourcePaths.h"
 
+#include "component/controller/helper/DummyEdge.h"
+#include "component/controller/helper/DummyNode.h"
+#include "component/view/GraphViewStyle.h"
+#include "qt/element/QtIconButton.h"
 #include "qt/graphics/QtGraphicsView.h"
 #include "qt/utility/utilityQt.h"
 #include "qt/view/QtViewWidgetWrapper.h"
@@ -35,6 +35,7 @@
 #include "qt/view/graphElements/QtGraphNodeExpandToggle.h"
 #include "qt/view/graphElements/QtGraphNodeQualifier.h"
 #include "qt/view/graphElements/QtGraphNodeText.h"
+#include "settings/ApplicationSettings.h"
 
 QtGraphView::QtGraphView(ViewLayout* viewLayout)
 	: GraphView(viewLayout)
@@ -87,9 +88,11 @@ void QtGraphView::initView()
 		QStackedLayout* stack = new QStackedLayout();
 
 		{
-			m_expandButton = new QPushButton();
+			m_expandButton = new QtSelfRefreshIconButton(
+				"", ResourcePaths::getGuiPath().concatenate(L"graph_view/images/graph.png"), "search/button");
 			m_expandButton->setObjectName("expand_button");
 			m_expandButton->setToolTip("show depth graph controls");
+			m_expandButton->setIconSize(QSize(16, 16));
 			m_expandButton->setGeometry(0, 0, 26, 26);
 			connect(m_expandButton, &QPushButton::clicked, this, &QtGraphView::clickedExpand);
 			stack->addWidget(m_expandButton);
@@ -100,17 +103,21 @@ void QtGraphView::initView()
 			ui->setGeometry(0, 0, 26, 210);
 			stack->addWidget(ui);
 
-			m_collapseButton = new QPushButton(ui);
+			m_collapseButton = new QtSelfRefreshIconButton(
+				"", ResourcePaths::getGuiPath().concatenate(L"graph_view/images/graph_arrow.png"), "search/button", ui);
 			m_collapseButton->setObjectName("collapse_button");
 			m_collapseButton->setToolTip("hide depth graph controls");
+			m_collapseButton->setIconSize(QSize(16, 16));
 			connect(m_collapseButton, &QPushButton::clicked, this, &QtGraphView::clickedCollapse);
 
-			m_forwardTrailButton = new QPushButton(ui);
+			m_forwardTrailButton = new QtSelfRefreshIconButton("", FilePath(), "search/button", ui);
 			m_forwardTrailButton->setObjectName("trail_button");
+			m_forwardTrailButton->setIconSize(QSize(16, 16));
 			connect(m_forwardTrailButton, &QPushButton::clicked, this, &QtGraphView::clickedForwardTrail);
 
-			m_backwardTrailButton = new QPushButton(ui);
+			m_backwardTrailButton = new QtSelfRefreshIconButton("", FilePath(), "search/button", ui);
 			m_backwardTrailButton->setObjectName("trail_button");
+			m_backwardTrailButton->setIconSize(QSize(16, 16));
 			connect(m_backwardTrailButton, &QPushButton::clicked, this, &QtGraphView::clickedBackwardTrail);
 
 			m_trailDepthLabel = new QLabel(ui);
@@ -163,23 +170,8 @@ void QtGraphView::refreshView()
 		const std::string css = utility::getStyleSheet(ResourcePaths::getGuiPath().concatenate(L"graph_view/graph_view.css"));
 		view->setStyleSheet(css.c_str());
 		view->setAppZoomFactor(GraphViewStyle::getZoomFactor());
-		view->refreshStyle();
 
 		m_trailWidget->setStyleSheet(css.c_str());
-
-		m_expandButton->setIcon(utility::createButtonIcon(
-			ResourcePaths::getGuiPath().concatenate(L"graph_view/images/graph.png"),
-			"search/button"
-		));
-
-		m_collapseButton->setIcon(utility::createButtonIcon(
-			ResourcePaths::getGuiPath().concatenate(L"graph_view/images/graph_arrow.png"),
-			"search/button"
-		));
-
-		m_expandButton->setIconSize(QSize(16, 16));
-		m_collapseButton->setIconSize(QSize(16, 16));
-
 		updateTrailButtons();
 	});
 }
@@ -729,16 +721,13 @@ void QtGraphView::updateTrailButtons()
 	m_trailDepthLabel->setEnabled(message.trailType);
 	m_trailDepthSlider->setEnabled(message.trailType);
 
-	std::wstring backwardImagePath;
-	std::wstring forwardImagePath;
+	std::wstring backwardImagePath = L"graph_left.png";
+	std::wstring forwardImagePath = L"graph_right.png";
 
 	if (message.trailType & Edge::EDGE_CALL)
 	{
 		m_backwardTrailButton->setToolTip("show caller graph");
 		m_forwardTrailButton->setToolTip("show callee graph");
-
-		backwardImagePath = L"graph_left.png";
-		forwardImagePath = L"graph_right.png";
 	}
 	else if (message.trailType & Edge::EDGE_INHERITANCE)
 	{
@@ -752,31 +741,15 @@ void QtGraphView::updateTrailButtons()
 	{
 		m_backwardTrailButton->setToolTip("show including files hierarchy");
 		m_forwardTrailButton->setToolTip("show included files hierarchy");
-
-		backwardImagePath = L"graph_left.png";
-		forwardImagePath = L"graph_right.png";
 	}
 	else
 	{
 		m_backwardTrailButton->setToolTip("no depth graph available for active symbol");
 		m_forwardTrailButton->setToolTip("no depth graph available for active symbol");
-
-		backwardImagePath = L"graph_left.png";
-		forwardImagePath = L"graph_right.png";
 	}
 
-	m_backwardTrailButton->setIcon(utility::createButtonIcon(
-		ResourcePaths::getGuiPath().concatenate(L"graph_view/images/" + backwardImagePath),
-		"search/button"
-	));
-
-	m_forwardTrailButton->setIcon(utility::createButtonIcon(
-		ResourcePaths::getGuiPath().concatenate(L"graph_view/images/" + forwardImagePath),
-		"search/button"
-	));
-
-	m_backwardTrailButton->setIconSize(QSize(16, 16));
-	m_forwardTrailButton->setIconSize(QSize(16, 16));
+	m_forwardTrailButton->setIconPath(ResourcePaths::getGuiPath().concatenate(L"graph_view/images/" + forwardImagePath));
+	m_backwardTrailButton->setIconPath(ResourcePaths::getGuiPath().concatenate(L"graph_view/images/" + backwardImagePath));
 }
 
 void QtGraphView::switchToNewGraphData()

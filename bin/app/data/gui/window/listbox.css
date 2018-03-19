@@ -39,7 +39,7 @@ QtListItemWidget #field:disabled {
 	border-top: 1px solid lightgray;
 }
 
-#iconButton, #dotsButton, #plusButton, #minusButton, #editButton {
+#helpButton, #dotsButton, #plusButton, #minusButton, #editButton {
 	border: none;
 	color: white;
 	height: 1em;

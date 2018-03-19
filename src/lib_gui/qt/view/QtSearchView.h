@@ -4,10 +4,12 @@
 #include <vector>
 
 #include "component/view/SearchView.h"
-#include "qt/element/QtSearchBar.h"
 #include "qt/utility/QtThreadedFunctor.h"
 
-class QtSearchView: public SearchView
+class QtSearchBar;
+
+class QtSearchView
+	: public SearchView
 {
 public:
 	QtSearchView(ViewLayout* viewLayout);

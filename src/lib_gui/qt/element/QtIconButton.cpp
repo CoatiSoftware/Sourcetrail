@@ -3,6 +3,7 @@
 #include <QEvent>
 
 #include "qt/utility/utilityQt.h"
+#include "settings/ColorScheme.h"
 
 
 QtHoverButton::QtHoverButton(QWidget* parent)
@@ -29,7 +30,7 @@ void QtHoverButton::leaveEvent(QEvent *event)
 }
 
 
-QtIconButton::QtIconButton(QString iconPath, QString hoveredIconPath, QWidget* parent)
+QtIconButton::QtIconButton(const FilePath& iconPath, const FilePath& hoveredIconPath, QWidget* parent)
 	: QPushButton("", parent)
 	, m_iconPath(iconPath)
 	, m_hoveredIconPath(hoveredIconPath)
@@ -37,9 +38,11 @@ QtIconButton::QtIconButton(QString iconPath, QString hoveredIconPath, QWidget* p
 {
 	setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
 	setAttribute(Qt::WA_LayoutUsesWidgetRect); // fixes layouting on Mac
-	setMouseTracking(true);
 
-	setObjectName("iconButton");
+	if (!m_hoveredIconPath.empty())
+	{
+		setMouseTracking(true);
+	}
 
 	leaveEvent(nullptr);
 }
@@ -52,7 +55,7 @@ void QtIconButton::setColor(QColor color)
 
 void QtIconButton::enterEvent(QEvent *event)
 {
-	if (m_hoveredIconPath.size() && isEnabled())
+	if (!m_hoveredIconPath.empty() && isEnabled())
 	{
 		setIconFromPath(m_hoveredIconPath);
 	}
@@ -60,15 +63,15 @@ void QtIconButton::enterEvent(QEvent *event)
 
 void QtIconButton::leaveEvent(QEvent *event)
 {
-	if (m_iconPath.size())
+	if (!m_iconPath.empty())
 	{
 		setIconFromPath(m_iconPath);
 	}
 }
 
-void QtIconButton::setIconFromPath(QString path)
+void QtIconButton::setIconFromPath(const FilePath& path)
 {
-	QPixmap pixmap = QPixmap(path);
+	QPixmap pixmap = QPixmap(QString::fromStdWString(path.wstr()));
 
 	if (m_color != Qt::transparent)
 	{
@@ -76,6 +79,46 @@ void QtIconButton::setIconFromPath(QString path)
 	}
 
 	setIcon(QIcon(pixmap));
+}
+
+
+QtSelfRefreshIconButton::QtSelfRefreshIconButton(
+	const QString& text, const FilePath& iconPath, const std::string& buttonKey, QWidget* parent
+)
+	: QPushButton(text, parent)
+	, m_iconPath(iconPath)
+	, m_buttonKey(buttonKey)
+{
+	setAttribute(Qt::WA_LayoutUsesWidgetRect); // fixes layouting on Mac
+	refresh();
+}
+
+void QtSelfRefreshIconButton::setIconPath(const FilePath& iconPath)
+{
+	if (iconPath != m_iconPath)
+	{
+		m_iconPath = iconPath;
+		refresh();
+	}
+}
+
+void QtSelfRefreshIconButton::handleMessage(MessageRefresh* message)
+{
+	if (message->uiOnly)
+	{
+		m_onQtThread([this]()
+		{
+			refresh();
+		});
+	}
+}
+
+void QtSelfRefreshIconButton::refresh()
+{
+	if (!m_iconPath.empty())
+	{
+		setIcon(utility::createButtonIcon(m_iconPath, m_buttonKey));
+	}
 }
 
 
@@ -91,7 +134,7 @@ QtIconStateButton::QtIconStateButton(QWidget* parent)
 	leaveEvent(nullptr);
 }
 
-void QtIconStateButton::addState(ButtonState buttonState, QString iconPath, QColor color)
+void QtIconStateButton::addState(ButtonState buttonState, const FilePath& iconPath, QColor color)
 {
 	State state;
 	state.iconPath = iconPath;
@@ -168,7 +211,7 @@ void QtIconStateButton::leaveEvent(QEvent *event)
 
 void QtIconStateButton::setState(State state)
 {
-	QPixmap pixmap = QPixmap(state.iconPath);
+	QPixmap pixmap = QPixmap(QString::fromStdWString(state.iconPath.wstr()));
 
 	if (state.color != Qt::transparent)
 	{

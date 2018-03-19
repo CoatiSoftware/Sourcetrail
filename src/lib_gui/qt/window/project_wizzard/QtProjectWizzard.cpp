@@ -147,18 +147,18 @@ void QtProjectWizzard::populateWindow(QWidget* widget)
 		buttonsLayout->setSpacing(0);
 
 		QPushButton* addButton = new QtIconButton(
-			QString::fromStdWString(ResourcePaths::getGuiPath().concatenate(L"window/source_group_add.png").wstr()),
-			QString::fromStdWString(ResourcePaths::getGuiPath().concatenate(L"window/source_group_add_hover.png").wstr())
+			ResourcePaths::getGuiPath().concatenate(L"window/source_group_add.png"),
+			ResourcePaths::getGuiPath().concatenate(L"window/source_group_add_hover.png")
 		);
 
 		m_removeButton = new QtIconButton(
-			QString::fromStdWString(ResourcePaths::getGuiPath().concatenate(L"window/source_group_delete.png").wstr()),
-			QString::fromStdWString(ResourcePaths::getGuiPath().concatenate(L"window/source_group_delete_hover.png").wstr())
+			ResourcePaths::getGuiPath().concatenate(L"window/source_group_delete.png"),
+			ResourcePaths::getGuiPath().concatenate(L"window/source_group_delete_hover.png")
 		);
 
 		m_duplicateButton = new QtIconButton(
-			QString::fromStdWString(ResourcePaths::getGuiPath().concatenate(L"window/source_group_copy.png").wstr()),
-			QString::fromStdWString(ResourcePaths::getGuiPath().concatenate(L"window/source_group_copy_hover.png").wstr())
+			ResourcePaths::getGuiPath().concatenate(L"window/source_group_copy.png"),
+			ResourcePaths::getGuiPath().concatenate(L"window/source_group_copy_hover.png")
 		);
 
 		addButton->setIconSize(QSize(20, 20));
@@ -840,8 +840,8 @@ void QtProjectWizzard::sourcePathsJavaMaven()
 {
 	std::dynamic_pointer_cast<SourceGroupSettingsJavaMaven>(m_newSourceGroupSettings)->setMavenDependenciesDirectory(
 		FilePath(
-			L"./sourcetrail_dependencies/" + utility::replace(m_projectSettings->getProjectName(), L" ", L"_") + 
-			L"/" + 
+			L"./sourcetrail_dependencies/" + utility::replace(m_projectSettings->getProjectName(), L" ", L"_") +
+			L"/" +
 			utility::decodeFromUtf8(m_newSourceGroupSettings->getId()) +
 			L"/maven"
 		)
@@ -864,8 +864,8 @@ void QtProjectWizzard::sourcePathsJavaGradle()
 {
 	std::dynamic_pointer_cast<SourceGroupSettingsJavaGradle>(m_newSourceGroupSettings)->setGradleDependenciesDirectory(
 		FilePath(
-			L"./sourcetrail_dependencies/" + utility::replace(m_projectSettings->getProjectName(), L" ", L"_") + 
-			L"/" + 
+			L"./sourcetrail_dependencies/" + utility::replace(m_projectSettings->getProjectName(), L" ", L"_") +
+			L"/" +
 			utility::decodeFromUtf8(m_newSourceGroupSettings->getId()) +
 			L"/gradle"
 		)

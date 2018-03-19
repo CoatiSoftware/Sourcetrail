@@ -72,7 +72,7 @@ QCheckBox:disabled {
 	background: transparent;
 }
 
-#iconButton, #dotsButton {
+#helpButton, #dotsButton {
 	border: none;
 	color: white;
 	height: 1em;

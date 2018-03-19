@@ -13,6 +13,7 @@ class QLabel;
 class QPushButton;
 class QStandardItemModel;
 class QtHelpButton;
+class QtSelfRefreshIconButton;
 class QtTable;
 
 class QtErrorView
@@ -77,7 +78,7 @@ private:
 	QCheckBox* m_showNonIndexedFatals;
 
 	QtHelpButton* m_helpButton;
-	QPushButton* m_editButton;
+	QtSelfRefreshIconButton* m_editButton;
 
 	QStandardItemModel* m_model;
 	QtTable* m_table;

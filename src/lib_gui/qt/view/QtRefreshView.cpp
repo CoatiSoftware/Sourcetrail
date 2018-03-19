@@ -1,18 +1,34 @@
 #include "qt/view/QtRefreshView.h"
 
-#include "component/controller/RefreshController.h"
+#include <QHBoxLayout>
+#include <QFrame>
+
+#include "utility/messaging/type/MessageRefresh.h"
+#include "utility/ResourcePaths.h"
+
+#include "qt/element/QtSearchBarButton.h"
 #include "qt/utility/utilityQt.h"
 #include "qt/view/QtViewWidgetWrapper.h"
-#include "utility/ResourcePaths.h"
 
 QtRefreshView::QtRefreshView(ViewLayout* viewLayout)
 	: RefreshView(viewLayout)
 {
-	m_widget = new QtRefreshBar();
-}
+	m_widget = new QFrame();
+	m_widget->setObjectName("refresh_bar");
 
-QtRefreshView::~QtRefreshView()
-{
+	QBoxLayout* layout = new QHBoxLayout();
+	layout->setSpacing(0);
+	layout->setContentsMargins(0, 0, 0, 0);
+	layout->setAlignment(Qt::AlignTop);
+
+	QtSearchBarButton* refreshButton =
+		new QtSearchBarButton(ResourcePaths::getGuiPath().concatenate(L"refresh_view/images/refresh.png"));
+	refreshButton->setObjectName("refresh_button");
+	refreshButton->setToolTip("refresh");
+	m_widget->connect(refreshButton, &QPushButton::clicked, [](){ MessageRefresh().dispatch(); });
+
+	layout->addWidget(refreshButton);
+	m_widget->setLayout(layout);
 }
 
 void QtRefreshView::createWidgetWrapper()
@@ -28,13 +44,7 @@ void QtRefreshView::refreshView()
 {
 	m_onQtThread([this]()
 	{
-		setStyleSheet();
-		m_widget->refreshStyle();
+		m_widget->setStyleSheet(utility::getStyleSheet(
+			ResourcePaths::getGuiPath().concatenate(L"refresh_view/refresh_view.css")).c_str());
 	});
-}
-
-void QtRefreshView::setStyleSheet()
-{
-	m_widget->setStyleSheet(utility::getStyleSheet(
-		ResourcePaths::getGuiPath().concatenate(L"refresh_view/refresh_view.css")).c_str());
 }

@@ -10,6 +10,7 @@
 #include <QPropertyAnimation>
 #include <QParallelAnimationGroup>
 
+#include "qt/element/QtIconButton.h"
 #include "qt/view/graphElements/QtGraphEdge.h"
 #include "qt/view/graphElements/QtGraphNode.h"
 #include "qt/view/graphElements/QtGraphNodeData.h"
@@ -78,19 +79,19 @@ QtGraphicsView::QtGraphicsView(QWidget* parent)
 	m_zoomState->setObjectName("zoom_state");
 	m_zoomState->hide();
 
-	m_zoomInButton = new QPushButton(this);
+	m_zoomInButton = new QtSelfRefreshIconButton(
+		"", ResourcePaths::getGuiPath().concatenate(L"graph_view/images/zoom_in.png"), "search/button", this);
 	m_zoomInButton->setObjectName("zoom_in_button");
 	m_zoomInButton->setAutoRepeat(true);
 	m_zoomInButton->setToolTip("Zoom in (" + modifierName + " + Mousewheel forward)");
 	connect(m_zoomInButton, &QPushButton::pressed, this, &QtGraphicsView::zoomInPressed);
 
-	m_zoomOutButton = new QPushButton(this);
+	m_zoomOutButton = new QtSelfRefreshIconButton(
+		"", ResourcePaths::getGuiPath().concatenate(L"graph_view/images/zoom_out.png"), "search/button", this);
 	m_zoomOutButton->setObjectName("zoom_out_button");
 	m_zoomOutButton->setAutoRepeat(true);
 	m_zoomOutButton->setToolTip("Zoom out (" + modifierName + " + Mousewheel back)");
 	connect(m_zoomOutButton, &QPushButton::pressed, this, &QtGraphicsView::zoomOutPressed);
-
-	refreshStyle();
 }
 
 float QtGraphicsView::getZoomFactor() const
@@ -185,19 +186,6 @@ void QtGraphicsView::updateZoom(float delta)
 
 	double newZoom = m_zoomFactor * factor;
 	setZoomFactor(qBound(0.1, newZoom, 100.0));
-}
-
-void QtGraphicsView::refreshStyle()
-{
-	m_zoomInButton->setIcon(utility::createButtonIcon(
-		ResourcePaths::getGuiPath().concatenate(L"graph_view/images/zoom_in.png"),
-		"search/button"
-	));
-
-	m_zoomOutButton->setIcon(utility::createButtonIcon(
-		ResourcePaths::getGuiPath().concatenate(L"graph_view/images/zoom_out.png"),
-		"search/button"
-	));
 }
 
 void QtGraphicsView::resizeEvent(QResizeEvent* event)
@@ -477,7 +465,7 @@ void QtGraphicsView::exportGraph()
 				font.setPixelSize(14);
 				painter.setFont(font);
 			}
-			
+
 			QRect boundingRect;
 			painter.drawText(QRect(margin, margin, image.size().width() - 2 * margin, image.size().height() - 2 * margin), Qt::AlignBottom | Qt::AlignHCenter, "Exported from Sourcetrail", &boundingRect);
 

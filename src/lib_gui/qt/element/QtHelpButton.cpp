@@ -6,8 +6,8 @@
 
 QtHelpButton::QtHelpButton(const QString& helpTitle, const QString& helpText, QWidget* parent)
 	: QtIconButton(
-		QString::fromStdWString(ResourcePaths::getGuiPath().concatenate(L"window/help.png").wstr()),
-		QString::fromStdWString(ResourcePaths::getGuiPath().concatenate(L"window/help_hover.png").wstr()),
+		ResourcePaths::getGuiPath().concatenate(L"window/help.png"),
+		ResourcePaths::getGuiPath().concatenate(L"window/help_hover.png"),
 		parent)
 	, m_helpTitle(helpTitle)
 	, m_helpText(helpText)
@@ -18,6 +18,7 @@ QtHelpButton::QtHelpButton(const QString& helpTitle, const QString& helpText, QW
 
 	setToolTip("help");
 	setIconSize(QSize(16, 16));
+	setObjectName("helpButton");
 
 	leaveEvent(nullptr);
 

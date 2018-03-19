@@ -1,13 +1,13 @@
 #ifndef QT_CODE_FILE_TITLE_BUTTON_H
 #define QT_CODE_FILE_TITLE_BUTTON_H
 
-#include <QPushButton>
-
 #include "utility/file/FilePath.h"
 #include "utility/TimeStamp.h"
 
+#include "qt/element/QtIconButton.h"
+
 class QtCodeFileTitleButton
-	: public QPushButton
+	: public QtSelfRefreshIconButton
 {
 	Q_OBJECT
 
@@ -25,16 +25,19 @@ public:
 	void setIsComplete(bool isComplete);
 
 	void updateTexts();
-
 	void updateFromOther(const QtCodeFileTitleButton* other);
 
 protected:
 	void contextMenuEvent(QContextMenuEvent* event);
 
+	virtual void refresh();
+
 private slots:
 	void clickedTitle();
 
 private:
+	void updateHatching();
+
 	FilePath m_filePath;
 	TimeStamp m_modificationTime;
 	bool m_isComplete;

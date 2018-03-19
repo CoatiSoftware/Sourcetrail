@@ -29,8 +29,9 @@ void QtUndoRedoView::refreshView()
 	m_onQtThread(
 		[=]()
 		{
-			setStyleSheet();
-			m_widget->refreshStyle();
+			m_widget->setStyleSheet(utility::getStyleSheet(
+				ResourcePaths::getGuiPath().concatenate(L"undoredo_view/undoredo_view.css")
+			).c_str());
 		}
 	);
 }
@@ -63,11 +64,4 @@ void QtUndoRedoView::updateHistory(const std::vector<SearchMatch>& searchMatches
 			m_widget->updateHistory(searchMatches, currentIndex);
 		}
 	);
-}
-
-void QtUndoRedoView::setStyleSheet()
-{
-	m_widget->setStyleSheet(utility::getStyleSheet(
-		ResourcePaths::getGuiPath().concatenate(L"undoredo_view/undoredo_view.css")
-	).c_str());
 }

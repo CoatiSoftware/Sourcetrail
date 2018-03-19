@@ -2,29 +2,26 @@
 #define QT_REFRESH_VIEW_H
 
 #include "component/view/RefreshView.h"
-#include "qt/element/QtRefreshBar.h"
 #include "qt/utility/QtThreadedFunctor.h"
+
+class QFrame;
 
 class QtRefreshView
 	: public RefreshView
 {
 public:
 	QtRefreshView(ViewLayout* viewLayout);
-	~QtRefreshView();
+	~QtRefreshView() = default;
 
 	// View implementation
-	virtual void createWidgetWrapper();
-	virtual void initView();
-	virtual void refreshView();
-
-	// RefreshView implementation
+	void createWidgetWrapper() override;
+	void initView() override;
+	void refreshView() override;
 
 private:
-	void setStyleSheet();
-
 	QtThreadedLambdaFunctor m_onQtThread;
 
-	QtRefreshBar* m_widget;
+	QFrame* m_widget;
 };
 
-# endif // QT_REFRESH_VIEW_H
+#endif // QT_REFRESH_VIEW_H

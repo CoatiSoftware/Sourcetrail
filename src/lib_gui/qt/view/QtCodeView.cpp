@@ -37,7 +37,7 @@ void QtCodeView::refreshView()
 
 		setStyleSheet();
 
-		m_widget->refreshStyle();
+		m_widget->clearCaches();
 
 		QtCodeArea::clearAnnotationColors();
 		QtHighlighter::clearHighlightingRules();

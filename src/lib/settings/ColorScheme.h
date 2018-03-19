@@ -19,6 +19,8 @@ public:
 	static std::shared_ptr<ColorScheme> getInstance();
 	virtual ~ColorScheme();
 
+	bool hasColor(const std::string& key) const;
+
 	std::string getColor(const std::string& key) const;
 	std::string getColor(const std::string& key, const std::string& defaultColor) const;
 

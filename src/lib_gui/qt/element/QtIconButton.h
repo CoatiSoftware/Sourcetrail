@@ -3,6 +3,12 @@
 
 #include <QPushButton>
 
+#include "utility/file/FilePath.h"
+#include "utility/messaging/MessageListener.h"
+#include "utility/messaging/type/MessageRefresh.h"
+
+#include "qt/utility/QtThreadedFunctor.h"
+
 class QtHoverButton
 	: public QPushButton
 {
@@ -26,7 +32,8 @@ class QtIconButton
 {
 	Q_OBJECT
 public:
-	QtIconButton(QString iconPath, QString hoveredIconPath, QWidget* parent = nullptr);
+	QtIconButton(const FilePath& iconPath, const FilePath& hoveredIconPath, QWidget* parent = nullptr);
+	~QtIconButton() = default;
 
 	void setColor(QColor color);
 
@@ -35,12 +42,36 @@ protected:
 	void leaveEvent(QEvent *event);
 
 private:
-	void setIconFromPath(QString path);
+	void setIconFromPath(const FilePath& path);
 
-	QString m_iconPath;
-	QString m_hoveredIconPath;
+	const FilePath m_iconPath;
+	const FilePath m_hoveredIconPath;
 
 	QColor m_color;
+};
+
+
+class QtSelfRefreshIconButton
+	: public QPushButton
+	, public MessageListener<MessageRefresh>
+{
+public:
+	QtSelfRefreshIconButton(
+		const QString& text, const FilePath& iconPath, const std::string& buttonKey, QWidget* parent = nullptr);
+	~QtSelfRefreshIconButton() = default;
+
+	void setIconPath(const FilePath& iconPath);
+
+protected:
+	void handleMessage(MessageRefresh* message);
+
+	virtual void refresh();
+
+private:
+	QtThreadedLambdaFunctor m_onQtThread;
+
+	FilePath m_iconPath;
+	const std::string m_buttonKey;
 };
 
 
@@ -59,13 +90,13 @@ public:
 
 	struct State
 	{
-		QString iconPath;
+		FilePath iconPath;
 		QColor color;
 	};
 
 	QtIconStateButton(QWidget* parent = nullptr);
 
-	void addState(ButtonState buttonState, QString iconPath, QColor color = Qt::transparent);
+	void addState(ButtonState buttonState, const FilePath& iconPath, QColor color = Qt::transparent);
 
 	void hoverIn();
 	void hoverOut();

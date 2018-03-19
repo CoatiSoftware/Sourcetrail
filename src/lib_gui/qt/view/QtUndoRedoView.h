@@ -26,8 +26,6 @@ public:
 	virtual void updateHistory(const std::vector<SearchMatch>& searchMatches, size_t currentIndex);
 
 private:
-	void setStyleSheet();
-
 	QtThreadedLambdaFunctor m_onQtThread;
 
 	QtUndoRedo* m_widget;

@@ -3,22 +3,20 @@
 #include "utility/file/FileSystem.h"
 #include "utility/messaging/type/MessageActivateFile.h"
 #include "utility/messaging/type/MessageProjectEdit.h"
+#include "utility/ResourcePaths.h"
+#include "utility/utilityString.h"
 
 #include "Application.h"
 #include "project/Project.h"
 #include "qt/utility/QtContextMenu.h"
-#include "qt/utility/utilityQt.h"
 #include "settings/ColorScheme.h"
-#include "utility/ResourcePaths.h"
-#include "utility/utilityString.h"
 
 QtCodeFileTitleButton::QtCodeFileTitleButton(QWidget* parent)
-	: QPushButton(parent)
+	: QtSelfRefreshIconButton("", FilePath(), "code/file/title", parent)
 	, m_isComplete(true)
 {
 	setObjectName("title_button");
 	minimumSizeHint(); // force font loading
-	setAttribute(Qt::WA_LayoutUsesWidgetRect); // fixes layouting on Mac
 
 	setFixedHeight(std::max(fontMetrics().height() * 1.2, 28.0));
 	setSizePolicy(sizePolicy().horizontalPolicy(), QSizePolicy::Fixed);
@@ -43,11 +41,7 @@ void QtCodeFileTitleButton::setFilePath(const FilePath& filePath)
 
 	if (m_filePath.empty())
 	{
-		FilePath iconPath = ResourcePaths::getGuiPath().concatenate(L"code_view/images/file.png");
-		setIcon(utility::colorizePixmap(
-			QPixmap(QString::fromStdWString(iconPath.wstr())),
-			ColorScheme::getInstance()->getColor("code/file/title/icon").c_str()
-		));
+		setIconPath(ResourcePaths::getGuiPath().concatenate(L"code_view/images/file.png"));
 	}
 
 	m_filePath = filePath;
@@ -68,10 +62,7 @@ void QtCodeFileTitleButton::setProject(const std::wstring& name)
 	setText(QString::fromStdWString(name));
 	setToolTip("edit project");
 
-	setIcon(utility::colorizePixmap(
-		QPixmap(QString::fromStdWString(ResourcePaths::getGuiPath().concatenate(L"code_view/images/edit.png").wstr())),
-		ColorScheme::getInstance()->getColor("code/file/title/icon").c_str()
-	));
+	setIconPath(ResourcePaths::getGuiPath().concatenate(L"code_view/images/edit.png"));
 }
 
 bool QtCodeFileTitleButton::isComplete() const
@@ -89,20 +80,7 @@ void QtCodeFileTitleButton::setIsComplete(bool isComplete)
 	m_isComplete = isComplete;
 	setProperty("complete", isComplete);
 
-	if (!isComplete)
-	{
-		FilePath hatchingFilePath = ResourcePaths::getGuiPath().concatenate(L"code_view/images/pattern_" +
-			utility::decodeFromUtf8(ColorScheme::getInstance()->getColor("code/file/title/hatching")) + L".png"
-		);
-
-		setStyleSheet(QString::fromStdWString(
-			L"#title_button { background-image: url(" + hatchingFilePath.wstr() + L"); }"
-		));
-	}
-	else
-	{
-		setStyleSheet("");
-	}
+	updateHatching();
 }
 
 void QtCodeFileTitleButton::updateTexts()
@@ -167,6 +145,13 @@ void QtCodeFileTitleButton::contextMenuEvent(QContextMenuEvent* event)
 	menu.show();
 }
 
+void QtCodeFileTitleButton::refresh()
+{
+	QtSelfRefreshIconButton::refresh();
+
+	updateHatching();
+}
+
 void QtCodeFileTitleButton::clickedTitle()
 {
 	if (!m_filePath.empty())
@@ -176,5 +161,23 @@ void QtCodeFileTitleButton::clickedTitle()
 	else if (text().size())
 	{
 		MessageProjectEdit().dispatch();
+	}
+}
+
+void QtCodeFileTitleButton::updateHatching()
+{
+	if (!m_isComplete)
+	{
+		FilePath hatchingFilePath = ResourcePaths::getGuiPath().concatenate(L"code_view/images/pattern_" +
+			utility::decodeFromUtf8(ColorScheme::getInstance()->getColor("code/file/title/hatching")) + L".png"
+		);
+
+		setStyleSheet(QString::fromStdWString(
+			L"#title_button { background-image: url(" + hatchingFilePath.wstr() + L"); }"
+		));
+	}
+	else
+	{
+		setStyleSheet("");
 	}
 }

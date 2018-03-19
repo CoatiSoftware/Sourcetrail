@@ -8,8 +8,8 @@
 #include "qt/utility/QtThreadedFunctor.h"
 
 class QFrame;
-class QPushButton;
 class QtBookmarkBrowser;
+class QtSearchBarButton;
 
 class QtBookmarkView
 	: public QObject
@@ -26,6 +26,7 @@ public:
 	virtual void initView();
 	virtual void refreshView();
 
+	// BookmarkView implementation
 	virtual void setCreateButtonState(const CreateButtonState& state);
 
 	virtual void displayBookmarkCreator(
@@ -43,16 +44,13 @@ private slots:
 	void showBookmarksClicked();
 
 private:
-	void setStyleSheet();
-	void refreshStyle();
-
 	ControllerProxy<BookmarkController> m_controllerProxy;
 	QtThreadedLambdaFunctor m_onQtThread;
 
 	QFrame* m_widget;
 
-	QPushButton* m_createBookmarkButton;
-	QPushButton* m_showBookmarksButton;
+	QtSearchBarButton* m_createBookmarkButton;
+	QtSearchBarButton* m_showBookmarksButton;
 
 	QtBookmarkBrowser* m_bookmarkBrowser;
 

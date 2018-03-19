@@ -18,6 +18,11 @@ ColorScheme::~ColorScheme()
 {
 }
 
+bool ColorScheme::hasColor(const std::string& key) const
+{
+	return isValueDefined(key);
+}
+
 std::string ColorScheme::getColor(const std::string& key) const
 {
 	return getValue<std::string>(key, "#FF1493");

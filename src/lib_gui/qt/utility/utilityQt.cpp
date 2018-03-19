@@ -214,13 +214,18 @@ namespace utility
 
 	QIcon createButtonIcon(const FilePath& iconPath, const std::string& colorId)
 	{
-		QPixmap pixmap(QString::fromStdWString(iconPath.wstr()));
+		ColorScheme* scheme = ColorScheme::getInstance().get();
 
-		QIcon icon(utility::colorizePixmap(pixmap, ColorScheme::getInstance()->getColor(colorId + "/icon").c_str()));
-		icon.addPixmap(
-			utility::colorizePixmap(pixmap, ColorScheme::getInstance()->getColor(colorId + "/icon_disabled").c_str()),
-			QIcon::Disabled
-		);
+		QPixmap pixmap(QString::fromStdWString(iconPath.wstr()));
+		QIcon icon(utility::colorizePixmap(pixmap, scheme->getColor(colorId + "/icon").c_str()));
+
+		if (scheme->hasColor(colorId + "/icon_disabled"))
+		{
+			icon.addPixmap(
+				utility::colorizePixmap(pixmap, scheme->getColor(colorId + "/icon_disabled").c_str()),
+				QIcon::Disabled
+			);
+		}
 
 		return icon;
 	}

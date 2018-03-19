@@ -14,6 +14,7 @@
 #include <QStyledItemDelegate>
 
 #include "qt/element/QtHelpButton.h"
+#include "qt/element/QtIconButton.h"
 #include "qt/element/QtTable.h"
 #include "qt/utility/utilityQt.h"
 #include "qt/view/QtViewWidgetWrapper.h"
@@ -174,17 +175,21 @@ void QtErrorView::initView()
 
 
 	{
-		m_editButton = new QPushButton("Edit Project");
+		m_editButton = new QtSelfRefreshIconButton(
+			"Edit Project",
+			ResourcePaths::getGuiPath().concatenate(L"code_view/images/edit.png"),
+			"window/button"
+		);
 		m_editButton->setObjectName("screen_button");
+		m_editButton->setToolTip("edit project");
 		connect(m_editButton, &QPushButton::clicked,
 			[]()
 			{
 				MessageProjectEdit().dispatch();
 			}
 		);
-		checkboxes->addWidget(m_editButton);
 
-		m_editButton->setToolTip("edit project");
+		checkboxes->addWidget(m_editButton);
 	}
 
 	checkboxes->addSpacing(10);
@@ -308,11 +313,6 @@ void QtErrorView::setStyleSheet() const
 	m_showNonIndexedFatals->setPalette(palette);
 
 	m_helpButton->setColor(QColor(ColorScheme::getInstance()->getColor("table/text/normal").c_str()));
-
-	m_editButton->setIcon(utility::createButtonIcon(
-		ResourcePaths::getGuiPath().concatenate(L"code_view/images/edit.png"),
-		"window/button"
-	));
 
 	m_table->updateRows();
 }

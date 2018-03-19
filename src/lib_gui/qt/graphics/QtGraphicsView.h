@@ -4,13 +4,14 @@
 #include <memory>
 
 #include <QGraphicsView>
-#include <QPushButton>
 
 #include "utility/types.h"
 
+class QPushButton;
 class QTimer;
 class QtGraphEdge;
 class QtGraphNode;
+class QtSelfRefreshIconButton;
 
 class QtGraphicsView
 	: public QGraphicsView
@@ -31,8 +32,6 @@ public:
 	void ensureVisibleAnimated(const QRectF& rect, int xmargin = 50, int ymargin = 50);
 
 	void updateZoom(float delta);
-
-	void refreshStyle();
 
 protected:
 	void resizeEvent(QResizeEvent* event);
@@ -100,8 +99,8 @@ private:
 	QAction* m_bookmarkNodeAction;
 
 	QPushButton* m_zoomState;
-	QPushButton* m_zoomInButton;
-	QPushButton* m_zoomOutButton;
+	QtSelfRefreshIconButton* m_zoomInButton;
+	QtSelfRefreshIconButton* m_zoomOutButton;
 
 	float m_zoomInButtonSpeed;
 	float m_zoomOutButtonSpeed;

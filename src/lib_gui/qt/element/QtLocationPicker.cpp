@@ -28,8 +28,8 @@ QtLocationPicker::QtLocationPicker(QWidget *parent)
 	layout->addWidget(m_data);
 
 	m_button = new QtIconButton(
-		QString::fromStdWString(ResourcePaths::getGuiPath().concatenate(L"window/dots.png").wstr()),
-		QString::fromStdWString(ResourcePaths::getGuiPath().concatenate(L"window/dots_hover.png").wstr())
+		ResourcePaths::getGuiPath().concatenate(L"window/dots.png"),
+		ResourcePaths::getGuiPath().concatenate(L"window/dots_hover.png")
 	);
 	m_button->setIconSize(QSize(16, 16));
 	m_button->setObjectName("dotsButton");

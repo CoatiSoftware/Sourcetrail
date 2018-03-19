@@ -2,7 +2,6 @@
 
 #include <QHBoxLayout>
 #include <QLabel>
-#include <QPushButton>
 #include <QScrollBar>
 #include <QTimer>
 #include <QVBoxLayout>
@@ -18,7 +17,7 @@
 #include "qt/element/QtCodeArea.h"
 #include "qt/element/QtCodeFile.h"
 #include "qt/element/QtCodeSnippet.h"
-#include "qt/utility/utilityQt.h"
+#include "qt/element/QtSearchBarButton.h"
 #include "settings/ApplicationSettings.h"
 
 QtCodeNavigator::QtCodeNavigator(QWidget* parent)
@@ -45,14 +44,17 @@ QtCodeNavigator::QtCodeNavigator(QWidget* parent)
 		navLayout->setContentsMargins(7, 7, 7, 6);
 
 
-		m_prevButton = new QPushButton();
-		m_nextButton = new QPushButton();
+		m_prevButton = new QtSearchBarButton(ResourcePaths::getGuiPath().concatenate(L"code_view/images/arrow_left.png"), true);
+		m_nextButton = new QtSearchBarButton(ResourcePaths::getGuiPath().concatenate(L"code_view/images/arrow_right.png"), true);
 
 		m_prevButton->setObjectName("reference_button_previous");
 		m_nextButton->setObjectName("reference_button_next");
 
 		m_prevButton->setToolTip("previous reference");
 		m_nextButton->setToolTip("next reference");
+
+		m_prevButton->setIconSize(QSize(12, 12));
+		m_nextButton->setIconSize(QSize(12, 12));
 
 		navLayout->addWidget(m_prevButton);
 		navLayout->addWidget(m_nextButton);
@@ -68,8 +70,8 @@ QtCodeNavigator::QtCodeNavigator(QWidget* parent)
 		navLayout->addStretch();
 
 
-		m_listButton = new QPushButton();
-		m_fileButton = new QPushButton();
+		m_listButton = new QtSearchBarButton(ResourcePaths::getGuiPath().concatenate(L"code_view/images/list.png"), true);
+		m_fileButton = new QtSearchBarButton(ResourcePaths::getGuiPath().concatenate(L"code_view/images/file.png"), true);
 
 		m_listButton->setObjectName("mode_button_list");
 		m_fileButton->setObjectName("mode_button_single");
@@ -79,6 +81,9 @@ QtCodeNavigator::QtCodeNavigator(QWidget* parent)
 
 		m_listButton->setCheckable(true);
 		m_fileButton->setCheckable(true);
+
+		m_listButton->setIconSize(QSize(14, 14));
+		m_fileButton->setIconSize(QSize(14, 14));
 
 		navLayout->addWidget(m_listButton);
 		navLayout->addWidget(m_fileButton);
@@ -107,8 +112,6 @@ QtCodeNavigator::QtCodeNavigator(QWidget* parent)
 
 	setMode(ApplicationSettings::getInstance()->getCodeViewModeSingle() ? MODE_SINGLE : MODE_LIST);
 	showContents();
-
-	refreshStyle();
 
 	connect(this, &QtCodeNavigator::scrollRequest, this, &QtCodeNavigator::handleScrollRequest, Qt::QueuedConnection);
 }
@@ -557,43 +560,6 @@ void QtCodeNavigator::showContents()
 	}
 
 	m_current->showContents();
-}
-
-void QtCodeNavigator::refreshStyle()
-{
-	float height = std::max(ApplicationSettings::getInstance()->getFontSize() + 10, 24);
-
-	m_prevButton->setFixedHeight(height);
-	m_nextButton->setFixedHeight(height);
-	m_listButton->setFixedHeight(height);
-	m_fileButton->setFixedHeight(height);
-
-	m_prevButton->setIcon(utility::createButtonIcon(
-		ResourcePaths::getGuiPath().concatenate(L"code_view/images/arrow_left.png"),
-		"search/button"
-	));
-
-	m_nextButton->setIcon(utility::createButtonIcon(
-		ResourcePaths::getGuiPath().concatenate(L"code_view/images/arrow_right.png"),
-		"search/button"
-	));
-
-	m_listButton->setIcon(utility::createButtonIcon(
-		ResourcePaths::getGuiPath().concatenate(L"code_view/images/list.png"),
-		"search/button"
-	));
-
-	m_fileButton->setIcon(utility::createButtonIcon(
-		ResourcePaths::getGuiPath().concatenate(L"code_view/images/file.png"),
-		"search/button"
-	));
-
-	m_prevButton->setIconSize(QSize(12, 12));
-	m_nextButton->setIconSize(QSize(12, 12));
-	m_listButton->setIconSize(QSize(14, 14));
-	m_fileButton->setIconSize(QSize(14, 14));
-
-	clearCaches();
 }
 
 size_t QtCodeNavigator::findScreenMatches(const std::wstring& query)

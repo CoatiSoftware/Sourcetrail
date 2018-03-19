@@ -17,6 +17,7 @@
 
 class QLabel;
 class QPushButton;
+class QtSearchBarButton;
 class SourceLocationCollection;
 class SourceLocationFile;
 
@@ -187,11 +188,12 @@ private:
 
 	int m_value;
 
-	QPushButton* m_listButton;
-	QPushButton* m_fileButton;
+	QtSearchBarButton* m_listButton;
+	QtSearchBarButton* m_fileButton;
 	QLabel* m_refLabel;
-	QPushButton* m_prevButton;
-	QPushButton* m_nextButton;
+
+	QtSearchBarButton* m_prevButton;
+	QtSearchBarButton* m_nextButton;
 	QFrame* m_separatorLine;
 
 	std::vector<Reference> m_references;
