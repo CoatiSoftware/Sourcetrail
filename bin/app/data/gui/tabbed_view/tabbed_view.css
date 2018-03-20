@@ -12,31 +12,23 @@ QTabWidget::tab-bar {
 
 QTabBar::tab {
 	background-color: <color:tab/bar/button/background/normal>;
-	border-top: 1px solid <color:tab/bar/button/background/normal>;
-	border-bottom: 1px solid <color:tab/bar/border>;
+	border: 1px solid <color:tab/bar/border>;
 	border-top-left-radius: 7px;
 	border-top-right-radius: 7px;
 	color: <color:tab/bar/button/text>;
 	font-size: <setting:font_size>px;
 	height: <setting:font_size+8>;
-	margin-left: 4px;
-	margin-right: 1px;
+	margin-left: 3px;
 	margin-top: 4px;
 	width: 100px;
 }
 
 QTabBar::tab:hover {
-	margin-left: 3px;
-	margin-right: 0px;
 	background-color: <color:tab/bar/button/background/hover>;
-	border: 1px solid <color:tab/bar/border>;
 }
 
 QTabBar::tab:selected, QTabBar::tab:pressed {
-	margin-left: 3px;
-	margin-right: 0px;
 	background-color:  <color:tab/bar/button/background/press>;
-	border: 1px solid <color:tab/bar/border>;
 	border-bottom: 1px solid <color:tab/bar/button/background/press>;
 }
 
@@ -51,8 +43,8 @@ QTableView {
 	background-color: <color:table/table_line_1/normal>;
 	alternate-background-color: <color:table/table_line_2/normal>;
 	border-radius: 7px;
-	border-bottom-left-radius: 0px;
-	border-bottom-right-radius: 0px;
+	border-bottom-left-radius: 2px;
+	border-bottom-right-radius: 2px;
 	border: 1px solid <color:table/table>;
 	margin: 10px 10px 2px;
 	font-size: <setting:font_size>px;
