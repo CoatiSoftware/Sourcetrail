@@ -444,20 +444,29 @@
 
 	<tab>
 		<background>#272728</background>
-		<active>white</active>
-		<hover>#878787</hover>
-		<text>#878787</text>
+		<bar>
+			<background>#555555</background>
+			<border>#BEBEBE</border>
+			<button>
+				<text>white</text>
+				<background>
+					<normal>#555555</normal>
+					<hover>#2F2F2F</hover>
+					<press>#272728</press>
+				</background>
+			</button>
+		</bar>
 	</tab>
 
 	<table>
 		<background>#272728</background>
-		<table>white</table>
+		<table>#C5C5C5</table>
 		<text>
 			<normal>white</normal>
 			<active>black</active>
 		</text>
 		<table_line_1>
-			<normal>darkgrey</normal>
+			<normal>#272728</normal>
 			<active>#969696</active>
 		</table_line_1>
 		<table_line_2>
@@ -468,6 +477,7 @@
 
 	<screen_search>
 		<background>#555555</background>
+		<border>#BEBEBE</border>
 		<box>
 			<background>#272728</background>
 			<text>#F7F7F7</text>

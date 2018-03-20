@@ -11,9 +11,8 @@ class TabbedView
 	, public ViewLayout
 {
 public:
-
 	TabbedView(ViewLayout* viewLayout, const std::string& name);
-	virtual ~TabbedView();
+	virtual ~TabbedView() = default;
 
 	const std::vector<View*>& getViews() const;
 

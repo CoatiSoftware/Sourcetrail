@@ -434,9 +434,18 @@
 
 	<tab>
 		<background>white</background>
-		<active>black</active>
-		<hover>#878787</hover>
-		<text>#878787</text>
+		<bar>
+			<background>#E0E0E0</background>
+			<border>#BEBEBE</border>
+			<button>
+				<text>black</text>
+				<background>
+					<normal>#E0E0E0</normal>
+					<hover>#F0F0F0</hover>
+					<press>#FFFFFF</press>
+				</background>
+			</button>
+		</bar>
 	</tab>
 
 	<table>
@@ -458,6 +467,7 @@
 
 	<screen_search>
 		<background>#E0E0E0</background>
+		<border>#BEBEBE</border>
 		<box>
 			<background>white</background>
 			<text>black</text>

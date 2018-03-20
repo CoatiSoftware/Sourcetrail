@@ -1,47 +1,61 @@
+QTabWidget::pane {
+	background-color: <color:tab/background>;
+	border-top: <setting:font_size+15>px solid <color:tab/bar/background>;
+	top: -<setting:font_size+15>px;
+}
+
 QTabWidget::tab-bar {
 	alignment: left;
+	left: 7px;
+	bottom: -1px;
 }
 
 QTabBar::tab {
-	background-color: <color:tab/background>;
-	color: <color:tab/text>;
-	padding: 12px 75px 5px 12px;
-	border: 0px;
-	border-bottom: 4px solid <color:tab/background>;
+	background-color: <color:tab/bar/button/background/normal>;
+	border-top: 1px solid <color:tab/bar/button/background/normal>;
+	border-bottom: 1px solid <color:tab/bar/border>;
+	border-top-left-radius: 7px;
+	border-top-right-radius: 7px;
+	color: <color:tab/bar/button/text>;
+	font-size: <setting:font_size>px;
+	height: <setting:font_size+8>;
+	margin-left: 4px;
+	margin-right: 1px;
+	margin-top: 4px;
+	width: 100px;
 }
 
 QTabBar::tab:hover {
-	border-bottom: 4px solid <color:tab/hover>;
+	margin-left: 3px;
+	margin-right: 0px;
+	background-color: <color:tab/bar/button/background/hover>;
+	border: 1px solid <color:tab/bar/border>;
 }
 
-QTabBar::tab:selected {
-	border-bottom: 4px solid <color:tab/active>;
-	color: <color:tab/active>;
+QTabBar::tab:selected, QTabBar::tab:pressed {
+	margin-left: 3px;
+	margin-right: 0px;
+	background-color:  <color:tab/bar/button/background/press>;
+	border: 1px solid <color:tab/bar/border>;
+	border-bottom: 1px solid <color:tab/bar/button/background/press>;
 }
 
-QTabWidget::pane {
-	top: 0px;
-	background: <color:tab/background>;
-	color: <color:tab/text>;
-	border: 0px;
-	margin: 0px;
-	padding: 0px;
+QTabWidget #tab_content {
+	border-top: 1px solid <color:tab/bar/border>;
+	background-color: <color:tab/background>;
 }
+
 
 QTableView {
 	color: <color:table/text/normal>;
 	background-color: <color:table/table_line_1/normal>;
 	alternate-background-color: <color:table/table_line_2/normal>;
-	border-radius: 10px;
+	border-radius: 7px;
 	border-bottom-left-radius: 0px;
 	border-bottom-right-radius: 0px;
 	border: 1px solid <color:table/table>;
 	margin: 10px 10px 2px;
 	font-size: <setting:font_size>px;
-}
-
-QFrame {
-	background-color: <color:tab/background>;
 }
 
 QTableView::item {
@@ -89,16 +103,15 @@ QHeaderView::section:vertical {
 QTableView QTableCornerButton::section {
 	background-color: <color:table/background>;
 	border-bottom: 1px solid <color:table/table>;
-	border-top-left-radius: 10px;
+	border-top-left-radius: 7px;
 }
 
 QCheckBox {
 	color: <color:table/text/normal>;
+	font-size: <setting:font_size>px;
 }
 
 #help_button {
 	background: transparent;
 	border: none;
-	/*margin: none;*/
-	/*padding: none;*/
 }

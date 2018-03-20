@@ -47,7 +47,9 @@ void QtTabbedView::refreshView()
 
 void QtTabbedView::addViewWidget(View* view)
 {
-	m_widget->addTab(QtViewWidgetWrapper::getWidgetOfView(view), view->getName().c_str());
+	QWidget* tabWidget = QtViewWidgetWrapper::getWidgetOfView(view);
+	tabWidget->setObjectName("tab_content");
+	m_widget->addTab(tabWidget, view->getName().c_str());
 
 	setStyleSheet();
 }

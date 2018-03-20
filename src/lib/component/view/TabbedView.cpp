@@ -8,10 +8,6 @@ TabbedView::TabbedView(ViewLayout* viewLayout, const std::string& name)
 {
 }
 
-TabbedView::~TabbedView()
-{
-}
-
 const std::vector<View*>& TabbedView::getViews() const
 {
 	return m_views;
