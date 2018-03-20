@@ -740,6 +740,12 @@
 						<Component Id='TabbedViewCss' Guid='*' Win64="$(var.Win64)">
 							<File Id='TabbedView' Name='tabbed_view.css' DiskId='1' Source='./../../../bin/app/data/gui/tabbed_view/tabbed_view.css' KeyPath='yes' />
 						</Component>
+						<Component Id='TabbedViewArrowDownPng' Guid='*' Win64="$(var.Win64)">
+								<File Id='TabbedViewArrowDown' Name='arrow_down.png' DiskId='1' Source='./../../../bin/app/data/gui/tabbed_view/arrow_down.png' KeyPath='yes' />
+							</Component>
+						<Component Id='TabbedViewArrowUpPng' Guid='*' Win64="$(var.Win64)">
+							<File Id='TabbedViewArrowUp' Name='arrow_up.png' DiskId='1' Source='./../../../bin/app/data/gui/tabbed_view/arrow_up.png' KeyPath='yes' />
+						</Component>
 					</Directory>
 					
 					<Directory Id='DataTooltipView' Name='tooltip_view'>

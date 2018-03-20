@@ -377,6 +377,8 @@
 				<ComponentRef Id='LoaderGif'/>
 				
 				<ComponentRef Id='TabbedViewCss'/>
+				<ComponentRef Id='TabbedViewArrowDownPng'/>
+				<ComponentRef Id='TabbedViewArrowUpPng'/>
 
 				<ComponentRef Id='TooltipViewCss'/>
 				
