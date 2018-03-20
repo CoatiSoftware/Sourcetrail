@@ -1,10 +1,12 @@
 #include "qt/view/QtTabbedView.h"
 
-#include <QBoxLayout>
+#include <QEvent>
 #include <QFrame>
 #include <QTabBar>
 #include <QTabWidget>
+#include <QVBoxLayout>
 
+#include "qt/element/QtIconButton.h"
 #include "qt/utility/utilityQt.h"
 #include "qt/view/QtViewWidgetWrapper.h"
 #include "settings/ColorScheme.h"
@@ -28,13 +30,22 @@ void QtTabbedView::initView()
 {
 	QWidget* widget = QtViewWidgetWrapper::getWidgetOfView(this);
 
-	QBoxLayout* layout = new QBoxLayout(QBoxLayout::TopToBottom);
+	QVBoxLayout* layout = new QVBoxLayout();
 	layout->setContentsMargins(0, 0, 0, 0);
 	layout->setSpacing(0);
 	widget->setLayout(layout);
 
 	m_widget = new QTabWidget(widget);
 	layout->addWidget(m_widget);
+
+	m_closeButton = new QtSelfRefreshIconButton("",
+		ResourcePaths::getGuiPath().concatenate(L"screen_search_view/images/close.png"), "screen_search/button", widget);
+	m_closeButton->setIconSize(QSize(15, 15));
+	m_closeButton->setStyleSheet("background: transparent; border: none;");
+
+	widget->connect(m_closeButton, &QPushButton::clicked, [this](){ hideView(this); });
+	m_widget->tabBar()->installEventFilter(this);
+	widget->installEventFilter(this);
 }
 
 void QtTabbedView::refreshView()
@@ -69,4 +80,14 @@ void QtTabbedView::setStyleSheet()
 	m_widget->setStyleSheet(
 		utility::getStyleSheet(ResourcePaths::getGuiPath().concatenate(L"tabbed_view/tabbed_view.css")).c_str()
 	);
+}
+
+bool QtTabbedView::eventFilter(QObject* obj, QEvent* event)
+{
+	if (event->type() == QEvent::Resize)
+	{
+		m_closeButton->setGeometry(m_widget->width() - 23, (m_widget->tabBar()->height() - 15) / 2 + 1, 15, 15);
+		m_closeButton->show();
+	}
+	return QObject::eventFilter(obj, event);
 }

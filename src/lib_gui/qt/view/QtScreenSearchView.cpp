@@ -51,8 +51,6 @@ void QtScreenSearchView::refreshView()
 				)
 			).c_str()
 		);
-
-		m_widget->refreshStyle();
 	});
 }
 

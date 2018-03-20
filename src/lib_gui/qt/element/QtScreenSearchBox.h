@@ -10,6 +10,7 @@ class QCheckBox;
 class QHBoxLayout;
 class QLineEdit;
 class QPushButton;
+class QtSelfRefreshIconButton;
 class QTimer;
 
 
@@ -37,8 +38,6 @@ class QtScreenSearchBox
 public:
 	QtScreenSearchBox(ControllerProxy<ScreenSearchController>* controllerProxy, QWidget* parent = nullptr);
 	virtual ~QtScreenSearchBox();
-
-	void refreshStyle();
 
 	void setMatchCount(size_t matchCount);
 	void setMatchIndex(size_t matchIndex);
@@ -69,10 +68,10 @@ private:
 	QLineEdit* m_searchBox;
 	QPushButton* m_matchLabel;
 
-	QPushButton* m_searchButton;
-	QPushButton* m_prevButton;
-	QPushButton* m_nextButton;
-	QPushButton* m_closeButton;
+	QtSelfRefreshIconButton* m_searchButton;
+	QtSelfRefreshIconButton* m_prevButton;
+	QtSelfRefreshIconButton* m_nextButton;
+	QtSelfRefreshIconButton* m_closeButton;
 
 	QHBoxLayout* m_checkboxLayout;
 	std::vector<QCheckBox*> m_checkBoxes;

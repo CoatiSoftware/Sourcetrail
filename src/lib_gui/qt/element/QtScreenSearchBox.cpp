@@ -8,6 +8,7 @@
 #include <QPushButton>
 #include <QTimer>
 
+#include "qt/element/QtIconButton.h"
 #include "qt/utility/utilityQt.h"
 #include "utility/ResourcePaths.h"
 
@@ -42,16 +43,16 @@ QtScreenSearchBox::QtScreenSearchBox(ControllerProxy<ScreenSearchController>* co
 
 	// search field
 	{
-		m_searchButton = new QPushButton();
-		m_searchButton->setAttribute(Qt::WA_LayoutUsesWidgetRect); // fixes layouting on Mac
+		m_searchButton = new QtSelfRefreshIconButton(
+			"", ResourcePaths::getGuiPath().concatenate(L"search_view/images/search.png"), "screen_search/button");
 		m_searchButton->setObjectName("search_button");
+		m_searchButton->setIconSize(QSize(12, 12));
 		layout->addWidget(m_searchButton);
 
 		connect(m_searchButton, &QPushButton::clicked, this, &QtScreenSearchBox::setFocus);
 
 		m_searchBox = new QLineEdit(this);
 		m_searchBox->setObjectName("search_box");
-		m_searchBox->setAttribute(Qt::WA_LayoutUsesWidgetRect); // fixes layouting on Mac
 		m_searchBox->setAttribute(Qt::WA_MacShowFocusRect, 0); // remove blue focus box on Mac
 		layout->addWidget(m_searchBox);
 
@@ -75,14 +76,16 @@ QtScreenSearchBox::QtScreenSearchBox(ControllerProxy<ScreenSearchController>* co
 
 	// buttons
 	{
-		m_prevButton = new QPushButton();
-		m_nextButton = new QPushButton();
-
-		m_prevButton->setAttribute(Qt::WA_LayoutUsesWidgetRect); // fixes layouting on Mac
-		m_nextButton->setAttribute(Qt::WA_LayoutUsesWidgetRect); // fixes layouting on Mac
+		m_prevButton = new QtSelfRefreshIconButton(
+			"", ResourcePaths::getGuiPath().concatenate(L"code_view/images/arrow_left.png"), "screen_search/button");
+		m_nextButton = new QtSelfRefreshIconButton(
+			"", ResourcePaths::getGuiPath().concatenate(L"code_view/images/arrow_right.png"), "screen_search/button");
 
 		m_prevButton->setObjectName("prev_button");
 		m_nextButton->setObjectName("next_button");
+
+		m_prevButton->setIconSize(QSize(12, 12));
+		m_nextButton->setIconSize(QSize(12, 12));
 
 		layout->addWidget(m_prevButton);
 		layout->addWidget(m_nextButton);
@@ -100,9 +103,10 @@ QtScreenSearchBox::QtScreenSearchBox(ControllerProxy<ScreenSearchController>* co
 
 	// buttons
 	{
-		m_closeButton = new QPushButton();
+		m_closeButton = new QtSelfRefreshIconButton(
+			"", ResourcePaths::getGuiPath().concatenate(L"screen_search_view/images/close.png"), "screen_search/button");
 		m_closeButton->setObjectName("close_button");
-		m_closeButton->setAttribute(Qt::WA_LayoutUsesWidgetRect); // fixes layouting on Mac
+		m_closeButton->setIconSize(QSize(15, 15));
 		layout->addWidget(m_closeButton);
 
 		connect(m_closeButton, &QPushButton::clicked, [this](){ emit closePressed(); });
@@ -112,40 +116,11 @@ QtScreenSearchBox::QtScreenSearchBox(ControllerProxy<ScreenSearchController>* co
 	m_timer->setSingleShot(true);
 	connect(m_timer, &QTimer::timeout, this, &QtScreenSearchBox::findMatches);
 
-	refreshStyle();
 	setMatchCount(0);
 }
 
 QtScreenSearchBox::~QtScreenSearchBox()
 {
-}
-
-void QtScreenSearchBox::refreshStyle()
-{
-	m_searchButton->setIcon(utility::createButtonIcon(
-		ResourcePaths::getGuiPath().concatenate(L"search_view/images/search.png"),
-		"screen_search/button"
-	));
-
-	m_prevButton->setIcon(utility::createButtonIcon(
-		ResourcePaths::getGuiPath().concatenate(L"code_view/images/arrow_left.png"),
-		"screen_search/button"
-	));
-
-	m_nextButton->setIcon(utility::createButtonIcon(
-		ResourcePaths::getGuiPath().concatenate(L"code_view/images/arrow_right.png"),
-		"screen_search/button"
-	));
-
-	m_closeButton->setIcon(utility::createButtonIcon(
-		ResourcePaths::getGuiPath().concatenate(L"screen_search_view/images/close.png"),
-		"screen_search/button"
-	));
-
-	m_searchButton->setIconSize(QSize(12, 12));
-	m_prevButton->setIconSize(QSize(12, 12));
-	m_nextButton->setIconSize(QSize(12, 12));
-	m_closeButton->setIconSize(QSize(15, 15));
 }
 
 void QtScreenSearchBox::setMatchCount(size_t matchCount)
