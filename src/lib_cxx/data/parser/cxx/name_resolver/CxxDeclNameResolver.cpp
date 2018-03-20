@@ -7,6 +7,7 @@
 #include "data/parser/cxx/name/CxxStaticFunctionDeclName.h"
 #include "data/parser/cxx/name_resolver/CxxSpecifierNameResolver.h"
 #include "data/parser/cxx/name_resolver/CxxTemplateArgumentNameResolver.h"
+#include "data/parser/cxx/name_resolver/CxxTemplateParameterStringResolver.h"
 #include "data/parser/cxx/name_resolver/CxxTypeNameResolver.h"
 #include "data/parser/cxx/CanonicalFilePathCache.h"
 #include "data/parser/cxx/utilityClang.h"
@@ -26,10 +27,6 @@ CxxDeclNameResolver::CxxDeclNameResolver(
 )
 	: CxxNameResolver(canonicalFilePathCache, ignoredContextDecls)
 	, m_currentDecl(nullptr)
-{
-}
-
-CxxDeclNameResolver::~CxxDeclNameResolver()
 {
 }
 
@@ -480,89 +477,18 @@ std::vector<std::wstring> CxxDeclNameResolver::getTemplateParameterStrings(const
 
 std::wstring CxxDeclNameResolver::getTemplateParameterString(const clang::NamedDecl* parameter)
 {
-	std::wstring templateParameterTypeString;
-
-	if (parameter)
+	CxxTemplateParameterStringResolver parameterStringResolver(getCanonicalFilePathCache(), getIgnoredContextDecls());
+	if (clang::isa<clang::TemplateDecl>(m_currentDecl) && clang::dyn_cast<clang::TemplateDecl>(m_currentDecl)->getTemplatedDecl())
 	{
-		const clang::Decl::Kind templateParameterKind = parameter->getKind();
-		switch (templateParameterKind)
-		{
-		case clang::Decl::NonTypeTemplateParm:
-			templateParameterTypeString = getTemplateParameterTypeString(clang::dyn_cast<clang::NonTypeTemplateParmDecl>(parameter));
-			break;
-		case clang::Decl::TemplateTypeParm:
-			templateParameterTypeString = getTemplateParameterTypeString(clang::dyn_cast<clang::TemplateTypeParmDecl>(parameter));
-			break;
-		case clang::Decl::TemplateTemplateParm:
-			templateParameterTypeString = getTemplateParameterTypeString(clang::dyn_cast<clang::TemplateTemplateParmDecl>(parameter));
-			break;
-		default:
-			// LOG_ERROR("Unhandled kind of template parameter.");
-			break;
-		}
-
-		std::wstring parameterName = utility::decodeFromUtf8(parameter->getName());
-		if (!parameterName.empty())
-		{
-			templateParameterTypeString += L" " + parameterName;
-		}
-	}
-	return templateParameterTypeString;
-}
-
-std::wstring CxxDeclNameResolver::getTemplateParameterTypeString(const clang::NonTypeTemplateParmDecl* parameter)
-{
-	CxxTypeNameResolver typeNameResolver(getCanonicalFilePathCache(), getIgnoredContextDecls());
-
-	if (clang::isa<clang::TemplateDecl>(m_currentDecl))
-	{
-		typeNameResolver.ignoreContextDecl(clang::dyn_cast<clang::TemplateDecl>(m_currentDecl)->getTemplatedDecl());
+		parameterStringResolver.ignoreContextDecl(clang::dyn_cast<clang::TemplateDecl>(m_currentDecl)->getTemplatedDecl());
 	}
 	else // works for partial template specializations
 	{
-		typeNameResolver.ignoreContextDecl(m_currentDecl);
+		parameterStringResolver.ignoreContextDecl(m_currentDecl);
 	}
+	parameterStringResolver.ignoreContextDecl(parameter);
 
-	std::wstring typeString;
-
-	std::shared_ptr<CxxTypeName> typeName = CxxTypeName::makeUnsolvedIfNull(typeNameResolver.getName(parameter->getType()));
-	typeString = typeName->toString();
-
-	if (parameter->isTemplateParameterPack())
-	{
-		typeString += L"...";
-	}
-	return typeString;
-}
-
-std::wstring CxxDeclNameResolver::getTemplateParameterTypeString(const clang::TemplateTypeParmDecl* parameter)
-{
-	std::wstring typeString = (parameter->wasDeclaredWithTypename() ? L"typename" : L"class");
-	if (parameter->isTemplateParameterPack())
-	{
-		typeString += L"...";
-	}
-	return typeString;
-}
-
-std::wstring CxxDeclNameResolver::getTemplateParameterTypeString(const clang::TemplateTemplateParmDecl* parameter)
-{
-	std::wstring templateParameterTypeString = L"template<";
-	clang::TemplateParameterList* parameterList = parameter->getTemplateParameters();
-	for (size_t i = 0; i < parameterList->size(); i++)
-	{
-		templateParameterTypeString += getTemplateParameterString(parameterList->getParam(i));
-		templateParameterTypeString += (i < parameterList->size() - 1) ? L", " : L"";
-	}
-	templateParameterTypeString += L">";
-	templateParameterTypeString += L" typename"; // TODO: what if template template parameter is defined with class keyword?
-
-	if (parameter->isTemplateParameterPack())
-	{
-		templateParameterTypeString += L"...";
-	}
-
-	return templateParameterTypeString;
+	return parameterStringResolver.getTemplateParameterString(parameter);
 }
 
 std::wstring CxxDeclNameResolver::getTemplateArgumentName(const clang::TemplateArgument& argument)
@@ -570,3 +496,5 @@ std::wstring CxxDeclNameResolver::getTemplateArgumentName(const clang::TemplateA
 	CxxTemplateArgumentNameResolver resolver(getCanonicalFilePathCache(), getIgnoredContextDecls());
 	return resolver.getTemplateArgumentName(argument);
 }
+
+

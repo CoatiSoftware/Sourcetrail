@@ -19,10 +19,6 @@ CxxTemplateArgumentNameResolver::CxxTemplateArgumentNameResolver(
 {
 }
 
-CxxTemplateArgumentNameResolver::~CxxTemplateArgumentNameResolver()
-{
-}
-
 std::wstring CxxTemplateArgumentNameResolver::getTemplateArgumentName(const clang::TemplateArgument& argument)
 {
 	// This doesn't work correctly if the template argument is dependent.

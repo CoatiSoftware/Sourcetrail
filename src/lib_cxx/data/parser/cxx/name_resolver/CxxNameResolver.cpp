@@ -9,10 +9,6 @@ CxxNameResolver::CxxNameResolver(
 {
 }
 
-CxxNameResolver::~CxxNameResolver()
-{
-}
-
 void CxxNameResolver::ignoreContextDecl(const clang::Decl* decl)
 {
 	if (decl)

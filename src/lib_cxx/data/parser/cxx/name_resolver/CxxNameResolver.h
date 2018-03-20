@@ -14,7 +14,7 @@ public:
 		std::shared_ptr<CanonicalFilePathCache> canonicalFilePathCache,
 		std::vector<const clang::Decl*> ignoredContextDecls
 	);
-	virtual ~CxxNameResolver();
+	virtual ~CxxNameResolver() = default;
 
 	void ignoreContextDecl(const clang::Decl* decl);
 	bool ignoresContext(const clang::Decl* decl);

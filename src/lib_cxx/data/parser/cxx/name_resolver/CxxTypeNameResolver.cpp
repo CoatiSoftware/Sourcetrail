@@ -23,10 +23,6 @@ CxxTypeNameResolver::CxxTypeNameResolver(
 {
 }
 
-CxxTypeNameResolver::~CxxTypeNameResolver()
-{
-}
-
 std::shared_ptr<CxxTypeName> CxxTypeNameResolver::getName(const clang::QualType& qualType)
 {
 	std::shared_ptr<CxxTypeName> typeName = getName(qualType.getTypePtr());

@@ -37,6 +37,8 @@ add_files(
 	data/parser/cxx/name_resolver/CxxSpecifierNameResolver.h
 	data/parser/cxx/name_resolver/CxxTemplateArgumentNameResolver.cpp
 	data/parser/cxx/name_resolver/CxxTemplateArgumentNameResolver.h
+	data/parser/cxx/name_resolver/CxxTemplateParameterStringResolver.cpp
+	data/parser/cxx/name_resolver/CxxTemplateParameterStringResolver.h
 	data/parser/cxx/name_resolver/CxxTypeNameResolver.cpp
 	data/parser/cxx/name_resolver/CxxTypeNameResolver.h
 

@@ -12,7 +12,6 @@ public:
 		std::shared_ptr<CanonicalFilePathCache> canonicalFilePathCache,
 		std::vector<const clang::Decl*> ignoredContextDecls
 	);
-	virtual ~CxxTypeNameResolver();
 
 	std::shared_ptr<CxxTypeName> getName(const clang::QualType& qualType);
 	std::shared_ptr<CxxTypeName> getName(const clang::Type* type);

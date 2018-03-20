@@ -860,6 +860,20 @@ public:
 		));
 	}
 
+	void test_cxx_parser_finds_non_type_template_parameter_that_depends_on_type_template_parameter_of_template_template_parameter()
+	{
+		std::shared_ptr<TestParserClient> client = parseCode(
+			"template <template<typename T, T R>typename S>\n"
+			"class A\n"
+			"{\n"
+			"};\n"
+		);
+
+		TS_ASSERT(utility::containsElement<std::wstring>(
+			client->templateParameterTypes, L"A<template<typename T, T R> typename S>::S<typename T, T R> <1:45 1:45>"
+		));
+	}
+
 	void test_cxx_parser_finds_template_argument_of_dependent_non_type_template_parameter()
 	{
 		std::shared_ptr<TestParserClient> client = parseCode(

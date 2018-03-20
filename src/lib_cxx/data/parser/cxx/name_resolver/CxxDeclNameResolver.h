@@ -16,7 +16,6 @@ public:
 		std::shared_ptr<CanonicalFilePathCache> canonicalFilePathCache,
 		std::vector<const clang::Decl*> ignoredContextDecls
 	);
-	virtual ~CxxDeclNameResolver();
 
 	std::shared_ptr<CxxDeclName> getName(const clang::NamedDecl* declaration);
 
@@ -30,9 +29,6 @@ private:
 	template <typename T>
 	std::vector<std::wstring> getTemplateParameterStringsOfPatrialSpecialitarion(const T* templateDecl);
 	std::wstring getTemplateParameterString(const clang::NamedDecl* parameter);
-	std::wstring getTemplateParameterTypeString(const clang::NonTypeTemplateParmDecl* parameter);
-	std::wstring getTemplateParameterTypeString(const clang::TemplateTypeParmDecl* parameter);
-	std::wstring getTemplateParameterTypeString(const clang::TemplateTemplateParmDecl* parameter);
 	std::wstring getTemplateArgumentName(const clang::TemplateArgument& argument);
 
 	const clang::NamedDecl* m_currentDecl;

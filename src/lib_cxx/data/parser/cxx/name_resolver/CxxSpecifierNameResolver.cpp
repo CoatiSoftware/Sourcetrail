@@ -21,10 +21,6 @@ CxxSpecifierNameResolver::CxxSpecifierNameResolver(
 {
 }
 
-CxxSpecifierNameResolver::~CxxSpecifierNameResolver()
-{
-}
-
 std::shared_ptr<CxxName> CxxSpecifierNameResolver::getName(const clang::NestedNameSpecifier* nestedNameSpecifier)
 {
 	std::shared_ptr<CxxName> name;

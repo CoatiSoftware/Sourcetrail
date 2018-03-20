@@ -15,7 +15,6 @@ public:
 		std::shared_ptr<CanonicalFilePathCache> canonicalFilePathCache,
 		std::vector<const clang::Decl*> ignoredContextDecls
 	);
-	virtual ~CxxTemplateArgumentNameResolver();
 
 	std::wstring getTemplateArgumentName(const clang::TemplateArgument& argument);
 };
