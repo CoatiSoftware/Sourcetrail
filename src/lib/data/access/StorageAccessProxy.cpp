@@ -250,12 +250,24 @@ std::shared_ptr<SourceLocationFile> StorageAccessProxy::getSourceLocationsForFil
 }
 
 std::shared_ptr<SourceLocationFile> StorageAccessProxy::getSourceLocationsForLinesInFile(
-	const FilePath& filePath, uint firstLineNumber, uint lastLineNumber
+	const FilePath& filePath, size_t startLine, size_t endLine
 ) const
 {
 	if (hasSubject())
 	{
-		return m_subject->getSourceLocationsForLinesInFile(filePath, firstLineNumber, lastLineNumber);
+		return m_subject->getSourceLocationsForLinesInFile(filePath, startLine, endLine);
+	}
+
+	return std::make_shared<SourceLocationFile>(FilePath(), false, false);
+}
+
+std::shared_ptr<SourceLocationFile> StorageAccessProxy::getSourceLocationsOfTypeInFile(
+	const FilePath& filePath, LocationType type
+) const
+{
+	if (hasSubject())
+	{
+		return m_subject->getSourceLocationsOfTypeInFile(filePath, type);
 	}
 
 	return std::make_shared<SourceLocationFile>(FilePath(), false, false);

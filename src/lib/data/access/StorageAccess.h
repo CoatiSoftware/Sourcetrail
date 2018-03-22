@@ -11,6 +11,7 @@
 #include "data/bookmark/EdgeBookmark.h"
 #include "data/bookmark/NodeBookmark.h"
 #include "data/graph/Node.h"
+#include "data/location/LocationType.h"
 #include "data/search/SearchMatch.h"
 #include "data/storage/type/StorageEdge.h"
 #include "data/storage/StorageStats.h"
@@ -66,9 +67,12 @@ public:
 		const std::vector<Id>& tokenIds) const = 0;
 	virtual std::shared_ptr<SourceLocationCollection> getSourceLocationsForLocationIds(
 		const std::vector<Id>& locationIds) const = 0;
+
 	virtual std::shared_ptr<SourceLocationFile> getSourceLocationsForFile(const FilePath& filePath) const = 0;
 	virtual std::shared_ptr<SourceLocationFile> getSourceLocationsForLinesInFile(
-		const FilePath& filePath, uint firstLineNumber, uint lastLineNumber) const = 0;
+		const FilePath& filePath, size_t startLine, size_t endLine) const = 0;
+	virtual std::shared_ptr<SourceLocationFile> getSourceLocationsOfTypeInFile(
+		const FilePath& filePath, LocationType type) const = 0;
 
 	virtual std::shared_ptr<SourceLocationFile> getCommentLocationsInFile(const FilePath& filePath) const = 0;
 

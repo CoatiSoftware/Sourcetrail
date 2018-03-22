@@ -468,11 +468,6 @@ std::vector<CodeSnippetParams> CodeController::getSnippetsForFileWithState(
 				return snippets;
 			}
 
-			if (!addSourceLocations)
-			{
-				file->setIsWhole(false);
-			}
-
 			snippets = getSnippetsForFile(file, addSourceLocations);
 		}
 		break;
@@ -594,45 +589,33 @@ std::vector<CodeSnippetParams> CodeController::getSnippetsForFile(
 {
 	TRACE();
 
-	std::shared_ptr<SourceLocationFile> fileLocations =
-		m_storageAccess->getSourceLocationsForFile(activeSourceLocations->getFilePath());
-	std::shared_ptr<SourceLocationFile> scopeLocations = fileLocations->getFilteredByType(LOCATION_SCOPE);
-
 	std::shared_ptr<TextAccess> textAccess = m_storageAccess->getFileContent(activeSourceLocations->getFilePath());
-	std::deque<SnippetMerger::Range> ranges;
 
-	if (activeSourceLocations->isWhole())
-	{
-		ranges.push_back(SnippetMerger::Range(
-			SnippetMerger::Border(1, true),
-			SnippetMerger::Border(textAccess->getLineCount(), true)
-		));
-	}
-	else
-	{
-		SnippetMerger fileScopedMerger(1, textAccess->getLineCount());
-		std::map<int, std::shared_ptr<SnippetMerger>> mergers;
-		activeSourceLocations->forEachStartSourceLocation(
-			[&](SourceLocation* location)
-			{
-				buildMergerHierarchy(location, scopeLocations, fileScopedMerger, mergers);
-			}
-		);
+	SnippetMerger fileScopedMerger(1, textAccess->getLineCount());
+	std::map<int, std::shared_ptr<SnippetMerger>> mergers;
 
-		std::vector<SnippetMerger::Range> atomicRanges;
-		m_storageAccess->getCommentLocationsInFile(activeSourceLocations->getFilePath())->forEachStartSourceLocation(
-			[&](SourceLocation* location)
-			{
-				atomicRanges.push_back(SnippetMerger::Range(
-					SnippetMerger::Border(location->getLineNumber(), false),
-					SnippetMerger::Border(location->getOtherLocation()->getLineNumber(), false)
-				));
-			}
-		);
-		atomicRanges = SnippetMerger::Range::mergeAdjacent(atomicRanges);
+	std::shared_ptr<SourceLocationFile> scopeLocations =
+		m_storageAccess->getSourceLocationsOfTypeInFile(activeSourceLocations->getFilePath(), LOCATION_SCOPE);
+	activeSourceLocations->forEachStartSourceLocation(
+		[&](SourceLocation* location)
+		{
+			buildMergerHierarchy(location, scopeLocations, fileScopedMerger, mergers);
+		}
+	);
 
-		ranges = fileScopedMerger.merge(atomicRanges);
-	}
+	std::vector<SnippetMerger::Range> atomicRanges;
+	m_storageAccess->getCommentLocationsInFile(activeSourceLocations->getFilePath())->forEachStartSourceLocation(
+		[&](SourceLocation* location)
+		{
+			atomicRanges.push_back(SnippetMerger::Range(
+				SnippetMerger::Border(location->getLineNumber(), false),
+				SnippetMerger::Border(location->getOtherLocation()->getLineNumber(), false)
+			));
+		}
+	);
+	atomicRanges = SnippetMerger::Range::mergeAdjacent(atomicRanges);
+
+	std::deque<SnippetMerger::Range> ranges = fileScopedMerger.merge(atomicRanges);
 
 	const int snippetExpandRange = ApplicationSettings::getInstance()->getCodeSnippetExpandRange();
 	std::vector<CodeSnippetParams> snippets;
@@ -650,8 +633,8 @@ std::vector<CodeSnippetParams> CodeController::getSnippetsForFile(
 		params.titleId = 0;
 		params.footerId = 0;
 
-		std::shared_ptr<SourceLocationFile> tempFile =
-			fileLocations->getFilteredByLines(params.startLineNumber, params.endLineNumber);
+		std::shared_ptr<SourceLocationFile> tempFile = m_storageAccess->getSourceLocationsForLinesInFile(
+			activeSourceLocations->getFilePath(), params.startLineNumber, params.endLineNumber);
 
 		const SourceLocation* firstSourceLocation =
 			tempFile->getSourceLocations().size() ? tempFile->getSourceLocations().begin()->get() : nullptr;
@@ -671,7 +654,7 @@ std::vector<CodeSnippetParams> CodeController::getSnippetsForFile(
 			);
 		}
 
-		if (!activeSourceLocations->isWhole() && params.titleId == 0)
+		if (params.titleId == 0)
 		{
 			params.title = activeSourceLocations->getFilePath().wstr();
 		}
@@ -698,25 +681,19 @@ std::vector<CodeSnippetParams> CodeController::getSnippetsForFile(
 			params.code += line;
 		}
 
-		snippets.push_back(params);
-	}
-
-	if (addSourceLocations && !activeSourceLocations->isWhole())
-	{
-		for (CodeSnippetParams& params : snippets)
+		if (addSourceLocations)
 		{
-			std::shared_ptr<SourceLocationFile> lines =
-				fileLocations->getFilteredByLines(params.startLineNumber, params.endLineNumber);
-
 			params.locationFile->forEachSourceLocation(
-				[&lines](SourceLocation* location)
+				[&tempFile](SourceLocation* location)
 				{
-					lines->addSourceLocationCopy(location);
+					tempFile->addSourceLocationCopy(location);
 				}
 			);
 
-			params.locationFile = lines;
+			params.locationFile = tempFile;
 		}
+
+		snippets.push_back(params);
 	}
 
 	return snippets;

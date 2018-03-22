@@ -643,7 +643,8 @@ void SqliteIndexStorage::setNodeType(int type, Id nodeId)
 	);
 }
 
-std::shared_ptr<SourceLocationFile> SqliteIndexStorage::getSourceLocationsForFile(const FilePath& filePath) const
+std::shared_ptr<SourceLocationFile> SqliteIndexStorage::getSourceLocationsForFile(
+	const FilePath& filePath, const std::string& query) const
 {
 	std::shared_ptr<SourceLocationFile> ret = std::make_shared<SourceLocationFile>(filePath, true, false);
 
@@ -658,7 +659,7 @@ std::shared_ptr<SourceLocationFile> SqliteIndexStorage::getSourceLocationsForFil
 	std::vector<Id> sourceLocationIds;
 	std::unordered_map<Id, StorageSourceLocation> sourceLocationIdToData;
 	for (const StorageSourceLocation& storageLocation:
-		doGetAll<StorageSourceLocation>("WHERE file_node_id == " + std::to_string(file.id)))
+		doGetAll<StorageSourceLocation>("WHERE file_node_id == " + std::to_string(file.id) + " " + query))
 	{
 		sourceLocationIds.push_back(storageLocation.id);
 		sourceLocationIdToData[storageLocation.id] = storageLocation;
@@ -688,6 +689,19 @@ std::shared_ptr<SourceLocationFile> SqliteIndexStorage::getSourceLocationsForFil
 	}
 
 	return ret;
+}
+
+std::shared_ptr<SourceLocationFile> SqliteIndexStorage::getSourceLocationsForLinesInFile(
+	const FilePath& filePath, size_t startLine, size_t endLine) const
+{
+	return getSourceLocationsForFile(filePath,
+		"AND start_line <= " + std::to_string(endLine) + " AND end_line >= " + std::to_string(startLine));
+}
+
+std::shared_ptr<SourceLocationFile> SqliteIndexStorage::getSourceLocationsOfTypeInFile(
+	const FilePath& filePath, LocationType type) const
+{
+	return getSourceLocationsForFile(filePath, "AND type == " + std::to_string(locationTypeToInt(type)));
 }
 
 std::vector<StorageOccurrence> SqliteIndexStorage::getOccurrencesForLocationId(Id locationId) const
@@ -778,6 +792,10 @@ std::vector<std::pair<int, SqliteDatabaseIndex>> SqliteIndexStorage::getIndices(
 	indices.push_back(std::make_pair(
 		STORAGE_MODE_READ | STORAGE_MODE_CLEAR,
 		SqliteDatabaseIndex("source_location_file_node_id_index", "source_location(file_node_id)")
+	));
+	indices.push_back(std::make_pair(
+		STORAGE_MODE_READ,
+		SqliteDatabaseIndex("source_location_file_node_id_type_index", "source_location(file_node_id, type)")
 	));
 	indices.push_back(std::make_pair(
 		STORAGE_MODE_WRITE,

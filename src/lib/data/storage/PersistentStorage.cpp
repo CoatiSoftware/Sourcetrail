@@ -1118,21 +1118,23 @@ std::vector<Id> PersistentStorage::getActiveTokenIdsForId(Id tokenId, Id* declar
 
 	std::vector<Id> activeTokenIds;
 
-	if (!(m_sqliteIndexStorage.isEdge(tokenId) || m_sqliteIndexStorage.isNode(tokenId)))
+	bool isNode = m_sqliteIndexStorage.isNode(tokenId);
+	bool isEdge = m_sqliteIndexStorage.isEdge(tokenId);
+
+	if (!isEdge && !isNode)
 	{
 		return activeTokenIds;
 	}
 
 	activeTokenIds.push_back(tokenId);
 
-	if (m_sqliteIndexStorage.isNode(tokenId))
+	if (isNode)
 	{
 		*declarationId = tokenId;
 
-		const std::vector<StorageEdge> incomingEdges = m_sqliteIndexStorage.getEdgesByTargetId(tokenId);
-		for (size_t i = 0; i < incomingEdges.size(); i++)
+		for (const StorageEdge& edge : m_sqliteIndexStorage.getEdgesByTargetId(tokenId))
 		{
-			activeTokenIds.push_back(incomingEdges[i].id);
+			activeTokenIds.push_back(edge.id);
 		}
 	}
 
@@ -1247,42 +1249,44 @@ std::shared_ptr<SourceLocationCollection> PersistentStorage::getSourceLocationsF
 
 		for (const StorageSourceLocation& sourceLocation: m_sqliteIndexStorage.getAllByIds<StorageSourceLocation>(locationIds))
 		{
-			auto it = locationIdToElementIdMap.find(sourceLocation.id);
-			if (it != locationIdToElementIdMap.end())
+			const LocationType type = intToLocationType(sourceLocation.type);
+			if (type == LOCATION_QUALIFIER)
 			{
-				const LocationType type = intToLocationType(sourceLocation.type);
-				if (type == LOCATION_QUALIFIER)
-				{
-					continue;
-				}
+				continue;
+			}
 
-				FilePath path = getFileNodePath(sourceLocation.fileNodeId);
-				if (path.empty())
+			auto it = locationIdToElementIdMap.find(sourceLocation.id);
+			if (it == locationIdToElementIdMap.end())
+			{
+				continue;
+			}
+
+			FilePath path = getFileNodePath(sourceLocation.fileNodeId);
+			if (path.empty())
+			{
+				const StorageNode fileNode = m_sqliteIndexStorage.getNodeById(sourceLocation.fileNodeId);
+				if (fileNode.id)
 				{
-					const StorageNode fileNode = m_sqliteIndexStorage.getNodeById(sourceLocation.fileNodeId);
-					if (fileNode.id)
+					const FilePath path2 = FilePath(NameHierarchy::deserialize(fileNode.serializedName).getQualifiedName());
+					if (path2.exists())
 					{
-						const FilePath path2 = FilePath(NameHierarchy::deserialize(fileNode.serializedName).getQualifiedName());
-						if (path2.exists())
-						{
-							path = path2;
-						}
+						path = path2;
 					}
 				}
+			}
 
-				if (!path.empty())
-				{
-					collection->addSourceLocation(
-						type,
-						sourceLocation.id,
-						std::vector<Id>(1, it->second),
-						path,
-						sourceLocation.startLine,
-						sourceLocation.startCol,
-						sourceLocation.endLine,
-						sourceLocation.endCol
-					);
-				}
+			if (!path.empty())
+			{
+				collection->addSourceLocation(
+					type,
+					sourceLocation.id,
+					std::vector<Id>(1, it->second),
+					path,
+					sourceLocation.startLine,
+					sourceLocation.startCol,
+					sourceLocation.endLine,
+					sourceLocation.endCol
+				);
 			}
 		}
 	}
@@ -1333,12 +1337,22 @@ std::shared_ptr<SourceLocationFile> PersistentStorage::getSourceLocationsForFile
 }
 
 std::shared_ptr<SourceLocationFile> PersistentStorage::getSourceLocationsForLinesInFile(
-		const FilePath& filePath, uint firstLineNumber, uint lastLineNumber
+		const FilePath& filePath, size_t startLine, size_t endLine
 ) const
 {
 	TRACE();
 
-	return getSourceLocationsForFile(filePath)->getFilteredByLines(firstLineNumber, lastLineNumber);
+	return m_sqliteIndexStorage.getSourceLocationsForLinesInFile(
+		filePath, startLine, endLine)->getFilteredByLines(startLine, endLine);
+}
+
+std::shared_ptr<SourceLocationFile> PersistentStorage::getSourceLocationsOfTypeInFile(
+		const FilePath& filePath, LocationType type
+) const
+{
+	TRACE();
+
+	return m_sqliteIndexStorage.getSourceLocationsOfTypeInFile(filePath, type);
 }
 
 std::shared_ptr<SourceLocationFile> PersistentStorage::getCommentLocationsInFile(const FilePath& filePath) const

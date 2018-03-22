@@ -109,8 +109,9 @@ public:
 
 	virtual std::shared_ptr<SourceLocationFile> getSourceLocationsForFile(const FilePath& filePath) const override;
 	virtual std::shared_ptr<SourceLocationFile> getSourceLocationsForLinesInFile(
-		const FilePath& filePath, uint firstLineNumber, uint lastLineNumber
-	) const override;
+		const FilePath& filePath, size_t startLine, size_t endLine) const override;
+	virtual std::shared_ptr<SourceLocationFile> getSourceLocationsOfTypeInFile(
+		const FilePath& filePath, LocationType type) const override;
 
 	virtual std::shared_ptr<SourceLocationFile> getCommentLocationsInFile(const FilePath& filePath) const override;
 

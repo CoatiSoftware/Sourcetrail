@@ -24,6 +24,7 @@ std::shared_ptr<TraceEvent> Tracer::startEvent(const std::string& eventName)
 	std::shared_ptr<TraceEvent> event =
 		std::make_shared<TraceEvent>(eventName, s_nextTraceId++, m_startedEvents[id].size());
 
+	m_events[id].push_back(event);
 	m_startedEvents[id].push(event.get());
 
 	return event;
@@ -36,7 +37,6 @@ void Tracer::finishEvent(std::shared_ptr<TraceEvent> event)
 	const std::thread::id id = std::this_thread::get_id();
 
 	m_startedEvents[id].pop();
-	m_events[id].push_back(event);
 }
 
 void Tracer::printTraces()

@@ -88,7 +88,12 @@ public:
 	void setFileComplete(bool complete, Id fileId);
 	void setNodeType(int type, Id nodeId);
 
-	std::shared_ptr<SourceLocationFile> getSourceLocationsForFile(const FilePath& filePath) const;
+	std::shared_ptr<SourceLocationFile> getSourceLocationsForFile(
+		const FilePath& filePath, const std::string& query = "") const;
+	std::shared_ptr<SourceLocationFile> getSourceLocationsForLinesInFile(
+		const FilePath& filePath, size_t startLine, size_t endLine) const;
+	std::shared_ptr<SourceLocationFile> getSourceLocationsOfTypeInFile(
+		const FilePath& filePath, LocationType type) const;
 
 	std::vector<StorageOccurrence> getOccurrencesForLocationId(Id locationId) const;
 	std::vector<StorageOccurrence> getOccurrencesForLocationIds(const std::vector<Id>& locationIds) const;

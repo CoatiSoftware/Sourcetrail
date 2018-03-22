@@ -146,8 +146,8 @@ ScopedTrace<TracerType>::~ScopedTrace()
 		#define PRINT_TRACES() \
 				Tracer::getInstance()->printTraces()
 	#endif
-	
-	
+
+
 #else
 	#define TRACE(__name__)
 	#define PRINT_TRACES()
