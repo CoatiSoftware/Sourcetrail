@@ -64,11 +64,11 @@ bool Project::settingsEqualExceptNameAndLocation(const ProjectSettings& otherSet
 	return m_settings->equalsExceptNameAndLocation(otherSettings);
 }
 
-void Project::setStateSettingsUpdated()
+void Project::setStateOutdated()
 {
-	if (m_state != PROJECT_STATE_NOT_LOADED && m_state != PROJECT_STATE_EMPTY)
+	if (m_state == PROJECT_STATE_LOADED)
 	{
-		m_state = PROJECT_STATE_SETTINGS_UPDATED;
+		m_state = PROJECT_STATE_OUTDATED;
 	}
 }
 
@@ -126,7 +126,7 @@ void Project::load()
 	{
 		m_storage->setup();
 	}
-	catch(...)
+	catch (...)
 	{
 		LOG_ERROR("Exception has been encountered while loading the project.");
 
@@ -153,13 +153,16 @@ void Project::load()
 		switch (m_state)
 		{
 		case PROJECT_STATE_NEEDS_MIGRATION:
-			MessageStatus(L"Project could not be loaded and needs to be re-indexed after automatic migration to latest version.", false, false).dispatch();
+			MessageStatus(L"Project could not be loaded and needs to be re-indexed after automatic migration to latest "
+				"version.", false, false).dispatch();
 			break;
 		case PROJECT_STATE_EMPTY:
-			MessageStatus(L"Project could load any symbols because the index database is empty. Please re-index the project.", false, false).dispatch();
+			MessageStatus(L"Project could load any symbols because the index database is empty. Please re-index the "
+				"project.", false, false).dispatch();
 			break;
 		case PROJECT_STATE_OUTVERSIONED:
-			MessageStatus(L"Project could not be loaded because the indexed data format is incompatible to the current version of Sourcetrail. Please re-index the project.", false, false).dispatch();
+			MessageStatus(L"Project could not be loaded because the indexed data format is incompatible to the current "
+				"version of Sourcetrail. Please re-index the project.", false, false).dispatch();
 			break;
 		default:
 			MessageStatus(L"Project could not be loaded.", false, false).dispatch();
@@ -202,30 +205,25 @@ void Project::refresh(RefreshMode refreshMode, DialogView* dialogView)
 
 		case PROJECT_STATE_OUTVERSIONED:
 			question =
-				"This project was indexed with a different version of Sourcetrail. It needs to be fully reindexed to be used "
-				"with this version of Sourcetrail. Do you want to reindex the project?";
+				"This project was indexed with a different version of Sourcetrail. It needs to be fully reindexed to "
+				"be used with this version of Sourcetrail. Do you want to reindex the project?";
 			needsFullRefresh = true;
-			break;
-
-		case PROJECT_STATE_SETTINGS_UPDATED:
-			question =
-				"Some settings were changed, the project should be fully reindexed. Alternatively you can also choose to "
-				"just reindex updated or incomplete files. "
-				"Do you want to reindex the project?";
-			fullRefresh = true;
 			break;
 
 		case PROJECT_STATE_NEEDS_MIGRATION:
 			question =
-				"This project was created with a different version of Sourcetrail. The project file needs to get updated and "
-				"the project fully reindexed. Do you want to update the project file and reindex the project?";
+				"This project was created with a different version and uses an old project file format. "
+				"The project can still be opened and used with this version, but needs to be fully reindexed. "
+				"Do you want Sourcetrail to update the project file and reindex the project?";
 			needsFullRefresh = true;
+			break;
 
 		case PROJECT_STATE_DB_CORRUPTED:
 			question =
 				"There was a problem loading the index of this project. The project needs to get fully reindexed. "
 				"Do you want to reindex the project?";
 			needsFullRefresh = true;
+			break;
 
 		default:
 			break;

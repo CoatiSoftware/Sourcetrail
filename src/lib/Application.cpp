@@ -286,7 +286,7 @@ void Application::handleMessage(MessageLoadProject* message)
 	{
 		if (message->settingsChanged && m_hasGUI)
 		{
-			m_project->setStateSettingsUpdated();
+			m_project->setStateOutdated();
 			refreshProject(REFRESH_ALL_FILES);
 		}
 	}

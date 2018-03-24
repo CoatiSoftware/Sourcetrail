@@ -26,7 +26,7 @@ public:
 	std::string getDescription() const;
 
 	bool settingsEqualExceptNameAndLocation(const ProjectSettings& otherSettings) const;
-	void setStateSettingsUpdated();
+	void setStateOutdated();
 
 	void load();
 
@@ -44,7 +44,6 @@ private:
 		PROJECT_STATE_LOADED,
 		PROJECT_STATE_OUTDATED,
 		PROJECT_STATE_OUTVERSIONED,
-		PROJECT_STATE_SETTINGS_UPDATED,
 		PROJECT_STATE_NEEDS_MIGRATION,
 		PROJECT_STATE_DB_CORRUPTED
 	};
