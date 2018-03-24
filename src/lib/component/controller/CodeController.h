@@ -77,30 +77,28 @@ private:
 
 	virtual void clear();
 
-	void expandVisibleSnippets(std::vector<CodeSnippetParams>* snippets, bool addSourceLocations) const;
-
-	std::vector<CodeSnippetParams> getSnippetsForFileWithState(
-		const FilePath& filePath, CodeView::FileState state, bool addSourceLocations) const;
-
+	std::vector<CodeSnippetParams> getSnippetsForFileWithState(const FilePath& filePath, CodeView::FileState state) const;
 	std::vector<CodeSnippetParams> getSnippetsForActiveSourceLocations(
 		const SourceLocationCollection* collection, Id declarationId) const;
-	std::vector<CodeSnippetParams> getSnippetsForCollection(
-		std::shared_ptr<SourceLocationCollection> collection, bool addSourceLocations = false) const;
-	std::vector<CodeSnippetParams> getSnippetsForFile(
-		std::shared_ptr<SourceLocationFile> file, bool addSourceLocations = false) const;
+	std::vector<CodeSnippetParams> getSnippetsForCollection(std::shared_ptr<SourceLocationCollection> collection) const;
+	std::vector<CodeSnippetParams> getSnippetsForFile(std::shared_ptr<SourceLocationFile> file) const;
 
 	std::shared_ptr<SnippetMerger> buildMergerHierarchy(
-		SourceLocation* location, std::shared_ptr<SourceLocationFile> context, SnippetMerger& fileScopedMerger,
+		const SourceLocation* location, const SourceLocationFile* scopeLocations, SnippetMerger& fileScopedMerger,
 		std::map<int, std::shared_ptr<SnippetMerger>>& mergers) const;
-	std::shared_ptr<SourceLocationFile> getSourceLocationOfParentScope(
-		const SourceLocation* location, std::shared_ptr<SourceLocationFile> context) const;
+	const SourceLocation* getSourceLocationOfParentScope(
+		size_t lineNumber, const SourceLocationFile* scopeLocations) const;
 
 	std::vector<std::string> getProjectDescription(SourceLocationFile* locationFile) const;
 
-	void addModificationTimes(std::vector<CodeSnippetParams>& snippets) const;
-	void addActiveSourceLocations(std::shared_ptr<SourceLocationFile> locationFile) const;
+	void expandVisibleSnippets(std::vector<CodeSnippetParams>* snippets) const;
+	void addAllSourceLocations(std::vector<CodeSnippetParams>* snippets) const;
+	void addModificationTimes(std::vector<CodeSnippetParams>* snippets) const;
 
 	void saveOrRestoreViewMode(MessageBase* message);
+
+	void showCodeSnippets(
+		std::vector<CodeSnippetParams> snippets, const CodeView::CodeParams params, bool addSourceLocations = true);
 
 	StorageAccess* m_storageAccess;
 	mutable std::shared_ptr<SourceLocationCollection> m_collection;

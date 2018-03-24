@@ -12,7 +12,6 @@
 QtCodeFile::QtCodeFile(const FilePath& filePath, QtCodeNavigator* navigator)
 	: QFrame()
 	, m_navigator(navigator)
-	, m_fileSnippet(nullptr)
 	, m_filePath(filePath)
 	, m_isWholeFile(false)
 	, m_contentRequested(false)
@@ -67,6 +66,11 @@ const QtCodeFileTitleBar* QtCodeFile::getTitleBar() const
 
 QtCodeSnippet* QtCodeFile::addCodeSnippet(const CodeSnippetParams& params)
 {
+	if (m_isWholeFile && m_snippets.size() == 1)
+	{
+		return m_snippets[0];
+	}
+
 	for (QtCodeSnippet* snippet : m_snippets)
 	{
 		if (snippet->getStartLineNumber() == params.startLineNumber &&
@@ -74,11 +78,6 @@ QtCodeSnippet* QtCodeFile::addCodeSnippet(const CodeSnippetParams& params)
 		{
 			return snippet;
 		}
-	}
-
-	if (params.locationFile->isWhole() && m_fileSnippet)
-	{
-		return m_fileSnippet;
 	}
 
 	QtCodeSnippet* snippet = new QtCodeSnippet(params, m_navigator, this);
@@ -89,31 +88,32 @@ QtCodeSnippet* QtCodeFile::addCodeSnippet(const CodeSnippetParams& params)
 		m_isWholeFile = true;
 	}
 
-	m_snippetLayout->addWidget(snippet);
-
 	if (params.locationFile->isWhole() || m_isWholeFile)
 	{
-		snippet->setStyleSheet("#code_snippet { border: none; }");
+		m_isWholeFile = true;
 
-		m_fileSnippet = snippet;
-		if (!m_snippets.size())
-		{
-			m_fileSnippet->setIsActiveFile(true);
-		}
+		snippet->setIsActiveFile(true);
 
-		setSnippets();
 		if (params.refCount != -1)
 		{
 			updateRefCount(0);
 		}
 
-		return m_fileSnippet;
+		for (QtCodeSnippet* oldSnippet : m_snippets)
+		{
+			oldSnippet->hide();
+		}
+		m_snippets.clear();
+	}
+	else
+	{
+		updateRefCount(params.refCount);
 	}
 
+	m_snippetLayout->addWidget(snippet);
 	m_snippets.push_back(snippet);
 
 	setSnippets();
-	updateRefCount(params.refCount);
 
 	return snippet;
 }
@@ -160,13 +160,26 @@ QtCodeSnippet* QtCodeFile::insertCodeSnippet(const CodeSnippetParams& params)
 	return snippet;
 }
 
-std::vector<QtCodeSnippet*> QtCodeFile::getVisibleSnippets() const
+void QtCodeFile::updateCodeSnippet(const CodeSnippetParams& params)
 {
-	if (m_fileSnippet && m_fileSnippet->isVisible())
+	if (m_isWholeFile && m_snippets.size() == 1)
 	{
-		return { m_fileSnippet };
+		m_snippets[0]->updateCodeSnippet(params);
+		return;
 	}
 
+	for (QtCodeSnippet* snippet : m_snippets)
+	{
+		if (snippet->getStartLineNumber() == params.startLineNumber &&
+			snippet->getEndLineNumber() == params.endLineNumber)
+		{
+			snippet->updateCodeSnippet(params);
+		}
+	}
+}
+
+std::vector<QtCodeSnippet*> QtCodeFile::getVisibleSnippets() const
+{
 	std::vector<QtCodeSnippet*> snippets;
 
 	for (QtCodeSnippet* snippet : m_snippets)
@@ -182,11 +195,6 @@ std::vector<QtCodeSnippet*> QtCodeFile::getVisibleSnippets() const
 
 QtCodeSnippet* QtCodeFile::getSnippetForLocationId(Id locationId) const
 {
-	if (m_fileSnippet && m_fileSnippet->isVisible() && m_fileSnippet->getLineNumberForLocationId(locationId))
-	{
-		return m_fileSnippet;
-	}
-
 	for (QtCodeSnippet* snippet : m_snippets)
 	{
 		if (snippet->getLineNumberForLocationId(locationId))
@@ -200,11 +208,6 @@ QtCodeSnippet* QtCodeFile::getSnippetForLocationId(Id locationId) const
 
 QtCodeSnippet* QtCodeFile::getSnippetForLine(unsigned int line) const
 {
-	if (m_fileSnippet && m_fileSnippet->isVisible())
-	{
-		return m_fileSnippet;
-	}
-
 	for (QtCodeSnippet* snippet : m_snippets)
 	{
 		if (snippet->getStartLineNumber() <= line && line <= snippet->getEndLineNumber())
@@ -214,11 +217,6 @@ QtCodeSnippet* QtCodeFile::getSnippetForLine(unsigned int line) const
 	}
 
 	return nullptr;
-}
-
-QtCodeSnippet* QtCodeFile::getFileSnippet() const
-{
-	return m_fileSnippet;
 }
 
 std::pair<QtCodeSnippet*, Id> QtCodeFile::getFirstSnippetWithActiveLocationId(Id tokenId) const
@@ -241,7 +239,7 @@ std::pair<QtCodeSnippet*, Id> QtCodeFile::getFirstSnippetWithActiveLocationId(Id
 
 bool QtCodeFile::isCollapsed() const
 {
-	return !getFileSnippet() && !m_snippets.size();
+	return !m_snippets.size();
 }
 
 void QtCodeFile::requestContent()
@@ -257,14 +255,14 @@ void QtCodeFile::requestContent()
 	MessageChangeFileView::FileState state =
 		m_isWholeFile ? MessageChangeFileView::FILE_MAXIMIZED : MessageChangeFileView::FILE_SNIPPETS;
 
-	bool needsData = (state == MessageChangeFileView::FILE_MAXIMIZED) ? (getFileSnippet() == nullptr) : (m_snippets.size() == 0);
+	bool needsData = (m_snippets.size() == 0);
 
 	MessageChangeFileView(m_filePath, state, MessageChangeFileView::VIEW_LIST, needsData, m_navigator->hasErrors()).dispatch();
 }
 
 void QtCodeFile::requestWholeFileContent()
 {
-	if (!getFileSnippet())
+	if (!m_isWholeFile)
 	{
 		MessageChangeFileView(
 			m_filePath,
@@ -288,11 +286,6 @@ void QtCodeFile::updateContent()
 	{
 		snippet->updateContent();
 	}
-
-	if (m_fileSnippet)
-	{
-		m_fileSnippet->updateContent();
-	}
 }
 
 void QtCodeFile::setWholeFile(bool isWholeFile, int refCount)
@@ -315,11 +308,6 @@ void QtCodeFile::setMinimized()
 		snippet->hide();
 	}
 
-	if (m_fileSnippet)
-	{
-		m_fileSnippet->hide();
-	}
-
 	m_titleBar->setMinimized();
 
 	setStyleSheet("#code_file { padding-bottom: 0; } #code_file #title_bar { border-radius: 7px; }");
@@ -327,21 +315,9 @@ void QtCodeFile::setMinimized()
 
 void QtCodeFile::setSnippets()
 {
-	if (m_fileSnippet)
+	for (QtCodeSnippet* snippet : m_snippets)
 	{
-		m_fileSnippet->show();
-
-		for (QtCodeSnippet* snippet : m_snippets)
-		{
-			snippet->hide();
-		}
-	}
-	else
-	{
-		for (QtCodeSnippet* snippet : m_snippets)
-		{
-			snippet->show();
-		}
+		snippet->show();
 	}
 
 	m_titleBar->setSnippets();
@@ -395,12 +371,6 @@ void QtCodeFile::updateTitleBar()
 
 void QtCodeFile::findScreenMatches(const std::wstring& query, std::vector<std::pair<QtCodeArea*, Id>>* screenMatches)
 {
-	if (m_fileSnippet && m_fileSnippet->isVisible())
-	{
-		m_fileSnippet->findScreenMatches(query, screenMatches);
-		return;
-	}
-
 	for (QtCodeSnippet* snippet : m_snippets)
 	{
 		if (snippet->isVisible())

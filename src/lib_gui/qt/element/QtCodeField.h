@@ -25,8 +25,8 @@ public:
 		uint startLineNumber,
 		const std::string& code,
 		std::shared_ptr<SourceLocationFile> locationFile,
-		bool convertLocationsOnDemand = true, 
-		QWidget* parent = nullptr); 
+		bool convertLocationsOnDemand = true,
+		QWidget* parent = nullptr);
 
 	~QtCodeField();
 
@@ -115,7 +115,7 @@ private:
 
 	std::shared_ptr<SourceLocationFile> m_locationFile;
 
-	QtHighlighter* m_highlighter;
+	std::shared_ptr<QtHighlighter> m_highlighter;
 
 	std::vector<int> m_lineLengths;
 	std::vector<std::vector<std::pair<int, int>>> m_multibyteCharacterLocations;

@@ -137,6 +137,12 @@ void QtCodeFileList::addCodeSnippet(const CodeSnippetParams& params)
 	file->setIsComplete(params.locationFile->isComplete());
 }
 
+void QtCodeFileList::updateCodeSnippet(const CodeSnippetParams& params)
+{
+	QtCodeFile* file = getFile(params.locationFile->getFilePath());
+	file->updateCodeSnippet(params);
+}
+
 void QtCodeFileList::requestFileContent(const FilePath& filePath)
 {
 	getFile(filePath)->requestContent();
@@ -166,9 +172,9 @@ bool QtCodeFileList::requestScroll(const FilePath& filePath, uint lineNumber, Id
 	{
 		snippet = file->getSnippetForLine(lineNumber);
 	}
-	else if (file->getFileSnippet() && file->getFileSnippet()->isVisible())
+	else
 	{
-		snippet = file->getFileSnippet();
+		snippet = file->getSnippetForLine(1);
 	}
 
 	if (!snippet)

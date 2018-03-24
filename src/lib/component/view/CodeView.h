@@ -77,6 +77,7 @@ public:
 	virtual void clear() = 0;
 
 	virtual void showCodeSnippets(const std::vector<CodeSnippetParams>& snippets, const CodeParams params) = 0;
+	virtual void updateCodeSnippets(const std::vector<CodeSnippetParams>& snippets) = 0;
 	virtual void scrollTo(const ScrollParams params) = 0;
 
 	virtual bool showsErrors() const = 0;

@@ -14,6 +14,7 @@
 #include "utility/messaging/type/MessageActivateTokenIds.h"
 #include "utility/messaging/type/MessageTooltipShow.h"
 #include "utility/TextCodec.h"
+#include "utility/tracing.h"
 #include "utility/utility.h"
 
 std::vector<QtCodeField::AnnotationColor> QtCodeField::s_annotationColors;
@@ -33,19 +34,21 @@ QtCodeField::QtCodeField(
 	: QPlainTextEdit(parent)
 	, m_startLineNumber(startLineNumber)
 	, m_code(code)
-	, m_locationFile(locationFile)
 	, m_endTextEditPosition(0)
 {
+	TRACE();
+
 	setObjectName("code_area");
 	setReadOnly(true);
 	setFrameStyle(QFrame::NoFrame);
 	setLineWrapMode(QPlainTextEdit::NoWrap);
 	setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Ignored);
+	setMouseTracking(true);
 
 	viewport()->setCursor(Qt::ArrowCursor);
 
 	std::string displayCode = m_code;
-	if (!m_locationFile->isWhole() && !displayCode.empty() && *displayCode.rbegin() == '\n')
+	if (!locationFile->isWhole() && !displayCode.empty() && *displayCode.rbegin() == '\n')
 	{
 		displayCode.pop_back();
 	}
@@ -57,7 +60,8 @@ QtCodeField::QtCodeField(
 		setPlainText(convertedDisplayCode);
 		if (displayCode.size() != size_t(convertedDisplayCode.length()))
 		{
-			LOG_INFO("Converting displayed code to " + codec.getName() + " resulted in offset of source locations. Correcting this now.");
+			LOG_INFO("Converting displayed code to " + codec.getName() +
+				" resulted in offset of source locations. Correcting this now.");
 			createMultibyteCharacterLocationCache(convertedDisplayCode);
 		}
 	}
@@ -68,18 +72,16 @@ QtCodeField::QtCodeField(
 
 	createLineLengthCache();
 
-	this->setMouseTracking(true);
-
 	createAnnotations(locationFile);
 
-	FilePath path = m_locationFile->getFilePath();
+	FilePath path = locationFile->getFilePath();
 	LanguageType language = LANGUAGE_UNKNOWN;
 	if (!path.empty())
 	{
 		language = (path.extension() == L".java" ? LANGUAGE_JAVA : LANGUAGE_CPP);
 	}
 
-	m_highlighter = new QtHighlighter(document(), language);
+	m_highlighter = std::make_shared<QtHighlighter>(document(), language);
 	m_highlighter->highlightDocument();
 
 	ApplicationSettings* appSettings = ApplicationSettings::getInstance().get();
@@ -328,6 +330,11 @@ bool QtCodeField::annotateText(
 
 void QtCodeField::createAnnotations(std::shared_ptr<SourceLocationFile> locationFile)
 {
+	TRACE();
+
+	m_locationFile = locationFile;
+	m_annotations.clear();
+
 	uint endLineNumber = getEndLineNumber();
 	std::set<Id> locationIds;
 

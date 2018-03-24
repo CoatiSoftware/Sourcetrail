@@ -294,6 +294,21 @@ void QtCodeArea::updateLineNumberAreaWidthForDigits(int digits)
 	updateLineNumberAreaWidth();
 }
 
+void QtCodeArea::updateSourceLocations(std::shared_ptr<SourceLocationFile> locationFile)
+{
+	if (locationFile->getSourceLocationCount() > getSourceLocationFile()->getSourceLocationCount())
+	{
+		if (m_hoveredAnnotations.size())
+		{
+			setHoveredAnnotations({});
+		}
+
+		createAnnotations(locationFile);
+
+		annotateText();
+	}
+}
+
 void QtCodeArea::updateContent()
 {
 	annotateText();
@@ -582,7 +597,7 @@ void QtCodeArea::mouseMoveEvent(QMouseEvent* event)
 		if (m_navigator->hasErrors() && annotations.size() == 1 && annotations[0]->tokenIds.size())
 		{
 			std::wstring errorMessage = m_navigator->getErrorMessageForId(*annotations[0]->tokenIds.begin());
-			QToolTip::showText(event->globalPos(), QString::fromStdWString(errorMessage));
+			QToolTip::showText(event->globalPos(), QString::fromStdWString(errorMessage), this);
 		}
 	}
 }

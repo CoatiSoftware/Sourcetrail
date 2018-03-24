@@ -35,11 +35,11 @@ public:
 
 	QtCodeSnippet* addCodeSnippet(const CodeSnippetParams& params);
 	QtCodeSnippet* insertCodeSnippet(const CodeSnippetParams& params);
+	void updateCodeSnippet(const CodeSnippetParams& params);
 
 	std::vector<QtCodeSnippet*> getVisibleSnippets() const;
 	QtCodeSnippet* getSnippetForLocationId(Id locationId) const;
 	QtCodeSnippet* getSnippetForLine(unsigned int line) const;
-	QtCodeSnippet* getFileSnippet() const;
 
 	std::pair<QtCodeSnippet*, Id> getFirstSnippetWithActiveLocationId(Id tokenId) const;
 
@@ -76,7 +76,6 @@ private:
 
 	QVBoxLayout* m_snippetLayout;
 	std::vector<QtCodeSnippet*> m_snippets;
-	QtCodeSnippet* m_fileSnippet;
 
 	const FilePath m_filePath;
 	bool m_isWholeFile;

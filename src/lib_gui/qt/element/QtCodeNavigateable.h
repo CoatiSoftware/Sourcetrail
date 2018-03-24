@@ -29,6 +29,7 @@ public:
 	virtual QAbstractScrollArea* getScrollArea() = 0;
 
 	virtual void addCodeSnippet(const CodeSnippetParams& params) = 0;
+	virtual void updateCodeSnippet(const CodeSnippetParams& params) = 0;
 
 	virtual void requestFileContent(const FilePath& filePath) = 0;
 	virtual bool requestScroll(const FilePath& filePath, uint lineNumber, Id locationId, bool animated, ScrollTarget target) = 0;

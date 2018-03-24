@@ -45,6 +45,8 @@ public:
 		size_t endLineNumber, size_t endColumnNumber);
 	SourceLocation* addSourceLocationCopy(const SourceLocation* location);
 
+	void copySourceLocations(std::shared_ptr<SourceLocationFile> file);
+
 	SourceLocation* getSourceLocationById(Id locationId) const;
 
 	void forEachSourceLocation(std::function<void(SourceLocation*)> func) const;

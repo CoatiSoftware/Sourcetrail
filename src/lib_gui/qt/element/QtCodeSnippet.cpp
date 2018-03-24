@@ -139,6 +139,11 @@ int QtCodeSnippet::lineNumberDigits() const
 	return m_codeArea->lineNumberDigits();
 }
 
+void QtCodeSnippet::updateCodeSnippet(const CodeSnippetParams& params)
+{
+	m_codeArea->updateSourceLocations(params.locationFile);
+}
+
 void QtCodeSnippet::updateLineNumberAreaWidthForDigits(int digits)
 {
 	m_codeArea->updateLineNumberAreaWidthForDigits(digits);

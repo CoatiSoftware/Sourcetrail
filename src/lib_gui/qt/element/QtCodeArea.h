@@ -69,6 +69,7 @@ public:
 	int lineNumberAreaWidth() const;
 	void updateLineNumberAreaWidthForDigits(int digits);
 
+	void updateSourceLocations(std::shared_ptr<SourceLocationFile> locationFile);
 	void updateContent();
 
 	void setIsActiveFile(bool isActiveFile);

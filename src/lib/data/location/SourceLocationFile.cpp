@@ -115,6 +115,16 @@ SourceLocation* SourceLocationFile::addSourceLocationCopy(const SourceLocation* 
 	return copy.get();
 }
 
+void SourceLocationFile::copySourceLocations(std::shared_ptr<SourceLocationFile> file)
+{
+	file->forEachSourceLocation(
+		[this](SourceLocation* location)
+		{
+			addSourceLocationCopy(location);
+		}
+	);
+}
+
 SourceLocation* SourceLocationFile::getSourceLocationById(Id locationId) const
 {
 	std::map<Id, SourceLocation*>::const_iterator it = m_locationIndex.find(locationId);

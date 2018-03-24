@@ -34,6 +34,7 @@ public:
 	virtual QAbstractScrollArea* getScrollArea() override;
 
 	virtual void addCodeSnippet(const CodeSnippetParams& params) override;
+	virtual void updateCodeSnippet(const CodeSnippetParams& params) override;
 
 	virtual void requestFileContent(const FilePath& filePath) override;
 	virtual bool requestScroll(

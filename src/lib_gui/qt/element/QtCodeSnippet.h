@@ -37,6 +37,8 @@ public:
 
 	int lineNumberDigits() const;
 
+	void updateCodeSnippet(const CodeSnippetParams& params);
+
 	void updateLineNumberAreaWidthForDigits(int digits);
 	void updateContent();
 

@@ -119,6 +119,15 @@ void QtCodeFileSingle::addCodeSnippet(const CodeSnippetParams& params)
 	}
 }
 
+void QtCodeFileSingle::updateCodeSnippet(const CodeSnippetParams& params)
+{
+	auto it = m_fileDatas.find(params.locationFile->getFilePath());
+	if (it != m_fileDatas.end())
+	{
+		it->second.area->updateSourceLocations(params.locationFile);
+	}
+}
+
 void QtCodeFileSingle::requestFileContent(const FilePath& filePath)
 {
 	if (m_contentRequested)

@@ -154,6 +154,19 @@ void QtCodeView::showCodeSnippets(const std::vector<CodeSnippetParams>& snippets
 	});
 }
 
+void QtCodeView::updateCodeSnippets(const std::vector<CodeSnippetParams>& snippets)
+{
+	m_onQtThread([=]()
+	{
+		TRACE("update code snippets");
+
+		for (const CodeSnippetParams& snippet : snippets)
+		{
+			m_widget->updateCodeSnippet(snippet);
+		}
+	});
+}
+
 void QtCodeView::scrollTo(const ScrollParams params)
 {
 	m_scrollParams = params;

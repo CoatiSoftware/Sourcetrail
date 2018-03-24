@@ -15,6 +15,8 @@ public:
 	static void clearHighlightingRules();
 
 	QtHighlighter(QTextDocument *parent, LanguageType language);
+	~QtHighlighter() = default;
+
 	void highlightDocument();
 	void highlightRange(int startLine, int endLine);
 
@@ -34,10 +36,14 @@ private:
 		QTextCharFormat format;
 	};
 
-	void highlightMultiLineComments();
+	void createRanges(QTextDocument* doc, const HighlightingRule& stringRule, const HighlightingRule& charRule);
+	std::vector<std::pair<int, int>> createMultiLineCommentRanges(
+		QTextDocument* doc, std::vector<std::pair<int, int>>* ranges);
 
 	bool isInRange(int index, const std::vector<std::pair<int, int>>& ranges) const;
-	std::vector<std::pair<int, int>> formatBlockForRule(
+	std::vector<std::pair<int, int>> getRangesForRule(const QTextBlock& block, const HighlightingRule& rule) const;
+
+	void formatBlockForRule(
 		const QTextBlock& block, const HighlightingRule& rule, std::vector<std::pair<int, int>>* ranges = nullptr);
 	void formatBlockIfInRange(
 		const QTextBlock& block, const QTextCharFormat& format, std::vector<std::pair<int, int>>* ranges);
