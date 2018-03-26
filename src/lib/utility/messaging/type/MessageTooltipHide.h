@@ -10,6 +10,7 @@ public:
 	MessageTooltipHide()
 	{
 		setSendAsTask(false);
+		setIsLogged(false);
 	}
 
 	static const std::string getStaticType()

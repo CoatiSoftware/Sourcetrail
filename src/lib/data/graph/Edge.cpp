@@ -4,7 +4,6 @@
 
 #include "data/graph/Node.h"
 #include "data/graph/token_component/TokenComponentAggregation.h"
-#include "data/graph/token_component/TokenComponentInheritanceChain.h"
 #include "utility/logging/logging.h"
 #include "utility/utilityString.h"
 
@@ -119,38 +118,6 @@ bool Edge::isEdge() const
 	return true;
 }
 
-void Edge::addComponentAggregation(std::shared_ptr<TokenComponentAggregation> component)
-{
-	if (getComponent<TokenComponentAggregation>())
-	{
-		LOG_ERROR(L"TokenComponentAggregation has been set before!");
-	}
-	else if (m_type != EDGE_AGGREGATION)
-	{
-		LOG_ERROR(L"TokenComponentAggregation can't be set on edge of type: " + getReadableTypeString());
-	}
-	else
-	{
-		addComponent(component);
-	}
-}
-
-void Edge::addComponentInheritanceChain(std::shared_ptr<TokenComponentInheritanceChain> component)
-{
-	if (getComponent<TokenComponentInheritanceChain>())
-	{
-		LOG_ERROR(L"TokenComponentInheritanceChain has been set before!");
-	}
-	else if (m_type != EDGE_INHERITANCE)
-	{
-		LOG_ERROR(L"TokenComponentInheritanceChain can't be set on edge of type: " + getReadableTypeString());
-	}
-	else
-	{
-		addComponent(component);
-	}
-}
-
 std::wstring Edge::getUnderscoredTypeString(EdgeType type)
 {
 	return utility::replace(utility::replace(getReadableTypeString(type), L"-", L"_"), L" ", L"_");
@@ -205,7 +172,8 @@ std::wstring Edge::getReadableTypeString() const
 std::wstring Edge::getAsString() const
 {
 	std::wstringstream str;
-	str << L"[" << getId() << L"] " << getReadableTypeString() << L": \"" << m_from->getName() << L"\" -> \"" + m_to->getName() << L"\"";
+	str << L"[" << getId() << L"] " << getReadableTypeString();
+	str << L": \"" << m_from->getName() << L"\" -> \"" + m_to->getName() << L"\"";
 
 	TokenComponentAggregation* aggregation = getComponent<TokenComponentAggregation>();
 	if (aggregation)

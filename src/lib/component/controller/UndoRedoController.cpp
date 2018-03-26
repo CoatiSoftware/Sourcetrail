@@ -97,7 +97,7 @@ void UndoRedoController::handleMessage(MessageActivateTrail* message)
 void UndoRedoController::handleMessage(MessageActivateTrailEdge* message)
 {
 	if (sameMessageTypeAsLast(message) &&
-		static_cast<MessageActivateTrailEdge*>(lastMessage())->tokenId == message->tokenId)
+		static_cast<MessageActivateTrailEdge*>(lastMessage())->edgeIds == message->edgeIds)
 	{
 		return;
 	}

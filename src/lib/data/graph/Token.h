@@ -23,6 +23,8 @@ public:
 	void addLocationId(Id locationId);
 	void removeLocationId(Id locationId);
 
+	void addComponent(std::shared_ptr<TokenComponent> component);
+
 	template <typename ComponentType>
 	ComponentType* getComponent() const;
 
@@ -35,7 +37,6 @@ public:
 protected:
 	Token(const Token& other);
 
-	void addComponent(std::shared_ptr<TokenComponent> component);
 	void copyComponentsFrom(const Token& other);
 
 private:

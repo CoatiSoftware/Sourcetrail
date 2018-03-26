@@ -127,6 +127,8 @@ add_files(
 	qt/view/graphElements/QtGraphNodeData.h
 	qt/view/graphElements/QtGraphNodeExpandToggle.cpp
 	qt/view/graphElements/QtGraphNodeExpandToggle.h
+	qt/view/graphElements/QtGraphNodeGroup.cpp
+	qt/view/graphElements/QtGraphNodeGroup.h
 	qt/view/graphElements/QtGraphNodeQualifier.cpp
 	qt/view/graphElements/QtGraphNodeQualifier.h
 	qt/view/graphElements/QtGraphNodeText.cpp

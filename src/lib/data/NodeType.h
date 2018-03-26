@@ -51,6 +51,12 @@ public:
 		STYLE_BIG_NODE = 2
 	};
 
+	enum GroupType
+	{
+		GROUP_FRAMELESS,
+		GROUP_INHERITANCE
+	};
+
 	struct BundleInfo
 	{
 		BundleInfo()

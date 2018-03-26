@@ -393,6 +393,16 @@
 					<normal>#777777</normal>
 				</text>
 			</text>
+			<group>
+				<inheritance>
+					<fill>
+						<normal>transparent</normal>
+					</fill>
+					<border>
+						<normal>#797979</normal>
+					</border>
+				</inheritance>
+			</group>
 		</node>
 		<edge>
 			<default>

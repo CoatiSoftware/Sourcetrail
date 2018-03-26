@@ -7,8 +7,6 @@
 #include "data/graph/Token.h"
 
 class Node;
-class TokenComponentAggregation;
-class TokenComponentInheritanceChain;
 
 class Edge
 	: public Token
@@ -53,10 +51,6 @@ public:
 	// Token implementation
 	virtual bool isNode() const override;
 	virtual bool isEdge() const override;
-
-	// Component setters
-	void addComponentAggregation(std::shared_ptr<TokenComponentAggregation> component);
-	void addComponentInheritanceChain(std::shared_ptr<TokenComponentInheritanceChain> component);
 
 	static std::wstring getUnderscoredTypeString(EdgeType type);
 	static std::wstring getReadableTypeString(EdgeType type);

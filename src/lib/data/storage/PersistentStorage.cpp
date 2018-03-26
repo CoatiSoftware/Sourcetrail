@@ -2254,7 +2254,7 @@ void PersistentStorage::addNodesToGraph(const std::vector<Id>& newNodeIds, Graph
 				NameHierarchy(filePath.fileName(), NAME_DELIMITER_FILE),
 				defined
 			);
-			node->addComponentFilePath(std::make_shared<TokenComponentFilePath>(filePath));
+			node->addComponent(std::make_shared<TokenComponentFilePath>(filePath));
 			node->setExplicit(defined);
 		}
 		else
@@ -2465,7 +2465,7 @@ void PersistentStorage::addAggregationEdgesToGraph(
 		const Id aggregationId = ~(~Id(0) >> 1) + *componentAggregation->getAggregationIds().begin();
 
 		Edge* edge = graph->createEdge(aggregationId, Edge::EDGE_AGGREGATION, sourceNode, targetNode);
-		edge->addComponentAggregation(componentAggregation);
+		edge->addComponent(componentAggregation);
 	}
 }
 
@@ -2486,7 +2486,7 @@ void PersistentStorage::addComponentAccessToGraph(Graph* graph) const
 	{
 		if (access.nodeId != 0)
 		{
-			graph->getNodeById(access.nodeId)->addComponentAccess(
+			graph->getNodeById(access.nodeId)->addComponent(
 				std::make_shared<TokenComponentAccess>(intToAccessKind(access.type)));
 		}
 	}
@@ -2564,7 +2564,7 @@ void PersistentStorage::addInheritanceChainsToGraph(const std::vector<Id>& activ
 				Edge* inheritanceEdge = graph->createEdge(
 					inheritanceEdgeId, Edge::EDGE_INHERITANCE, graph->getNodeById(sourceId), graph->getNodeById(targetId));
 
-				inheritanceEdge->addComponentInheritanceChain(std::make_shared<TokenComponentInheritanceChain>(edgeIds));
+				inheritanceEdge->addComponent(std::make_shared<TokenComponentInheritanceChain>(edgeIds));
 			}
 		}
 	}

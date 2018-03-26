@@ -390,6 +390,16 @@
 					<normal>#A2A2A2</normal>
 				</text>
 			</text>
+			<group>
+				<inheritance>
+					<fill>
+						<normal>transparent</normal>
+					</fill>
+					<border>
+						<normal>#878787</normal>
+					</border>
+				</inheritance>
+			</group>
 		</node>
 		<edge>
 			<default>

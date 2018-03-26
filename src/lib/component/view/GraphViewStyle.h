@@ -104,17 +104,20 @@ public:
 	static size_t getFontSizeOfCountCircle();
 	static size_t getFontSizeOfQualifier();
 	static size_t getFontSizeOfTextNode();
+	static size_t getFontSizeOfGroupNode();
 
 	static std::string getFontNameForDataNode();
 	static std::string getFontNameOfAccessNode();
 	static std::string getFontNameOfExpandToggleNode();
 	static std::string getFontNameOfTextNode();
+	static std::string getFontNameOfGroupNode();
 
 	static NodeMargins getMarginsForDataNode(NodeType::StyleType type, bool hasIcon, bool hasChildren);
 	static NodeMargins getMarginsOfAccessNode(AccessKind access);
 	static NodeMargins getMarginsOfExpandToggleNode();
 	static NodeMargins getMarginsOfBundleNode();
 	static NodeMargins getMarginsOfTextNode();
+	static NodeMargins getMarginsOfGroupNode(NodeType::GroupType type, bool hasName);
 
 	static NodeStyle getStyleForNodeType(
 		NodeType type, bool defined, bool isActive, bool isFocused, bool hasChildren, bool hasQualifier);
@@ -124,6 +127,7 @@ public:
 	static NodeStyle getStyleOfBundleNode(bool isFocused);
 	static NodeStyle getStyleOfQualifier();
 	static NodeStyle getStyleOfTextNode();
+	static NodeStyle getStyleOfGroupNode(NodeType::GroupType type, bool isFocused);
 
 	static EdgeStyle getStyleForEdgeType(Edge::EdgeType type, bool isActive, bool isFocused, bool isTrailEdge);
 
@@ -142,8 +146,8 @@ public:
 
 private:
 	static NodeStyle getStyleForNodeType(
-		NodeType::StyleType type, const std::string& underscoredTypeString, 
-		const FilePath& iconPath, bool defined, bool isActive, bool isFocused, 
+		NodeType::StyleType type, const std::string& underscoredTypeString,
+		const FilePath& iconPath, bool defined, bool isActive, bool isFocused,
 		bool hasChildren, bool hasQualifier);
 
 	static float getCharWidth(NodeType::StyleType type);

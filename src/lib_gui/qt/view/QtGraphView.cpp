@@ -33,6 +33,7 @@
 #include "qt/view/graphElements/QtGraphNodeBundle.h"
 #include "qt/view/graphElements/QtGraphNodeData.h"
 #include "qt/view/graphElements/QtGraphNodeExpandToggle.h"
+#include "qt/view/graphElements/QtGraphNodeGroup.h"
 #include "qt/view/graphElements/QtGraphNodeQualifier.h"
 #include "qt/view/graphElements/QtGraphNodeText.h"
 #include "settings/ApplicationSettings.h"
@@ -890,6 +891,10 @@ QtGraphNode* QtGraphView::createNodeRecursive(
 	{
 		newNode = new QtGraphNodeText(node->name);
 	}
+	else if (node->isGroupNode())
+	{
+		newNode = new QtGraphNodeGroup(node->tokenId, node->name, node->groupType);
+	}
 	else
 	{
 		LOG_ERROR("DummyNode is not valid");
@@ -1083,7 +1088,8 @@ void QtGraphView::compareNodesRecursive(
 						dynamic_cast<QtGraphNodeAccess*>(*it2)->getAccessKind()) ||
 				((*it)->isExpandToggleNode() && (*it2)->isExpandToggleNode()) ||
 				((*it)->isBundleNode() && (*it2)->isBundleNode() && (*it)->getTokenId() == (*it2)->getTokenId()) ||
-				((*it)->isQualifierNode() && (*it2)->isQualifierNode() && (*it)->getTokenId() == (*it2)->getTokenId()))
+				((*it)->isQualifierNode() && (*it2)->isQualifierNode() && (*it)->getTokenId() == (*it2)->getTokenId()) ||
+				((*it)->isGroupNode() && (*it2)->isGroupNode() && (*it)->getName() == (*it2)->getName()))
 			{
 				remainingNodes->push_back(std::pair<QtGraphNode*, QtGraphNode*>(*it, *it2));
 				compareNodesRecursive(

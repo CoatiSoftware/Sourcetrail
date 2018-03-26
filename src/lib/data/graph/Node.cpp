@@ -5,11 +5,9 @@
 #include "utility/logging/logging.h"
 #include "utility/utilityString.h"
 
-#include "data/graph/token_component/TokenComponentAbstraction.h"
 #include "data/graph/token_component/TokenComponentAccess.h"
 #include "data/graph/token_component/TokenComponentConst.h"
 #include "data/graph/token_component/TokenComponentStatic.h"
-#include "data/graph/token_component/TokenComponentFilePath.h"
 
 Node::Node(Id id, NodeType type, const NameHierarchy& nameHierarchy, bool defined)
 	: Token(id)
@@ -47,7 +45,8 @@ void Node::setType(NodeType type)
 	if (!isType(type.getType() | NodeType::NODE_SYMBOL))
 	{
 		LOG_WARNING(
-			L"Cannot change NodeType after it was already set from " + getReadableTypeString() + L" to " + type.getReadableTypeWString()
+			L"Cannot change NodeType after it was already set from " + getReadableTypeString() +
+			L" to " + type.getReadableTypeWString()
 		);
 		return;
 	}
@@ -286,71 +285,6 @@ bool Node::isNode() const
 bool Node::isEdge() const
 {
 	return false;
-}
-
-void Node::addComponentAbstraction(std::shared_ptr<TokenComponentAbstraction> component)
-{
-	if (getComponent<TokenComponentAbstraction>())
-	{
-		// LOG_ERROR("TokenComponentAbstraction has been set before!");
-		return;
-	}
-	else
-	{
-		addComponent(component);
-	}
-}
-
-void Node::addComponentConst(std::shared_ptr<TokenComponentConst> component)
-{
-	if (getComponent<TokenComponentConst>())
-	{
-		// LOG_ERROR("TokenComponentConst has been set before!");
-		return;
-	}
-	else
-	{
-		addComponent(component);
-	}
-}
-
-void Node::addComponentStatic(std::shared_ptr<TokenComponentStatic> component)
-{
-	if (getComponent<TokenComponentStatic>())
-	{
-		// LOG_ERROR("TokenComponentStatic has been set before!");
-		return;
-	}
-	else
-	{
-		addComponent(component);
-	}
-}
-
-void Node::addComponentFilePath(std::shared_ptr<TokenComponentFilePath> component)
-{
-	if (getComponent<TokenComponentFilePath>())
-	{
-		// LOG_ERROR("TokenComponentFilePath has been set before!");
-		return;
-	}
-	else
-	{
-		addComponent(component);
-	}
-}
-
-void Node::addComponentAccess(std::shared_ptr<TokenComponentAccess> component)
-{
-	if (getComponent<TokenComponentAccess>())
-	{
-		LOG_WARNING("TokenComponentAccess has been set before!");
-		return;
-	}
-	else
-	{
-		addComponent(component);
-	}
 }
 
 std::wstring Node::getReadableTypeString() const

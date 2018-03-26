@@ -6,6 +6,7 @@
 #include "component/view/GraphViewStyle.h"
 #include "data/graph/Edge.h"
 #include "data/graph/token_component/TokenComponentAggregation.h"
+#include "data/graph/token_component/TokenComponentEdgeIds.h"
 #include "data/graph/token_component/TokenComponentInheritanceChain.h"
 #include "qt/graphics/QtLineItemAngled.h"
 #include "qt/graphics/QtLineItemBezier.h"
@@ -251,8 +252,11 @@ void QtGraphEdge::onClick()
 {
 	if (isTrailEdge())
 	{
+		TokenComponentEdgeIds* componentEdgeIds = getData()->getComponent<TokenComponentEdgeIds>();
+		std::vector<Id> ids = { getData()->getId() };
+
 		MessageActivateTrailEdge(
-			getData()->getId(),
+			componentEdgeIds ? componentEdgeIds->edgeIds : ids,
 			getData()->getType(),
 			getData()->getFrom()->getNameHierarchy(),
 			getData()->getTo()->getNameHierarchy()

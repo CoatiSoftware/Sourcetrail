@@ -11,13 +11,6 @@
 #include "data/name/NameHierarchy.h"
 #include "data/NodeType.h"
 
-class TokenComponentAbstraction;
-class TokenComponentAccess;
-class TokenComponentConst;
-class TokenComponentStatic;
-class TokenComponentFilePath;
-class TokenComponentSignature;
-
 class Node
 	: public Token
 {
@@ -68,13 +61,6 @@ public:
 	// Token implementation.
 	virtual bool isNode() const override;
 	virtual bool isEdge() const override;
-
-	// Component setters.
-	void addComponentAbstraction(std::shared_ptr<TokenComponentAbstraction> component);
-	void addComponentConst(std::shared_ptr<TokenComponentConst> component);
-	void addComponentStatic(std::shared_ptr<TokenComponentStatic> component);
-	void addComponentFilePath(std::shared_ptr<TokenComponentFilePath> component);
-	void addComponentAccess(std::shared_ptr<TokenComponentAccess> component);
 
 	// Logging.
 	virtual std::wstring getReadableTypeString() const override;

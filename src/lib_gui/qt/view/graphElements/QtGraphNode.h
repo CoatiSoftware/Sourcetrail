@@ -87,6 +87,7 @@ public:
 	virtual bool isBundleNode() const;
 	virtual bool isQualifierNode() const;
 	virtual bool isTextNode() const;
+	virtual bool isGroupNode() const;
 
 	virtual Id getTokenId() const;
 

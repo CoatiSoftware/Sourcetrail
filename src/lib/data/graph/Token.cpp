@@ -40,6 +40,11 @@ void Token::removeLocationId(Id locationId)
 	LOG_ERROR("Location Id was not referenced by this Token.");
 }
 
+void Token::addComponent(std::shared_ptr<TokenComponent> component)
+{
+	m_components.push_back(component);
+}
+
 Token::Token(const Token& other)
 	: m_id(other.m_id)
 {
@@ -47,9 +52,4 @@ Token::Token(const Token& other)
 	{
 		addComponent(component->copy());
 	}
-}
-
-void Token::addComponent(std::shared_ptr<TokenComponent> component)
-{
-	m_components.push_back(component);
 }

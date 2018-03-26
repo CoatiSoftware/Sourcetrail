@@ -107,6 +107,8 @@ private:
 	void addCharacterIndex();
 	bool hasCharacterIndex() const;
 
+	void groupTrailNodes(NodeType::GroupType groupType);
+
 	void layoutNesting();
 	void layoutNestingRecursive(DummyNode* node) const;
 	void addExpandToggleNode(DummyNode* node) const;
@@ -118,7 +120,7 @@ private:
 
 	void assignBundleIds();
 
-	DummyNode* getDummyGraphNodeById(Id tokenId) const;
+	std::shared_ptr<DummyNode> getDummyGraphNodeById(Id tokenId) const;
 	DummyEdge* getDummyGraphEdgeById(Id tokenId) const;
 
 	void buildGraph(MessageBase* message, bool centerActiveNode, bool animatedTransition, bool scrollToTop);

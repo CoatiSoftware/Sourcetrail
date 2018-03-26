@@ -185,7 +185,7 @@ void CodeController::handleMessage(MessageActivateTrailEdge* message)
 	CodeView::CodeParams params;
 	params.clearSnippets = true;
 	params.showContents = !message->isReplayed();
-	params.activeTokenIds.push_back(message->tokenId);
+	params.activeTokenIds = message->edgeIds;
 
 	m_collection = m_storageAccess->getSourceLocationsForTokenIds(params.activeTokenIds);
 	showCodeSnippets(getSnippetsForActiveSourceLocations(m_collection.get(), 0), params);

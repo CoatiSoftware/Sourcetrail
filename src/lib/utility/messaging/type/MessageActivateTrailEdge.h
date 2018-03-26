@@ -13,9 +13,10 @@ class MessageActivateTrailEdge
 {
 public:
 	MessageActivateTrailEdge(
-		Id tokenId, Edge::EdgeType type, const NameHierarchy& sourceNameHierarchy, const NameHierarchy& targetNameHierarchy
+		const std::vector<Id>& edgeIds, Edge::EdgeType type,
+		const NameHierarchy& sourceNameHierarchy, const NameHierarchy& targetNameHierarchy
 	)
-		: tokenId(tokenId)
+		: edgeIds(edgeIds)
 		, type(type)
 		, sourceNameHierarchy(sourceNameHierarchy)
 		, targetNameHierarchy(targetNameHierarchy)
@@ -37,10 +38,14 @@ public:
 
 	virtual void print(std::wostream& os) const
 	{
-		os << tokenId << L" - " << getFullName();
+		for (Id edgeId : edgeIds)
+		{
+			os << edgeId << L",";
+		}
+		os << L" - " << getFullName();
 	}
 
-	const Id tokenId;
+	const std::vector<Id> edgeIds;
 	const Edge::EdgeType type;
 	const NameHierarchy sourceNameHierarchy;
 	const NameHierarchy targetNameHierarchy;

@@ -14,6 +14,17 @@
 struct DummyNode
 {
 public:
+	enum Type
+	{
+		DUMMY_DATA,
+		DUMMY_ACCESS,
+		DUMMY_EXPAND_TOGGLE,
+		DUMMY_BUNDLE,
+		DUMMY_QUALIFIER,
+		DUMMY_TEXT,
+		DUMMY_GROUP
+	};
+
 	struct DummyNodeComp
 	{
 		bool operator()(const std::shared_ptr<DummyNode> a, const std::shared_ptr<DummyNode> b) const
@@ -50,8 +61,9 @@ public:
 		bool isReferencing;
 	};
 
-	DummyNode()
-		: visible(false)
+	DummyNode(Type type)
+		: type(type)
+		, visible(false)
 		, hidden(false)
 		, childVisible(false)
 		, tokenId(0)
@@ -63,45 +75,49 @@ public:
 		, hasParent(true)
 		, hasQualifier(false)
 		, accessKind(ACCESS_NONE)
-		, isAccess(false)
 		, invisibleSubNodeCount(0)
 		, bundleId(0)
 		, layoutBucket(0, 0)
 		, bundledNodeCount(0)
 		, bundledNodeType(NodeType::NODE_SYMBOL)
 		, qualifierName(NAME_DELIMITER_UNKNOWN)
-		, textNode(false)
+		, groupType(NodeType::GROUP_FRAMELESS)
 	{
 	}
 
 	bool isGraphNode() const
 	{
-		return data != nullptr;
+		return type == DUMMY_DATA;
 	}
 
 	bool isAccessNode() const
 	{
-		return isAccess;
+		return type == DUMMY_ACCESS;
 	}
 
 	bool isExpandToggleNode() const
 	{
-		return !isGraphNode() && !isAccessNode() && !isBundleNode() && !isQualifierNode() && !isTextNode();
+		return type == DUMMY_EXPAND_TOGGLE;
 	}
 
 	bool isBundleNode() const
 	{
-		return bundledNodes.size() > 0;
+		return type == DUMMY_BUNDLE;
 	}
 
 	bool isQualifierNode() const
 	{
-		return qualifierName.size();
+		return type == DUMMY_QUALIFIER;
 	}
 
 	bool isTextNode() const
 	{
-		return textNode;
+		return type == DUMMY_TEXT;
+	}
+
+	bool isGroupNode() const
+	{
+		return type == DUMMY_GROUP;
 	}
 
 	bool isExpanded() const
@@ -339,6 +355,18 @@ public:
 		subNodes.insert(subNodes.end(), accessNodes.begin(), accessNodes.end());
 	}
 
+	void sortSubNodesByName()
+	{
+		std::sort(subNodes.begin(), subNodes.end(),
+			[](const std::shared_ptr<DummyNode>& a, const std::shared_ptr<DummyNode>& b) -> bool
+			{
+			    return a->name < b->name;
+			}
+		);
+	}
+
+	Type type;
+
 	Vec2i position;
 	Vec2i size;
 
@@ -363,7 +391,6 @@ public:
 
 	// AccessNode
 	AccessKind accessKind;
-	bool isAccess;
 
 	// ExpandToggleNode
 	size_t invisibleSubNodeCount;
@@ -383,8 +410,8 @@ public:
 	// QualifierNode
 	NameHierarchy qualifierName;
 
-	// TextNode
-	bool textNode;
+	// GroupNode
+	NodeType::GroupType groupType;
 };
 
 #endif // DUMMY_NODE_H

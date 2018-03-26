@@ -330,6 +330,11 @@ bool QtGraphNode::isTextNode() const
 	return false;
 }
 
+bool QtGraphNode::isGroupNode() const
+{
+	return false;
+}
+
 Id QtGraphNode::getTokenId() const
 {
 	return 0;
