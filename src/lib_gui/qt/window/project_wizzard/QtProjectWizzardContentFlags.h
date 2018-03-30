@@ -3,7 +3,7 @@
 
 #include "qt/window/project_wizzard/QtProjectWizzardContent.h"
 
-class QtDirectoryListBox;
+class QtStringListBox;
 class SourceGroupSettings;
 
 class QtProjectWizzardContentFlags
@@ -24,7 +24,7 @@ private:
 	std::shared_ptr<SourceGroupSettings> m_settings;
 	const bool m_isCdb;
 
-	QtDirectoryListBox* m_list;
+	QtStringListBox* m_list;
 };
 
 #endif // QT_PROJECT_WIZZARD_CONTENT_FLAGS_H

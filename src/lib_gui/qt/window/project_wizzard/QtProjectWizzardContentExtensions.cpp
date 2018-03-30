@@ -3,7 +3,7 @@
 #include <QFormLayout>
 
 #include "settings/SourceGroupSettings.h"
-#include "qt/element/QtDirectoryListBox.h"
+#include "qt/element/QtStringListBox.h"
 
 QtProjectWizzardContentExtensions::QtProjectWizzardContentExtensions(
 	std::shared_ptr<SourceGroupSettings> settings, QtProjectWizzardWindow* window
@@ -20,17 +20,17 @@ void QtProjectWizzardContentExtensions::populate(QGridLayout* layout, int& row)
 
 	addHelpButton("Source File Extensions", "Define extensions for source files including the dot (e.g. .cpp or .java)", layout, row);
 
-	m_sourceList = new QtDirectoryListBox(this, sourceLabel->text(), true);
-	layout->addWidget(m_sourceList, row, QtProjectWizzardWindow::BACK_COL);
+	m_listBox = new QtStringListBox(this, sourceLabel->text());
+	layout->addWidget(m_listBox, row, QtProjectWizzardWindow::BACK_COL);
 	row++;
 }
 
 void QtProjectWizzardContentExtensions::load()
 {
-	m_sourceList->setStringList(m_settings->getSourceExtensions());
+	m_listBox->setStrings(m_settings->getSourceExtensions());
 }
 
 void QtProjectWizzardContentExtensions::save()
 {
-	m_settings->setSourceExtensions(m_sourceList->getStringList());
+	m_settings->setSourceExtensions(m_listBox->getStrings());
 }

@@ -31,8 +31,6 @@ add_files(
 	qt/element/QtCodeNavigator.h
 	qt/element/QtCodeSnippet.cpp
 	qt/element/QtCodeSnippet.h
-	qt/element/QtDirectoryListBox.cpp
-	qt/element/QtDirectoryListBox.h
 	qt/element/QtHelpButton.cpp
 	qt/element/QtHelpButton.h
 	qt/element/QtHistoryList.cpp
@@ -41,8 +39,16 @@ add_files(
 	qt/element/QtIconButton.h
 	qt/element/QtLineEdit.cpp
 	qt/element/QtLineEdit.h
+	qt/element/QtListBox.cpp
+	qt/element/QtListBox.h
+	qt/element/QtListBoxItem.cpp
+	qt/element/QtListBoxItem.h
 	qt/element/QtLocationPicker.cpp
 	qt/element/QtLocationPicker.h
+	qt/element/QtPathListBox.cpp
+	qt/element/QtPathListBox.h
+	qt/element/QtPathListBoxItem.cpp
+	qt/element/QtPathListBoxItem.h
 	qt/element/QtProgressBar.cpp
 	qt/element/QtProgressBar.h
 	qt/element/QtScreenSearchBox.cpp
@@ -53,6 +59,10 @@ add_files(
 	qt/element/QtSearchBarButton.h
 	qt/element/QtSmartSearchBox.cpp
 	qt/element/QtSmartSearchBox.h
+	qt/element/QtStringListBox.cpp
+	qt/element/QtStringListBox.h
+	qt/element/QtStringListBoxItem.cpp
+	qt/element/QtStringListBoxItem.h
 	qt/element/QtStatusBar.cpp
 	qt/element/QtStatusBar.h
 	qt/element/QtTable.cpp

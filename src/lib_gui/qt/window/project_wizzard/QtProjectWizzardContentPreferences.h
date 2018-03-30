@@ -4,7 +4,7 @@
 #include <QComboBox>
 
 #include "qt/element/QtLocationPicker.h"
-#include "qt/element/QtDirectoryListBox.h"
+#include "qt/element/QtPathListBox.h"
 #include "qt/window/project_wizzard/QtProjectWizzardContent.h"
 #include "utility/path_detector/CombinedPathDetector.h"
 
@@ -122,7 +122,7 @@ private:
 	QComboBox* m_jreSystemLibraryPathsDetectorBox;
 	QComboBox* m_mavenPathDetectorBox;
 	QtLocationPicker* m_javaPath;
-	QtDirectoryListBox* m_jreSystemLibraryPaths;
+	QtPathListBox* m_jreSystemLibraryPaths;
 	QLineEdit* m_jvmMaximumMemory;
 	QtLocationPicker* m_mavenPath;
 };

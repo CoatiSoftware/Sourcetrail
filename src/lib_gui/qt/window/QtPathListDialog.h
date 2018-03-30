@@ -1,10 +1,10 @@
 #ifndef QT_PATH_LIST_DIALOG_H
 #define QT_PATH_LIST_DIALOG_H
 
+#include "qt/element/QtPathListBox.h"
 #include "qt/window/QtWindow.h"
 
 class FilePath;
-class QtDirectoryListBox;
 
 class QtPathListDialog
 	: public QtWindow
@@ -12,7 +12,7 @@ class QtPathListDialog
 	Q_OBJECT
 
 public:
-	QtPathListDialog(const QString& title, const QString& description, QWidget* parent = 0);
+	QtPathListDialog(const QString& title, const QString& description, QtPathListBox::SelectionPolicyType selectionPolicy, QWidget* parent = 0);
 
 	QSize sizeHint() const override;
 
@@ -24,11 +24,12 @@ protected:
 	void populateWindow(QWidget* widget) override;
 	void windowReady() override;
 
-	QString m_title;
-	QString m_description;
+	const QString m_title;
+	const QString m_description;
 
 private:
-	QtDirectoryListBox* m_pathList;
+	const QtPathListBox::SelectionPolicyType m_selectionPolicy;
+	QtPathListBox* m_pathList;
 };
 
 #endif // QT_PATH_LIST_DIALOG_H

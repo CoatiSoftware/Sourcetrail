@@ -3,6 +3,7 @@
 
 #include <set>
 
+#include "qt/element/QtPathListBox.h"
 #include "qt/window/project_wizzard/QtProjectWizzardContent.h"
 #include "utility/path_detector/CombinedPathDetector.h"
 
@@ -10,7 +11,6 @@ class IncludeDirective;
 class QCheckBox;
 class QComboBox;
 class QPushButton;
-class QtDirectoryListBox;
 class QtPathListDialog;
 class SourceGroupSettings;
 class SourceGroupSettingsCxxCdb;
@@ -24,7 +24,11 @@ signals:
 	void showSourceFiles();
 
 public:
-	QtProjectWizzardContentPaths(std::shared_ptr<SourceGroupSettings> settings, QtProjectWizzardWindow* window, bool checkMissingPaths = true);
+	QtProjectWizzardContentPaths(
+		std::shared_ptr<SourceGroupSettings> settings, 
+		QtProjectWizzardWindow* window, 
+		QtPathListBox::SelectionPolicyType selectionPolicy,
+		bool checkMissingPaths = true);
 
 	// QtSettingsWindow implementation
 	virtual void populate(QGridLayout* layout, int& row) override;
@@ -39,7 +43,7 @@ protected:
 
 	std::shared_ptr<SourceGroupSettings> m_settings;
 
-	QtDirectoryListBox* m_list;
+	QtPathListBox* m_list;
 
 	QString m_showFilesString;
 	std::shared_ptr<CombinedPathDetector> m_pathDetector;
@@ -50,6 +54,7 @@ private slots:
 	void detectionClicked();
 
 private:
+	const QtPathListBox::SelectionPolicyType m_selectionPolicy;
 	const bool m_checkMissingPaths;
 	QString m_titleString;
 	QString m_helpString;

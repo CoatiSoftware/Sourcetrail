@@ -11,7 +11,6 @@
 #include "data/indexer/IndexerCommandCxxCdb.h"
 #include "utility/IncludeDirective.h"
 #include "utility/IncludeProcessing.h"
-#include "qt/element/QtDirectoryListBox.h"
 #include "qt/view/QtDialogView.h"
 #include "qt/window/QtPathListDialog.h"
 #include "qt/window/QtSelectPathsDialog.h"
@@ -27,11 +26,15 @@
 #include "utility/utilityString.h"
 
 QtProjectWizzardContentPaths::QtProjectWizzardContentPaths(
-	std::shared_ptr<SourceGroupSettings> settings, QtProjectWizzardWindow* window, bool checkMissingPaths
+	std::shared_ptr<SourceGroupSettings> settings, 
+	QtProjectWizzardWindow* window, 
+	QtPathListBox::SelectionPolicyType selectionPolicy,
+	bool checkMissingPaths
 )
 	: QtProjectWizzardContent(window)
 	, m_settings(settings)
 	, m_makePathsRelativeToProjectFileLocation(true)
+	, m_selectionPolicy(selectionPolicy)
 	, m_checkMissingPaths(checkMissingPaths)
 {
 }
@@ -46,7 +49,7 @@ void QtProjectWizzardContentPaths::populate(QGridLayout* layout, int& row)
 		addHelpButton(m_titleString, m_helpString, layout, row);
 	}
 
-	m_list = new QtDirectoryListBox(this, m_titleString);
+	m_list = new QtPathListBox(this, m_titleString, m_selectionPolicy);
 
 	if (m_makePathsRelativeToProjectFileLocation && m_settings)
 	{
@@ -76,7 +79,7 @@ bool QtProjectWizzardContentPaths::check()
 		QString missingPaths;
 		std::vector<FilePath> existingPaths;
 
-		for (const FilePath& path : m_list->getList())
+		for (const FilePath& path : m_list->getPathsAsDisplayed())
 		{
 			std::vector<FilePath> expandedPaths(1, path);
 			if (m_settings)
@@ -117,7 +120,7 @@ bool QtProjectWizzardContentPaths::check()
 
 			if (ret == QMessageBox::Yes)
 			{
-				m_list->setList(existingPaths);
+				m_list->setPaths(existingPaths);
 				save();
 			}
 			else if (ret == QMessageBox::Cancel)
@@ -175,15 +178,15 @@ void QtProjectWizzardContentPaths::addDetection(QGridLayout* layout, int row)
 void QtProjectWizzardContentPaths::detectionClicked()
 {
 	std::vector<FilePath> paths = m_pathDetector->getPaths(m_detectorBox->currentText().toStdString());
-	std::vector<FilePath> oldPaths = m_list->getList();
-	m_list->setList(utility::unique(utility::concat(oldPaths, paths)));
+	std::vector<FilePath> oldPaths = m_list->getPathsAsDisplayed();
+	m_list->setPaths(utility::unique(utility::concat(oldPaths, paths)));
 }
 
 
 QtProjectWizzardContentPathsSource::QtProjectWizzardContentPathsSource(
 	std::shared_ptr<SourceGroupSettings> settings, QtProjectWizzardWindow* window
 )
-	: QtProjectWizzardContentPaths(settings, window)
+	: QtProjectWizzardContentPaths(settings, window, QtPathListBox::SELECTION_POLICY_FILES_AND_DIRECTORIES)
 {
 	m_showFilesString = "show files";
 
@@ -201,12 +204,12 @@ QtProjectWizzardContentPathsSource::QtProjectWizzardContentPathsSource(
 
 void QtProjectWizzardContentPathsSource::load()
 {
-	m_list->setList(m_settings->getSourcePaths());
+	m_list->setPaths(m_settings->getSourcePaths());
 }
 
 void QtProjectWizzardContentPathsSource::save()
 {
-	m_settings->setSourcePaths(m_list->getList());
+	m_settings->setSourcePaths(m_list->getPathsAsDisplayed());
 }
 
 std::vector<FilePath> QtProjectWizzardContentPathsSource::getFilePaths() const
@@ -340,7 +343,7 @@ void QtProjectWizzardContentPathsCDBHeader::load()
 
 bool QtProjectWizzardContentPathsCDBHeader::check()
 {
-	if (!m_list->getList().size())
+	if (m_list->getPathsAsDisplayed().empty())
 	{
 		QMessageBox msgBox;
 		msgBox.setText("You didn't specify any Header Files & Directories to Index.");
@@ -398,7 +401,7 @@ void QtProjectWizzardContentPathsCDBHeader::buttonClicked()
 void QtProjectWizzardContentPathsCDBHeader::savedFilesDialog()
 {
 	// TODO: extend instead of replace
-	m_list->setList(dynamic_cast<QtSelectPathsDialog*>(m_filesDialog.get())->getPathsList());
+	m_list->setPaths(dynamic_cast<QtSelectPathsDialog*>(m_filesDialog.get())->getPathsList());
 
 	closedFilesDialog();
 }
@@ -406,7 +409,7 @@ void QtProjectWizzardContentPathsCDBHeader::savedFilesDialog()
 QtProjectWizzardContentPathsExclude::QtProjectWizzardContentPathsExclude(
 	std::shared_ptr<SourceGroupSettings> settings, QtProjectWizzardWindow* window
 )
-	: QtProjectWizzardContentPaths(settings, window, false)
+	: QtProjectWizzardContentPaths(settings, window, QtPathListBox::SELECTION_POLICY_FILES_AND_DIRECTORIES, false)
 {
 	setTitleString("Excluded Files & Directories");
 	setHelpString(
@@ -418,19 +421,19 @@ QtProjectWizzardContentPathsExclude::QtProjectWizzardContentPathsExclude(
 
 void QtProjectWizzardContentPathsExclude::load()
 {
-	m_list->setStringList(m_settings->getExcludeFilterStrings());
+	m_list->setPaths(utility::convert<std::wstring, FilePath>(m_settings->getExcludeFilterStrings(), [](const std::wstring& s) { return FilePath(s); }));
 }
 
 void QtProjectWizzardContentPathsExclude::save()
 {
-	m_settings->setExcludeFilterStrings(m_list->getStringList());
+	m_settings->setExcludeFilterStrings(utility::toWStrings(m_list->getPathsAsDisplayed()));
 }
 
 
 QtProjectWizzardContentPathsHeaderSearch::QtProjectWizzardContentPathsHeaderSearch(
 	std::shared_ptr<SourceGroupSettings> settings, QtProjectWizzardWindow* window, bool isCDB
 )
-	: QtProjectWizzardContentPaths(settings, window)
+	: QtProjectWizzardContentPaths(settings, window, QtPathListBox::SELECTION_POLICY_DIRECTORIES_ONLY)
 	, m_showDetectedIncludesResultFunctor(std::bind(
 		&QtProjectWizzardContentPathsHeaderSearch::showDetectedIncludesResult, this, std::placeholders::_1))
 	, m_showValidationResultFunctor(std::bind(
@@ -481,7 +484,7 @@ void QtProjectWizzardContentPathsHeaderSearch::load()
 	std::shared_ptr<SourceGroupSettingsCxx> cxxSettings = std::dynamic_pointer_cast<SourceGroupSettingsCxx>(m_settings);
 	if (cxxSettings)
 	{
-		m_list->setList(cxxSettings->getHeaderSearchPaths());
+		m_list->setPaths(cxxSettings->getHeaderSearchPaths());
 	}
 }
 
@@ -490,7 +493,7 @@ void QtProjectWizzardContentPathsHeaderSearch::save()
 	std::shared_ptr<SourceGroupSettingsCxx> cxxSettings = std::dynamic_pointer_cast<SourceGroupSettingsCxx>(m_settings);
 	if (cxxSettings)
 	{
-		cxxSettings->setHeaderSearchPaths(m_list->getList());
+		cxxSettings->setHeaderSearchPaths(m_list->getPathsAsDisplayed());
 	}
 }
 
@@ -508,7 +511,8 @@ void QtProjectWizzardContentPathsHeaderSearch::detectIncludesButtonClicked()
 		"<p>Automatically search for header files in the paths provided below to find missing include paths for "
 		"unresolved include directives in your source code.</p>"
 		"<p>The \"Files & Directories to Index\" will be searched by default, but you can add further paths, such "
-		"as directories of third-party libraries, if required.</p>"
+		"as directories of third-party libraries, if required.</p>",
+		QtPathListBox::SELECTION_POLICY_DIRECTORIES_ONLY
 	);
 
 	m_pathsDialog->setup();
@@ -653,18 +657,18 @@ void QtProjectWizzardContentPathsHeaderSearch::finishedAcceptDetectedIncludePath
 	const std::vector<std::wstring> detectedPaths = utility::split<std::vector<std::wstring>>(m_filesDialog->getText(), L"\n");
 	closedFilesDialog();
 
-	std::vector<std::wstring> headerSearchPaths = m_list->getStringList();
+	std::vector<FilePath> headerSearchPaths = m_list->getPathsAsDisplayed();
 
 	headerSearchPaths.reserve(headerSearchPaths.size() + detectedPaths.size());
 	for (const std::wstring& detectedPath : detectedPaths)
 	{
 		if (!detectedPath.empty())
 		{
-			headerSearchPaths.push_back(detectedPath);
+			headerSearchPaths.push_back(FilePath(detectedPath));
 		}
 	}
 
-	m_list->setStringList(headerSearchPaths);
+	m_list->setPaths(headerSearchPaths);
 }
 
 void QtProjectWizzardContentPathsHeaderSearch::closedPathsDialog()
@@ -677,7 +681,7 @@ void QtProjectWizzardContentPathsHeaderSearch::closedPathsDialog()
 
 void QtProjectWizzardContentPathsHeaderSearch::showDetectedIncludesResult(const std::set<FilePath>& detectedHeaderSearchPaths)
 {
-	const std::set<FilePath> headerSearchPaths = utility::toSet(m_settings->makePathsExpandedAndAbsolute(m_list->getList()));
+	const std::set<FilePath> headerSearchPaths = utility::toSet(m_settings->makePathsExpandedAndAbsolute(m_list->getPathsAsDisplayed()));
 
 	std::vector<FilePath> additionalHeaderSearchPaths;
 	for (const FilePath& detectedHeaderSearchPath : detectedHeaderSearchPaths)
@@ -697,7 +701,7 @@ void QtProjectWizzardContentPathsHeaderSearch::showDetectedIncludesResult(const 
 	else
 	{
 		std::wstring detailedText = L"";
-		FilePath relativeRoot = m_list->getRelativeRootDirectory();
+		const FilePath relativeRoot = m_list->getRelativeRootDirectory();
 		for (const FilePath& path : additionalHeaderSearchPaths)
 		{
 			if (!relativeRoot.empty())
@@ -788,7 +792,7 @@ void QtProjectWizzardContentPathsHeaderSearch::showValidationResult(const std::v
 QtProjectWizzardContentPathsHeaderSearchGlobal::QtProjectWizzardContentPathsHeaderSearchGlobal(
 	QtProjectWizzardWindow* window
 )
-	: QtProjectWizzardContentPaths(std::shared_ptr<SourceGroupSettings>(), window)
+	: QtProjectWizzardContentPaths(std::shared_ptr<SourceGroupSettings>(), window, QtPathListBox::SELECTION_POLICY_DIRECTORIES_ONLY)
 {
 	setTitleString("Global Include Paths");
 	setHelpString(
@@ -805,12 +809,12 @@ QtProjectWizzardContentPathsHeaderSearchGlobal::QtProjectWizzardContentPathsHead
 
 void QtProjectWizzardContentPathsHeaderSearchGlobal::load()
 {
-	m_list->setList(ApplicationSettings::getInstance()->getHeaderSearchPaths());
+	m_list->setPaths(ApplicationSettings::getInstance()->getHeaderSearchPaths());
 }
 
 void QtProjectWizzardContentPathsHeaderSearchGlobal::save()
 {
-	ApplicationSettings::getInstance()->setHeaderSearchPaths(m_list->getList());
+	ApplicationSettings::getInstance()->setHeaderSearchPaths(m_list->getPathsAsDisplayed());
 	ApplicationSettings::getInstance()->save();
 }
 
@@ -818,7 +822,7 @@ void QtProjectWizzardContentPathsHeaderSearchGlobal::save()
 QtProjectWizzardContentPathsFrameworkSearch::QtProjectWizzardContentPathsFrameworkSearch(
 	std::shared_ptr<SourceGroupSettings> settings, QtProjectWizzardWindow* window, bool isCDB
 )
-	: QtProjectWizzardContentPaths(settings, window)
+	: QtProjectWizzardContentPaths(settings, window, QtPathListBox::SELECTION_POLICY_DIRECTORIES_ONLY)
 {
 	setTitleString(isCDB ? "Additional Framework Search Paths" : "Framework Search Paths");
 	setHelpString(
@@ -834,7 +838,7 @@ void QtProjectWizzardContentPathsFrameworkSearch::load()
 	std::shared_ptr<SourceGroupSettingsCxx> cxxSettings = std::dynamic_pointer_cast<SourceGroupSettingsCxx>(m_settings);
 	if (cxxSettings)
 	{
-		m_list->setList(cxxSettings->getFrameworkSearchPaths());
+		m_list->setPaths(cxxSettings->getFrameworkSearchPaths());
 	}
 }
 
@@ -843,7 +847,7 @@ void QtProjectWizzardContentPathsFrameworkSearch::save()
 	std::shared_ptr<SourceGroupSettingsCxx> cxxSettings = std::dynamic_pointer_cast<SourceGroupSettingsCxx>(m_settings);
 	if (cxxSettings)
 	{
-		cxxSettings->setFrameworkSearchPaths(m_list->getList());
+		cxxSettings->setFrameworkSearchPaths(m_list->getPathsAsDisplayed());
 	}
 }
 
@@ -855,7 +859,7 @@ bool QtProjectWizzardContentPathsFrameworkSearch::isScrollAble() const
 QtProjectWizzardContentPathsFrameworkSearchGlobal::QtProjectWizzardContentPathsFrameworkSearchGlobal(
 	QtProjectWizzardWindow* window
 )
-	: QtProjectWizzardContentPaths(std::shared_ptr<SourceGroupSettings>(), window)
+	: QtProjectWizzardContentPaths(std::shared_ptr<SourceGroupSettings>(), window, QtPathListBox::SELECTION_POLICY_DIRECTORIES_ONLY)
 {
 	setTitleString("Global Framework Search Paths");
 	setHelpString(
@@ -873,12 +877,12 @@ QtProjectWizzardContentPathsFrameworkSearchGlobal::QtProjectWizzardContentPathsF
 
 void QtProjectWizzardContentPathsFrameworkSearchGlobal::load()
 {
-	m_list->setList(ApplicationSettings::getInstance()->getFrameworkSearchPaths());
+	m_list->setPaths(ApplicationSettings::getInstance()->getFrameworkSearchPaths());
 }
 
 void QtProjectWizzardContentPathsFrameworkSearchGlobal::save()
 {
-	ApplicationSettings::getInstance()->setFrameworkSearchPaths(m_list->getList());
+	ApplicationSettings::getInstance()->setFrameworkSearchPaths(m_list->getPathsAsDisplayed());
 	ApplicationSettings::getInstance()->save();
 }
 
@@ -886,7 +890,7 @@ void QtProjectWizzardContentPathsFrameworkSearchGlobal::save()
 QtProjectWizzardContentPathsClassJava::QtProjectWizzardContentPathsClassJava(
 	std::shared_ptr<SourceGroupSettings> settings, QtProjectWizzardWindow* window
 )
-	: QtProjectWizzardContentPaths(settings, window)
+	: QtProjectWizzardContentPaths(settings, window, QtPathListBox::SELECTION_POLICY_FILES_AND_DIRECTORIES)
 {
 	setTitleString("Class Path");
 	setHelpString(
@@ -917,7 +921,7 @@ void QtProjectWizzardContentPathsClassJava::load()
 		std::dynamic_pointer_cast<SourceGroupSettingsJava>(m_settings);
 	if (javaSettings)
 	{
-		m_list->setList(javaSettings->getClasspath());
+		m_list->setPaths(javaSettings->getClasspath());
 		m_useJreSystemLibraryCheckBox->setChecked(javaSettings->getUseJreSystemLibrary());
 	}
 }
@@ -928,7 +932,7 @@ void QtProjectWizzardContentPathsClassJava::save()
 		std::dynamic_pointer_cast<SourceGroupSettingsJava>(m_settings);
 	if (javaSettings)
 	{
-		javaSettings->setClasspath(m_list->getList());
+		javaSettings->setClasspath(m_list->getPathsAsDisplayed());
 		javaSettings->setUseJreSystemLibrary(m_useJreSystemLibraryCheckBox->isChecked());
 	}
 }

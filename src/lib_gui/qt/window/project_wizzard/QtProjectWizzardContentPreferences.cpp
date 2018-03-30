@@ -332,7 +332,7 @@ void QtProjectWizzardContentPreferences::populate(QGridLayout* layout, int& row)
 			"<p>Add the jar files of your JRE System Library. These jars can be found inside your JRE install directory.</p>",
 			layout, row);
 
-		m_jreSystemLibraryPaths = new QtDirectoryListBox(this, title);
+		m_jreSystemLibraryPaths = new QtPathListBox(this, title, QtPathListBox::SELECTION_POLICY_FILES_ONLY);
 
 		layout->addWidget(m_jreSystemLibraryPaths, row, QtProjectWizzardWindow::BACK_COL);
 		row++;
@@ -439,7 +439,7 @@ void QtProjectWizzardContentPreferences::load()
 
 	m_jvmMaximumMemory->setText(QString::number(appSettings->getJavaMaximumMemory()));
 
-	m_jreSystemLibraryPaths->setList(appSettings->getJreSystemLibraryPaths());
+	m_jreSystemLibraryPaths->setPaths(appSettings->getJreSystemLibraryPaths());
 
 	if (m_mavenPath)
 	{
@@ -498,7 +498,7 @@ void QtProjectWizzardContentPreferences::save()
 		appSettings->setJavaPath(FilePath(m_javaPath->getText().toStdWString()));
 	}
 
-	appSettings->setJreSystemLibraryPaths(m_jreSystemLibraryPaths->getList());
+	appSettings->setJreSystemLibraryPaths(m_jreSystemLibraryPaths->getPathsAsAbsolute());
 
 	int jvmMaximumMemory = m_jvmMaximumMemory->text().toInt();
 	if (jvmMaximumMemory) appSettings->setJavaMaximumMemory(jvmMaximumMemory);
@@ -535,8 +535,8 @@ void QtProjectWizzardContentPreferences::jreSystemLibraryPathsDetectionClicked()
 {
 	std::vector<FilePath> paths =
 		m_jreSystemLibraryPathsDetector->getPaths(m_jreSystemLibraryPathsDetectorBox->currentText().toStdString());
-	std::vector<FilePath> oldPaths = m_jreSystemLibraryPaths->getList();
-	m_jreSystemLibraryPaths->setList(utility::unique(utility::concat(oldPaths, paths)));
+	std::vector<FilePath> oldPaths = m_jreSystemLibraryPaths->getPathsAsAbsolute();
+	m_jreSystemLibraryPaths->setPaths(utility::unique(utility::concat(oldPaths, paths)));
 }
 
 void QtProjectWizzardContentPreferences::mavenPathDetectionClicked()

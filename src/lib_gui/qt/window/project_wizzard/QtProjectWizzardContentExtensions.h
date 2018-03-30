@@ -3,7 +3,7 @@
 
 #include "qt/window/project_wizzard/QtProjectWizzardContent.h"
 
-class QtDirectoryListBox;
+class QtStringListBox;
 class SourceGroupSettings;
 
 class QtProjectWizzardContentExtensions
@@ -23,7 +23,7 @@ public:
 private:
 	std::shared_ptr<SourceGroupSettings> m_settings;
 
-	QtDirectoryListBox* m_sourceList;
+	QtStringListBox* m_listBox;
 };
 
 #endif // QT_PROJECT_WIZZARD_CONTENT_EXTENSIONS_H
