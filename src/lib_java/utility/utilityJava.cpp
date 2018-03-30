@@ -15,7 +15,7 @@ namespace utility
 			L"org.eclipse.core.contenttype-3.6.0.jar",
 			L"org.eclipse.core.expressions-3.6.0.jar",
 			L"org.eclipse.core.filesystem-1.7.0.jar",
-			L"org.eclipse.core.jobs-3.9.2.jar",
+			L"org.eclipse.core.jobs-3.9.3.jar",
 			L"org.eclipse.core.resources-3.12.0.jar",
 			L"org.eclipse.core.runtime-3.13.0.jar",
 			L"org.eclipse.equinox.app-1.3.400.jar",
@@ -23,7 +23,7 @@ namespace utility
 			L"org.eclipse.equinox.preferences-3.7.0.jar",
 			L"org.eclipse.equinox.registry-3.7.0.jar",
 			L"org.eclipse.jdt.core-3.13.0.jar",
-			L"org.eclipse.osgi-3.12.50.jar",
+			L"org.eclipse.osgi-3.12.100.jar",
 			L"org.eclipse.text-3.6.100.jar",
 			L"slf4j-api-1.7.10.jar",
 			L"slf4j-simple-1.7.10.jar"
