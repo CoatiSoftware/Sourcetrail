@@ -700,6 +700,8 @@ else ()
 	endforeach( OUTPUTCONFIG CMAKE_CONFIGURATION_TYPES )
 endif ()
 
+file(WRITE ${CMAKE_CURRENT_BINARY_DIR}/test_main.cpp "")
+
 add_subdirectory(src/test)
 
 set(CXXTEST_INCLUDE_DIR $ENV{CXX_TEST_DIR})

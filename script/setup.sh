@@ -103,10 +103,6 @@ fi
 
 
 if [ $PLATFORM == "Windows" ]; then
-	echo -e $INFO "copy test_main file"
-	cp -u setup/cxx_test/windows/test_main.cpp build/win32
-	cp -u setup/cxx_test/windows/test_main.cpp build/win64
-
 	echo -e $INFO "creating program icon"
 	sh script/create_windows_icon.sh
 fi

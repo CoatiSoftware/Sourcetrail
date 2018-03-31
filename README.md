@@ -7,16 +7,14 @@
 * JDK 1.8
 * QT 5.9.1
 * CxxTest 4.3
-* Clang & LLVM 4.0.1 (doesnt quite work for windows, use unix setup below and skip all the ninja stuff)(installation guide http://clang.llvm.org/docs/LibASTMatchersTutorial.html)
+* Clang & LLVM 5.0 (doesnt quite work for windows, use unix setup below and skip all the ninja stuff)(installation guide http://clang.llvm.org/docs/LibASTMatchersTutorial.html)
 * Boost 1.64
 * Botan 2.1.0
 * Image Magick 7.0.6
 * ccache (Unix)
+* Visual Leak Detector (Windows)
 * Wix 3.11 (Windows)
 * Winrar (Windows)
-
-also something about java, but who knows...
-
 
 #### Environment Variables
 
@@ -29,8 +27,8 @@ For MacOS and Linux
 * QT_DIR - .../Qt/Qt5.9.1/5.9.1/<IDE>
 
 For Windows:
-* QT_WIN32_DIR - .../Qt/Qt5.9.1/5.9.1/msvc2015<IDE>
-* QT_WIN64_DIR - .../Qt/Qt5.9.1/5.9.1/msvc2015_64<IDE>
+* QT_WIN32_DIR - .../Qt/Qt5.9.1/5.9.1/msvc2015
+* QT_WIN64_DIR - .../Qt/Qt5.9.1/5.9.1/msvc2015_64
 * VLD_DIR - .../Visual Leak Detector
 * JAVA_HOME - .../Java/jdk1.x.x_xxx
 * path
