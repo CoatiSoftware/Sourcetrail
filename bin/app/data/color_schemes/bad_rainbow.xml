@@ -246,7 +246,7 @@
 					<normal>#3D3D3D</normal>
 				</icon>
 				<hatching>
-					<normal>#494949</normal>
+					<normal>#616061</normal>
 				</hatching>
 			</default>
 
@@ -300,7 +300,7 @@
 					<focus>#FFFFFF</focus>
 				</border>
 				<hatching>
-					<normal>#FFFFFF</normal>
+					<normal>#FFE8A6</normal>
 				</hatching>
 			</function>
 			<method>
@@ -309,7 +309,7 @@
 
 			<global_variable>
 				<fill>
-					<normal>#00BCD6</normal>
+					<normal>#2FC2D6</normal>
 					<focus>#38D3E8</focus>
 				</fill>
 				<border>
@@ -317,7 +317,7 @@
 					<focus>#FFFFFF</focus>
 				</border>
 				<hatching>
-					<normal>#FFFFFF</normal>
+					<normal>#96DAE3</normal>
 				</hatching>
 			</global_variable>
 			<field>
@@ -439,7 +439,7 @@
 			</default>
 
 			<override>
-				<normal>#CC5E89</normal>
+				<normal>#BA5ECC</normal>
 			</override>
 
 			<call>
@@ -452,7 +452,7 @@
 			</use>
 
 			<template_argument>
-				<normal>#C1305D</normal>
+				<normal>#D93D5F</normal>
 			</template_argument>
 			<type_argument>
 				<like>template_argument</like>

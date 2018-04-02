@@ -244,7 +244,7 @@
 					<normal>black</normal>
 				</icon>
 				<hatching>
-					<normal>white</normal>
+					<normal>#F5F5F5</normal>
 				</hatching>
 			</default>
 
@@ -291,6 +291,9 @@
 					<normal>transparent</normal>
 					<focus>#3C3C3C</focus>
 				</border>
+				<hatching>
+					<normal>#FFEDC4</normal>
+				</hatching>
 			</function>
 			<method>
 				<like>function</like>
@@ -305,6 +308,9 @@
 					<normal>transparent</normal>
 					<focus>#3C3C3C</focus>
 				</border>
+				<hatching>
+					<normal>#B3D4E5</normal>
+				</hatching>
 			</global_variable>
 			<field>
 				<like>global_variable</like>
@@ -407,7 +413,7 @@
 			</default>
 
 			<override>
-				<normal>#CC5E89</normal>
+				<normal>#955ECC</normal>
 			</override>
 
 			<call>
@@ -420,7 +426,7 @@
 			</use>
 
 			<template_argument>
-				<normal>#C1305D</normal>
+				<normal>#CF6B7C</normal>
 			</template_argument>
 			<type_argument>
 				<like>template_argument</like>
