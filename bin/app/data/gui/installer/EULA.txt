@@ -8,57 +8,57 @@ BY INSTALLING OR USING THIS SOFTWARE, YOU ARE BECOMING A PARTY TO, AND ARE CONSE
 1. DEFINITIONS
 
 "SOFTWARE" means:
-•	a version of the cross-platform source code explorer known as Sourcetrail in executable form. The version is defined by the two leading numbers of the version string (e.g. the version of Sourcetrail 2017.1.x is version 2017.1);
-•	documentation for that version of Sourcetrail;
-•	minor updates included in software maintenance which are indicated by an increase in the digits that follow the first two leading numbers of the version string (e.g. the update from Sourcetrail 2017.1.0 to Sourcetrail 2017.1.1 is a minor update).
+*	a version of the cross-platform source code explorer known as Sourcetrail in executable form. The version is defined by the two leading numbers of the version string (e.g. the version of Sourcetrail 2017.1.x is version 2017.1);
+*	documentation for that version of Sourcetrail;
+*	minor updates included in software maintenance which are indicated by an increase in the digits that follow the first two leading numbers of the version string (e.g. the update from Sourcetrail 2017.1.0 to Sourcetrail 2017.1.1 is a minor update).
 "LICENSE" means:
-•	the permission to use and distribute the SOFTWARE as defined by the following sections of this document. The permissions granted especially depend on whether a SOFTWARE Non-Commercial License or a SOFTWARE Commercial License is agreed-upon.
+*	the permission to use and distribute the SOFTWARE as defined by the following sections of this document. The permissions granted especially depend on whether a SOFTWARE Non-Commercial License or a SOFTWARE Commercial License is agreed-upon.
 "LICENSOR" means:
-•	Coati Software KG, having a place of business at Jakob-Haringer-Straße 1/127, 5020 Salzburg, Austria.
+*	Coati Software KG, having a place of business at Jakob-Haringer-Straße 1/127, 5020 Salzburg, Austria.
 "LICENSEE" means:
-•	the individual who purchased a LICENSE(s) for the SOFTWARE; 
-•	the individual who was granted a LICENSE(s) for the SOFTWARE by LICENSOR;
-•	the company, corporation, organization, or legal entity that purchased a LICENSE(s) for the SOFTWARE;
-•	the company, corporation, organization, or legal entity that was granted a LICENSE(s) for the SOFTWARE by LICENSOR.
+*	the individual who purchased a LICENSE(s) for the SOFTWARE; 
+*	the individual who was granted a LICENSE(s) for the SOFTWARE by LICENSOR;
+*	the company, corporation, organization, or legal entity that purchased a LICENSE(s) for the SOFTWARE;
+*	the company, corporation, organization, or legal entity that was granted a LICENSE(s) for the SOFTWARE by LICENSOR.
 "PARTIES" means:
-•	both LICENSOR and LICENSEE collectively.
+*	both LICENSOR and LICENSEE collectively.
 "AUTHORIZED USER" means:
-•	the individual who is LICENSEE of the SOFTWARE. This individual is the only AUTHORIZED USER;
-•	an employee or independent contractor who is nameable on demand and might at any time use the SOFTWARE, of LICENSEE. Every AUTHORIZED USER known by name can be replaced by another user known by name only once in a month. From that time on, said first user must not use the SOFTWARE anymore and said second user may start to use the SOFTWARE. At no time may the number of the users known by name exceed the agreed-upon number of AUTHORIZED USER(s).	
+*	the individual who is LICENSEE of the SOFTWARE. This individual is the only AUTHORIZED USER;
+*	an employee or independent contractor who is nameable on demand and might at any time use the SOFTWARE, of LICENSEE. Every AUTHORIZED USER known by name can be replaced by another user known by name only once in a month. From that time on, said first user must not use the SOFTWARE anymore and said second user may start to use the SOFTWARE. At no time may the number of the users known by name exceed the agreed-upon number of AUTHORIZED USER(s).	
 "ACTIVATION KEY" means: 
-•	a document issued by LICENSOR that defines all parameters of the SOFTWARE Commercial License. Said document specifies the name of the licensed SOFTWARE, the name of LICENSEE, the license type, the agreed-upon number of AUTHORIZED USERS, an upper limit for the licensed SOFTWARE version or an expiration date, and a hash-code. The combination of these values allows LICENSEE to unlock the full functionality of a genuine copy of the SOFTWARE for intended commercial use.
+*	a document issued by LICENSOR that defines all parameters of the SOFTWARE Commercial License. Said document specifies the name of the licensed SOFTWARE, the name of LICENSEE, the license type, the agreed-upon number of AUTHORIZED USERS, an upper limit for the licensed SOFTWARE version or an expiration date, and a hash-code. The combination of these values allows LICENSEE to unlock the full functionality of a genuine copy of the SOFTWARE for intended commercial use.
 
 
 2. GRANT
 
 The SOFTWARE is handed over to LICENSEE for its intended use. The scope of the intended use permitted by this AGREEMENT depends on whether a SOFTWARE Non-Commercial License or a SOFTWARE Commercial License is agreed-upon. If a SOFTWARE Non-Commercial License is agreed-upon LICENSEE is allowed to use the SOFTWARE solely for non-commercial purposes. A purpose is non-commercial only if it is in no manner primarily intended for or directed toward commercial advantage or private monetary compensation.
 Examples of non-commercial purposes:
-•	you are using the SOFTWARE to work on open-source projects for free,
-•	you are a student and you are using the SOFTWARE for your academic projects,
-•	you are using the SOFTWARE in your spare time to work on the desktop application of your local football club for free.
+*	you are using the SOFTWARE to work on open-source projects for free,
+*	you are a student and you are using the SOFTWARE for your academic projects,
+*	you are using the SOFTWARE in your spare time to work on the desktop application of your local football club for free.
 Examples of commercial purposes, i.e. when you will need a Commercial License:
-•	you are using the SOFTWARE to work on open-source as well as on your company's projects,
-•	you are a student and you are using the SOFTWARE for your work as a freelancer,
-•	you are using the SOFTWARE in your spare time to work on the desktop application of your local football club and you are getting paid for that.
+*	you are using the SOFTWARE to work on open-source as well as on your company's projects,
+*	you are a student and you are using the SOFTWARE for your work as a freelancer,
+*	you are using the SOFTWARE in your spare time to work on the desktop application of your local football club and you are getting paid for that.
 
 Subject to the terms of this AGREEMENT, LICENSOR hereby grants LICENSEE a worldwide, non-transferable, non-exclusive, non-sub-licensable, limited LICENSE that allows:
-•	LICENSEE to distribute (an) ACTIVATION KEY(s) to AUTHORIZED USER(s);
-•	LICENSEE and AUTHORIZED USER(s) to install the SOFTWARE on any number of computer PCs where potential use of the full functionality of the SOFTWARE is restricted exclusively to AUTHORIZED USER(s);
-•	LICENSEE and AUTHORIZED USER(s) to use the command-line interface of the SOFTWARE without unlocking the full functionality of the SOFTWARE;
-•	LICENSEE and AUTHORIZED USER(s) to use an ACTIVATION KEY to unlock the full functionality of the SOFTWARE for intended commercial use;
-•	LICENSEE and AUTHORIZED USER(s) to truthfully declare their intend to solely use the SOFTWARE for non-commercial purposes to unlock the full functionality of the SOFTWARE for intended non-commercial use;
-•	AUTHORIZED USER(s) to apply any version of the unlocked SOFTWARE that specifies a version number less than or equal to the version number denoted in the ACTIVATION KEY to the permitted intended use. If the ACTIVATION KEY does not denote a version number, the AUTHORIZED USER is allowed to use any version of the SOFTWARE for a period of time that is limited by the expiration date specified in the ACTIVATION KEY;
-•	LICENSEE and AUTHORIZED USER(s) to use and publish source code dependency graphs that have been exported from the SOFTWARE by AUTHORIZED USER(s);
-•	LICENSEE to make a copy of the SOFTWARE for archival purposes provided the copy contains all of the proprietary notices of the SOFTWARE.
+*	LICENSEE to distribute (an) ACTIVATION KEY(s) to AUTHORIZED USER(s);
+*	LICENSEE and AUTHORIZED USER(s) to install the SOFTWARE on any number of computer PCs where potential use of the full functionality of the SOFTWARE is restricted exclusively to AUTHORIZED USER(s);
+*	LICENSEE and AUTHORIZED USER(s) to use the command-line interface of the SOFTWARE without unlocking the full functionality of the SOFTWARE;
+*	LICENSEE and AUTHORIZED USER(s) to use an ACTIVATION KEY to unlock the full functionality of the SOFTWARE for intended commercial use;
+*	LICENSEE and AUTHORIZED USER(s) to truthfully declare their intend to solely use the SOFTWARE for non-commercial purposes to unlock the full functionality of the SOFTWARE for intended non-commercial use;
+*	AUTHORIZED USER(s) to apply any version of the unlocked SOFTWARE that specifies a version number less than or equal to the version number denoted in the ACTIVATION KEY to the permitted intended use. If the ACTIVATION KEY does not denote a version number, the AUTHORIZED USER is allowed to use any version of the SOFTWARE for a period of time that is limited by the expiration date specified in the ACTIVATION KEY;
+*	LICENSEE and AUTHORIZED USER(s) to use and publish source code dependency graphs that have been exported from the SOFTWARE by AUTHORIZED USER(s);
+*	LICENSEE to make a copy of the SOFTWARE for archival purposes provided the copy contains all of the proprietary notices of the SOFTWARE.
 
 
 3. RESTRICTIONS
 
 LICENSEE and AUTHORIZED USER(s) will not, and will have no right to:
-•	modify, translate, reverse engineer, decompile, disassemble (except to the extent applicable laws specifically prohibit such restriction), create derivative works based on, or otherwise attempt to discover the source code or underlying ideas or algorithms of the SOFTWARE;
-•	sell, rent, lease, distribute, or otherwise transfer rights to the SOFTWARE without prior written consent from LICENSOR;
-•	remove any proprietary notices or labels from the SOFTWARE;
-•	distribute, use, or transfer an ACTIVATION KEY(s) that has been superseded by an ACTIVATION KEY(s) provided with software maintenance.
+*	modify, translate, reverse engineer, decompile, disassemble (except to the extent applicable laws specifically prohibit such restriction), create derivative works based on, or otherwise attempt to discover the source code or underlying ideas or algorithms of the SOFTWARE;
+*	sell, rent, lease, distribute, or otherwise transfer rights to the SOFTWARE without prior written consent from LICENSOR;
+*	remove any proprietary notices or labels from the SOFTWARE;
+*	distribute, use, or transfer an ACTIVATION KEY(s) that has been superseded by an ACTIVATION KEY(s) provided with software maintenance.
 
 
 4. CONFIDENTIALITY
