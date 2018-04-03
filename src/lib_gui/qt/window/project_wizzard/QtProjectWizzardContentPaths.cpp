@@ -115,15 +115,18 @@ bool QtProjectWizzardContentPaths::check()
 				).arg(m_titleString)
 			);
 			msgBox.setDetailedText(missingPaths);
-			msgBox.setStandardButtons(QMessageBox::Yes | QMessageBox::No | QMessageBox::Cancel);
-			int ret = msgBox.exec();
+			QPushButton* removeButton = msgBox.addButton("Remove", QMessageBox::YesRole);
+			QPushButton* keepButton = msgBox.addButton("Keep", QMessageBox::ButtonRole::NoRole);
+			QPushButton* cancelButton = msgBox.addButton("Cancel", QMessageBox::ButtonRole::RejectRole);
 
-			if (ret == QMessageBox::Yes)
+			msgBox.exec();
+			
+			if (msgBox.clickedButton() == removeButton)
 			{
 				m_list->setPaths(existingPaths);
 				save();
 			}
-			else if (ret == QMessageBox::Cancel)
+			else if (msgBox.clickedButton() == cancelButton)
 			{
 				return false;
 			}
