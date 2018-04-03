@@ -7,7 +7,7 @@
 * JDK 1.8
 * QT 5.9.1
 * CxxTest 4.3
-* Clang & LLVM 5.0 (doesnt quite work for windows, use unix setup below and skip all the ninja stuff)(installation guide http://clang.llvm.org/docs/LibASTMatchersTutorial.html)
+* Clang & LLVM 6.0 (doesnt quite work for windows, use unix setup below and skip all the ninja stuff)(installation guide http://clang.llvm.org/docs/LibASTMatchersTutorial.html)
 * Boost 1.64
 * Botan 2.1.0
 * Image Magick 7.0.6
