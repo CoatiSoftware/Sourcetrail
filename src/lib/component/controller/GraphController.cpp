@@ -553,32 +553,7 @@ void GraphController::createDummyGraph(const std::shared_ptr<Graph> graph)
 		}
 	);
 
-	for (const std::shared_ptr<DummyNode>& node : dummyNodes)
-	{
-		node->hasParent = false;
-
-		if (node->data->getType().isPackage())
-		{
-			node->name = node->data->getFullName();
-		}
-		else
-		{
-			node->name = node->data->getName();
-
-			NameHierarchy qualifier = node->data->getNameHierarchy();
-			qualifier.pop();
-
-			if (qualifier.size())
-			{
-				std::shared_ptr<DummyNode> qualifierNode = std::make_shared<DummyNode>(DummyNode::DUMMY_QUALIFIER);
-				qualifierNode->qualifierName = qualifier;
-				qualifierNode->visible = true;
-
-				node->subNodes.push_back(qualifierNode);
-				node->hasQualifier = true;
-			}
-		}
-	}
+	updateDummyNodeNamesAndAddQualifiers(dummyNodes);
 
 	m_dummyNodes = dummyNodes;
 
@@ -672,6 +647,39 @@ std::vector<std::shared_ptr<DummyNode>> GraphController::createDummyNodeTopDown(
 	);
 
 	return nodes;
+}
+
+void GraphController::updateDummyNodeNamesAndAddQualifiers(
+	const std::vector<std::shared_ptr<DummyNode>>& dummyNodes)
+{
+	for (const std::shared_ptr<DummyNode>& node : dummyNodes)
+	{
+		if (node->isGroupNode() || !node->data || node->data->getType().isFile())
+		{
+			updateDummyNodeNamesAndAddQualifiers(node->subNodes);
+		}
+		else if (node->data->getType().isPackage())
+		{
+			node->name = node->data->getFullName();
+		}
+		else
+		{
+			node->name = node->data->getName();
+
+			NameHierarchy qualifier = node->data->getNameHierarchy();
+			qualifier.pop();
+
+			if (qualifier.size())
+			{
+				std::shared_ptr<DummyNode> qualifierNode = std::make_shared<DummyNode>(DummyNode::DUMMY_QUALIFIER);
+				qualifierNode->qualifierName = qualifier;
+				qualifierNode->visible = true;
+
+				node->subNodes.push_back(qualifierNode);
+				node->hasQualifier = true;
+			}
+		}
+	}
 }
 
 std::vector<Id> GraphController::getExpandedNodeIds() const

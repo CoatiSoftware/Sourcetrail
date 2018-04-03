@@ -869,7 +869,7 @@ QtGraphNode* QtGraphView::createNodeRecursive(
 	QtGraphNode* newNode = nullptr;
 	if (node->isGraphNode())
 	{
-		newNode = new QtGraphNodeData(node->data, node->name, node->hasParent, node->childVisible, node->hasQualifier);
+		newNode = new QtGraphNodeData(node->data, node->name, node->childVisible, node->hasQualifier);
 	}
 	else if (node->isAccessNode())
 	{

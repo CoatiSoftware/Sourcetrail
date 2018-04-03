@@ -655,7 +655,6 @@ GraphViewStyle::EdgeStyle GraphViewStyle::getStyleForEdgeType(
 		}
 		break;
 	case Edge::EDGE_INCLUDE:
-	case Edge::EDGE_MACRO_USAGE:
 		style.zValue = isActive ? 2 : -3;
 	default:
 		break;

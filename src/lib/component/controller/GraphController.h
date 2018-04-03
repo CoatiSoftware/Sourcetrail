@@ -78,6 +78,8 @@ private:
 		const std::vector<Id>& tokenIds, const std::shared_ptr<Graph> graph, bool keepExpandedNodesExpanded);
 	std::vector<std::shared_ptr<DummyNode>> createDummyNodeTopDown(Node* node, Id ancestorId);
 
+	void updateDummyNodeNamesAndAddQualifiers(const std::vector<std::shared_ptr<DummyNode>>& dummyNodes);
+
 	std::vector<Id> getExpandedNodeIds() const;
 	void setExpandedNodeIds(const std::vector<Id>& nodeIds);
 	void autoExpandActiveNode(const std::vector<Id>& activeTokenIds);

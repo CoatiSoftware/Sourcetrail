@@ -9,13 +9,12 @@
 
 #include "data/graph/token_component/TokenComponentFilePath.h"
 
-QtGraphNodeData::QtGraphNodeData(const Node* data, const std::wstring& name, bool hasParent, bool childVisible, bool hasQualifier)
+QtGraphNodeData::QtGraphNodeData(const Node* data, const std::wstring& name, bool childVisible, bool hasQualifier)
 	: m_data(data)
 	, m_childVisible(childVisible)
 	, m_hasQualifier(hasQualifier)
 {
 	this->setAcceptHoverEvents(true);
-
 	this->setName(name);
 }
 

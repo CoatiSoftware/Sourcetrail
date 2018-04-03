@@ -886,6 +886,8 @@ std::shared_ptr<Graph> PersistentStorage::getGraphForActiveTokenIds(
 	bool addAggregations = false;
 	std::vector<StorageEdge> edgesToAggregate;
 
+	bool addFileContents = false;
+
 	if (tokenIds.size() == 1)
 	{
 		const Id elementId = tokenIds[0];
@@ -936,7 +938,14 @@ std::shared_ptr<Graph> PersistentStorage::getGraphForActiveTokenIds(
 					}
 				}
 
-				addAggregations = true;
+				if (nodeType.isFile())
+				{
+					addFileContents = true;
+				}
+				else
+				{
+					addAggregations = true;
+				}
 			}
 		}
 		else if (m_sqliteIndexStorage.isEdge(elementId))
@@ -994,6 +1003,10 @@ std::shared_ptr<Graph> PersistentStorage::getGraphForActiveTokenIds(
 	if (addAggregations)
 	{
 		addAggregationEdgesToGraph(tokenIds[0], edgesToAggregate, graph);
+	}
+	else if (addFileContents)
+	{
+		addFileContentsToGraph(tokenIds[0], graph);
 	}
 
 	if (!isPackage)
@@ -2368,7 +2381,7 @@ void PersistentStorage::addNodesWithParentsAndEdgesToGraph(
 }
 
 void PersistentStorage::addAggregationEdgesToGraph(
-	const Id nodeId, const std::vector<StorageEdge>& edgesToAggregate, Graph* graph) const
+	Id nodeId, const std::vector<StorageEdge>& edgesToAggregate, Graph* graph) const
 {
 	TRACE();
 
@@ -2467,6 +2480,58 @@ void PersistentStorage::addAggregationEdgesToGraph(
 		Edge* edge = graph->createEdge(aggregationId, Edge::EDGE_AGGREGATION, sourceNode, targetNode);
 		edge->addComponent(componentAggregation);
 	}
+}
+
+void PersistentStorage::addFileContentsToGraph(Id fileId, Graph* graph) const
+{
+	FilePath path = getFileNodePath(fileId);
+	if (path.empty())
+	{
+		return;
+	}
+
+	std::vector<Id> tokenIds;
+	std::set<Id> tokenIdsSet;
+
+	std::shared_ptr<SourceLocationFile> locationFile = m_sqliteIndexStorage.getSourceLocationsForFile(path);
+	locationFile->forEachStartSourceLocation(
+		[this, &tokenIds, &tokenIdsSet](SourceLocation* location)
+		{
+			if (location->getType() != LOCATION_TOKEN)
+			{
+				return;
+			}
+
+			for (Id tokenId : location->getTokenIds())
+			{
+				if (tokenIdsSet.insert(tokenId).second)
+				{
+					auto it = m_symbolDefinitionKinds.find(tokenId);
+					if (it == m_symbolDefinitionKinds.end() || it->second != DEFINITION_IMPLICIT)
+					{
+						tokenIds.push_back(tokenId);
+					}
+				}
+			}
+		}
+	);
+
+	addNodesWithParentsAndEdgesToGraph(tokenIds, { }, graph, true);
+
+	Node* fileNode = graph->getNodeById(fileId);
+	Id memberEdgeId = 0;
+	for (Id tokenId : tokenIds)
+	{
+		Id nodeId = m_hierarchyCache.getLastVisibleParentNodeId(tokenId);
+		Node* node = graph->getNodeById(nodeId);
+		if (node && !node->getMemberEdge())
+		{
+			// Set first bit to 1 to avoid collisions
+			graph->createEdge(~(~Id(0) >> 1) + memberEdgeId++, Edge::EDGE_MEMBER, fileNode, node);
+		}
+	}
+
+	fileNode->setChildCount(memberEdgeId);
 }
 
 void PersistentStorage::addComponentAccessToGraph(Graph* graph) const

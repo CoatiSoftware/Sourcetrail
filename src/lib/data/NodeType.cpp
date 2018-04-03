@@ -141,11 +141,12 @@ bool NodeType::isCollapsible() const
 		NodeType::NODE_SYMBOL |
 		NodeType::NODE_TYPE |
 		NodeType::NODE_BUILTIN_TYPE |
-		NodeType::NODE_CLASS |
 		NodeType::NODE_STRUCT |
+		NodeType::NODE_CLASS |
+		NodeType::NODE_INTERFACE |
 		NodeType::NODE_ENUM |
 		NodeType::NODE_UNION |
-		NodeType::NODE_INTERFACE;
+		NodeType::NODE_FILE;
 	return ((m_type & mask) > 0);
 }
 

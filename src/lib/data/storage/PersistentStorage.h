@@ -172,7 +172,8 @@ private:
 	void addNodesWithParentsAndEdgesToGraph(
 		const std::vector<Id>& nodeIds, const std::vector<Id>& edgeIds, Graph* graphh, bool addChildCount) const;
 
-	void addAggregationEdgesToGraph(const Id nodeId, const std::vector<StorageEdge>& edgesToAggregate, Graph* graph) const;
+	void addAggregationEdgesToGraph(Id nodeId, const std::vector<StorageEdge>& edgesToAggregate, Graph* graph) const;
+	void addFileContentsToGraph(Id fileId, Graph* graph) const;
 	void addComponentAccessToGraph(Graph* graph) const;
 
 	void addCompleteFlagsToSourceLocationCollection(SourceLocationCollection* collection) const;
