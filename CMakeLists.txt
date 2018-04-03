@@ -700,7 +700,9 @@ else ()
 	endforeach( OUTPUTCONFIG CMAKE_CONFIGURATION_TYPES )
 endif ()
 
-file(WRITE ${CMAKE_CURRENT_BINARY_DIR}/test_main.cpp "")
+if (WIN32)
+	file(WRITE ${CMAKE_CURRENT_BINARY_DIR}/test_main.cpp "")
+endif ()
 
 add_subdirectory(src/test)
 
