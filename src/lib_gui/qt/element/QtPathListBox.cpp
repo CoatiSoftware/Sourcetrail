@@ -93,7 +93,7 @@ void QtPathListBox::dropEvent(QDropEvent *event)
 	{
 		FilePath path(url.toLocalFile().toStdWString());
 		makeRelative(path);
-		QtListBoxItem* item = addListBoxItemWithText(QString::fromStdWString(path.wstr()));
+		addListBoxItemWithText(QString::fromStdWString(path.wstr()));
 	}
 }
 

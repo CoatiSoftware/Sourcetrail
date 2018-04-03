@@ -26,8 +26,8 @@
 #include "utility/utilityString.h"
 
 QtProjectWizzardContentPaths::QtProjectWizzardContentPaths(
-	std::shared_ptr<SourceGroupSettings> settings, 
-	QtProjectWizzardWindow* window, 
+	std::shared_ptr<SourceGroupSettings> settings,
+	QtProjectWizzardWindow* window,
 	QtPathListBox::SelectionPolicyType selectionPolicy,
 	bool checkMissingPaths
 )
@@ -120,11 +120,15 @@ bool QtProjectWizzardContentPaths::check()
 			QPushButton* cancelButton = msgBox.addButton("Cancel", QMessageBox::ButtonRole::RejectRole);
 
 			msgBox.exec();
-			
+
 			if (msgBox.clickedButton() == removeButton)
 			{
 				m_list->setPaths(existingPaths);
 				save();
+			}
+			else if (msgBox.clickedButton() == keepButton)
+			{
+				return true;
 			}
 			else if (msgBox.clickedButton() == cancelButton)
 			{
