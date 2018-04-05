@@ -36,6 +36,9 @@ public:
 	static int typeToInt(EdgeType type);
 	static EdgeType intToType(int value);
 
+	static const TypeMask LAYOUT_VERTICAL = EDGE_INHERITANCE | EDGE_OVERRIDE | EDGE_TEMPLATE_SPECIALIZATION |
+		EDGE_TEMPLATE_MEMBER_SPECIALIZATION;
+
 	Edge(Id id, EdgeType type, Node* from, Node* to);
 	Edge(const Edge& other, Node* from, Node* to);
 	virtual ~Edge();

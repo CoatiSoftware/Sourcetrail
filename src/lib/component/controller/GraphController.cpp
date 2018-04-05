@@ -185,7 +185,7 @@ void GraphController::handleMessage(MessageActivateTrail* message)
 
 	MessageStatus(L"Layouting depth graph", false, true).dispatch();
 
-	if (message->trailType == Edge::EDGE_INHERITANCE)
+	if (message->trailType & Edge::EDGE_INHERITANCE)
 	{
 		groupTrailNodes(NodeType::GROUP_INHERITANCE);
 	}
@@ -922,7 +922,7 @@ void GraphController::bundleNodes()
 							return;
 						}
 
-						if (e->isType(Edge::EDGE_INHERITANCE | Edge::EDGE_OVERRIDE))
+						if (e->isType(Edge::LAYOUT_VERTICAL))
 						{
 							bundleInfo->layoutVertical = true;
 							bundleInfo->isReferenced = false;
@@ -1065,6 +1065,16 @@ void GraphController::bundleNodes()
 		10,
 		false,
 		L"Referenced Symbols"
+	);
+
+	bundleNodesAndEdgesMatching(
+		[](const DummyNode::BundleInfo& info, const Node* data)
+		{
+			return info.isReferencing && info.layoutVertical && data->findEdgeOfType(Edge::EDGE_TEMPLATE_SPECIALIZATION);
+		},
+		5,
+		false,
+		L"Specializing Symbols"
 	);
 
 	bundleNodesAndEdgesMatching(

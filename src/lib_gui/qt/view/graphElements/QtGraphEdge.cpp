@@ -184,7 +184,8 @@ void QtGraphEdge::updateLine()
 			}
 		}
 
-		if (type == Edge::EDGE_INHERITANCE)
+		if (type == Edge::EDGE_INHERITANCE || (type == Edge::EDGE_TEMPLATE_SPECIALIZATION &&
+				owner == owner->getLastParent() && target == target->getLastParent()))
 		{
 			child->setRoute(QtLineItemBase::ROUTE_VERTICAL);
 

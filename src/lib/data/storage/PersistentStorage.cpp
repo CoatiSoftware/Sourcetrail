@@ -1080,7 +1080,7 @@ std::shared_ptr<Graph> PersistentStorage::getGraphForTrail(
 			m_sqliteIndexStorage.getEdgesBySourceIds(nodeIdsToProcess) :
 			m_sqliteIndexStorage.getEdgesByTargetIds(nodeIdsToProcess);
 
-		if (trailType & (Edge::EDGE_OVERRIDE | Edge::EDGE_INHERITANCE))
+		if (trailType & Edge::LAYOUT_VERTICAL)
 		{
 			utility::append(edges,
 				forward ?
@@ -1095,7 +1095,7 @@ std::shared_ptr<Graph> PersistentStorage::getGraphForTrail(
 		{
 			if (Edge::intToType(edge.type) & trailType)
 			{
-				bool isForward = forward == !(Edge::intToType(edge.type) & (Edge::EDGE_OVERRIDE | Edge::EDGE_INHERITANCE));
+				bool isForward = forward == !(Edge::intToType(edge.type) & Edge::LAYOUT_VERTICAL);
 
 				const Id nodeId = isForward ? edge.targetNodeId : edge.sourceNodeId;
 				const Id otherNodeId = isForward ? edge.sourceNodeId : edge.targetNodeId;

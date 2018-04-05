@@ -683,7 +683,7 @@ void TrailLayouter::addEdge(const std::shared_ptr<DummyEdge> dummyEdge, const st
 	Id originTopLevelId = topLevelAncestorIds.find(dummyEdge->ownerId)->second;
 	Id targetTopLevelId = topLevelAncestorIds.find(dummyEdge->targetId)->second;
 
-	if (dummyEdge->data->isType(Edge::EDGE_OVERRIDE | Edge::EDGE_INHERITANCE) != invertedLayout())
+	if (dummyEdge->data->isType(Edge::LAYOUT_VERTICAL) != invertedLayout())
 	{
 		std::swap(originTopLevelId, targetTopLevelId);
 	}

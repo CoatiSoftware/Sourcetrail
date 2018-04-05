@@ -654,6 +654,15 @@ GraphViewStyle::EdgeStyle GraphViewStyle::getStyleForEdgeType(
 			style.zValue = isActive ? 2 : -20;
 		}
 		break;
+
+	case Edge::EDGE_TEMPLATE_SPECIALIZATION:
+		style.zValue = isActive ? 2 : -3;
+	case Edge::EDGE_TEMPLATE_MEMBER_SPECIALIZATION:
+		style.arrowLength = 10;
+		style.arrowWidth = 13;
+		style.arrowClosed = true;
+		break;
+
 	case Edge::EDGE_INCLUDE:
 		style.zValue = isActive ? 2 : -3;
 	default:

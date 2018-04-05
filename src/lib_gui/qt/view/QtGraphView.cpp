@@ -669,13 +669,12 @@ MessageActivateTrail QtGraphView::getMessageActivateTrail(bool forward)
 
 		if (node->getData()->getType().isInheritable())
 		{
-			trailType = Edge::EDGE_INHERITANCE;
+			trailType = Edge::EDGE_INHERITANCE | Edge::EDGE_TEMPLATE_SPECIALIZATION;
 			horizontalLayout = false;
 		}
 		else if (node->getData()->getType().isCallable())
 		{
-			trailType = Edge::EDGE_CALL | Edge::EDGE_OVERRIDE |
-				Edge::EDGE_TEMPLATE_SPECIALIZATION | Edge::EDGE_TEMPLATE_MEMBER_SPECIALIZATION;
+			trailType = Edge::EDGE_CALL | Edge::EDGE_OVERRIDE;
 			horizontalLayout = true;
 		}
 		else if (node->getData()->getType().isFile())
