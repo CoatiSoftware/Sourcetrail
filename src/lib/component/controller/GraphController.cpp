@@ -17,7 +17,6 @@
 #include "component/view/GraphViewStyle.h"
 #include "data/access/StorageAccess.h"
 #include "data/graph/token_component/TokenComponentAccess.h"
-#include "data/graph/token_component/TokenComponentEdgeIds.h"
 #include "data/graph/Graph.h"
 #include "data/parser/AccessKind.h"
 #include "settings/ApplicationSettings.h"
@@ -245,18 +244,44 @@ void GraphController::handleMessage(MessageGraphNodeBundleSplit* message)
 	for (size_t i = 0; i < m_dummyNodes.size(); i++)
 	{
 		DummyNode* node = m_dummyNodes[i].get();
-		if (node->isBundleNode() && node->tokenId == message->bundleId)
+		if ((node->isBundleNode() || node->isGroupNode()) && node->tokenId == message->bundleId)
 		{
+			std::vector<std::shared_ptr<DummyNode>> nodes;
+			if (node->isBundleNode())
+			{
+				nodes = std::vector<std::shared_ptr<DummyNode>>(node->bundledNodes.begin(), node->bundledNodes.end());
+			}
+			else if (node->isGroupNode())
+			{
+				nodes = node->subNodes;
+				std::set<Id> hiddenEdgeIds(node->hiddenEdgeIds.begin(), node->hiddenEdgeIds.end());
+
+				for (std::shared_ptr<DummyEdge>& edge : m_dummyEdges)
+				{
+					if (edge->ownerId == node->tokenId || edge->targetId == node->tokenId ||
+						(edge->data && hiddenEdgeIds.find(edge->data->getId()) != hiddenEdgeIds.end()))
+					{
+						edge->hidden = false;
+					}
+				}
+
+				m_topLevelAncestorIds.erase(node->tokenId);
+				for (const std::shared_ptr<DummyNode>& subNode : nodes)
+				{
+					m_topLevelAncestorIds[subNode->tokenId] = subNode->tokenId;
+				}
+			}
+
 			if (message->removeOtherNodes)
 			{
-				std::vector<std::shared_ptr<DummyNode>> nodes(node->bundledNodes.begin(), node->bundledNodes.end());
 				m_dummyNodes = nodes;
 			}
 			else
 			{
-				m_dummyNodes.insert(m_dummyNodes.begin() + i + 1, node->bundledNodes.begin(), node->bundledNodes.end());
+				m_dummyNodes.insert(m_dummyNodes.begin() + i + 1, nodes.begin(), nodes.end());
 				m_dummyNodes.erase(m_dummyNodes.begin() + i);
 			}
+
 			break;
 		}
 	}
@@ -271,22 +296,7 @@ void GraphController::handleMessage(MessageGraphNodeBundleSplit* message)
 		}
 	}
 
-	std::vector<Id> tokenIds = utility::concat(m_activeNodeIds, m_activeEdgeIds);
-	setActiveAndVisibility(tokenIds);
-
-	if (message->layoutToList)
-	{
-		addCharacterIndex();
-		layoutNesting();
-		layoutList();
-	}
-	else
-	{
-		layoutNesting();
-		layoutGraph();
-	}
-
-	buildGraph(message, false, true, message->layoutToList);
+	relayoutGraph(message, false, true, message->layoutToList, message->layoutToList);
 }
 
 void GraphController::handleMessage(MessageGraphNodeExpand* message)
@@ -423,31 +433,7 @@ void GraphController::handleMessage(MessageGraphNodeHide* message)
 
 	if (node || edge)
 	{
-		bool showsTrail = m_graph->getTrailMode() != Graph::TRAIL_NONE;
-
-		setVisibility(setActive(utility::concat(m_activeNodeIds, m_activeEdgeIds), showsTrail));
-
-		if (hasCharacterIndex())
-		{
-			addCharacterIndex();
-			layoutNesting();
-			layoutList();
-		}
-		else
-		{
-			layoutNesting();
-
-			if (showsTrail)
-			{
-				layoutTrail(m_graph->getTrailMode() == Graph::TRAIL_HORIZONTAL, m_graph->hasTrailOrigin());
-			}
-			else
-			{
-				layoutGraph();
-			}
-		}
-
-		buildGraph(message, false, true, false);
+		relayoutGraph(message, false, true, false, false);
 	}
 }
 
@@ -763,6 +749,10 @@ bool GraphController::setActive(const std::vector<Id>& activeTokenIds, bool show
 			edge->visible = true;
 			from->connected = true;
 			to->connected = true;
+		}
+		else
+		{
+			edge->visible = false;
 		}
 	}
 
@@ -1458,6 +1448,7 @@ void GraphController::groupTrailNodes(NodeType::GroupType groupType)
 
 		// Use token Id of first node and make first 2 bits 1
 		groupNode->tokenId = ~(~size_t(0) >> 2) + node.nodeId;
+		m_topLevelAncestorIds[groupNode->tokenId] = groupNode->tokenId;
 
 		std::shared_ptr<DummyEdge> targetEdge = std::make_shared<DummyEdge>();
 		targetEdge->ownerId = groupNode->tokenId;
@@ -1465,8 +1456,7 @@ void GraphController::groupTrailNodes(NodeType::GroupType groupType)
 		std::shared_ptr<DummyEdge> originEdge = std::make_shared<DummyEdge>();
 		originEdge->targetId = groupNode->tokenId;
 
-		std::vector<Id> targetEdgeIds;
-		std::vector<Id> originEdgeIds;
+		std::vector<Id> hiddenEdgeIds;
 
 		for (TrailNode& node : group)
 		{
@@ -1483,48 +1473,48 @@ void GraphController::groupTrailNodes(NodeType::GroupType groupType)
 
 			for (DummyEdge* edge : node.targetEdges)
 			{
-				targetEdge->visible = true;
-				targetEdge->targetId = edge->targetId;
-				targetEdge->data = edge->data;
+				if (!targetEdge->visible)
+				{
+					targetEdge->visible = true;
+					targetEdge->targetId = edge->targetId;
+					targetEdge->data = edge->data;
+				}
+
 				edge->visible = false;
 				edge->hidden = true;
 
 				if (edge->data)
 				{
-					targetEdgeIds.push_back(edge->data->getId());
+					groupNode->hiddenEdgeIds.push_back(edge->data->getId());
 				}
 			}
 
 			for (DummyEdge* edge : node.originEdges)
 			{
-				originEdge->visible = true;
-				originEdge->ownerId = edge->ownerId;
-				originEdge->data = edge->data;
+				if (!originEdge->visible)
+				{
+					originEdge->visible = true;
+					originEdge->ownerId = edge->ownerId;
+					originEdge->data = edge->data;
+				}
+
 				edge->visible = false;
 				edge->hidden = true;
 
 				if (edge->data)
 				{
-					originEdgeIds.push_back(edge->data->getId());
+					groupNode->hiddenEdgeIds.push_back(edge->data->getId());
 				}
 			}
 		}
 
 		if (targetEdge->visible)
 		{
-			if (targetEdge->data && targetEdgeIds.size())
-			{
-				const_cast<Edge*>(targetEdge->data)->addComponent(std::make_shared<TokenComponentEdgeIds>(targetEdgeIds));
-			}
 			m_dummyEdges.push_back(targetEdge);
 		}
 
 		if (originEdge->visible)
 		{
-			if (originEdge->data && originEdgeIds.size())
-			{
-				const_cast<Edge*>(targetEdge->data)->addComponent(std::make_shared<TokenComponentEdgeIds>(originEdgeIds));
-			}
 			m_dummyEdges.push_back(originEdge);
 		}
 
@@ -1888,6 +1878,36 @@ DummyEdge* GraphController::getDummyGraphEdgeById(Id tokenId) const
 	}
 
 	return nullptr;
+}
+
+void GraphController::relayoutGraph(
+	MessageBase* message, bool centerActiveNode, bool animatedTransition, bool scrollToTop, bool withCharacterIndex)
+{
+	bool showsTrail = m_graph->getTrailMode() != Graph::TRAIL_NONE;
+
+	setVisibility(setActive(utility::concat(m_activeNodeIds, m_activeEdgeIds), showsTrail));
+
+	if (hasCharacterIndex() || withCharacterIndex)
+	{
+		addCharacterIndex();
+		layoutNesting();
+		layoutList();
+	}
+	else
+	{
+		layoutNesting();
+
+		if (showsTrail)
+		{
+			layoutTrail(m_graph->getTrailMode() == Graph::TRAIL_HORIZONTAL, m_graph->hasTrailOrigin());
+		}
+		else
+		{
+			layoutGraph();
+		}
+	}
+
+	buildGraph(message, centerActiveNode, animatedTransition, scrollToTop);
 }
 
 void GraphController::buildGraph(

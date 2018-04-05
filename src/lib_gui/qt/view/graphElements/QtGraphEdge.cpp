@@ -6,7 +6,6 @@
 #include "component/view/GraphViewStyle.h"
 #include "data/graph/Edge.h"
 #include "data/graph/token_component/TokenComponentAggregation.h"
-#include "data/graph/token_component/TokenComponentEdgeIds.h"
 #include "data/graph/token_component/TokenComponentInheritanceChain.h"
 #include "qt/graphics/QtLineItemAngled.h"
 #include "qt/graphics/QtLineItemBezier.h"
@@ -250,24 +249,23 @@ void QtGraphEdge::setIsFocused(bool isFocused)
 
 void QtGraphEdge::onClick()
 {
-	if (isTrailEdge())
-	{
-		TokenComponentEdgeIds* componentEdgeIds = getData()->getComponent<TokenComponentEdgeIds>();
-		std::vector<Id> ids = { getData()->getId() };
+	Edge::EdgeType type = (getData() ? getData()->getType() : Edge::EDGE_AGGREGATION);
 
+	if (!getData() || m_owner->isGroupNode() || m_target->isGroupNode())
+	{
+		QtGraphNode* node =
+			((m_direction == TokenComponentAggregation::DIRECTION_BACKWARD) == (type != Edge::EDGE_INHERITANCE))
+			? m_owner : m_target;
+		MessageGraphNodeBundleSplit(node->getTokenId()).dispatch();
+	}
+	else if (isTrailEdge())
+	{
 		MessageActivateTrailEdge(
-			componentEdgeIds ? componentEdgeIds->edgeIds : ids,
+			{ getData()->getId() },
 			getData()->getType(),
 			getData()->getFrom()->getNameHierarchy(),
 			getData()->getTo()->getNameHierarchy()
 		).dispatch();
-		return;
-	}
-
-	if (!getData())
-	{
-		QtGraphNode* node = (m_direction == TokenComponentAggregation::DIRECTION_BACKWARD ? m_owner : m_target);
-		MessageGraphNodeBundleSplit(node->getTokenId()).dispatch();
 	}
 	else
 	{

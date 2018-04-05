@@ -4,12 +4,16 @@
 #include <QGraphicsRectItem>
 #include <QPen>
 
+#include "utility/messaging/type/MessageGraphNodeBundleSplit.h"
+
 #include "qt/graphics/QtRoundedRectItem.h"
 
 QtGraphNodeGroup::QtGraphNodeGroup(Id tokenId, const std::wstring& name, NodeType::GroupType type)
 	: m_tokenId(tokenId)
 	, m_type(type)
 {
+	setAcceptHoverEvents(true);
+
 	setName(name);
 	setZValue(-10.0f);
 	m_rect->setZValue(-10.0f);
@@ -58,6 +62,11 @@ bool QtGraphNodeGroup::isGroupNode() const
 Id QtGraphNodeGroup::getTokenId() const
 {
 	return m_tokenId;
+}
+
+void QtGraphNodeGroup::onClick()
+{
+	MessageGraphNodeBundleSplit(m_tokenId).dispatch();
 }
 
 void QtGraphNodeGroup::updateStyle()

@@ -125,6 +125,8 @@ private:
 	std::shared_ptr<DummyNode> getDummyGraphNodeById(Id tokenId) const;
 	DummyEdge* getDummyGraphEdgeById(Id tokenId) const;
 
+	void relayoutGraph(
+		MessageBase* message, bool centerActiveNode, bool animatedTransition, bool scrollToTop, bool withCharacterIndex);
 	void buildGraph(MessageBase* message, bool centerActiveNode, bool animatedTransition, bool scrollToTop);
 
 	void forEachDummyNodeRecursive(std::function<void(DummyNode*)> func);

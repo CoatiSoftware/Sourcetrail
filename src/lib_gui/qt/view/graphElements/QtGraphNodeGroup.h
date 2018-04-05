@@ -19,6 +19,7 @@ public:
 	virtual bool isGroupNode() const;
 	virtual Id getTokenId() const;
 
+	virtual void onClick();
 	virtual void updateStyle();
 
 private:

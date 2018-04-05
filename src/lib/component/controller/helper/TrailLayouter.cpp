@@ -44,14 +44,20 @@ void TrailLayouter::buildGraph(
 {
 	for (const std::shared_ptr<DummyNode>& dummyNode : dummyNodes)
 	{
-		addNode(dummyNode);
+		if (dummyNode->visible)
+		{
+			addNode(dummyNode);
+		}
 	}
 
 	for (const std::shared_ptr<DummyEdge>& dummyEdge : dummyEdges)
 	{
 		dummyEdge->path.clear();
 
-		addEdge(dummyEdge, topLevelAncestorIds);
+		if (dummyEdge->visible)
+		{
+			addEdge(dummyEdge, topLevelAncestorIds);
+		}
 	}
 }
 

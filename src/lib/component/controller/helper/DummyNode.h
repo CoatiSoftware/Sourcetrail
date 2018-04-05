@@ -412,6 +412,7 @@ public:
 
 	// GroupNode
 	NodeType::GroupType groupType;
+	std::vector<Id> hiddenEdgeIds;
 };
 
 #endif // DUMMY_NODE_H
