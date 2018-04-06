@@ -31,7 +31,7 @@ $ docker push coatisoftware/centos6_64_qt_llvm:<tag>
 $ cd ../centos6_32
 $ docker build -t coatisoftware/centos6_32_qt_llvm:<tag> .
 
-$ docker push coatisoftware/centos6_64_qt_llvm:<tag>
+$ docker push coatisoftware/centos6_32_qt_llvm:<tag>
 
 # update <tag> of linux images in .gitlab-ci.yml
 

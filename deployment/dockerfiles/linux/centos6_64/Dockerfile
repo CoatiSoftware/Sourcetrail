@@ -5,8 +5,8 @@ MAINTAINER "Andreas Stallinger" <astallinger@coati.io>
 WORKDIR /opt
 
 ## set env
-ARG QVERSION_SHORT=5.9
-ARG QTVERSION=5.9.1
+ARG QVERSION_SHORT=5.10
+ARG QTVERSION=5.10.1
 
 ENV QT_DIR=/opt/qt${QTVERSION} \
 CXX_TEST_DIR=/opt/cxxtest \
@@ -18,11 +18,11 @@ LD_LIBRARY_PATH=$QT_DIR/lib/
 # Install Qt
 RUN mkdir -p /qt && cd /qt && \
 wget http://download.qt.io/archive/qt/${QVERSION_SHORT}/${QTVERSION}/\
-single/qt-everywhere-opensource-src-${QTVERSION}.tar.xz && \
-tar xvf qt-everywhere-opensource-src-${QTVERSION}.tar.xz && \
+single/qt-everywhere-src-${QTVERSION}.tar.xz && \
+tar xvf qt-everywhere-src-${QTVERSION}.tar.xz && \
 ln -sf /opt/rh/devtoolset-4/root/usr/bin/g++ /usr/bin/g++ && \
 ln -sf /opt/rh/devtoolset-4/root/usr/bin/c++ /usr/bin/c++ && \
-cd /qt/qt-everywhere-opensource-src-${QTVERSION} && \
+cd /qt/qt-everywhere-src-${QTVERSION} && \
 ./configure -v \
 -prefix /opt/qt${QTVERSION} \
 -skip qtgamepad \
@@ -54,7 +54,7 @@ make -j8 && \
 make -j8 install && rm -Rf /qt
 
 ## Install llvm
-ARG LLVM_VERSION=5.0.0
+ARG LLVM_VERSION=6.0.0
 RUN mkdir -p /llvm && cd /llvm && \
 wget http://llvm.org/releases/${LLVM_VERSION}/llvm-${LLVM_VERSION}.src.tar.xz && \
 tar xvf llvm-${LLVM_VERSION}.src.tar.xz && \

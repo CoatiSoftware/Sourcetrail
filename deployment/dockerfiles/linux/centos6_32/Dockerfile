@@ -40,16 +40,16 @@ ENV M2_HOME=/opt/maven
 ENV PATH=${M2_HOME}/bin:${PATH}
 
 # Install Qt
-ARG QVERSION_SHORT=5.9
-ARG QTVERSION=5.9.1
+ARG QVERSION_SHORT=5.10
+ARG QTVERSION=5.10.1
 
 RUN mkdir -p /qt && cd /qt && \
 wget http://download.qt.io/archive/qt/${QVERSION_SHORT}/${QTVERSION}/\
-single/qt-everywhere-opensource-src-${QTVERSION}.tar.xz && \
-tar xvf qt-everywhere-opensource-src-${QTVERSION}.tar.xz && \
+single/qt-everywhere-src-${QTVERSION}.tar.xz && \
+tar xvf qt-everywhere-src-${QTVERSION}.tar.xz && \
 ln -sf /opt/rh/devtoolset-4/root/usr/bin/g++ /usr/bin/g++ && \
 ln -sf /opt/rh/devtoolset-4/root/usr/bin/c++ /usr/bin/c++ && \
-cd /qt/qt-everywhere-opensource-src-${QTVERSION} && \
+cd /qt/qt-everywhere-src-${QTVERSION} && \
 ./configure -v -prefix /opt/qt${QTVERSION} -skip qtgamepad -platform linux-g++ -qt-pcre \
 -qt-xcb -qt-xkbcommon -xkb-config-root /usr/share/X11/xkb \
 -no-pch -confirm-license -opensource && \
@@ -61,7 +61,7 @@ CC=gcc \
 DEVTOOLSET=/opt/rh/devtoolset-4/root/usr/
 
 ## Install llvm
-ARG LLVM_VERSION=5.0.0
+ARG LLVM_VERSION=6.0.0
 RUN alias python=/usr/bin/python2.7 && mkdir -p /llvm && cd /llvm && \
 wget http://llvm.org/releases/${LLVM_VERSION}/llvm-${LLVM_VERSION}.src.tar.xz && \
 tar xf llvm-${LLVM_VERSION}.src.tar.xz && \
