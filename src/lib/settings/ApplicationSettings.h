@@ -3,6 +3,7 @@
 
 #include <memory>
 
+#include "data/GroupType.h"
 #include "settings/Settings.h"
 
 class TimeStamp;
@@ -62,6 +63,9 @@ public:
 
 	bool getGraphControlsVisible() const;
 	void setGraphControlsVisible(bool visible);
+
+	GroupType getGraphGrouping() const;
+	void setGraphGrouping(GroupType type);
 
 	// screen
 	int getScreenAutoScaling() const;

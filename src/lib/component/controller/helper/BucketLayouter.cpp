@@ -194,7 +194,7 @@ void BucketLayouter::createBuckets(
 	}
 }
 
-void BucketLayouter::layoutBuckets()
+void BucketLayouter::layoutBuckets(bool addVerticalOffset)
 {
 	std::map<int, int> widths;
 	std::map<int, int> heights;
@@ -235,6 +235,11 @@ void BucketLayouter::layoutBuckets()
 			{
 				Bucket* midBucket = &m_buckets[0][0];
 				yOff = (heights[0] - midBucket->getHeight()) / 2 * -j;
+			}
+			// move every second bucket in a row slighly lower to avoid edges over nodes
+			else if (addVerticalOffset && std::abs(i) % 2 == 1)
+			{
+				yOff += GraphViewStyle::toGridGap(10);
 			}
 
 			bucket->layout(x, y + yOff, widths[i], heights[j]);

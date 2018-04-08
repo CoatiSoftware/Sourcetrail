@@ -6,6 +6,9 @@
 #include "utility/text/TextAccess.h"
 #include "utility/utilityString.h"
 
+#include "data/location/SourceLocationCollection.h"
+#include "data/location/SourceLocationFile.h"
+
 const size_t SqliteIndexStorage::s_storageVersion = 15;
 
 SqliteIndexStorage::SqliteIndexStorage(const FilePath& dbFilePath)
@@ -704,9 +707,60 @@ std::shared_ptr<SourceLocationFile> SqliteIndexStorage::getSourceLocationsOfType
 	return getSourceLocationsForFile(filePath, "AND type == " + std::to_string(locationTypeToInt(type)));
 }
 
+std::shared_ptr<SourceLocationCollection> SqliteIndexStorage::getSourceLocationsForElementIds(
+	const std::vector<Id>& elementIds) const
+{
+	std::vector<Id> sourceLocationIds;
+	std::map<Id, std::vector<Id>> sourceLocationIdToElementIds;
+	for (const StorageOccurrence& occurrence : getOccurrencesForElementIds(elementIds))
+	{
+		sourceLocationIds.push_back(occurrence.sourceLocationId);
+		sourceLocationIdToElementIds[occurrence.sourceLocationId].push_back(occurrence.elementId);
+	}
+
+	CppSQLite3Query q = executeQuery(
+		"SELECT source_location.id, file.path, source_location.start_line, source_location.start_column, "
+			"source_location.end_line, source_location.end_column, source_location.type "
+		"FROM source_location INNER JOIN file ON (file.id = source_location.file_node_id) "
+		"WHERE source_location.id IN (" + utility::join(utility::toStrings(sourceLocationIds), ',') + ");"
+	);
+
+	std::shared_ptr<SourceLocationCollection> ret = std::make_shared<SourceLocationCollection>();
+
+	while (!q.eof())
+	{
+		const Id id					= q.getIntField(0, 0);
+		const std::string filePath 	= q.getStringField(1, "");
+		const int startLineNumber	= q.getIntField(2, -1);
+		const int startColNumber	= q.getIntField(3, -1);
+		const int endLineNumber		= q.getIntField(4, -1);
+		const int endColNumber		= q.getIntField(5, -1);
+		const int type				= q.getIntField(6, -1);
+
+		if (id != 0 && filePath.size() && startLineNumber != -1 && startColNumber != -1 && endLineNumber != -1 &&
+			endColNumber != -1 && type != -1)
+		{
+			ret->addSourceLocation(
+				intToLocationType(type),
+				id,
+				sourceLocationIdToElementIds[id],
+				FilePath(utility::decodeFromUtf8(filePath)),
+				startLineNumber,
+				startColNumber,
+				endLineNumber,
+				endColNumber
+			);
+		}
+
+		q.nextRow();
+	}
+
+	return ret;
+}
+
 std::vector<StorageOccurrence> SqliteIndexStorage::getOccurrencesForLocationId(Id locationId) const
 {
-	std::vector<Id> locationIds {locationId};
+	std::vector<Id> locationIds { locationId };
 	return getOccurrencesForLocationIds(locationIds);
 }
 

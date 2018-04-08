@@ -18,8 +18,19 @@ public:
 		NameHierarchy nameHierarchy;
 	};
 
-	MessageActivateNodes()
+	MessageActivateNodes(Id tokenId = 0)
 	{
+		if (tokenId > 0)
+		{
+			addNode(tokenId);
+		}
+	}
+
+	void addNode(Id tokenId)
+	{
+		ActiveNode node;
+		node.nodeId = tokenId;
+		nodes.push_back(node);
 	}
 
 	void addNode(Id tokenId, const NameHierarchy& nameHierarchy)
@@ -27,7 +38,6 @@ public:
 		ActiveNode node;
 		node.nodeId = tokenId;
 		node.nameHierarchy = nameHierarchy;
-
 		nodes.push_back(node);
 	}
 

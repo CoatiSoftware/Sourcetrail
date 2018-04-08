@@ -32,6 +32,7 @@
 		<verbose_indexer_logging_enabled><!-- BOOL: define if verbose indexer logging is enabled --></verbose_indexer_logging_enabled>
 
 		<graph_controls_visible><!-- BOOL: define if the graph controls are visible or collapsed --></graph_controls_visible>
+		<graph_grouping><!-- STRING: group type name --></graph_grouping>
 	</application>
 
 	<screen>

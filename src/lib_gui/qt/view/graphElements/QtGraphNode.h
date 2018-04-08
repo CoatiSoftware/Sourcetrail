@@ -37,10 +37,11 @@ public:
 	virtual ~QtGraphNode();
 
 	QtGraphNode* getParent() const;
-	QtGraphNode* getLastParent() const;
+	QtGraphNode* getLastParent(bool noGroups = false) const;
+	QtGraphNode* getLastNonGroupParent() const;
 	void setParent(QtGraphNode* parentNode);
 
-	std::list<QtGraphNode*> getSubNodes() const;
+	const std::list<QtGraphNode*>& getSubNodes() const;
 
 	Vec2i getPosition() const;
 	virtual bool setPosition(const Vec2i& position);
@@ -52,7 +53,6 @@ public:
 	void setSize(const QSize& size);
 
 	Vec4i getBoundingRect() const;
-	Vec4i getParentBoundingRect() const;
 
 	void addOutEdge(QtGraphEdge* edge);
 	void addInEdge(QtGraphEdge* edge);

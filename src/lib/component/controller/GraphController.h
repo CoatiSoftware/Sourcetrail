@@ -109,7 +109,9 @@ private:
 	void addCharacterIndex();
 	bool hasCharacterIndex() const;
 
-	void groupTrailNodes(NodeType::GroupType groupType);
+	void groupNodesByParents(GroupType groupType);
+	DummyNode* groupAllNodes(GroupType groupType, Id groupNodeId);
+	void groupTrailNodes(GroupType groupType);
 
 	void layoutNesting();
 	void layoutNestingRecursive(DummyNode* node) const;
@@ -126,7 +128,8 @@ private:
 	DummyEdge* getDummyGraphEdgeById(Id tokenId) const;
 
 	void relayoutGraph(
-		MessageBase* message, bool centerActiveNode, bool animatedTransition, bool scrollToTop, bool withCharacterIndex);
+		MessageBase* message, bool centerActiveNode, bool animatedTransition, bool scrollToTop, bool withCharacterIndex,
+		const std::wstring& groupName);
 	void buildGraph(MessageBase* message, bool centerActiveNode, bool animatedTransition, bool scrollToTop);
 
 	void forEachDummyNodeRecursive(std::function<void(DummyNode*)> func);

@@ -445,6 +445,28 @@ std::vector<NameHierarchy> PersistentStorage::getNameHierarchiesForNodeIds(const
 	return nameHierarchies;
 }
 
+std::map<Id, std::pair<Id, NameHierarchy>> PersistentStorage::getNodeIdToParentFileMap(const std::vector<Id>& nodeIds) const
+{
+	std::map<Id, std::pair<Id, NameHierarchy>> nodeIdToParentFileMap;
+
+	std::shared_ptr<SourceLocationCollection> locations = m_sqliteIndexStorage.getSourceLocationsForElementIds(nodeIds);
+	locations->forEachSourceLocation(
+		[this, &nodeIdToParentFileMap](SourceLocation* location)
+		{
+			if (location->isStartLocation() && location->isScopeLocation())
+			{
+				for (Id tokenId : location->getTokenIds())
+				{
+					nodeIdToParentFileMap.emplace(tokenId, std::make_pair(getFileNodeId(location->getFilePath()),
+						NameHierarchy(location->getFilePath().wstr(), NAME_DELIMITER_FILE)));
+				}
+			}
+		}
+	);
+
+	return nodeIdToParentFileMap;
+}
+
 NodeType PersistentStorage::getNodeTypeForNodeWithId(Id nodeId) const
 {
 	return utility::intToType(m_sqliteIndexStorage.getFirstById<StorageNode>(nodeId).type);

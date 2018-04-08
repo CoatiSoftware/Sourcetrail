@@ -8,6 +8,7 @@
 
 #include "component/controller/helper/ScreenSearchInterfaces.h"
 #include "component/view/View.h"
+#include "data/GroupType.h"
 
 struct DummyEdge;
 struct DummyNode;
@@ -47,6 +48,7 @@ public:
 	virtual void resizeView() = 0;
 
 	virtual Vec2i getViewSize() const = 0;
+	virtual GroupType getGrouping() const = 0;
 
 	virtual void scrollToValues(int xValue, int yValue) = 0;
 

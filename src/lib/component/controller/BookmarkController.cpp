@@ -188,9 +188,7 @@ void BookmarkController::activateBookmark(const std::shared_ptr<Bookmark> bookma
 				Id activeNodeId = edgeBookmark->getActiveNodeId();
 				if (activeNodeId)
 				{
-					MessageActivateNodes activateNodes;
-					activateNodes.addNode(activeNodeId, m_storageAccess->getNameHierarchyForNodeId(activeNodeId));
-					activateNodes.dispatch();
+					MessageActivateNodes(activeNodeId).dispatch();
 				}
 
 				MessageActivateEdge(firstEdgeId, Edge::intToType(storageEdge.type), sourceName, targetName).dispatch();
@@ -216,7 +214,7 @@ void BookmarkController::activateBookmark(const std::shared_ptr<Bookmark> bookma
 
 		for (Id nodeId: nodeBookmark->getNodeIds())
 		{
-			activateNodes.addNode(nodeId, m_storageAccess->getNameHierarchyForNodeId(nodeId));
+			activateNodes.addNode(nodeId);
 		}
 
 		activateNodes.dispatch();

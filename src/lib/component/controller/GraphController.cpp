@@ -109,6 +109,16 @@ void GraphController::handleMessage(MessageActivateTokens* message)
 	if (isNamespace)
 	{
 		addCharacterIndex();
+
+		DummyNode* group = groupAllNodes(GroupType::NAMESPACE, tokenIds[0]);
+		group->groupLayout = GroupLayout::LIST;
+
+		if (!group->name.size())
+		{
+			group->name = m_storageAccess->getNameHierarchyForNodeId(tokenIds[0]).getQualifiedName();
+			group->tokenId = tokenIds[0];
+		}
+
 		layoutNesting();
 		layoutList();
 	}
@@ -140,6 +150,8 @@ void GraphController::handleMessage(MessageActivateTokens* message)
 
 			m_useBezierEdges = !isInheritanceChain;
 		}
+
+		groupNodesByParents(getView()->getGrouping());
 
 		layoutNesting();
 		layoutGraph(true);
@@ -187,7 +199,7 @@ void GraphController::handleMessage(MessageActivateTrail* message)
 
 	if (message->trailType & Edge::EDGE_INHERITANCE)
 	{
-		groupTrailNodes(NodeType::GROUP_INHERITANCE);
+		groupTrailNodes(GroupType::INHERITANCE);
 	}
 
 	layoutNesting();
@@ -241,11 +253,14 @@ void GraphController::handleMessage(MessageFocusOut *message)
 
 void GraphController::handleMessage(MessageGraphNodeBundleSplit* message)
 {
+	std::wstring name;
 	for (size_t i = 0; i < m_dummyNodes.size(); i++)
 	{
 		DummyNode* node = m_dummyNodes[i].get();
 		if ((node->isBundleNode() || node->isGroupNode()) && node->tokenId == message->bundleId)
 		{
+			name = node->name;
+
 			std::vector<std::shared_ptr<DummyNode>> nodes;
 			if (node->isBundleNode())
 			{
@@ -296,7 +311,7 @@ void GraphController::handleMessage(MessageGraphNodeBundleSplit* message)
 		}
 	}
 
-	relayoutGraph(message, false, true, message->layoutToList, message->layoutToList);
+	relayoutGraph(message, false, true, message->layoutToList, message->layoutToList, name);
 }
 
 void GraphController::handleMessage(MessageGraphNodeExpand* message)
@@ -310,9 +325,7 @@ void GraphController::handleMessage(MessageGraphNodeExpand* message)
 	{
 		if (!message->isReplayed())
 		{
-			MessageActivateNodes msg;
-			msg.addNode(message->tokenId, m_storageAccess->getNameHierarchyForNodeId(message->tokenId));
-			msg.dispatch();
+			MessageActivateNodes(message->tokenId).dispatch();
 		}
 		return;
 	}
@@ -433,7 +446,7 @@ void GraphController::handleMessage(MessageGraphNodeHide* message)
 
 	if (node || edge)
 	{
-		relayoutGraph(message, false, true, false, false);
+		relayoutGraph(message, false, true, false, false, L"");
 	}
 }
 
@@ -542,8 +555,8 @@ void GraphController::createDummyGraph(const std::shared_ptr<Graph> graph)
 	updateDummyNodeNamesAndAddQualifiers(dummyNodes);
 
 	m_dummyNodes = dummyNodes;
-
 	m_graph = graph;
+
 	m_useBezierEdges = false;
 }
 
@@ -662,7 +675,7 @@ void GraphController::updateDummyNodeNamesAndAddQualifiers(
 				qualifierNode->visible = true;
 
 				node->subNodes.push_back(qualifierNode);
-				node->hasQualifier = true;
+				node->qualifierName = qualifier;
 			}
 		}
 	}
@@ -986,7 +999,7 @@ void GraphController::bundleNodes()
 	// 	std::cout << node->bundleInfo.layoutVertical << " ";
 	// 	std::cout << node->bundleInfo.isReferenced << " ";
 	// 	std::cout << node->bundleInfo.isReferencing << " ";
-	// 	std::cout << node->name << std::endl;
+	// 	std::wcout << node->name << std::endl;
 	// }
 
 	// bundle
@@ -1380,7 +1393,174 @@ bool GraphController::hasCharacterIndex() const
 	return false;
 }
 
-void GraphController::groupTrailNodes(NodeType::GroupType groupType)
+void GraphController::groupNodesByParents(GroupType groupType)
+{
+	TRACE();
+
+	if (groupType != GroupType::FILE && groupType != GroupType::NAMESPACE)
+	{
+		return;
+	}
+
+	std::map<std::wstring, std::shared_ptr<DummyNode>> groupNodes;
+	std::map<std::wstring, std::vector<std::shared_ptr<DummyNode>>> nodesToGroup;
+
+	std::map<Id, std::pair<Id, NameHierarchy>> nodeIdtoParentMap;
+	if (groupType == GroupType::FILE)
+	{
+		std::vector<Id> nodeIds;
+		for (const std::shared_ptr<DummyNode>& dummyNode : m_dummyNodes)
+		{
+			if (dummyNode->isGraphNode())
+			{
+				nodeIds.push_back(dummyNode->tokenId);
+			}
+		}
+
+		nodeIdtoParentMap = m_storageAccess->getNodeIdToParentFileMap(nodeIds);
+	}
+
+	std::map<std::wstring, Id> qualifierNameToIdMap;
+	for (const std::shared_ptr<DummyNode>& dummyNode : m_dummyNodes)
+	{
+		if (dummyNode->isGroupNode())
+		{
+			groupNodes.emplace(dummyNode->name, dummyNode);
+		}
+		else if (dummyNode->visible)
+		{
+			if (groupType == GroupType::FILE)
+			{
+				if (dummyNode->isGraphNode())
+				{
+					auto it = nodeIdtoParentMap.find(dummyNode->tokenId);
+					if (it != nodeIdtoParentMap.end())
+					{
+						nodesToGroup[it->second.second.getQualifiedName()].push_back(dummyNode);
+					}
+				}
+			}
+			else if (groupType == GroupType::NAMESPACE)
+			{
+				const DummyNode* qualifierNode = dummyNode->getQualifierNode();
+				if (qualifierNode)
+				{
+					Id qualifierId = 0;
+					std::wstring qualifierName = qualifierNode->qualifierName.getQualifiedName();
+					auto it = qualifierNameToIdMap.find(qualifierName);
+					if (it != qualifierNameToIdMap.end())
+					{
+						qualifierId = it->second;
+					}
+					else
+					{
+						qualifierId = m_storageAccess->getNodeIdForNameHierarchy(qualifierNode->qualifierName);
+						qualifierNameToIdMap.emplace(qualifierName, qualifierId);
+					}
+
+					nodesToGroup[qualifierName].push_back(dummyNode);
+					nodeIdtoParentMap.emplace(
+						dummyNode->tokenId, std::make_pair(qualifierId, qualifierNode->qualifierName));
+				}
+			}
+		}
+	}
+
+	std::set<Id> groupedNodeIds;
+	for (const std::pair<std::wstring, std::vector<std::shared_ptr<DummyNode>>>& p : nodesToGroup)
+	{
+		std::shared_ptr<DummyNode> groupNode;
+
+		std::wstring name = p.first;
+		if (groupType == GroupType::FILE)
+		{
+			name = FilePath(p.first).fileName();
+		}
+
+		auto it = groupNodes.find(name);
+		if (it != groupNodes.end())
+		{
+			groupNode = it->second;
+		}
+		else
+		{
+			groupNode = std::make_shared<DummyNode>(DummyNode::DUMMY_GROUP);
+			groupNode->visible = true;
+			groupNode->groupType = groupType;
+			groupNode->groupLayout = GroupLayout::BUCKET;
+			groupNode->name = name;
+
+			auto it = nodeIdtoParentMap.find(p.second[0]->tokenId);
+			if (it != nodeIdtoParentMap.end())
+			{
+				groupNode->tokenId = it->second.first;
+			}
+			m_topLevelAncestorIds[groupNode->tokenId] = groupNode->tokenId;
+			m_dummyNodes.push_back(groupNode);
+		}
+
+		std::vector<DummyNode::BundleInfo> bundleInfos;
+		for (std::shared_ptr<DummyNode> dummyNode : p.second)
+		{
+			if (dummyNode->hasActiveSubNode())
+			{
+				groupNode->bundleInfo = dummyNode->bundleInfo;
+				groupNode->bundleId = dummyNode->bundleId;
+			}
+			else
+			{
+				bundleInfos.push_back(dummyNode->bundleInfo);
+			}
+
+			groupNode->subNodes.push_back(dummyNode);
+			m_topLevelAncestorIds[dummyNode->tokenId] = groupNode->tokenId;
+			groupedNodeIds.insert(dummyNode->tokenId);
+		}
+
+		if (!groupNode->bundleId)
+		{
+			groupNode->bundleId = groupNode->subNodes[0]->bundleId;
+			groupNode->bundleInfo = DummyNode::BundleInfo::averageBundleInfo(bundleInfos);
+		}
+
+		groupNode->sortSubNodesByName();
+	}
+
+	for (int i = 0; i < int(m_dummyNodes.size()); i++)
+	{
+		if (groupedNodeIds.find(m_dummyNodes[i]->tokenId) != groupedNodeIds.end())
+		{
+			m_dummyNodes.erase(m_dummyNodes.begin() + i);
+			i--;
+		}
+	}
+}
+
+DummyNode* GraphController::groupAllNodes(GroupType groupType, Id groupNodeId)
+{
+	TRACE();
+
+	std::shared_ptr<DummyNode> groupNode = std::make_shared<DummyNode>(DummyNode::DUMMY_GROUP);
+	groupNode->visible = true;
+	groupNode->groupType = groupType;
+	groupNode->tokenId = groupNodeId;
+	m_topLevelAncestorIds[groupNode->tokenId] = groupNode->tokenId;
+
+	for (std::shared_ptr<DummyNode> dummyNode : m_dummyNodes)
+	{
+		groupNode->subNodes.push_back(dummyNode);
+		m_topLevelAncestorIds[dummyNode->tokenId] = groupNode->tokenId;
+	}
+
+	if (groupNode->subNodes.size())
+	{
+		m_dummyNodes = { groupNode };
+	}
+
+	return groupNode.get();
+}
+
+void GraphController::groupTrailNodes(GroupType groupType)
 {
 	TRACE();
 
@@ -1455,6 +1635,7 @@ void GraphController::groupTrailNodes(NodeType::GroupType groupType)
 		std::shared_ptr<DummyNode> groupNode = std::make_shared<DummyNode>(DummyNode::DUMMY_GROUP);
 		groupNode->visible = true;
 		groupNode->groupType = groupType;
+		groupNode->groupLayout = GroupLayout::SKEWED;
 
 		// Use token Id of first node and make first 2 bits 1
 		groupNode->tokenId = ~(~size_t(0) >> 2) + node.nodeId;
@@ -1626,6 +1807,10 @@ void GraphController::layoutNestingRecursive(DummyNode* node) const
 	{
 		width = margins.charWidth * node->name.size();
 	}
+	else if (node->isGroupNode())
+	{
+		width = margins.charWidth * node->name.size() + 5;
+	}
 
 	width += margins.iconWidth;
 	width = std::max(width, margins.minWidth);
@@ -1651,18 +1836,43 @@ void GraphController::layoutNestingRecursive(DummyNode* node) const
 		}
 	}
 
-	int top = margins.top + margins.charHeight + margins.spacingA;
-	int left = margins.left;
-	Vec2i size;
 	if (node->isGroupNode())
 	{
-		size = ListLayouter::layoutSkewed(
-			&node->subNodes, top, left, margins.spacingX, margins.spacingY, getView()->getViewSize().x() * 1.5);
+		Vec2i viewSize = getView()->getViewSize();
+
+		switch (node->groupLayout)
+		{
+		case GroupLayout::LIST:
+			viewSize.x = viewSize.x - 150; // prevent horizontal scroll
+			ListLayouter::layoutMultiColumn(viewSize, &node->subNodes);
+			break;
+
+		case GroupLayout::SKEWED:
+			ListLayouter::layoutSkewed(&node->subNodes, margins.spacingX, margins.spacingY, viewSize.x() * 1.5);
+			break;
+
+		case GroupLayout::BUCKET:
+			if (node->hasActiveSubNode())
+			{
+				BucketLayouter grid(viewSize);
+				grid.createBuckets(node->subNodes, m_dummyEdges);
+				grid.layoutBuckets(true);
+				node->subNodes = grid.getSortedNodes();
+			}
+			else
+			{
+				ListLayouter::layoutColumn(&node->subNodes, margins.spacingY);
+			}
+			break;
+		}
 	}
 	else
 	{
-		size = ListLayouter::layoutColumn(&node->subNodes, top, left, margins.spacingY);
+		ListLayouter::layoutColumn(&node->subNodes, margins.spacingY);
 	}
+
+	Vec2i size = ListLayouter::offsetNodes(
+		node->subNodes, margins.top + margins.charHeight + margins.spacingA, margins.left);
 
 	width = std::max(size.x(), width);
 	height = size.y();
@@ -1795,7 +2005,7 @@ void GraphController::layoutGraph(bool getSortedNodes)
 
 	BucketLayouter grid(getView()->getViewSize());
 	grid.createBuckets(visibleNodes, m_dummyEdges);
-	grid.layoutBuckets();
+	grid.layoutBuckets(false);
 
 	if (getSortedNodes)
 	{
@@ -1891,7 +2101,8 @@ DummyEdge* GraphController::getDummyGraphEdgeById(Id tokenId) const
 }
 
 void GraphController::relayoutGraph(
-	MessageBase* message, bool centerActiveNode, bool animatedTransition, bool scrollToTop, bool withCharacterIndex)
+	MessageBase* message, bool centerActiveNode, bool animatedTransition, bool scrollToTop, bool withCharacterIndex,
+	const std::wstring& groupName)
 {
 	bool showsTrail = m_graph->getTrailMode() != Graph::TRAIL_NONE;
 
@@ -1900,11 +2111,28 @@ void GraphController::relayoutGraph(
 	if (hasCharacterIndex() || withCharacterIndex)
 	{
 		addCharacterIndex();
+
+		if (withCharacterIndex && m_dummyNodes.size())
+		{
+			// Use token Id of first node and make first 2 bits 1
+			Id groupId = ~(~size_t(0) >> 2) + m_dummyNodes[0]->tokenId;
+
+			DummyNode* group = groupAllNodes(GroupType::DEFAULT, groupId);
+			group->groupLayout = GroupLayout::LIST;
+			group->interactive = false;
+			group->name = groupName;
+		}
+
 		layoutNesting();
 		layoutList();
 	}
 	else
 	{
+		if (!showsTrail)
+		{
+			groupNodesByParents(getView()->getGrouping());
+		}
+
 		layoutNesting();
 
 		if (showsTrail)

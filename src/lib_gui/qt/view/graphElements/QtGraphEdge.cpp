@@ -88,8 +88,8 @@ Id QtGraphEdge::getTokenId() const
 
 void QtGraphEdge::updateLine()
 {
-	QtGraphNode* owner = m_owner;
-	QtGraphNode* target = m_target;
+	const QtGraphNode* owner = m_owner;
+	const QtGraphNode* target = m_target;
 
 	Edge::EdgeType type = (getData() ? getData()->getType() : Edge::EDGE_AGGREGATION);
 	GraphViewStyle::EdgeStyle style = GraphViewStyle::getStyleForEdgeType(type, m_isActive | m_isFocused, false, m_isTrailEdge);
@@ -97,8 +97,22 @@ void QtGraphEdge::updateLine()
 	Vec4i ownerRect = owner->getBoundingRect();
 	Vec4i targetRect = target->getBoundingRect();
 
-	Vec4i ownerParentRect = owner->getParentBoundingRect();
-	Vec4i targetParentRect = target->getParentBoundingRect();
+	Vec4i ownerParentRect;
+	Vec4i targetParentRect;
+
+	const QtGraphNode* ownerNonGroupParent = owner->getLastNonGroupParent();
+	const QtGraphNode* targetNonGroupParent = target->getLastNonGroupParent();
+
+	if (owner->getLastParent() == target->getLastParent() && owner->getLastParent()->isGroupNode())
+	{
+		ownerParentRect = ownerNonGroupParent->getBoundingRect();
+		targetParentRect = targetNonGroupParent->getBoundingRect();
+	}
+	else
+	{
+		ownerParentRect = owner->getLastParent()->getBoundingRect();
+		targetParentRect = target->getLastParent()->getBoundingRect();
+	}
 
 	if (m_useBezier)
 	{
@@ -142,7 +156,7 @@ void QtGraphEdge::updateLine()
 		bezier->setRoute(route);
 		bezier->setPivot(QtLineItemBase::PIVOT_MIDDLE);
 
-		if (owner->getLastParent() == target->getLastParent())
+		if (ownerNonGroupParent == targetNonGroupParent)
 		{
 			if (ownerRect.y() < target->getBoundingRect().y())
 			{
@@ -163,7 +177,7 @@ void QtGraphEdge::updateLine()
 
 		QtLineItemAngled* child = dynamic_cast<QtLineItemAngled*>(m_child);
 
-		if (owner->getIsActive() && owner->getLastParent() == target->getLastParent())
+		if (owner->getIsActive() && ownerNonGroupParent == targetNonGroupParent)
 		{
 			child->setOnBack(true);
 		}
@@ -172,7 +186,7 @@ void QtGraphEdge::updateLine()
 		{
 			child->setEarlyBend(true);
 
-			if (owner->getLastParent() == target->getLastParent() ||
+			if (ownerNonGroupParent == targetNonGroupParent ||
 				(type == Edge::EDGE_OVERRIDE &&
 					targetParentRect.z() + style.targetOffset.x + style.originOffset.x > ownerParentRect.x()))
 			{
@@ -185,7 +199,7 @@ void QtGraphEdge::updateLine()
 		}
 
 		if (type == Edge::EDGE_INHERITANCE || (type == Edge::EDGE_TEMPLATE_SPECIALIZATION &&
-				owner == owner->getLastParent() && target == target->getLastParent()))
+				owner == owner->getLastNonGroupParent() && target == target->getLastNonGroupParent()))
 		{
 			child->setRoute(QtLineItemBase::ROUTE_VERTICAL);
 
@@ -194,7 +208,8 @@ void QtGraphEdge::updateLine()
 				child->setEarlyBend(true);
 			}
 		}
-		else if (type != Edge::EDGE_AGGREGATION || owner != owner->getLastParent() || target != target->getLastParent())
+		else if (type != Edge::EDGE_AGGREGATION ||
+			owner != owner->getLastNonGroupParent() || target != target->getLastNonGroupParent())
 		{
 			child->setRoute(QtLineItemBase::ROUTE_HORIZONTAL);
 		}
@@ -250,13 +265,18 @@ void QtGraphEdge::setIsFocused(bool isFocused)
 
 void QtGraphEdge::onClick()
 {
-	Edge::EdgeType type = (getData() ? getData()->getType() : Edge::EDGE_AGGREGATION);
-
 	if (!getData() || m_owner->isGroupNode() || m_target->isGroupNode())
 	{
-		QtGraphNode* node =
-			((m_direction == TokenComponentAggregation::DIRECTION_BACKWARD) == (type != Edge::EDGE_INHERITANCE))
-			? m_owner : m_target;
+		QtGraphNode* node = (m_direction == TokenComponentAggregation::DIRECTION_BACKWARD ? m_owner : m_target);
+		if (m_owner->isGroupNode())
+		{
+			node = m_owner;
+		}
+		else if (m_target->isGroupNode())
+		{
+			node = m_target;
+		}
+
 		MessageGraphNodeBundleSplit(node->getTokenId()).dispatch();
 	}
 	else if (isTrailEdge())

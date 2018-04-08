@@ -61,19 +61,24 @@ QtGraphNode* QtGraphNode::getParent() const
 	return m_parentNode;
 }
 
-QtGraphNode* QtGraphNode::getLastParent() const
+QtGraphNode* QtGraphNode::getLastParent(bool noGroups) const
 {
 	QtGraphNode* node = const_cast<QtGraphNode*>(this);
 	while (true)
 	{
 		QtGraphNode* parent = dynamic_cast<QtGraphNode*>(node->parentItem());
-		if (!parent)
+		if (!parent || (noGroups && parent->isGroupNode()))
 		{
 			break;
 		}
 		node = parent;
 	}
 	return node;
+}
+
+QtGraphNode* QtGraphNode::getLastNonGroupParent() const
+{
+	return getLastParent(true);
 }
 
 void QtGraphNode::setParent(QtGraphNode* parentNode)
@@ -86,7 +91,7 @@ void QtGraphNode::setParent(QtGraphNode* parentNode)
 	}
 }
 
-std::list<QtGraphNode*> QtGraphNode::getSubNodes() const
+const std::list<QtGraphNode*>& QtGraphNode::getSubNodes() const
 {
 	return m_subNodes;
 }
@@ -140,11 +145,6 @@ Vec4i QtGraphNode::getBoundingRect() const
 	Vec2i pos = getPosition();
 	Vec2i size = getSize();
 	return Vec4i(pos.x, pos.y, pos.x + size.x, pos.y + size.y);
-}
-
-Vec4i QtGraphNode::getParentBoundingRect() const
-{
-	return getLastParent()->getBoundingRect();
 }
 
 void QtGraphNode::addOutEdge(QtGraphEdge* edge)
@@ -348,7 +348,7 @@ void QtGraphNode::addSubNode(QtGraphNode* node)
 	if (node->getIsActive())
 	{
 		QtGraphNode* parent = this;
-		while (parent)
+		while (parent && !parent->isGroupNode())
 		{
 			parent->setZValue(-10.0f);
 			parent->m_text->setZValue(-9.0f);

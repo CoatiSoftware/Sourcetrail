@@ -265,6 +265,8 @@ add_files(
 	data/ErrorCountInfo.h
 	data/ErrorFilter.h
 	data/ErrorInfo.h
+	data/GroupType.cpp
+	data/GroupType.h
 	data/HierarchyCache.cpp
 	data/HierarchyCache.h
 	data/NodeType.cpp

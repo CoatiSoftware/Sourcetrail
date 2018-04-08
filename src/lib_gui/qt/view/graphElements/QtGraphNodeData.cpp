@@ -55,11 +55,7 @@ void QtGraphNodeData::onClick()
 		return;
 	}
 
-	FilePath path = getFilePath();
-
-	MessageActivateNodes message;
-	message.addNode(m_data->getId(), path.empty() ? m_data->getNameHierarchy() : NameHierarchy(path.wstr(), NAME_DELIMITER_FILE));
-	message.dispatch();
+	MessageActivateNodes(m_data->getId()).dispatch();
 }
 
 void QtGraphNodeData::moved(const Vec2i& oldPosition)

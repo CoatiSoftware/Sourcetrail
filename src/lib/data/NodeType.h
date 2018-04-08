@@ -48,13 +48,8 @@ public:
 	{
 		STYLE_PACKAGE = 0,
 		STYLE_SMALL_NODE = 1,
-		STYLE_BIG_NODE = 2
-	};
-
-	enum GroupType
-	{
-		GROUP_FRAMELESS,
-		GROUP_INHERITANCE
+		STYLE_BIG_NODE = 2,
+		STYLE_GROUP = 3
 	};
 
 	struct BundleInfo

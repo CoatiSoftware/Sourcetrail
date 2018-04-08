@@ -41,6 +41,7 @@ public:
 
 	virtual NameHierarchy getNameHierarchyForNodeId(Id id) const = 0;
 	virtual std::vector<NameHierarchy> getNameHierarchiesForNodeIds(const std::vector<Id>& nodeIds) const = 0;
+	virtual std::map<Id, std::pair<Id, NameHierarchy>> getNodeIdToParentFileMap(const std::vector<Id>& nodeIds) const = 0;
 
 	virtual NodeType getNodeTypeForNodeWithId(Id id) const = 0;
 

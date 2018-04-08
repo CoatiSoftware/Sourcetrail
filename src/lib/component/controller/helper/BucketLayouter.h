@@ -44,7 +44,7 @@ public:
 	void createBuckets(
 		std::vector<std::shared_ptr<DummyNode>>& nodes,
 		const std::vector<std::shared_ptr<DummyEdge>>& edges);
-	void layoutBuckets();
+	void layoutBuckets(bool addVerticalOffset);
 
 	std::vector<std::shared_ptr<DummyNode>> getSortedNodes();
 

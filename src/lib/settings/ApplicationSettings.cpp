@@ -241,6 +241,16 @@ void ApplicationSettings::setGraphControlsVisible(bool visible)
 	setValue<bool>("application/graph_controls_visible", visible);
 }
 
+GroupType ApplicationSettings::getGraphGrouping() const
+{
+	return stringToGroupType(getValue<std::wstring>("application/graph_grouping", groupTypeToString(GroupType::NONE)));
+}
+
+void ApplicationSettings::setGraphGrouping(GroupType type)
+{
+	setValue<std::wstring>("application/graph_grouping", groupTypeToString(type));
+}
+
 int ApplicationSettings::getScreenAutoScaling() const
 {
 	return getValue<int>("screen/auto_scaling", 1);

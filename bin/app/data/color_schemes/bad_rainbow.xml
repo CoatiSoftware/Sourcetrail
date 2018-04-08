@@ -344,6 +344,9 @@
 				<icon>
 					<normal>#FFFFFF</normal>
 				</icon>
+				<hatching>
+					<normal>#B05151</normal>
+				</hatching>
 			</namespace>
 			<package>
 				<like>namespace</like>
@@ -352,7 +355,7 @@
 			<file>
 				<fill>
 					<normal>#4E82F6</normal>
-					<focus>#7FA9F4</focus>
+					<focus>#6793F6</focus>
 				</fill>
 				<border>
 					<normal>#20FFFFFF</normal>
@@ -365,7 +368,7 @@
 					<normal>#FFFFFF</normal>
 				</icon>
 				<hatching>
-					<normal>#999999</normal>
+					<normal>#416CCC</normal>
 				</hatching>
 			</file>
 			<macro>
@@ -423,6 +426,41 @@
 				</text>
 			</text>
 			<group>
+				<default>
+					<fill>
+						<normal>transparent</normal>
+					</fill>
+					<text>
+						<normal>#FFFFFF</normal>
+					</text>
+					<border>
+						<normal>#807F80</normal>
+					</border>
+				</default>
+				<file>
+					<fill>
+						<normal>transparent</normal>
+					</fill>
+					<text>
+						<normal>#D4D4D4</normal>
+					</text>
+					<border>
+						<normal>#4E82F6</normal>
+						<focus>#6793F6</focus>
+					</border>
+				</file>
+				<namespace>
+					<fill>
+						<normal>transparent</normal>
+					</fill>
+					<text>
+						<normal>#D4D4D4</normal>
+					</text>
+					<border>
+						<normal>#873E3E</normal>
+						<focus>#944444</focus>
+					</border>
+				</namespace>
 				<inheritance>
 					<fill>
 						<normal>transparent</normal>

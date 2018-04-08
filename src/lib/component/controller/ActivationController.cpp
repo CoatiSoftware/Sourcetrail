@@ -79,12 +79,22 @@ void ActivationController::handleMessage(MessageActivateNodes* message)
 	MessageActivateTokens m(message);
 	for (const MessageActivateNodes::ActiveNode& node : message->nodes)
 	{
-		Id nodeId = node.nodeId ? node.nodeId : m_storageAccess->getNodeIdForNameHierarchy(node.nameHierarchy);
+		Id nodeId = node.nodeId;
+		NameHierarchy name = node.nameHierarchy;
+		if (!nodeId)
+		{
+			nodeId = m_storageAccess->getNodeIdForNameHierarchy(name);
+		}
+		else if (!name.size())
+		{
+			name = m_storageAccess->getNameHierarchyForNodeId(nodeId);
+		}
+
 		if (nodeId > 0)
 		{
 			m.tokenIds.push_back(nodeId);
 		}
-		m.tokenNames.push_back(node.nameHierarchy);
+		m.tokenNames.push_back(name);
 	}
 	m.searchMatches = m_storageAccess->getSearchMatchesForTokenIds(m.tokenIds);
 	m.dispatchImmediately();
@@ -104,7 +114,7 @@ void ActivationController::handleMessage(MessageActivateSourceLocations* message
 	MessageActivateNodes m;
 	for (Id nodeId : m_storageAccess->getNodeIdsForLocationIds(message->locationIds))
 	{
-		m.addNode(nodeId, m_storageAccess->getNameHierarchyForNodeId(nodeId));
+		m.addNode(nodeId);
 	}
 	m.dispatchImmediately();
 }

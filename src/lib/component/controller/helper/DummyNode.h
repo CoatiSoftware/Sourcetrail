@@ -7,6 +7,7 @@
 #include "utility/utilityString.h"
 
 #include "data/graph/Node.h"
+#include "data/GroupType.h"
 #include "data/name/NameHierarchy.h"
 #include "data/parser/AccessKind.h"
 
@@ -54,6 +55,32 @@ public:
 			, isReferencing(false)
 		{}
 
+		static BundleInfo averageBundleInfo(const std::vector<DummyNode::BundleInfo>& bundleInfos)
+		{
+			size_t activeCount = 0;
+			size_t definedCount = 0;
+			size_t verticalLayoutCount = 0;
+			size_t referencedCount = 0;
+			size_t referencingCount = 0;
+
+			for (const BundleInfo& info : bundleInfos)
+			{
+				if (info.isActive) activeCount++;
+				if (info.isDefined) definedCount++;
+				if (info.layoutVertical) verticalLayoutCount++;
+				if (info.isReferenced) referencedCount++;
+				if (info.isReferencing) referencingCount++;
+			}
+
+			BundleInfo info;
+			if (activeCount > bundleInfos.size() / 2) info.isActive = true;
+			if (definedCount > bundleInfos.size() / 2) info.isDefined = true;
+			if (verticalLayoutCount > bundleInfos.size() / 2) info.layoutVertical = true;
+			if (referencedCount > bundleInfos.size() / 2) info.isReferenced = true;
+			if (referencingCount > bundleInfos.size() / 2) info.isReferencing = true;
+			return info;
+		}
+
 		bool isActive;
 		bool isDefined;
 		bool layoutVertical;
@@ -73,7 +100,6 @@ public:
 		, expanded(false)
 		, autoExpanded(false)
 		, hasParent(true)
-		, hasQualifier(false)
 		, accessKind(ACCESS_NONE)
 		, invisibleSubNodeCount(0)
 		, bundleId(0)
@@ -81,7 +107,9 @@ public:
 		, bundledNodeCount(0)
 		, bundledNodeType(NodeType::NODE_SYMBOL)
 		, qualifierName(NAME_DELIMITER_UNKNOWN)
-		, groupType(NodeType::GROUP_FRAMELESS)
+		, groupType(GroupType::DEFAULT)
+		, groupLayout(GroupLayout::LIST)
+		, interactive(true)
 	{
 	}
 
@@ -365,6 +393,23 @@ public:
 		);
 	}
 
+	bool getsLayouted() const
+	{
+		return visible && !isExpandToggleNode() && !isQualifierNode();
+	}
+
+	const DummyNode* getQualifierNode() const
+	{
+		for (const std::shared_ptr<DummyNode>& subNode : subNodes)
+		{
+			if (subNode->isQualifierNode())
+			{
+				return subNode.get();
+			}
+		}
+		return nullptr;
+	}
+
 	Type type;
 
 	Vec2i position;
@@ -387,7 +432,6 @@ public:
 	bool expanded;
 	bool autoExpanded;
 	bool hasParent;
-	bool hasQualifier;
 
 	// AccessNode
 	AccessKind accessKind;
@@ -411,8 +455,10 @@ public:
 	NameHierarchy qualifierName;
 
 	// GroupNode
-	NodeType::GroupType groupType;
+	GroupType groupType;
+	GroupLayout groupLayout;
 	std::vector<Id> hiddenEdgeIds;
+	bool interactive;
 };
 
 #endif // DUMMY_NODE_H

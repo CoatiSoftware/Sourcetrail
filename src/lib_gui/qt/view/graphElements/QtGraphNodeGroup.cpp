@@ -1,24 +1,33 @@
 #include "qt/view/graphElements/QtGraphNodeGroup.h"
 
 #include <QBrush>
-#include <QGraphicsRectItem>
+#include <QGraphicsPolygonItem>
+#include <QGraphicsSceneHoverEvent>
+#include <QPainterPath>
 #include <QPen>
 
+#include "utility/messaging/type/MessageActivateNodes.h"
+#include "utility/messaging/type/MessageFocusIn.h"
+#include "utility/messaging/type/MessageFocusOut.h"
 #include "utility/messaging/type/MessageGraphNodeBundleSplit.h"
 
 #include "qt/graphics/QtRoundedRectItem.h"
 
-QtGraphNodeGroup::QtGraphNodeGroup(Id tokenId, const std::wstring& name, NodeType::GroupType type)
+QtGraphNodeGroup::QtGraphNodeGroup(
+	Id tokenId, const std::wstring& name, GroupType type, bool interactive
+)
 	: m_tokenId(tokenId)
 	, m_type(type)
+	, m_interactive(interactive)
 {
-	setAcceptHoverEvents(true);
+	if (interactive)
+	{
+		setAcceptHoverEvents(true);
+	}
 
 	setName(name);
-	setZValue(-10.0f);
-	m_rect->setZValue(-10.0f);
 
-	if (type == NodeType::GROUP_FRAMELESS)
+	if (type == GroupType::FRAMELESS)
 	{
 		m_rect->hide();
 		return;
@@ -29,25 +38,26 @@ QtGraphNodeGroup::QtGraphNodeGroup(Id tokenId, const std::wstring& name, NodeTyp
 		return;
 	}
 
-	m_background = new QtRoundedRectItem(this);
-	m_backgroundTopRight = new QGraphicsRectItem(this);
-	m_backgroundBottomLeft = new QGraphicsRectItem(this);
-
-	m_background->setZValue(-10.0f);
-	m_backgroundTopRight->setZValue(-10.0f);
-	m_backgroundBottomLeft->setZValue(-10.0f);
+	m_background = new QGraphicsPolygonItem(this);
+	m_background->setZValue(-3.f);
 
 	GraphViewStyle::NodeStyle style = GraphViewStyle::getStyleOfGroupNode(type, false);
 	GraphViewStyle::NodeMargins margins = GraphViewStyle::getMarginsOfGroupNode(type, true);
 
 	int width = style.textOffset.x * 2 + style.borderWidth + margins.charWidth * name.size();
-	int height = margins.top * 2 + margins.charHeight;
+	int height = margins.spacingA + margins.charHeight;
+	int radius = style.cornerRadius;
 
-	m_background->setRadius(style.cornerRadius);
-	m_background->setRect(0, 0, width, height);
+	QPainterPath path;
+	path.moveTo(width, 0);
+	path.lineTo(radius, 0);
+	path.arcTo(0, 0, 2 * radius, 2 * radius, 90, 90);
+	path.lineTo(0, height);
+	path.lineTo(width - radius, height);
+	path.arcTo(width - 2 * radius, height - 2 * radius, 2 * radius, 2 * radius, 270, 90);
+	path.closeSubpath();
 
-	m_backgroundTopRight->setRect(width - style.cornerRadius, 0, style.cornerRadius, style.cornerRadius);
-	m_backgroundBottomLeft->setRect(0, height - style.cornerRadius, style.cornerRadius, style.cornerRadius);
+	m_background->setPolygon(path.toFillPolygon());
 }
 
 QtGraphNodeGroup::~QtGraphNodeGroup()
@@ -66,24 +76,64 @@ Id QtGraphNodeGroup::getTokenId() const
 
 void QtGraphNodeGroup::onClick()
 {
-	MessageGraphNodeBundleSplit(m_tokenId).dispatch();
+	if (!m_interactive || !m_isHovering)
+	{
+		return;
+	}
+
+	if (m_type == GroupType::FILE || m_type == GroupType::NAMESPACE)
+	{
+		MessageActivateNodes(m_tokenId).dispatch();
+	}
+	else
+	{
+		MessageGraphNodeBundleSplit(m_tokenId).dispatch();
+	}
 }
 
 void QtGraphNodeGroup::updateStyle()
 {
-	GraphViewStyle::NodeStyle style = GraphViewStyle::getStyleOfGroupNode(m_type, false);
+	GraphViewStyle::NodeStyle style = GraphViewStyle::getStyleOfGroupNode(m_type, m_isHovering);
 
 	if (m_background)
 	{
 		m_background->setBrush(QColor(style.color.border.c_str()));
 		m_background->setPen(QPen(Qt::transparent));
-
-		m_backgroundTopRight->setBrush(QColor(style.color.border.c_str()));
-		m_backgroundTopRight->setPen(QPen(Qt::transparent));
-
-		m_backgroundBottomLeft->setBrush(QColor(style.color.border.c_str()));
-		m_backgroundBottomLeft->setPen(QPen(Qt::transparent));
 	}
 
 	setStyle(style);
+}
+
+void QtGraphNodeGroup::hoverLeaveEvent(QGraphicsSceneHoverEvent* event)
+{
+	if (m_type == GroupType::FILE || m_type == GroupType::NAMESPACE)
+	{
+		MessageFocusOut({ m_tokenId }).dispatch();
+	}
+	else
+	{
+		focusOut();
+	}
+}
+
+void QtGraphNodeGroup::hoverMoveEvent(QGraphicsSceneHoverEvent* event)
+{
+	if (!m_background || m_background->contains(event->pos()))
+	{
+		if (!m_isHovering)
+		{
+			if (m_type == GroupType::FILE || m_type == GroupType::NAMESPACE)
+			{
+				MessageFocusIn({ m_tokenId }, TOOLTIP_ORIGIN_GRAPH).dispatch();
+			}
+			else
+			{
+				focusIn();
+			}
+		}
+	}
+	else if (m_isHovering)
+	{
+		hoverLeaveEvent(nullptr);
+	}
 }

@@ -5,17 +5,17 @@
 #include "component/controller/helper/DummyNode.h"
 #include "component/view/GraphViewStyle.h"
 
-Vec2i ListLayouter::layoutRow(std::vector<std::shared_ptr<DummyNode>>* nodes, int top, int left, int gap)
+void ListLayouter::layoutRow(std::vector<std::shared_ptr<DummyNode>>* nodes, int gap)
 {
-	return layoutSimple(nodes, top, left, gap, 0, true);
+	layoutSimple(nodes, gap, 0, true);
 }
 
-Vec2i ListLayouter::layoutColumn(std::vector<std::shared_ptr<DummyNode>>* nodes, int top, int left, int gap)
+void ListLayouter::layoutColumn(std::vector<std::shared_ptr<DummyNode>>* nodes, int gap)
 {
-	return layoutSimple(nodes, top, left, 0, gap, false);
+	layoutSimple(nodes, 0, gap, false);
 }
 
-Vec2i ListLayouter::layoutMultiColumn(Vec2i viewSize, std::vector<std::shared_ptr<DummyNode>>* nodes)
+void ListLayouter::layoutMultiColumn(Vec2i viewSize, std::vector<std::shared_ptr<DummyNode>>* nodes)
 {
 	size_t colsFinal;
 	std::vector<int> maxWidthsFinal;
@@ -26,7 +26,7 @@ Vec2i ListLayouter::layoutMultiColumn(Vec2i viewSize, std::vector<std::shared_pt
 	std::vector<std::shared_ptr<DummyNode>> visibleNodes;
 	for (auto node : *nodes)
 	{
-		if (node->visible)
+		if (node->getsLayouted())
 		{
 			visibleNodes.push_back(node);
 		}
@@ -82,8 +82,6 @@ Vec2i ListLayouter::layoutMultiColumn(Vec2i viewSize, std::vector<std::shared_pt
 
 	int x = 0;
 	int y = 0;
-	int width = 0;
-	int height = 0;
 
 	size_t nodesPerCol =
 		(colsFinal == 1 ? visibleNodes.size() : std::ceil((visibleNodes.size() + colsFinal - 1) / double(colsFinal)));
@@ -122,30 +120,21 @@ Vec2i ListLayouter::layoutMultiColumn(Vec2i viewSize, std::vector<std::shared_pt
 		visibleNodes[i]->position.y = y;
 
 		y += visibleNodes[i]->size.y + gapY;
-		height = std::max(height, y);
 
 		if (visibleNodes[i]->isTextNode())
 		{
 			lastTextNode = visibleNodes[i];
 		}
 	}
-
-	for (int w : maxWidthsFinal)
-	{
-		width += w + gapX;
-	}
-
-	return Vec2i(width - gapX, height - gapY);
 }
 
-Vec2i ListLayouter::layoutSkewed(
-	std::vector<std::shared_ptr<DummyNode>>* nodes, int top, int left, int gapX, int gapY, int maxWidth)
+void ListLayouter::layoutSkewed(std::vector<std::shared_ptr<DummyNode>>* nodes, int gapX, int gapY, int maxWidth)
 {
 	std::vector<std::shared_ptr<DummyNode>> visibleNodes;
 	std::multiset<int> nodeWidths;
 	for (auto node : *nodes)
 	{
-		if (node->visible)
+		if (node->getsLayouted())
 		{
 			visibleNodes.push_back(node);
 			nodeWidths.insert(node->size.x());
@@ -185,8 +174,8 @@ Vec2i ListLayouter::layoutSkewed(
 			}
 
 			DummyNode* node = visibleNodes[i].get();
-			node->position.x = left + x + (nodeWidth - node->size.x()) / 2;
-			node->position.y = top + height;
+			node->position.x = x + (nodeWidth - node->size.x()) / 2;
+			node->position.y = height;
 
 			rowHeight = std::max(rowHeight, node->size.y());
 			x += nodeWidth + gapX;
@@ -201,16 +190,6 @@ Vec2i ListLayouter::layoutSkewed(
 			break;
 		}
 	}
-
-	Vec4i rect = boundingRect(visibleNodes);
-	Vec2i offset(left - rect.x(), top - rect.y());
-
-	for (auto node : visibleNodes)
-	{
-		node->position += offset;
-	}
-
-	return Vec2i(rect.z() - rect.x(), rect.w() - rect.y());
 }
 
 Vec4i ListLayouter::boundingRect(const std::vector<std::shared_ptr<DummyNode>>& nodes)
@@ -219,7 +198,7 @@ Vec4i ListLayouter::boundingRect(const std::vector<std::shared_ptr<DummyNode>>& 
 
 	for (auto node : nodes)
 	{
-		if (!node->visible)
+		if (!node->getsLayouted())
 		{
 			continue;
 		}
@@ -243,46 +222,44 @@ Vec4i ListLayouter::boundingRect(const std::vector<std::shared_ptr<DummyNode>>& 
 	return rect;
 }
 
-Vec2i ListLayouter::layoutSimple(
-	std::vector<std::shared_ptr<DummyNode>>* nodes, int top, int left, int gapX, int gapY, bool horizontal)
+Vec2i ListLayouter::offsetNodes(std::vector<std::shared_ptr<DummyNode>> nodes, int top, int left)
+{
+	Vec4i rect = boundingRect(nodes);
+	Vec2i offset(left - rect.x(), top - rect.y());
+
+	for (auto node : nodes)
+	{
+		if (node->getsLayouted())
+		{
+			node->position += offset;
+		}
+	}
+
+	return Vec2i(rect.z() - rect.x(), rect.w() - rect.y());
+}
+
+void ListLayouter::layoutSimple(std::vector<std::shared_ptr<DummyNode>>* nodes, int gapX, int gapY, bool horizontal)
 {
 	int y = 0;
 	int x = 0;
 
-	int width = 0;
-	int height = 0;
-
 	for (const std::shared_ptr<DummyNode>& node : *nodes)
 	{
-		if (!node->visible || node->isExpandToggleNode() || node->isQualifierNode())
+		if (!node->getsLayouted())
 		{
 			continue;
 		}
 
-		node->position.x = left + x;
-		node->position.y = top + y;
+		node->position.x = x;
+		node->position.y = y;
 
 		if (horizontal)
 		{
 			x += node->size.x + gapX;
-			height = std::max(height, node->size.y());
 		}
 		else
 		{
 			y += node->size.y + gapY;
-			width = std::max(width, node->size.x());
 		}
 	}
-
-	if (x > 0)
-	{
-		width = x - gapX;
-	}
-
-	if (y > 0)
-	{
-		height = y - gapY;
-	}
-
-	return Vec2i(width, height);
 }

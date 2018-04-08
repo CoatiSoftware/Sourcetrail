@@ -7,6 +7,7 @@
 #include "utility/math/Vector2.h"
 
 #include "data/graph/Node.h"
+#include "data/GroupType.h"
 #include "data/parser/AccessKind.h"
 
 class GraphViewStyleImpl;
@@ -117,7 +118,7 @@ public:
 	static NodeMargins getMarginsOfExpandToggleNode();
 	static NodeMargins getMarginsOfBundleNode();
 	static NodeMargins getMarginsOfTextNode();
-	static NodeMargins getMarginsOfGroupNode(NodeType::GroupType type, bool hasName);
+	static NodeMargins getMarginsOfGroupNode(GroupType type, bool hasName);
 
 	static NodeStyle getStyleForNodeType(
 		NodeType type, bool defined, bool isActive, bool isFocused, bool hasChildren, bool hasQualifier);
@@ -127,7 +128,7 @@ public:
 	static NodeStyle getStyleOfBundleNode(bool isFocused);
 	static NodeStyle getStyleOfQualifier();
 	static NodeStyle getStyleOfTextNode();
-	static NodeStyle getStyleOfGroupNode(NodeType::GroupType type, bool isFocused);
+	static NodeStyle getStyleOfGroupNode(GroupType type, bool isFocused);
 
 	static EdgeStyle getStyleForEdgeType(Edge::EdgeType type, bool isActive, bool isFocused, bool isTrailEdge);
 

@@ -156,6 +156,9 @@ size_t GraphViewStyle::getFontSizeForStyleType(NodeType::StyleType type)
 	case NodeType::STYLE_SMALL_NODE:
 		return s_fontSize - 3;
 
+	case NodeType::STYLE_GROUP:
+		return s_fontSize - 2;
+
 	default:
 		return s_fontSize;
 	}
@@ -188,7 +191,7 @@ size_t GraphViewStyle::getFontSizeOfTextNode()
 
 size_t GraphViewStyle::getFontSizeOfGroupNode()
 {
-	return s_fontSize;
+	return getFontSizeForStyleType(NodeType::STYLE_GROUP);
 }
 
 std::string GraphViewStyle::getFontNameForDataNode()
@@ -225,6 +228,7 @@ GraphViewStyle::NodeMargins GraphViewStyle::getMarginsForDataNode(NodeType::Styl
 	switch (type)
 	{
 	case NodeType::STYLE_PACKAGE:
+	case NodeType::STYLE_GROUP:
 		margins.left = margins.right = 5;
 		margins.top = margins.bottom = 3;
 		margins.iconWidth = s_fontSize - 3;
@@ -331,20 +335,20 @@ GraphViewStyle::NodeMargins GraphViewStyle::getMarginsOfTextNode()
 	return margins;
 }
 
-GraphViewStyle::NodeMargins GraphViewStyle::getMarginsOfGroupNode(NodeType::GroupType type, bool hasName)
+GraphViewStyle::NodeMargins GraphViewStyle::getMarginsOfGroupNode(GroupType type, bool hasName)
 {
 	NodeMargins margins;
 	margins.spacingX = margins.spacingY = GraphViewStyle::s_gridCellPadding;
 
-	if (type == NodeType::GROUP_FRAMELESS)
+	if (type == GroupType::FRAMELESS)
 	{
 		return margins;
 	}
 
-	margins.spacingA = (hasName ? 22 : 0);
+	margins.spacingA = (hasName ? 14 : 0);
 
 	margins.left = margins.right = 20;
-	margins.top = (hasName ? 8 : 20);
+	margins.top = (hasName ? 12 : 20);
 	margins.bottom = 20;
 
 	if (hasName)
@@ -352,7 +356,7 @@ GraphViewStyle::NodeMargins GraphViewStyle::getMarginsOfGroupNode(NodeType::Grou
 		margins.minWidth = margins.charHeight = getFontSizeOfGroupNode();
 	}
 
-	margins.charWidth = getCharWidth(NodeType::STYLE_BIG_NODE);
+	margins.charWidth = getCharWidth(NodeType::STYLE_GROUP);
 
 	return margins;
 }
@@ -401,6 +405,7 @@ GraphViewStyle::NodeStyle GraphViewStyle::getStyleForNodeType(
 	switch (type)
 	{
 	case NodeType::STYLE_PACKAGE:
+	case NodeType::STYLE_GROUP:
 		style.cornerRadius = 0;
 		style.textOffset.x = 5;
 		style.textOffset.y = 3;
@@ -555,27 +560,48 @@ GraphViewStyle::NodeStyle GraphViewStyle::getStyleOfTextNode()
 	return style;
 }
 
-GraphViewStyle::NodeStyle GraphViewStyle::getStyleOfGroupNode(NodeType::GroupType type, bool isFocused)
+GraphViewStyle::NodeStyle GraphViewStyle::getStyleOfGroupNode(GroupType type, bool isFocused)
 {
 	NodeStyle style;
 
+	style.cornerRadius = 15;
+	style.borderWidth = 2;
+
 	std::string colorType = "group/";
-	if (type == NodeType::GROUP_INHERITANCE)
+	if (type == GroupType::DEFAULT)
+	{
+		colorType += "default";
+	}
+	else if (type == GroupType::FILE)
+	{
+		colorType += "file";
+	}
+	else if (type == GroupType::NAMESPACE)
+	{
+		colorType += "namespace";
+	}
+	else if (type == GroupType::INHERITANCE)
 	{
 		colorType += "inheritance";
+
+		if (isFocused)
+		{
+			style.borderWidth = 3;
+		}
+	}
+	else
+	{
+		return style;
 	}
 
 	style.color = getNodeColor(colorType, isFocused);
-
-	style.cornerRadius = 15;
-	style.borderWidth = 2;
 
 	style.fontName = getFontNameOfGroupNode();
 	style.fontSize = getFontSizeOfGroupNode();
 	style.fontBold = true;
 
-	style.textOffset.x = 15;
-	style.textOffset.y = 6;
+	style.textOffset.x = 12;
+	style.textOffset.y = 5;
 
 	return style;
 }
@@ -638,7 +664,7 @@ GraphViewStyle::EdgeStyle GraphViewStyle::getStyleForEdgeType(
 		style.verticalOffset = 6;
 		break;
 	case Edge::EDGE_INHERITANCE:
-		style.arrowLength = 20;
+		style.arrowLength = 17;
 		style.arrowWidth = 14;
 		style.arrowClosed = true;
 		style.originOffset.x = 7;
@@ -648,6 +674,7 @@ GraphViewStyle::EdgeStyle GraphViewStyle::getStyleForEdgeType(
 		style.verticalOffset = 0;
 		style.cornerRadius = 7;
 		style.zValue = isActive ? 2 : -3;
+		style.width = isActive ? 3 : 2;
 
 		if (isTrailEdge)
 		{

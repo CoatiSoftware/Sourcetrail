@@ -1,18 +1,17 @@
 #ifndef QT_GRAPH_NODE_GROUP_H
 #define QT_GRAPH_NODE_GROUP_H
 
-#include "data/NodeType.h"
+#include "data/GroupType.h"
 #include "qt/view/graphElements/QtGraphNode.h"
 
-class QGraphicsRectItem;
-class QtRoundedRectItem;
+class QGraphicsPolygonItem;
 
 class QtGraphNodeGroup
 	: public QtGraphNode
 {
 	Q_OBJECT
 public:
-	QtGraphNodeGroup(Id tokenId, const std::wstring& name, NodeType::GroupType type);
+	QtGraphNodeGroup(Id tokenId, const std::wstring& name, GroupType type, bool interactive);
 	virtual ~QtGraphNodeGroup();
 
 	// QtGraphNode implementation
@@ -22,13 +21,16 @@ public:
 	virtual void onClick();
 	virtual void updateStyle();
 
+protected:
+	virtual void hoverLeaveEvent(QGraphicsSceneHoverEvent* event);
+	virtual void hoverMoveEvent(QGraphicsSceneHoverEvent* event);
+
 private:
 	Id m_tokenId;
-	NodeType::GroupType m_type;
+	GroupType m_type;
+	const bool m_interactive;
 
-	QtRoundedRectItem* m_background = nullptr;
-	QGraphicsRectItem* m_backgroundTopRight = nullptr;
-	QGraphicsRectItem* m_backgroundBottomLeft = nullptr;
+	QGraphicsPolygonItem* m_background = nullptr;
 };
 
 #endif // QT_GRAPH_NODE_GROUP_H

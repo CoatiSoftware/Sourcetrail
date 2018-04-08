@@ -12,17 +12,17 @@ struct DummyNode;
 class ListLayouter
 {
 public:
-	static Vec2i layoutRow(std::vector<std::shared_ptr<DummyNode>>* nodes, int top, int left, int gap);
-	static Vec2i layoutColumn(std::vector<std::shared_ptr<DummyNode>>* nodes, int top, int left, int gap);
+	static void layoutRow(std::vector<std::shared_ptr<DummyNode>>* nodes, int gap);
+	static void layoutColumn(std::vector<std::shared_ptr<DummyNode>>* nodes, int gap);
 
-	static Vec2i layoutMultiColumn(Vec2i viewSize, std::vector<std::shared_ptr<DummyNode>>* nodes);
-	static Vec2i layoutSkewed(
-		std::vector<std::shared_ptr<DummyNode>>* nodes, int top, int left, int gapX, int gapY, int maxWidth);
+	static void layoutMultiColumn(Vec2i viewSize, std::vector<std::shared_ptr<DummyNode>>* nodes);
+	static void layoutSkewed(std::vector<std::shared_ptr<DummyNode>>* nodes, int gapX, int gapY, int maxWidth);
 
 	static Vec4i boundingRect(const std::vector<std::shared_ptr<DummyNode>>& nodes);
+	static Vec2i offsetNodes(std::vector<std::shared_ptr<DummyNode>> nodes, int top, int left);
+
 private:
-	static Vec2i layoutSimple(
-		std::vector<std::shared_ptr<DummyNode>>* nodes, int top, int left, int gapX, int gapY, bool horizontal);
+	static void layoutSimple(std::vector<std::shared_ptr<DummyNode>>* nodes, int gapX, int gapY, bool horizontal);
 };
 
 #endif // LIST_LAYOUTER_H

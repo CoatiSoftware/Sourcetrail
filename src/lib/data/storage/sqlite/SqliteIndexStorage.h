@@ -5,7 +5,7 @@
 #include <string>
 #include <vector>
 
-#include "data/location/SourceLocationFile.h"
+#include "data/location/LocationType.h"
 #include "data/storage/sqlite/SqliteDatabaseIndex.h"
 #include "data/storage/sqlite/SqliteStorage.h"
 #include "data/storage/type/StorageCommentLocation.h"
@@ -24,6 +24,8 @@
 
 class TextAccess;
 class Version;
+class SourceLocationCollection;
+class SourceLocationFile;
 struct ParseLocation;
 
 class SqliteIndexStorage
@@ -94,6 +96,8 @@ public:
 		const FilePath& filePath, size_t startLine, size_t endLine) const;
 	std::shared_ptr<SourceLocationFile> getSourceLocationsOfTypeInFile(
 		const FilePath& filePath, LocationType type) const;
+
+	std::shared_ptr<SourceLocationCollection> getSourceLocationsForElementIds(const std::vector<Id>& elementIds) const;
 
 	std::vector<StorageOccurrence> getOccurrencesForLocationId(Id locationId) const;
 	std::vector<StorageOccurrence> getOccurrencesForLocationIds(const std::vector<Id>& locationIds) const;

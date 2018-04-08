@@ -85,6 +85,16 @@ std::vector<NameHierarchy> StorageAccessProxy::getNameHierarchiesForNodeIds(cons
 	return std::vector<NameHierarchy>();
 }
 
+std::map<Id, std::pair<Id, NameHierarchy>> StorageAccessProxy::getNodeIdToParentFileMap(const std::vector<Id>& nodeIds) const
+{
+	if (hasSubject())
+	{
+		return m_subject->getNodeIdToParentFileMap(nodeIds);
+	}
+
+	return { };
+}
+
 NodeType StorageAccessProxy::getNodeTypeForNodeWithId(Id id) const
 {
 	if (hasSubject())

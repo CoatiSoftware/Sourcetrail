@@ -15,6 +15,7 @@
 
 #include "utility/messaging/type/MessageActivateTrail.h"
 #include "utility/messaging/type/MessageDeactivateEdge.h"
+#include "utility/messaging/type/MessageRefresh.h"
 #include "utility/messaging/type/MessageScrollGraph.h"
 #include "utility/messaging/type/MessageStatus.h"
 #include "utility/ResourcePaths.h"
@@ -158,6 +159,52 @@ void QtGraphView::initView()
 		updateTrailButtons();
 		trailDepthChanged(0);
 	}
+
+	// group controls
+	{
+		m_groupFileButton = new QtSelfRefreshIconButton(
+			"", ResourcePaths::getGuiPath().concatenate(L"graph_view/images/file.png"), "search/button");
+		m_groupNamespaceButton = new QtSelfRefreshIconButton(
+			"", ResourcePaths::getGuiPath().concatenate(L"graph_view/images/group_namespace.png"), "search/button");
+
+		m_groupFileButton->setObjectName("group_right_button");
+		m_groupNamespaceButton->setObjectName("group_left_button");
+
+		m_groupFileButton->setToolTip("group by file");
+		m_groupNamespaceButton->setToolTip("group by package/namespace");
+
+		m_groupFileButton->setCheckable(true);
+		m_groupNamespaceButton->setCheckable(true);
+
+		m_groupFileButton->setIconSize(QSize(14, 14));
+		m_groupNamespaceButton->setIconSize(QSize(14, 14));
+
+		connect(m_groupFileButton, &QPushButton::clicked, [this](){ groupingUpdated(m_groupFileButton); });
+		connect(m_groupNamespaceButton, &QPushButton::clicked, [this]() { groupingUpdated(m_groupNamespaceButton); });
+
+		GroupType type = ApplicationSettings::getInstance()->getGraphGrouping();
+		if (type == GroupType::FILE)
+		{
+			m_groupFileButton->setChecked(true);
+		}
+		else if (type == GroupType::NAMESPACE)
+		{
+			m_groupNamespaceButton->setChecked(true);
+		}
+
+
+		m_groupWidget = new QWidget(widget);
+		m_groupWidget->setGeometry(38, 8, 54, 26);
+
+		QHBoxLayout* layout = new QHBoxLayout();
+		layout->setContentsMargins(0, 0, 0, 0);
+		layout->setSpacing(2);
+
+		layout->addWidget(m_groupNamespaceButton);
+		layout->addWidget(m_groupFileButton);
+
+		m_groupWidget->setLayout(layout);
+	}
 }
 
 void QtGraphView::refreshView()
@@ -173,6 +220,8 @@ void QtGraphView::refreshView()
 		view->setAppZoomFactor(GraphViewStyle::getZoomFactor());
 
 		m_trailWidget->setStyleSheet(css.c_str());
+		m_groupWidget->setStyleSheet(css.c_str());
+
 		updateTrailButtons();
 	});
 }
@@ -407,7 +456,7 @@ void QtGraphView::defocusTokenIds(const std::vector<Id>& defocusedTokenIds)
 		for (const Id& tokenId : defocusedTokenIds)
 		{
 			QtGraphNode* node = findNodeRecursive(m_oldNodes, tokenId);
-			if (node && node->isDataNode())
+			if (node && (node->isDataNode() || node->isGroupNode()))
 			{
 				node->focusOut();
 				continue;
@@ -439,6 +488,20 @@ Vec2i QtGraphView::getViewSize() const
 
 	float zoomFactor = view->getZoomFactor();
 	return Vec2i((view->width() - 50) / zoomFactor, (view->height() - 100) / zoomFactor);
+}
+
+GroupType QtGraphView::getGrouping() const
+{
+	if (m_groupFileButton->isChecked())
+	{
+		return GroupType::FILE;
+	}
+	else if (m_groupNamespaceButton->isChecked())
+	{
+		return GroupType::NAMESPACE;
+	}
+
+	return GroupType::NONE;
 }
 
 void QtGraphView::scrollToValues(int xValue, int yValue)
@@ -560,9 +623,17 @@ void QtGraphView::pressedCharacterKey(QChar c)
 	const QtGraphNode* node = nullptr;
 	bool hasTextNodes = false;
 
-	for (const QtGraphNode* n : m_oldNodes)
+	std::vector<QtGraphNode*> nodes(m_oldNodes.begin(), m_oldNodes.end());
+
+	size_t i = 0;
+	while (i < nodes.size())
 	{
-		if (n->isTextNode() && n->getName().size())
+		QtGraphNode* n = nodes[i++];
+		if (n->isGroupNode())
+		{
+			nodes.insert(nodes.end(), n->getSubNodes().begin(), n->getSubNodes().end());
+		}
+		else if (n->isTextNode() && n->getName().size())
 		{
 			hasTextNodes = true;
 			QChar start(n->getName()[0]);
@@ -655,6 +726,20 @@ void QtGraphView::clickedBackwardTrail()
 void QtGraphView::clickedForwardTrail()
 {
 	activateTrail(true);
+}
+
+void QtGraphView::groupingUpdated(QPushButton* button)
+{
+	(button == m_groupFileButton ? m_groupNamespaceButton : m_groupFileButton)->setChecked(false);
+
+	ApplicationSettings* appSettings = ApplicationSettings::getInstance().get();
+	if (appSettings->getGraphGrouping() != getGrouping())
+	{
+		appSettings->setGraphGrouping(getGrouping());
+		appSettings->save();
+	}
+
+	MessageRefresh().refreshUiOnly().noReloadStyle().dispatch();
 }
 
 MessageActivateTrail QtGraphView::getMessageActivateTrail(bool forward)
@@ -868,7 +953,7 @@ QtGraphNode* QtGraphView::createNodeRecursive(
 	QtGraphNode* newNode = nullptr;
 	if (node->isGraphNode())
 	{
-		newNode = new QtGraphNodeData(node->data, node->name, node->childVisible, node->hasQualifier);
+		newNode = new QtGraphNodeData(node->data, node->name, node->childVisible, node->getQualifierNode() != nullptr);
 	}
 	else if (node->isAccessNode())
 	{
@@ -892,7 +977,7 @@ QtGraphNode* QtGraphView::createNodeRecursive(
 	}
 	else if (node->isGroupNode())
 	{
-		newNode = new QtGraphNodeGroup(node->tokenId, node->name, node->groupType);
+		newNode = new QtGraphNodeGroup(node->tokenId, node->name, node->groupType, node->interactive);
 	}
 	else
 	{

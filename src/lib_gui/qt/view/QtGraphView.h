@@ -61,6 +61,7 @@ public:
 	virtual void resizeView();
 
 	virtual Vec2i getViewSize() const;
+	virtual GroupType getGrouping() const;
 
 	virtual void scrollToValues(int xValue, int yValue);
 
@@ -83,6 +84,8 @@ private slots:
 
 	void clickedBackwardTrail();
 	void clickedForwardTrail();
+
+	void groupingUpdated(QPushButton* button);
 
 private:
 	MessageActivateTrail getMessageActivateTrail(bool forward);
@@ -152,6 +155,10 @@ private:
 	QtSelfRefreshIconButton* m_backwardTrailButton;
 	QSlider* m_trailDepthSlider;
 	QLabel* m_trailDepthLabel;
+
+	QWidget* m_groupWidget;
+	QtSelfRefreshIconButton* m_groupFileButton;
+	QtSelfRefreshIconButton* m_groupNamespaceButton;
 
 	std::vector<QRectF> m_virtualNodeRects;
 
