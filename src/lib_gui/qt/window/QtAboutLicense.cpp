@@ -23,7 +23,14 @@ void QtAboutLicense::populateWindow(QWidget* widget)
 	for (ThirdPartyLicense license : licenses3rdParties)
 	{
 		QLabel* licenseName = new QLabel();
-		licenseName->setText( QString::fromLatin1(license.name));
+		licenseName->setText(
+			QString::fromLatin1(license.name) + 
+			QString::fromLatin1(
+				std::string(license.version).empty() ? 
+				"" : 
+				(std::string(" (v") + license.version + ")").c_str()
+			)
+		);
 		QFont _font = licenseName->font();
 		_font.setPixelSize(36);
 		_font.setBold(true);
@@ -31,7 +38,7 @@ void QtAboutLicense::populateWindow(QWidget* widget)
 		layout->addWidget(licenseName);
 
 		QLabel* licenseURL = new QLabel();
-		licenseURL->setText(QString::fromLatin1("(<a href=\"%1\">Website</a>)")
+		licenseURL->setText(QString::fromLatin1("<a href=\"%1\">%1</a>")
 									.arg(QString::fromLatin1(license.url)));
 		licenseURL->setOpenExternalLinks(true);
 		layout->addWidget(licenseURL);

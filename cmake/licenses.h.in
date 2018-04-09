@@ -5,24 +5,27 @@
 
 struct ThirdPartyLicense {
 	const char* name;
+	const char* version;
 	const char* url;
 	const char* license;
 
 	ThirdPartyLicense()
 		: name(0)
+		, version(0)
 		, url(0)
 		, license(0)
 	{}
 
-	ThirdPartyLicense(const char* name, const char* url, const char* license)
+	ThirdPartyLicense(const char* name, const char* version, const char* url, const char* license)
 	    : name(name)
+	    , version(version)
 	    , url(url)
 	    , license(license)
 	{}
 
 	bool isEmpty() const
 	{
-		return (name == 0 && url == 0 && license == 0);
+		return (name == 0 && version == 0 && url == 0 && license == 0);
 	}
 };
 
