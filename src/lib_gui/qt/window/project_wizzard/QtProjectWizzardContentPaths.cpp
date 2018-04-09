@@ -420,9 +420,13 @@ QtProjectWizzardContentPathsExclude::QtProjectWizzardContentPathsExclude(
 {
 	setTitleString("Excluded Files & Directories");
 	setHelpString(
-		"These paths define the files and directories that will be left out from indexing.<br />"
-		"<br />"
-		"You can make use of environment variables with ${ENV_VAR}."
+		"<p>These paths define the files and directories that will be left out from indexing.</p>"
+		"<p>Hints:"
+		"<ul>"
+		"<li>You can use the wildcard \"*\" which represents characters except \"\\\" or \"/\" (e.g. \"src/*/test.h\" matches \"src/app/test.h\" but does not match \"src/app/widget/test.h\" or \"src/test.h\")</li>"
+		"<li>You can use the wildcard \"**\" which represents arbitrary characters (e.g. \"src**test.h\" matches \"src/app/test.h\" as well as \"src/app/widget/test.h\" or \"src/test.h\")</li>"
+		"<li>You can make use of environment variables with ${ENV_VAR}</li>"
+		"</ul></p>"
 	);
 }
 
