@@ -133,7 +133,6 @@ void QtGraphEdge::updateLine()
 			QtLineItemBezier* bezier = new QtLineItemBezier(this);
 			bezier->updateLine(ownerRect, rect, ownerParentRect, rect, style, m_weight, false);
 			bezier->setRoute(route);
-			bezier->setPivot(QtLineItemBase::PIVOT_MIDDLE);
 
 			QtLineItemStraight* line = new QtLineItemStraight(this);
 			if (route == QtLineItemBase::ROUTE_HORIZONTAL)
@@ -154,7 +153,6 @@ void QtGraphEdge::updateLine()
 		QtLineItemBezier* bezier = new QtLineItemBezier(this);
 		bezier->updateLine(ownerRect, targetRect, ownerParentRect, targetParentRect, style, m_weight, showArrow);
 		bezier->setRoute(route);
-		bezier->setPivot(QtLineItemBase::PIVOT_MIDDLE);
 
 		if (ownerNonGroupParent == targetNonGroupParent)
 		{
@@ -170,6 +168,11 @@ void QtGraphEdge::updateLine()
 	}
 	else
 	{
+		const Vec2i& ownerColumnSize = m_owner->getLastParent()->getColumnSize();
+		const Vec2i& targetColumnSize = m_target->getLastParent()->getColumnSize();
+		ownerParentRect.z = std::max(ownerParentRect.x + ownerColumnSize.x, ownerParentRect.z());
+		targetParentRect.z = std::max(targetParentRect.x + targetColumnSize.x, targetParentRect.z());
+
 		if (!m_child)
 		{
 			m_child = new QtLineItemAngled(this);
@@ -212,11 +215,6 @@ void QtGraphEdge::updateLine()
 			owner != owner->getLastNonGroupParent() || target != target->getLastNonGroupParent())
 		{
 			child->setRoute(QtLineItemBase::ROUTE_HORIZONTAL);
-		}
-
-		if (type == Edge::EDGE_AGGREGATION || type == Edge::EDGE_INHERITANCE)
-		{
-			child->setPivot(QtLineItemBase::PIVOT_MIDDLE);
 		}
 
 		bool showArrow = true;

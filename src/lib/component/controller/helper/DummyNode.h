@@ -2,6 +2,7 @@
 #define DUMMY_NODE_H
 
 #include "utility/math/Vector2.h"
+#include "utility/math/Vector4.h"
 #include "utility/types.h"
 #include "utility/utility.h"
 #include "utility/utilityString.h"
@@ -103,7 +104,6 @@ public:
 		, accessKind(ACCESS_NONE)
 		, invisibleSubNodeCount(0)
 		, bundleId(0)
-		, layoutBucket(0, 0)
 		, bundledNodeCount(0)
 		, bundledNodeType(NodeType::NODE_SYMBOL)
 		, qualifierName(NAME_DELIMITER_UNKNOWN)
@@ -182,6 +182,27 @@ public:
 		}
 
 		return false;
+	}
+
+	Vec4i getActiveSubNodeRect(Vec2i pos = Vec2i()) const
+	{
+		pos += position;
+
+		if (active)
+		{
+			return Vec4i(pos.x, pos.y, pos.x + size.x, pos.y + size.y);
+		}
+
+		for (const std::shared_ptr<DummyNode>& node : subNodes)
+		{
+			Vec4i rect = node->getActiveSubNodeRect(pos);
+			if (rect.w() > 0)
+			{
+				return rect;
+			}
+		}
+
+		return Vec4i();
 	}
 
 	size_t getActiveSubNodeCount() const
@@ -444,7 +465,7 @@ public:
 	Id bundleId;
 
 	// Layout
-	Vec2i layoutBucket;
+	Vec2i columnSize;
 
 	// BundleNode
 	BundledNodesSet bundledNodes;

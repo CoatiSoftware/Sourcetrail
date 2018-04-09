@@ -628,8 +628,8 @@ GraphViewStyle::EdgeStyle GraphViewStyle::getStyleForEdgeType(
 	style.originOffset.x = 17;
 	style.targetOffset.x = 17;
 
-	style.originOffset.y = -1;
-	style.targetOffset.y = 1;
+	style.originOffset.y = 1;
+	style.targetOffset.y = -1;
 
 	style.color = getEdgeColor(utility::encodeToUtf8(Edge::getUnderscoredTypeString(type)), isActive || isFocused);
 
@@ -647,8 +647,8 @@ GraphViewStyle::EdgeStyle GraphViewStyle::getStyleForEdgeType(
 		style.zValue = isActive ? 1 : -5;
 		break;
 	case Edge::EDGE_CALL:
-		style.originOffset.y = 1;
-		style.targetOffset.y = -1;
+		style.originOffset.y = 3;
+		style.targetOffset.y = -3;
 		style.verticalOffset = 4;
 
 		if (isTrailEdge && isActive)
@@ -659,8 +659,8 @@ GraphViewStyle::EdgeStyle GraphViewStyle::getStyleForEdgeType(
 		}
 		break;
 	case Edge::EDGE_USAGE:
-		style.originOffset.y = 3;
-		style.targetOffset.y = -3;
+		style.originOffset.y = 5;
+		style.targetOffset.y = -5;
 		style.verticalOffset = 6;
 		break;
 	case Edge::EDGE_INHERITANCE:
@@ -669,8 +669,8 @@ GraphViewStyle::EdgeStyle GraphViewStyle::getStyleForEdgeType(
 		style.arrowClosed = true;
 		style.originOffset.x = 7;
 		style.targetOffset.x = 34;
-		style.originOffset.y = -15;
-		style.targetOffset.y = 15;
+		style.originOffset.y = 10;
+		style.targetOffset.y = -10;
 		style.verticalOffset = 0;
 		style.cornerRadius = 7;
 		style.zValue = isActive ? 2 : -3;
@@ -688,6 +688,11 @@ GraphViewStyle::EdgeStyle GraphViewStyle::getStyleForEdgeType(
 		style.arrowLength = 10;
 		style.arrowWidth = 13;
 		style.arrowClosed = true;
+	case Edge::EDGE_TEMPLATE_ARGUMENT:
+	case Edge::EDGE_TYPE_ARGUMENT:
+	case Edge::EDGE_TEMPLATE_DEFAULT_ARGUMENT:
+		style.originOffset.y = 5;
+		style.targetOffset.y = -5;
 		break;
 
 	case Edge::EDGE_INCLUDE:
@@ -701,38 +706,23 @@ GraphViewStyle::EdgeStyle GraphViewStyle::getStyleForEdgeType(
 
 int GraphViewStyle::toGridOffset(int x)
 {
-	if (x < 1)
+	if (x > 0)
 	{
-		return 0;
+		return std::ceil(x / double(s_gridCellPadding + s_gridCellSize)) * (s_gridCellPadding + s_gridCellSize);
 	}
-
-	int r = 0;
-
-	while (r < x - 1)
+	else
 	{
-		r += s_gridCellPadding + s_gridCellSize;
+		return std::floor(x / double(s_gridCellPadding + s_gridCellSize)) * (s_gridCellPadding + s_gridCellSize);
 	}
-
-	return r;
 }
 
 int GraphViewStyle::toGridSize(int x)
 {
-	if (x < 1)
-	{
-		return 0;
-	}
-
 	return s_gridCellSize + toGridOffset(x - s_gridCellSize);
 }
 
 int GraphViewStyle::toGridGap(int x)
 {
-	if (x < 1)
-	{
-		return 0;
-	}
-
 	return s_gridCellPadding + toGridOffset(x - s_gridCellPadding);
 }
 

@@ -23,7 +23,7 @@ public:
 	void addNode(std::shared_ptr<DummyNode> node);
 	const DummyNode::BundledNodesSet& getNodes() const;
 
-	void preLayout(Vec2i viewSize);
+	void preLayout(Vec2i viewSize, bool addVerticalOffset);
 	void layout(int x, int y, int width, int height);
 
 	int i;
@@ -65,6 +65,8 @@ private:
 	int m_j1;
 	int m_i2;
 	int m_j2;
+
+	DummyNode* m_activeParentNode = nullptr;
 };
 
 #endif // BUCKET_LAYOUTER_H

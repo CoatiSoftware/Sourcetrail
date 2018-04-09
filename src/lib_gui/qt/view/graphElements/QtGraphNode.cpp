@@ -109,6 +109,7 @@ bool QtGraphNode::setPosition(const Vec2i& position)
 	if (offset.x != 0 || offset.y != 0)
 	{
 		this->moveBy(offset.x, offset.y);
+		setColumnSize(Vec2i());
 		notifyEdgesAfterMove();
 		return true;
 	}
@@ -116,7 +117,7 @@ bool QtGraphNode::setPosition(const Vec2i& position)
 	return false;
 }
 
-Vec2i QtGraphNode::getSize() const
+const Vec2i& QtGraphNode::getSize() const
 {
 	return m_size;
 }
@@ -128,6 +129,16 @@ void QtGraphNode::setSize(const Vec2i& size)
 	this->setRect(0, 0, size.x, size.y);
 	m_rect->setRect(0, 0, size.x, size.y);
 	m_undefinedRect->setRect(1, 1, size.x - 2, size.y - 2);
+}
+
+const Vec2i& QtGraphNode::getColumnSize() const
+{
+	return m_columnSize;
+}
+
+void QtGraphNode::setColumnSize(const Vec2i& size)
+{
+	m_columnSize = size;
 }
 
 QSize QtGraphNode::size() const

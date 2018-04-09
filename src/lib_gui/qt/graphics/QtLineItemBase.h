@@ -18,12 +18,6 @@ public:
 		ROUTE_VERTICAL
 	};
 
-	enum Pivot
-	{
-		PIVOT_THIRD,
-		PIVOT_MIDDLE
-	};
-
 	QtLineItemBase(QGraphicsItem* parent);
 	virtual ~QtLineItemBase();
 
@@ -34,7 +28,6 @@ public:
 		size_t weight, bool showArrow);
 
 	void setRoute(Route route);
-	void setPivot(Pivot pivot);
 
 	void setOnFront(bool front);
 	void setOnBack(bool back);
@@ -57,7 +50,6 @@ protected:
 	bool m_earlyBend;
 
 	Route m_route;
-	Pivot m_pivot;
 
 private:
 	Vec4i m_ownerRect;

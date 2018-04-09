@@ -987,6 +987,7 @@ QtGraphNode* QtGraphView::createNodeRecursive(
 
 	newNode->setPosition(node->position);
 	newNode->setSize(node->size);
+	newNode->setColumnSize(node->columnSize);
 	newNode->setIsActive(node->active);
 	newNode->setMultipleActive(multipleActive);
 

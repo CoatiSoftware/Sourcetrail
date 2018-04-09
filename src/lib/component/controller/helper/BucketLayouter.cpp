@@ -55,7 +55,7 @@ const DummyNode::BundledNodesSet& Bucket::getNodes() const
 	return m_nodes;
 }
 
-void Bucket::preLayout(Vec2i viewSize)
+void Bucket::preLayout(Vec2i viewSize, bool addVerticalOffset)
 {
 	int cols = (viewSize.y > 0 ? (m_height / viewSize.y) : 0) + 1;
 
@@ -66,37 +66,137 @@ void Bucket::preLayout(Vec2i viewSize)
 
 	m_height = 0;
 
+	std::vector<int> colWidths;
+	std::vector<int> colHeights;
+	std::vector<std::vector<DummyNode*>> nodesInCol;
+	nodesInCol.push_back({ });
+
 	for (const std::shared_ptr<DummyNode>& node : m_nodes)
 	{
+		if (y > height)
+		{
+			colHeights.push_back(y - GraphViewStyle::s_gridCellPadding);
+			colWidths.push_back(width);
+
+			y = 0;
+			x += GraphViewStyle::toGridOffset(width + 45);
+			width = 0;
+
+			nodesInCol.push_back({ });
+		}
+
 		node->position.x = x;
 		node->position.y = y;
+
+		nodesInCol.back().push_back(node.get());
 
 		y += GraphViewStyle::toGridSize(node->size.y) + GraphViewStyle::s_gridCellPadding;
 
 		width = (node->size.x > width ? node->size.x : width);
 		m_height = (y > m_height ? y : m_height);
+	}
 
-		if (y > height)
+	colHeights.push_back(y - GraphViewStyle::s_gridCellPadding);
+	colWidths.push_back(width);
+
+	m_width = x + width;
+	m_height -= GraphViewStyle::s_gridCellPadding;
+
+	for (size_t i = 0; i < nodesInCol.size(); i++)
+	{
+		for (DummyNode* node : nodesInCol[i])
 		{
-			y = 0;
-
-			x += GraphViewStyle::toGridOffset(width + 30);
-			width = 0;
+			node->columnSize.x = colWidths[i];
+			node->columnSize.y = colHeights[i];
 		}
 	}
 
-	m_width = x + width;
+	if (!addVerticalOffset || nodesInCol.size() < 2)
+	{
+		return;
+	}
+
+	std::vector<DummyNode*> aboveNodes;
+	std::vector<DummyNode*> belowNodes;
+
+	// align each column vertically and leave a gap in the middle where edges can pass through
+	// NOTE: m_height is not gonna be correct after this, but stays unchanged to allow correct positioning next to
+	// active node.
+	for (size_t i = 0; i < nodesInCol.size(); i++)
+	{
+		int offset = 0;
+		bool hasOffset = false;
+		int mid = colHeights[i] / 2;
+
+		for (DummyNode* node : nodesInCol[i])
+		{
+			if (hasOffset)
+			{
+				belowNodes.push_back(node);
+			}
+			else if (nodesInCol[i].size() == 1)
+			{
+				offset -= (node->size.y + GraphViewStyle::s_gridCellPadding) / 2;
+				aboveNodes.push_back(node);
+			}
+			else if (node->position.y < mid && node->position.y + node->size.y > mid)
+			{
+				if (mid - node->position.y < (node->position.y + node->size.y) - mid)
+				{
+					offset = mid - node->position.y + GraphViewStyle::s_gridCellPadding / 2;
+					belowNodes.push_back(node);
+				}
+				else
+				{
+					offset = mid - (node->position.y + node->size.y) - GraphViewStyle::s_gridCellPadding / 2;
+					aboveNodes.push_back(node);
+				}
+				hasOffset = true;
+			}
+			else if (node->position.y + node->size.y < mid &&
+				mid < node->position.y + node->size.y + GraphViewStyle::s_gridCellPadding)
+			{
+				offset = mid - (node->position.y + node->size.y + GraphViewStyle::s_gridCellPadding / 2);
+				aboveNodes.push_back(node);
+				hasOffset = true;
+			}
+			else
+			{
+				aboveNodes.push_back(node);
+			}
+		}
+
+		offset += (m_height - colHeights[i]) / 2;
+		for (DummyNode* node : nodesInCol[i])
+		{
+			node->position.y() += offset;
+		}
+	}
+
+	int nodeOffset = GraphViewStyle::s_gridCellPadding + GraphViewStyle::s_gridCellSize;
+	for (DummyNode* node : aboveNodes)
+	{
+		node->position.y() -= nodeOffset;
+	}
+	for (DummyNode* node : belowNodes)
+	{
+		node->position.y() += nodeOffset;
+	}
 }
 
 void Bucket::layout(int x, int y, int width, int height)
 {
-	int cx = GraphViewStyle::toGridOffset(x + (width - m_width) / 2);
-	int cy = GraphViewStyle::toGridOffset(y + (height - m_height) / 2);
+	if (!m_nodes.size())
+	{
+		return;
+	}
+
+	Vec2i offset = Vec2i(x + (width - m_width) / 2, y + (height - m_height) / 2);
+	offset = GraphViewStyle::alignOnRaster((*m_nodes.begin())->position + offset) - (*m_nodes.begin())->position;
 
 	for (const std::shared_ptr<DummyNode>& node : m_nodes)
 	{
-		node->position.x = node->position.x + cx;
-		node->position.y = node->position.y + cy;
+		node->position += offset;
 	}
 }
 
@@ -126,6 +226,7 @@ void BucketLayouter::createBuckets(
 		{
 			addNode(node);
 			activeNodeAdded = true;
+			m_activeParentNode = node.get();
 		}
 	}
 
@@ -205,7 +306,7 @@ void BucketLayouter::layoutBuckets(bool addVerticalOffset)
 		{
 			Bucket* bucket = &m_buckets[j][i];
 
-			bucket->preLayout(m_viewSize);
+			bucket->preLayout(m_viewSize, i != 0);
 
 			std::map<int, int>::iterator wt = widths.find(i);
 			if (wt == widths.end() || wt->second < bucket->getWidth())
@@ -219,6 +320,13 @@ void BucketLayouter::layoutBuckets(bool addVerticalOffset)
 				heights[j] = bucket->getHeight();
 			}
 		}
+	}
+
+	int verticalOffset = 0;
+	if (m_activeParentNode)
+	{
+		Vec4i rect = m_activeParentNode->getActiveSubNodeRect();
+		verticalOffset = (rect.y + rect.w - m_activeParentNode->size.y) / 2;
 	}
 
 	int y = 0;
@@ -239,7 +347,12 @@ void BucketLayouter::layoutBuckets(bool addVerticalOffset)
 			// move every second bucket in a row slighly lower to avoid edges over nodes
 			else if (addVerticalOffset && std::abs(i) % 2 == 1)
 			{
-				yOff += GraphViewStyle::toGridGap(10);
+				yOff = GraphViewStyle::toGridGap(10);
+			}
+			// align buckets left and right of center to be vertically centered next to the active node
+			else if (j == 0 && i != 0 && verticalOffset != 0)
+			{
+				yOff = verticalOffset;
 			}
 
 			bucket->layout(x, y + yOff, widths[i], heights[j]);
@@ -290,7 +403,7 @@ std::shared_ptr<DummyNode> BucketLayouter::findTopMostDummyNodeRecursive(
 
 void BucketLayouter::addNode(std::shared_ptr<DummyNode> node)
 {
-	Bucket* bucket = getBucket(node->layoutBucket.x, node->layoutBucket.y);
+	Bucket* bucket = getBucket(0, 0);
 	bucket->addNode(node);
 }
 

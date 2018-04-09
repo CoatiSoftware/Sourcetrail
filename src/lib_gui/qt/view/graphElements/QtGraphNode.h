@@ -46,8 +46,11 @@ public:
 	Vec2i getPosition() const;
 	virtual bool setPosition(const Vec2i& position);
 
-	Vec2i getSize() const;
+	const Vec2i& getSize() const;
 	void setSize(const Vec2i& size);
+
+	const Vec2i& getColumnSize() const;
+	void setColumnSize(const Vec2i& size);
 
 	QSize size() const;
 	void setSize(const QSize& size);
@@ -124,6 +127,7 @@ protected:
 	QGraphicsPixmapItem* m_icon = nullptr;
 
 	Vec2i m_size;
+	Vec2i m_columnSize;
 
 	bool m_isActive = false;
 	bool m_multipleActive = false;

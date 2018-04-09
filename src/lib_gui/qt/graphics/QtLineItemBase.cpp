@@ -10,7 +10,6 @@ QtLineItemBase::QtLineItemBase(QGraphicsItem* parent)
 	, m_onBack(false)
 	, m_earlyBend(false)
 	, m_route(ROUTE_ANY)
-	, m_pivot(PIVOT_THIRD)
 {
 	this->setAcceptHoverEvents(true);
 }
@@ -47,11 +46,6 @@ void QtLineItemBase::updateLine(
 void QtLineItemBase::setRoute(Route route)
 {
 	m_route = route;
-}
-
-void QtLineItemBase::setPivot(Pivot pivot)
-{
-	m_pivot = pivot;
 }
 
 void QtLineItemBase::setOnFront(bool front)
@@ -406,7 +400,7 @@ void QtLineItemBase::drawArrow(const QPolygon& poly, QPainterPath* path, QPainte
 
 void QtLineItemBase::getPivotPoints(Vec2f* p, const Vec4i& in, const Vec4i& out, int offset, bool target) const
 {
-	float f = m_pivot == PIVOT_THIRD ? (target ? 2 / 3.f : 1 / 3.f) : 1 / 2.f;
+	float f = 1 / 2.f;
 
 	p[0] = Vec2f(in.x + (in.z - in.x) * f + offset, out.y);
 	p[2] = Vec2f(in.x + (in.z - in.x) * f + offset, out.w);
