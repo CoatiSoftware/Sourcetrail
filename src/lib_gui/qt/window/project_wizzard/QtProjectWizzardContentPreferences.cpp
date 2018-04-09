@@ -211,7 +211,9 @@ void QtProjectWizzardContentPreferences::populate(QGridLayout* layout, int& row)
 
 	// Update check
 	m_automaticUpdateCheck = addCheckBox("Automatic<br />Update Check", "Check automatically for updates",
-		"<p>Check automatically for a new releases once a day.</p>", layout, row);
+		"<p>Automatically connects to the Sourcetrail server once a day to check if a new release is "
+		"available.</p>"
+		"<p>Note: No personally identifiable information will be transmitted to conduct this check.</p>", layout, row);
 	addGap(layout, row);
 
 	// Plugins
