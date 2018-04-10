@@ -567,7 +567,38 @@ void QtProjectWizzard::duplicateSelectedSourceGroup()
 
 	newSourceGroup->setId(utility::getUuidString());
 
-	int newRow = m_sourceGroupList->currentRow() + 1;
+	{
+		const std::string newNameBase = oldSourceGroup->getName() + " - Copy";
+
+		int id = 0;
+		std::string newName;
+
+		while (true)
+		{
+			newName = newNameBase + (id > 0 ? " (" + std::to_string(id) + ")" : "");
+
+			bool nameAlreadyExists = false;
+			for (std::shared_ptr<SourceGroupSettings> sourceGroupSettings : m_allSourceGroupSettings)
+			{
+				if (sourceGroupSettings && sourceGroupSettings->getName() == newName)
+				{
+					nameAlreadyExists = true;
+					break;
+				}
+			}
+
+			if (!nameAlreadyExists)
+			{
+				break;
+			}
+
+			id++;
+		}
+
+		newSourceGroup->setName(newName);
+	}
+
+	const int newRow = m_sourceGroupList->currentRow() + 1;
 	m_allSourceGroupSettings.insert(m_allSourceGroupSettings.begin() + newRow, newSourceGroup);
 
 	updateSourceGroupList();
