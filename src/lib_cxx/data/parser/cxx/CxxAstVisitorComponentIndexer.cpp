@@ -802,8 +802,8 @@ bool CxxAstVisitorComponentIndexer::shouldVisitDecl(const clang::Decl* decl)
 		}
 
 		bool declIsImplicit = utility::isImplicit(decl);
-		if ((declIsImplicit && isLocatedInProjectFile(loc)) ||
-			(!declIsImplicit && isLocatedInUnparsedProjectFile(loc)))
+		if ((declIsImplicit && getAstVisitor()->isLocatedInProjectFile(loc)) ||
+			(!declIsImplicit && getAstVisitor()->isLocatedInUnparsedProjectFile(loc)))
 		{
 			return true;
 		}
@@ -825,84 +825,10 @@ bool CxxAstVisitorComponentIndexer::shouldVisitReference(const clang::SourceLoca
 		loc = referenceLocation;
 	}
 
-	if ((declIsImplicit && isLocatedInProjectFile(loc)) ||
-		(!declIsImplicit && isLocatedInUnparsedProjectFile(loc)))
+	if ((declIsImplicit && getAstVisitor()->isLocatedInProjectFile(loc)) ||
+		(!declIsImplicit && getAstVisitor()->isLocatedInUnparsedProjectFile(loc)))
 	{
 		return true;
 	}
-	return false;
-}
-
-bool CxxAstVisitorComponentIndexer::isLocatedInUnparsedProjectFile(clang::SourceLocation loc)
-{
-	const clang::SourceManager& sourceManager = m_astContext->getSourceManager();
-
-	clang::FileID fileId;
-	if (loc.isValid())
-	{
-		if (sourceManager.isWrittenInMainFile(loc))
-		{
-			return true;
-		}
-
-		fileId = sourceManager.getFileID(loc);
-	}
-
-	if (fileId.isValid())
-	{
-		auto it = m_inUnparsedProjectFileMap.find(fileId);
-		if (it != m_inUnparsedProjectFileMap.end())
-		{
-			return it->second;
-		}
-
-		bool ret = false;
-		const clang::FileEntry* fileEntry = sourceManager.getFileEntryForID(fileId);
-		if (fileEntry != nullptr && fileEntry->isValid())
-		{
-			FilePath filePath = getAstVisitor()->getCanonicalFilePathCache()->getCanonicalFilePath(fileEntry);
-
-			if (m_fileRegister->hasFilePath(filePath))
-			{
-				ret = !(m_fileRegister->fileIsIndexed(filePath));
-			}
-		}
-
-		m_inUnparsedProjectFileMap[fileId] = ret;
-		return ret;
-	}
-
-	return false;
-}
-
-bool CxxAstVisitorComponentIndexer::isLocatedInProjectFile(clang::SourceLocation loc)
-{
-	const clang::SourceManager& sourceManager = m_astContext->getSourceManager();
-
-	clang::FileID fileId;
-
-	if (loc.isValid())
-	{
-		fileId = sourceManager.getFileID(loc);
-	}
-
-	if (fileId.isValid())
-	{
-		auto it = m_inProjectFileMap.find(fileId);
-		if (it != m_inProjectFileMap.end())
-		{
-			return it->second;
-		}
-
-		const clang::FileEntry* fileEntry = sourceManager.getFileEntryForID(fileId);
-		if (fileEntry != nullptr && fileEntry->isValid())
-		{
-			FilePath filePath = getAstVisitor()->getCanonicalFilePathCache()->getCanonicalFilePath(fileEntry);
-			const bool ret = m_fileRegister->hasFilePath(filePath);
-			m_inProjectFileMap[fileId] = ret;
-			return ret;
-		}
-	}
-
 	return false;
 }

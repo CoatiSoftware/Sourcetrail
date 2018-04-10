@@ -15,8 +15,9 @@
 #include "data/parser/cxx/CxxAstVisitorComponentIndexer.h"
 #include "data/parser/cxx/utilityClang.h"
 #include "data/parser/ParserClient.h"
-
 #include "data/parser/ParseLocation.h"
+#include "utility/file/FileRegister.h"
+
 #include "utility/utilityString.h"
 
 CxxAstVisitor::CxxAstVisitor(
@@ -188,11 +189,41 @@ bool CxxAstVisitor::checkIgnoresTypeLoc(const clang::TypeLoc& tl) const
 #define DEF_TRAVERSE_TYPE(__TYPE__, CODE_BEFORE, CODE_AFTER)									\
 	DEF_TRAVERSE_CUSTOM_TYPE(__TYPE__, __TYPE__, CODE_BEFORE, CODE_AFTER)
 
-DEF_TRAVERSE_TYPE_PTR(Decl, { ret = m_interruptCounter.getCount() == 0; }, {})
+bool CxxAstVisitor::TraverseDecl(clang::Decl* decl)
+{
+	for (auto it = m_components.begin(); it != m_components.end(); it++)
+	{
+		(*it)->beginTraverseDecl(decl);
+	}
+	bool ret = m_interruptCounter.getCount() == 0;
 
-DEF_TRAVERSE_TYPE_PTR(Stmt, {}, {})
+	bool traverse = true;
+	if (decl)
+	{
+		clang::SourceLocation loc = m_astContext->getSourceManager().getExpansionLoc(decl->getLocation());
 
-DEF_TRAVERSE_CUSTOM_TYPE(Type, QualType, {}, {})
+		if (loc.isInvalid())
+		{
+			loc = decl->getLocation();
+		}
+
+		if (loc.isValid())
+		{
+			traverse = isLocatedInProjectFile(loc);
+		}
+	}
+
+	if (traverse)
+	{
+		Base::TraverseDecl(decl);
+	}
+
+	for (auto it = m_components.rbegin(); it != m_components.rend(); it++)
+	{
+		(*it)->endTraverseDecl(decl);
+	}
+	return ret;
+}
 
 // same as Base::TraverseQualifiedTypeLoc(..) but we need to make sure to call this.TraverseTypeLoc(..)
 bool CxxAstVisitor::TraverseQualifiedTypeLoc(clang::QualifiedTypeLoc tl)
@@ -201,6 +232,10 @@ bool CxxAstVisitor::TraverseQualifiedTypeLoc(clang::QualifiedTypeLoc tl)
 }
 
 DEF_TRAVERSE_TYPE(TypeLoc, {}, {})
+
+DEF_TRAVERSE_CUSTOM_TYPE(Type, QualType, {}, {})
+
+DEF_TRAVERSE_TYPE_PTR(Stmt, {}, {})
 
 // same as Base::TraverseCXXRecordDecl(..) but we need to integrate the setter for the context info.
 // additionally: skip implicit CXXRecordDecls (this does not skip template specializations).
@@ -752,4 +787,82 @@ ParseLocation CxxAstVisitor::getParseLocation(const clang::SourceRange& sourceRa
 		);
 	}
 	return parseLocation;
+}
+
+bool CxxAstVisitor::isLocatedInUnparsedProjectFile(clang::SourceLocation loc)
+{
+	const clang::SourceManager& sourceManager = m_astContext->getSourceManager();
+
+	clang::FileID fileId;
+	if (loc.isValid())
+	{
+		if (sourceManager.isWrittenInMainFile(loc))
+		{
+			return true;
+		}
+
+		fileId = sourceManager.getFileID(loc);
+	}
+
+	if (fileId.isValid())
+	{
+		auto it = m_inUnparsedProjectFileMap.find(fileId);
+		if (it != m_inUnparsedProjectFileMap.end())
+		{
+			return it->second;
+		}
+
+		bool ret = false;
+		const clang::FileEntry* fileEntry = sourceManager.getFileEntryForID(fileId);
+		if (fileEntry != nullptr && fileEntry->isValid())
+		{
+			FilePath filePath = getCanonicalFilePathCache()->getCanonicalFilePath(fileEntry);
+
+			if (m_fileRegister->hasFilePath(filePath))
+			{
+				ret = !(m_fileRegister->fileIsIndexed(filePath));
+			}
+		}
+
+		m_inUnparsedProjectFileMap[fileId] = ret;
+		return ret;
+	}
+
+	return false;
+}
+
+bool CxxAstVisitor::isLocatedInProjectFile(clang::SourceLocation loc)
+{
+	const clang::SourceManager& sourceManager = m_astContext->getSourceManager();
+
+	clang::FileID fileId;
+	if (loc.isValid())
+	{
+		if (sourceManager.isWrittenInMainFile(loc))
+		{
+			return true;
+		}
+
+		fileId = sourceManager.getFileID(loc);
+	}
+
+	if (fileId.isValid())
+	{
+		auto it = m_inProjectFileMap.find(fileId);
+		if (it != m_inProjectFileMap.end())
+		{
+			return it->second;
+		}
+
+		const clang::FileEntry* fileEntry = sourceManager.getFileEntryForID(fileId);
+		if (fileEntry != nullptr && fileEntry->isValid())
+		{
+			FilePath filePath = getCanonicalFilePathCache()->getCanonicalFilePath(fileEntry);
+			const bool ret = m_fileRegister->hasFilePath(filePath);
+			m_inProjectFileMap[fileId] = ret;
+			return ret;
+		}
+	}
+
+	return false;
 }

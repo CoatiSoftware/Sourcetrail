@@ -145,6 +145,8 @@ public:
 	ParseLocation getParseLocationOfFunctionBody(const clang::FunctionDecl* decl) const;
 	ParseLocation getParseLocation(const clang::SourceLocation& loc) const;
 	ParseLocation getParseLocation(const clang::SourceRange& sourceRange) const;
+	bool isLocatedInUnparsedProjectFile(clang::SourceLocation loc);
+	bool isLocatedInProjectFile(clang::SourceLocation loc);
 
 private:
 	typedef clang::RecursiveASTVisitor<CxxAstVisitor> Base;
@@ -166,6 +168,17 @@ private:
 
 	std::shared_ptr<DeclNameCache> m_declNameCache;
 	std::shared_ptr<TypeNameCache> m_typeNameCache;
+
+	struct FileIdHash
+	{
+		size_t operator()(clang::FileID fileID) const
+		{
+			return fileID.getHashValue();
+		}
+	};
+
+	std::unordered_map<const clang::FileID, bool, FileIdHash> m_inUnparsedProjectFileMap;
+	std::unordered_map<const clang::FileID, bool, FileIdHash> m_inProjectFileMap;
 };
 
 template <>

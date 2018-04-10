@@ -47,14 +47,6 @@ public:
 	virtual void visitConstructorInitializer(clang::CXXCtorInitializer* init) override;
 
 private:
-	struct FileIdHash
-	{
-		size_t operator()(clang::FileID fileID) const
-		{
-			return fileID.getHashValue();
-		}
-	};
-
 	void recordTemplateMemberSpecialization(
 		const clang::MemberSpecializationInfo* memberSpecializationInfo, 
 		const NameHierarchy& context, 
@@ -71,15 +63,10 @@ private:
 
 	bool shouldVisitDecl(const clang::Decl* decl);
 	bool shouldVisitReference(const clang::SourceLocation& referenceLocation, const clang::Decl* contextDecl);
-	bool isLocatedInUnparsedProjectFile(clang::SourceLocation loc);
-	bool isLocatedInProjectFile(clang::SourceLocation loc);
 
 	clang::ASTContext* m_astContext;
 	std::shared_ptr<ParserClient> m_client;
 	std::shared_ptr<FileRegister> m_fileRegister;
-
-	std::unordered_map<const clang::FileID, bool, FileIdHash> m_inUnparsedProjectFileMap;
-	std::unordered_map<const clang::FileID, bool, FileIdHash> m_inProjectFileMap;
 };
 
 #endif // CXX_AST_VISITOR_COMPONENT_INDEXER_H
