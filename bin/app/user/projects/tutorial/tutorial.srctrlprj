@@ -27,14 +27,14 @@
                 <target_options_enabled>0</target_options_enabled>
             </cross_compilation>
             <name>Tutorial Source Group</name>
-            <should_apply_anonymous_typedef_transformation>1</should_apply_anonymous_typedef_transformation>
             <source_extensions>
                 <source_extension>.cpp</source_extension>
             </source_extensions>
             <source_paths>
                 <source_path>./src</source_path>
             </source_paths>
-            <standard>c++1z</standard>
+            <standard>c++2a</standard>
+            <status>enabled</status>
             <type>C++ Source Group</type>
         </source_group_75041cb3-37c8-45c6-bb8a-1b8b79040f59>
     </source_groups>

@@ -47,9 +47,8 @@ void function_with_snippets()
 //  to the central hub.
 //
 // P.S.
-//  You can also click the file name above (i guess you need to scroll up a
-//  little bit) to activate the file's node in case you want to explore your
-//  include hierarchy.
+//  You can also click the file name above to activate the file's node in case you
+//  want to explore your include hierarchy.
 //
 //------------------------------------------------------------------------------
 

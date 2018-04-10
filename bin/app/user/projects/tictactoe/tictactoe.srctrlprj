@@ -12,7 +12,6 @@
                 <target_options_enabled>0</target_options_enabled>
             </cross_compilation>
             <name>TicTacToe Source Group</name>
-            <should_apply_anonymous_typedef_transformation>1</should_apply_anonymous_typedef_transformation>
             <source_extensions>
                 <source_extension>.cpp</source_extension>
                 <source_extension>.cxx</source_extension>
@@ -22,7 +21,8 @@
             <source_paths>
                 <source_path>./src</source_path>
             </source_paths>
-            <standard>c++1z</standard>
+            <standard>c++2a</standard>
+            <status>enabled</status>
             <type>C++ Source Group</type>
         </source_group_afdfade2-4b42-49a6-961a-d4a563f2cf84>
     </source_groups>
