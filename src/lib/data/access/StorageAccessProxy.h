@@ -70,8 +70,8 @@ public:
 	virtual StorageStats getStorageStats() const override;
 
 	virtual ErrorCountInfo getErrorCount() const override;
-	virtual std::vector<ErrorInfo> getErrorsLimited() const override;
-	virtual std::vector<ErrorInfo> getErrorsForFileLimited(const FilePath& filePath) const override;
+	virtual std::vector<ErrorInfo> getErrorsLimited(const std::vector<Id>& errorIds) const override;
+	virtual std::vector<Id> getErrorIdsForFile(const FilePath& filePath) const override;
 	virtual std::shared_ptr<SourceLocationCollection> getErrorSourceLocations(
 		const std::vector<ErrorInfo>& errors) const override;
 

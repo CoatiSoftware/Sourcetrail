@@ -344,24 +344,24 @@ ErrorCountInfo StorageAccessProxy::getErrorCount() const
 	return ErrorCountInfo();
 }
 
-std::vector<ErrorInfo> StorageAccessProxy::getErrorsLimited() const
+std::vector<ErrorInfo> StorageAccessProxy::getErrorsLimited(const std::vector<Id>& errorIds) const
 {
 	if (hasSubject())
 	{
-		return m_subject->getErrorsLimited();
+		return m_subject->getErrorsLimited(errorIds);
 	}
 
 	return std::vector<ErrorInfo>();
 }
 
-std::vector<ErrorInfo> StorageAccessProxy::getErrorsForFileLimited(const FilePath& filePath) const
+std::vector<Id> StorageAccessProxy::getErrorIdsForFile(const FilePath& filePath) const
 {
 	if (hasSubject())
 	{
-		return m_subject->getErrorsForFileLimited(filePath);
+		return m_subject->getErrorIdsForFile(filePath);
 	}
 
-	return std::vector<ErrorInfo>();
+	return std::vector<Id>();
 }
 
 std::shared_ptr<SourceLocationCollection> StorageAccessProxy::getErrorSourceLocations(

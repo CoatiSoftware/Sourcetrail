@@ -4,7 +4,6 @@
 #include "utility/messaging/Message.h"
 
 #include "data/ErrorCountInfo.h"
-#include "data/ErrorInfo.h"
 
 class MessageShowErrors
 	: public Message<MessageShowErrors>
@@ -16,8 +15,8 @@ public:
 	{
 	}
 
-	MessageShowErrors(const std::vector<ErrorInfo>& errors)
-		: errors(errors)
+	MessageShowErrors(const std::vector<Id>& errorIds)
+		: errorIds(errorIds)
 		, errorId(0)
 	{
 	}
@@ -33,7 +32,7 @@ public:
 	}
 
 	const ErrorCountInfo errorCount;
-	const std::vector<ErrorInfo> errors;
+	const std::vector<Id> errorIds;
 	const Id errorId;
 };
 

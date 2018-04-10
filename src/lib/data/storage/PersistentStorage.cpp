@@ -1519,13 +1519,14 @@ std::vector<ErrorInfo> PersistentStorage::getErrors() const
 	return errors;
 }
 
-std::vector<ErrorInfo> PersistentStorage::getErrorsLimited() const
+std::vector<ErrorInfo> PersistentStorage::getErrorsLimited(const std::vector<Id>& errorIds) const
 {
 	std::vector<ErrorInfo> errors;
+	std::set<Id> ids(errorIds.begin(), errorIds.end());
 
 	for (const ErrorInfo& error : m_sqliteIndexStorage.getAll<StorageError>())
 	{
-		if (m_errorFilter.filter(error))
+		if (m_errorFilter.filter(error) && (!ids.size() || ids.find(error.id) != ids.end()))
 		{
 			errors.push_back(error);
 
@@ -1539,7 +1540,7 @@ std::vector<ErrorInfo> PersistentStorage::getErrorsLimited() const
 	return errors;
 }
 
-std::vector<ErrorInfo> PersistentStorage::getErrorsForFileLimited(const FilePath& filePath) const
+std::vector<Id> PersistentStorage::getErrorIdsForFile(const FilePath& filePath) const
 {
 	std::unordered_map<Id, std::set<Id>> includingMap = getFileIdToIncludedFileIdMap();
 
@@ -1561,22 +1562,17 @@ std::vector<ErrorInfo> PersistentStorage::getErrorsForFileLimited(const FilePath
 		fileIdsToProcess = nextFileIdsToProcess;
 	}
 
-	std::vector<ErrorInfo> errors;
+	std::vector<Id> errorIds;
 
 	for (const ErrorInfo& error : m_sqliteIndexStorage.getAll<StorageError>())
 	{
 		if (m_errorFilter.filter(error) && filePaths.find(FilePath(error.filePath)) != filePaths.end())
 		{
-			errors.push_back(error);
-
-			if (m_errorFilter.limit > 0 && errors.size() >= m_errorFilter.limit)
-			{
-				break;
-			}
+			errorIds.push_back(error.id);
 		}
 	}
 
-	return errors;
+	return errorIds;
 }
 
 std::shared_ptr<SourceLocationCollection> PersistentStorage::getErrorSourceLocations(

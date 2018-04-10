@@ -85,8 +85,9 @@ public:
 	virtual StorageStats getStorageStats() const = 0;
 
 	virtual ErrorCountInfo getErrorCount() const = 0;
-	virtual std::vector<ErrorInfo> getErrorsLimited() const = 0;
-	virtual std::vector<ErrorInfo> getErrorsForFileLimited(const FilePath& filePath) const = 0;
+	// returns all errors if errorIds is empty
+	virtual std::vector<ErrorInfo> getErrorsLimited(const std::vector<Id>& errorIds) const = 0;
+	virtual std::vector<Id> getErrorIdsForFile(const FilePath& filePath) const = 0;
 	virtual std::shared_ptr<SourceLocationCollection> getErrorSourceLocations(
 		const std::vector<ErrorInfo>& errors) const = 0;
 

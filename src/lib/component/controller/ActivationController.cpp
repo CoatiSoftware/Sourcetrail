@@ -170,7 +170,7 @@ void ActivationController::handleMessage(MessageSearch* message)
 
 void ActivationController::handleMessage(MessageShowErrorsForFile* message)
 {
-	MessageShowErrors(m_storageAccess->getErrorsForFileLimited(message->filePath)).dispatch();
+	MessageShowErrors(m_storageAccess->getErrorIdsForFile(message->filePath)).dispatch();
 }
 
 void ActivationController::handleMessage(MessageZoom* message)

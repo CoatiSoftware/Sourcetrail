@@ -301,12 +301,7 @@ void CodeController::handleMessage(MessageShowErrors* message)
 		CodeView::ScrollParams scrollParams(CodeView::ScrollParams::SCROLL_TO_DEFINITION);
 		view->scrollTo(scrollParams);
 
-		std::vector<ErrorInfo> errors = message->errors;
-		if (!errors.size())
-		{
-			errors = m_storageAccess->getErrorsLimited();
-		}
-
+		std::vector<ErrorInfo> errors = m_storageAccess->getErrorsLimited(message->errorIds);
 		m_collection = m_storageAccess->getErrorSourceLocations(errors);
 		std::vector<CodeSnippetParams> snippets = getSnippetsForCollection(m_collection);
 
