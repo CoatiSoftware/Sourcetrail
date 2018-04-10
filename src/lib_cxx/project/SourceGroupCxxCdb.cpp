@@ -68,8 +68,8 @@ std::vector<std::shared_ptr<IndexerCommand>> SourceGroupCxxCdb::getIndexerComman
 
 	const std::vector<std::wstring> compilerFlags = m_settings->getCompilerFlags();
 
-	std::set<FilePath> indexedPaths = getIndexedPaths();
-	std::set<FilePathFilter> excludeFilters = getExcludeFilters();
+	const std::set<FilePath> indexedPaths = getIndexedPaths();
+	const std::set<FilePathFilter> excludeFilters = getExcludeFilters();
 
 	std::vector<std::shared_ptr<IndexerCommand>> indexerCommands;
 
@@ -108,7 +108,7 @@ std::vector<std::shared_ptr<IndexerCommand>> SourceGroupCxxCdb::getIndexerComman
 				indexerCommands.push_back(std::make_shared<IndexerCommandCxxCdb>(
 					sourcePath,
 					indexedPaths,
-					getExcludeFilters(),
+					excludeFilters,
 					FilePath(utility::decodeFromUtf8(command.Directory)),
 					utility::concat(
 						utility::convert<std::string, std::wstring>(command.CommandLine, [](const std::string& arg) { return utility::decodeFromUtf8(arg); }), 

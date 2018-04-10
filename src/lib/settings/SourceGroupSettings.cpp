@@ -157,52 +157,54 @@ std::vector<FilePathFilter> SourceGroupSettings::getExcludeFiltersExpandedAndAbs
 {
 	std::vector<FilePathFilter> result;
 
-	for (const FilePathFilter& filter : m_excludeFilters)
+	for (const std::wstring& filterString : m_excludeFilters)
 	{
-		const std::wstring filterString = filter.wstr();
-		const size_t wildcardPos = filterString.find(L"*");
-		if (wildcardPos != filterString.npos)
+		if (!filterString.empty())
 		{
-			std::wsmatch match;
-			if (std::regex_search(filterString, match, std::wregex(L"[\\\\/]")) && !match.empty() &&
-				match.position(0) < int(wildcardPos))
+			const size_t wildcardPos = filterString.find(L"*");
+			if (wildcardPos != filterString.npos)
 			{
-				const FilePath p = m_projectSettings->makePathExpandedAndAbsolute(FilePath(match.prefix().str()));
+				std::wsmatch match;
+				if (std::regex_search(filterString, match, std::wregex(L"[\\\\/]")) && !match.empty() &&
+					match.position(0) < int(wildcardPos))
+				{
+					const FilePath p = m_projectSettings->makePathExpandedAndAbsolute(FilePath(match.prefix().str()));
+					std::set<FilePath> symLinkPaths = FileSystem::getSymLinkedDirectories(p);
+					symLinkPaths.insert(p);
+
+					utility::append(result,
+						utility::convert<FilePath, FilePathFilter>(
+							utility::toVector(symLinkPaths),
+							[match](const FilePath& filePath)
+							{
+								return FilePathFilter(filePath.wstr() + L"/" + match.suffix().str());
+							}
+						)
+					);
+				}
+				else
+				{
+					result.push_back(FilePathFilter(filterString));
+				}
+			}
+			else
+			{
+				const FilePath p = m_projectSettings->makePathExpandedAndAbsolute(FilePath(filterString));
+				const bool isFile = p.exists() && !p.isDirectory();
+
 				std::set<FilePath> symLinkPaths = FileSystem::getSymLinkedDirectories(p);
 				symLinkPaths.insert(p);
 
 				utility::append(result,
 					utility::convert<FilePath, FilePathFilter>(
 						utility::toVector(symLinkPaths),
-						[match](const FilePath& filePath)
+						[isFile](const FilePath& filePath)
 						{
-							return FilePathFilter(filePath.wstr() + L"/" + match.suffix().str());
+							return FilePathFilter(filePath.wstr() + (isFile ? L"" : L"**"));
 						}
 					)
 				);
 			}
-			else
-			{
-				result.push_back(filter);
-			}
-		}
-		else
-		{
-			const FilePath p = m_projectSettings->makePathExpandedAndAbsolute(FilePath(filterString));
-			const bool isFile = p.exists() && !p.isDirectory();
-
-			std::set<FilePath> symLinkPaths = FileSystem::getSymLinkedDirectories(p);
-			symLinkPaths.insert(p);
-
-			utility::append(result,
-				utility::convert<FilePath, FilePathFilter>(
-					utility::toVector(symLinkPaths),
-					[isFile](const FilePath& filePath)
-					{
-						return FilePathFilter(filePath.wstr() + (isFile ? L"" : L"**"));
-					}
-				)
-			);
 		}
 	}
 

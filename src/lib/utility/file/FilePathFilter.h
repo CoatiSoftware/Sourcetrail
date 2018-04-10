@@ -9,7 +9,7 @@
 class FilePathFilter
 {
 public:
-	FilePathFilter(const std::wstring& filterString);
+	explicit FilePathFilter(const std::wstring& filterString);
 
 	std::wstring wstr() const;
 
