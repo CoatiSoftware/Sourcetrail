@@ -525,6 +525,9 @@
 							<Component Id='GraphUpPng' Guid='*' Win64="$(var.Win64)">
 								<File Id='GraphUp' Name='graph_up.png' DiskId='1' Source='./../../../bin/app/data/gui/graph_view/images/graph_up.png' KeyPath='yes' />
 							</Component>
+							<Component Id='GroupNamespacePng' Guid='*' Win64="$(var.Win64)">
+								<File Id='GroupNamespace' Name='group_namespace.png' DiskId='1' Source='./../../../bin/app/data/gui/graph_view/images/group_namespace.png' KeyPath='yes' />
+							</Component>
 							<Component Id='MacroPng' Guid='*' Win64="$(var.Win64)">
 								<File Id='Macro' Name='macro.png' DiskId='1' Source='./../../../bin/app/data/gui/graph_view/images/macro.png' KeyPath='yes' />
 							</Component>
