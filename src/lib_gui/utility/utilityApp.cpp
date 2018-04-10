@@ -156,7 +156,7 @@ OsType utility::getOsType()
 
 int utility::getIdealThreadCount()
 {
-	return QThread::idealThreadCount();
+	return std::max(1, QThread::idealThreadCount() - 1);
 }
 
 bool utility::saveLicense(const License* license)

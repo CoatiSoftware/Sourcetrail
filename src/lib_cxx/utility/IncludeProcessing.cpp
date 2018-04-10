@@ -21,28 +21,6 @@ namespace
 			return a.getIncludedFile() < b.getIncludedFile();
 		}
 	};
-
-	std::vector<std::vector<FilePath>> splitToQuantiles(
-		const std::set<FilePath>& sourceFilePaths, 
-		const size_t desiredQuantileCount)
-	{
-		size_t quantileCount = std::max<size_t>(1, std::min(desiredQuantileCount, sourceFilePaths.size()));
-
-		std::vector<std::vector<FilePath>> quantiles;
-		for (size_t i = 0; i < quantileCount; i++)
-		{
-			quantiles.push_back(std::vector<FilePath>());
-		}
-
-		int i = 0;
-		for (const FilePath& sourceFilePath : sourceFilePaths)
-		{
-			quantiles[i % quantileCount].push_back(sourceFilePath);
-			++i;
-		}
-
-		return quantiles;
-	}
 }
 
 std::vector<IncludeDirective> IncludeProcessing::getUnresolvedIncludeDirectives(
@@ -55,14 +33,14 @@ std::vector<IncludeDirective> IncludeProcessing::getUnresolvedIncludeDirectives(
 	std::unordered_set<std::wstring> processedFilePaths;
 	std::set<IncludeDirective, IncludeDirectiveComparator> unresolvedIncludeDirectives;
 
-	std::vector<std::vector<FilePath>> quantiles = splitToQuantiles(sourceFilePaths, desiredQuantileCount);
+	std::vector<std::vector<FilePath>> parts = utility::splitToEqualySizedParts(utility::toVector(sourceFilePaths), desiredQuantileCount);
 
-	for (size_t i = 0; i < quantiles.size(); i++)
+	for (size_t i = 0; i < parts.size(); i++)
 	{
-		progress(float(i) / quantiles.size());
+		progress(float(i) / parts.size());
 
 		const std::vector<IncludeDirective> directives = doGetUnresolvedIncludeDirectives(
-			utility::toSet(quantiles[i]),
+			utility::toSet(parts[i]),
 			processedFilePaths,
 			indexedPaths,
 			headerSearchDirectories
@@ -99,13 +77,13 @@ std::set<FilePath> IncludeProcessing::getHeaderSearchDirectories(
 
 	std::set<FilePath> headerSearchDirectories;
 	std::unordered_set<std::wstring> processedFilePaths;
-	std::vector<std::vector<FilePath>> quantiles = splitToQuantiles(sourceFilePaths, desiredQuantileCount);
+	std::vector<std::vector<FilePath>> parts = utility::splitToEqualySizedParts(utility::toVector(sourceFilePaths), desiredQuantileCount);
 
-	for (size_t i = 0; i < quantiles.size(); i++)
+	for (size_t i = 0; i < parts.size(); i++)
 	{
-		progress(float(i) / quantiles.size());
+		progress(float(i) / parts.size());
 
-		std::set<FilePath> unprocessedFilePaths(quantiles[i].begin(), quantiles[i].end());
+		std::set<FilePath> unprocessedFilePaths(parts[i].begin(), parts[i].end());
 
 		while (!unprocessedFilePaths.empty())
 		{

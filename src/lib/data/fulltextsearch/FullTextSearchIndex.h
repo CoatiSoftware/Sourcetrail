@@ -1,6 +1,7 @@
 #ifndef FULLTEXTSEARCH_INDEX_H
 #define FULLTEXTSEARCH_INDEX_H
 
+#include <mutex>
 #include <vector>
 #include <unordered_map>
 
@@ -38,6 +39,7 @@ public:
 	void clear();
 
 private:
+	mutable std::mutex m_filesMutex;
 	std::vector<FullTextSearchFile> m_files;
 };
 

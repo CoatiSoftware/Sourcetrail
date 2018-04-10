@@ -4,20 +4,24 @@
 #include "utility/logging/logging.h"
 #include "utility/tracing.h"
 
-void FullTextSearchIndex::addFile(Id fileId, const std::wstring& file)
+void FullTextSearchIndex::addFile(Id fileId, const std::wstring& fileContent)
 {
-	if( file.empty() )
+	if(fileContent.empty())
 	{
 		LOG_ERROR("empty file not added to fulltextsearch index");
 	}
 
-	if ( file.size() >= std::numeric_limits<int>::max() )
+	if (fileContent.size() >= std::numeric_limits<int>::max())
 	{
 		LOG_ERROR("file too big not added to fulltextsearch index");
 	}
 
-	FullTextSearchFile fts_file(fileId, SuffixArray(file));
-	m_files.push_back(fts_file);
+	FullTextSearchFile fts_file(fileId, SuffixArray(fileContent));
+
+	{
+		std::lock_guard<std::mutex> lock(m_filesMutex);
+		m_files.push_back(fts_file);
+	}
 }
 
 std::vector<FullTextSearchResult> FullTextSearchIndex::searchForTerm(const std::wstring& term) const
@@ -26,22 +30,27 @@ std::vector<FullTextSearchResult> FullTextSearchIndex::searchForTerm(const std::
 
 	std::vector<FullTextSearchResult> ret;
 	FullTextSearchResult hit;
-	for (auto& f : m_files)
 	{
-		hit.fileId = f.fileId;
-		hit.positions = f.array.searchForTerm(term);
-		ret.push_back(hit);
+		std::lock_guard<std::mutex> lock(m_filesMutex);
+		for (auto& f : m_files)
+		{
+			hit.fileId = f.fileId;
+			hit.positions = f.array.searchForTerm(term);
+			ret.push_back(hit);
+		}
 	}
 	return ret;
 }
 
 size_t FullTextSearchIndex::fileCount() const
 {
+	std::lock_guard<std::mutex> lock(m_filesMutex);
 	return m_files.size();
 }
 
 void FullTextSearchIndex::clear()
 {
+	std::lock_guard<std::mutex> lock(m_filesMutex);
 	m_files.clear();
 }
 

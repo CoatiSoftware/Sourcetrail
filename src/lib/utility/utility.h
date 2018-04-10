@@ -29,6 +29,9 @@ namespace utility
 	std::string timeToString(float seconds);
 
 	template<typename T>
+	std::vector<std::vector<T>> splitToEqualySizedParts(const std::vector<T>& values, const size_t desiredPartCount);
+
+	template<typename T>
 	std::vector<T> concat(const std::vector<T>& a, const std::vector<T>& b);
 
 	template<typename T>
@@ -126,6 +129,27 @@ namespace utility
 	size_t digits(size_t n);
 
 	int roundToInt(float n);
+}
+
+template<typename T>
+std::vector<std::vector<T>> utility::splitToEqualySizedParts(const std::vector<T>& values, const size_t desiredPartCount)
+{
+	const size_t partCount = std::max<size_t>(1, std::min(desiredPartCount, values.size()));
+
+	std::vector<std::vector<T>> parts;
+	for (size_t i = 0; i < partCount; i++)
+	{
+		parts.push_back(std::vector<T>());
+	}
+
+	int i = 0;
+	for (const T& value : values)
+	{
+		parts[i % partCount].push_back(value);
+		++i;
+	}
+
+	return parts;
 }
 
 template<typename T>

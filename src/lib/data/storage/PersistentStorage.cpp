@@ -25,6 +25,7 @@
 #include "utility/TimeStamp.h"
 #include "utility/tracing.h"
 #include "utility/utility.h"
+#include "utility/utilityApp.h"
 
 PersistentStorage::PersistentStorage(const FilePath& dbPath, const FilePath& bookmarkPath)
 	: m_sqliteIndexStorage(dbPath)
@@ -2741,13 +2742,28 @@ void PersistentStorage::buildFullTextSearchIndex() const
 	m_fullTextSearchCodec = codec.getName();
 
 	m_fullTextSearchIndex.clear();
-	for (StorageFile& file : m_sqliteIndexStorage.getAll<StorageFile>())
-	{
 
-		m_fullTextSearchIndex.addFile(
-			file.id,
-			codec.decode(m_sqliteIndexStorage.getFileContentById(file.id)->getText())
+	std::vector<std::shared_ptr<std::thread>> threads;
+	for (std::vector<StorageFile> part : utility::splitToEqualySizedParts(m_sqliteIndexStorage.getAll<StorageFile>(), utility::getIdealThreadCount()))
+	{
+		std::shared_ptr<std::thread> thread = std::make_shared<std::thread>(
+			[&](const std::vector<StorageFile>& files)
+			{
+				for (const StorageFile& file : files)
+				{
+					m_fullTextSearchIndex.addFile(
+						file.id,
+						codec.decode(m_sqliteIndexStorage.getFileContentById(file.id)->getText())
+					);
+				}
+			},
+			part
 		);
+		threads.push_back(thread);
+	}
+	for (std::shared_ptr<std::thread> thread : threads)
+	{
+		thread->join();
 	}
 }
 
