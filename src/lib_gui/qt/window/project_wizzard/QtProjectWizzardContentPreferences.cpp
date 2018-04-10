@@ -239,12 +239,12 @@ void QtProjectWizzardContentPreferences::populate(QGridLayout* layout, int& row)
 		"Indexer Threads",
 		0,
 		24,
-		"<p>Set the number of threads used to work on indexing your project in parallel.</p>"
-		"<p>When setting this value to 0 Sourcetrail tries to use the ideal thread count for your computer.</p>",
+		"<p>Set the number of threads used to work on indexing your project in parallel.</p>",
 		{ m_threadsInfoLabel },
 		layout,
 		row
 	);
+	m_threads->setItemText(0, "default");
 	connect(m_threads, static_cast<void (QComboBox::*)(int)>(&QComboBox::activated),
 		this, &QtProjectWizzardContentPreferences::indexerThreadsChanges);
 
