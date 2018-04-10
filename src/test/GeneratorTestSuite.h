@@ -80,15 +80,15 @@ public:
 		License license;
 
 		license.loadFromString(generator.encodeLicense("TestUser", "Private License", 1, "2017.4"));
-		std::string testInfo = "TestUser\nPrivate License\nValid up to version: 2017.4\n1 user";
+		std::string testInfo = "TestUser\nPrivate License\n1 user\nvalid up to version: 2017.4";
 		TS_ASSERT_EQUALS(license.getLicenseInfo(), testInfo);
 
 		license.loadFromString(generator.encodeLicense("TestUser", "Volume License", 20, "2017.3"));
-		testInfo = "TestUser\nVolume License\nValid up to version: 2017.3\n20 users";
+		testInfo = "TestUser\nVolume License\n20 users\nvalid up to version: 2017.3";
 		TS_ASSERT_EQUALS(license.getLicenseInfo(), testInfo);
 
 		license.loadFromString(generator.encodeLicense("TestUser", "Private/Academic Single User License", 0, "2018.1"));
-		testInfo = "TestUser\nPrivate/Academic Single User License\nValid up to version: 2018.1\nnot registered for commercial development";
+		testInfo = "TestUser\nPrivate/Academic Single User License\nnot registered for commercial development\nvalid up to version: 2018.1";
 		TS_ASSERT_EQUALS(license.getLicenseInfo(), testInfo);
 	}
 
@@ -104,6 +104,7 @@ public:
 
 		TS_ASSERT_EQUALS(license.getUser(), "TestUser");
 		TS_ASSERT_EQUALS(license.getType(), "Private License");
+		TS_ASSERT_EQUALS(license.getNumberOfUsers(), 20);
 		TS_ASSERT(license.isValid());
 	}
 

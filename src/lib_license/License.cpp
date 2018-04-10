@@ -88,7 +88,11 @@ std::string License::getMessage(bool withNewlines) const
 	message += LicenseConstants::PRODUCT_STRING + separator;
 	message += LicenseConstants::LICENSED_TO_STRING + m_user + separator;
 	message += LicenseConstants::LICENSE_TYPE_STRING + m_type;
-	if (m_numberOfUsers > 1)
+	if (m_type == LicenseConstants::TEST_LICENSE_STRING || m_type == LicenseConstants::SITE_LICENSE_STRING)
+	{
+		message += (m_createdWithSeats ? " (unlimited seats)" : " (unlimited users)");
+	}
+	else if (m_numberOfUsers > 1)
 	{
 		message += " (" + std::to_string(m_numberOfUsers) + (m_createdWithSeats ? " Seats)" : " users)");
 	}
@@ -96,10 +100,7 @@ std::string License::getMessage(bool withNewlines) const
 	{
 		message += (m_createdWithSeats ? " (1 Seat)" : " (1 user)");
 	}
-	else if (m_type == LicenseConstants::TEST_LICENSE_STRING)
-	{
-		message += (m_createdWithSeats ? " (unlimited seats)" : " (unlimited users)");
-	}
+
 	message += separator;
 	message += getExpireLine() + separator;
 	message += LicenseConstants::SEPARATOR_STRING + separator;
@@ -192,30 +193,39 @@ std::string License::getExpireLine() const
 			+ m_expire;
 }
 
+std::string License::getExpireLineUI() const
+{
+	return toLowerCase(m_type == LicenseConstants::TEST_LICENSE_STRING ?
+				LicenseConstants::VALID_UNTIL_STRING :
+				LicenseConstants::VALID_UP_TO_STRING)
+			+ m_expire;
+}
+
 std::string License::getLicenseInfo() const
 {
 	std::string info = m_user + "\n";
 
 	info += m_type + "\n";
-	info += getExpireLine() + "\n";
 
 	// get info depending on license type
 	if (isNonCommercialLicenseType())
 	{
-		info += "not registered for commercial development";
+		info += "not registered for commercial development\n";
 	}
-	else if (m_type == LicenseConstants::TEST_LICENSE_STRING)
+	else if (m_type == LicenseConstants::TEST_LICENSE_STRING || m_type == LicenseConstants::SITE_LICENSE_STRING)
 	{
-		info += "unlimited users";
+		info += "unlimited users\n";
 	}
 	else if (m_numberOfUsers > 1)
 	{
-		info += std::to_string(m_numberOfUsers) + " users";
+		info += std::to_string(m_numberOfUsers) + " users\n";
 	}
 	else
 	{
-		info += "1 user";
+		info += "1 user\n";
 	}
+
+	info += getExpireLineUI();
 
 	return info;
 }
