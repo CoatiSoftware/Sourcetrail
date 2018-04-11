@@ -5,6 +5,7 @@
 #include "qt/view/graphElements/QtGraphNode.h"
 
 class QGraphicsPolygonItem;
+class QPainterPath;
 
 class QtGraphNodeGroup
 	: public QtGraphNode
@@ -21,6 +22,8 @@ public:
 	virtual void onClick();
 	virtual void updateStyle();
 
+	virtual QPainterPath shape() const;
+
 protected:
 	virtual void hoverLeaveEvent(QGraphicsSceneHoverEvent* event);
 	virtual void hoverMoveEvent(QGraphicsSceneHoverEvent* event);
@@ -31,6 +34,7 @@ private:
 	const bool m_interactive;
 
 	QGraphicsPolygonItem* m_background = nullptr;
+	mutable QPainterPath m_path;
 };
 
 #endif // QT_GRAPH_NODE_GROUP_H

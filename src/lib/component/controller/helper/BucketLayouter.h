@@ -23,7 +23,7 @@ public:
 	void addNode(std::shared_ptr<DummyNode> node);
 	const DummyNode::BundledNodesSet& getNodes() const;
 
-	void preLayout(Vec2i viewSize, bool addVerticalOffset);
+	void preLayout(Vec2i viewSize, bool addVerticalSplit, bool forceVerticalSplit);
 	void layout(int x, int y, int width, int height);
 
 	int i;
@@ -44,7 +44,7 @@ public:
 	void createBuckets(
 		std::vector<std::shared_ptr<DummyNode>>& nodes,
 		const std::vector<std::shared_ptr<DummyEdge>>& edges);
-	void layoutBuckets(bool addVerticalOffset);
+	void layoutBuckets(bool addVerticalSplit);
 
 	std::vector<std::shared_ptr<DummyNode>> getSortedNodes();
 

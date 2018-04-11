@@ -19,7 +19,6 @@ public:
 	virtual Id getTokenId() const;
 
 	virtual void onClick();
-	virtual void moved(const Vec2i& oldPosition);
 	virtual void updateStyle();
 
 protected:

@@ -25,8 +25,6 @@ QtGraphNodeGroup::QtGraphNodeGroup(
 		setAcceptHoverEvents(true);
 	}
 
-	setName(name);
-
 	if (type == GroupType::FRAMELESS)
 	{
 		m_rect->hide();
@@ -37,6 +35,8 @@ QtGraphNodeGroup::QtGraphNodeGroup(
 	{
 		return;
 	}
+
+	setName(name);
 
 	m_background = new QGraphicsPolygonItem(this);
 	m_background->setZValue(-3.f);
@@ -56,6 +56,7 @@ QtGraphNodeGroup::QtGraphNodeGroup(
 	path.lineTo(width - radius, height);
 	path.arcTo(width - 2 * radius, height - 2 * radius, 2 * radius, 2 * radius, 270, 90);
 	path.closeSubpath();
+	m_path = path;
 
 	m_background->setPolygon(path.toFillPolygon());
 }
@@ -102,6 +103,16 @@ void QtGraphNodeGroup::updateStyle()
 	}
 
 	setStyle(style);
+}
+
+QPainterPath QtGraphNodeGroup::shape() const
+{
+	if (m_path.isEmpty())
+	{
+		m_path.addRect(boundingRect());
+	}
+
+	return m_path;
 }
 
 void QtGraphNodeGroup::hoverLeaveEvent(QGraphicsSceneHoverEvent* event)

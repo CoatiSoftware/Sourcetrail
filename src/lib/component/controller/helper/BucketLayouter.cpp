@@ -55,7 +55,7 @@ const DummyNode::BundledNodesSet& Bucket::getNodes() const
 	return m_nodes;
 }
 
-void Bucket::preLayout(Vec2i viewSize, bool addVerticalOffset)
+void Bucket::preLayout(Vec2i viewSize, bool addVerticalSplit, bool forceVerticalSplit)
 {
 	int cols = (viewSize.y > 0 ? (m_height / viewSize.y) : 0) + 1;
 
@@ -111,7 +111,8 @@ void Bucket::preLayout(Vec2i viewSize, bool addVerticalOffset)
 		}
 	}
 
-	if (!addVerticalOffset || nodesInCol.size() < 2)
+	addVerticalSplit &= nodesInCol.size() > 1 || forceVerticalSplit;
+	if (!addVerticalSplit)
 	{
 		return;
 	}
@@ -296,7 +297,7 @@ void BucketLayouter::createBuckets(
 	}
 }
 
-void BucketLayouter::layoutBuckets(bool addVerticalOffset)
+void BucketLayouter::layoutBuckets(bool addVerticalSplit)
 {
 	std::map<int, int> widths;
 	std::map<int, int> heights;
@@ -307,7 +308,7 @@ void BucketLayouter::layoutBuckets(bool addVerticalOffset)
 		{
 			Bucket* bucket = &m_buckets[j][i];
 
-			bucket->preLayout(m_viewSize, i != 0);
+			bucket->preLayout(m_viewSize, i != 0, addVerticalSplit);
 
 			std::map<int, int>::iterator wt = widths.find(i);
 			if (wt == widths.end() || wt->second < bucket->getWidth())
@@ -344,11 +345,6 @@ void BucketLayouter::layoutBuckets(bool addVerticalOffset)
 			{
 				Bucket* midBucket = &m_buckets[0][0];
 				yOff = (heights[0] - midBucket->getHeight()) / 2 * -j;
-			}
-			// move every second bucket in a row slighly lower to avoid edges over nodes
-			else if (addVerticalOffset && std::abs(i) % 2 == 1)
-			{
-				yOff = GraphViewStyle::toGridGap(10);
 			}
 			// align buckets left and right of center to be vertically centered next to the active node
 			else if (j == 0 && i != 0 && verticalOffset != 0)

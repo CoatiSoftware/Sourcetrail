@@ -100,18 +100,21 @@ void QtGraphEdge::updateLine()
 	Vec4i ownerParentRect;
 	Vec4i targetParentRect;
 
+	const QtGraphNode* ownerParent = owner->getLastParent();
+	const QtGraphNode* targetParent = target->getLastParent();
+
 	const QtGraphNode* ownerNonGroupParent = owner->getLastNonGroupParent();
 	const QtGraphNode* targetNonGroupParent = target->getLastNonGroupParent();
 
-	if (owner->getLastParent() == target->getLastParent() && owner->getLastParent()->isGroupNode())
+	if (ownerParent == targetParent && ownerParent->isGroupNode())
 	{
 		ownerParentRect = ownerNonGroupParent->getBoundingRect();
 		targetParentRect = targetNonGroupParent->getBoundingRect();
 	}
 	else
 	{
-		ownerParentRect = owner->getLastParent()->getBoundingRect();
-		targetParentRect = target->getLastParent()->getBoundingRect();
+		ownerParentRect = ownerParent->getBoundingRect();
+		targetParentRect = targetParent->getBoundingRect();
 	}
 
 	if (m_useBezier)
@@ -168,10 +171,22 @@ void QtGraphEdge::updateLine()
 	}
 	else
 	{
-		const Vec2i& ownerColumnSize = m_owner->getLastParent()->getColumnSize();
-		const Vec2i& targetColumnSize = m_target->getLastParent()->getColumnSize();
-		ownerParentRect.z = std::max(ownerParentRect.x + ownerColumnSize.x, ownerParentRect.z());
-		targetParentRect.z = std::max(targetParentRect.x + targetColumnSize.x, targetParentRect.z());
+		const Vec2i* ownerColumnSize;
+		const Vec2i* targetColumnSize;
+
+		if (ownerParent != targetParent)
+		{
+			ownerColumnSize = &ownerParent->getColumnSize();
+			targetColumnSize = &targetParent->getColumnSize();
+		}
+		else
+		{
+			ownerColumnSize = &ownerNonGroupParent->getColumnSize();
+			targetColumnSize = &targetNonGroupParent->getColumnSize();
+		}
+
+		ownerParentRect.z = std::max(ownerParentRect.x + ownerColumnSize->x, ownerParentRect.z());
+		targetParentRect.z = std::max(targetParentRect.x + targetColumnSize->x, targetParentRect.z());
 
 		if (!m_child)
 		{
@@ -202,7 +217,7 @@ void QtGraphEdge::updateLine()
 		}
 
 		if (type == Edge::EDGE_INHERITANCE || (type == Edge::EDGE_TEMPLATE_SPECIALIZATION &&
-				owner == owner->getLastNonGroupParent() && target == target->getLastNonGroupParent()))
+				owner == ownerNonGroupParent && target == targetNonGroupParent))
 		{
 			child->setRoute(QtLineItemBase::ROUTE_VERTICAL);
 
@@ -212,7 +227,7 @@ void QtGraphEdge::updateLine()
 			}
 		}
 		else if (type != Edge::EDGE_AGGREGATION ||
-			owner != owner->getLastNonGroupParent() || target != target->getLastNonGroupParent())
+			owner != ownerNonGroupParent || target != targetNonGroupParent)
 		{
 			child->setRoute(QtLineItemBase::ROUTE_HORIZONTAL);
 		}

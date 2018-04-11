@@ -1846,11 +1846,11 @@ void GraphController::layoutNestingRecursive(DummyNode* node) const
 			break;
 
 		case GroupLayout::BUCKET:
-			if (node->hasActiveSubNode())
+			if (node->hasActiveSubNode() || !m_activeNodeIds.size() /* aggregations */)
 			{
 				BucketLayouter grid(viewSize);
 				grid.createBuckets(node->subNodes, m_dummyEdges);
-				grid.layoutBuckets(true);
+				grid.layoutBuckets(m_activeNodeIds.size());
 				node->subNodes = grid.getSortedNodes();
 			}
 			else

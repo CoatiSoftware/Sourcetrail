@@ -4,7 +4,6 @@
 #include <QPen>
 
 #include "utility/messaging/type/MessageGraphNodeBundleSplit.h"
-#include "utility/messaging/type/MessageGraphNodeMove.h"
 
 #include "component/view/GraphViewStyle.h"
 #include "qt/graphics/QtCountCircleItem.h"
@@ -45,13 +44,6 @@ void QtGraphNodeBundle::onClick()
 		!m_type.isUnknownSymbol() && getName() != L"Anonymous Namespaces", // TODO: move to language package
 		!m_type.isUnknownSymbol()
 	).dispatch();
-}
-
-void QtGraphNodeBundle::moved(const Vec2i& oldPosition)
-{
-	QtGraphNode::moved(oldPosition);
-
-	MessageGraphNodeMove(m_tokenId, getPosition() - oldPosition).dispatch();
 }
 
 void QtGraphNodeBundle::updateStyle()

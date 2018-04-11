@@ -5,7 +5,6 @@
 #include "utility/messaging/type/MessageDeactivateEdge.h"
 #include "utility/messaging/type/MessageFocusIn.h"
 #include "utility/messaging/type/MessageFocusOut.h"
-#include "utility/messaging/type/MessageGraphNodeMove.h"
 
 #include "data/graph/token_component/TokenComponentFilePath.h"
 
@@ -56,13 +55,6 @@ void QtGraphNodeData::onClick()
 	}
 
 	MessageActivateNodes(m_data->getId()).dispatch();
-}
-
-void QtGraphNodeData::moved(const Vec2i& oldPosition)
-{
-	QtGraphNode::moved(oldPosition);
-
-	MessageGraphNodeMove(m_data->getId(), getPosition() - oldPosition).dispatch();
 }
 
 void QtGraphNodeData::updateStyle()

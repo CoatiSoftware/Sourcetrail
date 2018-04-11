@@ -347,7 +347,7 @@ GraphViewStyle::NodeMargins GraphViewStyle::getMarginsOfGroupNode(GroupType type
 
 	margins.spacingA = (hasName ? 14 : 0);
 
-	margins.left = margins.right = 20;
+	margins.left = margins.right = 26;
 	margins.top = (hasName ? 12 : 20);
 	margins.bottom = 20;
 
