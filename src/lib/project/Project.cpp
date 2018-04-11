@@ -495,29 +495,48 @@ RefreshInfo Project::getRefreshInfoForUpdatedFiles() const
 	std::set<FilePath> changedFilePaths;
 
 	{
-		std::set<FilePath> indexedPaths;
+		std::set<FilePath> alreadyIndexedPaths;
+
+		const std::vector<FileInfo> fileInfos = m_storage->getFileInfoForAllFiles();
+
 		for (const std::shared_ptr<SourceGroup>& sourceGroup : m_sourceGroups)
 		{
 			if (sourceGroup->getStatus() == SOURCE_GROUP_STATUS_ENABLED)
 			{
-				utility::append(indexedPaths, sourceGroup->getIndexedPaths());
-			}
-		}
-		indexedPaths = utility::toSet(utility::getTopLevelPaths(utility::toVector(indexedPaths)));
-
-		for (const FileInfo& info : m_storage->getFileInfoForAllFiles())
-		{
-			bool isInIndexedPaths = false;
-			for (const FilePath& indexedPath : indexedPaths)
-			{
-				if (indexedPath == info.path || indexedPath.contains(info.path))
+				for (const FileInfo& info : fileInfos)
 				{
-					isInIndexedPaths = true;
-					break;
+					bool isInIndexedPaths = false;
+					for (const FilePath& indexedPath : sourceGroup->getIndexedPaths())
+					{
+						if (indexedPath == info.path || indexedPath.contains(info.path))
+						{
+							isInIndexedPaths = true;
+							break;
+						}
+					}
+					if (isInIndexedPaths)
+					{
+						for (const FilePathFilter& excludeFilter : sourceGroup->getExcludeFilters())
+						{
+							if (excludeFilter.isMatching(info.path))
+							{
+								isInIndexedPaths = false;
+								break;
+							}
+						}
+					}
+					if (isInIndexedPaths)
+					{
+						alreadyIndexedPaths.insert(info.path);
+					}
 				}
 			}
+		}
 
-			if (isInIndexedPaths && info.path.exists())
+		// checking source and header files
+		for (const FileInfo& info : fileInfos)
+		{
+			if (alreadyIndexedPaths.find(info.path) != alreadyIndexedPaths.end() && info.path.exists())
 			{
 				if (didFileChange(info))
 				{
