@@ -207,7 +207,6 @@ void GraphController::handleMessage(MessageActivateTrail* message)
 
 	MessageStatus(L"Displaying depth graph", false, true).dispatch();
 
-	message->setIsReplayed(false);
 	buildGraph(message, message->isLast(), true, false);
 }
 
@@ -220,11 +219,6 @@ void GraphController::handleMessage(MessageActivateTrailEdge* message)
 
 void GraphController::handleMessage(MessageFlushUpdates* message)
 {
-	if (m_graph && m_graph->getTrailMode() != Graph::TRAIL_NONE)
-	{
-		return;
-	}
-
 	buildGraph(message, true, !message->keepContent(), false);
 }
 
