@@ -220,11 +220,12 @@ void BucketLayouter::createBuckets(
 	}
 
 	bool activeNodeAdded = false;
-	for (const std::shared_ptr<DummyNode>& node : nodes)
+	for (std::shared_ptr<DummyNode>& node : nodes)
 	{
 		if (node->hasActiveSubNode() || !edges.size())
 		{
 			addNode(node);
+			node->bundleInfo.layoutVertical = false;
 			activeNodeAdded = true;
 			m_activeParentNode = node.get();
 		}
