@@ -688,6 +688,7 @@ GraphViewStyle::EdgeStyle GraphViewStyle::getStyleForEdgeType(
 		style.arrowLength = 10;
 		style.arrowWidth = 13;
 		style.arrowClosed = true;
+		style.targetOffset.x = 25;
 	case Edge::EDGE_TEMPLATE_ARGUMENT:
 	case Edge::EDGE_TYPE_ARGUMENT:
 	case Edge::EDGE_TEMPLATE_DEFAULT_ARGUMENT:
