@@ -83,7 +83,7 @@ if [ $UPDATE_DATABASES = true ]; then
 	cd temp
 
 	echo -e "$INFO configuring application"
-	../build/win32/Release/app/Sourcetrail.exe config -z ../setup/license.txt
+	../build/win32/Release/app/Sourcetrail.exe accept-eula
 	../build/win32/Release/app/Sourcetrail.exe config -t 8
 	../build/win32/Release/app/Sourcetrail.exe config -M 1024
 

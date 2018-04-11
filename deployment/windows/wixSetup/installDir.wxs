@@ -874,7 +874,7 @@
 							<File Id='OrgEclipseCoreFilesystem' Name='org.eclipse.core.filesystem-1.7.0.jar' DiskId='1' Source='./../../../bin/app/data/java/lib/org.eclipse.core.filesystem-1.7.0.jar' KeyPath='yes' />
 						</Component>
 						<Component Id='JavaOrgEclipseCoreJobsJar' Guid='*' Win64="$(var.Win64)">
-							<File Id='OrgEclipseCoreJobs' Name='org.eclipse.core.jobs-3.9.3.jar' DiskId='1' Source='./../../../bin/app/data/java/lib/org.eclipse.core.jobs-3.9.2.jar' KeyPath='yes' />
+							<File Id='OrgEclipseCoreJobs' Name='org.eclipse.core.jobs-3.9.3.jar' DiskId='1' Source='./../../../bin/app/data/java/lib/org.eclipse.core.jobs-3.9.3.jar' KeyPath='yes' />
 						</Component>
 						<Component Id='JavaOrgEclipseCoreResourcesJar' Guid='*' Win64="$(var.Win64)">
 							<File Id='OrgEclipseCoreResources' Name='org.eclipse.core.resources-3.12.0.jar' DiskId='1' Source='./../../../bin/app/data/java/lib/org.eclipse.core.resources-3.12.0.jar' KeyPath='yes' />
@@ -898,7 +898,7 @@
 							<File Id='OrgEclipseJdtCore' Name='org.eclipse.jdt.core-3.13.0.jar' DiskId='1' Source='./../../../bin/app/data/java/lib/org.eclipse.jdt.core-3.13.0.jar' KeyPath='yes' />
 						</Component>
 						<Component Id='JavaOrgEclipseOsgiJar' Guid='*' Win64="$(var.Win64)">
-							<File Id='OrgEclipseOsgi' Name='org.eclipse.osgi-3.12.100.jar' DiskId='1' Source='./../../../bin/app/data/java/lib/org.eclipse.osgi-3.12.50.jar' KeyPath='yes' />
+							<File Id='OrgEclipseOsgi' Name='org.eclipse.osgi-3.12.100.jar' DiskId='1' Source='./../../../bin/app/data/java/lib/org.eclipse.osgi-3.12.100.jar' KeyPath='yes' />
 						</Component>
 						<Component Id='JavaOrgEclipseTextJar' Guid='*' Win64="$(var.Win64)">
 							<File Id='OrgEclipseText' Name='org.eclipse.text-3.6.100.jar' DiskId='1' Source='./../../../bin/app/data/java/lib/org.eclipse.text-3.6.100.jar' KeyPath='yes' />

@@ -30,7 +30,7 @@ echo $"%windir%\system32\msiexec.exe /x {$PRODUCT_GUID}" >../../../bin/app/data/
 OUTPUT_DIR=bin/$WIN_ARCH
 
 rm -rf $OUTPUT_DIR
-mkdir $OUTPUT_DIR
+mkdir -p $OUTPUT_DIR
 
 candle.exe -dProductVersion="$VERSION_STRING" -dProductGuid="$PRODUCT_GUID" -arch $X_ARCH sourcetrail.wxs customActions.wxs dialogShortcuts.wxs installDir.wxs appDataDir.wxs -out build/ > build/compileLog.txt
 light.exe -ext WixUIExtension build/sourcetrail.wixobj build/customActions.wixobj build/dialogShortcuts.wixobj build/installDir.wixobj build/appDataDir.wixobj -out build/sourcetrail.msi > build/linkLog.txt
