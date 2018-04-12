@@ -216,9 +216,13 @@ void QtCodeSnippet::clickedFooter()
 	if (m_footerId > 0)
 	{
 		MessageShowScope(m_footerId, m_navigator->hasErrors()).dispatch();
-
-		m_navigator->requestScroll(getFile()->getFilePath(), getEndLineNumber(), 0, true, QtCodeNavigateable::SCROLL_CENTER);
 	}
+	else
+	{
+		getFile()->requestWholeFileContent();
+	}
+
+	m_navigator->requestScroll(getFile()->getFilePath(), getEndLineNumber(), 0, true, QtCodeNavigateable::SCROLL_CENTER);
 }
 
 QPushButton* QtCodeSnippet::createScopeLine(QBoxLayout* layout)
