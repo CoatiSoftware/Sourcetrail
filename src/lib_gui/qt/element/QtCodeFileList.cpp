@@ -5,6 +5,7 @@
 #include <QTimer>
 
 #include "utility/file/FilePath.h"
+#include "utility/ResourcePaths.h"
 #include "utility/utilityApp.h"
 
 #include "data/location/SourceLocationFile.h"
@@ -12,6 +13,8 @@
 #include "qt/element/QtCodeFileTitleBar.h"
 #include "qt/element/QtCodeNavigator.h"
 #include "qt/element/QtCodeSnippet.h"
+#include "qt/utility/utilityQt.h"
+#include "settings/ColorScheme.h"
 
 QtCodeFileList::QtCodeFileList(QtCodeNavigator* navigator)
 	: QFrame()
@@ -39,7 +42,14 @@ QtCodeFileList::QtCodeFileList(QtCodeNavigator* navigator)
 	m_firstSnippetTitleBar->hide();
 
 	m_lastSnippetScrollBar = new QScrollBar(Qt::Horizontal, m_scrollArea);
-	if (utility::getOsType() != OS_MAC) // don't manipulate scrollbar style on macOS
+	if (utility::getOsType() == OS_MAC)
+	{
+		// set style on scrollbar because it always has bright background by default
+		m_lastSnippetScrollBar->setStyleSheet(
+			utility::getStyleSheet(ResourcePaths::getGuiPath().concatenate(L"main/scrollbar.css")).c_str());
+		m_styleSize = m_lastSnippetScrollBar->styleSheet().size();
+	}
+	else
 	{
 		m_lastSnippetScrollBar->setObjectName("last_scroll_bar");
 	}
@@ -485,6 +495,16 @@ void QtCodeFileList::updateLastSnippetScrollBar(QScrollBar* mirroredScrollBar)
 				mirroredScrollBar->height()
 			);
 			m_lastSnippetScrollBar->show();
+
+			if (utility::getOsType() == OS_MAC)
+			{
+				// set style on scrollbar because it always has bright background by default
+				QString style = m_lastSnippetScrollBar->styleSheet();
+				style.resize(m_styleSize);
+				m_lastSnippetScrollBar->setStyleSheet(style + (
+					"\nQScrollBar:horizontal { background: " + ColorScheme::getInstance()->getColor("code/snippet/background") + "; }"
+				).c_str());
+			}
 		}
 		else
 		{
