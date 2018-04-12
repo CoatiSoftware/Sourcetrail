@@ -408,13 +408,26 @@ void QtCodeFile::clickedSnippetButton()
 
 void QtCodeFile::clickedMaximizeButton()
 {
-	uint firstLineNumber = 1;
-	std::vector<QtCodeSnippet*> snippets = getVisibleSnippets();
-	if (snippets.size())
+	uint lineNumber = 0;
+	Id locationId = 0;
+
+	std::pair<QtCodeSnippet*, Id> snippet = getFirstSnippetWithActiveLocationId(0);
+	if (snippet.first)
 	{
-		firstLineNumber = snippets[0]->getStartLineNumber();
+		locationId = snippet.second;
 	}
-	m_navigator->requestScroll(m_filePath, firstLineNumber, 0, false, QtCodeNavigateable::SCROLL_CENTER);
+	else
+	{
+		lineNumber = 1;
+
+		std::vector<QtCodeSnippet*> snippets = getVisibleSnippets();
+		if (snippets.size())
+		{
+			lineNumber = snippets[0]->getStartLineNumber();
+		}
+	}
+
+	m_navigator->requestScroll(m_filePath, lineNumber, locationId, false, QtCodeNavigateable::SCROLL_CENTER);
 
 	MessageChangeFileView(
 		m_filePath,

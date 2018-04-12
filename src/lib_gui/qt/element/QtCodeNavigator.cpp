@@ -821,12 +821,30 @@ void QtCodeNavigator::nextReference(bool fromUI)
 
 void QtCodeNavigator::setModeList()
 {
+	if (m_mode == MODE_LIST)
+	{
+		return;
+	}
+
 	m_single->clickedSnippetButton();
 }
 
 void QtCodeNavigator::setModeSingle()
 {
-	m_list->maximizeFirstFile();
+	if (m_mode == MODE_SINGLE)
+	{
+		return;
+	}
+
+	QtCodeFile* file = m_list->getFirstFileWithActiveLocationId().first;
+	if (file)
+	{
+		file->clickedMaximizeButton();
+	}
+	else
+	{
+		m_list->maximizeFirstFile();
+	}
 }
 
 void QtCodeNavigator::showCurrentReference(bool fromUI)

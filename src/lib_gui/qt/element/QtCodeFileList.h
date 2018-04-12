@@ -53,6 +53,7 @@ public:
 
 	void maximizeFirstFile();
 
+	std::pair<QtCodeFile*, Id> getFirstFileWithActiveLocationId() const;
 	std::pair<QtCodeSnippet*, Id> getFirstSnippetWithActiveLocationId(Id tokenId) const;
 
 protected:

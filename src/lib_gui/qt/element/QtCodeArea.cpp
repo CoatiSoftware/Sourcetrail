@@ -350,7 +350,7 @@ Id QtCodeArea::getLocationIdOfFirstActiveLocation(Id tokenId) const
 	for (const Annotation& annotation : m_annotations)
 	{
 		if (annotation.locationType == LocationType::LOCATION_TOKEN && annotation.isActive &&
-			annotation.tokenIds.find(tokenId) != annotation.tokenIds.end())
+			(!tokenId || annotation.tokenIds.find(tokenId) != annotation.tokenIds.end()))
 		{
 			return annotation.locationId;
 		}

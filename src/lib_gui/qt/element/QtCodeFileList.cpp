@@ -323,6 +323,25 @@ void QtCodeFileList::maximizeFirstFile()
 	}
 }
 
+std::pair<QtCodeFile*, Id> QtCodeFileList::getFirstFileWithActiveLocationId() const
+{
+	for (QtCodeFile* file : m_files)
+	{
+		if (file->isCollapsed())
+		{
+			continue;
+		}
+
+		std::pair<QtCodeSnippet*, Id> snippet = file->getFirstSnippetWithActiveLocationId(0);
+		if (snippet.first != nullptr)
+		{
+			return std::make_pair(file, snippet.second);
+		}
+	}
+
+	return std::make_pair(nullptr, 0);
+}
+
 std::pair<QtCodeSnippet*, Id> QtCodeFileList::getFirstSnippetWithActiveLocationId(Id tokenId) const
 {
 	std::pair<QtCodeSnippet*, Id> result(nullptr, 0);
