@@ -418,7 +418,8 @@ QRectF QtCodeArea::getLineRectForLineNumber(uint lineNumber) const
 void QtCodeArea::findScreenMatches(const std::wstring& query, std::vector<std::pair<QtCodeArea*, Id>>* screenMatches)
 {
 	TextCodec codec(ApplicationSettings::getInstance()->getTextEncoding());
-	const std::wstring& code = utility::toLowerCase(codec.decode(getCode()));
+	// remove carriage return
+	const std::wstring& code = utility::toLowerCase(codec.decode(utility::replace(getCode(), "\r", "")));
 	size_t pos = 0;
 	while (pos != std::string::npos)
 	{
