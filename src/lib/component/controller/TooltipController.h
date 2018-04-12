@@ -70,6 +70,7 @@ private:
 	StorageAccess* m_storageAccess;
 
 	std::unique_ptr<TooltipRequest> m_showRequest;
+	std::mutex m_showRequestMutex;
 	bool m_hideRequest;
 };
 

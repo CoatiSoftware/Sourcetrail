@@ -23,8 +23,12 @@ TooltipController::~TooltipController()
 
 void TooltipController::clear()
 {
-	m_showRequest.reset();
+	{
+		std::lock_guard<std::mutex> lock(m_showRequestMutex);
+		m_showRequest.reset();
+	}
 	m_hideRequest = false;
+
 	getView()->hideTooltip(true);
 }
 
@@ -94,7 +98,10 @@ void TooltipController::handleMessage(MessageTooltipShow* message)
 		{
 			getView()->showTooltip(info, getViewForOrigin(message->origin));
 
-			m_showRequest.reset();
+			{
+				std::lock_guard<std::mutex> lock(m_showRequestMutex);
+				m_showRequest.reset();
+			}
 			m_hideRequest = false;
 		}
 	}
@@ -120,11 +127,15 @@ void TooltipController::requestTooltipShow(const std::vector<Id> tokenIds, Toolt
 {
 	Id requestId = TooltipRequest::s_requestId++;
 
-	m_showRequest = std::make_unique<TooltipRequest>();
-	m_showRequest->requestId = requestId;
-	m_showRequest->tokenIds = tokenIds;
-	m_showRequest->info = info;
-	m_showRequest->origin = origin;
+	{
+		std::lock_guard<std::mutex> lock(m_showRequestMutex);
+
+		m_showRequest = std::make_unique<TooltipRequest>();
+		m_showRequest->requestId = requestId;
+		m_showRequest->tokenIds = tokenIds;
+		m_showRequest->info = info;
+		m_showRequest->origin = origin;
+	}
 
 	size_t delayMS = 700;
 	if (getView()->tooltipVisible())
@@ -136,22 +147,25 @@ void TooltipController::requestTooltipShow(const std::vector<Id> tokenIds, Toolt
 		std::make_shared<TaskLambda>(
 			[requestId, this]()
 			{
-				if (m_showRequest && m_showRequest->requestId == requestId)
+				std::unique_ptr<TooltipRequest> request;
 				{
-					if (!m_showRequest->info.isValid() && m_showRequest->tokenIds.size())
+					std::lock_guard<std::mutex> lock(m_showRequestMutex);
+					if (!m_showRequest || m_showRequest->requestId != requestId)
 					{
-						m_showRequest->info = m_storageAccess->getTooltipInfoForTokenIds(
-							m_showRequest->tokenIds, m_showRequest->origin);
+						return;
 					}
+					request = std::move(m_showRequest);
+				}
 
-					TooltipView* view = getView();
-					if (m_showRequest->info.isValid())
-					{
-						view->showTooltip(m_showRequest->info, getViewForOrigin(m_showRequest->origin));
+				if (!request->info.isValid() && request->tokenIds.size())
+				{
+					request->info = m_storageAccess->getTooltipInfoForTokenIds(request->tokenIds, request->origin);
+				}
 
-						m_showRequest.reset();
-						m_hideRequest = false;
-					}
+				if (request->info.isValid())
+				{
+					getView()->showTooltip(request->info, getViewForOrigin(request->origin));
+					m_hideRequest = false;
 				}
 			}
 		)
@@ -160,7 +174,10 @@ void TooltipController::requestTooltipShow(const std::vector<Id> tokenIds, Toolt
 
 void TooltipController::requestTooltipHide()
 {
-	m_showRequest.reset();
+	{
+		std::lock_guard<std::mutex> lock(m_showRequestMutex);
+		m_showRequest.reset();
+	}
 	m_hideRequest = true;
 
 	Task::dispatch(std::make_shared<TaskDecoratorDelay>(500)->addChildTask(
