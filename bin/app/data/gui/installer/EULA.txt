@@ -1,6 +1,6 @@
 ﻿Sourcetrail
 Software License Agreement (“AGREEMENT”)
-Last date of change: 2018-04-06
+Last date of change: 2018-04-23
 
 BY INSTALLING OR USING THIS SOFTWARE, YOU ARE BECOMING A PARTY TO, AND ARE CONSENTING TO BE BOUND BY, THIS AGREEMENT. IF YOU DO NOT AGREE TO ALL OF THE TERMS OF THIS AGREEMENT, DO NOT INSTALL OR USE THIS SOFTWARE.
 
@@ -24,7 +24,7 @@ BY INSTALLING OR USING THIS SOFTWARE, YOU ARE BECOMING A PARTY TO, AND ARE CONSE
 *	both LICENSOR and LICENSEE collectively.
 "AUTHORIZED USER" means:
 *	the individual who is LICENSEE of the SOFTWARE. This individual is the only AUTHORIZED USER;
-*	an employee who is nameable on demand and might at any time use the SOFTWARE, of LICENSEE. Every AUTHORIZED USER known by name can be replaced by another user known by name only once in a month. From that time on, said first user must not use the SOFTWARE anymore and said second user may start to use the SOFTWARE. At no time may the number of the users known by name exceed the agreed-upon number of AUTHORIZED USER(s).	
+*	an employee who is nameable on demand and might at any time use the SOFTWARE, of LICENSEE. Every AUTHORIZED USER known by name can be replaced by another user known by name only once in a month. From that time on, said first user must not use the SOFTWARE anymore and said second user may start to use the SOFTWARE. At no time may the simultaneous number of users known by name exceed the agreed-upon number of AUTHORIZED USER(s). For each LICENSE that has been acquired before May 23th 2018 every AUTHORIZED USER known by name can be replaced by another user known by name instantly.
 "ACTIVATION KEY" means: 
 *	a document issued by LICENSOR that defines all parameters of the SOFTWARE Commercial License. Said document specifies the name of the licensed SOFTWARE, the name of LICENSEE, the license type, the agreed-upon number of AUTHORIZED USERS, an upper limit for the licensed SOFTWARE version or an expiration date, and a hash-code. The combination of these values allows LICENSEE to unlock the full functionality of a genuine copy of the SOFTWARE for intended commercial use.
 
