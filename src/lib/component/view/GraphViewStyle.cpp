@@ -628,8 +628,8 @@ GraphViewStyle::EdgeStyle GraphViewStyle::getStyleForEdgeType(
 	style.originOffset.x = 17;
 	style.targetOffset.x = 17;
 
-	style.originOffset.y = 1;
-	style.targetOffset.y = -1;
+	style.originOffset.y = 5;
+	style.targetOffset.y = -5;
 
 	style.color = getEdgeColor(utility::encodeToUtf8(Edge::getUnderscoredTypeString(type)), isActive || isFocused);
 
@@ -646,6 +646,7 @@ GraphViewStyle::EdgeStyle GraphViewStyle::getStyleForEdgeType(
 		style.verticalOffset = 0;
 		style.zValue = isActive ? 1 : -5;
 		break;
+
 	case Edge::EDGE_CALL:
 		style.originOffset.y = 3;
 		style.targetOffset.y = -3;
@@ -658,11 +659,14 @@ GraphViewStyle::EdgeStyle GraphViewStyle::getStyleForEdgeType(
 				"graph/edge/" + utility::encodeToUtf8(Edge::getUnderscoredTypeString(type)) + "/trail_focus", style.color);
 		}
 		break;
+
 	case Edge::EDGE_USAGE:
-		style.originOffset.y = 5;
-		style.targetOffset.y = -5;
+	case Edge::EDGE_OVERRIDE:
+		style.originOffset.y = 1;
+		style.targetOffset.y = -1;
 		style.verticalOffset = 6;
 		break;
+
 	case Edge::EDGE_INHERITANCE:
 		style.arrowLength = 17;
 		style.arrowWidth = 14;
@@ -689,11 +693,6 @@ GraphViewStyle::EdgeStyle GraphViewStyle::getStyleForEdgeType(
 		style.arrowWidth = 13;
 		style.arrowClosed = true;
 		style.targetOffset.x = 25;
-	case Edge::EDGE_TEMPLATE_ARGUMENT:
-	case Edge::EDGE_TYPE_ARGUMENT:
-	case Edge::EDGE_TEMPLATE_DEFAULT_ARGUMENT:
-		style.originOffset.y = 5;
-		style.targetOffset.y = -5;
 		break;
 
 	case Edge::EDGE_INCLUDE:
