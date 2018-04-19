@@ -74,11 +74,11 @@ public:
 			}
 
 			BundleInfo info;
-			if (activeCount > bundleInfos.size() / 2) info.isActive = true;
-			if (definedCount > bundleInfos.size() / 2) info.isDefined = true;
-			if (verticalLayoutCount > bundleInfos.size() / 2) info.layoutVertical = true;
-			if (referencedCount > bundleInfos.size() / 2) info.isReferenced = true;
-			if (referencingCount > bundleInfos.size() / 2) info.isReferencing = true;
+			if (activeCount >= std::ceil(bundleInfos.size() / 2.0f)) info.isActive = true;
+			if (definedCount >= std::ceil(bundleInfos.size() / 2.0f)) info.isDefined = true;
+			if (verticalLayoutCount >= std::ceil(bundleInfos.size() / 2.0f)) info.layoutVertical = true;
+			if (referencedCount >= std::ceil(bundleInfos.size() / 2.0f)) info.isReferenced = true;
+			if (referencingCount >= std::ceil(bundleInfos.size() / 2.0f)) info.isReferencing = true;
 			return info;
 		}
 
@@ -429,6 +429,16 @@ public:
 			}
 		}
 		return nullptr;
+	}
+
+	std::vector<BundleInfo> getBundleInfos() const
+	{
+		std::vector<BundleInfo> bundleInfos;
+		for (const std::shared_ptr<DummyNode>& subNode : subNodes)
+		{
+			bundleInfos.push_back(subNode->bundleInfo);
+		}
+		return bundleInfos;
 	}
 
 	Type type;

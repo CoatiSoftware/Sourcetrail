@@ -1493,17 +1493,12 @@ void GraphController::groupNodesByParents(GroupType groupType)
 			m_dummyNodes.push_back(groupNode);
 		}
 
-		std::vector<DummyNode::BundleInfo> bundleInfos;
 		for (std::shared_ptr<DummyNode> dummyNode : p.second)
 		{
 			if (dummyNode->hasActiveSubNode())
 			{
 				groupNode->bundleInfo = dummyNode->bundleInfo;
 				groupNode->bundleId = dummyNode->bundleId;
-			}
-			else
-			{
-				bundleInfos.push_back(dummyNode->bundleInfo);
 			}
 
 			groupNode->subNodes.push_back(dummyNode);
@@ -1514,9 +1509,9 @@ void GraphController::groupNodesByParents(GroupType groupType)
 		if (!groupNode->bundleId)
 		{
 			groupNode->bundleId = groupNode->subNodes[0]->bundleId;
-			groupNode->bundleInfo = DummyNode::BundleInfo::averageBundleInfo(bundleInfos);
 		}
 
+		groupNode->bundleInfo = DummyNode::BundleInfo::averageBundleInfo(groupNode->getBundleInfos());
 		groupNode->sortSubNodesByName();
 	}
 

@@ -19,6 +19,7 @@ struct DummyEdge
 		, visible(false)
 		, hidden(false)
 		, active(false)
+		, layoutHorizontal(true)
 		, weight(0)
 		, direction(TokenComponentAggregation::DIRECTION_INVALID)
 	{
@@ -31,6 +32,7 @@ struct DummyEdge
 		, visible(false)
 		, hidden(false)
 		, active(false)
+		, layoutHorizontal(true)
 		, weight(0)
 		, direction(TokenComponentAggregation::DIRECTION_INVALID)
 	{
@@ -91,6 +93,8 @@ struct DummyEdge
 	bool active;
 
 	std::vector<Vec4i> path;
+
+	bool layoutHorizontal;
 
 	// BundleEdge
 	int weight;

@@ -30,6 +30,7 @@ QtGraphEdge::QtGraphEdge(
 	const Edge* data,
 	size_t weight,
 	bool isActive,
+	bool horizontal,
 	TokenComponentAggregation::Direction direction
 )
 	: m_data(data)
@@ -38,10 +39,10 @@ QtGraphEdge::QtGraphEdge(
 	, m_child(nullptr)
 	, m_isActive(isActive)
 	, m_isFocused(false)
+	, m_isHorizontal(horizontal)
 	, m_weight(weight)
 	, m_direction(direction)
 	, m_isTrailEdge(false)
-	, m_isHorizontalTrail(false)
 	, m_useBezier(false)
 	, m_mousePos(0.0f, 0.0f)
 	, m_mouseMoved(false)
@@ -117,6 +118,8 @@ void QtGraphEdge::updateLine()
 		targetParentRect = targetParent->getBoundingRect();
 	}
 
+	QtLineItemBase::Route route = m_isHorizontal ? QtLineItemBase::ROUTE_HORIZONTAL : QtLineItemBase::ROUTE_VERTICAL;
+
 	if (m_useBezier)
 	{
 		for (QGraphicsItem* item : childItems())
@@ -127,9 +130,6 @@ void QtGraphEdge::updateLine()
 
 		style.originOffset.y() = 0;
 		style.targetOffset.y() = 0;
-
-		QtLineItemBase::Route route =
-			m_isHorizontalTrail ? QtLineItemBase::ROUTE_HORIZONTAL : QtLineItemBase::ROUTE_VERTICAL;
 
 		for (const Vec4i& rect : m_path)
 		{
@@ -219,7 +219,7 @@ void QtGraphEdge::updateLine()
 		if (type == Edge::EDGE_INHERITANCE || (type == Edge::EDGE_TEMPLATE_SPECIALIZATION &&
 				owner == ownerNonGroupParent && target == targetNonGroupParent))
 		{
-			child->setRoute(QtLineItemBase::ROUTE_VERTICAL);
+			route = QtLineItemBase::ROUTE_VERTICAL;
 
 			if (target->hasActiveChild())
 			{
@@ -229,8 +229,10 @@ void QtGraphEdge::updateLine()
 		else if (type != Edge::EDGE_AGGREGATION ||
 			owner != ownerNonGroupParent || target != targetNonGroupParent)
 		{
-			child->setRoute(QtLineItemBase::ROUTE_HORIZONTAL);
+			route = QtLineItemBase::ROUTE_HORIZONTAL;
 		}
+
+		child->setRoute(route);
 
 		bool showArrow = true;
 		if (type == Edge::EDGE_AGGREGATION)
@@ -471,11 +473,11 @@ void QtGraphEdge::setIsTrailEdge(std::vector<Vec4i> path, bool horizontal)
 	m_path = path;
 	m_isTrailEdge = true;
 	m_useBezier = true;
-	m_isHorizontalTrail = horizontal;
+	m_isHorizontal = horizontal;
 }
 
 void QtGraphEdge::setUseBezier(bool useBezier)
 {
 	m_useBezier = useBezier;
-	m_isHorizontalTrail = true;
+	m_isHorizontal = true;
 }

@@ -71,18 +71,29 @@ void Bucket::preLayout(Vec2i viewSize, bool addVerticalSplit, bool forceVertical
 	std::vector<std::vector<DummyNode*>> nodesInCol;
 	nodesInCol.push_back({ });
 
+	int heightDiff = 0;
 	for (const std::shared_ptr<DummyNode>& node : m_nodes)
 	{
-		if (y > height)
+		if (y > height + heightDiff)
 		{
-			colHeights.push_back(y - GraphViewStyle::s_gridCellPadding);
-			colWidths.push_back(width);
+			// keep adding to the same columns if it only contains 1 element, which will end up above the middle split
+			if (nodesInCol.back().size() == 1 && m_nodes.size() > 1 && addVerticalSplit | forceVerticalSplit)
+			{
+				heightDiff = y;
+			}
+			else
+			{
+				colHeights.push_back(y - GraphViewStyle::s_gridCellPadding);
+				colWidths.push_back(width);
 
-			y = 0;
-			x += GraphViewStyle::toGridOffset(width + 45);
-			width = 0;
+				y = 0;
+				x += GraphViewStyle::toGridOffset(width + 45);
+				width = 0;
 
-			nodesInCol.push_back({ });
+				nodesInCol.push_back({ });
+
+				heightDiff = 0;
+			}
 		}
 
 		node->position.x = x;
@@ -92,8 +103,8 @@ void Bucket::preLayout(Vec2i viewSize, bool addVerticalSplit, bool forceVertical
 
 		y += GraphViewStyle::toGridSize(node->size.y) + GraphViewStyle::s_gridCellPadding;
 
-		width = (node->size.x > width ? node->size.x : width);
-		m_height = (y > m_height ? y : m_height);
+		width = std::max(width, node->size.x());
+		m_height = std::max(m_height, y);
 	}
 
 	colHeights.push_back(y - GraphViewStyle::s_gridCellPadding);
@@ -242,28 +253,16 @@ void BucketLayouter::createBuckets(
 		addNode(nodes[0]);
 	}
 
-	std::vector<const DummyEdge*> remainingEdges;
-	for (const std::shared_ptr<DummyEdge>& edge : edges)
+	for (std::shared_ptr<DummyEdge> edge : edges)
 	{
-		remainingEdges.push_back(edge.get());
-	}
-
-	size_t i = 0;
-	while (remainingEdges.size())
-	{
-		const DummyEdge* edge = remainingEdges[i];
-
 		std::shared_ptr<DummyNode> owner = findTopMostDummyNodeRecursive(nodes, edge->ownerId, nullptr);
 		std::shared_ptr<DummyNode> target = findTopMostDummyNodeRecursive(nodes, edge->targetId, nullptr);
 
-		bool removeEdge = false;
-		if (!owner || !target || owner == target)
+		bool horizontal = true;
+
+		if (owner && target && owner != target && owner->getsLayouted() && target->getsLayouted())
 		{
-			removeEdge = true;
-		}
-		else
-		{
-			bool horizontal = !owner->bundleInfo.layoutVertical && !target->bundleInfo.layoutVertical;
+			horizontal = !owner->bundleInfo.layoutVertical && !target->bundleInfo.layoutVertical;
 
 			if (!horizontal)
 			{
@@ -273,27 +272,18 @@ void BucketLayouter::createBuckets(
 					std::swap(owner, target);
 				}
 			}
-			else if (edge->getDirection() == TokenComponentAggregation::DIRECTION_BACKWARD)
+			else if (edge->getDirection() == TokenComponentAggregation::DIRECTION_BACKWARD ||
+				// put nodes with bidirectional edges on the left
+				(edge->getDirection() == TokenComponentAggregation::DIRECTION_NONE &&
+					!target->bundleInfo.isReferencing && !target->bundleInfo.isReferenced))
 			{
 				std::swap(owner, target);
 			}
 
-			removeEdge = addNode(owner, target, horizontal);
+			horizontal = addNode(owner, target, horizontal);
 		}
 
-		if (removeEdge)
-		{
-			remainingEdges.erase(remainingEdges.begin() + i);
-		}
-		else
-		{
-			i++;
-		}
-
-		if (i == remainingEdges.size())
-		{
-			i = 0;
-		}
+		edge->layoutHorizontal = horizontal;
 	}
 }
 
@@ -416,7 +406,7 @@ bool BucketLayouter::addNode(std::shared_ptr<DummyNode> owner, std::shared_ptr<D
 	}
 	else if (ownerBucket && targetBucket)
 	{
-		return true;
+		return ownerBucket->j == targetBucket->j;
 	}
 
 	if (ownerBucket)
@@ -436,7 +426,7 @@ bool BucketLayouter::addNode(std::shared_ptr<DummyNode> owner, std::shared_ptr<D
 		bucket->addNode(owner);
 	}
 
-	return true;
+	return horizontal;
 }
 
 Bucket* BucketLayouter::getBucket(int i, int j)

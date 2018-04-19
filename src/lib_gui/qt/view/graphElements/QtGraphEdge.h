@@ -27,6 +27,7 @@ public:
 		const Edge* data,
 		size_t weight,
 		bool isActive,
+		bool horizontal,
 		TokenComponentAggregation::Direction direction);
 	virtual ~QtGraphEdge();
 
@@ -82,12 +83,12 @@ private:
 	bool m_isActive;
 	bool m_isFocused;
 
+	bool m_isHorizontal;
 	size_t m_weight;
 
 	TokenComponentAggregation::Direction m_direction;
 
 	bool m_isTrailEdge;
-	bool m_isHorizontalTrail;
 	std::vector<Vec4i> m_path;
 
 	bool m_useBezier;
