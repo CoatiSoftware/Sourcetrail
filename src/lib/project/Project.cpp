@@ -501,34 +501,41 @@ RefreshInfo Project::getRefreshInfoForUpdatedFiles() const
 
 		for (const std::shared_ptr<SourceGroup>& sourceGroup : m_sourceGroups)
 		{
-			if (sourceGroup->getStatus() == SOURCE_GROUP_STATUS_ENABLED)
+			if (sourceGroup->getStatus() != SOURCE_GROUP_STATUS_ENABLED)
 			{
-				for (const FileInfo& info : fileInfos)
+				continue;
+			}
+
+			std::set<FilePath> indexedPaths = sourceGroup->getIndexedPaths();
+			std::set<FilePathFilter> excludeFilters = sourceGroup->getExcludeFilters();
+
+			for (const FileInfo& info : fileInfos)
+			{
+				bool isInIndexedPaths = false;
+				for (const FilePath& indexedPath : indexedPaths)
 				{
-					bool isInIndexedPaths = false;
-					for (const FilePath& indexedPath : sourceGroup->getIndexedPaths())
+					if (indexedPath == info.path || indexedPath.contains(info.path))
 					{
-						if (indexedPath == info.path || indexedPath.contains(info.path))
+						isInIndexedPaths = true;
+						break;
+					}
+				}
+
+				if (isInIndexedPaths)
+				{
+					for (const FilePathFilter& excludeFilter : excludeFilters)
+					{
+						if (excludeFilter.isMatching(info.path))
 						{
-							isInIndexedPaths = true;
+							isInIndexedPaths = false;
 							break;
 						}
 					}
-					if (isInIndexedPaths)
-					{
-						for (const FilePathFilter& excludeFilter : sourceGroup->getExcludeFilters())
-						{
-							if (excludeFilter.isMatching(info.path))
-							{
-								isInIndexedPaths = false;
-								break;
-							}
-						}
-					}
-					if (isInIndexedPaths)
-					{
-						alreadyIndexedPaths.insert(info.path);
-					}
+				}
+
+				if (isInIndexedPaths)
+				{
+					alreadyIndexedPaths.insert(info.path);
 				}
 			}
 		}
