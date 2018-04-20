@@ -326,7 +326,7 @@ RefreshInfo Project::getRefreshInfo(RefreshMode mode) const
 
 void Project::buildIndex(const RefreshInfo& info, DialogView* dialogView)
 {
-	if (info.mode == REFRESH_NONE || (info.filesToClear.empty() && info.filesToIndex.empty()))
+	if (info.mode != REFRESH_ALL_FILES && info.filesToClear.empty() && info.filesToIndex.empty())
 	{
 		if (m_hasGUI)
 		{
@@ -660,12 +660,6 @@ RefreshInfo Project::getRefreshInfoForAllFiles() const
 	RefreshInfo info;
 	info.mode = REFRESH_ALL_FILES;
 	info.filesToIndex = getAllSourceFilePaths();
-	{
-		for (const FileInfo& fileInfo : m_storage->getFileInfoForAllFiles())
-		{
-			info.filesToClear.insert(fileInfo.path);
-		}
-	}
 	return info;
 }
 
