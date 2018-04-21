@@ -91,7 +91,7 @@ private:
 
 	std::vector<std::string> getProjectDescription(SourceLocationFile* locationFile) const;
 
-	void expandVisibleSnippets(std::vector<CodeSnippetParams>* snippets) const;
+	void expandVisibleSnippets(std::vector<CodeSnippetParams>* snippets, bool useSingleFileCache) const;
 	void addAllSourceLocations(std::vector<CodeSnippetParams>* snippets) const;
 	void addModificationTimes(std::vector<CodeSnippetParams>* snippets) const;
 

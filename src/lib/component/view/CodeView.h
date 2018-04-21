@@ -29,13 +29,10 @@ public:
 
 	struct CodeParams
 	{
-		CodeParams()
-			: clearSnippets(false)
-			, showContents(false)
-		{}
+		bool clearSnippets = false;
+		bool showContents = false;
+		bool useSingleFileCache = true;
 
-		bool clearSnippets;
-		bool showContents;
 		std::vector<Id> activeTokenIds;
 		std::vector<ErrorInfo> errorInfos;
 	};

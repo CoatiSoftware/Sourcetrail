@@ -28,6 +28,7 @@ QtCodeNavigator::QtCodeNavigator(QWidget* parent)
 	, m_value(0)
 	, m_refIndex(0)
 	, m_singleHasNewFile(false)
+	, m_useSingleFileCache(false)
 {
 	QVBoxLayout* layout = new QVBoxLayout();
 	layout->setSpacing(0);
@@ -147,8 +148,6 @@ void QtCodeNavigator::updateCodeSnippet(const CodeSnippetParams& params)
 
 void QtCodeNavigator::addFile(std::shared_ptr<SourceLocationFile> locationFile, int refCount, TimeStamp modificationTime)
 {
-	bool firstFile = m_references.size() == 0;
-
 	m_list->addFile(locationFile->getFilePath(), locationFile->isWhole(), refCount, modificationTime, locationFile->isComplete());
 
 	if (locationFile->isWhole())
@@ -192,11 +191,6 @@ void QtCodeNavigator::addFile(std::shared_ptr<SourceLocationFile> locationFile, 
 			}
 		);
 	}
-
-	if (firstFile && m_references.size() && m_references[0].locationType != LOCATION_TOKEN)
-	{
-		clearCaches();
-	}
 }
 
 void QtCodeNavigator::addedFiles()
@@ -217,13 +211,11 @@ void QtCodeNavigator::addedFiles()
 
 void QtCodeNavigator::clear()
 {
-	clearCodeSnippets();
-	clearCaches();
-
+	clearCodeSnippets(false);
 	updateRefLabel();
 }
 
-void QtCodeNavigator::clearCodeSnippets()
+void QtCodeNavigator::clearCodeSnippets(bool useSingleFileCache)
 {
 	m_list->clear();
 
@@ -235,10 +227,11 @@ void QtCodeNavigator::clearCodeSnippets()
 
 	m_activeTokenId = 0;
 
-	if (m_references.size() && m_references[0].locationType != LOCATION_TOKEN)
+	if (!m_useSingleFileCache || !useSingleFileCache)
 	{
 		clearCaches();
 	}
+	m_useSingleFileCache = useSingleFileCache;
 
 	m_references.clear();
 	m_activeReference = Reference();
@@ -385,7 +378,7 @@ bool QtCodeNavigator::isInListMode() const
 
 bool QtCodeNavigator::hasSingleFileCached(const FilePath& filePath) const
 {
-	return m_single->hasFileCached(filePath);
+	return m_useSingleFileCache && m_single->hasFileCached(filePath);
 }
 
 void QtCodeNavigator::showActiveSnippet(

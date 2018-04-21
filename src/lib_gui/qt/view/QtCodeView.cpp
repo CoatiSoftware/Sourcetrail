@@ -113,7 +113,7 @@ void QtCodeView::showCodeSnippets(const std::vector<CodeSnippetParams>& snippets
 
 		if (params.clearSnippets)
 		{
-			m_widget->clearCodeSnippets();
+			m_widget->clearCodeSnippets(params.useSingleFileCache);
 
 			m_widget->setActiveTokenIds(params.activeTokenIds);
 			m_widget->setErrorInfos(params.errorInfos);

@@ -311,6 +311,7 @@ void CodeController::handleMessage(MessageShowErrors* message)
 		params.clearSnippets = true;
 		params.errorInfos = errors;
 		params.showContents = !message->isReplayed();
+		params.useSingleFileCache = false;
 
 		showCodeSnippets(snippets, params, false);
 	}
@@ -335,6 +336,7 @@ void CodeController::handleMessage(MessageSearchFullText* message)
 	CodeView::CodeParams params;
 	params.clearSnippets = true;
 	params.showContents = !message->isReplayed();
+	params.useSingleFileCache = false;
 
 	showCodeSnippets(getSnippetsForCollection(m_collection), params);
 }
@@ -413,7 +415,10 @@ std::vector<CodeSnippetParams> CodeController::getSnippetsForFileWithState(
 
 			params.modificationTime = m_storageAccess->getFileInfoForFilePath(filePath).lastWriteTime;
 
-			params.locationFile = m_collection->getSourceLocationFileByPath(filePath);
+			// make a copy of SourceLocationFile so that isWhole flag is different for first snippet adding the file
+			// and second snippet adding the content
+			params.locationFile =
+				std::make_shared<SourceLocationFile>(*m_collection->getSourceLocationFileByPath(filePath).get());
 			if (params.locationFile)
 			{
 				params.locationFile->setIsWhole(true);
@@ -714,7 +719,7 @@ std::vector<std::string> CodeController::getProjectDescription(SourceLocationFil
 	return lines;
 }
 
-void CodeController::expandVisibleSnippets(std::vector<CodeSnippetParams>* snippets) const
+void CodeController::expandVisibleSnippets(std::vector<CodeSnippetParams>* snippets, bool useSingleFileCache) const
 {
 	TRACE();
 
@@ -736,7 +741,7 @@ void CodeController::expandVisibleSnippets(std::vector<CodeSnippetParams>* snipp
 			continue;
 		}
 
-		if (!inListMode && getView()->hasSingleFileCached(oldSnippet.locationFile->getFilePath()))
+		if (useSingleFileCache && !inListMode && getView()->hasSingleFileCached(oldSnippet.locationFile->getFilePath()))
 		{
 			continue;
 		}
@@ -835,7 +840,7 @@ void CodeController::saveOrRestoreViewMode(MessageBase* message)
 void CodeController::showCodeSnippets(
 	std::vector<CodeSnippetParams> snippets, const CodeView::CodeParams params, bool addSourceLocations)
 {
-	expandVisibleSnippets(&snippets);
+	expandVisibleSnippets(&snippets, params.useSingleFileCache);
 
 	CodeView* view = getView();
 	view->showCodeSnippets(snippets, params);

@@ -49,7 +49,7 @@ public:
 	void addedFiles();
 
 	void clear();
-	void clearCodeSnippets();
+	void clearCodeSnippets(bool useSingleFileCache);
 	void clearFile();
 	void clearCaches();
 	void clearSnippetReferences();
@@ -203,6 +203,7 @@ private:
 
 	ScrollRequest m_scrollRequest;
 	bool m_singleHasNewFile;
+	bool m_useSingleFileCache;
 
 	std::vector<std::pair<QtCodeArea*, Id>> m_screenMatches;
 	Id m_activeScreenMatchId = 0;
