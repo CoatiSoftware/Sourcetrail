@@ -130,6 +130,11 @@ uint QtCodeField::getEndLineNumber() const
 	return m_startLineNumber + blockCount() - 1;
 }
 
+int QtCodeField::totalLineHeight() const
+{
+	return blockBoundingRect(firstVisibleBlock()).height() * blockCount();
+}
+
 std::string QtCodeField::getCode() const
 {
 	return m_code;

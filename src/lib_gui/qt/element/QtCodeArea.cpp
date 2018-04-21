@@ -274,8 +274,7 @@ void QtCodeArea::lineNumberAreaPaintEvent(QPaintEvent *event)
 
 int QtCodeArea::lineNumberDigits() const
 {
-	int max = qMax(1, int(getStartLineNumber()) + blockCount());
-	return utility::digits(max);
+	return utility::digits(getEndLineNumber());
 }
 
 int QtCodeArea::lineNumberAreaWidth() const

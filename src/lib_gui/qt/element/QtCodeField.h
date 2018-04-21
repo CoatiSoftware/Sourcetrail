@@ -35,6 +35,8 @@ public:
 	uint getStartLineNumber() const;
 	uint getEndLineNumber() const;
 
+	int totalLineHeight() const;
+
 	std::string getCode() const;
 
 	std::shared_ptr<SourceLocationFile> getSourceLocationFile() const;
