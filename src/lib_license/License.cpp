@@ -432,7 +432,7 @@ bool License::isExpired() const
 	else
 	{
 		Version version = Version::fromString(m_expire);
-		return Version::getApplicationVersion() > version;
+		return Version::getApplicationVersion().toShortVersion() > version;
 	}
 }
 

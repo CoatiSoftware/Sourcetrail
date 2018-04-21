@@ -16,6 +16,8 @@ public:
 	bool isEmpty() const;
 	bool isValid() const;
 
+	Version toShortVersion() const;
+
 	std::string toString() const;
 	std::string toShortString() const;
 	std::string toDisplayString() const;

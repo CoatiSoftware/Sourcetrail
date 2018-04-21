@@ -95,6 +95,11 @@ bool Version::isValid() const
 	return (0 < m_minorNumber && m_minorNumber < 5 && m_year > 2016);
 }
 
+Version Version::toShortVersion() const
+{
+	return Version(m_year, m_minorNumber);
+}
+
 std::string Version::toShortString() const
 {
 	std::stringstream ss;
