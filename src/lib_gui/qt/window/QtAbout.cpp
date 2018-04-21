@@ -18,7 +18,7 @@ QtAbout::QtAbout(QWidget *parent)
 
 QSize QtAbout::sizeHint() const
 {
-	return QSize(500, 520);
+	return QSize(450, 480);
 }
 
 void QtAbout::setupAbout()
@@ -31,40 +31,13 @@ void QtAbout::setupAbout()
 	m_content->setLayout(windowLayout);
 
 	{
-		QHBoxLayout* row = new QHBoxLayout();
-		windowLayout->addLayout(row);
-		{
-			QtDeviceScaledPixmap sourcetrailLogo(QString::fromStdWString(ResourcePaths::getGuiPath().wstr() + L"about/logo_sourcetrail.png"));
-			sourcetrailLogo.scaleToHeight(150);
+		QtDeviceScaledPixmap sourcetrailLogo(QString::fromStdWString(ResourcePaths::getGuiPath().wstr() + L"about/logo_sourcetrail.png"));
+		sourcetrailLogo.scaleToHeight(150);
 
-			QLabel* sourcetrailLogoLabel = new QLabel(this);
-			sourcetrailLogoLabel->setPixmap(sourcetrailLogo.pixmap());
-			sourcetrailLogoLabel->resize(sourcetrailLogo.width(), sourcetrailLogo.height());
-			row->addWidget(sourcetrailLogoLabel);
-		}
-
-		row->addSpacing(50);
-
-		{
-			QVBoxLayout* column = new QVBoxLayout();
-			row->addLayout(column);
-
-			column->addStretch();
-
-			QLabel* developerTitle = new QLabel("<b>Developed by:</b>", this);
-			column->addWidget(developerTitle);
-
-			QLabel* developerLabel = new QLabel(
-				"Manuel Dobusch\n"
-				"Eberhard Gräther\n"
-				"Malte Langkabel\n"
-				"Viktoria Pfausler\n"
-				"Andreas Stallinger\n",
-				this
-			);
-			column->addWidget(developerLabel);
-			column->addSpacing(-10);
-		}
+		QLabel* sourcetrailLogoLabel = new QLabel(this);
+		sourcetrailLogoLabel->setPixmap(sourcetrailLogo.pixmap());
+		sourcetrailLogoLabel->resize(sourcetrailLogo.width(), sourcetrailLogo.height());
+		windowLayout->addWidget(sourcetrailLogoLabel);
 	}
 
 	windowLayout->addSpacing(10);
@@ -76,28 +49,11 @@ void QtAbout::setupAbout()
 			(
 				"Version " + Version::getApplicationVersion().toDisplayString() + " - " +
 				std::string(utility::getApplicationArchitectureType() == APPLICATION_ARCHITECTURE_X86_32 ? "32" : "64") + " bit"
-			).c_str(), 
+			).c_str(),
 			this
 		);
 		row->addWidget(versionLabel);
 	}
-
-	windowLayout->addStretch();
-	windowLayout->addStretch();
-
-	QLabel* acknowledgementsTitle = new QLabel("<b>Acknowledgements:</b>", this);
-	windowLayout->addWidget(acknowledgementsTitle);
-
-	QLabel* acknowledgementsLabel = new QLabel(
-		"Sourcetrail (aka Coati) 0.1 was created in the context of education at "
-		"<a href=\"http://www.fh-salzburg.ac.at/en/\" style=\"color: white;\">Salzburg University of Applied Sciences</a>. "
-		"Coati Software OG takes part in the <a href=\"http://www.startup-salzburg.at/\" style=\"color: white;\">Startup Salzburg</a> initiative. "
-		"The development of Sourcetrail was funded by <a href=\"http://awsg.at\" style=\"color: white;\">aws</a>.",
-		this
-	);
-	acknowledgementsLabel->setWordWrap(true);
-	acknowledgementsLabel->setOpenExternalLinks(true);
-	windowLayout->addWidget(acknowledgementsLabel);
 
 	windowLayout->addStretch();
 
@@ -106,42 +62,43 @@ void QtAbout::setupAbout()
 		windowLayout->addLayout(row);
 
 		QLabel* companyLabel = new QLabel(
-			"<b>Coati Software OG</b><br />"
+			"<b>Coati Software KG</b><br />"
 			"Jakob-Haringer-Straße 1/127<br />"
 			"5020 Salzburg<br />"
 			"Austria<br />"
 			"<b>support@sourcetrail.com</b><br />"
-			"<b><a href=\"https://sourcetrail.com\" style=\"color: white;\">sourcetrail.com</a></b>",
-			this);
+			"<b><a href=\"https://sourcetrail.com\" style=\"color: white;\">sourcetrail.com</a></b>");
 		companyLabel->setOpenExternalLinks(true);
 		row->addWidget(companyLabel);
 
-		{
-			QVBoxLayout* column = new QVBoxLayout();
-			row->addLayout(column);
+		row->addSpacing(80);
 
-			column->addStretch();
-
-			{
-				QHBoxLayout* rowAcknowledgementsLogos = new QHBoxLayout();
-				column->addLayout(rowAcknowledgementsLogos);
-
-				QtDeviceScaledPixmap fhsLogo(QString::fromStdWString(ResourcePaths::getGuiPath().concatenate(L"about/logo_fhs.png").wstr()));
-				fhsLogo.scaleToHeight(30);
-				QLabel* fhsLabel = new QLabel(this);
-				fhsLabel->setPixmap(fhsLogo.pixmap());
-				fhsLabel->resize(fhsLogo.width(), fhsLogo.height());
-				rowAcknowledgementsLogos->addWidget(fhsLabel);
-
-				QtDeviceScaledPixmap awsLogo(QString::fromStdWString(ResourcePaths::getGuiPath().concatenate(L"about/logo_aws.png").wstr()));
-				awsLogo.scaleToHeight(30);
-				QLabel* awsLabel = new QLabel(this);
-				awsLabel->setPixmap(awsLogo.pixmap());
-				awsLabel->resize(awsLogo.width(), awsLogo.height());
-				rowAcknowledgementsLogos->addWidget(awsLabel);
-			}
-		}
+		QLabel* developerLabel = new QLabel(
+			"<br /><br />"
+			"<b>Team:</b><br />"
+			"Manuel Dobusch<br />"
+			"Eberhard Gräther<br />"
+			"Malte Langkabel<br />"
+			"Viktoria Pfausler<br />"
+			"Andreas Stallinger<br />"
+		);
+		developerLabel->setObjectName("small");
+		row->addWidget(developerLabel);
 	}
+
+	windowLayout->addStretch();
+
+	QLabel* acknowledgementsLabel = new QLabel(
+		"<b>Acknowledgements:</b><br />"
+		"Sourcetrail (aka Coati) 0.1 was created in the context of education at "
+		"<a href=\"http://www.fh-salzburg.ac.at/en/\" style=\"color: white;\">Salzburg University of Applied Sciences</a>.<br />"
+		"Coati Software KG is member of <a href=\"http://www.startup-salzburg.at/\" style=\"color: white;\">Startup Salzburg</a>.<br />"
+		"The development of Sourcetrail was funded by <a href=\"http://awsg.at\" style=\"color: white;\">aws</a>."
+	);
+	acknowledgementsLabel->setObjectName("small");
+	acknowledgementsLabel->setWordWrap(true);
+	acknowledgementsLabel->setOpenExternalLinks(true);
+	windowLayout->addWidget(acknowledgementsLabel);
 
 	windowLayout->addSpacing(10);
 }
