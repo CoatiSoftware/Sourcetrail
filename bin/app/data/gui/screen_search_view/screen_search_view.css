@@ -1,11 +1,13 @@
 #screen_search_bar {
 	border: none;
+	padding: 0;
 }
 
 #screen_search_box {
-	padding-left: 10;
 	border-top: 1px solid #BEBEBE;
 	background: <color:screen_search/background>;
+	margin: 0;
+	padding-left: 10;
 }
 
 #search_box {
