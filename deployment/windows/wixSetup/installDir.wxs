@@ -384,14 +384,8 @@
 						<Component Id='AboutCss' Guid='*' Win64="$(var.Win64)">
 							<File Id='About' Name='about.css' DiskId='1' Source='./../../../bin/app/data/gui/about/about.css' KeyPath='yes' />
 						</Component>
-						<Component Id='LogoAwsPng' Guid='*' Win64="$(var.Win64)">
-							<File Id='LogoAws' Name='logo_aws.png' DiskId='1' Source='./../../../bin/app/data/gui/about/logo_aws.png' KeyPath='yes' />
-						</Component>
 						<Component Id='LogoSourcetrailPng' Guid='*' Win64="$(var.Win64)">
 							<File Id='LogoSourcetrail' Name='logo_sourcetrail.png' DiskId='1' Source='./../../../bin/app/data/gui/about/logo_sourcetrail.png' KeyPath='yes' />
-						</Component>
-						<Component Id='LogoFhsPng' Guid='*' Win64="$(var.Win64)">
-							<File Id='LogoFhs' Name='logo_fhs.png' DiskId='1' Source='./../../../bin/app/data/gui/about/logo_fhs.png' KeyPath='yes' />
 						</Component>
 					</Directory>
 
@@ -506,6 +500,9 @@
 							</Component>
 							<Component Id='FilePng' Guid='*' Win64="$(var.Win64)">
 								<File Id='File' Name='file.png' DiskId='1' Source='./../../../bin/app/data/gui/graph_view/images/file.png' KeyPath='yes' />
+							</Component>
+							<Component Id='FileIncompletePng' Guid='*' Win64="$(var.Win64)">
+								<File Id='FileIncomplete' Name='file_incomplete.png' DiskId='1' Source='./../../../bin/app/data/gui/graph_view/images/file_incomplete.png' KeyPath='yes' />
 							</Component>
 							<Component Id='GraphPng' Guid='*' Win64="$(var.Win64)">
 								<File Id='Graph' Name='graph.png' DiskId='1' Source='./../../../bin/app/data/gui/graph_view/images/graph.png' KeyPath='yes' />

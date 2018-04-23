@@ -269,9 +269,7 @@
 				<ComponentRef Id='window_settingsIni'/>
 
 				<ComponentRef Id='AboutCss'/>
-				<ComponentRef Id='LogoAwsPng'/>
 				<ComponentRef Id='LogoSourcetrailPng'/>
-				<ComponentRef Id='LogoFhsPng'/>
 				
 				<ComponentRef Id='BookmarkViewCss'/>
 				<ComponentRef Id='BookmarkViewArrowDownPng'/>
@@ -307,6 +305,7 @@
 				<ComponentRef Id='DefaultPng'/>
 				<ComponentRef Id='EnumPng'/>
 				<ComponentRef Id='FilePng'/>
+				<ComponentRef Id='FileIncompletePng'/>
 				<ComponentRef Id='GraphPng'/>
 				<ComponentRef Id='GraphArrowPng'/>
 				<ComponentRef Id='GraphDownPng'/>
