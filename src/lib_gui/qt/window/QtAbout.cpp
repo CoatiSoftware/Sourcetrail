@@ -33,33 +33,30 @@ void QtAbout::setupAbout()
 	{
 		QtDeviceScaledPixmap sourcetrailLogo(QString::fromStdWString(ResourcePaths::getGuiPath().wstr() + L"about/logo_sourcetrail.png"));
 		sourcetrailLogo.scaleToHeight(150);
-
 		QLabel* sourcetrailLogoLabel = new QLabel(this);
 		sourcetrailLogoLabel->setPixmap(sourcetrailLogo.pixmap());
 		sourcetrailLogoLabel->resize(sourcetrailLogo.width(), sourcetrailLogo.height());
-		windowLayout->addWidget(sourcetrailLogoLabel);
+		windowLayout->addWidget(sourcetrailLogoLabel, 0, Qt::Alignment(Qt::AlignmentFlag::AlignHCenter));
 	}
 
 	windowLayout->addSpacing(10);
 
 	{
-		QHBoxLayout* row = new QHBoxLayout();
-		windowLayout->addLayout(row);
 		QLabel* versionLabel = new QLabel(
 			(
 				"Version " + Version::getApplicationVersion().toDisplayString() + " - " +
 				std::string(utility::getApplicationArchitectureType() == APPLICATION_ARCHITECTURE_X86_32 ? "32" : "64") + " bit"
-			).c_str(),
+				).c_str(),
 			this
 		);
-		row->addWidget(versionLabel);
+		windowLayout->addWidget(versionLabel, 0, Qt::Alignment(Qt::AlignmentFlag::AlignHCenter));
 	}
 
 	windowLayout->addStretch();
 
 	{
-		QHBoxLayout* row = new QHBoxLayout();
-		windowLayout->addLayout(row);
+		QHBoxLayout* layoutHorz1 = new QHBoxLayout();
+		windowLayout->addLayout(layoutHorz1);
 
 		QLabel* companyLabel = new QLabel(
 			"<b>Coati Software KG</b><br />"
@@ -69,9 +66,9 @@ void QtAbout::setupAbout()
 			"<b>support@sourcetrail.com</b><br />"
 			"<b><a href=\"https://sourcetrail.com\" style=\"color: white;\">sourcetrail.com</a></b>");
 		companyLabel->setOpenExternalLinks(true);
-		row->addWidget(companyLabel);
+		layoutHorz1->addWidget(companyLabel);
 
-		row->addSpacing(80);
+		layoutHorz1->addSpacing(120);
 
 		QLabel* developerLabel = new QLabel(
 			"<br /><br />"
@@ -83,7 +80,7 @@ void QtAbout::setupAbout()
 			"Andreas Stallinger<br />"
 		);
 		developerLabel->setObjectName("small");
-		row->addWidget(developerLabel);
+		layoutHorz1->addWidget(developerLabel);
 	}
 
 	windowLayout->addStretch();
