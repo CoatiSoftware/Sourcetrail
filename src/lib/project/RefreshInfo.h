@@ -17,6 +17,8 @@ struct RefreshInfo
 {
 	std::set<FilePath> filesToIndex;
 	std::set<FilePath> filesToClear;
+	std::set<FilePath> nonIndexedFilesToClear;
+
 	RefreshMode mode = REFRESH_NONE;
 };
 

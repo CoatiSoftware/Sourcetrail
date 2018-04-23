@@ -115,6 +115,11 @@ void QtCodeFileTitleBar::setIsComplete(bool isComplete)
 	m_showErrorsButton->setVisible(!isComplete);
 }
 
+void QtCodeFileTitleBar::setIsIndexed(bool isIndexed)
+{
+	m_titleButton->setIsIndexed(isIndexed);
+}
+
 void QtCodeFileTitleBar::updateRefCount(int refCount, bool hasErrors, size_t fatalErrorCount)
 {
 	if (refCount > 0)

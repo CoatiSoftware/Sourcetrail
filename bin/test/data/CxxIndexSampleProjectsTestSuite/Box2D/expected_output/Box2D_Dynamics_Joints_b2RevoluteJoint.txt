@@ -20,6 +20,24 @@ FILE: b2Settings.h
 COMMENT: comment [b2Settings.h <1:1 17:3>]
 REFERENCE_MACRO_USAGE b2Settings.h -> B2_SETTINGS_H [b2Settings.h <19:9 19:21>]
 SYMBOL_MACRO B2_SETTINGS_H [b2Settings.h <20:9 <20:9 20:21> 20:8>]
+REFERENCE_INCLUDE b2Settings.h -> stddef.h [b2Settings.h <22:10 22:19>]
+FILE: stddef.h non-indexed
+REFERENCE_INCLUDE stddef.h -> corecrt.h [stddef.h <11:10 11:20>]
+FILE: corecrt.h non-indexed
+REFERENCE_INCLUDE corecrt.h -> vcruntime.h [corecrt.h <10:10 10:22>]
+FILE: vcruntime.h non-indexed
+REFERENCE_INCLUDE vcruntime.h -> sal.h [vcruntime.h <45:10 45:16>]
+FILE: sal.h non-indexed
+REFERENCE_INCLUDE sal.h -> concurrencysal.h [sal.h <2990:10 2990:27>]
+FILE: concurrencysal.h non-indexed
+REFERENCE_INCLUDE vcruntime.h -> vadefs.h [vcruntime.h <46:10 46:19>]
+FILE: vadefs.h non-indexed
+REFERENCE_INCLUDE b2Settings.h -> assert.h [b2Settings.h <23:10 23:19>]
+FILE: assert.h non-indexed
+REFERENCE_INCLUDE assert.h -> corecrt.h [assert.h <12:10 12:20>]
+REFERENCE_INCLUDE b2Settings.h -> float.h [b2Settings.h <24:10 24:18>]
+FILE: float.h non-indexed
+REFERENCE_INCLUDE float.h -> corecrt.h [float.h <12:10 12:20>]
 REFERENCE_MACRO_USAGE b2Settings.h -> NDEBUG [b2Settings.h <26:14 26:19>]
 SYMBOL_MACRO b2DEBUG [b2Settings.h <27:10 <27:10 27:16> 27:9>]
 SYMBOL_MACRO B2_NOT_USED [b2Settings.h <30:9 <30:9 30:19> 30:33>]
@@ -99,6 +117,9 @@ COMMENT: comment [b2Settings.h <147:16 147:40>]
 COMMENT: comment [b2Settings.h <148:16 148:40>]
 COMMENT: comment [b2Settings.h <149:19 149:33>]
 COMMENT: comment [b2Settings.h <152:1 152:21>]
+REFERENCE_INCLUDE b2Math.h -> math.h [b2Math.h <23:10 23:17>]
+FILE: math.h non-indexed
+REFERENCE_INCLUDE math.h -> corecrt.h [math.h <11:10 11:20>]
 COMMENT: comment [b2Math.h <25:1 25:91>]
 COMMENT: comment [b2Math.h <32:1 32:56>]
 SYMBOL_MACRO b2Sqrt [b2Math.h <49:9 <49:9 49:14> 49:25>]
@@ -351,6 +372,9 @@ COMMENT: comment [b2Collision.h <1:1 17:3>]
 REFERENCE_MACRO_USAGE b2Collision.h -> B2_COLLISION_H [b2Collision.h <19:9 19:22>]
 SYMBOL_MACRO B2_COLLISION_H [b2Collision.h <20:9 <20:9 20:22> 20:8>]
 REFERENCE_INCLUDE b2Collision.h -> b2Math.h [b2Collision.h <22:10 22:32>]
+REFERENCE_INCLUDE b2Collision.h -> limits.h [b2Collision.h <23:10 23:19>]
+FILE: limits.h non-indexed
+REFERENCE_INCLUDE limits.h -> vcruntime.h [limits.h <11:10 11:22>]
 COMMENT: comment [b2Collision.h <25:1 25:10>]
 COMMENT: comment [b2Collision.h <26:1 26:73>]
 COMMENT: comment [b2Collision.h <27:1 27:30>]
@@ -468,6 +492,229 @@ COMMENT: comment [b2Shape.h <88:2 88:59>]
 COMMENT: comment [b2Shape.h <89:2 89:64>]
 COMMENT: comment [b2Shape.h <94:2 94:100>]
 COMMENT: comment [b2Shape.h <95:2 95:30>]
+REFERENCE_INCLUDE b2Body.h -> memory [b2Body.h <24:10 24:17>]
+FILE: memory non-indexed
+REFERENCE_INCLUDE memory -> xmemory [memory <6:10 6:18>]
+FILE: xmemory non-indexed
+REFERENCE_INCLUDE xmemory -> xmemory0 [xmemory <6:10 6:19>]
+FILE: xmemory0 non-indexed
+REFERENCE_INCLUDE xmemory0 -> cstdint [xmemory0 <6:10 6:18>]
+FILE: cstdint non-indexed
+REFERENCE_INCLUDE cstdint -> yvals.h [cstdint <5:10 5:18>]
+FILE: yvals.h non-indexed
+REFERENCE_INCLUDE yvals.h -> xkeycheck.h [yvals.h <7:10 7:22>]
+FILE: xkeycheck.h non-indexed
+REFERENCE_INCLUDE yvals.h -> crtdefs.h [yvals.h <8:10 8:20>]
+FILE: crtdefs.h non-indexed
+REFERENCE_INCLUDE crtdefs.h -> vcruntime.h [crtdefs.h <9:10 9:22>]
+REFERENCE_INCLUDE crtdefs.h -> corecrt.h [crtdefs.h <10:10 10:20>]
+REFERENCE_INCLUDE yvals.h -> use_ansi.h [yvals.h <412:10 412:21>]
+FILE: use_ansi.h non-indexed
+REFERENCE_INCLUDE cstdint -> stdint.h [cstdint <13:11 13:20>]
+FILE: stdint.h non-indexed
+REFERENCE_INCLUDE stdint.h -> vcruntime.h [stdint.h <13:10 13:22>]
+REFERENCE_INCLUDE xmemory0 -> cstdlib [xmemory0 <7:10 7:18>]
+FILE: cstdlib non-indexed
+REFERENCE_INCLUDE cstdlib -> yvals.h [cstdlib <5:10 5:18>]
+REFERENCE_INCLUDE cstdlib -> stdlib.h [cstdlib <13:11 13:20>]
+FILE: stdlib.h non-indexed
+REFERENCE_INCLUDE stdlib.h -> corecrt.h [stdlib.h <11:10 11:20>]
+REFERENCE_INCLUDE stdlib.h -> corecrt_malloc.h [stdlib.h <12:10 12:27>]
+FILE: corecrt_malloc.h non-indexed
+REFERENCE_INCLUDE corecrt_malloc.h -> corecrt.h [corecrt_malloc.h <11:10 11:20>]
+REFERENCE_INCLUDE stdlib.h -> corecrt_search.h [stdlib.h <13:10 13:27>]
+FILE: corecrt_search.h non-indexed
+REFERENCE_INCLUDE corecrt_search.h -> corecrt.h [corecrt_search.h <13:10 13:20>]
+REFERENCE_INCLUDE corecrt_search.h -> stddef.h [corecrt_search.h <14:10 14:19>]
+REFERENCE_INCLUDE stdlib.h -> corecrt_wstdlib.h [stdlib.h <14:10 14:28>]
+FILE: corecrt_wstdlib.h non-indexed
+REFERENCE_INCLUDE corecrt_wstdlib.h -> corecrt.h [corecrt_wstdlib.h <11:10 11:20>]
+REFERENCE_INCLUDE stdlib.h -> limits.h [stdlib.h <15:10 15:19>]
+REFERENCE_INCLUDE xmemory0 -> limits [xmemory0 <8:10 8:17>]
+FILE: limits non-indexed
+REFERENCE_INCLUDE limits -> ymath.h [limits <6:10 6:18>]
+FILE: ymath.h non-indexed
+REFERENCE_INCLUDE ymath.h -> yvals.h [ymath.h <6:10 6:18>]
+REFERENCE_INCLUDE limits -> cfloat [limits <7:10 7:17>]
+FILE: cfloat non-indexed
+REFERENCE_INCLUDE cfloat -> yvals.h [cfloat <5:10 5:18>]
+REFERENCE_INCLUDE cfloat -> float.h [cfloat <7:10 7:18>]
+REFERENCE_INCLUDE limits -> climits [limits <8:10 8:18>]
+FILE: climits non-indexed
+REFERENCE_INCLUDE climits -> yvals.h [climits <5:10 5:18>]
+REFERENCE_INCLUDE climits -> limits.h [climits <7:10 7:19>]
+REFERENCE_INCLUDE limits -> cmath [limits <9:10 9:16>]
+FILE: cmath non-indexed
+REFERENCE_INCLUDE cmath -> yvals.h [cmath <5:10 5:18>]
+REFERENCE_INCLUDE cmath -> math.h [cmath <12:11 12:18>]
+REFERENCE_INCLUDE cmath -> xtgmath.h [cmath <647:11 647:21>]
+FILE: xtgmath.h non-indexed
+REFERENCE_INCLUDE xtgmath.h -> xtr1common [xtgmath.h <8:10 8:21>]
+FILE: xtr1common non-indexed
+REFERENCE_INCLUDE xtr1common -> cstdlib [xtr1common <6:10 6:18>]
+REFERENCE_INCLUDE limits -> cwchar [limits <10:10 10:17>]
+FILE: cwchar non-indexed
+REFERENCE_INCLUDE cwchar -> yvals.h [cwchar <5:10 5:18>]
+REFERENCE_INCLUDE cwchar -> wchar.h [cwchar <13:11 13:19>]
+FILE: wchar.h non-indexed
+REFERENCE_INCLUDE wchar.h -> corecrt.h [wchar.h <13:10 13:20>]
+REFERENCE_INCLUDE wchar.h -> corecrt_memcpy_s.h [wchar.h <14:10 14:29>]
+FILE: corecrt_memcpy_s.h non-indexed
+REFERENCE_INCLUDE corecrt_memcpy_s.h -> corecrt.h [corecrt_memcpy_s.h <10:10 10:20>]
+REFERENCE_INCLUDE corecrt_memcpy_s.h -> errno.h [corecrt_memcpy_s.h <11:10 11:18>]
+FILE: errno.h non-indexed
+REFERENCE_INCLUDE errno.h -> corecrt.h [errno.h <11:10 11:20>]
+REFERENCE_INCLUDE corecrt_memcpy_s.h -> vcruntime_string.h [corecrt_memcpy_s.h <12:10 12:29>]
+FILE: vcruntime_string.h non-indexed
+REFERENCE_INCLUDE vcruntime_string.h -> vcruntime.h [vcruntime_string.h <10:10 10:22>]
+REFERENCE_INCLUDE wchar.h -> corecrt_wconio.h [wchar.h <15:10 15:27>]
+FILE: corecrt_wconio.h non-indexed
+REFERENCE_INCLUDE corecrt_wconio.h -> corecrt.h [corecrt_wconio.h <11:10 11:20>]
+REFERENCE_INCLUDE corecrt_wconio.h -> corecrt_stdio_config.h [corecrt_wconio.h <12:10 12:33>]
+FILE: corecrt_stdio_config.h non-indexed
+REFERENCE_INCLUDE corecrt_stdio_config.h -> corecrt.h [corecrt_stdio_config.h <10:10 10:20>]
+REFERENCE_INCLUDE wchar.h -> corecrt_wctype.h [wchar.h <16:10 16:27>]
+FILE: corecrt_wctype.h non-indexed
+REFERENCE_INCLUDE corecrt_wctype.h -> corecrt.h [corecrt_wctype.h <11:10 11:20>]
+REFERENCE_INCLUDE wchar.h -> corecrt_wdirect.h [wchar.h <17:10 17:28>]
+FILE: corecrt_wdirect.h non-indexed
+REFERENCE_INCLUDE corecrt_wdirect.h -> corecrt.h [corecrt_wdirect.h <11:10 11:20>]
+REFERENCE_INCLUDE wchar.h -> corecrt_wio.h [wchar.h <18:10 18:24>]
+FILE: corecrt_wio.h non-indexed
+REFERENCE_INCLUDE corecrt_wio.h -> corecrt.h [corecrt_wio.h <11:10 11:20>]
+REFERENCE_INCLUDE corecrt_wio.h -> corecrt_share.h [corecrt_wio.h <12:10 12:26>]
+FILE: corecrt_share.h non-indexed
+REFERENCE_INCLUDE wchar.h -> corecrt_wprocess.h [wchar.h <19:10 19:29>]
+FILE: corecrt_wprocess.h non-indexed
+REFERENCE_INCLUDE corecrt_wprocess.h -> corecrt.h [corecrt_wprocess.h <11:10 11:20>]
+REFERENCE_INCLUDE wchar.h -> corecrt_wstdio.h [wchar.h <20:10 20:27>]
+FILE: corecrt_wstdio.h non-indexed
+REFERENCE_INCLUDE corecrt_wstdio.h -> corecrt.h [corecrt_wstdio.h <12:10 12:20>]
+REFERENCE_INCLUDE corecrt_wstdio.h -> corecrt_stdio_config.h [corecrt_wstdio.h <13:10 13:33>]
+REFERENCE_INCLUDE wchar.h -> corecrt_wstdlib.h [wchar.h <21:10 21:28>]
+REFERENCE_INCLUDE wchar.h -> corecrt_wstring.h [wchar.h <22:10 22:28>]
+FILE: corecrt_wstring.h non-indexed
+REFERENCE_INCLUDE corecrt_wstring.h -> corecrt.h [corecrt_wstring.h <11:10 11:20>]
+REFERENCE_INCLUDE corecrt_wstring.h -> vcruntime_string.h [corecrt_wstring.h <12:10 12:29>]
+REFERENCE_INCLUDE wchar.h -> corecrt_wtime.h [wchar.h <23:10 23:26>]
+FILE: corecrt_wtime.h non-indexed
+REFERENCE_INCLUDE corecrt_wtime.h -> corecrt.h [corecrt_wtime.h <11:10 11:20>]
+REFERENCE_INCLUDE wchar.h -> stat.h [wchar.h <24:10 24:21>]
+FILE: stat.h non-indexed
+REFERENCE_INCLUDE stat.h -> corecrt.h [stat.h <10:10 10:20>]
+REFERENCE_INCLUDE stat.h -> types.h [stat.h <11:10 11:22>]
+FILE: types.h non-indexed
+REFERENCE_INCLUDE wchar.h -> types.h [wchar.h <25:10 25:22>]
+REFERENCE_INCLUDE wchar.h -> vcruntime_string.h [wchar.h <26:10 26:29>]
+REFERENCE_INCLUDE limits -> xstddef [limits <11:10 11:18>]
+FILE: xstddef non-indexed
+REFERENCE_INCLUDE xstddef -> cstddef [xstddef <6:10 6:18>]
+FILE: cstddef non-indexed
+REFERENCE_INCLUDE cstddef -> yvals.h [cstddef <5:10 5:18>]
+REFERENCE_INCLUDE cstddef -> stddef.h [cstddef <13:11 13:20>]
+REFERENCE_INCLUDE xstddef -> cstdlib [xstddef <7:10 7:18>]
+REFERENCE_INCLUDE xstddef -> initializer_list [xstddef <9:10 9:27>]
+FILE: initializer_list non-indexed
+REFERENCE_INCLUDE initializer_list -> cstddef [initializer_list <6:10 6:18>]
+REFERENCE_INCLUDE xstddef -> xtr1common [xstddef <11:10 11:21>]
+REFERENCE_INCLUDE xmemory0 -> new [xmemory0 <9:10 9:14>]
+FILE: new non-indexed
+REFERENCE_INCLUDE new -> exception [new <6:10 6:20>]
+FILE: exception non-indexed
+REFERENCE_INCLUDE exception -> type_traits [exception <7:10 7:22>]
+FILE: type_traits non-indexed
+REFERENCE_INCLUDE type_traits -> xstddef [type_traits <6:10 6:18>]
+REFERENCE_INCLUDE exception -> malloc.h [exception <40:10 40:19>]
+FILE: malloc.h non-indexed
+REFERENCE_INCLUDE malloc.h -> corecrt.h [malloc.h <11:10 11:20>]
+REFERENCE_INCLUDE malloc.h -> corecrt_malloc.h [malloc.h <12:10 12:27>]
+REFERENCE_INCLUDE exception -> vcruntime_exception.h [exception <41:10 41:32>]
+FILE: vcruntime_exception.h non-indexed
+REFERENCE_INCLUDE vcruntime_exception.h -> eh.h [vcruntime_exception.h <10:10 10:15>]
+FILE: eh.h non-indexed
+REFERENCE_INCLUDE eh.h -> corecrt_terminate.h [eh.h <11:10 11:30>]
+FILE: corecrt_terminate.h non-indexed
+REFERENCE_INCLUDE corecrt_terminate.h -> corecrt.h [corecrt_terminate.h <10:10 10:20>]
+REFERENCE_INCLUDE new -> vcruntime_new.h [new <7:10 7:26>]
+FILE: vcruntime_new.h non-indexed
+REFERENCE_INCLUDE vcruntime_new.h -> vcruntime.h [vcruntime_new.h <10:10 10:22>]
+REFERENCE_INCLUDE xmemory0 -> xutility [xmemory0 <10:10 10:19>]
+FILE: xutility non-indexed
+REFERENCE_INCLUDE xutility -> climits [xutility <6:10 6:18>]
+REFERENCE_INCLUDE xutility -> cstdlib [xutility <7:10 7:18>]
+REFERENCE_INCLUDE xutility -> utility [xutility <8:10 8:18>]
+FILE: utility non-indexed
+REFERENCE_INCLUDE utility -> xstddef [utility <6:10 6:18>]
+REFERENCE_INCLUDE utility -> iosfwd [utility <7:10 7:17>]
+FILE: iosfwd non-indexed
+REFERENCE_INCLUDE iosfwd -> cstdio [iosfwd <6:10 6:17>]
+FILE: cstdio non-indexed
+REFERENCE_INCLUDE cstdio -> yvals.h [cstdio <5:10 5:18>]
+REFERENCE_INCLUDE cstdio -> stdio.h [cstdio <13:11 13:19>]
+FILE: stdio.h non-indexed
+REFERENCE_INCLUDE stdio.h -> corecrt.h [stdio.h <11:10 11:20>]
+REFERENCE_INCLUDE stdio.h -> corecrt_wstdio.h [stdio.h <12:10 12:27>]
+REFERENCE_INCLUDE iosfwd -> cstring [iosfwd <7:10 7:18>]
+FILE: cstring non-indexed
+REFERENCE_INCLUDE cstring -> yvals.h [cstring <5:10 5:18>]
+REFERENCE_INCLUDE cstring -> string.h [cstring <13:11 13:20>]
+FILE: string.h non-indexed
+REFERENCE_INCLUDE string.h -> corecrt.h [string.h <11:10 11:20>]
+REFERENCE_INCLUDE string.h -> corecrt_memory.h [string.h <12:10 12:27>]
+FILE: corecrt_memory.h non-indexed
+REFERENCE_INCLUDE corecrt_memory.h -> corecrt.h [corecrt_memory.h <13:10 13:20>]
+REFERENCE_INCLUDE corecrt_memory.h -> corecrt_memcpy_s.h [corecrt_memory.h <14:10 14:29>]
+REFERENCE_INCLUDE corecrt_memory.h -> vcruntime_string.h [corecrt_memory.h <15:10 15:29>]
+REFERENCE_INCLUDE string.h -> corecrt_wstring.h [string.h <13:10 13:28>]
+REFERENCE_INCLUDE string.h -> vcruntime_string.h [string.h <14:10 14:29>]
+REFERENCE_INCLUDE iosfwd -> cwchar [iosfwd <8:10 8:17>]
+REFERENCE_INCLUDE iosfwd -> xstddef [iosfwd <9:10 9:18>]
+REFERENCE_INCLUDE iosfwd -> crtdbg.h [iosfwd <11:10 11:19>]
+FILE: crtdbg.h non-indexed
+REFERENCE_INCLUDE crtdbg.h -> corecrt.h [crtdbg.h <11:10 11:20>]
+REFERENCE_INCLUDE crtdbg.h -> vcruntime_new_debug.h [crtdbg.h <12:10 12:32>]
+FILE: vcruntime_new_debug.h non-indexed
+REFERENCE_INCLUDE vcruntime_new_debug.h -> vcruntime_new.h [vcruntime_new_debug.h <10:10 10:26>]
+REFERENCE_INCLUDE utility -> type_traits [utility <8:10 8:22>]
+REFERENCE_INCLUDE xmemory0 -> xatomic0.h [xmemory0 <1148:12 1148:23>]
+FILE: xatomic0.h non-indexed
+REFERENCE_INCLUDE xatomic0.h -> yvals.h [xatomic0.h <6:10 6:18>]
+REFERENCE_INCLUDE xmemory0 -> intrin.h [xmemory0 <1151:13 1151:22>]
+FILE: intrin.h non-indexed
+REFERENCE_INCLUDE intrin.h -> vcruntime.h [intrin.h <18:10 18:22>]
+REFERENCE_INCLUDE intrin.h -> setjmp.h [intrin.h <19:10 19:19>]
+FILE: setjmp.h non-indexed
+REFERENCE_INCLUDE setjmp.h -> vcruntime.h [setjmp.h <11:10 11:22>]
+REFERENCE_INCLUDE intrin.h -> immintrin.h [intrin.h <24:18 24:30>]
+FILE: immintrin.h non-indexed
+REFERENCE_INCLUDE immintrin.h -> wmmintrin.h [immintrin.h <28:10 28:22>]
+FILE: wmmintrin.h non-indexed
+REFERENCE_INCLUDE wmmintrin.h -> nmmintrin.h [wmmintrin.h <31:10 31:22>]
+FILE: nmmintrin.h non-indexed
+REFERENCE_INCLUDE nmmintrin.h -> smmintrin.h [nmmintrin.h <32:10 32:22>]
+FILE: smmintrin.h non-indexed
+REFERENCE_INCLUDE smmintrin.h -> tmmintrin.h [smmintrin.h <32:10 32:22>]
+FILE: tmmintrin.h non-indexed
+REFERENCE_INCLUDE tmmintrin.h -> pmmintrin.h [tmmintrin.h <25:10 25:22>]
+FILE: pmmintrin.h non-indexed
+REFERENCE_INCLUDE pmmintrin.h -> emmintrin.h [pmmintrin.h <34:10 34:22>]
+FILE: emmintrin.h non-indexed
+REFERENCE_INCLUDE emmintrin.h -> xmmintrin.h [emmintrin.h <42:10 42:22>]
+FILE: xmmintrin.h non-indexed
+REFERENCE_INCLUDE xmmintrin.h -> mmintrin.h [xmmintrin.h <46:10 46:21>]
+FILE: mmintrin.h non-indexed
+REFERENCE_INCLUDE intrin.h -> ammintrin.h [intrin.h <25:18 25:30>]
+FILE: ammintrin.h non-indexed
+REFERENCE_INCLUDE memory -> exception [memory <12:11 12:21>]
+REFERENCE_INCLUDE memory -> typeinfo [memory <13:11 13:20>]
+FILE: typeinfo non-indexed
+REFERENCE_INCLUDE typeinfo -> xstddef [typeinfo <20:10 20:18>]
+REFERENCE_INCLUDE typeinfo -> exception [typeinfo <21:10 21:20>]
+REFERENCE_INCLUDE typeinfo -> vcruntime_typeinfo.h [typeinfo <29:10 29:31>]
+FILE: vcruntime_typeinfo.h non-indexed
+REFERENCE_INCLUDE vcruntime_typeinfo.h -> vcruntime.h [vcruntime_typeinfo.h <10:10 10:22>]
+REFERENCE_INCLUDE vcruntime_typeinfo.h -> vcruntime_exception.h [vcruntime_typeinfo.h <11:10 11:32>]
+REFERENCE_INCLUDE memory -> type_traits [memory <14:11 14:23>]
 COMMENT: comment [b2Body.h <35:1 35:19>]
 COMMENT: comment [b2Body.h <36:1 36:60>]
 COMMENT: comment [b2Body.h <37:1 37:73>]

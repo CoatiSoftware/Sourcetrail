@@ -89,6 +89,7 @@ void QtCodeFileSingle::addCodeSnippet(const CodeSnippetParams& params)
 	file.filePath = params.locationFile->getFilePath();
 	file.modificationTime = params.modificationTime;
 	file.isComplete = params.locationFile->isComplete();
+	file.isIndexed = params.locationFile->isIndexed();
 
 	if (params.reduced)
 	{
@@ -327,12 +328,14 @@ void QtCodeFileSingle::setFileData(const FileData& file)
 		{
 			titleButton->setProject(file.title);
 			m_titleBar->setIsComplete(true);
+			m_titleBar->setIsIndexed(true);
 		}
 		else
 		{
 			titleButton->setFilePath(file.filePath);
 			titleButton->setModificationTime(file.modificationTime);
 			m_titleBar->setIsComplete(file.isComplete);
+			m_titleBar->setIsIndexed(file.isIndexed);
 		}
 
 		updateRefCount(m_area->getActiveLocationCount());

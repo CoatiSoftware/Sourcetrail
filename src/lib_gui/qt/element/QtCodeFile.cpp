@@ -301,6 +301,11 @@ void QtCodeFile::setIsComplete(bool isComplete)
 	m_titleBar->setIsComplete(isComplete);
 }
 
+void QtCodeFile::setIsIndexed(bool isIndexed)
+{
+	m_titleBar->setIsIndexed(isIndexed);
+}
+
 void QtCodeFile::setMinimized()
 {
 	for (QtCodeSnippet* snippet : m_snippets)

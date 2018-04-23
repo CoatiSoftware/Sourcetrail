@@ -51,6 +51,7 @@ public:
 
 	void setWholeFile(bool isWholeFile, int refCount);
 	void setIsComplete(bool isComplete);
+	void setIsIndexed(bool isIndexed);
 
 	void setMinimized();
 	void setSnippets();

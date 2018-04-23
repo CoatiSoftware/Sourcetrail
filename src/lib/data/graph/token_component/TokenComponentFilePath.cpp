@@ -1,7 +1,8 @@
 #include "data/graph/token_component/TokenComponentFilePath.h"
 
-TokenComponentFilePath::TokenComponentFilePath(const FilePath& path)
+TokenComponentFilePath::TokenComponentFilePath(const FilePath& path, bool complete)
 	: m_path(path)
+	, m_complete(complete)
 {
 }
 
@@ -17,4 +18,9 @@ std::shared_ptr<TokenComponent> TokenComponentFilePath::copy() const
 const FilePath& TokenComponentFilePath::getFilePath() const
 {
 	return m_path;
+}
+
+bool TokenComponentFilePath::isComplete() const
+{
+	return m_complete;
 }

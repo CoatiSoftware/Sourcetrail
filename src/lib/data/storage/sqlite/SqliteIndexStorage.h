@@ -87,7 +87,8 @@ public:
 	std::shared_ptr<TextAccess> getFileContentByPath(const std::wstring& filePath) const;
 	std::shared_ptr<TextAccess> getFileContentById(Id fileId) const;
 
-	void setFileComplete(bool complete, Id fileId);
+	void setFileIndexed(Id fileId, bool indexed);
+	void setFileComplete(Id fileId, bool complete);
 	void setNodeType(int type, Id nodeId);
 
 	std::shared_ptr<SourceLocationFile> getSourceLocationsForFile(

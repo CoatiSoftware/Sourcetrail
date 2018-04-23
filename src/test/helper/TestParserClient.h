@@ -113,7 +113,7 @@ public:
 		localSymbols.push_back(addLocationSuffix(name, location));
 	}
 
-	virtual void recordFile(const FileInfo& fileInfo) override
+	virtual void recordFile(const FileInfo& fileInfo, bool indexed) override
 	{
 		files.insert(fileInfo.path.wstr());
 	}
@@ -163,9 +163,9 @@ public:
 
 private:
 	virtual void doRecordError(
-		const ParseLocation& location, 
+		const ParseLocation& location,
 		const std::wstring& message,
-		bool fatal, 
+		bool fatal,
 		bool indexed) override
 	{
 		errors.push_back(addLocationSuffix(message, location));

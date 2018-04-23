@@ -9,13 +9,11 @@
 #include "data/graph/token_component/TokenComponentConst.h"
 #include "data/graph/token_component/TokenComponentStatic.h"
 
-Node::Node(Id id, NodeType type, const NameHierarchy& nameHierarchy, bool defined)
+Node::Node(Id id, NodeType type, const NameHierarchy& nameHierarchy, DefinitionKind definitionKind)
 	: Token(id)
 	, m_type(type)
 	, m_nameHierarchy(nameHierarchy)
-	, m_defined(defined)
-	, m_implicit(false)
-	, m_explicit(false)
+	, m_definitionKind(definitionKind)
 	, m_childCount(0)
 {
 }
@@ -24,9 +22,7 @@ Node::Node(const Node& other)
 	: Token(other)
 	, m_type(other.m_type)
 	, m_nameHierarchy(other.m_nameHierarchy)
-	, m_defined(other.m_defined)
-	, m_implicit(other.m_implicit)
-	, m_explicit(other.m_explicit)
+	, m_definitionKind(other.m_definitionKind)
 	, m_childCount(other.m_childCount)
 {
 }
@@ -75,32 +71,17 @@ NameHierarchy Node::getNameHierarchy() const
 
 bool Node::isDefined() const
 {
-	return m_defined;
-}
-
-void Node::setDefined(bool defined)
-{
-	m_defined = defined;
+	return m_definitionKind != DEFINITION_NONE;
 }
 
 bool Node::isImplicit() const
 {
-	return m_implicit;
-}
-
-void Node::setImplicit(bool implicit)
-{
-	m_implicit = implicit;
+	return m_definitionKind == DEFINITION_IMPLICIT;
 }
 
 bool Node::isExplicit() const
 {
-	return m_explicit;
-}
-
-void Node::setExplicit(bool bExplicit)
-{
-	m_explicit = bExplicit;
+	return m_definitionKind == DEFINITION_EXPLICIT;
 }
 
 size_t Node::getChildCount() const

@@ -63,8 +63,9 @@ public:
 
 	void clearFileElements(const std::vector<FilePath>& filePaths, std::function<void(int)> updateStatusCallback);
 
-	std::vector<FileInfo> getFileInfoForAllFiles() const;
+	std::vector<FileInfo> getFileInfoForAllIndexedFiles() const;
 	std::set<FilePath> getIncompleteFiles() const;
+	bool getFilePathIndexed(const FilePath& path) const;
 
 	void buildCaches();
 
@@ -153,8 +154,8 @@ private:
 	std::vector<Id> getFileNodeIds(const std::vector<FilePath>& filePaths) const;
 	std::set<Id> getFileNodeIds(const std::set<FilePath>& filePaths) const;
 	FilePath getFileNodePath(Id fileId) const;
-	bool getFilePathComplete(const FilePath& filePath) const;
 	bool getFileNodeComplete(Id fileId) const;
+	bool getFileNodeIndexed(Id fileId) const;
 
 	std::unordered_map<Id, std::set<Id>> getFileIdToIncludingFileIdMap() const;
 	std::unordered_map<Id, std::set<Id>> getFileIdToIncludedFileIdMap() const;
@@ -201,6 +202,7 @@ private:
 	std::map<FilePath, Id> m_fileNodeIds;
 	std::map<Id, FilePath> m_fileNodePaths;
 	std::map<Id, bool> m_fileNodeComplete;
+	std::map<Id, bool> m_fileNodeIndexed;
 
 	std::map<Id, DefinitionKind> m_symbolDefinitionKinds;
 	std::map<Id, Id> m_memberEdgeIdOrderMap;

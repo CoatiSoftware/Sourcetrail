@@ -256,7 +256,7 @@ std::shared_ptr<SourceLocationFile> StorageAccessProxy::getSourceLocationsForFil
 		return m_subject->getSourceLocationsForFile(filePath);
 	}
 
-	return std::make_shared<SourceLocationFile>(FilePath(), false, false);
+	return std::make_shared<SourceLocationFile>(FilePath(), false, false, false);
 }
 
 std::shared_ptr<SourceLocationFile> StorageAccessProxy::getSourceLocationsForLinesInFile(
@@ -268,7 +268,7 @@ std::shared_ptr<SourceLocationFile> StorageAccessProxy::getSourceLocationsForLin
 		return m_subject->getSourceLocationsForLinesInFile(filePath, startLine, endLine);
 	}
 
-	return std::make_shared<SourceLocationFile>(FilePath(), false, false);
+	return std::make_shared<SourceLocationFile>(FilePath(), false, false, false);
 }
 
 std::shared_ptr<SourceLocationFile> StorageAccessProxy::getSourceLocationsOfTypeInFile(
@@ -280,7 +280,7 @@ std::shared_ptr<SourceLocationFile> StorageAccessProxy::getSourceLocationsOfType
 		return m_subject->getSourceLocationsOfTypeInFile(filePath, type);
 	}
 
-	return std::make_shared<SourceLocationFile>(FilePath(), false, false);
+	return std::make_shared<SourceLocationFile>(FilePath(), false, false, false);
 }
 
 std::shared_ptr<SourceLocationFile> StorageAccessProxy::getCommentLocationsInFile(const FilePath& filePath) const
@@ -290,7 +290,7 @@ std::shared_ptr<SourceLocationFile> StorageAccessProxy::getCommentLocationsInFil
 		return m_subject->getCommentLocationsInFile(filePath);
 	}
 
-	return std::make_shared<SourceLocationFile>(FilePath(), false, false);
+	return std::make_shared<SourceLocationFile>(FilePath(), false, false, false);
 }
 
 std::shared_ptr<TextAccess> StorageAccessProxy::getFileContent(const FilePath& filePath) const

@@ -10,6 +10,24 @@ FILE: b2Settings.h
 COMMENT: comment [b2Settings.h <1:1 17:3>]
 REFERENCE_MACRO_USAGE b2Settings.h -> B2_SETTINGS_H [b2Settings.h <19:9 19:21>]
 SYMBOL_MACRO B2_SETTINGS_H [b2Settings.h <20:9 <20:9 20:21> 20:8>]
+REFERENCE_INCLUDE b2Settings.h -> stddef.h [b2Settings.h <22:10 22:19>]
+FILE: stddef.h non-indexed
+REFERENCE_INCLUDE stddef.h -> corecrt.h [stddef.h <11:10 11:20>]
+FILE: corecrt.h non-indexed
+REFERENCE_INCLUDE corecrt.h -> vcruntime.h [corecrt.h <10:10 10:22>]
+FILE: vcruntime.h non-indexed
+REFERENCE_INCLUDE vcruntime.h -> sal.h [vcruntime.h <45:10 45:16>]
+FILE: sal.h non-indexed
+REFERENCE_INCLUDE sal.h -> concurrencysal.h [sal.h <2990:10 2990:27>]
+FILE: concurrencysal.h non-indexed
+REFERENCE_INCLUDE vcruntime.h -> vadefs.h [vcruntime.h <46:10 46:19>]
+FILE: vadefs.h non-indexed
+REFERENCE_INCLUDE b2Settings.h -> assert.h [b2Settings.h <23:10 23:19>]
+FILE: assert.h non-indexed
+REFERENCE_INCLUDE assert.h -> corecrt.h [assert.h <12:10 12:20>]
+REFERENCE_INCLUDE b2Settings.h -> float.h [b2Settings.h <24:10 24:18>]
+FILE: float.h non-indexed
+REFERENCE_INCLUDE float.h -> corecrt.h [float.h <12:10 12:20>]
 REFERENCE_MACRO_USAGE b2Settings.h -> NDEBUG [b2Settings.h <26:14 26:19>]
 SYMBOL_MACRO b2DEBUG [b2Settings.h <27:10 <27:10 27:16> 27:9>]
 SYMBOL_MACRO B2_NOT_USED [b2Settings.h <30:9 <30:9 30:19> 30:33>]
@@ -94,6 +112,31 @@ COMMENT: comment [b2BlockAllocator.h <33:1 33:54>]
 COMMENT: comment [b2BlockAllocator.h <34:1 34:72>]
 COMMENT: comment [b2BlockAllocator.h <41:2 41:88>]
 COMMENT: comment [b2BlockAllocator.h <44:2 44:83>]
+REFERENCE_INCLUDE b2BlockAllocator.cpp -> limits.h [b2BlockAllocator.cpp <20:10 20:19>]
+FILE: limits.h non-indexed
+REFERENCE_INCLUDE limits.h -> vcruntime.h [limits.h <11:10 11:22>]
+REFERENCE_INCLUDE b2BlockAllocator.cpp -> string.h [b2BlockAllocator.cpp <21:10 21:19>]
+FILE: string.h non-indexed
+REFERENCE_INCLUDE string.h -> corecrt.h [string.h <11:10 11:20>]
+REFERENCE_INCLUDE string.h -> corecrt_memory.h [string.h <12:10 12:27>]
+FILE: corecrt_memory.h non-indexed
+REFERENCE_INCLUDE corecrt_memory.h -> corecrt.h [corecrt_memory.h <13:10 13:20>]
+REFERENCE_INCLUDE corecrt_memory.h -> corecrt_memcpy_s.h [corecrt_memory.h <14:10 14:29>]
+FILE: corecrt_memcpy_s.h non-indexed
+REFERENCE_INCLUDE corecrt_memcpy_s.h -> corecrt.h [corecrt_memcpy_s.h <10:10 10:20>]
+REFERENCE_INCLUDE corecrt_memcpy_s.h -> errno.h [corecrt_memcpy_s.h <11:10 11:18>]
+FILE: errno.h non-indexed
+REFERENCE_INCLUDE errno.h -> corecrt.h [errno.h <11:10 11:20>]
+REFERENCE_INCLUDE corecrt_memcpy_s.h -> vcruntime_string.h [corecrt_memcpy_s.h <12:10 12:29>]
+FILE: vcruntime_string.h non-indexed
+REFERENCE_INCLUDE vcruntime_string.h -> vcruntime.h [vcruntime_string.h <10:10 10:22>]
+REFERENCE_INCLUDE corecrt_memory.h -> vcruntime_string.h [corecrt_memory.h <15:10 15:29>]
+REFERENCE_INCLUDE string.h -> corecrt_wstring.h [string.h <13:10 13:28>]
+FILE: corecrt_wstring.h non-indexed
+REFERENCE_INCLUDE corecrt_wstring.h -> corecrt.h [corecrt_wstring.h <11:10 11:20>]
+REFERENCE_INCLUDE corecrt_wstring.h -> vcruntime_string.h [corecrt_wstring.h <12:10 12:29>]
+REFERENCE_INCLUDE string.h -> vcruntime_string.h [string.h <14:10 14:29>]
+REFERENCE_INCLUDE b2BlockAllocator.cpp -> stddef.h [b2BlockAllocator.cpp <22:10 22:19>]
 COMMENT: comment [b2BlockAllocator.cpp <26:7 26:11>]
 COMMENT: comment [b2BlockAllocator.cpp <27:7 27:11>]
 COMMENT: comment [b2BlockAllocator.cpp <28:7 28:11>]

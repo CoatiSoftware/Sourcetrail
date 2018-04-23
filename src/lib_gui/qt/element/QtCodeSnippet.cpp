@@ -20,7 +20,7 @@ QtCodeSnippet* QtCodeSnippet::merged(
 	SourceLocationFile* bFile = b->m_codeArea->getSourceLocationFile().get();
 
 	std::shared_ptr<SourceLocationFile> locationFile =
-		std::make_shared<SourceLocationFile>(aFile->getFilePath(), aFile->isWhole(), aFile->isWhole());
+		std::make_shared<SourceLocationFile>(aFile->getFilePath(), aFile->isWhole(), aFile->isComplete(), aFile->isIndexed());
 
 	aFile->forEachSourceLocation(
 		[&locationFile](SourceLocation* loc)

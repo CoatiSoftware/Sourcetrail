@@ -24,6 +24,7 @@ public:
 	QtCodeFileTitleButton* getTitleButton() const;
 
 	void setIsComplete(bool isComplete);
+	void setIsIndexed(bool isIndexed);
 	void updateRefCount(int refCount, bool hasErrors, size_t fatalErrorCount);
 
 	void setMinimized();

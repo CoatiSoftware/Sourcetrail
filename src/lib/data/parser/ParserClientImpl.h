@@ -40,7 +40,7 @@ public:
 		const NameHierarchy& qualifierName, const ParseLocation& location) override;
 	
 	virtual void recordLocalSymbol(const std::wstring& name, const ParseLocation& location) override;
-	virtual void recordFile(const FileInfo& fileInfo) override;
+	virtual void recordFile(const FileInfo& fileInfo, bool indexed) override;
 	virtual void recordComment(const ParseLocation& location) override;
 
 private:
@@ -53,7 +53,7 @@ private:
 	Id addNodeHierarchy(const NameHierarchy& nameHierarchy, NodeType nodeType = NodeType::NODE_SYMBOL);
 
 	Id addNode(NodeType nodeType, const NameHierarchy& nameHierarchy);
-	void addFile(Id id, const FilePath& filePath, const std::string& modificationTime);
+	void addFile(Id id, const FilePath& filePath, const std::string& modificationTime, bool indexed);
 	void addSymbol(Id id, DefinitionKind definitionKind);
 	Id addEdge(int type, Id sourceId, Id targetId);
 	Id addLocalSymbol(const std::wstring& name);

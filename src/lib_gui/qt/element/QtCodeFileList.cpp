@@ -117,12 +117,13 @@ QtCodeFile* QtCodeFileList::getFile(const FilePath filePath)
 	return file;
 }
 
-void QtCodeFileList::addFile(const FilePath& filePath, bool isWholeFile, int refCount, TimeStamp modificationTime, bool isComplete)
+void QtCodeFileList::addFile(std::shared_ptr<SourceLocationFile> locationFile, int refCount, TimeStamp modificationTime)
 {
-	QtCodeFile* file = getFile(filePath);
-	file->setWholeFile(isWholeFile, refCount);
+	QtCodeFile* file = getFile(locationFile->getFilePath());
+	file->setWholeFile(locationFile->isWhole(), refCount);
 	file->setModificationTime(modificationTime);
-	file->setIsComplete(isComplete);
+	file->setIsComplete(locationFile->isComplete());
+	file->setIsIndexed(locationFile->isIndexed());
 }
 
 QScrollArea* QtCodeFileList::getScrollArea()
@@ -145,6 +146,7 @@ void QtCodeFileList::addCodeSnippet(const CodeSnippetParams& params)
 
 	file->setModificationTime(params.modificationTime);
 	file->setIsComplete(params.locationFile->isComplete());
+	file->setIsIndexed(params.locationFile->isIndexed());
 }
 
 void QtCodeFileList::updateCodeSnippet(const CodeSnippetParams& params)

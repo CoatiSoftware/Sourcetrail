@@ -6,6 +6,7 @@
 #include <map>
 #include <string>
 
+#include "data/DefinitionKind.h"
 #include "data/graph/Edge.h"
 #include "data/graph/Token.h"
 #include "data/name/NameHierarchy.h"
@@ -15,7 +16,7 @@ class Node
 	: public Token
 {
 public:
-	Node(Id id, NodeType type, const NameHierarchy& nameHierarchy, bool defined);
+	Node(Id id, NodeType type, const NameHierarchy& nameHierarchy, DefinitionKind definitionKind);
 	Node(const Node& other);
 	virtual ~Node();
 
@@ -28,13 +29,8 @@ public:
 	NameHierarchy getNameHierarchy() const;
 
 	bool isDefined() const;
-	void setDefined(bool defined);
-
 	bool isImplicit() const;
-	void setImplicit(bool implicit);
-
 	bool isExplicit() const;
-	void setExplicit(bool bExplicit);
 
 	size_t getChildCount() const;
 	void setChildCount(size_t childCount);
@@ -73,9 +69,7 @@ private:
 
 	NodeType m_type;
 	NameHierarchy m_nameHierarchy;
-	bool m_defined;
-	bool m_implicit;
-	bool m_explicit;
+	DefinitionKind m_definitionKind;
 
 	size_t m_childCount;
 };

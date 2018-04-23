@@ -9,7 +9,7 @@
 #include "data/location/SourceLocationCollection.h"
 #include "data/location/SourceLocationFile.h"
 
-const size_t SqliteIndexStorage::s_storageVersion = 15;
+const size_t SqliteIndexStorage::s_storageVersion = 16;
 
 SqliteIndexStorage::SqliteIndexStorage(const FilePath& dbFilePath)
 	: SqliteStorage(dbFilePath.getCanonical())
@@ -68,21 +68,27 @@ void SqliteIndexStorage::addFile(const StorageFile& data)
 		return;
 	}
 
-	std::shared_ptr<TextAccess> content = TextAccess::createFromFile(FilePath(data.filePath));
-	const int lineCount = content->getLineCount();
+	std::shared_ptr<TextAccess> content;
+	int lineCount = 0;
+	if (data.indexed)
+	{
+		content = TextAccess::createFromFile(FilePath(data.filePath));
+		lineCount = content->getLineCount();
+	}
 
 	bool success = false;
 	{
 		m_insertFileStmt.bind(1, int(data.id));
 		m_insertFileStmt.bind(2, utility::encodeToUtf8(data.filePath).c_str());
 		m_insertFileStmt.bind(3, data.modificationTime.c_str());
-		m_insertFileStmt.bind(4, data.complete);
-		m_insertFileStmt.bind(5, lineCount);
+		m_insertFileStmt.bind(4, data.indexed);
+		m_insertFileStmt.bind(5, data.complete);
+		m_insertFileStmt.bind(6, lineCount);
 		success = executeStatement(m_insertFileStmt);
 		m_insertFileStmt.reset();
 	}
 
-	if (success)
+	if (success && content)
 	{
 		m_insertFileContentStmt.bind(1, int(data.id));
 		m_insertFileContentStmt.bind(2, content->getText().c_str());
@@ -632,7 +638,14 @@ std::shared_ptr<TextAccess> SqliteIndexStorage::getFileContentByPath(const std::
 	return TextAccess::createFromFile(FilePath(filePath));
 }
 
-void SqliteIndexStorage::setFileComplete(bool complete, Id fileId)
+void SqliteIndexStorage::setFileIndexed(Id fileId, bool indexed)
+{
+	executeStatement(
+		"UPDATE file SET indexed = " + std::to_string(indexed) + " WHERE id == " + std::to_string(fileId) + ";"
+	);
+}
+
+void SqliteIndexStorage::setFileComplete(Id fileId, bool complete)
 {
 	executeStatement(
 		"UPDATE file SET complete = " + std::to_string(complete) + " WHERE id == " + std::to_string(fileId) + ";"
@@ -649,7 +662,7 @@ void SqliteIndexStorage::setNodeType(int type, Id nodeId)
 std::shared_ptr<SourceLocationFile> SqliteIndexStorage::getSourceLocationsForFile(
 	const FilePath& filePath, const std::string& query) const
 {
-	std::shared_ptr<SourceLocationFile> ret = std::make_shared<SourceLocationFile>(filePath, true, false);
+	std::shared_ptr<SourceLocationFile> ret = std::make_shared<SourceLocationFile>(filePath, true, false, false);
 
 	const StorageFile file = getFileByPath(filePath.wstr());
 	if (file.id == 0) // early out
@@ -658,6 +671,7 @@ std::shared_ptr<SourceLocationFile> SqliteIndexStorage::getSourceLocationsForFil
 	}
 
 	ret->setIsComplete(file.complete);
+	ret->setIsIndexed(file.indexed);
 
 	std::vector<Id> sourceLocationIds;
 	std::unordered_map<Id, StorageSourceLocation> sourceLocationIdToData;
@@ -802,12 +816,12 @@ int SqliteIndexStorage::getEdgeCount() const
 
 int SqliteIndexStorage::getFileCount() const
 {
-	return executeStatementScalar("SELECT COUNT(*) FROM file;", 0);
+	return executeStatementScalar("SELECT COUNT(*) FROM file WHERE indexed = 1;", 0);
 }
 
 int SqliteIndexStorage::getCompletedFileCount() const
 {
-	return executeStatementScalar("SELECT COUNT(*) FROM file WHERE complete = 1;", 0);
+	return executeStatementScalar("SELECT COUNT(*) FROM file WHERE indexed = 1 AND complete = 1;", 0);
 }
 
 int SqliteIndexStorage::getFileLineSum() const
@@ -954,6 +968,7 @@ void SqliteIndexStorage::setupTables()
 				"id INTEGER NOT NULL, "
 				"path TEXT, "
 				"modification_time TEXT, "
+				"indexed INTEGER, "
 				"complete INTEGER, "
 				"line_count INTEGER, "
 				"PRIMARY KEY(id), "
@@ -1057,7 +1072,7 @@ void SqliteIndexStorage::setupPrecompiledStatements()
 			"INSERT INTO symbol(id, definition_kind) VALUES(?, ?);"
 		);
 		m_insertFileStmt = m_database.compileStatement(
-			"INSERT INTO file(id, path, modification_time, complete, line_count) VALUES(?, ?, ?, ?, ?);"
+			"INSERT INTO file(id, path, modification_time, indexed, complete, line_count) VALUES(?, ?, ?, ?, ?, ?);"
 		);
 		m_insertFileContentStmt = m_database.compileStatement(
 			"INSERT INTO filecontent(id, content) VALUES(?, ?);"
@@ -1198,7 +1213,7 @@ template <>
 std::vector<StorageFile> SqliteIndexStorage::doGetAll<StorageFile>(const std::string& query) const
 {
 	CppSQLite3Query q = executeQuery(
-		"SELECT id, path, modification_time, complete FROM file " + query + ";"
+		"SELECT id, path, modification_time, indexed, complete FROM file " + query + ";"
 	);
 
 	std::vector<StorageFile> files;
@@ -1207,11 +1222,12 @@ std::vector<StorageFile> SqliteIndexStorage::doGetAll<StorageFile>(const std::st
 		const Id id							= q.getIntField(0, 0);
 		const std::string filePath			= q.getStringField(1, "");
 		const std::string modificationTime	= q.getStringField(2, "");
-		const bool complete					= q.getIntField(3, 0);
+		const bool indexed					= q.getIntField(3, 0);
+		const bool complete					= q.getIntField(4, 0);
 
 		if (id != 0)
 		{
-			files.push_back(StorageFile(id, utility::decodeFromUtf8(filePath), modificationTime, complete));
+			files.push_back(StorageFile(id, utility::decodeFromUtf8(filePath), modificationTime, indexed, complete));
 		}
 		q.nextRow();
 	}

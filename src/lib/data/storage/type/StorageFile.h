@@ -11,19 +11,22 @@ struct StorageFile
 		: id(0)
 		, filePath(L"")
 		, modificationTime("")
+		, indexed(true)
 		, complete(true)
 	{}
 
-	StorageFile(Id id, const std::wstring& filePath, const std::string& modificationTime, bool complete)
+	StorageFile(Id id, const std::wstring& filePath, const std::string& modificationTime, bool indexed, bool complete)
 		: id(id)
 		, filePath(filePath)
 		, modificationTime(modificationTime)
+		, indexed(indexed)
 		, complete(complete)
 	{}
 
 	Id id;
 	std::wstring filePath;
 	std::string modificationTime;
+	bool indexed;
 	bool complete;
 };
 

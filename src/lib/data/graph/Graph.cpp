@@ -41,7 +41,7 @@ void Graph::forEachToken(std::function<void(Token*)> func) const
 	forEachEdge(func);
 }
 
-Node* Graph::createNode(Id id, NodeType type, const NameHierarchy& nameHierarchy, bool defined)
+Node* Graph::createNode(Id id, NodeType type, const NameHierarchy& nameHierarchy, DefinitionKind definitionKind)
 {
 	Node* n = getNodeById(id);
 	if (n)
@@ -49,7 +49,7 @@ Node* Graph::createNode(Id id, NodeType type, const NameHierarchy& nameHierarchy
 		return n;
 	}
 
-	std::shared_ptr<Node> node = std::make_shared<Node>(id, type, nameHierarchy, defined);
+	std::shared_ptr<Node> node = std::make_shared<Node>(id, type, nameHierarchy, definitionKind);
 	m_nodes.emplace(node->getId(), node);
 	return node.get();
 }
@@ -122,23 +122,35 @@ void Graph::removeNode(Node* node)
 		return;
 	}
 
+	std::vector<Node*> childNodesToRemove;
 	node->forEachEdgeOfType(
 		Edge::EDGE_MEMBER,
-		[this, node](Edge* e)
+		[node, &childNodesToRemove](Edge* e)
 		{
 			if (node == e->getFrom())
 			{
-				this->removeNode(e->getTo());
+				childNodesToRemove.push_back(e->getTo());
 			}
 		}
 	);
 
+	for (Node* childNode : childNodesToRemove)
+	{
+		removeNode(childNode);
+	}
+
+	std::vector<Edge*> edgesToRemove;
 	node->forEachEdge(
-		[this](Edge* e)
+		[&edgesToRemove](Edge* e)
 		{
-			this->removeEdgeInternal(e);
+			edgesToRemove.push_back(e);
 		}
 	);
+
+	for (Edge* edge : edgesToRemove)
+	{
+		removeEdgeInternal(edge);
+	}
 
 	if (node->getEdgeCount())
 	{
@@ -349,11 +361,10 @@ void Graph::printBasic(std::wostream& ostream) const
 
 void Graph::removeEdgeInternal(Edge* edge)
 {
-	std::map<Id, std::shared_ptr<Edge> >::const_iterator it = m_edges.find(edge->getId());
+	std::map<Id, std::shared_ptr<Edge>>::const_iterator it = m_edges.find(edge->getId());
 	if (it != m_edges.end() && it->second.get() == edge)
 	{
 		m_edges.erase(it);
-		return;
 	}
 }
 

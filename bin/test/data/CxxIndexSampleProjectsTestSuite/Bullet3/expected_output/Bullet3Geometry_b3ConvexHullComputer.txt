@@ -1,5 +1,35 @@
 FILE: b3ConvexHullComputer.cpp
 COMMENT: comment [b3ConvexHullComputer.cpp <1:1 13:3>]
+REFERENCE_INCLUDE b3ConvexHullComputer.cpp -> string.h [b3ConvexHullComputer.cpp <15:10 15:19>]
+FILE: string.h non-indexed
+REFERENCE_INCLUDE string.h -> corecrt.h [string.h <11:10 11:20>]
+FILE: corecrt.h non-indexed
+REFERENCE_INCLUDE corecrt.h -> vcruntime.h [corecrt.h <10:10 10:22>]
+FILE: vcruntime.h non-indexed
+REFERENCE_INCLUDE vcruntime.h -> sal.h [vcruntime.h <45:10 45:16>]
+FILE: sal.h non-indexed
+REFERENCE_INCLUDE sal.h -> concurrencysal.h [sal.h <2990:10 2990:27>]
+FILE: concurrencysal.h non-indexed
+REFERENCE_INCLUDE vcruntime.h -> vadefs.h [vcruntime.h <46:10 46:19>]
+FILE: vadefs.h non-indexed
+REFERENCE_INCLUDE string.h -> corecrt_memory.h [string.h <12:10 12:27>]
+FILE: corecrt_memory.h non-indexed
+REFERENCE_INCLUDE corecrt_memory.h -> corecrt.h [corecrt_memory.h <13:10 13:20>]
+REFERENCE_INCLUDE corecrt_memory.h -> corecrt_memcpy_s.h [corecrt_memory.h <14:10 14:29>]
+FILE: corecrt_memcpy_s.h non-indexed
+REFERENCE_INCLUDE corecrt_memcpy_s.h -> corecrt.h [corecrt_memcpy_s.h <10:10 10:20>]
+REFERENCE_INCLUDE corecrt_memcpy_s.h -> errno.h [corecrt_memcpy_s.h <11:10 11:18>]
+FILE: errno.h non-indexed
+REFERENCE_INCLUDE errno.h -> corecrt.h [errno.h <11:10 11:20>]
+REFERENCE_INCLUDE corecrt_memcpy_s.h -> vcruntime_string.h [corecrt_memcpy_s.h <12:10 12:29>]
+FILE: vcruntime_string.h non-indexed
+REFERENCE_INCLUDE vcruntime_string.h -> vcruntime.h [vcruntime_string.h <10:10 10:22>]
+REFERENCE_INCLUDE corecrt_memory.h -> vcruntime_string.h [corecrt_memory.h <15:10 15:29>]
+REFERENCE_INCLUDE string.h -> corecrt_wstring.h [string.h <13:10 13:28>]
+FILE: corecrt_wstring.h non-indexed
+REFERENCE_INCLUDE corecrt_wstring.h -> corecrt.h [corecrt_wstring.h <11:10 11:20>]
+REFERENCE_INCLUDE corecrt_wstring.h -> vcruntime_string.h [corecrt_wstring.h <12:10 12:29>]
+REFERENCE_INCLUDE string.h -> vcruntime_string.h [string.h <14:10 14:29>]
 REFERENCE_INCLUDE b3ConvexHullComputer.cpp -> b3ConvexHullComputer.h [b3ConvexHullComputer.cpp <17:10 17:33>]
 FILE: b3ConvexHullComputer.h
 COMMENT: comment [b3ConvexHullComputer.h <1:1 13:3>]
@@ -17,7 +47,31 @@ COMMENT: comment [b3Scalar.h <1:1 13:3>]
 REFERENCE_MACRO_USAGE b3Scalar.h -> B3_SCALAR_H [b3Scalar.h <17:9 17:19>]
 SYMBOL_MACRO B3_SCALAR_H [b3Scalar.h <18:9 <18:9 18:19> 18:8>]
 REFERENCE_MACRO_USAGE b3Scalar.h -> B3_MANAGED_CODE [b3Scalar.h <20:8 20:22>]
+REFERENCE_INCLUDE b3Scalar.h -> math.h [b3Scalar.h <27:10 27:17>]
+FILE: math.h non-indexed
+REFERENCE_INCLUDE math.h -> corecrt.h [math.h <11:10 11:20>]
 COMMENT: comment [b3Scalar.h <28:20 28:41>]
+REFERENCE_INCLUDE b3Scalar.h -> stdlib.h [b3Scalar.h <28:10 28:19>]
+FILE: stdlib.h non-indexed
+REFERENCE_INCLUDE stdlib.h -> corecrt.h [stdlib.h <11:10 11:20>]
+REFERENCE_INCLUDE stdlib.h -> corecrt_malloc.h [stdlib.h <12:10 12:27>]
+FILE: corecrt_malloc.h non-indexed
+REFERENCE_INCLUDE corecrt_malloc.h -> corecrt.h [corecrt_malloc.h <11:10 11:20>]
+REFERENCE_INCLUDE stdlib.h -> corecrt_search.h [stdlib.h <13:10 13:27>]
+FILE: corecrt_search.h non-indexed
+REFERENCE_INCLUDE corecrt_search.h -> corecrt.h [corecrt_search.h <13:10 13:20>]
+REFERENCE_INCLUDE corecrt_search.h -> stddef.h [corecrt_search.h <14:10 14:19>]
+FILE: stddef.h non-indexed
+REFERENCE_INCLUDE stddef.h -> corecrt.h [stddef.h <11:10 11:20>]
+REFERENCE_INCLUDE stdlib.h -> corecrt_wstdlib.h [stdlib.h <14:10 14:28>]
+FILE: corecrt_wstdlib.h non-indexed
+REFERENCE_INCLUDE corecrt_wstdlib.h -> corecrt.h [corecrt_wstdlib.h <11:10 11:20>]
+REFERENCE_INCLUDE stdlib.h -> limits.h [stdlib.h <15:10 15:19>]
+FILE: limits.h non-indexed
+REFERENCE_INCLUDE limits.h -> vcruntime.h [limits.h <11:10 11:22>]
+REFERENCE_INCLUDE b3Scalar.h -> float.h [b3Scalar.h <29:10 29:18>]
+FILE: float.h non-indexed
+REFERENCE_INCLUDE float.h -> corecrt.h [float.h <12:10 12:20>]
 COMMENT: comment [b3Scalar.h <31:1 31:67>]
 SYMBOL_MACRO B3_BULLET_VERSION [b3Scalar.h <32:9 <32:9 32:25> 32:26>]
 REFERENCE_MACRO_USAGE b3Scalar.h -> B3_BULLET_VERSION [b3Scalar.h <36:9 36:25>]
@@ -79,6 +133,16 @@ COMMENT: comment [b3Scalar.h <81:4 81:122>]
 COMMENT: comment [b3Scalar.h <82:4 82:135>]
 COMMENT: comment [b3Scalar.h <83:4 83:31>]
 COMMENT: comment [b3Scalar.h <84:11 84:23>]
+REFERENCE_INCLUDE b3Scalar.h -> emmintrin.h [b3Scalar.h <85:13 85:25>]
+FILE: emmintrin.h non-indexed
+REFERENCE_INCLUDE emmintrin.h -> xmmintrin.h [emmintrin.h <42:10 42:22>]
+FILE: xmmintrin.h non-indexed
+REFERENCE_INCLUDE xmmintrin.h -> mmintrin.h [xmmintrin.h <46:10 46:21>]
+FILE: mmintrin.h non-indexed
+REFERENCE_INCLUDE xmmintrin.h -> malloc.h [xmmintrin.h <79:10 79:19>]
+FILE: malloc.h non-indexed
+REFERENCE_INCLUDE malloc.h -> corecrt.h [malloc.h <11:10 11:20>]
+REFERENCE_INCLUDE malloc.h -> corecrt_malloc.h [malloc.h <12:10 12:27>]
 COMMENT: comment [b3Scalar.h <89:9 89:16>]
 COMMENT: comment [b3Scalar.h <91:10 91:23>]
 REFERENCE_MACRO_USAGE b3Scalar.h -> B3_DEBUG [b3Scalar.h <93:8 93:15>]
@@ -556,6 +620,48 @@ REFERENCE_MACRO_USAGE b3AlignedObjectArray.h -> B3_USE_MEMCPY [b3AlignedObjectAr
 COMMENT: comment [b3AlignedObjectArray.h <36:8 36:23>]
 REFERENCE_MACRO_USAGE b3AlignedObjectArray.h -> B3_USE_PLACEMENT_NEW [b3AlignedObjectArray.h <38:8 38:27>]
 COMMENT: comment [b3AlignedObjectArray.h <39:16 39:35>]
+REFERENCE_INCLUDE b3AlignedObjectArray.h -> new [b3AlignedObjectArray.h <39:10 39:14>]
+FILE: new non-indexed
+REFERENCE_INCLUDE new -> exception [new <6:10 6:20>]
+FILE: exception non-indexed
+REFERENCE_INCLUDE exception -> type_traits [exception <7:10 7:22>]
+FILE: type_traits non-indexed
+REFERENCE_INCLUDE type_traits -> xstddef [type_traits <6:10 6:18>]
+FILE: xstddef non-indexed
+REFERENCE_INCLUDE xstddef -> cstddef [xstddef <6:10 6:18>]
+FILE: cstddef non-indexed
+REFERENCE_INCLUDE cstddef -> yvals.h [cstddef <5:10 5:18>]
+FILE: yvals.h non-indexed
+REFERENCE_INCLUDE yvals.h -> xkeycheck.h [yvals.h <7:10 7:22>]
+FILE: xkeycheck.h non-indexed
+REFERENCE_INCLUDE yvals.h -> crtdefs.h [yvals.h <8:10 8:20>]
+FILE: crtdefs.h non-indexed
+REFERENCE_INCLUDE crtdefs.h -> vcruntime.h [crtdefs.h <9:10 9:22>]
+REFERENCE_INCLUDE crtdefs.h -> corecrt.h [crtdefs.h <10:10 10:20>]
+REFERENCE_INCLUDE yvals.h -> use_ansi.h [yvals.h <412:10 412:21>]
+FILE: use_ansi.h non-indexed
+REFERENCE_INCLUDE cstddef -> stddef.h [cstddef <13:11 13:20>]
+REFERENCE_INCLUDE xstddef -> cstdlib [xstddef <7:10 7:18>]
+FILE: cstdlib non-indexed
+REFERENCE_INCLUDE cstdlib -> yvals.h [cstdlib <5:10 5:18>]
+REFERENCE_INCLUDE cstdlib -> stdlib.h [cstdlib <13:11 13:20>]
+REFERENCE_INCLUDE xstddef -> initializer_list [xstddef <9:10 9:27>]
+FILE: initializer_list non-indexed
+REFERENCE_INCLUDE initializer_list -> cstddef [initializer_list <6:10 6:18>]
+REFERENCE_INCLUDE xstddef -> xtr1common [xstddef <11:10 11:21>]
+FILE: xtr1common non-indexed
+REFERENCE_INCLUDE xtr1common -> cstdlib [xtr1common <6:10 6:18>]
+REFERENCE_INCLUDE exception -> malloc.h [exception <40:10 40:19>]
+REFERENCE_INCLUDE exception -> vcruntime_exception.h [exception <41:10 41:32>]
+FILE: vcruntime_exception.h non-indexed
+REFERENCE_INCLUDE vcruntime_exception.h -> eh.h [vcruntime_exception.h <10:10 10:15>]
+FILE: eh.h non-indexed
+REFERENCE_INCLUDE eh.h -> corecrt_terminate.h [eh.h <11:10 11:30>]
+FILE: corecrt_terminate.h non-indexed
+REFERENCE_INCLUDE corecrt_terminate.h -> corecrt.h [corecrt_terminate.h <10:10 10:20>]
+REFERENCE_INCLUDE new -> vcruntime_new.h [new <7:10 7:26>]
+FILE: vcruntime_new.h non-indexed
+REFERENCE_INCLUDE vcruntime_new.h -> vcruntime.h [vcruntime_new.h <10:10 10:22>]
 COMMENT: comment [b3AlignedObjectArray.h <40:8 40:30>]
 COMMENT: comment [b3AlignedObjectArray.h <43:1 43:102>]
 COMMENT: comment [b3AlignedObjectArray.h <44:1 44:123>]

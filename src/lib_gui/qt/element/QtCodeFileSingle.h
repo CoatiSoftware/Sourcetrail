@@ -62,6 +62,7 @@ private:
 		FilePath filePath;
 		TimeStamp modificationTime;
 		bool isComplete = false;
+		bool isIndexed = false;
 		std::wstring title;
 
 		QtCodeArea* area = nullptr;

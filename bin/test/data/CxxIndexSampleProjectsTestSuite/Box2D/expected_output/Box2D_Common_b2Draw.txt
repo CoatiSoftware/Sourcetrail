@@ -15,6 +15,24 @@ FILE: b2Settings.h
 COMMENT: comment [b2Settings.h <1:1 17:3>]
 REFERENCE_MACRO_USAGE b2Settings.h -> B2_SETTINGS_H [b2Settings.h <19:9 19:21>]
 SYMBOL_MACRO B2_SETTINGS_H [b2Settings.h <20:9 <20:9 20:21> 20:8>]
+REFERENCE_INCLUDE b2Settings.h -> stddef.h [b2Settings.h <22:10 22:19>]
+FILE: stddef.h non-indexed
+REFERENCE_INCLUDE stddef.h -> corecrt.h [stddef.h <11:10 11:20>]
+FILE: corecrt.h non-indexed
+REFERENCE_INCLUDE corecrt.h -> vcruntime.h [corecrt.h <10:10 10:22>]
+FILE: vcruntime.h non-indexed
+REFERENCE_INCLUDE vcruntime.h -> sal.h [vcruntime.h <45:10 45:16>]
+FILE: sal.h non-indexed
+REFERENCE_INCLUDE sal.h -> concurrencysal.h [sal.h <2990:10 2990:27>]
+FILE: concurrencysal.h non-indexed
+REFERENCE_INCLUDE vcruntime.h -> vadefs.h [vcruntime.h <46:10 46:19>]
+FILE: vadefs.h non-indexed
+REFERENCE_INCLUDE b2Settings.h -> assert.h [b2Settings.h <23:10 23:19>]
+FILE: assert.h non-indexed
+REFERENCE_INCLUDE assert.h -> corecrt.h [assert.h <12:10 12:20>]
+REFERENCE_INCLUDE b2Settings.h -> float.h [b2Settings.h <24:10 24:18>]
+FILE: float.h non-indexed
+REFERENCE_INCLUDE float.h -> corecrt.h [float.h <12:10 12:20>]
 REFERENCE_MACRO_USAGE b2Settings.h -> NDEBUG [b2Settings.h <26:14 26:19>]
 SYMBOL_MACRO b2DEBUG [b2Settings.h <27:10 <27:10 27:16> 27:9>]
 SYMBOL_MACRO B2_NOT_USED [b2Settings.h <30:9 <30:9 30:19> 30:33>]
@@ -94,6 +112,9 @@ COMMENT: comment [b2Settings.h <147:16 147:40>]
 COMMENT: comment [b2Settings.h <148:16 148:40>]
 COMMENT: comment [b2Settings.h <149:19 149:33>]
 COMMENT: comment [b2Settings.h <152:1 152:21>]
+REFERENCE_INCLUDE b2Math.h -> math.h [b2Math.h <23:10 23:17>]
+FILE: math.h non-indexed
+REFERENCE_INCLUDE math.h -> corecrt.h [math.h <11:10 11:20>]
 COMMENT: comment [b2Math.h <25:1 25:91>]
 COMMENT: comment [b2Math.h <32:1 32:56>]
 SYMBOL_MACRO b2Sqrt [b2Math.h <49:9 <49:9 49:14> 49:25>]

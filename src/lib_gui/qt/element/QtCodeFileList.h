@@ -29,7 +29,7 @@ public:
 	void clearSnippetTitleAndScrollBar();
 
 	QtCodeFile* getFile(const FilePath filePath);
-	void addFile(const FilePath& filePath, bool isWholeFile, int refCount, TimeStamp modificationTime, bool isComplete);
+	void addFile(std::shared_ptr<SourceLocationFile> locationFile, int refCount, TimeStamp modificationTime);
 
 	// QtCodeNaviatebale implementation
 	virtual QScrollArea* getScrollArea();

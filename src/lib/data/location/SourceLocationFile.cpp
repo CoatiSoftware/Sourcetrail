@@ -1,9 +1,10 @@
 #include "data/location/SourceLocationFile.h"
 
-SourceLocationFile::SourceLocationFile(const FilePath& filePath, bool isWhole, bool isComplete)
+SourceLocationFile::SourceLocationFile(const FilePath& filePath, bool isWhole, bool isComplete, bool isIndexed)
 	: m_filePath(filePath)
 	, m_isWhole(isWhole)
 	, m_isComplete(isComplete)
+	, m_isIndexed(isIndexed)
 {
 }
 
@@ -34,6 +35,16 @@ void SourceLocationFile::setIsComplete(bool isComplete)
 bool SourceLocationFile::isComplete() const
 {
 	return m_isComplete;
+}
+
+void SourceLocationFile::setIsIndexed(bool isIndexed)
+{
+	m_isIndexed = isIndexed;
+}
+
+bool SourceLocationFile::isIndexed() const
+{
+	return m_isIndexed;
 }
 
 const std::multiset<std::shared_ptr<SourceLocation>, SourceLocationFile::LocationComp>& SourceLocationFile::getSourceLocations() const
@@ -167,9 +178,11 @@ void SourceLocationFile::forEachEndSourceLocation(std::function<void(SourceLocat
 	}
 }
 
-std::shared_ptr<SourceLocationFile> SourceLocationFile::getFilteredByLines(size_t firstLineNumber, size_t lastLineNumber) const
+std::shared_ptr<SourceLocationFile> SourceLocationFile::getFilteredByLines(
+	size_t firstLineNumber, size_t lastLineNumber) const
 {
-	std::shared_ptr<SourceLocationFile> ret = std::make_shared<SourceLocationFile>(getFilePath(), false, isComplete());
+	std::shared_ptr<SourceLocationFile> ret =
+		std::make_shared<SourceLocationFile>(getFilePath(), false, isComplete(), isIndexed());
 
 	for (const std::shared_ptr<SourceLocation>& location : m_locations)
 	{
@@ -184,7 +197,8 @@ std::shared_ptr<SourceLocationFile> SourceLocationFile::getFilteredByLines(size_
 
 std::shared_ptr<SourceLocationFile> SourceLocationFile::getFilteredByType(LocationType type) const
 {
-	std::shared_ptr<SourceLocationFile> ret = std::make_shared<SourceLocationFile>(getFilePath(), false, isComplete());
+	std::shared_ptr<SourceLocationFile> ret =
+		std::make_shared<SourceLocationFile>(getFilePath(), false, isComplete(), isIndexed());
 
 	for (const std::shared_ptr<SourceLocation>& location : m_locations)
 	{

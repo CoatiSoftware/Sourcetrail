@@ -24,6 +24,9 @@ public:
 	bool isComplete() const;
 	void setIsComplete(bool isComplete);
 
+	bool isIndexed() const;
+	void setIsIndexed(bool isIndexed);
+
 	void updateTexts();
 	void updateFromOther(const QtCodeFileTitleButton* other);
 
@@ -36,11 +39,13 @@ private slots:
 	void clickedTitle();
 
 private:
+	void updateIcon();
 	void updateHatching();
 
 	FilePath m_filePath;
 	TimeStamp m_modificationTime;
 	bool m_isComplete;
+	bool m_isIndexed;
 };
 
 #endif // QT_CODE_FILE_TITLE_BUTTON_H

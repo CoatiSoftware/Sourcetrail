@@ -83,10 +83,17 @@ void PersistentStorage::addFile(const StorageFile& data)
 	{
 		m_sqliteIndexStorage.addFile(data);
 	}
-
-	if (!storedFile.complete && data.complete)
+	else
 	{
-		m_sqliteIndexStorage.setFileComplete(data.complete, storedFile.id);
+		if (!storedFile.indexed && data.indexed)
+		{
+			m_sqliteIndexStorage.setFileIndexed(storedFile.id, data.indexed);
+		}
+
+		if (!storedFile.complete && data.complete)
+		{
+			m_sqliteIndexStorage.setFileComplete(storedFile.id, data.complete);
+		}
 	}
 }
 
@@ -290,6 +297,7 @@ void PersistentStorage::clearCaches()
 	m_fileNodeIds.clear();
 	m_fileNodePaths.clear();
 	m_fileNodeComplete.clear();
+	m_fileNodeIndexed.clear();
 	m_symbolDefinitionKinds.clear();
 
 	m_hierarchyCache.clear();
@@ -336,13 +344,18 @@ void PersistentStorage::clearFileElements(const std::vector<FilePath>& filePaths
 	}
 }
 
-std::vector<FileInfo> PersistentStorage::getFileInfoForAllFiles() const
+std::vector<FileInfo> PersistentStorage::getFileInfoForAllIndexedFiles() const
 {
 	TRACE();
 
 	std::vector<FileInfo> fileInfos;
 	for (StorageFile file : m_sqliteIndexStorage.getAll<StorageFile>())
 	{
+		if (!file.indexed)
+		{
+			continue;
+		}
+
 		boost::posix_time::ptime modificationTime = boost::posix_time::not_a_date_time;
 		if (file.modificationTime != "not-a-date-time")
 		{
@@ -374,6 +387,17 @@ std::set<FilePath> PersistentStorage::getIncompleteFiles() const
 	}
 
 	return incompleteFiles;
+}
+
+bool PersistentStorage::getFilePathIndexed(const FilePath& path) const
+{
+	Id fileId = getFileNodeId(path);
+	if (fileId)
+	{
+		return getFileNodeIndexed(fileId);
+	}
+
+	return false;
 }
 
 void PersistentStorage::buildCaches()
@@ -863,8 +887,6 @@ std::shared_ptr<Graph> PersistentStorage::getGraphForAll() const
 {
 	TRACE();
 
-	std::shared_ptr<Graph> graph = std::make_shared<Graph>();
-
 	std::vector<Id> tokenIds;
 	for (StorageNode& node: m_sqliteIndexStorage.getAll<StorageNode>())
 	{
@@ -879,11 +901,15 @@ std::shared_ptr<Graph> PersistentStorage::getGraphForAll() const
 		}
 	}
 
-	for (const auto& p : m_fileNodePaths)
+	for (const auto& p : m_fileNodeIndexed)
 	{
-		tokenIds.push_back(p.first);
+		if (p.second)
+		{
+			tokenIds.push_back(p.first);
+		}
 	}
 
+	std::shared_ptr<Graph> graph = std::make_shared<Graph>();
 	addNodesToGraph(tokenIds, graph.get(), false);
 
 	return graph;
@@ -1296,7 +1322,7 @@ std::shared_ptr<SourceLocationCollection> PersistentStorage::getSourceLocationsF
 	std::shared_ptr<SourceLocationCollection> collection = std::make_shared<SourceLocationCollection>();
 	for (const FilePath& path : filePaths)
 	{
-		collection->addSourceLocationFile(std::make_shared<SourceLocationFile>(path, true, false));
+		collection->addSourceLocationFile(std::make_shared<SourceLocationFile>(path, true, false, false));
 	}
 
 	if (nonFileIds.size())
@@ -1421,7 +1447,7 @@ std::shared_ptr<SourceLocationFile> PersistentStorage::getCommentLocationsInFile
 {
 	TRACE();
 
-	const std::shared_ptr<SourceLocationFile> file = std::make_shared<SourceLocationFile>(filePath, false, false);
+	const std::shared_ptr<SourceLocationFile> file = std::make_shared<SourceLocationFile>(filePath, false, false, false);
 
 	const std::vector<StorageCommentLocation> storageLocations = m_sqliteIndexStorage.getCommentLocationsInFile(filePath);
 	for (size_t i = 0; i < storageLocations.size(); i++)
@@ -1836,8 +1862,13 @@ TooltipInfo PersistentStorage::getTooltipInfoForTokenIds(const std::vector<Id>& 
 		}
 	}
 
-	if (type.isFile() && m_fileNodePaths.find(node.id) != m_fileNodePaths.end())
+	if (type.isFile())
 	{
+		if (!getFileNodeIndexed(node.id))
+		{
+			info.title = L"non-indexed " + info.title;
+		}
+
 		if (!getFileNodeComplete(node.id))
 		{
 			info.title = L"incomplete " + info.title;
@@ -1884,7 +1915,7 @@ TooltipSnippet PersistentStorage::getTooltipSnippetForNode(const StorageNode& no
 	TooltipSnippet snippet;
 	snippet.code = nameHierarchy.getQualifiedNameWithSignature();
 	snippet.locationFile = std::make_shared<SourceLocationFile>(
-		FilePath(nameHierarchy.getDelimiter() == NAME_DELIMITER_JAVA ? L"main.java" : L"main.cpp"), true, true);
+		FilePath(nameHierarchy.getDelimiter() == NAME_DELIMITER_JAVA ? L"main.java" : L"main.cpp"), true, true, true);
 
 	if (nameHierarchy.hasSignature())
 	{
@@ -1994,7 +2025,7 @@ TooltipInfo PersistentStorage::getTooltipInfoForSourceLocationIdsAndLocalSymbolI
 			const NameHierarchy nameHierarchy = NameHierarchy::deserialize(node.serializedName);
 			snippet.code = nameHierarchy.getQualifiedName();
 			snippet.locationFile = std::make_shared<SourceLocationFile>(
-				FilePath(nameHierarchy.getDelimiter() == NAME_DELIMITER_JAVA ? L"main.java" : L"main.cpp"), true, true);
+				FilePath(nameHierarchy.getDelimiter() == NAME_DELIMITER_JAVA ? L"main.java" : L"main.cpp"), true, true, true);
 
 			snippet.locationFile->addSourceLocation(
 				LOCATION_TOKEN, 0, std::vector<Id>(1, node.id), 1, 1, 1, snippet.code.size());
@@ -2013,7 +2044,7 @@ TooltipInfo PersistentStorage::getTooltipInfoForSourceLocationIdsAndLocalSymbolI
 		TooltipSnippet snippet;
 
 		snippet.code = L"local symbol";
-		snippet.locationFile = std::make_shared<SourceLocationFile>(FilePath(L"main.cpp"), true, true);
+		snippet.locationFile = std::make_shared<SourceLocationFile>(FilePath(L"main.cpp"), true, true, true);
 		snippet.locationFile->addSourceLocation(
 			LOCATION_LOCAL_SYMBOL, 0, std::vector<Id>(1, id), 1, 1, 1, snippet.code.size());
 
@@ -2081,21 +2112,21 @@ FilePath PersistentStorage::getFileNodePath(Id fileId) const
 	return FilePath();
 }
 
-bool PersistentStorage::getFilePathComplete(const FilePath& filePath) const
+bool PersistentStorage::getFileNodeComplete(Id fileId) const
 {
-	auto it = m_fileNodeIds.find(filePath);
-	if (it != m_fileNodeIds.end())
+	auto it = m_fileNodeComplete.find(fileId);
+	if (it != m_fileNodeComplete.end())
 	{
-		return getFileNodeComplete(it->second);
+		return it->second;
 	}
 
 	return false;
 }
 
-bool PersistentStorage::getFileNodeComplete(Id fileId) const
+bool PersistentStorage::getFileNodeIndexed(Id fileId) const
 {
-	auto it = m_fileNodeComplete.find(fileId);
-	if (it != m_fileNodeComplete.end())
+	auto it = m_fileNodeIndexed.find(fileId);
+	if (it != m_fileNodeIndexed.end())
 	{
 		return it->second;
 	}
@@ -2299,21 +2330,16 @@ void PersistentStorage::addNodesToGraph(const std::vector<Id>& newNodeIds, Graph
 		{
 			const FilePath filePath(NameHierarchy::deserialize(storageNode.serializedName).getRawName());
 
-			bool defined = false;
-			auto it = m_fileNodeComplete.find(storageNode.id);
-			if (it != m_fileNodeComplete.end())
-			{
-				defined = it->second;
-			}
+			bool complete = getFileNodeComplete(storageNode.id);
+			bool indexed = getFileNodeIndexed(storageNode.id);
 
 			Node* node = graph->createNode(
 				storageNode.id,
 				type,
 				NameHierarchy(filePath.fileName(), NAME_DELIMITER_FILE),
-				defined
+				indexed ? DEFINITION_EXPLICIT : DEFINITION_NONE
 			);
-			node->addComponent(std::make_shared<TokenComponentFilePath>(filePath));
-			node->setExplicit(defined);
+			node->addComponent(std::make_shared<TokenComponentFilePath>(filePath, complete));
 		}
 		else
 		{
@@ -2326,21 +2352,7 @@ void PersistentStorage::addNodesToGraph(const std::vector<Id>& newNodeIds, Graph
 				defKind = it->second;
 			}
 
-			Node* node = graph->createNode(
-				storageNode.id,
-				type,
-				nameHierarchy,
-				defKind != DEFINITION_NONE
-			);
-
-			if (defKind == DEFINITION_IMPLICIT)
-			{
-				node->setImplicit(true);
-			}
-			else if (defKind == DEFINITION_EXPLICIT)
-			{
-				node->setExplicit(true);
-			}
+			Node* node = graph->createNode(storageNode.id, type, nameHierarchy, defKind);
 
 			if (addChildCount)
 			{
@@ -2609,7 +2621,9 @@ void PersistentStorage::addCompleteFlagsToSourceLocationCollection(SourceLocatio
 	collection->forEachSourceLocationFile(
 		[this](std::shared_ptr<SourceLocationFile> file)
 		{
-			file->setIsComplete(getFilePathComplete(file->getFilePath()));
+			Id fileId = getFileNodeId(file->getFilePath());
+			file->setIsComplete(getFileNodeComplete(fileId));
+			file->setIsIndexed(getFileNodeIndexed(fileId));
 		}
 	);
 }
@@ -2691,6 +2705,7 @@ void PersistentStorage::buildFilePathMaps()
 		m_fileNodeIds.emplace(path, file.id);
 		m_fileNodePaths.emplace(file.id, path);
 		m_fileNodeComplete.emplace(file.id, file.complete);
+		m_fileNodeIndexed.emplace(file.id, file.indexed);
 
 		if (!m_hasJavaFiles && path.extension() == L".java")
 		{
@@ -2715,6 +2730,12 @@ void PersistentStorage::buildSearchIndex()
 		NodeType type = utility::intToType(node.type);
 		if (type.isFile())
 		{
+			bool indexed = getFileNodeIndexed(node.id);
+			if (!indexed)
+			{
+				continue;
+			}
+
 			auto it = m_fileNodePaths.find(node.id);
 			if (it != m_fileNodePaths.end())
 			{

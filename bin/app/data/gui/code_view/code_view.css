@@ -136,7 +136,7 @@
 	background-color: <color:code/file/title/press>;
 }
 
-#title_button[complete=false] {
+#title_button[nonindexed=true] {
 	border: 1px solid <color:code/file/title/border>;
 }
 

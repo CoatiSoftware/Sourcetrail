@@ -50,7 +50,7 @@ void Storage::inject(Storage* injected)
 			if (it != injectedIdToOwnId.end())
 			{
 				const Id ownId = it->second;
-				addFile(StorageFile(ownId, injectedData.filePath, injectedData.modificationTime, injectedData.complete));
+				addFile(StorageFile(ownId, injectedData.filePath, injectedData.modificationTime, injectedData.indexed, injectedData.complete));
 			}
 		}
 	);

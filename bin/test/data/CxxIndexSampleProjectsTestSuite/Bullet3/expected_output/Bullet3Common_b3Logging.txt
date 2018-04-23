@@ -25,8 +25,685 @@ COMMENT: comment [b3Logging.h <64:1 64:59>]
 COMMENT: comment [b3Logging.h <68:1 68:125>]
 REFERENCE_MACRO_USAGE b3Logging.h -> __cplusplus [b3Logging.h <73:8 73:18>]
 COMMENT: comment [b3Logging.h <77:7 77:21>]
+REFERENCE_INCLUDE b3Logging.cpp -> stdio.h [b3Logging.cpp <18:10 18:18>]
+FILE: stdio.h non-indexed
+REFERENCE_INCLUDE stdio.h -> corecrt.h [stdio.h <11:10 11:20>]
+FILE: corecrt.h non-indexed
+REFERENCE_INCLUDE corecrt.h -> vcruntime.h [corecrt.h <10:10 10:22>]
+FILE: vcruntime.h non-indexed
+REFERENCE_INCLUDE vcruntime.h -> sal.h [vcruntime.h <45:10 45:16>]
+FILE: sal.h non-indexed
+REFERENCE_INCLUDE sal.h -> concurrencysal.h [sal.h <2990:10 2990:27>]
+FILE: concurrencysal.h non-indexed
+REFERENCE_INCLUDE vcruntime.h -> vadefs.h [vcruntime.h <46:10 46:19>]
+FILE: vadefs.h non-indexed
+REFERENCE_INCLUDE stdio.h -> corecrt_wstdio.h [stdio.h <12:10 12:27>]
+FILE: corecrt_wstdio.h non-indexed
+REFERENCE_INCLUDE corecrt_wstdio.h -> corecrt.h [corecrt_wstdio.h <12:10 12:20>]
+REFERENCE_INCLUDE corecrt_wstdio.h -> corecrt_stdio_config.h [corecrt_wstdio.h <13:10 13:33>]
+FILE: corecrt_stdio_config.h non-indexed
+REFERENCE_INCLUDE corecrt_stdio_config.h -> corecrt.h [corecrt_stdio_config.h <10:10 10:20>]
+REFERENCE_INCLUDE b3Logging.cpp -> stdarg.h [b3Logging.cpp <19:10 19:19>]
+FILE: stdarg.h non-indexed
+REFERENCE_INCLUDE stdarg.h -> vcruntime.h [stdarg.h <11:10 11:22>]
 REFERENCE_MACRO_USAGE b3Logging.cpp -> _WIN32 [b3Logging.cpp <21:8 21:13>]
+REFERENCE_INCLUDE b3Logging.cpp -> Windows.h [b3Logging.cpp <22:10 22:20>]
+FILE: Windows.h non-indexed
+REFERENCE_INCLUDE Windows.h -> winapifamily.h [Windows.h <1:10 1:25>]
+FILE: winapifamily.h non-indexed
+REFERENCE_INCLUDE Windows.h -> sdkddkver.h [Windows.h <22:10 22:22>]
+FILE: sdkddkver.h non-indexed
+REFERENCE_INCLUDE Windows.h -> excpt.h [Windows.h <160:10 160:18>]
+FILE: excpt.h non-indexed
+REFERENCE_INCLUDE excpt.h -> vcruntime.h [excpt.h <12:10 12:22>]
+REFERENCE_INCLUDE Windows.h -> stdarg.h [Windows.h <161:10 161:19>]
+REFERENCE_INCLUDE Windows.h -> windef.h [Windows.h <164:10 164:19>]
+FILE: windef.h non-indexed
+REFERENCE_INCLUDE windef.h -> winapifamily.h [windef.h <1:10 1:25>]
+REFERENCE_INCLUDE windef.h -> minwindef.h [windef.h <24:10 24:22>]
+FILE: minwindef.h non-indexed
+REFERENCE_INCLUDE minwindef.h -> specstrings.h [minwindef.h <14:10 14:24>]
+FILE: specstrings.h non-indexed
+REFERENCE_INCLUDE specstrings.h -> sal.h [specstrings.h <56:10 56:16>]
+REFERENCE_INCLUDE specstrings.h -> specstrings_strict.h [specstrings.h <513:10 513:31>]
+FILE: specstrings_strict.h non-indexed
+REFERENCE_INCLUDE specstrings_strict.h -> specstrings_undef.h [specstrings_strict.h <188:10 188:30>]
+FILE: specstrings_undef.h non-indexed
+REFERENCE_INCLUDE specstrings.h -> driverspecs.h [specstrings.h <534:10 534:24>]
+FILE: driverspecs.h non-indexed
+REFERENCE_INCLUDE driverspecs.h -> sdv_driverspecs.h [driverspecs.h <125:10 125:28>]
+FILE: sdv_driverspecs.h non-indexed
+REFERENCE_INCLUDE driverspecs.h -> concurrencysal.h [driverspecs.h <126:10 126:27>]
+REFERENCE_INCLUDE minwindef.h -> winapifamily.h [minwindef.h <16:10 16:25>]
+REFERENCE_INCLUDE minwindef.h -> winnt.h [minwindef.h <182:10 182:18>]
+FILE: winnt.h non-indexed
+REFERENCE_INCLUDE winnt.h -> ctype.h [winnt.h <31:10 31:18>]
+FILE: ctype.h non-indexed
+REFERENCE_INCLUDE ctype.h -> corecrt.h [ctype.h <11:10 11:20>]
+REFERENCE_INCLUDE ctype.h -> corecrt_wctype.h [ctype.h <12:10 12:27>]
+FILE: corecrt_wctype.h non-indexed
+REFERENCE_INCLUDE corecrt_wctype.h -> corecrt.h [corecrt_wctype.h <11:10 11:20>]
+REFERENCE_INCLUDE winnt.h -> winapifamily.h [winnt.h <32:10 32:25>]
+REFERENCE_INCLUDE winnt.h -> specstrings.h [winnt.h <82:10 82:24>]
+REFERENCE_INCLUDE winnt.h -> kernelspecs.h [winnt.h <83:10 83:24>]
+FILE: kernelspecs.h non-indexed
+REFERENCE_INCLUDE kernelspecs.h -> driverspecs.h [kernelspecs.h <36:10 36:24>]
+REFERENCE_INCLUDE winnt.h -> basetsd.h [winnt.h <171:10 171:20>]
+FILE: basetsd.h non-indexed
+REFERENCE_INCLUDE winnt.h -> guiddef.h [winnt.h <1083:10 1083:20>]
+FILE: guiddef.h non-indexed
+REFERENCE_INCLUDE guiddef.h -> string.h [guiddef.h <146:10 146:19>]
+FILE: string.h non-indexed
+REFERENCE_INCLUDE string.h -> corecrt.h [string.h <11:10 11:20>]
+REFERENCE_INCLUDE string.h -> corecrt_memory.h [string.h <12:10 12:27>]
+FILE: corecrt_memory.h non-indexed
+REFERENCE_INCLUDE corecrt_memory.h -> corecrt.h [corecrt_memory.h <13:10 13:20>]
+REFERENCE_INCLUDE corecrt_memory.h -> corecrt_memcpy_s.h [corecrt_memory.h <14:10 14:29>]
+FILE: corecrt_memcpy_s.h non-indexed
+REFERENCE_INCLUDE corecrt_memcpy_s.h -> corecrt.h [corecrt_memcpy_s.h <10:10 10:20>]
+REFERENCE_INCLUDE corecrt_memcpy_s.h -> errno.h [corecrt_memcpy_s.h <11:10 11:18>]
+FILE: errno.h non-indexed
+REFERENCE_INCLUDE errno.h -> corecrt.h [errno.h <11:10 11:20>]
+REFERENCE_INCLUDE corecrt_memcpy_s.h -> vcruntime_string.h [corecrt_memcpy_s.h <12:10 12:29>]
+FILE: vcruntime_string.h non-indexed
+REFERENCE_INCLUDE vcruntime_string.h -> vcruntime.h [vcruntime_string.h <10:10 10:22>]
+REFERENCE_INCLUDE corecrt_memory.h -> vcruntime_string.h [corecrt_memory.h <15:10 15:29>]
+REFERENCE_INCLUDE string.h -> corecrt_wstring.h [string.h <13:10 13:28>]
+FILE: corecrt_wstring.h non-indexed
+REFERENCE_INCLUDE corecrt_wstring.h -> corecrt.h [corecrt_wstring.h <11:10 11:20>]
+REFERENCE_INCLUDE corecrt_wstring.h -> vcruntime_string.h [corecrt_wstring.h <12:10 12:29>]
+REFERENCE_INCLUDE string.h -> vcruntime_string.h [string.h <14:10 14:29>]
+REFERENCE_INCLUDE winnt.h -> excpt.h [winnt.h <1304:10 1304:18>]
+REFERENCE_INCLUDE winnt.h -> sdkddkver.h [winnt.h <1466:10 1466:22>]
+REFERENCE_INCLUDE winnt.h -> pshpack4.h [winnt.h <8835:10 8835:21>]
+FILE: pshpack4.h non-indexed
+REFERENCE_INCLUDE winnt.h -> poppack.h [winnt.h <8935:10 8935:20>]
+FILE: poppack.h non-indexed
+REFERENCE_INCLUDE winnt.h -> pshpack4.h [winnt.h <9168:10 9168:21>]
+REFERENCE_INCLUDE winnt.h -> poppack.h [winnt.h <9177:10 9177:20>]
+REFERENCE_INCLUDE winnt.h -> pshpack4.h [winnt.h <14869:10 14869:21>]
+REFERENCE_INCLUDE winnt.h -> pshpack2.h [winnt.h <14877:10 14877:21>]
+FILE: pshpack2.h non-indexed
+REFERENCE_INCLUDE winnt.h -> poppack.h [winnt.h <14999:10 14999:20>]
+REFERENCE_INCLUDE winnt.h -> pshpack2.h [winnt.h <15405:10 15405:21>]
+REFERENCE_INCLUDE winnt.h -> pshpack2.h [winnt.h <15568:10 15568:21>]
+REFERENCE_INCLUDE winnt.h -> poppack.h [winnt.h <15579:10 15579:20>]
+REFERENCE_INCLUDE winnt.h -> poppack.h [winnt.h <16074:10 16074:20>]
+REFERENCE_INCLUDE winnt.h -> pshpack8.h [winnt.h <16171:10 16171:21>]
+FILE: pshpack8.h non-indexed
+REFERENCE_INCLUDE winnt.h -> poppack.h [winnt.h <16183:10 16183:20>]
+REFERENCE_INCLUDE winnt.h -> poppack.h [winnt.h <16764:10 16764:20>]
+REFERENCE_INCLUDE winnt.h -> apiset.h [winnt.h <16892:10 16892:19>]
+FILE: apiset.h non-indexed
+REFERENCE_INCLUDE winnt.h -> string.h [winnt.h <17464:10 17464:19>]
+REFERENCE_INCLUDE winnt.h -> ktmtypes.h [winnt.h <19112:10 19112:21>]
+FILE: ktmtypes.h non-indexed
+REFERENCE_INCLUDE windef.h -> winnt.h [windef.h <31:10 31:18>]
+REFERENCE_INCLUDE Windows.h -> WinBase.h [Windows.h <165:10 165:20>]
+FILE: WinBase.h non-indexed
+REFERENCE_INCLUDE WinBase.h -> winapifamily.h [WinBase.h <1:10 1:25>]
+REFERENCE_INCLUDE WinBase.h -> apisetcconv.h [WinBase.h <30:10 30:24>]
+FILE: apisetcconv.h non-indexed
+REFERENCE_INCLUDE WinBase.h -> minwinbase.h [WinBase.h <31:10 31:23>]
+FILE: minwinbase.h non-indexed
+REFERENCE_INCLUDE WinBase.h -> processenv.h [WinBase.h <37:10 37:23>]
+FILE: processenv.h non-indexed
+REFERENCE_INCLUDE processenv.h -> apiset.h [processenv.h <19:10 19:19>]
+REFERENCE_INCLUDE processenv.h -> apisetcconv.h [processenv.h <20:10 20:24>]
+REFERENCE_INCLUDE processenv.h -> minwindef.h [processenv.h <23:10 23:22>]
+REFERENCE_INCLUDE WinBase.h -> fileapi.h [WinBase.h <38:10 38:20>]
+FILE: fileapi.h non-indexed
+REFERENCE_INCLUDE fileapi.h -> apiset.h [fileapi.h <21:10 21:19>]
+REFERENCE_INCLUDE fileapi.h -> apisetcconv.h [fileapi.h <22:10 22:24>]
+REFERENCE_INCLUDE fileapi.h -> minwindef.h [fileapi.h <23:10 23:22>]
+REFERENCE_INCLUDE fileapi.h -> minwinbase.h [fileapi.h <24:10 24:23>]
+REFERENCE_INCLUDE WinBase.h -> debugapi.h [WinBase.h <39:10 39:21>]
+FILE: debugapi.h non-indexed
+REFERENCE_INCLUDE debugapi.h -> apiset.h [debugapi.h <19:10 19:19>]
+REFERENCE_INCLUDE debugapi.h -> apisetcconv.h [debugapi.h <20:10 20:24>]
+REFERENCE_INCLUDE debugapi.h -> minwindef.h [debugapi.h <21:10 21:22>]
+REFERENCE_INCLUDE debugapi.h -> minwinbase.h [debugapi.h <22:10 22:23>]
+REFERENCE_INCLUDE WinBase.h -> utilapiset.h [WinBase.h <40:10 40:23>]
+FILE: utilapiset.h non-indexed
+REFERENCE_INCLUDE utilapiset.h -> apiset.h [utilapiset.h <17:10 17:19>]
+REFERENCE_INCLUDE utilapiset.h -> apisetcconv.h [utilapiset.h <18:10 18:24>]
+REFERENCE_INCLUDE utilapiset.h -> minwindef.h [utilapiset.h <19:10 19:22>]
+REFERENCE_INCLUDE WinBase.h -> handleapi.h [WinBase.h <41:10 41:22>]
+FILE: handleapi.h non-indexed
+REFERENCE_INCLUDE handleapi.h -> apiset.h [handleapi.h <17:10 17:19>]
+REFERENCE_INCLUDE handleapi.h -> apisetcconv.h [handleapi.h <18:10 18:24>]
+REFERENCE_INCLUDE handleapi.h -> minwindef.h [handleapi.h <19:10 19:22>]
+REFERENCE_INCLUDE WinBase.h -> errhandlingapi.h [WinBase.h <42:10 42:27>]
+FILE: errhandlingapi.h non-indexed
+REFERENCE_INCLUDE errhandlingapi.h -> apiset.h [errhandlingapi.h <19:10 19:19>]
+REFERENCE_INCLUDE errhandlingapi.h -> apisetcconv.h [errhandlingapi.h <20:10 20:24>]
+REFERENCE_INCLUDE errhandlingapi.h -> minwindef.h [errhandlingapi.h <21:10 21:22>]
+REFERENCE_INCLUDE WinBase.h -> fibersapi.h [WinBase.h <43:10 43:22>]
+FILE: fibersapi.h non-indexed
+REFERENCE_INCLUDE fibersapi.h -> apiset.h [fibersapi.h <19:10 19:19>]
+REFERENCE_INCLUDE fibersapi.h -> apisetcconv.h [fibersapi.h <20:10 20:24>]
+REFERENCE_INCLUDE fibersapi.h -> minwindef.h [fibersapi.h <21:10 21:22>]
+REFERENCE_INCLUDE WinBase.h -> namedpipeapi.h [WinBase.h <44:10 44:25>]
+FILE: namedpipeapi.h non-indexed
+REFERENCE_INCLUDE namedpipeapi.h -> apiset.h [namedpipeapi.h <19:10 19:19>]
+REFERENCE_INCLUDE namedpipeapi.h -> apisetcconv.h [namedpipeapi.h <20:10 20:24>]
+REFERENCE_INCLUDE namedpipeapi.h -> minwindef.h [namedpipeapi.h <21:10 21:22>]
+REFERENCE_INCLUDE namedpipeapi.h -> minwinbase.h [namedpipeapi.h <22:10 22:23>]
+REFERENCE_INCLUDE WinBase.h -> profileapi.h [WinBase.h <45:10 45:23>]
+FILE: profileapi.h non-indexed
+REFERENCE_INCLUDE profileapi.h -> apiset.h [profileapi.h <17:10 17:19>]
+REFERENCE_INCLUDE profileapi.h -> apisetcconv.h [profileapi.h <18:10 18:24>]
+REFERENCE_INCLUDE profileapi.h -> minwindef.h [profileapi.h <19:10 19:22>]
+REFERENCE_INCLUDE WinBase.h -> heapapi.h [WinBase.h <46:10 46:20>]
+FILE: heapapi.h non-indexed
+REFERENCE_INCLUDE heapapi.h -> apiset.h [heapapi.h <17:10 17:19>]
+REFERENCE_INCLUDE heapapi.h -> apisetcconv.h [heapapi.h <18:10 18:24>]
+REFERENCE_INCLUDE heapapi.h -> minwindef.h [heapapi.h <19:10 19:22>]
+REFERENCE_INCLUDE heapapi.h -> minwinbase.h [heapapi.h <20:10 20:23>]
+REFERENCE_INCLUDE WinBase.h -> ioapiset.h [WinBase.h <47:10 47:21>]
+FILE: ioapiset.h non-indexed
+REFERENCE_INCLUDE ioapiset.h -> apiset.h [ioapiset.h <19:10 19:19>]
+REFERENCE_INCLUDE ioapiset.h -> apisetcconv.h [ioapiset.h <20:10 20:24>]
+REFERENCE_INCLUDE ioapiset.h -> minwindef.h [ioapiset.h <21:10 21:22>]
+REFERENCE_INCLUDE ioapiset.h -> minwinbase.h [ioapiset.h <22:10 22:23>]
+REFERENCE_INCLUDE WinBase.h -> synchapi.h [WinBase.h <48:10 48:21>]
+FILE: synchapi.h non-indexed
+REFERENCE_INCLUDE synchapi.h -> apiset.h [synchapi.h <20:10 20:19>]
+REFERENCE_INCLUDE synchapi.h -> apisetcconv.h [synchapi.h <21:10 21:24>]
+REFERENCE_INCLUDE synchapi.h -> minwindef.h [synchapi.h <22:10 22:22>]
+REFERENCE_INCLUDE synchapi.h -> minwinbase.h [synchapi.h <23:10 23:23>]
+REFERENCE_INCLUDE WinBase.h -> interlockedapi.h [WinBase.h <49:10 49:27>]
+FILE: interlockedapi.h non-indexed
+REFERENCE_INCLUDE interlockedapi.h -> apiset.h [interlockedapi.h <19:10 19:19>]
+REFERENCE_INCLUDE interlockedapi.h -> apisetcconv.h [interlockedapi.h <20:10 20:24>]
+REFERENCE_INCLUDE interlockedapi.h -> minwindef.h [interlockedapi.h <21:10 21:22>]
+REFERENCE_INCLUDE WinBase.h -> processthreadsapi.h [WinBase.h <50:10 50:30>]
+FILE: processthreadsapi.h non-indexed
+REFERENCE_INCLUDE processthreadsapi.h -> apiset.h [processthreadsapi.h <20:10 20:19>]
+REFERENCE_INCLUDE processthreadsapi.h -> apisetcconv.h [processthreadsapi.h <21:10 21:24>]
+REFERENCE_INCLUDE processthreadsapi.h -> minwindef.h [processthreadsapi.h <22:10 22:22>]
+REFERENCE_INCLUDE processthreadsapi.h -> minwinbase.h [processthreadsapi.h <23:10 23:23>]
+REFERENCE_INCLUDE WinBase.h -> sysinfoapi.h [WinBase.h <51:10 51:23>]
+FILE: sysinfoapi.h non-indexed
+REFERENCE_INCLUDE sysinfoapi.h -> apiset.h [sysinfoapi.h <21:10 21:19>]
+REFERENCE_INCLUDE sysinfoapi.h -> apisetcconv.h [sysinfoapi.h <22:10 22:24>]
+REFERENCE_INCLUDE sysinfoapi.h -> minwindef.h [sysinfoapi.h <23:10 23:22>]
+REFERENCE_INCLUDE sysinfoapi.h -> minwinbase.h [sysinfoapi.h <24:10 24:23>]
+REFERENCE_INCLUDE WinBase.h -> memoryapi.h [WinBase.h <52:10 52:22>]
+FILE: memoryapi.h non-indexed
+REFERENCE_INCLUDE memoryapi.h -> apiset.h [memoryapi.h <20:10 20:19>]
+REFERENCE_INCLUDE memoryapi.h -> apisetcconv.h [memoryapi.h <21:10 21:24>]
+REFERENCE_INCLUDE memoryapi.h -> minwindef.h [memoryapi.h <22:10 22:22>]
+REFERENCE_INCLUDE memoryapi.h -> minwinbase.h [memoryapi.h <23:10 23:23>]
+REFERENCE_INCLUDE WinBase.h -> threadpoollegacyapiset.h [WinBase.h <53:10 53:35>]
+FILE: threadpoollegacyapiset.h non-indexed
+REFERENCE_INCLUDE threadpoollegacyapiset.h -> apiset.h [threadpoollegacyapiset.h <17:10 17:19>]
+REFERENCE_INCLUDE threadpoollegacyapiset.h -> apisetcconv.h [threadpoollegacyapiset.h <18:10 18:24>]
+REFERENCE_INCLUDE threadpoollegacyapiset.h -> minwindef.h [threadpoollegacyapiset.h <19:10 19:22>]
+REFERENCE_INCLUDE threadpoollegacyapiset.h -> minwinbase.h [threadpoollegacyapiset.h <20:10 20:23>]
+REFERENCE_INCLUDE WinBase.h -> threadpoolapiset.h [WinBase.h <54:10 54:29>]
+FILE: threadpoolapiset.h non-indexed
+REFERENCE_INCLUDE threadpoolapiset.h -> apiset.h [threadpoolapiset.h <18:10 18:19>]
+REFERENCE_INCLUDE threadpoolapiset.h -> apisetcconv.h [threadpoolapiset.h <19:10 19:24>]
+REFERENCE_INCLUDE threadpoolapiset.h -> minwindef.h [threadpoolapiset.h <20:10 20:22>]
+REFERENCE_INCLUDE threadpoolapiset.h -> minwinbase.h [threadpoolapiset.h <21:10 21:23>]
+REFERENCE_INCLUDE WinBase.h -> bemapiset.h [WinBase.h <55:10 55:22>]
+FILE: bemapiset.h non-indexed
+REFERENCE_INCLUDE bemapiset.h -> apiset.h [bemapiset.h <17:10 17:19>]
+REFERENCE_INCLUDE bemapiset.h -> apisetcconv.h [bemapiset.h <18:10 18:24>]
+REFERENCE_INCLUDE bemapiset.h -> minwindef.h [bemapiset.h <19:10 19:22>]
+REFERENCE_INCLUDE bemapiset.h -> minwinbase.h [bemapiset.h <20:10 20:23>]
+REFERENCE_INCLUDE WinBase.h -> jobapi.h [WinBase.h <56:10 56:19>]
+FILE: jobapi.h non-indexed
+REFERENCE_INCLUDE jobapi.h -> apiset.h [jobapi.h <17:10 17:19>]
+REFERENCE_INCLUDE jobapi.h -> apisetcconv.h [jobapi.h <18:10 18:24>]
+REFERENCE_INCLUDE jobapi.h -> minwindef.h [jobapi.h <19:10 19:22>]
+REFERENCE_INCLUDE jobapi.h -> minwinbase.h [jobapi.h <20:10 20:23>]
+REFERENCE_INCLUDE WinBase.h -> wow64apiset.h [WinBase.h <57:10 57:24>]
+FILE: wow64apiset.h non-indexed
+REFERENCE_INCLUDE wow64apiset.h -> apiset.h [wow64apiset.h <17:10 17:19>]
+REFERENCE_INCLUDE wow64apiset.h -> apisetcconv.h [wow64apiset.h <18:10 18:24>]
+REFERENCE_INCLUDE wow64apiset.h -> minwindef.h [wow64apiset.h <19:10 19:22>]
+REFERENCE_INCLUDE wow64apiset.h -> minwinbase.h [wow64apiset.h <20:10 20:23>]
+REFERENCE_INCLUDE WinBase.h -> libloaderapi.h [WinBase.h <58:10 58:25>]
+FILE: libloaderapi.h non-indexed
+REFERENCE_INCLUDE libloaderapi.h -> apiset.h [libloaderapi.h <20:10 20:19>]
+REFERENCE_INCLUDE libloaderapi.h -> apisetcconv.h [libloaderapi.h <21:10 21:24>]
+REFERENCE_INCLUDE libloaderapi.h -> minwindef.h [libloaderapi.h <22:10 22:22>]
+REFERENCE_INCLUDE libloaderapi.h -> minwinbase.h [libloaderapi.h <23:10 23:23>]
+REFERENCE_INCLUDE WinBase.h -> securitybaseapi.h [WinBase.h <59:10 59:28>]
+FILE: securitybaseapi.h non-indexed
+REFERENCE_INCLUDE securitybaseapi.h -> apiset.h [securitybaseapi.h <19:10 19:19>]
+REFERENCE_INCLUDE securitybaseapi.h -> apisetcconv.h [securitybaseapi.h <20:10 20:24>]
+REFERENCE_INCLUDE securitybaseapi.h -> minwindef.h [securitybaseapi.h <21:10 21:22>]
+REFERENCE_INCLUDE securitybaseapi.h -> minwinbase.h [securitybaseapi.h <22:10 22:23>]
+REFERENCE_INCLUDE WinBase.h -> namespaceapi.h [WinBase.h <60:10 60:25>]
+FILE: namespaceapi.h non-indexed
+REFERENCE_INCLUDE namespaceapi.h -> apiset.h [namespaceapi.h <17:10 17:19>]
+REFERENCE_INCLUDE namespaceapi.h -> apisetcconv.h [namespaceapi.h <18:10 18:24>]
+REFERENCE_INCLUDE namespaceapi.h -> minwindef.h [namespaceapi.h <19:10 19:22>]
+REFERENCE_INCLUDE namespaceapi.h -> minwinbase.h [namespaceapi.h <20:10 20:23>]
+REFERENCE_INCLUDE WinBase.h -> systemtopologyapi.h [WinBase.h <61:10 61:30>]
+FILE: systemtopologyapi.h non-indexed
+REFERENCE_INCLUDE systemtopologyapi.h -> apiset.h [systemtopologyapi.h <17:10 17:19>]
+REFERENCE_INCLUDE systemtopologyapi.h -> apisetcconv.h [systemtopologyapi.h <18:10 18:24>]
+REFERENCE_INCLUDE systemtopologyapi.h -> minwindef.h [systemtopologyapi.h <19:10 19:22>]
+REFERENCE_INCLUDE systemtopologyapi.h -> minwinbase.h [systemtopologyapi.h <20:10 20:23>]
+REFERENCE_INCLUDE WinBase.h -> processtopologyapi.h [WinBase.h <62:10 62:31>]
+FILE: processtopologyapi.h non-indexed
+REFERENCE_INCLUDE processtopologyapi.h -> apiset.h [processtopologyapi.h <18:10 18:19>]
+REFERENCE_INCLUDE processtopologyapi.h -> apisetcconv.h [processtopologyapi.h <19:10 19:24>]
+REFERENCE_INCLUDE processtopologyapi.h -> minwindef.h [processtopologyapi.h <20:10 20:22>]
+REFERENCE_INCLUDE processtopologyapi.h -> minwinbase.h [processtopologyapi.h <21:10 21:23>]
+REFERENCE_INCLUDE WinBase.h -> securityappcontainer.h [WinBase.h <63:10 63:33>]
+FILE: securityappcontainer.h non-indexed
+REFERENCE_INCLUDE securityappcontainer.h -> apiset.h [securityappcontainer.h <17:10 17:19>]
+REFERENCE_INCLUDE securityappcontainer.h -> apisetcconv.h [securityappcontainer.h <18:10 18:24>]
+REFERENCE_INCLUDE securityappcontainer.h -> minwindef.h [securityappcontainer.h <21:10 21:22>]
+REFERENCE_INCLUDE securityappcontainer.h -> minwinbase.h [securityappcontainer.h <22:10 22:23>]
+REFERENCE_INCLUDE WinBase.h -> realtimeapiset.h [WinBase.h <64:10 64:27>]
+FILE: realtimeapiset.h non-indexed
+REFERENCE_INCLUDE realtimeapiset.h -> apiset.h [realtimeapiset.h <17:10 17:19>]
+REFERENCE_INCLUDE realtimeapiset.h -> apisetcconv.h [realtimeapiset.h <18:10 18:24>]
+REFERENCE_INCLUDE realtimeapiset.h -> minwindef.h [realtimeapiset.h <19:10 19:22>]
+REFERENCE_INCLUDE WinBase.h -> winerror.h [WinBase.h <7358:10 7358:21>]
+FILE: winerror.h non-indexed
+REFERENCE_INCLUDE winerror.h -> specstrings.h [winerror.h <24:10 24:24>]
+REFERENCE_INCLUDE WinBase.h -> timezoneapi.h [WinBase.h <7359:10 7359:24>]
+FILE: timezoneapi.h non-indexed
+REFERENCE_INCLUDE timezoneapi.h -> apiset.h [timezoneapi.h <18:10 18:19>]
+REFERENCE_INCLUDE timezoneapi.h -> apisetcconv.h [timezoneapi.h <19:10 19:24>]
+REFERENCE_INCLUDE timezoneapi.h -> minwindef.h [timezoneapi.h <20:10 20:22>]
+REFERENCE_INCLUDE timezoneapi.h -> minwinbase.h [timezoneapi.h <21:10 21:23>]
+REFERENCE_INCLUDE Windows.h -> wingdi.h [Windows.h <166:10 166:19>]
+FILE: wingdi.h non-indexed
+REFERENCE_INCLUDE wingdi.h -> winapifamily.h [wingdi.h <1:10 1:25>]
+REFERENCE_INCLUDE wingdi.h -> pshpack1.h [wingdi.h <611:10 611:21>]
+FILE: pshpack1.h non-indexed
+REFERENCE_INCLUDE wingdi.h -> poppack.h [wingdi.h <625:10 625:20>]
+REFERENCE_INCLUDE wingdi.h -> pshpack2.h [wingdi.h <928:10 928:21>]
+REFERENCE_INCLUDE wingdi.h -> poppack.h [wingdi.h <944:10 944:20>]
+REFERENCE_INCLUDE wingdi.h -> pshpack2.h [wingdi.h <1039:10 1039:21>]
+REFERENCE_INCLUDE wingdi.h -> poppack.h [wingdi.h <1060:10 1060:20>]
+REFERENCE_INCLUDE wingdi.h -> pshpack4.h [wingdi.h <1138:10 1138:21>]
+REFERENCE_INCLUDE wingdi.h -> poppack.h [wingdi.h <1204:10 1204:20>]
+REFERENCE_INCLUDE wingdi.h -> pshpack4.h [wingdi.h <1221:10 1221:21>]
+REFERENCE_INCLUDE wingdi.h -> poppack.h [wingdi.h <1295:10 1295:20>]
+REFERENCE_INCLUDE Windows.h -> WinUser.h [Windows.h <167:10 167:20>]
+FILE: WinUser.h non-indexed
+REFERENCE_INCLUDE WinUser.h -> winapifamily.h [WinUser.h <1:10 1:25>]
+REFERENCE_INCLUDE WinUser.h -> stdarg.h [WinUser.h <51:10 51:19>]
+REFERENCE_INCLUDE WinUser.h -> libloaderapi.h [WinUser.h <54:10 54:25>]
+REFERENCE_INCLUDE WinUser.h -> pshpack2.h [WinUser.h <4686:10 4686:21>]
+REFERENCE_INCLUDE WinUser.h -> poppack.h [WinUser.h <4770:10 4770:20>]
+REFERENCE_INCLUDE WinUser.h -> tvout.h [WinUser.h <12344:10 12344:18>]
+FILE: tvout.h non-indexed
+REFERENCE_INCLUDE tvout.h -> winapifamily.h [tvout.h <1:10 1:25>]
+REFERENCE_INCLUDE Windows.h -> WinNls.h [Windows.h <169:10 169:19>]
+FILE: WinNls.h non-indexed
+REFERENCE_INCLUDE WinNls.h -> winapifamily.h [WinNls.h <20:10 20:25>]
+REFERENCE_INCLUDE WinNls.h -> datetimeapi.h [WinNls.h <30:10 30:24>]
+FILE: datetimeapi.h non-indexed
+REFERENCE_INCLUDE datetimeapi.h -> apiset.h [datetimeapi.h <19:10 19:19>]
+REFERENCE_INCLUDE datetimeapi.h -> apisetcconv.h [datetimeapi.h <20:10 20:24>]
+REFERENCE_INCLUDE datetimeapi.h -> minwindef.h [datetimeapi.h <21:10 21:22>]
+REFERENCE_INCLUDE datetimeapi.h -> minwinbase.h [datetimeapi.h <22:10 22:23>]
+REFERENCE_INCLUDE WinNls.h -> libloaderapi.h [WinNls.h <31:10 31:25>]
+REFERENCE_INCLUDE WinNls.h -> stringapiset.h [WinNls.h <1279:10 1279:25>]
+FILE: stringapiset.h non-indexed
+REFERENCE_INCLUDE stringapiset.h -> apiset.h [stringapiset.h <17:10 17:19>]
+REFERENCE_INCLUDE stringapiset.h -> apisetcconv.h [stringapiset.h <18:10 18:24>]
+REFERENCE_INCLUDE stringapiset.h -> minwindef.h [stringapiset.h <19:10 19:22>]
+REFERENCE_INCLUDE stringapiset.h -> WinNls.h [stringapiset.h <20:10 20:19>]
+REFERENCE_INCLUDE Windows.h -> wincon.h [Windows.h <172:10 172:19>]
+FILE: wincon.h non-indexed
+REFERENCE_INCLUDE wincon.h -> winapifamily.h [wincon.h <1:10 1:25>]
+REFERENCE_INCLUDE wincon.h -> wingdi.h [wincon.h <34:10 34:19>]
+REFERENCE_INCLUDE wincon.h -> consoleapi.h [wincon.h <817:10 817:23>]
+FILE: consoleapi.h non-indexed
+REFERENCE_INCLUDE consoleapi.h -> apiset.h [consoleapi.h <17:10 17:19>]
+REFERENCE_INCLUDE consoleapi.h -> apisetcconv.h [consoleapi.h <18:10 18:24>]
+REFERENCE_INCLUDE consoleapi.h -> Windows.h [consoleapi.h <21:10 21:20>]
+REFERENCE_INCLUDE Windows.h -> winver.h [Windows.h <173:10 173:19>]
+FILE: winver.h non-indexed
+REFERENCE_INCLUDE winver.h -> winapifamily.h [winver.h <1:10 1:25>]
+REFERENCE_INCLUDE winver.h -> specstrings.h [winver.h <18:10 18:24>]
+REFERENCE_INCLUDE winver.h -> verrsrc.h [winver.h <19:10 19:20>]
+FILE: verrsrc.h non-indexed
+REFERENCE_INCLUDE verrsrc.h -> winapifamily.h [verrsrc.h <1:10 1:25>]
+REFERENCE_INCLUDE Windows.h -> winreg.h [Windows.h <176:10 176:19>]
+FILE: winreg.h non-indexed
+REFERENCE_INCLUDE winreg.h -> winapifamily.h [winreg.h <20:10 20:25>]
+REFERENCE_INCLUDE winreg.h -> apiset.h [winreg.h <22:10 22:19>]
+REFERENCE_INCLUDE winreg.h -> apisetcconv.h [winreg.h <23:10 23:24>]
+REFERENCE_INCLUDE winreg.h -> minwindef.h [winreg.h <24:10 24:22>]
+REFERENCE_INCLUDE winreg.h -> minwinbase.h [winreg.h <25:10 25:23>]
+REFERENCE_INCLUDE winreg.h -> reason.h [winreg.h <1316:10 1316:19>]
+FILE: reason.h non-indexed
+REFERENCE_INCLUDE reason.h -> winapifamily.h [reason.h <1:10 1:25>]
+REFERENCE_INCLUDE Windows.h -> winnetwk.h [Windows.h <179:10 179:21>]
+FILE: winnetwk.h non-indexed
+REFERENCE_INCLUDE winnetwk.h -> winapifamily.h [winnetwk.h <1:10 1:25>]
+REFERENCE_INCLUDE winnetwk.h -> wnnc.h [winnetwk.h <43:10 43:17>]
+FILE: wnnc.h non-indexed
+REFERENCE_INCLUDE wnnc.h -> winapifamily.h [wnnc.h <1:10 1:25>]
+REFERENCE_INCLUDE Windows.h -> cderr.h [Windows.h <183:10 183:18>]
+FILE: cderr.h non-indexed
+REFERENCE_INCLUDE Windows.h -> dde.h [Windows.h <184:10 184:16>]
+FILE: dde.h non-indexed
+REFERENCE_INCLUDE dde.h -> winapifamily.h [dde.h <19:10 19:25>]
+REFERENCE_INCLUDE Windows.h -> ddeml.h [Windows.h <185:10 185:18>]
+FILE: ddeml.h non-indexed
+REFERENCE_INCLUDE ddeml.h -> winapifamily.h [ddeml.h <1:10 1:25>]
+REFERENCE_INCLUDE Windows.h -> dlgs.h [Windows.h <186:10 186:17>]
+FILE: dlgs.h non-indexed
+REFERENCE_INCLUDE dlgs.h -> winapifamily.h [dlgs.h <1:10 1:25>]
+REFERENCE_INCLUDE Windows.h -> lzexpand.h [Windows.h <188:10 188:21>]
+FILE: lzexpand.h non-indexed
+REFERENCE_INCLUDE lzexpand.h -> winapifamily.h [lzexpand.h <23:10 23:25>]
+REFERENCE_INCLUDE Windows.h -> mmsystem.h [Windows.h <189:10 189:21>]
+FILE: mmsystem.h non-indexed
+REFERENCE_INCLUDE mmsystem.h -> winapifamily.h [mmsystem.h <1:10 1:25>]
+REFERENCE_INCLUDE mmsystem.h -> mmsyscom.h [mmsystem.h <34:10 34:21>]
+FILE: mmsyscom.h non-indexed
+REFERENCE_INCLUDE mmsyscom.h -> winapifamily.h [mmsyscom.h <1:10 1:25>]
+REFERENCE_INCLUDE mmsyscom.h -> pshpack1.h [mmsyscom.h <21:10 21:21>]
+REFERENCE_INCLUDE mmsyscom.h -> poppack.h [mmsyscom.h <312:10 312:20>]
+REFERENCE_INCLUDE mmsystem.h -> pshpack1.h [mmsystem.h <37:10 37:21>]
+REFERENCE_INCLUDE mmsystem.h -> mciapi.h [mmsystem.h <61:10 61:19>]
+FILE: mciapi.h non-indexed
+REFERENCE_INCLUDE mciapi.h -> apiset.h [mciapi.h <17:10 17:19>]
+REFERENCE_INCLUDE mciapi.h -> apisetcconv.h [mciapi.h <18:10 18:24>]
+REFERENCE_INCLUDE mciapi.h -> mmsyscom.h [mciapi.h <21:10 21:21>]
+REFERENCE_INCLUDE mmsystem.h -> mmiscapi.h [mmsystem.h <66:10 66:21>]
+FILE: mmiscapi.h non-indexed
+REFERENCE_INCLUDE mmiscapi.h -> apiset.h [mmiscapi.h <18:10 18:19>]
+REFERENCE_INCLUDE mmiscapi.h -> apisetcconv.h [mmiscapi.h <19:10 19:24>]
+REFERENCE_INCLUDE mmiscapi.h -> mmsyscom.h [mmiscapi.h <22:10 22:21>]
+REFERENCE_INCLUDE mmsystem.h -> mmiscapi2.h [mmsystem.h <67:10 67:22>]
+FILE: mmiscapi2.h non-indexed
+REFERENCE_INCLUDE mmiscapi2.h -> apiset.h [mmiscapi2.h <17:10 17:19>]
+REFERENCE_INCLUDE mmiscapi2.h -> apisetcconv.h [mmiscapi2.h <18:10 18:24>]
+REFERENCE_INCLUDE mmiscapi2.h -> mmsyscom.h [mmiscapi2.h <21:10 21:21>]
+REFERENCE_INCLUDE mmsystem.h -> playsoundapi.h [mmsystem.h <71:10 71:25>]
+FILE: playsoundapi.h non-indexed
+REFERENCE_INCLUDE playsoundapi.h -> apiset.h [playsoundapi.h <17:10 17:19>]
+REFERENCE_INCLUDE playsoundapi.h -> apisetcconv.h [playsoundapi.h <18:10 18:24>]
+REFERENCE_INCLUDE playsoundapi.h -> mmsyscom.h [playsoundapi.h <21:10 21:21>]
+REFERENCE_INCLUDE mmsystem.h -> mmeapi.h [mmsystem.h <73:10 73:19>]
+FILE: mmeapi.h non-indexed
+REFERENCE_INCLUDE mmeapi.h -> apiset.h [mmeapi.h <17:10 17:19>]
+REFERENCE_INCLUDE mmeapi.h -> apisetcconv.h [mmeapi.h <18:10 18:24>]
+REFERENCE_INCLUDE mmeapi.h -> mmsyscom.h [mmeapi.h <21:10 21:21>]
+REFERENCE_INCLUDE mmsystem.h -> timeapi.h [mmsystem.h <82:10 82:20>]
+FILE: timeapi.h non-indexed
+REFERENCE_INCLUDE timeapi.h -> apiset.h [timeapi.h <17:10 17:19>]
+REFERENCE_INCLUDE timeapi.h -> apisetcconv.h [timeapi.h <18:10 18:24>]
+REFERENCE_INCLUDE timeapi.h -> mmsyscom.h [timeapi.h <21:10 21:21>]
+REFERENCE_INCLUDE mmsystem.h -> joystickapi.h [mmsystem.h <92:10 92:24>]
+FILE: joystickapi.h non-indexed
+REFERENCE_INCLUDE joystickapi.h -> apiset.h [joystickapi.h <17:10 17:19>]
+REFERENCE_INCLUDE joystickapi.h -> apisetcconv.h [joystickapi.h <18:10 18:24>]
+REFERENCE_INCLUDE joystickapi.h -> mmsyscom.h [joystickapi.h <21:10 21:21>]
+REFERENCE_INCLUDE mmsystem.h -> poppack.h [mmsystem.h <143:10 143:20>]
+REFERENCE_INCLUDE Windows.h -> nb30.h [Windows.h <190:10 190:17>]
+FILE: nb30.h non-indexed
+REFERENCE_INCLUDE nb30.h -> winapifamily.h [nb30.h <23:10 23:25>]
+REFERENCE_INCLUDE Windows.h -> rpc.h [Windows.h <191:10 191:16>]
+FILE: rpc.h non-indexed
+REFERENCE_INCLUDE rpc.h -> basetsd.h [rpc.h <50:10 50:20>]
+REFERENCE_INCLUDE rpc.h -> pshpack8.h [rpc.h <67:10 67:21>]
+REFERENCE_INCLUDE rpc.h -> rpcdce.h [rpc.h <158:10 158:19>]
+FILE: rpcdce.h non-indexed
+REFERENCE_INCLUDE rpcdce.h -> winapifamily.h [rpcdce.h <1:10 1:25>]
+REFERENCE_INCLUDE rpcdce.h -> specstrings.h [rpcdce.h <55:10 55:24>]
+REFERENCE_INCLUDE rpcdce.h -> rpcdcep.h [rpcdce.h <3075:10 3075:20>]
+FILE: rpcdcep.h non-indexed
+REFERENCE_INCLUDE rpcdcep.h -> winapifamily.h [rpcdcep.h <1:10 1:25>]
+REFERENCE_INCLUDE rpc.h -> rpcnsi.h [rpc.h <160:10 160:19>]
+FILE: rpcnsi.h non-indexed
+REFERENCE_INCLUDE rpcnsi.h -> winapifamily.h [rpcnsi.h <1:10 1:25>]
+REFERENCE_INCLUDE rpc.h -> rpcnterr.h [rpc.h <162:10 162:21>]
+FILE: rpcnterr.h non-indexed
+REFERENCE_INCLUDE rpcnterr.h -> winapifamily.h [rpcnterr.h <1:10 1:25>]
+REFERENCE_INCLUDE rpc.h -> excpt.h [rpc.h <163:10 163:18>]
+REFERENCE_INCLUDE rpc.h -> winerror.h [rpc.h <165:10 165:21>]
+REFERENCE_INCLUDE rpc.h -> rpcasync.h [rpc.h <214:10 214:21>]
+FILE: rpcasync.h non-indexed
+REFERENCE_INCLUDE rpcasync.h -> winapifamily.h [rpcasync.h <1:10 1:25>]
+REFERENCE_INCLUDE rpcasync.h -> pshpack8.h [rpcasync.h <26:10 26:21>]
+REFERENCE_INCLUDE rpcasync.h -> poppack.h [rpcasync.h <750:10 750:20>]
+REFERENCE_INCLUDE rpc.h -> poppack.h [rpc.h <219:10 219:20>]
+REFERENCE_INCLUDE Windows.h -> shellapi.h [Windows.h <193:10 193:21>]
+FILE: shellapi.h non-indexed
+REFERENCE_INCLUDE shellapi.h -> winapifamily.h [shellapi.h <1:10 1:25>]
+REFERENCE_INCLUDE shellapi.h -> specstrings.h [shellapi.h <14:10 14:24>]
+REFERENCE_INCLUDE Windows.h -> winperf.h [Windows.h <195:10 195:20>]
+FILE: winperf.h non-indexed
+REFERENCE_INCLUDE winperf.h -> winapifamily.h [winperf.h <1:10 1:25>]
+REFERENCE_INCLUDE winperf.h -> pshpack8.h [winperf.h <45:10 45:21>]
+REFERENCE_INCLUDE winperf.h -> poppack.h [winperf.h <683:10 683:20>]
+REFERENCE_INCLUDE Windows.h -> winsock.h [Windows.h <196:10 196:20>]
+FILE: winsock.h non-indexed
+REFERENCE_INCLUDE winsock.h -> winapifamily.h [winsock.h <1:10 1:25>]
+REFERENCE_INCLUDE winsock.h -> inaddr.h [winsock.h <272:10 272:19>]
+FILE: inaddr.h non-indexed
+REFERENCE_INCLUDE Windows.h -> wincrypt.h [Windows.h <199:10 199:21>]
+FILE: wincrypt.h non-indexed
+REFERENCE_INCLUDE wincrypt.h -> specstrings.h [wincrypt.h <15:10 15:24>]
+REFERENCE_INCLUDE wincrypt.h -> winapifamily.h [wincrypt.h <33:10 33:25>]
+REFERENCE_INCLUDE wincrypt.h -> bcrypt.h [wincrypt.h <1932:10 1932:19>]
+FILE: bcrypt.h non-indexed
+REFERENCE_INCLUDE bcrypt.h -> winapifamily.h [bcrypt.h <15:10 15:25>]
+REFERENCE_INCLUDE wincrypt.h -> ncrypt.h [wincrypt.h <1940:10 1940:19>]
+FILE: ncrypt.h non-indexed
+REFERENCE_INCLUDE ncrypt.h -> winapifamily.h [ncrypt.h <1:10 1:25>]
+REFERENCE_INCLUDE ncrypt.h -> bcrypt.h [ncrypt.h <30:10 30:19>]
+REFERENCE_INCLUDE wincrypt.h -> dpapi.h [wincrypt.h <21024:10 21024:18>]
+FILE: dpapi.h non-indexed
+REFERENCE_INCLUDE Windows.h -> winefs.h [Windows.h <200:10 200:19>]
+FILE: winefs.h non-indexed
+REFERENCE_INCLUDE winefs.h -> winapifamily.h [winefs.h <1:10 1:25>]
+REFERENCE_INCLUDE Windows.h -> winscard.h [Windows.h <201:10 201:21>]
+FILE: winscard.h non-indexed
+REFERENCE_INCLUDE winscard.h -> wtypes.h [winscard.h <30:10 30:19>]
+FILE: wtypes.h non-indexed
+REFERENCE_INCLUDE wtypes.h -> rpc.h [wtypes.h <22:10 22:16>]
+REFERENCE_INCLUDE wtypes.h -> rpcndr.h [wtypes.h <23:10 23:19>]
+FILE: rpcndr.h non-indexed
+REFERENCE_INCLUDE rpcndr.h -> winapifamily.h [rpcndr.h <37:10 37:25>]
+REFERENCE_INCLUDE rpcndr.h -> pshpack8.h [rpcndr.h <39:10 39:21>]
+REFERENCE_INCLUDE rpcndr.h -> basetsd.h [rpcndr.h <40:10 40:20>]
+REFERENCE_INCLUDE rpcndr.h -> rpcnsip.h [rpcndr.h <42:10 42:20>]
+FILE: rpcnsip.h non-indexed
+REFERENCE_INCLUDE rpcnsip.h -> winapifamily.h [rpcnsip.h <1:10 1:25>]
+REFERENCE_INCLUDE rpcndr.h -> rpcsal.h [rpcndr.h <45:10 45:19>]
+FILE: rpcsal.h non-indexed
+REFERENCE_INCLUDE rpcsal.h -> specstrings.h [rpcsal.h <138:10 138:24>]
+REFERENCE_INCLUDE rpcndr.h -> poppack.h [rpcndr.h <3195:10 3195:20>]
+REFERENCE_INCLUDE wtypes.h -> WTypesbase.h [wtypes.h <40:10 40:23>]
+FILE: WTypesbase.h non-indexed
+REFERENCE_INCLUDE WTypesbase.h -> rpc.h [WTypesbase.h <22:10 22:16>]
+REFERENCE_INCLUDE WTypesbase.h -> rpcndr.h [WTypesbase.h <23:10 23:19>]
+REFERENCE_INCLUDE WTypesbase.h -> basetsd.h [WTypesbase.h <40:10 40:20>]
+REFERENCE_INCLUDE WTypesbase.h -> guiddef.h [WTypesbase.h <41:10 41:20>]
+REFERENCE_INCLUDE winscard.h -> winioctl.h [winscard.h <31:10 31:21>]
+FILE: winioctl.h non-indexed
+REFERENCE_INCLUDE winioctl.h -> pshpack1.h [winioctl.h <2223:10 2223:21>]
+REFERENCE_INCLUDE winioctl.h -> poppack.h [winioctl.h <2506:10 2506:20>]
+REFERENCE_INCLUDE winioctl.h -> winapifamily.h [winioctl.h <2609:10 2609:25>]
+REFERENCE_INCLUDE winioctl.h -> pshpack1.h [winioctl.h <3034:10 3034:21>]
+REFERENCE_INCLUDE winioctl.h -> poppack.h [winioctl.h <3040:10 3040:20>]
+REFERENCE_INCLUDE winioctl.h -> pshpack1.h [winioctl.h <3656:10 3656:21>]
+REFERENCE_INCLUDE winioctl.h -> poppack.h [winioctl.h <3665:10 3665:20>]
+REFERENCE_INCLUDE winioctl.h -> pshpack1.h [winioctl.h <3679:10 3679:21>]
+REFERENCE_INCLUDE winioctl.h -> poppack.h [winioctl.h <3690:10 3690:20>]
+REFERENCE_INCLUDE winioctl.h -> pshpack1.h [winioctl.h <3715:10 3715:21>]
+REFERENCE_INCLUDE winioctl.h -> poppack.h [winioctl.h <3725:10 3725:20>]
+REFERENCE_INCLUDE winioctl.h -> pshpack1.h [winioctl.h <3731:10 3731:21>]
+REFERENCE_INCLUDE winioctl.h -> poppack.h [winioctl.h <3741:10 3741:20>]
+REFERENCE_INCLUDE winioctl.h -> pshpack1.h [winioctl.h <3770:10 3770:21>]
+REFERENCE_INCLUDE winioctl.h -> poppack.h [winioctl.h <3776:10 3776:20>]
+REFERENCE_INCLUDE winscard.h -> winsmcrd.h [winscard.h <32:10 32:21>]
+FILE: winsmcrd.h non-indexed
+REFERENCE_INCLUDE winscard.h -> winapifamily.h [winscard.h <36:10 36:25>]
+REFERENCE_INCLUDE Windows.h -> winspool.h [Windows.h <206:10 206:21>]
+FILE: winspool.h non-indexed
+REFERENCE_INCLUDE winspool.h -> winapifamily.h [winspool.h <20:10 20:25>]
+REFERENCE_INCLUDE winspool.h -> prsht.h [winspool.h <23:10 23:18>]
+FILE: prsht.h non-indexed
+REFERENCE_INCLUDE prsht.h -> winapifamily.h [prsht.h <1:10 1:25>]
+REFERENCE_INCLUDE prsht.h -> pshpack8.h [prsht.h <54:10 54:21>]
+REFERENCE_INCLUDE prsht.h -> poppack.h [prsht.h <904:10 904:20>]
+REFERENCE_INCLUDE Windows.h -> Ole2.h [Windows.h <210:10 210:17>]
+FILE: Ole2.h non-indexed
+REFERENCE_INCLUDE Ole2.h -> winapifamily.h [Ole2.h <1:10 1:25>]
+REFERENCE_INCLUDE Ole2.h -> pshpack8.h [Ole2.h <22:10 22:21>]
+REFERENCE_INCLUDE Ole2.h -> winerror.h [Ole2.h <31:10 31:21>]
+REFERENCE_INCLUDE Ole2.h -> objbase.h [Ole2.h <32:10 32:20>]
+FILE: objbase.h non-indexed
+REFERENCE_INCLUDE objbase.h -> winapifamily.h [objbase.h <1:10 1:25>]
+REFERENCE_INCLUDE objbase.h -> rpc.h [objbase.h <15:10 15:16>]
+REFERENCE_INCLUDE objbase.h -> rpcndr.h [objbase.h <16:10 16:19>]
+REFERENCE_INCLUDE objbase.h -> pshpack8.h [objbase.h <26:10 26:21>]
+REFERENCE_INCLUDE objbase.h -> combaseapi.h [objbase.h <27:10 27:23>]
+FILE: combaseapi.h non-indexed
+REFERENCE_INCLUDE combaseapi.h -> apiset.h [combaseapi.h <14:10 14:19>]
+REFERENCE_INCLUDE combaseapi.h -> apisetcconv.h [combaseapi.h <15:10 15:24>]
+REFERENCE_INCLUDE combaseapi.h -> rpc.h [combaseapi.h <29:10 29:16>]
+REFERENCE_INCLUDE combaseapi.h -> rpcndr.h [combaseapi.h <30:10 30:19>]
+REFERENCE_INCLUDE combaseapi.h -> pshpack8.h [combaseapi.h <61:10 61:21>]
 ERROR: unknown type name 'IUnknown' [combaseapi.h <229:21 229:21>]
+REFERENCE_INCLUDE combaseapi.h -> stdlib.h [combaseapi.h <313:10 313:19>]
+FILE: stdlib.h non-indexed
+REFERENCE_INCLUDE stdlib.h -> corecrt.h [stdlib.h <11:10 11:20>]
+REFERENCE_INCLUDE stdlib.h -> corecrt_malloc.h [stdlib.h <12:10 12:27>]
+FILE: corecrt_malloc.h non-indexed
+REFERENCE_INCLUDE corecrt_malloc.h -> corecrt.h [corecrt_malloc.h <11:10 11:20>]
+REFERENCE_INCLUDE stdlib.h -> corecrt_search.h [stdlib.h <13:10 13:27>]
+FILE: corecrt_search.h non-indexed
+REFERENCE_INCLUDE corecrt_search.h -> corecrt.h [corecrt_search.h <13:10 13:20>]
+REFERENCE_INCLUDE corecrt_search.h -> stddef.h [corecrt_search.h <14:10 14:19>]
+FILE: stddef.h non-indexed
+REFERENCE_INCLUDE stddef.h -> corecrt.h [stddef.h <11:10 11:20>]
+REFERENCE_INCLUDE stdlib.h -> corecrt_wstdlib.h [stdlib.h <14:10 14:28>]
+FILE: corecrt_wstdlib.h non-indexed
+REFERENCE_INCLUDE corecrt_wstdlib.h -> corecrt.h [corecrt_wstdlib.h <11:10 11:20>]
+REFERENCE_INCLUDE stdlib.h -> limits.h [stdlib.h <15:10 15:19>]
+FILE: limits.h non-indexed
+REFERENCE_INCLUDE limits.h -> vcruntime.h [limits.h <11:10 11:22>]
+REFERENCE_INCLUDE combaseapi.h -> WTypesbase.h [combaseapi.h <374:10 374:23>]
+REFERENCE_INCLUDE combaseapi.h -> Unknwnbase.h [combaseapi.h <375:10 375:23>]
+FILE: Unknwnbase.h non-indexed
+REFERENCE_INCLUDE Unknwnbase.h -> rpc.h [Unknwnbase.h <22:10 22:16>]
+REFERENCE_INCLUDE Unknwnbase.h -> rpcndr.h [Unknwnbase.h <23:10 23:19>]
+REFERENCE_INCLUDE Unknwnbase.h -> Windows.h [Unknwnbase.h <30:10 30:20>]
+REFERENCE_INCLUDE Unknwnbase.h -> Ole2.h [Unknwnbase.h <31:10 31:17>]
+REFERENCE_INCLUDE Unknwnbase.h -> WTypesbase.h [Unknwnbase.h <65:10 65:23>]
+REFERENCE_INCLUDE Unknwnbase.h -> winapifamily.h [Unknwnbase.h <75:10 75:25>]
+REFERENCE_INCLUDE combaseapi.h -> ObjIdlbase.h [combaseapi.h <376:10 376:23>]
+FILE: ObjIdlbase.h non-indexed
+REFERENCE_INCLUDE ObjIdlbase.h -> rpc.h [ObjIdlbase.h <22:10 22:16>]
+REFERENCE_INCLUDE ObjIdlbase.h -> rpcndr.h [ObjIdlbase.h <23:10 23:19>]
+REFERENCE_INCLUDE ObjIdlbase.h -> Windows.h [ObjIdlbase.h <30:10 30:20>]
+REFERENCE_INCLUDE ObjIdlbase.h -> Ole2.h [ObjIdlbase.h <31:10 31:17>]
+REFERENCE_INCLUDE ObjIdlbase.h -> Unknwnbase.h [ObjIdlbase.h <443:10 443:23>]
+REFERENCE_INCLUDE ObjIdlbase.h -> winapifamily.h [ObjIdlbase.h <453:10 453:25>]
+REFERENCE_INCLUDE combaseapi.h -> guiddef.h [combaseapi.h <378:10 378:20>]
+REFERENCE_INCLUDE combaseapi.h -> cguid.h [combaseapi.h <382:10 382:18>]
+FILE: cguid.h non-indexed
+REFERENCE_INCLUDE cguid.h -> winapifamily.h [cguid.h <1:10 1:25>]
+REFERENCE_INCLUDE combaseapi.h -> poppack.h [combaseapi.h <1510:10 1510:20>]
+REFERENCE_INCLUDE objbase.h -> ObjIdl.h [objbase.h <107:10 107:19>]
+FILE: ObjIdl.h non-indexed
+REFERENCE_INCLUDE ObjIdl.h -> rpc.h [ObjIdl.h <22:10 22:16>]
+REFERENCE_INCLUDE ObjIdl.h -> rpcndr.h [ObjIdl.h <23:10 23:19>]
+REFERENCE_INCLUDE ObjIdl.h -> Windows.h [ObjIdl.h <30:10 30:20>]
+REFERENCE_INCLUDE ObjIdl.h -> Ole2.h [ObjIdl.h <31:10 31:17>]
+REFERENCE_INCLUDE ObjIdl.h -> Unknwn.h [ObjIdl.h <723:10 723:19>]
+FILE: Unknwn.h non-indexed
+REFERENCE_INCLUDE Unknwn.h -> rpc.h [Unknwn.h <22:10 22:16>]
+REFERENCE_INCLUDE Unknwn.h -> rpcndr.h [Unknwn.h <23:10 23:19>]
+REFERENCE_INCLUDE Unknwn.h -> Windows.h [Unknwn.h <30:10 30:20>]
+REFERENCE_INCLUDE Unknwn.h -> Ole2.h [Unknwn.h <31:10 31:17>]
+REFERENCE_INCLUDE Unknwn.h -> wtypes.h [Unknwn.h <65:10 65:19>]
+REFERENCE_INCLUDE Unknwn.h -> winapifamily.h [Unknwn.h <84:10 84:25>]
+REFERENCE_INCLUDE ObjIdl.h -> winapifamily.h [ObjIdl.h <733:10 733:25>]
+REFERENCE_INCLUDE ObjIdl.h -> winapifamily.h [ObjIdl.h <765:10 765:25>]
+REFERENCE_INCLUDE objbase.h -> urlmon.h [objbase.h <394:10 394:19>]
+FILE: urlmon.h non-indexed
+REFERENCE_INCLUDE urlmon.h -> rpc.h [urlmon.h <22:10 22:16>]
+REFERENCE_INCLUDE urlmon.h -> rpcndr.h [urlmon.h <23:10 23:19>]
+REFERENCE_INCLUDE urlmon.h -> Windows.h [urlmon.h <30:10 30:20>]
+REFERENCE_INCLUDE urlmon.h -> Ole2.h [urlmon.h <31:10 31:17>]
+REFERENCE_INCLUDE urlmon.h -> ObjIdl.h [urlmon.h <422:10 422:19>]
+REFERENCE_INCLUDE urlmon.h -> oleidl.h [urlmon.h <423:10 423:19>]
+FILE: oleidl.h non-indexed
+REFERENCE_INCLUDE oleidl.h -> rpc.h [oleidl.h <22:10 22:16>]
+REFERENCE_INCLUDE oleidl.h -> rpcndr.h [oleidl.h <23:10 23:19>]
+REFERENCE_INCLUDE oleidl.h -> Windows.h [oleidl.h <30:10 30:20>]
+REFERENCE_INCLUDE oleidl.h -> Ole2.h [oleidl.h <31:10 31:17>]
+REFERENCE_INCLUDE oleidl.h -> ObjIdl.h [oleidl.h <205:10 205:19>]
+REFERENCE_INCLUDE oleidl.h -> winapifamily.h [oleidl.h <224:10 224:25>]
+REFERENCE_INCLUDE urlmon.h -> servprov.h [urlmon.h <424:10 424:21>]
+FILE: servprov.h non-indexed
+REFERENCE_INCLUDE servprov.h -> rpc.h [servprov.h <22:10 22:16>]
+REFERENCE_INCLUDE servprov.h -> rpcndr.h [servprov.h <23:10 23:19>]
+REFERENCE_INCLUDE servprov.h -> Windows.h [servprov.h <30:10 30:20>]
+REFERENCE_INCLUDE servprov.h -> Ole2.h [servprov.h <31:10 31:17>]
+REFERENCE_INCLUDE servprov.h -> ObjIdl.h [servprov.h <51:10 51:19>]
+REFERENCE_INCLUDE servprov.h -> winapifamily.h [servprov.h <77:10 77:25>]
+REFERENCE_INCLUDE urlmon.h -> msxml.h [urlmon.h <425:10 425:18>]
+FILE: msxml.h non-indexed
+REFERENCE_INCLUDE msxml.h -> rpc.h [msxml.h <22:10 22:16>]
+REFERENCE_INCLUDE msxml.h -> rpcndr.h [msxml.h <23:10 23:19>]
+REFERENCE_INCLUDE msxml.h -> Unknwn.h [msxml.h <303:10 303:19>]
+REFERENCE_INCLUDE msxml.h -> ObjIdl.h [msxml.h <304:10 304:19>]
+REFERENCE_INCLUDE msxml.h -> OAIdl.h [msxml.h <305:10 305:18>]
+FILE: OAIdl.h non-indexed
+REFERENCE_INCLUDE OAIdl.h -> rpc.h [OAIdl.h <22:10 22:16>]
+REFERENCE_INCLUDE OAIdl.h -> rpcndr.h [OAIdl.h <23:10 23:19>]
+REFERENCE_INCLUDE OAIdl.h -> Windows.h [OAIdl.h <30:10 30:20>]
+REFERENCE_INCLUDE OAIdl.h -> Ole2.h [OAIdl.h <31:10 31:17>]
+REFERENCE_INCLUDE OAIdl.h -> ObjIdl.h [OAIdl.h <184:10 184:19>]
+REFERENCE_INCLUDE OAIdl.h -> winapifamily.h [OAIdl.h <194:10 194:25>]
+REFERENCE_INCLUDE msxml.h -> winapifamily.h [msxml.h <324:10 324:25>]
+REFERENCE_INCLUDE urlmon.h -> winapifamily.h [urlmon.h <451:10 451:25>]
+REFERENCE_INCLUDE objbase.h -> PropIdl.h [objbase.h <395:10 395:20>]
+FILE: PropIdl.h non-indexed
+REFERENCE_INCLUDE PropIdl.h -> rpc.h [PropIdl.h <22:10 22:16>]
+REFERENCE_INCLUDE PropIdl.h -> rpcndr.h [PropIdl.h <23:10 23:19>]
+REFERENCE_INCLUDE PropIdl.h -> Windows.h [PropIdl.h <30:10 30:20>]
+REFERENCE_INCLUDE PropIdl.h -> Ole2.h [PropIdl.h <31:10 31:17>]
+REFERENCE_INCLUDE PropIdl.h -> ObjIdl.h [PropIdl.h <72:10 72:19>]
+REFERENCE_INCLUDE PropIdl.h -> OAIdl.h [PropIdl.h <73:10 73:18>]
+REFERENCE_INCLUDE PropIdl.h -> winapifamily.h [PropIdl.h <83:10 83:25>]
+REFERENCE_INCLUDE objbase.h -> poppack.h [objbase.h <413:10 413:20>]
+REFERENCE_INCLUDE Ole2.h -> OleAuto.h [Ole2.h <33:10 33:20>]
+FILE: OleAuto.h non-indexed
+REFERENCE_INCLUDE OleAuto.h -> winapifamily.h [OleAuto.h <1:10 1:25>]
+REFERENCE_INCLUDE OleAuto.h -> pshpack8.h [OleAuto.h <23:10 23:21>]
+REFERENCE_INCLUDE OleAuto.h -> OAIdl.h [OleAuto.h <59:10 59:18>]
+REFERENCE_INCLUDE OleAuto.h -> poppack.h [OleAuto.h <1418:10 1418:20>]
+REFERENCE_INCLUDE Ole2.h -> oleidl.h [Ole2.h <65:10 65:19>]
+REFERENCE_INCLUDE Ole2.h -> poppack.h [Ole2.h <385:10 385:20>]
+REFERENCE_INCLUDE Windows.h -> commdlg.h [Windows.h <213:10 213:20>]
+FILE: commdlg.h non-indexed
+REFERENCE_INCLUDE commdlg.h -> winapifamily.h [commdlg.h <1:10 1:25>]
+REFERENCE_INCLUDE commdlg.h -> prsht.h [commdlg.h <41:10 41:18>]
+REFERENCE_INCLUDE Windows.h -> stralign.h [Windows.h <217:10 217:21>]
+FILE: stralign.h non-indexed
+REFERENCE_INCLUDE stralign.h -> winapifamily.h [stralign.h <1:10 1:25>]
+REFERENCE_INCLUDE Windows.h -> winsvc.h [Windows.h <230:10 230:19>]
+FILE: winsvc.h non-indexed
+REFERENCE_INCLUDE winsvc.h -> winapifamily.h [winsvc.h <21:10 21:25>]
+REFERENCE_INCLUDE Windows.h -> mcx.h [Windows.h <235:10 235:16>]
+FILE: mcx.h non-indexed
+REFERENCE_INCLUDE Windows.h -> imm.h [Windows.h <239:10 239:16>]
+FILE: imm.h non-indexed
+REFERENCE_INCLUDE imm.h -> winapifamily.h [imm.h <1:10 1:25>]
+REFERENCE_INCLUDE imm.h -> ime_cmodes.h [imm.h <638:10 638:23>]
+FILE: ime_cmodes.h non-indexed
 COMMENT: comment [b3Logging.cpp <23:8 23:16>]
 REFERENCE_MACRO_USAGE b3Logging.cpp -> _WIN32 [b3Logging.cpp <28:8 28:13>]
 COMMENT: comment [b3Logging.cpp <32:5 32:24>]

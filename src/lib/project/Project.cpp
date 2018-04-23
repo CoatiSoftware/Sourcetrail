@@ -352,11 +352,11 @@ void Project::buildIndex(const RefreshInfo& info, DialogView* dialogView)
 	{
 		m_storage->clear();
 	}
-	else if (info.filesToClear.size())
+	else if (info.filesToClear.size() || info.nonIndexedFilesToClear.size())
 	{
 		taskSequential->addTask(std::make_shared<TaskCleanStorage>(
 			m_storage.get(),
-			utility::toVector(info.filesToClear)
+			utility::toVector(utility::concat(info.filesToClear, info.nonIndexedFilesToClear))
 		));
 	}
 
@@ -497,7 +497,7 @@ RefreshInfo Project::getRefreshInfoForUpdatedFiles() const
 	{
 		std::set<FilePath> alreadyIndexedPaths;
 
-		const std::vector<FileInfo> fileInfos = m_storage->getFileInfoForAllFiles();
+		const std::vector<FileInfo> fileInfos = m_storage->getFileInfoForAllIndexedFiles();
 
 		for (const std::shared_ptr<SourceGroup>& sourceGroup : m_sourceGroups)
 		{
@@ -635,12 +635,20 @@ RefreshInfo Project::getRefreshInfoForIncompleteFiles() const
 	if (!incompleteFiles.empty())
 	{
 		utility::append(incompleteFiles, m_storage->getReferencing(incompleteFiles));
-		utility::append(info.filesToClear, incompleteFiles);
 
 		std::set<FilePath> staticSourceFilePaths = getAllSourceFilePaths();
 		for (const FilePath& path: incompleteFiles)
 		{
 			staticSourceFilePaths.erase(path);
+
+			if (m_storage->getFilePathIndexed(path))
+			{
+				info.filesToClear.insert(path);
+			}
+			else
+			{
+				info.nonIndexedFilesToClear.insert(path);
+			}
 		}
 
 		for (const std::shared_ptr<SourceGroup>& sourceGroup: m_sourceGroups)

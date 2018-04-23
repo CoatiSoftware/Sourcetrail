@@ -100,7 +100,7 @@ void JavaParser::buildIndex(
 	{
 		m_currentFilePath = sourceFilePath;
 
-		m_client->recordFile(FileSystem::getFileInfoForPath(sourceFilePath));
+		m_client->recordFile(FileSystem::getFileInfoForPath(sourceFilePath), true);
 
 		// remove tabs because they screw with javaparser's location resolver
 		std::string fileContent = utility::replace(textAccess->getText(), "\t", " ");

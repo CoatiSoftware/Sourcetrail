@@ -5,6 +5,7 @@
 #include "utility/messaging/type/MessageDeactivateEdge.h"
 #include "utility/messaging/type/MessageFocusIn.h"
 #include "utility/messaging/type/MessageFocusOut.h"
+#include "utility/ResourcePaths.h"
 
 #include "data/graph/token_component/TokenComponentFilePath.h"
 
@@ -28,9 +29,10 @@ const Node* QtGraphNodeData::getData() const
 
 FilePath QtGraphNodeData::getFilePath() const
 {
-	if (m_data->getType().isFile())
+	TokenComponentFilePath* component = m_data->getComponent<TokenComponentFilePath>();
+	if (component)
 	{
-		return m_data->getComponent<TokenComponentFilePath>()->getFilePath();
+		return component->getFilePath();
 	}
 
 	return FilePath();
@@ -61,6 +63,13 @@ void QtGraphNodeData::updateStyle()
 {
 	GraphViewStyle::NodeStyle style = GraphViewStyle::getStyleForNodeType(
 		m_data->getType(), m_data->isExplicit(), m_isActive, m_isHovering, m_childVisible, m_hasQualifier);
+
+	TokenComponentFilePath* component = m_data->getComponent<TokenComponentFilePath>();
+	if (component && !component->isComplete())
+	{
+		style.iconPath = ResourcePaths::getGuiPath().concatenate(L"graph_view/images/file_incomplete.png");
+	}
+
 	setStyle(style);
 }
 

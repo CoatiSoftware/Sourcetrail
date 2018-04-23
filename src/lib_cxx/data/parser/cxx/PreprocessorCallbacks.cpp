@@ -31,22 +31,20 @@ void PreprocessorCallbacks::FileChanged(
 {
 	m_currentPath = FilePath();
 
-	FilePath filePath;
-
 	const clang::FileEntry* fileEntry = m_sourceManager.getFileEntryForID(m_sourceManager.getFileID(location));
 	if (fileEntry != nullptr && fileEntry->isValid())
 	{
-		filePath = m_canonicalFilePathCache->getCanonicalFilePath(fileEntry);
+		m_currentPath = m_canonicalFilePathCache->getCanonicalFilePath(fileEntry);
 	}
 
-	if (!filePath.empty() && m_fileRegister->hasFilePath(filePath))
+	if (!m_currentPath.empty())
 	{
-		m_client->recordFile(FileSystem::getFileInfoForPath(filePath)); // todo: fix for tests
+		bool hasFilePath = m_fileRegister->hasFilePath(m_currentPath);
 
-		if (!m_fileRegister->fileIsIndexed(filePath))
+		m_client->recordFile(FileSystem::getFileInfoForPath(m_currentPath), hasFilePath); // todo: fix for tests
+
+		if (hasFilePath && !m_fileRegister->fileIsIndexed(m_currentPath))
 		{
-			m_currentPath = std::move(filePath);
-
 			if (reason == EnterFile)
 			{
 				m_fileRegister->markFileIndexing(m_currentPath);
@@ -62,25 +60,22 @@ void PreprocessorCallbacks::InclusionDirective(
 ){
 	if (!m_currentPath.empty() && fileEntry)
 	{
-		FilePath includedFilePath = m_canonicalFilePathCache->getCanonicalFilePath(fileEntry);
-		if (m_fileRegister->hasFilePath(includedFilePath))
-		{
-			const NameHierarchy referencedNameHierarchy(includedFilePath.wstr(), NAME_DELIMITER_FILE);
-			const NameHierarchy contextNameHierarchy(m_currentPath.wstr(), NAME_DELIMITER_FILE);
+		const FilePath includedFilePath = m_canonicalFilePathCache->getCanonicalFilePath(fileEntry);
+		const NameHierarchy referencedNameHierarchy(includedFilePath.wstr(), NAME_DELIMITER_FILE);
+		const NameHierarchy contextNameHierarchy(m_currentPath.wstr(), NAME_DELIMITER_FILE);
 
-			m_client->recordReference(
-				REFERENCE_INCLUDE,
-				referencedNameHierarchy,
-				contextNameHierarchy,
-				getParseLocation(fileNameRange.getAsRange())
-			);
-		}
+		m_client->recordReference(
+			REFERENCE_INCLUDE,
+			referencedNameHierarchy,
+			contextNameHierarchy,
+			getParseLocation(fileNameRange.getAsRange())
+		);
 	}
 }
 
 void PreprocessorCallbacks::MacroDefined(const clang::Token& macroNameToken, const clang::MacroDirective* macroDirective)
 {
-	if (!m_currentPath.empty())
+	if (!m_currentPath.empty() && m_fileRegister->hasFilePath(m_currentPath) && !m_fileRegister->fileIsIndexed(m_currentPath) /*TODO: remove this last check if indexed isn't important anymore*/)
 	{
 		// ignore builtin macros
 		if (m_sourceManager.getSpellingLoc(macroNameToken.getLocation()).printToString(m_sourceManager)[0] == '<')
@@ -133,7 +128,7 @@ void PreprocessorCallbacks::MacroExpands(
 
 void PreprocessorCallbacks::onMacroUsage(const clang::Token& macroNameToken)
 {
-	if (!m_currentPath.empty() && isLocatedInProjectFile(macroNameToken.getLocation()))
+	if (!m_currentPath.empty() && m_fileRegister->hasFilePath(m_currentPath) && !m_fileRegister->fileIsIndexed(m_currentPath) /*TODO: remove this last check if indexed isn't important anymore*/ && isLocatedInProjectFile(macroNameToken.getLocation()))
 	{
 		const ParseLocation loc = getParseLocation(macroNameToken);
 

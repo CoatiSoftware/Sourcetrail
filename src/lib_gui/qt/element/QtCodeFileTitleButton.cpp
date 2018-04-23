@@ -14,6 +14,7 @@
 QtCodeFileTitleButton::QtCodeFileTitleButton(QWidget* parent)
 	: QtSelfRefreshIconButton("", FilePath(), "code/file/title", parent)
 	, m_isComplete(true)
+	, m_isIndexed(true)
 {
 	setObjectName("title_button");
 	minimumSizeHint(); // force font loading
@@ -39,12 +40,9 @@ void QtCodeFileTitleButton::setFilePath(const FilePath& filePath)
 {
 	setEnabled(true);
 
-	if (m_filePath.empty())
-	{
-		setIconPath(ResourcePaths::getGuiPath().concatenate(L"code_view/images/file.png"));
-	}
-
 	m_filePath = filePath;
+
+	updateIcon();
 }
 
 void QtCodeFileTitleButton::setModificationTime(const TimeStamp modificationTime)
@@ -62,7 +60,7 @@ void QtCodeFileTitleButton::setProject(const std::wstring& name)
 	setText(QString::fromStdWString(name));
 	setToolTip("edit project");
 
-	setIconPath(ResourcePaths::getGuiPath().concatenate(L"code_view/images/edit.png"));
+	updateIcon();
 }
 
 bool QtCodeFileTitleButton::isComplete() const
@@ -80,6 +78,24 @@ void QtCodeFileTitleButton::setIsComplete(bool isComplete)
 	m_isComplete = isComplete;
 	setProperty("complete", isComplete);
 
+	updateIcon();
+}
+
+bool QtCodeFileTitleButton::isIndexed() const
+{
+	return m_isIndexed;
+}
+
+void QtCodeFileTitleButton::setIsIndexed(bool isIndexed)
+{
+	if (m_isIndexed == isIndexed)
+	{
+		return;
+	}
+
+	m_isIndexed = isIndexed;
+	setProperty("nonindexed", !isIndexed);
+
 	updateHatching();
 }
 
@@ -93,16 +109,21 @@ void QtCodeFileTitleButton::updateTexts()
 	std::wstring title = m_filePath.fileName();
 	std::wstring toolTip = L"file: " + m_filePath.wstr();
 
-	if ((!m_filePath.recheckExists()) ||
-		(FileSystem::getLastWriteTime(m_filePath) > m_modificationTime))
+	if (!m_isIndexed)
 	{
-		title += L"*";
-		toolTip = L"out of date " + toolTip;
+		toolTip = L"non-indexed " + toolTip;
 	}
 
 	if (!m_isComplete)
 	{
 		toolTip = L"incomplete " + toolTip;
+	}
+
+	if ((!m_filePath.recheckExists()) ||
+		(FileSystem::getLastWriteTime(m_filePath) > m_modificationTime))
+	{
+		title += L"*";
+		toolTip = L"out-of-date " + toolTip;
 	}
 
 	setText(QString::fromStdWString(title));
@@ -122,6 +143,7 @@ void QtCodeFileTitleButton::updateFromOther(const QtCodeFileTitleButton* other)
 
 	setModificationTime(other->m_modificationTime);
 	setIsComplete(other->m_isComplete);
+	setIsIndexed(other->m_isIndexed);
 	updateTexts();
 }
 
@@ -164,9 +186,25 @@ void QtCodeFileTitleButton::clickedTitle()
 	}
 }
 
+void QtCodeFileTitleButton::updateIcon()
+{
+	if (m_filePath.empty())
+	{
+		setIconPath(ResourcePaths::getGuiPath().concatenate(L"code_view/images/edit.png"));
+	}
+	else if (!m_isComplete)
+	{
+		setIconPath(ResourcePaths::getGuiPath().concatenate(L"graph_view/images/file_incomplete.png"));
+	}
+	else
+	{
+		setIconPath(ResourcePaths::getGuiPath().concatenate(L"code_view/images/file.png"));
+	}
+}
+
 void QtCodeFileTitleButton::updateHatching()
 {
-	if (!m_isComplete)
+	if (!m_isIndexed)
 	{
 		FilePath hatchingFilePath = ResourcePaths::getGuiPath().concatenate(L"code_view/images/pattern_" +
 			utility::decodeFromUtf8(ColorScheme::getInstance()->getColor("code/file/title/hatching")) + L".png"

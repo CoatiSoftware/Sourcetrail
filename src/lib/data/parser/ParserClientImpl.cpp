@@ -79,10 +79,10 @@ void ParserClientImpl::recordLocalSymbol(const std::wstring& name, const ParseLo
 	addSourceLocation(localSymbolId, location, locationTypeToInt(LOCATION_LOCAL_SYMBOL));
 }
 
-void ParserClientImpl::recordFile(const FileInfo& fileInfo)
+void ParserClientImpl::recordFile(const FileInfo& fileInfo, bool indexed)
 {
 	const Id nodeId = addNodeHierarchy(NameHierarchy(fileInfo.path.wstr(), NAME_DELIMITER_FILE), NodeType::NODE_FILE);
-	addFile(nodeId, fileInfo.path, fileInfo.lastWriteTime.toString());
+	addFile(nodeId, fileInfo.path, fileInfo.lastWriteTime.toString(), indexed);
 }
 
 void ParserClientImpl::recordComment(const ParseLocation& location)
@@ -225,14 +225,12 @@ Id ParserClientImpl::addNode(NodeType nodeType, const NameHierarchy& nameHierarc
 	return m_storage->addNode(StorageNodeData(utility::nodeTypeToInt(nodeType.getType()), NameHierarchy::serialize(nameHierarchy)));
 }
 
-void ParserClientImpl::addFile(Id id, const FilePath& filePath, const std::string& modificationTime)
+void ParserClientImpl::addFile(Id id, const FilePath& filePath, const std::string& modificationTime, bool indexed)
 {
-	if (!m_storage)
+	if (m_storage)
 	{
-		return;
+		m_storage->addFile(StorageFile(id, filePath.wstr(), modificationTime, indexed, true));
 	}
-
-	m_storage->addFile(StorageFile(id, filePath.wstr(), modificationTime, true));
 }
 
 void ParserClientImpl::addSymbol(Id id, DefinitionKind definitionKind)

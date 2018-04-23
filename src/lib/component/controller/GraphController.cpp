@@ -172,6 +172,30 @@ void GraphController::handleMessage(MessageActivateTrail* message)
 	std::shared_ptr<Graph> graph = m_storageAccess->getGraphForTrail(
 		message->originId, message->targetId, message->trailType, message->depth);
 
+	// remove non-indexed files from include graph if indexed file is origin
+	if (message->trailType & Edge::EDGE_INCLUDE)
+	{
+		Node* fileNode = graph->getNodeById(message->originId ? message->originId : message->targetId);
+		if (fileNode && fileNode->isDefined())
+		{
+			std::vector<Node*> nodesToRemove;
+			graph->forEachNode(
+				[&nodesToRemove](Node* node)
+				{
+					if (!node->isDefined())
+					{
+						nodesToRemove.push_back(node);
+					}
+				}
+			);
+
+			for (Node* node : nodesToRemove)
+			{
+				graph->removeNode(node);
+			}
+		}
+	}
+
 	if (graph->getNodeCount() > 1000)
 	{
 		int r = Application::getInstance()->handleDialog(
