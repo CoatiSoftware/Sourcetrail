@@ -186,7 +186,15 @@ FilePath& FilePath::makeCanonical()
 		}
 	}
 #else
-	canonicalPath = boost::filesystem::canonical(getPath());
+	try
+	{
+		canonicalPath = boost::filesystem::canonical(getPath());
+	}
+	catch (boost::filesystem::filesystem_error e)
+	{
+		LOG_ERROR_STREAM(<< e.what());
+		return *this;
+	}
 #endif
 	m_path = std::make_unique<boost::filesystem::path>(canonicalPath);
 	m_canonicalized = true;
