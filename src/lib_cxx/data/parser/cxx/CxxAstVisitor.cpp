@@ -789,48 +789,6 @@ ParseLocation CxxAstVisitor::getParseLocation(const clang::SourceRange& sourceRa
 	return parseLocation;
 }
 
-bool CxxAstVisitor::isLocatedInUnparsedProjectFile(clang::SourceLocation loc)
-{
-	const clang::SourceManager& sourceManager = m_astContext->getSourceManager();
-
-	clang::FileID fileId;
-	if (loc.isValid())
-	{
-		if (sourceManager.isWrittenInMainFile(loc))
-		{
-			return true;
-		}
-
-		fileId = sourceManager.getFileID(loc);
-	}
-
-	if (fileId.isValid())
-	{
-		auto it = m_inUnparsedProjectFileMap.find(fileId);
-		if (it != m_inUnparsedProjectFileMap.end())
-		{
-			return it->second;
-		}
-
-		bool ret = false;
-		const clang::FileEntry* fileEntry = sourceManager.getFileEntryForID(fileId);
-		if (fileEntry != nullptr && fileEntry->isValid())
-		{
-			FilePath filePath = getCanonicalFilePathCache()->getCanonicalFilePath(fileEntry);
-
-			if (m_fileRegister->hasFilePath(filePath))
-			{
-				ret = !(m_fileRegister->fileIsIndexed(filePath));
-			}
-		}
-
-		m_inUnparsedProjectFileMap[fileId] = ret;
-		return ret;
-	}
-
-	return false;
-}
-
 bool CxxAstVisitor::isLocatedInProjectFile(clang::SourceLocation loc)
 {
 	const clang::SourceManager& sourceManager = m_astContext->getSourceManager();

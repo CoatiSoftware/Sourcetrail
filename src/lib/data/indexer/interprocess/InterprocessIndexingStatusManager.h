@@ -21,16 +21,12 @@ public:
 	std::vector<FilePath> getCurrentlyIndexedSourceFilePaths();
 	std::vector<FilePath> getCrashedSourceFilePaths();
 
-	std::set<FilePath> getIndexedFiles();
-	void addIndexedFiles(std::set<FilePath> filePaths);
-
 private:
 	static const char* s_sharedMemoryNamePrefix;
 
 	static const char* s_indexingFilesKeyName;
 	static const char* s_currentFilesKeyName;
 	static const char* s_crashedFilesKeyName;
-	static const char* s_indexedFilesKeyName;
 	static const char* s_finishedProcessIdsKeyName;
 };
 

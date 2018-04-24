@@ -358,8 +358,6 @@ add_files(
 	utility/file/FilePathFilter.h
 	utility/file/FileRegister.cpp
 	utility/file/FileRegister.h
-	utility/file/FileRegisterStateData.cpp
-	utility/file/FileRegisterStateData.h
 	utility/file/FileSystem.cpp
 	utility/file/FileSystem.h
 	utility/file/FileTree.cpp

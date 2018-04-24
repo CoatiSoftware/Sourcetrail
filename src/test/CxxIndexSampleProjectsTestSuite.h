@@ -127,7 +127,6 @@ private:
 		const FilePath workingDirectory(L".");
 
 		std::shared_ptr<FileRegister> fileRegister = std::make_shared<FileRegister>(
-			FileRegisterStateData(),
 			sourceFilePath,
 			indexedPaths,
 			excludedFilters

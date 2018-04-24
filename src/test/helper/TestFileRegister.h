@@ -9,8 +9,6 @@ class TestFileRegister
 public:
 	TestFileRegister();
 	virtual ~TestFileRegister();
-
-	virtual bool fileIsIndexed(const FilePath& filePath) const;
 	virtual bool hasFilePath(const FilePath& filePath) const;
 };
 

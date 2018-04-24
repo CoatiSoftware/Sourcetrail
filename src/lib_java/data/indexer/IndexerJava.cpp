@@ -32,7 +32,6 @@ std::shared_ptr<IntermediateStorage> IndexerJava::doIndex(
 	else
 	{
 		storage->setFilesWithErrorsIncomplete();
-		fileRegister->markIndexingFilesIndexed();
 	}
 
 	if (interrupted())

@@ -8,7 +8,6 @@ const char* InterprocessIndexingStatusManager::s_sharedMemoryNamePrefix = "ists_
 const char* InterprocessIndexingStatusManager::s_indexingFilesKeyName = "indexing_files";
 const char* InterprocessIndexingStatusManager::s_currentFilesKeyName = "current_files";
 const char* InterprocessIndexingStatusManager::s_crashedFilesKeyName = "crashed_files";
-const char* InterprocessIndexingStatusManager::s_indexedFilesKeyName = "indexed_files";
 const char* InterprocessIndexingStatusManager::s_finishedProcessIdsKeyName = "finished_process_ids";
 
 InterprocessIndexingStatusManager::InterprocessIndexingStatusManager(const std::string& instanceUuid, Id processId, bool isOwner)
@@ -162,84 +161,4 @@ std::vector<FilePath> InterprocessIndexingStatusManager::getCrashedSourceFilePat
 	}
 
 	return crashedFiles;
-}
-
-std::set<FilePath> InterprocessIndexingStatusManager::getIndexedFiles()
-{
-	std::set<FilePath> result;
-
-	SharedMemory::ScopedAccess access(&m_sharedMemory);
-
-	SharedMemory::Vector<SharedMemory::String>* files =
-		access.accessValueWithAllocator<SharedMemory::Vector<SharedMemory::String>>(s_indexedFilesKeyName);
-	if (!files)
-	{
-		return result;
-	}
-
-	for (auto& file : *files)
-	{
-		result.insert(FilePath(utility::decodeFromUtf8(file.c_str())));
-	}
-
-	return result;
-}
-
-void InterprocessIndexingStatusManager::addIndexedFiles(std::set<FilePath> filePaths)
-{
-	const unsigned int overestimationMultiplier = 3;
-
-	SharedMemory::ScopedAccess access(&m_sharedMemory);
-
-	SharedMemory::Vector<SharedMemory::String>* indexedFiles =
-		access.accessValueWithAllocator<SharedMemory::Vector<SharedMemory::String>>(s_indexedFilesKeyName);
-	if (!indexedFiles)
-	{
-		return;
-	}
-
-	std::set<std::string> oldFiles;
-	for (auto& indexedFile : *indexedFiles)
-	{
-		oldFiles.insert(indexedFile.c_str());
-	}
-
-	std::set<std::string> newFiles;
-	for (const FilePath& filePath : filePaths)
-	{
-		if (oldFiles.find(utility::encodeToUtf8(filePath.wstr())) == oldFiles.end())
-		{
-			newFiles.insert(utility::encodeToUtf8(filePath.wstr()));
-		}
-	}
-
-	size_t estimatedSize = 262144;
-	for (auto& newFile : newFiles)
-	{
-		estimatedSize += sizeof(SharedMemory::String) + newFile.size();
-	}
-	estimatedSize *= overestimationMultiplier;
-
-	while (access.getFreeMemorySize() < estimatedSize)
-	{
-		LOG_INFO_STREAM(
-			<< "grow memory - est: " << estimatedSize << " size: " << access.getMemorySize()
-			<< " free: " << access.getFreeMemorySize() << " alloc: " << (access.getMemorySize()));
-		access.growMemory(access.getMemorySize());
-
-		LOG_INFO("growing memory succeeded");
-
-		indexedFiles = access.accessValueWithAllocator<SharedMemory::Vector<SharedMemory::String>>(s_indexedFilesKeyName);
-		if (!indexedFiles)
-		{
-			return;
-		}
-	}
-
-	for (const std::string& newFile: newFiles)
-	{
-		indexedFiles->push_back(SharedMemory::String(newFile.c_str(), access.getAllocator()));
-	}
-
-	LOG_INFO(access.logString());
 }

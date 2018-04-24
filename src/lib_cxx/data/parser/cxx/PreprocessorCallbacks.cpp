@@ -35,20 +35,11 @@ void PreprocessorCallbacks::FileChanged(
 	if (fileEntry != nullptr && fileEntry->isValid())
 	{
 		m_currentPath = m_canonicalFilePathCache->getCanonicalFilePath(fileEntry);
-	}
 
-	if (!m_currentPath.empty())
-	{
-		bool hasFilePath = m_fileRegister->hasFilePath(m_currentPath);
-
-		m_client->recordFile(FileSystem::getFileInfoForPath(m_currentPath), hasFilePath); // todo: fix for tests
-
-		if (hasFilePath && !m_fileRegister->fileIsIndexed(m_currentPath))
+		if (!m_currentPath.empty())
 		{
-			if (reason == EnterFile)
-			{
-				m_fileRegister->markFileIndexing(m_currentPath);
-			}
+			bool hasFilePath = m_fileRegister->hasFilePath(m_currentPath);
+			m_client->recordFile(FileSystem::getFileInfoForPath(m_currentPath), hasFilePath); // todo: fix for tests
 		}
 	}
 }
@@ -75,7 +66,7 @@ void PreprocessorCallbacks::InclusionDirective(
 
 void PreprocessorCallbacks::MacroDefined(const clang::Token& macroNameToken, const clang::MacroDirective* macroDirective)
 {
-	if (!m_currentPath.empty() && m_fileRegister->hasFilePath(m_currentPath) && !m_fileRegister->fileIsIndexed(m_currentPath) /*TODO: remove this last check if indexed isn't important anymore*/)
+	if (!m_currentPath.empty() && m_fileRegister->hasFilePath(m_currentPath))
 	{
 		// ignore builtin macros
 		if (m_sourceManager.getSpellingLoc(macroNameToken.getLocation()).printToString(m_sourceManager)[0] == '<')
@@ -128,7 +119,7 @@ void PreprocessorCallbacks::MacroExpands(
 
 void PreprocessorCallbacks::onMacroUsage(const clang::Token& macroNameToken)
 {
-	if (!m_currentPath.empty() && m_fileRegister->hasFilePath(m_currentPath) && !m_fileRegister->fileIsIndexed(m_currentPath) /*TODO: remove this last check if indexed isn't important anymore*/ && isLocatedInProjectFile(macroNameToken.getLocation()))
+	if (!m_currentPath.empty() && m_fileRegister->hasFilePath(m_currentPath) && isLocatedInProjectFile(macroNameToken.getLocation()))
 	{
 		const ParseLocation loc = getParseLocation(macroNameToken);
 

@@ -4,13 +4,11 @@
 #include "utility/file/FilePathFilter.h"
 
 FileRegister::FileRegister(
-	const FileRegisterStateData& stateData,
 	const FilePath& currentPath,
 	const std::set<FilePath>& indexedPaths,
 	const std::set<FilePathFilter>& excludeFilters
 )
-	: m_stateData(stateData)
-	, m_currentPath(currentPath)
+	: m_currentPath(currentPath)
 	, m_indexedPaths(indexedPaths)
 	, m_excludeFilters(excludeFilters)
 	, m_hasFilePathCache(
@@ -64,29 +62,8 @@ FileRegister::FileRegister(
 {
 }
 
-
 FileRegister::~FileRegister()
 {
-}
-
-const FileRegisterStateData& FileRegister::getStateData() const
-{
-	return m_stateData;
-}
-
-void FileRegister::markFileIndexing(const FilePath& filePath)
-{
-	m_stateData.markFileIndexing(filePath);
-}
-
-void FileRegister::markIndexingFilesIndexed()
-{
-	m_stateData.markIndexingFilesIndexed();
-}
-
-bool FileRegister::fileIsIndexed(const FilePath& filePath) const
-{
-	return m_stateData.fileIsIndexed(filePath);
 }
 
 bool FileRegister::hasFilePath(const FilePath& filePath) const

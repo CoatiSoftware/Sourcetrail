@@ -41,7 +41,6 @@ std::shared_ptr<IntermediateStorage> IndexerCxx<IndexerCommandType, ParserType>:
 	else
 	{
 		storage->setFilesWithErrorsIncomplete();
-		fileRegister->markIndexingFilesIndexed();
 	}
 
     if (IndexerBase::interrupted())

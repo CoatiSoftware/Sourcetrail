@@ -251,7 +251,6 @@ private:
 		std::set<FilePathFilter> excludeFilters = { };
 
 		std::shared_ptr<FileRegister> fileRegister = std::make_shared<FileRegister>(
-			FileRegisterStateData(),
 			sourceFilePath,
 			indexedPaths,
 			excludeFilters
