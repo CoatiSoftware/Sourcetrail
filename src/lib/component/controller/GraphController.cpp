@@ -1651,7 +1651,7 @@ void GraphController::groupTrailNodes(GroupType groupType)
 		groupNode->groupLayout = GroupLayout::SKEWED;
 
 		// Use token Id of first node and make first 2 bits 1
-		groupNode->tokenId = ~(~size_t(0) >> 2) + node.nodeId;
+		groupNode->tokenId = ~(~Id(0) >> 2) + node.nodeId;
 		m_topLevelAncestorIds[groupNode->tokenId] = groupNode->tokenId;
 
 		std::shared_ptr<DummyEdge> targetEdge = std::make_shared<DummyEdge>();

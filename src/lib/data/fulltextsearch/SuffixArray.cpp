@@ -9,7 +9,7 @@ struct suffix
 	int rank[2];
 };
 
-int SuffixArray::cmp(struct suffix a, struct suffix b)
+int SuffixArray::cmp(const struct suffix& a, const struct suffix& b)
 {
 	return (a.rank[0] == b.rank[0]) ? (a.rank[1] < b.rank[1] ? 1 : 0) : (a.rank[0] < b.rank[0] ? 1 : 0);
 }
@@ -105,7 +105,7 @@ std::vector<int> SuffixArray::searchForTerm(const std::wstring& searchTerm) cons
 			{
 				matches.push_back(m_array[lower]);
 			}
-			for (int higher = m+1; higher < termLength && m_lcp[higher-1] >= termLength; higher++)
+			for (int higher = m+1; higher < m_text.length() && m_lcp[higher-1] >= termLength; higher++)
 			{
 				matches.push_back(m_array[higher]);
 			}

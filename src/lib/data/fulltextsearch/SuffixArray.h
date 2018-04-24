@@ -10,7 +10,7 @@ class SuffixArray
 public:
 	SuffixArray(const std::wstring& text);
 	std::vector<int> searchForTerm(const std::wstring& searchTerm) const;
-	static int cmp(struct suffix a, struct suffix b);
+	static int cmp(const struct suffix& a, const struct suffix& b);
 
 	void printArray() const;
 	void printLCP() const;
