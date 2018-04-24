@@ -1186,7 +1186,7 @@ void GraphController::bundleNodesAndEdgesMatching(
 	DummyNode* firstNode = bundleNode->bundledNodes.begin()->get();
 
 	// Use token Id of first node and make first bit 1
-	bundleNode->tokenId = ~(~size_t(0) >> 1) + firstNode->data->getId();
+	bundleNode->tokenId = ~(~Id(0) >> 1) + firstNode->data->getId();
 	bundleNode->bundleInfo.layoutVertical = firstNode->bundleInfo.layoutVertical;
 	bundleNode->bundleInfo.isReferenced = firstNode->bundleInfo.isReferenced;
 	bundleNode->bundleInfo.isReferencing = firstNode->bundleInfo.isReferencing;
@@ -1272,7 +1272,7 @@ std::shared_ptr<DummyNode> GraphController::bundleNodesMatching(
 	}
 
 	// Use token Id of first node and make first bit 1
-	bundleNode->tokenId = ~(~size_t(0) >> 1) + (*bundleNode->bundledNodes.begin())->data->getId();
+	bundleNode->tokenId = ~(~Id(0) >> 1) + (*bundleNode->bundledNodes.begin())->data->getId();
 	return bundleNode;
 }
 
@@ -2128,7 +2128,7 @@ void GraphController::relayoutGraph(
 		if (withCharacterIndex && m_dummyNodes.size())
 		{
 			// Use token Id of first node and make first 2 bits 1
-			Id groupId = ~(~size_t(0) >> 2) + m_dummyNodes[0]->tokenId;
+			Id groupId = ~(~Id(0) >> 2) + m_dummyNodes[0]->tokenId;
 
 			DummyNode* group = groupAllNodes(GroupType::DEFAULT, groupId);
 			group->groupLayout = GroupLayout::LIST;

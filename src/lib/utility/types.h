@@ -1,7 +1,7 @@
 #ifndef TYPES_H
 #define TYPES_H
 
-typedef unsigned long Id;
+typedef size_t Id;
 
 typedef unsigned int uint;
 
