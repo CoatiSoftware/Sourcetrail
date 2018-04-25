@@ -1111,7 +1111,7 @@ void GraphController::bundleNodes()
 	bundleNodesAndEdgesMatching(
 		[](const DummyNode::BundleInfo& info, const Node* data)
 		{
-			return info.isReferencing && info.layoutVertical;
+			return info.isReferencing && info.layoutVertical && data->findEdgeOfType(Edge::EDGE_INHERITANCE);
 		},
 		5,
 		false,
@@ -1121,7 +1121,7 @@ void GraphController::bundleNodes()
 	bundleNodesAndEdgesMatching(
 		[](const DummyNode::BundleInfo& info, const Node* data)
 		{
-			return info.isReferenced && info.layoutVertical;
+			return info.isReferenced && info.layoutVertical && data->findEdgeOfType(Edge::EDGE_INHERITANCE);
 		},
 		5,
 		false,

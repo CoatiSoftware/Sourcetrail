@@ -128,40 +128,45 @@ void Bucket::preLayout(Vec2i viewSize, bool addVerticalSplit, bool forceVertical
 		return;
 	}
 
-	std::vector<DummyNode*> aboveNodes;
-	std::vector<DummyNode*> belowNodes;
-
 	// align each column vertically and leave a gap in the middle where edges can pass through
 	// NOTE: m_height is not gonna be correct after this, but stays unchanged to allow correct positioning next to
 	// active node.
+	int nodeOffset = GraphViewStyle::s_gridCellPadding + GraphViewStyle::s_gridCellSize;
+
 	for (size_t i = 0; i < nodesInCol.size(); i++)
 	{
 		int offset = 0;
 		bool hasOffset = false;
 		int mid = colHeights[i] / 2;
 
+		std::vector<DummyNode*> aboveNodes;
+		std::vector<DummyNode*> belowNodes;
+
+		int aboveNodesMaxWidth = 0;
+		int belowNodesMaxWidth = 0;
+
 		for (DummyNode* node : nodesInCol[i])
 		{
+			bool above = true;
+
 			if (hasOffset)
 			{
-				belowNodes.push_back(node);
+				above = false;
 			}
 			else if (nodesInCol[i].size() == 1)
 			{
 				offset -= (node->size.y + GraphViewStyle::s_gridCellPadding) / 2;
-				aboveNodes.push_back(node);
 			}
 			else if (node->position.y < mid && node->position.y + node->size.y > mid)
 			{
 				if (mid - node->position.y < (node->position.y + node->size.y) - mid)
 				{
 					offset = mid - node->position.y + GraphViewStyle::s_gridCellPadding / 2;
-					belowNodes.push_back(node);
+					above = false;
 				}
 				else
 				{
 					offset = mid - (node->position.y + node->size.y) - GraphViewStyle::s_gridCellPadding / 2;
-					aboveNodes.push_back(node);
 				}
 				hasOffset = true;
 			}
@@ -169,30 +174,32 @@ void Bucket::preLayout(Vec2i viewSize, bool addVerticalSplit, bool forceVertical
 				mid < node->position.y + node->size.y + GraphViewStyle::s_gridCellPadding)
 			{
 				offset = mid - (node->position.y + node->size.y + GraphViewStyle::s_gridCellPadding / 2);
-				aboveNodes.push_back(node);
 				hasOffset = true;
+			}
+
+			if (above)
+			{
+				aboveNodes.push_back(node);
+				aboveNodesMaxWidth = std::max(aboveNodesMaxWidth, node->size.x());
 			}
 			else
 			{
-				aboveNodes.push_back(node);
+				belowNodes.push_back(node);
+				belowNodesMaxWidth = std::max(belowNodesMaxWidth, node->size.x());
 			}
 		}
 
 		offset += (m_height - colHeights[i]) / 2;
-		for (DummyNode* node : nodesInCol[i])
+		for (DummyNode* node : aboveNodes)
 		{
-			node->position.y() += offset;
+			node->position.y() += offset - nodeOffset;
+			node->columnSize.x() = aboveNodesMaxWidth;
 		}
-	}
-
-	int nodeOffset = GraphViewStyle::s_gridCellPadding + GraphViewStyle::s_gridCellSize;
-	for (DummyNode* node : aboveNodes)
-	{
-		node->position.y() -= nodeOffset;
-	}
-	for (DummyNode* node : belowNodes)
-	{
-		node->position.y() += nodeOffset;
+		for (DummyNode* node : belowNodes)
+		{
+			node->position.y() += offset + nodeOffset;
+			node->columnSize.x() = belowNodesMaxWidth;
+		}
 	}
 }
 
@@ -343,10 +350,10 @@ void BucketLayouter::layoutBuckets(bool addVerticalSplit)
 			}
 
 			bucket->layout(x, y + yOff, widths[i], heights[j]);
-			x += widths[i] + GraphViewStyle::toGridGap(85);
+			x += widths[i] + GraphViewStyle::toGridGap(110);
 		}
 
-		y += heights[j] + GraphViewStyle::toGridGap(45);
+		y += heights[j] + GraphViewStyle::toGridGap(70);
 	}
 }
 
