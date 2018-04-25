@@ -1,5 +1,53 @@
 ### Changelog
 
+#### 2018.2.23
+released 2018-04-24
+
+* C/C++: removed check if header was already indexed to fix missing data due to different preprocessor conditions.
+* Fixed fulltext search missing results for queries with many matches in the same file.
+* Fixed crash on converting relative paths to canonical paths in project setup
+* Also clear errors in non-indexed files when refreshing "updated and incomplete files" (issue #564)
+* Updated about dialog to new company name
+* Graph: Improved layout of aggregation edges
+* Fixed race condition causing crashes when showing tooltips
+* Code: Fixed switch of view mode didn't show active reference
+* Fixed carriage return in line endings breaks screen search in code view
+* Fixed logic to detect excluded files on project refresh
+* Add "Copy" to duplicated source group's name
+* Preferences: show 'default' in indexer threads combo instead of 0
+* Fixed empty exclude path excludes everything
+* C/C++: Improved indexer performance by skipping traversal of contents of non-indexed files
+* Linux: Fixed error in Sourcetrail.sh script
+* Search: Give children of matched symbols a lower score
+* Search: Improved fulltext search index creation speed
+* Don't show title bars of views by default
+* Graph: Improved horizontal layout to avoid edges overlapping nodes
+* Show versions of 3rd party dependencies in 3rd party dialog
+* Updated help info for update check
+* Graph: Group graph nodes by file or namespace (issues #171, #439, #522)
+* Graph: Layout template specializations vertically and show them in inheritance depth graph
+* Graph: Show symbols defined within file when activating file node (issue #268)
+* UI: Updated to Qt 5.10.1
+* C/C++: Updated to clang 6.0
+* Graph: better contrast for non-indexed hatching colors
+* Graph: group nodes with same base and derived nodes in inheritance depth graph (issue #459)
+* Code: Lazy load code annotations for shorter display time (issue #389)
+* Code: Improved snippet display time (issue #389)
+* C++: fixed infinite recursion while solving c++ template parameter names (issue #553)
+* Added close button to status view
+* Improved style of tab bar in status view
+* Added Show Errors button to title bar of incomplete files to show only errors related to certain file (issue #246)
+* Added sorting to error table columns (issue #559)
+* Added wildcards for excluded paths (issue #475)
+* Option to accept EULA via commandline API
+* Changed seats to users for Commercial License in EULA
+* Graph: Improved vertical layout for override and inheritance edges
+* Speed up preferences dialog loading time, by delaying font face loading
+* Allow non-ASCII characters in symbol, full-text and on-screen search
+* Allow non-ASCII characters in bookmarks
+* Allow non-ASCII characters in file paths
+
+
 #### 2018.1.19
 released 2018-01-30
 
