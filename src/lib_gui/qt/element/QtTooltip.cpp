@@ -34,6 +34,13 @@ QtTooltip::~QtTooltip()
 
 void QtTooltip::setTooltipInfo(TooltipInfo info)
 {
+	int maxWidth = 600;
+	QWidget* parent = m_parentView ? m_parentView : parentWidget();
+	if (parent)
+	{
+		maxWidth = std::max(maxWidth, parent->width() - 50);
+	}
+
 	if (!info.title.empty())
 	{
 		addTitle(QString::fromStdWString(info.title), info.count, info.countText.c_str());
@@ -46,9 +53,9 @@ void QtTooltip::setTooltipInfo(TooltipInfo info)
 		QtCodeField* field = new QtCodeField(1, codec.encode(snippet.code), snippet.locationFile, false);
 
 		QSize size = field->sizeHint() + QSize(15, 5);
-		if (size.width() > 600)
+		if (size.width() > maxWidth)
 		{
-			field->setMinimumSize(QSize(600, size.height() + QApplication::style()->pixelMetric(QStyle::PM_ScrollBarExtent)));
+			field->setMinimumSize(QSize(maxWidth, size.height() + QApplication::style()->pixelMetric(QStyle::PM_ScrollBarExtent)));
 		}
 		else
 		{
