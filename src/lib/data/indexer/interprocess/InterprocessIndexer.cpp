@@ -1,11 +1,10 @@
 #include "InterprocessIndexer.h"
 
-#include "utility/file/FileRegister.h"
-#include "utility/logging/logging.h"
-
 #include "data/indexer/IndexerCommand.h"
 #include "data/indexer/IndexerComposite.h"
-#include "data/indexer/IndexerFactory.h"
+#include "utility/file/FileRegister.h"
+#include "utility/logging/logging.h"
+#include "LanguagePackageManager.h"
 
 InterprocessIndexer::InterprocessIndexer(const std::string& uuid, Id processId)
 	: m_interprocessIndexerCommandManager(uuid, processId, false)
@@ -25,7 +24,7 @@ void InterprocessIndexer::work()
 	try
 	{
 		LOG_INFO(std::to_wstring(m_processId) + L" starting up indexer");
-		std::shared_ptr<IndexerBase> indexer = IndexerFactory::getInstance()->createCompositeIndexerForAllRegisteredModules();
+		std::shared_ptr<IndexerBase> indexer = LanguagePackageManager::getInstance()->instantiateSupportedIndexers();
 
 		while (std::shared_ptr<IndexerCommand> indexerCommand = m_interprocessIndexerCommandManager.popIndexerCommand())
 		{

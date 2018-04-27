@@ -4,8 +4,6 @@ add_files(
 
 	data/indexer/IndexerCommandJava.cpp
 	data/indexer/IndexerCommandJava.h
-	data/indexer/IndexerFactoryModuleJava.cpp
-	data/indexer/IndexerFactoryModuleJava.h
 	data/indexer/IndexerJava.cpp
 	data/indexer/IndexerJava.h
 
@@ -33,4 +31,7 @@ add_files(
 	utility/utilityGradle.h
 	utility/utilityMaven.cpp
 	utility/utilityMaven.h
+	
+	LanguagePackageJava.cpp
+	LanguagePackageJava.h
 )

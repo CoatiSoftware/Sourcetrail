@@ -170,10 +170,6 @@ add_files(
 	data/indexer/IndexerCommandType.h
 	data/indexer/IndexerComposite.cpp
 	data/indexer/IndexerComposite.h
-	data/indexer/IndexerFactory.cpp
-	data/indexer/IndexerFactory.h
-	data/indexer/IndexerFactoryModule.cpp
-	data/indexer/IndexerFactoryModule.h
 	data/indexer/TaskBuildIndex.cpp
 	data/indexer/TaskBuildIndex.h
 
@@ -552,6 +548,9 @@ add_files(
 
 	Application.cpp
 	Application.h
+	LanguagePackage.h
+	LanguagePackageManager.cpp
+	LanguagePackageManager.h
 	LicenseChecker.cpp
 	LicenseChecker.h
 	UpdateChecker.h

@@ -3,10 +3,9 @@
 #include <csignal>
 
 #include "Application.h"
-#include "data/indexer/IndexerFactory.h"
-#include "data/indexer/IndexerFactoryModuleJava.h"
-#include "data/indexer/IndexerFactoryModuleCxxCdb.h"
-#include "data/indexer/IndexerFactoryModuleCxxEmpty.h"
+#include "LanguagePackageCxx.h"
+#include "LanguagePackageJava.h"
+#include "LanguagePackageManager.h"
 #include "project/SourceGroupFactory.h"
 #include "project/SourceGroupFactoryModuleCxx.h"
 #include "project/SourceGroupFactoryModuleJava.h"
@@ -165,14 +164,13 @@ void prefillPaths()
 	prefillCxxFrameworkPaths();
 }
 
-void addLanguageModules()
+void addLanguagePackages()
 {
 	SourceGroupFactory::getInstance()->addModule(std::make_shared<SourceGroupFactoryModuleCxx>());
 	SourceGroupFactory::getInstance()->addModule(std::make_shared<SourceGroupFactoryModuleJava>());
 
-	IndexerFactory::getInstance()->addModule(std::make_shared<IndexerFactoryModuleJava>());
-	IndexerFactory::getInstance()->addModule(std::make_shared<IndexerFactoryModuleCxxCdb>());
-	IndexerFactory::getInstance()->addModule(std::make_shared<IndexerFactoryModuleCxxEmpty>());
+	LanguagePackageManager::getInstance()->addPackage(std::make_shared<LanguagePackageJava>());
+	LanguagePackageManager::getInstance()->addPackage(std::make_shared<LanguagePackageCxx>());
 }
 
 QCoreApplication* createApplication(int &argc, char *argv[], bool noGUI = false)
@@ -269,7 +267,7 @@ int main(int argc, char *argv[])
 		}
 
 		prefillPaths();
-		addLanguageModules();
+		addLanguagePackages();
 
 		signal(SIGINT, signalHandler);
 		signal(SIGTERM, signalHandler);
@@ -328,7 +326,7 @@ int main(int argc, char *argv[])
 		});
 
 		prefillPaths();
-		addLanguageModules();
+		addLanguagePackages();
 
 		utility::loadFontsFromDirectory(ResourcePaths::getFontsPath(), L".otf");
 		utility::loadFontsFromDirectory(ResourcePaths::getFontsPath(), L".ttf");

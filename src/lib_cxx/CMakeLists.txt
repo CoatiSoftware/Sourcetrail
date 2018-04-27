@@ -9,10 +9,6 @@ add_files(
 	data/indexer/IndexerCommandCxxEmpty.cpp
 	data/indexer/IndexerCommandCxxEmpty.h
 	data/indexer/IndexerCxx.h
-	data/indexer/IndexerFactoryModuleCxxCdb.cpp
-	data/indexer/IndexerFactoryModuleCxxCdb.h
-	data/indexer/IndexerFactoryModuleCxxEmpty.cpp
-	data/indexer/IndexerFactoryModuleCxxEmpty.h
 
 	data/parser/cxx/name/CxxDeclName.cpp
 	data/parser/cxx/name/CxxDeclName.h
@@ -95,4 +91,7 @@ add_files(
 	utility/IncludeDirective.h
 	utility/IncludeProcessing.cpp
 	utility/IncludeProcessing.h
+	
+	LanguagePackageCxx.cpp
+	LanguagePackageCxx.h
 )

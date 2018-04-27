@@ -2,10 +2,9 @@
 
 #include <QCoreApplication>
 
-#include "data/indexer/IndexerFactory.h"
-#include "data/indexer/IndexerFactoryModuleJava.h"
-#include "data/indexer/IndexerFactoryModuleCxxCdb.h"
-#include "data/indexer/IndexerFactoryModuleCxxEmpty.h"
+#include "LanguagePackageCxx.h"
+#include "LanguagePackageJava.h"
+#include "LanguagePackageManager.h"
 #include "data/indexer/interprocess/InterprocessIndexer.h"
 #include "settings/ApplicationSettings.h"
 #include "utility/AppPath.h"
@@ -88,9 +87,8 @@ int main(int argc, char *argv[])
 	LOG_INFO(L"appPath: " + AppPath::getAppPath().wstr());
 	LOG_INFO(L"userDataPath: " + UserPaths::getUserDataPath().wstr());
 
-	IndexerFactory::getInstance()->addModule(std::make_shared<IndexerFactoryModuleJava>());
-	IndexerFactory::getInstance()->addModule(std::make_shared<IndexerFactoryModuleCxxCdb>());
-	IndexerFactory::getInstance()->addModule(std::make_shared<IndexerFactoryModuleCxxEmpty>());
+	LanguagePackageManager::getInstance()->addPackage(std::make_shared<LanguagePackageCxx>());
+	LanguagePackageManager::getInstance()->addPackage(std::make_shared<LanguagePackageJava>());
 
 	InterprocessIndexer indexer(instanceUuid, processId);
 	indexer.work();
