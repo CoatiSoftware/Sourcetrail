@@ -195,20 +195,6 @@ bool QtCodeFileSingle::requestScroll(
 
 	double percentA = double(lineNumber - 1) / m_area->getEndLineNumber();
 	double percentB = endLineNumber ? double(endLineNumber - 1) / m_area->getEndLineNumber() : 0.0f;
-
-	// fix percentages wrong when code area is scrollable beyond last line due to some unknown bug
-	{
-		int totalHeight = m_area->sizeHint().height();
-		int totalLineHeight = m_area->totalLineHeight();
-
-		if (std::abs(totalHeight - totalLineHeight) > 100)
-		{
-			double factor = totalLineHeight / double(totalHeight);
-			percentA *= factor;
-			percentB *= factor;
-		}
-	}
-
 	ensurePercentVisibleAnimated(percentA, percentB, animated, target);
 
 	m_scrollRequested = true;
@@ -343,6 +329,9 @@ void QtCodeFileSingle::setFileData(const FileData& file)
 		titleButton->updateTexts();
 		titleButton->show();
 		m_area->show();
+
+		// Resizes the area to fix a bug where the area could be scrolled below the last line.
+		m_area->updateGeometry();
 
 		m_scrollRequested = false;
 	}
