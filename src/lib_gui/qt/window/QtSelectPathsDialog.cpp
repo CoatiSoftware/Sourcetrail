@@ -7,6 +7,7 @@
 #include <QPushButton>
 
 #include "utility/file/FilePath.h"
+#include "utility/utility.h"
 
 QtSelectPathsDialog::QtSelectPathsDialog(const QString& title, const QString& description, QWidget* parent)
 	: QtTextEditDialog(title, description, parent)
@@ -28,11 +29,11 @@ std::vector<FilePath> QtSelectPathsDialog::getPathsList() const
 	return checkedPaths;
 }
 
-void QtSelectPathsDialog::setPathsList(const std::vector<FilePath>& paths, const std::vector<FilePath>& checkedPaths)
+void QtSelectPathsDialog::setPathsList(const std::vector<FilePath>& paths, const std::vector<FilePath>& checkedPaths, const FilePath& rootPathForRelativePaths)
 {
 	std::set<FilePath> checked(checkedPaths.begin(), checkedPaths.end());
 
-	for (const FilePath& s : paths)
+	for (FilePath s : utility::unique(utility::concat(paths, checkedPaths)))
 	{
 		QListWidgetItem* item = new QListWidgetItem(QString::fromStdWString(s.wstr()), m_list);
 		item->setFlags(item->flags() | Qt::ItemIsUserCheckable); // set checkable flag
@@ -44,6 +45,11 @@ void QtSelectPathsDialog::setPathsList(const std::vector<FilePath>& paths, const
 		else
 		{
 			item->setCheckState(Qt::Checked);
+		}
+
+		if (!s.isAbsolute())
+		{
+			s = rootPathForRelativePaths.getConcatenated(s);
 		}
 
 		if (!s.exists())

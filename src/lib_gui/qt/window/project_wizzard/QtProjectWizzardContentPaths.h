@@ -79,19 +79,22 @@ public:
 	virtual QString getFileNamesDescription() const override;
 };
 
+
 class QtProjectWizzardContentPathsCDBHeader
-	: public QtProjectWizzardContentPathsSource
+	: public QtProjectWizzardContentPaths
 {
 	Q_OBJECT
 
 public:
-	static std::vector<FilePath> getTopLevelHeaderSearchPaths(std::shared_ptr<SourceGroupSettingsCxxCdb> settings);
+	static std::vector<FilePath> getIndexedPathsDerivedFromCDB(std::shared_ptr<SourceGroupSettingsCxxCdb> settings);
 
 	QtProjectWizzardContentPathsCDBHeader(std::shared_ptr<SourceGroupSettings> settings, QtProjectWizzardWindow* window);
 
 	virtual void populate(QGridLayout* layout, int& row) override;
 
+	// QtProjectWizzardContent implementation
 	virtual void load() override;
+	virtual void save() override;
 
 	virtual bool check() override;
 

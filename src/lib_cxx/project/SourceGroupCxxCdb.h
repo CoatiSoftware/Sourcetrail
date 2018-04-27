@@ -18,6 +18,8 @@ public:
 
 	virtual bool prepareIndexing() override;
 
+	virtual std::set<FilePath> getIndexedPaths() const override;
+
 	virtual std::vector<std::shared_ptr<IndexerCommand>> getIndexerCommands(const std::set<FilePath>& filesToIndex) const override;
 
 private:

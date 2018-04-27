@@ -253,25 +253,52 @@ QString QtProjectWizzardContentPathsSource::getFileNamesDescription() const
 }
 
 
-std::vector<FilePath> QtProjectWizzardContentPathsCDBHeader::getTopLevelHeaderSearchPaths(
+std::vector<FilePath> QtProjectWizzardContentPathsCDBHeader::getIndexedPathsDerivedFromCDB(
 	std::shared_ptr<SourceGroupSettingsCxxCdb> settings)
 {
+	const FilePath projectPath = settings->getProjectDirectoryPath();
 	const FilePath cdbPath = settings->getCompilationDatabasePathExpandedAndAbsolute();
-	if (!cdbPath.exists())
+
+	std::set<FilePath> indexedHeaderPaths;
+	if (!cdbPath.empty() && cdbPath.exists())
 	{
-		LOG_WARNING("Unable to fetch top level header search directories. The provided Compilation Database path does not exist.");
-		return std::vector<FilePath>();
+		for (const FilePath& path : IndexerCommandCxxCdb::getSourceFilesFromCDB(cdbPath))
+		{
+			indexedHeaderPaths.insert(path.getParentDirectory());
+		}
 	}
-	const std::vector<FilePath> sourcePaths = settings->getSourcePaths();
-	return utility::getTopLevelPaths(utility::unique(utility::concat(
-		sourcePaths, utility::CompilationDatabase(cdbPath).getAllHeaderPaths()
-	)));
+	else
+	{
+		LOG_WARNING("Unable to fetch indexed header paths. The provided Compilation Database path does not exist.");
+	}
+
+	for (const FilePath& path : utility::CompilationDatabase(cdbPath).getAllHeaderPaths())
+	{
+		if (path.exists() && projectPath.contains(path))
+		{
+			indexedHeaderPaths.insert(path);
+		}
+	}
+
+	std::vector<FilePath> rootPaths;
+
+	FilePath lastPath;
+	for (const FilePath& path : indexedHeaderPaths)
+	{
+		if (lastPath.empty() || !lastPath.contains(path)) // don't add subdirectories of already added paths
+		{
+			lastPath = path;
+			rootPaths.push_back(path.getRelativeTo(projectPath));
+		}
+	}
+
+	return rootPaths;
 }
 
 QtProjectWizzardContentPathsCDBHeader::QtProjectWizzardContentPathsCDBHeader(
 	std::shared_ptr<SourceGroupSettings> settings, QtProjectWizzardWindow* window
 )
-	: QtProjectWizzardContentPathsSource(settings, window)
+	: QtProjectWizzardContentPaths(settings, window, QtPathListBox::SELECTION_POLICY_FILES_AND_DIRECTORIES)
 {
 	m_showFilesString = "";
 
@@ -305,47 +332,23 @@ void QtProjectWizzardContentPathsCDBHeader::populate(QGridLayout* layout, int& r
 
 void QtProjectWizzardContentPathsCDBHeader::load()
 {
-	if (m_settings->getSourcePaths().empty())
+	if (std::shared_ptr<SourceGroupSettingsCxxCdb> cdbSettings = std::dynamic_pointer_cast<SourceGroupSettingsCxxCdb>(m_settings))
 	{
-		std::shared_ptr<SourceGroupSettingsCxxCdb> cdbSettings =
-			std::dynamic_pointer_cast<SourceGroupSettingsCxxCdb>(m_settings);
-		std::set<FilePath> sourcePaths;
-
-		const FilePath projectPath = m_settings->getProjectDirectoryPath();
-		const FilePath cdbPath = cdbSettings->getCompilationDatabasePathExpandedAndAbsolute();
-
-		if (!cdbPath.empty() && cdbPath.exists())
+		if (cdbSettings->getIndexedHeaderPaths().empty())
 		{
-			for (const FilePath& path : IndexerCommandCxxCdb::getSourceFilesFromCDB(cdbPath))
-			{
-				sourcePaths.insert(path.getParentDirectory());
-			}
+			cdbSettings->setIndexedHeaderPaths(getIndexedPathsDerivedFromCDB(cdbSettings));
 		}
 
-		for (const FilePath& path : getTopLevelHeaderSearchPaths(cdbSettings))
-		{
-			if (path.exists() && projectPath.contains(path))
-			{
-				sourcePaths.insert(path);
-			}
-		}
-
-		std::vector<FilePath> rootPaths;
-
-		FilePath lastPath;
-		for (const FilePath& path : sourcePaths)
-		{
-			if (lastPath.empty() || !lastPath.contains(path)) // don't add subdirectories of already added paths
-			{
-				lastPath = path;
-				rootPaths.push_back(path.getRelativeTo(projectPath));
-			}
-		}
-
-		m_settings->setSourcePaths(rootPaths);
+		m_list->setPaths(cdbSettings->getIndexedHeaderPaths());
 	}
+}
 
-	QtProjectWizzardContentPathsSource::load();
+void QtProjectWizzardContentPathsCDBHeader::save()
+{
+	if (std::shared_ptr<SourceGroupSettingsCxxCdb> cdbSettings = std::dynamic_pointer_cast<SourceGroupSettingsCxxCdb>(m_settings))
+	{
+		cdbSettings->setIndexedHeaderPaths(m_list->getPathsAsDisplayed());
+	}
 }
 
 bool QtProjectWizzardContentPathsCDBHeader::check()
@@ -375,30 +378,33 @@ void QtProjectWizzardContentPathsCDBHeader::buttonClicked()
 
 	if (!m_filesDialog)
 	{
-		const FilePath cdbPath =
-			std::dynamic_pointer_cast<SourceGroupSettingsCxxCdb>(m_settings)->getCompilationDatabasePathExpandedAndAbsolute();
-		if (!cdbPath.exists())
+		if (std::shared_ptr<SourceGroupSettingsCxxCdb> cdbSettings = std::dynamic_pointer_cast<SourceGroupSettingsCxxCdb>(m_settings))
 		{
-			QMessageBox msgBox;
-			msgBox.setText("The provided Compilation Database path does not exist.");
-			msgBox.setDetailedText(QString::fromStdWString(cdbPath.wstr()));
-			msgBox.exec();
-			return;
+			const FilePath cdbPath = cdbSettings->getCompilationDatabasePathExpandedAndAbsolute();
+			if (!cdbPath.exists())
+			{
+				QMessageBox msgBox;
+				msgBox.setText("The provided Compilation Database path does not exist.");
+				msgBox.setDetailedText(QString::fromStdWString(cdbPath.wstr()));
+				msgBox.exec();
+				return;
+			}
+
+			m_filesDialog = std::make_shared<QtSelectPathsDialog>(
+				"Select from Include Paths",
+				"The list contains all Include Paths found in the Compilation Database. Red paths do not exist. Select the "
+				"paths containing the header files you want to index with Sourcetrail.");
+			m_filesDialog->setup();
+
+			connect(m_filesDialog.get(), &QtSelectPathsDialog::finished, this, &QtProjectWizzardContentPathsCDBHeader::savedFilesDialog);
+			connect(m_filesDialog.get(), &QtSelectPathsDialog::canceled, this, &QtProjectWizzardContentPathsCDBHeader::closedFilesDialog);
+
+			dynamic_cast<QtSelectPathsDialog*>(m_filesDialog.get())->setPathsList(
+				getIndexedPathsDerivedFromCDB(cdbSettings),
+				cdbSettings->getIndexedHeaderPaths(),
+				m_settings->getProjectDirectoryPath()
+			);
 		}
-
-		m_filesDialog = std::make_shared<QtSelectPathsDialog>(
-			"Select from Include Paths",
-			"The list contains all Include Paths found in the Compilation Database. Red paths do not exist. Select the "
-			"paths containing the header files you want to index with Sourcetrail.");
-		m_filesDialog->setup();
-
-		connect(m_filesDialog.get(), &QtSelectPathsDialog::finished, this, &QtProjectWizzardContentPathsCDBHeader::savedFilesDialog);
-		connect(m_filesDialog.get(), &QtSelectPathsDialog::canceled, this, &QtProjectWizzardContentPathsCDBHeader::closedFilesDialog);
-
-		dynamic_cast<QtSelectPathsDialog*>(m_filesDialog.get())->setPathsList(
-			getTopLevelHeaderSearchPaths(std::dynamic_pointer_cast<SourceGroupSettingsCxxCdb>(m_settings)),
-			m_settings->getSourcePaths()
-		);
 	}
 
 	m_filesDialog->showWindow();
@@ -407,9 +413,7 @@ void QtProjectWizzardContentPathsCDBHeader::buttonClicked()
 
 void QtProjectWizzardContentPathsCDBHeader::savedFilesDialog()
 {
-	// TODO: extend instead of replace
 	m_list->setPaths(dynamic_cast<QtSelectPathsDialog*>(m_filesDialog.get())->getPathsList());
-
 	closedFilesDialog();
 }
 

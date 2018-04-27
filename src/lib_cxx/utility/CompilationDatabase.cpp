@@ -39,9 +39,15 @@ std::vector<FilePath> utility::CompilationDatabase::getFrameworkHeaderPaths() co
 void utility::CompilationDatabase::init()
 {
 	std::string error;
-	std::shared_ptr<clang::tooling::JSONCompilationDatabase> cdb = std::shared_ptr<clang::tooling::JSONCompilationDatabase>(
+	std::shared_ptr<clang::tooling::JSONCompilationDatabase> cdb(
 		clang::tooling::JSONCompilationDatabase::loadFromFile(utility::encodeToUtf8(m_filePath.wstr()), error, clang::tooling::JSONCommandLineSyntax::AutoDetect)
 	);
+
+	if (!cdb)
+	{
+		LOG_ERROR(L"Loading compilation database from file \"" + m_filePath.wstr() + L"\" failed with error: " + utility::decodeFromUtf8(error));
+		return;
+	}
 
 	std::vector<clang::tooling::CompileCommand> commands = cdb->getAllCompileCommands();
 	std::set<FilePath> frameworkHeaders;

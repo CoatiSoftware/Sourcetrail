@@ -45,6 +45,12 @@ bool SourceGroupCxxCdb::prepareIndexing()
 	return true;
 }
 
+std::set<FilePath> SourceGroupCxxCdb::getIndexedPaths() const
+{
+	return findAndAddSymlinkedDirectories(m_settings->getIndexedHeaderPathsExpandedAndAbsolute());
+}
+
+
 std::vector<std::shared_ptr<IndexerCommand>> SourceGroupCxxCdb::getIndexerCommands(const std::set<FilePath>& filesToIndex) const
 {
 	std::shared_ptr<ApplicationSettings> appSettings = ApplicationSettings::getInstance();

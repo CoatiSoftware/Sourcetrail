@@ -19,8 +19,13 @@ public:
 	FilePath getCompilationDatabasePathExpandedAndAbsolute() const;
 	void setCompilationDatabasePath(const FilePath& compilationDatabasePath);
 
+	std::vector<FilePath> getIndexedHeaderPaths() const;
+	std::vector<FilePath> getIndexedHeaderPathsExpandedAndAbsolute() const;
+	void setIndexedHeaderPaths(const std::vector<FilePath>& indexedHeaderPaths);
+
 private:
 	FilePath m_compilationDatabasePath;
+	std::vector<FilePath> m_indexedHeaderPaths;
 };
 
 #endif // SOURCE_GROUP_SETTINGS_CXX_CDB_H

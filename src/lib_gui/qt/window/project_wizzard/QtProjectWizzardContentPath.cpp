@@ -9,6 +9,7 @@
 #include "Application.h"
 #include "qt/element/QtLocationPicker.h"
 #include "qt/view/QtDialogView.h"
+#include "qt/window/project_wizzard/QtProjectWizzardContentPaths.h"
 #include "settings/ApplicationSettings.h"
 #include "settings/SourceGroupSettingsCxxCdb.h"
 #include "settings/SourceGroupSettingsJavaMaven.h"
@@ -164,6 +165,12 @@ void QtProjectWizzardContentPathCDB::save()
 void QtProjectWizzardContentPathCDB::pickedCDBPath()
 {
 	m_window->saveContent();
+
+	if (std::shared_ptr<SourceGroupSettingsCxxCdb> cdbSettings = std::dynamic_pointer_cast<SourceGroupSettingsCxxCdb>(m_settings))
+	{
+		cdbSettings->setIndexedHeaderPaths(QtProjectWizzardContentPathsCDBHeader::getIndexedPathsDerivedFromCDB(cdbSettings));
+	}
+
 	m_window->loadContent();
 }
 

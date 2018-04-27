@@ -20,6 +20,7 @@ void SourceGroupSettingsCxxCdb::load(std::shared_ptr<const ConfigManager> config
 	const std::string key = s_keyPrefix + getId();
 
 	setCompilationDatabasePath(FilePath(getValue<std::wstring>(key + "/build_file_path/compilation_db_path", L"", config)));
+	setIndexedHeaderPaths(getPathValues(key + "/indexed_header_paths/indexed_header_path", config));
 }
 
 void SourceGroupSettingsCxxCdb::save(std::shared_ptr<ConfigManager> config)
@@ -29,6 +30,7 @@ void SourceGroupSettingsCxxCdb::save(std::shared_ptr<ConfigManager> config)
 	const std::string key = s_keyPrefix + getId();
 
 	setValue(key + "/build_file_path/compilation_db_path", getCompilationDatabasePath().wstr(), config);
+	setPathValues(key + "/indexed_header_paths/indexed_header_path", getIndexedHeaderPaths(), config);
 }
 
 bool SourceGroupSettingsCxxCdb::equals(std::shared_ptr<SourceGroupSettings> other) const
@@ -56,3 +58,19 @@ void SourceGroupSettingsCxxCdb::setCompilationDatabasePath(const FilePath& compi
 {
 	m_compilationDatabasePath = compilationDatabasePath;
 }
+
+std::vector<FilePath> SourceGroupSettingsCxxCdb::getIndexedHeaderPaths() const
+{
+	return m_indexedHeaderPaths;
+}
+
+std::vector<FilePath> SourceGroupSettingsCxxCdb::getIndexedHeaderPathsExpandedAndAbsolute() const
+{
+	return m_projectSettings->makePathsExpandedAndAbsolute(getIndexedHeaderPaths());
+}
+
+void SourceGroupSettingsCxxCdb::setIndexedHeaderPaths(const std::vector<FilePath>& indexedHeaderPaths)
+{
+	m_indexedHeaderPaths = indexedHeaderPaths;
+}
+

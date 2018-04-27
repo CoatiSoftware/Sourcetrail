@@ -26,7 +26,7 @@ public:
 	virtual bool prepareIndexing();
 	void fetchAllSourceFilePaths();
 
-	std::set<FilePath> getIndexedPaths() const;
+	virtual std::set<FilePath> getIndexedPaths() const;
 	std::set<FilePathFilter> getExcludeFilters() const;
 	std::set<FilePath> getAllSourceFilePaths() const;
 	std::set<FilePath> getSourceFilePathsToIndex(const std::set<FilePath>& staticSourceFilePaths) const;
@@ -35,12 +35,13 @@ public:
 
 	std::set<FilePath> m_allSourceFilePaths;
 
+protected:
+	std::set<FilePath> findAndAddSymlinkedDirectories(const std::vector<FilePath>& paths) const;
+
 private:
 	virtual std::shared_ptr<SourceGroupSettings> getSourceGroupSettings() = 0;
 	virtual std::shared_ptr<const SourceGroupSettings> getSourceGroupSettings() const = 0;
 	virtual std::vector<FilePath> getAllSourcePaths() const = 0;
-
-	std::set<FilePath> findAndAddSymlinkedDirectories(const std::vector<FilePath>& paths) const;
 };
 
 #endif // SOURCE_GROUP_H

@@ -12,7 +12,7 @@
 #include "utility/utilityString.h"
 #include "utility/utilityUuid.h"
 
-const size_t ProjectSettings::VERSION = 5;
+const size_t ProjectSettings::VERSION = 6;
 const wchar_t PROJECT_FILE_EXTENSION[] = L".srctrlprj";
 
 LanguageType ProjectSettings::getLanguageOfProject(const FilePath& filePath)
@@ -318,6 +318,15 @@ SettingsMigrator ProjectSettings::getMigrations() const
 	{
 		const std::string key = SourceGroupSettings::s_keyPrefix + sourceGroupSettings->getId();
 		migrator.addMigration(5, std::make_shared<SettingsMigrationMoveKey>(key + "/exclude_paths/exclude_path", key + "/exclude_filters/exclude_filter"));
+	}
+
+	for (std::shared_ptr<SourceGroupSettings> sourceGroupSettings : getAllSourceGroupSettings())
+	{
+		if (sourceGroupSettings->getType() == SOURCE_GROUP_CXX_CDB)
+		{
+			const std::string key = SourceGroupSettings::s_keyPrefix + sourceGroupSettings->getId();
+			migrator.addMigration(6, std::make_shared<SettingsMigrationMoveKey>(key + "/source_paths/source_path", key + "/indexed_header_paths/indexed_header_path"));
+		}
 	}
 
 	return migrator;
