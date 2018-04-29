@@ -2,6 +2,19 @@ QLabel, QCheckBox, QRadioButton {
 	color: white;
 }
 
+QRadioButton::indicator {
+	background: white;
+	border-radius: 6px;
+	border: 3px solid white;
+	width: 6px;
+	height: 6px;
+	margin-right: 5px;
+}
+
+QRadioButton::indicator:checked {
+	background: black;
+}
+
 #topHalf {
 	background: #007AC2;
 	border-top-left-radius: 15px;
