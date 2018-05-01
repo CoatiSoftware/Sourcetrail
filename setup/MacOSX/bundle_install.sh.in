@@ -95,7 +95,7 @@ install_name_tool -add_rpath "@loader_path/../Frameworks" $APP_PATH
 install_name_tool -delete_rpath "/Users/ebsi/Documents/clang-llvm/build_release/./lib" $INDEXER_PATH
 install_name_tool -delete_rpath "/Users/ebsi/Documents/clang-llvm/build_release/lib" $INDEXER_PATH
 install_name_tool -delete_rpath "/Users/ebsi/Documents/boost_1_64_0/stage/lib" $INDEXER_PATH
-install_name_tool -delete_rpath "/Users/ebsi/Documents/Qt/5.9.1/clang_64/lib" $INDEXER_PATH
+install_name_tool -delete_rpath "$QT_DIR/lib" $INDEXER_PATH
 install_name_tool -add_rpath "@loader_path/../Frameworks" $INDEXER_PATH
 
 echo -e $INFO "App dependencies"
@@ -159,8 +159,8 @@ echo -e $INFO "Codesign frameworks."
 for FRAMEWORK_BIN_PATH in $FRAMEWORK_DIR/*.framework
 do
 	echo "framework" $FRAMEWORK_BIN_PATH
-	codesign --sign "Developer ID Application: Coati Software OG" $FRAMEWORK_BIN_PATH
-	codesign -v --verbose=4 $FRAMEWORK_BIN_PATH
+	codesign --force --sign "Developer ID Application: Coati Software KG" $FRAMEWORK_BIN_PATH
+	codesign -v --verbose=5 $FRAMEWORK_BIN_PATH
 	# spctl -a --verbose $FRAMEWORK_BIN_PATH
 done
 
@@ -168,14 +168,14 @@ echo -e $INFO "Codesign plugins."
 for PLUGIN_PATH in $(find $PLUGIN_DIR -name '*.dylib')
 do
 	echo "plugin" $PLUGIN_PATH
-	codesign --sign "Developer ID Application: Coati Software OG" $PLUGIN_PATH
-	codesign -v --verbose=4 $PLUGIN_PATH
+	codesign --force --sign "Developer ID Application: Coati Software KG" $PLUGIN_PATH
+	codesign -v --verbose=5 $PLUGIN_PATH
 	# spctl -a --verbose $FRAMEWORK_BIN_PATH
 done
 
 echo -e $INFO "Codesign app."
-codesign --sign "Developer ID Application: Coati Software OG" $BUNDLE_PATH
-codesign -v  --deep --verbose=4 $BUNDLE_PATH
+codesign --force --sign "Developer ID Application: Coati Software KG" $BUNDLE_PATH
+codesign -v  --deep --verbose=5 $BUNDLE_PATH
 # spctl -a --verbose $BUNDLE_PATH
 
 
