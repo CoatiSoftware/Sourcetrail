@@ -93,9 +93,9 @@ std::string utility::executeProcessUntilNoOutput(const std::string& command, con
 }
 
 int utility::executeProcessAndGetExitCode(
-	const std::wstring& commandPath, 
-	const std::vector<std::wstring>& commandArguments, 
-	const FilePath& workingDirectory, 
+	const std::wstring& commandPath,
+	const std::vector<std::wstring>& commandArguments,
+	const FilePath& workingDirectory,
 	const int timeout
 ){
 	QProcess process;
@@ -156,7 +156,12 @@ OsType utility::getOsType()
 
 int utility::getIdealThreadCount()
 {
-	return std::max(1, QThread::idealThreadCount() - 1);
+	int threadCount = QThread::idealThreadCount();
+	if (getOsType() == OS_WINDOWS)
+	{
+		threadCount -= 1;
+	}
+	return std::max(1, threadCount);
 }
 
 bool utility::saveLicense(const License* license)

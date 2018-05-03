@@ -12,7 +12,7 @@ QRadioButton::indicator {
 }
 
 QRadioButton::indicator:checked {
-	background: black;
+	background: #444;
 }
 
 #topHalf {

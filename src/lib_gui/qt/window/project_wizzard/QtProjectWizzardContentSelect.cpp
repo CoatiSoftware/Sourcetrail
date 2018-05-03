@@ -49,15 +49,15 @@ void QtProjectWizzardContentSelect::populate(QGridLayout* layout, int& row)
 	// define descriptions for each kind of Source Group
 	m_sourceGroupTypeDescriptions[SOURCE_GROUP_C_EMPTY] = "Create a new Sourcetrail Source Group by defining which C files will be indexed.";
 	m_sourceGroupTypeDescriptions[SOURCE_GROUP_CPP_EMPTY] = "Create a new Sourcetrail Source Group by defining which C++ files will be indexed.";
-	m_sourceGroupTypeDescriptions[SOURCE_GROUP_CXX_CDB] = "Create a Source Group from an existing Compilation Database (compile_commands.json). They can be created from Make and "
-		"CMake projects. Have a look at the <a href=\"https://sourcetrail.com/documentation/#CreateAProjectFromCompilationDatabase\">"
-		"documentation</a> to find out more.";
+	m_sourceGroupTypeDescriptions[SOURCE_GROUP_CXX_CDB] = "Create a Source Group from an existing Compilation Database (compile_commands.json). "
+		"They can be exported from CMake<br />(-D CMAKE_EXPORT_COMPILE_COMMANDS=1) and Make projects. Have a look at the <a href=\"https://sourcetrail.com/documentation/#CreateAProjectFromCompilationDatabase\">"
+		"documentation</a>.";
 	m_sourceGroupTypeDescriptions[SOURCE_GROUP_CXX_VS] = "Create a new Source Group from an existing Visual Studio Solution file. "
 		"<b>Note: Requires a running Visual Studio instance with the "
 		"<a href=\"https://sourcetrail.com/documentation/index.html#VisualStudio\">Visual Studio plugin</a> installed.";
 	m_sourceGroupTypeDescriptions[SOURCE_GROUP_JAVA_EMPTY] = "Create a new Sourcetrail Source Group by defining which Java files will be indexed.";
-	m_sourceGroupTypeDescriptions[SOURCE_GROUP_JAVA_MAVEN] = "Create a new Source Group from an existing Maven project."; 
-	m_sourceGroupTypeDescriptions[SOURCE_GROUP_JAVA_GRADLE] = "Create a new Source Group from an existing Gradle project."; 
+	m_sourceGroupTypeDescriptions[SOURCE_GROUP_JAVA_MAVEN] = "Create a new Source Group from an existing Maven project.";
+	m_sourceGroupTypeDescriptions[SOURCE_GROUP_JAVA_GRADLE] = "Create a new Source Group from an existing Gradle project.";
 
 	QVBoxLayout* vlayout = new QVBoxLayout();
 	vlayout->setContentsMargins(0, 30, 0, 0);
@@ -156,6 +156,7 @@ void QtProjectWizzardContentSelect::populate(QGridLayout* layout, int& row)
 	m_description->setWordWrap(true);
 	m_description->setOpenExternalLinks(true);
 	m_description->setObjectName("sourceGroupDescription");
+	m_description->setTextInteractionFlags(Qt::TextSelectableByMouse);
 	layout->addWidget(m_description, 1, QtProjectWizzardWindow::BACK_COL);
 
 	m_title = new QLabel("Source Group Types");
