@@ -18,7 +18,13 @@ void QtProjectWizzardContentFlags::populate(QGridLayout* layout, int& row)
 	QLabel* label = createFormLabel(labelText);
 	layout->addWidget(label, row, QtProjectWizzardWindow::FRONT_COL, Qt::AlignTop);
 
-	addHelpButton(labelText, "Define additional Clang compiler flags used during indexing including the dash (e.g. use \"-D RELEASE\" to add a #define for \"RELEASE\").", layout, row);
+	addHelpButton(
+		labelText, 
+		"<p>Define additional Clang compiler flags used during indexing. Here are some examples:</p>"
+		"<p>use \"-D RELEASE\" to add a preprocessor #define for \"RELEASE\"</p>"
+		"<p>use \"-U __clang__\" to remove the preprocessor #define for \"__clang__\"</p>",
+		layout, 
+		row);
 
 	m_list = new QtStringListBox(this, label->text());
 	layout->addWidget(m_list, row, QtProjectWizzardWindow::BACK_COL);
