@@ -48,27 +48,27 @@ if [ $PLATFORM == "Windows" ]; then
 	{
 		mkdir -p build/win$1/$2/$3/platforms
 		mkdir -p build/win$1/$2/$3/imageformats
-
+		
 		local QT_DIR=${QT_WIN32_DIR}
-
+		
 		if [[ "$1" == "64" ]]
 		then
 			QT_DIR=${QT_WIN64_DIR}
 		fi
-
+		
 		local SUFFIX=""
 		if [[ "$2" == "Debug" ]]
 		then
 			SUFFIX="d"
 		fi
-
+		
 		echo -e $INFO "copy dynamic libraries for Win$1 $2 $3"
-
+		
 		if [[ "$3" == "app" ]]
 		then
 			cp -u -r setup/dynamic_libraries/win$1/$3/$2/* build/win$1/$2/$3
 		fi
-
+		
 		cp -u -r ${QT_DIR}/bin/Qt5Core$SUFFIX.dll build/win$1/$2/$3
 		cp -u -r ${QT_DIR}/bin/Qt5Gui$SUFFIX.dll build/win$1/$2/$3
 		cp -u -r ${QT_DIR}/bin/Qt5Network$SUFFIX.dll build/win$1/$2/$3
@@ -85,7 +85,7 @@ if [ $PLATFORM == "Windows" ]; then
 		cp -u -r ${QT_DIR}/plugins/imageformats/qwbmp$SUFFIX.dll build/win$1/$2/$3/imageformats
 		cp -u -r ${QT_DIR}/plugins/imageformats/qwebp$SUFFIX.dll build/win$1/$2/$3/imageformats
 	}
-
+	
 	copy_dynamic_libraries "32" "Debug" "app"
 	copy_dynamic_libraries "32" "Debug" "test"
 	copy_dynamic_libraries "32" "Release" "app"
@@ -115,7 +115,7 @@ if [ $PLATFORM == "Windows" ]; then
 	cmd //c 'mklink /d /j '$BACKSLASHED_ROOT_DIR'\build\win32\Debug\app\user '$BACKSLASHED_ROOT_DIR'\bin\app\user' &
 	cmd //c 'mklink /d /j '$BACKSLASHED_ROOT_DIR'\build\win32\Release\app\data '$BACKSLASHED_ROOT_DIR'\bin\app\data' &
 	cmd //c 'mklink /d /j '$BACKSLASHED_ROOT_DIR'\build\win32\Release\app\user '$BACKSLASHED_ROOT_DIR'\bin\app\user' &
-
+	
 	cmd //c 'mklink /d /j '$BACKSLASHED_ROOT_DIR'\build\win64\Debug\app\data '$BACKSLASHED_ROOT_DIR'\bin\app\data' &
 	cmd //c 'mklink /d /j '$BACKSLASHED_ROOT_DIR'\build\win64\Debug\app\user '$BACKSLASHED_ROOT_DIR'\bin\app\user' &
 	cmd //c 'mklink /d /j '$BACKSLASHED_ROOT_DIR'\build\win64\Release\app\data '$BACKSLASHED_ROOT_DIR'\bin\app\data' &
@@ -130,16 +130,14 @@ if [ $PLATFORM == "Linux" ] || [ $PLATFORM == "MacOS" ]; then
 	echo -e $INFO "run cmake with Debug configuration"
 	cd build/Debug && cmake -G Ninja -DCMAKE_BUILD_TYPE="Debug" ../..
 
-	cd ..
-
 	echo -e $INFO "run cmake with Release configuration"
-	cd build/Release && cmake -G Ninja -DCMAKE_BUILD_TYPE="Release" ../..
+	cd ../Release && cmake -G Ninja -DCMAKE_BUILD_TYPE="Release" ../..
 else
 	echo -e $INFO "run cmake with 32 bit configuration"
-
+	
 	cd build/win32
 	cmake -G "Visual Studio 14 2015" ../..
-
+	
 	cd ../win64
 	cmake -G "Visual Studio 14 2015 Win64" ../..
 fi
