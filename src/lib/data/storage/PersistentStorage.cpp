@@ -295,6 +295,7 @@ void PersistentStorage::clearCaches()
 	m_fileIndex.clear();
 
 	m_fileNodeIds.clear();
+	m_lowerCasefileNodeIds.clear();
 	m_fileNodePaths.clear();
 	m_fileNodeComplete.clear();
 	m_fileNodeIndexed.clear();
@@ -429,7 +430,7 @@ void PersistentStorage::optimizeMemory()
 
 Id PersistentStorage::getNodeIdForFileNode(const FilePath& filePath) const
 {
-	return m_sqliteIndexStorage.getFileByPath(filePath.wstr()).id;
+	return getFileNodeId(filePath);
 }
 
 Id PersistentStorage::getNodeIdForNameHierarchy(const NameHierarchy& nameHierarchy) const
@@ -1473,9 +1474,15 @@ std::shared_ptr<TextAccess> PersistentStorage::getFileContent(const FilePath& fi
 	return m_sqliteIndexStorage.getFileContentByPath(filePath.wstr());
 }
 
+FileInfo PersistentStorage::getFileInfoForFileId(Id id) const
+{
+	StorageFile storageFile = m_sqliteIndexStorage.getFirstById<StorageFile>(id);
+	return FileInfo(FilePath(storageFile.filePath), storageFile.modificationTime);
+}
+
 FileInfo PersistentStorage::getFileInfoForFilePath(const FilePath& filePath) const
 {
-	return FileInfo(filePath, m_sqliteIndexStorage.getFileByPath(filePath.wstr()).modificationTime);
+	return getFileInfoForFileId(getFileNodeId(filePath));
 }
 
 std::vector<FileInfo> PersistentStorage::getFileInfosForFilePaths(const std::vector<FilePath>& filePaths) const
@@ -2064,11 +2071,19 @@ Id PersistentStorage::getFileNodeId(const FilePath& filePath) const
 		return 0;
 	}
 
-	std::map<FilePath, Id>::const_iterator it = m_fileNodeIds.find(filePath);
-
-	if (it != m_fileNodeIds.end())
 	{
-		return it->second;
+		std::map<FilePath, Id>::const_iterator it = m_fileNodeIds.find(filePath);
+		if (it != m_fileNodeIds.end())
+		{
+			return it->second;
+		}
+	}
+	{
+		std::map<FilePath, Id>::const_iterator it = m_lowerCasefileNodeIds.find(filePath.getLowerCase());
+		if (it != m_lowerCasefileNodeIds.end())
+		{
+			return it->second;
+		}
 	}
 
 	return 0;
@@ -2703,6 +2718,7 @@ void PersistentStorage::buildFilePathMaps()
 		const FilePath path(file.filePath);
 
 		m_fileNodeIds.emplace(path, file.id);
+		m_lowerCasefileNodeIds.emplace(path.getLowerCase(), file.id);
 		m_fileNodePaths.emplace(file.id, path);
 		m_fileNodeComplete.emplace(file.id, file.complete);
 		m_fileNodeIndexed.emplace(file.id, file.indexed);

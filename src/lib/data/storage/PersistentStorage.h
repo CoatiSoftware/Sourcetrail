@@ -119,6 +119,8 @@ public:
 
 	virtual std::shared_ptr<TextAccess> getFileContent(const FilePath& filePath) const override;
 
+	virtual FileInfo getFileInfoForFileId(Id id) const override;
+
 	virtual FileInfo getFileInfoForFilePath(const FilePath& filePath) const override;
 	virtual std::vector<FileInfo> getFileInfosForFilePaths(const std::vector<FilePath>& filePaths) const override;
 
@@ -200,6 +202,7 @@ private:
 	SqliteBookmarkStorage m_sqliteBookmarkStorage;
 
 	std::map<FilePath, Id> m_fileNodeIds;
+	std::map<FilePath, Id> m_lowerCasefileNodeIds;
 	std::map<Id, FilePath> m_fileNodePaths;
 	std::map<Id, bool> m_fileNodeComplete;
 	std::map<Id, bool> m_fileNodeIndexed;

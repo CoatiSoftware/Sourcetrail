@@ -44,6 +44,7 @@ public:
 	FilePath getConcatenated(const FilePath& other) const;
 	FilePath& concatenate(const std::wstring& other);
 	FilePath getConcatenated(const std::wstring& other) const;
+	FilePath getLowerCase() const;
 	std::vector<FilePath> expandEnvironmentVariables() const;
 
 	bool contains(const FilePath& other) const;

@@ -337,6 +337,11 @@ FilePath FilePath::getConcatenated(const std::wstring& other) const
 	return path;
 }
 
+FilePath FilePath::getLowerCase() const
+{
+	return FilePath(utility::toLowerCase(wstr()));
+}
+
 bool FilePath::contains(const FilePath& other) const
 {
 	if (!isDirectory())

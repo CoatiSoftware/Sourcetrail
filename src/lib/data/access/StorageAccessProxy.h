@@ -63,6 +63,8 @@ public:
 	virtual std::shared_ptr<SourceLocationFile> getCommentLocationsInFile(const FilePath& filePath) const override;
 
 	virtual std::shared_ptr<TextAccess> getFileContent(const FilePath& filePath) const override;
+	
+	virtual FileInfo getFileInfoForFileId(Id id) const override;
 
 	virtual FileInfo getFileInfoForFilePath(const FilePath& filePath) const override;
 	virtual std::vector<FileInfo> getFileInfosForFilePaths(const std::vector<FilePath>& filePaths) const override;

@@ -84,10 +84,11 @@ void IDECommunicationController::handleSetActiveTokenMessage(
 	{
 		const unsigned int cursorColumn = message.column;
 
-		const FilePath filePath = message.filePath.getCanonical();
+		const Id fileId = m_storageAccess->getNodeIdForFileNode(message.filePath.getCanonical());
+		const FileInfo fileInfo = m_storageAccess->getFileInfoForFileId(fileId);
+		const FilePath filePath = fileInfo.path;
 
-		if (FileSystem::getFileInfoForPath(filePath).lastWriteTime
-			== m_storageAccess->getFileInfoForFilePath(filePath).lastWriteTime)
+		if (FileSystem::getFileInfoForPath(filePath).lastWriteTime == fileInfo.lastWriteTime)
 		{
 			// file was not modified
 			std::shared_ptr<SourceLocationFile> sourceLocationFile = m_storageAccess->getSourceLocationsForLinesInFile(
@@ -110,7 +111,7 @@ void IDECommunicationController::handleSetActiveTokenMessage(
 				}
 			);
 
-			if (selectedLocationIds.size() > 0)
+			if (!selectedLocationIds.empty())
 			{
 				MessageStatus(
 					L"Activating source location from plug-in succeeded: " + filePath.wstr() + L", row: " +
@@ -123,7 +124,6 @@ void IDECommunicationController::handleSetActiveTokenMessage(
 			}
 		}
 
-		Id fileId = m_storageAccess->getNodeIdForFileNode(filePath);
 		if (fileId > 0)
 		{
 			MessageActivateFile(filePath, message.row).dispatchImmediately();

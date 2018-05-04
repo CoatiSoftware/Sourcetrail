@@ -79,6 +79,8 @@ public:
 
 	virtual std::shared_ptr<TextAccess> getFileContent(const FilePath& filePath) const = 0;
 
+	virtual FileInfo getFileInfoForFileId(Id id) const = 0;
+
 	virtual FileInfo getFileInfoForFilePath(const FilePath& filePath) const = 0;
 	virtual std::vector<FileInfo> getFileInfosForFilePaths(const std::vector<FilePath>& filePaths) const = 0;
 

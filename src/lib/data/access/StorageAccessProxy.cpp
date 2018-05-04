@@ -303,6 +303,16 @@ std::shared_ptr<TextAccess> StorageAccessProxy::getFileContent(const FilePath& f
 	return nullptr;
 }
 
+FileInfo StorageAccessProxy::getFileInfoForFileId(Id id) const
+{
+	if (hasSubject())
+	{
+		return m_subject->getFileInfoForFileId(id);
+	}
+
+	return FileInfo();
+}
+
 FileInfo StorageAccessProxy::getFileInfoForFilePath(const FilePath& filePath) const
 {
 	if (hasSubject())
