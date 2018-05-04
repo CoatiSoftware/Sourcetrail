@@ -631,7 +631,7 @@ std::vector<std::shared_ptr<DummyNode>> GraphController::createDummyNodeTopDown(
 	}
 
 	node->forEachChildNode(
-		[node, &result, &ancestorId, this](Node* child)
+		[&result, &ancestorId, this](Node* child)
 		{
 			DummyNode* parent = nullptr;
 			AccessKind accessKind = ACCESS_NONE;

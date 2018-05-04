@@ -80,8 +80,9 @@ std::vector<int> SuffixArray::searchForTerm(const std::wstring& searchTerm) cons
 	std::transform(term.begin(), term.end(), term.begin(), ::tolower);
 
 	int termLength = term.length();
+	int textLength = m_text.length();
 	int l = -1;
-	int r = m_text.length();
+	int r = textLength;
 	int m;
 
 	std::vector<int> matches;
@@ -105,7 +106,7 @@ std::vector<int> SuffixArray::searchForTerm(const std::wstring& searchTerm) cons
 			{
 				matches.push_back(m_array[lower]);
 			}
-			for (int higher = m+1; higher < m_text.length() && m_lcp[higher-1] >= termLength; higher++)
+			for (int higher = m+1; higher < textLength && m_lcp[higher-1] >= termLength; higher++)
 			{
 				matches.push_back(m_array[higher]);
 			}

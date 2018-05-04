@@ -175,7 +175,7 @@ void QtUpdateChecker::check(bool force, std::function<void(Result)> callback)
 void QtUpdateChecker::checkUpdate()
 {
 	m_onQtThread(
-		[this]()
+		[]()
 		{
 			check(false, [](Result){});
 		}

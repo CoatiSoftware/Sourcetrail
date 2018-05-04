@@ -74,6 +74,8 @@ bool QtGraphNodeQualifier::setPosition(const Vec2i& pos)
 
 void QtGraphNodeQualifier::onClick()
 {
+	hide();
+
 	MessageActivateNodes msg;
 	msg.addNode(0, m_qualifierName);
 	msg.dispatch();

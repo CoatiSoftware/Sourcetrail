@@ -647,7 +647,7 @@ void QtProjectWizzard::newSourceGroup()
 	}
 
 	QtProjectWizzardWindow* window = createWindowWithContent(
-		[this](QtProjectWizzardWindow* window)
+		[](QtProjectWizzardWindow* window)
 		{
 			window->setPreferredSize(QSize(570, 380));
 			return new QtProjectWizzardContentSelect(window);
