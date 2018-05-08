@@ -334,11 +334,6 @@ void QtProjectWizzardContentPathsCDBHeader::load()
 {
 	if (std::shared_ptr<SourceGroupSettingsCxxCdb> cdbSettings = std::dynamic_pointer_cast<SourceGroupSettingsCxxCdb>(m_settings))
 	{
-		if (cdbSettings->getIndexedHeaderPaths().empty())
-		{
-			cdbSettings->setIndexedHeaderPaths(getIndexedPathsDerivedFromCDB(cdbSettings));
-		}
-
 		m_list->setPaths(cdbSettings->getIndexedHeaderPaths());
 	}
 }

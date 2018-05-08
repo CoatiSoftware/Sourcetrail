@@ -40,7 +40,8 @@ bool SourceGroupSettingsCxxCdb::equals(std::shared_ptr<SourceGroupSettings> othe
 	return (
 		otherCxxCdb &&
 		SourceGroupSettingsCxx::equals(other) &&
-		m_compilationDatabasePath == otherCxxCdb->m_compilationDatabasePath
+		m_compilationDatabasePath == otherCxxCdb->m_compilationDatabasePath &&
+		utility::isPermutation(m_indexedHeaderPaths, otherCxxCdb->m_indexedHeaderPaths)
 	);
 }
 
