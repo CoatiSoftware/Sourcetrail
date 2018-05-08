@@ -83,7 +83,13 @@ void CxxDiagnosticConsumer::HandleDiagnostic(clang::DiagnosticsEngine::Level lev
 				column = presumedLocation.getColumn();
 			}
 
-			const clang::FileEntry* fileEntry = sourceManager.getFileEntryForID(sourceManager.getFileID(info.getLocation()));
+			clang::SourceLocation loc = sourceManager.getExpansionLoc(info.getLocation());
+			if (loc.isInvalid())
+			{
+				loc = info.getLocation();
+			}
+
+			const clang::FileEntry* fileEntry = sourceManager.getFileEntryForID(sourceManager.getFileID(loc));
 			if (fileEntry != nullptr && fileEntry->isValid())
 			{
 				filePath = m_canonicalFilePathCache->getCanonicalFilePath(fileEntry);
