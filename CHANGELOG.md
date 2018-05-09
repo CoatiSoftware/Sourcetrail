@@ -1,5 +1,20 @@
 ### Changelog
 
+#### 2018.2.36
+released 2018-05-04
+
+* Graph: Fixed crash when clicking on namespace label
+* Improved help dialog for compiler flags in project setup
+* Fixed handling case insensitive filepath matches when activating a symbol via editor plugin
+* Wrote cmake export compile command to description in source group setup
+* Fixed macOS gatekeeper refusing to open app bundle (issue #568)
+* Use custom radio button style on start indexing dialog to fix radio indicator not visible on old Windows systems
+* Fixed indexed header paths in compilation database project change the processing order of includes (issue #571)
+* Allow tooltips to be as wide as the window (issue #570)
+* Graph: Improved edge routing in graph layout
+* Graph: Only use base/derived bundles for inheritance
+
+
 #### 2018.2.23
 released 2018-04-24
 
