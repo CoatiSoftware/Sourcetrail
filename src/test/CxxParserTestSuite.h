@@ -4057,6 +4057,17 @@ public:
 		));
 	}
 
+	void test_cxx_parser_catches_error_in_macro_expasdsadansion()
+	{
+		std::shared_ptr<TestParserClient> client = parseCode(
+			"void foo() {} \n", { L"-include nothing" }
+		);
+
+		TS_ASSERT(utility::containsElement<std::wstring>(
+			client->errors, L"' nothing' file not found <1:10 1:10>"
+			));
+	}
+
 	void test_cxx_parser_catches_error_in_macro_expansion()
 	{
 		std::shared_ptr<TestParserClient> client = parseCode(
@@ -4068,7 +4079,7 @@ public:
 			client->errors, L"'this_path_does_not_exist.txt' file not found <2:10 2:10>"
 		));
 	}
-
+	
 	void test_cxx_parser_finds_location_of_line_comment()
 	{
 		std::shared_ptr<TestParserClient> client = parseCode(

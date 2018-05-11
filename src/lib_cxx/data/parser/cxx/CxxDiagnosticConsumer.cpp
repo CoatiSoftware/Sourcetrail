@@ -90,6 +90,11 @@ void CxxDiagnosticConsumer::HandleDiagnostic(clang::DiagnosticsEngine::Level lev
 			}
 
 			const clang::FileEntry* fileEntry = sourceManager.getFileEntryForID(sourceManager.getFileID(loc));
+			if (fileEntry == nullptr || !fileEntry->isValid())
+			{
+				fileEntry = sourceManager.getFileEntryForID(sourceManager.getMainFileID());
+			}
+
 			if (fileEntry != nullptr && fileEntry->isValid())
 			{
 				filePath = m_canonicalFilePathCache->getCanonicalFilePath(fileEntry);

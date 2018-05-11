@@ -168,7 +168,10 @@ private:
 		bool fatal,
 		bool indexed) override
 	{
-		errors.push_back(addLocationSuffix(message, location));
+		if (location.isValid())
+		{
+			errors.push_back(addLocationSuffix(message, location));
+		}
 	}
 
 	std::vector<std::wstring>* getBinForSymbolKind(SymbolKind symbolType)
