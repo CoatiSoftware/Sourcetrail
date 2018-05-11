@@ -1,6 +1,7 @@
 #include "qt/window/project_wizzard/QtProjectWizzardContentFlags.h"
 
 #include <QFormLayout>
+#include <QMessageBox>
 
 #include "qt/element/QtStringListBox.h"
 #include "settings/SourceGroupSettingsCxx.h"
@@ -14,17 +15,18 @@ QtProjectWizzardContentFlags::QtProjectWizzardContentFlags(std::shared_ptr<Sourc
 
 void QtProjectWizzardContentFlags::populate(QGridLayout* layout, int& row)
 {
-	QString labelText((std::string(m_isCdb ? "Additional " : "") + "Compiler Flags").c_str());
+	const QString labelText = QString::fromStdString(std::string(m_isCdb ? "Additional " : "") + "Compiler Flags");
 	QLabel* label = createFormLabel(labelText);
 	layout->addWidget(label, row, QtProjectWizzardWindow::FRONT_COL, Qt::AlignTop);
 
 	addHelpButton(
 		labelText, 
 		"<p>Define additional Clang compiler flags used during indexing. Here are some examples:</p>"
-		"<p>use \"-D RELEASE\" to add a preprocessor #define for \"RELEASE\"</p>"
-		"<p>use \"-U __clang__\" to remove the preprocessor #define for \"__clang__\"</p>",
+		"<p>use \"-DRELEASE\" to add a preprocessor #define for \"RELEASE\"</p>"
+		"<p>use \"-U__clang__\" to remove the preprocessor #define for \"__clang__\"</p>",
 		layout, 
-		row);
+		row
+	);
 
 	m_list = new QtStringListBox(this, label->text());
 	layout->addWidget(m_list, row, QtProjectWizzardWindow::BACK_COL);
@@ -47,4 +49,27 @@ void QtProjectWizzardContentFlags::save()
 	{
 		cxxSettings->setCompilerFlags(m_list->getStrings());
 	}
+}
+
+bool QtProjectWizzardContentFlags::check()
+{
+	std::wstring error;
+
+	for (const std::wstring& flag : m_list->getStrings())
+	{
+		if (utility::isPrefix<std::wstring>(L"-include ", flag) || utility::isPrefix<std::wstring>(L"--include ", flag))
+		{
+			error = L"The entered compiler flag \"" + flag + L"\" contains an error. Please remove the intermediate space character.\n";
+		}
+	}
+
+	if (!error.empty())
+	{
+		QMessageBox msgBox;
+		msgBox.setText(QString::fromStdWString(error));
+		msgBox.exec();
+		return false;
+	}
+
+	return true;
 }
